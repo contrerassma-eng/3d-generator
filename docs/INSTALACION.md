@@ -19,8 +19,14 @@ pip install -r requirements.txt
    ```
 4. Verificar en una TERMINAL NUEVA: `colmap -h`
 
-Nota: las versiones recientes de COLMAP integran el mapper global (GLOMAP),
-mucho más rápido con igual precisión. `s1_sfm.py` lo usa si está disponible.
+Nota: COLMAP 4.x integra el mapper global (GLOMAP) como `colmap global_mapper`,
+mucho más rápido con igual precisión. `s1_sfm.py` lo prefiere automáticamente y
+cae al mapper incremental si falla.
+
+Instalado en esta máquina (2026-06-12): COLMAP 4.1.0 nocuda en `C:\tools\colmap\bin`,
+OpenMVS v2.4.0 en `C:\tools\openmvs\vc17\x64\Release`, ambos en el PATH de usuario.
+OJO: OpenMVS escribe su salida en archivos `<Herramienta>-<timestamp>.log` en el
+directorio de trabajo, y `--help` retorna exit code 1 (comportamiento normal).
 
 ## 3. OpenMVS (densificación + malla — etapa S2)
 

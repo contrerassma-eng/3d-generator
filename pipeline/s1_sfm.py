@@ -71,18 +71,22 @@ def main() -> None:
     if cp.returncode != 0:
         sys.exit(f"ERROR en {matcher} — ver work/logs/s1_matching.log")
 
+    # Mapper global (GLOMAP: igual precisión, mucho más rápido); fallback al incremental
+    mapper_args = ["--database_path", str(db), "--image_path", str(photos),
+                   "--output_path", str(sparse)]
+    attempts = []
     if shutil.which("glomap"):
-        cp = run_logged(proj, "S1", [
-            "glomap", "mapper", "--database_path", str(db),
-            "--image_path", str(photos), "--output_path", str(sparse)],
-            log_name="s1_mapper.log")
-    else:
-        cp = run_logged(proj, "S1", [
-            "colmap", "mapper", "--database_path", str(db),
-            "--image_path", str(photos), "--output_path", str(sparse)],
-            log_name="s1_mapper.log")
-    if cp.returncode != 0:
-        sys.exit("ERROR en mapper — ver work/logs/s1_mapper.log")
+        attempts.append(["glomap", "mapper"])
+    attempts += [["colmap", "global_mapper"], ["colmap", "mapper"]]
+    cp = None
+    for i, head in enumerate(attempts):
+        cp = run_logged(proj, "S1", head + mapper_args, log_name=f"s1_mapper_{i}.log")
+        if cp.returncode == 0:
+            break
+        print(f"AVISO: {' '.join(head)} falló (ver work/logs/s1_mapper_{i}.log); "
+              f"{'probando siguiente mapper' if i + 1 < len(attempts) else 'sin más opciones'}")
+    if cp is None or cp.returncode != 0:
+        sys.exit("ERROR: ningún mapper produjo modelo — ver work/logs/")
 
     model = sparse / "0" if (sparse / "0").is_dir() else sparse
     if not (model / "cameras.bin").exists() and not (model / "cameras.txt").exists():
