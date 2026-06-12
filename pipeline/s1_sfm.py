@@ -9,6 +9,7 @@ uso: python pipeline/s1_sfm.py projects/<X>
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import sys
@@ -33,6 +34,21 @@ def parse_analyzer(text: str) -> dict:
     }
 
 
+def colmap_env() -> dict:
+    """Entorno Qt para COLMAP headless en Windows: plugin path del release zip
+    (como hace COLMAP.bat) + plataforma offscreen para que no abra diálogos.
+    Solo para el subproceso; NUNCA global (rompería otras apps Qt)."""
+    env = os.environ.copy()
+    exe = shutil.which("colmap")
+    if exe:
+        plugins = Path(exe).parent.parent / "plugins"
+        if plugins.is_dir():
+            env["QT_PLUGIN_PATH"] = str(plugins) + os.pathsep + env.get("QT_PLUGIN_PATH", "")
+            if (plugins / "platforms" / "qoffscreen.dll").exists():
+                env.setdefault("QT_QPA_PLATFORM", "offscreen")
+    return env
+
+
 def main() -> None:
     proj = project_dir(sys.argv[1])
     th = load_thresholds(proj)["G2_sfm"]
@@ -40,6 +56,7 @@ def main() -> None:
     if state.get("stage") not in ("S0_OK", "S1_OK", "S1_FALLIDO"):
         sys.exit(f"ERROR: el proyecto está en {state.get('stage')}; ejecuta antes s0_intake.py")
     require_tools(["colmap"])
+    env = colmap_env()
 
     photos = proj / "input" / "photos"
     work = proj / "work" / "10_sfm"
@@ -61,13 +78,13 @@ def main() -> None:
         "colmap", "feature_extractor", "--database_path", str(db),
         "--image_path", str(photos),
         "--ImageReader.camera_model", "SIMPLE_RADIAL",
-        "--ImageReader.single_camera", "1"], log_name="s1_features.log")
+        "--ImageReader.single_camera", "1"], log_name="s1_features.log", env=env)
     if cp.returncode != 0:
         sys.exit("ERROR en feature_extractor — ver work/logs/s1_features.log")
 
     matcher = "exhaustive_matcher" if n_fotos <= 150 else "sequential_matcher"
     cp = run_logged(proj, "S1", ["colmap", matcher, "--database_path", str(db)],
-                    log_name="s1_matching.log")
+                    log_name="s1_matching.log", env=env)
     if cp.returncode != 0:
         sys.exit(f"ERROR en {matcher} — ver work/logs/s1_matching.log")
 
@@ -80,7 +97,8 @@ def main() -> None:
     attempts += [["colmap", "global_mapper"], ["colmap", "mapper"]]
     cp = None
     for i, head in enumerate(attempts):
-        cp = run_logged(proj, "S1", head + mapper_args, log_name=f"s1_mapper_{i}.log")
+        cp = run_logged(proj, "S1", head + mapper_args, log_name=f"s1_mapper_{i}.log",
+                        env=env)
         if cp.returncode == 0:
             break
         print(f"AVISO: {' '.join(head)} falló (ver work/logs/s1_mapper_{i}.log); "
@@ -93,7 +111,7 @@ def main() -> None:
         sys.exit("ERROR: el mapper no produjo un modelo (¿solape insuficiente entre fotos?)")
 
     cp = run_logged(proj, "S1", ["colmap", "model_analyzer", "--path", str(model)],
-                    log_name="s1_analyzer.log")
+                    log_name="s1_analyzer.log", env=env)
     metrics = parse_analyzer(cp.stdout + "\n" + cp.stderr)
     reg = metrics.get("imagenes_registradas") or 0
     metrics["registradas_pct"] = round(100 * reg / n_fotos, 1) if n_fotos else 0.0
@@ -101,7 +119,7 @@ def main() -> None:
     cp = run_logged(proj, "S1", [
         "colmap", "image_undistorter", "--image_path", str(photos),
         "--input_path", str(model), "--output_path", str(undist),
-        "--output_type", "COLMAP"], log_name="s1_undistort.log")
+        "--output_type", "COLMAP"], log_name="s1_undistort.log", env=env)
     if cp.returncode != 0:
         sys.exit("ERROR en image_undistorter — ver work/logs/s1_undistort.log")
 

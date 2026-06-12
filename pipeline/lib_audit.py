@@ -103,11 +103,12 @@ def set_gate(proj: Path, state: dict, gate: str, passed: bool | None,
 
 
 def run_logged(proj: Path, stage: str, cmd: list[str], cwd: Path | None = None,
-               log_name: str | None = None) -> subprocess.CompletedProcess:
+               log_name: str | None = None,
+               env: dict | None = None) -> subprocess.CompletedProcess:
     """Ejecuta un binario externo, mide duración, guarda log completo y audita."""
     t0 = time.time()
     cp = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
-                        encoding="utf-8", errors="replace")
+                        encoding="utf-8", errors="replace", env=env)
     dur = round(time.time() - t0, 1)
     if log_name:
         log_dir = proj / "work" / "logs"

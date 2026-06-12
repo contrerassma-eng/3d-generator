@@ -1,5 +1,19 @@
 {
-  "project": null,
-  "stage": "S0_PENDIENTE",
-  "gates": {}
+  "project": "AGRAS-T100",
+  "stage": "S0_OK",
+  "gates": {
+    "G1": {
+      "verdict": "PASA",
+      "metrics": {
+        "fotos_total": 299,
+        "aceptadas": 299,
+        "rechazadas": 0,
+        "rechazadas_pct": 0.0,
+        "resolucion_mediana_mpx": 2.1
+      },
+      "reasons": [],
+      "ts": "2026-06-12T04:56:20+00:00"
+    }
+  },
+  "updated": "2026-06-12T04:56:20+00:00"
 }

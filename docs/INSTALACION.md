@@ -25,6 +25,13 @@ cae al mapper incremental si falla.
 
 Instalado en esta máquina (2026-06-12): COLMAP 4.1.0 nocuda en `C:\tools\colmap\bin`,
 OpenMVS v2.4.0 en `C:\tools\openmvs\vc17\x64\Release`, ambos en el PATH de usuario.
+
+IMPORTANTE (Windows): `colmap.exe` necesita los plugins Qt del zip. Si aparece
+"no Qt platform plugin could be initialized", es eso. El pipeline lo resuelve solo
+(`s1_sfm.py` inyecta `QT_PLUGIN_PATH` + `QT_QPA_PLATFORM=offscreen` al subproceso).
+Para uso manual en terminal: usa `C:\tools\colmap\COLMAP.bat` o exporta
+`$env:QT_PLUGIN_PATH = 'C:\tools\colmap\plugins'` en la sesión. No configurar
+QT_PLUGIN_PATH como variable global de usuario: rompería otras aplicaciones Qt.
 OJO: OpenMVS escribe su salida en archivos `<Herramienta>-<timestamp>.log` en el
 directorio de trabajo, y `--help` retorna exit code 1 (comportamiento normal).
 
