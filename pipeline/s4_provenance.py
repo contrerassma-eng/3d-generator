@@ -63,7 +63,7 @@ def glb_bbox(path: Path) -> list[float] | None:
 
 def main() -> None:
     proj = project_dir(sys.argv[1])
-    th = load_thresholds()["G4_procedencia"]
+    th = load_thresholds(proj)["G4_procedencia"]
     state = load_state(proj)
     if not str(state.get("stage", "")).startswith(("S2_OK", "S3", "S4")):
         sys.exit(f"ERROR: el proyecto está en {state.get('stage')}; ejecuta antes s2_dense_mesh.py")

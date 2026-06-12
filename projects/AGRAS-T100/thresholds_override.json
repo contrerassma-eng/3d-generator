@@ -1,0 +1,10 @@
+{
+  "justificacion": "Prueba comisionada por el usuario (2026-06-12): generar modelo desde fotogramas de video web del DJI Agras T100. No existe material 4K publicado; el mejor video es 1080p (2.07 Mpx). Los umbrales G1/G2 globales asumen captura fotografica propia; aqui se cosechan fotogramas en exceso y los gates SELECCIONAN (rechazar borrosos es lo esperado, no sintoma de mala sesion). El estandar global queda intacto.",
+  "G1_intake": {
+    "min_resolucion_mpx": 2.0,
+    "max_rechazadas_pct": 70.0
+  },
+  "G2_sfm": {
+    "min_registradas_pct": 30.0
+  }
+}

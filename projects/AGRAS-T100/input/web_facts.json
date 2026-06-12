@@ -1,0 +1,62 @@
+[
+  {
+    "id": "dims_desplegado",
+    "claim": "dimensiones brazos y hélices desplegados",
+    "value": "3220 x 3224 x 975",
+    "unit": "mm",
+    "url": "https://ag.dji.com/t100/specs",
+    "accessed": "2026-06-12",
+    "quote": "Arms and propellers unfolded: 3220 mm × 3224 mm × 975 mm",
+    "confidence": "alta"
+  },
+  {
+    "id": "dims_helices_plegadas",
+    "claim": "dimensiones brazos desplegados, hélices plegadas",
+    "value": "1820 x 1840 x 975",
+    "unit": "mm",
+    "url": "https://ag.dji.com/t100/specs",
+    "accessed": "2026-06-12",
+    "quote": "Arms unfolded, propellers folded: 1820 mm × 1840 mm × 975 mm",
+    "confidence": "alta"
+  },
+  {
+    "id": "dims_plegado",
+    "claim": "dimensiones brazos y hélices plegados",
+    "value": "1105 x 1265 x 975",
+    "unit": "mm",
+    "url": "https://ag.dji.com/t100/specs",
+    "accessed": "2026-06-12",
+    "quote": "Arms and propellers folded: 1105 mm × 1265 mm × 975 mm",
+    "confidence": "alta"
+  },
+  {
+    "id": "wheelbase",
+    "claim": "wheelbase diagonal entre ejes de motores",
+    "value": 2330,
+    "unit": "mm",
+    "url": "https://ag.dji.com/t100/specs",
+    "accessed": "2026-06-12",
+    "quote": "2330 mm (diagonal)",
+    "confidence": "alta"
+  },
+  {
+    "id": "tanque",
+    "claim": "capacidad tanque de pulverización",
+    "value": 100,
+    "unit": "L",
+    "url": "https://ag.dji.com/t100/specs",
+    "accessed": "2026-06-12",
+    "quote": "Capacity: 100 L (...) Material: HDPE",
+    "confidence": "alta"
+  },
+  {
+    "id": "peso",
+    "claim": "peso para pulverización (2 boquillas)",
+    "value": 75,
+    "unit": "kg",
+    "url": "https://ag.dji.com/t100/specs",
+    "accessed": "2026-06-12",
+    "quote": "75 kg (standard with 2 nozzles)",
+    "confidence": "alta"
+  }
+]

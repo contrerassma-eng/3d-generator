@@ -20,7 +20,7 @@ from lib_audit import (REPO_ROOT, audit, load_state, load_thresholds, now_iso,
 
 def main() -> None:
     proj = project_dir(sys.argv[1])
-    th = load_thresholds()["G5_paquete"]
+    th = load_thresholds(proj)["G5_paquete"]
     state = load_state(proj)
     if not str(state.get("stage", "")).startswith(("S4_OK", "S5")):
         sys.exit(f"ERROR: el proyecto está en {state.get('stage')}; ejecuta antes s4_provenance.py")

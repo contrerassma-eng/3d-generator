@@ -19,7 +19,7 @@ from lib_audit import (audit, load_state, load_thresholds, project_dir,
 
 def main() -> None:
     proj = project_dir(sys.argv[1])
-    th = load_thresholds()["G3_malla"]
+    th = load_thresholds(proj)["G3_malla"]
     state = load_state(proj)
     if state.get("stage") not in ("S1_OK", "S2_OK", "S2_FALLIDO"):
         sys.exit(f"ERROR: el proyecto está en {state.get('stage')}; ejecuta antes s1_sfm.py")

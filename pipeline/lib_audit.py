@@ -37,8 +37,23 @@ def sha256_file(path: Path) -> str:
     return "sha256:" + h.hexdigest()
 
 
-def load_thresholds() -> dict:
-    return json.loads((REPO_ROOT / "config" / "thresholds.json").read_text(encoding="utf-8"))
+def load_thresholds(proj: Path | None = None) -> dict:
+    """Umbrales globales, con override POR PROYECTO si existe
+    <proyecto>/thresholds_override.json (requiere campo 'justificacion';
+    la desviación del estándar queda auditada)."""
+    th = json.loads((REPO_ROOT / "config" / "thresholds.json").read_text(encoding="utf-8"))
+    if proj:
+        ov_file = proj / "thresholds_override.json"
+        if ov_file.exists():
+            ov = json.loads(ov_file.read_text(encoding="utf-8"))
+            if not ov.get("justificacion"):
+                sys.exit("ERROR: thresholds_override.json sin campo 'justificacion'")
+            for gate, values in ov.items():
+                if isinstance(values, dict):
+                    th.setdefault(gate, {}).update(values)
+            audit(proj, "CONFIG", "override de umbrales aplicado", "OK",
+                  override={k: v for k, v in ov.items() if k != "_comentario"})
+    return th
 
 
 def project_dir(arg: str) -> Path:

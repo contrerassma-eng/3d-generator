@@ -6,6 +6,11 @@ projects/*/work/
 projects/*/input/photos/*
 !projects/*/input/photos/.gitkeep
 
+# Material web descargado (reproducible: URLs en audit.log y refs/_fuentes.txt)
+projects/*/input/video/
+projects/*/input/refs/*
+!projects/*/input/refs/_fuentes.txt
+
 # Modelos pesados: se versionan los de 70_web (entregable). Si superan ~100 MB usa git-lfs.
 projects/*/out/*.ply
 projects/*/out/*.mvs

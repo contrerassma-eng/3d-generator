@@ -52,7 +52,7 @@ def blur_score(path: Path) -> float:
 
 def main() -> None:
     proj = project_dir(sys.argv[1])
-    th = load_thresholds()["G1_intake"]
+    th = load_thresholds(proj)["G1_intake"]
     state = load_state(proj)
     photos_dir = proj / "input" / "photos"
     out_dir = proj / "work" / "00_intake"

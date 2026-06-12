@@ -35,7 +35,7 @@ def parse_analyzer(text: str) -> dict:
 
 def main() -> None:
     proj = project_dir(sys.argv[1])
-    th = load_thresholds()["G2_sfm"]
+    th = load_thresholds(proj)["G2_sfm"]
     state = load_state(proj)
     if state.get("stage") not in ("S0_OK", "S1_OK", "S1_FALLIDO"):
         sys.exit(f"ERROR: el proyecto está en {state.get('stage')}; ejecuta antes s0_intake.py")
