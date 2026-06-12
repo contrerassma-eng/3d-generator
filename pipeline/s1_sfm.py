@@ -73,17 +73,24 @@ def main() -> None:
     n_fotos = intake["metrics"]["aceptadas"]
     audit(proj, "S1", "inicio sfm", "OK", fotos_aceptadas=n_fotos)
 
+    # SIFT por CPU por defecto: headless-seguro y único modo viable sin GPU dedicada
+    # (SiftGPU exige contexto OpenGL, incompatible con QT_QPA_PLATFORM=offscreen).
+    # Opt-in GPU: variable de entorno FOTO3D_USE_GPU=1.
+    gpu = "1" if os.environ.get("FOTO3D_USE_GPU") == "1" else "0"
+
     # Protocolo exige focal fija => una sola cámara compartida (mejora robustez)
     cp = run_logged(proj, "S1", [
         "colmap", "feature_extractor", "--database_path", str(db),
         "--image_path", str(photos),
         "--ImageReader.camera_model", "SIMPLE_RADIAL",
-        "--ImageReader.single_camera", "1"], log_name="s1_features.log", env=env)
+        "--ImageReader.single_camera", "1",
+        "--SiftExtraction.use_gpu", gpu], log_name="s1_features.log", env=env)
     if cp.returncode != 0:
         sys.exit("ERROR en feature_extractor — ver work/logs/s1_features.log")
 
     matcher = "exhaustive_matcher" if n_fotos <= 150 else "sequential_matcher"
-    cp = run_logged(proj, "S1", ["colmap", matcher, "--database_path", str(db)],
+    cp = run_logged(proj, "S1", ["colmap", matcher, "--database_path", str(db),
+                                 "--SiftMatching.use_gpu", gpu],
                     log_name="s1_matching.log", env=env)
     if cp.returncode != 0:
         sys.exit(f"ERROR en {matcher} — ver work/logs/s1_matching.log")
