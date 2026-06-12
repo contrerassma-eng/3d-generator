@@ -84,13 +84,13 @@ def main() -> None:
         "--image_path", str(photos),
         "--ImageReader.camera_model", "SIMPLE_RADIAL",
         "--ImageReader.single_camera", "1",
-        "--SiftExtraction.use_gpu", gpu], log_name="s1_features.log", env=env)
+        "--FeatureExtraction.use_gpu", gpu], log_name="s1_features.log", env=env)
     if cp.returncode != 0:
         sys.exit("ERROR en feature_extractor — ver work/logs/s1_features.log")
 
     matcher = "exhaustive_matcher" if n_fotos <= 150 else "sequential_matcher"
     cp = run_logged(proj, "S1", ["colmap", matcher, "--database_path", str(db),
-                                 "--SiftMatching.use_gpu", gpu],
+                                 "--FeatureMatching.use_gpu", gpu],
                     log_name="s1_matching.log", env=env)
     if cp.returncode != 0:
         sys.exit(f"ERROR en {matcher} — ver work/logs/s1_matching.log")
