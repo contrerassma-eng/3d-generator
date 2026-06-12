@@ -1,0 +1,7 @@
+# audit.log.jsonl es solo-append desde varias máquinas (PC local + sesiones nube):
+# merge=union conserva las líneas de ambos lados en vez de marcar conflicto.
+projects/*/audit.log.jsonl merge=union
+
+# Scripts del pipeline corren en Windows y Linux: normalizar finales de línea.
+*.py text eol=lf
+*.ps1 text eol=crlf
