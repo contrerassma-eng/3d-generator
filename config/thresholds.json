@@ -1,0 +1,28 @@
+{
+  "_comentario": "Umbrales de los gates. Solo el usuario los modifica. Cada cambio queda en git.",
+  "G1_intake": {
+    "min_fotos": 40,
+    "min_resolucion_mpx": 8.0,
+    "blur_laplaciano_min": 60.0,
+    "max_rechazadas_pct": 15.0
+  },
+  "G2_sfm": {
+    "min_registradas_pct": 85.0,
+    "max_error_reproyeccion_px": 1.0,
+    "min_track_length": 3.0
+  },
+  "G3_malla": {
+    "min_tamano_glb_kb": 500
+  },
+  "G4_procedencia": {
+    "max_discrepancia_escala_pct": 2.0
+  },
+  "G5_paquete": {
+    "archivos_requeridos": [
+      "index.html",
+      "data/manifest.json",
+      "data/model.glb",
+      "data/provenance.json"
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+# Artefactos reproducibles (se regeneran desde las fotos; sus hashes quedan en audit.log)
+projects/*/work/
+
+# Fotos de entrada: pesadas para git. Sus SHA-256 quedan en work/00_intake y audit.log.
+# Para versionarlas usa git-lfs y elimina estas dos líneas.
+projects/*/input/photos/*
+!projects/*/input/photos/.gitkeep
+
+# Modelos pesados: se versionan los de 70_web (entregable). Si superan ~100 MB usa git-lfs.
+projects/*/out/*.ply
+projects/*/out/*.mvs
+
+__pycache__/
+*.pyc
+.venv/

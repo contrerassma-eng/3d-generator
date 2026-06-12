@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "foto3d provenance",
+  "description": "Registro de procedencia de todo dato del modelo 3D. Tres capas: measured (triangulado desde fotos), web (citado), user (declarado).",
+  "type": "object",
+  "required": ["project", "generated", "layers", "facts"],
+  "properties": {
+    "project": { "type": "string" },
+    "generated": { "type": "string", "format": "date-time" },
+    "layers": {
+      "type": "object",
+      "properties": {
+        "measured": {
+          "type": "object",
+          "description": "Métricas del pipeline: nº fotos, % registradas, error reproyección px, nº puntos, etc.",
+          "additionalProperties": true
+        },
+        "scale": {
+          "type": "object",
+          "properties": {
+            "factor": { "type": ["number", "null"], "description": "factor_escala aplicado (unidades reales por unidad COLMAP). null = modelo sin escala métrica" },
+            "method": { "type": "string", "enum": ["referencia_fisica", "ninguno"] },
+            "discrepancia_pct": { "type": ["number", "null"], "description": "diferencia % entre dimensión medida y declarada/web" }
+          }
+        }
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "claim", "layer", "source"],
+        "properties": {
+          "id": { "type": "string" },
+          "claim": { "type": "string", "description": "qué se afirma, ej. 'largo total'" },
+          "value": { "type": ["number", "string", "null"] },
+          "unit": { "type": ["string", "null"] },
+          "layer": { "type": "string", "enum": ["measured", "web", "user"] },
+          "render_only": { "type": "boolean", "description": "true para artefactos de apariencia (splats) no medibles" },
+          "source": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": { "type": "string", "enum": ["pipeline", "web", "user"] },
+              "url": { "type": "string", "description": "OBLIGATORIA si type=web" },
+              "accessed": { "type": "string", "format": "date", "description": "OBLIGATORIA si type=web" },
+              "quote": { "type": "string", "description": "cita textual de la fuente; OBLIGATORIA si type=web" },
+              "method": { "type": "string", "description": "ej. 'COLMAP model_analyzer' si type=pipeline" }
+            }
+          },
+          "confidence": { "type": "string", "enum": ["alta", "media", "baja"] }
+        }
+      }
+    },
+    "hashes": {
+      "type": "object",
+      "description": "SHA-256 de artefactos clave (set de fotos, GLB, splat)",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}
