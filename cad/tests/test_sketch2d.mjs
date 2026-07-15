@@ -4,6 +4,7 @@ import {
   trimEntity, extendLine, chainLoops, makeDim, measureDim, applyDim,
   fitStroke, dist, snapPoints, tangentPoints, regions, loopKey,
   moveEntity, applyLockedDims, makeArcCSE, regularPolygon, offsetEntity, filletLines,
+  entityInRect, copyEntities,
 } from '../js/sketch2d.js';
 
 let pass = 0, fail = 0;
@@ -246,6 +247,25 @@ console.log('— Arco, polígono, offset y empalme —');
   const rest = [makeLine([20, 0], [20, 20]), makeLine([20, 20], [0, 20])];
   const { outer } = chainLoops([...ents, ...rest]);
   check('cuadrado con esquina redondeada cierra', !!outer && outer.length > 6);
+}
+
+console.log('— Selección por ventana (AutoCAD) y copia —');
+{
+  const inside = makeLine([2, 2], [8, 8]);       // dentro del rect (0,0)-(10,10)
+  const crossing = makeLine([5, 5], [15, 5]);     // lo cruza
+  const outside = makeCircle([30, 30], 3);        // fuera
+  check('window: contenida sí', entityInRect(inside, [0, 0], [10, 10], 'window'));
+  check('window: la que cruza NO', !entityInRect(crossing, [0, 0], [10, 10], 'window'));
+  check('crossing: contenida sí', entityInRect(inside, [0, 0], [10, 10], 'crossing'));
+  check('crossing: la que cruza SÍ', entityInRect(crossing, [0, 0], [10, 10], 'crossing'));
+  check('fuera: ninguna modalidad', !entityInRect(outside, [0, 0], [10, 10], 'crossing'));
+  // círculo que rodea al rect (sin puntos dentro): crossing por intersección de bordes... no corta → fuera
+  const ring = makeCircle([5, 5], 40);
+  check('círculo que envuelve sin tocar: crossing no', !entityInRect(ring, [0, 0], [10, 10], 'crossing'));
+
+  const copies = copyEntities([inside, outside], [100, 50]);
+  check('copia: ids nuevos y delta exacto', copies.length === 2 && copies[0].id !== inside.id
+    && near(copies[0].a[0], 102) && near(copies[0].a[1], 52) && near(copies[1].c[0], 130));
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);

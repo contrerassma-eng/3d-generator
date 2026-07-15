@@ -162,6 +162,8 @@
     <div class="brand">foto3d <span>CAD</span></div>
     <div class="spacer"></div>
     <button id="btnSTL" title="Exportar todo el ensamble a STL binario">⭳ <span class="blbl">STL</span></button>
+    <button id="btnDXF" title="Plano técnico DXF a escala real (marco y cajetín ISO 5457/7200)">⭳ <span class="blbl">DXF</span></button>
+    <button id="btnPDF" title="Lámina técnica PDF lista para imprimir (vistas, cotas y cajetín)">⭳ <span class="blbl">PDF</span></button>
     <button id="btnSave" title="Descargar el proyecto como JSON">💾 <span class="blbl">Guardar</span></button>
     <button id="btnOpen" title="Abrir un proyecto JSON">📂 <span class="blbl">Abrir</span></button>
     <button id="btnDemo" title="Cargar el ensamble de ejemplo">✦ <span class="blbl">Ejemplo</span></button>
@@ -181,6 +183,7 @@
     <button class="tile" id="btnFlush" title="Alinear dos caras planas (al ras, mismo sentido)"><span class="tic">⫤</span>Alinear</button>
     <button class="tile" id="btnConcentric" title="Hacer concéntricos dos orificios/cilindros"><span class="tic">◉</span>Concentr.</button>
     <button class="tile" id="btnMove" title="Arrastrar la pieza seleccionada (Shift o 2.º toque = vertical)"><span class="tic">✥</span>Mover</button>
+    <button class="tile" id="btnMagnet" title="Imán de ensamble: al mover piezas ajusta a caras en contacto/al ras, alturas totales, centros y ejes de orificios"><span class="tic">🧲</span>Imán</button>
     <div class="railsep"></div>
     <button class="tile" id="btnMeasure" title="Medir distancia entre dos puntos"><span class="tic">📏</span>Medir</button>
   </div>
@@ -202,6 +205,8 @@
       <button data-tool="extend" title="Alargar: extiende la línea hasta la siguiente entidad o referencia">⇥ Alargar</button>
       <button data-tool="moveEnt" title="Mover: arrastra una entidad (las cotas con candado restringen)">✥ Mover</button>
       <button data-tool="erase" title="Borrar la entidad tocada">⌦ Borrar</button>
+      <button data-tool="select" title="Selección por ventana (→ contenido) o captura (← tocado); tap alterna una entidad">⬚ Selec</button>
+      <button id="skCopy" title="Copiar la selección con punto base declarado (destinos múltiples con snap)">⧉ Copiar</button>
       <span class="rsep"></span>
       <button data-tool="dim" title="Cota: largo/diámetro (1 entidad) o distancia/ángulo (2 entidades, incluidas referencias proyectadas); 🔒 la fija">⇤⇥ Cota</button>
       <span class="rsep"></span>

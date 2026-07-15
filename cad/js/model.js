@@ -391,6 +391,34 @@ export function findAxialFeature(part, localPoint) {
   return best;
 }
 
+// ---------- Imán de ensamble ----------
+// Correcciones por eje para ajustar la pieza en movimiento a las demás:
+// caras en contacto, al ras, centros de caja y centros de ejes (orificios).
+// my/others: { min:{x,y,z}, max:{x,y,z}, axes:[{x,y,z},...] }
+export function magnetCorrections(my, others, axes = ['x', 'y'], threshold = 4) {
+  const out = {};
+  for (const a of axes) {
+    let best = null;
+    const myC = (my.min[a] + my.max[a]) / 2;
+    for (const o of others) {
+      const oC = (o.min[a] + o.max[a]) / 2;
+      const cands = [
+        [o.max[a] - my.min[a], 'contacto'],
+        [o.min[a] - my.max[a], 'contacto'],
+        [o.min[a] - my.min[a], 'ras'],
+        [o.max[a] - my.max[a], 'ras'],
+        [oC - myC, 'centro'],
+      ];
+      for (const p of my.axes) for (const q of o.axes) cands.push([q[a] - p[a], 'eje']);
+      for (const [d, kind] of cands) {
+        if (Math.abs(d) <= threshold && (!best || Math.abs(d) < Math.abs(best.d))) best = { d, kind };
+      }
+    }
+    if (best) out[a] = best;
+  }
+  return out;
+}
+
 // ---------- Restricciones de ensamble ----------
 // mate/flush: { id, type, a:{part, point:[..], normal:[..]}, b:{...}, offset }
 //   (point/normal en coordenadas locales de cada pieza)

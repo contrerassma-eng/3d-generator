@@ -76,6 +76,11 @@ atornillable) que muestra todas las capacidades.
   - **✥ Mover** (edición directa): arrastra entidades manteniendo conectados
     los extremos vecinos; al soltar se re-aplican las cotas 🔒.
     **⌦ Borrar**: elimina la entidad tocada.
+  - **⬚ Selección tipo AutoCAD**: arrastra hacia la DERECHA = ventana azul
+    (solo lo contenido por completo); hacia la IZQUIERDA = captura verde
+    (todo lo tocado); un toque alterna una entidad. **⧉ Copiar**: duplica la
+    selección declarando un **punto base** (con snap) y tocando uno o varios
+    destinos (también con snap).
   - **✂ Recortar**: elimina el tramo tocado cortando contra todas las
     entidades y referencias. **⇥ Alargar**: extiende una línea hasta la
     siguiente entidad o referencia.
@@ -101,6 +106,11 @@ atornillable) que muestra todas las capacidades.
 - **✥ Mover**: arrastrar piezas en el plano (Shift = vertical). Al soltar,
   las restricciones se re-aplican. La primera pieza queda **fija** (📌);
   se puede fijar/liberar cualquier pieza desde sus propiedades.
+- **🧲 Imán** (activable/desactivable): al arrastrar una pieza, se ajusta
+  magnéticamente a las demás — caras en **contacto**, caras **al ras**
+  (alturas y alturas totales en el arrastre vertical), **centros** de pieza
+  y **centros de ejes** (orificios/cilindros alineados para atornillar).
+  La barra de estado indica qué ajuste enganchó (contacto/ras/centro/eje).
 
 ### Inspección y archivo
 - **📏 Medir**: distancia entre dos puntos (con ajuste a vértices) + ΔX/ΔY/ΔZ.
