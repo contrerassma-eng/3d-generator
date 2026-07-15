@@ -5,7 +5,9 @@
 //     --alias:three=./vendor/three.module.min.js --outfile=/tmp/test_drawing2d.bundle.mjs
 //   node /tmp/test_drawing2d.bundle.mjs
 import { newDoc, newPart, makeBoxFeature, buildPartGeometry } from '../js/model.js';
-import { exportDrawingDXF, exportDrawingPDF, collectEdgeSegments } from '../js/drawing2d.js';
+import { exportDrawingDXF, exportDrawingPDF, collectEdgeSegments,
+         exportFlatDXF, exportFlatPDF } from '../js/drawing2d.js';
+import { makeChapaBase, makePestana, flatPattern } from '../js/sheetmetal.js';
 
 let pass = 0, fail = 0;
 const check = (name, cond, detail = '') => {
@@ -73,6 +75,25 @@ check('contenido con trazos y textos', ptxt.includes(' m ') && ptxt.includes(' T
 check('xref válido', /startxref\n\d+\n%%EOF/.test(ptxt));
 const media = ptxt.match(/MediaBox \[0 0 ([\d.]+) ([\d.]+)\]/);
 check('lámina ISO apaisada', media && +media[1] > +media[2]);
+
+console.log('— desarrollo de chapa: hairline, ejes segmentados, cota de espesor —');
+const doc2 = newDoc(); const ch = newPart(doc2, 'Chapa test');
+const cb = makeChapaBase(100, 60, 'acero', 2, 2, 0.44);
+ch.features.push(cb);
+ch.features.push(makePestana(cb.id, 0, 25, 90, 2, 'arriba'));
+const flat = flatPattern(ch);
+const fpdf = latin1(exportFlatPDF(flat, { designacion: ch.name }).data);
+check('PDF: geometría sin espesor de línea (0 w)', /\n0 w 1 J 1 j/.test(fpdf));
+check('PDF: eje de plegado con línea segmentada', fpdf.includes('] 0 d'));
+check('PDF: cota de espesor siempre', fpdf.includes('ESPESOR DE CHAPA e = 2 mm'));
+const fdxf = latin1(exportFlatDXF(flat, { designacion: ch.name }).data);
+check('DXF: capa PLIEGUE con tipo DASHED', fdxf.includes('DASHED') && !fdxf.includes('DASHDOT'));
+check('DXF: nota de espesor', fdxf.includes('ESPESOR DE CHAPA e = 2 mm'));
+// plano plegado de pieza de chapa: nota de espesor vía meta.espesor
+const gch = buildPartGeometry(ch);
+const dch = latin1(exportDrawingPDF([{ geometry: gch, name: ch.name }],
+  { designacion: ch.name, piezas: 1, espesor: 2 }).data);
+check('plano plegado: cota de espesor', dch.includes('ESPESOR DE CHAPA e = 2 mm'));
 
 console.log('— sin geometría —');
 let threw = false;
