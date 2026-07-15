@@ -66,7 +66,9 @@ atornillable) que muestra todas las capacidades.
 
 | Archivo | Rol |
 |---|---|
-| `index.html` | UI (barra de herramientas, árbol, propiedades, barra de estado) |
+| `index.html` | UI + `bundle.js` (script clásico es2017, compatible con navegadores/WebViews antiguos) |
+| `dev.html` | Igual que index pero cargando los módulos de `js/` directo (para desarrollar sin rebuild) |
+| `bundle.js` | App empaquetada; regenerar tras editar `js/` con: `npx esbuild js/app.js --bundle --minify --target=es2017 --format=iife --alias:three=./vendor/three.module.min.js --outfile=bundle.js` |
 | `js/csg.js` | Booleanas de sólidos por BSP (unión/corte/intersección) ↔ `BufferGeometry` |
 | `js/model.js` | Documento paramétrico, regeneración, detección de caras planas y ejes, solver de restricciones |
 | `js/app.js` | Viewport Three.js, picking, modos de interacción, diálogos, STL, persistencia |
