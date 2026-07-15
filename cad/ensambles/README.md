@@ -88,3 +88,38 @@ retornos con **descansos de brida** (buje bronce Ø24 con grasera M6) en la plac
 
 Para la variante de **30°**: girar 60° las líneas de rodillos (placas y
 serpentín giran con ellas); elevación y bastidor no cambian.
+
+---
+
+## Planos de fabricación (PDF)
+
+`planos_transfer90/planos_fabricacion_transfer90.pdf` — juego de taller
+completo, **25 páginas en un solo PDF**:
+
+- **Portada** con el resumen del ensamble (piezas, ítems, normas, tolerancia
+  general ISO 2768-mK, unidades).
+- **Despiece / lista de materiales** (2 páginas): las **47 posiciones
+  distintas** de las 138 piezas, con cantidad, tipo (FABRICADA /
+  NORMALIZADA / CONJUNTO), material o norma, y número de plano.
+- **22 planos de pieza fabricada** (TR-01 … TR-22): vistas del primer diedro
+  (alzado, planta, perfil) + isométrica, cotas envolventes y **cajetín
+  ISO 7200** con designación, material, cantidad, escala y Nº de plano. Cada
+  lámina elige tamaño (A4…A1) y escala normalizada automáticamente. Las
+  piezas normalizadas (rodamientos, seegers, chavetas, rótulas, cilindros,
+  válvula, motor…) no llevan plano: van en el despiece con su norma.
+
+Regenerar (desde `cad/`, requiere el JSON del ensamble ya generado):
+
+```bash
+npx esbuild ensambles/planos_fab.mjs --bundle --format=esm --platform=node \
+  --alias:three=./vendor/three.module.min.js --outfile=/tmp/planos.mjs
+node /tmp/planos.mjs 2025-01-01        # la fecha va al cajetín/despiece
+```
+
+El generador (`planos_fab.mjs`) agrupa las piezas idénticas por firma
+geométrica (incluidas las espejo izq/der), reutiliza el motor CAD
+(`js/model.js`) para construir la malla de cada pieza y el exportador de
+planos del navegador (`js/drawing2d.js`, escritores DXF/PDF propios sin
+dependencias) para las láminas. Emite además `planos_transfer90/_despiece.json`
+(lista de materiales en JSON). Es **diseño, capa `user`** — verificar las
+dimensiones nominales con la unidad real antes de mecanizar.
