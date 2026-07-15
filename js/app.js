@@ -6,7 +6,7 @@ import { OrbitControls } from '../vendor/OrbitControls.js';
 import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
-  makeSketchEntitiesFeature, planeBasis, referenceEdges,
+  makeSketchEntitiesFeature, planeBasis, referenceEdges, referencePoints,
   buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature,
   makeMate, makeConcentric, solveConstraints,
 } from './model.js';
@@ -120,6 +120,7 @@ const matFor = (part) => new THREE.MeshPhongMaterial({
   polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1,
 });
 const edgeMat = new THREE.LineBasicMaterial({ color: 0x11141a });
+const sketchShowMat = new THREE.LineBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.8 });
 const hoverMat = new THREE.MeshBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.45, depthTest: true, polygonOffset: true, polygonOffsetFactor: -2 });
 const pickedMat = new THREE.MeshBasicMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.55, depthTest: true, polygonOffset: true, polygonOffsetFactor: -2 });
 
@@ -139,6 +140,10 @@ function rebuildPart(part) {
   mesh.userData.partId = part.id;
   const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geom, 20), edgeMat);
   mesh.add(edges);
+  // bocetos consumidos con visibilidad activada (para reutilizarlos de guía)
+  for (const f of part.features) {
+    if (f.shape === 'sketch' && f.showSketch && f.params.entities) mesh.add(buildSketchOverlay(f));
+  }
   meshes.set(part.id, { mesh, edges });
   scene.add(mesh);
   syncTransform(part);
@@ -173,6 +178,21 @@ function solveAndSync() {
   solveConstraints(doc);
   syncAllTransforms();
   refreshUI();
+}
+
+function buildSketchOverlay(f) {
+  const group = new THREE.Group();
+  const n = new THREE.Vector3(...f.dir).normalize();
+  const U = new THREE.Vector3(...f.params.u);
+  U.addScaledVector(n, -U.dot(n)).normalize();
+  const Vv = new THREE.Vector3().crossVectors(n, U);
+  const toV3 = (pu, pv) => new THREE.Vector3(...f.at)
+    .addScaledVector(U, pu).addScaledVector(Vv, pv).addScaledVector(n, 0.15);
+  for (const e of f.params.entities) {
+    const pts = SK.entityPoints(e, 64).map(pt => toV3(pt[0], pt[1]));
+    group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), sketchShowMat));
+  }
+  return group;
 }
 
 // ---------- Persistencia / deshacer ----------
@@ -322,9 +342,10 @@ function refreshProps() {
       dims = frow('Altura', `<input type="number" id="fp_h" value="${f.params.h}" step="0.5">`);
       if (f.params.entities) {
         dims += frow('Entidades', `<b>${f.params.entities.length}</b>`);
+        dims += frow('Mostrar boceto', `<input type="checkbox" id="fp_showsk" ${f.showSketch ? 'checked' : ''}>`);
         (f.params.dims || []).forEach((d, i) => {
           const val = SK.measureDim(f.params.entities, d);
-          dims += frow(`Cota ${DIM_PREFIX[d.kind]}`, `<input type="number" id="fp_dim${i}" value="${val === null ? '' : +val.toFixed(2)}" step="0.5">`);
+          dims += frow(`Cota ${d.locked ? '🔒' : ''}${DIM_PREFIX[d.kind]}`, `<input type="number" id="fp_dim${i}" value="${val === null ? '' : +val.toFixed(2)}" step="0.5">`);
         });
       } else {
         dims += frow('Puntos', `<b>${f.params.pts.length}</b>`);
@@ -344,6 +365,8 @@ function refreshProps() {
       if (f.shape === 'box') { const [w, d, h] = readNum3('fp_dims'); Object.assign(f.params, { w, d, h }); }
       if (f.shape === 'sketch') {
         f.params.h = +$('fp_h').value;
+        const sk = $('fp_showsk');
+        if (sk) f.showSketch = sk.checked;
         (f.params.dims || []).forEach((d, i) => {
           const el = $(`fp_dim${i}`);
           if (!el) return;
@@ -410,14 +433,14 @@ const readNum3 = (id) => [+$(id + 'x').value, +$(id + 'y').value, +$(id + 'z').v
 
 const dialog = $('dialog');
 
-function showForm(title, fields, onSubmit) {
+function showForm(title, fields, onSubmit, extra) {
   let html = `<h3>${title}</h3>`;
   for (const f of fields) {
     if (f.type === 'checkbox') html += frow(f.label, `<input type="checkbox" id="dlg_${f.key}" ${f.value ? 'checked' : ''}>`);
     else if (f.type === 'select') html += frow(f.label, `<select id="dlg_${f.key}">${f.options.map(o => `<option value="${o[0]}" ${o[0] === f.value ? 'selected' : ''}>${o[1]}</option>`).join('')}</select>`);
     else html += frow(f.label, `<input type="number" id="dlg_${f.key}" value="${f.value}" step="${f.step || 1}">`);
   }
-  html += `<div class="btnrow"><button id="dlg_ok" class="on">Aceptar</button><button id="dlg_cancel">Cancelar</button></div>`;
+  html += `<div class="btnrow"><button id="dlg_ok" class="on">Aceptar</button>${extra ? `<button id="dlg_extra" class="danger">${extra.label}</button>` : ''}<button id="dlg_cancel">Cancelar</button></div>`;
   dialog.innerHTML = html;
   dialog.style.display = 'block';
   $('dlg_ok').onclick = () => {
@@ -430,6 +453,7 @@ function showForm(title, fields, onSubmit) {
     onSubmit(values);
   };
   $('dlg_cancel').onclick = hideDialog;
+  if (extra) $('dlg_extra').onclick = () => { hideDialog(); extra.onClick(); };
   const first = dialog.querySelector('input,select');
   if (first) first.focus();
 }
@@ -525,9 +549,9 @@ let downPos = null, dragging = null;
 renderer.domElement.addEventListener('pointerdown', (ev) => {
   if (dialogOpen()) return;
   if (isNarrow() && sidebar.classList.contains('open')) setSidebar(false); // tocar fuera cierra el panel
-  if (mode === 'sketch' && sketch && sketch.tool === 'pen' && ev.button === 0 && !sketch.stroke) {
-    startStroke(ev);
-    return;
+  if (mode === 'sketch' && sketch && ev.button === 0 && !sketch.profileMode) {
+    if (sketch.tool === 'pen' && !sketch.stroke) { startStroke(ev); return; }
+    if (sketch.tool === 'moveEnt' && !sketch.entDrag) { startEntDrag(ev); return; }
   }
   if (dragging) { switchDragVertical(); return; } // 2.º dedo durante el arrastre → mover en Z
   downPos = { x: ev.clientX, y: ev.clientY };
@@ -537,6 +561,7 @@ renderer.domElement.addEventListener('pointerdown', (ev) => {
 renderer.domElement.addEventListener('pointermove', (ev) => {
   if (dialogOpen()) return;
   if (sketch?.stroke) { moveStroke(ev); return; }
+  if (sketch?.entDrag) { moveEntDrag(ev); return; }
   if (dragging) { if (ev.pointerId === dragging.pointerId) updateMoveDrag(ev); return; }
   if (mode === 'sketch' && sketch) { updateSketchPreview(ev); return; }
   if (ev.pointerType === 'mouse' && (['hole', 'mate', 'flush'].includes(mode) || (mode === 'sketch' && !sketch))) {
@@ -549,6 +574,7 @@ renderer.domElement.addEventListener('pointermove', (ev) => {
 renderer.domElement.addEventListener('pointerup', (ev) => {
   if (dialogOpen()) return;
   if (sketch?.stroke) { if (ev.pointerId === sketch.stroke.pointerId) endStroke(); return; }
+  if (sketch?.entDrag) { if (ev.pointerId === sketch.entDrag.pointerId) endEntDrag(); return; }
   if (dragging) { if (ev.pointerId === dragging.pointerId) endMoveDrag(); return; }
   if (!downPos) return;
   const moved = Math.hypot(ev.clientX - downPos.x, ev.clientY - downPos.y);
@@ -559,6 +585,7 @@ renderer.domElement.addEventListener('pointerup', (ev) => {
 
 renderer.domElement.addEventListener('pointercancel', () => {
   if (sketch?.stroke) endStroke();
+  if (sketch?.entDrag) endEntDrag();
   if (dragging) endMoveDrag(); // gesto interrumpido por el sistema (táctil)
   downPos = null;
 });
@@ -630,22 +657,29 @@ function eventTo2D(ev) {
   return [d.dot(sketch.uW), d.dot(sketch.vW)];
 }
 
-// snap: vértices proyectados, extremos/centros de entidades dibujadas, o grilla de 1 mm
+// snap con tipo: extremos, puntos medios, centros y cuadrantes (entidades y
+// referencias proyectadas), tangencias al dibujar líneas, o grilla de 1 mm
 function snap2D(uv) {
   const tol = 14 * worldPerPixel();
   let best = null, bestD = tol;
-  const consider = (s) => {
-    const d = Math.hypot(uv[0] - s[0], uv[1] - s[1]);
-    if (d < bestD) { best = s; bestD = d; }
+  const consider = (p, kind) => {
+    const d = Math.hypot(uv[0] - p[0], uv[1] - p[1]);
+    if (d < bestD) { best = { p, kind }; bestD = d; }
   };
-  for (const s of sketch.snapPts) consider(s);
+  for (const s of sketch.snapPts) consider(s.p, s.kind);
   for (const e of sketch.entities) {
-    if (e.type === 'line') { consider(e.a); consider(e.b); }
-    else consider(e.c);
+    for (const sp of SK.snapPoints(e)) consider(sp.p, sp.kind);
   }
-  if (sketch.chainStart) consider(sketch.chainStart);
-  if (best) return { uv: [best[0], best[1]], snapped: true };
-  return { uv: [Math.round(uv[0]), Math.round(uv[1])], snapped: false };
+  if (sketch.chainStart) consider(sketch.chainStart, 'inicio');
+  // tangencia: dibujando una línea hacia un círculo/arco
+  if (sketch.tool === 'line' && sketch.chainLast) {
+    for (const e of sketch.entities) {
+      if (e.type !== 'circle' && e.type !== 'arc') continue;
+      for (const tp of SK.tangentPoints(e.c, e.r, sketch.chainLast)) consider(tp, 'tangente');
+    }
+  }
+  if (best) return { uv: [best.p[0], best.p[1]], snapped: true, kind: best.kind };
+  return { uv: [Math.round(uv[0]), Math.round(uv[1])], snapped: false, kind: null };
 }
 
 // entidades "línea" ficticias para las referencias proyectadas (nunca se mueven)
@@ -677,6 +711,7 @@ function clickSketch(hit, ev) {
   }
   const raw = eventTo2D(ev);
   if (!raw) return;
+  if (sketch.profileMode) return clickProfile(raw);
   const t = sketch.tool;
   if (t === 'line') return clickLine(raw);
   if (t === 'rect') return clickRect(raw);
@@ -684,6 +719,16 @@ function clickSketch(hit, ev) {
   if (t === 'dim') return clickDim(raw);
   if (t === 'trim') return clickTrim(raw);
   if (t === 'extend') return clickExtend(raw);
+  if (t === 'erase') return clickErase(raw);
+}
+
+function clickErase(raw) {
+  const pick = pickEntityAt(raw, false);
+  if (!pick) { setStatus('Borrar: toca una entidad del boceto.'); return; }
+  sketch.entities = sketch.entities.filter(e => e.id !== pick.ent.id);
+  pruneDims();
+  redrawSketch();
+  setStatus('Entidad eliminada.');
 }
 
 function enterSketch(hit) {
@@ -705,13 +750,15 @@ function enterSketch(hit) {
     plane: new THREE.Plane().setFromNormalAndCoplanarPoint(nW, originW),
     entities: [], dims: [], dimEls: new Map(),
     chainStart: null, chainLast: null, temp: null, dimPick: null, stroke: null,
+    entDrag: null, profileMode: false, excluded: new Set(),
     tool: 'line',
     snapPts: [], refSegs: [],
     group: new THREE.Group(),
     draw: new THREE.Group(),
     preview: new THREE.Group(),
+    fills: new THREE.Group(),
   };
-  sketch.group.add(sketch.draw, sketch.preview);
+  sketch.group.add(sketch.draw, sketch.preview, sketch.fills);
   overlay.add(sketch.group);
 
   buildSketchReferences();
@@ -750,9 +797,14 @@ function buildSketchReferences() {
       const len = Math.hypot(s[0] - e[0], s[1] - e[1]);
       if (len < 1e-4) continue; // arista normal al plano
       segs.push([s, e]);
-      sketch.snapPts.push(s, e);
-      if (len > 4) sketch.snapPts.push([(s[0] + e[0]) / 2, (s[1] + e[1]) / 2]);
+      sketch.snapPts.push({ p: s, kind: 'extremo' }, { p: e, kind: 'extremo' });
+      if (len > 4) sketch.snapPts.push({ p: [(s[0] + e[0]) / 2, (s[1] + e[1]) / 2], kind: 'medio' });
       maxR = Math.max(maxR, Math.hypot(...s), Math.hypot(...e));
+    }
+    // centros de círculos (agujeros, cilindros, bocetos) como imanes de snap
+    for (const cp of referencePoints(part)) {
+      const w = cp.clone().applyMatrix4(m).sub(sketch.originW);
+      sketch.snapPts.push({ p: [w.dot(sketch.uW), w.dot(sketch.vW)], kind: 'centro' });
     }
   }
   sketch.extent = maxR;
@@ -870,19 +922,24 @@ function openDimDialog(dim) {
   const cur = SK.measureDim(sketch.entities, dim);
   showForm(`Cota ${DIM_PREFIX[dim.kind].trim()}`, [
     { key: 'v', label: DIM_LABEL[dim.kind], value: +(cur ?? dim.value).toFixed(2), step: 0.5 },
+    { key: 'locked', label: '🔒 Fija (restringe al mover)', type: 'checkbox', value: !!dim.locked },
   ], (v) => {
-    if (v.v <= 0) { // valor 0 = eliminar la cota
-      sketch.dims = sketch.dims.filter(d => d.id !== dim.id);
-      syncDimEls();
-      setStatus('Cota eliminada.');
-      return;
-    }
+    dim.locked = v.locked;
+    if (!(v.v > 0)) { setStatus('Valor inválido.'); return; }
     if (SK.applyDim(sketch.entities, dim, v.v)) {
+      SK.applyLockedDims(sketch.entities, sketch.dims, dim.id); // las 🔒 se mantienen
       redrawSketch();
-      setStatus(`Cota aplicada: ${DIM_PREFIX[dim.kind]}${v.v}. (0 en la cota la elimina)`);
+      setStatus(`Cota aplicada: ${DIM_PREFIX[dim.kind]}${v.v}${dim.locked ? ' 🔒' : ''}.`);
     } else {
       setStatus('No se pudo aplicar esa cota (¿referencia fija o entidades no compatibles?).');
     }
+  }, {
+    label: '🗑 Eliminar',
+    onClick() {
+      sketch.dims = sketch.dims.filter(d => d.id !== dim.id);
+      syncDimEls();
+      setStatus('Cota eliminada.');
+    },
   });
 }
 
@@ -896,7 +953,7 @@ function syncDimEls() {
     if (sketch.dimEls.has(dim.id)) continue;
     const el = document.createElement('div');
     el.className = 'dimlabel';
-    el.title = 'Tocar para editar (0 = eliminar)';
+    el.title = 'Tocar para editar, fijar con candado o eliminar';
     el.addEventListener('click', () => openDimDialog(dim));
     viewport.appendChild(el);
     sketch.dimEls.set(dim.id, el);
@@ -910,7 +967,7 @@ function updateSketchLabels() {
     const el = sketch.dimEls.get(dim.id);
     if (!el) continue;
     const val = SK.measureDim(sketch.entities, dim);
-    el.textContent = val === null ? '—' : `${DIM_PREFIX[dim.kind]}${val.toFixed(1)}${dim.kind === 'ang' ? '°' : ''}`;
+    el.textContent = val === null ? '—' : `${dim.locked ? '🔒' : ''}${DIM_PREFIX[dim.kind]}${val.toFixed(1)}${dim.kind === 'ang' ? '°' : ''}`;
     const w = to3D(dim.at[0], dim.at[1], 0.3).project(activeCamera);
     el.style.left = `${(w.x * 0.5 + 0.5) * r.width}px`;
     el.style.top = `${(-w.y * 0.5 + 0.5) * r.height}px`;
@@ -948,6 +1005,38 @@ function clickExtend(raw) {
   } else {
     setStatus('No hay ninguna entidad o referencia en esa dirección.');
   }
+}
+
+// --- mover entidad (edición directa por arrastre) ---
+
+function startEntDrag(ev) {
+  const raw = eventTo2D(ev);
+  if (!raw) return;
+  const pick = pickEntityAt(raw, false);
+  if (!pick) { setStatus('Mover: toca una entidad del boceto y arrastra.'); return; }
+  sketch.entDrag = { ent: pick.ent, pointerId: ev.pointerId, lastUV: raw };
+  sketchControls.enabled = false;
+  try { renderer.domElement.setPointerCapture(ev.pointerId); } catch (e) { /* ya liberado */ }
+}
+
+function moveEntDrag(ev) {
+  const d = sketch?.entDrag;
+  if (!d || ev.pointerId !== d.pointerId) return;
+  const raw = eventTo2D(ev);
+  if (!raw) return;
+  SK.moveEntity(sketch.entities, d.ent, [raw[0] - d.lastUV[0], raw[1] - d.lastUV[1]]);
+  d.lastUV = raw;
+  redrawSketch();
+}
+
+function endEntDrag() {
+  if (!sketch?.entDrag) return;
+  sketch.entDrag = null;
+  sketchControls.enabled = true;
+  // las cotas con candado restringen: se re-aplican tras el movimiento
+  SK.applyLockedDims(sketch.entities, sketch.dims);
+  redrawSketch();
+  setStatus('Entidad movida (las cotas 🔒 se re-aplicaron; las libres se actualizan solas).');
 }
 
 // --- modo lápiz (trazo a mano alzada) ---
@@ -1022,7 +1111,7 @@ function updateSketchPreview(ev) {
   if (ev.pointerType !== 'mouse' || sketch.stroke) return;
   const raw = eventTo2D(ev);
   if (!raw) return;
-  const { uv, snapped } = snap2D(raw);
+  const { uv, snapped, kind } = snap2D(raw);
   clearGroup(sketch.preview);
   const cursor = new THREE.Mesh(
     new THREE.SphereGeometry(Math.max(0.9, 4 * worldPerPixel()), 10, 8),
@@ -1048,30 +1137,82 @@ function updateSketchPreview(ev) {
     }
     sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), previewMat));
   }
-  setStatus(`(${uv[0].toFixed(1)}, ${uv[1].toFixed(1)}) mm${snapped ? ' ⌖ snap' : ''}`);
+  setStatus(`(${uv[0].toFixed(1)}, ${uv[1].toFixed(1)}) mm${snapped ? ` ⌖ ${kind}` : ''}`);
 }
 
 // --- extruir / deshacer / cancelar ---
 
+const fillOnMat = new THREE.MeshBasicMaterial({ color: 0x34a853, transparent: true, opacity: 0.3, side: THREE.DoubleSide, depthTest: false });
+const fillOffMat = new THREE.MeshBasicMaterial({ color: 0x666e7a, transparent: true, opacity: 0.18, side: THREE.DoubleSide, depthTest: false });
+
+function drawProfileFills() {
+  clearGroup(sketch.fills);
+  const { loops } = SK.regions(sketch.entities, []);
+  const mBasis = new THREE.Matrix4().makeBasis(sketch.uW, sketch.vW, sketch.nW)
+    .setPosition(sketch.originW.clone().addScaledVector(sketch.nW, 0.04));
+  for (const loop of loops) {
+    const key = SK.loopKey(loop);
+    const shape = new THREE.Shape(loop.map(pt => new THREE.Vector2(pt[0], pt[1])));
+    const g = new THREE.ShapeGeometry(shape);
+    g.applyMatrix4(mBasis);
+    const mesh = new THREE.Mesh(g, sketch.excluded.has(key) ? fillOffMat : fillOnMat);
+    sketch.fills.add(mesh);
+  }
+}
+
+function clickProfile(raw) {
+  const { loops } = SK.regions(sketch.entities, []);
+  // contorno más pequeño que contiene el punto tocado
+  let best = null, bestArea = Infinity;
+  for (const loop of loops) {
+    if (!SK.pointInPoly(raw, loop)) continue;
+    let area = 0;
+    for (let i = 0; i < loop.length; i++) {
+      const a = loop[i], b = loop[(i + 1) % loop.length];
+      area += a[0] * b[1] - b[0] * a[1];
+    }
+    area = Math.abs(area / 2);
+    if (area < bestArea) { bestArea = area; best = loop; }
+  }
+  if (!best) { setStatus('Toca dentro de un contorno para incluir/excluir.'); return; }
+  const key = SK.loopKey(best);
+  if (sketch.excluded.has(key)) sketch.excluded.delete(key); else sketch.excluded.add(key);
+  drawProfileFills();
+  setStatus(`Contorno ${sketch.excluded.has(key) ? 'excluido' : 'incluido'}. ✔ para extruir.`);
+}
+
 function finishSketch() {
   sketch.chainStart = sketch.chainLast = null;
   sketch.temp = null;
-  const loops = SK.chainLoops(sketch.entities);
-  if (!loops.outer) {
-    setStatus(`No hay contorno cerrado${loops.openCount ? ` (${loops.openCount} cadena(s) abiertas — únelas o usa Alargar)` : ''}.`);
+  const info = SK.regions(sketch.entities, [...sketch.excluded]);
+  if (!info.loops.length) {
+    setStatus(`No hay contorno cerrado${info.openCount ? ` (${info.openCount} cadena(s) abiertas — únelas o usa Alargar)` : ''}.`);
     return;
   }
+  // con varios contornos, primero se eligen los perfiles (como Inventor)
+  if (info.loops.length > 1 && !sketch.profileMode) {
+    sketch.profileMode = true;
+    drawProfileFills();
+    setStatus('Selección de perfiles: toca los contornos para incluir (verde) o excluir (gris). ✔ de nuevo para extruir.');
+    return;
+  }
+  if (!info.regions.length) { setStatus('Todos los contornos están excluidos.'); return; }
+  const loops = { outer: true }; // hay regiones válidas
   const part = sketch.part;
   const originL = sketch.originL, nL = sketch.nL, uL = sketch.uL;
   const entities = sketch.entities, dims = sketch.dims;
-  const nHoles = loops.holes.length;
-  showForm(`Extruir boceto${nHoles ? ` (${nHoles} agujero(s) interior(es))` : ''}`, [
+  const excluded = [...sketch.excluded];
+  const nReg = info.regions.length;
+  const nHoles = info.regions.reduce((s, r) => s + r.holes.length, 0);
+  showForm(`Extruir boceto (${nReg} región(es)${nHoles ? `, ${nHoles} agujero(s)` : ''})`, [
     { key: 'h', label: 'Altura (mm)', value: 10, step: 0.5 },
     { key: 'op', label: 'Operación', type: 'select', value: 'union', options: [['union', 'Unión (agrega hacia afuera)'], ['cut', 'Corte (quita hacia adentro)']] },
   ], (v) => {
     if (!(v.h > 0)) { setStatus('La altura debe ser mayor que 0.'); return; }
     pushUndo();
-    part.features.push(makeSketchEntitiesFeature(entities, dims, v.h, v.op, originL, nL, uL));
+    const f = makeSketchEntitiesFeature(entities, dims, v.h, v.op, originL, nL, uL);
+    f.params.excluded = excluded;
+    part.features.push(f);
     cancelSketch(true);
     faceCache.clear();
     rebuildPart(part);
@@ -1094,6 +1235,7 @@ function sketchUndo() {
 
 function cancelSketch(silent) {
   if (!sketch) return;
+  sketch.profileMode = false;
   overlay.remove(sketch.group);
   sketch.group.traverse(o => o.geometry?.dispose?.());
   for (const el of sketch.dimEls.values()) el.remove();
@@ -1115,17 +1257,21 @@ sketchbar.addEventListener('click', (e) => {
     sketch.temp = null;
     sketch.chainStart = sketch.chainLast = null;
     sketch.dimPick = null;
+    sketch.profileMode = false;
+    clearGroup(sketch.fills);
     clearGroup(sketch.preview);
     redrawSketch();
     for (const b of sketchbar.querySelectorAll('[data-tool]')) b.classList.toggle('on', b === btn);
     setStatus({
-      line: 'Línea: toca los puntos; tocar el 1.º cierra el contorno.',
+      line: 'Línea: toca los puntos (snap a extremos, medios, centros, cuadrantes y tangentes); el 1.º cierra.',
       rect: 'Rectángulo: toca dos esquinas.',
       circle: 'Círculo: toca el centro y luego el radio.',
       pen: 'Lápiz: dibuja a mano alzada — interpreto círculos, líneas y polilíneas.',
-      dim: 'Cota: toca 1 entidad (largo/Ø) o 2 (distancia/ángulo), incluidas referencias.',
+      dim: 'Cota: toca 1 entidad (largo/Ø) o 2 (distancia/ángulo), incluidas referencias. 🔒 la fija.',
       trim: 'Recortar: toca el tramo excedente a eliminar (corta contra todo, incluidas referencias).',
       extend: 'Alargar: toca una línea cerca del extremo; se alarga hasta la siguiente entidad o referencia.',
+      moveEnt: 'Mover: arrastra una entidad; las cotas 🔒 restringen, las libres se actualizan.',
+      erase: 'Borrar: toca la entidad a eliminar.',
     }[sketch.tool]);
     return;
   }

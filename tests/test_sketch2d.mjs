@@ -2,7 +2,8 @@
 import {
   makeLine, makeCircle, makeArc, entityPoints, intersectEntities,
   trimEntity, extendLine, chainLoops, makeDim, measureDim, applyDim,
-  fitStroke, dist,
+  fitStroke, dist, snapPoints, tangentPoints, regions, loopKey,
+  moveEntity, applyLockedDims,
 } from '../js/sketch2d.js';
 
 let pass = 0, fail = 0;
@@ -163,6 +164,57 @@ console.log('— Modo lápiz (reconocimiento de trazos) —');
   for (let i = 0; i <= 20; i++) raw.push([20, i]);
   const fit = fitStroke(raw);
   check('trazo en L → polilínea de 3 vértices', fit?.type === 'poly' && fit.pts.length === 3, JSON.stringify(fit?.pts));
+}
+
+console.log('— Puntos notables y tangencias —');
+{
+  const l = makeLine([0, 0], [10, 0]);
+  const sp = snapPoints(l);
+  check('línea: extremos + punto medio', sp.length === 3 && sp.some(p => p.kind === 'medio' && near(p.p[0], 5)));
+  const c = makeCircle([10, 10], 5);
+  const sc = snapPoints(c);
+  check('círculo: centro + 4 cuadrantes', sc.length === 5 && sc.filter(p => p.kind === 'cuadrante').length === 4
+    && sc.some(p => p.kind === 'centro' && near(p.p[0], 10) && near(p.p[1], 10)));
+  const tps = tangentPoints([0, 0], 10, [20, 0]);
+  check('tangencias desde punto externo', tps.length === 2 && tps.every(p => near(p[0], 5, 1e-6) && near(Math.abs(p[1]), Math.sqrt(75), 1e-6)));
+  check('sin tangencia desde adentro', tangentPoints([0, 0], 10, [3, 3]).length === 0);
+}
+
+console.log('— Regiones por paridad y selección de perfiles —');
+{
+  // placa con agujero y una ISLA dentro del agujero (paridad: isla = sólido)
+  const sq = (x0, y0, x1, y1) => [
+    makeLine([x0, y0], [x1, y0]), makeLine([x1, y0], [x1, y1]),
+    makeLine([x1, y1], [x0, y1]), makeLine([x0, y1], [x0, y0]),
+  ];
+  const ents = [...sq(0, 0, 60, 60), makeCircle([30, 30], 20), makeCircle([30, 30], 6)];
+  const { regions: regs, loops } = regions(ents, []);
+  check('3 contornos detectados', loops.length === 3);
+  check('2 regiones: placa-con-agujero + isla', regs.length === 2, `regs=${regs.length}`);
+  const island = regs.find(r => r.holes.length === 0 && Math.abs(r.outer[0][0] - 30) < 40 && r.outer.length > 10);
+  check('la isla no tiene agujeros', !!island);
+
+  // excluir la isla por su clave
+  const islandKey = loopKey(entityPoints(makeCircle([30, 30], 6), 48).slice(0, -1));
+  const r2 = regions(ents, [islandKey]);
+  check('isla excluida → 1 región', r2.regions.length === 1 && r2.regions[0].holes.length === 1, `regs=${r2.regions.length}`);
+}
+
+console.log('— Mover con cotas fijas (candado) —');
+{
+  const ents = [
+    makeLine([0, 0], [30, 0]), makeLine([30, 0], [30, 20]),
+    makeLine([30, 20], [0, 20]), makeLine([0, 20], [0, 0]),
+  ];
+  const dLen = makeDim('len', { id: ents[0].id }, null, 30, [15, -3]);
+  dLen.locked = true;
+  const dims = [dLen];
+  // mover la línea derecha estira la base (queda de 40)
+  moveEntity(ents, ents[1], [10, 0]);
+  check('mover estira la vecina', near(dist(ents[0].a, ents[0].b), 40), `=${dist(ents[0].a, ents[0].b)}`);
+  // la cota con candado la devuelve a 30
+  applyLockedDims(ents, dims);
+  check('cota 🔒 restringe tras mover', near(dist(ents[0].a, ents[0].b), 30), `=${dist(ents[0].a, ents[0].b)}`);
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);

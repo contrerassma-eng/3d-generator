@@ -50,17 +50,30 @@ atornillable) que muestra todas las capacidades.
     reconocimiento de geometría — un trazo redondo se convierte en círculo,
     uno recto en línea (con ajuste a horizontal/vertical), y el resto en
     polilínea simplificada.
+  - **Snap con puntos notables** (imanta creación y cotas): extremos y punto
+    medio de líneas, centro y 4 cuadrantes de círculos/arcos — también de la
+    geometría proyectada (incluidos centros de agujeros/cilindros) — y
+    **tangencias** al dibujar una línea hacia un círculo. La barra de estado
+    indica el tipo de snap activo.
   - **⇤⇥ Cota**: toca 1 entidad (largo o diámetro) o 2 (distancia entre
     paralelas o ángulo), **incluidas las líneas de referencia proyectadas**.
-    Las cotas aparecen como etiquetas tocables sobre el boceto (tocar = editar,
-    valor 0 = eliminar) y también quedan editables en las propiedades de la
-    función en el navegador de modelo, regenerando la pieza.
+    Etiquetas tocables sobre el boceto y editables también en las propiedades
+    de la función. Cada cota tiene **🔒 candado**: sin candado es dinámica (se
+    actualiza al mover la geometría); con candado **restringe** (se re-aplica
+    tras cada movimiento). Botón explícito de eliminar en el diálogo.
+  - **✥ Mover** (edición directa): arrastra entidades manteniendo conectados
+    los extremos vecinos; al soltar se re-aplican las cotas 🔒.
+    **⌦ Borrar**: elimina la entidad tocada.
   - **✂ Recortar**: elimina el tramo tocado cortando contra todas las
     entidades y referencias. **⇥ Alargar**: extiende una línea hasta la
     siguiente entidad o referencia.
-  - **✔ Extruir**: encadena el contorno (admite **agujeros interiores**:
-    círculos u otros contornos cerrados dentro del principal) y extruye como
-    unión o corte con altura paramétrica.
+  - **✔ Extruir** con **selección de perfiles** tipo Inventor: si hay varios
+    contornos cerrados, se pintan las regiones y tocas cuáles incluir (verde)
+    o excluir (gris); el anidado va por paridad (isla dentro de un agujero =
+    sólido). La selección queda guardada en la función.
+  - **Boceto consumido visible**: en las propiedades de la función, "Mostrar
+    boceto" dibuja el croquis sobre la pieza para reutilizarlo de guía; además
+    sus entidades siempre se proyectan como referencia en bocetos nuevos.
 - Todo queda en el **árbol** (panel izquierdo). Al seleccionar una función se
   pueden editar sus cotas y **Regenerar**: el modelo se reconstruye aplicando
   las funciones en orden, como en Inventor.
