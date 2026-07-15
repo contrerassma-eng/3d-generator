@@ -272,21 +272,37 @@
       "notas": "Barreno O12.2. Con eje de polea a Z=137 sobre la mesa, el lomo de la banda (espesor 3) queda a 137 + 30 + 3 = 170 = plano de transporte."
     },
     {
-      "id": "rodillo_vulcanizado_50x290",
-      "nombre": "Rodillo completo vulcanizado O50 x 290 (extremo desnudo O44 de polea)",
+      "id": "rodillo_vulcanizado_40x290",
+      "nombre": "Rodillo completo vulcanizado O40 x 290 (corazon de tubo O30, extremo de polea)",
       "categoria": "mecanico",
-      "descripcion": "Rodillo de desvio de una sola pieza: nucleo de tubo O44 x 290 vulcanizado a O50 en toda la cara MENOS un extremo de 52 mm que queda desnudo: ahi las bandas de transmision envuelven el rodillo (el rodillo es la polea de la primera linea). Barreno pasante O12.2 para eje O12 h9. Eje del rodillo en X; apoyado tangente sobre Z=0.",
-      "fuente": {"tipo": "diseno", "detalle": "espec. del usuario (transferencia 90): rodillos completos y vulcanizados menos en un extremo, donde sube el sistema de bandas; O50 con gap tangente >= 50"},
+      "descripcion": "Rodillo de desvio de una sola pieza: corazon de tubo de hierro O30 x 290 vulcanizado a O40 en toda la cara MENOS un extremo de 52 mm que queda desnudo: ahi el serpentin de transmision envuelve el rodillo (el rodillo es la polea de la primera linea). Barreno pasante O12.2 para eje O12 h9. Eje del rodillo en X; apoyado tangente sobre Z=0.",
+      "fuente": {"tipo": "diseno", "detalle": "espec. del usuario (transferencia 90): rodillos de 40 con el vulcanizado, 30 el corazon de hierro; completos, vulcanizados menos en un extremo donde sube la banda"},
       "confianza": "verificar",
       "solidos": [
-        {"tipo": "cilindro", "nombre": "Nucleo desnudo O44 (tramo de polea)", "at": [-145, 0, 25], "eje": [1, 0, 0], "dia": 44, "alto": 290, "color": "#90a4ae"},
-        {"tipo": "cilindro", "nombre": "Vulcanizado O50 (cara de traccion)", "at": [-145, 0, 25], "eje": [1, 0, 0], "dia": 50, "alto": 238, "color": "#37474f"}
+        {"tipo": "cilindro", "nombre": "Corazon de tubo O30 (tramo de polea)", "at": [-145, 0, 20], "eje": [1, 0, 0], "dia": 30, "alto": 290, "color": "#90a4ae"},
+        {"tipo": "cilindro", "nombre": "Vulcanizado O40 (cara de traccion)", "at": [-145, 0, 20], "eje": [1, 0, 0], "dia": 40, "alto": 238, "color": "#37474f"}
       ],
       "agujeros_montaje": [],
       "despejes": [
-        {"nombre": "giro libre + paso de bandas en el extremo desnudo", "at": [-145, 0, 0], "dim": [290, 56, 56]}
+        {"nombre": "giro libre + paso de banda en el extremo desnudo", "at": [-145, 0, 0], "dim": [290, 46, 46]}
       ],
-      "notas": "Una banda plana de 3 mm sobre el nucleo O44 queda AL RAS del vulcanizado O50 (22 + 3 = 25). Barreno O12.2 pasante; retener el eje con E-clips DIN 6799."
+      "notas": "La banda plana de 3 mm sobre el corazon O30 queda embutida 2 mm bajo el vulcanizado O40 (15 + 3 = 18 < 20): el producto solo toca el vulcanizado. Barreno O12.2 pasante; retener el eje con E-clips DIN 6799."
+    },
+    {
+      "id": "polea_tensora_50x29",
+      "nombre": "Polea tensora O50 x 29 (2a linea del serpentin, loca, eje O12)",
+      "categoria": "mecanico",
+      "descripcion": "Polea loca de la segunda linea (inferior) del serpentin: la banda baja del rodillo y la envuelve por debajo entre cada par de rodillos. Un poco mayor que el rodillo de O40, como en la unidad de la foto. Gira sobre eje O12 cantilever. Eje de giro en X; apoyada tangente sobre Z=0.",
+      "fuente": {"tipo": "diseno", "detalle": "espec. del usuario: las poleas de la segunda linea de abajo son un poco mas grandes que los rodillos de 40"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Polea O50", "at": [-14.5, 0, 25], "eje": [1, 0, 0], "dia": 50, "alto": 29, "color": "#90a4ae"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [
+        {"nombre": "paso de banda alrededor (espesor 3)", "at": [-14.5, 0, 0], "dim": [29, 58, 58]}
+      ],
+      "notas": "Barreno O12.2 con buje o rodamiento (no modelado). Montar en eje cantilever O12 empotrado en la placa de transmision."
     },
     {
       "id": "polea_retorno_24x29",

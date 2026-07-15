@@ -75,8 +75,8 @@ const eje = doc.parts.find(p => p.name.startsWith('Eje rodillo'));
 const vEje = Math.PI * 36 * 330;
 check('eje Ø12×330 ≈ π·r²·L (±3%)', Math.abs(vols[eje.id] - vEje) / vEje < 0.03,
   `${vols[eje.id].toFixed(0)} vs ${vEje.toFixed(0)}`);
-const rodillo = doc.parts.find(p => p.componente === 'rodillo_vulcanizado_50x290');
-const vRod = Math.PI * (484 * 290 + (625 - 484) * 238 - 37.21 * 290); // núcleo + corona vulcanizada - barreno
+const rodillo = doc.parts.find(p => p.componente === 'rodillo_vulcanizado_40x290');
+const vRod = Math.PI * (225 * 290 + (400 - 225) * 238 - 37.21 * 290); // corazón Ø30 + corona vulcanizada Ø40 - barreno
 check('rodillo vulcanizado ≈ volumen nominal (±3%)', Math.abs(vols[rodillo.id] - vRod) / vRod < 0.03,
   `${vols[rodillo.id].toFixed(0)} vs ${vRod.toFixed(0)}`);
 
@@ -84,16 +84,16 @@ console.log('— Invariantes de la especificación (coordenadas de mundo) —');
 const M = doc.meta.verificaciones;
 check('gap tangente >= 50 (espec. usuario)', M.tangentGap >= 50);
 check('carrera de 6 mm (espec. usuario)', M.carrera === 6);
-const rodillos = doc.parts.filter(p => p.componente === 'rodillo_vulcanizado_50x290');
+const rodillos = doc.parts.filter(p => p.componente === 'rodillo_vulcanizado_40x290');
 check('6 rodillos completos (misma cantidad que la foto de 90°)', rodillos.length === 6);
-check('vulcanizado más corto que el núcleo (extremo de polea desnudo)', rodillos.every(p => {
-  const nucleo = p.features.find(f => f.name.startsWith('Núcleo'));
+check('Ø40 vulcanizado sobre corazón Ø30, más corto (extremo de polea desnudo)', rodillos.every(p => {
+  const nucleo = p.features.find(f => f.name.startsWith('Corazón') || f.name.startsWith('Núcleo'));
   const vulc = p.features.find(f => f.name.startsWith('Vulcanizado'));
-  return vulc.params.h < nucleo.params.h && vulc.params.dia > nucleo.params.dia;
+  return nucleo.params.dia === 30 && vulc.params.dia === 40 && vulc.params.h < nucleo.params.h;
 }));
 check('elevado: tangente = plano anfitrión + 4', rodillos.every(p => {
-  const n = p.features.find(f => f.name.startsWith('Núcleo'));
-  return world(p, n.at)[2] + 25 === 174;
+  const n = p.features.find(f => f.name.startsWith('Corazón'));
+  return world(p, n.at)[2] + 20 === 174;
 }));
 check('retraído queda bajo el plano (bajada 2 mm)', M.drop >= 1);
 // transmisión: UNA banda en serpentín (no rodillo a rodillo)
@@ -102,7 +102,8 @@ check('UNA sola banda (serpentín, no rodillo a rodillo)', bandas.length === 1 &
   bandas[0].name.includes('serpentín'));
 const tensores = doc.parts.filter(p => p.name.startsWith('Tensor'));
 const retornos = doc.parts.filter(p => p.name.startsWith('Polea de retorno'));
-check('4 tensores entre pares de rodillos', tensores.length === 4);
+check('4 tensores Ø50 (2ª línea, mayores que los rodillos Ø40)', tensores.length === 4 &&
+  tensores.every(p => p.features.some(f => f.shape === 'cylinder' && f.params.dia === 50)));
 check('2 poleas de retorno en las esquinas inferiores', retornos.length === 2 &&
   retornos.every(p => p.pos[2] < 60));
 const tambor = doc.parts.find(p => p.name.startsWith('Tambor motriz'));
@@ -117,12 +118,12 @@ const banda = bandas[0];
 check('serpentín dentro del tramo desnudo (x 93..145)',
   banda.pos[0] - banda.features[0].params.h / 2 >= 93 - 1e-9 &&
   banda.pos[0] + banda.features[0].params.h / 2 <= 145 + 1e-9);
-check('lomo del serpentín al ras del plano de rodillos (174)', (() => {
+check('lomo del serpentín embutido bajo el plano de rodillos (172 <= 174)', (() => {
   const outer = banda.features.find(f => f.name.startsWith('Cara'));
   // v del boceto es +Z mundial desde el origen del plano (at local + pos)
   const z0 = outer.at[2] + banda.pos[2];
   const zs = outer.params.pts.map(([, v]) => v + z0);
-  return Math.max(...zs) <= 174 + 0.01 && Math.max(...zs) > 173;
+  return Math.max(...zs) <= 174 + 0.01 && Math.max(...zs) > 171;
 })());
 // 2 cilindros estándar EN DIAGONAL + 2 pines guía en la diagonal contraria
 const cils = doc.parts.filter(p => p.name.startsWith('Cilindro neumático'));

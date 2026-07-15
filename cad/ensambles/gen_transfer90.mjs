@@ -16,7 +16,7 @@
 //     DE RETORNO en las esquinas. Todo desde abajo, montado en el marco
 //     elevador (la tensión no cambia con la carrera).
 //   - 2 cilindros neumáticos ESTÁNDAR actuando EN DIAGONAL, carrera de 6 mm.
-//   - Rodillos Ø50 con >= 50 mm entre tangentes; emergen entre las bandas
+//   - Rodillos Ø40 (corazón de tubo Ø30) con >= 50 mm entre tangentes; emergen entre las bandas
 //     estrechas de 40 mm del transportador anfitrión (no modelado).
 //   - Placas laterales portarodillos con la forma de la foto (peine con
 //     lóbulos + faldón profundo que porta la transmisión).
@@ -39,9 +39,9 @@ export const D = {
 
   // Rodillos de desvío (6, completos — como la foto de 90°)
   rollerLines: [-250, -150, -50, 50, 150, 250], // paso 100 → gap tangente 50
-  rollerDia: 50,                 // Ø vulcanizado
-  coreDia: 44,                   // núcleo desnudo (tramo de polea)
-  rollerZ: 149,                  // eje elevado: tangente 174 = anfitrión + 4
+  rollerDia: 40,                 // Ø vulcanizado (espec. usuario)
+  coreDia: 30,                   // corazón de tubo de hierro (espec. usuario)
+  rollerZ: 154,                  // eje elevado: tangente 174 = anfitrión + 4
   coreHalf: 145,                 // núcleo x = -145..145
   bareFrom: 93,                  // vulcanizado x = -145..93; desnudo 93..145
   axleDia: 12, axleHalf: 165,    // ejes Ø12 h9 → agujero Ø12.2
@@ -54,7 +54,7 @@ export const D = {
   // Transmisión en SERPENTÍN (esquema del usuario IMG_3102)
   bandT: 3, bandW: 25,           // banda plana 25×3 (amarilla, como la foto 90°)
   beltPlane: 119,                // plano x del serpentín (centro del tramo desnudo)
-  idlerDia: 24,                  // rodillos tensores entre cada par de rodillos
+  idlerDia: 50,                  // tensores de la 2ª línea: algo mayores que los rodillos
   idlerPos: [[-200, 118], [-100, 118], [100, 118], [200, 118]],
   retDia: 24,                    // poleas de retorno (esquinas inferiores)
   retPos: [[-280, 36], [280, 36]],
@@ -172,7 +172,7 @@ function verify() {
   const drop = D.hostPlane - (D.rollerZ - D.stroke + D.rollerDia / 2);
   if (pop < 3 || pop > 6) e.push(`sobre-elevación ${pop} fuera de 3..6 mm`);
   if (drop < 1) e.push(`retraído, el rodillo no baja del plano anfitrión (${drop})`);
-  if (D.coreDia / 2 + D.bandT !== D.rollerDia / 2) e.push('banda sobre núcleo no queda al ras del vulcanizado');
+  if (D.coreDia / 2 + D.bandT > D.rollerDia / 2) e.push('la banda sobresale del vulcanizado (debe quedar embutida o al ras)');
   if (D.beltPlane - D.bandW / 2 < D.bareFrom || D.beltPlane + D.bandW / 2 > D.coreHalf) {
     e.push('el serpentín se sale del tramo desnudo del rodillo');
   }
@@ -365,7 +365,7 @@ function elevacion() {
 //    La placa +X porta tensores, retornos y la ménsula del motor.
 // ===========================================================================
 function contornoPeine() {
-  const zL = D.rollerZ, rL = 16, zV = D.combValley, zB = D.apronBottom, yE = D.plateHalfY;
+  const zL = D.rollerZ, rL = 14, zV = D.combValley, zB = D.apronBottom, yE = D.plateHalfY;
   const dy = Math.sqrt(rL * rL - (zL - zV) ** 2);
   const aIn = Math.atan2(zV - zL, -dy), aOut = Math.atan2(zV - zL, dy);
   const pts = [[-yE, zB], [-yE, 128], [-yE + 10, zV]];
@@ -411,12 +411,12 @@ function rodillos() {
       cyl(`Eje Ø12 × ${2 * D.axleHalf}`, [-D.axleHalf, y, D.rollerZ], [1, 0, 0], D.axleDia, 2 * D.axleHalf),
     ]);
     const f = [
-      cyl(`Núcleo Ø${D.coreDia} × ${2 * D.coreHalf}`, [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.coreDia, 2 * D.coreHalf),
+      cyl(`Corazón de tubo Ø${D.coreDia} × ${2 * D.coreHalf}`, [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.coreDia, 2 * D.coreHalf),
       cyl(`Vulcanizado Ø${D.rollerDia} (hasta x=${D.bareFrom})`, [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.rollerDia, D.coreHalf + D.bareFrom),
       hole('Barreno Ø12.2', [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.axleDia + D.slide),
     ];
     addPart(`Rodillo completo vulcanizado línea y=${y}`, C.caucho, [0, y, D.rollerZ - D.rollerDia / 2], f,
-      { componente: 'rodillo_vulcanizado_50x290' });
+      { componente: 'rodillo_vulcanizado_40x290' });
   }
 }
 
@@ -437,11 +437,13 @@ function transmision() {
   // tensores y retornos: eje Ø12 cantiléver desde la placa +X + polea Ø24
   const xIn = D.beltPlane - D.pulleyW / 2;
   for (const [i, [py, pz]] of [...D.idlerPos, ...D.retPos].entries()) {
-    const nombre = i < D.idlerPos.length ? `Tensor Ø24 (${py},${pz})` : `Polea de retorno Ø24 (${py},${pz})`;
+    const esTensor = i < D.idlerPos.length;
+    const dia = esTensor ? D.idlerDia : D.retDia;
+    const nombre = esTensor ? `Tensor Ø${dia} (${py},${pz})` : `Polea de retorno Ø${dia} (${py},${pz})`;
     addPart(nombre, C.gris, [xIn - 2, py, pz], [
       cyl(`Eje Ø12 × ${r2(D.combX + 3 - (xIn - 2))}`, [xIn - 2, py, pz], [1, 0, 0], D.axleDia, r2(D.combX + 3 - (xIn - 2))),
-      cyl(`Polea Ø${D.retDia}×${D.pulleyW}`, [xIn, py, pz], [1, 0, 0], D.retDia, D.pulleyW),
-    ], { componente: 'polea_retorno_24x29' });
+      cyl(`Polea Ø${dia}×${D.pulleyW}`, [xIn, py, pz], [1, 0, 0], dia, D.pulleyW),
+    ], { componente: esTensor ? 'polea_tensora_50x29' : 'polea_retorno_24x29' });
   }
   // banda única en serpentín (el rodillo es la polea de la primera línea)
   const { outer, inner } = serpentineFaces(serpentine(), D.bandT);

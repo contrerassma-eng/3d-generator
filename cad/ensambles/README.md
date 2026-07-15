@@ -28,24 +28,24 @@ mm. Estado modelado: **elevado** (carrera aplicada).
 |---|---|
 | Solo la transferencia (módulo de desviación) | 37 piezas, sin el transportador anfitrión |
 | **6 rodillos** (misma cantidad que la unidad de 90° de la foto) | líneas en y = ±50, ±150, ±250 |
-| Rodillos **completos y vulcanizados menos en un extremo** | una pieza por línea: núcleo Ø44×290 + vulcanizado Ø50 hasta x=93; tramo de polea desnudo 93..145 |
-| **Transmisión desde abajo con poleas de retorno** (esquema IMG_3102 — NO rodillo a rodillo) | **una sola banda 25×3 en serpentín**: sobre el tramo desnudo de cada rodillo → tensor Ø24 entre cada par → tambor motriz M Ø90 al centro abajo → cierre inferior con 2 poleas de retorno Ø24 en las esquinas |
-| Los rodillos son las **poleas de la primera línea** | la banda envuelve directamente los núcleos desnudos; su lomo queda **al ras del Ø50** (22+3=25) |
+| Rodillos **completos y vulcanizados menos en un extremo** | una pieza por línea: **corazón de tubo de hierro Ø30**×290 + **vulcanizado Ø40** hasta x=93; tramo de polea desnudo 93..145 |
+| **Transmisión desde abajo con poleas de retorno** (esquema IMG_3102 — NO rodillo a rodillo) | **una sola banda 25×3 en serpentín**: sobre el tramo desnudo de cada rodillo → **tensor Ø50 (2ª línea, algo mayor que el rodillo)** entre cada par → tambor motriz M Ø90 al centro abajo → cierre inferior con 2 poleas de retorno Ø24 en las esquinas |
+| Los rodillos son las **poleas de la primera línea** | la banda envuelve directamente el corazón desnudo Ø30; su lomo queda **embutido 2 mm bajo el vulcanizado Ø40** (15+3=18 < 20) |
 | 2 cilindros estándar actuando **en diagonal**, subiendo **solo 6 mm** | ISO 6432 Ø25 en (−180,−295) y (+180,+295), carrera 6: elevado = plano anfitrión **+4**, retraído = **−2**; pines guía Ø16 en la diagonal contraria |
-| Rodillos Ø50 con ≥ 50 mm entre tangentes, emergen entre bandas de 40 | paso 100 − Ø50 = **50 mm** de gap; la banda anfitriona de 40 pasa con 5 mm por lado |
+| Rodillos con ≥ 50 mm entre tangentes, emergen entre bandas de 40 | paso 100 − Ø40 = **60 mm** de gap; la banda anfitriona de 40 pasa con 10 mm por lado |
 | Placa lateral portarodillos con la forma de la foto | peine de 6 lóbulos R16 + faldón profundo que porta toda la transmisión (como la placa frontal de la foto) |
 
 ### Arquitectura (memoria de diseño)
 
-- **Rodillos**: 6 líneas con eje elevado a z = 149 → tangente 174 = plano
+- **Rodillos**: 6 líneas con eje elevado a z = 154 → tangente 174 = plano
   anfitrión (170) + 4. Ejes Ø12 h9 × 330 en agujeros Ø12.2 (ajuste
   deslizante), retenidos con E-clip DIN 6799.
 - **Serpentín** (recorrido, en orden de marcha): retorno izq (−280, 36) →
-  R1 → tensor (−200, 118) → R2 → tensor (−100, 118) → R3 → **tambor M**
+  R1 → tensor Ø50 (−200, 118) → R2 → tensor (−100, 118) → R3 → **tambor M**
   (0, 78, Ø90, envoltura ≈ 200°) → R4 → tensor (100, 118) → R5 → tensor
   (200, 118) → R6 → retorno der (280, 36) → ramal inferior recto. La banda
   pasa por el plano x = 119 (centro del tramo desnudo); sobre cada rodillo
-  el lomo va al ras del vulcanizado y avanza en el sentido de expulsión.
+  el lomo queda embutido 2 mm bajo el vulcanizado y avanza en el sentido de expulsión.
   El eje del tambor Ø25 apoya en **ambas** placas y sale por +X al
   motorreductor (acople rígido Ø35). Tensores y retornos giran locos sobre
   ejes Ø12 cantiléver empotrados en la placa de transmisión. Toda la
