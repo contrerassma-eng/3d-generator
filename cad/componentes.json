@@ -1,0 +1,241 @@
+{
+  "formato": "foto3d-componentes",
+  "version": 1,
+  "convencion": {
+    "unidades": "mm",
+    "origen": "centro de la cara inferior de la PCB/cuerpo; en piezas de panel, el plano exterior del panel (Z=0, la pieza crece hacia +Z afuera y -Z adentro)",
+    "ejes": "X = largo, Y = ancho, Z = arriba",
+    "capa": "user (diseño). Las dimensiones con confianza != 'datasheet' son valores tipicos de mercado: VERIFICAR con calibre antes de cortar una carcasa."
+  },
+  "componentes": [
+    {
+      "id": "esp32_devkitc_38",
+      "nombre": "ESP32 DevKitC V4 (38 pines, micro-USB)",
+      "categoria": "mcu",
+      "descripcion": "Placa de desarrollo ESP32-WROOM-32 alargada, 2 filas de 19 pines (paso 2.54), micro-USB en un extremo y antena en el otro. Sin agujeros de montaje.",
+      "fuente": {"tipo": "datasheet", "detalle": "Espressif ESP32-DevKitC V4: PCB 54.4 x 27.9 mm; alturas y USB tipicos"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "caja", "nombre": "PCB", "pcb": true, "at": [0, 0, 0], "dim": [54.4, 27.9, 1.6], "color": "#2e7d32"},
+        {"tipo": "caja", "nombre": "Modulo WROOM-32 + antena", "at": [-14.45, 0, 1.6], "dim": [25.5, 18.0, 3.1], "color": "#9e9e9e"},
+        {"tipo": "caja", "nombre": "Micro-USB (sobresale ~1.3)", "at": [25.55, 0, 1.6], "dim": [5.9, 7.5, 2.9], "color": "#b0bec5"},
+        {"tipo": "caja", "nombre": "Header pines fila Y+ (plastico+pines abajo)", "at": [0, 12.7, -5.5], "dim": [48.3, 2.54, 5.5], "color": "#212121"},
+        {"tipo": "caja", "nombre": "Header pines fila Y- (plastico+pines abajo)", "at": [0, -12.7, -5.5], "dim": [48.3, 2.54, 5.5], "color": "#212121"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [
+        {"nombre": "cable micro-USB", "at": [34.7, 0, 0], "dim": [15, 12, 8]},
+        {"nombre": "zona antena (no rodear con metal)", "at": [-31.2, 0, 0], "dim": [8, 27.9, 10]}
+      ],
+      "notas": "No tiene agujeros de montaje: en la carcasa usar carriles laterales para la PCB (ranura de 1.6-1.8 mm) o montarlo enchufado al adaptador de borneras. Filas de pines separadas 25.4 mm; si va sobre protoboard/zocalo, dejar 8.5 mm libres por debajo."
+    },
+    {
+      "id": "esp32_c3_supermini",
+      "nombre": "ESP32-C3 SuperMini (USB-C, pequeno)",
+      "categoria": "mcu",
+      "descripcion": "Variante pequena tipo SuperMini con USB-C y antena ceramica. Sin agujeros de montaje.",
+      "fuente": {"tipo": "tipico", "detalle": "dimension citada por fabricantes: 22.52 x 18 mm"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "caja", "nombre": "PCB", "pcb": true, "at": [0, 0, 0], "dim": [22.5, 18.0, 1.6], "color": "#2e7d32"},
+        {"tipo": "caja", "nombre": "USB-C (sobresale ~1)", "at": [-8.55, 0, 1.6], "dim": [7.4, 9.0, 3.2], "color": "#b0bec5"},
+        {"tipo": "caja", "nombre": "SoC + componentes", "at": [3.0, 0, 1.6], "dim": [8, 8, 1.2], "color": "#616161"},
+        {"tipo": "caja", "nombre": "Antena ceramica", "at": [9.2, 5.5, 1.6], "dim": [3.2, 5.0, 1.5], "color": "#efebe9"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [
+        {"nombre": "cable USB-C", "at": [-18.5, 0, 0], "dim": [14, 12, 8]}
+      ],
+      "notas": "Sin agujeros de montaje: usar carriles o pilares con pestana. Si se sueldan pines (2 filas de 8, paso 2.54, separadas 15.24), dejar 8.5 mm libres por debajo."
+    },
+    {
+      "id": "adaptador_borneras_esp32_38",
+      "nombre": "Adaptador de borneras a tornillo para ESP32 38 pines",
+      "categoria": "adaptador",
+      "descripcion": "Placa de expansion (breakout) donde se enchufa el ESP32 DevKitC 38p; saca todos los GPIO a borneras de tornillo. LAS DIMENSIONES VARIAN MUCHO ENTRE MARCAS: medir la placa real y ajustar este registro.",
+      "fuente": {"tipo": "tipico", "detalle": "valores aproximados de breakouts genericos 38p; verificar la unidad propia"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "caja", "nombre": "PCB", "pcb": true, "at": [0, 0, 0], "dim": [65, 54, 1.6], "color": "#1b5e20"},
+        {"tipo": "caja", "nombre": "Zocalo hembra fila Y+", "at": [0, 12.7, 1.6], "dim": [48.3, 2.54, 8.5], "color": "#212121"},
+        {"tipo": "caja", "nombre": "Zocalo hembra fila Y-", "at": [0, -12.7, 1.6], "dim": [48.3, 2.54, 8.5], "color": "#212121"},
+        {"tipo": "caja", "nombre": "Borneras lado Y+", "at": [0, 23, 1.6], "dim": [60, 8, 10], "color": "#00897b"},
+        {"tipo": "caja", "nombre": "Borneras lado Y-", "at": [0, -23, 1.6], "dim": [60, 8, 10], "color": "#00897b"}
+      ],
+      "agujeros_montaje": [
+        {"pos": [-29.5, -24], "dia": 3.0},
+        {"pos": [29.5, -24], "dia": 3.0},
+        {"pos": [-29.5, 24], "dia": 3.0},
+        {"pos": [29.5, 24], "dia": 3.0}
+      ],
+      "despejes": [
+        {"nombre": "acceso destornillador a borneras", "at": [0, 0, 11.6], "dim": [65, 54, 25]}
+      ],
+      "notas": "Con el ESP32 enchufado la altura total sube ~+12 mm sobre los zocalos (PCB del ESP32 + modulo). Los tornillos de las borneras se aprietan desde arriba: dejar acceso vertical o tapa desmontable."
+    },
+    {
+      "id": "buck_lm2596",
+      "nombre": "Convertidor buck LM2596 (modulo ajustable)",
+      "categoria": "alimentacion",
+      "descripcion": "Modulo regulador reductor DC-DC con LM2596, potenciometro de ajuste, 2 condensadores electroliticos e inductor.",
+      "fuente": {"tipo": "tipico", "detalle": "modulo generico 43.2 x 21.2 mm, 2 agujeros diagonales O3"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "caja", "nombre": "PCB", "pcb": true, "at": [0, 0, 0], "dim": [43.2, 21.2, 1.6], "color": "#0d47a1"},
+        {"tipo": "cilindro", "nombre": "Condensador entrada", "at": [-16, 0, 1.6], "dia": 8, "alto": 11, "color": "#37474f"},
+        {"tipo": "cilindro", "nombre": "Condensador salida", "at": [16, 0, 1.6], "dia": 8, "alto": 11, "color": "#37474f"},
+        {"tipo": "caja", "nombre": "Inductor", "at": [0, -3, 1.6], "dim": [12, 12, 7], "color": "#455a64"},
+        {"tipo": "caja", "nombre": "Potenciometro de ajuste", "at": [-6, 6.5, 1.6], "dim": [9.5, 6.5, 5], "color": "#1e88e5"}
+      ],
+      "agujeros_montaje": [
+        {"pos": [-18.6, 7.6], "dia": 3.0},
+        {"pos": [18.6, -7.6], "dia": 3.0}
+      ],
+      "despejes": [
+        {"nombre": "acceso al potenciometro (ajuste con destornillador)", "at": [-6, 6.5, 8.1], "dim": [10, 7, 15]}
+      ],
+      "notas": "Altura maxima ~12.6 mm (condensadores). Los pads VIN/VOUT estan en los extremos: dejar paso de cables por ambos lados cortos."
+    },
+    {
+      "id": "buck_mp1584",
+      "nombre": "Convertidor buck MP1584EN (mini)",
+      "categoria": "alimentacion",
+      "descripcion": "Modulo reductor DC-DC mini con MP1584EN, sin agujeros de montaje.",
+      "fuente": {"tipo": "tipico", "detalle": "modulo generico 22 x 17 mm"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "caja", "nombre": "PCB", "pcb": true, "at": [0, 0, 0], "dim": [22, 17, 1.6], "color": "#0d47a1"},
+        {"tipo": "caja", "nombre": "Inductor", "at": [-3, 0, 1.6], "dim": [7, 7, 4], "color": "#455a64"},
+        {"tipo": "caja", "nombre": "Potenciometro", "at": [6.5, 4.5, 1.6], "dim": [4.5, 4.5, 3], "color": "#1e88e5"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [],
+      "notas": "Sin agujeros: fijar con carriles, doble faz o pilares con pestana. Altura total ~5.6 mm."
+    },
+    {
+      "id": "sensor_hcsr04",
+      "nombre": "Sensor ultrasonico HC-SR04",
+      "categoria": "sensor",
+      "descripcion": "Sensor de distancia con 2 transductores cilindricos O16 que deben asomar por la pared de la carcasa. Pines hacia atras.",
+      "fuente": {"tipo": "tipico", "detalle": "PCB 45 x 20, transductores O16 separados 26 mm entre centros"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "caja", "nombre": "PCB", "pcb": true, "at": [0, 0, 0], "dim": [45, 20, 1.6], "color": "#1b5e20"},
+        {"tipo": "cilindro", "nombre": "Transductor TX", "at": [-13, 0, 1.6], "dia": 16, "alto": 12, "color": "#78909c"},
+        {"tipo": "cilindro", "nombre": "Transductor RX", "at": [13, 0, 1.6], "dia": 16, "alto": 12, "color": "#78909c"},
+        {"tipo": "caja", "nombre": "Cristal", "at": [0, 6, 1.6], "dim": [10, 4, 3.5], "color": "#b0bec5"},
+        {"tipo": "caja", "nombre": "Header 4 pines (hacia atras)", "at": [0, -8.75, -6], "dim": [10.2, 2.54, 6], "color": "#212121"}
+      ],
+      "agujeros_montaje": [
+        {"pos": [-20.85, -8.35], "dia": 2.0},
+        {"pos": [20.85, -8.35], "dia": 2.0},
+        {"pos": [-20.85, 8.35], "dia": 2.0},
+        {"pos": [20.85, 8.35], "dia": 2.0}
+      ],
+      "cortes_panel": [
+        {"pos": [-13, 0], "dia": 16.6, "nota": "ventana transductor TX"},
+        {"pos": [13, 0], "dia": 16.6, "nota": "ventana transductor RX"}
+      ],
+      "notas": "En la carcasa: 2 perforaciones O16.6 separadas 26 mm entre centros para que asomen los transductores (frente del sensor pegado a la cara interna del panel). Pines y cables quedan detras: dejar >=8 mm."
+    },
+    {
+      "id": "sensor_dht22",
+      "nombre": "Sensor temperatura/humedad DHT22 (AM2302)",
+      "categoria": "sensor",
+      "descripcion": "Sensor en caja plastica con rejilla; necesita flujo de aire (rejilla en la carcasa). Pestana superior fina con agujero O3.",
+      "fuente": {"tipo": "tipico", "detalle": "cuerpo 25.1 x 15.1 x 7.7 (incluye pestana), 4 pines paso 2.54"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "caja", "nombre": "Cuerpo (rejilla al frente)", "pcb": true, "at": [0, 0, 0], "dim": [25.1, 15.1, 7.7], "color": "#eceff1"},
+        {"tipo": "caja", "nombre": "4 pines (salen del extremo X-)", "at": [-15.55, 0, 1.0], "dim": [6, 10.2, 0.8], "color": "#9e9e9e"}
+      ],
+      "agujeros_montaje": [
+        {"pos": [10.4, 0], "dia": 3.0}
+      ],
+      "despejes": [
+        {"nombre": "ventilacion frente a la rejilla", "at": [0, -12, 0], "dim": [25, 8, 8]}
+      ],
+      "notas": "El agujero de montaje esta en la pestana superior fina (~1.5 mm de espesor), no atraviesa todo el cuerpo. La carcasa debe tener rejilla/ranuras frente al sensor para que mida el aire exterior."
+    },
+    {
+      "id": "pulsador_tactil_6x6",
+      "nombre": "Pulsador tactil 6x6 mm (THT)",
+      "categoria": "boton",
+      "descripcion": "Micro pulsador momentaneo 6x6 con vastago O3.5. Alturas totales comunes: 4.3 / 5 / 6 / 7 / 9.5 mm (editar 'alto' del vastago segun el usado).",
+      "fuente": {"tipo": "tipico", "detalle": "estandar 6x6, base 3.6 mm, variante 4.3 mm total"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "caja", "nombre": "Base", "at": [0, 0, 0], "dim": [6, 6, 3.6], "color": "#424242"},
+        {"tipo": "cilindro", "nombre": "Vastago", "at": [0, 0, 3.6], "dia": 3.5, "alto": 0.7, "color": "#111111"}
+      ],
+      "agujeros_montaje": [],
+      "cortes_panel": [
+        {"pos": [0, 0], "dia": 4.5, "nota": "paso del vastago o de un boton extensor"}
+      ],
+      "notas": "Va soldado a una PCB/perfboard; en la carcasa solo se perfora O4.5 alineado al vastago (o se imprime un boton extensor). Patas: 4, en rejilla 4.5 x 6.5 mm."
+    },
+    {
+      "id": "pulsador_panel_12mm",
+      "nombre": "Pulsador de panel 12 mm (momentaneo)",
+      "categoria": "boton",
+      "descripcion": "Pulsador metalico/plastico de montaje en panel con rosca de 12 mm y tuerca trasera. Origen = plano exterior del panel.",
+      "fuente": {"tipo": "tipico", "detalle": "cabeza O13.8, rosca 12 mm largo ~13, perforacion de panel O12.5"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Cabeza (fuera del panel)", "at": [0, 0, 0], "dia": 13.8, "alto": 4.5, "color": "#90a4ae"},
+        {"tipo": "cilindro", "nombre": "Rosca 12 mm (dentro)", "at": [0, 0, -13], "dia": 12, "alto": 13, "color": "#78909c"},
+        {"tipo": "caja", "nombre": "Terminales", "at": [0, 0, -19], "dim": [10, 10, 6], "color": "#37474f"}
+      ],
+      "agujeros_montaje": [],
+      "cortes_panel": [
+        {"pos": [0, 0], "dia": 12.5, "nota": "perforacion del panel; espesor de panel max ~5"}
+      ],
+      "despejes": [
+        {"nombre": "tuerca trasera (llave 17 aprox)", "at": [0, 0, -6], "dim": [18, 18, 6]}
+      ],
+      "notas": "Profundidad total detras del panel ~19 mm + cables. Dejar O18 libre alrededor del agujero por dentro para la tuerca."
+    },
+    {
+      "id": "conector_m8_panel",
+      "nombre": "Conector/pasamuros de panel M8",
+      "categoria": "conector",
+      "descripcion": "Entrada de panel con rosca M8x1 y tuerca (conector circular tipo sensor o prensaestopas chico). Generico: verificar con la unidad real. Origen = plano exterior del panel.",
+      "fuente": {"tipo": "generico", "detalle": "rosca M8x1; saliente exterior ~6, cuerpo interior ~18"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Frontal (fuera del panel)", "at": [0, 0, 0], "dia": 9.5, "alto": 6, "color": "#607d8b"},
+        {"tipo": "cilindro", "nombre": "Rosca M8 (dentro)", "at": [0, 0, -8], "dia": 8, "alto": 8, "color": "#78909c"},
+        {"tipo": "cilindro", "nombre": "Cuerpo interior + terminales", "at": [0, 0, -18], "dia": 9, "alto": 10, "color": "#455a64"}
+      ],
+      "agujeros_montaje": [],
+      "cortes_panel": [
+        {"pos": [0, 0], "dia": 8.2, "nota": "perforacion del panel para rosca M8"}
+      ],
+      "despejes": [
+        {"nombre": "tuerca M8 (llave 11-13)", "at": [0, 0, -4], "dim": [14, 14, 4]}
+      ],
+      "notas": "Dejar >=25 mm libres detras del panel para cuerpo + cables. La rosca util limita el espesor del panel a ~4-5 mm."
+    },
+    {
+      "id": "conector_m5_panel",
+      "nombre": "Conector/pasamuros de panel M5",
+      "categoria": "conector",
+      "descripcion": "Entrada de panel con rosca M5x0.5 y tuerca (conector circular miniatura). Generico: verificar con la unidad real. Origen = plano exterior del panel.",
+      "fuente": {"tipo": "generico", "detalle": "rosca M5x0.5; saliente exterior ~4, cuerpo interior ~12"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Frontal (fuera del panel)", "at": [0, 0, 0], "dia": 6.5, "alto": 4, "color": "#607d8b"},
+        {"tipo": "cilindro", "nombre": "Rosca M5 (dentro)", "at": [0, 0, -6], "dia": 5, "alto": 6, "color": "#78909c"},
+        {"tipo": "cilindro", "nombre": "Cuerpo interior + terminales", "at": [0, 0, -12], "dia": 6, "alto": 6, "color": "#455a64"}
+      ],
+      "agujeros_montaje": [],
+      "cortes_panel": [
+        {"pos": [0, 0], "dia": 5.2, "nota": "perforacion del panel para rosca M5"}
+      ],
+      "despejes": [
+        {"nombre": "tuerca M5 (llave 8)", "at": [0, 0, -3], "dim": [10, 10, 3]}
+      ],
+      "notas": "Dejar >=18 mm libres detras del panel para cuerpo + cables."
+    }
+  ]
+}

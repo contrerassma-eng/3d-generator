@@ -35,6 +35,13 @@ atornillable) que muestra todas las capacidades.
 
 ### Piezas y funciones (árbol paramétrico)
 - **⬛ Caja / ⬤ Cilindro**: crean una pieza nueva con su función base.
+- **🔌 Comp.**: inserta un componente electrónico de la biblioteca
+  (`componentes/catalogo.json`, servido como `componentes.json`; ver
+  `docs/COMPONENTES.md`): ESP32, buck, sensores, pulsadores, conectores de
+  panel. Entra como pieza normal (sólidos + agujeros de montaje pasantes)
+  apoyada en Z=0, lista para posicionar con restricciones y modelar la
+  carcasa alrededor. Tras editar el catálogo, correr
+  `python pipeline/componentes_cli.py sync-web`.
 - **✚ Función…**: agrega a la pieza seleccionada una caja o cilindro como
   **unión** (agregar material) o **corte** (quitar material) — booleanas CSG.
 - **◎ Agujero**: clic sobre cualquier cara plana → diálogo con diámetro,
@@ -112,6 +119,8 @@ atornillable) que muestra todas las capacidades.
 | `js/csg.js` | Booleanas de sólidos por BSP (unión/corte/intersección) ↔ `BufferGeometry` |
 | `js/sketch2d.js` | Croquizador 2D: entidades, intersecciones, recorte/alargado, contornos con agujeros, cotas y reconocimiento de trazos |
 | `js/model.js` | Documento paramétrico, regeneración, detección de caras planas y ejes, solver de restricciones |
+| `js/componentes.js` | Biblioteca de componentes: carga `componentes.json` y convierte registros del catálogo en piezas (mismo mapeo que `pipeline/lib_componentes.cad_part`) |
+| `componentes.json` | Copia servible del catálogo (`componentes/catalogo.json`); regenerar con `python pipeline/componentes_cli.py sync-web` |
 | `js/app.js` | Viewport Three.js, picking, modos de interacción, diálogos, STL, persistencia |
 | `vendor/` | Three.js 0.177 + OrbitControls (local, funciona sin internet) |
 
