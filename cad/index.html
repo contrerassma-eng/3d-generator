@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>foto3d CAD — diseño paramétrico</title>
+<style>
+  :root {
+    --bg:#0f1216; --panel:#171b21; --panel2:#1d222a; --border:#2b323d;
+    --text:#e8eaed; --dim:#98a0ab; --accent:#4d90fe; --accent2:#f0a437;
+    --ok:#34a853; --warn:#fbbc04; --danger:#e05a4e;
+    --topbar-h:48px; --rail-w:64px; --status-h:28px;
+  }
+  * { box-sizing:border-box; margin:0; -webkit-tap-highlight-color:transparent; }
+  html,body { height:100%; }
+  body { background:var(--bg); color:var(--text); font:13px/1.45 system-ui,'Segoe UI',sans-serif; overflow:hidden; }
+
+  #layout { display:grid; height:100vh; height:100dvh;
+            grid-template-rows:var(--topbar-h) 1fr var(--status-h);
+            grid-template-columns:var(--rail-w) 1fr; }
+
+  /* ---- barra superior ---- */
+  #toolbar { grid-column:1/3; display:flex; align-items:center; gap:6px; padding:0 8px;
+             background:var(--panel); border-bottom:1px solid var(--border); overflow-x:auto; }
+  #toolbar::-webkit-scrollbar { display:none; }
+  #toolbar .brand { font-weight:700; font-size:14px; white-space:nowrap; padding:0 4px; }
+  #toolbar .brand span { color:var(--accent); }
+  #toolbar .spacer { flex:1; }
+
+  button { background:var(--panel2); color:var(--text); border:1px solid var(--border); border-radius:8px;
+           padding:8px 11px; cursor:pointer; font-size:12.5px; white-space:nowrap; min-height:36px; }
+  button:hover { background:#262c36; border-color:#3d4654; }
+  button.on { background:#2b4270; border-color:var(--accent); }
+  button.danger:hover { border-color:var(--danger); color:#ffb4ac; }
+  button:disabled { opacity:.4; cursor:default; }
+  #btnPanel { font-size:16px; min-width:42px; }
+
+  /* ---- barra metro izquierda ---- */
+  #rail { grid-row:2; grid-column:1; background:var(--panel); border-right:1px solid var(--border);
+          display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; padding:6px 5px; gap:4px; }
+  #rail::-webkit-scrollbar { display:none; }
+  .tile { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+          min-height:52px; padding:6px 2px; border-radius:9px; border:1px solid transparent;
+          background:none; font-size:10px; color:var(--dim); line-height:1.15; }
+  .tile .tic { font-size:17px; line-height:1; color:var(--text); }
+  .tile:hover { background:var(--panel2); border-color:var(--border); }
+  .tile.on { background:#2b4270; border-color:var(--accent); color:var(--text); }
+  .railsep { height:1px; background:var(--border); margin:4px 6px; flex:none; }
+
+  /* ---- viewport ---- */
+  #viewport { grid-row:2; grid-column:2; position:relative; overflow:hidden; }
+  #viewport canvas { display:block; touch-action:none; }
+
+  /* ---- panel lateral ocultable (árbol + propiedades) ---- */
+  #sidebar { position:absolute; z-index:20; top:var(--topbar-h); bottom:var(--status-h); left:var(--rail-w);
+             width:min(320px, calc(100vw - var(--rail-w) - 12px));
+             background:#171b21f5; border-right:1px solid var(--border);
+             display:flex; flex-direction:column; overflow:hidden;
+             transform:translateX(-110%); transition:transform .22s ease; box-shadow:6px 0 24px #0008; }
+  #sidebar.open { transform:translateX(0); }
+  @media (prefers-reduced-motion: reduce) { #sidebar { transition:none; } }
+  #sidebarHead { display:flex; align-items:center; gap:8px; padding:8px 10px; border-bottom:1px solid var(--border); }
+  #sidebarHead h2 { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--dim); flex:1; }
+  #btnCloseSidebar { padding:4px 10px; min-height:30px; }
+
+  #tree { flex:1; overflow:auto; padding:8px; }
+  #tree h3 { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--dim); margin:10px 4px 4px; }
+  .node { border-radius:8px; padding:7px 8px; cursor:pointer; display:flex; align-items:center; gap:6px; min-height:34px; }
+  .node:hover { background:var(--panel2); }
+  .node.sel { background:#2b4270; }
+  .node .nm { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .node .meta { color:var(--dim); font-size:11px; }
+  .node .ic { width:16px; text-align:center; }
+  .node button { padding:2px 8px; font-size:12px; border-radius:6px; min-height:26px; }
+  .children { margin-left:14px; border-left:1px solid var(--border); padding-left:4px; }
+  .swatch { width:10px; height:10px; border-radius:3px; display:inline-block; flex:none; }
+
+  #props { border-top:1px solid var(--border); background:var(--panel); flex:none;
+           display:flex; flex-direction:column; max-height:55%; }
+  #propsHead { display:flex; align-items:center; padding:8px 10px; cursor:pointer; user-select:none; }
+  #propsHead h3 { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--dim); flex:1; }
+  #propsChev { color:var(--dim); transition:transform .15s; }
+  #props.closed #propsChev { transform:rotate(-90deg); }
+  #propsBody { overflow:auto; padding:0 10px 10px; }
+  #props.closed #propsBody { display:none; }
+
+  .frow { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
+  .frow label { width:110px; color:var(--dim); font-size:12px; flex:none; }
+  .frow input[type=number], .frow input[type=text], .frow select {
+    flex:1; min-width:0; background:var(--bg); color:var(--text); border:1px solid var(--border);
+    border-radius:7px; padding:8px 8px; font-size:14px; }
+  .frow input[type=color] { width:44px; height:32px; padding:0; border:1px solid var(--border); border-radius:7px; background:none; }
+  .frow input[type=checkbox] { width:19px; height:19px; }
+  .btnrow { display:flex; gap:6px; margin-top:8px; }
+  .btnrow button { flex:1; }
+
+  #hud { position:absolute; top:10px; left:10px; right:10px; display:flex; flex-direction:column; gap:6px; pointer-events:none; }
+  .hudtag { background:#171b21d9; border:1px solid var(--border); border-radius:8px; padding:6px 10px;
+            font-size:12.5px; max-width:460px; }
+  .hudtag b { color:var(--accent2); }
+  #hintTag { display:none; border-color:#5a4a20; color:#ffe9b0; }
+  #measureLabel { position:absolute; background:#0e2a12e6; border:1px solid var(--ok); color:#c9f2d0;
+                  border-radius:8px; padding:4px 9px; font-size:12px; transform:translate(-50%,-130%);
+                  pointer-events:none; display:none; white-space:pre; }
+
+  #dialog { position:absolute; top:12px; left:50%; transform:translateX(-50%); z-index:30;
+            background:var(--panel); border:1px solid var(--accent); border-radius:14px;
+            padding:14px 16px; width:min(360px, calc(100vw - var(--rail-w) - 20px));
+            max-height:calc(100% - 24px); overflow:auto;
+            box-shadow:0 12px 40px #000a; display:none; }
+  #dialog h3 { font-size:13px; margin-bottom:10px; }
+
+  #statusbar { grid-column:1/3; display:flex; align-items:center; gap:12px; padding:0 10px;
+               background:var(--panel); border-top:1px solid var(--border); color:var(--dim);
+               font-size:12px; overflow:hidden; white-space:nowrap; }
+  #statusbar #status { overflow:hidden; text-overflow:ellipsis; }
+  #statusbar .right { margin-left:auto; }
+
+  /* ---- ajustes táctiles / pantallas chicas ---- */
+  @media (pointer: coarse) {
+    button { min-height:42px; }
+    .tile { min-height:58px; }
+    .node { min-height:40px; }
+  }
+  @media (max-width: 700px) {
+    #toolbar .blbl { display:none; }   /* solo iconos arriba */
+    #toolbar button { padding:8px 9px; }
+    #statusbar .right { display:none; }
+    .frow label { width:84px; }
+    /* el panel Modelo ocupa el ancho disponible (queda una franja para cerrar tocando fuera) */
+    #sidebar { left:0; right:52px; width:auto; box-shadow:6px 0 24px #000c; }
+    .node .meta { max-width:38vw; overflow:hidden; text-overflow:ellipsis; }
+  }
+</style>
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js" } }
+</script>
+</head>
+<body>
+<div id="layout">
+  <div id="toolbar">
+    <button id="btnPanel" title="Mostrar/ocultar árbol y propiedades">☰</button>
+    <div class="brand">foto3d <span>CAD</span></div>
+    <div class="spacer"></div>
+    <button id="btnSTL" title="Exportar todo el ensamble a STL binario">⭳ <span class="blbl">STL</span></button>
+    <button id="btnSave" title="Descargar el proyecto como JSON">💾 <span class="blbl">Guardar</span></button>
+    <button id="btnOpen" title="Abrir un proyecto JSON">📂 <span class="blbl">Abrir</span></button>
+    <button id="btnDemo" title="Cargar el ensamble de ejemplo">✦ <span class="blbl">Ejemplo</span></button>
+    <button id="btnClear" class="danger" title="Vaciar el proyecto">🗑 <span class="blbl">Nuevo</span></button>
+  </div>
+
+  <div id="rail">
+    <button class="tile" id="btnNewBox" title="Nueva pieza a partir de una caja/placa"><span class="tic">⬛</span>Caja</button>
+    <button class="tile" id="btnNewCyl" title="Nueva pieza a partir de un cilindro"><span class="tic">⬤</span>Cilindro</button>
+    <div class="railsep"></div>
+    <button class="tile" id="btnHole" title="Agujero sobre una cara (toca la cara)"><span class="tic">◎</span>Agujero</button>
+    <button class="tile" id="btnFeature" title="Agregar unión o corte (caja/cilindro) a la pieza seleccionada"><span class="tic">✚</span>Función</button>
+    <div class="railsep"></div>
+    <button class="tile" id="btnMate" title="Coincidir dos caras planas (cara contra cara)"><span class="tic">▬</span>Coincidir</button>
+    <button class="tile" id="btnFlush" title="Alinear dos caras planas (al ras, mismo sentido)"><span class="tic">⫤</span>Alinear</button>
+    <button class="tile" id="btnConcentric" title="Hacer concéntricos dos orificios/cilindros"><span class="tic">◉</span>Concentr.</button>
+    <button class="tile" id="btnMove" title="Arrastrar la pieza seleccionada (Shift o 2.º toque = vertical)"><span class="tic">✥</span>Mover</button>
+    <div class="railsep"></div>
+    <button class="tile" id="btnMeasure" title="Medir distancia entre dos puntos"><span class="tic">📏</span>Medir</button>
+  </div>
+
+  <div id="viewport">
+    <div id="hud"><div class="hudtag" id="hintTag"></div></div>
+    <div id="measureLabel"></div>
+    <div id="dialog"></div>
+    <aside id="sidebar">
+      <div id="sidebarHead">
+        <h2>Modelo</h2>
+        <button id="btnCloseSidebar" title="Ocultar panel">✕</button>
+      </div>
+      <div id="tree"></div>
+      <div id="props">
+        <div id="propsHead"><h3>Propiedades</h3><span id="propsChev">▾</span></div>
+        <div id="propsBody">Nada seleccionado.</div>
+      </div>
+    </aside>
+  </div>
+
+  <div id="statusbar">
+    <span id="status">Listo.</span>
+    <span class="right" id="stats"></span>
+  </div>
+</div>
+<input type="file" id="fileInput" accept=".json" style="display:none">
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>

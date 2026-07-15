@@ -55,6 +55,7 @@ foto3d/
 ├── schemas/             ← JSON Schema de provenance
 ├── pipeline/            ← scripts S0–S5 + librería de auditoría
 ├── viewer/index.html    ← plantilla visor Three.js + Spark
+├── cad/                 ← mini CAD paramétrico (piezas, agujeros, ensamble) — ver cad/README.md
 ├── tools/check_env.ps1  ← diagnóstico de entorno
 └── projects/            ← un objeto físico = una carpeta
     └── _template/

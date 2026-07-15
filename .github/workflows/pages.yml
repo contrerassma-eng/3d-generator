@@ -1,7 +1,7 @@
 name: pages
 
-# Publica en la rama gh-pages (fuente actual de GitHub Pages de este repo):
-# - raíz: app CAD web ya publicada (se conserva, no se toca)
+# Publica en la rama gh-pages (fuente de GitHub Pages de este repo):
+# - raíz: app CAD web (cad/)
 # - metodo/: documentación del método + paquetes 70_web/ de proyectos
 on:
   push:
@@ -20,6 +20,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # raíz: app CAD (keep_files conserva metodo/ ya publicado)
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./cad
+          keep_files: true
+          commit_message: 'Publicar cad/ en Pages'
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
