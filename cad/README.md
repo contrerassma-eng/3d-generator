@@ -40,12 +40,27 @@ atornillable) que muestra todas las capacidades.
 - **◎ Agujero**: clic sobre cualquier cara plana → diálogo con diámetro,
   profundidad o pasante, y opción de centrar en la cara. El agujero se taladra
   perpendicular a la cara.
-- **✏ Boceto**: toca una cara plana → la vista pasa a **ortogonal alineada a la
-  cara** y se proyectan sobre el plano **todas las aristas del modelo** (la vista
-  ortogonal completa, incluidas otras piezas) como referencias. Dibuja un
-  polígono, rectángulo o círculo con **snap** a esa geometría proyectada (verde)
-  o a la grilla de 1 mm, cierra y extruye como **unión** (hacia afuera) o
-  **corte** (bolsillo hacia adentro). La altura queda editable en el árbol.
+- **✏ Boceto**: toca una cara plana → vista **ortogonal alineada a la cara**
+  con **todas las aristas del modelo proyectadas** (vista ortogonal completa,
+  incluidas otras piezas, generada analíticamente desde las funciones) como
+  referencias con snap. Herramientas:
+  - **╱ Línea** (cadena punto a punto, el 1.º cierra), **▭ Rectángulo**,
+    **◯ Círculo**.
+  - **✎ Lápiz**: dibujo a mano alzada (dedo, mouse o stylus) con
+    reconocimiento de geometría — un trazo redondo se convierte en círculo,
+    uno recto en línea (con ajuste a horizontal/vertical), y el resto en
+    polilínea simplificada.
+  - **⇤⇥ Cota**: toca 1 entidad (largo o diámetro) o 2 (distancia entre
+    paralelas o ángulo), **incluidas las líneas de referencia proyectadas**.
+    Las cotas aparecen como etiquetas tocables sobre el boceto (tocar = editar,
+    valor 0 = eliminar) y también quedan editables en las propiedades de la
+    función en el navegador de modelo, regenerando la pieza.
+  - **✂ Recortar**: elimina el tramo tocado cortando contra todas las
+    entidades y referencias. **⇥ Alargar**: extiende una línea hasta la
+    siguiente entidad o referencia.
+  - **✔ Extruir**: encadena el contorno (admite **agujeros interiores**:
+    círculos u otros contornos cerrados dentro del principal) y extruye como
+    unión o corte con altura paramétrica.
 - Todo queda en el **árbol** (panel izquierdo). Al seleccionar una función se
   pueden editar sus cotas y **Regenerar**: el modelo se reconstruye aplicando
   las funciones en orden, como en Inventor.
@@ -76,11 +91,12 @@ atornillable) que muestra todas las capacidades.
 | `dev.html` | Igual que index pero cargando los módulos de `js/` directo (para desarrollar sin rebuild) |
 | `bundle.js` | App empaquetada; regenerar tras editar `js/` con: `npx esbuild js/app.js --bundle --minify --target=es2017 --format=iife --alias:three=./vendor/three.module.min.js --outfile=bundle.js` |
 | `js/csg.js` | Booleanas de sólidos por BSP (unión/corte/intersección) ↔ `BufferGeometry` |
+| `js/sketch2d.js` | Croquizador 2D: entidades, intersecciones, recorte/alargado, contornos con agujeros, cotas y reconocimiento de trazos |
 | `js/model.js` | Documento paramétrico, regeneración, detección de caras planas y ejes, solver de restricciones |
 | `js/app.js` | Viewport Three.js, picking, modos de interacción, diálogos, STL, persistencia |
 | `vendor/` | Three.js 0.177 + OrbitControls (local, funciona sin internet) |
 
-Límites conocidos: sin chaflanes/redondeos, el boceto admite un contorno por
-extrusión (sin agujeros interiores en el mismo boceto), y el solver de
-restricciones es secuencial (aplica cada restricción en orden, 3 pasadas), no
-un solver simultáneo de grados de libertad.
+Límites conocidos: sin chaflanes/redondeos; las cotas del boceto son
+dirigidas (mueven la geometría al editarlas, en orden), no un solver
+simultáneo de restricciones 2D; y el solver de ensamble es secuencial
+(3 pasadas), no de grados de libertad.

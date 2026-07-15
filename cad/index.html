@@ -110,6 +110,11 @@
   #sketchbar.open { display:flex; }
   #sketchbar button.on { background:#5a4a20; border-color:var(--accent2); }
 
+  .dimlabel { position:absolute; z-index:26; transform:translate(-50%,-50%); cursor:pointer;
+              background:#0e2a12e6; border:1px solid var(--ok); color:#c9f2d0; border-radius:8px;
+              padding:2px 8px; font-size:12.5px; font-weight:600; white-space:nowrap; user-select:none; }
+  .dimlabel:hover { background:#164a1f; }
+
   #dialog { position:absolute; top:12px; left:50%; transform:translateX(-50%); z-index:30;
             background:var(--panel); border:1px solid var(--accent); border-radius:14px;
             padding:14px 16px; width:min(360px, calc(100vw - var(--rail-w) - 20px));
@@ -175,11 +180,15 @@
     <div id="hud"><div class="hudtag" id="hintTag"></div></div>
     <div id="measureLabel"></div>
     <div id="sketchbar">
-      <button data-tool="poly" class="on" title="Polígono punto a punto (toca el 1.º punto para cerrar)">▱ Polígono</button>
+      <button data-tool="line" class="on" title="Línea punto a punto (tocar el 1.º punto cierra el contorno)">╱ Línea</button>
       <button data-tool="rect" title="Rectángulo por dos esquinas">▭ Rect</button>
-      <button data-tool="circle" title="Círculo por centro y radio">◯ Círculo</button>
-      <button id="skClose" title="Cerrar el polígono con los puntos actuales">✔ Cerrar</button>
-      <button id="skUndo" title="Quitar el último punto">↩</button>
+      <button data-tool="circle" title="Círculo por centro y radio">◯ Círc</button>
+      <button data-tool="pen" title="Lápiz: dibuja a mano alzada y se interpreta como círculo, línea o polilínea">✎ Lápiz</button>
+      <button data-tool="dim" title="Cota: largo/diámetro (1 entidad) o distancia/ángulo (2 entidades, incluidas referencias proyectadas)">⇤⇥ Cota</button>
+      <button data-tool="trim" title="Recortar: elimina el tramo tocado, cortando contra todas las entidades y referencias">✂ Recortar</button>
+      <button data-tool="extend" title="Alargar: extiende la línea hasta la siguiente entidad o referencia">⇥ Alargar</button>
+      <button id="skClose" title="Encadenar el contorno y extruir (unión o corte)">✔ Extruir</button>
+      <button id="skUndo" title="Quitar la última entidad o selección">↩</button>
       <button id="skCancel" class="danger" title="Salir sin crear nada">✕</button>
     </div>
     <div id="dialog"></div>
