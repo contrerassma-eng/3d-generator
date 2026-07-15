@@ -24,5 +24,11 @@
       "data/model.glb",
       "data/provenance.json"
     ]
+  },
+  "G6_dibujo": {
+    "vistas_requeridas": ["alzado", "planta", "perfil", "isometrica"],
+    "angulo_arista_deg": 25.0,
+    "chapa_min_pliegue_deg": 15.0,
+    "chapa_max_pliegue_deg": 175.0
   }
 }
