@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
-  makeSketchFeature, makeSketchEntitiesFeature, planeBasis,
+  makeSketchFeature, makeSketchEntitiesFeature, planeBasis, magnetCorrections,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
 } from '../js/model.js';
@@ -188,6 +188,28 @@ console.log('— Detección de caras y ejes —');
   part.features.push(makeBoxFeature(50, 30, 10), makeHoleFeature(8, 10, true, [10, 5, 10], [0, 0, -1]));
   const found = findAxialFeature(part, new THREE.Vector3(10 + 4, 5, 5)); // punto en la pared del agujero
   check('findAxialFeature encuentra el agujero', !!found && found.feature.params.dia === 8);
+}
+
+console.log('— Imán de ensamble —');
+{
+  // pieza 20³ acercándose por X a una caja 0..60: contacto en x=60
+  const my = { min: { x: 62.5, y: 5, z: 0 }, max: { x: 82.5, y: 25, z: 20 }, axes: [] };
+  const other = { min: { x: 0, y: 0, z: 0 }, max: { x: 60, y: 40, z: 20 }, axes: [] };
+  const c = magnetCorrections(my, [other], ['x', 'y']);
+  check('imán: contacto de caras en X', c.x && c.x.kind === 'contacto' && Math.abs(c.x.d - (-2.5)) < 1e-9, JSON.stringify(c));
+  // en Y: al ras inferior (5→0 corrige -5, fuera de umbral 4) vs centro (20 vs 15: -5 fuera)... nada
+  check('imán: sin ajuste en Y fuera de umbral', !c.y, JSON.stringify(c.y));
+  // alturas totales: techo con techo en Z (techos a 0.5, centros a 1.75)
+  const cz = magnetCorrections(
+    { min: { x: 0, y: 0, z: 3 }, max: { x: 10, y: 10, z: 20.5 }, axes: [] },
+    [other], ['z']);
+  check('imán: alturas totales (techo-techo)', cz.z && cz.z.kind === 'ras' && Math.abs(cz.z.d - (-0.5)) < 1e-9, JSON.stringify(cz));
+  // centro de ejes: orificio mío a (49,23) y del otro en (45,25) → corrige a eje
+  const ce = magnetCorrections(
+    { min: { x: 40, y: 15, z: 0 }, max: { x: 58, y: 31, z: 8 }, axes: [{ x: 49, y: 23, z: 0 }] },
+    [{ min: { x: 0, y: 0, z: 0 }, max: { x: 120, y: 80, z: 10 }, axes: [{ x: 45, y: 25, z: 10 }] }],
+    ['x', 'y']);
+  check('imán: centro de ejes en X e Y', ce.x?.kind === 'eje' && Math.abs(ce.x.d - (-4)) < 1e-9 && ce.y?.kind === 'eje' && Math.abs(ce.y.d - 2) < 1e-9, JSON.stringify(ce));
 }
 
 console.log('— Solver de restricciones —');
