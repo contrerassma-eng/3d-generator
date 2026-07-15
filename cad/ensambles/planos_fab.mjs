@@ -15,9 +15,87 @@
 
 import * as THREE from 'three';
 import { buildPartGeometry } from '../js/model.js';
-import { buildSheet, Sheet, exportSheetsPDF } from '../js/drawing2d.js';
+import { buildSheet, Sheet, chooseSheet, scaleLabel, exportSheetsPDF } from '../js/drawing2d.js';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+
+// Lámina SIMPLIFICADA (3 vistas envolventes) para piezas con malla muy grande,
+// donde la extracción de aristas del exportador no escala (p. ej. el canal con
+// decenas de miles de triángulos por sus muchos agujeros). Toma la caja
+// envolvente de la malla y dibuja rectángulos acotados + cajetín ISO.
+const MARGIN = 10, MARGIN_L = 20, TITLE_H = 42, GAP = 26;
+// Lámina ANALÍTICA para piezas dominadas por un boceto extruido (placas peine):
+// dibuja el contorno del boceto (perfil real) + los agujeros como círculos, sin
+// malla. Da un plano útil de la cara de la placa, instantáneo y con las cotas
+// envolventes. El boceto está en plano YZ (u=Y, v=Z); los agujeros en (y,z).
+function plateSheet(part, meta) {
+  const sk = part.features.find(f => f.shape === 'sketch' && f.params.pts);
+  if (!sk) return null;
+  const pts = sk.params.pts;                       // [[u=Y, v=Z], ...]
+  const dz = -sk.at[2];                             // los agujeros vienen en z-dz
+  const holes = part.features.filter(f => f.shape === 'hole')
+    .map(f => ({ y: f.at[1], z: f.at[2] + dz, d: f.params.dia }));
+  let lo = [Infinity, Infinity], hi = [-Infinity, -Infinity];
+  for (const [u, v] of pts) { lo = [Math.min(lo[0], u), Math.min(lo[1], v)]; hi = [Math.max(hi[0], u), Math.max(hi[1], v)]; }
+  const W = hi[0] - lo[0], H = hi[1] - lo[1];
+  const [name, PW, PH, num, den] = chooseSheet(W, H + 20);
+  const sh = new Sheet(name, PW, PH, num, den, 1);
+  const s = num / den;
+  const uw = PW - MARGIN_L - MARGIN, uh = PH - 2 * MARGIN - TITLE_H - 5;
+  const ox = MARGIN_L + (uw - W * s) / 2 - lo[0] * s;
+  const oy = MARGIN + TITLE_H + 5 + (uh - H * s) / 2 - lo[1] * s;
+  const T = (u, v) => [ox + u * s, oy + v * s];
+  sh.poly(pts.map(([u, v]) => T(u, v)), 'VISIBLE');
+  for (const h of holes) sh.circle(T(h.y, h.z), (h.d / 2) * s, 'VISIBLE');
+  sh.text('VISTA DE CARA (perfil del boceto + perforaciones)', ox + lo[0] * s + W * s / 2, oy + hi[1] * s + 5, 3.5, 'C');
+  sh.dimH(ox + lo[0] * s, ox + hi[0] * s, oy + lo[1] * s, 9, W);
+  sh.dimV(ox + hi[0] * s, oy + lo[1] * s, oy + hi[1] * s, 9, H);
+  sh.frame();
+  sh.titleBlock({
+    designacion: meta.designacion, proyecto: meta.proyecto ?? 'foto3d CAD',
+    fuente: meta.fuente ?? 'diseño paramétrico — capa user',
+    verificacion: 'PERFIL DE BOCETO (CAPA USER)', piezas: String(meta.piezas),
+    nota: (meta.nota ? meta.nota + ' · ' : '') + 'cara con perforaciones; espesor y cortes en el JSON',
+    escala: scaleLabel(num, den), fecha: meta.fecha ?? '—', numPlano: meta.numPlano ?? 'CAD-01',
+  });
+  return sh;
+}
+
+function simpleSheet(geom, meta) {
+  const p = geom.attributes.position;
+  const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+  for (let i = 0; i < p.count; i++) {
+    const v = [p.getX(i), p.getY(i), p.getZ(i)];
+    for (let a = 0; a < 3; a++) { lo[a] = Math.min(lo[a], v[a]); hi[a] = Math.max(hi[a], v[a]); }
+  }
+  const W = hi[0] - lo[0], D = hi[1] - lo[1], H = hi[2] - lo[2];
+  const tw = W + GAP + D, th = H + GAP + D;
+  const [name, PW, PH, num, den] = chooseSheet(tw, th);
+  const sh = new Sheet(name, PW, PH, num, den, 1);
+  const s = num / den;
+  const uw = PW - MARGIN_L - MARGIN, uh = PH - 2 * MARGIN - TITLE_H - 5;
+  const ox = MARGIN_L + (uw - tw * s) / 2, oy = MARGIN + TITLE_H + 5 + (uh - th * s) / 2;
+  const view = (dx, dy, w, h, label) => {
+    const x = ox + dx * s, y = oy + dy * s;
+    sh.rect(x, y, w * s, h * s, 'VISIBLE');
+    sh.text(label, x + w * s / 2, y + h * s + 4, 3.5, 'C');
+  };
+  view(0, D + GAP, W, H, 'ALZADO');
+  view(0, 0, W, D, 'PLANTA');
+  view(W + GAP, D + GAP, D, H, 'PERFIL');
+  sh.dimH(ox, ox + W * s, oy + (D + GAP) * s, 9, W);
+  sh.dimV(ox + W * s, oy + (D + GAP) * s, oy + (D + GAP + H) * s, 9, H);
+  sh.dimV(ox + W * s, oy, oy + D * s, 9, D);
+  sh.frame();
+  sh.titleBlock({
+    designacion: meta.designacion, proyecto: meta.proyecto ?? 'foto3d CAD',
+    fuente: meta.fuente ?? 'diseño paramétrico — capa user',
+    verificacion: 'ENVOLVENTE (MALLA COMPLEJA)', piezas: String(meta.piezas),
+    nota: (meta.nota ? meta.nota + ' · ' : '') + 'vistas envolventes — ver features en el JSON',
+    escala: scaleLabel(num, den), fecha: meta.fecha ?? '—', numPlano: meta.numPlano ?? 'CAD-01',
+  });
+  return sh;
+}
 
 // tras el bundle, import.meta.url apunta al bundle: usar rutas desde el cwd
 // (el script se corre desde cad/, como las pruebas).
@@ -134,13 +212,20 @@ for (const g of lista) {
   if (fabricada) {
     planoN++;
     plano = `TR-${String(planoN).padStart(2, '0')}`;
-    const mesh = { geometry: buildPartGeometry(g.part), matrixWorld: M4 };
+    const geom = buildPartGeometry(g.part);
+    const tris = geom.attributes.position.count / 3;
+    const meta = {
+      designacion: desig, piezas: g.cant, proyecto: 'TRANSFERENCIA 90°',
+      fuente: 'diseño paramétrico — capa user', numPlano: plano, fecha,
+      nota: `Material: ${material} · tol. gral. ISO 2768-mK`,
+    };
     try {
-      const sheet = buildSheet([mesh], 'paper', {
-        designacion: desig, piezas: g.cant, proyecto: 'TRANSFERENCIA 90°',
-        fuente: 'diseño paramétrico — capa user', numPlano: plano, fecha,
-        nota: `Material: ${material} · tol. gral. ISO 2768-mK · aristas sin líneas ocultas`,
-      });
+      // malla grande: la extracción de aristas no escala. Placas peine (boceto
+      // dominante) → perfil analítico con perforaciones; otras mallas grandes
+      // (canal, chumaceras) → envolvente; el resto → plano completo con vistas.
+      let sheet = null;
+      if (tris > 12000) sheet = plateSheet(g.part, meta) || simpleSheet(geom, meta);
+      else sheet = buildSheet([{ geometry: geom, matrixWorld: M4 }], 'paper', meta);
       fabSheets.push(sheet);
     } catch (e) {
       console.warn(`  ! sin geometría para plano: ${desig} (${e.message})`);
