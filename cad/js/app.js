@@ -111,6 +111,12 @@ function rebuildPart(part) {
   disposePartMesh(part.id);
   if (!part.features.length) { refreshUI(); return; }
   const geom = buildPartGeometry(part);
+  if (!geom.attributes.position || geom.attributes.position.count === 0) {
+    // sin material (p. ej. solo cortes): no hay nada que mostrar
+    setStatus(`${part.name}: sin material — agrega una función de unión.`);
+    refreshUI();
+    return;
+  }
   const mesh = new THREE.Mesh(geom, matFor(part));
   mesh.userData.partId = part.id;
   const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geom, 20), edgeMat);
@@ -126,6 +132,7 @@ function disposePartMesh(partId) {
   if (!rec) return;
   scene.remove(rec.mesh);
   rec.mesh.geometry.dispose();
+  rec.mesh.material.dispose();
   rec.edges.geometry.dispose();
   meshes.delete(partId);
 }
@@ -498,6 +505,11 @@ renderer.domElement.addEventListener('pointerup', (ev) => {
   handleClick(ev);
 });
 
+renderer.domElement.addEventListener('pointercancel', () => {
+  if (dragging) endMoveDrag(); // gesto interrumpido por el sistema (táctil)
+  downPos = null;
+});
+
 window.addEventListener('keydown', (ev) => {
   if (ev.key === 'Escape') { hideDialog(); setModeSelect(); }
   if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); undo(); }
@@ -625,6 +637,7 @@ function startMoveDrag(ev) {
     lastPoint: hit.point.clone(),
     origPos: [...part.pos],
   };
+  try { renderer.domElement.setPointerCapture(ev.pointerId); } catch (e) { /* puntero ya liberado */ }
   controls.enabled = false;
   selection = { kind: 'part', id: part.id };
   refreshUI();

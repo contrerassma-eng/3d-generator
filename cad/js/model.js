@@ -2,7 +2,7 @@
 // por CSG, detección de caras planas y ejes, y solver de restricciones de ensamble.
 
 import * as THREE from 'three';
-import { geomToCSG, csgToGeom } from './csg.js';
+import { CSG, geomToCSG, csgToGeom } from './csg.js';
 
 let _id = 0;
 export const uid = (p) => `${p}${(++_id).toString(36)}${Date.now().toString(36).slice(-4)}`;
@@ -111,7 +111,7 @@ export function buildPartGeometry(part) {
     }
     // un 'cut' como primer feature no tiene material que cortar: se ignora
   }
-  if (!csg) return new THREE.BufferGeometry();
+  if (!csg) return csgToGeom(CSG.fromPolygons([])); // vacía pero con atributos válidos
   return csgToGeom(csg);
 }
 
