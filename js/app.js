@@ -43,19 +43,31 @@ sketchControls.enableRotate = false; // en boceto solo paneo y zoom
 sketchControls.enabled = false;
 let activeCamera = camera;
 
-scene.add(new THREE.HemisphereLight(0xe8eaf2, 0x2a2d33, 1.1));
-const sun = new THREE.DirectionalLight(0xffffff, 1.6);
+scene.add(new THREE.HemisphereLight(0xe8eaf2, 0x596070, 1.15)); // suelo claro: caras inferiores legibles
+const sun = new THREE.DirectionalLight(0xffffff, 1.5);
 sun.position.set(180, -120, 300);
 scene.add(sun);
 const fill = new THREE.DirectionalLight(0x8899bb, 0.5);
 fill.position.set(-150, 180, 80);
 scene.add(fill);
+const under = new THREE.DirectionalLight(0xc2cad8, 0.75); // luz desde abajo para mirar por debajo
+under.position.set(80, 60, -260);
+scene.add(under);
 
 const grid = new THREE.GridHelper(500, 50, 0x3a4250, 0x232833);
 grid.rotation.x = Math.PI / 2;
 scene.add(grid);
 const axes = new THREE.AxesHelper(60);
 scene.add(axes);
+// plano base ocultable (para mirar el modelo por abajo sin estorbo)
+const gridBtn = document.getElementById('btnGrid');
+gridBtn?.classList.add('on');
+if (gridBtn) gridBtn.onclick = () => {
+  grid.visible = !grid.visible;
+  axes.visible = grid.visible;
+  gridBtn.classList.toggle('on', grid.visible);
+  setStatus(grid.visible ? 'Plano base visible.' : 'Plano base oculto: orbita por debajo del modelo.');
+};
 
 const overlay = new THREE.Group(); // marcas de medición, resaltados persistentes
 scene.add(overlay);
@@ -744,6 +756,7 @@ let sketch = null; // estado del boceto activo
 
 const sketchbar = $('sketchbar');
 const refMat = new THREE.LineBasicMaterial({ color: 0x5f7fa8 });          // aristas proyectadas
+const faceRefMat = new THREE.LineBasicMaterial({ color: 0xffd54a });       // contornos de la cara elegida (amarillo)
 const gridMat = new THREE.LineBasicMaterial({ color: 0x2a3040 });          // grilla del plano
 const drawMat = new THREE.LineBasicMaterial({ color: 0xf0a437 });          // entidades del boceto
 const selEntMat = new THREE.LineBasicMaterial({ color: 0x4d90fe });        // entidad elegida para cota
@@ -956,6 +969,7 @@ function enterSketch(hit) {
     chainStart: null, chainLast: null, temp: null, dimPick: null, stroke: null,
     entDrag: null, profileMode: false, excluded: new Set(),
     selIds: new Set(), marquee: null, copyOp: null,
+    faceSegs: [], orbit: false,
     tool: 'line',
     snapPts: [], refSegs: [],
     group: new THREE.Group(),
@@ -974,6 +988,8 @@ function enterSketch(hit) {
   orthoCam.position.copy(originW).addScaledVector(nW, 500);
   orthoCam.lookAt(originW);
   sketchControls.target.copy(originW);
+  sketchControls.enableRotate = false;
+  document.getElementById('skOrbit')?.classList.remove('on');
   activeCamera = orthoCam;
   controls.enabled = false;
   sketchControls.enabled = true;
@@ -997,11 +1013,14 @@ function buildSketchReferences() {
       const a = pa.clone().applyMatrix4(m);
       const b = pb.clone().applyMatrix4(m);
       const da = a.sub(sketch.originW), db = b.sub(sketch.originW);
+      const ha = da.dot(sketch.nW), hb = db.dot(sketch.nW); // altura sobre el plano
       const s = [da.dot(sketch.uW), da.dot(sketch.vW)];
       const e = [db.dot(sketch.uW), db.dot(sketch.vW)];
       const len = Math.hypot(s[0] - e[0], s[1] - e[1]);
       if (len < 1e-4) continue; // arista normal al plano
       segs.push([s, e]);
+      // contornos EN el plano de la cara (exteriores e interiores) → amarillos
+      if (Math.abs(ha) < 0.05 && Math.abs(hb) < 0.05) sketch.faceSegs.push([s, e]);
       sketch.snapPts.push({ p: s, kind: 'extremo' }, { p: e, kind: 'extremo' });
       if (len > 4) sketch.snapPts.push({ p: [(s[0] + e[0]) / 2, (s[1] + e[1]) / 2], kind: 'medio' });
       maxR = Math.max(maxR, Math.hypot(...s), Math.hypot(...e));
@@ -1021,9 +1040,15 @@ function buildSketchReferences() {
     gpts.push(to3D(-S, k, 0.02), to3D(S, k, 0.02), to3D(k, -S, 0.02), to3D(k, S, 0.02));
   }
   sketch.group.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(gpts), gridMat));
-  const rpts = [];
-  for (const [s, e] of segs) rpts.push(to3D(s[0], s[1], 0.06), to3D(e[0], e[1], 0.06));
+  const faceSet = new Set(sketch.faceSegs);
+  const rpts = [], ypts = [];
+  for (const seg of segs) {
+    const [s, e] = seg;
+    const arr = faceSet.has(seg) ? ypts : rpts;
+    arr.push(to3D(s[0], s[1], faceSet.has(seg) ? 0.09 : 0.06), to3D(e[0], e[1], faceSet.has(seg) ? 0.09 : 0.06));
+  }
   sketch.group.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(rpts), refMat));
+  sketch.group.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(ypts), faceRefMat));
 }
 
 // --- herramientas de dibujo ---
@@ -1535,6 +1560,7 @@ function cancelSketch(silent) {
   sketchbar.classList.remove('open');
   activeCamera = camera;
   sketchControls.enabled = false;
+  sketchControls.enableRotate = false;
   controls.enabled = true;
   if (!silent) setStatus('Boceto cancelado.');
   if (mode === 'sketch') { mode = 'select'; $('btnSketch').classList.remove('on'); setHint(''); }
@@ -1545,6 +1571,21 @@ sketchbar.addEventListener('click', (e) => {
   const btn = e.target.closest('button');
   if (!btn || !sketch) return;
   if (btn.id === 'skCopy') { startCopyOp(); return; }
+  if (btn.id === 'skOrbit') {
+    sketch.orbit = !sketch.orbit;
+    btn.classList.toggle('on', sketch.orbit);
+    sketchControls.enableRotate = sketch.orbit;
+    if (!sketch.orbit) {
+      // volver a la vista normal a la cara
+      orthoCam.up.copy(sketch.vW);
+      orthoCam.position.copy(sketchControls.target).addScaledVector(sketch.nW, 500);
+      orthoCam.lookAt(sketchControls.target);
+    }
+    setStatus(sketch.orbit
+      ? '🔄 Giro activo: rota para ver referencias ocultas; los toques siguen dibujando sobre el plano.'
+      : 'Giro desactivado: vista normal a la cara restaurada.');
+    return;
+  }
   if (btn.dataset.tool) {
     const keepSel = btn.dataset.tool === 'select';
     sketch.tool = btn.dataset.tool;
