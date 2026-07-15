@@ -103,6 +103,8 @@ con procedencia auditable, láminas técnicas normalizadas (DXF/PDF) y CAD
 anclado a la medición.</p>
 <h2>Proyectos publicados</h2><ul>{projs}</ul>
 <h2>Documentación</h2><ul>{items}</ul>
+<h2>Herramientas</h2>
+<ul><li><a href="../">App CAD web (diseño paramétrico en el navegador)</a></li></ul>
 <p><a href="https://github.com/contrerassma-eng/3d-generator">Repositorio en
 GitHub</a></p>"""
     (dest / "index.html").write_text(
