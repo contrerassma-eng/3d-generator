@@ -112,6 +112,16 @@ atornillable) que muestra todas las capacidades.
   y **centros de ejes** (orificios/cilindros alineados para atornillar).
   La barra de estado indica qué ajuste enganchó (contacto/ras/centro/eje).
 
+### Vista
+- **⊞ Grilla**: muestra/oculta el plano base para mirar el modelo por abajo;
+  la iluminación incluye luz inferior para que las caras de abajo se lean bien.
+- En boceto, **🔄 Giro**: rota la vista ortogonal para ver y marcar
+  referencias ocultas — los toques siguen proyectando sobre el plano del
+  boceto; al desactivar vuelve la vista normal a la cara.
+- Al entrar al boceto, **los contornos de la cara elegida (exteriores e
+  interiores) se pintan en amarillo** como referencias con snap, distintos
+  del resto de la geometría proyectada (azul).
+
 ### Inspección y archivo
 - **📏 Medir**: distancia entre dos puntos (con ajuste a vértices) + ΔX/ΔY/ΔZ.
 - **⭳ STL**: exporta el ensamble completo a STL binario (imprimible/importable).
