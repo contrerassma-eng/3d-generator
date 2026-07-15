@@ -12,7 +12,9 @@ import {
   makeMate, makeConcentric, solveConstraints,
 } from './model.js';
 import * as SK from './sketch2d.js';
-import { exportDrawingDXF, exportDrawingPDF } from './drawing2d.js';
+import { exportDrawingDXF, exportDrawingPDF, exportFlatDXF, exportFlatPDF } from './drawing2d.js';
+import { MATERIALES, materialPorId, makeChapaBase, makePestana, chapaOf, esChapa,
+         chapaEdges, flatPattern } from './sheetmetal.js';
 
 // ---------- Escena ----------
 
@@ -333,7 +335,15 @@ function refreshProps() {
       <div class="btnrow">
         <button id="pp_apply">Aplicar</button>
         <button id="pp_del" class="danger">Eliminar pieza</button>
-      </div>`;
+      </div>
+      ${esChapa(p) ? `<div class="btnrow">
+        <button id="pp_flatdxf" title="Desarrollo real (BA con factor K) con líneas de plegado y desahogos">⭳ Desarrollo DXF</button>
+        <button id="pp_flatpdf" title="Lámina del desarrollo lista para imprimir">⭳ Desarrollo PDF</button>
+      </div>` : ''}`;
+    if (esChapa(p)) {
+      $('pp_flatdxf').onclick = () => exportDesarrollo(p, exportFlatDXF, 'DXF');
+      $('pp_flatpdf').onclick = () => exportDesarrollo(p, exportFlatPDF, 'PDF');
+    }
     $('pp_apply').onclick = () => {
       pushUndo();
       p.name = $('pp_name').value || p.name;
@@ -365,6 +375,26 @@ function refreshProps() {
     const f = p && getFeature(p, selection.id);
     if (!f) { selection = null; return refreshProps(); }
     let dims = '';
+    if (f.shape === 'chapaBase') {
+      dims = frow('Material', `<b>${esc(materialPorId(f.params.material).nombre)}</b>`)
+        + frow('Ancho/Fondo (mm)', `<span style="display:flex;gap:4px;flex:1">
+            <input type="number" id="fp_w" value="${f.params.w}" step="1" style="width:50%">
+            <input type="number" id="fp_d" value="${f.params.d}" step="1" style="width:50%"></span>`)
+        + frow('Espesor (mm)', `<input type="number" id="fp_t" value="${f.params.t}" step="0.5">`)
+        + frow('Radio pliegue def', `<input type="number" id="fp_radio" value="${f.params.radio}" step="0.5">`)
+        + frow('Factor K', `<input type="number" id="fp_k" value="${f.params.k}" step="0.01">`);
+    }
+    if (f.shape === 'pestana') {
+      dims = frow('Longitud plana', `<input type="number" id="fp_altura" value="${f.params.altura}" step="1">`)
+        + frow('Ángulo (°)', `<input type="number" id="fp_angulo" value="${f.params.angulo}" step="5">`)
+        + frow('Radio interior', `<input type="number" id="fp_radio" value="${f.params.radio}" step="0.5">`)
+        + frow('Dirección', `<select id="fp_dirb">
+            <option value="arriba" ${f.params.dirBend !== 'abajo' ? 'selected' : ''}>Arriba</option>
+            <option value="abajo" ${f.params.dirBend === 'abajo' ? 'selected' : ''}>Abajo</option></select>`)
+        + frow('Retranqueos', `<span style="display:flex;gap:4px;flex:1">
+            <input type="number" id="fp_e1" value="${f.params.e1}" step="1" style="width:50%">
+            <input type="number" id="fp_e2" value="${f.params.e2}" step="1" style="width:50%"></span>`);
+    }
     if (f.shape === 'box') dims = frow('Ancho/Fondo/Alto', num3('fp_dims', [f.params.w, f.params.d, f.params.h]));
     if (f.shape === 'cylinder') dims = frow('Diámetro', `<input type="number" id="fp_dia" value="${f.params.dia}" step="0.5">`) + frow('Altura', `<input type="number" id="fp_h" value="${f.params.h}" step="0.5">`);
     if (f.shape === 'hole') dims = frow('Diámetro', `<input type="number" id="fp_dia" value="${f.params.dia}" step="0.5">`) + frow('Profundidad', `<input type="number" id="fp_depth" value="${f.params.depth}" step="0.5">`) + frow('Pasante', `<input type="checkbox" id="fp_through" ${f.params.through ? 'checked' : ''}>`);
@@ -385,8 +415,8 @@ function refreshProps() {
       ${frow('Nombre', `<input type="text" id="fp_name" value="${esc(f.name)}">`)}
       ${frow('Tipo', `${f.op === 'cut' ? 'corte' : 'unión'}${f.suppressed ? ' · ⏸ suprimida' : ''}`)}
       ${dims}
-      ${frow('Posición X/Y/Z', num3('fp_at', f.at))}
-      ${f.shape !== 'box' ? frow('Eje X/Y/Z', num3('fp_dir', f.dir)) : ''}
+      ${f.shape === 'pestana' ? '' : frow('Posición X/Y/Z', num3('fp_at', f.at))}
+      ${['box', 'chapaBase', 'pestana'].includes(f.shape) ? '' : frow('Eje X/Y/Z', num3('fp_dir', f.dir))}
       <div class="btnrow">
         <button id="fp_apply">Regenerar</button>
         <button id="fp_del" class="danger">Eliminar</button>
@@ -394,6 +424,23 @@ function refreshProps() {
     $('fp_apply').onclick = () => {
       pushUndo();
       f.name = $('fp_name').value || f.name;
+      if (f.shape === 'chapaBase') {
+        Object.assign(f.params, {
+          w: +$('fp_w').value, d: +$('fp_d').value, t: Math.max(0.1, +$('fp_t').value),
+          radio: Math.max(0.1, +$('fp_radio').value), k: Math.min(1, Math.max(0, +$('fp_k').value)),
+        });
+        f.name = `Chapa ${f.params.w}×${f.params.d}×${f.params.t}`;
+      }
+      if (f.shape === 'pestana') {
+        Object.assign(f.params, {
+          altura: Math.max(0, +$('fp_altura').value),
+          angulo: Math.min(170, Math.max(1, +$('fp_angulo').value)),
+          radio: Math.max(0.1, +$('fp_radio').value),
+          dirBend: $('fp_dirb').value,
+          e1: Math.max(0, +$('fp_e1').value), e2: Math.max(0, +$('fp_e2').value),
+        });
+        f.name = `Pestaña ${f.params.angulo}° R${f.params.radio}`;
+      }
       if (f.shape === 'box') { const [w, d, h] = readNum3('fp_dims'); Object.assign(f.params, { w, d, h }); }
       if (f.shape === 'sketch') {
         f.params.h = +$('fp_h').value;
@@ -416,8 +463,8 @@ function refreshProps() {
         f.params.through = $('fp_through').checked;
         f.name = `Agujero Ø${f.params.dia}`;
       }
-      f.at = readNum3('fp_at');
-      if (f.shape !== 'box') f.dir = readNum3('fp_dir');
+      if (f.shape !== 'pestana') f.at = readNum3('fp_at');
+      if (!['box', 'chapaBase', 'pestana'].includes(f.shape)) f.dir = readNum3('fp_dir');
       rebuildPart(p);
       commit('Función regenerada.');
     };
@@ -498,6 +545,7 @@ const MODE_HINTS = {
   select: '',
   sketch: 'Boceto: toca una cara plana. Las aristas del modelo se proyectan como referencias con snap.',
   hole: 'Agujero: haz clic sobre una cara plana de una pieza.',
+  pestana: 'Pestaña: toca cerca de una arista de una pieza de chapa (borde de la base o punta de otra pestaña).',
   mate: 'Coincidir: clic en la cara de la 1.ª pieza, luego en la cara de la 2.ª (la 2.ª se mueve).',
   flush: 'Alinear: clic en la cara de la 1.ª pieza, luego en la cara de la 2.ª (la 2.ª se mueve).',
   concentric: 'Concéntrico: clic cerca de un orificio/cilindro de la 1.ª pieza, luego de la 2.ª.',
@@ -505,7 +553,7 @@ const MODE_HINTS = {
   measure: 'Medir: clic en dos puntos (se ajusta al vértice más cercano). Esc para salir.',
 };
 
-const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', measure: 'btnMeasure' };
+const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', measure: 'btnMeasure' };
 
 function setMode(m) {
   mode = mode === m ? 'select' : m;
@@ -651,9 +699,55 @@ function handleClick(ev) {
   if (!hit && mode !== 'measure') { setStatus('Nada bajo el cursor.'); return; }
 
   if (mode === 'hole') return clickHole(hit);
+  if (mode === 'pestana') return clickPestana(hit);
   if (mode === 'mate' || mode === 'flush') return clickMate(hit, mode);
   if (mode === 'concentric') return clickConcentric(hit);
   if (mode === 'measure') return clickMeasure(hit);
+}
+
+// ---------- Chapa: pestaña sobre arista ----------
+
+function clickPestana(hit) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const chapa = part && chapaOf(part);
+  if (!chapa) { setStatus('Esa pieza no es de chapa: crea una con ▱ Chapa.'); return; }
+  // arista citable más cercana al punto tocado (en coordenadas de mundo)
+  const mw = hit.object.matrixWorld;
+  const a = new THREE.Vector3(), b = new THREE.Vector3();
+  let best = null;
+  for (const e of chapaEdges(part)) {
+    a.set(...e.a).applyMatrix4(mw);
+    b.set(...e.b).applyMatrix4(mw);
+    const dist = new THREE.Line3(a, b).closestPointToPoint(hit.point, true, new THREE.Vector3())
+      .distanceTo(hit.point);
+    if (!best || dist < best.dist) best = { ...e, dist, wa: a.clone(), wb: b.clone() };
+  }
+  if (!best || best.dist > 25) { setStatus('Toca más cerca de una arista de la chapa.'); return; }
+  if (!best.libre) { setStatus('Esa arista ya tiene una pestaña (edítala en el árbol).'); return; }
+  // resaltado breve de la arista elegida
+  const lg = new THREE.BufferGeometry().setFromPoints([best.wa, best.wb]);
+  const line = new THREE.Line(lg, new THREE.LineBasicMaterial({ color: 0xf0a437, linewidth: 3 }));
+  scene.add(line);
+  setTimeout(() => { scene.remove(line); lg.dispose(); }, 1600);
+  const t = chapa.params.t;
+  showForm('Pestaña de chapa (desarrollo real con factor K)', [
+    { key: 'altura', label: 'Longitud plana (mm)', value: 25 },
+    { key: 'angulo', label: 'Ángulo de pliegue (°)', value: 90 },
+    { key: 'radio', label: `Radio interior (mm, def=${chapa.params.radio})`, value: chapa.params.radio, step: 0.5 },
+    { key: 'dir', label: 'Dirección', type: 'select', value: 'arriba', options: [['arriba', 'Arriba (+n)'], ['abajo', 'Abajo (−n)']] },
+    { key: 'e1', label: 'Retranqueo inicio (mm)', value: 0 },
+    { key: 'e2', label: 'Retranqueo fin (mm)', value: 0 },
+  ], (v) => {
+    if (v.altura < 0 || v.angulo <= 0 || v.angulo > 170 || v.radio <= 0) {
+      setStatus('Pestaña: ángulo 1–170° y radio > 0.'); return;
+    }
+    pushUndo();
+    part.features.push(makePestana(best.featureId, best.borde, v.altura, v.angulo,
+      v.radio, v.dir, Math.max(0, v.e1), Math.max(0, v.e2)));
+    faceCache.clear();
+    rebuildPart(part);
+    commit(`Pestaña ${v.angulo}° R${v.radio} agregada (BA real con K=${chapa.params.k}).`);
+  });
 }
 
 // ---------- Boceto 2D sobre cara: entidades, cotas, lápiz, recorte ----------
@@ -1791,6 +1885,39 @@ $('btnNewBox').onclick = () => showForm('Nueva pieza: caja / placa', [
   rebuildPart(part);
   commit(`${part.name} creada.`);
 });
+
+$('btnChapa').onclick = () => showForm('Nueva pieza: chapa plegada', [
+  { key: 'material', label: 'Material', type: 'select', value: 'acero',
+    options: MATERIALES.map(m => [m.id, `${m.nombre} (K=${m.k})`]) },
+  { key: 't', label: 'Espesor (mm, 0 = del material)', value: 2, step: 0.5 },
+  { key: 'radio', label: 'Radio pliegue (mm, 0 = espesor)', value: 0, step: 0.5 },
+  { key: 'k', label: 'Factor K (0 = del material)', value: 0, step: 0.01 },
+  { key: 'w', label: 'Ancho X (mm)', value: 100 },
+  { key: 'd', label: 'Fondo Y (mm)', value: 60 },
+], (v) => {
+  pushUndo();
+  const part = newPart(doc, null);
+  part.pos = [nextSpawnX(), 0, 0];
+  const f = makeChapaBase(v.w, v.d, v.material, v.t, v.radio, v.k);
+  part.features.push(f);
+  part.name = `Chapa ${materialPorId(f.params.material).nombre} ${f.params.t} mm`;
+  selection = { kind: 'part', id: part.id };
+  rebuildPart(part);
+  commit(`${part.name} creada — agrega pestañas con ⎣ (radio def=${f.params.radio}, K=${f.params.k}).`);
+});
+
+function exportDesarrollo(part, exporter, kind) {
+  const flat = flatPattern(part);
+  if (!flat) { setStatus('La pieza no es de chapa.'); return; }
+  try {
+    const r = exporter(flat, { designacion: part.name });
+    download(new Blob([r.data], { type: r.mime }), r.name);
+    setStatus(`Desarrollo ${kind} exportado (${r.info}).` +
+      (flat.avisos.length ? ' AVISO: ' + flat.avisos[0] : ''));
+  } catch (e) {
+    setStatus(`Desarrollo ${kind}: ${e.message}`);
+  }
+}
 
 $('btnNewCyl').onclick = () => showForm('Nueva pieza: cilindro', [
   { key: 'dia', label: 'Diámetro (mm)', value: 30 },

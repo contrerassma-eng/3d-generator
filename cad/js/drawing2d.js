@@ -18,8 +18,9 @@ const REDUCTIONS = [1, 2, 2.5, 5, 10, 20, 50, 100, 200, 500, 1000];
 const ENLARGEMENTS = [2, 5, 10, 20, 50];
 const GRIDREF = { A4: [6, 4], A3: [8, 6], A2: [12, 8], A1: [16, 12], A0: [24, 16] };
 const GRID_LETTERS = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-const LAYERS = { NORMA: 7, FINA: 7, VISIBLE: 7, COTAS: 7, TEXTO: 7 };      // color ACI
-const LW = { NORMA: 0.7, FINA: 0.18, VISIBLE: 0.5, COTAS: 0.25, TEXTO: 0.25 }; // mm (PDF)
+const LAYERS = { NORMA: 7, FINA: 7, VISIBLE: 7, COTAS: 7, TEXTO: 7, PLIEGUE: 1 }; // color ACI
+const LW = { NORMA: 0.7, FINA: 0.18, VISIBLE: 0.5, COTAS: 0.25, TEXTO: 0.25, PLIEGUE: 0.35 }; // mm (PDF)
+const DASH = { PLIEGUE: [5, 1.5, 0.5, 1.5] };  // trazo-punto (mm) para líneas de plegado
 
 // vistas del primer diedro con Z arriba: [derecha, arriba] de cada proyección.
 // planta con correspondencia de proyección con el alzado (X compartida).
@@ -333,7 +334,7 @@ class Sheet {
     this.cell(xa, ys[2], 47, 10, 'PROYECTO', tb.proyecto, 2.8);
     this.cell(xa + 47, ys[2], 47, 10, 'FUENTE', tb.fuente, 2.4);
     this.cell(xa, ys[3], 56, 10, 'VERIFICACIÓN DE ESCALA', tb.verificacion, 2.4);
-    this.cell(xa + 56, ys[3], 38, 10, 'PIEZAS', tb.piezas, 2.6);
+    this.cell(xa + 56, ys[3], 38, 10, tb.piezasLabel ?? 'PIEZAS', tb.piezas, 2.6);
     this.cell(xa, y0, 94, 9, 'NOTA', tb.nota, 2.2);
 
     // zona C — clasificación
@@ -405,12 +406,15 @@ function writeDXF(sheet) {
   g(9, '$DWGCODEPAGE'); g(3, 'ANSI_1252');
   g(0, 'ENDSEC');
   g(0, 'SECTION'); g(2, 'TABLES');
-  g(0, 'TABLE'); g(2, 'LTYPE'); g(70, 1);
+  g(0, 'TABLE'); g(2, 'LTYPE'); g(70, 2);
   g(0, 'LTYPE'); g(2, 'CONTINUOUS'); g(70, 0); g(3, 'Solid line'); g(72, 65); g(73, 0); g(40, 0);
+  g(0, 'LTYPE'); g(2, 'DASHDOT'); g(70, 0); g(3, 'Trazo-punto ____ . ____'); g(72, 65);
+  g(73, 4); g(40, 8.5); g(49, 5); g(49, -1.5); g(49, 0.5); g(49, -1.5);
   g(0, 'ENDTAB');
   g(0, 'TABLE'); g(2, 'LAYER'); g(70, Object.keys(LAYERS).length);
   for (const [name, color] of Object.entries(LAYERS)) {
-    g(0, 'LAYER'); g(2, name); g(70, 0); g(62, color); g(6, 'CONTINUOUS');
+    g(0, 'LAYER'); g(2, name); g(70, 0); g(62, color);
+    g(6, name === 'PLIEGUE' ? 'DASHDOT' : 'CONTINUOUS');
   }
   g(0, 'ENDTAB'); g(0, 'ENDSEC');
   g(0, 'SECTION'); g(2, 'ENTITIES');
@@ -471,7 +475,8 @@ function writePDF(sheet) {
   const byLayer = {};
   for (const p of sheet.prims) (byLayer[p.ly] ??= []).push(p);
   for (const [ly, prims] of Object.entries(byLayer)) {
-    ops.push(`${f((LW[ly] ?? 0.25) * k)} w 1 J 1 j`);
+    const dash = DASH[ly] ? `[${DASH[ly].map(v => f(v * k)).join(' ')}] 0 d` : '[] 0 d';
+    ops.push(`${f((LW[ly] ?? 0.25) * k)} w 1 J 1 j ${dash}`);
     for (const p of prims) {
       if (p.k === 'l') {
         ops.push(`${f(p.a[0] * k)} ${f(p.a[1] * k)} m ${f(p.b[0] * k)} ${f(p.b[1] * k)} l S`);
@@ -529,6 +534,66 @@ function dxfToBytes(s) {
     out += String.fromCharCode(code > 255 ? 63 : code);
   }
   return toBytes(out);
+}
+
+// --- lámina de DESARROLLO DE CHAPA ---------------------------------------------
+// flat: salida de sheetmetal.flatPattern(); meta: { designacion, piezas }
+
+function buildFlatSheet(flat, meta, K) {
+  const xs = flat.contorno.map(p => p[0]), ys = flat.contorno.map(p => p[1]);
+  const lo = [Math.min(...xs), Math.min(...ys)], hi = [Math.max(...xs), Math.max(...ys)];
+  const w = hi[0] - lo[0], h = hi[1] - lo[1];
+  const [name, W, H, num, den] = chooseSheet(w, h);
+  const sheet = new Sheet(name, W, H, num, den, K === 'real' ? den / num : 1);
+  const s = num / den;
+  const uw = W - MARGIN_L - MARGIN, uh = H - 2 * MARGIN - TITLE_H - 5;
+  const ox = MARGIN_L + (uw - w * s) / 2 - lo[0] * s;
+  const oy = MARGIN + TITLE_H + 5 + (uh - h * s) / 2 - lo[1] * s;
+  const T = (p) => [ox + p[0] * s, oy + p[1] * s];
+  sheet.poly(flat.contorno.map(T), 'VISIBLE');
+  for (const l of flat.pliegues) {
+    sheet.line(T(l.a), T(l.b), l.tipo === 'eje' ? 'PLIEGUE' : 'FINA');
+  }
+  for (const e of flat.etiquetas) {
+    const [x, y] = T([e.x, e.y]);
+    sheet.text(e.s, x, y, 2.5, 'C');
+  }
+  const [x1, y1] = T(lo), [x2, y2] = T(hi);
+  sheet.dimH(x1, x2, y1, 9, w);
+  sheet.dimV(x2, y1, y2, 9, h);
+  sheet.text('DESARROLLO DE CHAPA — BA = ang·(R + K·t), fibra neutra por factor K',
+    x1, y2 + 6, 3.5, 'L');
+  sheet.frame();
+  const aviso = flat.avisos.length ? flat.avisos[0] : '';
+  sheet.titleBlock({
+    designacion: `${meta.designacion} — DESARROLLO`,
+    proyecto: meta.proyecto ?? 'foto3d CAD',
+    fuente: 'chapa plegada — capa user',
+    verificacion: 'CAD EN MM (CAPA USER)',
+    piezasLabel: 'PLIEGUES',
+    piezas: String(flat.pliegueInfo.length),
+    nota: aviso || `${flat.material} e=${flat.t} mm · K=${flat.k} · R def=${flat.radio} mm — diseño, no medición`,
+    escala: scaleLabel(num, den),
+    fecha: new Date().toISOString().slice(0, 10),
+    numPlano: 'CHAPA-01',
+  });
+  return sheet;
+}
+
+export function exportFlatDXF(flat, meta) {
+  const sheet = buildFlatSheet(flat, meta, 'real');
+  return {
+    name: 'desarrollo-chapa.dxf', data: dxfToBytes(writeDXF(sheet)), mime: 'application/dxf',
+    info: `${sheet.name} escala ${scaleLabel(sheet.num, sheet.den)}, desarrollo a escala real`,
+  };
+}
+
+export function exportFlatPDF(flat, meta) {
+  const sheet = buildFlatSheet(flat, meta, 'paper');
+  return {
+    name: 'desarrollo-chapa.pdf', data: toBytes(writePDF(sheet)), mime: 'application/pdf',
+    info: `${sheet.name} escala ${scaleLabel(sheet.num, sheet.den)}`,
+  };
 }
 
 // --- API ----------------------------------------------------------------------

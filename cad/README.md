@@ -43,6 +43,22 @@ atornillable) que muestra todas las capacidades.
   apoyada en Z=0, lista para posicionar con restricciones y modelar la
   carcasa alrededor. Tras editar el catálogo, correr
   `python pipeline/componentes_cli.py sync-web`.
+- **▱ Chapa / ⎣ Pestaña** (chapa plegada, símil Inventor):
+  - **▱ Chapa** crea la placa base eligiendo **material** (acero, galvanizado,
+    inox, aluminio — con factor K nominal editable), espesor, y radio de
+    pliegue por defecto **= espesor** (como Inventor).
+  - **⎣ Pestaña**: toca cerca de una arista (borde de la base o punta de otra
+    pestaña → cadenas) → longitud plana, ángulo (1–170°), radio, dirección
+    arriba/abajo y retranqueos. El plegado 3D muestra el **radio real**
+    (sector cilíndrico) y, si la pestaña es parcial, descuenta **desahogos de
+    plegado** en el material padre.
+  - Con la pieza seleccionada: **⭳ Desarrollo DXF / PDF** — desarrollo **real
+    del estiramiento**: cada pliegue consume `BA = θ·(R + K·t)` (fibra neutra
+    por factor K), con **líneas de plegado** (eje en trazo-punto + tangentes),
+    etiqueta `PLEGAR ARRIBA/ABAJO ángulo° R`, y los **recortes de desahogo**
+    en el contorno. Lámina con marco/cajetín ISO; DXF a escala real con capa
+    `PLIEGUE`. Los cortes ajenos a la chapa (agujeros, funciones) NO se
+    reflejan en el desarrollo y la lámina lo avisa.
 - **✚ Función…**: agrega a la pieza seleccionada una caja o cilindro como
   **unión** (agregar material) o **corte** (quitar material) — booleanas CSG.
 - **◎ Agujero**: clic sobre cualquier cara plana → diálogo con diámetro,
@@ -151,7 +167,8 @@ atornillable) que muestra todas las capacidades.
 | `js/componentes.js` | Biblioteca de componentes: carga `componentes.json` y convierte registros del catálogo en piezas (mismo mapeo que `pipeline/lib_componentes.cad_part`) |
 | `componentes.json` | Copia servible del catálogo (`componentes/catalogo.json`); regenerar con `python pipeline/componentes_cli.py sync-web` |
 | `js/app.js` | Viewport Three.js, picking, modos de interacción, diálogos, STL, persistencia |
-| `js/drawing2d.js` | Plano técnico en el navegador: aristas características (con filtro de grietas CSG), vistas del primer diedro, marco/cajetín ISO y escritores DXF (R12) y PDF (1.4) propios |
+| `js/drawing2d.js` | Plano técnico en el navegador: aristas características (con filtro de grietas CSG), vistas del primer diedro, marco/cajetín ISO, lámina de desarrollo de chapa y escritores DXF (R12) y PDF (1.4) propios |
+| `js/sheetmetal.js` | Chapa plegada: materiales con factor K, pestañas sobre aristas con radio real, desahogos, y desarrollo real `BA = θ·(R + K·t)` con líneas de plegado |
 | `vendor/` | Three.js 0.177 + OrbitControls (local, funciona sin internet) |
 
 Límites conocidos: sin chaflanes/redondeos; las cotas del boceto son
