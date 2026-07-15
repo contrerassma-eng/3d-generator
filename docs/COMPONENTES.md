@@ -1,7 +1,9 @@
-# Biblioteca de componentes electrónicos (para diseñar carcasas)
+# Biblioteca de componentes electrónicos y mecánicos
 
 Componentes estándar (placas ESP32, convertidores buck, sensores, pulsadores,
-conectores de panel) definidos **como datos** en `componentes/catalogo.json`.
+conectores de panel, y elementos mecánicos: rodillos de tracción, poleas de
+banda plana y ejes calibrados — categoría `mecanico`) definidos **como
+datos** en `componentes/catalogo.json`.
 De cada registro se derivan, sin tocar código:
 
 | Salida | Comando | Para qué |
@@ -17,7 +19,7 @@ pieza (sólidos + agujeros de montaje pasantes) apoyada en Z=0. La app lee
 `python pipeline/componentes_cli.py sync-web` cada vez que se edita
 `componentes/catalogo.json` (hay una prueba que falla si quedan desincronizados).
 
-Consulta: `listar [--categoria mcu|alimentacion|sensor|boton|conector|adaptador]`,
+Consulta: `listar [--categoria mcu|alimentacion|sensor|boton|conector|adaptador|mecanico]`,
 `info <id>`, `validar`. Con `--proyecto <X>` la salida va a
 `projects/<X>/out/componentes/` y queda registrada en el `audit.log` del
 proyecto; sin él, a `componentes/out/` (fuera de git).

@@ -1,0 +1,5860 @@
+{
+ "format": "foto3d-cad",
+ "version": 1,
+ "meta": {
+  "nombre": "Transferencia 90° — módulo de desviación pop-up (rodillos vulcanizados)",
+  "capa": "user",
+  "origen": "gen_transfer90.mjs (paramétrico); espec. usuario: solo el módulo de desvío, 2 cilindros estándar en diagonal con carrera 6, rodillos completos vulcanizados menos el extremo donde las bandas los usan como poleas de primera línea",
+  "anfitrion": "transportador de bandas estrechas de 40 mm (plano a 170 mm) — NO modelado",
+  "estado_modelado": "ELEVADO (+6 mm): tangente de rodillos a 174 = plano anfitrión + 4",
+  "verificaciones": {
+   "tangentGap": 50,
+   "pop": 4,
+   "drop": 2,
+   "carrera": 6
+  }
+ },
+ "parts": [
+  {
+   "id": "p1_placa_base",
+   "name": "Placa base",
+   "color": "#1e3aa8",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": true,
+   "visible": true,
+   "features": [
+    {
+     "id": "f1",
+     "name": "Placa base 480×400×6",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 480,
+      "d": 400,
+      "h": 6
+     }
+    },
+    {
+     "id": "f2",
+     "name": "Ranura pestaña lateral x=-180",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      -180,
+      -180,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 41,
+      "d": 6.5,
+      "h": 6
+     }
+    },
+    {
+     "id": "f3",
+     "name": "Ranura pestaña lateral x=-180",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      -180,
+      180,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 41,
+      "d": 6.5,
+      "h": 6
+     }
+    },
+    {
+     "id": "f4",
+     "name": "Ranura pestaña lateral x=0",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      -180,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 41,
+      "d": 6.5,
+      "h": 6
+     }
+    },
+    {
+     "id": "f5",
+     "name": "Ranura pestaña lateral x=0",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      180,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 41,
+      "d": 6.5,
+      "h": 6
+     }
+    },
+    {
+     "id": "f6",
+     "name": "Ranura pestaña lateral x=180",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      180,
+      -180,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 41,
+      "d": 6.5,
+      "h": 6
+     }
+    },
+    {
+     "id": "f7",
+     "name": "Ranura pestaña lateral x=180",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      180,
+      180,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 41,
+      "d": 6.5,
+      "h": 6
+     }
+    },
+    {
+     "id": "f8",
+     "name": "Ø5.5 brida neumático",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -127.5,
+      -152.5,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f9",
+     "name": "Ø5.5 brida neumático",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -127.5,
+      -107.5,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f10",
+     "name": "Ø5.5 brida neumático",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -82.5,
+      -152.5,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f11",
+     "name": "Ø5.5 brida neumático",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -82.5,
+      -107.5,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f12",
+     "name": "Ø5.5 brida neumático",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      82.5,
+      107.5,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f13",
+     "name": "Ø5.5 brida neumático",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      82.5,
+      152.5,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f14",
+     "name": "Ø5.5 brida neumático",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      127.5,
+      107.5,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f15",
+     "name": "Ø5.5 brida neumático",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      127.5,
+      152.5,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f16",
+     "name": "Ø4.5 brida pin guía",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      87,
+      -130,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f17",
+     "name": "Ø4.5 brida pin guía",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      123,
+      -130,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f18",
+     "name": "Ø4.5 brida pin guía",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -123,
+      130,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f19",
+     "name": "Ø4.5 brida pin guía",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -87,
+      130,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f20",
+     "name": "Anclaje Ø11 al anfitrión",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -220,
+      -180,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f21",
+     "name": "Anclaje Ø11 al anfitrión",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -220,
+      180,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f22",
+     "name": "Anclaje Ø11 al anfitrión",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      220,
+      -180,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f23",
+     "name": "Anclaje Ø11 al anfitrión",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      220,
+      180,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p2_placa_lateral_fija_y",
+   "name": "Placa lateral fija -Y",
+   "color": "#2a4fd7",
+   "pos": [
+    0,
+    -180,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f24",
+     "name": "Contorno lateral (chaflanes + pestañas)",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      3,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -230,
+        6
+       ],
+       [
+        -230,
+        100
+       ],
+       [
+        -190,
+        140
+       ],
+       [
+        190,
+        140
+       ],
+       [
+        230,
+        100
+       ],
+       [
+        230,
+        6
+       ],
+       [
+        200,
+        6
+       ],
+       [
+        200,
+        0
+       ],
+       [
+        160,
+        0
+       ],
+       [
+        160,
+        6
+       ],
+       [
+        20,
+        6
+       ],
+       [
+        20,
+        0
+       ],
+       [
+        -20,
+        0
+       ],
+       [
+        -20,
+        6
+       ],
+       [
+        -160,
+        6
+       ],
+       [
+        -160,
+        0
+       ],
+       [
+        -200,
+        0
+       ],
+       [
+        -200,
+        6
+       ]
+      ],
+      "h": 6,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f25",
+     "name": "Ventana aligeramiento (-110,90)",
+     "shape": "sketch",
+     "op": "cut",
+     "at": [
+      0,
+      -3,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -60,
+        95
+       ],
+       [
+        -60.34,
+        97.59
+       ],
+       [
+        -61.34,
+        100
+       ],
+       [
+        -62.93,
+        102.07
+       ],
+       [
+        -65,
+        103.66
+       ],
+       [
+        -67.41,
+        104.66
+       ],
+       [
+        -70,
+        105
+       ],
+       [
+        -150,
+        105
+       ],
+       [
+        -152.59,
+        104.66
+       ],
+       [
+        -155,
+        103.66
+       ],
+       [
+        -157.07,
+        102.07
+       ],
+       [
+        -158.66,
+        100
+       ],
+       [
+        -159.66,
+        97.59
+       ],
+       [
+        -160,
+        95
+       ],
+       [
+        -160,
+        85
+       ],
+       [
+        -159.66,
+        82.41
+       ],
+       [
+        -158.66,
+        80
+       ],
+       [
+        -157.07,
+        77.93
+       ],
+       [
+        -155,
+        76.34
+       ],
+       [
+        -152.59,
+        75.34
+       ],
+       [
+        -150,
+        75
+       ],
+       [
+        -70,
+        75
+       ],
+       [
+        -67.41,
+        75.34
+       ],
+       [
+        -65,
+        76.34
+       ],
+       [
+        -62.93,
+        77.93
+       ],
+       [
+        -61.34,
+        80
+       ],
+       [
+        -60.34,
+        82.41
+       ],
+       [
+        -60,
+        85
+       ]
+      ],
+      "h": 6,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f26",
+     "name": "Ventana aligeramiento (110,90)",
+     "shape": "sketch",
+     "op": "cut",
+     "at": [
+      0,
+      -3,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        160,
+        95
+       ],
+       [
+        159.66,
+        97.59
+       ],
+       [
+        158.66,
+        100
+       ],
+       [
+        157.07,
+        102.07
+       ],
+       [
+        155,
+        103.66
+       ],
+       [
+        152.59,
+        104.66
+       ],
+       [
+        150,
+        105
+       ],
+       [
+        70,
+        105
+       ],
+       [
+        67.41,
+        104.66
+       ],
+       [
+        65,
+        103.66
+       ],
+       [
+        62.93,
+        102.07
+       ],
+       [
+        61.34,
+        100
+       ],
+       [
+        60.34,
+        97.59
+       ],
+       [
+        60,
+        95
+       ],
+       [
+        60,
+        85
+       ],
+       [
+        60.34,
+        82.41
+       ],
+       [
+        61.34,
+        80
+       ],
+       [
+        62.93,
+        77.93
+       ],
+       [
+        65,
+        76.34
+       ],
+       [
+        67.41,
+        75.34
+       ],
+       [
+        70,
+        75
+       ],
+       [
+        150,
+        75
+       ],
+       [
+        152.59,
+        75.34
+       ],
+       [
+        155,
+        76.34
+       ],
+       [
+        157.07,
+        77.93
+       ],
+       [
+        158.66,
+        80
+       ],
+       [
+        159.66,
+        82.41
+       ],
+       [
+        160,
+        85
+       ]
+      ],
+      "h": 6,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f27",
+     "name": "Ø9 travesaño x=-60",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -60,
+      3,
+      40
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f28",
+     "name": "Ø9 travesaño x=-60",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -60,
+      3,
+      60
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f29",
+     "name": "Ø9 travesaño x=60",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      60,
+      3,
+      40
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f30",
+     "name": "Ø9 travesaño x=60",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      60,
+      3,
+      60
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p3_placa_lateral_fija_y",
+   "name": "Placa lateral fija +Y",
+   "color": "#2a4fd7",
+   "pos": [
+    0,
+    180,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f31",
+     "name": "Contorno lateral (chaflanes + pestañas)",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      3,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -230,
+        6
+       ],
+       [
+        -230,
+        100
+       ],
+       [
+        -190,
+        140
+       ],
+       [
+        190,
+        140
+       ],
+       [
+        230,
+        100
+       ],
+       [
+        230,
+        6
+       ],
+       [
+        200,
+        6
+       ],
+       [
+        200,
+        0
+       ],
+       [
+        160,
+        0
+       ],
+       [
+        160,
+        6
+       ],
+       [
+        20,
+        6
+       ],
+       [
+        20,
+        0
+       ],
+       [
+        -20,
+        0
+       ],
+       [
+        -20,
+        6
+       ],
+       [
+        -160,
+        6
+       ],
+       [
+        -160,
+        0
+       ],
+       [
+        -200,
+        0
+       ],
+       [
+        -200,
+        6
+       ]
+      ],
+      "h": 6,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f32",
+     "name": "Ventana aligeramiento (-110,90)",
+     "shape": "sketch",
+     "op": "cut",
+     "at": [
+      0,
+      -3,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -60,
+        95
+       ],
+       [
+        -60.34,
+        97.59
+       ],
+       [
+        -61.34,
+        100
+       ],
+       [
+        -62.93,
+        102.07
+       ],
+       [
+        -65,
+        103.66
+       ],
+       [
+        -67.41,
+        104.66
+       ],
+       [
+        -70,
+        105
+       ],
+       [
+        -150,
+        105
+       ],
+       [
+        -152.59,
+        104.66
+       ],
+       [
+        -155,
+        103.66
+       ],
+       [
+        -157.07,
+        102.07
+       ],
+       [
+        -158.66,
+        100
+       ],
+       [
+        -159.66,
+        97.59
+       ],
+       [
+        -160,
+        95
+       ],
+       [
+        -160,
+        85
+       ],
+       [
+        -159.66,
+        82.41
+       ],
+       [
+        -158.66,
+        80
+       ],
+       [
+        -157.07,
+        77.93
+       ],
+       [
+        -155,
+        76.34
+       ],
+       [
+        -152.59,
+        75.34
+       ],
+       [
+        -150,
+        75
+       ],
+       [
+        -70,
+        75
+       ],
+       [
+        -67.41,
+        75.34
+       ],
+       [
+        -65,
+        76.34
+       ],
+       [
+        -62.93,
+        77.93
+       ],
+       [
+        -61.34,
+        80
+       ],
+       [
+        -60.34,
+        82.41
+       ],
+       [
+        -60,
+        85
+       ]
+      ],
+      "h": 6,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f33",
+     "name": "Ventana aligeramiento (110,90)",
+     "shape": "sketch",
+     "op": "cut",
+     "at": [
+      0,
+      -3,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        160,
+        95
+       ],
+       [
+        159.66,
+        97.59
+       ],
+       [
+        158.66,
+        100
+       ],
+       [
+        157.07,
+        102.07
+       ],
+       [
+        155,
+        103.66
+       ],
+       [
+        152.59,
+        104.66
+       ],
+       [
+        150,
+        105
+       ],
+       [
+        70,
+        105
+       ],
+       [
+        67.41,
+        104.66
+       ],
+       [
+        65,
+        103.66
+       ],
+       [
+        62.93,
+        102.07
+       ],
+       [
+        61.34,
+        100
+       ],
+       [
+        60.34,
+        97.59
+       ],
+       [
+        60,
+        95
+       ],
+       [
+        60,
+        85
+       ],
+       [
+        60.34,
+        82.41
+       ],
+       [
+        61.34,
+        80
+       ],
+       [
+        62.93,
+        77.93
+       ],
+       [
+        65,
+        76.34
+       ],
+       [
+        67.41,
+        75.34
+       ],
+       [
+        70,
+        75
+       ],
+       [
+        150,
+        75
+       ],
+       [
+        152.59,
+        75.34
+       ],
+       [
+        155,
+        76.34
+       ],
+       [
+        157.07,
+        77.93
+       ],
+       [
+        158.66,
+        80
+       ],
+       [
+        159.66,
+        82.41
+       ],
+       [
+        160,
+        85
+       ]
+      ],
+      "h": 6,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f34",
+     "name": "Ø9 travesaño x=-60",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -60,
+      3,
+      40
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f35",
+     "name": "Ø9 travesaño x=-60",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -60,
+      3,
+      60
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f36",
+     "name": "Ø9 travesaño x=60",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      60,
+      3,
+      40
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f37",
+     "name": "Ø9 travesaño x=60",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      60,
+      3,
+      60
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p4_travesa_o_fijo_x_60",
+   "name": "Travesaño fijo x=-60",
+   "color": "#78909c",
+   "pos": [
+    -60,
+    0,
+    30
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f38",
+     "name": "Tubo 40×40×2",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 344,
+      "h": 40
+     }
+    },
+    {
+     "id": "f39",
+     "name": "Alma hueca",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 36,
+      "d": 345,
+      "h": 36
+     }
+    },
+    {
+     "id": "f40",
+     "name": "Placa extremo -Y",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -174.5,
+      -10
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 5,
+      "h": 60
+     }
+    },
+    {
+     "id": "f41",
+     "name": "Ø9 M8 a lateral",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -177,
+      10
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f42",
+     "name": "Ø9 M8 a lateral",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -177,
+      30
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f43",
+     "name": "Placa extremo +Y",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      174.5,
+      -10
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 5,
+      "h": 60
+     }
+    },
+    {
+     "id": "f44",
+     "name": "Ø9 M8 a lateral",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      177,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f45",
+     "name": "Ø9 M8 a lateral",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      177,
+      30
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p5_travesa_o_fijo_x_60",
+   "name": "Travesaño fijo x=60",
+   "color": "#78909c",
+   "pos": [
+    60,
+    0,
+    30
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f46",
+     "name": "Tubo 40×40×2",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 344,
+      "h": 40
+     }
+    },
+    {
+     "id": "f47",
+     "name": "Alma hueca",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 36,
+      "d": 345,
+      "h": 36
+     }
+    },
+    {
+     "id": "f48",
+     "name": "Placa extremo -Y",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -174.5,
+      -10
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 5,
+      "h": 60
+     }
+    },
+    {
+     "id": "f49",
+     "name": "Ø9 M8 a lateral",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -177,
+      10
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f50",
+     "name": "Ø9 M8 a lateral",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -177,
+      30
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f51",
+     "name": "Placa extremo +Y",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      174.5,
+      -10
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 5,
+      "h": 60
+     }
+    },
+    {
+     "id": "f52",
+     "name": "Ø9 M8 a lateral",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      177,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f53",
+     "name": "Ø9 M8 a lateral",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      177,
+      30
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p6_cilindro_neum_tico_25_105_130",
+   "name": "Cilindro neumático Ø25 (-105,-130)",
+   "color": "#cfd8dc",
+   "pos": [
+    -105,
+    -130,
+    6
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f54",
+     "name": "Brida 55×55×5",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 55,
+      "d": 55,
+      "h": 5
+     }
+    },
+    {
+     "id": "f55",
+     "name": "Cuerpo Ø25 (ISO 6432)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 25,
+      "h": 70
+     }
+    },
+    {
+     "id": "f56",
+     "name": "Vástago Ø10 (extendido +6)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      75
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 29
+     }
+    },
+    {
+     "id": "f57",
+     "name": "Ø5.5 brida",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -22.5,
+      -22.5,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 5,
+      "through": false
+     }
+    },
+    {
+     "id": "f58",
+     "name": "Ø5.5 brida",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -22.5,
+      22.5,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 5,
+      "through": false
+     }
+    },
+    {
+     "id": "f59",
+     "name": "Ø5.5 brida",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      22.5,
+      -22.5,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 5,
+      "through": false
+     }
+    },
+    {
+     "id": "f60",
+     "name": "Ø5.5 brida",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      22.5,
+      22.5,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 5,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p7_cilindro_neum_tico_25_105_130",
+   "name": "Cilindro neumático Ø25 (105,130)",
+   "color": "#cfd8dc",
+   "pos": [
+    105,
+    130,
+    6
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f61",
+     "name": "Brida 55×55×5",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 55,
+      "d": 55,
+      "h": 5
+     }
+    },
+    {
+     "id": "f62",
+     "name": "Cuerpo Ø25 (ISO 6432)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 25,
+      "h": 70
+     }
+    },
+    {
+     "id": "f63",
+     "name": "Vástago Ø10 (extendido +6)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      75
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 29
+     }
+    },
+    {
+     "id": "f64",
+     "name": "Ø5.5 brida",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -22.5,
+      -22.5,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 5,
+      "through": false
+     }
+    },
+    {
+     "id": "f65",
+     "name": "Ø5.5 brida",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -22.5,
+      22.5,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 5,
+      "through": false
+     }
+    },
+    {
+     "id": "f66",
+     "name": "Ø5.5 brida",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      22.5,
+      -22.5,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 5,
+      "through": false
+     }
+    },
+    {
+     "id": "f67",
+     "name": "Ø5.5 brida",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      22.5,
+      22.5,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 5,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p8_pin_gu_a_16_105_130",
+   "name": "Pin guía Ø16 (105,-130)",
+   "color": "#b0bec5",
+   "pos": [
+    105,
+    -130,
+    6
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f68",
+     "name": "Brida Ø50×5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 50,
+      "h": 5
+     }
+    },
+    {
+     "id": "f69",
+     "name": "Pin Ø16 rectificado",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 16,
+      "h": 105
+     }
+    },
+    {
+     "id": "f70",
+     "name": "Ø4.5 brida",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -18,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 5,
+      "through": false
+     }
+    },
+    {
+     "id": "f71",
+     "name": "Ø4.5 brida",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 5,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p9_pin_gu_a_16_105_130",
+   "name": "Pin guía Ø16 (-105,130)",
+   "color": "#b0bec5",
+   "pos": [
+    -105,
+    130,
+    6
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f72",
+     "name": "Brida Ø50×5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 50,
+      "h": 5
+     }
+    },
+    {
+     "id": "f73",
+     "name": "Pin Ø16 rectificado",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 16,
+      "h": 105
+     }
+    },
+    {
+     "id": "f74",
+     "name": "Ø4.5 brida",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -18,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 5,
+      "through": false
+     }
+    },
+    {
+     "id": "f75",
+     "name": "Ø4.5 brida",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 5,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p10_larguero_elevador_y_130",
+   "name": "Larguero elevador y=-130",
+   "color": "#78909c",
+   "pos": [
+    0,
+    -130,
+    110
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f76",
+     "name": "Larguero 340×40×12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 340,
+      "d": 40,
+      "h": 12
+     }
+    },
+    {
+     "id": "f77",
+     "name": "Ranura peine x=-150",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      -150,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 6.5,
+      "d": 30.5,
+      "h": 12
+     }
+    },
+    {
+     "id": "f78",
+     "name": "Ranura peine x=150",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      150,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 6.5,
+      "d": 30.5,
+      "h": 12
+     }
+    },
+    {
+     "id": "f79",
+     "name": "Ø8.5 vástago M8",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -105,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 12,
+      "through": false
+     }
+    },
+    {
+     "id": "f80",
+     "name": "Casquillo guía Ø30",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      105,
+      0,
+      -20
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 20
+     }
+    },
+    {
+     "id": "f81",
+     "name": "Buje Ø16.2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      105,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 16.2,
+      "depth": 32,
+      "through": false
+     }
+    },
+    {
+     "id": "f82",
+     "name": "Ø6.6 ménsula motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      140,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 6.6,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f83",
+     "name": "Ø6.6 ménsula motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      160,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 6.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p11_larguero_elevador_y_130",
+   "name": "Larguero elevador y=130",
+   "color": "#78909c",
+   "pos": [
+    0,
+    130,
+    110
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f84",
+     "name": "Larguero 340×40×12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 340,
+      "d": 40,
+      "h": 12
+     }
+    },
+    {
+     "id": "f85",
+     "name": "Ranura peine x=-150",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      -150,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 6.5,
+      "d": 30.5,
+      "h": 12
+     }
+    },
+    {
+     "id": "f86",
+     "name": "Ranura peine x=150",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      150,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 6.5,
+      "d": 30.5,
+      "h": 12
+     }
+    },
+    {
+     "id": "f87",
+     "name": "Ø8.5 vástago M8",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      105,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 12,
+      "through": false
+     }
+    },
+    {
+     "id": "f88",
+     "name": "Casquillo guía Ø30",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -105,
+      0,
+      -20
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 20
+     }
+    },
+    {
+     "id": "f89",
+     "name": "Buje Ø16.2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -105,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 16.2,
+      "depth": 32,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p12_placa_portarodillos_x_150",
+   "name": "Placa portarodillos x=-150",
+   "color": "#2a4fd7",
+   "pos": [
+    -153,
+    0,
+    110
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f90",
+     "name": "Contorno peine (lóbulos + pies)",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -110
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -160,
+        122
+       ],
+       [
+        -160,
+        128
+       ],
+       [
+        -150,
+        137
+       ],
+       [
+        -110.58,
+        137
+       ],
+       [
+        -109.69,
+        136.27
+       ],
+       [
+        -108.74,
+        135.6
+       ],
+       [
+        -107.75,
+        135
+       ],
+       [
+        -106.72,
+        134.48
+       ],
+       [
+        -105.66,
+        134.03
+       ],
+       [
+        -104.56,
+        133.66
+       ],
+       [
+        -103.44,
+        133.37
+       ],
+       [
+        -102.3,
+        133.17
+       ],
+       [
+        -101.16,
+        133.04
+       ],
+       [
+        -100,
+        133
+       ],
+       [
+        -98.84,
+        133.04
+       ],
+       [
+        -97.7,
+        133.17
+       ],
+       [
+        -96.56,
+        133.37
+       ],
+       [
+        -95.44,
+        133.66
+       ],
+       [
+        -94.34,
+        134.03
+       ],
+       [
+        -93.28,
+        134.48
+       ],
+       [
+        -92.25,
+        135
+       ],
+       [
+        -91.26,
+        135.6
+       ],
+       [
+        -90.31,
+        136.27
+       ],
+       [
+        -89.42,
+        137
+       ],
+       [
+        -10.58,
+        137
+       ],
+       [
+        -9.69,
+        136.27
+       ],
+       [
+        -8.74,
+        135.6
+       ],
+       [
+        -7.75,
+        135
+       ],
+       [
+        -6.72,
+        134.48
+       ],
+       [
+        -5.66,
+        134.03
+       ],
+       [
+        -4.56,
+        133.66
+       ],
+       [
+        -3.44,
+        133.37
+       ],
+       [
+        -2.3,
+        133.17
+       ],
+       [
+        -1.16,
+        133.04
+       ],
+       [
+        0,
+        133
+       ],
+       [
+        1.16,
+        133.04
+       ],
+       [
+        2.3,
+        133.17
+       ],
+       [
+        3.44,
+        133.37
+       ],
+       [
+        4.56,
+        133.66
+       ],
+       [
+        5.66,
+        134.03
+       ],
+       [
+        6.72,
+        134.48
+       ],
+       [
+        7.75,
+        135
+       ],
+       [
+        8.74,
+        135.6
+       ],
+       [
+        9.69,
+        136.27
+       ],
+       [
+        10.58,
+        137
+       ],
+       [
+        89.42,
+        137
+       ],
+       [
+        90.31,
+        136.27
+       ],
+       [
+        91.26,
+        135.6
+       ],
+       [
+        92.25,
+        135
+       ],
+       [
+        93.28,
+        134.48
+       ],
+       [
+        94.34,
+        134.03
+       ],
+       [
+        95.44,
+        133.66
+       ],
+       [
+        96.56,
+        133.37
+       ],
+       [
+        97.7,
+        133.17
+       ],
+       [
+        98.84,
+        133.04
+       ],
+       [
+        100,
+        133
+       ],
+       [
+        101.16,
+        133.04
+       ],
+       [
+        102.3,
+        133.17
+       ],
+       [
+        103.44,
+        133.37
+       ],
+       [
+        104.56,
+        133.66
+       ],
+       [
+        105.66,
+        134.03
+       ],
+       [
+        106.72,
+        134.48
+       ],
+       [
+        107.75,
+        135
+       ],
+       [
+        108.74,
+        135.6
+       ],
+       [
+        109.69,
+        136.27
+       ],
+       [
+        110.58,
+        137
+       ],
+       [
+        150,
+        137
+       ],
+       [
+        160,
+        128
+       ],
+       [
+        160,
+        122
+       ],
+       [
+        145,
+        122
+       ],
+       [
+        145,
+        110
+       ],
+       [
+        115,
+        110
+       ],
+       [
+        115,
+        122
+       ],
+       [
+        -115,
+        122
+       ],
+       [
+        -115,
+        110
+       ],
+       [
+        -145,
+        110
+       ],
+       [
+        -145,
+        122
+       ]
+      ],
+      "h": 6,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f91",
+     "name": "Ø12.2 eje línea y=-100",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -100,
+      39
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f92",
+     "name": "Ø12.2 eje línea y=0",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      39
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f93",
+     "name": "Ø12.2 eje línea y=100",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      100,
+      39
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p13_placa_portarodillos_x_150",
+   "name": "Placa portarodillos x=150",
+   "color": "#2a4fd7",
+   "pos": [
+    147,
+    0,
+    110
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f94",
+     "name": "Contorno peine (lóbulos + pies)",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -110
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -160,
+        122
+       ],
+       [
+        -160,
+        128
+       ],
+       [
+        -150,
+        137
+       ],
+       [
+        -110.58,
+        137
+       ],
+       [
+        -109.69,
+        136.27
+       ],
+       [
+        -108.74,
+        135.6
+       ],
+       [
+        -107.75,
+        135
+       ],
+       [
+        -106.72,
+        134.48
+       ],
+       [
+        -105.66,
+        134.03
+       ],
+       [
+        -104.56,
+        133.66
+       ],
+       [
+        -103.44,
+        133.37
+       ],
+       [
+        -102.3,
+        133.17
+       ],
+       [
+        -101.16,
+        133.04
+       ],
+       [
+        -100,
+        133
+       ],
+       [
+        -98.84,
+        133.04
+       ],
+       [
+        -97.7,
+        133.17
+       ],
+       [
+        -96.56,
+        133.37
+       ],
+       [
+        -95.44,
+        133.66
+       ],
+       [
+        -94.34,
+        134.03
+       ],
+       [
+        -93.28,
+        134.48
+       ],
+       [
+        -92.25,
+        135
+       ],
+       [
+        -91.26,
+        135.6
+       ],
+       [
+        -90.31,
+        136.27
+       ],
+       [
+        -89.42,
+        137
+       ],
+       [
+        -10.58,
+        137
+       ],
+       [
+        -9.69,
+        136.27
+       ],
+       [
+        -8.74,
+        135.6
+       ],
+       [
+        -7.75,
+        135
+       ],
+       [
+        -6.72,
+        134.48
+       ],
+       [
+        -5.66,
+        134.03
+       ],
+       [
+        -4.56,
+        133.66
+       ],
+       [
+        -3.44,
+        133.37
+       ],
+       [
+        -2.3,
+        133.17
+       ],
+       [
+        -1.16,
+        133.04
+       ],
+       [
+        0,
+        133
+       ],
+       [
+        1.16,
+        133.04
+       ],
+       [
+        2.3,
+        133.17
+       ],
+       [
+        3.44,
+        133.37
+       ],
+       [
+        4.56,
+        133.66
+       ],
+       [
+        5.66,
+        134.03
+       ],
+       [
+        6.72,
+        134.48
+       ],
+       [
+        7.75,
+        135
+       ],
+       [
+        8.74,
+        135.6
+       ],
+       [
+        9.69,
+        136.27
+       ],
+       [
+        10.58,
+        137
+       ],
+       [
+        89.42,
+        137
+       ],
+       [
+        90.31,
+        136.27
+       ],
+       [
+        91.26,
+        135.6
+       ],
+       [
+        92.25,
+        135
+       ],
+       [
+        93.28,
+        134.48
+       ],
+       [
+        94.34,
+        134.03
+       ],
+       [
+        95.44,
+        133.66
+       ],
+       [
+        96.56,
+        133.37
+       ],
+       [
+        97.7,
+        133.17
+       ],
+       [
+        98.84,
+        133.04
+       ],
+       [
+        100,
+        133
+       ],
+       [
+        101.16,
+        133.04
+       ],
+       [
+        102.3,
+        133.17
+       ],
+       [
+        103.44,
+        133.37
+       ],
+       [
+        104.56,
+        133.66
+       ],
+       [
+        105.66,
+        134.03
+       ],
+       [
+        106.72,
+        134.48
+       ],
+       [
+        107.75,
+        135
+       ],
+       [
+        108.74,
+        135.6
+       ],
+       [
+        109.69,
+        136.27
+       ],
+       [
+        110.58,
+        137
+       ],
+       [
+        150,
+        137
+       ],
+       [
+        160,
+        128
+       ],
+       [
+        160,
+        122
+       ],
+       [
+        145,
+        122
+       ],
+       [
+        145,
+        110
+       ],
+       [
+        115,
+        110
+       ],
+       [
+        115,
+        122
+       ],
+       [
+        -115,
+        122
+       ],
+       [
+        -115,
+        110
+       ],
+       [
+        -145,
+        110
+       ],
+       [
+        -145,
+        122
+       ]
+      ],
+      "h": 6,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f95",
+     "name": "Ø12.2 eje línea y=-100",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -100,
+      39
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f96",
+     "name": "Ø12.2 eje línea y=0",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      39
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f97",
+     "name": "Ø12.2 eje línea y=100",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      100,
+      39
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p14_eje_rodillo_12_l_nea_y_100",
+   "name": "Eje rodillo Ø12 línea y=-100",
+   "color": "#b0bec5",
+   "pos": [
+    -165,
+    -100,
+    149
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f98",
+     "name": "Eje Ø12 × 330",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 330
+     }
+    }
+   ]
+  },
+  {
+   "id": "p15_rodillo_completo_vulcanizado_l_nea_y_100",
+   "name": "Rodillo completo vulcanizado línea y=-100",
+   "color": "#37474f",
+   "pos": [
+    0,
+    -100,
+    124
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "rodillo_vulcanizado_50x290",
+   "features": [
+    {
+     "id": "f99",
+     "name": "Núcleo Ø44 × 290",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 44,
+      "h": 290
+     }
+    },
+    {
+     "id": "f100",
+     "name": "Vulcanizado Ø50 (hasta x=93)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 50,
+      "h": 238
+     }
+    },
+    {
+     "id": "f101",
+     "name": "Barreno Ø12.2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -145,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p16_eje_rodillo_12_l_nea_y_0",
+   "name": "Eje rodillo Ø12 línea y=0",
+   "color": "#b0bec5",
+   "pos": [
+    -165,
+    0,
+    149
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f102",
+     "name": "Eje Ø12 × 330",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 330
+     }
+    }
+   ]
+  },
+  {
+   "id": "p17_rodillo_completo_vulcanizado_l_nea_y_0",
+   "name": "Rodillo completo vulcanizado línea y=0",
+   "color": "#37474f",
+   "pos": [
+    0,
+    0,
+    124
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "rodillo_vulcanizado_50x290",
+   "features": [
+    {
+     "id": "f103",
+     "name": "Núcleo Ø44 × 290",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 44,
+      "h": 290
+     }
+    },
+    {
+     "id": "f104",
+     "name": "Vulcanizado Ø50 (hasta x=93)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 50,
+      "h": 238
+     }
+    },
+    {
+     "id": "f105",
+     "name": "Barreno Ø12.2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -145,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p18_eje_rodillo_12_l_nea_y_100",
+   "name": "Eje rodillo Ø12 línea y=100",
+   "color": "#b0bec5",
+   "pos": [
+    -165,
+    100,
+    149
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f106",
+     "name": "Eje Ø12 × 330",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 330
+     }
+    }
+   ]
+  },
+  {
+   "id": "p19_rodillo_completo_vulcanizado_l_nea_y_100",
+   "name": "Rodillo completo vulcanizado línea y=100",
+   "color": "#37474f",
+   "pos": [
+    0,
+    100,
+    124
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "rodillo_vulcanizado_50x290",
+   "features": [
+    {
+     "id": "f107",
+     "name": "Núcleo Ø44 × 290",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 44,
+      "h": 290
+     }
+    },
+    {
+     "id": "f108",
+     "name": "Vulcanizado Ø50 (hasta x=93)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 50,
+      "h": 238
+     }
+    },
+    {
+     "id": "f109",
+     "name": "Barreno Ø12.2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -145,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p20_banda_transmisi_n_r1_r2_x_106",
+   "name": "Banda transmisión R1↔R2 (x=106)",
+   "color": "#212121",
+   "pos": [
+    106,
+    -50,
+    149
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f110",
+     "name": "Contorno exterior",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      -7.5,
+      50,
+      -149
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -100,
+        174
+       ],
+       [
+        -102.8,
+        173.84
+       ],
+       [
+        -105.56,
+        173.37
+       ],
+       [
+        -108.26,
+        172.6
+       ],
+       [
+        -110.85,
+        171.52
+       ],
+       [
+        -113.3,
+        170.17
+       ],
+       [
+        -115.59,
+        168.55
+       ],
+       [
+        -117.68,
+        166.68
+       ],
+       [
+        -119.55,
+        164.59
+       ],
+       [
+        -121.17,
+        162.3
+       ],
+       [
+        -122.52,
+        159.85
+       ],
+       [
+        -123.6,
+        157.26
+       ],
+       [
+        -124.37,
+        154.56
+       ],
+       [
+        -124.84,
+        151.8
+       ],
+       [
+        -125,
+        149
+       ],
+       [
+        -124.84,
+        146.2
+       ],
+       [
+        -124.37,
+        143.44
+       ],
+       [
+        -123.6,
+        140.74
+       ],
+       [
+        -122.52,
+        138.15
+       ],
+       [
+        -121.17,
+        135.7
+       ],
+       [
+        -119.55,
+        133.41
+       ],
+       [
+        -117.68,
+        131.32
+       ],
+       [
+        -115.59,
+        129.45
+       ],
+       [
+        -113.3,
+        127.83
+       ],
+       [
+        -110.85,
+        126.48
+       ],
+       [
+        -108.26,
+        125.4
+       ],
+       [
+        -105.56,
+        124.63
+       ],
+       [
+        -102.8,
+        124.16
+       ],
+       [
+        -100,
+        124
+       ],
+       [
+        0,
+        124
+       ],
+       [
+        2.8,
+        124.16
+       ],
+       [
+        5.56,
+        124.63
+       ],
+       [
+        8.26,
+        125.4
+       ],
+       [
+        10.85,
+        126.48
+       ],
+       [
+        13.3,
+        127.83
+       ],
+       [
+        15.59,
+        129.45
+       ],
+       [
+        17.68,
+        131.32
+       ],
+       [
+        19.55,
+        133.41
+       ],
+       [
+        21.17,
+        135.7
+       ],
+       [
+        22.52,
+        138.15
+       ],
+       [
+        23.6,
+        140.74
+       ],
+       [
+        24.37,
+        143.44
+       ],
+       [
+        24.84,
+        146.2
+       ],
+       [
+        25,
+        149
+       ],
+       [
+        24.84,
+        151.8
+       ],
+       [
+        24.37,
+        154.56
+       ],
+       [
+        23.6,
+        157.26
+       ],
+       [
+        22.52,
+        159.85
+       ],
+       [
+        21.17,
+        162.3
+       ],
+       [
+        19.55,
+        164.59
+       ],
+       [
+        17.68,
+        166.68
+       ],
+       [
+        15.59,
+        168.55
+       ],
+       [
+        13.3,
+        170.17
+       ],
+       [
+        10.85,
+        171.52
+       ],
+       [
+        8.26,
+        172.6
+       ],
+       [
+        5.56,
+        173.37
+       ],
+       [
+        2.8,
+        173.84
+       ],
+       [
+        0,
+        174
+       ]
+      ],
+      "h": 15,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f111",
+     "name": "Vaciado interior",
+     "shape": "sketch",
+     "op": "cut",
+     "at": [
+      7.5,
+      50,
+      -149
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -100,
+        171
+       ],
+       [
+        -102.46,
+        170.86
+       ],
+       [
+        -104.9,
+        170.45
+       ],
+       [
+        -107.27,
+        169.77
+       ],
+       [
+        -109.55,
+        168.82
+       ],
+       [
+        -111.7,
+        167.63
+       ],
+       [
+        -113.72,
+        166.2
+       ],
+       [
+        -115.56,
+        164.56
+       ],
+       [
+        -117.2,
+        162.72
+       ],
+       [
+        -118.63,
+        160.7
+       ],
+       [
+        -119.82,
+        158.55
+       ],
+       [
+        -120.77,
+        156.27
+       ],
+       [
+        -121.45,
+        153.9
+       ],
+       [
+        -121.86,
+        151.46
+       ],
+       [
+        -122,
+        149
+       ],
+       [
+        -121.86,
+        146.54
+       ],
+       [
+        -121.45,
+        144.1
+       ],
+       [
+        -120.77,
+        141.73
+       ],
+       [
+        -119.82,
+        139.45
+       ],
+       [
+        -118.63,
+        137.3
+       ],
+       [
+        -117.2,
+        135.28
+       ],
+       [
+        -115.56,
+        133.44
+       ],
+       [
+        -113.72,
+        131.8
+       ],
+       [
+        -111.7,
+        130.37
+       ],
+       [
+        -109.55,
+        129.18
+       ],
+       [
+        -107.27,
+        128.23
+       ],
+       [
+        -104.9,
+        127.55
+       ],
+       [
+        -102.46,
+        127.14
+       ],
+       [
+        -100,
+        127
+       ],
+       [
+        0,
+        127
+       ],
+       [
+        2.46,
+        127.14
+       ],
+       [
+        4.9,
+        127.55
+       ],
+       [
+        7.27,
+        128.23
+       ],
+       [
+        9.55,
+        129.18
+       ],
+       [
+        11.7,
+        130.37
+       ],
+       [
+        13.72,
+        131.8
+       ],
+       [
+        15.56,
+        133.44
+       ],
+       [
+        17.2,
+        135.28
+       ],
+       [
+        18.63,
+        137.3
+       ],
+       [
+        19.82,
+        139.45
+       ],
+       [
+        20.77,
+        141.73
+       ],
+       [
+        21.45,
+        144.1
+       ],
+       [
+        21.86,
+        146.54
+       ],
+       [
+        22,
+        149
+       ],
+       [
+        21.86,
+        151.46
+       ],
+       [
+        21.45,
+        153.9
+       ],
+       [
+        20.77,
+        156.27
+       ],
+       [
+        19.82,
+        158.55
+       ],
+       [
+        18.63,
+        160.7
+       ],
+       [
+        17.2,
+        162.72
+       ],
+       [
+        15.56,
+        164.56
+       ],
+       [
+        13.72,
+        166.2
+       ],
+       [
+        11.7,
+        167.63
+       ],
+       [
+        9.55,
+        168.82
+       ],
+       [
+        7.27,
+        169.77
+       ],
+       [
+        4.9,
+        170.45
+       ],
+       [
+        2.46,
+        170.86
+       ],
+       [
+        0,
+        171
+       ]
+      ],
+      "h": 15,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "p21_banda_transmisi_n_r2_r3_x_134",
+   "name": "Banda transmisión R2↔R3 (x=134)",
+   "color": "#212121",
+   "pos": [
+    134,
+    50,
+    149
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f112",
+     "name": "Contorno exterior",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      -7.5,
+      -50,
+      -149
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        0,
+        174
+       ],
+       [
+        -2.8,
+        173.84
+       ],
+       [
+        -5.56,
+        173.37
+       ],
+       [
+        -8.26,
+        172.6
+       ],
+       [
+        -10.85,
+        171.52
+       ],
+       [
+        -13.3,
+        170.17
+       ],
+       [
+        -15.59,
+        168.55
+       ],
+       [
+        -17.68,
+        166.68
+       ],
+       [
+        -19.55,
+        164.59
+       ],
+       [
+        -21.17,
+        162.3
+       ],
+       [
+        -22.52,
+        159.85
+       ],
+       [
+        -23.6,
+        157.26
+       ],
+       [
+        -24.37,
+        154.56
+       ],
+       [
+        -24.84,
+        151.8
+       ],
+       [
+        -25,
+        149
+       ],
+       [
+        -24.84,
+        146.2
+       ],
+       [
+        -24.37,
+        143.44
+       ],
+       [
+        -23.6,
+        140.74
+       ],
+       [
+        -22.52,
+        138.15
+       ],
+       [
+        -21.17,
+        135.7
+       ],
+       [
+        -19.55,
+        133.41
+       ],
+       [
+        -17.68,
+        131.32
+       ],
+       [
+        -15.59,
+        129.45
+       ],
+       [
+        -13.3,
+        127.83
+       ],
+       [
+        -10.85,
+        126.48
+       ],
+       [
+        -8.26,
+        125.4
+       ],
+       [
+        -5.56,
+        124.63
+       ],
+       [
+        -2.8,
+        124.16
+       ],
+       [
+        0,
+        124
+       ],
+       [
+        100,
+        124
+       ],
+       [
+        102.8,
+        124.16
+       ],
+       [
+        105.56,
+        124.63
+       ],
+       [
+        108.26,
+        125.4
+       ],
+       [
+        110.85,
+        126.48
+       ],
+       [
+        113.3,
+        127.83
+       ],
+       [
+        115.59,
+        129.45
+       ],
+       [
+        117.68,
+        131.32
+       ],
+       [
+        119.55,
+        133.41
+       ],
+       [
+        121.17,
+        135.7
+       ],
+       [
+        122.52,
+        138.15
+       ],
+       [
+        123.6,
+        140.74
+       ],
+       [
+        124.37,
+        143.44
+       ],
+       [
+        124.84,
+        146.2
+       ],
+       [
+        125,
+        149
+       ],
+       [
+        124.84,
+        151.8
+       ],
+       [
+        124.37,
+        154.56
+       ],
+       [
+        123.6,
+        157.26
+       ],
+       [
+        122.52,
+        159.85
+       ],
+       [
+        121.17,
+        162.3
+       ],
+       [
+        119.55,
+        164.59
+       ],
+       [
+        117.68,
+        166.68
+       ],
+       [
+        115.59,
+        168.55
+       ],
+       [
+        113.3,
+        170.17
+       ],
+       [
+        110.85,
+        171.52
+       ],
+       [
+        108.26,
+        172.6
+       ],
+       [
+        105.56,
+        173.37
+       ],
+       [
+        102.8,
+        173.84
+       ],
+       [
+        100,
+        174
+       ]
+      ],
+      "h": 15,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f113",
+     "name": "Vaciado interior",
+     "shape": "sketch",
+     "op": "cut",
+     "at": [
+      7.5,
+      -50,
+      -149
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        0,
+        171
+       ],
+       [
+        -2.46,
+        170.86
+       ],
+       [
+        -4.9,
+        170.45
+       ],
+       [
+        -7.27,
+        169.77
+       ],
+       [
+        -9.55,
+        168.82
+       ],
+       [
+        -11.7,
+        167.63
+       ],
+       [
+        -13.72,
+        166.2
+       ],
+       [
+        -15.56,
+        164.56
+       ],
+       [
+        -17.2,
+        162.72
+       ],
+       [
+        -18.63,
+        160.7
+       ],
+       [
+        -19.82,
+        158.55
+       ],
+       [
+        -20.77,
+        156.27
+       ],
+       [
+        -21.45,
+        153.9
+       ],
+       [
+        -21.86,
+        151.46
+       ],
+       [
+        -22,
+        149
+       ],
+       [
+        -21.86,
+        146.54
+       ],
+       [
+        -21.45,
+        144.1
+       ],
+       [
+        -20.77,
+        141.73
+       ],
+       [
+        -19.82,
+        139.45
+       ],
+       [
+        -18.63,
+        137.3
+       ],
+       [
+        -17.2,
+        135.28
+       ],
+       [
+        -15.56,
+        133.44
+       ],
+       [
+        -13.72,
+        131.8
+       ],
+       [
+        -11.7,
+        130.37
+       ],
+       [
+        -9.55,
+        129.18
+       ],
+       [
+        -7.27,
+        128.23
+       ],
+       [
+        -4.9,
+        127.55
+       ],
+       [
+        -2.46,
+        127.14
+       ],
+       [
+        0,
+        127
+       ],
+       [
+        100,
+        127
+       ],
+       [
+        102.46,
+        127.14
+       ],
+       [
+        104.9,
+        127.55
+       ],
+       [
+        107.27,
+        128.23
+       ],
+       [
+        109.55,
+        129.18
+       ],
+       [
+        111.7,
+        130.37
+       ],
+       [
+        113.72,
+        131.8
+       ],
+       [
+        115.56,
+        133.44
+       ],
+       [
+        117.2,
+        135.28
+       ],
+       [
+        118.63,
+        137.3
+       ],
+       [
+        119.82,
+        139.45
+       ],
+       [
+        120.77,
+        141.73
+       ],
+       [
+        121.45,
+        144.1
+       ],
+       [
+        121.86,
+        146.54
+       ],
+       [
+        122,
+        149
+       ],
+       [
+        121.86,
+        151.46
+       ],
+       [
+        121.45,
+        153.9
+       ],
+       [
+        120.77,
+        156.27
+       ],
+       [
+        119.82,
+        158.55
+       ],
+       [
+        118.63,
+        160.7
+       ],
+       [
+        117.2,
+        162.72
+       ],
+       [
+        115.56,
+        164.56
+       ],
+       [
+        113.72,
+        166.2
+       ],
+       [
+        111.7,
+        167.63
+       ],
+       [
+        109.55,
+        168.82
+       ],
+       [
+        107.27,
+        169.77
+       ],
+       [
+        104.9,
+        170.45
+       ],
+       [
+        102.46,
+        170.86
+       ],
+       [
+        100,
+        171
+       ]
+      ],
+      "h": 15,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "p22_banda_motriz_motor_r1_x_134",
+   "name": "Banda motriz motor→R1 (x=134)",
+   "color": "#212121",
+   "pos": [
+    134,
+    -120,
+    70
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f114",
+     "name": "Contorno exterior",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      -7.5,
+      120,
+      -70
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -165.39,
+        81.79
+       ],
+       [
+        -166.53,
+        78.94
+       ],
+       [
+        -167.35,
+        75.98
+       ],
+       [
+        -167.84,
+        72.95
+       ],
+       [
+        -168,
+        69.88
+       ],
+       [
+        -167.82,
+        66.81
+       ],
+       [
+        -167.3,
+        63.78
+       ],
+       [
+        -166.46,
+        60.83
+       ],
+       [
+        -165.29,
+        57.99
+       ],
+       [
+        -163.82,
+        55.29
+       ],
+       [
+        -162.07,
+        52.77
+       ],
+       [
+        -160.05,
+        50.45
+       ],
+       [
+        -157.79,
+        48.37
+       ],
+       [
+        -155.31,
+        46.56
+       ],
+       [
+        -152.65,
+        45.02
+       ],
+       [
+        -149.84,
+        43.78
+       ],
+       [
+        -146.9,
+        42.86
+       ],
+       [
+        -143.89,
+        42.27
+       ],
+       [
+        -140.83,
+        42.01
+       ],
+       [
+        -137.76,
+        42.09
+       ],
+       [
+        -134.71,
+        42.5
+       ],
+       [
+        -131.73,
+        43.25
+       ],
+       [
+        -128.85,
+        44.32
+       ],
+       [
+        -126.1,
+        45.69
+       ],
+       [
+        -123.52,
+        47.36
+       ],
+       [
+        -121.14,
+        49.3
+       ],
+       [
+        -118.99,
+        51.49
+       ],
+       [
+        -117.09,
+        53.91
+       ],
+       [
+        -115.46,
+        56.51
+       ],
+       [
+        -78.09,
+        136.96
+       ],
+       [
+        -76.86,
+        139.54
+       ],
+       [
+        -75.93,
+        142.25
+       ],
+       [
+        -75.31,
+        145.05
+       ],
+       [
+        -75.02,
+        147.9
+       ],
+       [
+        -75.06,
+        150.76
+       ],
+       [
+        -75.43,
+        153.6
+       ],
+       [
+        -76.11,
+        156.38
+       ],
+       [
+        -77.12,
+        159.07
+       ],
+       [
+        -78.42,
+        161.62
+       ],
+       [
+        -80,
+        164
+       ],
+       [
+        -81.85,
+        166.19
+       ],
+       [
+        -83.93,
+        168.15
+       ],
+       [
+        -86.23,
+        169.87
+       ],
+       [
+        -88.71,
+        171.3
+       ],
+       [
+        -91.33,
+        172.45
+       ],
+       [
+        -94.07,
+        173.29
+       ],
+       [
+        -96.89,
+        173.81
+       ],
+       [
+        -99.74,
+        174
+       ],
+       [
+        -102.61,
+        173.86
+       ],
+       [
+        -105.43,
+        173.4
+       ],
+       [
+        -108.19,
+        172.62
+       ],
+       [
+        -110.84,
+        171.53
+       ],
+       [
+        -113.34,
+        170.14
+       ],
+       [
+        -115.67,
+        168.48
+       ],
+       [
+        -117.8,
+        166.56
+       ],
+       [
+        -119.69,
+        164.41
+       ],
+       [
+        -121.32,
+        162.06
+       ],
+       [
+        -122.67,
+        159.53
+       ]
+      ],
+      "h": 15,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f115",
+     "name": "Vaciado interior",
+     "shape": "sketch",
+     "op": "cut",
+     "at": [
+      7.5,
+      120,
+      -70
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -162.67,
+        80.53
+       ],
+       [
+        -163.69,
+        77.98
+       ],
+       [
+        -164.42,
+        75.34
+       ],
+       [
+        -164.86,
+        72.63
+       ],
+       [
+        -165,
+        69.89
+       ],
+       [
+        -164.84,
+        67.15
+       ],
+       [
+        -164.38,
+        64.45
+       ],
+       [
+        -163.62,
+        61.81
+       ],
+       [
+        -162.58,
+        59.27
+       ],
+       [
+        -161.27,
+        56.86
+       ],
+       [
+        -159.7,
+        54.61
+       ],
+       [
+        -157.9,
+        52.55
+       ],
+       [
+        -155.88,
+        50.69
+       ],
+       [
+        -153.67,
+        49.07
+       ],
+       [
+        -151.29,
+        47.7
+       ],
+       [
+        -148.78,
+        46.59
+       ],
+       [
+        -146.16,
+        45.77
+       ],
+       [
+        -143.47,
+        45.24
+       ],
+       [
+        -140.74,
+        45.01
+       ],
+       [
+        -138,
+        45.08
+       ],
+       [
+        -135.28,
+        45.45
+       ],
+       [
+        -132.62,
+        46.11
+       ],
+       [
+        -130.05,
+        47.07
+       ],
+       [
+        -127.59,
+        48.3
+       ],
+       [
+        -125.29,
+        49.79
+       ],
+       [
+        -123.16,
+        51.52
+       ],
+       [
+        -121.24,
+        53.48
+       ],
+       [
+        -119.54,
+        55.63
+       ],
+       [
+        -118.09,
+        57.96
+       ],
+       [
+        -80.72,
+        138.4
+       ],
+       [
+        -79.64,
+        140.68
+       ],
+       [
+        -78.82,
+        143.06
+       ],
+       [
+        -78.28,
+        145.52
+       ],
+       [
+        -78.02,
+        148.03
+       ],
+       [
+        -78.05,
+        150.55
+       ],
+       [
+        -78.38,
+        153.05
+       ],
+       [
+        -78.98,
+        155.5
+       ],
+       [
+        -79.86,
+        157.86
+       ],
+       [
+        -81.01,
+        160.1
+       ],
+       [
+        -82.4,
+        162.2
+       ],
+       [
+        -84.03,
+        164.13
+       ],
+       [
+        -85.86,
+        165.86
+       ],
+       [
+        -87.88,
+        167.36
+       ],
+       [
+        -90.06,
+        168.63
+       ],
+       [
+        -92.37,
+        169.64
+       ],
+       [
+        -94.78,
+        170.37
+       ],
+       [
+        -97.26,
+        170.83
+       ],
+       [
+        -99.78,
+        171
+       ],
+       [
+        -102.29,
+        170.88
+       ],
+       [
+        -104.78,
+        170.47
+       ],
+       [
+        -107.2,
+        169.79
+       ],
+       [
+        -109.53,
+        168.83
+       ],
+       [
+        -111.74,
+        167.61
+       ],
+       [
+        -113.79,
+        166.14
+       ],
+       [
+        -115.66,
+        164.45
+       ],
+       [
+        -117.33,
+        162.56
+       ],
+       [
+        -118.76,
+        160.49
+       ],
+       [
+        -119.95,
+        158.27
+       ]
+      ],
+      "h": 15,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "p23_m_nsula_motorreductor",
+   "name": "Ménsula motorreductor",
+   "color": "#1e3aa8",
+   "pos": [
+    150,
+    -130,
+    104
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f116",
+     "name": "Ala superior 42×40×6",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      1,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 42,
+      "d": 40,
+      "h": 6
+     }
+    },
+    {
+     "id": "f117",
+     "name": "Placa vertical 6×70×70",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      23,
+      -10,
+      -64
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 6,
+      "d": 70,
+      "h": 70
+     }
+    },
+    {
+     "id": "f118",
+     "name": "Ø6.6 a larguero",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -10,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 6.6,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f119",
+     "name": "Ø6.6 a larguero",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      10,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 6.6,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f120",
+     "name": "Paso eje motor Ø12.4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      20,
+      -10,
+      -34
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f121",
+     "name": "Ø5.5 patrón motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      26,
+      -35,
+      -54
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f122",
+     "name": "Ø5.5 patrón motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      26,
+      -35,
+      -14
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f123",
+     "name": "Ø5.5 patrón motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      26,
+      15,
+      -54
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f124",
+     "name": "Ø5.5 patrón motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      26,
+      15,
+      -14
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p24_motorreductor",
+   "name": "Motorreductor",
+   "color": "#546e7a",
+   "pos": [
+    176,
+    -140,
+    35
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f125",
+     "name": "Cuerpo 90×70×70",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      45,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 70,
+      "h": 70
+     }
+    },
+    {
+     "id": "f126",
+     "name": "Eje salida Ø12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      35
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 56
+     }
+    }
+   ]
+  },
+  {
+   "id": "p25_polea_motriz_50_20",
+   "name": "Polea motriz Ø50×20",
+   "color": "#78909c",
+   "pos": [
+    124,
+    -140,
+    70
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f127",
+     "name": "Polea Ø50×20",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 50,
+      "h": 20
+     }
+    },
+    {
+     "id": "f128",
+     "name": "Barreno Ø12.2 + prisionero",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  }
+ ],
+ "constraints": []
+}

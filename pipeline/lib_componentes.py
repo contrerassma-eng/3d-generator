@@ -25,9 +25,11 @@ import numpy as np
 REPO = Path(__file__).resolve().parent.parent
 CATALOGO = REPO / "componentes" / "catalogo.json"
 
-CATEGORIAS = ("mcu", "alimentacion", "sensor", "boton", "conector", "adaptador")
+CATEGORIAS = ("mcu", "alimentacion", "sensor", "boton", "conector", "adaptador",
+              "mecanico")
 COLOR_CATEGORIA = {"mcu": "#6d9ee8", "alimentacion": "#e8a56d", "sensor": "#7fc98a",
-                   "boton": "#c98ad0", "conector": "#9a9fe0", "adaptador": "#6bc9c2"}
+                   "boton": "#c98ad0", "conector": "#9a9fe0", "adaptador": "#6bc9c2",
+                   "mecanico": "#90a4ae"}
 SEGS = 48
 
 

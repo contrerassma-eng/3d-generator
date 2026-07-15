@@ -236,6 +236,71 @@
         {"nombre": "tuerca M5 (llave 8)", "at": [0, 0, -3], "dim": [10, 10, 3]}
       ],
       "notas": "Dejar >=18 mm libres detras del panel para cuerpo + cables."
+    },
+    {
+      "id": "rodillo_traccion_50x40",
+      "nombre": "Rodillo de alta traccion O50 x 40 (cubos O18, barreno O12.2)",
+      "categoria": "mecanico",
+      "descripcion": "Rueda/rodillo de desvio para sorter: cuerpo O50 de 40 mm de cara (recubrimiento de alta friccion) con cubos laterales O18 x 22 que actuan como separadores contra las placas portarodillos. Barreno pasante O12.2 (ajuste deslizante sobre eje O12 h9). Eje del rodillo en X; apoyado tangente sobre Z=0.",
+      "fuente": {"tipo": "diseno", "detalle": "especificacion del usuario (sorter 90): rodillos O50, separacion entre tangentes >= 50 mm, salen entre bandas de 40 mm"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Cuerpo de traccion O50", "at": [-20, 0, 25], "eje": [1, 0, 0], "dia": 50, "alto": 40, "color": "#37474f"},
+        {"tipo": "cilindro", "nombre": "Cubo separador lado -X", "at": [-42, 0, 25], "eje": [1, 0, 0], "dia": 18, "alto": 22, "color": "#90a4ae"},
+        {"tipo": "cilindro", "nombre": "Cubo separador lado +X", "at": [20, 0, 25], "eje": [1, 0, 0], "dia": 18, "alto": 22, "color": "#90a4ae"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [
+        {"nombre": "giro libre del cuerpo (no rozar bandas ni placas)", "at": [-20, 0, 0], "dim": [44, 54, 54]}
+      ],
+      "notas": "Barreno O12.2 pasante en todo el largo (84 mm entre caras de cubos). En una linea de sorter el paso entre ejes de lineas es dia + gap: con gap tangente de 50 mm el paso es 100 mm y una banda de 40 mm pasa con 5 mm de holgura por lado."
+    },
+    {
+      "id": "polea_plana_60x44",
+      "nombre": "Polea de banda plana O60 x 44 (banda de 40, barreno O12.2)",
+      "categoria": "mecanico",
+      "descripcion": "Polea cilindrica para banda plana estrecha de 40 mm: cara de 44 mm (banda + 2 mm por lado), O60. Barreno pasante O12.2 para eje O12; fijar con prisionero o chaveta en el eje motriz. Eje en X; apoyada tangente sobre Z=0.",
+      "fuente": {"tipo": "diseno", "detalle": "banda estrecha de 40 mm declarada por el usuario; cara = ancho de banda + 4 mm (regla practica poleas planas)"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Cuerpo de polea O60", "at": [-22, 0, 30], "eje": [1, 0, 0], "dia": 60, "alto": 44, "color": "#546e7a"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [
+        {"nombre": "paso de banda alrededor (espesor 3 por cara)", "at": [-22, 0, 0], "dim": [44, 70, 70]}
+      ],
+      "notas": "Barreno O12.2. Con eje de polea a Z=137 sobre la mesa, el lomo de la banda (espesor 3) queda a 137 + 30 + 3 = 170 = plano de transporte."
+    },
+    {
+      "id": "rodillo_vulcanizado_50x290",
+      "nombre": "Rodillo completo vulcanizado O50 x 290 (extremo desnudo O44 de polea)",
+      "categoria": "mecanico",
+      "descripcion": "Rodillo de desvio de una sola pieza: nucleo de tubo O44 x 290 vulcanizado a O50 en toda la cara MENOS un extremo de 52 mm que queda desnudo: ahi las bandas de transmision envuelven el rodillo (el rodillo es la polea de la primera linea). Barreno pasante O12.2 para eje O12 h9. Eje del rodillo en X; apoyado tangente sobre Z=0.",
+      "fuente": {"tipo": "diseno", "detalle": "espec. del usuario (transferencia 90): rodillos completos y vulcanizados menos en un extremo, donde sube el sistema de bandas; O50 con gap tangente >= 50"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Nucleo desnudo O44 (tramo de polea)", "at": [-145, 0, 25], "eje": [1, 0, 0], "dia": 44, "alto": 290, "color": "#90a4ae"},
+        {"tipo": "cilindro", "nombre": "Vulcanizado O50 (cara de traccion)", "at": [-145, 0, 25], "eje": [1, 0, 0], "dia": 50, "alto": 238, "color": "#37474f"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [
+        {"nombre": "giro libre + paso de bandas en el extremo desnudo", "at": [-145, 0, 0], "dim": [290, 56, 56]}
+      ],
+      "notas": "Una banda plana de 3 mm sobre el nucleo O44 queda AL RAS del vulcanizado O50 (22 + 3 = 25). Barreno O12.2 pasante; retener el eje con E-clips DIN 6799."
+    },
+    {
+      "id": "eje_rodillos_12x330",
+      "nombre": "Eje calibrado O12 x 330 para rodillo completo",
+      "categoria": "mecanico",
+      "descripcion": "Eje liso O12 h9 de 330 mm: atraviesa las 2 placas portarodillos (agujeros O12.2) y el barreno del rodillo completo, con 12 mm de saliente por lado para anillos de retencion.",
+      "fuente": {"tipo": "diseno", "detalle": "largo = rodillo 290 + 2 placas de 6 en x=+-150 + salientes para anillos"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Eje O12", "at": [-165, 0, 6], "eje": [1, 0, 0], "dia": 12, "alto": 330, "color": "#b0bec5"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [],
+      "notas": "Ajuste deslizante O12 h9 en agujero O12.2. Ranuras para E-clip a 3 mm de cada extremo (no modeladas)."
     }
   ]
 }

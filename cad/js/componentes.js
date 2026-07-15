@@ -10,6 +10,7 @@ import { uid } from './model.js';
 export const COLOR_CATEGORIA = {
   mcu: '#6d9ee8', alimentacion: '#e8a56d', sensor: '#7fc98a',
   boton: '#c98ad0', conector: '#9a9fe0', adaptador: '#6bc9c2',
+  mecanico: '#90a4ae',
 };
 
 let _catalogo = null;
