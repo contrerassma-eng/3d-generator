@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
-  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, planeBasis, magnetCorrections,
+  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, planeBasis, magnetCorrections, identifyFace,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
 } from '../js/model.js';
@@ -236,6 +236,29 @@ console.log('— Imán de ensamble —');
     [{ min: { x: 0, y: 0, z: 0 }, max: { x: 120, y: 80, z: 10 }, axes: [{ x: 45, y: 25, z: 10 }] }],
     ['x', 'y']);
   check('imán: centro de ejes en X e Y', ce.x?.kind === 'eje' && Math.abs(ce.x.d - (-4)) < 1e-9 && ce.y?.kind === 'eje' && Math.abs(ce.y.d - 2) < 1e-9, JSON.stringify(ce));
+}
+
+console.log('— Edición directa: identificar caras —');
+{
+  const doc = newDoc();
+  const part = newPart(doc, 'p');
+  const box = makeBoxFeature(120, 80, 10);
+  const hole = makeHoleFeature(6, 10, true, [45, 25, 10], [0, 0, -1]);
+  const cyl = makeCylFeature(30, 22, [0, 0, 10]);
+  part.features.push(box, hole, cyl);
+  const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
+  let r = identifyFace(part, V3(10, 5, 10), V3(0, 0, 1));
+  check('cara superior de la caja', r?.kind === 'box-face' && r.axis === 2 && r.sign === 1 && r.feature === box, JSON.stringify(r?.kind));
+  r = identifyFace(part, V3(60, 0, 5), V3(1, 0, 0));
+  check('cara lateral +X de la caja', r?.kind === 'box-face' && r.axis === 0 && r.sign === 1);
+  r = identifyFace(part, V3(45 + 3, 25, 5), V3(1, 0, 0));
+  check('pared del agujero', r?.kind === 'hole-wall' && r.feature === hole);
+  r = identifyFace(part, V3(15, 0, 20), V3(1, 0, 0));
+  check('pared del cilindro', r?.kind === 'cyl-wall' && r.feature === cyl);
+  r = identifyFace(part, V3(3, 4, 32), V3(0, 0, 1));
+  check('tapa del cilindro', r?.kind === 'cyl-cap' && r.feature === cyl);
+  r = identifyFace(part, V3(200, 0, 0), V3(0, 0, 1));
+  check('punto fuera: null', r === null);
 }
 
 console.log('— Solver de restricciones —');

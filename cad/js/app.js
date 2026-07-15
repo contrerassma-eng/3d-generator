@@ -8,7 +8,7 @@ import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
   makeSketchEntitiesFeature, makeRevolveFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
-  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature,
+  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace,
   makeMate, makeConcentric, solveConstraints,
 } from './model.js';
 import * as SK from './sketch2d.js';
@@ -628,10 +628,11 @@ const MODE_HINTS = {
   flush: 'Alinear: clic en la cara de la 1.ª pieza, luego en la cara de la 2.ª (la 2.ª se mueve).',
   concentric: 'Concéntrico: clic cerca de un orificio/cilindro de la 1.ª pieza, luego de la 2.ª.',
   move: 'Mover: arrastra una pieza (Shift o un 2.º dedo = mover en Z). Al soltar se re-aplican las restricciones.',
-  measure: 'Medir: clic en dos puntos (se ajusta al vértice más cercano). Esc para salir.',
+  measure: 'Medir: toca aristas, caras, circunferencias o paredes cilíndricas (ejes). Con 2 referencias calcula distancia o ángulo.',
+  direct: 'Edición directa: toca una cara del sólido para cambiar su medida (diámetro, altura/profundidad o tamaño de caja).',
 };
 
-const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', measure: 'btnMeasure' };
+const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', direct: 'btnDirect', measure: 'btnMeasure' };
 
 function setMode(m) {
   mode = mode === m ? 'select' : m;
@@ -724,7 +725,7 @@ renderer.domElement.addEventListener('pointermove', (ev) => {
   if (sketch?.entDrag) { moveEntDrag(ev); return; }
   if (dragging) { if (ev.pointerId === dragging.pointerId) updateMoveDrag(ev); return; }
   if (mode === 'sketch' && sketch) { updateSketchPreview(ev); return; }
-  if (ev.pointerType === 'mouse' && (['hole', 'mate', 'flush'].includes(mode) || (mode === 'sketch' && !sketch))) {
+  if (ev.pointerType === 'mouse' && (['hole', 'mate', 'flush', 'direct'].includes(mode) || (mode === 'sketch' && !sketch))) {
     const hit = castAtEvent(ev);
     if (hit) showHover(hit, hoverMat);
     else clearHover();
@@ -780,6 +781,7 @@ function handleClick(ev) {
   if (mode === 'pestana') return clickPestana(hit);
   if (mode === 'mate' || mode === 'flush') return clickMate(hit, mode);
   if (mode === 'concentric') return clickConcentric(hit);
+  if (mode === 'direct') return clickDirect(hit);
   if (mode === 'measure') return clickMeasure(hit);
 }
 
@@ -1966,6 +1968,68 @@ function clickConcentric(hit) {
   commit('Restricción concéntrica creada.');
 }
 
+// ---------- Edición directa de sólidos ----------
+// Toca una cara y edita el parámetro de la función que la genera,
+// sin pasar por el árbol (símil "Edit face" de Inventor).
+
+function clickDirect(hit) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const face = faceAtHit(hit);
+  const lp = hit.object.worldToLocal(hit.point.clone());
+  const info = identifyFace(part, lp, face.normal);
+  if (!info) {
+    setStatus('No se reconoce esa cara para edición directa. Edita la función en el navegador de modelo.');
+    return;
+  }
+  const f = info.feature;
+  const done = (msg) => {
+    faceCache.clear();
+    clearHover();
+    rebuildPart(part);
+    solveAndSync();
+    commit(msg);
+  };
+  if (info.kind === 'hole-wall' || info.kind === 'cyl-wall') {
+    showForm(`${f.name} · pared cilíndrica`, [
+      { key: 'dia', label: 'Nuevo diámetro (mm)', value: f.params.dia, step: 0.5 },
+    ], (v) => {
+      if (!(v.dia > 0)) return;
+      pushUndo();
+      f.params.dia = v.dia;
+      if (f.shape === 'hole') f.name = f.name.replace(/Ø[\d.]+/, `Ø${v.dia}`);
+      done(`${f.name}: Ø${v.dia} mm.`);
+    });
+  } else if (info.kind === 'cyl-cap' || info.kind === 'sketch-cap') {
+    const lbl = f.op === 'cut' ? 'Nueva profundidad (mm)' : 'Nueva altura (mm)';
+    showForm(`${f.name} · cara superior`, [
+      { key: 'h', label: lbl, value: f.params.h, step: 0.5 },
+    ], (v) => {
+      if (!(v.h > 0)) return;
+      pushUndo();
+      f.params.h = v.h;
+      done(`${f.name}: ${f.op === 'cut' ? 'profundidad' : 'altura'} ${v.h} mm.`);
+    });
+  } else if (info.kind === 'box-face') {
+    const dim = ['w', 'd', 'h'][info.axis];
+    const labels = { w: 'Ancho X', d: 'Fondo Y', h: 'Alto Z' };
+    showForm(`${f.name} · cara ${labels[dim].split(' ')[1]}${info.sign > 0 ? '+' : '−'}`, [
+      { key: 'v', label: `${labels[dim]} (mm) — la cara opuesta queda fija`, value: f.params[dim], step: 0.5 },
+    ], (vals) => {
+      if (!(vals.v > 0)) return;
+      pushUndo();
+      const old = f.params[dim];
+      if (info.axis === 2) {
+        if (info.sign < 0) f.at[2] += old - vals.v; // se movió la base: la tapa queda fija
+        f.params.h = vals.v;
+      } else {
+        f.at[info.axis] += info.sign * (vals.v - old) / 2; // crece hacia la cara tocada
+        f.params[dim] = vals.v;
+      }
+      done(`${f.name}: ${labels[dim]} ${vals.v} mm.`);
+    });
+  }
+}
+
 // ---------- Mover (arrastre) ----------
 
 let magnetOn = true; // 🧲 imán de ensamble (activable/desactivable)
@@ -2085,57 +2149,194 @@ function endMoveDrag() {
   commit(`${moved.name} movida.`);
 }
 
-// ---------- Medición ----------
+// ---------- Medición con referencias ----------
+// Cada clic elige una referencia: punto (vértice/extremo), arista, cara plana,
+// circunferencia (borde de agujero/cilindro) o eje (pared cilíndrica).
+// Con dos referencias se calcula distancia perpendicular, entre ejes o ángulo.
 
-let measurePts = [];
+let measureRefs = [];
 let measureObjs = [];
 const measureLabel = $('measureLabel');
 let measureAnchor = null;
+const measureMat = new THREE.LineBasicMaterial({ color: 0x34a853 });
+const measureMat2 = new THREE.LineBasicMaterial({ color: 0xf29900 });
+
+// clasifica el clic en la referencia más específica cercana (coords de MUNDO)
+function pickMeasureRef(hit) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const mw = hit.object.matrixWorld;
+  const lp = hit.object.worldToLocal(hit.point.clone());
+  const W = (v) => v.clone().applyMatrix4(mw);
+  const WD = (v) => v.clone().transformDirection(mw); // dirección (sin traslación)
+  const prims = referencePrimitives(part);
+
+  // 1) circunferencia: cerca del borde de un círculo analítico
+  let bc = null;
+  for (const c of prims.circles) {
+    const rel = lp.clone().sub(c.c);
+    const t = rel.dot(c.dir);
+    const radial = rel.clone().addScaledVector(c.dir, -t).length();
+    const d = Math.hypot(t, radial - c.r);
+    if (d < 2.5 && (!bc || d < bc.d)) bc = { d, c };
+  }
+  if (bc) return { kind: 'circulo', part, p: W(bc.c.c), dir: WD(bc.c.dir), r: bc.c.r };
+
+  // 2) arista (o su extremo → punto)
+  let bl = null;
+  const tmp = new THREE.Vector3();
+  for (const l of prims.lines) {
+    const cp = new THREE.Line3(l.a, l.b).closestPointToPoint(lp, true, tmp).clone();
+    const d = cp.distanceTo(lp);
+    if (d < 2.5 && (!bl || d < bl.d)) bl = { d, l, cp };
+  }
+  if (bl) {
+    for (const end of [bl.l.a, bl.l.b]) {
+      if (end.distanceTo(lp) < 3) return { kind: 'punto', part, p: W(end) };
+    }
+    return { kind: 'arista', part, p: W(bl.cp), a: W(bl.l.a), b: W(bl.l.b) };
+  }
+
+  // 3) pared cilíndrica → eje
+  const face = faceAtHit(hit);
+  const axial = identifyFace(part, lp, face.normal);
+  if (axial && (axial.kind === 'hole-wall' || axial.kind === 'cyl-wall')) {
+    const f = axial.feature;
+    return {
+      kind: 'eje', part, name: f.name, dia: f.params.dia,
+      p: W(new THREE.Vector3(...f.at)),
+      dir: WD(new THREE.Vector3(...f.dir).normalize()),
+    };
+  }
+
+  // 4) cara plana / punto tocado
+  if (face.tris.length) {
+    return { kind: 'cara', part, p: W(face.centroid), n: WD(face.normal) };
+  }
+  return { kind: 'punto', part, p: hit.point.clone() };
+}
+
+function measureMarker(p) {
+  const m = new THREE.Mesh(new THREE.SphereGeometry(1.4, 16, 12), new THREE.MeshBasicMaterial({ color: 0x34a853 }));
+  m.position.copy(p);
+  overlay.add(m);
+  measureObjs.push(m);
+}
+function measureLine(a, b, mat = measureMat) {
+  const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), mat);
+  overlay.add(l);
+  measureObjs.push(l);
+}
+function drawMeasureRef(r) {
+  measureMarker(r.p);
+  if (r.kind === 'arista') measureLine(r.a, r.b, measureMat2);
+  if (r.kind === 'eje') {
+    const L = Math.max(20, r.dia * 2);
+    measureLine(r.p.clone().addScaledVector(r.dir, -L), r.p.clone().addScaledVector(r.dir, L), measureMat2);
+  }
+  if (r.kind === 'circulo') {
+    const u = Math.abs(r.dir.z) < 0.9 ? new THREE.Vector3(0, 0, 1) : new THREE.Vector3(1, 0, 0);
+    const U = new THREE.Vector3().crossVectors(r.dir, u).normalize();
+    const V2 = new THREE.Vector3().crossVectors(r.dir, U);
+    const pts = [];
+    for (let i = 0; i <= 48; i++) {
+      const a = (i / 48) * Math.PI * 2;
+      pts.push(r.p.clone().addScaledVector(U, Math.cos(a) * r.r).addScaledVector(V2, Math.sin(a) * r.r));
+    }
+    const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), measureMat2);
+    overlay.add(l);
+    measureObjs.push(l);
+  }
+}
+
+const REF_NAME = { punto: 'Punto', arista: 'Arista', cara: 'Cara', circulo: 'Circunferencia', eje: 'Eje' };
+function describeRef(r) {
+  if (r.kind === 'circulo') return `Circunferencia Ø${(r.r * 2).toFixed(2)} mm`;
+  if (r.kind === 'eje') return `Eje de ${r.name} (Ø${r.dia})`;
+  if (r.kind === 'arista') return `Arista de ${r.a.distanceTo(r.b).toFixed(2)} mm`;
+  if (r.kind === 'cara') return 'Cara plana';
+  return `Punto (${r.p.x.toFixed(1)}, ${r.p.y.toFixed(1)}, ${r.p.z.toFixed(1)})`;
+}
+
+// línea infinita equivalente de una referencia (arista, eje o eje del círculo)
+function refAxis(r) {
+  if (r.kind === 'arista') return { p: r.a, dir: r.b.clone().sub(r.a).normalize() };
+  if (r.kind === 'eje') return { p: r.p, dir: r.dir.clone() };
+  return null;
+}
+const DEG = (rad) => rad * 180 / Math.PI;
+const angBetween = (d1, d2) => DEG(Math.acos(THREE.MathUtils.clamp(Math.abs(d1.dot(d2)), 0, 1)));
+
+function measurePair(A, B) {
+  const fmt = (d) => `${d.toFixed(2)} mm`;
+  // cara-cara: paralelas → separación; si no → ángulo
+  if (A.kind === 'cara' && B.kind === 'cara') {
+    if (Math.abs(A.n.dot(B.n)) > 0.999) {
+      const d = B.p.clone().sub(A.p).dot(A.n);
+      return { text: `Caras paralelas: ${fmt(Math.abs(d))}`, a: A.p, b: A.p.clone().addScaledVector(A.n, d) };
+    }
+    return { text: `Ángulo entre caras: ${angBetween(A.n, B.n).toFixed(1)}°`, a: A.p, b: B.p };
+  }
+  // cara + otra referencia
+  const face = A.kind === 'cara' ? A : (B.kind === 'cara' ? B : null);
+  if (face) {
+    const o = face === A ? B : A;
+    const ax = refAxis(o);
+    if (ax && Math.abs(ax.dir.dot(face.n)) > 0.05) {
+      return { text: `Ángulo ${REF_NAME[o.kind].toLowerCase()}–cara: ${(90 - angBetween(ax.dir, face.n)).toFixed(1)}°`, a: face.p, b: o.p };
+    }
+    const d = o.p.clone().sub(face.p).dot(face.n);
+    return { text: `${REF_NAME[o.kind]} a cara (⊥): ${fmt(Math.abs(d))}`, a: o.p, b: o.p.clone().addScaledVector(face.n, -d) };
+  }
+  // dos con eje (arista/eje): paralelos → distancia entre ejes; si no → ángulo
+  const axA = refAxis(A), axB = refAxis(B);
+  if (axA && axB) {
+    const cross = new THREE.Vector3().crossVectors(axA.dir, axB.dir);
+    if (cross.length() < 0.02) {
+      const rel = axB.p.clone().sub(axA.p);
+      const perp = rel.clone().addScaledVector(axA.dir, -rel.dot(axA.dir));
+      return { text: `Distancia entre ${REF_NAME[A.kind].toLowerCase()}s (⊥): ${fmt(perp.length())}`, a: axB.p.clone().sub(perp), b: axB.p };
+    }
+    return { text: `Ángulo: ${angBetween(axA.dir, axB.dir).toFixed(1)}°`, a: A.p, b: B.p };
+  }
+  // eje/arista + punto o círculo: distancia radial al eje
+  const ax = axA || axB;
+  if (ax) {
+    const o = axA ? B : A;
+    const rel = o.p.clone().sub(ax.p);
+    const perp = rel.clone().addScaledVector(ax.dir, -rel.dot(ax.dir));
+    return { text: `${REF_NAME[o.kind]} a ${REF_NAME[(axA ? A : B).kind].toLowerCase()} (⊥): ${fmt(perp.length())}`, a: o.p.clone().sub(perp), b: o.p };
+  }
+  // punto/centro de círculo entre sí: distancia directa + deltas
+  const d = A.p.distanceTo(B.p);
+  const dl = B.p.clone().sub(A.p);
+  const kinds = (A.kind === 'circulo' || B.kind === 'circulo') ? 'entre centros ' : '';
+  return { text: `Distancia ${kinds}${fmt(d)}\nΔX ${dl.x.toFixed(2)}  ΔY ${dl.y.toFixed(2)}  ΔZ ${dl.z.toFixed(2)}`, a: A.p, b: B.p };
+}
 
 function clickMeasure(hit) {
   if (!hit) return;
-  // ajustar al vértice más cercano del triángulo tocado
-  const g = hit.object.geometry;
-  const pos = g.attributes.position;
-  let best = null;
-  for (let k = 0; k < 3; k++) {
-    const i = hit.faceIndex * 3 + k;
-    const v = new THREE.Vector3(pos.getX(i), pos.getY(i), pos.getZ(i)).applyMatrix4(hit.object.matrixWorld);
-    const d = v.distanceTo(hit.point);
-    if (!best || d < best.d) best = { v, d };
-  }
-  const pt = best.d < 4 ? best.v : hit.point.clone();
+  if (measureRefs.length === 0 && measureObjs.length) clearMeasure(); // nueva medición
+  const ref = pickMeasureRef(hit);
+  drawMeasureRef(ref);
+  measureRefs.push(ref);
 
-  measurePts.push(pt);
-  const marker = new THREE.Mesh(new THREE.SphereGeometry(1.4, 16, 12), new THREE.MeshBasicMaterial({ color: 0x34a853 }));
-  marker.position.copy(pt);
-  overlay.add(marker);
-  measureObjs.push(marker);
-
-  if (measurePts.length === 2) {
-    const [a, b] = measurePts;
-    const line = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints([a, b]),
-      new THREE.LineBasicMaterial({ color: 0x34a853 })
-    );
-    overlay.add(line);
-    measureObjs.push(line);
-    const d = a.distanceTo(b);
-    measureAnchor = a.clone().add(b).multiplyScalar(0.5);
-    measureLabel.textContent =
-      `${d.toFixed(2)} mm\nΔX ${(b.x - a.x).toFixed(2)}  ΔY ${(b.y - a.y).toFixed(2)}  ΔZ ${(b.z - a.z).toFixed(2)}`;
+  if (measureRefs.length === 2) {
+    const res = measurePair(measureRefs[0], measureRefs[1]);
+    measureLine(res.a, res.b);
+    measureAnchor = res.a.clone().add(res.b).multiplyScalar(0.5);
+    measureLabel.textContent = res.text;
     measureLabel.style.display = 'block';
-    setStatus(`Distancia: ${d.toFixed(2)} mm`);
-    measurePts = [];
+    setStatus(res.text.split('\n')[0]);
+    measureRefs = [];
   } else {
-    setStatus('Primer punto fijado. Clic en el segundo punto.');
+    setStatus(`${describeRef(ref)} — elige la segunda referencia.`);
   }
 }
 
 function clearMeasure() {
   for (const o of measureObjs) { overlay.remove(o); o.geometry?.dispose(); }
   measureObjs = [];
-  measurePts = [];
+  measureRefs = [];
   measureAnchor = null;
   measureLabel.style.display = 'none';
 }
