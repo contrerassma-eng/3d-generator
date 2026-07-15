@@ -1,9 +1,11 @@
 # Prompt: generador de piezas compatibles para foto3d CAD
 
 Copia todo el bloque de abajo en cualquier IA (Claude, etc.), agrega tu pedido
-al final, guarda la respuesta como `pieza.json` y ábrela en la app con
-**📂 Abrir**. Las piezas llegan con orificios y caras pensados para ensamblar
-con restricciones (▬ Coincidir, ◉ Concéntrico).
+al final y pega la respuesta directamente en la app con **📋 Pegar**
+(modo "Agregar al proyecto actual" para sumar piezas a lo que ya tienes,
+o "Reemplazar" para empezar de cero). También puedes guardarla como
+`pieza.json` y usar **📂 Abrir**. Las piezas llegan con orificios y caras
+pensados para ensamblar con restricciones (▬ Coincidir, ◉ Concéntrico).
 
 ---
 
@@ -44,12 +46,26 @@ Funciones (se aplican en orden, como árbol paramétrico):
   (p. ej. agujero desde la cara superior: `at=[x,y,ztope]`, `dir=[0,0,-1]`).
 - `"op"` puede ser `"union"` (agrega material) o `"cut"` (quita material) también
   para cajas y cilindros (bolsillos, ranuras).
-- Boceto extruido (contornos libres):
-  `{"id":"f4","name":"Extrusión de boceto","shape":"sketch","op":"union"|"cut","at":[x,y,z],"dir":[nx,ny,nz],"params":{"pts":[[u,v],...],"h":altura,"u":[ux,uy,uz]}}`
+- Boceto extruido (contornos libres — formato preferido, con entidades):
+  `{"id":"f4","name":"Extrusión de boceto","shape":"sketch","op":"union"|"cut","at":[x,y,z],"dir":[nx,ny,nz],"params":{"entities":[...],"h":altura,"u":[ux,uy,uz]}}`
   — `at` es el origen del plano del boceto, `dir` la normal de la cara (hacia
-  afuera), `params.u` el eje U del plano (perpendicular a `dir`), y `pts` el
-  contorno cerrado en coordenadas 2D (u,v) del plano, en mm. Unión extruye
-  hacia afuera; corte quita material hacia adentro (bolsillo de profundidad `h`).
+  afuera), `params.u` el eje U del plano (perpendicular a `dir`), y `entities`
+  la geometría 2D en coordenadas (u,v) del plano, en mm:
+  - línea: `{"type":"line","a":[u1,v1],"b":[u2,v2]}`
+  - círculo: `{"type":"circle","c":[u,v],"r":radio}`
+  - arco: `{"type":"arc","c":[u,v],"r":radio,"a0":ánguloInicio,"a1":ánguloFin}`
+    (radianes, sentido antihorario de a0 a a1)
+  Las líneas/arcos deben formar contornos CERRADOS (extremos coincidentes).
+  Un círculo dentro de un contorno cerrado se convierte en AGUJERO de la
+  extrusión (anidamiento por paridad). Unión extruye hacia afuera; corte
+  quita material hacia adentro (bolsillo/pasante de profundidad `h`).
+  (Se acepta también el formato antiguo `params.pts:[[u,v],...]` para un
+  polígono cerrado simple.)
+- Revolución 360°:
+  `{"id":"f5","name":"Revolución","shape":"revolve","op":"union"|"cut","at":[x,y,z],"dir":[nx,ny,nz],"params":{"entities":[...],"axis":{"a":[u1,v1],"b":[u2,v2]},"u":[ux,uy,uz]}}`
+  — el perfil (`entities`, contorno cerrado en el plano) gira 360° alrededor
+  del eje `axis` (una recta del mismo plano 2D). El perfil debe quedar a un
+  solo lado del eje, sin cruzarlo.
 
 Restricciones (opcionales, para entregar el conjunto ya ensamblado):
 
@@ -77,7 +93,13 @@ Restricciones (opcionales, para entregar el conjunto ya ensamblado):
    no aparezcan encimadas; si incluyes `constraints`, la app las ensamblará sola.
 7. Antes de responder, verifica: ¿el JSON parsea? ¿cada agujero tiene `dir`
    hacia adentro del material? ¿los patrones de agujeros coinciden entre las
-   piezas que se unen? ¿ningún agujero queda fuera del sólido?
+   piezas que se unen? ¿ningún agujero queda fuera del sólido? ¿los contornos
+   de boceto cierran (el extremo de cada línea/arco coincide con el inicio de
+   la siguiente)?
+8. Prefiere primitivas simples (box/cylinder/hole) cuando basten; usa
+   `sketch`/`revolve` solo para contornos que las primitivas no logran.
+   El usuario puede importar tu JSON con "Agregar al proyecto actual":
+   no repitas piezas que él ya tiene, entrega solo lo pedido.
 
 ## Mi pedido
 

@@ -196,8 +196,35 @@ atornillable) que muestra todas las capacidades.
   se filtran antes de proyectar. Todo capa `user` (diseño, no medición).
 - **💾 Guardar / 📂 Abrir**: proyecto en JSON (todo el árbol paramétrico y
   las restricciones). Además hay autoguardado en el navegador.
-- **Ctrl+Z** deshace; **Esc** cancela el modo activo; **Supr** elimina lo
-  seleccionado.
+- **📋 Pegar**: importa un JSON pegado directamente (sin archivos, ideal en
+  el celular/tableta) — el generado por una IA con `PROMPT_PIEZAS.md` o un
+  proyecto guardado. Modo **"Agregar al proyecto actual"** (suma piezas y
+  restricciones, remapeando ids repetidos) o **"Reemplazar"**.
+
+### Piezas generadas por IA
+`PROMPT_PIEZAS.md` documenta el formato completo (`foto3d-cad`) para que
+cualquier IA genere piezas por instrucciones: cajas/cilindros/agujeros,
+bocetos extruidos con entidades (líneas/círculos/arcos, agujeros por
+anidamiento), revoluciones y restricciones de ensamble, con reglas de
+compatibilidad de orificios (holguras M3–M8). Flujo: copiar el prompt +
+pedido → pegar la respuesta con **📋 Pegar → Agregar al proyecto**.
+
+### Atajos de teclado (estilo Inventor)
+- Globales: **Ctrl+Z** deshace, **Esc** cancela el modo, **Supr** elimina
+  lo seleccionado.
+- Fuera de boceto: **B** boceto, **H** agujero, **M** mover, **D** edición
+  directa, **X** medir.
+- En boceto: **L** línea, **C** círculo, **R** rectángulo, **A** arco,
+  **G** polígono, **D** cota, **T** recortar, **E** alargar, **O** offset,
+  **F** empalme, **X** borrar, **S** selección, **V** mover entidad,
+  **P** proyectar, **Z** lápiz, **Enter** ✔ terminar boceto.
+
+### Tableta y lápiz (stylus)
+- **Rechazo de palma**: mientras el lápiz toca o se mueve sobre la pantalla,
+  los toques de la mano apoyada se ignoran.
+- El lápiz muestra el **resaltado de caras al pasar** (hover) igual que el
+  mouse, y la herramienta ✎ Lápiz interpreta trazos a mano alzada como
+  círculos, líneas o polilíneas.
 
 ## Arquitectura
 

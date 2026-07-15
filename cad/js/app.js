@@ -756,6 +756,20 @@ function clearPickedHighlight() {
 
 let downPos = null, dragging = null;
 
+// Rechazo de palma (tableta + lápiz): mientras se usa el lápiz, los toques
+// de la mano apoyada sobre la pantalla se ignoran.
+let penUntil = 0;
+renderer.domElement.addEventListener('pointerdown', (ev) => {
+  if (ev.pointerType === 'pen') penUntil = performance.now() + 900;
+  else if (ev.pointerType === 'touch' && performance.now() < penUntil) {
+    ev.stopImmediatePropagation();
+    ev.preventDefault();
+  }
+}, true);
+renderer.domElement.addEventListener('pointermove', (ev) => {
+  if (ev.pointerType === 'pen') penUntil = performance.now() + 900;
+}, true);
+
 renderer.domElement.addEventListener('pointerdown', (ev) => {
   if (dialogOpen()) return;
   if (isNarrow() && sidebar.classList.contains('open')) setSidebar(false); // tocar fuera cierra el panel
@@ -776,7 +790,7 @@ renderer.domElement.addEventListener('pointermove', (ev) => {
   if (sketch?.entDrag) { moveEntDrag(ev); return; }
   if (dragging) { if (ev.pointerId === dragging.pointerId) updateMoveDrag(ev); return; }
   if (mode === 'sketch' && sketch) { updateSketchPreview(ev); return; }
-  if (ev.pointerType === 'mouse' && (['hole', 'mate', 'flush', 'direct'].includes(mode) || (mode === 'sketch' && !sketch))) {
+  if ((ev.pointerType === 'mouse' || ev.pointerType === 'pen') && (['hole', 'mate', 'flush', 'direct'].includes(mode) || (mode === 'sketch' && !sketch))) {
     const hit = castAtEvent(ev);
     if (hit) showHover(hit, hoverMat);
     else clearHover();
@@ -807,10 +821,24 @@ renderer.domElement.addEventListener('pointercancel', () => {
 window.addEventListener('keydown', (ev) => {
   if (ev.key === 'Escape') { hideDialog(); setModeSelect(); }
   if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); undo(); }
-  if (ev.key === 'Delete' && selection && !dialogOpen()) {
+  const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
+  if (ev.key === 'Delete' && selection && !dialogOpen() && !typing) {
     const btn = $('pp_del') || $('fp_del') || $('cp_del');
     if (btn) btn.click();
   }
+  // atajos de UNA tecla, estilo Inventor (no aplican al escribir en campos)
+  if (ev.ctrlKey || ev.metaKey || ev.altKey || dialogOpen() || typing) return;
+  const k = ev.key.toLowerCase();
+  if (sketch) {
+    const TOOL_KEYS = { l: 'line', c: 'circle', r: 'rect', a: 'arc', g: 'polyg', d: 'dim',
+                        t: 'trim', e: 'extend', o: 'offset', f: 'fillet', x: 'erase',
+                        s: 'select', v: 'moveEnt', p: 'project', z: 'pen' };
+    if (TOOL_KEYS[k]) { sketchbar.querySelector(`[data-tool="${TOOL_KEYS[k]}"]`)?.click(); return; }
+    if (ev.key === 'Enter') { document.getElementById('skClose')?.click(); return; }
+    return;
+  }
+  const MODE_KEYS = { b: 'sketch', h: 'hole', m: 'move', d: 'direct', x: 'measure' };
+  if (MODE_KEYS[k]) setMode(MODE_KEYS[k]);
 });
 function setModeSelect() { if (mode !== 'select') setMode(mode); }
 
@@ -2682,18 +2710,76 @@ $('fileInput').addEventListener('change', async (e) => {
   e.target.value = '';
   if (!file) return;
   try {
-    const data = JSON.parse(await file.text());
-    if (data.format !== 'foto3d-cad') throw new Error('formato desconocido');
-    pushUndo();
-    doc = data;
-    selection = null;
-    rebuildAll();
-    solveAndSync();
-    commit(`Proyecto "${file.name}" abierto.`);
+    importData(JSON.parse(await file.text()), 'replace');
   } catch (err) {
     setStatus(`No se pudo abrir: ${err.message}`);
   }
 });
+
+// 📋 Pegar: importar piezas/proyectos JSON generados por IA (PROMPT_PIEZAS.md)
+// sin pasar por archivos — clave para trabajar desde el celular/tableta.
+function importData(data, modo) {
+  if (data.format !== 'foto3d-cad' || !Array.isArray(data.parts)) {
+    throw new Error('formato desconocido: se espera {"format":"foto3d-cad","parts":[...]}');
+  }
+  pushUndo();
+  if (modo === 'replace') {
+    doc = data;
+    doc.constraints = doc.constraints || [];
+    selection = null;
+    clearMeasure();
+    rebuildAll();
+    solveAndSync();
+    commit(`Proyecto importado: ${doc.parts.length} pieza(s).`);
+    return;
+  }
+  // agregar al proyecto actual: remapear ids que chocan y sumar restricciones
+  const hadParts = doc.parts.length > 0;
+  const remap = new Map();
+  for (const p of data.parts) {
+    if (getPart(doc, p.id)) { const nid = uid('p'); remap.set(p.id, nid); p.id = nid; }
+    if (hadParts) p.fixed = false; // la pieza fija ya existe en el proyecto
+    p.visible = p.visible !== false;
+    doc.parts.push(p);
+    rebuildPart(p);
+  }
+  for (const c of (data.constraints || [])) {
+    c.id = uid('c');
+    if (remap.has(c.a?.part)) c.a.part = remap.get(c.a.part);
+    if (remap.has(c.b?.part)) c.b.part = remap.get(c.b.part);
+    doc.constraints.push(c);
+  }
+  solveAndSync();
+  commit(`${data.parts.length} pieza(s) agregadas al proyecto${(data.constraints || []).length ? ' con sus restricciones' : ''}.`);
+}
+
+$('btnPaste').onclick = () => {
+  dialog.innerHTML = `<h3>📋 Pegar piezas (JSON de IA)</h3>
+    <p style="font-size:12px;color:var(--dim);margin-bottom:8px">
+      Pega el JSON generado con el prompt de <b>PROMPT_PIEZAS.md</b>
+      (formato <code>foto3d-cad</code>).</p>
+    <textarea id="pasteArea" spellcheck="false" placeholder='{"format":"foto3d-cad","parts":[...]}'
+      style="width:100%;height:160px;background:var(--bg);color:var(--text);border:1px solid var(--border);
+             border-radius:7px;padding:8px;font-size:12px;font-family:ui-monospace,monospace"></textarea>
+    <div class="frow" style="margin-top:8px"><label>Modo</label>
+      <select id="pasteMode">
+        <option value="merge">Agregar al proyecto actual</option>
+        <option value="replace">Reemplazar todo el proyecto</option>
+      </select></div>
+    <div class="btnrow"><button id="pasteOk" class="on">Importar</button><button id="pasteCancel">Cancelar</button></div>`;
+  dialog.style.display = 'block';
+  $('pasteCancel').onclick = hideDialog;
+  $('pasteOk').onclick = () => {
+    let data;
+    try { data = JSON.parse($('pasteArea').value); }
+    catch (err) { setStatus(`JSON inválido: ${err.message}`); return; }
+    try {
+      importData(data, $('pasteMode').value);
+      hideDialog();
+    } catch (err) { setStatus(`No se pudo importar: ${err.message}`); }
+  };
+  $('pasteArea').focus();
+};
 
 $('btnClear').onclick = () => {
   pushUndo();
