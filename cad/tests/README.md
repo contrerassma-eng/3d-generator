@@ -11,3 +11,11 @@ npx esbuild tests/test_engine.mjs --bundle --format=esm --platform=node \
   --alias:three=./vendor/three.module.min.js --outfile=/tmp/test_engine.bundle.mjs
 node /tmp/test_engine.bundle.mjs
 ```
+
+Otras suites (mismo comando cambiando el archivo):
+
+- `test_sketch2d.mjs` — croquizador 2D.
+- `test_componentes.mjs` — biblioteca de componentes (requiere generar antes
+  `componentes/out/componentes_cad.json` con `pipeline/componentes_cli.py`).
+- `test_drawing2d.mjs` — exportador de planos DXF/PDF del navegador
+  (escala real, cajetín ISO 7200, estructura del PDF y del R12).

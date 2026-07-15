@@ -78,8 +78,9 @@ VIEWS = {
     "alzado": _axes((0, 1, 0)),
     # perfil: vista lateral izquierda (se coloca a la DERECHA en primer diedro)
     "perfil": _axes((1, 0, 0)),
-    # planta: vista superior (se coloca DEBAJO del alzado en primer diedro)
-    "planta": _axes((0, 0, -1), up_hint=(0, -1, 0)),
+    # planta: vista superior (se coloca DEBAJO del alzado en primer diedro,
+    # con correspondencia de proyección: X compartida con el alzado)
+    "planta": _axes((0, 0, -1), up_hint=(0, 1, 0)),
     # isométrica: observador en (1,1,1)
     "isometrica": _axes((-1, -1, -1)),
 }

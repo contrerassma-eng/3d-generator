@@ -116,6 +116,16 @@ python pipeline/cad_cli.py projects/<X> exportar-dxf B1
 - Cualquier sólido se dibuja con norma:
   `python pipeline/s6_drawings.py projects/<X> --fuente out/cad/<nombre>.glb`.
 
+### Plano desde el CAD web (botones ⭳ DXF / ⭳ PDF)
+
+El diseñador del navegador (`cad/index.html`) exporta directamente el plano
+técnico del ensamble con el mismo estilo de S6 (marco ISO 5457, cajetín
+ISO 7200 con símbolo de primer diedro, vistas y cotas envolventes), sin
+servidor: los escritores DXF (R12) y PDF (1.4) corren en el navegador
+(`cad/js/drawing2d.js`). El DXF sale a escala real y el PDF al tamaño de
+papel. Es capa `user` y la NOTA del cajetín lo declara (diseño CAD, no
+medición; aristas sin líneas ocultas).
+
 ### Flujo conversacional ("boceto en una cara")
 
 1. Usuario: «boceto en la cara superior de <X>» → Claude ejecuta `caras`,
