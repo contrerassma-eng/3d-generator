@@ -575,6 +575,26 @@ export function copyEntities(entities, delta) {
   return out;
 }
 
+// espejo de entidades respecto a la línea a-b (copias con ids nuevos)
+export function mirrorEntities(entities, a, b) {
+  const d = norm(sub(b, a));
+  const lineAng = Math.atan2(d[1], d[0]);
+  const refl = (p) => {
+    const q = sub(p, a);
+    const t = dot(q, d);
+    const proj = add(a, scale(d, t));
+    return [2 * proj[0] - p[0], 2 * proj[1] - p[1]];
+  };
+  const reflAng = (th) => 2 * lineAng - th;
+  const out = [];
+  for (const e of entities) {
+    if (e.type === 'line') out.push(makeLine(refl(e.a), refl(e.b)));
+    else if (e.type === 'circle') out.push(makeCircle(refl(e.c), e.r));
+    else if (e.type === 'arc') out.push(makeArc(refl(e.c), e.r, reflAng(e.a1), reflAng(e.a0)));
+  }
+  return out;
+}
+
 // ---------- reconocimiento de trazos a mano (modo lápiz) ----------
 
 export function douglasPeucker(pts, eps) {

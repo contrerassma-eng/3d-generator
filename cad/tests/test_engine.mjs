@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
-  makeSketchFeature, makeSketchEntitiesFeature, planeBasis, magnetCorrections,
+  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, planeBasis, magnetCorrections,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
 } from '../js/model.js';
@@ -166,6 +166,32 @@ console.log('— Bocetos extruidos —');
   SK.applyDim(f.params.entities, dim, 60);
   const g2 = buildPart([f]);
   check('regeneración tras editar cota (contorno sigue cerrado)', volume(g2) > volume(g) * 1.15, `vol2=${volume(g2)}`);
+}
+
+// revolución 360°: rectángulo (10..20, 0..30) alrededor del eje V (u=0)
+// → tubo: V = π(R²−r²)h con corrección por facetado de 48 lados
+{
+  const SK = await import('../js/sketch2d.js');
+  const rect = [
+    SK.makeLine([10, 0], [20, 0]), SK.makeLine([20, 0], [20, 30]),
+    SK.makeLine([20, 30], [10, 30]), SK.makeLine([10, 30], [10, 0]),
+  ];
+  const f = makeRevolveFeature(rect, [], { a: [0, 0], b: [0, 30] }, 'union', [0, 0, 0], [0, 0, 1], [1, 0, 0]);
+  const g = buildPart([f]);
+  const facet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
+  const expected = Math.PI * (400 - 100) * 30 * facet;
+  check('revolución: tubo con volumen de Pappus', rel(volume(g), expected) < 0.01, `vol=${volume(g)} esp=${expected.toFixed(0)}`);
+  check('revolución sin NaN', !hasNaN(g));
+
+  // revolución que cruza el eje → null (feature omitida, sin crash)
+  const bad = [
+    SK.makeLine([-5, 0], [5, 0]), SK.makeLine([5, 0], [5, 10]),
+    SK.makeLine([5, 10], [-5, 10]), SK.makeLine([-5, 10], [-5, 0]),
+  ];
+  const f2 = makeRevolveFeature(bad, [], { a: [0, -5], b: [0, 15] }, 'union', [0, 0, 0], [0, 0, 1], [1, 0, 0]);
+  let crashed = false, g2 = null;
+  try { g2 = buildPart([f2]); } catch (e) { crashed = true; }
+  check('contorno que cruza el eje se omite sin crash', !crashed && (!g2.attributes.position || g2.attributes.position.count === 0));
 }
 
 console.log('— Detección de caras y ejes —');
