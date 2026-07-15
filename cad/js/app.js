@@ -164,7 +164,7 @@ renderer.setAnimationLoop(() => {
   if (controls.enabled) controls.update();
   if (sketchControls.enabled) sketchControls.update();
   updateMeasureLabel();
-  if (sketch) updateSketchLabels();
+  if (sketch) { updateSketchLabels(); positionDynBox(); }
   renderer.render(scene, activeCamera);
 });
 
@@ -1207,6 +1207,7 @@ function beginSketch(part, originL, nL, uL) {
     entDrag: null, profileMode: false, excluded: new Set(),
     selIds: new Set(), marquee: null, copyOp: null,
     faceSegs: [], refPrims: [], orbit: false,
+    angleSnap: 15, angLock: null, dynAnchor: null,
     tool: 'line',
     snapPts: [], refSegs: [],
     group: new THREE.Group(),
@@ -1236,7 +1237,10 @@ function beginSketch(part, originL, nL, uL) {
 
   for (const b of sketchbar.querySelectorAll('[data-tool]')) b.classList.toggle('on', b.dataset.tool === 'line');
   sketchbar.classList.add('open');
-  setHint('Dibuja con snap a la geometría proyectada (verde) o grilla de 1 mm. Cota: toca 1 o 2 entidades (también referencias). ✔ extruye.');
+  dynSnap.textContent = sketch.angleSnap ? `⊾ ${sketch.angleSnap}°` : '⊾ off';
+  dynLock.textContent = '🔓'; dynLock.classList.remove('on');
+  hideDynBox();
+  setHint('Línea/círculo: escribe longitud/diámetro y Enter (o toca el punto). Snap de ángulo con ⊾. Cota: toca 1 o 2 entidades. ✔ extruye.');
 }
 
 // proyecta las aristas analíticas de TODAS las piezas visibles al plano
@@ -1304,26 +1308,150 @@ function buildSketchReferences() {
 
 // --- herramientas de dibujo ---
 
+// --- Entrada dinámica (longitud / ángulo) estilo Inventor ---
+
+const dynBox = $('dynBox');
+const dynLen = $('dyn_len'), dynAng = $('dyn_ang'), dynLock = $('dyn_lock'), dynSnap = $('dyn_snap');
+const dynEditing = () => document.activeElement === dynLen || document.activeElement === dynAng;
+
+// ángulo (grados) desde 'from' a 'to', normalizado a [-180,180)
+function angleFromTo(from, to) {
+  return Math.atan2(to[1] - from[1], to[0] - from[0]) * 180 / Math.PI;
+}
+// aplica el snap de ángulo (múltiplos) salvo que esté bloqueado o ajustado a un punto notable
+function snapAngle(deg) {
+  const s = sketch.angleSnap;
+  if (!s) return deg;
+  return Math.round(deg / s) * s;
+}
+// punto a longitud/ángulo desde un origen
+function polarPoint(from, len, deg) {
+  const r = deg * Math.PI / 180;
+  return [from[0] + len * Math.cos(r), from[1] + len * Math.sin(r)];
+}
+
+// resuelve el extremo de la línea en curso desde el cursor: respeta snap a
+// punto notable; si no, aplica snap/lock de ángulo. Devuelve {end, len, ang, onPoint}
+function resolveLineEnd(raw) {
+  const from = sketch.chainLast;
+  const sn = snap2D(raw);
+  if (sn.snapped) {
+    return { end: sn.uv, len: Math.hypot(sn.uv[0] - from[0], sn.uv[1] - from[1]), ang: angleFromTo(from, sn.uv), onPoint: true };
+  }
+  const rawLen = Math.hypot(raw[0] - from[0], raw[1] - from[1]);
+  const ang = sketch.angLock != null ? sketch.angLock : snapAngle(angleFromTo(from, raw));
+  return { end: polarPoint(from, rawLen, ang), len: rawLen, ang, onPoint: false };
+}
+
+function showDynBox(anchor2d) {
+  sketch.dynAnchor = anchor2d;
+  dynBox.classList.add('on');
+  positionDynBox();
+}
+function hideDynBox() {
+  dynBox.classList.remove('on');
+  sketch.dynAnchor = null;
+}
+function positionDynBox() {
+  if (!sketch?.dynAnchor) return;
+  const v = to3D(sketch.dynAnchor[0], sketch.dynAnchor[1]).project(activeCamera);
+  const r = renderer.domElement.getBoundingClientRect();
+  dynBox.style.left = `${(v.x * 0.5 + 0.5) * r.width}px`;
+  dynBox.style.top = `${(-v.y * 0.5 + 0.5) * r.height}px`;
+}
+// refresca los campos con valores en vivo (sin pisar lo que el usuario teclea)
+function updateDynFields(len, ang) {
+  if (document.activeElement !== dynLen) dynLen.value = len != null ? +len.toFixed(2) : '';
+  if (document.activeElement !== dynAng && sketch.angLock == null) dynAng.value = ang != null ? +ang.toFixed(1) : '';
+}
+
+dynSnap.onclick = () => {
+  const steps = [0, 5, 15, 45];
+  const i = steps.indexOf(sketch.angleSnap);
+  sketch.angleSnap = steps[(i + 1) % steps.length];
+  dynSnap.textContent = sketch.angleSnap ? `⊾ ${sketch.angleSnap}°` : '⊾ off';
+};
+dynLock.onclick = () => {
+  if (sketch.angLock != null) { sketch.angLock = null; dynLock.textContent = '🔓'; dynLock.classList.remove('on'); }
+  else { sketch.angLock = +dynAng.value || 0; dynLock.textContent = '🔒'; dynLock.classList.add('on'); }
+};
+// Enter en longitud/ángulo confirma el segmento (o crea el círculo)
+function dynCommit() {
+  if (sketch.tool === 'circle' && sketch.temp) {
+    const dia = +dynLen.value;
+    if (!(dia > 0)) { setStatus('Escribe un diámetro mayor que 0.'); return; }
+    sketch.entities.push(SK.makeCircle(sketch.temp, dia / 2));
+    sketch.temp = null;
+    hideDynBox();
+    setStatus(`Círculo Ø${dia} mm.`);
+    redrawSketch();
+    return;
+  }
+  if (sketch.tool === 'line' && sketch.chainLast) {
+    const len = +dynLen.value;
+    if (!(len > 0)) { setStatus('Escribe una longitud mayor que 0.'); return; }
+    const ang = sketch.angLock != null ? sketch.angLock : (dynAng.value !== '' ? +dynAng.value : snapAngle(angleFromTo(sketch.chainLast, lastPreviewRaw || sketch.chainLast)));
+    const end = polarPoint(sketch.chainLast, len, ang);
+    sketch.entities.push(SK.makeLine(sketch.chainLast, end));
+    sketch.chainLast = end;
+    sketch.angLock = null; dynLock.textContent = '🔓'; dynLock.classList.remove('on');
+    dynLen.value = ''; dynAng.value = '';
+    showDynBox(end);
+    setStatus(`Segmento ${len} mm a ${ang.toFixed(1)}°. Sigue o Esc para terminar.`);
+    redrawSketch();
+    dynLen.focus();
+  }
+}
+for (const el of [dynLen, dynAng]) {
+  el.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Enter') { ev.preventDefault(); ev.stopPropagation(); dynCommit(); }
+    else if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); dynLen.blur(); cancelCurrentDraw(); }
+  });
+  // al empezar a teclear la longitud, congela el ángulo en el valor en vivo
+  el.addEventListener('focus', () => {
+    if (el === dynLen && sketch?.tool === 'line' && sketch.angLock == null && dynAng.value !== '') {
+      sketch.angLock = +dynAng.value; dynLock.textContent = '🔒'; dynLock.classList.add('on');
+    }
+  });
+}
+let lastPreviewRaw = null;
+function cancelCurrentDraw() {
+  sketch.chainStart = sketch.chainLast = null;
+  sketch.temp = null;
+  hideDynBox();
+  clearGroup(sketch.preview);
+  redrawSketch();
+  setStatus('Trazo cancelado. Elige una herramienta o toca para empezar.');
+}
+
 function clickLine(raw) {
+  const res = sketch.chainLast ? resolveLineEnd(raw) : null;
   const { uv } = snap2D(raw);
   if (!sketch.chainLast) {
     sketch.chainStart = uv;
     sketch.chainLast = uv;
-    setStatus(`Inicio en (${uv[0].toFixed(1)}, ${uv[1].toFixed(1)}). Toca el siguiente punto; el 1.º cierra.`);
+    showDynBox(uv);
+    setStatus(`Inicio en (${uv[0].toFixed(1)}, ${uv[1].toFixed(1)}). Mueve para la dirección y escribe la longitud, o toca el siguiente punto (el 1.º cierra).`);
     redrawSketch();
+    dynLen.focus();
     return;
   }
-  const closing = sketch.entities.length && Math.hypot(uv[0] - sketch.chainStart[0], uv[1] - sketch.chainStart[1]) < 16 * worldPerPixel();
-  const end = closing ? sketch.chainStart : uv;
-  if (Math.hypot(end[0] - sketch.chainLast[0], end[1] - sketch.chainLast[1]) > 1e-3) {
-    sketch.entities.push(SK.makeLine(sketch.chainLast, end));
+  const end = res.end;
+  const closing = sketch.entities.length && Math.hypot(end[0] - sketch.chainStart[0], end[1] - sketch.chainStart[1]) < 16 * worldPerPixel();
+  const tgt = closing ? sketch.chainStart : end;
+  if (Math.hypot(tgt[0] - sketch.chainLast[0], tgt[1] - sketch.chainLast[1]) > 1e-3) {
+    sketch.entities.push(SK.makeLine(sketch.chainLast, tgt));
   }
   if (closing) {
     sketch.chainStart = sketch.chainLast = null;
+    hideDynBox();
     setStatus('Contorno cerrado. ✔ para extruir o sigue dibujando.');
   } else {
-    sketch.chainLast = end;
-    setStatus(`Punto (${end[0].toFixed(1)}, ${end[1].toFixed(1)}) mm`);
+    sketch.chainLast = tgt;
+    sketch.angLock = null; dynLock.textContent = '🔓'; dynLock.classList.remove('on');
+    dynLen.value = ''; dynAng.value = '';
+    showDynBox(tgt);
+    setStatus(`Punto (${tgt[0].toFixed(1)}, ${tgt[1].toFixed(1)}) mm`);
   }
   redrawSketch();
 }
@@ -1344,9 +1472,18 @@ function clickRect(raw) {
 
 function clickCircle(raw) {
   const { uv } = snap2D(raw);
-  if (!sketch.temp) { sketch.temp = uv; setStatus('Toca un punto del radio.'); redrawSketch(); return; }
+  if (!sketch.temp) {
+    sketch.temp = uv;
+    showDynBox(uv);
+    dynLen.value = '';
+    setStatus('Centro fijado. Escribe el diámetro y Enter, o toca un punto del contorno.');
+    redrawSketch();
+    dynLen.focus();
+    return;
+  }
   const [cx, cy] = sketch.temp;
   sketch.temp = null;
+  hideDynBox();
   const r = Math.hypot(uv[0] - cx, uv[1] - cy);
   if (r < 0.5) { setStatus('Radio demasiado pequeño.'); return; }
   sketch.entities.push(SK.makeCircle([cx, cy], r));
@@ -1750,6 +1887,12 @@ function endStroke() {
   if (fit.type === 'circle') {
     sketch.entities.push(SK.makeCircle(fit.c, fit.r));
     setStatus(`Interpretado: círculo Ø${(fit.r * 2).toFixed(1)} mm.`);
+  } else if (fit.type === 'rect') {
+    const [x0, y0] = fit.a, [x1, y1] = fit.b;
+    sketch.entities.push(
+      SK.makeLine([x0, y0], [x1, y0]), SK.makeLine([x1, y0], [x1, y1]),
+      SK.makeLine([x1, y1], [x0, y1]), SK.makeLine([x0, y1], [x0, y0]));
+    setStatus(`Interpretado: rectángulo ${Math.abs(x1 - x0).toFixed(1)}×${Math.abs(y1 - y0).toFixed(1)} mm.`);
   } else if (fit.type === 'line') {
     const a = snap2D(fit.a).uv, b = snap2D(fit.b).uv;
     sketch.entities.push(SK.makeLine(a, b));
@@ -1792,9 +1935,25 @@ function redrawSketch() {
 }
 
 function updateSketchPreview(ev) {
-  if (ev.pointerType !== 'mouse' || sketch.stroke) return;
+  if ((ev.pointerType !== 'mouse' && ev.pointerType !== 'pen') || sketch.stroke) return;
   const raw = eventTo2D(ev);
   if (!raw) return;
+  lastPreviewRaw = raw;
+  const t = sketch.tool;
+  // línea con extremo resuelto por snap de ángulo/lock (entrada dinámica)
+  if (t === 'line' && sketch.chainLast) {
+    const res = resolveLineEnd(raw);
+    clearGroup(sketch.preview);
+    const cur = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.9, 4 * worldPerPixel()), 10, 8), res.onPoint ? snapMat : ptMat);
+    cur.position.copy(to3D(res.end[0], res.end[1]));
+    sketch.preview.add(cur);
+    sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
+      [to3D(sketch.chainLast[0], sketch.chainLast[1]), to3D(res.end[0], res.end[1])]), previewMat));
+    updateDynFields(res.len, res.ang);
+    positionDynBox();
+    setStatus(`L ${res.len.toFixed(1)} mm · ∠ ${res.ang.toFixed(1)}°${sketch.angLock != null ? ' 🔒' : ''}`);
+    return;
+  }
   const { uv, snapped, kind } = snap2D(raw);
   clearGroup(sketch.preview);
   const cursor = new THREE.Mesh(
@@ -1803,11 +1962,7 @@ function updateSketchPreview(ev) {
   );
   cursor.position.copy(to3D(uv[0], uv[1]));
   sketch.preview.add(cursor);
-  const t = sketch.tool;
-  if (t === 'line' && sketch.chainLast) {
-    sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
-      [to3D(sketch.chainLast[0], sketch.chainLast[1]), to3D(uv[0], uv[1])]), previewMat));
-  } else if (t === 'rect' && sketch.temp) {
+  if (t === 'rect' && sketch.temp) {
     const [x1, y1] = sketch.temp, [x2, y2] = uv;
     sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
       [to3D(x1, y1), to3D(x2, y1), to3D(x2, y2), to3D(x1, y2), to3D(x1, y1)]), previewMat));
@@ -1820,6 +1975,8 @@ function updateSketchPreview(ev) {
       pts.push(to3D(cx + r * Math.cos(a), cy + r * Math.sin(a)));
     }
     sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), previewMat));
+    updateDynFields(2 * r, null);
+    positionDynBox();
   } else if (t === 'arc' && sketch.temp?.start) {
     const arc = SK.makeArcCSE(sketch.temp.c, sketch.temp.start, uv);
     const pts = SK.entityPoints(arc, 48).map(p => to3D(p[0], p[1]));
@@ -1978,6 +2135,7 @@ function sketchUndo() {
 function cancelSketch(silent) {
   if (!sketch) return;
   sketch.profileMode = false;
+  hideDynBox();
   overlay.remove(sketch.group);
   sketch.group.traverse(o => o.geometry?.dispose?.());
   for (const el of sketch.dimEls.values()) el.remove();
@@ -2035,6 +2193,10 @@ sketchbar.addEventListener('click', (e) => {
     sketch.copyOp = null;
     sketch.mirrorOp = null;
     sketch.revolveWait = null;
+    sketch.angLock = null;
+    dynLock.textContent = '🔓'; dynLock.classList.remove('on');
+    dynLen.value = ''; dynAng.value = '';
+    hideDynBox();
     if (!keepSel) { sketch.selIds.clear(); }
     sketch.profileMode = false;
     clearGroup(sketch.fills);

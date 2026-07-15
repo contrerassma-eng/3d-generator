@@ -166,6 +166,18 @@ console.log('— Modo lápiz (reconocimiento de trazos) —');
   const fit = fitStroke(raw);
   check('trazo en L → polilínea de 3 vértices', fit?.type === 'poly' && fit.pts.length === 3, JSON.stringify(fit?.pts));
 }
+{
+  // trazo rectangular cerrado (40×24 con ruido) → rectángulo alineado a ejes
+  const raw = [];
+  const jit = (i) => 0.6 * Math.sin(i * 1.3);
+  for (let i = 0; i <= 40; i++) raw.push([i, jit(i)]);            // borde inferior
+  for (let i = 0; i <= 24; i++) raw.push([40 + jit(i), i]);       // derecho
+  for (let i = 40; i >= 0; i--) raw.push([i, 24 + jit(i)]);       // superior
+  for (let i = 24; i >= 0; i--) raw.push([jit(i), i]);            // izquierdo
+  const fit = fitStroke(raw);
+  check('trazo rectangular → rectángulo', fit?.type === 'rect', JSON.stringify(fit));
+  check('rectángulo ~40×24', fit?.type === 'rect' && Math.abs((fit.b[0] - fit.a[0]) - 40) < 2 && Math.abs((fit.b[1] - fit.a[1]) - 24) < 2, JSON.stringify(fit));
+}
 
 console.log('— Puntos notables y tangencias —');
 {
