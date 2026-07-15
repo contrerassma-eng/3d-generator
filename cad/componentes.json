@@ -337,18 +337,18 @@
       "notas": "Barreno O25.2 + chaveta DIN 6885 8x7 (no modelada). El motorreductor se acopla en linea al eje O25."
     },
     {
-      "id": "eje_rodillos_12x330",
-      "nombre": "Eje calibrado O12 x 330 para rodillo completo",
+      "id": "eje_rodillos_12x336",
+      "nombre": "Eje calibrado O12 x 336 para rodillo completo (extremos roscados M10)",
       "categoria": "mecanico",
-      "descripcion": "Eje liso O12 h9 de 330 mm: atraviesa las 2 placas portarodillos (agujeros O12.2) y el barreno del rodillo completo, con 12 mm de saliente por lado para anillos de retencion.",
-      "fuente": {"tipo": "diseno", "detalle": "largo = rodillo 290 + 2 placas de 6 en x=+-150 + salientes para anillos"},
+      "descripcion": "Eje O12 h9 de 336 mm: atraviesa las 2 placas portarodillos (agujeros O12.2, juego 0.20-0.29) y el barreno del rodillo (bujes autolubricados). Extremos torneados y roscados M10x1.5x15 para fijar a las placas con golilla plana DIN 125 + golilla de presion DIN 127 + tuerca DIN 934.",
+      "fuente": {"tipo": "diseno", "detalle": "largo = rodillo 290 + golillas de empuje + 2 placas de 6 + rosca M10x15 por lado"},
       "confianza": "verificar",
       "solidos": [
-        {"tipo": "cilindro", "nombre": "Eje O12", "at": [-165, 0, 6], "eje": [1, 0, 0], "dia": 12, "alto": 330, "color": "#b0bec5"}
+        {"tipo": "cilindro", "nombre": "Eje O12", "at": [-168, 0, 6], "eje": [1, 0, 0], "dia": 12, "alto": 336, "color": "#b0bec5"}
       ],
       "agujeros_montaje": [],
       "despejes": [],
-      "notas": "Ajuste deslizante O12 h9 en agujero O12.2. Ranuras para E-clip a 3 mm de cada extremo (no modeladas)."
+      "notas": "Ajuste deslizante O12 h9 en agujero O12.2 H11. Apriete de tuercas M10 a 25 Nm contra el hombro O12; el rodillo gira sobre bujes con golillas de empuje nylon (juego axial 0.5 por lado)."
     }
   ]
 }

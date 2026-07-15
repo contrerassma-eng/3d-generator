@@ -46,7 +46,7 @@ const world = (part, at) => [at[0] + part.pos[0], at[1] + part.pos[1], at[2] + p
 
 console.log('— Documento —');
 check('formato foto3d-cad v1', doc.format === 'foto3d-cad' && doc.version === 1);
-check('40 piezas (solo el módulo de desvío)', doc.parts.length === 40, `hay ${doc.parts.length}`);
+check('52 piezas (solo el módulo de desvío)', doc.parts.length === 52, `hay ${doc.parts.length}`);
 const pids = doc.parts.map(p => p.id);
 check('ids de pieza únicos', new Set(pids).size === pids.length);
 const fids = doc.parts.flatMap(p => p.features.map(f => f.id));
@@ -77,14 +77,14 @@ for (const part of doc.parts) {
   else console.log(`    NaN en ${part.name}`);
   if (v <= 1) console.log(`    sin volumen: ${part.name} (v=${v.toFixed(1)})`);
 }
-check('las 40 piezas construyen', built === doc.parts.length);
+check('las 52 piezas construyen', built === doc.parts.length);
 check('todas con volumen > 0', conVolumen === doc.parts.length);
 check('ninguna malla con NaN', sinNaN === doc.parts.length);
 
 console.log('— Volúmenes de referencia —');
 const eje = doc.parts.find(p => p.name.includes('Eje rodillo'));
-const vEje = Math.PI * 36 * 330;
-check('eje Ø12×330 ≈ π·r²·L (±3%)', Math.abs(vols[eje.id] - vEje) / vEje < 0.03,
+const vEje = Math.PI * 36 * 336;
+check('eje Ø12×336 ≈ π·r²·L (±3%)', Math.abs(vols[eje.id] - vEje) / vEje < 0.03,
   `${vols[eje.id].toFixed(0)} vs ${vEje.toFixed(0)}`);
 const rodillo = doc.parts.find(p => p.componente === 'rodillo_vulcanizado_40x290');
 const vRod = Math.PI * (225 * 290 + (400 - 225) * 238 - 37.21 * 290);
@@ -174,7 +174,7 @@ check('lomo del serpentín embutido bajo el plano de rodillos (≤174)', (() => 
 })());
 // placas con dedos delgados hacia los rodillos (las bandas de 40 pasan entre ellos)
 const placas = doc.parts.filter(p => p.name.includes('Placa porta-poleas'));
-check('placas con 6 dedos delgados (puntas a z=168, valles a 136)', placas.every(p => {
+check('placas con 6 dedos delgados y largos (puntas a z=168, valles a 120)', placas.every(p => {
   const c = p.features.find(f => f.shape === 'sketch');
   const z0 = c.at[2] + p.pos[2];
   const zs = c.params.pts.map(([, v]) => v + z0);
@@ -202,6 +202,27 @@ const stubHoles = placaTrans.features.filter(f => f.shape === 'hole' && f.name.i
 check('6 ejes tensores/retorno alineados con la placa de transmisión',
   stubHoles.length === 6 && [...tensores, ...retornos].every(p =>
     stubHoles.includes(world(p, p.features[0].at).slice(1).join(','))));
+// rodillos suben más respecto a la 2ª línea: separación eje-tensor >= 50
+check('rodillos bien arriba de la 2ª línea (Δz eje↔tensor >= 50)', tensores.every(p => {
+  const pol = p.features.find(f => f.name.startsWith('Polea'));
+  return 154 - world(p, pol.at)[2] >= 50;
+}));
+// sujeción eje-placa: 12 fijaciones (golilla plana + presión + tuerca M10) coaxiales al eje
+const fijaciones = doc.parts.filter(p => p.name.includes('Fijación eje'));
+check('12 fijaciones de eje (2 por rodillo) con golillas y tuerca', fijaciones.length === 12 &&
+  fijaciones.every(p => p.features.some(f => f.name.includes('DIN 125')) &&
+    p.features.some(f => f.name.includes('DIN 127')) && p.features.some(f => f.name.includes('DIN 934'))));
+check('fijaciones coaxiales con el eje de su línea', fijaciones.every(p => {
+  const w = world(p, p.features[0].at);
+  return ejes.some(e => {
+    const a = world(e, e.features[0].at);
+    return Math.abs(a[1] - w[1]) < 1e-6 && Math.abs(a[2] - w[2]) < 1e-6;
+  });
+}));
+check('golillas de empuje en los rodillos (juego axial)', rodillos.every(p =>
+  p.features.filter(f => f.name.includes('empuje')).length === 2));
+check('tolerancias documentadas', typeof doc.meta.tolerancias === 'object' &&
+  Object.keys(doc.meta.tolerancias).length >= 6);
 
 console.log(`\n${pass} OK, ${fail} fallas`);
 process.exit(fail ? 1 : 0);

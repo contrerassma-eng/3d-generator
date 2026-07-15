@@ -7,6 +7,15 @@
   "origen": "gen_transfer90.mjs (paramétrico); espec. usuario: 6 rodillos Ø40 (corazón Ø30) vulcanizados menos el extremo de polea; serpentín IMG_3102; motor y 2 cilindros por dentro; cilindros diagonales con pivote y palanca (subida vertical 6); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados; placas con dedos delgados hacia los rodillos",
   "anfitrion": "transportador de bandas estrechas de 40 mm a lo largo (plano a 170 mm) — NO modelado; las bandas pasan entre los dedos de las placas",
   "estado_modelado": "ELEVADO (+6 mm): tangente de rodillos a 174 = plano anfitrión + 4",
+  "tolerancias": {
+   "eje_rodillo_placa": "eje Ø12 h9 / agujero Ø12.2 H11 → juego 0.20-0.29; extremos torneados y roscados M10×1.5×15",
+   "sujecion": "golilla plana DIN 125 A10.5 + golilla de presión DIN 127 + tuerca M10 DIN 934, apriete 25 Nm contra el hombro Ø12",
+   "giro_rodillo": "barreno Ø12.2 con 2 bujes autolubricados Ø12 H7/f7; golillas de empuje nylon Ø22×1.5 con juego axial 0.5 por lado",
+   "tambor": "eje Ø25 k6 / barreno Ø25.2 con chaveta DIN 6885 8×7; placa +X con agujero H8",
+   "tensores_retornos": "ejes Ø12 cantiléver prensados Ø12 m6 en placa H7; poleas locas con rodamiento",
+   "pasador_guia": "Ø8 m6 prensado en placa; colisa 8.5 (juego 0.5) por carrera 6",
+   "palanca": "pernos Ø8 / ojos Ø8.2 (juego 0.2); leva Ø24 rodante sobre puente"
+  },
   "verificaciones": {
    "tangentGap": 60,
    "pop": 4,
@@ -1588,11 +1597,11 @@
        ],
        [
         -310,
-        136
+        120
        ],
        [
         -264,
-        136
+        120
        ],
        [
         -264,
@@ -1664,11 +1673,11 @@
        ],
        [
         -236,
-        136
+        120
        ],
        [
         -164,
-        136
+        120
        ],
        [
         -164,
@@ -1740,11 +1749,11 @@
        ],
        [
         -136,
-        136
+        120
        ],
        [
         -64,
-        136
+        120
        ],
        [
         -64,
@@ -1816,11 +1825,11 @@
        ],
        [
         -36,
-        136
+        120
        ],
        [
         36,
-        136
+        120
        ],
        [
         36,
@@ -1892,11 +1901,11 @@
        ],
        [
         64,
-        136
+        120
        ],
        [
         136,
-        136
+        120
        ],
        [
         136,
@@ -1968,11 +1977,11 @@
        ],
        [
         164,
-        136
+        120
        ],
        [
         236,
-        136
+        120
        ],
        [
         236,
@@ -2044,11 +2053,11 @@
        ],
        [
         264,
-        136
+        120
        ],
        [
         310,
-        136
+        120
        ],
        [
         310,
@@ -2379,11 +2388,11 @@
        ],
        [
         -310,
-        136
+        120
        ],
        [
         -264,
-        136
+        120
        ],
        [
         -264,
@@ -2455,11 +2464,11 @@
        ],
        [
         -236,
-        136
+        120
        ],
        [
         -164,
-        136
+        120
        ],
        [
         -164,
@@ -2531,11 +2540,11 @@
        ],
        [
         -136,
-        136
+        120
        ],
        [
         -64,
-        136
+        120
        ],
        [
         -64,
@@ -2607,11 +2616,11 @@
        ],
        [
         -36,
-        136
+        120
        ],
        [
         36,
-        136
+        120
        ],
        [
         36,
@@ -2683,11 +2692,11 @@
        ],
        [
         64,
-        136
+        120
        ],
        [
         136,
-        136
+        120
        ],
        [
         136,
@@ -2759,11 +2768,11 @@
        ],
        [
         164,
-        136
+        120
        ],
        [
         236,
-        136
+        120
        ],
        [
         236,
@@ -2835,11 +2844,11 @@
        ],
        [
         264,
-        136
+        120
        ],
        [
         310,
-        136
+        120
        ],
        [
         310,
@@ -3045,13 +3054,13 @@
     },
     {
      "id": "f86",
-     "name": "Ø12.2 eje tensor/retorno (-200,118)",
+     "name": "Ø12.2 eje tensor/retorno (-200,98)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       -200,
-      100
+      80
      ],
      "dir": [
       1,
@@ -3066,13 +3075,13 @@
     },
     {
      "id": "f87",
-     "name": "Ø12.2 eje tensor/retorno (-100,118)",
+     "name": "Ø12.2 eje tensor/retorno (-100,98)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       -100,
-      100
+      80
      ],
      "dir": [
       1,
@@ -3087,13 +3096,13 @@
     },
     {
      "id": "f88",
-     "name": "Ø12.2 eje tensor/retorno (100,118)",
+     "name": "Ø12.2 eje tensor/retorno (100,98)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       100,
-      100
+      80
      ],
      "dir": [
       1,
@@ -3108,13 +3117,13 @@
     },
     {
      "id": "f89",
-     "name": "Ø12.2 eje tensor/retorno (200,118)",
+     "name": "Ø12.2 eje tensor/retorno (200,98)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       200,
-      100
+      80
      ],
      "dir": [
       1,
@@ -3338,7 +3347,7 @@
    "name": "MÓVIL · Eje rodillo Ø12 línea y=-250",
    "color": "#b0bec5",
    "pos": [
-    -165,
+    -168,
     -250,
     154
    ],
@@ -3353,7 +3362,7 @@
    "features": [
     {
      "id": "f96",
-     "name": "Eje Ø12 × 330",
+     "name": "Eje Ø12 × 336",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -3368,7 +3377,7 @@
      ],
      "params": {
       "dia": 12,
-      "h": 330
+      "h": 336
      }
     }
    ]
@@ -3434,11 +3443,51 @@
     },
     {
      "id": "f99",
-     "name": "Barreno Ø12.2",
+     "name": "Golilla de empuje nylon Ø22×1.5 (-X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -146.5,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f100",
+     "name": "Golilla de empuje nylon Ø22×1.5 (+X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f101",
+     "name": "Barreno Ø12.2 (bujes autolubricados)",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -145,
+      -146.5,
       0,
       20
      ],
@@ -3456,11 +3505,213 @@
    ]
   },
   {
-   "id": "p20_m_vil_eje_rodillo_12_l_nea_y_150",
+   "id": "p20_m_vil_fijaci_n_eje_m10_l_nea_y_250_x",
+   "name": "MÓVIL · Fijación eje M10 línea y=-250 -X",
+   "color": "#b0bec5",
+   "pos": [
+    -153,
+    -250,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f102",
+     "name": "Golilla plana DIN 125 Ø20×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 2
+     }
+    },
+    {
+     "id": "f103",
+     "name": "Golilla de presión DIN 127 Ø18×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f104",
+     "name": "Tuerca hex M10 DIN 934 (e=17)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -4.5,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 8
+     }
+    },
+    {
+     "id": "f105",
+     "name": "Paso rosca M10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p21_m_vil_fijaci_n_eje_m10_l_nea_y_250_x",
+   "name": "MÓVIL · Fijación eje M10 línea y=-250 +X",
+   "color": "#b0bec5",
+   "pos": [
+    153,
+    -250,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f106",
+     "name": "Golilla plana DIN 125 Ø20×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 2
+     }
+    },
+    {
+     "id": "f107",
+     "name": "Golilla de presión DIN 127 Ø18×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      2,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f108",
+     "name": "Tuerca hex M10 DIN 934 (e=17)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4.5,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 8
+     }
+    },
+    {
+     "id": "f109",
+     "name": "Paso rosca M10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p22_m_vil_eje_rodillo_12_l_nea_y_150",
    "name": "MÓVIL · Eje rodillo Ø12 línea y=-150",
    "color": "#b0bec5",
    "pos": [
-    -165,
+    -168,
     -150,
     154
    ],
@@ -3474,8 +3725,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f100",
-     "name": "Eje Ø12 × 330",
+     "id": "f110",
+     "name": "Eje Ø12 × 336",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -3490,13 +3741,13 @@
      ],
      "params": {
       "dia": 12,
-      "h": 330
+      "h": 336
      }
     }
    ]
   },
   {
-   "id": "p21_m_vil_rodillo_vulcanizado_l_nea_y_150",
+   "id": "p23_m_vil_rodillo_vulcanizado_l_nea_y_150",
    "name": "MÓVIL · Rodillo vulcanizado línea y=-150",
    "color": "#212121",
    "pos": [
@@ -3515,7 +3766,7 @@
    "componente": "rodillo_vulcanizado_40x290",
    "features": [
     {
-     "id": "f101",
+     "id": "f111",
      "name": "Corazón de tubo Ø30 × 290",
      "shape": "cylinder",
      "op": "union",
@@ -3535,7 +3786,7 @@
      }
     },
     {
-     "id": "f102",
+     "id": "f112",
      "name": "Vulcanizado Ø40 (hasta x=93)",
      "shape": "cylinder",
      "op": "union",
@@ -3555,12 +3806,52 @@
      }
     },
     {
-     "id": "f103",
-     "name": "Barreno Ø12.2",
+     "id": "f113",
+     "name": "Golilla de empuje nylon Ø22×1.5 (-X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -146.5,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f114",
+     "name": "Golilla de empuje nylon Ø22×1.5 (+X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f115",
+     "name": "Barreno Ø12.2 (bujes autolubricados)",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -145,
+      -146.5,
       0,
       20
      ],
@@ -3578,11 +3869,213 @@
    ]
   },
   {
-   "id": "p22_m_vil_eje_rodillo_12_l_nea_y_50",
+   "id": "p24_m_vil_fijaci_n_eje_m10_l_nea_y_150_x",
+   "name": "MÓVIL · Fijación eje M10 línea y=-150 -X",
+   "color": "#b0bec5",
+   "pos": [
+    -153,
+    -150,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f116",
+     "name": "Golilla plana DIN 125 Ø20×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 2
+     }
+    },
+    {
+     "id": "f117",
+     "name": "Golilla de presión DIN 127 Ø18×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f118",
+     "name": "Tuerca hex M10 DIN 934 (e=17)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -4.5,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 8
+     }
+    },
+    {
+     "id": "f119",
+     "name": "Paso rosca M10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p25_m_vil_fijaci_n_eje_m10_l_nea_y_150_x",
+   "name": "MÓVIL · Fijación eje M10 línea y=-150 +X",
+   "color": "#b0bec5",
+   "pos": [
+    153,
+    -150,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f120",
+     "name": "Golilla plana DIN 125 Ø20×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 2
+     }
+    },
+    {
+     "id": "f121",
+     "name": "Golilla de presión DIN 127 Ø18×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      2,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f122",
+     "name": "Tuerca hex M10 DIN 934 (e=17)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4.5,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 8
+     }
+    },
+    {
+     "id": "f123",
+     "name": "Paso rosca M10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p26_m_vil_eje_rodillo_12_l_nea_y_50",
    "name": "MÓVIL · Eje rodillo Ø12 línea y=-50",
    "color": "#b0bec5",
    "pos": [
-    -165,
+    -168,
     -50,
     154
    ],
@@ -3596,8 +4089,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f104",
-     "name": "Eje Ø12 × 330",
+     "id": "f124",
+     "name": "Eje Ø12 × 336",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -3612,13 +4105,13 @@
      ],
      "params": {
       "dia": 12,
-      "h": 330
+      "h": 336
      }
     }
    ]
   },
   {
-   "id": "p23_m_vil_rodillo_vulcanizado_l_nea_y_50",
+   "id": "p27_m_vil_rodillo_vulcanizado_l_nea_y_50",
    "name": "MÓVIL · Rodillo vulcanizado línea y=-50",
    "color": "#212121",
    "pos": [
@@ -3637,7 +4130,7 @@
    "componente": "rodillo_vulcanizado_40x290",
    "features": [
     {
-     "id": "f105",
+     "id": "f125",
      "name": "Corazón de tubo Ø30 × 290",
      "shape": "cylinder",
      "op": "union",
@@ -3657,7 +4150,7 @@
      }
     },
     {
-     "id": "f106",
+     "id": "f126",
      "name": "Vulcanizado Ø40 (hasta x=93)",
      "shape": "cylinder",
      "op": "union",
@@ -3677,12 +4170,52 @@
      }
     },
     {
-     "id": "f107",
-     "name": "Barreno Ø12.2",
+     "id": "f127",
+     "name": "Golilla de empuje nylon Ø22×1.5 (-X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -146.5,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f128",
+     "name": "Golilla de empuje nylon Ø22×1.5 (+X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f129",
+     "name": "Barreno Ø12.2 (bujes autolubricados)",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -145,
+      -146.5,
       0,
       20
      ],
@@ -3700,11 +4233,213 @@
    ]
   },
   {
-   "id": "p24_m_vil_eje_rodillo_12_l_nea_y_50",
+   "id": "p28_m_vil_fijaci_n_eje_m10_l_nea_y_50_x",
+   "name": "MÓVIL · Fijación eje M10 línea y=-50 -X",
+   "color": "#b0bec5",
+   "pos": [
+    -153,
+    -50,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f130",
+     "name": "Golilla plana DIN 125 Ø20×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 2
+     }
+    },
+    {
+     "id": "f131",
+     "name": "Golilla de presión DIN 127 Ø18×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f132",
+     "name": "Tuerca hex M10 DIN 934 (e=17)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -4.5,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 8
+     }
+    },
+    {
+     "id": "f133",
+     "name": "Paso rosca M10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p29_m_vil_fijaci_n_eje_m10_l_nea_y_50_x",
+   "name": "MÓVIL · Fijación eje M10 línea y=-50 +X",
+   "color": "#b0bec5",
+   "pos": [
+    153,
+    -50,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f134",
+     "name": "Golilla plana DIN 125 Ø20×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 2
+     }
+    },
+    {
+     "id": "f135",
+     "name": "Golilla de presión DIN 127 Ø18×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      2,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f136",
+     "name": "Tuerca hex M10 DIN 934 (e=17)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4.5,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 8
+     }
+    },
+    {
+     "id": "f137",
+     "name": "Paso rosca M10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p30_m_vil_eje_rodillo_12_l_nea_y_50",
    "name": "MÓVIL · Eje rodillo Ø12 línea y=50",
    "color": "#b0bec5",
    "pos": [
-    -165,
+    -168,
     50,
     154
    ],
@@ -3718,8 +4453,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f108",
-     "name": "Eje Ø12 × 330",
+     "id": "f138",
+     "name": "Eje Ø12 × 336",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -3734,13 +4469,13 @@
      ],
      "params": {
       "dia": 12,
-      "h": 330
+      "h": 336
      }
     }
    ]
   },
   {
-   "id": "p25_m_vil_rodillo_vulcanizado_l_nea_y_50",
+   "id": "p31_m_vil_rodillo_vulcanizado_l_nea_y_50",
    "name": "MÓVIL · Rodillo vulcanizado línea y=50",
    "color": "#212121",
    "pos": [
@@ -3759,7 +4494,7 @@
    "componente": "rodillo_vulcanizado_40x290",
    "features": [
     {
-     "id": "f109",
+     "id": "f139",
      "name": "Corazón de tubo Ø30 × 290",
      "shape": "cylinder",
      "op": "union",
@@ -3779,7 +4514,7 @@
      }
     },
     {
-     "id": "f110",
+     "id": "f140",
      "name": "Vulcanizado Ø40 (hasta x=93)",
      "shape": "cylinder",
      "op": "union",
@@ -3799,12 +4534,52 @@
      }
     },
     {
-     "id": "f111",
-     "name": "Barreno Ø12.2",
+     "id": "f141",
+     "name": "Golilla de empuje nylon Ø22×1.5 (-X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -146.5,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f142",
+     "name": "Golilla de empuje nylon Ø22×1.5 (+X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f143",
+     "name": "Barreno Ø12.2 (bujes autolubricados)",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -145,
+      -146.5,
       0,
       20
      ],
@@ -3822,11 +4597,213 @@
    ]
   },
   {
-   "id": "p26_m_vil_eje_rodillo_12_l_nea_y_150",
+   "id": "p32_m_vil_fijaci_n_eje_m10_l_nea_y_50_x",
+   "name": "MÓVIL · Fijación eje M10 línea y=50 -X",
+   "color": "#b0bec5",
+   "pos": [
+    -153,
+    50,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f144",
+     "name": "Golilla plana DIN 125 Ø20×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 2
+     }
+    },
+    {
+     "id": "f145",
+     "name": "Golilla de presión DIN 127 Ø18×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f146",
+     "name": "Tuerca hex M10 DIN 934 (e=17)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -4.5,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 8
+     }
+    },
+    {
+     "id": "f147",
+     "name": "Paso rosca M10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p33_m_vil_fijaci_n_eje_m10_l_nea_y_50_x",
+   "name": "MÓVIL · Fijación eje M10 línea y=50 +X",
+   "color": "#b0bec5",
+   "pos": [
+    153,
+    50,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f148",
+     "name": "Golilla plana DIN 125 Ø20×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 2
+     }
+    },
+    {
+     "id": "f149",
+     "name": "Golilla de presión DIN 127 Ø18×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      2,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f150",
+     "name": "Tuerca hex M10 DIN 934 (e=17)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4.5,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 8
+     }
+    },
+    {
+     "id": "f151",
+     "name": "Paso rosca M10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p34_m_vil_eje_rodillo_12_l_nea_y_150",
    "name": "MÓVIL · Eje rodillo Ø12 línea y=150",
    "color": "#b0bec5",
    "pos": [
-    -165,
+    -168,
     150,
     154
    ],
@@ -3840,8 +4817,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f112",
-     "name": "Eje Ø12 × 330",
+     "id": "f152",
+     "name": "Eje Ø12 × 336",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -3856,13 +4833,13 @@
      ],
      "params": {
       "dia": 12,
-      "h": 330
+      "h": 336
      }
     }
    ]
   },
   {
-   "id": "p27_m_vil_rodillo_vulcanizado_l_nea_y_150",
+   "id": "p35_m_vil_rodillo_vulcanizado_l_nea_y_150",
    "name": "MÓVIL · Rodillo vulcanizado línea y=150",
    "color": "#212121",
    "pos": [
@@ -3881,7 +4858,7 @@
    "componente": "rodillo_vulcanizado_40x290",
    "features": [
     {
-     "id": "f113",
+     "id": "f153",
      "name": "Corazón de tubo Ø30 × 290",
      "shape": "cylinder",
      "op": "union",
@@ -3901,7 +4878,7 @@
      }
     },
     {
-     "id": "f114",
+     "id": "f154",
      "name": "Vulcanizado Ø40 (hasta x=93)",
      "shape": "cylinder",
      "op": "union",
@@ -3921,12 +4898,52 @@
      }
     },
     {
-     "id": "f115",
-     "name": "Barreno Ø12.2",
+     "id": "f155",
+     "name": "Golilla de empuje nylon Ø22×1.5 (-X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -146.5,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f156",
+     "name": "Golilla de empuje nylon Ø22×1.5 (+X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f157",
+     "name": "Barreno Ø12.2 (bujes autolubricados)",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -145,
+      -146.5,
       0,
       20
      ],
@@ -3944,11 +4961,213 @@
    ]
   },
   {
-   "id": "p28_m_vil_eje_rodillo_12_l_nea_y_250",
+   "id": "p36_m_vil_fijaci_n_eje_m10_l_nea_y_150_x",
+   "name": "MÓVIL · Fijación eje M10 línea y=150 -X",
+   "color": "#b0bec5",
+   "pos": [
+    -153,
+    150,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f158",
+     "name": "Golilla plana DIN 125 Ø20×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 2
+     }
+    },
+    {
+     "id": "f159",
+     "name": "Golilla de presión DIN 127 Ø18×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f160",
+     "name": "Tuerca hex M10 DIN 934 (e=17)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -4.5,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 8
+     }
+    },
+    {
+     "id": "f161",
+     "name": "Paso rosca M10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p37_m_vil_fijaci_n_eje_m10_l_nea_y_150_x",
+   "name": "MÓVIL · Fijación eje M10 línea y=150 +X",
+   "color": "#b0bec5",
+   "pos": [
+    153,
+    150,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f162",
+     "name": "Golilla plana DIN 125 Ø20×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 2
+     }
+    },
+    {
+     "id": "f163",
+     "name": "Golilla de presión DIN 127 Ø18×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      2,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f164",
+     "name": "Tuerca hex M10 DIN 934 (e=17)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4.5,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 8
+     }
+    },
+    {
+     "id": "f165",
+     "name": "Paso rosca M10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p38_m_vil_eje_rodillo_12_l_nea_y_250",
    "name": "MÓVIL · Eje rodillo Ø12 línea y=250",
    "color": "#b0bec5",
    "pos": [
-    -165,
+    -168,
     250,
     154
    ],
@@ -3962,8 +5181,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f116",
-     "name": "Eje Ø12 × 330",
+     "id": "f166",
+     "name": "Eje Ø12 × 336",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -3978,13 +5197,13 @@
      ],
      "params": {
       "dia": 12,
-      "h": 330
+      "h": 336
      }
     }
    ]
   },
   {
-   "id": "p29_m_vil_rodillo_vulcanizado_l_nea_y_250",
+   "id": "p39_m_vil_rodillo_vulcanizado_l_nea_y_250",
    "name": "MÓVIL · Rodillo vulcanizado línea y=250",
    "color": "#212121",
    "pos": [
@@ -4003,7 +5222,7 @@
    "componente": "rodillo_vulcanizado_40x290",
    "features": [
     {
-     "id": "f117",
+     "id": "f167",
      "name": "Corazón de tubo Ø30 × 290",
      "shape": "cylinder",
      "op": "union",
@@ -4023,7 +5242,7 @@
      }
     },
     {
-     "id": "f118",
+     "id": "f168",
      "name": "Vulcanizado Ø40 (hasta x=93)",
      "shape": "cylinder",
      "op": "union",
@@ -4043,12 +5262,52 @@
      }
     },
     {
-     "id": "f119",
-     "name": "Barreno Ø12.2",
+     "id": "f169",
+     "name": "Golilla de empuje nylon Ø22×1.5 (-X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -146.5,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f170",
+     "name": "Golilla de empuje nylon Ø22×1.5 (+X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f171",
+     "name": "Barreno Ø12.2 (bujes autolubricados)",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -145,
+      -146.5,
       0,
       20
      ],
@@ -4066,7 +5325,209 @@
    ]
   },
   {
-   "id": "p30_m_vil_eje_tambor_25",
+   "id": "p40_m_vil_fijaci_n_eje_m10_l_nea_y_250_x",
+   "name": "MÓVIL · Fijación eje M10 línea y=250 -X",
+   "color": "#b0bec5",
+   "pos": [
+    -153,
+    250,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f172",
+     "name": "Golilla plana DIN 125 Ø20×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 2
+     }
+    },
+    {
+     "id": "f173",
+     "name": "Golilla de presión DIN 127 Ø18×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f174",
+     "name": "Tuerca hex M10 DIN 934 (e=17)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -4.5,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 8
+     }
+    },
+    {
+     "id": "f175",
+     "name": "Paso rosca M10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p41_m_vil_fijaci_n_eje_m10_l_nea_y_250_x",
+   "name": "MÓVIL · Fijación eje M10 línea y=250 +X",
+   "color": "#b0bec5",
+   "pos": [
+    153,
+    250,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f176",
+     "name": "Golilla plana DIN 125 Ø20×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 2
+     }
+    },
+    {
+     "id": "f177",
+     "name": "Golilla de presión DIN 127 Ø18×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      2,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f178",
+     "name": "Tuerca hex M10 DIN 934 (e=17)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4.5,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 8
+     }
+    },
+    {
+     "id": "f179",
+     "name": "Paso rosca M10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p42_m_vil_eje_tambor_25",
    "name": "MÓVIL · Eje tambor Ø25",
    "color": "#b0bec5",
    "pos": [
@@ -4084,7 +5545,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f120",
+     "id": "f180",
      "name": "Eje Ø25 × 212",
      "shape": "cylinder",
      "op": "union",
@@ -4106,7 +5567,7 @@
    ]
   },
   {
-   "id": "p31_m_vil_tambor_motriz_m",
+   "id": "p43_m_vil_tambor_motriz_m",
    "name": "MÓVIL · Tambor motriz M",
    "color": "#4a5560",
    "pos": [
@@ -4124,7 +5585,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f121",
+     "id": "f181",
      "name": "Tambor Ø90×30",
      "shape": "cylinder",
      "op": "union",
@@ -4144,7 +5605,7 @@
      }
     },
     {
-     "id": "f122",
+     "id": "f182",
      "name": "Barreno Ø25.2 + chaveta",
      "shape": "hole",
      "op": "cut",
@@ -4167,13 +5628,13 @@
    ]
   },
   {
-   "id": "p32_m_vil_tensor_50_200_118",
-   "name": "MÓVIL · Tensor Ø50 (-200,118)",
+   "id": "p44_m_vil_tensor_50_200_98",
+   "name": "MÓVIL · Tensor Ø50 (-200,98)",
    "color": "#90a4ae",
    "pos": [
     102.5,
     -200,
-    118
+    98
    ],
    "quat": [
     0,
@@ -4186,7 +5647,7 @@
    "componente": "polea_tensora_50x29",
    "features": [
     {
-     "id": "f123",
+     "id": "f183",
      "name": "Eje Ø12 × 50.5",
      "shape": "cylinder",
      "op": "union",
@@ -4206,7 +5667,7 @@
      }
     },
     {
-     "id": "f124",
+     "id": "f184",
      "name": "Polea Ø50×29",
      "shape": "cylinder",
      "op": "union",
@@ -4228,13 +5689,13 @@
    ]
   },
   {
-   "id": "p33_m_vil_tensor_50_100_118",
-   "name": "MÓVIL · Tensor Ø50 (-100,118)",
+   "id": "p45_m_vil_tensor_50_100_98",
+   "name": "MÓVIL · Tensor Ø50 (-100,98)",
    "color": "#90a4ae",
    "pos": [
     102.5,
     -100,
-    118
+    98
    ],
    "quat": [
     0,
@@ -4247,7 +5708,7 @@
    "componente": "polea_tensora_50x29",
    "features": [
     {
-     "id": "f125",
+     "id": "f185",
      "name": "Eje Ø12 × 50.5",
      "shape": "cylinder",
      "op": "union",
@@ -4267,7 +5728,7 @@
      }
     },
     {
-     "id": "f126",
+     "id": "f186",
      "name": "Polea Ø50×29",
      "shape": "cylinder",
      "op": "union",
@@ -4289,13 +5750,13 @@
    ]
   },
   {
-   "id": "p34_m_vil_tensor_50_100_118",
-   "name": "MÓVIL · Tensor Ø50 (100,118)",
+   "id": "p46_m_vil_tensor_50_100_98",
+   "name": "MÓVIL · Tensor Ø50 (100,98)",
    "color": "#90a4ae",
    "pos": [
     102.5,
     100,
-    118
+    98
    ],
    "quat": [
     0,
@@ -4308,7 +5769,7 @@
    "componente": "polea_tensora_50x29",
    "features": [
     {
-     "id": "f127",
+     "id": "f187",
      "name": "Eje Ø12 × 50.5",
      "shape": "cylinder",
      "op": "union",
@@ -4328,7 +5789,7 @@
      }
     },
     {
-     "id": "f128",
+     "id": "f188",
      "name": "Polea Ø50×29",
      "shape": "cylinder",
      "op": "union",
@@ -4350,13 +5811,13 @@
    ]
   },
   {
-   "id": "p35_m_vil_tensor_50_200_118",
-   "name": "MÓVIL · Tensor Ø50 (200,118)",
+   "id": "p47_m_vil_tensor_50_200_98",
+   "name": "MÓVIL · Tensor Ø50 (200,98)",
    "color": "#90a4ae",
    "pos": [
     102.5,
     200,
-    118
+    98
    ],
    "quat": [
     0,
@@ -4369,7 +5830,7 @@
    "componente": "polea_tensora_50x29",
    "features": [
     {
-     "id": "f129",
+     "id": "f189",
      "name": "Eje Ø12 × 50.5",
      "shape": "cylinder",
      "op": "union",
@@ -4389,7 +5850,7 @@
      }
     },
     {
-     "id": "f130",
+     "id": "f190",
      "name": "Polea Ø50×29",
      "shape": "cylinder",
      "op": "union",
@@ -4411,7 +5872,7 @@
    ]
   },
   {
-   "id": "p36_m_vil_polea_de_retorno_24_280_36",
+   "id": "p48_m_vil_polea_de_retorno_24_280_36",
    "name": "MÓVIL · Polea de retorno Ø24 (-280,36)",
    "color": "#90a4ae",
    "pos": [
@@ -4430,7 +5891,7 @@
    "componente": "polea_retorno_24x29",
    "features": [
     {
-     "id": "f131",
+     "id": "f191",
      "name": "Eje Ø12 × 50.5",
      "shape": "cylinder",
      "op": "union",
@@ -4450,7 +5911,7 @@
      }
     },
     {
-     "id": "f132",
+     "id": "f192",
      "name": "Polea Ø24×29",
      "shape": "cylinder",
      "op": "union",
@@ -4472,7 +5933,7 @@
    ]
   },
   {
-   "id": "p37_m_vil_polea_de_retorno_24_280_36",
+   "id": "p49_m_vil_polea_de_retorno_24_280_36",
    "name": "MÓVIL · Polea de retorno Ø24 (280,36)",
    "color": "#90a4ae",
    "pos": [
@@ -4491,7 +5952,7 @@
    "componente": "polea_retorno_24x29",
    "features": [
     {
-     "id": "f133",
+     "id": "f193",
      "name": "Eje Ø12 × 50.5",
      "shape": "cylinder",
      "op": "union",
@@ -4511,7 +5972,7 @@
      }
     },
     {
-     "id": "f134",
+     "id": "f194",
      "name": "Polea Ø24×29",
      "shape": "cylinder",
      "op": "union",
@@ -4533,7 +5994,7 @@
    ]
   },
   {
-   "id": "p38_m_vil_banda_serpent_n_25_3",
+   "id": "p50_m_vil_banda_serpent_n_25_3",
    "name": "MÓVIL · Banda serpentín 25×3",
    "color": "#e6c229",
    "pos": [
@@ -4551,7 +6012,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f135",
+     "id": "f195",
      "name": "Cara exterior",
      "shape": "sketch",
      "op": "union",
@@ -4664,456 +6125,456 @@
         158
        ],
        [
-        -266.91,
-        160.16
+        -266.9,
+        160.2
        ],
        [
-        -266.02,
-        162.21
+        -265.98,
+        162.29
        ],
        [
-        -264.87,
-        164.14
+        -264.8,
+        164.25
        ],
        [
-        -263.5,
-        165.91
+        -263.38,
+        166.05
        ],
        [
-        -261.91,
-        167.5
+        -261.74,
+        167.64
        ],
        [
-        -260.14,
-        168.87
+        -259.91,
+        169.02
        ],
        [
-        -258.21,
-        170.02
+        -257.93,
+        170.16
        ],
        [
-        -256.16,
-        170.91
+        -255.81,
+        171.04
        ],
        [
-        -254,
-        171.55
+        -253.61,
+        171.64
        ],
        [
-        -251.79,
-        171.91
+        -251.34,
+        171.95
        ],
        [
-        -249.55,
-        171.99
+        -249.05,
+        171.98
        ],
        [
-        -247.32,
-        171.8
+        -246.78,
+        171.71
        ],
        [
-        -245.12,
-        171.33
+        -244.56,
+        171.16
        ],
        [
-        -243.01,
-        170.59
+        -242.43,
+        170.33
        ],
        [
-        -241,
-        169.59
+        -240.42,
+        169.24
        ],
        [
-        -239.13,
-        168.35
+        -238.56,
+        167.9
        ],
        [
-        -237.43,
-        166.88
+        -236.89,
+        166.33
        ],
        [
-        -235.92,
-        165.22
+        -235.43,
+        164.57
        ],
        [
-        -234.64,
-        163.38
+        -234.21,
+        162.64
        ],
        [
-        -233.59,
-        161.4
+        -233.24,
+        160.57
        ],
        [
-        -232.8,
-        159.3
+        -232.54,
+        158.39
        ],
        [
-        -232.27,
-        157.12
+        -232.13,
+        156.14
        ],
        [
-        -224.62,
-        113.66
+        -224.82,
+        95.03
        ],
        [
-        -223.87,
-        110.58
+        -224.22,
+        91.79
        ],
        [
-        -222.74,
-        107.62
+        -223.19,
+        88.66
        ],
        [
-        -221.25,
-        104.82
+        -221.76,
+        85.69
        ],
        [
-        -219.41,
-        102.24
+        -219.95,
+        82.93
        ],
        [
-        -217.25,
-        99.91
+        -217.79,
+        80.44
        ],
        [
-        -214.82,
-        97.87
+        -215.33,
+        78.25
        ],
        [
-        -212.16,
-        96.15
+        -212.59,
+        76.4
        ],
        [
-        -209.29,
-        94.79
+        -209.64,
+        74.93
        ],
        [
-        -206.28,
-        93.8
+        -206.52,
+        73.87
        ],
        [
-        -203.17,
-        93.2
+        -203.29,
+        73.22
        ],
        [
         -200,
-        93
+        73
        ],
        [
-        -196.83,
-        93.2
+        -196.71,
+        73.22
        ],
        [
-        -193.72,
-        93.8
+        -193.48,
+        73.87
        ],
        [
-        -190.71,
-        94.79
+        -190.36,
+        74.93
        ],
        [
-        -187.84,
-        96.15
+        -187.41,
+        76.4
        ],
        [
-        -185.18,
-        97.87
+        -184.67,
+        78.25
        ],
        [
-        -182.75,
-        99.91
+        -182.21,
+        80.44
        ],
        [
-        -180.59,
-        102.24
+        -180.05,
+        82.93
        ],
        [
-        -178.75,
-        104.82
+        -178.24,
+        85.69
        ],
        [
-        -177.26,
-        107.62
+        -176.81,
+        88.66
        ],
        [
-        -176.13,
-        110.58
+        -175.78,
+        91.79
        ],
        [
-        -175.38,
-        113.66
+        -175.18,
+        95.03
        ],
        [
-        -167.73,
-        157.12
+        -167.87,
+        156.14
        ],
        [
-        -167.19,
-        159.34
+        -167.44,
+        158.47
        ],
        [
-        -166.37,
-        161.47
+        -166.7,
+        160.73
        ],
        [
-        -165.3,
-        163.49
+        -165.67,
+        162.86
        ],
        [
-        -163.97,
-        165.35
+        -164.36,
+        164.85
        ],
        [
-        -162.42,
-        167.03
+        -162.81,
+        166.64
        ],
        [
-        -160.67,
-        168.49
+        -161.03,
+        168.22
        ],
        [
-        -158.75,
-        169.73
+        -159.07,
+        169.55
        ],
        [
-        -156.69,
-        170.71
+        -156.94,
+        170.61
        ],
        [
-        -154.52,
-        171.42
+        -154.7,
+        171.38
        ],
        [
-        -152.28,
-        171.86
+        -152.37,
+        171.84
        ],
        [
         -150,
         172
        ],
        [
-        -147.72,
-        171.86
+        -147.63,
+        171.84
        ],
        [
-        -145.48,
-        171.42
+        -145.3,
+        171.38
        ],
        [
-        -143.31,
-        170.71
+        -143.06,
+        170.61
        ],
        [
-        -141.25,
-        169.73
+        -140.93,
+        169.55
        ],
        [
-        -139.33,
-        168.49
+        -138.97,
+        168.22
        ],
        [
-        -137.58,
-        167.03
+        -137.19,
+        166.64
        ],
        [
-        -136.03,
-        165.35
+        -135.64,
+        164.85
        ],
        [
-        -134.7,
-        163.49
+        -134.33,
+        162.86
        ],
        [
-        -133.63,
-        161.47
+        -133.3,
+        160.73
        ],
        [
-        -132.81,
-        159.34
+        -132.56,
+        158.47
        ],
        [
-        -132.27,
-        157.12
+        -132.13,
+        156.14
        ],
        [
-        -124.62,
-        113.66
+        -124.82,
+        95.03
        ],
        [
-        -123.87,
-        110.58
+        -124.22,
+        91.79
        ],
        [
-        -122.74,
-        107.62
+        -123.19,
+        88.66
        ],
        [
-        -121.25,
-        104.82
+        -121.76,
+        85.69
        ],
        [
-        -119.41,
-        102.24
+        -119.95,
+        82.93
        ],
        [
-        -117.25,
-        99.91
+        -117.79,
+        80.44
        ],
        [
-        -114.82,
-        97.87
+        -115.33,
+        78.25
        ],
        [
-        -112.16,
-        96.15
+        -112.59,
+        76.4
        ],
        [
-        -109.29,
-        94.79
+        -109.64,
+        74.93
        ],
        [
-        -106.28,
-        93.8
+        -106.52,
+        73.87
        ],
        [
-        -103.17,
-        93.2
+        -103.29,
+        73.22
        ],
        [
         -100,
-        93
+        73
        ],
        [
-        -96.83,
-        93.2
+        -96.71,
+        73.22
        ],
        [
-        -93.72,
-        93.8
+        -93.48,
+        73.87
        ],
        [
-        -90.71,
-        94.79
+        -90.36,
+        74.93
        ],
        [
-        -87.84,
-        96.15
+        -87.41,
+        76.4
        ],
        [
-        -85.18,
-        97.87
+        -84.67,
+        78.25
        ],
        [
-        -82.75,
-        99.91
+        -82.21,
+        80.44
        ],
        [
-        -80.59,
-        102.24
+        -80.05,
+        82.93
        ],
        [
-        -78.75,
-        104.82
+        -78.24,
+        85.69
        ],
        [
-        -77.26,
-        107.62
+        -76.81,
+        88.66
        ],
        [
-        -76.13,
-        110.58
+        -75.78,
+        91.79
        ],
        [
-        -75.38,
-        113.66
+        -75.18,
+        95.03
        ],
        [
-        -67.73,
-        157.12
+        -67.87,
+        156.14
        ],
        [
-        -67.1,
-        159.62
+        -67.37,
+        158.71
        ],
        [
-        -66.12,
-        162
+        -66.51,
+        161.18
        ],
        [
-        -64.82,
-        164.22
+        -65.29,
+        163.5
        ],
        [
-        -63.21,
-        166.23
+        -63.75,
+        165.62
        ],
        [
-        -61.33,
-        167.99
+        -61.91,
+        167.49
        ],
        [
-        -59.21,
-        169.46
+        -59.83,
+        169.08
        ],
        [
-        -56.91,
-        170.62
+        -57.53,
+        170.35
        ],
        [
-        -54.47,
-        171.44
+        -55.08,
+        171.27
        ],
        [
-        -51.94,
-        171.9
+        -52.52,
+        171.82
        ],
        [
-        -49.36,
-        171.99
+        -49.9,
+        172
        ],
        [
-        -46.8,
-        171.71
+        -47.29,
+        171.8
        ],
        [
-        -44.31,
-        171.08
+        -44.74,
+        171.21
        ],
        [
-        -41.93,
-        170.09
+        -42.29,
+        170.27
        ],
        [
-        -39.71,
-        168.77
+        -40.01,
+        168.98
        ],
        [
-        -37.71,
-        167.15
+        -37.94,
+        167.37
        ],
        [
-        -35.96,
-        165.26
+        -36.13,
+        165.47
        ],
        [
-        -34.5,
-        163.15
+        -34.61,
+        163.34
        ],
        [
-        -33.35,
-        160.84
+        -33.42,
+        161.01
        ],
        [
-        -32.54,
-        158.39
+        -32.58,
+        158.52
        ],
        [
-        -32.1,
-        155.86
+        -32.11,
+        155.95
        ],
        [
         -32.01,
-        153.28
+        153.33
        ],
        [
         -32.3,
@@ -5217,455 +6678,455 @@
        ],
        [
         32.01,
-        153.28
+        153.33
        ],
        [
-        32.1,
-        155.86
+        32.11,
+        155.95
        ],
        [
-        32.54,
-        158.39
+        32.58,
+        158.52
        ],
        [
-        33.35,
-        160.84
+        33.42,
+        161.01
        ],
        [
-        34.5,
-        163.15
+        34.61,
+        163.34
        ],
        [
-        35.96,
-        165.26
+        36.13,
+        165.47
        ],
        [
-        37.71,
-        167.15
+        37.94,
+        167.37
        ],
        [
-        39.71,
-        168.77
+        40.01,
+        168.98
        ],
        [
-        41.93,
-        170.09
+        42.29,
+        170.27
        ],
        [
-        44.31,
-        171.08
+        44.74,
+        171.21
        ],
        [
-        46.8,
-        171.71
+        47.29,
+        171.8
        ],
        [
-        49.36,
-        171.99
+        49.9,
+        172
        ],
        [
-        51.94,
-        171.9
+        52.52,
+        171.82
        ],
        [
-        54.47,
-        171.44
+        55.08,
+        171.27
        ],
        [
-        56.91,
-        170.62
+        57.53,
+        170.35
        ],
        [
-        59.21,
-        169.46
+        59.83,
+        169.08
        ],
        [
-        61.33,
-        167.99
+        61.91,
+        167.49
        ],
        [
-        63.21,
-        166.23
+        63.75,
+        165.62
        ],
        [
-        64.82,
-        164.22
+        65.29,
+        163.5
        ],
        [
-        66.12,
-        162
+        66.51,
+        161.18
        ],
        [
-        67.1,
-        159.62
+        67.37,
+        158.71
        ],
        [
-        67.73,
-        157.12
+        67.87,
+        156.14
        ],
        [
-        75.38,
-        113.66
+        75.18,
+        95.03
        ],
        [
-        76.13,
-        110.58
+        75.78,
+        91.79
        ],
        [
-        77.26,
-        107.62
+        76.81,
+        88.66
        ],
        [
-        78.75,
-        104.82
+        78.24,
+        85.69
        ],
        [
-        80.59,
-        102.24
+        80.05,
+        82.93
        ],
        [
-        82.75,
-        99.91
+        82.21,
+        80.44
        ],
        [
-        85.18,
-        97.87
+        84.67,
+        78.25
        ],
        [
-        87.84,
-        96.15
+        87.41,
+        76.4
        ],
        [
-        90.71,
-        94.79
+        90.36,
+        74.93
        ],
        [
-        93.72,
-        93.8
+        93.48,
+        73.87
        ],
        [
-        96.83,
-        93.2
+        96.71,
+        73.22
        ],
        [
         100,
-        93
+        73
        ],
        [
-        103.17,
-        93.2
+        103.29,
+        73.22
        ],
        [
-        106.28,
-        93.8
+        106.52,
+        73.87
        ],
        [
-        109.29,
-        94.79
+        109.64,
+        74.93
        ],
        [
-        112.16,
-        96.15
+        112.59,
+        76.4
        ],
        [
-        114.82,
-        97.87
+        115.33,
+        78.25
        ],
        [
-        117.25,
-        99.91
+        117.79,
+        80.44
        ],
        [
-        119.41,
-        102.24
+        119.95,
+        82.93
        ],
        [
-        121.25,
-        104.82
+        121.76,
+        85.69
        ],
        [
-        122.74,
-        107.62
+        123.19,
+        88.66
        ],
        [
-        123.87,
-        110.58
+        124.22,
+        91.79
        ],
        [
-        124.62,
-        113.66
+        124.82,
+        95.03
        ],
        [
-        132.27,
-        157.12
+        132.13,
+        156.14
        ],
        [
-        132.81,
-        159.34
+        132.56,
+        158.47
        ],
        [
-        133.63,
-        161.47
+        133.3,
+        160.73
        ],
        [
-        134.7,
-        163.49
+        134.33,
+        162.86
        ],
        [
-        136.03,
-        165.35
+        135.64,
+        164.85
        ],
        [
-        137.58,
-        167.03
+        137.19,
+        166.64
        ],
        [
-        139.33,
-        168.49
+        138.97,
+        168.22
        ],
        [
-        141.25,
-        169.73
+        140.93,
+        169.55
        ],
        [
-        143.31,
-        170.71
+        143.06,
+        170.61
        ],
        [
-        145.48,
-        171.42
+        145.3,
+        171.38
        ],
        [
-        147.72,
-        171.86
+        147.63,
+        171.84
        ],
        [
         150,
         172
        ],
        [
-        152.28,
-        171.86
+        152.37,
+        171.84
        ],
        [
-        154.52,
-        171.42
+        154.7,
+        171.38
        ],
        [
-        156.69,
-        170.71
+        156.94,
+        170.61
        ],
        [
-        158.75,
-        169.73
+        159.07,
+        169.55
        ],
        [
-        160.67,
-        168.49
+        161.03,
+        168.22
        ],
        [
-        162.42,
-        167.03
+        162.81,
+        166.64
        ],
        [
-        163.97,
-        165.35
+        164.36,
+        164.85
        ],
        [
-        165.3,
-        163.49
+        165.67,
+        162.86
        ],
        [
-        166.37,
-        161.47
+        166.7,
+        160.73
        ],
        [
-        167.19,
-        159.34
+        167.44,
+        158.47
        ],
        [
-        167.73,
-        157.12
+        167.87,
+        156.14
        ],
        [
-        175.38,
-        113.66
+        175.18,
+        95.03
        ],
        [
-        176.13,
-        110.58
+        175.78,
+        91.79
        ],
        [
-        177.26,
-        107.62
+        176.81,
+        88.66
        ],
        [
-        178.75,
-        104.82
+        178.24,
+        85.69
        ],
        [
-        180.59,
-        102.24
+        180.05,
+        82.93
        ],
        [
-        182.75,
-        99.91
+        182.21,
+        80.44
        ],
        [
-        185.18,
-        97.87
+        184.67,
+        78.25
        ],
        [
-        187.84,
-        96.15
+        187.41,
+        76.4
        ],
        [
-        190.71,
-        94.79
+        190.36,
+        74.93
        ],
        [
-        193.72,
-        93.8
+        193.48,
+        73.87
        ],
        [
-        196.83,
-        93.2
+        196.71,
+        73.22
        ],
        [
         200,
-        93
+        73
        ],
        [
-        203.17,
-        93.2
+        203.29,
+        73.22
        ],
        [
-        206.28,
-        93.8
+        206.52,
+        73.87
        ],
        [
-        209.29,
-        94.79
+        209.64,
+        74.93
        ],
        [
-        212.16,
-        96.15
+        212.59,
+        76.4
        ],
        [
-        214.82,
-        97.87
+        215.33,
+        78.25
        ],
        [
-        217.25,
-        99.91
+        217.79,
+        80.44
        ],
        [
-        219.41,
-        102.24
+        219.95,
+        82.93
        ],
        [
-        221.25,
-        104.82
+        221.76,
+        85.69
        ],
        [
-        222.74,
-        107.62
+        223.19,
+        88.66
        ],
        [
-        223.87,
-        110.58
+        224.22,
+        91.79
        ],
        [
-        224.62,
-        113.66
+        224.82,
+        95.03
        ],
        [
-        232.27,
-        157.12
+        232.13,
+        156.14
        ],
        [
-        232.8,
-        159.3
+        232.54,
+        158.39
        ],
        [
-        233.59,
-        161.4
+        233.24,
+        160.57
        ],
        [
-        234.64,
-        163.38
+        234.21,
+        162.64
        ],
        [
-        235.92,
-        165.22
+        235.43,
+        164.57
        ],
        [
-        237.43,
-        166.88
+        236.89,
+        166.33
        ],
        [
-        239.13,
-        168.35
+        238.56,
+        167.9
        ],
        [
-        241,
-        169.59
+        240.42,
+        169.24
        ],
        [
-        243.01,
-        170.59
+        242.43,
+        170.33
        ],
        [
-        245.12,
-        171.33
+        244.56,
+        171.16
        ],
        [
-        247.32,
-        171.8
+        246.78,
+        171.71
        ],
        [
-        249.55,
-        171.99
+        249.05,
+        171.98
        ],
        [
-        251.79,
-        171.91
+        251.34,
+        171.95
        ],
        [
-        254,
-        171.55
+        253.61,
+        171.64
        ],
        [
-        256.16,
-        170.91
+        255.81,
+        171.04
        ],
        [
-        258.21,
-        170.02
+        257.93,
+        170.16
        ],
        [
-        260.14,
-        168.87
+        259.91,
+        169.02
        ],
        [
-        261.91,
-        167.5
+        261.74,
+        167.64
        ],
        [
-        263.5,
-        165.91
+        263.38,
+        166.05
        ],
        [
-        264.87,
-        164.14
+        264.8,
+        164.25
        ],
        [
-        266.02,
-        162.21
+        265.98,
+        162.29
        ],
        [
-        266.91,
-        160.16
+        266.9,
+        160.2
        ],
        [
         267.55,
@@ -5773,7 +7234,7 @@
      }
     },
     {
-     "id": "f136",
+     "id": "f196",
      "name": "Vaciado interior",
      "shape": "sketch",
      "op": "cut",
@@ -5886,456 +7347,456 @@
         157.34
        ],
        [
-        -264.1,
-        159.13
+        -264.08,
+        159.16
        ],
        [
-        -263.35,
-        160.84
+        -263.31,
+        160.91
        ],
        [
-        -262.39,
-        162.45
+        -262.33,
+        162.54
        ],
        [
-        -261.25,
-        163.93
+        -261.15,
+        164.04
        ],
        [
-        -259.93,
-        165.25
+        -259.78,
+        165.37
        ],
        [
-        -258.45,
-        166.39
+        -258.26,
+        166.52
        ],
        [
-        -256.84,
-        167.35
+        -256.61,
+        167.47
        ],
        [
-        -255.13,
-        168.1
+        -254.85,
+        168.2
        ],
        [
-        -253.34,
-        168.62
+        -253.01,
+        168.7
        ],
        [
-        -251.49,
-        168.93
+        -251.12,
+        168.96
        ],
        [
-        -249.62,
-        169
+        -249.21,
+        168.98
        ],
        [
-        -247.76,
-        168.83
+        -247.32,
+        168.76
        ],
        [
-        -245.94,
-        168.44
+        -245.47,
+        168.3
        ],
        [
-        -244.17,
-        167.82
+        -243.69,
+        167.61
        ],
        [
-        -242.5,
-        166.99
+        -242.01,
+        166.7
        ],
        [
-        -240.94,
-        165.96
+        -240.47,
+        165.58
        ],
        [
-        -239.52,
-        164.74
+        -239.08,
+        164.28
        ],
        [
-        -238.27,
-        163.35
+        -237.86,
+        162.81
        ],
        [
-        -237.2,
-        161.82
+        -236.84,
+        161.2
        ],
        [
-        -236.33,
-        160.17
+        -236.03,
+        159.47
        ],
        [
-        -235.67,
-        158.42
+        -235.45,
+        157.66
        ],
        [
-        -235.23,
-        156.6
+        -235.11,
+        155.78
        ],
        [
-        -227.58,
-        113.14
+        -227.8,
+        94.68
        ],
        [
-        -226.74,
-        109.69
+        -227.12,
+        91.05
        ],
        [
-        -225.47,
-        106.37
+        -225.97,
+        87.54
        ],
        [
-        -223.79,
-        103.24
+        -224.37,
+        84.21
        ],
        [
-        -221.73,
-        100.35
+        -222.34,
+        81.12
        ],
        [
-        -219.32,
-        97.74
+        -219.93,
+        78.33
        ],
        [
-        -216.6,
-        95.45
+        -217.17,
+        75.88
        ],
        [
-        -213.62,
-        93.53
+        -214.11,
+        73.81
        ],
        [
-        -210.41,
-        92.01
+        -210.8,
+        72.17
        ],
        [
-        -207.03,
-        90.9
+        -207.31,
+        70.97
        ],
        [
-        -203.55,
-        90.23
+        -203.68,
+        70.24
        ],
        [
         -200,
-        90
+        70
        ],
        [
-        -196.45,
-        90.23
+        -196.32,
+        70.24
        ],
        [
-        -192.97,
-        90.9
+        -192.69,
+        70.97
        ],
        [
-        -189.59,
-        92.01
+        -189.2,
+        72.17
        ],
        [
-        -186.38,
-        93.53
+        -185.89,
+        73.81
        ],
        [
-        -183.4,
-        95.45
+        -182.83,
+        75.88
        ],
        [
-        -180.68,
-        97.74
+        -180.07,
+        78.33
        ],
        [
-        -178.27,
-        100.35
+        -177.66,
+        81.12
        ],
        [
-        -176.21,
-        103.24
+        -175.63,
+        84.21
        ],
        [
-        -174.53,
-        106.37
+        -174.03,
+        87.54
        ],
        [
-        -173.26,
-        109.69
+        -172.88,
+        91.05
        ],
        [
-        -172.42,
-        113.14
+        -172.2,
+        94.68
        ],
        [
-        -164.77,
-        156.6
+        -164.89,
+        155.78
        ],
        [
-        -164.32,
-        158.45
+        -164.53,
+        157.72
        ],
        [
-        -163.65,
-        160.23
+        -163.91,
+        159.6
        ],
        [
-        -162.75,
-        161.91
+        -163.05,
+        161.39
        ],
        [
-        -161.64,
-        163.46
+        -161.97,
+        163.04
        ],
        [
-        -160.35,
-        164.85
+        -160.68,
+        164.54
        ],
        [
-        -158.89,
-        166.08
+        -159.2,
+        165.85
        ],
        [
-        -157.29,
-        167.11
+        -157.56,
+        166.96
        ],
        [
-        -155.58,
-        167.93
+        -155.79,
+        167.84
        ],
        [
-        -153.77,
-        168.52
+        -153.91,
+        168.48
        ],
        [
-        -151.9,
-        168.88
+        -151.97,
+        168.87
        ],
        [
         -150,
         169
        ],
        [
-        -148.1,
-        168.88
+        -148.03,
+        168.87
        ],
        [
-        -146.23,
-        168.52
+        -146.09,
+        168.48
        ],
        [
-        -144.42,
-        167.93
+        -144.21,
+        167.84
        ],
        [
-        -142.71,
-        167.11
+        -142.44,
+        166.96
        ],
        [
-        -141.11,
-        166.08
+        -140.8,
+        165.85
        ],
        [
-        -139.65,
-        164.85
+        -139.32,
+        164.54
        ],
        [
-        -138.36,
-        163.46
+        -138.03,
+        163.04
        ],
        [
-        -137.25,
-        161.91
+        -136.95,
+        161.39
        ],
        [
-        -136.35,
-        160.23
+        -136.09,
+        159.6
        ],
        [
-        -135.68,
-        158.45
+        -135.47,
+        157.72
        ],
        [
-        -135.23,
-        156.6
+        -135.11,
+        155.78
        ],
        [
-        -127.58,
-        113.14
+        -127.8,
+        94.68
        ],
        [
-        -126.74,
-        109.69
+        -127.12,
+        91.05
        ],
        [
-        -125.47,
-        106.37
+        -125.97,
+        87.54
        ],
        [
-        -123.79,
-        103.24
+        -124.37,
+        84.21
        ],
        [
-        -121.73,
-        100.35
+        -122.34,
+        81.12
        ],
        [
-        -119.32,
-        97.74
+        -119.93,
+        78.33
        ],
        [
-        -116.6,
-        95.45
+        -117.17,
+        75.88
        ],
        [
-        -113.62,
-        93.53
+        -114.11,
+        73.81
        ],
        [
-        -110.41,
-        92.01
+        -110.8,
+        72.17
        ],
        [
-        -107.03,
-        90.9
+        -107.31,
+        70.97
        ],
        [
-        -103.55,
-        90.23
+        -103.68,
+        70.24
        ],
        [
         -100,
-        90
+        70
        ],
        [
-        -96.45,
-        90.23
+        -96.32,
+        70.24
        ],
        [
-        -92.97,
-        90.9
+        -92.69,
+        70.97
        ],
        [
-        -89.59,
-        92.01
+        -89.2,
+        72.17
        ],
        [
-        -86.38,
-        93.53
+        -85.89,
+        73.81
        ],
        [
-        -83.4,
-        95.45
+        -82.83,
+        75.88
        ],
        [
-        -80.68,
-        97.74
+        -80.07,
+        78.33
        ],
        [
-        -78.27,
-        100.35
+        -77.66,
+        81.12
        ],
        [
-        -76.21,
-        103.24
+        -75.63,
+        84.21
        ],
        [
-        -74.53,
-        106.37
+        -74.03,
+        87.54
        ],
        [
-        -73.26,
-        109.69
+        -72.88,
+        91.05
        ],
        [
-        -72.42,
-        113.14
+        -72.2,
+        94.68
        ],
        [
-        -64.77,
-        156.6
+        -64.89,
+        155.78
        ],
        [
-        -64.25,
-        158.68
+        -64.48,
+        157.92
        ],
        [
-        -63.44,
-        160.67
+        -63.75,
+        159.98
        ],
        [
-        -62.35,
-        162.52
+        -62.74,
+        161.92
        ],
        [
-        -61.01,
-        164.19
+        -61.46,
+        163.68
        ],
        [
-        -59.44,
-        165.66
+        -59.93,
+        165.24
        ],
        [
-        -57.68,
-        166.89
+        -58.19,
+        166.57
        ],
        [
-        -55.76,
-        167.85
+        -56.28,
+        167.62
        ],
        [
-        -53.72,
-        168.53
+        -54.23,
+        168.39
        ],
        [
-        -51.61,
-        168.91
+        -52.1,
+        168.85
        ],
        [
-        -49.47,
-        168.99
+        -49.92,
+        169
        ],
        [
-        -47.33,
-        168.76
+        -47.74,
+        168.83
        ],
        [
-        -45.25,
-        168.23
+        -45.61,
+        168.34
        ],
        [
-        -43.27,
-        167.41
+        -43.58,
+        167.56
        ],
        [
-        -41.43,
-        166.31
+        -41.68,
+        166.48
        ],
        [
-        -39.76,
-        164.96
+        -39.95,
+        165.14
        ],
        [
-        -38.3,
-        163.39
+        -38.44,
+        163.56
        ],
        [
-        -37.08,
-        161.62
+        -37.18,
+        161.78
        ],
        [
-        -36.12,
-        159.7
+        -36.18,
+        159.84
        ],
        [
-        -35.45,
-        157.66
+        -35.48,
+        157.77
        ],
        [
-        -35.08,
-        155.55
+        -35.09,
+        155.62
        ],
        [
         -35.01,
-        153.4
+        153.44
        ],
        [
         -35.25,
@@ -6439,455 +7900,455 @@
        ],
        [
         35.01,
-        153.4
+        153.44
        ],
        [
-        35.08,
-        155.55
+        35.09,
+        155.62
        ],
        [
-        35.45,
-        157.66
+        35.48,
+        157.77
        ],
        [
-        36.12,
-        159.7
+        36.18,
+        159.84
        ],
        [
-        37.08,
-        161.62
+        37.18,
+        161.78
        ],
        [
-        38.3,
-        163.39
+        38.44,
+        163.56
        ],
        [
-        39.76,
-        164.96
+        39.95,
+        165.14
        ],
        [
-        41.43,
-        166.31
+        41.68,
+        166.48
        ],
        [
-        43.27,
-        167.41
+        43.58,
+        167.56
        ],
        [
-        45.25,
-        168.23
+        45.61,
+        168.34
        ],
        [
-        47.33,
-        168.76
+        47.74,
+        168.83
        ],
        [
-        49.47,
-        168.99
+        49.92,
+        169
        ],
        [
-        51.61,
-        168.91
+        52.1,
+        168.85
        ],
        [
-        53.72,
-        168.53
+        54.23,
+        168.39
        ],
        [
-        55.76,
-        167.85
+        56.28,
+        167.62
        ],
        [
-        57.68,
-        166.89
+        58.19,
+        166.57
        ],
        [
-        59.44,
-        165.66
+        59.93,
+        165.24
        ],
        [
-        61.01,
-        164.19
+        61.46,
+        163.68
        ],
        [
-        62.35,
-        162.52
+        62.74,
+        161.92
        ],
        [
-        63.44,
-        160.67
+        63.75,
+        159.98
        ],
        [
-        64.25,
-        158.68
+        64.48,
+        157.92
        ],
        [
-        64.77,
-        156.6
+        64.89,
+        155.78
        ],
        [
-        72.42,
-        113.14
+        72.2,
+        94.68
        ],
        [
-        73.26,
-        109.69
+        72.88,
+        91.05
        ],
        [
-        74.53,
-        106.37
+        74.03,
+        87.54
        ],
        [
-        76.21,
-        103.24
+        75.63,
+        84.21
        ],
        [
-        78.27,
-        100.35
+        77.66,
+        81.12
        ],
        [
-        80.68,
-        97.74
+        80.07,
+        78.33
        ],
        [
-        83.4,
-        95.45
+        82.83,
+        75.88
        ],
        [
-        86.38,
-        93.53
+        85.89,
+        73.81
        ],
        [
-        89.59,
-        92.01
+        89.2,
+        72.17
        ],
        [
-        92.97,
-        90.9
+        92.69,
+        70.97
        ],
        [
-        96.45,
-        90.23
+        96.32,
+        70.24
        ],
        [
         100,
-        90
+        70
        ],
        [
-        103.55,
-        90.23
+        103.68,
+        70.24
        ],
        [
-        107.03,
-        90.9
+        107.31,
+        70.97
        ],
        [
-        110.41,
-        92.01
+        110.8,
+        72.17
        ],
        [
-        113.62,
-        93.53
+        114.11,
+        73.81
        ],
        [
-        116.6,
-        95.45
+        117.17,
+        75.88
        ],
        [
-        119.32,
-        97.74
+        119.93,
+        78.33
        ],
        [
-        121.73,
-        100.35
+        122.34,
+        81.12
        ],
        [
-        123.79,
-        103.24
+        124.37,
+        84.21
        ],
        [
-        125.47,
-        106.37
+        125.97,
+        87.54
        ],
        [
-        126.74,
-        109.69
+        127.12,
+        91.05
        ],
        [
-        127.58,
-        113.14
+        127.8,
+        94.68
        ],
        [
-        135.23,
-        156.6
+        135.11,
+        155.78
        ],
        [
-        135.68,
-        158.45
+        135.47,
+        157.72
        ],
        [
-        136.35,
-        160.23
+        136.09,
+        159.6
        ],
        [
-        137.25,
-        161.91
+        136.95,
+        161.39
        ],
        [
-        138.36,
-        163.46
+        138.03,
+        163.04
        ],
        [
-        139.65,
-        164.85
+        139.32,
+        164.54
        ],
        [
-        141.11,
-        166.08
+        140.8,
+        165.85
        ],
        [
-        142.71,
-        167.11
+        142.44,
+        166.96
        ],
        [
-        144.42,
-        167.93
+        144.21,
+        167.84
        ],
        [
-        146.23,
-        168.52
+        146.09,
+        168.48
        ],
        [
-        148.1,
-        168.88
+        148.03,
+        168.87
        ],
        [
         150,
         169
        ],
        [
-        151.9,
-        168.88
+        151.97,
+        168.87
        ],
        [
-        153.77,
-        168.52
+        153.91,
+        168.48
        ],
        [
-        155.58,
-        167.93
+        155.79,
+        167.84
        ],
        [
-        157.29,
-        167.11
+        157.56,
+        166.96
        ],
        [
-        158.89,
-        166.08
+        159.2,
+        165.85
        ],
        [
-        160.35,
-        164.85
+        160.68,
+        164.54
        ],
        [
-        161.64,
-        163.46
+        161.97,
+        163.04
        ],
        [
-        162.75,
-        161.91
+        163.05,
+        161.39
        ],
        [
-        163.65,
-        160.23
+        163.91,
+        159.6
        ],
        [
-        164.32,
-        158.45
+        164.53,
+        157.72
        ],
        [
-        164.77,
-        156.6
+        164.89,
+        155.78
        ],
        [
-        172.42,
-        113.14
+        172.2,
+        94.68
        ],
        [
-        173.26,
-        109.69
+        172.88,
+        91.05
        ],
        [
-        174.53,
-        106.37
+        174.03,
+        87.54
        ],
        [
-        176.21,
-        103.24
+        175.63,
+        84.21
        ],
        [
-        178.27,
-        100.35
+        177.66,
+        81.12
        ],
        [
-        180.68,
-        97.74
+        180.07,
+        78.33
        ],
        [
-        183.4,
-        95.45
+        182.83,
+        75.88
        ],
        [
-        186.38,
-        93.53
+        185.89,
+        73.81
        ],
        [
-        189.59,
-        92.01
+        189.2,
+        72.17
        ],
        [
-        192.97,
-        90.9
+        192.69,
+        70.97
        ],
        [
-        196.45,
-        90.23
+        196.32,
+        70.24
        ],
        [
         200,
-        90
+        70
        ],
        [
-        203.55,
-        90.23
+        203.68,
+        70.24
        ],
        [
-        207.03,
-        90.9
+        207.31,
+        70.97
        ],
        [
-        210.41,
-        92.01
+        210.8,
+        72.17
        ],
        [
-        213.62,
-        93.53
+        214.11,
+        73.81
        ],
        [
-        216.6,
-        95.45
+        217.17,
+        75.88
        ],
        [
-        219.32,
-        97.74
+        219.93,
+        78.33
        ],
        [
-        221.73,
-        100.35
+        222.34,
+        81.12
        ],
        [
-        223.79,
-        103.24
+        224.37,
+        84.21
        ],
        [
-        225.47,
-        106.37
+        225.97,
+        87.54
        ],
        [
-        226.74,
-        109.69
+        227.12,
+        91.05
        ],
        [
-        227.58,
-        113.14
+        227.8,
+        94.68
        ],
        [
-        235.23,
-        156.6
+        235.11,
+        155.78
        ],
        [
-        235.67,
-        158.42
+        235.45,
+        157.66
        ],
        [
-        236.33,
-        160.17
+        236.03,
+        159.47
        ],
        [
-        237.2,
-        161.82
+        236.84,
+        161.2
        ],
        [
-        238.27,
-        163.35
+        237.86,
+        162.81
        ],
        [
-        239.52,
-        164.74
+        239.08,
+        164.28
        ],
        [
-        240.94,
-        165.96
+        240.47,
+        165.58
        ],
        [
-        242.5,
-        166.99
+        242.01,
+        166.7
        ],
        [
-        244.17,
-        167.82
+        243.69,
+        167.61
        ],
        [
-        245.94,
-        168.44
+        245.47,
+        168.3
        ],
        [
-        247.76,
-        168.83
+        247.32,
+        168.76
        ],
        [
-        249.62,
-        169
+        249.21,
+        168.98
        ],
        [
-        251.49,
-        168.93
+        251.12,
+        168.96
        ],
        [
-        253.34,
-        168.62
+        253.01,
+        168.7
        ],
        [
-        255.13,
-        168.1
+        254.85,
+        168.2
        ],
        [
-        256.84,
-        167.35
+        256.61,
+        167.47
        ],
        [
-        258.45,
-        166.39
+        258.26,
+        166.52
        ],
        [
-        259.93,
-        165.25
+        259.78,
+        165.37
        ],
        [
-        261.25,
-        163.93
+        261.15,
+        164.04
        ],
        [
-        262.39,
-        162.45
+        262.33,
+        162.54
        ],
        [
-        263.35,
-        160.84
+        263.31,
+        160.91
        ],
        [
-        264.1,
-        159.13
+        264.08,
+        159.16
        ],
        [
         264.62,
@@ -6997,7 +8458,7 @@
    ]
   },
   {
-   "id": "p39_m_vil_motorreductor_por_dentro",
+   "id": "p51_m_vil_motorreductor_por_dentro",
    "name": "MÓVIL · Motorreductor (por dentro)",
    "color": "#546e7a",
    "pos": [
@@ -7015,7 +8476,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f137",
+     "id": "f197",
      "name": "Cuerpo 88×80×66",
      "shape": "box",
      "op": "union",
@@ -7036,7 +8497,7 @@
      }
     },
     {
-     "id": "f138",
+     "id": "f198",
      "name": "Brida Ø70×8",
      "shape": "cylinder",
      "op": "union",
@@ -7056,7 +8517,7 @@
      }
     },
     {
-     "id": "f139",
+     "id": "f199",
      "name": "Eje salida Ø25",
      "shape": "cylinder",
      "op": "union",
@@ -7078,7 +8539,7 @@
    ]
   },
   {
-   "id": "p40_m_vil_acople_r_gido_35",
+   "id": "p52_m_vil_acople_r_gido_35",
    "name": "MÓVIL · Acople rígido Ø35",
    "color": "#90a4ae",
    "pos": [
@@ -7096,7 +8557,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f140",
+     "id": "f200",
      "name": "Manguito Ø35×24",
      "shape": "cylinder",
      "op": "union",
@@ -7116,7 +8577,7 @@
      }
     },
     {
-     "id": "f141",
+     "id": "f201",
      "name": "Barreno Ø25.2",
      "shape": "hole",
      "op": "cut",

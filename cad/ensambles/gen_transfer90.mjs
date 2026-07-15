@@ -49,19 +49,19 @@ export const D = {
   rollerZ: 154,                  // eje elevado: tangente 174 = anfitrión + 4
   coreHalf: 145,                 // núcleo x = -145..145
   bareFrom: 93,                  // vulcanizado x = -145..93; desnudo 93..145
-  axleDia: 12, axleHalf: 165,    // ejes Ø12 h9 → agujero Ø12.2
+  axleDia: 12, axleHalf: 168,    // ejes Ø12 h9 → Ø12.2; extremos roscados M10×15
 
   // Placas porta-poleas MÓVILES (cuerpo bajo + dedos delgados a los rodillos)
   combX: 150, plateT: 6,
   plateHalfY: 310, apronBottom: 18,
-  bodyTop: 136,                  // borde superior del cuerpo (sostiene las poleas)
-  fingerW: 28,                   // extensiones delgadas hacia los rodillos
+  bodyTop: 120,                  // borde superior del cuerpo (sostiene las poleas)
+  fingerW: 28,                   // extensiones delgadas hacia los rodillos (largo 48)
 
   // Transmisión en SERPENTÍN (esquema del usuario IMG_3102)
   bandT: 3, bandW: 25,           // banda plana 25×3
   beltPlane: 119,                // plano x del serpentín (centro del tramo desnudo)
   idlerDia: 50,                  // tensores 2ª línea (mayores que los rodillos)
-  idlerPos: [[-200, 118], [-100, 118], [100, 118], [200, 118]],
+  idlerPos: [[-200, 98], [-100, 98], [100, 98], [200, 98]],  // 2ª línea baja: rodillos 56 más arriba
   retDia: 24,                    // poleas de retorno (esquinas inferiores)
   retPos: [[-280, 36], [280, 36]],
   drumDia: 90, drumW: 30,        // tambor motriz M (bore Ø25.2)
@@ -399,10 +399,23 @@ function rodillos() {
     const f = [
       cyl(`Corazón de tubo Ø${D.coreDia} × ${2 * D.coreHalf}`, [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.coreDia, 2 * D.coreHalf),
       cyl(`Vulcanizado Ø${D.rollerDia} (hasta x=${D.bareFrom})`, [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.rollerDia, D.coreHalf + D.bareFrom),
-      hole('Barreno Ø12.2', [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.axleDia + D.slide),
+      cyl('Golilla de empuje nylon Ø22×1.5 (-X)', [-D.coreHalf - 1.5, y, D.rollerZ], [1, 0, 0], 22, 1.5),
+      cyl('Golilla de empuje nylon Ø22×1.5 (+X)', [D.coreHalf, y, D.rollerZ], [1, 0, 0], 22, 1.5),
+      hole('Barreno Ø12.2 (bujes autolubricados)', [-D.coreHalf - 1.5, y, D.rollerZ], [1, 0, 0], D.axleDia + D.slide),
     ];
     addPart(`MÓVIL · Rodillo vulcanizado línea y=${y}`, C.caucho, [0, y, D.rollerZ - D.rollerDia / 2], f,
       { componente: 'rodillo_vulcanizado_40x290' });
+    // sujeción del eje a cada placa: golilla plana + golilla de presión + tuerca
+    for (const sx of [-1, 1]) {
+      const x0 = sx * (D.combX + D.plateT / 2);       // cara exterior de la placa
+      addPart(`MÓVIL · Fijación eje M10 línea y=${y} ${sx > 0 ? '+X' : '-X'}`, C.grisClaro,
+        [x0, y, D.rollerZ], [
+          cyl('Golilla plana DIN 125 Ø20×2', [x0, y, D.rollerZ], [sx, 0, 0], 20, 2),
+          cyl('Golilla de presión DIN 127 Ø18×2.5', [x0 + sx * 2, y, D.rollerZ], [sx, 0, 0], 18, 2.5),
+          cyl('Tuerca hex M10 DIN 934 (e=17)', [x0 + sx * 4.5, y, D.rollerZ], [sx, 0, 0], 17, 8),
+          hole('Paso rosca M10', [x0, y, D.rollerZ], [sx, 0, 0], 10.2),
+        ]);
+    }
   }
 }
 
@@ -467,6 +480,15 @@ const doc = {
     origen: 'gen_transfer90.mjs (paramétrico); espec. usuario: 6 rodillos Ø40 (corazón Ø30) vulcanizados menos el extremo de polea; serpentín IMG_3102; motor y 2 cilindros por dentro; cilindros diagonales con pivote y palanca (subida vertical 6); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados; placas con dedos delgados hacia los rodillos',
     anfitrion: 'transportador de bandas estrechas de 40 mm a lo largo (plano a 170 mm) — NO modelado; las bandas pasan entre los dedos de las placas',
     estado_modelado: `ELEVADO (+${D.stroke} mm): tangente de rodillos a ${D.rollerZ + D.rollerDia / 2} = plano anfitrión + ${metrics.pop}`,
+    tolerancias: {
+      eje_rodillo_placa: 'eje Ø12 h9 / agujero Ø12.2 H11 → juego 0.20-0.29; extremos torneados y roscados M10×1.5×15',
+      sujecion: 'golilla plana DIN 125 A10.5 + golilla de presión DIN 127 + tuerca M10 DIN 934, apriete 25 Nm contra el hombro Ø12',
+      giro_rodillo: 'barreno Ø12.2 con 2 bujes autolubricados Ø12 H7/f7; golillas de empuje nylon Ø22×1.5 con juego axial 0.5 por lado',
+      tambor: 'eje Ø25 k6 / barreno Ø25.2 con chaveta DIN 6885 8×7; placa +X con agujero H8',
+      tensores_retornos: 'ejes Ø12 cantiléver prensados Ø12 m6 en placa H7; poleas locas con rodamiento',
+      pasador_guia: 'Ø8 m6 prensado en placa; colisa 8.5 (juego 0.5) por carrera 6',
+      palanca: 'pernos Ø8 / ojos Ø8.2 (juego 0.2); leva Ø24 rodante sobre puente',
+    },
     verificaciones: metrics,
   },
   parts,
