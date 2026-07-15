@@ -13,7 +13,7 @@ const OD = 1.9 * IN;                 // 48.26
 const Ro = OD / 2;                   // 24.13
 const WALL = 0.145 * IN;             // 3.683 (SCH40 1-1/2")
 const Ri = Ro - WALL;                // 20.447 (radio interior)
-const L = 21 * IN - 1.0;             // 532.4 (21" − 1 mm de holgura para giro libre)
+const L = 21 * IN - 4.0;             // 529.4 (21" − 4 mm: mayor holgura extremo + carrera del resorte)
 const HEX_AF = 11;                   // barra hexagonal 11 mm entre caras
 const HEX_R = HEX_AF / Math.sqrt(3); // circunradio 6.351
 const GW = 5;                        // ancho de ranura (aloja O-ring de 5 mm)
@@ -46,15 +46,15 @@ const hexEntities = () => regularPolygon([0, 0], [0, HEX_R], 6);
 
 const doc = newDoc();
 
-// ---- Rodillo (tubo con ranuras + tapas macizas con barreno hexagonal) ----
+// ---- Rodillo: tubo hueco con ranuras; extremos abiertos para las tapas impresas
+// (con avellanado de entrada para recibir la conicidad de la tapa) ----
+const LEAD = 2.0;   // avellanado de entrada del barreno (mm)
 function makeRoller(name) {
   const part = newPart(doc, name);
-  // segmentos de OD a lo largo de Y (centro en Y=0): OD pleno salvo en las ranuras
   const cuts = [];
   for (const gc of grooveCenters) { cuts.push([gc - GW / 2, gc + GW / 2]); }
-  // construir tramos alternando Ro / (Ro−GD)
-  let y = 0; const segs = [];
   const marks = [0, ...cuts.flat(), L].sort((a, b) => a - b);
+  const segs = [];
   for (let i = 0; i < marks.length - 1; i++) {
     const y0 = marks[i], y1 = marks[i + 1];
     if (y1 - y0 < 1e-3) continue;
@@ -64,11 +64,11 @@ function makeRoller(name) {
   for (const s of segs) {
     part.features.push(makeCylFeature(s.r * 2, s.y1 - s.y0, [0, s.y0 - L / 2, 0], [0, 1, 0], 'union'));
   }
-  // barreno interior (tubo hueco) solo en el tramo central, dejando tapas macizas
-  part.features.push(makeCylFeature(Ri * 2, L - 2 * CAP, [0, -L / 2 + CAP, 0], [0, 1, 0], 'cut'));
-  // barreno hexagonal pasante para el eje (atraviesa las tapas; en el hueco no corta nada)
-  part.features.push(makeSketchEntitiesFeature(
-    hexEntities(), [], L + 4, 'cut', [0, -L / 2 - 2, 0], [0, 1, 0], [1, 0, 0]));
+  // barreno interior pasante (tubo hueco) — las tapas impresas entran a presión
+  part.features.push(makeCylFeature(Ri * 2, L + 2, [0, -L / 2 - 1, 0], [0, 1, 0], 'cut'));
+  // avellanado de entrada en cada extremo (Ø ligeramente mayor, guía la conicidad)
+  part.features.push(makeCylFeature(Ri * 2 + 1.2, LEAD, [0, -L / 2, 0], [0, 1, 0], 'cut'));
+  part.features.push(makeCylFeature(Ri * 2 + 1.2, LEAD, [0, L / 2 - LEAD, 0], [0, 1, 0], 'cut'));
   return verify(part);
 }
 
@@ -131,6 +131,6 @@ console.log('DIMS', JSON.stringify({ OD: +OD.toFixed(2), Ri: +Ri.toFixed(2), WAL
 
 // escribir el JSON del proyecto
 import { writeFileSync } from 'fs';
-writeFileSync(new URL('./transportador_rodillos.json', import.meta.url), JSON.stringify(doc, null, 2));
+writeFileSync('ejemplos/transportador_rodillos.json', JSON.stringify(doc, null, 2));
 console.log('JSON escrito: cad/ejemplos/transportador_rodillos.json,', doc.parts.length, 'piezas');
 process.exit(fail ? 1 : 0);
