@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biblioteca de componentes electrónicos (para diseñar carcasas)</title><style>
+:root { color-scheme: light dark; }
+body { font-family: system-ui, sans-serif; max-width: 60rem; margin: 2rem auto;
+       padding: 0 1rem; line-height: 1.55; }
+a { color: #0b62c4; } code, pre { background: rgba(127,127,127,.12);
+    border-radius: 4px; padding: .1em .3em; }
+pre { padding: .8em; overflow-x: auto; }
+table { border-collapse: collapse; } td, th { border: 1px solid #8886;
+    padding: .3em .6em; }
+h1, h2 { border-bottom: 1px solid #8884; padding-bottom: .2em; }
+.nav { font-size: .9em; margin-bottom: 1.5rem; }
+.tag { font-size: .8em; background: rgba(127,127,127,.15); border-radius: 6px;
+    padding: .1em .5em; margin-left: .4em; }
+</style></head>
+<body><p class="nav"><a href="../index.html">← foto3d</a></p>
+<h1>Biblioteca de componentes electrónicos (para diseñar carcasas)</h1>
+<p>Componentes estándar (placas ESP32, convertidores buck, sensores, pulsadores,
+conectores de panel) definidos <strong>como datos</strong> en <code>componentes/catalogo.json</code>.
+De cada registro se derivan, sin tocar código:</p>
+<table>
+<thead>
+<tr>
+<th>Salida</th>
+<th>Comando</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Malla 3D (<code>.glb</code> + <code>.stl</code>)</td>
+<td><code>python pipeline/componentes_cli.py generar &lt;id&gt;</code></td>
+<td>modelar la carcasa alrededor; insertar en dibujos S6 (<code>--fuente</code>)</td>
+</tr>
+<tr>
+<td>Huella DXF a escala real</td>
+<td><code>python pipeline/componentes_cli.py huella &lt;id&gt;</code></td>
+<td>plano de taladrado/corte del panel: contorno, agujeros de montaje, cortes de pared, despejes</td>
+</tr>
+<tr>
+<td>Pieza(s) <code>foto3d-cad</code> (JSON)</td>
+<td><code>python pipeline/componentes_cli.py cad-json &lt;id&gt; [&lt;id&gt; …]</code></td>
+<td>abrir en el CAD del navegador (<code>cad/</code>, botón 📂 Abrir) y ensamblar la carcasa con restricciones</td>
+</tr>
+</tbody>
+</table>
+<p>Consulta: <code>listar [--categoria mcu|alimentacion|sensor|boton|conector|adaptador]</code>,
+<code>info &lt;id&gt;</code>, <code>validar</code>. Con <code>--proyecto &lt;X&gt;</code> la salida va a
+<code>projects/&lt;X&gt;/out/componentes/</code> y queda registrada en el <code>audit.log</code> del
+proyecto; sin él, a <code>componentes/out/</code> (fuera de git).</p>
+<h2>Capa de información y confianza</h2>
+<p>Los componentes son <strong>capa <code>user</code></strong> (geometría de diseño): dimensiones
+nominales de datasheet o típicas de mercado, <strong>no</strong> geometría medida por el
+pipeline. Cada registro declara <code>fuente</code> (de dónde salió el dato) y
+<code>confianza</code>:</p>
+<ul>
+<li><code>datasheet</code>: dimensión oficial del fabricante.</li>
+<li><code>verificar</code> / <code>generico</code>: valor típico; los módulos clónicos varían entre
+  marcas. <strong>Medir la unidad real con calibre antes de cortar una carcasa</strong>,
+  sobre todo posiciones de agujeros de montaje y el adaptador de borneras.</li>
+</ul>
+<h2>Convención geométrica</h2>
+<ul>
+<li>Unidades <strong>mm</strong>, <strong>X = largo</strong>, <strong>Y = ancho</strong>, <strong>Z = arriba</strong>.</li>
+<li>Origen: centro de la cara inferior de la PCB/cuerpo. Lo que cuelga bajo la
+  PCB (pines de headers) queda en Z negativo.</li>
+<li>Piezas de panel (pulsador 12 mm, conectores M5/M8): el origen es el <strong>plano
+  exterior del panel</strong>; la pieza crece hacia +Z (afuera) y −Z (adentro).</li>
+</ul>
+<h2>Esquema de un componente</h2>
+<pre><code class="language-jsonc">{
+  &quot;id&quot;: &quot;buck_lm2596&quot;,                  // único, snake_case
+  &quot;nombre&quot;: &quot;…&quot;, &quot;categoria&quot;: &quot;alimentacion&quot;, &quot;descripcion&quot;: &quot;…&quot;,
+  &quot;fuente&quot;: {&quot;tipo&quot;: &quot;datasheet|tipico|generico&quot;, &quot;detalle&quot;: &quot;…&quot;},
+  &quot;confianza&quot;: &quot;datasheet|verificar&quot;,
+  &quot;solidos&quot;: [                           // cuerpos primitivos
+    {&quot;tipo&quot;: &quot;caja&quot;, &quot;nombre&quot;: &quot;PCB&quot;, &quot;pcb&quot;: true,   // pcb: se perfora con los agujeros
+     &quot;at&quot;: [0,0,0], &quot;dim&quot;: [43.2,21.2,1.6], &quot;color&quot;: &quot;#0d47a1&quot;},
+    {&quot;tipo&quot;: &quot;cilindro&quot;, &quot;nombre&quot;: &quot;…&quot;, &quot;at&quot;: [x,y,z], &quot;dia&quot;: 8, &quot;alto&quot;: 11,
+     &quot;eje&quot;: [0,0,1]}                     // eje opcional (por defecto +Z)
+  ],
+  &quot;agujeros_montaje&quot;: [{&quot;pos&quot;: [x,y], &quot;dia&quot;: 3.0}],   // atraviesan la PCB
+  &quot;cortes_panel&quot;:     [{&quot;pos&quot;: [x,y], &quot;dia&quot;: 16.6, &quot;nota&quot;: &quot;…&quot;}], // perforar pared
+  &quot;despejes&quot;: [{&quot;nombre&quot;: &quot;…&quot;, &quot;at&quot;: [x,y,z], &quot;dim&quot;: [l,a,h]}],   // zonas libres
+  &quot;notas&quot;: &quot;consejos de montaje en carcasa&quot;
+}
+</code></pre>
+<p><code>at</code> es siempre el <strong>centro de la base</strong> del sólido (crece en +Z, igual que
+las features del CAD del navegador). Agregar un componente = añadir un
+registro y correr <code>validar</code> + <code>python tests/test_componentes.py</code>.</p>
+<h2>Flujo típico para una carcasa</h2>
+<ol>
+<li><code>listar</code> → elegir componentes; <code>info &lt;id&gt;</code> para agujeros/cortes/notas.</li>
+<li><code>cad-json esp32_devkitc_38 buck_lm2596 …</code> → abrir en <code>cad/</code> (servir con
+   <code>python -m http.server 8080</code>), crear la caja de la carcasa como pieza
+   nueva y posicionar los componentes con restricciones (concéntrico sobre
+   agujeros de montaje, coincidir caras).</li>
+<li><code>huella &lt;id&gt;</code> → DXF con las perforaciones exactas de cada cara del panel
+   (capas <code>AGUJEROS</code> y <code>CORTE_PANEL</code>).</li>
+<li>La carcasa terminada se exporta a STL desde el CAD, o se dibuja con norma:
+   <code>python pipeline/s6_drawings.py projects/&lt;X&gt; --fuente out/cad/&lt;pieza&gt;.glb</code>.</li>
+</ol>
+<h2>Pruebas</h2>
+<ul>
+<li><code>python tests/test_componentes.py</code> — esquema, mallas, DXF, CLI.</li>
+<li>Motor del navegador (Node):
+  <code>bash
+  cd cad
+  npx esbuild tests/test_componentes.mjs --bundle --format=esm --platform=node \
+    --alias:three=./vendor/three.module.min.js --outfile=/tmp/test_comp.mjs
+  node /tmp/test_comp.mjs   # requiere componentes/out/componentes_cad.json generado</code></li>
+</ul>
+</body></html>
