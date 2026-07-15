@@ -44,6 +44,12 @@ Funciones (se aplican en orden, como árbol paramétrico):
   (p. ej. agujero desde la cara superior: `at=[x,y,ztope]`, `dir=[0,0,-1]`).
 - `"op"` puede ser `"union"` (agrega material) o `"cut"` (quita material) también
   para cajas y cilindros (bolsillos, ranuras).
+- Boceto extruido (contornos libres):
+  `{"id":"f4","name":"Extrusión de boceto","shape":"sketch","op":"union"|"cut","at":[x,y,z],"dir":[nx,ny,nz],"params":{"pts":[[u,v],...],"h":altura,"u":[ux,uy,uz]}}`
+  — `at` es el origen del plano del boceto, `dir` la normal de la cara (hacia
+  afuera), `params.u` el eje U del plano (perpendicular a `dir`), y `pts` el
+  contorno cerrado en coordenadas 2D (u,v) del plano, en mm. Unión extruye
+  hacia afuera; corte quita material hacia adentro (bolsillo de profundidad `h`).
 
 Restricciones (opcionales, para entregar el conjunto ya ensamblado):
 

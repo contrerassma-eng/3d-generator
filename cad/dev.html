@@ -103,6 +103,13 @@
                   border-radius:8px; padding:4px 9px; font-size:12px; transform:translate(-50%,-130%);
                   pointer-events:none; display:none; white-space:pre; }
 
+  #sketchbar { position:absolute; bottom:12px; left:50%; transform:translateX(-50%); z-index:25;
+               display:none; gap:5px; background:#171b21f0; border:1px solid var(--accent2);
+               border-radius:12px; padding:7px; flex-wrap:wrap; justify-content:center;
+               max-width:calc(100% - 16px); box-shadow:0 10px 30px #000a; }
+  #sketchbar.open { display:flex; }
+  #sketchbar button.on { background:#5a4a20; border-color:var(--accent2); }
+
   #dialog { position:absolute; top:12px; left:50%; transform:translateX(-50%); z-index:30;
             background:var(--panel); border:1px solid var(--accent); border-radius:14px;
             padding:14px 16px; width:min(360px, calc(100vw - var(--rail-w) - 20px));
@@ -130,6 +137,8 @@
     /* el panel Modelo ocupa el ancho disponible (queda una franja para cerrar tocando fuera) */
     #sidebar { left:0; right:52px; width:auto; box-shadow:6px 0 24px #000c; }
     .node .meta { max-width:38vw; overflow:hidden; text-overflow:ellipsis; }
+    #sketchbar { padding:5px; gap:4px; }
+    #sketchbar button { padding:7px 8px; font-size:11.5px; min-height:38px; }
   }
 </style>
 <script type="importmap">
@@ -153,6 +162,7 @@
     <button class="tile" id="btnNewBox" title="Nueva pieza a partir de una caja/placa"><span class="tic">⬛</span>Caja</button>
     <button class="tile" id="btnNewCyl" title="Nueva pieza a partir de un cilindro"><span class="tic">⬤</span>Cilindro</button>
     <div class="railsep"></div>
+    <button class="tile" id="btnSketch" title="Boceto 2D sobre una cara con geometría proyectada del modelo"><span class="tic">✏</span>Boceto</button>
     <button class="tile" id="btnHole" title="Agujero sobre una cara (toca la cara)"><span class="tic">◎</span>Agujero</button>
     <button class="tile" id="btnFeature" title="Agregar unión o corte (caja/cilindro) a la pieza seleccionada"><span class="tic">✚</span>Función</button>
     <div class="railsep"></div>
@@ -167,6 +177,14 @@
   <div id="viewport">
     <div id="hud"><div class="hudtag" id="hintTag"></div></div>
     <div id="measureLabel"></div>
+    <div id="sketchbar">
+      <button data-tool="poly" class="on" title="Polígono punto a punto (toca el 1.º punto para cerrar)">▱ Polígono</button>
+      <button data-tool="rect" title="Rectángulo por dos esquinas">▭ Rect</button>
+      <button data-tool="circle" title="Círculo por centro y radio">◯ Círculo</button>
+      <button id="skClose" title="Cerrar el polígono con los puntos actuales">✔ Cerrar</button>
+      <button id="skUndo" title="Quitar el último punto">↩</button>
+      <button id="skCancel" class="danger" title="Salir sin crear nada">✕</button>
+    </div>
     <div id="dialog"></div>
     <aside id="sidebar">
       <div id="sidebarHead">
