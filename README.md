@@ -170,9 +170,11 @@ atornillable) que muestra todas las capacidades.
   Inventor): con la herramienta activa, tocar una **cara** proyecta todo su
   contorno — exterior e interior (agujeros incluidos) —; tocar una **arista**
   o un **círculo** proyecta solo ese elemento; y tocar algo **ya proyectado
-  lo desproyecta**. Lo proyectado son **entidades reales** del boceto
-  (verde claro): se acotan, recortan, extruyen, seleccionan y **copian igual
-  que las líneas dibujadas** — las copias nacen como entidades normales.
+  lo desproyecta**. Lo proyectado **pasa a ser línea del boceto** y se
+  destaca en **verde vivo** sobre las referencias: se acota, recorta,
+  extruye (los círculos proyectados dentro de un contorno actúan de
+  agujeros), selecciona y **copia igual que las líneas dibujadas** — las
+  copias nacen como entidades normales.
 - Al entrar al boceto, **los contornos de la cara elegida (exteriores e
   interiores) se pintan en amarillo** como referencias con snap, distintos
   del resto de la geometría proyectada (azul).

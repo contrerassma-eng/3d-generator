@@ -919,7 +919,7 @@ const faceRefMat = new THREE.LineBasicMaterial({ color: 0xffd54a });       // co
 const gridMat = new THREE.LineBasicMaterial({ color: 0x2a3040 });          // grilla del plano
 const drawMat = new THREE.LineBasicMaterial({ color: 0xf0a437 });          // entidades del boceto
 const selEntMat = new THREE.LineBasicMaterial({ color: 0x4d90fe });        // entidad elegida para cota
-const projMat = new THREE.LineBasicMaterial({ color: 0x8bd0a0 });          // entidades proyectadas del modelo
+const projMat = new THREE.LineBasicMaterial({ color: 0x2ee659 });          // entidades proyectadas: verde vivo, destacan sobre las referencias
 const previewMat = new THREE.LineBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.5 });
 const ptMat = new THREE.MeshBasicMaterial({ color: 0xf0a437 });
 const snapMat = new THREE.MeshBasicMaterial({ color: 0x34a853 });
@@ -1532,7 +1532,7 @@ function projectFaceContour(hit) {
   }
   redrawSketch();
   setStatus(added
-    ? `Contorno de la cara proyectado: ${added} entidad(es). Tócalas con ⤓ para quitarlas.`
+    ? `Contorno proyectado: ${added} línea(s) del boceto en VERDE (se extruyen, cotan y copian como cualquiera). ⤓ sobre una la quita.`
     : 'Esa cara no aportó geometría nueva (quizá ya estaba proyectada).');
 }
 
@@ -1565,7 +1565,9 @@ function clickProject(raw, hit) {
     const n = addProjEntity(bestP.p);
     redrawSketch();
     setStatus(n
-      ? (bestP.p.type === 'circle' ? `Círculo Ø${(bestP.p.r * 2).toFixed(1)} proyectado como entidad.` : 'Arista proyectada como entidad.')
+      ? (bestP.p.type === 'circle'
+          ? `Círculo Ø${(bestP.p.r * 2).toFixed(1)} proyectado: ya es línea del boceto (verde).`
+          : 'Arista proyectada: ya es línea del boceto (verde).')
       : 'Esa referencia ya estaba proyectada.');
     return;
   }
@@ -1730,7 +1732,8 @@ function redrawSketch() {
   clearGroup(sketch.draw);
   for (const e of sketch.entities) {
     const mat = (sketch.dimPick && sketch.dimPick.ent.id === e.id) || sketch.selIds.has(e.id) ? selEntMat : (e.proj ? projMat : drawMat);
-    const pts = SK.entityPoints(e, 64).map(p => to3D(p[0], p[1]));
+    // las proyectadas se dibujan un pelo más arriba para que el verde tape la referencia amarilla
+    const pts = SK.entityPoints(e, 64).map(p => to3D(p[0], p[1], e.proj ? 0.16 : 0.1));
     sketch.draw.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat));
   }
   if (sketch.dimPick?.isRef) {
