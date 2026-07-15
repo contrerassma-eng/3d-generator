@@ -19,6 +19,18 @@ python -m http.server 8080
 Al arrancar carga un ensamble de ejemplo (base con 4 orificios + puente
 atornillable) que muestra todas las capacidades.
 
+## Interfaz (pensada también para celular)
+
+- **Barra superior**: archivo (STL, guardar, abrir, ejemplo, nuevo) y el botón
+  **☰** que muestra/oculta el panel de modelo.
+- **Barra "metro" izquierda**: herramientas en tiles táctiles grandes
+  (pieza, agujero, función, restricciones, mover, medir).
+- **Panel ocultable**: árbol de piezas/funciones/restricciones + propiedades
+  (sección plegable). En pantallas chicas arranca oculto y se cierra solo al
+  activar una herramienta para no tapar el modelo.
+- **Táctil**: 1 dedo orbita, 2 dedos paneo/zoom; en modo Mover, un 2.º dedo
+  cambia el arrastre a vertical (equivale a Shift con mouse).
+
 ## Qué puede hacer
 
 ### Piezas y funciones (árbol paramétrico)

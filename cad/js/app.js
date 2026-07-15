@@ -71,10 +71,29 @@ let pickStage = null;           // datos temporales de operaciones de 2 pasos
 const undoStack = [];
 
 const $ = (id) => document.getElementById(id);
-const statusEl = $('status'), hintEl = $('hint'), statsEl = $('stats');
+const statusEl = $('status'), hintEl = $('hintTag'), statsEl = $('stats');
 
 function setStatus(msg) { statusEl.textContent = msg; }
-function setHint(msg) { hintEl.textContent = msg || ''; }
+function setHint(msg) {
+  hintEl.textContent = msg || '';
+  hintEl.style.display = msg ? 'block' : 'none';
+}
+
+// ---------- Panel lateral ocultable + propiedades plegables ----------
+
+const sidebar = $('sidebar');
+const isNarrow = () => window.innerWidth < 900;
+
+function setSidebar(open) {
+  sidebar.classList.toggle('open', open);
+  $('btnPanel').classList.toggle('on', open);
+}
+$('btnPanel').onclick = () => setSidebar(!sidebar.classList.contains('open'));
+$('btnCloseSidebar').onclick = () => setSidebar(false);
+setSidebar(!isNarrow());
+
+$('propsHead').onclick = () => $('props').classList.toggle('closed');
+function openProps() { $('props').classList.remove('closed'); }
 
 // ---------- Materiales ----------
 
@@ -214,6 +233,7 @@ $('tree').addEventListener('click', (e) => {
   }
   if (!kind || !id) return;
   selection = { kind, id, partId: part || (kind === 'part' ? id : undefined) };
+  openProps();
   refreshUI();
 });
 
@@ -374,7 +394,7 @@ const MODE_HINTS = {
   mate: 'Coincidir: clic en la cara de la 1.ª pieza, luego en la cara de la 2.ª (la 2.ª se mueve).',
   flush: 'Alinear: clic en la cara de la 1.ª pieza, luego en la cara de la 2.ª (la 2.ª se mueve).',
   concentric: 'Concéntrico: clic cerca de un orificio/cilindro de la 1.ª pieza, luego de la 2.ª.',
-  move: 'Mover: arrastra una pieza (Shift = mover en Z). Al soltar se re-aplican las restricciones.',
+  move: 'Mover: arrastra una pieza (Shift o un 2.º dedo = mover en Z). Al soltar se re-aplican las restricciones.',
   measure: 'Medir: clic en dos puntos (se ajusta al vértice más cercano). Esc para salir.',
 };
 
@@ -389,6 +409,7 @@ function setMode(m) {
   for (const [k, id] of Object.entries(modeButtons)) $(id).classList.toggle('on', mode === k);
   setHint(MODE_HINTS[mode]);
   setStatus(mode === 'select' ? 'Listo.' : 'Modo activo: ' + mode);
+  if (mode !== 'select' && isNarrow()) setSidebar(false); // que el panel no tape el modelo
 }
 for (const [m, id] of Object.entries(modeButtons)) $(id).onclick = () => setMode(m);
 
@@ -451,14 +472,15 @@ let downPos = null, dragging = null;
 
 renderer.domElement.addEventListener('pointerdown', (ev) => {
   if (dialogOpen()) return;
+  if (dragging) { switchDragVertical(); return; } // 2.º dedo durante el arrastre → mover en Z
   downPos = { x: ev.clientX, y: ev.clientY };
   if (mode === 'move' && ev.button === 0) startMoveDrag(ev);
 });
 
 renderer.domElement.addEventListener('pointermove', (ev) => {
   if (dialogOpen()) return;
-  if (dragging) { updateMoveDrag(ev); return; }
-  if (['hole', 'mate', 'flush'].includes(mode)) {
+  if (dragging) { if (ev.pointerId === dragging.pointerId) updateMoveDrag(ev); return; }
+  if (ev.pointerType === 'mouse' && ['hole', 'mate', 'flush'].includes(mode)) {
     const hit = castAtEvent(ev);
     if (hit) showHover(hit, hoverMat);
     else clearHover();
@@ -467,7 +489,7 @@ renderer.domElement.addEventListener('pointermove', (ev) => {
 
 renderer.domElement.addEventListener('pointerup', (ev) => {
   if (dialogOpen()) return;
-  if (dragging) { endMoveDrag(); return; }
+  if (dragging) { if (ev.pointerId === dragging.pointerId) endMoveDrag(); return; }
   if (!downPos) return;
   const moved = Math.hypot(ev.clientX - downPos.x, ev.clientY - downPos.y);
   downPos = null;
@@ -579,25 +601,41 @@ function clickConcentric(hit) {
 
 // ---------- Mover (arrastre) ----------
 
+function verticalPlaneNormal() {
+  const n = camera.getWorldDirection(new THREE.Vector3());
+  n.z = 0;
+  if (n.lengthSq() < 1e-4) n.set(0, 1, 0);
+  else n.normalize();
+  return n.negate();
+}
+
 function startMoveDrag(ev) {
   const hit = castAtEvent(ev);
   if (!hit) return;
   const part = getPart(doc, hit.object.userData.partId);
   if (part.fixed) { setStatus(`${part.name} está fija (📌): desmárcala para moverla.`); return; }
-  const planeNormal = ev.shiftKey
-    ? camera.getWorldDirection(new THREE.Vector3()).setZ(0).normalize().negate()
-    : new THREE.Vector3(0, 0, 1);
-  if (planeNormal.lengthSq() < 0.5) planeNormal.set(0, 1, 0);
+  const planeNormal = ev.shiftKey ? verticalPlaneNormal() : new THREE.Vector3(0, 0, 1);
   dragging = {
     part,
+    pointerId: ev.pointerId,
     vertical: ev.shiftKey,
     plane: new THREE.Plane().setFromNormalAndCoplanarPoint(planeNormal, hit.point),
     start: hit.point.clone(),
+    lastPoint: hit.point.clone(),
     origPos: [...part.pos],
   };
   controls.enabled = false;
   selection = { kind: 'part', id: part.id };
   refreshUI();
+}
+
+function switchDragVertical() {
+  if (!dragging || dragging.vertical) return;
+  dragging.vertical = true;
+  dragging.origPos = [...dragging.part.pos];
+  dragging.start = dragging.lastPoint.clone();
+  dragging.plane = new THREE.Plane().setFromNormalAndCoplanarPoint(verticalPlaneNormal(), dragging.lastPoint);
+  setStatus('Movimiento vertical (Z).');
 }
 
 function updateMoveDrag(ev) {
@@ -606,6 +644,7 @@ function updateMoveDrag(ev) {
   raycaster.setFromCamera(pointer, camera);
   const p = new THREE.Vector3();
   if (!raycaster.ray.intersectPlane(dragging.plane, p)) return;
+  dragging.lastPoint.copy(p);
   const delta = p.sub(dragging.start);
   if (dragging.vertical) { delta.x = 0; delta.y = 0; } else { delta.z = 0; }
   dragging.part.pos = [
