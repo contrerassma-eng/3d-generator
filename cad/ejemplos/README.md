@@ -67,13 +67,38 @@ Por rodillo: **2 alojamientos + 2 cubos hexagonales + 2 resortes**.
 - El resorte es una pieza **comprada** (muelle de compresión ~Ø13 × largo libre
   a elección); no se imprime.
 
+## `mecanismo_resorte.json` — mecanismo del resorte (shuttle hexagonal)
+
+Detalle de **cómo funciona el resorte**, según el diseño comercial (Interroll
+1700 "shuttle hexagonal con resorte", Mason/FEI spring-loaded hex). Tres piezas
+coaxiales; ábrelo y activa **▤ Sección** (plano Y, "Invertir lado") para ver el
+corte:
+1. **Alojamiento** (azul): copa que entra a presión en el tubo; su fondo cerrado
+   es el **asiento del resorte**.
+2. **Buje hexagonal retráctil / shuttle** (naranja): su punta hexagonal **sale**
+   por el agujero del flange para encajar en la perforación hex de la canal; el
+   **collar Ø23.6** queda retenido dentro del bore (no puede salir por el agujero
+   Ø14 del flange) y hace de pista de giro.
+3. **Resorte de compresión** (gris): entre el fondo del alojamiento y el collar;
+   **empuja el shuttle hacia afuera**.
+
+**Funcionamiento:** para montar el rodillo entre las dos canales fijas, se
+**empuja la punta hex hacia adentro** (comprime el resorte y la punta se
+esconde); con el rodillo en posición, la punta **salta** a la perforación
+hexagonal de la canal. El hex fija el shuttle al marco (no gira) y el rodillo
+gira sobre el collar. Basta un extremo con resorte; el otro puede ser fijo.
+
+Resorte a comprar (muelle de compresión): **Ø ext ≈ 20.4, Ø int ≈ 15.6, alambre
+≈ 2.4 mm, ~6 espiras, carrera ~8 mm** (el Ø interior libra el hex de Ø12.7 y el
+exterior entra al bore Ø24).
+
 ## Regenerar
 ```bash
 cd cad
-npx esbuild ejemplos/gen_transportador.mjs --bundle --platform=node --format=esm \
-  --alias:three=./vendor/three.module.min.js --outfile=/tmp/g.mjs && node /tmp/g.mjs
-npx esbuild ejemplos/gen_tapa_rodillo.mjs --bundle --platform=node --format=esm \
-  --alias:three=./vendor/three.module.min.js --outfile=/tmp/g.mjs && node /tmp/g.mjs
+for g in gen_transportador gen_tapa_rodillo gen_mecanismo_resorte; do
+  npx esbuild ejemplos/$g.mjs --bundle --platform=node --format=esm \
+    --alias:three=./vendor/three.module.min.js --outfile=/tmp/g.mjs && node /tmp/g.mjs
+done
 ```
 Cada script verifica que las piezas construyan (volumen > 0, sin NaN) antes de
 escribir el JSON. Se ejecutan desde `cad/` (escriben en `ejemplos/`).
