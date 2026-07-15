@@ -289,6 +289,38 @@
       "notas": "Una banda plana de 3 mm sobre el nucleo O44 queda AL RAS del vulcanizado O50 (22 + 3 = 25). Barreno O12.2 pasante; retener el eje con E-clips DIN 6799."
     },
     {
+      "id": "polea_retorno_24x29",
+      "nombre": "Polea tensora/de retorno O24 x 29 (loca, eje O12)",
+      "categoria": "mecanico",
+      "descripcion": "Polea loca para banda plana de 25: guia el serpentin de transmision (tensor entre rodillos o retorno de esquina). Gira sobre eje O12 cantilever (rodamiento de agujas o buje). Eje de giro en X; apoyada tangente sobre Z=0.",
+      "fuente": {"tipo": "diseno", "detalle": "transmision en serpentin del modulo de transferencia 90 (esquema del usuario IMG_3102); ancho = banda 25 + 4"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Polea O24", "at": [-14.5, 0, 12], "eje": [1, 0, 0], "dia": 24, "alto": 29, "color": "#90a4ae"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [
+        {"nombre": "paso de banda alrededor (espesor 3)", "at": [-14.5, 0, 0], "dim": [29, 32, 32]}
+      ],
+      "notas": "Barreno O12.2 con buje o rodamiento (no modelado). Montar en eje cantilever O12 empotrado en la placa de transmision."
+    },
+    {
+      "id": "tambor_motriz_90x30",
+      "nombre": "Tambor motriz O90 x 30 (barreno O25.2 con chaveta)",
+      "categoria": "mecanico",
+      "descripcion": "Tambor de arrastre del serpentin de transmision: gran envoltura (~200 grados) de la banda plana de 25. Barreno O25.2 con chaveta para eje motriz O25 apoyado en ambas placas. Eje de giro en X; apoyado tangente sobre Z=0.",
+      "fuente": {"tipo": "diseno", "detalle": "transmision en serpentin del modulo de transferencia 90 (esquema del usuario IMG_3102)"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Tambor O90", "at": [-15, 0, 45], "eje": [1, 0, 0], "dia": 90, "alto": 30, "color": "#4a5560"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [
+        {"nombre": "paso de banda alrededor (espesor 3)", "at": [-15, 0, 0], "dim": [30, 98, 98]}
+      ],
+      "notas": "Barreno O25.2 + chaveta DIN 6885 8x7 (no modelada). El motorreductor se acopla en linea al eje O25."
+    },
+    {
       "id": "eje_rodillos_12x330",
       "nombre": "Eje calibrado O12 x 330 para rodillo completo",
       "categoria": "mecanico",
