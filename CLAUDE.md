@@ -34,6 +34,7 @@ de la letra: es una máquina de estados con compuertas (gates) que NUNCA se salt
 | "plano en cara / plano desfasado" | `cad_cli.py plano-cara <id>` / `plano-desfasado <plano> <mm>` / `plano-3p`. |
 | "extruye / revoluciona / barre \<boceto\>" | `cad_cli.py extruir|revolucionar|barrer …` → sólido `out/cad/*.glb` (capa user). Ofrece dibujarlo con S6 `--fuente out/cad/<n>.glb`. |
 | "componentes" / "biblioteca de componentes" / "agrega \<componente\> a la carcasa" | Biblioteca en `componentes/catalogo.json` (ESP32, buck, sensores, pulsadores, conectores de panel; capa `user`, dims nominales → verificar con calibre). `python pipeline/componentes_cli.py listar\|info\|generar\|huella\|cad-json\|sync-web …` → GLB/STL, DXF de taladrado, o piezas para el CAD del navegador; en la interfaz web se insertan directo con el botón 🔌 Comp. Con `--proyecto <X>` audita en el proyecto. Agregar componente = editar el JSON + `validar` + `sync-web`. Detalle: `docs/COMPONENTES.md`. |
+| "carcasa esp32" / "carcasa de borneras" / "ensamble de la carcasa" | `python pipeline/carcasa_esp32.py [--proyecto <X>] [--tapa-ciega]` → base+tapa (GLB/STL), ensambles y `carcasa_cad.json` (editable en `cad/`), todo derivado de las medidas REALES del registro `adaptador_borneras_esp32_70x80` del catálogo. Detalle: `docs/COMPONENTES.md`. |
 | "estado \<código\>" | Resume `state.json` + último bloque de `audit.log.jsonl` en lenguaje claro. |
 | "verifica entorno" | Ejecuta `tools/check_env.ps1` y reporta qué falta con instrucciones de `docs/INSTALACION.md`. |
 
