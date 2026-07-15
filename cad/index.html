@@ -126,7 +126,10 @@
     #toolbar .blbl { display:none; }   /* solo iconos arriba */
     #toolbar button { padding:8px 9px; }
     #statusbar .right { display:none; }
-    .frow label { width:96px; }
+    .frow label { width:84px; }
+    /* el panel Modelo ocupa el ancho disponible (queda una franja para cerrar tocando fuera) */
+    #sidebar { left:0; right:52px; width:auto; box-shadow:6px 0 24px #000c; }
+    .node .meta { max-width:38vw; overflow:hidden; text-overflow:ellipsis; }
   }
 </style>
 <script type="importmap">

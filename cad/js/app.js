@@ -472,6 +472,7 @@ let downPos = null, dragging = null;
 
 renderer.domElement.addEventListener('pointerdown', (ev) => {
   if (dialogOpen()) return;
+  if (isNarrow() && sidebar.classList.contains('open')) setSidebar(false); // tocar fuera cierra el panel
   if (dragging) { switchDragVertical(); return; } // 2.º dedo durante el arrastre → mover en Z
   downPos = { x: ev.clientX, y: ev.clientY };
   if (mode === 'move' && ev.button === 0) startMoveDrag(ev);
