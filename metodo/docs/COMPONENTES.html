@@ -46,6 +46,12 @@ De cada registro se derivan, sin tocar código:</p>
 </tr>
 </tbody>
 </table>
+<p><strong>Desde la interfaz web</strong> no hace falta ningún comando: el botón <strong>🔌 Comp.</strong>
+de la barra izquierda del CAD (<code>cad/</code>) lista el catálogo y lo inserta como
+pieza (sólidos + agujeros de montaje pasantes) apoyada en Z=0. La app lee
+<code>cad/componentes.json</code>, una copia del catálogo que se regenera con
+<code>python pipeline/componentes_cli.py sync-web</code> cada vez que se edita
+<code>componentes/catalogo.json</code> (hay una prueba que falla si quedan desincronizados).</p>
 <p>Consulta: <code>listar [--categoria mcu|alimentacion|sensor|boton|conector|adaptador]</code>,
 <code>info &lt;id&gt;</code>, <code>validar</code>. Con <code>--proyecto &lt;X&gt;</code> la salida va a
 <code>projects/&lt;X&gt;/out/componentes/</code> y queda registrada en el <code>audit.log</code> del
@@ -89,14 +95,15 @@ pipeline. Cada registro declara <code>fuente</code> (de dónde salió el dato) y
 </code></pre>
 <p><code>at</code> es siempre el <strong>centro de la base</strong> del sólido (crece en +Z, igual que
 las features del CAD del navegador). Agregar un componente = añadir un
-registro y correr <code>validar</code> + <code>python tests/test_componentes.py</code>.</p>
+registro y correr <code>validar</code>, <code>sync-web</code> y <code>python tests/test_componentes.py</code>.</p>
 <h2>Flujo típico para una carcasa</h2>
 <ol>
 <li><code>listar</code> → elegir componentes; <code>info &lt;id&gt;</code> para agujeros/cortes/notas.</li>
-<li><code>cad-json esp32_devkitc_38 buck_lm2596 …</code> → abrir en <code>cad/</code> (servir con
-   <code>python -m http.server 8080</code>), crear la caja de la carcasa como pieza
-   nueva y posicionar los componentes con restricciones (concéntrico sobre
-   agujeros de montaje, coincidir caras).</li>
+<li>Abrir el CAD (<code>cd cad &amp;&amp; python -m http.server 8080</code>) y con <strong>🔌 Comp.</strong>
+   insertar cada componente; crear la caja de la carcasa como pieza nueva y
+   posicionar los componentes con restricciones (concéntrico sobre agujeros
+   de montaje, coincidir caras). Alternativa por CLI:
+   <code>cad-json esp32_devkitc_38 buck_lm2596 …</code> → botón 📂 Abrir.</li>
 <li><code>huella &lt;id&gt;</code> → DXF con las perforaciones exactas de cada cara del panel
    (capas <code>AGUJEROS</code> y <code>CORTE_PANEL</code>).</li>
 <li>La carcasa terminada se exporta a STL desde el CAD, o se dibuja con norma:

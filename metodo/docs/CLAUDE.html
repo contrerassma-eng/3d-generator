@@ -80,7 +80,7 @@ de la letra: es una máquina de estados con compuertas (gates) que NUNCA se salt
 </tr>
 <tr>
 <td>"componentes" / "biblioteca de componentes" / "agrega \&lt;componente&gt; a la carcasa"</td>
-<td>Biblioteca en <code>componentes/catalogo.json</code> (ESP32, buck, sensores, pulsadores, conectores de panel; capa <code>user</code>, dims nominales → verificar con calibre). <code>python pipeline/componentes_cli.py listar\|info\|generar\|huella\|cad-json …</code> → GLB/STL, DXF de taladrado, o piezas para el CAD del navegador. Con <code>--proyecto &lt;X&gt;</code> audita en el proyecto. Agregar componente = editar el JSON + <code>validar</code>. Detalle: <code>docs/COMPONENTES.md</code>.</td>
+<td>Biblioteca en <code>componentes/catalogo.json</code> (ESP32, buck, sensores, pulsadores, conectores de panel; capa <code>user</code>, dims nominales → verificar con calibre). <code>python pipeline/componentes_cli.py listar\|info\|generar\|huella\|cad-json\|sync-web …</code> → GLB/STL, DXF de taladrado, o piezas para el CAD del navegador; en la interfaz web se insertan directo con el botón 🔌 Comp. Con <code>--proyecto &lt;X&gt;</code> audita en el proyecto. Agregar componente = editar el JSON + <code>validar</code> + <code>sync-web</code>. Detalle: <code>docs/COMPONENTES.md</code>.</td>
 </tr>
 <tr>
 <td>"estado \&lt;código&gt;"</td>
