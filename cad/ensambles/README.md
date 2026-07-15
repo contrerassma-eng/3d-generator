@@ -18,7 +18,7 @@ Prueba del ensamble (motor CSG real + invariantes): `cad/tests/test_transfer90.m
 ## `transfer_rodillos_90.json` — Transferencia 90° (módulo de desviación)
 
 **Solo el módulo de desvío pop-up** — el módulo principal de bandas del
-transportador anfitrión NO se modela (especificación del usuario). 37 piezas,
+transportador anfitrión NO se modela (especificación del usuario). 40 piezas,
 capa `user`. Ejes: **X = flujo del anfitrión, Y = expulsión a 90°, Z = arriba**,
 mm. Estado modelado: **elevado** (carrera aplicada).
 
@@ -26,51 +26,51 @@ mm. Estado modelado: **elevado** (carrera aplicada).
 
 | Requisito | Valor en el modelo |
 |---|---|
-| Solo la transferencia (módulo de desviación) | 37 piezas, sin el transportador anfitrión |
-| **6 rodillos** (misma cantidad que la unidad de 90° de la foto) | líneas en y = ±50, ±150, ±250 |
-| Rodillos **completos y vulcanizados menos en un extremo** | una pieza por línea: **corazón de tubo de hierro Ø30**×290 + **vulcanizado Ø40** hasta x=93; tramo de polea desnudo 93..145 |
-| **Transmisión desde abajo con poleas de retorno** (esquema IMG_3102 — NO rodillo a rodillo) | **una sola banda 25×3 en serpentín**: sobre el tramo desnudo de cada rodillo → **tensor Ø50 (2ª línea, algo mayor que el rodillo)** entre cada par → tambor motriz M Ø90 al centro abajo → cierre inferior con 2 poleas de retorno Ø24 en las esquinas |
-| Los rodillos son las **poleas de la primera línea** | la banda envuelve directamente el corazón desnudo Ø30; su lomo queda **embutido 2 mm bajo el vulcanizado Ø40** (15+3=18 < 20) |
-| 2 cilindros estándar actuando **en diagonal**, subiendo **solo 6 mm** | ISO 6432 Ø25 en (−180,−295) y (+180,+295), carrera 6: elevado = plano anfitrión **+4**, retraído = **−2**; pines guía Ø16 en la diagonal contraria |
-| Rodillos con ≥ 50 mm entre tangentes, emergen entre bandas de 40 | paso 100 − Ø40 = **60 mm** de gap; la banda anfitriona de 40 pasa con 10 mm por lado |
-| Placa lateral portarodillos con la forma de la foto | peine de 6 lóbulos R16 + faldón profundo que porta toda la transmisión (como la placa frontal de la foto) |
+| Solo la transferencia (módulo de desviación) | 40 piezas, sin el transportador anfitrión |
+| **6 rodillos** completos, **Ø40 vulcanizado / corazón de tubo Ø30**, desnudos en el extremo de polea | paso 100 → gap tangente **60**; la banda anfitriona de 40 pasa entre líneas y entre los dedos |
+| **Transmisión en serpentín** (esquema IMG_3102, NO rodillo a rodillo) | banda única 25×3: rodillos (1ª línea) → **tensores Ø50 (2ª línea, mayores)** → tambor M Ø90 → 2 retornos Ø24 en esquinas |
+| **Todo por dentro** | motor embridado a la cara interior de la placa −X, coaxial al tambor; cilindros y palancas entre las placas |
+| **Solo 2 cilindros**, **en diagonal con pivote**, subida **vertical de 6 mm** | ISO 6432 Ø25 inclinados 36.7°, basculantes en horquilla; empujan una **palanca con rodillo de leva** que sube el puente en vertical (carrera de cilindro 10.3 → 6 vertical) |
+| Estructura fija **no más ancha que la cara que sostiene las poleas** | canal fijo de **306 mm** = ancho exterior de las placas |
+| **Identificar módulo móvil vs fijo** (canal lateral de la cinta) | piezas `FIJO ·` (canal + mecanismo de elevación, gris) y `MÓVIL ·` (placas, rodillos, transmisión y motor, azul); pasadores guía Ø8 del móvil corren en colisas verticales del canal |
+| Placas con **extensiones delgadas hacia los rodillos** | cuerpo porta-poleas bajo (top 136) + 6 **dedos de 28 mm** con punta redonda hasta el eje de cada rodillo; entre dedos pasan a lo largo las bandas del anfitrión |
 
 ### Arquitectura (memoria de diseño)
 
-- **Rodillos**: 6 líneas con eje elevado a z = 154 → tangente 174 = plano
-  anfitrión (170) + 4. Ejes Ø12 h9 × 330 en agujeros Ø12.2 (ajuste
-  deslizante), retenidos con E-clip DIN 6799.
-- **Serpentín** (recorrido, en orden de marcha): retorno izq (−280, 36) →
-  R1 → tensor Ø50 (−200, 118) → R2 → tensor (−100, 118) → R3 → **tambor M**
-  (0, 78, Ø90, envoltura ≈ 200°) → R4 → tensor (100, 118) → R5 → tensor
-  (200, 118) → R6 → retorno der (280, 36) → ramal inferior recto. La banda
-  pasa por el plano x = 119 (centro del tramo desnudo); sobre cada rodillo
-  el lomo queda embutido 2 mm bajo el vulcanizado y avanza en el sentido de expulsión.
-  El eje del tambor Ø25 apoya en **ambas** placas y sale por +X al
-  motorreductor (acople rígido Ø35). Tensores y retornos giran locos sobre
-  ejes Ø12 cantiléver empotrados en la placa de transmisión. Toda la
-  transmisión va sobre el marco elevador: la tensión no cambia con la carrera.
-- **Elevación**: 2 cilindros neumáticos estándar en **esquinas diagonales**
-  + 2 pines guía rectificados Ø16 en casquillos Ø16.2 en la diagonal
-  contraria (rigidez a vuelco). Vástagos M8 a 2 puentes 380×20×12 que
-  atraviesan ambas placas por ranuras láser (pestaña-ranura).
-- **Bastidor fijo**: placa base 480×700×6 con ranuras de encaje, 2 placas
-  laterales con el contorno de la foto (chaflanes, ventanas 100×30 R10,
-  pestañas) **bajas (top 140)** para no invadir la expulsión sobre el plano
-  170, y 2 travesaños 40×40×2 atornillados (2×Ø9 por extremo).
+- **Rodillos**: eje elevado a z = 154 → tangente 174 = plano anfitrión (170) + 4;
+  retraído −2. Ejes Ø12 h9 × 330 en agujeros Ø12.2, E-clips DIN 6799.
+- **Serpentín** (orden de marcha): retorno izq (−280, 36) → R1 → tensor Ø50
+  (−200, 118) → R2 → tensor (−100, 118) → R3 → **tambor M** (0, 78, Ø90,
+  envoltura ≈ 200°) → R4 → tensor (100, 118) → R5 → tensor (200, 118) → R6 →
+  retorno der (280, 36) → ramal inferior recto. Plano x = 119 (centro del
+  tramo desnudo); el lomo queda embutido 2 mm bajo el vulcanizado y avanza
+  en el sentido de expulsión. El tambor gira en eje Ø25 con chaveta,
+  apoyado en la placa +X y en la brida del motor (placa −X); acople rígido
+  Ø35. Toda la transmisión y el motor son MÓVILES: la tensión no cambia.
+- **Elevación (mecánica de palanca)**: por extremo, un cilindro diagonal
+  basculante en horquilla de la base empuja el ojo de una palanca pivotada
+  (pivote fijo a −118, entrada a +85, leva Ø24 en 0): relación 118/203 →
+  con 10.3 mm de carrera del cilindro el rodillo de leva sube el puente
+  exactamente 6 mm en vertical. Los puentes 306×20×12 atraviesan ambas
+  placas por ranuras láser; los pasadores guía Ø8 en colisas del canal
+  mantienen el movimiento vertical.
+- **Canal fijo**: base 306×700×6 con 2 alas bajas (top 40) que quedan por
+  dentro de las placas móviles (3 mm de juego); anclajes Ø11 al anfitrión y
+  patrones M5 para horquillas y soportes de pivote.
 
 ### Reglas de diseño aplicadas
 
 - Holguras del método: M4→Ø4.5, M5→Ø5.5, M6→Ø6.6, M8→Ø9, M10→Ø11; ejes
   deslizantes Ønominal+0.2.
-- Patrones de taladrado idénticos entre piezas atornilladas (brida neumática
-  ↔ base, pin guía ↔ base, ménsula ↔ placa de transmisión, travesaños ↔
-  laterales); verificados por `test_transfer90.mjs`.
+- Patrones de taladrado idénticos entre piezas atornilladas (horquillas y
+  soportes de pivote ↔ canal, brida del motor ↔ placa −X); verificados por
+  `test_transfer90.mjs`.
 - `gen_transfer90.mjs` **se niega a emitir** si el diseño viola la
   especificación: gap < 50, carrera/elevación fuera de rango, serpentín
-  fuera del tramo desnudo, tangentes imposibles entre poleas, banda que
-  sobresale del plano de rodillos, raspa la base o toca los puentes,
-  cilindros no diagonales.
+  fuera del tramo desnudo, tangentes imposibles, banda que sobresale del
+  plano de rodillos o toca la estructura, canal más ancho que las placas,
+  cilindro fuera del rango diagonal (25..60°), leva que no toca el puente,
+  o bandas anfitrionas que no pasan entre los dedos.
 
 Los rodillos completos, poleas de retorno/tensoras, tambor motriz, ruedas y
 ejes están en la **biblioteca de componentes** (`componentes/catalogo.json`,

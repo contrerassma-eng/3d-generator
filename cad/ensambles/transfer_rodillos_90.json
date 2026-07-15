@@ -2,24 +2,28 @@
  "format": "foto3d-cad",
  "version": 1,
  "meta": {
-  "nombre": "Transferencia 90° — módulo de desviación pop-up (6 rodillos, serpentín)",
+  "nombre": "Transferencia 90° — módulo de desviación pop-up (serpentín, todo por dentro)",
   "capa": "user",
-  "origen": "gen_transfer90.mjs (paramétrico); espec. usuario iterada contra las fotos SID y su esquema IMG_3102: 6 rodillos completos vulcanizados menos el extremo de polea; banda única en serpentín desde abajo (tambor M + tensores + 2 poleas de retorno); 2 cilindros estándar en diagonal con carrera 6",
-  "anfitrion": "transportador de bandas estrechas de 40 mm (plano a 170 mm) — NO modelado",
+  "origen": "gen_transfer90.mjs (paramétrico); espec. usuario: 6 rodillos Ø40 (corazón Ø30) vulcanizados menos el extremo de polea; serpentín IMG_3102; motor y 2 cilindros por dentro; cilindros diagonales con pivote y palanca (subida vertical 6); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados; placas con dedos delgados hacia los rodillos",
+  "anfitrion": "transportador de bandas estrechas de 40 mm a lo largo (plano a 170 mm) — NO modelado; las bandas pasan entre los dedos de las placas",
   "estado_modelado": "ELEVADO (+6 mm): tangente de rodillos a 174 = plano anfitrión + 4",
   "verificaciones": {
    "tangentGap": 60,
    "pop": 4,
    "drop": 2,
    "carrera": 6,
-   "rodillos": 6
+   "rodillos": 6,
+   "cilindros": 2,
+   "anguloCilindro": 36.7,
+   "carreraCilindro": 10.3,
+   "anchoModulo": 306
   }
  },
  "parts": [
   {
-   "id": "p1_placa_base",
-   "name": "Placa base",
-   "color": "#1e3aa8",
+   "id": "p1_fijo_canal_lateral_de_la_cinta",
+   "name": "FIJO · Canal lateral de la cinta",
+   "color": "#455a64",
    "pos": [
     0,
     0,
@@ -36,7 +40,7 @@
    "features": [
     {
      "id": "f1",
-     "name": "Placa base 480×700×6",
+     "name": "Base 306×700×6",
      "shape": "box",
      "op": "union",
      "at": [
@@ -50,20 +54,20 @@
       1
      ],
      "params": {
-      "w": 480,
+      "w": 306,
       "d": 700,
       "h": 6
      }
     },
     {
      "id": "f2",
-     "name": "Ranura pestaña lateral x=-180",
+     "name": "Ala x=-141",
      "shape": "box",
-     "op": "cut",
+     "op": "union",
      "at": [
-      -180,
-      -330,
-      0
+      -141,
+      0,
+      6
      ],
      "dir": [
       0,
@@ -71,20 +75,20 @@
       1
      ],
      "params": {
-      "w": 41,
-      "d": 6.5,
-      "h": 6
+      "w": 6,
+      "d": 700,
+      "h": 34
      }
     },
     {
      "id": "f3",
-     "name": "Ranura pestaña lateral x=-180",
+     "name": "Colisa guía 8.5×18",
      "shape": "box",
      "op": "cut",
      "at": [
-      -180,
-      330,
-      0
+      -141,
+      250,
+      18
      ],
      "dir": [
       0,
@@ -92,20 +96,20 @@
       1
      ],
      "params": {
-      "w": 41,
-      "d": 6.5,
-      "h": 6
+      "w": 7,
+      "d": 8.5,
+      "h": 18
      }
     },
     {
      "id": "f4",
-     "name": "Ranura pestaña lateral x=0",
+     "name": "Ala x=141",
      "shape": "box",
-     "op": "cut",
+     "op": "union",
      "at": [
+      141,
       0,
-      -330,
-      0
+      6
      ],
      "dir": [
       0,
@@ -113,20 +117,20 @@
       1
      ],
      "params": {
-      "w": 41,
-      "d": 6.5,
-      "h": 6
+      "w": 6,
+      "d": 700,
+      "h": 34
      }
     },
     {
      "id": "f5",
-     "name": "Ranura pestaña lateral x=0",
+     "name": "Colisa guía 8.5×18",
      "shape": "box",
      "op": "cut",
      "at": [
-      0,
-      330,
-      0
+      141,
+      -250,
+      18
      ],
      "dir": [
       0,
@@ -134,61 +138,19 @@
       1
      ],
      "params": {
-      "w": 41,
-      "d": 6.5,
-      "h": 6
+      "w": 7,
+      "d": 8.5,
+      "h": 18
      }
     },
     {
      "id": "f6",
-     "name": "Ranura pestaña lateral x=180",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      180,
-      -330,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 41,
-      "d": 6.5,
-      "h": 6
-     }
-    },
-    {
-     "id": "f7",
-     "name": "Ranura pestaña lateral x=180",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      180,
-      330,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 41,
-      "d": 6.5,
-      "h": 6
-     }
-    },
-    {
-     "id": "f8",
-     "name": "Ø5.5 brida neumático",
+     "name": "Anclaje Ø11 al anfitrión",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -202.5,
-      -317.5,
+      -130,
+      -330,
       6
      ],
      "dir": [
@@ -197,19 +159,61 @@
       -1
      ],
      "params": {
-      "dia": 5.5,
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f7",
+     "name": "Anclaje Ø11 al anfitrión",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -130,
+      330,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f8",
+     "name": "Anclaje Ø11 al anfitrión",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      130,
+      -330,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
       "depth": 0,
       "through": true
      }
     },
     {
      "id": "f9",
-     "name": "Ø5.5 brida neumático",
+     "name": "Anclaje Ø11 al anfitrión",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -202.5,
-      -272.5,
+      130,
+      330,
       6
      ],
      "dir": [
@@ -218,19 +222,19 @@
       -1
      ],
      "params": {
-      "dia": 5.5,
+      "dia": 11,
       "depth": 0,
       "through": true
      }
     },
     {
      "id": "f10",
-     "name": "Ø5.5 brida neumático",
+     "name": "Ø5.5 horquilla cilindro",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -157.5,
-      -317.5,
+      22,
+      -295,
       6
      ],
      "dir": [
@@ -246,12 +250,12 @@
     },
     {
      "id": "f11",
-     "name": "Ø5.5 brida neumático",
+     "name": "Ø5.5 horquilla cilindro",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -157.5,
-      -272.5,
+      38,
+      -295,
       6
      ],
      "dir": [
@@ -267,12 +271,12 @@
     },
     {
      "id": "f12",
-     "name": "Ø5.5 brida neumático",
+     "name": "Ø5.5 soporte pivote",
      "shape": "hole",
      "op": "cut",
      "at": [
-      157.5,
-      272.5,
+      -126,
+      -295,
       6
      ],
      "dir": [
@@ -288,12 +292,12 @@
     },
     {
      "id": "f13",
-     "name": "Ø5.5 brida neumático",
+     "name": "Ø5.5 soporte pivote",
      "shape": "hole",
      "op": "cut",
      "at": [
-      157.5,
-      317.5,
+      -110,
+      -295,
       6
      ],
      "dir": [
@@ -309,12 +313,12 @@
     },
     {
      "id": "f14",
-     "name": "Ø5.5 brida neumático",
+     "name": "Ø5.5 horquilla cilindro",
      "shape": "hole",
      "op": "cut",
      "at": [
-      202.5,
-      272.5,
+      22,
+      295,
       6
      ],
      "dir": [
@@ -330,12 +334,12 @@
     },
     {
      "id": "f15",
-     "name": "Ø5.5 brida neumático",
+     "name": "Ø5.5 horquilla cilindro",
      "shape": "hole",
      "op": "cut",
      "at": [
-      202.5,
-      317.5,
+      38,
+      295,
       6
      ],
      "dir": [
@@ -351,12 +355,12 @@
     },
     {
      "id": "f16",
-     "name": "Ø4.5 brida pin guía",
+     "name": "Ø5.5 soporte pivote",
      "shape": "hole",
      "op": "cut",
      "at": [
-      162,
-      -295,
+      -126,
+      295,
       6
      ],
      "dir": [
@@ -365,39 +369,18 @@
       -1
      ],
      "params": {
-      "dia": 4.5,
+      "dia": 5.5,
       "depth": 0,
       "through": true
      }
     },
     {
      "id": "f17",
-     "name": "Ø4.5 brida pin guía",
+     "name": "Ø5.5 soporte pivote",
      "shape": "hole",
      "op": "cut",
      "at": [
-      198,
-      -295,
-      6
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 4.5,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f18",
-     "name": "Ø4.5 brida pin guía",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -198,
+      -110,
       295,
       6
      ],
@@ -407,112 +390,7 @@
       -1
      ],
      "params": {
-      "dia": 4.5,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f19",
-     "name": "Ø4.5 brida pin guía",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -162,
-      295,
-      6
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 4.5,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f20",
-     "name": "Anclaje Ø11 al anfitrión",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -220,
-      -330,
-      6
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 11,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f21",
-     "name": "Anclaje Ø11 al anfitrión",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -220,
-      330,
-      6
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 11,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f22",
-     "name": "Anclaje Ø11 al anfitrión",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      220,
-      -330,
-      6
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 11,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f23",
-     "name": "Anclaje Ø11 al anfitrión",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      220,
-      330,
-      6
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 11,
+      "dia": 5.5,
       "depth": 0,
       "through": true
      }
@@ -520,1343 +398,11 @@
    ]
   },
   {
-   "id": "p2_placa_lateral_fija_y",
-   "name": "Placa lateral fija -Y",
-   "color": "#2a4fd7",
+   "id": "p2_fijo_soporte_pivote_y",
+   "name": "FIJO · Soporte pivote -Y",
+   "color": "#607d8b",
    "pos": [
-    0,
-    -330,
-    0
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f24",
-     "name": "Contorno lateral (chaflanes + pestañas)",
-     "shape": "sketch",
-     "op": "union",
-     "at": [
-      0,
-      3,
-      0
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "pts": [
-       [
-        -230,
-        6
-       ],
-       [
-        -230,
-        100
-       ],
-       [
-        -190,
-        140
-       ],
-       [
-        190,
-        140
-       ],
-       [
-        230,
-        100
-       ],
-       [
-        230,
-        6
-       ],
-       [
-        200,
-        6
-       ],
-       [
-        200,
-        0
-       ],
-       [
-        160,
-        0
-       ],
-       [
-        160,
-        6
-       ],
-       [
-        20,
-        6
-       ],
-       [
-        20,
-        0
-       ],
-       [
-        -20,
-        0
-       ],
-       [
-        -20,
-        6
-       ],
-       [
-        -160,
-        6
-       ],
-       [
-        -160,
-        0
-       ],
-       [
-        -200,
-        0
-       ],
-       [
-        -200,
-        6
-       ]
-      ],
-      "h": 6,
-      "u": [
-       1,
-       0,
-       0
-      ]
-     }
-    },
-    {
-     "id": "f25",
-     "name": "Ventana aligeramiento (-110,90)",
-     "shape": "sketch",
-     "op": "cut",
-     "at": [
-      0,
-      -3,
-      0
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "pts": [
-       [
-        -60,
-        95
-       ],
-       [
-        -60.34,
-        97.59
-       ],
-       [
-        -61.34,
-        100
-       ],
-       [
-        -62.93,
-        102.07
-       ],
-       [
-        -65,
-        103.66
-       ],
-       [
-        -67.41,
-        104.66
-       ],
-       [
-        -70,
-        105
-       ],
-       [
-        -150,
-        105
-       ],
-       [
-        -152.59,
-        104.66
-       ],
-       [
-        -155,
-        103.66
-       ],
-       [
-        -157.07,
-        102.07
-       ],
-       [
-        -158.66,
-        100
-       ],
-       [
-        -159.66,
-        97.59
-       ],
-       [
-        -160,
-        95
-       ],
-       [
-        -160,
-        85
-       ],
-       [
-        -159.66,
-        82.41
-       ],
-       [
-        -158.66,
-        80
-       ],
-       [
-        -157.07,
-        77.93
-       ],
-       [
-        -155,
-        76.34
-       ],
-       [
-        -152.59,
-        75.34
-       ],
-       [
-        -150,
-        75
-       ],
-       [
-        -70,
-        75
-       ],
-       [
-        -67.41,
-        75.34
-       ],
-       [
-        -65,
-        76.34
-       ],
-       [
-        -62.93,
-        77.93
-       ],
-       [
-        -61.34,
-        80
-       ],
-       [
-        -60.34,
-        82.41
-       ],
-       [
-        -60,
-        85
-       ]
-      ],
-      "h": 6,
-      "u": [
-       1,
-       0,
-       0
-      ]
-     }
-    },
-    {
-     "id": "f26",
-     "name": "Ventana aligeramiento (110,90)",
-     "shape": "sketch",
-     "op": "cut",
-     "at": [
-      0,
-      -3,
-      0
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "pts": [
-       [
-        160,
-        95
-       ],
-       [
-        159.66,
-        97.59
-       ],
-       [
-        158.66,
-        100
-       ],
-       [
-        157.07,
-        102.07
-       ],
-       [
-        155,
-        103.66
-       ],
-       [
-        152.59,
-        104.66
-       ],
-       [
-        150,
-        105
-       ],
-       [
-        70,
-        105
-       ],
-       [
-        67.41,
-        104.66
-       ],
-       [
-        65,
-        103.66
-       ],
-       [
-        62.93,
-        102.07
-       ],
-       [
-        61.34,
-        100
-       ],
-       [
-        60.34,
-        97.59
-       ],
-       [
-        60,
-        95
-       ],
-       [
-        60,
-        85
-       ],
-       [
-        60.34,
-        82.41
-       ],
-       [
-        61.34,
-        80
-       ],
-       [
-        62.93,
-        77.93
-       ],
-       [
-        65,
-        76.34
-       ],
-       [
-        67.41,
-        75.34
-       ],
-       [
-        70,
-        75
-       ],
-       [
-        150,
-        75
-       ],
-       [
-        152.59,
-        75.34
-       ],
-       [
-        155,
-        76.34
-       ],
-       [
-        157.07,
-        77.93
-       ],
-       [
-        158.66,
-        80
-       ],
-       [
-        159.66,
-        82.41
-       ],
-       [
-        160,
-        85
-       ]
-      ],
-      "h": 6,
-      "u": [
-       1,
-       0,
-       0
-      ]
-     }
-    },
-    {
-     "id": "f27",
-     "name": "Ø9 travesaño x=-60",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -60,
-      3,
-      30
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f28",
-     "name": "Ø9 travesaño x=-60",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -60,
-      3,
-      50
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f29",
-     "name": "Ø9 travesaño x=20",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      20,
-      3,
-      30
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f30",
-     "name": "Ø9 travesaño x=20",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      20,
-      3,
-      50
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p3_placa_lateral_fija_y",
-   "name": "Placa lateral fija +Y",
-   "color": "#2a4fd7",
-   "pos": [
-    0,
-    330,
-    0
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f31",
-     "name": "Contorno lateral (chaflanes + pestañas)",
-     "shape": "sketch",
-     "op": "union",
-     "at": [
-      0,
-      3,
-      0
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "pts": [
-       [
-        -230,
-        6
-       ],
-       [
-        -230,
-        100
-       ],
-       [
-        -190,
-        140
-       ],
-       [
-        190,
-        140
-       ],
-       [
-        230,
-        100
-       ],
-       [
-        230,
-        6
-       ],
-       [
-        200,
-        6
-       ],
-       [
-        200,
-        0
-       ],
-       [
-        160,
-        0
-       ],
-       [
-        160,
-        6
-       ],
-       [
-        20,
-        6
-       ],
-       [
-        20,
-        0
-       ],
-       [
-        -20,
-        0
-       ],
-       [
-        -20,
-        6
-       ],
-       [
-        -160,
-        6
-       ],
-       [
-        -160,
-        0
-       ],
-       [
-        -200,
-        0
-       ],
-       [
-        -200,
-        6
-       ]
-      ],
-      "h": 6,
-      "u": [
-       1,
-       0,
-       0
-      ]
-     }
-    },
-    {
-     "id": "f32",
-     "name": "Ventana aligeramiento (-110,90)",
-     "shape": "sketch",
-     "op": "cut",
-     "at": [
-      0,
-      -3,
-      0
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "pts": [
-       [
-        -60,
-        95
-       ],
-       [
-        -60.34,
-        97.59
-       ],
-       [
-        -61.34,
-        100
-       ],
-       [
-        -62.93,
-        102.07
-       ],
-       [
-        -65,
-        103.66
-       ],
-       [
-        -67.41,
-        104.66
-       ],
-       [
-        -70,
-        105
-       ],
-       [
-        -150,
-        105
-       ],
-       [
-        -152.59,
-        104.66
-       ],
-       [
-        -155,
-        103.66
-       ],
-       [
-        -157.07,
-        102.07
-       ],
-       [
-        -158.66,
-        100
-       ],
-       [
-        -159.66,
-        97.59
-       ],
-       [
-        -160,
-        95
-       ],
-       [
-        -160,
-        85
-       ],
-       [
-        -159.66,
-        82.41
-       ],
-       [
-        -158.66,
-        80
-       ],
-       [
-        -157.07,
-        77.93
-       ],
-       [
-        -155,
-        76.34
-       ],
-       [
-        -152.59,
-        75.34
-       ],
-       [
-        -150,
-        75
-       ],
-       [
-        -70,
-        75
-       ],
-       [
-        -67.41,
-        75.34
-       ],
-       [
-        -65,
-        76.34
-       ],
-       [
-        -62.93,
-        77.93
-       ],
-       [
-        -61.34,
-        80
-       ],
-       [
-        -60.34,
-        82.41
-       ],
-       [
-        -60,
-        85
-       ]
-      ],
-      "h": 6,
-      "u": [
-       1,
-       0,
-       0
-      ]
-     }
-    },
-    {
-     "id": "f33",
-     "name": "Ventana aligeramiento (110,90)",
-     "shape": "sketch",
-     "op": "cut",
-     "at": [
-      0,
-      -3,
-      0
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "pts": [
-       [
-        160,
-        95
-       ],
-       [
-        159.66,
-        97.59
-       ],
-       [
-        158.66,
-        100
-       ],
-       [
-        157.07,
-        102.07
-       ],
-       [
-        155,
-        103.66
-       ],
-       [
-        152.59,
-        104.66
-       ],
-       [
-        150,
-        105
-       ],
-       [
-        70,
-        105
-       ],
-       [
-        67.41,
-        104.66
-       ],
-       [
-        65,
-        103.66
-       ],
-       [
-        62.93,
-        102.07
-       ],
-       [
-        61.34,
-        100
-       ],
-       [
-        60.34,
-        97.59
-       ],
-       [
-        60,
-        95
-       ],
-       [
-        60,
-        85
-       ],
-       [
-        60.34,
-        82.41
-       ],
-       [
-        61.34,
-        80
-       ],
-       [
-        62.93,
-        77.93
-       ],
-       [
-        65,
-        76.34
-       ],
-       [
-        67.41,
-        75.34
-       ],
-       [
-        70,
-        75
-       ],
-       [
-        150,
-        75
-       ],
-       [
-        152.59,
-        75.34
-       ],
-       [
-        155,
-        76.34
-       ],
-       [
-        157.07,
-        77.93
-       ],
-       [
-        158.66,
-        80
-       ],
-       [
-        159.66,
-        82.41
-       ],
-       [
-        160,
-        85
-       ]
-      ],
-      "h": 6,
-      "u": [
-       1,
-       0,
-       0
-      ]
-     }
-    },
-    {
-     "id": "f34",
-     "name": "Ø9 travesaño x=-60",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -60,
-      3,
-      30
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f35",
-     "name": "Ø9 travesaño x=-60",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -60,
-      3,
-      50
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f36",
-     "name": "Ø9 travesaño x=20",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      20,
-      3,
-      30
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f37",
-     "name": "Ø9 travesaño x=20",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      20,
-      3,
-      50
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p4_travesa_o_fijo_x_60",
-   "name": "Travesaño fijo x=-60",
-   "color": "#78909c",
-   "pos": [
-    -60,
-    0,
-    20
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f38",
-     "name": "Tubo 40×40×2",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 40,
-      "d": 644,
-      "h": 40
-     }
-    },
-    {
-     "id": "f39",
-     "name": "Alma hueca",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      2
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 36,
-      "d": 645,
-      "h": 36
-     }
-    },
-    {
-     "id": "f40",
-     "name": "Placa extremo -Y",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      -324.5,
-      -10
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 60,
-      "d": 5,
-      "h": 60
-     }
-    },
-    {
-     "id": "f41",
-     "name": "Ø9 M8 a lateral",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      -327,
-      10
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f42",
-     "name": "Ø9 M8 a lateral",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      -327,
-      30
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f43",
-     "name": "Placa extremo +Y",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      324.5,
-      -10
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 60,
-      "d": 5,
-      "h": 60
-     }
-    },
-    {
-     "id": "f44",
-     "name": "Ø9 M8 a lateral",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      327,
-      10
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f45",
-     "name": "Ø9 M8 a lateral",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      327,
-      30
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p5_travesa_o_fijo_x_20",
-   "name": "Travesaño fijo x=20",
-   "color": "#78909c",
-   "pos": [
-    20,
-    0,
-    20
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f46",
-     "name": "Tubo 40×40×2",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 40,
-      "d": 644,
-      "h": 40
-     }
-    },
-    {
-     "id": "f47",
-     "name": "Alma hueca",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      2
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 36,
-      "d": 645,
-      "h": 36
-     }
-    },
-    {
-     "id": "f48",
-     "name": "Placa extremo -Y",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      -324.5,
-      -10
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 60,
-      "d": 5,
-      "h": 60
-     }
-    },
-    {
-     "id": "f49",
-     "name": "Ø9 M8 a lateral",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      -327,
-      10
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f50",
-     "name": "Ø9 M8 a lateral",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      -327,
-      30
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f51",
-     "name": "Placa extremo +Y",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      324.5,
-      -10
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 60,
-      "d": 5,
-      "h": 60
-     }
-    },
-    {
-     "id": "f52",
-     "name": "Ø9 M8 a lateral",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      327,
-      10
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f53",
-     "name": "Ø9 M8 a lateral",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      327,
-      30
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p6_cilindro_neum_tico_25_180_295",
-   "name": "Cilindro neumático Ø25 (-180,-295)",
-   "color": "#cfd8dc",
-   "pos": [
-    -180,
+    -118,
     -295,
     6
    ],
@@ -1870,8 +416,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f54",
-     "name": "Brida 55×55×5",
+     "id": "f18",
+     "name": "Poste 20×12×70",
      "shape": "box",
      "op": "union",
      "at": [
@@ -1885,20 +431,20 @@
       1
      ],
      "params": {
-      "w": 55,
-      "d": 55,
-      "h": 5
+      "w": 20,
+      "d": 12,
+      "h": 70
      }
     },
     {
-     "id": "f55",
-     "name": "Cuerpo Ø25 (ISO 6432)",
-     "shape": "cylinder",
+     "id": "f19",
+     "name": "Pie 36×24×6",
+     "shape": "box",
      "op": "union",
      "at": [
       0,
       0,
-      5
+      0
      ],
      "dir": [
       0,
@@ -1906,39 +452,40 @@
       1
      ],
      "params": {
-      "dia": 25,
-      "h": 65
+      "w": 36,
+      "d": 24,
+      "h": 6
      }
     },
     {
-     "id": "f56",
-     "name": "Vástago Ø10 (extendido +6)",
+     "id": "f20",
+     "name": "Perno pivote Ø8",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
-      70
+      -13,
+      64
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "dia": 10,
-      "h": 29
+      "dia": 8,
+      "h": 26
      }
     },
     {
-     "id": "f57",
-     "name": "Ø5.5 brida",
+     "id": "f21",
+     "name": "Ø5.5 M5",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -22.5,
-      -22.5,
-      5
+      -8,
+      0,
+      6
      ],
      "dir": [
       0,
@@ -1947,19 +494,19 @@
      ],
      "params": {
       "dia": 5.5,
-      "depth": 5,
+      "depth": 6,
       "through": false
      }
     },
     {
-     "id": "f58",
-     "name": "Ø5.5 brida",
+     "id": "f22",
+     "name": "Ø5.5 M5 (b)",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -22.5,
-      22.5,
-      5
+      8,
+      0,
+      6
      ],
      "dir": [
       0,
@@ -1968,62 +515,1006 @@
      ],
      "params": {
       "dia": 5.5,
-      "depth": 5,
-      "through": false
-     }
-    },
-    {
-     "id": "f59",
-     "name": "Ø5.5 brida",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      22.5,
-      -22.5,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 5.5,
-      "depth": 5,
-      "through": false
-     }
-    },
-    {
-     "id": "f60",
-     "name": "Ø5.5 brida",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      22.5,
-      22.5,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 5.5,
-      "depth": 5,
+      "depth": 6,
       "through": false
      }
     }
    ]
   },
   {
-   "id": "p7_cilindro_neum_tico_25_180_295",
-   "name": "Cilindro neumático Ø25 (180,295)",
+   "id": "p3_fijo_horquilla_cilindro_y",
+   "name": "FIJO · Horquilla cilindro -Y",
+   "color": "#607d8b",
+   "pos": [
+    30,
+    -295,
+    6
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f23",
+     "name": "Cuerpo 18×12×16",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 18,
+      "d": 12,
+      "h": 16
+     }
+    },
+    {
+     "id": "f24",
+     "name": "Pie 36×24×6",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 36,
+      "d": 24,
+      "h": 6
+     }
+    },
+    {
+     "id": "f25",
+     "name": "Perno basculante Ø8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -13,
+      8
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 26
+     }
+    },
+    {
+     "id": "f26",
+     "name": "Ø5.5 M5",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -8,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 6,
+      "through": false
+     }
+    },
+    {
+     "id": "f27",
+     "name": "Ø5.5 M5 (b)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      8,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 6,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p4_fijo_cilindro_diagonal_25_y",
+   "name": "FIJO · Cilindro diagonal Ø25 -Y",
    "color": "#cfd8dc",
    "pos": [
-    180,
+    30,
+    -295,
+    14
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f28",
+     "name": "Ojo trasero Ø16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -6,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 16,
+      "h": 12
+     }
+    },
+    {
+     "id": "f29",
+     "name": "Cuerpo Ø25 (ISO 6432)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4.810475182683405,
+      0,
+      3.5859905907276257
+     ],
+     "dir": [
+      0.8017458637805671,
+      0,
+      0.5976650984546046
+     ],
+     "params": {
+      "dia": 25,
+      "h": 40
+     }
+    },
+    {
+     "id": "f30",
+     "name": "Vástago Ø10 (extendido)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      36.88030973390609,
+      0,
+      27.49259452891181
+     ],
+     "dir": [
+      0.8017458637805671,
+      0,
+      0.5976650984546046
+     ],
+     "params": {
+      "dia": 10,
+      "h": 22.600291544569984
+     }
+    },
+    {
+     "id": "f31",
+     "name": "Ojo delantero Ø16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      55,
+      -6,
+      41
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 16,
+      "h": 12
+     }
+    },
+    {
+     "id": "f32",
+     "name": "Ø8.2 ojo trasero",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -7,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8.2,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f33",
+     "name": "Ø8.2 ojo delantero",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      55,
+      -7,
+      41
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p5_fijo_palanca_elevadora_y",
+   "name": "FIJO · Palanca elevadora -Y",
+   "color": "#607d8b",
+   "pos": [
+    -118,
+    -295,
+    70
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f34",
+     "name": "Barra de palanca",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      118,
+      5,
+      -70
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -119,
+        83
+       ],
+       [
+        98,
+        69
+       ],
+       [
+        98,
+        41
+       ],
+       [
+        -117,
+        57
+       ]
+      ],
+      "h": 10,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f35",
+     "name": "Cuello de leva 16×10×20",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      118,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 16,
+      "d": 10,
+      "h": 20
+     }
+    },
+    {
+     "id": "f36",
+     "name": "Rodillo de leva Ø24",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      118,
+      -7,
+      23
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 24,
+      "h": 14
+     }
+    },
+    {
+     "id": "f37",
+     "name": "Ø8.2 pivote",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      5,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 8.2,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f38",
+     "name": "Ø8.2 entrada",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      203,
+      5,
+      -15
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 8.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p6_fijo_perno_entrada_8_y",
+   "name": "FIJO · Perno entrada Ø8 -Y",
+   "color": "#b0bec5",
+   "pos": [
+    85,
+    -308,
+    55
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f39",
+     "name": "Perno Ø8×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "p7_fijo_soporte_pivote_y",
+   "name": "FIJO · Soporte pivote +Y",
+   "color": "#607d8b",
+   "pos": [
+    -118,
     295,
     6
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f40",
+     "name": "Poste 20×12×70",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 20,
+      "d": 12,
+      "h": 70
+     }
+    },
+    {
+     "id": "f41",
+     "name": "Pie 36×24×6",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 36,
+      "d": 24,
+      "h": 6
+     }
+    },
+    {
+     "id": "f42",
+     "name": "Perno pivote Ø8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -13,
+      64
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 26
+     }
+    },
+    {
+     "id": "f43",
+     "name": "Ø5.5 M5",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -8,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 6,
+      "through": false
+     }
+    },
+    {
+     "id": "f44",
+     "name": "Ø5.5 M5 (b)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      8,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 6,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p8_fijo_horquilla_cilindro_y",
+   "name": "FIJO · Horquilla cilindro +Y",
+   "color": "#607d8b",
+   "pos": [
+    30,
+    295,
+    6
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f45",
+     "name": "Cuerpo 18×12×16",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 18,
+      "d": 12,
+      "h": 16
+     }
+    },
+    {
+     "id": "f46",
+     "name": "Pie 36×24×6",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 36,
+      "d": 24,
+      "h": 6
+     }
+    },
+    {
+     "id": "f47",
+     "name": "Perno basculante Ø8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -13,
+      8
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 26
+     }
+    },
+    {
+     "id": "f48",
+     "name": "Ø5.5 M5",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -8,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 6,
+      "through": false
+     }
+    },
+    {
+     "id": "f49",
+     "name": "Ø5.5 M5 (b)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      8,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 6,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p9_fijo_cilindro_diagonal_25_y",
+   "name": "FIJO · Cilindro diagonal Ø25 +Y",
+   "color": "#cfd8dc",
+   "pos": [
+    30,
+    295,
+    14
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f50",
+     "name": "Ojo trasero Ø16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -6,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 16,
+      "h": 12
+     }
+    },
+    {
+     "id": "f51",
+     "name": "Cuerpo Ø25 (ISO 6432)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4.810475182683405,
+      0,
+      3.5859905907276257
+     ],
+     "dir": [
+      0.8017458637805671,
+      0,
+      0.5976650984546046
+     ],
+     "params": {
+      "dia": 25,
+      "h": 40
+     }
+    },
+    {
+     "id": "f52",
+     "name": "Vástago Ø10 (extendido)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      36.88030973390609,
+      0,
+      27.49259452891181
+     ],
+     "dir": [
+      0.8017458637805671,
+      0,
+      0.5976650984546046
+     ],
+     "params": {
+      "dia": 10,
+      "h": 22.600291544569984
+     }
+    },
+    {
+     "id": "f53",
+     "name": "Ojo delantero Ø16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      55,
+      -6,
+      41
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 16,
+      "h": 12
+     }
+    },
+    {
+     "id": "f54",
+     "name": "Ø8.2 ojo trasero",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -7,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8.2,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f55",
+     "name": "Ø8.2 ojo delantero",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      55,
+      -7,
+      41
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p10_fijo_palanca_elevadora_y",
+   "name": "FIJO · Palanca elevadora +Y",
+   "color": "#607d8b",
+   "pos": [
+    -118,
+    295,
+    70
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f56",
+     "name": "Barra de palanca",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      118,
+      5,
+      -70
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -119,
+        83
+       ],
+       [
+        98,
+        69
+       ],
+       [
+        98,
+        41
+       ],
+       [
+        -117,
+        57
+       ]
+      ],
+      "h": 10,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f57",
+     "name": "Cuello de leva 16×10×20",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      118,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 16,
+      "d": 10,
+      "h": 20
+     }
+    },
+    {
+     "id": "f58",
+     "name": "Rodillo de leva Ø24",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      118,
+      -7,
+      23
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 24,
+      "h": 14
+     }
+    },
+    {
+     "id": "f59",
+     "name": "Ø8.2 pivote",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      5,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 8.2,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f60",
+     "name": "Ø8.2 entrada",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      203,
+      5,
+      -15
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 8.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p11_fijo_perno_entrada_8_y",
+   "name": "FIJO · Perno entrada Ø8 +Y",
+   "color": "#b0bec5",
+   "pos": [
+    85,
+    282,
+    55
    ],
    "quat": [
     0,
@@ -2036,8 +1527,8 @@
    "features": [
     {
      "id": "f61",
-     "name": "Brida 55×55×5",
-     "shape": "box",
+     "name": "Perno Ø8×26",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
@@ -2046,554 +1537,19 @@
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 55,
-      "d": 55,
-      "h": 5
-     }
-    },
-    {
-     "id": "f62",
-     "name": "Cuerpo Ø25 (ISO 6432)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 25,
-      "h": 65
-     }
-    },
-    {
-     "id": "f63",
-     "name": "Vástago Ø10 (extendido +6)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      70
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 10,
-      "h": 29
-     }
-    },
-    {
-     "id": "f64",
-     "name": "Ø5.5 brida",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -22.5,
-      -22.5,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 5.5,
-      "depth": 5,
-      "through": false
-     }
-    },
-    {
-     "id": "f65",
-     "name": "Ø5.5 brida",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -22.5,
-      22.5,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 5.5,
-      "depth": 5,
-      "through": false
-     }
-    },
-    {
-     "id": "f66",
-     "name": "Ø5.5 brida",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      22.5,
-      -22.5,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 5.5,
-      "depth": 5,
-      "through": false
-     }
-    },
-    {
-     "id": "f67",
-     "name": "Ø5.5 brida",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      22.5,
-      22.5,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 5.5,
-      "depth": 5,
-      "through": false
+      "dia": 8,
+      "h": 26
      }
     }
    ]
   },
   {
-   "id": "p8_pin_gu_a_16_180_295",
-   "name": "Pin guía Ø16 (180,-295)",
-   "color": "#b0bec5",
-   "pos": [
-    180,
-    -295,
-    6
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f68",
-     "name": "Brida Ø50×5",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 50,
-      "h": 5
-     }
-    },
-    {
-     "id": "f69",
-     "name": "Pin Ø16 rectificado",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 16,
-      "h": 92
-     }
-    },
-    {
-     "id": "f70",
-     "name": "Ø4.5 brida",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -18,
-      0,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 4.5,
-      "depth": 5,
-      "through": false
-     }
-    },
-    {
-     "id": "f71",
-     "name": "Ø4.5 brida",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      18,
-      0,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 4.5,
-      "depth": 5,
-      "through": false
-     }
-    }
-   ]
-  },
-  {
-   "id": "p9_pin_gu_a_16_180_295",
-   "name": "Pin guía Ø16 (-180,295)",
-   "color": "#b0bec5",
-   "pos": [
-    -180,
-    295,
-    6
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f72",
-     "name": "Brida Ø50×5",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 50,
-      "h": 5
-     }
-    },
-    {
-     "id": "f73",
-     "name": "Pin Ø16 rectificado",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 16,
-      "h": 92
-     }
-    },
-    {
-     "id": "f74",
-     "name": "Ø4.5 brida",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -18,
-      0,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 4.5,
-      "depth": 5,
-      "through": false
-     }
-    },
-    {
-     "id": "f75",
-     "name": "Ø4.5 brida",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      18,
-      0,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 4.5,
-      "depth": 5,
-      "through": false
-     }
-    }
-   ]
-  },
-  {
-   "id": "p10_puente_elevador_y_295",
-   "name": "Puente elevador y=-295",
-   "color": "#78909c",
-   "pos": [
-    0,
-    -295,
-    105
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f76",
-     "name": "Puente 380×20×12",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 380,
-      "d": 20,
-      "h": 12
-     }
-    },
-    {
-     "id": "f77",
-     "name": "Ø8.5 vástago M8",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -180,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 8.5,
-      "depth": 12,
-      "through": false
-     }
-    },
-    {
-     "id": "f78",
-     "name": "Casquillo guía Ø30",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      180,
-      0,
-      -20
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 30,
-      "h": 20
-     }
-    },
-    {
-     "id": "f79",
-     "name": "Buje Ø16.2",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      180,
-      0,
-      12
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 16.2,
-      "depth": 32,
-      "through": false
-     }
-    }
-   ]
-  },
-  {
-   "id": "p11_puente_elevador_y_295",
-   "name": "Puente elevador y=295",
-   "color": "#78909c",
-   "pos": [
-    0,
-    295,
-    105
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f80",
-     "name": "Puente 380×20×12",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 380,
-      "d": 20,
-      "h": 12
-     }
-    },
-    {
-     "id": "f81",
-     "name": "Ø8.5 vástago M8",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      180,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 8.5,
-      "depth": 12,
-      "through": false
-     }
-    },
-    {
-     "id": "f82",
-     "name": "Casquillo guía Ø30",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -180,
-      0,
-      -20
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 30,
-      "h": 20
-     }
-    },
-    {
-     "id": "f83",
-     "name": "Buje Ø16.2",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -180,
-      0,
-      12
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 16.2,
-      "depth": 32,
-      "through": false
-     }
-    }
-   ]
-  },
-  {
-   "id": "p12_placa_portarodillos_x",
-   "name": "Placa portarodillos (-X)",
+   "id": "p12_m_vil_placa_porta_poleas_lado_motor_x",
+   "name": "MÓVIL · Placa porta-poleas lado motor (-X)",
    "color": "#2a4fd7",
    "pos": [
     -153,
@@ -2610,8 +1566,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f84",
-     "name": "Contorno peine + faldón",
+     "id": "f62",
+     "name": "Contorno: cuerpo porta-poleas + dedos",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -2632,523 +1588,467 @@
        ],
        [
         -310,
-        128
+        136
        ],
        [
-        -300,
-        137
+        -264,
+        136
        ],
        [
-        null,
-        null
+        -264,
+        154
        ],
        [
-        null,
-        null
+        -263.73,
+        156.73
        ],
        [
-        null,
-        null
+        -262.93,
+        159.36
        ],
        [
-        null,
-        null
+        -261.64,
+        161.78
        ],
        [
-        null,
-        null
+        -259.9,
+        163.9
        ],
        [
-        null,
-        null
+        -257.78,
+        165.64
        ],
        [
-        null,
-        null
+        -255.36,
+        166.93
        ],
        [
-        null,
-        null
+        -252.73,
+        167.73
        ],
        [
-        null,
-        null
+        -250,
+        168
        ],
        [
-        null,
-        null
+        -247.27,
+        167.73
        ],
        [
-        null,
-        null
+        -244.64,
+        166.93
        ],
        [
-        null,
-        null
+        -242.22,
+        165.64
        ],
        [
-        null,
-        null
+        -240.1,
+        163.9
        ],
        [
-        null,
-        null
+        -238.36,
+        161.78
        ],
        [
-        null,
-        null
+        -237.07,
+        159.36
        ],
        [
-        null,
-        null
+        -236.27,
+        156.73
        ],
        [
-        null,
-        null
+        -236,
+        154
        ],
        [
-        null,
-        null
+        -236,
+        136
        ],
        [
-        null,
-        null
+        -164,
+        136
        ],
        [
-        null,
-        null
+        -164,
+        154
        ],
        [
-        null,
-        null
+        -163.73,
+        156.73
        ],
        [
-        null,
-        null
+        -162.93,
+        159.36
        ],
        [
-        null,
-        null
+        -161.64,
+        161.78
        ],
        [
-        null,
-        null
+        -159.9,
+        163.9
        ],
        [
-        null,
-        null
+        -157.78,
+        165.64
        ],
        [
-        null,
-        null
+        -155.36,
+        166.93
        ],
        [
-        null,
-        null
+        -152.73,
+        167.73
        ],
        [
-        null,
-        null
+        -150,
+        168
        ],
        [
-        null,
-        null
+        -147.27,
+        167.73
        ],
        [
-        null,
-        null
+        -144.64,
+        166.93
        ],
        [
-        null,
-        null
+        -142.22,
+        165.64
        ],
        [
-        null,
-        null
+        -140.1,
+        163.9
        ],
        [
-        null,
-        null
+        -138.36,
+        161.78
        ],
        [
-        null,
-        null
+        -137.07,
+        159.36
        ],
        [
-        null,
-        null
+        -136.27,
+        156.73
        ],
        [
-        null,
-        null
+        -136,
+        154
        ],
        [
-        null,
-        null
+        -136,
+        136
        ],
        [
-        null,
-        null
+        -64,
+        136
        ],
        [
-        null,
-        null
+        -64,
+        154
        ],
        [
-        null,
-        null
+        -63.73,
+        156.73
        ],
        [
-        null,
-        null
+        -62.93,
+        159.36
        ],
        [
-        null,
-        null
+        -61.64,
+        161.78
        ],
        [
-        null,
-        null
+        -59.9,
+        163.9
        ],
        [
-        null,
-        null
+        -57.78,
+        165.64
        ],
        [
-        null,
-        null
+        -55.36,
+        166.93
        ],
        [
-        null,
-        null
+        -52.73,
+        167.73
        ],
        [
-        null,
-        null
+        -50,
+        168
        ],
        [
-        null,
-        null
+        -47.27,
+        167.73
        ],
        [
-        null,
-        null
+        -44.64,
+        166.93
        ],
        [
-        null,
-        null
+        -42.22,
+        165.64
        ],
        [
-        null,
-        null
+        -40.1,
+        163.9
        ],
        [
-        null,
-        null
+        -38.36,
+        161.78
        ],
        [
-        null,
-        null
+        -37.07,
+        159.36
        ],
        [
-        null,
-        null
+        -36.27,
+        156.73
        ],
        [
-        null,
-        null
+        -36,
+        154
        ],
        [
-        null,
-        null
+        -36,
+        136
        ],
        [
-        null,
-        null
+        36,
+        136
        ],
        [
-        null,
-        null
+        36,
+        154
        ],
        [
-        null,
-        null
+        36.27,
+        156.73
        ],
        [
-        null,
-        null
+        37.07,
+        159.36
        ],
        [
-        null,
-        null
+        38.36,
+        161.78
        ],
        [
-        null,
-        null
+        40.1,
+        163.9
        ],
        [
-        null,
-        null
+        42.22,
+        165.64
        ],
        [
-        null,
-        null
+        44.64,
+        166.93
        ],
        [
-        null,
-        null
+        47.27,
+        167.73
        ],
        [
-        null,
-        null
+        50,
+        168
        ],
        [
-        null,
-        null
+        52.73,
+        167.73
        ],
        [
-        null,
-        null
+        55.36,
+        166.93
        ],
        [
-        null,
-        null
+        57.78,
+        165.64
        ],
        [
-        null,
-        null
+        59.9,
+        163.9
        ],
        [
-        null,
-        null
+        61.64,
+        161.78
        ],
        [
-        null,
-        null
+        62.93,
+        159.36
        ],
        [
-        null,
-        null
+        63.73,
+        156.73
        ],
        [
-        null,
-        null
+        64,
+        154
        ],
        [
-        null,
-        null
+        64,
+        136
        ],
        [
-        null,
-        null
+        136,
+        136
        ],
        [
-        null,
-        null
+        136,
+        154
        ],
        [
-        null,
-        null
+        136.27,
+        156.73
        ],
        [
-        null,
-        null
+        137.07,
+        159.36
        ],
        [
-        null,
-        null
+        138.36,
+        161.78
        ],
        [
-        null,
-        null
+        140.1,
+        163.9
        ],
        [
-        null,
-        null
+        142.22,
+        165.64
        ],
        [
-        null,
-        null
+        144.64,
+        166.93
        ],
        [
-        null,
-        null
+        147.27,
+        167.73
        ],
        [
-        null,
-        null
+        150,
+        168
        ],
        [
-        null,
-        null
+        152.73,
+        167.73
        ],
        [
-        null,
-        null
+        155.36,
+        166.93
        ],
        [
-        null,
-        null
+        157.78,
+        165.64
        ],
        [
-        null,
-        null
+        159.9,
+        163.9
        ],
        [
-        null,
-        null
+        161.64,
+        161.78
        ],
        [
-        null,
-        null
+        162.93,
+        159.36
        ],
        [
-        null,
-        null
+        163.73,
+        156.73
        ],
        [
-        null,
-        null
+        164,
+        154
        ],
        [
-        null,
-        null
+        164,
+        136
        ],
        [
-        null,
-        null
+        236,
+        136
        ],
        [
-        null,
-        null
+        236,
+        154
        ],
        [
-        null,
-        null
+        236.27,
+        156.73
        ],
        [
-        null,
-        null
+        237.07,
+        159.36
        ],
        [
-        null,
-        null
+        238.36,
+        161.78
        ],
        [
-        null,
-        null
+        240.1,
+        163.9
        ],
        [
-        null,
-        null
+        242.22,
+        165.64
        ],
        [
-        null,
-        null
+        244.64,
+        166.93
        ],
        [
-        null,
-        null
+        247.27,
+        167.73
        ],
        [
-        null,
-        null
+        250,
+        168
        ],
        [
-        null,
-        null
+        252.73,
+        167.73
        ],
        [
-        null,
-        null
+        255.36,
+        166.93
        ],
        [
-        null,
-        null
+        257.78,
+        165.64
        ],
        [
-        null,
-        null
+        259.9,
+        163.9
        ],
        [
-        null,
-        null
+        261.64,
+        161.78
        ],
        [
-        null,
-        null
+        262.93,
+        159.36
        ],
        [
-        null,
-        null
+        263.73,
+        156.73
        ],
        [
-        null,
-        null
+        264,
+        154
        ],
        [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        300,
-        137
+        264,
+        136
        ],
        [
         310,
-        128
+        136
        ],
        [
         310,
@@ -3164,7 +2064,7 @@
      }
     },
     {
-     "id": "f85",
+     "id": "f63",
      "name": "Ranura puente",
      "shape": "box",
      "op": "cut",
@@ -3185,7 +2085,7 @@
      }
     },
     {
-     "id": "f86",
+     "id": "f64",
      "name": "Ranura puente",
      "shape": "box",
      "op": "cut",
@@ -3206,7 +2106,7 @@
      }
     },
     {
-     "id": "f87",
+     "id": "f65",
      "name": "Ø12.2 eje línea y=-250",
      "shape": "hole",
      "op": "cut",
@@ -3227,7 +2127,7 @@
      }
     },
     {
-     "id": "f88",
+     "id": "f66",
      "name": "Ø12.2 eje línea y=-150",
      "shape": "hole",
      "op": "cut",
@@ -3248,7 +2148,7 @@
      }
     },
     {
-     "id": "f89",
+     "id": "f67",
      "name": "Ø12.2 eje línea y=-50",
      "shape": "hole",
      "op": "cut",
@@ -3269,7 +2169,7 @@
      }
     },
     {
-     "id": "f90",
+     "id": "f68",
      "name": "Ø12.2 eje línea y=50",
      "shape": "hole",
      "op": "cut",
@@ -3290,7 +2190,7 @@
      }
     },
     {
-     "id": "f91",
+     "id": "f69",
      "name": "Ø12.2 eje línea y=150",
      "shape": "hole",
      "op": "cut",
@@ -3311,7 +2211,7 @@
      }
     },
     {
-     "id": "f92",
+     "id": "f70",
      "name": "Ø12.2 eje línea y=250",
      "shape": "hole",
      "op": "cut",
@@ -3332,8 +2232,8 @@
      }
     },
     {
-     "id": "f93",
-     "name": "Ø25.2 eje tambor M",
+     "id": "f71",
+     "name": "Piloto motor Ø30",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -3347,7 +2247,91 @@
       0
      ],
      "params": {
-      "dia": 25.2,
+      "dia": 30,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f72",
+     "name": "Ø5.5 brida motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -30,
+      38
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f73",
+     "name": "Ø5.5 brida motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -30,
+      82
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f74",
+     "name": "Ø5.5 brida motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      30,
+      38
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f75",
+     "name": "Ø5.5 brida motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      30,
+      82
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
       "depth": 0,
       "through": true
      }
@@ -3355,8 +2339,8 @@
    ]
   },
   {
-   "id": "p13_placa_portarodillos_de_transmisi_n_x",
-   "name": "Placa portarodillos de transmisión (+X)",
+   "id": "p13_m_vil_placa_porta_poleas_de_transmisi_n_x",
+   "name": "MÓVIL · Placa porta-poleas de transmisión (+X)",
    "color": "#2a4fd7",
    "pos": [
     147,
@@ -3373,8 +2357,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f94",
-     "name": "Contorno peine + faldón",
+     "id": "f76",
+     "name": "Contorno: cuerpo porta-poleas + dedos",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -3395,523 +2379,467 @@
        ],
        [
         -310,
-        128
+        136
        ],
        [
-        -300,
-        137
+        -264,
+        136
        ],
        [
-        null,
-        null
+        -264,
+        154
        ],
        [
-        null,
-        null
+        -263.73,
+        156.73
        ],
        [
-        null,
-        null
+        -262.93,
+        159.36
        ],
        [
-        null,
-        null
+        -261.64,
+        161.78
        ],
        [
-        null,
-        null
+        -259.9,
+        163.9
        ],
        [
-        null,
-        null
+        -257.78,
+        165.64
        ],
        [
-        null,
-        null
+        -255.36,
+        166.93
        ],
        [
-        null,
-        null
+        -252.73,
+        167.73
        ],
        [
-        null,
-        null
+        -250,
+        168
        ],
        [
-        null,
-        null
+        -247.27,
+        167.73
        ],
        [
-        null,
-        null
+        -244.64,
+        166.93
        ],
        [
-        null,
-        null
+        -242.22,
+        165.64
        ],
        [
-        null,
-        null
+        -240.1,
+        163.9
        ],
        [
-        null,
-        null
+        -238.36,
+        161.78
        ],
        [
-        null,
-        null
+        -237.07,
+        159.36
        ],
        [
-        null,
-        null
+        -236.27,
+        156.73
        ],
        [
-        null,
-        null
+        -236,
+        154
        ],
        [
-        null,
-        null
+        -236,
+        136
        ],
        [
-        null,
-        null
+        -164,
+        136
        ],
        [
-        null,
-        null
+        -164,
+        154
        ],
        [
-        null,
-        null
+        -163.73,
+        156.73
        ],
        [
-        null,
-        null
+        -162.93,
+        159.36
        ],
        [
-        null,
-        null
+        -161.64,
+        161.78
        ],
        [
-        null,
-        null
+        -159.9,
+        163.9
        ],
        [
-        null,
-        null
+        -157.78,
+        165.64
        ],
        [
-        null,
-        null
+        -155.36,
+        166.93
        ],
        [
-        null,
-        null
+        -152.73,
+        167.73
        ],
        [
-        null,
-        null
+        -150,
+        168
        ],
        [
-        null,
-        null
+        -147.27,
+        167.73
        ],
        [
-        null,
-        null
+        -144.64,
+        166.93
        ],
        [
-        null,
-        null
+        -142.22,
+        165.64
        ],
        [
-        null,
-        null
+        -140.1,
+        163.9
        ],
        [
-        null,
-        null
+        -138.36,
+        161.78
        ],
        [
-        null,
-        null
+        -137.07,
+        159.36
        ],
        [
-        null,
-        null
+        -136.27,
+        156.73
        ],
        [
-        null,
-        null
+        -136,
+        154
        ],
        [
-        null,
-        null
+        -136,
+        136
        ],
        [
-        null,
-        null
+        -64,
+        136
        ],
        [
-        null,
-        null
+        -64,
+        154
        ],
        [
-        null,
-        null
+        -63.73,
+        156.73
        ],
        [
-        null,
-        null
+        -62.93,
+        159.36
        ],
        [
-        null,
-        null
+        -61.64,
+        161.78
        ],
        [
-        null,
-        null
+        -59.9,
+        163.9
        ],
        [
-        null,
-        null
+        -57.78,
+        165.64
        ],
        [
-        null,
-        null
+        -55.36,
+        166.93
        ],
        [
-        null,
-        null
+        -52.73,
+        167.73
        ],
        [
-        null,
-        null
+        -50,
+        168
        ],
        [
-        null,
-        null
+        -47.27,
+        167.73
        ],
        [
-        null,
-        null
+        -44.64,
+        166.93
        ],
        [
-        null,
-        null
+        -42.22,
+        165.64
        ],
        [
-        null,
-        null
+        -40.1,
+        163.9
        ],
        [
-        null,
-        null
+        -38.36,
+        161.78
        ],
        [
-        null,
-        null
+        -37.07,
+        159.36
        ],
        [
-        null,
-        null
+        -36.27,
+        156.73
        ],
        [
-        null,
-        null
+        -36,
+        154
        ],
        [
-        null,
-        null
+        -36,
+        136
        ],
        [
-        null,
-        null
+        36,
+        136
        ],
        [
-        null,
-        null
+        36,
+        154
        ],
        [
-        null,
-        null
+        36.27,
+        156.73
        ],
        [
-        null,
-        null
+        37.07,
+        159.36
        ],
        [
-        null,
-        null
+        38.36,
+        161.78
        ],
        [
-        null,
-        null
+        40.1,
+        163.9
        ],
        [
-        null,
-        null
+        42.22,
+        165.64
        ],
        [
-        null,
-        null
+        44.64,
+        166.93
        ],
        [
-        null,
-        null
+        47.27,
+        167.73
        ],
        [
-        null,
-        null
+        50,
+        168
        ],
        [
-        null,
-        null
+        52.73,
+        167.73
        ],
        [
-        null,
-        null
+        55.36,
+        166.93
        ],
        [
-        null,
-        null
+        57.78,
+        165.64
        ],
        [
-        null,
-        null
+        59.9,
+        163.9
        ],
        [
-        null,
-        null
+        61.64,
+        161.78
        ],
        [
-        null,
-        null
+        62.93,
+        159.36
        ],
        [
-        null,
-        null
+        63.73,
+        156.73
        ],
        [
-        null,
-        null
+        64,
+        154
        ],
        [
-        null,
-        null
+        64,
+        136
        ],
        [
-        null,
-        null
+        136,
+        136
        ],
        [
-        null,
-        null
+        136,
+        154
        ],
        [
-        null,
-        null
+        136.27,
+        156.73
        ],
        [
-        null,
-        null
+        137.07,
+        159.36
        ],
        [
-        null,
-        null
+        138.36,
+        161.78
        ],
        [
-        null,
-        null
+        140.1,
+        163.9
        ],
        [
-        null,
-        null
+        142.22,
+        165.64
        ],
        [
-        null,
-        null
+        144.64,
+        166.93
        ],
        [
-        null,
-        null
+        147.27,
+        167.73
        ],
        [
-        null,
-        null
+        150,
+        168
        ],
        [
-        null,
-        null
+        152.73,
+        167.73
        ],
        [
-        null,
-        null
+        155.36,
+        166.93
        ],
        [
-        null,
-        null
+        157.78,
+        165.64
        ],
        [
-        null,
-        null
+        159.9,
+        163.9
        ],
        [
-        null,
-        null
+        161.64,
+        161.78
        ],
        [
-        null,
-        null
+        162.93,
+        159.36
        ],
        [
-        null,
-        null
+        163.73,
+        156.73
        ],
        [
-        null,
-        null
+        164,
+        154
        ],
        [
-        null,
-        null
+        164,
+        136
        ],
        [
-        null,
-        null
+        236,
+        136
        ],
        [
-        null,
-        null
+        236,
+        154
        ],
        [
-        null,
-        null
+        236.27,
+        156.73
        ],
        [
-        null,
-        null
+        237.07,
+        159.36
        ],
        [
-        null,
-        null
+        238.36,
+        161.78
        ],
        [
-        null,
-        null
+        240.1,
+        163.9
        ],
        [
-        null,
-        null
+        242.22,
+        165.64
        ],
        [
-        null,
-        null
+        244.64,
+        166.93
        ],
        [
-        null,
-        null
+        247.27,
+        167.73
        ],
        [
-        null,
-        null
+        250,
+        168
        ],
        [
-        null,
-        null
+        252.73,
+        167.73
        ],
        [
-        null,
-        null
+        255.36,
+        166.93
        ],
        [
-        null,
-        null
+        257.78,
+        165.64
        ],
        [
-        null,
-        null
+        259.9,
+        163.9
        ],
        [
-        null,
-        null
+        261.64,
+        161.78
        ],
        [
-        null,
-        null
+        262.93,
+        159.36
        ],
        [
-        null,
-        null
+        263.73,
+        156.73
        ],
        [
-        null,
-        null
+        264,
+        154
        ],
        [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        null,
-        null
-       ],
-       [
-        300,
-        137
+        264,
+        136
        ],
        [
         310,
-        128
+        136
        ],
        [
         310,
@@ -3927,7 +2855,7 @@
      }
     },
     {
-     "id": "f95",
+     "id": "f77",
      "name": "Ranura puente",
      "shape": "box",
      "op": "cut",
@@ -3948,7 +2876,7 @@
      }
     },
     {
-     "id": "f96",
+     "id": "f78",
      "name": "Ranura puente",
      "shape": "box",
      "op": "cut",
@@ -3969,7 +2897,7 @@
      }
     },
     {
-     "id": "f97",
+     "id": "f79",
      "name": "Ø12.2 eje línea y=-250",
      "shape": "hole",
      "op": "cut",
@@ -3990,7 +2918,7 @@
      }
     },
     {
-     "id": "f98",
+     "id": "f80",
      "name": "Ø12.2 eje línea y=-150",
      "shape": "hole",
      "op": "cut",
@@ -4011,7 +2939,7 @@
      }
     },
     {
-     "id": "f99",
+     "id": "f81",
      "name": "Ø12.2 eje línea y=-50",
      "shape": "hole",
      "op": "cut",
@@ -4032,7 +2960,7 @@
      }
     },
     {
-     "id": "f100",
+     "id": "f82",
      "name": "Ø12.2 eje línea y=50",
      "shape": "hole",
      "op": "cut",
@@ -4053,7 +2981,7 @@
      }
     },
     {
-     "id": "f101",
+     "id": "f83",
      "name": "Ø12.2 eje línea y=150",
      "shape": "hole",
      "op": "cut",
@@ -4074,7 +3002,7 @@
      }
     },
     {
-     "id": "f102",
+     "id": "f84",
      "name": "Ø12.2 eje línea y=250",
      "shape": "hole",
      "op": "cut",
@@ -4095,7 +3023,7 @@
      }
     },
     {
-     "id": "f103",
+     "id": "f85",
      "name": "Ø25.2 eje tambor M",
      "shape": "hole",
      "op": "cut",
@@ -4116,7 +3044,7 @@
      }
     },
     {
-     "id": "f104",
+     "id": "f86",
      "name": "Ø12.2 eje tensor/retorno (-200,118)",
      "shape": "hole",
      "op": "cut",
@@ -4137,7 +3065,7 @@
      }
     },
     {
-     "id": "f105",
+     "id": "f87",
      "name": "Ø12.2 eje tensor/retorno (-100,118)",
      "shape": "hole",
      "op": "cut",
@@ -4158,7 +3086,7 @@
      }
     },
     {
-     "id": "f106",
+     "id": "f88",
      "name": "Ø12.2 eje tensor/retorno (100,118)",
      "shape": "hole",
      "op": "cut",
@@ -4179,7 +3107,7 @@
      }
     },
     {
-     "id": "f107",
+     "id": "f89",
      "name": "Ø12.2 eje tensor/retorno (200,118)",
      "shape": "hole",
      "op": "cut",
@@ -4200,7 +3128,7 @@
      }
     },
     {
-     "id": "f108",
+     "id": "f90",
      "name": "Ø12.2 eje tensor/retorno (-280,36)",
      "shape": "hole",
      "op": "cut",
@@ -4221,7 +3149,7 @@
      }
     },
     {
-     "id": "f109",
+     "id": "f91",
      "name": "Ø12.2 eje tensor/retorno (280,36)",
      "shape": "hole",
      "op": "cut",
@@ -4240,16 +3168,158 @@
       "depth": 0,
       "through": true
      }
-    },
+    }
+   ]
+  },
+  {
+   "id": "p14_m_vil_puente_elevador_y_295",
+   "name": "MÓVIL · Puente elevador y=-295",
+   "color": "#78909c",
+   "pos": [
+    0,
+    -295,
+    105
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
     {
-     "id": "f110",
-     "name": "Ø6.6 ménsula motor",
-     "shape": "hole",
-     "op": "cut",
+     "id": "f92",
+     "name": "Puente 306×20×12",
+     "shape": "box",
+     "op": "union",
      "at": [
       0,
-      -35,
-      83
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 306,
+      "d": 20,
+      "h": 12
+     }
+    }
+   ]
+  },
+  {
+   "id": "p15_m_vil_pasador_gu_a_8_x_y_250",
+   "name": "MÓVIL · Pasador guía Ø8 (+X, y=250)",
+   "color": "#b0bec5",
+   "pos": [
+    153,
+    250,
+    30
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f93",
+     "name": "Pasador Ø8×16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 16
+     }
+    }
+   ]
+  },
+  {
+   "id": "p16_m_vil_puente_elevador_y_295",
+   "name": "MÓVIL · Puente elevador y=295",
+   "color": "#78909c",
+   "pos": [
+    0,
+    295,
+    105
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f94",
+     "name": "Puente 306×20×12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 306,
+      "d": 20,
+      "h": 12
+     }
+    }
+   ]
+  },
+  {
+   "id": "p17_m_vil_pasador_gu_a_8_x_y_250",
+   "name": "MÓVIL · Pasador guía Ø8 (-X, y=-250)",
+   "color": "#b0bec5",
+   "pos": [
+    -153,
+    -250,
+    30
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f95",
+     "name": "Pasador Ø8×16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
      ],
      "dir": [
       1,
@@ -4257,20 +3327,100 @@
       0
      ],
      "params": {
-      "dia": 6.6,
-      "depth": 0,
-      "through": true
+      "dia": 8,
+      "h": 16
+     }
+    }
+   ]
+  },
+  {
+   "id": "p18_m_vil_eje_rodillo_12_l_nea_y_250",
+   "name": "MÓVIL · Eje rodillo Ø12 línea y=-250",
+   "color": "#b0bec5",
+   "pos": [
+    -165,
+    -250,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f96",
+     "name": "Eje Ø12 × 330",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 330
+     }
+    }
+   ]
+  },
+  {
+   "id": "p19_m_vil_rodillo_vulcanizado_l_nea_y_250",
+   "name": "MÓVIL · Rodillo vulcanizado línea y=-250",
+   "color": "#212121",
+   "pos": [
+    0,
+    -250,
+    134
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "rodillo_vulcanizado_40x290",
+   "features": [
+    {
+     "id": "f97",
+     "name": "Corazón de tubo Ø30 × 290",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 290
      }
     },
     {
-     "id": "f111",
-     "name": "Ø6.6 ménsula motor",
-     "shape": "hole",
-     "op": "cut",
+     "id": "f98",
+     "name": "Vulcanizado Ø40 (hasta x=93)",
+     "shape": "cylinder",
+     "op": "union",
      "at": [
+      -145,
       0,
-      35,
-      83
+      20
      ],
      "dir": [
       1,
@@ -4278,7 +3428,27 @@
       0
      ],
      "params": {
-      "dia": 6.6,
+      "dia": 40,
+      "h": 238
+     }
+    },
+    {
+     "id": "f99",
+     "name": "Barreno Ø12.2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
       "depth": 0,
       "through": true
      }
@@ -4286,12 +3456,378 @@
    ]
   },
   {
-   "id": "p14_eje_rodillo_12_l_nea_y_250",
-   "name": "Eje rodillo Ø12 línea y=-250",
+   "id": "p20_m_vil_eje_rodillo_12_l_nea_y_150",
+   "name": "MÓVIL · Eje rodillo Ø12 línea y=-150",
    "color": "#b0bec5",
    "pos": [
     -165,
-    -250,
+    -150,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f100",
+     "name": "Eje Ø12 × 330",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 330
+     }
+    }
+   ]
+  },
+  {
+   "id": "p21_m_vil_rodillo_vulcanizado_l_nea_y_150",
+   "name": "MÓVIL · Rodillo vulcanizado línea y=-150",
+   "color": "#212121",
+   "pos": [
+    0,
+    -150,
+    134
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "rodillo_vulcanizado_40x290",
+   "features": [
+    {
+     "id": "f101",
+     "name": "Corazón de tubo Ø30 × 290",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 290
+     }
+    },
+    {
+     "id": "f102",
+     "name": "Vulcanizado Ø40 (hasta x=93)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "h": 238
+     }
+    },
+    {
+     "id": "f103",
+     "name": "Barreno Ø12.2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p22_m_vil_eje_rodillo_12_l_nea_y_50",
+   "name": "MÓVIL · Eje rodillo Ø12 línea y=-50",
+   "color": "#b0bec5",
+   "pos": [
+    -165,
+    -50,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f104",
+     "name": "Eje Ø12 × 330",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 330
+     }
+    }
+   ]
+  },
+  {
+   "id": "p23_m_vil_rodillo_vulcanizado_l_nea_y_50",
+   "name": "MÓVIL · Rodillo vulcanizado línea y=-50",
+   "color": "#212121",
+   "pos": [
+    0,
+    -50,
+    134
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "rodillo_vulcanizado_40x290",
+   "features": [
+    {
+     "id": "f105",
+     "name": "Corazón de tubo Ø30 × 290",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 290
+     }
+    },
+    {
+     "id": "f106",
+     "name": "Vulcanizado Ø40 (hasta x=93)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "h": 238
+     }
+    },
+    {
+     "id": "f107",
+     "name": "Barreno Ø12.2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p24_m_vil_eje_rodillo_12_l_nea_y_50",
+   "name": "MÓVIL · Eje rodillo Ø12 línea y=50",
+   "color": "#b0bec5",
+   "pos": [
+    -165,
+    50,
+    154
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f108",
+     "name": "Eje Ø12 × 330",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 330
+     }
+    }
+   ]
+  },
+  {
+   "id": "p25_m_vil_rodillo_vulcanizado_l_nea_y_50",
+   "name": "MÓVIL · Rodillo vulcanizado línea y=50",
+   "color": "#212121",
+   "pos": [
+    0,
+    50,
+    134
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "rodillo_vulcanizado_40x290",
+   "features": [
+    {
+     "id": "f109",
+     "name": "Corazón de tubo Ø30 × 290",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 290
+     }
+    },
+    {
+     "id": "f110",
+     "name": "Vulcanizado Ø40 (hasta x=93)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "h": 238
+     }
+    },
+    {
+     "id": "f111",
+     "name": "Barreno Ø12.2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p26_m_vil_eje_rodillo_12_l_nea_y_150",
+   "name": "MÓVIL · Eje rodillo Ø12 línea y=150",
+   "color": "#b0bec5",
+   "pos": [
+    -165,
+    150,
     154
    ],
    "quat": [
@@ -4326,12 +3862,12 @@
    ]
   },
   {
-   "id": "p15_rodillo_completo_vulcanizado_l_nea_y_250",
-   "name": "Rodillo completo vulcanizado línea y=-250",
+   "id": "p27_m_vil_rodillo_vulcanizado_l_nea_y_150",
+   "name": "MÓVIL · Rodillo vulcanizado línea y=150",
    "color": "#212121",
    "pos": [
     0,
-    -250,
+    150,
     134
    ],
    "quat": [
@@ -4408,12 +3944,12 @@
    ]
   },
   {
-   "id": "p16_eje_rodillo_12_l_nea_y_150",
-   "name": "Eje rodillo Ø12 línea y=-150",
+   "id": "p28_m_vil_eje_rodillo_12_l_nea_y_250",
+   "name": "MÓVIL · Eje rodillo Ø12 línea y=250",
    "color": "#b0bec5",
    "pos": [
     -165,
-    -150,
+    250,
     154
    ],
    "quat": [
@@ -4448,12 +3984,12 @@
    ]
   },
   {
-   "id": "p17_rodillo_completo_vulcanizado_l_nea_y_150",
-   "name": "Rodillo completo vulcanizado línea y=-150",
+   "id": "p29_m_vil_rodillo_vulcanizado_l_nea_y_250",
+   "name": "MÓVIL · Rodillo vulcanizado línea y=250",
    "color": "#212121",
    "pos": [
     0,
-    -150,
+    250,
     134
    ],
    "quat": [
@@ -4530,499 +4066,11 @@
    ]
   },
   {
-   "id": "p18_eje_rodillo_12_l_nea_y_50",
-   "name": "Eje rodillo Ø12 línea y=-50",
+   "id": "p30_m_vil_eje_tambor_25",
+   "name": "MÓVIL · Eje tambor Ø25",
    "color": "#b0bec5",
    "pos": [
-    -165,
-    -50,
-    154
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f120",
-     "name": "Eje Ø12 × 330",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "h": 330
-     }
-    }
-   ]
-  },
-  {
-   "id": "p19_rodillo_completo_vulcanizado_l_nea_y_50",
-   "name": "Rodillo completo vulcanizado línea y=-50",
-   "color": "#212121",
-   "pos": [
-    0,
-    -50,
-    134
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "rodillo_vulcanizado_40x290",
-   "features": [
-    {
-     "id": "f121",
-     "name": "Corazón de tubo Ø30 × 290",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -145,
-      0,
-      20
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 30,
-      "h": 290
-     }
-    },
-    {
-     "id": "f122",
-     "name": "Vulcanizado Ø40 (hasta x=93)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -145,
-      0,
-      20
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 40,
-      "h": 238
-     }
-    },
-    {
-     "id": "f123",
-     "name": "Barreno Ø12.2",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -145,
-      0,
-      20
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p20_eje_rodillo_12_l_nea_y_50",
-   "name": "Eje rodillo Ø12 línea y=50",
-   "color": "#b0bec5",
-   "pos": [
-    -165,
-    50,
-    154
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f124",
-     "name": "Eje Ø12 × 330",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "h": 330
-     }
-    }
-   ]
-  },
-  {
-   "id": "p21_rodillo_completo_vulcanizado_l_nea_y_50",
-   "name": "Rodillo completo vulcanizado línea y=50",
-   "color": "#212121",
-   "pos": [
-    0,
-    50,
-    134
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "rodillo_vulcanizado_40x290",
-   "features": [
-    {
-     "id": "f125",
-     "name": "Corazón de tubo Ø30 × 290",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -145,
-      0,
-      20
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 30,
-      "h": 290
-     }
-    },
-    {
-     "id": "f126",
-     "name": "Vulcanizado Ø40 (hasta x=93)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -145,
-      0,
-      20
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 40,
-      "h": 238
-     }
-    },
-    {
-     "id": "f127",
-     "name": "Barreno Ø12.2",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -145,
-      0,
-      20
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p22_eje_rodillo_12_l_nea_y_150",
-   "name": "Eje rodillo Ø12 línea y=150",
-   "color": "#b0bec5",
-   "pos": [
-    -165,
-    150,
-    154
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f128",
-     "name": "Eje Ø12 × 330",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "h": 330
-     }
-    }
-   ]
-  },
-  {
-   "id": "p23_rodillo_completo_vulcanizado_l_nea_y_150",
-   "name": "Rodillo completo vulcanizado línea y=150",
-   "color": "#212121",
-   "pos": [
-    0,
-    150,
-    134
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "rodillo_vulcanizado_40x290",
-   "features": [
-    {
-     "id": "f129",
-     "name": "Corazón de tubo Ø30 × 290",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -145,
-      0,
-      20
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 30,
-      "h": 290
-     }
-    },
-    {
-     "id": "f130",
-     "name": "Vulcanizado Ø40 (hasta x=93)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -145,
-      0,
-      20
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 40,
-      "h": 238
-     }
-    },
-    {
-     "id": "f131",
-     "name": "Barreno Ø12.2",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -145,
-      0,
-      20
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p24_eje_rodillo_12_l_nea_y_250",
-   "name": "Eje rodillo Ø12 línea y=250",
-   "color": "#b0bec5",
-   "pos": [
-    -165,
-    250,
-    154
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f132",
-     "name": "Eje Ø12 × 330",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "h": 330
-     }
-    }
-   ]
-  },
-  {
-   "id": "p25_rodillo_completo_vulcanizado_l_nea_y_250",
-   "name": "Rodillo completo vulcanizado línea y=250",
-   "color": "#212121",
-   "pos": [
-    0,
-    250,
-    134
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "rodillo_vulcanizado_40x290",
-   "features": [
-    {
-     "id": "f133",
-     "name": "Corazón de tubo Ø30 × 290",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -145,
-      0,
-      20
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 30,
-      "h": 290
-     }
-    },
-    {
-     "id": "f134",
-     "name": "Vulcanizado Ø40 (hasta x=93)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -145,
-      0,
-      20
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 40,
-      "h": 238
-     }
-    },
-    {
-     "id": "f135",
-     "name": "Barreno Ø12.2",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -145,
-      0,
-      20
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p26_eje_tambor_25",
-   "name": "Eje tambor Ø25",
-   "color": "#b0bec5",
-   "pos": [
-    -160,
+    -52,
     0,
     78
    ],
@@ -5036,8 +4084,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f136",
-     "name": "Eje Ø25 × 350",
+     "id": "f120",
+     "name": "Eje Ø25 × 212",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -5052,14 +4100,14 @@
      ],
      "params": {
       "dia": 25,
-      "h": 350
+      "h": 212
      }
     }
    ]
   },
   {
-   "id": "p27_tambor_motriz_m",
-   "name": "Tambor motriz M",
+   "id": "p31_m_vil_tambor_motriz_m",
+   "name": "MÓVIL · Tambor motriz M",
    "color": "#4a5560",
    "pos": [
     104,
@@ -5076,7 +4124,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f137",
+     "id": "f121",
      "name": "Tambor Ø90×30",
      "shape": "cylinder",
      "op": "union",
@@ -5096,7 +4144,7 @@
      }
     },
     {
-     "id": "f138",
+     "id": "f122",
      "name": "Barreno Ø25.2 + chaveta",
      "shape": "hole",
      "op": "cut",
@@ -5119,8 +4167,8 @@
    ]
   },
   {
-   "id": "p28_tensor_50_200_118",
-   "name": "Tensor Ø50 (-200,118)",
+   "id": "p32_m_vil_tensor_50_200_118",
+   "name": "MÓVIL · Tensor Ø50 (-200,118)",
    "color": "#90a4ae",
    "pos": [
     102.5,
@@ -5138,7 +4186,7 @@
    "componente": "polea_tensora_50x29",
    "features": [
     {
-     "id": "f139",
+     "id": "f123",
      "name": "Eje Ø12 × 50.5",
      "shape": "cylinder",
      "op": "union",
@@ -5158,7 +4206,7 @@
      }
     },
     {
-     "id": "f140",
+     "id": "f124",
      "name": "Polea Ø50×29",
      "shape": "cylinder",
      "op": "union",
@@ -5180,8 +4228,8 @@
    ]
   },
   {
-   "id": "p29_tensor_50_100_118",
-   "name": "Tensor Ø50 (-100,118)",
+   "id": "p33_m_vil_tensor_50_100_118",
+   "name": "MÓVIL · Tensor Ø50 (-100,118)",
    "color": "#90a4ae",
    "pos": [
     102.5,
@@ -5199,7 +4247,7 @@
    "componente": "polea_tensora_50x29",
    "features": [
     {
-     "id": "f141",
+     "id": "f125",
      "name": "Eje Ø12 × 50.5",
      "shape": "cylinder",
      "op": "union",
@@ -5219,7 +4267,7 @@
      }
     },
     {
-     "id": "f142",
+     "id": "f126",
      "name": "Polea Ø50×29",
      "shape": "cylinder",
      "op": "union",
@@ -5241,8 +4289,8 @@
    ]
   },
   {
-   "id": "p30_tensor_50_100_118",
-   "name": "Tensor Ø50 (100,118)",
+   "id": "p34_m_vil_tensor_50_100_118",
+   "name": "MÓVIL · Tensor Ø50 (100,118)",
    "color": "#90a4ae",
    "pos": [
     102.5,
@@ -5260,7 +4308,7 @@
    "componente": "polea_tensora_50x29",
    "features": [
     {
-     "id": "f143",
+     "id": "f127",
      "name": "Eje Ø12 × 50.5",
      "shape": "cylinder",
      "op": "union",
@@ -5280,7 +4328,7 @@
      }
     },
     {
-     "id": "f144",
+     "id": "f128",
      "name": "Polea Ø50×29",
      "shape": "cylinder",
      "op": "union",
@@ -5302,8 +4350,8 @@
    ]
   },
   {
-   "id": "p31_tensor_50_200_118",
-   "name": "Tensor Ø50 (200,118)",
+   "id": "p35_m_vil_tensor_50_200_118",
+   "name": "MÓVIL · Tensor Ø50 (200,118)",
    "color": "#90a4ae",
    "pos": [
     102.5,
@@ -5321,7 +4369,7 @@
    "componente": "polea_tensora_50x29",
    "features": [
     {
-     "id": "f145",
+     "id": "f129",
      "name": "Eje Ø12 × 50.5",
      "shape": "cylinder",
      "op": "union",
@@ -5341,7 +4389,7 @@
      }
     },
     {
-     "id": "f146",
+     "id": "f130",
      "name": "Polea Ø50×29",
      "shape": "cylinder",
      "op": "union",
@@ -5363,8 +4411,8 @@
    ]
   },
   {
-   "id": "p32_polea_de_retorno_24_280_36",
-   "name": "Polea de retorno Ø24 (-280,36)",
+   "id": "p36_m_vil_polea_de_retorno_24_280_36",
+   "name": "MÓVIL · Polea de retorno Ø24 (-280,36)",
    "color": "#90a4ae",
    "pos": [
     102.5,
@@ -5382,7 +4430,7 @@
    "componente": "polea_retorno_24x29",
    "features": [
     {
-     "id": "f147",
+     "id": "f131",
      "name": "Eje Ø12 × 50.5",
      "shape": "cylinder",
      "op": "union",
@@ -5402,7 +4450,7 @@
      }
     },
     {
-     "id": "f148",
+     "id": "f132",
      "name": "Polea Ø24×29",
      "shape": "cylinder",
      "op": "union",
@@ -5424,8 +4472,8 @@
    ]
   },
   {
-   "id": "p33_polea_de_retorno_24_280_36",
-   "name": "Polea de retorno Ø24 (280,36)",
+   "id": "p37_m_vil_polea_de_retorno_24_280_36",
+   "name": "MÓVIL · Polea de retorno Ø24 (280,36)",
    "color": "#90a4ae",
    "pos": [
     102.5,
@@ -5443,7 +4491,7 @@
    "componente": "polea_retorno_24x29",
    "features": [
     {
-     "id": "f149",
+     "id": "f133",
      "name": "Eje Ø12 × 50.5",
      "shape": "cylinder",
      "op": "union",
@@ -5463,7 +4511,7 @@
      }
     },
     {
-     "id": "f150",
+     "id": "f134",
      "name": "Polea Ø24×29",
      "shape": "cylinder",
      "op": "union",
@@ -5485,8 +4533,8 @@
    ]
   },
   {
-   "id": "p34_banda_serpent_n_25_3",
-   "name": "Banda serpentín 25×3",
+   "id": "p38_m_vil_banda_serpent_n_25_3",
+   "name": "MÓVIL · Banda serpentín 25×3",
    "color": "#e6c229",
    "pos": [
     119,
@@ -5503,7 +4551,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f151",
+     "id": "f135",
      "name": "Cara exterior",
      "shape": "sketch",
      "op": "union",
@@ -6725,7 +5773,7 @@
      }
     },
     {
-     "id": "f152",
+     "id": "f136",
      "name": "Vaciado interior",
      "shape": "sketch",
      "op": "cut",
@@ -7949,13 +6997,13 @@
    ]
   },
   {
-   "id": "p35_m_nsula_motorreductor",
-   "name": "Ménsula motorreductor",
-   "color": "#1e3aa8",
+   "id": "p39_m_vil_motorreductor_por_dentro",
+   "name": "MÓVIL · Motorreductor (por dentro)",
+   "color": "#546e7a",
    "pos": [
-    153,
+    -147,
     0,
-    43
+    45
    ],
    "quat": [
     0,
@@ -7967,33 +7015,12 @@
    "visible": true,
    "features": [
     {
-     "id": "f153",
-     "name": "Canal 42×80×6",
+     "id": "f137",
+     "name": "Cuerpo 88×80×66",
      "shape": "box",
      "op": "union",
      "at": [
-      21,
-      0,
-      55
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 42,
-      "d": 80,
-      "h": 6
-     }
-    },
-    {
-     "id": "f154",
-     "name": "Placa frontal 6×80×61",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      39,
+      44,
       0,
       0
      ],
@@ -8003,62 +7030,20 @@
       1
      ],
      "params": {
-      "w": 6,
+      "w": 88,
       "d": 80,
-      "h": 61
+      "h": 66
      }
     },
     {
-     "id": "f155",
-     "name": "Ø6.6 a placa de transmisión",
-     "shape": "hole",
-     "op": "cut",
+     "id": "f138",
+     "name": "Brida Ø70×8",
+     "shape": "cylinder",
+     "op": "union",
      "at": [
-      3,
-      -35,
-      58
-     ],
-     "dir": [
-      -1,
       0,
-      0
-     ],
-     "params": {
-      "dia": 6.6,
-      "depth": 20,
-      "through": false
-     }
-    },
-    {
-     "id": "f156",
-     "name": "Ø6.6 a placa de transmisión",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      3,
-      35,
-      58
-     ],
-     "dir": [
-      -1,
       0,
-      0
-     ],
-     "params": {
-      "dia": 6.6,
-      "depth": 20,
-      "through": false
-     }
-    },
-    {
-     "id": "f157",
-     "name": "Paso acople Ø38",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      36,
-      0,
-      35
+      33
      ],
      "dir": [
       1,
@@ -8066,164 +7051,38 @@
       0
      ],
      "params": {
-      "dia": 38,
-      "depth": 0,
-      "through": true
+      "dia": 70,
+      "h": 8
      }
     },
     {
-     "id": "f158",
-     "name": "Ø5.5 patrón motor",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      42,
-      -30,
-      13
-     ],
-     "dir": [
-      -1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 5.5,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f159",
-     "name": "Ø5.5 patrón motor",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      42,
-      -30,
-      57
-     ],
-     "dir": [
-      -1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 5.5,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f160",
-     "name": "Ø5.5 patrón motor",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      42,
-      30,
-      13
-     ],
-     "dir": [
-      -1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 5.5,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f161",
-     "name": "Ø5.5 patrón motor",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      42,
-      30,
-      57
-     ],
-     "dir": [
-      -1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 5.5,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p36_motorreductor",
-   "name": "Motorreductor",
-   "color": "#546e7a",
-   "pos": [
-    195,
-    0,
-    43
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f162",
-     "name": "Cuerpo 90×80×70",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      45,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 90,
-      "d": 80,
-      "h": 70
-     }
-    },
-    {
-     "id": "f163",
+     "id": "f139",
      "name": "Eje salida Ø25",
      "shape": "cylinder",
      "op": "union",
      "at": [
+      88,
       0,
-      0,
-      35
+      33
      ],
      "dir": [
-      -1,
+      1,
       0,
       0
      ],
      "params": {
       "dia": 25,
-      "h": 12
+      "h": 15
      }
     }
    ]
   },
   {
-   "id": "p37_acople_r_gido_35",
-   "name": "Acople rígido Ø35",
+   "id": "p40_m_vil_acople_r_gido_35",
+   "name": "MÓVIL · Acople rígido Ø35",
    "color": "#90a4ae",
    "pos": [
-    169,
+    -64,
     0,
     78
    ],
@@ -8237,8 +7096,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f164",
-     "name": "Manguito Ø35×18",
+     "id": "f140",
+     "name": "Manguito Ø35×24",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8253,11 +7112,11 @@
      ],
      "params": {
       "dia": 35,
-      "h": 18
+      "h": 24
      }
     },
     {
-     "id": "f165",
+     "id": "f141",
      "name": "Barreno Ø25.2",
      "shape": "hole",
      "op": "cut",
