@@ -3,7 +3,7 @@
   "version": 1,
   "parts": [
     {
-      "id": "p1uh8k",
+      "id": "p1qou9",
       "name": "Rodillo 1",
       "color": "#c9752e",
       "pos": [
@@ -21,7 +21,7 @@
       "visible": true,
       "features": [
         {
-          "id": "f2uh8l",
+          "id": "f2qoua",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -41,7 +41,7 @@
           }
         },
         {
-          "id": "f3uh8l",
+          "id": "f3qoua",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -61,7 +61,7 @@
           }
         },
         {
-          "id": "f4uh8l",
+          "id": "f4qoua",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -81,7 +81,7 @@
           }
         },
         {
-          "id": "f5uh8l",
+          "id": "f5qoua",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -101,7 +101,7 @@
           }
         },
         {
-          "id": "f6uh8l",
+          "id": "f6qoua",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -121,7 +121,7 @@
           }
         },
         {
-          "id": "f7uh8l",
+          "id": "f7qoua",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -141,7 +141,7 @@
           }
         },
         {
-          "id": "f8uh8l",
+          "id": "f8qoua",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -161,7 +161,7 @@
           }
         },
         {
-          "id": "f9uh8l",
+          "id": "f9qoua",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -181,7 +181,7 @@
           }
         },
         {
-          "id": "fauh8l",
+          "id": "faqoua",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -201,7 +201,7 @@
           }
         },
         {
-          "id": "fbuh8l",
+          "id": "fbqoua",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -221,7 +221,7 @@
           }
         },
         {
-          "id": "fcuh8l",
+          "id": "fcqoua",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -241,7 +241,7 @@
           }
         },
         {
-          "id": "fduh8l",
+          "id": "fdqoua",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -263,7 +263,7 @@
       ]
     },
     {
-      "id": "peuhmv",
+      "id": "peqp9j",
       "name": "Eje hex 1",
       "color": "#8a8f98",
       "pos": [
@@ -281,13 +281,13 @@
       "visible": true,
       "features": [
         {
-          "id": "ffuhmv",
+          "id": "ffqp9j",
           "name": "Extrusión de boceto",
           "shape": "sketch",
           "op": "union",
           "at": [
             0,
-            -280.2,
+            -285.71,
             0
           ],
           "dir": [
@@ -298,7 +298,7 @@
           "params": {
             "entities": [
               {
-                "id": "e1hmv",
+                "id": "e1p9j",
                 "type": "line",
                 "a": [
                   3.888775875324659e-16,
@@ -310,7 +310,7 @@
                 ]
               },
               {
-                "id": "e2hmv",
+                "id": "e2p9j",
                 "type": "line",
                 "a": [
                   -5.499999999999999,
@@ -322,7 +322,7 @@
                 ]
               },
               {
-                "id": "e3hmv",
+                "id": "e3p9j",
                 "type": "line",
                 "a": [
                   -5.500000000000001,
@@ -334,7 +334,7 @@
                 ]
               },
               {
-                "id": "e4hmv",
+                "id": "e4p9j",
                 "type": "line",
                 "a": [
                   -1.1666327625973976e-15,
@@ -346,7 +346,7 @@
                 ]
               },
               {
-                "id": "e5hmv",
+                "id": "e5p9j",
                 "type": "line",
                 "a": [
                   5.499999999999998,
@@ -358,7 +358,7 @@
                 ]
               },
               {
-                "id": "e6hmv",
+                "id": "e6p9j",
                 "type": "line",
                 "a": [
                   5.5,
@@ -371,7 +371,7 @@
               }
             ],
             "dims": [],
-            "h": 560.4,
+            "h": 571.42,
             "u": [
               1,
               0,
@@ -382,7 +382,7 @@
       ]
     },
     {
-      "id": "pguhmy",
+      "id": "pgqp9m",
       "name": "Rodillo 2",
       "color": "#c9752e",
       "pos": [
@@ -400,7 +400,7 @@
       "visible": true,
       "features": [
         {
-          "id": "fhuhmz",
+          "id": "fhqp9m",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -420,7 +420,7 @@
           }
         },
         {
-          "id": "fiuhmz",
+          "id": "fiqp9m",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -440,7 +440,7 @@
           }
         },
         {
-          "id": "fjuhmz",
+          "id": "fjqp9m",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -460,7 +460,7 @@
           }
         },
         {
-          "id": "fkuhmz",
+          "id": "fkqp9m",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -480,7 +480,7 @@
           }
         },
         {
-          "id": "fluhmz",
+          "id": "flqp9m",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -500,7 +500,7 @@
           }
         },
         {
-          "id": "fmuhmz",
+          "id": "fmqp9m",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -520,7 +520,7 @@
           }
         },
         {
-          "id": "fnuhmz",
+          "id": "fnqp9m",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -540,7 +540,7 @@
           }
         },
         {
-          "id": "fouhmz",
+          "id": "foqp9m",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -560,7 +560,7 @@
           }
         },
         {
-          "id": "fpuhmz",
+          "id": "fpqp9m",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -580,7 +580,7 @@
           }
         },
         {
-          "id": "fquhmz",
+          "id": "fqqp9m",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -600,7 +600,7 @@
           }
         },
         {
-          "id": "fruhmz",
+          "id": "frqp9m",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -620,7 +620,7 @@
           }
         },
         {
-          "id": "fsuhmz",
+          "id": "fsqp9m",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -642,7 +642,7 @@
       ]
     },
     {
-      "id": "ptuhyv",
+      "id": "ptqpm6",
       "name": "Eje hex 2",
       "color": "#8a8f98",
       "pos": [
@@ -660,13 +660,13 @@
       "visible": true,
       "features": [
         {
-          "id": "fuuhyv",
+          "id": "fuqpm6",
           "name": "Extrusión de boceto",
           "shape": "sketch",
           "op": "union",
           "at": [
             0,
-            -280.2,
+            -285.71,
             0
           ],
           "dir": [
@@ -677,7 +677,7 @@
           "params": {
             "entities": [
               {
-                "id": "e7hyv",
+                "id": "e7pm6",
                 "type": "line",
                 "a": [
                   3.888775875324659e-16,
@@ -689,7 +689,7 @@
                 ]
               },
               {
-                "id": "e8hyv",
+                "id": "e8pm6",
                 "type": "line",
                 "a": [
                   -5.499999999999999,
@@ -701,7 +701,7 @@
                 ]
               },
               {
-                "id": "e9hyv",
+                "id": "e9pm6",
                 "type": "line",
                 "a": [
                   -5.500000000000001,
@@ -713,7 +713,7 @@
                 ]
               },
               {
-                "id": "eahyv",
+                "id": "eapm6",
                 "type": "line",
                 "a": [
                   -1.1666327625973976e-15,
@@ -725,7 +725,7 @@
                 ]
               },
               {
-                "id": "ebhyv",
+                "id": "ebpm6",
                 "type": "line",
                 "a": [
                   5.499999999999998,
@@ -737,7 +737,7 @@
                 ]
               },
               {
-                "id": "echyv",
+                "id": "ecpm6",
                 "type": "line",
                 "a": [
                   5.5,
@@ -750,7 +750,7 @@
               }
             ],
             "dims": [],
-            "h": 560.4,
+            "h": 571.42,
             "u": [
               1,
               0,
@@ -761,7 +761,7 @@
       ]
     },
     {
-      "id": "pvuhyw",
+      "id": "pvqpm7",
       "name": "Rodillo 3",
       "color": "#c9752e",
       "pos": [
@@ -779,7 +779,7 @@
       "visible": true,
       "features": [
         {
-          "id": "fwuhyw",
+          "id": "fwqpm7",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -799,7 +799,7 @@
           }
         },
         {
-          "id": "fxuhyw",
+          "id": "fxqpm7",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -819,7 +819,7 @@
           }
         },
         {
-          "id": "fyuhyw",
+          "id": "fyqpm7",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -839,7 +839,7 @@
           }
         },
         {
-          "id": "fzuhyw",
+          "id": "fzqpm7",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -859,7 +859,7 @@
           }
         },
         {
-          "id": "f10uhyw",
+          "id": "f10qpm7",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -879,7 +879,7 @@
           }
         },
         {
-          "id": "f11uhyw",
+          "id": "f11qpm7",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -899,7 +899,7 @@
           }
         },
         {
-          "id": "f12uhyw",
+          "id": "f12qpm7",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -919,7 +919,7 @@
           }
         },
         {
-          "id": "f13uhyw",
+          "id": "f13qpm7",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -939,7 +939,7 @@
           }
         },
         {
-          "id": "f14uhyw",
+          "id": "f14qpm7",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -959,7 +959,7 @@
           }
         },
         {
-          "id": "f15uhyw",
+          "id": "f15qpm7",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -979,7 +979,7 @@
           }
         },
         {
-          "id": "f16uhyw",
+          "id": "f16qpm7",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -999,7 +999,7 @@
           }
         },
         {
-          "id": "f17uhyw",
+          "id": "f17qpm7",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -1021,7 +1021,7 @@
       ]
     },
     {
-      "id": "p18ui9b",
+      "id": "p18qpzi",
       "name": "Eje hex 3",
       "color": "#8a8f98",
       "pos": [
@@ -1039,13 +1039,13 @@
       "visible": true,
       "features": [
         {
-          "id": "f19ui9b",
+          "id": "f19qpzi",
           "name": "Extrusión de boceto",
           "shape": "sketch",
           "op": "union",
           "at": [
             0,
-            -280.2,
+            -285.71,
             0
           ],
           "dir": [
@@ -1056,7 +1056,7 @@
           "params": {
             "entities": [
               {
-                "id": "edi9b",
+                "id": "edpzi",
                 "type": "line",
                 "a": [
                   3.888775875324659e-16,
@@ -1068,7 +1068,7 @@
                 ]
               },
               {
-                "id": "eei9b",
+                "id": "eepzi",
                 "type": "line",
                 "a": [
                   -5.499999999999999,
@@ -1080,7 +1080,7 @@
                 ]
               },
               {
-                "id": "efi9b",
+                "id": "efpzi",
                 "type": "line",
                 "a": [
                   -5.500000000000001,
@@ -1092,7 +1092,7 @@
                 ]
               },
               {
-                "id": "egi9b",
+                "id": "egpzi",
                 "type": "line",
                 "a": [
                   -1.1666327625973976e-15,
@@ -1104,7 +1104,7 @@
                 ]
               },
               {
-                "id": "ehi9b",
+                "id": "ehpzi",
                 "type": "line",
                 "a": [
                   5.499999999999998,
@@ -1116,7 +1116,7 @@
                 ]
               },
               {
-                "id": "eii9b",
+                "id": "eipzi",
                 "type": "line",
                 "a": [
                   5.5,
@@ -1129,7 +1129,7 @@
               }
             ],
             "dims": [],
-            "h": 560.4,
+            "h": 571.42,
             "u": [
               1,
               0,
@@ -1140,7 +1140,7 @@
       ]
     },
     {
-      "id": "p1aui9c",
+      "id": "p1aqpzj",
       "name": "Rodillo 4",
       "color": "#c9752e",
       "pos": [
@@ -1158,7 +1158,7 @@
       "visible": true,
       "features": [
         {
-          "id": "f1bui9c",
+          "id": "f1bqpzj",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -1178,7 +1178,7 @@
           }
         },
         {
-          "id": "f1cui9c",
+          "id": "f1cqpzj",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -1198,7 +1198,7 @@
           }
         },
         {
-          "id": "f1dui9c",
+          "id": "f1dqpzj",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -1218,7 +1218,7 @@
           }
         },
         {
-          "id": "f1eui9c",
+          "id": "f1eqpzj",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -1238,7 +1238,7 @@
           }
         },
         {
-          "id": "f1fui9c",
+          "id": "f1fqpzj",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -1258,7 +1258,7 @@
           }
         },
         {
-          "id": "f1gui9c",
+          "id": "f1gqpzj",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -1278,7 +1278,7 @@
           }
         },
         {
-          "id": "f1hui9c",
+          "id": "f1hqpzj",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -1298,7 +1298,7 @@
           }
         },
         {
-          "id": "f1iui9c",
+          "id": "f1iqpzj",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -1318,7 +1318,7 @@
           }
         },
         {
-          "id": "f1jui9c",
+          "id": "f1jqpzj",
           "name": "Cilindro",
           "shape": "cylinder",
           "op": "union",
@@ -1338,7 +1338,7 @@
           }
         },
         {
-          "id": "f1kui9c",
+          "id": "f1kqpzj",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -1358,7 +1358,7 @@
           }
         },
         {
-          "id": "f1lui9c",
+          "id": "f1lqpzj",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -1378,7 +1378,7 @@
           }
         },
         {
-          "id": "f1mui9c",
+          "id": "f1mqpzj",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -1400,7 +1400,7 @@
       ]
     },
     {
-      "id": "p1nuika",
+      "id": "p1nqqc5",
       "name": "Eje hex 4",
       "color": "#8a8f98",
       "pos": [
@@ -1418,13 +1418,13 @@
       "visible": true,
       "features": [
         {
-          "id": "f1ouika",
+          "id": "f1oqqc5",
           "name": "Extrusión de boceto",
           "shape": "sketch",
           "op": "union",
           "at": [
             0,
-            -280.2,
+            -285.71,
             0
           ],
           "dir": [
@@ -1435,7 +1435,7 @@
           "params": {
             "entities": [
               {
-                "id": "ejika",
+                "id": "ejqc5",
                 "type": "line",
                 "a": [
                   3.888775875324659e-16,
@@ -1447,7 +1447,7 @@
                 ]
               },
               {
-                "id": "ekika",
+                "id": "ekqc5",
                 "type": "line",
                 "a": [
                   -5.499999999999999,
@@ -1459,7 +1459,7 @@
                 ]
               },
               {
-                "id": "elika",
+                "id": "elqc5",
                 "type": "line",
                 "a": [
                   -5.500000000000001,
@@ -1471,7 +1471,7 @@
                 ]
               },
               {
-                "id": "emika",
+                "id": "emqc5",
                 "type": "line",
                 "a": [
                   -1.1666327625973976e-15,
@@ -1483,7 +1483,7 @@
                 ]
               },
               {
-                "id": "enika",
+                "id": "enqc5",
                 "type": "line",
                 "a": [
                   5.499999999999998,
@@ -1495,7 +1495,7 @@
                 ]
               },
               {
-                "id": "eoika",
+                "id": "eoqc5",
                 "type": "line",
                 "a": [
                   5.5,
@@ -1508,7 +1508,7 @@
               }
             ],
             "dims": [],
-            "h": 560.4,
+            "h": 571.42,
             "u": [
               1,
               0,
@@ -1519,7 +1519,7 @@
       ]
     },
     {
-      "id": "p1puikb",
+      "id": "p1pqqc6",
       "name": "Canal der",
       "color": "#5b6472",
       "pos": [
@@ -1537,14 +1537,14 @@
       "visible": true,
       "features": [
         {
-          "id": "wCanal der",
+          "id": "bAlma-33",
           "name": "Alma",
           "shape": "box",
           "op": "union",
           "at": [
-            114.29999999999998,
-            266.7,
-            -58.41999999999999
+            114.29999999999997,
+            272.38,
+            -147.32
           ],
           "dir": [
             0,
@@ -1552,20 +1552,20 @@
             1
           ],
           "params": {
-            "w": 348.59999999999997,
-            "d": 3,
-            "h": 76.19999999999999
+            "w": 304.79999999999995,
+            "d": 2.66,
+            "h": 165.1
           }
         },
         {
-          "id": "ftCanal der",
+          "id": "bPestaña sup129",
           "name": "Pestaña sup",
           "shape": "box",
           "op": "union",
           "at": [
-            114.29999999999998,
-            280.9,
-            14.780000000000001
+            114.29999999999997,
+            292.76,
+            15.120000000000001
           ],
           "dir": [
             0,
@@ -1573,20 +1573,20 @@
             1
           ],
           "params": {
-            "w": 348.59999999999997,
-            "d": 25.4,
-            "h": 3
+            "w": 304.79999999999995,
+            "d": 38.099999999999994,
+            "h": 2.66
           }
         },
         {
-          "id": "fbCanal der",
+          "id": "bPestaña inf-33",
           "name": "Pestaña inf",
           "shape": "box",
           "op": "union",
           "at": [
-            114.29999999999998,
-            280.9,
-            -58.41999999999999
+            114.29999999999997,
+            292.76,
+            -147.32
           ],
           "dir": [
             0,
@@ -1594,19 +1594,19 @@
             1
           ],
           "params": {
-            "w": 348.59999999999997,
-            "d": 25.4,
-            "h": 3
+            "w": 304.79999999999995,
+            "d": 38.099999999999994,
+            "h": 2.66
           }
         },
         {
-          "id": "f1quikb",
+          "id": "f1qqqc6",
           "name": "Corte de boceto",
           "shape": "sketch",
           "op": "cut",
           "at": [
             0,
-            270.2,
+            275.71000000000004,
             0
           ],
           "dir": [
@@ -1617,7 +1617,7 @@
           "params": {
             "entities": [
               {
-                "id": "epikb",
+                "id": "epqc6",
                 "type": "line",
                 "a": [
                   3.888775875324659e-16,
@@ -1629,7 +1629,7 @@
                 ]
               },
               {
-                "id": "eqikb",
+                "id": "eqqc6",
                 "type": "line",
                 "a": [
                   -5.499999999999999,
@@ -1641,7 +1641,7 @@
                 ]
               },
               {
-                "id": "erikb",
+                "id": "erqc6",
                 "type": "line",
                 "a": [
                   -5.500000000000001,
@@ -1653,7 +1653,7 @@
                 ]
               },
               {
-                "id": "esikb",
+                "id": "esqc6",
                 "type": "line",
                 "a": [
                   -1.1666327625973976e-15,
@@ -1665,7 +1665,7 @@
                 ]
               },
               {
-                "id": "etikb",
+                "id": "etqc6",
                 "type": "line",
                 "a": [
                   5.499999999999998,
@@ -1677,7 +1677,7 @@
                 ]
               },
               {
-                "id": "euikb",
+                "id": "euqc6",
                 "type": "line",
                 "a": [
                   5.5,
@@ -1690,7 +1690,7 @@
               }
             ],
             "dims": [],
-            "h": 7,
+            "h": 6.66,
             "u": [
               1,
               0,
@@ -1699,7 +1699,7 @@
           }
         },
         {
-          "id": "f1ruikb",
+          "id": "f1rqqc6",
           "name": "Patrón rectangular",
           "shape": "pattern",
           "op": "pattern",
@@ -1714,7 +1714,7 @@
             1
           ],
           "params": {
-            "sourceId": "f1quikb",
+            "sourceId": "f1qqqc6",
             "kind": "rect",
             "nx": 4,
             "ny": 1,
@@ -1731,11 +1731,65 @@
               0
             ]
           }
+        },
+        {
+          "id": "f1sqqc6",
+          "name": "Corte cilindro",
+          "shape": "cylinder",
+          "op": "cut",
+          "at": [
+            38.099999999999994,
+            275.71000000000004,
+            -40
+          ],
+          "dir": [
+            0,
+            -1,
+            0
+          ],
+          "params": {
+            "dia": 7.9375,
+            "h": 6.66
+          }
+        },
+        {
+          "id": "f1tqqc6",
+          "name": "Patrón rectangular",
+          "shape": "pattern",
+          "op": "pattern",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "sourceId": "f1sqqc6",
+            "kind": "rect",
+            "nx": 3,
+            "ny": 1,
+            "dx": 152.39999999999998,
+            "dy": 0,
+            "u": [
+              1,
+              0,
+              0
+            ],
+            "v": [
+              0,
+              1,
+              0
+            ]
+          }
         }
       ]
     },
     {
-      "id": "p1suikf",
+      "id": "p1uqqd3",
       "name": "Canal izq",
       "color": "#5b6472",
       "pos": [
@@ -1753,14 +1807,14 @@
       "visible": true,
       "features": [
         {
-          "id": "wCanal izq",
+          "id": "bAlma-33",
           "name": "Alma",
           "shape": "box",
           "op": "union",
           "at": [
-            114.29999999999998,
-            -266.7,
-            -58.41999999999999
+            114.29999999999997,
+            -272.38,
+            -147.32
           ],
           "dir": [
             0,
@@ -1768,20 +1822,20 @@
             1
           ],
           "params": {
-            "w": 348.59999999999997,
-            "d": 3,
-            "h": 76.19999999999999
+            "w": 304.79999999999995,
+            "d": 2.66,
+            "h": 165.1
           }
         },
         {
-          "id": "ftCanal izq",
+          "id": "bPestaña sup129",
           "name": "Pestaña sup",
           "shape": "box",
           "op": "union",
           "at": [
-            114.29999999999998,
-            -280.9,
-            14.780000000000001
+            114.29999999999997,
+            -292.76,
+            15.120000000000001
           ],
           "dir": [
             0,
@@ -1789,20 +1843,20 @@
             1
           ],
           "params": {
-            "w": 348.59999999999997,
-            "d": 25.4,
-            "h": 3
+            "w": 304.79999999999995,
+            "d": 38.099999999999994,
+            "h": 2.66
           }
         },
         {
-          "id": "fbCanal izq",
+          "id": "bPestaña inf-33",
           "name": "Pestaña inf",
           "shape": "box",
           "op": "union",
           "at": [
-            114.29999999999998,
-            -280.9,
-            -58.41999999999999
+            114.29999999999997,
+            -292.76,
+            -147.32
           ],
           "dir": [
             0,
@@ -1810,19 +1864,19 @@
             1
           ],
           "params": {
-            "w": 348.59999999999997,
-            "d": 25.4,
-            "h": 3
+            "w": 304.79999999999995,
+            "d": 38.099999999999994,
+            "h": 2.66
           }
         },
         {
-          "id": "f1tuikf",
+          "id": "f1vqqd3",
           "name": "Corte de boceto",
           "shape": "sketch",
           "op": "cut",
           "at": [
             0,
-            -270.2,
+            -275.71000000000004,
             0
           ],
           "dir": [
@@ -1833,7 +1887,7 @@
           "params": {
             "entities": [
               {
-                "id": "evikf",
+                "id": "evqd3",
                 "type": "line",
                 "a": [
                   3.888775875324659e-16,
@@ -1845,7 +1899,7 @@
                 ]
               },
               {
-                "id": "ewikf",
+                "id": "ewqd3",
                 "type": "line",
                 "a": [
                   -5.499999999999999,
@@ -1857,7 +1911,7 @@
                 ]
               },
               {
-                "id": "exikf",
+                "id": "exqd3",
                 "type": "line",
                 "a": [
                   -5.500000000000001,
@@ -1869,7 +1923,7 @@
                 ]
               },
               {
-                "id": "eyikf",
+                "id": "eyqd3",
                 "type": "line",
                 "a": [
                   -1.1666327625973976e-15,
@@ -1881,7 +1935,7 @@
                 ]
               },
               {
-                "id": "ezikf",
+                "id": "ezqd3",
                 "type": "line",
                 "a": [
                   5.499999999999998,
@@ -1893,7 +1947,7 @@
                 ]
               },
               {
-                "id": "e10ikf",
+                "id": "e10qd3",
                 "type": "line",
                 "a": [
                   5.5,
@@ -1906,7 +1960,7 @@
               }
             ],
             "dims": [],
-            "h": 7,
+            "h": 6.66,
             "u": [
               1,
               0,
@@ -1915,7 +1969,7 @@
           }
         },
         {
-          "id": "f1uuikf",
+          "id": "f1wqqd3",
           "name": "Patrón rectangular",
           "shape": "pattern",
           "op": "pattern",
@@ -1930,7 +1984,7 @@
             1
           ],
           "params": {
-            "sourceId": "f1tuikf",
+            "sourceId": "f1vqqd3",
             "kind": "rect",
             "nx": 4,
             "ny": 1,
@@ -1946,6 +2000,471 @@
               1,
               0
             ]
+          }
+        },
+        {
+          "id": "f1xqqd3",
+          "name": "Corte cilindro",
+          "shape": "cylinder",
+          "op": "cut",
+          "at": [
+            38.099999999999994,
+            -275.71000000000004,
+            -40
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "params": {
+            "dia": 7.9375,
+            "h": 6.66
+          }
+        },
+        {
+          "id": "f1yqqd3",
+          "name": "Patrón rectangular",
+          "shape": "pattern",
+          "op": "pattern",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "sourceId": "f1xqqd3",
+            "kind": "rect",
+            "nx": 3,
+            "ny": 1,
+            "dx": 152.39999999999998,
+            "dy": 0,
+            "u": [
+              1,
+              0,
+              0
+            ],
+            "v": [
+              0,
+              1,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "p1zqqds",
+      "name": "Travesaño 1",
+      "color": "#6b7280",
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "quat": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "fixed": false,
+      "visible": true,
+      "features": [
+        {
+          "id": "bAla vert-84",
+          "name": "Ala vert",
+          "shape": "box",
+          "op": "union",
+          "at": [
+            38.099999999999994,
+            0,
+            -122.32
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 4,
+            "d": 536.78,
+            "h": 40
+          }
+        },
+        {
+          "id": "bAla horiz-84",
+          "name": "Ala horiz",
+          "shape": "box",
+          "op": "union",
+          "at": [
+            38.099999999999994,
+            0,
+            -122.32
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 40,
+            "d": 536.78,
+            "h": 4
+          }
+        },
+        {
+          "id": "bPestaña-84",
+          "name": "Pestaña",
+          "shape": "box",
+          "op": "union",
+          "at": [
+            38.099999999999994,
+            269.71999999999997,
+            -122.32
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 40,
+            "d": 2.66,
+            "h": 40
+          }
+        },
+        {
+          "id": "bPestaña-84",
+          "name": "Pestaña",
+          "shape": "box",
+          "op": "union",
+          "at": [
+            38.099999999999994,
+            -269.71999999999997,
+            -122.32
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 40,
+            "d": 2.66,
+            "h": 40
+          }
+        }
+      ]
+    },
+    {
+      "id": "p20qqdu",
+      "name": "Travesaño 2",
+      "color": "#6b7280",
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "quat": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "fixed": false,
+      "visible": true,
+      "features": [
+        {
+          "id": "bAla vert68",
+          "name": "Ala vert",
+          "shape": "box",
+          "op": "union",
+          "at": [
+            190.49999999999997,
+            0,
+            -122.32
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 4,
+            "d": 536.78,
+            "h": 40
+          }
+        },
+        {
+          "id": "bAla horiz68",
+          "name": "Ala horiz",
+          "shape": "box",
+          "op": "union",
+          "at": [
+            190.49999999999997,
+            0,
+            -122.32
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 40,
+            "d": 536.78,
+            "h": 4
+          }
+        },
+        {
+          "id": "bPestaña68",
+          "name": "Pestaña",
+          "shape": "box",
+          "op": "union",
+          "at": [
+            190.49999999999997,
+            269.71999999999997,
+            -122.32
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 40,
+            "d": 2.66,
+            "h": 40
+          }
+        },
+        {
+          "id": "bPestaña68",
+          "name": "Pestaña",
+          "shape": "box",
+          "op": "union",
+          "at": [
+            190.49999999999997,
+            -269.71999999999997,
+            -122.32
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 40,
+            "d": 2.66,
+            "h": 40
+          }
+        }
+      ]
+    },
+    {
+      "id": "p21qqdv",
+      "name": "Bracket motor",
+      "color": "#3f6fb0",
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "quat": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "fixed": false,
+      "visible": true,
+      "features": [
+        {
+          "id": "bAlma bracket-15",
+          "name": "Alma bracket",
+          "shape": "box",
+          "op": "union",
+          "at": [
+            114.29999999999998,
+            276.71000000000004,
+            -129.66
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 120,
+            "d": 6,
+            "h": 119.66
+          }
+        },
+        {
+          "id": "bPestaña sup100",
+          "name": "Pestaña sup",
+          "shape": "box",
+          "op": "union",
+          "at": [
+            114.29999999999998,
+            253.71000000000004,
+            -14
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 46,
+            "d": 40,
+            "h": 4
+          }
+        },
+        {
+          "id": "bPestaña inf-15",
+          "name": "Pestaña inf",
+          "shape": "box",
+          "op": "union",
+          "at": [
+            114.29999999999998,
+            253.71000000000004,
+            -129.66
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 46,
+            "d": 40,
+            "h": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "p22qqdw",
+      "name": "Motor + polea",
+      "color": "#c9752e",
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "quat": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "fixed": false,
+      "visible": true,
+      "features": [
+        {
+          "id": "f23qqdw",
+          "name": "Cilindro",
+          "shape": "cylinder",
+          "op": "union",
+          "at": [
+            114.29999999999998,
+            301.05,
+            -119.66
+          ],
+          "dir": [
+            0,
+            -1,
+            0
+          ],
+          "params": {
+            "dia": 52,
+            "h": 70
+          }
+        },
+        {
+          "id": "f24qqdw",
+          "name": "Cilindro",
+          "shape": "cylinder",
+          "op": "union",
+          "at": [
+            114.29999999999998,
+            301.05,
+            -119.66
+          ],
+          "dir": [
+            0,
+            -1,
+            0
+          ],
+          "params": {
+            "dia": 10,
+            "h": 55
+          }
+        },
+        {
+          "id": "f25qqdw",
+          "name": "Cilindro",
+          "shape": "cylinder",
+          "op": "union",
+          "at": [
+            114.29999999999998,
+            201.05,
+            -119.66
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "params": {
+            "dia": 44,
+            "h": 30
+          }
+        },
+        {
+          "id": "f26qqdw",
+          "name": "Corte cilindro",
+          "shape": "cylinder",
+          "op": "cut",
+          "at": [
+            114.29999999999998,
+            205.45000000000002,
+            -119.66
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "params": {
+            "dia": 34,
+            "h": 3.2
+          }
+        },
+        {
+          "id": "f27qqdw",
+          "name": "Corte cilindro",
+          "shape": "cylinder",
+          "op": "cut",
+          "at": [
+            114.29999999999998,
+            193.45000000000002,
+            -119.66
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "params": {
+            "dia": 34,
+            "h": 3.2
           }
         }
       ]
