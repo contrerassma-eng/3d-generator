@@ -31,15 +31,24 @@ Normas aplicadas:
   el alzado, perfil (vista lateral izquierda) a la derecha, más isométrica.
 - **ISO 5455** — escalas normalizadas (1:1, 1:2, 1:5, … y ampliaciones para
   objetos < 50 mm). Formato `--formato A3` o automático (el que da mayor escala).
-- **ISO 5457** — marco con márgenes (20 mm de archivado a la izquierda).
-- **ISO 7200** — cajetín: proyecto, designación, escala, fecha, método,
-  sistema de proyección, unidades, lámina n/N, fuente + SHA-256 y el estado de
-  la escala (`ESCALA CERTIFICADA (G4)` o `NO CERTIFICADA`).
+- **ISO 5457** — marco con márgenes (20 mm de archivado a la izquierda),
+  borde de hoja recortada, marcas de centrado y retícula de referencia
+  (números 1..n arriba/abajo, letras A.. sin I/O en los laterales; campos
+  de ≈50 mm según formato).
+- **ISO 7200** — cajetín de 180×42 mm en tres zonas, con rótulo pequeño y
+  valor jerarquizado por casilla: marca del método (`foto3d`) con el símbolo
+  gráfico del primer diedro (ISO 5456-2); identificación (designación
+  destacada, proyecto, fuente, verificación de escala, SHA-256, nota); y
+  clasificación (escala protagonista, formato, lámina n/N, fecha, unidades,
+  nº de plano). El estado de la escala nunca se oculta (`CERTIFICADA (G4)`
+  o `NO CERTIFICADA — requiere S4`). Si un valor no cabe, se reduce su
+  altura de letra antes de truncar con elipsis.
 - **ISO 129** — cotas generales (texto 3,5 mm; capa COTAS). Se acotan las
   dimensiones envolventes por vista (sin duplicar entre vistas).
 
 Capas DXF: `VISIBLE`, `OCULTA` (trazos), `COTAS`, `PLIEGUE` (trazo-punto),
-`NORMA` (marco/cajetín), `TEXTO`.
+`NORMA` (marco/cajetín, línea gruesa), `FINA` (retícula y divisiones del
+cajetín), `TEXTO`.
 
 Opciones: `--vistas alzado,planta,perfil,isometrica` · `--angulo 25` (umbral
 de arista característica) · `--formato A4..A0` · `--chapa auto|<id de cara>`.

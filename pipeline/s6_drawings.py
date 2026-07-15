@@ -35,12 +35,16 @@ import lib_geometry as G
 SHEETS = {"A4": (297, 210), "A3": (420, 297), "A2": (594, 420),
           "A1": (841, 594), "A0": (1189, 841)}          # apaisado, mm
 MARGIN, MARGIN_L = 10.0, 20.0                            # ISO 5457 (izq. archivado)
-TITLE_W, TITLE_H = 180.0, 33.0                           # cajetín ISO 7200
+TITLE_W, TITLE_H = 180.0, 42.0                           # cajetín ISO 7200
 GAP = 26.0                                               # separación entre vistas
 REDUCTIONS = [1, 2, 2.5, 5, 10, 20, 50, 100, 200, 500, 1000]
 ENLARGEMENTS = [2, 5, 10, 20, 50]
+GRIDREF = {  # retícula de referencia ISO 5457: campos ≈50 mm (horiz, vert)
+    "A4": (6, 4), "A3": (8, 6), "A2": (12, 8), "A1": (16, 12), "A0": (24, 16)}
+GRID_LETTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ"                # sin I ni O (ISO 5457)
 LAYERS = {  # nombre: (color ACI, tipo de línea, grosor mm*100)
     "NORMA":   (7, "CONTINUOUS", 70),
+    "FINA":    (7, "CONTINUOUS", 18),
     "VISIBLE": (7, "CONTINUOUS", 50),
     "OCULTA":  (8, "DASHED", 25),
     "COTAS":   (7, "CONTINUOUS", 25),
@@ -123,11 +127,18 @@ class Sheet:
                                 dxfattribs={"layer": layer})
 
     def text(self, s, x, y, h=3.5, layer="TEXTO", align="LEFT"):
-        from ezdxf.enums import TextEntityAlignment
-        al = {"LEFT": TextEntityAlignment.LEFT,
-              "CENTER": TextEntityAlignment.MIDDLE_CENTER}[align]
+        from ezdxf.enums import TextEntityAlignment as TA
+        al = {"LEFT": TA.LEFT, "CENTER": TA.MIDDLE_CENTER,
+              "MIDDLE_LEFT": TA.MIDDLE_LEFT, "MIDDLE_RIGHT": TA.MIDDLE_RIGHT}[align]
         self.msp.add_text(s, height=h * self.K, dxfattribs={"layer": layer}
                           ).set_placement(self._p((x, y)), align=al)
+
+    def circle(self, c, r, layer="TEXTO"):
+        self.msp.add_circle(self._p(c), r * self.K, dxfattribs={"layer": layer})
+
+    def poly(self, pts, layer="TEXTO", close=True):
+        self.msp.add_lwpolyline([self._p(p) for p in pts], close=close,
+                                dxfattribs={"layer": layer})
 
     def segments(self, segs, layer, offset, s):
         """Segmentos 2D en mm reales, escalados por `s` y colocados en offset."""
@@ -147,30 +158,122 @@ class Sheet:
                                 dxfattribs={"layer": "COTAS"}).render()
 
     # --- norma ---------------------------------------------------------------
-    def frame_and_title(self, fields, weights=None):
-        self.rect(MARGIN_L, MARGIN, self.W - MARGIN_L - MARGIN,
-                  self.H - 2 * MARGIN)
-        x0 = self.W - MARGIN - TITLE_W
-        y0 = MARGIN
-        self.rect(x0, y0, TITLE_W, TITLE_H)
-        rows = len(fields)
-        rh = TITLE_H / rows
-        h = 2.2
-        for i in range(1, rows):
-            self.line((x0, y0 + i * rh), (x0 + TITLE_W, y0 + i * rh), "NORMA")
-        for r, row in enumerate(fields):
-            ws = (weights or [None] * rows)[r] or [1 / len(row)] * len(row)
-            y = y0 + TITLE_H - (r + 1) * rh + rh * 0.30
-            xc = x0
-            for c, cell in enumerate(row):
-                cw = TITLE_W * ws[c]
-                if c:
-                    self.line((xc, y0 + TITLE_H - (r + 1) * rh),
-                              (xc, y0 + TITLE_H - r * rh), "NORMA")
-                max_chars = max(4, int((cw - 4) / (h * 0.78)))
-                s = cell if len(cell) <= max_chars else cell[:max_chars - 1] + "…"
-                self.text(s, xc + 2, y, h=h)
-                xc += cw
+    def cell(self, x, y, w, h, label, value, vh=2.6, align="MIDDLE_LEFT"):
+        """Casilla ISO 7200: rótulo pequeño arriba-izquierda, valor centrado
+        verticalmente en el espacio restante. Si el valor no cabe, primero se
+        reduce su altura de letra (hasta 2 mm) y solo después se trunca."""
+        self.text(label, x + 1.3, y + h - 2.4, h=1.4)
+        cw = 0.80                                    # anchura media por carácter
+        if value and len(value) * vh * cw > w - 3.2:
+            vh = max(2.0, (w - 3.2) / (len(value) * cw))
+        max_chars = max(3, int((w - 3.2) / (vh * cw)))
+        s = value if len(value) <= max_chars else value[:max_chars - 1] + "…"
+        yc = y + (h - 2.8) / 2
+        if align == "CENTER":
+            self.text(s, x + w / 2, yc, h=vh, align="CENTER")
+        else:
+            self.text(s, x + 1.6, yc, h=vh, align="MIDDLE_LEFT")
+
+    def projection_symbol(self, cx, cy, s=1.0):
+        """Símbolo de primer diedro (ISO 5456-2): vista frontal (círculos) a la
+        IZQUIERDA y tronco de cono con el lado estrecho ALEJADO de ellos."""
+        r1, r2, L, gap = 2.6 * s, 1.4 * s, 6.2 * s, 1.8 * s
+        cxc = cx - (2 * r1 + gap + L) / 2 + r1        # centro de los círculos
+        tx = cxc + r1 + gap                           # arranque del trapecio
+        self.circle((cxc, cy), r1)
+        self.circle((cxc, cy), r2)
+        self.poly([(tx, cy - r1), (tx + L, cy - r2),
+                   (tx + L, cy + r2), (tx, cy + r1)])
+        self.line((cxc - r1 - 1.2 * s, cy), (tx + L + 1.2 * s, cy), "FINA")
+
+    def frame(self):
+        """Marco ISO 5457: borde de hoja, recuadro de dibujo, marcas de
+        centrado y retícula de referencia con letras/números."""
+        W, H = self.W, self.H
+        self.rect(0, 0, W, H, "FINA")                            # hoja recortada
+        self.rect(MARGIN_L, MARGIN, W - MARGIN_L - MARGIN,
+                  H - 2 * MARGIN, "NORMA")                       # recuadro
+        for a, b in (((0, H / 2), (MARGIN_L + 5, H / 2)),        # centrado
+                     ((W, H / 2), (W - MARGIN - 5, H / 2)),
+                     ((W / 2, 0), (W / 2, MARGIN + 5)),
+                     ((W / 2, H), (W / 2, H - MARGIN - 5))):
+            self.line(a, b, "NORMA")
+        nx, ny = GRIDREF[self.name]
+        for i in range(1, nx):                                   # divisiones
+            x = W / nx * i
+            self.line((x, 0), (x, MARGIN), "FINA")
+            self.line((x, H - MARGIN), (x, H), "FINA")
+        for j in range(1, ny):
+            y = H / ny * j
+            self.line((0, y), (MARGIN, y), "FINA")
+            self.line((W - MARGIN, y), (W, y), "FINA")
+        for i in range(nx):                                      # números 1..nx
+            x = W / nx * (i + 0.5)
+            for y in (MARGIN / 2, H - MARGIN / 2):
+                self.text(str(i + 1), x, y, h=2.5, align="CENTER")
+        for j in range(ny):                                      # letras A..(top)
+            y = H - H / ny * (j + 0.5)
+            for x in (MARGIN / 2, W - MARGIN / 2):
+                self.text(GRID_LETTERS[j], x, y, h=2.5, align="CENTER")
+
+    def title_block(self, tb):
+        """Cajetín ISO 7200 en tres zonas: marca | datos | clasificación."""
+        x0, y0 = self.W - MARGIN - TITLE_W, MARGIN
+        self.rect(x0, y0, TITLE_W, TITLE_H, "NORMA")
+        ys = [y0 + TITLE_H]                       # techos de fila, de arriba abajo
+        for rh in (13.0, 10.0, 10.0, 9.0):
+            ys.append(ys[-1] - rh)
+        xa, xb = x0 + 40.0, x0 + 134.0            # límites de zonas A|B|C
+        self.line((xa, y0), (xa, y0 + TITLE_H), "NORMA")
+        self.line((xb, y0), (xb, y0 + TITLE_H), "NORMA")
+
+        # zona A — marca del método + símbolo de proyección
+        cxa = x0 + 20.0
+        self.line((x0, ys[2]), (xa, ys[2]), "FINA")
+        self.text("foto3d", cxa, ys[0] - 8.2, h=6.0, align="CENTER")
+        self.line((cxa - 13.5, ys[0] - 13.4), (cxa + 13.5, ys[0] - 13.4), "FINA")
+        self.text("FOTOGRAMETRÍA · 3D AUDITABLE", cxa, ys[0] - 16.2,
+                  h=1.3, align="CENTER")
+        self.text("ISO 5457 · 7200 · 129 · 5456-2", cxa, ys[0] - 19.4,
+                  h=1.3, align="CENTER")
+        self.text("PROYECCIÓN — PRIMER DIEDRO", cxa, ys[2] - 2.4, h=1.4,
+                  align="CENTER")
+        self.projection_symbol(cxa, y0 + (ys[2] - y0 - 4.0) / 2, s=1.15)
+
+        # zona B — identificación (rejilla con rótulos)
+        for y in (ys[1], ys[2], ys[3]):
+            self.line((xa, y), (xb, y), "FINA")
+        self.line((xa + 47, ys[2]), (xa + 47, ys[1]), "FINA")
+        self.line((xa + 56, ys[3]), (xa + 56, ys[2]), "FINA")
+        self.cell(xa, ys[1], 94, 13, "DESIGNACIÓN", tb["designacion"], vh=4.2)
+        self.cell(xa, ys[2], 47, 10, "PROYECTO", tb["proyecto"], vh=2.8)
+        self.cell(xa + 47, ys[2], 47, 10, "FUENTE", tb["fuente"], vh=2.4)
+        self.cell(xa, ys[3], 56, 10, "VERIFICACIÓN DE ESCALA",
+                  tb["verificacion"], vh=2.4)
+        self.cell(xa + 56, ys[3], 38, 10, "SHA-256", tb["sha"], vh=2.2)
+        self.cell(xa, y0, 94, 9, "NOTA", tb["nota"], vh=2.2)
+
+        # zona C — clasificación (escala protagonista)
+        for y in (ys[1], ys[2], ys[3]):
+            self.line((xb, y), (x0 + TITLE_W, y), "FINA")
+        self.line((xb + 23, ys[2]), (xb + 23, ys[1]), "FINA")
+        self.line((xb + 26, ys[3]), (xb + 26, ys[2]), "FINA")
+        self.cell(xb, ys[1], 46, 13, "ESCALA", tb["escala"], vh=5.0,
+                  align="CENTER")
+        self.cell(xb, ys[2], 23, 10, "FORMATO", tb["formato"], vh=3.0,
+                  align="CENTER")
+        self.cell(xb + 23, ys[2], 23, 10, "LÁMINA", tb["lamina"], vh=3.0,
+                  align="CENTER")
+        self.cell(xb, ys[3], 26, 10, "FECHA", tb["fecha"], vh=2.6,
+                  align="CENTER")
+        self.cell(xb + 26, ys[3], 20, 10, "UNIDADES", "mm", vh=3.0,
+                  align="CENTER")
+        self.cell(xb, y0, 46, 9, "Nº DE PLANO", tb["num_plano"], vh=2.6,
+                  align="CENTER")
+
+    def frame_and_title(self, tb):
+        self.frame()
+        self.title_block(tb)
 
 
 # -----------------------------------------------------------------------------
@@ -269,23 +372,22 @@ def draw_flat_sheet(sheet: Sheet, flat):
 
 # -----------------------------------------------------------------------------
 
-TITLE_WEIGHTS = [[0.20, 0.40, 0.14, 0.26],
-                 [0.16, 0.36, 0.32, 0.16],
-                 [0.24, 0.20, 0.34, 0.22]]
-
-
-def title_fields(proj, meta, sheet_no, total, scale, extra=""):
-    d = meta["desc"]
-    cert = "ESCALA CERTIFICADA (G4)" if meta["certified"] else \
-        "ESCALA NO CERTIFICADA — falta factor_escala (S4)"
-    return [
-        [f"Proyecto: {proj.name}", f"Designación: {d.get('objeto', '—')}",
-         f"Escala {scale}", f"Fecha: {now_iso()[:10]}"],
-        ["Método: foto3d", "Proyección: primer diedro (ISO 5456-2)",
-         "Unidades: mm — Cotas ISO 129", f"Lámina {sheet_no}/{total}"],
-        [f"Fuente: {meta['source']}", f"SHA-256: {meta['hash'][7:19]}…",
-         cert, extra or "ISO 5457 · ISO 7200"],
-    ]
+def title_data(proj, meta, stem, sheet_no, total, scale, formato, extra=""):
+    cert = "CERTIFICADA (G4)" if meta["certified"] else \
+        "NO CERTIFICADA — requiere S4"
+    return {
+        "designacion": meta["desc"].get("objeto", "—"),
+        "proyecto": proj.name,
+        "fuente": meta["source"],
+        "sha": meta["hash"][7:19] + "…",
+        "verificacion": cert,
+        "nota": extra or "Cotas en mm reales sobre geometría medida — ISO 129",
+        "escala": scale,
+        "formato": formato,
+        "lamina": f"{sheet_no} / {total}",
+        "fecha": now_iso()[:10],
+        "num_plano": f"{stem.upper()}-{sheet_no:02d}",
+    }
 
 
 def render_pdf(docs_sizes, pdf_path: Path):
@@ -385,8 +487,8 @@ def main() -> None:
                 draw_views_sheet(sh, views, pos, tw, thh, dims_on)
             else:
                 draw_flat_sheet(sh, flat)
-            sh.frame_and_title(title_fields(proj, meta, i, total, scale, extra),
-                               weights=TITLE_WEIGHTS)
+            sh.frame_and_title(title_data(proj, meta, stem, i, total,
+                                          scale, name, extra))
         paper_docs.append((pdoc, (W, H)))
         x_cursor += W * K + 50.0
         print(f"Lámina {i}/{total} [{kind}]: {name} escala {scale}")
