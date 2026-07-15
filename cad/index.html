@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>foto3d CAD — diseño paramétrico</title>
+<style>
+  :root {
+    --bg:#0f1216; --panel:#171b21; --panel2:#1d222a; --border:#2b323d;
+    --text:#e8eaed; --dim:#98a0ab; --accent:#4d90fe; --accent2:#f0a437;
+    --ok:#34a853; --warn:#fbbc04; --danger:#e05a4e;
+  }
+  * { box-sizing:border-box; margin:0; }
+  html,body { height:100%; }
+  body { background:var(--bg); color:var(--text); font:13px/1.45 system-ui,'Segoe UI',sans-serif; overflow:hidden; }
+
+  #layout { display:grid; grid-template-rows:44px 1fr 26px; grid-template-columns:280px 1fr; height:100vh; }
+  #toolbar { grid-column:1/3; display:flex; align-items:center; gap:6px; padding:0 10px;
+             background:var(--panel); border-bottom:1px solid var(--border); }
+  #toolbar .brand { font-weight:700; font-size:14px; margin-right:10px; }
+  #toolbar .brand span { color:var(--accent); }
+  .tgroup { display:flex; gap:4px; padding:0 8px; border-right:1px solid var(--border); align-items:center; }
+  .tgroup:last-child { border-right:none; }
+  .tgroup .glabel { color:var(--dim); font-size:10px; text-transform:uppercase; letter-spacing:.05em; margin-right:2px; }
+
+  button { background:var(--panel2); color:var(--text); border:1px solid var(--border); border-radius:7px;
+           padding:6px 10px; cursor:pointer; font-size:12.5px; white-space:nowrap; }
+  button:hover { background:#262c36; border-color:#3d4654; }
+  button.on { background:#2b4270; border-color:var(--accent); }
+  button.danger:hover { border-color:var(--danger); color:#ffb4ac; }
+  button:disabled { opacity:.4; cursor:default; }
+
+  #sidebar { grid-row:2; grid-column:1; background:var(--panel); border-right:1px solid var(--border);
+             display:flex; flex-direction:column; overflow:hidden; }
+  #tree { flex:1; overflow:auto; padding:8px; }
+  #tree h3 { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--dim); margin:10px 4px 4px; }
+  .node { border-radius:7px; padding:5px 8px; cursor:pointer; display:flex; align-items:center; gap:6px; }
+  .node:hover { background:var(--panel2); }
+  .node.sel { background:#2b4270; }
+  .node .nm { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .node .meta { color:var(--dim); font-size:11px; }
+  .node .ic { width:16px; text-align:center; }
+  .node button { padding:1px 6px; font-size:11px; border-radius:5px; }
+  .children { margin-left:16px; border-left:1px solid var(--border); padding-left:4px; }
+  .swatch { width:10px; height:10px; border-radius:3px; display:inline-block; }
+
+  #props { border-top:1px solid var(--border); padding:10px; max-height:45%; overflow:auto; background:var(--panel); }
+  #props h3 { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--dim); margin-bottom:8px; }
+  .frow { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+  .frow label { width:110px; color:var(--dim); font-size:12px; }
+  .frow input[type=number], .frow input[type=text], .frow select {
+    flex:1; min-width:0; background:var(--bg); color:var(--text); border:1px solid var(--border);
+    border-radius:6px; padding:5px 7px; font-size:12.5px; }
+  .frow input[type=color] { width:40px; height:26px; padding:0; border:1px solid var(--border); border-radius:6px; background:none; }
+  .frow input[type=checkbox] { width:15px; height:15px; }
+  .btnrow { display:flex; gap:6px; margin-top:8px; }
+  .btnrow button { flex:1; }
+
+  #viewport { grid-row:2; grid-column:2; position:relative; overflow:hidden; }
+  #viewport canvas { display:block; }
+  #hud { position:absolute; top:10px; left:10px; display:flex; flex-direction:column; gap:6px; pointer-events:none; }
+  .hudtag { background:#171b21d9; border:1px solid var(--border); border-radius:8px; padding:6px 10px;
+            font-size:12.5px; pointer-events:none; max-width:420px; }
+  .hudtag b { color:var(--accent2); }
+  #measureLabel { position:absolute; background:#0e2a12e6; border:1px solid var(--ok); color:#c9f2d0;
+                  border-radius:8px; padding:4px 9px; font-size:12px; transform:translate(-50%,-130%);
+                  pointer-events:none; display:none; white-space:pre; }
+
+  #dialog { position:absolute; top:56px; left:50%; transform:translateX(-50%); z-index:30;
+            background:var(--panel); border:1px solid var(--accent); border-radius:12px;
+            padding:14px 16px; min-width:320px; box-shadow:0 12px 40px #000a; display:none; }
+  #dialog h3 { font-size:13px; margin-bottom:10px; }
+
+  #statusbar { grid-column:1/3; display:flex; align-items:center; gap:14px; padding:0 12px;
+               background:var(--panel); border-top:1px solid var(--border); color:var(--dim); font-size:12px; }
+  #statusbar .hint { color:var(--accent2); }
+  #statusbar .right { margin-left:auto; }
+
+  .menu { position:absolute; z-index:40; background:var(--panel); border:1px solid var(--border);
+          border-radius:9px; padding:4px; box-shadow:0 10px 30px #000a; display:none; min-width:180px; }
+  .menu button { display:block; width:100%; text-align:left; border:none; background:none; padding:7px 10px; }
+  .menu button:hover { background:var(--panel2); }
+</style>
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js" } }
+</script>
+</head>
+<body>
+<div id="layout">
+  <div id="toolbar">
+    <div class="brand">foto3d <span>CAD</span></div>
+    <div class="tgroup"><span class="glabel">Pieza</span>
+      <button id="btnNewBox" title="Nueva pieza a partir de una caja/placa">⬛ Caja</button>
+      <button id="btnNewCyl" title="Nueva pieza a partir de un cilindro">⬤ Cilindro</button>
+    </div>
+    <div class="tgroup"><span class="glabel">Operación</span>
+      <button id="btnHole" title="Agujero sobre una cara (clic en la cara)">◎ Agujero</button>
+      <button id="btnFeature" title="Agregar unión o corte (caja/cilindro) a la pieza seleccionada">✚ Función…</button>
+    </div>
+    <div class="tgroup"><span class="glabel">Ensamble</span>
+      <button id="btnMate" title="Coincidir dos caras planas (cara contra cara)">▬ Coincidir</button>
+      <button id="btnFlush" title="Alinear dos caras planas (al ras, mismo sentido)">⫤ Alinear</button>
+      <button id="btnConcentric" title="Hacer concéntricos dos orificios/cilindros">◉ Concéntrico</button>
+      <button id="btnMove" title="Arrastrar la pieza seleccionada (Shift = vertical)">✥ Mover</button>
+    </div>
+    <div class="tgroup"><span class="glabel">Inspección</span>
+      <button id="btnMeasure" title="Medir distancia entre dos puntos (se ajusta a vértices)">📏 Medir</button>
+    </div>
+    <div class="tgroup"><span class="glabel">Archivo</span>
+      <button id="btnSTL" title="Exportar todo el ensamble a STL binario">⭳ STL</button>
+      <button id="btnSave" title="Descargar el proyecto como JSON">💾 Guardar</button>
+      <button id="btnOpen" title="Abrir un proyecto JSON">📂 Abrir</button>
+      <button id="btnDemo" title="Cargar el ensamble de ejemplo">✦ Ejemplo</button>
+      <button id="btnClear" class="danger" title="Vaciar el proyecto">🗑 Nuevo</button>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div id="tree"></div>
+    <div id="props"><h3>Propiedades</h3><div id="propsBody" class="dim">Nada seleccionado.</div></div>
+  </div>
+
+  <div id="viewport">
+    <div id="hud"></div>
+    <div id="measureLabel"></div>
+    <div id="dialog"></div>
+  </div>
+
+  <div id="statusbar">
+    <span id="status">Listo.</span>
+    <span class="hint" id="hint"></span>
+    <span class="right" id="stats"></span>
+  </div>
+</div>
+<input type="file" id="fileInput" accept=".json" style="display:none">
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>
