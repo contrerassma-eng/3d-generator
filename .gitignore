@@ -15,6 +15,9 @@ projects/*/input/refs/*
 projects/*/out/*.ply
 projects/*/out/*.mvs
 
+# Salidas de la biblioteca de componentes (se regeneran del catalogo)
+componentes/out/
+
 __pycache__/
 *.pyc
 .venv/
