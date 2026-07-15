@@ -187,6 +187,8 @@
     <button class="tile" id="btnConcentric" title="Hacer concéntricos dos orificios/cilindros"><span class="tic">◉</span>Concentr.</button>
     <button class="tile" id="btnMove" title="Arrastrar la pieza seleccionada (Shift o 2.º toque = vertical)"><span class="tic">✥</span>Mover</button>
     <button class="tile" id="btnMagnet" title="Imán de ensamble: al mover piezas ajusta a caras en contacto/al ras, alturas totales, centros y ejes de orificios"><span class="tic">🧲</span>Imán</button>
+    <button class="tile" id="btnSection" title="Vista de sección: corta el modelo por un plano X/Y/Z para ver interiores"><span class="tic">▤</span>Sección</button>
+    <button class="tile" id="btnView" title="Vista del ensamble: perspectiva libre o vistas ortogonales bloqueadas (planta/frente/lateral/iso) para desplazar piezas sin perspectiva"><span class="tic">📐</span>Vista</button>
     <div class="railsep"></div>
     <button class="tile" id="btnMeasure" title="Medir distancia entre dos puntos"><span class="tic">📏</span>Medir</button>
   </div>
@@ -213,6 +215,8 @@
       <span class="rsep"></span>
       <button data-tool="dim" title="Cota: largo/diámetro (1 entidad) o distancia/ángulo (2 entidades, incluidas referencias proyectadas); 🔒 la fija">⇤⇥ Cota</button>
       <span class="rsep"></span>
+      <button id="skProj" title="Proyectar la geometría del plano (contornos y círculos) como entidades del boceto; con proyecciones activas, las quita (desproyectar)">⤓ Proyectar</button>
+      <button id="skSlice" title="Corte en el plano del boceto (slice): oculta el material por delante para ver la sección">▤ Corte</button>
       <button id="skOrbit" title="Giro: rota la vista para ver y marcar referencias ocultas; al desactivar vuelve a la vista normal a la cara">🔄 Giro</button>
       <button id="skClose" title="Encadenar el contorno y extruir (unión o corte)">✔ Extruir</button>
       <button id="skUndo" title="Quitar la última entidad o selección">↩</button>
