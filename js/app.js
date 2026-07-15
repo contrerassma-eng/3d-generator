@@ -12,6 +12,7 @@ import {
   makeMate, makeConcentric, solveConstraints,
 } from './model.js';
 import * as SK from './sketch2d.js';
+import { exportDrawingDXF, exportDrawingPDF } from './drawing2d.js';
 
 // ---------- Escena ----------
 
@@ -1735,6 +1736,38 @@ $('btnSTL').onclick = () => {
   download(new Blob([buffer], { type: 'model/stl' }), 'ensamble.stl');
   setStatus(`STL exportado (${triCount} triángulos).`);
 };
+
+// ---------- Exportar plano técnico (DXF / PDF con marco y cajetín ISO) ----------
+
+function drawingParts() {
+  const out = [];
+  for (const part of doc.parts) {
+    const rec = meshes.get(part.id);
+    if (!rec || !part.visible) continue;
+    rec.mesh.updateWorldMatrix(true, false);
+    out.push({ geometry: rec.mesh.geometry, matrixWorld: rec.mesh.matrixWorld, name: part.name });
+  }
+  return out;
+}
+
+function exportDrawing(exporter, kind) {
+  const parts = drawingParts();
+  if (!parts.length) { setStatus('No hay geometría para exportar.'); return; }
+  const meta = {
+    designacion: parts.length === 1 ? parts[0].name : `Ensamble — ${parts.length} piezas`,
+    piezas: parts.length,
+  };
+  try {
+    const r = exporter(parts, meta);
+    download(new Blob([r.data], { type: r.mime }), r.name);
+    setStatus(`Plano ${kind} exportado (${r.info}).`);
+  } catch (e) {
+    setStatus(`Plano ${kind}: ${e.message}`);
+  }
+}
+
+$('btnDXF').onclick = () => exportDrawing(exportDrawingDXF, 'DXF');
+$('btnPDF').onclick = () => exportDrawing(exportDrawingPDF, 'PDF');
 
 // ---------- Guardar / abrir / nuevo / demo ----------
 
