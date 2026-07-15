@@ -166,10 +166,13 @@ atornillable) que muestra todas las capacidades.
   boceto; al desactivar vuelve la vista normal a la cara.
 - En boceto, **▤ Corte** (slice): oculta el material por delante del plano
   del boceto para dibujar viendo la sección del modelo.
-- En boceto, **⤓ Proyectar**: convierte la geometría del plano (contornos y
-  círculos exactos de aristas, aros de agujeros y bocetos previos) en
-  **entidades reales** del boceto — acotables, recortables y extruibles;
-  el mismo botón las quita (desproyectar). Se dibujan en verde claro.
+- En boceto, **⤓ Proyectar** (selectivo, como el "Proyectar geometría" de
+  Inventor): con la herramienta activa, tocar una **cara** proyecta todo su
+  contorno — exterior e interior (agujeros incluidos) —; tocar una **arista**
+  o un **círculo** proyecta solo ese elemento; y tocar algo **ya proyectado
+  lo desproyecta**. Lo proyectado son **entidades reales** del boceto
+  (verde claro): se acotan, recortan, extruyen, seleccionan y **copian igual
+  que las líneas dibujadas** — las copias nacen como entidades normales.
 - Al entrar al boceto, **los contornos de la cara elegida (exteriores e
   interiores) se pintan en amarillo** como referencias con snap, distintos
   del resto de la geometría proyectada (azul).
