@@ -612,6 +612,19 @@ export function douglasPeucker(pts, eps) {
   return left.slice(0, -1).concat(right);
 }
 
+// Simplifica un lazo CERRADO: parte en el punto más lejano al inicio (para que
+// Douglas-Peucker no colapse sobre extremos coincidentes) y une las dos mitades.
+function simplifyClosed(pts, eps) {
+  if (pts.length < 4) return pts.slice();
+  let far = 0, fd = -1;
+  for (let i = 1; i < pts.length; i++) { const d = dist(pts[0], pts[i]); if (d > fd) { fd = d; far = i; } }
+  const a = douglasPeucker(pts.slice(0, far + 1), eps);
+  const b = douglasPeucker(pts.slice(far), eps);
+  const merged = a.concat(b.slice(1));
+  if (merged.length > 1 && dist(merged[0], merged[merged.length - 1]) < 1e-6) merged.pop();
+  return merged;
+}
+
 // Interpreta un trazo a mano: círculo, línea recta (con ajuste a H/V) o polilínea.
 export function fitStroke(raw) {
   const pts = [];
@@ -647,6 +660,29 @@ export function fitStroke(raw) {
     }
   }
 
-  const simp = douglasPeucker(pts, 2.2);
+  // rectángulo: contorno cerrado que se simplifica a 4 esquinas ~rectas
+  if (closed) {
+    const corners = simplifyClosed(pts, Math.max(2.5, 0.03 * len));
+    if (corners.length === 4) {
+      let right = true;
+      for (let i = 0; i < 4; i++) {
+        const a = corners[(i + 3) % 4], b = corners[i], c = corners[(i + 1) % 4];
+        const v1 = norm(sub(a, b)), v2 = norm(sub(c, b));
+        if (Math.abs(v1[0] * v2[0] + v1[1] * v2[1]) > 0.33) { right = false; break; } // ~71°–109°
+      }
+      const xs = corners.map(p => p[0]), ys = corners.map(p => p[1]);
+      const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+      const dx = x1 - x0, dy = y1 - y0;
+      const aligned = corners.every(p =>
+        (Math.abs(p[0] - x0) < 0.18 * dx || Math.abs(p[0] - x1) < 0.18 * dx) &&
+        (Math.abs(p[1] - y0) < 0.18 * dy || Math.abs(p[1] - y1) < 0.18 * dy));
+      if (right && aligned && dx > 2 && dy > 2) {
+        const R = (v) => Math.round(v * 2) / 2;
+        return { type: 'rect', a: [R(x0), R(y0)], b: [R(x1), R(y1)] };
+      }
+    }
+  }
+
+  const simp = closed ? simplifyClosed(pts, 2.2) : douglasPeucker(pts, 2.2);
   return { type: 'poly', pts: simp, closed };
 }

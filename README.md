@@ -74,10 +74,19 @@ atornillable) que muestra todas las capacidades.
     **⬡ Polígono regular** (centro + vértice, n lados), **∥ Equidistancia**
     (offset de entidades o referencias) y **◜ Empalme** (redondeo de esquina
     entre dos líneas, con recorte a tangencia).
+  - **Entrada dinámica (longitud / ángulo / diámetro), como Inventor**: al
+    dibujar una **línea**, tras fijar el punto de inicio mueves para marcar la
+    dirección y aparece un cuadro con **Longitud** (enfocado) y **Ángulo**;
+    escribes la longitud y **Enter** define el vector. El **🔒 candado** fija
+    el ángulo (al empezar a teclear la longitud se congela solo), y el chip
+    **⊾** ajusta el ángulo a múltiplos (**sin / 5° / 15° / 45°**). En el
+    **círculo**, tras fijar el centro te pide el **diámetro antes de crear**
+    (escríbelo + Enter). Ambos siguen aceptando el clic directo del 2.º punto.
   - **✎ Lápiz**: dibujo a mano alzada (dedo, mouse o stylus) con
-    reconocimiento de geometría — un trazo redondo se convierte en círculo,
-    uno recto en línea (con ajuste a horizontal/vertical), y el resto en
-    polilínea simplificada.
+    reconocimiento de geometría — un trazo redondo → círculo, uno recto →
+    línea (ajustada a horizontal/vertical), un contorno cerrado de 4 esquinas
+    rectas → **rectángulo alineado a ejes**, y el resto → polilínea
+    simplificada (con simplificación específica para contornos cerrados).
   - **Snap con puntos notables** (imanta creación y cotas): extremos y punto
     medio de líneas, centro y 4 cuadrantes de círculos/arcos — también de la
     geometría proyectada (incluidos centros de agujeros/cilindros) — y

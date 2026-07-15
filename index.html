@@ -119,6 +119,18 @@
                   border-radius:8px; padding:4px 9px; font-size:12px; transform:translate(-50%,-130%);
                   pointer-events:none; display:none; white-space:pre; }
 
+  /* entrada dinámica (longitud/ángulo) estilo Inventor mientras se dibuja */
+  #dynBox { position:absolute; z-index:28; display:none; gap:5px; align-items:center;
+            background:#171b21f2; border:1px solid var(--accent2); border-radius:10px;
+            padding:5px 6px; box-shadow:0 8px 24px #000a; transform:translate(14px,14px); }
+  #dynBox.on { display:flex; }
+  #dynBox .dynf { display:flex; align-items:center; gap:3px; color:var(--accent2); font-size:12px; font-weight:600; }
+  #dynBox input { width:58px; background:var(--bg); color:var(--text); border:1px solid var(--border);
+                  border-radius:6px; padding:5px 6px; font-size:14px; }
+  #dynBox #dyn_lock { padding:3px 5px; min-height:28px; font-size:12px; }
+  #dynBox #dyn_lock.on { background:#5a4a20; border-color:var(--accent2); }
+  #dynBox #dyn_snap { padding:4px 7px; min-height:28px; font-size:11px; white-space:nowrap; }
+
   /* cinta de boceto ARRIBA, estilo ribbon de Inventor (scroll horizontal) */
   #sketchbar { position:absolute; top:8px; left:8px; right:8px; z-index:25;
                display:none; gap:5px; background:#171b21f0; border:1px solid var(--accent2);
@@ -221,6 +233,11 @@
   <div id="viewport">
     <div id="hud"><div class="hudtag" id="hintTag"></div></div>
     <div id="measureLabel"></div>
+    <div id="dynBox">
+      <label class="dynf">L<input id="dyn_len" type="number" inputmode="decimal" step="1" placeholder="mm"></label>
+      <label class="dynf" id="dyn_angwrap">∠<input id="dyn_ang" type="number" inputmode="decimal" step="1" placeholder="°"><button id="dyn_lock" title="Bloquear el ángulo">🔓</button></label>
+      <button id="dyn_snap" title="Snap de ángulo: sin / 5° / 15° / 45°">⊾ 15°</button>
+    </div>
     <div id="sketchbar">
       <button data-tool="line" class="on" title="Línea punto a punto (tocar el 1.º punto cierra el contorno)">╱ Línea</button>
       <button data-tool="rect" title="Rectángulo por dos esquinas">▭ Rect</button>
