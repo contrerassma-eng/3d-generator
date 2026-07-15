@@ -7,7 +7,7 @@ import { loadCatalogo, componentToPart, envolvente } from './componentes.js';
 import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
-  makeSketchEntitiesFeature, planeBasis, referenceEdges, referencePoints, magnetCorrections,
+  makeSketchEntitiesFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
   buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature,
   makeMate, makeConcentric, solveConstraints,
 } from './model.js';
@@ -23,6 +23,8 @@ THREE.Object3D.DEFAULT_UP.set(0, 0, 1);
 const viewport = document.getElementById('viewport');
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(window.devicePixelRatio);
+renderer.localClippingEnabled = true;
+const SECTION = []; // planos de corte activos (sección global o corte del boceto)
 viewport.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -59,6 +61,77 @@ grid.rotation.x = Math.PI / 2;
 scene.add(grid);
 const axes = new THREE.AxesHelper(60);
 scene.add(axes);
+// vistas ortogonales bloqueadas (sin perspectiva) para trabajar el ensamble
+let mainView = 'persp';
+const viewBtn = document.getElementById('btnView');
+const VIEW_NAMES = { persp: 'Perspectiva', top: 'Planta', front: 'Frente', side: 'Lateral', iso: 'Isométrica' };
+
+function setMainView(v) {
+  mainView = v;
+  if (v === 'persp') {
+    activeCamera = camera;
+    controls.enabled = true;
+    sketchControls.enabled = false;
+    viewBtn?.classList.remove('on');
+    setStatus('Vista en perspectiva libre.');
+    return;
+  }
+  const box = new THREE.Box3();
+  for (const rec of meshes.values()) if (rec.mesh.visible) box.expandByObject(rec.mesh);
+  if (box.isEmpty()) box.set(new THREE.Vector3(-100, -100, 0), new THREE.Vector3(100, 100, 100));
+  const center = box.getCenter(new THREE.Vector3());
+  const size = box.getSize(new THREE.Vector3()).length();
+  const DIRS = { top: [0, 0, 1], front: [0, -1, 0], side: [1, 0, 0], iso: [1, -1, 1] };
+  const UPS = { top: [0, 1, 0], front: [0, 0, 1], side: [0, 0, 1], iso: [0, 0, 1] };
+  const dir = new THREE.Vector3(...DIRS[v]).normalize();
+  orthoViewSize = Math.max(120, size * 1.3);
+  orthoCam.zoom = 1;
+  orthoCam.up.set(...UPS[v]);
+  orthoCam.position.copy(center).addScaledVector(dir, 600);
+  orthoCam.lookAt(center);
+  sketchControls.target.copy(center);
+  sketchControls.enableRotate = false;
+  sketchControls.enabled = true;
+  controls.enabled = false;
+  activeCamera = orthoCam;
+  resize();
+  viewBtn?.classList.add('on');
+  setStatus(`Vista ${VIEW_NAMES[v]} bloqueada (ortogonal, sin giro): paneo/zoom libres; Mover arrastra en el plano de la vista.`);
+}
+
+if (viewBtn) viewBtn.onclick = () => {
+  if (sketch) { setStatus('Sal del boceto para cambiar la vista del ensamble.'); return; }
+  showForm('Vista del ensamble', [
+    { key: 'v', label: 'Vista', type: 'select', value: mainView, options: [
+      ['persp', 'Perspectiva (libre)'], ['top', 'Planta (orto)'], ['front', 'Frente (orto)'],
+      ['side', 'Lateral (orto)'], ['iso', 'Isométrica (orto)']] },
+  ], (val) => setMainView(val.v));
+};
+
+// sección global: corta el modelo por un plano X/Y/Z para ver interiores
+const sectionBtn = document.getElementById('btnSection');
+if (sectionBtn) sectionBtn.onclick = () => {
+  showForm('Vista de sección', [
+    { key: 'axis', label: 'Plano normal a', type: 'select', value: 'x', options: [['x', 'X'], ['y', 'Y'], ['z', 'Z']] },
+    { key: 'pos', label: 'Posición (mm)', value: 0, step: 1 },
+    { key: 'inv', label: 'Invertir lado', type: 'checkbox', value: false },
+  ], (v) => {
+    const n = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] }[v.axis];
+    const normal = new THREE.Vector3(...n).multiplyScalar(v.inv ? 1 : -1);
+    SECTION.length = 0;
+    SECTION.push(new THREE.Plane(normal, v.inv ? -v.pos : v.pos));
+    sectionBtn.classList.add('on');
+    setStatus(`Sección activa: plano ${v.axis.toUpperCase()} en ${v.pos} mm (edítala con el mismo botón).`);
+  }, {
+    label: '✕ Quitar sección',
+    onClick() {
+      SECTION.length = 0;
+      sectionBtn.classList.remove('on');
+      setStatus('Sección desactivada.');
+    },
+  });
+};
+
 // plano base ocultable (para mirar el modelo por abajo sin estorbo)
 const gridBtn = document.getElementById('btnGrid');
 gridBtn?.classList.add('on');
@@ -134,8 +207,9 @@ function openProps() { $('props').classList.remove('closed'); }
 const matFor = (part) => new THREE.MeshPhongMaterial({
   color: new THREE.Color(part.color), shininess: 28, specular: 0x333333,
   polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1,
+  clippingPlanes: SECTION, side: THREE.DoubleSide, // sección: se ve el interior
 });
-const edgeMat = new THREE.LineBasicMaterial({ color: 0x11141a });
+const edgeMat = new THREE.LineBasicMaterial({ color: 0x11141a, clippingPlanes: SECTION });
 const sketchShowMat = new THREE.LineBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.8 });
 const hoverMat = new THREE.MeshBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.45, depthTest: true, polygonOffset: true, polygonOffsetFactor: -2 });
 const pickedMat = new THREE.MeshBasicMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.55, depthTest: true, polygonOffset: true, polygonOffsetFactor: -2 });
@@ -760,6 +834,7 @@ const faceRefMat = new THREE.LineBasicMaterial({ color: 0xffd54a });       // co
 const gridMat = new THREE.LineBasicMaterial({ color: 0x2a3040 });          // grilla del plano
 const drawMat = new THREE.LineBasicMaterial({ color: 0xf0a437 });          // entidades del boceto
 const selEntMat = new THREE.LineBasicMaterial({ color: 0x4d90fe });        // entidad elegida para cota
+const projMat = new THREE.LineBasicMaterial({ color: 0x8bd0a0 });          // entidades proyectadas del modelo
 const previewMat = new THREE.LineBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.5 });
 const ptMat = new THREE.MeshBasicMaterial({ color: 0xf0a437 });
 const snapMat = new THREE.MeshBasicMaterial({ color: 0x34a853 });
@@ -982,6 +1057,8 @@ function enterSketch(hit) {
 
   buildSketchReferences();
 
+  mainView = 'persp';
+  viewBtn?.classList.remove('on');
   orthoViewSize = Math.max(80, sketch.extent * 2.6);
   orthoCam.zoom = 1;
   orthoCam.up.copy(vW);
@@ -1269,6 +1346,54 @@ function endEntDrag() {
   setStatus('Entidad movida (las cotas 🔒 se re-aplicaron; las libres se actualizan solas).');
 }
 
+// --- proyectar la geometría del plano como entidades del boceto ---
+
+function projectPlaneGeometry() {
+  const seen = new Set();
+  let nLines = 0, nCircles = 0;
+  for (const part of doc.parts) {
+    if (!part.visible) continue;
+    const m = partMatrix(part);
+    const q = new THREE.Quaternion(...part.quat);
+    const prims = referencePrimitives(part);
+    const onPlane = (w) => Math.abs(w.clone().sub(sketch.originW).dot(sketch.nW)) < 0.05;
+    const to2 = (w) => {
+      const d = w.clone().sub(sketch.originW);
+      return [d.dot(sketch.uW), d.dot(sketch.vW)];
+    };
+    for (const ln of prims.lines) {
+      const a = ln.a.clone().applyMatrix4(m), b = ln.b.clone().applyMatrix4(m);
+      if (!onPlane(a) || !onPlane(b)) continue;
+      const a2 = to2(a), b2 = to2(b);
+      if (Math.hypot(a2[0] - b2[0], a2[1] - b2[1]) < 0.05) continue;
+      const key = [a2, b2].map(p => `${Math.round(p[0] * 10)},${Math.round(p[1] * 10)}`).sort().join('|');
+      if (seen.has(key)) continue;
+      seen.add(key);
+      const e = SK.makeLine(a2, b2);
+      e.proj = true;
+      sketch.entities.push(e);
+      nLines++;
+    }
+    for (const ci of prims.circles) {
+      const c = ci.c.clone().applyMatrix4(m);
+      const dirW = ci.dir.clone().applyQuaternion(q).normalize();
+      if (!onPlane(c) || Math.abs(dirW.dot(sketch.nW)) < 0.999) continue;
+      const c2 = to2(c);
+      const key = `c${Math.round(c2[0] * 10)},${Math.round(c2[1] * 10)},${Math.round(ci.r * 10)}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      const e = SK.makeCircle(c2, ci.r);
+      e.proj = true;
+      sketch.entities.push(e);
+      nCircles++;
+    }
+  }
+  redrawSketch();
+  setStatus(nLines + nCircles
+    ? `Proyectadas ${nLines} línea(s) y ${nCircles} círculo(s) del plano como entidades (el mismo botón las quita).`
+    : 'No hay geometría del modelo sobre este plano para proyectar.');
+}
+
 // --- selección por ventana (AutoCAD) y copiar con punto base ---
 
 const marqueeWinMat = new THREE.MeshBasicMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.18, side: THREE.DoubleSide, depthTest: false });
@@ -1392,7 +1517,7 @@ function endStroke() {
 function redrawSketch() {
   clearGroup(sketch.draw);
   for (const e of sketch.entities) {
-    const mat = (sketch.dimPick && sketch.dimPick.ent.id === e.id) || sketch.selIds.has(e.id) ? selEntMat : drawMat;
+    const mat = (sketch.dimPick && sketch.dimPick.ent.id === e.id) || sketch.selIds.has(e.id) ? selEntMat : (e.proj ? projMat : drawMat);
     const pts = SK.entityPoints(e, 64).map(p => to3D(p[0], p[1]));
     sketch.draw.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat));
   }
@@ -1561,6 +1686,9 @@ function cancelSketch(silent) {
   activeCamera = camera;
   sketchControls.enabled = false;
   sketchControls.enableRotate = false;
+  SECTION.length = 0; // el corte del boceto no persiste fuera
+  document.getElementById('skSlice')?.classList.remove('on');
+  document.getElementById('btnSection')?.classList.remove('on');
   controls.enabled = true;
   if (!silent) setStatus('Boceto cancelado.');
   if (mode === 'sketch') { mode = 'select'; $('btnSketch').classList.remove('on'); setHint(''); }
@@ -1571,6 +1699,29 @@ sketchbar.addEventListener('click', (e) => {
   const btn = e.target.closest('button');
   if (!btn || !sketch) return;
   if (btn.id === 'skCopy') { startCopyOp(); return; }
+  if (btn.id === 'skSlice') {
+    sketch.slice = !sketch.slice;
+    btn.classList.toggle('on', sketch.slice);
+    SECTION.length = 0;
+    if (sketch.slice) {
+      // oculta el material por delante del plano del boceto (slice graphics)
+      SECTION.push(new THREE.Plane(sketch.nW.clone().negate(), sketch.nW.dot(sketch.originW)));
+    }
+    setStatus(sketch.slice ? '▤ Corte en el plano del boceto: se ve la sección del modelo.' : 'Corte desactivado.');
+    return;
+  }
+  if (btn.id === 'skProj') {
+    const projected = sketch.entities.filter(e => e.proj);
+    if (projected.length) { // desproyectar
+      sketch.entities = sketch.entities.filter(e => !e.proj);
+      pruneDims();
+      redrawSketch();
+      setStatus(`${projected.length} entidad(es) proyectadas eliminadas (desproyectar).`);
+      return;
+    }
+    projectPlaneGeometry();
+    return;
+  }
   if (btn.id === 'skOrbit') {
     sketch.orbit = !sketch.orbit;
     btn.classList.toggle('on', sketch.orbit);
@@ -1728,9 +1879,14 @@ function startMoveDrag(ev) {
   if (!hit) return;
   const part = getPart(doc, hit.object.userData.partId);
   if (part.fixed) { setStatus(`${part.name} está fija (📌): desmárcala para moverla.`); return; }
-  const planeNormal = ev.shiftKey ? verticalPlaneNormal() : new THREE.Vector3(0, 0, 1);
+  const free = mainView !== 'persp'; // vista orto bloqueada: mover en el plano de la vista
+  const planeNormal = free
+    ? activeCamera.getWorldDirection(new THREE.Vector3())
+    : (ev.shiftKey ? verticalPlaneNormal() : new THREE.Vector3(0, 0, 1));
   dragging = {
     part,
+    free,
+    magAxes: free ? ({ top: ['x', 'y'], front: ['x', 'z'], side: ['y', 'z'], iso: ['x', 'y', 'z'] }[mainView]) : null,
     pointerId: ev.pointerId,
     vertical: ev.shiftKey,
     plane: new THREE.Plane().setFromNormalAndCoplanarPoint(planeNormal, hit.point),
@@ -1767,12 +1923,14 @@ function switchDragVertical() {
 function updateMoveDrag(ev) {
   const r = renderer.domElement.getBoundingClientRect();
   pointer.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
-  raycaster.setFromCamera(pointer, camera);
+  raycaster.setFromCamera(pointer, activeCamera);
   const p = new THREE.Vector3();
   if (!raycaster.ray.intersectPlane(dragging.plane, p)) return;
   dragging.lastPoint.copy(p);
   const delta = p.sub(dragging.start);
-  if (dragging.vertical) { delta.x = 0; delta.y = 0; } else { delta.z = 0; }
+  if (dragging.free) { /* vista orto: movimiento libre en el plano de la vista */ }
+  else if (dragging.vertical) { delta.x = 0; delta.y = 0; }
+  else { delta.z = 0; }
   dragging.part.pos = [
     dragging.origPos[0] + delta.x,
     dragging.origPos[1] + delta.y,
@@ -1786,7 +1944,7 @@ function updateMoveDrag(ev) {
       max: at(dragging.mag.relMax),
       axes: dragging.mag.relAxes.map(at),
     };
-    const corr = magnetCorrections(my, dragging.mag.others, dragging.vertical ? ['z'] : ['x', 'y']);
+    const corr = magnetCorrections(my, dragging.mag.others, dragging.magAxes || (dragging.vertical ? ['z'] : ['x', 'y']));
     const labels = [];
     const IDX = { x: 0, y: 1, z: 2 };
     for (const [a, c] of Object.entries(corr)) {
