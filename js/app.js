@@ -7,7 +7,7 @@ import { loadCatalogo, componentToPart, envolvente } from './componentes.js';
 import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
-  makeSketchEntitiesFeature, makeRevolveFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
+  makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
   buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace,
   makeMate, makeConcentric, solveConstraints,
 } from './model.js';
@@ -356,6 +356,12 @@ function featureMeta(f) {
   if (f.shape === 'hole') return f.params.through ? `Ø${f.params.dia} pasante` : `Ø${f.params.dia}×${f.params.depth}`;
   if (f.shape === 'sketch') return `${(f.params.entities || f.params.pts || []).length} ent ×${f.params.h}`;
   if (f.shape === 'revolve') return `rev 360° ${(f.params.entities || []).length} ent`;
+  if (f.shape === 'pattern') {
+    const srcName = doc.parts.flatMap(p => p.features).find(x => x.id === f.params.sourceId)?.name || '?';
+    return f.params.kind === 'circ'
+      ? `○ ${f.params.n}× de «${srcName}»`
+      : `▦ ${f.params.nx}×${f.params.ny} de «${srcName}»`;
+  }
   return '';
 }
 
@@ -498,6 +504,23 @@ function refreshProps() {
     if (f.shape === 'box') dims = frow('Ancho/Fondo/Alto', num3('fp_dims', [f.params.w, f.params.d, f.params.h]));
     if (f.shape === 'cylinder') dims = frow('Diámetro', `<input type="number" id="fp_dia" value="${f.params.dia}" step="0.5">`) + frow('Altura', `<input type="number" id="fp_h" value="${f.params.h}" step="0.5">`);
     if (f.shape === 'hole') dims = frow('Diámetro', `<input type="number" id="fp_dia" value="${f.params.dia}" step="0.5">`) + frow('Profundidad', `<input type="number" id="fp_depth" value="${f.params.depth}" step="0.5">`) + frow('Pasante', `<input type="checkbox" id="fp_through" ${f.params.through ? 'checked' : ''}>`);
+    if (f.shape === 'pattern') {
+      const srcName = doc.parts.flatMap(pp => pp.features).find(x => x.id === f.params.sourceId)?.name || '?';
+      dims = frow('Repite', `<b>${esc(srcName)}</b>`);
+      if (f.params.kind === 'circ') {
+        dims += frow('Ocurrencias', `<input type="number" id="fp_n" value="${f.params.n}" step="1">`)
+          + frow('Ángulo total (°)', `<input type="number" id="fp_angle" value="${f.params.angle}" step="15">`)
+          + frow('Centro X/Y/Z', num3('fp_cen', f.params.axisAt || [0, 0, 0]))
+          + frow('Eje X/Y/Z', num3('fp_axis', f.params.axisDir || [0, 0, 1]));
+      } else {
+        dims += frow('Nº X / Sep X', `<span style="display:flex;gap:4px;flex:1">
+            <input type="number" id="fp_nx" value="${f.params.nx}" step="1" style="width:50%">
+            <input type="number" id="fp_dx" value="${f.params.dx}" step="1" style="width:50%"></span>`)
+          + frow('Nº Y / Sep Y', `<span style="display:flex;gap:4px;flex:1">
+            <input type="number" id="fp_ny" value="${f.params.ny}" step="1" style="width:50%">
+            <input type="number" id="fp_dy" value="${f.params.dy}" step="1" style="width:50%"></span>`);
+      }
+    }
     if (f.shape === 'sketch' || f.shape === 'revolve') {
       dims = f.shape === 'sketch' ? frow('Altura', `<input type="number" id="fp_h" value="${f.params.h}" step="0.5">`) : frow('Giro', '<b>360°</b>');
       if (f.params.entities) {
@@ -516,8 +539,8 @@ function refreshProps() {
       ${frow('Nombre', `<input type="text" id="fp_name" value="${esc(f.name)}">`)}
       ${frow('Tipo', `${f.op === 'cut' ? 'corte' : 'unión'}${f.suppressed ? ' · ⏸ suprimida' : ''}`)}
       ${dims}
-      ${f.shape === 'pestana' ? '' : frow('Posición X/Y/Z', num3('fp_at', f.at))}
-      ${['box', 'chapaBase', 'pestana'].includes(f.shape) ? '' : frow('Eje X/Y/Z', num3('fp_dir', f.dir))}
+      ${['pestana', 'pattern'].includes(f.shape) ? '' : frow('Posición X/Y/Z', num3('fp_at', f.at))}
+      ${['box', 'chapaBase', 'pestana', 'pattern'].includes(f.shape) ? '' : frow('Eje X/Y/Z', num3('fp_dir', f.dir))}
       <div class="btnrow">
         <button id="fp_apply">Regenerar</button>
         <button id="fp_del" class="danger">Eliminar</button>
@@ -566,8 +589,22 @@ function refreshProps() {
         f.params.through = $('fp_through').checked;
         f.name = `Agujero Ø${f.params.dia}`;
       }
-      if (f.shape !== 'pestana') f.at = readNum3('fp_at');
-      if (!['box', 'chapaBase', 'pestana'].includes(f.shape)) f.dir = readNum3('fp_dir');
+      if (f.shape === 'pattern') {
+        if (f.params.kind === 'circ') {
+          f.params.n = Math.max(2, Math.round(+$('fp_n').value));
+          f.params.angle = +$('fp_angle').value;
+          f.params.axisAt = readNum3('fp_cen');
+          f.params.axisDir = readNum3('fp_axis');
+        } else {
+          f.params.nx = Math.max(1, Math.round(+$('fp_nx').value));
+          f.params.ny = Math.max(1, Math.round(+$('fp_ny').value));
+          f.params.dx = +$('fp_dx').value;
+          f.params.dy = +$('fp_dy').value;
+        }
+      }
+      if (!['pestana', 'pattern'].includes(f.shape)) f.at = readNum3('fp_at');
+      if (!['box', 'chapaBase', 'pestana', 'pattern'].includes(f.shape)) f.dir = readNum3('fp_dir');
+      faceCache.clear();
       rebuildPart(p);
       commit('Función regenerada.');
     };
@@ -2617,6 +2654,63 @@ $('btnFeature').onclick = () => {
     commit(`Función agregada a ${part.name}.`);
   });
 };
+
+// ---------- Patrones de funciones (rectangular / circular) ----------
+
+function selectedFeatureForPattern() {
+  if (selection?.kind !== 'feature') return null;
+  const part = getPart(doc, selection.partId);
+  const f = part && getFeature(part, selection.id);
+  if (!f || f.shape === 'pattern') return null;
+  return { part, f };
+}
+
+function patternRect() {
+  const sel = selectedFeatureForPattern();
+  if (!sel) { setStatus('Patrón rectangular: primero selecciona en el árbol la función a repetir (agujero, cilindro, boceto…).'); return; }
+  const { part, f } = sel;
+  showForm(`Patrón rectangular de "${f.name}"`, [
+    { key: 'nx', label: 'Nº en dirección X', value: 3, step: 1 },
+    { key: 'dx', label: 'Separación X (mm)', value: 20, step: 1 },
+    { key: 'ny', label: 'Nº en dirección Y', value: 2, step: 1 },
+    { key: 'dy', label: 'Separación Y (mm)', value: 20, step: 1 },
+  ], (v) => {
+    const nx = Math.max(1, Math.round(v.nx)), ny = Math.max(1, Math.round(v.ny));
+    if (nx * ny < 2) { setStatus('Un patrón necesita al menos 2 ocurrencias.'); return; }
+    pushUndo();
+    const pat = makePatternFeature(f.id, 'rect', { nx, ny, dx: v.dx, dy: v.dy, u: [1, 0, 0], v: [0, 1, 0] });
+    part.features.push(pat);
+    faceCache.clear();
+    rebuildPart(part);
+    commit(`Patrón rectangular ${nx}×${ny} de "${f.name}".`);
+  });
+}
+
+function patternCirc() {
+  const sel = selectedFeatureForPattern();
+  if (!sel) { setStatus('Patrón circular: primero selecciona en el árbol la función a repetir.'); return; }
+  const { part, f } = sel;
+  showForm(`Patrón circular de "${f.name}"`, [
+    { key: 'n', label: 'Nº de ocurrencias', value: 6, step: 1 },
+    { key: 'angle', label: 'Ángulo total (°)', value: 360, step: 15 },
+    { key: 'axis', label: 'Eje de giro', type: 'select', value: 'z', options: [['z', 'Z (vertical)'], ['x', 'X'], ['y', 'Y']] },
+    { key: 'cx', label: 'Centro X (mm)', value: 0 },
+    { key: 'cy', label: 'Centro Y (mm)', value: 0 },
+    { key: 'cz', label: 'Centro Z (mm)', value: 0 },
+  ], (v) => {
+    const n = Math.max(2, Math.round(v.n));
+    const axisDir = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] }[v.axis];
+    pushUndo();
+    const pat = makePatternFeature(f.id, 'circ', { n, angle: v.angle, axisAt: [v.cx, v.cy, v.cz], axisDir });
+    part.features.push(pat);
+    faceCache.clear();
+    rebuildPart(part);
+    commit(`Patrón circular de ${n} de "${f.name}".`);
+  });
+}
+
+$('btnPatRect').onclick = patternRect;
+$('btnPatCirc').onclick = patternCirc;
 
 // ---------- Exportar STL ----------
 

@@ -66,6 +66,12 @@ Funciones (se aplican en orden, como árbol paramétrico):
   — el perfil (`entities`, contorno cerrado en el plano) gira 360° alrededor
   del eje `axis` (una recta del mismo plano 2D). El perfil debe quedar a un
   solo lado del eje, sin cruzarlo.
+- Patrón de una función (repite otra función; debe ir DESPUÉS de ella en la lista):
+  - rectangular: `{"id":"f6","name":"Patrón","shape":"pattern","op":"pattern","at":[0,0,0],"dir":[0,0,1],"params":{"sourceId":"f3","kind":"rect","nx":3,"ny":2,"dx":40,"dy":30,"u":[1,0,0],"v":[0,1,0]}}`
+  - circular: `{"id":"f6","name":"Patrón","shape":"pattern","op":"pattern","at":[0,0,0],"dir":[0,0,1],"params":{"sourceId":"f3","kind":"circ","n":6,"angle":360,"axisAt":[0,0,0],"axisDir":[0,0,1]}}`
+  — `sourceId` es el `id` de la función a repetir (p. ej. un agujero). El
+  origen cuenta como la 1.ª ocurrencia: `nx*ny` (o `n`) es el TOTAL. Usa
+  patrones para agujeros repetidos en vez de listarlos uno por uno.
 
 Restricciones (opcionales, para entregar el conjunto ya ensamblado):
 
