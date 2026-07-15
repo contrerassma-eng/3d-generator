@@ -46,7 +46,7 @@ const world = (part, at) => [at[0] + part.pos[0], at[1] + part.pos[1], at[2] + p
 
 console.log('— Documento —');
 check('formato foto3d-cad v1', doc.format === 'foto3d-cad' && doc.version === 1);
-check('136 piezas (con correa sincrónica, SIT-LOCK y descansos)', doc.parts.length === 136, `hay ${doc.parts.length}`);
+check('138 piezas (banda plana, tambor construido, 2 chavetas de acople + SIT-LOCK, descansos)', doc.parts.length === 138, `hay ${doc.parts.length}`);
 const pids = doc.parts.map(p => p.id);
 check('ids de pieza únicos', new Set(pids).size === pids.length);
 const fids = doc.parts.flatMap(p => p.features.map(f => f.id));
@@ -61,7 +61,7 @@ check('toda pieza es FIJO · o MÓVIL ·', fijos.length + moviles.length === doc
 check('canal lateral es la pieza fija a tierra', doc.parts[0].name.includes('Canal lateral'));
 check('rodillos, transmisión, placas y motor son MÓVIL (suben juntos)',
   moviles.some(p => p.name.includes('Motorreductor')) &&
-  moviles.some(p => p.name.includes('Banda serpentín')) &&
+  moviles.some(p => p.name.includes('Banda plana')) &&
   moviles.filter(p => p.name.includes('Placa porta-poleas')).length === 2);
 
 console.log('— Construcción CSG de cada pieza —');
@@ -77,7 +77,7 @@ for (const part of doc.parts) {
   else console.log(`    NaN en ${part.name}`);
   if (v <= 1) console.log(`    sin volumen: ${part.name} (v=${v.toFixed(1)})`);
 }
-check('las 136 piezas construyen', built === doc.parts.length);
+check('las 138 piezas construyen', built === doc.parts.length);
 check('todas con volumen > 0', conVolumen === doc.parts.length);
 check('ninguna malla con NaN', sinNaN === doc.parts.length);
 
@@ -129,7 +129,7 @@ check('motor por dentro (cuerpo dentro de |x| < 147)', (() => {
   return w[0] - cuerpoM.params.w / 2 >= -147 - 1e-6 && w[0] + cuerpoM.params.w / 2 <= 147 + 1e-6;
 })());
 const ejeTambor = doc.parts.find(p => p.name.includes('Eje tambor'));
-const tambor = doc.parts.find(p => p.name.includes('Tambor dentado'));
+const tambor = doc.parts.find(p => p.name.includes('Tambor motriz'));
 check('motor coaxial al eje del tambor', (() => {
   const a = world(ejeTambor, ejeTambor.features[0].at);
   const b = world(motor, motor.features.find(f => f.name.startsWith('Eje salida')).at);
@@ -239,16 +239,28 @@ check('26 seegers DIN 471/472', seegers.length === 26, `hay ${seegers.length}`);
 const bujes = doc.parts.filter(p => p.name.includes('Buje bronce'));
 check('6 bujes de bronce (2 retornos + 4 palanca)', bujes.length === 6, `hay ${bujes.length}`);
 check('4 separadores tubulares en tensores', doc.parts.filter(p => p.name.includes('Separador')).length === 4);
-check('sin chavetas: buje SIT-LOCK autocentrante en el tambor', doc.parts.filter(p => p.name.includes('Chaveta')).length === 0 &&
-  doc.parts.some(p => p.name.includes('SIT-LOCK')));
+// tambor: SIT-LOCK autocentrante (sin chaveta) + chavetas SOLO en el acople
+check('tambor con SIT-LOCK autocentrante (sin chaveta en el tambor)',
+  doc.parts.some(p => p.name.includes('SIT-LOCK')) &&
+  !tambor.features.some(f => f.name.toLowerCase().includes('chavet')));
+check('2 chavetas DIN 6885 en el acople (motor↔acople↔eje)',
+  doc.parts.filter(p => p.name.includes('Chaveta') && p.name.includes('acople')).length === 2);
 check('portarodamiento Ø52 en la placa +X', doc.parts.some(p => p.name.includes('Portarodamiento')));
-// abombado: poleas y tambor con corona (2 cilindros de distinto Ø)
-const abombadas = doc.parts.filter(p => p.name.includes('abombad'));
-check('6 poleas abombadas (4 tensores + 2 retornos; el tambor es dentado)', abombadas.length === 6 &&
+// abombado: 6 poleas (corona 0.8) + tambor liso construido con su corona
+const abombadas = doc.parts.filter(p => p.name.includes('abombad') && !p.name.includes('Tambor'));
+check('6 poleas abombadas (4 tensores + 2 retornos, corona 0.8)', abombadas.length === 6 &&
   abombadas.every(p => {
     const ds = p.features.filter(f => f.shape === 'cylinder').map(f => f.params.dia);
     return Math.abs(Math.max(...ds) - Math.min(...ds) - 0.8) < 1e-9;
   }));
+check('tambor liso abombado construido (llanta + corona + 2 tapas + cubo)', (() => {
+  const nombres = tambor.features.map(f => f.name);
+  const llanta = tambor.features.find(f => f.name.startsWith('Llanta')).params.dia;
+  const corona = tambor.features.find(f => f.name.startsWith('Corona')).params.dia;
+  return Math.abs(corona - llanta - 0.8) < 1e-9 &&
+    nombres.filter(n => n.startsWith('Tapa lateral')).length === 2 &&
+    nombres.some(n => n.startsWith('Cubo'));
+})());
 // chaflanes de tornería en los ejes
 check('ejes con chaflanes de tornería', doc.parts.filter(p => p.name.includes('Eje rodillo')).every(p =>
   p.features.filter(f => f.name.includes('Chaflán')).length === 2) &&
@@ -269,11 +281,16 @@ check('tuercas tensoras coaxiales con su eje cantiléver', tuercasTensoras.every
   });
 }));
 check('4 niveladores M12 en las esquinas del canal', doc.parts.filter(p => p.name.includes('Nivelador M12')).length === 4);
-// correa sincrónica T10×35, tambor dentado y descansos
-check('correa sincrónica de 35 de ancho (T10, espesor 4.5)', banda.features[0].params.h === 35);
-check('tambor dentado T10 z28', tambor.features.filter(f => f.name.startsWith('Garganta')).length === 28);
-check('6 descansos de brida en las poleas', doc.parts.filter(p => p.name.includes('Descanso de brida')).length === 6);
+// transmisión por banda PLANA 35×3 y detalle de fabricación
+check('banda plana de 35 de ancho (espesor 3)', banda.features[0].params.h === 35 && banda.pos !== undefined);
+check('tambor liso (sin dientes)', tambor.features.filter(f => f.name.startsWith('Garganta')).length === 0);
+check('6 descansos de brida con grasera M6 en las poleas', (() => {
+  const d = doc.parts.filter(p => p.name.includes('Descanso de brida'));
+  return d.length === 6 && d.every(p => p.features.some(f => f.name.includes('Grasera')));
+})());
 check('velocidad 80 m/min documentada (banda 60 m/min)', /80 m\/min/.test(doc.meta.tolerancias.velocidad || ''));
+check('planos de llave fresados en los ejes de rodillo', doc.parts.filter(p => p.name.includes('Eje rodillo')).every(p =>
+  p.features.filter(f => f.name.includes('Plano de llave')).length === 2));
 check('SIT-LOCK concéntrico con tambor y eje', (() => {
   const sl = doc.parts.find(p => p.name.includes('SIT-LOCK'));
   const a = world(sl, sl.features[0].at);
