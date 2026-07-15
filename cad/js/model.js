@@ -3,7 +3,7 @@
 
 import * as THREE from 'three';
 import { CSG, geomToCSG, csgToGeom } from './csg.js';
-import { chainLoops } from './sketch2d.js';
+import { chainLoops, regions, entityPoints } from './sketch2d.js';
 
 let _id = 0;
 export const uid = (p) => `${p}${(++_id).toString(36)}${Date.now().toString(36).slice(-4)}`;
@@ -103,13 +103,6 @@ function featureGeometry(f, extent, first) {
     return cylinderAlong(start.toArray(), d.toArray(), f.params.dia / 2, len);
   }
   if (f.shape === 'sketch') {
-    let pts = f.params.pts, holes = [];
-    if (f.params.entities) {
-      const loops = chainLoops(f.params.entities);
-      pts = loops.outer;
-      holes = loops.holes;
-    }
-    if (!pts || pts.length < 3) return null; // sin contorno cerrado: se omite
     const ccw = (arr) => { // orientar para que ExtrudeGeometry genere un sólido válido
       let area = 0;
       for (let i = 0; i < arr.length; i++) {
@@ -118,12 +111,22 @@ function featureGeometry(f, extent, first) {
       }
       return area < 0 ? [...arr].reverse() : arr;
     };
-    pts = ccw(pts);
-    const shape = new THREE.Shape(pts.map(p => new THREE.Vector2(p[0], p[1])));
-    for (const hole of holes) {
-      const hp = ccw(hole).reverse(); // agujeros con orientación opuesta
-      shape.holes.push(new THREE.Path(hp.map(p => new THREE.Vector2(p[0], p[1]))));
+    let regs;
+    if (f.params.entities) {
+      regs = regions(f.params.entities, f.params.excluded || []).regions;
+    } else {
+      regs = (f.params.pts && f.params.pts.length >= 3) ? [{ outer: f.params.pts, holes: [] }] : [];
     }
+    if (!regs.length) return null; // sin contorno cerrado: se omite
+    const shapes = regs.map(reg => {
+      const shape = new THREE.Shape(ccw(reg.outer).map(p => new THREE.Vector2(p[0], p[1])));
+      for (const hole of reg.holes) {
+        const hp = ccw(hole).reverse(); // agujeros con orientación opuesta
+        shape.holes.push(new THREE.Path(hp.map(p => new THREE.Vector2(p[0], p[1]))));
+      }
+      return shape;
+    });
+    const shape = shapes; // ExtrudeGeometry acepta Shape[]
     const isCut = f.op === 'cut';
     const over = 0.5;
     const fuse = first ? 0 : 0.2; // solape para fusionar con material previo (si lo hay)
@@ -193,20 +196,35 @@ export function referenceEdges(part, circleSegs = 36) {
         pushCircle(new THREE.Vector3(...f.at).addScaledVector(dn, f.params.depth).toArray(), f.dir, f.params.dia / 2);
       }
     } else if (f.shape === 'sketch') {
-      let outer = f.params.pts, holes = [];
-      if (f.params.entities) { const l = chainLoops(f.params.entities); outer = l.outer; holes = l.holes; }
-      if (!outer) continue;
       const n = new THREE.Vector3(...f.dir).normalize();
       const U = new THREE.Vector3(...f.params.u);
       U.addScaledVector(n, -U.dot(n)).normalize();
       const Vv = new THREE.Vector3().crossVectors(n, U);
+      const toV3 = (pu, pv, off) => new THREE.Vector3(...f.at)
+        .addScaledVector(U, pu).addScaledVector(Vv, pv).addScaledVector(n, off);
       const lift = (f.op === 'cut' ? -1 : 1) * f.params.h;
-      for (const ring of [outer, ...holes]) {
+      if (f.params.entities) {
+        // todas las entidades del boceto en su plano (referencia completa)
+        for (const e of f.params.entities) {
+          const pts = entityPoints(e, circleSegs);
+          for (let i = 1; i < pts.length; i++) pushSeg(toV3(...pts[i - 1], 0), toV3(...pts[i], 0));
+        }
+        // contornos extruidos en la cara resultante
+        for (const reg of regions(f.params.entities, f.params.excluded || []).regions) {
+          for (const ring of [reg.outer, ...reg.holes]) {
+            let prev = null;
+            for (let i = 0; i <= ring.length; i++) {
+              const p = toV3(...ring[i % ring.length], lift);
+              if (prev) pushSeg(prev, p);
+              prev = p;
+            }
+          }
+        }
+      } else if (f.params.pts) {
         for (const off of [0, lift]) {
           let prev = null;
-          for (let i = 0; i <= ring.length; i++) {
-            const [pu, pv] = ring[i % ring.length];
-            const p = new THREE.Vector3(...f.at).addScaledVector(U, pu).addScaledVector(Vv, pv).addScaledVector(n, off);
+          for (let i = 0; i <= f.params.pts.length; i++) {
+            const p = toV3(...f.params.pts[i % f.params.pts.length], off);
             if (prev) pushSeg(prev, p);
             prev = p;
           }
@@ -215,6 +233,33 @@ export function referenceEdges(part, circleSegs = 36) {
     }
   }
   return segs;
+}
+
+// Puntos notables 3D de referencia (centros de círculos de agujeros,
+// cilindros y bocetos) para imantar el snap en los bocetos.
+export function referencePoints(part) {
+  const pts = [];
+  const V = (a) => new THREE.Vector3(...a);
+  for (const f of part.features) {
+    if (f.shape === 'cylinder') {
+      const dn = V(f.dir).normalize();
+      pts.push(V(f.at), V(f.at).addScaledVector(dn, f.params.h));
+    } else if (f.shape === 'hole') {
+      pts.push(V(f.at));
+      if (!f.params.through) pts.push(V(f.at).addScaledVector(V(f.dir).normalize(), f.params.depth));
+    } else if (f.shape === 'sketch' && f.params.entities) {
+      const n = V(f.dir).normalize();
+      const U = V(f.params.u);
+      U.addScaledVector(n, -U.dot(n)).normalize();
+      const Vv = new THREE.Vector3().crossVectors(n, U);
+      for (const e of f.params.entities) {
+        if (e.type === 'circle' || e.type === 'arc') {
+          pts.push(V(f.at).addScaledVector(U, e.c[0]).addScaledVector(Vv, e.c[1]));
+        }
+      }
+    }
+  }
+  return pts;
 }
 
 // Regenera la geometría local de una pieza aplicando sus features en orden.
