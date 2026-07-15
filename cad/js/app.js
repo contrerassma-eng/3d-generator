@@ -317,6 +317,8 @@ function refreshUI() {
       <span class="swatch" style="background:${part.color}"></span>
       <span class="nm">${esc(part.name)}${part.fixed ? ' 📌' : ''}</span>
       <button data-act="vis" title="Mostrar/ocultar">${part.visible ? '👁' : '—'}</button>
+      <button data-act="iso" title="Aislar: mostrar solo esta pieza (toca de nuevo para restaurar)">⛶</button>
+      <button data-act="del" class="danger" title="Eliminar la pieza y sus restricciones">🗑</button>
     </div><div class="children">`;
     part.features.forEach((f, fi) => {
       const fsel = selection?.kind === 'feature' && selection.id === f.id ? ' sel' : '';
@@ -371,6 +373,8 @@ $('tree').addEventListener('click', (e) => {
     refreshUI();
     return;
   }
+  if (btn?.dataset.act === 'iso' && kind === 'part') { isolatePart(getPart(doc, id)); return; }
+  if (btn?.dataset.act === 'del' && kind === 'part') { deletePart(getPart(doc, id)); return; }
   if (btn?.dataset.act && kind === 'feature') {
     const p = getPart(doc, part);
     const f = getFeature(p, id);
@@ -389,6 +393,33 @@ $('tree').addEventListener('click', (e) => {
   openProps();
   refreshUI();
 });
+
+// eliminar una pieza del ensamble junto con las restricciones que la usan
+function deletePart(p) {
+  if (!p) return;
+  const nc = doc.constraints.filter(c => c.a.part === p.id || c.b.part === p.id).length;
+  if (!confirm(`¿Eliminar la pieza "${p.name}"${nc ? ` y sus ${nc} restricción(es)` : ''}?`)) return;
+  pushUndo();
+  doc.parts = doc.parts.filter(x => x.id !== p.id);
+  doc.constraints = doc.constraints.filter(c => c.a.part !== p.id && c.b.part !== p.id);
+  disposePartMesh(p.id);
+  if (selection && (selection.id === p.id || selection.partId === p.id)) selection = null;
+  refreshUI();
+  commit(`${p.name} eliminada${nc ? ' (con sus restricciones)' : ''}. Ctrl+Z deshace.`);
+}
+
+// aislar: mostrar solo esta pieza; si ya está aislada, restaurar todas
+function isolatePart(p) {
+  if (!p) return false;
+  const otras = doc.parts.filter(x => x.id !== p.id);
+  const yaAislada = p.visible && otras.length > 0 && otras.every(x => !x.visible);
+  for (const x of doc.parts) { x.visible = yaAislada ? true : x.id === p.id; syncTransform(x); }
+  document.getElementById('btnIsolate').classList.toggle('on', !yaAislada);
+  refreshUI();
+  setStatus(yaAislada ? 'Aislamiento terminado: todas las piezas visibles.'
+                      : `⛶ ${p.name} aislada. Toca Aislar de nuevo para mostrar todas.`);
+  return !yaAislada;
+}
 
 // ---------- Interfaz: propiedades ----------
 
@@ -409,6 +440,7 @@ function refreshProps() {
       ${frow('Rotación °X/Y/Z', num3('pp_rot', [deg(e.x), deg(e.y), deg(e.z)]))}
       <div class="btnrow">
         <button id="pp_apply">Aplicar</button>
+        <button id="pp_iso" title="Mostrar solo esta pieza (toca de nuevo para restaurar)">⛶ Aislar</button>
         <button id="pp_del" class="danger">Eliminar pieza</button>
       </div>
       ${esChapa(p) ? `<div class="btnrow">
@@ -433,15 +465,8 @@ function refreshProps() {
       solveAndSync();
       commit('Pieza actualizada.');
     };
-    $('pp_del').onclick = () => {
-      pushUndo();
-      doc.parts = doc.parts.filter(x => x.id !== p.id);
-      doc.constraints = doc.constraints.filter(c => c.a.part !== p.id && c.b.part !== p.id);
-      disposePartMesh(p.id);
-      selection = null;
-      refreshUI();
-      commit('Pieza eliminada.');
-    };
+    $('pp_iso').onclick = () => isolatePart(p);
+    $('pp_del').onclick = () => deletePart(p);
     return;
   }
 
@@ -647,6 +672,32 @@ function setMode(m) {
   if (mode !== 'select' && isNarrow()) setSidebar(false); // que el panel no tape el modelo
 }
 for (const [m, id] of Object.entries(modeButtons)) $(id).onclick = () => setMode(m);
+
+// ---------- Entornos Pieza / Ensamble ----------
+// Conmutador tipo Inventor: la barra muestra solo las herramientas del
+// entorno activo (Sección/Vista/Medir son comunes a ambos).
+
+const ENV_OF_MODE = { sketch: 'pieza', hole: 'pieza', pestana: 'pieza', direct: 'pieza',
+                      mate: 'ens', flush: 'ens', concentric: 'ens', move: 'ens' };
+let env = 'pieza';
+function setEnv(e) {
+  env = e;
+  document.getElementById('rail').classList.toggle('ens', env === 'ens');
+  $('envPieza').classList.toggle('on', env !== 'ens');
+  $('envEns').classList.toggle('on', env === 'ens');
+  if (ENV_OF_MODE[mode] && ENV_OF_MODE[mode] !== env) setMode(mode); // apaga el modo del otro entorno
+  setStatus(env === 'ens' ? 'Entorno ENSAMBLE: restricciones, mover, imán y aislar.'
+                          : 'Entorno PIEZA: crear piezas y modelar sólidos.');
+}
+$('envPieza').onclick = () => setEnv('pieza');
+$('envEns').onclick = () => setEnv('ens');
+
+$('btnIsolate').onclick = () => {
+  const p = selection?.kind === 'part' ? getPart(doc, selection.id)
+          : selection?.partId ? getPart(doc, selection.partId) : null;
+  if (!p) { setStatus('Toca primero una pieza para aislarla.'); return; }
+  isolatePart(p);
+};
 
 // ---------- Picking ----------
 

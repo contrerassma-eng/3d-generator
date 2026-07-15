@@ -47,6 +47,16 @@
   .tile.on { background:#2b4270; border-color:var(--accent); color:var(--text); }
   .railsep { height:1px; background:var(--border); margin:4px 6px; flex:none; }
 
+  /* conmutador de entorno Pieza/Ensamble (como los entornos de Inventor) */
+  #envSwitch { display:flex; flex-direction:column; flex:none; margin:0 1px 3px;
+               border:1px solid var(--border); border-radius:9px; overflow:hidden; }
+  #envSwitch button { min-height:28px; padding:3px 2px; font-size:10px; border:none;
+                      border-radius:0; background:none; color:var(--dim); }
+  #envSwitch button + button { border-top:1px solid var(--border); }
+  #envSwitch button.on { background:#2b4270; color:var(--text); }
+  #rail.ens .envp { display:none; }
+  #rail:not(.ens) .enve { display:none; }
+
   /* ---- viewport ---- */
   #viewport { grid-row:2; grid-column:2; position:relative; overflow:hidden; }
   #viewport canvas { display:block; touch-action:none; }
@@ -172,25 +182,29 @@
   </div>
 
   <div id="rail">
-    <button class="tile" id="btnNewBox" title="Nueva pieza a partir de una caja/placa"><span class="tic">⬛</span>Caja</button>
-    <button class="tile" id="btnNewCyl" title="Nueva pieza a partir de un cilindro"><span class="tic">⬤</span>Cilindro</button>
-    <button class="tile" id="btnComp" title="Insertar un componente electrónico de la biblioteca (componentes/catalogo.json)"><span class="tic">🔌</span>Comp.</button>
-    <button class="tile" id="btnChapa" title="Nueva pieza de chapa plegada: material, espesor, factor K y radio de pliegue (por defecto = espesor)"><span class="tic">▱</span>Chapa</button>
-    <button class="tile" id="btnPestana" title="Pestaña de chapa sobre una arista (de la base o de la punta de otra pestaña)"><span class="tic">⎣</span>Pestaña</button>
+    <div id="envSwitch" title="Entorno de trabajo: modelado de piezas o ensamble">
+      <button id="envPieza" class="on">Pieza</button>
+      <button id="envEns">Ensam.</button>
+    </div>
+    <button class="tile envp" id="btnNewBox" title="Nueva pieza a partir de una caja/placa"><span class="tic">⬛</span>Caja</button>
+    <button class="tile envp" id="btnNewCyl" title="Nueva pieza a partir de un cilindro"><span class="tic">⬤</span>Cilindro</button>
+    <button class="tile envp" id="btnComp" title="Insertar un componente electrónico de la biblioteca (componentes/catalogo.json)"><span class="tic">🔌</span>Comp.</button>
+    <button class="tile envp" id="btnChapa" title="Nueva pieza de chapa plegada: material, espesor, factor K y radio de pliegue (por defecto = espesor)"><span class="tic">▱</span>Chapa</button>
+    <button class="tile envp" id="btnPestana" title="Pestaña de chapa sobre una arista (de la base o de la punta de otra pestaña)"><span class="tic">⎣</span>Pestaña</button>
+    <div class="railsep envp"></div>
+    <button class="tile envp" id="btnSketch" title="Boceto 2D sobre una cara con geometría proyectada del modelo"><span class="tic">✏</span>Boceto</button>
+    <button class="tile envp" id="btnHole" title="Agujero sobre una cara (toca la cara)"><span class="tic">◎</span>Agujero</button>
+    <button class="tile envp" id="btnFeature" title="Agregar unión o corte (caja/cilindro) a la pieza seleccionada"><span class="tic">✚</span>Función</button>
+    <button class="tile envp" id="btnDirect" title="Edición directa: toca una cara del sólido para cambiar su medida (diámetro, altura o tamaño)"><span class="tic">🖐</span>Directo</button>
+    <button class="tile enve" id="btnMate" title="Coincidir dos caras planas (cara contra cara)"><span class="tic">▬</span>Coincidir</button>
+    <button class="tile enve" id="btnFlush" title="Alinear dos caras planas (al ras, mismo sentido)"><span class="tic">⫤</span>Alinear</button>
+    <button class="tile enve" id="btnConcentric" title="Hacer concéntricos dos orificios/cilindros"><span class="tic">◉</span>Concentr.</button>
+    <button class="tile enve" id="btnMove" title="Arrastrar la pieza seleccionada (Shift o 2.º toque = vertical)"><span class="tic">✥</span>Mover</button>
+    <button class="tile enve" id="btnMagnet" title="Imán de ensamble: al mover piezas ajusta a caras en contacto/al ras, alturas totales, centros y ejes de orificios"><span class="tic">🧲</span>Imán</button>
+    <button class="tile enve" id="btnIsolate" title="Aislar la pieza seleccionada (ocultar las demás); vuelve a tocar para mostrar todas"><span class="tic">⛶</span>Aislar</button>
     <div class="railsep"></div>
-    <button class="tile" id="btnSketch" title="Boceto 2D sobre una cara con geometría proyectada del modelo"><span class="tic">✏</span>Boceto</button>
-    <button class="tile" id="btnHole" title="Agujero sobre una cara (toca la cara)"><span class="tic">◎</span>Agujero</button>
-    <button class="tile" id="btnFeature" title="Agregar unión o corte (caja/cilindro) a la pieza seleccionada"><span class="tic">✚</span>Función</button>
-    <button class="tile" id="btnDirect" title="Edición directa: toca una cara del sólido para cambiar su medida (diámetro, altura o tamaño)"><span class="tic">🖐</span>Directo</button>
-    <div class="railsep"></div>
-    <button class="tile" id="btnMate" title="Coincidir dos caras planas (cara contra cara)"><span class="tic">▬</span>Coincidir</button>
-    <button class="tile" id="btnFlush" title="Alinear dos caras planas (al ras, mismo sentido)"><span class="tic">⫤</span>Alinear</button>
-    <button class="tile" id="btnConcentric" title="Hacer concéntricos dos orificios/cilindros"><span class="tic">◉</span>Concentr.</button>
-    <button class="tile" id="btnMove" title="Arrastrar la pieza seleccionada (Shift o 2.º toque = vertical)"><span class="tic">✥</span>Mover</button>
-    <button class="tile" id="btnMagnet" title="Imán de ensamble: al mover piezas ajusta a caras en contacto/al ras, alturas totales, centros y ejes de orificios"><span class="tic">🧲</span>Imán</button>
     <button class="tile" id="btnSection" title="Vista de sección: corta el modelo por un plano X/Y/Z para ver interiores"><span class="tic">▤</span>Sección</button>
     <button class="tile" id="btnView" title="Vista del ensamble: perspectiva libre o vistas ortogonales bloqueadas (planta/frente/lateral/iso) para desplazar piezas sin perspectiva"><span class="tic">📐</span>Vista</button>
-    <div class="railsep"></div>
     <button class="tile" id="btnMeasure" title="Medir con referencias: puntos, aristas, caras, circunferencias y ejes (distancias perpendiculares, entre ejes y ángulos)"><span class="tic">📏</span>Medir</button>
   </div>
 

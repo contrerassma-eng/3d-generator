@@ -126,6 +126,17 @@ atornillable) que muestra todas las capacidades.
   **ancho/fondo/alto** manteniendo fija la cara opuesta.
 
 ### Ensamble (restricciones)
+- **Conmutador Pieza / Ensamble** (arriba de la barra izquierda, como los
+  entornos de Inventor): en *Pieza* se ven las herramientas de crear y
+  modelar sólidos; en *Ensamble*, las de restricciones, mover, imán y
+  aislar. Sección, Vista y Medir son comunes. Al cambiar de entorno se
+  apaga el modo del entorno anterior.
+- **⛶ Aislar**: muestra solo la pieza elegida (desde la barra con la pieza
+  seleccionada, desde su fila del árbol o desde sus propiedades); tocar de
+  nuevo restaura todas.
+- **🗑 Eliminar pieza**: desde la fila del árbol o desde propiedades, con
+  confirmación; borra también las restricciones que la usaban (Ctrl+Z
+  deshace).
 - **▬ Coincidir**: cara contra cara (normales opuestas), con separación
   opcional editable.
 - **⫤ Alinear**: caras al ras (mismo sentido).
