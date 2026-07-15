@@ -91,6 +91,23 @@ serpentín giran con ellas); elevación y bastidor no cambian.
 
 ---
 
+## `integracion_modulo_base.json` — Interfaz módulo ↔ transportador base
+
+Ensamble de **integración**: el módulo (`transfer_rodillos_90.json`, sin
+cambios) montado sobre una **representación simplificada del equipo base**
+(transportador de bandas), en su posición real, para ver cómo calza. Se genera
+con `node cad/ensambles/gen_integracion.mjs` y se abre en el visor
+(`ver.html?doc=integracion_modulo_base.json`) o en el CAD (📂 Abrir).
+
+La referencia del base (prefijo `BASE ·`, solo visual — **no se modela ni se
+modifica**) incluye: las **bandas de 40 mm a Z=170** corriendo en X (flujo) en
+las calles entre las líneas de rodillos, los **rieles T-slot** a los que se
+anclan los pies del módulo, los largueros de bastidor y 2 rodillos de banda.
+Muestra los dos interfaces: **transporte** (los rodillos emergen +4 mm sobre el
+plano de banda, entre las bandas) y **montaje** (pies a los rieles T-slot). El
+equipo base real es el STEP `sorter_CO`; esta es una referencia para verificar
+el calce (ver `INTEGRACION_BASE.md`).
+
 ## Planos de fabricación (PDF)
 
 `planos_transfer90/planos_fabricacion_transfer90.pdf` — juego de taller
