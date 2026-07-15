@@ -517,6 +517,53 @@ export function findAxialFeature(part, localPoint) {
   return best;
 }
 
+// ---------- Edición directa: identificar la cara tocada ----------
+// Dado un punto local y la normal local de la cara, encuentra qué función
+// la genera y qué parámetro controla (recorre de la última a la primera).
+export function identifyFace(part, lp, ln) {
+  const feats = [...part.features].reverse();
+  for (const f of feats) {
+    if (f.suppressed) continue;
+    if (f.shape === 'hole' || f.shape === 'cylinder') {
+      const at = new THREE.Vector3(...f.at);
+      const dir = new THREE.Vector3(...f.dir).normalize();
+      const rel = lp.clone().sub(at);
+      const t = rel.dot(dir);
+      const radial = rel.clone().addScaledVector(dir, -t).length();
+      const len = f.shape === 'hole' ? (f.params.through ? 1e4 : f.params.depth) : f.params.h;
+      const r = f.params.dia / 2;
+      if (t > -0.5 && t < len + 0.5 && Math.abs(radial - r) < 0.3 && Math.abs(ln.dot(dir)) < 0.3) {
+        return { feature: f, kind: f.shape === 'hole' ? 'hole-wall' : 'cyl-wall' };
+      }
+      if (f.shape === 'cylinder' && Math.abs(ln.dot(dir)) > 0.95 && radial < r + 0.3 && Math.abs(t - f.params.h) < 0.1) {
+        return { feature: f, kind: 'cyl-cap' };
+      }
+    } else if (f.shape === 'box') {
+      const { w, d, h } = f.params;
+      const center = [f.at[0], f.at[1], f.at[2] + h / 2];
+      const half = [w / 2, d / 2, h / 2];
+      const L = [lp.x, lp.y, lp.z], N = [ln.x, ln.y, ln.z];
+      for (let a = 0; a < 3; a++) {
+        if (Math.abs(N[a]) < 0.95) continue;
+        const sign = Math.sign(N[a]);
+        if (Math.abs(L[a] - (center[a] + sign * half[a])) > 0.1) continue;
+        const others = [0, 1, 2].filter(x => x !== a);
+        if (others.every(o => Math.abs(L[o] - center[o]) <= half[o] + 0.1)) {
+          return { feature: f, kind: 'box-face', axis: a, sign };
+        }
+      }
+    } else if (f.shape === 'sketch' && f.params.h) {
+      const n = new THREE.Vector3(...f.dir).normalize();
+      if (Math.abs(ln.dot(n)) > 0.95) {
+        const dist = lp.clone().sub(new THREE.Vector3(...f.at)).dot(n);
+        const capAt = (f.op === 'cut' ? -1 : 1) * f.params.h;
+        if (Math.abs(dist - capAt) < 0.1) return { feature: f, kind: 'sketch-cap' };
+      }
+    }
+  }
+  return null;
+}
+
 // ---------- Imán de ensamble ----------
 // Correcciones por eje para ajustar la pieza en movimiento a las demás:
 // caras en contacto, al ras, centros de caja y centros de ejes (orificios).
