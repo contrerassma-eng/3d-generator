@@ -74,6 +74,7 @@
   .node button { padding:2px 8px; font-size:12px; border-radius:6px; min-height:26px; }
   .children { margin-left:14px; border-left:1px solid var(--border); padding-left:4px; }
   .swatch { width:10px; height:10px; border-radius:3px; display:inline-block; flex:none; }
+  .node.supr .nm, .node.supr .meta { opacity:.45; text-decoration:line-through; }
 
   #props { border-top:1px solid var(--border); background:var(--panel); flex:none;
            display:flex; flex-direction:column; max-height:55%; }
@@ -94,7 +95,7 @@
   .btnrow { display:flex; gap:6px; margin-top:8px; }
   .btnrow button { flex:1; }
 
-  #hud { position:absolute; top:10px; left:10px; right:10px; display:flex; flex-direction:column; gap:6px; pointer-events:none; }
+  #hud { position:absolute; top:66px; left:10px; right:10px; display:flex; flex-direction:column; gap:6px; pointer-events:none; }
   .hudtag { background:#171b21d9; border:1px solid var(--border); border-radius:8px; padding:6px 10px;
             font-size:12.5px; max-width:460px; }
   .hudtag b { color:var(--accent2); }
@@ -103,12 +104,16 @@
                   border-radius:8px; padding:4px 9px; font-size:12px; transform:translate(-50%,-130%);
                   pointer-events:none; display:none; white-space:pre; }
 
-  #sketchbar { position:absolute; bottom:12px; left:50%; transform:translateX(-50%); z-index:25;
+  /* cinta de boceto ARRIBA, estilo ribbon de Inventor (scroll horizontal) */
+  #sketchbar { position:absolute; top:8px; left:8px; right:8px; z-index:25;
                display:none; gap:5px; background:#171b21f0; border:1px solid var(--accent2);
-               border-radius:12px; padding:7px; flex-wrap:wrap; justify-content:center;
-               max-width:calc(100% - 16px); box-shadow:0 10px 30px #000a; }
+               border-radius:12px; padding:6px; overflow-x:auto; flex-wrap:nowrap;
+               box-shadow:0 10px 30px #000a; scrollbar-width:none; }
+  #sketchbar::-webkit-scrollbar { display:none; }
   #sketchbar.open { display:flex; }
+  #sketchbar button { flex:none; }
   #sketchbar button.on { background:#5a4a20; border-color:var(--accent2); }
+  #sketchbar .rsep { flex:none; width:1px; background:var(--border); margin:2px 3px; }
 
   .dimlabel { position:absolute; z-index:26; transform:translate(-50%,-50%); cursor:pointer;
               background:#0e2a12e6; border:1px solid var(--ok); color:#c9f2d0; border-radius:8px;
@@ -143,7 +148,7 @@
     #sidebar { left:0; right:52px; width:auto; box-shadow:6px 0 24px #000c; }
     .node .meta { max-width:38vw; overflow:hidden; text-overflow:ellipsis; }
     #sketchbar { padding:5px; gap:4px; }
-    #sketchbar button { padding:7px 8px; font-size:11.5px; min-height:38px; }
+    #sketchbar button { padding:7px 8px; font-size:11.5px; min-height:40px; }
   }
 </style>
 <script type="importmap">
@@ -186,12 +191,19 @@
       <button data-tool="line" class="on" title="Línea punto a punto (tocar el 1.º punto cierra el contorno)">╱ Línea</button>
       <button data-tool="rect" title="Rectángulo por dos esquinas">▭ Rect</button>
       <button data-tool="circle" title="Círculo por centro y radio">◯ Círc</button>
+      <button data-tool="arc" title="Arco por centro, inicio y fin (antihorario)">⌒ Arco</button>
+      <button data-tool="polyg" title="Polígono regular por centro y vértice">⬡ Políg</button>
       <button data-tool="pen" title="Lápiz: dibuja a mano alzada y se interpreta como círculo, línea o polilínea">✎ Lápiz</button>
-      <button data-tool="dim" title="Cota: largo/diámetro (1 entidad) o distancia/ángulo (2 entidades, incluidas referencias proyectadas)">⇤⇥ Cota</button>
+      <span class="rsep"></span>
+      <button data-tool="offset" title="Equidistancia: copia paralela de una entidad o referencia a una distancia">∥ Offset</button>
+      <button data-tool="fillet" title="Empalme: redondea la esquina entre dos líneas con un radio">◜ Empalme</button>
       <button data-tool="trim" title="Recortar: elimina el tramo tocado, cortando contra todas las entidades y referencias">✂ Recortar</button>
       <button data-tool="extend" title="Alargar: extiende la línea hasta la siguiente entidad o referencia">⇥ Alargar</button>
       <button data-tool="moveEnt" title="Mover: arrastra una entidad (las cotas con candado restringen)">✥ Mover</button>
       <button data-tool="erase" title="Borrar la entidad tocada">⌦ Borrar</button>
+      <span class="rsep"></span>
+      <button data-tool="dim" title="Cota: largo/diámetro (1 entidad) o distancia/ángulo (2 entidades, incluidas referencias proyectadas); 🔒 la fija">⇤⇥ Cota</button>
+      <span class="rsep"></span>
       <button id="skClose" title="Encadenar el contorno y extruir (unión o corte)">✔ Extruir</button>
       <button id="skUndo" title="Quitar la última entidad o selección">↩</button>
       <button id="skCancel" class="danger" title="Salir sin crear nada">✕</button>

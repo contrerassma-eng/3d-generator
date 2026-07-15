@@ -44,8 +44,12 @@ atornillable) que muestra todas las capacidades.
   con **todas las aristas del modelo proyectadas** (vista ortogonal completa,
   incluidas otras piezas, generada analíticamente desde las funciones) como
   referencias con snap. Herramientas:
-  - **╱ Línea** (cadena punto a punto, el 1.º cierra), **▭ Rectángulo**,
-    **◯ Círculo**.
+  - **Cinta de herramientas ARRIBA** (estilo ribbon de Inventor, con scroll
+    horizontal): **╱ Línea** (cadena punto a punto, el 1.º cierra),
+    **▭ Rectángulo**, **◯ Círculo**, **⌒ Arco** (centro-inicio-fin),
+    **⬡ Polígono regular** (centro + vértice, n lados), **∥ Equidistancia**
+    (offset de entidades o referencias) y **◜ Empalme** (redondeo de esquina
+    entre dos líneas, con recorte a tangencia).
   - **✎ Lápiz**: dibujo a mano alzada (dedo, mouse o stylus) con
     reconocimiento de geometría — un trazo redondo se convierte en círculo,
     uno recto en línea (con ajuste a horizontal/vertical), y el resto en
@@ -74,9 +78,11 @@ atornillable) que muestra todas las capacidades.
   - **Boceto consumido visible**: en las propiedades de la función, "Mostrar
     boceto" dibuja el croquis sobre la pieza para reutilizarlo de guía; además
     sus entidades siempre se proyectan como referencia en bocetos nuevos.
-- Todo queda en el **árbol** (panel izquierdo). Al seleccionar una función se
-  pueden editar sus cotas y **Regenerar**: el modelo se reconstruye aplicando
-  las funciones en orden, como en Inventor.
+- **Navegador de modelo con edición directa**: cada función del árbol tiene
+  botones **⏸ suprimir/reactivar** (se excluye de la regeneración, como en
+  Inventor), **↑/↓ reordenar** (el orden cambia el resultado) y, en sus
+  propiedades, nombre editable, cotas, "Mostrar boceto" y eliminar. El modelo
+  se reconstruye aplicando las funciones en orden.
 
 ### Ensamble (restricciones)
 - **▬ Coincidir**: cara contra cara (normales opuestas), con separación

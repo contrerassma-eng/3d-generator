@@ -228,13 +228,16 @@ function refreshUI() {
       <span class="nm">${esc(part.name)}${part.fixed ? ' 📌' : ''}</span>
       <button data-act="vis" title="Mostrar/ocultar">${part.visible ? '👁' : '—'}</button>
     </div><div class="children">`;
-    for (const f of part.features) {
+    part.features.forEach((f, fi) => {
       const fsel = selection?.kind === 'feature' && selection.id === f.id ? ' sel' : '';
-      html += `<div class="node${fsel}" data-kind="feature" data-part="${part.id}" data-id="${f.id}">
-        <span class="ic">${OP_ICON[f.op] || ''}</span><span class="nm">${esc(f.name)}</span>
+      html += `<div class="node${fsel}${f.suppressed ? ' supr' : ''}" data-kind="feature" data-part="${part.id}" data-id="${f.id}">
+        <span class="ic">${f.suppressed ? '⏸' : (OP_ICON[f.op] || '')}</span><span class="nm">${esc(f.name)}</span>
         <span class="meta">${featureMeta(f)}</span>
+        <button data-act="sup" title="Suprimir/reactivar la función">${f.suppressed ? '▶' : '⏸'}</button>
+        <button data-act="up" title="Subir (regenera antes)" ${fi === 0 ? 'disabled' : ''}>↑</button>
+        <button data-act="down" title="Bajar (regenera después)" ${fi === part.features.length - 1 ? 'disabled' : ''}>↓</button>
       </div>`;
-    }
+    });
     html += '</div>';
   }
   html += '<h3>Restricciones</h3>';
@@ -275,6 +278,19 @@ $('tree').addEventListener('click', (e) => {
     p.visible = !p.visible;
     syncTransform(p);
     refreshUI();
+    return;
+  }
+  if (btn?.dataset.act && kind === 'feature') {
+    const p = getPart(doc, part);
+    const f = getFeature(p, id);
+    const idx = p.features.indexOf(f);
+    pushUndo();
+    if (btn.dataset.act === 'sup') f.suppressed = !f.suppressed;
+    if (btn.dataset.act === 'up' && idx > 0) [p.features[idx - 1], p.features[idx]] = [p.features[idx], p.features[idx - 1]];
+    if (btn.dataset.act === 'down' && idx < p.features.length - 1) [p.features[idx + 1], p.features[idx]] = [p.features[idx], p.features[idx + 1]];
+    faceCache.clear();
+    rebuildPart(p);
+    commit(btn.dataset.act === 'sup' ? (f.suppressed ? 'Función suprimida.' : 'Función reactivada.') : 'Orden de funciones cambiado.');
     return;
   }
   if (!kind || !id) return;
@@ -352,7 +368,8 @@ function refreshProps() {
       }
     }
     body.innerHTML = `
-      ${frow('Función', `<b>${esc(f.name)}</b> &nbsp;(${f.op === 'cut' ? 'corte' : 'unión'})`)}
+      ${frow('Nombre', `<input type="text" id="fp_name" value="${esc(f.name)}">`)}
+      ${frow('Tipo', `${f.op === 'cut' ? 'corte' : 'unión'}${f.suppressed ? ' · ⏸ suprimida' : ''}`)}
       ${dims}
       ${frow('Posición X/Y/Z', num3('fp_at', f.at))}
       ${f.shape !== 'box' ? frow('Eje X/Y/Z', num3('fp_dir', f.dir)) : ''}
@@ -362,6 +379,7 @@ function refreshProps() {
       </div>`;
     $('fp_apply').onclick = () => {
       pushUndo();
+      f.name = $('fp_name').value || f.name;
       if (f.shape === 'box') { const [w, d, h] = readNum3('fp_dims'); Object.assign(f.params, { w, d, h }); }
       if (f.shape === 'sketch') {
         f.params.h = +$('fp_h').value;
@@ -720,6 +738,81 @@ function clickSketch(hit, ev) {
   if (t === 'trim') return clickTrim(raw);
   if (t === 'extend') return clickExtend(raw);
   if (t === 'erase') return clickErase(raw);
+  if (t === 'arc') return clickArc(raw);
+  if (t === 'polyg') return clickPolygon(raw);
+  if (t === 'offset') return clickOffset(raw);
+  if (t === 'fillet') return clickFillet(raw);
+}
+
+function clickArc(raw) {
+  const { uv } = snap2D(raw);
+  if (!sketch.temp) { sketch.temp = { c: uv }; setStatus('Arco: toca el punto de INICIO.'); redrawSketch(); return; }
+  if (!sketch.temp.start) { sketch.temp.start = uv; setStatus('Arco: toca el punto FINAL (sentido antihorario).'); return; }
+  const { c, start } = sketch.temp;
+  sketch.temp = null;
+  const arc = SK.makeArcCSE(c, start, uv);
+  if (arc.r < 0.3) { setStatus('Radio demasiado pequeño.'); return; }
+  sketch.entities.push(arc);
+  setStatus(`Arco R${arc.r.toFixed(1)} creado.`);
+  redrawSketch();
+}
+
+function clickPolygon(raw) {
+  const { uv } = snap2D(raw);
+  if (!sketch.temp) { sketch.temp = uv; setStatus('Polígono: toca un vértice.'); redrawSketch(); return; }
+  const c = sketch.temp;
+  sketch.temp = null;
+  const vtx = uv;
+  showForm('Polígono regular', [
+    { key: 'n', label: 'Nº de lados', value: 6, step: 1 },
+  ], (v) => {
+    const lines = SK.regularPolygon(c, vtx, Math.max(3, Math.min(24, Math.round(v.n))));
+    if (!lines.length) { setStatus('Polígono inválido.'); return; }
+    sketch.entities.push(...lines);
+    setStatus(`Polígono de ${lines.length} lados creado.`);
+    redrawSketch();
+  });
+}
+
+function clickOffset(raw) {
+  const pick = pickEntityAt(raw, true);
+  if (!pick) { setStatus('Equidistancia: toca una entidad o referencia.'); return; }
+  const src = pick.ent;
+  showForm('Equidistancia (offset)', [
+    { key: 'd', label: 'Distancia (mm)', value: 5, step: 0.5 },
+  ], (v) => {
+    const ne = SK.offsetEntity(src, v.d, raw);
+    if (!ne) { setStatus('No se pudo hacer el offset con esa distancia.'); return; }
+    sketch.entities.push(ne);
+    setStatus(`Offset de ${v.d} mm creado hacia el lado tocado.`);
+    redrawSketch();
+  });
+}
+
+function clickFillet(raw) {
+  const pick = pickEntityAt(raw, false);
+  if (!pick || pick.ent.type !== 'line') { setStatus('Empalme: toca la 1.ª línea.'); return; }
+  if (!sketch.dimPick) {
+    sketch.dimPick = pick;
+    redrawSketch();
+    setStatus('Empalme: toca la 2.ª línea.');
+    return;
+  }
+  const l1 = sketch.dimPick.ent;
+  sketch.dimPick = null;
+  if (pick.ent.id === l1.id) { redrawSketch(); setStatus('Elige dos líneas distintas.'); return; }
+  const l2 = pick.ent;
+  showForm('Empalme (redondeo de esquina)', [
+    { key: 'r', label: 'Radio (mm)', value: 5, step: 0.5 },
+  ], (v) => {
+    if (SK.filletLines(sketch.entities, l1, l2, v.r)) {
+      pruneDims();
+      redrawSketch();
+      setStatus(`Empalme R${v.r} aplicado.`);
+    } else {
+      setStatus('No se pudo empalmar (¿paralelas o radio muy grande?).');
+    }
+  });
 }
 
 function clickErase(raw) {
@@ -1099,7 +1192,12 @@ function redrawSketch() {
     sketch.draw.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
       [to3D(e.a[0], e.a[1], 0.12), to3D(e.b[0], e.b[1], 0.12)]), selEntMat));
   }
-  for (const p of [sketch.chainLast, sketch.temp]) {
+  const tempPts = [];
+  if (sketch.temp) {
+    if (Array.isArray(sketch.temp)) tempPts.push(sketch.temp);
+    else { if (sketch.temp.c) tempPts.push(sketch.temp.c); if (sketch.temp.start) tempPts.push(sketch.temp.start); }
+  }
+  for (const p of [sketch.chainLast, ...tempPts]) {
     if (!p) continue;
     const m = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.8, 3.5 * worldPerPixel()), 10, 8), ptMat);
     m.position.copy(to3D(p[0], p[1]));
@@ -1136,6 +1234,16 @@ function updateSketchPreview(ev) {
       pts.push(to3D(cx + r * Math.cos(a), cy + r * Math.sin(a)));
     }
     sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), previewMat));
+  } else if (t === 'arc' && sketch.temp?.start) {
+    const arc = SK.makeArcCSE(sketch.temp.c, sketch.temp.start, uv);
+    const pts = SK.entityPoints(arc, 48).map(p => to3D(p[0], p[1]));
+    sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), previewMat));
+  } else if (t === 'polyg' && sketch.temp) {
+    const lines = SK.regularPolygon(sketch.temp, uv, 6);
+    for (const l of lines) {
+      sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
+        [to3D(l.a[0], l.a[1]), to3D(l.b[0], l.b[1])]), previewMat));
+    }
   }
   setStatus(`(${uv[0].toFixed(1)}, ${uv[1].toFixed(1)}) mm${snapped ? ` ⌖ ${kind}` : ''}`);
 }
@@ -1272,6 +1380,10 @@ sketchbar.addEventListener('click', (e) => {
       extend: 'Alargar: toca una línea cerca del extremo; se alarga hasta la siguiente entidad o referencia.',
       moveEnt: 'Mover: arrastra una entidad; las cotas 🔒 restringen, las libres se actualizan.',
       erase: 'Borrar: toca la entidad a eliminar.',
+      arc: 'Arco: toca CENTRO, luego INICIO y FINAL (antihorario).',
+      polyg: 'Polígono regular: toca el centro y un vértice; luego eliges los lados.',
+      offset: 'Equidistancia: toca una entidad o referencia del lado hacia donde quieres la copia.',
+      fillet: 'Empalme: toca dos líneas que se cruzan y define el radio.',
     }[sketch.tool]);
     return;
   }
