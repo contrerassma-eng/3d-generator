@@ -100,10 +100,17 @@ atornillable) que muestra todas las capacidades.
   - **✂ Recortar**: elimina el tramo tocado cortando contra todas las
     entidades y referencias. **⇥ Alargar**: extiende una línea hasta la
     siguiente entidad o referencia.
-  - **✔ Extruir** con **selección de perfiles** tipo Inventor: si hay varios
-    contornos cerrados, se pintan las regiones y tocas cuáles incluir (verde)
-    o excluir (gris); el anidado va por paridad (isla dentro de un agujero =
-    sólido). La selección queda guardada en la función.
+  - **✔ Extruir / Revolución** con **selección de perfiles** tipo Inventor:
+    si hay varios contornos cerrados, se pintan las regiones y tocas cuáles
+    incluir (verde) o excluir (gris); el anidado va por paridad (isla dentro
+    de un agujero = sólido). La selección queda guardada en la función.
+    **Revolución 360°**: el contorno gira alrededor de una línea del boceto
+    que eliges como eje (validando que el perfil no lo cruce).
+  - **⇄ Espejo**: refleja la selección respecto a una línea de simetría
+    declarada con dos puntos (con snap).
+  - **✏ Editar boceto** (en las propiedades de la función): reabre el boceto
+    consumido en su plano con todas sus entidades y cotas; ✔ guarda los
+    cambios en la misma función y regenera la pieza.
   - **Boceto consumido visible**: en las propiedades de la función, "Mostrar
     boceto" dibuja el croquis sobre la pieza para reutilizarlo de guía; además
     sus entidades siempre se proyectan como referencia en bocetos nuevos.
