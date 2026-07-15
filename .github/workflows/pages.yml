@@ -1,11 +1,11 @@
-name: Publicar CAD en GitHub Pages
+name: pages
 
+# Publica en la rama gh-pages (fuente de GitHub Pages de este repo):
+# - raíz: app CAD web (cad/)
+# - metodo/: documentación del método + paquetes 70_web/ de proyectos
 on:
   push:
-    branches: [main, claude/3d-design-software-62eku4]
-    paths:
-      - 'cad/**'
-      - '.github/workflows/pages.yml'
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -16,14 +16,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # Publica cad/ en la rama gh-pages (fuente clásica de GitHub Pages,
-      # no depende del entorno protegido github-pages ni de habilitación por API)
+      # raíz: app CAD (keep_files conserva metodo/ ya publicado)
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./cad
+          keep_files: true
           commit_message: 'Publicar cad/ en Pages'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install markdown
+      - run: python tools/build_pages.py _site
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _site
+          destination_dir: metodo
+          keep_files: true
+          commit_message: "Publicar metodo/ (docs + visores) desde"
