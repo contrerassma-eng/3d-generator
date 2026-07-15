@@ -119,6 +119,11 @@ atornillable) que muestra todas las capacidades.
   Inventor), **↑/↓ reordenar** (el orden cambia el resultado) y, en sus
   propiedades, nombre editable, cotas, "Mostrar boceto" y eliminar. El modelo
   se reconstruye aplicando las funciones en orden.
+- **🖐 Directo (edición directa de sólidos)**: toca una cara del modelo y
+  edita el parámetro que la genera sin pasar por el árbol, como el "editar
+  cara" de Inventor — pared de agujero o cilindro → **diámetro**; tapa de
+  cilindro o de extrusión → **altura/profundidad**; cara de una caja →
+  **ancho/fondo/alto** manteniendo fija la cara opuesta.
 
 ### Ensamble (restricciones)
 - **▬ Coincidir**: cara contra cara (normales opuestas), con separación
@@ -159,7 +164,13 @@ atornillable) que muestra todas las capacidades.
   del resto de la geometría proyectada (azul).
 
 ### Inspección y archivo
-- **📏 Medir**: distancia entre dos puntos (con ajuste a vértices) + ΔX/ΔY/ΔZ.
+- **📏 Medir con referencias**: cada toque elige la referencia más específica
+  cercana — **circunferencia** (borde de agujero/cilindro), **arista** (o su
+  extremo → punto), **eje** (pared cilíndrica) o **cara plana** — y con dos
+  referencias calcula la medida correcta: distancia perpendicular entre caras
+  paralelas (o su ángulo), distancia entre ejes/aristas paralelos (o su
+  ángulo), distancia radial punto/centro→eje, punto→cara perpendicular y
+  distancia entre centros con ΔX/ΔY/ΔZ.
 - **⭳ STL**: exporta el ensamble completo a STL binario (imprimible/importable).
 - **⭳ DXF / ⭳ PDF**: plano técnico normalizado del ensamble, con el mismo
   estilo que S6 — marco ISO 5457 (marcas de centrado y retícula de
