@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instalación de herramientas (Windows)</title><style>
+:root { color-scheme: light dark; }
+body { font-family: system-ui, sans-serif; max-width: 60rem; margin: 2rem auto;
+       padding: 0 1rem; line-height: 1.55; }
+a { color: #0b62c4; } code, pre { background: rgba(127,127,127,.12);
+    border-radius: 4px; padding: .1em .3em; }
+pre { padding: .8em; overflow-x: auto; }
+table { border-collapse: collapse; } td, th { border: 1px solid #8886;
+    padding: .3em .6em; }
+h1, h2 { border-bottom: 1px solid #8884; padding-bottom: .2em; }
+.nav { font-size: .9em; margin-bottom: 1.5rem; }
+.tag { font-size: .8em; background: rgba(127,127,127,.15); border-radius: 6px;
+    padding: .1em .5em; margin-left: .4em; }
+</style></head>
+<body><p class="nav"><a href="../index.html">← foto3d</a></p>
+<h1>Instalación de herramientas (Windows)</h1>
+<p>Verificar estado en cualquier momento: <code>powershell tools/check_env.ps1</code></p>
+<h2>1. Python (ya instalado: 3.14)</h2>
+<pre><code class="language-powershell">pip install -r requirements.txt
+</code></pre>
+<h2>2. COLMAP (SfM — etapa S1)</h2>
+<ol>
+<li>Descargar release Windows: https://github.com/colmap/colmap/releases</li>
+<li>Con GPU NVIDIA: variante <code>cuda</code>. Sin NVIDIA: variante <code>nocuda</code> (más lenta pero funciona).</li>
+<li>Extraer en <code>C:\tools\colmap\</code>.</li>
+<li>Agregar al PATH de usuario:
+   <code>powershell</code></li>
+<li>Verificar en una TERMINAL NUEVA: <code>colmap -h</code></li>
+</ol>
+<p>Nota: COLMAP 4.x integra el mapper global (GLOMAP) como <code>colmap global_mapper</code>,
+mucho más rápido con igual precisión. <code>s1_sfm.py</code> lo prefiere automáticamente y
+cae al mapper incremental si falla.</p>
+<p>Instalado en esta máquina (2026-06-12): COLMAP 4.1.0 nocuda en <code>C:\tools\colmap\bin</code>,
+OpenMVS v2.4.0 en <code>C:\tools\openmvs\vc17\x64\Release</code>, ambos en el PATH de usuario.</p>
+<p>IMPORTANTE (Windows): <code>colmap.exe</code> necesita los plugins Qt del zip. Si aparece
+"no Qt platform plugin could be initialized", es eso. El pipeline lo resuelve solo
+(<code>s1_sfm.py</code> inyecta <code>QT_PLUGIN_PATH</code> + <code>QT_QPA_PLATFORM=offscreen</code> al subproceso).
+Para uso manual en terminal: usa <code>C:\tools\colmap\COLMAP.bat</code> o exporta
+<code>$env:QT_PLUGIN_PATH = 'C:\tools\colmap\plugins'</code> en la sesión. No configurar
+QT_PLUGIN_PATH como variable global de usuario: rompería otras aplicaciones Qt.
+OJO: OpenMVS escribe su salida en archivos <code>&lt;Herramienta&gt;-&lt;timestamp&gt;.log</code> en el
+directorio de trabajo, y <code>--help</code> retorna exit code 1 (comportamiento normal).</p>
+<h2>3. OpenMVS (densificación + malla — etapa S2)</h2>
+<ol>
+<li>Descargar binarios Windows: https://github.com/cdcseacave/openMVS/releases</li>
+<li>Extraer en <code>C:\tools\openmvs\</code> y agregar al PATH (mismo método).</li>
+<li>Verificar: <code>DensifyPointCloud --help</code></li>
+</ol>
+<h2>4. gltfpack (compresión web — opcional pero recomendado)</h2>
+<pre><code class="language-powershell">npm install -g gltfpack
+</code></pre>
+<p>Comprime el GLB (meshopt + texturas KTX2) típicamente 5–10×. Sin él, S2 entrega
+el GLB sin comprimir (funciona igual, pesa más).</p>
+<h2>5. Gaussian Splatting (opcional — etapa S3, requiere GPU)</h2>
+<p>Opciones ordenadas por simpleza (detalle en <code>pipeline/s3_splat.md</code>):
+- <strong>Postshot</strong> (GUI Windows, gratis en beta): https://www.jawset.com/
+- <strong>Brush</strong> (open source, corre sin CUDA — Vulkan/Metal): https://github.com/ArthurBrussee/brush
+- <strong>nerfstudio/gsplat</strong> (CLI, requiere CUDA): https://docs.nerf.studio/
+- Limpieza y compresión a <code>.spz</code>/<code>.sog</code>: <strong>SuperSplat</strong> (navegador): https://superspl.at/editor</p>
+<h2>GPU: qué cambia</h2>
+<table>
+<thead>
+<tr>
+<th>Componente</th>
+<th>Sin GPU NVIDIA</th>
+<th>Con GPU NVIDIA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>COLMAP S1</td>
+<td>OK (lento en sets grandes)</td>
+<td>Rápido</td>
+</tr>
+<tr>
+<td>OpenMVS S2</td>
+<td>OK</td>
+<td>Rápido</td>
+</tr>
+<tr>
+<td>3DGS S3</td>
+<td>Solo Brush o servicios cloud</td>
+<td>Todas las opciones</td>
+</tr>
+</tbody>
+</table>
+</body></html>

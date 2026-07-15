@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Método: máquina de estados y gates</title><style>
+:root { color-scheme: light dark; }
+body { font-family: system-ui, sans-serif; max-width: 60rem; margin: 2rem auto;
+       padding: 0 1rem; line-height: 1.55; }
+a { color: #0b62c4; } code, pre { background: rgba(127,127,127,.12);
+    border-radius: 4px; padding: .1em .3em; }
+pre { padding: .8em; overflow-x: auto; }
+table { border-collapse: collapse; } td, th { border: 1px solid #8886;
+    padding: .3em .6em; }
+h1, h2 { border-bottom: 1px solid #8884; padding-bottom: .2em; }
+.nav { font-size: .9em; margin-bottom: 1.5rem; }
+.tag { font-size: .8em; background: rgba(127,127,127,.15); border-radius: 6px;
+    padding: .1em .5em; margin-left: .4em; }
+</style></head>
+<body><p class="nav"><a href="../index.html">← foto3d</a></p>
+<h1>Método: máquina de estados y gates</h1>
+<p>Pipeline determinista. Cada etapa lee el estado del proyecto, valida precondiciones,
+produce artefactos, evalúa su gate contra <code>config/thresholds.json</code> y escribe en
+<code>state.json</code> + <code>audit.log.jsonl</code>. Un gate fallido detiene el avance.</p>
+<h2>Estados</h2>
+<pre><code>S0_PENDIENTE → S0_OK → S1_OK → S2_OK → [S3_OK] → S4_OK → S5_PUBLICADO
+                 │        │       │                 │
+                 └─G1✗    └─G2✗   └─G3✗             └─G4✗   (estado *_FALLIDO + motivo)
+</code></pre>
+<h2>S0 — Intake (gate G1: calidad de fotos)</h2>
+<p>Entrada: <code>input/photos/*.jpg|png|tif</code>. Por cada foto:
+- SHA-256 (ancla de auditoría: el set de entrada queda criptográficamente fijado)
+- Resolución (Mpx), EXIF (focal, ISO, fecha, cámara)
+- Nitidez: varianza del Laplaciano (OpenCV). Bajo umbral ⇒ foto rechazada.</p>
+<p>G1 pasa si: nº fotos aceptadas ≥ <code>min_fotos</code>, resolución mediana ≥ <code>min_resolucion_mpx</code>,
+% rechazadas ≤ <code>max_rechazadas_pct</code>. Falla ⇒ informe indica QUÉ recapturar.</p>
+<p>Salida: <code>work/00_intake/intake_report.json</code> + <code>INTAKE.md</code> (tabla legible).</p>
+<h2>S1 — Structure from Motion (gate G2: consistencia geométrica)</h2>
+<p>COLMAP: <code>feature_extractor</code> → matcher (<code>exhaustive</code> ≤150 fotos, <code>sequential</code> si más)
+→ <code>mapper</code> → <code>model_analyzer</code> → <code>image_undistorter</code> (prepara S2).</p>
+<p>G2 pasa si: % imágenes registradas ≥ <code>min_registradas_pct</code>, error medio de
+reproyección ≤ <code>max_error_reproyeccion_px</code>, track length medio ≥ <code>min_track_length</code>.</p>
+<p><strong>Esta es la compuerta de "irrefutabilidad"</strong>: cada punto 3D aceptado fue visto por
+múltiples cámaras con error sub-píxel. Métricas en <code>work/10_sfm/sfm_metrics.json</code>.</p>
+<h2>S2 — Densificación + malla (gate G3: malla válida)</h2>
+<p>OpenMVS: <code>InterfaceCOLMAP</code> → <code>DensifyPointCloud</code> → <code>ReconstructMesh</code> →
+<code>TextureMesh --export-type glb</code>. Si <code>gltfpack</code> está disponible, compresión
+meshopt + KTX2 → <code>out/model.glb</code>.</p>
+<p>G3 pasa si: GLB existe, tamaño ≥ <code>min_tamano_glb_kb</code>, log sin errores fatales.</p>
+<h2>S3 — Gaussian Splatting (opcional, sin gate)</h2>
+<p>Fotorrealismo para el visor. Requiere GPU; flujo manual documentado en
+<code>pipeline/s3_splat.md</code>. Salida esperada: <code>out/scene.spz</code> (o <code>.ply</code>).
+Su procedencia es <code>measured</code> (usa las mismas poses de S1) pero se etiqueta
+<code>render_only</code>: los splats NO son superficie medible, solo apariencia.</p>
+<h2>S4 — Procedencia y escala (gate G4: coherencia dimensional)</h2>
+<p>Funde en <code>out/provenance.json</code> (esquema: <code>schemas/provenance.schema.json</code>):
+1. Métricas <code>measured</code> de S0–S2.
+2. Afirmaciones <code>user</code> parseadas de <code>input/descripcion.md</code>.
+3. Datos <code>web</code> de <code>input/web_facts.json</code> (URL + fecha + cita obligatorias).
+4. Escala: aplica <code>factor_escala</code> de descripcion.md y calcula la discrepancia %
+   entre dimensiones medidas y declaradas/web.</p>
+<p>G4 pasa si discrepancia ≤ <code>max_discrepancia_escala_pct</code>. Si no hay dimensión de
+contraste, G4 queda <code>SIN_CONTRASTE</code> (advertencia visible, no bloqueo).</p>
+<h3>Flujo de escala v1</h3>
+<p>COLMAP entrega escala arbitraria. Procedimiento:
+1. Captura con objeto de dimensión conocida en escena (<code>referencia_escala</code> en descripcion.md).
+2. Tras S5, medir esa distancia en el visor (modo medición, sin escala aún).
+3. Anotar <code>factor_escala = dimension_real / dimension_medida</code> en descripcion.md.
+4. Re-ejecutar S4 + S5: el visor aplica el factor y las mediciones quedan métricas.</p>
+<h2>S5 — Paquete navegable + informe (gate G5: completitud)</h2>
+<p>Genera <code>70_web/</code> autocontenido: <code>index.html</code> (visor Three.js), <code>data/model.glb</code>,
+<code>data/scene.spz</code> (si existe), <code>data/provenance.json</code>, <code>data/manifest.json</code>.
+Genera <code>INFORME.md</code>: hashes de entrada, métricas por etapa, resultado de cada gate,
+tabla de hechos con capa y fuente, versiones de herramientas. Ese informe ES el
+resultado auditable.</p>
+<p>G5 pasa si todos los <code>archivos_requeridos</code> existen.</p>
+<h2>S6 — Dibujo técnico (gate G6: lámina completa) — derivada, repetible</h2>
+<p>Desde <code>S2_OK</code> en adelante (no muta la etapa): <code>out/drawings/&lt;n&gt;.dxf</code> con la
+geometría a escala real acotada y marco/cajetín normativos, y <code>&lt;n&gt;.pdf</code> con
+las láminas imprimibles (vistas en primer diedro + isométrica; lámina extra
+por despliegue de chapa con <code>--chapa</code>). También dibuja sólidos CAD
+(<code>--fuente out/cad/&lt;n&gt;.glb</code>). G6 <code>PASA</code> con escala certificada; queda
+<code>SIN_CONTRASTE</code> si falta <code>factor_escala</code> (la lámina lo declara en el cajetín).
+Detalle de normas, capas DXF, despliegue y CAD: <code>docs/DIBUJO_TECNICO.md</code>.</p>
+<h2>Auditoría</h2>
+<p><code>audit.log.jsonl</code> — una línea JSON por acción:</p>
+<pre><code class="language-json">{&quot;ts&quot;:&quot;2026-06-12T10:00:00Z&quot;,&quot;stage&quot;:&quot;S1&quot;,&quot;action&quot;:&quot;colmap mapper&quot;,&quot;inputs&quot;:{&quot;db&quot;:&quot;sha256:...&quot;},&quot;outputs&quot;:{&quot;sparse&quot;:&quot;sha256:...&quot;},&quot;result&quot;:&quot;OK&quot;,&quot;metrics&quot;:{...}}
+</code></pre>
+<p>Nunca se edita ni se trunca. Cualquier acción manual se registra con
+<code>python pipeline/lib_audit.py log &lt;proyecto&gt; "&lt;descripción&gt;"</code>.</p>
+<h2>Límites declarados (lo que el método NO garantiza)</h2>
+<ul>
+<li>Geometría no vista por ninguna foto (interiores, base de apoyo): no existe en el modelo.</li>
+<li>Superficies transparentes/espejadas: ruido o huecos; se mitigan en captura
+  (spray/polarizador) o se declaran, jamás se rellenan inventando.</li>
+<li>La escala depende de la referencia física; sin ella el modelo es correcto en
+  forma pero no métrico (y el informe lo dice).</li>
+</ul>
+</body></html>

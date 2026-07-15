@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protocolo de captura fotográfica</title><style>
+:root { color-scheme: light dark; }
+body { font-family: system-ui, sans-serif; max-width: 60rem; margin: 2rem auto;
+       padding: 0 1rem; line-height: 1.55; }
+a { color: #0b62c4; } code, pre { background: rgba(127,127,127,.12);
+    border-radius: 4px; padding: .1em .3em; }
+pre { padding: .8em; overflow-x: auto; }
+table { border-collapse: collapse; } td, th { border: 1px solid #8886;
+    padding: .3em .6em; }
+h1, h2 { border-bottom: 1px solid #8884; padding-bottom: .2em; }
+.nav { font-size: .9em; margin-bottom: 1.5rem; }
+.tag { font-size: .8em; background: rgba(127,127,127,.15); border-radius: 6px;
+    padding: .1em .5em; margin-left: .4em; }
+</style></head>
+<body><p class="nav"><a href="../index.html">← foto3d</a></p>
+<h1>Protocolo de captura fotográfica</h1>
+<p>La calidad del 3D se decide aquí, no en el procesamiento. Checklist antes de fotografiar:</p>
+<h2>Equipo y configuración</h2>
+<ul>
+<li>[ ] Cámara o smartphone en máxima resolución; <strong>EXIF activado</strong> (el pipeline lee la focal).</li>
+<li>[ ] <strong>Focal fija</strong> durante toda la sesión (no zoom). En smartphone: lente principal, sin modo "auto-switch".</li>
+<li>[ ] ISO bajo (≤400), sin flash, sin HDR agresivo, sin filtros ni "mejoras" IA del teléfono.</li>
+<li>[ ] Formato JPG máxima calidad (o RAW + exportación sin recorte).</li>
+</ul>
+<h2>Escena</h2>
+<ul>
+<li>[ ] Luz <strong>difusa y constante</strong>: nublado exterior, o interior con luz indirecta. Evitar sol directo (sombras duras se "pegan" a la textura).</li>
+<li>[ ] Objeto <strong>estático</strong> sobre fondo con textura (papel kraft, cartón, diario). Fondo liso blanco dificulta el registro.</li>
+<li>[ ] <strong>Referencia de escala en escena</strong>: regla, marcador ArUco impreso, o cualquier pieza de dimensión conocida. Anotar esa dimensión en <code>descripcion.md</code>.</li>
+<li>[ ] Superficies brillantes/metálicas: matizar con spray de escaneo (o talco/tiza en aerosol) o luz polarizada cruzada. Si no es posible, esas zonas quedarán declaradas como no confiables.</li>
+</ul>
+<h2>Trayectoria de tomas (objeto semi-complejo: 60–120 fotos)</h2>
+<ul>
+<li>[ ] <strong>3 órbitas completas</strong> alrededor del objeto: baja (~20° sobre horizonte), media (~45°), alta (~70°).</li>
+<li>[ ] Una foto cada <strong>10–15°</strong> de giro ⇒ 24–36 fotos por órbita.</li>
+<li>[ ] <strong>70–80% de solape</strong> entre fotos consecutivas (la siguiente foto debe contener la mayor parte de la anterior).</li>
+<li>[ ] Detalles y cavidades: 10–20 fotos extra acercándose, siempre con transición gradual (no saltar de lejos a macro).</li>
+<li>[ ] El objeto debe ocupar <strong>50–80% del encuadre</strong>.</li>
+<li>[ ] Moverse alrededor del objeto, no rotar el objeto (si usas mesa giratoria: fondo 100% liso y sin sombras propias, es más delicado).</li>
+</ul>
+<h2>Verificación rápida antes de salir de la escena</h2>
+<ul>
+<li>[ ] Revisar 5 fotos al azar con zoom: ¿nítidas al 100%?</li>
+<li>[ ] ¿Quedó la referencia de escala visible en ≥5 fotos?</li>
+<li>[ ] ¿Alguna zona del objeto sin cobertura? (mirar mentalmente desde 6 direcciones)</li>
+</ul>
+<p>El gate G1 del pipeline rechaza automáticamente fotos borrosas o de baja resolución;
+si rechaza más del 15% del set, pedirá re-captura indicando cuáles.</p>
+</body></html>

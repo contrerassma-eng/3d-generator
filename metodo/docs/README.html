@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>foto3d</title><style>
+:root { color-scheme: light dark; }
+body { font-family: system-ui, sans-serif; max-width: 60rem; margin: 2rem auto;
+       padding: 0 1rem; line-height: 1.55; }
+a { color: #0b62c4; } code, pre { background: rgba(127,127,127,.12);
+    border-radius: 4px; padding: .1em .3em; }
+pre { padding: .8em; overflow-x: auto; }
+table { border-collapse: collapse; } td, th { border: 1px solid #8886;
+    padding: .3em .6em; }
+h1, h2 { border-bottom: 1px solid #8884; padding-bottom: .2em; }
+.nav { font-size: .9em; margin-bottom: 1.5rem; }
+.tag { font-size: .8em; background: rgba(127,127,127,.15); border-radius: 6px;
+    padding: .1em .5em; margin-left: .4em; }
+</style></head>
+<body><p class="nav"><a href="../index.html">← foto3d</a></p>
+<h1>foto3d</h1>
+<p>Método algorítmico y auditable para convertir <strong>fotos de objetos semi-complejos</strong>
+en <strong>modelos 3D navegables en HTML (Three.js)</strong>, con trazabilidad total de cada dato.</p>
+<h2>Idea central</h2>
+<p>Cada dato del resultado pertenece a una de tres capas, y nunca se mezclan sin marca:</p>
+<table>
+<thead>
+<tr>
+<th>Capa</th>
+<th>Origen</th>
+<th>Estatus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>measured</code></td>
+<td>Triangulación multi-vista de las fotos (COLMAP + OpenMVS)</td>
+<td>Irrefutable (matemática, con error de reproyección reportado)</td>
+</tr>
+<tr>
+<td><code>web</code></td>
+<td>Búsqueda web (fichas técnicas, fabricante)</td>
+<td>Citado: URL + fecha + cita textual</td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td>Descripción entregada por el usuario</td>
+<td>Afirmación registrada, no verificada</td>
+</tr>
+</tbody>
+</table>
+<p>El pipeline es una máquina de estados S0→S5 con compuertas de calidad (G1–G5) que
+no se pueden saltar. El resultado final es una carpeta <code>70_web/</code> autocontenida con
+visor Three.js (malla GLB + splats Gaussian opcionales vía Spark) más un <code>INFORME.md</code>
+auditable con métricas, hashes y fuentes.</p>
+<h2>Inicio rápido</h2>
+<pre><code class="language-powershell"># 1. Verificar entorno (Python, COLMAP, OpenMVS, gltfpack)
+powershell tools/check_env.ps1
+
+# 2. Crear proyecto
+Copy-Item -Recurse projects/_template projects/MI-OBJETO
+
+# 3. Poner fotos en projects/MI-OBJETO/input/photos/ y llenar input/descripcion.md
+#    (protocolo de captura: docs/PROTOCOLO_CAPTURA.md)
+
+# 4. Pipeline
+python pipeline/s0_intake.py projects/MI-OBJETO      # calidad de fotos
+python pipeline/s1_sfm.py projects/MI-OBJETO         # poses + nube de puntos
+python pipeline/s2_dense_mesh.py projects/MI-OBJETO  # malla texturizada GLB
+python pipeline/s4_provenance.py projects/MI-OBJETO  # capas de confianza
+python pipeline/s5_package.py projects/MI-OBJETO     # visor web + informe
+
+# 5. Navegar
+cd projects/MI-OBJETO/70_web; python -m http.server 8080
+# → http://localhost:8080
+</code></pre>
+<p>Con Claude Code basta decir: <code>nuevo proyecto X</code> / <code>procesa X</code> / <code>investiga X</code> /
+<code>publica X</code> — el método completo está codificado en <a href="CLAUDE.md">CLAUDE.md</a>.</p>
+<h2>Estructura</h2>
+<pre><code>foto3d/
+├── CLAUDE.md            ← método algorítmico para IA (instrucciones persistentes)
+├── config/thresholds.json  ← umbrales de los gates (editables, auditables)
+├── docs/                ← método, protocolo de captura, instalación
+├── schemas/             ← JSON Schema de provenance
+├── pipeline/            ← scripts S0–S5 + librería de auditoría
+├── viewer/index.html    ← plantilla visor Three.js + Spark
+├── tools/check_env.ps1  ← diagnóstico de entorno
+└── projects/            ← un objeto físico = una carpeta
+    └── _template/
+</code></pre>
+<h2>Requisitos</h2>
+<ul>
+<li>Python 3.12+ (<code>pip install -r requirements.txt</code>)</li>
+<li><a href="https://colmap.github.io/">COLMAP</a> y <a href="https://github.com/cdcseacave/openMVS">OpenMVS</a> en PATH — ver <code>docs/INSTALACION.md</code></li>
+<li>Opcional: <code>gltfpack</code> (compresión), herramienta 3DGS (ver <code>pipeline/s3_splat.md</code>)</li>
+</ul>
+</body></html>

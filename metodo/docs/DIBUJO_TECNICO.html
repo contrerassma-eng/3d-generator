@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S6 — Dibujo técnico y CAD</title><style>
+:root { color-scheme: light dark; }
+body { font-family: system-ui, sans-serif; max-width: 60rem; margin: 2rem auto;
+       padding: 0 1rem; line-height: 1.55; }
+a { color: #0b62c4; } code, pre { background: rgba(127,127,127,.12);
+    border-radius: 4px; padding: .1em .3em; }
+pre { padding: .8em; overflow-x: auto; }
+table { border-collapse: collapse; } td, th { border: 1px solid #8886;
+    padding: .3em .6em; }
+h1, h2 { border-bottom: 1px solid #8884; padding-bottom: .2em; }
+.nav { font-size: .9em; margin-bottom: 1.5rem; }
+.tag { font-size: .8em; background: rgba(127,127,127,.15); border-radius: 6px;
+    padding: .1em .5em; margin-left: .4em; }
+</style></head>
+<body><p class="nav"><a href="../index.html">← foto3d</a></p>
+<h1>S6 — Dibujo técnico y CAD</h1>
+<p>Dos herramientas complementarias sobre el modelo medido:</p>
+<ul>
+<li><code>pipeline/s6_drawings.py</code> — láminas normalizadas (DXF a escala real + PDF).</li>
+<li><code>pipeline/cad_cli.py</code> — planos de referencia, bocetos con referencias
+  geométricas y sólidos (extrusión, revolución, barrido).</li>
+</ul>
+<p>Ambas respetan las reglas de oro: nada se inventa (todo deriva de la malla
+medida o de entidades declaradas por el usuario), toda acción queda en
+<code>audit.log.jsonl</code>, y la certificación de escala nunca se oculta.</p>
+<h2>Láminas normalizadas (S6)</h2>
+<pre><code class="language-powershell">python pipeline/s6_drawings.py projects/&lt;X&gt;                  # vistas del modelo
+python pipeline/s6_drawings.py projects/&lt;X&gt; --chapa auto     # + lámina de despliegue
+python pipeline/s6_drawings.py projects/&lt;X&gt; --fuente out/cad/pieza.glb
+</code></pre>
+<p>Produce en <code>projects/&lt;X&gt;/out/drawings/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;nombre&gt;.dxf</code></td>
+<td>Geometría <strong>a escala real</strong> (1 unidad = 1 mm reales). El marco y el cajetín están multiplicados por el denominador de escala: al trazar a la escala del cajetín se recupera la lámina física exacta. Cotas en mm reales.</td>
+</tr>
+<tr>
+<td><code>&lt;nombre&gt;.pdf</code></td>
+<td>Lámina(s) listas para imprimir al tamaño ISO elegido (A4–A0 apaisado). Una página por lámina: vistas + una página por despliegue de chapa.</td>
+</tr>
+</tbody>
+</table>
+<p>Normas aplicadas:</p>
+<ul>
+<li><strong>ISO 5456-2</strong> — proyección en primer diedro (sistema europeo): planta bajo
+  el alzado, perfil (vista lateral izquierda) a la derecha, más isométrica.</li>
+<li><strong>ISO 5455</strong> — escalas normalizadas (1:1, 1:2, 1:5, … y ampliaciones para
+  objetos &lt; 50 mm). Formato <code>--formato A3</code> o automático (el que da mayor escala).</li>
+<li><strong>ISO 5457</strong> — marco con márgenes (20 mm de archivado a la izquierda).</li>
+<li><strong>ISO 7200</strong> — cajetín: proyecto, designación, escala, fecha, método,
+  sistema de proyección, unidades, lámina n/N, fuente + SHA-256 y el estado de
+  la escala (<code>ESCALA CERTIFICADA (G4)</code> o <code>NO CERTIFICADA</code>).</li>
+<li><strong>ISO 129</strong> — cotas generales (texto 3,5 mm; capa COTAS). Se acotan las
+  dimensiones envolventes por vista (sin duplicar entre vistas).</li>
+</ul>
+<p>Capas DXF: <code>VISIBLE</code>, <code>OCULTA</code> (trazos), <code>COTAS</code>, <code>PLIEGUE</code> (trazo-punto),
+<code>NORMA</code> (marco/cajetín), <code>TEXTO</code>.</p>
+<p>Opciones: <code>--vistas alzado,planta,perfil,isometrica</code> · <code>--angulo 25</code> (umbral
+de arista característica) · <code>--formato A4..A0</code> · <code>--chapa auto|&lt;id de cara&gt;</code>.</p>
+<h3>Gate G6</h3>
+<ul>
+<li><code>PASA</code>: DXF + PDF generados y escala certificada (hay <code>factor_escala</code>, G4).</li>
+<li><code>SIN_CONTRASTE</code>: archivos generados pero escala NO certificada — las
+  medidas están en unidades del modelo; la lámina lo declara en el cajetín.</li>
+<li><code>FALLA</code>: faltan archivos.</li>
+</ul>
+<p>G6 no muta la etapa S0–S5 del proyecto (es una salida derivada, se puede
+ejecutar desde S2_OK en adelante y repetir cuantas veces se quiera).</p>
+<h3>Despliegue de chapa (<code>--chapa</code>)</h3>
+<p>Detecta las caras planas de la malla, las une por sus pliegues (aristas con
+ángulo entre <code>chapa_min_pliegue_deg</code> y <code>chapa_max_pliegue_deg</code>, en
+<code>config/thresholds.json</code>) y las abate rígidamente sobre el plano de la cara
+raíz (<code>auto</code> = la de mayor área; o <code>--chapa &lt;id&gt;</code> con el id de <code>cad_cli caras</code>).</p>
+<p>Límites declarados (no se ocultan):</p>
+<ul>
+<li>Desarrollo <strong>rígido, sin factor K</strong> ni compensación de curvado: la longitud
+  desarrollada es la de la superficie medida. Para chapa doblada real con
+  espesor, el desarrollo exacto exige la superficie neutra, que una malla
+  escaneada no contiene. La lámina lo advierte.</li>
+<li>Sobre un sólido cerrado el resultado es la red (tipo papercraft) de la
+  cadena de caras conectadas; sobre una superficie de chapa abierta es el
+  desarrollo plano clásico. Los pliegues van en capa <code>PLIEGUE</code> (trazo-punto).</li>
+<li>Vistas: las líneas ocultas son aproximadas (por orientación de caras, sin
+  oclusión completa); el contorno exterior de cada vista sí es exacto.</li>
+</ul>
+<h2>CAD: planos, bocetos y sólidos (<code>cad_cli.py</code>)</h2>
+<p>Los sólidos CAD son <strong>capa <code>user</code></strong> (diseño anclado a la medición, no medición).
+Se guardan en <code>projects/&lt;X&gt;/cad/cad.json</code> (documento paramétrico) y
+<code>out/cad/*.glb|.stl</code>. Nunca se fusionan con <code>out/model.glb</code>.</p>
+<pre><code class="language-powershell">python pipeline/cad_cli.py projects/&lt;X&gt; caras                    # caras planas del modelo (ids)
+python pipeline/cad_cli.py projects/&lt;X&gt; plano-cara 0             # plano sobre la cara 0
+python pipeline/cad_cli.py projects/&lt;X&gt; plano-desfasado PL1 25   # plano paralelo a +25 mm
+python pipeline/cad_cli.py projects/&lt;X&gt; plano-3p &quot;0,0,0&quot; &quot;1,0,0&quot; &quot;0,1,0&quot;
+python pipeline/cad_cli.py projects/&lt;X&gt; refs PL1                 # referencias @r1..@rN
+python pipeline/cad_cli.py projects/&lt;X&gt; boceto B1 --plano PL1 --json b1.json
+python pipeline/cad_cli.py projects/&lt;X&gt; extruir B1 30
+python pipeline/cad_cli.py projects/&lt;X&gt; revolucionar B1 --eje &quot;0,0;0,50&quot; --angulo 360
+python pipeline/cad_cli.py projects/&lt;X&gt; barrer B1 --camino B2
+python pipeline/cad_cli.py projects/&lt;X&gt; exportar-dxf B1
+</code></pre>
+<ul>
+<li><strong>Referencias geométricas</strong>: <code>refs &lt;plano&gt;</code> proyecta el modelo medido al
+  plano y publica puntos citables (esquinas y centro de la cara, bbox del
+  modelo). En un boceto, cualquier coordenada puede ser <code>"@r3"</code>. Si se cita
+  una referencia inexistente, el comando <strong>lista las disponibles y se
+  detiene</strong> (pide las referencias, no las inventa).</li>
+<li><strong>Entidades de boceto</strong>: <code>linea</code>, <code>rect</code>, <code>circulo</code>, <code>arco</code>, <code>poli</code>
+  (cerrada o abierta), con coordenadas UV en mm sobre el plano.</li>
+<li><strong>Sólidos</strong>: extrusión (altura ± sobre la normal del plano), revolución
+  (eje = dos puntos UV del plano del boceto, perfil a un solo lado del eje),
+  barrido (perfil cerrado a lo largo del camino de otro boceto; el perfil se
+  orienta perpendicular al camino). Se reporta si el sólido es estanco y su
+  volumen.</li>
+<li>Cualquier sólido se dibuja con norma:
+  <code>python pipeline/s6_drawings.py projects/&lt;X&gt; --fuente out/cad/&lt;nombre&gt;.glb</code>.</li>
+</ul>
+<h3>Flujo conversacional ("boceto en una cara")</h3>
+<ol>
+<li>Usuario: «boceto en la cara superior de <X>» → Claude ejecuta <code>caras</code>,
+   muestra la tabla y pide confirmar cuál.</li>
+<li><code>plano-cara &lt;id&gt;</code> + <code>refs PL&lt;n&gt;</code> → Claude muestra las referencias y
+   <strong>pide</strong> al usuario la geometría en función de ellas.</li>
+<li>Claude escribe el JSON de entidades citando <code>@rN</code>, ejecuta <code>boceto</code> y
+   ofrece extruir / revolucionar / barrer / exportar DXF.</li>
+</ol>
+<h2>Dependencias</h2>
+<p><code>pip install -r requirements.txt</code> (añade: trimesh, shapely, ezdxf,
+matplotlib, mapbox-earcut, networkx). Sin binarios externos: no requiere
+COLMAP/OpenMVS, solo el <code>out/model.glb</code> ya producido por S2 (o un sólido CAD).</p>
+</body></html>

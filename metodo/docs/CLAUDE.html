@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>foto3d — Método algorítmico: fotos → 3D navegable auditable</title><style>
+:root { color-scheme: light dark; }
+body { font-family: system-ui, sans-serif; max-width: 60rem; margin: 2rem auto;
+       padding: 0 1rem; line-height: 1.55; }
+a { color: #0b62c4; } code, pre { background: rgba(127,127,127,.12);
+    border-radius: 4px; padding: .1em .3em; }
+pre { padding: .8em; overflow-x: auto; }
+table { border-collapse: collapse; } td, th { border: 1px solid #8886;
+    padding: .3em .6em; }
+h1, h2 { border-bottom: 1px solid #8884; padding-bottom: .2em; }
+.nav { font-size: .9em; margin-bottom: 1.5rem; }
+.tag { font-size: .8em; background: rgba(127,127,127,.15); border-radius: 6px;
+    padding: .1em .5em; margin-left: .4em; }
+</style></head>
+<body><p class="nav"><a href="../index.html">← foto3d</a></p>
+<h1>foto3d — Método algorítmico: fotos → 3D navegable auditable</h1>
+<p>Este repositorio ES el método. Al leer este archivo tienes todas las instrucciones
+para operar el pipeline sin que el usuario las repita. Sigue el algoritmo al pie
+de la letra: es una máquina de estados con compuertas (gates) que NUNCA se saltan.</p>
+<h2>Reglas de oro (no negociables)</h2>
+<ol>
+<li><strong>No inventes geometría ni datos.</strong> Solo existen tres capas de información:</li>
+<li><code>measured</code>: triangulado desde las fotos por el pipeline (COLMAP/OpenMVS). Irrefutable.</li>
+<li><code>web</code>: dato externo obtenido por búsqueda web. SIEMPRE va a <code>input/web_facts.json</code>
+     con URL, fecha de acceso y cita textual. Jamás se funde al modelo sin esa procedencia.</li>
+<li><code>user</code>: afirmación del usuario en <code>input/descripcion.md</code>. Se registra como afirmación,
+     no como hecho verificado.</li>
+<li><strong>Un gate fallido detiene el pipeline.</strong> Reporta el motivo y la acción correctiva
+   (ej. re-captura de fotos). No "ajustes" umbrales para que pase: los umbrales viven
+   en <code>config/thresholds.json</code> y solo el usuario los cambia.</li>
+<li><strong>Toda acción se audita.</strong> Cada script anota en <code>projects/&lt;X&gt;/audit.log.jsonl</code>
+   (timestamp, acción, hashes de entrada/salida, resultado). Si ejecutas algo manual
+   fuera de los scripts, regístralo con <code>python pipeline/lib_audit.py log &lt;proyecto&gt; "&lt;acción&gt;"</code>.</li>
+<li><strong>El estado vive en <code>projects/&lt;X&gt;/state.json</code>.</strong> Léelo SIEMPRE antes de actuar;
+   te dice en qué etapa está el proyecto y qué sigue.</li>
+</ol>
+<h2>Comandos del usuario → qué haces</h2>
+<table>
+<thead>
+<tr>
+<th>El usuario dice</th>
+<th>Algoritmo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"nuevo proyecto \&lt;código&gt;"</td>
+<td>Copia <code>projects/_template/</code> → <code>projects/&lt;código&gt;/</code>. Pide al usuario llenar <code>input/descripcion.md</code> y poner fotos en <code>input/photos/</code>.</td>
+</tr>
+<tr>
+<td>"procesa \&lt;código&gt;"</td>
+<td>Lee <code>state.json</code>, ejecuta la SIGUIENTE etapa pendiente (ver tabla de etapas), reporta métricas y resultado del gate. Si pasa, ofrece continuar con la siguiente. "procesa todo" = encadena etapas hasta gate fallido o fin.</td>
+</tr>
+<tr>
+<td>"investiga \&lt;código&gt;"</td>
+<td>Lee <code>descripcion.md</code> (fabricante/modelo), busca en web fichas técnicas y dimensiones oficiales, llena <code>input/web_facts.json</code> (esquema en <code>schemas/provenance.schema.json</code>, sección facts). NUNCA escribas estos datos en otro lugar.</td>
+</tr>
+<tr>
+<td>"publica \&lt;código&gt;"</td>
+<td>Ejecuta S5 (paquete web + informe). Entrega ruta a <code>70_web/index.html</code> y cómo servirlo.</td>
+</tr>
+<tr>
+<td>"dibuja \&lt;código&gt;" / "plano dxf/pdf"</td>
+<td>Ejecuta S6: <code>python pipeline/s6_drawings.py projects/&lt;X&gt;</code> → DXF a escala real + PDF con alzado/planta/perfil/isométrica, cotas y cajetín normativos. Con "chapa" o "despliegue": añade <code>--chapa auto</code>. Detalle: <code>docs/DIBUJO_TECNICO.md</code>.</td>
+</tr>
+<tr>
+<td>"boceto en \&lt;cara&gt; de \&lt;código&gt;"</td>
+<td>Flujo CAD: <code>cad_cli.py caras</code> → pregunta al usuario qué cara → <code>plano-cara &lt;id&gt;</code> → <code>refs PL&lt;n&gt;</code> → muestra referencias y PIDE la geometría → <code>boceto</code> con JSON citando <code>@rN</code>.</td>
+</tr>
+<tr>
+<td>"plano en cara / plano desfasado"</td>
+<td><code>cad_cli.py plano-cara &lt;id&gt;</code> / <code>plano-desfasado &lt;plano&gt; &lt;mm&gt;</code> / <code>plano-3p</code>.</td>
+</tr>
+<tr>
+<td>"extruye / revoluciona / barre \&lt;boceto&gt;"</td>
+<td><code>cad_cli.py extruir|revolucionar|barrer …</code> → sólido <code>out/cad/*.glb</code> (capa user). Ofrece dibujarlo con S6 <code>--fuente out/cad/&lt;n&gt;.glb</code>.</td>
+</tr>
+<tr>
+<td>"estado \&lt;código&gt;"</td>
+<td>Resume <code>state.json</code> + último bloque de <code>audit.log.jsonl</code> en lenguaje claro.</td>
+</tr>
+<tr>
+<td>"verifica entorno"</td>
+<td>Ejecuta <code>tools/check_env.ps1</code> y reporta qué falta con instrucciones de <code>docs/INSTALACION.md</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2>Etapas (máquina de estados)</h2>
+<table>
+<thead>
+<tr>
+<th>Etapa</th>
+<th>Script</th>
+<th>Produce</th>
+<th>Gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S0 Intake</td>
+<td><code>python pipeline/s0_intake.py projects/&lt;X&gt;</code></td>
+<td><code>work/00_intake/</code> informe calidad fotos + hashes</td>
+<td>G1: nº fotos, resolución, nitidez</td>
+</tr>
+<tr>
+<td>S1 SfM</td>
+<td><code>python pipeline/s1_sfm.py projects/&lt;X&gt;</code></td>
+<td><code>work/10_sfm/</code> poses + nube dispersa (COLMAP)</td>
+<td>G2: % registradas, error reproyección</td>
+</tr>
+<tr>
+<td>S2 Malla</td>
+<td><code>python pipeline/s2_dense_mesh.py projects/&lt;X&gt;</code></td>
+<td><code>out/model.glb</code> malla texturizada (OpenMVS)</td>
+<td>G3: malla válida y completa</td>
+</tr>
+<tr>
+<td>S3 Splat (opcional)</td>
+<td>manual, ver <code>pipeline/s3_splat.md</code></td>
+<td><code>out/scene.spz</code> o <code>.ply</code> 3DGS</td>
+<td>—</td>
+</tr>
+<tr>
+<td>S4 Procedencia</td>
+<td><code>python pipeline/s4_provenance.py projects/&lt;X&gt;</code></td>
+<td><code>out/provenance.json</code> 3 capas + escala</td>
+<td>G4: discrepancia escala dentro de umbral</td>
+</tr>
+<tr>
+<td>S5 Paquete</td>
+<td><code>python pipeline/s5_package.py projects/&lt;X&gt;</code></td>
+<td><code>70_web/</code> visor navegable + <code>INFORME.md</code></td>
+<td>G5: archivos completos</td>
+</tr>
+<tr>
+<td>S6 Dibujo (desde S2_OK, repetible)</td>
+<td><code>python pipeline/s6_drawings.py projects/&lt;X&gt;</code></td>
+<td><code>out/drawings/</code> DXF escala real + PDF (vistas, cotas, marco, chapa)</td>
+<td>G6: archivos + escala certificada (no muta la etapa S0–S5)</td>
+</tr>
+<tr>
+<td>CAD (herramienta, sin gate)</td>
+<td><code>python pipeline/cad_cli.py projects/&lt;X&gt; &lt;cmd&gt;</code></td>
+<td><code>cad/cad.json</code>, <code>out/cad/*.glb\|.stl\|.dxf</code></td>
+<td>— capa <code>user</code>, auditado</td>
+</tr>
+</tbody>
+</table>
+<p>Detalle completo del algoritmo y los gates: <code>docs/METODO.md</code>.</p>
+<h2>Escala métrica (cómo se resuelve en v1)</h2>
+<p>COLMAP produce escala arbitraria. El flujo v1: el usuario incluye un objeto de
+dimensión conocida en escena (declarada en <code>descripcion.md</code> campo <code>referencia_escala</code>),
+mide esa distancia en el visor (modo medición), y registra el factor en
+<code>descripcion.md</code> campo <code>factor_escala</code>. S4 lo aplica y compara dimensiones medidas
+vs. declaradas/web → discrepancia % en <code>provenance.json</code>. Si supera el umbral G4,
+se reporta, no se oculta.</p>
+<h2>Qué NO hacer</h2>
+<ul>
+<li>No proceses fotos que no estén en <code>input/photos/</code> del proyecto.</li>
+<li>No edites archivos dentro de <code>work/</code> a mano (son artefactos reproducibles).</li>
+<li>No declares un proyecto "publicado" sin <code>INFORME.md</code> generado por S5.</li>
+<li>No uses datos de un proyecto en otro.</li>
+<li>Si COLMAP/OpenMVS no están instalados, NO simules sus salidas: reporta y guía
+  la instalación (<code>docs/INSTALACION.md</code>).</li>
+</ul>
+<h2>Convención de proyectos</h2>
+<p>Código estilo Yolotech: <code>YTnnnn-&lt;nombre&gt;</code> o libre del usuario. Un objeto físico = un proyecto.</p>
+</body></html>
