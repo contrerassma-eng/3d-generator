@@ -8,17 +8,29 @@ Proyectos `.json` listos para abrir en el CAD con **📂 Abrir** o **📋 Pegar*
 Generado por instrucciones (ver el mensaje del usuario) con el motor del CAD.
 Un banco de 4 rodillos sobre dos canales tipo C con las pestañas hacia afuera.
 
-### Dimensiones (mm salvo indicación)
+### Dimensiones (mm salvo indicación) — marco Hytrol 190-E24 (catálogo #589)
 | Parámetro | Valor | Origen |
 |---|---|---|
-| Tubo del rodillo | SCH40 nom. 1-1/2″, **OD 1.9″ = 48.26**, pared 0.145″ = 3.68, ID = 40.89 | dato del usuario / norma |
-| Largo del rodillo (con bordes de tapa) | 21″ − 1 mm de holgura = **532.4** | 21″ menos tolerancia para giro libre |
-| Ranuras (O-ring elástico Ø5) | centros a **35 y 65 mm** de cada borde (la 2.ª a 30 mm de la 1.ª), ancho 5 | dato del usuario, espejadas en ambos extremos |
-| Eje | barra **hexagonal 11 mm** entre caras | dato del usuario |
-| Pitch entre rodillos | 3″ = **76.2** (patrón rectangular ×4) | dato del usuario |
-| Tangente del rodillo sobre la pestaña superior | **1/4″ = 6.35** | dato del usuario |
-| Canal C | alma 3″ = 76.2 alta, pestaña 1″ = 25.4, espesor 3 | supuesto (no especificado) |
-| Perforación hexagonal en la chapa | hex 11 mm, patrón ×4 a pitch 76.2, a la altura del eje | dato del usuario |
+| Tubo del rodillo | **OD 1.9″ = 48.26** × 16 ga | manual 190-E24 (tú: SCH40, mismo OD) |
+| Largo del rodillo | 21″ − 4 mm = **529.4** | 21″ menos holgura + carrera del resorte |
+| Ranuras (O-ring) | centros a **35 y 65 mm** de cada borde, ancho 5 | tú (el 190-E24 usa O-ring **3/16″ = 4.76**) |
+| Eje | barra **hexagonal 11 mm** (≈ 7/16″) | tú / manual |
+| Pitch entre rodillos | 3″ = **76.2** (patrón ×4) | manual (rodillos cada 3″) |
+| Canal | **6-1/2″ = 165.1 alto**, ala **1-1/2″ = 38.1**, **12 ga = 2.66** | **manual 190-E24** |
+| BR / OW | **BR 542.1 / OW 623.6** (OW = BR + 3″) | manual (1-1/2″ de ala por lado) |
+| Holgura rodillo–marco | **1/4″ = 6.35** por lado | manual |
+| Perforación hexagonal en el alma | hex 11 mm, patrón ×4 a pitch 76.2, a la altura del eje | tú |
+| **Patrón lateral de 6″** (bracket + travesaños) | Ø 5/16″, z = −40, paso 152.4 — **PROVISIONAL** | falta coordenada exacta del manual |
+| **Travesaños** | ángulo **40×40×4** con pestañas en extremos — **PROVISIONAL** | falta patrón de montaje |
+| **Bracket motor** | costanera (Cee, pestañas hacia adentro), doble fondo (módulo Dayton + tarjeta) — **PROVISIONAL** | falta patrón Unidrive / geometría tarjeta |
+| **Polea de 2 ranuras** | Ø44, eje ∥ rodillos, entre 2 rodillos; **tangente inferior 3 mm sobre la pestaña inferior** (centro z = −119.7) | posición resuelta según tu criterio |
+
+**Pendiente de confirmar (no está en el catálogo 190-E24):** coordenadas
+exactas del patrón lateral de 6″ y del splice de Hytrol; patrón de pernos del
+motor **Unidrive** y geometría de la tarjeta **Sony Logic Plus** y del módulo
+**Dayton** (buscar el STEP/manual de Unidrive); patrón de montaje del ángulo
+40×40 de los travesaños. Todo eso está parametrizado: en cuanto tengas los
+números, se ajustan y regenera.
 
 ### Supuestos y avisos de ingeniería
 - **Profundidad de ranura limitada por la pared.** Una ranura de 5 mm de
