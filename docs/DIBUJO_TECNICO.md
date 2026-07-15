@@ -116,6 +116,20 @@ python pipeline/cad_cli.py projects/<X> exportar-dxf B1
 - Cualquier sólido se dibuja con norma:
   `python pipeline/s6_drawings.py projects/<X> --fuente out/cad/<nombre>.glb`.
 
+### Chapa plegada en el CAD web (▱ Chapa / ⎣ Pestaña)
+
+El diseñador crea piezas de chapa con material (factor K nominal), espesor y
+radio de pliegue por defecto = espesor. Las pestañas se apoyan en aristas
+(estilo Inventor) y el plegado 3D muestra el radio real; los desahogos de
+pestañas parciales se recortan en el sólido y en el desarrollo. **⭳ Desarrollo
+DXF/PDF** emite el desarrollo real del estiramiento (`BA = θ·(R + K·t)`) con
+líneas de plegado en capa `PLIEGUE` (trazo-punto), tangentes de zona plegada,
+etiquetas por pliegue y cotas envolventes. A diferencia del `--chapa` de S6
+(que desarrolla la malla MEDIDA sin factor K, porque una malla escaneada no
+contiene la fibra neutra), aquí el diseño es capa `user` con espesor y K
+declarados, así que el desarrollo compensado sí es legítimo — y el cajetín
+declara material, espesor y K usados.
+
 ### Plano desde el CAD web (botones ⭳ DXF / ⭳ PDF)
 
 El diseñador del navegador (`cad/index.html`) exporta directamente el plano
