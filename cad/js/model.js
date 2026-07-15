@@ -176,6 +176,7 @@ export function referenceEdges(part, circleSegs = 36) {
   const V = (x, y, z) => new THREE.Vector3(x, y, z);
 
   for (const f of part.features) {
+    if (f.suppressed) continue;
     if (f.shape === 'box') {
       const [cx, cy, cz] = f.at, { w, d, h } = f.params;
       const x0 = cx - w / 2, x1 = cx + w / 2, y0 = cy - d / 2, y1 = cy + d / 2, z0 = cz, z1 = cz + h;
@@ -241,6 +242,7 @@ export function referencePoints(part) {
   const pts = [];
   const V = (a) => new THREE.Vector3(...a);
   for (const f of part.features) {
+    if (f.suppressed) continue;
     if (f.shape === 'cylinder') {
       const dn = V(f.dir).normalize();
       pts.push(V(f.at), V(f.at).addScaledVector(dn, f.params.h));
@@ -267,6 +269,7 @@ export function buildPartGeometry(part) {
   let csg = null;
   const bbox = new THREE.Box3();
   for (const f of part.features) {
+    if (f.suppressed) continue; // función suprimida (⏸)
     if (f.op === 'union' || csg !== null) {
       const extent = bbox.isEmpty() ? 100 : bbox.getSize(new THREE.Vector3()).length();
       const g = featureGeometry(f, extent, csg === null);
@@ -371,6 +374,7 @@ export function faceHighlightGeometry(geometry, tris) {
 export function findAxialFeature(part, localPoint) {
   let best = null;
   for (const f of part.features) {
+    if (f.suppressed) continue;
     if (f.shape !== 'cylinder' && f.shape !== 'hole') continue;
     const at = new THREE.Vector3(...f.at);
     const dir = new THREE.Vector3(...f.dir).normalize();
