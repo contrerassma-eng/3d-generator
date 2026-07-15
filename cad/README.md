@@ -131,9 +131,22 @@ atornillable) que muestra todas las capacidades.
 ### Vista
 - **⊞ Grilla**: muestra/oculta el plano base para mirar el modelo por abajo;
   la iluminación incluye luz inferior para que las caras de abajo se lean bien.
+- **▤ Sección**: corta el modelo por un plano normal a X/Y/Z en la posición
+  que indiques (invertible) para ver interiores; el mismo botón la edita o
+  la quita.
+- **📐 Vista**: perspectiva libre o **vistas ortogonales bloqueadas** (planta,
+  frente, lateral, isométrica) sin perspectiva y sin giro — ideales para
+  desplazar piezas del ensamble: Mover arrastra en el **plano de la vista**
+  y el imán ajusta en los ejes de esa vista.
 - En boceto, **🔄 Giro**: rota la vista ortogonal para ver y marcar
   referencias ocultas — los toques siguen proyectando sobre el plano del
   boceto; al desactivar vuelve la vista normal a la cara.
+- En boceto, **▤ Corte** (slice): oculta el material por delante del plano
+  del boceto para dibujar viendo la sección del modelo.
+- En boceto, **⤓ Proyectar**: convierte la geometría del plano (contornos y
+  círculos exactos de aristas, aros de agujeros y bocetos previos) en
+  **entidades reales** del boceto — acotables, recortables y extruibles;
+  el mismo botón las quita (desproyectar). Se dibujan en verde claro.
 - Al entrar al boceto, **los contornos de la cara elegida (exteriores e
   interiores) se pintan en amarillo** como referencias con snap, distintos
   del resto de la geometría proyectada (azul).

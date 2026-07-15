@@ -237,6 +237,53 @@ export function referenceEdges(part, circleSegs = 36) {
   return segs;
 }
 
+// Primitivas analíticas tipadas (líneas y círculos exactos) de una pieza,
+// en coordenadas locales, para PROYECTAR geometría al boceto como entidades.
+export function referencePrimitives(part) {
+  const lines = [], circles = [];
+  const V = (a) => new THREE.Vector3(...a);
+  const pushBoxEdges = (at, w, d, h) => {
+    const [cx, cy, cz] = at;
+    const x0 = cx - w / 2, x1 = cx + w / 2, y0 = cy - d / 2, y1 = cy + d / 2, z0 = cz, z1 = cz + h;
+    for (const z of [z0, z1]) {
+      lines.push({ a: new THREE.Vector3(x0, y0, z), b: new THREE.Vector3(x1, y0, z) });
+      lines.push({ a: new THREE.Vector3(x1, y0, z), b: new THREE.Vector3(x1, y1, z) });
+      lines.push({ a: new THREE.Vector3(x1, y1, z), b: new THREE.Vector3(x0, y1, z) });
+      lines.push({ a: new THREE.Vector3(x0, y1, z), b: new THREE.Vector3(x0, y0, z) });
+    }
+    for (const [x, y] of [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]) {
+      lines.push({ a: new THREE.Vector3(x, y, z0), b: new THREE.Vector3(x, y, z1) });
+    }
+  };
+  for (const f of part.features) {
+    if (f.suppressed) continue;
+    if (f.shape === 'box') pushBoxEdges(f.at, f.params.w, f.params.d, f.params.h);
+    else if (f.shape === 'cylinder') {
+      const dn = V(f.dir).normalize();
+      circles.push({ c: V(f.at), dir: dn, r: f.params.dia / 2 });
+      circles.push({ c: V(f.at).addScaledVector(dn, f.params.h), dir: dn, r: f.params.dia / 2 });
+    } else if (f.shape === 'hole') {
+      const dn = V(f.dir).normalize();
+      circles.push({ c: V(f.at), dir: dn, r: f.params.dia / 2 });
+      if (!f.params.through) circles.push({ c: V(f.at).addScaledVector(dn, f.params.depth), dir: dn, r: f.params.dia / 2 });
+    } else if (f.shape === 'sketch' && f.params.entities) {
+      const n = V(f.dir).normalize();
+      const U = V(f.params.u);
+      U.addScaledVector(n, -U.dot(n)).normalize();
+      const Vv = new THREE.Vector3().crossVectors(n, U);
+      const toV3 = (pu, pv, off) => V(f.at).addScaledVector(U, pu).addScaledVector(Vv, pv).addScaledVector(n, off);
+      const lift = (f.op === 'cut' ? -1 : 1) * f.params.h;
+      for (const off of [0, lift]) {
+        for (const e of f.params.entities) {
+          if (e.type === 'line') lines.push({ a: toV3(e.a[0], e.a[1], off), b: toV3(e.b[0], e.b[1], off) });
+          else if (e.type === 'circle') circles.push({ c: toV3(e.c[0], e.c[1], off), dir: n.clone(), r: e.r });
+        }
+      }
+    }
+  }
+  return { lines, circles };
+}
+
 // Puntos notables 3D de referencia (centros de círculos de agujeros,
 // cilindros y bocetos) para imantar el snap en los bocetos.
 export function referencePoints(part) {
