@@ -3,6 +3,7 @@
 
 import * as THREE from 'three';
 import { CSG, geomToCSG, csgToGeom } from './csg.js';
+import { chainLoops } from './sketch2d.js';
 
 let _id = 0;
 export const uid = (p) => `${p}${(++_id).toString(36)}${Date.now().toString(36).slice(-4)}`;
@@ -66,6 +67,11 @@ export function makeHoleFeature(dia, depth, through, at, dir) {
 export function makeSketchFeature(pts, h, op, at, dir, u) {
   return { id: uid('f'), name: op === 'cut' ? 'Corte de boceto' : 'Extrusión de boceto', shape: 'sketch', op, at, dir, params: { pts, h, u } };
 }
+// Variante con entidades 2D (líneas/círculos/arcos) + cotas editables: el
+// contorno (y sus agujeros) se encadena en cada regeneración.
+export function makeSketchEntitiesFeature(entities, dims, h, op, at, dir, u) {
+  return { id: uid('f'), name: op === 'cut' ? 'Corte de boceto' : 'Extrusión de boceto', shape: 'sketch', op, at, dir, params: { entities, dims, h, u } };
+}
 
 const SEGMENTS = 48;
 
@@ -97,14 +103,27 @@ function featureGeometry(f, extent, first) {
     return cylinderAlong(start.toArray(), d.toArray(), f.params.dia / 2, len);
   }
   if (f.shape === 'sketch') {
-    let pts = f.params.pts;
-    let area = 0; // orientar CCW para que ExtrudeGeometry genere un sólido válido
-    for (let i = 0; i < pts.length; i++) {
-      const [x1, y1] = pts[i], [x2, y2] = pts[(i + 1) % pts.length];
-      area += x1 * y2 - x2 * y1;
+    let pts = f.params.pts, holes = [];
+    if (f.params.entities) {
+      const loops = chainLoops(f.params.entities);
+      pts = loops.outer;
+      holes = loops.holes;
     }
-    if (area < 0) pts = [...pts].reverse();
+    if (!pts || pts.length < 3) return null; // sin contorno cerrado: se omite
+    const ccw = (arr) => { // orientar para que ExtrudeGeometry genere un sólido válido
+      let area = 0;
+      for (let i = 0; i < arr.length; i++) {
+        const [x1, y1] = arr[i], [x2, y2] = arr[(i + 1) % arr.length];
+        area += x1 * y2 - x2 * y1;
+      }
+      return area < 0 ? [...arr].reverse() : arr;
+    };
+    pts = ccw(pts);
     const shape = new THREE.Shape(pts.map(p => new THREE.Vector2(p[0], p[1])));
+    for (const hole of holes) {
+      const hp = ccw(hole).reverse(); // agujeros con orientación opuesta
+      shape.holes.push(new THREE.Path(hp.map(p => new THREE.Vector2(p[0], p[1]))));
+    }
     const isCut = f.op === 'cut';
     const over = 0.5;
     const fuse = first ? 0 : 0.2; // solape para fusionar con material previo (si lo hay)
@@ -133,6 +152,71 @@ export function planeBasis(n) {
   return { u, v, n: normal };
 }
 
+// Aristas analíticas de referencia de una pieza (coordenadas locales), para
+// proyectar en bocetos: aristas reales de las funciones, sin el ruido de
+// triangulación de la malla CSG. Devuelve pares [Vector3, Vector3].
+export function referenceEdges(part, circleSegs = 36) {
+  const segs = [];
+  const pushSeg = (a, b) => segs.push([a, b]);
+  const pushCircle = (center, dirV, r) => {
+    const n = new THREE.Vector3(...dirV).normalize();
+    const { u, v } = planeBasis(n.toArray());
+    let prev = null;
+    for (let i = 0; i <= circleSegs; i++) {
+      const a = i * Math.PI * 2 / circleSegs;
+      const p = new THREE.Vector3(center[0], center[1], center[2])
+        .addScaledVector(u, r * Math.cos(a)).addScaledVector(v, r * Math.sin(a));
+      if (prev) pushSeg(prev, p);
+      prev = p;
+    }
+  };
+  const V = (x, y, z) => new THREE.Vector3(x, y, z);
+
+  for (const f of part.features) {
+    if (f.shape === 'box') {
+      const [cx, cy, cz] = f.at, { w, d, h } = f.params;
+      const x0 = cx - w / 2, x1 = cx + w / 2, y0 = cy - d / 2, y1 = cy + d / 2, z0 = cz, z1 = cz + h;
+      for (const z of [z0, z1]) {
+        pushSeg(V(x0, y0, z), V(x1, y0, z)); pushSeg(V(x1, y0, z), V(x1, y1, z));
+        pushSeg(V(x1, y1, z), V(x0, y1, z)); pushSeg(V(x0, y1, z), V(x0, y0, z));
+      }
+      for (const [x, y] of [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]) pushSeg(V(x, y, z0), V(x, y, z1));
+    } else if (f.shape === 'cylinder') {
+      const dn = new THREE.Vector3(...f.dir).normalize();
+      const top = new THREE.Vector3(...f.at).addScaledVector(dn, f.params.h);
+      pushCircle(f.at, f.dir, f.params.dia / 2);
+      pushCircle(top.toArray(), f.dir, f.params.dia / 2);
+    } else if (f.shape === 'hole') {
+      pushCircle(f.at, f.dir, f.params.dia / 2);
+      if (!f.params.through) {
+        const dn = new THREE.Vector3(...f.dir).normalize();
+        pushCircle(new THREE.Vector3(...f.at).addScaledVector(dn, f.params.depth).toArray(), f.dir, f.params.dia / 2);
+      }
+    } else if (f.shape === 'sketch') {
+      let outer = f.params.pts, holes = [];
+      if (f.params.entities) { const l = chainLoops(f.params.entities); outer = l.outer; holes = l.holes; }
+      if (!outer) continue;
+      const n = new THREE.Vector3(...f.dir).normalize();
+      const U = new THREE.Vector3(...f.params.u);
+      U.addScaledVector(n, -U.dot(n)).normalize();
+      const Vv = new THREE.Vector3().crossVectors(n, U);
+      const lift = (f.op === 'cut' ? -1 : 1) * f.params.h;
+      for (const ring of [outer, ...holes]) {
+        for (const off of [0, lift]) {
+          let prev = null;
+          for (let i = 0; i <= ring.length; i++) {
+            const [pu, pv] = ring[i % ring.length];
+            const p = new THREE.Vector3(...f.at).addScaledVector(U, pu).addScaledVector(Vv, pv).addScaledVector(n, off);
+            if (prev) pushSeg(prev, p);
+            prev = p;
+          }
+        }
+      }
+    }
+  }
+  return segs;
+}
+
 // Regenera la geometría local de una pieza aplicando sus features en orden.
 export function buildPartGeometry(part) {
   let csg = null;
@@ -141,6 +225,7 @@ export function buildPartGeometry(part) {
     if (f.op === 'union' || csg !== null) {
       const extent = bbox.isEmpty() ? 100 : bbox.getSize(new THREE.Vector3()).length();
       const g = featureGeometry(f, extent, csg === null);
+      if (!g) continue; // función sin geometría (p. ej. boceto sin contorno cerrado)
       if (f.op === 'union') {
         g.computeBoundingBox();
         bbox.union(g.boundingBox);

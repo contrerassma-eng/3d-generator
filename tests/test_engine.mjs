@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
-  makeSketchFeature, planeBasis,
+  makeSketchFeature, makeSketchEntitiesFeature, planeBasis,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
 } from '../js/model.js';
@@ -145,6 +145,27 @@ console.log('— Bocetos extruidos —');
   ]);
   const expected = 40 * 40 * 20 + 12 * 10 * 6;
   check('boceto en cara lateral + orientación CW corregida', rel(volume(g), expected) < 0.01, `vol=${volume(g)} esp=${expected}`);
+}
+
+// boceto por ENTIDADES: cuadrado 40×40 con círculo Ø10 interior = agujero pasante
+{
+  const SK = await import('../js/sketch2d.js');
+  const ents = [
+    SK.makeLine([-20, -20], [20, -20]), SK.makeLine([20, -20], [20, 20]),
+    SK.makeLine([20, 20], [-20, 20]), SK.makeLine([-20, 20], [-20, -20]),
+    SK.makeCircle([0, 0], 5),
+  ];
+  const f = makeSketchEntitiesFeature(ents, [], 6, 'union', [0, 0, 0], [0, 0, 1], [1, 0, 0]);
+  const g = buildPart([f]);
+  const holeFacet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
+  const expected = (1600 - Math.PI * 25 * holeFacet) * 6;
+  check('boceto de entidades con agujero interior', rel(volume(g), expected) < 0.01, `vol=${volume(g)} esp=${expected.toFixed(0)}`);
+
+  // editar una cota (largo de la base 40→60) y regenerar: el contorno se re-encadena
+  const dim = SK.makeDim('len', { id: ents[0].id }, null, 40, [0, -22]);
+  SK.applyDim(f.params.entities, dim, 60);
+  const g2 = buildPart([f]);
+  check('regeneración tras editar cota (contorno sigue cerrado)', volume(g2) > volume(g) * 1.15, `vol2=${volume(g2)}`);
 }
 
 console.log('— Detección de caras y ejes —');
