@@ -132,6 +132,9 @@
     .node .meta { max-width:38vw; overflow:hidden; text-overflow:ellipsis; }
   }
 </style>
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js" } }
+</script>
 </head>
 <body>
 <div id="layout">
@@ -184,11 +187,6 @@
   </div>
 </div>
 <input type="file" id="fileInput" accept=".json" style="display:none">
-<!-- Bundle clásico (es2017): funciona también en navegadores/WebViews sin
-     soporte de import maps. Para desarrollo con módulos usa dev.html.
-     Regenerar tras editar js/: npx esbuild js/app.js --bundle --minify
-     --target=es2017 --format=iife --alias:three=./vendor/three.module.min.js
-     --outfile=bundle.js -->
-<script defer src="./bundle.js"></script>
+<script type="module" src="./js/app.js"></script>
 </body>
 </html>
