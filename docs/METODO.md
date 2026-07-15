@@ -79,6 +79,16 @@ resultado auditable.
 
 G5 pasa si todos los `archivos_requeridos` existen.
 
+## S6 — Dibujo técnico (gate G6: lámina completa) — derivada, repetible
+
+Desde `S2_OK` en adelante (no muta la etapa): `out/drawings/<n>.dxf` con la
+geometría a escala real acotada y marco/cajetín normativos, y `<n>.pdf` con
+las láminas imprimibles (vistas en primer diedro + isométrica; lámina extra
+por despliegue de chapa con `--chapa`). También dibuja sólidos CAD
+(`--fuente out/cad/<n>.glb`). G6 `PASA` con escala certificada; queda
+`SIN_CONTRASTE` si falta `factor_escala` (la lámina lo declara en el cajetín).
+Detalle de normas, capas DXF, despliegue y CAD: `docs/DIBUJO_TECNICO.md`.
+
 ## Auditoría
 
 `audit.log.jsonl` — una línea JSON por acción:
