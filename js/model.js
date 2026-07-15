@@ -73,6 +73,10 @@ export function makeSketchFeature(pts, h, op, at, dir, u) {
 export function makeSketchEntitiesFeature(entities, dims, h, op, at, dir, u) {
   return { id: uid('f'), name: op === 'cut' ? 'Corte de boceto' : 'Extrusión de boceto', shape: 'sketch', op, at, dir, params: { entities, dims, h, u } };
 }
+// Revolución 360° del contorno alrededor de una línea del boceto (axis en 2D).
+export function makeRevolveFeature(entities, dims, axis, op, at, dir, u) {
+  return { id: uid('f'), name: op === 'cut' ? 'Corte de revolución' : 'Revolución de boceto', shape: 'revolve', op, at, dir, params: { entities, dims, axis, u } };
+}
 
 const SEGMENTS = 48;
 
@@ -143,6 +147,69 @@ function featureGeometry(f, extent, first) {
     g.applyMatrix4(m);
     return g;
   }
+  if (f.shape === 'revolve') {
+    const regs = regions(f.params.entities, f.params.excluded || []).regions;
+    if (!regs.length) return null;
+    const a2 = f.params.axis.a, b2 = f.params.axis.b;
+    const dv = [b2[0] - a2[0], b2[1] - a2[1]];
+    const dl = Math.hypot(...dv) || 1;
+    const ad = [dv[0] / dl, dv[1] / dl];
+    const rd = [-ad[1], ad[0]];
+    const n = new THREE.Vector3(...f.dir).normalize();
+    const U = new THREE.Vector3(...f.params.u);
+    U.addScaledVector(n, -U.dot(n)).normalize();
+    const V = new THREE.Vector3().crossVectors(n, U);
+    const A3 = new THREE.Vector3(...f.at).addScaledVector(U, a2[0]).addScaledVector(V, a2[1]);
+    const axis3 = U.clone().multiplyScalar(ad[0]).addScaledVector(V, ad[1]);
+    const rad3 = U.clone().multiplyScalar(rd[0]).addScaledVector(V, rd[1]);
+    const SEG2 = 48;
+    const positions = [];
+    const pt3 = (h, r, th) => A3.clone().addScaledVector(axis3, h)
+      .addScaledVector(rad3, r * Math.cos(th)).addScaledVector(n, r * Math.sin(th));
+    for (const reg of regs) {
+      for (const ring of [reg.outer, ...reg.holes]) {
+        const hr = ring.map(p => {
+          const q = [p[0] - a2[0], p[1] - a2[1]];
+          return [q[0] * ad[0] + q[1] * ad[1], q[0] * rd[0] + q[1] * rd[1]];
+        });
+        const rs = hr.map(x => x[1]);
+        if (Math.min(...rs) < -0.05 && Math.max(...rs) > 0.05) return null; // el contorno cruza el eje
+        const flip = Math.max(...rs) <= 0.05; // contorno al otro lado: reflejar
+        const HR = hr.map(([h, r]) => [h, Math.max(0, flip ? -r : r)]);
+        for (let k = 0; k < HR.length; k++) {
+          const [h1, r1] = HR[k], [h2, r2] = HR[(k + 1) % HR.length];
+          for (let j = 0; j < SEG2; j++) {
+            const t1 = j * Math.PI * 2 / SEG2, t2 = (j + 1) * Math.PI * 2 / SEG2;
+            const pA = pt3(h1, r1, t1), pB = pt3(h2, r2, t1);
+            const pC = pt3(h2, r2, t2), pD = pt3(h1, r1, t2);
+            positions.push(pA.x, pA.y, pA.z, pB.x, pB.y, pB.z, pC.x, pC.y, pC.z);
+            positions.push(pA.x, pA.y, pA.z, pC.x, pC.y, pC.z, pD.x, pD.y, pD.z);
+          }
+        }
+      }
+    }
+    // orientación consistente hacia afuera: si el volumen firmado es negativo, invertir
+    let vol = 0;
+    for (let i = 0; i < positions.length; i += 9) {
+      const ax = positions[i], ay = positions[i + 1], az = positions[i + 2];
+      const bx = positions[i + 3], by = positions[i + 4], bz = positions[i + 5];
+      const cx = positions[i + 6], cy = positions[i + 7], cz = positions[i + 8];
+      vol += (ax * (by * cz - bz * cy) + ay * (bz * cx - bx * cz) + az * (bx * cy - by * cx)) / 6;
+    }
+    if (vol < 0) {
+      for (let i = 0; i < positions.length; i += 9) {
+        for (let k = 0; k < 3; k++) {
+          const t = positions[i + 3 + k];
+          positions[i + 3 + k] = positions[i + 6 + k];
+          positions[i + 6 + k] = t;
+        }
+      }
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    g.computeVertexNormals();
+    return g;
+  }
   throw new Error(`shape desconocido: ${f.shape}`);
 }
 
@@ -159,7 +226,7 @@ export function planeBasis(n) {
 // Aristas analíticas de referencia de una pieza (coordenadas locales), para
 // proyectar en bocetos: aristas reales de las funciones, sin el ruido de
 // triangulación de la malla CSG. Devuelve pares [Vector3, Vector3].
-export function referenceEdges(part, circleSegs = 36) {
+export function referenceEdges(part, circleSegs = 36, skipId) {
   const segs = [];
   const pushSeg = (a, b) => segs.push([a, b]);
   const pushCircle = (center, dirV, r) => {
@@ -177,7 +244,7 @@ export function referenceEdges(part, circleSegs = 36) {
   const V = (x, y, z) => new THREE.Vector3(x, y, z);
 
   for (const f of part.features) {
-    if (f.suppressed) continue;
+    if (f.suppressed || f.id === skipId) continue;
     if (f.shape === 'box') {
       const [cx, cy, cz] = f.at, { w, d, h } = f.params;
       const x0 = cx - w / 2, x1 = cx + w / 2, y0 = cy - d / 2, y1 = cy + d / 2, z0 = cz, z1 = cz + h;
@@ -286,11 +353,11 @@ export function referencePrimitives(part) {
 
 // Puntos notables 3D de referencia (centros de círculos de agujeros,
 // cilindros y bocetos) para imantar el snap en los bocetos.
-export function referencePoints(part) {
+export function referencePoints(part, skipId) {
   const pts = [];
   const V = (a) => new THREE.Vector3(...a);
   for (const f of part.features) {
-    if (f.suppressed) continue;
+    if (f.suppressed || f.id === skipId) continue;
     if (f.shape === 'cylinder') {
       const dn = V(f.dir).normalize();
       pts.push(V(f.at), V(f.at).addScaledVector(dn, f.params.h));

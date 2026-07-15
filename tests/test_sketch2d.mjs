@@ -4,7 +4,7 @@ import {
   trimEntity, extendLine, chainLoops, makeDim, measureDim, applyDim,
   fitStroke, dist, snapPoints, tangentPoints, regions, loopKey,
   moveEntity, applyLockedDims, makeArcCSE, regularPolygon, offsetEntity, filletLines,
-  entityInRect, copyEntities,
+  entityInRect, copyEntities, mirrorEntities,
 } from '../js/sketch2d.js';
 
 let pass = 0, fail = 0;
@@ -266,6 +266,18 @@ console.log('— Selección por ventana (AutoCAD) y copia —');
   const copies = copyEntities([inside, outside], [100, 50]);
   check('copia: ids nuevos y delta exacto', copies.length === 2 && copies[0].id !== inside.id
     && near(copies[0].a[0], 102) && near(copies[0].a[1], 52) && near(copies[1].c[0], 130));
+}
+
+console.log('— Espejo —');
+{
+  const src = [makeLine([5, 0], [15, 0]), makeCircle([10, 5], 2)];
+  const out = mirrorEntities(src, [0, 10], [20, 10]); // espejo sobre y=10
+  check('espejo de línea', near(out[0].a[1], 20) && near(out[0].b[1], 20), JSON.stringify(out[0]));
+  check('espejo de círculo', near(out[1].c[1], 15) && near(out[1].c[0], 10));
+  const arc = makeArc([0, 0], 10, 0, Math.PI / 2); // primer cuadrante
+  const [marc] = mirrorEntities([arc], [-5, 0], [5, 0]); // espejo sobre y=0
+  const pts = entityPoints(marc, 24);
+  check('espejo de arco queda bajo el eje', pts.every(p => p[1] < 1e-6), JSON.stringify(pts.slice(0, 2)));
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);
