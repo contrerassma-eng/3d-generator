@@ -225,7 +225,8 @@ function pointInPoly(p, pts) {
 }
 const centroidOf = (pts) => pts.reduce((s, p) => [s[0] + p[0] / pts.length, s[1] + p[1] / pts.length], [0, 0]);
 
-export function chainLoops(entities, tol = 0.7) {
+// todos los contornos cerrados (círculos + cadenas de líneas/arcos)
+export function allLoops(entities, tol = 0.7) {
   const loops = [];
   const open = [];
   const segs = [];
@@ -251,18 +252,102 @@ export function chainLoops(entities, tol = 0.7) {
       loops.push(chain.slice(0, -1));
     } else open.push(chain);
   }
-  if (!loops.length) return { outer: null, holes: [], openCount: open.length };
-  let outerIdx = 0, best = 0;
-  loops.forEach((l, i) => { const a = Math.abs(polyArea(l)); if (a > best) { best = a; outerIdx = i; } });
-  const outer = loops[outerIdx];
-  const holes = [];
-  let ignored = 0;
-  loops.forEach((l, i) => {
-    if (i === outerIdx) return;
-    if (pointInPoly(centroidOf(l), outer)) holes.push(l);
-    else ignored++;
+  return { loops, openCount: open.length };
+}
+
+// clave estable de un contorno (centroide redondeado) para selección de perfiles
+export const loopKey = (pts) => {
+  const c = centroidOf(pts);
+  // centroide + área: distingue contornos concéntricos
+  return `${Math.round(c[0] * 10)},${Math.round(c[1] * 10)}:${Math.round(Math.abs(polyArea(pts)))}`;
+};
+
+// Regiones por paridad tipo Inventor: profundidad de anidado par = sólido,
+// impar = agujero de su padre. excludedKeys quita contornos de la extrusión.
+export function regions(entities, excludedKeys = [], tol = 0.7) {
+  const { loops, openCount } = allLoops(entities, tol);
+  const excl = new Set(excludedKeys);
+  const use = loops.filter(l => !excl.has(loopKey(l)));
+  const info = use.map(l => ({ pts: l, area: Math.abs(polyArea(l)), parent: -1 }));
+  for (let i = 0; i < info.length; i++) {
+    let best = -1;
+    for (let j = 0; j < info.length; j++) {
+      if (i === j || info[j].area <= info[i].area) continue;
+      if (pointInPoly(centroidOf(info[i].pts), info[j].pts)) {
+        if (best === -1 || info[j].area < info[best].area) best = j;
+      }
+    }
+    info[i].parent = best;
+  }
+  const depthOf = (i) => { let d = 0, p = info[i].parent; while (p !== -1) { d++; p = info[p].parent; } return d; };
+  const regs = [];
+  info.forEach((l, i) => {
+    if (depthOf(i) % 2 !== 0) return;
+    const holes = info.filter((h) => h.parent === i).map(h => h.pts);
+    regs.push({ outer: l.pts, holes, key: loopKey(l.pts) });
   });
-  return { outer, holes, openCount: open.length, ignored };
+  return { regions: regs, loops, openCount };
+}
+
+// compatibilidad: contorno principal (región más grande) + sus agujeros
+export function chainLoops(entities, tol = 0.7) {
+  const { regions: regs, openCount } = regions(entities, [], tol);
+  if (!regs.length) return { outer: null, holes: [], openCount };
+  let best = regs[0];
+  for (const r of regs) if (Math.abs(polyArea(r.outer)) > Math.abs(polyArea(best.outer))) best = r;
+  return { outer: best.outer, holes: best.holes, openCount, ignored: regs.length - 1 };
+}
+
+export { pointInPoly, centroidOf };
+
+// ---------- puntos notables (snap/acotado) ----------
+
+export function snapPoints(e) {
+  if (e.type === 'line') return [
+    { p: [...e.a], kind: 'extremo' }, { p: [...e.b], kind: 'extremo' },
+    { p: lerp(e.a, e.b, 0.5), kind: 'medio' },
+  ];
+  if (e.type === 'circle') {
+    const { c, r } = e;
+    return [
+      { p: [...c], kind: 'centro' },
+      { p: [c[0] + r, c[1]], kind: 'cuadrante' }, { p: [c[0] - r, c[1]], kind: 'cuadrante' },
+      { p: [c[0], c[1] + r], kind: 'cuadrante' }, { p: [c[0], c[1] - r], kind: 'cuadrante' },
+    ];
+  }
+  if (e.type === 'arc') {
+    const [pa, pb] = arcEndpoints(e);
+    const [a0, a1] = arcSpan(e);
+    const am = (a0 + a1) / 2;
+    return [
+      { p: pa, kind: 'extremo' }, { p: pb, kind: 'extremo' },
+      { p: [...e.c], kind: 'centro' },
+      { p: [e.c[0] + e.r * Math.cos(am), e.c[1] + e.r * Math.sin(am)], kind: 'medio' },
+    ];
+  }
+  return [];
+}
+
+// puntos de tangencia desde un punto externo p a un círculo (c, r)
+export function tangentPoints(c, r, p) {
+  const d = dist(p, c);
+  if (d <= r + 1e-9) return [];
+  const a = Math.atan2(p[1] - c[1], p[0] - c[0]);
+  const t = Math.acos(r / d);
+  return [
+    [c[0] + r * Math.cos(a + t), c[1] + r * Math.sin(a + t)],
+    [c[0] + r * Math.cos(a - t), c[1] + r * Math.sin(a - t)],
+  ];
+}
+
+// mueve una entidad completa arrastrando extremos coincidentes de las vecinas
+export function moveEntity(entities, e, delta) { translateEntity(entities, e, delta); }
+
+// re-aplica las cotas con candado (dirigen la geometría tras un movimiento)
+export function applyLockedDims(entities, dims, exceptId) {
+  for (const d of dims) {
+    if (d.locked && d.id !== exceptId) applyDim(entities, d, d.value);
+  }
 }
 
 // ---------- cotas ----------
