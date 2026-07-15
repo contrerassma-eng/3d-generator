@@ -1,3 +1,10 @@
 pillow>=10.0
 numpy>=1.26
 opencv-python>=4.9
+# S6 dibujo técnico + CAD (docs/DIBUJO_TECNICO.md)
+trimesh>=4.5
+shapely>=2.0
+ezdxf>=1.3
+matplotlib>=3.8
+mapbox-earcut>=1.0
+networkx>=3.0
