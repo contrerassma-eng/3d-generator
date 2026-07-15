@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
 import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid,
-  makeBoxFeature, makeCylFeature, makeHoleFeature,
+  makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature, planeBasis,
   buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature,
   makeMate, makeConcentric, solveConstraints,
 } from './model.js';
@@ -29,6 +29,14 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.12;
 
+// cámara ortogonal para el modo boceto (vista normal a la cara)
+const orthoCam = new THREE.OrthographicCamera(-150, 150, 150, -150, -5000, 5000);
+let orthoViewSize = 300;
+const sketchControls = new OrbitControls(orthoCam, renderer.domElement);
+sketchControls.enableRotate = false; // en boceto solo paneo y zoom
+sketchControls.enabled = false;
+let activeCamera = camera;
+
 scene.add(new THREE.HemisphereLight(0xe8eaf2, 0x2a2d33, 1.1));
 const sun = new THREE.DirectionalLight(0xffffff, 1.6);
 sun.position.set(180, -120, 300);
@@ -51,14 +59,21 @@ function resize() {
   renderer.setSize(w, h);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
+  const a = w / Math.max(1, h);
+  orthoCam.left = -orthoViewSize * a / 2;
+  orthoCam.right = orthoViewSize * a / 2;
+  orthoCam.top = orthoViewSize / 2;
+  orthoCam.bottom = -orthoViewSize / 2;
+  orthoCam.updateProjectionMatrix();
 }
 new ResizeObserver(resize).observe(viewport);
 resize();
 
 renderer.setAnimationLoop(() => {
-  controls.update();
+  if (controls.enabled) controls.update();
+  if (sketchControls.enabled) sketchControls.update();
   updateMeasureLabel();
-  renderer.render(scene, camera);
+  renderer.render(scene, activeCamera);
 });
 
 // ---------- Estado ----------
@@ -221,6 +236,7 @@ function featureMeta(f) {
   if (f.shape === 'box') return `${f.params.w}×${f.params.d}×${f.params.h}`;
   if (f.shape === 'cylinder') return `Ø${f.params.dia}×${f.params.h}`;
   if (f.shape === 'hole') return f.params.through ? `Ø${f.params.dia} pasante` : `Ø${f.params.dia}×${f.params.depth}`;
+  if (f.shape === 'sketch') return `${f.params.pts.length} pts ×${f.params.h}`;
   return '';
 }
 
@@ -299,6 +315,7 @@ function refreshProps() {
     if (f.shape === 'box') dims = frow('Ancho/Fondo/Alto', num3('fp_dims', [f.params.w, f.params.d, f.params.h]));
     if (f.shape === 'cylinder') dims = frow('Diámetro', `<input type="number" id="fp_dia" value="${f.params.dia}" step="0.5">`) + frow('Altura', `<input type="number" id="fp_h" value="${f.params.h}" step="0.5">`);
     if (f.shape === 'hole') dims = frow('Diámetro', `<input type="number" id="fp_dia" value="${f.params.dia}" step="0.5">`) + frow('Profundidad', `<input type="number" id="fp_depth" value="${f.params.depth}" step="0.5">`) + frow('Pasante', `<input type="checkbox" id="fp_through" ${f.params.through ? 'checked' : ''}>`);
+    if (f.shape === 'sketch') dims = frow('Puntos', `<b>${f.params.pts.length}</b>`) + frow('Altura', `<input type="number" id="fp_h" value="${f.params.h}" step="0.5">`);
     body.innerHTML = `
       ${frow('Función', `<b>${esc(f.name)}</b> &nbsp;(${f.op === 'cut' ? 'corte' : 'unión'})`)}
       ${dims}
@@ -311,6 +328,7 @@ function refreshProps() {
     $('fp_apply').onclick = () => {
       pushUndo();
       if (f.shape === 'box') { const [w, d, h] = readNum3('fp_dims'); Object.assign(f.params, { w, d, h }); }
+      if (f.shape === 'sketch') { f.params.h = +$('fp_h').value; }
       if (f.shape === 'cylinder') { f.params.dia = +$('fp_dia').value; f.params.h = +$('fp_h').value; }
       if (f.shape === 'hole') {
         f.params.dia = +$('fp_dia').value;
@@ -397,6 +415,7 @@ const dialogOpen = () => dialog.style.display === 'block';
 
 const MODE_HINTS = {
   select: '',
+  sketch: 'Boceto: toca una cara plana. Las aristas del modelo se proyectan como referencias con snap.',
   hole: 'Agujero: haz clic sobre una cara plana de una pieza.',
   mate: 'Coincidir: clic en la cara de la 1.ª pieza, luego en la cara de la 2.ª (la 2.ª se mueve).',
   flush: 'Alinear: clic en la cara de la 1.ª pieza, luego en la cara de la 2.ª (la 2.ª se mueve).',
@@ -405,11 +424,12 @@ const MODE_HINTS = {
   measure: 'Medir: clic en dos puntos (se ajusta al vértice más cercano). Esc para salir.',
 };
 
-const modeButtons = { hole: 'btnHole', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', measure: 'btnMeasure' };
+const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', measure: 'btnMeasure' };
 
 function setMode(m) {
   mode = mode === m ? 'select' : m;
   pickStage = null;
+  if (mode !== 'sketch' && sketch) cancelSketch(false);
   clearHover();
   clearPickedHighlight();
   if (mode !== 'measure') clearMeasure();
@@ -428,7 +448,7 @@ const pointer = new THREE.Vector2();
 function castAtEvent(ev) {
   const r = renderer.domElement.getBoundingClientRect();
   pointer.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
-  raycaster.setFromCamera(pointer, camera);
+  raycaster.setFromCamera(pointer, activeCamera);
   const objs = [...meshes.values()].map(x => x.mesh).filter(m => m.visible);
   const hits = raycaster.intersectObjects(objs, false);
   return hits[0] || null;
@@ -488,7 +508,8 @@ renderer.domElement.addEventListener('pointerdown', (ev) => {
 renderer.domElement.addEventListener('pointermove', (ev) => {
   if (dialogOpen()) return;
   if (dragging) { if (ev.pointerId === dragging.pointerId) updateMoveDrag(ev); return; }
-  if (ev.pointerType === 'mouse' && ['hole', 'mate', 'flush'].includes(mode)) {
+  if (mode === 'sketch' && sketch) { updateSketchPreview(ev); return; }
+  if (ev.pointerType === 'mouse' && (['hole', 'mate', 'flush'].includes(mode) || (mode === 'sketch' && !sketch))) {
     const hit = castAtEvent(ev);
     if (hit) showHover(hit, hoverMat);
     else clearHover();
@@ -531,6 +552,7 @@ function handleClick(ev) {
     }
     return;
   }
+  if (mode === 'sketch') return clickSketch(hit, ev);
   if (!hit && mode !== 'measure') { setStatus('Nada bajo el cursor.'); return; }
 
   if (mode === 'hole') return clickHole(hit);
@@ -538,6 +560,289 @@ function handleClick(ev) {
   if (mode === 'concentric') return clickConcentric(hit);
   if (mode === 'measure') return clickMeasure(hit);
 }
+
+// ---------- Boceto 2D sobre cara con geometría proyectada ----------
+
+let sketch = null; // estado del boceto activo
+
+const sketchbar = $('sketchbar');
+const refMat = new THREE.LineBasicMaterial({ color: 0x5f7fa8 });          // aristas proyectadas
+const gridMat = new THREE.LineBasicMaterial({ color: 0x2a3040 });          // grilla del plano
+const drawMat = new THREE.LineBasicMaterial({ color: 0xf0a437 });          // contorno dibujado
+const previewMat = new THREE.LineBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.5 });
+const ptMat = new THREE.MeshBasicMaterial({ color: 0xf0a437 });
+const snapMat = new THREE.MeshBasicMaterial({ color: 0x34a853 });
+
+function clearGroup(g) {
+  for (const o of [...g.children]) { o.geometry?.dispose?.(); g.remove(o); }
+}
+
+function worldPerPixel() {
+  return (orthoCam.right - orthoCam.left) / (orthoCam.zoom * renderer.domElement.clientWidth);
+}
+
+const to3D = (u, v, lift = 0.1) => sketch.originW.clone()
+  .addScaledVector(sketch.uW, u).addScaledVector(sketch.vW, v).addScaledVector(sketch.nW, lift);
+
+function eventTo2D(ev) {
+  const r = renderer.domElement.getBoundingClientRect();
+  pointer.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+  raycaster.setFromCamera(pointer, activeCamera);
+  const p = new THREE.Vector3();
+  if (!raycaster.ray.intersectPlane(sketch.plane, p)) return null;
+  const d = p.sub(sketch.originW);
+  return [d.dot(sketch.uW), d.dot(sketch.vW)];
+}
+
+// snap: 1º a vértices proyectados / puntos ya dibujados, si no a grilla de 1 mm
+function snap2D(uv) {
+  const tol = 14 * worldPerPixel();
+  let best = null, bestD = tol;
+  for (const s of sketch.snapPts) {
+    const d = Math.hypot(uv[0] - s[0], uv[1] - s[1]);
+    if (d < bestD) { best = s; bestD = d; }
+  }
+  for (const s of sketch.pts) {
+    const d = Math.hypot(uv[0] - s[0], uv[1] - s[1]);
+    if (d < bestD) { best = s; bestD = d; }
+  }
+  if (best) return { uv: [best[0], best[1]], snapped: true };
+  return { uv: [Math.round(uv[0]), Math.round(uv[1])], snapped: false };
+}
+
+function clickSketch(hit, ev) {
+  if (!sketch) {
+    if (!hit) { setStatus('Toca una cara plana para bocetar sobre ella.'); return; }
+    enterSketch(hit);
+    return;
+  }
+  const raw = eventTo2D(ev);
+  if (!raw) return;
+  const { uv } = snap2D(raw);
+  addSketchPoint(uv);
+}
+
+function enterSketch(hit) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const face = faceAtHit(hit);
+  clearHover();
+  const mesh = hit.object;
+  const q = mesh.quaternion.clone();
+  const basisL = planeBasis(face.normal.toArray());
+  const originW = face.centroid.clone().applyMatrix4(mesh.matrixWorld);
+  const nW = face.normal.clone().applyQuaternion(q).normalize();
+  const uW = basisL.u.clone().applyQuaternion(q).normalize();
+  const vW = basisL.v.clone().applyQuaternion(q).normalize();
+
+  sketch = {
+    part,
+    originL: face.centroid.toArray(), nL: face.normal.toArray(), uL: basisL.u.toArray(),
+    originW, nW, uW, vW,
+    plane: new THREE.Plane().setFromNormalAndCoplanarPoint(nW, originW),
+    pts: [], tool: 'poly', temp: null,
+    snapPts: [],
+    group: new THREE.Group(),
+    draw: new THREE.Group(),    // contorno del usuario
+    preview: new THREE.Group(), // línea elástica / figura provisional
+  };
+  sketch.group.add(sketch.draw, sketch.preview);
+  overlay.add(sketch.group);
+
+  buildSketchReferences();
+
+  // vista ortogonal normal a la cara
+  orthoViewSize = Math.max(80, sketch.extent * 2.6);
+  orthoCam.zoom = 1;
+  orthoCam.up.copy(vW);
+  orthoCam.position.copy(originW).addScaledVector(nW, 500);
+  orthoCam.lookAt(originW);
+  sketchControls.target.copy(originW);
+  activeCamera = orthoCam;
+  controls.enabled = false;
+  sketchControls.enabled = true;
+  resize();
+
+  sketchbar.classList.add('open');
+  setHint('Dibuja el contorno. Verde = snap a geometría proyectada; si no, grilla de 1 mm. ✔ o toca el 1.º punto para cerrar.');
+  setStatus(`Boceto en cara de ${part.name}.`);
+}
+
+// proyecta TODAS las aristas visibles del modelo al plano (vista ortogonal completa)
+function buildSketchReferences() {
+  const segs = [];
+  let maxR = 20;
+  const a = new THREE.Vector3(), b = new THREE.Vector3();
+  for (const rec of meshes.values()) {
+    if (!rec.mesh.visible) continue;
+    const pos = rec.edges.geometry.attributes.position;
+    if (!pos) continue;
+    for (let i = 0; i < pos.count; i += 2) {
+      a.fromBufferAttribute(pos, i).applyMatrix4(rec.mesh.matrixWorld);
+      b.fromBufferAttribute(pos, i + 1).applyMatrix4(rec.mesh.matrixWorld);
+      const da = a.clone().sub(sketch.originW), db = b.clone().sub(sketch.originW);
+      const s = [da.dot(sketch.uW), da.dot(sketch.vW)];
+      const e = [db.dot(sketch.uW), db.dot(sketch.vW)];
+      if (Math.hypot(s[0] - e[0], s[1] - e[1]) < 1e-4) continue; // arista normal al plano
+      segs.push([s, e]);
+      sketch.snapPts.push(s, e, [(s[0] + e[0]) / 2, (s[1] + e[1]) / 2]);
+      maxR = Math.max(maxR, Math.hypot(...s), Math.hypot(...e));
+    }
+  }
+  sketch.extent = maxR;
+
+  // grilla del plano (paso 5 mm) + referencias proyectadas
+  const S = Math.ceil(maxR * 1.3 / 10) * 10;
+  const gpts = [];
+  for (let k = -S; k <= S; k += 5) {
+    gpts.push(to3D(-S, k, 0.02), to3D(S, k, 0.02), to3D(k, -S, 0.02), to3D(k, S, 0.02));
+  }
+  sketch.group.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(gpts), gridMat));
+  const rpts = [];
+  for (const [s, e] of segs) rpts.push(to3D(s[0], s[1], 0.06), to3D(e[0], e[1], 0.06));
+  sketch.group.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(rpts), refMat));
+}
+
+function addSketchPoint(uv) {
+  const t = sketch.tool;
+  if (t === 'poly') {
+    // cerrar tocando el primer punto
+    if (sketch.pts.length >= 3) {
+      const [u0, v0] = sketch.pts[0];
+      if (Math.hypot(uv[0] - u0, uv[1] - v0) < 16 * worldPerPixel()) return finishLoop(sketch.pts);
+    }
+    sketch.pts.push(uv);
+    redrawSketch();
+    setStatus(`Punto ${sketch.pts.length}: (${uv[0].toFixed(1)}, ${uv[1].toFixed(1)}) mm`);
+  } else if (t === 'rect') {
+    if (!sketch.temp) { sketch.temp = uv; setStatus('Toca la esquina opuesta.'); redrawSketch(); return; }
+    const [x1, y1] = sketch.temp, [x2, y2] = uv;
+    if (Math.abs(x2 - x1) < 0.5 || Math.abs(y2 - y1) < 0.5) { setStatus('Rectángulo demasiado angosto.'); return; }
+    finishLoop([[x1, y1], [x2, y1], [x2, y2], [x1, y2]]);
+  } else if (t === 'circle') {
+    if (!sketch.temp) { sketch.temp = uv; setStatus('Toca un punto del radio.'); redrawSketch(); return; }
+    const [cx, cy] = sketch.temp;
+    const r = Math.hypot(uv[0] - cx, uv[1] - cy);
+    if (r < 0.5) { setStatus('Radio demasiado pequeño.'); return; }
+    const pts = [];
+    for (let i = 0; i < 48; i++) {
+      const a = i * Math.PI * 2 / 48;
+      pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]);
+    }
+    setStatus(`Círculo Ø${(2 * r).toFixed(1)} mm`);
+    finishLoop(pts);
+  }
+}
+
+function redrawSketch() {
+  clearGroup(sketch.draw);
+  if (sketch.pts.length) {
+    if (sketch.pts.length > 1) {
+      const pts = sketch.pts.map(p => to3D(p[0], p[1]));
+      sketch.draw.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), drawMat));
+    }
+    for (const p of sketch.pts) {
+      const m = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.8, 3.5 * worldPerPixel()), 10, 8), ptMat);
+      m.position.copy(to3D(p[0], p[1]));
+      sketch.draw.add(m);
+    }
+  }
+  if (sketch.temp) {
+    const m = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.8, 3.5 * worldPerPixel()), 10, 8), ptMat);
+    m.position.copy(to3D(sketch.temp[0], sketch.temp[1]));
+    sketch.draw.add(m);
+  }
+}
+
+function updateSketchPreview(ev) {
+  if (ev.pointerType !== 'mouse') return;
+  const raw = eventTo2D(ev);
+  if (!raw) return;
+  const { uv, snapped } = snap2D(raw);
+  clearGroup(sketch.preview);
+  const cursor = new THREE.Mesh(
+    new THREE.SphereGeometry(Math.max(0.9, 4 * worldPerPixel()), 10, 8),
+    snapped ? snapMat : ptMat
+  );
+  cursor.position.copy(to3D(uv[0], uv[1]));
+  sketch.preview.add(cursor);
+  const t = sketch.tool;
+  if (t === 'poly' && sketch.pts.length) {
+    const last = sketch.pts[sketch.pts.length - 1];
+    sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
+      [to3D(last[0], last[1]), to3D(uv[0], uv[1])]), previewMat));
+  } else if (t === 'rect' && sketch.temp) {
+    const [x1, y1] = sketch.temp, [x2, y2] = uv;
+    sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
+      [to3D(x1, y1), to3D(x2, y1), to3D(x2, y2), to3D(x1, y2), to3D(x1, y1)]), previewMat));
+  } else if (t === 'circle' && sketch.temp) {
+    const [cx, cy] = sketch.temp;
+    const r = Math.hypot(uv[0] - cx, uv[1] - cy);
+    const pts = [];
+    for (let i = 0; i <= 48; i++) {
+      const a = i * Math.PI * 2 / 48;
+      pts.push(to3D(cx + r * Math.cos(a), cy + r * Math.sin(a)));
+    }
+    sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), previewMat));
+  }
+  setStatus(`(${uv[0].toFixed(1)}, ${uv[1].toFixed(1)}) mm${snapped ? ' ⌖ snap' : ''}`);
+}
+
+function finishLoop(pts) {
+  const part = sketch.part;
+  const originL = sketch.originL, nL = sketch.nL, uL = sketch.uL;
+  showForm(`Extruir boceto (${pts.length} puntos)`, [
+    { key: 'h', label: 'Altura (mm)', value: 10, step: 0.5 },
+    { key: 'op', label: 'Operación', type: 'select', value: 'union', options: [['union', 'Unión (agrega hacia afuera)'], ['cut', 'Corte (quita hacia adentro)']] },
+  ], (v) => {
+    if (!(v.h > 0)) { setStatus('La altura debe ser mayor que 0.'); return; }
+    pushUndo();
+    part.features.push(makeSketchFeature(pts, v.h, v.op, originL, nL, uL));
+    cancelSketch(true);
+    faceCache.clear();
+    rebuildPart(part);
+    commit(`Boceto extruido en ${part.name}.`);
+  });
+}
+
+function cancelSketch(silent) {
+  if (!sketch) return;
+  overlay.remove(sketch.group);
+  sketch.group.traverse(o => o.geometry?.dispose?.());
+  sketch = null;
+  sketchbar.classList.remove('open');
+  activeCamera = camera;
+  sketchControls.enabled = false;
+  controls.enabled = true;
+  if (!silent) setStatus('Boceto cancelado.');
+  if (mode === 'sketch') { mode = 'select'; $('btnSketch').classList.remove('on'); setHint(''); }
+}
+
+// barra de herramientas del boceto
+sketchbar.addEventListener('click', (e) => {
+  const btn = e.target.closest('button');
+  if (!btn || !sketch) return;
+  if (btn.dataset.tool) {
+    sketch.tool = btn.dataset.tool;
+    sketch.temp = null;
+    sketch.pts = [];
+    redrawSketch();
+    clearGroup(sketch.preview);
+    for (const b of sketchbar.querySelectorAll('[data-tool]')) b.classList.toggle('on', b === btn);
+    setStatus({ poly: 'Polígono: toca los vértices.', rect: 'Rectángulo: toca dos esquinas.', circle: 'Círculo: toca el centro y luego el radio.' }[sketch.tool]);
+    return;
+  }
+  if (btn.id === 'skClose') {
+    if (sketch.tool === 'poly' && sketch.pts.length >= 3) finishLoop(sketch.pts);
+    else setStatus('Se necesitan al menos 3 puntos para cerrar.');
+  }
+  if (btn.id === 'skUndo') {
+    if (sketch.temp) sketch.temp = null;
+    else sketch.pts.pop();
+    redrawSketch();
+    clearGroup(sketch.preview);
+  }
+  if (btn.id === 'skCancel') cancelSketch(false);
+});
 
 // ---------- Agujero sobre cara ----------
 
@@ -735,7 +1040,7 @@ function clearMeasure() {
 
 function updateMeasureLabel() {
   if (!measureAnchor) return;
-  const v = measureAnchor.clone().project(camera);
+  const v = measureAnchor.clone().project(activeCamera);
   const r = renderer.domElement.getBoundingClientRect();
   measureLabel.style.left = `${(v.x * 0.5 + 0.5) * r.width}px`;
   measureLabel.style.top = `${(-v.y * 0.5 + 0.5) * r.height}px`;
@@ -948,6 +1253,8 @@ function loadDemo() {
 window.__cad = {
   get doc() { return doc; },
   set doc(d) { doc = d; },
+  get sketch() { return sketch; },
+  get activeCamera() { return activeCamera; },
   rebuildAll, solveAndSync, loadDemo, setMode,
   meshes, scene, camera,
   THREE,
