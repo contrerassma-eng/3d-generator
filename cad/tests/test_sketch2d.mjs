@@ -3,7 +3,7 @@ import {
   makeLine, makeCircle, makeArc, entityPoints, intersectEntities,
   trimEntity, extendLine, chainLoops, makeDim, measureDim, applyDim,
   fitStroke, dist, snapPoints, tangentPoints, regions, loopKey,
-  moveEntity, applyLockedDims,
+  moveEntity, applyLockedDims, makeArcCSE, regularPolygon, offsetEntity, filletLines,
 } from '../js/sketch2d.js';
 
 let pass = 0, fail = 0;
@@ -215,6 +215,37 @@ console.log('— Mover con cotas fijas (candado) —');
   // la cota con candado la devuelve a 30
   applyLockedDims(ents, dims);
   check('cota 🔒 restringe tras mover', near(dist(ents[0].a, ents[0].b), 30), `=${dist(ents[0].a, ents[0].b)}`);
+}
+
+console.log('— Arco, polígono, offset y empalme —');
+{
+  const arc = makeArcCSE([0, 0], [10, 0], [0, 10]);
+  check('arco centro-inicio-fin', arc.type === 'arc' && near(arc.r, 10));
+  const hexa = regularPolygon([0, 0], [10, 0], 6);
+  check('hexágono: 6 lados de largo igual', hexa.length === 6 && near(dist(hexa[0].a, hexa[0].b), 10, 1e-6));
+  const { outer } = chainLoops(hexa);
+  check('el polígono cierra contorno', !!outer);
+
+  const off = offsetEntity(makeLine([0, 0], [10, 0]), 3, [5, 5]);
+  check('offset de línea hacia el lado tocado', near(off.a[1], 3) && near(off.b[1], 3));
+  const offC = offsetEntity(makeCircle([0, 0], 10), 2, [20, 0]);
+  check('offset de círculo hacia afuera', near(offC.r, 12));
+  const offC2 = offsetEntity(makeCircle([0, 0], 10), 2, [0, 0]);
+  check('offset de círculo hacia adentro', near(offC2.r, 8));
+}
+{
+  // empalme r=5 en esquina a 90°: tangencias a 5 mm del vértice
+  const l1 = makeLine([0, 0], [20, 0]);
+  const l2 = makeLine([0, 0], [0, 20]);
+  const ents = [l1, l2];
+  const ok = filletLines(ents, l1, l2, 5);
+  check('empalme aplicado', ok && ents.length === 3 && ents[2].type === 'arc');
+  check('líneas recortadas a la tangencia', near(l1.a[0], 5) && near(l2.a[1], 5), JSON.stringify([l1.a, l2.a]));
+  check('radio del arco = 5 y centro en (5,5)', near(ents[2].r, 5) && near(ents[2].c[0], 5) && near(ents[2].c[1], 5));
+  // el contorno line+arc+line cierra con el resto de un cuadrado
+  const rest = [makeLine([20, 0], [20, 20]), makeLine([20, 20], [0, 20])];
+  const { outer } = chainLoops([...ents, ...rest]);
+  check('cuadrado con esquina redondeada cierra', !!outer && outer.length > 6);
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);

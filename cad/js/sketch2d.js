@@ -472,6 +472,77 @@ export function applyDim(entities, dim, value) {
   return true;
 }
 
+// ---------- herramientas de construcción (arco, polígono, offset, empalme) ----------
+
+// arco por centro-inicio-fin (CCW desde inicio hacia fin)
+export function makeArcCSE(c, start, end) {
+  const r = dist(c, start);
+  const a0 = Math.atan2(start[1] - c[1], start[0] - c[0]);
+  const a1 = Math.atan2(end[1] - c[1], end[0] - c[0]);
+  return makeArc(c, r, a0, a1);
+}
+
+// polígono regular por centro y un vértice
+export function regularPolygon(c, vertex, n) {
+  const r = dist(c, vertex);
+  if (r < 0.1 || n < 3) return [];
+  const a0 = Math.atan2(vertex[1] - c[1], vertex[0] - c[0]);
+  const pts = [];
+  for (let i = 0; i < n; i++) {
+    const a = a0 + i * TAU / n;
+    pts.push([c[0] + r * Math.cos(a), c[1] + r * Math.sin(a)]);
+  }
+  const lines = [];
+  for (let i = 0; i < n; i++) lines.push(makeLine(pts[i], pts[(i + 1) % n]));
+  return lines;
+}
+
+// equidistancia: copia paralela a distancia d, hacia el lado de sidePt
+export function offsetEntity(e, d, sidePt) {
+  if (!(d > 0)) return null;
+  if (e.type === 'line') {
+    const dir = norm(sub(e.b, e.a));
+    let n = [-dir[1], dir[0]];
+    if (dot(sub(sidePt, e.a), n) < 0) n = [-n[0], -n[1]];
+    return makeLine(add(e.a, scale(n, d)), add(e.b, scale(n, d)));
+  }
+  if (e.type === 'circle' || e.type === 'arc') {
+    const outside = dist(sidePt, e.c) > e.r;
+    const nr = outside ? e.r + d : e.r - d;
+    if (nr <= 0.1) return null;
+    return e.type === 'circle' ? makeCircle(e.c, nr) : makeArc(e.c, nr, e.a0, e.a1);
+  }
+  return null;
+}
+
+// empalme (fillet 2D): redondea la esquina entre dos líneas con radio r,
+// recortando ambas a los puntos de tangencia y agregando el arco.
+export function filletLines(entities, l1, l2, r) {
+  if (l1.type !== 'line' || l2.type !== 'line' || !(r > 0)) return false;
+  const P = lineLineInf(l1, l2);
+  if (!P) return false;
+  const dirFrom = (l) => {
+    const far = dist(l.a, P) > dist(l.b, P) ? l.a : l.b;
+    return norm(sub(far, P));
+  };
+  const d1 = dirFrom(l1), d2 = dirFrom(l2);
+  const theta = Math.acos(Math.max(-1, Math.min(1, dot(d1, d2))));
+  if (theta < 0.03 || theta > Math.PI - 0.03) return false; // casi paralelas
+  const t = r / Math.tan(theta / 2);
+  const T1 = add(P, scale(d1, t)), T2 = add(P, scale(d2, t));
+  if (t > Math.max(dist(l1.a, P), dist(l1.b, P)) || t > Math.max(dist(l2.a, P), dist(l2.b, P))) return false; // radio no cabe
+  const C = add(P, scale(norm(add(d1, d2)), r / Math.sin(theta / 2)));
+  const snapEnd = (l, T) => { if (dist(l.a, P) < dist(l.b, P)) l.a = [...T]; else l.b = [...T]; };
+  snapEnd(l1, T1);
+  snapEnd(l2, T2);
+  const s0 = normAng(Math.atan2(T1[1] - C[1], T1[0] - C[0]));
+  const s1 = normAng(Math.atan2(T2[1] - C[1], T2[0] - C[0]));
+  let span = s1 - s0;
+  if (span < 0) span += TAU;
+  entities.push(span <= Math.PI ? makeArc(C, r, s0, s0 + span) : makeArc(C, r, s1, s1 + (TAU - span)));
+  return true;
+}
+
 // ---------- reconocimiento de trazos a mano (modo lápiz) ----------
 
 export function douglasPeucker(pts, eps) {
