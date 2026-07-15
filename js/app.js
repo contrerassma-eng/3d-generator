@@ -2060,9 +2060,13 @@ function drawingParts() {
 function exportDrawing(exporter, kind) {
   const parts = drawingParts();
   if (!parts.length) { setStatus('No hay geometría para exportar.'); return; }
+  // piezas de chapa presentes: la cota de espesor se indica siempre en la lámina
+  const espesores = [...new Set(doc.parts.filter(p => p.visible && esChapa(p))
+    .map(p => chapaOf(p).params.t))];
   const meta = {
     designacion: parts.length === 1 ? parts[0].name : `Ensamble — ${parts.length} piezas`,
     piezas: parts.length,
+    espesor: espesores.length ? espesores.join(' / ') : null,
   };
   try {
     const r = exporter(parts, meta);
