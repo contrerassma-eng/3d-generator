@@ -18,7 +18,7 @@ Prueba del ensamble (motor CSG real + invariantes): `cad/tests/test_transfer90.m
 ## `transfer_rodillos_90.json` — Transferencia 90° (módulo de desviación)
 
 **Solo el módulo de desvío pop-up** — el módulo principal de bandas del
-transportador anfitrión NO se modela (especificación del usuario). 40 piezas,
+transportador anfitrión NO se modela (especificación del usuario). 136 piezas,
 capa `user`. Ejes: **X = flujo del anfitrión, Y = expulsión a 90°, Z = arriba**,
 mm. Estado modelado: **elevado** (carrera aplicada).
 
@@ -28,7 +28,7 @@ mm. Estado modelado: **elevado** (carrera aplicada).
 |---|---|
 | Solo la transferencia (módulo de desviación) | 40 piezas, sin el transportador anfitrión |
 | **6 rodillos** completos, **Ø40 vulcanizado / corazón de tubo Ø30**, desnudos en el extremo de polea | paso 100 → gap tangente **60**; la banda anfitriona de 40 pasa entre líneas y entre los dedos |
-| **Transmisión en serpentín** (esquema IMG_3102, NO rodillo a rodillo) | banda única 25×3: rodillos (1ª línea) → **tensores Ø50 (2ª línea, mayores)** → tambor M Ø90 → 2 retornos Ø24 en esquinas |
+| **Transmisión en serpentín** (esquema IMG_3102, NO rodillo a rodillo) | **correa sincrónica T10 × 35 × 4.5** (dientes hacia afuera): rodillos (1ª línea, dorso liso por fricción) → **tensores Ø50 abombados con colisa vertical** → **tambor dentado T10 z28 con SIT-LOCK** → 2 retornos Ø24 en esquinas |
 | **Todo por dentro** | motor embridado a la cara interior de la placa −X, coaxial al tambor; cilindros y palancas entre las placas |
 | **Solo 2 cilindros**, **en diagonal con pivote**, subida **vertical de 6 mm** | ISO 6432 Ø25 inclinados 36.7°, basculantes en horquilla; empujan una **palanca con rodillo de leva** que sube el puente en vertical (carrera de cilindro 10.3 → 6 vertical) |
 | Estructura fija **no más ancha que la cara que sostiene las poleas** | canal fijo de **306 mm** = ancho exterior de las placas |
@@ -75,6 +75,12 @@ mm. Estado modelado: **elevado** (carrera aplicada).
 Los rodillos completos, poleas de retorno/tensoras, tambor motriz, ruedas y
 ejes están en la **biblioteca de componentes** (`componentes/catalogo.json`,
 categoría `mecanico`) e insertables desde el botón 🔌 Comp. de la interfaz web.
+
+**Diseño de velocidad** (espec. usuario): v tangencial de rodillos **80 m/min**
+→ v de correa 60 m/min (relación de radios 20/15); tambor z28 (dp 89.13) a
+214 rpm; motorreductor i≈6.3 (~0.18 kW). Tambor fijado con **buje cónico
+autocentrante SIT-LOCK CAL 1 25×34** (sin chaveta) y acople de mordaza;
+tensores y retornos con **descansos de brida** (buje bronce Ø24) en la placa.
 
 Para la variante de **30°**: girar 60° las líneas de rodillos (placas y
 serpentín giran con ellas); elevación y bastidor no cambian.

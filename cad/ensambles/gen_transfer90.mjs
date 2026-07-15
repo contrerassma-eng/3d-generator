@@ -58,16 +58,17 @@ export const D = {
   fingerW: 28,                   // extensiones delgadas hacia los rodillos (largo 48)
 
   // Transmisión en SERPENTÍN (esquema del usuario IMG_3102)
-  bandT: 3, bandW: 25,           // banda plana 25×3
+  bandT: 4.5, bandW: 35,         // CORREA SINCRÓNICA T10 abierta-soldada, ancho 35
   beltPlane: 119,                // plano x del serpentín (centro del tramo desnudo)
-  idlerDia: 50,                  // tensores 2ª línea (mayores que los rodillos)
+  idlerDia: 50,                  // tensores 2ª línea (ruedan sobre el lado dentado)
   idlerPos: [[-200, 98], [-100, 98], [100, 98], [200, 98]],  // 2ª línea baja: rodillos 56 más arriba
   retDia: 24,                    // poleas de retorno (esquinas inferiores)
   retPos: [[-280, 36], [280, 36]],
-  drumDia: 90, drumW: 30,        // tambor motriz M (bore Ø25.2)
+  drumDia: 89, drumW: 43,        // tambor DENTADO T10 z28 (dp 89.13)
+  drumTeeth: 28,
   drumPos: [0, 78],
   shaftDia: 25,
-  pulleyW: 29,
+  pulleyW: 39,                   // ancho de tensores y retornos (banda 35 + 4)
 
   // Puentes elevadores (unen las dos placas, dentro del ancho del módulo)
   bridgeY: 295, bridgeZ: [105, 117],
@@ -504,16 +505,22 @@ function transmision() {
     cyl('Chaflán 1.5×45° (-X)', [-52, my, mz], [1, 0, 0], 22, 1.5),
     cyl('Chaflán 1.5×45° (+X)', [174.5, my, mz], [1, 0, 0], 22, 1.5),
   ]);
-  addPart('MÓVIL · Chaveta DIN 6885 8×7×25 (tambor)', C.grisClaro, [D.beltPlane - 12.5, my, mz + 9], [
-    box('Chaveta 25×8×7', [D.beltPlane, my, mz + 9], 25, 8, 7),
+  const dientes = [];
+  for (let k = 0; k < D.drumTeeth; k++) {
+    const a = k * 2 * Math.PI / D.drumTeeth;
+    dientes.push(cyl(`Garganta T10 ${k + 1}`, [D.beltPlane - D.drumW / 2 - 0.5, my + 45.5 * Math.cos(a), mz + 45.5 * Math.sin(a)],
+      [1, 0, 0], 7, D.drumW + 1, 'cut'));
+  }
+  addPart(`MÓVIL · Tambor dentado T10 z${D.drumTeeth} (dp 89.13)`, C.tambor, [D.beltPlane - D.drumW / 2, my, mz - D.drumDia / 2], [
+    cyl(`Cuerpo Ø${D.drumDia}×${D.drumW}`, [D.beltPlane - D.drumW / 2, my, mz], [1, 0, 0], D.drumDia, D.drumW),
+    ...dientes,
+    hole('Barreno Ø34 H7 (buje SIT-LOCK)', [D.beltPlane - D.drumW / 2, my, mz], [1, 0, 0], 34),
   ]);
-  addPart('MÓVIL · Chaveta DIN 6885 8×7×18 (acople)', C.grisClaro, [-60, my, mz + 9], [
-    box('Chaveta 18×8×7', [-51, my, mz + 9], 18, 8, 7),
-  ]);
-  addPart('MÓVIL · Tambor motriz M abombado', C.tambor, [D.beltPlane - D.drumW / 2, my, mz - D.drumDia / 2], [
-    cyl(`Cuerpo Ø${D.drumDia - 0.8}×${D.drumW}`, [D.beltPlane - D.drumW / 2, my, mz], [1, 0, 0], D.drumDia - 0.8, D.drumW),
-    cyl(`Corona Ø${D.drumDia}×12 (abombado)`, [D.beltPlane - 6, my, mz], [1, 0, 0], D.drumDia, 12),
-    hole('Barreno Ø25.2 H8 + chavetero', [D.beltPlane - D.drumW / 2, my, mz], [1, 0, 0], D.shaftDia + D.slide),
+  // buje cónico autocentrante SIT-LOCK CAL 1 25×34: sin chaveta, autocentrado
+  addPart('MÓVIL · Buje SIT-LOCK CAL 1 25×34 (tambor)', C.gris, [D.beltPlane - D.drumW / 2 - 2, my, mz], [
+    cyl('Anillo cónico Ø34×' + (D.drumW - 4), [D.beltPlane - D.drumW / 2 + 2, my, mz], [1, 0, 0], 34, D.drumW - 4),
+    cyl('Brida de apriete Ø42×6', [D.beltPlane - D.drumW / 2 - 2, my, mz], [1, 0, 0], 42, 6),
+    hole('Bore Ø25.05 (autocentrante)', [D.beltPlane - D.drumW / 2 - 2, my, mz], [1, 0, 0], 25.05),
   ]);
   // portarodamiento embridado en la cara exterior de la placa +X
   addPart('MÓVIL · Portarodamiento Ø52 (placa +X)', C.fijoClaro, [D.combX + 3, my, mz], [
@@ -569,7 +576,7 @@ function transmision() {
         ]);
       }
       addPart(`MÓVIL · Separador tubular tensor (${py},${pz})`, C.grisClaro, [xIn + 6, py, pz], [
-        cyl('Tubo Ø18×17', [xIn + 6, py, pz], [1, 0, 0], 18, 17),
+        cyl(`Tubo Ø18×${D.pulleyW - 12}`, [xIn + 6, py, pz], [1, 0, 0], 18, D.pulleyW - 12),
         hole('Bore Ø12.4', [xIn + 6, py, pz], [1, 0, 0], 12.4),
       ]);
     } else {        // retorno: buje de bronce sinterizado
@@ -578,6 +585,11 @@ function transmision() {
         hole('Bore Ø12.2 H7/f7', [xIn + 4.5, py, pz], [1, 0, 0], 12.2),
       ]);
     }
+    addPart(`MÓVIL · Descanso de brida Ø24 (${py},${pz})`, '#b08d57', [D.combX - 3 - 8, py, pz], [
+      cyl('Buje Ø24×4', [D.combX - 3 - 8, py, pz], [1, 0, 0], 24, 4),
+      cyl('Brida Ø30×4', [D.combX - 3 - 4, py, pz], [1, 0, 0], 30, 4),
+      hole('Bore Ø12.2 H7', [D.combX - 3 - 8, py, pz], [1, 0, 0], 12.2),
+    ]);
     addPart(`MÓVIL · Seeger DIN 471-12 polea (${py},${pz})`, C.gris, [xIn - 1.7, py, pz], [
       cyl('Anillo Ø18×1.1', [xIn - 1.7, py, pz], [1, 0, 0], 18, 1.1),
       hole('Bore Ø11', [xIn - 1.7, py, pz], [1, 0, 0], 11),
@@ -594,7 +606,7 @@ function transmision() {
     cyl('Brida Ø70×8', [xMotorFace, my, mz], [1, 0, 0], 70, 8),
     cyl('Eje salida Ø25', [xMotorFace + 88, my, mz], [1, 0, 0], D.shaftDia, 15),
   ]);
-  addPart('MÓVIL · Acople rígido Ø35', C.gris, [-64, my, mz], [
+  addPart('MÓVIL · Acople de mordaza Ø35 (sin chaveta)', C.gris, [-64, my, mz], [
     cyl('Manguito Ø35×24', [-64, my, mz], [1, 0, 0], 35, 24),
     hole('Barreno Ø25.2', [-64, my, mz], [1, 0, 0], D.shaftDia + D.slide),
   ]);
@@ -630,8 +642,12 @@ const doc = {
       rodamientos: 'rodillos y tensores: 6901-2RS (12×24×6), cajera Ø24 M7, eje Ø12 g6, seeger DIN 471-12; tambor: 6205-2RS (25×52×15) en portarodamiento Ø52 H7 con DIN 472-52, eje Ø25 k6 con DIN 471-25; retornos: buje bronce sinterizado Ø16 r6 / Ø12.2 H7',
       torneria: 'chaflanes de eje 1..1.5×45°, radios de acuerdo 0.5, ranuras seeger s/DIN 471 (11.5×1.1 en Ø12; 23.9×1.85 en Ø25), roscas M10×1.5 6g, rugosidad asientos Ra 0.8',
       abombado: 'tensores, retornos y tambor con corona +0.4 en radio al centro (autocentrado de banda plana)',
-      chavetas: 'DIN 6885 A 8×7: ×25 tambor↔eje, ×18 eje↔acople; chaveteros N9',
+      chavetas: 'ELIMINADAS: sustituidas por buje SIT-LOCK autocentrante y acople de mordaza (facilidad de montaje)',
       neumatica: 'cilindros ISO 6432 Ø25 carrera 10 estándar con rótulas DIN ISO 12240-4 M8 en ambos extremos; electroválvula 5/2 monoestable 24VDC con racores push-in Ø8 y regulador de caudal en escape',
+      correa_sincronica: 'T10 abierta soldada, ancho 35, espesor 4.5, dientes HACIA AFUERA: engranan el tambor dentado z28 (dp 89.13) y tensores/retornos ruedan sobre el lado dentado; el dorso liso arrastra por friccion el tramo desnudo O30 de los rodillos (dorso a r19.5, 0.5 bajo el vulcanizado)',
+      velocidad: 'v tangencial de rodillos 80 m/min -> v banda = 80*(15/20) = 60 m/min (1 m/s, muy holgado para T10); tambor z28 a 214 rpm; motorreductor i=6.3 (1400 -> 222 rpm) ~0.18 kW',
+      sitlock: 'tambor fijado al eje O25 con buje conico autocentrante SIT-LOCK CAL 1 25x34: sin chaveta ni chavetero, montaje/desmontaje rapido y autocentrado; acople de mordaza tambien sin chaveta',
+      descansos: 'cada tensor y retorno con descanso de brida (buje bronce O24/O12.2 con brida O30) en la cara interior de la placa de transmision, ademas del apoyo prensado del eje',
       tensado: 'tensores en colisa vertical 12.2×22 con eje roscado M12 y tuerca: rango de tensado ±5 mm',
       nivelacion: 'niveladores M12×40 con base articulada Ø40 en las 4 esquinas del canal (rango +20 mm)',
     },
