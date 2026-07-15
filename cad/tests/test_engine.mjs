@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
-  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, planeBasis, magnetCorrections, identifyFace,
+  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, planeBasis, magnetCorrections, identifyFace,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
 } from '../js/model.js';
@@ -307,6 +307,61 @@ console.log('— Solver de restricciones —');
   solveConstraints(doc);
   const z = new THREE.Vector3(0, 0, 0).applyMatrix4(partMatrix(B)).z;
   check('mate con separación 2.5 mm', Math.abs(z - 12.5) < 1e-6, `z=${z}`);
+}
+
+console.log('— Patrones de funciones (rectangular / circular) —');
+
+// conteo de matrices (excluyen la ocurrencia origen)
+{
+  const rect = makePatternFeature('s', 'rect', { nx: 3, ny: 2, dx: 10, dy: 8 });
+  check('patrón rect 3×2 → 5 copias extra', patternMatrices(rect).length === 5);
+  const circ = makePatternFeature('s', 'circ', { n: 6, angle: 360, axisAt: [0, 0, 0], axisDir: [0, 0, 1] });
+  check('patrón circular n=6 (360°) → 5 copias extra', patternMatrices(circ).length === 5);
+  const arc = makePatternFeature('s', 'circ', { n: 4, angle: 90, axisAt: [0, 0, 0], axisDir: [0, 0, 1] });
+  check('patrón circular n=4 (90° parcial) → 3 copias extra', patternMatrices(arc).length === 3);
+}
+
+// patrón rectangular de un agujero: caja − 6 agujeros Ø6 (3×2)
+{
+  const box = makeBoxFeature(120, 80, 10);
+  const hole = makeHoleFeature(6, 10, true, [-40, -20, 10], [0, 0, -1]);
+  const pat = makePatternFeature(hole.id, 'rect', { nx: 3, ny: 2, dx: 40, dy: 40, u: [1, 0, 0], v: [0, 1, 0] });
+  const g = buildPart([box, hole, pat]);
+  const cylFacet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
+  const expected = 96000 - 6 * Math.PI * 9 * 10 * cylFacet;
+  check('caja − patrón 3×2 de agujeros (6 en total)', rel(volume(g), expected) < 0.003, `vol=${volume(g)} esp=${expected.toFixed(1)}`);
+  check('patrón: malla sin NaN', !hasNaN(g));
+}
+
+// patrón circular de un agujero alrededor del centro (4 a 90°/uno)
+{
+  const box = makeBoxFeature(100, 100, 10);
+  const hole = makeHoleFeature(6, 10, true, [30, 0, 10], [0, 0, -1]);
+  const pat = makePatternFeature(hole.id, 'circ', { n: 4, angle: 360, axisAt: [0, 0, 0], axisDir: [0, 0, 1] });
+  const g = buildPart([box, hole, pat]);
+  const cylFacet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
+  const expected = 100000 - 4 * Math.PI * 9 * 10 * cylFacet;
+  check('caja − patrón circular de 4 agujeros', rel(volume(g), expected) < 0.003, `vol=${volume(g)} esp=${expected.toFixed(1)}`);
+}
+
+// patrón de una unión (torreta cilíndrica replicada): el volumen crece
+{
+  const box = makeBoxFeature(120, 80, 10);
+  const boss = makeCylFeature(12, 8, [-40, 0, 10], [0, 0, 1], 'union');
+  const pat = makePatternFeature(boss.id, 'rect', { nx: 3, ny: 1, dx: 40, dy: 0, u: [1, 0, 0], v: [0, 1, 0] });
+  const vBase = volume(buildPart([box, boss]));
+  const vPat = volume(buildPart([box, boss, pat]));
+  check('patrón de unión suma 2 torretas más', rel(vPat - vBase, 2 * Math.PI * 36 * 8 * (0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI)) < 0.02, `Δ=${(vPat - vBase).toFixed(1)}`);
+}
+
+// origen suprimido → el patrón no aporta copias
+{
+  const box = makeBoxFeature(60, 60, 10);
+  const hole = makeHoleFeature(8, 10, true, [-20, 0, 10], [0, 0, -1]);
+  hole.suppressed = true;
+  const pat = makePatternFeature(hole.id, 'rect', { nx: 2, ny: 1, dx: 20, dy: 0, u: [1, 0, 0], v: [0, 1, 0] });
+  const g = buildPart([box, hole, pat]);
+  check('origen suprimido → patrón sin efecto (caja llena)', rel(volume(g), 36000) < 1e-6, `vol=${volume(g)}`);
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);

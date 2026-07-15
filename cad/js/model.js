@@ -77,6 +77,49 @@ export function makeSketchEntitiesFeature(entities, dims, h, op, at, dir, u) {
 export function makeRevolveFeature(entities, dims, axis, op, at, dir, u) {
   return { id: uid('f'), name: op === 'cut' ? 'Corte de revolución' : 'Revolución de boceto', shape: 'revolve', op, at, dir, params: { entities, dims, axis, u } };
 }
+// Patrón de una función existente (símil "Patrón" de Inventor). Replica la
+// geometría de la función origen en varias ocurrencias, aplicando su misma
+// operación (unión/corte). El origen queda como la ocurrencia (0,0).
+//   kind:'rect' → params {sourceId, nx, ny, dx, dy, u:[..], v:[..]}
+//   kind:'circ' → params {sourceId, n, angle, axisAt:[..], axisDir:[..]}
+export function makePatternFeature(sourceId, kind, params) {
+  const name = kind === 'circ' ? 'Patrón circular' : 'Patrón rectangular';
+  return { id: uid('f'), name, shape: 'pattern', op: 'pattern', at: [0, 0, 0], dir: [0, 0, 1], params: { sourceId, kind, ...params } };
+}
+
+// Matrices (excluida la identidad, que es la ocurrencia origen) de un patrón.
+export function patternMatrices(f) {
+  const mats = [];
+  const p = f.params;
+  if (p.kind === 'circ') {
+    const n = Math.max(1, Math.round(p.n));
+    const total = p.angle ?? 360;
+    const full = Math.abs(total) >= 359.999;
+    const step = (full ? total / n : total / Math.max(1, n - 1)) * Math.PI / 180;
+    const at = new THREE.Vector3(...(p.axisAt || [0, 0, 0]));
+    const axis = new THREE.Vector3(...(p.axisDir || [0, 0, 1])).normalize();
+    for (let k = 1; k < n; k++) {
+      const m = new THREE.Matrix4()
+        .makeTranslation(at.x, at.y, at.z)
+        .multiply(new THREE.Matrix4().makeRotationAxis(axis, step * k))
+        .multiply(new THREE.Matrix4().makeTranslation(-at.x, -at.y, -at.z));
+      mats.push(m);
+    }
+    return mats;
+  }
+  // rectangular
+  const nx = Math.max(1, Math.round(p.nx)), ny = Math.max(1, Math.round(p.ny));
+  const u = new THREE.Vector3(...(p.u || [1, 0, 0]));
+  const v = new THREE.Vector3(...(p.v || [0, 1, 0]));
+  for (let i = 0; i < nx; i++) {
+    for (let j = 0; j < ny; j++) {
+      if (i === 0 && j === 0) continue; // ocurrencia origen
+      const off = u.clone().multiplyScalar(i * p.dx).addScaledVector(v, j * p.dy);
+      mats.push(new THREE.Matrix4().makeTranslation(off.x, off.y, off.z));
+    }
+  }
+  return mats;
+}
 
 const SEGMENTS = 48;
 
@@ -394,6 +437,22 @@ export function buildPartGeometry(part) {
       let c = geomToCSG(res.add);
       csg = csg === null ? c : csg.union(c);
       for (const cut of res.cuts) csg = csg.subtract(geomToCSG(cut));
+      continue;
+    }
+    if (f.shape === 'pattern') {
+      // replica la geometría de la función origen en cada ocurrencia
+      if (csg === null) continue; // sin material base que replicar/cortar
+      const src = part.features.find(x => x.id === f.params.sourceId);
+      if (!src || src.suppressed) continue;
+      const extent = bbox.isEmpty() ? 100 : bbox.getSize(new THREE.Vector3()).length();
+      const base = featureGeometry(src, extent, false);
+      if (!base) continue;
+      for (const M of patternMatrices(f)) {
+        const g = base.clone().applyMatrix4(M);
+        if (src.op === 'union') { g.computeBoundingBox(); bbox.union(g.boundingBox); }
+        const c = geomToCSG(g);
+        csg = src.op === 'cut' ? csg.subtract(c) : csg.union(c);
+      }
       continue;
     }
     if (f.op === 'union' || csg !== null) {
