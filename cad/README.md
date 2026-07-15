@@ -125,6 +125,23 @@ atornillable) que muestra todas las capacidades.
   cilindro o de extrusión → **altura/profundidad**; cara de una caja →
   **ancho/fondo/alto** manteniendo fija la cara opuesta.
 
+### Patrones de funciones (categoría *Patrón*, símil Inventor)
+Selecciona una función en el árbol (agujero, cilindro, boceto, revolución…)
+y repítela como una función paramétrica más:
+- **▦ Rectangular**: filas × columnas con separación en X e Y.
+- **◍ Circular**: N ocurrencias en un ángulo total alrededor de un eje
+  (X/Y/Z) y un centro. 360° reparte parejo; un ángulo menor reparte entre
+  extremos.
+El patrón replica la geometría de la función origen aplicando su misma
+operación (los patrones de agujeros perforan; los de salientes agregan
+material), y sus parámetros (nº, separación, ángulo, eje) se editan en las
+propiedades y regeneran el sólido.
+
+### Barra de herramientas por categorías (cinta de Inventor)
+La barra izquierda agrupa las funciones en paneles con rótulo igual que la
+cinta de Inventor: en entorno *Pieza* → **Crear · Modificar · Patrón**; en
+*Ensamble* → **Restringir · Posición**; y comunes **Vista · Inspección**.
+
 ### Ensamble (restricciones)
 - **Conmutador Pieza / Ensamble** (arriba de la barra izquierda, como los
   entornos de Inventor): en *Pieza* se ven las herramientas de crear y
