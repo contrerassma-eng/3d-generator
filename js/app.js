@@ -910,6 +910,12 @@ function worldPerPixel() {
 const to3D = (u, v, lift = 0.1) => sketch.originW.clone()
   .addScaledVector(sketch.uW, u).addScaledVector(sketch.vW, v).addScaledVector(sketch.nW, lift);
 
+// mundo → coordenadas 2D del plano del boceto (proyección ortogonal)
+const w2s = (w) => {
+  const d = w.clone().sub(sketch.originW);
+  return [d.dot(sketch.uW), d.dot(sketch.vW)];
+};
+
 function eventTo2D(ev) {
   const r = renderer.domElement.getBoundingClientRect();
   pointer.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
@@ -1000,6 +1006,7 @@ function clickSketch(hit, ev) {
   if (t === 'polyg') return clickPolygon(raw);
   if (t === 'offset') return clickOffset(raw);
   if (t === 'fillet') return clickFillet(raw);
+  if (t === 'project') return clickProject(raw, hit);
 }
 
 function clickArc(raw) {
@@ -1134,7 +1141,7 @@ function beginSketch(part, originL, nL, uL) {
     chainStart: null, chainLast: null, temp: null, dimPick: null, stroke: null,
     entDrag: null, profileMode: false, excluded: new Set(),
     selIds: new Set(), marquee: null, copyOp: null,
-    faceSegs: [], orbit: false,
+    faceSegs: [], refPrims: [], orbit: false,
     tool: 'line',
     snapPts: [], refSegs: [],
     group: new THREE.Group(),
@@ -1196,6 +1203,18 @@ function buildSketchReferences() {
     for (const cp of referencePoints(part, skipId)) {
       const w = cp.clone().applyMatrix4(m).sub(sketch.originW);
       sketch.snapPts.push({ p: [w.dot(sketch.uW), w.dot(sketch.vW)], kind: 'centro' });
+    }
+    // primitivas tipadas (línea/círculo exactos) para la herramienta Proyectar
+    const q = new THREE.Quaternion(...part.quat);
+    const prims = referencePrimitives(part);
+    for (const ln of prims.lines) {
+      const a = w2s(ln.a.clone().applyMatrix4(m)), b = w2s(ln.b.clone().applyMatrix4(m));
+      if (Math.hypot(b[0] - a[0], b[1] - a[1]) > 0.05) sketch.refPrims.push({ type: 'line', a, b });
+    }
+    for (const ci of prims.circles) {
+      const dirW = ci.dir.clone().applyQuaternion(q).normalize();
+      if (Math.abs(dirW.dot(sketch.nW)) < 0.999) continue; // inclinado → elipse: no proyectable
+      sketch.refPrims.push({ type: 'circle', c: w2s(ci.c.clone().applyMatrix4(m)), r: ci.r });
     }
   }
   sketch.extent = maxR;
@@ -1436,52 +1455,95 @@ function endEntDrag() {
   setStatus('Entidad movida (las cotas 🔒 se re-aplicaron; las libres se actualizan solas).');
 }
 
-// --- proyectar la geometría del plano como entidades del boceto ---
+// --- ⤓ Proyectar geometría (como Inventor): herramienta selectiva ---
+// Toca una CARA → proyecta todo su contorno (exterior e interior);
+// toca una ARISTA o CÍRCULO → proyecta solo esa; toca algo ya
+// proyectado → lo desproyecta. Lo proyectado son entidades reales
+// (verdes) que se cotan, recortan y copian como cualquier otra.
 
-function projectPlaneGeometry() {
-  const seen = new Set();
-  let nLines = 0, nCircles = 0;
-  for (const part of doc.parts) {
-    if (!part.visible) continue;
-    const m = partMatrix(part);
-    const q = new THREE.Quaternion(...part.quat);
-    const prims = referencePrimitives(part);
-    const onPlane = (w) => Math.abs(w.clone().sub(sketch.originW).dot(sketch.nW)) < 0.05;
-    const to2 = (w) => {
-      const d = w.clone().sub(sketch.originW);
-      return [d.dot(sketch.uW), d.dot(sketch.vW)];
-    };
-    for (const ln of prims.lines) {
-      const a = ln.a.clone().applyMatrix4(m), b = ln.b.clone().applyMatrix4(m);
-      if (!onPlane(a) || !onPlane(b)) continue;
-      const a2 = to2(a), b2 = to2(b);
-      if (Math.hypot(a2[0] - b2[0], a2[1] - b2[1]) < 0.05) continue;
-      const key = [a2, b2].map(p => `${Math.round(p[0] * 10)},${Math.round(p[1] * 10)}`).sort().join('|');
-      if (seen.has(key)) continue;
-      seen.add(key);
-      const e = SK.makeLine(a2, b2);
-      e.proj = true;
-      sketch.entities.push(e);
-      nLines++;
-    }
-    for (const ci of prims.circles) {
-      const c = ci.c.clone().applyMatrix4(m);
-      const dirW = ci.dir.clone().applyQuaternion(q).normalize();
-      if (!onPlane(c) || Math.abs(dirW.dot(sketch.nW)) < 0.999) continue;
-      const c2 = to2(c);
-      const key = `c${Math.round(c2[0] * 10)},${Math.round(c2[1] * 10)},${Math.round(ci.r * 10)}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      const e = SK.makeCircle(c2, ci.r);
-      e.proj = true;
-      sketch.entities.push(e);
-      nCircles++;
-    }
+function projKeyOf(p) {
+  if (p.type === 'line') return [p.a, p.b].map(pt => `${Math.round(pt[0] * 10)},${Math.round(pt[1] * 10)}`).sort().join('|');
+  return `c${Math.round(p.c[0] * 10)},${Math.round(p.c[1] * 10)},${Math.round(p.r * 10)}`;
+}
+
+function addProjEntity(p) {
+  const key = projKeyOf(p);
+  if (sketch.entities.some(e => e.proj && projKeyOf(e) === key)) return 0; // ya proyectada
+  const e = p.type === 'line' ? SK.makeLine([...p.a], [...p.b]) : SK.makeCircle([...p.c], p.r);
+  e.proj = true;
+  sketch.entities.push(e);
+  return 1;
+}
+
+// contorno completo (exterior + interiores) de la cara tocada: las
+// primitivas analíticas de la pieza que están SOBRE el plano de esa cara
+function projectFaceContour(hit) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const face = faceAtHit(hit);
+  const mw = hit.object.matrixWorld;
+  const pw = face.centroid.clone().applyMatrix4(mw);
+  const nw = face.normal.clone().transformDirection(mw);
+  const m = partMatrix(part);
+  const q = new THREE.Quaternion(...part.quat);
+  const prims = referencePrimitives(part);
+  const onFace = (w) => Math.abs(w.clone().sub(pw).dot(nw)) < 0.05;
+  let added = 0;
+  for (const ln of prims.lines) {
+    const a = ln.a.clone().applyMatrix4(m), b = ln.b.clone().applyMatrix4(m);
+    if (!onFace(a) || !onFace(b)) continue;
+    const a2 = w2s(a), b2 = w2s(b);
+    if (Math.hypot(b2[0] - a2[0], b2[1] - a2[1]) < 0.05) continue; // arista normal al plano del boceto
+    added += addProjEntity({ type: 'line', a: a2, b: b2 });
+  }
+  for (const ci of prims.circles) {
+    const c = ci.c.clone().applyMatrix4(m);
+    const dirW = ci.dir.clone().applyQuaternion(q).normalize();
+    if (!onFace(c) || Math.abs(dirW.dot(nw)) < 0.999) continue;
+    if (Math.abs(nw.dot(sketch.nW)) < 0.999) continue; // cara inclinada → el círculo sería elipse
+    added += addProjEntity({ type: 'circle', c: w2s(c), r: ci.r });
   }
   redrawSketch();
-  setStatus(nLines + nCircles
-    ? `Proyectadas ${nLines} línea(s) y ${nCircles} círculo(s) del plano como entidades (el mismo botón las quita).`
-    : 'No hay geometría del modelo sobre este plano para proyectar.');
+  setStatus(added
+    ? `Contorno de la cara proyectado: ${added} entidad(es). Tócalas con ⤓ para quitarlas.`
+    : 'Esa cara no aportó geometría nueva (quizá ya estaba proyectada).');
+}
+
+function clickProject(raw, hit) {
+  // tolerancia acotada en mm: si el toque no está claramente sobre una
+  // arista/círculo, se interpreta como toque de CARA (contorno completo)
+  const tol = Math.min(16 * worldPerPixel(), 4);
+  // 1) ¿tocó una entidad ya proyectada? → desproyectar solo esa
+  let bestE = null;
+  for (const e of sketch.entities) {
+    if (!e.proj) continue;
+    const n = SK.nearestOnEntity(e, raw);
+    if (n.d < tol && (!bestE || n.d < bestE.d)) bestE = { e, d: n.d };
+  }
+  if (bestE) {
+    sketch.entities = sketch.entities.filter(x => x !== bestE.e);
+    sketch.selIds.delete(bestE.e.id);
+    pruneDims();
+    redrawSketch();
+    setStatus('Proyección desactivada: entidad quitada del boceto.');
+    return;
+  }
+  // 2) ¿tocó una arista o círculo de referencia? → proyectar solo esa
+  let bestP = null;
+  for (const p of sketch.refPrims) {
+    const n = SK.nearestOnEntity(p, raw);
+    if (n.d < tol && (!bestP || n.d < bestP.d)) bestP = { p, d: n.d };
+  }
+  if (bestP) {
+    const n = addProjEntity(bestP.p);
+    redrawSketch();
+    setStatus(n
+      ? (bestP.p.type === 'circle' ? `Círculo Ø${(bestP.p.r * 2).toFixed(1)} proyectado como entidad.` : 'Arista proyectada como entidad.')
+      : 'Esa referencia ya estaba proyectada.');
+    return;
+  }
+  // 3) ¿tocó una cara del modelo? → proyectar todo su contorno
+  if (hit) { projectFaceContour(hit); return; }
+  setStatus('Proyectar: toca una cara (todo su contorno), una arista o un círculo; tocar algo proyectado lo quita.');
 }
 
 // --- selección por ventana (AutoCAD) y copiar con punto base ---
@@ -1881,18 +1943,6 @@ sketchbar.addEventListener('click', (e) => {
     setStatus(sketch.slice ? '▤ Corte en el plano del boceto: se ve la sección del modelo.' : 'Corte desactivado.');
     return;
   }
-  if (btn.id === 'skProj') {
-    const projected = sketch.entities.filter(e => e.proj);
-    if (projected.length) { // desproyectar
-      sketch.entities = sketch.entities.filter(e => !e.proj);
-      pruneDims();
-      redrawSketch();
-      setStatus(`${projected.length} entidad(es) proyectadas eliminadas (desproyectar).`);
-      return;
-    }
-    projectPlaneGeometry();
-    return;
-  }
   if (btn.id === 'skOrbit') {
     sketch.orbit = !sketch.orbit;
     btn.classList.toggle('on', sketch.orbit);
@@ -1938,6 +1988,7 @@ sketchbar.addEventListener('click', (e) => {
       polyg: 'Polígono regular: toca el centro y un vértice; luego eliges los lados.',
       offset: 'Equidistancia: toca una entidad o referencia del lado hacia donde quieres la copia.',
       fillet: 'Empalme: toca dos líneas que se cruzan y define el radio.',
+      project: 'Proyectar: toca una CARA (todo su contorno interior+exterior), una ARISTA o un CÍRCULO. Tocar algo proyectado lo quita.',
     }[sketch.tool]);
     return;
   }
