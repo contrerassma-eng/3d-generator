@@ -22,15 +22,20 @@ Un banco de 4 rodillos sobre dos canales tipo C con las pestañas hacia afuera.
 | Perforación hexagonal en el alma | hex 11 mm, patrón ×4 a pitch 76.2, a la altura del eje | tú |
 | **Patrón lateral de 6″** (bracket + travesaños) | Ø 5/16″, z = −40, paso 152.4 — **PROVISIONAL** | falta coordenada exacta del manual |
 | **Travesaños** | ángulo **40×40×4** con pestañas en extremos — **PROVISIONAL** | falta patrón de montaje |
-| **Bracket motor** | costanera (Cee, pestañas hacia adentro), doble fondo (módulo Dayton + tarjeta) — **PROVISIONAL** | falta patrón Unidrive / geometría tarjeta |
-| **Polea de 2 ranuras** | Ø44, eje ∥ rodillos, entre 2 rodillos; **tangente inferior 3 mm sobre la pestaña inferior** (centro z = −119.7) | posición resuelta según tu criterio |
+| **Motor UniDrive ONE** | cuerpo **Ø4.65″ = 118 × 62.7**, boss Ø1.56″ = 39.5, eje **D Ø0.5″ = 12.69**, pernos **Ø5/16″ = 8** | **ficha UniDrive S-UD23062200R01** |
+| **Patrón de pernos del motor** | **6.01″ × 5.50″ = 152.7 × 139.7** (2×2, Ø8) | **ficha UniDrive** (= el "patrón de 6″") |
+| **Bracket motor** | costanera (Cee, pestañas hacia adentro), doble fondo (módulo Dayton + tarjeta); lleva el patrón 6.01×5.50 | Cee tú; patrón motor UniDrive; tarjeta/módulo PROVISIONAL |
+| **Polea de 2 ranuras** | Ø44, eje ∥ rodillos, en el eje del motor, entre 2 rodillos; **tangente inferior 3 mm sobre la pestaña inferior** (centro z = −119.7) | posición según tu criterio |
 
-**Pendiente de confirmar (no está en el catálogo 190-E24):** coordenadas
-exactas del patrón lateral de 6″ y del splice de Hytrol; patrón de pernos del
-motor **Unidrive** y geometría de la tarjeta **Sony Logic Plus** y del módulo
-**Dayton** (buscar el STEP/manual de Unidrive); patrón de montaje del ángulo
-40×40 de los travesaños. Todo eso está parametrizado: en cuanto tengas los
-números, se ajustan y regenera.
+**Confirmado del UniDrive ONE** (ficha S-UD23062200R01): cuerpo Ø118 × 62.7,
+eje D Ø12.69, pernos Ø8 en patrón **6.01″ × 5.50″** (= tu "patrón de 6″"). Hay
+un **STEP oficial** en `unidrive.solutions/s/UniDrive-ONE.STEP` para geometría
+exacta si se importa.
+
+**Pendiente de confirmar (no está en el catálogo 190-E24 ni en la ficha UniDrive):**
+coordenadas exactas del splice/costado de Hytrol; geometría de la tarjeta
+**Sony Logic Plus** (ZoneLogix/ZPA) y del módulo **Dayton**; patrón de montaje
+del ángulo 40×40 de los travesaños. Parametrizado: en cuanto lleguen, se ajusta.
 
 ### Supuestos y avisos de ingeniería
 - **Profundidad de ranura limitada por la pared.** Una ranura de 5 mm de

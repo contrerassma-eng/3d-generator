@@ -148,25 +148,38 @@ function makeBracket(name, x, side) {
   const sgn = side, yWeb = sgn * (Yw + TCH + 3); // costanera pegada a la cara exterior del alma
   const H = SIDE_Z + 30 - (PULLEY_Z - 10);       // desde el patrón de 6" hasta bajo la polea
   const zc = PULLEY_Z - 10;
+  const W = 6.01 * IN + 40;                       // ancho ≥ patrón del motor (152.7)
   // alma de la costanera (placa X-Z) con doble fondo para módulo Dayton + tarjeta
-  part.features.push(box('Alma bracket', [x, yWeb, zc], 120, 6, H));
+  part.features.push(box('Alma bracket', [x, yWeb, zc], W, 6, H));
+  // patrón de pernos del motor Unidrive (Ø8, 6.01" x 5.50") en el alma
+  const bolt = makeCylFeature(5 / 16 * IN, 10, [x - 6.01 * IN / 2, yWeb + sgn * 5, PULLEY_Z + 5.50 * IN / 2], [0, -sgn, 0], 'cut');
+  part.features.push(bolt);
+  part.features.push(makePatternFeature(bolt.id, 'rect', { nx: 2, ny: 2, dx: 6.01 * IN, dy: -5.50 * IN, u: [1, 0, 0], v: [0, 0, 1] }));
   // pestañas de la costanera HACIA ADENTRO (−Y en la der.): arriba y abajo
   const yFl = yWeb - sgn * (3 + ANG / 2);
   part.features.push(box('Pestaña sup', [x, yFl, zc + H - TANG], ANG + 6, ANG, TANG));
   part.features.push(box('Pestaña inf', [x, yFl, zc], ANG + 6, ANG, TANG));
   return verify(part);
 }
+// UniDrive ONE (ficha S-UD23062200R01): cuerpo Ø4.65"=118 × 62.7, boss Ø1.56=39.5,
+// eje D Ø0.5"=12.69, pernos Ø5/16"=8, patrón 6.01"×5.50" = 152.7×139.7.
+const MOT_D = 118, MOT_L = 62.7, MOT_BOSS = 39.5, MOT_SHAFT = 12.69;
+const MOT_PAT_X = 6.01 * IN, MOT_PAT_Z = 5.50 * IN, MOT_BOLT = 5 / 16 * IN;
 function makeMotorPulley(name, x, side) {
   const part = newPart(doc, name); part.color = '#c9752e';
   const sgn = side;
-  // motor Unidrive (cilindro), de adentro hacia afuera, eje pequeño hacia el centro
-  part.features.push(makeCylFeature(52, 70, [x, sgn * (Yw + 30), PULLEY_Z], [0, -sgn, 0], 'union'));
-  part.features.push(makeCylFeature(10, 55, [x, sgn * (Yw + 30), PULLEY_Z], [0, -sgn, 0], 'union'));
+  const yFace = sgn * (Yw + TCH + 55);   // cara del motor, montado por fuera
+  // cuerpo del motor (disco Ø118), eje hacia adentro
+  part.features.push(makeCylFeature(MOT_D, MOT_L, [x, yFace, PULLEY_Z], [0, -sgn, 0], 'union'));
+  part.features.push(makeCylFeature(MOT_BOSS, 6, [x, yFace - sgn * MOT_L, PULLEY_Z], [0, -sgn, 0], 'union')); // boss frontal
+  // eje D pequeño hacia el centro, lleva la polea
+  const yPulley = sgn * (Yw - 45);
+  part.features.push(makeCylFeature(MOT_SHAFT, Math.abs(yFace - MOT_L * sgn - yPulley) + 10, [x, yPulley, PULLEY_Z], [0, sgn, 0], 'union'));
   // polea de 2 ranuras (eje ∥ rodillos, Y), entre dos rodillos y abajo
-  const pyC = sgn * (Yw - 55), w = 30;
-  part.features.push(makeCylFeature(PULLEY_D, w, [x, pyC - sgn * w / 2, PULLEY_Z], [0, sgn, 0], 'union'));
-  for (const t of [0.30, 0.70]) { // dos gargantas
-    const gy = pyC - sgn * w * t;
+  const w = 30;
+  part.features.push(makeCylFeature(PULLEY_D, w, [x, yPulley - sgn * w / 2, PULLEY_Z], [0, sgn, 0], 'union'));
+  for (const t of [0.30, 0.70]) {
+    const gy = yPulley - sgn * w * t;
     part.features.push(makeCylFeature(PULLEY_D - 10, 3.2, [x, gy - sgn * 1.6, PULLEY_Z], [0, sgn, 0], 'cut'));
   }
   return verify(part);
