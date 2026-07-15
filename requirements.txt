@@ -10,3 +10,7 @@ mapbox-earcut>=1.0
 networkx>=3.0
 # Biblioteca de componentes (docs/COMPONENTES.md): GLB con colores por cara
 scipy>=1.11
+# Carcasa paramétrica (pipeline/carcasa_esp32.py): booleanos de malla
+manifold3d>=2.5
+# tests/test_carcasa.py: contención de puntos en trimesh
+rtree>=1.2

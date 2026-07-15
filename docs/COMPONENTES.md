@@ -80,6 +80,29 @@ registro y correr `validar`, `sync-web` y `python tests/test_componentes.py`.
 4. La carcasa terminada se exporta a STL desde el CAD, o se dibuja con norma:
    `python pipeline/s6_drawings.py projects/<X> --fuente out/cad/<pieza>.glb`.
 
+## Carcasa paramétrica ESP32 + borneras (medidas reales)
+
+El registro `adaptador_borneras_esp32_70x80` (confianza `medido`: PCB 80×70,
+taladros 73×32 Ø2.7, borneras de 9 mm de fondo, 2× USB-C) trae además un bloque
+`carcasa` con las alturas de pila y ventanas USB-C declaradas por el usuario.
+De él deriva la carcasa completa:
+
+```bash
+python pipeline/carcasa_esp32.py [--salida <dir>] [--proyecto <X>] [--tapa-ciega]
+```
+
+Produce en `componentes/out/carcasa_esp32/` (o `projects/<X>/out/carcasa/`,
+auditado): `carcasa_base` y `carcasa_tapa` (GLB+STL imprimibles),
+`carcasa_ensamble.glb` y `carcasa_ensamble_explotado.glb` (base + placa +
+tapa), y `carcasa_cad.json` (3 piezas editables en el CAD del navegador).
+Diseño: cavidad con holgura 6.5, torres Ø7 con piloto Ø2.7×12 para 4× M3x16
+avellanado DIN 965, muescas de cable en U en las paredes largas (cerradas por
+el faldón de la tapa), bridas laterales con ranura M5 y ranuras superiores de
+acceso a borneras (`--tapa-ciega` las quita). El original del usuario
+(CadQuery) está en `componentes/carcasas/case_esp32_v3.py` como referencia de
+procedencia; `tests/test_carcasa.py` verifica que la derivación siga sus
+medidas. Sin el chaflán cosmético de 1 mm del borde superior de la tapa.
+
 ## Pruebas
 
 - `python tests/test_componentes.py` — esquema, mallas, DXF, CLI.
