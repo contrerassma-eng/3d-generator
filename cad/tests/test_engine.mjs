@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
+  makeSketchFeature, planeBasis,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
 } from '../js/model.js';
@@ -112,6 +113,38 @@ console.log('— CSG: volúmenes y robustez —');
   const cylFacet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
   const expected = Math.PI * 225 * 60 * cylFacet / 2; // media caña
   check('cilindro eje X cortado a media caña', rel(volume(g), expected) < 0.01, `vol=${volume(g)} esp=${expected.toFixed(0)}`);
+}
+
+console.log('— Bocetos extruidos —');
+
+// L extruida como pieza (unión): área 40×40 − 20×20 = 1200, altura 15
+{
+  const L = [[0, 0], [40, 0], [40, 20], [20, 20], [20, 40], [0, 40]];
+  const g = buildPart([makeSketchFeature(L, 15, 'union', [0, 0, 0], [0, 0, 1], [1, 0, 0])]);
+  check('L extruida: volumen 1200×15', rel(volume(g), 1200 * 15) < 0.01, `vol=${volume(g)}`);
+  check('L extruida sin NaN', !hasNaN(g));
+}
+
+// bolsillo de boceto (corte) en la cara superior de una placa
+{
+  const pocket = [[-10, -8], [10, -8], [10, 8], [-10, 8]];
+  const g = buildPart([
+    makeBoxFeature(60, 40, 12),
+    makeSketchFeature(pocket, 5, 'cut', [0, 0, 12], [0, 0, 1], [1, 0, 0]),
+  ]);
+  const expected = 60 * 40 * 12 - 20 * 16 * 5;
+  check('bolsillo por boceto en cara superior', rel(volume(g), expected) < 0.005, `vol=${volume(g)} esp=${expected}`);
+}
+
+// boceto en cara lateral (normal +X) con puntos en sentido horario (se auto-orienta)
+{
+  const cw = [[0, 0], [0, 10], [12, 10], [12, 0]]; // CW a propósito
+  const g = buildPart([
+    makeBoxFeature(40, 40, 20),
+    makeSketchFeature(cw, 6, 'union', [20, -6, 5], [1, 0, 0], planeBasis([1, 0, 0]).u.toArray()),
+  ]);
+  const expected = 40 * 40 * 20 + 12 * 10 * 6;
+  check('boceto en cara lateral + orientación CW corregida', rel(volume(g), expected) < 0.01, `vol=${volume(g)} esp=${expected}`);
 }
 
 console.log('— Detección de caras y ejes —');

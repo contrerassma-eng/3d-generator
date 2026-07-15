@@ -60,6 +60,12 @@ export function makeCylFeature(dia, h, at = [0, 0, 0], dir = [0, 0, 1], op = 'un
 export function makeHoleFeature(dia, depth, through, at, dir) {
   return { id: uid('f'), name: `Agujero Ø${dia}`, shape: 'hole', op: 'cut', at, dir, params: { dia, depth, through: !!through } };
 }
+// Boceto extruido: 'at' = origen del plano (local), 'dir' = normal de la cara
+// (hacia afuera), params.u = eje U del plano, params.pts = [[u,v],...] del
+// contorno, params.h = altura. Unión extruye hacia afuera; corte hacia adentro.
+export function makeSketchFeature(pts, h, op, at, dir, u) {
+  return { id: uid('f'), name: op === 'cut' ? 'Corte de boceto' : 'Extrusión de boceto', shape: 'sketch', op, at, dir, params: { pts, h, u } };
+}
 
 const SEGMENTS = 48;
 
@@ -73,7 +79,7 @@ function cylinderAlong(at, dir, radius, len) {
   return g;
 }
 
-function featureGeometry(f, extent) {
+function featureGeometry(f, extent, first) {
   if (f.shape === 'box') {
     const { w, d, h } = f.params;
     const g = new THREE.BoxGeometry(w, d, h);
@@ -90,7 +96,41 @@ function featureGeometry(f, extent) {
     const start = new THREE.Vector3(...f.at).addScaledVector(d, -back);
     return cylinderAlong(start.toArray(), d.toArray(), f.params.dia / 2, len);
   }
+  if (f.shape === 'sketch') {
+    let pts = f.params.pts;
+    let area = 0; // orientar CCW para que ExtrudeGeometry genere un sólido válido
+    for (let i = 0; i < pts.length; i++) {
+      const [x1, y1] = pts[i], [x2, y2] = pts[(i + 1) % pts.length];
+      area += x1 * y2 - x2 * y1;
+    }
+    if (area < 0) pts = [...pts].reverse();
+    const shape = new THREE.Shape(pts.map(p => new THREE.Vector2(p[0], p[1])));
+    const isCut = f.op === 'cut';
+    const over = 0.5;
+    const fuse = first ? 0 : 0.2; // solape para fusionar con material previo (si lo hay)
+    const depth = f.params.h + (isCut ? over : fuse);
+    const g = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: false, curveSegments: 24 });
+    // unión: de -fuse a +h (hacia afuera); corte: de -h a +over (hacia adentro)
+    g.translate(0, 0, isCut ? -f.params.h : -fuse);
+    const n = new THREE.Vector3(...f.dir).normalize();
+    const U = new THREE.Vector3(...f.params.u);
+    U.addScaledVector(n, -U.dot(n)).normalize();
+    const V = new THREE.Vector3().crossVectors(n, U);
+    const m = new THREE.Matrix4().makeBasis(U, V, n).setPosition(new THREE.Vector3(...f.at));
+    g.applyMatrix4(m);
+    return g;
+  }
   throw new Error(`shape desconocido: ${f.shape}`);
+}
+
+// Base ortonormal U,V para un plano de normal n (elige el eje menos alineado)
+export function planeBasis(n) {
+  const normal = new THREE.Vector3(...n).normalize();
+  const ax = [new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 1)]
+    .reduce((a, b) => Math.abs(a.dot(normal)) < Math.abs(b.dot(normal)) ? a : b);
+  const u = new THREE.Vector3().crossVectors(ax, normal).normalize();
+  const v = new THREE.Vector3().crossVectors(normal, u);
+  return { u, v, n: normal };
 }
 
 // Regenera la geometría local de una pieza aplicando sus features en orden.
@@ -100,7 +140,7 @@ export function buildPartGeometry(part) {
   for (const f of part.features) {
     if (f.op === 'union' || csg !== null) {
       const extent = bbox.isEmpty() ? 100 : bbox.getSize(new THREE.Vector3()).length();
-      const g = featureGeometry(f, extent);
+      const g = featureGeometry(f, extent, csg === null);
       if (f.op === 'union') {
         g.computeBoundingBox();
         bbox.union(g.boundingBox);
