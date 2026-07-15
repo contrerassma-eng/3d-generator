@@ -76,7 +76,7 @@ export const D = {
   lever: {
     pivot: [-118, 70],           // pivote fijo de la palanca (x, z)
     input: [85, 55],             // ojo del vástago (x, z)
-    cam: [0, 93], camDia: 24,    // rodillo de leva: contacto en z=105 (puente)
+    cam: [4, 93], camDia: 24,    // leva a +4: relación 122/203 → carrera estándar 10
     lug: [30, 14],               // horquilla basculante del cilindro en la base
   },
 
@@ -182,7 +182,7 @@ function verify() {
   if (L.cam[1] + L.camDia / 2 !== D.bridgeZ[0]) e.push('la leva no toca el fondo del puente');
   const rCam = L.cam[0] - L.pivot[0], rIn = L.input[0] - L.pivot[0];
   const strokeCyl = D.stroke * rIn / rCam;
-  if (strokeCyl < 6 || strokeCyl > 15) e.push(`carrera de cilindro ${strokeCyl.toFixed(1)} fuera de 6..15`);
+  if (Math.abs(strokeCyl - 10) > 0.5) e.push(`carrera de cilindro ${strokeCyl.toFixed(1)} != 10 estándar ISO 6432`);
   const dir = [L.input[0] - L.lug[0], L.input[1] - L.lug[1]];
   const ang = Math.atan2(dir[1], dir[0]) * 180 / Math.PI;
   if (ang < 25 || ang > 60) e.push(`cilindro a ${ang.toFixed(0)}° — no es diagonal (25..60°)`);
@@ -274,7 +274,31 @@ function canalFijo() {
     for (const dx of [-8, 8]) f.push(hole('Ø5.5 horquilla cilindro', [D.lever.lug[0] + dx, s * D.bridgeY, D.baseT], [0, 0, -1], D.M5));
     for (const dx of [-8, 8]) f.push(hole('Ø5.5 soporte pivote', [D.lever.pivot[0] + dx, s * D.bridgeY, D.baseT], [0, 0, -1], D.M5));
   }
+  // patrón de montaje de la electroválvula
+  for (const dy of [-25, 25]) f.push(hole('Ø4.5 electroválvula', [-80 + dy, 330, D.baseT], [0, 0, -1], D.M4));
+  // agujeros de los niveladores M12
+  for (const sx of [-1, 1]) for (const sy of [-1, 1]) {
+    f.push(hole('Ø13 nivelador M12', [sx * 110, sy * 320, D.baseT], [0, 0, -1], 13));
+  }
   addPart('FIJO · Canal lateral de la cinta', C.fijo, [0, 0, 0], f);
+  // electroválvula 5/2 monoestable 24VDC (alimenta ambos cilindros en paralelo)
+  addPart('FIJO · Electroválvula 5/2 24VDC', C.motor, [-80, 330, D.baseT], [
+    box('Cuerpo válvula 64×26×28', [-80, 330, D.baseT], 64, 26, 28),
+    box('Solenoide 20×26×24', [-118, 330, D.baseT + 2], 20, 26, 24),
+    cyl('Racor push-in Ø8 (P. trabajo 2)', [-70, 330, D.baseT + 28], [0, 0, 1], 10, 8),
+    cyl('Racor push-in Ø8 (P. trabajo 4)', [-90, 330, D.baseT + 28], [0, 0, 1], 10, 8),
+    cyl('Silenciador escape', [-48, 330, D.baseT + 14], [1, 0, 0], 8, 10),
+    hole('Ø4.5 montaje (a)', [-105, 330, D.baseT + 28], [0, 0, -1], D.M4),
+    hole('Ø4.5 montaje (b)', [-55, 330, D.baseT + 28], [0, 0, -1], D.M4),
+  ]);
+  // niveladores M12 (patas regulables del canal en el bastidor anfitrión)
+  for (const sx of [-1, 1]) for (const sy of [-1, 1]) {
+    addPart(`FIJO · Nivelador M12 (${sx * 110},${sy * 320})`, C.grisClaro, [sx * 110, sy * 320, -20], [
+      cyl('Base articulada Ø40×8', [sx * 110, sy * 320, -20], [0, 0, 1], 40, 8),
+      cyl('Espárrago M12×40', [sx * 110, sy * 320, -12], [0, 0, 1], 12, 32),
+      cyl('Tuerca M12 (fija altura)', [sx * 110, sy * 320, D.baseT + 1], [0, 0, 1], 19, 10),
+    ]);
+  }
 }
 
 // ===========================================================================
@@ -298,22 +322,30 @@ function elevacion() {
     ]);
     // horquilla basculante del cilindro (fija, M5 a la base)
     addPart(`FIJO · Horquilla cilindro ${s > 0 ? '+Y' : '-Y'}`, C.fijoClaro, [L.lug[0], y, D.baseT], [
-      box('Cuerpo 18×12×16', [L.lug[0], y, D.baseT], 18, 12, 16),
+      box('Cuerpo 18×24×16', [L.lug[0], y, D.baseT], 18, 24, 16),
+      box('Ranura de horquilla 20×11', [L.lug[0], y, D.baseT + 2], 20, 11, 15, 'cut'),
       box('Pie 36×24×6', [L.lug[0], y, D.baseT], 36, 24, 6),
       cyl('Perno basculante Ø8', [L.lug[0], y - 13, L.lug[1]], [0, 1, 0], 8, 26),
       hole('Ø5.5 M5', [L.lug[0] - 8, y, D.baseT + 6], [0, 0, -1], D.M5, 6, false),
       hole('Ø5.5 M5 (b)', [L.lug[0] + 8, y, D.baseT + 6], [0, 0, -1], D.M5, 6, false),
     ]);
-    // cilindro neumático diagonal (basculante; mostrado EXTENDIDO)
+    // cilindro ESTANDARIZADO ISO 6432 Ø25 carrera 10 (p. ej. DSNU-25-10),
+    // basculante, con RÓTULAS DIN ISO 12240-4 (M8) en ambos extremos
     const B = [L.lug[0], y, L.lug[1]];
-    addPart(`FIJO · Cilindro diagonal Ø25 ${s > 0 ? '+Y' : '-Y'}`, C.neumatico, B, [
-      cyl('Ojo trasero Ø16', [B[0], y - 6, B[2]], [0, 1, 0], 16, 12),
-      cyl('Cuerpo Ø25 (ISO 6432)', [B[0] + u[0] * 6, y, B[2] + u[2] * 6], u, 25, 40),
-      cyl('Vástago Ø10 (extendido)', [B[0] + u[0] * 46, y, B[2] + u[2] * 46], u, 10, len - 46),
-      cyl('Ojo delantero Ø16', [L.input[0], y - 6, L.input[1]], [0, 1, 0], 16, 12),
-      hole('Ø8.2 ojo trasero', [B[0], y - 7, B[2]], [0, 1, 0], 8.2),
-      hole('Ø8.2 ojo delantero', [L.input[0], y - 7, L.input[1]], [0, 1, 0], 8.2),
+    addPart(`FIJO · Cilindro ISO 6432 Ø25×10 ${s > 0 ? '+Y' : '-Y'}`, C.neumatico, B, [
+      cyl('Tapa trasera Ø32×8 (rosca M8 hembra)', [B[0] + u[0] * 8, y, B[2] + u[2] * 8], u, 32, 8),
+      cyl('Cuerpo Ø25 (ISO 6432)', [B[0] + u[0] * 16, y, B[2] + u[2] * 16], u, 25, 32),
+      cyl('Tapa delantera Ø32×6', [B[0] + u[0] * 48, y, B[2] + u[2] * 48], u, 32, 6),
+      cyl('Vástago Ø10 M8 (extendido +6 vertical)', [B[0] + u[0] * 54, y, B[2] + u[2] * 54], u, 10, len - 64),
     ]);
+    for (const [nom, P, dirShank, yOff] of [['trasera', B, 1, 0], ['delantera', [L.input[0], y, L.input[1]], -1, -11]]) {
+      addPart(`FIJO · Rótula M8 DIN ISO 12240-4 ${nom} ${s > 0 ? '+Y' : '-Y'}`, C.gris, [P[0], y + yOff - 6, P[2]], [
+        cyl('Cabeza Ø16×10', [P[0], y + yOff - 5, P[2]], [0, 1, 0], 16, 10),
+        cyl('Esfera Ø12 (aro interior)', [P[0], y + yOff - 6, P[2]], [0, 1, 0], 12, 12),
+        cyl('Caña rosca M8×10', [P[0] + dirShank * u[0] * 8, y + yOff, P[2] + dirShank * u[2] * 8], [dirShank * u[0], 0, dirShank * u[2]], 8, 10),
+        hole('Bore Ø8.2 (perno)', [P[0], y + yOff - 7, P[2]], [0, 1, 0], 8.2),
+      ]);
+    }
     // palanca con rodillo de leva (empuja el puente hacia arriba)
     const barra = [[-119, 83], [98, 69], [98, 41], [-117, 57]];
     const f = [
@@ -337,8 +369,8 @@ function elevacion() {
       ]);
     }
     // perno de unión vástago-palanca
-    addPart(`FIJO · Perno entrada Ø8 ${s > 0 ? '+Y' : '-Y'}`, C.grisClaro, [L.input[0], y - 13, L.input[1]], [
-      cyl('Perno Ø8×26', [L.input[0], y - 13, L.input[1]], [0, 1, 0], 8, 26),
+    addPart(`FIJO · Perno entrada Ø8 ${s > 0 ? '+Y' : '-Y'}`, C.grisClaro, [L.input[0], y - 19, L.input[1]], [
+      cyl('Perno Ø8×32', [L.input[0], y - 19, L.input[1]], [0, 1, 0], 8, 32),
     ]);
   }
 }
@@ -376,7 +408,12 @@ function placas() {
       for (const [dy, dz] of [[0, 31], [0, -31], [31, 0], [-31, 0]]) {
         f.push(hole('Ø5.5 portarodamiento', [xFace, D.drumPos[0] + dy, D.drumPos[1] + dz], [1, 0, 0], D.M5));
       }
-      for (const [py, pz] of [...D.idlerPos, ...D.retPos]) {
+      for (const [py, pz] of D.idlerPos) {  // TENSORES: colisa vertical (tensado de banda)
+        f.push(hole(`Ø12.2 eje tensor/retorno (${py},${pz})`, [xFace, py, pz - 5], [1, 0, 0], D.axleDia + D.slide));
+        f.push(hole(`Ø12.2 colisa sup (${py},${pz})`, [xFace, py, pz + 5], [1, 0, 0], D.axleDia + D.slide));
+        f.push(box(`Colisa tensora 12.2×10 (${py},${pz})`, [sx * D.combX, py, pz - 5], D.plateT + 1, 12.2, 10, 'cut'));
+      }
+      for (const [py, pz] of D.retPos) {
         f.push(hole(`Ø12.2 eje tensor/retorno (${py},${pz})`, [xFace, py, pz], [1, 0, 0], D.axleDia + D.slide));
       }
     } else {      // placa -X: brida del motorreductor por DENTRO
@@ -503,11 +540,20 @@ function transmision() {
   for (const [i, [py, pz]] of [...D.idlerPos, ...D.retPos].entries()) {
     const esTensor = i < D.idlerPos.length;
     const dia = esTensor ? D.idlerDia : D.retDia;
-    // eje cantiléver torneado: chaflán + ranura seeger, prensado Ø12 m6 en placa
+    // eje cantiléver torneado: chaflán + ranura seeger; los TENSORES llevan
+    // rosca M12 y tuerca de apriete en la colisa vertical (tensado)
     addPart(`MÓVIL · Eje cantiléver Ø12 (${py},${pz})`, C.grisClaro, [xIn - 4, py, pz], [
       cyl(`Eje Ø12 × ${r2(D.combX + 3 - (xIn - 3))}`, [xIn - 3, py, pz], [1, 0, 0], D.axleDia, r2(D.combX + 3 - (xIn - 3))),
       cyl('Chaflán 1×45°', [xIn - 4, py, pz], [1, 0, 0], 10, 1),
+      ...(esTensor ? [cyl('Rosca M12×14', [D.combX + 3, py, pz], [1, 0, 0], D.axleDia, 12)] : []),
     ]);
+    if (esTensor) {
+      addPart(`MÓVIL · Tuerca tensora M12 + golilla (${py},${pz})`, C.grisClaro, [D.combX + 3, py, pz], [
+        cyl('Golilla plana Ø24×2.5', [D.combX + 3, py, pz], [1, 0, 0], 24, 2.5),
+        cyl('Tuerca M12 DIN 934 (e=19)', [D.combX + 5.5, py, pz], [1, 0, 0], 19, 10),
+        hole('Paso rosca M12', [D.combX + 3, py, pz], [1, 0, 0], 12.2),
+      ]);
+    }
     // polea con ABOMBADO (corona 0.4 por lado para autocentrado de la banda)
     const nombre = esTensor ? `MÓVIL · Tensor abombado Ø${dia} (${py},${pz})` : `MÓVIL · Polea de retorno abombada Ø${dia} (${py},${pz})`;
     addPart(nombre, C.gris, [xIn, py, pz - dia / 2], [
@@ -585,6 +631,9 @@ const doc = {
       torneria: 'chaflanes de eje 1..1.5×45°, radios de acuerdo 0.5, ranuras seeger s/DIN 471 (11.5×1.1 en Ø12; 23.9×1.85 en Ø25), roscas M10×1.5 6g, rugosidad asientos Ra 0.8',
       abombado: 'tensores, retornos y tambor con corona +0.4 en radio al centro (autocentrado de banda plana)',
       chavetas: 'DIN 6885 A 8×7: ×25 tambor↔eje, ×18 eje↔acople; chaveteros N9',
+      neumatica: 'cilindros ISO 6432 Ø25 carrera 10 estándar con rótulas DIN ISO 12240-4 M8 en ambos extremos; electroválvula 5/2 monoestable 24VDC con racores push-in Ø8 y regulador de caudal en escape',
+      tensado: 'tensores en colisa vertical 12.2×22 con eje roscado M12 y tuerca: rango de tensado ±5 mm',
+      nivelacion: 'niveladores M12×40 con base articulada Ø40 en las 4 esquinas del canal (rango +20 mm)',
     },
     verificaciones: metrics,
   },

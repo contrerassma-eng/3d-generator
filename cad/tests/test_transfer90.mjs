@@ -46,7 +46,7 @@ const world = (part, at) => [at[0] + part.pos[0], at[1] + part.pos[1], at[2] + p
 
 console.log('— Documento —');
 check('formato foto3d-cad v1', doc.format === 'foto3d-cad' && doc.version === 1);
-check('118 piezas (detalle de fabricación completo)', doc.parts.length === 118, `hay ${doc.parts.length}`);
+check('131 piezas (fabricación + neumática + tensado + nivelación)', doc.parts.length === 131, `hay ${doc.parts.length}`);
 const pids = doc.parts.map(p => p.id);
 check('ids de pieza únicos', new Set(pids).size === pids.length);
 const fids = doc.parts.flatMap(p => p.features.map(f => f.id));
@@ -77,7 +77,7 @@ for (const part of doc.parts) {
   else console.log(`    NaN en ${part.name}`);
   if (v <= 1) console.log(`    sin volumen: ${part.name} (v=${v.toFixed(1)})`);
 }
-check('las 118 piezas construyen', built === doc.parts.length);
+check('las 131 piezas construyen', built === doc.parts.length);
 check('todas con volumen > 0', conVolumen === doc.parts.length);
 check('ninguna malla con NaN', sinNaN === doc.parts.length);
 
@@ -107,7 +107,7 @@ check('elevado: tangente = plano anfitrión + 4', rodillos.every(p => {
   return world(p, n.at)[2] + 20 === 174;
 }));
 // elevación: SOLO 2 cilindros, diagonales, con pivote y palanca
-const cils = doc.parts.filter(p => p.name.includes('Cilindro diagonal'));
+const cils = doc.parts.filter(p => p.name.includes('Cilindro ISO 6432'));
 check('SOLO 2 cilindros (sin pines verticales que parezcan cuatro)', cils.length === 2 &&
   !doc.parts.some(p => p.name.includes('Pin guía Ø16')));
 check('cilindros inclinados en diagonal (25°..60°)', M.anguloCilindro >= 25 && M.anguloCilindro <= 60,
@@ -197,11 +197,18 @@ for (const placa of placas) {
 check('12 agujeros de eje en placas, todos concéntricos con su eje', tot === 12 && conc === 12, `${conc}/${tot}`);
 // tensores/retornos alineados con la placa de transmisión
 const placaTrans = placas.find(p => p.name.includes('transmisión'));
-const stubHoles = placaTrans.features.filter(f => f.shape === 'hole' && f.name.includes('tensor/retorno'))
-  .map(f => world(placaTrans, f.at).slice(1).join(','));
-check('6 ejes tensores/retorno alineados con la placa de transmisión',
-  stubHoles.length === 6 && [...tensores, ...retornos].every(p =>
-    stubHoles.includes(world(p, p.features[0].at).slice(1).join(','))));
+// retornos: agujero fijo exacto; tensores: el eje dentro de su colisa vertical
+const ejesCant = doc.parts.filter(p => p.name.includes('Eje cantiléver'));
+const holesFijos = placaTrans.features.filter(f => f.shape === 'hole' && f.name.includes('tensor/retorno'))
+  .map(f => world(placaTrans, f.at));
+const colisasT = placaTrans.features.filter(f => f.name.includes('Colisa tensora'))
+  .map(f => world(placaTrans, f.at));
+check('6 ejes cantiléver alineados: retornos en agujero, tensores dentro de su colisa',
+  ejesCant.length === 6 && ejesCant.every(p => {
+    const a = world(p, p.features[0].at);
+    return holesFijos.some(h => Math.abs(h[1] - a[1]) < 1e-6 && Math.abs(h[2] - a[2]) < 1e-6) ||
+           colisasT.some(c => Math.abs(c[1] - a[1]) < 1e-6 && Math.abs(a[2] - (c[2] + 5)) <= 5 + 1e-6);
+  }));
 // rodillos suben más respecto a la 2ª línea: separación eje-tensor >= 50
 check('rodillos bien arriba de la 2ª línea (Δz eje↔tensor >= 50)', tensores.every(p => {
   const pol = p.features.find(f => f.name.startsWith('Cuerpo'));
@@ -245,6 +252,22 @@ check('7 piezas abombadas (4 tensores + 2 retornos + tambor)', abombadas.length 
 check('ejes con chaflanes de tornería', doc.parts.filter(p => p.name.includes('Eje rodillo')).every(p =>
   p.features.filter(f => f.name.includes('Chaflán')).length === 2) &&
   doc.parts.find(p => p.name.includes('Eje tambor')).features.filter(f => f.name.includes('Chaflán')).length === 2);
+// neumática estandarizada: válvula, cilindros ISO carrera 10, rótulas
+check('electroválvula 5/2 en el canal FIJO', doc.parts.some(p => p.name.includes('Electroválvula 5/2') && p.name.startsWith('FIJO')));
+check('carrera de cilindro estándar 10 (ISO 6432)', Math.abs(M.carreraCilindro - 10) <= 0.5, `${M.carreraCilindro}`);
+check('4 rótulas DIN ISO 12240 (2 por cilindro)', doc.parts.filter(p => p.name.includes('Rótula')).length === 4);
+// tensado vertical y nivelación
+const tuercasTensoras = doc.parts.filter(p => p.name.includes('Tuerca tensora'));
+check('4 tensores con colisa vertical y tuerca M12', tuercasTensoras.length === 4 &&
+  placaTrans.features.filter(f => f.name.includes('Colisa tensora')).length === 4);
+check('tuercas tensoras coaxiales con su eje cantiléver', tuercasTensoras.every(p => {
+  const w = world(p, p.features[0].at);
+  return doc.parts.filter(q => q.name.includes('Eje cantiléver')).some(q => {
+    const a = world(q, q.features[0].at);
+    return Math.abs(a[1] - w[1]) < 1e-6 && Math.abs(a[2] - w[2]) < 1e-6;
+  });
+}));
+check('4 niveladores M12 en las esquinas del canal', doc.parts.filter(p => p.name.includes('Nivelador M12')).length === 4);
 
 console.log(`\n${pass} OK, ${fail} fallas`);
 process.exit(fail ? 1 : 0);
