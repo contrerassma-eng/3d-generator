@@ -19,3 +19,5 @@ Otras suites (mismo comando cambiando el archivo):
   `componentes/out/componentes_cad.json` con `pipeline/componentes_cli.py`).
 - `test_drawing2d.mjs` — exportador de planos DXF/PDF del navegador
   (escala real, cajetín ISO 7200, estructura del PDF y del R12).
+- `test_sheetmetal.mjs` — chapa plegada: BA con factor K, volumen del plegado
+  con radio real, desahogos, cadenas de pestañas y desarrollo.
