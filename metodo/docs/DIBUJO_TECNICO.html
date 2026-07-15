@@ -56,15 +56,24 @@ python pipeline/s6_drawings.py projects/&lt;X&gt; --fuente out/cad/pieza.glb
   el alzado, perfil (vista lateral izquierda) a la derecha, más isométrica.</li>
 <li><strong>ISO 5455</strong> — escalas normalizadas (1:1, 1:2, 1:5, … y ampliaciones para
   objetos &lt; 50 mm). Formato <code>--formato A3</code> o automático (el que da mayor escala).</li>
-<li><strong>ISO 5457</strong> — marco con márgenes (20 mm de archivado a la izquierda).</li>
-<li><strong>ISO 7200</strong> — cajetín: proyecto, designación, escala, fecha, método,
-  sistema de proyección, unidades, lámina n/N, fuente + SHA-256 y el estado de
-  la escala (<code>ESCALA CERTIFICADA (G4)</code> o <code>NO CERTIFICADA</code>).</li>
+<li><strong>ISO 5457</strong> — marco con márgenes (20 mm de archivado a la izquierda),
+  borde de hoja recortada, marcas de centrado y retícula de referencia
+  (números 1..n arriba/abajo, letras A.. sin I/O en los laterales; campos
+  de ≈50 mm según formato).</li>
+<li><strong>ISO 7200</strong> — cajetín de 180×42 mm en tres zonas, con rótulo pequeño y
+  valor jerarquizado por casilla: marca del método (<code>foto3d</code>) con el símbolo
+  gráfico del primer diedro (ISO 5456-2); identificación (designación
+  destacada, proyecto, fuente, verificación de escala, SHA-256, nota); y
+  clasificación (escala protagonista, formato, lámina n/N, fecha, unidades,
+  nº de plano). El estado de la escala nunca se oculta (<code>CERTIFICADA (G4)</code>
+  o <code>NO CERTIFICADA — requiere S4</code>). Si un valor no cabe, se reduce su
+  altura de letra antes de truncar con elipsis.</li>
 <li><strong>ISO 129</strong> — cotas generales (texto 3,5 mm; capa COTAS). Se acotan las
   dimensiones envolventes por vista (sin duplicar entre vistas).</li>
 </ul>
 <p>Capas DXF: <code>VISIBLE</code>, <code>OCULTA</code> (trazos), <code>COTAS</code>, <code>PLIEGUE</code> (trazo-punto),
-<code>NORMA</code> (marco/cajetín), <code>TEXTO</code>.</p>
+<code>NORMA</code> (marco/cajetín, línea gruesa), <code>FINA</code> (retícula y divisiones del
+cajetín), <code>TEXTO</code>.</p>
 <p>Opciones: <code>--vistas alzado,planta,perfil,isometrica</code> · <code>--angulo 25</code> (umbral
 de arista característica) · <code>--formato A4..A0</code> · <code>--chapa auto|&lt;id de cara&gt;</code>.</p>
 <h3>Gate G6</h3>
