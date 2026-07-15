@@ -320,10 +320,22 @@ function elevacion() {
       sketchXZ('Barra de palanca', y + 5, barra, 10),
       box('Cuello de leva 16×10×20', [L.cam[0], y, 75], 16, 10, 20),
       cyl(`Rodillo de leva Ø${L.camDia}`, [L.cam[0], y - 7, L.cam[1]], [0, 1, 0], L.camDia, 14),
-      hole('Ø8.2 pivote', [L.pivot[0], y + 5, L.pivot[1]], [0, -1, 0], 8.2),
-      hole('Ø8.2 entrada', [L.input[0], y + 5, L.input[1]], [0, -1, 0], 8.2),
+      hole('Ø12.2 H7 pivote (buje)', [L.pivot[0], y + 5, L.pivot[1]], [0, -1, 0], 12.2),
+      hole('Ø12.2 H7 entrada (buje)', [L.input[0], y + 5, L.input[1]], [0, -1, 0], 12.2),
     ];
     addPart(`FIJO · Palanca elevadora ${s > 0 ? '+Y' : '-Y'}`, C.fijoClaro, [L.pivot[0], y, L.pivot[1]], f);
+    for (const [nom, [bx, bz]] of [['pivote', L.pivot], ['entrada', L.input]]) {
+      addPart(`FIJO · Buje bronce Ø12/Ø8.2 ${nom} ${s > 0 ? '+Y' : '-Y'}`, '#b08d57', [bx, y - 6, bz], [
+        cyl('Buje Ø12×12', [bx, y - 6, bz], [0, 1, 0], 12, 12),
+        hole('Bore Ø8.2 H7/f7', [bx, y - 6, bz], [0, 1, 0], 8.2),
+      ]);
+    }
+    for (const [nom, [px2, pz2]] of [['pivote', L.pivot], ['basculante', L.lug], ['entrada', L.input]]) {
+      addPart(`FIJO · Seeger DIN 471-8 ${nom} ${s > 0 ? '+Y' : '-Y'}`, C.gris, [px2, y + 11.2, pz2], [
+        cyl('Anillo Ø15×1', [px2, y + 11.2, pz2], [0, 1, 0], 15, 1),
+        hole('Bore Ø7.4', [px2, y + 11.2, pz2], [0, 1, 0], 7.4),
+      ]);
+    }
     // perno de unión vástago-palanca
     addPart(`FIJO · Perno entrada Ø8 ${s > 0 ? '+Y' : '-Y'}`, C.grisClaro, [L.input[0], y - 13, L.input[1]], [
       cyl('Perno Ø8×26', [L.input[0], y - 13, L.input[1]], [0, 1, 0], 8, 26),
@@ -359,8 +371,11 @@ function placas() {
     for (const y of D.rollerLines) {
       f.push(hole(`Ø12.2 eje línea y=${y}`, [xFace, y, D.rollerZ], [1, 0, 0], D.axleDia + D.slide));
     }
-    if (sx > 0) { // placa de transmisión: tambor, tensores y retornos
-      f.push(hole('Ø25.2 eje tambor M', [xFace, D.drumPos[0], D.drumPos[1]], [1, 0, 0], D.shaftDia + D.slide));
+    if (sx > 0) { // placa de transmisión: tambor (paso + portarodamiento), tensores y retornos
+      f.push(hole('Paso eje tambor Ø26', [xFace, D.drumPos[0], D.drumPos[1]], [1, 0, 0], 26));
+      for (const [dy, dz] of [[0, 31], [0, -31], [31, 0], [-31, 0]]) {
+        f.push(hole('Ø5.5 portarodamiento', [xFace, D.drumPos[0] + dy, D.drumPos[1] + dz], [1, 0, 0], D.M5));
+      }
       for (const [py, pz] of [...D.idlerPos, ...D.retPos]) {
         f.push(hole(`Ø12.2 eje tensor/retorno (${py},${pz})`, [xFace, py, pz], [1, 0, 0], D.axleDia + D.slide));
       }
@@ -383,7 +398,8 @@ function placas() {
     const x0 = sx * (D.combX + D.plateT / 2);          // cara exterior de la placa
     addPart(`MÓVIL · Pasador guía Ø8 (${sx > 0 ? '+X' : '-X'}, y=${-s * D.guideY})`, C.grisClaro,
       [x0, -s * D.guideY, 30], [
-        cyl('Pasador Ø8×16', [x0, -s * D.guideY, 30], [-sx, 0, 0], 8, 16),
+        cyl('Pasador Ø8 m6 ×15', [x0, -s * D.guideY, 30], [-sx, 0, 0], 8, 15),
+        cyl('Chaflán 1×45°', [x0 - sx * 15, -s * D.guideY, 30], [-sx, 0, 0], 6.5, 1),
       ]);
   }
 }
@@ -393,18 +409,37 @@ function placas() {
 // ===========================================================================
 function rodillos() {
   for (const y of D.rollerLines) {
-    addPart(`MÓVIL · Eje rodillo Ø12 línea y=${y}`, C.grisClaro, [-D.axleHalf, y, D.rollerZ], [
-      cyl(`Eje Ø12 × ${2 * D.axleHalf}`, [-D.axleHalf, y, D.rollerZ], [1, 0, 0], D.axleDia, 2 * D.axleHalf),
+    addPart(`MÓVIL · Eje rodillo Ø12 torneado línea y=${y}`, C.grisClaro, [-D.axleHalf, y, D.rollerZ], [
+      cyl('Cuerpo Ø12 h9 × 306', [-153, y, D.rollerZ], [1, 0, 0], D.axleDia, 306),
+      cyl('Rosca M10×1.5 (-X)', [-166.5, y, D.rollerZ], [1, 0, 0], 10, 13.5),
+      cyl('Rosca M10×1.5 (+X)', [153, y, D.rollerZ], [1, 0, 0], 10, 13.5),
+      cyl('Chaflán 1.5×45° (-X)', [-D.axleHalf, y, D.rollerZ], [1, 0, 0], 8.5, 1.5),
+      cyl('Chaflán 1.5×45° (+X)', [166.5, y, D.rollerZ], [1, 0, 0], 8.5, 1.5),
     ]);
     const f = [
       cyl(`Corazón de tubo Ø${D.coreDia} × ${2 * D.coreHalf}`, [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.coreDia, 2 * D.coreHalf),
       cyl(`Vulcanizado Ø${D.rollerDia} (hasta x=${D.bareFrom})`, [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.rollerDia, D.coreHalf + D.bareFrom),
       cyl('Golilla de empuje nylon Ø22×1.5 (-X)', [-D.coreHalf - 1.5, y, D.rollerZ], [1, 0, 0], 22, 1.5),
       cyl('Golilla de empuje nylon Ø22×1.5 (+X)', [D.coreHalf, y, D.rollerZ], [1, 0, 0], 22, 1.5),
-      hole('Barreno Ø12.2 (bujes autolubricados)', [-D.coreHalf - 1.5, y, D.rollerZ], [1, 0, 0], D.axleDia + D.slide),
+      hole('Barreno Ø12.2 (paso de eje)', [-D.coreHalf - 1.5, y, D.rollerZ], [1, 0, 0], D.axleDia + D.slide),
+      hole('Cajera rodamiento Ø24 M7 ×8 (-X)', [-D.coreHalf, y, D.rollerZ], [1, 0, 0], 24, 8, false),
+      hole('Cajera rodamiento Ø24 M7 ×8 (+X)', [D.coreHalf, y, D.rollerZ], [-1, 0, 0], 24, 8, false),
     ];
     addPart(`MÓVIL · Rodillo vulcanizado línea y=${y}`, C.caucho, [0, y, D.rollerZ - D.rollerDia / 2], f,
       { componente: 'rodillo_vulcanizado_40x290' });
+    // rodamientos del rodillo (giran sobre el eje fijo) + seegers de retención
+    for (const sx of [-1, 1]) {
+      addPart(`MÓVIL · Rodamiento 6901-2RS línea y=${y} ${sx > 0 ? '+X' : '-X'}`, C.acero,
+        [sx * (D.coreHalf - (sx > 0 ? 6 : 0)) - (sx > 0 ? 0 : 6) + (sx > 0 ? -0 : 0), y, D.rollerZ], [
+          cyl('Anillo 12×24×6', [sx > 0 ? D.coreHalf - 6 : -D.coreHalf, y, D.rollerZ], [1, 0, 0], 24, 6),
+          hole('Bore Ø12', [sx > 0 ? D.coreHalf - 6 : -D.coreHalf, y, D.rollerZ], [1, 0, 0], 12),
+        ]);
+      addPart(`MÓVIL · Seeger DIN 471-12 línea y=${y} ${sx > 0 ? '+X' : '-X'}`, C.gris,
+        [sx * 138 - 0.55, y, D.rollerZ], [
+          cyl('Anillo Ø18×1.1', [sx * 138 - 0.55, y, D.rollerZ], [1, 0, 0], 18, 1.1),
+          hole('Bore Ø11', [sx * 138 - 0.55, y, D.rollerZ], [1, 0, 0], 11),
+        ]);
+    }
     // sujeción del eje a cada placa: golilla plana + golilla de presión + tuerca
     for (const sx of [-1, 1]) {
       const x0 = sx * (D.combX + D.plateT / 2);       // cara exterior de la placa
@@ -427,22 +462,80 @@ function transmision() {
   const [my, mz] = D.drumPos;
   const xMotorFace = -D.combX + D.plateT / 2;      // cara interior de la placa -X
   // eje del tambor: del acople del motor a la placa +X (saliente 7)
-  addPart('MÓVIL · Eje tambor Ø25', C.grisClaro, [-52, my, mz], [
-    cyl('Eje Ø25 × 212', [-52, my, mz], [1, 0, 0], D.shaftDia, 212),
+  addPart('MÓVIL · Eje tambor Ø25 torneado', C.grisClaro, [-52, my, mz], [
+    cyl('Cuerpo Ø25 k6 × 225', [-50.5, my, mz], [1, 0, 0], D.shaftDia, 225),
+    cyl('Chaflán 1.5×45° (-X)', [-52, my, mz], [1, 0, 0], 22, 1.5),
+    cyl('Chaflán 1.5×45° (+X)', [174.5, my, mz], [1, 0, 0], 22, 1.5),
   ]);
-  addPart('MÓVIL · Tambor motriz M', C.tambor, [D.beltPlane - D.drumW / 2, my, mz - D.drumDia / 2], [
-    cyl(`Tambor Ø${D.drumDia}×${D.drumW}`, [D.beltPlane - D.drumW / 2, my, mz], [1, 0, 0], D.drumDia, D.drumW),
-    hole('Barreno Ø25.2 + chaveta', [D.beltPlane - D.drumW / 2, my, mz], [1, 0, 0], D.shaftDia + D.slide),
+  addPart('MÓVIL · Chaveta DIN 6885 8×7×25 (tambor)', C.grisClaro, [D.beltPlane - 12.5, my, mz + 9], [
+    box('Chaveta 25×8×7', [D.beltPlane, my, mz + 9], 25, 8, 7),
+  ]);
+  addPart('MÓVIL · Chaveta DIN 6885 8×7×18 (acople)', C.grisClaro, [-60, my, mz + 9], [
+    box('Chaveta 18×8×7', [-51, my, mz + 9], 18, 8, 7),
+  ]);
+  addPart('MÓVIL · Tambor motriz M abombado', C.tambor, [D.beltPlane - D.drumW / 2, my, mz - D.drumDia / 2], [
+    cyl(`Cuerpo Ø${D.drumDia - 0.8}×${D.drumW}`, [D.beltPlane - D.drumW / 2, my, mz], [1, 0, 0], D.drumDia - 0.8, D.drumW),
+    cyl(`Corona Ø${D.drumDia}×12 (abombado)`, [D.beltPlane - 6, my, mz], [1, 0, 0], D.drumDia, 12),
+    hole('Barreno Ø25.2 H8 + chavetero', [D.beltPlane - D.drumW / 2, my, mz], [1, 0, 0], D.shaftDia + D.slide),
+  ]);
+  // portarodamiento embridado en la cara exterior de la placa +X
+  addPart('MÓVIL · Portarodamiento Ø52 (placa +X)', C.fijoClaro, [D.combX + 3, my, mz], [
+    cyl('Brida Ø72×6', [D.combX + 3, my, mz], [1, 0, 0], 72, 6),
+    cyl('Cubo Ø60×18', [D.combX + 9, my, mz], [1, 0, 0], 60, 18),
+    hole('Alojamiento Ø52 H7 ×16.5', [D.combX + 24, my, mz], [-1, 0, 0], 52, 16.5, false),
+    hole('Paso Ø36 (libra el seeger del eje)', [D.combX + 3, my, mz], [1, 0, 0], 36),
+    ...[[0, 31], [0, -31], [31, 0], [-31, 0]].map(([dy, dz]) =>
+      hole('Ø5.5 brida', [D.combX + 3, my + dy, mz + dz], [1, 0, 0], D.M5)),
+  ]);
+  addPart('MÓVIL · Rodamiento 6205-2RS (tambor)', C.acero, [160.5, my, mz], [
+    cyl('Anillo 25×52×15', [160.5, my, mz], [1, 0, 0], 52, 15),
+    hole('Bore Ø25', [160.5, my, mz], [1, 0, 0], 25),
+  ]);
+  addPart('MÓVIL · Seeger DIN 472-52 (alojamiento)', C.gris, [175.5, my, mz], [
+    cyl('Anillo Ø51×1.4', [175.5, my, mz], [1, 0, 0], 51, 1.4),
+    hole('Bore Ø45', [175.5, my, mz], [1, 0, 0], 45),
+  ]);
+  addPart('MÓVIL · Seeger DIN 471-25 (eje tambor)', C.gris, [158.8, my, mz], [
+    cyl('Anillo Ø34×1.5', [158.8, my, mz], [1, 0, 0], 34, 1.5),
+    hole('Bore Ø23.2', [158.8, my, mz], [1, 0, 0], 23.2),
   ]);
   const xIn = D.beltPlane - D.pulleyW / 2;
   for (const [i, [py, pz]] of [...D.idlerPos, ...D.retPos].entries()) {
     const esTensor = i < D.idlerPos.length;
     const dia = esTensor ? D.idlerDia : D.retDia;
-    const nombre = esTensor ? `MÓVIL · Tensor Ø${dia} (${py},${pz})` : `MÓVIL · Polea de retorno Ø${dia} (${py},${pz})`;
-    addPart(nombre, C.gris, [xIn - 2, py, pz], [
-      cyl(`Eje Ø12 × ${r2(D.combX + 3 - (xIn - 2))}`, [xIn - 2, py, pz], [1, 0, 0], D.axleDia, r2(D.combX + 3 - (xIn - 2))),
-      cyl(`Polea Ø${dia}×${D.pulleyW}`, [xIn, py, pz], [1, 0, 0], dia, D.pulleyW),
+    // eje cantiléver torneado: chaflán + ranura seeger, prensado Ø12 m6 en placa
+    addPart(`MÓVIL · Eje cantiléver Ø12 (${py},${pz})`, C.grisClaro, [xIn - 4, py, pz], [
+      cyl(`Eje Ø12 × ${r2(D.combX + 3 - (xIn - 3))}`, [xIn - 3, py, pz], [1, 0, 0], D.axleDia, r2(D.combX + 3 - (xIn - 3))),
+      cyl('Chaflán 1×45°', [xIn - 4, py, pz], [1, 0, 0], 10, 1),
+    ]);
+    // polea con ABOMBADO (corona 0.4 por lado para autocentrado de la banda)
+    const nombre = esTensor ? `MÓVIL · Tensor abombado Ø${dia} (${py},${pz})` : `MÓVIL · Polea de retorno abombada Ø${dia} (${py},${pz})`;
+    addPart(nombre, C.gris, [xIn, py, pz - dia / 2], [
+      cyl(`Cuerpo Ø${dia - 0.8}×${D.pulleyW}`, [xIn, py, pz], [1, 0, 0], dia - 0.8, D.pulleyW),
+      cyl(`Corona Ø${dia}×12 (abombado)`, [xIn + D.pulleyW / 2 - 6, py, pz], [1, 0, 0], dia, 12),
+      hole(esTensor ? 'Alojamientos Ø24 M7' : 'Alojamiento buje Ø16 H7', [xIn, py, pz], [1, 0, 0], esTensor ? 24 : 16),
     ], { componente: esTensor ? 'polea_tensora_50x29' : 'polea_retorno_24x29' });
+    if (esTensor) { // 2 rodamientos 6901-2RS + separador tubular entre pistas
+      for (const [j, x0] of [[0, xIn], [1, xIn + D.pulleyW - 6]].values()) {
+        addPart(`MÓVIL · Rodamiento 6901-2RS tensor (${py},${pz}) ${j ? 'ext' : 'int'}`, C.acero, [x0, py, pz], [
+          cyl('Anillo 12×24×6', [x0, py, pz], [1, 0, 0], 24, 6),
+          hole('Bore Ø12', [x0, py, pz], [1, 0, 0], 12),
+        ]);
+      }
+      addPart(`MÓVIL · Separador tubular tensor (${py},${pz})`, C.grisClaro, [xIn + 6, py, pz], [
+        cyl('Tubo Ø18×17', [xIn + 6, py, pz], [1, 0, 0], 18, 17),
+        hole('Bore Ø12.4', [xIn + 6, py, pz], [1, 0, 0], 12.4),
+      ]);
+    } else {        // retorno: buje de bronce sinterizado
+      addPart(`MÓVIL · Buje bronce Ø16/Ø12.2 retorno (${py},${pz})`, C.banda === '#e6c229' ? '#b08d57' : '#b08d57', [xIn + 4.5, py, pz], [
+        cyl('Buje Ø16×20', [xIn + 4.5, py, pz], [1, 0, 0], 16, 20),
+        hole('Bore Ø12.2 H7/f7', [xIn + 4.5, py, pz], [1, 0, 0], 12.2),
+      ]);
+    }
+    addPart(`MÓVIL · Seeger DIN 471-12 polea (${py},${pz})`, C.gris, [xIn - 1.7, py, pz], [
+      cyl('Anillo Ø18×1.1', [xIn - 1.7, py, pz], [1, 0, 0], 18, 1.1),
+      hole('Bore Ø11', [xIn - 1.7, py, pz], [1, 0, 0], 11),
+    ]);
   }
   const { outer, inner } = serpentineFaces(serpentine(), D.bandT);
   addPart('MÓVIL · Banda serpentín 25×3', C.banda, [D.beltPlane, 0, D.retPos[0][1] - D.retDia / 2 - D.bandT], [
@@ -487,7 +580,11 @@ const doc = {
       tambor: 'eje Ø25 k6 / barreno Ø25.2 con chaveta DIN 6885 8×7; placa +X con agujero H8',
       tensores_retornos: 'ejes Ø12 cantiléver prensados Ø12 m6 en placa H7; poleas locas con rodamiento',
       pasador_guia: 'Ø8 m6 prensado en placa; colisa 8.5 (juego 0.5) por carrera 6',
-      palanca: 'pernos Ø8 / ojos Ø8.2 (juego 0.2); leva Ø24 rodante sobre puente',
+      palanca: 'pernos Ø8 h9 en bujes de bronce Ø12 m6/Ø8.2 H7 prensados en la palanca; seegers DIN 471-8; leva Ø24 rodante',
+      rodamientos: 'rodillos y tensores: 6901-2RS (12×24×6), cajera Ø24 M7, eje Ø12 g6, seeger DIN 471-12; tambor: 6205-2RS (25×52×15) en portarodamiento Ø52 H7 con DIN 472-52, eje Ø25 k6 con DIN 471-25; retornos: buje bronce sinterizado Ø16 r6 / Ø12.2 H7',
+      torneria: 'chaflanes de eje 1..1.5×45°, radios de acuerdo 0.5, ranuras seeger s/DIN 471 (11.5×1.1 en Ø12; 23.9×1.85 en Ø25), roscas M10×1.5 6g, rugosidad asientos Ra 0.8',
+      abombado: 'tensores, retornos y tambor con corona +0.4 en radio al centro (autocentrado de banda plana)',
+      chavetas: 'DIN 6885 A 8×7: ×25 tambor↔eje, ×18 eje↔acople; chaveteros N9',
     },
     verificaciones: metrics,
   },

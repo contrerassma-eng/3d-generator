@@ -46,7 +46,7 @@ const world = (part, at) => [at[0] + part.pos[0], at[1] + part.pos[1], at[2] + p
 
 console.log('— Documento —');
 check('formato foto3d-cad v1', doc.format === 'foto3d-cad' && doc.version === 1);
-check('52 piezas (solo el módulo de desvío)', doc.parts.length === 52, `hay ${doc.parts.length}`);
+check('118 piezas (detalle de fabricación completo)', doc.parts.length === 118, `hay ${doc.parts.length}`);
 const pids = doc.parts.map(p => p.id);
 check('ids de pieza únicos', new Set(pids).size === pids.length);
 const fids = doc.parts.flatMap(p => p.features.map(f => f.id));
@@ -77,14 +77,14 @@ for (const part of doc.parts) {
   else console.log(`    NaN en ${part.name}`);
   if (v <= 1) console.log(`    sin volumen: ${part.name} (v=${v.toFixed(1)})`);
 }
-check('las 52 piezas construyen', built === doc.parts.length);
+check('las 118 piezas construyen', built === doc.parts.length);
 check('todas con volumen > 0', conVolumen === doc.parts.length);
 check('ninguna malla con NaN', sinNaN === doc.parts.length);
 
 console.log('— Volúmenes de referencia —');
 const eje = doc.parts.find(p => p.name.includes('Eje rodillo'));
-const vEje = Math.PI * 36 * 336;
-check('eje Ø12×336 ≈ π·r²·L (±3%)', Math.abs(vols[eje.id] - vEje) / vEje < 0.03,
+const vEje = Math.PI * (36 * 306 + 2 * 25 * 13.5 + 2 * 18.0625 * 1.5);
+check('eje torneado Ø12 ≈ volumen nominal (±3%)', Math.abs(vols[eje.id] - vEje) / vEje < 0.03,
   `${vols[eje.id].toFixed(0)} vs ${vEje.toFixed(0)}`);
 const rodillo = doc.parts.find(p => p.componente === 'rodillo_vulcanizado_40x290');
 const vRod = Math.PI * (225 * 290 + (400 - 225) * 238 - 37.21 * 290);
@@ -204,7 +204,7 @@ check('6 ejes tensores/retorno alineados con la placa de transmisión',
     stubHoles.includes(world(p, p.features[0].at).slice(1).join(','))));
 // rodillos suben más respecto a la 2ª línea: separación eje-tensor >= 50
 check('rodillos bien arriba de la 2ª línea (Δz eje↔tensor >= 50)', tensores.every(p => {
-  const pol = p.features.find(f => f.name.startsWith('Polea'));
+  const pol = p.features.find(f => f.name.startsWith('Cuerpo'));
   return 154 - world(p, pol.at)[2] >= 50;
 }));
 // sujeción eje-placa: 12 fijaciones (golilla plana + presión + tuerca M10) coaxiales al eje
@@ -221,8 +221,30 @@ check('fijaciones coaxiales con el eje de su línea', fijaciones.every(p => {
 }));
 check('golillas de empuje en los rodillos (juego axial)', rodillos.every(p =>
   p.features.filter(f => f.name.includes('empuje')).length === 2));
-check('tolerancias documentadas', typeof doc.meta.tolerancias === 'object' &&
-  Object.keys(doc.meta.tolerancias).length >= 6);
+check('tolerancias documentadas (incl. tornería, rodamientos, chavetas, abombado)',
+  typeof doc.meta.tolerancias === 'object' && Object.keys(doc.meta.tolerancias).length >= 10);
+// detalle de fabricación: rodamientos, seegers, bujes, separadores, chavetas, abombado
+const rodam = doc.parts.filter(p => p.name.includes('Rodamiento'));
+check('21 rodamientos (12×6901 rodillos + 8×6901 tensores + 1×6205 tambor)', rodam.length === 21,
+  `hay ${rodam.length}`);
+const seegers = doc.parts.filter(p => p.name.includes('Seeger'));
+check('26 seegers DIN 471/472', seegers.length === 26, `hay ${seegers.length}`);
+const bujes = doc.parts.filter(p => p.name.includes('Buje bronce'));
+check('6 bujes de bronce (2 retornos + 4 palanca)', bujes.length === 6, `hay ${bujes.length}`);
+check('4 separadores tubulares en tensores', doc.parts.filter(p => p.name.includes('Separador')).length === 4);
+check('2 chavetas DIN 6885 (tambor y acople)', doc.parts.filter(p => p.name.includes('Chaveta')).length === 2);
+check('portarodamiento Ø52 en la placa +X', doc.parts.some(p => p.name.includes('Portarodamiento')));
+// abombado: poleas y tambor con corona (2 cilindros de distinto Ø)
+const abombadas = doc.parts.filter(p => p.name.includes('abombad'));
+check('7 piezas abombadas (4 tensores + 2 retornos + tambor)', abombadas.length === 7 &&
+  abombadas.every(p => {
+    const ds = p.features.filter(f => f.shape === 'cylinder').map(f => f.params.dia);
+    return Math.abs(Math.max(...ds) - Math.min(...ds) - 0.8) < 1e-9;
+  }));
+// chaflanes de tornería en los ejes
+check('ejes con chaflanes de tornería', doc.parts.filter(p => p.name.includes('Eje rodillo')).every(p =>
+  p.features.filter(f => f.name.includes('Chaflán')).length === 2) &&
+  doc.parts.find(p => p.name.includes('Eje tambor')).features.filter(f => f.name.includes('Chaflán')).length === 2);
 
 console.log(`\n${pass} OK, ${fail} fallas`);
 process.exit(fail ? 1 : 0);
