@@ -81,15 +81,22 @@ function makeShaft(name, len) {
   return verify(part);
 }
 
-// ---- Canal C (3 chapas: alma + 2 pestañas hacia afuera) con barreno hex patronado ----
-const Hc = 3 * IN;              // 76.2 alto del alma
-const Wf = 1 * IN;             // 25.4 ancho de pestaña
-const TCH = 3;                 // espesor de chapa
-const zTop = Ro - 0.25 * IN;   // tangente del rodillo 1/4" sobre la pestaña superior → tope del canal
+// ---- Canal C (Hytrol 190-E24: 6-1/2" x 12 ga, ala 1-1/2", montaje set-high) ----
+const Hc = 6.5 * IN;           // 165.1 alto del canal (dato manual 190-E24)
+const Wf = 1.5 * IN;           // 38.1 ancho de ala (dato manual: OW = BR + 3")
+const TCH = 2.66;              // 12 ga ≈ 2.66 mm
+const zTop = Ro - 0.25 * IN;   // rodillo 1/4" sobre el ala superior (set-high) → 17.78
 const zBot = zTop - Hc;
-const CLR = 0.5;               // holgura rodillo/alma
-const Yw = L / 2 + CLR;        // cara interior del alma (derecha)
-const x0 = -60, x1 = (NROLL - 1) * PITCH + 60, Lc = x1 - x0;
+const CLR = 0.25 * IN;         // 6.35 holgura rodillo/marco (1/4" por lado, dato manual)
+const Yw = L / 2 + CLR;        // cara interior del alma (BR/2)
+const x0 = -0.5 * PITCH, x1 = (NROLL - 0.5) * PITCH, Lc = x1 - x0;
+const XC = (x0 + x1) / 2;
+// Patrón de perforación del costado ("6 pulgadas"): PROVISIONAL — confirmar
+// coordenadas exactas con el manual/plano de Hytrol y de Unidrive.
+const SIDE_DIA = 5 / 16 * IN;  // 7.94 tornillo 5/16" (provisional)
+const SIDE_Z = -40;            // altura del patrón bajo el eje ("más abajo")
+const SIDE_PITCH = 6 * IN;     // 152.4 patrón de 6"
+const box = (name, at, w, d, h, op = 'union') => ({ id: 'b' + name + Math.round(at[0] + at[2]), name, shape: 'box', op, at, dir: [0, 0, 1], params: { w, d, h } });
 
 function makeChannel(name, side) { // side = +1 derecha, −1 izquierda
   const part = newPart(doc, name);
@@ -97,23 +104,71 @@ function makeChannel(name, side) { // side = +1 derecha, −1 izquierda
   const sgn = side;
   const yInner = sgn * Yw;                 // cara interior del alma
   const yWebC = yInner + sgn * TCH / 2;    // centro del alma
-  // alma (placa vertical en X-Z)
-  part.features.push({ id: 'w' + name, name: 'Alma', shape: 'box', op: 'union',
-    at: [(x0 + x1) / 2, yWebC, zBot], dir: [0, 0, 1], params: { w: Lc, d: TCH, h: Hc } });
-  // pestañas superior e inferior hacia afuera (+Y si derecha)
+  part.features.push(box('Alma', [XC, yWebC, zBot], Lc, TCH, Hc));
   const yFlangeC = yInner + sgn * (TCH + Wf / 2);
-  part.features.push({ id: 'ft' + name, name: 'Pestaña sup', shape: 'box', op: 'union',
-    at: [(x0 + x1) / 2, yFlangeC, zTop - TCH], dir: [0, 0, 1], params: { w: Lc, d: Wf, h: TCH } });
-  part.features.push({ id: 'fb' + name, name: 'Pestaña inf', shape: 'box', op: 'union',
-    at: [(x0 + x1) / 2, yFlangeC, zBot], dir: [0, 0, 1], params: { w: Lc, d: Wf, h: TCH } });
-  // barreno hexagonal en el alma (a la altura del eje, z=0), pasante en Y
-  const hole = makeSketchEntitiesFeature(
-    hexEntities(), [], TCH + 4, 'cut',
+  part.features.push(box('Pestaña sup', [XC, yFlangeC, zTop - TCH], Lc, Wf, TCH));
+  part.features.push(box('Pestaña inf', [XC, yFlangeC, zBot], Lc, Wf, TCH));
+  // barreno hexagonal del eje (z=0), pasante en Y, patrón a paso 3" (4 rodillos)
+  const hole = makeSketchEntitiesFeature(hexEntities(), [], TCH + 4, 'cut',
     [0, yInner + sgn * (TCH + 2), 0], [0, -sgn, 0], [1, 0, 0]);
   part.features.push(hole);
-  // patrón del barreno a lo largo de X (pitch 3", 4 rodillos)
-  part.features.push(makePatternFeature(hole.id, 'rect',
-    { nx: NROLL, ny: 1, dx: PITCH, dy: 0, u: [1, 0, 0], v: [0, 1, 0] }));
+  part.features.push(makePatternFeature(hole.id, 'rect', { nx: NROLL, ny: 1, dx: PITCH, dy: 0, u: [1, 0, 0], v: [0, 1, 0] }));
+  // patrón lateral de 6" (bracket del motor + travesaños), z bajo, entre rodillos
+  const sh = makeCylFeature(SIDE_DIA, TCH + 4, [0.5 * PITCH, yInner + sgn * (TCH + 2), SIDE_Z], [0, -sgn, 0], 'cut');
+  part.features.push(sh);
+  part.features.push(makePatternFeature(sh.id, 'rect', { nx: NROLL - 1, ny: 1, dx: SIDE_PITCH, dy: 0, u: [1, 0, 0], v: [0, 1, 0] }));
+  return verify(part);
+}
+
+// ---- Travesaño: ángulo 40x40 entre canales, con pestañas en los extremos ----
+// PROVISIONAL: perfil 40x40 y patrón de montaje a confirmar con el manual.
+const ANG = 40, TANG = 4;
+function makeCrossmember(name, x) {
+  const part = newPart(doc, name); part.color = '#6b7280';
+  const spanY = 2 * (Yw - TCH);           // entre caras interiores de las almas
+  const z = zBot + 25;                    // más abajo, cerca del fondo del canal
+  // ángulo: ala vertical (Z) + ala horizontal (X), corridas en Y
+  part.features.push(box('Ala vert', [x, 0, z], TANG, spanY, ANG));
+  part.features.push(box('Ala horiz', [x, 0, z], ANG, spanY, TANG));
+  // pestañas en los extremos (apernadas al alma del canal)
+  for (const s of [+1, -1]) {
+    part.features.push(box('Pestaña', [x, s * (spanY / 2 + TCH / 2), z], ANG, TCH, ANG));
+  }
+  return verify(part);
+}
+
+// ---- Motor Unidrive + bracket costanera (pestañas hacia adentro) + polea 2 ranuras ----
+// La polea baja hasta que su TANGENTE INFERIOR queda 3 mm sobre la pestaña
+// inferior del canal (calculado). PROVISIONAL: patrón de pernos del motor
+// Unidrive, módulo Dayton y tarjeta "Sony Logic Plus" (del STEP/manual Unidrive).
+const PULLEY_D = 44, PULLEY_R = PULLEY_D / 2;
+const PULLEY_Z = (zBot + TCH) + 3 + PULLEY_R;   // −119.66: tangente 3 mm sobre la pestaña inferior
+function makeBracket(name, x, side) {
+  const part = newPart(doc, name); part.color = '#3f6fb0';
+  const sgn = side, yWeb = sgn * (Yw + TCH + 3); // costanera pegada a la cara exterior del alma
+  const H = SIDE_Z + 30 - (PULLEY_Z - 10);       // desde el patrón de 6" hasta bajo la polea
+  const zc = PULLEY_Z - 10;
+  // alma de la costanera (placa X-Z) con doble fondo para módulo Dayton + tarjeta
+  part.features.push(box('Alma bracket', [x, yWeb, zc], 120, 6, H));
+  // pestañas de la costanera HACIA ADENTRO (−Y en la der.): arriba y abajo
+  const yFl = yWeb - sgn * (3 + ANG / 2);
+  part.features.push(box('Pestaña sup', [x, yFl, zc + H - TANG], ANG + 6, ANG, TANG));
+  part.features.push(box('Pestaña inf', [x, yFl, zc], ANG + 6, ANG, TANG));
+  return verify(part);
+}
+function makeMotorPulley(name, x, side) {
+  const part = newPart(doc, name); part.color = '#c9752e';
+  const sgn = side;
+  // motor Unidrive (cilindro), de adentro hacia afuera, eje pequeño hacia el centro
+  part.features.push(makeCylFeature(52, 70, [x, sgn * (Yw + 30), PULLEY_Z], [0, -sgn, 0], 'union'));
+  part.features.push(makeCylFeature(10, 55, [x, sgn * (Yw + 30), PULLEY_Z], [0, -sgn, 0], 'union'));
+  // polea de 2 ranuras (eje ∥ rodillos, Y), entre dos rodillos y abajo
+  const pyC = sgn * (Yw - 55), w = 30;
+  part.features.push(makeCylFeature(PULLEY_D, w, [x, pyC - sgn * w / 2, PULLEY_Z], [0, sgn, 0], 'union'));
+  for (const t of [0.30, 0.70]) { // dos gargantas
+    const gy = pyC - sgn * w * t;
+    part.features.push(makeCylFeature(PULLEY_D - 10, 3.2, [x, gy - sgn * 1.6, PULLEY_Z], [0, sgn, 0], 'cut'));
+  }
   return verify(part);
 }
 
@@ -125,9 +180,14 @@ for (let i = 0; i < NROLL; i++) {
 }
 makeChannel('Canal der', +1);
 makeChannel('Canal izq', -1);
+makeCrossmember('Travesaño 1', 0.5 * PITCH);
+makeCrossmember('Travesaño 2', 2.5 * PITCH);
+makeBracket('Bracket motor', 1.5 * PITCH, +1);
+makeMotorPulley('Motor + polea', 1.5 * PITCH, +1);
 
 console.log(`\nRESULTADO: ${pass} ok, ${fail} fallan`);
-console.log('DIMS', JSON.stringify({ OD: +OD.toFixed(2), Ri: +Ri.toFixed(2), WALL: +WALL.toFixed(2), L: +L.toFixed(1), pitch: +PITCH.toFixed(1), zTop: +zTop.toFixed(2), Yw: +Yw.toFixed(1), shaftLen: +shaftLen.toFixed(1), grooveWallMM: +((Ro - GD) - Ri).toFixed(2) }));
+console.log('DIMS', JSON.stringify({ modelo: 'Hytrol 190-E24', OD: +OD.toFixed(2), canal_alto: +Hc.toFixed(1), ala: +Wf.toFixed(1), ga12: TCH, pitch: +PITCH.toFixed(1), zTop: +zTop.toFixed(2), BR: +(2 * Yw).toFixed(1), OW: +(2 * (Yw + TCH + Wf)).toFixed(1), oring: '3/16" (4.76) real vs 5 usuario', patron_lateral: '6" PROVISIONAL',
+  polea_centro_z: +PULLEY_Z.toFixed(1), polea_tangente_inf_z: +(PULLEY_Z - PULLEY_R).toFixed(1), pestana_inf_top_z: +(zBot + TCH).toFixed(1) }));
 
 // escribir el JSON del proyecto
 import { writeFileSync } from 'fs';
