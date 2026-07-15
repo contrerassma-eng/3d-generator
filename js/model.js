@@ -4,6 +4,7 @@
 import * as THREE from 'three';
 import { CSG, geomToCSG, csgToGeom } from './csg.js';
 import { chainLoops, regions, entityPoints } from './sketch2d.js';
+import { chapaFeatureGeometry } from './sheetmetal.js';
 
 let _id = 0;
 export const uid = (p) => `${p}${(++_id).toString(36)}${Date.now().toString(36).slice(-4)}`;
@@ -270,6 +271,17 @@ export function buildPartGeometry(part) {
   const bbox = new THREE.Box3();
   for (const f of part.features) {
     if (f.suppressed) continue; // función suprimida (⏸)
+    if (f.shape === 'chapaBase' || f.shape === 'pestana') {
+      // chapa: unión del sólido plegado + cortes de desahogo propios
+      const res = chapaFeatureGeometry(part, f);
+      if (!res) continue;
+      res.add.computeBoundingBox();
+      bbox.union(res.add.boundingBox);
+      let c = geomToCSG(res.add);
+      csg = csg === null ? c : csg.union(c);
+      for (const cut of res.cuts) csg = csg.subtract(geomToCSG(cut));
+      continue;
+    }
     if (f.op === 'union' || csg !== null) {
       const extent = bbox.isEmpty() ? 100 : bbox.getSize(new THREE.Vector3()).length();
       const g = featureGeometry(f, extent, csg === null);
