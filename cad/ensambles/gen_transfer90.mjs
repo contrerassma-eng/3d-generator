@@ -49,7 +49,7 @@ export const D = {
   rollerZ: 154,                  // eje elevado: tangente 174 = anfitrión + 4
   coreHalf: 145,                 // núcleo x = -145..145
   bareFrom: 93,                  // vulcanizado x = -145..93; desnudo 93..145
-  axleDia: 12, axleHalf: 168,    // ejes Ø12 h9 → Ø12.2; extremos roscados M10×15
+  axleDia: 20, axleHalf: 205,    // ejes Ø20 h6 (como el base): giran en chumaceras UCFL204
 
   // Placas porta-poleas MÓVILES (cuerpo bajo + dedos delgados a los rodillos)
   combX: 150, plateT: 6,
@@ -66,8 +66,14 @@ export const D = {
   retPos: [[-280, 36], [280, 36]],
   drumDia: 90, drumW: 43,        // tambor motriz liso abombado (fricción)
   drumPos: [0, 78],
-  shaftDia: 25,
+  shaftDia: 20,                  // eje tambor Ø20 h6 (unificado con el base)
   pulleyW: 39,                   // ancho de tensores y retornos (banda 35 + 4)
+
+  // Chumaceras de brida UCFL204 (bore 20) — familia del base (UCFL/UC 205);
+  // reemplazan los rodamientos desnudos: autoalineantes, engrasables, con
+  // collar excéntrico. Se atornillan a la cara exterior de las placas (M10).
+  ucfl: { bore: 20, flangeL: 86, flangeH: 30, boltGap: 64, boltDia: 11, hubDia: 42, hubLen: 31 },
+  idlerAxle: 12,                 // ejes de tensores/retornos Ø12 sobre bujes de bronce
 
   // Puentes elevadores (unen las dos placas, dentro del ancho del módulo)
   bridgeY: 295, bridgeZ: [105, 117],
@@ -259,6 +265,24 @@ const C = {
 // FIJO · 1. CANAL LATERAL (pieza fija): base + 2 alas bajas con colisas guía.
 //    Ancho total = ancho exterior de las placas porta-poleas (306).
 // ===========================================================================
+// Chumacera de brida UCFL204 (bore Ø20) atornillada a la cara EXTERIOR de una
+// placa; sx=+1 en la placa +X (crece hacia +X), sx=-1 en la placa -X. El eje
+// Ø20 pasa por la placa y gira en la unidad. Autoalineante + collar excéntrico
+// (fija el eje axialmente) + graseras; bulones M10 a y±boltGap/2. Familia del
+// equipo base (UCFL/UC 205). Reemplaza los rodamientos desnudos.
+function ucflUnit(name, xOuter, y, z, sx) {
+  const U = D.ucfl, dir = [sx, 0, 0];
+  addPart(name, C.acero, [xOuter, y, z], [
+    box('Brida 12×86×30', [xOuter + sx * 6, y, z - U.flangeH / 2], 12, U.flangeL, U.flangeH),
+    cyl(`Cubo Ø${U.hubDia}×${U.hubLen}`, [xOuter + sx * 12, y, z], dir, U.hubDia, U.hubLen),
+    cyl('Collar excéntrico Ø34×12', [xOuter + sx * (12 + U.hubLen), y, z], dir, 34, 12),
+    cyl('Grasera M6', [xOuter + sx * 20, y, z + U.hubDia / 2], [0, 0, 1], 7, 7),
+    hole('Bore Ø20', [xOuter + sx * 6, y, z], dir, U.bore + 0.3),
+    hole('Bulón M10 (a)', [xOuter + sx * 6, y + U.boltGap / 2, z], dir, U.boltDia, 12),
+    hole('Bulón M10 (b)', [xOuter + sx * 6, y - U.boltGap / 2, z], dir, U.boltDia, 12),
+  ], { componente: 'chumacera_ucfl204' });
+}
+
 function canalFijo() {
   const f = [box(`Base ${D.canalW}×${D.canalD}×6`, [0, 0, 0], D.canalW, D.canalD, D.baseT)];
   for (const s of [-1, 1]) {
@@ -266,8 +290,9 @@ function canalFijo() {
     // colisa vertical para el pasador guía Ø8 del módulo móvil (carrera 6)
     f.push(box('Colisa guía 8.5×18', [s * D.wallX, -s * D.guideY, 18], D.wallT + 1, 8.5, 18, 'cut'));
   }
-  for (const sx of [-1, 1]) for (const sy of [-1, 1]) {
-    f.push(hole('Anclaje Ø11 al anfitrión', [sx * 130, sy * 330, D.baseT], [0, 0, -1], D.M10));
+  // agujeros COLISOS verticales para los pies de anclaje (ajuste de altura ±7)
+  for (const sx of [-1, 1]) for (const sy of [-1, 1]) for (const dx of [-20, 20]) {
+    f.push(box('Coliso M8 pie (ajuste altura)', [sx * 130 + dx, sy * 330, D.baseT], 9, 9, D.baseT, 'cut'));
   }
   // patrones de horquillas y soportes de pivote (M5)
   for (const s of [-1, 1]) {
@@ -291,12 +316,22 @@ function canalFijo() {
     hole('Ø4.5 montaje (a)', [-105, 330, D.baseT + 28], [0, 0, -1], D.M4),
     hole('Ø4.5 montaje (b)', [-55, 330, D.baseT + 28], [0, 0, -1], D.M4),
   ]);
-  // niveladores M12 (patas regulables del canal en el bastidor anfitrión)
+  // PIES DE ANCLAJE al riel T-slot del base (cero perforaciones en el base):
+  // L-bracket con cara vertical atornillada al canal por colisos (ajuste de
+  // ALTURA ±7) y pie horizontal con ranura para tuerca en T M6 (ajuste de
+  // POSICIÓN X sobre el riel) + shim de nivelación. 4 pies.
   for (const sx of [-1, 1]) for (const sy of [-1, 1]) {
-    addPart(`FIJO · Nivelador M12 (${sx * 110},${sy * 320})`, C.grisClaro, [sx * 110, sy * 320, -20], [
-      cyl('Base articulada Ø40×8', [sx * 110, sy * 320, -20], [0, 0, 1], 40, 8),
-      cyl('Espárrago M12×40', [sx * 110, sy * 320, -12], [0, 0, 1], 12, 32),
-      cyl('Tuerca M12 (fija altura)', [sx * 110, sy * 320, D.baseT + 1], [0, 0, 1], 19, 10),
+    const px = sx * 130, py = sy * 330, base = -14;
+    addPart(`FIJO · Pie anclaje T-slot (${px},${py})`, C.fijoClaro, [px, py, base], [
+      box('Cara vertical 60×8×34', [px, py + sy * 4, base], 60, 8, 34),           // atornilla al canal
+      box('Pie horizontal 60×46×8', [px, py + sy * 27, base], 60, 46, 8),         // apoya en el riel
+      box('Ranura T-nut M6 (ajuste X)', [px, py + sy * 27, base], 8, 30, 8, 'cut'),
+      hole('Coliso M8 a canal (a)', [px - 20, py, base + 12], [0, sy, 0], 9, 8, false),
+      hole('Coliso M8 a canal (b)', [px + 20, py, base + 12], [0, sy, 0], 9, 8, false),
+    ]);
+    addPart(`FIJO · Shim de nivelación 1 mm (${px},${py})`, C.grisClaro, [px, py, -6], [
+      box('Lámina 60×40×1', [px, py + sy * 20, -6], 60, 40, 1),
+      hole('Paso M6', [px, py + sy * 20, -6], [0, 0, 1], D.M6),
     ]);
   }
 }
@@ -400,26 +435,31 @@ function placas() {
       f.push(box('Ranura puente', [sx * D.combX, s * D.bridgeY, D.bridgeZ[0] - 0.25],
         D.plateT + 1, 20.5, D.bridgeZ[1] - D.bridgeZ[0] + 0.5, 'cut'));
     }
+    const ib = D.idlerAxle + D.slide;
+    // rodillos: paso del eje Ø22 + patrón de bulones M10 de la chumacera UCFL204
     for (const y of D.rollerLines) {
-      f.push(hole(`Ø12.2 eje línea y=${y}`, [xFace, y, D.rollerZ], [1, 0, 0], D.axleDia + D.slide));
+      f.push(hole(`Paso eje rodillo Ø22 línea y=${y}`, [xFace, y, D.rollerZ], [1, 0, 0], D.axleDia + 2));
+      for (const dy of [-D.ucfl.boltGap / 2, D.ucfl.boltGap / 2]) {
+        f.push(hole('Ø11 bulón UCFL204', [xFace, y + dy, D.rollerZ], [1, 0, 0], D.ucfl.boltDia));
+      }
     }
-    if (sx > 0) { // placa de transmisión: tambor (paso + portarodamiento), tensores y retornos
-      f.push(hole('Paso eje tambor Ø26', [xFace, D.drumPos[0], D.drumPos[1]], [1, 0, 0], 26));
-      for (const [dy, dz] of [[0, 31], [0, -31], [31, 0], [-31, 0]]) {
-        f.push(hole('Ø5.5 portarodamiento', [xFace, D.drumPos[0] + dy, D.drumPos[1] + dz], [1, 0, 0], D.M5));
+    if (sx > 0) { // placa de transmisión: UCFL del tambor + tensores/retornos
+      f.push(hole('Paso eje tambor Ø22', [xFace, D.drumPos[0], D.drumPos[1]], [1, 0, 0], D.axleDia + 2));
+      for (const dy of [-D.ucfl.boltGap / 2, D.ucfl.boltGap / 2]) {
+        f.push(hole('Ø11 bulón UCFL204 tambor', [xFace, D.drumPos[0] + dy, D.drumPos[1]], [1, 0, 0], D.ucfl.boltDia));
       }
       for (const [py, pz] of D.idlerPos) {  // TENSORES: colisa vertical (tensado de banda)
-        f.push(hole(`Ø12.2 eje tensor/retorno (${py},${pz})`, [xFace, py, pz - 5], [1, 0, 0], D.axleDia + D.slide));
-        f.push(hole(`Ø12.2 colisa sup (${py},${pz})`, [xFace, py, pz + 5], [1, 0, 0], D.axleDia + D.slide));
+        f.push(hole(`Ø12.2 eje tensor (${py},${pz})`, [xFace, py, pz - 5], [1, 0, 0], ib));
+        f.push(hole(`Ø12.2 colisa sup (${py},${pz})`, [xFace, py, pz + 5], [1, 0, 0], ib));
         f.push(box(`Colisa tensora 12.2×10 (${py},${pz})`, [sx * D.combX, py, pz - 5], D.plateT + 1, 12.2, 10, 'cut'));
       }
       for (const [py, pz] of D.retPos) {
-        f.push(hole(`Ø12.2 eje tensor/retorno (${py},${pz})`, [xFace, py, pz], [1, 0, 0], D.axleDia + D.slide));
+        f.push(hole(`Ø12.2 eje retorno (${py},${pz})`, [xFace, py, pz], [1, 0, 0], ib));
       }
-    } else {      // placa -X: brida del motorreductor por DENTRO
+    } else {      // placa -X: brida del motorreductor por DENTRO (apoya el eje)
       f.push(hole('Piloto motor Ø30', [xFace, D.drumPos[0], D.drumPos[1]], [1, 0, 0], 30));
       for (const sy of [-1, 1]) for (const sz of [-1, 1]) {
-        f.push(hole('Ø5.5 brida motor', [xFace, D.drumPos[0] + sy * 30, D.drumPos[1] + sz * 22], [1, 0, 0], D.M5));
+        f.push(hole('Ø6.6 brida motor', [xFace, D.drumPos[0] + sy * 30, D.drumPos[1] + sz * 22], [1, 0, 0], D.M6));
       }
     }
     addPart(sx > 0 ? 'MÓVIL · Placa porta-poleas de transmisión (+X)' : 'MÓVIL · Placa porta-poleas lado motor (-X)',
@@ -445,50 +485,32 @@ function placas() {
 // MÓVIL · 4. RODILLOS COMPLETOS (6) + EJES
 // ===========================================================================
 function rodillos() {
+  const kd = D.axleDia / 2 - 1.75;   // fondo del chavetero (chaveta 6×6)
   for (const y of D.rollerLines) {
-    addPart(`MÓVIL · Eje rodillo Ø12 torneado línea y=${y}`, C.grisClaro, [-D.axleHalf, y, D.rollerZ], [
-      cyl('Cuerpo Ø12 h9 × 306', [-153, y, D.rollerZ], [1, 0, 0], D.axleDia, 306),
-      cyl('Rosca M10×1.5 (-X)', [-166.5, y, D.rollerZ], [1, 0, 0], 10, 13.5),
-      cyl('Rosca M10×1.5 (+X)', [153, y, D.rollerZ], [1, 0, 0], 10, 13.5),
-      cyl('Chaflán 1.5×45° (-X)', [-D.axleHalf, y, D.rollerZ], [1, 0, 0], 8.5, 1.5),
-      cyl('Chaflán 1.5×45° (+X)', [166.5, y, D.rollerZ], [1, 0, 0], 8.5, 1.5),
-      box('Plano de llave 8 (sup)', [-160, y, D.rollerZ + 4], 9, 12, 3, 'cut'),
-      box('Plano de llave 8 (inf)', [-160, y, D.rollerZ - 7], 9, 12, 3, 'cut'),
+    // eje Ø20 h6 que GIRA en 2 chumaceras UCFL204 (una por placa); chavetero
+    // para arrastrar el rodillo, chaflanes y planos para el collar excéntrico
+    addPart(`MÓVIL · Eje rodillo Ø20 h6 torneado línea y=${y}`, C.grisClaro, [-D.axleHalf, y, D.rollerZ], [
+      cyl('Cuerpo Ø20 h6 × 410', [-205, y, D.rollerZ], [1, 0, 0], D.axleDia, 410),
+      cyl('Chaflán 1.5×45° (-X)', [-D.axleHalf, y, D.rollerZ], [1, 0, 0], D.axleDia - 3, 1.5),
+      cyl('Chaflán 1.5×45° (+X)', [203.5, y, D.rollerZ], [1, 0, 0], D.axleDia - 3, 1.5),
+      box('Chavetero 6×3.5 (rodillo)', [-40, y, D.rollerZ + kd + 1.75], 80, 6, 3.5, 'cut'),
     ]);
+    // rodillo: corazón Ø30 barreno Ø20 H7 (chaveta al eje), vulcanizado Ø40
     const f = [
       cyl(`Corazón de tubo Ø${D.coreDia} × ${2 * D.coreHalf}`, [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.coreDia, 2 * D.coreHalf),
       cyl(`Vulcanizado Ø${D.rollerDia} (hasta x=${D.bareFrom})`, [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.rollerDia, D.coreHalf + D.bareFrom),
-      cyl('Golilla de empuje nylon Ø22×1.5 (-X)', [-D.coreHalf - 1.5, y, D.rollerZ], [1, 0, 0], 22, 1.5),
-      cyl('Golilla de empuje nylon Ø22×1.5 (+X)', [D.coreHalf, y, D.rollerZ], [1, 0, 0], 22, 1.5),
-      hole('Barreno Ø12.2 (paso de eje)', [-D.coreHalf - 1.5, y, D.rollerZ], [1, 0, 0], D.axleDia + D.slide),
-      hole('Cajera rodamiento Ø24 M7 ×8 (-X)', [-D.coreHalf, y, D.rollerZ], [1, 0, 0], 24, 8, false),
-      hole('Cajera rodamiento Ø24 M7 ×8 (+X)', [D.coreHalf, y, D.rollerZ], [-1, 0, 0], 24, 8, false),
+      hole('Barreno Ø20 H7 (fijo al eje)', [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.axleDia),
+      box('Chavetero 6×3.4', [-40, y, D.rollerZ + D.coreDia / 2 - 3.4], 80, 6, 3.4, 'cut'),
     ];
     addPart(`MÓVIL · Rodillo vulcanizado línea y=${y}`, C.caucho, [0, y, D.rollerZ - D.rollerDia / 2], f,
       { componente: 'rodillo_vulcanizado_40x290' });
-    // rodamientos del rodillo (giran sobre el eje fijo) + seegers de retención
+    addPart(`MÓVIL · Chaveta rodillo DIN 6885 6×6×70 línea y=${y}`, C.grisClaro, [-35, y, D.rollerZ + kd + 1.75], [
+      box('Chaveta 70×6×6', [0, y, D.rollerZ + kd + 1.75], 70, 6, 6),
+    ]);
+    // 2 chumaceras UCFL204 (una por placa, cara exterior) — soporte y ajuste axial
     for (const sx of [-1, 1]) {
-      addPart(`MÓVIL · Rodamiento 6901-2RS línea y=${y} ${sx > 0 ? '+X' : '-X'}`, C.acero,
-        [sx * (D.coreHalf - (sx > 0 ? 6 : 0)) - (sx > 0 ? 0 : 6) + (sx > 0 ? -0 : 0), y, D.rollerZ], [
-          cyl('Anillo 12×24×6', [sx > 0 ? D.coreHalf - 6 : -D.coreHalf, y, D.rollerZ], [1, 0, 0], 24, 6),
-          hole('Bore Ø12', [sx > 0 ? D.coreHalf - 6 : -D.coreHalf, y, D.rollerZ], [1, 0, 0], 12),
-        ]);
-      addPart(`MÓVIL · Seeger DIN 471-12 línea y=${y} ${sx > 0 ? '+X' : '-X'}`, C.gris,
-        [sx * 138 - 0.55, y, D.rollerZ], [
-          cyl('Anillo Ø18×1.1', [sx * 138 - 0.55, y, D.rollerZ], [1, 0, 0], 18, 1.1),
-          hole('Bore Ø11', [sx * 138 - 0.55, y, D.rollerZ], [1, 0, 0], 11),
-        ]);
-    }
-    // sujeción del eje a cada placa: golilla plana + golilla de presión + tuerca
-    for (const sx of [-1, 1]) {
-      const x0 = sx * (D.combX + D.plateT / 2);       // cara exterior de la placa
-      addPart(`MÓVIL · Fijación eje M10 línea y=${y} ${sx > 0 ? '+X' : '-X'}`, C.grisClaro,
-        [x0, y, D.rollerZ], [
-          cyl('Golilla plana DIN 125 Ø20×2', [x0, y, D.rollerZ], [sx, 0, 0], 20, 2),
-          cyl('Golilla de presión DIN 127 Ø18×2.5', [x0 + sx * 2, y, D.rollerZ], [sx, 0, 0], 18, 2.5),
-          cyl('Tuerca hex M10 DIN 934 (e=17)', [x0 + sx * 4.5, y, D.rollerZ], [sx, 0, 0], 17, 8),
-          hole('Paso rosca M10', [x0, y, D.rollerZ], [sx, 0, 0], 10.2),
-        ]);
+      ucflUnit(`MÓVIL · Chumacera UCFL204 rodillo línea y=${y} ${sx > 0 ? '+X' : '-X'}`,
+        sx * (D.combX + D.plateT / 2), y, D.rollerZ, sx);
     }
   }
 }
@@ -500,11 +522,14 @@ function rodillos() {
 function transmision() {
   const [my, mz] = D.drumPos;
   const xMotorFace = -D.combX + D.plateT / 2;      // cara interior de la placa -X
-  // eje del tambor: del acople del motor a la placa +X (saliente 7)
-  addPart('MÓVIL · Eje tambor Ø25 torneado', C.grisClaro, [-52, my, mz], [
-    cyl('Cuerpo Ø25 k6 × 225', [-50.5, my, mz], [1, 0, 0], D.shaftDia, 225),
-    cyl('Chaflán 1.5×45° (-X)', [-52, my, mz], [1, 0, 0], 22, 1.5),
-    cyl('Chaflán 1.5×45° (+X)', [174.5, my, mz], [1, 0, 0], 22, 1.5),
+  // eje del tambor Ø20 h6: apoyado en 1 chumacera UCFL204 (placa +X) y en el
+  // rodamiento de salida del motor (placa -X, por dentro); acople entre ambos.
+  // Tambor fijado con SIT-LOCK (sin chaveta). Chavetero solo en el acople (-X).
+  addPart('MÓVIL · Eje tambor Ø20 h6 torneado', C.grisClaro, [-64, my, mz], [
+    cyl('Cuerpo Ø20 h6 × 234', [-64, my, mz], [1, 0, 0], D.axleDia, 234),
+    cyl('Chaflán 1.5×45° (-X)', [-64, my, mz], [1, 0, 0], D.axleDia - 3, 1.5),
+    cyl('Chaflán 1.5×45° (+X)', [168.5, my, mz], [1, 0, 0], D.axleDia - 3, 1.5),
+    box('Chavetero 6×3.5 (acople)', [-52, my, mz + D.axleDia / 2 - 1.75], 24, 6, 3.5, 'cut'),
   ]);
   const x0T = D.beltPlane - D.drumW / 2;
   addPart('MÓVIL · Tambor motriz abombado (llanta + tapas + cubo)', C.tambor, [x0T, my, mz - D.drumDia / 2], [
@@ -513,36 +538,17 @@ function transmision() {
     hole('Vaciado interior Ø74 (llanta rolada e=8)', [x0T, my, mz], [1, 0, 0], 74),
     cyl('Tapa lateral Ø74×6 (-X, soldada)', [x0T, my, mz], [1, 0, 0], 74, 6),
     cyl('Tapa lateral Ø74×6 (+X, soldada)', [x0T + D.drumW - 6, my, mz], [1, 0, 0], 74, 6),
-    cyl('Cubo Ø52 pasante', [x0T, my, mz], [1, 0, 0], 52, D.drumW),
-    hole('Barreno del cubo Ø34 H7 (buje SIT-LOCK)', [x0T, my, mz], [1, 0, 0], 34),
+    cyl('Cubo Ø46 pasante', [x0T, my, mz], [1, 0, 0], 46, D.drumW),
+    hole('Barreno del cubo Ø28 H7 (buje SIT-LOCK)', [x0T, my, mz], [1, 0, 0], 28),
   ]);
-  // buje cónico autocentrante SIT-LOCK CAL 1 25×34: sin chaveta, autocentrado
-  addPart('MÓVIL · Buje SIT-LOCK CAL 1 25×34 (tambor)', C.gris, [D.beltPlane - D.drumW / 2 - 2, my, mz], [
-    cyl('Anillo cónico Ø34×' + (D.drumW - 4), [D.beltPlane - D.drumW / 2 + 2, my, mz], [1, 0, 0], 34, D.drumW - 4),
-    cyl('Brida de apriete Ø42×6', [D.beltPlane - D.drumW / 2 - 2, my, mz], [1, 0, 0], 42, 6),
-    hole('Bore Ø25.05 (autocentrante)', [D.beltPlane - D.drumW / 2 - 2, my, mz], [1, 0, 0], 25.05),
+  // buje cónico autocentrante SIT-LOCK CAL 1 20×28: sin chaveta, autocentrado
+  addPart('MÓVIL · Buje SIT-LOCK CAL 1 20×28 (tambor)', C.gris, [D.beltPlane - D.drumW / 2 - 2, my, mz], [
+    cyl('Anillo cónico Ø28×' + (D.drumW - 4), [D.beltPlane - D.drumW / 2 + 2, my, mz], [1, 0, 0], 28, D.drumW - 4),
+    cyl('Brida de apriete Ø38×6', [D.beltPlane - D.drumW / 2 - 2, my, mz], [1, 0, 0], 38, 6),
+    hole('Bore Ø20.05 (autocentrante)', [D.beltPlane - D.drumW / 2 - 2, my, mz], [1, 0, 0], 20.05),
   ]);
-  // portarodamiento embridado en la cara exterior de la placa +X
-  addPart('MÓVIL · Portarodamiento Ø52 (placa +X)', C.fijoClaro, [D.combX + 3, my, mz], [
-    cyl('Brida Ø72×6', [D.combX + 3, my, mz], [1, 0, 0], 72, 6),
-    cyl('Cubo Ø60×18', [D.combX + 9, my, mz], [1, 0, 0], 60, 18),
-    hole('Alojamiento Ø52 H7 ×16.5', [D.combX + 24, my, mz], [-1, 0, 0], 52, 16.5, false),
-    hole('Paso Ø36 (libra el seeger del eje)', [D.combX + 3, my, mz], [1, 0, 0], 36),
-    ...[[0, 31], [0, -31], [31, 0], [-31, 0]].map(([dy, dz]) =>
-      hole('Ø5.5 brida', [D.combX + 3, my + dy, mz + dz], [1, 0, 0], D.M5)),
-  ]);
-  addPart('MÓVIL · Rodamiento 6205-2RS (tambor)', C.acero, [160.5, my, mz], [
-    cyl('Anillo 25×52×15', [160.5, my, mz], [1, 0, 0], 52, 15),
-    hole('Bore Ø25', [160.5, my, mz], [1, 0, 0], 25),
-  ]);
-  addPart('MÓVIL · Seeger DIN 472-52 (alojamiento)', C.gris, [175.5, my, mz], [
-    cyl('Anillo Ø51×1.4', [175.5, my, mz], [1, 0, 0], 51, 1.4),
-    hole('Bore Ø45', [175.5, my, mz], [1, 0, 0], 45),
-  ]);
-  addPart('MÓVIL · Seeger DIN 471-25 (eje tambor)', C.gris, [158.8, my, mz], [
-    cyl('Anillo Ø34×1.5', [158.8, my, mz], [1, 0, 0], 34, 1.5),
-    hole('Bore Ø23.2', [158.8, my, mz], [1, 0, 0], 23.2),
-  ]);
+  // 1 chumacera UCFL204 para el tambor en la placa +X (el -X lo apoya el motor)
+  ucflUnit('MÓVIL · Chumacera UCFL204 tambor +X', D.combX + D.plateT / 2, my, mz, 1);
   const xIn = D.beltPlane - D.pulleyW / 2;
   for (const [i, [py, pz]] of [...D.idlerPos, ...D.retPos].entries()) {
     const esTensor = i < D.idlerPos.length;
@@ -550,9 +556,9 @@ function transmision() {
     // eje cantiléver torneado: chaflán + ranura seeger; los TENSORES llevan
     // rosca M12 y tuerca de apriete en la colisa vertical (tensado)
     addPart(`MÓVIL · Eje cantiléver Ø12 (${py},${pz})`, C.grisClaro, [xIn - 4, py, pz], [
-      cyl(`Eje Ø12 × ${r2(D.combX + 3 - (xIn - 3))}`, [xIn - 3, py, pz], [1, 0, 0], D.axleDia, r2(D.combX + 3 - (xIn - 3))),
+      cyl(`Eje Ø12 × ${r2(D.combX + 3 - (xIn - 3))}`, [xIn - 3, py, pz], [1, 0, 0], D.idlerAxle, r2(D.combX + 3 - (xIn - 3))),
       cyl('Chaflán 1×45°', [xIn - 4, py, pz], [1, 0, 0], 10, 1),
-      ...(esTensor ? [cyl('Rosca M12×14', [D.combX + 3, py, pz], [1, 0, 0], D.axleDia, 12)] : []),
+      ...(esTensor ? [cyl('Rosca M12×14', [D.combX + 3, py, pz], [1, 0, 0], D.idlerAxle, 12)] : []),
     ]);
     if (esTensor) {
       addPart(`MÓVIL · Tuerca tensora M12 + golilla (${py},${pz})`, C.grisClaro, [D.combX + 3, py, pz], [
@@ -566,34 +572,19 @@ function transmision() {
     addPart(nombre, C.gris, [xIn, py, pz - dia / 2], [
       cyl(`Cuerpo Ø${dia - 0.8}×${D.pulleyW}`, [xIn, py, pz], [1, 0, 0], dia - 0.8, D.pulleyW),
       cyl(`Corona Ø${dia}×12 (abombado)`, [xIn + D.pulleyW / 2 - 6, py, pz], [1, 0, 0], dia, 12),
-      hole(esTensor ? 'Alojamientos Ø24 M7' : 'Alojamiento buje Ø16 H7', [xIn, py, pz], [1, 0, 0], esTensor ? 24 : 16),
+      hole('Alojamiento buje Ø18 H7', [xIn, py, pz], [1, 0, 0], 18),
     ], { componente: esTensor ? 'polea_tensora_50x29' : 'polea_retorno_24x29' });
-    if (esTensor) { // 2 rodamientos 6901-2RS + separador tubular entre pistas
-      for (const [j, x0] of [[0, xIn], [1, xIn + D.pulleyW - 6]].values()) {
-        addPart(`MÓVIL · Rodamiento 6901-2RS tensor (${py},${pz}) ${j ? 'ext' : 'int'}`, C.acero, [x0, py, pz], [
-          cyl('Anillo 12×24×6', [x0, py, pz], [1, 0, 0], 24, 6),
-          hole('Bore Ø12', [x0, py, pz], [1, 0, 0], 12),
-        ]);
-      }
-      addPart(`MÓVIL · Separador tubular tensor (${py},${pz})`, C.grisClaro, [xIn + 6, py, pz], [
-        cyl(`Tubo Ø18×${D.pulleyW - 12}`, [xIn + 6, py, pz], [1, 0, 0], 18, D.pulleyW - 12),
-        hole('Bore Ø12.4', [xIn + 6, py, pz], [1, 0, 0], 12.4),
-      ]);
-    } else {        // retorno: buje de bronce sinterizado
-      addPart(`MÓVIL · Buje bronce Ø16/Ø12.2 retorno (${py},${pz})`, C.banda === '#e6c229' ? '#b08d57' : '#b08d57', [xIn + 4.5, py, pz], [
-        cyl('Buje Ø16×20', [xIn + 4.5, py, pz], [1, 0, 0], 16, 20),
-        hole('Bore Ø12.2 H7/f7', [xIn + 4.5, py, pz], [1, 0, 0], 12.2),
-      ]);
-    }
-    addPart(`MÓVIL · Descanso de brida Ø24 (${py},${pz})`, '#b08d57', [D.combX - 3 - 8, py, pz], [
-      cyl('Buje Ø24×4', [D.combX - 3 - 8, py, pz], [1, 0, 0], 24, 4),
-      cyl('Brida Ø30×4', [D.combX - 3 - 4, py, pz], [1, 0, 0], 30, 4),
-      cyl('Grasera M6 DIN 71412', [D.combX - 3 - 6, py, pz + 12], [0, 0, 1], 7, 8),
-      hole('Bore Ø12.2 H7', [D.combX - 3 - 8, py, pz], [1, 0, 0], 12.2),
+    // idlers SIN rodamiento desnudo: buje de bronce autolubricado (SAE 841),
+    // sellado y sin mantenimiento — baja carga y velocidad (tensor y retorno)
+    addPart(`MÓVIL · Buje bronce Ø18/Ø12.2 ${esTensor ? 'tensor' : 'retorno'} (${py},${pz})`, '#b08d57', [xIn, py, pz], [
+      cyl(`Buje Ø18×${D.pulleyW - 4}`, [xIn, py, pz], [1, 0, 0], 18, D.pulleyW - 4),
+      hole('Bore Ø12.2 H7/f7', [xIn, py, pz], [1, 0, 0], 12.2),
     ]);
-    addPart(`MÓVIL · Seeger DIN 471-12 polea (${py},${pz})`, C.gris, [xIn - 1.7, py, pz], [
-      cyl('Anillo Ø18×1.1', [xIn - 1.7, py, pz], [1, 0, 0], 18, 1.1),
-      hole('Bore Ø11', [xIn - 1.7, py, pz], [1, 0, 0], 11),
+    // retención axial de la polea loca: arandela + tornillo M6 en el extremo
+    // del eje cantiléver (sin seeger; sin rodamiento desnudo)
+    addPart(`MÓVIL · Retención M6 polea ${esTensor ? 'tensor' : 'retorno'} (${py},${pz})`, C.grisClaro, [xIn - 2, py, pz], [
+      cyl('Arandela Ø18×2', [xIn - 2, py, pz], [1, 0, 0], 18, 2),
+      cyl('Tornillo M6 cabeza Ø10', [xIn - 8, py, pz], [1, 0, 0], 10, 6),
     ]);
   }
   const { outer, inner } = serpentineFaces(serpentine(), D.bandT);
@@ -605,20 +596,20 @@ function transmision() {
   addPart('MÓVIL · Motorreductor (por dentro)', C.motor, [xMotorFace, my, mz - 33], [
     box('Cuerpo 88×80×66', [xMotorFace + 44, my, mz - 33], 88, 80, 66),
     cyl('Brida Ø70×8', [xMotorFace, my, mz], [1, 0, 0], 70, 8),
-    cyl('Eje salida Ø25', [xMotorFace + 88, my, mz], [1, 0, 0], D.shaftDia, 15),
+    cyl('Eje salida Ø20', [xMotorFace + 88, my, mz], [1, 0, 0], D.shaftDia, 15),
   ]);
-  addPart('MÓVIL · Acople rígido Ø35 (chaveteros 8 DIN 6885)', C.gris, [-64, my, mz], [
-    cyl('Manguito Ø35×24', [-64, my, mz], [1, 0, 0], 35, 24),
-    hole('Barreno Ø25.2', [-64, my, mz], [1, 0, 0], D.shaftDia + D.slide),
-    hole('Ranura prisionero M6 (a)', [-58, my - 17.5, mz], [0, 1, 0], D.M6, 6, false),
-    hole('Ranura prisionero M6 (b)', [-46, my - 17.5, mz], [0, 1, 0], D.M6, 6, false),
+  addPart('MÓVIL · Acople rígido Ø32 (chaveteros 6 DIN 6885)', C.gris, [-70, my, mz], [
+    cyl('Manguito Ø32×24', [-70, my, mz], [1, 0, 0], 32, 24),
+    hole('Barreno Ø20.2', [-70, my, mz], [1, 0, 0], D.shaftDia + D.slide),
+    hole('Ranura prisionero M6 (a)', [-64, my - 16, mz], [0, 1, 0], D.M6, 6, false),
+    hole('Ranura prisionero M6 (b)', [-52, my - 16, mz], [0, 1, 0], D.M6, 6, false),
   ]);
   // chavetas DIN 6885 del acople: lado motor y lado eje del tambor (chaveteros N9)
-  addPart('MÓVIL · Chaveta DIN 6885 A 8×7×10 (motor↔acople)', C.grisClaro, [-61, my, mz + 9], [
-    box('Chaveta 10×8×7', [-61, my, mz + 9], 10, 8, 7),
+  addPart('MÓVIL · Chaveta DIN 6885 A 6×6×12 (motor↔acople)', C.grisClaro, [-66, my, mz + D.axleDia / 2 - 1.75], [
+    box('Chaveta 12×6×6', [-66, my, mz + D.axleDia / 2 - 1.75], 12, 6, 6),
   ]);
-  addPart('MÓVIL · Chaveta DIN 6885 A 8×7×10 (eje↔acople)', C.grisClaro, [-47, my, mz + 9], [
-    box('Chaveta 10×8×7', [-47, my, mz + 9], 10, 8, 7),
+  addPart('MÓVIL · Chaveta DIN 6885 A 6×6×12 (eje↔acople)', C.grisClaro, [-52, my, mz + D.axleDia / 2 - 1.75], [
+    box('Chaveta 12×6×6', [-52, my, mz + D.axleDia / 2 - 1.75], 12, 6, 6),
   ]);
 }
 
@@ -639,27 +630,23 @@ const doc = {
     nombre: 'Transferencia 90° — módulo de desviación pop-up (serpentín, todo por dentro)',
     capa: 'user',
     origen: 'gen_transfer90.mjs (paramétrico); espec. usuario: 6 rodillos Ø40 (corazón Ø30) vulcanizados menos el extremo de polea; serpentín IMG_3102; motor y 2 cilindros por dentro; cilindros diagonales con pivote y palanca (subida vertical 6); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados; placas con dedos delgados hacia los rodillos',
-    anfitrion: 'transportador de bandas estrechas de 40 mm a lo largo (plano a 170 mm) — NO modelado; las bandas pasan entre los dedos de las placas',
+    anfitrion: 'equipo base = sorter de bandas STEP (sorter_CO): rieles T-slot, chumaceras UCFL/UC 205 y SKF 1206, transmisión AT10, ejes Ø20 H7, tornillería M6. El módulo NO modifica el base: se monta a los rieles T-slot y solo comparte su idioma de hardware.',
+    integracion: 'módulo de desviación que se monta sobre el equipo base sin perforarlo: 4 pies de anclaje a riel T-slot con tuercas en T M6 (ajuste de posición X) + colisos M8 al canal (ajuste de altura ±7) + shims de nivelación. La altura de emergencia y la separación rodillo-tensora se calibran contra el plano de banda real del base.',
     estado_modelado: `ELEVADO (+${D.stroke} mm): tangente de rodillos a ${D.rollerZ + D.rollerDia / 2} = plano anfitrión + ${metrics.pop}`,
     tolerancias: {
-      eje_rodillo_placa: 'eje Ø12 h9 / agujero Ø12.2 H11 → juego 0.20-0.29; extremos torneados y roscados M10×1.5×15',
-      sujecion: 'golilla plana DIN 125 A10.5 + golilla de presión DIN 127 + tuerca M10 DIN 934, apriete 25 Nm contra el hombro Ø12',
-      giro_rodillo: 'barreno Ø12.2 con 2 bujes autolubricados Ø12 H7/f7; golillas de empuje nylon Ø22×1.5 con juego axial 0.5 por lado',
-      tambor: 'eje Ø25 k6 / barreno Ø25.2 con chaveta DIN 6885 8×7; placa +X con agujero H8',
-      tensores_retornos: 'ejes Ø12 cantiléver prensados Ø12 m6 en placa H7; poleas locas con rodamiento',
-      pasador_guia: 'Ø8 m6 prensado en placa; colisa 8.5 (juego 0.5) por carrera 6',
-      palanca: 'pernos Ø8 h9 en bujes de bronce Ø12 m6/Ø8.2 H7 prensados en la palanca; seegers DIN 471-8; leva Ø24 rodante',
-      rodamientos: 'rodillos y tensores: 6901-2RS (12×24×6), cajera Ø24 M7, eje Ø12 g6, seeger DIN 471-12; tambor: 6205-2RS (25×52×15) en portarodamiento Ø52 H7 con DIN 472-52, eje Ø25 k6 con DIN 471-25; retornos: buje bronce sinterizado Ø16 r6 / Ø12.2 H7',
-      torneria: 'chaflanes de eje 1..1.5×45°, radios de acuerdo 0.5, ranuras seeger s/DIN 471 (11.5×1.1 en Ø12; 23.9×1.85 en Ø25), roscas M10×1.5 6g, planos de llave 8 fresados en extremo -X, rugosidad asientos Ra 0.8; tambor: llanta rolada e=8 + tapas y cubo soldados, equilibrado estatico',
-      abombado: 'tensores, retornos y tambor con corona +0.4 en radio al centro (autocentrado de banda plana)',
-      chavetas: 'DIN 6885 A 8x7x10 en el acople rigido (lado motor y lado eje, chaveteros N9); el tambor NO lleva chaveta: usa SIT-LOCK',
-      neumatica: 'cilindros ISO 6432 Ø25 carrera 10 estándar con rótulas DIN ISO 12240-4 M8 en ambos extremos; electroválvula 5/2 monoestable 24VDC con racores push-in Ø8 y regulador de caudal en escape',
-      correa: 'banda PLANA 35x3, 2 capas poliester con cara de traccion nitrilo, empalme vulcanizado en fabrica (sin grapa); lomo a r18, 2 bajo el vulcanizado; friccion asegurada por abombado de tambor y tensores',
-      velocidad: 'v tangencial de rodillos 80 m/min -> v banda = 80*(15/20) = 60 m/min (1 m/s); tambor O90 a 212 rpm; motorreductor i=6.3 (1400 -> 222 rpm) ~0.18 kW; envoltura tambor ~200 grados, mu>=0.7 caucho-nitrilo',
-      sitlock: 'tambor fijado al eje O25 con buje conico autocentrante SIT-LOCK CAL 1 25x34 en el cubo O34 H7 (autocentrado del tambor, montaje/desmontaje rapido)',
-      descansos: 'cada tensor y retorno con descanso de brida (buje bronce O24/O12.2 con brida O30 y grasera M6 DIN 71412) en la cara interior de la placa de transmision, ademas del apoyo prensado del eje',
-      tensado: 'tensores en colisa vertical 12.2×22 con eje roscado M12 y tuerca: rango de tensado ±5 mm',
-      nivelacion: 'niveladores M12×40 con base articulada Ø40 en las 4 esquinas del canal (rango +20 mm)',
+      rodamientos: 'CAMBIO: rodamientos desnudos → unidades de brida UCFL204 (bore Ø20, autoalineantes, engrasables, collar excéntrico) — familia del equipo base (UCFL/UC 205). 12 en rodillos (2/línea) + 1 en el tambor (placa +X); el extremo -X del tambor lo apoya el rodamiento de salida del motor. Sin rodamientos de bolas desnudos ni seegers de pista.',
+      ejes: 'ejes de rodillo y tambor Ø20 h6 (como el base) que GIRAN en las UCFL204; chaflanes 1.5×45°; chavetero 6×3.5 N9 para arrastrar rodillo/acople.',
+      eje_rodillo: 'rodillo: barreno Ø20 H7 con chaveta DIN 6885 6×6×70 al eje (h6/H7 con chaveta); el eje gira solidario y se apoya en 2 UCFL204.',
+      idlers: 'tensores y retornos: ejes cantiléver Ø12 m6 prensados en la placa; poleas locas sobre BUJE de bronce autolubricado SAE 841 Ø18/Ø12.2 H7/f7 (sin rodamiento desnudo); retención axial arandela + tornillo M6.',
+      tambor: 'SIT-LOCK CAL 1 20×28 en cubo Ø28 H7 (autocentrado, sin chaveta); 1 UCFL204 en placa +X + rodamiento del motor en -X; abombado corona +0.4.',
+      acople: '2 chavetas DIN 6885 A 6×6×12 (motor↔acople↔eje), chaveteros N9; manguito Ø32 barreno Ø20.2.',
+      montaje: 'pies de anclaje a riel T-slot: tuerca en T M6 en ranura (ajuste X) + 2 colisos M8 al canal (ajuste altura ±7) + shims 1 mm de nivelación. CERO perforaciones en el equipo base.',
+      palanca: 'pernos Ø8 h9 en bujes de bronce Ø12/Ø8.2 H7 en la palanca; seegers DIN 471-8; leva Ø24 rodante; carrera cilindro 10 → 6 vertical (relación 122/203).',
+      pasador_guia: 'Ø8 m6 en la placa; colisa 8.5 del canal (juego 0.5) por la carrera 6.',
+      tensado: 'tensores en colisa vertical 12.2×22 con eje roscado M12 y tuerca: rango ±5 mm.',
+      neumatica: 'cilindros ISO 6432 Ø25 carrera 10 con rótulas DIN ISO 12240-4 M8 en ambos extremos; electroválvula 5/2 monoestable 24VDC.',
+      correa: 'banda PLANA 35×3 nitrilo/poliéster, empalme vulcanizado; abombado de tambor y tensores para autocentrado.',
+      velocidad: 'v tangencial rodillos 80 m/min → banda 60 m/min; tambor Ø90 ~212 rpm; motorreductor i≈6.3 (~0.18 kW).',
     },
     verificaciones: metrics,
   },

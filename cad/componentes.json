@@ -337,6 +337,27 @@
       "notas": "Barreno O25.2 + chaveta DIN 6885 8x7 (no modelada). El motorreductor se acopla en linea al eje O25."
     },
     {
+      "id": "chumacera_ucfl204",
+      "nombre": "Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+      "categoria": "mecanico",
+      "descripcion": "Unidad de rodamiento de brida (2 agujeros) con inserto UC204 autoalineante bore O20, collar excentrico y grasera. Familia del equipo base (UCFL/UC 205). Se atornilla a la cara exterior de una placa con 2 bulones M10 (paso 64); el eje O20 pasa por la placa y gira en la unidad. Reemplaza rodamientos desnudos.",
+      "fuente": {"tipo": "diseno", "detalle": "integracion con el equipo base sorter_CO (STEP): usa la misma familia de chumaceras de brida que el base"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "caja", "nombre": "Brida 86x30x12", "at": [0, 0, 0], "dim": [86, 30, 12], "color": "#78909c"},
+        {"tipo": "cilindro", "nombre": "Cubo O42", "at": [0, 0, 12], "eje": [0, 0, 1], "dia": 42, "alto": 31, "color": "#78909c"},
+        {"tipo": "cilindro", "nombre": "Collar excentrico O34", "at": [0, 0, 43], "eje": [0, 0, 1], "dia": 34, "alto": 12, "color": "#90a4ae"}
+      ],
+      "agujeros_montaje": [
+        {"pos": [32, 0], "dia": 11},
+        {"pos": [-32, 0], "dia": 11}
+      ],
+      "despejes": [
+        {"nombre": "acceso a grasera y prisionero del collar", "at": [0, 20, 20], "dim": [20, 12, 20]}
+      ],
+      "notas": "Bore O20 H (inserto UC204). Atornillar M10 a paso 64. El eje O20 h6 gira en la unidad; el collar excentrico lo fija axialmente. Autoalineante: tolera desalineo entre placas."
+    },
+    {
       "id": "eje_rodillos_12x336",
       "nombre": "Eje calibrado O12 x 336 para rodillo completo (extremos roscados M10)",
       "categoria": "mecanico",

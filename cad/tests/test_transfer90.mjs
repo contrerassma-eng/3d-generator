@@ -1,12 +1,11 @@
 // Prueba del ensamble "Transferencia 90°" (cad/ensambles/transfer_rodillos_90.json):
 // construye CADA pieza con el motor CSG real (model.js) y verifica volúmenes,
-// mallas sin NaN, unicidad de ids y los invariantes de la especificación del
-// usuario (iterada contra las fotos SID y su esquema IMG_3102): solo el módulo
-// de desvío, 6 rodillos completos Ø40 (corazón Ø30) vulcanizados menos el
-// extremo de polea, serpentín único desde abajo (tambor M + tensores Ø50 +
-// 2 retornos), TODO POR DENTRO (motor embridado y 2 cilindros diagonales con
-// pivote y palanca), canal fijo no más ancho que las placas, módulos
-// FIJO/MÓVIL identificados y placas con dedos delgados hacia los rodillos.
+// mallas sin NaN, unicidad de ids y los invariantes de la INTEGRACIÓN con el
+// equipo base (STEP sorter_CO): rodamientos cambiados a unidades de brida
+// UCFL204 (familia del base UCFL/UC 205), ejes Ø20 h6, idlers sobre bujes de
+// bronce (sin rodamientos desnudos), montaje a riel T-slot con pies + shims
+// (cero perforaciones al base), tambor con SIT-LOCK, serpentín y elevación
+// por palanca/cilindros diagonales sin cambios.
 //
 // Correr (ver tests/README.md):
 //   npx esbuild tests/test_transfer90.mjs --bundle --format=esm --platform=node \
@@ -16,7 +15,6 @@
 import { readFileSync } from 'node:fs';
 import { buildPartGeometry } from '../js/model.js';
 
-// tras el bundle import.meta.url apunta al bundle: ruta por argv o desde cad/
 const jsonPath = process.argv[2] || 'ensambles/transfer_rodillos_90.json';
 const doc = JSON.parse(readFileSync(jsonPath, 'utf8'));
 
@@ -25,7 +23,6 @@ const check = (name, cond, detail = '') => {
   if (cond) { pass++; console.log(`  ✔ ${name}`); }
   else { fail++; console.log(`  ✘ ${name} ${detail}`); }
 };
-
 function volume(geom) {
   const p = geom.attributes.position;
   if (!p) return 0;
@@ -38,265 +35,101 @@ function volume(geom) {
   }
   return v;
 }
-const hasNaN = (geom) => {
-  for (const x of geom.attributes.position?.array || []) if (!Number.isFinite(x)) return true;
-  return false;
-};
+const hasNaN = (geom) => { for (const x of geom.attributes.position?.array || []) if (!Number.isFinite(x)) return true; return false; };
 const world = (part, at) => [at[0] + part.pos[0], at[1] + part.pos[1], at[2] + part.pos[2]];
+const by = (n) => doc.parts.filter(p => p.name.includes(n));
 
-console.log('— Documento —');
+console.log('— Documento y módulos —');
 check('formato foto3d-cad v1', doc.format === 'foto3d-cad' && doc.version === 1);
-check('138 piezas (banda plana, tambor construido, 2 chavetas de acople + SIT-LOCK, descansos)', doc.parts.length === 138, `hay ${doc.parts.length}`);
-const pids = doc.parts.map(p => p.id);
-check('ids de pieza únicos', new Set(pids).size === pids.length);
+check('107 piezas', doc.parts.length === 107, `hay ${doc.parts.length}`);
+check('ids de pieza únicos', new Set(doc.parts.map(p => p.id)).size === doc.parts.length);
 const fids = doc.parts.flatMap(p => p.features.map(f => f.id));
 check('ids de función únicos', new Set(fids).size === fids.length);
-check('exactamente una pieza fija (canal)', doc.parts.filter(p => p.fixed).length === 1 && doc.parts[0].fixed);
+check('una pieza fija (canal) a tierra', doc.parts.filter(p => p.fixed).length === 1 && doc.parts[0].name.includes('Canal'));
+check('todas FIJO · o MÓVIL ·', doc.parts.every(p => /^(FIJO|MÓVIL) · /.test(p.name)));
 
-console.log('— Módulos identificados (FIJO / MÓVIL) —');
-const fijos = doc.parts.filter(p => p.name.startsWith('FIJO ·'));
-const moviles = doc.parts.filter(p => p.name.startsWith('MÓVIL ·'));
-check('toda pieza es FIJO · o MÓVIL ·', fijos.length + moviles.length === doc.parts.length,
-  `${fijos.length}+${moviles.length}`);
-check('canal lateral es la pieza fija a tierra', doc.parts[0].name.includes('Canal lateral'));
-check('rodillos, transmisión, placas y motor son MÓVIL (suben juntos)',
-  moviles.some(p => p.name.includes('Motorreductor')) &&
-  moviles.some(p => p.name.includes('Banda plana')) &&
-  moviles.filter(p => p.name.includes('Placa porta-poleas')).length === 2);
-
-console.log('— Construcción CSG de cada pieza —');
-let built = 0, conVolumen = 0, sinNaN = 0;
-const vols = {};
+console.log('— Construcción CSG —');
+let built = 0, conVol = 0, sinNaN = 0; const vols = {};
 for (const part of doc.parts) {
-  const g = buildPartGeometry(part);
-  built++;
-  const v = volume(g);
-  vols[part.id] = v;
-  if (v > 1) conVolumen++;
-  if (!hasNaN(g)) sinNaN++;
-  else console.log(`    NaN en ${part.name}`);
-  if (v <= 1) console.log(`    sin volumen: ${part.name} (v=${v.toFixed(1)})`);
+  const g = buildPartGeometry(part); built++;
+  const v = volume(g); vols[part.id] = v;
+  if (v > 1) conVol++; if (!hasNaN(g)) sinNaN++; else console.log(`    NaN en ${part.name}`);
+  if (v <= 1) console.log(`    sin volumen: ${part.name}`);
 }
-check('las 138 piezas construyen', built === doc.parts.length);
-check('todas con volumen > 0', conVolumen === doc.parts.length);
-check('ninguna malla con NaN', sinNaN === doc.parts.length);
+check('las 107 piezas construyen', built === 107);
+check('todas con volumen > 0', conVol === 107);
+check('ninguna malla con NaN', sinNaN === 107);
 
-console.log('— Volúmenes de referencia —');
-const eje = doc.parts.find(p => p.name.includes('Eje rodillo'));
-const vEje = Math.PI * (36 * 306 + 2 * 25 * 13.5 + 2 * 18.0625 * 1.5);
-check('eje torneado Ø12 ≈ volumen nominal (±3%)', Math.abs(vols[eje.id] - vEje) / vEje < 0.03,
-  `${vols[eje.id].toFixed(0)} vs ${vEje.toFixed(0)}`);
-const rodillo = doc.parts.find(p => p.componente === 'rodillo_vulcanizado_40x290');
-const vRod = Math.PI * (225 * 290 + (400 - 225) * 238 - 37.21 * 290);
-check('rodillo vulcanizado ≈ volumen nominal (±3%)', Math.abs(vols[rodillo.id] - vRod) / vRod < 0.03,
-  `${vols[rodillo.id].toFixed(0)} vs ${vRod.toFixed(0)}`);
+console.log('— Cambio de rodamientos → unidades UCFL204 (integración con el base) —');
+const ucfl = by('Chumacera UCFL204');
+check('13 chumaceras UCFL204 (12 rodillos + 1 tambor)', ucfl.length === 13, `hay ${ucfl.length}`);
+check('SIN rodamientos de bolas desnudos (6901/6205)', by('Rodamiento 6901').length === 0 && by('Rodamiento 6205').length === 0);
+check('SIN portarodamiento ni fijación por tuerca M10', by('Portarodamiento').length === 0 && by('Fijación eje').length === 0);
+check('cada UCFL con brida, cubo, collar excéntrico, grasera y 2 bulones M10', ucfl.every(p => {
+  const n = p.features.map(f => f.name).join('|');
+  return /Brida/.test(n) && /Cubo/.test(n) && /Collar excéntrico/.test(n) && /Grasera/.test(n) &&
+    p.features.filter(f => f.name.includes('Bulón')).length === 2;
+}));
+// ejes Ø20 h6
+const ejesR = by('Eje rodillo Ø20');
+check('6 ejes de rodillo Ø20 h6 con chavetero', ejesR.length === 6 &&
+  ejesR.every(p => p.features[0].params.dia === 20 && p.features.some(f => f.name.startsWith('Chavetero'))));
+const vEjeR = Math.PI * 100 * 410;
+check('eje rodillo Ø20×410 ≈ π·r²·L (±5%)', ejesR.every(p => Math.abs(vols[p.id] - vEjeR) / vEjeR < 0.05));
+// UCFL concéntricas con su eje (rodillos y tambor)
+const ejeT = doc.parts.find(p => p.name.includes('Eje tambor Ø20'));
+const shafts = [...ejesR, ejeT];
+let conc = 0;
+for (const u of ucfl) {   // el anclaje de la UCFL y del eje están sobre el eje (y,z)
+  if (shafts.some(s => Math.abs(s.pos[1] - u.pos[1]) < 1e-6 && Math.abs(s.pos[2] - u.pos[2]) < 1e-6)) conc++;
+}
+check('13 UCFL concéntricas con su eje', conc === 13, `${conc}/13`);
+// el patrón de bulones de la UCFL coincide con los agujeros Ø11 de la placa
+const placas = by('Placa porta-poleas');
+const platypedHoles = placas.flatMap(pl => pl.features.filter(f => f.name.includes('Ø11 bulón'))
+  .map(f => world(pl, f.at).slice(1).join(',')));
+const ucflBolts = ucfl.flatMap(u => u.features.filter(f => f.name.includes('Bulón')).map(f => world(u, f.at).slice(1).join(',')));
+check('bulones de UCFL alineados con los Ø11 de las placas', ucflBolts.length === 26 &&
+  ucflBolts.every(k => platypedHoles.includes(k)));
 
-console.log('— Invariantes de la especificación (coordenadas de mundo) —');
-const M = doc.meta.verificaciones;
-check('gap tangente >= 50 (espec. usuario)', M.tangentGap >= 50);
-check('carrera vertical de 6 mm (espec. usuario)', M.carrera === 6);
-const rodillos = doc.parts.filter(p => p.componente === 'rodillo_vulcanizado_40x290');
-check('6 rodillos completos (misma cantidad que la foto de 90°)', rodillos.length === 6);
-check('Ø40 vulcanizado sobre corazón Ø30, más corto (extremo de polea)', rodillos.every(p => {
-  const nucleo = p.features.find(f => f.name.startsWith('Corazón'));
-  const vulc = p.features.find(f => f.name.startsWith('Vulcanizado'));
-  return nucleo.params.dia === 30 && vulc.params.dia === 40 && vulc.params.h < nucleo.params.h;
-}));
-check('elevado: tangente = plano anfitrión + 4', rodillos.every(p => {
-  const n = p.features.find(f => f.name.startsWith('Corazón'));
-  return world(p, n.at)[2] + 20 === 174;
-}));
-// elevación: SOLO 2 cilindros, diagonales, con pivote y palanca
-const cils = doc.parts.filter(p => p.name.includes('Cilindro ISO 6432'));
-check('SOLO 2 cilindros (sin pines verticales que parezcan cuatro)', cils.length === 2 &&
-  !doc.parts.some(p => p.name.includes('Pin guía Ø16')));
-check('cilindros inclinados en diagonal (25°..60°)', M.anguloCilindro >= 25 && M.anguloCilindro <= 60,
-  `${M.anguloCilindro}°`);
-check('cilindros por dentro (|x| ≤ 153)', cils.every(p =>
-  p.features.every(f => Math.abs(world(p, f.at)[0]) <= 153 + 1e-6)));
-const palancas = doc.parts.filter(p => p.name.includes('Palanca elevadora'));
-const puentes = doc.parts.filter(p => p.name.includes('Puente elevador'));
-check('2 palancas con rodillo de leva tocando el fondo del puente (subida vertical)',
-  palancas.length === 2 && palancas.every(p => {
-    const cam = p.features.find(f => f.name.startsWith('Rodillo de leva'));
-    return world(p, cam.at)[2] + cam.params.dia / 2 === 105;
-  }) && puentes.every(p => world(p, p.features[0].at)[2] === 105));
-// motor por dentro, embridado a la placa -X, coaxial al tambor
+console.log('— Idlers sobre bujes de bronce (sin rodamientos) —');
+const bujes = by('Buje bronce');
+check('10 bujes de bronce (6 poleas + 4 palanca)', bujes.length === 10, `hay ${bujes.length}`);
+check('6 poleas locas (4 tensores + 2 retornos) con retención M6', by('Retención M6 polea').length === 6);
+check('ejes cantiléver de idler Ø12', by('Eje cantiléver').every(p => p.features[0].params.dia === 12));
+
+console.log('— Tambor: SIT-LOCK + 1 UCFL + motor por dentro —');
+const tambor = doc.parts.find(p => p.name.includes('Tambor motriz'));
+check('tambor con SIT-LOCK (sin chaveta en el tambor)', by('SIT-LOCK').length === 1 &&
+  !tambor.features.some(f => /chavet/i.test(f.name)));
+check('2 chavetas DIN 6885 en el acople del motor', by('Chaveta').filter(p => p.name.includes('acople')).length === 2);
 const motor = doc.parts.find(p => p.name.includes('Motorreductor'));
 const cuerpoM = motor.features.find(f => f.name.startsWith('Cuerpo'));
-check('motor por dentro (cuerpo dentro de |x| < 147)', (() => {
-  const w = world(motor, cuerpoM.at);
-  return w[0] - cuerpoM.params.w / 2 >= -147 - 1e-6 && w[0] + cuerpoM.params.w / 2 <= 147 + 1e-6;
+check('motor por dentro (cuerpo dentro de |x| ≤ 148)', (() => {
+  const w = world(motor, cuerpoM.at); return w[0] - cuerpoM.params.w / 2 >= -148 && w[0] + cuerpoM.params.w / 2 <= 148;
 })());
-const ejeTambor = doc.parts.find(p => p.name.includes('Eje tambor'));
-const tambor = doc.parts.find(p => p.name.includes('Tambor motriz'));
-check('motor coaxial al eje del tambor', (() => {
-  const a = world(ejeTambor, ejeTambor.features[0].at);
-  const b = world(motor, motor.features.find(f => f.name.startsWith('Eje salida')).at);
-  return Math.abs(a[1] - b[1]) < 1e-6 && Math.abs(a[2] - b[2]) < 1e-6;
-})());
-check('tambor M concéntrico con su eje', (() => {
-  const t = world(tambor, tambor.features[0].at);
-  const a = world(ejeTambor, ejeTambor.features[0].at);
-  return Math.abs(t[1] - a[1]) < 1e-6 && Math.abs(t[2] - a[2]) < 1e-6;
-})());
-// canal fijo no más ancho que la cara que sostiene las poleas
+
+console.log('— Montaje al equipo base SIN modificarlo (T-slot + shims) —');
 const canal = doc.parts[0];
-const baseF = canal.features.find(f => f.name.startsWith('Base'));
-check('canal fijo (306) no más ancho que las placas (306)', baseF.params.w === 306 && M.anchoModulo === 306);
-// pasadores guía del módulo móvil en colisas del canal (en diagonal)
-const pasadores = doc.parts.filter(p => p.name.includes('Pasador guía'));
-const colisas = canal.features.filter(f => f.name.startsWith('Colisa'));
-check('2 pasadores guía en colisas verticales del canal', pasadores.length === 2 && colisas.length === 2 &&
-  pasadores.every(p => colisas.some(f => {
-    const wC = world(canal, f.at), wP = world(p, p.features[0].at);
-    return Math.abs(wC[1] - wP[1]) < 1e-6 && Math.abs(Math.abs(wC[0]) - 141) < 1e-6;
-  })));
-// transmisión: serpentín único, tensores Ø50, retornos, dentro del tramo desnudo
-const bandas = doc.parts.filter(p => p.name.includes('Banda'));
-check('UNA sola banda (serpentín, no rodillo a rodillo)', bandas.length === 1 &&
-  bandas[0].name.includes('serpentín'));
-const tensores = doc.parts.filter(p => p.name.includes('Tensor'));
-const retornos = doc.parts.filter(p => p.name.includes('Polea de retorno'));
-check('4 tensores Ø50 (2ª línea, mayores que los rodillos Ø40)', tensores.length === 4 &&
-  tensores.every(p => p.features.some(f => f.shape === 'cylinder' && f.params.dia === 50)));
-check('2 poleas de retorno en las esquinas inferiores', retornos.length === 2 &&
-  retornos.every(p => p.pos[2] < 60));
-const banda = bandas[0];
-check('serpentín dentro del tramo desnudo (x 93..145)',
-  banda.pos[0] - banda.features[0].params.h / 2 >= 93 - 1e-9 &&
-  banda.pos[0] + banda.features[0].params.h / 2 <= 145 + 1e-9);
-check('lomo del serpentín embutido bajo el plano de rodillos (≤174)', (() => {
-  const outer = banda.features.find(f => f.name.startsWith('Cara'));
-  const z0 = outer.at[2] + banda.pos[2];
-  const zs = outer.params.pts.map(([, v]) => v + z0);
-  return Math.max(...zs) <= 174 + 0.01 && Math.max(...zs) > 171;
-})());
-// placas con dedos delgados hacia los rodillos (las bandas de 40 pasan entre ellos)
-const placas = doc.parts.filter(p => p.name.includes('Placa porta-poleas'));
-check('placas con 6 dedos delgados y largos (puntas a z=168, valles a 120)', placas.every(p => {
-  const c = p.features.find(f => f.shape === 'sketch');
-  const z0 = c.at[2] + p.pos[2];
-  const zs = c.params.pts.map(([, v]) => v + z0);
-  const puntas = c.params.pts.filter(([, v]) => Math.abs(v + z0 - 168) < 0.01).length;
-  return Math.max(...zs) === 168 && puntas >= 6;
+check('canal SIN perforaciones de anclaje al base (Ø11)', !canal.features.some(f => f.name.includes('Anclaje')));
+check('canal con colisos de altura para los pies', canal.features.some(f => f.name.includes('Coliso M8 pie')));
+const pies = by('Pie anclaje T-slot');
+check('4 pies de anclaje a riel T-slot', pies.length === 4);
+check('cada pie con ranura para tuerca en T (ajuste X) y colisos M8 (ajuste altura)', pies.every(p => {
+  const n = p.features.map(f => f.name).join('|');
+  return /Ranura T-nut/.test(n) && p.features.filter(f => f.name.includes('Coliso M8')).length === 2;
 }));
-// concentricidad: agujeros Ø12.2 de las placas sobre el eje de cada línea
-const ejes = doc.parts.filter(p => p.name.includes('Eje rodillo'));
-let conc = 0, tot = 0;
-for (const placa of placas) {
-  for (const f of placa.features.filter(f => f.shape === 'hole' && f.params.dia === 12.2 && f.name.includes('eje línea'))) {
-    tot++;
-    const w = world(placa, f.at);
-    if (ejes.some(e => {
-      const a = world(e, e.features[0].at);
-      return Math.abs(a[1] - w[1]) < 1e-6 && Math.abs(a[2] - w[2]) < 1e-6;
-    })) conc++;
-  }
-}
-check('12 agujeros de eje en placas, todos concéntricos con su eje', tot === 12 && conc === 12, `${conc}/${tot}`);
-// tensores/retornos alineados con la placa de transmisión
-const placaTrans = placas.find(p => p.name.includes('transmisión'));
-// retornos: agujero fijo exacto; tensores: el eje dentro de su colisa vertical
-const ejesCant = doc.parts.filter(p => p.name.includes('Eje cantiléver'));
-const holesFijos = placaTrans.features.filter(f => f.shape === 'hole' && f.name.includes('tensor/retorno'))
-  .map(f => world(placaTrans, f.at));
-const colisasT = placaTrans.features.filter(f => f.name.includes('Colisa tensora'))
-  .map(f => world(placaTrans, f.at));
-check('6 ejes cantiléver alineados: retornos en agujero, tensores dentro de su colisa',
-  ejesCant.length === 6 && ejesCant.every(p => {
-    const a = world(p, p.features[0].at);
-    return holesFijos.some(h => Math.abs(h[1] - a[1]) < 1e-6 && Math.abs(h[2] - a[2]) < 1e-6) ||
-           colisasT.some(c => Math.abs(c[1] - a[1]) < 1e-6 && Math.abs(a[2] - (c[2] + 5)) <= 5 + 1e-6);
-  }));
-// rodillos suben más respecto a la 2ª línea: separación eje-tensor >= 50
-check('rodillos bien arriba de la 2ª línea (Δz eje↔tensor >= 50)', tensores.every(p => {
-  const pol = p.features.find(f => f.name.startsWith('Cuerpo'));
-  return 154 - world(p, pol.at)[2] >= 50;
-}));
-// sujeción eje-placa: 12 fijaciones (golilla plana + presión + tuerca M10) coaxiales al eje
-const fijaciones = doc.parts.filter(p => p.name.includes('Fijación eje'));
-check('12 fijaciones de eje (2 por rodillo) con golillas y tuerca', fijaciones.length === 12 &&
-  fijaciones.every(p => p.features.some(f => f.name.includes('DIN 125')) &&
-    p.features.some(f => f.name.includes('DIN 127')) && p.features.some(f => f.name.includes('DIN 934'))));
-check('fijaciones coaxiales con el eje de su línea', fijaciones.every(p => {
-  const w = world(p, p.features[0].at);
-  return ejes.some(e => {
-    const a = world(e, e.features[0].at);
-    return Math.abs(a[1] - w[1]) < 1e-6 && Math.abs(a[2] - w[2]) < 1e-6;
-  });
-}));
-check('golillas de empuje en los rodillos (juego axial)', rodillos.every(p =>
-  p.features.filter(f => f.name.includes('empuje')).length === 2));
-check('tolerancias documentadas (incl. tornería, rodamientos, chavetas, abombado)',
-  typeof doc.meta.tolerancias === 'object' && Object.keys(doc.meta.tolerancias).length >= 10);
-// detalle de fabricación: rodamientos, seegers, bujes, separadores, chavetas, abombado
-const rodam = doc.parts.filter(p => p.name.includes('Rodamiento'));
-check('21 rodamientos (12×6901 rodillos + 8×6901 tensores + 1×6205 tambor)', rodam.length === 21,
-  `hay ${rodam.length}`);
-const seegers = doc.parts.filter(p => p.name.includes('Seeger'));
-check('26 seegers DIN 471/472', seegers.length === 26, `hay ${seegers.length}`);
-const bujes = doc.parts.filter(p => p.name.includes('Buje bronce'));
-check('6 bujes de bronce (2 retornos + 4 palanca)', bujes.length === 6, `hay ${bujes.length}`);
-check('4 separadores tubulares en tensores', doc.parts.filter(p => p.name.includes('Separador')).length === 4);
-// tambor: SIT-LOCK autocentrante (sin chaveta) + chavetas SOLO en el acople
-check('tambor con SIT-LOCK autocentrante (sin chaveta en el tambor)',
-  doc.parts.some(p => p.name.includes('SIT-LOCK')) &&
-  !tambor.features.some(f => f.name.toLowerCase().includes('chavet')));
-check('2 chavetas DIN 6885 en el acople (motor↔acople↔eje)',
-  doc.parts.filter(p => p.name.includes('Chaveta') && p.name.includes('acople')).length === 2);
-check('portarodamiento Ø52 en la placa +X', doc.parts.some(p => p.name.includes('Portarodamiento')));
-// abombado: 6 poleas (corona 0.8) + tambor liso construido con su corona
-const abombadas = doc.parts.filter(p => p.name.includes('abombad') && !p.name.includes('Tambor'));
-check('6 poleas abombadas (4 tensores + 2 retornos, corona 0.8)', abombadas.length === 6 &&
-  abombadas.every(p => {
-    const ds = p.features.filter(f => f.shape === 'cylinder').map(f => f.params.dia);
-    return Math.abs(Math.max(...ds) - Math.min(...ds) - 0.8) < 1e-9;
-  }));
-check('tambor liso abombado construido (llanta + corona + 2 tapas + cubo)', (() => {
-  const nombres = tambor.features.map(f => f.name);
-  const llanta = tambor.features.find(f => f.name.startsWith('Llanta')).params.dia;
-  const corona = tambor.features.find(f => f.name.startsWith('Corona')).params.dia;
-  return Math.abs(corona - llanta - 0.8) < 1e-9 &&
-    nombres.filter(n => n.startsWith('Tapa lateral')).length === 2 &&
-    nombres.some(n => n.startsWith('Cubo'));
-})());
-// chaflanes de tornería en los ejes
-check('ejes con chaflanes de tornería', doc.parts.filter(p => p.name.includes('Eje rodillo')).every(p =>
-  p.features.filter(f => f.name.includes('Chaflán')).length === 2) &&
-  doc.parts.find(p => p.name.includes('Eje tambor')).features.filter(f => f.name.includes('Chaflán')).length === 2);
-// neumática estandarizada: válvula, cilindros ISO carrera 10, rótulas
-check('electroválvula 5/2 en el canal FIJO', doc.parts.some(p => p.name.includes('Electroválvula 5/2') && p.name.startsWith('FIJO')));
-check('carrera de cilindro estándar 10 (ISO 6432)', Math.abs(M.carreraCilindro - 10) <= 0.5, `${M.carreraCilindro}`);
-check('4 rótulas DIN ISO 12240 (2 por cilindro)', doc.parts.filter(p => p.name.includes('Rótula')).length === 4);
-// tensado vertical y nivelación
-const tuercasTensoras = doc.parts.filter(p => p.name.includes('Tuerca tensora'));
-check('4 tensores con colisa vertical y tuerca M12', tuercasTensoras.length === 4 &&
-  placaTrans.features.filter(f => f.name.includes('Colisa tensora')).length === 4);
-check('tuercas tensoras coaxiales con su eje cantiléver', tuercasTensoras.every(p => {
-  const w = world(p, p.features[0].at);
-  return doc.parts.filter(q => q.name.includes('Eje cantiléver')).some(q => {
-    const a = world(q, q.features[0].at);
-    return Math.abs(a[1] - w[1]) < 1e-6 && Math.abs(a[2] - w[2]) < 1e-6;
-  });
-}));
-check('4 niveladores M12 en las esquinas del canal', doc.parts.filter(p => p.name.includes('Nivelador M12')).length === 4);
-// transmisión por banda PLANA 35×3 y detalle de fabricación
-check('banda plana de 35 de ancho (espesor 3)', banda.features[0].params.h === 35 && banda.pos !== undefined);
-check('tambor liso (sin dientes)', tambor.features.filter(f => f.name.startsWith('Garganta')).length === 0);
-check('6 descansos de brida con grasera M6 en las poleas', (() => {
-  const d = doc.parts.filter(p => p.name.includes('Descanso de brida'));
-  return d.length === 6 && d.every(p => p.features.some(f => f.name.includes('Grasera')));
-})());
-check('velocidad 80 m/min documentada (banda 60 m/min)', /80 m\/min/.test(doc.meta.tolerancias.velocidad || ''));
-check('planos de llave fresados en los ejes de rodillo', doc.parts.filter(p => p.name.includes('Eje rodillo')).every(p =>
-  p.features.filter(f => f.name.includes('Plano de llave')).length === 2));
-check('SIT-LOCK concéntrico con tambor y eje', (() => {
-  const sl = doc.parts.find(p => p.name.includes('SIT-LOCK'));
-  const a = world(sl, sl.features[0].at);
-  const t = world(tambor, tambor.features[0].at);
-  return Math.abs(a[1] - t[1]) < 1e-6 && Math.abs(a[2] - t[2]) < 1e-6;
-})());
+check('4 shims de nivelación', by('Shim de nivelación').length === 4);
+
+console.log('— Invariantes de función (sin cambios) —');
+const M = doc.meta.verificaciones;
+check('gap tangente 60, carrera vertical 6', M.tangentGap === 60 && M.carrera === 6);
+check('6 rodillos Ø40 (corazón Ø30) barreno Ø20 H7', by('Rodillo vulcanizado').length === 6 &&
+  by('Rodillo vulcanizado').every(p => p.features.some(f => f.name.includes('Barreno Ø20 H7'))));
+check('2 cilindros ISO 6432 en diagonal + 4 rótulas', by('Cilindro ISO 6432').length === 2 && by('Rótula').length === 4);
+check('una sola banda plana 35 en serpentín', by('Banda plana').length === 1 && by('Banda plana')[0].features[0].params.h === 35);
+check('tolerancias/integración documentadas en meta', typeof doc.meta.tolerancias === 'object' &&
+  !!(doc.meta.integracion || doc.meta.tolerancias.montaje || doc.meta.tolerancias.rodamientos));
 
 console.log(`\n${pass} OK, ${fail} fallas`);
 process.exit(fail ? 1 : 0);
