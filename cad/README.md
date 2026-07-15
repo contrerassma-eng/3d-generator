@@ -21,8 +21,9 @@ atornillable) que muestra todas las capacidades.
 
 ## Interfaz (pensada también para celular)
 
-- **Barra superior**: archivo (STL, guardar, abrir, ejemplo, nuevo) y el botón
-  **☰** que muestra/oculta el panel de modelo.
+- **Barra superior**: archivo (STL, guardar, abrir, ejemplo, nuevo), exportar
+  **plano técnico DXF/PDF** y el botón **☰** que muestra/oculta el panel de
+  modelo.
 - **Barra "metro" izquierda**: herramientas en tiles táctiles grandes
   (pieza, agujero, función, restricciones, mover, medir).
 - **Panel ocultable**: árbol de piezas/funciones/restricciones + propiedades
@@ -35,6 +36,13 @@ atornillable) que muestra todas las capacidades.
 
 ### Piezas y funciones (árbol paramétrico)
 - **⬛ Caja / ⬤ Cilindro**: crean una pieza nueva con su función base.
+- **🔌 Comp.**: inserta un componente electrónico de la biblioteca
+  (`componentes/catalogo.json`, servido como `componentes.json`; ver
+  `docs/COMPONENTES.md`): ESP32, buck, sensores, pulsadores, conectores de
+  panel. Entra como pieza normal (sólidos + agujeros de montaje pasantes)
+  apoyada en Z=0, lista para posicionar con restricciones y modelar la
+  carcasa alrededor. Tras editar el catálogo, correr
+  `python pipeline/componentes_cli.py sync-web`.
 - **✚ Función…**: agrega a la pieza seleccionada una caja o cilindro como
   **unión** (agregar material) o **corte** (quitar material) — booleanas CSG.
 - **◎ Agujero**: clic sobre cualquier cara plana → diálogo con diámetro,
@@ -107,6 +115,14 @@ atornillable) que muestra todas las capacidades.
 ### Inspección y archivo
 - **📏 Medir**: distancia entre dos puntos (con ajuste a vértices) + ΔX/ΔY/ΔZ.
 - **⭳ STL**: exporta el ensamble completo a STL binario (imprimible/importable).
+- **⭳ DXF / ⭳ PDF**: plano técnico normalizado del ensamble, con el mismo
+  estilo que S6 — marco ISO 5457 (marcas de centrado y retícula de
+  referencia), cajetín ISO 7200 con el símbolo del primer diedro, vistas
+  alzado/planta/perfil/isométrica y cotas envolventes (ISO 129). El **DXF**
+  va a escala real (1 unidad = 1 mm; marco ×K, como S6) y el **PDF** al
+  tamaño de papel elegido automáticamente (A4–A0, escala ISO 5455). Aristas
+  características sin líneas ocultas; las grietas de triangulación del CSG
+  se filtran antes de proyectar. Todo capa `user` (diseño, no medición).
 - **💾 Guardar / 📂 Abrir**: proyecto en JSON (todo el árbol paramétrico y
   las restricciones). Además hay autoguardado en el navegador.
 - **Ctrl+Z** deshace; **Esc** cancela el modo activo; **Supr** elimina lo
@@ -122,7 +138,10 @@ atornillable) que muestra todas las capacidades.
 | `js/csg.js` | Booleanas de sólidos por BSP (unión/corte/intersección) ↔ `BufferGeometry` |
 | `js/sketch2d.js` | Croquizador 2D: entidades, intersecciones, recorte/alargado, contornos con agujeros, cotas y reconocimiento de trazos |
 | `js/model.js` | Documento paramétrico, regeneración, detección de caras planas y ejes, solver de restricciones |
+| `js/componentes.js` | Biblioteca de componentes: carga `componentes.json` y convierte registros del catálogo en piezas (mismo mapeo que `pipeline/lib_componentes.cad_part`) |
+| `componentes.json` | Copia servible del catálogo (`componentes/catalogo.json`); regenerar con `python pipeline/componentes_cli.py sync-web` |
 | `js/app.js` | Viewport Three.js, picking, modos de interacción, diálogos, STL, persistencia |
+| `js/drawing2d.js` | Plano técnico en el navegador: aristas características (con filtro de grietas CSG), vistas del primer diedro, marco/cajetín ISO y escritores DXF (R12) y PDF (1.4) propios |
 | `vendor/` | Three.js 0.177 + OrbitControls (local, funciona sin internet) |
 
 Límites conocidos: sin chaflanes/redondeos; las cotas del boceto son

@@ -3,6 +3,7 @@
 
 import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
+import { loadCatalogo, componentToPart, envolvente } from './componentes.js';
 import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
@@ -11,6 +12,7 @@ import {
   makeMate, makeConcentric, solveConstraints,
 } from './model.js';
 import * as SK from './sketch2d.js';
+import { exportDrawingDXF, exportDrawingPDF } from './drawing2d.js';
 
 // ---------- Escena ----------
 
@@ -1766,6 +1768,46 @@ function nextSpawnX() {
   return doc.parts.length ? Math.max(...doc.parts.map(p => p.pos[0])) + 100 : 0;
 }
 
+// ---------- Biblioteca de componentes electrónicos ----------
+
+$('btnComp').onclick = async () => {
+  let cat;
+  try {
+    cat = await loadCatalogo();
+  } catch (err) {
+    setStatus(`Catálogo de componentes no disponible: ${err.message}`);
+    return;
+  }
+  let html = '<h3>Insertar componente</h3>' +
+    '<div style="max-height:50vh;overflow-y:auto;display:flex;flex-direction:column;gap:4px">';
+  cat.componentes.forEach((c, i) => {
+    const [lo, hi] = envolvente(c);
+    const dims = [0, 1, 2].map(k => (hi[k] - lo[k]).toFixed(1)).join(' × ');
+    html += `<button id="dlg_comp${i}" title="${c.descripcion}" style="text-align:left;padding:6px 8px">` +
+      `${c.nombre}<br><small style="opacity:.7">${c.categoria} · ${dims} mm</small></button>`;
+  });
+  html += '</div><p style="font-size:11px;opacity:.7;margin:8px 0 0">Dimensiones nominales ' +
+    '(capa user): verificar con calibre antes de cortar. docs/COMPONENTES.md</p>' +
+    '<div class="btnrow"><button id="dlg_cancel">Cancelar</button></div>';
+  dialog.innerHTML = html;
+  dialog.style.display = 'block';
+  $('dlg_cancel').onclick = hideDialog;
+  cat.componentes.forEach((c, i) => {
+    $(`dlg_comp${i}`).onclick = () => {
+      hideDialog();
+      pushUndo();
+      const part = componentToPart(c);
+      const [lo] = envolvente(c);
+      part.pos = [nextSpawnX() - lo[0], 0, lo[2] < 0 ? -lo[2] : 0]; // apoyado en Z=0
+      part.fixed = doc.parts.length === 0; // como newPart: la primera queda a tierra
+      doc.parts.push(part);
+      selection = { kind: 'part', id: part.id };
+      rebuildPart(part);
+      commit(`${c.nombre} insertado.${c.notas ? ' ' + c.notas : ''}`);
+    };
+  });
+};
+
 $('btnFeature').onclick = () => {
   const part = selection?.kind === 'part' ? getPart(doc, selection.id)
     : selection?.kind === 'feature' ? getPart(doc, selection.partId) : null;
@@ -1833,6 +1875,38 @@ $('btnSTL').onclick = () => {
   download(new Blob([buffer], { type: 'model/stl' }), 'ensamble.stl');
   setStatus(`STL exportado (${triCount} triángulos).`);
 };
+
+// ---------- Exportar plano técnico (DXF / PDF con marco y cajetín ISO) ----------
+
+function drawingParts() {
+  const out = [];
+  for (const part of doc.parts) {
+    const rec = meshes.get(part.id);
+    if (!rec || !part.visible) continue;
+    rec.mesh.updateWorldMatrix(true, false);
+    out.push({ geometry: rec.mesh.geometry, matrixWorld: rec.mesh.matrixWorld, name: part.name });
+  }
+  return out;
+}
+
+function exportDrawing(exporter, kind) {
+  const parts = drawingParts();
+  if (!parts.length) { setStatus('No hay geometría para exportar.'); return; }
+  const meta = {
+    designacion: parts.length === 1 ? parts[0].name : `Ensamble — ${parts.length} piezas`,
+    piezas: parts.length,
+  };
+  try {
+    const r = exporter(parts, meta);
+    download(new Blob([r.data], { type: r.mime }), r.name);
+    setStatus(`Plano ${kind} exportado (${r.info}).`);
+  } catch (e) {
+    setStatus(`Plano ${kind}: ${e.message}`);
+  }
+}
+
+$('btnDXF').onclick = () => exportDrawing(exportDrawingDXF, 'DXF');
+$('btnPDF').onclick = () => exportDrawing(exportDrawingPDF, 'PDF');
 
 // ---------- Guardar / abrir / nuevo / demo ----------
 
