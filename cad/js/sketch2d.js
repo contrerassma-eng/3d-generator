@@ -543,6 +543,38 @@ export function filletLines(entities, l1, l2, r) {
   return true;
 }
 
+// ---------- selección por ventana (AutoCAD) y copia ----------
+
+// 'window' = totalmente contenida; 'crossing' = tocada por el rectángulo
+export function entityInRect(e, p1, p2, mode) {
+  const minX = Math.min(p1[0], p2[0]), maxX = Math.max(p1[0], p2[0]);
+  const minY = Math.min(p1[1], p2[1]), maxY = Math.max(p1[1], p2[1]);
+  const pts = entityPoints(e, 32);
+  const inside = (p) => p[0] >= minX - 1e-9 && p[0] <= maxX + 1e-9 && p[1] >= minY - 1e-9 && p[1] <= maxY + 1e-9;
+  if (mode === 'window') return pts.length > 0 && pts.every(inside);
+  if (pts.some(inside)) return true;
+  const corners = [[minX, minY], [maxX, minY], [maxX, maxY], [minX, minY]];
+  const edges = [
+    { id: '_r1', type: 'line', a: [minX, minY], b: [maxX, minY] },
+    { id: '_r2', type: 'line', a: [maxX, minY], b: [maxX, maxY] },
+    { id: '_r3', type: 'line', a: [maxX, maxY], b: [minX, maxY] },
+    { id: '_r4', type: 'line', a: [minX, maxY], b: [minX, minY] },
+  ];
+  for (const edge of edges) if (intersectEntities(edge, e).length) return true;
+  return false;
+}
+
+// copia desplazada de entidades (con ids nuevos)
+export function copyEntities(entities, delta) {
+  const out = [];
+  for (const e of entities) {
+    if (e.type === 'line') out.push(makeLine(add(e.a, delta), add(e.b, delta)));
+    else if (e.type === 'circle') out.push(makeCircle(add(e.c, delta), e.r));
+    else if (e.type === 'arc') out.push(makeArc(add(e.c, delta), e.r, e.a0, e.a1));
+  }
+  return out;
+}
+
 // ---------- reconocimiento de trazos a mano (modo lápiz) ----------
 
 export function douglasPeucker(pts, eps) {

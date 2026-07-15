@@ -6,7 +6,7 @@ import { OrbitControls } from '../vendor/OrbitControls.js';
 import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
-  makeSketchEntitiesFeature, planeBasis, referenceEdges, referencePoints,
+  makeSketchEntitiesFeature, planeBasis, referenceEdges, referencePoints, magnetCorrections,
   buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature,
   makeMate, makeConcentric, solveConstraints,
 } from './model.js';
@@ -570,6 +570,7 @@ renderer.domElement.addEventListener('pointerdown', (ev) => {
   if (mode === 'sketch' && sketch && ev.button === 0 && !sketch.profileMode) {
     if (sketch.tool === 'pen' && !sketch.stroke) { startStroke(ev); return; }
     if (sketch.tool === 'moveEnt' && !sketch.entDrag) { startEntDrag(ev); return; }
+    if (sketch.tool === 'select' && !sketch.marquee && !sketch.copyOp) { startMarquee(ev); return; }
   }
   if (dragging) { switchDragVertical(); return; } // 2.º dedo durante el arrastre → mover en Z
   downPos = { x: ev.clientX, y: ev.clientY };
@@ -579,6 +580,7 @@ renderer.domElement.addEventListener('pointerdown', (ev) => {
 renderer.domElement.addEventListener('pointermove', (ev) => {
   if (dialogOpen()) return;
   if (sketch?.stroke) { moveStroke(ev); return; }
+  if (sketch?.marquee) { moveMarquee(ev); return; }
   if (sketch?.entDrag) { moveEntDrag(ev); return; }
   if (dragging) { if (ev.pointerId === dragging.pointerId) updateMoveDrag(ev); return; }
   if (mode === 'sketch' && sketch) { updateSketchPreview(ev); return; }
@@ -592,6 +594,7 @@ renderer.domElement.addEventListener('pointermove', (ev) => {
 renderer.domElement.addEventListener('pointerup', (ev) => {
   if (dialogOpen()) return;
   if (sketch?.stroke) { if (ev.pointerId === sketch.stroke.pointerId) endStroke(); return; }
+  if (sketch?.marquee) { if (ev.pointerId === sketch.marquee.pointerId) endMarquee(ev); return; }
   if (sketch?.entDrag) { if (ev.pointerId === sketch.entDrag.pointerId) endEntDrag(); return; }
   if (dragging) { if (ev.pointerId === dragging.pointerId) endMoveDrag(); return; }
   if (!downPos) return;
@@ -603,6 +606,7 @@ renderer.domElement.addEventListener('pointerup', (ev) => {
 
 renderer.domElement.addEventListener('pointercancel', () => {
   if (sketch?.stroke) endStroke();
+  if (sketch?.marquee) { clearGroup(sketch.preview); sketch.marquee = null; sketchControls.enabled = true; }
   if (sketch?.entDrag) endEntDrag();
   if (dragging) endMoveDrag(); // gesto interrumpido por el sistema (táctil)
   downPos = null;
@@ -730,7 +734,18 @@ function clickSketch(hit, ev) {
   const raw = eventTo2D(ev);
   if (!raw) return;
   if (sketch.profileMode) return clickProfile(raw);
+  if (sketch.copyOp) return clickCopy(raw);
   const t = sketch.tool;
+  if (t === 'select') { // tap suelto: alterna la entidad tocada
+    const pick = pickEntityAt(raw, false);
+    if (pick) {
+      if (sketch.selIds.has(pick.ent.id)) sketch.selIds.delete(pick.ent.id);
+      else sketch.selIds.add(pick.ent.id);
+      redrawSketch();
+      setStatus(`${sketch.selIds.size} entidad(es) seleccionadas. ⧉ Copiar para duplicar con punto base.`);
+    }
+    return;
+  }
   if (t === 'line') return clickLine(raw);
   if (t === 'rect') return clickRect(raw);
   if (t === 'circle') return clickCircle(raw);
@@ -844,6 +859,7 @@ function enterSketch(hit) {
     entities: [], dims: [], dimEls: new Map(),
     chainStart: null, chainLast: null, temp: null, dimPick: null, stroke: null,
     entDrag: null, profileMode: false, excluded: new Set(),
+    selIds: new Set(), marquee: null, copyOp: null,
     tool: 'line',
     snapPts: [], refSegs: [],
     group: new THREE.Group(),
@@ -1132,6 +1148,78 @@ function endEntDrag() {
   setStatus('Entidad movida (las cotas 🔒 se re-aplicaron; las libres se actualizan solas).');
 }
 
+// --- selección por ventana (AutoCAD) y copiar con punto base ---
+
+const marqueeWinMat = new THREE.MeshBasicMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.18, side: THREE.DoubleSide, depthTest: false });
+const marqueeCrossMat = new THREE.MeshBasicMaterial({ color: 0x34a853, transparent: true, opacity: 0.18, side: THREE.DoubleSide, depthTest: false });
+
+function startMarquee(ev) {
+  const raw = eventTo2D(ev);
+  if (!raw) return;
+  sketch.marquee = { pointerId: ev.pointerId, start: raw, cur: raw };
+  sketchControls.enabled = false;
+  try { renderer.domElement.setPointerCapture(ev.pointerId); } catch (e) { /* ya liberado */ }
+}
+
+function moveMarquee(ev) {
+  const m = sketch?.marquee;
+  if (!m || ev.pointerId !== m.pointerId) return;
+  const raw = eventTo2D(ev);
+  if (!raw) return;
+  m.cur = raw;
+  clearGroup(sketch.preview);
+  const [x1, y1] = m.start, [x2, y2] = m.cur;
+  const isWindow = x2 >= x1; // izquierda→derecha = ventana; al revés = captura
+  const shape = new THREE.Shape([
+    new THREE.Vector2(Math.min(x1, x2), Math.min(y1, y2)),
+    new THREE.Vector2(Math.max(x1, x2), Math.min(y1, y2)),
+    new THREE.Vector2(Math.max(x1, x2), Math.max(y1, y2)),
+    new THREE.Vector2(Math.min(x1, x2), Math.max(y1, y2)),
+  ]);
+  const g = new THREE.ShapeGeometry(shape);
+  g.applyMatrix4(new THREE.Matrix4().makeBasis(sketch.uW, sketch.vW, sketch.nW)
+    .setPosition(sketch.originW.clone().addScaledVector(sketch.nW, 0.05)));
+  sketch.preview.add(new THREE.Mesh(g, isWindow ? marqueeWinMat : marqueeCrossMat));
+  setStatus(isWindow ? 'Ventana (azul): selecciona solo lo CONTENIDO por completo.' : 'Captura (verde): selecciona todo lo TOCADO.');
+}
+
+function endMarquee() {
+  const m = sketch.marquee;
+  sketch.marquee = null;
+  sketchControls.enabled = true;
+  clearGroup(sketch.preview);
+  if (!m) return;
+  const dragDist = Math.hypot(m.cur[0] - m.start[0], m.cur[1] - m.start[1]);
+  if (dragDist < 2 * worldPerPixel()) return; // fue un tap: lo maneja clickSketch
+  const mode = m.cur[0] >= m.start[0] ? 'window' : 'crossing';
+  for (const e of sketch.entities) {
+    if (SK.entityInRect(e, m.start, m.cur, mode)) sketch.selIds.add(e.id);
+  }
+  redrawSketch();
+  setStatus(`${sketch.selIds.size} entidad(es) seleccionadas (${mode === 'window' ? 'ventana' : 'captura'}). ⧉ Copiar para duplicar.`);
+}
+
+function startCopyOp() {
+  if (!sketch.selIds.size) { setStatus('Primero selecciona entidades con ⬚ Selec (o toques).'); return; }
+  sketch.copyOp = { stage: 'base', base: null };
+  setStatus('Copiar: toca el PUNTO BASE de referencia (con snap).');
+}
+
+function clickCopy(raw) {
+  const { uv, kind, snapped } = snap2D(raw);
+  if (sketch.copyOp.stage === 'base') {
+    sketch.copyOp = { stage: 'dest', base: uv };
+    setStatus(`Base fijada${snapped ? ` (⌖ ${kind})` : ''}. Toca el/los DESTINO(s); cambia de herramienta para terminar.`);
+    return;
+  }
+  const delta = [uv[0] - sketch.copyOp.base[0], uv[1] - sketch.copyOp.base[1]];
+  const src = sketch.entities.filter(e => sketch.selIds.has(e.id));
+  const copies = SK.copyEntities(src, delta);
+  sketch.entities.push(...copies);
+  redrawSketch();
+  setStatus(`${copies.length} entidad(es) copiadas (Δ ${delta[0].toFixed(1)}, ${delta[1].toFixed(1)}). Toca otro destino o cambia de herramienta.`);
+}
+
 // --- modo lápiz (trazo a mano alzada) ---
 
 function startStroke(ev) {
@@ -1183,7 +1271,7 @@ function endStroke() {
 function redrawSketch() {
   clearGroup(sketch.draw);
   for (const e of sketch.entities) {
-    const mat = sketch.dimPick && sketch.dimPick.ent.id === e.id ? selEntMat : drawMat;
+    const mat = (sketch.dimPick && sketch.dimPick.ent.id === e.id) || sketch.selIds.has(e.id) ? selEntMat : drawMat;
     const pts = SK.entityPoints(e, 64).map(p => to3D(p[0], p[1]));
     sketch.draw.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat));
   }
@@ -1360,11 +1448,15 @@ function cancelSketch(silent) {
 sketchbar.addEventListener('click', (e) => {
   const btn = e.target.closest('button');
   if (!btn || !sketch) return;
+  if (btn.id === 'skCopy') { startCopyOp(); return; }
   if (btn.dataset.tool) {
+    const keepSel = btn.dataset.tool === 'select';
     sketch.tool = btn.dataset.tool;
     sketch.temp = null;
     sketch.chainStart = sketch.chainLast = null;
     sketch.dimPick = null;
+    sketch.copyOp = null;
+    if (!keepSel) { sketch.selIds.clear(); }
     sketch.profileMode = false;
     clearGroup(sketch.fills);
     clearGroup(sketch.preview);
@@ -1380,6 +1472,7 @@ sketchbar.addEventListener('click', (e) => {
       extend: 'Alargar: toca una línea cerca del extremo; se alarga hasta la siguiente entidad o referencia.',
       moveEnt: 'Mover: arrastra una entidad; las cotas 🔒 restringen, las libres se actualizan.',
       erase: 'Borrar: toca la entidad a eliminar.',
+      select: 'Selección: arrastra →derecha = ventana (solo lo contenido); ←izquierda = captura (lo tocado). Tap = alternar una.',
       arc: 'Arco: toca CENTRO, luego INICIO y FINAL (antihorario).',
       polyg: 'Polígono regular: toca el centro y un vértice; luego eliges los lados.',
       offset: 'Equidistancia: toca una entidad o referencia del lado hacia donde quieres la copia.',
@@ -1467,6 +1560,24 @@ function clickConcentric(hit) {
 
 // ---------- Mover (arrastre) ----------
 
+let magnetOn = true; // 🧲 imán de ensamble (activable/desactivable)
+$('btnMagnet').classList.add('on');
+$('btnMagnet').onclick = () => {
+  magnetOn = !magnetOn;
+  $('btnMagnet').classList.toggle('on', magnetOn);
+  setStatus(magnetOn ? '🧲 Imán activado: al mover, ajusta a caras, alturas, centros y ejes.' : 'Imán desactivado.');
+};
+
+function magnetEntry(p) {
+  const r = meshes.get(p.id);
+  if (!r) return null;
+  r.mesh.updateMatrixWorld();
+  if (!r.mesh.geometry.boundingBox) r.mesh.geometry.computeBoundingBox();
+  const box = r.mesh.geometry.boundingBox.clone().applyMatrix4(r.mesh.matrixWorld);
+  const m = partMatrix(p);
+  return { min: box.min, max: box.max, axes: referencePoints(p).map(v => v.applyMatrix4(m)) };
+}
+
 function verticalPlaneNormal() {
   const n = camera.getWorldDirection(new THREE.Vector3());
   n.z = 0;
@@ -1490,6 +1601,17 @@ function startMoveDrag(ev) {
     lastPoint: hit.point.clone(),
     origPos: [...part.pos],
   };
+  if (magnetOn) {
+    const mine = magnetEntry(part);
+    if (mine) {
+      const rel = (v) => ({ x: v.x - part.pos[0], y: v.y - part.pos[1], z: v.z - part.pos[2] });
+      dragging.mag = {
+        relMin: rel(mine.min), relMax: rel(mine.max),
+        relAxes: mine.axes.map(rel),
+        others: doc.parts.filter(p => p.id !== part.id && p.visible).map(magnetEntry).filter(Boolean),
+      };
+    }
+  }
   try { renderer.domElement.setPointerCapture(ev.pointerId); } catch (e) { /* puntero ya liberado */ }
   controls.enabled = false;
   selection = { kind: 'part', id: part.id };
@@ -1519,6 +1641,23 @@ function updateMoveDrag(ev) {
     dragging.origPos[1] + delta.y,
     dragging.origPos[2] + delta.z,
   ];
+  if (magnetOn && dragging.mag && dragging.mag.others.length) {
+    const pos = dragging.part.pos;
+    const at = (rel) => ({ x: rel.x + pos[0], y: rel.y + pos[1], z: rel.z + pos[2] });
+    const my = {
+      min: at(dragging.mag.relMin),
+      max: at(dragging.mag.relMax),
+      axes: dragging.mag.relAxes.map(at),
+    };
+    const corr = magnetCorrections(my, dragging.mag.others, dragging.vertical ? ['z'] : ['x', 'y']);
+    const labels = [];
+    const IDX = { x: 0, y: 1, z: 2 };
+    for (const [a, c] of Object.entries(corr)) {
+      pos[IDX[a]] += c.d;
+      labels.push(`${a.toUpperCase()} ${c.kind}`);
+    }
+    if (labels.length) setStatus(`🧲 ${labels.join(' · ')}`);
+  }
   syncTransform(dragging.part);
 }
 
