@@ -15,6 +15,9 @@ comandos:
   cad-json <id> [<id> ...] [--salida <archivo>] [--separacion <mm>]
                                   documento foto3d-cad: abrirlo en cad/ (boton
                                   Abrir) para modelar la carcasa alrededor
+  sync-web                        copia el catalogo a cad/componentes.json para
+                                  que el boton "Comp." de la interfaz web lo
+                                  sirva (correr tras editar el catalogo)
 
 --proyecto <X>: escribe en projects/<X>/out/componentes/ y registra en el
 audit.log del proyecto. Sin el, escribe en componentes/out/ (fuera de git).
@@ -184,8 +187,16 @@ def cmd_cad_json(cat, args):
           "componentes con restricciones.")
 
 
+def cmd_sync_web(cat, args):
+    destino = C.REPO / "cad" / "componentes.json"
+    destino.write_text(C.CATALOGO.read_text(encoding="utf-8"), encoding="utf-8")
+    print(f"Catalogo copiado a {destino} ({len(cat['componentes'])} componentes).")
+    print("La interfaz web (cad/, boton 🔌 Comp.) lo sirve desde ahi.")
+
+
 COMMANDS = {"listar": cmd_listar, "info": cmd_info, "validar": cmd_validar,
-            "generar": cmd_generar, "huella": cmd_huella, "cad-json": cmd_cad_json}
+            "generar": cmd_generar, "huella": cmd_huella, "cad-json": cmd_cad_json,
+            "sync-web": cmd_sync_web}
 
 
 def main() -> None:

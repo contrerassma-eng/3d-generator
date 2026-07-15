@@ -53,6 +53,11 @@ def main():
             "fuente": {}, "solidos": [{"tipo": "esfera"}]}
     check("validar detecta categoria y tipo invalidos",
           len(C.validar_componente(malo)) >= 2)
+    web = REPO / "cad" / "componentes.json"
+    check("catalogo web (cad/componentes.json) sincronizado — si falla: "
+          "`python pipeline/componentes_cli.py sync-web`",
+          web.exists() and web.read_text(encoding="utf-8")
+          == C.CATALOGO.read_text(encoding="utf-8"))
 
     # --- malla 3D por componente ---------------------------------------
     for c in comps:
