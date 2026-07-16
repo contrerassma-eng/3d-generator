@@ -1,0 +1,456 @@
+{
+  "format": "foto3d-cad",
+  "version": 1,
+  "parts": [
+    {
+      "id": "p16kf0",
+      "name": "Canal",
+      "color": "#5b6472",
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "quat": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "fixed": true,
+      "visible": true,
+      "features": [
+        {
+          "id": "fcxbiy0",
+          "name": "Chapa 348.6×165.1×2.66",
+          "shape": "chapaBase",
+          "op": "union",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 348.6,
+            "d": 165.1,
+            "t": 2.66,
+            "material": "galvanizado",
+            "radio": 2.66,
+            "k": 0.44
+          }
+        },
+        {
+          "id": "f1jxoqv",
+          "name": "Pestaña 90° R2.66",
+          "shape": "pestana",
+          "op": "union",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "padre": "fcxbiy0",
+            "borde": 1,
+            "altura": 38.099999999999994,
+            "angulo": 90,
+            "radio": 2.66,
+            "dirBend": "arriba",
+            "e1": 0,
+            "e2": 0
+          }
+        },
+        {
+          "id": "fwqyvoc",
+          "name": "Pestaña 90° R2.66",
+          "shape": "pestana",
+          "op": "union",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "padre": "fcxbiy0",
+            "borde": 3,
+            "altura": 38.099999999999994,
+            "angulo": 90,
+            "radio": 2.66,
+            "dirBend": "arriba",
+            "e1": 0,
+            "e2": 0
+          }
+        },
+        {
+          "id": "f26kf3",
+          "name": "Corte de boceto",
+          "shape": "sketch",
+          "op": "cut",
+          "at": [
+            -76.19999999999999,
+            58.42,
+            -2
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "entities": [
+              {
+                "id": "e1kf3",
+                "type": "line",
+                "a": [
+                  3.888775875324659e-16,
+                  6.3508529610858835
+                ],
+                "b": [
+                  -5.499999999999999,
+                  3.175426480542944
+                ]
+              },
+              {
+                "id": "e2kf3",
+                "type": "line",
+                "a": [
+                  -5.499999999999999,
+                  3.175426480542944
+                ],
+                "b": [
+                  -5.500000000000001,
+                  -3.17542648054294
+                ]
+              },
+              {
+                "id": "e3kf3",
+                "type": "line",
+                "a": [
+                  -5.500000000000001,
+                  -3.17542648054294
+                ],
+                "b": [
+                  -1.1666327625973976e-15,
+                  -6.3508529610858835
+                ]
+              },
+              {
+                "id": "e4kf3",
+                "type": "line",
+                "a": [
+                  -1.1666327625973976e-15,
+                  -6.3508529610858835
+                ],
+                "b": [
+                  5.499999999999998,
+                  -3.1754264805429444
+                ]
+              },
+              {
+                "id": "e5kf3",
+                "type": "line",
+                "a": [
+                  5.499999999999998,
+                  -3.1754264805429444
+                ],
+                "b": [
+                  5.5,
+                  3.1754264805429417
+                ]
+              },
+              {
+                "id": "e6kf3",
+                "type": "line",
+                "a": [
+                  5.5,
+                  3.1754264805429417
+                ],
+                "b": [
+                  3.888775875324659e-16,
+                  6.3508529610858835
+                ]
+              }
+            ],
+            "dims": [],
+            "h": 6.66,
+            "u": [
+              1,
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "id": "f36kf3",
+          "name": "Patrón rectangular",
+          "shape": "pattern",
+          "op": "pattern",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "sourceId": "f26kf3",
+            "kind": "rect",
+            "nx": 3,
+            "ny": 1,
+            "dx": 76.19999999999999,
+            "dy": 0,
+            "u": [
+              1,
+              0,
+              0
+            ],
+            "v": [
+              0,
+              1,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "p46kgd",
+      "name": "Bracket costanera",
+      "color": "#3f6fb0",
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "quat": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "fixed": false,
+      "visible": true,
+      "features": [
+        {
+          "id": "f9o4k89",
+          "name": "Chapa 202.654×150×4",
+          "shape": "chapaBase",
+          "op": "union",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 202.654,
+            "d": 150,
+            "t": 4,
+            "material": "acero",
+            "radio": 4,
+            "k": 0.44
+          }
+        },
+        {
+          "id": "fsxsw34",
+          "name": "Pestaña 90° R4",
+          "shape": "pestana",
+          "op": "union",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "padre": "f9o4k89",
+            "borde": 0,
+            "altura": 40,
+            "angulo": 90,
+            "radio": 4,
+            "dirBend": "arriba",
+            "e1": 0,
+            "e2": 0
+          }
+        },
+        {
+          "id": "f3btqod",
+          "name": "Pestaña 90° R4",
+          "shape": "pestana",
+          "op": "union",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "padre": "f9o4k89",
+            "borde": 2,
+            "altura": 40,
+            "angulo": 90,
+            "radio": 4,
+            "dirBend": "arriba",
+            "e1": 0,
+            "e2": 0
+          }
+        },
+        {
+          "id": "f56kgd",
+          "name": "Corte cilindro",
+          "shape": "cylinder",
+          "op": "cut",
+          "at": [
+            -76.327,
+            -69.85,
+            -2
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "dia": 7.9375,
+            "h": 8
+          }
+        },
+        {
+          "id": "f66kgd",
+          "name": "Patrón rectangular",
+          "shape": "pattern",
+          "op": "pattern",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "sourceId": "f56kgd",
+            "kind": "rect",
+            "nx": 2,
+            "ny": 2,
+            "dx": 152.654,
+            "dy": 139.7,
+            "u": [
+              1,
+              0,
+              0
+            ],
+            "v": [
+              0,
+              1,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "p76kko",
+      "name": "Travesano angulo",
+      "color": "#6b7280",
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "quat": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "fixed": false,
+      "visible": true,
+      "features": [
+        {
+          "id": "fr1v7i7",
+          "name": "Chapa 500×40×4",
+          "shape": "chapaBase",
+          "op": "union",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "w": 500,
+            "d": 40,
+            "t": 4,
+            "material": "acero",
+            "radio": 4,
+            "k": 0.44
+          }
+        },
+        {
+          "id": "fc3xep8",
+          "name": "Pestaña 90° R4",
+          "shape": "pestana",
+          "op": "union",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "params": {
+            "padre": "fr1v7i7",
+            "borde": 3,
+            "altura": 40,
+            "angulo": 90,
+            "radio": 4,
+            "dirBend": "arriba",
+            "e1": 0,
+            "e2": 0
+          }
+        }
+      ]
+    }
+  ],
+  "constraints": []
+}
