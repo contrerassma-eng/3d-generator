@@ -21,3 +21,6 @@ componentes/out/
 __pycache__/
 *.pyc
 .venv/
+
+# STL teselados del STEP (derivados grandes, regenerables con tools/step_to_stl.py)
+cad/ensambles/*.stl
