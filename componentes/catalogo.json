@@ -358,6 +358,158 @@
       "notas": "Bore O20 H (inserto UC204). Atornillar M10 a paso 64. El eje O20 h6 gira en la unidad; el collar excentrico lo fija axialmente. Autoalineante: tolera desalineo entre placas."
     },
     {
+      "id": "perfil_pg40",
+      "nombre": "Perfil estructural PG40 (aluminio 40x40, ranura 8)",
+      "categoria": "mecanico",
+      "descripcion": "Perfil de aluminio extruido 40x40 con 4 ranuras en T (slot 8) y taladro central O6.8, para bastidor y rieles. Es el perfil del equipo base (productos 'TSLOT' y 'rail' del STEP sorter_CO). Se corta a medida. Modelado como cuerpo 40x40 (las ranuras en T se cotan en el plano).",
+      "fuente": {"tipo": "step", "detalle": "sorter_CO.stp: productos TSLOT / rail (perfil de bastidor)"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "caja", "nombre": "Perfil 40x40 x200 (cortar a medida)", "at": [0, 0, 0], "dim": [200, 40, 40], "color": "#b0bec5"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [
+        {"nombre": "acceso a ranuras en T (tuerca en T M6/M8)", "at": [0, 22, 20], "dim": [200, 6, 8]}
+      ],
+      "notas": "40x40, ranura 8, taladro central O6.8 M8 en extremos. Tuercas en T M6/M8 en las 4 ranuras. Peso ~1.6 kg/m. El modulo de transferencia se ancla a este perfil con tuercas en T (sin perforar el base)."
+    },
+    {
+      "id": "casquillo_bloqueo_lk30",
+      "nombre": "Casquillo de bloqueo LK30 O20 H7 / O30 (acople sin chaveta)",
+      "categoria": "mecanico",
+      "descripcion": "Elemento de bloqueo eje-cubo por friccion (keyless locking bush) tipo LK30-C65-20H7-D30 del equipo base: fija la polea/cubo al eje O20 H7 sin chaveta, por apriete radial de tornillos. Es el 'acople' que une la polea de transmision al eje. Eje de giro en Z.",
+      "fuente": {"tipo": "step", "detalle": "sorter_CO.stp: producto LK30-C65-20H7-D30-R (x3)"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Cuerpo O30", "at": [0, 0, 0], "eje": [0, 0, 1], "dia": 30, "alto": 26, "color": "#607d8b"},
+        {"tipo": "cilindro", "nombre": "Brida de apriete O45", "at": [0, 0, 20], "eje": [0, 0, 1], "dia": 45, "alto": 6, "color": "#546e7a"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [
+        {"nombre": "acceso a tornillos de apriete", "at": [0, 0, 26], "dim": [45, 45, 15]}
+      ],
+      "notas": "Bore O20 H7. Apretar los tornillos al par nominal en cruz; centra y fija la polea al eje sin chaveta. Desmontaje aflojando los tornillos (mantenimiento rapido)."
+    },
+    {
+      "id": "polea_at10_32t",
+      "nombre": "Polea sincronica AT10 32T con pestanas (bore O20)",
+      "categoria": "mecanico",
+      "descripcion": "Polea dentada AT10 de 32 dientes con pestanas (guia de correa), diametro primitivo 101.86, para correa AT10 ancho 25/32. Es la polea motriz del terminal de banda del base. Bore O20 (fija con casquillo LK30). Eje de giro en Z.",
+      "fuente": {"tipo": "step", "detalle": "sorter_CO.stp: producto Polea_AT10_32T_pestanas (drive kit w timing)"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Cuerpo dentado dp101.86", "at": [0, 0, 6], "eje": [0, 0, 1], "dia": 101, "alto": 28, "color": "#78909c"},
+        {"tipo": "cilindro", "nombre": "Pestana inferior O110", "at": [0, 0, 0], "eje": [0, 0, 1], "dia": 110, "alto": 6, "color": "#607d8b"},
+        {"tipo": "cilindro", "nombre": "Pestana superior O110", "at": [0, 0, 34], "eje": [0, 0, 1], "dia": 110, "alto": 6, "color": "#607d8b"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [],
+      "notas": "dp = 32*10/pi = 101.86 mm; paso AT10 = 10 mm. Bore O20 con casquillo de bloqueo LK30. Envoltura minima recomendada >= 6 dientes."
+    },
+    {
+      "id": "chumacera_ucfl205",
+      "nombre": "Chumacera de brida UCFL205 (bore O25, SKF)",
+      "categoria": "mecanico",
+      "descripcion": "Unidad de brida (2 agujeros) con inserto UC205 bore O25, autoalineante, con collar excentrico y grasera. Es la chumacera del terminal de banda del base (SKF UCFL 205). Alojamiento del rodamiento del eje motriz. Se atornilla a la placa; el eje O25 gira en la unidad.",
+      "fuente": {"tipo": "step", "detalle": "sorter_CO.stp: productos SKF_UCFL 205 / FL 205+ / UC 205"},
+      "confianza": "datasheet",
+      "solidos": [
+        {"tipo": "caja", "nombre": "Brida 95x38x14", "at": [0, 0, 0], "dim": [95, 38, 14], "color": "#78909c"},
+        {"tipo": "cilindro", "nombre": "Alojamiento O47", "at": [0, 0, 14], "eje": [0, 0, 1], "dia": 47, "alto": 34, "color": "#78909c"},
+        {"tipo": "cilindro", "nombre": "Collar excentrico O38", "at": [0, 0, 48], "eje": [0, 0, 1], "dia": 38, "alto": 14, "color": "#90a4ae"}
+      ],
+      "agujeros_montaje": [
+        {"pos": [35, 0], "dia": 13},
+        {"pos": [-35, 0], "dia": 13}
+      ],
+      "despejes": [
+        {"nombre": "acceso a grasera y prisionero", "at": [0, 22, 25], "dim": [22, 14, 22]}
+      ],
+      "notas": "Bore O25 (inserto UC205, OD esferico 52, ancho 34.1). Bulones M12 a paso 70. Autoalineante. Es el alojamiento/chumacera estandar del terminal del base."
+    },
+    {
+      "id": "rodamiento_skf1206_etn9",
+      "nombre": "Rodamiento SKF 1206 ETN9 (autoalineante, bore O30)",
+      "categoria": "mecanico",
+      "descripcion": "Rodamiento de bolas a rotula (autoalineante) doble hilera 1206 ETN9: bore O30, OD O62, ancho 16. Del terminal de banda del base. Eje de giro en Z.",
+      "fuente": {"tipo": "step", "detalle": "sorter_CO.stp: producto skf_bearing_1206_etn9"},
+      "confianza": "datasheet",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Anillo 30x62x16", "at": [0, 0, 0], "eje": [0, 0, 1], "dia": 62, "alto": 16, "color": "#9aa7b0"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [],
+      "notas": "Bore O30 j6 en eje, OD O62 H7 en alojamiento. Autoalineante: tolera desalineo angular. SKF 1206 ETN9."
+    },
+    {
+      "id": "rodamiento_6203_2rs",
+      "nombre": "Rodamiento 6203-2RS (sellado, bore O17)",
+      "categoria": "mecanico",
+      "descripcion": "Rodamiento rigido de bolas sellado 6203-2RS: bore O17, OD O40, ancho 12. Usado en la polea loca (idler) del terminal del base. Eje de giro en Z.",
+      "fuente": {"tipo": "step", "detalle": "sorter_CO.stp: producto Bearing 6203 2RS (IDLER PULLEY)"},
+      "confianza": "datasheet",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Anillo 17x40x12", "at": [0, 0, 0], "eje": [0, 0, 1], "dia": 40, "alto": 12, "color": "#9aa7b0"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [],
+      "notas": "Bore O17, OD O40, ancho 12. Sellado 2RS de por vida."
+    },
+    {
+      "id": "soporte_rodillo_terminal",
+      "nombre": "Soporte de rodillo / motriz del terminal (escuadra)",
+      "categoria": "mecanico",
+      "descripcion": "Escuadra que soporta el eje del rodillo/polea del terminal de banda contra el perfil PG40 (soporte tipo 'SOPORTE MOTRIZ' del base). Cara vertical atornillada al perfil + cara horizontal con alojamiento de chumacera. Modelo representativo; verificar contra la unidad real.",
+      "fuente": {"tipo": "step", "detalle": "sorter_CO.stp: productos SOPORTE MOTRIZ 2 T / SOPORTE MOTOR / UA-*"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "caja", "nombre": "Cara vertical 90x8x90 (al perfil)", "at": [0, -21, 0], "dim": [90, 8, 90], "color": "#546e7a"},
+        {"tipo": "caja", "nombre": "Cara horizontal 90x50x8 (chumacera)", "at": [0, 0, 82], "dim": [90, 50, 8], "color": "#546e7a"}
+      ],
+      "agujeros_montaje": [
+        {"pos": [-30, -21], "dia": 9},
+        {"pos": [30, -21], "dia": 9}
+      ],
+      "despejes": [],
+      "notas": "Atornilla la chumacera UCFL205 arriba (paso 70) y se fija al perfil PG40 con tuercas en T M8. Cotas nominales: ajustar al soporte real del base."
+    },
+    {
+      "id": "tensor_banda",
+      "nombre": "Mecanismo tensor de banda (carro + husillo)",
+      "categoria": "mecanico",
+      "descripcion": "Tensor del terminal de banda del base ('Tensor'): carro deslizante que porta la chumacera del rodillo tensor y se desplaza por un husillo/tornillo para tensar la banda. Modelo representativo. Eje de tensado en X.",
+      "fuente": {"tipo": "step", "detalle": "sorter_CO.stp: producto Tensor"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "caja", "nombre": "Carro deslizante 70x40x30", "at": [0, 0, 0], "dim": [70, 40, 30], "color": "#607d8b"},
+        {"tipo": "cilindro", "nombre": "Husillo de tensado M12", "at": [-35, 0, 15], "eje": [-1, 0, 0], "dia": 12, "alto": 60, "color": "#90a4ae"},
+        {"tipo": "cilindro", "nombre": "Tuerca de ajuste O24", "at": [-70, 0, 15], "eje": [1, 0, 0], "dia": 24, "alto": 12, "color": "#78909c"}
+      ],
+      "agujeros_montaje": [
+        {"pos": [0, 0], "dia": 25}
+      ],
+      "despejes": [
+        {"nombre": "carrera de tensado", "at": [40, 0, 15], "dim": [50, 40, 30]}
+      ],
+      "notas": "El carro aloja la chumacera del rodillo tensor; girando la tuerca sobre el husillo M12 se desplaza y tensa la banda. Rango de tensado segun carrera del carro (verificar contra el 'Tensor' del base)."
+    },
+    {
+      "id": "rodillo_terminal_40",
+      "nombre": "Rodillo/idler O40 del terminal (cal_4_f40)",
+      "categoria": "mecanico",
+      "descripcion": "Rodillo O40 del transportador base (producto 'cal_4_f40'): tubo O40 con eje/muniones, apoyado en chumaceras del terminal. Eje de giro en X; apoyado tangente sobre Z=0.",
+      "fuente": {"tipo": "step", "detalle": "sorter_CO.stp: producto cal_4_f40___65"},
+      "confianza": "verificar",
+      "solidos": [
+        {"tipo": "cilindro", "nombre": "Tubo O40", "at": [-150, 0, 20], "eje": [1, 0, 0], "dia": 40, "alto": 300, "color": "#455a64"},
+        {"tipo": "cilindro", "nombre": "Munion O17 (-X)", "at": [-170, 0, 20], "eje": [1, 0, 0], "dia": 17, "alto": 20, "color": "#90a4ae"},
+        {"tipo": "cilindro", "nombre": "Munion O17 (+X)", "at": [150, 0, 20], "eje": [1, 0, 0], "dia": 17, "alto": 20, "color": "#90a4ae"}
+      ],
+      "agujeros_montaje": [],
+      "despejes": [],
+      "notas": "Tubo O40, muniones O17 en rodamientos 6203. Largo de cara ajustable al ancho de banda del base (verificar 'cal_4_f40')."
+    },
+    {
       "id": "eje_rodillos_12x336",
       "nombre": "Eje calibrado O12 x 336 para rodillo completo (extremos roscados M10)",
       "categoria": "mecanico",
