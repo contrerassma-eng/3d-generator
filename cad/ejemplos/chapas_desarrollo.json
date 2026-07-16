@@ -3,7 +3,7 @@
   "version": 1,
   "parts": [
     {
-      "id": "p1lb45",
+      "id": "p16kf0",
       "name": "Canal",
       "color": "#5b6472",
       "pos": [
@@ -21,7 +21,7 @@
       "visible": true,
       "features": [
         {
-          "id": "f3ngr8s",
+          "id": "fcxbiy0",
           "name": "Chapa 348.6×165.1×2.66",
           "shape": "chapaBase",
           "op": "union",
@@ -45,7 +45,7 @@
           }
         },
         {
-          "id": "flhmsah",
+          "id": "f1jxoqv",
           "name": "Pestaña 90° R2.66",
           "shape": "pestana",
           "op": "union",
@@ -60,7 +60,7 @@
             1
           ],
           "params": {
-            "padre": "f3ngr8s",
+            "padre": "fcxbiy0",
             "borde": 1,
             "altura": 38.099999999999994,
             "angulo": 90,
@@ -71,7 +71,7 @@
           }
         },
         {
-          "id": "f4cbumv",
+          "id": "fwqyvoc",
           "name": "Pestaña 90° R2.66",
           "shape": "pestana",
           "op": "union",
@@ -86,7 +86,7 @@
             1
           ],
           "params": {
-            "padre": "f3ngr8s",
+            "padre": "fcxbiy0",
             "borde": 3,
             "altura": 38.099999999999994,
             "angulo": 90,
@@ -97,7 +97,7 @@
           }
         },
         {
-          "id": "f2lb47",
+          "id": "f26kf3",
           "name": "Corte de boceto",
           "shape": "sketch",
           "op": "cut",
@@ -114,7 +114,7 @@
           "params": {
             "entities": [
               {
-                "id": "e1b47",
+                "id": "e1kf3",
                 "type": "line",
                 "a": [
                   3.888775875324659e-16,
@@ -126,7 +126,7 @@
                 ]
               },
               {
-                "id": "e2b47",
+                "id": "e2kf3",
                 "type": "line",
                 "a": [
                   -5.499999999999999,
@@ -138,7 +138,7 @@
                 ]
               },
               {
-                "id": "e3b47",
+                "id": "e3kf3",
                 "type": "line",
                 "a": [
                   -5.500000000000001,
@@ -150,7 +150,7 @@
                 ]
               },
               {
-                "id": "e4b47",
+                "id": "e4kf3",
                 "type": "line",
                 "a": [
                   -1.1666327625973976e-15,
@@ -162,7 +162,7 @@
                 ]
               },
               {
-                "id": "e5b47",
+                "id": "e5kf3",
                 "type": "line",
                 "a": [
                   5.499999999999998,
@@ -174,7 +174,7 @@
                 ]
               },
               {
-                "id": "e6b47",
+                "id": "e6kf3",
                 "type": "line",
                 "a": [
                   5.5,
@@ -196,7 +196,7 @@
           }
         },
         {
-          "id": "f3lb47",
+          "id": "f36kf3",
           "name": "Patrón rectangular",
           "shape": "pattern",
           "op": "pattern",
@@ -211,7 +211,7 @@
             1
           ],
           "params": {
-            "sourceId": "f2lb47",
+            "sourceId": "f26kf3",
             "kind": "rect",
             "nx": 3,
             "ny": 1,
@@ -232,7 +232,7 @@
       ]
     },
     {
-      "id": "p4lb5e",
+      "id": "p46kgd",
       "name": "Bracket costanera",
       "color": "#3f6fb0",
       "pos": [
@@ -250,7 +250,7 @@
       "visible": true,
       "features": [
         {
-          "id": "fwl5rcy",
+          "id": "f9o4k89",
           "name": "Chapa 202.654×150×4",
           "shape": "chapaBase",
           "op": "union",
@@ -274,7 +274,7 @@
           }
         },
         {
-          "id": "f4p2xgj",
+          "id": "fsxsw34",
           "name": "Pestaña 90° R4",
           "shape": "pestana",
           "op": "union",
@@ -289,7 +289,7 @@
             1
           ],
           "params": {
-            "padre": "fwl5rcy",
+            "padre": "f9o4k89",
             "borde": 0,
             "altura": 40,
             "angulo": 90,
@@ -300,7 +300,7 @@
           }
         },
         {
-          "id": "fliu7h9",
+          "id": "f3btqod",
           "name": "Pestaña 90° R4",
           "shape": "pestana",
           "op": "union",
@@ -315,7 +315,7 @@
             1
           ],
           "params": {
-            "padre": "fwl5rcy",
+            "padre": "f9o4k89",
             "borde": 2,
             "altura": 40,
             "angulo": 90,
@@ -326,7 +326,7 @@
           }
         },
         {
-          "id": "f5lb5f",
+          "id": "f56kgd",
           "name": "Corte cilindro",
           "shape": "cylinder",
           "op": "cut",
@@ -346,7 +346,7 @@
           }
         },
         {
-          "id": "f6lb5f",
+          "id": "f66kgd",
           "name": "Patrón rectangular",
           "shape": "pattern",
           "op": "pattern",
@@ -361,7 +361,7 @@
             1
           ],
           "params": {
-            "sourceId": "f5lb5f",
+            "sourceId": "f56kgd",
             "kind": "rect",
             "nx": 2,
             "ny": 2,
@@ -382,7 +382,7 @@
       ]
     },
     {
-      "id": "p7lb9h",
+      "id": "p76kko",
       "name": "Travesano angulo",
       "color": "#6b7280",
       "pos": [
@@ -400,7 +400,7 @@
       "visible": true,
       "features": [
         {
-          "id": "fled9yn",
+          "id": "fr1v7i7",
           "name": "Chapa 500×40×4",
           "shape": "chapaBase",
           "op": "union",
@@ -424,7 +424,7 @@
           }
         },
         {
-          "id": "f4t6ma6",
+          "id": "fc3xep8",
           "name": "Pestaña 90° R4",
           "shape": "pestana",
           "op": "union",
@@ -439,7 +439,7 @@
             1
           ],
           "params": {
-            "padre": "fled9yn",
+            "padre": "fr1v7i7",
             "borde": 3,
             "altura": 40,
             "angulo": 90,

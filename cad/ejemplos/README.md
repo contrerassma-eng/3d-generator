@@ -126,10 +126,11 @@ propiedades de cualquier pieza de chapa).
 Los PDF/DXF de desarrollo ya generados: `desarrollo_canal.*`,
 `desarrollo_bracket_costanera.*`, `desarrollo_travesano_angulo.*`.
 
-**Aviso (honesto):** el desarrollo despliega la chapa y sus pliegues con cotas
-envolventes, pero **los barrenos (hex, patrón de 6″, pernos del motor) NO se
-reflejan** en el plano de desarrollo (lo indica la nota del cajetín). Desplegar
-también los cortes es una mejora pendiente del motor de chapa.
+El desarrollo es el **perfil de corte láser**: contorno + **barrenos** (hex,
+patrón de 6″, pernos del motor) proyectados al plano de la chapa + líneas de
+plegado (referencia, no se cortan) + cotas envolventes + nota con Ø de barrenos.
+Los cortes sobre pliegues/alas (no perpendiculares a la base) aún no se
+despliegan (lo indica la nota del cajetín).
 
 ## Regenerar
 ```bash
