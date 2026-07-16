@@ -220,6 +220,63 @@ const pestanaEn = (part, fid, borde) => part.features.find(
  *            etiquetas: [{s,x,y}], pliegueInfo: [...], avisos: [...] }.
  * Coordenadas locales = vista superior de la base sin plegar (mm reales).
  */
+// Cortes (barrenos) que caen en el PLANO de la base y se despliegan tal cual
+// (lo que corta el láser). Devuelve {circles:[{c,r}], polys:[[[x,y]...]]}.
+// Los cortes sobre pliegues/alas o no perpendiculares a la base NO se incluyen.
+function patternOffsetsXY(p) { // offsets rectangulares EXCLUYENDO el origen (0,0)
+  if (p.kind !== 'rect') return [];
+  const u = p.u || [1, 0, 0], v = p.v || [0, 1, 0], out = [];
+  for (let i = 0; i < Math.max(1, Math.round(p.nx)); i++)
+    for (let j = 0; j < Math.max(1, Math.round(p.ny)); j++) {
+      if (i === 0 && j === 0) continue;
+      out.push([i * p.dx * u[0] + j * p.dy * v[0], i * p.dx * u[1] + j * p.dy * v[1]]);
+    }
+  return out;
+}
+function cutToBase(f) { // proyecta un corte al plano de la base (z⟂), coords 2D
+  const n = new THREE.Vector3(...f.dir).normalize();
+  if (Math.abs(n.z) < 0.99) return null; // no perpendicular a la base
+  if (f.shape === 'hole' || f.shape === 'cylinder') {
+    return { circles: [{ c: [f.at[0], f.at[1]], r: f.params.dia / 2 }], polys: [] };
+  }
+  if (f.shape === 'sketch' && f.params.entities) {
+    const U = new THREE.Vector3(...(f.params.u || [1, 0, 0])); U.z = 0; U.normalize();
+    const V = new THREE.Vector3().crossVectors(n, U);
+    const map = (e) => [f.at[0] + U.x * e[0] + V.x * e[1], f.at[1] + U.y * e[0] + V.y * e[1]];
+    const circles = [], polys = [];
+    for (const e of f.params.entities) {
+      if (e.type === 'line') polys.push([map(e.a), map(e.b)]);
+      else if (e.type === 'circle') circles.push({ c: map(e.c), r: e.r });
+      else if (e.type === 'arc') {
+        const pts = []; const a0 = e.a0, a1 = e.a1 > e.a0 ? e.a1 : e.a1 + 2 * Math.PI;
+        for (let k = 0; k <= 24; k++) { const a = a0 + (a1 - a0) * k / 24; pts.push(map([e.c[0] + e.r * Math.cos(a), e.c[1] + e.r * Math.sin(a)])); }
+        polys.push(pts);
+      }
+    }
+    return { circles, polys };
+  }
+  return null;
+}
+export function flatCuts(part) {
+  const circles = [], polys = [];
+  const add = (r) => { if (r) { circles.push(...r.circles); polys.push(...r.polys); } };
+  for (const f of part.features) {
+    if (f.suppressed) continue;
+    if (f.op === 'cut') add(cutToBase(f));
+    else if (f.shape === 'pattern') {
+      const src = part.features.find(x => x.id === f.params.sourceId && !x.suppressed);
+      if (!src || src.op !== 'cut') continue;
+      const base = cutToBase(src);
+      if (!base) continue;
+      for (const [ox, oy] of patternOffsetsXY(f.params)) {
+        for (const c of base.circles) circles.push({ c: [c.c[0] + ox, c.c[1] + oy], r: c.r });
+        for (const p of base.polys) polys.push(p.map(q => [q[0] + ox, q[1] + oy]));
+      }
+    }
+  }
+  return { circles, polys };
+}
+
 export function flatPattern(part) {
   const base = chapaOf(part);
   if (!base) return null;
@@ -270,10 +327,13 @@ export function flatPattern(part) {
   walk(base.id, 2, [x0, y1], [0, -1], [-1, 0], d);   // W
   contorno.pop(); // el último punto repite el inicial
 
-  if (part.features.some(f => !f.suppressed &&
-      !['chapaBase', 'pestana'].includes(f.shape))) {
-    avisos.push('La pieza tiene cortes/funciones ajenos a la chapa: NO se reflejan en el desarrollo.');
+  const cortes = flatCuts(part);
+  // avisar solo si hay cortes que NO se pudieron desplegar (sobre alas o inclinados)
+  const nCut = part.features.filter(f => !f.suppressed && (f.op === 'cut' || f.shape === 'pattern')).length;
+  const nPlano = cortes.circles.length + cortes.polys.length;
+  if (nCut > 0 && nPlano === 0) {
+    avisos.push('Hay cortes sobre pliegues/alas: NO se reflejan en el desarrollo (solo los del plano de la base).');
   }
-  return { contorno, pliegues, etiquetas, pliegueInfo, avisos,
+  return { contorno, pliegues, etiquetas, pliegueInfo, avisos, cortes,
            material: base.params.material, t, k, radio: base.params.radio };
 }

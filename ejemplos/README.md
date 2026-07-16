@@ -109,6 +109,29 @@ Resorte a comprar (muelle de compresión): **Ø ext ≈ 20.4, Ø int ≈ 15.6, a
 ≈ 2.4 mm, ~6 espiras, carrera ~8 mm** (el Ø interior libra el hex de Ø12.7 y el
 exterior entra al bore Ø24).
 
+## `chapas_desarrollo.json` — chapas plegadas con su DESARROLLO (cotas generales)
+
+Las tres chapas del transportador modeladas como **chapa plegada real** (alma +
+pliegues), para que cada una genere su **desarrollo plano con cotas generales**
+(largo × ancho del despliegue, líneas de plegado y BA = θ·(R + K·t)). En la app,
+selecciona la pieza y usa **⭳ Desarrollo DXF / ⭳ Desarrollo PDF** (aparecen en
+propiedades de cualquier pieza de chapa).
+
+| Chapa | Sólido | Desarrollo (largo × ancho) | Pliegues |
+|---|---|---|---|
+| **Canal** (alma 6-1/2″ + 2 alas 1-1/2″, 12 ga) | 235 cm³ | **348.6 × 253.3 mm** | 2 (90° R2.66) |
+| **Bracket costanera** (alma + 2 alas, e4) | 180 cm³ | **300.7 × 150.0 mm** | 2 |
+| **Travesaño ángulo** 40×40 (e4) | 179 cm³ | **500.0 × 89.0 mm** | 1 |
+
+Los PDF/DXF de desarrollo ya generados: `desarrollo_canal.*`,
+`desarrollo_bracket_costanera.*`, `desarrollo_travesano_angulo.*`.
+
+El desarrollo es el **perfil de corte láser**: contorno + **barrenos** (hex,
+patrón de 6″, pernos del motor) proyectados al plano de la chapa + líneas de
+plegado (referencia, no se cortan) + cotas envolventes + nota con Ø de barrenos.
+Los cortes sobre pliegues/alas (no perpendiculares a la base) aún no se
+despliegan (lo indica la nota del cajetín).
+
 ## Regenerar
 ```bash
 cd cad
