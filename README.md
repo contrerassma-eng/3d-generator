@@ -223,6 +223,13 @@ cinta de Inventor: en entorno *Pieza* → **Crear · Modificar · Patrón**; en
   ángulo), distancia radial punto/centro→eje, punto→cara perpendicular y
   distancia entre centros con ΔX/ΔY/ΔZ.
 - **⭳ STL**: exporta el ensamble completo a STL binario (imprimible/importable).
+- **🧾 BOM (lista de materiales)**: enumera y **agrupa las piezas** del ensamble
+  (item, cantidad, material, volumen c/u) y exporta **CSV**.
+- **Exportar SOLO una pieza** (en sus propiedades): **⭳ STL pieza** (la pieza
+  sola en su origen, para imprimir/fabricar) y **💾 Guardar pieza** (JSON de
+  una pieza, con los parámetros fx).
+- **📂 Abrir con opción de AGREGAR**: con un proyecto abierto, Abrir pregunta si
+  agregar las piezas del archivo (abrir piezas sueltas) o reemplazar todo.
 - **⭳ DXF / ⭳ PDF**: plano técnico normalizado del ensamble, con el mismo
   estilo que S6 — marco ISO 5457 (marcas de centrado y retícula de
   referencia), cajetín ISO 7200 con el símbolo del primer diedro, vistas

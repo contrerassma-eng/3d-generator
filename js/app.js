@@ -451,10 +451,16 @@ function refreshProps() {
         <button id="pp_iso" title="Mostrar solo esta pieza (toca de nuevo para restaurar)">⛶ Aislar</button>
         <button id="pp_del" class="danger">Eliminar pieza</button>
       </div>
+      <div class="btnrow">
+        <button id="pp_stl" title="Exportar SOLO esta pieza a STL (en su propio origen, para imprimir/fabricar)">⭳ STL pieza</button>
+        <button id="pp_save" title="Guardar SOLO esta pieza como JSON (ábrela en otro proyecto con 📂 Abrir → Agregar)">💾 Guardar pieza</button>
+      </div>
       ${esChapa(p) ? `<div class="btnrow">
         <button id="pp_flatdxf" title="Desarrollo real (BA con factor K) con líneas de plegado y desahogos">⭳ Desarrollo DXF</button>
         <button id="pp_flatpdf" title="Lámina del desarrollo lista para imprimir">⭳ Desarrollo PDF</button>
       </div>` : ''}`;
+    $('pp_stl').onclick = () => exportSTL([p], `${p.name.replace(/[^\w.-]+/g, '_')}.stl`, false);
+    $('pp_save').onclick = () => savePartJSON(p);
     if (esChapa(p)) {
       $('pp_flatdxf').onclick = () => exportDesarrollo(p, exportFlatDXF, 'DXF');
       $('pp_flatpdf').onclick = () => exportDesarrollo(p, exportFlatPDF, 'PDF');
@@ -2890,18 +2896,20 @@ $('btnPatCirc').onclick = patternCirc;
 
 // ---------- Exportar STL ----------
 
-$('btnSTL').onclick = () => {
+// STL binario de una lista de piezas (world = false → pieza sola en su origen)
+function exportSTL(parts, filename, world = true) {
   const geoms = [];
-  for (const part of doc.parts) {
+  for (const part of parts) {
     const rec = meshes.get(part.id);
-    if (!rec || !part.visible) continue;
-    const g = rec.mesh.geometry.clone().applyMatrix4(rec.mesh.matrixWorld);
+    if (!rec) continue;
+    rec.mesh.updateWorldMatrix(true, false);
+    const g = rec.mesh.geometry.clone();
+    if (world) g.applyMatrix4(rec.mesh.matrixWorld);
     geoms.push(g);
   }
   let triCount = 0;
   for (const g of geoms) triCount += g.attributes.position.count / 3;
   if (!triCount) { setStatus('No hay geometría para exportar.'); return; }
-
   const buffer = new ArrayBuffer(84 + triCount * 50);
   const dv = new DataView(buffer);
   dv.setUint32(80, triCount, true);
@@ -2910,20 +2918,77 @@ $('btnSTL').onclick = () => {
   for (const g of geoms) {
     const pos = g.attributes.position;
     for (let t = 0; t < pos.count; t += 3) {
-      a.fromBufferAttribute(pos, t);
-      b.fromBufferAttribute(pos, t + 1);
-      c.fromBufferAttribute(pos, t + 2);
+      a.fromBufferAttribute(pos, t); b.fromBufferAttribute(pos, t + 1); c.fromBufferAttribute(pos, t + 2);
       n.subVectors(b, a).cross(new THREE.Vector3().subVectors(c, a)).normalize();
       for (const v of [n, a, b, c]) {
         dv.setFloat32(off, v.x, true); dv.setFloat32(off + 4, v.y, true); dv.setFloat32(off + 8, v.z, true);
         off += 12;
       }
-      off += 2; // attribute byte count
+      off += 2;
     }
     g.dispose();
   }
-  download(new Blob([buffer], { type: 'model/stl' }), 'ensamble.stl');
-  setStatus(`STL exportado (${triCount} triángulos).`);
+  download(new Blob([buffer], { type: 'model/stl' }), filename);
+  setStatus(`STL exportado: ${filename} (${triCount} triángulos).`);
+}
+$('btnSTL').onclick = () => exportSTL(doc.parts.filter(p => p.visible), 'ensamble.stl');
+
+// guardar UNA pieza como proyecto JSON de 1 pieza (mantiene los parámetros fx)
+function savePartJSON(part) {
+  const one = { format: 'foto3d-cad', version: 1, params: doc.params || [],
+    parts: [JSON.parse(JSON.stringify(part))], constraints: [] };
+  one.parts[0].pos = [0, 0, 0]; one.parts[0].fixed = true;
+  download(new Blob([JSON.stringify(one, null, 2)], { type: 'application/json' }),
+    `${part.name.replace(/[^\w.-]+/g, '_')}.json`);
+  setStatus(`Pieza "${part.name}" guardada como JSON (ábrela con 📂 Abrir → Agregar).`);
+}
+
+// ---------- Lista de materiales (BOM) ----------
+
+function partVolumeCm3(part) {
+  const rec = meshes.get(part.id);
+  const pos = rec?.mesh.geometry.attributes.position;
+  if (!pos) return 0;
+  let v = 0; const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
+  for (let i = 0; i < pos.count; i += 3) {
+    a.fromBufferAttribute(pos, i); b.fromBufferAttribute(pos, i + 1); c.fromBufferAttribute(pos, i + 2);
+    v += a.dot(new THREE.Vector3().crossVectors(b, c)) / 6;
+  }
+  return Math.abs(v) / 1000;
+}
+// enumera y agrupa piezas idénticas (por nombre) → filas del BOM
+function buildBOM() {
+  const groups = new Map();
+  for (const p of doc.parts) {
+    const g = groups.get(p.name) || { name: p.name, qty: 0,
+      material: esChapa(p) ? materialPorId(chapaOf(p).params.material).nombre : '—',
+      vol: partVolumeCm3(p) };
+    g.qty++; groups.set(p.name, g);
+  }
+  return [...groups.values()].map((g, i) => ({ item: i + 1, ...g }));
+}
+function bomCSV(rows) {
+  const head = 'ITEM,CANT,PIEZA,MATERIAL,VOL_C/U_CM3,VOL_TOTAL_CM3';
+  const body = rows.map(r => `${r.item},${r.qty},"${r.name}",${r.material},${r.vol.toFixed(1)},${(r.vol * r.qty).toFixed(1)}`);
+  return [head, ...body].join('\r\n') + '\r\n';
+}
+$('btnBom').onclick = () => {
+  const rows = buildBOM();
+  if (!rows.length) { setStatus('No hay piezas para el BOM.'); return; }
+  const totPz = rows.reduce((s, r) => s + r.qty, 0), totVol = rows.reduce((s, r) => s + r.vol * r.qty, 0);
+  dialog.innerHTML = `<h3>🧾 Lista de materiales (BOM)</h3>
+    <div style="max-height:210px;overflow:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tr style="color:var(--dim);text-align:left"><th>#</th><th>Cant</th><th>Pieza</th><th>Material</th><th style="text-align:right">cm³ c/u</th></tr>
+      ${rows.map(r => `<tr style="border-top:1px solid var(--border)"><td>${r.item}</td><td>${r.qty}</td><td>${esc(r.name)}</td><td>${esc(r.material)}</td><td style="text-align:right">${r.vol.toFixed(1)}</td></tr>`).join('')}
+    </table></div>
+    <p style="font-size:12px;color:var(--dim);margin-top:6px">${rows.length} referencia(s) · ${totPz} pieza(s) · volumen total ${totVol.toFixed(1)} cm³</p>
+    <div class="btnrow"><button id="bomCsv" class="on">⭳ CSV</button><button id="bomClose">Cerrar</button></div>`;
+  dialog.style.display = 'block';
+  $('bomClose').onclick = hideDialog;
+  $('bomCsv').onclick = () => {
+    download(new Blob([bomCSV(rows)], { type: 'text/csv' }), 'lista_materiales_BOM.csv');
+    setStatus(`BOM exportado: ${rows.length} referencia(s), ${totPz} pieza(s).`);
+  };
 };
 
 // ---------- Exportar plano técnico (DXF / PDF con marco y cajetín ISO) ----------
@@ -2983,7 +3048,12 @@ $('fileInput').addEventListener('change', async (e) => {
   e.target.value = '';
   if (!file) return;
   try {
-    importData(JSON.parse(await file.text()), 'replace');
+    const data = JSON.parse(await file.text());
+    // con proyecto abierto, permite AGREGAR las piezas (abrir piezas sueltas)
+    const mode = doc.parts.length
+      ? (confirm(`Abrir "${file.name}":\nAceptar = AGREGAR sus piezas al proyecto\nCancelar = REEMPLAZAR todo`) ? 'merge' : 'replace')
+      : 'replace';
+    importData(data, mode);
   } catch (err) {
     setStatus(`No se pudo abrir: ${err.message}`);
   }
