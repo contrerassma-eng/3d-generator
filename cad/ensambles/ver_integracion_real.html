@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>foto3d — módulo integrado en el base real</title>
+<style>html,body{margin:0;height:100%;background:#12151b;overflow:hidden}#i{position:fixed;top:8px;left:10px;color:#cfd6e4;font:12px system-ui;z-index:2}canvas{display:block}</style>
+<script type="importmap">{ "imports": { "three": "../vendor/three.module.min.js" } }</script>
+</head><body><div id="i">cargando…</div>
+<script type="module">
+// Módulo de transferencia (foto3d-cad, a color) integrado dentro del equipo
+// base REAL teselado del STEP (base.stl + base_colors.bin). El módulo se rota
+// para alinear el eje de rodillos con el flujo del base (Y) y se baja para que
+// los rodillos emerjan sobre el plano de banda del base.
+import * as THREE from 'three';
+import { OrbitControls } from '../vendor/OrbitControls.js';
+import { buildPartGeometry, partMatrix } from '../js/model.js';
+
+const q = new URLSearchParams(location.search);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x12151b);
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(innerWidth, innerHeight); renderer.setPixelRatio(devicePixelRatio);
+document.body.appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xdfe8f5, 0x2a2f37, 1.05));
+const s1 = new THREE.DirectionalLight(0xffffff, 1.7); s1.position.set(600, -800, 1000); scene.add(s1);
+const s2 = new THREE.DirectionalLight(0x93a6c8, 0.5); s2.position.set(-700, 600, 400); scene.add(s2);
+
+// --- base real (STL binario + colores por triángulo) ---
+const buf = await (await fetch('base.stl')).arrayBuffer();
+const dv = new DataView(buf); const nTri = dv.getUint32(80, true);
+const pos = new Float32Array(nTri * 9), nor = new Float32Array(nTri * 9);
+let o = 84;
+for (let t = 0; t < nTri; t++) {
+  const nx = dv.getFloat32(o, true), ny = dv.getFloat32(o + 4, true), nz = dv.getFloat32(o + 8, true); o += 12;
+  for (let v = 0; v < 3; v++) { const b = t * 9 + v * 3; pos[b] = dv.getFloat32(o, true); pos[b + 1] = dv.getFloat32(o + 4, true); pos[b + 2] = dv.getFloat32(o + 8, true); nor[b] = nx; nor[b + 1] = ny; nor[b + 2] = nz; o += 12; } o += 2;
+}
+const bg = new THREE.BufferGeometry();
+bg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+bg.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
+const cb = new Uint8Array(await (await fetch('base_colors.bin')).arrayBuffer());
+const col = new Float32Array(nTri * 9);
+for (let t = 0; t < nTri; t++) { const r = cb[t*3]/255, g2 = cb[t*3+1]/255, b2 = cb[t*3+2]/255; for (let v = 0; v < 3; v++){ const b = t*9+v*3; col[b]=r; col[b+1]=g2; col[b+2]=b2; } }
+bg.setAttribute('color', new THREE.BufferAttribute(col, 3));
+scene.add(new THREE.Mesh(bg, new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0.35, roughness: 0.6, side: THREE.DoubleSide })));
+
+// --- módulo de transferencia (a color), transformado al frame del base ---
+const doc = await (await fetch('transfer_rodillos_90.json')).json();
+const grp = new THREE.Group();
+for (const part of doc.parts) {
+  if (part.visible === false) continue;
+  const g = buildPartGeometry(part);
+  const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: part.color || '#8899aa', metalness: 0.2, roughness: 0.65 }));
+  mesh.applyMatrix4(partMatrix(part)); grp.add(mesh);
+}
+// orientar: eje de rodillos (X del módulo) → flujo del base (Y); bajar el
+// plano de banda del módulo (170) al plano del base (~86); centrar
+const beltBase = 86, beltMod = 170;
+grp.rotation.z = Math.PI / 2;
+grp.position.set(Number(q.get('px') ?? 30), Number(q.get('py') ?? -650), beltBase - beltMod);
+scene.add(grp);
+
+// --- cámara enfocada al módulo ---
+const c = new THREE.Vector3(Number(q.get('px') ?? 30), Number(q.get('py') ?? -650), 40);
+const R = Number(q.get('r') ?? 900);
+const cam = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 2, 30000); cam.up.set(0, 0, 1);
+const V = { iso: [c.x + R*0.6, c.y - R*0.7, c.z + R*0.55], lado: [c.x + R, c.y, c.z + R*0.1], frente: [c.x, c.y - R, c.z + R*0.1], planta: [c.x, c.y - 1, c.z + R] };
+cam.position.set(...(V[q.get('view')] || V.iso)); cam.lookAt(c);
+const ctr = new OrbitControls(cam, renderer.domElement); ctr.target.copy(c); ctr.update();
+document.getElementById('i').textContent = `Módulo de transferencia integrado en el sorter_CO real — ${doc.parts.length} piezas del módulo + base teselado`;
+renderer.setAnimationLoop(() => renderer.render(scene, cam));
+window.__listo = true;
+</script></body></html>

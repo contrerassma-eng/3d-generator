@@ -108,6 +108,35 @@ plano de banda, entre las bandas) y **montaje** (pies a los rieles T-slot). El
 equipo base real es el STEP `sorter_CO`; esta es una referencia para verificar
 el calce (ver `INTEGRACION_BASE.md`).
 
+## `ver_integracion_real.html` — módulo integrado en el STEP base real (a color)
+
+Visor combinado: carga la **teselación del STEP real** (`sorter_CO`, el equipo
+base que subió el usuario) **pintada con colores realistas** y le superpone el
+**módulo de transferencia** (`transfer_rodillos_90.json`) en su posición, para
+ver el módulo integrado en la máquina real —no en una referencia simplificada.
+
+El base se tesela y se colorea aparte (son derivados grandes y regenerables del
+STEP, **no versionados** — ver `.gitignore`). Regenerar y servir:
+
+```bash
+# 1) teselar el STEP a STL binario (gmsh/OpenCASCADE)
+python tools/step_to_stl.py sorter_CO.stp cad/ensambles/base.stl 250
+# 2) colorear por piezas (paleta industrial: azul bastidor, negro bandas, acero
+#    rodamientos/poleas, aluminio perfiles)
+python tools/color_step_mesh.py cad/ensambles/base.stl cad/ensambles/base_colors.bin
+# 3) servir cad/ y abrir el visor combinado
+#    (params: px, py = posición del módulo en el frame del base; r = alcance de cámara)
+#    ver_integracion_real.html?view=iso&px=30&py=-650&r=900
+```
+
+El módulo se **rota 90°** para alinear el eje de los rodillos con el flujo del
+base (Y) y se **baja** para que los rodillos emerjan sobre el plano de banda del
+base (Z≈86). La geometría del STEP **no se modifica**: solo se visualiza a
+color y se le acerca el módulo para verificar el calce (la posición exacta del
+recorte de transferencia y de las bandas se ajusta con `px`/`py`). Coloreado por
+`tools/color_step_mesh.py`: separa la malla en piezas conexas y asigna color por
+tamaño/forma; **no inventa geometría**, solo pinta piezas ya presentes en el STEP.
+
 ## Planos de fabricación (PDF)
 
 `planos_transfer90/planos_fabricacion_transfer90.pdf` — juego de taller

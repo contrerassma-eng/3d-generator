@@ -30,6 +30,19 @@ for (let t = 0; t < nTri; t++) {
 const g = new THREE.BufferGeometry();
 g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
 g.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
+// colores por triángulo (opcional): archivo de N*3 bytes RGB → color por vértice
+let vcolors = false;
+const colUrl = q.get('colors');
+if (colUrl) {
+  const cb = new Uint8Array(await (await fetch(colUrl)).arrayBuffer());
+  const col = new Float32Array(nTri * 9);
+  for (let t = 0; t < nTri; t++) {
+    const r = cb[t * 3] / 255, gg = cb[t * 3 + 1] / 255, bb = cb[t * 3 + 2] / 255;
+    for (let v = 0; v < 3; v++) { const b = t * 9 + v * 3; col[b] = r; col[b + 1] = gg; col[b + 2] = bb; }
+  }
+  g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  vcolors = true;
+}
 g.computeBoundingBox();
 
 const scene = new THREE.Scene();
@@ -41,7 +54,7 @@ scene.add(new THREE.HemisphereLight(0xdfe8f5, 0x2a2f37, 1.05));
 const s1 = new THREE.DirectionalLight(0xffffff, 1.7); s1.position.set(500, -700, 900); scene.add(s1);
 const s2 = new THREE.DirectionalLight(0x93a6c8, 0.55); s2.position.set(-600, 500, 300); scene.add(s2);
 
-const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: 0x9fb0c4, metalness: 0.25, roughness: 0.72, side: THREE.DoubleSide }));
+const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: vcolors ? 0xffffff : 0x9fb0c4, vertexColors: vcolors, metalness: 0.35, roughness: 0.6, side: THREE.DoubleSide }));
 scene.add(mesh);
 const bb = g.boundingBox, c = bb.getCenter(new THREE.Vector3()), size = bb.getSize(new THREE.Vector3()).length();
 const up = q.get('up') || 'z';
