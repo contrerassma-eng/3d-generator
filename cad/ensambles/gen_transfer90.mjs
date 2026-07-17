@@ -42,41 +42,50 @@ export const D = {
   hostPlane: 170,                // plano de transporte del anfitrión (bandas de 40)
   stroke: 6,                     // carrera vertical (espec. usuario)
 
-  // Rodillos de desvío (6, completos — como la foto de 90°)
-  rollerLines: [-250, -150, -50, 50, 150, 250], // paso 100 → gap tangente 60
-  rollerDia: 40,                 // Ø vulcanizado (espec. usuario)
-  coreDia: 30,                   // corazón de tubo de hierro (espec. usuario)
-  rollerZ: 154,                  // eje elevado: tangente 174 = anfitrión + 4
-  coreHalf: 145,                 // núcleo x = -145..145
-  bareFrom: 93,                  // vulcanizado x = -145..93; desnudo 93..145
-  axleDia: 20, axleHalf: 205,    // ejes Ø20 h6 (como el base): giran en chumaceras UCFL204
+  // Rodillos de desvío — AJUSTADOS AL ESPACIO DEL EQUIPO BASE (STEP sorter_CO):
+  // 4 bandas pasantes a X=0/139/277/416 (paso 139, hueco libre ~99). Se pone
+  // UN rodillo centrado en cada hueco + los 2 bordes → 5 rodillos a paso 139,
+  // que emergen limpios ENTRE las bandas reales (líneas en el frame del módulo,
+  // centradas en 0; al integrar se colocan en X base = 208 − línea).
+  rollerLines: [-278, -139, 0, 139, 278], // paso 139 (= paso de banda del base)
+  rollerDia: 63,                 // Ø vulcanizado (llena el hueco de ~99 con holgura)
+  tubeDia: 51,                   // tubo de acero (corazón); superficie desnuda de arrastre
+  rollerZ: 142.5,                // eje: tangente 174 = anfitrión + 4 (con Ø63)
+  coreHalf: 138,                 // tubo x = -138..138 (entre placas, 276 largo)
+  bareFrom: 95,                  // vulcanizado x = -138..95; desnudo (arrastre) 95..138
+  // Rodillo de EJE MUERTO: el eje NO gira (atornillado a las placas); el tubo
+  // gira sobre 2 RODAMIENTOS 6004 (20×42×12) entre eje y tubo. El eje se perfora
+  // y se rosca M10 en cada extremo; un perno M10 + golilla lo sujeta a la placa.
+  axleDia: 20,                   // eje muerto Ø20 (bore del rodamiento 6004)
+  bearDia: 42, bearBore: 20, bearW: 12,  // rodamiento 6004 2RS
+  retBoltDia: 11,                // paso del perno M10 de sujeción del eje
 
   // Placas porta-poleas MÓVILES (cuerpo bajo + dedos delgados a los rodillos)
   combX: 150, plateT: 6,
-  plateHalfY: 310, apronBottom: 18,
-  bodyTop: 120,                  // borde superior del cuerpo (sostiene las poleas)
-  fingerW: 28,                   // extensiones delgadas hacia los rodillos (largo 48)
+  plateHalfY: 345, apronBottom: 18,
+  bodyTop: 118,                  // borde superior del cuerpo (sostiene las poleas)
+  fingerW: 28,                   // extensiones delgadas hacia los rodillos
 
-  // Transmisión en SERPENTÍN (esquema del usuario IMG_3102)
+  // Transmisión en SERPENTÍN (esquema del usuario IMG_3102), 5 rodillos
   bandT: 3, bandW: 35,           // banda PLANA 35×3 (2 capas poliéster + cara nitrilo)
   beltPlane: 119,                // plano x del serpentín (centro del tramo desnudo)
-  idlerDia: 50,                  // tensores 2ª línea (mayores que los rodillos)
-  idlerPos: [[-200, 98], [-100, 98], [100, 98], [200, 98]],  // 2ª línea baja: rodillos 56 más arriba
+  idlerDia: 50,                  // tensores 2ª línea
+  idlerPos: [[-208.5, 98], [-69.5, 98], [208.5, 98]],  // 3 tensores; el 4º hueco lo ocupa el tambor
   retDia: 24,                    // poleas de retorno (esquinas inferiores)
-  retPos: [[-280, 36], [280, 36]],
+  retPos: [[-312, 36], [312, 36]],
   drumDia: 90, drumW: 43,        // tambor motriz liso abombado (fricción)
-  drumPos: [0, 78],
+  drumPos: [69.5, 78],           // en el hueco R3–R4 (entre rodillos, sin tocarlos)
   shaftDia: 20,                  // eje tambor Ø20 h6 (unificado con el base)
   pulleyW: 39,                   // ancho de tensores y retornos (banda 35 + 4)
 
-  // Chumaceras de brida UCFL204 (bore 20) — familia del base (UCFL/UC 205);
-  // reemplazan los rodamientos desnudos: autoalineantes, engrasables, con
-  // collar excéntrico. Se atornillan a la cara exterior de las placas (M10).
+  // Chumaceras de brida UCFL204 (bore 20) — familia del base (UCFL/UC 205).
+  // Ahora SOLO en el tambor motriz (los rodillos son de eje muerto con
+  // rodamientos internos). Autoalineante, engrasable, collar excéntrico.
   ucfl: { bore: 20, flangeL: 86, flangeH: 30, boltGap: 64, boltDia: 11, hubDia: 42, hubLen: 31 },
   idlerAxle: 12,                 // ejes de tensores/retornos Ø12 sobre bujes de bronce
 
   // Puentes elevadores (unen las dos placas, dentro del ancho del módulo)
-  bridgeY: 295, bridgeZ: [105, 117],
+  bridgeY: 330, bridgeZ: [105, 117],
 
   // Elevación por 2 cilindros DIAGONALES con pivote + palanca (por dentro)
   lever: {
@@ -87,8 +96,8 @@ export const D = {
   },
 
   // Canal FIJO (no más ancho que las placas): base + 2 alas bajas
-  canalW: 306, canalD: 700, wallX: 141, wallT: 6, wallTop: 40,
-  guideY: 250,                   // pasador guía Ø8 en colisa vertical del canal
+  canalW: 306, canalD: 740, wallX: 141, wallT: 6, wallTop: 40,
+  guideY: 290,                   // pasador guía Ø8 en colisa vertical del canal
   baseT: 6,
 
   // Holguras del método
@@ -99,14 +108,14 @@ export const D = {
 // s = +1 la banda gira CCW alrededor del centro, s = -1 CW.
 function serpentine() {
   const seq = [];
-  const roller = (y) => ({ c: [y, D.rollerZ], r: D.coreDia / 2, s: -1 });
+  const R = D.rollerLines;
+  // la banda gira alrededor del TUBO desnudo (Ø51) de cada rodillo, no del vulcanizado
+  const roller = (y) => ({ c: [y, D.rollerZ], r: D.tubeDia / 2, s: -1 });
   const idler = ([y, z]) => ({ c: [y, z], r: D.idlerDia / 2, s: 1 });
   seq.push({ c: D.retPos[0], r: D.retDia / 2, s: -1 });
-  seq.push(roller(D.rollerLines[0]), idler(D.idlerPos[0]), roller(D.rollerLines[1]),
-    idler(D.idlerPos[1]), roller(D.rollerLines[2]));
-  seq.push({ c: D.drumPos, r: D.drumDia / 2, s: 1 });  // tambor M
-  seq.push(roller(D.rollerLines[3]), idler(D.idlerPos[2]), roller(D.rollerLines[4]),
-    idler(D.idlerPos[3]), roller(D.rollerLines[5]));
+  seq.push(roller(R[0]), idler(D.idlerPos[0]), roller(R[1]), idler(D.idlerPos[1]), roller(R[2]));
+  seq.push({ c: D.drumPos, r: D.drumDia / 2, s: 1 });  // tambor M (hueco R3–R4)
+  seq.push(roller(R[3]), idler(D.idlerPos[2]), roller(R[4]));
   seq.push({ c: D.retPos[1], r: D.retDia / 2, s: -1 });
   return seq;
 }
@@ -167,13 +176,18 @@ function verify() {
   const e = [];
   const pitch = D.rollerLines[1] - D.rollerLines[0];
   const tangentGap = pitch - D.rollerDia;
-  if (D.rollerLines.length !== 6) e.push('deben ser 6 rodillos (misma cantidad que la foto de 90°)');
+  // 5 rodillos a paso uniforme (1 por hueco de banda del base, paso 139)
+  if (D.rollerLines.length !== 5) e.push('deben ser 5 rodillos (1 por hueco entre las 4 bandas del base)');
+  for (let i = 2; i < D.rollerLines.length; i++) {
+    if (Math.abs((D.rollerLines[i] - D.rollerLines[i - 1]) - pitch) > 1e-6) e.push('paso de rodillos no uniforme');
+  }
   if (tangentGap < 50) e.push(`gap tangente ${tangentGap} < 50 mm (espec. usuario)`);
   const pop = (D.rollerZ + D.rollerDia / 2) - D.hostPlane;
   const drop = D.hostPlane - (D.rollerZ - D.stroke + D.rollerDia / 2);
   if (pop < 3 || pop > 6) e.push(`sobre-elevación ${pop} fuera de 3..6 mm`);
   if (drop < 1) e.push(`retraído, el rodillo no baja del plano anfitrión (${drop})`);
-  if (D.coreDia / 2 + D.bandT > D.rollerDia / 2) e.push('la banda sobresale del vulcanizado');
+  if (D.tubeDia / 2 + D.bandT > D.rollerDia / 2) e.push('la banda sobresale del vulcanizado');
+  if (D.bearDia >= D.tubeDia) e.push('el rodamiento 6004 no cabe dentro del tubo del rodillo');
   if (D.beltPlane - D.bandW / 2 < D.bareFrom || D.beltPlane + D.bandW / 2 > D.coreHalf) {
     e.push('el serpentín se sale del tramo desnudo del rodillo');
   }
@@ -436,12 +450,10 @@ function placas() {
         D.plateT + 1, 20.5, D.bridgeZ[1] - D.bridgeZ[0] + 0.5, 'cut'));
     }
     const ib = D.idlerAxle + D.slide;
-    // rodillos: paso del eje Ø22 + patrón de bulones M10 de la chumacera UCFL204
+    // rodillos de EJE MUERTO: alojamiento Ø20.5 del extremo del eje (el perno
+    // M10 lo atraviesa desde fuera y rosca en el eje; la golilla lo retiene).
     for (const y of D.rollerLines) {
-      f.push(hole(`Paso eje rodillo Ø22 línea y=${y}`, [xFace, y, D.rollerZ], [1, 0, 0], D.axleDia + 2));
-      for (const dy of [-D.ucfl.boltGap / 2, D.ucfl.boltGap / 2]) {
-        f.push(hole('Ø11 bulón UCFL204', [xFace, y + dy, D.rollerZ], [1, 0, 0], D.ucfl.boltDia));
-      }
+      f.push(hole(`Alojamiento eje muerto Ø20.5 línea y=${y}`, [xFace, y, D.rollerZ], [1, 0, 0], D.axleDia + 0.5));
     }
     if (sx > 0) { // placa de transmisión: UCFL del tambor + tensores/retornos
       f.push(hole('Paso eje tambor Ø22', [xFace, D.drumPos[0], D.drumPos[1]], [1, 0, 0], D.axleDia + 2));
@@ -485,32 +497,46 @@ function placas() {
 // MÓVIL · 4. RODILLOS COMPLETOS (6) + EJES
 // ===========================================================================
 function rodillos() {
-  const kd = D.axleDia / 2 - 1.75;   // fondo del chavetero (chaveta 6×6)
+  const A = D.axleDia, half = D.combX, z = D.rollerZ;   // eje muerto de -150 a 150
+  const vulcLen = D.coreHalf + D.bareFrom;               // -138 .. 95
   for (const y of D.rollerLines) {
-    // eje Ø20 h6 que GIRA en 2 chumaceras UCFL204 (una por placa); chavetero
-    // para arrastrar el rodillo, chaflanes y planos para el collar excéntrico
-    addPart(`MÓVIL · Eje rodillo Ø20 h6 torneado línea y=${y}`, C.grisClaro, [-D.axleHalf, y, D.rollerZ], [
-      cyl('Cuerpo Ø20 h6 × 410', [-205, y, D.rollerZ], [1, 0, 0], D.axleDia, 410),
-      cyl('Chaflán 1.5×45° (-X)', [-D.axleHalf, y, D.rollerZ], [1, 0, 0], D.axleDia - 3, 1.5),
-      cyl('Chaflán 1.5×45° (+X)', [203.5, y, D.rollerZ], [1, 0, 0], D.axleDia - 3, 1.5),
-      box('Chavetero 6×3.5 (rodillo)', [-40, y, D.rollerZ + kd + 1.75], 80, 6, 3.5, 'cut'),
-    ]);
-    // rodillo: corazón Ø30 barreno Ø20 H7 (chaveta al eje), vulcanizado Ø40
-    const f = [
-      cyl(`Corazón de tubo Ø${D.coreDia} × ${2 * D.coreHalf}`, [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.coreDia, 2 * D.coreHalf),
-      cyl(`Vulcanizado Ø${D.rollerDia} (hasta x=${D.bareFrom})`, [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.rollerDia, D.coreHalf + D.bareFrom),
-      hole('Barreno Ø20 H7 (fijo al eje)', [-D.coreHalf, y, D.rollerZ], [1, 0, 0], D.axleDia),
-      box('Chavetero 6×3.4', [-40, y, D.rollerZ + D.coreDia / 2 - 3.4], 80, 6, 3.4, 'cut'),
-    ];
-    addPart(`MÓVIL · Rodillo vulcanizado línea y=${y}`, C.caucho, [0, y, D.rollerZ - D.rollerDia / 2], f,
-      { componente: 'rodillo_vulcanizado_40x290' });
-    addPart(`MÓVIL · Chaveta rodillo DIN 6885 6×6×70 línea y=${y}`, C.grisClaro, [-35, y, D.rollerZ + kd + 1.75], [
-      box('Chaveta 70×6×6', [0, y, D.rollerZ + kd + 1.75], 70, 6, 6),
-    ]);
-    // 2 chumaceras UCFL204 (una por placa, cara exterior) — soporte y ajuste axial
+    // EJE MUERTO Ø20 (no gira): atornillado a ambas placas. Cada extremo se
+    // PERFORA Ø8.5 y se ROSCA M10 (hilo interior) para el perno de sujeción.
+    addPart(`MÓVIL · Eje muerto rodillo Ø20 perforado M10 línea y=${y}`, C.grisClaro, [-half, y, z], [
+      cyl('Cuerpo Ø20 × 300', [-half, y, z], [1, 0, 0], A, 2 * half),
+      cyl('Chaflán 1.5×45° (-X)', [-half, y, z], [1, 0, 0], A - 3, 1.5),
+      cyl('Chaflán 1.5×45° (+X)', [half - 1.5, y, z], [1, 0, 0], A - 3, 1.5),
+      hole('Taladro Ø8.5 + rosca M10 (-X)', [-half, y, z], [1, 0, 0], 8.5, 24, false),
+      hole('Taladro Ø8.5 + rosca M10 (+X)', [half, y, z], [-1, 0, 0], 8.5, 24, false),
+    ], { componente: 'eje_muerto_rodillo_20' });
+    // TUBO DE ACERO Ø51 (bore Ø42 = asiento de rodamiento): es la superficie
+    // desnuda de arrastre en el extremo +X (donde corre la banda del serpentín)
+    addPart(`MÓVIL · Tubo de acero Ø51 rodillo línea y=${y}`, C.acero, [-D.coreHalf, y, z], [
+      cyl('Tubo Ø51 × 276', [-D.coreHalf, y, z], [1, 0, 0], D.tubeDia, 2 * D.coreHalf),
+      hole('Barreno Ø42 (asientos de rodamiento 6004)', [-D.coreHalf, y, z], [1, 0, 0], D.bearDia),
+    ], { componente: 'tubo_rodillo_51x276' });
+    // VULCANIZADO Ø63 sobre el tubo (menos el extremo desnudo de arrastre)
+    addPart(`MÓVIL · Vulcanizado Ø63 rodillo línea y=${y}`, C.caucho, [-D.coreHalf, y, z], [
+      cyl(`Caucho Ø${D.rollerDia} (hasta x=${D.bareFrom})`, [-D.coreHalf, y, z], [1, 0, 0], D.rollerDia, vulcLen),
+      hole('Barreno Ø51 (sobre el tubo)', [-D.coreHalf, y, z], [1, 0, 0], D.tubeDia),
+    ], { componente: 'vulcanizado_rodillo_63' });
+    // 2 RODAMIENTOS 6004 2RS (20×42×12) ENTRE EJE Y TUBO, uno por extremo
     for (const sx of [-1, 1]) {
-      ucflUnit(`MÓVIL · Chumacera UCFL204 rodillo línea y=${y} ${sx > 0 ? '+X' : '-X'}`,
-        sx * (D.combX + D.plateT / 2), y, D.rollerZ, sx);
+      const x0 = sx < 0 ? -D.coreHalf + 2 : D.coreHalf - 2 - D.bearW;   // base +X del aro
+      addPart(`MÓVIL · Rodamiento 6004 2RS rodillo línea y=${y} ${sx > 0 ? '+X' : '-X'}`, C.tambor, [x0, y, z], [
+        cyl('Aro Ø42×12 (entre eje y tubo)', [x0, y, z], [1, 0, 0], D.bearDia, D.bearW),
+        hole('Bore Ø20', [x0, y, z], [1, 0, 0], A + 0.1),
+      ], { componente: 'rodamiento_6004_2rs' });
+    }
+    // 2 PERNOS M10 + golilla: sujetan el eje muerto a cada placa (retención
+    // axial y anti-giro). Cabeza y golilla apoyan en la cara exterior de la placa.
+    for (const sx of [-1, 1]) {
+      const px = sx * (D.combX + D.plateT / 2);
+      addPart(`MÓVIL · Perno M10×25 + golilla eje rodillo línea y=${y} ${sx > 0 ? '+X' : '-X'}`, C.grisClaro, [px, y, z], [
+        cyl('Golilla Ø22×2.5 DIN 125', [px, y, z], [sx, 0, 0], 22, 2.5),
+        cyl('Perno M10 cabeza Ø17×10', [px + sx * 2.5, y, z], [sx, 0, 0], 17, 10),
+        cyl('Vástago M10 (rosca al eje)', [px, y, z], [-sx, 0, 0], D.axleDia - 10, 12),
+      ], { componente: 'perno_m10_retencion_eje' });
     }
   }
 }
@@ -629,14 +655,15 @@ const doc = {
   meta: {
     nombre: 'Transferencia 90° — módulo de desviación pop-up (serpentín, todo por dentro)',
     capa: 'user',
-    origen: 'gen_transfer90.mjs (paramétrico); espec. usuario: 6 rodillos Ø40 (corazón Ø30) vulcanizados menos el extremo de polea; serpentín IMG_3102; motor y 2 cilindros por dentro; cilindros diagonales con pivote y palanca (subida vertical 6); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados; placas con dedos delgados hacia los rodillos',
+    origen: 'gen_transfer90.mjs (paramétrico); espec. usuario + AJUSTE AL EQUIPO BASE (STEP sorter_CO): 5 rodillos Ø63 vulcanizados (tubo de acero Ø51) a paso 139 = 1 por hueco entre las 4 bandas pasantes del base (X=0/139/277/416); rodillo de EJE MUERTO Ø20 perforado y roscado M10, con 2 rodamientos 6004 entre eje y tubo y perno M10+golilla de sujeción a las placas; serpentín IMG_3102; motor y 2 cilindros por dentro; cilindros diagonales con pivote y palanca (subida vertical 6); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados; placas con dedos delgados hacia los rodillos',
     anfitrion: 'equipo base = sorter de bandas STEP (sorter_CO): rieles T-slot, chumaceras UCFL/UC 205 y SKF 1206, transmisión AT10, ejes Ø20 H7, tornillería M6. El módulo NO modifica el base: se monta a los rieles T-slot y solo comparte su idioma de hardware.',
     integracion: 'módulo de desviación que se monta sobre el equipo base sin perforarlo: 4 pies de anclaje a riel T-slot con tuercas en T M6 (ajuste de posición X) + colisos M8 al canal (ajuste de altura ±7) + shims de nivelación. La altura de emergencia y la separación rodillo-tensora se calibran contra el plano de banda real del base.',
     estado_modelado: `ELEVADO (+${D.stroke} mm): tangente de rodillos a ${D.rollerZ + D.rollerDia / 2} = plano anfitrión + ${metrics.pop}`,
     tolerancias: {
-      rodamientos: 'CAMBIO: rodamientos desnudos → unidades de brida UCFL204 (bore Ø20, autoalineantes, engrasables, collar excéntrico) — familia del equipo base (UCFL/UC 205). 12 en rodillos (2/línea) + 1 en el tambor (placa +X); el extremo -X del tambor lo apoya el rodamiento de salida del motor. Sin rodamientos de bolas desnudos ni seegers de pista.',
-      ejes: 'ejes de rodillo y tambor Ø20 h6 (como el base) que GIRAN en las UCFL204; chaflanes 1.5×45°; chavetero 6×3.5 N9 para arrastrar rodillo/acople.',
-      eje_rodillo: 'rodillo: barreno Ø20 H7 con chaveta DIN 6885 6×6×70 al eje (h6/H7 con chaveta); el eje gira solidario y se apoya en 2 UCFL204.',
+      rodamientos: 'RODILLOS de EJE MUERTO: el eje NO gira; el tubo gira sobre 2 rodamientos 6004 2RS (20×42×12) alojados en el bore Ø42 del tubo, uno por extremo (10 rodamientos en 5 rodillos). El TAMBOR conserva 1 unidad de brida UCFL204 (placa +X) + el rodamiento de salida del motor (placa -X). Sin rodamientos de bolas desnudos sueltos.',
+      eje_rodillo: 'EJE MUERTO Ø20 h6, fijo a ambas placas: cada extremo PERFORADO Ø8.5 y ROSCADO M10 (hilo interior); un PERNO M10×25 + golilla Ø22 (DIN 125) lo sujeta y retiene axialmente contra la cara exterior de cada placa (anti-giro por apriete). Alojamiento en placa Ø20.5. Chaflanes 1.5×45°.',
+      tubo_rodillo: 'tubo de acero Ø51 (bore Ø42 H7 para los rodamientos 6004), vulcanizado a Ø63 salvo el extremo +X desnudo (x=95..138) donde la banda del serpentín lo arrastra por fricción. Ajuste rodamiento: aro exterior J7 en el tubo, aro interior sobre el eje Ø20 j5.',
+      eje_tambor: 'eje del tambor Ø20 h6 que gira en la UCFL204 (placa +X) y en el rodamiento del motor (placa -X); chaflanes 1.5×45°; chavetero 6×3.5 N9 en el acople.',
       idlers: 'tensores y retornos: ejes cantiléver Ø12 m6 prensados en la placa; poleas locas sobre BUJE de bronce autolubricado SAE 841 Ø18/Ø12.2 H7/f7 (sin rodamiento desnudo); retención axial arandela + tornillo M6.',
       tambor: 'SIT-LOCK CAL 1 20×28 en cubo Ø28 H7 (autocentrado, sin chaveta); 1 UCFL204 en placa +X + rodamiento del motor en -X; abombado corona +0.4.',
       acople: '2 chavetas DIN 6885 A 6×6×12 (motor↔acople↔eje), chaveteros N9; manguito Ø32 barreno Ø20.2.',

@@ -18,35 +18,49 @@ Prueba del ensamble (motor CSG real + invariantes): `cad/tests/test_transfer90.m
 ## `transfer_rodillos_90.json` — Transferencia 90° (módulo de desviación)
 
 **Solo el módulo de desvío pop-up** — el módulo principal de bandas del
-transportador anfitrión NO se modela (especificación del usuario). 138 piezas,
+transportador anfitrión NO se modela (especificación del usuario). 107 piezas,
 capa `user`. Ejes: **X = flujo del anfitrión, Y = expulsión a 90°, Z = arriba**,
 mm. Estado modelado: **elevado** (carrera aplicada).
 
-### Especificación declarada por el usuario (capa `user`)
+> **Ajustado al equipo base real (STEP `sorter_CO`).** El STEP traía una
+> transferencia de **rodillos delgados**; se elimina y se calza esta. El base
+> tiene **4 bandas pasantes a X = 0/139/277/416** (paso **139**, hueco libre
+> ≈ 99). Por eso los rodillos pasaron de 6×Ø40 a **5×Ø63 a paso 139** (uno por
+> hueco + los 2 bordes) y la sujeción cambió a **eje muerto con rodamientos
+> internos y perno** (ver abajo). La colocación en el hueco real se ve en
+> `ver_integracion_real.html`.
+
+### Especificación (capa `user`) — ajustada al base
 
 | Requisito | Valor en el modelo |
 |---|---|
-| Solo la transferencia (módulo de desviación) | 40 piezas, sin el transportador anfitrión |
-| **6 rodillos** completos, **Ø40 vulcanizado / corazón de tubo Ø30**, desnudos en el extremo de polea | paso 100 → gap tangente **60**; la banda anfitriona de 40 pasa entre líneas y entre los dedos |
-| **Transmisión en serpentín** (esquema IMG_3102, NO rodillo a rodillo) | **banda plana 35 × 3 (nitrilo/poliéster)**: rodillos (1ª línea, por fricción) → **tensores Ø50 abombados con colisa vertical** → **tambor motriz Ø90 abombado (llanta + tapas + cubo) con SIT-LOCK** → 2 retornos Ø24 en esquinas |
+| Solo la transferencia (módulo de desviación) | 107 piezas, sin el transportador anfitrión |
+| **5 rodillos** Ø63 vulcanizados (tubo de acero Ø51), a **paso 139** = 1 por hueco entre las 4 bandas del base | gap tangente **76**; emergen limpios ENTRE las bandas reales (X base = 208 − línea) |
+| **Rodillo de EJE MUERTO** (nuevo): el eje no gira, el tubo gira sobre 2 **rodamientos 6004** entre eje y tubo | eje Ø20 **perforado Ø8.5 + roscado M10** en cada extremo; **perno M10 + golilla** lo sujeta a cada placa (retención axial y anti-giro) |
+| **Transmisión en serpentín** (esquema IMG_3102, NO rodillo a rodillo) | **banda plana 35 × 3 (nitrilo/poliéster)** sobre el **tubo desnudo Ø51** de cada rodillo → **3 tensores Ø50 con colisa vertical** → **tambor motriz Ø90 con SIT-LOCK** (hueco R3–R4) → 2 retornos Ø24 en esquinas |
 | **Todo por dentro** | motor embridado a la cara interior de la placa −X, coaxial al tambor; cilindros y palancas entre las placas |
-| **Solo 2 cilindros**, **en diagonal con pivote**, subida **vertical de 6 mm** | ISO 6432 Ø25 inclinados 36.7°, basculantes en horquilla; empujan una **palanca con rodillo de leva** que sube el puente en vertical (carrera de cilindro 10.3 → 6 vertical) |
+| **Solo 2 cilindros**, **en diagonal con pivote**, subida **vertical de 6 mm** | ISO 6432 Ø25 inclinados 36.7°, basculantes en horquilla; empujan una **palanca con rodillo de leva** que sube el puente en vertical (carrera de cilindro 10 → 6 vertical) |
 | Estructura fija **no más ancha que la cara que sostiene las poleas** | canal fijo de **306 mm** = ancho exterior de las placas |
 | **Identificar módulo móvil vs fijo** (canal lateral de la cinta) | piezas `FIJO ·` (canal + mecanismo de elevación, gris) y `MÓVIL ·` (placas, rodillos, transmisión y motor, azul); pasadores guía Ø8 del móvil corren en colisas verticales del canal |
-| Placas con **extensiones delgadas hacia los rodillos** | cuerpo porta-poleas bajo (top 136) + 6 **dedos de 28 mm** con punta redonda hasta el eje de cada rodillo; entre dedos pasan a lo largo las bandas del anfitrión |
+| Placas con **extensiones delgadas hacia los rodillos** | cuerpo porta-poleas bajo + 5 **dedos de 28 mm** con punta redonda hasta cada rodillo; entre dedos pasan a lo largo las bandas del anfitrión |
 
 ### Arquitectura (memoria de diseño)
 
-- **Rodillos**: eje elevado a z = 154 → tangente 174 = plano anfitrión (170) + 4;
-  retraído −2. Ejes Ø12 h9 × 330 en agujeros Ø12.2, E-clips DIN 6799.
-- **Serpentín** (orden de marcha): retorno izq (−280, 36) → R1 → tensor Ø50
-  (−200, 118) → R2 → tensor (−100, 118) → R3 → **tambor M** (0, 78, Ø90,
-  envoltura ≈ 200°) → R4 → tensor (100, 118) → R5 → tensor (200, 118) → R6 →
-  retorno der (280, 36) → ramal inferior recto. Plano x = 119 (centro del
-  tramo desnudo); el lomo queda embutido 2 mm bajo el vulcanizado y avanza
-  en el sentido de expulsión. El tambor gira en eje Ø25 fijado con SIT-LOCK,
-  apoyado en la placa +X y en la brida del motor (placa −X); acople rígido
-  Ø35. Toda la transmisión y el motor son MÓVILES: la tensión no cambia.
+- **Rodillos (eje muerto)**: 5 líneas a paso 139, eje **z = 142.5** → tangente
+  174 = plano anfitrión (170) + 4; retraído −2. El **eje muerto Ø20** se
+  atornilla a ambas placas (alojamiento Ø20.5) — **no gira**; sus extremos se
+  **taladran Ø8.5 y se roscan M10** y un **perno M10 + golilla** los sujeta. El
+  **tubo de acero Ø51** (bore Ø42) gira sobre **2 rodamientos 6004 2RS**
+  (20×42×12), uno por extremo, montados entre eje y tubo; vulcanizado a Ø63
+  salvo el extremo +X desnudo (x = 95..138), donde la banda del serpentín lo
+  arrastra por fricción.
+- **Serpentín** (orden de marcha, 5 rodillos): retorno izq (−312, 36) → R1 →
+  tensor Ø50 (−208.5, 98) → R2 → tensor (−69.5, 98) → R3 → **tambor M**
+  (69.5, 78, Ø90) → R4 → tensor (208.5, 98) → R5 → retorno der (312, 36) →
+  ramal inferior. La banda gira sobre el **tubo desnudo Ø51** de cada rodillo;
+  plano x = 119, lomo embutido bajo el vulcanizado. El tambor gira en eje Ø20
+  con SIT-LOCK, apoyado en la placa +X (1 UCFL204) y en la brida del motor
+  (placa −X); acople rígido. Toda la transmisión y el motor son MÓVILES.
 - **Elevación (mecánica de palanca)**: por extremo, un cilindro diagonal
   basculante en horquilla de la base empuja el ojo de una palanca pivotada
   (pivote fijo a −118, entrada a +85, leva Ø24 en 0): relación 118/203 →
@@ -115,8 +129,9 @@ base que subió el usuario) **pintada con colores realistas** y le superpone el
 **módulo de transferencia** (`transfer_rodillos_90.json`) en su posición, para
 ver el módulo integrado en la máquina real —no en una referencia simplificada.
 
-El base se tesela y se colorea aparte (son derivados grandes y regenerables del
-STEP, **no versionados** — ver `.gitignore`). Regenerar y servir:
+El base se tesela, se colorea y se le marca la transferencia vieja aparte (son
+derivados grandes y regenerables del STEP, **no versionados** — ver
+`.gitignore`). Regenerar y servir:
 
 ```bash
 # 1) teselar el STEP a STL binario (gmsh/OpenCASCADE)
@@ -124,18 +139,22 @@ python tools/step_to_stl.py sorter_CO.stp cad/ensambles/base.stl 250
 # 2) colorear por piezas (paleta industrial: azul bastidor, negro bandas, acero
 #    rodamientos/poleas, aluminio perfiles)
 python tools/color_step_mesh.py cad/ensambles/base.stl cad/ensambles/base_colors.bin
-# 3) servir cad/ y abrir el visor combinado
-#    (params: px, py = posición del módulo en el frame del base; r = alcance de cámara)
-#    ver_integracion_real.html?view=iso&px=30&py=-650&r=900
+# 3) marcar la transferencia de rodillos DELGADOS original (se omite en el visor)
+python tools/mark_transfer_removal.py cad/ensambles/base.stl cad/ensambles/base_remove.bin
+# 4) servir cad/ y abrir el visor combinado (params: px,py = posición del módulo
+#    en el frame del base; z = bajada; r = alcance de cámara)
+#    ver_integracion_real.html?view=iso   (por defecto px=208, py=-1121, z=-84)
 ```
 
-El módulo se **rota 90°** para alinear el eje de los rodillos con el flujo del
-base (Y) y se **baja** para que los rodillos emerjan sobre el plano de banda del
-base (Z≈86). La geometría del STEP **no se modifica**: solo se visualiza a
-color y se le acerca el módulo para verificar el calce (la posición exacta del
-recorte de transferencia y de las bandas se ajusta con `px`/`py`). Coloreado por
-`tools/color_step_mesh.py`: separa la malla en piezas conexas y asigna color por
-tamaño/forma; **no inventa geometría**, solo pinta piezas ya presentes en el STEP.
+El visor **omite** los triángulos marcados en `base_remove.bin` (la transferencia
+de rodillos delgados + su transmisión que el STEP ya traía) y en su hueco calza
+el módulo Ø63: **rota 90°** el módulo para alinear el eje de los rodillos con el
+flujo del base (Y), lo coloca en el **centro del hueco real** (X=208, Y=−1121,
+medido en el teselado) y lo **baja** para que los rodillos emerjan +4 sobre el
+plano de banda (Z≈86). `px`/`py`/`z` afinan el calce. La geometría del STEP que
+se conserva **no se modifica**: `tools/color_step_mesh.py` solo la pinta y
+`tools/mark_transfer_removal.py` solo marca qué quitar; **ninguno inventa
+geometría**.
 
 ## Planos de fabricación (PDF)
 

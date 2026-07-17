@@ -26,3 +26,4 @@ __pycache__/
 # regenerables con tools/step_to_stl.py + tools/color_step_mesh.py)
 cad/ensambles/*.stl
 cad/ensambles/*_colors.bin
+cad/ensambles/*_remove.bin

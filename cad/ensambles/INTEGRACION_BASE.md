@@ -21,10 +21,16 @@ hardware** del base, que el módulo respeta:
 | **Ejes Ø20 H7** (locking LK30-C65-20H7) | ejes del módulo **Ø20 h6** |
 | Transmisión **AT10 32T** (drive kit w/ timing) | el módulo conserva banda plana, pero comparte tornillería y montaje |
 | **Rieles T-slot** + tornillería **M6 / 1/4-28 UNF** | montaje del módulo a **riel T-slot con tuercas en T M6** |
+| **4 bandas pasantes** medidas en el teselado a **X = 0 / 139 / 277 / 416** (paso **139**, hueco libre ≈ 99) | los rodillos del módulo se distribuyen a **paso 139** (1 por hueco + bordes) → **5 rodillos Ø63** que emergen ENTRE las bandas reales |
+| **Transferencia de rodillos DELGADOS** original en el cabezal (zona Y ≈ −640…−1600, centro X = 208) | **se elimina** (rodillos finos + su transmisión) y se **calza** este módulo en ese hueco |
 
-**No se modifica ninguna pieza del base.** Lo único permitido (tu instrucción)
-son perforaciones en piezas **añadidas** y el uso de puntos de fijación
-existentes (ranuras T-slot).
+**No se modifica ninguna pieza del base** que se conserva. Lo permitido (tu
+instrucción): **quitar la transferencia de rodillos delgados** que el STEP ya
+traía (rodillos finos + sus bandas de transmisión), perforar solo piezas
+**añadidas**, y usar puntos de fijación existentes (rieles T-slot). El resto
+del transportador (bandas pasantes, bastidor) queda intacto. La colocación en
+el hueco real se visualiza en `ver_integracion_real.html` (base teselado a
+color, sin el transfer viejo, con el módulo montado).
 
 ---
 
@@ -50,17 +56,21 @@ Los rodamientos desnudos anteriores (6901/6205 + seegers + portarodamiento)
 
 | Miembro rotante | Antes | Ahora |
 |---|---|---|
-| 6 rodillos Ø40 | eje Ø12 fijo + 2×6901 internos + tuerca M10 | **eje Ø20 h6 que gira en 2 chumaceras UCFL204** (una por placa); rodillo con **chaveta 6×6** al eje |
+| 5 rodillos Ø63 (ajustados al hueco del base) | eje Ø12 fijo + 2×6901 internos + tuerca M10 | **RODILLO DE EJE MUERTO**: eje Ø20 **fijo** (no gira), **perforado Ø8.5 + roscado M10** en cada extremo; el **tubo de acero Ø51** gira sobre **2 rodamientos 6004 2RS** (20×42×12) entre eje y tubo; **perno M10 + golilla** sujeta el eje a cada placa |
 | Tambor motriz | eje Ø25 + 6205 en portarodamiento + seegers | **1 UCFL204** (placa +X) + apoyo en el **rodamiento de salida del motor** (placa −X); **SIT-LOCK 20×28** fija el tambor (sin chaveta) |
 | Tensores/retornos (idlers) | 6901 / bujes | **bujes de bronce SAE 841** Ø18/Ø12.2 (sin mantenimiento, sin rodamiento desnudo) + retención M6 |
 | Acople motor↔eje | — | **2 chavetas DIN 6885 A 6×6** |
 
-**Por qué UCFL204** (responde a "los rodamientos no me convencen"): es la
-misma familia que el base (UCFL/UC 205), **autoalineante** (tolera desalineo
-de las placas), **engrasable** y **serviciable** (se cambia sin desarmar el
-eje), con **collar excéntrico** que fija axialmente. Los idlers, de baja
-carga y velocidad, van a **buje de bronce** — mantenimiento nulo. Resultado:
-**ningún rodamiento de bolas desnudo** en el módulo.
+**Por qué EJE MUERTO + rodamientos internos** (responde a "los rodamientos no
+me convencen" y "pon rodamiento entre eje y tubo, sujeción con perno al eje"):
+el eje no gira, así que las placas no necesitan chumaceras en los rodillos —
+solo un **alojamiento Ø20.5** y el **perno M10** que rosca en el eje. El tubo
+rueda sobre **rodamientos 6004 sellados** (2RS, engrasados de por vida), un
+diseño estándar de rodillo de transporte: robusto, barato y desmontable
+(se cambia el rodamiento sacando el tubo). El **tambor** sí conserva **1
+UCFL204** (familia del base, autoalineante, engrasable, collar excéntrico).
+Los idlers, de baja carga, van a **buje de bronce**. Resultado: **ningún
+rodamiento de bolas desnudo suelto** en el módulo.
 
 ---
 
@@ -70,7 +80,7 @@ carga y velocidad, van a **buje de bronce** — mantenimiento nulo. Resultado:
 |---|---|---|---|
 | **SA-1 Canal + anclaje** | canal fijo, 4 pies T-slot, shims, electroválvula | escuadra del canal; pies a ras; ranuras T libres | planitud canal 0.5/m; pies coplanares ±0.2 |
 | **SA-2 Elevación** | 2 cilindros ISO 6432, rótulas, palancas, soportes/horquillas, puentes | la palanca gira libre; leva toca el puente; carrera cilindro 10 → sube 6 | pernos Ø8/Ø8.2 (juego 0.2); bujes bronce en palanca |
-| **SA-3 Cassette de rodillos** | 2 placas peine, 6 ejes Ø20 + rodillos + chavetas, 12 UCFL204 | eje gira a mano sin punto duro; juego axial por collar excéntrico | eje Ø20 h6 / UCFL bore 20; rodillo Ø20 H7 + chaveta |
+| **SA-3 Cassette de rodillos** | 2 placas peine, 5 ejes muertos Ø20 (roscados M10), 5 tubos Ø51 + 10 rodamientos 6004 + vulcanizado, 10 pernos M10 | el tubo gira a mano sin punto duro; el eje no gira; perno M10 apretado | eje Ø20 / alojamiento placa Ø20.5; tubo bore Ø42 H7 (asiento 6004) |
 | **SA-4 Transmisión** | tambor + SIT-LOCK, eje tambor, 1 UCFL204, tensores/retornos + bujes, banda 35×3, motorreductor + acople + chavetas | serpentín envuelve todas las poleas; banda al ras del vulcanizado; tambor concéntrico | SIT-LOCK apriete par nominal; tensado ±5 en colisa |
 | **SA-5 Guiado** | pasadores guía Ø8 en colisas del canal | el marco móvil sube/baja vertical sin agarrotarse | Ø8 m6 / colisa 8.5 (juego 0.5) |
 
@@ -100,7 +110,7 @@ en T, roscas de tensado) — no requieren mecanizar el base ni el módulo.
 **Por preensamble (SA):**
 - [ ] Ejes Ø20 h6 dentro de tolerancia (micrómetro); chaveteros N9.
 - [ ] UCFL204: giro libre, sin juego radial perceptible; collar excéntrico apretado.
-- [ ] Rodillos: concentricidad Ø40 respecto al barreno ≤ 0.1; vulcanizado sin poros.
+- [ ] Rodillos: concentricidad Ø63 respecto al bore de rodamiento ≤ 0.1; vulcanizado sin poros; el tubo gira libre sobre los 6004 sin punto duro.
 - [ ] Tambor: SIT-LOCK apretado al par; excentricidad de la corona ≤ 0.1.
 - [ ] Idlers: buje sin juego axial > 0.3; giran libres.
 
@@ -117,7 +127,7 @@ en T, roscas de tensado) — no requieren mecanizar el base ni el módulo.
 
 1. **En vacío (sin banda del base):** pulsar electroválvula → el marco sube 6 mm
    uniforme; sin señal → baja por gravedad/resorte (posición segura).
-2. **Giro de rodillos:** arrancar motor → los 6 rodillos giran al mismo sentido
+2. **Giro de rodillos:** arrancar motor → los 5 rodillos giran al mismo sentido
    y velocidad (serpentín); medir 80 m/min tangencial (banda 60 m/min).
 3. **Con producto:** caja de prueba sobre la banda del base → al elevar y girar,
    el producto se desvía a 90° sin marcar ni patinar.
