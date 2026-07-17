@@ -7,6 +7,7 @@ import {
   makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, planeBasis, magnetCorrections, identifyFace,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
+  evalExpr, resolveParams, applyDocParams,
 } from '../js/model.js';
 
 let pass = 0, fail = 0;
@@ -362,6 +363,41 @@ console.log('— Patrones de funciones (rectangular / circular) —');
   const pat = makePatternFeature(hole.id, 'rect', { nx: 2, ny: 1, dx: 20, dy: 0, u: [1, 0, 0], v: [0, 1, 0] });
   const g = buildPart([box, hole, pat]);
   check('origen suprimido → patrón sin efecto (caja llena)', rel(volume(g), 36000) < 1e-6, `vol=${volume(g)}`);
+}
+
+console.log('— Parámetros globales (fx) y ecuaciones —');
+{
+  check('evalExpr número', evalExpr('120') === 120);
+  check('evalExpr aritmética con precedencia', evalExpr('2 + 3 * 4') === 14);
+  check('evalExpr paréntesis', evalExpr('(2 + 3) * 4') === 20);
+  check('evalExpr identificador', evalExpr('ancho/2', { ancho: 120 }) === 60);
+  check('evalExpr función max', evalExpr('max(3, 7, 5)') === 7);
+  check('evalExpr sqrt', Math.abs(evalExpr('sqrt(2)') - Math.SQRT2) < 1e-9);
+  check('evalExpr identificador ausente → NaN', Number.isNaN(evalExpr('desconocido')));
+}
+{
+  // parámetros en cadena: paso depende de ancho
+  const doc = newDoc();
+  doc.params = [{ name: 'ancho', expr: '120' }, { name: 'paso', expr: 'ancho/4' }];
+  const scope = resolveParams(doc);
+  check('resolveParams en cadena', scope.ancho === 120 && scope.paso === 30);
+}
+{
+  // una caja con w vinculado a un parámetro se regenera al cambiar el parámetro
+  const doc = newDoc();
+  doc.params = [{ name: 'ancho', expr: '120' }];
+  const part = newPart(doc, 't');
+  const box = makeBoxFeature(120, 80, 10);
+  box.expr = { w: 'ancho' };
+  part.features.push(box);
+  applyDocParams(doc);
+  check('applyDocParams fija w=120', part.features[0].params.w === 120);
+  const v1 = volume(buildPartGeometry(part));
+  doc.params[0].expr = '150';           // el usuario cambia el parámetro
+  applyDocParams(doc);
+  check('cambiar parámetro → w=150', part.features[0].params.w === 150);
+  const v2 = volume(buildPartGeometry(part));
+  check('volumen escala 150/120', rel(v2 / v1, 150 / 120) < 1e-6, `v1=${v1} v2=${v2}`);
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);

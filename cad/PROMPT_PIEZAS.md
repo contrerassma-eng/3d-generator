@@ -15,10 +15,18 @@ antes o después.
 
 ## Esquema exacto del archivo
 
+Puedes definir **parámetros globales** con nombre y ecuaciones en `params`, y
+vincular cualquier cota de una función escribiendo la expresión en `expr`
+(clave = parámetro de la función). Al cambiar un parámetro, todo se regenera.
+
 ```json
 {
   "format": "foto3d-cad",
   "version": 1,
+  "params": [
+    {"name": "ancho", "expr": "120"},
+    {"name": "paso", "expr": "ancho/4"}
+  ],
   "parts": [
     {
       "id": "p1",
@@ -39,6 +47,11 @@ Funciones (se aplican en orden, como árbol paramétrico):
 
 - Caja: `{"id":"f1","name":"Caja","shape":"box","op":"union","at":[x,y,z],"dir":[0,0,1],"params":{"w":ancho,"d":fondo,"h":alto}}`
   — `at` es el centro de la BASE; el sólido crece en +Z.
+  Para vincular una cota a un parámetro, añade `"expr"` a la función:
+  `{...,"params":{"w":120,"d":80,"h":10},"expr":{"w":"ancho","h":"ancho/12"}}`
+  (los valores de `params` son el número resuelto; `expr` manda al regenerar).
+  Funciones/operadores de `expr`: `+ - * / ( )`, `min max sqrt abs sin cos tan
+  round floor ceil pow`, `pi`. Válido en cotas de caja/cilindro/agujero.
 - Cilindro: `{"id":"f2","name":"Cilindro","shape":"cylinder","op":"union","at":[x,y,z],"dir":[ex,ey,ez],"params":{"dia":diámetro,"h":largo}}`
   — `at` es el centro de la base; `dir` es el eje (unitario).
 - Agujero: `{"id":"f3","name":"Agujero Ø6","shape":"hole","op":"cut","at":[x,y,z],"dir":[ex,ey,ez],"params":{"dia":diámetro,"depth":profundidad,"through":true|false}}`
