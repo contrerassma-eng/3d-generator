@@ -134,6 +134,15 @@ atornillable) que muestra todas las capacidades.
   cilindro o de extrusión → **altura/profundidad**; cara de una caja →
   **ancho/fondo/alto** manteniendo fija la cara opuesta.
 
+### ƒx Parámetros globales (ecuaciones, símil Inventor)
+Botón **ƒx Parám.** en la barra superior: define valores con nombre y
+**ecuaciones** (`ancho = 120`, `paso = ancho/4`; operadores `+ - * / ( )` y
+funciones `min max sqrt abs sin cos tan round floor ceil pow`, `pi`). En las
+cotas de una función (Ancho/Fondo/Alto de caja, Ø y altura de cilindro, Ø y
+profundidad de agujero) puedes **escribir el nombre de un parámetro o una
+fórmula** en vez de un número; al cambiar el parámetro, la pieza se **regenera**.
+Se guarda en el JSON (`params` + `expr` por función) y la IA puede generarlo.
+
 ### Patrones de funciones (categoría *Patrón*, símil Inventor)
 Selecciona una función en el árbol (agujero, cilindro, boceto, revolución…)
 y repítela como una función paramétrica más:

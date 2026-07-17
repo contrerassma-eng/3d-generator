@@ -14,7 +14,94 @@ export const PALETTE = ['#6d9ee8', '#e8a56d', '#7fc98a', '#c98ad0', '#d9c96b', '
 // ---------- Documento ----------
 
 export function newDoc() {
-  return { format: 'foto3d-cad', version: 1, parts: [], constraints: [] };
+  return { format: 'foto3d-cad', version: 1, parts: [], constraints: [], params: [] };
+}
+
+// ---------- Parámetros globales (fx) y ecuaciones ----------
+// doc.params = [{name, expr}] evaluados en orden; una expresión puede citar
+// parámetros anteriores. Una función guarda expresiones en f.expr = {clave:expr}
+// (p. ej. {w:'ancho', h:'ancho/2'}); al regenerar se resuelven a f.params.
+
+const PARAM_FNS = {
+  sqrt: Math.sqrt, abs: Math.abs, sin: (d) => Math.sin(d * Math.PI / 180),
+  cos: (d) => Math.cos(d * Math.PI / 180), tan: (d) => Math.tan(d * Math.PI / 180),
+  round: Math.round, floor: Math.floor, ceil: Math.ceil, min: Math.min, max: Math.max, pow: Math.pow,
+};
+const PARAM_CONST = { pi: Math.PI, PI: Math.PI };
+
+// Evaluador seguro (descenso recursivo): + - * / ( ) , números, identificadores
+// y funciones de PARAM_FNS. Sin acceso al entorno (no usa eval/Function).
+export function evalExpr(expr, scope = {}) {
+  if (typeof expr === 'number') return expr;
+  const s = String(expr).trim();
+  if (s === '') return NaN;
+  if (/^[-+]?(\d+\.?\d*|\.\d+)$/.test(s)) return parseFloat(s);
+  let i = 0;
+  const skip = () => { while (i < s.length && s[i] === ' ') i++; };
+  const peek = () => { skip(); return s[i]; };
+  function parseExpr() {
+    let v = parseTerm();
+    for (;;) { const c = peek(); if (c === '+') { i++; v += parseTerm(); } else if (c === '-') { i++; v -= parseTerm(); } else break; }
+    return v;
+  }
+  function parseTerm() {
+    let v = parseFactor();
+    for (;;) { const c = peek(); if (c === '*') { i++; v *= parseFactor(); } else if (c === '/') { i++; v /= parseFactor(); } else break; }
+    return v;
+  }
+  function parseFactor() {
+    const c = peek();
+    if (c === '+') { i++; return parseFactor(); }
+    if (c === '-') { i++; return -parseFactor(); }
+    if (c === '(') { i++; const v = parseExpr(); if (peek() === ')') i++; return v; }
+    const m = s.slice(i).match(/^(\d+\.?\d*|\.\d+)/);
+    if (m) { i += m[0].length; return parseFloat(m[0]); }
+    const id = s.slice(i).match(/^[A-Za-z_]\w*/);
+    if (id) {
+      i += id[0].length;
+      if (peek() === '(') { // llamada a función
+        i++; const args = [];
+        if (peek() !== ')') { args.push(parseExpr()); while (peek() === ',') { i++; args.push(parseExpr()); } }
+        if (peek() === ')') i++;
+        const fn = PARAM_FNS[id[0]];
+        return fn ? fn(...args) : NaN;
+      }
+      if (id[0] in PARAM_CONST) return PARAM_CONST[id[0]];
+      return (id[0] in scope) ? scope[id[0]] : NaN;
+    }
+    return NaN;
+  }
+  const val = parseExpr();
+  return Number.isFinite(val) ? val : NaN;
+}
+
+// Resuelve los parámetros del documento en orden → { nombre: valor }.
+export function resolveParams(doc) {
+  const scope = {};
+  for (const p of (doc.params || [])) {
+    if (!p.name) continue;
+    const v = evalExpr(p.expr, scope);
+    if (Number.isFinite(v)) scope[p.name] = v;
+  }
+  return scope;
+}
+
+// Aplica las expresiones de las funciones de una pieza a sus params numéricos.
+export function applyExpressions(part, scope) {
+  for (const f of part.features) {
+    if (!f.expr) continue;
+    for (const key of Object.keys(f.expr)) {
+      const v = evalExpr(f.expr[key], scope);
+      if (Number.isFinite(v)) f.params[key] = v;
+    }
+  }
+}
+
+// Conveniencia: resuelve el doc y aplica a todas las piezas antes de regenerar.
+export function applyDocParams(doc) {
+  const scope = resolveParams(doc);
+  for (const part of doc.parts) applyExpressions(part, scope);
+  return scope;
 }
 
 export function newPart(doc, name) {

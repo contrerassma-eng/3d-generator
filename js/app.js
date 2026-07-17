@@ -10,6 +10,7 @@ import {
   makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
   buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace,
   makeMate, makeConcentric, solveConstraints,
+  evalExpr, resolveParams, applyExpressions,
 } from './model.js';
 import * as SK from './sketch2d.js';
 import { exportDrawingDXF, exportDrawingPDF, exportFlatDXF, exportFlatPDF } from './drawing2d.js';
@@ -218,6 +219,7 @@ const pickedMat = new THREE.MeshBasicMaterial({ color: 0x4d90fe, transparent: tr
 
 function rebuildPart(part) {
   disposePartMesh(part.id);
+  applyExpressions(part, resolveParams(doc)); // resuelve cotas vinculadas a parámetros (fx)
   if (!part.features.length) { refreshUI(); return; }
   const geom = buildPartGeometry(part);
   if (!geom.attributes.position || geom.attributes.position.count === 0) {
@@ -501,9 +503,9 @@ function refreshProps() {
             <input type="number" id="fp_e1" value="${f.params.e1}" step="1" style="width:50%">
             <input type="number" id="fp_e2" value="${f.params.e2}" step="1" style="width:50%"></span>`);
     }
-    if (f.shape === 'box') dims = frow('Ancho/Fondo/Alto', num3('fp_dims', [f.params.w, f.params.d, f.params.h]));
-    if (f.shape === 'cylinder') dims = frow('Diámetro', `<input type="number" id="fp_dia" value="${f.params.dia}" step="0.5">`) + frow('Altura', `<input type="number" id="fp_h" value="${f.params.h}" step="0.5">`);
-    if (f.shape === 'hole') dims = frow('Diámetro', `<input type="number" id="fp_dia" value="${f.params.dia}" step="0.5">`) + frow('Profundidad', `<input type="number" id="fp_depth" value="${f.params.depth}" step="0.5">`) + frow('Pasante', `<input type="checkbox" id="fp_through" ${f.params.through ? 'checked' : ''}>`);
+    if (f.shape === 'box') dims = frow('Ancho X', dimInput('fp_w', f, 'w')) + frow('Fondo Y', dimInput('fp_d', f, 'd')) + frow('Alto Z', dimInput('fp_hh', f, 'h'));
+    if (f.shape === 'cylinder') dims = frow('Diámetro', dimInput('fp_dia', f, 'dia')) + frow('Altura', dimInput('fp_h', f, 'h'));
+    if (f.shape === 'hole') dims = frow('Diámetro', dimInput('fp_dia', f, 'dia')) + frow('Profundidad', dimInput('fp_depth', f, 'depth')) + frow('Pasante', `<input type="checkbox" id="fp_through" ${f.params.through ? 'checked' : ''}>`);
     if (f.shape === 'pattern') {
       const srcName = doc.parts.flatMap(pp => pp.features).find(x => x.id === f.params.sourceId)?.name || '?';
       dims = frow('Repite', `<b>${esc(srcName)}</b>`);
@@ -567,7 +569,7 @@ function refreshProps() {
         });
         f.name = `Pestaña ${f.params.angulo}° R${f.params.radio}`;
       }
-      if (f.shape === 'box') { const [w, d, h] = readNum3('fp_dims'); Object.assign(f.params, { w, d, h }); }
+      if (f.shape === 'box') { readDimField(f, 'fp_w', 'w'); readDimField(f, 'fp_d', 'd'); readDimField(f, 'fp_hh', 'h'); }
       if (f.shape === 'sketch' || f.shape === 'revolve') {
         if (f.shape === 'sketch') f.params.h = +$('fp_h').value;
         const sk = $('fp_showsk');
@@ -582,10 +584,10 @@ function refreshProps() {
           }
         });
       }
-      if (f.shape === 'cylinder') { f.params.dia = +$('fp_dia').value; f.params.h = +$('fp_h').value; }
+      if (f.shape === 'cylinder') { readDimField(f, 'fp_dia', 'dia'); readDimField(f, 'fp_h', 'h'); }
       if (f.shape === 'hole') {
-        f.params.dia = +$('fp_dia').value;
-        f.params.depth = +$('fp_depth').value;
+        readDimField(f, 'fp_dia', 'dia');
+        readDimField(f, 'fp_depth', 'depth');
         f.params.through = $('fp_through').checked;
         f.name = `Agujero Ø${f.params.dia}`;
       }
@@ -647,6 +649,18 @@ const num3 = (id, v) => `<span style="display:flex;gap:4px;flex:1">
   <input type="number" id="${id}y" value="${+(+v[1]).toFixed(3)}" step="0.5" style="width:33%">
   <input type="number" id="${id}z" value="${+(+v[2]).toFixed(3)}" step="0.5" style="width:33%"></span>`;
 const readNum3 = (id) => [+$(id + 'x').value, +$(id + 'y').value, +$(id + 'z').value];
+
+// campo de cota que acepta un número o una EXPRESIÓN (parámetro fx)
+const NUM_RE = /^[-+]?(\d+\.?\d*|\.\d+)$/;
+const dimVal = (f, key) => (f.expr && key in f.expr) ? f.expr[key] : f.params[key];
+const dimInput = (id, f, key) => `<input type="text" inputmode="decimal" id="${id}" value="${esc(String(dimVal(f, key)))}" title="número o fórmula (p. ej. ancho/2)">`;
+function readDimField(f, id, key) {
+  const raw = String($(id).value).trim();
+  f.expr = f.expr || {};
+  if (NUM_RE.test(raw)) { f.params[key] = parseFloat(raw); delete f.expr[key]; }
+  else { f.expr[key] = raw; const v = evalExpr(raw, resolveParams(doc)); if (Number.isFinite(v)) f.params[key] = v; }
+  if (!Object.keys(f.expr).length) delete f.expr;
+}
 
 // ---------- Diálogo genérico ----------
 
@@ -3039,6 +3053,54 @@ $('btnPaste').onclick = () => {
   };
   $('pasteArea').focus();
 };
+
+// ---------- Parámetros globales (fx) ----------
+
+function renderParamRows() {
+  const scope = resolveParams(doc);
+  const rows = (doc.params || []).map((p, i) => {
+    const v = evalExpr(p.expr, resolveParams({ params: (doc.params || []).slice(0, i) }));
+    return `<div class="frow" data-i="${i}" style="gap:4px">
+      <input type="text" class="pnm" value="${esc(p.name)}" placeholder="nombre" style="flex:0 0 90px">
+      <input type="text" class="pex" value="${esc(String(p.expr))}" placeholder="valor o fórmula" style="flex:1">
+      <span class="meta" style="flex:0 0 54px;text-align:right">${Number.isFinite(v) ? +v.toFixed(3) : '—'}</span>
+      <button class="prm danger" title="Quitar">✕</button>
+    </div>`;
+  }).join('');
+  return rows || '<div class="meta" style="color:var(--dim)">Sin parámetros. Agrega uno (p. ej. ancho = 120).</div>';
+}
+function openParams() {
+  doc.params = doc.params || [];
+  dialog.innerHTML = `<h3>ƒx Parámetros globales</h3>
+    <p style="font-size:12px;color:var(--dim);margin-bottom:6px">Nombre = valor o fórmula (cita parámetros anteriores: <code>paso = ancho/4</code>). En las cotas de una función escribe el nombre para vincularla.</p>
+    <div id="paramList" style="max-height:180px;overflow:auto">${renderParamRows()}</div>
+    <div class="btnrow"><button id="paramAdd">+ Parámetro</button></div>
+    <div class="btnrow"><button id="paramOk" class="on">Aplicar</button><button id="paramCancel">Cancelar</button></div>`;
+  dialog.style.display = 'block';
+  const readRows = () => [...dialog.querySelectorAll('#paramList .frow')].map(r => ({
+    name: r.querySelector('.pnm')?.value.trim(), expr: r.querySelector('.pex')?.value.trim(),
+  })).filter(p => p.name);
+  dialog.querySelector('#paramAdd').onclick = () => {
+    doc.params = readRows(); doc.params.push({ name: '', expr: '0' });
+    dialog.querySelector('#paramList').innerHTML = renderParamRows();
+  };
+  dialog.querySelector('#paramList').addEventListener('click', (e) => {
+    const btn = e.target.closest('.prm'); if (!btn) return;
+    const i = +btn.closest('.frow').dataset.i;
+    doc.params = readRows().filter((_, k) => k !== i);
+    dialog.querySelector('#paramList').innerHTML = renderParamRows();
+  });
+  $('paramCancel').onclick = hideDialog;
+  $('paramOk').onclick = () => {
+    pushUndo();
+    doc.params = readRows();
+    for (const part of doc.parts) rebuildPart(part);
+    solveAndSync();
+    hideDialog();
+    commit(`${doc.params.length} parámetro(s) aplicados.`);
+  };
+}
+$('btnParams').onclick = openParams;
 
 $('btnClear').onclick = () => {
   pushUndo();
