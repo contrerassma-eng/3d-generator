@@ -1,10 +1,10 @@
 {
   "proyecto": "Transferencia 90° — módulo de desviación pop-up",
   "archivo": "transfer_rodillos_90.json",
-  "fecha": "2026-07-15",
+  "fecha": "2026-07-17",
   "total_piezas": 107,
-  "items_distintos": 42,
-  "planos_fabricacion": 24,
+  "items_distintos": 43,
+  "planos_fabricacion": 23,
   "despiece": [
     {
       "item": 1,
@@ -88,6 +88,14 @@
     },
     {
       "item": 11,
+      "designacion": "Perno M10×25 + golilla eje rodillo",
+      "cant": 10,
+      "tipo": "NORMALIZADA",
+      "material_norma": "DIN 912 · M10×25 + DIN 125",
+      "plano": "—"
+    },
+    {
+      "item": 12,
       "designacion": "Puente elevador",
       "cant": 2,
       "tipo": "FABRICADA",
@@ -95,7 +103,7 @@
       "plano": "TR-06"
     },
     {
-      "item": 12,
+      "item": 13,
       "designacion": "Placa porta-poleas de transmisión",
       "cant": 1,
       "tipo": "FABRICADA",
@@ -103,7 +111,7 @@
       "plano": "TR-07"
     },
     {
-      "item": 13,
+      "item": 14,
       "designacion": "Placa porta-poleas lado motor",
       "cant": 1,
       "tipo": "FABRICADA",
@@ -111,23 +119,7 @@
       "plano": "TR-08"
     },
     {
-      "item": 14,
-      "designacion": "Eje rodillo Ø20 h6 torneado",
-      "cant": 6,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero SAE 1045",
-      "plano": "TR-09"
-    },
-    {
       "item": 15,
-      "designacion": "Rodillo vulcanizado",
-      "cant": 6,
-      "tipo": "FABRICADA",
-      "material_norma": "Tubo St37 + vulcanizado NBR",
-      "plano": "TR-10"
-    },
-    {
-      "item": 16,
       "designacion": "Buje bronce Ø12/Ø8.2 entrada",
       "cant": 2,
       "tipo": "NORMALIZADA",
@@ -135,7 +127,7 @@
       "plano": "—"
     },
     {
-      "item": 17,
+      "item": 16,
       "designacion": "Buje bronce Ø12/Ø8.2 pivote",
       "cant": 2,
       "tipo": "NORMALIZADA",
@@ -143,15 +135,15 @@
       "plano": "—"
     },
     {
-      "item": 18,
+      "item": 17,
       "designacion": "Pie anclaje T-slot",
       "cant": 4,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
-      "plano": "TR-11"
+      "plano": "TR-09"
     },
     {
-      "item": 19,
+      "item": 18,
       "designacion": "Seeger DIN 471-8 basculante",
       "cant": 2,
       "tipo": "NORMALIZADA",
@@ -159,7 +151,7 @@
       "plano": "—"
     },
     {
-      "item": 20,
+      "item": 19,
       "designacion": "Seeger DIN 471-8 entrada",
       "cant": 2,
       "tipo": "NORMALIZADA",
@@ -167,7 +159,7 @@
       "plano": "—"
     },
     {
-      "item": 21,
+      "item": 20,
       "designacion": "Seeger DIN 471-8 pivote",
       "cant": 2,
       "tipo": "NORMALIZADA",
@@ -175,31 +167,31 @@
       "plano": "—"
     },
     {
-      "item": 22,
+      "item": 21,
       "designacion": "Shim de nivelación 1 mm",
       "cant": 4,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
-      "plano": "TR-12"
+      "plano": "TR-10"
     },
     {
-      "item": 23,
+      "item": 22,
       "designacion": "Acople rígido Ø32 (chaveteros 6 DIN 6885)",
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Bronce / acero",
-      "plano": "TR-13"
+      "plano": "TR-11"
     },
     {
-      "item": 24,
+      "item": 23,
       "designacion": "Banda plana 35×3 (serpentín)",
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Banda plana nitrilo/poliéster 3 mm",
-      "plano": "TR-14"
+      "plano": "TR-12"
     },
     {
-      "item": 25,
+      "item": 24,
       "designacion": "Buje bronce Ø18/Ø12.2 retorno",
       "cant": 2,
       "tipo": "NORMALIZADA",
@@ -207,15 +199,15 @@
       "plano": "—"
     },
     {
-      "item": 26,
+      "item": 25,
       "designacion": "Buje bronce Ø18/Ø12.2 tensor",
-      "cant": 4,
+      "cant": 3,
       "tipo": "NORMALIZADA",
       "material_norma": "Buje sinterizado SAE 841",
       "plano": "—"
     },
     {
-      "item": 27,
+      "item": 26,
       "designacion": "Buje SIT-LOCK CAL 1 20×28 (tambor)",
       "cant": 1,
       "tipo": "NORMALIZADA",
@@ -223,7 +215,7 @@
       "plano": "—"
     },
     {
-      "item": 28,
+      "item": 27,
       "designacion": "Chaveta DIN 6885 A 6×6×12 (eje↔acople)",
       "cant": 1,
       "tipo": "NORMALIZADA",
@@ -231,7 +223,7 @@
       "plano": "—"
     },
     {
-      "item": 29,
+      "item": 28,
       "designacion": "Chaveta DIN 6885 A 6×6×12 (motor↔acople)",
       "cant": 1,
       "tipo": "NORMALIZADA",
@@ -239,55 +231,47 @@
       "plano": "—"
     },
     {
-      "item": 30,
-      "designacion": "Chaveta rodillo DIN 6885 6×6×70",
-      "cant": 6,
+      "item": 29,
+      "designacion": "Chumacera UCFL204 tambor",
+      "cant": 1,
       "tipo": "NORMALIZADA",
-      "material_norma": "DIN 6885 A 8×7",
+      "material_norma": "Unidad de brida UCFL204 · bore Ø20",
       "plano": "—"
     },
     {
-      "item": 31,
-      "designacion": "Chumacera UCFL204 rodillo",
-      "cant": 12,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-15"
-    },
-    {
-      "item": 32,
-      "designacion": "Chumacera UCFL204 tambor",
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-16"
-    },
-    {
-      "item": 33,
+      "item": 30,
       "designacion": "Eje cantiléver Ø12 (tensor)",
-      "cant": 4,
+      "cant": 3,
       "tipo": "FABRICADA",
       "material_norma": "Acero SAE 1045",
-      "plano": "TR-17"
+      "plano": "TR-13"
     },
     {
-      "item": 34,
+      "item": 31,
       "designacion": "Eje cantiléver Ø12 (retorno)",
       "cant": 2,
       "tipo": "FABRICADA",
       "material_norma": "Acero SAE 1045",
-      "plano": "TR-18"
+      "plano": "TR-14"
     },
     {
-      "item": 35,
+      "item": 32,
+      "designacion": "Eje muerto rodillo Ø20 perforado M10",
+      "cant": 5,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero SAE 1045",
+      "plano": "TR-15"
+    },
+    {
+      "item": 33,
       "designacion": "Eje tambor Ø20 h6 torneado",
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero SAE 1045",
-      "plano": "TR-19"
+      "plano": "TR-16"
     },
     {
-      "item": 36,
+      "item": 34,
       "designacion": "Motorreductor (por dentro)",
       "cant": 1,
       "tipo": "NORMALIZADA",
@@ -295,52 +279,76 @@
       "plano": "—"
     },
     {
-      "item": 37,
+      "item": 35,
       "designacion": "Polea de retorno abombada Ø24",
       "cant": 2,
       "tipo": "FABRICADA",
       "material_norma": "Aluminio 6061-T6",
-      "plano": "TR-20"
+      "plano": "TR-17"
     },
     {
-      "item": 38,
+      "item": 36,
       "designacion": "Retención M6 polea retorno",
       "cant": 2,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
-      "plano": "TR-21"
+      "plano": "TR-18"
+    },
+    {
+      "item": 37,
+      "designacion": "Retención M6 polea tensor",
+      "cant": 3,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "TR-19"
+    },
+    {
+      "item": 38,
+      "designacion": "Rodamiento 6004 2RS rodillo",
+      "cant": 10,
+      "tipo": "NORMALIZADA",
+      "material_norma": "DIN 625 · 6004-2RS (20×42×12)",
+      "plano": "—"
     },
     {
       "item": 39,
-      "designacion": "Retención M6 polea tensor",
-      "cant": 4,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-22"
-    },
-    {
-      "item": 40,
       "designacion": "Tambor motriz abombado (llanta + tapas + cubo)",
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero St37 (rolado + soldado)",
-      "plano": "TR-23"
+      "plano": "TR-20"
+    },
+    {
+      "item": 40,
+      "designacion": "Tensor abombado Ø50",
+      "cant": 3,
+      "tipo": "FABRICADA",
+      "material_norma": "Aluminio 6061-T6",
+      "plano": "TR-21"
     },
     {
       "item": 41,
-      "designacion": "Tensor abombado Ø50",
-      "cant": 4,
+      "designacion": "Tubo de acero Ø51 rodillo",
+      "cant": 5,
       "tipo": "FABRICADA",
-      "material_norma": "Aluminio 6061-T6",
-      "plano": "TR-24"
+      "material_norma": "Tubo St37 Ø51 (bore Ø42 H7)",
+      "plano": "TR-22"
     },
     {
       "item": 42,
       "designacion": "Tuerca tensora M12 + golilla",
-      "cant": 4,
+      "cant": 3,
       "tipo": "NORMALIZADA",
       "material_norma": "DIN 934 · M12",
       "plano": "—"
+    },
+    {
+      "item": 43,
+      "designacion": "Vulcanizado Ø63 rodillo",
+      "cant": 5,
+      "tipo": "FABRICADA",
+      "material_norma": "Vulcanizado NBR sobre tubo (dureza 75 ShA)",
+      "plano": "TR-23"
     }
   ]
 }

@@ -106,8 +106,11 @@ mkdirSync(outDir, { recursive: true });
 
 // --- Clasificación: piezas NORMALIZADAS (compradas, solo van al despiece) ----
 const NORMA = [
+  { re: /Rodamiento 6004/, norma: 'DIN 625 · 6004-2RS (20×42×12)' },
   { re: /Rodamiento 6901/, norma: 'DIN 625 · 6901-2RS (12×24×6)' },
   { re: /Rodamiento 6205/, norma: 'DIN 625 · 6205-2RS (25×52×15)' },
+  { re: /Chumacera UCFL204/, norma: 'Unidad de brida UCFL204 · bore Ø20' },
+  { re: /Perno M10.*golilla eje|Perno M10×25/, norma: 'DIN 912 · M10×25 + DIN 125' },
   { re: /Seeger DIN 471-12/, norma: 'DIN 471 · Ø12' },
   { re: /Seeger DIN 471-25/, norma: 'DIN 471 · Ø25' },
   { re: /Seeger DIN 471-8/, norma: 'DIN 471 · Ø8' },
@@ -134,6 +137,8 @@ const SOLO_DESPIECE = [/^MÓVIL · Fijación eje/];
 function materialDe(name) {
   if (/Canal|Placa|Puente|Palanca|Soporte|Horquilla|Ménsula|Portarodamiento/.test(name)) return 'Acero S275JR';
   if (/Eje|Pasador|Cubo/.test(name)) return 'Acero SAE 1045';
+  if (/Vulcanizado/.test(name)) return 'Vulcanizado NBR sobre tubo (dureza 75 ShA)';
+  if (/Tubo de acero/.test(name)) return 'Tubo St37 Ø51 (bore Ø42 H7)';
   if (/Rodillo/.test(name)) return 'Tubo St37 + vulcanizado NBR';
   if (/Tambor/.test(name)) return 'Acero St37 (rolado + soldado)';
   if (/Tensor|Polea de retorno/.test(name)) return 'Aluminio 6061-T6';

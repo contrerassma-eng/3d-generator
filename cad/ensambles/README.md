@@ -159,14 +159,17 @@ geometría**.
 ## Planos de fabricación (PDF)
 
 `planos_transfer90/planos_fabricacion_transfer90.pdf` — juego de taller
-completo, **25 páginas en un solo PDF**:
+completo, **26 páginas en un solo PDF**:
 
 - **Portada** con el resumen del ensamble (piezas, ítems, normas, tolerancia
   general ISO 2768-mK, unidades).
-- **Despiece / lista de materiales** (2 páginas): las **47 posiciones
-  distintas** de las 138 piezas, con cantidad, tipo (FABRICADA /
-  NORMALIZADA / CONJUNTO), material o norma, y número de plano.
-- **22 planos de pieza fabricada** (TR-01 … TR-22): vistas del primer diedro
+- **Despiece / lista de materiales** (2 páginas): las **43 posiciones
+  distintas** de las 107 piezas, con cantidad, tipo (FABRICADA /
+  NORMALIZADA / CONJUNTO), material o norma, y número de plano. Los
+  **rodamientos 6004**, la **UCFL204** y los **pernos M10** de los rodillos
+  van como NORMALIZADAS (con su norma DIN); el **eje muerto**, el **tubo de
+  acero Ø51** y el **vulcanizado Ø63** llevan plano de fabricación.
+- **23 planos de pieza fabricada** (TR-01 …): vistas del primer diedro
   (alzado, planta, perfil) + isométrica, cotas envolventes y **cajetín
   ISO 7200** con designación, material, cantidad, escala y Nº de plano. Cada
   lámina elige tamaño (A4…A1) y escala normalizada automáticamente. Las
