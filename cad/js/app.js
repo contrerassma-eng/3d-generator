@@ -1188,7 +1188,7 @@ function showForm(title, fields, onSubmit, extra) {
   const first = dialog.querySelector('input,select');
   if (first) first.focus();
 }
-function hideDialog() { dialog.style.display = 'none'; dialog.innerHTML = ''; }
+function hideDialog() { dialog.style.display = 'none'; dialog.innerHTML = ''; if (typeof clearOpPreview === 'function') clearOpPreview(); }
 const dialogOpen = () => dialog.style.display === 'block';
 
 // ---------- Modos ----------
@@ -2879,6 +2879,30 @@ function updateSketchPreview(ev) {
 
 const fillOnMat = new THREE.MeshBasicMaterial({ color: 0x34a853, transparent: true, opacity: 0.3, side: THREE.DoubleSide, depthTest: false });
 const fillOffMat = new THREE.MeshBasicMaterial({ color: 0x666e7a, transparent: true, opacity: 0.18, side: THREE.DoubleSide, depthTest: false });
+// vista previa translúcida de la operación antes de confirmar (§6.1)
+const opPrevMatU = new THREE.MeshBasicMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.26, side: THREE.DoubleSide, depthWrite: false });
+const opPrevMatC = new THREE.MeshBasicMaterial({ color: 0xe05a4e, transparent: true, opacity: 0.26, side: THREE.DoubleSide, depthWrite: false });
+let opPreviewGroup = null;
+function showExtrudePreview(h, op) {
+  if (!sketch) return;
+  if (!opPreviewGroup) { opPreviewGroup = new THREE.Group(); sketch.group.add(opPreviewGroup); }
+  clearGroup(opPreviewGroup);
+  if (!(h > 0)) return;
+  const { regions: regs } = SK.regions(sketch.entities, [...sketch.excluded]);
+  // corte: se previsualiza hacia dentro (−normal); unión hacia fuera (+normal)
+  const dir = op === 'cut' ? -1 : 1;
+  const mBasis = new THREE.Matrix4().makeBasis(sketch.uW.clone().multiplyScalar(1), sketch.vW, sketch.nW.clone().multiplyScalar(dir))
+    .setPosition(sketch.originW);
+  const mat = op === 'cut' ? opPrevMatC : opPrevMatU;
+  for (const reg of regs) {
+    const shape = new THREE.Shape(reg.outer.map(p => new THREE.Vector2(p[0], p[1])));
+    for (const hole of reg.holes) shape.holes.push(new THREE.Path(hole.map(p => new THREE.Vector2(p[0], p[1]))));
+    const g = new THREE.ExtrudeGeometry(shape, { depth: h, bevelEnabled: false });
+    g.applyMatrix4(mBasis);
+    opPreviewGroup.add(new THREE.Mesh(g, mat));
+  }
+}
+function clearOpPreview() { if (opPreviewGroup) clearGroup(opPreviewGroup); }
 
 function drawProfileFills() {
   clearGroup(sketch.fills);
@@ -2982,6 +3006,15 @@ function finishSketch() {
     rebuildPart(part);
     commit(`Boceto extruido en ${part.name}.`);
   });
+  // vista previa en vivo del sólido mientras se ajustan altura/tipo/operación (§6.1)
+  const hEl = $('dlg_h'), tEl = $('dlg_tipo'), oEl = $('dlg_op');
+  const upd = () => { if (tEl?.value === 'rev') { clearOpPreview(); return; } showExtrudePreview(+hEl.value, oEl?.value || 'union'); };
+  if (hEl) {
+    hEl.addEventListener('input', upd);
+    tEl?.addEventListener('change', upd);
+    oEl?.addEventListener('change', upd);
+    upd();
+  }
 }
 
 function clickRevolveAxis(raw) {
