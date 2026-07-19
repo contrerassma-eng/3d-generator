@@ -3302,7 +3302,7 @@
    "descripcion": "Equipo base REAL del STEP sorter_CO.stp, PARTIDO EN SUS PIEZAS y clasificado (bandas, largueros, travesaños, patas, poleas/rodamientos, ejes, motor, tornillería, estructura). Se inserta como ENSAMBLE: cada clase entra como una PARTE editable en el modelador (seleccionable, movible, usable en ensambles), manteniendo el detalle real de la malla. Transferencia original del STEP borrada (por espacio).",
    "fuente": {
     "tipo": "step",
-    "detalle": "sorter_CO.stp (crami, 2026-06-23) -> teselado gmsh (base.stl) -> decimado ~1M caras -> GLB coloreado por componente conexo"
+    "detalle": "sorter_CO.stp → OpenCASCADE BRepMesh 2mm por sólido → GLB agrupado + Meshopt"
    },
    "confianza": "medido",
    "bbox_mm": [
@@ -3310,7 +3310,7 @@
     1757.5,
     517.2
    ],
-   "notas": "594 piezas del STEP agrupadas por clase → ~9 partes en el modelador. Malla real (no primitivas): editable en posición/uso, no en features.",
+   "notas": "594 piezas del STEP agrupadas por clase → ~9 partes en el modelador. Malla real (no primitivas): editable en posición/uso, no en features. | Detalle FINO: teselado del B-rep del STEP con OpenCASCADE a 2 mm (chapas, terminales de polea, guías, perfil PG40 80×40). Comprimido Meshopt (~2.8 MB).",
    "ensamble": {
     "glb": "componentes/models/sorter_CO.glb"
    }
@@ -3345,7 +3345,7 @@
    "descripcion": "Igual que el sorter real pero HILADO FINO: cada pieza significativa (cada banda, larguero, travesaño, pata, polea/rodamiento, eje, motor) entra como su PROPIA parte editable en el modelador — para entrar en las piezas elementales, moverlas o copiarlas por separado (⧉ Duplicar). Tornillería y estructura quedan agrupadas. Malla real full-detalle.",
    "fuente": {
     "tipo": "step",
-    "detalle": "sorter_CO.stp → tools/step_sorter_to_assembly_glb.py (variante por pieza)"
+    "detalle": "sorter_CO.stp → OpenCASCADE BRepMesh 2mm por sólido → GLB agrupado + Meshopt"
    },
    "confianza": "medido",
    "ensamble": {
@@ -3356,7 +3356,7 @@
     1757.5,
     517.2
    ],
-   "notas": "~112 partes (piezas individuales + tornillería/estructura agrupadas). Sobre las caras planas puedes bocetar (referencias)."
+   "notas": "~112 partes (piezas individuales + tornillería/estructura agrupadas). Sobre las caras planas puedes bocetar (referencias). | Detalle FINO: teselado del B-rep del STEP con OpenCASCADE a 2 mm (chapas, terminales de polea, guías, perfil PG40 80×40). Comprimido Meshopt (~2.8 MB)."
   },
   {
    "id": "ens_sorter_recon",

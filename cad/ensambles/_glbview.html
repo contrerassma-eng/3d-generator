@@ -3,6 +3,7 @@
 <body><script type="module">
 import * as THREE from 'three';
 import { GLTFLoader } from '../vendor/GLTFLoader.js';
+import { MeshoptDecoder } from '../vendor/meshopt_decoder.module.js';
 const q = new URLSearchParams(location.search);
 const src = q.get('glb') || '../componentes/models/sorter_CO.glb';
 const view = q.get('view') || 'iso';
@@ -11,7 +12,9 @@ scene.add(new THREE.HemisphereLight(0xe8eaf2, 0x596070, 1.2));
 const dl = new THREE.DirectionalLight(0xffffff, 1.1); dl.position.set(1, -2, 3); scene.add(dl);
 const cam = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 1, 1e5);
 const rnd = new THREE.WebGLRenderer({ antialias: true }); rnd.setSize(innerWidth, innerHeight); document.body.appendChild(rnd.domElement);
-new GLTFLoader().load(src, (g) => {
+const _ld = new GLTFLoader(); _ld.setMeshoptDecoder(MeshoptDecoder);
+await MeshoptDecoder.ready;
+_ld.load(src, (g) => {
   scene.add(g.scene);
   const box = new THREE.Box3().setFromObject(g.scene); const c = box.getCenter(new THREE.Vector3()); const s = box.getSize(new THREE.Vector3());
   const r = Math.max(s.x, s.y, s.z), d = r * 1.7;
