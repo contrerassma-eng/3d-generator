@@ -182,6 +182,33 @@ La base real es un STEP teselado (malla de visualización); este marco es la
 **modificación de diseño propuesta** y sus tie-ins exactos se cierran contra el
 modelo nativo. Ver `INTEGRACION_BASE.md`.
 
+## Animación (`ver_anim.html` + `js/animate.js` + `transfer_anim.json`)
+
+Herramienta de **animación de foto3d**: simula el movimiento del ensamble desde
+un archivo de datos, sin tocar la geometría.
+
+```
+# servir cad/ y abrir:
+ver_anim.html?doc=transfer_rodillos_90.json&anim=transfer_anim.json
+#   ?t=<seg>  congela un frame (para capturas)
+```
+
+- **`js/animate.js`** — motor reusable: dada la spec, entrega la matriz de
+  animación de cada pieza en el tiempo. Canales:
+  - `spin` — gira las piezas que matchean (rpm constante) alrededor de su eje
+    (rodillos, tambor);
+  - `pivot` — rota un grupo alrededor de una **línea fija** (el pop-up por
+    bisagra); `exagerar` amplifica un movimiento chico (0.41°) para verlo;
+  - `slide` — traslada a lo largo de un eje (carreras).
+  - Selector `sel`: `{layer, match, not}` (capa FIJO/MÓVIL o regex de nombre).
+- **`transfer_anim.json`** — la animación como DATO (capa `user`): rodillos y
+  tambor girando + pop-up por bisagra keyframeado, con 3 fases (sube · transfiere ·
+  baja) en un loop de 6 s. El visor tiene play/pausa y timeline (scrubbing).
+
+El HUD muestra la fase del ciclo. El pop-up se muestra **exagerado ×5** (el real
+es 0.41°/6 mm) para que el basculamiento sea visible; la nota va en el nombre del
+canal. Reusable para cualquier ensamble foto3d escribiendo su propia spec.
+
 ## Planos de fabricación (PDF)
 
 `planos_transfer90/planos_fabricacion_transfer90.pdf` — juego de taller
