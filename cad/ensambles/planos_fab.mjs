@@ -122,11 +122,11 @@ const NORMA = [
   { re: /Tuerca .*M10|Tuerca hex M10/, norma: 'DIN 934 · M10' },
   { re: /Tuerca tensora M12|Tuerca M12/, norma: 'DIN 934 · M12' },
   { re: /Chaveta/, norma: 'DIN 6885 A 8×7' },
-  { re: /Rótula/, norma: 'DIN ISO 12240-4 · M8' },
+  { re: /Rótula/, norma: 'DIN ISO 12240-4 · M10' },
   { re: /Grasera/, norma: 'DIN 71412 · M6' },
   { re: /Electroválvula/, norma: 'Válvula 5/2 24VDC · racor Ø8' },
   { re: /Motorreductor/, norma: 'Motorreductor ~0.18 kW i≈6.3' },
-  { re: /Cilindro ISO 6432/, norma: 'ISO 6432 · Ø25 c.10' },
+  { re: /Cilindro ISO 6432/, norma: 'ISO 6432 · Ø32 c.10' },
   { re: /Pasador guía/, norma: 'Pasador rectificado Ø8 m6' },
   { re: /Golilla de empuje/, norma: 'Arandela de empuje nylon Ø22×1.5' },
 ];

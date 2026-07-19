@@ -81,8 +81,8 @@ export const D = {
   // (crece la altura del módulo). Ø80 a z=58 (antes Ø50 a z=98).
   idlerDia: 80,                  // tensores 2ª línea (mayores → más envoltura y juego)
   idlerPos: [[-208.5, 58], [-69.5, 58], [208.5, 58]],  // 3 tensores bajos; el 4º hueco lo ocupa el tambor
-  retDia: 24,                    // poleas de retorno (esquinas inferiores)
-  retPos: [[-312, 36], [312, 36]],
+  retDia: 50,                    // poleas de retorno Ø50 (Habasit: Ø mín de polea
+  retPos: [[-312, 45], [312, 45]],   // con contraflexión para banda 3 mm/2 telas)
   drumDia: 90, drumW: 43,        // tambor motriz liso abombado (fricción)
   drumPos: [69.5, 78],           // en el hueco R3–R4 (entre rodillos, sin tocarlos)
   shaftDia: 20,                  // eje tambor Ø20 h6 (unificado con el base)
@@ -401,20 +401,21 @@ function elevacion() {
       hole('Ø5.5 M5', [L.lug[0] - 8, y, D.baseT + 6], [0, 0, -1], D.M5, 6, false),
       hole('Ø5.5 M5 (b)', [L.lug[0] + 8, y, D.baseT + 6], [0, 0, -1], D.M5, 6, false),
     ]);
-    // cilindro ESTANDARIZADO ISO 6432 Ø25 carrera 10 (p. ej. DSNU-25-10),
-    // basculante, con RÓTULAS DIN ISO 12240-4 (M8) en ambos extremos
+    // cilindro ESTANDARIZADO ISO 6432 Ø32 carrera 10 (p. ej. DSNU-32-10):
+    // dimensionado para la masa del cassette (~64 kg) + producto con ×1.67 de
+    // palanca → ~1.37 kN (SF ≈ 1.5). Basculante, con RÓTULAS DIN ISO 12240-4 M10.
     const B = [L.lug[0], y, L.lug[1]];
-    addPart(`FIJO · Cilindro ISO 6432 Ø25×10 ${s > 0 ? '+Y' : '-Y'}`, C.neumatico, B, [
-      cyl('Tapa trasera Ø32×8 (rosca M8 hembra)', [B[0] + u[0] * 8, y, B[2] + u[2] * 8], u, 32, 8),
-      cyl('Cuerpo Ø25 (ISO 6432)', [B[0] + u[0] * 16, y, B[2] + u[2] * 16], u, 25, 32),
-      cyl('Tapa delantera Ø32×6', [B[0] + u[0] * 48, y, B[2] + u[2] * 48], u, 32, 6),
-      cyl('Vástago Ø10 M8 (extendido +6 vertical)', [B[0] + u[0] * 54, y, B[2] + u[2] * 54], u, 10, len - 64),
+    addPart(`FIJO · Cilindro ISO 6432 Ø32×10 ${s > 0 ? '+Y' : '-Y'}`, C.neumatico, B, [
+      cyl('Tapa trasera Ø40×8 (rosca M10 hembra)', [B[0] + u[0] * 8, y, B[2] + u[2] * 8], u, 40, 8),
+      cyl('Cuerpo Ø32 (ISO 6432)', [B[0] + u[0] * 16, y, B[2] + u[2] * 16], u, 32, 32),
+      cyl('Tapa delantera Ø40×6', [B[0] + u[0] * 48, y, B[2] + u[2] * 48], u, 40, 6),
+      cyl('Vástago Ø12 M10 (extendido +6 vertical)', [B[0] + u[0] * 54, y, B[2] + u[2] * 54], u, 12, len - 64),
     ]);
     for (const [nom, P, dirShank, yOff] of [['trasera', B, 1, 0], ['delantera', [L.input[0], y, L.input[1]], -1, -11]]) {
-      addPart(`FIJO · Rótula M8 DIN ISO 12240-4 ${nom} ${s > 0 ? '+Y' : '-Y'}`, C.gris, [P[0], y + yOff - 6, P[2]], [
-        cyl('Cabeza Ø16×10', [P[0], y + yOff - 5, P[2]], [0, 1, 0], 16, 10),
-        cyl('Esfera Ø12 (aro interior)', [P[0], y + yOff - 6, P[2]], [0, 1, 0], 12, 12),
-        cyl('Caña rosca M8×10', [P[0] + dirShank * u[0] * 8, y + yOff, P[2] + dirShank * u[2] * 8], [dirShank * u[0], 0, dirShank * u[2]], 8, 10),
+      addPart(`FIJO · Rótula M10 DIN ISO 12240-4 ${nom} ${s > 0 ? '+Y' : '-Y'}`, C.gris, [P[0], y + yOff - 6, P[2]], [
+        cyl('Cabeza Ø18×10', [P[0], y + yOff - 5, P[2]], [0, 1, 0], 18, 10),
+        cyl('Esfera Ø14 (aro interior)', [P[0], y + yOff - 6, P[2]], [0, 1, 0], 14, 12),
+        cyl('Caña rosca M10×10', [P[0] + dirShank * u[0] * 8, y + yOff, P[2] + dirShank * u[2] * 8], [dirShank * u[0], 0, dirShank * u[2]], 10, 10),
         hole('Bore Ø8.2 (perno)', [P[0], y + yOff - 7, P[2]], [0, 1, 0], 8.2),
       ]);
     }
@@ -698,20 +699,21 @@ const doc = {
     integracion: 'módulo de desviación que se monta sobre el equipo base sin perforarlo: 4 pies de anclaje a riel T-slot con tuercas en T M6 (ajuste de posición X) + colisos M8 al canal (ajuste de altura ±7) + shims de nivelación. La altura de emergencia y la separación rodillo-tensora se calibran contra el plano de banda real del base.',
     estado_modelado: `ELEVADO (+${D.stroke} mm): tangente de rodillos a ${D.rollerZ + D.rollerDia / 2} = plano anfitrión + ${metrics.pop}`,
     tolerancias: {
-      rodamientos: 'RODILLOS de EJE MUERTO: el eje NO gira; el tubo gira sobre 2 rodamientos 6004 2RS (20×42×12) alojados en el bore Ø42 del tubo, uno por extremo (10 rodamientos en 5 rodillos). El TAMBOR conserva 1 unidad de brida UCFL204 (placa +X) + el rodamiento de salida del motor (placa -X). Sin rodamientos de bolas desnudos sueltos.',
-      eje_rodillo: 'EJE MUERTO MACIZO Ø20, largo 830 (entre placas), fijo a ambas placas: cada extremo PERFORADO Ø8.5 y ROSCADO M10 (hilo interior); desde FUERA de la chapa entra un PERNO HEXAGONAL M10 DIN 933 + golilla Ø22 (DIN 125) que lo sujeta y retiene axialmente (anti-giro por apriete). Alojamiento en placa Ø20.5. Chaflanes 1.5×45°.',
-      tubo_rodillo: 'tubo de acero Ø51 × 800 (bore Ø42 H7 para los rodamientos 6004), vulcanizado a Ø63 salvo el extremo +X desnudo (x=355..400) donde la banda del serpentín lo arrastra por fricción; tapa de extremo por lado. Ajuste rodamiento: aro exterior J7 en el tubo, aro interior sobre el eje Ø20 j5.',
+      rodamientos: 'RODILLOS de EJE MUERTO: el eje NO gira; el tubo gira sobre 2 rodamientos 6004 2RS (20×42×12), uno por extremo (10 en 5 rodillos). CARGA ROTANTE EN EL ARO EXTERIOR (gira con el tubo) → aro exterior AJUSTE APRETADO en el bore del tubo (Ø42 N7) y aro interior HOLGADO sobre el eje muerto (Ø20 g6, deslizante) — regla SKF/Shigley para aro exterior rotante con carga estacionaria. Retención axial del tubo: hombro en el bore + circlip interior DIN 472 Ø42 por lado (o tapa de extremo atornillada). El TAMBOR conserva 1 UCFL204 (placa +X) + el rodamiento del motorreductor. Sin rodamientos de bolas desnudos sueltos.',
+      eje_rodillo: 'EJE MUERTO MACIZO Ø20 (acero C45), largo 830 (entre placas), fijo a ambas placas: cada extremo PERFORADO Ø8.5 y ROSCADO M10 × 24 (hilo interior, engagement ≥ 2×Ø); desde FUERA de la chapa entra un PERNO HEXAGONAL M10 8.8 DIN 933 + golilla Ø22 (DIN 125) que lo sujeta (par 45 N·m, freno de rosca medio) y retiene axialmente (anti-giro por apriete). Flexión del eje despreciable: la carga entra por los rodamientos a ±386 y se reacciona en las placas a ±415 (voladizo 29). Alojamiento en placa Ø20.5. Chaflanes 1.5×45°.',
+      tubo_rodillo: 'tubo de acero St37 Ø51 × 800 (bore Ø42 con asientos de rodamiento a J7/N7 en los extremos, hombro interior de tope), vulcanizado NBR 75 ShA a Ø63 salvo el extremo +X desnudo (x=355..400) donde la banda del serpentín lo arrastra por fricción; tapa de extremo + circlip DIN 472 por lado. Rulli de Ø51×800 es tamaño estándar de rodillo de transporte.',
       eje_tambor: 'eje del tambor Ø20 h6 apoyado en la UCFL204 (placa +X); lo acciona el motorreductor de eje hueco montado directo sobre él (chavetero 6×3.5 N9); chaflanes 1.5×45°.',
       idlers: 'tensores y retornos: ejes cantiléver Ø12 m6 prensados en la placa; poleas locas sobre BUJE de bronce autolubricado SAE 841 Ø18/Ø12.2 H7/f7 (sin rodamiento desnudo); retención axial arandela + tornillo M6.',
-      tambor: 'SIT-LOCK CAL 1 20×28 en cubo Ø28 H7 (autocentrado, sin chaveta); 1 UCFL204 en placa +X; abombado corona +0.4.',
+      tambor: 'SIT-LOCK CAL 1 20×28 en cubo Ø28 H7 (autocentrado, sin chaveta); 1 UCFL204 en placa +X; abombado corona +0.4. LAGGING de caucho ranurado (o cerámico) e=6 en la llanta → µ≥0.7 para el arrastre por fricción (Habasit/Euler: envoltura ≈200°, T1/T2=e^{µθ}). Ø90 > Ø mín de polea motriz para banda 3 mm.',
       motor: 'MOTORREDUCTOR DE EJE HUECO montado DIRECTO sobre el eje del tambor (sin acople ni alineación): cuelga en la ventana del base y reacciona con un BRAZO DE TORQUE a un pasador Ø12 en la placa +X. Solución simple y confiable (estilo MRT). 1 chaveta DIN 6885 A 6×6×40.',
       montaje: 'pies de anclaje a riel T-slot: tuerca en T M6 en ranura (ajuste X) + 2 colisos M8 al canal (ajuste altura ±7) + shims 1 mm de nivelación. CERO perforaciones en el equipo base.',
       palanca: 'pernos Ø8 h9 en bujes de bronce Ø12/Ø8.2 H7 en la palanca; seegers DIN 471-8; leva Ø24 rodante; carrera cilindro 10 → 6 vertical (relación 122/203).',
       pasador_guia: 'Ø8 m6 en la placa; colisa 8.5 del canal (juego 0.5) por la carrera 6.',
       tensado: 'tensores en colisa vertical 12.2×22 con eje roscado M12 y tuerca: rango ±5 mm.',
-      neumatica: 'cilindros ISO 6432 Ø25 carrera 10 con rótulas DIN ISO 12240-4 M8 en ambos extremos; electroválvula 5/2 monoestable 24VDC.',
-      correa: 'banda PLANA 35×3 nitrilo/poliéster, empalme vulcanizado; abombado de tambor y tensores para autocentrado.',
-      velocidad: 'v tangencial rodillos 80 m/min → banda 60 m/min; tambor Ø90 ~212 rpm; motorreductor i≈6.3 (~0.18 kW).',
+      neumatica: 'cilindros ISO 6432 Ø32 carrera 10 con rótulas DIN ISO 12240-4 M10 en ambos extremos; electroválvula 5/2 monoestable 24VDC. Dimensionado: 2×Ø32@6bar = 966 N × relación de palanca 1.67 × η 0.85 ≈ 1.37 kN vs carga de elevación (cassette ~64 kg + producto) ≈ 0.9 kN → SF ≈ 1.5.',
+      correa: 'banda PLANA Habasit 35×3 (poliéster/NBR), empalme sin fin; poleas con abombado (crown) para autocentrado. Ø MÍN DE POLEA respetado: motriz/rodillos Ø51-90, tensores Ø80, RETORNOS Ø50 (subidos de Ø24, que quedaba por debajo del mínimo de contraflexión Habasit para 3 mm/2 telas).',
+      velocidad: 'v tangencial rodillos 80 m/min → banda 60 m/min; tambor Ø90 ~212 rpm; motorreductor i≈6.3 (~0.18 kW). Chaveta del tambor 6×6: τ≈11 MPa (holgada).',
+      revision_ingenieria: 'Revisión Shigley/Habasit/Hytrol/item aplicada: fits de rodamiento corregidos (aro exterior rotante apretado), poleas de retorno a Ø mín Habasit, cilindros redimensionados a Ø32 (SF 1.5), lagging del tambor, retención axial con circlip, roscas internas con engagement 2×Ø. Ver docs/REVISION_INGENIERIA.md.',
     },
     verificaciones: metrics,
   },

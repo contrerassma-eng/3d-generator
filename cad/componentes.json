@@ -1208,9 +1208,9 @@
   },
   {
    "id": "polea_tensora_50x29",
-   "nombre": "Polea tensora O50 x 29 (2a linea del serpentin, loca, eje O12)",
+   "nombre": "Polea tensora O80 x 39 (2a linea del serpentin, loca, eje O12)",
    "categoria": "mecanico",
-   "descripcion": "Polea loca de la segunda linea (inferior) del serpentin: la banda baja del rodillo y la envuelve por debajo entre cada par de rodillos. Un poco mayor que el rodillo de O40, como en la unidad de la foto. Gira sobre eje O12 cantilever. Eje de giro en X; apoyada tangente sobre Z=0.",
+   "descripcion": "Polea tensora O80 x 39 abombada, loca sobre buje de bronce (eje cantilever O12). 2a linea baja del serpentin: mayor diametro y mas baja para dar la compliancia del pop-up.",
    "fuente": {
     "tipo": "diseno",
     "detalle": "espec. del usuario: las poleas de la segunda linea de abajo son un poco mas grandes que los rodillos de 40"
@@ -1230,7 +1230,7 @@
       0,
       0
      ],
-     "dia": 50,
+     "dia": 80,
      "alto": 29,
      "color": "#90a4ae"
     }
@@ -1255,9 +1255,9 @@
   },
   {
    "id": "polea_retorno_24x29",
-   "nombre": "Polea tensora/de retorno O24 x 29 (loca, eje O12)",
+   "nombre": "Polea de retorno O50 x 39 (loca, eje O12)",
    "categoria": "mecanico",
-   "descripcion": "Polea loca para banda plana de 25: guia el serpentin de transmision (tensor entre rodillos o retorno de esquina). Gira sobre eje O12 cantilever (rodamiento de agujas o buje). Eje de giro en X; apoyada tangente sobre Z=0.",
+   "descripcion": "Polea de retorno O50 x 39 abombada, loca sobre buje de bronce. Ø50 = Ø minimo Habasit de polea con contraflexion para banda plana 3 mm/2 telas (antes O24, insuficiente).",
    "fuente": {
     "tipo": "diseno",
     "detalle": "transmision en serpentin del modulo de transferencia 90 (esquema del usuario IMG_3102); ancho = banda 25 + 4"
@@ -1277,7 +1277,7 @@
       0,
       0
      ],
-     "dia": 24,
+     "dia": 50,
      "alto": 29,
      "color": "#90a4ae"
     }
