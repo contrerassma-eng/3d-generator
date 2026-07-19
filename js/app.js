@@ -1297,7 +1297,7 @@ const ENV_OF_MODE = { sketch: 'pieza', hole: 'pieza', pestana: 'pieza', direct: 
 let env = 'pieza';
 function setEnv(e) {
   env = e;
-  document.getElementById('rail').classList.toggle('ens', env === 'ens');
+  document.getElementById('ribbon').classList.toggle('ens', env === 'ens');
   $('envPieza').classList.toggle('on', env !== 'ens');
   $('envEns').classList.toggle('on', env === 'ens');
   if (ENV_OF_MODE[mode] && ENV_OF_MODE[mode] !== env) setMode(mode); // apaga el modo del otro entorno
