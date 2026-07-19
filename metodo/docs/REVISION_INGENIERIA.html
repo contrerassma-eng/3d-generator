@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revisión de ingeniería — Transfer de rodillos 90° (estilo MRT)</title><style>
+:root { color-scheme: light dark; }
+body { font-family: system-ui, sans-serif; max-width: 60rem; margin: 2rem auto;
+       padding: 0 1rem; line-height: 1.55; }
+a { color: #0b62c4; } code, pre { background: rgba(127,127,127,.12);
+    border-radius: 4px; padding: .1em .3em; }
+pre { padding: .8em; overflow-x: auto; }
+table { border-collapse: collapse; } td, th { border: 1px solid #8886;
+    padding: .3em .6em; }
+h1, h2 { border-bottom: 1px solid #8884; padding-bottom: .2em; }
+.nav { font-size: .9em; margin-bottom: 1.5rem; }
+.tag { font-size: .8em; background: rgba(127,127,127,.15); border-radius: 6px;
+    padding: .1em .5em; margin-left: .4em; }
+</style></head>
+<body><p class="nav"><a href="../index.html">← foto3d</a></p>
+<h1>Revisión de ingeniería — Transfer de rodillos 90° (estilo MRT)</h1>
+<p>Revisión exhaustiva del conjunto <code>transfer_rodillos_90.json</code> + <code>base_interface.json</code>
+con criterio de diseñador de transportadores, aplicando:</p>
+<ul>
+<li><strong>Shigley</strong> (<em>Mechanical Engineering Design</em>): ejes, rodamientos, uniones
+  atornilladas, chavetas, factores de seguridad.</li>
+<li><strong>Habasit</strong> (<em>Engineering Guide</em> de bandas): selección de banda plana,
+  diámetros mínimos de polea, arrastre por fricción (Euler).</li>
+<li><strong>Hytrol</strong> (práctica de transfer de rodillos / MRT): arquitectura, centros de
+  rodillo, accionamiento por banda, bastidor.</li>
+<li><strong>item / item24</strong> (perfilería de aluminio con ranura en T): opción de bastidor
+  atornillado para el marco de integración.</li>
+</ul>
+<p>Estado: <strong>capa <code>user</code></strong> (diseño con dimensiones nominales). Verificar contra la
+unidad real antes de mecanizar. <code>cad/tests/test_transfer90.mjs</code>: 43/43 OK.</p>
+<hr />
+<h2>1. Rodillos de eje muerto (Shigley + Hytrol)</h2>
+<p><strong>Arquitectura (correcta).</strong> Rodillo de EJE MUERTO: eje macizo Ø20 fijo a las dos
+placas; el tubo Ø51 gira sobre 2 rodamientos 6004. Es la construcción estándar de
+rodillo de transporte (Interroll/Rulmeca) y de la cama de un transfer MRT.</p>
+<table>
+<thead>
+<tr>
+<th>Ítem</th>
+<th>Hallazgo</th>
+<th>Corrección</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fit de rodamiento</strong></td>
+<td>La nota decía <em>aro exterior J7 / aro interior j5</em>. Con el TUBO girando, la <strong>carga rota con el aro exterior</strong> → debe ir <strong>apretado</strong> y el aro interior <strong>holgado</strong> (regla SKF/Shigley). El j5 interior (interferencia) estaba <strong>al revés</strong>.</td>
+<td>Aro exterior <strong>Ø42 N7</strong> (apretado en el tubo); aro interior <strong>Ø20 g6</strong> (deslizante en el eje muerto).</td>
+</tr>
+<tr>
+<td><strong>Retención axial del tubo</strong></td>
+<td>El tubo (con rodamientos) no tenía tope axial definido.</td>
+<td><strong>Hombro en el bore + circlip DIN 472 Ø42</strong> por lado (o tapa de extremo atornillada, ya modelada).</td>
+</tr>
+<tr>
+<td><strong>Rosca interior del eje</strong></td>
+<td>M10 en Ø20: pared 5.75 mm alrededor del taladro Ø8.5.</td>
+<td>Engagement de rosca <strong>≥ 2×Ø (24 mm)</strong>; perno M10 8.8 par <strong>45 N·m</strong> + freno de rosca medio.</td>
+</tr>
+<tr>
+<td><strong>Flexión del eje</strong></td>
+<td>830 mm entre placas.</td>
+<td>Despreciable: la carga entra por los rodamientos a ±386 y se reacciona en las placas a ±415 (voladizo 29 mm). Tramo central sin carga.</td>
+</tr>
+<tr>
+<td><strong>Aplastamiento en placa</strong></td>
+<td>Eje Ø20.5 en chapa 6 mm.</td>
+<td>σ ≈ 1.3 MPa (holgado).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Centros de rodillo (Hytrol).</strong> 5 rodillos a paso 139 → el producto debe apoyar
+en <strong>≥3 rodillos</strong> (longitud mínima <strong>≈ 420 mm</strong> en el sentido de expulsión) para
+transferencia suave.</p>
+<h2>2. Banda y poleas (Habasit)</h2>
+<table>
+<thead>
+<tr>
+<th>Ítem</th>
+<th>Hallazgo</th>
+<th>Corrección</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ø mín de polea de RETORNO</strong></td>
+<td>Retornos <strong>Ø24</strong> — por <strong>debajo</strong> del Ø mínimo Habasit para banda de 3 mm/2 telas con <strong>contraflexión</strong> (≈ Ø50). Sobre-flexión → fatiga del empalme.</td>
+<td><strong>Retornos Ø50</strong> (subidos a z=45 para no rozar la base).</td>
+</tr>
+<tr>
+<td><strong>Ø de tensores</strong></td>
+<td>Ø50, algo justos y altos.</td>
+<td><strong>Ø80 y bajados a z=58</strong>: más envoltura + bajan el ramal (compliancia del pop-up).</td>
+</tr>
+<tr>
+<td><strong>Arrastre del tambor</strong></td>
+<td>Fricción sobre llanta lisa Ø90, envoltura ≈200°.</td>
+<td><strong>Lagging de caucho ranurado e=6</strong> → µ≥0.7. Euler: T1/T2 = e^{µθ} = e^{0.7·3.49} ≈ 11 (holgado para ~0.18 kW).</td>
+</tr>
+<tr>
+<td><strong>Autocentrado</strong></td>
+<td>—</td>
+<td><strong>Abombado (crown)</strong> en tambor y poleas (ya modelado).</td>
+</tr>
+<tr>
+<td><strong>Tensado</strong></td>
+<td>—</td>
+<td>Tensores en <strong>colisa vertical</strong> con eje roscado M12 (take-up ±5 mm).</td>
+</tr>
+</tbody>
+</table>
+<h2>3. Accionamiento (Shigley + Hytrol)</h2>
+<ul>
+<li><strong>Motorreductor de EJE HUECO</strong> directo sobre el eje del tambor (sin acople ni
+  alineación) + <strong>brazo de torque</strong>. Es la solución simple/confiable de un
+  transfer: menos piezas, sin problemas de alineación. <strong>Todo el cassette sube
+  junto</strong> (elección del usuario) → la banda no cambia de longitud, tensión
+  constante.</li>
+<li><strong>Chaveta del tambor</strong> DIN 6885 6×6: a 0.18 kW / 212 rpm, T ≈ 8 Nm →
+  τ ≈ 11 MPa (holgada).</li>
+</ul>
+<h2>4. Elevación / neumática (Shigley) — POP-UP POR BISAGRA</h2>
+<p>Mecanismo actualizado a <strong>pivote por bisagra</strong> integrado en la estructura lateral
+(a pedido): línea de bisagra (eje Y) al pie de la placa <strong>−X</strong>; 2 cilindros
+<strong>verticales</strong> suben el lado <strong>+X</strong> 6 mm → la cama <strong>bascula 0.41°</strong> (despreciable).
+Elimina las colisas verticales de guía (fricción/desgaste) y la palanca+leva.</p>
+<table>
+<thead>
+<tr>
+<th>Ítem</th>
+<th>Análisis</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Reparto de carga</strong></td>
+<td>Bisagra a X=−415, cilindros a X=+300, CG a X=0. Momentos: la <strong>bisagra toma ~0.5·W</strong>, <strong>cada cilindro ~0.26·W</strong>. Con W (cassette ~64 kg + producto) ≈ 0.9 kN → cilindro ≈ 235 N.</td>
+<td>2×Ø32@6bar = 966 N → <strong>SF ≈ 4</strong> (muy holgado; el cilindro casi no trabaja).</td>
+</tr>
+<tr>
+<td><strong>Bisagra (Shigley)</strong></td>
+<td>Pasador Ø12 h9 en buje de bronce H7, doble cortante, reacción ~0.5·W repartida en 2 nudillos → ~225 N/nudillo. τ ≈ 2 MPa.</td>
+<td>Holgado; toma el empuje lateral sin colisas.</td>
+</tr>
+<tr>
+<td><strong>Tilt</strong></td>
+<td>6 mm sobre brazo 2·combX=830 → <strong>0.41°</strong>; los 5 rodillos emergen 0.6…5.4 mm (aceptado por el usuario).</td>
+<td>Plano de transporte prácticamente plano.</td>
+</tr>
+<tr>
+<td><strong>Descarga en reposo</strong></td>
+<td><strong>Topes de altura M10</strong> regulables fijan los +6 mm y cargan el peso en reposo → el cilindro no sostiene presión estática.</td>
+<td>Menos consumo de aire y desgaste.</td>
+</tr>
+<tr>
+<td><strong>Cinemática</strong></td>
+<td>Cilindros verticales basculantes (horquilla abajo + rótula M10 arriba al puente +X); grado de libertad único (rotación en la bisagra).</td>
+<td>Robusto, sin colisas.</td>
+</tr>
+</tbody>
+</table>
+<h2>5. Bastidor e integración (Hytrol + item)</h2>
+<ul>
+<li><strong>Placas laterales</strong> 6 mm (canal) separadas 830 (= largo de rodillo + acoples),
+  trabadas por 5 ejes + 2 puentes + eje del tambor → cassette rígido.</li>
+<li><strong>Bastidor de integración en la base</strong> (<code>base_interface.json</code>): 2 largueros +
+  3 <strong>travesaños de trabazón</strong> que abren y refuerzan el hueco, <strong>4 cartelas</strong> de
+  anclaje M12 al bastidor de la máquina, <strong>rieles T-slot + tuercas M12</strong> para los
+  4 pies del módulo, <strong>topes de altura M10</strong>.</li>
+<li><strong>Libertad del mecanismo</strong>: 8 mm de holgura entre el marco y el canal FIJO →
+  los 6 mm de pop-up quedan libres.</li>
+<li><strong>Opción item24</strong>: el marco de integración puede fabricarse en <strong>perfil de
+  aluminio con ranura en T</strong> (atornillado, sin soldadura) manteniendo la misma
+  geometría de largueros/travesaños; conviene si se prioriza montaje/ajuste sobre
+  rigidez máxima.</li>
+</ul>
+<h2>6. Fabricabilidad — checklist</h2>
+<ul>
+<li>[x] Ø mín de polea respetado en toda la banda (Habasit).</li>
+<li>[x] Fits de rodamiento con la regla de aro rotante (Shigley/SKF) + circlip.</li>
+<li>[x] Cilindros con SF ≥ 1.5 sobre la carga real de elevación.</li>
+<li>[x] Roscas internas con engagement ≥ 2×Ø.</li>
+<li>[x] Lagging del tambor para µ del arrastre.</li>
+<li>[x] 0 interferencias inesperadas (barrido AABB: solo contactos intencionales).</li>
+<li>[ ] <strong>Pendiente contra la unidad real</strong>: masa exacta del cassette (afina SF de
+      cilindros), plano de banda del base (afina altura de emergencia), tie-ins
+      exactos de las cartelas al bastidor nativo.</li>
+</ul>
+<h2>7. Conjunto completo CON LAS BANDAS (análisis de sistema)</h2>
+<p><code>integracion_modulo_base.json</code> (<code>gen_integracion.mjs</code>) modela el <strong>conjunto</strong>:
+la transferencia + las <strong>4 bandas pasantes</strong> del transportador base corriendo en
+las calles entre las 5 líneas de rodillos, con sus <strong>tambores</strong> en los extremos.</p>
+<table>
+<thead>
+<tr>
+<th>Ítem de sistema</th>
+<th>Análisis / criterio</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bandas del base (Habasit)</strong></td>
+<td>4 bandas planas <strong>40×3</strong> (poliéster/NBR) a paso 139, en las calles Y=±69.5 / ±208.5 entre rodillos. Tambores Ø60 (&gt; Ø mín).</td>
+<td>OK; anchos y Ø compatibles.</td>
+</tr>
+<tr>
+<td><strong>Traspaso de producto (Hytrol)</strong></td>
+<td>El producto viaja en las bandas (plano Z=170). Al activar el transfer, los rodillos <strong>emergen +4 mm</strong> sobre el plano de banda → el producto se <strong>despega de la banda</strong> y queda solo sobre los rodillos, que lo expulsan a 90°. Al retraer, bajan <strong>−2 mm</strong> bajo el plano → la banda retoma el producto.</td>
+<td>Interfaz correcto: <strong>+4 / −2 mm</strong> garantizan traspaso limpio sin lucha banda↔rodillo.</td>
+</tr>
+<tr>
+<td><strong>Compatibilidad de velocidades</strong></td>
+<td>Banda base v_b (flujo) y rodillos v_r (expulsión) son <strong>ortogonales e independientes</strong>; durante la expulsión el producto ya no toca la banda → no hay conflicto cinemático. v_r 80 m/min tangencial dimensiona el motorreductor del transfer.</td>
+<td>Sin restricción de sincronía.</td>
+</tr>
+<tr>
+<td><strong>Reparto de carga (Shigley)</strong></td>
+<td>En estado elevado, el peso del producto lo toman los <strong>5 rodillos</strong> (no las bandas). Carga/rodillo ≤ ~1/5 del producto → los 6004 y el tubo Ø51 sobran (ver §1).</td>
+<td>OK.</td>
+</tr>
+<tr>
+<td><strong>Ancho de producto vs calles</strong></td>
+<td>Producto ancho apoya sobre varios rodillos <strong>y</strong> cruza las calles de banda (40 mm). Las bandas (Z=170) quedan 4 mm por debajo del lomo del rodillo (Z=174) → no rozan el producto en transferencia.</td>
+<td>OK.</td>
+</tr>
+<tr>
+<td><strong>Tracking de las bandas base</strong></td>
+<td>Tambores con abombado/pestaña (práctica del transportador base).</td>
+<td>Fuera del alcance del módulo; se respeta el hardware del base.</td>
+</tr>
+<tr>
+<td><strong>Estructura del conjunto</strong></td>
+<td>El <strong>bastidor de integración</strong> (§5) abre el hueco y ata el transfer al bastidor del base; las bandas pasan por las calles, el transfer cuelga en la ventana.</td>
+<td>Coherente; libertad de pop-up conservada.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Modos de fallo a vigilar en puesta en marcha:</strong>
+- Desalineo banda↔calle → roce del canto de banda con el rodillo (holgura calle−rodillo ≥ (139−63−40)/2 = <strong>18 mm por lado</strong>, holgado).
+- Producto muy corto (&lt; 3 centros ≈ 420 mm) → transferencia irregular (limitación de layout, no de diseño).
+- Presión de banda base sobre producto durante el pop-up → nula (producto ya despegado a +4).</p>
+<h2>8. Equipo base — transportador twin-belt (<code>gen_base.mjs</code>)</h2>
+<p>Mismo análisis (Habasit/Shigley/conveyor) al <strong>equipo base paramétrico</strong>,
+<strong>manteniendo la posición de las bandas</strong> (calles Y=±69.5/±208.5). Correcciones
+aplicadas para fabricabilidad:</p>
+<table>
+<thead>
+<tr>
+<th>Ítem</th>
+<th>Análisis / hallazgo</th>
+<th>Corrección</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Soporte de banda (Habasit)</strong></td>
+<td>Una banda plana de <strong>3 m sin apoyo se hunde</strong> entre tambores.</td>
+<td><strong>CAMA DESLIZANTE</strong> (slider bed) de chapa bajo cada calle (o rodillos de carga como alternativa).</td>
+</tr>
+<tr>
+<td><strong>Potencia del motor</strong></td>
+<td>P = F·v; F ≈ µ·(m_banda+carga)·g ≈ 0.3·(≈53 kg)·9.81 ≈ <strong>156 N</strong>; a v ≈ 0.5 m/s → <strong>P ≈ 80 W</strong>.</td>
+<td>Motor <strong>0.37 kW</strong> (era 0.55, sobredimensionado) — sobra margen para arranque.</td>
+</tr>
+<tr>
+<td><strong>Arrastre del tambor (Habasit/Euler)</strong></td>
+<td>Fricción sobre Ø90, envoltura 180°. Sin lagging µ~0.25 → patina.</td>
+<td><strong>Lagging de caucho ranurado e=6</strong> en el tambor de cabeza → µ≥0.7; T1/T2 = e^{µθ} ≈ 2.6.</td>
+</tr>
+<tr>
+<td><strong>Ø de tambor (Habasit)</strong></td>
+<td>Ø90 &gt; Ø mínimo de polea motriz para banda 3 mm.</td>
+<td>OK.</td>
+</tr>
+<tr>
+<td><strong>Take-up (Habasit)</strong></td>
+<td>Elongación de banda ≈ 1–2% del lazo (6 m) → <strong>60–120 mm</strong>. Tenía ±40.</td>
+<td><strong>Husillo de take-up ±60 (120 mm)</strong> en la cola, con colisa.</td>
+</tr>
+<tr>
+<td><strong>Eje del tambor (Shigley)</strong></td>
+<td>Par = F·R = 156·0.045 ≈ <strong>7 N·m</strong>; flexión por T1+T2 sobre la luz de rodamiento.</td>
+<td>Ø30 holgado (τ y flecha muy por debajo); chumaceras de pie estándar.</td>
+</tr>
+<tr>
+<td><strong>Bastidor / flecha (Shigley)</strong></td>
+<td>Canal C sobre 3 m: con patas solo en extremos, luz <strong>2.5 m</strong> → flecha marginal.</td>
+<td><strong>Par de patas CENTRAL</strong> (6 patas) → luz 1.25 m; flecha ≪ L/500. Riostras diagonales para rigidez longitudinal.</td>
+</tr>
+<tr>
+<td><strong>Patas / carga</strong></td>
+<td>~53 kg + bastidor sobre 6 patas → &lt;120 N/pata.</td>
+<td>Postes 60×60 + placa + nivelador M16: holgado.</td>
+</tr>
+<tr>
+<td><strong>item / perfilería</strong></td>
+<td>El bastidor puede ir en <strong>perfil de aluminio ranurado (item/Bosch)</strong> atornillado en vez de canal soldado.</td>
+<td>Documentado como alternativa (montaje/ajuste vs rigidez).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interfaz base ↔ transferencia:</strong> el hueco (X=±430) queda enmarcado por 2
+travesaños pesados que reciben las cargas del módulo; el plano de banda (Z=170)
+es común, así los rodillos emergen +4 sin conflicto. Las 4 bandas <strong>no cambian
+de posición</strong> (calles Y=±69.5/±208.5).</p>
+<hr />
+<p>Todos los cambios de geometría están en <code>gen_transfer90.mjs</code>, <code>gen_base.mjs</code>,
+<code>gen_base_interface.mjs</code> y <code>gen_integracion.mjs</code>, regenerados en los JSON, el
+test y los planos.</p>
+</body></html>

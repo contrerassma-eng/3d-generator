@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Biblioteca de componentes electrónicos (para diseñar carcasas)</title><style>
+<title>Biblioteca de componentes electrónicos y mecánicos</title><style>
 :root { color-scheme: light dark; }
 body { font-family: system-ui, sans-serif; max-width: 60rem; margin: 2rem auto;
        padding: 0 1rem; line-height: 1.55; }
@@ -16,9 +16,11 @@ h1, h2 { border-bottom: 1px solid #8884; padding-bottom: .2em; }
     padding: .1em .5em; margin-left: .4em; }
 </style></head>
 <body><p class="nav"><a href="../index.html">← foto3d</a></p>
-<h1>Biblioteca de componentes electrónicos (para diseñar carcasas)</h1>
+<h1>Biblioteca de componentes electrónicos y mecánicos</h1>
 <p>Componentes estándar (placas ESP32, convertidores buck, sensores, pulsadores,
-conectores de panel) definidos <strong>como datos</strong> en <code>componentes/catalogo.json</code>.
+conectores de panel, y elementos mecánicos: rodillos de tracción, poleas de
+banda plana y ejes calibrados — categoría <code>mecanico</code>) definidos <strong>como
+datos</strong> en <code>componentes/catalogo.json</code>.
 De cada registro se derivan, sin tocar código:</p>
 <table>
 <thead>
@@ -52,7 +54,7 @@ pieza (sólidos + agujeros de montaje pasantes) apoyada en Z=0. La app lee
 <code>cad/componentes.json</code>, una copia del catálogo que se regenera con
 <code>python pipeline/componentes_cli.py sync-web</code> cada vez que se edita
 <code>componentes/catalogo.json</code> (hay una prueba que falla si quedan desincronizados).</p>
-<p>Consulta: <code>listar [--categoria mcu|alimentacion|sensor|boton|conector|adaptador]</code>,
+<p>Consulta: <code>listar [--categoria mcu|alimentacion|sensor|boton|conector|adaptador|mecanico]</code>,
 <code>info &lt;id&gt;</code>, <code>validar</code>. Con <code>--proyecto &lt;X&gt;</code> la salida va a
 <code>projects/&lt;X&gt;/out/componentes/</code> y queda registrada en el <code>audit.log</code> del
 proyecto; sin él, a <code>componentes/out/</code> (fuera de git).</p>
