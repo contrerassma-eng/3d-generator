@@ -62,6 +62,8 @@ export const ICON = {
   lock: '<rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
   lockopen: '<rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/>',
   home: '<path d="M4 11l8-6 8 6"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/>',
+  ortho: '<rect x="6" y="6" width="12" height="12" rx="1"/><path d="M6 6l3-3h12v12l-3 3M18 6l3-3M9 18l-3 3" opacity=".6"/>',
+  persp: '<path d="M7 8l10-2v12l-10-2z"/><path d="M7 8l-3 1v6l3 1M17 6l3 1v10l-3 1" opacity=".6"/>',
 };
 
 // Envuelve el contenido en un <svg>. `cls` opcional para variar tamaño/color.

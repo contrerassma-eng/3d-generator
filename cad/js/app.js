@@ -99,6 +99,7 @@ function setMainView(v) {
     sketchControls.enabled = false;
     viewBtn?.classList.remove('on');
     frameModel(); // recentra el pivote de órbita en el modelo
+    window.__updateLockIcon?.();
     setStatus('Vista en perspectiva libre.');
     return;
   }
@@ -122,6 +123,7 @@ function setMainView(v) {
   activeCamera = orthoCam;
   resize();
   viewBtn?.classList.add('on');
+  window.__updateLockIcon?.();
   setStatus(libre
     ? 'Vista ORTOGRÁFICA LIBRE (sin perspectiva): orbita, panea y zoom. Ideal para ensambles.'
     : `Vista ${VIEW_NAMES[v]} bloqueada (ortogonal, sin giro): paneo/zoom libres; Mover arrastra en el plano de la vista.`);
@@ -236,14 +238,39 @@ if (vcCanvas) {
     setStatus(`Vista ${NAME[dir.join(',')] || ''}.`);
   });
   document.getElementById('vcHome').onclick = () => { snapView([1, -1, 1], [0, 0, 1]); setStatus('Vista isométrica.'); };
+  // toggle de proyección ortográfica ↔ perspectiva (por defecto ortográfica)
+  const vcProj = document.getElementById('vcProj');
+  vcProj.onclick = () => {
+    if (sketch) { setStatus('Sal del boceto para cambiar la proyección del ensamble.'); return; }
+    const toOrtho = mainView !== 'ortho';
+    setMainView(toOrtho ? 'ortho' : 'persp');
+    vcProj.innerHTML = svgIcon(toOrtho ? 'ortho' : 'persp');
+    vcProj.classList.toggle('on', toOrtho);
+  };
   const vcLock = document.getElementById('vcLock');
+  // ¿está permitido el giro en el contexto actual? (boceto usa sketch.orbit)
+  window.__rotateEnabled = () => sketch ? !!sketch.orbit
+    : (activeCamera === orthoCam ? sketchControls.enableRotate : controls.enableRotate);
+  window.__updateLockIcon = () => {
+    const on = window.__rotateEnabled();
+    vcLock.classList.toggle('on', !on);
+    vcLock.innerHTML = svgIcon(on ? 'lockopen' : 'lock');
+  };
   vcLock.onclick = () => {
-    viewLocked = !viewLocked;
-    controls.enableRotate = !viewLocked;
-    if (mainView === 'ortho') sketchControls.enableRotate = !viewLocked;
-    vcLock.classList.toggle('on', viewLocked);
-    vcLock.innerHTML = svgIcon(viewLocked ? 'lock' : 'lockopen');
-    setStatus(viewLocked ? '🔒 Giro de la vista bloqueado (paneo y zoom siguen).' : '🔓 Giro de la vista habilitado.');
+    const on = !window.__rotateEnabled();
+    if (sketch) { // en boceto: botón central rota, izquierdo sigue dibujando (= Giro)
+      sketch.orbit = on; sketchControls.enableRotate = on;
+      sketchControls.mouseButtons.MIDDLE = on ? THREE.MOUSE.ROTATE : THREE.MOUSE.DOLLY;
+      document.getElementById('skOrbit')?.classList.toggle('on', on);
+      if (!on) { orthoCam.up.copy(sketch.vW); orthoCam.position.copy(sketchControls.target).addScaledVector(sketch.nW, 500); orthoCam.lookAt(sketchControls.target); }
+    } else {
+      viewLocked = !on;
+      controls.enableRotate = on;
+      if (mainView === 'ortho') sketchControls.enableRotate = on;
+    }
+    window.__updateLockIcon();
+    setStatus(on ? (sketch ? '🔓 Giro habilitado en el boceto: arrastra para rotar, toca para dibujar.' : '🔓 Giro de la vista habilitado.')
+                 : '🔒 Giro bloqueado (paneo y zoom siguen).');
   };
 }
 
@@ -1656,6 +1683,7 @@ function beginSketch(part, originL, nL, uL) {
   sketchControls.target.copy(originW);
   sketchControls.enableRotate = false;
   document.getElementById('skOrbit')?.classList.remove('on');
+  window.__updateLockIcon?.();
   activeCamera = orthoCam;
   controls.enabled = false;
   sketchControls.enabled = true;
@@ -2725,6 +2753,7 @@ function cancelSketch(silent) {
   document.getElementById('skSlice')?.classList.remove('on');
   document.getElementById('btnSection')?.classList.remove('on');
   controls.enabled = true;
+  window.__updateLockIcon?.();
   if (!silent) setStatus('Boceto cancelado.');
   if (mode === 'sketch') { mode = 'select'; $('btnSketch').classList.remove('on'); setHint(''); }
 }
@@ -2751,6 +2780,7 @@ sketchbar.addEventListener('click', (e) => {
     btn.classList.toggle('on', sketch.orbit);
     sketchControls.enableRotate = sketch.orbit;
     sketchControls.mouseButtons.MIDDLE = sketch.orbit ? THREE.MOUSE.ROTATE : THREE.MOUSE.DOLLY;
+    window.__updateLockIcon?.();
     if (!sketch.orbit) {
       // volver a la vista normal a la cara
       orthoCam.up.copy(sketch.vW);
@@ -3951,6 +3981,9 @@ function loadDemo() {
   } catch (e) { /* almacenamiento no disponible o corrupto */ }
   if (!restored) { loadDemo(); setStatus('Ensamble de ejemplo cargado. Prueba ◎ Agujero, ▬ Coincidir o 📏 Medir.'); }
   frameModel(); // el pivote de órbita arranca en el centro del modelo
+  setMainView('ortho'); // por defecto ortográfica libre (sin perspectiva), símil Inventor
+  const vcProj0 = document.getElementById('vcProj');
+  if (vcProj0) { vcProj0.innerHTML = svgIcon('ortho'); vcProj0.classList.add('on'); }
   refreshUI();
 })();
 
