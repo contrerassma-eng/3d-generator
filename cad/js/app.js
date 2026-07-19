@@ -4514,7 +4514,22 @@ $('btnClear').onclick = () => {
   commit('Proyecto nuevo.');
 };
 
-$('btnDemo').onclick = () => { pushUndo(); loadDemo(); frameModel(); commit('Ejemplo cargado.'); };
+$('btnDemo').onclick = () => {
+  showForm('Cargar ejemplo', [
+    { key: 'ej', label: 'Ejemplo', type: 'select', value: 'mec',
+      options: [['mec', 'Base + Puente (mecánico)'], ['goose', 'Transportador cuello de cisne']] },
+  ], async (v) => {
+    pushUndo();
+    if (v.ej === 'goose') {
+      try {
+        const r = await fetch('ejemplos/gooseneck.json');
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        doc = await r.json(); selection = null; rebuildAll();
+      } catch (e) { setStatus(`No se pudo cargar el transportador: ${e.message}`); return; }
+    } else { loadDemo(); }
+    frameModel(); commit('Ejemplo cargado.');
+  });
+};
 
 function loadDemo() {
   doc = newDoc();
