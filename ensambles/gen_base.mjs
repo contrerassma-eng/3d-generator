@@ -65,10 +65,11 @@ const D = {
   idlerPD: 40,                                // CONDUCIDA (cola): rodillo_terminal_40 Ø40 (biblioteca)
   shaftDia: 30, chumBore: 20,                 // eje Ø30; chumacera_ucfl204 bore Ø20 (biblioteca)
   takeup: 60,                                 // carrera del take-up (tensor_banda) en la cola
-  frameHalfY: 300, profH: 120,                // perfil item del bastidor a ±300
+  frameHalfY: 300,                            // largueros del bastidor a ±300 (fuera de las calles)
+  railBot: 30, railTop: 145,                  // larguero lateral: bajo el deck, sostiene guías/terminales
+  crossZ0: 15, crossH: 40,                    // TRAVESAÑOS bajo el ramal de retorno (z 15..55 < 58)
   legH: 760,
   openHalf: 430,
-  crossAt: [-1250, -750, -430, 430, 750, 1250],
   guardH: 60, M12: 13.5,
 };
 
@@ -122,18 +123,25 @@ function rodamiento(nombre, x, y, pz, sh) {
   for (const [hx, hy] of bolt) perno(`${nombre} ${hx < 0 ? 'a' : 'b'}`, xf(gpos, q, [hx, hy, t]), q);
 }
 
-const L = D.flowLen, xH = L / 2, zTop = D.beltPlane, zC = zTop - D.profH / 2 - 8;
+const L = D.flowLen, xH = L / 2, zTop = D.beltPlane;
+const railH = D.railTop - D.railBot;                     // alto del larguero lateral
 const pzD = zTop - D.beltT - D.drivePD / 2;              // centro eje MOTRIZ (polea Ø101 → belt 170)
 const pzI = zTop - D.beltT - D.idlerPD / 2;              // centro eje IDLER  (Ø40 → belt 170, más alto)
 const retZ = pzD - D.drivePD / 2 - 6;                    // Z del ramal de retorno (bajo la motriz)
 const xPul = xH - 120;                                   // poleas a ±xPul (cabeza/cola)
+// TRAVESAÑOS bajo los terminales (±xPul), el hueco (±openHalf) y puntos medios;
+// las PATAS caen bajo un travesaño (extremos + hueco). Nada cruza las bandas: los
+// travesaños quedan por DEBAJO del ramal de retorno.
+const crossAt = [-xPul, -750, -D.openHalf, D.openHalf, 750, xPul];
+const legX = [-xPul, -D.openHalf, D.openHalf, xPul];
 
-// --- BASTIDOR: 2 perfiles item (con ranura en T) a lo largo de X --------------
+// --- BASTIDOR: 2 largueros item a lo largo de X, BAJO el deck (a ±300, fuera de
+//     las calles) — sostienen guías y terminales; su top queda justo bajo la guía.
 for (const sy of [-1, 1]) {
   const y = sy * D.frameHalfY;
-  addPart(`BASE · Perfil item 40×120 del bastidor ${sy > 0 ? '+Y' : '-Y'}`, C.perfil, [0, y, zC], [
-    box(`Perfil ${L}×40×${D.profH}`, [0, y, zC], L, 40, D.profH),
-    box('Ranura en T (interior)', [0, y - sy * 20, zC], L, 12, 60, 'cut'),
+  addPart(`BASE · Larguero item 40×${railH} del bastidor ${sy > 0 ? '+Y' : '-Y'}`, C.perfil, [0, y, D.railBot], [
+    box(`Larguero ${L}×40×${railH}`, [0, y, D.railBot], L, 40, railH),
+    box('Ranura en T (interior)', [0, y - sy * 20, D.railBot + railH - 60], L, 12, 60, 'cut'),
   ]);
 }
 
@@ -185,26 +193,33 @@ for (let i = 0; i < D.lanes.length - 1; i++) {
 // MOTORREDUCTOR de eje hueco (biblioteca) sobre el eje de la calle extrema
 placeComp('Motorreductor de eje hueco', 'motorreductor_eje_hueco', [xPul, D.frameHalfY + 20, pzD], Q_XtoY, C.drive);
 
-// --- TRAVESAÑOS (los de ±430 PESADOS enmarcan el hueco de transferencia) -------
-for (const x of D.crossAt) {
+// --- TRAVESAÑOS: unen los 2 largueros; van POR DEBAJO del ramal de retorno
+//     (z 15..55 < 58) para no cruzar las bandas. Los de ±openHalf son PESADOS y
+//     enmarcan el hueco (cargan la transferencia). Cada uno cae sobre una pata.
+for (const x of crossAt) {
   const heavy = Math.abs(Math.abs(x) - D.openHalf) < 1;
-  addPart(`BASE · Travesaño ${heavy ? 'PESADO (marco del hueco) ' : ''}X=${x}`, C.perfil, [x, 0, zC], [
-    box('Travesaño item', [x, 0, zC], heavy ? 80 : 40, 2 * D.frameHalfY - 12, heavy ? D.profH : 80),
+  const w = heavy ? 80 : 50, h = heavy ? D.crossH + 20 : D.crossH;
+  // el top del travesaño (crossZ0+h) solapa el larguero (railBot..railTop) → se
+  // sueldan directo; no hacen falta cartelas.
+  addPart(`BASE · Travesaño ${heavy ? 'PESADO (marco del hueco) ' : ''}X=${x | 0}`, C.perfil, [x, 0, D.crossZ0], [
+    box('Travesaño item', [x, 0, D.crossZ0], w, 2 * D.frameHalfY - 12, h),
   ]);
 }
 
-// --- PATAS niveladoras (6: extremos + central) + riostras ---------------------
+// --- PATAS niveladoras: caen bajo un travesaño (extremos + hueco), del piso al
+//     larguero; poste, placa base y nivelador ALINEADOS (base del poste = piso).
 const zFloor = zTop - D.legH;
-for (const x of [-(xH - 260), 0, (xH - 260)]) for (const sy of [-1, 1]) {
+for (const x of legX) for (const sy of [-1, 1]) {
   const y = sy * D.frameHalfY;
   addPart(`BASE · Pata X=${x | 0} ${sy > 0 ? '+Y' : '-Y'}`, C.pata, [x, y, zFloor], [
-    box('Poste item 60×60', [x, y, (zFloor + zC) / 2], 60, 60, zC - zFloor),
-    box('Placa base 120×120×10', [x, y, zFloor], 120, 120, 10),
-    cyl('Nivelador M16', [x, y, zFloor - 20], [0, 0, -1], 30, 30),
+    box('Poste item 60×60', [x, y, zFloor], 60, 60, D.railBot - zFloor),   // piso → larguero
+    box('Placa base 120×120×10', [x, y, zFloor - 10], 120, 120, 10),
+    cyl('Nivelador M16', [x, y, zFloor - 30], [0, 0, -1], 30, 20),
   ]);
 }
-for (const sy of [-1, 1]) addPart(`BASE · Riostra diagonal ${sy > 0 ? '+Y' : '-Y'}`, C.pata, [0, sy * D.frameHalfY, (zFloor + zC) / 2], [
-  box('Riostra 40×40', [0, sy * D.frameHalfY, (zFloor + zC) / 2], 2 * (xH - 260), 40, 12),
+// RIOSTRAS longitudinales: unen los pies de las patas de cada lado (rigidez X)
+for (const sy of [-1, 1]) addPart(`BASE · Riostra longitudinal ${sy > 0 ? '+Y' : '-Y'}`, C.pata, [0, sy * D.frameHalfY, zFloor + 60], [
+  box('Riostra 40×40', [0, sy * D.frameHalfY, zFloor + 60], 2 * xPul, 40, 40),
 ]);
 
 // --- GUARDAS laterales de guía del producto -----------------------------------
@@ -217,7 +232,7 @@ const doc = {
   meta: {
     nombre: 'Equipo base — transportador de BANDA SINCRÓNICA (item24), paramétrico completo',
     capa: 'user',
-    origen: 'gen_base.mjs (paramétrico), cotas medidas del STEP real (base.stl, análisis por componentes conexos): 4 bandas sincrónicas AT10 (ancho 32) en las calles (paso 139); CABEZA con POLEA MOTRIZ AT10 20T Ø prim. 63.7 (medido Ø64), COLA con POLEA CONDUCIDA idler Ø40 — sin tambor de fricción ni cama deslizante; centro de eje 42 mm bajo el top de banda (medido). Cada banda en su GUÍA-PERFIL con SLOT (deslizante individual); EJES INDEPENDIENTES Ø30 con asientos Ø15 en alojamientos de rodamiento Ø40 (medidos), unidos por COUPLE-LINKS (acoples de bloqueo) y arrastrados por 1 motorreductor de eje hueco en la cabeza; TAKE-UP NEUMÁTICO individual por calle en la cola (cilindro ISO 6432 que desplaza el eje idler a lo largo del ramal). Bastidor de perfil item + 6 patas niveladoras. Marco del módulo (flujo X, plano de banda Z=170). La malla es gruesa: bores/tolerancias exactas de rodamiento requieren el B-rep nativo del STEP.',
+    origen: 'gen_base.mjs (paramétrico), cotas medidas del STEP real (base.stl, análisis por componentes conexos): 4 bandas sincrónicas AT10 (ancho 32) en las calles (paso 139); CABEZA con POLEA MOTRIZ AT10 20T Ø prim. 63.7 (medido Ø64), COLA con POLEA CONDUCIDA idler Ø40 — sin tambor de fricción ni cama deslizante; centro de eje 42 mm bajo el top de banda (medido). Cada banda en su GUÍA-PERFIL con SLOT (deslizante individual); EJES INDEPENDIENTES Ø30 con asientos Ø15 en alojamientos de rodamiento Ø40 (medidos), unidos por COUPLE-LINKS (acoples de bloqueo) y arrastrados por 1 motorreductor de eje hueco en la cabeza; TAKE-UP NEUMÁTICO individual por calle en la cola (cilindro ISO 6432 que desplaza el eje idler a lo largo del ramal). Bastidor de perfil item: 2 largueros laterales bajo el deck + TRAVESAÑOS bajo el ramal de retorno (no cruzan las bandas), los de ±430 pesados enmarcan el hueco; 8 patas niveladoras (bajo cada travesaño de extremo/hueco) + riostras longitudinales. Marco del módulo (flujo X, plano de banda Z=170). La malla es gruesa: bores/tolerancias exactas de rodamiento requieren el B-rep nativo del STEP.',
     interfaz: {
       plano_banda_mm: D.beltPlane, calles_banda: D.lanes, largo_mm: D.flowLen,
       transmision: 'banda sincrónica AT10, item24; MOTRIZ 20T Ø63.7 (cabeza) + idler Ø40 (cola); ejes independientes Ø30 + couple-links; 1 motorreductor de eje hueco',
