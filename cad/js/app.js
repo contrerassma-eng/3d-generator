@@ -17,7 +17,7 @@ import {
 } from './model.js';
 import * as SK from './sketch2d.js';
 import { exportDrawingDXF, exportDrawingPDF, exportFlatDXF, exportFlatPDF } from './drawing2d.js';
-import { MATERIALES, materialPorId, makeChapaBase, makePestana, chapaOf, esChapa,
+import { MATERIALES, materialPorId, makeChapaBase, makeChapaBaseContorno, makePestana, chapaOf, esChapa,
          chapaEdges, flatPattern } from './sheetmetal.js';
 
 // ---------- Escena ----------
@@ -1107,9 +1107,10 @@ const MODE_HINTS = {
   direct: 'Edición directa (símil Inventor): toca una cara y muévela por DISTANCIA (+ alarga / − reduce, la opuesta queda fija) o fija la medida absoluta. Shift+clic acumula VARIAS caras y las mueve todas con una distancia. Escala/gira la pieza en Propiedades.',
   fillet: 'Empalme: toca una arista del sólido para redondearla con un radio (símil Empalme de Inventor).',
   chamfer: 'Chaflán: toca una arista del sólido para achaflanarla (corte a 45°) con una distancia.',
+  tochapa: 'A chapa: toca la CARA GRANDE de una placa; reconoce su espesor y contorno real y la convierte en chapa (acepta pestañas y desarrollo DXF/PDF).',
 };
 
-const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', direct: 'btnDirect', fillet: 'btnFillet', chamfer: 'btnChamfer', measure: 'btnMeasure' };
+const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', direct: 'btnDirect', fillet: 'btnFillet', chamfer: 'btnChamfer', tochapa: 'btnToChapa', measure: 'btnMeasure' };
 
 function setMode(m) {
   mode = mode === m ? 'select' : m;
@@ -1134,7 +1135,7 @@ for (const [m, id] of Object.entries(modeButtons)) $(id).onclick = () => setMode
 // Conmutador tipo Inventor: la barra muestra solo las herramientas del
 // entorno activo (Sección/Vista/Medir son comunes a ambos).
 
-const ENV_OF_MODE = { sketch: 'pieza', hole: 'pieza', pestana: 'pieza', direct: 'pieza', fillet: 'pieza', chamfer: 'pieza',
+const ENV_OF_MODE = { sketch: 'pieza', hole: 'pieza', pestana: 'pieza', direct: 'pieza', fillet: 'pieza', chamfer: 'pieza', tochapa: 'pieza',
                       mate: 'ens', flush: 'ens', concentric: 'ens', move: 'ens' };
 let env = 'pieza';
 function setEnv(e) {
@@ -1338,6 +1339,7 @@ function handleClick(ev) {
   if (mode === 'concentric') return clickConcentric(hit);
   if (mode === 'direct') return clickDirect(hit, ev);
   if (mode === 'fillet' || mode === 'chamfer') return clickBlend(hit, mode);
+  if (mode === 'tochapa') return clickToChapa(hit);
   if (mode === 'measure') return clickMeasure(hit);
 }
 
@@ -2178,16 +2180,41 @@ function simplifyRing2D(pts, eps = 0.4) {
 // primitivas analíticas). Las aristas de borde (de un solo triángulo del grupo
 // coplanar) se encadenan en bucles; cada bucle se proyecta al plano del boceto y
 // se clasifica: bucle redondo → CÍRCULO; bucle recto → líneas de sus esquinas.
-function meshFaceEntities(geom, tris, mw) {
+// Encadena segmentos 2D [[a,b],...] en un único bucle cerrado de puntos (para el
+// contorno analítico de una cara: rectángulo de una caja, perfil de un boceto).
+function chainLoop2D(segs) {
+  if (!segs.length) return null;
+  const K = (p) => `${Math.round(p[0] * 100)}_${Math.round(p[1] * 100)}`;
+  const adj = new Map(), pos = new Map();
+  for (const [a, b] of segs) {
+    const ka = K(a), kb = K(b); if (ka === kb) continue;
+    pos.set(ka, a); pos.set(kb, b);
+    (adj.get(ka) || adj.set(ka, []).get(ka)).push(kb);
+    (adj.get(kb) || adj.set(kb, []).get(kb)).push(ka);
+  }
+  const start = adj.keys().next().value;
+  const loop = [start]; let prev = null, cur = start, guard = 0;
+  while (guard++ < 10000) {
+    const nbrs = adj.get(cur) || [];
+    const next = nbrs.find(n => n !== prev) ?? nbrs[0];
+    if (!next || next === start) break;
+    loop.push(next); prev = cur; cur = next;
+  }
+  return loop.length >= 3 ? loop.map(k => pos.get(k)) : null;
+}
+
+// Bucles de borde de una cara plana, proyectados a 2D por `project(localV3)→[x,y]`
+// y clasificados (círculo o polígono simplificado), con su área. Núcleo común de
+// la proyección al boceto y de la conversión a chapa (contorno + agujeros).
+function meshFaceLoops(geom, tris, project) {
   const pos = geom.attributes.position;
   const key = (i) => `${Math.round(pos.getX(i) * 1e3)}_${Math.round(pos.getY(i) * 1e3)}_${Math.round(pos.getZ(i) * 1e3)}`;
-  const s2 = new Map(); // clave → punto 2D en el plano del boceto
-  const ecount = new Map(), einfo = new Map();
+  const s2 = new Map(), ecount = new Map(), einfo = new Map();
   for (const t of tris) {
     const ks = [key(t * 3), key(t * 3 + 1), key(t * 3 + 2)];
     for (let k = 0; k < 3; k++) {
       const i = t * 3 + k;
-      if (!s2.has(ks[k])) s2.set(ks[k], w2s(new THREE.Vector3(pos.getX(i), pos.getY(i), pos.getZ(i)).applyMatrix4(mw)));
+      if (!s2.has(ks[k])) s2.set(ks[k], project(new THREE.Vector3(pos.getX(i), pos.getY(i), pos.getZ(i))));
     }
     for (let k = 0; k < 3; k++) {
       const a = ks[k], b = ks[(k + 1) % 3];
@@ -2203,33 +2230,45 @@ function meshFaceEntities(geom, tris, mw) {
     (adj.get(a) || adj.set(a, []).get(a)).push(b);
     (adj.get(b) || adj.set(b, []).get(b)).push(a);
   }
-  const visited = new Set(), ents = [];
+  // Recorre CONSUMIENDO cada arista de borde una sola vez → termina siempre,
+  // incluso con bordes no-manifold (uniones en T de la malla CSG con agujeros).
+  const usedE = new Set(), loops = [];
+  const ekey = (a, b) => a < b ? `${a}|${b}` : `${b}|${a}`;
   for (const startK of adj.keys()) {
-    if (visited.has(startK)) continue;
-    const loop = []; let prev = null, cur = startK, guard = 0;
-    do {
-      loop.push(cur); visited.add(cur);
-      const nbrs = adj.get(cur) || [];
-      const next = nbrs[0] === prev ? nbrs[1] : nbrs[0];
-      if (next === undefined) break;
-      prev = cur; cur = next;
-    } while (cur !== startK && ++guard < 100000);
-    if (loop.length < 3) continue;
-    const pts = loop.map(k => s2.get(k));
-    // ¿bucle redondo? radios ~iguales respecto al centroide → CÍRCULO
+    for (const first of adj.get(startK)) {
+      if (usedE.has(ekey(startK, first))) continue;
+      usedE.add(ekey(startK, first));
+      const loop = [startK]; let cur = first, guard = 0;
+      while (cur !== startK && guard++ < 200000) {
+        loop.push(cur);
+        let nxt = null;
+        for (const c of (adj.get(cur) || [])) { const k = ekey(cur, c); if (!usedE.has(k)) { usedE.add(k); nxt = c; break; } }
+        if (nxt === null) break;
+        cur = nxt;
+      }
+      if (loop.length < 3) continue;
+      const pts = loop.map(k => s2.get(k));
     let cx = 0, cy = 0; for (const p of pts) { cx += p[0]; cy += p[1]; }
     cx /= pts.length; cy /= pts.length;
     let rmin = Infinity, rmax = 0, rsum = 0;
     for (const p of pts) { const r = Math.hypot(p[0] - cx, p[1] - cy); rmin = Math.min(rmin, r); rmax = Math.max(rmax, r); rsum += r; }
     const rmean = rsum / pts.length;
-    if (rmean > 0.5 && pts.length >= 8 && (rmax - rmin) < 0.12 * rmean) {
-      ents.push({ type: 'circle', c: [cx, cy], r: rmean });
-      continue;
+    const isCircle = rmean > 0.5 && pts.length >= 8 && (rmax - rmin) < 0.12 * rmean;
+    let ring = pts;
+    if (!isCircle) { const s = simplifyRing2D(pts); if (s.length >= 3) ring = s; }
+    let area = 0; for (let i = 0; i < ring.length; i++) { const a = ring[i], b = ring[(i + 1) % ring.length]; area += a[0] * b[1] - b[0] * a[1]; }
+    loops.push({ pts: ring, circle: isCircle ? { c: [cx, cy], r: rmean } : null, area: Math.abs(area / 2) });
     }
-    const ring = simplifyRing2D(pts);
-    const use = ring.length >= 2 ? ring : pts;
-    for (let i = 0; i < use.length; i++) {
-      const a = use[i], b = use[(i + 1) % use.length];
+  }
+  return loops;
+}
+
+function meshFaceEntities(geom, tris, mw) {
+  const ents = [];
+  for (const lp of meshFaceLoops(geom, tris, (v) => w2s(v.applyMatrix4(mw)))) {
+    if (lp.circle) { ents.push({ type: 'circle', c: lp.circle.c, r: lp.circle.r }); continue; }
+    for (let i = 0; i < lp.pts.length; i++) {
+      const a = lp.pts[i], b = lp.pts[(i + 1) % lp.pts.length];
       if (Math.hypot(b[0] - a[0], b[1] - a[1]) > 0.1) ents.push({ type: 'line', a, b });
     }
   }
@@ -2897,6 +2936,68 @@ function clickBlend(hit, kind) {
       return;
     }
     commit(`${label} ${kind === 'fillet' ? 'R' : ''}${size} aplicado a ${part.name}.`);
+  });
+}
+
+// ---------- Convertir sólido en chapa (reconocer espesor + contorno) ----------
+// Toca la CARA GRANDE de una placa: reconoce su espesor (distancia a la cara
+// paralela) y su contorno real (exterior + agujeros), y reemplaza la pieza por
+// una chapa con ese contorno → acepta pestañas y desarrollo plano (DXF/PDF).
+function clickToChapa(hit) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const rec = meshes.get(part.id);
+  if (!part || !rec) return;
+  const geom = rec.mesh.geometry, mw = rec.mesh.matrixWorld;
+  const face = faceAtHit(hit);
+  if (!face.tris?.length) { setStatus('Toca una CARA PLANA grande de la placa.'); return; }
+  const nW = face.normal.clone().transformDirection(mw).normalize();
+  const cW = face.centroid.clone().applyMatrix4(mw);
+  // espesor = extensión de la geometría a lo largo de la normal de la cara
+  const pos = geom.attributes.position, p = new THREE.Vector3();
+  let mn = Infinity, mx = -Infinity;
+  for (let i = 0; i < pos.count; i++) { const d = p.fromBufferAttribute(pos, i).applyMatrix4(mw).dot(nW); if (d < mn) mn = d; if (d > mx) mx = d; }
+  const t = mx - mn;
+  if (!(t > 0.05)) { setStatus('No se pudo reconocer el espesor en esa cara.'); return; }
+  const { u: uAx, v: vAx } = planeBasis(nW.toArray());
+  const toUV = (w) => { const rel = w.clone().sub(cW); return [rel.dot(uAx), rel.dot(vAx)]; };
+  const onFaceW = (w) => Math.abs(w.clone().sub(cW).dot(nW)) < 0.15;
+
+  let contorno = null, agujeros = [];
+  // 1) contorno ANALÍTICO (pieza CSG: aristas de la cara + círculos exactos)
+  const m = partMatrix(part), q = new THREE.Quaternion(...part.quat);
+  const prims = referencePrimitives(part);
+  const segs = [], circles = [];
+  for (const ln of prims.lines) {
+    const aw = ln.a.clone().applyMatrix4(m), bw = ln.b.clone().applyMatrix4(m);
+    if (onFaceW(aw) && onFaceW(bw)) segs.push([toUV(aw), toUV(bw)]);
+  }
+  for (const ci of prims.circles) {
+    const cw = ci.c.clone().applyMatrix4(m), dw = ci.dir.clone().applyQuaternion(q).normalize();
+    if (onFaceW(cw) && Math.abs(dw.dot(nW)) > 0.99) circles.push({ c: toUV(cw), r: ci.r });
+  }
+  const loopA = chainLoop2D(segs);
+  if (loopA && loopA.length >= 3) { contorno = loopA; agujeros = circles; }
+  // 2) si no hay analítica (pieza de MALLA real): contorno desde la malla
+  if (!contorno) {
+    const loops = meshFaceLoops(geom, face.tris, (vv) => toUV(vv.applyMatrix4(mw)));
+    if (!loops.length) { setStatus('No se pudo reconocer el contorno de esa cara.'); return; }
+    loops.sort((a, b) => b.area - a.area);
+    contorno = loops[0].pts;
+    agujeros = loops.slice(1).filter(lp => lp.area > 1.5).map(lp => lp.circle ? { c: lp.circle.c, r: lp.circle.r } : lp.pts);
+  }
+  showForm(`Convertir ${part.name} en chapa — espesor ${t.toFixed(2)} mm, ${agujeros.length} agujero(s)`, [
+    { key: 'material', label: 'Material', type: 'select', value: MATERIALES[0].id, options: MATERIALES.map(m => [m.id, `${m.nombre} (K=${m.k})`]) },
+    { key: 't', label: 'Espesor (mm)', value: +t.toFixed(2), step: 0.1 },
+    { key: 'radio', label: 'Radio de pliegue (mm)', value: +t.toFixed(2), step: 0.1 },
+  ], (v) => {
+    pushUndo();
+    part.features = [makeChapaBaseContorno(contorno, agujeros, v.material, v.t, v.radio, 0, 0)];
+    const q = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(uAx, vAx, nW));
+    part.quat = [q.x, q.y, q.z, q.w];
+    part.pos = cW.clone().addScaledVector(nW, -v.t).toArray(); // origen local = cara interior
+    faceCache.clear();
+    rebuildPart(part);
+    commit(`${part.name} convertida en chapa (contorno real, espesor ${v.t}). Agrega ⎣ Pestañas y saca el desarrollo con ⭳ DXF/PDF.`);
   });
 }
 
