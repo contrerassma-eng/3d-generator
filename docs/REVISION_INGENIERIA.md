@@ -55,13 +55,20 @@ transferencia suave.
 - **Chaveta del tambor** DIN 6885 6×6: a 0.18 kW / 212 rpm, T ≈ 8 Nm →
   τ ≈ 11 MPa (holgada).
 
-## 4. Elevación / neumática (Shigley)
+## 4. Elevación / neumática (Shigley) — POP-UP POR BISAGRA
 
-| Ítem | Hallazgo | Corrección |
+Mecanismo actualizado a **pivote por bisagra** integrado en la estructura lateral
+(a pedido): línea de bisagra (eje Y) al pie de la placa **−X**; 2 cilindros
+**verticales** suben el lado **+X** 6 mm → la cama **bascula 0.41°** (despreciable).
+Elimina las colisas verticales de guía (fricción/desgaste) y la palanca+leva.
+
+| Ítem | Análisis | Resultado |
 |---|---|---|
-| **Dimensionado de cilindros** | 2×**Ø25** daban ~830 N útiles (con palanca ×1.67, η 0.85) vs carga de elevación (cassette **~64 kg** + producto ≈ **0.9 kN**) → **quedaban cortos** (SF < 1). | **2×Ø32** ISO 6432 → 966 N × 1.67 × 0.85 ≈ **1.37 kN** → **SF ≈ 1.5**. Rótulas a **M10**. |
-| **Palanca** | Relación carrera cilindro 10 → 6 vertical. | Pernos Ø8 en bujes de bronce; pasador a doble cortante τ ≈ 5 MPa (holgado). |
-| **Cinemática** | Cilindros en diagonal 36.7° basculantes (rótulas ambos extremos) → **sube vertical puro**; pasadores guía Ø8 en colisas verticales del canal fijan el grado de libertad. | OK. |
+| **Reparto de carga** | Bisagra a X=−415, cilindros a X=+300, CG a X=0. Momentos: la **bisagra toma ~0.5·W**, **cada cilindro ~0.26·W**. Con W (cassette ~64 kg + producto) ≈ 0.9 kN → cilindro ≈ 235 N. | 2×Ø32@6bar = 966 N → **SF ≈ 4** (muy holgado; el cilindro casi no trabaja). |
+| **Bisagra (Shigley)** | Pasador Ø12 h9 en buje de bronce H7, doble cortante, reacción ~0.5·W repartida en 2 nudillos → ~225 N/nudillo. τ ≈ 2 MPa. | Holgado; toma el empuje lateral sin colisas. |
+| **Tilt** | 6 mm sobre brazo 2·combX=830 → **0.41°**; los 5 rodillos emergen 0.6…5.4 mm (aceptado por el usuario). | Plano de transporte prácticamente plano. |
+| **Descarga en reposo** | **Topes de altura M10** regulables fijan los +6 mm y cargan el peso en reposo → el cilindro no sostiene presión estática. | Menos consumo de aire y desgaste. |
+| **Cinemática** | Cilindros verticales basculantes (horquilla abajo + rótula M10 arriba al puente +X); grado de libertad único (rotación en la bisagra). | Robusto, sin colisas. |
 
 ## 5. Bastidor e integración (Hytrol + item)
 

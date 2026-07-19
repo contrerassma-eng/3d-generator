@@ -41,7 +41,7 @@ const by = (n) => doc.parts.filter(p => p.name.includes(n));
 
 console.log('— Documento y módulos —');
 check('formato foto3d-cad v1', doc.format === 'foto3d-cad' && doc.version === 1);
-check('116 piezas', doc.parts.length === 116, `hay ${doc.parts.length}`);
+check('106 piezas', doc.parts.length === 106, `hay ${doc.parts.length}`);
 check('ids de pieza únicos', new Set(doc.parts.map(p => p.id)).size === doc.parts.length);
 const fids = doc.parts.flatMap(p => p.features.map(f => f.id));
 check('ids de función únicos', new Set(fids).size === fids.length);
@@ -56,9 +56,9 @@ for (const part of doc.parts) {
   if (v > 1) conVol++; if (!hasNaN(g)) sinNaN++; else console.log(`    NaN en ${part.name}`);
   if (v <= 1) console.log(`    sin volumen: ${part.name}`);
 }
-check('las 116 piezas construyen', built === 116);
-check('todas con volumen > 0', conVol === 116);
-check('ninguna malla con NaN', sinNaN === 116);
+check('las 106 piezas construyen', built === 106);
+check('todas con volumen > 0', conVol === 106);
+check('ninguna malla con NaN', sinNaN === 106);
 
 console.log('— Rodillos largos (≥800) Ø63 a paso 139, estilo MRT —');
 const vulc = by('Vulcanizado Ø63');
@@ -128,7 +128,7 @@ check('brazo de reacción (torque arm) del motor', by('Brazo de reacción').leng
 check('ventana del motorreductor en el canal', doc.parts[0].features.some(f => f.name.includes('Ventana motorreductor')));
 
 console.log('— Idlers sobre bujes de bronce (sin rodamientos desnudos) —');
-check('9 bujes de bronce (5 poleas + 4 palanca)', by('Buje bronce').length === 9, `hay ${by('Buje bronce').length}`);
+check('5 bujes de bronce de poleas (los de la bisagra van integrados al nudillo)', by('Buje bronce').length === 5, `hay ${by('Buje bronce').length}`);
 check('5 poleas locas (3 tensores + 2 retornos) con retención M6', by('Retención M6 polea').length === 5);
 check('ejes cantiléver de idler Ø12', by('Eje cantiléver').every(p => p.features[0].params.dia === 12));
 
@@ -148,7 +148,18 @@ console.log('— Invariantes de función —');
 const M = doc.meta.verificaciones;
 check('gap tangente 76, carrera vertical 6, 5 rodillos', M.tangentGap === 76 && M.carrera === 6 && M.rodillos === 5);
 check('sobre-elevación 4 y retracción 2 (emerge +4 sobre el plano de banda)', M.pop === 4 && M.drop === 2);
-check('2 cilindros ISO 6432 en diagonal + 4 rótulas', by('Cilindro ISO 6432').length === 2 && by('Rótula').length === 4);
+check('POP-UP POR BISAGRA: 2 nudillos fijos + 2 móviles (-X) + 2 pasadores Ø12', (() => {
+  const nf = doc.parts.filter(p => /Nudillo de bisagra/.test(p.name) && p.name.startsWith('FIJO'));
+  const nm = doc.parts.filter(p => /Nudillo de bisagra/.test(p.name) && p.name.startsWith('MÓVIL'));
+  const pin = by('Pasador de bisagra');
+  return nf.length === 2 && nm.length === 2 && pin.length === 2 &&
+    nf.every(p => Math.abs(p.pos[0] + 415) < 1) && nm.every(p => Math.abs(p.pos[0] + 415) < 1);  // bisagra en -X
+})());
+check('2 cilindros ISO 6432 VERTICALES + 4 rótulas + 2 topes de altura', by('Cilindro ISO 6432').length === 2 &&
+  by('Cilindro ISO 6432').every(p => p.features.some(f => f.dir && Math.abs(f.dir[2]) === 1)) &&
+  by('Rótula').length === 4 && by('Tope de altura').length === 2);
+check('sin colisas de guía ni palanca (reemplazadas por la bisagra)', by('Pasador guía').length === 0 &&
+  by('Palanca').length === 0 && !doc.parts[0].features.some(f => f.name.includes('Colisa guía')));
 check('una sola banda plana 35 en serpentín', by('Banda plana').length === 1 && by('Banda plana')[0].features[0].params.h === 35);
 check('tolerancias/integración documentadas en meta', typeof doc.meta.tolerancias === 'object' &&
   !!(doc.meta.integracion && doc.meta.tolerancias.eje_rodillo && doc.meta.tolerancias.tubo_rodillo));

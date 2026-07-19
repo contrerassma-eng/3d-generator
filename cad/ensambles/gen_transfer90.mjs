@@ -16,7 +16,7 @@
 //     pines que parezcan cuatro).
 //   - Cilindros EN DIAGONAL (inclinados ~37°) con PIVOTE: cada uno bascula
 //     en una horquilla de la base y empuja una PALANCA pivotada que sube el
-//     puente EN VERTICAL (relación de palanca; carrera vertical 6 mm).
+//     lado +X 6 mm; el cassette bascula sobre la bisagra del lado -X.
 //   - La estructura fija NO es más ancha que la cara que sostiene las
 //     poleas: canal fijo de 306 mm = ancho exterior de las placas.
 //   - Se identifican los módulos: piezas "FIJO ·" (canal lateral de la
@@ -94,16 +94,13 @@ export const D = {
   ucfl: { bore: 20, flangeL: 86, flangeH: 30, boltGap: 64, boltDia: 11, hubDia: 42, hubLen: 31 },
   idlerAxle: 12,                 // ejes de tensores/retornos Ø12 sobre bujes de bronce
 
-  // Puentes elevadores (unen las dos placas, dentro del ancho del módulo)
+  // Puentes estructurales (unen las dos placas, rigidizan el cassette)
   bridgeY: 330, bridgeZ: [105, 117],
 
-  // Elevación por 2 cilindros DIAGONALES con pivote + palanca (por dentro)
-  lever: {
-    pivot: [-118, 70],           // pivote fijo de la palanca (x, z)
-    input: [85, 55],             // ojo del vástago (x, z)
-    cam: [4, 93], camDia: 24,    // leva a +4: relación 122/203 → carrera estándar 10
-    lug: [30, 14],               // horquilla basculante del cilindro en la base
-  },
+  // POP-UP POR BISAGRA (estructura lateral): bisagra a -combX (lado -X), empuje
+  // de los 2 cilindros verticales a liftX (lado +X, fuera del plano del serpentín
+  // en 378 para no chocar con las poleas de retorno).
+  liftX: 300,
 
   // Canal FIJO (no más ancho que las placas): base + 2 alas bajas
   canalW: 836, canalD: 740, wallX: 406, wallT: 6, wallTop: 40,
@@ -208,19 +205,16 @@ function verify() {
   if (D.wallX + D.wallT / 2 > D.combX - D.plateT / 2) e.push('las alas del canal chocan con las placas móviles');
   // dedos delgados: la banda anfitriona de 40 pasa entre ellos
   if (pitch - D.fingerW < 40 + 8) e.push('entre dedos no pasa la banda anfitriona de 40 con holgura');
-  // palanca: contacto de leva = fondo del puente, relación y diagonal del cilindro
-  const L = D.lever;
-  if (L.cam[1] + L.camDia / 2 !== D.bridgeZ[0]) e.push('la leva no toca el fondo del puente');
-  const rCam = L.cam[0] - L.pivot[0], rIn = L.input[0] - L.pivot[0];
-  const strokeCyl = D.stroke * rIn / rCam;
-  if (Math.abs(strokeCyl - 10) > 0.5) e.push(`carrera de cilindro ${strokeCyl.toFixed(1)} != 10 estándar ISO 6432`);
-  const dir = [L.input[0] - L.lug[0], L.input[1] - L.lug[1]];
-  const ang = Math.atan2(dir[1], dir[0]) * 180 / Math.PI;
-  if (ang < 25 || ang > 60) e.push(`cilindro a ${ang.toFixed(0)}° — no es diagonal (25..60°)`);
-  // todo por dentro: mecanismo dentro del ancho de las placas
-  for (const [nombre, x] of [['pivote', L.pivot[0]], ['ojo', L.input[0]], ['horquilla', L.lug[0]]]) {
-    if (Math.abs(x) > D.combX - D.plateT / 2 - 10) e.push(`${nombre} de palanca fuera del módulo`);
-  }
+  // POP-UP POR BISAGRA: eje de giro en -X, empuje de cilindros en +X. El tilt
+  // (subida 6 al lado +X sobre el brazo 2·combX) debe ser pequeño y el empuje
+  // debe caer dentro del módulo.
+  const xh = -D.combX, xl = D.liftX;
+  const arm = xl - xh;                              // brazo del cilindro desde la bisagra
+  const tilt = Math.atan2(D.stroke, 2 * D.combX) * 180 / Math.PI;
+  if (tilt > 1.0) e.push(`tilt del pop-up ${tilt.toFixed(2)}° > 1° (la cama se inclina demasiado)`);
+  if (Math.abs(xl) > D.combX - D.plateT / 2) e.push('el cilindro de empuje cae fuera del módulo');
+  if (arm < D.combX) e.push('brazo de empuje del cilindro demasiado corto respecto a la bisagra');
+  const strokeCyl = 10, ang = 90;                  // cilindro VERTICAL, carrera estándar 10
   // el serpentín construye y no invade base/plano/puentes
   let poly;
   try { poly = serpentineFaces(serpentine(), D.bandT).outer; } catch (err) { e.push(err.message); }
@@ -321,17 +315,16 @@ function canalFijo() {
   const f = [box(`Base ${D.canalW}×${D.canalD}×6`, [0, 0, 0], D.canalW, D.canalD, D.baseT)];
   for (const s of [-1, 1]) {
     f.push(box(`Ala x=${s * D.wallX}`, [s * D.wallX, 0, D.baseT], D.wallT, D.canalD, D.wallTop - D.baseT));
-    // colisa vertical para el pasador guía Ø8 del módulo móvil (carrera 6)
-    f.push(box('Colisa guía 8.5×18', [s * D.wallX, -s * D.guideY, 18], D.wallT + 1, 8.5, 18, 'cut'));
   }
   // agujeros COLISOS verticales para los pies de anclaje (ajuste de altura ±7)
   for (const sx of [-1, 1]) for (const sy of [-1, 1]) for (const dx of [-20, 20]) {
     f.push(box('Coliso M8 pie (ajuste altura)', [sx * D.footX + dx, sy * 330, D.baseT], 9, 9, D.baseT, 'cut'));
   }
-  // patrones de horquillas y soportes de pivote (M5)
+  // patrones de fijación del pop-up POR BISAGRA: nudillos de bisagra en -X y
+  // horquillas de cilindro en +X (M5), por lado (y=±bridgeY)
   for (const s of [-1, 1]) {
-    for (const dx of [-8, 8]) f.push(hole('Ø5.5 horquilla cilindro', [D.lever.lug[0] + dx, s * D.bridgeY, D.baseT], [0, 0, -1], D.M5));
-    for (const dx of [-8, 8]) f.push(hole('Ø5.5 soporte pivote', [D.lever.pivot[0] + dx, s * D.bridgeY, D.baseT], [0, 0, -1], D.M5));
+    for (const dx of [-14, 14]) f.push(hole('Ø5.5 nudillo de bisagra (-X)', [-D.combX + dx, s * D.bridgeY, D.baseT], [0, 0, -1], D.M5));
+    for (const dx of [-14, 14]) f.push(hole('Ø5.5 horquilla cilindro (+X)', [D.liftX + dx, s * D.bridgeY, D.baseT], [0, 0, -1], D.M5));
   }
   // ventana en la base para que el cuerpo del motorreductor cuelgue en el
   // rebaje del transportador (queda POR DENTRO del envolvente del base)
@@ -375,75 +368,65 @@ function canalFijo() {
 
 // ===========================================================================
 // FIJO · 2. ELEVACIÓN: por lado, un cilindro DIAGONAL basculante en horquilla
-//    + palanca pivotada con rodillo de leva que sube el puente EN VERTICAL.
+//    POP-UP POR BISAGRA (lado -X) + 2 cilindros verticales que suben el lado +X.
 // ===========================================================================
 function elevacion() {
-  const L = D.lever;
-  const dir = [L.input[0] - L.lug[0], 0, L.input[1] - L.lug[1]];
-  const len = Math.hypot(dir[0], dir[2]);
-  const u = [dir[0] / len, 0, dir[2] / len];
+  // POP-UP POR BISAGRA integrado en la ESTRUCTURA LATERAL: el cassette pivota
+  // sobre una línea de bisagra (eje en Y) al pie de la placa -X; 2 cilindros
+  // verticales suben el lado +X 6 mm. Tilt = 6/(2·combX) ≈ 0.41° (despreciable).
+  const xh = -D.combX, zh = D.baseT + 12;    // eje de bisagra (lado -X, estructura lateral)
+  const xl = D.liftX;                    // eje de empuje de los cilindros (lado +X)
   for (const s of [-1, 1]) {
     const y = s * D.bridgeY;
-    // soporte de pivote (fijo, atornillado M5 a la base)
-    addPart(`FIJO · Soporte pivote ${s > 0 ? '+Y' : '-Y'}`, C.fijoClaro, [L.pivot[0], y, D.baseT], [
-      box('Poste 20×12×70', [L.pivot[0], y, D.baseT], 20, 12, 70),
-      box('Pie 36×24×6', [L.pivot[0], y, D.baseT], 36, 24, 6),
-      cyl('Perno pivote Ø8', [L.pivot[0], y - 13, L.pivot[1]], [0, 1, 0], 8, 26),
-      hole('Ø5.5 M5', [L.pivot[0] - 8, y, D.baseT + 6], [0, 0, -1], D.M5, 6, false),
-      hole('Ø5.5 M5 (b)', [L.pivot[0] + 8, y, D.baseT + 6], [0, 0, -1], D.M5, 6, false),
+    // BISAGRA: nudillo FIJO (canal) + nudillo MÓVIL (placa -X) + pasador Ø12 (eje Y).
+    // Define el eje de giro del pop-up y toma el empuje lateral (sin colisas).
+    addPart(`FIJO · Nudillo de bisagra ${s > 0 ? '+Y' : '-Y'}`, C.fijoClaro, [xh, y, zh], [
+      box('Nudillo fijo 28×22×28', [xh, y - 13, zh], 28, 22, 28),
+      box('Pie 46×26×6', [xh, y, D.baseT], 46, 26, 6),
+      cyl('Buje bronce Ø12/Ø16', [xh, y - 13, zh], [0, 1, 0], 16, 22),
+      hole('Bore Ø12.2 H7 bisagra', [xh, y - 13, zh], [0, 1, 0], 12.2),
+      hole('Ø5.5 M5 anclaje (a)', [xh - 14, y, D.baseT + 6], [0, 0, -1], D.M5, 6, false),
+      hole('Ø5.5 M5 anclaje (b)', [xh + 14, y, D.baseT + 6], [0, 0, -1], D.M5, 6, false),
     ]);
-    // horquilla basculante del cilindro (fija, M5 a la base)
-    addPart(`FIJO · Horquilla cilindro ${s > 0 ? '+Y' : '-Y'}`, C.fijoClaro, [L.lug[0], y, D.baseT], [
-      box('Cuerpo 18×24×16', [L.lug[0], y, D.baseT], 18, 24, 16),
-      box('Ranura de horquilla 20×11', [L.lug[0], y, D.baseT + 2], 20, 11, 15, 'cut'),
-      box('Pie 36×24×6', [L.lug[0], y, D.baseT], 36, 24, 6),
-      cyl('Perno basculante Ø8', [L.lug[0], y - 13, L.lug[1]], [0, 1, 0], 8, 26),
-      hole('Ø5.5 M5', [L.lug[0] - 8, y, D.baseT + 6], [0, 0, -1], D.M5, 6, false),
-      hole('Ø5.5 M5 (b)', [L.lug[0] + 8, y, D.baseT + 6], [0, 0, -1], D.M5, 6, false),
+    addPart(`MÓVIL · Nudillo de bisagra placa -X ${s > 0 ? '+Y' : '-Y'}`, C.movil, [xh, y, zh], [
+      box('Nudillo móvil 28×18×28', [xh, y + 13, zh], 28, 18, 28),
+      hole('Bore Ø12.2 H7 bisagra', [xh, y + 13, zh], [0, 1, 0], 12.2),
     ]);
-    // cilindro ESTANDARIZADO ISO 6432 Ø32 carrera 10 (p. ej. DSNU-32-10):
-    // dimensionado para la masa del cassette (~64 kg) + producto con ×1.67 de
-    // palanca → ~1.37 kN (SF ≈ 1.5). Basculante, con RÓTULAS DIN ISO 12240-4 M10.
-    const B = [L.lug[0], y, L.lug[1]];
-    addPart(`FIJO · Cilindro ISO 6432 Ø32×10 ${s > 0 ? '+Y' : '-Y'}`, C.neumatico, B, [
-      cyl('Tapa trasera Ø40×8 (rosca M10 hembra)', [B[0] + u[0] * 8, y, B[2] + u[2] * 8], u, 40, 8),
-      cyl('Cuerpo Ø32 (ISO 6432)', [B[0] + u[0] * 16, y, B[2] + u[2] * 16], u, 32, 32),
-      cyl('Tapa delantera Ø40×6', [B[0] + u[0] * 48, y, B[2] + u[2] * 48], u, 40, 6),
-      cyl('Vástago Ø12 M10 (extendido +6 vertical)', [B[0] + u[0] * 54, y, B[2] + u[2] * 54], u, 12, len - 64),
+    addPart(`FIJO · Pasador de bisagra Ø12 h9 ${s > 0 ? '+Y' : '-Y'}`, C.grisClaro, [xh, y - 26, zh], [
+      cyl('Pasador Ø12 × 54', [xh, y - 26, zh], [0, 1, 0], 12, 54),
+      cyl('Cabeza Ø18×4', [xh, y - 26, zh], [0, 1, 0], 18, 4),
+      hole('Ø3 pasador beta', [xh, y + 26, zh], [0, 1, 0], 3),
     ]);
-    for (const [nom, P, dirShank, yOff] of [['trasera', B, 1, 0], ['delantera', [L.input[0], y, L.input[1]], -1, -11]]) {
-      addPart(`FIJO · Rótula M10 DIN ISO 12240-4 ${nom} ${s > 0 ? '+Y' : '-Y'}`, C.gris, [P[0], y + yOff - 6, P[2]], [
-        cyl('Cabeza Ø18×10', [P[0], y + yOff - 5, P[2]], [0, 1, 0], 18, 10),
-        cyl('Esfera Ø14 (aro interior)', [P[0], y + yOff - 6, P[2]], [0, 1, 0], 14, 12),
-        cyl('Caña rosca M10×10', [P[0] + dirShank * u[0] * 8, y + yOff, P[2] + dirShank * u[2] * 8], [dirShank * u[0], 0, dirShank * u[2]], 10, 10),
-        hole('Bore Ø8.2 (perno)', [P[0], y + yOff - 7, P[2]], [0, 1, 0], 8.2),
+    // CILINDRO ISO 6432 Ø32 VERTICAL que sube el lado +X: horquilla basculante
+    // abajo (canal) + rótula M10 arriba (al puente +X del cassette). Con hinge
+    // a -X, cada cilindro toma ~0.26·W (el resto va a la bisagra) → SF holgado.
+    const cb = D.baseT + 8, ct = D.bridgeZ[0] - 2;   // recorrido vertical del cilindro
+    addPart(`FIJO · Horquilla cilindro ${s > 0 ? '+Y' : '-Y'}`, C.fijoClaro, [xl, y, D.baseT], [
+      box('Cuerpo 22×26×16', [xl, y, D.baseT], 22, 26, 16),
+      box('Ranura de horquilla 24×12', [xl, y, D.baseT + 2], 24, 12, 16, 'cut'),
+      box('Pie 46×26×6', [xl, y, D.baseT], 46, 26, 6),
+      cyl('Perno basculante Ø10', [xl, y - 14, cb], [0, 1, 0], 10, 28),
+      hole('Ø5.5 M5 (a)', [xl - 14, y, D.baseT + 6], [0, 0, -1], D.M5, 6, false),
+      hole('Ø5.5 M5 (b)', [xl + 14, y, D.baseT + 6], [0, 0, -1], D.M5, 6, false),
+    ]);
+    addPart(`FIJO · Cilindro ISO 6432 Ø32×10 (vertical) ${s > 0 ? '+Y' : '-Y'}`, C.neumatico, [xl, y, cb], [
+      cyl('Tapa trasera Ø40×8 (M10 hembra)', [xl, y, cb], [0, 0, 1], 40, 8),
+      cyl('Cuerpo Ø32 (ISO 6432)', [xl, y, cb + 8], [0, 0, 1], 32, ct - cb - 22),
+      cyl('Tapa delantera Ø40×6', [xl, y, ct - 14], [0, 0, 1], 40, 6),
+      cyl('Vástago Ø12 M10 (carrera 10 → sube +6)', [xl, y, ct - 8], [0, 0, 1], 12, 8),
+    ]);
+    for (const [nom, zc] of [['inferior (horquilla)', cb], ['superior (al puente +X)', ct]]) {
+      addPart(`FIJO · Rótula M10 DIN ISO 12240-4 ${nom.split(' ')[0]} ${s > 0 ? '+Y' : '-Y'}`, C.gris, [xl, y, zc], [
+        cyl('Cabeza Ø18×10', [xl, y - 5, zc], [0, 1, 0], 18, 10),
+        cyl('Esfera Ø14 (aro interior)', [xl, y - 6, zc], [0, 1, 0], 14, 12),
+        hole('Bore Ø10.2 (perno)', [xl, y - 7, zc], [0, 1, 0], 10.2),
       ]);
     }
-    // palanca con rodillo de leva (empuja el puente hacia arriba)
-    const barra = [[-119, 83], [98, 69], [98, 41], [-117, 57]];
-    const f = [
-      sketchXZ('Barra de palanca', y + 5, barra, 10),
-      box('Cuello de leva 16×10×20', [L.cam[0], y, 75], 16, 10, 20),
-      cyl(`Rodillo de leva Ø${L.camDia}`, [L.cam[0], y - 7, L.cam[1]], [0, 1, 0], L.camDia, 14),
-      hole('Ø12.2 H7 pivote (buje)', [L.pivot[0], y + 5, L.pivot[1]], [0, -1, 0], 12.2),
-      hole('Ø12.2 H7 entrada (buje)', [L.input[0], y + 5, L.input[1]], [0, -1, 0], 12.2),
-    ];
-    addPart(`FIJO · Palanca elevadora ${s > 0 ? '+Y' : '-Y'}`, C.fijoClaro, [L.pivot[0], y, L.pivot[1]], f);
-    for (const [nom, [bx, bz]] of [['pivote', L.pivot], ['entrada', L.input]]) {
-      addPart(`FIJO · Buje bronce Ø12/Ø8.2 ${nom} ${s > 0 ? '+Y' : '-Y'}`, '#b08d57', [bx, y - 6, bz], [
-        cyl('Buje Ø12×12', [bx, y - 6, bz], [0, 1, 0], 12, 12),
-        hole('Bore Ø8.2 H7/f7', [bx, y - 6, bz], [0, 1, 0], 8.2),
-      ]);
-    }
-    for (const [nom, [px2, pz2]] of [['pivote', L.pivot], ['basculante', L.lug], ['entrada', L.input]]) {
-      addPart(`FIJO · Seeger DIN 471-8 ${nom} ${s > 0 ? '+Y' : '-Y'}`, C.gris, [px2, y + 11.2, pz2], [
-        cyl('Anillo Ø15×1', [px2, y + 11.2, pz2], [0, 1, 0], 15, 1),
-        hole('Bore Ø7.4', [px2, y + 11.2, pz2], [0, 1, 0], 7.4),
-      ]);
-    }
-    // perno de unión vástago-palanca
-    addPart(`FIJO · Perno entrada Ø8 ${s > 0 ? '+Y' : '-Y'}`, C.grisClaro, [L.input[0], y - 19, L.input[1]], [
-      cyl('Perno Ø8×32', [L.input[0], y - 19, L.input[1]], [0, 1, 0], 8, 32),
+    // TOPE de altura elevada regulable: fija los +6 mm y descarga los cilindros
+    // en reposo (el peso queda sobre el tope, no sobre el aire del cilindro)
+    addPart(`FIJO · Tope de altura +6 regulable ${s > 0 ? '+Y' : '-Y'}`, C.fijoClaro, [xl + 34, y, D.baseT], [
+      box(`Poste tope 20×12×${ct - 6 - D.baseT}`, [xl + 34, y, D.baseT], 20, 12, ct - 6 - D.baseT),
+      hole('Tornillo reglaje M10 + contratuerca', [xl + 34, y, ct - 6], [0, 0, 1], D.M10, 20, false),
     ]);
   }
 }
@@ -500,19 +483,14 @@ function placas() {
     addPart(sx > 0 ? 'MÓVIL · Placa lateral de transmisión (+X)' : 'MÓVIL · Placa lateral (-X)',
       C.movil, [xFace, 0, D.apronBottom], f);
   }
+  // PUENTES: travesaños estructurales que unen las 2 placas y rigidizan el
+  // cassette; el +X recibe el empuje de los cilindros, el -X pivota en la bisagra.
   for (const s of [-1, 1]) {
     const y = s * D.bridgeY;
-    addPart(`MÓVIL · Puente elevador y=${y}`, C.acero, [0, y, D.bridgeZ[0]], [
-      box('Puente 306×20×12', [0, y, D.bridgeZ[0]], D.canalW, 20, D.bridgeZ[1] - D.bridgeZ[0]),
+    addPart(`MÓVIL · Puente estructural y=${y}`, C.acero, [0, y, D.bridgeZ[0]], [
+      box(`Puente ${D.canalW}×20×12`, [0, y, D.bridgeZ[0]], D.canalW, 20, D.bridgeZ[1] - D.bridgeZ[0]),
+      hole('Ø10.2 rótula del cilindro (+X)', [D.liftX, y, D.bridgeZ[0] + 6], [0, 1, 0], 10.2),
     ]);
-    // pasador guía Ø8: de la placa móvil hacia la colisa vertical del canal
-    const sx = -s; // en diagonal: uno por placa, en esquinas opuestas
-    const x0 = sx * (D.combX + D.plateT / 2);          // cara exterior de la placa
-    addPart(`MÓVIL · Pasador guía Ø8 (${sx > 0 ? '+X' : '-X'}, y=${-s * D.guideY})`, C.grisClaro,
-      [x0, -s * D.guideY, 30], [
-        cyl('Pasador Ø8 m6 ×15', [x0, -s * D.guideY, 30], [-sx, 0, 0], 8, 15),
-        cyl('Chaflán 1×45°', [x0 - sx * 15, -s * D.guideY, 30], [-sx, 0, 0], 6.5, 1),
-      ]);
   }
 }
 
@@ -694,7 +672,7 @@ const doc = {
   meta: {
     nombre: 'Transferencia 90° — módulo de desviación pop-up (serpentín, todo por dentro)',
     capa: 'user',
-    origen: 'gen_transfer90.mjs (paramétrico); transfer de rodillos estilo MRT sobre base twin-belt (STEP sorter_CO), funcional/fabricable/simple: 5 rodillos Ø63 vulcanizados (tubo de acero Ø51) de 800 mm de cara a paso 139 = 1 por hueco entre las 4 bandas pasantes del base (X=0/139/277/416); rodillo de EJE MUERTO MACIZO Ø20 perforado y roscado M10 (perno HEXAGONAL externo), con 2 rodamientos 6004 entre eje y tubo; accionamiento por banda plana (serpentín) al extremo con MOTORREDUCTOR DE EJE HUECO + brazo de torque; elevación por 2 cilindros diagonales con palanca (subida vertical 6); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados',
+    origen: 'gen_transfer90.mjs (paramétrico); transfer de rodillos estilo MRT sobre base twin-belt (STEP sorter_CO), funcional/fabricable/simple: 5 rodillos Ø63 vulcanizados (tubo de acero Ø51) de 800 mm de cara a paso 139 = 1 por hueco entre las 4 bandas pasantes del base (X=0/139/277/416); rodillo de EJE MUERTO MACIZO Ø20 perforado y roscado M10 (perno HEXAGONAL externo), con 2 rodamientos 6004 entre eje y tubo; accionamiento por banda plana (serpentín) al extremo con MOTORREDUCTOR DE EJE HUECO + brazo de torque; POP-UP POR BISAGRA en el lado -X (estructura lateral) + 2 cilindros verticales que suben el lado +X 6 mm (la cama bascula 0.41°); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados',
     anfitrion: 'equipo base = sorter de bandas STEP (sorter_CO): rieles T-slot, chumaceras UCFL/UC 205 y SKF 1206, transmisión AT10, ejes Ø20 H7, tornillería M6. El módulo NO modifica el base: se monta a los rieles T-slot y solo comparte su idioma de hardware.',
     integracion: 'módulo de desviación que se monta sobre el equipo base sin perforarlo: 4 pies de anclaje a riel T-slot con tuercas en T M6 (ajuste de posición X) + colisos M8 al canal (ajuste de altura ±7) + shims de nivelación. La altura de emergencia y la separación rodillo-tensora se calibran contra el plano de banda real del base.',
     estado_modelado: `ELEVADO (+${D.stroke} mm): tangente de rodillos a ${D.rollerZ + D.rollerDia / 2} = plano anfitrión + ${metrics.pop}`,
@@ -707,7 +685,7 @@ const doc = {
       tambor: 'SIT-LOCK CAL 1 20×28 en cubo Ø28 H7 (autocentrado, sin chaveta); 1 UCFL204 en placa +X; abombado corona +0.4. LAGGING de caucho ranurado (o cerámico) e=6 en la llanta → µ≥0.7 para el arrastre por fricción (Habasit/Euler: envoltura ≈200°, T1/T2=e^{µθ}). Ø90 > Ø mín de polea motriz para banda 3 mm.',
       motor: 'MOTORREDUCTOR DE EJE HUECO montado DIRECTO sobre el eje del tambor (sin acople ni alineación): cuelga en la ventana del base y reacciona con un BRAZO DE TORQUE a un pasador Ø12 en la placa +X. Solución simple y confiable (estilo MRT). 1 chaveta DIN 6885 A 6×6×40.',
       montaje: 'pies de anclaje a riel T-slot: tuerca en T M6 en ranura (ajuste X) + 2 colisos M8 al canal (ajuste altura ±7) + shims 1 mm de nivelación. CERO perforaciones en el equipo base.',
-      palanca: 'pernos Ø8 h9 en bujes de bronce Ø12/Ø8.2 H7 en la palanca; seegers DIN 471-8; leva Ø24 rodante; carrera cilindro 10 → 6 vertical (relación 122/203).',
+      elevacion_bisagra: 'POP-UP POR BISAGRA integrado en la estructura lateral: línea de bisagra (eje Y) al pie de la placa -X con nudillos + pasador Ø12 h9 en buje de bronce H7 (toma el empuje lateral, sin colisas). 2 cilindros ISO 6432 Ø32 VERTICALES a +X (x=300) suben el lado +X 6 mm → la cama bascula 0.41° (despreciable). Reparto: la bisagra toma ~0.5·W y cada cilindro ~0.26·W → SF muy holgado. Topes de altura M10 regulables fijan los +6 y descargan los cilindros en reposo.',
       pasador_guia: 'Ø8 m6 en la placa; colisa 8.5 del canal (juego 0.5) por la carrera 6.',
       tensado: 'tensores en colisa vertical 12.2×22 con eje roscado M12 y tuerca: rango ±5 mm.',
       neumatica: 'cilindros ISO 6432 Ø32 carrera 10 con rótulas DIN ISO 12240-4 M10 en ambos extremos; electroválvula 5/2 monoestable 24VDC. Dimensionado: 2×Ø32@6bar = 966 N × relación de palanca 1.67 × η 0.85 ≈ 1.37 kN vs carga de elevación (cassette ~64 kg + producto) ≈ 0.9 kN → SF ≈ 1.5.',

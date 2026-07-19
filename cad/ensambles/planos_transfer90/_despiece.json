@@ -2,9 +2,9 @@
   "proyecto": "Transferencia 90° — módulo de desviación pop-up",
   "archivo": "transfer_rodillos_90.json",
   "fecha": "2026-07-19",
-  "total_piezas": 116,
-  "items_distintos": 47,
-  "planos_fabricacion": 24,
+  "total_piezas": 106,
+  "items_distintos": 42,
+  "planos_fabricacion": 25,
   "despiece": [
     {
       "item": 1,
@@ -16,7 +16,7 @@
     },
     {
       "item": 2,
-      "designacion": "Cilindro ISO 6432 Ø32×10",
+      "designacion": "Cilindro ISO 6432 Ø32×10 (vertical)",
       "cant": 2,
       "tipo": "NORMALIZADA",
       "material_norma": "ISO 6432 · Ø32 c.10",
@@ -40,23 +40,23 @@
     },
     {
       "item": 5,
-      "designacion": "Palanca elevadora",
+      "designacion": "Pasador de bisagra Ø12 h9",
       "cant": 2,
       "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR",
+      "material_norma": "Acero SAE 1045",
       "plano": "TR-03"
     },
     {
       "item": 6,
-      "designacion": "Perno entrada Ø8",
+      "designacion": "Rótula M10 DIN ISO 12240-4 inferior",
       "cant": 2,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-04"
+      "tipo": "NORMALIZADA",
+      "material_norma": "DIN ISO 12240-4 · M10",
+      "plano": "—"
     },
     {
       "item": 7,
-      "designacion": "Rótula M10 DIN ISO 12240-4 delantera",
+      "designacion": "Rótula M10 DIN ISO 12240-4 superior",
       "cant": 2,
       "tipo": "NORMALIZADA",
       "material_norma": "DIN ISO 12240-4 · M10",
@@ -64,26 +64,26 @@
     },
     {
       "item": 8,
-      "designacion": "Rótula M10 DIN ISO 12240-4 trasera",
+      "designacion": "Perno hexagonal M10 DIN 933 + golilla eje rodillo",
       "cant": 2,
       "tipo": "NORMALIZADA",
-      "material_norma": "DIN ISO 12240-4 · M10",
+      "material_norma": "DIN 933 · M10 + golilla DIN 125",
       "plano": "—"
     },
     {
       "item": 9,
-      "designacion": "Soporte pivote",
+      "designacion": "Perno hexagonal M10 DIN 933 + golilla eje rodillo",
       "cant": 2,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR",
-      "plano": "TR-05"
+      "tipo": "NORMALIZADA",
+      "material_norma": "DIN 933 · M10 + golilla DIN 125",
+      "plano": "—"
     },
     {
       "item": 10,
-      "designacion": "Pasador guía Ø8",
+      "designacion": "Perno hexagonal M10 DIN 933 + golilla eje rodillo",
       "cant": 2,
       "tipo": "NORMALIZADA",
-      "material_norma": "Pasador rectificado Ø8 m6",
+      "material_norma": "DIN 933 · M10 + golilla DIN 125",
       "plano": "—"
     },
     {
@@ -104,110 +104,62 @@
     },
     {
       "item": 13,
-      "designacion": "Perno hexagonal M10 DIN 933 + golilla eje rodillo",
+      "designacion": "Puente estructural",
       "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "DIN 933 · M10 + golilla DIN 125",
-      "plano": "—"
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "TR-04"
     },
     {
       "item": 14,
-      "designacion": "Perno hexagonal M10 DIN 933 + golilla eje rodillo",
-      "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "DIN 933 · M10 + golilla DIN 125",
-      "plano": "—"
+      "designacion": "Placa lateral",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "TR-05"
     },
     {
       "item": 15,
-      "designacion": "Perno hexagonal M10 DIN 933 + golilla eje rodillo",
-      "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "DIN 933 · M10 + golilla DIN 125",
-      "plano": "—"
-    },
-    {
-      "item": 16,
-      "designacion": "Puente elevador",
-      "cant": 2,
+      "designacion": "Placa lateral de transmisión",
+      "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR",
       "plano": "TR-06"
     },
     {
-      "item": 17,
-      "designacion": "Placa lateral",
-      "cant": 1,
+      "item": 16,
+      "designacion": "Nudillo de bisagra",
+      "cant": 2,
       "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR",
+      "material_norma": "Acero",
       "plano": "TR-07"
     },
     {
-      "item": 18,
-      "designacion": "Placa lateral de transmisión",
-      "cant": 1,
+      "item": 17,
+      "designacion": "Pie anclaje T-slot",
+      "cant": 4,
       "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR",
+      "material_norma": "Acero",
       "plano": "TR-08"
     },
     {
-      "item": 19,
-      "designacion": "Buje bronce Ø12/Ø8.2 entrada",
-      "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Buje sinterizado SAE 841",
-      "plano": "—"
-    },
-    {
-      "item": 20,
-      "designacion": "Buje bronce Ø12/Ø8.2 pivote",
-      "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Buje sinterizado SAE 841",
-      "plano": "—"
-    },
-    {
-      "item": 21,
-      "designacion": "Pie anclaje T-slot",
+      "item": 18,
+      "designacion": "Shim de nivelación 1 mm",
       "cant": 4,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
       "plano": "TR-09"
     },
     {
-      "item": 22,
-      "designacion": "Seeger DIN 471-8 basculante",
+      "item": 19,
+      "designacion": "Tope de altura +6 regulable",
       "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "DIN 471 · Ø8",
-      "plano": "—"
-    },
-    {
-      "item": 23,
-      "designacion": "Seeger DIN 471-8 entrada",
-      "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "DIN 471 · Ø8",
-      "plano": "—"
-    },
-    {
-      "item": 24,
-      "designacion": "Seeger DIN 471-8 pivote",
-      "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "DIN 471 · Ø8",
-      "plano": "—"
-    },
-    {
-      "item": 25,
-      "designacion": "Shim de nivelación 1 mm",
-      "cant": 4,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
       "plano": "TR-10"
     },
     {
-      "item": 26,
+      "item": 20,
       "designacion": "Banda plana 35×3 (serpentín)",
       "cant": 1,
       "tipo": "FABRICADA",
@@ -215,7 +167,7 @@
       "plano": "TR-11"
     },
     {
-      "item": 27,
+      "item": 21,
       "designacion": "Brazo de reacción (torque arm)",
       "cant": 1,
       "tipo": "FABRICADA",
@@ -223,7 +175,7 @@
       "plano": "TR-12"
     },
     {
-      "item": 28,
+      "item": 22,
       "designacion": "Buje bronce Ø18/Ø12.2 retorno",
       "cant": 2,
       "tipo": "NORMALIZADA",
@@ -231,7 +183,7 @@
       "plano": "—"
     },
     {
-      "item": 29,
+      "item": 23,
       "designacion": "Buje bronce Ø18/Ø12.2 tensor",
       "cant": 3,
       "tipo": "NORMALIZADA",
@@ -239,7 +191,7 @@
       "plano": "—"
     },
     {
-      "item": 30,
+      "item": 24,
       "designacion": "Buje SIT-LOCK CAL 1 20×28 (tambor)",
       "cant": 1,
       "tipo": "NORMALIZADA",
@@ -247,7 +199,7 @@
       "plano": "—"
     },
     {
-      "item": 31,
+      "item": 25,
       "designacion": "Chaveta DIN 6885 A 6×6×40 (eje↔reductor)",
       "cant": 1,
       "tipo": "NORMALIZADA",
@@ -255,7 +207,7 @@
       "plano": "—"
     },
     {
-      "item": 32,
+      "item": 26,
       "designacion": "Chumacera UCFL204 tambor",
       "cant": 1,
       "tipo": "NORMALIZADA",
@@ -263,7 +215,7 @@
       "plano": "—"
     },
     {
-      "item": 33,
+      "item": 27,
       "designacion": "Eje cantiléver Ø12 (tensor)",
       "cant": 3,
       "tipo": "FABRICADA",
@@ -271,7 +223,7 @@
       "plano": "TR-13"
     },
     {
-      "item": 34,
+      "item": 28,
       "designacion": "Eje cantiléver Ø12 (retorno)",
       "cant": 2,
       "tipo": "FABRICADA",
@@ -279,7 +231,7 @@
       "plano": "TR-14"
     },
     {
-      "item": 35,
+      "item": 29,
       "designacion": "Eje muerto macizo Ø20 roscado M10",
       "cant": 5,
       "tipo": "FABRICADA",
@@ -287,7 +239,7 @@
       "plano": "TR-15"
     },
     {
-      "item": 36,
+      "item": 30,
       "designacion": "Eje tambor Ø20 h6 torneado",
       "cant": 1,
       "tipo": "FABRICADA",
@@ -295,7 +247,7 @@
       "plano": "TR-16"
     },
     {
-      "item": 37,
+      "item": 31,
       "designacion": "Motorreductor de eje hueco",
       "cant": 1,
       "tipo": "NORMALIZADA",
@@ -303,31 +255,39 @@
       "plano": "—"
     },
     {
-      "item": 38,
+      "item": 32,
+      "designacion": "Nudillo de bisagra placa",
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "TR-17"
+    },
+    {
+      "item": 33,
       "designacion": "Polea de retorno abombada Ø50",
       "cant": 2,
       "tipo": "FABRICADA",
       "material_norma": "Aluminio 6061-T6",
-      "plano": "TR-17"
-    },
-    {
-      "item": 39,
-      "designacion": "Retención M6 polea retorno",
-      "cant": 2,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
       "plano": "TR-18"
     },
     {
-      "item": 40,
-      "designacion": "Retención M6 polea tensor",
-      "cant": 3,
+      "item": 34,
+      "designacion": "Retención M6 polea retorno",
+      "cant": 2,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
       "plano": "TR-19"
     },
     {
-      "item": 41,
+      "item": 35,
+      "designacion": "Retención M6 polea tensor",
+      "cant": 3,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "TR-20"
+    },
+    {
+      "item": 36,
       "designacion": "Rodamiento 6004 2RS rodillo",
       "cant": 10,
       "tipo": "NORMALIZADA",
@@ -335,39 +295,39 @@
       "plano": "—"
     },
     {
-      "item": 42,
+      "item": 37,
       "designacion": "Tambor motriz abombado (llanta + tapas + cubo)",
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero St37 (rolado + soldado)",
-      "plano": "TR-20"
+      "plano": "TR-21"
     },
     {
-      "item": 43,
+      "item": 38,
       "designacion": "Tapa de extremo rodillo",
       "cant": 10,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
-      "plano": "TR-21"
+      "plano": "TR-22"
     },
     {
-      "item": 44,
+      "item": 39,
       "designacion": "Tensor abombado Ø80",
       "cant": 3,
       "tipo": "FABRICADA",
       "material_norma": "Aluminio 6061-T6",
-      "plano": "TR-22"
+      "plano": "TR-23"
     },
     {
-      "item": 45,
+      "item": 40,
       "designacion": "Tubo de acero Ø51 × 800 rodillo",
       "cant": 5,
       "tipo": "FABRICADA",
       "material_norma": "Tubo St37 Ø51 (bore Ø42 H7)",
-      "plano": "TR-23"
+      "plano": "TR-24"
     },
     {
-      "item": 46,
+      "item": 41,
       "designacion": "Tuerca tensora M12 + golilla",
       "cant": 3,
       "tipo": "NORMALIZADA",
@@ -375,12 +335,12 @@
       "plano": "—"
     },
     {
-      "item": 47,
+      "item": 42,
       "designacion": "Vulcanizado Ø63 rodillo",
       "cant": 5,
       "tipo": "FABRICADA",
       "material_norma": "Vulcanizado NBR sobre tubo (dureza 75 ShA)",
-      "plano": "TR-24"
+      "plano": "TR-25"
     }
   ]
 }
