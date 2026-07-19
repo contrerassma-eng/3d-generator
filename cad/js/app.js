@@ -719,10 +719,31 @@ const OP_ICON = { union: '⊕', cut: '⊖', blend: '◜', pattern: '▦', mesh: 
 const OP_ICON_NAME = { union: 'union', cut: 'cut', blend: 'blend', pattern: 'patrect', mesh: 'mesh' };
 const featureIconName = (f) => f.suppressed ? 'pause' : (OP_ICON_NAME[f.op] || 'feature');
 
+let treeFilter = '';
+// Filtra el árbol por nombre (oculta filas de pieza que no calzan y sus
+// funciones) SIN reconstruir el DOM → no pierde el foco al escribir.
+function applyTreeFilter() {
+  const q = treeFilter;
+  const hidden = new Set();
+  for (const p of doc.parts) if (q && !p.name.toLowerCase().includes(q)) hidden.add(p.id);
+  for (const n of document.querySelectorAll('#tree [data-kind="part"]')) n.style.display = hidden.has(n.dataset.id) ? 'none' : '';
+  for (const n of document.querySelectorAll('#tree [data-kind="feature"]')) n.style.display = hidden.has(n.dataset.part) ? 'none' : '';
+}
+function setAllVisible(v) {
+  pushUndo();
+  for (const p of doc.parts) { p.visible = v; syncTransform(p); }
+  refreshUI();
+  commit(v ? 'Todas las piezas visibles.' : 'Todas las piezas ocultas.');
+}
+
 function refreshUI() {
   const tree = $('tree');
   const envIco = env === 'ens' ? 'ensamble' : 'pieza';
   let html = `<h3><span class="h3ic">${svgIcon(envIco)}</span>Piezas<span class="cnt">${doc.parts.length}</span></h3>`;
+  if (doc.parts.length > 8) html += `<div class="treebar">
+    <input id="treeFilter" type="search" placeholder="Filtrar piezas…" value="${esc(treeFilter)}" autocomplete="off">
+    <button id="treeShowAll" title="Mostrar todas las piezas">👁</button>
+    <button id="treeHideAll" title="Ocultar todas las piezas">🚫</button></div>`;
   for (const part of doc.parts) {
     const sel = selection?.kind === 'part' && selection.id === part.id ? ' sel' : '';
     html += `<div class="node node-part${sel}" data-kind="part" data-id="${part.id}">
@@ -757,6 +778,13 @@ function refreshUI() {
     </div>`;
   }
   tree.innerHTML = html;
+  const tf = $('treeFilter');
+  if (tf) {
+    tf.oninput = () => { treeFilter = tf.value.trim().toLowerCase(); applyTreeFilter(); };
+    $('treeShowAll').onclick = () => setAllVisible(true);
+    $('treeHideAll').onclick = () => setAllVisible(false);
+    applyTreeFilter();
+  }
   refreshProps();
   let tris = 0;
   for (const rec of meshes.values()) tris += rec.mesh.geometry.attributes.position ? rec.mesh.geometry.attributes.position.count / 3 : 0;
