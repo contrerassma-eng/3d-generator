@@ -356,6 +356,7 @@ const meshes = new Map();       // partId -> { mesh, edges }
 let selection = null;           // { kind:'part'|'feature'|'constraint', partId?, id }
 let mode = 'select';            // select | hole | mate | flush | concentric | move | measure
 let pickStage = null;           // datos temporales de operaciones de 2 pasos
+let jointStage = null;          // datos temporales de la unión rotacional (2 toques)
 const undoStack = [];
 
 const $ = (id) => document.getElementById(id);
@@ -1267,11 +1268,11 @@ const MODE_HINTS = {
   tochapa: 'A chapa: toca la CARA GRANDE de una placa; reconoce su espesor y contorno real y la convierte en chapa (acepta pestañas y desarrollo DXF/PDF).',
 };
 
-const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', direct: 'btnDirect', fillet: 'btnFillet', chamfer: 'btnChamfer', tochapa: 'btnToChapa', measure: 'btnMeasure' };
+const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', joint: 'btnJoint', move: 'btnMove', direct: 'btnDirect', fillet: 'btnFillet', chamfer: 'btnChamfer', tochapa: 'btnToChapa', measure: 'btnMeasure' };
 
 function setMode(m) {
   mode = mode === m ? 'select' : m;
-  pickStage = null;
+  pickStage = null; jointStage = null;
   if (mode !== 'sketch' && sketch) cancelSketch(false);
   if (mode !== 'direct') clearDirectSel();
   clearHover();
@@ -1293,7 +1294,7 @@ for (const [m, id] of Object.entries(modeButtons)) $(id).onclick = () => setMode
 // entorno activo (Sección/Vista/Medir son comunes a ambos).
 
 const ENV_OF_MODE = { sketch: 'pieza', hole: 'pieza', pestana: 'pieza', direct: 'pieza', fillet: 'pieza', chamfer: 'pieza', tochapa: 'pieza',
-                      mate: 'ens', flush: 'ens', concentric: 'ens', move: 'ens' };
+                      mate: 'ens', flush: 'ens', concentric: 'ens', joint: 'ens', move: 'ens' };
 let env = 'pieza';
 function setEnv(e) {
   env = e;
@@ -1419,7 +1420,7 @@ renderer.domElement.addEventListener('pointermove', (ev) => {
   if (sketch?.entDrag) { moveEntDrag(ev); return; }
   if (dragging) { if (ev.pointerId === dragging.pointerId) updateMoveDrag(ev); return; }
   if (mode === 'sketch' && sketch) { updateSketchPreview(ev); return; }
-  if ((ev.pointerType === 'mouse' || ev.pointerType === 'pen') && (['hole', 'mate', 'flush', 'direct'].includes(mode) || (mode === 'sketch' && !sketch))) {
+  if ((ev.pointerType === 'mouse' || ev.pointerType === 'pen') && (['hole', 'mate', 'flush', 'direct', 'joint'].includes(mode) || (mode === 'sketch' && !sketch))) {
     const hit = castAtEvent(ev);
     if (hit) showHover(hit, hoverMat);
     else clearHover();
@@ -1464,8 +1465,8 @@ function markingItems() {
   ];
   if (env === 'ens') return [
     ['Coincidir', () => clickBtn('btnMate')], ['Alinear', () => clickBtn('btnFlush')],
-    ['Concéntrico', () => clickBtn('btnConcentric')], ['Mover', () => clickBtn('btnMove')],
-    ['Aislar', () => clickBtn('btnIsolate')], ['Medir', () => clickBtn('btnMeasure')],
+    ['Concéntrico', () => clickBtn('btnConcentric')], ['Unión', () => clickBtn('btnJoint')],
+    ['Mover', () => clickBtn('btnMove')], ['Aislar', () => clickBtn('btnIsolate')], ['Medir', () => clickBtn('btnMeasure')],
   ];
   return [
     ['Caja', () => clickBtn('btnNewBox')], ['Cilindro', () => clickBtn('btnNewCyl')],
@@ -1563,6 +1564,7 @@ function handleClick(ev) {
   if (mode === 'pestana') return clickPestana(hit);
   if (mode === 'mate' || mode === 'flush') return clickMate(hit, mode);
   if (mode === 'concentric') return clickConcentric(hit);
+  if (mode === 'joint') return clickJoint(hit);
   if (mode === 'direct') return clickDirect(hit, ev);
   if (mode === 'fillet' || mode === 'chamfer') return clickBlend(hit, mode);
   if (mode === 'tochapa') return clickToChapa(hit);
@@ -3543,6 +3545,37 @@ function clickConcentric(hit) {
   solveAndSync();
   setMode('concentric');
   commit('Restricción concéntrica creada.');
+}
+
+// ---------- Unión rotacional (Joint §4.3) ----------
+// Un solo comando que POSICIONA y define el movimiento: elige un orificio en
+// cada pieza; alinea sus ejes (concéntrico) y pone en contacto sus caras (mate)
+// → la pieza queda con 1 grado de libertad (gira alrededor del eje), como el
+// Rotational Joint de Inventor. Reúne dos restricciones en un gesto de 2 toques.
+function clickJoint(hit) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const face = faceAtHit(hit);
+  const localPoint = hit.object.worldToLocal(hit.point.clone());
+  const ax = findAxialFeature(part, localPoint);
+  if (!ax) { setStatus(`Unión rotacional: toca un ORIFICIO o cilindro en ${part.name} (define el eje de giro).`); return; }
+  const axis = { part: part.id, point: [...ax.at], dir: [...ax.dir] };
+  const faceAnchor = { part: part.id, point: face.centroid.toArray(), normal: face.normal.toArray() };
+  if (!jointStage) {
+    jointStage = { part: part.id, axis, face: faceAnchor, name: ax.feature.name };
+    keepPickedHighlight(hit, face);
+    setStatus(`Eje 1: ${ax.feature.name} de ${part.name}. Ahora toca el orificio de la OTRA pieza.`);
+    return;
+  }
+  if (jointStage.part === part.id) { setStatus('Elige un orificio de OTRA pieza.'); return; }
+  pushUndo();
+  doc.constraints.push(makeConcentric(jointStage.axis, axis));       // ejes alineados
+  doc.constraints.push(makeMate('mate', jointStage.face, faceAnchor, 0)); // posición axial
+  jointStage = null;
+  clearPickedHighlight();
+  clearHover();
+  solveAndSync();
+  setMode('joint');
+  commit('Unión rotacional creada: ejes concéntricos + caras en contacto → la pieza gira (1 GL).');
 }
 
 // ---------- Escala de pieza (símil "Escala" de edición directa) ----------
