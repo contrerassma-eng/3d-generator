@@ -50,6 +50,14 @@ check('catálogo web == catálogo canónico',
 
 for (const comp of cat.componentes) {
   console.log(`- ${comp.id}`);
+  // Ensamble (GLB multi-pieza): se inserta como varias piezas en el navegador;
+  // en Node solo se valida el mapeo (glb + bbox + archivo existe).
+  if (comp.ensamble) {
+    check('ensamble tiene glb', !!comp.ensamble.glb);
+    check('ensamble bbox_mm', Array.isArray(comp.bbox_mm) && comp.bbox_mm.length === 3);
+    check('ensamble GLB existe', existsSync(resolve(root, 'cad', comp.ensamble.glb)), `(${comp.ensamble.glb})`);
+    continue;
+  }
   const part = componentToPart(comp);
   // Componentes de malla real (GLB): la geometría se carga en el navegador; en
   // Node se valida el mapeo (función 'mesh', color, procedencia, archivo, bbox).

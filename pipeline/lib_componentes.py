@@ -55,6 +55,18 @@ def get_componente(cat: dict, cid: str) -> dict:
 def validar_componente(comp: dict) -> list[str]:
     """Errores de esquema del registro (lista vacia = valido)."""
     e = []
+    # Ensamble (GLB multi-pieza): entra como varias piezas; valida glb + bbox.
+    if "ensamble" in comp:
+        for campo in ("id", "nombre", "categoria", "descripcion", "fuente"):
+            if campo not in comp:
+                e.append(f"falta campo '{campo}'")
+        if not comp.get("ensamble", {}).get("glb"):
+            e.append("ensamble: falta 'glb'")
+        if len(comp.get("bbox_mm", [])) != 3:
+            e.append("ensamble: requiere 'bbox_mm' [x,y,z]")
+        if comp.get("categoria") not in CATEGORIAS:
+            e.append(f"categoria '{comp.get('categoria')}' no esta en {CATEGORIAS}")
+        return e
     # Componente de malla real (GLB): geometria fija importada. No lleva
     # 'solidos'; se valida el bloque 'malla' + bbox en su lugar.
     if "malla" in comp:
