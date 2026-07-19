@@ -27,3 +27,4 @@ __pycache__/
 cad/ensambles/*.stl
 cad/ensambles/*_colors.bin
 cad/ensambles/*_remove.bin
+cad/ensambles/transfer_animacion_standalone.html

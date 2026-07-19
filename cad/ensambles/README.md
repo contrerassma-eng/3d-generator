@@ -205,9 +205,23 @@ ver_anim.html?doc=transfer_rodillos_90.json&anim=transfer_anim.json
   tambor girando + pop-up por bisagra keyframeado, con 3 fases (sube · transfiere ·
   baja) en un loop de 6 s. El visor tiene play/pausa y timeline (scrubbing).
 
-El HUD muestra la fase del ciclo. El pop-up se muestra **exagerado ×5** (el real
-es 0.41°/6 mm) para que el basculamiento sea visible; la nota va en el nombre del
-canal. Reusable para cualquier ensamble foto3d escribiendo su propia spec.
+Sobre `integracion_modulo_base.json` la animación incluye además: **scroll de
+las bandas** (host + serpentín, `beltScroll`) y el **producto** (una caja que
+entra por la banda, se transfiere y sale a 90°, `props`). El HUD muestra la fase.
+El pop-up va **exagerado ×5** (el real es 0.41°/6 mm) para que se vea; la nota
+va en el nombre del canal. Reusable para cualquier ensamble escribiendo su spec.
+
+**Versión STANDALONE (autocontenida, sin servidor).** `entry_standalone.mjs`
+empaqueta three + `model.js` + `animate.js` + los JSON en un solo HTML que se
+abre con doble clic:
+
+```bash
+npx esbuild ensambles/entry_standalone.mjs --bundle --format=iife \
+  --alias:three=./vendor/three.module.min.js --loader:.json=json \
+  --outfile=/tmp/standalone.js
+#   luego envolver /tmp/standalone.js en un HTML con el HUD (#tit/#fase/#pp/#t/#sl)
+#   → transfer_animacion_standalone.html (~1.2 MB, corre en file://)
+```
 
 ## Planos de fabricación (PDF)
 

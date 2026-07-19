@@ -79,6 +79,37 @@ export function animMatrix(part, t, spec, THREE) {
   return M;
 }
 
+// PROPS: objetos ilustrativos con path keyframeado (p. ej. el producto que se
+// transfiere). keys = [[t, x, y, z], ...] (posición). `visible` = [t0, t1]
+// opcional (ventana de visibilidad dentro del loop). Interpolación LINEAL
+// (velocidad constante, como una caja sobre una banda). Devuelve [{...pr, pos,
+// visible}].
+function pathAt(keys, t) {
+  if (t <= keys[0][0]) return keys[0].slice(1);
+  for (let i = 1; i < keys.length; i++) {
+    if (t <= keys[i][0]) {
+      const a = keys[i - 1], b = keys[i], u = (t - a[0]) / ((b[0] - a[0]) || 1);
+      return [1, 2, 3].map(j => a[j] + (b[j] - a[j]) * u);
+    }
+  }
+  return keys[keys.length - 1].slice(1);
+}
+export function props(spec, t) {
+  const loop = spec.loop || 6;
+  const tt = ((t % loop) + loop) % loop;
+  return (spec.props || []).map(pr => {
+    const pos = pathAt(pr.keys, tt);
+    const vis = !pr.visible || (tt >= pr.visible[0] && tt < pr.visible[1]);
+    return { name: pr.name, box: pr.box, color: pr.color || '#c8a86a', pos, visible: vis };
+  });
+}
+
+// SCROLL de bandas: devuelve el offset de textura (para simular la banda
+// corriendo) de cada regla en spec.beltScroll = [{match, speed, axis}].
+export function beltScroll(spec, t) {
+  return (spec.beltScroll || []).map(b => ({ match: b.match, off: t * (b.speed || 0.5), axis: b.axis || 'x' }));
+}
+
 // Estado legible (para un HUD): devuelve la fase actual del loop.
 export function fase(t, spec) {
   const loop = spec.loop || 6;
