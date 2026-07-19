@@ -50,7 +50,13 @@ export const D = {
   rollerLines: [-278, -139, 0, 139, 278], // paso 139 (= paso de banda del base)
   rollerDia: 63,                 // Ø vulcanizado (llena el hueco de ~99 con holgura)
   tubeDia: 51,                   // tubo de acero (corazón); superficie desnuda de arrastre
-  rollerZ: 142.5,                // eje: tangente 174 = anfitrión + 4 (con Ø63)
+  // CAMA DE RODILLOS ELEVADA (ref. Hytrol MRT): la cama sube 14 respecto al
+  // diseño previo (142.5) → tangente 188 = anfitrión + 18. Los rodillos quedan
+  // PROUD (por encima) del plano de banda: el producto se eleva y desvía a 90°
+  // sin que el cuerpo del rodillo se hunda contra las bandas/guías 80×40 (que,
+  // además, se recortan en la huella del transfer, como en una instalación MRT
+  // real). El módulo "crece en altura": transmisión abajo, rodillos arriba.
+  rollerZ: 156.5,                // eje: tangente 188 = anfitrión + 18 (cama elevada)
   // RODILLOS LARGOS (≥800): tubo x = -400..400 (800 de cara), como la cama de
   // rodillos de un transfer real (ref. construcción Hytrol MRT). El extremo +X
   // (x=355..400) es el desnudo de arrastre donde corre el serpentín.
@@ -190,10 +196,14 @@ function verify() {
     if (Math.abs((D.rollerLines[i] - D.rollerLines[i - 1]) - pitch) > 1e-6) e.push('paso de rodillos no uniforme');
   }
   if (tangentGap < 50) e.push(`gap tangente ${tangentGap} < 50 mm (espec. usuario)`);
+  // Cama de rodillos ELEVADA: `pop` = sobre-elevación de la tangente sobre el
+  // plano anfitrión; `bodyClear` = holgura del FONDO del rodillo sobre ese plano
+  // (con la huella recortada no exige gap, pero medimos que la cama está proud).
   const pop = (D.rollerZ + D.rollerDia / 2) - D.hostPlane;
-  const drop = D.hostPlane - (D.rollerZ - D.stroke + D.rollerDia / 2);
-  if (pop < 3 || pop > 6) e.push(`sobre-elevación ${pop} fuera de 3..6 mm`);
-  if (drop < 1) e.push(`retraído, el rodillo no baja del plano anfitrión (${drop})`);
+  const bodyClear = (D.rollerZ - D.rollerDia / 2) - D.hostPlane;   // < 0 = fondo bajo el plano
+  const drop = D.stroke;                                            // carrera de desvío (pop-up)
+  if (pop < 10 || pop > 30) e.push(`sobre-elevación de la cama ${pop} fuera de 10..30 mm`);
+  if (D.rollerZ + D.rollerDia / 2 <= D.hostPlane) e.push('la cama de rodillos no sobresale del plano anfitrión');
   if (D.tubeDia / 2 + D.bandT > D.rollerDia / 2) e.push('la banda sobresale del vulcanizado');
   if (D.bearDia >= D.tubeDia) e.push('el rodamiento 6004 no cabe dentro del tubo del rodillo');
   if (D.beltPlane - D.bandW / 2 < D.bareFrom || D.beltPlane + D.bandW / 2 > D.coreHalf) {
