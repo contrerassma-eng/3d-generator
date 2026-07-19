@@ -66,8 +66,8 @@ export function componentToPart(comp) {
       color: COLOR_CATEGORIA[comp.categoria] || '#aeb6c2',
       pos: [0, 0, 0], quat: [0, 0, 0, 1], fixed: false, visible: true,
       componente: comp.id,
-      features: [{ id: uid('f'), name: 'Malla (GLB)', shape: 'mesh', op: 'mesh', at: [0, 0, 0], dir: [0, 0, 1],
-                   params: { src: comp.malla.glb, bbox: comp.bbox_mm || null } }],
+      features: [{ id: uid('f'), name: comp.malla.nodo ? `Malla · ${comp.malla.nodo}` : 'Malla (GLB)', shape: 'mesh', op: 'mesh', at: [0, 0, 0], dir: [0, 0, 1],
+                   params: { src: comp.malla.glb, nodo: comp.malla.nodo || null, bbox: comp.bbox_mm || null } }],
     };
   }
   const features = [];
