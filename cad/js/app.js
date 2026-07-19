@@ -596,6 +596,7 @@ function refreshProps() {
       <div class="btnrow">
         <button id="pp_apply">Aplicar</button>
         <button id="pp_scale" title="Escalar la pieza por un factor (símil Escala de edición directa de Inventor)">⤢ Escala…</button>
+        <button id="pp_rot" title="Girar la pieza un ángulo alrededor de un eje (símil Rotar de edición directa)">⟳ Girar…</button>
         <button id="pp_iso" title="Mostrar solo esta pieza (toca de nuevo para restaurar)">⛶ Aislar</button>
         <button id="pp_del" class="danger">Eliminar pieza</button>
       </div>
@@ -638,6 +639,19 @@ function refreshProps() {
       rebuildPart(p);
       solveAndSync();
       commit(`${p.name}: escala ×${v.s}.`);
+    });
+    $('pp_rot').onclick = () => showForm(`${p.name} · Girar`, [
+      { key: 'axis', label: 'Eje de giro', type: 'select', value: 'z', options: [['x', 'X'], ['y', 'Y'], ['z', 'Z']] },
+      { key: 'ang', label: 'Ángulo (°): + antihorario', value: 90, step: 5 },
+    ], (v) => {
+      if (!v.ang) return;
+      pushUndo();
+      const ax = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] }[v.axis];
+      const dq = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(...ax), v.ang * Math.PI / 180);
+      const q = new THREE.Quaternion(...p.quat).premultiply(dq);
+      p.quat = [q.x, q.y, q.z, q.w];
+      solveAndSync();
+      commit(`${p.name}: giro ${v.ang}° en ${v.axis.toUpperCase()}.`);
     });
     return;
   }
@@ -869,7 +883,7 @@ const MODE_HINTS = {
   concentric: 'Concéntrico: clic cerca de un orificio/cilindro de la 1.ª pieza, luego de la 2.ª.',
   move: 'Mover: arrastra una pieza (Shift o un 2.º dedo = mover en Z). Al soltar se re-aplican las restricciones.',
   measure: 'Medir: toca aristas, caras, circunferencias o paredes cilíndricas (ejes). Con 2 referencias calcula distancia o ángulo.',
-  direct: 'Edición directa (símil Inventor): toca una cara y muévela por DISTANCIA (+ alarga / − reduce, la opuesta queda fija) o fija la medida absoluta; para escalar toda la pieza usa ⤢ Escala… en Propiedades.',
+  direct: 'Edición directa (símil Inventor): toca una cara y muévela por DISTANCIA (+ alarga / − reduce, la opuesta queda fija) o fija la medida absoluta. Shift+clic acumula VARIAS caras y las mueve todas con una distancia. Escala/gira la pieza en Propiedades.',
   fillet: 'Empalme: toca una arista del sólido para redondearla con un radio (símil Empalme de Inventor).',
   chamfer: 'Chaflán: toca una arista del sólido para achaflanarla (corte a 45°) con una distancia.',
 };
@@ -880,6 +894,7 @@ function setMode(m) {
   mode = mode === m ? 'select' : m;
   pickStage = null;
   if (mode !== 'sketch' && sketch) cancelSketch(false);
+  if (mode !== 'direct') clearDirectSel();
   clearHover();
   clearPickedHighlight();
   if (mode !== 'measure') clearMeasure();
@@ -1048,7 +1063,7 @@ renderer.domElement.addEventListener('pointercancel', () => {
 });
 
 window.addEventListener('keydown', (ev) => {
-  if (ev.key === 'Escape') { hideDialog(); setModeSelect(); }
+  if (ev.key === 'Escape') { hideDialog(); clearDirectSel(); setModeSelect(); }
   if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); undo(); }
   const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
   if (ev.key === 'Delete' && selection && !dialogOpen() && !typing) {
@@ -1092,7 +1107,7 @@ function handleClick(ev) {
   if (mode === 'pestana') return clickPestana(hit);
   if (mode === 'mate' || mode === 'flush') return clickMate(hit, mode);
   if (mode === 'concentric') return clickConcentric(hit);
-  if (mode === 'direct') return clickDirect(hit);
+  if (mode === 'direct') return clickDirect(hit, ev);
   if (mode === 'fillet' || mode === 'chamfer') return clickBlend(hit, mode);
   if (mode === 'measure') return clickMeasure(hit);
 }
@@ -2697,17 +2712,73 @@ function scalePart(part, s) {
 }
 
 // ---------- Edición directa de sólidos ----------
-// Toca una cara y edita el parámetro de la función que la genera,
-// sin pasar por el árbol (símil "Edit face" / "Move face" de Inventor):
-// el input primario es la DISTANCIA a mover la cara (la opuesta queda fija).
+// Toca una cara y edita el parámetro de la función que la genera, sin pasar por
+// el árbol (símil "Move face" de Inventor): el input primario es la DISTANCIA a
+// mover la cara (la opuesta queda fija). Con Shift se acumulan VARIAS caras y se
+// mueven todas con una sola distancia.
 
-function clickDirect(hit) {
+// Aplica un desplazamiento (mm) a la cara identificada, creciendo hacia ella.
+function applyFaceDistance(info, dist) {
+  const f = info.feature;
+  if (info.kind === 'hole-wall' || info.kind === 'cyl-wall') {
+    f.params.dia = Math.max(0.1, f.params.dia + 2 * dist);
+    if (f.shape === 'hole') f.name = f.name.replace(/Ø[\d.]+/, `Ø${f.params.dia}`);
+  } else if (info.kind === 'cyl-cap' || info.kind === 'sketch-cap') {
+    f.params.h = Math.max(0.1, f.params.h + dist);
+  } else if (info.kind === 'box-face') {
+    const dim = ['w', 'd', 'h'][info.axis];
+    const old = f.params[dim], nv = Math.max(0.1, old + dist);
+    if (info.axis === 2) { if (info.sign < 0) f.at[2] += old - nv; f.params.h = nv; }
+    else { f.at[info.axis] += info.sign * (nv - old) / 2; f.params[dim] = nv; }
+  }
+}
+
+// Multi-selección de caras (Shift+clic las acumula, resaltadas).
+const directSel = [];
+let directMeshes = [];
+function clearDirectSel() {
+  for (const m of directMeshes) { m.parent?.remove(m); m.geometry.dispose(); }
+  directMeshes = []; directSel.length = 0;
+}
+function addDirectFace(hit, face, part, info) {
+  const g = faceHighlightGeometry(hit.object.geometry, face.tris);
+  const m = new THREE.Mesh(g, pickedMat);
+  hit.object.add(m); directMeshes.push(m);
+  directSel.push({ part, info });
+}
+
+function clickDirect(hit, ev) {
   const part = getPart(doc, hit.object.userData.partId);
   const face = faceAtHit(hit);
   const lp = hit.object.worldToLocal(hit.point.clone());
   const info = identifyFace(part, lp, face.normal);
   if (!info) {
     setStatus('No se reconoce esa cara para edición directa. Edita la función en el navegador de modelo.');
+    return;
+  }
+  // Shift+clic: acumular la cara a la multi-selección (no abre diálogo aún)
+  if (ev && ev.shiftKey) {
+    addDirectFace(hit, face, part, info);
+    setStatus(`${directSel.length} cara(s) seleccionada(s) — clic normal para moverlas por distancia (Esc cancela).`);
+    return;
+  }
+  // Clic normal con caras acumuladas: mover TODAS (incluida esta) por 1 distancia
+  if (directSel.length) {
+    addDirectFace(hit, face, part, info);
+    const faces = directSel.slice();
+    const parts = new Set(faces.map(x => x.part));
+    showForm(`Mover ${faces.length} caras — símil Move Face`, [
+      { key: 'dist', label: 'Distancia (mm): + crece / − reduce (cada cara hacia su normal)', value: 0, step: 0.5 },
+    ], (v) => {
+      clearDirectSel();
+      if (!v.dist) return;
+      pushUndo();
+      for (const { info: ii } of faces) applyFaceDistance(ii, v.dist);
+      faceCache.clear(); clearHover();
+      for (const pp of parts) rebuildPart(pp);
+      solveAndSync();
+      commit(`Movidas ${faces.length} caras ${v.dist} mm.`);
+    });
     return;
   }
   const f = info.feature;
