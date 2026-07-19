@@ -14,7 +14,94 @@ export const PALETTE = ['#6d9ee8', '#e8a56d', '#7fc98a', '#c98ad0', '#d9c96b', '
 // ---------- Documento ----------
 
 export function newDoc() {
-  return { format: 'foto3d-cad', version: 1, parts: [], constraints: [] };
+  return { format: 'foto3d-cad', version: 1, parts: [], constraints: [], params: [] };
+}
+
+// ---------- Parámetros globales (fx) y ecuaciones ----------
+// doc.params = [{name, expr}] evaluados en orden; una expresión puede citar
+// parámetros anteriores. Una función guarda expresiones en f.expr = {clave:expr}
+// (p. ej. {w:'ancho', h:'ancho/2'}); al regenerar se resuelven a f.params.
+
+const PARAM_FNS = {
+  sqrt: Math.sqrt, abs: Math.abs, sin: (d) => Math.sin(d * Math.PI / 180),
+  cos: (d) => Math.cos(d * Math.PI / 180), tan: (d) => Math.tan(d * Math.PI / 180),
+  round: Math.round, floor: Math.floor, ceil: Math.ceil, min: Math.min, max: Math.max, pow: Math.pow,
+};
+const PARAM_CONST = { pi: Math.PI, PI: Math.PI };
+
+// Evaluador seguro (descenso recursivo): + - * / ( ) , números, identificadores
+// y funciones de PARAM_FNS. Sin acceso al entorno (no usa eval/Function).
+export function evalExpr(expr, scope = {}) {
+  if (typeof expr === 'number') return expr;
+  const s = String(expr).trim();
+  if (s === '') return NaN;
+  if (/^[-+]?(\d+\.?\d*|\.\d+)$/.test(s)) return parseFloat(s);
+  let i = 0;
+  const skip = () => { while (i < s.length && s[i] === ' ') i++; };
+  const peek = () => { skip(); return s[i]; };
+  function parseExpr() {
+    let v = parseTerm();
+    for (;;) { const c = peek(); if (c === '+') { i++; v += parseTerm(); } else if (c === '-') { i++; v -= parseTerm(); } else break; }
+    return v;
+  }
+  function parseTerm() {
+    let v = parseFactor();
+    for (;;) { const c = peek(); if (c === '*') { i++; v *= parseFactor(); } else if (c === '/') { i++; v /= parseFactor(); } else break; }
+    return v;
+  }
+  function parseFactor() {
+    const c = peek();
+    if (c === '+') { i++; return parseFactor(); }
+    if (c === '-') { i++; return -parseFactor(); }
+    if (c === '(') { i++; const v = parseExpr(); if (peek() === ')') i++; return v; }
+    const m = s.slice(i).match(/^(\d+\.?\d*|\.\d+)/);
+    if (m) { i += m[0].length; return parseFloat(m[0]); }
+    const id = s.slice(i).match(/^[A-Za-z_]\w*/);
+    if (id) {
+      i += id[0].length;
+      if (peek() === '(') { // llamada a función
+        i++; const args = [];
+        if (peek() !== ')') { args.push(parseExpr()); while (peek() === ',') { i++; args.push(parseExpr()); } }
+        if (peek() === ')') i++;
+        const fn = PARAM_FNS[id[0]];
+        return fn ? fn(...args) : NaN;
+      }
+      if (id[0] in PARAM_CONST) return PARAM_CONST[id[0]];
+      return (id[0] in scope) ? scope[id[0]] : NaN;
+    }
+    return NaN;
+  }
+  const val = parseExpr();
+  return Number.isFinite(val) ? val : NaN;
+}
+
+// Resuelve los parámetros del documento en orden → { nombre: valor }.
+export function resolveParams(doc) {
+  const scope = {};
+  for (const p of (doc.params || [])) {
+    if (!p.name) continue;
+    const v = evalExpr(p.expr, scope);
+    if (Number.isFinite(v)) scope[p.name] = v;
+  }
+  return scope;
+}
+
+// Aplica las expresiones de las funciones de una pieza a sus params numéricos.
+export function applyExpressions(part, scope) {
+  for (const f of part.features) {
+    if (!f.expr) continue;
+    for (const key of Object.keys(f.expr)) {
+      const v = evalExpr(f.expr[key], scope);
+      if (Number.isFinite(v)) f.params[key] = v;
+    }
+  }
+}
+
+// Conveniencia: resuelve el doc y aplica a todas las piezas antes de regenerar.
+export function applyDocParams(doc) {
+  const scope = resolveParams(doc);
+  for (const part of doc.parts) applyExpressions(part, scope);
+  return scope;
 }
 
 export function newPart(doc, name) {
@@ -72,6 +159,161 @@ export function makeSketchFeature(pts, h, op, at, dir, u) {
 // contorno (y sus agujeros) se encadena en cada regeneración.
 export function makeSketchEntitiesFeature(entities, dims, h, op, at, dir, u) {
   return { id: uid('f'), name: op === 'cut' ? 'Corte de boceto' : 'Extrusión de boceto', shape: 'sketch', op, at, dir, params: { entities, dims, h, u } };
+}
+// Revolución 360° del contorno alrededor de una línea del boceto (axis en 2D).
+export function makeRevolveFeature(entities, dims, axis, op, at, dir, u) {
+  return { id: uid('f'), name: op === 'cut' ? 'Corte de revolución' : 'Revolución de boceto', shape: 'revolve', op, at, dir, params: { entities, dims, axis, u } };
+}
+// Patrón de una función existente (símil "Patrón" de Inventor). Replica la
+// geometría de la función origen en varias ocurrencias, aplicando su misma
+// operación (unión/corte). El origen queda como la ocurrencia (0,0).
+//   kind:'rect' → params {sourceId, nx, ny, dx, dy, u:[..], v:[..]}
+//   kind:'circ' → params {sourceId, n, angle, axisAt:[..], axisDir:[..]}
+export function makePatternFeature(sourceId, kind, params) {
+  const name = kind === 'circ' ? 'Patrón circular' : 'Patrón rectangular';
+  return { id: uid('f'), name, shape: 'pattern', op: 'pattern', at: [0, 0, 0], dir: [0, 0, 1], params: { sourceId, kind, ...params } };
+}
+
+// Empalme (fillet) y chaflán (chamfer) sobre aristas del sólido ya construido.
+// A diferencia de las demás funciones, operan sobre la malla acumulada: cada
+// arista se guarda por sus dos extremos (coordenadas locales); al regenerar se
+// buscan las dos caras adyacentes en la malla y se construye el modificador CSG.
+//   fillet:  params {edges:[{a,b},...], r}
+//   chamfer: params {edges:[{a,b},...], d}
+export function makeFilletFeature(edges, r) {
+  return { id: uid('f'), name: `Empalme R${r}`, shape: 'fillet', op: 'blend', at: [0, 0, 0], dir: [0, 0, 1], params: { edges, r } };
+}
+export function makeChamferFeature(edges, d) {
+  return { id: uid('f'), name: `Chaflán ${d}`, shape: 'chamfer', op: 'blend', at: [0, 0, 0], dir: [0, 0, 1], params: { edges, d } };
+}
+
+// Dos caras planas adyacentes a la arista (A,B) en la malla: normales exteriores
+// n1,n2 y un vértice opuesto de cada cara (para saber si la arista es convexa).
+function facesAtEdge(geom, A, B) {
+  const pos = geom.attributes.position;
+  const e = B.clone().sub(A); const L = e.length();
+  if (L < 1e-6) return null;
+  const eu = e.clone().divideScalar(L);
+  const line = new THREE.Line3(A, B);
+  const tmp = new THREE.Vector3();
+  const groups = []; // { n, opp, count }
+  const tri = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
+  const triCount = pos.count / 3;
+  for (let t = 0; t < triCount; t++) {
+    for (let k = 0; k < 3; k++) tri[k].fromBufferAttribute(pos, t * 3 + k);
+    const n = new THREE.Vector3().subVectors(tri[1], tri[0]).cross(new THREE.Vector3().subVectors(tri[2], tri[0]));
+    if (n.lengthSq() < 1e-12) continue;
+    n.normalize();
+    for (let k = 0; k < 3; k++) {
+      const p1 = tri[k], p2 = tri[(k + 1) % 3];
+      const dl = p2.clone().sub(p1); const dll = dl.length();
+      if (dll < 1e-6) continue;
+      if (Math.abs(dl.dot(eu) / dll) < 0.999) continue;                 // no colineal con AB
+      if (line.closestPointToPoint(p1, false, tmp).distanceTo(p1) > 0.06) continue;
+      if (line.closestPointToPoint(p2, false, tmp).distanceTo(p2) > 0.06) continue;
+      const s1 = p1.clone().sub(A).dot(eu), s2 = p2.clone().sub(A).dot(eu);
+      if (Math.max(s1, s2) < 0.06 || Math.min(s1, s2) > L - 0.06) continue; // sin solape con AB
+      const opp = tri[(k + 2) % 3].clone();
+      let g = groups.find(x => x.n.dot(n) > 0.995);
+      if (g) { g.count++; } else groups.push({ n: n.clone(), opp, count: 1 });
+      break;
+    }
+  }
+  if (groups.length < 2) return null;
+  groups.sort((a, b) => b.count - a.count);
+  return { n1: groups[0].n, n2: groups[1].n, opp1: groups[0].opp };
+}
+
+// Prisma sólido a partir de un contorno 3D (base) extruido por E, con bobinado
+// exterior garantizado por el signo del volumen (como en la revolución).
+function prismFromSection(base, E) {
+  const top = base.map(p => p.clone().add(E));
+  const N = base.length;
+  const positions = [];
+  const push = (a, b, c) => positions.push(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z);
+  for (let i = 1; i < N - 1; i++) { push(base[0], base[i], base[i + 1]); push(top[0], top[i + 1], top[i]); }
+  for (let i = 0; i < N; i++) { const j = (i + 1) % N; push(base[i], top[i], top[j]); push(base[i], top[j], base[j]); }
+  let vol = 0;
+  for (let i = 0; i < positions.length; i += 9) {
+    const [ax, ay, az, bx, by, bz, cx, cy, cz] = positions.slice(i, i + 9);
+    vol += (ax * (by * cz - bz * cy) + ay * (bz * cx - bx * cz) + az * (bx * cy - by * cx)) / 6;
+  }
+  if (vol < 0) for (let i = 0; i < positions.length; i += 9) {
+    for (let k = 0; k < 3; k++) { const t = positions[i + 3 + k]; positions[i + 3 + k] = positions[i + 6 + k]; positions[i + 6 + k] = t; }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  g.computeVertexNormals();
+  return g;
+}
+
+// Modificador CSG de una arista: empalme (redondeo) o chaflán. Devuelve
+// { op:'subtract'|'union', csg } o null si no se pudieron hallar las dos caras.
+function edgeBlend(geom, edge, kind, size) {
+  const A = new THREE.Vector3(...edge.a), B = new THREE.Vector3(...edge.b);
+  const faces = facesAtEdge(geom, A, B);
+  if (!faces) return null;
+  const { n1, n2, opp1 } = faces;
+  const d = n1.dot(n2);
+  if (d < -0.985 || d > 0.985) return null;               // caras paralelas: no hay esquina
+  const convex = n2.dot(opp1.clone().sub(A)) < 0;         // el material queda del lado interior
+  const s = convex ? 1 : -1;
+  const e = B.clone().sub(A); const L = e.length(); const eu = e.clone().divideScalar(L);
+  const ext = 0.6; const Eext = eu.clone().multiplyScalar(L + 2 * ext);
+  const O = A.clone().addScaledVector(eu, -ext);          // origen del prisma (base, con salida)
+
+  if (kind === 'chamfer') {
+    const i1 = n1.clone().negate(), i2 = n2.clone().negate();
+    const fd1 = i2.clone().addScaledVector(n1, -i2.dot(n1)).normalize(); // tangente en cara1 hacia el material
+    const fd2 = i1.clone().addScaledVector(n2, -i1.dot(n2)).normalize();
+    const T1 = O.clone().addScaledVector(fd1, size), T2 = O.clone().addScaledVector(fd2, size);
+    const prism = prismFromSection([O, T1, T2], Eext);
+    return { op: convex ? 'subtract' : 'union', csg: geomToCSG(prism) };
+  }
+  // fillet (empalme)
+  const r = size;
+  const C = O.clone().addScaledVector(n1.clone().add(n2), -s * r / (1 + d)); // centro del arco
+  const T1 = C.clone().addScaledVector(n1, s * r), T2 = C.clone().addScaledVector(n2, s * r);
+  const prism = prismFromSection([O, T1, C, T2], Eext);
+  const cyl = cylinderAlong(C.toArray(), eu.toArray(), r, L + 2 * ext);
+  const sliver = geomToCSG(prism).subtract(geomToCSG(cyl)); // esquina cuadrada menos el arco
+  // convexo: se quita esa astilla del material (deja el redondeo exterior);
+  // cóncavo: se agrega en el rincón (rellena la esquina reentrante)
+  return { op: convex ? 'subtract' : 'union', csg: sliver };
+}
+
+// Matrices (excluida la identidad, que es la ocurrencia origen) de un patrón.
+export function patternMatrices(f) {
+  const mats = [];
+  const p = f.params;
+  if (p.kind === 'circ') {
+    const n = Math.max(1, Math.round(p.n));
+    const total = p.angle ?? 360;
+    const full = Math.abs(total) >= 359.999;
+    const step = (full ? total / n : total / Math.max(1, n - 1)) * Math.PI / 180;
+    const at = new THREE.Vector3(...(p.axisAt || [0, 0, 0]));
+    const axis = new THREE.Vector3(...(p.axisDir || [0, 0, 1])).normalize();
+    for (let k = 1; k < n; k++) {
+      const m = new THREE.Matrix4()
+        .makeTranslation(at.x, at.y, at.z)
+        .multiply(new THREE.Matrix4().makeRotationAxis(axis, step * k))
+        .multiply(new THREE.Matrix4().makeTranslation(-at.x, -at.y, -at.z));
+      mats.push(m);
+    }
+    return mats;
+  }
+  // rectangular
+  const nx = Math.max(1, Math.round(p.nx)), ny = Math.max(1, Math.round(p.ny));
+  const u = new THREE.Vector3(...(p.u || [1, 0, 0]));
+  const v = new THREE.Vector3(...(p.v || [0, 1, 0]));
+  for (let i = 0; i < nx; i++) {
+    for (let j = 0; j < ny; j++) {
+      if (i === 0 && j === 0) continue; // ocurrencia origen
+      const off = u.clone().multiplyScalar(i * p.dx).addScaledVector(v, j * p.dy);
+      mats.push(new THREE.Matrix4().makeTranslation(off.x, off.y, off.z));
+    }
+  }
+  return mats;
 }
 
 const SEGMENTS = 48;
@@ -143,6 +385,69 @@ function featureGeometry(f, extent, first) {
     g.applyMatrix4(m);
     return g;
   }
+  if (f.shape === 'revolve') {
+    const regs = regions(f.params.entities, f.params.excluded || []).regions;
+    if (!regs.length) return null;
+    const a2 = f.params.axis.a, b2 = f.params.axis.b;
+    const dv = [b2[0] - a2[0], b2[1] - a2[1]];
+    const dl = Math.hypot(...dv) || 1;
+    const ad = [dv[0] / dl, dv[1] / dl];
+    const rd = [-ad[1], ad[0]];
+    const n = new THREE.Vector3(...f.dir).normalize();
+    const U = new THREE.Vector3(...f.params.u);
+    U.addScaledVector(n, -U.dot(n)).normalize();
+    const V = new THREE.Vector3().crossVectors(n, U);
+    const A3 = new THREE.Vector3(...f.at).addScaledVector(U, a2[0]).addScaledVector(V, a2[1]);
+    const axis3 = U.clone().multiplyScalar(ad[0]).addScaledVector(V, ad[1]);
+    const rad3 = U.clone().multiplyScalar(rd[0]).addScaledVector(V, rd[1]);
+    const SEG2 = 48;
+    const positions = [];
+    const pt3 = (h, r, th) => A3.clone().addScaledVector(axis3, h)
+      .addScaledVector(rad3, r * Math.cos(th)).addScaledVector(n, r * Math.sin(th));
+    for (const reg of regs) {
+      for (const ring of [reg.outer, ...reg.holes]) {
+        const hr = ring.map(p => {
+          const q = [p[0] - a2[0], p[1] - a2[1]];
+          return [q[0] * ad[0] + q[1] * ad[1], q[0] * rd[0] + q[1] * rd[1]];
+        });
+        const rs = hr.map(x => x[1]);
+        if (Math.min(...rs) < -0.05 && Math.max(...rs) > 0.05) return null; // el contorno cruza el eje
+        const flip = Math.max(...rs) <= 0.05; // contorno al otro lado: reflejar
+        const HR = hr.map(([h, r]) => [h, Math.max(0, flip ? -r : r)]);
+        for (let k = 0; k < HR.length; k++) {
+          const [h1, r1] = HR[k], [h2, r2] = HR[(k + 1) % HR.length];
+          for (let j = 0; j < SEG2; j++) {
+            const t1 = j * Math.PI * 2 / SEG2, t2 = (j + 1) * Math.PI * 2 / SEG2;
+            const pA = pt3(h1, r1, t1), pB = pt3(h2, r2, t1);
+            const pC = pt3(h2, r2, t2), pD = pt3(h1, r1, t2);
+            positions.push(pA.x, pA.y, pA.z, pB.x, pB.y, pB.z, pC.x, pC.y, pC.z);
+            positions.push(pA.x, pA.y, pA.z, pC.x, pC.y, pC.z, pD.x, pD.y, pD.z);
+          }
+        }
+      }
+    }
+    // orientación consistente hacia afuera: si el volumen firmado es negativo, invertir
+    let vol = 0;
+    for (let i = 0; i < positions.length; i += 9) {
+      const ax = positions[i], ay = positions[i + 1], az = positions[i + 2];
+      const bx = positions[i + 3], by = positions[i + 4], bz = positions[i + 5];
+      const cx = positions[i + 6], cy = positions[i + 7], cz = positions[i + 8];
+      vol += (ax * (by * cz - bz * cy) + ay * (bz * cx - bx * cz) + az * (bx * cy - by * cx)) / 6;
+    }
+    if (vol < 0) {
+      for (let i = 0; i < positions.length; i += 9) {
+        for (let k = 0; k < 3; k++) {
+          const t = positions[i + 3 + k];
+          positions[i + 3 + k] = positions[i + 6 + k];
+          positions[i + 6 + k] = t;
+        }
+      }
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    g.computeVertexNormals();
+    return g;
+  }
   throw new Error(`shape desconocido: ${f.shape}`);
 }
 
@@ -159,7 +464,7 @@ export function planeBasis(n) {
 // Aristas analíticas de referencia de una pieza (coordenadas locales), para
 // proyectar en bocetos: aristas reales de las funciones, sin el ruido de
 // triangulación de la malla CSG. Devuelve pares [Vector3, Vector3].
-export function referenceEdges(part, circleSegs = 36) {
+export function referenceEdges(part, circleSegs = 36, skipId) {
   const segs = [];
   const pushSeg = (a, b) => segs.push([a, b]);
   const pushCircle = (center, dirV, r) => {
@@ -177,7 +482,7 @@ export function referenceEdges(part, circleSegs = 36) {
   const V = (x, y, z) => new THREE.Vector3(x, y, z);
 
   for (const f of part.features) {
-    if (f.suppressed) continue;
+    if (f.suppressed || f.id === skipId) continue;
     if (f.shape === 'box') {
       const [cx, cy, cz] = f.at, { w, d, h } = f.params;
       const x0 = cx - w / 2, x1 = cx + w / 2, y0 = cy - d / 2, y1 = cy + d / 2, z0 = cz, z1 = cz + h;
@@ -237,13 +542,60 @@ export function referenceEdges(part, circleSegs = 36) {
   return segs;
 }
 
+// Primitivas analíticas tipadas (líneas y círculos exactos) de una pieza,
+// en coordenadas locales, para PROYECTAR geometría al boceto como entidades.
+export function referencePrimitives(part) {
+  const lines = [], circles = [];
+  const V = (a) => new THREE.Vector3(...a);
+  const pushBoxEdges = (at, w, d, h) => {
+    const [cx, cy, cz] = at;
+    const x0 = cx - w / 2, x1 = cx + w / 2, y0 = cy - d / 2, y1 = cy + d / 2, z0 = cz, z1 = cz + h;
+    for (const z of [z0, z1]) {
+      lines.push({ a: new THREE.Vector3(x0, y0, z), b: new THREE.Vector3(x1, y0, z) });
+      lines.push({ a: new THREE.Vector3(x1, y0, z), b: new THREE.Vector3(x1, y1, z) });
+      lines.push({ a: new THREE.Vector3(x1, y1, z), b: new THREE.Vector3(x0, y1, z) });
+      lines.push({ a: new THREE.Vector3(x0, y1, z), b: new THREE.Vector3(x0, y0, z) });
+    }
+    for (const [x, y] of [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]) {
+      lines.push({ a: new THREE.Vector3(x, y, z0), b: new THREE.Vector3(x, y, z1) });
+    }
+  };
+  for (const f of part.features) {
+    if (f.suppressed) continue;
+    if (f.shape === 'box') pushBoxEdges(f.at, f.params.w, f.params.d, f.params.h);
+    else if (f.shape === 'cylinder') {
+      const dn = V(f.dir).normalize();
+      circles.push({ c: V(f.at), dir: dn, r: f.params.dia / 2 });
+      circles.push({ c: V(f.at).addScaledVector(dn, f.params.h), dir: dn, r: f.params.dia / 2 });
+    } else if (f.shape === 'hole') {
+      const dn = V(f.dir).normalize();
+      circles.push({ c: V(f.at), dir: dn, r: f.params.dia / 2 });
+      if (!f.params.through) circles.push({ c: V(f.at).addScaledVector(dn, f.params.depth), dir: dn, r: f.params.dia / 2 });
+    } else if (f.shape === 'sketch' && f.params.entities) {
+      const n = V(f.dir).normalize();
+      const U = V(f.params.u);
+      U.addScaledVector(n, -U.dot(n)).normalize();
+      const Vv = new THREE.Vector3().crossVectors(n, U);
+      const toV3 = (pu, pv, off) => V(f.at).addScaledVector(U, pu).addScaledVector(Vv, pv).addScaledVector(n, off);
+      const lift = (f.op === 'cut' ? -1 : 1) * f.params.h;
+      for (const off of [0, lift]) {
+        for (const e of f.params.entities) {
+          if (e.type === 'line') lines.push({ a: toV3(e.a[0], e.a[1], off), b: toV3(e.b[0], e.b[1], off) });
+          else if (e.type === 'circle') circles.push({ c: toV3(e.c[0], e.c[1], off), dir: n.clone(), r: e.r });
+        }
+      }
+    }
+  }
+  return { lines, circles };
+}
+
 // Puntos notables 3D de referencia (centros de círculos de agujeros,
 // cilindros y bocetos) para imantar el snap en los bocetos.
-export function referencePoints(part) {
+export function referencePoints(part, skipId) {
   const pts = [];
   const V = (a) => new THREE.Vector3(...a);
   for (const f of part.features) {
-    if (f.suppressed) continue;
+    if (f.suppressed || f.id === skipId) continue;
     if (f.shape === 'cylinder') {
       const dn = V(f.dir).normalize();
       pts.push(V(f.at), V(f.at).addScaledVector(dn, f.params.h));
@@ -280,6 +632,34 @@ export function buildPartGeometry(part) {
       let c = geomToCSG(res.add);
       csg = csg === null ? c : csg.union(c);
       for (const cut of res.cuts) csg = csg.subtract(geomToCSG(cut));
+      continue;
+    }
+    if (f.shape === 'fillet' || f.shape === 'chamfer') {
+      // empalme/chaflán: operan sobre la malla acumulada (aristas guardadas)
+      if (csg === null) continue;
+      const cur = csgToGeom(csg);
+      const size = f.shape === 'fillet' ? f.params.r : f.params.d;
+      for (const edge of (f.params.edges || [])) {
+        const mod = edgeBlend(cur, edge, f.shape, size);
+        if (!mod) continue;
+        csg = mod.op === 'union' ? csg.union(mod.csg) : csg.subtract(mod.csg);
+      }
+      continue;
+    }
+    if (f.shape === 'pattern') {
+      // replica la geometría de la función origen en cada ocurrencia
+      if (csg === null) continue; // sin material base que replicar/cortar
+      const src = part.features.find(x => x.id === f.params.sourceId);
+      if (!src || src.suppressed) continue;
+      const extent = bbox.isEmpty() ? 100 : bbox.getSize(new THREE.Vector3()).length();
+      const base = featureGeometry(src, extent, false);
+      if (!base) continue;
+      for (const M of patternMatrices(f)) {
+        const g = base.clone().applyMatrix4(M);
+        if (src.op === 'union') { g.computeBoundingBox(); bbox.union(g.boundingBox); }
+        const c = geomToCSG(g);
+        csg = src.op === 'cut' ? csg.subtract(c) : csg.union(c);
+      }
       continue;
     }
     if (f.op === 'union' || csg !== null) {
@@ -401,6 +781,53 @@ export function findAxialFeature(part, localPoint) {
     if (!best || score < best.score) best = { feature: f, score, at: f.at, dir: f.dir };
   }
   return best;
+}
+
+// ---------- Edición directa: identificar la cara tocada ----------
+// Dado un punto local y la normal local de la cara, encuentra qué función
+// la genera y qué parámetro controla (recorre de la última a la primera).
+export function identifyFace(part, lp, ln) {
+  const feats = [...part.features].reverse();
+  for (const f of feats) {
+    if (f.suppressed) continue;
+    if (f.shape === 'hole' || f.shape === 'cylinder') {
+      const at = new THREE.Vector3(...f.at);
+      const dir = new THREE.Vector3(...f.dir).normalize();
+      const rel = lp.clone().sub(at);
+      const t = rel.dot(dir);
+      const radial = rel.clone().addScaledVector(dir, -t).length();
+      const len = f.shape === 'hole' ? (f.params.through ? 1e4 : f.params.depth) : f.params.h;
+      const r = f.params.dia / 2;
+      if (t > -0.5 && t < len + 0.5 && Math.abs(radial - r) < 0.3 && Math.abs(ln.dot(dir)) < 0.3) {
+        return { feature: f, kind: f.shape === 'hole' ? 'hole-wall' : 'cyl-wall' };
+      }
+      if (f.shape === 'cylinder' && Math.abs(ln.dot(dir)) > 0.95 && radial < r + 0.3 && Math.abs(t - f.params.h) < 0.1) {
+        return { feature: f, kind: 'cyl-cap' };
+      }
+    } else if (f.shape === 'box') {
+      const { w, d, h } = f.params;
+      const center = [f.at[0], f.at[1], f.at[2] + h / 2];
+      const half = [w / 2, d / 2, h / 2];
+      const L = [lp.x, lp.y, lp.z], N = [ln.x, ln.y, ln.z];
+      for (let a = 0; a < 3; a++) {
+        if (Math.abs(N[a]) < 0.95) continue;
+        const sign = Math.sign(N[a]);
+        if (Math.abs(L[a] - (center[a] + sign * half[a])) > 0.1) continue;
+        const others = [0, 1, 2].filter(x => x !== a);
+        if (others.every(o => Math.abs(L[o] - center[o]) <= half[o] + 0.1)) {
+          return { feature: f, kind: 'box-face', axis: a, sign };
+        }
+      }
+    } else if (f.shape === 'sketch' && f.params.h) {
+      const n = new THREE.Vector3(...f.dir).normalize();
+      if (Math.abs(ln.dot(n)) > 0.95) {
+        const dist = lp.clone().sub(new THREE.Vector3(...f.at)).dot(n);
+        const capAt = (f.op === 'cut' ? -1 : 1) * f.params.h;
+        if (Math.abs(dist - capAt) < 0.1) return { feature: f, kind: 'sketch-cap' };
+      }
+    }
+  }
+  return null;
 }
 
 // ---------- Imán de ensamble ----------

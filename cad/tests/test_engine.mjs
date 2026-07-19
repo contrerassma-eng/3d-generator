@@ -4,9 +4,10 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
-  makeSketchFeature, makeSketchEntitiesFeature, planeBasis, magnetCorrections,
+  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, makeFilletFeature, makeChamferFeature, planeBasis, magnetCorrections, identifyFace,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
+  evalExpr, resolveParams, applyDocParams,
 } from '../js/model.js';
 
 let pass = 0, fail = 0;
@@ -168,6 +169,32 @@ console.log('— Bocetos extruidos —');
   check('regeneración tras editar cota (contorno sigue cerrado)', volume(g2) > volume(g) * 1.15, `vol2=${volume(g2)}`);
 }
 
+// revolución 360°: rectángulo (10..20, 0..30) alrededor del eje V (u=0)
+// → tubo: V = π(R²−r²)h con corrección por facetado de 48 lados
+{
+  const SK = await import('../js/sketch2d.js');
+  const rect = [
+    SK.makeLine([10, 0], [20, 0]), SK.makeLine([20, 0], [20, 30]),
+    SK.makeLine([20, 30], [10, 30]), SK.makeLine([10, 30], [10, 0]),
+  ];
+  const f = makeRevolveFeature(rect, [], { a: [0, 0], b: [0, 30] }, 'union', [0, 0, 0], [0, 0, 1], [1, 0, 0]);
+  const g = buildPart([f]);
+  const facet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
+  const expected = Math.PI * (400 - 100) * 30 * facet;
+  check('revolución: tubo con volumen de Pappus', rel(volume(g), expected) < 0.01, `vol=${volume(g)} esp=${expected.toFixed(0)}`);
+  check('revolución sin NaN', !hasNaN(g));
+
+  // revolución que cruza el eje → null (feature omitida, sin crash)
+  const bad = [
+    SK.makeLine([-5, 0], [5, 0]), SK.makeLine([5, 0], [5, 10]),
+    SK.makeLine([5, 10], [-5, 10]), SK.makeLine([-5, 10], [-5, 0]),
+  ];
+  const f2 = makeRevolveFeature(bad, [], { a: [0, -5], b: [0, 15] }, 'union', [0, 0, 0], [0, 0, 1], [1, 0, 0]);
+  let crashed = false, g2 = null;
+  try { g2 = buildPart([f2]); } catch (e) { crashed = true; }
+  check('contorno que cruza el eje se omite sin crash', !crashed && (!g2.attributes.position || g2.attributes.position.count === 0));
+}
+
 console.log('— Detección de caras y ejes —');
 {
   const g = buildPart([makeBoxFeature(50, 30, 10)]);
@@ -210,6 +237,29 @@ console.log('— Imán de ensamble —');
     [{ min: { x: 0, y: 0, z: 0 }, max: { x: 120, y: 80, z: 10 }, axes: [{ x: 45, y: 25, z: 10 }] }],
     ['x', 'y']);
   check('imán: centro de ejes en X e Y', ce.x?.kind === 'eje' && Math.abs(ce.x.d - (-4)) < 1e-9 && ce.y?.kind === 'eje' && Math.abs(ce.y.d - 2) < 1e-9, JSON.stringify(ce));
+}
+
+console.log('— Edición directa: identificar caras —');
+{
+  const doc = newDoc();
+  const part = newPart(doc, 'p');
+  const box = makeBoxFeature(120, 80, 10);
+  const hole = makeHoleFeature(6, 10, true, [45, 25, 10], [0, 0, -1]);
+  const cyl = makeCylFeature(30, 22, [0, 0, 10]);
+  part.features.push(box, hole, cyl);
+  const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
+  let r = identifyFace(part, V3(10, 5, 10), V3(0, 0, 1));
+  check('cara superior de la caja', r?.kind === 'box-face' && r.axis === 2 && r.sign === 1 && r.feature === box, JSON.stringify(r?.kind));
+  r = identifyFace(part, V3(60, 0, 5), V3(1, 0, 0));
+  check('cara lateral +X de la caja', r?.kind === 'box-face' && r.axis === 0 && r.sign === 1);
+  r = identifyFace(part, V3(45 + 3, 25, 5), V3(1, 0, 0));
+  check('pared del agujero', r?.kind === 'hole-wall' && r.feature === hole);
+  r = identifyFace(part, V3(15, 0, 20), V3(1, 0, 0));
+  check('pared del cilindro', r?.kind === 'cyl-wall' && r.feature === cyl);
+  r = identifyFace(part, V3(3, 4, 32), V3(0, 0, 1));
+  check('tapa del cilindro', r?.kind === 'cyl-cap' && r.feature === cyl);
+  r = identifyFace(part, V3(200, 0, 0), V3(0, 0, 1));
+  check('punto fuera: null', r === null);
 }
 
 console.log('— Solver de restricciones —');
@@ -258,6 +308,122 @@ console.log('— Solver de restricciones —');
   solveConstraints(doc);
   const z = new THREE.Vector3(0, 0, 0).applyMatrix4(partMatrix(B)).z;
   check('mate con separación 2.5 mm', Math.abs(z - 12.5) < 1e-6, `z=${z}`);
+}
+
+console.log('— Patrones de funciones (rectangular / circular) —');
+
+// conteo de matrices (excluyen la ocurrencia origen)
+{
+  const rect = makePatternFeature('s', 'rect', { nx: 3, ny: 2, dx: 10, dy: 8 });
+  check('patrón rect 3×2 → 5 copias extra', patternMatrices(rect).length === 5);
+  const circ = makePatternFeature('s', 'circ', { n: 6, angle: 360, axisAt: [0, 0, 0], axisDir: [0, 0, 1] });
+  check('patrón circular n=6 (360°) → 5 copias extra', patternMatrices(circ).length === 5);
+  const arc = makePatternFeature('s', 'circ', { n: 4, angle: 90, axisAt: [0, 0, 0], axisDir: [0, 0, 1] });
+  check('patrón circular n=4 (90° parcial) → 3 copias extra', patternMatrices(arc).length === 3);
+}
+
+// patrón rectangular de un agujero: caja − 6 agujeros Ø6 (3×2)
+{
+  const box = makeBoxFeature(120, 80, 10);
+  const hole = makeHoleFeature(6, 10, true, [-40, -20, 10], [0, 0, -1]);
+  const pat = makePatternFeature(hole.id, 'rect', { nx: 3, ny: 2, dx: 40, dy: 40, u: [1, 0, 0], v: [0, 1, 0] });
+  const g = buildPart([box, hole, pat]);
+  const cylFacet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
+  const expected = 96000 - 6 * Math.PI * 9 * 10 * cylFacet;
+  check('caja − patrón 3×2 de agujeros (6 en total)', rel(volume(g), expected) < 0.003, `vol=${volume(g)} esp=${expected.toFixed(1)}`);
+  check('patrón: malla sin NaN', !hasNaN(g));
+}
+
+// patrón circular de un agujero alrededor del centro (4 a 90°/uno)
+{
+  const box = makeBoxFeature(100, 100, 10);
+  const hole = makeHoleFeature(6, 10, true, [30, 0, 10], [0, 0, -1]);
+  const pat = makePatternFeature(hole.id, 'circ', { n: 4, angle: 360, axisAt: [0, 0, 0], axisDir: [0, 0, 1] });
+  const g = buildPart([box, hole, pat]);
+  const cylFacet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
+  const expected = 100000 - 4 * Math.PI * 9 * 10 * cylFacet;
+  check('caja − patrón circular de 4 agujeros', rel(volume(g), expected) < 0.003, `vol=${volume(g)} esp=${expected.toFixed(1)}`);
+}
+
+// patrón de una unión (torreta cilíndrica replicada): el volumen crece
+{
+  const box = makeBoxFeature(120, 80, 10);
+  const boss = makeCylFeature(12, 8, [-40, 0, 10], [0, 0, 1], 'union');
+  const pat = makePatternFeature(boss.id, 'rect', { nx: 3, ny: 1, dx: 40, dy: 0, u: [1, 0, 0], v: [0, 1, 0] });
+  const vBase = volume(buildPart([box, boss]));
+  const vPat = volume(buildPart([box, boss, pat]));
+  check('patrón de unión suma 2 torretas más', rel(vPat - vBase, 2 * Math.PI * 36 * 8 * (0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI)) < 0.02, `Δ=${(vPat - vBase).toFixed(1)}`);
+}
+
+// origen suprimido → el patrón no aporta copias
+{
+  const box = makeBoxFeature(60, 60, 10);
+  const hole = makeHoleFeature(8, 10, true, [-20, 0, 10], [0, 0, -1]);
+  hole.suppressed = true;
+  const pat = makePatternFeature(hole.id, 'rect', { nx: 2, ny: 1, dx: 20, dy: 0, u: [1, 0, 0], v: [0, 1, 0] });
+  const g = buildPart([box, hole, pat]);
+  check('origen suprimido → patrón sin efecto (caja llena)', rel(volume(g), 36000) < 1e-6, `vol=${volume(g)}`);
+}
+
+console.log('— Parámetros globales (fx) y ecuaciones —');
+{
+  check('evalExpr número', evalExpr('120') === 120);
+  check('evalExpr aritmética con precedencia', evalExpr('2 + 3 * 4') === 14);
+  check('evalExpr paréntesis', evalExpr('(2 + 3) * 4') === 20);
+  check('evalExpr identificador', evalExpr('ancho/2', { ancho: 120 }) === 60);
+  check('evalExpr función max', evalExpr('max(3, 7, 5)') === 7);
+  check('evalExpr sqrt', Math.abs(evalExpr('sqrt(2)') - Math.SQRT2) < 1e-9);
+  check('evalExpr identificador ausente → NaN', Number.isNaN(evalExpr('desconocido')));
+}
+{
+  // parámetros en cadena: paso depende de ancho
+  const doc = newDoc();
+  doc.params = [{ name: 'ancho', expr: '120' }, { name: 'paso', expr: 'ancho/4' }];
+  const scope = resolveParams(doc);
+  check('resolveParams en cadena', scope.ancho === 120 && scope.paso === 30);
+}
+{
+  // una caja con w vinculado a un parámetro se regenera al cambiar el parámetro
+  const doc = newDoc();
+  doc.params = [{ name: 'ancho', expr: '120' }];
+  const part = newPart(doc, 't');
+  const box = makeBoxFeature(120, 80, 10);
+  box.expr = { w: 'ancho' };
+  part.features.push(box);
+  applyDocParams(doc);
+  check('applyDocParams fija w=120', part.features[0].params.w === 120);
+  const v1 = volume(buildPartGeometry(part));
+  doc.params[0].expr = '150';           // el usuario cambia el parámetro
+  applyDocParams(doc);
+  check('cambiar parámetro → w=150', part.features[0].params.w === 150);
+  const v2 = volume(buildPartGeometry(part));
+  check('volumen escala 150/120', rel(v2 / v1, 150 / 120) < 1e-6, `v1=${v1} v2=${v2}`);
+}
+
+{
+  // Empalme y chaflán de una arista convexa vertical de una caja 40³.
+  const box = () => { const d = newDoc(); const p = newPart(d, 'c'); p.features.push(makeBoxFeature(40, 40, 40, [0, 0, 0])); return p; };
+  const v0 = volume(buildPartGeometry(box()));
+  check('caja 40³ = 64000', rel(v0, 64000) < 1e-3, `v0=${v0}`);
+
+  const pf = box(); pf.features.push(makeFilletFeature([{ a: [20, 20, 0], b: [20, 20, 40] }], 5));
+  const vf = volume(buildPartGeometry(pf));
+  const expF = 64000 - (25 - Math.PI * 25 / 4) * 40;    // esquina 5×5 menos cuarto de círculo r5, ×40
+  check('empalme R5 quita material', vf < v0);
+  check('empalme R5 ≈ analítico', Math.abs(vf - expF) < 60, `vf=${vf.toFixed(1)} exp=${expF.toFixed(1)}`);
+
+  const pc = box(); pc.features.push(makeChamferFeature([{ a: [20, 20, 0], b: [20, 20, 40] }], 5));
+  const vc = volume(buildPartGeometry(pc));
+  check('chaflán 5 = triángulo 5×5/2 ×40', Math.abs(vc - (64000 - 12.5 * 40)) < 5, `vc=${vc}`);
+
+  // Arista cóncava (interior): el empalme AGREGA material.
+  const dL = newDoc(); const pL = newPart(dL, 'L');
+  pL.features.push(makeBoxFeature(40, 20, 20, [0, 0, 0]));
+  pL.features.push(makeBoxFeature(20, 20, 20, [10, 0, 20]));
+  const vL0 = volume(buildPartGeometry(pL));
+  pL.features.push(makeFilletFeature([{ a: [0, -10, 20], b: [0, 10, 20] }], 4));
+  const vL1 = volume(buildPartGeometry(pL));
+  check('empalme cóncavo agrega material', vL1 > vL0, `vL0=${vL0} vL1=${vL1}`);
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);

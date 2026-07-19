@@ -18,9 +18,12 @@ const REDUCTIONS = [1, 2, 2.5, 5, 10, 20, 50, 100, 200, 500, 1000];
 const ENLARGEMENTS = [2, 5, 10, 20, 50];
 const GRIDREF = { A4: [6, 4], A3: [8, 6], A2: [12, 8], A1: [16, 12], A0: [24, 16] };
 const GRID_LETTERS = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-const LAYERS = { NORMA: 7, FINA: 7, VISIBLE: 7, COTAS: 7, TEXTO: 7, PLIEGUE: 1 }; // color ACI
+const LAYERS = { SOMBRA: 8, NORMA: 7, FINA: 7, VISIBLE: 7, COTAS: 7, TEXTO: 7, PLIEGUE: 1 }; // color ACI
 const LW = { NORMA: 0.7, FINA: 0.18, VISIBLE: 0.5, COTAS: 0.25, TEXTO: 0.25, PLIEGUE: 0.35 }; // mm (PDF)
-const DASH = { PLIEGUE: [5, 1.5, 0.5, 1.5] };  // trazo-punto (mm) para líneas de plegado
+const DASH = { PLIEGUE: [4, 2] };  // ejes de plegado con línea segmentada (mm)
+// capas de GEOMETRÍA de la pieza: en láminas de fabricación (desarrollo) el
+// PDF las traza como línea fina sin espesor (hairline, aptas para corte)
+const GEOM_LAYERS = new Set(['VISIBLE', 'FINA', 'PLIEGUE', 'COTAS']);
 
 // vistas del primer diedro con Z arriba: [derecha, arriba] de cada proyección.
 // planta con correspondencia de proyección con el alzado (X compartida).
@@ -165,6 +168,39 @@ export function collectEdgeSegments(parts, angleDeg = 25) {
   return pts; // puntos de a pares (cada par = un segmento)
 }
 
+// Triángulos sombreados para la isométrica (ilustración técnica): proyecta la
+// malla real con la base isométrica, sombrea por normal·luz (así se ven TODAS
+// las caras aunque falte alguna arista), y ordena de atrás hacia adelante.
+function isoShadedTris(parts) {
+  const [r, u] = VIEWS.isometrica;
+  const w = [r[1] * u[2] - r[2] * u[1], r[2] * u[0] - r[0] * u[2], r[0] * u[1] - r[1] * u[0]]; // eje de la vista
+  const L = (() => { const l = [-0.3, -0.45, 0.84], n = Math.hypot(...l); return l.map(v => v / n); })();
+  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  const tris = [];
+  const A = new THREE.Vector3(), B = new THREE.Vector3(), C = new THREE.Vector3();
+  for (const part of parts) {
+    const g = part.geometry, m = part.matrixWorld || new THREE.Matrix4();
+    const pos = g.attributes.position; if (!pos) continue;
+    for (let i = 0; i < pos.count; i += 3) {
+      A.fromBufferAttribute(pos, i).applyMatrix4(m);
+      B.fromBufferAttribute(pos, i + 1).applyMatrix4(m);
+      C.fromBufferAttribute(pos, i + 2).applyMatrix4(m);
+      const ux = B.x - A.x, uy = B.y - A.y, uz = B.z - A.z;
+      const vx = C.x - A.x, vy = C.y - A.y, vz = C.z - A.z;
+      let nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+      const nl = Math.hypot(nx, ny, nz) || 1; nx /= nl; ny /= nl; nz /= nl;
+      const face = [A, B, C];
+      const p2 = face.map(P => [dot([P.x, P.y, P.z], r), dot([P.x, P.y, P.z], u)]);
+      const depth = (dot([A.x, A.y, A.z], w) + dot([B.x, B.y, B.z], w) + dot([C.x, C.y, C.z], w)) / 3;
+      const lit = Math.max(0, dot([nx, ny, nz], L));
+      const gray = Math.min(0.94, 0.42 + 0.5 * lit); // ambiente + difusa
+      tris.push({ p2, depth, gray });
+    }
+  }
+  tris.sort((a, b) => a.depth - b.depth); // atrás → adelante (pintor)
+  return tris;
+}
+
 function projectViews(pts) {
   const dot = (p, a) => p[0] * a[0] + p[1] * a[1] + p[2] * a[2];
   const views = {};
@@ -226,6 +262,7 @@ class Sheet {
   poly(pts, ly) { this.prims.push({ k: 'p', pts: pts.map(p => this._p(...p)), ly }); }
   circle(c, r, ly = 'TEXTO') { this.prims.push({ k: 'c', c: this._p(...c), r: r * this.K, ly }); }
   solid(pts, ly) { this.prims.push({ k: 's', pts: pts.map(p => this._p(...p)), ly }); }
+  shade(pts, g) { this.prims.push({ k: 'sh', pts: pts.map(p => this._p(...p)), g, ly: 'SOMBRA' }); }
   text(s, x, y, h = 3.5, al = 'L', ly = 'TEXTO') {
     const [px, py] = this._p(x, y);
     this.prims.push({ k: 't', s, x: px, y: py, h: h * this.K, al, ly });
@@ -350,7 +387,7 @@ class Sheet {
   }
 }
 
-function drawViews(sheet, views, layout) {
+function drawViews(sheet, views, layout, shadeTris) {
   const s = sheet.num / sheet.den;
   const uw = sheet.W - MARGIN_L - MARGIN, uh = sheet.H - 2 * MARGIN - TITLE_H - 5;
   const ox = MARGIN_L + (uw - layout.tw * s) / 2;
@@ -359,6 +396,10 @@ function drawViews(sheet, views, layout) {
     const v = views[name];
     const vx = ox + layout.pos[name][0] * s - v.lo[0] * s;
     const vy = oy + layout.pos[name][1] * s - v.lo[1] * s;
+    // ilustración técnica: la isométrica se pinta sombreada (además del alambre)
+    if (name === 'isometrica' && shadeTris) {
+      for (const t of shadeTris) sheet.shade(t.p2.map(p => [vx + p[0] * s, vy + p[1] * s]), t.gray);
+    }
     sheet.segments(v.segs, 'VISIBLE', vx, vy, s);
     const cx = vx + (v.lo[0] + v.size[0] / 2) * s;
     sheet.text(LABELS[name], cx, vy + v.hi[1] * s + 4, 3.5, 'C');
@@ -380,7 +421,12 @@ function buildSheet(parts, K, meta) {
   const layout = layoutViews(views);
   const [name, W, H, num, den] = chooseSheet(layout.tw, layout.th);
   const sheet = new Sheet(name, W, H, num, den, K === 'real' ? den / num : 1);
-  drawViews(sheet, views, layout);
+  const shadeTris = isoShadedTris(parts);
+  drawViews(sheet, views, layout, shadeTris);
+  if (meta.espesor) {   // pieza de chapa: la cota de espesor se indica SIEMPRE
+    sheet.text(`ESPESOR DE CHAPA e = ${meta.espesor} mm`,
+      MARGIN_L + 5, MARGIN + TITLE_H + 9, 4.0, 'L');
+  }
   sheet.frame();
   sheet.titleBlock({
     designacion: meta.designacion,
@@ -408,13 +454,13 @@ function writeDXF(sheet) {
   g(0, 'SECTION'); g(2, 'TABLES');
   g(0, 'TABLE'); g(2, 'LTYPE'); g(70, 2);
   g(0, 'LTYPE'); g(2, 'CONTINUOUS'); g(70, 0); g(3, 'Solid line'); g(72, 65); g(73, 0); g(40, 0);
-  g(0, 'LTYPE'); g(2, 'DASHDOT'); g(70, 0); g(3, 'Trazo-punto ____ . ____'); g(72, 65);
-  g(73, 4); g(40, 8.5); g(49, 5); g(49, -1.5); g(49, 0.5); g(49, -1.5);
+  g(0, 'LTYPE'); g(2, 'DASHED'); g(70, 0); g(3, 'Segmentada __ __ __'); g(72, 65);
+  g(73, 2); g(40, 6); g(49, 4); g(49, -2);
   g(0, 'ENDTAB');
   g(0, 'TABLE'); g(2, 'LAYER'); g(70, Object.keys(LAYERS).length);
   for (const [name, color] of Object.entries(LAYERS)) {
     g(0, 'LAYER'); g(2, name); g(70, 0); g(62, color);
-    g(6, name === 'PLIEGUE' ? 'DASHDOT' : 'CONTINUOUS');
+    g(6, name === 'PLIEGUE' ? 'DASHED' : 'CONTINUOUS');
   }
   g(0, 'ENDTAB'); g(0, 'ENDSEC');
   g(0, 'SECTION'); g(2, 'ENTITIES');
@@ -433,9 +479,10 @@ function writeDXF(sheet) {
       }
     } else if (p.k === 'c') {
       g(0, 'CIRCLE'); g(8, p.ly); g(10, f(p.c[0])); g(20, f(p.c[1])); g(30, 0); g(40, f(p.r));
-    } else if (p.k === 's') {
+    } else if (p.k === 's' || p.k === 'sh') {
       const [a, b, c] = p.pts;
       g(0, 'SOLID'); g(8, p.ly);
+      if (p.k === 'sh') g(62, 250 + Math.max(0, Math.min(5, Math.round(p.g * 5)))); // gris ACI 250–255
       g(10, f(a[0])); g(20, f(a[1])); g(30, 0);
       g(11, f(b[0])); g(21, f(b[1])); g(31, 0);
       g(12, f(c[0])); g(22, f(c[1])); g(32, 0);
@@ -473,11 +520,19 @@ function sheetContent(sheet, k) {
   const ops = [];
   const byLayer = {};
   for (const p of sheet.prims) (byLayer[p.ly] ??= []).push(p);
-  for (const [ly, prims] of Object.entries(byLayer)) {
+  // SOMBRA primero (queda por detrás del alambre); el resto en su orden natural
+  const layerOrder = ['SOMBRA', ...Object.keys(byLayer).filter(l => l !== 'SOMBRA')];
+  for (const ly of layerOrder) {
+    const prims = byLayer[ly]; if (!prims) continue;
     const dash = DASH[ly] ? `[${DASH[ly].map(v => f(v * k)).join(' ')}] 0 d` : '[] 0 d';
-    ops.push(`${f((LW[ly] ?? 0.25) * k)} w 1 J 1 j ${dash}`);
+    // lámina de fabricación: geometría a línea fina SIN espesor (hairline)
+    const w = sheet.hairline && GEOM_LAYERS.has(ly) ? '0' : f((LW[ly] ?? 0.25) * k);
+    ops.push(`${w} w 1 J 1 j ${dash}`);
     for (const p of prims) {
-      if (p.k === 'l') {
+      if (p.k === 'sh') { // triángulo sombreado (relleno gris, sin borde)
+        const cmd = p.pts.map((q, i) => `${f(q[0] * k)} ${f(q[1] * k)} ${i ? 'l' : 'm'}`).join(' ');
+        ops.push(`${f(p.g)} g ${cmd} h f 0 g`);
+      } else if (p.k === 'l') {
         ops.push(`${f(p.a[0] * k)} ${f(p.a[1] * k)} m ${f(p.b[0] * k)} ${f(p.b[1] * k)} l S`);
       } else if (p.k === 'p' || p.k === 's') {
         const cmd = p.pts.map((q, i) => `${f(q[0] * k)} ${f(q[1] * k)} ${i ? 'l' : 'm'}`).join(' ');
@@ -577,12 +632,23 @@ function buildFlatSheet(flat, meta, K) {
   const w = hi[0] - lo[0], h = hi[1] - lo[1];
   const [name, W, H, num, den] = chooseSheet(w, h);
   const sheet = new Sheet(name, W, H, num, den, K === 'real' ? den / num : 1);
+  sheet.hairline = true;   // geometría de corte sin espesor de línea en el PDF
   const s = num / den;
   const uw = W - MARGIN_L - MARGIN, uh = H - 2 * MARGIN - TITLE_H - 5;
   const ox = MARGIN_L + (uw - w * s) / 2 - lo[0] * s;
   const oy = MARGIN + TITLE_H + 5 + (uh - h * s) / 2 - lo[1] * s;
   const T = (p) => [ox + p[0] * s, oy + p[1] * s];
   sheet.poly(flat.contorno.map(T), 'VISIBLE');
+  // cortes/barrenos del plano de la base = lo que corta el láser (capa de corte)
+  if (flat.cortes) {
+    for (const c of flat.cortes.circles) sheet.circle(T(c.c), c.r * s, 'VISIBLE');
+    for (const p of flat.cortes.polys) {
+      for (let i = 0; i < p.length - 1; i++) sheet.line(T(p[i]), T(p[i + 1]), 'VISIBLE');
+    }
+    const dias = [...new Set(flat.cortes.circles.map(c => +(c.r * 2).toFixed(2)))];
+    if (dias.length) sheet.text(`BARRENOS: ${flat.cortes.circles.length}× · Ø ${dias.join(' / ')} mm (corte láser)`,
+      T([lo[0], lo[1]])[0], T([lo[0], lo[1]])[1] - 6, 3.2, 'L');
+  }
   for (const l of flat.pliegues) {
     sheet.line(T(l.a), T(l.b), l.tipo === 'eje' ? 'PLIEGUE' : 'FINA');
   }
@@ -594,7 +660,9 @@ function buildFlatSheet(flat, meta, K) {
   sheet.dimH(x1, x2, y1, 9, w);
   sheet.dimV(x2, y1, y2, 9, h);
   sheet.text('DESARROLLO DE CHAPA — BA = ang·(R + K·t), fibra neutra por factor K',
-    x1, y2 + 6, 3.5, 'L');
+    x1, y2 + 10.5, 3.5, 'L');
+  sheet.text(`ESPESOR DE CHAPA e = ${flat.t} mm (constante en toda la pieza)`,
+    x1, y2 + 5, 4.0, 'L');
   sheet.frame();
   const aviso = flat.avisos.length ? flat.avisos[0] : '';
   sheet.titleBlock({

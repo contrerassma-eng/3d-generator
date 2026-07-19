@@ -1015,6 +1015,959 @@
    "notas": "Dejar >=18 mm libres detras del panel para cuerpo + cables."
   },
   {
+   "id": "cv_MC300-W300-drive-shaft",
+   "nombre": "MC300-W300-drive-shaft",
+   "categoria": "transportador",
+   "familia": "MC300",
+   "descripcion": "Bastidor/eje modular MC300 de transportador Conveyone. Geometría real (malla fija). bbox 390.8×44×44 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 3e0eefdd6f03d2a6"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC300-W300-drive-shaft.glb"
+   },
+   "bbox_mm": [
+    390.8,
+    44.0,
+    44.0
+   ],
+   "volumen_mm3": 433155.187,
+   "diam_agujeros_mm": [
+    5.0,
+    5.2,
+    6.5,
+    11.0,
+    15.0,
+    16.1,
+    17.0,
+    25.0,
+    39.0,
+    44.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-201",
+   "nombre": "MC400-201",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 14.5×39×114.5 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 0abadd788c5547ef"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-201.glb"
+   },
+   "bbox_mm": [
+    14.5,
+    39.0,
+    114.5
+   ],
+   "volumen_mm3": 43726.785,
+   "diam_agujeros_mm": [
+    2.0,
+    5.0,
+    9.0,
+    12.0,
+    15.0,
+    29.0,
+    35.0,
+    39.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-223",
+   "nombre": "MC400-223",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 200×185×13 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash f393d430a6901890"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-223.glb"
+   },
+   "bbox_mm": [
+    200.0,
+    185.0,
+    13.0
+   ],
+   "volumen_mm3": 339088.49,
+   "diam_agujeros_mm": [
+    2.0,
+    4.0,
+    5.0,
+    6.5,
+    6.6,
+    9.0,
+    10.0,
+    12.0,
+    15.0,
+    20.0,
+    28.0,
+    35.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-224",
+   "nombre": "MC400-224",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 13×35×12 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 87e4736c77e02cf5"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-224.glb"
+   },
+   "bbox_mm": [
+    13.0,
+    35.0,
+    12.0
+   ],
+   "volumen_mm3": 3394.831,
+   "diam_agujeros_mm": [
+    5.5,
+    6.6,
+    10.0,
+    11.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-225",
+   "nombre": "MC400-225",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 200×185×13 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash e4b829057f6254fe"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-225.glb"
+   },
+   "bbox_mm": [
+    200.0,
+    185.0,
+    13.0
+   ],
+   "volumen_mm3": 292976.11,
+   "diam_agujeros_mm": [
+    4.0,
+    4.2,
+    6.6,
+    9.0,
+    11.0,
+    12.0,
+    15.0,
+    16.0,
+    20.0,
+    28.0,
+    35.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2",
+   "nombre": "MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1(0Knob control panelM1LMM2)",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 565×435.978×6185.77 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 30bfb9b1696d350f"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2.glb"
+   },
+   "bbox_mm": [
+    565.0,
+    435.978,
+    6185.765
+   ],
+   "volumen_mm3": 24768158.775,
+   "diam_agujeros_mm": [
+    0.4,
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    4.2,
+    4.9,
+    5.0,
+    5.4,
+    6.0,
+    6.5,
+    6.8,
+    7.0,
+    8.0,
+    9.0,
+    10.0,
+    11.0,
+    12.0,
+    14.0,
+    15.0,
+    17.0,
+    18.0,
+    20.0,
+    24.0,
+    26.046,
+    26.22,
+    30.0,
+    39.0,
+    40.0,
+    45.0,
+    46.6,
+    49.0,
+    49.426,
+    59.25,
+    60.0,
+    70.0,
+    78.42,
+    80.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-W300-306",
+   "nombre": "MC400-W300-306",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 65×39×39 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 0db71191df4e417d"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-W300-306.glb"
+   },
+   "bbox_mm": [
+    65.0,
+    39.0,
+    39.0
+   ],
+   "volumen_mm3": 22166.074,
+   "diam_agujeros_mm": [
+    4.0,
+    5.2,
+    11.0,
+    12.0,
+    15.0,
+    25.0,
+    39.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-W300.222.S",
+   "nombre": "MC400-W300.222.S",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 294×40×40 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 32a6a60f9673fc7a"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-W300.222.S.glb"
+   },
+   "bbox_mm": [
+    294.0,
+    40.0,
+    40.0
+   ],
+   "volumen_mm3": 151334.602,
+   "diam_agujeros_mm": [
+    30.0,
+    35.0,
+    40.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-W300.222",
+   "nombre": "MC400-W300.222",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 294×44×44 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash fe5fd6969663446f"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-W300.222.glb"
+   },
+   "bbox_mm": [
+    294.0,
+    44.0,
+    44.0
+   ],
+   "volumen_mm3": 191787.07,
+   "diam_agujeros_mm": [
+    5.0,
+    5.2,
+    10.0,
+    36.0,
+    39.0,
+    44.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400SM-02",
+   "nombre": "MC400SM-02",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 14.5×39×114.5 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash f2b661947d5bf925"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400SM-02.glb"
+   },
+   "bbox_mm": [
+    14.5,
+    39.0,
+    114.5
+   ],
+   "volumen_mm3": 43726.785,
+   "diam_agujeros_mm": [
+    2.0,
+    5.0,
+    9.0,
+    12.0,
+    15.0,
+    29.0,
+    35.0,
+    39.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MHD15-L321MC400",
+   "nombre": "MHD15-L321MC400",
+   "categoria": "transportador",
+   "familia": "MHD15",
+   "descripcion": "Eje/husillo MHD15 de transportador Conveyone. Geometría real (malla fija). bbox 321×15×15 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 03ba74f4b864eb88"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MHD15-L321MC400.glb"
+   },
+   "bbox_mm": [
+    321.0,
+    15.0,
+    15.0
+   ],
+   "volumen_mm3": 54557.811,
+   "diam_agujeros_mm": [
+    4.916,
+    12.0,
+    14.3,
+    15.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MJD15-L300-2M6MC400",
+   "nombre": "MJD15-L300-2M6MC400",
+   "categoria": "transportador",
+   "familia": "MJD15",
+   "descripcion": "Eje/husillo MJD15 de transportador Conveyone. Geometría real (malla fija). bbox 300×15×15 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 9e683c7eec53b66b"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MJD15-L300-2M6MC400.glb"
+   },
+   "bbox_mm": [
+    300.0,
+    15.0,
+    15.0
+   ],
+   "volumen_mm3": 52328.42,
+   "diam_agujeros_mm": [
+    5.0,
+    14.3,
+    15.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MT800-05-301-W100",
+   "nombre": "MT800-05-301-W100",
+   "categoria": "transportador",
+   "familia": "MT800",
+   "descripcion": "Componente de soporte/estructura MT800 de transportador Conveyone. Geometría real (malla fija). bbox 30×30×191.5 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash dca25a7e6175fbdb"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MT800-05-301-W100.glb"
+   },
+   "bbox_mm": [
+    30.0,
+    30.0,
+    191.5
+   ],
+   "volumen_mm3": 89057.901,
+   "diam_agujeros_mm": [
+    5.0,
+    8.0,
+    17.0,
+    20.0,
+    26.6,
+    28.0,
+    30.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MT800-217",
+   "nombre": "MT800-217",
+   "categoria": "transportador",
+   "familia": "MT800",
+   "descripcion": "Componente de soporte/estructura MT800 de transportador Conveyone. Geometría real (malla fija). bbox 15×45×15 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash d24117eb138c3f62"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MT800-217.glb"
+   },
+   "bbox_mm": [
+    15.0,
+    45.0,
+    15.0
+   ],
+   "volumen_mm3": 5843.687,
+   "diam_agujeros_mm": [
+    6.6,
+    11.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MTB800-207",
+   "nombre": "MTB800-207",
+   "categoria": "transportador",
+   "familia": "MTB800",
+   "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 6×250×220 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 4c0d96185c473f2e"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MTB800-207.glb"
+   },
+   "bbox_mm": [
+    6.0,
+    250.0,
+    220.0
+   ],
+   "volumen_mm3": 298075.109,
+   "diam_agujeros_mm": [
+    5.0,
+    6.6,
+    9.0,
+    10.0,
+    12.0,
+    60.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MTB800-301",
+   "nombre": "MTB800-301",
+   "categoria": "transportador",
+   "familia": "MTB800",
+   "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 28×28.005×64 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 55511f71c05f248f"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MTB800-301.glb"
+   },
+   "bbox_mm": [
+    28.0,
+    28.005,
+    64.0
+   ],
+   "volumen_mm3": 29666.988,
+   "diam_agujeros_mm": [
+    4.134,
+    8.0,
+    20.0,
+    28.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MTB800-302",
+   "nombre": "MTB800-302",
+   "categoria": "transportador",
+   "familia": "MTB800",
+   "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 28×28.005×147.4 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 177360357f73bf44"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MTB800-302.glb"
+   },
+   "bbox_mm": [
+    28.0,
+    28.005,
+    147.4
+   ],
+   "volumen_mm3": 64583.415,
+   "diam_agujeros_mm": [
+    4.134,
+    6.0,
+    8.0,
+    20.0,
+    22.0,
+    26.6,
+    28.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MTB800-304",
+   "nombre": "MTB800-304",
+   "categoria": "transportador",
+   "familia": "MTB800",
+   "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 28×28.003×104 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 952194d59ccfe94d"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MTB800-304.glb"
+   },
+   "bbox_mm": [
+    28.0,
+    28.003,
+    104.0
+   ],
+   "volumen_mm3": 42063.542,
+   "diam_agujeros_mm": [
+    4.916,
+    6.0,
+    20.0,
+    28.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MTB800-317",
+   "nombre": "MTB800-317",
+   "categoria": "transportador",
+   "familia": "MTB800",
+   "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 15.749×15.749×71 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 2d32d1d3c6c6bc50"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MTB800-317.glb"
+   },
+   "bbox_mm": [
+    15.749,
+    15.749,
+    71.0
+   ],
+   "volumen_mm3": 11202.198,
+   "diam_agujeros_mm": [
+    4.916,
+    14.15,
+    15.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MTB800-331",
+   "nombre": "MTB800-331",
+   "categoria": "transportador",
+   "familia": "MTB800",
+   "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 48×48×36 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash e9657267bdf2a536"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MTB800-331.glb"
+   },
+   "bbox_mm": [
+    48.0,
+    48.0,
+    36.0
+   ],
+   "volumen_mm3": 19401.534,
+   "diam_agujeros_mm": [
+    30.0,
+    35.0,
+    42.0,
+    48.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_ZP2026",
+   "nombre": "ZP2026 · Transportador rodillo acumulación 24V",
+   "categoria": "transportador",
+   "familia": "ZP",
+   "descripcion": "Transportador Conveyone completo ZP2026 (ensamble de referencia, ~3 m). Geometría real (malla fija). bbox 3000.5×838.2×615.4 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash a684b80c6b16a320"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb"
+   },
+   "bbox_mm": [
+    3000.5,
+    838.2,
+    615.4
+   ],
+   "volumen_mm3": 54962013.197,
+   "diam_agujeros_mm": [],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_ZP2026_MDR",
+   "nombre": "ZP2026-MDR · Transportador rodillo simple 24V",
+   "categoria": "transportador",
+   "familia": "ZP",
+   "descripcion": "Transportador Conveyone completo ZP2026 (ensamble de referencia, ~3 m). Geometría real (malla fija). bbox 3000.5×838.2×615.4 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash a684b80c6b16a320-mdr"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026_MDR.glb"
+   },
+   "bbox_mm": [
+    3000.5,
+    838.2,
+    615.4
+   ],
+   "volumen_mm3": null,
+   "diam_agujeros_mm": [],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "nombre": "Motor UniDrive (eje D)",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Motorreductor UniDrive con eje D del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 152.69×118.12×119.05 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "300986+Std+UniDrive+motor+D-Shaft"
+   },
+   "bbox_mm": [
+    152.69,
+    118.12,
+    119.05
+   ],
+   "tris": 12446,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__speed_up_spool",
+   "nombre": "Polea / carrete (speed-up)",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Polea de aceleración (speed-up spool) del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 68×67.95×56.01 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "SPEED_UP_SPOOL"
+   },
+   "bbox_mm": [
+    68,
+    67.95,
+    56.01
+   ],
+   "tris": 5966,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__power_supply",
+   "nombre": "Fuente de poder",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Fuente de poder del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 150.4×147.11×84.7 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "Power_Supply"
+   },
+   "bbox_mm": [
+    150.4,
+    147.11,
+    84.7
+   ],
+   "tris": 13856,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__escalerilla",
+   "nombre": "Escalerilla portacables",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Escalerilla portacables a lo largo del ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 3000×53.83×112.06 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "escalerilla"
+   },
+   "bbox_mm": [
+    3000,
+    53.83,
+    112.06
+   ],
+   "tris": 37971,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__lt_g",
+   "nombre": "Larguero lateral",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Perfil lateral (larguero) del bastidor ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2990×190.53×609.46 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "LT_G"
+   },
+   "bbox_mm": [
+    2990,
+    190.53,
+    609.46
+   ],
+   "tris": 33624,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__tr_s",
+   "nombre": "Travesaño de estructura",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Travesaño estructural del bastidor ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2980.19×87.64×533.2 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "TR_S"
+   },
+   "bbox_mm": [
+    2980.19,
+    87.64,
+    533.2
+   ],
+   "tris": 12552,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__guarda",
+   "nombre": "Guarda lateral",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Guarda lateral del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2989×37.95×37.95 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "GUARDA"
+   },
+   "bbox_mm": [
+    2989,
+    37.95,
+    37.95
+   ],
+   "tris": 5232,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__guarda_mir",
+   "nombre": "Guarda lateral (espejo)",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Guarda lateral espejada del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2989×37.95×37.95 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "GUARDA_MIR"
+   },
+   "bbox_mm": [
+    2989,
+    37.95,
+    37.95
+   ],
+   "tris": 5232,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__b_005a",
+   "nombre": "Bracket B_005A",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Soporte/bracket B_005A del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 203×94.99×615.39 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "B_005A"
+   },
+   "bbox_mm": [
+    203,
+    94.99,
+    615.39
+   ],
+   "tris": 3264,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__b_004a",
+   "nombre": "Bracket B_004A",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Soporte/bracket B_004A del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 158×3.99×615.41 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "B_004A"
+   },
+   "bbox_mm": [
+    158,
+    3.99,
+    615.41
+   ],
+   "tris": 744,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__b_002a",
+   "nombre": "Bracket B_002A",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Soporte/bracket B_002A del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 70.96×37.96×607.4 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "B_002A"
+   },
+   "bbox_mm": [
+    70.96,
+    37.96,
+    607.4
+   ],
+   "tris": 172,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__br",
+   "nombre": "Bracket BR_3002",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Soporte/bracket BR_3002 del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 84.01×369.01×615.4 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "BR_"
+   },
+   "bbox_mm": [
+    84.01,
+    369.01,
+    615.4
+   ],
+   "tris": 2824,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
    "id": "rodillo_traccion_50x40",
    "nombre": "Rodillo de alta traccion O50 x 40 (cubos O18, barreno O12.2)",
    "categoria": "mecanico",

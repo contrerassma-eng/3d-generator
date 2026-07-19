@@ -43,6 +43,21 @@ atornillable) que muestra todas las capacidades.
   apoyada en Z=0, lista para posicionar con restricciones y modelar la
   carcasa alrededor. Tras editar el catálogo, correr
   `python pipeline/componentes_cli.py sync-web`.
+  - **Componentes de malla real (GLB).** El catálogo también incluye piezas
+    mecánicas de transportador importadas del repo `conveyone-simulator`
+    (familias MC300/MC400/MT800/MTB800, ejes MHD/MJD y los transportadores
+    completos ZP2026 / ZP2026\_MDR): geometría **real** (`componentes/models/*.glb`,
+    compresión meshopt, cargada de forma perezosa con `GLTFLoader`). Son piezas
+    **fijas**; la parametrización es de **ensamble** (posición, patrón con
+    pitch/cantidad y restricciones) para componer nuevas máquinas.
+    - **Subcomponentes.** Del ZP2026 se extraen además piezas individuales
+      reusables (motor UniDrive, polea/carrete, fuente de poder, largueros,
+      travesaños, guardas, brackets, escalerilla): el registro lleva
+      `malla:{glb, nodo}` y el visor carga solo esa instancia del nodo,
+      recentrada, como pieza propia.
+- **◜ Empalme / ◺ Chaflán** (símil Inventor): toca una arista del sólido y dale
+  un radio (redondeo) o una distancia (chaflán a 45°). Redondea/achaflana la
+  arista sobre la malla acumulada; convexa quita material, cóncava lo rellena.
 - **▱ Chapa / ⎣ Pestaña** (chapa plegada, símil Inventor):
   - **▱ Chapa** crea la placa base eligiendo **material** (acero, galvanizado,
     inox, aluminio — con factor K nominal editable), espesor, y radio de
@@ -74,10 +89,19 @@ atornillable) que muestra todas las capacidades.
     **⬡ Polígono regular** (centro + vértice, n lados), **∥ Equidistancia**
     (offset de entidades o referencias) y **◜ Empalme** (redondeo de esquina
     entre dos líneas, con recorte a tangencia).
+  - **Entrada dinámica (longitud / ángulo / diámetro), como Inventor**: al
+    dibujar una **línea**, tras fijar el punto de inicio mueves para marcar la
+    dirección y aparece un cuadro con **Longitud** (enfocado) y **Ángulo**;
+    escribes la longitud y **Enter** define el vector. El **🔒 candado** fija
+    el ángulo (al empezar a teclear la longitud se congela solo), y el chip
+    **⊾** ajusta el ángulo a múltiplos (**sin / 5° / 15° / 45°**). En el
+    **círculo**, tras fijar el centro te pide el **diámetro antes de crear**
+    (escríbelo + Enter). Ambos siguen aceptando el clic directo del 2.º punto.
   - **✎ Lápiz**: dibujo a mano alzada (dedo, mouse o stylus) con
-    reconocimiento de geometría — un trazo redondo se convierte en círculo,
-    uno recto en línea (con ajuste a horizontal/vertical), y el resto en
-    polilínea simplificada.
+    reconocimiento de geometría — un trazo redondo → círculo, uno recto →
+    línea (ajustada a horizontal/vertical), un contorno cerrado de 4 esquinas
+    rectas → **rectángulo alineado a ejes**, y el resto → polilínea
+    simplificada (con simplificación específica para contornos cerrados).
   - **Snap con puntos notables** (imanta creación y cotas): extremos y punto
     medio de líneas, centro y 4 cuadrantes de círculos/arcos — también de la
     geometría proyectada (incluidos centros de agujeros/cilindros) — y
@@ -100,10 +124,17 @@ atornillable) que muestra todas las capacidades.
   - **✂ Recortar**: elimina el tramo tocado cortando contra todas las
     entidades y referencias. **⇥ Alargar**: extiende una línea hasta la
     siguiente entidad o referencia.
-  - **✔ Extruir** con **selección de perfiles** tipo Inventor: si hay varios
-    contornos cerrados, se pintan las regiones y tocas cuáles incluir (verde)
-    o excluir (gris); el anidado va por paridad (isla dentro de un agujero =
-    sólido). La selección queda guardada en la función.
+  - **✔ Extruir / Revolución** con **selección de perfiles** tipo Inventor:
+    si hay varios contornos cerrados, se pintan las regiones y tocas cuáles
+    incluir (verde) o excluir (gris); el anidado va por paridad (isla dentro
+    de un agujero = sólido). La selección queda guardada en la función.
+    **Revolución 360°**: el contorno gira alrededor de una línea del boceto
+    que eliges como eje (validando que el perfil no lo cruce).
+  - **⇄ Espejo**: refleja la selección respecto a una línea de simetría
+    declarada con dos puntos (con snap).
+  - **✏ Editar boceto** (en las propiedades de la función): reabre el boceto
+    consumido en su plano con todas sus entidades y cotas; ✔ guarda los
+    cambios en la misma función y regenera la pieza.
   - **Boceto consumido visible**: en las propiedades de la función, "Mostrar
     boceto" dibuja el croquis sobre la pieza para reutilizarlo de guía; además
     sus entidades siempre se proyectan como referencia en bocetos nuevos.
@@ -112,8 +143,50 @@ atornillable) que muestra todas las capacidades.
   Inventor), **↑/↓ reordenar** (el orden cambia el resultado) y, en sus
   propiedades, nombre editable, cotas, "Mostrar boceto" y eliminar. El modelo
   se reconstruye aplicando las funciones en orden.
+- **🖐 Directo (edición directa de sólidos)**: toca una cara del modelo y
+  edita el parámetro que la genera sin pasar por el árbol, como el "editar
+  cara" de Inventor — pared de agujero o cilindro → **diámetro**; tapa de
+  cilindro o de extrusión → **altura/profundidad**; cara de una caja →
+  **ancho/fondo/alto** manteniendo fija la cara opuesta.
+
+### ƒx Parámetros globales (ecuaciones, símil Inventor)
+Botón **ƒx Parám.** en la barra superior: define valores con nombre y
+**ecuaciones** (`ancho = 120`, `paso = ancho/4`; operadores `+ - * / ( )` y
+funciones `min max sqrt abs sin cos tan round floor ceil pow`, `pi`). En las
+cotas de una función (Ancho/Fondo/Alto de caja, Ø y altura de cilindro, Ø y
+profundidad de agujero) puedes **escribir el nombre de un parámetro o una
+fórmula** en vez de un número; al cambiar el parámetro, la pieza se **regenera**.
+Se guarda en el JSON (`params` + `expr` por función) y la IA puede generarlo.
+
+### Patrones de funciones (categoría *Patrón*, símil Inventor)
+Selecciona una función en el árbol (agujero, cilindro, boceto, revolución…)
+y repítela como una función paramétrica más:
+- **▦ Rectangular**: filas × columnas con separación en X e Y.
+- **◍ Circular**: N ocurrencias en un ángulo total alrededor de un eje
+  (X/Y/Z) y un centro. 360° reparte parejo; un ángulo menor reparte entre
+  extremos.
+El patrón replica la geometría de la función origen aplicando su misma
+operación (los patrones de agujeros perforan; los de salientes agregan
+material), y sus parámetros (nº, separación, ángulo, eje) se editan en las
+propiedades y regeneran el sólido.
+
+### Barra de herramientas por categorías (cinta de Inventor)
+La barra izquierda agrupa las funciones en paneles con rótulo igual que la
+cinta de Inventor: en entorno *Pieza* → **Crear · Modificar · Patrón**; en
+*Ensamble* → **Restringir · Posición**; y comunes **Vista · Inspección**.
 
 ### Ensamble (restricciones)
+- **Conmutador Pieza / Ensamble** (arriba de la barra izquierda, como los
+  entornos de Inventor): en *Pieza* se ven las herramientas de crear y
+  modelar sólidos; en *Ensamble*, las de restricciones, mover, imán y
+  aislar. Sección, Vista y Medir son comunes. Al cambiar de entorno se
+  apaga el modo del entorno anterior.
+- **⛶ Aislar**: muestra solo la pieza elegida (desde la barra con la pieza
+  seleccionada, desde su fila del árbol o desde sus propiedades); tocar de
+  nuevo restaura todas.
+- **🗑 Eliminar pieza**: desde la fila del árbol o desde propiedades, con
+  confirmación; borra también las restricciones que la usaban (Ctrl+Z
+  deshace).
 - **▬ Coincidir**: cara contra cara (normales opuestas), con separación
   opcional editable.
 - **⫤ Alinear**: caras al ras (mismo sentido).
@@ -131,16 +204,47 @@ atornillable) que muestra todas las capacidades.
 ### Vista
 - **⊞ Grilla**: muestra/oculta el plano base para mirar el modelo por abajo;
   la iluminación incluye luz inferior para que las caras de abajo se lean bien.
+- **▤ Sección**: corta el modelo por un plano normal a X/Y/Z en la posición
+  que indiques (invertible) para ver interiores; el mismo botón la edita o
+  la quita.
+- **📐 Vista**: perspectiva libre o **vistas ortogonales bloqueadas** (planta,
+  frente, lateral, isométrica) sin perspectiva y sin giro — ideales para
+  desplazar piezas del ensamble: Mover arrastra en el **plano de la vista**
+  y el imán ajusta en los ejes de esa vista.
 - En boceto, **🔄 Giro**: rota la vista ortogonal para ver y marcar
   referencias ocultas — los toques siguen proyectando sobre el plano del
   boceto; al desactivar vuelve la vista normal a la cara.
+- En boceto, **▤ Corte** (slice): oculta el material por delante del plano
+  del boceto para dibujar viendo la sección del modelo.
+- En boceto, **⤓ Proyectar** (selectivo, como el "Proyectar geometría" de
+  Inventor): con la herramienta activa, tocar una **cara** proyecta todo su
+  contorno — exterior e interior (agujeros incluidos) —; tocar una **arista**
+  o un **círculo** proyecta solo ese elemento; y tocar algo **ya proyectado
+  lo desproyecta**. Lo proyectado **pasa a ser línea del boceto** y se
+  destaca en **verde vivo** sobre las referencias: se acota, recorta,
+  extruye (los círculos proyectados dentro de un contorno actúan de
+  agujeros), selecciona y **copia igual que las líneas dibujadas** — las
+  copias nacen como entidades normales.
 - Al entrar al boceto, **los contornos de la cara elegida (exteriores e
   interiores) se pintan en amarillo** como referencias con snap, distintos
   del resto de la geometría proyectada (azul).
 
 ### Inspección y archivo
-- **📏 Medir**: distancia entre dos puntos (con ajuste a vértices) + ΔX/ΔY/ΔZ.
+- **📏 Medir con referencias**: cada toque elige la referencia más específica
+  cercana — **circunferencia** (borde de agujero/cilindro), **arista** (o su
+  extremo → punto), **eje** (pared cilíndrica) o **cara plana** — y con dos
+  referencias calcula la medida correcta: distancia perpendicular entre caras
+  paralelas (o su ángulo), distancia entre ejes/aristas paralelos (o su
+  ángulo), distancia radial punto/centro→eje, punto→cara perpendicular y
+  distancia entre centros con ΔX/ΔY/ΔZ.
 - **⭳ STL**: exporta el ensamble completo a STL binario (imprimible/importable).
+- **🧾 BOM (lista de materiales)**: enumera y **agrupa las piezas** del ensamble
+  (item, cantidad, material, volumen c/u) y exporta **CSV**.
+- **Exportar SOLO una pieza** (en sus propiedades): **⭳ STL pieza** (la pieza
+  sola en su origen, para imprimir/fabricar) y **💾 Guardar pieza** (JSON de
+  una pieza, con los parámetros fx).
+- **📂 Abrir con opción de AGREGAR**: con un proyecto abierto, Abrir pregunta si
+  agregar las piezas del archivo (abrir piezas sueltas) o reemplazar todo.
 - **⭳ DXF / ⭳ PDF**: plano técnico normalizado del ensamble, con el mismo
   estilo que S6 — marco ISO 5457 (marcas de centrado y retícula de
   referencia), cajetín ISO 7200 con el símbolo del primer diedro, vistas
@@ -151,8 +255,35 @@ atornillable) que muestra todas las capacidades.
   se filtran antes de proyectar. Todo capa `user` (diseño, no medición).
 - **💾 Guardar / 📂 Abrir**: proyecto en JSON (todo el árbol paramétrico y
   las restricciones). Además hay autoguardado en el navegador.
-- **Ctrl+Z** deshace; **Esc** cancela el modo activo; **Supr** elimina lo
-  seleccionado.
+- **📋 Pegar**: importa un JSON pegado directamente (sin archivos, ideal en
+  el celular/tableta) — el generado por una IA con `PROMPT_PIEZAS.md` o un
+  proyecto guardado. Modo **"Agregar al proyecto actual"** (suma piezas y
+  restricciones, remapeando ids repetidos) o **"Reemplazar"**.
+
+### Piezas generadas por IA
+`PROMPT_PIEZAS.md` documenta el formato completo (`foto3d-cad`) para que
+cualquier IA genere piezas por instrucciones: cajas/cilindros/agujeros,
+bocetos extruidos con entidades (líneas/círculos/arcos, agujeros por
+anidamiento), revoluciones y restricciones de ensamble, con reglas de
+compatibilidad de orificios (holguras M3–M8). Flujo: copiar el prompt +
+pedido → pegar la respuesta con **📋 Pegar → Agregar al proyecto**.
+
+### Atajos de teclado (estilo Inventor)
+- Globales: **Ctrl+Z** deshace, **Esc** cancela el modo, **Supr** elimina
+  lo seleccionado.
+- Fuera de boceto: **B** boceto, **H** agujero, **M** mover, **D** edición
+  directa, **X** medir.
+- En boceto: **L** línea, **C** círculo, **R** rectángulo, **A** arco,
+  **G** polígono, **D** cota, **T** recortar, **E** alargar, **O** offset,
+  **F** empalme, **X** borrar, **S** selección, **V** mover entidad,
+  **P** proyectar, **Z** lápiz, **Enter** ✔ terminar boceto.
+
+### Tableta y lápiz (stylus)
+- **Rechazo de palma**: mientras el lápiz toca o se mueve sobre la pantalla,
+  los toques de la mano apoyada se ignoran.
+- El lápiz muestra el **resaltado de caras al pasar** (hover) igual que el
+  mouse, y la herramienta ✎ Lápiz interpreta trazos a mano alzada como
+  círculos, líneas o polilíneas.
 
 ## Arquitectura
 

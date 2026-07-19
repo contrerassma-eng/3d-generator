@@ -4,7 +4,7 @@ import {
   trimEntity, extendLine, chainLoops, makeDim, measureDim, applyDim,
   fitStroke, dist, snapPoints, tangentPoints, regions, loopKey,
   moveEntity, applyLockedDims, makeArcCSE, regularPolygon, offsetEntity, filletLines,
-  entityInRect, copyEntities,
+  entityInRect, copyEntities, mirrorEntities,
 } from '../js/sketch2d.js';
 
 let pass = 0, fail = 0;
@@ -166,6 +166,18 @@ console.log('— Modo lápiz (reconocimiento de trazos) —');
   const fit = fitStroke(raw);
   check('trazo en L → polilínea de 3 vértices', fit?.type === 'poly' && fit.pts.length === 3, JSON.stringify(fit?.pts));
 }
+{
+  // trazo rectangular cerrado (40×24 con ruido) → rectángulo alineado a ejes
+  const raw = [];
+  const jit = (i) => 0.6 * Math.sin(i * 1.3);
+  for (let i = 0; i <= 40; i++) raw.push([i, jit(i)]);            // borde inferior
+  for (let i = 0; i <= 24; i++) raw.push([40 + jit(i), i]);       // derecho
+  for (let i = 40; i >= 0; i--) raw.push([i, 24 + jit(i)]);       // superior
+  for (let i = 24; i >= 0; i--) raw.push([jit(i), i]);            // izquierdo
+  const fit = fitStroke(raw);
+  check('trazo rectangular → rectángulo', fit?.type === 'rect', JSON.stringify(fit));
+  check('rectángulo ~40×24', fit?.type === 'rect' && Math.abs((fit.b[0] - fit.a[0]) - 40) < 2 && Math.abs((fit.b[1] - fit.a[1]) - 24) < 2, JSON.stringify(fit));
+}
 
 console.log('— Puntos notables y tangencias —');
 {
@@ -266,6 +278,18 @@ console.log('— Selección por ventana (AutoCAD) y copia —');
   const copies = copyEntities([inside, outside], [100, 50]);
   check('copia: ids nuevos y delta exacto', copies.length === 2 && copies[0].id !== inside.id
     && near(copies[0].a[0], 102) && near(copies[0].a[1], 52) && near(copies[1].c[0], 130));
+}
+
+console.log('— Espejo —');
+{
+  const src = [makeLine([5, 0], [15, 0]), makeCircle([10, 5], 2)];
+  const out = mirrorEntities(src, [0, 10], [20, 10]); // espejo sobre y=10
+  check('espejo de línea', near(out[0].a[1], 20) && near(out[0].b[1], 20), JSON.stringify(out[0]));
+  check('espejo de círculo', near(out[1].c[1], 15) && near(out[1].c[0], 10));
+  const arc = makeArc([0, 0], 10, 0, Math.PI / 2); // primer cuadrante
+  const [marc] = mirrorEntities([arc], [-5, 0], [5, 0]); // espejo sobre y=0
+  const pts = entityPoints(marc, 24);
+  check('espejo de arco queda bajo el eje', pts.every(p => p[1] < 1e-6), JSON.stringify(pts.slice(0, 2)));
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);

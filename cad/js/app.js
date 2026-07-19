@@ -3,13 +3,17 @@
 
 import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
+import { GLTFLoader } from '../vendor/GLTFLoader.js';
+import { MeshoptDecoder } from '../vendor/meshopt_decoder.module.js';
+import { svgIcon, setIcons } from './icons.js';
 import { loadCatalogo, componentToPart, envolvente } from './componentes.js';
 import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
-  makeSketchEntitiesFeature, planeBasis, referenceEdges, referencePoints, magnetCorrections,
-  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature,
+  makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, makeFilletFeature, makeChamferFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
+  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace,
   makeMate, makeConcentric, solveConstraints,
+  evalExpr, resolveParams, applyExpressions,
 } from './model.js';
 import * as SK from './sketch2d.js';
 import { exportDrawingDXF, exportDrawingPDF, exportFlatDXF, exportFlatPDF } from './drawing2d.js';
@@ -23,6 +27,8 @@ THREE.Object3D.DEFAULT_UP.set(0, 0, 1);
 const viewport = document.getElementById('viewport');
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(window.devicePixelRatio);
+renderer.localClippingEnabled = true;
+const SECTION = []; // planos de corte activos (sección global o corte del boceto)
 viewport.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -59,6 +65,128 @@ grid.rotation.x = Math.PI / 2;
 scene.add(grid);
 const axes = new THREE.AxesHelper(60);
 scene.add(axes);
+// vistas ortogonales bloqueadas (sin perspectiva) para trabajar el ensamble
+let mainView = 'persp';
+const viewBtn = document.getElementById('btnView');
+const VIEW_NAMES = { persp: 'Perspectiva', ortho: 'Ortográfica libre', top: 'Planta', front: 'Frente', side: 'Lateral', iso: 'Isométrica' };
+
+// caja envolvente + centro + tamaño de las piezas visibles (para encuadrar/orbitar)
+function visibleBox() {
+  const box = new THREE.Box3();
+  for (const rec of meshes.values()) if (rec.mesh.visible) box.expandByObject(rec.mesh);
+  if (box.isEmpty()) box.set(new THREE.Vector3(-100, -100, 0), new THREE.Vector3(100, 100, 100));
+  return { box, center: box.getCenter(new THREE.Vector3()), size: box.getSize(new THREE.Vector3()).length() };
+}
+
+function setMainView(v) {
+  mainView = v;
+  if (v === 'persp') {
+    activeCamera = camera;
+    controls.enabled = true;
+    sketchControls.enabled = false;
+    viewBtn?.classList.remove('on');
+    frameModel(); // recentra el pivote de órbita en el modelo
+    setStatus('Vista en perspectiva libre.');
+    return;
+  }
+  const { center, size } = visibleBox();
+  const libre = v === 'ortho';
+  // ortográfica libre: arranca desde la dirección actual de la cámara en perspectiva
+  const DIRS = { top: [0, 0, 1], front: [0, -1, 0], side: [1, 0, 0], iso: [1, -1, 1] };
+  const UPS = { top: [0, 1, 0], front: [0, 0, 1], side: [0, 0, 1], iso: [0, 0, 1] };
+  const dir = libre
+    ? (camera.position.clone().sub(controls.target).normalize())
+    : new THREE.Vector3(...DIRS[v]).normalize();
+  orthoViewSize = Math.max(120, size * 1.3);
+  orthoCam.zoom = 1;
+  orthoCam.up.set(...(libre ? [0, 0, 1] : UPS[v]));
+  orthoCam.position.copy(center).addScaledVector(dir, 600);
+  orthoCam.lookAt(center);
+  sketchControls.target.copy(center);
+  sketchControls.enableRotate = libre;  // libre → órbita; vistas fijas → sin giro
+  sketchControls.enabled = true;
+  controls.enabled = false;
+  activeCamera = orthoCam;
+  resize();
+  viewBtn?.classList.add('on');
+  setStatus(libre
+    ? 'Vista ORTOGRÁFICA LIBRE (sin perspectiva): orbita, panea y zoom. Ideal para ensambles.'
+    : `Vista ${VIEW_NAMES[v]} bloqueada (ortogonal, sin giro): paneo/zoom libres; Mover arrastra en el plano de la vista.`);
+}
+
+if (viewBtn) viewBtn.onclick = () => {
+  if (sketch) { setStatus('Sal del boceto para cambiar la vista del ensamble.'); return; }
+  showForm('Vista del ensamble', [
+    { key: 'v', label: 'Vista', type: 'select', value: mainView, options: [
+      ['persp', 'Perspectiva (libre)'], ['ortho', 'Ortográfica (libre, sin perspectiva)'],
+      ['top', 'Planta (orto fija)'], ['front', 'Frente (orto fija)'],
+      ['side', 'Lateral (orto fija)'], ['iso', 'Isométrica (orto fija)']] },
+  ], (val) => setMainView(val.v));
+};
+
+// Encuadra el modelo: pone el pivote de órbita en el centro del modelo y aleja la
+// cámara lo justo. Corrige el "orbitar difícil" (antes giraba en torno al origen).
+function frameModel(target) {
+  const { center, size } = target || visibleBox();
+  const cam = activeCamera === orthoCam ? orthoCam : camera;
+  const ctrl = activeCamera === orthoCam ? sketchControls : controls;
+  const dir = cam.position.clone().sub(ctrl.target);
+  if (dir.lengthSq() < 1) dir.set(220, -220, 160);
+  dir.normalize();
+  ctrl.target.copy(center);
+  if (cam === orthoCam) {
+    orthoViewSize = Math.max(120, size * 1.4);
+    cam.position.copy(center).addScaledVector(dir, 600);
+    resize();
+  } else {
+    cam.position.copy(center).addScaledVector(dir, Math.max(180, size * 1.6));
+  }
+  cam.lookAt(center);
+  ctrl.update();
+}
+
+// Doble clic: encuadra en la pieza tocada (o en todo el modelo si es al vacío),
+// símil "Zoom to fit / Focus" de Inventor. Facilita orbitar alrededor de la pieza.
+renderer.domElement.addEventListener('dblclick', (ev) => {
+  if (sketch) return;
+  const hit = castAtEvent(ev);
+  if (hit) {
+    const rec = meshes.get(hit.object.userData.partId);
+    if (rec) {
+      const box = new THREE.Box3().expandByObject(rec.mesh);
+      frameModel({ center: box.getCenter(new THREE.Vector3()), size: box.getSize(new THREE.Vector3()).length() });
+      setStatus(`Enfocado en ${getPart(doc, hit.object.userData.partId)?.name || 'la pieza'}.`);
+      return;
+    }
+  }
+  frameModel();
+  setStatus('Encuadrado en todo el modelo.');
+});
+
+// sección global: corta el modelo por un plano X/Y/Z para ver interiores
+const sectionBtn = document.getElementById('btnSection');
+if (sectionBtn) sectionBtn.onclick = () => {
+  showForm('Vista de sección', [
+    { key: 'axis', label: 'Plano normal a', type: 'select', value: 'x', options: [['x', 'X'], ['y', 'Y'], ['z', 'Z']] },
+    { key: 'pos', label: 'Posición (mm)', value: 0, step: 1 },
+    { key: 'inv', label: 'Invertir lado', type: 'checkbox', value: false },
+  ], (v) => {
+    const n = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] }[v.axis];
+    const normal = new THREE.Vector3(...n).multiplyScalar(v.inv ? 1 : -1);
+    SECTION.length = 0;
+    SECTION.push(new THREE.Plane(normal, v.inv ? -v.pos : v.pos));
+    sectionBtn.classList.add('on');
+    setStatus(`Sección activa: plano ${v.axis.toUpperCase()} en ${v.pos} mm (edítala con el mismo botón).`);
+  }, {
+    label: '✕ Quitar sección',
+    onClick() {
+      SECTION.length = 0;
+      sectionBtn.classList.remove('on');
+      setStatus('Sección desactivada.');
+    },
+  });
+};
+
 // plano base ocultable (para mirar el modelo por abajo sin estorbo)
 const gridBtn = document.getElementById('btnGrid');
 gridBtn?.classList.add('on');
@@ -91,7 +219,7 @@ renderer.setAnimationLoop(() => {
   if (controls.enabled) controls.update();
   if (sketchControls.enabled) sketchControls.update();
   updateMeasureLabel();
-  if (sketch) updateSketchLabels();
+  if (sketch) { updateSketchLabels(); positionDynBox(); }
   renderer.render(scene, activeCamera);
 });
 
@@ -134,17 +262,96 @@ function openProps() { $('props').classList.remove('closed'); }
 const matFor = (part) => new THREE.MeshPhongMaterial({
   color: new THREE.Color(part.color), shininess: 28, specular: 0x333333,
   polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1,
+  clippingPlanes: SECTION, side: THREE.DoubleSide, // sección: se ve el interior
 });
-const edgeMat = new THREE.LineBasicMaterial({ color: 0x11141a });
+const edgeMat = new THREE.LineBasicMaterial({ color: 0x11141a, clippingPlanes: SECTION });
 const sketchShowMat = new THREE.LineBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.8 });
 const hoverMat = new THREE.MeshBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.45, depthTest: true, polygonOffset: true, polygonOffsetFactor: -2 });
 const pickedMat = new THREE.MeshBasicMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.55, depthTest: true, polygonOffset: true, polygonOffsetFactor: -2 });
+
+// ---------- Piezas de malla real (GLB) ----------
+// Componentes mecánicos importados (conveyone-simulator): geometría fija. Se
+// cargan de forma perezosa una sola vez, se fusionan en una sola BufferGeometry
+// (coordenadas en mm, Z arriba) y se recentran en XY con la base en Z=0.
+
+const gltfLoader = new GLTFLoader();
+gltfLoader.setMeshoptDecoder(MeshoptDecoder); // los GLB usan compresión EXT_meshopt_compression
+const meshGeomCache = new Map();  // src → Promise<BufferGeometry>
+
+// Nombre base del nodo del subcomponente al que pertenece una malla: el primer
+// ancestro con nombre, sin sus dígitos finales de instancia. three sanea los
+// nombres del glTF (espacios→_, quita ':'/'.') y numera las instancias, así que
+// «300986+Std+UniDrive+motor+D-Shaft» = la 1.ª instancia (una pieza) y
+// «…Shaft1_» = las demás; el catálogo guarda esa clave saneada como `nodo`.
+function subcompBase(o) {
+  for (let p = o.parent; p; p = p.parent) if (p.name) return p.name.replace(/\d+$/, '');
+  return '';
+}
+
+// Carga la geometría de un GLB. Si se da `nodo`, solo fusiona las mallas de ESE
+// subcomponente (una instancia) → pieza reusable, recentrada como las demás.
+function loadMeshGeometry(src, nodo = null) {
+  const key = nodo ? `${src}#${nodo}` : src;
+  if (meshGeomCache.has(key)) return meshGeomCache.get(key);
+  const promise = MeshoptDecoder.ready.then(() => new Promise((resolve, reject) => {
+    gltfLoader.load(src, (gltf) => {
+      gltf.scene.updateMatrixWorld(true);
+      const verts = []; // se transforma vértice a vértice: fromBufferAttribute respeta
+      const v = new THREE.Vector3(); // el flag 'normalized' (dequantiza KHR_mesh_quantization)
+      const inNodo = (o) => subcompBase(o) === nodo;
+      gltf.scene.traverse((o) => {
+        if (!o.isMesh || !o.geometry) return;
+        if (nodo && !inNodo(o)) return;
+        const g = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry;
+        const pa = g.attributes.position;
+        for (let i = 0; i < pa.count; i++) {
+          v.fromBufferAttribute(pa, i).applyMatrix4(o.matrixWorld);
+          verts.push(v.x, v.y, v.z);
+        }
+      });
+      if (!verts.length) { reject(new Error('GLB sin mallas')); return; }
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+      geom.scale(1000, 1000, 1000);   // glTF viene en metros; foto3d trabaja en mm
+      geom.computeBoundingBox();
+      const bb = geom.boundingBox;
+      geom.translate(-(bb.min.x + bb.max.x) / 2, -(bb.min.y + bb.max.y) / 2, -bb.min.z); // XY centrado, base Z=0
+      geom.computeVertexNormals();
+      resolve(geom);
+    }, undefined, (err) => reject(err instanceof Error ? err : new Error(String(err))));
+  }));
+  meshGeomCache.set(key, promise);
+  return promise;
+}
+
+const isMeshPart = (part) => part.features.length === 1 && part.features[0].shape === 'mesh';
+
+function rebuildMeshPart(part) {
+  const { src, nodo } = part.features[0].params;
+  loadMeshGeometry(src, nodo || null).then((geom) => {
+    if (!getPart(doc, part.id)) return;           // la pieza se borró mientras cargaba
+    disposePartMesh(part.id);
+    const g = geom.clone();
+    const mesh = new THREE.Mesh(g, matFor(part));
+    mesh.userData.partId = part.id;
+    const edges = new THREE.LineSegments(new THREE.EdgesGeometry(g, 32), edgeMat);
+    mesh.add(edges);
+    meshes.set(part.id, { mesh, edges });
+    scene.add(mesh);
+    syncTransform(part);
+    refreshUI();
+  }).catch((err) => {
+    setStatus(`No se pudo cargar la malla (${src}): ${err.message}`);
+  });
+}
 
 // ---------- Reconstrucción ----------
 
 function rebuildPart(part) {
   disposePartMesh(part.id);
+  applyExpressions(part, resolveParams(doc)); // resuelve cotas vinculadas a parámetros (fx)
   if (!part.features.length) { refreshUI(); return; }
+  if (isMeshPart(part)) { rebuildMeshPart(part); refreshUI(); return; }
   const geom = buildPartGeometry(part);
   if (!geom.attributes.position || geom.attributes.position.count === 0) {
     // sin material (p. ej. solo cortes): no hay nada que mostrar
@@ -232,38 +439,45 @@ function commit(msg) { autosave(); if (msg) setStatus(msg); }
 
 // ---------- Interfaz: árbol ----------
 
-const OP_ICON = { union: '⊕', cut: '⊖' };
+const OP_ICON = { union: '⊕', cut: '⊖', blend: '◜', pattern: '▦', mesh: '◈' };
+// nombre de icono SVG para cada operación de función del árbol
+const OP_ICON_NAME = { union: 'union', cut: 'cut', blend: 'blend', pattern: 'patrect', mesh: 'mesh' };
+const featureIconName = (f) => f.suppressed ? 'pause' : (OP_ICON_NAME[f.op] || 'feature');
 
 function refreshUI() {
   const tree = $('tree');
-  let html = '<h3>Piezas</h3>';
+  const envIco = env === 'ens' ? 'ensamble' : 'pieza';
+  let html = `<h3><span class="h3ic">${svgIcon(envIco)}</span>Piezas<span class="cnt">${doc.parts.length}</span></h3>`;
   for (const part of doc.parts) {
     const sel = selection?.kind === 'part' && selection.id === part.id ? ' sel' : '';
-    html += `<div class="node${sel}" data-kind="part" data-id="${part.id}">
+    html += `<div class="node node-part${sel}" data-kind="part" data-id="${part.id}">
       <span class="swatch" style="background:${part.color}"></span>
-      <span class="nm">${esc(part.name)}${part.fixed ? ' 📌' : ''}</span>
-      <button data-act="vis" title="Mostrar/ocultar">${part.visible ? '👁' : '—'}</button>
+      <span class="nm">${esc(part.name)}${part.fixed ? ` <span class="ic pinIc" title="Pieza fija (a tierra)">${svgIcon('pin')}</span>` : ''}</span>
+      <button data-act="vis" title="Mostrar/ocultar">${svgIcon(part.visible ? 'eye' : 'eyeoff')}</button>
+      <button data-act="iso" title="Aislar: mostrar solo esta pieza (toca de nuevo para restaurar)">${svgIcon('isolate')}</button>
+      <button data-act="del" class="danger" title="Eliminar la pieza y sus restricciones">${svgIcon('trash')}</button>
     </div><div class="children">`;
     part.features.forEach((f, fi) => {
       const fsel = selection?.kind === 'feature' && selection.id === f.id ? ' sel' : '';
       html += `<div class="node${fsel}${f.suppressed ? ' supr' : ''}" data-kind="feature" data-part="${part.id}" data-id="${f.id}">
-        <span class="ic">${f.suppressed ? '⏸' : (OP_ICON[f.op] || '')}</span><span class="nm">${esc(f.name)}</span>
+        <span class="ic">${svgIcon(featureIconName(f))}</span><span class="nm">${esc(f.name)}</span>
         <span class="meta">${featureMeta(f)}</span>
-        <button data-act="sup" title="Suprimir/reactivar la función">${f.suppressed ? '▶' : '⏸'}</button>
-        <button data-act="up" title="Subir (regenera antes)" ${fi === 0 ? 'disabled' : ''}>↑</button>
-        <button data-act="down" title="Bajar (regenera después)" ${fi === part.features.length - 1 ? 'disabled' : ''}>↓</button>
+        <button data-act="sup" title="Suprimir/reactivar la función">${svgIcon(f.suppressed ? 'play' : 'pause')}</button>
+        <button data-act="up" title="Subir (regenera antes)" ${fi === 0 ? 'disabled' : ''}>${svgIcon('up')}</button>
+        <button data-act="down" title="Bajar (regenera después)" ${fi === part.features.length - 1 ? 'disabled' : ''}>${svgIcon('down')}</button>
       </div>`;
     });
     html += '</div>';
   }
-  html += '<h3>Restricciones</h3>';
+  html += `<h3><span class="h3ic">${svgIcon('link')}</span>Restricciones<span class="cnt">${doc.constraints.length}</span></h3>`;
   if (!doc.constraints.length) html += '<div class="node"><span class="meta">— ninguna —</span></div>';
   for (const c of doc.constraints) {
     const csel = selection?.kind === 'constraint' && selection.id === c.id ? ' sel' : '';
     const label = { mate: 'Coincidir caras', flush: 'Alinear caras', concentric: 'Concéntrico' }[c.type] || c.type;
+    const cico = { mate: 'mate', flush: 'flush', concentric: 'concentric' }[c.type] || 'link';
     const pa = getPart(doc, c.a.part)?.name || '?', pb = getPart(doc, c.b.part)?.name || '?';
     html += `<div class="node${csel}" data-kind="constraint" data-id="${c.id}">
-      <span class="ic">🔗</span><span class="nm">${label}</span>
+      <span class="ic">${svgIcon(cico)}</span><span class="nm">${label}</span>
       <span class="meta">${esc(pa)} ↔ ${esc(pb)}</span>
     </div>`;
   }
@@ -279,6 +493,16 @@ function featureMeta(f) {
   if (f.shape === 'cylinder') return `Ø${f.params.dia}×${f.params.h}`;
   if (f.shape === 'hole') return f.params.through ? `Ø${f.params.dia} pasante` : `Ø${f.params.dia}×${f.params.depth}`;
   if (f.shape === 'sketch') return `${(f.params.entities || f.params.pts || []).length} ent ×${f.params.h}`;
+  if (f.shape === 'revolve') return `rev 360° ${(f.params.entities || []).length} ent`;
+  if (f.shape === 'mesh') return f.params.bbox ? `malla · ${f.params.bbox.map(n => +n.toFixed(0)).join('×')} mm` : 'malla real (GLB)';
+  if (f.shape === 'fillet') return `R${f.params.r} · ${(f.params.edges || []).length} arista(s)`;
+  if (f.shape === 'chamfer') return `${f.params.d} mm · ${(f.params.edges || []).length} arista(s)`;
+  if (f.shape === 'pattern') {
+    const srcName = doc.parts.flatMap(p => p.features).find(x => x.id === f.params.sourceId)?.name || '?';
+    return f.params.kind === 'circ'
+      ? `○ ${f.params.n}× de «${srcName}»`
+      : `▦ ${f.params.nx}×${f.params.ny} de «${srcName}»`;
+  }
   return '';
 }
 
@@ -296,6 +520,8 @@ $('tree').addEventListener('click', (e) => {
     refreshUI();
     return;
   }
+  if (btn?.dataset.act === 'iso' && kind === 'part') { isolatePart(getPart(doc, id)); return; }
+  if (btn?.dataset.act === 'del' && kind === 'part') { deletePart(getPart(doc, id)); return; }
   if (btn?.dataset.act && kind === 'feature') {
     const p = getPart(doc, part);
     const f = getFeature(p, id);
@@ -314,6 +540,41 @@ $('tree').addEventListener('click', (e) => {
   openProps();
   refreshUI();
 });
+
+// eliminar una pieza del ensamble junto con las restricciones que la usan
+function deletePart(p) {
+  if (!p) return;
+  const nc = doc.constraints.filter(c => c.a.part === p.id || c.b.part === p.id).length;
+  if (!confirm(`¿Eliminar la pieza "${p.name}"${nc ? ` y sus ${nc} restricción(es)` : ''}?`)) return;
+  pushUndo();
+  doc.parts = doc.parts.filter(x => x.id !== p.id);
+  doc.constraints = doc.constraints.filter(c => c.a.part !== p.id && c.b.part !== p.id);
+  disposePartMesh(p.id);
+  if (isolatedId === p.id) restoreVisibility(); // no dejar el resto oculto tras borrar la aislada
+  if (selection && (selection.id === p.id || selection.partId === p.id)) selection = null;
+  refreshUI();
+  commit(`${p.name} eliminada${nc ? ' (con sus restricciones)' : ''}. Ctrl+Z deshace.`);
+}
+
+// aislar / des-aislar: mostrar solo una pieza. El estado vive en isolatedId,
+// así que se puede des-aislar sin depender de la selección actual.
+let isolatedId = null;
+function restoreVisibility() {
+  for (const x of doc.parts) { x.visible = true; syncTransform(x); }
+  isolatedId = null;
+  document.getElementById('btnIsolate').classList.remove('on');
+  refreshUI();
+}
+function isolatePart(p) {
+  if (!p) return false;
+  if (isolatedId === p.id) { restoreVisibility(); setStatus('Aislamiento terminado: todas las piezas visibles.'); return false; }
+  for (const x of doc.parts) { x.visible = x.id === p.id; syncTransform(x); }
+  isolatedId = p.id;
+  document.getElementById('btnIsolate').classList.add('on');
+  refreshUI();
+  setStatus(`Pieza aislada: ${p.name}. Toca Aislar de nuevo para mostrar todas.`);
+  return true;
+}
 
 // ---------- Interfaz: propiedades ----------
 
@@ -334,12 +595,19 @@ function refreshProps() {
       ${frow('Rotación °X/Y/Z', num3('pp_rot', [deg(e.x), deg(e.y), deg(e.z)]))}
       <div class="btnrow">
         <button id="pp_apply">Aplicar</button>
+        <button id="pp_iso" title="Mostrar solo esta pieza (toca de nuevo para restaurar)">⛶ Aislar</button>
         <button id="pp_del" class="danger">Eliminar pieza</button>
+      </div>
+      <div class="btnrow">
+        <button id="pp_stl" title="Exportar SOLO esta pieza a STL (en su propio origen, para imprimir/fabricar)">⭳ STL pieza</button>
+        <button id="pp_save" title="Guardar SOLO esta pieza como JSON (ábrela en otro proyecto con 📂 Abrir → Agregar)">💾 Guardar pieza</button>
       </div>
       ${esChapa(p) ? `<div class="btnrow">
         <button id="pp_flatdxf" title="Desarrollo real (BA con factor K) con líneas de plegado y desahogos">⭳ Desarrollo DXF</button>
         <button id="pp_flatpdf" title="Lámina del desarrollo lista para imprimir">⭳ Desarrollo PDF</button>
       </div>` : ''}`;
+    $('pp_stl').onclick = () => exportSTL([p], `${p.name.replace(/[^\w.-]+/g, '_')}.stl`, false);
+    $('pp_save').onclick = () => savePartJSON(p);
     if (esChapa(p)) {
       $('pp_flatdxf').onclick = () => exportDesarrollo(p, exportFlatDXF, 'DXF');
       $('pp_flatpdf').onclick = () => exportDesarrollo(p, exportFlatPDF, 'PDF');
@@ -358,15 +626,8 @@ function refreshProps() {
       solveAndSync();
       commit('Pieza actualizada.');
     };
-    $('pp_del').onclick = () => {
-      pushUndo();
-      doc.parts = doc.parts.filter(x => x.id !== p.id);
-      doc.constraints = doc.constraints.filter(c => c.a.part !== p.id && c.b.part !== p.id);
-      disposePartMesh(p.id);
-      selection = null;
-      refreshUI();
-      commit('Pieza eliminada.');
-    };
+    $('pp_iso').onclick = () => isolatePart(p);
+    $('pp_del').onclick = () => deletePart(p);
     return;
   }
 
@@ -395,12 +656,30 @@ function refreshProps() {
             <input type="number" id="fp_e1" value="${f.params.e1}" step="1" style="width:50%">
             <input type="number" id="fp_e2" value="${f.params.e2}" step="1" style="width:50%"></span>`);
     }
-    if (f.shape === 'box') dims = frow('Ancho/Fondo/Alto', num3('fp_dims', [f.params.w, f.params.d, f.params.h]));
-    if (f.shape === 'cylinder') dims = frow('Diámetro', `<input type="number" id="fp_dia" value="${f.params.dia}" step="0.5">`) + frow('Altura', `<input type="number" id="fp_h" value="${f.params.h}" step="0.5">`);
-    if (f.shape === 'hole') dims = frow('Diámetro', `<input type="number" id="fp_dia" value="${f.params.dia}" step="0.5">`) + frow('Profundidad', `<input type="number" id="fp_depth" value="${f.params.depth}" step="0.5">`) + frow('Pasante', `<input type="checkbox" id="fp_through" ${f.params.through ? 'checked' : ''}>`);
-    if (f.shape === 'sketch') {
-      dims = frow('Altura', `<input type="number" id="fp_h" value="${f.params.h}" step="0.5">`);
+    if (f.shape === 'box') dims = frow('Ancho X', dimInput('fp_w', f, 'w')) + frow('Fondo Y', dimInput('fp_d', f, 'd')) + frow('Alto Z', dimInput('fp_hh', f, 'h'));
+    if (f.shape === 'cylinder') dims = frow('Diámetro', dimInput('fp_dia', f, 'dia')) + frow('Altura', dimInput('fp_h', f, 'h'));
+    if (f.shape === 'hole') dims = frow('Diámetro', dimInput('fp_dia', f, 'dia')) + frow('Profundidad', dimInput('fp_depth', f, 'depth')) + frow('Pasante', `<input type="checkbox" id="fp_through" ${f.params.through ? 'checked' : ''}>`);
+    if (f.shape === 'pattern') {
+      const srcName = doc.parts.flatMap(pp => pp.features).find(x => x.id === f.params.sourceId)?.name || '?';
+      dims = frow('Repite', `<b>${esc(srcName)}</b>`);
+      if (f.params.kind === 'circ') {
+        dims += frow('Ocurrencias', `<input type="number" id="fp_n" value="${f.params.n}" step="1">`)
+          + frow('Ángulo total (°)', `<input type="number" id="fp_angle" value="${f.params.angle}" step="15">`)
+          + frow('Centro X/Y/Z', num3('fp_cen', f.params.axisAt || [0, 0, 0]))
+          + frow('Eje X/Y/Z', num3('fp_axis', f.params.axisDir || [0, 0, 1]));
+      } else {
+        dims += frow('Nº X / Sep X', `<span style="display:flex;gap:4px;flex:1">
+            <input type="number" id="fp_nx" value="${f.params.nx}" step="1" style="width:50%">
+            <input type="number" id="fp_dx" value="${f.params.dx}" step="1" style="width:50%"></span>`)
+          + frow('Nº Y / Sep Y', `<span style="display:flex;gap:4px;flex:1">
+            <input type="number" id="fp_ny" value="${f.params.ny}" step="1" style="width:50%">
+            <input type="number" id="fp_dy" value="${f.params.dy}" step="1" style="width:50%"></span>`);
+      }
+    }
+    if (f.shape === 'sketch' || f.shape === 'revolve') {
+      dims = f.shape === 'sketch' ? frow('Altura', `<input type="number" id="fp_h" value="${f.params.h}" step="0.5">`) : frow('Giro', '<b>360°</b>');
       if (f.params.entities) {
+        dims += `<div class="btnrow"><button id="fp_editsk">✏ Editar boceto</button></div>`;
         dims += frow('Entidades', `<b>${f.params.entities.length}</b>`);
         dims += frow('Mostrar boceto', `<input type="checkbox" id="fp_showsk" ${f.showSketch ? 'checked' : ''}>`);
         (f.params.dims || []).forEach((d, i) => {
@@ -415,12 +694,14 @@ function refreshProps() {
       ${frow('Nombre', `<input type="text" id="fp_name" value="${esc(f.name)}">`)}
       ${frow('Tipo', `${f.op === 'cut' ? 'corte' : 'unión'}${f.suppressed ? ' · ⏸ suprimida' : ''}`)}
       ${dims}
-      ${f.shape === 'pestana' ? '' : frow('Posición X/Y/Z', num3('fp_at', f.at))}
-      ${['box', 'chapaBase', 'pestana'].includes(f.shape) ? '' : frow('Eje X/Y/Z', num3('fp_dir', f.dir))}
+      ${['pestana', 'pattern'].includes(f.shape) ? '' : frow('Posición X/Y/Z', num3('fp_at', f.at))}
+      ${['box', 'chapaBase', 'pestana', 'pattern'].includes(f.shape) ? '' : frow('Eje X/Y/Z', num3('fp_dir', f.dir))}
       <div class="btnrow">
         <button id="fp_apply">Regenerar</button>
         <button id="fp_del" class="danger">Eliminar</button>
       </div>`;
+    const editSk = $('fp_editsk');
+    if (editSk) editSk.onclick = () => enterSketchForFeature(p, f);
     $('fp_apply').onclick = () => {
       pushUndo();
       f.name = $('fp_name').value || f.name;
@@ -441,9 +722,9 @@ function refreshProps() {
         });
         f.name = `Pestaña ${f.params.angulo}° R${f.params.radio}`;
       }
-      if (f.shape === 'box') { const [w, d, h] = readNum3('fp_dims'); Object.assign(f.params, { w, d, h }); }
-      if (f.shape === 'sketch') {
-        f.params.h = +$('fp_h').value;
+      if (f.shape === 'box') { readDimField(f, 'fp_w', 'w'); readDimField(f, 'fp_d', 'd'); readDimField(f, 'fp_hh', 'h'); }
+      if (f.shape === 'sketch' || f.shape === 'revolve') {
+        if (f.shape === 'sketch') f.params.h = +$('fp_h').value;
         const sk = $('fp_showsk');
         if (sk) f.showSketch = sk.checked;
         (f.params.dims || []).forEach((d, i) => {
@@ -456,15 +737,29 @@ function refreshProps() {
           }
         });
       }
-      if (f.shape === 'cylinder') { f.params.dia = +$('fp_dia').value; f.params.h = +$('fp_h').value; }
+      if (f.shape === 'cylinder') { readDimField(f, 'fp_dia', 'dia'); readDimField(f, 'fp_h', 'h'); }
       if (f.shape === 'hole') {
-        f.params.dia = +$('fp_dia').value;
-        f.params.depth = +$('fp_depth').value;
+        readDimField(f, 'fp_dia', 'dia');
+        readDimField(f, 'fp_depth', 'depth');
         f.params.through = $('fp_through').checked;
         f.name = `Agujero Ø${f.params.dia}`;
       }
-      if (f.shape !== 'pestana') f.at = readNum3('fp_at');
-      if (!['box', 'chapaBase', 'pestana'].includes(f.shape)) f.dir = readNum3('fp_dir');
+      if (f.shape === 'pattern') {
+        if (f.params.kind === 'circ') {
+          f.params.n = Math.max(2, Math.round(+$('fp_n').value));
+          f.params.angle = +$('fp_angle').value;
+          f.params.axisAt = readNum3('fp_cen');
+          f.params.axisDir = readNum3('fp_axis');
+        } else {
+          f.params.nx = Math.max(1, Math.round(+$('fp_nx').value));
+          f.params.ny = Math.max(1, Math.round(+$('fp_ny').value));
+          f.params.dx = +$('fp_dx').value;
+          f.params.dy = +$('fp_dy').value;
+        }
+      }
+      if (!['pestana', 'pattern'].includes(f.shape)) f.at = readNum3('fp_at');
+      if (!['box', 'chapaBase', 'pestana', 'pattern'].includes(f.shape)) f.dir = readNum3('fp_dir');
+      faceCache.clear();
       rebuildPart(p);
       commit('Función regenerada.');
     };
@@ -508,6 +803,18 @@ const num3 = (id, v) => `<span style="display:flex;gap:4px;flex:1">
   <input type="number" id="${id}z" value="${+(+v[2]).toFixed(3)}" step="0.5" style="width:33%"></span>`;
 const readNum3 = (id) => [+$(id + 'x').value, +$(id + 'y').value, +$(id + 'z').value];
 
+// campo de cota que acepta un número o una EXPRESIÓN (parámetro fx)
+const NUM_RE = /^[-+]?(\d+\.?\d*|\.\d+)$/;
+const dimVal = (f, key) => (f.expr && key in f.expr) ? f.expr[key] : f.params[key];
+const dimInput = (id, f, key) => `<input type="text" inputmode="decimal" id="${id}" value="${esc(String(dimVal(f, key)))}" title="número o fórmula (p. ej. ancho/2)">`;
+function readDimField(f, id, key) {
+  const raw = String($(id).value).trim();
+  f.expr = f.expr || {};
+  if (NUM_RE.test(raw)) { f.params[key] = parseFloat(raw); delete f.expr[key]; }
+  else { f.expr[key] = raw; const v = evalExpr(raw, resolveParams(doc)); if (Number.isFinite(v)) f.params[key] = v; }
+  if (!Object.keys(f.expr).length) delete f.expr;
+}
+
 // ---------- Diálogo genérico ----------
 
 const dialog = $('dialog');
@@ -550,10 +857,13 @@ const MODE_HINTS = {
   flush: 'Alinear: clic en la cara de la 1.ª pieza, luego en la cara de la 2.ª (la 2.ª se mueve).',
   concentric: 'Concéntrico: clic cerca de un orificio/cilindro de la 1.ª pieza, luego de la 2.ª.',
   move: 'Mover: arrastra una pieza (Shift o un 2.º dedo = mover en Z). Al soltar se re-aplican las restricciones.',
-  measure: 'Medir: clic en dos puntos (se ajusta al vértice más cercano). Esc para salir.',
+  measure: 'Medir: toca aristas, caras, circunferencias o paredes cilíndricas (ejes). Con 2 referencias calcula distancia o ángulo.',
+  direct: 'Edición directa: toca una cara del sólido para cambiar su medida (diámetro, altura/profundidad o tamaño de caja).',
+  fillet: 'Empalme: toca una arista del sólido para redondearla con un radio (símil Empalme de Inventor).',
+  chamfer: 'Chaflán: toca una arista del sólido para achaflanarla (corte a 45°) con una distancia.',
 };
 
-const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', measure: 'btnMeasure' };
+const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', direct: 'btnDirect', fillet: 'btnFillet', chamfer: 'btnChamfer', measure: 'btnMeasure' };
 
 function setMode(m) {
   mode = mode === m ? 'select' : m;
@@ -568,6 +878,44 @@ function setMode(m) {
   if (mode !== 'select' && isNarrow()) setSidebar(false); // que el panel no tape el modelo
 }
 for (const [m, id] of Object.entries(modeButtons)) $(id).onclick = () => setMode(m);
+
+// ---------- Entornos Pieza / Ensamble ----------
+// Conmutador tipo Inventor: la barra muestra solo las herramientas del
+// entorno activo (Sección/Vista/Medir son comunes a ambos).
+
+const ENV_OF_MODE = { sketch: 'pieza', hole: 'pieza', pestana: 'pieza', direct: 'pieza', fillet: 'pieza', chamfer: 'pieza',
+                      mate: 'ens', flush: 'ens', concentric: 'ens', move: 'ens' };
+let env = 'pieza';
+function setEnv(e) {
+  env = e;
+  document.getElementById('rail').classList.toggle('ens', env === 'ens');
+  $('envPieza').classList.toggle('on', env !== 'ens');
+  $('envEns').classList.toggle('on', env === 'ens');
+  if (ENV_OF_MODE[mode] && ENV_OF_MODE[mode] !== env) setMode(mode); // apaga el modo del otro entorno
+  setStatus(env === 'ens' ? 'Entorno ENSAMBLE: restricciones, mover, imán y aislar.'
+                          : 'Entorno PIEZA: crear piezas y modelar sólidos.');
+}
+$('envPieza').onclick = () => setEnv('pieza');
+$('envEns').onclick = () => setEnv('ens');
+
+// pieza actualmente seleccionada (por el árbol o por clic en el visor)
+function selectedPart() {
+  return selection?.kind === 'part' ? getPart(doc, selection.id)
+       : selection?.partId ? getPart(doc, selection.partId) : null;
+}
+
+$('btnIsolate').onclick = () => {
+  if (isolatedId) { restoreVisibility(); setStatus('Todas las piezas visibles (des-aislado).'); return; }
+  const p = selectedPart();
+  if (!p) { setStatus('Toca primero una pieza para aislarla.'); return; }
+  isolatePart(p);
+};
+
+$('btnDelete').onclick = () => {
+  const p = selectedPart();
+  if (!p) { setStatus('Toca primero una pieza (en el visor o el árbol) para eliminarla.'); return; }
+  deletePart(p);
+};
 
 // ---------- Picking ----------
 
@@ -626,13 +974,27 @@ function clearPickedHighlight() {
 
 let downPos = null, dragging = null;
 
+// Rechazo de palma (tableta + lápiz): mientras se usa el lápiz, los toques
+// de la mano apoyada sobre la pantalla se ignoran.
+let penUntil = 0;
+renderer.domElement.addEventListener('pointerdown', (ev) => {
+  if (ev.pointerType === 'pen') penUntil = performance.now() + 900;
+  else if (ev.pointerType === 'touch' && performance.now() < penUntil) {
+    ev.stopImmediatePropagation();
+    ev.preventDefault();
+  }
+}, true);
+renderer.domElement.addEventListener('pointermove', (ev) => {
+  if (ev.pointerType === 'pen') penUntil = performance.now() + 900;
+}, true);
+
 renderer.domElement.addEventListener('pointerdown', (ev) => {
   if (dialogOpen()) return;
   if (isNarrow() && sidebar.classList.contains('open')) setSidebar(false); // tocar fuera cierra el panel
   if (mode === 'sketch' && sketch && ev.button === 0 && !sketch.profileMode) {
     if (sketch.tool === 'pen' && !sketch.stroke) { startStroke(ev); return; }
     if (sketch.tool === 'moveEnt' && !sketch.entDrag) { startEntDrag(ev); return; }
-    if (sketch.tool === 'select' && !sketch.marquee && !sketch.copyOp) { startMarquee(ev); return; }
+    if (sketch.tool === 'select' && !sketch.marquee && !sketch.copyOp && !sketch.mirrorOp && !sketch.revolveWait) { startMarquee(ev); return; }
   }
   if (dragging) { switchDragVertical(); return; } // 2.º dedo durante el arrastre → mover en Z
   downPos = { x: ev.clientX, y: ev.clientY };
@@ -646,7 +1008,7 @@ renderer.domElement.addEventListener('pointermove', (ev) => {
   if (sketch?.entDrag) { moveEntDrag(ev); return; }
   if (dragging) { if (ev.pointerId === dragging.pointerId) updateMoveDrag(ev); return; }
   if (mode === 'sketch' && sketch) { updateSketchPreview(ev); return; }
-  if (ev.pointerType === 'mouse' && (['hole', 'mate', 'flush'].includes(mode) || (mode === 'sketch' && !sketch))) {
+  if ((ev.pointerType === 'mouse' || ev.pointerType === 'pen') && (['hole', 'mate', 'flush', 'direct'].includes(mode) || (mode === 'sketch' && !sketch))) {
     const hit = castAtEvent(ev);
     if (hit) showHover(hit, hoverMat);
     else clearHover();
@@ -677,10 +1039,27 @@ renderer.domElement.addEventListener('pointercancel', () => {
 window.addEventListener('keydown', (ev) => {
   if (ev.key === 'Escape') { hideDialog(); setModeSelect(); }
   if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); undo(); }
-  if (ev.key === 'Delete' && selection && !dialogOpen()) {
+  const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
+  if (ev.key === 'Delete' && selection && !dialogOpen() && !typing) {
     const btn = $('pp_del') || $('fp_del') || $('cp_del');
-    if (btn) btn.click();
+    if (btn) { btn.click(); ev.preventDefault(); }
+    else if (selection.kind === 'part' || selection.partId) { // pieza elegida en el visor
+      const p = selectedPart(); if (p) { deletePart(p); ev.preventDefault(); }
+    }
   }
+  // atajos de UNA tecla, estilo Inventor (no aplican al escribir en campos)
+  if (ev.ctrlKey || ev.metaKey || ev.altKey || dialogOpen() || typing) return;
+  const k = ev.key.toLowerCase();
+  if (sketch) {
+    const TOOL_KEYS = { l: 'line', c: 'circle', r: 'rect', a: 'arc', g: 'polyg', d: 'dim',
+                        t: 'trim', e: 'extend', o: 'offset', f: 'fillet', x: 'erase',
+                        s: 'select', v: 'moveEnt', p: 'project', z: 'pen' };
+    if (TOOL_KEYS[k]) { sketchbar.querySelector(`[data-tool="${TOOL_KEYS[k]}"]`)?.click(); return; }
+    if (ev.key === 'Enter') { document.getElementById('skClose')?.click(); return; }
+    return;
+  }
+  const MODE_KEYS = { b: 'sketch', h: 'hole', m: 'move', d: 'direct', x: 'measure' };
+  if (MODE_KEYS[k]) setMode(MODE_KEYS[k]);
 });
 function setModeSelect() { if (mode !== 'select') setMode(mode); }
 
@@ -702,6 +1081,8 @@ function handleClick(ev) {
   if (mode === 'pestana') return clickPestana(hit);
   if (mode === 'mate' || mode === 'flush') return clickMate(hit, mode);
   if (mode === 'concentric') return clickConcentric(hit);
+  if (mode === 'direct') return clickDirect(hit);
+  if (mode === 'fillet' || mode === 'chamfer') return clickBlend(hit, mode);
   if (mode === 'measure') return clickMeasure(hit);
 }
 
@@ -760,6 +1141,7 @@ const faceRefMat = new THREE.LineBasicMaterial({ color: 0xffd54a });       // co
 const gridMat = new THREE.LineBasicMaterial({ color: 0x2a3040 });          // grilla del plano
 const drawMat = new THREE.LineBasicMaterial({ color: 0xf0a437 });          // entidades del boceto
 const selEntMat = new THREE.LineBasicMaterial({ color: 0x4d90fe });        // entidad elegida para cota
+const projMat = new THREE.LineBasicMaterial({ color: 0x2ee659 });          // entidades proyectadas: verde vivo, destacan sobre las referencias
 const previewMat = new THREE.LineBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.5 });
 const ptMat = new THREE.MeshBasicMaterial({ color: 0xf0a437 });
 const snapMat = new THREE.MeshBasicMaterial({ color: 0x34a853 });
@@ -777,6 +1159,12 @@ function worldPerPixel() {
 
 const to3D = (u, v, lift = 0.1) => sketch.originW.clone()
   .addScaledVector(sketch.uW, u).addScaledVector(sketch.vW, v).addScaledVector(sketch.nW, lift);
+
+// mundo → coordenadas 2D del plano del boceto (proyección ortogonal)
+const w2s = (w) => {
+  const d = w.clone().sub(sketch.originW);
+  return [d.dot(sketch.uW), d.dot(sketch.vW)];
+};
 
 function eventTo2D(ev) {
   const r = renderer.domElement.getBoundingClientRect();
@@ -828,7 +1216,7 @@ function pickEntityAt(uv, includeRefs) {
   if (includeRefs) {
     for (const e of refEntities()) {
       const n = SK.nearestOnEntity(e, uv);
-      if (n.d < tol * 0.8 && (!best || n.d < best.d)) best = { ent: e, d: n.d, isRef: true };
+      if (n.d < tol * 0.8 && (!best || n.d < best.d - 0.05)) best = { ent: e, d: n.d, isRef: true };
     }
   }
   return best;
@@ -843,6 +1231,8 @@ function clickSketch(hit, ev) {
   const raw = eventTo2D(ev);
   if (!raw) return;
   if (sketch.profileMode) return clickProfile(raw);
+  if (sketch.revolveWait) return clickRevolveAxis(raw);
+  if (sketch.mirrorOp) return clickMirror(raw);
   if (sketch.copyOp) return clickCopy(raw);
   const t = sketch.tool;
   if (t === 'select') { // tap suelto: alterna la entidad tocada
@@ -866,6 +1256,7 @@ function clickSketch(hit, ev) {
   if (t === 'polyg') return clickPolygon(raw);
   if (t === 'offset') return clickOffset(raw);
   if (t === 'fillet') return clickFillet(raw);
+  if (t === 'project') return clickProject(raw, hit);
 }
 
 function clickArc(raw) {
@@ -952,24 +1343,56 @@ function enterSketch(hit) {
   const part = getPart(doc, hit.object.userData.partId);
   const face = faceAtHit(hit);
   clearHover();
-  const mesh = hit.object;
-  const q = mesh.quaternion.clone();
-  const basisL = planeBasis(face.normal.toArray());
-  const originW = face.centroid.clone().applyMatrix4(mesh.matrixWorld);
-  const nW = face.normal.clone().applyQuaternion(q).normalize();
-  const uW = basisL.u.clone().applyQuaternion(q).normalize();
-  const vW = basisL.v.clone().applyQuaternion(q).normalize();
+  beginSketch(part, face.centroid.toArray(), face.normal.toArray(), null);
+  setStatus(`Boceto en cara de ${part.name}.`);
+}
+
+// reabrir el boceto de una función existente para editarlo en su plano
+function enterSketchForFeature(part, f) {
+  if (sketch) cancelSketch(true);
+  mode = 'sketch';
+  $('btnSketch').classList.add('on');
+  const nL = new THREE.Vector3(...f.dir).normalize().toArray();
+  beginSketch(part, [...f.at], nL, [...f.params.u]);
+  sketch.editFeature = f;
+  sketch.entities = JSON.parse(JSON.stringify(f.params.entities || []));
+  sketch.dims = JSON.parse(JSON.stringify(f.params.dims || []));
+  sketch.excluded = new Set(f.params.excluded || []);
+  syncDimEls();
+  redrawSketch();
+  setStatus(`Editando el boceto de "${f.name}" — ✔ guarda los cambios en la función.`);
+}
+
+function beginSketch(part, originL, nL, uL) {
+  const m = partMatrix(part);
+  const q = new THREE.Quaternion(...part.quat);
+  const nLv = new THREE.Vector3(...nL).normalize();
+  let uLv;
+  if (uL) {
+    uLv = new THREE.Vector3(...uL);
+    uLv.addScaledVector(nLv, -uLv.dot(nLv)).normalize();
+  } else {
+    uLv = planeBasis(nL).u;
+  }
+  const vLv = new THREE.Vector3().crossVectors(nLv, uLv);
+  const originW = new THREE.Vector3(...originL).applyMatrix4(m);
+  const nW = nLv.clone().applyQuaternion(q).normalize();
+  const uW = uLv.clone().applyQuaternion(q).normalize();
+  const vW = vLv.clone().applyQuaternion(q).normalize();
+  const uLb = uLv.toArray();
 
   sketch = {
     part,
-    originL: face.centroid.toArray(), nL: face.normal.toArray(), uL: basisL.u.toArray(),
+    originL, nL, uL: uLb,
     originW, nW, uW, vW,
+    editFeature: null,
     plane: new THREE.Plane().setFromNormalAndCoplanarPoint(nW, originW),
     entities: [], dims: [], dimEls: new Map(),
     chainStart: null, chainLast: null, temp: null, dimPick: null, stroke: null,
     entDrag: null, profileMode: false, excluded: new Set(),
     selIds: new Set(), marquee: null, copyOp: null,
-    faceSegs: [], orbit: false,
+    faceSegs: [], refPrims: [], orbit: false,
+    angleSnap: 15, angLock: null, dynAnchor: null,
     tool: 'line',
     snapPts: [], refSegs: [],
     group: new THREE.Group(),
@@ -982,6 +1405,8 @@ function enterSketch(hit) {
 
   buildSketchReferences();
 
+  mainView = 'persp';
+  viewBtn?.classList.remove('on');
   orthoViewSize = Math.max(80, sketch.extent * 2.6);
   orthoCam.zoom = 1;
   orthoCam.up.copy(vW);
@@ -997,8 +1422,10 @@ function enterSketch(hit) {
 
   for (const b of sketchbar.querySelectorAll('[data-tool]')) b.classList.toggle('on', b.dataset.tool === 'line');
   sketchbar.classList.add('open');
-  setHint('Dibuja con snap a la geometría proyectada (verde) o grilla de 1 mm. Cota: toca 1 o 2 entidades (también referencias). ✔ extruye.');
-  setStatus(`Boceto en cara de ${part.name}.`);
+  dynSnap.textContent = sketch.angleSnap ? `⊾ ${sketch.angleSnap}°` : '⊾ off';
+  dynLock.textContent = '🔓'; dynLock.classList.remove('on');
+  hideDynBox();
+  setHint('Línea/círculo: escribe longitud/diámetro y Enter (o toca el punto). Snap de ángulo con ⊾. Cota: toca 1 o 2 entidades. ✔ extruye.');
 }
 
 // proyecta las aristas analíticas de TODAS las piezas visibles al plano
@@ -1009,7 +1436,8 @@ function buildSketchReferences() {
   for (const part of doc.parts) {
     if (!part.visible) continue;
     const m = partMatrix(part);
-    for (const [pa, pb] of referenceEdges(part)) {
+    const skipId = (sketch.editFeature && part.id === sketch.part.id) ? sketch.editFeature.id : undefined;
+    for (const [pa, pb] of referenceEdges(part, 36, skipId)) {
       const a = pa.clone().applyMatrix4(m);
       const b = pb.clone().applyMatrix4(m);
       const da = a.sub(sketch.originW), db = b.sub(sketch.originW);
@@ -1026,9 +1454,21 @@ function buildSketchReferences() {
       maxR = Math.max(maxR, Math.hypot(...s), Math.hypot(...e));
     }
     // centros de círculos (agujeros, cilindros, bocetos) como imanes de snap
-    for (const cp of referencePoints(part)) {
+    for (const cp of referencePoints(part, skipId)) {
       const w = cp.clone().applyMatrix4(m).sub(sketch.originW);
       sketch.snapPts.push({ p: [w.dot(sketch.uW), w.dot(sketch.vW)], kind: 'centro' });
+    }
+    // primitivas tipadas (línea/círculo exactos) para la herramienta Proyectar
+    const q = new THREE.Quaternion(...part.quat);
+    const prims = referencePrimitives(part);
+    for (const ln of prims.lines) {
+      const a = w2s(ln.a.clone().applyMatrix4(m)), b = w2s(ln.b.clone().applyMatrix4(m));
+      if (Math.hypot(b[0] - a[0], b[1] - a[1]) > 0.05) sketch.refPrims.push({ type: 'line', a, b });
+    }
+    for (const ci of prims.circles) {
+      const dirW = ci.dir.clone().applyQuaternion(q).normalize();
+      if (Math.abs(dirW.dot(sketch.nW)) < 0.999) continue; // inclinado → elipse: no proyectable
+      sketch.refPrims.push({ type: 'circle', c: w2s(ci.c.clone().applyMatrix4(m)), r: ci.r });
     }
   }
   sketch.extent = maxR;
@@ -1053,26 +1493,159 @@ function buildSketchReferences() {
 
 // --- herramientas de dibujo ---
 
+// --- Entrada dinámica (longitud / ángulo) estilo Inventor ---
+
+const dynBox = $('dynBox');
+const dynLen = $('dyn_len'), dynAng = $('dyn_ang'), dynLock = $('dyn_lock'), dynSnap = $('dyn_snap');
+const dynEditing = () => document.activeElement === dynLen || document.activeElement === dynAng;
+
+// ángulo (grados) desde 'from' a 'to', normalizado a [-180,180)
+function angleFromTo(from, to) {
+  return Math.atan2(to[1] - from[1], to[0] - from[0]) * 180 / Math.PI;
+}
+// aplica el snap de ángulo (múltiplos) salvo que esté bloqueado o ajustado a un punto notable
+function snapAngle(deg) {
+  const s = sketch.angleSnap;
+  if (!s) return deg;
+  return Math.round(deg / s) * s;
+}
+// punto a longitud/ángulo desde un origen
+function polarPoint(from, len, deg) {
+  const r = deg * Math.PI / 180;
+  return [from[0] + len * Math.cos(r), from[1] + len * Math.sin(r)];
+}
+
+// resuelve el extremo de la línea en curso desde el cursor: respeta snap a
+// punto notable; si no, aplica snap/lock de ángulo. Devuelve {end, len, ang, onPoint}
+function resolveLineEnd(raw) {
+  const from = sketch.chainLast;
+  const sn = snap2D(raw);
+  if (sn.snapped) {
+    return { end: sn.uv, len: Math.hypot(sn.uv[0] - from[0], sn.uv[1] - from[1]), ang: angleFromTo(from, sn.uv), onPoint: true };
+  }
+  const rawLen = Math.hypot(raw[0] - from[0], raw[1] - from[1]);
+  const ang = sketch.angLock != null ? sketch.angLock : snapAngle(angleFromTo(from, raw));
+  return { end: polarPoint(from, rawLen, ang), len: rawLen, ang, onPoint: false };
+}
+
+// modo del cuadro dinámico: círculo → pide solo Ø; línea → L + ∠ + snap
+function setDynMode(isCircle) {
+  document.getElementById('dyn_len_lbl').textContent = isCircle ? 'Ø' : 'L';
+  document.getElementById('dyn_angwrap').style.display = isCircle ? 'none' : '';
+  dynSnap.style.display = isCircle ? 'none' : '';
+  dynLen.placeholder = isCircle ? 'Ø mm' : 'mm';
+}
+
+function showDynBox(anchor2d) {
+  sketch.dynAnchor = anchor2d;
+  setDynMode(sketch.tool === 'circle');
+  dynBox.classList.add('on');
+  positionDynBox();
+}
+function hideDynBox() {
+  dynBox.classList.remove('on');
+  sketch.dynAnchor = null;
+}
+function positionDynBox() {
+  if (!sketch?.dynAnchor) return;
+  const v = to3D(sketch.dynAnchor[0], sketch.dynAnchor[1]).project(activeCamera);
+  const r = renderer.domElement.getBoundingClientRect();
+  dynBox.style.left = `${(v.x * 0.5 + 0.5) * r.width}px`;
+  dynBox.style.top = `${(-v.y * 0.5 + 0.5) * r.height}px`;
+}
+// refresca los campos con valores en vivo (sin pisar lo que el usuario teclea)
+function updateDynFields(len, ang) {
+  if (document.activeElement !== dynLen) dynLen.value = len != null ? +len.toFixed(2) : '';
+  if (document.activeElement !== dynAng && sketch.angLock == null) dynAng.value = ang != null ? +ang.toFixed(1) : '';
+}
+
+dynSnap.onclick = () => {
+  const steps = [0, 5, 15, 45];
+  const i = steps.indexOf(sketch.angleSnap);
+  sketch.angleSnap = steps[(i + 1) % steps.length];
+  dynSnap.textContent = sketch.angleSnap ? `⊾ ${sketch.angleSnap}°` : '⊾ off';
+};
+dynLock.onclick = () => {
+  if (sketch.angLock != null) { sketch.angLock = null; dynLock.textContent = '🔓'; dynLock.classList.remove('on'); }
+  else { sketch.angLock = +dynAng.value || 0; dynLock.textContent = '🔒'; dynLock.classList.add('on'); }
+};
+// Enter en longitud/ángulo confirma el segmento (o crea el círculo)
+function dynCommit() {
+  if (sketch.tool === 'circle' && sketch.temp) {
+    const dia = +dynLen.value;
+    if (!(dia > 0)) { setStatus('Escribe un diámetro mayor que 0.'); return; }
+    sketch.entities.push(SK.makeCircle(sketch.temp, dia / 2));
+    sketch.temp = null;
+    hideDynBox();
+    setStatus(`Círculo Ø${dia} mm.`);
+    redrawSketch();
+    return;
+  }
+  if (sketch.tool === 'line' && sketch.chainLast) {
+    const len = +dynLen.value;
+    if (!(len > 0)) { setStatus('Escribe una longitud mayor que 0.'); return; }
+    const ang = sketch.angLock != null ? sketch.angLock : (dynAng.value !== '' ? +dynAng.value : snapAngle(angleFromTo(sketch.chainLast, lastPreviewRaw || sketch.chainLast)));
+    const end = polarPoint(sketch.chainLast, len, ang);
+    sketch.entities.push(SK.makeLine(sketch.chainLast, end));
+    sketch.chainLast = end;
+    sketch.angLock = null; dynLock.textContent = '🔓'; dynLock.classList.remove('on');
+    dynLen.value = ''; dynAng.value = '';
+    showDynBox(end);
+    setStatus(`Segmento ${len} mm a ${ang.toFixed(1)}°. Sigue o Esc para terminar.`);
+    redrawSketch();
+    dynLen.focus();
+  }
+}
+for (const el of [dynLen, dynAng]) {
+  el.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Enter') { ev.preventDefault(); ev.stopPropagation(); dynCommit(); }
+    else if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); dynLen.blur(); cancelCurrentDraw(); }
+  });
+  // al empezar a teclear la longitud, congela el ángulo en el valor en vivo
+  el.addEventListener('focus', () => {
+    if (el === dynLen && sketch?.tool === 'line' && sketch.angLock == null && dynAng.value !== '') {
+      sketch.angLock = +dynAng.value; dynLock.textContent = '🔒'; dynLock.classList.add('on');
+    }
+  });
+}
+let lastPreviewRaw = null;
+function cancelCurrentDraw() {
+  sketch.chainStart = sketch.chainLast = null;
+  sketch.temp = null;
+  hideDynBox();
+  clearGroup(sketch.preview);
+  redrawSketch();
+  setStatus('Trazo cancelado. Elige una herramienta o toca para empezar.');
+}
+
 function clickLine(raw) {
+  const res = sketch.chainLast ? resolveLineEnd(raw) : null;
   const { uv } = snap2D(raw);
   if (!sketch.chainLast) {
     sketch.chainStart = uv;
     sketch.chainLast = uv;
-    setStatus(`Inicio en (${uv[0].toFixed(1)}, ${uv[1].toFixed(1)}). Toca el siguiente punto; el 1.º cierra.`);
+    showDynBox(uv);
+    setStatus(`Inicio en (${uv[0].toFixed(1)}, ${uv[1].toFixed(1)}). Mueve para la dirección y escribe la longitud, o toca el siguiente punto (el 1.º cierra).`);
     redrawSketch();
+    dynLen.focus();
     return;
   }
-  const closing = sketch.entities.length && Math.hypot(uv[0] - sketch.chainStart[0], uv[1] - sketch.chainStart[1]) < 16 * worldPerPixel();
-  const end = closing ? sketch.chainStart : uv;
-  if (Math.hypot(end[0] - sketch.chainLast[0], end[1] - sketch.chainLast[1]) > 1e-3) {
-    sketch.entities.push(SK.makeLine(sketch.chainLast, end));
+  const end = res.end;
+  const closing = sketch.entities.length && Math.hypot(end[0] - sketch.chainStart[0], end[1] - sketch.chainStart[1]) < 16 * worldPerPixel();
+  const tgt = closing ? sketch.chainStart : end;
+  if (Math.hypot(tgt[0] - sketch.chainLast[0], tgt[1] - sketch.chainLast[1]) > 1e-3) {
+    sketch.entities.push(SK.makeLine(sketch.chainLast, tgt));
   }
   if (closing) {
     sketch.chainStart = sketch.chainLast = null;
+    hideDynBox();
     setStatus('Contorno cerrado. ✔ para extruir o sigue dibujando.');
   } else {
-    sketch.chainLast = end;
-    setStatus(`Punto (${end[0].toFixed(1)}, ${end[1].toFixed(1)}) mm`);
+    sketch.chainLast = tgt;
+    sketch.angLock = null; dynLock.textContent = '🔓'; dynLock.classList.remove('on');
+    dynLen.value = ''; dynAng.value = '';
+    showDynBox(tgt);
+    setStatus(`Punto (${tgt[0].toFixed(1)}, ${tgt[1].toFixed(1)}) mm`);
   }
   redrawSketch();
 }
@@ -1093,9 +1666,18 @@ function clickRect(raw) {
 
 function clickCircle(raw) {
   const { uv } = snap2D(raw);
-  if (!sketch.temp) { sketch.temp = uv; setStatus('Toca un punto del radio.'); redrawSketch(); return; }
+  if (!sketch.temp) {
+    sketch.temp = uv;
+    showDynBox(uv);
+    dynLen.value = '';
+    setStatus('Centro fijado. Escribe el diámetro y Enter, o toca un punto del contorno.');
+    redrawSketch();
+    dynLen.focus();
+    return;
+  }
   const [cx, cy] = sketch.temp;
   sketch.temp = null;
+  hideDynBox();
   const r = Math.hypot(uv[0] - cx, uv[1] - cy);
   if (r < 0.5) { setStatus('Radio demasiado pequeño.'); return; }
   sketch.entities.push(SK.makeCircle([cx, cy], r));
@@ -1269,6 +1851,235 @@ function endEntDrag() {
   setStatus('Entidad movida (las cotas 🔒 se re-aplicaron; las libres se actualizan solas).');
 }
 
+// --- ⤓ Proyectar geometría (como Inventor): herramienta selectiva ---
+// Toca una CARA → proyecta todo su contorno (exterior e interior);
+// toca una ARISTA o CÍRCULO → proyecta solo esa; toca algo ya
+// proyectado → lo desproyecta. Lo proyectado son entidades reales
+// (verdes) que se cotan, recortan y copian como cualquier otra.
+
+function projKeyOf(p) {
+  if (p.type === 'line') return [p.a, p.b].map(pt => `${Math.round(pt[0] * 10)},${Math.round(pt[1] * 10)}`).sort().join('|');
+  return `c${Math.round(p.c[0] * 10)},${Math.round(p.c[1] * 10)},${Math.round(p.r * 10)}`;
+}
+
+function addProjEntity(p) {
+  const key = projKeyOf(p);
+  if (sketch.entities.some(e => e.proj && projKeyOf(e) === key)) return 0; // ya proyectada
+  const e = p.type === 'line' ? SK.makeLine([...p.a], [...p.b]) : SK.makeCircle([...p.c], p.r);
+  e.proj = true;
+  sketch.entities.push(e);
+  return 1;
+}
+
+// contorno completo (exterior + interiores) de la cara tocada: las
+// primitivas analíticas de la pieza que están SOBRE el plano de esa cara
+// distancia de un punto 2D a la recta AB
+function perpDist2D(p, a, b) {
+  const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy);
+  if (L < 1e-9) return Math.hypot(p[0] - a[0], p[1] - a[1]);
+  return Math.abs((p[0] - a[0]) * dy - (p[1] - a[1]) * dx) / L;
+}
+// Douglas–Peucker en una polilínea abierta (tolerancia en mm)
+function dpOpen(pts, eps) {
+  if (pts.length < 3) return pts;
+  let idx = 0, dmax = 0;
+  const A = pts[0], B = pts[pts.length - 1];
+  for (let i = 1; i < pts.length - 1; i++) { const d = perpDist2D(pts[i], A, B); if (d > dmax) { dmax = d; idx = i; } }
+  if (dmax > eps) return dpOpen(pts.slice(0, idx + 1), eps).slice(0, -1).concat(dpOpen(pts.slice(idx), eps));
+  return [A, B];
+}
+// simplifica un anillo 2D cerrado (robusto al ruido de cuantización meshopt):
+// lo parte por el punto más lejano y aplica Douglas–Peucker a cada mitad
+function simplifyRing2D(pts, eps = 0.4) {
+  if (pts.length < 4) return pts;
+  const p0 = pts[0]; let far = 0, fd = -1;
+  for (let i = 1; i < pts.length; i++) { const d = Math.hypot(pts[i][0] - p0[0], pts[i][1] - p0[1]); if (d > fd) { fd = d; far = i; } }
+  const a = dpOpen(pts.slice(0, far + 1), eps);
+  const b = dpOpen(pts.slice(far).concat([pts[0]]), eps);
+  return a.slice(0, -1).concat(b.slice(0, -1)); // une las dos mitades sin duplicar juntas
+}
+
+// Entidades 2D del contorno de una cara plana tomadas de la MALLA (pieza GLB sin
+// primitivas analíticas). Las aristas de borde (de un solo triángulo del grupo
+// coplanar) se encadenan en bucles; cada bucle se proyecta al plano del boceto y
+// se clasifica: bucle redondo → CÍRCULO; bucle recto → líneas de sus esquinas.
+function meshFaceEntities(geom, tris, mw) {
+  const pos = geom.attributes.position;
+  const key = (i) => `${Math.round(pos.getX(i) * 1e3)}_${Math.round(pos.getY(i) * 1e3)}_${Math.round(pos.getZ(i) * 1e3)}`;
+  const s2 = new Map(); // clave → punto 2D en el plano del boceto
+  const ecount = new Map(), einfo = new Map();
+  for (const t of tris) {
+    const ks = [key(t * 3), key(t * 3 + 1), key(t * 3 + 2)];
+    for (let k = 0; k < 3; k++) {
+      const i = t * 3 + k;
+      if (!s2.has(ks[k])) s2.set(ks[k], w2s(new THREE.Vector3(pos.getX(i), pos.getY(i), pos.getZ(i)).applyMatrix4(mw)));
+    }
+    for (let k = 0; k < 3; k++) {
+      const a = ks[k], b = ks[(k + 1) % 3];
+      const ek = a < b ? `${a}|${b}` : `${b}|${a}`;
+      ecount.set(ek, (ecount.get(ek) || 0) + 1);
+      if (!einfo.has(ek)) einfo.set(ek, [a, b]);
+    }
+  }
+  const adj = new Map();
+  for (const [ek, cnt] of ecount) {
+    if (cnt !== 1) continue; // solo aristas de borde
+    const [a, b] = einfo.get(ek);
+    (adj.get(a) || adj.set(a, []).get(a)).push(b);
+    (adj.get(b) || adj.set(b, []).get(b)).push(a);
+  }
+  const visited = new Set(), ents = [];
+  for (const startK of adj.keys()) {
+    if (visited.has(startK)) continue;
+    const loop = []; let prev = null, cur = startK, guard = 0;
+    do {
+      loop.push(cur); visited.add(cur);
+      const nbrs = adj.get(cur) || [];
+      const next = nbrs[0] === prev ? nbrs[1] : nbrs[0];
+      if (next === undefined) break;
+      prev = cur; cur = next;
+    } while (cur !== startK && ++guard < 100000);
+    if (loop.length < 3) continue;
+    const pts = loop.map(k => s2.get(k));
+    // ¿bucle redondo? radios ~iguales respecto al centroide → CÍRCULO
+    let cx = 0, cy = 0; for (const p of pts) { cx += p[0]; cy += p[1]; }
+    cx /= pts.length; cy /= pts.length;
+    let rmin = Infinity, rmax = 0, rsum = 0;
+    for (const p of pts) { const r = Math.hypot(p[0] - cx, p[1] - cy); rmin = Math.min(rmin, r); rmax = Math.max(rmax, r); rsum += r; }
+    const rmean = rsum / pts.length;
+    if (rmean > 0.5 && pts.length >= 8 && (rmax - rmin) < 0.12 * rmean) {
+      ents.push({ type: 'circle', c: [cx, cy], r: rmean });
+      continue;
+    }
+    const ring = simplifyRing2D(pts);
+    const use = ring.length >= 2 ? ring : pts;
+    for (let i = 0; i < use.length; i++) {
+      const a = use[i], b = use[(i + 1) % use.length];
+      if (Math.hypot(b[0] - a[0], b[1] - a[1]) > 0.1) ents.push({ type: 'line', a, b });
+    }
+  }
+  return ents;
+}
+
+function projectFaceContour(hit) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const face = faceAtHit(hit);
+  const mw = hit.object.matrixWorld;
+  const pw = face.centroid.clone().applyMatrix4(mw);
+  const nw = face.normal.clone().transformDirection(mw);
+  const m = partMatrix(part);
+  const q = new THREE.Quaternion(...part.quat);
+  const prims = referencePrimitives(part);
+  const onFace = (w) => Math.abs(w.clone().sub(pw).dot(nw)) < 0.05;
+  let added = 0;
+  for (const ln of prims.lines) {
+    const a = ln.a.clone().applyMatrix4(m), b = ln.b.clone().applyMatrix4(m);
+    if (!onFace(a) || !onFace(b)) continue;
+    const a2 = w2s(a), b2 = w2s(b);
+    if (Math.hypot(b2[0] - a2[0], b2[1] - a2[1]) < 0.05) continue; // arista normal al plano del boceto
+    added += addProjEntity({ type: 'line', a: a2, b: b2 });
+  }
+  for (const ci of prims.circles) {
+    const c = ci.c.clone().applyMatrix4(m);
+    const dirW = ci.dir.clone().applyQuaternion(q).normalize();
+    if (!onFace(c) || Math.abs(dirW.dot(nw)) < 0.999) continue;
+    if (Math.abs(nw.dot(sketch.nW)) < 0.999) continue; // cara inclinada → el círculo sería elipse
+    added += addProjEntity({ type: 'circle', c: w2s(c), r: ci.r });
+  }
+  // sin primitivas analíticas (p. ej. pieza de MALLA real): tomar el contorno
+  // de la cara directamente de la malla (líneas + círculos) y proyectarlo.
+  if (added === 0) {
+    for (const ent of meshFaceEntities(hit.object.geometry, face.tris, mw)) added += addProjEntity(ent);
+  }
+  redrawSketch();
+  setStatus(added
+    ? `Contorno proyectado: ${added} línea(s) del boceto en VERDE (se extruyen, cotan y copian como cualquiera). ⤓ sobre una la quita.`
+    : 'Esa cara no aportó geometría nueva (quizá ya estaba proyectada).');
+}
+
+// Arista/círculo analítico de una pieza más cercano a un punto del mundo (3D),
+// ya proyectado a 2D del boceto. Sirve para piezas FUERA del plano del boceto
+// (otras piezas del ensamble), donde el cruce del rayo con el plano no coincide
+// con la posición 2D de la arista.
+function nearestPartPrim(part, worldPt, tol) {
+  const m = partMatrix(part);
+  const q = new THREE.Quaternion(...part.quat);
+  const prims = referencePrimitives(part);
+  const tmp = new THREE.Vector3();
+  let best = null;
+  for (const ln of prims.lines) {
+    const a = ln.a.clone().applyMatrix4(m), b = ln.b.clone().applyMatrix4(m);
+    const a2 = w2s(a), b2 = w2s(b);
+    if (Math.hypot(b2[0] - a2[0], b2[1] - a2[1]) < 0.05) continue; // arista normal al plano
+    const d = new THREE.Line3(a, b).closestPointToPoint(worldPt, true, tmp).distanceTo(worldPt);
+    if (d < tol && (!best || d < best.d)) best = { d, ent: { type: 'line', a: a2, b: b2 } };
+  }
+  for (const ci of prims.circles) {
+    const c = ci.c.clone().applyMatrix4(m);
+    const dirW = ci.dir.clone().applyQuaternion(q).normalize();
+    if (Math.abs(dirW.dot(sketch.nW)) < 0.999) continue; // círculo inclinado → elipse: no proyectable
+    const rel = worldPt.clone().sub(c);
+    const ax = rel.dot(dirW);
+    const radial = rel.addScaledVector(dirW, -ax).length() - ci.r;
+    const d = Math.hypot(ax, radial);
+    if (d < tol && (!best || d < best.d)) best = { d, ent: { type: 'circle', c: w2s(c), r: ci.r } };
+  }
+  return best ? best.ent : null;
+}
+
+function clickProject(raw, hit) {
+  // tolerancia acotada en mm: si el toque no está claramente sobre una
+  // arista/círculo, se interpreta como toque de CARA (contorno completo)
+  const tol = Math.min(16 * worldPerPixel(), 4);
+  // 1) ¿tocó una entidad ya proyectada? → desproyectar solo esa
+  let bestE = null;
+  for (const e of sketch.entities) {
+    if (!e.proj) continue;
+    const n = SK.nearestOnEntity(e, raw);
+    if (n.d < tol && (!bestE || n.d < bestE.d)) bestE = { e, d: n.d };
+  }
+  if (bestE) {
+    sketch.entities = sketch.entities.filter(x => x !== bestE.e);
+    sketch.selIds.delete(bestE.e.id);
+    pruneDims();
+    redrawSketch();
+    setStatus('Proyección desactivada: entidad quitada del boceto.');
+    return;
+  }
+  // 2) tocó una pieza (la actual u OTRA): por proximidad 3D real al punto tocado,
+  //    ¿hay una arista/círculo cerca? → proyectar solo esa; si no, todo el contorno.
+  if (hit) {
+    const part = getPart(doc, hit.object.userData.partId);
+    const tol3d = Math.max(3, 14 * worldPerPixel());
+    const prim = nearestPartPrim(part, hit.point, tol3d);
+    if (prim) {
+      const n = addProjEntity(prim);
+      redrawSketch();
+      setStatus(n
+        ? (prim.type === 'circle'
+            ? `Círculo Ø${(prim.r * 2).toFixed(1)} proyectado: ya es línea del boceto (verde).`
+            : `Arista de ${part.name} proyectada: ya es línea del boceto (verde).`)
+        : 'Esa referencia ya estaba proyectada.');
+      return;
+    }
+    projectFaceContour(hit); // sin arista cerca → contorno completo de la cara tocada
+    return;
+  }
+  // 3) sin pieza bajo el cursor: intenta con las referencias sobre el plano (raw)
+  let bestP = null;
+  for (const p of sketch.refPrims) {
+    const n = SK.nearestOnEntity(p, raw);
+    if (n.d < tol && (!bestP || n.d < bestP.d)) bestP = { p, d: n.d };
+  }
+  if (bestP) {
+    const n = addProjEntity(bestP.p);
+    redrawSketch();
+    setStatus(n ? 'Referencia proyectada: ya es línea del boceto (verde).' : 'Esa referencia ya estaba proyectada.');
+    return;
+  }
+  setStatus('Proyectar: toca una cara (todo su contorno), una arista o un círculo; tocar algo proyectado lo quita.');
+}
+
 // --- selección por ventana (AutoCAD) y copiar con punto base ---
 
 const marqueeWinMat = new THREE.MeshBasicMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.18, side: THREE.DoubleSide, depthTest: false });
@@ -1311,13 +2122,45 @@ function endMarquee() {
   clearGroup(sketch.preview);
   if (!m) return;
   const dragDist = Math.hypot(m.cur[0] - m.start[0], m.cur[1] - m.start[1]);
-  if (dragDist < 2 * worldPerPixel()) return; // fue un tap: lo maneja clickSketch
+  if (dragDist < 2 * worldPerPixel()) { // fue un tap: alternar la entidad tocada
+    const pick = pickEntityAt(m.cur, false);
+    if (pick) {
+      if (sketch.selIds.has(pick.ent.id)) sketch.selIds.delete(pick.ent.id);
+      else sketch.selIds.add(pick.ent.id);
+      redrawSketch();
+      setStatus(`${sketch.selIds.size} entidad(es) seleccionadas. ⧉ Copiar o ⇄ Espejo para duplicar.`);
+    }
+    return;
+  }
   const mode = m.cur[0] >= m.start[0] ? 'window' : 'crossing';
   for (const e of sketch.entities) {
     if (SK.entityInRect(e, m.start, m.cur, mode)) sketch.selIds.add(e.id);
   }
   redrawSketch();
   setStatus(`${sketch.selIds.size} entidad(es) seleccionadas (${mode === 'window' ? 'ventana' : 'captura'}). ⧉ Copiar para duplicar.`);
+}
+
+function startMirrorOp() {
+  if (!sketch.selIds.size) { setStatus('Primero selecciona entidades con ⬚ Selec (o toques).'); return; }
+  sketch.mirrorOp = { a: null };
+  setStatus('Espejo: toca el PRIMER punto de la línea de simetría (con snap).');
+}
+
+function clickMirror(raw) {
+  const { uv } = snap2D(raw);
+  if (!sketch.mirrorOp.a) {
+    sketch.mirrorOp.a = uv;
+    setStatus('Espejo: toca el SEGUNDO punto de la línea de simetría.');
+    return;
+  }
+  const a = sketch.mirrorOp.a;
+  sketch.mirrorOp = null;
+  if (Math.hypot(uv[0] - a[0], uv[1] - a[1]) < 0.5) { setStatus('Los dos puntos del eje coinciden.'); return; }
+  const src = sketch.entities.filter(e => sketch.selIds.has(e.id));
+  const copies = SK.mirrorEntities(src, a, uv);
+  sketch.entities.push(...copies);
+  redrawSketch();
+  setStatus(`${copies.length} entidad(es) reflejadas respecto a la línea declarada.`);
 }
 
 function startCopyOp() {
@@ -1374,6 +2217,12 @@ function endStroke() {
   if (fit.type === 'circle') {
     sketch.entities.push(SK.makeCircle(fit.c, fit.r));
     setStatus(`Interpretado: círculo Ø${(fit.r * 2).toFixed(1)} mm.`);
+  } else if (fit.type === 'rect') {
+    const [x0, y0] = fit.a, [x1, y1] = fit.b;
+    sketch.entities.push(
+      SK.makeLine([x0, y0], [x1, y0]), SK.makeLine([x1, y0], [x1, y1]),
+      SK.makeLine([x1, y1], [x0, y1]), SK.makeLine([x0, y1], [x0, y0]));
+    setStatus(`Interpretado: rectángulo ${Math.abs(x1 - x0).toFixed(1)}×${Math.abs(y1 - y0).toFixed(1)} mm.`);
   } else if (fit.type === 'line') {
     const a = snap2D(fit.a).uv, b = snap2D(fit.b).uv;
     sketch.entities.push(SK.makeLine(a, b));
@@ -1392,8 +2241,9 @@ function endStroke() {
 function redrawSketch() {
   clearGroup(sketch.draw);
   for (const e of sketch.entities) {
-    const mat = (sketch.dimPick && sketch.dimPick.ent.id === e.id) || sketch.selIds.has(e.id) ? selEntMat : drawMat;
-    const pts = SK.entityPoints(e, 64).map(p => to3D(p[0], p[1]));
+    const mat = (sketch.dimPick && sketch.dimPick.ent.id === e.id) || sketch.selIds.has(e.id) ? selEntMat : (e.proj ? projMat : drawMat);
+    // las proyectadas se dibujan un pelo más arriba para que el verde tape la referencia amarilla
+    const pts = SK.entityPoints(e, 64).map(p => to3D(p[0], p[1], e.proj ? 0.16 : 0.1));
     sketch.draw.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat));
   }
   if (sketch.dimPick?.isRef) {
@@ -1415,9 +2265,25 @@ function redrawSketch() {
 }
 
 function updateSketchPreview(ev) {
-  if (ev.pointerType !== 'mouse' || sketch.stroke) return;
+  if ((ev.pointerType !== 'mouse' && ev.pointerType !== 'pen') || sketch.stroke) return;
   const raw = eventTo2D(ev);
   if (!raw) return;
+  lastPreviewRaw = raw;
+  const t = sketch.tool;
+  // línea con extremo resuelto por snap de ángulo/lock (entrada dinámica)
+  if (t === 'line' && sketch.chainLast) {
+    const res = resolveLineEnd(raw);
+    clearGroup(sketch.preview);
+    const cur = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.9, 4 * worldPerPixel()), 10, 8), res.onPoint ? snapMat : ptMat);
+    cur.position.copy(to3D(res.end[0], res.end[1]));
+    sketch.preview.add(cur);
+    sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
+      [to3D(sketch.chainLast[0], sketch.chainLast[1]), to3D(res.end[0], res.end[1])]), previewMat));
+    updateDynFields(res.len, res.ang);
+    positionDynBox();
+    setStatus(`L ${res.len.toFixed(1)} mm · ∠ ${res.ang.toFixed(1)}°${sketch.angLock != null ? ' 🔒' : ''}`);
+    return;
+  }
   const { uv, snapped, kind } = snap2D(raw);
   clearGroup(sketch.preview);
   const cursor = new THREE.Mesh(
@@ -1426,11 +2292,7 @@ function updateSketchPreview(ev) {
   );
   cursor.position.copy(to3D(uv[0], uv[1]));
   sketch.preview.add(cursor);
-  const t = sketch.tool;
-  if (t === 'line' && sketch.chainLast) {
-    sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
-      [to3D(sketch.chainLast[0], sketch.chainLast[1]), to3D(uv[0], uv[1])]), previewMat));
-  } else if (t === 'rect' && sketch.temp) {
+  if (t === 'rect' && sketch.temp) {
     const [x1, y1] = sketch.temp, [x2, y2] = uv;
     sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
       [to3D(x1, y1), to3D(x2, y1), to3D(x2, y2), to3D(x1, y2), to3D(x1, y1)]), previewMat));
@@ -1443,6 +2305,8 @@ function updateSketchPreview(ev) {
       pts.push(to3D(cx + r * Math.cos(a), cy + r * Math.sin(a)));
     }
     sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), previewMat));
+    updateDynFields(2 * r, null);
+    positionDynBox();
   } else if (t === 'arc' && sketch.temp?.start) {
     const arc = SK.makeArcCSE(sketch.temp.c, sketch.temp.start, uv);
     const pts = SK.entityPoints(arc, 48).map(p => to3D(p[0], p[1]));
@@ -1514,17 +2378,44 @@ function finishSketch() {
     return;
   }
   if (!info.regions.length) { setStatus('Todos los contornos están excluidos.'); return; }
-  const loops = { outer: true }; // hay regiones válidas
   const part = sketch.part;
+
+  // edición de una función existente: guardar cambios en la misma función
+  if (sketch.editFeature) {
+    const f = sketch.editFeature;
+    showForm(`Guardar boceto de "${f.name}"`, [
+      ...(f.shape === 'sketch' ? [{ key: 'h', label: 'Altura (mm)', value: f.params.h, step: 0.5 }] : []),
+      { key: 'op', label: 'Operación', type: 'select', value: f.op, options: [['union', 'Unión'], ['cut', 'Corte']] },
+    ], (v) => {
+      pushUndo();
+      f.params.entities = sketch.entities;
+      f.params.dims = sketch.dims;
+      f.params.excluded = [...sketch.excluded];
+      if (f.shape === 'sketch') f.params.h = v.h;
+      f.op = v.op;
+      const p = sketch.part;
+      cancelSketch(true);
+      faceCache.clear();
+      rebuildPart(p);
+      commit(`Boceto de "${f.name}" actualizado.`);
+    });
+    return;
+  }
   const originL = sketch.originL, nL = sketch.nL, uL = sketch.uL;
   const entities = sketch.entities, dims = sketch.dims;
   const excluded = [...sketch.excluded];
   const nReg = info.regions.length;
   const nHoles = info.regions.reduce((s, r) => s + r.holes.length, 0);
-  showForm(`Extruir boceto (${nReg} región(es)${nHoles ? `, ${nHoles} agujero(s)` : ''})`, [
-    { key: 'h', label: 'Altura (mm)', value: 10, step: 0.5 },
-    { key: 'op', label: 'Operación', type: 'select', value: 'union', options: [['union', 'Unión (agrega hacia afuera)'], ['cut', 'Corte (quita hacia adentro)']] },
+  showForm(`Crear sólido (${nReg} región(es)${nHoles ? `, ${nHoles} agujero(s)` : ''})`, [
+    { key: 'tipo', label: 'Tipo', type: 'select', value: 'ext', options: [['ext', 'Extrusión'], ['rev', 'Revolución 360°']] },
+    { key: 'h', label: 'Altura (mm, extrusión)', value: 10, step: 0.5 },
+    { key: 'op', label: 'Operación', type: 'select', value: 'union', options: [['union', 'Unión (agrega material)'], ['cut', 'Corte (quita material)']] },
   ], (v) => {
+    if (v.tipo === 'rev') {
+      sketch.revolveWait = { op: v.op };
+      setStatus('Revolución: toca la LÍNEA del boceto que será el eje de giro.');
+      return;
+    }
     if (!(v.h > 0)) { setStatus('La altura debe ser mayor que 0.'); return; }
     pushUndo();
     const f = makeSketchEntitiesFeature(entities, dims, v.h, v.op, originL, nL, uL);
@@ -1535,6 +2426,27 @@ function finishSketch() {
     rebuildPart(part);
     commit(`Boceto extruido en ${part.name}.`);
   });
+}
+
+function clickRevolveAxis(raw) {
+  const pick = pickEntityAt(raw, false);
+  if (!pick || pick.ent.type !== 'line') { setStatus('Toca una LÍNEA del boceto para usarla como eje.'); return; }
+  const op = sketch.revolveWait.op;
+  sketch.revolveWait = null;
+  pushUndo();
+  const f = makeRevolveFeature(sketch.entities, sketch.dims, { a: [...pick.ent.a], b: [...pick.ent.b] }, op, sketch.originL, sketch.nL, sketch.uL);
+  f.params.excluded = [...sketch.excluded];
+  const part = sketch.part;
+  part.features.push(f);
+  cancelSketch(true);
+  faceCache.clear();
+  rebuildPart(part);
+  const rec = meshes.get(part.id);
+  if (rec && (!rec.mesh.geometry.attributes.position || rec.mesh.geometry.attributes.position.count === 0)) {
+    setStatus('La revolución no generó sólido (¿el contorno cruza el eje?). Deshaz con Ctrl+Z.');
+  } else {
+    commit(`Revolución creada en ${part.name}.`);
+  }
 }
 
 function sketchUndo() {
@@ -1553,6 +2465,7 @@ function sketchUndo() {
 function cancelSketch(silent) {
   if (!sketch) return;
   sketch.profileMode = false;
+  hideDynBox();
   overlay.remove(sketch.group);
   sketch.group.traverse(o => o.geometry?.dispose?.());
   for (const el of sketch.dimEls.values()) el.remove();
@@ -1561,6 +2474,9 @@ function cancelSketch(silent) {
   activeCamera = camera;
   sketchControls.enabled = false;
   sketchControls.enableRotate = false;
+  SECTION.length = 0; // el corte del boceto no persiste fuera
+  document.getElementById('skSlice')?.classList.remove('on');
+  document.getElementById('btnSection')?.classList.remove('on');
   controls.enabled = true;
   if (!silent) setStatus('Boceto cancelado.');
   if (mode === 'sketch') { mode = 'select'; $('btnSketch').classList.remove('on'); setHint(''); }
@@ -1571,6 +2487,18 @@ sketchbar.addEventListener('click', (e) => {
   const btn = e.target.closest('button');
   if (!btn || !sketch) return;
   if (btn.id === 'skCopy') { startCopyOp(); return; }
+  if (btn.id === 'skMirror') { startMirrorOp(); return; }
+  if (btn.id === 'skSlice') {
+    sketch.slice = !sketch.slice;
+    btn.classList.toggle('on', sketch.slice);
+    SECTION.length = 0;
+    if (sketch.slice) {
+      // oculta el material por delante del plano del boceto (slice graphics)
+      SECTION.push(new THREE.Plane(sketch.nW.clone().negate(), sketch.nW.dot(sketch.originW)));
+    }
+    setStatus(sketch.slice ? '▤ Corte en el plano del boceto: se ve la sección del modelo.' : 'Corte desactivado.');
+    return;
+  }
   if (btn.id === 'skOrbit') {
     sketch.orbit = !sketch.orbit;
     btn.classList.toggle('on', sketch.orbit);
@@ -1593,6 +2521,12 @@ sketchbar.addEventListener('click', (e) => {
     sketch.chainStart = sketch.chainLast = null;
     sketch.dimPick = null;
     sketch.copyOp = null;
+    sketch.mirrorOp = null;
+    sketch.revolveWait = null;
+    sketch.angLock = null;
+    dynLock.textContent = '🔓'; dynLock.classList.remove('on');
+    dynLen.value = ''; dynAng.value = '';
+    hideDynBox();
     if (!keepSel) { sketch.selIds.clear(); }
     sketch.profileMode = false;
     clearGroup(sketch.fills);
@@ -1614,6 +2548,7 @@ sketchbar.addEventListener('click', (e) => {
       polyg: 'Polígono regular: toca el centro y un vértice; luego eliges los lados.',
       offset: 'Equidistancia: toca una entidad o referencia del lado hacia donde quieres la copia.',
       fillet: 'Empalme: toca dos líneas que se cruzan y define el radio.',
+      project: 'Proyectar: toca una CARA (todo su contorno interior+exterior), una ARISTA o un CÍRCULO. Tocar algo proyectado lo quita.',
     }[sketch.tool]);
     return;
   }
@@ -1643,6 +2578,44 @@ function clickHole(hit) {
     faceCache.clear();
     rebuildPart(part);
     commit(`Agujero Ø${v.dia} agregado a ${part.name}.`);
+  });
+}
+
+// ---------- Empalme (fillet) / chaflán (chamfer) sobre aristas ----------
+// Reutiliza el picker de referencias (aristas/ejes) de la medición; guarda la
+// arista en coordenadas locales de la pieza y agrega la función correspondiente.
+function clickBlend(hit, kind) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const ref = pickMeasureRef(hit);
+  let a, b;
+  if (ref.kind === 'arista') { a = ref.a; b = ref.b; }
+  else if (ref.kind === 'eje') { setStatus('Toca una ARISTA (borde recto), no un eje/orificio.'); return; }
+  else { setStatus(`${kind === 'fillet' ? 'Empalme' : 'Chaflán'}: toca una arista recta del sólido.`); return; }
+  const mesh = meshes.get(part.id).mesh;
+  const la = mesh.worldToLocal(a.clone()).toArray();
+  const lb = mesh.worldToLocal(b.clone()).toArray();
+  const len = a.distanceTo(b);
+  const label = kind === 'fillet' ? 'Empalme (redondeo)' : 'Chaflán';
+  const fld = kind === 'fillet'
+    ? { key: 'r', label: 'Radio (mm)', value: Math.max(1, Math.round(len / 10)), step: 0.5 }
+    : { key: 'd', label: 'Distancia (mm)', value: Math.max(1, Math.round(len / 10)), step: 0.5 };
+  showForm(`${label} en ${part.name} — arista ${len.toFixed(1)} mm`, [fld], (v) => {
+    const size = kind === 'fillet' ? v.r : v.d;
+    if (!(size > 0)) { setStatus('El valor debe ser mayor que 0.'); return; }
+    pushUndo();
+    const edges = [{ a: la, b: lb }];
+    part.features.push(kind === 'fillet' ? makeFilletFeature(edges, size) : makeChamferFeature(edges, size));
+    faceCache.clear();
+    rebuildPart(part);
+    const rec = meshes.get(part.id);
+    if (!rec || !rec.mesh.geometry.attributes.position?.count) {
+      // el modificador no encontró las dos caras (o degeneró): revierte
+      part.features.pop();
+      rebuildPart(part);
+      setStatus('No se pudo aplicar en esa arista (¿aristas paralelas o no rectas?). Prueba otra.');
+      return;
+    }
+    commit(`${label} ${kind === 'fillet' ? 'R' : ''}${size} aplicado a ${part.name}.`);
   });
 }
 
@@ -1695,6 +2668,68 @@ function clickConcentric(hit) {
   commit('Restricción concéntrica creada.');
 }
 
+// ---------- Edición directa de sólidos ----------
+// Toca una cara y edita el parámetro de la función que la genera,
+// sin pasar por el árbol (símil "Edit face" de Inventor).
+
+function clickDirect(hit) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const face = faceAtHit(hit);
+  const lp = hit.object.worldToLocal(hit.point.clone());
+  const info = identifyFace(part, lp, face.normal);
+  if (!info) {
+    setStatus('No se reconoce esa cara para edición directa. Edita la función en el navegador de modelo.');
+    return;
+  }
+  const f = info.feature;
+  const done = (msg) => {
+    faceCache.clear();
+    clearHover();
+    rebuildPart(part);
+    solveAndSync();
+    commit(msg);
+  };
+  if (info.kind === 'hole-wall' || info.kind === 'cyl-wall') {
+    showForm(`${f.name} · pared cilíndrica`, [
+      { key: 'dia', label: 'Nuevo diámetro (mm)', value: f.params.dia, step: 0.5 },
+    ], (v) => {
+      if (!(v.dia > 0)) return;
+      pushUndo();
+      f.params.dia = v.dia;
+      if (f.shape === 'hole') f.name = f.name.replace(/Ø[\d.]+/, `Ø${v.dia}`);
+      done(`${f.name}: Ø${v.dia} mm.`);
+    });
+  } else if (info.kind === 'cyl-cap' || info.kind === 'sketch-cap') {
+    const lbl = f.op === 'cut' ? 'Nueva profundidad (mm)' : 'Nueva altura (mm)';
+    showForm(`${f.name} · cara superior`, [
+      { key: 'h', label: lbl, value: f.params.h, step: 0.5 },
+    ], (v) => {
+      if (!(v.h > 0)) return;
+      pushUndo();
+      f.params.h = v.h;
+      done(`${f.name}: ${f.op === 'cut' ? 'profundidad' : 'altura'} ${v.h} mm.`);
+    });
+  } else if (info.kind === 'box-face') {
+    const dim = ['w', 'd', 'h'][info.axis];
+    const labels = { w: 'Ancho X', d: 'Fondo Y', h: 'Alto Z' };
+    showForm(`${f.name} · cara ${labels[dim].split(' ')[1]}${info.sign > 0 ? '+' : '−'}`, [
+      { key: 'v', label: `${labels[dim]} (mm) — la cara opuesta queda fija`, value: f.params[dim], step: 0.5 },
+    ], (vals) => {
+      if (!(vals.v > 0)) return;
+      pushUndo();
+      const old = f.params[dim];
+      if (info.axis === 2) {
+        if (info.sign < 0) f.at[2] += old - vals.v; // se movió la base: la tapa queda fija
+        f.params.h = vals.v;
+      } else {
+        f.at[info.axis] += info.sign * (vals.v - old) / 2; // crece hacia la cara tocada
+        f.params[dim] = vals.v;
+      }
+      done(`${f.name}: ${labels[dim]} ${vals.v} mm.`);
+    });
+  }
+}
+
 // ---------- Mover (arrastre) ----------
 
 let magnetOn = true; // 🧲 imán de ensamble (activable/desactivable)
@@ -1728,9 +2763,14 @@ function startMoveDrag(ev) {
   if (!hit) return;
   const part = getPart(doc, hit.object.userData.partId);
   if (part.fixed) { setStatus(`${part.name} está fija (📌): desmárcala para moverla.`); return; }
-  const planeNormal = ev.shiftKey ? verticalPlaneNormal() : new THREE.Vector3(0, 0, 1);
+  const free = mainView !== 'persp'; // vista orto bloqueada: mover en el plano de la vista
+  const planeNormal = free
+    ? activeCamera.getWorldDirection(new THREE.Vector3())
+    : (ev.shiftKey ? verticalPlaneNormal() : new THREE.Vector3(0, 0, 1));
   dragging = {
     part,
+    free,
+    magAxes: free ? ({ top: ['x', 'y'], front: ['x', 'z'], side: ['y', 'z'], iso: ['x', 'y', 'z'] }[mainView]) : null,
     pointerId: ev.pointerId,
     vertical: ev.shiftKey,
     plane: new THREE.Plane().setFromNormalAndCoplanarPoint(planeNormal, hit.point),
@@ -1767,12 +2807,14 @@ function switchDragVertical() {
 function updateMoveDrag(ev) {
   const r = renderer.domElement.getBoundingClientRect();
   pointer.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
-  raycaster.setFromCamera(pointer, camera);
+  raycaster.setFromCamera(pointer, activeCamera);
   const p = new THREE.Vector3();
   if (!raycaster.ray.intersectPlane(dragging.plane, p)) return;
   dragging.lastPoint.copy(p);
   const delta = p.sub(dragging.start);
-  if (dragging.vertical) { delta.x = 0; delta.y = 0; } else { delta.z = 0; }
+  if (dragging.free) { /* vista orto: movimiento libre en el plano de la vista */ }
+  else if (dragging.vertical) { delta.x = 0; delta.y = 0; }
+  else { delta.z = 0; }
   dragging.part.pos = [
     dragging.origPos[0] + delta.x,
     dragging.origPos[1] + delta.y,
@@ -1786,7 +2828,7 @@ function updateMoveDrag(ev) {
       max: at(dragging.mag.relMax),
       axes: dragging.mag.relAxes.map(at),
     };
-    const corr = magnetCorrections(my, dragging.mag.others, dragging.vertical ? ['z'] : ['x', 'y']);
+    const corr = magnetCorrections(my, dragging.mag.others, dragging.magAxes || (dragging.vertical ? ['z'] : ['x', 'y']));
     const labels = [];
     const IDX = { x: 0, y: 1, z: 2 };
     for (const [a, c] of Object.entries(corr)) {
@@ -1807,57 +2849,194 @@ function endMoveDrag() {
   commit(`${moved.name} movida.`);
 }
 
-// ---------- Medición ----------
+// ---------- Medición con referencias ----------
+// Cada clic elige una referencia: punto (vértice/extremo), arista, cara plana,
+// circunferencia (borde de agujero/cilindro) o eje (pared cilíndrica).
+// Con dos referencias se calcula distancia perpendicular, entre ejes o ángulo.
 
-let measurePts = [];
+let measureRefs = [];
 let measureObjs = [];
 const measureLabel = $('measureLabel');
 let measureAnchor = null;
+const measureMat = new THREE.LineBasicMaterial({ color: 0x34a853 });
+const measureMat2 = new THREE.LineBasicMaterial({ color: 0xf29900 });
+
+// clasifica el clic en la referencia más específica cercana (coords de MUNDO)
+function pickMeasureRef(hit) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const mw = hit.object.matrixWorld;
+  const lp = hit.object.worldToLocal(hit.point.clone());
+  const W = (v) => v.clone().applyMatrix4(mw);
+  const WD = (v) => v.clone().transformDirection(mw); // dirección (sin traslación)
+  const prims = referencePrimitives(part);
+
+  // 1) circunferencia: cerca del borde de un círculo analítico
+  let bc = null;
+  for (const c of prims.circles) {
+    const rel = lp.clone().sub(c.c);
+    const t = rel.dot(c.dir);
+    const radial = rel.clone().addScaledVector(c.dir, -t).length();
+    const d = Math.hypot(t, radial - c.r);
+    if (d < 2.5 && (!bc || d < bc.d)) bc = { d, c };
+  }
+  if (bc) return { kind: 'circulo', part, p: W(bc.c.c), dir: WD(bc.c.dir), r: bc.c.r };
+
+  // 2) arista (o su extremo → punto)
+  let bl = null;
+  const tmp = new THREE.Vector3();
+  for (const l of prims.lines) {
+    const cp = new THREE.Line3(l.a, l.b).closestPointToPoint(lp, true, tmp).clone();
+    const d = cp.distanceTo(lp);
+    if (d < 2.5 && (!bl || d < bl.d)) bl = { d, l, cp };
+  }
+  if (bl) {
+    for (const end of [bl.l.a, bl.l.b]) {
+      if (end.distanceTo(lp) < 3) return { kind: 'punto', part, p: W(end) };
+    }
+    return { kind: 'arista', part, p: W(bl.cp), a: W(bl.l.a), b: W(bl.l.b) };
+  }
+
+  // 3) pared cilíndrica → eje
+  const face = faceAtHit(hit);
+  const axial = identifyFace(part, lp, face.normal);
+  if (axial && (axial.kind === 'hole-wall' || axial.kind === 'cyl-wall')) {
+    const f = axial.feature;
+    return {
+      kind: 'eje', part, name: f.name, dia: f.params.dia,
+      p: W(new THREE.Vector3(...f.at)),
+      dir: WD(new THREE.Vector3(...f.dir).normalize()),
+    };
+  }
+
+  // 4) cara plana / punto tocado
+  if (face.tris.length) {
+    return { kind: 'cara', part, p: W(face.centroid), n: WD(face.normal) };
+  }
+  return { kind: 'punto', part, p: hit.point.clone() };
+}
+
+function measureMarker(p) {
+  const m = new THREE.Mesh(new THREE.SphereGeometry(1.4, 16, 12), new THREE.MeshBasicMaterial({ color: 0x34a853 }));
+  m.position.copy(p);
+  overlay.add(m);
+  measureObjs.push(m);
+}
+function measureLine(a, b, mat = measureMat) {
+  const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), mat);
+  overlay.add(l);
+  measureObjs.push(l);
+}
+function drawMeasureRef(r) {
+  measureMarker(r.p);
+  if (r.kind === 'arista') measureLine(r.a, r.b, measureMat2);
+  if (r.kind === 'eje') {
+    const L = Math.max(20, r.dia * 2);
+    measureLine(r.p.clone().addScaledVector(r.dir, -L), r.p.clone().addScaledVector(r.dir, L), measureMat2);
+  }
+  if (r.kind === 'circulo') {
+    const u = Math.abs(r.dir.z) < 0.9 ? new THREE.Vector3(0, 0, 1) : new THREE.Vector3(1, 0, 0);
+    const U = new THREE.Vector3().crossVectors(r.dir, u).normalize();
+    const V2 = new THREE.Vector3().crossVectors(r.dir, U);
+    const pts = [];
+    for (let i = 0; i <= 48; i++) {
+      const a = (i / 48) * Math.PI * 2;
+      pts.push(r.p.clone().addScaledVector(U, Math.cos(a) * r.r).addScaledVector(V2, Math.sin(a) * r.r));
+    }
+    const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), measureMat2);
+    overlay.add(l);
+    measureObjs.push(l);
+  }
+}
+
+const REF_NAME = { punto: 'Punto', arista: 'Arista', cara: 'Cara', circulo: 'Circunferencia', eje: 'Eje' };
+function describeRef(r) {
+  if (r.kind === 'circulo') return `Circunferencia Ø${(r.r * 2).toFixed(2)} mm`;
+  if (r.kind === 'eje') return `Eje de ${r.name} (Ø${r.dia})`;
+  if (r.kind === 'arista') return `Arista de ${r.a.distanceTo(r.b).toFixed(2)} mm`;
+  if (r.kind === 'cara') return 'Cara plana';
+  return `Punto (${r.p.x.toFixed(1)}, ${r.p.y.toFixed(1)}, ${r.p.z.toFixed(1)})`;
+}
+
+// línea infinita equivalente de una referencia (arista, eje o eje del círculo)
+function refAxis(r) {
+  if (r.kind === 'arista') return { p: r.a, dir: r.b.clone().sub(r.a).normalize() };
+  if (r.kind === 'eje') return { p: r.p, dir: r.dir.clone() };
+  return null;
+}
+const DEG = (rad) => rad * 180 / Math.PI;
+const angBetween = (d1, d2) => DEG(Math.acos(THREE.MathUtils.clamp(Math.abs(d1.dot(d2)), 0, 1)));
+
+function measurePair(A, B) {
+  const fmt = (d) => `${d.toFixed(2)} mm`;
+  // cara-cara: paralelas → separación; si no → ángulo
+  if (A.kind === 'cara' && B.kind === 'cara') {
+    if (Math.abs(A.n.dot(B.n)) > 0.999) {
+      const d = B.p.clone().sub(A.p).dot(A.n);
+      return { text: `Caras paralelas: ${fmt(Math.abs(d))}`, a: A.p, b: A.p.clone().addScaledVector(A.n, d) };
+    }
+    return { text: `Ángulo entre caras: ${angBetween(A.n, B.n).toFixed(1)}°`, a: A.p, b: B.p };
+  }
+  // cara + otra referencia
+  const face = A.kind === 'cara' ? A : (B.kind === 'cara' ? B : null);
+  if (face) {
+    const o = face === A ? B : A;
+    const ax = refAxis(o);
+    if (ax && Math.abs(ax.dir.dot(face.n)) > 0.05) {
+      return { text: `Ángulo ${REF_NAME[o.kind].toLowerCase()}–cara: ${(90 - angBetween(ax.dir, face.n)).toFixed(1)}°`, a: face.p, b: o.p };
+    }
+    const d = o.p.clone().sub(face.p).dot(face.n);
+    return { text: `${REF_NAME[o.kind]} a cara (⊥): ${fmt(Math.abs(d))}`, a: o.p, b: o.p.clone().addScaledVector(face.n, -d) };
+  }
+  // dos con eje (arista/eje): paralelos → distancia entre ejes; si no → ángulo
+  const axA = refAxis(A), axB = refAxis(B);
+  if (axA && axB) {
+    const cross = new THREE.Vector3().crossVectors(axA.dir, axB.dir);
+    if (cross.length() < 0.02) {
+      const rel = axB.p.clone().sub(axA.p);
+      const perp = rel.clone().addScaledVector(axA.dir, -rel.dot(axA.dir));
+      return { text: `Distancia entre ${REF_NAME[A.kind].toLowerCase()}s (⊥): ${fmt(perp.length())}`, a: axB.p.clone().sub(perp), b: axB.p };
+    }
+    return { text: `Ángulo: ${angBetween(axA.dir, axB.dir).toFixed(1)}°`, a: A.p, b: B.p };
+  }
+  // eje/arista + punto o círculo: distancia radial al eje
+  const ax = axA || axB;
+  if (ax) {
+    const o = axA ? B : A;
+    const rel = o.p.clone().sub(ax.p);
+    const perp = rel.clone().addScaledVector(ax.dir, -rel.dot(ax.dir));
+    return { text: `${REF_NAME[o.kind]} a ${REF_NAME[(axA ? A : B).kind].toLowerCase()} (⊥): ${fmt(perp.length())}`, a: o.p.clone().sub(perp), b: o.p };
+  }
+  // punto/centro de círculo entre sí: distancia directa + deltas
+  const d = A.p.distanceTo(B.p);
+  const dl = B.p.clone().sub(A.p);
+  const kinds = (A.kind === 'circulo' || B.kind === 'circulo') ? 'entre centros ' : '';
+  return { text: `Distancia ${kinds}${fmt(d)}\nΔX ${dl.x.toFixed(2)}  ΔY ${dl.y.toFixed(2)}  ΔZ ${dl.z.toFixed(2)}`, a: A.p, b: B.p };
+}
 
 function clickMeasure(hit) {
   if (!hit) return;
-  // ajustar al vértice más cercano del triángulo tocado
-  const g = hit.object.geometry;
-  const pos = g.attributes.position;
-  let best = null;
-  for (let k = 0; k < 3; k++) {
-    const i = hit.faceIndex * 3 + k;
-    const v = new THREE.Vector3(pos.getX(i), pos.getY(i), pos.getZ(i)).applyMatrix4(hit.object.matrixWorld);
-    const d = v.distanceTo(hit.point);
-    if (!best || d < best.d) best = { v, d };
-  }
-  const pt = best.d < 4 ? best.v : hit.point.clone();
+  if (measureRefs.length === 0 && measureObjs.length) clearMeasure(); // nueva medición
+  const ref = pickMeasureRef(hit);
+  drawMeasureRef(ref);
+  measureRefs.push(ref);
 
-  measurePts.push(pt);
-  const marker = new THREE.Mesh(new THREE.SphereGeometry(1.4, 16, 12), new THREE.MeshBasicMaterial({ color: 0x34a853 }));
-  marker.position.copy(pt);
-  overlay.add(marker);
-  measureObjs.push(marker);
-
-  if (measurePts.length === 2) {
-    const [a, b] = measurePts;
-    const line = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints([a, b]),
-      new THREE.LineBasicMaterial({ color: 0x34a853 })
-    );
-    overlay.add(line);
-    measureObjs.push(line);
-    const d = a.distanceTo(b);
-    measureAnchor = a.clone().add(b).multiplyScalar(0.5);
-    measureLabel.textContent =
-      `${d.toFixed(2)} mm\nΔX ${(b.x - a.x).toFixed(2)}  ΔY ${(b.y - a.y).toFixed(2)}  ΔZ ${(b.z - a.z).toFixed(2)}`;
+  if (measureRefs.length === 2) {
+    const res = measurePair(measureRefs[0], measureRefs[1]);
+    measureLine(res.a, res.b);
+    measureAnchor = res.a.clone().add(res.b).multiplyScalar(0.5);
+    measureLabel.textContent = res.text;
     measureLabel.style.display = 'block';
-    setStatus(`Distancia: ${d.toFixed(2)} mm`);
-    measurePts = [];
+    setStatus(res.text.split('\n')[0]);
+    measureRefs = [];
   } else {
-    setStatus('Primer punto fijado. Clic en el segundo punto.');
+    setStatus(`${describeRef(ref)} — elige la segunda referencia.`);
   }
 }
 
 function clearMeasure() {
   for (const o of measureObjs) { overlay.remove(o); o.geometry?.dispose(); }
   measureObjs = [];
-  measurePts = [];
+  measureRefs = [];
   measureAnchor = null;
   measureLabel.style.display = 'none';
 }
@@ -1938,6 +3117,9 @@ function nextSpawnX() {
 
 // ---------- Biblioteca de componentes electrónicos ----------
 
+// grupo de un componente para el filtro de la biblioteca
+const compGroup = (c) => c.malla ? (c.malla.nodo ? 'subcomp' : 'transportador') : 'electronico';
+
 $('btnComp').onclick = async () => {
   let cat;
   try {
@@ -1946,34 +3128,56 @@ $('btnComp').onclick = async () => {
     setStatus(`Catálogo de componentes no disponible: ${err.message}`);
     return;
   }
-  let html = '<h3>Insertar componente</h3>' +
-    '<div style="max-height:50vh;overflow-y:auto;display:flex;flex-direction:column;gap:4px">';
-  cat.componentes.forEach((c, i) => {
-    const [lo, hi] = envolvente(c);
-    const dims = [0, 1, 2].map(k => (hi[k] - lo[k]).toFixed(1)).join(' × ');
-    html += `<button id="dlg_comp${i}" title="${c.descripcion}" style="text-align:left;padding:6px 8px">` +
-      `${c.nombre}<br><small style="opacity:.7">${c.categoria} · ${dims} mm</small></button>`;
-  });
-  html += '</div><p style="font-size:11px;opacity:.7;margin:8px 0 0">Dimensiones nominales ' +
-    '(capa user): verificar con calibre antes de cortar. docs/COMPONENTES.md</p>' +
-    '<div class="btnrow"><button id="dlg_cancel">Cancelar</button></div>';
-  dialog.innerHTML = html;
+  const CHIPS = [['todos', 'Todos'], ['electronico', 'Electrónicos'], ['transportador', 'Transportador'], ['subcomp', 'Subcomp.']];
+  let filtro = 'todos', q = '';
+  const matches = (c) => (filtro === 'todos' || compGroup(c) === filtro)
+    && (!q || `${c.nombre} ${c.id} ${c.familia || ''} ${c.descripcion || ''}`.toLowerCase().includes(q));
+  const insert = (c) => {
+    hideDialog();
+    pushUndo();
+    const part = componentToPart(c);
+    const [lo] = envolvente(c);
+    part.pos = [nextSpawnX() - lo[0], 0, lo[2] < 0 ? -lo[2] : 0]; // apoyado en Z=0
+    part.fixed = doc.parts.length === 0;
+    doc.parts.push(part);
+    selection = { kind: 'part', id: part.id };
+    rebuildPart(part);
+    commit(`${c.nombre} insertado.${c.notas ? ' ' + c.notas : ''}`);
+  };
+  const BADGE = { electronico: '', transportador: 'malla', subcomp: 'subcomp' };
+  function renderList() {
+    const items = cat.componentes.map((c, i) => ({ c, i })).filter(({ c }) => matches(c));
+    $('comp_list').innerHTML = items.length ? items.map(({ c, i }) => {
+      const [lo, hi] = envolvente(c);
+      const dims = [0, 1, 2].map(k => (hi[k] - lo[k]).toFixed(1)).join(' × ');
+      const badge = c.malla ? BADGE[compGroup(c)] : c.categoria;
+      return `<button class="comp-item" data-idx="${i}" title="${esc(c.descripcion || '')}">` +
+        `${esc(c.nombre)}<br><small>${esc(badge)}${badge ? ' · ' : ''}${dims} mm</small></button>`;
+    }).join('') : '<div class="meta" style="padding:12px 4px">Sin resultados.</div>';
+    $('comp_count').textContent = items.length;
+  }
+  dialog.innerHTML = '<h3>Insertar componente</h3>' +
+    '<input id="comp_q" type="search" placeholder="Buscar por nombre, familia, id…" autocomplete="off">' +
+    '<div id="comp_chips" class="chiprow">' +
+      CHIPS.map(([k, l]) => `<button class="chip${k === 'todos' ? ' on' : ''}" data-f="${k}">${l}</button>`).join('') + '</div>' +
+    '<div id="comp_list" class="complist"></div>' +
+    '<p style="font-size:11px;opacity:.7;margin:8px 0 0"><span id="comp_count"></span> ítem(s) · dimensiones nominales (capa user): verificar. docs/COMPONENTES.md</p>' +
+    '<div class="btnrow"><button id="dlg_cancel">Cerrar</button></div>';
   dialog.style.display = 'block';
   $('dlg_cancel').onclick = hideDialog;
-  cat.componentes.forEach((c, i) => {
-    $(`dlg_comp${i}`).onclick = () => {
-      hideDialog();
-      pushUndo();
-      const part = componentToPart(c);
-      const [lo] = envolvente(c);
-      part.pos = [nextSpawnX() - lo[0], 0, lo[2] < 0 ? -lo[2] : 0]; // apoyado en Z=0
-      part.fixed = doc.parts.length === 0; // como newPart: la primera queda a tierra
-      doc.parts.push(part);
-      selection = { kind: 'part', id: part.id };
-      rebuildPart(part);
-      commit(`${c.nombre} insertado.${c.notas ? ' ' + c.notas : ''}`);
-    };
-  });
+  $('comp_q').oninput = (e) => { q = e.target.value.trim().toLowerCase(); renderList(); };
+  $('comp_chips').onclick = (e) => {
+    const b = e.target.closest('button[data-f]'); if (!b) return;
+    filtro = b.dataset.f;
+    [...$('comp_chips').children].forEach(x => x.classList.toggle('on', x === b));
+    renderList();
+  };
+  $('comp_list').onclick = (e) => {
+    const b = e.target.closest('button[data-idx]'); if (!b) return;
+    insert(cat.componentes[+b.dataset.idx]);
+  };
+  renderList();
+  if (!isNarrow()) $('comp_q').focus(); // en móvil no forzar el teclado
 };
 
 $('btnFeature').onclick = () => {
@@ -2006,20 +3210,79 @@ $('btnFeature').onclick = () => {
   });
 };
 
+// ---------- Patrones de funciones (rectangular / circular) ----------
+
+function selectedFeatureForPattern() {
+  if (selection?.kind !== 'feature') return null;
+  const part = getPart(doc, selection.partId);
+  const f = part && getFeature(part, selection.id);
+  if (!f || f.shape === 'pattern') return null;
+  return { part, f };
+}
+
+function patternRect() {
+  const sel = selectedFeatureForPattern();
+  if (!sel) { setStatus('Patrón rectangular: primero selecciona en el árbol la función a repetir (agujero, cilindro, boceto…).'); return; }
+  const { part, f } = sel;
+  showForm(`Patrón rectangular de "${f.name}"`, [
+    { key: 'nx', label: 'Nº en dirección X', value: 3, step: 1 },
+    { key: 'dx', label: 'Separación X (mm)', value: 20, step: 1 },
+    { key: 'ny', label: 'Nº en dirección Y', value: 2, step: 1 },
+    { key: 'dy', label: 'Separación Y (mm)', value: 20, step: 1 },
+  ], (v) => {
+    const nx = Math.max(1, Math.round(v.nx)), ny = Math.max(1, Math.round(v.ny));
+    if (nx * ny < 2) { setStatus('Un patrón necesita al menos 2 ocurrencias.'); return; }
+    pushUndo();
+    const pat = makePatternFeature(f.id, 'rect', { nx, ny, dx: v.dx, dy: v.dy, u: [1, 0, 0], v: [0, 1, 0] });
+    part.features.push(pat);
+    faceCache.clear();
+    rebuildPart(part);
+    commit(`Patrón rectangular ${nx}×${ny} de "${f.name}".`);
+  });
+}
+
+function patternCirc() {
+  const sel = selectedFeatureForPattern();
+  if (!sel) { setStatus('Patrón circular: primero selecciona en el árbol la función a repetir.'); return; }
+  const { part, f } = sel;
+  showForm(`Patrón circular de "${f.name}"`, [
+    { key: 'n', label: 'Nº de ocurrencias', value: 6, step: 1 },
+    { key: 'angle', label: 'Ángulo total (°)', value: 360, step: 15 },
+    { key: 'axis', label: 'Eje de giro', type: 'select', value: 'z', options: [['z', 'Z (vertical)'], ['x', 'X'], ['y', 'Y']] },
+    { key: 'cx', label: 'Centro X (mm)', value: 0 },
+    { key: 'cy', label: 'Centro Y (mm)', value: 0 },
+    { key: 'cz', label: 'Centro Z (mm)', value: 0 },
+  ], (v) => {
+    const n = Math.max(2, Math.round(v.n));
+    const axisDir = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] }[v.axis];
+    pushUndo();
+    const pat = makePatternFeature(f.id, 'circ', { n, angle: v.angle, axisAt: [v.cx, v.cy, v.cz], axisDir });
+    part.features.push(pat);
+    faceCache.clear();
+    rebuildPart(part);
+    commit(`Patrón circular de ${n} de "${f.name}".`);
+  });
+}
+
+$('btnPatRect').onclick = patternRect;
+$('btnPatCirc').onclick = patternCirc;
+
 // ---------- Exportar STL ----------
 
-$('btnSTL').onclick = () => {
+// STL binario de una lista de piezas (world = false → pieza sola en su origen)
+function exportSTL(parts, filename, world = true) {
   const geoms = [];
-  for (const part of doc.parts) {
+  for (const part of parts) {
     const rec = meshes.get(part.id);
-    if (!rec || !part.visible) continue;
-    const g = rec.mesh.geometry.clone().applyMatrix4(rec.mesh.matrixWorld);
+    if (!rec) continue;
+    rec.mesh.updateWorldMatrix(true, false);
+    const g = rec.mesh.geometry.clone();
+    if (world) g.applyMatrix4(rec.mesh.matrixWorld);
     geoms.push(g);
   }
   let triCount = 0;
   for (const g of geoms) triCount += g.attributes.position.count / 3;
   if (!triCount) { setStatus('No hay geometría para exportar.'); return; }
-
   const buffer = new ArrayBuffer(84 + triCount * 50);
   const dv = new DataView(buffer);
   dv.setUint32(80, triCount, true);
@@ -2028,20 +3291,77 @@ $('btnSTL').onclick = () => {
   for (const g of geoms) {
     const pos = g.attributes.position;
     for (let t = 0; t < pos.count; t += 3) {
-      a.fromBufferAttribute(pos, t);
-      b.fromBufferAttribute(pos, t + 1);
-      c.fromBufferAttribute(pos, t + 2);
+      a.fromBufferAttribute(pos, t); b.fromBufferAttribute(pos, t + 1); c.fromBufferAttribute(pos, t + 2);
       n.subVectors(b, a).cross(new THREE.Vector3().subVectors(c, a)).normalize();
       for (const v of [n, a, b, c]) {
         dv.setFloat32(off, v.x, true); dv.setFloat32(off + 4, v.y, true); dv.setFloat32(off + 8, v.z, true);
         off += 12;
       }
-      off += 2; // attribute byte count
+      off += 2;
     }
     g.dispose();
   }
-  download(new Blob([buffer], { type: 'model/stl' }), 'ensamble.stl');
-  setStatus(`STL exportado (${triCount} triángulos).`);
+  download(new Blob([buffer], { type: 'model/stl' }), filename);
+  setStatus(`STL exportado: ${filename} (${triCount} triángulos).`);
+}
+$('btnSTL').onclick = () => exportSTL(doc.parts.filter(p => p.visible), 'ensamble.stl');
+
+// guardar UNA pieza como proyecto JSON de 1 pieza (mantiene los parámetros fx)
+function savePartJSON(part) {
+  const one = { format: 'foto3d-cad', version: 1, params: doc.params || [],
+    parts: [JSON.parse(JSON.stringify(part))], constraints: [] };
+  one.parts[0].pos = [0, 0, 0]; one.parts[0].fixed = true;
+  download(new Blob([JSON.stringify(one, null, 2)], { type: 'application/json' }),
+    `${part.name.replace(/[^\w.-]+/g, '_')}.json`);
+  setStatus(`Pieza "${part.name}" guardada como JSON (ábrela con 📂 Abrir → Agregar).`);
+}
+
+// ---------- Lista de materiales (BOM) ----------
+
+function partVolumeCm3(part) {
+  const rec = meshes.get(part.id);
+  const pos = rec?.mesh.geometry.attributes.position;
+  if (!pos) return 0;
+  let v = 0; const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
+  for (let i = 0; i < pos.count; i += 3) {
+    a.fromBufferAttribute(pos, i); b.fromBufferAttribute(pos, i + 1); c.fromBufferAttribute(pos, i + 2);
+    v += a.dot(new THREE.Vector3().crossVectors(b, c)) / 6;
+  }
+  return Math.abs(v) / 1000;
+}
+// enumera y agrupa piezas idénticas (por nombre) → filas del BOM
+function buildBOM() {
+  const groups = new Map();
+  for (const p of doc.parts) {
+    const g = groups.get(p.name) || { name: p.name, qty: 0,
+      material: esChapa(p) ? materialPorId(chapaOf(p).params.material).nombre : '—',
+      vol: partVolumeCm3(p) };
+    g.qty++; groups.set(p.name, g);
+  }
+  return [...groups.values()].map((g, i) => ({ item: i + 1, ...g }));
+}
+function bomCSV(rows) {
+  const head = 'ITEM,CANT,PIEZA,MATERIAL,VOL_C/U_CM3,VOL_TOTAL_CM3';
+  const body = rows.map(r => `${r.item},${r.qty},"${r.name}",${r.material},${r.vol.toFixed(1)},${(r.vol * r.qty).toFixed(1)}`);
+  return [head, ...body].join('\r\n') + '\r\n';
+}
+$('btnBom').onclick = () => {
+  const rows = buildBOM();
+  if (!rows.length) { setStatus('No hay piezas para el BOM.'); return; }
+  const totPz = rows.reduce((s, r) => s + r.qty, 0), totVol = rows.reduce((s, r) => s + r.vol * r.qty, 0);
+  dialog.innerHTML = `<h3>🧾 Lista de materiales (BOM)</h3>
+    <div style="max-height:210px;overflow:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tr style="color:var(--dim);text-align:left"><th>#</th><th>Cant</th><th>Pieza</th><th>Material</th><th style="text-align:right">cm³ c/u</th></tr>
+      ${rows.map(r => `<tr style="border-top:1px solid var(--border)"><td>${r.item}</td><td>${r.qty}</td><td>${esc(r.name)}</td><td>${esc(r.material)}</td><td style="text-align:right">${r.vol.toFixed(1)}</td></tr>`).join('')}
+    </table></div>
+    <p style="font-size:12px;color:var(--dim);margin-top:6px">${rows.length} referencia(s) · ${totPz} pieza(s) · volumen total ${totVol.toFixed(1)} cm³</p>
+    <div class="btnrow"><button id="bomCsv" class="on">⭳ CSV</button><button id="bomClose">Cerrar</button></div>`;
+  dialog.style.display = 'block';
+  $('bomClose').onclick = hideDialog;
+  $('bomCsv').onclick = () => {
+    download(new Blob([bomCSV(rows)], { type: 'text/csv' }), 'lista_materiales_BOM.csv');
+    setStatus(`BOM exportado: ${rows.length} referencia(s), ${totPz} pieza(s).`);
+  };
 };
 
 // ---------- Exportar plano técnico (DXF / PDF con marco y cajetín ISO) ----------
@@ -2060,9 +3380,13 @@ function drawingParts() {
 function exportDrawing(exporter, kind) {
   const parts = drawingParts();
   if (!parts.length) { setStatus('No hay geometría para exportar.'); return; }
+  // piezas de chapa presentes: la cota de espesor se indica siempre en la lámina
+  const espesores = [...new Set(doc.parts.filter(p => p.visible && esChapa(p))
+    .map(p => chapaOf(p).params.t))];
   const meta = {
     designacion: parts.length === 1 ? parts[0].name : `Ensamble — ${parts.length} piezas`,
     piezas: parts.length,
+    espesor: espesores.length ? espesores.join(' / ') : null,
   };
   try {
     const r = exporter(parts, meta);
@@ -2098,17 +3422,129 @@ $('fileInput').addEventListener('change', async (e) => {
   if (!file) return;
   try {
     const data = JSON.parse(await file.text());
-    if (data.format !== 'foto3d-cad') throw new Error('formato desconocido');
-    pushUndo();
-    doc = data;
-    selection = null;
-    rebuildAll();
-    solveAndSync();
-    commit(`Proyecto "${file.name}" abierto.`);
+    // con proyecto abierto, permite AGREGAR las piezas (abrir piezas sueltas)
+    const mode = doc.parts.length
+      ? (confirm(`Abrir "${file.name}":\nAceptar = AGREGAR sus piezas al proyecto\nCancelar = REEMPLAZAR todo`) ? 'merge' : 'replace')
+      : 'replace';
+    importData(data, mode);
   } catch (err) {
     setStatus(`No se pudo abrir: ${err.message}`);
   }
 });
+
+// 📋 Pegar: importar piezas/proyectos JSON generados por IA (PROMPT_PIEZAS.md)
+// sin pasar por archivos — clave para trabajar desde el celular/tableta.
+function importData(data, modo) {
+  if (data.format !== 'foto3d-cad' || !Array.isArray(data.parts)) {
+    throw new Error('formato desconocido: se espera {"format":"foto3d-cad","parts":[...]}');
+  }
+  pushUndo();
+  if (modo === 'replace') {
+    doc = data;
+    doc.constraints = doc.constraints || [];
+    selection = null;
+    clearMeasure();
+    rebuildAll();
+    solveAndSync();
+    frameModel();
+    commit(`Proyecto importado: ${doc.parts.length} pieza(s).`);
+    return;
+  }
+  // agregar al proyecto actual: remapear ids que chocan y sumar restricciones
+  const hadParts = doc.parts.length > 0;
+  const remap = new Map();
+  for (const p of data.parts) {
+    if (getPart(doc, p.id)) { const nid = uid('p'); remap.set(p.id, nid); p.id = nid; }
+    if (hadParts) p.fixed = false; // la pieza fija ya existe en el proyecto
+    p.visible = p.visible !== false;
+    doc.parts.push(p);
+    rebuildPart(p);
+  }
+  for (const c of (data.constraints || [])) {
+    c.id = uid('c');
+    if (remap.has(c.a?.part)) c.a.part = remap.get(c.a.part);
+    if (remap.has(c.b?.part)) c.b.part = remap.get(c.b.part);
+    doc.constraints.push(c);
+  }
+  solveAndSync();
+  commit(`${data.parts.length} pieza(s) agregadas al proyecto${(data.constraints || []).length ? ' con sus restricciones' : ''}.`);
+}
+
+$('btnPaste').onclick = () => {
+  dialog.innerHTML = `<h3>📋 Pegar piezas (JSON de IA)</h3>
+    <p style="font-size:12px;color:var(--dim);margin-bottom:8px">
+      Pega el JSON generado con el prompt de <b>PROMPT_PIEZAS.md</b>
+      (formato <code>foto3d-cad</code>).</p>
+    <textarea id="pasteArea" spellcheck="false" placeholder='{"format":"foto3d-cad","parts":[...]}'
+      style="width:100%;height:160px;background:var(--bg);color:var(--text);border:1px solid var(--border);
+             border-radius:7px;padding:8px;font-size:12px;font-family:ui-monospace,monospace"></textarea>
+    <div class="frow" style="margin-top:8px"><label>Modo</label>
+      <select id="pasteMode">
+        <option value="merge">Agregar al proyecto actual</option>
+        <option value="replace">Reemplazar todo el proyecto</option>
+      </select></div>
+    <div class="btnrow"><button id="pasteOk" class="on">Importar</button><button id="pasteCancel">Cancelar</button></div>`;
+  dialog.style.display = 'block';
+  $('pasteCancel').onclick = hideDialog;
+  $('pasteOk').onclick = () => {
+    let data;
+    try { data = JSON.parse($('pasteArea').value); }
+    catch (err) { setStatus(`JSON inválido: ${err.message}`); return; }
+    try {
+      importData(data, $('pasteMode').value);
+      hideDialog();
+    } catch (err) { setStatus(`No se pudo importar: ${err.message}`); }
+  };
+  $('pasteArea').focus();
+};
+
+// ---------- Parámetros globales (fx) ----------
+
+function renderParamRows() {
+  const scope = resolveParams(doc);
+  const rows = (doc.params || []).map((p, i) => {
+    const v = evalExpr(p.expr, resolveParams({ params: (doc.params || []).slice(0, i) }));
+    return `<div class="frow" data-i="${i}" style="gap:4px">
+      <input type="text" class="pnm" value="${esc(p.name)}" placeholder="nombre" style="flex:0 0 90px">
+      <input type="text" class="pex" value="${esc(String(p.expr))}" placeholder="valor o fórmula" style="flex:1">
+      <span class="meta" style="flex:0 0 54px;text-align:right">${Number.isFinite(v) ? +v.toFixed(3) : '—'}</span>
+      <button class="prm danger" title="Quitar">✕</button>
+    </div>`;
+  }).join('');
+  return rows || '<div class="meta" style="color:var(--dim)">Sin parámetros. Agrega uno (p. ej. ancho = 120).</div>';
+}
+function openParams() {
+  doc.params = doc.params || [];
+  dialog.innerHTML = `<h3>ƒx Parámetros globales</h3>
+    <p style="font-size:12px;color:var(--dim);margin-bottom:6px">Nombre = valor o fórmula (cita parámetros anteriores: <code>paso = ancho/4</code>). En las cotas de una función escribe el nombre para vincularla.</p>
+    <div id="paramList" style="max-height:180px;overflow:auto">${renderParamRows()}</div>
+    <div class="btnrow"><button id="paramAdd">+ Parámetro</button></div>
+    <div class="btnrow"><button id="paramOk" class="on">Aplicar</button><button id="paramCancel">Cancelar</button></div>`;
+  dialog.style.display = 'block';
+  const readRows = () => [...dialog.querySelectorAll('#paramList .frow')].map(r => ({
+    name: r.querySelector('.pnm')?.value.trim(), expr: r.querySelector('.pex')?.value.trim(),
+  })).filter(p => p.name);
+  dialog.querySelector('#paramAdd').onclick = () => {
+    doc.params = readRows(); doc.params.push({ name: '', expr: '0' });
+    dialog.querySelector('#paramList').innerHTML = renderParamRows();
+  };
+  dialog.querySelector('#paramList').addEventListener('click', (e) => {
+    const btn = e.target.closest('.prm'); if (!btn) return;
+    const i = +btn.closest('.frow').dataset.i;
+    doc.params = readRows().filter((_, k) => k !== i);
+    dialog.querySelector('#paramList').innerHTML = renderParamRows();
+  });
+  $('paramCancel').onclick = hideDialog;
+  $('paramOk').onclick = () => {
+    pushUndo();
+    doc.params = readRows();
+    for (const part of doc.parts) rebuildPart(part);
+    solveAndSync();
+    hideDialog();
+    commit(`${doc.params.length} parámetro(s) aplicados.`);
+  };
+}
+$('btnParams').onclick = openParams;
 
 $('btnClear').onclick = () => {
   pushUndo();
@@ -2119,7 +3555,7 @@ $('btnClear').onclick = () => {
   commit('Proyecto nuevo.');
 };
 
-$('btnDemo').onclick = () => { pushUndo(); loadDemo(); commit('Ejemplo cargado.'); };
+$('btnDemo').onclick = () => { pushUndo(); loadDemo(); frameModel(); commit('Ejemplo cargado.'); };
 
 function loadDemo() {
   doc = newDoc();
@@ -2160,6 +3596,7 @@ function loadDemo() {
 // ---------- Arranque ----------
 
 (function start() {
+  setIcons(document); // inyecta los iconos SVG en la barra superior, el riel y el panel
   let restored = false;
   try {
     const saved = localStorage.getItem('foto3d-cad-doc');
@@ -2175,6 +3612,7 @@ function loadDemo() {
     }
   } catch (e) { /* almacenamiento no disponible o corrupto */ }
   if (!restored) { loadDemo(); setStatus('Ensamble de ejemplo cargado. Prueba ◎ Agujero, ▬ Coincidir o 📏 Medir.'); }
+  frameModel(); // el pivote de órbita arranca en el centro del modelo
   refreshUI();
 })();
 

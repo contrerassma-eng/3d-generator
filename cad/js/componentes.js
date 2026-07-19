@@ -11,6 +11,8 @@ export const COLOR_CATEGORIA = {
   mcu: '#6d9ee8', alimentacion: '#e8a56d', sensor: '#7fc98a',
   boton: '#c98ad0', conector: '#9a9fe0', adaptador: '#6bc9c2',
   mecanico: '#90a4ae',
+  transportador: '#aeb6c2', // componentes mecánicos (malla real): gris metálico
+
 };
 
 let _catalogo = null;
@@ -25,8 +27,14 @@ export async function loadCatalogo(url = 'componentes.json') {
   return cat;
 }
 
-// Caja envolvente [min, max] de los sólidos de un componente (mm).
+// Caja envolvente [min, max] de un componente (mm). Los componentes de malla
+// (geometría real) se recentran al insertar (XY centrado, base en Z=0), así
+// que su envolvente canónica es [-bx/2,-by/2,0]..[bx/2,by/2,bz].
 export function envolvente(comp) {
+  if (comp.malla && comp.bbox_mm) {
+    const [bx, by, bz] = comp.bbox_mm;
+    return [[-bx / 2, -by / 2, 0], [bx / 2, by / 2, bz]];
+  }
   const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
   for (const s of comp.solidos) {
     const [x, y, z] = s.at;
@@ -51,6 +59,19 @@ export function envolvente(comp) {
 
 // Registro del catálogo → pieza foto3d-cad (sin pos: la asigna quien inserta).
 export function componentToPart(comp) {
+  // Componente de malla real (GLB): pieza FIJA con una función 'mesh' que
+  // referencia el archivo; la geometría se carga (y se recentra) al regenerar.
+  if (comp.malla) {
+    return {
+      id: uid('p'),
+      name: comp.nombre,
+      color: COLOR_CATEGORIA[comp.categoria] || '#aeb6c2',
+      pos: [0, 0, 0], quat: [0, 0, 0, 1], fixed: false, visible: true,
+      componente: comp.id,
+      features: [{ id: uid('f'), name: comp.malla.nodo ? `Malla · ${comp.malla.nodo}` : 'Malla (GLB)', shape: 'mesh', op: 'mesh', at: [0, 0, 0], dir: [0, 0, 1],
+                   params: { src: comp.malla.glb, nodo: comp.malla.nodo || null, bbox: comp.bbox_mm || null } }],
+    };
+  }
   const features = [];
   for (const s of comp.solidos) {
     const at = s.at.map(Number);

@@ -26,7 +26,7 @@ REPO = Path(__file__).resolve().parent.parent
 CATALOGO = REPO / "componentes" / "catalogo.json"
 
 CATEGORIAS = ("mcu", "alimentacion", "sensor", "boton", "conector", "adaptador",
-              "mecanico")
+              "mecanico", "transportador")
 COLOR_CATEGORIA = {"mcu": "#6d9ee8", "alimentacion": "#e8a56d", "sensor": "#7fc98a",
                    "boton": "#c98ad0", "conector": "#9a9fe0", "adaptador": "#6bc9c2",
                    "mecanico": "#90a4ae"}
@@ -55,6 +55,19 @@ def get_componente(cat: dict, cid: str) -> dict:
 def validar_componente(comp: dict) -> list[str]:
     """Errores de esquema del registro (lista vacia = valido)."""
     e = []
+    # Componente de malla real (GLB): geometria fija importada. No lleva
+    # 'solidos'; se valida el bloque 'malla' + bbox en su lugar.
+    if "malla" in comp:
+        for campo in ("id", "nombre", "categoria", "descripcion", "fuente"):
+            if campo not in comp:
+                e.append(f"falta campo '{campo}'")
+        if not comp.get("malla", {}).get("glb"):
+            e.append("malla: falta 'glb' (ruta al archivo)")
+        if len(comp.get("bbox_mm", [])) != 3:
+            e.append("malla: requiere 'bbox_mm' [x,y,z]")
+        if comp.get("categoria") not in CATEGORIAS:
+            e.append(f"categoria '{comp.get('categoria')}' no esta en {CATEGORIAS}")
+        return e
     for campo in ("id", "nombre", "categoria", "descripcion", "fuente", "solidos"):
         if campo not in comp:
             e.append(f"falta campo '{campo}'")
@@ -101,7 +114,14 @@ def _solid_bounds(s) -> tuple[np.ndarray, np.ndarray]:
 
 
 def envolvente(comp: dict) -> tuple[np.ndarray, np.ndarray]:
-    """Caja envolvente [min, max] de todos los solidos (sin despejes)."""
+    """Caja envolvente [min, max] de todos los solidos (sin despejes).
+
+    Los componentes de MALLA real (GLB, sin 'solidos') no tienen primitivas: su
+    envolvente sale de 'bbox_mm' (centrada en el origen, como la malla derivada).
+    """
+    if "malla" in comp and "solidos" not in comp:
+        bb = np.array(comp["bbox_mm"], dtype=float) / 2.0
+        return (-bb, bb)
     bounds = [_solid_bounds(s) for s in comp["solidos"]]
     return (np.min([b[0] for b in bounds], axis=0),
             np.max([b[1] for b in bounds], axis=0))
@@ -140,8 +160,17 @@ def _mesh_cilindro(s):
 
 
 def build_mesh(comp: dict):
-    """Malla 3D del componente (cuerpos concatenados, colores por solido)."""
+    """Malla 3D del componente (cuerpos concatenados, colores por solido).
+
+    Componente de MALLA real (GLB, sin 'solidos'): se representa por su caja
+    envolvente 'bbox_mm' (la geometria fina vive en el GLB referenciado).
+    """
     import trimesh
+    if "malla" in comp and "solidos" not in comp:
+        lo, hi = envolvente(comp)
+        box = trimesh.creation.box(extents=(hi - lo))
+        box.visual.face_colors = _hex_rgba(COLOR_CATEGORIA.get(comp["categoria"], "#888888"))
+        return box
     agujeros = comp.get("agujeros_montaje", [])
     cuerpos = []
     for s in comp["solidos"]:
