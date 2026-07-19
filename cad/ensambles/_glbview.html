@@ -1,0 +1,23 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;height:100%;background:#141821}</style>
+<script type="importmap">{"imports":{"three":"../vendor/three.module.min.js"}}</script></head>
+<body><script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from '../vendor/GLTFLoader.js';
+const q = new URLSearchParams(location.search);
+const src = q.get('glb') || '../componentes/models/sorter_CO.glb';
+const view = q.get('view') || 'iso';
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0x141821);
+scene.add(new THREE.HemisphereLight(0xe8eaf2, 0x596070, 1.2));
+const dl = new THREE.DirectionalLight(0xffffff, 1.1); dl.position.set(1, -2, 3); scene.add(dl);
+const cam = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 1, 1e5);
+const rnd = new THREE.WebGLRenderer({ antialias: true }); rnd.setSize(innerWidth, innerHeight); document.body.appendChild(rnd.domElement);
+new GLTFLoader().load(src, (g) => {
+  scene.add(g.scene);
+  const box = new THREE.Box3().setFromObject(g.scene); const c = box.getCenter(new THREE.Vector3()); const s = box.getSize(new THREE.Vector3());
+  const r = Math.max(s.x, s.y, s.z), d = r * 1.7;
+  const dirs = { iso:[1,-1,0.8], planta:[0,0,1], frente:[0,-1,0.05], lado:[1,0,0.05] };
+  const v = dirs[view] || dirs.iso;
+  cam.position.set(c.x + v[0]*d, c.y + v[1]*d, c.z + v[2]*d); cam.up.set(0,0,1); cam.lookAt(c);
+  rnd.render(scene, cam); window.__listo = true;
+}, undefined, (e) => { document.title = 'ERR ' + e; window.__listo = true; });
+</script></body></html>
