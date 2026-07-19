@@ -2921,6 +2921,9 @@ function nextSpawnX() {
 
 // ---------- Biblioteca de componentes electrónicos ----------
 
+// grupo de un componente para el filtro de la biblioteca
+const compGroup = (c) => c.malla ? (c.malla.nodo ? 'subcomp' : 'transportador') : 'electronico';
+
 $('btnComp').onclick = async () => {
   let cat;
   try {
@@ -2929,34 +2932,56 @@ $('btnComp').onclick = async () => {
     setStatus(`Catálogo de componentes no disponible: ${err.message}`);
     return;
   }
-  let html = '<h3>Insertar componente</h3>' +
-    '<div style="max-height:50vh;overflow-y:auto;display:flex;flex-direction:column;gap:4px">';
-  cat.componentes.forEach((c, i) => {
-    const [lo, hi] = envolvente(c);
-    const dims = [0, 1, 2].map(k => (hi[k] - lo[k]).toFixed(1)).join(' × ');
-    html += `<button id="dlg_comp${i}" title="${c.descripcion}" style="text-align:left;padding:6px 8px">` +
-      `${c.nombre}<br><small style="opacity:.7">${c.categoria} · ${dims} mm</small></button>`;
-  });
-  html += '</div><p style="font-size:11px;opacity:.7;margin:8px 0 0">Dimensiones nominales ' +
-    '(capa user): verificar con calibre antes de cortar. docs/COMPONENTES.md</p>' +
-    '<div class="btnrow"><button id="dlg_cancel">Cancelar</button></div>';
-  dialog.innerHTML = html;
+  const CHIPS = [['todos', 'Todos'], ['electronico', 'Electrónicos'], ['transportador', 'Transportador'], ['subcomp', 'Subcomp.']];
+  let filtro = 'todos', q = '';
+  const matches = (c) => (filtro === 'todos' || compGroup(c) === filtro)
+    && (!q || `${c.nombre} ${c.id} ${c.familia || ''} ${c.descripcion || ''}`.toLowerCase().includes(q));
+  const insert = (c) => {
+    hideDialog();
+    pushUndo();
+    const part = componentToPart(c);
+    const [lo] = envolvente(c);
+    part.pos = [nextSpawnX() - lo[0], 0, lo[2] < 0 ? -lo[2] : 0]; // apoyado en Z=0
+    part.fixed = doc.parts.length === 0;
+    doc.parts.push(part);
+    selection = { kind: 'part', id: part.id };
+    rebuildPart(part);
+    commit(`${c.nombre} insertado.${c.notas ? ' ' + c.notas : ''}`);
+  };
+  const BADGE = { electronico: '', transportador: 'malla', subcomp: 'subcomp' };
+  function renderList() {
+    const items = cat.componentes.map((c, i) => ({ c, i })).filter(({ c }) => matches(c));
+    $('comp_list').innerHTML = items.length ? items.map(({ c, i }) => {
+      const [lo, hi] = envolvente(c);
+      const dims = [0, 1, 2].map(k => (hi[k] - lo[k]).toFixed(1)).join(' × ');
+      const badge = c.malla ? BADGE[compGroup(c)] : c.categoria;
+      return `<button class="comp-item" data-idx="${i}" title="${esc(c.descripcion || '')}">` +
+        `${esc(c.nombre)}<br><small>${esc(badge)}${badge ? ' · ' : ''}${dims} mm</small></button>`;
+    }).join('') : '<div class="meta" style="padding:12px 4px">Sin resultados.</div>';
+    $('comp_count').textContent = items.length;
+  }
+  dialog.innerHTML = '<h3>Insertar componente</h3>' +
+    '<input id="comp_q" type="search" placeholder="Buscar por nombre, familia, id…" autocomplete="off">' +
+    '<div id="comp_chips" class="chiprow">' +
+      CHIPS.map(([k, l]) => `<button class="chip${k === 'todos' ? ' on' : ''}" data-f="${k}">${l}</button>`).join('') + '</div>' +
+    '<div id="comp_list" class="complist"></div>' +
+    '<p style="font-size:11px;opacity:.7;margin:8px 0 0"><span id="comp_count"></span> ítem(s) · dimensiones nominales (capa user): verificar. docs/COMPONENTES.md</p>' +
+    '<div class="btnrow"><button id="dlg_cancel">Cerrar</button></div>';
   dialog.style.display = 'block';
   $('dlg_cancel').onclick = hideDialog;
-  cat.componentes.forEach((c, i) => {
-    $(`dlg_comp${i}`).onclick = () => {
-      hideDialog();
-      pushUndo();
-      const part = componentToPart(c);
-      const [lo] = envolvente(c);
-      part.pos = [nextSpawnX() - lo[0], 0, lo[2] < 0 ? -lo[2] : 0]; // apoyado en Z=0
-      part.fixed = doc.parts.length === 0; // como newPart: la primera queda a tierra
-      doc.parts.push(part);
-      selection = { kind: 'part', id: part.id };
-      rebuildPart(part);
-      commit(`${c.nombre} insertado.${c.notas ? ' ' + c.notas : ''}`);
-    };
-  });
+  $('comp_q').oninput = (e) => { q = e.target.value.trim().toLowerCase(); renderList(); };
+  $('comp_chips').onclick = (e) => {
+    const b = e.target.closest('button[data-f]'); if (!b) return;
+    filtro = b.dataset.f;
+    [...$('comp_chips').children].forEach(x => x.classList.toggle('on', x === b));
+    renderList();
+  };
+  $('comp_list').onclick = (e) => {
+    const b = e.target.closest('button[data-idx]'); if (!b) return;
+    insert(cat.componentes[+b.dataset.idx]);
+  };
+  renderList();
+  if (!isNarrow()) $('comp_q').focus(); // en móvil no forzar el teclado
 };
 
 $('btnFeature').onclick = () => {
