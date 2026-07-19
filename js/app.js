@@ -11,7 +11,7 @@ import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid, PALETTE,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
   makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, makeFilletFeature, makeChamferFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
-  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace,
+  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace, holeToolGeometry,
   makeMate, makeConcentric, solveConstraints,
   evalExpr, resolveParams, applyExpressions,
 } from './model.js';
@@ -1242,7 +1242,11 @@ function showForm(title, fields, onSubmit, extra) {
   const first = dialog.querySelector('input,select');
   if (first) first.focus();
 }
-function hideDialog() { dialog.style.display = 'none'; dialog.innerHTML = ''; if (typeof clearOpPreview === 'function') clearOpPreview(); }
+function hideDialog() {
+  dialog.style.display = 'none'; dialog.innerHTML = '';
+  if (typeof clearOpPreview === 'function') clearOpPreview();
+  if (typeof clearHolePreview === 'function') clearHolePreview();
+}
 const dialogOpen = () => dialog.style.display === 'block';
 
 // ---------- Modos ----------
@@ -3136,6 +3140,7 @@ function applyConstraintUI() {
   const circs = sel.filter(e => e.type === 'circle' || e.type === 'arc');
   if (!sel.length) { setStatus('Restringir: primero selecciona entidades con ⬚ Selec.'); return; }
   const opts = [];
+  opts.push(['fix', `Fijar/anclar${sel.length > 1 ? ' (cada una)' : ''}`]);
   if (lines.length) opts.push(['horizontal', `Horizontal${lines.length > 1 ? ' (cada línea)' : ''}`], ['vertical', `Vertical${lines.length > 1 ? ' (cada línea)' : ''}`]);
   if (lines.length >= 2) opts.push(['parallel', 'Paralela'], ['perpendicular', 'Perpendicular'], ['collinear', 'Colineal'], ['equalL', 'Igual longitud']);
   if (circs.length >= 2) opts.push(['equalR', 'Igual radio'], ['concentric', 'Concéntrica'], ['tangentCC', 'Tangente (círculos)']);
@@ -3148,7 +3153,8 @@ function applyConstraintUI() {
 function addConstraints(type, lines, circs) {
   pushUndo();
   const add = (t, a, b) => sketch.constraints.push(SK.makeConstraint(t, a, b));
-  if (type === 'horizontal' || type === 'vertical') for (const l of lines) add(type, l.id);
+  if (type === 'fix') for (const e of [...lines, ...circs]) add('fix', e.id);
+  else if (type === 'horizontal' || type === 'vertical') for (const l of lines) add(type, l.id);
   else if (type === 'parallel' || type === 'perpendicular' || type === 'collinear') for (let i = 1; i < lines.length; i++) add(type, lines[i].id, lines[0].id);
   else if (type === 'equalL') for (let i = 1; i < lines.length; i++) add('equal', lines[i].id, lines[0].id);
   else if (type === 'equalR') for (let i = 1; i < circs.length; i++) add('equal', circs[i].id, circs[0].id);
@@ -3280,6 +3286,39 @@ function clickHole(hit) {
     const asiento = v.seat === 'cbore' ? ' con caja' : v.seat === 'csink' ? ' avellanado' : '';
     commit(`Agujero Ø${v.dia}${asiento} agregado a ${part.name}.`);
   });
+  // vista previa translúcida del agujero (§6.1): la herramienta de corte real
+  // (con asiento) en rojo, actualizada al cambiar los parámetros.
+  const pm = meshes.get(part.id)?.mesh;
+  if (pm) {
+    pm.updateMatrixWorld();
+    pm.geometry.computeBoundingBox();
+    const extent = pm.geometry.boundingBox.getSize(new THREE.Vector3()).length();
+    const upd = () => {
+      clearHolePreview();
+      const dia = +$('dlg_dia').value;
+      if (!(dia > 0)) return;
+      const at = ($('dlg_center').checked ? localCentroid : localPoint).toArray();
+      const dir = localNormal.clone().negate().toArray();
+      const f = { shape: 'hole', at, dir, params: {
+        dia, depth: +$('dlg_depth').value, through: $('dlg_through').checked,
+        seat: $('dlg_seat').value, seatDia: +$('dlg_seatDia').value, seatDepth: +$('dlg_seatDepth').value } };
+      let g; try { g = holeToolGeometry(f, extent); } catch { return; }
+      g.applyMatrix4(pm.matrixWorld);
+      holePrevGroup = new THREE.Group();
+      holePrevGroup.add(new THREE.Mesh(g, opPrevMatC));
+      scene.add(holePrevGroup);
+    };
+    for (const id of ['dlg_dia', 'dlg_depth', 'dlg_seatDia', 'dlg_seatDepth']) $(id)?.addEventListener('input', upd);
+    for (const id of ['dlg_through', 'dlg_seat', 'dlg_center']) $(id)?.addEventListener('change', upd);
+    upd();
+  }
+}
+let holePrevGroup = null;
+function clearHolePreview() {
+  if (!holePrevGroup) return;
+  scene.remove(holePrevGroup);
+  holePrevGroup.traverse(o => o.geometry?.dispose?.());
+  holePrevGroup = null;
 }
 
 // ---------- Empalme (fillet) / chaflán (chamfer) sobre aristas ----------

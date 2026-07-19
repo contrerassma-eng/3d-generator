@@ -346,6 +346,17 @@ console.log('— Restricciones geométricas (solver) —');
   solveSketch([k1, k2], [makeConstraint('collinear', k1.id, k2.id)], [], 200);
   check('colineal: B sobre la recta de A', constraintResidual([k1, k2], { type: 'collinear', a: k1.id, b: k2.id }) < 0.01);
 }
+{
+  // fijar/anclar: la entidad fija NO se mueve; la coincidente se acerca a ella
+  const fx = makeLine([0, 0], [10, 0]), mv = makeLine([30, 20], [40, 25]);
+  const before = [...fx.a, ...fx.b];
+  solveSketch([fx, mv], [
+    { id: 'f', type: 'fix', a: fx.id },
+    { id: 'co', type: 'coincident', a: fx.id, b: mv.id, pa: 'b', pb: 'a' },
+  ], [], 200);
+  check('fijar: la entidad anclada no se movió', near(fx.a[0], before[0]) && near(fx.b[0], before[2]) && near(fx.b[1], before[3]));
+  check('fijar: la coincidente llegó al punto fijo', near(dist(mv.a, fx.b), 0));
+}
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);
 process.exit(fail ? 1 : 0);
