@@ -3140,6 +3140,7 @@ function applyConstraintUI() {
   const circs = sel.filter(e => e.type === 'circle' || e.type === 'arc');
   if (!sel.length) { setStatus('Restringir: primero selecciona entidades con ⬚ Selec.'); return; }
   const opts = [];
+  opts.push(['fix', `Fijar/anclar${sel.length > 1 ? ' (cada una)' : ''}`]);
   if (lines.length) opts.push(['horizontal', `Horizontal${lines.length > 1 ? ' (cada línea)' : ''}`], ['vertical', `Vertical${lines.length > 1 ? ' (cada línea)' : ''}`]);
   if (lines.length >= 2) opts.push(['parallel', 'Paralela'], ['perpendicular', 'Perpendicular'], ['collinear', 'Colineal'], ['equalL', 'Igual longitud']);
   if (circs.length >= 2) opts.push(['equalR', 'Igual radio'], ['concentric', 'Concéntrica'], ['tangentCC', 'Tangente (círculos)']);
@@ -3152,7 +3153,8 @@ function applyConstraintUI() {
 function addConstraints(type, lines, circs) {
   pushUndo();
   const add = (t, a, b) => sketch.constraints.push(SK.makeConstraint(t, a, b));
-  if (type === 'horizontal' || type === 'vertical') for (const l of lines) add(type, l.id);
+  if (type === 'fix') for (const e of [...lines, ...circs]) add('fix', e.id);
+  else if (type === 'horizontal' || type === 'vertical') for (const l of lines) add(type, l.id);
   else if (type === 'parallel' || type === 'perpendicular' || type === 'collinear') for (let i = 1; i < lines.length; i++) add(type, lines[i].id, lines[0].id);
   else if (type === 'equalL') for (let i = 1; i < lines.length; i++) add('equal', lines[i].id, lines[0].id);
   else if (type === 'equalR') for (let i = 1; i < circs.length; i++) add('equal', circs[i].id, circs[0].id);

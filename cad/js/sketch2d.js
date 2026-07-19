@@ -470,14 +470,26 @@ function applyConstraintOnce(entities, c) {
   return 0;
 }
 
-// solver principal: itera todas las restricciones + cotas con candado.
+const cloneGeom = (e) => ({ a: e.a ? [...e.a] : null, b: e.b ? [...e.b] : null, c: e.c ? [...e.c] : null, r: e.r });
+function restoreGeom(e, s) {
+  if (s.a) e.a = [...s.a]; if (s.b) e.b = [...s.b]; if (s.c) e.c = [...s.c];
+  if (s.r != null) e.r = s.r;
+}
+
+// solver principal: itera todas las restricciones + cotas con candado. Las
+// entidades con restricción 'fix' (ancladas) se restauran tras cada iteración,
+// así nunca se mueven y las demás se relajan contra ellas.
 export function solveSketch(entities, constraints = [], dims = [], iters = 80) {
   if (!constraints.length && !(dims || []).some(d => d.locked)) return;
+  const fixedIds = new Set(constraints.filter(c => c.type === 'fix').map(c => c.a));
+  const snap = new Map();
+  if (fixedIds.size) for (const e of entities) if (fixedIds.has(e.id)) snap.set(e.id, cloneGeom(e));
   for (let it = 0; it < iters; it++) {
     let maxMove = 0;
-    for (const c of constraints) maxMove = Math.max(maxMove, applyConstraintOnce(entities, c));
+    for (const c of constraints) { if (c.type === 'fix') continue; maxMove = Math.max(maxMove, applyConstraintOnce(entities, c)); }
     for (const d of dims) if (d.locked) applyDim(entities, d, d.value);
-    if (maxMove < 1e-4) break;
+    if (snap.size) for (const e of entities) if (snap.has(e.id)) restoreGeom(e, snap.get(e.id));
+    if (maxMove < 1e-7) break;
   }
 }
 
@@ -489,6 +501,7 @@ export function constraintResidual(entities, c) {
   if (!A || (c.b && !B)) return 0;
   const dirAng = (e) => Math.atan2(e.b[1] - e.a[1], e.b[0] - e.a[0]);
   const angDiff = (x, y) => { let d = Math.abs(((x - y) % Math.PI + Math.PI) % Math.PI); return Math.min(d, Math.PI - d); };
+  if (c.type === 'fix') return 0; // anclada: sin residual (se restaura en el solver)
   if (c.type === 'horizontal') return A.type === 'line' ? Math.abs(A.a[1] - A.b[1]) : 0;
   if (c.type === 'vertical') return A.type === 'line' ? Math.abs(A.a[0] - A.b[0]) : 0;
   if (c.type === 'parallel') return angDiff(dirAng(A), dirAng(B));
