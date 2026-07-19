@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>foto3d — visor STL (STEP teselado)</title>
+<style>html,body{margin:0;height:100%;background:#12151b;overflow:hidden}#i{position:fixed;top:8px;left:10px;color:#cfd6e4;font:12px system-ui;z-index:2}canvas{display:block}</style>
+<script type="importmap">{ "imports": { "three": "../vendor/three.module.min.js" } }</script>
+</head><body><div id="i">cargando…</div>
+<script type="module">
+// Visor de un STL binario (p. ej. el STEP base teselado con gmsh). Parsea el
+// STL a mano (sin STLLoader) y lo renderiza. ver_stl.html?stl=base.stl&view=iso
+import * as THREE from 'three';
+import { OrbitControls } from '../vendor/OrbitControls.js';
+const q = new URLSearchParams(location.search);
+const url = q.get('stl') || 'base.stl';
+const buf = await (await fetch(url)).arrayBuffer();
+const dv = new DataView(buf);
+const nTri = dv.getUint32(80, true);
+const pos = new Float32Array(nTri * 9);
+const nor = new Float32Array(nTri * 9);
+let o = 84;
+for (let t = 0; t < nTri; t++) {
+  const nx = dv.getFloat32(o, true), ny = dv.getFloat32(o + 4, true), nz = dv.getFloat32(o + 8, true);
+  o += 12;
+  for (let v = 0; v < 3; v++) {
+    const b = t * 9 + v * 3;
+    pos[b] = dv.getFloat32(o, true); pos[b + 1] = dv.getFloat32(o + 4, true); pos[b + 2] = dv.getFloat32(o + 8, true);
+    nor[b] = nx; nor[b + 1] = ny; nor[b + 2] = nz; o += 12;
+  }
+  o += 2;
+}
+const g = new THREE.BufferGeometry();
+g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+g.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
+// colores por triángulo (opcional): archivo de N*3 bytes RGB → color por vértice
+let vcolors = false;
+const colUrl = q.get('colors');
+if (colUrl) {
+  const cb = new Uint8Array(await (await fetch(colUrl)).arrayBuffer());
+  const col = new Float32Array(nTri * 9);
+  for (let t = 0; t < nTri; t++) {
+    const r = cb[t * 3] / 255, gg = cb[t * 3 + 1] / 255, bb = cb[t * 3 + 2] / 255;
+    for (let v = 0; v < 3; v++) { const b = t * 9 + v * 3; col[b] = r; col[b + 1] = gg; col[b + 2] = bb; }
+  }
+  g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  vcolors = true;
+}
+g.computeBoundingBox();
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x12151b);
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(innerWidth, innerHeight); renderer.setPixelRatio(devicePixelRatio);
+document.body.appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xdfe8f5, 0x2a2f37, 1.05));
+const s1 = new THREE.DirectionalLight(0xffffff, 1.7); s1.position.set(500, -700, 900); scene.add(s1);
+const s2 = new THREE.DirectionalLight(0x93a6c8, 0.55); s2.position.set(-600, 500, 300); scene.add(s2);
+
+const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: vcolors ? 0xffffff : 0x9fb0c4, vertexColors: vcolors, metalness: 0.35, roughness: 0.6, side: THREE.DoubleSide }));
+scene.add(mesh);
+const bb = g.boundingBox, c = bb.getCenter(new THREE.Vector3()), size = bb.getSize(new THREE.Vector3()).length();
+const up = q.get('up') || 'z';
+const cam = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, size / 500, size * 50);
+if (up === 'y') cam.up.set(0, 1, 0); else cam.up.set(0, 0, 1);
+const V = {
+  iso: [c.x + size * 0.55, c.y - size * 0.6, c.z + size * 0.5],
+  frente: [c.x, c.y - size * 1.1, c.z],
+  planta: [c.x, c.y, c.z + size * 1.15],
+  lado: [c.x + size * 1.1, c.y, c.z],
+};
+cam.position.set(...(V[q.get('view')] || V.iso)); cam.lookAt(c);
+const ctr = new OrbitControls(cam, renderer.domElement); ctr.target.copy(c); ctr.update();
+document.getElementById('i').textContent = `${url} — ${nTri.toLocaleString()} triángulos (STEP teselado)`;
+renderer.setAnimationLoop(() => renderer.render(scene, cam));
+window.__listo = true;
+</script></body></html>

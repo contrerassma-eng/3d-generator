@@ -1,1971 +1,3241 @@
 {
-  "formato": "foto3d-componentes",
-  "version": 1,
-  "convencion": {
-    "unidades": "mm",
-    "origen": "centro de la cara inferior de la PCB/cuerpo; en piezas de panel, el plano exterior del panel (Z=0, la pieza crece hacia +Z afuera y -Z adentro)",
-    "ejes": "X = largo, Y = ancho, Z = arriba",
-    "capa": "user (diseño). Las dimensiones con confianza != 'datasheet' son valores tipicos de mercado: VERIFICAR con calibre antes de cortar una carcasa."
-  },
-  "componentes": [
+ "formato": "foto3d-componentes",
+ "version": 1,
+ "convencion": {
+  "unidades": "mm",
+  "origen": "centro de la cara inferior de la PCB/cuerpo; en piezas de panel, el plano exterior del panel (Z=0, la pieza crece hacia +Z afuera y -Z adentro)",
+  "ejes": "X = largo, Y = ancho, Z = arriba",
+  "capa": "user (diseño). Las dimensiones con confianza != 'datasheet' son valores tipicos de mercado: VERIFICAR con calibre antes de cortar una carcasa."
+ },
+ "componentes": [
+  {
+   "id": "esp32_devkitc_38",
+   "nombre": "ESP32 DevKitC V4 (38 pines, micro-USB)",
+   "categoria": "mcu",
+   "descripcion": "Placa de desarrollo ESP32-WROOM-32 alargada, 2 filas de 19 pines (paso 2.54), micro-USB en un extremo y antena en el otro. Sin agujeros de montaje.",
+   "fuente": {
+    "tipo": "datasheet",
+    "detalle": "Espressif ESP32-DevKitC V4: PCB 54.4 x 27.9 mm; alturas y USB tipicos"
+   },
+   "confianza": "verificar",
+   "solidos": [
     {
-      "id": "esp32_devkitc_38",
-      "nombre": "ESP32 DevKitC V4 (38 pines, micro-USB)",
-      "categoria": "mcu",
-      "descripcion": "Placa de desarrollo ESP32-WROOM-32 alargada, 2 filas de 19 pines (paso 2.54), micro-USB en un extremo y antena en el otro. Sin agujeros de montaje.",
-      "fuente": {
-        "tipo": "datasheet",
-        "detalle": "Espressif ESP32-DevKitC V4: PCB 54.4 x 27.9 mm; alturas y USB tipicos"
-      },
-      "confianza": "verificar",
-      "solidos": [
-        {
-          "tipo": "caja",
-          "nombre": "PCB",
-          "pcb": true,
-          "at": [
-            0,
-            0,
-            0
-          ],
-          "dim": [
-            54.4,
-            27.9,
-            1.6
-          ],
-          "color": "#2e7d32"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Modulo WROOM-32 + antena",
-          "at": [
-            -14.45,
-            0,
-            1.6
-          ],
-          "dim": [
-            25.5,
-            18.0,
-            3.1
-          ],
-          "color": "#9e9e9e"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Micro-USB (sobresale ~1.3)",
-          "at": [
-            25.55,
-            0,
-            1.6
-          ],
-          "dim": [
-            5.9,
-            7.5,
-            2.9
-          ],
-          "color": "#b0bec5"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Header pines fila Y+ (plastico+pines abajo)",
-          "at": [
-            0,
-            12.7,
-            -5.5
-          ],
-          "dim": [
-            48.3,
-            2.54,
-            5.5
-          ],
-          "color": "#212121"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Header pines fila Y- (plastico+pines abajo)",
-          "at": [
-            0,
-            -12.7,
-            -5.5
-          ],
-          "dim": [
-            48.3,
-            2.54,
-            5.5
-          ],
-          "color": "#212121"
-        }
-      ],
-      "agujeros_montaje": [],
-      "despejes": [
-        {
-          "nombre": "cable micro-USB",
-          "at": [
-            34.7,
-            0,
-            0
-          ],
-          "dim": [
-            15,
-            12,
-            8
-          ]
-        },
-        {
-          "nombre": "zona antena (no rodear con metal)",
-          "at": [
-            -31.2,
-            0,
-            0
-          ],
-          "dim": [
-            8,
-            27.9,
-            10
-          ]
-        }
-      ],
-      "notas": "No tiene agujeros de montaje: en la carcasa usar carriles laterales para la PCB (ranura de 1.6-1.8 mm) o montarlo enchufado al adaptador de borneras. Filas de pines separadas 25.4 mm; si va sobre protoboard/zocalo, dejar 8.5 mm libres por debajo."
+     "tipo": "caja",
+     "nombre": "PCB",
+     "pcb": true,
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      54.4,
+      27.9,
+      1.6
+     ],
+     "color": "#2e7d32"
     },
     {
-      "id": "esp32_c3_supermini",
-      "nombre": "ESP32-C3 SuperMini (USB-C, pequeno)",
-      "categoria": "mcu",
-      "descripcion": "Variante pequena tipo SuperMini con USB-C y antena ceramica. Sin agujeros de montaje.",
-      "fuente": {
-        "tipo": "tipico",
-        "detalle": "dimension citada por fabricantes: 22.52 x 18 mm"
-      },
-      "confianza": "verificar",
-      "solidos": [
-        {
-          "tipo": "caja",
-          "nombre": "PCB",
-          "pcb": true,
-          "at": [
-            0,
-            0,
-            0
-          ],
-          "dim": [
-            22.5,
-            18.0,
-            1.6
-          ],
-          "color": "#2e7d32"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "USB-C (sobresale ~1)",
-          "at": [
-            -8.55,
-            0,
-            1.6
-          ],
-          "dim": [
-            7.4,
-            9.0,
-            3.2
-          ],
-          "color": "#b0bec5"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "SoC + componentes",
-          "at": [
-            3.0,
-            0,
-            1.6
-          ],
-          "dim": [
-            8,
-            8,
-            1.2
-          ],
-          "color": "#616161"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Antena ceramica",
-          "at": [
-            9.2,
-            5.5,
-            1.6
-          ],
-          "dim": [
-            3.2,
-            5.0,
-            1.5
-          ],
-          "color": "#efebe9"
-        }
-      ],
-      "agujeros_montaje": [],
-      "despejes": [
-        {
-          "nombre": "cable USB-C",
-          "at": [
-            -18.5,
-            0,
-            0
-          ],
-          "dim": [
-            14,
-            12,
-            8
-          ]
-        }
-      ],
-      "notas": "Sin agujeros de montaje: usar carriles o pilares con pestana. Si se sueldan pines (2 filas de 8, paso 2.54, separadas 15.24), dejar 8.5 mm libres por debajo."
+     "tipo": "caja",
+     "nombre": "Modulo WROOM-32 + antena",
+     "at": [
+      -14.45,
+      0,
+      1.6
+     ],
+     "dim": [
+      25.5,
+      18.0,
+      3.1
+     ],
+     "color": "#9e9e9e"
     },
     {
-      "id": "adaptador_borneras_esp32_38",
-      "nombre": "Adaptador de borneras a tornillo para ESP32 38 pines",
-      "categoria": "adaptador",
-      "descripcion": "Placa de expansion (breakout) donde se enchufa el ESP32 DevKitC 38p; saca todos los GPIO a borneras de tornillo. LAS DIMENSIONES VARIAN MUCHO ENTRE MARCAS: medir la placa real y ajustar este registro.",
-      "fuente": {
-        "tipo": "tipico",
-        "detalle": "valores aproximados de breakouts genericos 38p; verificar la unidad propia"
-      },
-      "confianza": "verificar",
-      "solidos": [
-        {
-          "tipo": "caja",
-          "nombre": "PCB",
-          "pcb": true,
-          "at": [
-            0,
-            0,
-            0
-          ],
-          "dim": [
-            65,
-            54,
-            1.6
-          ],
-          "color": "#1b5e20"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Zocalo hembra fila Y+",
-          "at": [
-            0,
-            12.7,
-            1.6
-          ],
-          "dim": [
-            48.3,
-            2.54,
-            8.5
-          ],
-          "color": "#212121"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Zocalo hembra fila Y-",
-          "at": [
-            0,
-            -12.7,
-            1.6
-          ],
-          "dim": [
-            48.3,
-            2.54,
-            8.5
-          ],
-          "color": "#212121"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Borneras lado Y+",
-          "at": [
-            0,
-            23,
-            1.6
-          ],
-          "dim": [
-            60,
-            8,
-            10
-          ],
-          "color": "#00897b"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Borneras lado Y-",
-          "at": [
-            0,
-            -23,
-            1.6
-          ],
-          "dim": [
-            60,
-            8,
-            10
-          ],
-          "color": "#00897b"
-        }
-      ],
-      "agujeros_montaje": [
-        {
-          "pos": [
-            -29.5,
-            -24
-          ],
-          "dia": 3.0
-        },
-        {
-          "pos": [
-            29.5,
-            -24
-          ],
-          "dia": 3.0
-        },
-        {
-          "pos": [
-            -29.5,
-            24
-          ],
-          "dia": 3.0
-        },
-        {
-          "pos": [
-            29.5,
-            24
-          ],
-          "dia": 3.0
-        }
-      ],
-      "despejes": [
-        {
-          "nombre": "acceso destornillador a borneras",
-          "at": [
-            0,
-            0,
-            11.6
-          ],
-          "dim": [
-            65,
-            54,
-            25
-          ]
-        }
-      ],
-      "notas": "Con el ESP32 enchufado la altura total sube ~+12 mm sobre los zocalos (PCB del ESP32 + modulo). Los tornillos de las borneras se aprietan desde arriba: dejar acceso vertical o tapa desmontable."
+     "tipo": "caja",
+     "nombre": "Micro-USB (sobresale ~1.3)",
+     "at": [
+      25.55,
+      0,
+      1.6
+     ],
+     "dim": [
+      5.9,
+      7.5,
+      2.9
+     ],
+     "color": "#b0bec5"
     },
     {
-      "id": "buck_lm2596",
-      "nombre": "Convertidor buck LM2596 (modulo ajustable)",
-      "categoria": "alimentacion",
-      "descripcion": "Modulo regulador reductor DC-DC con LM2596, potenciometro de ajuste, 2 condensadores electroliticos e inductor.",
-      "fuente": {
-        "tipo": "tipico",
-        "detalle": "modulo generico 43.2 x 21.2 mm, 2 agujeros diagonales O3"
-      },
-      "confianza": "verificar",
-      "solidos": [
-        {
-          "tipo": "caja",
-          "nombre": "PCB",
-          "pcb": true,
-          "at": [
-            0,
-            0,
-            0
-          ],
-          "dim": [
-            43.2,
-            21.2,
-            1.6
-          ],
-          "color": "#0d47a1"
-        },
-        {
-          "tipo": "cilindro",
-          "nombre": "Condensador entrada",
-          "at": [
-            -16,
-            0,
-            1.6
-          ],
-          "dia": 8,
-          "alto": 11,
-          "color": "#37474f"
-        },
-        {
-          "tipo": "cilindro",
-          "nombre": "Condensador salida",
-          "at": [
-            16,
-            0,
-            1.6
-          ],
-          "dia": 8,
-          "alto": 11,
-          "color": "#37474f"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Inductor",
-          "at": [
-            0,
-            -3,
-            1.6
-          ],
-          "dim": [
-            12,
-            12,
-            7
-          ],
-          "color": "#455a64"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Potenciometro de ajuste",
-          "at": [
-            -6,
-            6.5,
-            1.6
-          ],
-          "dim": [
-            9.5,
-            6.5,
-            5
-          ],
-          "color": "#1e88e5"
-        }
-      ],
-      "agujeros_montaje": [
-        {
-          "pos": [
-            -18.6,
-            7.6
-          ],
-          "dia": 3.0
-        },
-        {
-          "pos": [
-            18.6,
-            -7.6
-          ],
-          "dia": 3.0
-        }
-      ],
-      "despejes": [
-        {
-          "nombre": "acceso al potenciometro (ajuste con destornillador)",
-          "at": [
-            -6,
-            6.5,
-            8.1
-          ],
-          "dim": [
-            10,
-            7,
-            15
-          ]
-        }
-      ],
-      "notas": "Altura maxima ~12.6 mm (condensadores). Los pads VIN/VOUT estan en los extremos: dejar paso de cables por ambos lados cortos."
+     "tipo": "caja",
+     "nombre": "Header pines fila Y+ (plastico+pines abajo)",
+     "at": [
+      0,
+      12.7,
+      -5.5
+     ],
+     "dim": [
+      48.3,
+      2.54,
+      5.5
+     ],
+     "color": "#212121"
     },
     {
-      "id": "buck_mp1584",
-      "nombre": "Convertidor buck MP1584EN (mini)",
-      "categoria": "alimentacion",
-      "descripcion": "Modulo reductor DC-DC mini con MP1584EN, sin agujeros de montaje.",
-      "fuente": {
-        "tipo": "tipico",
-        "detalle": "modulo generico 22 x 17 mm"
-      },
-      "confianza": "verificar",
-      "solidos": [
-        {
-          "tipo": "caja",
-          "nombre": "PCB",
-          "pcb": true,
-          "at": [
-            0,
-            0,
-            0
-          ],
-          "dim": [
-            22,
-            17,
-            1.6
-          ],
-          "color": "#0d47a1"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Inductor",
-          "at": [
-            -3,
-            0,
-            1.6
-          ],
-          "dim": [
-            7,
-            7,
-            4
-          ],
-          "color": "#455a64"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Potenciometro",
-          "at": [
-            6.5,
-            4.5,
-            1.6
-          ],
-          "dim": [
-            4.5,
-            4.5,
-            3
-          ],
-          "color": "#1e88e5"
-        }
-      ],
-      "agujeros_montaje": [],
-      "despejes": [],
-      "notas": "Sin agujeros: fijar con carriles, doble faz o pilares con pestana. Altura total ~5.6 mm."
-    },
-    {
-      "id": "sensor_hcsr04",
-      "nombre": "Sensor ultrasonico HC-SR04",
-      "categoria": "sensor",
-      "descripcion": "Sensor de distancia con 2 transductores cilindricos O16 que deben asomar por la pared de la carcasa. Pines hacia atras.",
-      "fuente": {
-        "tipo": "tipico",
-        "detalle": "PCB 45 x 20, transductores O16 separados 26 mm entre centros"
-      },
-      "confianza": "verificar",
-      "solidos": [
-        {
-          "tipo": "caja",
-          "nombre": "PCB",
-          "pcb": true,
-          "at": [
-            0,
-            0,
-            0
-          ],
-          "dim": [
-            45,
-            20,
-            1.6
-          ],
-          "color": "#1b5e20"
-        },
-        {
-          "tipo": "cilindro",
-          "nombre": "Transductor TX",
-          "at": [
-            -13,
-            0,
-            1.6
-          ],
-          "dia": 16,
-          "alto": 12,
-          "color": "#78909c"
-        },
-        {
-          "tipo": "cilindro",
-          "nombre": "Transductor RX",
-          "at": [
-            13,
-            0,
-            1.6
-          ],
-          "dia": 16,
-          "alto": 12,
-          "color": "#78909c"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Cristal",
-          "at": [
-            0,
-            6,
-            1.6
-          ],
-          "dim": [
-            10,
-            4,
-            3.5
-          ],
-          "color": "#b0bec5"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Header 4 pines (hacia atras)",
-          "at": [
-            0,
-            -8.75,
-            -6
-          ],
-          "dim": [
-            10.2,
-            2.54,
-            6
-          ],
-          "color": "#212121"
-        }
-      ],
-      "agujeros_montaje": [
-        {
-          "pos": [
-            -20.85,
-            -8.35
-          ],
-          "dia": 2.0
-        },
-        {
-          "pos": [
-            20.85,
-            -8.35
-          ],
-          "dia": 2.0
-        },
-        {
-          "pos": [
-            -20.85,
-            8.35
-          ],
-          "dia": 2.0
-        },
-        {
-          "pos": [
-            20.85,
-            8.35
-          ],
-          "dia": 2.0
-        }
-      ],
-      "cortes_panel": [
-        {
-          "pos": [
-            -13,
-            0
-          ],
-          "dia": 16.6,
-          "nota": "ventana transductor TX"
-        },
-        {
-          "pos": [
-            13,
-            0
-          ],
-          "dia": 16.6,
-          "nota": "ventana transductor RX"
-        }
-      ],
-      "notas": "En la carcasa: 2 perforaciones O16.6 separadas 26 mm entre centros para que asomen los transductores (frente del sensor pegado a la cara interna del panel). Pines y cables quedan detras: dejar >=8 mm."
-    },
-    {
-      "id": "sensor_dht22",
-      "nombre": "Sensor temperatura/humedad DHT22 (AM2302)",
-      "categoria": "sensor",
-      "descripcion": "Sensor en caja plastica con rejilla; necesita flujo de aire (rejilla en la carcasa). Pestana superior fina con agujero O3.",
-      "fuente": {
-        "tipo": "tipico",
-        "detalle": "cuerpo 25.1 x 15.1 x 7.7 (incluye pestana), 4 pines paso 2.54"
-      },
-      "confianza": "verificar",
-      "solidos": [
-        {
-          "tipo": "caja",
-          "nombre": "Cuerpo (rejilla al frente)",
-          "pcb": true,
-          "at": [
-            0,
-            0,
-            0
-          ],
-          "dim": [
-            25.1,
-            15.1,
-            7.7
-          ],
-          "color": "#eceff1"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "4 pines (salen del extremo X-)",
-          "at": [
-            -15.55,
-            0,
-            1.0
-          ],
-          "dim": [
-            6,
-            10.2,
-            0.8
-          ],
-          "color": "#9e9e9e"
-        }
-      ],
-      "agujeros_montaje": [
-        {
-          "pos": [
-            10.4,
-            0
-          ],
-          "dia": 3.0
-        }
-      ],
-      "despejes": [
-        {
-          "nombre": "ventilacion frente a la rejilla",
-          "at": [
-            0,
-            -12,
-            0
-          ],
-          "dim": [
-            25,
-            8,
-            8
-          ]
-        }
-      ],
-      "notas": "El agujero de montaje esta en la pestana superior fina (~1.5 mm de espesor), no atraviesa todo el cuerpo. La carcasa debe tener rejilla/ranuras frente al sensor para que mida el aire exterior."
-    },
-    {
-      "id": "pulsador_tactil_6x6",
-      "nombre": "Pulsador tactil 6x6 mm (THT)",
-      "categoria": "boton",
-      "descripcion": "Micro pulsador momentaneo 6x6 con vastago O3.5. Alturas totales comunes: 4.3 / 5 / 6 / 7 / 9.5 mm (editar 'alto' del vastago segun el usado).",
-      "fuente": {
-        "tipo": "tipico",
-        "detalle": "estandar 6x6, base 3.6 mm, variante 4.3 mm total"
-      },
-      "confianza": "verificar",
-      "solidos": [
-        {
-          "tipo": "caja",
-          "nombre": "Base",
-          "at": [
-            0,
-            0,
-            0
-          ],
-          "dim": [
-            6,
-            6,
-            3.6
-          ],
-          "color": "#424242"
-        },
-        {
-          "tipo": "cilindro",
-          "nombre": "Vastago",
-          "at": [
-            0,
-            0,
-            3.6
-          ],
-          "dia": 3.5,
-          "alto": 0.7,
-          "color": "#111111"
-        }
-      ],
-      "agujeros_montaje": [],
-      "cortes_panel": [
-        {
-          "pos": [
-            0,
-            0
-          ],
-          "dia": 4.5,
-          "nota": "paso del vastago o de un boton extensor"
-        }
-      ],
-      "notas": "Va soldado a una PCB/perfboard; en la carcasa solo se perfora O4.5 alineado al vastago (o se imprime un boton extensor). Patas: 4, en rejilla 4.5 x 6.5 mm."
-    },
-    {
-      "id": "pulsador_panel_12mm",
-      "nombre": "Pulsador de panel 12 mm (momentaneo)",
-      "categoria": "boton",
-      "descripcion": "Pulsador metalico/plastico de montaje en panel con rosca de 12 mm y tuerca trasera. Origen = plano exterior del panel.",
-      "fuente": {
-        "tipo": "tipico",
-        "detalle": "cabeza O13.8, rosca 12 mm largo ~13, perforacion de panel O12.5"
-      },
-      "confianza": "verificar",
-      "solidos": [
-        {
-          "tipo": "cilindro",
-          "nombre": "Cabeza (fuera del panel)",
-          "at": [
-            0,
-            0,
-            0
-          ],
-          "dia": 13.8,
-          "alto": 4.5,
-          "color": "#90a4ae"
-        },
-        {
-          "tipo": "cilindro",
-          "nombre": "Rosca 12 mm (dentro)",
-          "at": [
-            0,
-            0,
-            -13
-          ],
-          "dia": 12,
-          "alto": 13,
-          "color": "#78909c"
-        },
-        {
-          "tipo": "caja",
-          "nombre": "Terminales",
-          "at": [
-            0,
-            0,
-            -19
-          ],
-          "dim": [
-            10,
-            10,
-            6
-          ],
-          "color": "#37474f"
-        }
-      ],
-      "agujeros_montaje": [],
-      "cortes_panel": [
-        {
-          "pos": [
-            0,
-            0
-          ],
-          "dia": 12.5,
-          "nota": "perforacion del panel; espesor de panel max ~5"
-        }
-      ],
-      "despejes": [
-        {
-          "nombre": "tuerca trasera (llave 17 aprox)",
-          "at": [
-            0,
-            0,
-            -6
-          ],
-          "dim": [
-            18,
-            18,
-            6
-          ]
-        }
-      ],
-      "notas": "Profundidad total detras del panel ~19 mm + cables. Dejar O18 libre alrededor del agujero por dentro para la tuerca."
-    },
-    {
-      "id": "conector_m8_panel",
-      "nombre": "Conector/pasamuros de panel M8",
-      "categoria": "conector",
-      "descripcion": "Entrada de panel con rosca M8x1 y tuerca (conector circular tipo sensor o prensaestopas chico). Generico: verificar con la unidad real. Origen = plano exterior del panel.",
-      "fuente": {
-        "tipo": "generico",
-        "detalle": "rosca M8x1; saliente exterior ~6, cuerpo interior ~18"
-      },
-      "confianza": "verificar",
-      "solidos": [
-        {
-          "tipo": "cilindro",
-          "nombre": "Frontal (fuera del panel)",
-          "at": [
-            0,
-            0,
-            0
-          ],
-          "dia": 9.5,
-          "alto": 6,
-          "color": "#607d8b"
-        },
-        {
-          "tipo": "cilindro",
-          "nombre": "Rosca M8 (dentro)",
-          "at": [
-            0,
-            0,
-            -8
-          ],
-          "dia": 8,
-          "alto": 8,
-          "color": "#78909c"
-        },
-        {
-          "tipo": "cilindro",
-          "nombre": "Cuerpo interior + terminales",
-          "at": [
-            0,
-            0,
-            -18
-          ],
-          "dia": 9,
-          "alto": 10,
-          "color": "#455a64"
-        }
-      ],
-      "agujeros_montaje": [],
-      "cortes_panel": [
-        {
-          "pos": [
-            0,
-            0
-          ],
-          "dia": 8.2,
-          "nota": "perforacion del panel para rosca M8"
-        }
-      ],
-      "despejes": [
-        {
-          "nombre": "tuerca M8 (llave 11-13)",
-          "at": [
-            0,
-            0,
-            -4
-          ],
-          "dim": [
-            14,
-            14,
-            4
-          ]
-        }
-      ],
-      "notas": "Dejar >=25 mm libres detras del panel para cuerpo + cables. La rosca util limita el espesor del panel a ~4-5 mm."
-    },
-    {
-      "id": "conector_m5_panel",
-      "nombre": "Conector/pasamuros de panel M5",
-      "categoria": "conector",
-      "descripcion": "Entrada de panel con rosca M5x0.5 y tuerca (conector circular miniatura). Generico: verificar con la unidad real. Origen = plano exterior del panel.",
-      "fuente": {
-        "tipo": "generico",
-        "detalle": "rosca M5x0.5; saliente exterior ~4, cuerpo interior ~12"
-      },
-      "confianza": "verificar",
-      "solidos": [
-        {
-          "tipo": "cilindro",
-          "nombre": "Frontal (fuera del panel)",
-          "at": [
-            0,
-            0,
-            0
-          ],
-          "dia": 6.5,
-          "alto": 4,
-          "color": "#607d8b"
-        },
-        {
-          "tipo": "cilindro",
-          "nombre": "Rosca M5 (dentro)",
-          "at": [
-            0,
-            0,
-            -6
-          ],
-          "dia": 5,
-          "alto": 6,
-          "color": "#78909c"
-        },
-        {
-          "tipo": "cilindro",
-          "nombre": "Cuerpo interior + terminales",
-          "at": [
-            0,
-            0,
-            -12
-          ],
-          "dia": 6,
-          "alto": 6,
-          "color": "#455a64"
-        }
-      ],
-      "agujeros_montaje": [],
-      "cortes_panel": [
-        {
-          "pos": [
-            0,
-            0
-          ],
-          "dia": 5.2,
-          "nota": "perforacion del panel para rosca M5"
-        }
-      ],
-      "despejes": [
-        {
-          "nombre": "tuerca M5 (llave 8)",
-          "at": [
-            0,
-            0,
-            -3
-          ],
-          "dim": [
-            10,
-            10,
-            3
-          ]
-        }
-      ],
-      "notas": "Dejar >=18 mm libres detras del panel para cuerpo + cables."
-    },
-    {
-      "id": "cv_MC300-W300-drive-shaft",
-      "nombre": "MC300-W300-drive-shaft",
-      "categoria": "transportador",
-      "familia": "MC300",
-      "descripcion": "Bastidor/eje modular MC300 de transportador Conveyone. Geometría real (malla fija). bbox 390.8×44×44 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 3e0eefdd6f03d2a6"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MC300-W300-drive-shaft.glb"
-      },
-      "bbox_mm": [
-        390.8,
-        44.0,
-        44.0
-      ],
-      "volumen_mm3": 433155.187,
-      "diam_agujeros_mm": [
-        5.0,
-        5.2,
-        6.5,
-        11.0,
-        15.0,
-        16.1,
-        17.0,
-        25.0,
-        39.0,
-        44.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MC400-201",
-      "nombre": "MC400-201",
-      "categoria": "transportador",
-      "familia": "MC400",
-      "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 14.5×39×114.5 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 0abadd788c5547ef"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MC400-201.glb"
-      },
-      "bbox_mm": [
-        14.5,
-        39.0,
-        114.5
-      ],
-      "volumen_mm3": 43726.785,
-      "diam_agujeros_mm": [
-        2.0,
-        5.0,
-        9.0,
-        12.0,
-        15.0,
-        29.0,
-        35.0,
-        39.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MC400-223",
-      "nombre": "MC400-223",
-      "categoria": "transportador",
-      "familia": "MC400",
-      "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 200×185×13 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash f393d430a6901890"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MC400-223.glb"
-      },
-      "bbox_mm": [
-        200.0,
-        185.0,
-        13.0
-      ],
-      "volumen_mm3": 339088.49,
-      "diam_agujeros_mm": [
-        2.0,
-        4.0,
-        5.0,
-        6.5,
-        6.6,
-        9.0,
-        10.0,
-        12.0,
-        15.0,
-        20.0,
-        28.0,
-        35.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MC400-224",
-      "nombre": "MC400-224",
-      "categoria": "transportador",
-      "familia": "MC400",
-      "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 13×35×12 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 87e4736c77e02cf5"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MC400-224.glb"
-      },
-      "bbox_mm": [
-        13.0,
-        35.0,
-        12.0
-      ],
-      "volumen_mm3": 3394.831,
-      "diam_agujeros_mm": [
-        5.5,
-        6.6,
-        10.0,
-        11.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MC400-225",
-      "nombre": "MC400-225",
-      "categoria": "transportador",
-      "familia": "MC400",
-      "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 200×185×13 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash e4b829057f6254fe"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MC400-225.glb"
-      },
-      "bbox_mm": [
-        200.0,
-        185.0,
-        13.0
-      ],
-      "volumen_mm3": 292976.11,
-      "diam_agujeros_mm": [
-        4.0,
-        4.2,
-        6.6,
-        9.0,
-        11.0,
-        12.0,
-        15.0,
-        16.0,
-        20.0,
-        28.0,
-        35.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2",
-      "nombre": "MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1(0Knob control panelM1LMM2)",
-      "categoria": "transportador",
-      "familia": "MC400",
-      "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 565×435.978×6185.77 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 30bfb9b1696d350f"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2.glb"
-      },
-      "bbox_mm": [
-        565.0,
-        435.978,
-        6185.765
-      ],
-      "volumen_mm3": 24768158.775,
-      "diam_agujeros_mm": [
-        0.4,
-        1.0,
-        2.0,
-        3.0,
-        4.0,
-        4.2,
-        4.9,
-        5.0,
-        5.4,
-        6.0,
-        6.5,
-        6.8,
-        7.0,
-        8.0,
-        9.0,
-        10.0,
-        11.0,
-        12.0,
-        14.0,
-        15.0,
-        17.0,
-        18.0,
-        20.0,
-        24.0,
-        26.046,
-        26.22,
-        30.0,
-        39.0,
-        40.0,
-        45.0,
-        46.6,
-        49.0,
-        49.426,
-        59.25,
-        60.0,
-        70.0,
-        78.42,
-        80.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MC400-W300-306",
-      "nombre": "MC400-W300-306",
-      "categoria": "transportador",
-      "familia": "MC400",
-      "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 65×39×39 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 0db71191df4e417d"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MC400-W300-306.glb"
-      },
-      "bbox_mm": [
-        65.0,
-        39.0,
-        39.0
-      ],
-      "volumen_mm3": 22166.074,
-      "diam_agujeros_mm": [
-        4.0,
-        5.2,
-        11.0,
-        12.0,
-        15.0,
-        25.0,
-        39.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MC400-W300.222.S",
-      "nombre": "MC400-W300.222.S",
-      "categoria": "transportador",
-      "familia": "MC400",
-      "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 294×40×40 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 32a6a60f9673fc7a"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MC400-W300.222.S.glb"
-      },
-      "bbox_mm": [
-        294.0,
-        40.0,
-        40.0
-      ],
-      "volumen_mm3": 151334.602,
-      "diam_agujeros_mm": [
-        30.0,
-        35.0,
-        40.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MC400-W300.222",
-      "nombre": "MC400-W300.222",
-      "categoria": "transportador",
-      "familia": "MC400",
-      "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 294×44×44 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash fe5fd6969663446f"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MC400-W300.222.glb"
-      },
-      "bbox_mm": [
-        294.0,
-        44.0,
-        44.0
-      ],
-      "volumen_mm3": 191787.07,
-      "diam_agujeros_mm": [
-        5.0,
-        5.2,
-        10.0,
-        36.0,
-        39.0,
-        44.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MC400SM-02",
-      "nombre": "MC400SM-02",
-      "categoria": "transportador",
-      "familia": "MC400",
-      "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 14.5×39×114.5 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash f2b661947d5bf925"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MC400SM-02.glb"
-      },
-      "bbox_mm": [
-        14.5,
-        39.0,
-        114.5
-      ],
-      "volumen_mm3": 43726.785,
-      "diam_agujeros_mm": [
-        2.0,
-        5.0,
-        9.0,
-        12.0,
-        15.0,
-        29.0,
-        35.0,
-        39.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MHD15-L321MC400",
-      "nombre": "MHD15-L321MC400",
-      "categoria": "transportador",
-      "familia": "MHD15",
-      "descripcion": "Eje/husillo MHD15 de transportador Conveyone. Geometría real (malla fija). bbox 321×15×15 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 03ba74f4b864eb88"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MHD15-L321MC400.glb"
-      },
-      "bbox_mm": [
-        321.0,
-        15.0,
-        15.0
-      ],
-      "volumen_mm3": 54557.811,
-      "diam_agujeros_mm": [
-        4.916,
-        12.0,
-        14.3,
-        15.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MJD15-L300-2M6MC400",
-      "nombre": "MJD15-L300-2M6MC400",
-      "categoria": "transportador",
-      "familia": "MJD15",
-      "descripcion": "Eje/husillo MJD15 de transportador Conveyone. Geometría real (malla fija). bbox 300×15×15 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 9e683c7eec53b66b"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MJD15-L300-2M6MC400.glb"
-      },
-      "bbox_mm": [
-        300.0,
-        15.0,
-        15.0
-      ],
-      "volumen_mm3": 52328.42,
-      "diam_agujeros_mm": [
-        5.0,
-        14.3,
-        15.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MT800-05-301-W100",
-      "nombre": "MT800-05-301-W100",
-      "categoria": "transportador",
-      "familia": "MT800",
-      "descripcion": "Componente de soporte/estructura MT800 de transportador Conveyone. Geometría real (malla fija). bbox 30×30×191.5 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash dca25a7e6175fbdb"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MT800-05-301-W100.glb"
-      },
-      "bbox_mm": [
-        30.0,
-        30.0,
-        191.5
-      ],
-      "volumen_mm3": 89057.901,
-      "diam_agujeros_mm": [
-        5.0,
-        8.0,
-        17.0,
-        20.0,
-        26.6,
-        28.0,
-        30.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MT800-217",
-      "nombre": "MT800-217",
-      "categoria": "transportador",
-      "familia": "MT800",
-      "descripcion": "Componente de soporte/estructura MT800 de transportador Conveyone. Geometría real (malla fija). bbox 15×45×15 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash d24117eb138c3f62"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MT800-217.glb"
-      },
-      "bbox_mm": [
-        15.0,
-        45.0,
-        15.0
-      ],
-      "volumen_mm3": 5843.687,
-      "diam_agujeros_mm": [
-        6.6,
-        11.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MTB800-207",
-      "nombre": "MTB800-207",
-      "categoria": "transportador",
-      "familia": "MTB800",
-      "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 6×250×220 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 4c0d96185c473f2e"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MTB800-207.glb"
-      },
-      "bbox_mm": [
-        6.0,
-        250.0,
-        220.0
-      ],
-      "volumen_mm3": 298075.109,
-      "diam_agujeros_mm": [
-        5.0,
-        6.6,
-        9.0,
-        10.0,
-        12.0,
-        60.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MTB800-301",
-      "nombre": "MTB800-301",
-      "categoria": "transportador",
-      "familia": "MTB800",
-      "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 28×28.005×64 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 55511f71c05f248f"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MTB800-301.glb"
-      },
-      "bbox_mm": [
-        28.0,
-        28.005,
-        64.0
-      ],
-      "volumen_mm3": 29666.988,
-      "diam_agujeros_mm": [
-        4.134,
-        8.0,
-        20.0,
-        28.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MTB800-302",
-      "nombre": "MTB800-302",
-      "categoria": "transportador",
-      "familia": "MTB800",
-      "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 28×28.005×147.4 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 177360357f73bf44"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MTB800-302.glb"
-      },
-      "bbox_mm": [
-        28.0,
-        28.005,
-        147.4
-      ],
-      "volumen_mm3": 64583.415,
-      "diam_agujeros_mm": [
-        4.134,
-        6.0,
-        8.0,
-        20.0,
-        22.0,
-        26.6,
-        28.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MTB800-304",
-      "nombre": "MTB800-304",
-      "categoria": "transportador",
-      "familia": "MTB800",
-      "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 28×28.003×104 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 952194d59ccfe94d"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MTB800-304.glb"
-      },
-      "bbox_mm": [
-        28.0,
-        28.003,
-        104.0
-      ],
-      "volumen_mm3": 42063.542,
-      "diam_agujeros_mm": [
-        4.916,
-        6.0,
-        20.0,
-        28.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MTB800-317",
-      "nombre": "MTB800-317",
-      "categoria": "transportador",
-      "familia": "MTB800",
-      "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 15.749×15.749×71 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 2d32d1d3c6c6bc50"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MTB800-317.glb"
-      },
-      "bbox_mm": [
-        15.749,
-        15.749,
-        71.0
-      ],
-      "volumen_mm3": 11202.198,
-      "diam_agujeros_mm": [
-        4.916,
-        14.15,
-        15.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_MTB800-331",
-      "nombre": "MTB800-331",
-      "categoria": "transportador",
-      "familia": "MTB800",
-      "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 48×48×36 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash e9657267bdf2a536"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/MTB800-331.glb"
-      },
-      "bbox_mm": [
-        48.0,
-        48.0,
-        36.0
-      ],
-      "volumen_mm3": 19401.534,
-      "diam_agujeros_mm": [
-        30.0,
-        35.0,
-        42.0,
-        48.0
-      ],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_ZP2026",
-      "nombre": "ZP2026 · Transportador rodillo acumulación 24V",
-      "categoria": "transportador",
-      "familia": "ZP",
-      "descripcion": "Transportador Conveyone completo ZP2026 (ensamble de referencia, ~3 m). Geometría real (malla fija). bbox 3000.5×838.2×615.4 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash a684b80c6b16a320"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb"
-      },
-      "bbox_mm": [
-        3000.5,
-        838.2,
-        615.4
-      ],
-      "volumen_mm3": 54962013.197,
-      "diam_agujeros_mm": [],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_ZP2026_MDR",
-      "nombre": "ZP2026-MDR · Transportador rodillo simple 24V",
-      "categoria": "transportador",
-      "familia": "ZP",
-      "descripcion": "Transportador Conveyone completo ZP2026 (ensamble de referencia, ~3 m). Geometría real (malla fija). bbox 3000.5×838.2×615.4 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash a684b80c6b16a320-mdr"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026_MDR.glb"
-      },
-      "bbox_mm": [
-        3000.5,
-        838.2,
-        615.4
-      ],
-      "volumen_mm3": null,
-      "diam_agujeros_mm": [],
-      "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
-    },
-    {
-      "id": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
-      "nombre": "Motor UniDrive (eje D)",
-      "categoria": "transportador",
-      "familia": "ZP2026",
-      "descripcion": "Motorreductor UniDrive con eje D del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 152.69×118.12×119.05 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb",
-        "nodo": "300986+Std+UniDrive+motor+D-Shaft"
-      },
-      "bbox_mm": [
-        152.69,
-        118.12,
-        119.05
-      ],
-      "tris": 12446,
-      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
-    },
-    {
-      "id": "cv_ZP2026__speed_up_spool",
-      "nombre": "Polea / carrete (speed-up)",
-      "categoria": "transportador",
-      "familia": "ZP2026",
-      "descripcion": "Polea de aceleración (speed-up spool) del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 68×67.95×56.01 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb",
-        "nodo": "SPEED_UP_SPOOL"
-      },
-      "bbox_mm": [
-        68,
-        67.95,
-        56.01
-      ],
-      "tris": 5966,
-      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
-    },
-    {
-      "id": "cv_ZP2026__power_supply",
-      "nombre": "Fuente de poder",
-      "categoria": "transportador",
-      "familia": "ZP2026",
-      "descripcion": "Fuente de poder del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 150.4×147.11×84.7 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb",
-        "nodo": "Power_Supply"
-      },
-      "bbox_mm": [
-        150.4,
-        147.11,
-        84.7
-      ],
-      "tris": 13856,
-      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
-    },
-    {
-      "id": "cv_ZP2026__escalerilla",
-      "nombre": "Escalerilla portacables",
-      "categoria": "transportador",
-      "familia": "ZP2026",
-      "descripcion": "Escalerilla portacables a lo largo del ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 3000×53.83×112.06 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb",
-        "nodo": "escalerilla"
-      },
-      "bbox_mm": [
-        3000,
-        53.83,
-        112.06
-      ],
-      "tris": 37971,
-      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
-    },
-    {
-      "id": "cv_ZP2026__lt_g",
-      "nombre": "Larguero lateral",
-      "categoria": "transportador",
-      "familia": "ZP2026",
-      "descripcion": "Perfil lateral (larguero) del bastidor ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2990×190.53×609.46 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb",
-        "nodo": "LT_G"
-      },
-      "bbox_mm": [
-        2990,
-        190.53,
-        609.46
-      ],
-      "tris": 33624,
-      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
-    },
-    {
-      "id": "cv_ZP2026__tr_s",
-      "nombre": "Travesaño de estructura",
-      "categoria": "transportador",
-      "familia": "ZP2026",
-      "descripcion": "Travesaño estructural del bastidor ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2980.19×87.64×533.2 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb",
-        "nodo": "TR_S"
-      },
-      "bbox_mm": [
-        2980.19,
-        87.64,
-        533.2
-      ],
-      "tris": 12552,
-      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
-    },
-    {
-      "id": "cv_ZP2026__guarda",
-      "nombre": "Guarda lateral",
-      "categoria": "transportador",
-      "familia": "ZP2026",
-      "descripcion": "Guarda lateral del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2989×37.95×37.95 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb",
-        "nodo": "GUARDA"
-      },
-      "bbox_mm": [
-        2989,
-        37.95,
-        37.95
-      ],
-      "tris": 5232,
-      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
-    },
-    {
-      "id": "cv_ZP2026__guarda_mir",
-      "nombre": "Guarda lateral (espejo)",
-      "categoria": "transportador",
-      "familia": "ZP2026",
-      "descripcion": "Guarda lateral espejada del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2989×37.95×37.95 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb",
-        "nodo": "GUARDA_MIR"
-      },
-      "bbox_mm": [
-        2989,
-        37.95,
-        37.95
-      ],
-      "tris": 5232,
-      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
-    },
-    {
-      "id": "cv_ZP2026__b_005a",
-      "nombre": "Bracket B_005A",
-      "categoria": "transportador",
-      "familia": "ZP2026",
-      "descripcion": "Soporte/bracket B_005A del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 203×94.99×615.39 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb",
-        "nodo": "B_005A"
-      },
-      "bbox_mm": [
-        203,
-        94.99,
-        615.39
-      ],
-      "tris": 3264,
-      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
-    },
-    {
-      "id": "cv_ZP2026__b_004a",
-      "nombre": "Bracket B_004A",
-      "categoria": "transportador",
-      "familia": "ZP2026",
-      "descripcion": "Soporte/bracket B_004A del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 158×3.99×615.41 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb",
-        "nodo": "B_004A"
-      },
-      "bbox_mm": [
-        158,
-        3.99,
-        615.41
-      ],
-      "tris": 744,
-      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
-    },
-    {
-      "id": "cv_ZP2026__b_002a",
-      "nombre": "Bracket B_002A",
-      "categoria": "transportador",
-      "familia": "ZP2026",
-      "descripcion": "Soporte/bracket B_002A del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 70.96×37.96×607.4 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb",
-        "nodo": "B_002A"
-      },
-      "bbox_mm": [
-        70.96,
-        37.96,
-        607.4
-      ],
-      "tris": 172,
-      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
-    },
-    {
-      "id": "cv_ZP2026__br",
-      "nombre": "Bracket BR_3002",
-      "categoria": "transportador",
-      "familia": "ZP2026",
-      "descripcion": "Soporte/bracket BR_3002 del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 84.01×369.01×615.4 mm.",
-      "fuente": {
-        "tipo": "cad",
-        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
-      },
-      "confianza": "cad",
-      "malla": {
-        "glb": "componentes/models/ZP2026.glb",
-        "nodo": "BR_"
-      },
-      "bbox_mm": [
-        84.01,
-        369.01,
-        615.4
-      ],
-      "tris": 2824,
-      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+     "tipo": "caja",
+     "nombre": "Header pines fila Y- (plastico+pines abajo)",
+     "at": [
+      0,
+      -12.7,
+      -5.5
+     ],
+     "dim": [
+      48.3,
+      2.54,
+      5.5
+     ],
+     "color": "#212121"
     }
-  ]
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "cable micro-USB",
+     "at": [
+      34.7,
+      0,
+      0
+     ],
+     "dim": [
+      15,
+      12,
+      8
+     ]
+    },
+    {
+     "nombre": "zona antena (no rodear con metal)",
+     "at": [
+      -31.2,
+      0,
+      0
+     ],
+     "dim": [
+      8,
+      27.9,
+      10
+     ]
+    }
+   ],
+   "notas": "No tiene agujeros de montaje: en la carcasa usar carriles laterales para la PCB (ranura de 1.6-1.8 mm) o montarlo enchufado al adaptador de borneras. Filas de pines separadas 25.4 mm; si va sobre protoboard/zocalo, dejar 8.5 mm libres por debajo."
+  },
+  {
+   "id": "esp32_c3_supermini",
+   "nombre": "ESP32-C3 SuperMini (USB-C, pequeno)",
+   "categoria": "mcu",
+   "descripcion": "Variante pequena tipo SuperMini con USB-C y antena ceramica. Sin agujeros de montaje.",
+   "fuente": {
+    "tipo": "tipico",
+    "detalle": "dimension citada por fabricantes: 22.52 x 18 mm"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "PCB",
+     "pcb": true,
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      22.5,
+      18.0,
+      1.6
+     ],
+     "color": "#2e7d32"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "USB-C (sobresale ~1)",
+     "at": [
+      -8.55,
+      0,
+      1.6
+     ],
+     "dim": [
+      7.4,
+      9.0,
+      3.2
+     ],
+     "color": "#b0bec5"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "SoC + componentes",
+     "at": [
+      3.0,
+      0,
+      1.6
+     ],
+     "dim": [
+      8,
+      8,
+      1.2
+     ],
+     "color": "#616161"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Antena ceramica",
+     "at": [
+      9.2,
+      5.5,
+      1.6
+     ],
+     "dim": [
+      3.2,
+      5.0,
+      1.5
+     ],
+     "color": "#efebe9"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "cable USB-C",
+     "at": [
+      -18.5,
+      0,
+      0
+     ],
+     "dim": [
+      14,
+      12,
+      8
+     ]
+    }
+   ],
+   "notas": "Sin agujeros de montaje: usar carriles o pilares con pestana. Si se sueldan pines (2 filas de 8, paso 2.54, separadas 15.24), dejar 8.5 mm libres por debajo."
+  },
+  {
+   "id": "adaptador_borneras_esp32_38",
+   "nombre": "Adaptador de borneras a tornillo para ESP32 38 pines",
+   "categoria": "adaptador",
+   "descripcion": "Placa de expansion (breakout) donde se enchufa el ESP32 DevKitC 38p; saca todos los GPIO a borneras de tornillo. LAS DIMENSIONES VARIAN MUCHO ENTRE MARCAS: medir la placa real y ajustar este registro.",
+   "fuente": {
+    "tipo": "tipico",
+    "detalle": "valores aproximados de breakouts genericos 38p; verificar la unidad propia"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "PCB",
+     "pcb": true,
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      65,
+      54,
+      1.6
+     ],
+     "color": "#1b5e20"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Zocalo hembra fila Y+",
+     "at": [
+      0,
+      12.7,
+      1.6
+     ],
+     "dim": [
+      48.3,
+      2.54,
+      8.5
+     ],
+     "color": "#212121"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Zocalo hembra fila Y-",
+     "at": [
+      0,
+      -12.7,
+      1.6
+     ],
+     "dim": [
+      48.3,
+      2.54,
+      8.5
+     ],
+     "color": "#212121"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Borneras lado Y+",
+     "at": [
+      0,
+      23,
+      1.6
+     ],
+     "dim": [
+      60,
+      8,
+      10
+     ],
+     "color": "#00897b"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Borneras lado Y-",
+     "at": [
+      0,
+      -23,
+      1.6
+     ],
+     "dim": [
+      60,
+      8,
+      10
+     ],
+     "color": "#00897b"
+    }
+   ],
+   "agujeros_montaje": [
+    {
+     "pos": [
+      -29.5,
+      -24
+     ],
+     "dia": 3.0
+    },
+    {
+     "pos": [
+      29.5,
+      -24
+     ],
+     "dia": 3.0
+    },
+    {
+     "pos": [
+      -29.5,
+      24
+     ],
+     "dia": 3.0
+    },
+    {
+     "pos": [
+      29.5,
+      24
+     ],
+     "dia": 3.0
+    }
+   ],
+   "despejes": [
+    {
+     "nombre": "acceso destornillador a borneras",
+     "at": [
+      0,
+      0,
+      11.6
+     ],
+     "dim": [
+      65,
+      54,
+      25
+     ]
+    }
+   ],
+   "notas": "Con el ESP32 enchufado la altura total sube ~+12 mm sobre los zocalos (PCB del ESP32 + modulo). Los tornillos de las borneras se aprietan desde arriba: dejar acceso vertical o tapa desmontable."
+  },
+  {
+   "id": "buck_lm2596",
+   "nombre": "Convertidor buck LM2596 (modulo ajustable)",
+   "categoria": "alimentacion",
+   "descripcion": "Modulo regulador reductor DC-DC con LM2596, potenciometro de ajuste, 2 condensadores electroliticos e inductor.",
+   "fuente": {
+    "tipo": "tipico",
+    "detalle": "modulo generico 43.2 x 21.2 mm, 2 agujeros diagonales O3"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "PCB",
+     "pcb": true,
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      43.2,
+      21.2,
+      1.6
+     ],
+     "color": "#0d47a1"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Condensador entrada",
+     "at": [
+      -16,
+      0,
+      1.6
+     ],
+     "dia": 8,
+     "alto": 11,
+     "color": "#37474f"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Condensador salida",
+     "at": [
+      16,
+      0,
+      1.6
+     ],
+     "dia": 8,
+     "alto": 11,
+     "color": "#37474f"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Inductor",
+     "at": [
+      0,
+      -3,
+      1.6
+     ],
+     "dim": [
+      12,
+      12,
+      7
+     ],
+     "color": "#455a64"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Potenciometro de ajuste",
+     "at": [
+      -6,
+      6.5,
+      1.6
+     ],
+     "dim": [
+      9.5,
+      6.5,
+      5
+     ],
+     "color": "#1e88e5"
+    }
+   ],
+   "agujeros_montaje": [
+    {
+     "pos": [
+      -18.6,
+      7.6
+     ],
+     "dia": 3.0
+    },
+    {
+     "pos": [
+      18.6,
+      -7.6
+     ],
+     "dia": 3.0
+    }
+   ],
+   "despejes": [
+    {
+     "nombre": "acceso al potenciometro (ajuste con destornillador)",
+     "at": [
+      -6,
+      6.5,
+      8.1
+     ],
+     "dim": [
+      10,
+      7,
+      15
+     ]
+    }
+   ],
+   "notas": "Altura maxima ~12.6 mm (condensadores). Los pads VIN/VOUT estan en los extremos: dejar paso de cables por ambos lados cortos."
+  },
+  {
+   "id": "buck_mp1584",
+   "nombre": "Convertidor buck MP1584EN (mini)",
+   "categoria": "alimentacion",
+   "descripcion": "Modulo reductor DC-DC mini con MP1584EN, sin agujeros de montaje.",
+   "fuente": {
+    "tipo": "tipico",
+    "detalle": "modulo generico 22 x 17 mm"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "PCB",
+     "pcb": true,
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      22,
+      17,
+      1.6
+     ],
+     "color": "#0d47a1"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Inductor",
+     "at": [
+      -3,
+      0,
+      1.6
+     ],
+     "dim": [
+      7,
+      7,
+      4
+     ],
+     "color": "#455a64"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Potenciometro",
+     "at": [
+      6.5,
+      4.5,
+      1.6
+     ],
+     "dim": [
+      4.5,
+      4.5,
+      3
+     ],
+     "color": "#1e88e5"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Sin agujeros: fijar con carriles, doble faz o pilares con pestana. Altura total ~5.6 mm."
+  },
+  {
+   "id": "sensor_hcsr04",
+   "nombre": "Sensor ultrasonico HC-SR04",
+   "categoria": "sensor",
+   "descripcion": "Sensor de distancia con 2 transductores cilindricos O16 que deben asomar por la pared de la carcasa. Pines hacia atras.",
+   "fuente": {
+    "tipo": "tipico",
+    "detalle": "PCB 45 x 20, transductores O16 separados 26 mm entre centros"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "PCB",
+     "pcb": true,
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      45,
+      20,
+      1.6
+     ],
+     "color": "#1b5e20"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Transductor TX",
+     "at": [
+      -13,
+      0,
+      1.6
+     ],
+     "dia": 16,
+     "alto": 12,
+     "color": "#78909c"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Transductor RX",
+     "at": [
+      13,
+      0,
+      1.6
+     ],
+     "dia": 16,
+     "alto": 12,
+     "color": "#78909c"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Cristal",
+     "at": [
+      0,
+      6,
+      1.6
+     ],
+     "dim": [
+      10,
+      4,
+      3.5
+     ],
+     "color": "#b0bec5"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Header 4 pines (hacia atras)",
+     "at": [
+      0,
+      -8.75,
+      -6
+     ],
+     "dim": [
+      10.2,
+      2.54,
+      6
+     ],
+     "color": "#212121"
+    }
+   ],
+   "agujeros_montaje": [
+    {
+     "pos": [
+      -20.85,
+      -8.35
+     ],
+     "dia": 2.0
+    },
+    {
+     "pos": [
+      20.85,
+      -8.35
+     ],
+     "dia": 2.0
+    },
+    {
+     "pos": [
+      -20.85,
+      8.35
+     ],
+     "dia": 2.0
+    },
+    {
+     "pos": [
+      20.85,
+      8.35
+     ],
+     "dia": 2.0
+    }
+   ],
+   "cortes_panel": [
+    {
+     "pos": [
+      -13,
+      0
+     ],
+     "dia": 16.6,
+     "nota": "ventana transductor TX"
+    },
+    {
+     "pos": [
+      13,
+      0
+     ],
+     "dia": 16.6,
+     "nota": "ventana transductor RX"
+    }
+   ],
+   "notas": "En la carcasa: 2 perforaciones O16.6 separadas 26 mm entre centros para que asomen los transductores (frente del sensor pegado a la cara interna del panel). Pines y cables quedan detras: dejar >=8 mm."
+  },
+  {
+   "id": "sensor_dht22",
+   "nombre": "Sensor temperatura/humedad DHT22 (AM2302)",
+   "categoria": "sensor",
+   "descripcion": "Sensor en caja plastica con rejilla; necesita flujo de aire (rejilla en la carcasa). Pestana superior fina con agujero O3.",
+   "fuente": {
+    "tipo": "tipico",
+    "detalle": "cuerpo 25.1 x 15.1 x 7.7 (incluye pestana), 4 pines paso 2.54"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "Cuerpo (rejilla al frente)",
+     "pcb": true,
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      25.1,
+      15.1,
+      7.7
+     ],
+     "color": "#eceff1"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "4 pines (salen del extremo X-)",
+     "at": [
+      -15.55,
+      0,
+      1.0
+     ],
+     "dim": [
+      6,
+      10.2,
+      0.8
+     ],
+     "color": "#9e9e9e"
+    }
+   ],
+   "agujeros_montaje": [
+    {
+     "pos": [
+      10.4,
+      0
+     ],
+     "dia": 3.0
+    }
+   ],
+   "despejes": [
+    {
+     "nombre": "ventilacion frente a la rejilla",
+     "at": [
+      0,
+      -12,
+      0
+     ],
+     "dim": [
+      25,
+      8,
+      8
+     ]
+    }
+   ],
+   "notas": "El agujero de montaje esta en la pestana superior fina (~1.5 mm de espesor), no atraviesa todo el cuerpo. La carcasa debe tener rejilla/ranuras frente al sensor para que mida el aire exterior."
+  },
+  {
+   "id": "pulsador_tactil_6x6",
+   "nombre": "Pulsador tactil 6x6 mm (THT)",
+   "categoria": "boton",
+   "descripcion": "Micro pulsador momentaneo 6x6 con vastago O3.5. Alturas totales comunes: 4.3 / 5 / 6 / 7 / 9.5 mm (editar 'alto' del vastago segun el usado).",
+   "fuente": {
+    "tipo": "tipico",
+    "detalle": "estandar 6x6, base 3.6 mm, variante 4.3 mm total"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "Base",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      6,
+      6,
+      3.6
+     ],
+     "color": "#424242"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Vastago",
+     "at": [
+      0,
+      0,
+      3.6
+     ],
+     "dia": 3.5,
+     "alto": 0.7,
+     "color": "#111111"
+    }
+   ],
+   "agujeros_montaje": [],
+   "cortes_panel": [
+    {
+     "pos": [
+      0,
+      0
+     ],
+     "dia": 4.5,
+     "nota": "paso del vastago o de un boton extensor"
+    }
+   ],
+   "notas": "Va soldado a una PCB/perfboard; en la carcasa solo se perfora O4.5 alineado al vastago (o se imprime un boton extensor). Patas: 4, en rejilla 4.5 x 6.5 mm."
+  },
+  {
+   "id": "pulsador_panel_12mm",
+   "nombre": "Pulsador de panel 12 mm (momentaneo)",
+   "categoria": "boton",
+   "descripcion": "Pulsador metalico/plastico de montaje en panel con rosca de 12 mm y tuerca trasera. Origen = plano exterior del panel.",
+   "fuente": {
+    "tipo": "tipico",
+    "detalle": "cabeza O13.8, rosca 12 mm largo ~13, perforacion de panel O12.5"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Cabeza (fuera del panel)",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dia": 13.8,
+     "alto": 4.5,
+     "color": "#90a4ae"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rosca 12 mm (dentro)",
+     "at": [
+      0,
+      0,
+      -13
+     ],
+     "dia": 12,
+     "alto": 13,
+     "color": "#78909c"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Terminales",
+     "at": [
+      0,
+      0,
+      -19
+     ],
+     "dim": [
+      10,
+      10,
+      6
+     ],
+     "color": "#37474f"
+    }
+   ],
+   "agujeros_montaje": [],
+   "cortes_panel": [
+    {
+     "pos": [
+      0,
+      0
+     ],
+     "dia": 12.5,
+     "nota": "perforacion del panel; espesor de panel max ~5"
+    }
+   ],
+   "despejes": [
+    {
+     "nombre": "tuerca trasera (llave 17 aprox)",
+     "at": [
+      0,
+      0,
+      -6
+     ],
+     "dim": [
+      18,
+      18,
+      6
+     ]
+    }
+   ],
+   "notas": "Profundidad total detras del panel ~19 mm + cables. Dejar O18 libre alrededor del agujero por dentro para la tuerca."
+  },
+  {
+   "id": "conector_m8_panel",
+   "nombre": "Conector/pasamuros de panel M8",
+   "categoria": "conector",
+   "descripcion": "Entrada de panel con rosca M8x1 y tuerca (conector circular tipo sensor o prensaestopas chico). Generico: verificar con la unidad real. Origen = plano exterior del panel.",
+   "fuente": {
+    "tipo": "generico",
+    "detalle": "rosca M8x1; saliente exterior ~6, cuerpo interior ~18"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Frontal (fuera del panel)",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dia": 9.5,
+     "alto": 6,
+     "color": "#607d8b"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rosca M8 (dentro)",
+     "at": [
+      0,
+      0,
+      -8
+     ],
+     "dia": 8,
+     "alto": 8,
+     "color": "#78909c"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Cuerpo interior + terminales",
+     "at": [
+      0,
+      0,
+      -18
+     ],
+     "dia": 9,
+     "alto": 10,
+     "color": "#455a64"
+    }
+   ],
+   "agujeros_montaje": [],
+   "cortes_panel": [
+    {
+     "pos": [
+      0,
+      0
+     ],
+     "dia": 8.2,
+     "nota": "perforacion del panel para rosca M8"
+    }
+   ],
+   "despejes": [
+    {
+     "nombre": "tuerca M8 (llave 11-13)",
+     "at": [
+      0,
+      0,
+      -4
+     ],
+     "dim": [
+      14,
+      14,
+      4
+     ]
+    }
+   ],
+   "notas": "Dejar >=25 mm libres detras del panel para cuerpo + cables. La rosca util limita el espesor del panel a ~4-5 mm."
+  },
+  {
+   "id": "conector_m5_panel",
+   "nombre": "Conector/pasamuros de panel M5",
+   "categoria": "conector",
+   "descripcion": "Entrada de panel con rosca M5x0.5 y tuerca (conector circular miniatura). Generico: verificar con la unidad real. Origen = plano exterior del panel.",
+   "fuente": {
+    "tipo": "generico",
+    "detalle": "rosca M5x0.5; saliente exterior ~4, cuerpo interior ~12"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Frontal (fuera del panel)",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dia": 6.5,
+     "alto": 4,
+     "color": "#607d8b"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rosca M5 (dentro)",
+     "at": [
+      0,
+      0,
+      -6
+     ],
+     "dia": 5,
+     "alto": 6,
+     "color": "#78909c"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Cuerpo interior + terminales",
+     "at": [
+      0,
+      0,
+      -12
+     ],
+     "dia": 6,
+     "alto": 6,
+     "color": "#455a64"
+    }
+   ],
+   "agujeros_montaje": [],
+   "cortes_panel": [
+    {
+     "pos": [
+      0,
+      0
+     ],
+     "dia": 5.2,
+     "nota": "perforacion del panel para rosca M5"
+    }
+   ],
+   "despejes": [
+    {
+     "nombre": "tuerca M5 (llave 8)",
+     "at": [
+      0,
+      0,
+      -3
+     ],
+     "dim": [
+      10,
+      10,
+      3
+     ]
+    }
+   ],
+   "notas": "Dejar >=18 mm libres detras del panel para cuerpo + cables."
+  },
+  {
+   "id": "cv_MC300-W300-drive-shaft",
+   "nombre": "MC300-W300-drive-shaft",
+   "categoria": "transportador",
+   "familia": "MC300",
+   "descripcion": "Bastidor/eje modular MC300 de transportador Conveyone. Geometría real (malla fija). bbox 390.8×44×44 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 3e0eefdd6f03d2a6"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC300-W300-drive-shaft.glb"
+   },
+   "bbox_mm": [
+    390.8,
+    44.0,
+    44.0
+   ],
+   "volumen_mm3": 433155.187,
+   "diam_agujeros_mm": [
+    5.0,
+    5.2,
+    6.5,
+    11.0,
+    15.0,
+    16.1,
+    17.0,
+    25.0,
+    39.0,
+    44.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-201",
+   "nombre": "MC400-201",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 14.5×39×114.5 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 0abadd788c5547ef"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-201.glb"
+   },
+   "bbox_mm": [
+    14.5,
+    39.0,
+    114.5
+   ],
+   "volumen_mm3": 43726.785,
+   "diam_agujeros_mm": [
+    2.0,
+    5.0,
+    9.0,
+    12.0,
+    15.0,
+    29.0,
+    35.0,
+    39.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-223",
+   "nombre": "MC400-223",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 200×185×13 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash f393d430a6901890"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-223.glb"
+   },
+   "bbox_mm": [
+    200.0,
+    185.0,
+    13.0
+   ],
+   "volumen_mm3": 339088.49,
+   "diam_agujeros_mm": [
+    2.0,
+    4.0,
+    5.0,
+    6.5,
+    6.6,
+    9.0,
+    10.0,
+    12.0,
+    15.0,
+    20.0,
+    28.0,
+    35.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-224",
+   "nombre": "MC400-224",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 13×35×12 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 87e4736c77e02cf5"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-224.glb"
+   },
+   "bbox_mm": [
+    13.0,
+    35.0,
+    12.0
+   ],
+   "volumen_mm3": 3394.831,
+   "diam_agujeros_mm": [
+    5.5,
+    6.6,
+    10.0,
+    11.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-225",
+   "nombre": "MC400-225",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 200×185×13 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash e4b829057f6254fe"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-225.glb"
+   },
+   "bbox_mm": [
+    200.0,
+    185.0,
+    13.0
+   ],
+   "volumen_mm3": 292976.11,
+   "diam_agujeros_mm": [
+    4.0,
+    4.2,
+    6.6,
+    9.0,
+    11.0,
+    12.0,
+    15.0,
+    16.0,
+    20.0,
+    28.0,
+    35.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2",
+   "nombre": "MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1(0Knob control panelM1LMM2)",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 565×435.978×6185.77 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 30bfb9b1696d350f"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-FL-A-L6000-W400-25TU1-S2-LA2-UBK1.2HFLM-KM1-0Knob-control-panelM1LMM2.glb"
+   },
+   "bbox_mm": [
+    565.0,
+    435.978,
+    6185.765
+   ],
+   "volumen_mm3": 24768158.775,
+   "diam_agujeros_mm": [
+    0.4,
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    4.2,
+    4.9,
+    5.0,
+    5.4,
+    6.0,
+    6.5,
+    6.8,
+    7.0,
+    8.0,
+    9.0,
+    10.0,
+    11.0,
+    12.0,
+    14.0,
+    15.0,
+    17.0,
+    18.0,
+    20.0,
+    24.0,
+    26.046,
+    26.22,
+    30.0,
+    39.0,
+    40.0,
+    45.0,
+    46.6,
+    49.0,
+    49.426,
+    59.25,
+    60.0,
+    70.0,
+    78.42,
+    80.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-W300-306",
+   "nombre": "MC400-W300-306",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 65×39×39 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 0db71191df4e417d"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-W300-306.glb"
+   },
+   "bbox_mm": [
+    65.0,
+    39.0,
+    39.0
+   ],
+   "volumen_mm3": 22166.074,
+   "diam_agujeros_mm": [
+    4.0,
+    5.2,
+    11.0,
+    12.0,
+    15.0,
+    25.0,
+    39.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-W300.222.S",
+   "nombre": "MC400-W300.222.S",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 294×40×40 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 32a6a60f9673fc7a"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-W300.222.S.glb"
+   },
+   "bbox_mm": [
+    294.0,
+    40.0,
+    40.0
+   ],
+   "volumen_mm3": 151334.602,
+   "diam_agujeros_mm": [
+    30.0,
+    35.0,
+    40.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400-W300.222",
+   "nombre": "MC400-W300.222",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 294×44×44 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash fe5fd6969663446f"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400-W300.222.glb"
+   },
+   "bbox_mm": [
+    294.0,
+    44.0,
+    44.0
+   ],
+   "volumen_mm3": 191787.07,
+   "diam_agujeros_mm": [
+    5.0,
+    5.2,
+    10.0,
+    36.0,
+    39.0,
+    44.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MC400SM-02",
+   "nombre": "MC400SM-02",
+   "categoria": "transportador",
+   "familia": "MC400",
+   "descripcion": "Pieza modular MC400 de transportador Conveyone (bastidor, soporte o eje). Geometría real (malla fija). bbox 14.5×39×114.5 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash f2b661947d5bf925"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MC400SM-02.glb"
+   },
+   "bbox_mm": [
+    14.5,
+    39.0,
+    114.5
+   ],
+   "volumen_mm3": 43726.785,
+   "diam_agujeros_mm": [
+    2.0,
+    5.0,
+    9.0,
+    12.0,
+    15.0,
+    29.0,
+    35.0,
+    39.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MHD15-L321MC400",
+   "nombre": "MHD15-L321MC400",
+   "categoria": "transportador",
+   "familia": "MHD15",
+   "descripcion": "Eje/husillo MHD15 de transportador Conveyone. Geometría real (malla fija). bbox 321×15×15 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 03ba74f4b864eb88"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MHD15-L321MC400.glb"
+   },
+   "bbox_mm": [
+    321.0,
+    15.0,
+    15.0
+   ],
+   "volumen_mm3": 54557.811,
+   "diam_agujeros_mm": [
+    4.916,
+    12.0,
+    14.3,
+    15.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MJD15-L300-2M6MC400",
+   "nombre": "MJD15-L300-2M6MC400",
+   "categoria": "transportador",
+   "familia": "MJD15",
+   "descripcion": "Eje/husillo MJD15 de transportador Conveyone. Geometría real (malla fija). bbox 300×15×15 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 9e683c7eec53b66b"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MJD15-L300-2M6MC400.glb"
+   },
+   "bbox_mm": [
+    300.0,
+    15.0,
+    15.0
+   ],
+   "volumen_mm3": 52328.42,
+   "diam_agujeros_mm": [
+    5.0,
+    14.3,
+    15.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MT800-05-301-W100",
+   "nombre": "MT800-05-301-W100",
+   "categoria": "transportador",
+   "familia": "MT800",
+   "descripcion": "Componente de soporte/estructura MT800 de transportador Conveyone. Geometría real (malla fija). bbox 30×30×191.5 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash dca25a7e6175fbdb"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MT800-05-301-W100.glb"
+   },
+   "bbox_mm": [
+    30.0,
+    30.0,
+    191.5
+   ],
+   "volumen_mm3": 89057.901,
+   "diam_agujeros_mm": [
+    5.0,
+    8.0,
+    17.0,
+    20.0,
+    26.6,
+    28.0,
+    30.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MT800-217",
+   "nombre": "MT800-217",
+   "categoria": "transportador",
+   "familia": "MT800",
+   "descripcion": "Componente de soporte/estructura MT800 de transportador Conveyone. Geometría real (malla fija). bbox 15×45×15 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash d24117eb138c3f62"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MT800-217.glb"
+   },
+   "bbox_mm": [
+    15.0,
+    45.0,
+    15.0
+   ],
+   "volumen_mm3": 5843.687,
+   "diam_agujeros_mm": [
+    6.6,
+    11.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MTB800-207",
+   "nombre": "MTB800-207",
+   "categoria": "transportador",
+   "familia": "MTB800",
+   "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 6×250×220 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 4c0d96185c473f2e"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MTB800-207.glb"
+   },
+   "bbox_mm": [
+    6.0,
+    250.0,
+    220.0
+   ],
+   "volumen_mm3": 298075.109,
+   "diam_agujeros_mm": [
+    5.0,
+    6.6,
+    9.0,
+    10.0,
+    12.0,
+    60.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MTB800-301",
+   "nombre": "MTB800-301",
+   "categoria": "transportador",
+   "familia": "MTB800",
+   "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 28×28.005×64 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 55511f71c05f248f"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MTB800-301.glb"
+   },
+   "bbox_mm": [
+    28.0,
+    28.005,
+    64.0
+   ],
+   "volumen_mm3": 29666.988,
+   "diam_agujeros_mm": [
+    4.134,
+    8.0,
+    20.0,
+    28.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MTB800-302",
+   "nombre": "MTB800-302",
+   "categoria": "transportador",
+   "familia": "MTB800",
+   "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 28×28.005×147.4 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 177360357f73bf44"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MTB800-302.glb"
+   },
+   "bbox_mm": [
+    28.0,
+    28.005,
+    147.4
+   ],
+   "volumen_mm3": 64583.415,
+   "diam_agujeros_mm": [
+    4.134,
+    6.0,
+    8.0,
+    20.0,
+    22.0,
+    26.6,
+    28.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MTB800-304",
+   "nombre": "MTB800-304",
+   "categoria": "transportador",
+   "familia": "MTB800",
+   "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 28×28.003×104 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 952194d59ccfe94d"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MTB800-304.glb"
+   },
+   "bbox_mm": [
+    28.0,
+    28.003,
+    104.0
+   ],
+   "volumen_mm3": 42063.542,
+   "diam_agujeros_mm": [
+    4.916,
+    6.0,
+    20.0,
+    28.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MTB800-317",
+   "nombre": "MTB800-317",
+   "categoria": "transportador",
+   "familia": "MTB800",
+   "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 15.749×15.749×71 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash 2d32d1d3c6c6bc50"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MTB800-317.glb"
+   },
+   "bbox_mm": [
+    15.749,
+    15.749,
+    71.0
+   ],
+   "volumen_mm3": 11202.198,
+   "diam_agujeros_mm": [
+    4.916,
+    14.15,
+    15.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_MTB800-331",
+   "nombre": "MTB800-331",
+   "categoria": "transportador",
+   "familia": "MTB800",
+   "descripcion": "Soporte/pata MTB800 de transportador Conveyone. Geometría real (malla fija). bbox 48×48×36 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash e9657267bdf2a536"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/MTB800-331.glb"
+   },
+   "bbox_mm": [
+    48.0,
+    48.0,
+    36.0
+   ],
+   "volumen_mm3": 19401.534,
+   "diam_agujeros_mm": [
+    30.0,
+    35.0,
+    42.0,
+    48.0
+   ],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_ZP2026",
+   "nombre": "ZP2026 · Transportador rodillo acumulación 24V",
+   "categoria": "transportador",
+   "familia": "ZP",
+   "descripcion": "Transportador Conveyone completo ZP2026 (ensamble de referencia, ~3 m). Geometría real (malla fija). bbox 3000.5×838.2×615.4 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash a684b80c6b16a320"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb"
+   },
+   "bbox_mm": [
+    3000.5,
+    838.2,
+    615.4
+   ],
+   "volumen_mm3": 54962013.197,
+   "diam_agujeros_mm": [],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_ZP2026_MDR",
+   "nombre": "ZP2026-MDR · Transportador rodillo simple 24V",
+   "categoria": "transportador",
+   "familia": "ZP",
+   "descripcion": "Transportador Conveyone completo ZP2026 (ensamble de referencia, ~3 m). Geometría real (malla fija). bbox 3000.5×838.2×615.4 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · CADENAS PARTsolutions AP203 · stepHash a684b80c6b16a320-mdr"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026_MDR.glb"
+   },
+   "bbox_mm": [
+    3000.5,
+    838.2,
+    615.4
+   ],
+   "volumen_mm3": null,
+   "diam_agujeros_mm": [],
+   "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+  },
+  {
+   "id": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "nombre": "Motor UniDrive (eje D)",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Motorreductor UniDrive con eje D del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 152.69×118.12×119.05 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "300986+Std+UniDrive+motor+D-Shaft"
+   },
+   "bbox_mm": [
+    152.69,
+    118.12,
+    119.05
+   ],
+   "tris": 12446,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__speed_up_spool",
+   "nombre": "Polea / carrete (speed-up)",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Polea de aceleración (speed-up spool) del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 68×67.95×56.01 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "SPEED_UP_SPOOL"
+   },
+   "bbox_mm": [
+    68,
+    67.95,
+    56.01
+   ],
+   "tris": 5966,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__power_supply",
+   "nombre": "Fuente de poder",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Fuente de poder del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 150.4×147.11×84.7 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "Power_Supply"
+   },
+   "bbox_mm": [
+    150.4,
+    147.11,
+    84.7
+   ],
+   "tris": 13856,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__escalerilla",
+   "nombre": "Escalerilla portacables",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Escalerilla portacables a lo largo del ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 3000×53.83×112.06 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "escalerilla"
+   },
+   "bbox_mm": [
+    3000,
+    53.83,
+    112.06
+   ],
+   "tris": 37971,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__lt_g",
+   "nombre": "Larguero lateral",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Perfil lateral (larguero) del bastidor ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2990×190.53×609.46 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "LT_G"
+   },
+   "bbox_mm": [
+    2990,
+    190.53,
+    609.46
+   ],
+   "tris": 33624,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__tr_s",
+   "nombre": "Travesaño de estructura",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Travesaño estructural del bastidor ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2980.19×87.64×533.2 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "TR_S"
+   },
+   "bbox_mm": [
+    2980.19,
+    87.64,
+    533.2
+   ],
+   "tris": 12552,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__guarda",
+   "nombre": "Guarda lateral",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Guarda lateral del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2989×37.95×37.95 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "GUARDA"
+   },
+   "bbox_mm": [
+    2989,
+    37.95,
+    37.95
+   ],
+   "tris": 5232,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__guarda_mir",
+   "nombre": "Guarda lateral (espejo)",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Guarda lateral espejada del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2989×37.95×37.95 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "GUARDA_MIR"
+   },
+   "bbox_mm": [
+    2989,
+    37.95,
+    37.95
+   ],
+   "tris": 5232,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__b_005a",
+   "nombre": "Bracket B_005A",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Soporte/bracket B_005A del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 203×94.99×615.39 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "B_005A"
+   },
+   "bbox_mm": [
+    203,
+    94.99,
+    615.39
+   ],
+   "tris": 3264,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__b_004a",
+   "nombre": "Bracket B_004A",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Soporte/bracket B_004A del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 158×3.99×615.41 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "B_004A"
+   },
+   "bbox_mm": [
+    158,
+    3.99,
+    615.41
+   ],
+   "tris": 744,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__b_002a",
+   "nombre": "Bracket B_002A",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Soporte/bracket B_002A del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 70.96×37.96×607.4 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "B_002A"
+   },
+   "bbox_mm": [
+    70.96,
+    37.96,
+    607.4
+   ],
+   "tris": 172,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "cv_ZP2026__br",
+   "nombre": "Bracket BR_3002",
+   "categoria": "transportador",
+   "familia": "ZP2026",
+   "descripcion": "Soporte/bracket BR_3002 del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 84.01×369.01×615.4 mm.",
+   "fuente": {
+    "tipo": "cad",
+    "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+   },
+   "confianza": "cad",
+   "malla": {
+    "glb": "componentes/models/ZP2026.glb",
+    "nodo": "BR_"
+   },
+   "bbox_mm": [
+    84.01,
+    369.01,
+    615.4
+   ],
+   "tris": 2824,
+   "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+  },
+  {
+   "id": "rodillo_traccion_50x40",
+   "nombre": "Rodillo de alta traccion O50 x 40 (cubos O18, barreno O12.2)",
+   "categoria": "mecanico",
+   "descripcion": "Rueda/rodillo de desvio para sorter: cuerpo O50 de 40 mm de cara (recubrimiento de alta friccion) con cubos laterales O18 x 22 que actuan como separadores contra las placas portarodillos. Barreno pasante O12.2 (ajuste deslizante sobre eje O12 h9). Eje del rodillo en X; apoyado tangente sobre Z=0.",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "especificacion del usuario (sorter 90): rodillos O50, separacion entre tangentes >= 50 mm, salen entre bandas de 40 mm"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Cuerpo de traccion O50",
+     "at": [
+      -20,
+      0,
+      25
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 50,
+     "alto": 40,
+     "color": "#37474f"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Cubo separador lado -X",
+     "at": [
+      -42,
+      0,
+      25
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 18,
+     "alto": 22,
+     "color": "#90a4ae"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Cubo separador lado +X",
+     "at": [
+      20,
+      0,
+      25
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 18,
+     "alto": 22,
+     "color": "#90a4ae"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "giro libre del cuerpo (no rozar bandas ni placas)",
+     "at": [
+      -20,
+      0,
+      0
+     ],
+     "dim": [
+      44,
+      54,
+      54
+     ]
+    }
+   ],
+   "notas": "Barreno O12.2 pasante en todo el largo (84 mm entre caras de cubos). En una linea de sorter el paso entre ejes de lineas es dia + gap: con gap tangente de 50 mm el paso es 100 mm y una banda de 40 mm pasa con 5 mm de holgura por lado."
+  },
+  {
+   "id": "polea_plana_60x44",
+   "nombre": "Polea de banda plana O60 x 44 (banda de 40, barreno O12.2)",
+   "categoria": "mecanico",
+   "descripcion": "Polea cilindrica para banda plana estrecha de 40 mm: cara de 44 mm (banda + 2 mm por lado), O60. Barreno pasante O12.2 para eje O12; fijar con prisionero o chaveta en el eje motriz. Eje en X; apoyada tangente sobre Z=0.",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "banda estrecha de 40 mm declarada por el usuario; cara = ancho de banda + 4 mm (regla practica poleas planas)"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Cuerpo de polea O60",
+     "at": [
+      -22,
+      0,
+      30
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 60,
+     "alto": 44,
+     "color": "#546e7a"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "paso de banda alrededor (espesor 3 por cara)",
+     "at": [
+      -22,
+      0,
+      0
+     ],
+     "dim": [
+      44,
+      70,
+      70
+     ]
+    }
+   ],
+   "notas": "Barreno O12.2. Con eje de polea a Z=137 sobre la mesa, el lomo de la banda (espesor 3) queda a 137 + 30 + 3 = 170 = plano de transporte."
+  },
+  {
+   "id": "rodillo_vulcanizado_40x290",
+   "nombre": "Rodillo completo vulcanizado O40 x 290 (corazon de tubo O30, extremo de polea)",
+   "categoria": "mecanico",
+   "descripcion": "Rodillo de desvio de una sola pieza: corazon de tubo de hierro O30 x 290 vulcanizado a O40 en toda la cara MENOS un extremo de 52 mm que queda desnudo: ahi el serpentin de transmision envuelve el rodillo (el rodillo es la polea de la primera linea). Barreno pasante O12.2 para eje O12 h9. Eje del rodillo en X; apoyado tangente sobre Z=0.",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "espec. del usuario (transferencia 90): rodillos de 40 con el vulcanizado, 30 el corazon de hierro; completos, vulcanizados menos en un extremo donde sube la banda"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Corazon de tubo O30 (tramo de polea)",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 30,
+     "alto": 290,
+     "color": "#90a4ae"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Vulcanizado O40 (cara de traccion)",
+     "at": [
+      -145,
+      0,
+      20
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 40,
+     "alto": 238,
+     "color": "#37474f"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "giro libre + paso de banda en el extremo desnudo",
+     "at": [
+      -145,
+      0,
+      0
+     ],
+     "dim": [
+      290,
+      46,
+      46
+     ]
+    }
+   ],
+   "notas": "La banda plana de 3 mm sobre el corazon O30 queda embutida 2 mm bajo el vulcanizado O40 (15 + 3 = 18 < 20): el producto solo toca el vulcanizado. Barreno O12.2 pasante; retener el eje con E-clips DIN 6799."
+  },
+  {
+   "id": "polea_tensora_50x29",
+   "nombre": "Polea tensora O80 x 39 (2a linea del serpentin, loca, eje O12)",
+   "categoria": "mecanico",
+   "descripcion": "Polea tensora O80 x 39 abombada, loca sobre buje de bronce (eje cantilever O12). 2a linea baja del serpentin: mayor diametro y mas baja para dar la compliancia del pop-up.",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "espec. del usuario: las poleas de la segunda linea de abajo son un poco mas grandes que los rodillos de 40"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Polea O50",
+     "at": [
+      -14.5,
+      0,
+      25
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 80,
+     "alto": 29,
+     "color": "#90a4ae"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "paso de banda alrededor (espesor 3)",
+     "at": [
+      -14.5,
+      0,
+      0
+     ],
+     "dim": [
+      29,
+      58,
+      58
+     ]
+    }
+   ],
+   "notas": "Barreno O12.2 con buje o rodamiento (no modelado). Montar en eje cantilever O12 empotrado en la placa de transmision."
+  },
+  {
+   "id": "polea_retorno_24x29",
+   "nombre": "Polea de retorno O50 x 39 (loca, eje O12)",
+   "categoria": "mecanico",
+   "descripcion": "Polea de retorno O50 x 39 abombada, loca sobre buje de bronce. Ø50 = Ø minimo Habasit de polea con contraflexion para banda plana 3 mm/2 telas (antes O24, insuficiente).",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "transmision en serpentin del modulo de transferencia 90 (esquema del usuario IMG_3102); ancho = banda 25 + 4"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Polea O24",
+     "at": [
+      -14.5,
+      0,
+      12
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 50,
+     "alto": 29,
+     "color": "#90a4ae"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "paso de banda alrededor (espesor 3)",
+     "at": [
+      -14.5,
+      0,
+      0
+     ],
+     "dim": [
+      29,
+      32,
+      32
+     ]
+    }
+   ],
+   "notas": "Barreno O12.2 con buje o rodamiento (no modelado). Montar en eje cantilever O12 empotrado en la placa de transmision."
+  },
+  {
+   "id": "tambor_motriz_90x30",
+   "nombre": "Tambor motriz O90 x 30 (barreno O25.2 con chaveta)",
+   "categoria": "mecanico",
+   "descripcion": "Tambor de arrastre del serpentin de transmision: gran envoltura (~200 grados) de la banda plana de 25. Barreno O25.2 con chaveta para eje motriz O25 apoyado en ambas placas. Eje de giro en X; apoyado tangente sobre Z=0.",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "transmision en serpentin del modulo de transferencia 90 (esquema del usuario IMG_3102)"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Tambor O90",
+     "at": [
+      -15,
+      0,
+      45
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 90,
+     "alto": 30,
+     "color": "#4a5560"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "paso de banda alrededor (espesor 3)",
+     "at": [
+      -15,
+      0,
+      0
+     ],
+     "dim": [
+      30,
+      98,
+      98
+     ]
+    }
+   ],
+   "notas": "Barreno O25.2 + chaveta DIN 6885 8x7 (no modelada). El motorreductor se acopla en linea al eje O25."
+  },
+  {
+   "id": "chumacera_ucfl204",
+   "nombre": "Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "categoria": "mecanico",
+   "descripcion": "Unidad de rodamiento de brida (2 agujeros) con inserto UC204 autoalineante bore O20, collar excentrico y grasera. Familia del equipo base (UCFL/UC 205). Se atornilla a la cara exterior de una placa con 2 bulones M10 (paso 64); el eje O20 pasa por la placa y gira en la unidad. Reemplaza rodamientos desnudos.",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "integracion con el equipo base sorter_CO (STEP): usa la misma familia de chumaceras de brida que el base"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "Brida 86x30x12",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      86,
+      30,
+      12
+     ],
+     "color": "#78909c"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Cubo O42",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 42,
+     "alto": 31,
+     "color": "#78909c"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Collar excentrico O34",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 34,
+     "alto": 12,
+     "color": "#90a4ae"
+    }
+   ],
+   "agujeros_montaje": [
+    {
+     "pos": [
+      32,
+      0
+     ],
+     "dia": 11
+    },
+    {
+     "pos": [
+      -32,
+      0
+     ],
+     "dia": 11
+    }
+   ],
+   "despejes": [
+    {
+     "nombre": "acceso a grasera y prisionero del collar",
+     "at": [
+      0,
+      20,
+      20
+     ],
+     "dim": [
+      20,
+      12,
+      20
+     ]
+    }
+   ],
+   "notas": "Bore O20 H (inserto UC204). Atornillar M10 a paso 64. El eje O20 h6 gira en la unidad; el collar excentrico lo fija axialmente. Autoalineante: tolera desalineo entre placas."
+  },
+  {
+   "id": "perfil_pg40",
+   "nombre": "Perfil estructural PG40 (aluminio 40x40, ranura 8)",
+   "categoria": "mecanico",
+   "descripcion": "Perfil de aluminio extruido 40x40 con 4 ranuras en T (slot 8) y taladro central O6.8, para bastidor y rieles. Es el perfil del equipo base (productos 'TSLOT' y 'rail' del STEP sorter_CO). Se corta a medida. Modelado como cuerpo 40x40 (las ranuras en T se cotan en el plano).",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp: productos TSLOT / rail (perfil de bastidor)"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "Perfil 40x40 x200 (cortar a medida)",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      200,
+      40,
+      40
+     ],
+     "color": "#b0bec5"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "acceso a ranuras en T (tuerca en T M6/M8)",
+     "at": [
+      0,
+      22,
+      20
+     ],
+     "dim": [
+      200,
+      6,
+      8
+     ]
+    }
+   ],
+   "notas": "40x40, ranura 8, taladro central O6.8 M8 en extremos. Tuercas en T M6/M8 en las 4 ranuras. Peso ~1.6 kg/m. El modulo de transferencia se ancla a este perfil con tuercas en T (sin perforar el base)."
+  },
+  {
+   "id": "perfil_mb80",
+   "nombre": "Perfil guia MB80 (aluminio 80x40, ranura 8) — guia de banda del base",
+   "categoria": "mecanico",
+   "descripcion": "Perfil de aluminio extruido 80x40 con ranuras en T (slot 8), es la GUIA-DESLIZANTE individual de cada banda sincronica del equipo base M-Haste: el ramal superior de la banda desliza por su slot superior. Se corta a medida. Eje largo en X.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp / M-Haste: perfil guia 80x40 (producto MB80) de la banda"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "Perfil 80x40 x200 (cortar a medida)",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      200,
+      80,
+      40
+     ],
+     "color": "#b0bec5"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "slot de deslizamiento de la banda (ancho 34, arriba)",
+     "at": [
+      0,
+      0,
+      40
+     ],
+     "dim": [
+      200,
+      34,
+      6
+     ]
+    }
+   ],
+   "notas": "80x40, ranura en T 8. Guia-deslizante individual por banda (el ramal superior desliza en el slot superior). Compatible con tuercas en T M6/M8. El modulo de transferencia y las guias se anclan sin perforar."
+  },
+  {
+   "id": "casquillo_bloqueo_lk30",
+   "nombre": "Casquillo de bloqueo LK30 O20 H7 / O30 (acople sin chaveta)",
+   "categoria": "mecanico",
+   "descripcion": "Elemento de bloqueo eje-cubo por friccion (keyless locking bush) tipo LK30-C65-20H7-D30 del equipo base: fija la polea/cubo al eje O20 H7 sin chaveta, por apriete radial de tornillos. Es el 'acople' que une la polea de transmision al eje. Eje de giro en Z.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp: producto LK30-C65-20H7-D30-R (x3)"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Cuerpo O30",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 30,
+     "alto": 26,
+     "color": "#607d8b"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brida de apriete O45",
+     "at": [
+      0,
+      0,
+      20
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 45,
+     "alto": 6,
+     "color": "#546e7a"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "acceso a tornillos de apriete",
+     "at": [
+      0,
+      0,
+      26
+     ],
+     "dim": [
+      45,
+      45,
+      15
+     ]
+    }
+   ],
+   "notas": "Bore O20 H7. Apretar los tornillos al par nominal en cruz; centra y fija la polea al eje sin chaveta. Desmontaje aflojando los tornillos (mantenimiento rapido)."
+  },
+  {
+   "id": "polea_at10_32t",
+   "nombre": "Polea sincronica AT10 32T con pestanas (bore O20)",
+   "categoria": "mecanico",
+   "descripcion": "Polea dentada AT10 de 32 dientes con pestanas (guia de correa), diametro primitivo 101.86, para correa AT10 ancho 25/32. Es la polea motriz del terminal de banda del base. Bore O20 (fija con casquillo LK30). Eje de giro en Z.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp: producto Polea_AT10_32T_pestanas (drive kit w timing)"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Cuerpo dentado dp101.86",
+     "at": [
+      0,
+      0,
+      6
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 101,
+     "alto": 28,
+     "color": "#78909c"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pestana inferior O110",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 110,
+     "alto": 6,
+     "color": "#607d8b"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pestana superior O110",
+     "at": [
+      0,
+      0,
+      34
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 110,
+     "alto": 6,
+     "color": "#607d8b"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "dp = 32*10/pi = 101.86 mm; paso AT10 = 10 mm. Bore O20 con casquillo de bloqueo LK30. Envoltura minima recomendada >= 6 dientes."
+  },
+  {
+   "id": "chumacera_ucfl205",
+   "nombre": "Chumacera de brida UCFL205 (bore O25, SKF)",
+   "categoria": "mecanico",
+   "descripcion": "Unidad de brida (2 agujeros) con inserto UC205 bore O25, autoalineante, con collar excentrico y grasera. Es la chumacera del terminal de banda del base (SKF UCFL 205). Alojamiento del rodamiento del eje motriz. Se atornilla a la placa; el eje O25 gira en la unidad.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp: productos SKF_UCFL 205 / FL 205+ / UC 205"
+   },
+   "confianza": "datasheet",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "Brida 95x38x14",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      95,
+      38,
+      14
+     ],
+     "color": "#78909c"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Alojamiento O47",
+     "at": [
+      0,
+      0,
+      14
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 47,
+     "alto": 34,
+     "color": "#78909c"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Collar excentrico O38",
+     "at": [
+      0,
+      0,
+      48
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 38,
+     "alto": 14,
+     "color": "#90a4ae"
+    }
+   ],
+   "agujeros_montaje": [
+    {
+     "pos": [
+      35,
+      0
+     ],
+     "dia": 13
+    },
+    {
+     "pos": [
+      -35,
+      0
+     ],
+     "dia": 13
+    }
+   ],
+   "despejes": [
+    {
+     "nombre": "acceso a grasera y prisionero",
+     "at": [
+      0,
+      22,
+      25
+     ],
+     "dim": [
+      22,
+      14,
+      22
+     ]
+    }
+   ],
+   "notas": "Bore O25 (inserto UC205, OD esferico 52, ancho 34.1). Bulones M12 a paso 70. Autoalineante. Es el alojamiento/chumacera estandar del terminal del base."
+  },
+  {
+   "id": "rodamiento_skf1206_etn9",
+   "nombre": "Rodamiento SKF 1206 ETN9 (autoalineante, bore O30)",
+   "categoria": "mecanico",
+   "descripcion": "Rodamiento de bolas a rotula (autoalineante) doble hilera 1206 ETN9: bore O30, OD O62, ancho 16. Del terminal de banda del base. Eje de giro en Z.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp: producto skf_bearing_1206_etn9"
+   },
+   "confianza": "datasheet",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Anillo 30x62x16",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 62,
+     "alto": 16,
+     "color": "#9aa7b0"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Bore O30 j6 en eje, OD O62 H7 en alojamiento. Autoalineante: tolera desalineo angular. SKF 1206 ETN9."
+  },
+  {
+   "id": "rodamiento_6203_2rs",
+   "nombre": "Rodamiento 6203-2RS (sellado, bore O17)",
+   "categoria": "mecanico",
+   "descripcion": "Rodamiento rigido de bolas sellado 6203-2RS: bore O17, OD O40, ancho 12. Usado en la polea loca (idler) del terminal del base. Eje de giro en Z.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp: producto Bearing 6203 2RS (IDLER PULLEY)"
+   },
+   "confianza": "datasheet",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Anillo 17x40x12",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 40,
+     "alto": 12,
+     "color": "#9aa7b0"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Bore O17, OD O40, ancho 12. Sellado 2RS de por vida."
+  },
+  {
+   "id": "soporte_rodillo_terminal",
+   "nombre": "Soporte de rodillo / motriz del terminal (escuadra)",
+   "categoria": "mecanico",
+   "descripcion": "Escuadra que soporta el eje del rodillo/polea del terminal de banda contra el perfil PG40 (soporte tipo 'SOPORTE MOTRIZ' del base). Cara vertical atornillada al perfil + cara horizontal con alojamiento de chumacera. Modelo representativo; verificar contra la unidad real.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp: productos SOPORTE MOTRIZ 2 T / SOPORTE MOTOR / UA-*"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "Cara vertical 90x8x90 (al perfil)",
+     "at": [
+      0,
+      -21,
+      0
+     ],
+     "dim": [
+      90,
+      8,
+      90
+     ],
+     "color": "#546e7a"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Cara horizontal 90x50x8 (chumacera)",
+     "at": [
+      0,
+      0,
+      82
+     ],
+     "dim": [
+      90,
+      50,
+      8
+     ],
+     "color": "#546e7a"
+    }
+   ],
+   "agujeros_montaje": [
+    {
+     "pos": [
+      -30,
+      -21
+     ],
+     "dia": 9
+    },
+    {
+     "pos": [
+      30,
+      -21
+     ],
+     "dia": 9
+    }
+   ],
+   "despejes": [],
+   "notas": "Atornilla la chumacera UCFL205 arriba (paso 70) y se fija al perfil PG40 con tuercas en T M8. Cotas nominales: ajustar al soporte real del base."
+  },
+  {
+   "id": "tensor_banda",
+   "nombre": "Mecanismo tensor de banda (carro + husillo)",
+   "categoria": "mecanico",
+   "descripcion": "Tensor del terminal de banda del base ('Tensor'): carro deslizante que porta la chumacera del rodillo tensor y se desplaza por un husillo/tornillo para tensar la banda. Modelo representativo. Eje de tensado en X.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp: producto Tensor"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "Carro deslizante 70x40x30",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      70,
+      40,
+      30
+     ],
+     "color": "#607d8b"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Husillo de tensado M12",
+     "at": [
+      -35,
+      0,
+      15
+     ],
+     "eje": [
+      -1,
+      0,
+      0
+     ],
+     "dia": 12,
+     "alto": 60,
+     "color": "#90a4ae"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Tuerca de ajuste O24",
+     "at": [
+      -70,
+      0,
+      15
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 24,
+     "alto": 12,
+     "color": "#78909c"
+    }
+   ],
+   "agujeros_montaje": [
+    {
+     "pos": [
+      0,
+      0
+     ],
+     "dia": 25
+    }
+   ],
+   "despejes": [
+    {
+     "nombre": "carrera de tensado",
+     "at": [
+      40,
+      0,
+      15
+     ],
+     "dim": [
+      50,
+      40,
+      30
+     ]
+    }
+   ],
+   "notas": "El carro aloja la chumacera del rodillo tensor; girando la tuerca sobre el husillo M12 se desplaza y tensa la banda. Rango de tensado segun carrera del carro (verificar contra el 'Tensor' del base)."
+  },
+  {
+   "id": "rodillo_terminal_40",
+   "nombre": "Rodillo/idler O40 del terminal (cal_4_f40)",
+   "categoria": "mecanico",
+   "descripcion": "Rodillo O40 del transportador base (producto 'cal_4_f40'): tubo O40 con eje/muniones, apoyado en chumaceras del terminal. Eje de giro en X; apoyado tangente sobre Z=0.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp: producto cal_4_f40___65"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Tubo O40",
+     "at": [
+      -150,
+      0,
+      20
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 40,
+     "alto": 300,
+     "color": "#455a64"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Munion O17 (-X)",
+     "at": [
+      -170,
+      0,
+      20
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 17,
+     "alto": 20,
+     "color": "#90a4ae"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Munion O17 (+X)",
+     "at": [
+      150,
+      0,
+      20
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 17,
+     "alto": 20,
+     "color": "#90a4ae"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Tubo O40, muniones O17 en rodamientos 6203. Largo de cara ajustable al ancho de banda del base (verificar 'cal_4_f40')."
+  },
+  {
+   "id": "eje_rodillos_12x336",
+   "nombre": "Eje calibrado O12 x 336 para rodillo completo (extremos roscados M10)",
+   "categoria": "mecanico",
+   "descripcion": "Eje O12 h9 de 336 mm: atraviesa las 2 placas portarodillos (agujeros O12.2, juego 0.20-0.29) y el barreno del rodillo (bujes autolubricados). Extremos torneados y roscados M10x1.5x15 para fijar a las placas con golilla plana DIN 125 + golilla de presion DIN 127 + tuerca DIN 934.",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "largo = rodillo 290 + golillas de empuje + 2 placas de 6 + rosca M10x15 por lado"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Eje O12",
+     "at": [
+      -168,
+      0,
+      6
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 12,
+     "alto": 336,
+     "color": "#b0bec5"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Ajuste deslizante O12 h9 en agujero O12.2 H11. Apriete de tuercas M10 a 25 Nm contra el hombro O12; el rodillo gira sobre bujes con golillas de empuje nylon (juego axial 0.5 por lado)."
+  },
+  {
+   "id": "rodamiento_6004_2rs",
+   "nombre": "Rodamiento 6004 2RS (bore O20, OD O42, ancho 12)",
+   "categoria": "mecanico",
+   "descripcion": "Rodamiento rigido de bolas sellado 6004 2RS: bore O20, OD O42, ancho 12. Va ENTRE el eje muerto O20 y el tubo O51 del rodillo de transferencia (2 por rodillo). Eje de giro en X del modulo.",
+   "fuente": {
+    "tipo": "norma",
+    "detalle": "6004 2RS (serie 60); asiento tubo O42 H7, eje O20 j5"
+   },
+   "confianza": "datasheet",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Anillo 20x42x12",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 42,
+     "alto": 12,
+     "color": "#4a5560"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Sellado de por vida (2RS). Aro exterior O42 J7 en el tubo, aro interior O20 j5 en el eje. Rodillo de eje muerto."
+  },
+  {
+   "id": "eje_muerto_rodillo_20",
+   "nombre": "Eje muerto rodillo O20 perforado M10",
+   "categoria": "mecanico",
+   "descripcion": "Eje FIJO O20 del rodillo de transferencia (no gira): se atornilla a ambas placas. Cada extremo perforado O8.5 y roscado M10 (hilo interior) para el perno de sujecion. Largo 300 (entre placas).",
+   "fuente": {
+    "tipo": "norma",
+    "detalle": "acero C45; extremos taladro O8.5 + rosca M10; chaflanes 1.5x45"
+   },
+   "confianza": "nominal",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Cuerpo O20x300",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 20,
+     "alto": 300,
+     "color": "#b0bec5"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "El tubo del rodillo gira sobre 2 rodamientos 6004 montados en este eje. Sujecion por perno M10 + golilla a la placa (retencion axial y anti-giro)."
+  },
+  {
+   "id": "rodillo_transfer_63",
+   "nombre": "Rodillo transferencia O63 x 800 eje muerto (tubo O51 + 2x6004)",
+   "categoria": "mecanico",
+   "descripcion": "Rodillo largo (800 de cara) de transferencia 90 estilo MRT: tubo de acero O51 (bore O42) vulcanizado a O63 salvo el extremo desnudo de arrastre; gira sobre 2 rodamientos 6004 en un eje muerto MACIZO O20 roscado M10 (perno hexagonal externo). Paso 139 (1 por hueco entre bandas del base).",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp: hueco de banda paso 139; espec. usuario O63, eje muerto + rodamiento entre eje y tubo + perno"
+   },
+   "confianza": "nominal",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Vulcanizado O63",
+     "at": [
+      0,
+      0,
+      22.5
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 63,
+     "alto": 755,
+     "color": "#212121"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Tubo desnudo O51 (arrastre)",
+     "at": [
+      0,
+      0,
+      -400
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 51,
+     "alto": 800,
+     "color": "#78909c"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Eje muerto MACIZO O20 (830) perforado/roscado M10; 2 rodamientos 6004 2RS entre eje y tubo; perno HEXAGONAL M10 DIN 933 + golilla desde fuera de la chapa. Tapa de extremo por lado."
+  },
+  {
+   "id": "perno_hex_m10_din933",
+   "nombre": "Perno hexagonal M10 DIN 933 + golilla DIN 125",
+   "categoria": "mecanico",
+   "descripcion": "Tornillo de cabeza hexagonal M10 (entrecaras 17, alto 6.4) con golilla plana O22. Sujeta desde fuera de la chapa el eje muerto del rodillo (rosca interior M10).",
+   "fuente": {
+    "tipo": "norma",
+    "detalle": "DIN 933 M10 + DIN 125 O22"
+   },
+   "confianza": "datasheet",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Golilla O22x2.5",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 22,
+     "alto": 2.5,
+     "color": "#9aa7b0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Cabeza hex e.c.17",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 18.4,
+     "alto": 6.4,
+     "color": "#78909c"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Entrecaras 17. Rosca M10 en el extremo perforado del eje muerto."
+  },
+  {
+   "id": "motorreductor_eje_hueco",
+   "nombre": "Motorreductor de eje hueco (~0.18 kW, i~6.3)",
+   "categoria": "mecanico",
+   "descripcion": "Motorreductor de eje hueco montado directo sobre el eje del tambor (sin acople). Reacciona con brazo de torque. Accionamiento simple y confiable del transfer.",
+   "fuente": {
+    "tipo": "nominal",
+    "detalle": "reductor eje hueco bore O20; ~0.18 kW; i~6.3"
+   },
+   "confianza": "nominal",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Cubo eje hueco O56x84",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 56,
+     "alto": 84,
+     "color": "#546e7a"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Cuerpo 96x86x92",
+     "at": [
+      42,
+      0,
+      -78
+     ],
+     "color": "#546e7a",
+     "dim": [
+      96,
+      86,
+      92
+     ]
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Bore O20 H7 + chaveta 6x6x40. Brazo de torque a pasador O12 en la placa."
+  }
+ ]
 }

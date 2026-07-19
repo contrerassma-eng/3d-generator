@@ -297,6 +297,7 @@ pedido → pegar la respuesta con **📋 Pegar → Agregar al proyecto**.
 | `js/model.js` | Documento paramétrico, regeneración, detección de caras planas y ejes, solver de restricciones |
 | `js/componentes.js` | Biblioteca de componentes: carga `componentes.json` y convierte registros del catálogo en piezas (mismo mapeo que `pipeline/lib_componentes.cad_part`) |
 | `componentes.json` | Copia servible del catálogo (`componentes/catalogo.json`); regenerar con `python pipeline/componentes_cli.py sync-web` |
+| `ensambles/` | Ensambles paramétricos completos (generador + JSON + visor `ver.html`); p. ej. el sorter de 90° — ver `ensambles/README.md` |
 | `js/app.js` | Viewport Three.js, picking, modos de interacción, diálogos, STL, persistencia |
 | `js/drawing2d.js` | Plano técnico en el navegador: aristas características (con filtro de grietas CSG), vistas del primer diedro, marco/cajetín ISO, lámina de desarrollo de chapa y escritores DXF (R12) y PDF (1.4) propios |
 | `js/sheetmetal.js` | Chapa plegada: materiales con factor K, pestañas sobre aristas con radio real, desahogos, y desarrollo real `BA = θ·(R + K·t)` con líneas de plegado |

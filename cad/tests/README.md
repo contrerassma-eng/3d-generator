@@ -21,3 +21,10 @@ Otras suites (mismo comando cambiando el archivo):
   (escala real, cajetín ISO 7200, estructura del PDF y del R12).
 - `test_sheetmetal.mjs` — chapa plegada: BA con factor K, volumen del plegado
   con radio real, desahogos, cadenas de pestañas y desarrollo.
+- `test_transfer90.mjs` — ensamble `ensambles/transfer_rodillos_90.json`:
+  construye las 25 piezas con el motor CSG (volúmenes, sin NaN) y verifica
+  los invariantes de la especificación (gap tangente ≥ 50, carrera 6,
+  cilindros en diagonal, rodillos vulcanizados con extremo desnudo, bandas
+  al ras, concentricidad eje↔agujero, patrones de taladrado coincidentes).
+  Correr `node ensambles/gen_transfer90.mjs` antes si se cambiaron
+  parámetros; el test se corre desde `cad/` (o pasando la ruta del JSON).
