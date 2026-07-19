@@ -1873,6 +1873,94 @@ function addProjEntity(p) {
 
 // contorno completo (exterior + interiores) de la cara tocada: las
 // primitivas analíticas de la pieza que están SOBRE el plano de esa cara
+// distancia de un punto 2D a la recta AB
+function perpDist2D(p, a, b) {
+  const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy);
+  if (L < 1e-9) return Math.hypot(p[0] - a[0], p[1] - a[1]);
+  return Math.abs((p[0] - a[0]) * dy - (p[1] - a[1]) * dx) / L;
+}
+// Douglas–Peucker en una polilínea abierta (tolerancia en mm)
+function dpOpen(pts, eps) {
+  if (pts.length < 3) return pts;
+  let idx = 0, dmax = 0;
+  const A = pts[0], B = pts[pts.length - 1];
+  for (let i = 1; i < pts.length - 1; i++) { const d = perpDist2D(pts[i], A, B); if (d > dmax) { dmax = d; idx = i; } }
+  if (dmax > eps) return dpOpen(pts.slice(0, idx + 1), eps).slice(0, -1).concat(dpOpen(pts.slice(idx), eps));
+  return [A, B];
+}
+// simplifica un anillo 2D cerrado (robusto al ruido de cuantización meshopt):
+// lo parte por el punto más lejano y aplica Douglas–Peucker a cada mitad
+function simplifyRing2D(pts, eps = 0.4) {
+  if (pts.length < 4) return pts;
+  const p0 = pts[0]; let far = 0, fd = -1;
+  for (let i = 1; i < pts.length; i++) { const d = Math.hypot(pts[i][0] - p0[0], pts[i][1] - p0[1]); if (d > fd) { fd = d; far = i; } }
+  const a = dpOpen(pts.slice(0, far + 1), eps);
+  const b = dpOpen(pts.slice(far).concat([pts[0]]), eps);
+  return a.slice(0, -1).concat(b.slice(0, -1)); // une las dos mitades sin duplicar juntas
+}
+
+// Entidades 2D del contorno de una cara plana tomadas de la MALLA (pieza GLB sin
+// primitivas analíticas). Las aristas de borde (de un solo triángulo del grupo
+// coplanar) se encadenan en bucles; cada bucle se proyecta al plano del boceto y
+// se clasifica: bucle redondo → CÍRCULO; bucle recto → líneas de sus esquinas.
+function meshFaceEntities(geom, tris, mw) {
+  const pos = geom.attributes.position;
+  const key = (i) => `${Math.round(pos.getX(i) * 1e3)}_${Math.round(pos.getY(i) * 1e3)}_${Math.round(pos.getZ(i) * 1e3)}`;
+  const s2 = new Map(); // clave → punto 2D en el plano del boceto
+  const ecount = new Map(), einfo = new Map();
+  for (const t of tris) {
+    const ks = [key(t * 3), key(t * 3 + 1), key(t * 3 + 2)];
+    for (let k = 0; k < 3; k++) {
+      const i = t * 3 + k;
+      if (!s2.has(ks[k])) s2.set(ks[k], w2s(new THREE.Vector3(pos.getX(i), pos.getY(i), pos.getZ(i)).applyMatrix4(mw)));
+    }
+    for (let k = 0; k < 3; k++) {
+      const a = ks[k], b = ks[(k + 1) % 3];
+      const ek = a < b ? `${a}|${b}` : `${b}|${a}`;
+      ecount.set(ek, (ecount.get(ek) || 0) + 1);
+      if (!einfo.has(ek)) einfo.set(ek, [a, b]);
+    }
+  }
+  const adj = new Map();
+  for (const [ek, cnt] of ecount) {
+    if (cnt !== 1) continue; // solo aristas de borde
+    const [a, b] = einfo.get(ek);
+    (adj.get(a) || adj.set(a, []).get(a)).push(b);
+    (adj.get(b) || adj.set(b, []).get(b)).push(a);
+  }
+  const visited = new Set(), ents = [];
+  for (const startK of adj.keys()) {
+    if (visited.has(startK)) continue;
+    const loop = []; let prev = null, cur = startK, guard = 0;
+    do {
+      loop.push(cur); visited.add(cur);
+      const nbrs = adj.get(cur) || [];
+      const next = nbrs[0] === prev ? nbrs[1] : nbrs[0];
+      if (next === undefined) break;
+      prev = cur; cur = next;
+    } while (cur !== startK && ++guard < 100000);
+    if (loop.length < 3) continue;
+    const pts = loop.map(k => s2.get(k));
+    // ¿bucle redondo? radios ~iguales respecto al centroide → CÍRCULO
+    let cx = 0, cy = 0; for (const p of pts) { cx += p[0]; cy += p[1]; }
+    cx /= pts.length; cy /= pts.length;
+    let rmin = Infinity, rmax = 0, rsum = 0;
+    for (const p of pts) { const r = Math.hypot(p[0] - cx, p[1] - cy); rmin = Math.min(rmin, r); rmax = Math.max(rmax, r); rsum += r; }
+    const rmean = rsum / pts.length;
+    if (rmean > 0.5 && pts.length >= 8 && (rmax - rmin) < 0.12 * rmean) {
+      ents.push({ type: 'circle', c: [cx, cy], r: rmean });
+      continue;
+    }
+    const ring = simplifyRing2D(pts);
+    const use = ring.length >= 2 ? ring : pts;
+    for (let i = 0; i < use.length; i++) {
+      const a = use[i], b = use[(i + 1) % use.length];
+      if (Math.hypot(b[0] - a[0], b[1] - a[1]) > 0.1) ents.push({ type: 'line', a, b });
+    }
+  }
+  return ents;
+}
+
 function projectFaceContour(hit) {
   const part = getPart(doc, hit.object.userData.partId);
   const face = faceAtHit(hit);
@@ -1897,6 +1985,11 @@ function projectFaceContour(hit) {
     if (!onFace(c) || Math.abs(dirW.dot(nw)) < 0.999) continue;
     if (Math.abs(nw.dot(sketch.nW)) < 0.999) continue; // cara inclinada → el círculo sería elipse
     added += addProjEntity({ type: 'circle', c: w2s(c), r: ci.r });
+  }
+  // sin primitivas analíticas (p. ej. pieza de MALLA real): tomar el contorno
+  // de la cara directamente de la malla (líneas + círculos) y proyectarlo.
+  if (added === 0) {
+    for (const ent of meshFaceEntities(hit.object.geometry, face.tris, mw)) added += addProjEntity(ent);
   }
   redrawSketch();
   setStatus(added
