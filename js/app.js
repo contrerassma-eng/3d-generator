@@ -1477,8 +1477,17 @@ function resolveLineEnd(raw) {
   return { end: polarPoint(from, rawLen, ang), len: rawLen, ang, onPoint: false };
 }
 
+// modo del cuadro dinámico: círculo → pide solo Ø; línea → L + ∠ + snap
+function setDynMode(isCircle) {
+  document.getElementById('dyn_len_lbl').textContent = isCircle ? 'Ø' : 'L';
+  document.getElementById('dyn_angwrap').style.display = isCircle ? 'none' : '';
+  dynSnap.style.display = isCircle ? 'none' : '';
+  dynLen.placeholder = isCircle ? 'Ø mm' : 'mm';
+}
+
 function showDynBox(anchor2d) {
   sketch.dynAnchor = anchor2d;
+  setDynMode(sketch.tool === 'circle');
   dynBox.classList.add('on');
   positionDynBox();
 }
@@ -1844,6 +1853,36 @@ function projectFaceContour(hit) {
     : 'Esa cara no aportó geometría nueva (quizá ya estaba proyectada).');
 }
 
+// Arista/círculo analítico de una pieza más cercano a un punto del mundo (3D),
+// ya proyectado a 2D del boceto. Sirve para piezas FUERA del plano del boceto
+// (otras piezas del ensamble), donde el cruce del rayo con el plano no coincide
+// con la posición 2D de la arista.
+function nearestPartPrim(part, worldPt, tol) {
+  const m = partMatrix(part);
+  const q = new THREE.Quaternion(...part.quat);
+  const prims = referencePrimitives(part);
+  const tmp = new THREE.Vector3();
+  let best = null;
+  for (const ln of prims.lines) {
+    const a = ln.a.clone().applyMatrix4(m), b = ln.b.clone().applyMatrix4(m);
+    const a2 = w2s(a), b2 = w2s(b);
+    if (Math.hypot(b2[0] - a2[0], b2[1] - a2[1]) < 0.05) continue; // arista normal al plano
+    const d = new THREE.Line3(a, b).closestPointToPoint(worldPt, true, tmp).distanceTo(worldPt);
+    if (d < tol && (!best || d < best.d)) best = { d, ent: { type: 'line', a: a2, b: b2 } };
+  }
+  for (const ci of prims.circles) {
+    const c = ci.c.clone().applyMatrix4(m);
+    const dirW = ci.dir.clone().applyQuaternion(q).normalize();
+    if (Math.abs(dirW.dot(sketch.nW)) < 0.999) continue; // círculo inclinado → elipse: no proyectable
+    const rel = worldPt.clone().sub(c);
+    const ax = rel.dot(dirW);
+    const radial = rel.addScaledVector(dirW, -ax).length() - ci.r;
+    const d = Math.hypot(ax, radial);
+    if (d < tol && (!best || d < best.d)) best = { d, ent: { type: 'circle', c: w2s(c), r: ci.r } };
+  }
+  return best ? best.ent : null;
+}
+
 function clickProject(raw, hit) {
   // tolerancia acotada en mm: si el toque no está claramente sobre una
   // arista/círculo, se interpreta como toque de CARA (contorno completo)
@@ -1863,7 +1902,26 @@ function clickProject(raw, hit) {
     setStatus('Proyección desactivada: entidad quitada del boceto.');
     return;
   }
-  // 2) ¿tocó una arista o círculo de referencia? → proyectar solo esa
+  // 2) tocó una pieza (la actual u OTRA): por proximidad 3D real al punto tocado,
+  //    ¿hay una arista/círculo cerca? → proyectar solo esa; si no, todo el contorno.
+  if (hit) {
+    const part = getPart(doc, hit.object.userData.partId);
+    const tol3d = Math.max(3, 14 * worldPerPixel());
+    const prim = nearestPartPrim(part, hit.point, tol3d);
+    if (prim) {
+      const n = addProjEntity(prim);
+      redrawSketch();
+      setStatus(n
+        ? (prim.type === 'circle'
+            ? `Círculo Ø${(prim.r * 2).toFixed(1)} proyectado: ya es línea del boceto (verde).`
+            : `Arista de ${part.name} proyectada: ya es línea del boceto (verde).`)
+        : 'Esa referencia ya estaba proyectada.');
+      return;
+    }
+    projectFaceContour(hit); // sin arista cerca → contorno completo de la cara tocada
+    return;
+  }
+  // 3) sin pieza bajo el cursor: intenta con las referencias sobre el plano (raw)
   let bestP = null;
   for (const p of sketch.refPrims) {
     const n = SK.nearestOnEntity(p, raw);
@@ -1872,15 +1930,9 @@ function clickProject(raw, hit) {
   if (bestP) {
     const n = addProjEntity(bestP.p);
     redrawSketch();
-    setStatus(n
-      ? (bestP.p.type === 'circle'
-          ? `Círculo Ø${(bestP.p.r * 2).toFixed(1)} proyectado: ya es línea del boceto (verde).`
-          : 'Arista proyectada: ya es línea del boceto (verde).')
-      : 'Esa referencia ya estaba proyectada.');
+    setStatus(n ? 'Referencia proyectada: ya es línea del boceto (verde).' : 'Esa referencia ya estaba proyectada.');
     return;
   }
-  // 3) ¿tocó una cara del modelo? → proyectar todo su contorno
-  if (hit) { projectFaceContour(hit); return; }
   setStatus('Proyectar: toca una cara (todo su contorno), una arista o un círculo; tocar algo proyectado lo quita.');
 }
 
