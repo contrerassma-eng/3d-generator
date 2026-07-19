@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Comprimir el GLB tras generar (76MB->13MB, el loader del CAD ya decodifica
+#   Meshopt+quantization):  gltf-transform meshopt <in>.glb <out>.glb
 """sorter_CO teselado (base.stl) → GLB de ENSAMBLE por CLASES de pieza.
 
 Parte la malla real del STEP en sus PIEZAS (componentes conexos), las clasifica
