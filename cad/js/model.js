@@ -351,7 +351,7 @@ function frustumAlong(at, dir, rStart, rEnd, len) {
 // Herramienta de corte del agujero: cilindro principal + asiento opcional
 // (caja/counterbore o avellanado/countersink) unido por CSG. 'start' arranca
 // 'back' mm por fuera de la cara para evitar caras coplanares.
-function holeToolGeometry(f, extent) {
+export function holeToolGeometry(f, extent) {
   const p = f.params;
   const back = 0.5;
   const d = new THREE.Vector3(...f.dir).normalize();
