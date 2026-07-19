@@ -3315,6 +3315,28 @@
     517.2
    ],
    "notas": "393 piezas, ~977k caras. Geometria real del STEP: usar como referencia fiel frente al base parametrico (ens_sorter_base)."
+  },
+  {
+   "id": "ens_conjunto_real",
+   "nombre": "CONJUNTO REAL: Sorter (sorter_CO.stp) + Transferencia 90",
+   "categoria": "transportador",
+   "familia": "conjunto",
+   "descripcion": "Conjunto al detalle: el equipo base REAL (geometria exacta del STEP sorter_CO.stp) con la TRANSFERENCIA 90 (mis rodillos Ø63) montada en su HUECO real (rotada 90 al flujo del base, plano de banda real 52.3). Malla fija de referencia full-detalle; la transferencia en azul.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp real + transfer_rodillos_90.json teselado (CSG) y transformado al hueco (X=208,Y=-1090,Z 170->52.3) -> GLB combinado"
+   },
+   "confianza": "medido",
+   "malla": {
+    "glb": "componentes/models/sorter_conjunto_real.glb",
+    "nodo": null
+   },
+   "bbox_mm": [
+    844.8,
+    1757.5,
+    517.2
+   ],
+   "notas": "Base real (~977k caras) + transferencia (~437k). Geometria real full-detalle; usar como referencia del conjunto definitivo."
   }
  ]
 }
