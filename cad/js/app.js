@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
 import { GLTFLoader } from '../vendor/GLTFLoader.js';
 import { MeshoptDecoder } from '../vendor/meshopt_decoder.module.js';
+import { svgIcon, setIcons } from './icons.js';
 import { loadCatalogo, componentToPart, envolvente } from './componentes.js';
 import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid,
@@ -388,39 +389,44 @@ function commit(msg) { autosave(); if (msg) setStatus(msg); }
 // ---------- Interfaz: árbol ----------
 
 const OP_ICON = { union: '⊕', cut: '⊖', blend: '◜', pattern: '▦', mesh: '◈' };
+// nombre de icono SVG para cada operación de función del árbol
+const OP_ICON_NAME = { union: 'union', cut: 'cut', blend: 'blend', pattern: 'patrect', mesh: 'mesh' };
+const featureIconName = (f) => f.suppressed ? 'pause' : (OP_ICON_NAME[f.op] || 'feature');
 
 function refreshUI() {
   const tree = $('tree');
-  let html = '<h3>Piezas</h3>';
+  const envIco = env === 'ens' ? 'ensamble' : 'pieza';
+  let html = `<h3><span class="h3ic">${svgIcon(envIco)}</span>Piezas<span class="cnt">${doc.parts.length}</span></h3>`;
   for (const part of doc.parts) {
     const sel = selection?.kind === 'part' && selection.id === part.id ? ' sel' : '';
-    html += `<div class="node${sel}" data-kind="part" data-id="${part.id}">
+    html += `<div class="node node-part${sel}" data-kind="part" data-id="${part.id}">
       <span class="swatch" style="background:${part.color}"></span>
-      <span class="nm">${esc(part.name)}${part.fixed ? ' 📌' : ''}</span>
-      <button data-act="vis" title="Mostrar/ocultar">${part.visible ? '👁' : '—'}</button>
-      <button data-act="iso" title="Aislar: mostrar solo esta pieza (toca de nuevo para restaurar)">⛶</button>
-      <button data-act="del" class="danger" title="Eliminar la pieza y sus restricciones">🗑</button>
+      <span class="nm">${esc(part.name)}${part.fixed ? ` <span class="ic pinIc" title="Pieza fija (a tierra)">${svgIcon('pin')}</span>` : ''}</span>
+      <button data-act="vis" title="Mostrar/ocultar">${svgIcon(part.visible ? 'eye' : 'eyeoff')}</button>
+      <button data-act="iso" title="Aislar: mostrar solo esta pieza (toca de nuevo para restaurar)">${svgIcon('isolate')}</button>
+      <button data-act="del" class="danger" title="Eliminar la pieza y sus restricciones">${svgIcon('trash')}</button>
     </div><div class="children">`;
     part.features.forEach((f, fi) => {
       const fsel = selection?.kind === 'feature' && selection.id === f.id ? ' sel' : '';
       html += `<div class="node${fsel}${f.suppressed ? ' supr' : ''}" data-kind="feature" data-part="${part.id}" data-id="${f.id}">
-        <span class="ic">${f.suppressed ? '⏸' : (OP_ICON[f.op] || '')}</span><span class="nm">${esc(f.name)}</span>
+        <span class="ic">${svgIcon(featureIconName(f))}</span><span class="nm">${esc(f.name)}</span>
         <span class="meta">${featureMeta(f)}</span>
-        <button data-act="sup" title="Suprimir/reactivar la función">${f.suppressed ? '▶' : '⏸'}</button>
-        <button data-act="up" title="Subir (regenera antes)" ${fi === 0 ? 'disabled' : ''}>↑</button>
-        <button data-act="down" title="Bajar (regenera después)" ${fi === part.features.length - 1 ? 'disabled' : ''}>↓</button>
+        <button data-act="sup" title="Suprimir/reactivar la función">${svgIcon(f.suppressed ? 'play' : 'pause')}</button>
+        <button data-act="up" title="Subir (regenera antes)" ${fi === 0 ? 'disabled' : ''}>${svgIcon('up')}</button>
+        <button data-act="down" title="Bajar (regenera después)" ${fi === part.features.length - 1 ? 'disabled' : ''}>${svgIcon('down')}</button>
       </div>`;
     });
     html += '</div>';
   }
-  html += '<h3>Restricciones</h3>';
+  html += `<h3><span class="h3ic">${svgIcon('link')}</span>Restricciones<span class="cnt">${doc.constraints.length}</span></h3>`;
   if (!doc.constraints.length) html += '<div class="node"><span class="meta">— ninguna —</span></div>';
   for (const c of doc.constraints) {
     const csel = selection?.kind === 'constraint' && selection.id === c.id ? ' sel' : '';
     const label = { mate: 'Coincidir caras', flush: 'Alinear caras', concentric: 'Concéntrico' }[c.type] || c.type;
+    const cico = { mate: 'mate', flush: 'flush', concentric: 'concentric' }[c.type] || 'link';
     const pa = getPart(doc, c.a.part)?.name || '?', pb = getPart(doc, c.b.part)?.name || '?';
     html += `<div class="node${csel}" data-kind="constraint" data-id="${c.id}">
-      <span class="ic">🔗</span><span class="nm">${label}</span>
+      <span class="ic">${svgIcon(cico)}</span><span class="nm">${label}</span>
       <span class="meta">${esc(pa)} ↔ ${esc(pb)}</span>
     </div>`;
   }
@@ -3345,6 +3351,7 @@ function loadDemo() {
 // ---------- Arranque ----------
 
 (function start() {
+  setIcons(document); // inyecta los iconos SVG en la barra superior, el riel y el panel
   let restored = false;
   try {
     const saved = localStorage.getItem('foto3d-cad-doc');
