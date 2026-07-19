@@ -138,7 +138,8 @@ export function partMatrix(part) {
 //       params:{...} }
 // box:      params {w,d,h}    'at' = centro de la base, crece en +Z local del feature
 // cylinder: params {dia,h}    'at' = centro de la base, eje 'dir'
-// hole:     params {dia, depth, through} 'at' = punto en la cara, 'dir' = hacia adentro
+// hole:     params {dia, depth, through, seat?:'none'|'cbore'|'csink', seatDia?, seatDepth?}
+//           'at' = punto en la cara, 'dir' = hacia adentro; seat = asiento (caja/avellanado)
 
 export function makeBoxFeature(w, d, h, at = [0, 0, 0], op = 'union') {
   return { id: uid('f'), name: op === 'cut' ? 'Corte caja' : 'Caja', shape: 'box', op, at, dir: [0, 0, 1], params: { w, d, h } };
@@ -146,8 +147,17 @@ export function makeBoxFeature(w, d, h, at = [0, 0, 0], op = 'union') {
 export function makeCylFeature(dia, h, at = [0, 0, 0], dir = [0, 0, 1], op = 'union') {
   return { id: uid('f'), name: op === 'cut' ? 'Corte cilindro' : 'Cilindro', shape: 'cylinder', op, at, dir, params: { dia, h } };
 }
-export function makeHoleFeature(dia, depth, through, at, dir) {
-  return { id: uid('f'), name: `Agujero Ø${dia}`, shape: 'hole', op: 'cut', at, dir, params: { dia, depth, through: !!through } };
+export function makeHoleFeature(dia, depth, through, at, dir, seat = {}) {
+  const s = seat.seat || 'none';
+  return {
+    id: uid('f'), name: `Agujero Ø${dia}`, shape: 'hole', op: 'cut', at, dir,
+    params: {
+      dia, depth, through: !!through,
+      seat: s,
+      seatDia: seat.seatDia != null ? +seat.seatDia : dia * 2,
+      seatDepth: seat.seatDepth != null ? +seat.seatDepth : (s === 'csink' ? dia * 0.5 : dia),
+    },
+  };
 }
 // Boceto extruido: 'at' = origen del plano (local), 'dir' = normal de la cara
 // (hacia afuera), params.u = eje U del plano, params.pts = [[u,v],...] del
@@ -328,6 +338,43 @@ function cylinderAlong(at, dir, radius, len) {
   return g;
 }
 
+// tronco de cono: radio rStart en 'at' (base) → rEnd a distancia len en 'dir'.
+function frustumAlong(at, dir, rStart, rEnd, len) {
+  const g = new THREE.CylinderGeometry(rEnd, rStart, len, SEGMENTS); // (top=+Y, bottom=-Y)
+  const d = new THREE.Vector3(...dir).normalize();
+  const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), d);
+  const mid = new THREE.Vector3(...at).addScaledVector(d, len / 2);
+  g.applyMatrix4(new THREE.Matrix4().compose(mid, q, new THREE.Vector3(1, 1, 1)));
+  return g;
+}
+
+// Herramienta de corte del agujero: cilindro principal + asiento opcional
+// (caja/counterbore o avellanado/countersink) unido por CSG. 'start' arranca
+// 'back' mm por fuera de la cara para evitar caras coplanares.
+function holeToolGeometry(f, extent) {
+  const p = f.params;
+  const back = 0.5;
+  const d = new THREE.Vector3(...f.dir).normalize();
+  const len = (p.through ? extent + 1 : p.depth) + back;
+  const start = new THREE.Vector3(...f.at).addScaledVector(d, -back);
+  const main = cylinderAlong(start.toArray(), d.toArray(), p.dia / 2, len);
+  const seat = p.seat || 'none';
+  const sD = +p.seatDia, sH = +p.seatDepth;
+  if ((seat === 'cbore' || seat === 'csink') && sD > p.dia && sH > 0) {
+    let tool;
+    if (seat === 'cbore') {
+      tool = cylinderAlong(start.toArray(), d.toArray(), sD / 2, sH + back);
+    } else { // avellanado: cono ancho en la cara (sD) que baja a 'dia' en sH
+      const slope = (p.dia / 2 - sD / 2) / sH; // negativo
+      const r1 = sD / 2 - back * slope;         // radio en 'start' (extendido sobre la cara)
+      tool = frustumAlong(start.toArray(), d.toArray(), r1, p.dia / 2, sH + back);
+    }
+    try { return csgToGeom(geomToCSG(main).union(geomToCSG(tool))); }
+    catch { return main; } // ante cualquier fallo CSG, agujero recto (nunca se rompe)
+  }
+  return main;
+}
+
 function featureGeometry(f, extent, first) {
   if (f.shape === 'box') {
     const { w, d, h } = f.params;
@@ -339,11 +386,7 @@ function featureGeometry(f, extent, first) {
     return cylinderAlong(f.at, f.dir, f.params.dia / 2, f.params.h);
   }
   if (f.shape === 'hole') {
-    const back = 0.5; // arranca 0.5 mm por fuera de la cara para evitar caras coplanares
-    const len = (f.params.through ? extent + 1 : f.params.depth) + back;
-    const d = new THREE.Vector3(...f.dir).normalize();
-    const start = new THREE.Vector3(...f.at).addScaledVector(d, -back);
-    return cylinderAlong(start.toArray(), d.toArray(), f.params.dia / 2, len);
+    return holeToolGeometry(f, extent);
   }
   if (f.shape === 'sketch') {
     const ccw = (arr) => { // orientar para que ExtrudeGeometry genere un sólido válido

@@ -960,7 +960,15 @@ function refreshProps() {
     }
     if (f.shape === 'box') dims = frow('Ancho X', dimInput('fp_w', f, 'w')) + frow('Fondo Y', dimInput('fp_d', f, 'd')) + frow('Alto Z', dimInput('fp_hh', f, 'h'));
     if (f.shape === 'cylinder') dims = frow('Diámetro', dimInput('fp_dia', f, 'dia')) + frow('Altura', dimInput('fp_h', f, 'h'));
-    if (f.shape === 'hole') dims = frow('Diámetro', dimInput('fp_dia', f, 'dia')) + frow('Profundidad', dimInput('fp_depth', f, 'depth')) + frow('Pasante', `<input type="checkbox" id="fp_through" ${f.params.through ? 'checked' : ''}>`);
+    if (f.shape === 'hole') {
+      const seat = f.params.seat || 'none';
+      const seatOpt = (v, t) => `<option value="${v}" ${seat === v ? 'selected' : ''}>${t}</option>`;
+      dims = frow('Diámetro', dimInput('fp_dia', f, 'dia')) + frow('Profundidad', dimInput('fp_depth', f, 'depth'))
+        + frow('Pasante', `<input type="checkbox" id="fp_through" ${f.params.through ? 'checked' : ''}>`)
+        + frow('Asiento', `<select id="fp_seat">${seatOpt('none', 'Ninguno')}${seatOpt('cbore', 'Caja (counterbore)')}${seatOpt('csink', 'Avellanado (countersink)')}</select>`)
+        + frow('Ø asiento', `<input type="number" id="fp_seatdia" value="${f.params.seatDia ?? f.params.dia * 2}" step="0.5">`)
+        + frow('Prof. asiento', `<input type="number" id="fp_seatdepth" value="${f.params.seatDepth ?? f.params.dia}" step="0.5">`);
+    }
     if (f.shape === 'pattern') {
       const srcName = doc.parts.flatMap(pp => pp.features).find(x => x.id === f.params.sourceId)?.name || '?';
       dims = frow('Repite', `<b>${esc(srcName)}</b>`);
@@ -1047,6 +1055,9 @@ function refreshProps() {
         readDimField(f, 'fp_dia', 'dia');
         readDimField(f, 'fp_depth', 'depth');
         f.params.through = $('fp_through').checked;
+        if ($('fp_seat')) f.params.seat = $('fp_seat').value;
+        if ($('fp_seatdia')) f.params.seatDia = +$('fp_seatdia').value;
+        if ($('fp_seatdepth')) f.params.seatDepth = +$('fp_seatdepth').value;
         f.name = `Agujero Ø${f.params.dia}`;
       }
       if (f.shape === 'pattern') {
@@ -3031,15 +3042,21 @@ function clickHole(hit) {
     { key: 'dia', label: 'Diámetro (mm)', value: 6, step: 0.5 },
     { key: 'through', label: 'Pasante', type: 'checkbox', value: true },
     { key: 'depth', label: 'Profundidad (mm)', value: 10, step: 0.5 },
+    { key: 'seat', label: 'Asiento', type: 'select', value: 'none',
+      options: [['none', 'Ninguno'], ['cbore', 'Caja (counterbore)'], ['csink', 'Avellanado (countersink)']] },
+    { key: 'seatDia', label: 'Ø asiento (mm)', value: 12, step: 0.5 },
+    { key: 'seatDepth', label: 'Prof. asiento (mm)', value: 6, step: 0.5 },
     { key: 'center', label: 'Centrar en la cara', type: 'checkbox', value: false },
   ], (v) => {
     pushUndo();
     const at = (v.center ? localCentroid : localPoint).toArray();
     const dir = localNormal.clone().negate().toArray(); // hacia adentro del material
-    part.features.push(makeHoleFeature(v.dia, v.depth, v.through, at, dir));
+    part.features.push(makeHoleFeature(v.dia, v.depth, v.through, at, dir,
+      { seat: v.seat, seatDia: v.seatDia, seatDepth: v.seatDepth }));
     faceCache.clear();
     rebuildPart(part);
-    commit(`Agujero Ø${v.dia} agregado a ${part.name}.`);
+    const asiento = v.seat === 'cbore' ? ' con caja' : v.seat === 'csink' ? ' avellanado' : '';
+    commit(`Agujero Ø${v.dia}${asiento} agregado a ${part.name}.`);
   });
 }
 
