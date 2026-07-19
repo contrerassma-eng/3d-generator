@@ -516,12 +516,12 @@ function rodillos() {
     addPart(`MÓVIL · Tubo de acero Ø51 × ${tubeLen} rodillo línea y=${y}`, C.acero, [-D.coreHalf, y, z], [
       cyl(`Tubo Ø51 × ${tubeLen}`, [-D.coreHalf, y, z], [1, 0, 0], D.tubeDia, tubeLen),
       hole('Barreno Ø42 (asientos de rodamiento 6004)', [-D.coreHalf, y, z], [1, 0, 0], D.bearDia),
-    ], { componente: 'tubo_rodillo_51x800' });
+    ], { componente: 'rodillo_transfer_63' });
     // VULCANIZADO Ø63 sobre el tubo (menos el extremo desnudo de arrastre)
     addPart(`MÓVIL · Vulcanizado Ø63 rodillo línea y=${y}`, C.caucho, [-D.coreHalf, y, z], [
       cyl(`Caucho Ø${D.rollerDia} (hasta x=${D.bareFrom})`, [-D.coreHalf, y, z], [1, 0, 0], D.rollerDia, vulcLen),
       hole('Barreno Ø51 (sobre el tubo)', [-D.coreHalf, y, z], [1, 0, 0], D.tubeDia),
-    ], { componente: 'vulcanizado_rodillo_63' });
+    ], { componente: 'rodillo_transfer_63' });
     // 2 RODAMIENTOS 6004 2RS (20×42×12) ENTRE EJE Y TUBO, uno por extremo, con
     // TAPA/SELLO de extremo (acople lateral terminado)
     for (const sx of [-1, 1]) {
@@ -545,7 +545,7 @@ function rodillos() {
         cyl('Golilla Ø22×2.5 DIN 125', [px, y, z], [sx, 0, 0], 22, 2.5),
         sketchYZn(`Cabeza hexagonal M10 (e.c. ${D.hexHead})`, px + sx * 2.5, hexPts(y, z, D.hexHead), D.hexHeadH, sx),
         cyl('Vástago M10 (rosca al eje)', [px, y, z], [-sx, 0, 0], D.axleDia - 10, 14),
-      ], { componente: 'perno_hex_m10_retencion' });
+      ], { componente: 'perno_hex_m10_din933' });
     }
   }
 }
@@ -578,13 +578,13 @@ function transmision() {
     cyl('Tapa lateral Ø74×6 (+X, soldada)', [x0T + D.drumW - 6, my, mz], [1, 0, 0], 74, 6),
     cyl('Cubo Ø46 pasante', [x0T, my, mz], [1, 0, 0], 46, D.drumW),
     hole('Barreno del cubo Ø28 H7 (buje SIT-LOCK)', [x0T, my, mz], [1, 0, 0], 28),
-  ]);
+  ], { componente: 'tambor_motriz_90x30' });
   // buje cónico autocentrante SIT-LOCK CAL 1 20×28: sin chaveta, autocentrado
   addPart('MÓVIL · Buje SIT-LOCK CAL 1 20×28 (tambor)', C.gris, [D.beltPlane - D.drumW / 2 - 2, my, mz], [
     cyl('Anillo cónico Ø28×' + (D.drumW - 4), [D.beltPlane - D.drumW / 2 + 2, my, mz], [1, 0, 0], 28, D.drumW - 4),
     cyl('Brida de apriete Ø38×6', [D.beltPlane - D.drumW / 2 - 2, my, mz], [1, 0, 0], 38, 6),
     hole('Bore Ø20.05 (autocentrante)', [D.beltPlane - D.drumW / 2 - 2, my, mz], [1, 0, 0], 20.05),
-  ]);
+  ], { componente: 'casquillo_bloqueo_lk30' });
   // 1 chumacera UCFL204 para el tambor en la placa +X (el -X lo apoya el motor)
   ucflUnit('MÓVIL · Chumacera UCFL204 tambor +X', D.combX + D.plateT / 2, my, mz, 1);
   const xIn = D.beltPlane - D.pulleyW / 2;
@@ -640,7 +640,7 @@ function transmision() {
     cyl(`Cubo de eje hueco Ø${gmBoss}×${gmL}`, [xCoup, my, mz], [1, 0, 0], gmBoss, gmL),
     box('Cuerpo reductor 96×86×92', [xBody, my, mz - 78], 96, 86, 92),
     hole('Bore Ø20 H7 (sobre el eje del tambor)', [xCoup, my, mz], [1, 0, 0], D.shaftDia + D.slide),
-  ]);
+  ], { componente: 'motorreductor_eje_hueco' });
   // chaveta única de arrastre eje↔reductor (chavetero N9 en el eje)
   addPart('MÓVIL · Chaveta DIN 6885 A 6×6×40 (eje↔reductor)', C.grisClaro, [xCoup + 22, my, mz + D.axleDia / 2 - 1.75], [
     box('Chaveta 40×6×6', [xCoup + 22, my, mz + D.axleDia / 2 - 1.75], 40, 6, 6),

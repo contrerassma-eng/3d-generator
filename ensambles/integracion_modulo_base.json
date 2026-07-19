@@ -14149,7 +14149,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x800",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f160",
@@ -14211,7 +14211,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "vulcanizado_rodillo_63",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f162",
@@ -14519,7 +14519,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f172",
@@ -14630,7 +14630,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f175",
@@ -14864,7 +14864,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x800",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f183",
@@ -14926,7 +14926,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "vulcanizado_rodillo_63",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f185",
@@ -15234,7 +15234,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f195",
@@ -15345,7 +15345,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f198",
@@ -15579,7 +15579,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x800",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f206",
@@ -15641,7 +15641,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "vulcanizado_rodillo_63",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f208",
@@ -15949,7 +15949,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f218",
@@ -16060,7 +16060,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f221",
@@ -16294,7 +16294,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x800",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f229",
@@ -16356,7 +16356,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "vulcanizado_rodillo_63",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f231",
@@ -16664,7 +16664,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f241",
@@ -16775,7 +16775,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f244",
@@ -17009,7 +17009,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x800",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f252",
@@ -17071,7 +17071,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "vulcanizado_rodillo_63",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f254",
@@ -17379,7 +17379,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f264",
@@ -17490,7 +17490,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f267",
@@ -17702,6 +17702,7 @@
    ],
    "fixed": false,
    "visible": true,
+   "componente": "tambor_motriz_90x30",
    "features": [
     {
      "id": "f274",
@@ -17864,6 +17865,7 @@
    ],
    "fixed": false,
    "visible": true,
+   "componente": "casquillo_bloqueo_lk30",
    "features": [
     {
      "id": "f281",
@@ -21824,6 +21826,7 @@
    ],
    "fixed": false,
    "visible": true,
+   "componente": "motorreductor_eje_hueco",
    "features": [
     {
      "id": "f350",
