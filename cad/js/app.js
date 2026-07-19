@@ -1449,6 +1449,8 @@ const projMat = new THREE.LineBasicMaterial({ color: 0x2ee659 });          // en
 const previewMat = new THREE.LineBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.5 });
 const ptMat = new THREE.MeshBasicMaterial({ color: 0xf0a437 });
 const snapMat = new THREE.MeshBasicMaterial({ color: 0x34a853 });
+// línea guía de inferencia (paralela/perpendicular/horizontal/vertical) estilo Inventor
+const guideMat = new THREE.LineDashedMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.65, dashSize: 3, gapSize: 2.5 });
 
 const DIM_PREFIX = { len: 'L ', dia: 'Ø', dist: '↔ ', ang: '∠' };
 const DIM_LABEL = { len: 'Largo (mm)', dia: 'Diámetro (mm)', dist: 'Distancia (mm)', ang: 'Ángulo (°)' };
@@ -1835,17 +1837,80 @@ function polarPoint(from, len, deg) {
   return [from[0] + len * Math.cos(r), from[1] + len * Math.sin(r)];
 }
 
+// distancia angular mínima (grados) entre dos ángulos, en [0,180]
+function angDelta(a, b) { return Math.abs(((a - b) % 360 + 540) % 360 - 180); }
+
+// glyph + rótulo de cada restricción inferida (estilo Inventor)
+const INFER_GLYPH = { horizontal: '—', vertical: '│', parallel: '∥', perpendicular: '⟂', tangente: '◠', coincidente: '⌖' };
+const INFER_ES = { horizontal: 'Horizontal', vertical: 'Vertical', parallel: 'Paralela', perpendicular: 'Perpendicular', tangente: 'Tangente', coincidente: 'Coincidente' };
+const inferBadgeEl = document.getElementById('inferBadge');
+function showInferBadge(kind, pt2d) {
+  if (!inferBadgeEl) return;
+  if (!kind) { inferBadgeEl.style.display = 'none'; return; }
+  const v = to3D(pt2d[0], pt2d[1]).project(activeCamera);
+  const r = renderer.domElement.getBoundingClientRect();
+  inferBadgeEl.textContent = INFER_GLYPH[kind] || '';
+  inferBadgeEl.title = INFER_ES[kind] || '';
+  inferBadgeEl.style.left = `${(v.x * 0.5 + 0.5) * r.width}px`;
+  inferBadgeEl.style.top = `${(-v.y * 0.5 + 0.5) * r.height}px`;
+  inferBadgeEl.style.display = 'block';
+}
+function hideInferBadge() { if (inferBadgeEl) inferBadgeEl.style.display = 'none'; }
+
+// Inferencia de restricciones estilo Inventor: mientras se traza una línea,
+// deduce si es horizontal, vertical, paralela o perpendicular a la geometría
+// existente y ajusta el ángulo (dentro de una tolerancia). No crea relaciones
+// persistentes: solo guía el trazo y comunica la relación (glyph + guía).
+function inferAngle(from, rawAng) {
+  const TOL = 6; // grados de captura
+  const cands = [{ base: 0, kind: 'horizontal' }, { base: 90, kind: 'vertical' }];
+  for (const e of sketch.entities) {
+    if (e.type !== 'line') continue;
+    const a = Math.atan2(e.b[1] - e.a[1], e.b[0] - e.a[0]) * 180 / Math.PI;
+    cands.push({ base: a, kind: 'parallel' });
+    cands.push({ base: a + 90, kind: 'perpendicular' });
+  }
+  let best = null;
+  for (const c of cands) {
+    for (const t of [c.base, c.base + 180]) {
+      const d = angDelta(rawAng, t);
+      // H/V ganan empates frente a paralela/perpendicular (más significativas)
+      const rank = (c.kind === 'horizontal' || c.kind === 'vertical') ? d - 0.5 : d;
+      if (d < TOL && (!best || rank < best.rank)) best = { rank, ang: ((t % 360) + 360) % 360, kind: c.kind };
+    }
+  }
+  return best;
+}
+
 // resuelve el extremo de la línea en curso desde el cursor: respeta snap a
-// punto notable; si no, aplica snap/lock de ángulo. Devuelve {end, len, ang, onPoint}
+// punto notable; si no, infiere restricción (H/V/∥/⊥); si no, snap/lock de
+// ángulo. Devuelve {end, len, ang, onPoint, infer, guide}
 function resolveLineEnd(raw) {
   const from = sketch.chainLast;
   const sn = snap2D(raw);
   if (sn.snapped) {
-    return { end: sn.uv, len: Math.hypot(sn.uv[0] - from[0], sn.uv[1] - from[1]), ang: angleFromTo(from, sn.uv), onPoint: true };
+    // relación H/V implícita si el punto notable queda alineado con el origen
+    const dx = Math.abs(sn.uv[0] - from[0]), dy = Math.abs(sn.uv[1] - from[1]);
+    let infer = sn.kind === 'tangente' ? 'tangente' : null;
+    if (!infer && (dx > 1e-6 || dy > 1e-6)) { if (dy < dx * 0.02) infer = 'horizontal'; else if (dx < dy * 0.02) infer = 'vertical'; }
+    if (!infer) infer = 'coincidente'; // pegado a un punto notable → glyph de coincidencia (estilo Inventor)
+    return { end: sn.uv, len: Math.hypot(dx, dy), ang: angleFromTo(from, sn.uv), onPoint: true, infer, guide: null };
   }
   const rawLen = Math.hypot(raw[0] - from[0], raw[1] - from[1]);
-  const ang = sketch.angLock != null ? sketch.angLock : snapAngle(angleFromTo(from, raw));
-  return { end: polarPoint(from, rawLen, ang), len: rawLen, ang, onPoint: false };
+  if (sketch.angLock != null) {
+    return { end: polarPoint(from, rawLen, sketch.angLock), len: rawLen, ang: sketch.angLock, onPoint: false, infer: null, guide: null };
+  }
+  const inf = rawLen > 1e-3 ? inferAngle(from, angleFromTo(from, raw)) : null;
+  if (inf) {
+    const r = inf.ang * Math.PI / 180, dir = [Math.cos(r), Math.sin(r)];
+    const len = Math.max(0, (raw[0] - from[0]) * dir[0] + (raw[1] - from[1]) * dir[1]);
+    const end = [from[0] + dir[0] * len, from[1] + dir[1] * len];
+    const G = 1000; // guía larga a ambos lados del origen
+    const guide = [[from[0] - dir[0] * G, from[1] - dir[1] * G], [from[0] + dir[0] * G, from[1] + dir[1] * G]];
+    return { end, len, ang: inf.ang, onPoint: false, infer: inf.kind, guide };
+  }
+  const ang = snapAngle(angleFromTo(from, raw));
+  return { end: polarPoint(from, rawLen, ang), len: rawLen, ang, onPoint: false, infer: null, guide: null };
 }
 
 // modo del cuadro dinámico: círculo → pide solo Ø; línea → L + ∠ + snap
@@ -1933,6 +1998,7 @@ function cancelCurrentDraw() {
   sketch.chainStart = sketch.chainLast = null;
   sketch.temp = null;
   hideDynBox();
+  hideInferBadge();
   clearGroup(sketch.preview);
   redrawSketch();
   setStatus('Trazo cancelado. Elige una herramienta o toca para empezar.');
@@ -2637,18 +2703,26 @@ function updateSketchPreview(ev) {
   if (t === 'line' && sketch.chainLast) {
     const res = resolveLineEnd(raw);
     clearGroup(sketch.preview);
+    if (res.guide) { // guía discontinua de inferencia (paralela/perp/H/V)
+      const gl = new THREE.Line(new THREE.BufferGeometry().setFromPoints(
+        [to3D(res.guide[0][0], res.guide[0][1]), to3D(res.guide[1][0], res.guide[1][1])]), guideMat);
+      gl.computeLineDistances();
+      sketch.preview.add(gl);
+    }
     const cur = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.06, 4 * worldPerPixel()), 10, 8), res.onPoint ? snapMat : ptMat);
     cur.position.copy(to3D(res.end[0], res.end[1]));
     sketch.preview.add(cur);
     sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
       [to3D(sketch.chainLast[0], sketch.chainLast[1]), to3D(res.end[0], res.end[1])]), previewMat));
+    showInferBadge(res.infer, res.end);
     updateDynFields(res.len, res.ang);
     positionDynBox();
-    setStatus(`L ${res.len.toFixed(1)} mm · ∠ ${res.ang.toFixed(1)}°${sketch.angLock != null ? ' 🔒' : ''}`);
+    setStatus(`L ${res.len.toFixed(1)} mm · ∠ ${res.ang.toFixed(1)}°${res.infer ? ' · ' + INFER_ES[res.infer] : ''}${sketch.angLock != null ? ' 🔒' : ''}`);
     return;
   }
   const { uv, snapped, kind } = snap2D(raw);
   clearGroup(sketch.preview);
+  hideInferBadge();
   const cursor = new THREE.Mesh(
     new THREE.SphereGeometry(Math.max(0.06, 4 * worldPerPixel()), 10, 8),
     snapped ? snapMat : ptMat
