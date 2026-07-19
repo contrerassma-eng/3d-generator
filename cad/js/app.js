@@ -636,8 +636,12 @@ function rebuildPart(part) {
   }
   const mesh = new THREE.Mesh(geom, matFor(part));
   mesh.userData.partId = part.id;
-  const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geom, 20), edgeMat);
-  mesh.add(edges);
+  // El contorno de aristas (EdgesGeometry) es CARÍSIMO en mallas densas (piezas
+  // reales del STEP de ~1M triángulos). Se omite sobre un umbral → carga mucho
+  // más ágil en ensambles de 100+ piezas de malla.
+  const ntri = geom.attributes.position ? geom.attributes.position.count / 3 : 0;
+  const edges = ntri > 40000 ? null : new THREE.LineSegments(new THREE.EdgesGeometry(geom, 20), edgeMat);
+  if (edges) mesh.add(edges);
   // bocetos consumidos con visibilidad activada (para reutilizarlos de guía)
   for (const f of part.features) {
     if (f.shape === 'sketch' && f.showSketch && f.params.entities) mesh.add(buildSketchOverlay(f));
@@ -654,7 +658,7 @@ function disposePartMesh(partId) {
   scene.remove(rec.mesh);
   rec.mesh.geometry.dispose();
   rec.mesh.material.dispose();
-  rec.edges.geometry.dispose();
+  if (rec.edges) rec.edges.geometry.dispose();
   meshes.delete(partId);
 }
 
