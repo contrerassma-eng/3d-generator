@@ -198,6 +198,15 @@
   #sketchbar::-webkit-scrollbar { display:none; }
   #sketchbar.open { display:flex; }
   #sketchbar button { flex:none; }
+  /* estado del boceto (honesto: contornos/cotas/entidades) estilo barra de estado de Inventor (§2.5) */
+  #skState { position:absolute; top:58px; left:8px; z-index:24; display:none;
+             font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:14px;
+             background:#171b21f0; border:1px solid var(--border); white-space:nowrap;
+             box-shadow:0 4px 14px #0007; pointer-events:none; }
+  #skState.st-ok { color:#bff0c8; border-color:var(--ok); }
+  #skState.st-open { color:#ffe3a6; border-color:var(--warn); }
+  #skState.st-empty { color:var(--dim); }
+  @media (max-width:700px){ #skState { top:56px; font-size:10.5px; padding:3px 8px; } }
   #sketchbar button.on { background:#5a4a20; border-color:var(--accent2); }
   #sketchbar .rsep { flex:none; width:1px; background:var(--border); margin:2px 3px; }
 
@@ -321,6 +330,7 @@
       </div>
     </div>
     <div id="measureLabel"></div>
+    <div id="skState"></div>
     <div id="inferBadge"></div>
     <div id="dynBox">
       <label class="dynf"><span id="dyn_len_lbl">L</span><input id="dyn_len" type="number" inputmode="decimal" step="1" placeholder="mm"></label>

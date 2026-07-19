@@ -2697,7 +2697,30 @@ function endStroke() {
 
 // --- dibujo del boceto ---
 
+// Estado del boceto estilo barra de estado de Inventor (§2.5), pero HONESTO:
+// no inventa grados de libertad (no hay solver aún); reporta lo que sí se puede
+// medir — contornos cerrados listos para extruir, cadenas abiertas y cotas.
+const skStateEl = document.getElementById('skState');
+function updateSketchState() {
+  if (!skStateEl) return;
+  if (!sketch) { skStateEl.style.display = 'none'; return; }
+  const E = sketch.entities.length;
+  const D = sketch.dims.length;
+  const { regions: regs, openCount } = SK.regions(sketch.entities, [...sketch.excluded]);
+  const L = regs.length;
+  let cls, txt;
+  if (E === 0) { cls = 'st-empty'; txt = 'Boceto vacío'; }
+  else if (L > 0) { cls = 'st-ok'; txt = `✓ ${L} contorno${L > 1 ? 's' : ''} listo${openCount ? ` · ${openCount} abierta${openCount > 1 ? 's' : ''}` : ''}`; }
+  else if (openCount > 0) { cls = 'st-open'; txt = `⚠ contorno abierto (${openCount} cadena${openCount > 1 ? 's' : ''})`; }
+  else { cls = 'st-open'; txt = 'sin contorno cerrado'; }
+  const extra = D ? ` · ${D} cota${D > 1 ? 's' : ''}` : '';
+  skStateEl.className = cls;
+  skStateEl.textContent = `${txt} · ${E} entidad${E !== 1 ? 'es' : ''}${extra}`;
+  skStateEl.style.display = 'block';
+}
+
 function redrawSketch() {
+  updateSketchState();
   clearGroup(sketch.draw);
   for (const e of sketch.entities) {
     const mat = (sketch.dimPick && sketch.dimPick.ent.id === e.id) || sketch.selIds.has(e.id) ? selEntMat : (e.proj ? projMat : drawMat);
@@ -2933,6 +2956,8 @@ function cancelSketch(silent) {
   if (!sketch) return;
   sketch.profileMode = false;
   hideDynBox();
+  hideInferBadge();
+  if (skStateEl) skStateEl.style.display = 'none';
   overlay.remove(sketch.group);
   sketch.group.traverse(o => o.geometry?.dispose?.());
   for (const el of sketch.dimEls.values()) el.remove();
@@ -4257,7 +4282,7 @@ window.__cad = {
   rebuildAll, solveAndSync, loadDemo, setMode,
   get selection() { return selection; },
   set selection(s) { selection = s; },
-  refreshUI, refreshProps,
+  refreshUI, refreshProps, redrawSketch,
   meshes, scene, camera,
   THREE,
 };
