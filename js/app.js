@@ -68,7 +68,15 @@ scene.add(axes);
 // vistas ortogonales bloqueadas (sin perspectiva) para trabajar el ensamble
 let mainView = 'persp';
 const viewBtn = document.getElementById('btnView');
-const VIEW_NAMES = { persp: 'Perspectiva', top: 'Planta', front: 'Frente', side: 'Lateral', iso: 'Isométrica' };
+const VIEW_NAMES = { persp: 'Perspectiva', ortho: 'Ortográfica libre', top: 'Planta', front: 'Frente', side: 'Lateral', iso: 'Isométrica' };
+
+// caja envolvente + centro + tamaño de las piezas visibles (para encuadrar/orbitar)
+function visibleBox() {
+  const box = new THREE.Box3();
+  for (const rec of meshes.values()) if (rec.mesh.visible) box.expandByObject(rec.mesh);
+  if (box.isEmpty()) box.set(new THREE.Vector3(-100, -100, 0), new THREE.Vector3(100, 100, 100));
+  return { box, center: box.getCenter(new THREE.Vector3()), size: box.getSize(new THREE.Vector3()).length() };
+}
 
 function setMainView(v) {
   mainView = v;
@@ -77,40 +85,83 @@ function setMainView(v) {
     controls.enabled = true;
     sketchControls.enabled = false;
     viewBtn?.classList.remove('on');
+    frameModel(); // recentra el pivote de órbita en el modelo
     setStatus('Vista en perspectiva libre.');
     return;
   }
-  const box = new THREE.Box3();
-  for (const rec of meshes.values()) if (rec.mesh.visible) box.expandByObject(rec.mesh);
-  if (box.isEmpty()) box.set(new THREE.Vector3(-100, -100, 0), new THREE.Vector3(100, 100, 100));
-  const center = box.getCenter(new THREE.Vector3());
-  const size = box.getSize(new THREE.Vector3()).length();
+  const { center, size } = visibleBox();
+  const libre = v === 'ortho';
+  // ortográfica libre: arranca desde la dirección actual de la cámara en perspectiva
   const DIRS = { top: [0, 0, 1], front: [0, -1, 0], side: [1, 0, 0], iso: [1, -1, 1] };
   const UPS = { top: [0, 1, 0], front: [0, 0, 1], side: [0, 0, 1], iso: [0, 0, 1] };
-  const dir = new THREE.Vector3(...DIRS[v]).normalize();
+  const dir = libre
+    ? (camera.position.clone().sub(controls.target).normalize())
+    : new THREE.Vector3(...DIRS[v]).normalize();
   orthoViewSize = Math.max(120, size * 1.3);
   orthoCam.zoom = 1;
-  orthoCam.up.set(...UPS[v]);
+  orthoCam.up.set(...(libre ? [0, 0, 1] : UPS[v]));
   orthoCam.position.copy(center).addScaledVector(dir, 600);
   orthoCam.lookAt(center);
   sketchControls.target.copy(center);
-  sketchControls.enableRotate = false;
+  sketchControls.enableRotate = libre;  // libre → órbita; vistas fijas → sin giro
   sketchControls.enabled = true;
   controls.enabled = false;
   activeCamera = orthoCam;
   resize();
   viewBtn?.classList.add('on');
-  setStatus(`Vista ${VIEW_NAMES[v]} bloqueada (ortogonal, sin giro): paneo/zoom libres; Mover arrastra en el plano de la vista.`);
+  setStatus(libre
+    ? 'Vista ORTOGRÁFICA LIBRE (sin perspectiva): orbita, panea y zoom. Ideal para ensambles.'
+    : `Vista ${VIEW_NAMES[v]} bloqueada (ortogonal, sin giro): paneo/zoom libres; Mover arrastra en el plano de la vista.`);
 }
 
 if (viewBtn) viewBtn.onclick = () => {
   if (sketch) { setStatus('Sal del boceto para cambiar la vista del ensamble.'); return; }
   showForm('Vista del ensamble', [
     { key: 'v', label: 'Vista', type: 'select', value: mainView, options: [
-      ['persp', 'Perspectiva (libre)'], ['top', 'Planta (orto)'], ['front', 'Frente (orto)'],
-      ['side', 'Lateral (orto)'], ['iso', 'Isométrica (orto)']] },
+      ['persp', 'Perspectiva (libre)'], ['ortho', 'Ortográfica (libre, sin perspectiva)'],
+      ['top', 'Planta (orto fija)'], ['front', 'Frente (orto fija)'],
+      ['side', 'Lateral (orto fija)'], ['iso', 'Isométrica (orto fija)']] },
   ], (val) => setMainView(val.v));
 };
+
+// Encuadra el modelo: pone el pivote de órbita en el centro del modelo y aleja la
+// cámara lo justo. Corrige el "orbitar difícil" (antes giraba en torno al origen).
+function frameModel(target) {
+  const { center, size } = target || visibleBox();
+  const cam = activeCamera === orthoCam ? orthoCam : camera;
+  const ctrl = activeCamera === orthoCam ? sketchControls : controls;
+  const dir = cam.position.clone().sub(ctrl.target);
+  if (dir.lengthSq() < 1) dir.set(220, -220, 160);
+  dir.normalize();
+  ctrl.target.copy(center);
+  if (cam === orthoCam) {
+    orthoViewSize = Math.max(120, size * 1.4);
+    cam.position.copy(center).addScaledVector(dir, 600);
+    resize();
+  } else {
+    cam.position.copy(center).addScaledVector(dir, Math.max(180, size * 1.6));
+  }
+  cam.lookAt(center);
+  ctrl.update();
+}
+
+// Doble clic: encuadra en la pieza tocada (o en todo el modelo si es al vacío),
+// símil "Zoom to fit / Focus" de Inventor. Facilita orbitar alrededor de la pieza.
+renderer.domElement.addEventListener('dblclick', (ev) => {
+  if (sketch) return;
+  const hit = castAtEvent(ev);
+  if (hit) {
+    const rec = meshes.get(hit.object.userData.partId);
+    if (rec) {
+      const box = new THREE.Box3().expandByObject(rec.mesh);
+      frameModel({ center: box.getCenter(new THREE.Vector3()), size: box.getSize(new THREE.Vector3()).length() });
+      setStatus(`Enfocado en ${getPart(doc, hit.object.userData.partId)?.name || 'la pieza'}.`);
+      return;
+    }
+  }
+  frameModel();
+  setStatus('Encuadrado en todo el modelo.');
+});
 
 // sección global: corta el modelo por un plano X/Y/Z para ver interiores
 const sectionBtn = document.getElementById('btnSection');
@@ -3302,6 +3353,7 @@ function importData(data, modo) {
     clearMeasure();
     rebuildAll();
     solveAndSync();
+    frameModel();
     commit(`Proyecto importado: ${doc.parts.length} pieza(s).`);
     return;
   }
@@ -3410,7 +3462,7 @@ $('btnClear').onclick = () => {
   commit('Proyecto nuevo.');
 };
 
-$('btnDemo').onclick = () => { pushUndo(); loadDemo(); commit('Ejemplo cargado.'); };
+$('btnDemo').onclick = () => { pushUndo(); loadDemo(); frameModel(); commit('Ejemplo cargado.'); };
 
 function loadDemo() {
   doc = newDoc();
@@ -3467,6 +3519,7 @@ function loadDemo() {
     }
   } catch (e) { /* almacenamiento no disponible o corrupto */ }
   if (!restored) { loadDemo(); setStatus('Ensamble de ejemplo cargado. Prueba ◎ Agujero, ▬ Coincidir o 📏 Medir.'); }
+  frameModel(); // el pivote de órbita arranca en el centro del modelo
   refreshUI();
 })();
 
