@@ -118,6 +118,10 @@ function setMainView(v) {
   orthoCam.lookAt(center);
   sketchControls.target.copy(center);
   sketchControls.enableRotate = libre;  // libre → órbita; vistas fijas → sin giro
+  // en el ENSAMBLE ortográfico el clic izquierdo (y 1 dedo) orbita; en el boceto
+  // se reasigna a -1 (el izquierdo dibuja). Sin esto la ortográfica no giraba.
+  sketchControls.mouseButtons.LEFT = libre ? THREE.MOUSE.ROTATE : -1;
+  sketchControls.touches.ONE = libre ? THREE.TOUCH.ROTATE : -1;
   sketchControls.enabled = true;
   controls.enabled = false;
   activeCamera = orthoCam;
@@ -230,12 +234,16 @@ if (vcCanvas) {
     cubeRay.setFromCamera(cubePtr, cubeCam);
     const hit = cubeRay.intersectObject(cubeMesh, false)[0];
     if (!hit) return;
-    const n = hit.face.normal; // eje del cubo = eje del mundo
-    const dir = [Math.round(n.x), Math.round(n.y), Math.round(n.z)];
-    const up = Math.abs(dir[2]) > 0.5 ? [0, 1, 0] : [0, 0, 1];
+    // según DÓNDE se tocó el cubo: centro de cara → vista orto; cerca de una
+    // ARISTA → vista a 45° de dos ejes; ESQUINA → vista isométrica de tres ejes.
+    const half = 0.85, thr = 0.42, dir = [0, 0, 0];
+    for (let i = 0; i < 3; i++) { const c = hit.point.getComponent(i) / half; if (Math.abs(c) > thr) dir[i] = Math.sign(c); }
+    if (!dir[0] && !dir[1] && !dir[2]) { const n = hit.face.normal; dir[0] = Math.round(n.x); dir[1] = Math.round(n.y); dir[2] = Math.round(n.z); }
+    const up = (dir[0] === 0 && dir[1] === 0) ? [0, 1, 0] : [0, 0, 1]; // solo cara sup/inf usa Y arriba
     snapView(dir, up);
     const NAME = { '1,0,0': 'Derecha', '-1,0,0': 'Izquierda', '0,1,0': 'Atrás', '0,-1,0': 'Frente', '0,0,1': 'Superior', '0,0,-1': 'Inferior' };
-    setStatus(`Vista ${NAME[dir.join(',')] || ''}.`);
+    const na = dir.filter(Boolean).length;
+    setStatus(na === 1 ? `Vista ${NAME[dir.join(',')] || ''}.` : na === 2 ? 'Vista de arista (45°).' : 'Vista isométrica (esquina).');
   });
   document.getElementById('vcHome').onclick = () => { snapView([1, -1, 1], [0, 0, 1]); setStatus('Vista isométrica.'); };
   // toggle de proyección ortográfica ↔ perspectiva (por defecto ortográfica)
@@ -1723,6 +1731,8 @@ function beginSketch(part, originL, nL, uL) {
   orthoCam.lookAt(originW);
   sketchControls.target.copy(originW);
   sketchControls.enableRotate = false;
+  sketchControls.mouseButtons.LEFT = -1;  // en el boceto el izquierdo dibuja
+  sketchControls.touches.ONE = -1;
   document.getElementById('skOrbit')?.classList.remove('on');
   window.__updateLockIcon?.();
   activeCamera = orthoCam;
