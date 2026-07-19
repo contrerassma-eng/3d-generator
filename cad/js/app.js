@@ -384,6 +384,13 @@ setSidebar(!isNarrow());
 
 $('propsHead').onclick = () => $('props').classList.toggle('closed');
 function openProps() { $('props').classList.remove('closed'); }
+// breadcrumb del Property Panel: saltar a un nivel superior (p. ej. de la operación a su pieza)
+$('propsBody').addEventListener('click', (ev) => {
+  const el = ev.target.closest('[data-crumb]');
+  if (!el) return;
+  selection = { kind: 'part', id: el.dataset.crumb };
+  refreshUI();
+});
 
 // ---------- Materiales ----------
 
@@ -856,26 +863,28 @@ function refreshProps() {
     const e = new THREE.Euler().setFromQuaternion(new THREE.Quaternion(...p.quat), 'XYZ');
     const deg = (r) => +(r * 180 / Math.PI).toFixed(2);
     body.innerHTML = `
-      ${frow('Nombre', `<input type="text" id="pp_name" value="${esc(p.name)}">`)}
-      ${frow('Color', `<input type="color" id="pp_color" value="${p.color}">`)}
-      ${frow('Fija (a tierra)', `<input type="checkbox" id="pp_fixed" ${p.fixed ? 'checked' : ''}>`)}
-      ${frow('Posición X/Y/Z', num3('pp_pos', p.pos))}
-      ${frow('Rotación °X/Y/Z', num3('pp_rot', [deg(e.x), deg(e.y), deg(e.z)]))}
-      <div class="btnrow">
+      ${crumb([{ t: env === 'ens' ? 'Ensamble' : 'Modelo' }, { t: p.name }])}
+      ${sec('Identidad',
+        frow('Nombre', `<input type="text" id="pp_name" value="${esc(p.name)}">`)
+        + frow('Color', `<input type="color" id="pp_color" value="${p.color}">`)
+        + frow('Fija (a tierra)', `<input type="checkbox" id="pp_fixed" ${p.fixed ? 'checked' : ''}>`))}
+      ${sec('Posición y orientación',
+        frow('Posición X/Y/Z', num3('pp_pos', p.pos))
+        + frow('Rotación °X/Y/Z', num3('pp_rot', [deg(e.x), deg(e.y), deg(e.z)])))}
+      ${sec('Acciones', `<div class="btnrow">
         <button id="pp_apply">Aplicar</button>
         <button id="pp_scale" title="Escalar la pieza por un factor (símil Escala de edición directa de Inventor)">⤢ Escala…</button>
         <button id="pp_rot" title="Girar la pieza un ángulo alrededor de un eje (símil Rotar de edición directa)">⟳ Girar…</button>
         <button id="pp_iso" title="Mostrar solo esta pieza (toca de nuevo para restaurar)">⛶ Aislar</button>
         <button id="pp_del" class="danger">Eliminar pieza</button>
-      </div>
-      <div class="btnrow">
+      </div>`)}
+      ${sec('Fabricación', `<div class="btnrow">
         <button id="pp_stl" title="Exportar SOLO esta pieza a STL (en su propio origen, para imprimir/fabricar)">⭳ STL pieza</button>
         <button id="pp_save" title="Guardar SOLO esta pieza como JSON (ábrela en otro proyecto con 📂 Abrir → Agregar)">💾 Guardar pieza</button>
-      </div>
-      ${esChapa(p) ? `<div class="btnrow">
+      </div>${esChapa(p) ? `<div class="btnrow">
         <button id="pp_flatdxf" title="Desarrollo real (BA con factor K) con líneas de plegado y desahogos">⭳ Desarrollo DXF</button>
         <button id="pp_flatpdf" title="Lámina del desarrollo lista para imprimir">⭳ Desarrollo PDF</button>
-      </div>` : ''}`;
+      </div>` : ''}`, false)}`;
     $('pp_stl').onclick = () => exportSTL([p], `${p.name.replace(/[^\w.-]+/g, '_')}.stl`, false);
     $('pp_save').onclick = () => savePartJSON(p);
     if (esChapa(p)) {
@@ -983,12 +992,15 @@ function refreshProps() {
         dims += frow('Puntos', `<b>${f.params.pts.length}</b>`);
       }
     }
+    const ubic = (['pestana', 'pattern'].includes(f.shape) ? '' : frow('Posición X/Y/Z', num3('fp_at', f.at)))
+      + (['box', 'chapaBase', 'pestana', 'pattern'].includes(f.shape) ? '' : frow('Eje X/Y/Z', num3('fp_dir', f.dir)));
     body.innerHTML = `
-      ${frow('Nombre', `<input type="text" id="fp_name" value="${esc(f.name)}">`)}
-      ${frow('Tipo', `${f.op === 'cut' ? 'corte' : 'unión'}${f.suppressed ? ' · ⏸ suprimida' : ''}`)}
-      ${dims}
-      ${['pestana', 'pattern'].includes(f.shape) ? '' : frow('Posición X/Y/Z', num3('fp_at', f.at))}
-      ${['box', 'chapaBase', 'pestana', 'pattern'].includes(f.shape) ? '' : frow('Eje X/Y/Z', num3('fp_dir', f.dir))}
+      ${crumb([{ t: p.name, id: p.id }, { t: f.name }])}
+      ${sec('Operación',
+        frow('Nombre', `<input type="text" id="fp_name" value="${esc(f.name)}">`)
+        + frow('Tipo', `${f.op === 'cut' ? 'corte' : 'unión'}${f.suppressed ? ' · ⏸ suprimida' : ''}`))}
+      ${sec('Geometría', dims)}
+      ${sec('Ubicación', ubic)}
       <div class="btnrow">
         <button id="fp_apply">Regenerar</button>
         <button id="fp_del" class="danger">Eliminar</button>
@@ -1090,6 +1102,13 @@ function refreshProps() {
 }
 
 const frow = (label, control) => `<div class="frow"><label>${label}</label>${control}</div>`;
+// Property Panel estilo Inventor 2026: breadcrumb + secciones de acordeón.
+// Migas de pan: array de {t, id?} — el nivel con id es clicable (salta a él).
+const crumb = (levels) => `<div class="pp-crumb">${levels.map((l, i) =>
+  `${i ? '<span class="sep">▸</span>' : ''}<span class="lvl${i === levels.length - 1 ? ' cur' : ''}${l.id ? ' link' : ''}"${l.id ? ` data-crumb="${l.id}"` : ''}>${esc(l.t)}</span>`).join('')}</div>`;
+// Sección colapsable (revelación progresiva): <details> nativo, sin JS de estado.
+const sec = (title, inner, open = true) => inner
+  ? `<details class="pp-sec"${open ? ' open' : ''}><summary>${esc(title)}</summary><div class="pp-secbody">${inner}</div></details>` : '';
 const num3 = (id, v) => `<span style="display:flex;gap:4px;flex:1">
   <input type="number" id="${id}x" value="${+(+v[0]).toFixed(3)}" step="0.5" style="width:33%">
   <input type="number" id="${id}y" value="${+(+v[1]).toFixed(3)}" step="0.5" style="width:33%">
@@ -4219,6 +4238,9 @@ window.__cad = {
   get sketch() { return sketch; },
   get activeCamera() { return activeCamera; },
   rebuildAll, solveAndSync, loadDemo, setMode,
+  get selection() { return selection; },
+  set selection(s) { selection = s; },
+  refreshUI, refreshProps,
   meshes, scene, camera,
   THREE,
 };

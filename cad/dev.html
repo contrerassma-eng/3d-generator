@@ -122,6 +122,24 @@
   #propsBody { overflow:auto; padding:0 10px 10px; }
   #props.closed #propsBody { display:none; }
 
+  /* Property Panel estilo Inventor 2026: breadcrumb + acordeón (§1.2) */
+  .pp-crumb { display:flex; flex-wrap:wrap; align-items:center; gap:5px; padding:2px 2px 9px;
+              font-size:11px; color:var(--dim); }
+  .pp-crumb .sep { opacity:.5; }
+  .pp-crumb .lvl { padding:2px 7px; border-radius:6px; background:var(--panel2); border:1px solid var(--border); }
+  .pp-crumb .lvl.cur { color:var(--text); background:#2b4270; border-color:var(--accent); }
+  .pp-crumb .lvl.link { cursor:pointer; }
+  .pp-crumb .lvl.link:hover { color:var(--text); border-color:#3d4654; }
+  details.pp-sec { border:1px solid var(--border); border-radius:9px; margin-bottom:7px; background:var(--panel2); overflow:hidden; }
+  details.pp-sec > summary { list-style:none; cursor:pointer; user-select:none; padding:8px 10px;
+              font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim);
+              display:flex; align-items:center; gap:7px; }
+  details.pp-sec > summary::-webkit-details-marker { display:none; }
+  details.pp-sec > summary::before { content:'▸'; font-size:10px; transition:transform .15s; opacity:.7; }
+  details.pp-sec[open] > summary::before { transform:rotate(90deg); }
+  details.pp-sec[open] > summary { color:var(--text); border-bottom:1px solid var(--border); }
+  .pp-secbody { padding:9px 10px 3px; }
+  .pp-secbody .btnrow:last-child { margin-bottom:6px; }
   .frow { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
   .frow label { width:110px; color:var(--dim); font-size:12px; flex:none; }
   .frow input[type=number], .frow input[type=text], .frow select {
