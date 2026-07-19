@@ -5,19 +5,19 @@
   "nombre": "Conjunto completo — transportador base twin-belt + transferencia 90° en el hueco",
   "capa": "user",
   "origen": "gen_integracion.mjs: base_sorter.json (equipo base paramétrico completo) + transfer_rodillos_90.json montado en el hueco (X=0), mismo marco (flujo X, plano de banda Z=170). Los rodillos emergen +4 entre las 4 bandas del base; el canal fijo del módulo se ancla a los 2 travesaños pesados del hueco (X=±430). El base es la TIERRA; el canal de la transferencia se fija con 3 restricciones flush (X/Y/Z).",
-  "piezas_base": 118,
+  "piezas_base": 120,
   "piezas_transferencia": 106,
   "restricciones": 3
  },
  "parts": [
   {
-   "id": "bp1_base_perfil_item_40_120_del_bastidor_y",
-   "name": "BASE · Perfil item 40×120 del bastidor -Y",
+   "id": "bp1_base_larguero_item_40_115_del_bastidor_y",
+   "name": "BASE · Larguero item 40×115 del bastidor -Y",
    "color": "#9aa6b0",
    "pos": [
     0,
     -300,
-    102
+    30
    ],
    "quat": [
     0,
@@ -31,7 +31,7 @@
    "features": [
     {
      "id": "bf1",
-     "name": "Perfil 3000×40×120",
+     "name": "Larguero 3000×40×115",
      "shape": "box",
      "op": "union",
      "at": [
@@ -47,7 +47,7 @@
      "params": {
       "w": 3000,
       "d": 40,
-      "h": 120
+      "h": 115
      }
     },
     {
@@ -58,7 +58,7 @@
      "at": [
       0,
       20,
-      0
+      55
      ],
      "dir": [
       0,
@@ -74,13 +74,13 @@
    ]
   },
   {
-   "id": "bp2_base_perfil_item_40_120_del_bastidor_y",
-   "name": "BASE · Perfil item 40×120 del bastidor +Y",
+   "id": "bp2_base_larguero_item_40_115_del_bastidor_y",
+   "name": "BASE · Larguero item 40×115 del bastidor +Y",
    "color": "#9aa6b0",
    "pos": [
     0,
     300,
-    102
+    30
    ],
    "quat": [
     0,
@@ -94,7 +94,7 @@
    "features": [
     {
      "id": "bf3",
-     "name": "Perfil 3000×40×120",
+     "name": "Larguero 3000×40×115",
      "shape": "box",
      "op": "union",
      "at": [
@@ -110,7 +110,7 @@
      "params": {
       "w": 3000,
       "d": 40,
-      "h": 120
+      "h": 115
      }
     },
     {
@@ -121,7 +121,7 @@
      "at": [
       0,
       -20,
-      0
+      55
      ],
      "dir": [
       0,
@@ -8484,13 +8484,13 @@
    ]
   },
   {
-   "id": "bp103_base_travesa_o_x_1250",
-   "name": "BASE · Travesaño X=-1250",
+   "id": "bp103_base_travesa_o_x_1380",
+   "name": "BASE · Travesaño X=-1380",
    "color": "#9aa6b0",
    "pos": [
-    -1250,
+    -1380,
     0,
-    102
+    15
    ],
    "quat": [
     0,
@@ -8518,9 +8518,9 @@
       1
      ],
      "params": {
-      "w": 40,
+      "w": 50,
       "d": 588,
-      "h": 80
+      "h": 40
      }
     }
    ]
@@ -8532,7 +8532,7 @@
    "pos": [
     -750,
     0,
-    102
+    15
    ],
    "quat": [
     0,
@@ -8560,9 +8560,9 @@
       1
      ],
      "params": {
-      "w": 40,
+      "w": 50,
       "d": 588,
-      "h": 80
+      "h": 40
      }
     }
    ]
@@ -8574,7 +8574,7 @@
    "pos": [
     -430,
     0,
-    102
+    15
    ],
    "quat": [
     0,
@@ -8604,7 +8604,7 @@
      "params": {
       "w": 80,
       "d": 588,
-      "h": 120
+      "h": 60
      }
     }
    ]
@@ -8616,7 +8616,7 @@
    "pos": [
     430,
     0,
-    102
+    15
    ],
    "quat": [
     0,
@@ -8646,7 +8646,7 @@
      "params": {
       "w": 80,
       "d": 588,
-      "h": 120
+      "h": 60
      }
     }
    ]
@@ -8658,7 +8658,7 @@
    "pos": [
     750,
     0,
-    102
+    15
    ],
    "quat": [
     0,
@@ -8686,21 +8686,21 @@
       1
      ],
      "params": {
-      "w": 40,
+      "w": 50,
       "d": 588,
-      "h": 80
+      "h": 40
      }
     }
    ]
   },
   {
-   "id": "bp108_base_travesa_o_x_1250",
-   "name": "BASE · Travesaño X=1250",
+   "id": "bp108_base_travesa_o_x_1380",
+   "name": "BASE · Travesaño X=1380",
    "color": "#9aa6b0",
    "pos": [
-    1250,
+    1380,
     0,
-    102
+    15
    ],
    "quat": [
     0,
@@ -8728,19 +8728,19 @@
       1
      ],
      "params": {
-      "w": 40,
+      "w": 50,
       "d": 588,
-      "h": 80
+      "h": 40
      }
     }
    ]
   },
   {
-   "id": "bp109_base_pata_x_1240_y",
-   "name": "BASE · Pata X=-1240 -Y",
+   "id": "bp109_base_pata_x_1380_y",
+   "name": "BASE · Pata X=-1380 -Y",
    "color": "#3b4750",
    "pos": [
-    -1240,
+    -1380,
     -300,
     -590
    ],
@@ -8762,7 +8762,7 @@
      "at": [
       0,
       0,
-      346
+      0
      ],
      "dir": [
       0,
@@ -8772,7 +8772,7 @@
      "params": {
       "w": 60,
       "d": 60,
-      "h": 692
+      "h": 620
      }
     },
     {
@@ -8783,7 +8783,7 @@
      "at": [
       0,
       0,
-      0
+      -10
      ],
      "dir": [
       0,
@@ -8804,7 +8804,7 @@
      "at": [
       0,
       0,
-      -20
+      -30
      ],
      "dir": [
       0,
@@ -8813,17 +8813,17 @@
      ],
      "params": {
       "dia": 30,
-      "h": 30
+      "h": 20
      }
     }
    ]
   },
   {
-   "id": "bp110_base_pata_x_1240_y",
-   "name": "BASE · Pata X=-1240 +Y",
+   "id": "bp110_base_pata_x_1380_y",
+   "name": "BASE · Pata X=-1380 +Y",
    "color": "#3b4750",
    "pos": [
-    -1240,
+    -1380,
     300,
     -590
    ],
@@ -8845,7 +8845,7 @@
      "at": [
       0,
       0,
-      346
+      0
      ],
      "dir": [
       0,
@@ -8855,7 +8855,7 @@
      "params": {
       "w": 60,
       "d": 60,
-      "h": 692
+      "h": 620
      }
     },
     {
@@ -8866,7 +8866,7 @@
      "at": [
       0,
       0,
-      0
+      -10
      ],
      "dir": [
       0,
@@ -8887,7 +8887,7 @@
      "at": [
       0,
       0,
-      -20
+      -30
      ],
      "dir": [
       0,
@@ -8896,17 +8896,17 @@
      ],
      "params": {
       "dia": 30,
-      "h": 30
+      "h": 20
      }
     }
    ]
   },
   {
-   "id": "bp111_base_pata_x_0_y",
-   "name": "BASE · Pata X=0 -Y",
+   "id": "bp111_base_pata_x_430_y",
+   "name": "BASE · Pata X=-430 -Y",
    "color": "#3b4750",
    "pos": [
-    0,
+    -430,
     -300,
     -590
    ],
@@ -8928,7 +8928,7 @@
      "at": [
       0,
       0,
-      346
+      0
      ],
      "dir": [
       0,
@@ -8938,7 +8938,7 @@
      "params": {
       "w": 60,
       "d": 60,
-      "h": 692
+      "h": 620
      }
     },
     {
@@ -8949,7 +8949,7 @@
      "at": [
       0,
       0,
-      0
+      -10
      ],
      "dir": [
       0,
@@ -8970,7 +8970,7 @@
      "at": [
       0,
       0,
-      -20
+      -30
      ],
      "dir": [
       0,
@@ -8979,17 +8979,17 @@
      ],
      "params": {
       "dia": 30,
-      "h": 30
+      "h": 20
      }
     }
    ]
   },
   {
-   "id": "bp112_base_pata_x_0_y",
-   "name": "BASE · Pata X=0 +Y",
+   "id": "bp112_base_pata_x_430_y",
+   "name": "BASE · Pata X=-430 +Y",
    "color": "#3b4750",
    "pos": [
-    0,
+    -430,
     300,
     -590
    ],
@@ -9011,7 +9011,7 @@
      "at": [
       0,
       0,
-      346
+      0
      ],
      "dir": [
       0,
@@ -9021,7 +9021,7 @@
      "params": {
       "w": 60,
       "d": 60,
-      "h": 692
+      "h": 620
      }
     },
     {
@@ -9032,7 +9032,7 @@
      "at": [
       0,
       0,
-      0
+      -10
      ],
      "dir": [
       0,
@@ -9053,7 +9053,7 @@
      "at": [
       0,
       0,
-      -20
+      -30
      ],
      "dir": [
       0,
@@ -9062,17 +9062,17 @@
      ],
      "params": {
       "dia": 30,
-      "h": 30
+      "h": 20
      }
     }
    ]
   },
   {
-   "id": "bp113_base_pata_x_1240_y",
-   "name": "BASE · Pata X=1240 -Y",
+   "id": "bp113_base_pata_x_430_y",
+   "name": "BASE · Pata X=430 -Y",
    "color": "#3b4750",
    "pos": [
-    1240,
+    430,
     -300,
     -590
    ],
@@ -9094,7 +9094,7 @@
      "at": [
       0,
       0,
-      346
+      0
      ],
      "dir": [
       0,
@@ -9104,7 +9104,7 @@
      "params": {
       "w": 60,
       "d": 60,
-      "h": 692
+      "h": 620
      }
     },
     {
@@ -9115,7 +9115,7 @@
      "at": [
       0,
       0,
-      0
+      -10
      ],
      "dir": [
       0,
@@ -9136,7 +9136,7 @@
      "at": [
       0,
       0,
-      -20
+      -30
      ],
      "dir": [
       0,
@@ -9145,17 +9145,17 @@
      ],
      "params": {
       "dia": 30,
-      "h": 30
+      "h": 20
      }
     }
    ]
   },
   {
-   "id": "bp114_base_pata_x_1240_y",
-   "name": "BASE · Pata X=1240 +Y",
+   "id": "bp114_base_pata_x_430_y",
+   "name": "BASE · Pata X=430 +Y",
    "color": "#3b4750",
    "pos": [
-    1240,
+    430,
     300,
     -590
    ],
@@ -9177,7 +9177,7 @@
      "at": [
       0,
       0,
-      346
+      0
      ],
      "dir": [
       0,
@@ -9187,7 +9187,7 @@
      "params": {
       "w": 60,
       "d": 60,
-      "h": 692
+      "h": 620
      }
     },
     {
@@ -9198,7 +9198,7 @@
      "at": [
       0,
       0,
-      0
+      -10
      ],
      "dir": [
       0,
@@ -9219,7 +9219,7 @@
      "at": [
       0,
       0,
-      -20
+      -30
      ],
      "dir": [
       0,
@@ -9228,19 +9228,19 @@
      ],
      "params": {
       "dia": 30,
-      "h": 30
+      "h": 20
      }
     }
    ]
   },
   {
-   "id": "bp115_base_riostra_diagonal_y",
-   "name": "BASE · Riostra diagonal -Y",
+   "id": "bp115_base_pata_x_1380_y",
+   "name": "BASE · Pata X=1380 -Y",
    "color": "#3b4750",
    "pos": [
-    0,
+    1380,
     -300,
-    -244
+    -590
    ],
    "quat": [
     0,
@@ -9254,7 +9254,7 @@
    "features": [
     {
      "id": "bf322",
-     "name": "Riostra 40×40",
+     "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
      "at": [
@@ -9268,21 +9268,62 @@
       1
      ],
      "params": {
-      "w": 2480,
-      "d": 40,
-      "h": 12
+      "w": 60,
+      "d": 60,
+      "h": 620
+     }
+    },
+    {
+     "id": "bf323",
+     "name": "Placa base 120×120×10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -10
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 120,
+      "h": 10
+     }
+    },
+    {
+     "id": "bf324",
+     "name": "Nivelador M16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -30
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 20
      }
     }
    ]
   },
   {
-   "id": "bp116_base_riostra_diagonal_y",
-   "name": "BASE · Riostra diagonal +Y",
+   "id": "bp116_base_pata_x_1380_y",
+   "name": "BASE · Pata X=1380 +Y",
    "color": "#3b4750",
    "pos": [
-    0,
+    1380,
     300,
-    -244
+    -590
    ],
    "quat": [
     0,
@@ -9295,7 +9336,90 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf323",
+     "id": "bf325",
+     "name": "Poste item 60×60",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 60,
+      "h": 620
+     }
+    },
+    {
+     "id": "bf326",
+     "name": "Placa base 120×120×10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -10
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 120,
+      "h": 10
+     }
+    },
+    {
+     "id": "bf327",
+     "name": "Nivelador M16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -30
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 20
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp117_base_riostra_longitudinal_y",
+   "name": "BASE · Riostra longitudinal -Y",
+   "color": "#3b4750",
+   "pos": [
+    0,
+    -300,
+    -530
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf328",
      "name": "Riostra 40×40",
      "shape": "box",
      "op": "union",
@@ -9310,15 +9434,57 @@
       1
      ],
      "params": {
-      "w": 2480,
+      "w": 2760,
       "d": 40,
-      "h": 12
+      "h": 40
      }
     }
    ]
   },
   {
-   "id": "bp117_base_guarda_lateral_y",
+   "id": "bp118_base_riostra_longitudinal_y",
+   "name": "BASE · Riostra longitudinal +Y",
+   "color": "#3b4750",
+   "pos": [
+    0,
+    300,
+    -530
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf329",
+     "name": "Riostra 40×40",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2760,
+      "d": 40,
+      "h": 40
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp119_base_guarda_lateral_y",
    "name": "BASE · Guarda lateral -Y",
    "color": "#aab6c0",
    "pos": [
@@ -9337,7 +9503,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf324",
+     "id": "bf330",
      "name": "Guarda item",
      "shape": "box",
      "op": "union",
@@ -9360,7 +9526,7 @@
    ]
   },
   {
-   "id": "bp118_base_guarda_lateral_y",
+   "id": "bp120_base_guarda_lateral_y",
    "name": "BASE · Guarda lateral +Y",
    "color": "#aab6c0",
    "pos": [
@@ -9379,7 +9545,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf325",
+     "id": "bf331",
      "name": "Guarda item",
      "shape": "box",
      "op": "union",
@@ -22022,11 +22188,11 @@
    "id": "ci_pos_x",
    "type": "flush",
    "a": {
-    "part": "bp1_base_perfil_item_40_120_del_bastidor_y",
+    "part": "bp1_base_larguero_item_40_115_del_bastidor_y",
     "point": [
      0,
      300,
-     -102
+     -30
     ],
     "normal": [
      1,
@@ -22053,11 +22219,11 @@
    "id": "ci_pos_y",
    "type": "flush",
    "a": {
-    "part": "bp1_base_perfil_item_40_120_del_bastidor_y",
+    "part": "bp1_base_larguero_item_40_115_del_bastidor_y",
     "point": [
      0,
      300,
-     -102
+     -30
     ],
     "normal": [
      0,
@@ -22084,11 +22250,11 @@
    "id": "ci_pos_z",
    "type": "flush",
    "a": {
-    "part": "bp1_base_perfil_item_40_120_del_bastidor_y",
+    "part": "bp1_base_larguero_item_40_115_del_bastidor_y",
     "point": [
      0,
      300,
-     -102
+     -30
     ],
     "normal": [
      0,
