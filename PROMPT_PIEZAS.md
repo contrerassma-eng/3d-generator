@@ -79,6 +79,12 @@ Funciones (se aplican en orden, como árbol paramétrico):
   — el perfil (`entities`, contorno cerrado en el plano) gira 360° alrededor
   del eje `axis` (una recta del mismo plano 2D). El perfil debe quedar a un
   solo lado del eje, sin cruzarlo.
+- Empalme (redondeo de arista): `{"id":"f7","name":"Empalme R3","shape":"fillet","op":"blend","at":[0,0,0],"dir":[0,0,1],"params":{"edges":[{"a":[x1,y1,z1],"b":[x2,y2,z2]}],"r":3}}`
+  — redondea la(s) arista(s) recta(s) dadas por sus dos extremos (coordenadas
+  locales). Debe ir DESPUÉS de las funciones que crean esa arista; opera sobre
+  el sólido acumulado. Convexa → redondeo exterior; cóncava → rellena el rincón.
+- Chaflán: `{"id":"f8","name":"Chaflán 2","shape":"chamfer","op":"blend","at":[0,0,0],"dir":[0,0,1],"params":{"edges":[{"a":[..],"b":[..]}],"d":2}}`
+  — achaflana (corte a 45°) la arista a una distancia `d`. Mismas reglas que el empalme.
 - Patrón de una función (repite otra función; debe ir DESPUÉS de ella en la lista):
   - rectangular: `{"id":"f6","name":"Patrón","shape":"pattern","op":"pattern","at":[0,0,0],"dir":[0,0,1],"params":{"sourceId":"f3","kind":"rect","nx":3,"ny":2,"dx":40,"dy":30,"u":[1,0,0],"v":[0,1,0]}}`
   - circular: `{"id":"f6","name":"Patrón","shape":"pattern","op":"pattern","at":[0,0,0],"dir":[0,0,1],"params":{"sourceId":"f3","kind":"circ","n":6,"angle":360,"axisAt":[0,0,0],"axisDir":[0,0,1]}}`
