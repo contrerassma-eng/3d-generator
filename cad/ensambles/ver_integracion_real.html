@@ -67,6 +67,24 @@ grp.rotation.z = Math.PI / 2;
 grp.position.set(px, py, zoff);
 scene.add(grp);
 
+// --- bastidor de integración en la base (modificación autorizada del STEP) ---
+// misma transformación que el módulo: encuadra el hueco y recibe las fijaciones.
+if (q.get('frame') !== '0') {
+  try {
+    const fdoc = await (await fetch('base_interface.json')).json();
+    const fg = new THREE.Group();
+    for (const part of fdoc.parts) {
+      if (part.visible === false) continue;
+      const g = buildPartGeometry(part);
+      const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: part.color || '#546e7a', metalness: 0.3, roughness: 0.7 }));
+      mesh.applyMatrix4(partMatrix(part)); fg.add(mesh);
+    }
+    fg.rotation.z = Math.PI / 2;
+    fg.position.set(px, py, zoff);
+    scene.add(fg);
+  } catch (e) { console.log('sin base_interface.json', e.message); }
+}
+
 // --- cámara enfocada al módulo ---
 const c = new THREE.Vector3(px, py, 40);
 const R = Number(q.get('r') ?? 760);

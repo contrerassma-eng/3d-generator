@@ -76,8 +76,11 @@ export const D = {
   // al tambor, POR DENTRO, colgado bajo el eje (en el rebaje del base).
   bandT: 3, bandW: 35,           // banda PLANA 35×3 (2 capas poliéster + cara nitrilo)
   beltPlane: 378,                // plano x del serpentín (centro del tramo desnudo +X)
-  idlerDia: 50,                  // tensores 2ª línea
-  idlerPos: [[-208.5, 98], [-69.5, 98], [208.5, 98]],  // 3 tensores; el 4º hueco lo ocupa el tambor
+  // 2ª línea de tensores MÁS GRANDES y MÁS BAJOS: bajan el ramal de la banda
+  // para que el serpentín dé la compliancia del pop-up sin sobre-tensarse
+  // (crece la altura del módulo). Ø80 a z=58 (antes Ø50 a z=98).
+  idlerDia: 80,                  // tensores 2ª línea (mayores → más envoltura y juego)
+  idlerPos: [[-208.5, 58], [-69.5, 58], [208.5, 58]],  // 3 tensores bajos; el 4º hueco lo ocupa el tambor
   retDia: 24,                    // poleas de retorno (esquinas inferiores)
   retPos: [[-312, 36], [312, 36]],
   drumDia: 90, drumW: 43,        // tambor motriz liso abombado (fricción)

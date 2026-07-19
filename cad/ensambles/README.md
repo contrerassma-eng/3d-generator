@@ -38,7 +38,7 @@ expulsión a 90°, Z = arriba**, mm. Estado modelado: **elevado** (carrera aplic
 | Solo la transferencia (módulo de desviación) | 116 piezas, sin el transportador anfitrión |
 | **5 rodillos** Ø63 vulcanizados (tubo de acero Ø51) de **800 mm de cara**, a **paso 139** = 1 por hueco entre las 4 bandas del base | gap tangente **76**; emergen limpios ENTRE las bandas reales (X base = 208 − línea) |
 | **Rodillo de EJE MUERTO MACIZO** (Hytrol MRT): el eje no gira, el tubo gira sobre 2 **rodamientos 6004** entre eje y tubo | eje macizo Ø20 **perforado Ø8.5 + roscado M10 interior**; desde fuera de la chapa un **perno HEXAGONAL M10 DIN 933 + golilla** lo sujeta a cada placa; **tapa de extremo** por lado |
-| **Accionamiento por banda plana** (serpentín) al extremo, NO rodillo a rodillo | **banda plana 35 × 3 (nitrilo/poliéster)** sobre el **tubo desnudo Ø51** de cada rodillo → **3 tensores Ø50 con colisa vertical** → **tambor motriz Ø90 con SIT-LOCK** (hueco R3–R4) → 2 retornos Ø24 en esquinas |
+| **Accionamiento por banda plana** (serpentín) al extremo, NO rodillo a rodillo | **banda plana 35 × 3 (nitrilo/poliéster)** sobre el **tubo desnudo Ø51** de cada rodillo → **3 tensores Ø80 BAJOS (z=58) con colisa vertical** (mayores y más bajos → bajan el ramal y dan la compliancia del pop-up) → **tambor motriz Ø90 con SIT-LOCK** (hueco R3–R4) → 2 retornos Ø24 en esquinas |
 | **Motor por dentro, simple y confiable** | **motorreductor de EJE HUECO** montado directo sobre el eje del tambor (sin acople ni alineación), con **brazo de torque** a la placa +X; cuelga en la ventana del base. Cilindros y palancas entre las placas |
 | **Solo 2 cilindros**, **en diagonal con pivote**, subida **vertical de 6 mm** | ISO 6432 Ø25 inclinados 36.7°, basculantes en horquilla; empujan una **palanca con rodillo de leva** que sube el puente en vertical (carrera de cilindro 10 → 6 vertical) |
 | Estructura fija **no más ancha que las placas laterales** | canal fijo de **836 mm** = ancho exterior de las placas (separadas 830 = largo del rodillo + acoples) |
@@ -57,7 +57,7 @@ expulsión a 90°, Z = arriba**, mm. Estado modelado: **elevado** (carrera aplic
   donde la banda del serpentín lo arrastra por fricción.
 - **Serpentín** (orden de marcha, 5 rodillos, en el extremo +X): retorno izq
   (−312, 36) → R1 → tensor Ø50 (−208.5, 98) → R2 → tensor (−69.5, 98) → R3 →
-  **tambor M** (69.5, 78, Ø90) → R4 → tensor (208.5, 98) → R5 → retorno der
+  **tambor M** (69.5, 78, Ø90) → R4 → tensor (208.5, 58) → R5 → retorno der
   (312, 36). La banda gira sobre el **tubo desnudo Ø51** de cada rodillo (plano
   x = 378). El tambor gira en eje Ø20 con SIT-LOCK, apoyado en 1 UCFL204 (placa
   +X) y accionado por un **MOTORREDUCTOR DE EJE HUECO** montado directo sobre él
@@ -157,6 +157,30 @@ plano de banda (Z≈86). `px`/`py`/`z` afinan el calce. La geometría del STEP q
 se conserva **no se modifica**: `tools/color_step_mesh.py` solo la pinta y
 `tools/mark_transfer_removal.py` solo marca qué quitar; **ninguno inventa
 geometría**.
+
+## `base_interface.json` — bastidor de integración en la base (modificación)
+
+Con la autorización de **modificar la base** para alojar el transfer, este es el
+marco soldado que se **añade a la base twin-belt** (STEP `sorter_CO`) y cierra el
+diseño de la interfaz. Se genera con `node cad/ensambles/gen_base_interface.mjs`
+y el visor `ver_integracion_real.html` lo posiciona con la **misma
+transformación** que el módulo (en el hueco real). 15 piezas, capa `user`.
+
+Contiene:
+
+- **2 largueros** (a lo largo del flujo) + **3 travesaños de trabazón** que
+  abren y refuerzan el hueco de la transferencia (perfiles RHS 60×74).
+- **4 cartelas de anclaje** al bastidor de la máquina base (M12) + **costura de
+  soldadura** (tapón) larguero↔travesaño.
+- **Rieles T-slot + tuercas en T M12** sobre cada uno de los 4 pies del módulo
+  (ajuste X) y **perforaciones M12** de fijación.
+- **Topes de altura elevada M10** regulables.
+- **Libertad del pop-up**: 8 mm de holgura entre la cara superior del marco y el
+  canal FIJO del módulo → los 6 mm de carrera quedan libres.
+
+La base real es un STEP teselado (malla de visualización); este marco es la
+**modificación de diseño propuesta** y sus tie-ins exactos se cierran contra el
+modelo nativo. Ver `INTEGRACION_BASE.md`.
 
 ## Planos de fabricación (PDF)
 
