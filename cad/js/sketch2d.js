@@ -350,6 +350,110 @@ export function applyLockedDims(entities, dims, exceptId) {
   }
 }
 
+// ---------- restricciones geométricas persistentes + solver (§2.3, §5.1) ----------
+// constraint = { id, type, a?, b? }  (a/b = id de entidad)
+//   'horizontal' | 'vertical' {a}          — línea a horizontal / vertical
+//   'parallel' | 'perpendicular' {a,b}     — línea a ∥ / ⟂ a línea b
+//   'equal' {a,b}                          — misma longitud (líneas) o radio (círc/arco)
+// Solver por relajación: cada restricción "proyecta" la geometría hacia su
+// cumplimiento; se itera hasta converger. Usa setEndpoint para arrastrar los
+// extremos coincidentes de las vecinas, así las cadenas siguen unidas sin
+// necesidad de una restricción de coincidencia explícita.
+let _cid = 0;
+export const cid = () => `c${(++_cid).toString(36)}${Date.now().toString(36).slice(-3)}`;
+export function makeConstraint(type, a, b) { return { id: cid(), type, a: a || null, b: b || null }; }
+
+const rotPtAbout = (p, o, ang) => rotatePt(p, o, ang);
+
+// gira la línea e alrededor de su punto medio hasta el ángulo objetivo (rad),
+// eligiendo el sentido más cercano; arrastra extremos coincidentes. Devuelve el
+// desplazamiento máximo aplicado (para medir convergencia).
+function rotateLineTo(entities, e, targetAng) {
+  const cur = Math.atan2(e.b[1] - e.a[1], e.b[0] - e.a[0]);
+  let diff = ((targetAng - cur + Math.PI) % TAU + TAU) % TAU - Math.PI; // a [-π,π]
+  // una línea no tiene sentido: acepta también el opuesto (más cercano)
+  if (diff > Math.PI / 2) diff -= Math.PI; else if (diff < -Math.PI / 2) diff += Math.PI;
+  if (Math.abs(diff) < 1e-7) return 0;
+  const o = midOf(e);
+  const oa = [...e.a], ob = [...e.b];
+  const na = rotPtAbout(e.a, o, diff), nb = rotPtAbout(e.b, o, diff);
+  e.a = na; e.b = nb;
+  setEndpoint(entities, e.id, oa, na);
+  setEndpoint(entities, e.id, ob, nb);
+  return Math.max(dist(oa, na), dist(ob, nb));
+}
+
+function applyConstraintOnce(entities, c) {
+  const A = entities.find(e => e.id === c.a);
+  const B = c.b ? entities.find(e => e.id === c.b) : null;
+  if (!A || (c.b && !B)) return 0;
+  if (c.type === 'horizontal' || c.type === 'vertical') {
+    if (A.type !== 'line') return 0;
+    const axis = c.type === 'horizontal' ? 1 : 0; // y o x a igualar
+    const avg = (A.a[axis] + A.b[axis]) / 2;
+    let mv = 0;
+    for (const end of ['a', 'b']) {
+      const old = [...A[end]]; if (Math.abs(A[end][axis] - avg) < 1e-9) continue;
+      const np = [...A[end]]; np[axis] = avg; A[end] = np; setEndpoint(entities, A.id, old, np);
+      mv = Math.max(mv, Math.abs(old[axis] - avg));
+    }
+    return mv;
+  }
+  if (c.type === 'parallel' || c.type === 'perpendicular') {
+    if (A.type !== 'line' || B.type !== 'line') return 0;
+    const angB = Math.atan2(B.b[1] - B.a[1], B.b[0] - B.a[0]);
+    return rotateLineTo(entities, A, angB + (c.type === 'perpendicular' ? Math.PI / 2 : 0));
+  }
+  if (c.type === 'equal') {
+    if (A.type === 'line' && B.type === 'line') {
+      const la = dist(A.a, A.b), lb = dist(B.a, B.b), avg = (la + lb) / 2;
+      let mv = 0;
+      for (const e of [A, B]) {
+        const L = dist(e.a, e.b); if (L < 1e-9 || Math.abs(L - avg) < 1e-9) continue;
+        const d = norm(sub(e.b, e.a)); const ob = [...e.b];
+        e.b = add(e.a, scale(d, avg)); setEndpoint(entities, e.id, ob, e.b);
+        mv = Math.max(mv, dist(ob, e.b));
+      }
+      return mv;
+    }
+    if ((A.type === 'circle' || A.type === 'arc') && (B.type === 'circle' || B.type === 'arc')) {
+      const avg = (A.r + B.r) / 2, mv = Math.max(Math.abs(A.r - avg), Math.abs(B.r - avg));
+      A.r = avg; B.r = avg; return mv;
+    }
+  }
+  return 0;
+}
+
+// solver principal: itera todas las restricciones + cotas con candado.
+export function solveSketch(entities, constraints = [], dims = [], iters = 80) {
+  if (!constraints.length && !(dims || []).some(d => d.locked)) return;
+  for (let it = 0; it < iters; it++) {
+    let maxMove = 0;
+    for (const c of constraints) maxMove = Math.max(maxMove, applyConstraintOnce(entities, c));
+    for (const d of dims) if (d.locked) applyDim(entities, d, d.value);
+    if (maxMove < 1e-4) break;
+  }
+}
+
+// residual: cuánto incumple cada restricción (0 = satisfecha). Sirve para avisar
+// (nunca fallar en silencio) cuando el sistema queda sobre-restringido.
+export function constraintResidual(entities, c) {
+  const A = entities.find(e => e.id === c.a);
+  const B = c.b ? entities.find(e => e.id === c.b) : null;
+  if (!A || (c.b && !B)) return 0;
+  const dirAng = (e) => Math.atan2(e.b[1] - e.a[1], e.b[0] - e.a[0]);
+  const angDiff = (x, y) => { let d = Math.abs(((x - y) % Math.PI + Math.PI) % Math.PI); return Math.min(d, Math.PI - d); };
+  if (c.type === 'horizontal') return A.type === 'line' ? Math.abs(A.a[1] - A.b[1]) : 0;
+  if (c.type === 'vertical') return A.type === 'line' ? Math.abs(A.a[0] - A.b[0]) : 0;
+  if (c.type === 'parallel') return angDiff(dirAng(A), dirAng(B));
+  if (c.type === 'perpendicular') return Math.abs(angDiff(dirAng(A), dirAng(B)) - Math.PI / 2);
+  if (c.type === 'equal') {
+    if (A.type === 'line' && B.type === 'line') return Math.abs(dist(A.a, A.b) - dist(B.a, B.b));
+    if (A.r != null && B.r != null) return Math.abs(A.r - B.r);
+  }
+  return 0;
+}
+
 // ---------- cotas ----------
 // dim = { id, kind:'len'|'dia'|'dist'|'ang', a, b?, value, at:[u,v] }
 // a/b: {id:'e..'} para entidad del boceto o {ref:[[u,v],[u,v]]} para línea

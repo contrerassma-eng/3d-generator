@@ -5,6 +5,7 @@ import {
   fitStroke, dist, snapPoints, tangentPoints, regions, loopKey,
   moveEntity, applyLockedDims, makeArcCSE, regularPolygon, offsetEntity, filletLines,
   entityInRect, copyEntities, mirrorEntities,
+  makeConstraint, solveSketch, constraintResidual,
 } from '../js/sketch2d.js';
 
 let pass = 0, fail = 0;
@@ -290,6 +291,38 @@ console.log('— Espejo —');
   const [marc] = mirrorEntities([arc], [-5, 0], [5, 0]); // espejo sobre y=0
   const pts = entityPoints(marc, 24);
   check('espejo de arco queda bajo el eje', pts.every(p => p[1] < 1e-6), JSON.stringify(pts.slice(0, 2)));
+}
+
+console.log('— Restricciones geométricas (solver) —');
+{
+  // cuadrilátero tosco → H abajo, V izquierda, ∥ arriba/abajo, ∥ der/izq
+  const l1 = makeLine([0, 0], [100, 4]), l2 = makeLine([100, 4], [96, 60]);
+  const l3 = makeLine([96, 60], [3, 58]), l4 = makeLine([3, 58], [0, 0]);
+  const ents = [l1, l2, l3, l4];
+  const cons = [makeConstraint('horizontal', l1.id), makeConstraint('vertical', l4.id),
+    makeConstraint('parallel', l3.id, l1.id), makeConstraint('parallel', l2.id, l4.id)];
+  solveSketch(ents, cons, [], 200);
+  check('solver: todas las restricciones satisfechas',
+    cons.every(c => constraintResidual(ents, c) < 0.01));
+  check('solver: cadena sigue cerrada',
+    near(dist(l1.b, l2.a), 0) && near(dist(l2.b, l3.a), 0) && near(dist(l3.b, l4.a), 0) && near(dist(l4.b, l1.a), 0));
+  check('solver: sin NaN', ents.every(e => [...e.a, ...e.b].every(Number.isFinite)));
+  check('horizontal: extremos con misma y', near(l1.a[1], l1.b[1]));
+  check('vertical: extremos con misma x', near(l4.a[0], l4.b[0]));
+}
+{
+  const p1 = makeLine([0, 0], [50, 3]), p2 = makeLine([0, 0], [4, 50]);
+  solveSketch([p1, p2], [makeConstraint('perpendicular', p2.id, p1.id)], [], 200);
+  check('perpendicular satisfecha', constraintResidual([p1, p2], { type: 'perpendicular', a: p2.id, b: p1.id }) < 0.01);
+  const e1 = makeLine([0, 0], [40, 0]), e2 = makeLine([0, 10], [70, 10]);
+  solveSketch([e1, e2], [makeConstraint('equal', e1.id, e2.id)], [], 200);
+  check('igual longitud', near(dist(e1.a, e1.b), dist(e2.a, e2.b)) && near(dist(e1.a, e1.b), 55));
+  const c1 = makeCircle([0, 0], 5), c2 = makeCircle([20, 0], 11);
+  solveSketch([c1, c2], [makeConstraint('equal', c1.id, c2.id)], [], 50);
+  check('igual radio', near(c1.r, 8) && near(c2.r, 8));
+  // inerte sin restricciones: geometría intacta
+  const q = makeLine([1, 2], [3, 7]); solveSketch([q], [], [], 50);
+  check('solver inerte sin restricciones', q.a[0] === 1 && q.b[1] === 7);
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);
