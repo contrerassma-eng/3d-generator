@@ -59,6 +59,9 @@ export const ICON = {
   pin: '<path d="M9 3.5h6l-1.2 5.5 3 2.8H7.2l3-2.8z"/><path d="M12 11.8V20.5"/>',
   link: '<path d="M9.5 12h5M8.5 8.5a4 4 0 0 0 0 7h1M15.5 8.5a4 4 0 0 1 0 7h-1"/>',
   close: '<path d="M6 6l12 12M18 6L6 18"/>',
+  lock: '<rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  lockopen: '<rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/>',
+  home: '<path d="M4 11l8-6 8 6"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/>',
 };
 
 // Envuelve el contenido en un <svg>. `cls` opcional para variar tamaño/color.

@@ -163,6 +163,77 @@ renderer.domElement.addEventListener('dblclick', (ev) => {
   setStatus('Encuadrado en todo el modelo.');
 });
 
+// orienta la cámara activa a mirar el modelo desde `dir`, con `up` dado
+function snapView(dir, up) {
+  const cam = activeCamera === orthoCam ? orthoCam : camera;
+  const ctrl = activeCamera === orthoCam ? sketchControls : controls;
+  const { center, size } = visibleBox();
+  ctrl.target.copy(center);
+  cam.up.set(...up);
+  cam.position.copy(center).addScaledVector(new THREE.Vector3(...dir).normalize(), Math.max(220, size * 1.7));
+  if (cam === orthoCam) { orthoViewSize = Math.max(120, size * 1.4); resize(); }
+  cam.lookAt(center); ctrl.update();
+}
+
+// ---------- ViewCube (esquina superior derecha, símil Inventor) ----------
+const vcCanvas = document.getElementById('vcCanvas');
+let viewLocked = false;
+if (vcCanvas) {
+  const cubeRenderer = new THREE.WebGLRenderer({ canvas: vcCanvas, alpha: true, antialias: true });
+  cubeRenderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  cubeRenderer.setSize(vcCanvas.clientWidth || 78, vcCanvas.clientHeight || 78, false);
+  const cubeScene = new THREE.Scene();
+  cubeScene.add(new THREE.HemisphereLight(0xffffff, 0x667088, 1.4));
+  const cubeCam = new THREE.OrthographicCamera(-1.45, 1.45, 1.45, -1.45, 0.1, 100);
+  const faceTex = (label) => {
+    const c = document.createElement('canvas'); c.width = c.height = 128;
+    const g = c.getContext('2d');
+    g.fillStyle = '#e8ebf1'; g.fillRect(0, 0, 128, 128);
+    g.strokeStyle = '#98a3b5'; g.lineWidth = 7; g.strokeRect(4, 4, 120, 120);
+    g.fillStyle = '#2b3140'; g.font = 'bold 21px system-ui,sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText(label, 64, 66);
+    const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t;
+  };
+  // orden BoxGeometry: +X,-X,+Y,-Y,+Z,-Z  (foto3d Z arriba)
+  const LABELS = ['DER', 'IZQ', 'ATRÁS', 'FRENTE', 'SUP', 'INF'];
+  const cubeMats = LABELS.map(l => new THREE.MeshBasicMaterial({ map: faceTex(l) }));
+  const cubeMesh = new THREE.Mesh(new THREE.BoxGeometry(1.7, 1.7, 1.7), cubeMats);
+  cubeScene.add(cubeMesh);
+  cubeScene.add(new THREE.LineSegments(new THREE.EdgesGeometry(cubeMesh.geometry), new THREE.LineBasicMaterial({ color: 0x4d90fe })));
+  const cubeRay = new THREE.Raycaster(), cubePtr = new THREE.Vector2();
+  const fwd = new THREE.Vector3();
+  window.__updateViewCube = () => {
+    cubeCam.quaternion.copy(activeCamera.quaternion);
+    fwd.set(0, 0, -1).applyQuaternion(cubeCam.quaternion);
+    cubeCam.position.copy(fwd).multiplyScalar(-4);
+    cubeCam.up.set(0, 1, 0).applyQuaternion(cubeCam.quaternion);
+    cubeRenderer.render(cubeScene, cubeCam);
+  };
+  vcCanvas.addEventListener('pointerdown', (ev) => {
+    const r = vcCanvas.getBoundingClientRect();
+    cubePtr.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+    cubeRay.setFromCamera(cubePtr, cubeCam);
+    const hit = cubeRay.intersectObject(cubeMesh, false)[0];
+    if (!hit) return;
+    const n = hit.face.normal; // eje del cubo = eje del mundo
+    const dir = [Math.round(n.x), Math.round(n.y), Math.round(n.z)];
+    const up = Math.abs(dir[2]) > 0.5 ? [0, 1, 0] : [0, 0, 1];
+    snapView(dir, up);
+    const NAME = { '1,0,0': 'Derecha', '-1,0,0': 'Izquierda', '0,1,0': 'Atrás', '0,-1,0': 'Frente', '0,0,1': 'Superior', '0,0,-1': 'Inferior' };
+    setStatus(`Vista ${NAME[dir.join(',')] || ''}.`);
+  });
+  document.getElementById('vcHome').onclick = () => { snapView([1, -1, 1], [0, 0, 1]); setStatus('Vista isométrica.'); };
+  const vcLock = document.getElementById('vcLock');
+  vcLock.onclick = () => {
+    viewLocked = !viewLocked;
+    controls.enableRotate = !viewLocked;
+    if (mainView === 'ortho') sketchControls.enableRotate = !viewLocked;
+    vcLock.classList.toggle('on', viewLocked);
+    vcLock.innerHTML = svgIcon(viewLocked ? 'lock' : 'lockopen');
+    setStatus(viewLocked ? '🔒 Giro de la vista bloqueado (paneo y zoom siguen).' : '🔓 Giro de la vista habilitado.');
+  };
+}
+
 // sección global: corta el modelo por un plano X/Y/Z para ver interiores
 const sectionBtn = document.getElementById('btnSection');
 if (sectionBtn) sectionBtn.onclick = () => {
@@ -227,6 +298,7 @@ renderer.setAnimationLoop(() => {
     if (orthoCam.zoom !== _lastSketchZoom) { _lastSketchZoom = orthoCam.zoom; redrawSketch(); }
   }
   renderer.render(scene, activeCamera);
+  if (window.__updateViewCube) window.__updateViewCube();
 });
 
 // ---------- Estado ----------
@@ -242,10 +314,12 @@ const $ = (id) => document.getElementById(id);
 const statusEl = $('status'), hintEl = $('hintTag'), statsEl = $('stats');
 
 function setStatus(msg) { statusEl.textContent = msg; }
+const hintText = $('hintText');
 function setHint(msg) {
-  hintEl.textContent = msg || '';
-  hintEl.style.display = msg ? 'block' : 'none';
+  hintText.textContent = msg || '';
+  hintEl.style.display = msg ? 'flex' : 'none';
 }
+$('hintClose').onclick = () => { hintEl.style.display = 'none'; }; // cerrar el aviso amarillo
 
 // ---------- Panel lateral ocultable + propiedades plegables ----------
 
