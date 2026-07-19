@@ -431,13 +431,13 @@ function buildSheet(parts, K, meta) {
   sheet.titleBlock({
     designacion: meta.designacion,
     proyecto: meta.proyecto ?? 'foto3d CAD',
-    fuente: 'diseño en navegador — capa user',
-    verificacion: 'CAD EN MM (CAPA USER)',
+    fuente: meta.fuente ?? 'diseño en navegador — capa user',
+    verificacion: meta.verificacion ?? 'CAD EN MM (CAPA USER)',
     piezas: String(meta.piezas),
-    nota: 'Aristas características sin líneas ocultas — diseño CAD, no medición',
+    nota: meta.nota ?? 'Aristas características sin líneas ocultas — diseño CAD, no medición',
     escala: scaleLabel(num, den),
-    fecha: new Date().toISOString().slice(0, 10),
-    numPlano: 'CAD-01',
+    fecha: meta.fecha ?? new Date().toISOString().slice(0, 10),
+    numPlano: meta.numPlano ?? 'CAD-01',
   });
   return sheet;
 }
@@ -514,9 +514,8 @@ function pdfEscape(s) {
   return out;
 }
 
-function writePDF(sheet) {
-  const k = 72 / 25.4;
-  const W = sheet.W * k, H = sheet.H * k;
+// stream de contenido (operadores PDF) de una sola lámina, en puntos
+function sheetContent(sheet, k) {
   const f = (v) => v.toFixed(2);
   const ops = [];
   const byLayer = {};
@@ -553,15 +552,11 @@ function writePDF(sheet) {
       }
     }
   }
-  const content = ops.join('\n');
-  const objs = [
-    '<< /Type /Catalog /Pages 2 0 R >>',
-    '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
-    `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${f(W)} ${f(H)}] ` +
-      '/Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>',
-    `<< /Length ${content.length} >>\nstream\n${content}\nendstream`,
-    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
-  ];
+  return ops.join('\n');
+}
+
+// serializa objetos PDF con tabla xref (helper común mono/multipágina)
+function assemblePDF(objs) {
   let pdf = '%PDF-1.4\n';
   const offsets = [];
   objs.forEach((body, i) => {
@@ -573,6 +568,43 @@ function writePDF(sheet) {
     offsets.map(o => `${String(o).padStart(10, '0')} 00000 n \n`).join('') +
     `trailer\n<< /Size ${objs.length + 1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
   return pdf;
+}
+
+function writePDF(sheet) {
+  const k = 72 / 25.4;
+  const f = (v) => v.toFixed(2);
+  const content = sheetContent(sheet, k);
+  const objs = [
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+    `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${f(sheet.W * k)} ${f(sheet.H * k)}] ` +
+      '/Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>',
+    `<< /Length ${content.length} >>\nstream\n${content}\nendstream`,
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+  ];
+  return assemblePDF(objs);
+}
+
+// PDF de VARIAS láminas (una página por Sheet): fuente compartida al final.
+function writePDFMulti(sheets) {
+  const k = 72 / 25.4;
+  const f = (v) => v.toFixed(2);
+  const n = sheets.length;
+  const fontObj = 3 + 2 * n;                 // 1=Catalog, 2=Pages, luego 2 objs/página
+  const kids = sheets.map((_, i) => `${3 + 2 * i} 0 R`).join(' ');
+  const objs = [
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    `<< /Type /Pages /Kids [${kids}] /Count ${n} >>`,
+  ];
+  sheets.forEach((sheet, i) => {
+    const content = sheetContent(sheet, k);
+    const contentObj = 4 + 2 * i;
+    objs.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${f(sheet.W * k)} ${f(sheet.H * k)}] ` +
+      `/Resources << /Font << /F1 ${fontObj} 0 R >> >> /Contents ${contentObj} 0 R >>`);
+    objs.push(`<< /Length ${content.length} >>\nstream\n${content}\nendstream`);
+  });
+  objs.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+  return assemblePDF(objs);
 }
 
 const toBytes = (s) => {
@@ -675,6 +707,14 @@ export function exportDrawingDXF(parts, meta) {
     mime: 'application/dxf',
     info: `${sheet.name} escala ${scaleLabel(sheet.num, sheet.den)}, geometría a escala real`,
   };
+}
+
+// Piezas exportadas para el generador de planos de fabricación (planos_fab.mjs):
+// permiten construir láminas propias (portada/despiece) y unir varias en un
+// único PDF multipágina.
+export { buildSheet, Sheet, chooseSheet, scaleLabel, toBytes };
+export function exportSheetsPDF(sheets, name = 'planos.pdf') {
+  return { name, data: toBytes(writePDFMulti(sheets)), mime: 'application/pdf' };
 }
 
 export function exportDrawingPDF(parts, meta) {

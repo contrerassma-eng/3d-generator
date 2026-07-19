@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>foto3d — visor de ensambles</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #14171c; overflow: hidden; }
+  #info { position: fixed; top: 8px; left: 10px; color: #cfd6e4; font: 12px system-ui; z-index: 2; }
+  canvas { display: block; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "../vendor/three.module.min.js" } }
+</script>
+</head>
+<body>
+<div id="info">cargando…</div>
+<script type="module">
+// Visor de solo lectura para los JSON de cad/ensambles/ (formato foto3d-cad).
+// Uso: ver.html?doc=transfer_rodillos_90.json&view=iso|frente|planta|lado
+// Para editar el ensamble, abrir el mismo JSON en ../index.html con 📂 Abrir.
+import * as THREE from 'three';
+import { OrbitControls } from '../vendor/OrbitControls.js';
+import { buildPartGeometry, partMatrix } from '../js/model.js';
+
+const q = new URLSearchParams(location.search);
+const docUrl = q.get('doc') || 'transfer_rodillos_90.json';
+const doc = await (await fetch(docUrl)).json();
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x14171c);
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(devicePixelRatio);
+document.body.appendChild(renderer.domElement);
+
+scene.add(new THREE.HemisphereLight(0xdde4f0, 0x30363f, 1.0));
+const sun = new THREE.DirectionalLight(0xffffff, 1.6);
+sun.position.set(400, -600, 800);
+scene.add(sun);
+const fill = new THREE.DirectionalLight(0x8899bb, 0.5);
+fill.position.set(-500, 400, 200);
+scene.add(fill);
+
+const bbox = new THREE.Box3();
+for (const part of doc.parts) {
+  if (part.visible === false) continue;
+  const g = buildPartGeometry(part);
+  const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({
+    color: part.color || '#8899aa', metalness: 0.15, roughness: 0.7,
+  }));
+  mesh.applyMatrix4(partMatrix(part));
+  scene.add(mesh);
+  bbox.expandByObject(mesh);
+}
+const c = bbox.getCenter(new THREE.Vector3());
+const size = bbox.getSize(new THREE.Vector3()).length();
+
+const cam = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 1, 20000);
+cam.up.set(0, 0, 1);
+const views = {
+  iso: [c.x + size * 0.62, c.y - size * 0.62, c.z + size * 0.45],
+  frente: [c.x, c.y - size * 1.05, c.z + size * 0.08],
+  lado: [c.x + size * 1.05, c.y, c.z + size * 0.08],
+  planta: [c.x, c.y - 1e-3, c.z + size * 1.1],
+};
+cam.position.set(...(views[q.get('view')] || views.iso));
+cam.lookAt(c);
+const controls = new OrbitControls(cam, renderer.domElement);
+controls.target.copy(c);
+controls.update();
+
+document.getElementById('info').textContent =
+  `${doc.meta?.nombre || docUrl} — ${doc.parts.length} piezas`;
+renderer.setAnimationLoop(() => renderer.render(scene, cam));
+window.__listo = true; // señal para capturas automatizadas
+</script>
+</body>
+</html>
