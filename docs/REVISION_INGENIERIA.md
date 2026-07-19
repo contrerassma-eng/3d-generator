@@ -90,5 +90,29 @@ transferencia suave.
       cilindros), plano de banda del base (afina altura de emergencia), tie-ins
       exactos de las cartelas al bastidor nativo.
 
-Todos los cambios de geometría están en `gen_transfer90.mjs` /
-`gen_base_interface.mjs` y regenerados en los JSON, el test y los planos.
+## 7. Conjunto completo CON LAS BANDAS (análisis de sistema)
+
+`integracion_modulo_base.json` (`gen_integracion.mjs`) modela el **conjunto**:
+la transferencia + las **4 bandas pasantes** del transportador base corriendo en
+las calles entre las 5 líneas de rodillos, con sus **tambores** en los extremos.
+
+| Ítem de sistema | Análisis / criterio | Resultado |
+|---|---|---|
+| **Bandas del base (Habasit)** | 4 bandas planas **40×3** (poliéster/NBR) a paso 139, en las calles Y=±69.5 / ±208.5 entre rodillos. Tambores Ø60 (> Ø mín). | OK; anchos y Ø compatibles. |
+| **Traspaso de producto (Hytrol)** | El producto viaja en las bandas (plano Z=170). Al activar el transfer, los rodillos **emergen +4 mm** sobre el plano de banda → el producto se **despega de la banda** y queda solo sobre los rodillos, que lo expulsan a 90°. Al retraer, bajan **−2 mm** bajo el plano → la banda retoma el producto. | Interfaz correcto: **+4 / −2 mm** garantizan traspaso limpio sin lucha banda↔rodillo. |
+| **Compatibilidad de velocidades** | Banda base v_b (flujo) y rodillos v_r (expulsión) son **ortogonales e independientes**; durante la expulsión el producto ya no toca la banda → no hay conflicto cinemático. v_r 80 m/min tangencial dimensiona el motorreductor del transfer. | Sin restricción de sincronía. |
+| **Reparto de carga (Shigley)** | En estado elevado, el peso del producto lo toman los **5 rodillos** (no las bandas). Carga/rodillo ≤ ~1/5 del producto → los 6004 y el tubo Ø51 sobran (ver §1). | OK. |
+| **Ancho de producto vs calles** | Producto ancho apoya sobre varios rodillos **y** cruza las calles de banda (40 mm). Las bandas (Z=170) quedan 4 mm por debajo del lomo del rodillo (Z=174) → no rozan el producto en transferencia. | OK. |
+| **Tracking de las bandas base** | Tambores con abombado/pestaña (práctica del transportador base). | Fuera del alcance del módulo; se respeta el hardware del base. |
+| **Estructura del conjunto** | El **bastidor de integración** (§5) abre el hueco y ata el transfer al bastidor del base; las bandas pasan por las calles, el transfer cuelga en la ventana. | Coherente; libertad de pop-up conservada. |
+
+**Modos de fallo a vigilar en puesta en marcha:**
+- Desalineo banda↔calle → roce del canto de banda con el rodillo (holgura calle−rodillo ≥ (139−63−40)/2 = **18 mm por lado**, holgado).
+- Producto muy corto (< 3 centros ≈ 420 mm) → transferencia irregular (limitación de layout, no de diseño).
+- Presión de banda base sobre producto durante el pop-up → nula (producto ya despegado a +4).
+
+---
+
+Todos los cambios de geometría están en `gen_transfer90.mjs`,
+`gen_base_interface.mjs` y `gen_integracion.mjs`, regenerados en los JSON, el
+test y los planos.

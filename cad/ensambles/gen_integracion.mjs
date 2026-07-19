@@ -26,13 +26,15 @@ const mod = JSON.parse(readFileSync(join(here, 'transfer_rodillos_90.json'), 'ut
 // --- Parámetros del interfaz (del diseño del módulo y de la lectura del STEP) --
 const I = {
   hostPlane: 170,        // plano de transporte del base (top de banda)
-  beltT: 3, beltW: 40,   // bandas del base 40×3 (nitrilo)
-  beltLanes: [0, -100, 100, -200, 200],   // calles ENTRE las líneas de rodillos
-  beltRunX: 640,         // largo visible de banda en X (flujo)
+  beltT: 3, beltW: 40,   // bandas del base 40×3 (poliéster/NBR, Habasit)
+  // 4 bandas pasantes en las CALLES entre las 5 líneas de rodillos (paso 139):
+  // gaps a Y=±69.5 y ±208.5 (en el frame del módulo). Corren en X (flujo).
+  beltLanes: [208.5, 69.5, -69.5, -208.5],
+  beltRunX: 1500,        // largo visible de banda en X (flujo), pasa el transfer
+  pulleyDia: 60,         // tambores de las bandas del base (extremos)
   railY: 330,            // rieles T-slot bajo los pies del módulo (y=±330)
   railTop: -14,          // top del riel = base de los pies del módulo
   frameY: 360,           // largueros del bastidor del base (más afuera)
-  hostRollerX: 300,      // 2 rodillos de banda del base cerca de los extremos
 };
 
 let n = 0;
@@ -46,25 +48,31 @@ const cylY = (name, color, at, dia, h) =>
   P(name, color, [{ id: `bf_${n + 1}`, name, shape: 'cylinder', op: 'union', at, dir: [0, 1, 0], params: { dia, h } }]);
 
 const base = [];
-// 1) bandas del base a Z=170 (top), corriendo en X, en las calles entre rodillos
+// 1) BANDAS pasantes del base a Z=170 (top), corriendo en X (flujo), en las
+//    calles entre las líneas de rodillos; ramal superior + ramal de retorno
 for (const y of I.beltLanes) {
-  base.push(box(`Banda anfitrión 40 (plano ${I.hostPlane}) y=${y}`, '#262626',
+  base.push(box(`Banda anfitrión 40 (ramal superior, plano ${I.hostPlane}) y=${y}`, '#1c1c1c',
     [0, y, I.hostPlane - I.beltT], I.beltRunX, I.beltW, I.beltT));
+  base.push(box(`Banda anfitrión 40 (ramal de retorno) y=${y}`, '#1c1c1c',
+    [0, y, I.hostPlane - I.pulleyDia + I.beltT], I.beltRunX, I.beltW, I.beltT));
 }
-// 2) 2 rodillos de banda del base (eje en Y), la banda envuelve — extremos
+// 2) TAMBORES de las bandas del base (eje en Y), en cada extremo del tramo:
+//    la banda envuelve; uno es motriz (accionamiento del transportador base)
+const drumZ = I.hostPlane - I.pulleyDia / 2 + I.beltT;
 for (const sx of [-1, 1]) {
-  base.push(cylY(`Rodillo de banda del base x=${sx * I.hostRollerX}`, '#4a5560',
-    [sx * I.hostRollerX, -250, I.hostPlane - 20], 40, 500));
+  base.push(cylY(`Tambor de banda del base ${sx > 0 ? '+X (motriz)' : '-X (retorno)'}`, '#4a5560',
+    [sx * (I.beltRunX / 2), I.beltLanes[I.beltLanes.length - 1] - 30, drumZ], I.pulleyDia, 520));
 }
 // 3) rieles T-slot del base bajo los pies del módulo (interfaz de montaje)
 for (const sy of [-1, 1]) {
   base.push(box(`Riel T-slot del base y=${sy * I.railY}`, '#8a97a3',
     [0, sy * I.railY, I.railTop - 40], I.beltRunX, 40, 40));
 }
-// 4) largueros de bastidor del base (referencia estructural, más afuera)
+// 4) largueros de bastidor del base (referencia estructural, bajo el plano de
+//    banda para no tapar la vista): perfil lateral del transportador
 for (const sy of [-1, 1]) {
   base.push(box(`Larguero de bastidor del base y=${sy * I.frameY}`, '#5f6b75',
-    [0, sy * I.frameY, -60], I.beltRunX + 40, 10, 240));
+    [0, sy * I.frameY, I.hostPlane - 110], I.beltRunX + 40, 10, 90));
 }
 
 const doc = {
