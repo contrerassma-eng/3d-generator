@@ -601,6 +601,8 @@ function refreshProps() {
       ${frow('Rotación °X/Y/Z', num3('pp_rot', [deg(e.x), deg(e.y), deg(e.z)]))}
       <div class="btnrow">
         <button id="pp_apply">Aplicar</button>
+        <button id="pp_scale" title="Escalar la pieza por un factor (símil Escala de edición directa de Inventor)">⤢ Escala…</button>
+        <button id="pp_rot" title="Girar la pieza un ángulo alrededor de un eje (símil Rotar de edición directa)">⟳ Girar…</button>
         <button id="pp_iso" title="Mostrar solo esta pieza (toca de nuevo para restaurar)">⛶ Aislar</button>
         <button id="pp_del" class="danger">Eliminar pieza</button>
       </div>
@@ -634,6 +636,29 @@ function refreshProps() {
     };
     $('pp_iso').onclick = () => isolatePart(p);
     $('pp_del').onclick = () => deletePart(p);
+    $('pp_scale').onclick = () => showForm(`${p.name} · Escala`, [
+      { key: 's', label: 'Factor de escala (1 = igual; 2 = doble)', value: 1, step: 0.1 },
+    ], (v) => {
+      if (!(v.s > 0) || v.s === 1) return;
+      pushUndo();
+      scalePart(p, v.s);
+      rebuildPart(p);
+      solveAndSync();
+      commit(`${p.name}: escala ×${v.s}.`);
+    });
+    $('pp_rot').onclick = () => showForm(`${p.name} · Girar`, [
+      { key: 'axis', label: 'Eje de giro', type: 'select', value: 'z', options: [['x', 'X'], ['y', 'Y'], ['z', 'Z']] },
+      { key: 'ang', label: 'Ángulo (°): + antihorario', value: 90, step: 5 },
+    ], (v) => {
+      if (!v.ang) return;
+      pushUndo();
+      const ax = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] }[v.axis];
+      const dq = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(...ax), v.ang * Math.PI / 180);
+      const q = new THREE.Quaternion(...p.quat).premultiply(dq);
+      p.quat = [q.x, q.y, q.z, q.w];
+      solveAndSync();
+      commit(`${p.name}: giro ${v.ang}° en ${v.axis.toUpperCase()}.`);
+    });
     return;
   }
 
@@ -864,7 +889,7 @@ const MODE_HINTS = {
   concentric: 'Concéntrico: clic cerca de un orificio/cilindro de la 1.ª pieza, luego de la 2.ª.',
   move: 'Mover: arrastra una pieza (Shift o un 2.º dedo = mover en Z). Al soltar se re-aplican las restricciones.',
   measure: 'Medir: toca aristas, caras, circunferencias o paredes cilíndricas (ejes). Con 2 referencias calcula distancia o ángulo.',
-  direct: 'Edición directa: toca una cara del sólido para cambiar su medida (diámetro, altura/profundidad o tamaño de caja).',
+  direct: 'Edición directa (símil Inventor): toca una cara y muévela por DISTANCIA (+ alarga / − reduce, la opuesta queda fija) o fija la medida absoluta. Shift+clic acumula VARIAS caras y las mueve todas con una distancia. Escala/gira la pieza en Propiedades.',
   fillet: 'Empalme: toca una arista del sólido para redondearla con un radio (símil Empalme de Inventor).',
   chamfer: 'Chaflán: toca una arista del sólido para achaflanarla (corte a 45°) con una distancia.',
 };
@@ -875,6 +900,7 @@ function setMode(m) {
   mode = mode === m ? 'select' : m;
   pickStage = null;
   if (mode !== 'sketch' && sketch) cancelSketch(false);
+  if (mode !== 'direct') clearDirectSel();
   clearHover();
   clearPickedHighlight();
   if (mode !== 'measure') clearMeasure();
@@ -1043,7 +1069,7 @@ renderer.domElement.addEventListener('pointercancel', () => {
 });
 
 window.addEventListener('keydown', (ev) => {
-  if (ev.key === 'Escape') { hideDialog(); setModeSelect(); }
+  if (ev.key === 'Escape') { hideDialog(); clearDirectSel(); setModeSelect(); }
   if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); undo(); }
   const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
   // en boceto: Supr/Backspace borra TODA la selección múltiple de entidades
@@ -1091,7 +1117,7 @@ function handleClick(ev) {
   if (mode === 'pestana') return clickPestana(hit);
   if (mode === 'mate' || mode === 'flush') return clickMate(hit, mode);
   if (mode === 'concentric') return clickConcentric(hit);
-  if (mode === 'direct') return clickDirect(hit);
+  if (mode === 'direct') return clickDirect(hit, ev);
   if (mode === 'fillet' || mode === 'chamfer') return clickBlend(hit, mode);
   if (mode === 'measure') return clickMeasure(hit);
 }
@@ -2700,17 +2726,91 @@ function clickConcentric(hit) {
   commit('Restricción concéntrica creada.');
 }
 
-// ---------- Edición directa de sólidos ----------
-// Toca una cara y edita el parámetro de la función que la genera,
-// sin pasar por el árbol (símil "Edit face" de Inventor).
+// ---------- Escala de pieza (símil "Escala" de edición directa) ----------
+// Escala uniforme respecto al origen de la pieza: multiplica posiciones y
+// dimensiones de TODAS las funciones por el factor. Uniforme para no deformar
+// cilindros (una escala por eje los volvería elipses).
+function scalePart(part, s) {
+  const SDIM = ['w', 'd', 'h', 'dia', 'depth', 't', 'radio', 'altura', 'e1', 'e2'];
+  for (const f of part.features) {
+    if (Array.isArray(f.at)) f.at = f.at.map(v => v * s);
+    const pr = f.params || {};
+    for (const k of SDIM) if (typeof pr[k] === 'number') pr[k] *= s;
+    if (Array.isArray(pr.pts)) pr.pts = pr.pts.map(([x, y]) => [x * s, y * s]);
+    if (Array.isArray(pr.dims)) for (const d of pr.dims) if (typeof d.value === 'number') d.value *= s;
+    if (Array.isArray(pr.entities)) for (const e of pr.entities)
+      for (const k of ['x', 'y', 'x1', 'y1', 'x2', 'y2', 'cx', 'cy', 'r']) if (typeof e[k] === 'number') e[k] *= s;
+  }
+}
 
-function clickDirect(hit) {
+// ---------- Edición directa de sólidos ----------
+// Toca una cara y edita el parámetro de la función que la genera, sin pasar por
+// el árbol (símil "Move face" de Inventor): el input primario es la DISTANCIA a
+// mover la cara (la opuesta queda fija). Con Shift se acumulan VARIAS caras y se
+// mueven todas con una sola distancia.
+
+// Aplica un desplazamiento (mm) a la cara identificada, creciendo hacia ella.
+function applyFaceDistance(info, dist) {
+  const f = info.feature;
+  if (info.kind === 'hole-wall' || info.kind === 'cyl-wall') {
+    f.params.dia = Math.max(0.1, f.params.dia + 2 * dist);
+    if (f.shape === 'hole') f.name = f.name.replace(/Ø[\d.]+/, `Ø${f.params.dia}`);
+  } else if (info.kind === 'cyl-cap' || info.kind === 'sketch-cap') {
+    f.params.h = Math.max(0.1, f.params.h + dist);
+  } else if (info.kind === 'box-face') {
+    const dim = ['w', 'd', 'h'][info.axis];
+    const old = f.params[dim], nv = Math.max(0.1, old + dist);
+    if (info.axis === 2) { if (info.sign < 0) f.at[2] += old - nv; f.params.h = nv; }
+    else { f.at[info.axis] += info.sign * (nv - old) / 2; f.params[dim] = nv; }
+  }
+}
+
+// Multi-selección de caras (Shift+clic las acumula, resaltadas).
+const directSel = [];
+let directMeshes = [];
+function clearDirectSel() {
+  for (const m of directMeshes) { m.parent?.remove(m); m.geometry.dispose(); }
+  directMeshes = []; directSel.length = 0;
+}
+function addDirectFace(hit, face, part, info) {
+  const g = faceHighlightGeometry(hit.object.geometry, face.tris);
+  const m = new THREE.Mesh(g, pickedMat);
+  hit.object.add(m); directMeshes.push(m);
+  directSel.push({ part, info });
+}
+
+function clickDirect(hit, ev) {
   const part = getPart(doc, hit.object.userData.partId);
   const face = faceAtHit(hit);
   const lp = hit.object.worldToLocal(hit.point.clone());
   const info = identifyFace(part, lp, face.normal);
   if (!info) {
     setStatus('No se reconoce esa cara para edición directa. Edita la función en el navegador de modelo.');
+    return;
+  }
+  // Shift+clic: acumular la cara a la multi-selección (no abre diálogo aún)
+  if (ev && ev.shiftKey) {
+    addDirectFace(hit, face, part, info);
+    setStatus(`${directSel.length} cara(s) seleccionada(s) — clic normal para moverlas por distancia (Esc cancela).`);
+    return;
+  }
+  // Clic normal con caras acumuladas: mover TODAS (incluida esta) por 1 distancia
+  if (directSel.length) {
+    addDirectFace(hit, face, part, info);
+    const faces = directSel.slice();
+    const parts = new Set(faces.map(x => x.part));
+    showForm(`Mover ${faces.length} caras — símil Move Face`, [
+      { key: 'dist', label: 'Distancia (mm): + crece / − reduce (cada cara hacia su normal)', value: 0, step: 0.5 },
+    ], (v) => {
+      clearDirectSel();
+      if (!v.dist) return;
+      pushUndo();
+      for (const { info: ii } of faces) applyFaceDistance(ii, v.dist);
+      faceCache.clear(); clearHover();
+      for (const pp of parts) rebuildPart(pp);
+      solveAndSync();
+      commit(`Movidas ${faces.length} caras ${v.dist} mm.`);
+    });
     return;
   }
   const f = info.feature;
@@ -2722,42 +2822,52 @@ function clickDirect(hit) {
     commit(msg);
   };
   if (info.kind === 'hole-wall' || info.kind === 'cyl-wall') {
-    showForm(`${f.name} · pared cilíndrica`, [
-      { key: 'dia', label: 'Nuevo diámetro (mm)', value: f.params.dia, step: 0.5 },
+    // Move face de una pared cilíndrica = desfase radial (Inventor pide distancia).
+    showForm(`${f.name} · pared cilíndrica (Ø${f.params.dia})`, [
+      { key: 'dist', label: 'Distancia radial (mm): + agranda, − reduce', value: 0, step: 0.5 },
+      { key: 'dia', label: 'o fijar diámetro absoluto (mm)', value: f.params.dia, step: 0.5 },
     ], (v) => {
-      if (!(v.dia > 0)) return;
+      const nd = v.dist ? f.params.dia + 2 * v.dist : v.dia;
+      if (!(nd > 0)) return;
       pushUndo();
-      f.params.dia = v.dia;
-      if (f.shape === 'hole') f.name = f.name.replace(/Ø[\d.]+/, `Ø${v.dia}`);
-      done(`${f.name}: Ø${v.dia} mm.`);
+      f.params.dia = nd;
+      if (f.shape === 'hole') f.name = f.name.replace(/Ø[\d.]+/, `Ø${nd}`);
+      done(`${f.name}: Ø${nd} mm.`);
     });
   } else if (info.kind === 'cyl-cap' || info.kind === 'sketch-cap') {
-    const lbl = f.op === 'cut' ? 'Nueva profundidad (mm)' : 'Nueva altura (mm)';
-    showForm(`${f.name} · cara superior`, [
-      { key: 'h', label: lbl, value: f.params.h, step: 0.5 },
+    const q = f.op === 'cut' ? 'profundidad' : 'altura';
+    showForm(`${f.name} · cara superior (${q} ${f.params.h})`, [
+      { key: 'dist', label: 'Distancia a mover la cara (mm): + alarga, − acorta', value: 0, step: 0.5 },
+      { key: 'h', label: `o fijar ${q} absoluta (mm)`, value: f.params.h, step: 0.5 },
     ], (v) => {
-      if (!(v.h > 0)) return;
+      const nh = v.dist ? f.params.h + v.dist : v.h;
+      if (!(nh > 0)) return;
       pushUndo();
-      f.params.h = v.h;
-      done(`${f.name}: ${f.op === 'cut' ? 'profundidad' : 'altura'} ${v.h} mm.`);
+      f.params.h = nh;
+      done(`${f.name}: ${q} ${nh} mm.`);
     });
   } else if (info.kind === 'box-face') {
     const dim = ['w', 'd', 'h'][info.axis];
     const labels = { w: 'Ancho X', d: 'Fondo Y', h: 'Alto Z' };
-    showForm(`${f.name} · cara ${labels[dim].split(' ')[1]}${info.sign > 0 ? '+' : '−'}`, [
-      { key: 'v', label: `${labels[dim]} (mm) — la cara opuesta queda fija`, value: f.params[dim], step: 0.5 },
-    ], (vals) => {
-      if (!(vals.v > 0)) return;
-      pushUndo();
+    const apply = (nv) => {
       const old = f.params[dim];
       if (info.axis === 2) {
-        if (info.sign < 0) f.at[2] += old - vals.v; // se movió la base: la tapa queda fija
-        f.params.h = vals.v;
+        if (info.sign < 0) f.at[2] += old - nv;        // se movió la base: la tapa queda fija
+        f.params.h = nv;
       } else {
-        f.at[info.axis] += info.sign * (vals.v - old) / 2; // crece hacia la cara tocada
-        f.params[dim] = vals.v;
+        f.at[info.axis] += info.sign * (nv - old) / 2; // crece hacia la cara tocada
+        f.params[dim] = nv;
       }
-      done(`${f.name}: ${labels[dim]} ${vals.v} mm.`);
+    };
+    showForm(`${f.name} · cara ${labels[dim].split(' ')[1]}${info.sign > 0 ? '+' : '−'} (${labels[dim]} ${f.params[dim]})`, [
+      { key: 'dist', label: 'Distancia a mover la cara (mm): + crece, − reduce — la cara opuesta queda fija', value: 0, step: 0.5 },
+      { key: 'v', label: `o fijar ${labels[dim]} absoluto (mm)`, value: f.params[dim], step: 0.5 },
+    ], (vals) => {
+      const nv = vals.dist ? f.params[dim] + vals.dist : vals.v;
+      if (!(nv > 0)) return;
+      pushUndo();
+      apply(nv);
+      done(`${f.name}: ${labels[dim]} ${nv} mm.`);
     });
   }
 }
