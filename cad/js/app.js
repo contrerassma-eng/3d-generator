@@ -882,12 +882,19 @@ function refreshProps() {
     if (!p) { selection = null; return refreshProps(); }
     const e = new THREE.Euler().setFromQuaternion(new THREE.Quaternion(...p.quat), 'XYZ');
     const deg = (r) => +(r * 180 / Math.PI).toFixed(2);
+    // estado en el ensamble (honesto: anclada = referencia 0 GL; libre = 6 GL
+    // menos lo que quiten las relaciones; el nº exacto residual no se afirma).
+    const ncc = doc.constraints.filter(c => c.a.part === p.id || c.b.part === p.id).length;
+    const asmState = p.fixed
+      ? '<b style="color:var(--accent2)">Anclada</b> · referencia (0 GL)'
+      : `<b>Libre</b> · ${ncc} relación${ncc === 1 ? '' : 'es'} de ensamble`;
     body.innerHTML = `
       ${crumb([{ t: env === 'ens' ? 'Ensamble' : 'Modelo' }, { t: p.name }])}
       ${sec('Identidad',
         frow('Nombre', `<input type="text" id="pp_name" value="${esc(p.name)}">`)
         + frow('Color', `<input type="color" id="pp_color" value="${p.color}">`)
-        + frow('Fija (a tierra)', `<input type="checkbox" id="pp_fixed" ${p.fixed ? 'checked' : ''}>`))}
+        + frow('Fija (a tierra)', `<input type="checkbox" id="pp_fixed" ${p.fixed ? 'checked' : ''}>`)
+        + frow('Estado', `<span class="meta">${asmState}</span>`))}
       ${sec('Posición y orientación',
         frow('Posición X/Y/Z', num3('pp_pos', p.pos))
         + frow('Rotación °X/Y/Z', num3('pp_rot', [deg(e.x), deg(e.y), deg(e.z)])))}
