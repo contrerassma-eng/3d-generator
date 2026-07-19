@@ -1479,6 +1479,7 @@ const projMat = new THREE.LineBasicMaterial({ color: 0x2ee659 });          // en
 const previewMat = new THREE.LineBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.5 });
 const ptMat = new THREE.MeshBasicMaterial({ color: 0xf0a437 });
 const snapMat = new THREE.MeshBasicMaterial({ color: 0x34a853 });
+const constraintMat = new THREE.MeshBasicMaterial({ color: 0x4d90fe }); // marcador de restricción persistente
 // línea guía de inferencia (paralela/perpendicular/horizontal/vertical) estilo Inventor
 const guideMat = new THREE.LineDashedMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.65, dashSize: 3, gapSize: 2.5 });
 
@@ -1672,6 +1673,7 @@ function clickErase(raw) {
   const pick = pickEntityAt(raw, false);
   if (!pick) { setStatus('Borrar: toca una entidad del boceto.'); return; }
   sketch.entities = sketch.entities.filter(e => e.id !== pick.ent.id);
+  sketch.constraints = sketch.constraints.filter(c => c.a !== pick.ent.id && c.b !== pick.ent.id);
   pruneDims();
   redrawSketch();
   setStatus('Entidad eliminada.');
@@ -1682,6 +1684,7 @@ function deleteSelectedSketch() {
   if (!sketch || !sketch.selIds.size) return;
   const n = sketch.selIds.size;
   sketch.entities = sketch.entities.filter(e => !sketch.selIds.has(e.id));
+  sketch.constraints = sketch.constraints.filter(c => !sketch.selIds.has(c.a) && !sketch.selIds.has(c.b));
   sketch.selIds.clear();
   pruneDims();
   redrawSketch();
@@ -1706,6 +1709,7 @@ function enterSketchForFeature(part, f) {
   sketch.editFeature = f;
   sketch.entities = JSON.parse(JSON.stringify(f.params.entities || []));
   sketch.dims = JSON.parse(JSON.stringify(f.params.dims || []));
+  sketch.constraints = JSON.parse(JSON.stringify(f.params.constraints || []));
   sketch.excluded = new Set(f.params.excluded || []);
   syncDimEls();
   redrawSketch();
@@ -1736,7 +1740,7 @@ function beginSketch(part, originL, nL, uL) {
     originW, nW, uW, vW,
     editFeature: null,
     plane: new THREE.Plane().setFromNormalAndCoplanarPoint(nW, originW),
-    entities: [], dims: [], dimEls: new Map(),
+    entities: [], dims: [], constraints: [], dimEls: new Map(),
     chainStart: null, chainLast: null, temp: null, dimPick: null, stroke: null,
     entDrag: null, profileMode: false, excluded: new Set(),
     selIds: new Set(), marquee: null, copyOp: null,
@@ -2267,10 +2271,11 @@ function endEntDrag() {
   const n = sketch.entDrag.ents.length;
   sketch.entDrag = null;
   sketchControls.enabled = true;
-  // las cotas con candado restringen: se re-aplican tras el movimiento
-  SK.applyLockedDims(sketch.entities, sketch.dims);
+  // restricciones geométricas + cotas con candado se re-aplican tras el movimiento
+  SK.solveSketch(sketch.entities, sketch.constraints, sketch.dims);
   redrawSketch();
-  setStatus(`${n > 1 ? n + ' entidades movidas' : 'Entidad movida'} (las cotas 🔒 se re-aplicaron).`);
+  const warn = reportOverconstrained();
+  setStatus(warn || `${n > 1 ? n + ' entidades movidas' : 'Entidad movida'} (restricciones y cotas 🔒 re-aplicadas).`);
 }
 
 // --- ⤓ Proyectar geometría (como Inventor): herramienta selectiva ---
@@ -2713,7 +2718,8 @@ function updateSketchState() {
   else if (L > 0) { cls = 'st-ok'; txt = `✓ ${L} contorno${L > 1 ? 's' : ''} listo${openCount ? ` · ${openCount} abierta${openCount > 1 ? 's' : ''}` : ''}`; }
   else if (openCount > 0) { cls = 'st-open'; txt = `⚠ contorno abierto (${openCount} cadena${openCount > 1 ? 's' : ''})`; }
   else { cls = 'st-open'; txt = 'sin contorno cerrado'; }
-  const extra = D ? ` · ${D} cota${D > 1 ? 's' : ''}` : '';
+  const R = sketch.constraints?.length || 0;
+  const extra = (D ? ` · ${D} cota${D > 1 ? 's' : ''}` : '') + (R ? ` · ${R} restric.` : '');
   skStateEl.className = cls;
   skStateEl.textContent = `${txt} · ${E} entidad${E !== 1 ? 'es' : ''}${extra}`;
   skStateEl.style.display = 'block';
@@ -2743,6 +2749,21 @@ function redrawSketch() {
     const m = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.05, 3.5 * worldPerPixel()), 10, 8), ptMat);
     m.position.copy(to3D(p[0], p[1]));
     sketch.draw.add(m);
+  }
+  // marcadores de restricciones persistentes (puntos azules junto a la entidad)
+  if (sketch.constraints?.length) {
+    const anchor = (e) => e.type === 'line' ? [(e.a[0] + e.b[0]) / 2, (e.a[1] + e.b[1]) / 2] : e.c;
+    const s = Math.max(0.1, 4.5 * worldPerPixel());
+    for (const c of sketch.constraints) {
+      for (const eid of [c.a, c.b]) {
+        const e = eid && sketch.entities.find(x => x.id === eid);
+        if (!e) continue;
+        const m = new THREE.Mesh(new THREE.SphereGeometry(s, 8, 6), constraintMat);
+        const ap = anchor(e);
+        m.position.copy(to3D(ap[0], ap[1], 0.2));
+        sketch.draw.add(m);
+      }
+    }
   }
 }
 
@@ -2880,6 +2901,7 @@ function finishSketch() {
       pushUndo();
       f.params.entities = sketch.entities;
       f.params.dims = sketch.dims;
+      f.params.constraints = sketch.constraints;
       f.params.excluded = [...sketch.excluded];
       if (f.shape === 'sketch') f.params.h = v.h;
       f.op = v.op;
@@ -2910,6 +2932,7 @@ function finishSketch() {
     pushUndo();
     const f = makeSketchEntitiesFeature(entities, dims, v.h, v.op, originL, nL, uL);
     f.params.excluded = excluded;
+    f.params.constraints = sketch.constraints;
     part.features.push(f);
     cancelSketch(true);
     faceCache.clear();
@@ -2926,6 +2949,7 @@ function clickRevolveAxis(raw) {
   pushUndo();
   const f = makeRevolveFeature(sketch.entities, sketch.dims, { a: [...pick.ent.a], b: [...pick.ent.b] }, op, sketch.originL, sketch.nL, sketch.uL);
   f.params.excluded = [...sketch.excluded];
+  f.params.constraints = sketch.constraints;
   const part = sketch.part;
   part.features.push(f);
   cancelSketch(true);
@@ -2975,12 +2999,51 @@ function cancelSketch(silent) {
   if (mode === 'sketch') { mode = 'select'; $('btnSketch').classList.remove('on'); setHint(''); }
 }
 
+// ⊾ Restringir: aplica una restricción geométrica persistente a la selección.
+function applyConstraintUI() {
+  const sel = [...sketch.selIds].map(id => sketch.entities.find(e => e.id === id)).filter(Boolean);
+  const lines = sel.filter(e => e.type === 'line');
+  const circs = sel.filter(e => e.type === 'circle' || e.type === 'arc');
+  if (!sel.length) { setStatus('Restringir: primero selecciona entidades con ⬚ Selec.'); return; }
+  const opts = [];
+  if (lines.length) opts.push(['horizontal', `Horizontal${lines.length > 1 ? ' (cada línea)' : ''}`], ['vertical', `Vertical${lines.length > 1 ? ' (cada línea)' : ''}`]);
+  if (lines.length >= 2) opts.push(['parallel', 'Paralela'], ['perpendicular', 'Perpendicular'], ['equalL', 'Igual longitud']);
+  if (circs.length >= 2) opts.push(['equalR', 'Igual radio']);
+  if (!opts.length) { setStatus('Selecciona 1+ líneas (H/V/∥/⟂/=) o 2 círculos (= radio).'); return; }
+  showForm('Restricción geométrica', [
+    { key: 'type', label: 'Relación', type: 'select', value: opts[0][0], options: opts },
+  ], (v) => addConstraints(v.type, lines, circs));
+}
+function addConstraints(type, lines, circs) {
+  pushUndo();
+  const add = (t, a, b) => sketch.constraints.push(SK.makeConstraint(t, a, b));
+  if (type === 'horizontal' || type === 'vertical') for (const l of lines) add(type, l.id);
+  else if (type === 'parallel' || type === 'perpendicular') for (let i = 1; i < lines.length; i++) add(type, lines[i].id, lines[0].id);
+  else if (type === 'equalL') for (let i = 1; i < lines.length; i++) add('equal', lines[i].id, lines[0].id);
+  else if (type === 'equalR') for (let i = 1; i < circs.length; i++) add('equal', circs[i].id, circs[0].id);
+  SK.solveSketch(sketch.entities, sketch.constraints, sketch.dims);
+  sketch.selIds.clear();
+  syncDimEls();
+  redrawSketch();
+  const warn = reportOverconstrained();
+  setStatus(warn || `Restricción aplicada. Total: ${sketch.constraints.length} restricción(es).`);
+}
+// Nunca fallar en silencio (§2.5/§6.2): si tras resolver alguna restricción
+// queda incumplida, el sistema está en conflicto → avisar con acción correctiva.
+function reportOverconstrained() {
+  if (!sketch?.constraints?.length) return null;
+  const bad = sketch.constraints.filter(c => SK.constraintResidual(sketch.entities, c) > 0.15);
+  if (!bad.length) return null;
+  return `⚠ ${bad.length} restricción(es) en conflicto (sobre-restringido). Deshaz (↩) la última o borra una entidad para liberar.`;
+}
+
 // barra de herramientas del boceto
 sketchbar.addEventListener('click', (e) => {
   const btn = e.target.closest('button');
   if (!btn || !sketch) return;
   if (btn.id === 'skCopy') { startCopyOp(); return; }
   if (btn.id === 'skMirror') { startMirrorOp(); return; }
+  if (btn.id === 'skConstrain') { applyConstraintUI(); return; }
   if (btn.id === 'skSlice') {
     sketch.slice = !sketch.slice;
     btn.classList.toggle('on', sketch.slice);
