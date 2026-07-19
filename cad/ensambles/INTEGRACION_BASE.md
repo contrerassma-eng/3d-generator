@@ -56,8 +56,8 @@ Los rodamientos desnudos anteriores (6901/6205 + seegers + portarodamiento)
 
 | Miembro rotante | Antes | Ahora |
 |---|---|---|
-| 5 rodillos Ø63 (ajustados al hueco del base) | eje Ø12 fijo + 2×6901 internos + tuerca M10 | **RODILLO DE EJE MUERTO**: eje Ø20 **fijo** (no gira), **perforado Ø8.5 + roscado M10** en cada extremo; el **tubo de acero Ø51** gira sobre **2 rodamientos 6004 2RS** (20×42×12) entre eje y tubo; **perno M10 + golilla** sujeta el eje a cada placa |
-| Tambor motriz | eje Ø25 + 6205 en portarodamiento + seegers | **1 UCFL204** (placa +X) + apoyo en el **rodamiento de salida del motor** (placa −X); **SIT-LOCK 20×28** fija el tambor (sin chaveta) |
+| 5 rodillos Ø63 × 800 (ajustados al hueco del base) | eje Ø12 fijo + 2×6901 internos + tuerca M10 | **RODILLO DE EJE MUERTO MACIZO** (Hytrol MRT): eje macizo Ø20 × 830 **fijo** (no gira), **perforado Ø8.5 + roscado M10 interior** en cada extremo; el **tubo de acero Ø51 × 800** gira sobre **2 rodamientos 6004 2RS** (20×42×12) entre eje y tubo; **perno HEXAGONAL M10 DIN 933 + golilla** sujeta el eje a cada placa desde fuera de la chapa |
+| Tambor motriz | eje Ø25 + 6205 en portarodamiento + seegers | **1 UCFL204** (placa +X) + **MOTORREDUCTOR DE EJE HUECO** montado directo sobre el eje (sin acople) con **brazo de torque**; **SIT-LOCK 20×28** fija el tambor (sin chaveta) |
 | Tensores/retornos (idlers) | 6901 / bujes | **bujes de bronce SAE 841** Ø18/Ø12.2 (sin mantenimiento, sin rodamiento desnudo) + retención M6 |
 | Acople motor↔eje | — | **2 chavetas DIN 6885 A 6×6** |
 
@@ -80,8 +80,8 @@ rodamiento de bolas desnudo suelto** en el módulo.
 |---|---|---|---|
 | **SA-1 Canal + anclaje** | canal fijo, 4 pies T-slot, shims, electroválvula | escuadra del canal; pies a ras; ranuras T libres | planitud canal 0.5/m; pies coplanares ±0.2 |
 | **SA-2 Elevación** | 2 cilindros ISO 6432, rótulas, palancas, soportes/horquillas, puentes | la palanca gira libre; leva toca el puente; carrera cilindro 10 → sube 6 | pernos Ø8/Ø8.2 (juego 0.2); bujes bronce en palanca |
-| **SA-3 Cassette de rodillos** | 2 placas peine, 5 ejes muertos Ø20 (roscados M10), 5 tubos Ø51 + 10 rodamientos 6004 + vulcanizado, 10 pernos M10 | el tubo gira a mano sin punto duro; el eje no gira; perno M10 apretado | eje Ø20 / alojamiento placa Ø20.5; tubo bore Ø42 H7 (asiento 6004) |
-| **SA-4 Transmisión** | tambor + SIT-LOCK, eje tambor, 1 UCFL204, tensores/retornos + bujes, banda 35×3, motorreductor + acople + chavetas | serpentín envuelve todas las poleas; banda al ras del vulcanizado; tambor concéntrico | SIT-LOCK apriete par nominal; tensado ±5 en colisa |
+| **SA-3 Cassette de rodillos** | 2 placas laterales, 5 ejes muertos MACIZOS Ø20×830 (roscados M10), 5 tubos Ø51×800 + 10 rodamientos 6004 + vulcanizado + tapas, 10 pernos HEXAGONALES M10 | el tubo gira a mano sin punto duro; el eje no gira; perno hex apretado al par | eje Ø20 / alojamiento placa Ø20.5; tubo bore Ø42 H7 (asiento 6004) |
+| **SA-4 Transmisión** | tambor + SIT-LOCK, eje tambor, 1 UCFL204, tensores/retornos + bujes, banda 35×3, motorreductor de eje hueco + brazo de torque | serpentín envuelve todas las poleas; banda al ras del vulcanizado; tambor concéntrico; reductor calza sobre el eje | SIT-LOCK apriete par nominal; tensado ±5 en colisa; brazo de torque libre de flexión |
 | **SA-5 Guiado** | pasadores guía Ø8 en colisas del canal | el marco móvil sube/baja vertical sin agarrotarse | Ø8 m6 / colisa 8.5 (juego 0.5) |
 
 Cada SA se entrega con su **plano** (juego `planos_transfer90/…`) y su fila en

@@ -4,18 +4,18 @@
  "meta": {
   "nombre": "Transferencia 90° — módulo de desviación pop-up (serpentín, todo por dentro)",
   "capa": "user",
-  "origen": "gen_transfer90.mjs (paramétrico); espec. usuario + AJUSTE AL EQUIPO BASE (STEP sorter_CO): 5 rodillos Ø63 vulcanizados (tubo de acero Ø51) a paso 139 = 1 por hueco entre las 4 bandas pasantes del base (X=0/139/277/416); rodillo de EJE MUERTO Ø20 perforado y roscado M10, con 2 rodamientos 6004 entre eje y tubo y perno M10+golilla de sujeción a las placas; serpentín IMG_3102; motor y 2 cilindros por dentro; cilindros diagonales con pivote y palanca (subida vertical 6); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados; placas con dedos delgados hacia los rodillos",
+  "origen": "gen_transfer90.mjs (paramétrico); transfer de rodillos estilo MRT sobre base twin-belt (STEP sorter_CO), funcional/fabricable/simple: 5 rodillos Ø63 vulcanizados (tubo de acero Ø51) de 800 mm de cara a paso 139 = 1 por hueco entre las 4 bandas pasantes del base (X=0/139/277/416); rodillo de EJE MUERTO MACIZO Ø20 perforado y roscado M10 (perno HEXAGONAL externo), con 2 rodamientos 6004 entre eje y tubo; accionamiento por banda plana (serpentín) al extremo con MOTORREDUCTOR DE EJE HUECO + brazo de torque; elevación por 2 cilindros diagonales con palanca (subida vertical 6); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados",
   "anfitrion": "equipo base = sorter de bandas STEP (sorter_CO): rieles T-slot, chumaceras UCFL/UC 205 y SKF 1206, transmisión AT10, ejes Ø20 H7, tornillería M6. El módulo NO modifica el base: se monta a los rieles T-slot y solo comparte su idioma de hardware.",
   "integracion": "módulo de desviación que se monta sobre el equipo base sin perforarlo: 4 pies de anclaje a riel T-slot con tuercas en T M6 (ajuste de posición X) + colisos M8 al canal (ajuste de altura ±7) + shims de nivelación. La altura de emergencia y la separación rodillo-tensora se calibran contra el plano de banda real del base.",
   "estado_modelado": "ELEVADO (+6 mm): tangente de rodillos a 174 = plano anfitrión + 4",
   "tolerancias": {
    "rodamientos": "RODILLOS de EJE MUERTO: el eje NO gira; el tubo gira sobre 2 rodamientos 6004 2RS (20×42×12) alojados en el bore Ø42 del tubo, uno por extremo (10 rodamientos en 5 rodillos). El TAMBOR conserva 1 unidad de brida UCFL204 (placa +X) + el rodamiento de salida del motor (placa -X). Sin rodamientos de bolas desnudos sueltos.",
-   "eje_rodillo": "EJE MUERTO Ø20 h6, fijo a ambas placas: cada extremo PERFORADO Ø8.5 y ROSCADO M10 (hilo interior); un PERNO M10×25 + golilla Ø22 (DIN 125) lo sujeta y retiene axialmente contra la cara exterior de cada placa (anti-giro por apriete). Alojamiento en placa Ø20.5. Chaflanes 1.5×45°.",
-   "tubo_rodillo": "tubo de acero Ø51 (bore Ø42 H7 para los rodamientos 6004), vulcanizado a Ø63 salvo el extremo +X desnudo (x=95..138) donde la banda del serpentín lo arrastra por fricción. Ajuste rodamiento: aro exterior J7 en el tubo, aro interior sobre el eje Ø20 j5.",
-   "eje_tambor": "eje del tambor Ø20 h6 que gira en la UCFL204 (placa +X) y en el rodamiento del motor (placa -X); chaflanes 1.5×45°; chavetero 6×3.5 N9 en el acople.",
+   "eje_rodillo": "EJE MUERTO MACIZO Ø20, largo 830 (entre placas), fijo a ambas placas: cada extremo PERFORADO Ø8.5 y ROSCADO M10 (hilo interior); desde FUERA de la chapa entra un PERNO HEXAGONAL M10 DIN 933 + golilla Ø22 (DIN 125) que lo sujeta y retiene axialmente (anti-giro por apriete). Alojamiento en placa Ø20.5. Chaflanes 1.5×45°.",
+   "tubo_rodillo": "tubo de acero Ø51 × 800 (bore Ø42 H7 para los rodamientos 6004), vulcanizado a Ø63 salvo el extremo +X desnudo (x=355..400) donde la banda del serpentín lo arrastra por fricción; tapa de extremo por lado. Ajuste rodamiento: aro exterior J7 en el tubo, aro interior sobre el eje Ø20 j5.",
+   "eje_tambor": "eje del tambor Ø20 h6 apoyado en la UCFL204 (placa +X); lo acciona el motorreductor de eje hueco montado directo sobre él (chavetero 6×3.5 N9); chaflanes 1.5×45°.",
    "idlers": "tensores y retornos: ejes cantiléver Ø12 m6 prensados en la placa; poleas locas sobre BUJE de bronce autolubricado SAE 841 Ø18/Ø12.2 H7/f7 (sin rodamiento desnudo); retención axial arandela + tornillo M6.",
-   "tambor": "SIT-LOCK CAL 1 20×28 en cubo Ø28 H7 (autocentrado, sin chaveta); 1 UCFL204 en placa +X + rodamiento del motor en -X; abombado corona +0.4.",
-   "acople": "2 chavetas DIN 6885 A 6×6×12 (motor↔acople↔eje), chaveteros N9; manguito Ø32 barreno Ø20.2.",
+   "tambor": "SIT-LOCK CAL 1 20×28 en cubo Ø28 H7 (autocentrado, sin chaveta); 1 UCFL204 en placa +X; abombado corona +0.4.",
+   "motor": "MOTORREDUCTOR DE EJE HUECO montado DIRECTO sobre el eje del tambor (sin acople ni alineación): cuelga en la ventana del base y reacciona con un BRAZO DE TORQUE a un pasador Ø12 en la placa +X. Solución simple y confiable (estilo MRT). 1 chaveta DIN 6885 A 6×6×40.",
    "montaje": "pies de anclaje a riel T-slot: tuerca en T M6 en ranura (ajuste X) + 2 colisos M8 al canal (ajuste altura ±7) + shims 1 mm de nivelación. CERO perforaciones en el equipo base.",
    "palanca": "pernos Ø8 h9 en bujes de bronce Ø12/Ø8.2 H7 en la palanca; seegers DIN 471-8; leva Ø24 rodante; carrera cilindro 10 → 6 vertical (relación 122/203).",
    "pasador_guia": "Ø8 m6 en la placa; colisa 8.5 del canal (juego 0.5) por la carrera 6.",
@@ -33,7 +33,7 @@
    "cilindros": 2,
    "anguloCilindro": 36.7,
    "carreraCilindro": 10,
-   "anchoModulo": 306
+   "anchoModulo": 836
   }
  },
  "parts": [
@@ -57,7 +57,7 @@
    "features": [
     {
      "id": "f1",
-     "name": "Base 306×740×6",
+     "name": "Base 836×740×6",
      "shape": "box",
      "op": "union",
      "at": [
@@ -71,18 +71,18 @@
       1
      ],
      "params": {
-      "w": 306,
+      "w": 836,
       "d": 740,
       "h": 6
      }
     },
     {
      "id": "f2",
-     "name": "Ala x=-141",
+     "name": "Ala x=-406",
      "shape": "box",
      "op": "union",
      "at": [
-      -141,
+      -406,
       0,
       6
      ],
@@ -103,7 +103,7 @@
      "shape": "box",
      "op": "cut",
      "at": [
-      -141,
+      -406,
       290,
       18
      ],
@@ -120,11 +120,11 @@
     },
     {
      "id": "f4",
-     "name": "Ala x=141",
+     "name": "Ala x=406",
      "shape": "box",
      "op": "union",
      "at": [
-      141,
+      406,
       0,
       6
      ],
@@ -145,7 +145,7 @@
      "shape": "box",
      "op": "cut",
      "at": [
-      141,
+      406,
       -290,
       18
      ],
@@ -166,7 +166,7 @@
      "shape": "box",
      "op": "cut",
      "at": [
-      -150,
+      -395,
       -330,
       6
      ],
@@ -187,7 +187,7 @@
      "shape": "box",
      "op": "cut",
      "at": [
-      -110,
+      -355,
       -330,
       6
      ],
@@ -208,7 +208,7 @@
      "shape": "box",
      "op": "cut",
      "at": [
-      -150,
+      -395,
       330,
       6
      ],
@@ -229,7 +229,7 @@
      "shape": "box",
      "op": "cut",
      "at": [
-      -110,
+      -355,
       330,
       6
      ],
@@ -250,7 +250,7 @@
      "shape": "box",
      "op": "cut",
      "at": [
-      110,
+      355,
       -330,
       6
      ],
@@ -271,7 +271,7 @@
      "shape": "box",
      "op": "cut",
      "at": [
-      150,
+      395,
       -330,
       6
      ],
@@ -292,7 +292,7 @@
      "shape": "box",
      "op": "cut",
      "at": [
-      110,
+      355,
       330,
       6
      ],
@@ -313,7 +313,7 @@
      "shape": "box",
      "op": "cut",
      "at": [
-      150,
+      395,
       330,
       6
      ],
@@ -498,23 +498,23 @@
     },
     {
      "id": "f22",
-     "name": "Ø4.5 electroválvula",
-     "shape": "hole",
+     "name": "Ventana motorreductor",
+     "shape": "box",
      "op": "cut",
      "at": [
-      -105,
-      330,
+      298,
+      69.5,
       6
      ],
      "dir": [
       0,
       0,
-      -1
+      1
      ],
      "params": {
-      "dia": 4.5,
-      "depth": 0,
-      "through": true
+      "w": 120,
+      "d": 100,
+      "h": 8
      }
     },
     {
@@ -523,7 +523,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -55,
+      -325,
       330,
       6
      ],
@@ -540,12 +540,12 @@
     },
     {
      "id": "f24",
-     "name": "Ø13 nivelador M12",
+     "name": "Ø4.5 electroválvula",
      "shape": "hole",
      "op": "cut",
      "at": [
-      -110,
-      -320,
+      -275,
+      330,
       6
      ],
      "dir": [
@@ -554,7 +554,7 @@
       -1
      ],
      "params": {
-      "dia": 13,
+      "dia": 4.5,
       "depth": 0,
       "through": true
      }
@@ -565,8 +565,8 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -110,
-      320,
+      -375,
+      -320,
       6
      ],
      "dir": [
@@ -586,8 +586,8 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      110,
-      -320,
+      -375,
+      320,
       6
      ],
      "dir": [
@@ -607,7 +607,28 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      110,
+      375,
+      -320,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f28",
+     "name": "Ø13 nivelador M12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      375,
       320,
       6
      ],
@@ -629,7 +650,7 @@
    "name": "FIJO · Electroválvula 5/2 24VDC",
    "color": "#546e7a",
    "pos": [
-    -80,
+    -300,
     330,
     6
    ],
@@ -643,7 +664,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f28",
+     "id": "f29",
      "name": "Cuerpo válvula 64×26×28",
      "shape": "box",
      "op": "union",
@@ -664,7 +685,7 @@
      }
     },
     {
-     "id": "f29",
+     "id": "f30",
      "name": "Solenoide 20×26×24",
      "shape": "box",
      "op": "union",
@@ -685,7 +706,7 @@
      }
     },
     {
-     "id": "f30",
+     "id": "f31",
      "name": "Racor push-in Ø8 (P. trabajo 2)",
      "shape": "cylinder",
      "op": "union",
@@ -705,7 +726,7 @@
      }
     },
     {
-     "id": "f31",
+     "id": "f32",
      "name": "Racor push-in Ø8 (P. trabajo 4)",
      "shape": "cylinder",
      "op": "union",
@@ -725,7 +746,7 @@
      }
     },
     {
-     "id": "f32",
+     "id": "f33",
      "name": "Silenciador escape",
      "shape": "cylinder",
      "op": "union",
@@ -745,7 +766,7 @@
      }
     },
     {
-     "id": "f33",
+     "id": "f34",
      "name": "Ø4.5 montaje (a)",
      "shape": "hole",
      "op": "cut",
@@ -766,7 +787,7 @@
      }
     },
     {
-     "id": "f34",
+     "id": "f35",
      "name": "Ø4.5 montaje (b)",
      "shape": "hole",
      "op": "cut",
@@ -789,11 +810,11 @@
    ]
   },
   {
-   "id": "p3_fijo_pie_anclaje_t_slot_130_330",
-   "name": "FIJO · Pie anclaje T-slot (-130,-330)",
+   "id": "p3_fijo_pie_anclaje_t_slot_375_330",
+   "name": "FIJO · Pie anclaje T-slot (-375,-330)",
    "color": "#607d8b",
    "pos": [
-    -130,
+    -375,
     -330,
     -14
    ],
@@ -807,7 +828,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f35",
+     "id": "f36",
      "name": "Cara vertical 60×8×34",
      "shape": "box",
      "op": "union",
@@ -828,7 +849,7 @@
      }
     },
     {
-     "id": "f36",
+     "id": "f37",
      "name": "Pie horizontal 60×46×8",
      "shape": "box",
      "op": "union",
@@ -845,32 +866,32 @@
      "params": {
       "w": 60,
       "d": 46,
-      "h": 8
-     }
-    },
-    {
-     "id": "f37",
-     "name": "Ranura T-nut M6 (ajuste X)",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      0,
-      -27,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 8,
-      "d": 30,
       "h": 8
      }
     },
     {
      "id": "f38",
+     "name": "Ranura T-nut M6 (ajuste X)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      -27,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 8,
+      "d": 30,
+      "h": 8
+     }
+    },
+    {
+     "id": "f39",
      "name": "Coliso M8 a canal (a)",
      "shape": "hole",
      "op": "cut",
@@ -891,7 +912,7 @@
      }
     },
     {
-     "id": "f39",
+     "id": "f40",
      "name": "Coliso M8 a canal (b)",
      "shape": "hole",
      "op": "cut",
@@ -914,11 +935,11 @@
    ]
   },
   {
-   "id": "p4_fijo_shim_de_nivelaci_n_1_mm_130_330",
-   "name": "FIJO · Shim de nivelación 1 mm (-130,-330)",
+   "id": "p4_fijo_shim_de_nivelaci_n_1_mm_375_330",
+   "name": "FIJO · Shim de nivelación 1 mm (-375,-330)",
    "color": "#b0bec5",
    "pos": [
-    -130,
+    -375,
     -330,
     -6
    ],
@@ -932,7 +953,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f40",
+     "id": "f41",
      "name": "Lámina 60×40×1",
      "shape": "box",
      "op": "union",
@@ -953,7 +974,7 @@
      }
     },
     {
-     "id": "f41",
+     "id": "f42",
      "name": "Paso M6",
      "shape": "hole",
      "op": "cut",
@@ -976,11 +997,11 @@
    ]
   },
   {
-   "id": "p5_fijo_pie_anclaje_t_slot_130_330",
-   "name": "FIJO · Pie anclaje T-slot (-130,330)",
+   "id": "p5_fijo_pie_anclaje_t_slot_375_330",
+   "name": "FIJO · Pie anclaje T-slot (-375,330)",
    "color": "#607d8b",
    "pos": [
-    -130,
+    -375,
     330,
     -14
    ],
@@ -994,7 +1015,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f42",
+     "id": "f43",
      "name": "Cara vertical 60×8×34",
      "shape": "box",
      "op": "union",
@@ -1015,7 +1036,7 @@
      }
     },
     {
-     "id": "f43",
+     "id": "f44",
      "name": "Pie horizontal 60×46×8",
      "shape": "box",
      "op": "union",
@@ -1036,7 +1057,7 @@
      }
     },
     {
-     "id": "f44",
+     "id": "f45",
      "name": "Ranura T-nut M6 (ajuste X)",
      "shape": "box",
      "op": "cut",
@@ -1057,7 +1078,7 @@
      }
     },
     {
-     "id": "f45",
+     "id": "f46",
      "name": "Coliso M8 a canal (a)",
      "shape": "hole",
      "op": "cut",
@@ -1078,7 +1099,7 @@
      }
     },
     {
-     "id": "f46",
+     "id": "f47",
      "name": "Coliso M8 a canal (b)",
      "shape": "hole",
      "op": "cut",
@@ -1101,11 +1122,11 @@
    ]
   },
   {
-   "id": "p6_fijo_shim_de_nivelaci_n_1_mm_130_330",
-   "name": "FIJO · Shim de nivelación 1 mm (-130,330)",
+   "id": "p6_fijo_shim_de_nivelaci_n_1_mm_375_330",
+   "name": "FIJO · Shim de nivelación 1 mm (-375,330)",
    "color": "#b0bec5",
    "pos": [
-    -130,
+    -375,
     330,
     -6
    ],
@@ -1119,7 +1140,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f47",
+     "id": "f48",
      "name": "Lámina 60×40×1",
      "shape": "box",
      "op": "union",
@@ -1140,7 +1161,7 @@
      }
     },
     {
-     "id": "f48",
+     "id": "f49",
      "name": "Paso M6",
      "shape": "hole",
      "op": "cut",
@@ -1163,11 +1184,11 @@
    ]
   },
   {
-   "id": "p7_fijo_pie_anclaje_t_slot_130_330",
-   "name": "FIJO · Pie anclaje T-slot (130,-330)",
+   "id": "p7_fijo_pie_anclaje_t_slot_375_330",
+   "name": "FIJO · Pie anclaje T-slot (375,-330)",
    "color": "#607d8b",
    "pos": [
-    130,
+    375,
     -330,
     -14
    ],
@@ -1181,7 +1202,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f49",
+     "id": "f50",
      "name": "Cara vertical 60×8×34",
      "shape": "box",
      "op": "union",
@@ -1202,7 +1223,7 @@
      }
     },
     {
-     "id": "f50",
+     "id": "f51",
      "name": "Pie horizontal 60×46×8",
      "shape": "box",
      "op": "union",
@@ -1223,7 +1244,7 @@
      }
     },
     {
-     "id": "f51",
+     "id": "f52",
      "name": "Ranura T-nut M6 (ajuste X)",
      "shape": "box",
      "op": "cut",
@@ -1244,7 +1265,7 @@
      }
     },
     {
-     "id": "f52",
+     "id": "f53",
      "name": "Coliso M8 a canal (a)",
      "shape": "hole",
      "op": "cut",
@@ -1265,7 +1286,7 @@
      }
     },
     {
-     "id": "f53",
+     "id": "f54",
      "name": "Coliso M8 a canal (b)",
      "shape": "hole",
      "op": "cut",
@@ -1288,11 +1309,11 @@
    ]
   },
   {
-   "id": "p8_fijo_shim_de_nivelaci_n_1_mm_130_330",
-   "name": "FIJO · Shim de nivelación 1 mm (130,-330)",
+   "id": "p8_fijo_shim_de_nivelaci_n_1_mm_375_330",
+   "name": "FIJO · Shim de nivelación 1 mm (375,-330)",
    "color": "#b0bec5",
    "pos": [
-    130,
+    375,
     -330,
     -6
    ],
@@ -1306,7 +1327,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f54",
+     "id": "f55",
      "name": "Lámina 60×40×1",
      "shape": "box",
      "op": "union",
@@ -1327,7 +1348,7 @@
      }
     },
     {
-     "id": "f55",
+     "id": "f56",
      "name": "Paso M6",
      "shape": "hole",
      "op": "cut",
@@ -1350,11 +1371,11 @@
    ]
   },
   {
-   "id": "p9_fijo_pie_anclaje_t_slot_130_330",
-   "name": "FIJO · Pie anclaje T-slot (130,330)",
+   "id": "p9_fijo_pie_anclaje_t_slot_375_330",
+   "name": "FIJO · Pie anclaje T-slot (375,330)",
    "color": "#607d8b",
    "pos": [
-    130,
+    375,
     330,
     -14
    ],
@@ -1368,7 +1389,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f56",
+     "id": "f57",
      "name": "Cara vertical 60×8×34",
      "shape": "box",
      "op": "union",
@@ -1389,7 +1410,7 @@
      }
     },
     {
-     "id": "f57",
+     "id": "f58",
      "name": "Pie horizontal 60×46×8",
      "shape": "box",
      "op": "union",
@@ -1410,7 +1431,7 @@
      }
     },
     {
-     "id": "f58",
+     "id": "f59",
      "name": "Ranura T-nut M6 (ajuste X)",
      "shape": "box",
      "op": "cut",
@@ -1431,7 +1452,7 @@
      }
     },
     {
-     "id": "f59",
+     "id": "f60",
      "name": "Coliso M8 a canal (a)",
      "shape": "hole",
      "op": "cut",
@@ -1452,7 +1473,7 @@
      }
     },
     {
-     "id": "f60",
+     "id": "f61",
      "name": "Coliso M8 a canal (b)",
      "shape": "hole",
      "op": "cut",
@@ -1475,11 +1496,11 @@
    ]
   },
   {
-   "id": "p10_fijo_shim_de_nivelaci_n_1_mm_130_330",
-   "name": "FIJO · Shim de nivelación 1 mm (130,330)",
+   "id": "p10_fijo_shim_de_nivelaci_n_1_mm_375_330",
+   "name": "FIJO · Shim de nivelación 1 mm (375,330)",
    "color": "#b0bec5",
    "pos": [
-    130,
+    375,
     330,
     -6
    ],
@@ -1493,7 +1514,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f61",
+     "id": "f62",
      "name": "Lámina 60×40×1",
      "shape": "box",
      "op": "union",
@@ -1514,7 +1535,7 @@
      }
     },
     {
-     "id": "f62",
+     "id": "f63",
      "name": "Paso M6",
      "shape": "hole",
      "op": "cut",
@@ -1555,7 +1576,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f63",
+     "id": "f64",
      "name": "Poste 20×12×70",
      "shape": "box",
      "op": "union",
@@ -1576,7 +1597,7 @@
      }
     },
     {
-     "id": "f64",
+     "id": "f65",
      "name": "Pie 36×24×6",
      "shape": "box",
      "op": "union",
@@ -1597,7 +1618,7 @@
      }
     },
     {
-     "id": "f65",
+     "id": "f66",
      "name": "Perno pivote Ø8",
      "shape": "cylinder",
      "op": "union",
@@ -1617,7 +1638,7 @@
      }
     },
     {
-     "id": "f66",
+     "id": "f67",
      "name": "Ø5.5 M5",
      "shape": "hole",
      "op": "cut",
@@ -1638,7 +1659,7 @@
      }
     },
     {
-     "id": "f67",
+     "id": "f68",
      "name": "Ø5.5 M5 (b)",
      "shape": "hole",
      "op": "cut",
@@ -1679,7 +1700,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f68",
+     "id": "f69",
      "name": "Cuerpo 18×24×16",
      "shape": "box",
      "op": "union",
@@ -1700,7 +1721,7 @@
      }
     },
     {
-     "id": "f69",
+     "id": "f70",
      "name": "Ranura de horquilla 20×11",
      "shape": "box",
      "op": "cut",
@@ -1721,7 +1742,7 @@
      }
     },
     {
-     "id": "f70",
+     "id": "f71",
      "name": "Pie 36×24×6",
      "shape": "box",
      "op": "union",
@@ -1742,7 +1763,7 @@
      }
     },
     {
-     "id": "f71",
+     "id": "f72",
      "name": "Perno basculante Ø8",
      "shape": "cylinder",
      "op": "union",
@@ -1762,7 +1783,7 @@
      }
     },
     {
-     "id": "f72",
+     "id": "f73",
      "name": "Ø5.5 M5",
      "shape": "hole",
      "op": "cut",
@@ -1783,7 +1804,7 @@
      }
     },
     {
-     "id": "f73",
+     "id": "f74",
      "name": "Ø5.5 M5 (b)",
      "shape": "hole",
      "op": "cut",
@@ -1824,7 +1845,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f74",
+     "id": "f75",
      "name": "Tapa trasera Ø32×8 (rosca M8 hembra)",
      "shape": "cylinder",
      "op": "union",
@@ -1844,7 +1865,7 @@
      }
     },
     {
-     "id": "f75",
+     "id": "f76",
      "name": "Cuerpo Ø25 (ISO 6432)",
      "shape": "cylinder",
      "op": "union",
@@ -1864,7 +1885,7 @@
      }
     },
     {
-     "id": "f76",
+     "id": "f77",
      "name": "Tapa delantera Ø32×6",
      "shape": "cylinder",
      "op": "union",
@@ -1884,7 +1905,7 @@
      }
     },
     {
-     "id": "f77",
+     "id": "f78",
      "name": "Vástago Ø10 M8 (extendido +6 vertical)",
      "shape": "cylinder",
      "op": "union",
@@ -1924,7 +1945,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f78",
+     "id": "f79",
      "name": "Cabeza Ø16×10",
      "shape": "cylinder",
      "op": "union",
@@ -1944,7 +1965,7 @@
      }
     },
     {
-     "id": "f79",
+     "id": "f80",
      "name": "Esfera Ø12 (aro interior)",
      "shape": "cylinder",
      "op": "union",
@@ -1964,7 +1985,7 @@
      }
     },
     {
-     "id": "f80",
+     "id": "f81",
      "name": "Caña rosca M8×10",
      "shape": "cylinder",
      "op": "union",
@@ -1984,7 +2005,7 @@
      }
     },
     {
-     "id": "f81",
+     "id": "f82",
      "name": "Bore Ø8.2 (perno)",
      "shape": "hole",
      "op": "cut",
@@ -2025,7 +2046,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f82",
+     "id": "f83",
      "name": "Cabeza Ø16×10",
      "shape": "cylinder",
      "op": "union",
@@ -2045,7 +2066,7 @@
      }
     },
     {
-     "id": "f83",
+     "id": "f84",
      "name": "Esfera Ø12 (aro interior)",
      "shape": "cylinder",
      "op": "union",
@@ -2065,7 +2086,7 @@
      }
     },
     {
-     "id": "f84",
+     "id": "f85",
      "name": "Caña rosca M8×10",
      "shape": "cylinder",
      "op": "union",
@@ -2085,7 +2106,7 @@
      }
     },
     {
-     "id": "f85",
+     "id": "f86",
      "name": "Bore Ø8.2 (perno)",
      "shape": "hole",
      "op": "cut",
@@ -2126,7 +2147,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f86",
+     "id": "f87",
      "name": "Barra de palanca",
      "shape": "sketch",
      "op": "union",
@@ -2168,7 +2189,7 @@
      }
     },
     {
-     "id": "f87",
+     "id": "f88",
      "name": "Cuello de leva 16×10×20",
      "shape": "box",
      "op": "union",
@@ -2189,7 +2210,7 @@
      }
     },
     {
-     "id": "f88",
+     "id": "f89",
      "name": "Rodillo de leva Ø24",
      "shape": "cylinder",
      "op": "union",
@@ -2209,7 +2230,7 @@
      }
     },
     {
-     "id": "f89",
+     "id": "f90",
      "name": "Ø12.2 H7 pivote (buje)",
      "shape": "hole",
      "op": "cut",
@@ -2230,7 +2251,7 @@
      }
     },
     {
-     "id": "f90",
+     "id": "f91",
      "name": "Ø12.2 H7 entrada (buje)",
      "shape": "hole",
      "op": "cut",
@@ -2271,7 +2292,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f91",
+     "id": "f92",
      "name": "Buje Ø12×12",
      "shape": "cylinder",
      "op": "union",
@@ -2291,7 +2312,7 @@
      }
     },
     {
-     "id": "f92",
+     "id": "f93",
      "name": "Bore Ø8.2 H7/f7",
      "shape": "hole",
      "op": "cut",
@@ -2332,7 +2353,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f93",
+     "id": "f94",
      "name": "Buje Ø12×12",
      "shape": "cylinder",
      "op": "union",
@@ -2352,7 +2373,7 @@
      }
     },
     {
-     "id": "f94",
+     "id": "f95",
      "name": "Bore Ø8.2 H7/f7",
      "shape": "hole",
      "op": "cut",
@@ -2393,7 +2414,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f95",
+     "id": "f96",
      "name": "Anillo Ø15×1",
      "shape": "cylinder",
      "op": "union",
@@ -2413,7 +2434,7 @@
      }
     },
     {
-     "id": "f96",
+     "id": "f97",
      "name": "Bore Ø7.4",
      "shape": "hole",
      "op": "cut",
@@ -2454,7 +2475,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f97",
+     "id": "f98",
      "name": "Anillo Ø15×1",
      "shape": "cylinder",
      "op": "union",
@@ -2474,7 +2495,7 @@
      }
     },
     {
-     "id": "f98",
+     "id": "f99",
      "name": "Bore Ø7.4",
      "shape": "hole",
      "op": "cut",
@@ -2515,7 +2536,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f99",
+     "id": "f100",
      "name": "Anillo Ø15×1",
      "shape": "cylinder",
      "op": "union",
@@ -2535,7 +2556,7 @@
      }
     },
     {
-     "id": "f100",
+     "id": "f101",
      "name": "Bore Ø7.4",
      "shape": "hole",
      "op": "cut",
@@ -2576,7 +2597,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f101",
+     "id": "f102",
      "name": "Perno Ø8×32",
      "shape": "cylinder",
      "op": "union",
@@ -2616,7 +2637,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f102",
+     "id": "f103",
      "name": "Poste 20×12×70",
      "shape": "box",
      "op": "union",
@@ -2637,7 +2658,7 @@
      }
     },
     {
-     "id": "f103",
+     "id": "f104",
      "name": "Pie 36×24×6",
      "shape": "box",
      "op": "union",
@@ -2658,7 +2679,7 @@
      }
     },
     {
-     "id": "f104",
+     "id": "f105",
      "name": "Perno pivote Ø8",
      "shape": "cylinder",
      "op": "union",
@@ -2678,7 +2699,7 @@
      }
     },
     {
-     "id": "f105",
+     "id": "f106",
      "name": "Ø5.5 M5",
      "shape": "hole",
      "op": "cut",
@@ -2699,7 +2720,7 @@
      }
     },
     {
-     "id": "f106",
+     "id": "f107",
      "name": "Ø5.5 M5 (b)",
      "shape": "hole",
      "op": "cut",
@@ -2740,7 +2761,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f107",
+     "id": "f108",
      "name": "Cuerpo 18×24×16",
      "shape": "box",
      "op": "union",
@@ -2761,7 +2782,7 @@
      }
     },
     {
-     "id": "f108",
+     "id": "f109",
      "name": "Ranura de horquilla 20×11",
      "shape": "box",
      "op": "cut",
@@ -2782,7 +2803,7 @@
      }
     },
     {
-     "id": "f109",
+     "id": "f110",
      "name": "Pie 36×24×6",
      "shape": "box",
      "op": "union",
@@ -2803,7 +2824,7 @@
      }
     },
     {
-     "id": "f110",
+     "id": "f111",
      "name": "Perno basculante Ø8",
      "shape": "cylinder",
      "op": "union",
@@ -2823,7 +2844,7 @@
      }
     },
     {
-     "id": "f111",
+     "id": "f112",
      "name": "Ø5.5 M5",
      "shape": "hole",
      "op": "cut",
@@ -2844,7 +2865,7 @@
      }
     },
     {
-     "id": "f112",
+     "id": "f113",
      "name": "Ø5.5 M5 (b)",
      "shape": "hole",
      "op": "cut",
@@ -2885,7 +2906,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f113",
+     "id": "f114",
      "name": "Tapa trasera Ø32×8 (rosca M8 hembra)",
      "shape": "cylinder",
      "op": "union",
@@ -2905,7 +2926,7 @@
      }
     },
     {
-     "id": "f114",
+     "id": "f115",
      "name": "Cuerpo Ø25 (ISO 6432)",
      "shape": "cylinder",
      "op": "union",
@@ -2925,7 +2946,7 @@
      }
     },
     {
-     "id": "f115",
+     "id": "f116",
      "name": "Tapa delantera Ø32×6",
      "shape": "cylinder",
      "op": "union",
@@ -2945,7 +2966,7 @@
      }
     },
     {
-     "id": "f116",
+     "id": "f117",
      "name": "Vástago Ø10 M8 (extendido +6 vertical)",
      "shape": "cylinder",
      "op": "union",
@@ -2985,7 +3006,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f117",
+     "id": "f118",
      "name": "Cabeza Ø16×10",
      "shape": "cylinder",
      "op": "union",
@@ -3005,7 +3026,7 @@
      }
     },
     {
-     "id": "f118",
+     "id": "f119",
      "name": "Esfera Ø12 (aro interior)",
      "shape": "cylinder",
      "op": "union",
@@ -3025,7 +3046,7 @@
      }
     },
     {
-     "id": "f119",
+     "id": "f120",
      "name": "Caña rosca M8×10",
      "shape": "cylinder",
      "op": "union",
@@ -3045,7 +3066,7 @@
      }
     },
     {
-     "id": "f120",
+     "id": "f121",
      "name": "Bore Ø8.2 (perno)",
      "shape": "hole",
      "op": "cut",
@@ -3086,7 +3107,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f121",
+     "id": "f122",
      "name": "Cabeza Ø16×10",
      "shape": "cylinder",
      "op": "union",
@@ -3106,7 +3127,7 @@
      }
     },
     {
-     "id": "f122",
+     "id": "f123",
      "name": "Esfera Ø12 (aro interior)",
      "shape": "cylinder",
      "op": "union",
@@ -3126,7 +3147,7 @@
      }
     },
     {
-     "id": "f123",
+     "id": "f124",
      "name": "Caña rosca M8×10",
      "shape": "cylinder",
      "op": "union",
@@ -3146,7 +3167,7 @@
      }
     },
     {
-     "id": "f124",
+     "id": "f125",
      "name": "Bore Ø8.2 (perno)",
      "shape": "hole",
      "op": "cut",
@@ -3187,7 +3208,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f125",
+     "id": "f126",
      "name": "Barra de palanca",
      "shape": "sketch",
      "op": "union",
@@ -3229,7 +3250,7 @@
      }
     },
     {
-     "id": "f126",
+     "id": "f127",
      "name": "Cuello de leva 16×10×20",
      "shape": "box",
      "op": "union",
@@ -3250,7 +3271,7 @@
      }
     },
     {
-     "id": "f127",
+     "id": "f128",
      "name": "Rodillo de leva Ø24",
      "shape": "cylinder",
      "op": "union",
@@ -3270,7 +3291,7 @@
      }
     },
     {
-     "id": "f128",
+     "id": "f129",
      "name": "Ø12.2 H7 pivote (buje)",
      "shape": "hole",
      "op": "cut",
@@ -3291,7 +3312,7 @@
      }
     },
     {
-     "id": "f129",
+     "id": "f130",
      "name": "Ø12.2 H7 entrada (buje)",
      "shape": "hole",
      "op": "cut",
@@ -3332,7 +3353,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f130",
+     "id": "f131",
      "name": "Buje Ø12×12",
      "shape": "cylinder",
      "op": "union",
@@ -3352,7 +3373,7 @@
      }
     },
     {
-     "id": "f131",
+     "id": "f132",
      "name": "Bore Ø8.2 H7/f7",
      "shape": "hole",
      "op": "cut",
@@ -3393,7 +3414,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f132",
+     "id": "f133",
      "name": "Buje Ø12×12",
      "shape": "cylinder",
      "op": "union",
@@ -3413,7 +3434,7 @@
      }
     },
     {
-     "id": "f133",
+     "id": "f134",
      "name": "Bore Ø8.2 H7/f7",
      "shape": "hole",
      "op": "cut",
@@ -3454,7 +3475,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f134",
+     "id": "f135",
      "name": "Anillo Ø15×1",
      "shape": "cylinder",
      "op": "union",
@@ -3474,7 +3495,7 @@
      }
     },
     {
-     "id": "f135",
+     "id": "f136",
      "name": "Bore Ø7.4",
      "shape": "hole",
      "op": "cut",
@@ -3515,7 +3536,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f136",
+     "id": "f137",
      "name": "Anillo Ø15×1",
      "shape": "cylinder",
      "op": "union",
@@ -3535,7 +3556,7 @@
      }
     },
     {
-     "id": "f137",
+     "id": "f138",
      "name": "Bore Ø7.4",
      "shape": "hole",
      "op": "cut",
@@ -3576,7 +3597,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f138",
+     "id": "f139",
      "name": "Anillo Ø15×1",
      "shape": "cylinder",
      "op": "union",
@@ -3596,7 +3617,7 @@
      }
     },
     {
-     "id": "f139",
+     "id": "f140",
      "name": "Bore Ø7.4",
      "shape": "hole",
      "op": "cut",
@@ -3637,7 +3658,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f140",
+     "id": "f141",
      "name": "Perno Ø8×32",
      "shape": "cylinder",
      "op": "union",
@@ -3659,11 +3680,11 @@
    ]
   },
   {
-   "id": "p35_m_vil_placa_porta_poleas_lado_motor_x",
-   "name": "MÓVIL · Placa porta-poleas lado motor (-X)",
+   "id": "p35_m_vil_placa_lateral_x",
+   "name": "MÓVIL · Placa lateral (-X)",
    "color": "#2a4fd7",
    "pos": [
-    -153,
+    -418,
     0,
     18
    ],
@@ -3677,7 +3698,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f141",
+     "id": "f142",
      "name": "Contorno: cuerpo porta-poleas + dedos",
      "shape": "sketch",
      "op": "union",
@@ -4099,34 +4120,13 @@
      }
     },
     {
-     "id": "f142",
-     "name": "Ranura puente",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      3,
-      -330,
-      86.75
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 7,
-      "d": 20.5,
-      "h": 12.5
-     }
-    },
-    {
      "id": "f143",
      "name": "Ranura puente",
      "shape": "box",
      "op": "cut",
      "at": [
       3,
-      330,
+      -330,
       86.75
      ],
      "dir": [
@@ -4142,6 +4142,27 @@
     },
     {
      "id": "f144",
+     "name": "Ranura puente",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      3,
+      330,
+      86.75
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 7,
+      "d": 20.5,
+      "h": 12.5
+     }
+    },
+    {
+     "id": "f145",
      "name": "Alojamiento eje muerto Ø20.5 línea y=-278",
      "shape": "hole",
      "op": "cut",
@@ -4162,7 +4183,7 @@
      }
     },
     {
-     "id": "f145",
+     "id": "f146",
      "name": "Alojamiento eje muerto Ø20.5 línea y=-139",
      "shape": "hole",
      "op": "cut",
@@ -4183,7 +4204,7 @@
      }
     },
     {
-     "id": "f146",
+     "id": "f147",
      "name": "Alojamiento eje muerto Ø20.5 línea y=0",
      "shape": "hole",
      "op": "cut",
@@ -4204,7 +4225,7 @@
      }
     },
     {
-     "id": "f147",
+     "id": "f148",
      "name": "Alojamiento eje muerto Ø20.5 línea y=139",
      "shape": "hole",
      "op": "cut",
@@ -4225,7 +4246,7 @@
      }
     },
     {
-     "id": "f148",
+     "id": "f149",
      "name": "Alojamiento eje muerto Ø20.5 línea y=278",
      "shape": "hole",
      "op": "cut",
@@ -4244,120 +4265,15 @@
       "depth": 0,
       "through": true
      }
-    },
-    {
-     "id": "f149",
-     "name": "Piloto motor Ø30",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      69.5,
-      60
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 30,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f150",
-     "name": "Ø6.6 brida motor",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      39.5,
-      38
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 6.6,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f151",
-     "name": "Ø6.6 brida motor",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      39.5,
-      82
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 6.6,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f152",
-     "name": "Ø6.6 brida motor",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      99.5,
-      38
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 6.6,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f153",
-     "name": "Ø6.6 brida motor",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      99.5,
-      82
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 6.6,
-      "depth": 0,
-      "through": true
-     }
     }
    ]
   },
   {
-   "id": "p36_m_vil_placa_porta_poleas_de_transmisi_n_x",
-   "name": "MÓVIL · Placa porta-poleas de transmisión (+X)",
+   "id": "p36_m_vil_placa_lateral_de_transmisi_n_x",
+   "name": "MÓVIL · Placa lateral de transmisión (+X)",
    "color": "#2a4fd7",
    "pos": [
-    147,
+    412,
     0,
     18
    ],
@@ -4371,7 +4287,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f154",
+     "id": "f150",
      "name": "Contorno: cuerpo porta-poleas + dedos",
      "shape": "sketch",
      "op": "union",
@@ -4793,7 +4709,7 @@
      }
     },
     {
-     "id": "f155",
+     "id": "f151",
      "name": "Ranura puente",
      "shape": "box",
      "op": "cut",
@@ -4814,7 +4730,7 @@
      }
     },
     {
-     "id": "f156",
+     "id": "f152",
      "name": "Ranura puente",
      "shape": "box",
      "op": "cut",
@@ -4835,7 +4751,7 @@
      }
     },
     {
-     "id": "f157",
+     "id": "f153",
      "name": "Alojamiento eje muerto Ø20.5 línea y=-278",
      "shape": "hole",
      "op": "cut",
@@ -4856,7 +4772,7 @@
      }
     },
     {
-     "id": "f158",
+     "id": "f154",
      "name": "Alojamiento eje muerto Ø20.5 línea y=-139",
      "shape": "hole",
      "op": "cut",
@@ -4877,7 +4793,7 @@
      }
     },
     {
-     "id": "f159",
+     "id": "f155",
      "name": "Alojamiento eje muerto Ø20.5 línea y=0",
      "shape": "hole",
      "op": "cut",
@@ -4898,7 +4814,7 @@
      }
     },
     {
-     "id": "f160",
+     "id": "f156",
      "name": "Alojamiento eje muerto Ø20.5 línea y=139",
      "shape": "hole",
      "op": "cut",
@@ -4919,7 +4835,7 @@
      }
     },
     {
-     "id": "f161",
+     "id": "f157",
      "name": "Alojamiento eje muerto Ø20.5 línea y=278",
      "shape": "hole",
      "op": "cut",
@@ -4940,7 +4856,7 @@
      }
     },
     {
-     "id": "f162",
+     "id": "f158",
      "name": "Paso eje tambor Ø22",
      "shape": "hole",
      "op": "cut",
@@ -4961,7 +4877,7 @@
      }
     },
     {
-     "id": "f163",
+     "id": "f159",
      "name": "Ø11 bulón UCFL204 tambor",
      "shape": "hole",
      "op": "cut",
@@ -4982,7 +4898,7 @@
      }
     },
     {
-     "id": "f164",
+     "id": "f160",
      "name": "Ø11 bulón UCFL204 tambor",
      "shape": "hole",
      "op": "cut",
@@ -5003,7 +4919,7 @@
      }
     },
     {
-     "id": "f165",
+     "id": "f161",
      "name": "Ø12.2 eje tensor (-208.5,98)",
      "shape": "hole",
      "op": "cut",
@@ -5024,7 +4940,7 @@
      }
     },
     {
-     "id": "f166",
+     "id": "f162",
      "name": "Ø12.2 colisa sup (-208.5,98)",
      "shape": "hole",
      "op": "cut",
@@ -5045,7 +4961,7 @@
      }
     },
     {
-     "id": "f167",
+     "id": "f163",
      "name": "Colisa tensora 12.2×10 (-208.5,98)",
      "shape": "box",
      "op": "cut",
@@ -5066,7 +4982,7 @@
      }
     },
     {
-     "id": "f168",
+     "id": "f164",
      "name": "Ø12.2 eje tensor (-69.5,98)",
      "shape": "hole",
      "op": "cut",
@@ -5087,7 +5003,7 @@
      }
     },
     {
-     "id": "f169",
+     "id": "f165",
      "name": "Ø12.2 colisa sup (-69.5,98)",
      "shape": "hole",
      "op": "cut",
@@ -5108,7 +5024,7 @@
      }
     },
     {
-     "id": "f170",
+     "id": "f166",
      "name": "Colisa tensora 12.2×10 (-69.5,98)",
      "shape": "box",
      "op": "cut",
@@ -5129,7 +5045,7 @@
      }
     },
     {
-     "id": "f171",
+     "id": "f167",
      "name": "Ø12.2 eje tensor (208.5,98)",
      "shape": "hole",
      "op": "cut",
@@ -5150,7 +5066,7 @@
      }
     },
     {
-     "id": "f172",
+     "id": "f168",
      "name": "Ø12.2 colisa sup (208.5,98)",
      "shape": "hole",
      "op": "cut",
@@ -5171,7 +5087,7 @@
      }
     },
     {
-     "id": "f173",
+     "id": "f169",
      "name": "Colisa tensora 12.2×10 (208.5,98)",
      "shape": "box",
      "op": "cut",
@@ -5192,7 +5108,7 @@
      }
     },
     {
-     "id": "f174",
+     "id": "f170",
      "name": "Ø12.2 eje retorno (-312,36)",
      "shape": "hole",
      "op": "cut",
@@ -5213,7 +5129,7 @@
      }
     },
     {
-     "id": "f175",
+     "id": "f171",
      "name": "Ø12.2 eje retorno (312,36)",
      "shape": "hole",
      "op": "cut",
@@ -5221,6 +5137,27 @@
       0,
       312,
       18
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f172",
+     "name": "Ø12.2 pasador brazo de torque",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      14.5,
+      20
      ],
      "dir": [
       1,
@@ -5254,7 +5191,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f176",
+     "id": "f173",
      "name": "Puente 306×20×12",
      "shape": "box",
      "op": "union",
@@ -5269,7 +5206,7 @@
       1
      ],
      "params": {
-      "w": 306,
+      "w": 836,
       "d": 20,
       "h": 12
      }
@@ -5281,7 +5218,7 @@
    "name": "MÓVIL · Pasador guía Ø8 (+X, y=290)",
    "color": "#b0bec5",
    "pos": [
-    153,
+    418,
     290,
     30
    ],
@@ -5295,7 +5232,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f177",
+     "id": "f174",
      "name": "Pasador Ø8 m6 ×15",
      "shape": "cylinder",
      "op": "union",
@@ -5315,7 +5252,7 @@
      }
     },
     {
-     "id": "f178",
+     "id": "f175",
      "name": "Chaflán 1×45°",
      "shape": "cylinder",
      "op": "union",
@@ -5355,7 +5292,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f179",
+     "id": "f176",
      "name": "Puente 306×20×12",
      "shape": "box",
      "op": "union",
@@ -5370,7 +5307,7 @@
       1
      ],
      "params": {
-      "w": 306,
+      "w": 836,
       "d": 20,
       "h": 12
      }
@@ -5382,7 +5319,7 @@
    "name": "MÓVIL · Pasador guía Ø8 (-X, y=-290)",
    "color": "#b0bec5",
    "pos": [
-    -153,
+    -418,
     -290,
     30
    ],
@@ -5396,7 +5333,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f180",
+     "id": "f177",
      "name": "Pasador Ø8 m6 ×15",
      "shape": "cylinder",
      "op": "union",
@@ -5416,7 +5353,7 @@
      }
     },
     {
-     "id": "f181",
+     "id": "f178",
      "name": "Chaflán 1×45°",
      "shape": "cylinder",
      "op": "union",
@@ -5438,11 +5375,11 @@
    ]
   },
   {
-   "id": "p41_m_vil_eje_muerto_rodillo_20_perforado_m10_l_nea_y_278",
-   "name": "MÓVIL · Eje muerto rodillo Ø20 perforado M10 línea y=-278",
+   "id": "p41_m_vil_eje_muerto_macizo_20_roscado_m10_l_nea_y_278",
+   "name": "MÓVIL · Eje muerto macizo Ø20 roscado M10 línea y=-278",
    "color": "#b0bec5",
    "pos": [
-    -150,
+    -415,
     -278,
     142.5
    ],
@@ -5457,8 +5394,8 @@
    "componente": "eje_muerto_rodillo_20",
    "features": [
     {
-     "id": "f182",
-     "name": "Cuerpo Ø20 × 300",
+     "id": "f179",
+     "name": "Cuerpo macizo Ø20 × 830",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -5473,11 +5410,11 @@
      ],
      "params": {
       "dia": 20,
-      "h": 300
+      "h": 830
      }
     },
     {
-     "id": "f183",
+     "id": "f180",
      "name": "Chaflán 1.5×45° (-X)",
      "shape": "cylinder",
      "op": "union",
@@ -5497,12 +5434,12 @@
      }
     },
     {
-     "id": "f184",
+     "id": "f181",
      "name": "Chaflán 1.5×45° (+X)",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      298.5,
+      828.5,
       0,
       0
      ],
@@ -5517,8 +5454,8 @@
      }
     },
     {
-     "id": "f185",
-     "name": "Taladro Ø8.5 + rosca M10 (-X)",
+     "id": "f182",
+     "name": "Taladro Ø8.5 + rosca M10 int. (-X)",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -5533,17 +5470,17 @@
      ],
      "params": {
       "dia": 8.5,
-      "depth": 24,
+      "depth": 26,
       "through": false
      }
     },
     {
-     "id": "f186",
-     "name": "Taladro Ø8.5 + rosca M10 (+X)",
+     "id": "f183",
+     "name": "Taladro Ø8.5 + rosca M10 int. (+X)",
      "shape": "hole",
      "op": "cut",
      "at": [
-      300,
+      830,
       0,
       0
      ],
@@ -5554,18 +5491,18 @@
      ],
      "params": {
       "dia": 8.5,
-      "depth": 24,
+      "depth": 26,
       "through": false
      }
     }
    ]
   },
   {
-   "id": "p42_m_vil_tubo_de_acero_51_rodillo_l_nea_y_278",
-   "name": "MÓVIL · Tubo de acero Ø51 rodillo línea y=-278",
+   "id": "p42_m_vil_tubo_de_acero_51_800_rodillo_l_nea_y_278",
+   "name": "MÓVIL · Tubo de acero Ø51 × 800 rodillo línea y=-278",
    "color": "#78909c",
    "pos": [
-    -138,
+    -400,
     -278,
     142.5
    ],
@@ -5577,11 +5514,11 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x276",
+   "componente": "tubo_rodillo_51x800",
    "features": [
     {
-     "id": "f187",
-     "name": "Tubo Ø51 × 276",
+     "id": "f184",
+     "name": "Tubo Ø51 × 800",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -5596,11 +5533,11 @@
      ],
      "params": {
       "dia": 51,
-      "h": 276
+      "h": 800
      }
     },
     {
-     "id": "f188",
+     "id": "f185",
      "name": "Barreno Ø42 (asientos de rodamiento 6004)",
      "shape": "hole",
      "op": "cut",
@@ -5627,7 +5564,7 @@
    "name": "MÓVIL · Vulcanizado Ø63 rodillo línea y=-278",
    "color": "#212121",
    "pos": [
-    -138,
+    -400,
     -278,
     142.5
    ],
@@ -5642,8 +5579,8 @@
    "componente": "vulcanizado_rodillo_63",
    "features": [
     {
-     "id": "f189",
-     "name": "Caucho Ø63 (hasta x=95)",
+     "id": "f186",
+     "name": "Caucho Ø63 (hasta x=355)",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -5658,11 +5595,11 @@
      ],
      "params": {
       "dia": 63,
-      "h": 233
+      "h": 755
      }
     },
     {
-     "id": "f190",
+     "id": "f187",
      "name": "Barreno Ø51 (sobre el tubo)",
      "shape": "hole",
      "op": "cut",
@@ -5689,7 +5626,7 @@
    "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=-278 -X",
    "color": "#4a5560",
    "pos": [
-    -136,
+    -398,
     -278,
     142.5
    ],
@@ -5704,7 +5641,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f191",
+     "id": "f188",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -5724,7 +5661,7 @@
      }
     },
     {
-     "id": "f192",
+     "id": "f189",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -5747,11 +5684,72 @@
    ]
   },
   {
-   "id": "p45_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_278_x",
+   "id": "p45_m_vil_tapa_de_extremo_rodillo_l_nea_y_278_x",
+   "name": "MÓVIL · Tapa de extremo rodillo línea y=-278 -X",
+   "color": "#b0bec5",
+   "pos": [
+    -397,
+    -278,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f190",
+     "name": "Tapa Ø51×3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 51,
+      "h": 3
+     }
+    },
+    {
+     "id": "f191",
+     "name": "Paso eje Ø21",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 21,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p46_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_278_x",
    "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=-278 +X",
    "color": "#4a5560",
    "pos": [
-    124,
+    386,
     -278,
     142.5
    ],
@@ -5766,7 +5764,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f193",
+     "id": "f192",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -5786,7 +5784,7 @@
      }
     },
     {
-     "id": "f194",
+     "id": "f193",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -5809,11 +5807,11 @@
    ]
   },
   {
-   "id": "p46_m_vil_perno_m10_25_golilla_eje_rodillo_l_nea_y_278_x",
-   "name": "MÓVIL · Perno M10×25 + golilla eje rodillo línea y=-278 -X",
+   "id": "p47_m_vil_tapa_de_extremo_rodillo_l_nea_y_278_x",
+   "name": "MÓVIL · Tapa de extremo rodillo línea y=-278 +X",
    "color": "#b0bec5",
    "pos": [
-    -153,
+    397,
     -278,
     142.5
    ],
@@ -5825,10 +5823,71 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_m10_retencion_eje",
    "features": [
     {
+     "id": "f194",
+     "name": "Tapa Ø51×3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 51,
+      "h": 3
+     }
+    },
+    {
      "id": "f195",
+     "name": "Paso eje Ø21",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 21,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p48_m_vil_perno_hexagonal_m10_din_933_golilla_eje_rodillo_l_nea_y_278_x",
+   "name": "MÓVIL · Perno hexagonal M10 DIN 933 + golilla eje rodillo línea y=-278 -X",
+   "color": "#78909c",
+   "pos": [
+    -418,
+    -278,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "perno_hex_m10_retencion",
+   "features": [
+    {
+     "id": "f196",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -5845,30 +5904,60 @@
      "params": {
       "dia": 22,
       "h": 2.5
-     }
-    },
-    {
-     "id": "f196",
-     "name": "Perno M10 cabeza Ø17×10",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -2.5,
-      0,
-      0
-     ],
-     "dir": [
-      -1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 17,
-      "h": 10
      }
     },
     {
      "id": "f197",
+     "name": "Cabeza hexagonal M10 (e.c. 17)",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      -2.5,
+      278,
+      -142.5
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -269.5,
+        147.41
+       ],
+       [
+        -278,
+        152.31
+       ],
+       [
+        -286.5,
+        147.41
+       ],
+       [
+        -286.5,
+        137.59
+       ],
+       [
+        -278,
+        132.69
+       ],
+       [
+        -269.5,
+        137.59
+       ]
+      ],
+      "h": 6.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f198",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -5884,17 +5973,17 @@
      ],
      "params": {
       "dia": 10,
-      "h": 12
+      "h": 14
      }
     }
    ]
   },
   {
-   "id": "p47_m_vil_perno_m10_25_golilla_eje_rodillo_l_nea_y_278_x",
-   "name": "MÓVIL · Perno M10×25 + golilla eje rodillo línea y=-278 +X",
-   "color": "#b0bec5",
+   "id": "p49_m_vil_perno_hexagonal_m10_din_933_golilla_eje_rodillo_l_nea_y_278_x",
+   "name": "MÓVIL · Perno hexagonal M10 DIN 933 + golilla eje rodillo línea y=-278 +X",
+   "color": "#78909c",
    "pos": [
-    153,
+    418,
     -278,
     142.5
    ],
@@ -5906,10 +5995,10 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_m10_retencion_eje",
+   "componente": "perno_hex_m10_retencion",
    "features": [
     {
-     "id": "f198",
+     "id": "f199",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -5929,14 +6018,14 @@
      }
     },
     {
-     "id": "f199",
-     "name": "Perno M10 cabeza Ø17×10",
-     "shape": "cylinder",
+     "id": "f200",
+     "name": "Cabeza hexagonal M10 (e.c. 17)",
+     "shape": "sketch",
      "op": "union",
      "at": [
       2.5,
-      0,
-      0
+      278,
+      -142.5
      ],
      "dir": [
       1,
@@ -5944,12 +6033,42 @@
       0
      ],
      "params": {
-      "dia": 17,
-      "h": 10
+      "pts": [
+       [
+        -269.5,
+        147.41
+       ],
+       [
+        -278,
+        152.31
+       ],
+       [
+        -286.5,
+        147.41
+       ],
+       [
+        -286.5,
+        137.59
+       ],
+       [
+        -278,
+        132.69
+       ],
+       [
+        -269.5,
+        137.59
+       ]
+      ],
+      "h": 6.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
-     "id": "f200",
+     "id": "f201",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -5965,17 +6084,17 @@
      ],
      "params": {
       "dia": 10,
-      "h": 12
+      "h": 14
      }
     }
    ]
   },
   {
-   "id": "p48_m_vil_eje_muerto_rodillo_20_perforado_m10_l_nea_y_139",
-   "name": "MÓVIL · Eje muerto rodillo Ø20 perforado M10 línea y=-139",
+   "id": "p50_m_vil_eje_muerto_macizo_20_roscado_m10_l_nea_y_139",
+   "name": "MÓVIL · Eje muerto macizo Ø20 roscado M10 línea y=-139",
    "color": "#b0bec5",
    "pos": [
-    -150,
+    -415,
     -139,
     142.5
    ],
@@ -5990,8 +6109,8 @@
    "componente": "eje_muerto_rodillo_20",
    "features": [
     {
-     "id": "f201",
-     "name": "Cuerpo Ø20 × 300",
+     "id": "f202",
+     "name": "Cuerpo macizo Ø20 × 830",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6006,36 +6125,16 @@
      ],
      "params": {
       "dia": 20,
-      "h": 300
+      "h": 830
      }
     },
     {
-     "id": "f202",
+     "id": "f203",
      "name": "Chaflán 1.5×45° (-X)",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 17,
-      "h": 1.5
-     }
-    },
-    {
-     "id": "f203",
-     "name": "Chaflán 1.5×45° (+X)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      298.5,
       0,
       0
      ],
@@ -6051,11 +6150,11 @@
     },
     {
      "id": "f204",
-     "name": "Taladro Ø8.5 + rosca M10 (-X)",
-     "shape": "hole",
-     "op": "cut",
+     "name": "Chaflán 1.5×45° (+X)",
+     "shape": "cylinder",
+     "op": "union",
      "at": [
-      0,
+      828.5,
       0,
       0
      ],
@@ -6065,18 +6164,38 @@
       0
      ],
      "params": {
-      "dia": 8.5,
-      "depth": 24,
-      "through": false
+      "dia": 17,
+      "h": 1.5
      }
     },
     {
      "id": "f205",
-     "name": "Taladro Ø8.5 + rosca M10 (+X)",
+     "name": "Taladro Ø8.5 + rosca M10 int. (-X)",
      "shape": "hole",
      "op": "cut",
      "at": [
-      300,
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 26,
+      "through": false
+     }
+    },
+    {
+     "id": "f206",
+     "name": "Taladro Ø8.5 + rosca M10 int. (+X)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      830,
       0,
       0
      ],
@@ -6087,18 +6206,18 @@
      ],
      "params": {
       "dia": 8.5,
-      "depth": 24,
+      "depth": 26,
       "through": false
      }
     }
    ]
   },
   {
-   "id": "p49_m_vil_tubo_de_acero_51_rodillo_l_nea_y_139",
-   "name": "MÓVIL · Tubo de acero Ø51 rodillo línea y=-139",
+   "id": "p51_m_vil_tubo_de_acero_51_800_rodillo_l_nea_y_139",
+   "name": "MÓVIL · Tubo de acero Ø51 × 800 rodillo línea y=-139",
    "color": "#78909c",
    "pos": [
-    -138,
+    -400,
     -139,
     142.5
    ],
@@ -6110,11 +6229,11 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x276",
+   "componente": "tubo_rodillo_51x800",
    "features": [
     {
-     "id": "f206",
-     "name": "Tubo Ø51 × 276",
+     "id": "f207",
+     "name": "Tubo Ø51 × 800",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6129,11 +6248,11 @@
      ],
      "params": {
       "dia": 51,
-      "h": 276
+      "h": 800
      }
     },
     {
-     "id": "f207",
+     "id": "f208",
      "name": "Barreno Ø42 (asientos de rodamiento 6004)",
      "shape": "hole",
      "op": "cut",
@@ -6156,11 +6275,11 @@
    ]
   },
   {
-   "id": "p50_m_vil_vulcanizado_63_rodillo_l_nea_y_139",
+   "id": "p52_m_vil_vulcanizado_63_rodillo_l_nea_y_139",
    "name": "MÓVIL · Vulcanizado Ø63 rodillo línea y=-139",
    "color": "#212121",
    "pos": [
-    -138,
+    -400,
     -139,
     142.5
    ],
@@ -6175,8 +6294,8 @@
    "componente": "vulcanizado_rodillo_63",
    "features": [
     {
-     "id": "f208",
-     "name": "Caucho Ø63 (hasta x=95)",
+     "id": "f209",
+     "name": "Caucho Ø63 (hasta x=355)",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6191,11 +6310,11 @@
      ],
      "params": {
       "dia": 63,
-      "h": 233
+      "h": 755
      }
     },
     {
-     "id": "f209",
+     "id": "f210",
      "name": "Barreno Ø51 (sobre el tubo)",
      "shape": "hole",
      "op": "cut",
@@ -6218,11 +6337,11 @@
    ]
   },
   {
-   "id": "p51_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_139_x",
+   "id": "p53_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_139_x",
    "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=-139 -X",
    "color": "#4a5560",
    "pos": [
-    -136,
+    -398,
     -139,
     142.5
    ],
@@ -6237,7 +6356,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f210",
+     "id": "f211",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -6257,7 +6376,7 @@
      }
     },
     {
-     "id": "f211",
+     "id": "f212",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -6280,11 +6399,72 @@
    ]
   },
   {
-   "id": "p52_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_139_x",
+   "id": "p54_m_vil_tapa_de_extremo_rodillo_l_nea_y_139_x",
+   "name": "MÓVIL · Tapa de extremo rodillo línea y=-139 -X",
+   "color": "#b0bec5",
+   "pos": [
+    -397,
+    -139,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f213",
+     "name": "Tapa Ø51×3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 51,
+      "h": 3
+     }
+    },
+    {
+     "id": "f214",
+     "name": "Paso eje Ø21",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 21,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p55_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_139_x",
    "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=-139 +X",
    "color": "#4a5560",
    "pos": [
-    124,
+    386,
     -139,
     142.5
    ],
@@ -6299,7 +6479,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f212",
+     "id": "f215",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -6316,95 +6496,13 @@
      "params": {
       "dia": 42,
       "h": 12
-     }
-    },
-    {
-     "id": "f213",
-     "name": "Bore Ø20",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 20.1,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p53_m_vil_perno_m10_25_golilla_eje_rodillo_l_nea_y_139_x",
-   "name": "MÓVIL · Perno M10×25 + golilla eje rodillo línea y=-139 -X",
-   "color": "#b0bec5",
-   "pos": [
-    -153,
-    -139,
-    142.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "perno_m10_retencion_eje",
-   "features": [
-    {
-     "id": "f214",
-     "name": "Golilla Ø22×2.5 DIN 125",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      -1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 22,
-      "h": 2.5
-     }
-    },
-    {
-     "id": "f215",
-     "name": "Perno M10 cabeza Ø17×10",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -2.5,
-      0,
-      0
-     ],
-     "dir": [
-      -1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 17,
-      "h": 10
      }
     },
     {
      "id": "f216",
-     "name": "Vástago M10 (rosca al eje)",
-     "shape": "cylinder",
-     "op": "union",
+     "name": "Bore Ø20",
+     "shape": "hole",
+     "op": "cut",
      "at": [
       0,
       0,
@@ -6416,18 +6514,19 @@
       0
      ],
      "params": {
-      "dia": 10,
-      "h": 12
+      "dia": 20.1,
+      "depth": 0,
+      "through": true
      }
     }
    ]
   },
   {
-   "id": "p54_m_vil_perno_m10_25_golilla_eje_rodillo_l_nea_y_139_x",
-   "name": "MÓVIL · Perno M10×25 + golilla eje rodillo línea y=-139 +X",
+   "id": "p56_m_vil_tapa_de_extremo_rodillo_l_nea_y_139_x",
+   "name": "MÓVIL · Tapa de extremo rodillo línea y=-139 +X",
    "color": "#b0bec5",
    "pos": [
-    153,
+    397,
     -139,
     142.5
    ],
@@ -6439,11 +6538,10 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_m10_retencion_eje",
    "features": [
     {
      "id": "f217",
-     "name": "Golilla Ø22×2.5 DIN 125",
+     "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6457,17 +6555,17 @@
       0
      ],
      "params": {
-      "dia": 22,
-      "h": 2.5
+      "dia": 51,
+      "h": 3
      }
     },
     {
      "id": "f218",
-     "name": "Perno M10 cabeza Ø17×10",
-     "shape": "cylinder",
-     "op": "union",
+     "name": "Paso eje Ø21",
+     "shape": "hole",
+     "op": "cut",
      "at": [
-      2.5,
+      0,
       0,
       0
      ],
@@ -6477,13 +6575,35 @@
       0
      ],
      "params": {
-      "dia": 17,
-      "h": 10
+      "dia": 21,
+      "depth": 0,
+      "through": true
      }
-    },
+    }
+   ]
+  },
+  {
+   "id": "p57_m_vil_perno_hexagonal_m10_din_933_golilla_eje_rodillo_l_nea_y_139_x",
+   "name": "MÓVIL · Perno hexagonal M10 DIN 933 + golilla eje rodillo línea y=-139 -X",
+   "color": "#78909c",
+   "pos": [
+    -418,
+    -139,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "perno_hex_m10_retencion",
+   "features": [
     {
      "id": "f219",
-     "name": "Vástago M10 (rosca al eje)",
+     "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6497,54 +6617,63 @@
       0
      ],
      "params": {
-      "dia": 10,
-      "h": 12
+      "dia": 22,
+      "h": 2.5
      }
-    }
-   ]
-  },
-  {
-   "id": "p55_m_vil_eje_muerto_rodillo_20_perforado_m10_l_nea_y_0",
-   "name": "MÓVIL · Eje muerto rodillo Ø20 perforado M10 línea y=0",
-   "color": "#b0bec5",
-   "pos": [
-    -150,
-    0,
-    142.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "eje_muerto_rodillo_20",
-   "features": [
+    },
     {
      "id": "f220",
-     "name": "Cuerpo Ø20 × 300",
-     "shape": "cylinder",
+     "name": "Cabeza hexagonal M10 (e.c. 17)",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
-      0,
-      0
+      -2.5,
+      139,
+      -142.5
      ],
      "dir": [
-      1,
+      -1,
       0,
       0
      ],
      "params": {
-      "dia": 20,
-      "h": 300
+      "pts": [
+       [
+        -130.5,
+        147.41
+       ],
+       [
+        -139,
+        152.31
+       ],
+       [
+        -147.5,
+        147.41
+       ],
+       [
+        -147.5,
+        137.59
+       ],
+       [
+        -139,
+        132.69
+       ],
+       [
+        -130.5,
+        137.59
+       ]
+      ],
+      "h": 6.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
      "id": "f221",
-     "name": "Chaflán 1.5×45° (-X)",
+     "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6558,17 +6687,38 @@
       0
      ],
      "params": {
-      "dia": 17,
-      "h": 1.5
+      "dia": 10,
+      "h": 14
      }
-    },
+    }
+   ]
+  },
+  {
+   "id": "p58_m_vil_perno_hexagonal_m10_din_933_golilla_eje_rodillo_l_nea_y_139_x",
+   "name": "MÓVIL · Perno hexagonal M10 DIN 933 + golilla eje rodillo línea y=-139 +X",
+   "color": "#78909c",
+   "pos": [
+    418,
+    -139,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "perno_hex_m10_retencion",
+   "features": [
     {
      "id": "f222",
-     "name": "Chaflán 1.5×45° (+X)",
+     "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      298.5,
+      0,
       0,
       0
      ],
@@ -6578,19 +6728,19 @@
       0
      ],
      "params": {
-      "dia": 17,
-      "h": 1.5
+      "dia": 22,
+      "h": 2.5
      }
     },
     {
      "id": "f223",
-     "name": "Taladro Ø8.5 + rosca M10 (-X)",
-     "shape": "hole",
-     "op": "cut",
+     "name": "Cabeza hexagonal M10 (e.c. 17)",
+     "shape": "sketch",
+     "op": "union",
      "at": [
-      0,
-      0,
-      0
+      2.5,
+      139,
+      -142.5
      ],
      "dir": [
       1,
@@ -6598,18 +6748,47 @@
       0
      ],
      "params": {
-      "dia": 8.5,
-      "depth": 24,
-      "through": false
+      "pts": [
+       [
+        -130.5,
+        147.41
+       ],
+       [
+        -139,
+        152.31
+       ],
+       [
+        -147.5,
+        147.41
+       ],
+       [
+        -147.5,
+        137.59
+       ],
+       [
+        -139,
+        132.69
+       ],
+       [
+        -130.5,
+        137.59
+       ]
+      ],
+      "h": 6.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
      "id": "f224",
-     "name": "Taladro Ø8.5 + rosca M10 (+X)",
-     "shape": "hole",
-     "op": "cut",
+     "name": "Vástago M10 (rosca al eje)",
+     "shape": "cylinder",
+     "op": "union",
      "at": [
-      300,
+      0,
       0,
       0
      ],
@@ -6619,19 +6798,18 @@
       0
      ],
      "params": {
-      "dia": 8.5,
-      "depth": 24,
-      "through": false
+      "dia": 10,
+      "h": 14
      }
     }
    ]
   },
   {
-   "id": "p56_m_vil_tubo_de_acero_51_rodillo_l_nea_y_0",
-   "name": "MÓVIL · Tubo de acero Ø51 rodillo línea y=0",
-   "color": "#78909c",
+   "id": "p59_m_vil_eje_muerto_macizo_20_roscado_m10_l_nea_y_0",
+   "name": "MÓVIL · Eje muerto macizo Ø20 roscado M10 línea y=0",
+   "color": "#b0bec5",
    "pos": [
-    -138,
+    -415,
     0,
     142.5
    ],
@@ -6643,11 +6821,11 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x276",
+   "componente": "eje_muerto_rodillo_20",
    "features": [
     {
      "id": "f225",
-     "name": "Tubo Ø51 × 276",
+     "name": "Cuerpo macizo Ø20 × 830",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6661,55 +6839,13 @@
       0
      ],
      "params": {
-      "dia": 51,
-      "h": 276
+      "dia": 20,
+      "h": 830
      }
     },
     {
      "id": "f226",
-     "name": "Barreno Ø42 (asientos de rodamiento 6004)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 42,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p57_m_vil_vulcanizado_63_rodillo_l_nea_y_0",
-   "name": "MÓVIL · Vulcanizado Ø63 rodillo línea y=0",
-   "color": "#212121",
-   "pos": [
-    -138,
-    0,
-    142.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "vulcanizado_rodillo_63",
-   "features": [
-    {
-     "id": "f227",
-     "name": "Caucho Ø63 (hasta x=95)",
+     "name": "Chaflán 1.5×45° (-X)",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6723,12 +6859,177 @@
       0
      ],
      "params": {
-      "dia": 63,
-      "h": 233
+      "dia": 17,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f227",
+     "name": "Chaflán 1.5×45° (+X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      828.5,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 1.5
      }
     },
     {
      "id": "f228",
+     "name": "Taladro Ø8.5 + rosca M10 int. (-X)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 26,
+      "through": false
+     }
+    },
+    {
+     "id": "f229",
+     "name": "Taladro Ø8.5 + rosca M10 int. (+X)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      830,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 26,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p60_m_vil_tubo_de_acero_51_800_rodillo_l_nea_y_0",
+   "name": "MÓVIL · Tubo de acero Ø51 × 800 rodillo línea y=0",
+   "color": "#78909c",
+   "pos": [
+    -400,
+    0,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "tubo_rodillo_51x800",
+   "features": [
+    {
+     "id": "f230",
+     "name": "Tubo Ø51 × 800",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 51,
+      "h": 800
+     }
+    },
+    {
+     "id": "f231",
+     "name": "Barreno Ø42 (asientos de rodamiento 6004)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 42,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p61_m_vil_vulcanizado_63_rodillo_l_nea_y_0",
+   "name": "MÓVIL · Vulcanizado Ø63 rodillo línea y=0",
+   "color": "#212121",
+   "pos": [
+    -400,
+    0,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "vulcanizado_rodillo_63",
+   "features": [
+    {
+     "id": "f232",
+     "name": "Caucho Ø63 (hasta x=355)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 63,
+      "h": 755
+     }
+    },
+    {
+     "id": "f233",
      "name": "Barreno Ø51 (sobre el tubo)",
      "shape": "hole",
      "op": "cut",
@@ -6751,11 +7052,11 @@
    ]
   },
   {
-   "id": "p58_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_0_x",
+   "id": "p62_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_0_x",
    "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=0 -X",
    "color": "#4a5560",
    "pos": [
-    -136,
+    -398,
     0,
     142.5
    ],
@@ -6769,175 +7070,31 @@
    "visible": true,
    "componente": "rodamiento_6004_2rs",
    "features": [
-    {
-     "id": "f229",
-     "name": "Aro Ø42×12 (entre eje y tubo)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 42,
-      "h": 12
-     }
-    },
-    {
-     "id": "f230",
-     "name": "Bore Ø20",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 20.1,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p59_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_0_x",
-   "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=0 +X",
-   "color": "#4a5560",
-   "pos": [
-    124,
-    0,
-    142.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "rodamiento_6004_2rs",
-   "features": [
-    {
-     "id": "f231",
-     "name": "Aro Ø42×12 (entre eje y tubo)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 42,
-      "h": 12
-     }
-    },
-    {
-     "id": "f232",
-     "name": "Bore Ø20",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 20.1,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p60_m_vil_perno_m10_25_golilla_eje_rodillo_l_nea_y_0_x",
-   "name": "MÓVIL · Perno M10×25 + golilla eje rodillo línea y=0 -X",
-   "color": "#b0bec5",
-   "pos": [
-    -153,
-    0,
-    142.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "perno_m10_retencion_eje",
-   "features": [
-    {
-     "id": "f233",
-     "name": "Golilla Ø22×2.5 DIN 125",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      -1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 22,
-      "h": 2.5
-     }
-    },
     {
      "id": "f234",
-     "name": "Perno M10 cabeza Ø17×10",
+     "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      -2.5,
+      0,
       0,
       0
      ],
      "dir": [
-      -1,
+      1,
       0,
       0
      ],
      "params": {
-      "dia": 17,
-      "h": 10
+      "dia": 42,
+      "h": 12
      }
     },
     {
      "id": "f235",
-     "name": "Vástago M10 (rosca al eje)",
-     "shape": "cylinder",
-     "op": "union",
+     "name": "Bore Ø20",
+     "shape": "hole",
+     "op": "cut",
      "at": [
       0,
       0,
@@ -6949,18 +7106,19 @@
       0
      ],
      "params": {
-      "dia": 10,
-      "h": 12
+      "dia": 20.1,
+      "depth": 0,
+      "through": true
      }
     }
    ]
   },
   {
-   "id": "p61_m_vil_perno_m10_25_golilla_eje_rodillo_l_nea_y_0_x",
-   "name": "MÓVIL · Perno M10×25 + golilla eje rodillo línea y=0 +X",
+   "id": "p63_m_vil_tapa_de_extremo_rodillo_l_nea_y_0_x",
+   "name": "MÓVIL · Tapa de extremo rodillo línea y=0 -X",
    "color": "#b0bec5",
    "pos": [
-    153,
+    -397,
     0,
     142.5
    ],
@@ -6972,11 +7130,10 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_m10_retencion_eje",
    "features": [
     {
      "id": "f236",
-     "name": "Golilla Ø22×2.5 DIN 125",
+     "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6985,40 +7142,20 @@
       0
      ],
      "dir": [
-      1,
+      -1,
       0,
       0
      ],
      "params": {
-      "dia": 22,
-      "h": 2.5
+      "dia": 51,
+      "h": 3
      }
     },
     {
      "id": "f237",
-     "name": "Perno M10 cabeza Ø17×10",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      2.5,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 17,
-      "h": 10
-     }
-    },
-    {
-     "id": "f238",
-     "name": "Vástago M10 (rosca al eje)",
-     "shape": "cylinder",
-     "op": "union",
+     "name": "Paso eje Ø21",
+     "shape": "hole",
+     "op": "cut",
      "at": [
       0,
       0,
@@ -7030,19 +7167,20 @@
       0
      ],
      "params": {
-      "dia": 10,
-      "h": 12
+      "dia": 21,
+      "depth": 0,
+      "through": true
      }
     }
    ]
   },
   {
-   "id": "p62_m_vil_eje_muerto_rodillo_20_perforado_m10_l_nea_y_139",
-   "name": "MÓVIL · Eje muerto rodillo Ø20 perforado M10 línea y=139",
-   "color": "#b0bec5",
+   "id": "p64_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_0_x",
+   "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=0 +X",
+   "color": "#4a5560",
    "pos": [
-    -150,
-    139,
+    386,
+    0,
     142.5
    ],
    "quat": [
@@ -7053,11 +7191,11 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "eje_muerto_rodillo_20",
+   "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f239",
-     "name": "Cuerpo Ø20 × 300",
+     "id": "f238",
+     "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -7071,13 +7209,54 @@
       0
      ],
      "params": {
-      "dia": 20,
-      "h": 300
+      "dia": 42,
+      "h": 12
      }
     },
     {
+     "id": "f239",
+     "name": "Bore Ø20",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20.1,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p65_m_vil_tapa_de_extremo_rodillo_l_nea_y_0_x",
+   "name": "MÓVIL · Tapa de extremo rodillo línea y=0 +X",
+   "color": "#b0bec5",
+   "pos": [
+    397,
+    0,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
      "id": "f240",
-     "name": "Chaflán 1.5×45° (-X)",
+     "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -7091,33 +7270,13 @@
       0
      ],
      "params": {
-      "dia": 17,
-      "h": 1.5
+      "dia": 51,
+      "h": 3
      }
     },
     {
      "id": "f241",
-     "name": "Chaflán 1.5×45° (+X)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      298.5,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 17,
-      "h": 1.5
-     }
-    },
-    {
-     "id": "f242",
-     "name": "Taladro Ø8.5 + rosca M10 (-X)",
+     "name": "Paso eje Ø21",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -7131,330 +7290,61 @@
       0
      ],
      "params": {
-      "dia": 8.5,
-      "depth": 24,
-      "through": false
+      "dia": 21,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p66_m_vil_perno_hexagonal_m10_din_933_golilla_eje_rodillo_l_nea_y_0_x",
+   "name": "MÓVIL · Perno hexagonal M10 DIN 933 + golilla eje rodillo línea y=0 -X",
+   "color": "#78909c",
+   "pos": [
+    -418,
+    0,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "perno_hex_m10_retencion",
+   "features": [
+    {
+     "id": "f242",
+     "name": "Golilla Ø22×2.5 DIN 125",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
      }
     },
     {
      "id": "f243",
-     "name": "Taladro Ø8.5 + rosca M10 (+X)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      300,
-      0,
-      0
-     ],
-     "dir": [
-      -1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 8.5,
-      "depth": 24,
-      "through": false
-     }
-    }
-   ]
-  },
-  {
-   "id": "p63_m_vil_tubo_de_acero_51_rodillo_l_nea_y_139",
-   "name": "MÓVIL · Tubo de acero Ø51 rodillo línea y=139",
-   "color": "#78909c",
-   "pos": [
-    -138,
-    139,
-    142.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "tubo_rodillo_51x276",
-   "features": [
-    {
-     "id": "f244",
-     "name": "Tubo Ø51 × 276",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 51,
-      "h": 276
-     }
-    },
-    {
-     "id": "f245",
-     "name": "Barreno Ø42 (asientos de rodamiento 6004)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 42,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p64_m_vil_vulcanizado_63_rodillo_l_nea_y_139",
-   "name": "MÓVIL · Vulcanizado Ø63 rodillo línea y=139",
-   "color": "#212121",
-   "pos": [
-    -138,
-    139,
-    142.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "vulcanizado_rodillo_63",
-   "features": [
-    {
-     "id": "f246",
-     "name": "Caucho Ø63 (hasta x=95)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 63,
-      "h": 233
-     }
-    },
-    {
-     "id": "f247",
-     "name": "Barreno Ø51 (sobre el tubo)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 51,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p65_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_139_x",
-   "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=139 -X",
-   "color": "#4a5560",
-   "pos": [
-    -136,
-    139,
-    142.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "rodamiento_6004_2rs",
-   "features": [
-    {
-     "id": "f248",
-     "name": "Aro Ø42×12 (entre eje y tubo)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 42,
-      "h": 12
-     }
-    },
-    {
-     "id": "f249",
-     "name": "Bore Ø20",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 20.1,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p66_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_139_x",
-   "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=139 +X",
-   "color": "#4a5560",
-   "pos": [
-    124,
-    139,
-    142.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "rodamiento_6004_2rs",
-   "features": [
-    {
-     "id": "f250",
-     "name": "Aro Ø42×12 (entre eje y tubo)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 42,
-      "h": 12
-     }
-    },
-    {
-     "id": "f251",
-     "name": "Bore Ø20",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 20.1,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p67_m_vil_perno_m10_25_golilla_eje_rodillo_l_nea_y_139_x",
-   "name": "MÓVIL · Perno M10×25 + golilla eje rodillo línea y=139 -X",
-   "color": "#b0bec5",
-   "pos": [
-    -153,
-    139,
-    142.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "perno_m10_retencion_eje",
-   "features": [
-    {
-     "id": "f252",
-     "name": "Golilla Ø22×2.5 DIN 125",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      -1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 22,
-      "h": 2.5
-     }
-    },
-    {
-     "id": "f253",
-     "name": "Perno M10 cabeza Ø17×10",
-     "shape": "cylinder",
+     "name": "Cabeza hexagonal M10 (e.c. 17)",
+     "shape": "sketch",
      "op": "union",
      "at": [
       -2.5,
       0,
-      0
+      -142.5
      ],
      "dir": [
       -1,
@@ -7462,12 +7352,42 @@
       0
      ],
      "params": {
-      "dia": 17,
-      "h": 10
+      "pts": [
+       [
+        8.5,
+        147.41
+       ],
+       [
+        0,
+        152.31
+       ],
+       [
+        -8.5,
+        147.41
+       ],
+       [
+        -8.5,
+        137.59
+       ],
+       [
+        0,
+        132.69
+       ],
+       [
+        8.5,
+        137.59
+       ]
+      ],
+      "h": 6.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
-     "id": "f254",
+     "id": "f244",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -7483,18 +7403,18 @@
      ],
      "params": {
       "dia": 10,
-      "h": 12
+      "h": 14
      }
     }
    ]
   },
   {
-   "id": "p68_m_vil_perno_m10_25_golilla_eje_rodillo_l_nea_y_139_x",
-   "name": "MÓVIL · Perno M10×25 + golilla eje rodillo línea y=139 +X",
-   "color": "#b0bec5",
+   "id": "p67_m_vil_perno_hexagonal_m10_din_933_golilla_eje_rodillo_l_nea_y_0_x",
+   "name": "MÓVIL · Perno hexagonal M10 DIN 933 + golilla eje rodillo línea y=0 +X",
+   "color": "#78909c",
    "pos": [
-    153,
-    139,
+    418,
+    0,
     142.5
    ],
    "quat": [
@@ -7505,10 +7425,10 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_m10_retencion_eje",
+   "componente": "perno_hex_m10_retencion",
    "features": [
     {
-     "id": "f255",
+     "id": "f245",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -7528,14 +7448,14 @@
      }
     },
     {
-     "id": "f256",
-     "name": "Perno M10 cabeza Ø17×10",
-     "shape": "cylinder",
+     "id": "f246",
+     "name": "Cabeza hexagonal M10 (e.c. 17)",
+     "shape": "sketch",
      "op": "union",
      "at": [
       2.5,
       0,
-      0
+      -142.5
      ],
      "dir": [
       1,
@@ -7543,12 +7463,42 @@
       0
      ],
      "params": {
-      "dia": 17,
-      "h": 10
+      "pts": [
+       [
+        8.5,
+        147.41
+       ],
+       [
+        0,
+        152.31
+       ],
+       [
+        -8.5,
+        147.41
+       ],
+       [
+        -8.5,
+        137.59
+       ],
+       [
+        0,
+        132.69
+       ],
+       [
+        8.5,
+        137.59
+       ]
+      ],
+      "h": 6.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
-     "id": "f257",
+     "id": "f247",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -7564,18 +7514,18 @@
      ],
      "params": {
       "dia": 10,
-      "h": 12
+      "h": 14
      }
     }
    ]
   },
   {
-   "id": "p69_m_vil_eje_muerto_rodillo_20_perforado_m10_l_nea_y_278",
-   "name": "MÓVIL · Eje muerto rodillo Ø20 perforado M10 línea y=278",
+   "id": "p68_m_vil_eje_muerto_macizo_20_roscado_m10_l_nea_y_139",
+   "name": "MÓVIL · Eje muerto macizo Ø20 roscado M10 línea y=139",
    "color": "#b0bec5",
    "pos": [
-    -150,
-    278,
+    -415,
+    139,
     142.5
    ],
    "quat": [
@@ -7589,8 +7539,8 @@
    "componente": "eje_muerto_rodillo_20",
    "features": [
     {
-     "id": "f258",
-     "name": "Cuerpo Ø20 × 300",
+     "id": "f248",
+     "name": "Cuerpo macizo Ø20 × 830",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -7605,11 +7555,11 @@
      ],
      "params": {
       "dia": 20,
-      "h": 300
+      "h": 830
      }
     },
     {
-     "id": "f259",
+     "id": "f249",
      "name": "Chaflán 1.5×45° (-X)",
      "shape": "cylinder",
      "op": "union",
@@ -7629,12 +7579,12 @@
      }
     },
     {
-     "id": "f260",
+     "id": "f250",
      "name": "Chaflán 1.5×45° (+X)",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      298.5,
+      828.5,
       0,
       0
      ],
@@ -7649,8 +7599,8 @@
      }
     },
     {
-     "id": "f261",
-     "name": "Taladro Ø8.5 + rosca M10 (-X)",
+     "id": "f251",
+     "name": "Taladro Ø8.5 + rosca M10 int. (-X)",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -7665,17 +7615,17 @@
      ],
      "params": {
       "dia": 8.5,
-      "depth": 24,
+      "depth": 26,
       "through": false
      }
     },
     {
-     "id": "f262",
-     "name": "Taladro Ø8.5 + rosca M10 (+X)",
+     "id": "f252",
+     "name": "Taladro Ø8.5 + rosca M10 int. (+X)",
      "shape": "hole",
      "op": "cut",
      "at": [
-      300,
+      830,
       0,
       0
      ],
@@ -7686,19 +7636,19 @@
      ],
      "params": {
       "dia": 8.5,
-      "depth": 24,
+      "depth": 26,
       "through": false
      }
     }
    ]
   },
   {
-   "id": "p70_m_vil_tubo_de_acero_51_rodillo_l_nea_y_278",
-   "name": "MÓVIL · Tubo de acero Ø51 rodillo línea y=278",
+   "id": "p69_m_vil_tubo_de_acero_51_800_rodillo_l_nea_y_139",
+   "name": "MÓVIL · Tubo de acero Ø51 × 800 rodillo línea y=139",
    "color": "#78909c",
    "pos": [
-    -138,
-    278,
+    -400,
+    139,
     142.5
    ],
    "quat": [
@@ -7709,11 +7659,11 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x276",
+   "componente": "tubo_rodillo_51x800",
    "features": [
     {
-     "id": "f263",
-     "name": "Tubo Ø51 × 276",
+     "id": "f253",
+     "name": "Tubo Ø51 × 800",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -7728,11 +7678,11 @@
      ],
      "params": {
       "dia": 51,
-      "h": 276
+      "h": 800
      }
     },
     {
-     "id": "f264",
+     "id": "f254",
      "name": "Barreno Ø42 (asientos de rodamiento 6004)",
      "shape": "hole",
      "op": "cut",
@@ -7755,12 +7705,12 @@
    ]
   },
   {
-   "id": "p71_m_vil_vulcanizado_63_rodillo_l_nea_y_278",
-   "name": "MÓVIL · Vulcanizado Ø63 rodillo línea y=278",
+   "id": "p70_m_vil_vulcanizado_63_rodillo_l_nea_y_139",
+   "name": "MÓVIL · Vulcanizado Ø63 rodillo línea y=139",
    "color": "#212121",
    "pos": [
-    -138,
-    278,
+    -400,
+    139,
     142.5
    ],
    "quat": [
@@ -7774,8 +7724,8 @@
    "componente": "vulcanizado_rodillo_63",
    "features": [
     {
-     "id": "f265",
-     "name": "Caucho Ø63 (hasta x=95)",
+     "id": "f255",
+     "name": "Caucho Ø63 (hasta x=355)",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -7790,11 +7740,11 @@
      ],
      "params": {
       "dia": 63,
-      "h": 233
+      "h": 755
      }
     },
     {
-     "id": "f266",
+     "id": "f256",
      "name": "Barreno Ø51 (sobre el tubo)",
      "shape": "hole",
      "op": "cut",
@@ -7817,12 +7767,12 @@
    ]
   },
   {
-   "id": "p72_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_278_x",
-   "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=278 -X",
+   "id": "p71_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_139_x",
+   "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=139 -X",
    "color": "#4a5560",
    "pos": [
-    -136,
-    278,
+    -398,
+    139,
     142.5
    ],
    "quat": [
@@ -7836,7 +7786,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f267",
+     "id": "f257",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -7856,7 +7806,7 @@
      }
     },
     {
-     "id": "f268",
+     "id": "f258",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -7879,12 +7829,73 @@
    ]
   },
   {
-   "id": "p73_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_278_x",
-   "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=278 +X",
+   "id": "p72_m_vil_tapa_de_extremo_rodillo_l_nea_y_139_x",
+   "name": "MÓVIL · Tapa de extremo rodillo línea y=139 -X",
+   "color": "#b0bec5",
+   "pos": [
+    -397,
+    139,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f259",
+     "name": "Tapa Ø51×3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 51,
+      "h": 3
+     }
+    },
+    {
+     "id": "f260",
+     "name": "Paso eje Ø21",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 21,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p73_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_139_x",
+   "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=139 +X",
    "color": "#4a5560",
    "pos": [
-    124,
-    278,
+    386,
+    139,
     142.5
    ],
    "quat": [
@@ -7898,7 +7909,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f269",
+     "id": "f261",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -7915,10 +7926,602 @@
      "params": {
       "dia": 42,
       "h": 12
+     }
+    },
+    {
+     "id": "f262",
+     "name": "Bore Ø20",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20.1,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p74_m_vil_tapa_de_extremo_rodillo_l_nea_y_139_x",
+   "name": "MÓVIL · Tapa de extremo rodillo línea y=139 +X",
+   "color": "#b0bec5",
+   "pos": [
+    397,
+    139,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f263",
+     "name": "Tapa Ø51×3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 51,
+      "h": 3
+     }
+    },
+    {
+     "id": "f264",
+     "name": "Paso eje Ø21",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 21,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p75_m_vil_perno_hexagonal_m10_din_933_golilla_eje_rodillo_l_nea_y_139_x",
+   "name": "MÓVIL · Perno hexagonal M10 DIN 933 + golilla eje rodillo línea y=139 -X",
+   "color": "#78909c",
+   "pos": [
+    -418,
+    139,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "perno_hex_m10_retencion",
+   "features": [
+    {
+     "id": "f265",
+     "name": "Golilla Ø22×2.5 DIN 125",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f266",
+     "name": "Cabeza hexagonal M10 (e.c. 17)",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      -2.5,
+      -139,
+      -142.5
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        147.5,
+        147.41
+       ],
+       [
+        139,
+        152.31
+       ],
+       [
+        130.5,
+        147.41
+       ],
+       [
+        130.5,
+        137.59
+       ],
+       [
+        139,
+        132.69
+       ],
+       [
+        147.5,
+        137.59
+       ]
+      ],
+      "h": 6.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f267",
+     "name": "Vástago M10 (rosca al eje)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 14
+     }
+    }
+   ]
+  },
+  {
+   "id": "p76_m_vil_perno_hexagonal_m10_din_933_golilla_eje_rodillo_l_nea_y_139_x",
+   "name": "MÓVIL · Perno hexagonal M10 DIN 933 + golilla eje rodillo línea y=139 +X",
+   "color": "#78909c",
+   "pos": [
+    418,
+    139,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "perno_hex_m10_retencion",
+   "features": [
+    {
+     "id": "f268",
+     "name": "Golilla Ø22×2.5 DIN 125",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f269",
+     "name": "Cabeza hexagonal M10 (e.c. 17)",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      2.5,
+      -139,
+      -142.5
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        147.5,
+        147.41
+       ],
+       [
+        139,
+        152.31
+       ],
+       [
+        130.5,
+        147.41
+       ],
+       [
+        130.5,
+        137.59
+       ],
+       [
+        139,
+        132.69
+       ],
+       [
+        147.5,
+        137.59
+       ]
+      ],
+      "h": 6.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
      "id": "f270",
+     "name": "Vástago M10 (rosca al eje)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 14
+     }
+    }
+   ]
+  },
+  {
+   "id": "p77_m_vil_eje_muerto_macizo_20_roscado_m10_l_nea_y_278",
+   "name": "MÓVIL · Eje muerto macizo Ø20 roscado M10 línea y=278",
+   "color": "#b0bec5",
+   "pos": [
+    -415,
+    278,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "eje_muerto_rodillo_20",
+   "features": [
+    {
+     "id": "f271",
+     "name": "Cuerpo macizo Ø20 × 830",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 830
+     }
+    },
+    {
+     "id": "f272",
+     "name": "Chaflán 1.5×45° (-X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f273",
+     "name": "Chaflán 1.5×45° (+X)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      828.5,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f274",
+     "name": "Taladro Ø8.5 + rosca M10 int. (-X)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 26,
+      "through": false
+     }
+    },
+    {
+     "id": "f275",
+     "name": "Taladro Ø8.5 + rosca M10 int. (+X)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      830,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 26,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p78_m_vil_tubo_de_acero_51_800_rodillo_l_nea_y_278",
+   "name": "MÓVIL · Tubo de acero Ø51 × 800 rodillo línea y=278",
+   "color": "#78909c",
+   "pos": [
+    -400,
+    278,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "tubo_rodillo_51x800",
+   "features": [
+    {
+     "id": "f276",
+     "name": "Tubo Ø51 × 800",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 51,
+      "h": 800
+     }
+    },
+    {
+     "id": "f277",
+     "name": "Barreno Ø42 (asientos de rodamiento 6004)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 42,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p79_m_vil_vulcanizado_63_rodillo_l_nea_y_278",
+   "name": "MÓVIL · Vulcanizado Ø63 rodillo línea y=278",
+   "color": "#212121",
+   "pos": [
+    -400,
+    278,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "vulcanizado_rodillo_63",
+   "features": [
+    {
+     "id": "f278",
+     "name": "Caucho Ø63 (hasta x=355)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 63,
+      "h": 755
+     }
+    },
+    {
+     "id": "f279",
+     "name": "Barreno Ø51 (sobre el tubo)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 51,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p80_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_278_x",
+   "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=278 -X",
+   "color": "#4a5560",
+   "pos": [
+    -398,
+    278,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "rodamiento_6004_2rs",
+   "features": [
+    {
+     "id": "f280",
+     "name": "Aro Ø42×12 (entre eje y tubo)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 42,
+      "h": 12
+     }
+    },
+    {
+     "id": "f281",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -7941,11 +8544,11 @@
    ]
   },
   {
-   "id": "p74_m_vil_perno_m10_25_golilla_eje_rodillo_l_nea_y_278_x",
-   "name": "MÓVIL · Perno M10×25 + golilla eje rodillo línea y=278 -X",
+   "id": "p81_m_vil_tapa_de_extremo_rodillo_l_nea_y_278_x",
+   "name": "MÓVIL · Tapa de extremo rodillo línea y=278 -X",
    "color": "#b0bec5",
    "pos": [
-    -153,
+    -397,
     278,
     142.5
    ],
@@ -7957,10 +8560,194 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_m10_retencion_eje",
    "features": [
     {
-     "id": "f271",
+     "id": "f282",
+     "name": "Tapa Ø51×3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 51,
+      "h": 3
+     }
+    },
+    {
+     "id": "f283",
+     "name": "Paso eje Ø21",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 21,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p82_m_vil_rodamiento_6004_2rs_rodillo_l_nea_y_278_x",
+   "name": "MÓVIL · Rodamiento 6004 2RS rodillo línea y=278 +X",
+   "color": "#4a5560",
+   "pos": [
+    386,
+    278,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "rodamiento_6004_2rs",
+   "features": [
+    {
+     "id": "f284",
+     "name": "Aro Ø42×12 (entre eje y tubo)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 42,
+      "h": 12
+     }
+    },
+    {
+     "id": "f285",
+     "name": "Bore Ø20",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 20.1,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p83_m_vil_tapa_de_extremo_rodillo_l_nea_y_278_x",
+   "name": "MÓVIL · Tapa de extremo rodillo línea y=278 +X",
+   "color": "#b0bec5",
+   "pos": [
+    397,
+    278,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f286",
+     "name": "Tapa Ø51×3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 51,
+      "h": 3
+     }
+    },
+    {
+     "id": "f287",
+     "name": "Paso eje Ø21",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 21,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p84_m_vil_perno_hexagonal_m10_din_933_golilla_eje_rodillo_l_nea_y_278_x",
+   "name": "MÓVIL · Perno hexagonal M10 DIN 933 + golilla eje rodillo línea y=278 -X",
+   "color": "#78909c",
+   "pos": [
+    -418,
+    278,
+    142.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "perno_hex_m10_retencion",
+   "features": [
+    {
+     "id": "f288",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -7980,14 +8767,14 @@
      }
     },
     {
-     "id": "f272",
-     "name": "Perno M10 cabeza Ø17×10",
-     "shape": "cylinder",
+     "id": "f289",
+     "name": "Cabeza hexagonal M10 (e.c. 17)",
+     "shape": "sketch",
      "op": "union",
      "at": [
       -2.5,
-      0,
-      0
+      -278,
+      -142.5
      ],
      "dir": [
       -1,
@@ -7995,12 +8782,42 @@
       0
      ],
      "params": {
-      "dia": 17,
-      "h": 10
+      "pts": [
+       [
+        286.5,
+        147.41
+       ],
+       [
+        278,
+        152.31
+       ],
+       [
+        269.5,
+        147.41
+       ],
+       [
+        269.5,
+        137.59
+       ],
+       [
+        278,
+        132.69
+       ],
+       [
+        286.5,
+        137.59
+       ]
+      ],
+      "h": 6.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
-     "id": "f273",
+     "id": "f290",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -8016,17 +8833,17 @@
      ],
      "params": {
       "dia": 10,
-      "h": 12
+      "h": 14
      }
     }
    ]
   },
   {
-   "id": "p75_m_vil_perno_m10_25_golilla_eje_rodillo_l_nea_y_278_x",
-   "name": "MÓVIL · Perno M10×25 + golilla eje rodillo línea y=278 +X",
-   "color": "#b0bec5",
+   "id": "p85_m_vil_perno_hexagonal_m10_din_933_golilla_eje_rodillo_l_nea_y_278_x",
+   "name": "MÓVIL · Perno hexagonal M10 DIN 933 + golilla eje rodillo línea y=278 +X",
+   "color": "#78909c",
    "pos": [
-    153,
+    418,
     278,
     142.5
    ],
@@ -8038,10 +8855,10 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_m10_retencion_eje",
+   "componente": "perno_hex_m10_retencion",
    "features": [
     {
-     "id": "f274",
+     "id": "f291",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -8061,14 +8878,14 @@
      }
     },
     {
-     "id": "f275",
-     "name": "Perno M10 cabeza Ø17×10",
-     "shape": "cylinder",
+     "id": "f292",
+     "name": "Cabeza hexagonal M10 (e.c. 17)",
+     "shape": "sketch",
      "op": "union",
      "at": [
       2.5,
-      0,
-      0
+      -278,
+      -142.5
      ],
      "dir": [
       1,
@@ -8076,12 +8893,42 @@
       0
      ],
      "params": {
-      "dia": 17,
-      "h": 10
+      "pts": [
+       [
+        286.5,
+        147.41
+       ],
+       [
+        278,
+        152.31
+       ],
+       [
+        269.5,
+        147.41
+       ],
+       [
+        269.5,
+        137.59
+       ],
+       [
+        278,
+        132.69
+       ],
+       [
+        286.5,
+        137.59
+       ]
+      ],
+      "h": 6.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
-     "id": "f276",
+     "id": "f293",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -8097,17 +8944,17 @@
      ],
      "params": {
       "dia": 10,
-      "h": 12
+      "h": 14
      }
     }
    ]
   },
   {
-   "id": "p76_m_vil_eje_tambor_20_h6_torneado",
+   "id": "p86_m_vil_eje_tambor_20_h6_torneado",
    "name": "MÓVIL · Eje tambor Ø20 h6 torneado",
    "color": "#b0bec5",
    "pos": [
-    -64,
+    268,
     69.5,
     78
    ],
@@ -8121,8 +8968,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f277",
-     "name": "Cuerpo Ø20 h6 × 234",
+     "id": "f294",
+     "name": "Cuerpo Ø20 h6 × 153",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8137,11 +8984,11 @@
      ],
      "params": {
       "dia": 20,
-      "h": 234
+      "h": 153
      }
     },
     {
-     "id": "f278",
+     "id": "f295",
      "name": "Chaflán 1.5×45° (-X)",
      "shape": "cylinder",
      "op": "union",
@@ -8161,12 +9008,12 @@
      }
     },
     {
-     "id": "f279",
+     "id": "f296",
      "name": "Chaflán 1.5×45° (+X)",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      232.5,
+      151.5,
       0,
       0
      ],
@@ -8181,7 +9028,7 @@
      }
     },
     {
-     "id": "f280",
+     "id": "f297",
      "name": "Chavetero 6×3.5 (acople)",
      "shape": "box",
      "op": "cut",
@@ -8204,11 +9051,11 @@
    ]
   },
   {
-   "id": "p77_m_vil_tambor_motriz_abombado_llanta_tapas_cubo",
+   "id": "p87_m_vil_tambor_motriz_abombado_llanta_tapas_cubo",
    "name": "MÓVIL · Tambor motriz abombado (llanta + tapas + cubo)",
    "color": "#4a5560",
    "pos": [
-    97.5,
+    356.5,
     69.5,
     33
    ],
@@ -8222,7 +9069,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f281",
+     "id": "f298",
      "name": "Llanta Ø89.2×43",
      "shape": "cylinder",
      "op": "union",
@@ -8242,7 +9089,7 @@
      }
     },
     {
-     "id": "f282",
+     "id": "f299",
      "name": "Corona Ø90×14 (abombado central)",
      "shape": "cylinder",
      "op": "union",
@@ -8262,7 +9109,7 @@
      }
     },
     {
-     "id": "f283",
+     "id": "f300",
      "name": "Vaciado interior Ø74 (llanta rolada e=8)",
      "shape": "hole",
      "op": "cut",
@@ -8283,7 +9130,7 @@
      }
     },
     {
-     "id": "f284",
+     "id": "f301",
      "name": "Tapa lateral Ø74×6 (-X, soldada)",
      "shape": "cylinder",
      "op": "union",
@@ -8303,7 +9150,7 @@
      }
     },
     {
-     "id": "f285",
+     "id": "f302",
      "name": "Tapa lateral Ø74×6 (+X, soldada)",
      "shape": "cylinder",
      "op": "union",
@@ -8323,7 +9170,7 @@
      }
     },
     {
-     "id": "f286",
+     "id": "f303",
      "name": "Cubo Ø46 pasante",
      "shape": "cylinder",
      "op": "union",
@@ -8343,7 +9190,7 @@
      }
     },
     {
-     "id": "f287",
+     "id": "f304",
      "name": "Barreno del cubo Ø28 H7 (buje SIT-LOCK)",
      "shape": "hole",
      "op": "cut",
@@ -8366,11 +9213,11 @@
    ]
   },
   {
-   "id": "p78_m_vil_buje_sit_lock_cal_1_20_28_tambor",
+   "id": "p88_m_vil_buje_sit_lock_cal_1_20_28_tambor",
    "name": "MÓVIL · Buje SIT-LOCK CAL 1 20×28 (tambor)",
    "color": "#90a4ae",
    "pos": [
-    95.5,
+    354.5,
     69.5,
     78
    ],
@@ -8384,7 +9231,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f288",
+     "id": "f305",
      "name": "Anillo cónico Ø28×39",
      "shape": "cylinder",
      "op": "union",
@@ -8404,7 +9251,7 @@
      }
     },
     {
-     "id": "f289",
+     "id": "f306",
      "name": "Brida de apriete Ø38×6",
      "shape": "cylinder",
      "op": "union",
@@ -8424,7 +9271,7 @@
      }
     },
     {
-     "id": "f290",
+     "id": "f307",
      "name": "Bore Ø20.05 (autocentrante)",
      "shape": "hole",
      "op": "cut",
@@ -8447,11 +9294,11 @@
    ]
   },
   {
-   "id": "p79_m_vil_chumacera_ucfl204_tambor_x",
+   "id": "p89_m_vil_chumacera_ucfl204_tambor_x",
    "name": "MÓVIL · Chumacera UCFL204 tambor +X",
    "color": "#78909c",
    "pos": [
-    153,
+    418,
     69.5,
     78
    ],
@@ -8466,7 +9313,7 @@
    "componente": "chumacera_ucfl204",
    "features": [
     {
-     "id": "f291",
+     "id": "f308",
      "name": "Brida 12×86×30",
      "shape": "box",
      "op": "union",
@@ -8487,7 +9334,7 @@
      }
     },
     {
-     "id": "f292",
+     "id": "f309",
      "name": "Cubo Ø42×31",
      "shape": "cylinder",
      "op": "union",
@@ -8507,7 +9354,7 @@
      }
     },
     {
-     "id": "f293",
+     "id": "f310",
      "name": "Collar excéntrico Ø34×12",
      "shape": "cylinder",
      "op": "union",
@@ -8527,7 +9374,7 @@
      }
     },
     {
-     "id": "f294",
+     "id": "f311",
      "name": "Grasera M6",
      "shape": "cylinder",
      "op": "union",
@@ -8547,7 +9394,7 @@
      }
     },
     {
-     "id": "f295",
+     "id": "f312",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -8568,7 +9415,7 @@
      }
     },
     {
-     "id": "f296",
+     "id": "f313",
      "name": "Bulón M10 (a)",
      "shape": "hole",
      "op": "cut",
@@ -8589,7 +9436,7 @@
      }
     },
     {
-     "id": "f297",
+     "id": "f314",
      "name": "Bulón M10 (b)",
      "shape": "hole",
      "op": "cut",
@@ -8612,11 +9459,11 @@
    ]
   },
   {
-   "id": "p80_m_vil_eje_cantil_ver_12_208_5_98",
+   "id": "p90_m_vil_eje_cantil_ver_12_208_5_98",
    "name": "MÓVIL · Eje cantiléver Ø12 (-208.5,98)",
    "color": "#b0bec5",
    "pos": [
-    95.5,
+    354.5,
     -208.5,
     98
    ],
@@ -8629,477 +9476,13 @@
    "fixed": false,
    "visible": true,
    "features": [
-    {
-     "id": "f298",
-     "name": "Eje Ø12 × 56.5",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      1,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "h": 56.5
-     }
-    },
-    {
-     "id": "f299",
-     "name": "Chaflán 1×45°",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 10,
-      "h": 1
-     }
-    },
-    {
-     "id": "f300",
-     "name": "Rosca M12×14",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      57.5,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "h": 12
-     }
-    }
-   ]
-  },
-  {
-   "id": "p81_m_vil_tuerca_tensora_m12_golilla_208_5_98",
-   "name": "MÓVIL · Tuerca tensora M12 + golilla (-208.5,98)",
-   "color": "#b0bec5",
-   "pos": [
-    153,
-    -208.5,
-    98
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f301",
-     "name": "Golilla plana Ø24×2.5",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 24,
-      "h": 2.5
-     }
-    },
-    {
-     "id": "f302",
-     "name": "Tuerca M12 DIN 934 (e=19)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      2.5,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 19,
-      "h": 10
-     }
-    },
-    {
-     "id": "f303",
-     "name": "Paso rosca M12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p82_m_vil_tensor_abombado_50_208_5_98",
-   "name": "MÓVIL · Tensor abombado Ø50 (-208.5,98)",
-   "color": "#90a4ae",
-   "pos": [
-    99.5,
-    -208.5,
-    73
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "polea_tensora_50x29",
-   "features": [
-    {
-     "id": "f304",
-     "name": "Cuerpo Ø49.2×39",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      25
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 49.2,
-      "h": 39
-     }
-    },
-    {
-     "id": "f305",
-     "name": "Corona Ø50×12 (abombado)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      13.5,
-      0,
-      25
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 50,
-      "h": 12
-     }
-    },
-    {
-     "id": "f306",
-     "name": "Alojamiento buje Ø18 H7",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      25
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p83_m_vil_buje_bronce_18_12_2_tensor_208_5_98",
-   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 tensor (-208.5,98)",
-   "color": "#b08d57",
-   "pos": [
-    99.5,
-    -208.5,
-    98
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f307",
-     "name": "Buje Ø18×35",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "h": 35
-     }
-    },
-    {
-     "id": "f308",
-     "name": "Bore Ø12.2 H7/f7",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p84_m_vil_retenci_n_m6_polea_tensor_208_5_98",
-   "name": "MÓVIL · Retención M6 polea tensor (-208.5,98)",
-   "color": "#b0bec5",
-   "pos": [
-    97.5,
-    -208.5,
-    98
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f309",
-     "name": "Arandela Ø18×2",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "h": 2
-     }
-    },
-    {
-     "id": "f310",
-     "name": "Tornillo M6 cabeza Ø10",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -6,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 10,
-      "h": 6
-     }
-    }
-   ]
-  },
-  {
-   "id": "p85_m_vil_eje_cantil_ver_12_69_5_98",
-   "name": "MÓVIL · Eje cantiléver Ø12 (-69.5,98)",
-   "color": "#b0bec5",
-   "pos": [
-    95.5,
-    -69.5,
-    98
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f311",
-     "name": "Eje Ø12 × 56.5",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      1,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "h": 56.5
-     }
-    },
-    {
-     "id": "f312",
-     "name": "Chaflán 1×45°",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 10,
-      "h": 1
-     }
-    },
-    {
-     "id": "f313",
-     "name": "Rosca M12×14",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      57.5,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "h": 12
-     }
-    }
-   ]
-  },
-  {
-   "id": "p86_m_vil_tuerca_tensora_m12_golilla_69_5_98",
-   "name": "MÓVIL · Tuerca tensora M12 + golilla (-69.5,98)",
-   "color": "#b0bec5",
-   "pos": [
-    153,
-    -69.5,
-    98
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f314",
-     "name": "Golilla plana Ø24×2.5",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 24,
-      "h": 2.5
-     }
-    },
     {
      "id": "f315",
-     "name": "Tuerca M12 DIN 934 (e=19)",
+     "name": "Eje Ø12 × 62.5",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      2.5,
+      1,
       0,
       0
      ],
@@ -9109,276 +9492,12 @@
       0
      ],
      "params": {
-      "dia": 19,
-      "h": 10
+      "dia": 12,
+      "h": 62.5
      }
     },
     {
      "id": "f316",
-     "name": "Paso rosca M12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p87_m_vil_tensor_abombado_50_69_5_98",
-   "name": "MÓVIL · Tensor abombado Ø50 (-69.5,98)",
-   "color": "#90a4ae",
-   "pos": [
-    99.5,
-    -69.5,
-    73
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "polea_tensora_50x29",
-   "features": [
-    {
-     "id": "f317",
-     "name": "Cuerpo Ø49.2×39",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      25
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 49.2,
-      "h": 39
-     }
-    },
-    {
-     "id": "f318",
-     "name": "Corona Ø50×12 (abombado)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      13.5,
-      0,
-      25
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 50,
-      "h": 12
-     }
-    },
-    {
-     "id": "f319",
-     "name": "Alojamiento buje Ø18 H7",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      25
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p88_m_vil_buje_bronce_18_12_2_tensor_69_5_98",
-   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 tensor (-69.5,98)",
-   "color": "#b08d57",
-   "pos": [
-    99.5,
-    -69.5,
-    98
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f320",
-     "name": "Buje Ø18×35",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "h": 35
-     }
-    },
-    {
-     "id": "f321",
-     "name": "Bore Ø12.2 H7/f7",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p89_m_vil_retenci_n_m6_polea_tensor_69_5_98",
-   "name": "MÓVIL · Retención M6 polea tensor (-69.5,98)",
-   "color": "#b0bec5",
-   "pos": [
-    97.5,
-    -69.5,
-    98
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f322",
-     "name": "Arandela Ø18×2",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "h": 2
-     }
-    },
-    {
-     "id": "f323",
-     "name": "Tornillo M6 cabeza Ø10",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -6,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 10,
-      "h": 6
-     }
-    }
-   ]
-  },
-  {
-   "id": "p90_m_vil_eje_cantil_ver_12_208_5_98",
-   "name": "MÓVIL · Eje cantiléver Ø12 (208.5,98)",
-   "color": "#b0bec5",
-   "pos": [
-    95.5,
-    208.5,
-    98
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f324",
-     "name": "Eje Ø12 × 56.5",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      1,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "h": 56.5
-     }
-    },
-    {
-     "id": "f325",
      "name": "Chaflán 1×45°",
      "shape": "cylinder",
      "op": "union",
@@ -9398,12 +9517,12 @@
      }
     },
     {
-     "id": "f326",
+     "id": "f317",
      "name": "Rosca M12×14",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      57.5,
+      63.5,
       0,
       0
      ],
@@ -9421,11 +9540,11 @@
   },
   {
    "id": "p91_m_vil_tuerca_tensora_m12_golilla_208_5_98",
-   "name": "MÓVIL · Tuerca tensora M12 + golilla (208.5,98)",
+   "name": "MÓVIL · Tuerca tensora M12 + golilla (-208.5,98)",
    "color": "#b0bec5",
    "pos": [
-    153,
-    208.5,
+    418,
+    -208.5,
     98
    ],
    "quat": [
@@ -9438,7 +9557,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f327",
+     "id": "f318",
      "name": "Golilla plana Ø24×2.5",
      "shape": "cylinder",
      "op": "union",
@@ -9458,7 +9577,7 @@
      }
     },
     {
-     "id": "f328",
+     "id": "f319",
      "name": "Tuerca M12 DIN 934 (e=19)",
      "shape": "cylinder",
      "op": "union",
@@ -9478,7 +9597,7 @@
      }
     },
     {
-     "id": "f329",
+     "id": "f320",
      "name": "Paso rosca M12",
      "shape": "hole",
      "op": "cut",
@@ -9502,11 +9621,11 @@
   },
   {
    "id": "p92_m_vil_tensor_abombado_50_208_5_98",
-   "name": "MÓVIL · Tensor abombado Ø50 (208.5,98)",
+   "name": "MÓVIL · Tensor abombado Ø50 (-208.5,98)",
    "color": "#90a4ae",
    "pos": [
-    99.5,
-    208.5,
+    358.5,
+    -208.5,
     73
    ],
    "quat": [
@@ -9520,7 +9639,7 @@
    "componente": "polea_tensora_50x29",
    "features": [
     {
-     "id": "f330",
+     "id": "f321",
      "name": "Cuerpo Ø49.2×39",
      "shape": "cylinder",
      "op": "union",
@@ -9540,7 +9659,7 @@
      }
     },
     {
-     "id": "f331",
+     "id": "f322",
      "name": "Corona Ø50×12 (abombado)",
      "shape": "cylinder",
      "op": "union",
@@ -9560,7 +9679,7 @@
      }
     },
     {
-     "id": "f332",
+     "id": "f323",
      "name": "Alojamiento buje Ø18 H7",
      "shape": "hole",
      "op": "cut",
@@ -9584,11 +9703,11 @@
   },
   {
    "id": "p93_m_vil_buje_bronce_18_12_2_tensor_208_5_98",
-   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 tensor (208.5,98)",
+   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 tensor (-208.5,98)",
    "color": "#b08d57",
    "pos": [
-    99.5,
-    208.5,
+    358.5,
+    -208.5,
     98
    ],
    "quat": [
@@ -9601,7 +9720,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f333",
+     "id": "f324",
      "name": "Buje Ø18×35",
      "shape": "cylinder",
      "op": "union",
@@ -9621,7 +9740,7 @@
      }
     },
     {
-     "id": "f334",
+     "id": "f325",
      "name": "Bore Ø12.2 H7/f7",
      "shape": "hole",
      "op": "cut",
@@ -9645,10 +9764,434 @@
   },
   {
    "id": "p94_m_vil_retenci_n_m6_polea_tensor_208_5_98",
-   "name": "MÓVIL · Retención M6 polea tensor (208.5,98)",
+   "name": "MÓVIL · Retención M6 polea tensor (-208.5,98)",
    "color": "#b0bec5",
    "pos": [
-    97.5,
+    356.5,
+    -208.5,
+    98
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f326",
+     "name": "Arandela Ø18×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2
+     }
+    },
+    {
+     "id": "f327",
+     "name": "Tornillo M6 cabeza Ø10",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -6,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "p95_m_vil_eje_cantil_ver_12_69_5_98",
+   "name": "MÓVIL · Eje cantiléver Ø12 (-69.5,98)",
+   "color": "#b0bec5",
+   "pos": [
+    354.5,
+    -69.5,
+    98
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f328",
+     "name": "Eje Ø12 × 62.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      1,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 62.5
+     }
+    },
+    {
+     "id": "f329",
+     "name": "Chaflán 1×45°",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 1
+     }
+    },
+    {
+     "id": "f330",
+     "name": "Rosca M12×14",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      63.5,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 12
+     }
+    }
+   ]
+  },
+  {
+   "id": "p96_m_vil_tuerca_tensora_m12_golilla_69_5_98",
+   "name": "MÓVIL · Tuerca tensora M12 + golilla (-69.5,98)",
+   "color": "#b0bec5",
+   "pos": [
+    418,
+    -69.5,
+    98
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f331",
+     "name": "Golilla plana Ø24×2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 24,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f332",
+     "name": "Tuerca M12 DIN 934 (e=19)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      2.5,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 19,
+      "h": 10
+     }
+    },
+    {
+     "id": "f333",
+     "name": "Paso rosca M12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p97_m_vil_tensor_abombado_50_69_5_98",
+   "name": "MÓVIL · Tensor abombado Ø50 (-69.5,98)",
+   "color": "#90a4ae",
+   "pos": [
+    358.5,
+    -69.5,
+    73
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "polea_tensora_50x29",
+   "features": [
+    {
+     "id": "f334",
+     "name": "Cuerpo Ø49.2×39",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 49.2,
+      "h": 39
+     }
+    },
+    {
+     "id": "f335",
+     "name": "Corona Ø50×12 (abombado)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      13.5,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 50,
+      "h": 12
+     }
+    },
+    {
+     "id": "f336",
+     "name": "Alojamiento buje Ø18 H7",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p98_m_vil_buje_bronce_18_12_2_tensor_69_5_98",
+   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 tensor (-69.5,98)",
+   "color": "#b08d57",
+   "pos": [
+    358.5,
+    -69.5,
+    98
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f337",
+     "name": "Buje Ø18×35",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 35
+     }
+    },
+    {
+     "id": "f338",
+     "name": "Bore Ø12.2 H7/f7",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p99_m_vil_retenci_n_m6_polea_tensor_69_5_98",
+   "name": "MÓVIL · Retención M6 polea tensor (-69.5,98)",
+   "color": "#b0bec5",
+   "pos": [
+    356.5,
+    -69.5,
+    98
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f339",
+     "name": "Arandela Ø18×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2
+     }
+    },
+    {
+     "id": "f340",
+     "name": "Tornillo M6 cabeza Ø10",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -6,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "p100_m_vil_eje_cantil_ver_12_208_5_98",
+   "name": "MÓVIL · Eje cantiléver Ø12 (208.5,98)",
+   "color": "#b0bec5",
+   "pos": [
+    354.5,
     208.5,
     98
    ],
@@ -9662,68 +10205,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f335",
-     "name": "Arandela Ø18×2",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "h": 2
-     }
-    },
-    {
-     "id": "f336",
-     "name": "Tornillo M6 cabeza Ø10",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -6,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 10,
-      "h": 6
-     }
-    }
-   ]
-  },
-  {
-   "id": "p95_m_vil_eje_cantil_ver_12_312_36",
-   "name": "MÓVIL · Eje cantiléver Ø12 (-312,36)",
-   "color": "#b0bec5",
-   "pos": [
-    95.5,
-    -312,
-    36
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f337",
-     "name": "Eje Ø12 × 56.5",
+     "id": "f341",
+     "name": "Eje Ø12 × 62.5",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -9738,11 +10221,11 @@
      ],
      "params": {
       "dia": 12,
-      "h": 56.5
+      "h": 62.5
      }
     },
     {
-     "id": "f338",
+     "id": "f342",
      "name": "Chaflán 1×45°",
      "shape": "cylinder",
      "op": "union",
@@ -9760,136 +10243,14 @@
       "dia": 10,
       "h": 1
      }
-    }
-   ]
-  },
-  {
-   "id": "p96_m_vil_polea_de_retorno_abombada_24_312_36",
-   "name": "MÓVIL · Polea de retorno abombada Ø24 (-312,36)",
-   "color": "#90a4ae",
-   "pos": [
-    99.5,
-    -312,
-    24
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "polea_retorno_24x29",
-   "features": [
-    {
-     "id": "f339",
-     "name": "Cuerpo Ø23.2×39",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      12
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 23.2,
-      "h": 39
-     }
-    },
-    {
-     "id": "f340",
-     "name": "Corona Ø24×12 (abombado)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      13.5,
-      0,
-      12
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 24,
-      "h": 12
-     }
-    },
-    {
-     "id": "f341",
-     "name": "Alojamiento buje Ø18 H7",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      12
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p97_m_vil_buje_bronce_18_12_2_retorno_312_36",
-   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 retorno (-312,36)",
-   "color": "#b08d57",
-   "pos": [
-    99.5,
-    -312,
-    36
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f342",
-     "name": "Buje Ø18×35",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "h": 35
-     }
     },
     {
      "id": "f343",
-     "name": "Bore Ø12.2 H7/f7",
-     "shape": "hole",
-     "op": "cut",
+     "name": "Rosca M12×14",
+     "shape": "cylinder",
+     "op": "union",
      "at": [
-      0,
+      63.5,
       0,
       0
      ],
@@ -9899,21 +10260,20 @@
       0
      ],
      "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
+      "dia": 12,
+      "h": 12
      }
     }
    ]
   },
   {
-   "id": "p98_m_vil_retenci_n_m6_polea_retorno_312_36",
-   "name": "MÓVIL · Retención M6 polea retorno (-312,36)",
+   "id": "p101_m_vil_tuerca_tensora_m12_golilla_208_5_98",
+   "name": "MÓVIL · Tuerca tensora M12 + golilla (208.5,98)",
    "color": "#b0bec5",
    "pos": [
-    97.5,
-    -312,
-    36
+    418,
+    208.5,
+    98
    ],
    "quat": [
     0,
@@ -9926,154 +10286,13 @@
    "features": [
     {
      "id": "f344",
-     "name": "Arandela Ø18×2",
+     "name": "Golilla plana Ø24×2.5",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
       0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "h": 2
-     }
-    },
-    {
-     "id": "f345",
-     "name": "Tornillo M6 cabeza Ø10",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -6,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 10,
-      "h": 6
-     }
-    }
-   ]
-  },
-  {
-   "id": "p99_m_vil_eje_cantil_ver_12_312_36",
-   "name": "MÓVIL · Eje cantiléver Ø12 (312,36)",
-   "color": "#b0bec5",
-   "pos": [
-    95.5,
-    312,
-    36
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f346",
-     "name": "Eje Ø12 × 56.5",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      1,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "h": 56.5
-     }
-    },
-    {
-     "id": "f347",
-     "name": "Chaflán 1×45°",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 10,
-      "h": 1
-     }
-    }
-   ]
-  },
-  {
-   "id": "p100_m_vil_polea_de_retorno_abombada_24_312_36",
-   "name": "MÓVIL · Polea de retorno abombada Ø24 (312,36)",
-   "color": "#90a4ae",
-   "pos": [
-    99.5,
-    312,
-    24
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "polea_retorno_24x29",
-   "features": [
-    {
-     "id": "f348",
-     "name": "Cuerpo Ø23.2×39",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      12
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 23.2,
-      "h": 39
-     }
-    },
-    {
-     "id": "f349",
-     "name": "Corona Ø24×12 (abombado)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      13.5,
-      0,
-      12
      ],
      "dir": [
       1,
@@ -10082,18 +10301,120 @@
      ],
      "params": {
       "dia": 24,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f345",
+     "name": "Tuerca M12 DIN 934 (e=19)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      2.5,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 19,
+      "h": 10
+     }
+    },
+    {
+     "id": "f346",
+     "name": "Paso rosca M12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p102_m_vil_tensor_abombado_50_208_5_98",
+   "name": "MÓVIL · Tensor abombado Ø50 (208.5,98)",
+   "color": "#90a4ae",
+   "pos": [
+    358.5,
+    208.5,
+    73
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "polea_tensora_50x29",
+   "features": [
+    {
+     "id": "f347",
+     "name": "Cuerpo Ø49.2×39",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 49.2,
+      "h": 39
+     }
+    },
+    {
+     "id": "f348",
+     "name": "Corona Ø50×12 (abombado)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      13.5,
+      0,
+      25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 50,
       "h": 12
      }
     },
     {
-     "id": "f350",
+     "id": "f349",
      "name": "Alojamiento buje Ø18 H7",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       0,
-      12
+      25
      ],
      "dir": [
       1,
@@ -10109,13 +10430,13 @@
    ]
   },
   {
-   "id": "p101_m_vil_buje_bronce_18_12_2_retorno_312_36",
-   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 retorno (312,36)",
+   "id": "p103_m_vil_buje_bronce_18_12_2_tensor_208_5_98",
+   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 tensor (208.5,98)",
    "color": "#b08d57",
    "pos": [
-    99.5,
-    312,
-    36
+    358.5,
+    208.5,
+    98
    ],
    "quat": [
     0,
@@ -10127,7 +10448,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f351",
+     "id": "f350",
      "name": "Buje Ø18×35",
      "shape": "cylinder",
      "op": "union",
@@ -10147,7 +10468,7 @@
      }
     },
     {
-     "id": "f352",
+     "id": "f351",
      "name": "Bore Ø12.2 H7/f7",
      "shape": "hole",
      "op": "cut",
@@ -10170,13 +10491,13 @@
    ]
   },
   {
-   "id": "p102_m_vil_retenci_n_m6_polea_retorno_312_36",
-   "name": "MÓVIL · Retención M6 polea retorno (312,36)",
+   "id": "p104_m_vil_retenci_n_m6_polea_tensor_208_5_98",
+   "name": "MÓVIL · Retención M6 polea tensor (208.5,98)",
    "color": "#b0bec5",
    "pos": [
-    97.5,
-    312,
-    36
+    356.5,
+    208.5,
+    98
    ],
    "quat": [
     0,
@@ -10188,7 +10509,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f353",
+     "id": "f352",
      "name": "Arandela Ø18×2",
      "shape": "cylinder",
      "op": "union",
@@ -10208,7 +10529,7 @@
      }
     },
     {
-     "id": "f354",
+     "id": "f353",
      "name": "Tornillo M6 cabeza Ø10",
      "shape": "cylinder",
      "op": "union",
@@ -10230,11 +10551,537 @@
    ]
   },
   {
-   "id": "p103_m_vil_banda_plana_35_3_serpent_n",
+   "id": "p105_m_vil_eje_cantil_ver_12_312_36",
+   "name": "MÓVIL · Eje cantiléver Ø12 (-312,36)",
+   "color": "#b0bec5",
+   "pos": [
+    354.5,
+    -312,
+    36
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f354",
+     "name": "Eje Ø12 × 62.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      1,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 62.5
+     }
+    },
+    {
+     "id": "f355",
+     "name": "Chaflán 1×45°",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "p106_m_vil_polea_de_retorno_abombada_24_312_36",
+   "name": "MÓVIL · Polea de retorno abombada Ø24 (-312,36)",
+   "color": "#90a4ae",
+   "pos": [
+    358.5,
+    -312,
+    24
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "polea_retorno_24x29",
+   "features": [
+    {
+     "id": "f356",
+     "name": "Cuerpo Ø23.2×39",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 23.2,
+      "h": 39
+     }
+    },
+    {
+     "id": "f357",
+     "name": "Corona Ø24×12 (abombado)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      13.5,
+      0,
+      12
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 24,
+      "h": 12
+     }
+    },
+    {
+     "id": "f358",
+     "name": "Alojamiento buje Ø18 H7",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p107_m_vil_buje_bronce_18_12_2_retorno_312_36",
+   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 retorno (-312,36)",
+   "color": "#b08d57",
+   "pos": [
+    358.5,
+    -312,
+    36
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f359",
+     "name": "Buje Ø18×35",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 35
+     }
+    },
+    {
+     "id": "f360",
+     "name": "Bore Ø12.2 H7/f7",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p108_m_vil_retenci_n_m6_polea_retorno_312_36",
+   "name": "MÓVIL · Retención M6 polea retorno (-312,36)",
+   "color": "#b0bec5",
+   "pos": [
+    356.5,
+    -312,
+    36
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f361",
+     "name": "Arandela Ø18×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2
+     }
+    },
+    {
+     "id": "f362",
+     "name": "Tornillo M6 cabeza Ø10",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -6,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "p109_m_vil_eje_cantil_ver_12_312_36",
+   "name": "MÓVIL · Eje cantiléver Ø12 (312,36)",
+   "color": "#b0bec5",
+   "pos": [
+    354.5,
+    312,
+    36
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f363",
+     "name": "Eje Ø12 × 62.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      1,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 62.5
+     }
+    },
+    {
+     "id": "f364",
+     "name": "Chaflán 1×45°",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "p110_m_vil_polea_de_retorno_abombada_24_312_36",
+   "name": "MÓVIL · Polea de retorno abombada Ø24 (312,36)",
+   "color": "#90a4ae",
+   "pos": [
+    358.5,
+    312,
+    24
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "polea_retorno_24x29",
+   "features": [
+    {
+     "id": "f365",
+     "name": "Cuerpo Ø23.2×39",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 23.2,
+      "h": 39
+     }
+    },
+    {
+     "id": "f366",
+     "name": "Corona Ø24×12 (abombado)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      13.5,
+      0,
+      12
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 24,
+      "h": 12
+     }
+    },
+    {
+     "id": "f367",
+     "name": "Alojamiento buje Ø18 H7",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p111_m_vil_buje_bronce_18_12_2_retorno_312_36",
+   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 retorno (312,36)",
+   "color": "#b08d57",
+   "pos": [
+    358.5,
+    312,
+    36
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f368",
+     "name": "Buje Ø18×35",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 35
+     }
+    },
+    {
+     "id": "f369",
+     "name": "Bore Ø12.2 H7/f7",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p112_m_vil_retenci_n_m6_polea_retorno_312_36",
+   "name": "MÓVIL · Retención M6 polea retorno (312,36)",
+   "color": "#b0bec5",
+   "pos": [
+    356.5,
+    312,
+    36
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f370",
+     "name": "Arandela Ø18×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2
+     }
+    },
+    {
+     "id": "f371",
+     "name": "Tornillo M6 cabeza Ø10",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -6,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "p113_m_vil_banda_plana_35_3_serpent_n",
    "name": "MÓVIL · Banda plana 35×3 (serpentín)",
    "color": "#e6c229",
    "pos": [
-    119,
+    378,
     0,
     21
    ],
@@ -10248,7 +11095,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f355",
+     "id": "f372",
      "name": "Cara exterior",
      "shape": "sketch",
      "op": "union",
@@ -11286,7 +12133,7 @@
      }
     },
     {
-     "id": "f356",
+     "id": "f373",
      "name": "Vaciado interior",
      "shape": "sketch",
      "op": "cut",
@@ -12326,92 +13173,11 @@
    ]
   },
   {
-   "id": "p104_m_vil_motorreductor_por_dentro",
-   "name": "MÓVIL · Motorreductor (por dentro)",
+   "id": "p114_m_vil_motorreductor_de_eje_hueco_i_6_3_0_18_kw",
+   "name": "MÓVIL · Motorreductor de eje hueco (i≈6.3, ~0.18 kW)",
    "color": "#546e7a",
    "pos": [
-    -147,
-    69.5,
-    45
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f357",
-     "name": "Cuerpo 88×80×66",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      44,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 88,
-      "d": 80,
-      "h": 66
-     }
-    },
-    {
-     "id": "f358",
-     "name": "Brida Ø70×8",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      33
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 70,
-      "h": 8
-     }
-    },
-    {
-     "id": "f359",
-     "name": "Eje salida Ø20",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      88,
-      0,
-      33
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 20,
-      "h": 15
-     }
-    }
-   ]
-  },
-  {
-   "id": "p105_m_vil_acople_r_gido_32_chaveteros_6_din_6885",
-   "name": "MÓVIL · Acople rígido Ø32 (chaveteros 6 DIN 6885)",
-   "color": "#90a4ae",
-   "pos": [
-    -70,
+    268,
     69.5,
     78
    ],
@@ -12425,8 +13191,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f360",
-     "name": "Manguito Ø32×24",
+     "id": "f374",
+     "name": "Cubo de eje hueco Ø56×84",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -12440,13 +13206,34 @@
       0
      ],
      "params": {
-      "dia": 32,
-      "h": 24
+      "dia": 56,
+      "h": 84
      }
     },
     {
-     "id": "f361",
-     "name": "Barreno Ø20.2",
+     "id": "f375",
+     "name": "Cuerpo reductor 96×86×92",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      30,
+      0,
+      -78
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 96,
+      "d": 86,
+      "h": 92
+     }
+    },
+    {
+     "id": "f376",
+     "name": "Bore Ø20 H7 (sobre el eje del tambor)",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -12464,57 +13251,15 @@
       "depth": 0,
       "through": true
      }
-    },
-    {
-     "id": "f362",
-     "name": "Ranura prisionero M6 (a)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      6,
-      -16,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 6.6,
-      "depth": 6,
-      "through": false
-     }
-    },
-    {
-     "id": "f363",
-     "name": "Ranura prisionero M6 (b)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      18,
-      -16,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 6.6,
-      "depth": 6,
-      "through": false
-     }
     }
    ]
   },
   {
-   "id": "p106_m_vil_chaveta_din_6885_a_6_6_12_motor_acople",
-   "name": "MÓVIL · Chaveta DIN 6885 A 6×6×12 (motor↔acople)",
+   "id": "p115_m_vil_chaveta_din_6885_a_6_6_40_eje_reductor",
+   "name": "MÓVIL · Chaveta DIN 6885 A 6×6×40 (eje↔reductor)",
    "color": "#b0bec5",
    "pos": [
-    -66,
+    290,
     69.5,
     86.25
    ],
@@ -12528,8 +13273,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f364",
-     "name": "Chaveta 12×6×6",
+     "id": "f377",
+     "name": "Chaveta 40×6×6",
      "shape": "box",
      "op": "union",
      "at": [
@@ -12543,7 +13288,7 @@
       1
      ],
      "params": {
-      "w": 12,
+      "w": 40,
       "d": 6,
       "h": 6
      }
@@ -12551,13 +13296,13 @@
    ]
   },
   {
-   "id": "p107_m_vil_chaveta_din_6885_a_6_6_12_eje_acople",
-   "name": "MÓVIL · Chaveta DIN 6885 A 6×6×12 (eje↔acople)",
-   "color": "#b0bec5",
+   "id": "p116_m_vil_brazo_de_reacci_n_torque_arm",
+   "name": "MÓVIL · Brazo de reacción (torque arm)",
+   "color": "#78909c",
    "pos": [
-    -52,
-    69.5,
-    86.25
+    328,
+    14.5,
+    38
    ],
    "quat": [
     0,
@@ -12569,12 +13314,12 @@
    "visible": true,
    "features": [
     {
-     "id": "f365",
-     "name": "Chaveta 12×6×6",
+     "id": "f378",
+     "name": "Barra 81×24×10",
      "shape": "box",
      "op": "union",
      "at": [
-      0,
+      40.5,
       0,
       0
      ],
@@ -12584,9 +13329,50 @@
       1
      ],
      "params": {
-      "w": 12,
-      "d": 6,
-      "h": 6
+      "w": 81,
+      "d": 24,
+      "h": 10
+     }
+    },
+    {
+     "id": "f379",
+     "name": "Buje elástico Ø24",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      81,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 24,
+      "h": 16
+     }
+    },
+    {
+     "id": "f380",
+     "name": "Ø12.2 pasador a la placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      81,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
      }
     }
    ]

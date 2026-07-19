@@ -18,57 +18,59 @@ Prueba del ensamble (motor CSG real + invariantes): `cad/tests/test_transfer90.m
 ## `transfer_rodillos_90.json` — Transferencia 90° (módulo de desviación)
 
 **Solo el módulo de desvío pop-up** — el módulo principal de bandas del
-transportador anfitrión NO se modela (especificación del usuario). 107 piezas,
-capa `user`. Ejes: **X = flujo del anfitrión, Y = expulsión a 90°, Z = arriba**,
-mm. Estado modelado: **elevado** (carrera aplicada).
+transportador anfitrión NO se modela (especificación del usuario). 116 piezas,
+capa `user`. Ejes: **X = eje/largo de rodillo (= flujo del anfitrión), Y =
+expulsión a 90°, Z = arriba**, mm. Estado modelado: **elevado** (carrera aplicada).
 
-> **Ajustado al equipo base real (STEP `sorter_CO`).** El STEP traía una
-> transferencia de **rodillos delgados**; se elimina y se calza esta. El base
-> tiene **4 bandas pasantes a X = 0/139/277/416** (paso **139**, hueco libre
-> ≈ 99). Por eso los rodillos pasaron de 6×Ø40 a **5×Ø63 a paso 139** (uno por
-> hueco + los 2 bordes) y la sujeción cambió a **eje muerto con rodamientos
-> internos y perno** (ver abajo). La colocación en el hueco real se ve en
-> `ver_integracion_real.html`.
+> **Transfer de rodillos estilo MRT sobre base twin-belt (STEP `sorter_CO`),
+> funcional / fabricable / simple.** El STEP traía una transferencia de
+> **rodillos delgados**; se elimina y se calza esta. El base tiene **4 bandas
+> pasantes a X = 0/139/277/416** (paso **139**, hueco libre ≈ 99): los rodillos
+> son **5 × Ø63 de 800 mm de cara a paso 139** (uno por hueco + los 2 bordes),
+> de **eje muerto macizo** con rodamientos internos y **perno hexagonal**, y el
+> accionamiento es una banda plana al extremo con **motorreductor de eje
+> hueco**. La colocación en el hueco real se ve en `ver_integracion_real.html`.
 
-### Especificación (capa `user`) — ajustada al base
+### Especificación (capa `user`) — transfer MRT ajustado al base
 
 | Requisito | Valor en el modelo |
 |---|---|
-| Solo la transferencia (módulo de desviación) | 107 piezas, sin el transportador anfitrión |
-| **5 rodillos** Ø63 vulcanizados (tubo de acero Ø51), a **paso 139** = 1 por hueco entre las 4 bandas del base | gap tangente **76**; emergen limpios ENTRE las bandas reales (X base = 208 − línea) |
-| **Rodillo de EJE MUERTO** (nuevo): el eje no gira, el tubo gira sobre 2 **rodamientos 6004** entre eje y tubo | eje Ø20 **perforado Ø8.5 + roscado M10** en cada extremo; **perno M10 + golilla** lo sujeta a cada placa (retención axial y anti-giro) |
-| **Transmisión en serpentín** (esquema IMG_3102, NO rodillo a rodillo) | **banda plana 35 × 3 (nitrilo/poliéster)** sobre el **tubo desnudo Ø51** de cada rodillo → **3 tensores Ø50 con colisa vertical** → **tambor motriz Ø90 con SIT-LOCK** (hueco R3–R4) → 2 retornos Ø24 en esquinas |
-| **Todo por dentro** | motor embridado a la cara interior de la placa −X, coaxial al tambor; cilindros y palancas entre las placas |
+| Solo la transferencia (módulo de desviación) | 116 piezas, sin el transportador anfitrión |
+| **5 rodillos** Ø63 vulcanizados (tubo de acero Ø51) de **800 mm de cara**, a **paso 139** = 1 por hueco entre las 4 bandas del base | gap tangente **76**; emergen limpios ENTRE las bandas reales (X base = 208 − línea) |
+| **Rodillo de EJE MUERTO MACIZO** (Hytrol MRT): el eje no gira, el tubo gira sobre 2 **rodamientos 6004** entre eje y tubo | eje macizo Ø20 **perforado Ø8.5 + roscado M10 interior**; desde fuera de la chapa un **perno HEXAGONAL M10 DIN 933 + golilla** lo sujeta a cada placa; **tapa de extremo** por lado |
+| **Accionamiento por banda plana** (serpentín) al extremo, NO rodillo a rodillo | **banda plana 35 × 3 (nitrilo/poliéster)** sobre el **tubo desnudo Ø51** de cada rodillo → **3 tensores Ø50 con colisa vertical** → **tambor motriz Ø90 con SIT-LOCK** (hueco R3–R4) → 2 retornos Ø24 en esquinas |
+| **Motor por dentro, simple y confiable** | **motorreductor de EJE HUECO** montado directo sobre el eje del tambor (sin acople ni alineación), con **brazo de torque** a la placa +X; cuelga en la ventana del base. Cilindros y palancas entre las placas |
 | **Solo 2 cilindros**, **en diagonal con pivote**, subida **vertical de 6 mm** | ISO 6432 Ø25 inclinados 36.7°, basculantes en horquilla; empujan una **palanca con rodillo de leva** que sube el puente en vertical (carrera de cilindro 10 → 6 vertical) |
-| Estructura fija **no más ancha que la cara que sostiene las poleas** | canal fijo de **306 mm** = ancho exterior de las placas |
+| Estructura fija **no más ancha que las placas laterales** | canal fijo de **836 mm** = ancho exterior de las placas (separadas 830 = largo del rodillo + acoples) |
 | **Identificar módulo móvil vs fijo** (canal lateral de la cinta) | piezas `FIJO ·` (canal + mecanismo de elevación, gris) y `MÓVIL ·` (placas, rodillos, transmisión y motor, azul); pasadores guía Ø8 del móvil corren en colisas verticales del canal |
 | Placas con **extensiones delgadas hacia los rodillos** | cuerpo porta-poleas bajo + 5 **dedos de 28 mm** con punta redonda hasta cada rodillo; entre dedos pasan a lo largo las bandas del anfitrión |
 
 ### Arquitectura (memoria de diseño)
 
-- **Rodillos (eje muerto)**: 5 líneas a paso 139, eje **z = 142.5** → tangente
-  174 = plano anfitrión (170) + 4; retraído −2. El **eje muerto Ø20** se
-  atornilla a ambas placas (alojamiento Ø20.5) — **no gira**; sus extremos se
-  **taladran Ø8.5 y se roscan M10** y un **perno M10 + golilla** los sujeta. El
-  **tubo de acero Ø51** (bore Ø42) gira sobre **2 rodamientos 6004 2RS**
-  (20×42×12), uno por extremo, montados entre eje y tubo; vulcanizado a Ø63
-  salvo el extremo +X desnudo (x = 95..138), donde la banda del serpentín lo
-  arrastra por fricción.
-- **Serpentín** (orden de marcha, 5 rodillos): retorno izq (−312, 36) → R1 →
-  tensor Ø50 (−208.5, 98) → R2 → tensor (−69.5, 98) → R3 → **tambor M**
-  (69.5, 78, Ø90) → R4 → tensor (208.5, 98) → R5 → retorno der (312, 36) →
-  ramal inferior. La banda gira sobre el **tubo desnudo Ø51** de cada rodillo;
-  plano x = 119, lomo embutido bajo el vulcanizado. El tambor gira en eje Ø20
-  con SIT-LOCK, apoyado en la placa +X (1 UCFL204) y en la brida del motor
-  (placa −X); acople rígido. Toda la transmisión y el motor son MÓVILES.
+- **Rodillos (eje muerto macizo, 800 mm)**: 5 líneas a paso 139, eje **z = 142.5**
+  → tangente 174 = plano anfitrión (170) + 4; retraído −2. El **eje muerto macizo
+  Ø20 × 830** se atornilla a ambas placas (alojamiento Ø20.5) — **no gira**; sus
+  extremos se **taladran Ø8.5 y se roscan M10** y un **perno HEXAGONAL M10 DIN 933
+  + golilla** los sujeta desde fuera. El **tubo de acero Ø51 × 800** (bore Ø42)
+  gira sobre **2 rodamientos 6004 2RS** (20×42×12), uno por extremo, con **tapa
+  de extremo**; vulcanizado a Ø63 salvo el extremo +X desnudo (x = 355..400),
+  donde la banda del serpentín lo arrastra por fricción.
+- **Serpentín** (orden de marcha, 5 rodillos, en el extremo +X): retorno izq
+  (−312, 36) → R1 → tensor Ø50 (−208.5, 98) → R2 → tensor (−69.5, 98) → R3 →
+  **tambor M** (69.5, 78, Ø90) → R4 → tensor (208.5, 98) → R5 → retorno der
+  (312, 36). La banda gira sobre el **tubo desnudo Ø51** de cada rodillo (plano
+  x = 378). El tambor gira en eje Ø20 con SIT-LOCK, apoyado en 1 UCFL204 (placa
+  +X) y accionado por un **MOTORREDUCTOR DE EJE HUECO** montado directo sobre él
+  (sin acople), que reacciona con un **brazo de torque** a la placa +X y cuelga
+  en una ventana del canal. Toda la transmisión y el motor son MÓVILES.
 - **Elevación (mecánica de palanca)**: por extremo, un cilindro diagonal
   basculante en horquilla de la base empuja el ojo de una palanca pivotada
   (pivote fijo a −118, entrada a +85, leva Ø24 en 0): relación 118/203 →
   con 10.3 mm de carrera del cilindro el rodillo de leva sube el puente
-  exactamente 6 mm en vertical. Los puentes 306×20×12 atraviesan ambas
+  exactamente 6 mm en vertical. Los puentes 836×20×12 atraviesan ambas
   placas por ranuras láser; los pasadores guía Ø8 en colisas del canal
   mantienen el movimiento vertical.
-- **Canal fijo**: base 306×700×6 con 2 alas bajas (top 40) que quedan por
+- **Canal fijo**: base 836×740×6 con 2 alas bajas (top 40) que quedan por
   dentro de las placas móviles (3 mm de juego); anclajes Ø11 al anfitrión y
   patrones M5 para horquillas y soportes de pivote.
 
@@ -159,17 +161,17 @@ geometría**.
 ## Planos de fabricación (PDF)
 
 `planos_transfer90/planos_fabricacion_transfer90.pdf` — juego de taller
-completo, **26 páginas en un solo PDF**:
+completo, **27 páginas en un solo PDF**:
 
 - **Portada** con el resumen del ensamble (piezas, ítems, normas, tolerancia
   general ISO 2768-mK, unidades).
-- **Despiece / lista de materiales** (2 páginas): las **43 posiciones
-  distintas** de las 107 piezas, con cantidad, tipo (FABRICADA /
+- **Despiece / lista de materiales** (2 páginas): las **47 posiciones
+  distintas** de las 116 piezas, con cantidad, tipo (FABRICADA /
   NORMALIZADA / CONJUNTO), material o norma, y número de plano. Los
-  **rodamientos 6004**, la **UCFL204** y los **pernos M10** de los rodillos
-  van como NORMALIZADAS (con su norma DIN); el **eje muerto**, el **tubo de
-  acero Ø51** y el **vulcanizado Ø63** llevan plano de fabricación.
-- **23 planos de pieza fabricada** (TR-01 …): vistas del primer diedro
+  **rodamientos 6004**, la **UCFL204** y los **pernos hexagonales M10** de los
+  rodillos van como NORMALIZADAS (con su norma DIN); el **eje muerto macizo**,
+  el **tubo de acero Ø51×800** y el **vulcanizado Ø63** llevan plano de fabricación.
+- **24 planos de pieza fabricada** (TR-01 …): vistas del primer diedro
   (alzado, planta, perfil) + isométrica, cotas envolventes y **cajetín
   ISO 7200** con designación, material, cantidad, escala y Nº de plano. Cada
   lámina elige tamaño (A4…A1) y escala normalizada automáticamente. Las

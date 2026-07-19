@@ -2093,9 +2093,9 @@
   },
   {
    "id": "rodillo_transfer_63",
-   "nombre": "Rodillo transferencia O63 eje muerto (tubo O51 + 2x6004)",
+   "nombre": "Rodillo transferencia O63 x 800 eje muerto (tubo O51 + 2x6004)",
    "categoria": "mecanico",
-   "descripcion": "Rodillo completo de transferencia 90 ajustado al equipo base: tubo de acero O51 (bore O42) vulcanizado a O63 salvo el extremo desnudo de arrastre; gira sobre 2 rodamientos 6004 en un eje muerto O20 roscado M10. Paso de montaje 139 (1 por hueco entre bandas del base).",
+   "descripcion": "Rodillo largo (800 de cara) de transferencia 90 estilo MRT: tubo de acero O51 (bore O42) vulcanizado a O63 salvo el extremo desnudo de arrastre; gira sobre 2 rodamientos 6004 en un eje muerto MACIZO O20 roscado M10 (perno hexagonal externo). Paso 139 (1 por hueco entre bandas del base).",
    "fuente": {
     "tipo": "step",
     "detalle": "sorter_CO.stp: hueco de banda paso 139; espec. usuario O63, eje muerto + rodamiento entre eje y tubo + perno"
@@ -2108,7 +2108,7 @@
      "at": [
       0,
       0,
-      21.5
+      22.5
      ],
      "eje": [
       0,
@@ -2116,7 +2116,7 @@
       1
      ],
      "dia": 63,
-     "alto": 233,
+     "alto": 755,
      "color": "#212121"
     },
     {
@@ -2125,7 +2125,7 @@
      "at": [
       0,
       0,
-      -138
+      -400
      ],
      "eje": [
       0,
@@ -2133,13 +2133,111 @@
       1
      ],
      "dia": 51,
-     "alto": 276,
+     "alto": 800,
      "color": "#78909c"
     }
    ],
    "agujeros_montaje": [],
    "despejes": [],
-   "notas": "Eje muerto O20 perforado/roscado M10; 2 rodamientos 6004 2RS entre eje y tubo; perno M10 + golilla a cada placa. Reemplaza al rodillo_vulcanizado_40x290 en la integracion con el base."
+   "notas": "Eje muerto MACIZO O20 (830) perforado/roscado M10; 2 rodamientos 6004 2RS entre eje y tubo; perno HEXAGONAL M10 DIN 933 + golilla desde fuera de la chapa. Tapa de extremo por lado."
+  },
+  {
+   "id": "perno_hex_m10_din933",
+   "nombre": "Perno hexagonal M10 DIN 933 + golilla DIN 125",
+   "categoria": "mecanico",
+   "descripcion": "Tornillo de cabeza hexagonal M10 (entrecaras 17, alto 6.4) con golilla plana O22. Sujeta desde fuera de la chapa el eje muerto del rodillo (rosca interior M10).",
+   "fuente": {
+    "tipo": "norma",
+    "detalle": "DIN 933 M10 + DIN 125 O22"
+   },
+   "confianza": "datasheet",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Golilla O22x2.5",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 22,
+     "alto": 2.5,
+     "color": "#9aa7b0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Cabeza hex e.c.17",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 18.4,
+     "alto": 6.4,
+     "color": "#78909c"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Entrecaras 17. Rosca M10 en el extremo perforado del eje muerto."
+  },
+  {
+   "id": "motorreductor_eje_hueco",
+   "nombre": "Motorreductor de eje hueco (~0.18 kW, i~6.3)",
+   "categoria": "mecanico",
+   "descripcion": "Motorreductor de eje hueco montado directo sobre el eje del tambor (sin acople). Reacciona con brazo de torque. Accionamiento simple y confiable del transfer.",
+   "fuente": {
+    "tipo": "nominal",
+    "detalle": "reductor eje hueco bore O20; ~0.18 kW; i~6.3"
+   },
+   "confianza": "nominal",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Cubo eje hueco O56x84",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 56,
+     "alto": 84,
+     "color": "#546e7a"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Cuerpo 96x86x92",
+     "at": [
+      42,
+      0,
+      -78
+     ],
+     "color": "#546e7a",
+     "dim": [
+      96,
+      86,
+      92
+     ]
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Bore O20 H7 + chaveta 6x6x40. Brazo de torque a pasador O12 en la placa."
   }
  ]
 }
