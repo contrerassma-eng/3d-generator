@@ -994,7 +994,7 @@ function refreshProps() {
         dims += frow('Mostrar boceto', `<input type="checkbox" id="fp_showsk" ${f.showSketch ? 'checked' : ''}>`);
         (f.params.dims || []).forEach((d, i) => {
           const val = SK.measureDim(f.params.entities, d);
-          dims += frow(`Cota ${d.locked ? '🔒' : ''}${DIM_PREFIX[d.kind]}`, `<input type="number" id="fp_dim${i}" value="${val === null ? '' : +val.toFixed(2)}" step="0.5">`);
+          dims += frow(`Cota ${d.locked ? '🔒' : '( )'}${DIM_PREFIX[d.kind]}`, `<input type="number" id="fp_dim${i}" value="${val === null ? '' : +val.toFixed(2)}" step="0.5" ${d.locked ? '' : 'title="referencia (no dirige)"'}>`);
         });
       } else {
         dims += frow('Puntos', `<b>${f.params.pts.length}</b>`);
@@ -2164,14 +2164,21 @@ function openDimDialog(dim) {
   const cur = SK.measureDim(sketch.entities, dim);
   showForm(`Cota ${DIM_PREFIX[dim.kind].trim()}`, [
     { key: 'v', label: DIM_LABEL[dim.kind], value: +(cur ?? dim.value).toFixed(2), step: 0.5 },
-    { key: 'locked', label: '🔒 Fija (restringe al mover)', type: 'checkbox', value: !!dim.locked },
+    { key: 'locked', label: '🔒 Directriz (dirige; si no, referencia)', type: 'checkbox', value: !!dim.locked },
   ], (v) => {
     dim.locked = v.locked;
     if (!(v.v > 0)) { setStatus('Valor inválido.'); return; }
+    // referencia (driven): solo mide, no dirige la geometría (no se aplica valor)
+    if (!dim.locked) {
+      SK.applyLockedDims(sketch.entities, sketch.dims);
+      updateSketchLabels(); redrawSketch();
+      setStatus(`Cota de referencia: (${DIM_PREFIX[dim.kind]}${cur != null ? cur.toFixed(1) : v.v}). Mide, no dirige.`);
+      return;
+    }
     if (SK.applyDim(sketch.entities, dim, v.v)) {
       SK.applyLockedDims(sketch.entities, sketch.dims, dim.id); // las 🔒 se mantienen
       redrawSketch();
-      setStatus(`Cota aplicada: ${DIM_PREFIX[dim.kind]}${v.v}${dim.locked ? ' 🔒' : ''}.`);
+      setStatus(`Cota directriz aplicada: 🔒${DIM_PREFIX[dim.kind]}${v.v}.`);
     } else {
       setStatus('No se pudo aplicar esa cota (¿referencia fija o entidades no compatibles?).');
     }
@@ -2209,7 +2216,11 @@ function updateSketchLabels() {
     const el = sketch.dimEls.get(dim.id);
     if (!el) continue;
     const val = SK.measureDim(sketch.entities, dim);
-    el.textContent = val === null ? '—' : `${dim.locked ? '🔒' : ''}${DIM_PREFIX[dim.kind]}${val.toFixed(1)}${dim.kind === 'ang' ? '°' : ''}`;
+    // convención Inventor (§2.4): directriz (🔒 dirige la geometría) vs
+    // referencia/driven (entre paréntesis, solo mide, no dirige).
+    const body = val === null ? '—' : `${DIM_PREFIX[dim.kind]}${val.toFixed(1)}${dim.kind === 'ang' ? '°' : ''}`;
+    el.textContent = val === null ? '—' : (dim.locked ? `🔒${body}` : `(${body})`);
+    el.classList.toggle('ref', !dim.locked);
     const w = to3D(dim.at[0], dim.at[1], 0.3).project(activeCamera);
     el.style.left = `${(w.x * 0.5 + 0.5) * r.width}px`;
     el.style.top = `${(-w.y * 0.5 + 0.5) * r.height}px`;
@@ -4355,7 +4366,7 @@ window.__cad = {
   rebuildAll, solveAndSync, loadDemo, setMode,
   get selection() { return selection; },
   set selection(s) { selection = s; },
-  refreshUI, refreshProps, redrawSketch,
+  refreshUI, refreshProps, redrawSketch, syncDimEls, updateSketchLabels,
   meshes, scene, camera,
   THREE,
 };
