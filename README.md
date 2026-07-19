@@ -43,6 +43,16 @@ atornillable) que muestra todas las capacidades.
   apoyada en Z=0, lista para posicionar con restricciones y modelar la
   carcasa alrededor. Tras editar el catálogo, correr
   `python pipeline/componentes_cli.py sync-web`.
+  - **Componentes de malla real (GLB).** El catálogo también incluye piezas
+    mecánicas de transportador importadas del repo `conveyone-simulator`
+    (familias MC300/MC400/MT800/MTB800, ejes MHD/MJD y los transportadores
+    completos ZP2026 / ZP2026\_MDR): geometría **real** (`componentes/models/*.glb`,
+    compresión meshopt, cargada de forma perezosa con `GLTFLoader`). Son piezas
+    **fijas**; la parametrización es de **ensamble** (posición, patrón con
+    pitch/cantidad y restricciones) para componer nuevas máquinas.
+- **◜ Empalme / ◺ Chaflán** (símil Inventor): toca una arista del sólido y dale
+  un radio (redondeo) o una distancia (chaflán a 45°). Redondea/achaflana la
+  arista sobre la malla acumulada; convexa quita material, cóncava lo rellena.
 - **▱ Chapa / ⎣ Pestaña** (chapa plegada, símil Inventor):
   - **▱ Chapa** crea la placa base eligiendo **material** (acero, galvanizado,
     inox, aluminio — con factor K nominal editable), espesor, y radio de

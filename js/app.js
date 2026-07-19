@@ -3,6 +3,8 @@
 
 import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
+import { GLTFLoader } from '../vendor/GLTFLoader.js';
+import { MeshoptDecoder } from '../vendor/meshopt_decoder.module.js';
 import { loadCatalogo, componentToPart, envolvente } from './componentes.js';
 import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid,
@@ -215,12 +217,74 @@ const sketchShowMat = new THREE.LineBasicMaterial({ color: 0xf0a437, transparent
 const hoverMat = new THREE.MeshBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.45, depthTest: true, polygonOffset: true, polygonOffsetFactor: -2 });
 const pickedMat = new THREE.MeshBasicMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.55, depthTest: true, polygonOffset: true, polygonOffsetFactor: -2 });
 
+// ---------- Piezas de malla real (GLB) ----------
+// Componentes mecánicos importados (conveyone-simulator): geometría fija. Se
+// cargan de forma perezosa una sola vez, se fusionan en una sola BufferGeometry
+// (coordenadas en mm, Z arriba) y se recentran en XY con la base en Z=0.
+
+const gltfLoader = new GLTFLoader();
+gltfLoader.setMeshoptDecoder(MeshoptDecoder); // los GLB usan compresión EXT_meshopt_compression
+const meshGeomCache = new Map();  // src → Promise<BufferGeometry>
+
+function loadMeshGeometry(src) {
+  if (meshGeomCache.has(src)) return meshGeomCache.get(src);
+  const promise = MeshoptDecoder.ready.then(() => new Promise((resolve, reject) => {
+    gltfLoader.load(src, (gltf) => {
+      gltf.scene.updateMatrixWorld(true);
+      const verts = []; // se transforma vértice a vértice: fromBufferAttribute respeta
+      const v = new THREE.Vector3(); // el flag 'normalized' (dequantiza KHR_mesh_quantization)
+      gltf.scene.traverse((o) => {
+        if (!o.isMesh || !o.geometry) return;
+        const g = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry;
+        const pa = g.attributes.position;
+        for (let i = 0; i < pa.count; i++) {
+          v.fromBufferAttribute(pa, i).applyMatrix4(o.matrixWorld);
+          verts.push(v.x, v.y, v.z);
+        }
+      });
+      if (!verts.length) { reject(new Error('GLB sin mallas')); return; }
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+      geom.scale(1000, 1000, 1000);   // glTF viene en metros; foto3d trabaja en mm
+      geom.computeBoundingBox();
+      const bb = geom.boundingBox;
+      geom.translate(-(bb.min.x + bb.max.x) / 2, -(bb.min.y + bb.max.y) / 2, -bb.min.z); // XY centrado, base Z=0
+      geom.computeVertexNormals();
+      resolve(geom);
+    }, undefined, (err) => reject(err instanceof Error ? err : new Error(String(err))));
+  }));
+  meshGeomCache.set(src, promise);
+  return promise;
+}
+
+const isMeshPart = (part) => part.features.length === 1 && part.features[0].shape === 'mesh';
+
+function rebuildMeshPart(part) {
+  const src = part.features[0].params.src;
+  loadMeshGeometry(src).then((geom) => {
+    if (!getPart(doc, part.id)) return;           // la pieza se borró mientras cargaba
+    disposePartMesh(part.id);
+    const g = geom.clone();
+    const mesh = new THREE.Mesh(g, matFor(part));
+    mesh.userData.partId = part.id;
+    const edges = new THREE.LineSegments(new THREE.EdgesGeometry(g, 32), edgeMat);
+    mesh.add(edges);
+    meshes.set(part.id, { mesh, edges });
+    scene.add(mesh);
+    syncTransform(part);
+    refreshUI();
+  }).catch((err) => {
+    setStatus(`No se pudo cargar la malla (${src}): ${err.message}`);
+  });
+}
+
 // ---------- Reconstrucción ----------
 
 function rebuildPart(part) {
   disposePartMesh(part.id);
   applyExpressions(part, resolveParams(doc)); // resuelve cotas vinculadas a parámetros (fx)
   if (!part.features.length) { refreshUI(); return; }
+  if (isMeshPart(part)) { rebuildMeshPart(part); refreshUI(); return; }
   const geom = buildPartGeometry(part);
   if (!geom.attributes.position || geom.attributes.position.count === 0) {
     // sin material (p. ej. solo cortes): no hay nada que mostrar
@@ -308,7 +372,7 @@ function commit(msg) { autosave(); if (msg) setStatus(msg); }
 
 // ---------- Interfaz: árbol ----------
 
-const OP_ICON = { union: '⊕', cut: '⊖', blend: '◜', pattern: '▦' };
+const OP_ICON = { union: '⊕', cut: '⊖', blend: '◜', pattern: '▦', mesh: '◈' };
 
 function refreshUI() {
   const tree = $('tree');
@@ -358,6 +422,7 @@ function featureMeta(f) {
   if (f.shape === 'hole') return f.params.through ? `Ø${f.params.dia} pasante` : `Ø${f.params.dia}×${f.params.depth}`;
   if (f.shape === 'sketch') return `${(f.params.entities || f.params.pts || []).length} ent ×${f.params.h}`;
   if (f.shape === 'revolve') return `rev 360° ${(f.params.entities || []).length} ent`;
+  if (f.shape === 'mesh') return f.params.bbox ? `malla · ${f.params.bbox.map(n => +n.toFixed(0)).join('×')} mm` : 'malla real (GLB)';
   if (f.shape === 'fillet') return `R${f.params.r} · ${(f.params.edges || []).length} arista(s)`;
   if (f.shape === 'chamfer') return `${f.params.d} mm · ${(f.params.edges || []).length} arista(s)`;
   if (f.shape === 'pattern') {
