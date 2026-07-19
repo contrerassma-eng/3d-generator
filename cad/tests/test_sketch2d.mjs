@@ -357,6 +357,16 @@ console.log('— Restricciones geométricas (solver) —');
   check('fijar: la entidad anclada no se movió', near(fx.a[0], before[0]) && near(fx.b[0], before[2]) && near(fx.b[1], before[3]));
   check('fijar: la coincidente llegó al punto fijo', near(dist(mv.a, fx.b), 0));
 }
+{
+  // simétrica respecto a un eje vertical (x=0): dos líneas se vuelven espejo
+  const axis = makeLine([0, -20], [0, 20]);
+  const A = makeLine([5, 0], [9, 4]), B = makeLine([-2, 1], [-11, -3]);
+  solveSketch([axis, A, B], [{ id: 's', type: 'symmetric', a: A.id, b: B.id, axis: axis.id }], [], 200);
+  const res = constraintResidual([axis, A, B], { type: 'symmetric', a: A.id, b: B.id, axis: axis.id });
+  check('simétrica: espejo respecto al eje', res < 0.01, `res=${res}`);
+  check('simétrica: B es reflejo de A en x', near(B.a[0], -A.a[0]) && near(B.b[0], -A.b[0]));
+  check('simétrica: misma altura', near(B.a[1], A.a[1]) && near(B.b[1], A.b[1]));
+}
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);
 process.exit(fail ? 1 : 0);
