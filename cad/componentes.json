@@ -3336,6 +3336,27 @@
     517.2
    ],
    "notas": "Base real (~977k caras) + transferencia (~437k). Geometria real full-detalle; usar como referencia del conjunto definitivo."
+  },
+  {
+   "id": "ens_sorter_piezas",
+   "nombre": "Sorter REAL — piezas elementales (fino)",
+   "categoria": "transportador",
+   "familia": "conjunto",
+   "descripcion": "Igual que el sorter real pero HILADO FINO: cada pieza significativa (cada banda, larguero, travesaño, pata, polea/rodamiento, eje, motor) entra como su PROPIA parte editable en el modelador — para entrar en las piezas elementales, moverlas o copiarlas por separado (⧉ Duplicar). Tornillería y estructura quedan agrupadas. Malla real full-detalle.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp → tools/step_sorter_to_assembly_glb.py (variante por pieza)"
+   },
+   "confianza": "medido",
+   "ensamble": {
+    "glb": "componentes/models/sorter_CO_piezas.glb"
+   },
+   "bbox_mm": [
+    797.4,
+    1757.5,
+    517.2
+   ],
+   "notas": "~112 partes (piezas individuales + tornillería/estructura agrupadas). Sobre las caras planas puedes bocetar (referencias)."
   }
  ]
 }

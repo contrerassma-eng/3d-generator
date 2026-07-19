@@ -71,13 +71,24 @@ def main():
         tally[cls] += 1
     scene.export(OUT)
     _group_by_class(OUT)   # añade nodos-grupo por clase para que el CAD agrupe
+    # variante FINA: cada pieza significativa como su propio grupo (parte); solo
+    # tornillería y estructura quedan agrupadas (son ruido). Nombres con sufijo de
+    # letra para no colapsar por el strip de dígitos del CAD.
+    OUT2 = OUT.replace('sorter_CO.glb', 'sorter_CO_piezas.glb')
+    scene.export(OUT2)
+    _group_per_piece(OUT2)
     print('clases:', dict(tally))
 
 
-def _group_by_class(path):
-    """Reestructura el GLB: un nodo-grupo (con nombre de clase) por clase, con las
-    piezas de esa clase como hijos → el CAD agrupa por clase (loadAssembly mira el
-    nombre del NODO PADRE)."""
+def _letters(k):
+    s = ''
+    k += 1
+    while k:
+        k, r = divmod(k - 1, 26); s = chr(97 + r) + s
+    return s
+
+
+def _rewrite(path, groups):
     d = bytearray(open(path, 'rb').read())
     clen = struct.unpack('<I', d[12:16])[0]
     j = json.loads(bytes(d[20:20 + clen]))
@@ -86,20 +97,45 @@ def _group_by_class(path):
     for ni in sc['nodes']:
         nd = j['nodes'][ni]
         roots += nd['children'] if ('mesh' not in nd and nd.get('children')) else [ni]
-    groups = defaultdict(list)
-    for ni in roots:
-        cls = re.sub(r'_\d+$', '', j['nodes'][ni].get('name', '')) or 'Estructura'
-        groups[cls].append(ni)
+    named = groups(j, roots)
     sc['nodes'] = []
-    for cls, ch in groups.items():
+    for name, ch in named:
         sc['nodes'].append(len(j['nodes']))
-        j['nodes'].append({'name': cls, 'children': ch})
-    nj = json.dumps(j, separators=(',', ':')).encode()
-    nj += b' ' * ((4 - len(nj) % 4) % 4)
+        j['nodes'].append({'name': name, 'children': ch})
+    nj = json.dumps(j, separators=(',', ':')).encode(); nj += b' ' * ((4 - len(nj) % 4) % 4)
     binc = bytes(d[20 + clen:])
     out = bytearray(d[0:8]) + struct.pack('<I', 12 + 8 + len(nj) + len(binc))
     out += struct.pack('<I', len(nj)) + b'JSON' + nj + binc
     open(path, 'wb').write(out)
+
+
+def _group_by_class(path):
+    """Un nodo-grupo (nombre de clase) por clase → el CAD inserta ~9 partes."""
+    def by_class(j, roots):
+        g = defaultdict(list)
+        for ni in roots:
+            g[re.sub(r'_\d+$', '', j['nodes'][ni].get('name', '')) or 'Estructura'].append(ni)
+        return list(g.items())
+    _rewrite(path, by_class)
+
+
+def _group_per_piece(path):
+    """Cada pieza SIGNIFICATIVA como su propio grupo (parte); tornillería y
+    estructura agrupadas. Nombre '<Clase> <letra>' (termina en letra → el CAD no
+    lo colapsa por el strip de dígitos)."""
+    GROUP = {'Tornilleria', 'Estructura'}
+    def per_piece(j, roots):
+        out = []; grouped = defaultdict(list); counter = defaultdict(int)
+        for ni in roots:
+            cls = re.sub(r'_\d+$', '', j['nodes'][ni].get('name', '')) or 'Estructura'
+            if cls in GROUP:
+                grouped[cls].append(ni)
+            else:
+                out.append((f'{cls} {_letters(counter[cls])}', [ni])); counter[cls] += 1
+        for cls, ch in grouped.items():
+            out.append((cls, ch))
+        return out
+    _rewrite(path, per_piece)
 
 
 if __name__ == '__main__':
