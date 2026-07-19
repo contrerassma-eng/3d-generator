@@ -7,7 +7,7 @@ import { loadCatalogo, componentToPart, envolvente } from './componentes.js';
 import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
-  makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
+  makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, makeFilletFeature, makeChamferFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
   buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace,
   makeMate, makeConcentric, solveConstraints,
   evalExpr, resolveParams, applyExpressions,
@@ -308,7 +308,7 @@ function commit(msg) { autosave(); if (msg) setStatus(msg); }
 
 // ---------- Interfaz: árbol ----------
 
-const OP_ICON = { union: '⊕', cut: '⊖' };
+const OP_ICON = { union: '⊕', cut: '⊖', blend: '◜', pattern: '▦' };
 
 function refreshUI() {
   const tree = $('tree');
@@ -358,6 +358,8 @@ function featureMeta(f) {
   if (f.shape === 'hole') return f.params.through ? `Ø${f.params.dia} pasante` : `Ø${f.params.dia}×${f.params.depth}`;
   if (f.shape === 'sketch') return `${(f.params.entities || f.params.pts || []).length} ent ×${f.params.h}`;
   if (f.shape === 'revolve') return `rev 360° ${(f.params.entities || []).length} ent`;
+  if (f.shape === 'fillet') return `R${f.params.r} · ${(f.params.edges || []).length} arista(s)`;
+  if (f.shape === 'chamfer') return `${f.params.d} mm · ${(f.params.edges || []).length} arista(s)`;
   if (f.shape === 'pattern') {
     const srcName = doc.parts.flatMap(p => p.features).find(x => x.id === f.params.sourceId)?.name || '?';
     return f.params.kind === 'circ'
@@ -712,9 +714,11 @@ const MODE_HINTS = {
   move: 'Mover: arrastra una pieza (Shift o un 2.º dedo = mover en Z). Al soltar se re-aplican las restricciones.',
   measure: 'Medir: toca aristas, caras, circunferencias o paredes cilíndricas (ejes). Con 2 referencias calcula distancia o ángulo.',
   direct: 'Edición directa: toca una cara del sólido para cambiar su medida (diámetro, altura/profundidad o tamaño de caja).',
+  fillet: 'Empalme: toca una arista del sólido para redondearla con un radio (símil Empalme de Inventor).',
+  chamfer: 'Chaflán: toca una arista del sólido para achaflanarla (corte a 45°) con una distancia.',
 };
 
-const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', direct: 'btnDirect', measure: 'btnMeasure' };
+const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', move: 'btnMove', direct: 'btnDirect', fillet: 'btnFillet', chamfer: 'btnChamfer', measure: 'btnMeasure' };
 
 function setMode(m) {
   mode = mode === m ? 'select' : m;
@@ -734,7 +738,7 @@ for (const [m, id] of Object.entries(modeButtons)) $(id).onclick = () => setMode
 // Conmutador tipo Inventor: la barra muestra solo las herramientas del
 // entorno activo (Sección/Vista/Medir son comunes a ambos).
 
-const ENV_OF_MODE = { sketch: 'pieza', hole: 'pieza', pestana: 'pieza', direct: 'pieza',
+const ENV_OF_MODE = { sketch: 'pieza', hole: 'pieza', pestana: 'pieza', direct: 'pieza', fillet: 'pieza', chamfer: 'pieza',
                       mate: 'ens', flush: 'ens', concentric: 'ens', move: 'ens' };
 let env = 'pieza';
 function setEnv(e) {
@@ -918,6 +922,7 @@ function handleClick(ev) {
   if (mode === 'mate' || mode === 'flush') return clickMate(hit, mode);
   if (mode === 'concentric') return clickConcentric(hit);
   if (mode === 'direct') return clickDirect(hit);
+  if (mode === 'fillet' || mode === 'chamfer') return clickBlend(hit, mode);
   if (mode === 'measure') return clickMeasure(hit);
 }
 
@@ -2268,6 +2273,44 @@ function clickHole(hit) {
     faceCache.clear();
     rebuildPart(part);
     commit(`Agujero Ø${v.dia} agregado a ${part.name}.`);
+  });
+}
+
+// ---------- Empalme (fillet) / chaflán (chamfer) sobre aristas ----------
+// Reutiliza el picker de referencias (aristas/ejes) de la medición; guarda la
+// arista en coordenadas locales de la pieza y agrega la función correspondiente.
+function clickBlend(hit, kind) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const ref = pickMeasureRef(hit);
+  let a, b;
+  if (ref.kind === 'arista') { a = ref.a; b = ref.b; }
+  else if (ref.kind === 'eje') { setStatus('Toca una ARISTA (borde recto), no un eje/orificio.'); return; }
+  else { setStatus(`${kind === 'fillet' ? 'Empalme' : 'Chaflán'}: toca una arista recta del sólido.`); return; }
+  const mesh = meshes.get(part.id).mesh;
+  const la = mesh.worldToLocal(a.clone()).toArray();
+  const lb = mesh.worldToLocal(b.clone()).toArray();
+  const len = a.distanceTo(b);
+  const label = kind === 'fillet' ? 'Empalme (redondeo)' : 'Chaflán';
+  const fld = kind === 'fillet'
+    ? { key: 'r', label: 'Radio (mm)', value: Math.max(1, Math.round(len / 10)), step: 0.5 }
+    : { key: 'd', label: 'Distancia (mm)', value: Math.max(1, Math.round(len / 10)), step: 0.5 };
+  showForm(`${label} en ${part.name} — arista ${len.toFixed(1)} mm`, [fld], (v) => {
+    const size = kind === 'fillet' ? v.r : v.d;
+    if (!(size > 0)) { setStatus('El valor debe ser mayor que 0.'); return; }
+    pushUndo();
+    const edges = [{ a: la, b: lb }];
+    part.features.push(kind === 'fillet' ? makeFilletFeature(edges, size) : makeChamferFeature(edges, size));
+    faceCache.clear();
+    rebuildPart(part);
+    const rec = meshes.get(part.id);
+    if (!rec || !rec.mesh.geometry.attributes.position?.count) {
+      // el modificador no encontró las dos caras (o degeneró): revierte
+      part.features.pop();
+      rebuildPart(part);
+      setStatus('No se pudo aplicar en esa arista (¿aristas paralelas o no rectas?). Prueba otra.');
+      return;
+    }
+    commit(`${label} ${kind === 'fillet' ? 'R' : ''}${size} aplicado a ${part.name}.`);
   });
 }
 

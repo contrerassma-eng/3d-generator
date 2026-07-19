@@ -174,6 +174,114 @@ export function makePatternFeature(sourceId, kind, params) {
   return { id: uid('f'), name, shape: 'pattern', op: 'pattern', at: [0, 0, 0], dir: [0, 0, 1], params: { sourceId, kind, ...params } };
 }
 
+// Empalme (fillet) y chaflán (chamfer) sobre aristas del sólido ya construido.
+// A diferencia de las demás funciones, operan sobre la malla acumulada: cada
+// arista se guarda por sus dos extremos (coordenadas locales); al regenerar se
+// buscan las dos caras adyacentes en la malla y se construye el modificador CSG.
+//   fillet:  params {edges:[{a,b},...], r}
+//   chamfer: params {edges:[{a,b},...], d}
+export function makeFilletFeature(edges, r) {
+  return { id: uid('f'), name: `Empalme R${r}`, shape: 'fillet', op: 'blend', at: [0, 0, 0], dir: [0, 0, 1], params: { edges, r } };
+}
+export function makeChamferFeature(edges, d) {
+  return { id: uid('f'), name: `Chaflán ${d}`, shape: 'chamfer', op: 'blend', at: [0, 0, 0], dir: [0, 0, 1], params: { edges, d } };
+}
+
+// Dos caras planas adyacentes a la arista (A,B) en la malla: normales exteriores
+// n1,n2 y un vértice opuesto de cada cara (para saber si la arista es convexa).
+function facesAtEdge(geom, A, B) {
+  const pos = geom.attributes.position;
+  const e = B.clone().sub(A); const L = e.length();
+  if (L < 1e-6) return null;
+  const eu = e.clone().divideScalar(L);
+  const line = new THREE.Line3(A, B);
+  const tmp = new THREE.Vector3();
+  const groups = []; // { n, opp, count }
+  const tri = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
+  const triCount = pos.count / 3;
+  for (let t = 0; t < triCount; t++) {
+    for (let k = 0; k < 3; k++) tri[k].fromBufferAttribute(pos, t * 3 + k);
+    const n = new THREE.Vector3().subVectors(tri[1], tri[0]).cross(new THREE.Vector3().subVectors(tri[2], tri[0]));
+    if (n.lengthSq() < 1e-12) continue;
+    n.normalize();
+    for (let k = 0; k < 3; k++) {
+      const p1 = tri[k], p2 = tri[(k + 1) % 3];
+      const dl = p2.clone().sub(p1); const dll = dl.length();
+      if (dll < 1e-6) continue;
+      if (Math.abs(dl.dot(eu) / dll) < 0.999) continue;                 // no colineal con AB
+      if (line.closestPointToPoint(p1, false, tmp).distanceTo(p1) > 0.06) continue;
+      if (line.closestPointToPoint(p2, false, tmp).distanceTo(p2) > 0.06) continue;
+      const s1 = p1.clone().sub(A).dot(eu), s2 = p2.clone().sub(A).dot(eu);
+      if (Math.max(s1, s2) < 0.06 || Math.min(s1, s2) > L - 0.06) continue; // sin solape con AB
+      const opp = tri[(k + 2) % 3].clone();
+      let g = groups.find(x => x.n.dot(n) > 0.995);
+      if (g) { g.count++; } else groups.push({ n: n.clone(), opp, count: 1 });
+      break;
+    }
+  }
+  if (groups.length < 2) return null;
+  groups.sort((a, b) => b.count - a.count);
+  return { n1: groups[0].n, n2: groups[1].n, opp1: groups[0].opp };
+}
+
+// Prisma sólido a partir de un contorno 3D (base) extruido por E, con bobinado
+// exterior garantizado por el signo del volumen (como en la revolución).
+function prismFromSection(base, E) {
+  const top = base.map(p => p.clone().add(E));
+  const N = base.length;
+  const positions = [];
+  const push = (a, b, c) => positions.push(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z);
+  for (let i = 1; i < N - 1; i++) { push(base[0], base[i], base[i + 1]); push(top[0], top[i + 1], top[i]); }
+  for (let i = 0; i < N; i++) { const j = (i + 1) % N; push(base[i], top[i], top[j]); push(base[i], top[j], base[j]); }
+  let vol = 0;
+  for (let i = 0; i < positions.length; i += 9) {
+    const [ax, ay, az, bx, by, bz, cx, cy, cz] = positions.slice(i, i + 9);
+    vol += (ax * (by * cz - bz * cy) + ay * (bz * cx - bx * cz) + az * (bx * cy - by * cx)) / 6;
+  }
+  if (vol < 0) for (let i = 0; i < positions.length; i += 9) {
+    for (let k = 0; k < 3; k++) { const t = positions[i + 3 + k]; positions[i + 3 + k] = positions[i + 6 + k]; positions[i + 6 + k] = t; }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  g.computeVertexNormals();
+  return g;
+}
+
+// Modificador CSG de una arista: empalme (redondeo) o chaflán. Devuelve
+// { op:'subtract'|'union', csg } o null si no se pudieron hallar las dos caras.
+function edgeBlend(geom, edge, kind, size) {
+  const A = new THREE.Vector3(...edge.a), B = new THREE.Vector3(...edge.b);
+  const faces = facesAtEdge(geom, A, B);
+  if (!faces) return null;
+  const { n1, n2, opp1 } = faces;
+  const d = n1.dot(n2);
+  if (d < -0.985 || d > 0.985) return null;               // caras paralelas: no hay esquina
+  const convex = n2.dot(opp1.clone().sub(A)) < 0;         // el material queda del lado interior
+  const s = convex ? 1 : -1;
+  const e = B.clone().sub(A); const L = e.length(); const eu = e.clone().divideScalar(L);
+  const ext = 0.6; const Eext = eu.clone().multiplyScalar(L + 2 * ext);
+  const O = A.clone().addScaledVector(eu, -ext);          // origen del prisma (base, con salida)
+
+  if (kind === 'chamfer') {
+    const i1 = n1.clone().negate(), i2 = n2.clone().negate();
+    const fd1 = i2.clone().addScaledVector(n1, -i2.dot(n1)).normalize(); // tangente en cara1 hacia el material
+    const fd2 = i1.clone().addScaledVector(n2, -i1.dot(n2)).normalize();
+    const T1 = O.clone().addScaledVector(fd1, size), T2 = O.clone().addScaledVector(fd2, size);
+    const prism = prismFromSection([O, T1, T2], Eext);
+    return { op: convex ? 'subtract' : 'union', csg: geomToCSG(prism) };
+  }
+  // fillet (empalme)
+  const r = size;
+  const C = O.clone().addScaledVector(n1.clone().add(n2), -s * r / (1 + d)); // centro del arco
+  const T1 = C.clone().addScaledVector(n1, s * r), T2 = C.clone().addScaledVector(n2, s * r);
+  const prism = prismFromSection([O, T1, C, T2], Eext);
+  const cyl = cylinderAlong(C.toArray(), eu.toArray(), r, L + 2 * ext);
+  const sliver = geomToCSG(prism).subtract(geomToCSG(cyl)); // esquina cuadrada menos el arco
+  // convexo: se quita esa astilla del material (deja el redondeo exterior);
+  // cóncavo: se agrega en el rincón (rellena la esquina reentrante)
+  return { op: convex ? 'subtract' : 'union', csg: sliver };
+}
+
 // Matrices (excluida la identidad, que es la ocurrencia origen) de un patrón.
 export function patternMatrices(f) {
   const mats = [];
@@ -524,6 +632,18 @@ export function buildPartGeometry(part) {
       let c = geomToCSG(res.add);
       csg = csg === null ? c : csg.union(c);
       for (const cut of res.cuts) csg = csg.subtract(geomToCSG(cut));
+      continue;
+    }
+    if (f.shape === 'fillet' || f.shape === 'chamfer') {
+      // empalme/chaflán: operan sobre la malla acumulada (aristas guardadas)
+      if (csg === null) continue;
+      const cur = csgToGeom(csg);
+      const size = f.shape === 'fillet' ? f.params.r : f.params.d;
+      for (const edge of (f.params.edges || [])) {
+        const mod = edgeBlend(cur, edge, f.shape, size);
+        if (!mod) continue;
+        csg = mod.op === 'union' ? csg.union(mod.csg) : csg.subtract(mod.csg);
+      }
       continue;
     }
     if (f.shape === 'pattern') {

@@ -216,6 +216,8 @@
     <button class="tile envp" id="btnHole" title="Agujero sobre una cara (toca la cara)"><span class="tic">◎</span>Agujero</button>
     <button class="tile envp" id="btnFeature" title="Agregar unión o corte (caja/cilindro) a la pieza seleccionada"><span class="tic">✚</span>Función</button>
     <button class="tile envp" id="btnDirect" title="Edición directa: toca una cara del sólido para cambiar su medida (diámetro, altura o tamaño)"><span class="tic">🖐</span>Directo</button>
+    <button class="tile envp" id="btnFillet" title="Empalme (redondeo): toca una arista del sólido y dale un radio (símil Empalme de Inventor)"><span class="tic">◜</span>Empalme</button>
+    <button class="tile envp" id="btnChamfer" title="Chaflán: toca una arista del sólido y dale una distancia (corte a 45°)"><span class="tic">◺</span>Chaflán</button>
     <button class="tile envp" id="btnPestana" title="Pestaña de chapa sobre una arista (de la base o de la punta de otra pestaña)"><span class="tic">⎣</span>Pestaña</button>
     <div class="railcat envp">Patrón</div>
     <button class="tile envp" id="btnPatRect" title="Patrón rectangular: repite la función seleccionada del árbol en filas y columnas (símil Inventor)"><span class="tic">▦</span>Rect.</button>
@@ -290,6 +292,7 @@
   </div>
 </div>
 <input type="file" id="fileInput" accept=".json" style="display:none">
+<!-- Desarrollo con módulos ES (sin rebuild). Producción usa index.html + bundle.js -->
 <script type="module" src="./js/app.js"></script>
 </body>
 </html>
