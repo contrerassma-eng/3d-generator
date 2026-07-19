@@ -153,8 +153,8 @@
     border-radius:7px; padding:8px 8px; font-size:14px; }
   .frow input[type=color] { width:44px; height:32px; padding:0; border:1px solid var(--border); border-radius:7px; background:none; }
   .frow input[type=checkbox] { width:19px; height:19px; }
-  .btnrow { display:flex; gap:6px; margin-top:8px; }
-  .btnrow button { flex:1; }
+  .btnrow { display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+  .btnrow button { flex:1 1 auto; min-width:74px; white-space:nowrap; }
 
   #hud { position:absolute; top:66px; left:10px; right:10px; display:flex; flex-direction:column; gap:6px; pointer-events:none; }
   .hudtag { background:#171b21d9; border:1px solid var(--border); border-radius:8px; padding:6px 10px;
