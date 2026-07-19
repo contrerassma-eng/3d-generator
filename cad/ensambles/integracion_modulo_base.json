@@ -5,18 +5,18 @@
   "nombre": "Conjunto completo — transportador base twin-belt + transferencia 90° en el hueco",
   "capa": "user",
   "origen": "gen_integracion.mjs: base_sorter.json (equipo base paramétrico completo) + transfer_rodillos_90.json montado en el hueco (X=0), mismo marco (flujo X, plano de banda Z=170). Los rodillos emergen +4 entre las 4 bandas del base; el canal fijo del módulo se ancla a los 2 travesaños pesados del hueco (X=±430).",
-  "piezas_base": 38,
+  "piezas_base": 58,
   "piezas_transferencia": 106
  },
  "parts": [
   {
-   "id": "bp1_base_canal_lateral_del_bastidor_y",
-   "name": "BASE · Canal lateral del bastidor -Y",
-   "color": "#5b6b78",
+   "id": "bp1_base_perfil_item_40_120_del_bastidor_y",
+   "name": "BASE · Perfil item 40×120 del bastidor -Y",
+   "color": "#9aa6b0",
    "pos": [
     0,
     -300,
-    104
+    102
    ],
    "quat": [
     0,
@@ -30,7 +30,7 @@
    "features": [
     {
      "id": "bf1",
-     "name": "Alma 3000×6×120",
+     "name": "Perfil 3000×40×120",
      "shape": "box",
      "op": "union",
      "at": [
@@ -45,19 +45,19 @@
      ],
      "params": {
       "w": 3000,
-      "d": 6,
+      "d": 40,
       "h": 120
      }
     },
     {
      "id": "bf2",
-     "name": "Ala superior",
+     "name": "Ranura en T (interior)",
      "shape": "box",
-     "op": "union",
+     "op": "cut",
      "at": [
       0,
       20,
-      60
+      0
      ],
      "dir": [
       0,
@@ -66,41 +66,20 @@
      ],
      "params": {
       "w": 3000,
-      "d": 40,
-      "h": 6
-     }
-    },
-    {
-     "id": "bf3",
-     "name": "Ala inferior",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      20,
-      -60
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 3000,
-      "d": 40,
-      "h": 6
+      "d": 12,
+      "h": 60
      }
     }
    ]
   },
   {
-   "id": "bp2_base_canal_lateral_del_bastidor_y",
-   "name": "BASE · Canal lateral del bastidor +Y",
-   "color": "#5b6b78",
+   "id": "bp2_base_perfil_item_40_120_del_bastidor_y",
+   "name": "BASE · Perfil item 40×120 del bastidor +Y",
+   "color": "#9aa6b0",
    "pos": [
     0,
     300,
-    104
+    102
    ],
    "quat": [
     0,
@@ -113,8 +92,8 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf4",
-     "name": "Alma 3000×6×120",
+     "id": "bf3",
+     "name": "Perfil 3000×40×120",
      "shape": "box",
      "op": "union",
      "at": [
@@ -129,19 +108,19 @@
      ],
      "params": {
       "w": 3000,
-      "d": 6,
+      "d": 40,
       "h": 120
      }
     },
     {
-     "id": "bf5",
-     "name": "Ala superior",
+     "id": "bf4",
+     "name": "Ranura en T (interior)",
      "shape": "box",
-     "op": "union",
+     "op": "cut",
      "at": [
       0,
       -20,
-      60
+      0
      ],
      "dir": [
       0,
@@ -150,41 +129,83 @@
      ],
      "params": {
       "w": 3000,
-      "d": 40,
-      "h": 6
-     }
-    },
-    {
-     "id": "bf6",
-     "name": "Ala inferior",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      -20,
-      -60
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 3000,
-      "d": 40,
-      "h": 6
+      "d": 12,
+      "h": 60
      }
     }
    ]
   },
   {
-   "id": "bp3_base_cama_deslizante_slider_bed_lane_y_208_5",
-   "name": "BASE · Cama deslizante (slider bed) lane Y=-208.5",
-   "color": "#9aa7b2",
+   "id": "bp3_base_gu_a_item_80_40_con_slot_deslizante_lane_y_208_5",
+   "name": "BASE · Guía item 80×40 con slot (deslizante) lane Y=-208.5",
+   "color": "#9aa6b0",
    "pos": [
     0,
     -208.5,
-    164
+    145
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf5",
+     "name": "Perfil guía item 80×40",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2760,
+      "d": 80,
+      "h": 40
+     }
+    },
+    {
+     "id": "bf6",
+     "name": "Slot de deslizamiento (ancho de banda)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      18
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2760,
+      "d": 34,
+      "h": 8
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp4_base_banda_sincr_nica_at10_item24_lane_y_208_5_ramal_superior",
+   "name": "BASE · Banda sincrónica AT10 (item24) lane Y=-208.5 (ramal superior)",
+   "color": "#141414",
+   "pos": [
+    0,
+    -208.5,
+    165
    ],
    "quat": [
     0,
@@ -198,7 +219,7 @@
    "features": [
     {
      "id": "bf7",
-     "name": "Chapa slider 3",
+     "name": "Ramal superior AT10",
      "shape": "box",
      "op": "union",
      "at": [
@@ -212,21 +233,21 @@
       1
      ],
      "params": {
-      "w": 2900,
-      "d": 58,
-      "h": 3
+      "w": 2820,
+      "d": 32,
+      "h": 5
      }
     }
    ]
   },
   {
-   "id": "bp4_base_banda_anfitri_n_40_3_lane_y_208_5_ramal_superior",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=-208.5 (ramal superior)",
+   "id": "bp5_base_banda_sincr_nica_at10_lane_y_208_5_retorno",
+   "name": "BASE · Banda sincrónica AT10 lane Y=-208.5 (retorno)",
    "color": "#141414",
    "pos": [
     0,
     -208.5,
-    167
+    57
    ],
    "quat": [
     0,
@@ -240,7 +261,7 @@
    "features": [
     {
      "id": "bf8",
-     "name": "Ramal superior",
+     "name": "Ramal de retorno AT10",
      "shape": "box",
      "op": "union",
      "at": [
@@ -254,21 +275,21 @@
       1
      ],
      "params": {
-      "w": 2940,
-      "d": 40,
-      "h": 3
+      "w": 2820,
+      "d": 32,
+      "h": 5
      }
     }
    ]
   },
   {
-   "id": "bp5_base_banda_anfitri_n_40_3_lane_y_208_5_retorno",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=-208.5 (retorno)",
-   "color": "#141414",
+   "id": "bp6_base_polea_dentada_at10_32t_cabeza_lane_y_208_5",
+   "name": "BASE · Polea dentada AT10 32T cabeza lane Y=-208.5",
+   "color": "#8b98a6",
    "pos": [
-    0,
+    1410,
     -208.5,
-    83
+    114
    ],
    "quat": [
     0,
@@ -282,119 +303,74 @@
    "features": [
     {
      "id": "bf9",
-     "name": "Ramal de retorno",
-     "shape": "box",
+     "name": "Cuerpo dentado Ø102×42",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
+      -21,
       0
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 2940,
-      "d": 40,
-      "h": 3
+      "dia": 102,
+      "h": 42
      }
-    }
-   ]
-  },
-  {
-   "id": "bp6_base_cama_deslizante_slider_bed_lane_y_69_5",
-   "name": "BASE · Cama deslizante (slider bed) lane Y=-69.5",
-   "color": "#9aa7b2",
-   "pos": [
-    0,
-    -69.5,
-    164
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
+    },
     {
      "id": "bf10",
-     "name": "Chapa slider 3",
-     "shape": "box",
+     "name": "Pestaña Ø112 (a)",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
+      -24,
       0
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 2900,
-      "d": 58,
+      "dia": 112,
       "h": 3
      }
-    }
-   ]
-  },
-  {
-   "id": "bp7_base_banda_anfitri_n_40_3_lane_y_69_5_ramal_superior",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=-69.5 (ramal superior)",
-   "color": "#141414",
-   "pos": [
-    0,
-    -69.5,
-    167
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
+    },
     {
      "id": "bf11",
-     "name": "Ramal superior",
-     "shape": "box",
+     "name": "Pestaña Ø112 (b)",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
+      21,
       0
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 2940,
-      "d": 40,
+      "dia": 112,
       "h": 3
      }
     }
    ]
   },
   {
-   "id": "bp8_base_banda_anfitri_n_40_3_lane_y_69_5_retorno",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=-69.5 (retorno)",
-   "color": "#141414",
+   "id": "bp7_base_eje_independiente_30_lk_cabeza_lane_y_208_5",
+   "name": "BASE · Eje independiente Ø30 + LK cabeza lane Y=-208.5",
+   "color": "#9aa7b2",
    "pos": [
-    0,
-    -69.5,
-    83
+    1410,
+    -248.5,
+    114
    ],
    "quat": [
     0,
@@ -408,8 +384,8 @@
    "features": [
     {
      "id": "bf12",
-     "name": "Ramal de retorno",
-     "shape": "box",
+     "name": "Eje Ø30 × 120",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
@@ -418,67 +394,44 @@
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 2940,
-      "d": 40,
-      "h": 3
+      "dia": 30,
+      "h": 120
      }
-    }
-   ]
-  },
-  {
-   "id": "bp9_base_cama_deslizante_slider_bed_lane_y_69_5",
-   "name": "BASE · Cama deslizante (slider bed) lane Y=69.5",
-   "color": "#9aa7b2",
-   "pos": [
-    0,
-    69.5,
-    164
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
+    },
     {
      "id": "bf13",
-     "name": "Chapa slider 3",
-     "shape": "box",
+     "name": "Casquillo LK (bloqueo sin chaveta)",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
+      64,
       0
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 2900,
-      "d": 58,
-      "h": 3
+      "dia": 45,
+      "h": 26
      }
     }
    ]
   },
   {
-   "id": "bp10_base_banda_anfitri_n_40_3_lane_y_69_5_ramal_superior",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=69.5 (ramal superior)",
-   "color": "#141414",
+   "id": "bp8_base_polea_dentada_at10_32t_cola_lane_y_208_5",
+   "name": "BASE · Polea dentada AT10 32T cola lane Y=-208.5",
+   "color": "#8b98a6",
    "pos": [
-    0,
-    69.5,
-    167
+    -1410,
+    -208.5,
+    114
    ],
    "quat": [
     0,
@@ -492,119 +445,74 @@
    "features": [
     {
      "id": "bf14",
-     "name": "Ramal superior",
-     "shape": "box",
+     "name": "Cuerpo dentado Ø102×42",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
+      -21,
       0
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 2940,
-      "d": 40,
-      "h": 3
+      "dia": 102,
+      "h": 42
      }
-    }
-   ]
-  },
-  {
-   "id": "bp11_base_banda_anfitri_n_40_3_lane_y_69_5_retorno",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=69.5 (retorno)",
-   "color": "#141414",
-   "pos": [
-    0,
-    69.5,
-    83
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
+    },
     {
      "id": "bf15",
-     "name": "Ramal de retorno",
-     "shape": "box",
+     "name": "Pestaña Ø112 (a)",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
+      -24,
       0
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 2940,
-      "d": 40,
+      "dia": 112,
       "h": 3
      }
-    }
-   ]
-  },
-  {
-   "id": "bp12_base_cama_deslizante_slider_bed_lane_y_208_5",
-   "name": "BASE · Cama deslizante (slider bed) lane Y=208.5",
-   "color": "#9aa7b2",
-   "pos": [
-    0,
-    208.5,
-    164
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
+    },
     {
      "id": "bf16",
-     "name": "Chapa slider 3",
-     "shape": "box",
+     "name": "Pestaña Ø112 (b)",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
+      21,
       0
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 2900,
-      "d": 58,
+      "dia": 112,
       "h": 3
      }
     }
    ]
   },
   {
-   "id": "bp13_base_banda_anfitri_n_40_3_lane_y_208_5_ramal_superior",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=208.5 (ramal superior)",
-   "color": "#141414",
+   "id": "bp9_base_eje_independiente_30_lk_cola_lane_y_208_5",
+   "name": "BASE · Eje independiente Ø30 + LK cola lane Y=-208.5",
+   "color": "#9aa7b2",
    "pos": [
-    0,
-    208.5,
-    167
+    -1410,
+    -248.5,
+    114
    ],
    "quat": [
     0,
@@ -618,8 +526,8 @@
    "features": [
     {
      "id": "bf17",
-     "name": "Ramal superior",
-     "shape": "box",
+     "name": "Eje Ø30 × 120",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
@@ -628,67 +536,44 @@
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 2940,
-      "d": 40,
-      "h": 3
+      "dia": 30,
+      "h": 120
      }
-    }
-   ]
-  },
-  {
-   "id": "bp14_base_banda_anfitri_n_40_3_lane_y_208_5_retorno",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=208.5 (retorno)",
-   "color": "#141414",
-   "pos": [
-    0,
-    208.5,
-    83
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
+    },
     {
      "id": "bf18",
-     "name": "Ramal de retorno",
-     "shape": "box",
+     "name": "Casquillo LK (bloqueo sin chaveta)",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
+      64,
       0
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 2940,
-      "d": 40,
-      "h": 3
+      "dia": 45,
+      "h": 26
      }
     }
    ]
   },
   {
-   "id": "bp15_base_tambor_de_cabeza_motriz",
-   "name": "BASE · Tambor de cabeza (motriz)",
+   "id": "bp10_base_polea_tensora_at10_neum_tica_lane_y_208_5",
+   "name": "BASE · Polea tensora AT10 (neumática) lane Y=-208.5",
    "color": "#8b98a6",
    "pos": [
-    1430,
     0,
-    128
+    -208.5,
+    23
    ],
    "quat": [
     0,
@@ -702,111 +587,9 @@
    "features": [
     {
      "id": "bf19",
-     "name": "Llanta Ø90×520",
+     "name": "Polea tensora Ø60×40",
      "shape": "cylinder",
      "op": "union",
-     "at": [
-      0,
-      -260,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 90,
-      "h": 520
-     }
-    },
-    {
-     "id": "bf20",
-     "name": "Lagging de caucho ranurado e=6 (µ≥0.7)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -260,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 102,
-      "h": 520
-     }
-    },
-    {
-     "id": "bf21",
-     "name": "Eje Ø30",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -320,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 30,
-      "h": 640
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp16_base_chumacera_tambor_cabeza_motriz_y",
-   "name": "BASE · Chumacera tambor cabeza (motriz) -Y",
-   "color": "#9aa7b2",
-   "pos": [
-    1430,
-    -294,
-    128
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf22",
-     "name": "Cuerpo chumacera 60×40×50",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 60,
-      "d": 40,
-      "h": 50
-     }
-    },
-    {
-     "id": "bf23",
-     "name": "Bore Ø30",
-     "shape": "cylinder",
-     "op": "cut",
      "at": [
       0,
       -20,
@@ -814,24 +597,24 @@
      ],
      "dir": [
       0,
-      -1,
+      1,
       0
      ],
      "params": {
-      "dia": 30,
+      "dia": 60,
       "h": 40
      }
     }
    ]
   },
   {
-   "id": "bp17_base_chumacera_tambor_cabeza_motriz_y",
-   "name": "BASE · Chumacera tambor cabeza (motriz) +Y",
-   "color": "#9aa7b2",
+   "id": "bp11_base_cilindro_tensor_neum_tico_iso_6432_20_lane_y_208_5",
+   "name": "BASE · Cilindro tensor neumático ISO 6432 Ø20 lane Y=-208.5",
+   "color": "#cfd8dc",
    "pos": [
-    1430,
-    294,
-    128
+    0,
+    -208.5,
+    -7
    ],
    "quat": [
     0,
@@ -844,8 +627,89 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf24",
-     "name": "Cuerpo chumacera 60×40×50",
+     "id": "bf20",
+     "name": "Cuerpo Ø25×70",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -56
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 25,
+      "h": 60
+     }
+    },
+    {
+     "id": "bf21",
+     "name": "Vástago Ø10 (empuja la tensora hacia arriba)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    },
+    {
+     "id": "bf22",
+     "name": "Racor + regulador",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      16,
+      -56
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp12_base_gu_a_item_80_40_con_slot_deslizante_lane_y_69_5",
+   "name": "BASE · Guía item 80×40 con slot (deslizante) lane Y=-69.5",
+   "color": "#9aa6b0",
+   "pos": [
+    0,
+    -69.5,
+    145
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf23",
+     "name": "Perfil guía item 80×40",
      "shape": "box",
      "op": "union",
      "at": [
@@ -859,41 +723,84 @@
       1
      ],
      "params": {
-      "w": 60,
-      "d": 40,
-      "h": 50
+      "w": 2760,
+      "d": 80,
+      "h": 40
      }
     },
     {
-     "id": "bf25",
-     "name": "Bore Ø30",
-     "shape": "cylinder",
+     "id": "bf24",
+     "name": "Slot de deslizamiento (ancho de banda)",
+     "shape": "box",
      "op": "cut",
      "at": [
       0,
-      20,
-      0
+      0,
+      18
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 30,
-      "h": 40
+      "w": 2760,
+      "d": 34,
+      "h": 8
      }
     }
    ]
   },
   {
-   "id": "bp18_base_tambor_de_cola_take_up",
-   "name": "BASE · Tambor de cola (take-up)",
-   "color": "#8b98a6",
+   "id": "bp13_base_banda_sincr_nica_at10_item24_lane_y_69_5_ramal_superior",
+   "name": "BASE · Banda sincrónica AT10 (item24) lane Y=-69.5 (ramal superior)",
+   "color": "#141414",
    "pos": [
-    -1430,
     0,
-    128
+    -69.5,
+    165
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf25",
+     "name": "Ramal superior AT10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2820,
+      "d": 32,
+      "h": 5
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp14_base_banda_sincr_nica_at10_lane_y_69_5_retorno",
+   "name": "BASE · Banda sincrónica AT10 lane Y=-69.5 (retorno)",
+   "color": "#141414",
+   "pos": [
+    0,
+    -69.5,
+    57
    ],
    "quat": [
     0,
@@ -907,68 +814,7 @@
    "features": [
     {
      "id": "bf26",
-     "name": "Llanta Ø90×520",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -260,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 90,
-      "h": 520
-     }
-    },
-    {
-     "id": "bf27",
-     "name": "Eje Ø30",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -320,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 30,
-      "h": 640
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp19_base_chumacera_tambor_cola_take_up_y",
-   "name": "BASE · Chumacera tambor cola (take-up) -Y",
-   "color": "#9aa7b2",
-   "pos": [
-    -1430,
-    -294,
-    128
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf28",
-     "name": "Cuerpo chumacera 60×40×50",
+     "name": "Ramal de retorno AT10",
      "shape": "box",
      "op": "union",
      "at": [
@@ -982,62 +828,102 @@
       1
      ],
      "params": {
-      "w": 60,
-      "d": 40,
-      "h": 50
+      "w": 2820,
+      "d": 32,
+      "h": 5
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp15_base_polea_dentada_at10_32t_cabeza_lane_y_69_5",
+   "name": "BASE · Polea dentada AT10 32T cabeza lane Y=-69.5",
+   "color": "#8b98a6",
+   "pos": [
+    1410,
+    -69.5,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf27",
+     "name": "Cuerpo dentado Ø102×42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -21,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 102,
+      "h": 42
+     }
+    },
+    {
+     "id": "bf28",
+     "name": "Pestaña Ø112 (a)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -24,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 112,
+      "h": 3
      }
     },
     {
      "id": "bf29",
-     "name": "Bore Ø30",
+     "name": "Pestaña Ø112 (b)",
      "shape": "cylinder",
-     "op": "cut",
+     "op": "union",
      "at": [
       0,
-      -20,
+      21,
       0
      ],
      "dir": [
       0,
-      -1,
+      1,
       0
      ],
      "params": {
-      "dia": 30,
-      "h": 40
-     }
-    },
-    {
-     "id": "bf30",
-     "name": "Colisa de take-up (husillo, ±60)",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 140,
-      "d": 12,
-      "h": 34
+      "dia": 112,
+      "h": 3
      }
     }
    ]
   },
   {
-   "id": "bp20_base_chumacera_tambor_cola_take_up_y",
-   "name": "BASE · Chumacera tambor cola (take-up) +Y",
+   "id": "bp16_base_eje_independiente_30_lk_cabeza_lane_y_69_5",
+   "name": "BASE · Eje independiente Ø30 + LK cabeza lane Y=-69.5",
    "color": "#9aa7b2",
    "pos": [
-    -1430,
-    294,
-    128
+    1410,
+    -109.5,
+    114
    ],
    "quat": [
     0,
@@ -1050,34 +936,13 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf31",
-     "name": "Cuerpo chumacera 60×40×50",
-     "shape": "box",
+     "id": "bf30",
+     "name": "Eje Ø30 × 120",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 60,
-      "d": 40,
-      "h": 50
-     }
-    },
-    {
-     "id": "bf32",
-     "name": "Bore Ø30",
-     "shape": "cylinder",
-     "op": "cut",
-     "at": [
-      0,
-      20,
       0
      ],
      "dir": [
@@ -1087,40 +952,39 @@
      ],
      "params": {
       "dia": 30,
-      "h": 40
+      "h": 120
      }
     },
     {
-     "id": "bf33",
-     "name": "Colisa de take-up (husillo, ±60)",
-     "shape": "box",
-     "op": "cut",
+     "id": "bf31",
+     "name": "Casquillo LK (bloqueo sin chaveta)",
+     "shape": "cylinder",
+     "op": "union",
      "at": [
       0,
-      0,
+      64,
       0
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 140,
-      "d": 12,
-      "h": 34
+      "dia": 45,
+      "h": 26
      }
     }
    ]
   },
   {
-   "id": "bp21_base_husillo_de_take_up_m16_60",
-   "name": "BASE · Husillo de take-up M16 (±60)",
-   "color": "#9aa7b2",
+   "id": "bp17_base_polea_dentada_at10_32t_cola_lane_y_69_5",
+   "name": "BASE · Polea dentada AT10 32T cola lane Y=-69.5",
+   "color": "#8b98a6",
    "pos": [
-    -1430,
-    0,
-    128
+    -1410,
+    -69.5,
+    114
    ],
    "quat": [
     0,
@@ -1133,35 +997,75 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf34",
-     "name": "Husillo Ø16 × 200 (±60 de tensado)",
+     "id": "bf32",
+     "name": "Cuerpo dentado Ø102×42",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      80,
       0,
+      -21,
       0
      ],
      "dir": [
-      -1,
       0,
+      1,
       0
      ],
      "params": {
-      "dia": 16,
-      "h": 200
+      "dia": 102,
+      "h": 42
+     }
+    },
+    {
+     "id": "bf33",
+     "name": "Pestaña Ø112 (a)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -24,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 112,
+      "h": 3
+     }
+    },
+    {
+     "id": "bf34",
+     "name": "Pestaña Ø112 (b)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      21,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 112,
+      "h": 3
      }
     }
    ]
   },
   {
-   "id": "bp22_base_motorreductor_del_transportador_0_37_kw",
-   "name": "BASE · Motorreductor del transportador (~0.37 kW)",
-   "color": "#546e7a",
+   "id": "bp18_base_eje_independiente_30_lk_cola_lane_y_69_5",
+   "name": "BASE · Eje independiente Ø30 + LK cola lane Y=-69.5",
+   "color": "#9aa7b2",
    "pos": [
-    1430,
-    340,
-    128
+    -1410,
+    -109.5,
+    114
    ],
    "quat": [
     0,
@@ -1175,28 +1079,7 @@
    "features": [
     {
      "id": "bf35",
-     "name": "Cuerpo reductor 140×120×130",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      70,
-      -10
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 140,
-      "d": 120,
-      "h": 130
-     }
-    },
-    {
-     "id": "bf36",
-     "name": "Brida de eje hueco Ø60",
+     "name": "Eje Ø30 × 120",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -1210,41 +1093,81 @@
       0
      ],
      "params": {
-      "dia": 60,
-      "h": 40
+      "dia": 30,
+      "h": 120
      }
     },
     {
-     "id": "bf37",
-     "name": "Brazo de torque",
-     "shape": "box",
+     "id": "bf36",
+     "name": "Casquillo LK (bloqueo sin chaveta)",
+     "shape": "cylinder",
      "op": "union",
      "at": [
-      30,
-      30,
-      -70
+      0,
+      64,
+      0
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 12,
-      "d": 120,
+      "dia": 45,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp19_base_polea_tensora_at10_neum_tica_lane_y_69_5",
+   "name": "BASE · Polea tensora AT10 (neumática) lane Y=-69.5",
+   "color": "#8b98a6",
+   "pos": [
+    0,
+    -69.5,
+    23
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf37",
+     "name": "Polea tensora Ø60×40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -20,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 60,
       "h": 40
      }
     }
    ]
   },
   {
-   "id": "bp23_base_travesa_o_x_1250",
-   "name": "BASE · Travesaño X=-1250",
-   "color": "#5b6b78",
+   "id": "bp20_base_cilindro_tensor_neum_tico_iso_6432_20_lane_y_69_5",
+   "name": "BASE · Cilindro tensor neumático ISO 6432 Ø20 lane Y=-69.5",
+   "color": "#cfd8dc",
    "pos": [
-    -1250,
     0,
-    104
+    -69.5,
+    -7
    ],
    "quat": [
     0,
@@ -1258,13 +1181,13 @@
    "features": [
     {
      "id": "bf38",
-     "name": "Travesaño 50×...×80",
-     "shape": "box",
+     "name": "Cuerpo Ø25×70",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      0
+      -56
      ],
      "dir": [
       0,
@@ -1272,41 +1195,19 @@
       1
      ],
      "params": {
-      "w": 50,
-      "d": 588,
-      "h": 80
+      "dia": 25,
+      "h": 60
      }
-    }
-   ]
-  },
-  {
-   "id": "bp24_base_travesa_o_x_750",
-   "name": "BASE · Travesaño X=-750",
-   "color": "#5b6b78",
-   "pos": [
-    -750,
-    0,
-    104
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
+    },
     {
      "id": "bf39",
-     "name": "Travesaño 50×...×80",
-     "shape": "box",
+     "name": "Vástago Ø10 (empuja la tensora hacia arriba)",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      0
+      4
      ],
      "dir": [
       0,
@@ -1314,63 +1215,40 @@
       1
      ],
      "params": {
-      "w": 50,
-      "d": 588,
-      "h": 80
+      "dia": 10,
+      "h": 26
      }
-    }
-   ]
-  },
-  {
-   "id": "bp25_base_travesa_o_pesado_marco_del_hueco_x_430",
-   "name": "BASE · Travesaño PESADO (marco del hueco) X=-430",
-   "color": "#5b6b78",
-   "pos": [
-    -430,
-    0,
-    104
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
+    },
     {
      "id": "bf40",
-     "name": "Travesaño 80×2·frameHalfY×120",
-     "shape": "box",
+     "name": "Racor + regulador",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
-      0
+      16,
+      -56
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 80,
-      "d": 588,
-      "h": 120
+      "dia": 10,
+      "h": 10
      }
     }
    ]
   },
   {
-   "id": "bp26_base_travesa_o_pesado_marco_del_hueco_x_430",
-   "name": "BASE · Travesaño PESADO (marco del hueco) X=430",
-   "color": "#5b6b78",
+   "id": "bp21_base_gu_a_item_80_40_con_slot_deslizante_lane_y_69_5",
+   "name": "BASE · Guía item 80×40 con slot (deslizante) lane Y=69.5",
+   "color": "#9aa6b0",
    "pos": [
-    430,
     0,
-    104
+    69.5,
+    145
    ],
    "quat": [
     0,
@@ -1384,7 +1262,1502 @@
    "features": [
     {
      "id": "bf41",
-     "name": "Travesaño 80×2·frameHalfY×120",
+     "name": "Perfil guía item 80×40",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2760,
+      "d": 80,
+      "h": 40
+     }
+    },
+    {
+     "id": "bf42",
+     "name": "Slot de deslizamiento (ancho de banda)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      18
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2760,
+      "d": 34,
+      "h": 8
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp22_base_banda_sincr_nica_at10_item24_lane_y_69_5_ramal_superior",
+   "name": "BASE · Banda sincrónica AT10 (item24) lane Y=69.5 (ramal superior)",
+   "color": "#141414",
+   "pos": [
+    0,
+    69.5,
+    165
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf43",
+     "name": "Ramal superior AT10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2820,
+      "d": 32,
+      "h": 5
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp23_base_banda_sincr_nica_at10_lane_y_69_5_retorno",
+   "name": "BASE · Banda sincrónica AT10 lane Y=69.5 (retorno)",
+   "color": "#141414",
+   "pos": [
+    0,
+    69.5,
+    57
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf44",
+     "name": "Ramal de retorno AT10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2820,
+      "d": 32,
+      "h": 5
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp24_base_polea_dentada_at10_32t_cabeza_lane_y_69_5",
+   "name": "BASE · Polea dentada AT10 32T cabeza lane Y=69.5",
+   "color": "#8b98a6",
+   "pos": [
+    1410,
+    69.5,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf45",
+     "name": "Cuerpo dentado Ø102×42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -21,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 102,
+      "h": 42
+     }
+    },
+    {
+     "id": "bf46",
+     "name": "Pestaña Ø112 (a)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -24,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 112,
+      "h": 3
+     }
+    },
+    {
+     "id": "bf47",
+     "name": "Pestaña Ø112 (b)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      21,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 112,
+      "h": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp25_base_eje_independiente_30_lk_cabeza_lane_y_69_5",
+   "name": "BASE · Eje independiente Ø30 + LK cabeza lane Y=69.5",
+   "color": "#9aa7b2",
+   "pos": [
+    1410,
+    29.5,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf48",
+     "name": "Eje Ø30 × 120",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 120
+     }
+    },
+    {
+     "id": "bf49",
+     "name": "Casquillo LK (bloqueo sin chaveta)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      64,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 45,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp26_base_polea_dentada_at10_32t_cola_lane_y_69_5",
+   "name": "BASE · Polea dentada AT10 32T cola lane Y=69.5",
+   "color": "#8b98a6",
+   "pos": [
+    -1410,
+    69.5,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf50",
+     "name": "Cuerpo dentado Ø102×42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -21,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 102,
+      "h": 42
+     }
+    },
+    {
+     "id": "bf51",
+     "name": "Pestaña Ø112 (a)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -24,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 112,
+      "h": 3
+     }
+    },
+    {
+     "id": "bf52",
+     "name": "Pestaña Ø112 (b)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      21,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 112,
+      "h": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp27_base_eje_independiente_30_lk_cola_lane_y_69_5",
+   "name": "BASE · Eje independiente Ø30 + LK cola lane Y=69.5",
+   "color": "#9aa7b2",
+   "pos": [
+    -1410,
+    29.5,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf53",
+     "name": "Eje Ø30 × 120",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 120
+     }
+    },
+    {
+     "id": "bf54",
+     "name": "Casquillo LK (bloqueo sin chaveta)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      64,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 45,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp28_base_polea_tensora_at10_neum_tica_lane_y_69_5",
+   "name": "BASE · Polea tensora AT10 (neumática) lane Y=69.5",
+   "color": "#8b98a6",
+   "pos": [
+    0,
+    69.5,
+    23
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf55",
+     "name": "Polea tensora Ø60×40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -20,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 60,
+      "h": 40
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp29_base_cilindro_tensor_neum_tico_iso_6432_20_lane_y_69_5",
+   "name": "BASE · Cilindro tensor neumático ISO 6432 Ø20 lane Y=69.5",
+   "color": "#cfd8dc",
+   "pos": [
+    0,
+    69.5,
+    -7
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf56",
+     "name": "Cuerpo Ø25×70",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -56
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 25,
+      "h": 60
+     }
+    },
+    {
+     "id": "bf57",
+     "name": "Vástago Ø10 (empuja la tensora hacia arriba)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    },
+    {
+     "id": "bf58",
+     "name": "Racor + regulador",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      16,
+      -56
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp30_base_gu_a_item_80_40_con_slot_deslizante_lane_y_208_5",
+   "name": "BASE · Guía item 80×40 con slot (deslizante) lane Y=208.5",
+   "color": "#9aa6b0",
+   "pos": [
+    0,
+    208.5,
+    145
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf59",
+     "name": "Perfil guía item 80×40",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2760,
+      "d": 80,
+      "h": 40
+     }
+    },
+    {
+     "id": "bf60",
+     "name": "Slot de deslizamiento (ancho de banda)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      18
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2760,
+      "d": 34,
+      "h": 8
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp31_base_banda_sincr_nica_at10_item24_lane_y_208_5_ramal_superior",
+   "name": "BASE · Banda sincrónica AT10 (item24) lane Y=208.5 (ramal superior)",
+   "color": "#141414",
+   "pos": [
+    0,
+    208.5,
+    165
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf61",
+     "name": "Ramal superior AT10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2820,
+      "d": 32,
+      "h": 5
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp32_base_banda_sincr_nica_at10_lane_y_208_5_retorno",
+   "name": "BASE · Banda sincrónica AT10 lane Y=208.5 (retorno)",
+   "color": "#141414",
+   "pos": [
+    0,
+    208.5,
+    57
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf62",
+     "name": "Ramal de retorno AT10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2820,
+      "d": 32,
+      "h": 5
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp33_base_polea_dentada_at10_32t_cabeza_lane_y_208_5",
+   "name": "BASE · Polea dentada AT10 32T cabeza lane Y=208.5",
+   "color": "#8b98a6",
+   "pos": [
+    1410,
+    208.5,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf63",
+     "name": "Cuerpo dentado Ø102×42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -21,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 102,
+      "h": 42
+     }
+    },
+    {
+     "id": "bf64",
+     "name": "Pestaña Ø112 (a)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -24,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 112,
+      "h": 3
+     }
+    },
+    {
+     "id": "bf65",
+     "name": "Pestaña Ø112 (b)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      21,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 112,
+      "h": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp34_base_eje_independiente_30_lk_cabeza_lane_y_208_5",
+   "name": "BASE · Eje independiente Ø30 + LK cabeza lane Y=208.5",
+   "color": "#9aa7b2",
+   "pos": [
+    1410,
+    168.5,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf66",
+     "name": "Eje Ø30 × 120",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 120
+     }
+    },
+    {
+     "id": "bf67",
+     "name": "Casquillo LK (bloqueo sin chaveta)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      64,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 45,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp35_base_polea_dentada_at10_32t_cola_lane_y_208_5",
+   "name": "BASE · Polea dentada AT10 32T cola lane Y=208.5",
+   "color": "#8b98a6",
+   "pos": [
+    -1410,
+    208.5,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf68",
+     "name": "Cuerpo dentado Ø102×42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -21,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 102,
+      "h": 42
+     }
+    },
+    {
+     "id": "bf69",
+     "name": "Pestaña Ø112 (a)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -24,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 112,
+      "h": 3
+     }
+    },
+    {
+     "id": "bf70",
+     "name": "Pestaña Ø112 (b)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      21,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 112,
+      "h": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp36_base_eje_independiente_30_lk_cola_lane_y_208_5",
+   "name": "BASE · Eje independiente Ø30 + LK cola lane Y=208.5",
+   "color": "#9aa7b2",
+   "pos": [
+    -1410,
+    168.5,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf71",
+     "name": "Eje Ø30 × 120",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 120
+     }
+    },
+    {
+     "id": "bf72",
+     "name": "Casquillo LK (bloqueo sin chaveta)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      64,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 45,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp37_base_polea_tensora_at10_neum_tica_lane_y_208_5",
+   "name": "BASE · Polea tensora AT10 (neumática) lane Y=208.5",
+   "color": "#8b98a6",
+   "pos": [
+    0,
+    208.5,
+    23
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf73",
+     "name": "Polea tensora Ø60×40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -20,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 60,
+      "h": 40
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp38_base_cilindro_tensor_neum_tico_iso_6432_20_lane_y_208_5",
+   "name": "BASE · Cilindro tensor neumático ISO 6432 Ø20 lane Y=208.5",
+   "color": "#cfd8dc",
+   "pos": [
+    0,
+    208.5,
+    -7
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf74",
+     "name": "Cuerpo Ø25×70",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -56
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 25,
+      "h": 60
+     }
+    },
+    {
+     "id": "bf75",
+     "name": "Vástago Ø10 (empuja la tensora hacia arriba)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    },
+    {
+     "id": "bf76",
+     "name": "Racor + regulador",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      16,
+      -56
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp39_base_couple_link_acople_de_eje_calles_208_5_69_5",
+   "name": "BASE · Couple-link (acople de eje) calles -208.5↔-69.5",
+   "color": "#b0bec5",
+   "pos": [
+    1410,
+    -139,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf77",
+     "name": "Manguito de acople Ø40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -39.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "h": 79
+     }
+    },
+    {
+     "id": "bf78",
+     "name": "Brida LK a",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -39.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 10
+     }
+    },
+    {
+     "id": "bf79",
+     "name": "Brida LK b",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      29.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp40_base_couple_link_acople_de_eje_calles_69_5_69_5",
+   "name": "BASE · Couple-link (acople de eje) calles -69.5↔69.5",
+   "color": "#b0bec5",
+   "pos": [
+    1410,
+    0,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf80",
+     "name": "Manguito de acople Ø40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -39.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "h": 79
+     }
+    },
+    {
+     "id": "bf81",
+     "name": "Brida LK a",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -39.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 10
+     }
+    },
+    {
+     "id": "bf82",
+     "name": "Brida LK b",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      29.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp41_base_couple_link_acople_de_eje_calles_69_5_208_5",
+   "name": "BASE · Couple-link (acople de eje) calles 69.5↔208.5",
+   "color": "#b0bec5",
+   "pos": [
+    1410,
+    139,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf83",
+     "name": "Manguito de acople Ø40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -39.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "h": 79
+     }
+    },
+    {
+     "id": "bf84",
+     "name": "Brida LK a",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -39.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 10
+     }
+    },
+    {
+     "id": "bf85",
+     "name": "Brida LK b",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      29.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp42_base_motorreductor_de_eje_hueco_0_37_kw",
+   "name": "BASE · Motorreductor de eje hueco (~0.37 kW)",
+   "color": "#546e7a",
+   "pos": [
+    1410,
+    330,
+    114
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf86",
+     "name": "Cuerpo reductor 130×110×120",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      65,
+      -10
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 130,
+      "d": 110,
+      "h": 120
+     }
+    },
+    {
+     "id": "bf87",
+     "name": "Cubo de eje hueco Ø45",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 45,
+      "h": 40
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp43_base_travesa_o_x_1250",
+   "name": "BASE · Travesaño X=-1250",
+   "color": "#9aa6b0",
+   "pos": [
+    -1250,
+    0,
+    102
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf88",
+     "name": "Travesaño item",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 588,
+      "h": 80
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp44_base_travesa_o_x_750",
+   "name": "BASE · Travesaño X=-750",
+   "color": "#9aa6b0",
+   "pos": [
+    -750,
+    0,
+    102
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf89",
+     "name": "Travesaño item",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 588,
+      "h": 80
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp45_base_travesa_o_pesado_marco_del_hueco_x_430",
+   "name": "BASE · Travesaño PESADO (marco del hueco) X=-430",
+   "color": "#9aa6b0",
+   "pos": [
+    -430,
+    0,
+    102
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf90",
+     "name": "Travesaño item",
      "shape": "box",
      "op": "union",
      "at": [
@@ -1406,13 +2779,55 @@
    ]
   },
   {
-   "id": "bp27_base_travesa_o_x_750",
+   "id": "bp46_base_travesa_o_pesado_marco_del_hueco_x_430",
+   "name": "BASE · Travesaño PESADO (marco del hueco) X=430",
+   "color": "#9aa6b0",
+   "pos": [
+    430,
+    0,
+    102
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf91",
+     "name": "Travesaño item",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 80,
+      "d": 588,
+      "h": 120
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp47_base_travesa_o_x_750",
    "name": "BASE · Travesaño X=750",
-   "color": "#5b6b78",
+   "color": "#9aa6b0",
    "pos": [
     750,
     0,
-    104
+    102
    ],
    "quat": [
     0,
@@ -1425,8 +2840,8 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf42",
-     "name": "Travesaño 50×...×80",
+     "id": "bf92",
+     "name": "Travesaño item",
      "shape": "box",
      "op": "union",
      "at": [
@@ -1440,7 +2855,7 @@
       1
      ],
      "params": {
-      "w": 50,
+      "w": 40,
       "d": 588,
       "h": 80
      }
@@ -1448,13 +2863,13 @@
    ]
   },
   {
-   "id": "bp28_base_travesa_o_x_1250",
+   "id": "bp48_base_travesa_o_x_1250",
    "name": "BASE · Travesaño X=1250",
-   "color": "#5b6b78",
+   "color": "#9aa6b0",
    "pos": [
     1250,
     0,
-    104
+    102
    ],
    "quat": [
     0,
@@ -1467,8 +2882,8 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf43",
-     "name": "Travesaño 50×...×80",
+     "id": "bf93",
+     "name": "Travesaño item",
      "shape": "box",
      "op": "union",
      "at": [
@@ -1482,7 +2897,7 @@
       1
      ],
      "params": {
-      "w": 50,
+      "w": 40,
       "d": 588,
       "h": 80
      }
@@ -1490,7 +2905,7 @@
    ]
   },
   {
-   "id": "bp29_base_pata_x_1240_y",
+   "id": "bp49_base_pata_x_1240_y",
    "name": "BASE · Pata X=-1240 -Y",
    "color": "#3b4750",
    "pos": [
@@ -1509,14 +2924,14 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf44",
-     "name": "Poste 60×60",
+     "id": "bf94",
+     "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
      "at": [
       0,
       0,
-      347
+      346
      ],
      "dir": [
       0,
@@ -1526,11 +2941,11 @@
      "params": {
       "w": 60,
       "d": 60,
-      "h": 694
+      "h": 692
      }
     },
     {
-     "id": "bf45",
+     "id": "bf95",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -1551,7 +2966,7 @@
      }
     },
     {
-     "id": "bf46",
+     "id": "bf96",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -1573,7 +2988,7 @@
    ]
   },
   {
-   "id": "bp30_base_pata_x_1240_y",
+   "id": "bp50_base_pata_x_1240_y",
    "name": "BASE · Pata X=-1240 +Y",
    "color": "#3b4750",
    "pos": [
@@ -1592,14 +3007,14 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf47",
-     "name": "Poste 60×60",
+     "id": "bf97",
+     "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
      "at": [
       0,
       0,
-      347
+      346
      ],
      "dir": [
       0,
@@ -1609,11 +3024,11 @@
      "params": {
       "w": 60,
       "d": 60,
-      "h": 694
+      "h": 692
      }
     },
     {
-     "id": "bf48",
+     "id": "bf98",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -1634,7 +3049,7 @@
      }
     },
     {
-     "id": "bf49",
+     "id": "bf99",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -1656,7 +3071,7 @@
    ]
   },
   {
-   "id": "bp31_base_pata_x_0_y",
+   "id": "bp51_base_pata_x_0_y",
    "name": "BASE · Pata X=0 -Y",
    "color": "#3b4750",
    "pos": [
@@ -1675,14 +3090,14 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf50",
-     "name": "Poste 60×60",
+     "id": "bf100",
+     "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
      "at": [
       0,
       0,
-      347
+      346
      ],
      "dir": [
       0,
@@ -1692,11 +3107,11 @@
      "params": {
       "w": 60,
       "d": 60,
-      "h": 694
+      "h": 692
      }
     },
     {
-     "id": "bf51",
+     "id": "bf101",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -1717,7 +3132,7 @@
      }
     },
     {
-     "id": "bf52",
+     "id": "bf102",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -1739,7 +3154,7 @@
    ]
   },
   {
-   "id": "bp32_base_pata_x_0_y",
+   "id": "bp52_base_pata_x_0_y",
    "name": "BASE · Pata X=0 +Y",
    "color": "#3b4750",
    "pos": [
@@ -1758,14 +3173,14 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf53",
-     "name": "Poste 60×60",
+     "id": "bf103",
+     "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
      "at": [
       0,
       0,
-      347
+      346
      ],
      "dir": [
       0,
@@ -1775,11 +3190,11 @@
      "params": {
       "w": 60,
       "d": 60,
-      "h": 694
+      "h": 692
      }
     },
     {
-     "id": "bf54",
+     "id": "bf104",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -1800,7 +3215,7 @@
      }
     },
     {
-     "id": "bf55",
+     "id": "bf105",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -1822,7 +3237,7 @@
    ]
   },
   {
-   "id": "bp33_base_pata_x_1240_y",
+   "id": "bp53_base_pata_x_1240_y",
    "name": "BASE · Pata X=1240 -Y",
    "color": "#3b4750",
    "pos": [
@@ -1841,14 +3256,14 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf56",
-     "name": "Poste 60×60",
+     "id": "bf106",
+     "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
      "at": [
       0,
       0,
-      347
+      346
      ],
      "dir": [
       0,
@@ -1858,11 +3273,11 @@
      "params": {
       "w": 60,
       "d": 60,
-      "h": 694
+      "h": 692
      }
     },
     {
-     "id": "bf57",
+     "id": "bf107",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -1883,7 +3298,7 @@
      }
     },
     {
-     "id": "bf58",
+     "id": "bf108",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -1905,7 +3320,7 @@
    ]
   },
   {
-   "id": "bp34_base_pata_x_1240_y",
+   "id": "bp54_base_pata_x_1240_y",
    "name": "BASE · Pata X=1240 +Y",
    "color": "#3b4750",
    "pos": [
@@ -1924,14 +3339,14 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf59",
-     "name": "Poste 60×60",
+     "id": "bf109",
+     "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
      "at": [
       0,
       0,
-      347
+      346
      ],
      "dir": [
       0,
@@ -1941,11 +3356,11 @@
      "params": {
       "w": 60,
       "d": 60,
-      "h": 694
+      "h": 692
      }
     },
     {
-     "id": "bf60",
+     "id": "bf110",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -1966,7 +3381,7 @@
      }
     },
     {
-     "id": "bf61",
+     "id": "bf111",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -1988,13 +3403,13 @@
    ]
   },
   {
-   "id": "bp35_base_riostra_diagonal_y",
+   "id": "bp55_base_riostra_diagonal_y",
    "name": "BASE · Riostra diagonal -Y",
    "color": "#3b4750",
    "pos": [
     0,
     -300,
-    -243
+    -244
    ],
    "quat": [
     0,
@@ -2007,7 +3422,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf62",
+     "id": "bf112",
      "name": "Riostra 40×40",
      "shape": "box",
      "op": "union",
@@ -2030,13 +3445,13 @@
    ]
   },
   {
-   "id": "bp36_base_riostra_diagonal_y",
+   "id": "bp56_base_riostra_diagonal_y",
    "name": "BASE · Riostra diagonal +Y",
    "color": "#3b4750",
    "pos": [
     0,
     300,
-    -243
+    -244
    ],
    "quat": [
     0,
@@ -2049,7 +3464,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf63",
+     "id": "bf113",
      "name": "Riostra 40×40",
      "shape": "box",
      "op": "union",
@@ -2072,7 +3487,7 @@
    ]
   },
   {
-   "id": "bp37_base_guarda_lateral_y",
+   "id": "bp57_base_guarda_lateral_y",
    "name": "BASE · Guarda lateral -Y",
    "color": "#aab6c0",
    "pos": [
@@ -2091,8 +3506,8 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf64",
-     "name": "Guarda 3000×6×60",
+     "id": "bf114",
+     "name": "Guarda item",
      "shape": "box",
      "op": "union",
      "at": [
@@ -2106,7 +3521,7 @@
       1
      ],
      "params": {
-      "w": 2940,
+      "w": 2820,
       "d": 6,
       "h": 60
      }
@@ -2114,7 +3529,7 @@
    ]
   },
   {
-   "id": "bp38_base_guarda_lateral_y",
+   "id": "bp58_base_guarda_lateral_y",
    "name": "BASE · Guarda lateral +Y",
    "color": "#aab6c0",
    "pos": [
@@ -2133,8 +3548,8 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf65",
-     "name": "Guarda 3000×6×60",
+     "id": "bf115",
+     "name": "Guarda item",
      "shape": "box",
      "op": "union",
      "at": [
@@ -2148,7 +3563,7 @@
       1
      ],
      "params": {
-      "w": 2940,
+      "w": 2820,
       "d": 6,
       "h": 60
      }
