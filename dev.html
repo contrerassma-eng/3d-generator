@@ -63,15 +63,15 @@
   .railcat { font-size:8.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim);
              text-align:center; padding:3px 0 1px; margin-top:2px; border-top:1px solid var(--border);
              flex:none; user-select:none; }
-  .railcat:first-of-type, #envSwitch + .railcat { border-top:none; margin-top:0; }
+  .railcat:first-of-type { border-top:none; margin-top:0; }
 
-  /* conmutador de entorno Pieza/Ensamble (como los entornos de Inventor) */
-  #envSwitch { display:flex; flex-direction:column; flex:none; margin:0 1px 3px;
-               border:1px solid var(--border); border-radius:9px; overflow:hidden; }
-  #envSwitch button { min-height:28px; padding:3px 2px; font-size:10px; border:none;
-                      border-radius:0; background:none; color:var(--dim); }
-  #envSwitch button + button { border-top:1px solid var(--border); }
-  #envSwitch button.on { background:#2b4270; color:var(--text); }
+  /* pestañas de entorno Pieza/Ensamble arriba (símil pestañas de Inventor) */
+  #envTabs { display:flex; flex:none; margin-left:6px; border:1px solid var(--border);
+             border-radius:9px; overflow:hidden; }
+  #envTabs button { border:none; border-radius:0; padding:8px 16px; min-height:36px;
+                    background:none; color:var(--dim); font-weight:600; font-size:12.5px; white-space:nowrap; }
+  #envTabs button + button { border-left:1px solid var(--border); }
+  #envTabs button.on { background:#2b4270; color:var(--text); }
   #rail.ens .envp { display:none; }
   #rail:not(.ens) .enve { display:none; }
 
@@ -219,6 +219,10 @@
   <div id="toolbar">
     <button id="btnPanel" title="Mostrar/ocultar árbol y propiedades"><span class="ic" data-icon="panel"></span></button>
     <div class="brand">foto3d <span>CAD</span></div>
+    <div id="envTabs" title="Entorno de trabajo (símil pestañas de Inventor): Pieza modela sólidos; Ensamble restringe y posiciona">
+      <button id="envPieza" class="on">Pieza</button>
+      <button id="envEns">Ensamble</button>
+    </div>
     <div class="spacer"></div>
     <button id="btnGrid" title="Mostrar/ocultar el plano base (grilla) para mirar por abajo"><span class="ic" data-icon="grid"></span><span class="blbl">Grilla</span></button>
     <button id="btnSTL" title="Exportar todo el ensamble a STL binario"><span class="ic" data-icon="stl"></span><span class="blbl">STL</span></button>
@@ -234,10 +238,6 @@
   </div>
 
   <div id="rail">
-    <div id="envSwitch" title="Entorno de trabajo: modelado de piezas o ensamble">
-      <button id="envPieza" class="on">Pieza</button>
-      <button id="envEns">Ensam.</button>
-    </div>
     <div class="railcat envp">Crear</div>
     <button class="tile envp" id="btnNewBox" title="Nueva pieza a partir de una caja/placa"><span class="tic" data-icon="box"></span>Caja</button>
     <button class="tile envp" id="btnNewCyl" title="Nueva pieza a partir de un cilindro"><span class="tic" data-icon="cylinder"></span>Cilindro</button>
