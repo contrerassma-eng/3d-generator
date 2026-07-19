@@ -4,9 +4,10 @@
  "meta": {
   "nombre": "Conjunto completo — transportador base twin-belt + transferencia 90° en el hueco",
   "capa": "user",
-  "origen": "gen_integracion.mjs: base_sorter.json (equipo base paramétrico completo) + transfer_rodillos_90.json montado en el hueco (X=0), mismo marco (flujo X, plano de banda Z=170). Los rodillos emergen +4 entre las 4 bandas del base; el canal fijo del módulo se ancla a los 2 travesaños pesados del hueco (X=±430).",
+  "origen": "gen_integracion.mjs: base_sorter.json (equipo base paramétrico completo) + transfer_rodillos_90.json montado en el hueco (X=0), mismo marco (flujo X, plano de banda Z=170). Los rodillos emergen +4 entre las 4 bandas del base; el canal fijo del módulo se ancla a los 2 travesaños pesados del hueco (X=±430). El base es la TIERRA; el canal de la transferencia se fija con 3 restricciones flush (X/Y/Z).",
   "piezas_base": 118,
-  "piezas_transferencia": 106
+  "piezas_transferencia": 106,
+  "restricciones": 3
  },
  "parts": [
   {
@@ -9415,7 +9416,7 @@
     0,
     1
    ],
-   "fixed": true,
+   "fixed": false,
    "visible": true,
    "features": [
     {
@@ -14149,7 +14150,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x800",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f160",
@@ -14211,7 +14212,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "vulcanizado_rodillo_63",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f162",
@@ -14519,7 +14520,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f172",
@@ -14630,7 +14631,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f175",
@@ -14864,7 +14865,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x800",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f183",
@@ -14926,7 +14927,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "vulcanizado_rodillo_63",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f185",
@@ -15234,7 +15235,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f195",
@@ -15345,7 +15346,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f198",
@@ -15579,7 +15580,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x800",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f206",
@@ -15641,7 +15642,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "vulcanizado_rodillo_63",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f208",
@@ -15949,7 +15950,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f218",
@@ -16060,7 +16061,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f221",
@@ -16294,7 +16295,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x800",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f229",
@@ -16356,7 +16357,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "vulcanizado_rodillo_63",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f231",
@@ -16664,7 +16665,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f241",
@@ -16775,7 +16776,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f244",
@@ -17009,7 +17010,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "tubo_rodillo_51x800",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f252",
@@ -17071,7 +17072,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "vulcanizado_rodillo_63",
+   "componente": "rodillo_transfer_63",
    "features": [
     {
      "id": "f254",
@@ -17379,7 +17380,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f264",
@@ -17490,7 +17491,7 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "perno_hex_m10_retencion",
+   "componente": "perno_hex_m10_din933",
    "features": [
     {
      "id": "f267",
@@ -17702,6 +17703,7 @@
    ],
    "fixed": false,
    "visible": true,
+   "componente": "tambor_motriz_90x30",
    "features": [
     {
      "id": "f274",
@@ -17864,6 +17866,7 @@
    ],
    "fixed": false,
    "visible": true,
+   "componente": "casquillo_bloqueo_lk30",
    "features": [
     {
      "id": "f281",
@@ -21824,6 +21827,7 @@
    ],
    "fixed": false,
    "visible": true,
+   "componente": "motorreductor_eje_hueco",
    "features": [
     {
      "id": "f350",
@@ -22013,5 +22017,99 @@
    ]
   }
  ],
- "constraints": []
+ "constraints": [
+  {
+   "id": "ci_pos_x",
+   "type": "flush",
+   "a": {
+    "part": "bp1_base_perfil_item_40_120_del_bastidor_y",
+    "point": [
+     0,
+     300,
+     -102
+    ],
+    "normal": [
+     1,
+     0,
+     0
+    ]
+   },
+   "b": {
+    "part": "p1_fijo_canal_lateral_de_la_cinta",
+    "point": [
+     0,
+     0,
+     0
+    ],
+    "normal": [
+     1,
+     0,
+     0
+    ]
+   },
+   "offset": 0
+  },
+  {
+   "id": "ci_pos_y",
+   "type": "flush",
+   "a": {
+    "part": "bp1_base_perfil_item_40_120_del_bastidor_y",
+    "point": [
+     0,
+     300,
+     -102
+    ],
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   "b": {
+    "part": "p1_fijo_canal_lateral_de_la_cinta",
+    "point": [
+     0,
+     0,
+     0
+    ],
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   "offset": 0
+  },
+  {
+   "id": "ci_pos_z",
+   "type": "flush",
+   "a": {
+    "part": "bp1_base_perfil_item_40_120_del_bastidor_y",
+    "point": [
+     0,
+     300,
+     -102
+    ],
+    "normal": [
+     0,
+     0,
+     1
+    ]
+   },
+   "b": {
+    "part": "p1_fijo_canal_lateral_de_la_cinta",
+    "point": [
+     0,
+     0,
+     0
+    ],
+    "normal": [
+     0,
+     0,
+     1
+    ]
+   },
+   "offset": 0
+  }
+ ]
 }

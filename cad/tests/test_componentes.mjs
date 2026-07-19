@@ -58,6 +58,13 @@ for (const comp of cat.componentes) {
     check('ensamble GLB existe', existsSync(resolve(root, 'cad', comp.ensamble.glb)), `(${comp.ensamble.glb})`);
     continue;
   }
+  // Ensamble foto3d-cad referenciado por archivo (doc): se valida ruta + bbox.
+  if (comp.doc) {
+    check('doc tiene ruta', !!comp.doc);
+    check('doc bbox_mm', Array.isArray(comp.bbox_mm) && comp.bbox_mm.length === 3);
+    check('doc archivo existe', existsSync(resolve(root, 'cad', comp.doc)), `(${comp.doc})`);
+    continue;
+  }
   const part = componentToPart(comp);
   // Componentes de malla real (GLB): la geometría se carga en el navegador; en
   // Node se valida el mapeo (función 'mesh', color, procedencia, archivo, bbox).
