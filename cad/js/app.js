@@ -2054,7 +2054,14 @@ function clickLine(raw) {
   const closing = sketch.entities.length && Math.hypot(end[0] - sketch.chainStart[0], end[1] - sketch.chainStart[1]) < 16 * worldPerPixel();
   const tgt = closing ? sketch.chainStart : end;
   if (Math.hypot(tgt[0] - sketch.chainLast[0], tgt[1] - sketch.chainLast[1]) > 1e-3) {
-    sketch.entities.push(SK.makeLine(sketch.chainLast, tgt));
+    const ln = SK.makeLine(sketch.chainLast, tgt);
+    sketch.entities.push(ln);
+    // persistencia estilo Inventor: la relación H/V que se mostró al trazar se
+    // guarda (el segmento ya la cumple, no hace falta resolver ahora). Al cerrar
+    // el contorno el destino es chainStart (no el extremo inferido) → no se persiste.
+    if (!closing && res && (res.infer === 'horizontal' || res.infer === 'vertical')) {
+      sketch.constraints.push(SK.makeConstraint(res.infer, ln.id));
+    }
   }
   if (closing) {
     sketch.chainStart = sketch.chainLast = null;
@@ -2076,11 +2083,14 @@ function clickRect(raw) {
   const [x1, y1] = sketch.temp, [x2, y2] = uv;
   sketch.temp = null;
   if (Math.abs(x2 - x1) < 0.5 || Math.abs(y2 - y1) < 0.5) { setStatus('Rectángulo demasiado angosto.'); return; }
-  sketch.entities.push(
-    SK.makeLine([x1, y1], [x2, y1]), SK.makeLine([x2, y1], [x2, y2]),
-    SK.makeLine([x2, y2], [x1, y2]), SK.makeLine([x1, y2], [x1, y1])
-  );
-  setStatus(`Rectángulo ${Math.abs(x2 - x1).toFixed(1)}×${Math.abs(y2 - y1).toFixed(1)} mm.`);
+  const bottom = SK.makeLine([x1, y1], [x2, y1]), right = SK.makeLine([x2, y1], [x2, y2]);
+  const top = SK.makeLine([x2, y2], [x1, y2]), left = SK.makeLine([x1, y2], [x1, y1]);
+  sketch.entities.push(bottom, right, top, left);
+  // el rectángulo nace restringido (como Inventor): lados H/V
+  sketch.constraints.push(
+    SK.makeConstraint('horizontal', bottom.id), SK.makeConstraint('horizontal', top.id),
+    SK.makeConstraint('vertical', right.id), SK.makeConstraint('vertical', left.id));
+  setStatus(`Rectángulo ${Math.abs(x2 - x1).toFixed(1)}×${Math.abs(y2 - y1).toFixed(1)} mm (lados H/V restringidos).`);
   redrawSketch();
 }
 
