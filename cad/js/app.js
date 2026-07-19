@@ -910,12 +910,19 @@ function refreshProps() {
     if (!p) { selection = null; return refreshProps(); }
     const e = new THREE.Euler().setFromQuaternion(new THREE.Quaternion(...p.quat), 'XYZ');
     const deg = (r) => +(r * 180 / Math.PI).toFixed(2);
+    // estado en el ensamble (honesto: anclada = referencia 0 GL; libre = 6 GL
+    // menos lo que quiten las relaciones; el nº exacto residual no se afirma).
+    const ncc = doc.constraints.filter(c => c.a.part === p.id || c.b.part === p.id).length;
+    const asmState = p.fixed
+      ? '<b style="color:var(--accent2)">Anclada</b> · referencia (0 GL)'
+      : `<b>Libre</b> · ${ncc} relación${ncc === 1 ? '' : 'es'} de ensamble`;
     body.innerHTML = `
       ${crumb([{ t: env === 'ens' ? 'Ensamble' : 'Modelo' }, { t: p.name }])}
       ${sec('Identidad',
         frow('Nombre', `<input type="text" id="pp_name" value="${esc(p.name)}">`)
         + frow('Color', `<input type="color" id="pp_color" value="${p.color}">`)
-        + frow('Fija (a tierra)', `<input type="checkbox" id="pp_fixed" ${p.fixed ? 'checked' : ''}>`))}
+        + frow('Fija (a tierra)', `<input type="checkbox" id="pp_fixed" ${p.fixed ? 'checked' : ''}>`)
+        + frow('Estado', `<span class="meta">${asmState}</span>`))}
       ${sec('Posición y orientación',
         frow('Posición X/Y/Z', num3('pp_pos', p.pos))
         + frow('Rotación °X/Y/Z', num3('pp_rot', [deg(e.x), deg(e.y), deg(e.z)])))}
@@ -1216,7 +1223,7 @@ function showForm(title, fields, onSubmit, extra) {
   const first = dialog.querySelector('input,select');
   if (first) first.focus();
 }
-function hideDialog() { dialog.style.display = 'none'; dialog.innerHTML = ''; }
+function hideDialog() { dialog.style.display = 'none'; dialog.innerHTML = ''; if (typeof clearOpPreview === 'function') clearOpPreview(); }
 const dialogOpen = () => dialog.style.display === 'block';
 
 // ---------- Modos ----------
@@ -2907,6 +2914,30 @@ function updateSketchPreview(ev) {
 
 const fillOnMat = new THREE.MeshBasicMaterial({ color: 0x34a853, transparent: true, opacity: 0.3, side: THREE.DoubleSide, depthTest: false });
 const fillOffMat = new THREE.MeshBasicMaterial({ color: 0x666e7a, transparent: true, opacity: 0.18, side: THREE.DoubleSide, depthTest: false });
+// vista previa translúcida de la operación antes de confirmar (§6.1)
+const opPrevMatU = new THREE.MeshBasicMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.26, side: THREE.DoubleSide, depthWrite: false });
+const opPrevMatC = new THREE.MeshBasicMaterial({ color: 0xe05a4e, transparent: true, opacity: 0.26, side: THREE.DoubleSide, depthWrite: false });
+let opPreviewGroup = null;
+function showExtrudePreview(h, op) {
+  if (!sketch) return;
+  if (!opPreviewGroup) { opPreviewGroup = new THREE.Group(); sketch.group.add(opPreviewGroup); }
+  clearGroup(opPreviewGroup);
+  if (!(h > 0)) return;
+  const { regions: regs } = SK.regions(sketch.entities, [...sketch.excluded]);
+  // corte: se previsualiza hacia dentro (−normal); unión hacia fuera (+normal)
+  const dir = op === 'cut' ? -1 : 1;
+  const mBasis = new THREE.Matrix4().makeBasis(sketch.uW.clone().multiplyScalar(1), sketch.vW, sketch.nW.clone().multiplyScalar(dir))
+    .setPosition(sketch.originW);
+  const mat = op === 'cut' ? opPrevMatC : opPrevMatU;
+  for (const reg of regs) {
+    const shape = new THREE.Shape(reg.outer.map(p => new THREE.Vector2(p[0], p[1])));
+    for (const hole of reg.holes) shape.holes.push(new THREE.Path(hole.map(p => new THREE.Vector2(p[0], p[1]))));
+    const g = new THREE.ExtrudeGeometry(shape, { depth: h, bevelEnabled: false });
+    g.applyMatrix4(mBasis);
+    opPreviewGroup.add(new THREE.Mesh(g, mat));
+  }
+}
+function clearOpPreview() { if (opPreviewGroup) clearGroup(opPreviewGroup); }
 
 function drawProfileFills() {
   clearGroup(sketch.fills);
@@ -3010,6 +3041,15 @@ function finishSketch() {
     rebuildPart(part);
     commit(`Boceto extruido en ${part.name}.`);
   });
+  // vista previa en vivo del sólido mientras se ajustan altura/tipo/operación (§6.1)
+  const hEl = $('dlg_h'), tEl = $('dlg_tipo'), oEl = $('dlg_op');
+  const upd = () => { if (tEl?.value === 'rev') { clearOpPreview(); return; } showExtrudePreview(+hEl.value, oEl?.value || 'union'); };
+  if (hEl) {
+    hEl.addEventListener('input', upd);
+    tEl?.addEventListener('change', upd);
+    oEl?.addEventListener('change', upd);
+    upd();
+  }
 }
 
 function clickRevolveAxis(raw) {
@@ -3078,9 +3118,10 @@ function applyConstraintUI() {
   if (!sel.length) { setStatus('Restringir: primero selecciona entidades con ⬚ Selec.'); return; }
   const opts = [];
   if (lines.length) opts.push(['horizontal', `Horizontal${lines.length > 1 ? ' (cada línea)' : ''}`], ['vertical', `Vertical${lines.length > 1 ? ' (cada línea)' : ''}`]);
-  if (lines.length >= 2) opts.push(['parallel', 'Paralela'], ['perpendicular', 'Perpendicular'], ['equalL', 'Igual longitud']);
-  if (circs.length >= 2) opts.push(['equalR', 'Igual radio']);
-  if (!opts.length) { setStatus('Selecciona 1+ líneas (H/V/∥/⟂/=) o 2 círculos (= radio).'); return; }
+  if (lines.length >= 2) opts.push(['parallel', 'Paralela'], ['perpendicular', 'Perpendicular'], ['collinear', 'Colineal'], ['equalL', 'Igual longitud']);
+  if (circs.length >= 2) opts.push(['equalR', 'Igual radio'], ['concentric', 'Concéntrica'], ['tangentCC', 'Tangente (círculos)']);
+  if (lines.length >= 1 && circs.length >= 1) opts.push(['tangentLC', 'Tangente (línea·círculo)']);
+  if (!opts.length) { setStatus('Selecciona líneas (H/V/∥/⟂/colineal/=), círculos (=/concéntrica/tangente) o línea+círculo (tangente).'); return; }
   showForm('Restricción geométrica', [
     { key: 'type', label: 'Relación', type: 'select', value: opts[0][0], options: opts },
   ], (v) => addConstraints(v.type, lines, circs));
@@ -3089,9 +3130,12 @@ function addConstraints(type, lines, circs) {
   pushUndo();
   const add = (t, a, b) => sketch.constraints.push(SK.makeConstraint(t, a, b));
   if (type === 'horizontal' || type === 'vertical') for (const l of lines) add(type, l.id);
-  else if (type === 'parallel' || type === 'perpendicular') for (let i = 1; i < lines.length; i++) add(type, lines[i].id, lines[0].id);
+  else if (type === 'parallel' || type === 'perpendicular' || type === 'collinear') for (let i = 1; i < lines.length; i++) add(type, lines[i].id, lines[0].id);
   else if (type === 'equalL') for (let i = 1; i < lines.length; i++) add('equal', lines[i].id, lines[0].id);
   else if (type === 'equalR') for (let i = 1; i < circs.length; i++) add('equal', circs[i].id, circs[0].id);
+  else if (type === 'concentric') for (let i = 1; i < circs.length; i++) add('concentric', circs[i].id, circs[0].id);
+  else if (type === 'tangentCC') for (let i = 1; i < circs.length; i++) add('tangent', circs[i].id, circs[0].id);
+  else if (type === 'tangentLC') add('tangent', lines[0].id, circs[0].id);
   SK.solveSketch(sketch.entities, sketch.constraints, sketch.dims);
   sketch.selIds.clear();
   syncDimEls();
