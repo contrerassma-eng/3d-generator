@@ -1407,11 +1407,13 @@ renderer.domElement.addEventListener('pointerdown', (ev) => {
   }
   if (dragging) { switchDragVertical(); return; } // 2.º dedo durante el arrastre → mover en Z
   downPos = { x: ev.clientX, y: ev.clientY };
+  armLongPress(ev); // pulsación larga táctil → menú radial (se cancela si se mueve)
   if (mode === 'move' && ev.button === 0) startMoveDrag(ev);
 });
 
 renderer.domElement.addEventListener('pointermove', (ev) => {
   if (dialogOpen()) return;
+  if (lpTimer && downPos && Math.hypot(ev.clientX - downPos.x, ev.clientY - downPos.y) > 8) cancelLongPress();
   if (sketch?.stroke) { moveStroke(ev); return; }
   if (sketch?.marquee) { moveMarquee(ev); return; }
   if (sketch?.entDrag) { moveEntDrag(ev); return; }
@@ -1426,6 +1428,7 @@ renderer.domElement.addEventListener('pointermove', (ev) => {
 
 renderer.domElement.addEventListener('pointerup', (ev) => {
   if (dialogOpen()) return;
+  cancelLongPress();
   if (sketch?.stroke) { if (ev.pointerId === sketch.stroke.pointerId) endStroke(); return; }
   if (sketch?.marquee) { if (ev.pointerId === sketch.marquee.pointerId) endMarquee(ev); return; }
   if (sketch?.entDrag) { if (ev.pointerId === sketch.entDrag.pointerId) endEntDrag(); return; }
@@ -1442,8 +1445,74 @@ renderer.domElement.addEventListener('pointercancel', () => {
   if (sketch?.marquee) { clearGroup(sketch.preview); sketch.marquee = null; sketchControls.enabled = true; }
   if (sketch?.entDrag) endEntDrag();
   if (dragging) endMoveDrag(); // gesto interrumpido por el sistema (táctil)
-  downPos = null;
+  downPos = null; cancelLongPress();
 });
+
+// ---------- menú radial (marking menu §1.3) ----------
+// Comandos del modo activo en un anillo centrado en el cursor: clic derecho
+// (escritorio) o pulsación larga estacionaria (táctil). No estorba al dibujo/
+// órbita: la pulsación larga se cancela apenas el dedo se mueve.
+const markMenu = document.getElementById('markMenu');
+const clickBtn = (id) => document.getElementById(id)?.click();
+const setSketchToolBtn = (tool) => sketchbar.querySelector(`[data-tool="${tool}"]`)?.click();
+function markingItems() {
+  if (sketch) return [
+    ['╱ Línea', () => setSketchToolBtn('line')], ['▭ Rect', () => setSketchToolBtn('rect')],
+    ['◯ Círculo', () => setSketchToolBtn('circle')], ['⇤⇥ Cota', () => setSketchToolBtn('dim')],
+    ['⊾ Restringir', () => document.getElementById('skConstrain')?.click()],
+    ['✔ Extruir', () => clickBtn('skClose')], ['✕ Salir', () => clickBtn('skCancel')],
+  ];
+  if (env === 'ens') return [
+    ['Coincidir', () => clickBtn('btnMate')], ['Alinear', () => clickBtn('btnFlush')],
+    ['Concéntrico', () => clickBtn('btnConcentric')], ['Mover', () => clickBtn('btnMove')],
+    ['Aislar', () => clickBtn('btnIsolate')], ['Medir', () => clickBtn('btnMeasure')],
+  ];
+  return [
+    ['Caja', () => clickBtn('btnNewBox')], ['Cilindro', () => clickBtn('btnNewCyl')],
+    ['Boceto', () => clickBtn('btnSketch')], ['Agujero', () => clickBtn('btnHole')],
+    ['Empalme', () => clickBtn('btnFillet')], ['Chaflán', () => clickBtn('btnChamfer')],
+    ['Medir', () => clickBtn('btnMeasure')], ['Sección', () => clickBtn('btnSection')],
+  ];
+}
+function showMarkingMenu(px, py) {
+  const items = markingItems();
+  const R = 82;
+  const x = Math.min(Math.max(px, R + 56), window.innerWidth - R - 56);
+  const y = Math.min(Math.max(py, R + 40), window.innerHeight - R - 40);
+  markMenu.innerHTML = '';
+  const back = document.createElement('div'); back.className = 'mm-backdrop';
+  back.addEventListener('pointerdown', (e) => { e.stopPropagation(); hideMarkingMenu(); });
+  back.addEventListener('contextmenu', (e) => e.preventDefault());
+  markMenu.appendChild(back);
+  const cen = document.createElement('div'); cen.className = 'mm-center';
+  cen.style.left = `${x}px`; cen.style.top = `${y}px`; markMenu.appendChild(cen);
+  items.forEach(([label, act], i) => {
+    const a = i / items.length * Math.PI * 2 - Math.PI / 2;
+    const el = document.createElement('button'); el.className = 'mm-item'; el.textContent = label;
+    el.style.left = `${x + Math.cos(a) * R}px`; el.style.top = `${y + Math.sin(a) * R}px`;
+    el.addEventListener('click', (e) => { e.stopPropagation(); hideMarkingMenu(); act(); });
+    markMenu.appendChild(el);
+  });
+  markMenu.classList.add('open');
+}
+function hideMarkingMenu() { markMenu.classList.remove('open'); markMenu.innerHTML = ''; }
+// clic derecho (escritorio)
+renderer.domElement.addEventListener('contextmenu', (ev) => {
+  if (dialogOpen()) return;
+  ev.preventDefault();
+  showMarkingMenu(ev.clientX, ev.clientY);
+});
+// pulsación larga estacionaria (táctil)
+let lpTimer = null;
+function cancelLongPress() { if (lpTimer) { clearTimeout(lpTimer); lpTimer = null; } }
+function armLongPress(ev) {
+  if (ev.pointerType !== 'touch') return;
+  cancelLongPress();
+  const sx = ev.clientX, sy = ev.clientY;
+  lpTimer = setTimeout(() => { lpTimer = null; downPos = null; showMarkingMenu(sx, sy); }, 500);
+}
+window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && markMenu.classList.contains('open')) { e.stopPropagation(); hideMarkingMenu(); } }, true);
+window.addEventListener('resize', () => { if (markMenu.classList.contains('open')) hideMarkingMenu(); });
 
 window.addEventListener('keydown', (ev) => {
   if (ev.key === 'Escape') { hideDialog(); clearDirectSel(); setModeSelect(); }
