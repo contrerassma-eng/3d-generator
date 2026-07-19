@@ -467,6 +467,27 @@ function applyConstraintOnce(entities, c) {
       A.r = avg; B.r = avg; return mv;
     }
   }
+  if (c.type === 'symmetric') {
+    const L = entities.find(e => e.id === c.axis);
+    if (!L || L.type !== 'line') return 0;
+    const reflect = (p) => {
+      const d = norm(sub(L.b, L.a)); const t = dot(sub(p, L.a), d);
+      const proj = add(L.a, scale(d, t)); return [2 * proj[0] - p[0], 2 * proj[1] - p[1]];
+    };
+    let mv = 0;
+    const pull = (e, w, target) => { // mueve el punto 'w' de 'e' la mitad hacia target
+      const p = ptOf(e, w); const np = [(p[0] + target[0]) / 2, (p[1] + target[1]) / 2];
+      mv = Math.max(mv, dist(p, np)); setPtOf(entities, e, w, np);
+    };
+    if (A.type === 'line' && B.type === 'line') {
+      pull(B, 'a', reflect(A.a)); pull(B, 'b', reflect(A.b));
+      pull(A, 'a', reflect(B.a)); pull(A, 'b', reflect(B.b));
+    } else if (A.c && B.c) {
+      pull(B, 'c', reflect(A.c)); pull(A, 'c', reflect(B.c));
+      const avg = (A.r + B.r) / 2; mv = Math.max(mv, Math.abs(A.r - avg)); A.r = avg; B.r = avg;
+    }
+    return mv;
+  }
   return 0;
 }
 
@@ -514,6 +535,14 @@ export function constraintResidual(entities, c) {
   }
   if (c.type === 'coincident') return dist(ptOf(A, c.pa || 'a'), ptOf(B, c.pb || 'a'));
   if (c.type === 'concentric') return A.c && B.c ? dist(A.c, B.c) : 0;
+  if (c.type === 'symmetric') {
+    const L = entities.find(e => e.id === c.axis);
+    if (!L || L.type !== 'line') return 0;
+    const reflect = (p) => { const d = norm(sub(L.b, L.a)); const t = dot(sub(p, L.a), d); const pr = add(L.a, scale(d, t)); return [2 * pr[0] - p[0], 2 * pr[1] - p[1]]; };
+    if (A.type === 'line' && B.type === 'line') return Math.max(dist(B.a, reflect(A.a)), dist(B.b, reflect(A.b)));
+    if (A.c && B.c) return dist(B.c, reflect(A.c));
+    return 0;
+  }
   if (c.type === 'tangent') {
     const line = A.type === 'line' ? A : (B.type === 'line' ? B : null);
     const circ = (A.c != null) ? A : (B.c != null ? B : null);
