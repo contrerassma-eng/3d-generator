@@ -383,10 +383,56 @@ function rotateLineTo(entities, e, targetAng) {
   return Math.max(dist(oa, na), dist(ob, nb));
 }
 
+const ptOf = (e, w) => w === 'c' ? e.c : e[w];         // 'a'|'b'|'c'
+function setPtOf(entities, e, w, p) {
+  if (w === 'c') { e.c = [...p]; return; }
+  const old = [...e[w]]; e[w] = [...p]; setEndpoint(entities, e.id, old, p);
+}
+
 function applyConstraintOnce(entities, c) {
   const A = entities.find(e => e.id === c.a);
   const B = c.b ? entities.find(e => e.id === c.b) : null;
   if (!A || (c.b && !B)) return 0;
+  if (c.type === 'coincident') {
+    const wa = c.pa || 'a', wb = c.pb || 'a';
+    const pa = ptOf(A, wa), pb = ptOf(B, wb);
+    if (!pa || !pb) return 0;
+    const mid = [(pa[0] + pb[0]) / 2, (pa[1] + pb[1]) / 2];
+    setPtOf(entities, A, wa, mid); setPtOf(entities, B, wb, mid);
+    return dist(pa, mid);
+  }
+  if (c.type === 'concentric') {
+    if (!A.c || !B.c) return 0;
+    const mid = [(A.c[0] + B.c[0]) / 2, (A.c[1] + B.c[1]) / 2];
+    const mv = Math.max(dist(A.c, mid), dist(B.c, mid));
+    A.c = [...mid]; B.c = [...mid]; return mv;
+  }
+  if (c.type === 'collinear') {
+    if (A.type !== 'line' || B.type !== 'line') return 0;
+    let mv = rotateLineTo(entities, B, Math.atan2(A.b[1] - A.a[1], A.b[0] - A.a[0]));
+    const dv = sub(A.b, A.a), L = Math.hypot(dv[0], dv[1]) || 1, nn = [-dv[1] / L, dv[0] / L];
+    const mb = midOf(B), ds = (mb[0] - A.a[0]) * nn[0] + (mb[1] - A.a[1]) * nn[1];
+    if (Math.abs(ds) > 1e-9) { translateEntity(entities, B, [-nn[0] * ds, -nn[1] * ds]); mv = Math.max(mv, Math.abs(ds)); }
+    return mv;
+  }
+  if (c.type === 'tangent') {
+    const line = A.type === 'line' ? A : (B.type === 'line' ? B : null);
+    const circ = (A.type === 'circle' || A.type === 'arc') ? A : ((B.type === 'circle' || B.type === 'arc') ? B : null);
+    if (line && circ) {
+      const dv = sub(line.b, line.a), L = Math.hypot(dv[0], dv[1]) || 1, nn = [-dv[1] / L, dv[0] / L];
+      const ds = (circ.c[0] - line.a[0]) * nn[0] + (circ.c[1] - line.a[1]) * nn[1];
+      const delta = (Math.sign(ds) || 1) * circ.r - ds;
+      circ.c = [circ.c[0] + nn[0] * delta, circ.c[1] + nn[1] * delta];
+      return Math.abs(delta);
+    }
+    if (circ && ((A.type === 'circle' || A.type === 'arc') && (B.type === 'circle' || B.type === 'arc'))) {
+      const d = dist(A.c, B.c) || 1e-6, diff = (A.r + B.r) - d, u = [(B.c[0] - A.c[0]) / d, (B.c[1] - A.c[1]) / d];
+      A.c = [A.c[0] - u[0] * diff / 2, A.c[1] - u[1] * diff / 2];
+      B.c = [B.c[0] + u[0] * diff / 2, B.c[1] + u[1] * diff / 2];
+      return Math.abs(diff) / 2;
+    }
+    return 0;
+  }
   if (c.type === 'horizontal' || c.type === 'vertical') {
     if (A.type !== 'line') return 0;
     const axis = c.type === 'horizontal' ? 1 : 0; // y o x a igualar
@@ -447,6 +493,24 @@ export function constraintResidual(entities, c) {
   if (c.type === 'vertical') return A.type === 'line' ? Math.abs(A.a[0] - A.b[0]) : 0;
   if (c.type === 'parallel') return angDiff(dirAng(A), dirAng(B));
   if (c.type === 'perpendicular') return Math.abs(angDiff(dirAng(A), dirAng(B)) - Math.PI / 2);
+  if (c.type === 'collinear') {
+    const dv = sub(A.b, A.a), L = Math.hypot(dv[0], dv[1]) || 1, nn = [-dv[1] / L, dv[0] / L];
+    const d1 = Math.abs((B.a[0] - A.a[0]) * nn[0] + (B.a[1] - A.a[1]) * nn[1]);
+    const d2 = Math.abs((B.b[0] - A.a[0]) * nn[0] + (B.b[1] - A.a[1]) * nn[1]);
+    return Math.max(d1, d2);
+  }
+  if (c.type === 'coincident') return dist(ptOf(A, c.pa || 'a'), ptOf(B, c.pb || 'a'));
+  if (c.type === 'concentric') return A.c && B.c ? dist(A.c, B.c) : 0;
+  if (c.type === 'tangent') {
+    const line = A.type === 'line' ? A : (B.type === 'line' ? B : null);
+    const circ = (A.c != null) ? A : (B.c != null ? B : null);
+    if (line && circ) {
+      const dv = sub(line.b, line.a), L = Math.hypot(dv[0], dv[1]) || 1, nn = [-dv[1] / L, dv[0] / L];
+      return Math.abs(Math.abs((circ.c[0] - line.a[0]) * nn[0] + (circ.c[1] - line.a[1]) * nn[1]) - circ.r);
+    }
+    if (A.c && B.c) return Math.abs(dist(A.c, B.c) - (A.r + B.r));
+    return 0;
+  }
   if (c.type === 'equal') {
     if (A.type === 'line' && B.type === 'line') return Math.abs(dist(A.a, A.b) - dist(B.a, B.b));
     if (A.r != null && B.r != null) return Math.abs(A.r - B.r);

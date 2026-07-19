@@ -3050,9 +3050,10 @@ function applyConstraintUI() {
   if (!sel.length) { setStatus('Restringir: primero selecciona entidades con ⬚ Selec.'); return; }
   const opts = [];
   if (lines.length) opts.push(['horizontal', `Horizontal${lines.length > 1 ? ' (cada línea)' : ''}`], ['vertical', `Vertical${lines.length > 1 ? ' (cada línea)' : ''}`]);
-  if (lines.length >= 2) opts.push(['parallel', 'Paralela'], ['perpendicular', 'Perpendicular'], ['equalL', 'Igual longitud']);
-  if (circs.length >= 2) opts.push(['equalR', 'Igual radio']);
-  if (!opts.length) { setStatus('Selecciona 1+ líneas (H/V/∥/⟂/=) o 2 círculos (= radio).'); return; }
+  if (lines.length >= 2) opts.push(['parallel', 'Paralela'], ['perpendicular', 'Perpendicular'], ['collinear', 'Colineal'], ['equalL', 'Igual longitud']);
+  if (circs.length >= 2) opts.push(['equalR', 'Igual radio'], ['concentric', 'Concéntrica'], ['tangentCC', 'Tangente (círculos)']);
+  if (lines.length >= 1 && circs.length >= 1) opts.push(['tangentLC', 'Tangente (línea·círculo)']);
+  if (!opts.length) { setStatus('Selecciona líneas (H/V/∥/⟂/colineal/=), círculos (=/concéntrica/tangente) o línea+círculo (tangente).'); return; }
   showForm('Restricción geométrica', [
     { key: 'type', label: 'Relación', type: 'select', value: opts[0][0], options: opts },
   ], (v) => addConstraints(v.type, lines, circs));
@@ -3061,9 +3062,12 @@ function addConstraints(type, lines, circs) {
   pushUndo();
   const add = (t, a, b) => sketch.constraints.push(SK.makeConstraint(t, a, b));
   if (type === 'horizontal' || type === 'vertical') for (const l of lines) add(type, l.id);
-  else if (type === 'parallel' || type === 'perpendicular') for (let i = 1; i < lines.length; i++) add(type, lines[i].id, lines[0].id);
+  else if (type === 'parallel' || type === 'perpendicular' || type === 'collinear') for (let i = 1; i < lines.length; i++) add(type, lines[i].id, lines[0].id);
   else if (type === 'equalL') for (let i = 1; i < lines.length; i++) add('equal', lines[i].id, lines[0].id);
   else if (type === 'equalR') for (let i = 1; i < circs.length; i++) add('equal', circs[i].id, circs[0].id);
+  else if (type === 'concentric') for (let i = 1; i < circs.length; i++) add('concentric', circs[i].id, circs[0].id);
+  else if (type === 'tangentCC') for (let i = 1; i < circs.length; i++) add('tangent', circs[i].id, circs[0].id);
+  else if (type === 'tangentLC') add('tangent', lines[0].id, circs[0].id);
   SK.solveSketch(sketch.entities, sketch.constraints, sketch.dims);
   sketch.selIds.clear();
   syncDimEls();

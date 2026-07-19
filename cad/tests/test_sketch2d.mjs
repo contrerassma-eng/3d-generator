@@ -324,6 +324,28 @@ console.log('— Restricciones geométricas (solver) —');
   const q = makeLine([1, 2], [3, 7]); solveSketch([q], [], [], 50);
   check('solver inerte sin restricciones', q.a[0] === 1 && q.b[1] === 7);
 }
+{
+  // coincidente: extremo b de A con extremo a de B
+  const a = makeLine([0, 0], [10, 0]), b = makeLine([12, 3], [20, 3]);
+  solveSketch([a, b], [{ id: 'x', type: 'coincident', a: a.id, b: b.id, pa: 'b', pb: 'a' }], [], 100);
+  check('coincidente une los extremos', near(dist(a.b, b.a), 0));
+  // concéntrica: dos círculos comparten centro
+  const c1 = makeCircle([0, 0], 5), c2 = makeCircle([8, 2], 3);
+  solveSketch([c1, c2], [makeConstraint('concentric', c1.id, c2.id)], [], 100);
+  check('concéntrica: mismo centro', near(dist(c1.c, c2.c), 0));
+  // tangente línea-círculo: distancia centro-recta = radio
+  const ln = makeLine([-10, 0], [10, 0]), ci = makeCircle([0, 8], 5);
+  solveSketch([ln, ci], [makeConstraint('tangent', ln.id, ci.id)], [], 100);
+  check('tangente línea-círculo', near(Math.abs(ci.c[1]), 5));
+  // tangente círculo-círculo externa: dist(centros) = r1+r2
+  const t1 = makeCircle([0, 0], 4), t2 = makeCircle([20, 0], 6);
+  solveSketch([t1, t2], [makeConstraint('tangent', t1.id, t2.id)], [], 200);
+  check('tangente círculo-círculo (externa)', near(dist(t1.c, t2.c), 10));
+  // colineal: dos segmentos sobre la misma recta
+  const k1 = makeLine([0, 0], [10, 0]), k2 = makeLine([12, 4], [22, 6]);
+  solveSketch([k1, k2], [makeConstraint('collinear', k1.id, k2.id)], [], 200);
+  check('colineal: B sobre la recta de A', constraintResidual([k1, k2], { type: 'collinear', a: k1.id, b: k2.id }) < 0.01);
+}
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);
 process.exit(fail ? 1 : 0);
