@@ -499,22 +499,30 @@ function deletePart(p) {
   doc.parts = doc.parts.filter(x => x.id !== p.id);
   doc.constraints = doc.constraints.filter(c => c.a.part !== p.id && c.b.part !== p.id);
   disposePartMesh(p.id);
+  if (isolatedId === p.id) restoreVisibility(); // no dejar el resto oculto tras borrar la aislada
   if (selection && (selection.id === p.id || selection.partId === p.id)) selection = null;
   refreshUI();
   commit(`${p.name} eliminada${nc ? ' (con sus restricciones)' : ''}. Ctrl+Z deshace.`);
 }
 
-// aislar: mostrar solo esta pieza; si ya está aislada, restaurar todas
+// aislar / des-aislar: mostrar solo una pieza. El estado vive en isolatedId,
+// así que se puede des-aislar sin depender de la selección actual.
+let isolatedId = null;
+function restoreVisibility() {
+  for (const x of doc.parts) { x.visible = true; syncTransform(x); }
+  isolatedId = null;
+  document.getElementById('btnIsolate').classList.remove('on');
+  refreshUI();
+}
 function isolatePart(p) {
   if (!p) return false;
-  const otras = doc.parts.filter(x => x.id !== p.id);
-  const yaAislada = p.visible && otras.length > 0 && otras.every(x => !x.visible);
-  for (const x of doc.parts) { x.visible = yaAislada ? true : x.id === p.id; syncTransform(x); }
-  document.getElementById('btnIsolate').classList.toggle('on', !yaAislada);
+  if (isolatedId === p.id) { restoreVisibility(); setStatus('Aislamiento terminado: todas las piezas visibles.'); return false; }
+  for (const x of doc.parts) { x.visible = x.id === p.id; syncTransform(x); }
+  isolatedId = p.id;
+  document.getElementById('btnIsolate').classList.add('on');
   refreshUI();
-  setStatus(yaAislada ? 'Aislamiento terminado: todas las piezas visibles.'
-                      : `⛶ ${p.name} aislada. Toca Aislar de nuevo para mostrar todas.`);
-  return !yaAislada;
+  setStatus(`Pieza aislada: ${p.name}. Toca Aislar de nuevo para mostrar todas.`);
+  return true;
 }
 
 // ---------- Interfaz: propiedades ----------
@@ -839,11 +847,23 @@ function setEnv(e) {
 $('envPieza').onclick = () => setEnv('pieza');
 $('envEns').onclick = () => setEnv('ens');
 
+// pieza actualmente seleccionada (por el árbol o por clic en el visor)
+function selectedPart() {
+  return selection?.kind === 'part' ? getPart(doc, selection.id)
+       : selection?.partId ? getPart(doc, selection.partId) : null;
+}
+
 $('btnIsolate').onclick = () => {
-  const p = selection?.kind === 'part' ? getPart(doc, selection.id)
-          : selection?.partId ? getPart(doc, selection.partId) : null;
+  if (isolatedId) { restoreVisibility(); setStatus('Todas las piezas visibles (des-aislado).'); return; }
+  const p = selectedPart();
   if (!p) { setStatus('Toca primero una pieza para aislarla.'); return; }
   isolatePart(p);
+};
+
+$('btnDelete').onclick = () => {
+  const p = selectedPart();
+  if (!p) { setStatus('Toca primero una pieza (en el visor o el árbol) para eliminarla.'); return; }
+  deletePart(p);
 };
 
 // ---------- Picking ----------
@@ -971,7 +991,10 @@ window.addEventListener('keydown', (ev) => {
   const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
   if (ev.key === 'Delete' && selection && !dialogOpen() && !typing) {
     const btn = $('pp_del') || $('fp_del') || $('cp_del');
-    if (btn) btn.click();
+    if (btn) { btn.click(); ev.preventDefault(); }
+    else if (selection.kind === 'part' || selection.partId) { // pieza elegida en el visor
+      const p = selectedPart(); if (p) { deletePart(p); ev.preventDefault(); }
+    }
   }
   // atajos de UNA tecla, estilo Inventor (no aplican al escribir en campos)
   if (ev.ctrlKey || ev.metaKey || ev.altKey || dialogOpen() || typing) return;
