@@ -41,12 +41,25 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.12;
 
+// Órbita solo con clic IZQUIERDO en modo 'select'. En cualquier herramienta
+// (mover/editar/medir/hueco…) el izquierdo acciona la herramienta y la órbita
+// pasa a botón central/derecho (o 2 dedos), para no girar la cámara sin querer.
+function applyOrbitButtons() {
+  const tool = mode !== 'select';
+  controls.mouseButtons.LEFT = tool ? -1 : THREE.MOUSE.ROTATE;
+  controls.touches.ONE = tool ? -1 : THREE.TOUCH.ROTATE;
+}
+
 // cámara ortogonal para el modo boceto (vista normal a la cara)
 const orthoCam = new THREE.OrthographicCamera(-150, 150, 150, -150, -5000, 5000);
 let orthoViewSize = 300;
 const sketchControls = new OrbitControls(orthoCam, renderer.domElement);
 sketchControls.enableRotate = false; // en boceto solo paneo y zoom
 sketchControls.enabled = false;
+// En boceto el clic izquierdo / 1 dedo SIEMPRE dibuja (nunca orbita): la órbita
+// (botón 🔄 Giro) pasa al botón CENTRAL; el paneo queda en el derecho.
+sketchControls.mouseButtons.LEFT = -1;
+sketchControls.touches.ONE = -1;
 let activeCamera = camera;
 
 scene.add(new THREE.HemisphereLight(0xe8eaf2, 0x596070, 1.15)); // suelo claro: caras inferiores legibles
@@ -1006,6 +1019,10 @@ function setMode(m) {
   clearPickedHighlight();
   if (mode !== 'measure') clearMeasure();
   for (const [k, id] of Object.entries(modeButtons)) $(id).classList.toggle('on', mode === k);
+  // En una herramienta activa (mover/editar/medir…) el CLIC IZQUIERDO acciona la
+  // herramienta, NO orbita: la órbita queda en botón central/derecho (y 2 dedos).
+  // Así no se gira la cámara sin querer mientras se mueve o dibuja una pieza.
+  applyOrbitButtons();
   setHint(MODE_HINTS[mode]);
   setStatus(mode === 'select' ? 'Listo.' : 'Modo activo: ' + mode);
   if (mode !== 'select' && isNarrow()) setSidebar(false); // que el panel no tape el modelo
@@ -2659,6 +2676,7 @@ sketchbar.addEventListener('click', (e) => {
     sketch.orbit = !sketch.orbit;
     btn.classList.toggle('on', sketch.orbit);
     sketchControls.enableRotate = sketch.orbit;
+    sketchControls.mouseButtons.MIDDLE = sketch.orbit ? THREE.MOUSE.ROTATE : THREE.MOUSE.DOLLY;
     if (!sketch.orbit) {
       // volver a la vista normal a la cara
       orthoCam.up.copy(sketch.vW);
@@ -2666,7 +2684,7 @@ sketchbar.addEventListener('click', (e) => {
       orthoCam.lookAt(sketchControls.target);
     }
     setStatus(sketch.orbit
-      ? '🔄 Giro activo: rota para ver referencias ocultas; los toques siguen dibujando sobre el plano.'
+      ? '🔄 Giro activo: orbita con el botón CENTRAL para ver referencias ocultas; el clic izquierdo sigue dibujando sobre el plano.'
       : 'Giro desactivado: vista normal a la cara restaurada.');
     return;
   }
