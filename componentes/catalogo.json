@@ -3376,6 +3376,25 @@
     517
    ],
    "notas": "284 partes paramétricas (22 cilindros + 262 cajas). Editable en features (cotas). Aproximación: las cajas usan la caja envolvente orientada de cada pieza."
+  },
+  {
+   "id": "ens_sorter_brep",
+   "nombre": "Sorter REAL — B-rep nativo (PARAMÉTRICO, cotas exactas)",
+   "categoria": "transportador",
+   "familia": "conjunto",
+   "descripcion": "El sorter_CO.stp leído por su B-REP NATIVO (OpenCASCADE): 81 rodillos/ejes/poleas → CILINDROS con Ø y eje EXACTOS del CAD (Ø65, Ø50, Ø100, Ø20, Ø25, Ø45…); 505 perfiles/placas → cajas (envolvente del sólido). 586 partes 100% PARAMÉTRICAS y editables (cotas, extruir, bocetar). Mejor recuperación que la vía malla: los cilindros son exactos.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp → OCP/OpenCASCADE por sólido: cara cilíndrica dominante → cilindro exacto; resto → caja AABB"
+   },
+   "confianza": "medido",
+   "doc": "ensambles/sorter_brep.json",
+   "bbox_mm": [
+    742,
+    1679,
+    450
+   ],
+   "notas": "586 partes (81 cilindros exactos + 505 cajas). Editable. Cajas = envolvente del sólido (aprox en piezas complejas); cilindros = exactos del B-rep."
   }
  ]
 }
