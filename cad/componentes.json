@@ -1487,6 +1487,51 @@
    "notas": "40x40, ranura 8, taladro central O6.8 M8 en extremos. Tuercas en T M6/M8 en las 4 ranuras. Peso ~1.6 kg/m. El modulo de transferencia se ancla a este perfil con tuercas en T (sin perforar el base)."
   },
   {
+   "id": "perfil_mb80",
+   "nombre": "Perfil guia MB80 (aluminio 80x40, ranura 8) — guia de banda del base",
+   "categoria": "mecanico",
+   "descripcion": "Perfil de aluminio extruido 80x40 con ranuras en T (slot 8), es la GUIA-DESLIZANTE individual de cada banda sincronica del equipo base M-Haste: el ramal superior de la banda desliza por su slot superior. Se corta a medida. Eje largo en X.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp / M-Haste: perfil guia 80x40 (producto MB80) de la banda"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "Perfil 80x40 x200 (cortar a medida)",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dim": [
+      200,
+      80,
+      40
+     ],
+     "color": "#b0bec5"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "slot de deslizamiento de la banda (ancho 34, arriba)",
+     "at": [
+      0,
+      0,
+      40
+     ],
+     "dim": [
+      200,
+      34,
+      6
+     ]
+    }
+   ],
+   "notas": "80x40, ranura en T 8. Guia-deslizante individual por banda (el ramal superior desliza en el slot superior). Compatible con tuercas en T M6/M8. El modulo de transferencia y las guias se anclan sin perforar."
+  },
+  {
    "id": "casquillo_bloqueo_lk30",
    "nombre": "Casquillo de bloqueo LK30 O20 H7 / O30 (acople sin chaveta)",
    "categoria": "mecanico",

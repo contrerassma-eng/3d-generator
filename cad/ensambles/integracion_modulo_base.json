@@ -5,7 +5,7 @@
   "nombre": "Conjunto completo — transportador base twin-belt + transferencia 90° en el hueco",
   "capa": "user",
   "origen": "gen_integracion.mjs: base_sorter.json (equipo base paramétrico completo) + transfer_rodillos_90.json montado en el hueco (X=0), mismo marco (flujo X, plano de banda Z=170). Los rodillos emergen +4 entre las 4 bandas del base; el canal fijo del módulo se ancla a los 2 travesaños pesados del hueco (X=±430).",
-  "piezas_base": 58,
+  "piezas_base": 102,
   "piezas_transferencia": 106
  },
  "parts": [
@@ -136,8 +136,8 @@
    ]
   },
   {
-   "id": "bp3_base_gu_a_item_80_40_con_slot_deslizante_lane_y_208_5",
-   "name": "BASE · Guía item 80×40 con slot (deslizante) lane Y=-208.5",
+   "id": "bp3_base_gu_a_mb80_deslizante_lane_y_208_5",
+   "name": "BASE · Guía MB80 (deslizante) lane Y=-208.5",
    "color": "#9aa6b0",
    "pos": [
     0,
@@ -153,10 +153,11 @@
    "fixed": false,
    "visible": true,
    "base_ref": true,
+   "biblioteca": "perfil_mb80",
    "features": [
     {
      "id": "bf5",
-     "name": "Perfil guía item 80×40",
+     "name": "Perfil guía MB80 80×40",
      "shape": "box",
      "op": "union",
      "at": [
@@ -170,7 +171,7 @@
       1
      ],
      "params": {
-      "w": 2760,
+      "w": 2740,
       "d": 80,
       "h": 40
      }
@@ -191,7 +192,7 @@
       1
      ],
      "params": {
-      "w": 2760,
+      "w": 2740,
       "d": 34,
       "h": 8
      }
@@ -199,8 +200,8 @@
    ]
   },
   {
-   "id": "bp4_base_banda_sincr_nica_at10_item24_lane_y_208_5_ramal_superior",
-   "name": "BASE · Banda sincrónica AT10 (item24) lane Y=-208.5 (ramal superior)",
+   "id": "bp4_base_banda_sincr_nica_at10_lane_y_208_5_ramal_superior",
+   "name": "BASE · Banda sincrónica AT10 lane Y=-208.5 (ramal superior)",
    "color": "#141414",
    "pos": [
     0,
@@ -233,7 +234,7 @@
       1
      ],
      "params": {
-      "w": 2820,
+      "w": 2760,
       "d": 32,
       "h": 5
      }
@@ -247,7 +248,7 @@
    "pos": [
     0,
     -208.5,
-    57
+    58
    ],
    "quat": [
     0,
@@ -275,7 +276,7 @@
       1
      ],
      "params": {
-      "w": 2820,
+      "w": 2760,
       "d": 32,
       "h": 5
      }
@@ -283,19 +284,20 @@
    ]
   },
   {
-   "id": "bp6_base_polea_dentada_at10_32t_cabeza_lane_y_208_5",
-   "name": "BASE · Polea dentada AT10 32T cabeza lane Y=-208.5",
+   "id": "bp6_polea_at10_32t",
+   "name": "Motriz cabeza lane Y=-208.5 · Polea sincronica AT10 32T con pestanas (bore O20)",
+   "biblioteca": "polea_at10_32t",
    "color": "#8b98a6",
    "pos": [
-    1410,
-    -208.5,
-    114
+    1380,
+    -228.5,
+    114.5
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
-    0,
-    1
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
@@ -303,80 +305,84 @@
    "features": [
     {
      "id": "bf9",
-     "name": "Cuerpo dentado Ø102×42",
+     "name": "Cuerpo dentado dp101.86",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      -21,
-      0
+      0,
+      6
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 102,
-      "h": 42
-     }
+      "dia": 101,
+      "h": 28
+     },
+     "color": "#78909c"
     },
     {
      "id": "bf10",
-     "name": "Pestaña Ø112 (a)",
+     "name": "Pestana inferior O110",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      -24,
+      0,
       0
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 112,
-      "h": 3
-     }
+      "dia": 110,
+      "h": 6
+     },
+     "color": "#607d8b"
     },
     {
      "id": "bf11",
-     "name": "Pestaña Ø112 (b)",
+     "name": "Pestana superior O110",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      21,
-      0
+      0,
+      34
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 112,
-      "h": 3
-     }
+      "dia": 110,
+      "h": 6
+     },
+     "color": "#607d8b"
     }
    ]
   },
   {
-   "id": "bp7_base_eje_independiente_30_lk_cabeza_lane_y_208_5",
-   "name": "BASE · Eje independiente Ø30 + LK cabeza lane Y=-208.5",
-   "color": "#9aa7b2",
+   "id": "bp7_casquillo_bloqueo_lk30",
+   "name": "Bloqueo LK cabeza lane Y=-208.5 · Casquillo de bloqueo LK30 O20 H7 / O30 (acople sin chaveta)",
+   "biblioteca": "casquillo_bloqueo_lk30",
+   "color": "#b0bec5",
    "pos": [
-    1410,
-    -248.5,
-    114
+    1380,
+    -186.5,
+    114.5
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
-    0,
-    1
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
@@ -384,257 +390,13 @@
    "features": [
     {
      "id": "bf12",
-     "name": "Eje Ø30 × 120",
+     "name": "Cuerpo O30",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
       0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 30,
-      "h": 120
-     }
-    },
-    {
-     "id": "bf13",
-     "name": "Casquillo LK (bloqueo sin chaveta)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      64,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 45,
-      "h": 26
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp8_base_polea_dentada_at10_32t_cola_lane_y_208_5",
-   "name": "BASE · Polea dentada AT10 32T cola lane Y=-208.5",
-   "color": "#8b98a6",
-   "pos": [
-    -1410,
-    -208.5,
-    114
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf14",
-     "name": "Cuerpo dentado Ø102×42",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -21,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 102,
-      "h": 42
-     }
-    },
-    {
-     "id": "bf15",
-     "name": "Pestaña Ø112 (a)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -24,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 112,
-      "h": 3
-     }
-    },
-    {
-     "id": "bf16",
-     "name": "Pestaña Ø112 (b)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      21,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 112,
-      "h": 3
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp9_base_eje_independiente_30_lk_cola_lane_y_208_5",
-   "name": "BASE · Eje independiente Ø30 + LK cola lane Y=-208.5",
-   "color": "#9aa7b2",
-   "pos": [
-    -1410,
-    -248.5,
-    114
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf17",
-     "name": "Eje Ø30 × 120",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 30,
-      "h": 120
-     }
-    },
-    {
-     "id": "bf18",
-     "name": "Casquillo LK (bloqueo sin chaveta)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      64,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 45,
-      "h": 26
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp10_base_polea_tensora_at10_neum_tica_lane_y_208_5",
-   "name": "BASE · Polea tensora AT10 (neumática) lane Y=-208.5",
-   "color": "#8b98a6",
-   "pos": [
-    0,
-    -208.5,
-    23
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf19",
-     "name": "Polea tensora Ø60×40",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -20,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 60,
-      "h": 40
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp11_base_cilindro_tensor_neum_tico_iso_6432_20_lane_y_208_5",
-   "name": "BASE · Cilindro tensor neumático ISO 6432 Ø20 lane Y=-208.5",
-   "color": "#cfd8dc",
-   "pos": [
-    0,
-    -208.5,
-    -7
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf20",
-     "name": "Cuerpo Ø25×70",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      -56
      ],
      "dir": [
       0,
@@ -642,19 +404,346 @@
       1
      ],
      "params": {
-      "dia": 25,
-      "h": 60
+      "dia": 30,
+      "h": 26
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "bf13",
+     "name": "Brida de apriete O45",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      20
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 45,
+      "h": 6
+     },
+     "color": "#546e7a"
+    }
+   ]
+  },
+  {
+   "id": "bp8_base_eje_independiente_30_cabeza_lane_y_208_5",
+   "name": "BASE · Eje independiente Ø30 cabeza lane Y=-208.5",
+   "color": "#9aa7b2",
+   "pos": [
+    1380,
+    -208.5,
+    114.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "biblioteca": "eje_rodillos_12x336",
+   "features": [
+    {
+     "id": "bf14",
+     "name": "Eje Ø30 × 150",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -75,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 150
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp9_chumacera_ucfl204",
+   "name": "Rodamiento cabeza lane Y=-208.5 - · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
+   "pos": [
+    1380,
+    -266.5,
+    114.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf15",
+     "name": "Brida 86x30x12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf16",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf17",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp10_soporte_chapa_cabeza_lane_y_208_5_",
+   "name": "Cabeza lane Y=-208.5 - · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    1380,
+    -266.5,
+    84.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf18",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf19",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf18",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf20",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
      }
     },
     {
      "id": "bf21",
-     "name": "Vástago Ø10 (empuja la tensora hacia arriba)",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp11_perno_cabeza_rod_lane_y_208_5_a",
+   "name": "Cabeza rod. lane Y=-208.5 - a · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
+   "pos": [
+    1350,
+    -281.5,
+    128.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf22",
+     "name": "Golilla O22x2.5",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      4
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf23",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf24",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
      ],
      "dir": [
       0,
@@ -665,106 +754,24 @@
       "dia": 10,
       "h": 26
      }
-    },
-    {
-     "id": "bf22",
-     "name": "Racor + regulador",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      16,
-      -56
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 10,
-      "h": 10
-     }
     }
    ]
   },
   {
-   "id": "bp12_base_gu_a_item_80_40_con_slot_deslizante_lane_y_69_5",
-   "name": "BASE · Guía item 80×40 con slot (deslizante) lane Y=-69.5",
-   "color": "#9aa6b0",
+   "id": "bp12_perno_cabeza_rod_lane_y_208_5_b",
+   "name": "Cabeza rod. lane Y=-208.5 - b · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
    "pos": [
-    0,
-    -69.5,
-    145
+    1410,
+    -281.5,
+    128.5
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf23",
-     "name": "Perfil guía item 80×40",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 2760,
-      "d": 80,
-      "h": 40
-     }
-    },
-    {
-     "id": "bf24",
-     "name": "Slot de deslizamiento (ancho de banda)",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      18
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 2760,
-      "d": 34,
-      "h": 8
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp13_base_banda_sincr_nica_at10_item24_lane_y_69_5_ramal_superior",
-   "name": "BASE · Banda sincrónica AT10 (item24) lane Y=-69.5 (ramal superior)",
-   "color": "#141414",
-   "pos": [
-    0,
-    -69.5,
-    165
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
@@ -772,8 +779,8 @@
    "features": [
     {
      "id": "bf25",
-     "name": "Ramal superior AT10",
-     "shape": "box",
+     "name": "Golilla O22x2.5",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
@@ -786,41 +793,20 @@
       1
      ],
      "params": {
-      "w": 2820,
-      "d": 32,
-      "h": 5
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp14_base_banda_sincr_nica_at10_lane_y_69_5_retorno",
-   "name": "BASE · Banda sincrónica AT10 lane Y=-69.5 (retorno)",
-   "color": "#141414",
-   "pos": [
-    0,
-    -69.5,
-    57
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
     {
      "id": "bf26",
-     "name": "Ramal de retorno AT10",
-     "shape": "box",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      0
+      2.5
      ],
      "dir": [
       0,
@@ -828,250 +814,247 @@
       1
      ],
      "params": {
-      "w": 2820,
-      "d": 32,
-      "h": 5
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp15_base_polea_dentada_at10_32t_cabeza_lane_y_69_5",
-   "name": "BASE · Polea dentada AT10 32T cabeza lane Y=-69.5",
-   "color": "#8b98a6",
-   "pos": [
-    1410,
-    -69.5,
-    114
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
     {
      "id": "bf27",
-     "name": "Cuerpo dentado Ø102×42",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -21,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 102,
-      "h": 42
-     }
-    },
-    {
-     "id": "bf28",
-     "name": "Pestaña Ø112 (a)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -24,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 112,
-      "h": 3
-     }
-    },
-    {
-     "id": "bf29",
-     "name": "Pestaña Ø112 (b)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      21,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 112,
-      "h": 3
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp16_base_eje_independiente_30_lk_cabeza_lane_y_69_5",
-   "name": "BASE · Eje independiente Ø30 + LK cabeza lane Y=-69.5",
-   "color": "#9aa7b2",
-   "pos": [
-    1410,
-    -109.5,
-    114
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf30",
-     "name": "Eje Ø30 × 120",
+     "name": "Vástago M10×26",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      0
+      -26
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 30,
-      "h": 120
-     }
-    },
-    {
-     "id": "bf31",
-     "name": "Casquillo LK (bloqueo sin chaveta)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      64,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 45,
+      "dia": 10,
       "h": 26
      }
     }
    ]
   },
   {
-   "id": "bp17_base_polea_dentada_at10_32t_cola_lane_y_69_5",
-   "name": "BASE · Polea dentada AT10 32T cola lane Y=-69.5",
-   "color": "#8b98a6",
+   "id": "bp13_chumacera_ucfl204",
+   "name": "Rodamiento cabeza lane Y=-208.5 + · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
    "pos": [
-    -1410,
-    -69.5,
-    114
+    1380,
+    -150.5,
+    114.5
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
-    0,
-    1
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
    "base_ref": true,
    "features": [
     {
-     "id": "bf32",
-     "name": "Cuerpo dentado Ø102×42",
-     "shape": "cylinder",
+     "id": "bf28",
+     "name": "Brida 86x30x12",
+     "shape": "box",
      "op": "union",
      "at": [
       0,
-      -21,
+      0,
       0
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 102,
-      "h": 42
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf29",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf30",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp14_soporte_chapa_cabeza_lane_y_208_5_",
+   "name": "Cabeza lane Y=-208.5 + · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    1380,
+    -150.5,
+    84.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf31",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf32",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf31",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
      }
     },
     {
      "id": "bf33",
-     "name": "Pestaña Ø112 (a)",
-     "shape": "cylinder",
-     "op": "union",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
      "at": [
-      0,
-      -24,
-      0
+      -30,
+      15,
+      4.5
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      -1
      ],
      "params": {
-      "dia": 112,
-      "h": 3
+      "dia": 11,
+      "depth": 0,
+      "through": true
      }
     },
     {
      "id": "bf34",
-     "name": "Pestaña Ø112 (b)",
-     "shape": "cylinder",
-     "op": "union",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
      "at": [
-      0,
-      21,
-      0
+      30,
+      15,
+      4.5
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      -1
      ],
      "params": {
-      "dia": 112,
-      "h": 3
+      "dia": 11,
+      "depth": 0,
+      "through": true
      }
     }
    ]
   },
   {
-   "id": "bp18_base_eje_independiente_30_lk_cola_lane_y_69_5",
-   "name": "BASE · Eje independiente Ø30 + LK cola lane Y=-69.5",
-   "color": "#9aa7b2",
+   "id": "bp15_perno_cabeza_rod_lane_y_208_5_a",
+   "name": "Cabeza rod. lane Y=-208.5 + a · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
    "pos": [
-    -1410,
-    -109.5,
-    114
+    1350,
+    -135.5,
+    128.5
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
-    0,
-    1
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
@@ -1079,7 +1062,7 @@
    "features": [
     {
      "id": "bf35",
-     "name": "Eje Ø30 × 120",
+     "name": "Golilla O22x2.5",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -1089,91 +1072,73 @@
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 30,
-      "h": 120
-     }
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
     },
     {
      "id": "bf36",
-     "name": "Casquillo LK (bloqueo sin chaveta)",
+     "name": "Cabeza hex e.c.17",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      64,
-      0
+      0,
+      2.5
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 45,
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf37",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
       "h": 26
      }
     }
    ]
   },
   {
-   "id": "bp19_base_polea_tensora_at10_neum_tica_lane_y_69_5",
-   "name": "BASE · Polea tensora AT10 (neumática) lane Y=-69.5",
-   "color": "#8b98a6",
+   "id": "bp16_perno_cabeza_rod_lane_y_208_5_b",
+   "name": "Cabeza rod. lane Y=-208.5 + b · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
    "pos": [
-    0,
-    -69.5,
-    23
+    1410,
+    -135.5,
+    128.5
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf37",
-     "name": "Polea tensora Ø60×40",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -20,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 60,
-      "h": 40
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp20_base_cilindro_tensor_neum_tico_iso_6432_20_lane_y_69_5",
-   "name": "BASE · Cilindro tensor neumático ISO 6432 Ø20 lane Y=-69.5",
-   "color": "#cfd8dc",
-   "pos": [
-    0,
-    -69.5,
-    -7
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
@@ -1181,13 +1146,13 @@
    "features": [
     {
      "id": "bf38",
-     "name": "Cuerpo Ø25×70",
+     "name": "Golilla O22x2.5",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      -56
+      0
      ],
      "dir": [
       0,
@@ -1195,19 +1160,41 @@
       1
      ],
      "params": {
-      "dia": 25,
-      "h": 60
-     }
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
     },
     {
      "id": "bf39",
-     "name": "Vástago Ø10 (empuja la tensora hacia arriba)",
+     "name": "Cabeza hex e.c.17",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      4
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf40",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
      ],
      "dir": [
       0,
@@ -1218,36 +1205,16 @@
       "dia": 10,
       "h": 26
      }
-    },
-    {
-     "id": "bf40",
-     "name": "Racor + regulador",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      16,
-      -56
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 10,
-      "h": 10
-     }
     }
    ]
   },
   {
-   "id": "bp21_base_gu_a_item_80_40_con_slot_deslizante_lane_y_69_5",
-   "name": "BASE · Guía item 80×40 con slot (deslizante) lane Y=69.5",
-   "color": "#9aa6b0",
+   "id": "bp17_base_idler_40_cola_lane_y_208_5",
+   "name": "BASE · Idler Ø40 cola lane Y=-208.5",
+   "color": "#8b98a6",
    "pos": [
-    0,
-    69.5,
+    -1380,
+    -208.5,
     145
    ],
    "quat": [
@@ -1259,107 +1226,85 @@
    "fixed": false,
    "visible": true,
    "base_ref": true,
+   "biblioteca": "rodillo_terminal_40",
    "features": [
     {
      "id": "bf41",
-     "name": "Perfil guía item 80×40",
-     "shape": "box",
+     "name": "Tubo idler Ø40",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
+      -45,
       0
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 2760,
-      "d": 80,
-      "h": 40
+      "dia": 40,
+      "h": 90
      }
     },
     {
      "id": "bf42",
-     "name": "Slot de deslizamiento (ancho de banda)",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      18
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 2760,
-      "d": 34,
-      "h": 8
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp22_base_banda_sincr_nica_at10_item24_lane_y_69_5_ramal_superior",
-   "name": "BASE · Banda sincrónica AT10 (item24) lane Y=69.5 (ramal superior)",
-   "color": "#141414",
-   "pos": [
-    0,
-    69.5,
-    165
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf43",
-     "name": "Ramal superior AT10",
-     "shape": "box",
+     "name": "Muñón Ø17 (-)",
+     "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
+      -60,
       0
      ],
      "dir": [
       0,
-      0,
-      1
+      1,
+      0
      ],
      "params": {
-      "w": 2820,
-      "d": 32,
-      "h": 5
+      "dia": 17,
+      "h": 20
+     }
+    },
+    {
+     "id": "bf43",
+     "name": "Muñón Ø17 (+)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      45,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 20
      }
     }
    ]
   },
   {
-   "id": "bp23_base_banda_sincr_nica_at10_lane_y_69_5_retorno",
-   "name": "BASE · Banda sincrónica AT10 lane Y=69.5 (retorno)",
-   "color": "#141414",
+   "id": "bp18_chumacera_ucfl204",
+   "name": "Rodamiento cola lane Y=-208.5 - · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
    "pos": [
-    0,
-    69.5,
-    57
+    -1380,
+    -266.5,
+    145
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
-    0,
-    1
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
@@ -1367,7 +1312,7 @@
    "features": [
     {
      "id": "bf44",
-     "name": "Ramal de retorno AT10",
+     "name": "Brida 86x30x12",
      "shape": "box",
      "op": "union",
      "at": [
@@ -1381,117 +1326,79 @@
       1
      ],
      "params": {
-      "w": 2820,
-      "d": 32,
-      "h": 5
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp24_base_polea_dentada_at10_32t_cabeza_lane_y_69_5",
-   "name": "BASE · Polea dentada AT10 32T cabeza lane Y=69.5",
-   "color": "#8b98a6",
-   "pos": [
-    1410,
-    69.5,
-    114
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
     {
      "id": "bf45",
-     "name": "Cuerpo dentado Ø102×42",
+     "name": "Cubo O42",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      -21,
-      0
+      0,
+      12
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 102,
-      "h": 42
-     }
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
     },
     {
      "id": "bf46",
-     "name": "Pestaña Ø112 (a)",
+     "name": "Collar excentrico O34",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      -24,
-      0
+      0,
+      43
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 112,
-      "h": 3
-     }
-    },
-    {
-     "id": "bf47",
-     "name": "Pestaña Ø112 (b)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      21,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 112,
-      "h": 3
-     }
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
     }
    ]
   },
   {
-   "id": "bp25_base_eje_independiente_30_lk_cabeza_lane_y_69_5",
-   "name": "BASE · Eje independiente Ø30 + LK cabeza lane Y=69.5",
-   "color": "#9aa7b2",
+   "id": "bp19_soporte_chapa_cola_lane_y_208_5_",
+   "name": "Cola lane Y=-208.5 - · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
    "pos": [
-    1410,
-    29.5,
-    114
+    -1380,
+    -266.5,
+    115
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
-    0,
-    1
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
    "base_ref": true,
    "features": [
     {
-     "id": "bf48",
-     "name": "Eje Ø30 × 120",
-     "shape": "cylinder",
+     "id": "bf47",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
      "op": "union",
      "at": [
       0,
@@ -1500,247 +1407,117 @@
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 30,
-      "h": 120
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf48",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf47",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
      }
     },
     {
      "id": "bf49",
-     "name": "Casquillo LK (bloqueo sin chaveta)",
-     "shape": "cylinder",
-     "op": "union",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
      "at": [
-      0,
-      64,
-      0
+      -30,
+      15,
+      4.5
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      -1
      ],
      "params": {
-      "dia": 45,
-      "h": 26
+      "dia": 11,
+      "depth": 0,
+      "through": true
      }
-    }
-   ]
-  },
-  {
-   "id": "bp26_base_polea_dentada_at10_32t_cola_lane_y_69_5",
-   "name": "BASE · Polea dentada AT10 32T cola lane Y=69.5",
-   "color": "#8b98a6",
-   "pos": [
-    -1410,
-    69.5,
-    114
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
+    },
     {
      "id": "bf50",
-     "name": "Cuerpo dentado Ø102×42",
-     "shape": "cylinder",
-     "op": "union",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
      "at": [
-      0,
-      -21,
-      0
+      30,
+      15,
+      4.5
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      -1
      ],
      "params": {
-      "dia": 102,
-      "h": 42
-     }
-    },
-    {
-     "id": "bf51",
-     "name": "Pestaña Ø112 (a)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -24,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 112,
-      "h": 3
-     }
-    },
-    {
-     "id": "bf52",
-     "name": "Pestaña Ø112 (b)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      21,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 112,
-      "h": 3
+      "dia": 11,
+      "depth": 0,
+      "through": true
      }
     }
    ]
   },
   {
-   "id": "bp27_base_eje_independiente_30_lk_cola_lane_y_69_5",
-   "name": "BASE · Eje independiente Ø30 + LK cola lane Y=69.5",
+   "id": "bp20_chumacera_ucfl204",
+   "name": "Rodamiento cola lane Y=-208.5 + · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
    "color": "#9aa7b2",
    "pos": [
-    -1410,
-    29.5,
-    114
+    -1380,
+    -150.5,
+    145
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
-    0,
-    1
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
    "base_ref": true,
    "features": [
     {
-     "id": "bf53",
-     "name": "Eje Ø30 × 120",
-     "shape": "cylinder",
+     "id": "bf51",
+     "name": "Brida 86x30x12",
+     "shape": "box",
      "op": "union",
      "at": [
       0,
       0,
       0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 30,
-      "h": 120
-     }
-    },
-    {
-     "id": "bf54",
-     "name": "Casquillo LK (bloqueo sin chaveta)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      64,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 45,
-      "h": 26
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp28_base_polea_tensora_at10_neum_tica_lane_y_69_5",
-   "name": "BASE · Polea tensora AT10 (neumática) lane Y=69.5",
-   "color": "#8b98a6",
-   "pos": [
-    0,
-    69.5,
-    23
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf55",
-     "name": "Polea tensora Ø60×40",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -20,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 60,
-      "h": 40
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp29_base_cilindro_tensor_neum_tico_iso_6432_20_lane_y_69_5",
-   "name": "BASE · Cilindro tensor neumático ISO 6432 Ø20 lane Y=69.5",
-   "color": "#cfd8dc",
-   "pos": [
-    0,
-    69.5,
-    -7
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf56",
-     "name": "Cuerpo Ø25×70",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      -56
      ],
      "dir": [
       0,
@@ -1748,19 +1525,198 @@
       1
      ],
      "params": {
-      "dia": 25,
-      "h": 60
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf52",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf53",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp21_soporte_chapa_cola_lane_y_208_5_",
+   "name": "Cola lane Y=-208.5 + · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    -1380,
+    -150.5,
+    115
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf54",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf55",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf54",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf56",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
      }
     },
     {
      "id": "bf57",
-     "name": "Vástago Ø10 (empuja la tensora hacia arriba)",
-     "shape": "cylinder",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp22_tensor_banda",
+   "name": "Take-up cola lane Y=-208.5 · Mecanismo tensor de banda (carro + husillo)",
+   "biblioteca": "tensor_banda",
+   "color": "#cfd8dc",
+   "pos": [
+    -1400,
+    -208.5,
+    145
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf58",
+     "name": "Carro deslizante 70x40x30",
+     "shape": "box",
      "op": "union",
      "at": [
       0,
       0,
-      4
+      0
      ],
      "dir": [
       0,
@@ -1768,39 +1724,63 @@
       1
      ],
      "params": {
-      "dia": 10,
-      "h": 26
-     }
+      "w": 70,
+      "d": 40,
+      "h": 30
+     },
+     "color": "#607d8b"
     },
     {
-     "id": "bf58",
-     "name": "Racor + regulador",
+     "id": "bf59",
+     "name": "Husillo de tensado M12",
      "shape": "cylinder",
      "op": "union",
      "at": [
+      -35,
       0,
-      16,
-      -56
+      15
      ],
      "dir": [
+      -1,
       0,
-      1,
       0
      ],
      "params": {
-      "dia": 10,
-      "h": 10
-     }
+      "dia": 12,
+      "h": 60
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "bf60",
+     "name": "Tuerca de ajuste O24",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -70,
+      0,
+      15
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 24,
+      "h": 12
+     },
+     "color": "#78909c"
     }
    ]
   },
   {
-   "id": "bp30_base_gu_a_item_80_40_con_slot_deslizante_lane_y_208_5",
-   "name": "BASE · Guía item 80×40 con slot (deslizante) lane Y=208.5",
+   "id": "bp23_base_gu_a_mb80_deslizante_lane_y_69_5",
+   "name": "BASE · Guía MB80 (deslizante) lane Y=-69.5",
    "color": "#9aa6b0",
    "pos": [
     0,
-    208.5,
+    -69.5,
     145
    ],
    "quat": [
@@ -1812,10 +1792,11 @@
    "fixed": false,
    "visible": true,
    "base_ref": true,
+   "biblioteca": "perfil_mb80",
    "features": [
     {
-     "id": "bf59",
-     "name": "Perfil guía item 80×40",
+     "id": "bf61",
+     "name": "Perfil guía MB80 80×40",
      "shape": "box",
      "op": "union",
      "at": [
@@ -1829,13 +1810,13 @@
       1
      ],
      "params": {
-      "w": 2760,
+      "w": 2740,
       "d": 80,
       "h": 40
      }
     },
     {
-     "id": "bf60",
+     "id": "bf62",
      "name": "Slot de deslizamiento (ancho de banda)",
      "shape": "box",
      "op": "cut",
@@ -1850,7 +1831,7 @@
       1
      ],
      "params": {
-      "w": 2760,
+      "w": 2740,
       "d": 34,
       "h": 8
      }
@@ -1858,97 +1839,13 @@
    ]
   },
   {
-   "id": "bp31_base_banda_sincr_nica_at10_item24_lane_y_208_5_ramal_superior",
-   "name": "BASE · Banda sincrónica AT10 (item24) lane Y=208.5 (ramal superior)",
+   "id": "bp24_base_banda_sincr_nica_at10_lane_y_69_5_ramal_superior",
+   "name": "BASE · Banda sincrónica AT10 lane Y=-69.5 (ramal superior)",
    "color": "#141414",
    "pos": [
     0,
-    208.5,
+    -69.5,
     165
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf61",
-     "name": "Ramal superior AT10",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 2820,
-      "d": 32,
-      "h": 5
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp32_base_banda_sincr_nica_at10_lane_y_208_5_retorno",
-   "name": "BASE · Banda sincrónica AT10 lane Y=208.5 (retorno)",
-   "color": "#141414",
-   "pos": [
-    0,
-    208.5,
-    57
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf62",
-     "name": "Ramal de retorno AT10",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 2820,
-      "d": 32,
-      "h": 5
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp33_base_polea_dentada_at10_32t_cabeza_lane_y_208_5",
-   "name": "BASE · Polea dentada AT10 32T cabeza lane Y=208.5",
-   "color": "#8b98a6",
-   "pos": [
-    1410,
-    208.5,
-    114
    ],
    "quat": [
     0,
@@ -1962,74 +1859,35 @@
    "features": [
     {
      "id": "bf63",
-     "name": "Cuerpo dentado Ø102×42",
-     "shape": "cylinder",
+     "name": "Ramal superior AT10",
+     "shape": "box",
      "op": "union",
      "at": [
       0,
-      -21,
+      0,
       0
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 102,
-      "h": 42
-     }
-    },
-    {
-     "id": "bf64",
-     "name": "Pestaña Ø112 (a)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -24,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 112,
-      "h": 3
-     }
-    },
-    {
-     "id": "bf65",
-     "name": "Pestaña Ø112 (b)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      21,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 112,
-      "h": 3
+      "w": 2760,
+      "d": 32,
+      "h": 5
      }
     }
    ]
   },
   {
-   "id": "bp34_base_eje_independiente_30_lk_cabeza_lane_y_208_5",
-   "name": "BASE · Eje independiente Ø30 + LK cabeza lane Y=208.5",
-   "color": "#9aa7b2",
+   "id": "bp25_base_banda_sincr_nica_at10_lane_y_69_5_retorno",
+   "name": "BASE · Banda sincrónica AT10 lane Y=-69.5 (retorno)",
+   "color": "#141414",
    "pos": [
-    1410,
-    168.5,
-    114
+    0,
+    -69.5,
+    58
    ],
    "quat": [
     0,
@@ -2042,9 +1900,9 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf66",
-     "name": "Eje Ø30 × 120",
-     "shape": "cylinder",
+     "id": "bf64",
+     "name": "Ramal de retorno AT10",
+     "shape": "box",
      "op": "union",
      "at": [
       0,
@@ -2053,50 +1911,117 @@
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 30,
-      "h": 120
-     }
-    },
-    {
-     "id": "bf67",
-     "name": "Casquillo LK (bloqueo sin chaveta)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      64,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 45,
-      "h": 26
+      "w": 2760,
+      "d": 32,
+      "h": 5
      }
     }
    ]
   },
   {
-   "id": "bp35_base_polea_dentada_at10_32t_cola_lane_y_208_5",
-   "name": "BASE · Polea dentada AT10 32T cola lane Y=208.5",
+   "id": "bp26_polea_at10_32t",
+   "name": "Motriz cabeza lane Y=-69.5 · Polea sincronica AT10 32T con pestanas (bore O20)",
+   "biblioteca": "polea_at10_32t",
    "color": "#8b98a6",
    "pos": [
-    -1410,
-    208.5,
-    114
+    1380,
+    -89.5,
+    114.5
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf65",
+     "name": "Cuerpo dentado dp101.86",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 101,
+      "h": 28
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf66",
+     "name": "Pestana inferior O110",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 110,
+      "h": 6
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "bf67",
+     "name": "Pestana superior O110",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 110,
+      "h": 6
+     },
+     "color": "#607d8b"
+    }
+   ]
+  },
+  {
+   "id": "bp27_casquillo_bloqueo_lk30",
+   "name": "Bloqueo LK cabeza lane Y=-69.5 · Casquillo de bloqueo LK30 O20 H7 / O30 (acople sin chaveta)",
+   "biblioteca": "casquillo_bloqueo_lk30",
+   "color": "#b0bec5",
+   "pos": [
+    1380,
+    -47.5,
+    114.5
+   ],
+   "quat": [
+    -0.7071067811865476,
     0,
-    1
+    0,
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
@@ -2104,74 +2029,56 @@
    "features": [
     {
      "id": "bf68",
-     "name": "Cuerpo dentado Ø102×42",
+     "name": "Cuerpo O30",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      -21,
+      0,
       0
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 102,
-      "h": 42
-     }
+      "dia": 30,
+      "h": 26
+     },
+     "color": "#607d8b"
     },
     {
      "id": "bf69",
-     "name": "Pestaña Ø112 (a)",
+     "name": "Brida de apriete O45",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      -24,
-      0
+      0,
+      20
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 112,
-      "h": 3
-     }
-    },
-    {
-     "id": "bf70",
-     "name": "Pestaña Ø112 (b)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      21,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 112,
-      "h": 3
-     }
+      "dia": 45,
+      "h": 6
+     },
+     "color": "#546e7a"
     }
    ]
   },
   {
-   "id": "bp36_base_eje_independiente_30_lk_cola_lane_y_208_5",
-   "name": "BASE · Eje independiente Ø30 + LK cola lane Y=208.5",
+   "id": "bp28_base_eje_independiente_30_cabeza_lane_y_69_5",
+   "name": "BASE · Eje independiente Ø30 cabeza lane Y=-69.5",
    "color": "#9aa7b2",
    "pos": [
-    -1410,
-    168.5,
-    114
+    1380,
+    -69.5,
+    114.5
    ],
    "quat": [
     0,
@@ -2182,15 +2089,16 @@
    "fixed": false,
    "visible": true,
    "base_ref": true,
+   "biblioteca": "eje_rodillos_12x336",
    "features": [
     {
-     "id": "bf71",
-     "name": "Eje Ø30 × 120",
+     "id": "bf70",
+     "name": "Eje Ø30 × 150",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      0,
+      -75,
       0
      ],
      "dir": [
@@ -2200,86 +2108,111 @@
      ],
      "params": {
       "dia": 30,
-      "h": 120
-     }
-    },
-    {
-     "id": "bf72",
-     "name": "Casquillo LK (bloqueo sin chaveta)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      64,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 45,
-      "h": 26
+      "h": 150
      }
     }
    ]
   },
   {
-   "id": "bp37_base_polea_tensora_at10_neum_tica_lane_y_208_5",
-   "name": "BASE · Polea tensora AT10 (neumática) lane Y=208.5",
-   "color": "#8b98a6",
+   "id": "bp29_chumacera_ucfl204",
+   "name": "Rodamiento cabeza lane Y=-69.5 - · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
    "pos": [
-    0,
-    208.5,
-    23
+    1380,
+    -127.5,
+    114.5
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
-    0,
-    1
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
    "base_ref": true,
    "features": [
     {
-     "id": "bf73",
-     "name": "Polea tensora Ø60×40",
-     "shape": "cylinder",
+     "id": "bf71",
+     "name": "Brida 86x30x12",
+     "shape": "box",
      "op": "union",
      "at": [
       0,
-      -20,
+      0,
       0
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 60,
-      "h": 40
-     }
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf72",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf73",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
     }
    ]
   },
   {
-   "id": "bp38_base_cilindro_tensor_neum_tico_iso_6432_20_lane_y_208_5",
-   "name": "BASE · Cilindro tensor neumático ISO 6432 Ø20 lane Y=208.5",
-   "color": "#cfd8dc",
+   "id": "bp30_soporte_chapa_cabeza_lane_y_69_5_",
+   "name": "Cabeza lane Y=-69.5 - · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
    "pos": [
-    0,
-    208.5,
-    -7
+    1380,
+    -127.5,
+    84.5
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
-    0,
-    1
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
@@ -2287,13 +2220,13 @@
    "features": [
     {
      "id": "bf74",
-     "name": "Cuerpo Ø25×70",
-     "shape": "cylinder",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
      "op": "union",
      "at": [
       0,
       0,
-      -56
+      0
      ],
      "dir": [
       0,
@@ -2301,19 +2234,155 @@
       1
      ],
      "params": {
-      "dia": 25,
-      "h": 60
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
      }
     },
     {
      "id": "bf75",
-     "name": "Vástago Ø10 (empuja la tensora hacia arriba)",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf74",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf76",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "bf77",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp31_perno_cabeza_rod_lane_y_69_5_a",
+   "name": "Cabeza rod. lane Y=-69.5 - a · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
+   "pos": [
+    1350,
+    -142.5,
+    128.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf78",
+     "name": "Golilla O22x2.5",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      4
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf79",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf80",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
      ],
      "dir": [
       0,
@@ -2324,300 +2393,38 @@
       "dia": 10,
       "h": 26
      }
-    },
-    {
-     "id": "bf76",
-     "name": "Racor + regulador",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      16,
-      -56
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 10,
-      "h": 10
-     }
     }
    ]
   },
   {
-   "id": "bp39_base_couple_link_acople_de_eje_calles_208_5_69_5",
-   "name": "BASE · Couple-link (acople de eje) calles -208.5↔-69.5",
-   "color": "#b0bec5",
+   "id": "bp32_perno_cabeza_rod_lane_y_69_5_b",
+   "name": "Cabeza rod. lane Y=-69.5 - b · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
    "pos": [
     1410,
-    -139,
-    114
+    -142.5,
+    128.5
    ],
    "quat": [
+    -0.7071067811865476,
     0,
     0,
-    0,
-    1
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
    "base_ref": true,
    "features": [
-    {
-     "id": "bf77",
-     "name": "Manguito de acople Ø40",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -39.5,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 40,
-      "h": 79
-     }
-    },
-    {
-     "id": "bf78",
-     "name": "Brida LK a",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -39.5,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 52,
-      "h": 10
-     }
-    },
-    {
-     "id": "bf79",
-     "name": "Brida LK b",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      29.5,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 52,
-      "h": 10
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp40_base_couple_link_acople_de_eje_calles_69_5_69_5",
-   "name": "BASE · Couple-link (acople de eje) calles -69.5↔69.5",
-   "color": "#b0bec5",
-   "pos": [
-    1410,
-    0,
-    114
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf80",
-     "name": "Manguito de acople Ø40",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -39.5,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 40,
-      "h": 79
-     }
-    },
     {
      "id": "bf81",
-     "name": "Brida LK a",
+     "name": "Golilla O22x2.5",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      -39.5,
-      0
-     ],
-     "dir": [
       0,
-      1,
       0
-     ],
-     "params": {
-      "dia": 52,
-      "h": 10
-     }
-    },
-    {
-     "id": "bf82",
-     "name": "Brida LK b",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      29.5,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 52,
-      "h": 10
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp41_base_couple_link_acople_de_eje_calles_69_5_208_5",
-   "name": "BASE · Couple-link (acople de eje) calles 69.5↔208.5",
-   "color": "#b0bec5",
-   "pos": [
-    1410,
-    139,
-    114
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf83",
-     "name": "Manguito de acople Ø40",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -39.5,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 40,
-      "h": 79
-     }
-    },
-    {
-     "id": "bf84",
-     "name": "Brida LK a",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -39.5,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 52,
-      "h": 10
-     }
-    },
-    {
-     "id": "bf85",
-     "name": "Brida LK b",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      29.5,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 52,
-      "h": 10
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp42_base_motorreductor_de_eje_hueco_0_37_kw",
-   "name": "BASE · Motorreductor de eje hueco (~0.37 kW)",
-   "color": "#546e7a",
-   "pos": [
-    1410,
-    330,
-    114
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf86",
-     "name": "Cuerpo reductor 130×110×120",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      65,
-      -10
      ],
      "dir": [
       0,
@@ -2625,14 +2432,276 @@
       1
      ],
      "params": {
-      "w": 130,
-      "d": 110,
-      "h": 120
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf82",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf83",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp33_chumacera_ucfl204",
+   "name": "Rodamiento cabeza lane Y=-69.5 + · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
+   "pos": [
+    1380,
+    -11.5,
+    114.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf84",
+     "name": "Brida 86x30x12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf85",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf86",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp34_soporte_chapa_cabeza_lane_y_69_5_",
+   "name": "Cabeza lane Y=-69.5 + · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    1380,
+    -11.5,
+    84.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf87",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
      }
     },
     {
-     "id": "bf87",
-     "name": "Cubo de eje hueco Ø45",
+     "id": "bf88",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf87",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf89",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "bf90",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp35_perno_cabeza_rod_lane_y_69_5_a",
+   "name": "Cabeza rod. lane Y=-69.5 + a · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
+   "pos": [
+    1350,
+    3.5,
+    128.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf91",
+     "name": "Golilla O22x2.5",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -2642,18 +2711,4179 @@
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 45,
-      "h": 40
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf92",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf93",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
      }
     }
    ]
   },
   {
-   "id": "bp43_base_travesa_o_x_1250",
+   "id": "bp36_perno_cabeza_rod_lane_y_69_5_b",
+   "name": "Cabeza rod. lane Y=-69.5 + b · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
+   "pos": [
+    1410,
+    3.5,
+    128.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf94",
+     "name": "Golilla O22x2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf95",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf96",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp37_base_idler_40_cola_lane_y_69_5",
+   "name": "BASE · Idler Ø40 cola lane Y=-69.5",
+   "color": "#8b98a6",
+   "pos": [
+    -1380,
+    -69.5,
+    145
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "biblioteca": "rodillo_terminal_40",
+   "features": [
+    {
+     "id": "bf97",
+     "name": "Tubo idler Ø40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -45,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "h": 90
+     }
+    },
+    {
+     "id": "bf98",
+     "name": "Muñón Ø17 (-)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -60,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 20
+     }
+    },
+    {
+     "id": "bf99",
+     "name": "Muñón Ø17 (+)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      45,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 20
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp38_chumacera_ucfl204",
+   "name": "Rodamiento cola lane Y=-69.5 - · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
+   "pos": [
+    -1380,
+    -127.5,
+    145
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf100",
+     "name": "Brida 86x30x12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf101",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf102",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp39_soporte_chapa_cola_lane_y_69_5_",
+   "name": "Cola lane Y=-69.5 - · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    -1380,
+    -127.5,
+    115
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf103",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf104",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf103",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf105",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "bf106",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp40_chumacera_ucfl204",
+   "name": "Rodamiento cola lane Y=-69.5 + · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
+   "pos": [
+    -1380,
+    -11.5,
+    145
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf107",
+     "name": "Brida 86x30x12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf108",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf109",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp41_soporte_chapa_cola_lane_y_69_5_",
+   "name": "Cola lane Y=-69.5 + · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    -1380,
+    -11.5,
+    115
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf110",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf111",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf110",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf112",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "bf113",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp42_tensor_banda",
+   "name": "Take-up cola lane Y=-69.5 · Mecanismo tensor de banda (carro + husillo)",
+   "biblioteca": "tensor_banda",
+   "color": "#cfd8dc",
+   "pos": [
+    -1400,
+    -69.5,
+    145
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf114",
+     "name": "Carro deslizante 70x40x30",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 70,
+      "d": 40,
+      "h": 30
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "bf115",
+     "name": "Husillo de tensado M12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -35,
+      0,
+      15
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 60
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "bf116",
+     "name": "Tuerca de ajuste O24",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -70,
+      0,
+      15
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 24,
+      "h": 12
+     },
+     "color": "#78909c"
+    }
+   ]
+  },
+  {
+   "id": "bp43_base_gu_a_mb80_deslizante_lane_y_69_5",
+   "name": "BASE · Guía MB80 (deslizante) lane Y=69.5",
+   "color": "#9aa6b0",
+   "pos": [
+    0,
+    69.5,
+    145
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "biblioteca": "perfil_mb80",
+   "features": [
+    {
+     "id": "bf117",
+     "name": "Perfil guía MB80 80×40",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2740,
+      "d": 80,
+      "h": 40
+     }
+    },
+    {
+     "id": "bf118",
+     "name": "Slot de deslizamiento (ancho de banda)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      18
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2740,
+      "d": 34,
+      "h": 8
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp44_base_banda_sincr_nica_at10_lane_y_69_5_ramal_superior",
+   "name": "BASE · Banda sincrónica AT10 lane Y=69.5 (ramal superior)",
+   "color": "#141414",
+   "pos": [
+    0,
+    69.5,
+    165
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf119",
+     "name": "Ramal superior AT10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2760,
+      "d": 32,
+      "h": 5
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp45_base_banda_sincr_nica_at10_lane_y_69_5_retorno",
+   "name": "BASE · Banda sincrónica AT10 lane Y=69.5 (retorno)",
+   "color": "#141414",
+   "pos": [
+    0,
+    69.5,
+    58
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf120",
+     "name": "Ramal de retorno AT10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2760,
+      "d": 32,
+      "h": 5
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp46_polea_at10_32t",
+   "name": "Motriz cabeza lane Y=69.5 · Polea sincronica AT10 32T con pestanas (bore O20)",
+   "biblioteca": "polea_at10_32t",
+   "color": "#8b98a6",
+   "pos": [
+    1380,
+    49.5,
+    114.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf121",
+     "name": "Cuerpo dentado dp101.86",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 101,
+      "h": 28
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf122",
+     "name": "Pestana inferior O110",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 110,
+      "h": 6
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "bf123",
+     "name": "Pestana superior O110",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 110,
+      "h": 6
+     },
+     "color": "#607d8b"
+    }
+   ]
+  },
+  {
+   "id": "bp47_casquillo_bloqueo_lk30",
+   "name": "Bloqueo LK cabeza lane Y=69.5 · Casquillo de bloqueo LK30 O20 H7 / O30 (acople sin chaveta)",
+   "biblioteca": "casquillo_bloqueo_lk30",
+   "color": "#b0bec5",
+   "pos": [
+    1380,
+    91.5,
+    114.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf124",
+     "name": "Cuerpo O30",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 26
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "bf125",
+     "name": "Brida de apriete O45",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      20
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 45,
+      "h": 6
+     },
+     "color": "#546e7a"
+    }
+   ]
+  },
+  {
+   "id": "bp48_base_eje_independiente_30_cabeza_lane_y_69_5",
+   "name": "BASE · Eje independiente Ø30 cabeza lane Y=69.5",
+   "color": "#9aa7b2",
+   "pos": [
+    1380,
+    69.5,
+    114.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "biblioteca": "eje_rodillos_12x336",
+   "features": [
+    {
+     "id": "bf126",
+     "name": "Eje Ø30 × 150",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -75,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 150
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp49_chumacera_ucfl204",
+   "name": "Rodamiento cabeza lane Y=69.5 - · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
+   "pos": [
+    1380,
+    11.5,
+    114.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf127",
+     "name": "Brida 86x30x12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf128",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf129",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp50_soporte_chapa_cabeza_lane_y_69_5_",
+   "name": "Cabeza lane Y=69.5 - · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    1380,
+    11.5,
+    84.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf130",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf131",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf130",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf132",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "bf133",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp51_perno_cabeza_rod_lane_y_69_5_a",
+   "name": "Cabeza rod. lane Y=69.5 - a · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
+   "pos": [
+    1350,
+    -3.5,
+    128.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf134",
+     "name": "Golilla O22x2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf135",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf136",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp52_perno_cabeza_rod_lane_y_69_5_b",
+   "name": "Cabeza rod. lane Y=69.5 - b · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
+   "pos": [
+    1410,
+    -3.5,
+    128.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf137",
+     "name": "Golilla O22x2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf138",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf139",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp53_chumacera_ucfl204",
+   "name": "Rodamiento cabeza lane Y=69.5 + · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
+   "pos": [
+    1380,
+    127.5,
+    114.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf140",
+     "name": "Brida 86x30x12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf141",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf142",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp54_soporte_chapa_cabeza_lane_y_69_5_",
+   "name": "Cabeza lane Y=69.5 + · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    1380,
+    127.5,
+    84.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf143",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf144",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf143",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf145",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "bf146",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp55_perno_cabeza_rod_lane_y_69_5_a",
+   "name": "Cabeza rod. lane Y=69.5 + a · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
+   "pos": [
+    1350,
+    142.5,
+    128.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf147",
+     "name": "Golilla O22x2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf148",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf149",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp56_perno_cabeza_rod_lane_y_69_5_b",
+   "name": "Cabeza rod. lane Y=69.5 + b · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
+   "pos": [
+    1410,
+    142.5,
+    128.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf150",
+     "name": "Golilla O22x2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf151",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf152",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp57_base_idler_40_cola_lane_y_69_5",
+   "name": "BASE · Idler Ø40 cola lane Y=69.5",
+   "color": "#8b98a6",
+   "pos": [
+    -1380,
+    69.5,
+    145
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "biblioteca": "rodillo_terminal_40",
+   "features": [
+    {
+     "id": "bf153",
+     "name": "Tubo idler Ø40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -45,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "h": 90
+     }
+    },
+    {
+     "id": "bf154",
+     "name": "Muñón Ø17 (-)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -60,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 20
+     }
+    },
+    {
+     "id": "bf155",
+     "name": "Muñón Ø17 (+)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      45,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 20
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp58_chumacera_ucfl204",
+   "name": "Rodamiento cola lane Y=69.5 - · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
+   "pos": [
+    -1380,
+    11.5,
+    145
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf156",
+     "name": "Brida 86x30x12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf157",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf158",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp59_soporte_chapa_cola_lane_y_69_5_",
+   "name": "Cola lane Y=69.5 - · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    -1380,
+    11.5,
+    115
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf159",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf160",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf159",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf161",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "bf162",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp60_chumacera_ucfl204",
+   "name": "Rodamiento cola lane Y=69.5 + · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
+   "pos": [
+    -1380,
+    127.5,
+    145
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf163",
+     "name": "Brida 86x30x12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf164",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf165",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp61_soporte_chapa_cola_lane_y_69_5_",
+   "name": "Cola lane Y=69.5 + · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    -1380,
+    127.5,
+    115
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf166",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf167",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf166",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf168",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "bf169",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp62_tensor_banda",
+   "name": "Take-up cola lane Y=69.5 · Mecanismo tensor de banda (carro + husillo)",
+   "biblioteca": "tensor_banda",
+   "color": "#cfd8dc",
+   "pos": [
+    -1400,
+    69.5,
+    145
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf170",
+     "name": "Carro deslizante 70x40x30",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 70,
+      "d": 40,
+      "h": 30
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "bf171",
+     "name": "Husillo de tensado M12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -35,
+      0,
+      15
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 60
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "bf172",
+     "name": "Tuerca de ajuste O24",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -70,
+      0,
+      15
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 24,
+      "h": 12
+     },
+     "color": "#78909c"
+    }
+   ]
+  },
+  {
+   "id": "bp63_base_gu_a_mb80_deslizante_lane_y_208_5",
+   "name": "BASE · Guía MB80 (deslizante) lane Y=208.5",
+   "color": "#9aa6b0",
+   "pos": [
+    0,
+    208.5,
+    145
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "biblioteca": "perfil_mb80",
+   "features": [
+    {
+     "id": "bf173",
+     "name": "Perfil guía MB80 80×40",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2740,
+      "d": 80,
+      "h": 40
+     }
+    },
+    {
+     "id": "bf174",
+     "name": "Slot de deslizamiento (ancho de banda)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      18
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2740,
+      "d": 34,
+      "h": 8
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp64_base_banda_sincr_nica_at10_lane_y_208_5_ramal_superior",
+   "name": "BASE · Banda sincrónica AT10 lane Y=208.5 (ramal superior)",
+   "color": "#141414",
+   "pos": [
+    0,
+    208.5,
+    165
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf175",
+     "name": "Ramal superior AT10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2760,
+      "d": 32,
+      "h": 5
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp65_base_banda_sincr_nica_at10_lane_y_208_5_retorno",
+   "name": "BASE · Banda sincrónica AT10 lane Y=208.5 (retorno)",
+   "color": "#141414",
+   "pos": [
+    0,
+    208.5,
+    58
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf176",
+     "name": "Ramal de retorno AT10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2760,
+      "d": 32,
+      "h": 5
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp66_polea_at10_32t",
+   "name": "Motriz cabeza lane Y=208.5 · Polea sincronica AT10 32T con pestanas (bore O20)",
+   "biblioteca": "polea_at10_32t",
+   "color": "#8b98a6",
+   "pos": [
+    1380,
+    188.5,
+    114.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf177",
+     "name": "Cuerpo dentado dp101.86",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 101,
+      "h": 28
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf178",
+     "name": "Pestana inferior O110",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 110,
+      "h": 6
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "bf179",
+     "name": "Pestana superior O110",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 110,
+      "h": 6
+     },
+     "color": "#607d8b"
+    }
+   ]
+  },
+  {
+   "id": "bp67_casquillo_bloqueo_lk30",
+   "name": "Bloqueo LK cabeza lane Y=208.5 · Casquillo de bloqueo LK30 O20 H7 / O30 (acople sin chaveta)",
+   "biblioteca": "casquillo_bloqueo_lk30",
+   "color": "#b0bec5",
+   "pos": [
+    1380,
+    230.5,
+    114.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf180",
+     "name": "Cuerpo O30",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 26
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "bf181",
+     "name": "Brida de apriete O45",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      20
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 45,
+      "h": 6
+     },
+     "color": "#546e7a"
+    }
+   ]
+  },
+  {
+   "id": "bp68_base_eje_independiente_30_cabeza_lane_y_208_5",
+   "name": "BASE · Eje independiente Ø30 cabeza lane Y=208.5",
+   "color": "#9aa7b2",
+   "pos": [
+    1380,
+    208.5,
+    114.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "biblioteca": "eje_rodillos_12x336",
+   "features": [
+    {
+     "id": "bf182",
+     "name": "Eje Ø30 × 150",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -75,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 150
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp69_chumacera_ucfl204",
+   "name": "Rodamiento cabeza lane Y=208.5 - · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
+   "pos": [
+    1380,
+    150.5,
+    114.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf183",
+     "name": "Brida 86x30x12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf184",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf185",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp70_soporte_chapa_cabeza_lane_y_208_5_",
+   "name": "Cabeza lane Y=208.5 - · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    1380,
+    150.5,
+    84.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf186",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf187",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf186",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf188",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "bf189",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp71_perno_cabeza_rod_lane_y_208_5_a",
+   "name": "Cabeza rod. lane Y=208.5 - a · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
+   "pos": [
+    1350,
+    135.5,
+    128.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf190",
+     "name": "Golilla O22x2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf191",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf192",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp72_perno_cabeza_rod_lane_y_208_5_b",
+   "name": "Cabeza rod. lane Y=208.5 - b · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
+   "pos": [
+    1410,
+    135.5,
+    128.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf193",
+     "name": "Golilla O22x2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf194",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf195",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp73_chumacera_ucfl204",
+   "name": "Rodamiento cabeza lane Y=208.5 + · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
+   "pos": [
+    1380,
+    266.5,
+    114.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf196",
+     "name": "Brida 86x30x12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf197",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf198",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp74_soporte_chapa_cabeza_lane_y_208_5_",
+   "name": "Cabeza lane Y=208.5 + · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    1380,
+    266.5,
+    84.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf199",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf200",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf199",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf201",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "bf202",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp75_perno_cabeza_rod_lane_y_208_5_a",
+   "name": "Cabeza rod. lane Y=208.5 + a · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
+   "pos": [
+    1350,
+    281.5,
+    128.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf203",
+     "name": "Golilla O22x2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf204",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf205",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp76_perno_cabeza_rod_lane_y_208_5_b",
+   "name": "Cabeza rod. lane Y=208.5 + b · Perno hex M10 DIN 933",
+   "biblioteca": "perno_hex_m10_din933",
+   "color": "#4a5560",
+   "pos": [
+    1410,
+    281.5,
+    128.5
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf206",
+     "name": "Golilla O22x2.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 22,
+      "h": 2.5
+     },
+     "color": "#9aa7b0"
+    },
+    {
+     "id": "bf207",
+     "name": "Cabeza hex e.c.17",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18.4,
+      "h": 6.4
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf208",
+     "name": "Vástago M10×26",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 26
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp77_base_idler_40_cola_lane_y_208_5",
+   "name": "BASE · Idler Ø40 cola lane Y=208.5",
+   "color": "#8b98a6",
+   "pos": [
+    -1380,
+    208.5,
+    145
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "biblioteca": "rodillo_terminal_40",
+   "features": [
+    {
+     "id": "bf209",
+     "name": "Tubo idler Ø40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -45,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "h": 90
+     }
+    },
+    {
+     "id": "bf210",
+     "name": "Muñón Ø17 (-)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -60,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 20
+     }
+    },
+    {
+     "id": "bf211",
+     "name": "Muñón Ø17 (+)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      45,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 17,
+      "h": 20
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp78_chumacera_ucfl204",
+   "name": "Rodamiento cola lane Y=208.5 - · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
+   "pos": [
+    -1380,
+    150.5,
+    145
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf212",
+     "name": "Brida 86x30x12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf213",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf214",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp79_soporte_chapa_cola_lane_y_208_5_",
+   "name": "Cola lane Y=208.5 - · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    -1380,
+    150.5,
+    115
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf215",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf216",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf215",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf217",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "bf218",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp80_chumacera_ucfl204",
+   "name": "Rodamiento cola lane Y=208.5 + · Chumacera de brida UCFL204 (bore O20, 2 bulones)",
+   "biblioteca": "chumacera_ucfl204",
+   "color": "#9aa7b2",
+   "pos": [
+    -1380,
+    266.5,
+    145
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf219",
+     "name": "Brida 86x30x12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 86,
+      "d": 30,
+      "h": 12
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf220",
+     "name": "Cubo O42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 31
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "bf221",
+     "name": "Collar excentrico O34",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      43
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34,
+      "h": 12
+     },
+     "color": "#90a4ae"
+    }
+   ]
+  },
+  {
+   "id": "bp81_soporte_chapa_cola_lane_y_208_5_",
+   "name": "Cola lane Y=208.5 + · Soporte de chapa (foto3d, plegado + taladros)",
+   "color": "#cdd7de",
+   "pos": [
+    -1380,
+    266.5,
+    115
+   ],
+   "quat": [
+    -0.7071067811865476,
+    0,
+    0,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf222",
+     "name": "Chapa 90×60×4",
+     "shape": "chapaBase",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 90,
+      "d": 60,
+      "t": 4,
+      "material": "acero",
+      "radio": 4,
+      "k": 0.44
+     }
+    },
+    {
+     "id": "bf223",
+     "name": "Pestaña 90° R4",
+     "shape": "pestana",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "padre": "bf222",
+      "borde": 1,
+      "altura": 40,
+      "angulo": 90,
+      "radio": 4,
+      "dirBend": "arriba",
+      "e1": 0,
+      "e2": 0
+     }
+    },
+    {
+     "id": "bf224",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "bf225",
+     "name": "Agujero Ø11 (perno M10)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      15,
+      4.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp82_tensor_banda",
+   "name": "Take-up cola lane Y=208.5 · Mecanismo tensor de banda (carro + husillo)",
+   "biblioteca": "tensor_banda",
+   "color": "#cfd8dc",
+   "pos": [
+    -1400,
+    208.5,
+    145
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf226",
+     "name": "Carro deslizante 70x40x30",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 70,
+      "d": 40,
+      "h": 30
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "bf227",
+     "name": "Husillo de tensado M12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -35,
+      0,
+      15
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 60
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "bf228",
+     "name": "Tuerca de ajuste O24",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -70,
+      0,
+      15
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 24,
+      "h": 12
+     },
+     "color": "#78909c"
+    }
+   ]
+  },
+  {
+   "id": "bp83_base_couple_link_acople_lk_calles_208_5_69_5",
+   "name": "BASE · Couple-link (acople LK) calles -208.5↔-69.5",
+   "color": "#b0bec5",
+   "pos": [
+    1380,
+    -139,
+    114.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "biblioteca": "casquillo_bloqueo_lk30",
+   "features": [
+    {
+     "id": "bf229",
+     "name": "Manguito de acople Ø40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -31.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "h": 63
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp84_base_couple_link_acople_lk_calles_69_5_69_5",
+   "name": "BASE · Couple-link (acople LK) calles -69.5↔69.5",
+   "color": "#b0bec5",
+   "pos": [
+    1380,
+    0,
+    114.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "biblioteca": "casquillo_bloqueo_lk30",
+   "features": [
+    {
+     "id": "bf230",
+     "name": "Manguito de acople Ø40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -31.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "h": 63
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp85_base_couple_link_acople_lk_calles_69_5_208_5",
+   "name": "BASE · Couple-link (acople LK) calles 69.5↔208.5",
+   "color": "#b0bec5",
+   "pos": [
+    1380,
+    139,
+    114.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "biblioteca": "casquillo_bloqueo_lk30",
+   "features": [
+    {
+     "id": "bf231",
+     "name": "Manguito de acople Ø40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -31.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "h": 63
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp86_motorreductor_eje_hueco",
+   "name": "Motorreductor de eje hueco · Motorreductor de eje hueco (~0.18 kW, i~6.3)",
+   "biblioteca": "motorreductor_eje_hueco",
+   "color": "#546e7a",
+   "pos": [
+    1380,
+    320,
+    114.5
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf232",
+     "name": "Cubo eje hueco O56x84",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 56,
+      "h": 84
+     },
+     "color": "#546e7a"
+    },
+    {
+     "id": "bf233",
+     "name": "Cuerpo 96x86x92",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      42,
+      0,
+      -78
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 96,
+      "d": 86,
+      "h": 92
+     },
+     "color": "#546e7a"
+    }
+   ]
+  },
+  {
+   "id": "bp87_base_travesa_o_x_1250",
    "name": "BASE · Travesaño X=-1250",
    "color": "#9aa6b0",
    "pos": [
@@ -2672,7 +6902,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf88",
+     "id": "bf234",
      "name": "Travesaño item",
      "shape": "box",
      "op": "union",
@@ -2695,7 +6925,7 @@
    ]
   },
   {
-   "id": "bp44_base_travesa_o_x_750",
+   "id": "bp88_base_travesa_o_x_750",
    "name": "BASE · Travesaño X=-750",
    "color": "#9aa6b0",
    "pos": [
@@ -2714,7 +6944,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf89",
+     "id": "bf235",
      "name": "Travesaño item",
      "shape": "box",
      "op": "union",
@@ -2737,7 +6967,7 @@
    ]
   },
   {
-   "id": "bp45_base_travesa_o_pesado_marco_del_hueco_x_430",
+   "id": "bp89_base_travesa_o_pesado_marco_del_hueco_x_430",
    "name": "BASE · Travesaño PESADO (marco del hueco) X=-430",
    "color": "#9aa6b0",
    "pos": [
@@ -2756,7 +6986,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf90",
+     "id": "bf236",
      "name": "Travesaño item",
      "shape": "box",
      "op": "union",
@@ -2779,7 +7009,7 @@
    ]
   },
   {
-   "id": "bp46_base_travesa_o_pesado_marco_del_hueco_x_430",
+   "id": "bp90_base_travesa_o_pesado_marco_del_hueco_x_430",
    "name": "BASE · Travesaño PESADO (marco del hueco) X=430",
    "color": "#9aa6b0",
    "pos": [
@@ -2798,7 +7028,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf91",
+     "id": "bf237",
      "name": "Travesaño item",
      "shape": "box",
      "op": "union",
@@ -2821,7 +7051,7 @@
    ]
   },
   {
-   "id": "bp47_base_travesa_o_x_750",
+   "id": "bp91_base_travesa_o_x_750",
    "name": "BASE · Travesaño X=750",
    "color": "#9aa6b0",
    "pos": [
@@ -2840,7 +7070,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf92",
+     "id": "bf238",
      "name": "Travesaño item",
      "shape": "box",
      "op": "union",
@@ -2863,7 +7093,7 @@
    ]
   },
   {
-   "id": "bp48_base_travesa_o_x_1250",
+   "id": "bp92_base_travesa_o_x_1250",
    "name": "BASE · Travesaño X=1250",
    "color": "#9aa6b0",
    "pos": [
@@ -2882,7 +7112,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf93",
+     "id": "bf239",
      "name": "Travesaño item",
      "shape": "box",
      "op": "union",
@@ -2905,7 +7135,7 @@
    ]
   },
   {
-   "id": "bp49_base_pata_x_1240_y",
+   "id": "bp93_base_pata_x_1240_y",
    "name": "BASE · Pata X=-1240 -Y",
    "color": "#3b4750",
    "pos": [
@@ -2924,7 +7154,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf94",
+     "id": "bf240",
      "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
@@ -2945,7 +7175,7 @@
      }
     },
     {
-     "id": "bf95",
+     "id": "bf241",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -2966,7 +7196,7 @@
      }
     },
     {
-     "id": "bf96",
+     "id": "bf242",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -2988,7 +7218,7 @@
    ]
   },
   {
-   "id": "bp50_base_pata_x_1240_y",
+   "id": "bp94_base_pata_x_1240_y",
    "name": "BASE · Pata X=-1240 +Y",
    "color": "#3b4750",
    "pos": [
@@ -3007,7 +7237,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf97",
+     "id": "bf243",
      "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
@@ -3028,7 +7258,7 @@
      }
     },
     {
-     "id": "bf98",
+     "id": "bf244",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -3049,7 +7279,7 @@
      }
     },
     {
-     "id": "bf99",
+     "id": "bf245",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -3071,7 +7301,7 @@
    ]
   },
   {
-   "id": "bp51_base_pata_x_0_y",
+   "id": "bp95_base_pata_x_0_y",
    "name": "BASE · Pata X=0 -Y",
    "color": "#3b4750",
    "pos": [
@@ -3090,7 +7320,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf100",
+     "id": "bf246",
      "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
@@ -3111,7 +7341,7 @@
      }
     },
     {
-     "id": "bf101",
+     "id": "bf247",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -3132,7 +7362,7 @@
      }
     },
     {
-     "id": "bf102",
+     "id": "bf248",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -3154,7 +7384,7 @@
    ]
   },
   {
-   "id": "bp52_base_pata_x_0_y",
+   "id": "bp96_base_pata_x_0_y",
    "name": "BASE · Pata X=0 +Y",
    "color": "#3b4750",
    "pos": [
@@ -3173,7 +7403,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf103",
+     "id": "bf249",
      "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
@@ -3194,7 +7424,7 @@
      }
     },
     {
-     "id": "bf104",
+     "id": "bf250",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -3215,7 +7445,7 @@
      }
     },
     {
-     "id": "bf105",
+     "id": "bf251",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -3237,7 +7467,7 @@
    ]
   },
   {
-   "id": "bp53_base_pata_x_1240_y",
+   "id": "bp97_base_pata_x_1240_y",
    "name": "BASE · Pata X=1240 -Y",
    "color": "#3b4750",
    "pos": [
@@ -3256,7 +7486,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf106",
+     "id": "bf252",
      "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
@@ -3277,7 +7507,7 @@
      }
     },
     {
-     "id": "bf107",
+     "id": "bf253",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -3298,7 +7528,7 @@
      }
     },
     {
-     "id": "bf108",
+     "id": "bf254",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -3320,7 +7550,7 @@
    ]
   },
   {
-   "id": "bp54_base_pata_x_1240_y",
+   "id": "bp98_base_pata_x_1240_y",
    "name": "BASE · Pata X=1240 +Y",
    "color": "#3b4750",
    "pos": [
@@ -3339,7 +7569,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf109",
+     "id": "bf255",
      "name": "Poste item 60×60",
      "shape": "box",
      "op": "union",
@@ -3360,7 +7590,7 @@
      }
     },
     {
-     "id": "bf110",
+     "id": "bf256",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -3381,7 +7611,7 @@
      }
     },
     {
-     "id": "bf111",
+     "id": "bf257",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -3403,7 +7633,7 @@
    ]
   },
   {
-   "id": "bp55_base_riostra_diagonal_y",
+   "id": "bp99_base_riostra_diagonal_y",
    "name": "BASE · Riostra diagonal -Y",
    "color": "#3b4750",
    "pos": [
@@ -3422,7 +7652,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf112",
+     "id": "bf258",
      "name": "Riostra 40×40",
      "shape": "box",
      "op": "union",
@@ -3445,7 +7675,7 @@
    ]
   },
   {
-   "id": "bp56_base_riostra_diagonal_y",
+   "id": "bp100_base_riostra_diagonal_y",
    "name": "BASE · Riostra diagonal +Y",
    "color": "#3b4750",
    "pos": [
@@ -3464,7 +7694,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf113",
+     "id": "bf259",
      "name": "Riostra 40×40",
      "shape": "box",
      "op": "union",
@@ -3487,7 +7717,7 @@
    ]
   },
   {
-   "id": "bp57_base_guarda_lateral_y",
+   "id": "bp101_base_guarda_lateral_y",
    "name": "BASE · Guarda lateral -Y",
    "color": "#aab6c0",
    "pos": [
@@ -3506,7 +7736,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf114",
+     "id": "bf260",
      "name": "Guarda item",
      "shape": "box",
      "op": "union",
@@ -3521,7 +7751,7 @@
       1
      ],
      "params": {
-      "w": 2820,
+      "w": 2760,
       "d": 6,
       "h": 60
      }
@@ -3529,7 +7759,7 @@
    ]
   },
   {
-   "id": "bp58_base_guarda_lateral_y",
+   "id": "bp102_base_guarda_lateral_y",
    "name": "BASE · Guarda lateral +Y",
    "color": "#aab6c0",
    "pos": [
@@ -3548,7 +7778,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf115",
+     "id": "bf261",
      "name": "Guarda item",
      "shape": "box",
      "op": "union",
@@ -3563,7 +7793,7 @@
       1
      ],
      "params": {
-      "w": 2820,
+      "w": 2760,
       "d": 6,
       "h": 60
      }
