@@ -729,11 +729,24 @@ function applyTreeFilter() {
   for (const n of document.querySelectorAll('#tree [data-kind="part"]')) n.style.display = hidden.has(n.dataset.id) ? 'none' : '';
   for (const n of document.querySelectorAll('#tree [data-kind="feature"]')) n.style.display = hidden.has(n.dataset.part) ? 'none' : '';
 }
-function setAllVisible(v) {
+// Visibilidad CONSCIENTE DEL FILTRO: 👁/🚫 afectan solo a las piezas que calzan
+// el filtro (si hay); ◉ aísla (muestra solo esas y oculta el resto).
+function setVisibleFiltered(v) {
   pushUndo();
-  for (const p of doc.parts) { p.visible = v; syncTransform(p); }
+  const q = treeFilter;
+  const match = (p) => !q || p.name.toLowerCase().includes(q);
+  let nn = 0;
+  for (const p of doc.parts) if (match(p)) { p.visible = v; syncTransform(p); nn++; }
   refreshUI();
-  commit(v ? 'Todas las piezas visibles.' : 'Todas las piezas ocultas.');
+  commit(`${v ? 'Mostradas' : 'Ocultas'} ${nn} pieza(s)${q ? ` («${q}»)` : ''}.`);
+}
+function isolateFiltered() {
+  if (!treeFilter) return setVisibleFiltered(true);
+  pushUndo();
+  let nn = 0;
+  for (const p of doc.parts) { const m = p.name.toLowerCase().includes(treeFilter); p.visible = m; syncTransform(p); if (m) nn++; }
+  refreshUI();
+  commit(`Aisladas ${nn} pieza(s) («${treeFilter}»).`);
 }
 
 function refreshUI() {
@@ -742,8 +755,9 @@ function refreshUI() {
   let html = `<h3><span class="h3ic">${svgIcon(envIco)}</span>Piezas<span class="cnt">${doc.parts.length}</span></h3>`;
   if (doc.parts.length > 8) html += `<div class="treebar">
     <input id="treeFilter" type="search" placeholder="Filtrar piezas…" value="${esc(treeFilter)}" autocomplete="off">
-    <button id="treeShowAll" title="Mostrar todas las piezas">👁</button>
-    <button id="treeHideAll" title="Ocultar todas las piezas">🚫</button></div>`;
+    <button id="treeShowAll" title="Mostrar (las del filtro, o todas)">👁</button>
+    <button id="treeHideAll" title="Ocultar (las del filtro, o todas)">🚫</button>
+    <button id="treeIsoAll" title="Aislar: mostrar solo las del filtro">◉</button></div>`;
   for (const part of doc.parts) {
     const sel = selection?.kind === 'part' && selection.id === part.id ? ' sel' : '';
     html += `<div class="node node-part${sel}" data-kind="part" data-id="${part.id}">
@@ -781,8 +795,9 @@ function refreshUI() {
   const tf = $('treeFilter');
   if (tf) {
     tf.oninput = () => { treeFilter = tf.value.trim().toLowerCase(); applyTreeFilter(); };
-    $('treeShowAll').onclick = () => setAllVisible(true);
-    $('treeHideAll').onclick = () => setAllVisible(false);
+    $('treeShowAll').onclick = () => setVisibleFiltered(true);
+    $('treeHideAll').onclick = () => setVisibleFiltered(false);
+    $('treeIsoAll').onclick = () => isolateFiltered();
     applyTreeFilter();
   }
   refreshProps();
