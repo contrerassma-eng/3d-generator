@@ -36,6 +36,20 @@ export function makeChapaBase(w, d, material, t, radio, k, at = [0, 0, 0]) {
   };
 }
 
+// Chapa a partir de un CONTORNO real (placa reconocida): contorno/agujeros en el
+// plano local XY, extruida por t desde z=zbase. w,d = bbox del contorno (respaldo).
+export function makeChapaBaseContorno(contorno, agujeros, material, t, radio, k, zbase = 0) {
+  const m = materialPorId(material);
+  t = t > 0 ? t : m.espesor;
+  const xs = contorno.map(p => p[0]), ys = contorno.map(p => p[1]);
+  const w = Math.max(...xs) - Math.min(...xs), d = Math.max(...ys) - Math.min(...ys);
+  return {
+    id: uid('f'), name: `Chapa contorno ${w.toFixed(0)}×${d.toFixed(0)}×${t}`, shape: 'chapaBase', op: 'union',
+    at: [0, 0, zbase], dir: [0, 0, 1],
+    params: { contorno, agujeros: agujeros || [], w, d, t, material: m.id, radio: radio > 0 ? radio : t, k: k > 0 ? k : m.k },
+  };
+}
+
 export function makePestana(padreId, borde, altura, angulo, radio, dirBend = 'arriba', e1 = 0, e2 = 0) {
   return {
     id: uid('f'), name: `Pestaña ${angulo}° R${radio}`, shape: 'pestana', op: 'union',
@@ -153,6 +167,20 @@ export function chapaFeatureGeometry(part, f) {
   const t = base.params.t;
 
   if (f.shape === 'chapaBase') {
+    // Base con CONTORNO real (placa convertida a chapa): extruye el contorno 2D
+    // (con sus agujeros) por el espesor; la base crece +Z desde f.at[2].
+    if (f.params.contorno) {
+      const shape = new THREE.Shape(f.params.contorno.map(p => new THREE.Vector2(p[0], p[1])));
+      for (const h of (f.params.agujeros || [])) {
+        const path = new THREE.Path();
+        if (h.r) path.absarc(h.c[0], h.c[1], h.r, 0, Math.PI * 2, true);
+        else path.setFromPoints(h.map(p => new THREE.Vector2(p[0], p[1])));
+        shape.holes.push(path);
+      }
+      const g = new THREE.ExtrudeGeometry(shape, { depth: t, bevelEnabled: false, curveSegments: 24 });
+      g.translate(0, 0, f.at[2]);
+      return { add: g, cuts: [] };
+    }
     const { w, d } = f.params;
     const g = new THREE.BoxGeometry(w, d, t);
     g.translate(f.at[0], f.at[1], f.at[2] + t / 2);
@@ -281,6 +309,20 @@ export function flatPattern(part) {
   const base = chapaOf(part);
   if (!base) return null;
   const { w, d, t, k } = base.params;
+  // Base con CONTORNO real y sin pestañas: el desarrollo ES ese contorno con sus
+  // agujeros (exactamente lo que corta el láser).
+  if (base.params.contorno && !part.features.some(f => f.shape === 'pestana' && !f.suppressed)) {
+    const circles = [], polys = [];
+    for (const h of (base.params.agujeros || [])) {
+      if (h.r) circles.push({ c: [h.c[0], h.c[1]], r: h.r });
+      else polys.push(h.map(p => [p[0], p[1]]));
+    }
+    return {
+      contorno: base.params.contorno.map(p => [p[0], p[1]]),
+      pliegues: [], etiquetas: [], pliegueInfo: [], avisos: [],
+      cortes: { circles, polys }, material: base.params.material, t, k, radio: base.params.radio,
+    };
+  }
   const [cx, cy] = base.at;
   const contorno = [];
   const pliegues = [], etiquetas = [], pliegueInfo = [], avisos = [];
