@@ -118,8 +118,31 @@ las calles entre las 5 líneas de rodillos, con sus **tambores** en los extremos
 - Producto muy corto (< 3 centros ≈ 420 mm) → transferencia irregular (limitación de layout, no de diseño).
 - Presión de banda base sobre producto durante el pop-up → nula (producto ya despegado a +4).
 
+## 8. Equipo base — transportador twin-belt (`gen_base.mjs`)
+
+Mismo análisis (Habasit/Shigley/conveyor) al **equipo base paramétrico**,
+**manteniendo la posición de las bandas** (calles Y=±69.5/±208.5). Correcciones
+aplicadas para fabricabilidad:
+
+| Ítem | Análisis / hallazgo | Corrección |
+|---|---|---|
+| **Soporte de banda (Habasit)** | Una banda plana de **3 m sin apoyo se hunde** entre tambores. | **CAMA DESLIZANTE** (slider bed) de chapa bajo cada calle (o rodillos de carga como alternativa). |
+| **Potencia del motor** | P = F·v; F ≈ µ·(m_banda+carga)·g ≈ 0.3·(≈53 kg)·9.81 ≈ **156 N**; a v ≈ 0.5 m/s → **P ≈ 80 W**. | Motor **0.37 kW** (era 0.55, sobredimensionado) — sobra margen para arranque. |
+| **Arrastre del tambor (Habasit/Euler)** | Fricción sobre Ø90, envoltura 180°. Sin lagging µ~0.25 → patina. | **Lagging de caucho ranurado e=6** en el tambor de cabeza → µ≥0.7; T1/T2 = e^{µθ} ≈ 2.6. |
+| **Ø de tambor (Habasit)** | Ø90 > Ø mínimo de polea motriz para banda 3 mm. | OK. |
+| **Take-up (Habasit)** | Elongación de banda ≈ 1–2% del lazo (6 m) → **60–120 mm**. Tenía ±40. | **Husillo de take-up ±60 (120 mm)** en la cola, con colisa. |
+| **Eje del tambor (Shigley)** | Par = F·R = 156·0.045 ≈ **7 N·m**; flexión por T1+T2 sobre la luz de rodamiento. | Ø30 holgado (τ y flecha muy por debajo); chumaceras de pie estándar. |
+| **Bastidor / flecha (Shigley)** | Canal C sobre 3 m: con patas solo en extremos, luz **2.5 m** → flecha marginal. | **Par de patas CENTRAL** (6 patas) → luz 1.25 m; flecha ≪ L/500. Riostras diagonales para rigidez longitudinal. |
+| **Patas / carga** | ~53 kg + bastidor sobre 6 patas → <120 N/pata. | Postes 60×60 + placa + nivelador M16: holgado. |
+| **item / perfilería** | El bastidor puede ir en **perfil de aluminio ranurado (item/Bosch)** atornillado en vez de canal soldado. | Documentado como alternativa (montaje/ajuste vs rigidez). |
+
+**Interfaz base ↔ transferencia:** el hueco (X=±430) queda enmarcado por 2
+travesaños pesados que reciben las cargas del módulo; el plano de banda (Z=170)
+es común, así los rodillos emergen +4 sin conflicto. Las 4 bandas **no cambian
+de posición** (calles Y=±69.5/±208.5).
+
 ---
 
-Todos los cambios de geometría están en `gen_transfer90.mjs`,
+Todos los cambios de geometría están en `gen_transfer90.mjs`, `gen_base.mjs`,
 `gen_base_interface.mjs` y `gen_integracion.mjs`, regenerados en los JSON, el
 test y los planos.

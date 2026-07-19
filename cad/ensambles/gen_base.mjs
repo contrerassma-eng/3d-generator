@@ -56,8 +56,13 @@ for (const sy of [-1, 1]) {
   ]);
 }
 
-// --- BANDAS planas (ramal superior + retorno) sobre las 4 calles --------------
+// --- BANDAS planas (ramal superior + retorno) sobre las 4 calles + SLIDER BED -
+// (Habasit: una banda plana de 3 m necesita CAMA DESLIZANTE o rodillos de carga;
+//  aquí slider bed de chapa bajo cada calle, con el borde volteado como guía)
 for (const y of D.lanes) {
+  addPart(`BASE · Cama deslizante (slider bed) lane Y=${y}`, C.acero, [0, y, zTop - D.beltT - 3], [
+    box('Chapa slider 3', [0, y, zTop - D.beltT - 3], L - 100, D.beltW + 18, 3),
+  ]);
   addPart(`BASE · Banda anfitrión 40×3 lane Y=${y} (ramal superior)`, C.banda, [0, y, zTop - D.beltT], [
     box('Ramal superior', [0, y, zTop - D.beltT], L - 60, D.beltW, D.beltT),
   ]);
@@ -72,6 +77,7 @@ for (const [sx, nombre] of [[1, 'cabeza (motriz)'], [-1, 'cola (take-up)']]) {
   const x = sx * (xH - 70);
   addPart(`BASE · Tambor de ${nombre}`, C.tambor, [x, 0, drumZ], [
     cyl(`Llanta Ø${D.drumDia}×${2 * D.drumFaceHalf}`, [x, -D.drumFaceHalf, drumZ], [0, 1, 0], D.drumDia, 2 * D.drumFaceHalf),
+    ...(sx > 0 ? [cyl('Lagging de caucho ranurado e=6 (µ≥0.7)', [x, -D.drumFaceHalf, drumZ], [0, 1, 0], D.drumDia + 12, 2 * D.drumFaceHalf)] : []),
     cyl('Eje Ø30', [x, -D.drumFaceHalf - 60, drumZ], [0, 1, 0], 30, 2 * D.drumFaceHalf + 120),
   ]);
   // 2 chumaceras del tambor (en los canales)
@@ -80,17 +86,17 @@ for (const [sx, nombre] of [[1, 'cabeza (motriz)'], [-1, 'cola (take-up)']]) {
     addPart(`BASE · Chumacera tambor ${nombre} ${sy > 0 ? '+Y' : '-Y'}`, C.acero, [x, sy * (D.frameHalfY - 6), drumZ], [
       box('Cuerpo chumacera 60×40×50', [x, sy * (D.frameHalfY - 6), drumZ], 60, 40, 50),
       cyl('Bore Ø30', [x, sy * (D.frameHalfY - 6) + sy * 20, drumZ], [0, sy, 0], 30, 40, 'cut'),
-      ...(takeup ? [box('Colisa de take-up (husillo)', [x, sy * (D.frameHalfY - 6), drumZ], 90, 12, 34, 'cut')] : []),
+      ...(takeup ? [box('Colisa de take-up (husillo, ±60)', [x, sy * (D.frameHalfY - 6), drumZ], 140, 12, 34, 'cut')] : []),
     ]);
   }
 }
-// husillo de take-up (tensa la cola)
-addPart('BASE · Husillo de take-up M16', C.acero, [-xH + 70, 0, drumZ], [
-  cyl('Husillo Ø16 × 160 (±40 de tensado)', [-xH + 130, 0, drumZ], [-1, 0, 0], 16, 160),
+// husillo de take-up (tensa la cola): recorrido 120 mm ≈ 2% del lazo de 6 m
+addPart('BASE · Husillo de take-up M16 (±60)', C.acero, [-xH + 70, 0, drumZ], [
+  cyl('Husillo Ø16 × 200 (±60 de tensado)', [-xH + 150, 0, drumZ], [-1, 0, 0], 16, 200),
 ]);
 
-// --- MOTORREDUCTOR de cabeza (accionamiento del transportador) ----------------
-addPart('BASE · Motorreductor del transportador (~0.55 kW)', C.drive, [xH - 70, D.frameHalfY + 40, drumZ], [
+// --- MOTORREDUCTOR de cabeza (P≈F·v≈80 W → 0.37 kW basta, con margen) ----------
+addPart('BASE · Motorreductor del transportador (~0.37 kW)', C.drive, [xH - 70, D.frameHalfY + 40, drumZ], [
   box('Cuerpo reductor 140×120×130', [xH - 70, D.frameHalfY + 110, drumZ - 10], 140, 120, 130),
   cyl('Brida de eje hueco Ø60', [xH - 70, D.frameHalfY + 40, drumZ], [0, 1, 0], 60, 40),
   box('Brazo de torque', [xH - 40, D.frameHalfY + 70, drumZ - 70], 12, 120, 40),
@@ -104,11 +110,11 @@ for (const x of D.crossAt) {
   ]);
 }
 
-// --- PATAS niveladoras hasta el piso ------------------------------------------
+// --- PATAS niveladoras hasta el piso (6: extremos + CENTRAL para 3 m de luz) ---
 const zFloor = zTop - D.legH;
-for (const sx of [-1, 1]) for (const sy of [-1, 1]) {
-  const x = sx * (xH - 260), y = sy * D.frameHalfY;
-  addPart(`BASE · Pata ${sx > 0 ? '+X' : '-X'}${sy > 0 ? '+Y' : '-Y'}`, C.pata, [x, y, zFloor], [
+for (const x of [-(xH - 260), 0, (xH - 260)]) for (const sy of [-1, 1]) {
+  const y = sy * D.frameHalfY;
+  addPart(`BASE · Pata X=${x | 0} ${sy > 0 ? '+Y' : '-Y'}`, C.pata, [x, y, zFloor], [
     box('Poste 60×60', [x, y, (zFloor + zC) / 2], 60, 60, zC - zFloor),
     box('Placa base 120×120×10', [x, y, zFloor], 120, 120, 10),
     cyl('Nivelador M16', [x, y, zFloor - 20], [0, 0, -1], 30, 30),

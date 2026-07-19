@@ -5,7 +5,7 @@
   "nombre": "Conjunto completo — transportador base twin-belt + transferencia 90° en el hueco",
   "capa": "user",
   "origen": "gen_integracion.mjs: base_sorter.json (equipo base paramétrico completo) + transfer_rodillos_90.json montado en el hueco (X=0), mismo marco (flujo X, plano de banda Z=170). Los rodillos emergen +4 entre las 4 bandas del base; el canal fijo del módulo se ancla a los 2 travesaños pesados del hueco (X=±430).",
-  "piezas_base": 32,
+  "piezas_base": 38,
   "piezas_transferencia": 106
  },
  "parts": [
@@ -178,7 +178,49 @@
    ]
   },
   {
-   "id": "bp3_base_banda_anfitri_n_40_3_lane_y_208_5_ramal_superior",
+   "id": "bp3_base_cama_deslizante_slider_bed_lane_y_208_5",
+   "name": "BASE · Cama deslizante (slider bed) lane Y=-208.5",
+   "color": "#9aa7b2",
+   "pos": [
+    0,
+    -208.5,
+    164
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf7",
+     "name": "Chapa slider 3",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2900,
+      "d": 58,
+      "h": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp4_base_banda_anfitri_n_40_3_lane_y_208_5_ramal_superior",
    "name": "BASE · Banda anfitrión 40×3 lane Y=-208.5 (ramal superior)",
    "color": "#141414",
    "pos": [
@@ -197,7 +239,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf7",
+     "id": "bf8",
      "name": "Ramal superior",
      "shape": "box",
      "op": "union",
@@ -220,7 +262,7 @@
    ]
   },
   {
-   "id": "bp4_base_banda_anfitri_n_40_3_lane_y_208_5_retorno",
+   "id": "bp5_base_banda_anfitri_n_40_3_lane_y_208_5_retorno",
    "name": "BASE · Banda anfitrión 40×3 lane Y=-208.5 (retorno)",
    "color": "#141414",
    "pos": [
@@ -239,7 +281,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf8",
+     "id": "bf9",
      "name": "Ramal de retorno",
      "shape": "box",
      "op": "union",
@@ -262,55 +304,13 @@
    ]
   },
   {
-   "id": "bp5_base_banda_anfitri_n_40_3_lane_y_69_5_ramal_superior",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=-69.5 (ramal superior)",
-   "color": "#141414",
+   "id": "bp6_base_cama_deslizante_slider_bed_lane_y_69_5",
+   "name": "BASE · Cama deslizante (slider bed) lane Y=-69.5",
+   "color": "#9aa7b2",
    "pos": [
     0,
     -69.5,
-    167
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf9",
-     "name": "Ramal superior",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 2940,
-      "d": 40,
-      "h": 3
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp6_base_banda_anfitri_n_40_3_lane_y_69_5_retorno",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=-69.5 (retorno)",
-   "color": "#141414",
-   "pos": [
-    0,
-    -69.5,
-    83
+    164
    ],
    "quat": [
     0,
@@ -324,7 +324,7 @@
    "features": [
     {
      "id": "bf10",
-     "name": "Ramal de retorno",
+     "name": "Chapa slider 3",
      "shape": "box",
      "op": "union",
      "at": [
@@ -338,8 +338,8 @@
       1
      ],
      "params": {
-      "w": 2940,
-      "d": 40,
+      "w": 2900,
+      "d": 58,
       "h": 3
      }
     }
@@ -347,11 +347,11 @@
   },
   {
    "id": "bp7_base_banda_anfitri_n_40_3_lane_y_69_5_ramal_superior",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=69.5 (ramal superior)",
+   "name": "BASE · Banda anfitrión 40×3 lane Y=-69.5 (ramal superior)",
    "color": "#141414",
    "pos": [
     0,
-    69.5,
+    -69.5,
     167
    ],
    "quat": [
@@ -389,11 +389,11 @@
   },
   {
    "id": "bp8_base_banda_anfitri_n_40_3_lane_y_69_5_retorno",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=69.5 (retorno)",
+   "name": "BASE · Banda anfitrión 40×3 lane Y=-69.5 (retorno)",
    "color": "#141414",
    "pos": [
     0,
-    69.5,
+    -69.5,
     83
    ],
    "quat": [
@@ -430,13 +430,13 @@
    ]
   },
   {
-   "id": "bp9_base_banda_anfitri_n_40_3_lane_y_208_5_ramal_superior",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=208.5 (ramal superior)",
-   "color": "#141414",
+   "id": "bp9_base_cama_deslizante_slider_bed_lane_y_69_5",
+   "name": "BASE · Cama deslizante (slider bed) lane Y=69.5",
+   "color": "#9aa7b2",
    "pos": [
     0,
-    208.5,
-    167
+    69.5,
+    164
    ],
    "quat": [
     0,
@@ -450,6 +450,48 @@
    "features": [
     {
      "id": "bf13",
+     "name": "Chapa slider 3",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2900,
+      "d": 58,
+      "h": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp10_base_banda_anfitri_n_40_3_lane_y_69_5_ramal_superior",
+   "name": "BASE · Banda anfitrión 40×3 lane Y=69.5 (ramal superior)",
+   "color": "#141414",
+   "pos": [
+    0,
+    69.5,
+    167
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf14",
      "name": "Ramal superior",
      "shape": "box",
      "op": "union",
@@ -472,12 +514,12 @@
    ]
   },
   {
-   "id": "bp10_base_banda_anfitri_n_40_3_lane_y_208_5_retorno",
-   "name": "BASE · Banda anfitrión 40×3 lane Y=208.5 (retorno)",
+   "id": "bp11_base_banda_anfitri_n_40_3_lane_y_69_5_retorno",
+   "name": "BASE · Banda anfitrión 40×3 lane Y=69.5 (retorno)",
    "color": "#141414",
    "pos": [
     0,
-    208.5,
+    69.5,
     83
    ],
    "quat": [
@@ -491,7 +533,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf14",
+     "id": "bf15",
      "name": "Ramal de retorno",
      "shape": "box",
      "op": "union",
@@ -514,7 +556,133 @@
    ]
   },
   {
-   "id": "bp11_base_tambor_de_cabeza_motriz",
+   "id": "bp12_base_cama_deslizante_slider_bed_lane_y_208_5",
+   "name": "BASE · Cama deslizante (slider bed) lane Y=208.5",
+   "color": "#9aa7b2",
+   "pos": [
+    0,
+    208.5,
+    164
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf16",
+     "name": "Chapa slider 3",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2900,
+      "d": 58,
+      "h": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp13_base_banda_anfitri_n_40_3_lane_y_208_5_ramal_superior",
+   "name": "BASE · Banda anfitrión 40×3 lane Y=208.5 (ramal superior)",
+   "color": "#141414",
+   "pos": [
+    0,
+    208.5,
+    167
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf17",
+     "name": "Ramal superior",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2940,
+      "d": 40,
+      "h": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp14_base_banda_anfitri_n_40_3_lane_y_208_5_retorno",
+   "name": "BASE · Banda anfitrión 40×3 lane Y=208.5 (retorno)",
+   "color": "#141414",
+   "pos": [
+    0,
+    208.5,
+    83
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf18",
+     "name": "Ramal de retorno",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2940,
+      "d": 40,
+      "h": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp15_base_tambor_de_cabeza_motriz",
    "name": "BASE · Tambor de cabeza (motriz)",
    "color": "#8b98a6",
    "pos": [
@@ -533,7 +701,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf15",
+     "id": "bf19",
      "name": "Llanta Ø90×520",
      "shape": "cylinder",
      "op": "union",
@@ -553,7 +721,27 @@
      }
     },
     {
-     "id": "bf16",
+     "id": "bf20",
+     "name": "Lagging de caucho ranurado e=6 (µ≥0.7)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -260,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 102,
+      "h": 520
+     }
+    },
+    {
+     "id": "bf21",
      "name": "Eje Ø30",
      "shape": "cylinder",
      "op": "union",
@@ -575,7 +763,7 @@
    ]
   },
   {
-   "id": "bp12_base_chumacera_tambor_cabeza_motriz_y",
+   "id": "bp16_base_chumacera_tambor_cabeza_motriz_y",
    "name": "BASE · Chumacera tambor cabeza (motriz) -Y",
    "color": "#9aa7b2",
    "pos": [
@@ -594,7 +782,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf17",
+     "id": "bf22",
      "name": "Cuerpo chumacera 60×40×50",
      "shape": "box",
      "op": "union",
@@ -615,7 +803,7 @@
      }
     },
     {
-     "id": "bf18",
+     "id": "bf23",
      "name": "Bore Ø30",
      "shape": "cylinder",
      "op": "cut",
@@ -637,7 +825,7 @@
    ]
   },
   {
-   "id": "bp13_base_chumacera_tambor_cabeza_motriz_y",
+   "id": "bp17_base_chumacera_tambor_cabeza_motriz_y",
    "name": "BASE · Chumacera tambor cabeza (motriz) +Y",
    "color": "#9aa7b2",
    "pos": [
@@ -656,7 +844,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf19",
+     "id": "bf24",
      "name": "Cuerpo chumacera 60×40×50",
      "shape": "box",
      "op": "union",
@@ -677,7 +865,7 @@
      }
     },
     {
-     "id": "bf20",
+     "id": "bf25",
      "name": "Bore Ø30",
      "shape": "cylinder",
      "op": "cut",
@@ -699,7 +887,7 @@
    ]
   },
   {
-   "id": "bp14_base_tambor_de_cola_take_up",
+   "id": "bp18_base_tambor_de_cola_take_up",
    "name": "BASE · Tambor de cola (take-up)",
    "color": "#8b98a6",
    "pos": [
@@ -718,7 +906,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf21",
+     "id": "bf26",
      "name": "Llanta Ø90×520",
      "shape": "cylinder",
      "op": "union",
@@ -738,7 +926,7 @@
      }
     },
     {
-     "id": "bf22",
+     "id": "bf27",
      "name": "Eje Ø30",
      "shape": "cylinder",
      "op": "union",
@@ -760,7 +948,7 @@
    ]
   },
   {
-   "id": "bp15_base_chumacera_tambor_cola_take_up_y",
+   "id": "bp19_base_chumacera_tambor_cola_take_up_y",
    "name": "BASE · Chumacera tambor cola (take-up) -Y",
    "color": "#9aa7b2",
    "pos": [
@@ -779,7 +967,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf23",
+     "id": "bf28",
      "name": "Cuerpo chumacera 60×40×50",
      "shape": "box",
      "op": "union",
@@ -800,7 +988,7 @@
      }
     },
     {
-     "id": "bf24",
+     "id": "bf29",
      "name": "Bore Ø30",
      "shape": "cylinder",
      "op": "cut",
@@ -820,8 +1008,8 @@
      }
     },
     {
-     "id": "bf25",
-     "name": "Colisa de take-up (husillo)",
+     "id": "bf30",
+     "name": "Colisa de take-up (husillo, ±60)",
      "shape": "box",
      "op": "cut",
      "at": [
@@ -835,7 +1023,7 @@
       1
      ],
      "params": {
-      "w": 90,
+      "w": 140,
       "d": 12,
       "h": 34
      }
@@ -843,7 +1031,7 @@
    ]
   },
   {
-   "id": "bp16_base_chumacera_tambor_cola_take_up_y",
+   "id": "bp20_base_chumacera_tambor_cola_take_up_y",
    "name": "BASE · Chumacera tambor cola (take-up) +Y",
    "color": "#9aa7b2",
    "pos": [
@@ -862,7 +1050,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf26",
+     "id": "bf31",
      "name": "Cuerpo chumacera 60×40×50",
      "shape": "box",
      "op": "union",
@@ -883,7 +1071,7 @@
      }
     },
     {
-     "id": "bf27",
+     "id": "bf32",
      "name": "Bore Ø30",
      "shape": "cylinder",
      "op": "cut",
@@ -903,8 +1091,8 @@
      }
     },
     {
-     "id": "bf28",
-     "name": "Colisa de take-up (husillo)",
+     "id": "bf33",
+     "name": "Colisa de take-up (husillo, ±60)",
      "shape": "box",
      "op": "cut",
      "at": [
@@ -918,7 +1106,7 @@
       1
      ],
      "params": {
-      "w": 90,
+      "w": 140,
       "d": 12,
       "h": 34
      }
@@ -926,8 +1114,8 @@
    ]
   },
   {
-   "id": "bp17_base_husillo_de_take_up_m16",
-   "name": "BASE · Husillo de take-up M16",
+   "id": "bp21_base_husillo_de_take_up_m16_60",
+   "name": "BASE · Husillo de take-up M16 (±60)",
    "color": "#9aa7b2",
    "pos": [
     -1430,
@@ -945,12 +1133,12 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf29",
-     "name": "Husillo Ø16 × 160 (±40 de tensado)",
+     "id": "bf34",
+     "name": "Husillo Ø16 × 200 (±60 de tensado)",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      60,
+      80,
       0,
       0
      ],
@@ -961,14 +1149,14 @@
      ],
      "params": {
       "dia": 16,
-      "h": 160
+      "h": 200
      }
     }
    ]
   },
   {
-   "id": "bp18_base_motorreductor_del_transportador_0_55_kw",
-   "name": "BASE · Motorreductor del transportador (~0.55 kW)",
+   "id": "bp22_base_motorreductor_del_transportador_0_37_kw",
+   "name": "BASE · Motorreductor del transportador (~0.37 kW)",
    "color": "#546e7a",
    "pos": [
     1430,
@@ -986,7 +1174,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf30",
+     "id": "bf35",
      "name": "Cuerpo reductor 140×120×130",
      "shape": "box",
      "op": "union",
@@ -1007,7 +1195,7 @@
      }
     },
     {
-     "id": "bf31",
+     "id": "bf36",
      "name": "Brida de eje hueco Ø60",
      "shape": "cylinder",
      "op": "union",
@@ -1027,7 +1215,7 @@
      }
     },
     {
-     "id": "bf32",
+     "id": "bf37",
      "name": "Brazo de torque",
      "shape": "box",
      "op": "union",
@@ -1050,221 +1238,11 @@
    ]
   },
   {
-   "id": "bp19_base_travesa_o_x_1250",
+   "id": "bp23_base_travesa_o_x_1250",
    "name": "BASE · Travesaño X=-1250",
    "color": "#5b6b78",
    "pos": [
     -1250,
-    0,
-    104
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf33",
-     "name": "Travesaño 50×...×80",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 50,
-      "d": 588,
-      "h": 80
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp20_base_travesa_o_x_750",
-   "name": "BASE · Travesaño X=-750",
-   "color": "#5b6b78",
-   "pos": [
-    -750,
-    0,
-    104
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf34",
-     "name": "Travesaño 50×...×80",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 50,
-      "d": 588,
-      "h": 80
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp21_base_travesa_o_pesado_marco_del_hueco_x_430",
-   "name": "BASE · Travesaño PESADO (marco del hueco) X=-430",
-   "color": "#5b6b78",
-   "pos": [
-    -430,
-    0,
-    104
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf35",
-     "name": "Travesaño 80×2·frameHalfY×120",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 80,
-      "d": 588,
-      "h": 120
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp22_base_travesa_o_pesado_marco_del_hueco_x_430",
-   "name": "BASE · Travesaño PESADO (marco del hueco) X=430",
-   "color": "#5b6b78",
-   "pos": [
-    430,
-    0,
-    104
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf36",
-     "name": "Travesaño 80×2·frameHalfY×120",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 80,
-      "d": 588,
-      "h": 120
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp23_base_travesa_o_x_750",
-   "name": "BASE · Travesaño X=750",
-   "color": "#5b6b78",
-   "pos": [
-    750,
-    0,
-    104
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "base_ref": true,
-   "features": [
-    {
-     "id": "bf37",
-     "name": "Travesaño 50×...×80",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 50,
-      "d": 588,
-      "h": 80
-     }
-    }
-   ]
-  },
-  {
-   "id": "bp24_base_travesa_o_x_1250",
-   "name": "BASE · Travesaño X=1250",
-   "color": "#5b6b78",
-   "pos": [
-    1250,
     0,
     104
    ],
@@ -1302,13 +1280,13 @@
    ]
   },
   {
-   "id": "bp25_base_pata_x_y",
-   "name": "BASE · Pata -X-Y",
-   "color": "#3b4750",
+   "id": "bp24_base_travesa_o_x_750",
+   "name": "BASE · Travesaño X=-750",
+   "color": "#5b6b78",
    "pos": [
-    -1240,
-    -300,
-    -590
+    -750,
+    0,
+    104
    ],
    "quat": [
     0,
@@ -1322,6 +1300,216 @@
    "features": [
     {
      "id": "bf39",
+     "name": "Travesaño 50×...×80",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 50,
+      "d": 588,
+      "h": 80
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp25_base_travesa_o_pesado_marco_del_hueco_x_430",
+   "name": "BASE · Travesaño PESADO (marco del hueco) X=-430",
+   "color": "#5b6b78",
+   "pos": [
+    -430,
+    0,
+    104
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf40",
+     "name": "Travesaño 80×2·frameHalfY×120",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 80,
+      "d": 588,
+      "h": 120
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp26_base_travesa_o_pesado_marco_del_hueco_x_430",
+   "name": "BASE · Travesaño PESADO (marco del hueco) X=430",
+   "color": "#5b6b78",
+   "pos": [
+    430,
+    0,
+    104
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf41",
+     "name": "Travesaño 80×2·frameHalfY×120",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 80,
+      "d": 588,
+      "h": 120
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp27_base_travesa_o_x_750",
+   "name": "BASE · Travesaño X=750",
+   "color": "#5b6b78",
+   "pos": [
+    750,
+    0,
+    104
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf42",
+     "name": "Travesaño 50×...×80",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 50,
+      "d": 588,
+      "h": 80
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp28_base_travesa_o_x_1250",
+   "name": "BASE · Travesaño X=1250",
+   "color": "#5b6b78",
+   "pos": [
+    1250,
+    0,
+    104
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf43",
+     "name": "Travesaño 50×...×80",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 50,
+      "d": 588,
+      "h": 80
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp29_base_pata_x_1240_y",
+   "name": "BASE · Pata X=-1240 -Y",
+   "color": "#3b4750",
+   "pos": [
+    -1240,
+    -300,
+    -590
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf44",
      "name": "Poste 60×60",
      "shape": "box",
      "op": "union",
@@ -1342,7 +1530,7 @@
      }
     },
     {
-     "id": "bf40",
+     "id": "bf45",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -1363,7 +1551,7 @@
      }
     },
     {
-     "id": "bf41",
+     "id": "bf46",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -1385,8 +1573,8 @@
    ]
   },
   {
-   "id": "bp26_base_pata_x_y",
-   "name": "BASE · Pata -X+Y",
+   "id": "bp30_base_pata_x_1240_y",
+   "name": "BASE · Pata X=-1240 +Y",
    "color": "#3b4750",
    "pos": [
     -1240,
@@ -1404,7 +1592,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf42",
+     "id": "bf47",
      "name": "Poste 60×60",
      "shape": "box",
      "op": "union",
@@ -1425,7 +1613,7 @@
      }
     },
     {
-     "id": "bf43",
+     "id": "bf48",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -1446,7 +1634,7 @@
      }
     },
     {
-     "id": "bf44",
+     "id": "bf49",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -1468,8 +1656,174 @@
    ]
   },
   {
-   "id": "bp27_base_pata_x_y",
-   "name": "BASE · Pata +X-Y",
+   "id": "bp31_base_pata_x_0_y",
+   "name": "BASE · Pata X=0 -Y",
+   "color": "#3b4750",
+   "pos": [
+    0,
+    -300,
+    -590
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf50",
+     "name": "Poste 60×60",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      347
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 60,
+      "h": 694
+     }
+    },
+    {
+     "id": "bf51",
+     "name": "Placa base 120×120×10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 120,
+      "h": 10
+     }
+    },
+    {
+     "id": "bf52",
+     "name": "Nivelador M16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -20
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 30
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp32_base_pata_x_0_y",
+   "name": "BASE · Pata X=0 +Y",
+   "color": "#3b4750",
+   "pos": [
+    0,
+    300,
+    -590
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "bf53",
+     "name": "Poste 60×60",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      347
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 60,
+      "h": 694
+     }
+    },
+    {
+     "id": "bf54",
+     "name": "Placa base 120×120×10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 120,
+      "h": 10
+     }
+    },
+    {
+     "id": "bf55",
+     "name": "Nivelador M16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -20
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 30
+     }
+    }
+   ]
+  },
+  {
+   "id": "bp33_base_pata_x_1240_y",
+   "name": "BASE · Pata X=1240 -Y",
    "color": "#3b4750",
    "pos": [
     1240,
@@ -1487,7 +1841,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf45",
+     "id": "bf56",
      "name": "Poste 60×60",
      "shape": "box",
      "op": "union",
@@ -1508,7 +1862,7 @@
      }
     },
     {
-     "id": "bf46",
+     "id": "bf57",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -1529,7 +1883,7 @@
      }
     },
     {
-     "id": "bf47",
+     "id": "bf58",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -1551,8 +1905,8 @@
    ]
   },
   {
-   "id": "bp28_base_pata_x_y",
-   "name": "BASE · Pata +X+Y",
+   "id": "bp34_base_pata_x_1240_y",
+   "name": "BASE · Pata X=1240 +Y",
    "color": "#3b4750",
    "pos": [
     1240,
@@ -1570,7 +1924,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf48",
+     "id": "bf59",
      "name": "Poste 60×60",
      "shape": "box",
      "op": "union",
@@ -1591,7 +1945,7 @@
      }
     },
     {
-     "id": "bf49",
+     "id": "bf60",
      "name": "Placa base 120×120×10",
      "shape": "box",
      "op": "union",
@@ -1612,7 +1966,7 @@
      }
     },
     {
-     "id": "bf50",
+     "id": "bf61",
      "name": "Nivelador M16",
      "shape": "cylinder",
      "op": "union",
@@ -1634,7 +1988,7 @@
    ]
   },
   {
-   "id": "bp29_base_riostra_diagonal_y",
+   "id": "bp35_base_riostra_diagonal_y",
    "name": "BASE · Riostra diagonal -Y",
    "color": "#3b4750",
    "pos": [
@@ -1653,7 +2007,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf51",
+     "id": "bf62",
      "name": "Riostra 40×40",
      "shape": "box",
      "op": "union",
@@ -1676,7 +2030,7 @@
    ]
   },
   {
-   "id": "bp30_base_riostra_diagonal_y",
+   "id": "bp36_base_riostra_diagonal_y",
    "name": "BASE · Riostra diagonal +Y",
    "color": "#3b4750",
    "pos": [
@@ -1695,7 +2049,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf52",
+     "id": "bf63",
      "name": "Riostra 40×40",
      "shape": "box",
      "op": "union",
@@ -1718,7 +2072,7 @@
    ]
   },
   {
-   "id": "bp31_base_guarda_lateral_y",
+   "id": "bp37_base_guarda_lateral_y",
    "name": "BASE · Guarda lateral -Y",
    "color": "#aab6c0",
    "pos": [
@@ -1737,7 +2091,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf53",
+     "id": "bf64",
      "name": "Guarda 3000×6×60",
      "shape": "box",
      "op": "union",
@@ -1760,7 +2114,7 @@
    ]
   },
   {
-   "id": "bp32_base_guarda_lateral_y",
+   "id": "bp38_base_guarda_lateral_y",
    "name": "BASE · Guarda lateral +Y",
    "color": "#aab6c0",
    "pos": [
@@ -1779,7 +2133,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "bf54",
+     "id": "bf65",
      "name": "Guarda 3000×6×60",
      "shape": "box",
      "op": "union",
