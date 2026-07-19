@@ -107,7 +107,25 @@ serpentín giran con ellas); elevación y bastidor no cambian.
 
 ---
 
-## `integracion_modulo_base.json` — Interfaz módulo ↔ transportador base
+## `base_sorter.json` — Equipo base twin-belt (paramétrico completo)
+
+Modelo **paramétrico** del transportador base (`gen_base.mjs`), entendido del
+STEP `sorter_CO` y **mejorado con criterio de diseñador** — ya no es la malla:
+
+- **Bastidor de canal C** (2 largueros con alas) sobre **4 patas niveladoras** +
+  riostras diagonales; **ALARGADO a 3 m**.
+- **4 bandas planas 40×3** en las calles (Y=±69.5/±208.5), ramal superior + retorno.
+- **Tambor de cabeza MOTRIZ** (motorreductor de eje hueco + brazo de torque) y
+  **tambor de cola con TAKE-UP** por husillo (tensado/mantenimiento).
+- **Travesaños** de trabazón; los de **X=±430 son PESADOS** y enmarcan el
+  **hueco de transferencia** (reciben las cargas del módulo).
+- **Guardas laterales** de guía del producto.
+
+Marco = el del módulo (flujo X, ancho Y, plano de banda Z=170), para que la
+transferencia calce en el hueco **sin rotación ni offset**. Regenerar:
+`node cad/ensambles/gen_base.mjs`.
+
+## `integracion_modulo_base.json` — Conjunto completo (base + transferencia)
 
 Ensamble de **integración**: el módulo (`transfer_rodillos_90.json`, sin
 cambios) montado sobre una **representación simplificada del equipo base**
