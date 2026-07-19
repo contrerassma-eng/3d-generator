@@ -25,7 +25,7 @@ import numpy as np
 REPO = Path(__file__).resolve().parent.parent
 CATALOGO = REPO / "componentes" / "catalogo.json"
 
-CATEGORIAS = ("mcu", "alimentacion", "sensor", "boton", "conector", "adaptador")
+CATEGORIAS = ("mcu", "alimentacion", "sensor", "boton", "conector", "adaptador", "transportador")
 COLOR_CATEGORIA = {"mcu": "#6d9ee8", "alimentacion": "#e8a56d", "sensor": "#7fc98a",
                    "boton": "#c98ad0", "conector": "#9a9fe0", "adaptador": "#6bc9c2"}
 SEGS = 48
@@ -53,6 +53,19 @@ def get_componente(cat: dict, cid: str) -> dict:
 def validar_componente(comp: dict) -> list[str]:
     """Errores de esquema del registro (lista vacia = valido)."""
     e = []
+    # Componente de malla real (GLB): geometria fija importada. No lleva
+    # 'solidos'; se valida el bloque 'malla' + bbox en su lugar.
+    if "malla" in comp:
+        for campo in ("id", "nombre", "categoria", "descripcion", "fuente"):
+            if campo not in comp:
+                e.append(f"falta campo '{campo}'")
+        if not comp.get("malla", {}).get("glb"):
+            e.append("malla: falta 'glb' (ruta al archivo)")
+        if len(comp.get("bbox_mm", [])) != 3:
+            e.append("malla: requiere 'bbox_mm' [x,y,z]")
+        if comp.get("categoria") not in CATEGORIAS:
+            e.append(f"categoria '{comp.get('categoria')}' no esta en {CATEGORIAS}")
+        return e
     for campo in ("id", "nombre", "categoria", "descripcion", "fuente", "solidos"):
         if campo not in comp:
             e.append(f"falta campo '{campo}'")
