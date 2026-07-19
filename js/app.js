@@ -1822,7 +1822,7 @@ function clickErase(raw) {
   const pick = pickEntityAt(raw, false);
   if (!pick) { setStatus('Borrar: toca una entidad del boceto.'); return; }
   sketch.entities = sketch.entities.filter(e => e.id !== pick.ent.id);
-  sketch.constraints = sketch.constraints.filter(c => c.a !== pick.ent.id && c.b !== pick.ent.id);
+  sketch.constraints = sketch.constraints.filter(c => c.a !== pick.ent.id && c.b !== pick.ent.id && c.axis !== pick.ent.id);
   pruneDims();
   redrawSketch();
   setStatus('Entidad eliminada.');
@@ -1833,7 +1833,7 @@ function deleteSelectedSketch() {
   if (!sketch || !sketch.selIds.size) return;
   const n = sketch.selIds.size;
   sketch.entities = sketch.entities.filter(e => !sketch.selIds.has(e.id));
-  sketch.constraints = sketch.constraints.filter(c => !sketch.selIds.has(c.a) && !sketch.selIds.has(c.b));
+  sketch.constraints = sketch.constraints.filter(c => !sketch.selIds.has(c.a) && !sketch.selIds.has(c.b) && !sketch.selIds.has(c.axis));
   sketch.selIds.clear();
   pruneDims();
   redrawSketch();
@@ -3214,15 +3214,21 @@ function applyConstraintUI() {
   if (lines.length >= 2) opts.push(['parallel', 'Paralela'], ['perpendicular', 'Perpendicular'], ['collinear', 'Colineal'], ['equalL', 'Igual longitud']);
   if (circs.length >= 2) opts.push(['equalR', 'Igual radio'], ['concentric', 'Concéntrica'], ['tangentCC', 'Tangente (círculos)']);
   if (lines.length >= 1 && circs.length >= 1) opts.push(['tangentLC', 'Tangente (línea·círculo)']);
+  // simétrica: 2 entidades a reflejar + 1 línea de eje (la última seleccionada)
+  if (sel.length === 3 && lines.length >= 1) opts.push(['symmetric', 'Simétrica (2 + eje = última)']);
   if (!opts.length) { setStatus('Selecciona líneas (H/V/∥/⟂/colineal/=), círculos (=/concéntrica/tangente) o línea+círculo (tangente).'); return; }
   showForm('Restricción geométrica', [
     { key: 'type', label: 'Relación', type: 'select', value: opts[0][0], options: opts },
-  ], (v) => addConstraints(v.type, lines, circs));
+  ], (v) => addConstraints(v.type, lines, circs, sel));
 }
-function addConstraints(type, lines, circs) {
+function addConstraints(type, lines, circs, sel = []) {
   pushUndo();
   const add = (t, a, b) => sketch.constraints.push(SK.makeConstraint(t, a, b));
-  if (type === 'fix') for (const e of [...lines, ...circs]) add('fix', e.id);
+  if (type === 'symmetric') {
+    let axis = null; for (let i = sel.length - 1; i >= 0; i--) if (sel[i].type === 'line') { axis = sel[i]; break; }
+    const pair = sel.filter(e => e !== axis);
+    if (axis && pair.length === 2) sketch.constraints.push({ ...SK.makeConstraint('symmetric', pair[0].id, pair[1].id), axis: axis.id });
+  } else if (type === 'fix') for (const e of [...lines, ...circs]) add('fix', e.id);
   else if (type === 'horizontal' || type === 'vertical') for (const l of lines) add(type, l.id);
   else if (type === 'parallel' || type === 'perpendicular' || type === 'collinear') for (let i = 1; i < lines.length; i++) add(type, lines[i].id, lines[0].id);
   else if (type === 'equalL') for (let i = 1; i < lines.length; i++) add('equal', lines[i].id, lines[0].id);
