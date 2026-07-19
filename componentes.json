@@ -3357,6 +3357,25 @@
     517.2
    ],
    "notas": "~112 partes (piezas individuales + tornillería/estructura agrupadas). Sobre las caras planas puedes bocetar (referencias)."
+  },
+  {
+   "id": "ens_sorter_recon",
+   "nombre": "Sorter REAL — primitivas paramétricas (APROX/editable)",
+   "categoria": "transportador",
+   "familia": "conjunto",
+   "descripcion": "Reconocimiento a primitivas del sorter_CO.stp: 22 rodillos/ejes/poleas → CILINDROS con Ø/largo editables (fiables); el resto (perfiles, placas, largueros) → CAJAS por su envolvente orientada (APROXIMADO, no conserva el detalle real). Tornillería fina omitida. Útil si quieres una versión 100% paramétrica/editable; para el DETALLE real usa ens_sorter_piezas.",
+   "fuente": {
+    "tipo": "step",
+    "detalle": "sorter_CO.stp → reconocimiento de primitivas por pieza (OBB + test radial)"
+   },
+   "confianza": "verificar",
+   "doc": "ensambles/sorter_recon.json",
+   "bbox_mm": [
+    797,
+    1758,
+    517
+   ],
+   "notas": "284 partes paramétricas (22 cilindros + 262 cajas). Editable en features (cotas). Aproximación: las cajas usan la caja envolvente orientada de cada pieza."
   }
  ]
 }
