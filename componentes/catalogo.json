@@ -1690,6 +1690,282 @@
       "volumen_mm3": null,
       "diam_agujeros_mm": [],
       "notas": "Pieza FIJA (geometría real importada). La parametrización es de ENSAMBLE: posición, patrón (pitch/cantidad) y restricciones para componer máquinas."
+    },
+    {
+      "id": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+      "nombre": "Motor UniDrive (eje D)",
+      "categoria": "transportador",
+      "familia": "ZP2026",
+      "descripcion": "Motorreductor UniDrive con eje D del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 152.69×118.12×119.05 mm.",
+      "fuente": {
+        "tipo": "cad",
+        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+      },
+      "confianza": "cad",
+      "malla": {
+        "glb": "componentes/models/ZP2026.glb",
+        "nodo": "300986+Std+UniDrive+motor+D-Shaft"
+      },
+      "bbox_mm": [
+        152.69,
+        118.12,
+        119.05
+      ],
+      "tris": 12446,
+      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+    },
+    {
+      "id": "cv_ZP2026__speed_up_spool",
+      "nombre": "Polea / carrete (speed-up)",
+      "categoria": "transportador",
+      "familia": "ZP2026",
+      "descripcion": "Polea de aceleración (speed-up spool) del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 68×67.95×56.01 mm.",
+      "fuente": {
+        "tipo": "cad",
+        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+      },
+      "confianza": "cad",
+      "malla": {
+        "glb": "componentes/models/ZP2026.glb",
+        "nodo": "SPEED_UP_SPOOL"
+      },
+      "bbox_mm": [
+        68,
+        67.95,
+        56.01
+      ],
+      "tris": 5966,
+      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+    },
+    {
+      "id": "cv_ZP2026__power_supply",
+      "nombre": "Fuente de poder",
+      "categoria": "transportador",
+      "familia": "ZP2026",
+      "descripcion": "Fuente de poder del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 150.4×147.11×84.7 mm.",
+      "fuente": {
+        "tipo": "cad",
+        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+      },
+      "confianza": "cad",
+      "malla": {
+        "glb": "componentes/models/ZP2026.glb",
+        "nodo": "Power_Supply"
+      },
+      "bbox_mm": [
+        150.4,
+        147.11,
+        84.7
+      ],
+      "tris": 13856,
+      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+    },
+    {
+      "id": "cv_ZP2026__escalerilla",
+      "nombre": "Escalerilla portacables",
+      "categoria": "transportador",
+      "familia": "ZP2026",
+      "descripcion": "Escalerilla portacables a lo largo del ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 3000×53.83×112.06 mm.",
+      "fuente": {
+        "tipo": "cad",
+        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+      },
+      "confianza": "cad",
+      "malla": {
+        "glb": "componentes/models/ZP2026.glb",
+        "nodo": "escalerilla"
+      },
+      "bbox_mm": [
+        3000,
+        53.83,
+        112.06
+      ],
+      "tris": 37971,
+      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+    },
+    {
+      "id": "cv_ZP2026__lt_g",
+      "nombre": "Larguero lateral",
+      "categoria": "transportador",
+      "familia": "ZP2026",
+      "descripcion": "Perfil lateral (larguero) del bastidor ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2990×190.53×609.46 mm.",
+      "fuente": {
+        "tipo": "cad",
+        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+      },
+      "confianza": "cad",
+      "malla": {
+        "glb": "componentes/models/ZP2026.glb",
+        "nodo": "LT_G"
+      },
+      "bbox_mm": [
+        2990,
+        190.53,
+        609.46
+      ],
+      "tris": 33624,
+      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+    },
+    {
+      "id": "cv_ZP2026__tr_s",
+      "nombre": "Travesaño de estructura",
+      "categoria": "transportador",
+      "familia": "ZP2026",
+      "descripcion": "Travesaño estructural del bastidor ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2980.19×87.64×533.2 mm.",
+      "fuente": {
+        "tipo": "cad",
+        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+      },
+      "confianza": "cad",
+      "malla": {
+        "glb": "componentes/models/ZP2026.glb",
+        "nodo": "TR_S"
+      },
+      "bbox_mm": [
+        2980.19,
+        87.64,
+        533.2
+      ],
+      "tris": 12552,
+      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+    },
+    {
+      "id": "cv_ZP2026__guarda",
+      "nombre": "Guarda lateral",
+      "categoria": "transportador",
+      "familia": "ZP2026",
+      "descripcion": "Guarda lateral del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2989×37.95×37.95 mm.",
+      "fuente": {
+        "tipo": "cad",
+        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+      },
+      "confianza": "cad",
+      "malla": {
+        "glb": "componentes/models/ZP2026.glb",
+        "nodo": "GUARDA"
+      },
+      "bbox_mm": [
+        2989,
+        37.95,
+        37.95
+      ],
+      "tris": 5232,
+      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+    },
+    {
+      "id": "cv_ZP2026__guarda_mir",
+      "nombre": "Guarda lateral (espejo)",
+      "categoria": "transportador",
+      "familia": "ZP2026",
+      "descripcion": "Guarda lateral espejada del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 2989×37.95×37.95 mm.",
+      "fuente": {
+        "tipo": "cad",
+        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+      },
+      "confianza": "cad",
+      "malla": {
+        "glb": "componentes/models/ZP2026.glb",
+        "nodo": "GUARDA_MIR"
+      },
+      "bbox_mm": [
+        2989,
+        37.95,
+        37.95
+      ],
+      "tris": 5232,
+      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+    },
+    {
+      "id": "cv_ZP2026__b_005a",
+      "nombre": "Bracket B_005A",
+      "categoria": "transportador",
+      "familia": "ZP2026",
+      "descripcion": "Soporte/bracket B_005A del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 203×94.99×615.39 mm.",
+      "fuente": {
+        "tipo": "cad",
+        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+      },
+      "confianza": "cad",
+      "malla": {
+        "glb": "componentes/models/ZP2026.glb",
+        "nodo": "B_005A"
+      },
+      "bbox_mm": [
+        203,
+        94.99,
+        615.39
+      ],
+      "tris": 3264,
+      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+    },
+    {
+      "id": "cv_ZP2026__b_004a",
+      "nombre": "Bracket B_004A",
+      "categoria": "transportador",
+      "familia": "ZP2026",
+      "descripcion": "Soporte/bracket B_004A del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 158×3.99×615.41 mm.",
+      "fuente": {
+        "tipo": "cad",
+        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+      },
+      "confianza": "cad",
+      "malla": {
+        "glb": "componentes/models/ZP2026.glb",
+        "nodo": "B_004A"
+      },
+      "bbox_mm": [
+        158,
+        3.99,
+        615.41
+      ],
+      "tris": 744,
+      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+    },
+    {
+      "id": "cv_ZP2026__b_002a",
+      "nombre": "Bracket B_002A",
+      "categoria": "transportador",
+      "familia": "ZP2026",
+      "descripcion": "Soporte/bracket B_002A del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 70.96×37.96×607.4 mm.",
+      "fuente": {
+        "tipo": "cad",
+        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+      },
+      "confianza": "cad",
+      "malla": {
+        "glb": "componentes/models/ZP2026.glb",
+        "nodo": "B_002A"
+      },
+      "bbox_mm": [
+        70.96,
+        37.96,
+        607.4
+      ],
+      "tris": 172,
+      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
+    },
+    {
+      "id": "cv_ZP2026__br",
+      "nombre": "Bracket BR_3002",
+      "categoria": "transportador",
+      "familia": "ZP2026",
+      "descripcion": "Soporte/bracket BR_3002 del transportador ZP2026. Subcomponente (geometría real, 1 instancia extraída de ZP2026.glb). bbox 84.01×369.01×615.4 mm.",
+      "fuente": {
+        "tipo": "cad",
+        "detalle": "conveyone-simulator · ZP2026.glb · subcomponente por nodo · CADENAS PARTsolutions AP203"
+      },
+      "confianza": "cad",
+      "malla": {
+        "glb": "componentes/models/ZP2026.glb",
+        "nodo": "BR_"
+      },
+      "bbox_mm": [
+        84.01,
+        369.01,
+        615.4
+      ],
+      "tris": 2824,
+      "notas": "Pieza FIJA extraída como subcomponente del ZP2026 (usable por sí sola). Parametrización de ENSAMBLE: posición, patrón y restricciones."
     }
   ]
 }

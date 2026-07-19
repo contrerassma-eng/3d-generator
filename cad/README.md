@@ -50,6 +50,11 @@ atornillable) que muestra todas las capacidades.
     compresión meshopt, cargada de forma perezosa con `GLTFLoader`). Son piezas
     **fijas**; la parametrización es de **ensamble** (posición, patrón con
     pitch/cantidad y restricciones) para componer nuevas máquinas.
+    - **Subcomponentes.** Del ZP2026 se extraen además piezas individuales
+      reusables (motor UniDrive, polea/carrete, fuente de poder, largueros,
+      travesaños, guardas, brackets, escalerilla): el registro lleva
+      `malla:{glb, nodo}` y el visor carga solo esa instancia del nodo,
+      recentrada, como pieza propia.
 - **◜ Empalme / ◺ Chaflán** (símil Inventor): toca una arista del sólido y dale
   un radio (redondeo) o una distancia (chaflán a 45°). Redondea/achaflana la
   arista sobre la malla acumulada; convexa quita material, cóncava lo rellena.
