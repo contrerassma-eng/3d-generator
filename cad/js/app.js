@@ -215,11 +215,17 @@ function resize() {
 new ResizeObserver(resize).observe(viewport);
 resize();
 
+let _lastSketchZoom = 0;
 renderer.setAnimationLoop(() => {
   if (controls.enabled) controls.update();
   if (sketchControls.enabled) sketchControls.update();
   updateMeasureLabel();
-  if (sketch) { updateSketchLabels(); positionDynBox(); }
+  if (sketch) {
+    updateSketchLabels(); positionDynBox();
+    // al hacer zoom en el boceto, redibuja para que los marcadores de punto
+    // mantengan un tamaño constante en pantalla (no crecen al acercar)
+    if (orthoCam.zoom !== _lastSketchZoom) { _lastSketchZoom = orthoCam.zoom; redrawSketch(); }
+  }
   renderer.render(scene, activeCamera);
 });
 
@@ -1040,6 +1046,10 @@ window.addEventListener('keydown', (ev) => {
   if (ev.key === 'Escape') { hideDialog(); setModeSelect(); }
   if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); undo(); }
   const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
+  // en boceto: Supr/Backspace borra TODA la selección múltiple de entidades
+  if ((ev.key === 'Delete' || ev.key === 'Backspace') && sketch && sketch.selIds.size && !dialogOpen() && !typing) {
+    ev.preventDefault(); deleteSelectedSketch(); return;
+  }
   if (ev.key === 'Delete' && selection && !dialogOpen() && !typing) {
     const btn = $('pp_del') || $('fp_del') || $('cp_del');
     if (btn) { btn.click(); ev.preventDefault(); }
@@ -1331,12 +1341,25 @@ function clickFillet(raw) {
 }
 
 function clickErase(raw) {
+  // si hay selección múltiple, borrarla toda de una
+  if (sketch.selIds.size) { deleteSelectedSketch(); return; }
   const pick = pickEntityAt(raw, false);
   if (!pick) { setStatus('Borrar: toca una entidad del boceto.'); return; }
   sketch.entities = sketch.entities.filter(e => e.id !== pick.ent.id);
   pruneDims();
   redrawSketch();
   setStatus('Entidad eliminada.');
+}
+
+// borra todas las entidades de la selección múltiple (y sus cotas huérfanas)
+function deleteSelectedSketch() {
+  if (!sketch || !sketch.selIds.size) return;
+  const n = sketch.selIds.size;
+  sketch.entities = sketch.entities.filter(e => !sketch.selIds.has(e.id));
+  sketch.selIds.clear();
+  pruneDims();
+  redrawSketch();
+  setStatus(`${n} entidad(es) borrada(s).`);
 }
 
 function enterSketch(hit) {
@@ -1826,7 +1849,11 @@ function startEntDrag(ev) {
   if (!raw) return;
   const pick = pickEntityAt(raw, false);
   if (!pick) { setStatus('Mover: toca una entidad del boceto y arrastra.'); return; }
-  sketch.entDrag = { ent: pick.ent, pointerId: ev.pointerId, lastUV: raw };
+  // si la entidad tocada está dentro de la selección múltiple, se mueve TODA
+  const ents = (sketch.selIds.has(pick.ent.id) && sketch.selIds.size > 1)
+    ? sketch.entities.filter(e => sketch.selIds.has(e.id))
+    : [pick.ent];
+  sketch.entDrag = { ents, pointerId: ev.pointerId, lastUV: raw };
   sketchControls.enabled = false;
   try { renderer.domElement.setPointerCapture(ev.pointerId); } catch (e) { /* ya liberado */ }
 }
@@ -1836,19 +1863,21 @@ function moveEntDrag(ev) {
   if (!d || ev.pointerId !== d.pointerId) return;
   const raw = eventTo2D(ev);
   if (!raw) return;
-  SK.moveEntity(sketch.entities, d.ent, [raw[0] - d.lastUV[0], raw[1] - d.lastUV[1]]);
+  const delta = [raw[0] - d.lastUV[0], raw[1] - d.lastUV[1]];
+  for (const e of d.ents) SK.moveEntity(sketch.entities, e, delta);
   d.lastUV = raw;
   redrawSketch();
 }
 
 function endEntDrag() {
   if (!sketch?.entDrag) return;
+  const n = sketch.entDrag.ents.length;
   sketch.entDrag = null;
   sketchControls.enabled = true;
   // las cotas con candado restringen: se re-aplican tras el movimiento
   SK.applyLockedDims(sketch.entities, sketch.dims);
   redrawSketch();
-  setStatus('Entidad movida (las cotas 🔒 se re-aplicaron; las libres se actualizan solas).');
+  setStatus(`${n > 1 ? n + ' entidades movidas' : 'Entidad movida'} (las cotas 🔒 se re-aplicaron).`);
 }
 
 // --- ⤓ Proyectar geometría (como Inventor): herramienta selectiva ---
@@ -2258,7 +2287,7 @@ function redrawSketch() {
   }
   for (const p of [sketch.chainLast, ...tempPts]) {
     if (!p) continue;
-    const m = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.8, 3.5 * worldPerPixel()), 10, 8), ptMat);
+    const m = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.05, 3.5 * worldPerPixel()), 10, 8), ptMat);
     m.position.copy(to3D(p[0], p[1]));
     sketch.draw.add(m);
   }
@@ -2274,7 +2303,7 @@ function updateSketchPreview(ev) {
   if (t === 'line' && sketch.chainLast) {
     const res = resolveLineEnd(raw);
     clearGroup(sketch.preview);
-    const cur = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.9, 4 * worldPerPixel()), 10, 8), res.onPoint ? snapMat : ptMat);
+    const cur = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.06, 4 * worldPerPixel()), 10, 8), res.onPoint ? snapMat : ptMat);
     cur.position.copy(to3D(res.end[0], res.end[1]));
     sketch.preview.add(cur);
     sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
@@ -2287,7 +2316,7 @@ function updateSketchPreview(ev) {
   const { uv, snapped, kind } = snap2D(raw);
   clearGroup(sketch.preview);
   const cursor = new THREE.Mesh(
-    new THREE.SphereGeometry(Math.max(0.9, 4 * worldPerPixel()), 10, 8),
+    new THREE.SphereGeometry(Math.max(0.06, 4 * worldPerPixel()), 10, 8),
     snapped ? snapMat : ptMat
   );
   cursor.position.copy(to3D(uv[0], uv[1]));
@@ -2515,8 +2544,11 @@ sketchbar.addEventListener('click', (e) => {
     return;
   }
   if (btn.dataset.tool) {
-    const keepSel = btn.dataset.tool === 'select';
-    sketch.tool = btn.dataset.tool;
+    // re-tocar la herramienta activa la APAGA (vuelve a Selección, neutral)
+    const clicked = btn.dataset.tool;
+    const target = (sketch.tool === clicked && clicked !== 'select') ? 'select' : clicked;
+    const keepSel = target === 'select';
+    sketch.tool = target;
     sketch.temp = null;
     sketch.chainStart = sketch.chainLast = null;
     sketch.dimPick = null;
@@ -2532,7 +2564,7 @@ sketchbar.addEventListener('click', (e) => {
     clearGroup(sketch.fills);
     clearGroup(sketch.preview);
     redrawSketch();
-    for (const b of sketchbar.querySelectorAll('[data-tool]')) b.classList.toggle('on', b === btn);
+    for (const b of sketchbar.querySelectorAll('[data-tool]')) b.classList.toggle('on', b.dataset.tool === target);
     setStatus({
       line: 'Línea: toca los puntos (snap a extremos, medios, centros, cuadrantes y tangentes); el 1.º cierra.',
       rect: 'Rectángulo: toca dos esquinas.',
@@ -2541,9 +2573,9 @@ sketchbar.addEventListener('click', (e) => {
       dim: 'Cota: toca 1 entidad (largo/Ø) o 2 (distancia/ángulo), incluidas referencias. 🔒 la fija.',
       trim: 'Recortar: toca el tramo excedente a eliminar (corta contra todo, incluidas referencias).',
       extend: 'Alargar: toca una línea cerca del extremo; se alarga hasta la siguiente entidad o referencia.',
-      moveEnt: 'Mover: arrastra una entidad; las cotas 🔒 restringen, las libres se actualizan.',
-      erase: 'Borrar: toca la entidad a eliminar.',
-      select: 'Selección: arrastra →derecha = ventana (solo lo contenido); ←izquierda = captura (lo tocado). Tap = alternar una.',
+      moveEnt: 'Mover: arrastra una entidad; si tocas una de la selección, se mueve TODA. Las cotas 🔒 restringen.',
+      erase: 'Borrar: toca la entidad a eliminar; con varias seleccionadas, borra toda la selección (o tecla Supr).',
+      select: 'Selección: arrastra →derecha = ventana; ←izquierda = captura; tap = alternar una. Luego Supr borra o ▶ Mover arrastra toda la selección.',
       arc: 'Arco: toca CENTRO, luego INICIO y FINAL (antihorario).',
       polyg: 'Polígono regular: toca el centro y un vértice; luego eliges los lados.',
       offset: 'Equidistancia: toca una entidad o referencia del lado hacia donde quieres la copia.',
