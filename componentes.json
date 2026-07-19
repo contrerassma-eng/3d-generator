@@ -3299,22 +3299,21 @@
    "nombre": "Sorter base REAL (sorter_CO.stp)",
    "categoria": "transportador",
    "familia": "conjunto",
-   "descripcion": "Geometria REAL del equipo base, tal cual el STEP sorter_CO.stp (teselado y coloreado por pieza). Bandas, guias, terminales, rodamientos y acoples EXACTOS del CAD; no una aproximacion parametrica. Malla fija de referencia (no editable pieza a pieza).",
+   "descripcion": "Equipo base REAL del STEP sorter_CO.stp, PARTIDO EN SUS PIEZAS y clasificado (bandas, largueros, travesaños, patas, poleas/rodamientos, ejes, motor, tornillería, estructura). Se inserta como ENSAMBLE: cada clase entra como una PARTE editable en el modelador (seleccionable, movible, usable en ensambles), manteniendo el detalle real de la malla. Transferencia original del STEP borrada (por espacio).",
    "fuente": {
     "tipo": "step",
     "detalle": "sorter_CO.stp (crami, 2026-06-23) -> teselado gmsh (base.stl) -> decimado ~1M caras -> GLB coloreado por componente conexo"
    },
    "confianza": "medido",
-   "malla": {
-    "glb": "componentes/models/sorter_CO.glb",
-    "nodo": null
-   },
    "bbox_mm": [
     797.4,
     1757.5,
     517.2
    ],
-   "notas": "393 piezas, ~977k caras. Geometria real del STEP: usar como referencia fiel frente al base parametrico (ens_sorter_base)."
+   "notas": "594 piezas del STEP agrupadas por clase → ~9 partes en el modelador. Malla real (no primitivas): editable en posición/uso, no en features.",
+   "ensamble": {
+    "glb": "componentes/models/sorter_CO.glb"
+   }
   },
   {
    "id": "ens_conjunto_real",
