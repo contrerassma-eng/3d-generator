@@ -91,17 +91,35 @@ function perno(nombre, pos, quat, largo = 26) {
   f.push({ id: fid(), name: `Vástago M10×${largo}`, shape: 'cylinder', op: 'union', at: [0, 0, -largo], dir: [0, 0, 1], params: { dia: 10, h: largo } });
   parts.push({ id: `bp${++np}_perno_${nombre.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`, name: `${nombre} · Perno hex M10 DIN 933`, biblioteca: 'perno_hex_m10_din933', color: C.perno, pos, quat, fixed: false, visible: true, base_ref: true, features: f });
 }
-// SOPORTE de CHAPA plegada (foto3d): base + pestaña a 90° + agujeros Ø11 (que el
-// motor de chapa TALADRA) para los pernos M10. Escuadra que ata el rodamiento al
-// bastidor. Devuelve la posición de cada agujero (para clavar el perno).
-function soporteChapa(nombre, pos, quat, w, d, flangeH, holes) {
-  const t = 4, baseId = fid();
-  const feats = [
-    { id: baseId, name: `Chapa ${w}×${d}×${t}`, shape: 'chapaBase', op: 'union', at: [0, 0, 0], dir: [0, 0, 1], params: { w, d, t, material: 'acero', radio: t, k: 0.44 } },
-    { id: fid(), name: `Pestaña 90° R${t}`, shape: 'pestana', op: 'union', at: [0, 0, 0], dir: [0, 0, 1], params: { padre: baseId, borde: 1, altura: flangeH, angulo: 90, radio: t, dirBend: 'arriba', e1: 0, e2: 0 } },
+// Rotar un vector por un cuaternión (v' = q·v·q⁻¹) y transformar un punto local.
+function quatRot([x, y, z, w], [vx, vy, vz]) {
+  const ix = w * vx + y * vz - z * vy, iy = w * vy + z * vx - x * vz;
+  const iz = w * vz + x * vy - y * vx, iw = -x * vx - y * vy - z * vz;
+  return [
+    ix * w + iw * -x + iy * -z - iz * -y,
+    iy * w + iw * -y + iz * -x - ix * -z,
+    iz * w + iw * -z + ix * -y - iy * -x,
   ];
-  for (const h of holes) feats.push({ id: fid(), name: `Agujero Ø11 (perno M10)`, shape: 'hole', op: 'cut', at: [h[0], h[1], t + 0.5], dir: [0, 0, -1], params: { dia: 11, depth: 0, through: true } });
-  parts.push({ id: `bp${++np}_soporte_chapa_${nombre.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`, name: `${nombre} · Soporte de chapa (foto3d, plegado + taladros)`, color: C.chapa, pos, quat, fixed: false, visible: true, base_ref: true, features: feats });
+}
+const xf = (pos, q, l) => { const r = quatRot(q, l); return [pos[0] + r[0], pos[1] + r[1], pos[2] + r[2]]; };
+const Q_ZtoYneg = [Math.SQRT1_2, 0, 0, Math.SQRT1_2];   // eje local Z → -Y (rodamiento del lado -)
+
+// RODAMIENTO de terminal (biblioteca) + su SOPORTE de CHAPA (foto3d) + 2 PERNOS:
+// UCFL204 con el cubo hacia AFUERA, atornillada a un gusset de chapa Ø11 taladrado
+// (el motor de chapa hace los agujeros), con pernos M10 alineados a los taladros.
+function rodamiento(nombre, x, y, pz, sh) {
+  const yb = y + sh * 58;                      // rodamiento fuera de la polea
+  const q = sh > 0 ? Q_ZtoY : Q_ZtoYneg;       // cubo hacia +Y (sh>0) o -Y (sh<0)
+  placeComp(`Rodamiento ${nombre}`, 'chumacera_ucfl204', [x, yb, pz], q, C.acero);
+  // GUSSET de chapa vertical (plano X-Z) detrás de la brida, taladrado
+  const t = 4, w = 96, d = 130, gpos = [x, yb, pz - 25];
+  const bolt = [[-33, 33], [33, 33]];          // taladros que casan con la brida UCFL
+  const frame = [[-40, -50], [40, -50]];       // taladros al bastidor
+  const feats = [{ id: fid(), name: `Chapa ${w}×${d}×${t}`, shape: 'chapaBase', op: 'union', at: [0, 0, 0], dir: [0, 0, 1], params: { w, d, t, material: 'acero', radio: t, k: 0.44 } }];
+  for (const [hx, hy] of [...bolt, ...frame]) feats.push({ id: fid(), name: 'Agujero Ø11 (perno M10)', shape: 'hole', op: 'cut', at: [hx, hy, t + 0.5], dir: [0, 0, -1], params: { dia: 11, depth: 0, through: true } });
+  parts.push({ id: `bp${++np}_gusset_${nombre.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`, name: `${nombre} · Soporte de chapa (foto3d: chapa + taladros)`, color: C.chapa, pos: gpos, quat: q, fixed: false, visible: true, base_ref: true, features: feats });
+  // 2 PERNOS M10 en los taladros de la brida, cabeza hacia afuera del gusset
+  for (const [hx, hy] of bolt) perno(`${nombre} ${hx < 0 ? 'a' : 'b'}`, xf(gpos, q, [hx, hy, t]), q);
 }
 
 const L = D.flowLen, xH = L / 2, zTop = D.beltPlane, zC = zTop - D.profH / 2 - 8;
@@ -141,16 +159,8 @@ for (const [li, y] of D.lanes.entries()) {
   addPart(`BASE · Eje independiente Ø30 cabeza lane Y=${y}`, C.acero, [xPul, y, pzD], [
     cyl('Eje Ø30 × 150', [xPul, y - 75, pzD], [0, 1, 0], D.shaftDia, 150),
   ], { biblioteca: 'eje_rodillos_12x336' });
-  // 2 chumaceras UCFL204 (biblioteca) + 2 soportes de CHAPA (foto3d) con pernos
-  for (const sh of [-1, 1]) {
-    const yb = y + sh * 58;                              // rodamiento fuera de la polea
-    placeComp(`Rodamiento cabeza lane Y=${y} ${sh > 0 ? '+' : '-'}`, 'chumacera_ucfl204', [xPul, yb, pzD], Q_ZtoY, C.acero);
-    // soporte de chapa: base horizontal bajo la brida, pestaña que baja al perfil
-    soporteChapa(`Cabeza lane Y=${y} ${sh > 0 ? '+' : '-'}`, [xPul, yb, pzD - 30], Q_ZtoY, 90, 60, 40,
-      [[-30, 15], [30, 15]]);
-    perno(`Cabeza rod. lane Y=${y} ${sh > 0 ? '+' : '-'} a`, [xPul - 30, yb + (sh > 0 ? 15 : -15), pzD + 14], Q_ZtoY);
-    perno(`Cabeza rod. lane Y=${y} ${sh > 0 ? '+' : '-'} b`, [xPul + 30, yb + (sh > 0 ? 15 : -15), pzD + 14], Q_ZtoY);
-  }
+  // 2 rodamientos UCFL204 + soporte de CHAPA (foto3d) taladrado + 2 pernos c/u
+  for (const sh of [-1, 1]) rodamiento(`cabeza lane Y=${y} ${sh > 0 ? '+' : '-'}`, xPul, y, pzD, sh);
 
   // ===== COLA (conducida): idler Ø40 + take-up tensor_banda =====
   // idler por calle (spec rodillo_terminal_40 Ø40, corto para no invadir calles)
@@ -159,12 +169,7 @@ for (const [li, y] of D.lanes.entries()) {
     cyl('Muñón Ø17 (-)', [-xPul, y - 60, pzI], [0, 1, 0], 17, 20),
     cyl('Muñón Ø17 (+)', [-xPul, y + 45, pzI], [0, 1, 0], 17, 20),
   ], { biblioteca: 'rodillo_terminal_40' });
-  for (const sh of [-1, 1]) {
-    const yb = y + sh * 58;
-    placeComp(`Rodamiento cola lane Y=${y} ${sh > 0 ? '+' : '-'}`, 'chumacera_ucfl204', [-xPul, yb, pzI], Q_ZtoY, C.acero);
-    soporteChapa(`Cola lane Y=${y} ${sh > 0 ? '+' : '-'}`, [-xPul, yb, pzI - 30], Q_ZtoY, 90, 60, 40,
-      [[-30, 15], [30, 15]]);
-  }
+  for (const sh of [-1, 1]) rodamiento(`cola lane Y=${y} ${sh > 0 ? '+' : '-'}`, -xPul, y, pzI, sh);
   // TAKE-UP: tensor_banda (biblioteca) desplaza el eje idler a lo largo del ramal
   placeComp(`Take-up cola lane Y=${y}`, 'tensor_banda', [-xPul - 20, y, pzI], Q_XtoY, C.neum);
 }
