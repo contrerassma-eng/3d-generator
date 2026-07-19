@@ -802,6 +802,26 @@ $('tree').addEventListener('click', (e) => {
 });
 
 // eliminar una pieza del ensamble junto con las restricciones que la usan
+// Duplicar pieza (símil Copiar de Inventor): clon con id/funciones nuevos,
+// desplazado en X para verlo; conserva su malla o sus features. NO copia
+// restricciones (la copia entra libre, la ubicas/relacionas tú).
+function duplicatePart(p) {
+  if (!p) return;
+  pushUndo();
+  const copy = structuredClone(p);
+  copy.id = uid('p');
+  copy.name = `${p.name} (copia)`;
+  copy.fixed = false;
+  for (const f of copy.features) f.id = uid('f');
+  const w = (meshes.get(p.id)?.mesh?.geometry?.boundingBox
+    && (meshes.get(p.id).mesh.geometry.boundingBox.max.x - meshes.get(p.id).mesh.geometry.boundingBox.min.x)) || 100;
+  copy.pos = [p.pos[0] + Math.max(w, 60) + 40, p.pos[1], p.pos[2]];
+  doc.parts.push(copy);
+  selection = { kind: 'part', id: copy.id };
+  rebuildPart(copy);
+  commit(`${p.name} duplicada → "${copy.name}".`);
+}
+
 function deletePart(p) {
   if (!p) return;
   const nc = doc.constraints.filter(c => c.a.part === p.id || c.b.part === p.id).length;
@@ -857,6 +877,7 @@ function refreshProps() {
         <button id="pp_apply">Aplicar</button>
         <button id="pp_scale" title="Escalar la pieza por un factor (símil Escala de edición directa de Inventor)">⤢ Escala…</button>
         <button id="pp_rot" title="Girar la pieza un ángulo alrededor de un eje (símil Rotar de edición directa)">⟳ Girar…</button>
+        <button id="pp_dup" title="Duplicar la pieza (símil Copiar de Inventor): la copia entra libre para ubicarla">⧉ Duplicar</button>
         <button id="pp_iso" title="Mostrar solo esta pieza (toca de nuevo para restaurar)">⛶ Aislar</button>
         <button id="pp_del" class="danger">Eliminar pieza</button>
       </div>
@@ -890,6 +911,7 @@ function refreshProps() {
     };
     $('pp_iso').onclick = () => isolatePart(p);
     $('pp_del').onclick = () => deletePart(p);
+    $('pp_dup').onclick = () => duplicatePart(p);
     $('pp_scale').onclick = () => showForm(`${p.name} · Escala`, [
       { key: 's', label: 'Factor de escala (1 = igual; 2 = doble)', value: 1, step: 0.1 },
     ], (v) => {
