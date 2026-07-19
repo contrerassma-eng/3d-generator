@@ -86,9 +86,17 @@ def cmd_info(cat, args):
     if not ids:
         sys.exit("uso: info <id>  (ver ids con `listar`)")
     c = C.get_componente(cat, ids[0])
-    lo, hi = C.envolvente(c)
     print(f"{c['nombre']}  ({c['id']}, categoria {c['categoria']})")
     print(f"  {c['descripcion']}")
+    if "malla" in c:  # componente de malla real (GLB): geometria fija
+        bb = c.get("bbox_mm", [0, 0, 0])
+        print(f"  Malla real: {c['malla']['glb']}")
+        print(f"  bbox: {bb[0]:g} x {bb[1]:g} x {bb[2]:g} mm"
+              + (f"  · vol {c['volumen_mm3']:.0f} mm3" if c.get("volumen_mm3") else ""))
+        print(f"  Fuente: {c['fuente'].get('tipo')} — {c['fuente'].get('detalle')}")
+        print("  Pieza FIJA; parametrizacion a nivel de ensamble (posicion/patron/restricciones).")
+        return
+    lo, hi = C.envolvente(c)
     print(f"  Envolvente: {hi[0]-lo[0]:.1f} x {hi[1]-lo[1]:.1f} x {hi[2]-lo[2]:.1f} mm"
           f"  (Z de {lo[2]:.1f} a {hi[2]:.1f})")
     print(f"  Fuente: {c['fuente'].get('tipo')} — {c['fuente'].get('detalle')}")
@@ -139,6 +147,9 @@ def cmd_generar(cat, args):
     if not ids:
         sys.exit("uso: generar <id> [--salida <dir>] [--proyecto <X>]")
     c = C.get_componente(cat, ids[0])
+    if "malla" in c:
+        sys.exit(f"{c['id']} es un componente de malla real (GLB): ya tiene geometria en "
+                 f"cad/{c['malla']['glb']} — no se genera desde primitivas.")
     salida, proj = out_dir(args)
     salida.mkdir(parents=True, exist_ok=True)
     mesh = C.build_mesh(c)
@@ -160,6 +171,8 @@ def cmd_huella(cat, args):
     if not ids:
         sys.exit("uso: huella <id> [--salida <dir>] [--proyecto <X>]")
     c = C.get_componente(cat, ids[0])
+    if "malla" in c:
+        sys.exit(f"{c['id']} es un componente de malla real (GLB): no tiene huella de primitivas.")
     salida, proj = out_dir(args)
     path = salida / f"{c['id']}_huella.dxf"
     n = C.footprint_dxf(c, path)
@@ -176,6 +189,10 @@ def cmd_cad_json(cat, args):
     if not ids:
         sys.exit("uso: cad-json <id> [<id> ...] [--salida <archivo>] [--separacion <mm>]")
     comps = [C.get_componente(cat, i) for i in ids]
+    malla = [c["id"] for c in comps if "malla" in c]
+    if malla:
+        sys.exit(f"cad-json no admite componentes de malla real ({', '.join(malla)}): "
+                 f"insertalos desde la interfaz web (boton Comp.) que carga el GLB.")
     doc = C.cad_doc(comps, float(opt(args, "--separacion") or 15))
     salida = Path(opt(args, "--salida") or SALIDA_DEFECTO / "componentes_cad.json")
     salida.parent.mkdir(parents=True, exist_ok=True)

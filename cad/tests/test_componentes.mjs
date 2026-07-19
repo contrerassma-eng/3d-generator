@@ -51,6 +51,19 @@ check('catálogo web == catálogo canónico',
 for (const comp of cat.componentes) {
   console.log(`- ${comp.id}`);
   const part = componentToPart(comp);
+  // Componentes de malla real (GLB): la geometría se carga en el navegador; en
+  // Node se valida el mapeo (función 'mesh', color, procedencia, archivo, bbox).
+  if (comp.malla) {
+    check('pieza malla válida', part.features.length === 1 && part.features[0].shape === 'mesh'
+      && part.color === COLOR_CATEGORIA[comp.categoria] && part.componente === comp.id);
+    check('src = glb del catálogo', part.features[0].params.src === comp.malla.glb);
+    check('archivo GLB existe', existsSync(resolve(root, 'cad', comp.malla.glb)), `(${comp.malla.glb})`);
+    const [lo, hi] = envolvente(comp);
+    check('envolvente = bbox_mm',
+      Math.abs((hi[0] - lo[0]) - comp.bbox_mm[0]) < 0.5 &&
+      Math.abs((hi[2] - lo[2]) - comp.bbox_mm[2]) < 0.5);
+    continue;
+  }
   check('pieza válida', part.features.length >= comp.solidos.length
     && part.color === COLOR_CATEGORIA[comp.categoria] && part.componente === comp.id);
   const geom = buildPartGeometry(part);
