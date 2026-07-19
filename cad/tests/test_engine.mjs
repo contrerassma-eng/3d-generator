@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
-  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, planeBasis, magnetCorrections, identifyFace,
+  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, makeFilletFeature, makeChamferFeature, planeBasis, magnetCorrections, identifyFace,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
   evalExpr, resolveParams, applyDocParams,
@@ -398,6 +398,32 @@ console.log('— Parámetros globales (fx) y ecuaciones —');
   check('cambiar parámetro → w=150', part.features[0].params.w === 150);
   const v2 = volume(buildPartGeometry(part));
   check('volumen escala 150/120', rel(v2 / v1, 150 / 120) < 1e-6, `v1=${v1} v2=${v2}`);
+}
+
+{
+  // Empalme y chaflán de una arista convexa vertical de una caja 40³.
+  const box = () => { const d = newDoc(); const p = newPart(d, 'c'); p.features.push(makeBoxFeature(40, 40, 40, [0, 0, 0])); return p; };
+  const v0 = volume(buildPartGeometry(box()));
+  check('caja 40³ = 64000', rel(v0, 64000) < 1e-3, `v0=${v0}`);
+
+  const pf = box(); pf.features.push(makeFilletFeature([{ a: [20, 20, 0], b: [20, 20, 40] }], 5));
+  const vf = volume(buildPartGeometry(pf));
+  const expF = 64000 - (25 - Math.PI * 25 / 4) * 40;    // esquina 5×5 menos cuarto de círculo r5, ×40
+  check('empalme R5 quita material', vf < v0);
+  check('empalme R5 ≈ analítico', Math.abs(vf - expF) < 60, `vf=${vf.toFixed(1)} exp=${expF.toFixed(1)}`);
+
+  const pc = box(); pc.features.push(makeChamferFeature([{ a: [20, 20, 0], b: [20, 20, 40] }], 5));
+  const vc = volume(buildPartGeometry(pc));
+  check('chaflán 5 = triángulo 5×5/2 ×40', Math.abs(vc - (64000 - 12.5 * 40)) < 5, `vc=${vc}`);
+
+  // Arista cóncava (interior): el empalme AGREGA material.
+  const dL = newDoc(); const pL = newPart(dL, 'L');
+  pL.features.push(makeBoxFeature(40, 20, 20, [0, 0, 0]));
+  pL.features.push(makeBoxFeature(20, 20, 20, [10, 0, 20]));
+  const vL0 = volume(buildPartGeometry(pL));
+  pL.features.push(makeFilletFeature([{ a: [0, -10, 20], b: [0, 10, 20] }], 4));
+  const vL1 = volume(buildPartGeometry(pL));
+  check('empalme cóncavo agrega material', vL1 > vL0, `vL0=${vL0} vL1=${vL1}`);
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);
