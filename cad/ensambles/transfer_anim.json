@@ -1,0 +1,49 @@
+{
+ "format": "foto3d-anim",
+ "version": 1,
+ "nombre": "Ciclo del transfer 90° con bandas y producto",
+ "doc_sugerido": "integracion_modulo_base.json",
+ "loop": 6.0,
+ "fases": [[0, 1.2, "1 · el producto llega en la banda (flujo)"], [1.2, 1.6, "2 · POP-UP sube (bisagra)"], [1.6, 4.2, "3 · TRANSFIERE: rodillos giran, expulsa 90°"], [4.2, 6.0, "4 · POP-UP baja / la banda retoma"]],
+ "channels": [
+  {
+   "name": "giro de rodillos (arrastre por banda)",
+   "type": "spin",
+   "sel": { "match": "Tubo de acero|Vulcanizado Ø63|Rodamiento 6004" },
+   "axis": [1, 0, 0],
+   "rpm": 42,
+   "dir": 1
+  },
+  {
+   "name": "giro del tambor motriz",
+   "type": "spin",
+   "sel": { "match": "Tambor motriz" },
+   "axis": [1, 0, 0],
+   "point": [0, 69.5, 78],
+   "rpm": 74,
+   "dir": 1
+  },
+  {
+   "name": "pop-up por bisagra (lado +X sube; EXAGERADO x5 para verlo)",
+   "type": "pivot",
+   "sel": { "layer": "MÓVIL" },
+   "axis": [0, -1, 0],
+   "point": [-415, 0, 18],
+   "keys": [[0, 0], [1.2, 0], [1.6, 0.41], [4.2, 0.41], [6.0, 0]],
+   "exagerar": 5
+  }
+ ],
+ "beltScroll": [
+  { "match": "Banda anfitrión", "speed": 0.7, "axis": "x" },
+  { "match": "Banda plana", "speed": 1.0, "axis": "x" }
+ ],
+ "props": [
+  {
+   "name": "producto (caja)",
+   "box": [240, 280, 90],
+   "color": "#c8a86a",
+   "keys": [[0, -820, 0, 215], [1.2, 0, 0, 215], [1.6, 0, 0, 222], [4.2, 0, 760, 222], [6.0, 0, 760, 222]],
+   "visible": [0, 4.3]
+  }
+ ]
+}

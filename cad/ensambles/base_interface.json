@@ -1,0 +1,1555 @@
+{
+ "format": "foto3d-cad",
+ "version": 1,
+ "meta": {
+  "nombre": "Bastidor de integración en la base — hueco de transferencia (modificación autorizada del sorter_CO)",
+  "capa": "user",
+  "origen": "gen_base_interface.mjs (paramétrico). Estructura AÑADIDA a la base twin-belt para alojar el transfer de rodillos: 2 largueros + 3 travesaños de trabazón, 4 cartelas de anclaje al bastidor de la máquina, rieles T-slot + tuercas M12 para los 4 pies del módulo, y topes de altura elevada. Coordenadas locales del módulo (se posiciona con la misma transformación en el hueco real X=208, Y=-1121).",
+  "interfaz": "El módulo (canal FIJO) se atornilla a los rieles T-slot (ajuste X) sobre los largueros; la altura de banda se reglará con shims + los topes M10. El cassette MÓVIL sube 6 mm LIBRE dentro del marco (holgura railGapZ=8 bajo el canal). Las bandas pasantes del base corren en las calles entre los rodillos; el marco va por debajo del plano de banda.",
+  "fijaciones": "pies del módulo M12 a riel T-slot (ajuste X) + cartelas M12 al bastidor de la máquina; costura de soldadura tapón entre largueros y travesaños.",
+  "libertad_mecanismo": "carrera de pop-up 6 mm garantizada por la holgura de 8 mm entre la cara superior del marco (Z=-14 local) y el canal FIJO del módulo; topes de altura elevada regulables M10.",
+  "nota": "La base real es un STEP teselado (malla de visualización): este marco es la modificación de diseño propuesta; sus tie-ins exactos al bastidor se cierran contra el modelo nativo."
+ },
+ "parts": [
+  {
+   "id": "p1_base_mod_larguero_de_integraci_n_y",
+   "name": "BASE-MOD · Larguero de integración -Y",
+   "color": "#37474f",
+   "pos": [
+    0,
+    -330,
+    -51
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": true,
+   "visible": true,
+   "features": [
+    {
+     "id": "f1",
+     "name": "Larguero RHS 60×74 (Y=-330)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 920,
+      "d": 60,
+      "h": 74
+     }
+    },
+    {
+     "id": "f2",
+     "name": "Ranura riel ajuste X (T-slot)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      -375,
+      0,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 20,
+      "h": 8
+     }
+    },
+    {
+     "id": "f3",
+     "name": "Ø13 anclaje pie módulo M12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -405,
+      0,
+      37
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 30,
+      "through": false
+     }
+    },
+    {
+     "id": "f4",
+     "name": "Ø13 anclaje pie módulo M12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -345,
+      0,
+      37
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 30,
+      "through": false
+     }
+    },
+    {
+     "id": "f5",
+     "name": "Ranura riel ajuste X (T-slot)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      375,
+      0,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 20,
+      "h": 8
+     }
+    },
+    {
+     "id": "f6",
+     "name": "Ø13 anclaje pie módulo M12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      345,
+      0,
+      37
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 30,
+      "through": false
+     }
+    },
+    {
+     "id": "f7",
+     "name": "Ø13 anclaje pie módulo M12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      405,
+      0,
+      37
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 30,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p2_base_mod_larguero_de_integraci_n_y",
+   "name": "BASE-MOD · Larguero de integración +Y",
+   "color": "#37474f",
+   "pos": [
+    0,
+    330,
+    -51
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f8",
+     "name": "Larguero RHS 60×74 (Y=330)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 920,
+      "d": 60,
+      "h": 74
+     }
+    },
+    {
+     "id": "f9",
+     "name": "Ranura riel ajuste X (T-slot)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      -375,
+      0,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 20,
+      "h": 8
+     }
+    },
+    {
+     "id": "f10",
+     "name": "Ø13 anclaje pie módulo M12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -405,
+      0,
+      37
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 30,
+      "through": false
+     }
+    },
+    {
+     "id": "f11",
+     "name": "Ø13 anclaje pie módulo M12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -345,
+      0,
+      37
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 30,
+      "through": false
+     }
+    },
+    {
+     "id": "f12",
+     "name": "Ranura riel ajuste X (T-slot)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      375,
+      0,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 20,
+      "h": 8
+     }
+    },
+    {
+     "id": "f13",
+     "name": "Ø13 anclaje pie módulo M12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      345,
+      0,
+      37
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 30,
+      "through": false
+     }
+    },
+    {
+     "id": "f14",
+     "name": "Ø13 anclaje pie módulo M12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      405,
+      0,
+      37
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 30,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p3_base_mod_travesa_o_de_trabaz_n_x_sobre_travesa_o_base_y_1525",
+   "name": "BASE-MOD · Travesaño de trabazón -X (sobre travesaño base Y=-1525)",
+   "color": "#37474f",
+   "pos": [
+    -435,
+    0,
+    -51
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f15",
+     "name": "Travesaño RHS 60×74 (X=-435)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 720,
+      "h": 74
+     }
+    },
+    {
+     "id": "f16",
+     "name": "Ø6 tapón de soldadura",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -330,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 6,
+      "depth": 6,
+      "through": false
+     }
+    },
+    {
+     "id": "f17",
+     "name": "Ø6 tapón de soldadura",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      330,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 6,
+      "depth": 6,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p4_base_mod_travesa_o_de_trabaz_n_centro",
+   "name": "BASE-MOD · Travesaño de trabazón centro",
+   "color": "#37474f",
+   "pos": [
+    0,
+    0,
+    -51
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f18",
+     "name": "Travesaño RHS 60×74 (X=0)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 720,
+      "h": 74
+     }
+    },
+    {
+     "id": "f19",
+     "name": "Ø6 tapón de soldadura",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -330,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 6,
+      "depth": 6,
+      "through": false
+     }
+    },
+    {
+     "id": "f20",
+     "name": "Ø6 tapón de soldadura",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      330,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 6,
+      "depth": 6,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p5_base_mod_travesa_o_de_trabaz_n_x_sobre_travesa_o_base_y_654",
+   "name": "BASE-MOD · Travesaño de trabazón +X (sobre travesaño base Y=-654)",
+   "color": "#37474f",
+   "pos": [
+    435,
+    0,
+    -51
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f21",
+     "name": "Travesaño RHS 60×74 (X=435)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 720,
+      "h": 74
+     }
+    },
+    {
+     "id": "f22",
+     "name": "Ø6 tapón de soldadura",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -330,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 6,
+      "depth": 6,
+      "through": false
+     }
+    },
+    {
+     "id": "f23",
+     "name": "Ø6 tapón de soldadura",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      330,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 6,
+      "depth": 6,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p6_base_mod_riel_t_slot_tuercas_m12_pie_x_y",
+   "name": "BASE-MOD · Riel T-slot + tuercas M12 pie (-X,-Y)",
+   "color": "#8d9aa8",
+   "pos": [
+    -375,
+    -330,
+    -16
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f24",
+     "name": "Riel 120×46×10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -3
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 46,
+      "h": 10
+     }
+    },
+    {
+     "id": "f25",
+     "name": "Ranura en T 14",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 14,
+      "h": 6
+     }
+    },
+    {
+     "id": "f26",
+     "name": "Tuerca en T M12 (a)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -30,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 20,
+      "h": 8
+     }
+    },
+    {
+     "id": "f27",
+     "name": "Tuerca en T M12 (b)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      30,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 20,
+      "h": 8
+     }
+    }
+   ]
+  },
+  {
+   "id": "p7_base_mod_riel_t_slot_tuercas_m12_pie_x_y",
+   "name": "BASE-MOD · Riel T-slot + tuercas M12 pie (-X,+Y)",
+   "color": "#8d9aa8",
+   "pos": [
+    -375,
+    330,
+    -16
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f28",
+     "name": "Riel 120×46×10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -3
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 46,
+      "h": 10
+     }
+    },
+    {
+     "id": "f29",
+     "name": "Ranura en T 14",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 14,
+      "h": 6
+     }
+    },
+    {
+     "id": "f30",
+     "name": "Tuerca en T M12 (a)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -30,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 20,
+      "h": 8
+     }
+    },
+    {
+     "id": "f31",
+     "name": "Tuerca en T M12 (b)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      30,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 20,
+      "h": 8
+     }
+    }
+   ]
+  },
+  {
+   "id": "p8_base_mod_riel_t_slot_tuercas_m12_pie_x_y",
+   "name": "BASE-MOD · Riel T-slot + tuercas M12 pie (+X,-Y)",
+   "color": "#8d9aa8",
+   "pos": [
+    375,
+    -330,
+    -16
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f32",
+     "name": "Riel 120×46×10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -3
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 46,
+      "h": 10
+     }
+    },
+    {
+     "id": "f33",
+     "name": "Ranura en T 14",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 14,
+      "h": 6
+     }
+    },
+    {
+     "id": "f34",
+     "name": "Tuerca en T M12 (a)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -30,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 20,
+      "h": 8
+     }
+    },
+    {
+     "id": "f35",
+     "name": "Tuerca en T M12 (b)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      30,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 20,
+      "h": 8
+     }
+    }
+   ]
+  },
+  {
+   "id": "p9_base_mod_riel_t_slot_tuercas_m12_pie_x_y",
+   "name": "BASE-MOD · Riel T-slot + tuercas M12 pie (+X,+Y)",
+   "color": "#8d9aa8",
+   "pos": [
+    375,
+    330,
+    -16
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f36",
+     "name": "Riel 120×46×10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -3
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 46,
+      "h": 10
+     }
+    },
+    {
+     "id": "f37",
+     "name": "Ranura en T 14",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 14,
+      "h": 6
+     }
+    },
+    {
+     "id": "f38",
+     "name": "Tuerca en T M12 (a)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -30,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 20,
+      "h": 8
+     }
+    },
+    {
+     "id": "f39",
+     "name": "Tuerca en T M12 (b)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      30,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 20,
+      "h": 8
+     }
+    }
+   ]
+  },
+  {
+   "id": "p10_base_mod_cartela_de_anclaje_al_bastidor_x_y",
+   "name": "BASE-MOD · Cartela de anclaje al bastidor (-X,-Y)",
+   "color": "#455a64",
+   "pos": [
+    -460,
+    -330,
+    -51
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f40",
+     "name": "Placa cartela 8",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -10,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 90,
+      "h": 8
+     }
+    },
+    {
+     "id": "f41",
+     "name": "Nervio triangular",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 10,
+      "h": 74
+     }
+    },
+    {
+     "id": "f42",
+     "name": "Ø13 M12 a la máquina (a)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      10,
+      -28,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 8,
+      "through": false
+     }
+    },
+    {
+     "id": "f43",
+     "name": "Ø13 M12 a la máquina (b)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      10,
+      28,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 8,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p11_base_mod_cartela_de_anclaje_al_bastidor_x_y",
+   "name": "BASE-MOD · Cartela de anclaje al bastidor (-X,+Y)",
+   "color": "#455a64",
+   "pos": [
+    -460,
+    330,
+    -51
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f44",
+     "name": "Placa cartela 8",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -10,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 90,
+      "h": 8
+     }
+    },
+    {
+     "id": "f45",
+     "name": "Nervio triangular",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 10,
+      "h": 74
+     }
+    },
+    {
+     "id": "f46",
+     "name": "Ø13 M12 a la máquina (a)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      10,
+      -28,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 8,
+      "through": false
+     }
+    },
+    {
+     "id": "f47",
+     "name": "Ø13 M12 a la máquina (b)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      10,
+      28,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 8,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p12_base_mod_cartela_de_anclaje_al_bastidor_x_y",
+   "name": "BASE-MOD · Cartela de anclaje al bastidor (+X,-Y)",
+   "color": "#455a64",
+   "pos": [
+    460,
+    -330,
+    -51
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f48",
+     "name": "Placa cartela 8",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      10,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 90,
+      "h": 8
+     }
+    },
+    {
+     "id": "f49",
+     "name": "Nervio triangular",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 10,
+      "h": 74
+     }
+    },
+    {
+     "id": "f50",
+     "name": "Ø13 M12 a la máquina (a)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -10,
+      -28,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 8,
+      "through": false
+     }
+    },
+    {
+     "id": "f51",
+     "name": "Ø13 M12 a la máquina (b)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -10,
+      28,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 8,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p13_base_mod_cartela_de_anclaje_al_bastidor_x_y",
+   "name": "BASE-MOD · Cartela de anclaje al bastidor (+X,+Y)",
+   "color": "#455a64",
+   "pos": [
+    460,
+    330,
+    -51
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f52",
+     "name": "Placa cartela 8",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      10,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 90,
+      "h": 8
+     }
+    },
+    {
+     "id": "f53",
+     "name": "Nervio triangular",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 10,
+      "h": 74
+     }
+    },
+    {
+     "id": "f54",
+     "name": "Ø13 M12 a la máquina (a)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -10,
+      -28,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 8,
+      "through": false
+     }
+    },
+    {
+     "id": "f55",
+     "name": "Ø13 M12 a la máquina (b)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -10,
+      28,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 13.5,
+      "depth": 8,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p14_base_mod_tope_de_altura_elevada_x",
+   "name": "BASE-MOD · Tope de altura elevada -X",
+   "color": "#546e7a",
+   "pos": [
+    -427,
+    0,
+    -14
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f56",
+     "name": "Poste tope 24×40×24",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 24,
+      "d": 40,
+      "h": 24
+     }
+    },
+    {
+     "id": "f57",
+     "name": "Ø11 reglaje M10 (tuerca+contratuerca)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 24,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p15_base_mod_tope_de_altura_elevada_x",
+   "name": "BASE-MOD · Tope de altura elevada +X",
+   "color": "#546e7a",
+   "pos": [
+    427,
+    0,
+    -14
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f58",
+     "name": "Poste tope 24×40×24",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 24,
+      "d": 40,
+      "h": 24
+     }
+    },
+    {
+     "id": "f59",
+     "name": "Ø11 reglaje M10 (tuerca+contratuerca)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 24,
+      "through": false
+     }
+    }
+   ]
+  }
+ ],
+ "constraints": []
+}

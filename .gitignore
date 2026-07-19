@@ -21,3 +21,10 @@ componentes/out/
 __pycache__/
 *.pyc
 .venv/
+
+# STL teselados del STEP y sus colores por triángulo (derivados grandes,
+# regenerables con tools/step_to_stl.py + tools/color_step_mesh.py)
+cad/ensambles/*.stl
+cad/ensambles/*_colors.bin
+cad/ensambles/*_remove.bin
+cad/ensambles/transfer_animacion_standalone.html
