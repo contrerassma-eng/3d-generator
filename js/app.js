@@ -118,6 +118,10 @@ function setMainView(v) {
   orthoCam.lookAt(center);
   sketchControls.target.copy(center);
   sketchControls.enableRotate = libre;  // libre → órbita; vistas fijas → sin giro
+  // en el ENSAMBLE ortográfico el clic izquierdo (y 1 dedo) orbita; en el boceto
+  // se reasigna a -1 (el izquierdo dibuja). Sin esto la ortográfica no giraba.
+  sketchControls.mouseButtons.LEFT = libre ? THREE.MOUSE.ROTATE : -1;
+  sketchControls.touches.ONE = libre ? THREE.TOUCH.ROTATE : -1;
   sketchControls.enabled = true;
   controls.enabled = false;
   activeCamera = orthoCam;
@@ -230,12 +234,16 @@ if (vcCanvas) {
     cubeRay.setFromCamera(cubePtr, cubeCam);
     const hit = cubeRay.intersectObject(cubeMesh, false)[0];
     if (!hit) return;
-    const n = hit.face.normal; // eje del cubo = eje del mundo
-    const dir = [Math.round(n.x), Math.round(n.y), Math.round(n.z)];
-    const up = Math.abs(dir[2]) > 0.5 ? [0, 1, 0] : [0, 0, 1];
+    // según DÓNDE se tocó el cubo: centro de cara → vista orto; cerca de una
+    // ARISTA → vista a 45° de dos ejes; ESQUINA → vista isométrica de tres ejes.
+    const half = 0.85, thr = 0.42, dir = [0, 0, 0];
+    for (let i = 0; i < 3; i++) { const c = hit.point.getComponent(i) / half; if (Math.abs(c) > thr) dir[i] = Math.sign(c); }
+    if (!dir[0] && !dir[1] && !dir[2]) { const n = hit.face.normal; dir[0] = Math.round(n.x); dir[1] = Math.round(n.y); dir[2] = Math.round(n.z); }
+    const up = (dir[0] === 0 && dir[1] === 0) ? [0, 1, 0] : [0, 0, 1]; // solo cara sup/inf usa Y arriba
     snapView(dir, up);
     const NAME = { '1,0,0': 'Derecha', '-1,0,0': 'Izquierda', '0,1,0': 'Atrás', '0,-1,0': 'Frente', '0,0,1': 'Superior', '0,0,-1': 'Inferior' };
-    setStatus(`Vista ${NAME[dir.join(',')] || ''}.`);
+    const na = dir.filter(Boolean).length;
+    setStatus(na === 1 ? `Vista ${NAME[dir.join(',')] || ''}.` : na === 2 ? 'Vista de arista (45°).' : 'Vista isométrica (esquina).');
   });
   document.getElementById('vcHome').onclick = () => { snapView([1, -1, 1], [0, 0, 1]); setStatus('Vista isométrica.'); };
   // toggle de proyección ortográfica ↔ perspectiva (por defecto ortográfica)
@@ -376,6 +384,13 @@ setSidebar(!isNarrow());
 
 $('propsHead').onclick = () => $('props').classList.toggle('closed');
 function openProps() { $('props').classList.remove('closed'); }
+// breadcrumb del Property Panel: saltar a un nivel superior (p. ej. de la operación a su pieza)
+$('propsBody').addEventListener('click', (ev) => {
+  const el = ev.target.closest('[data-crumb]');
+  if (!el) return;
+  selection = { kind: 'part', id: el.dataset.crumb };
+  refreshUI();
+});
 
 // ---------- Materiales ----------
 
@@ -848,26 +863,28 @@ function refreshProps() {
     const e = new THREE.Euler().setFromQuaternion(new THREE.Quaternion(...p.quat), 'XYZ');
     const deg = (r) => +(r * 180 / Math.PI).toFixed(2);
     body.innerHTML = `
-      ${frow('Nombre', `<input type="text" id="pp_name" value="${esc(p.name)}">`)}
-      ${frow('Color', `<input type="color" id="pp_color" value="${p.color}">`)}
-      ${frow('Fija (a tierra)', `<input type="checkbox" id="pp_fixed" ${p.fixed ? 'checked' : ''}>`)}
-      ${frow('Posición X/Y/Z', num3('pp_pos', p.pos))}
-      ${frow('Rotación °X/Y/Z', num3('pp_rot', [deg(e.x), deg(e.y), deg(e.z)]))}
-      <div class="btnrow">
+      ${crumb([{ t: env === 'ens' ? 'Ensamble' : 'Modelo' }, { t: p.name }])}
+      ${sec('Identidad',
+        frow('Nombre', `<input type="text" id="pp_name" value="${esc(p.name)}">`)
+        + frow('Color', `<input type="color" id="pp_color" value="${p.color}">`)
+        + frow('Fija (a tierra)', `<input type="checkbox" id="pp_fixed" ${p.fixed ? 'checked' : ''}>`))}
+      ${sec('Posición y orientación',
+        frow('Posición X/Y/Z', num3('pp_pos', p.pos))
+        + frow('Rotación °X/Y/Z', num3('pp_rot', [deg(e.x), deg(e.y), deg(e.z)])))}
+      ${sec('Acciones', `<div class="btnrow">
         <button id="pp_apply">Aplicar</button>
         <button id="pp_scale" title="Escalar la pieza por un factor (símil Escala de edición directa de Inventor)">⤢ Escala…</button>
         <button id="pp_rot" title="Girar la pieza un ángulo alrededor de un eje (símil Rotar de edición directa)">⟳ Girar…</button>
         <button id="pp_iso" title="Mostrar solo esta pieza (toca de nuevo para restaurar)">⛶ Aislar</button>
         <button id="pp_del" class="danger">Eliminar pieza</button>
-      </div>
-      <div class="btnrow">
+      </div>`)}
+      ${sec('Fabricación', `<div class="btnrow">
         <button id="pp_stl" title="Exportar SOLO esta pieza a STL (en su propio origen, para imprimir/fabricar)">⭳ STL pieza</button>
         <button id="pp_save" title="Guardar SOLO esta pieza como JSON (ábrela en otro proyecto con 📂 Abrir → Agregar)">💾 Guardar pieza</button>
-      </div>
-      ${esChapa(p) ? `<div class="btnrow">
+      </div>${esChapa(p) ? `<div class="btnrow">
         <button id="pp_flatdxf" title="Desarrollo real (BA con factor K) con líneas de plegado y desahogos">⭳ Desarrollo DXF</button>
         <button id="pp_flatpdf" title="Lámina del desarrollo lista para imprimir">⭳ Desarrollo PDF</button>
-      </div>` : ''}`;
+      </div>` : ''}`, false)}`;
     $('pp_stl').onclick = () => exportSTL([p], `${p.name.replace(/[^\w.-]+/g, '_')}.stl`, false);
     $('pp_save').onclick = () => savePartJSON(p);
     if (esChapa(p)) {
@@ -943,7 +960,15 @@ function refreshProps() {
     }
     if (f.shape === 'box') dims = frow('Ancho X', dimInput('fp_w', f, 'w')) + frow('Fondo Y', dimInput('fp_d', f, 'd')) + frow('Alto Z', dimInput('fp_hh', f, 'h'));
     if (f.shape === 'cylinder') dims = frow('Diámetro', dimInput('fp_dia', f, 'dia')) + frow('Altura', dimInput('fp_h', f, 'h'));
-    if (f.shape === 'hole') dims = frow('Diámetro', dimInput('fp_dia', f, 'dia')) + frow('Profundidad', dimInput('fp_depth', f, 'depth')) + frow('Pasante', `<input type="checkbox" id="fp_through" ${f.params.through ? 'checked' : ''}>`);
+    if (f.shape === 'hole') {
+      const seat = f.params.seat || 'none';
+      const seatOpt = (v, t) => `<option value="${v}" ${seat === v ? 'selected' : ''}>${t}</option>`;
+      dims = frow('Diámetro', dimInput('fp_dia', f, 'dia')) + frow('Profundidad', dimInput('fp_depth', f, 'depth'))
+        + frow('Pasante', `<input type="checkbox" id="fp_through" ${f.params.through ? 'checked' : ''}>`)
+        + frow('Asiento', `<select id="fp_seat">${seatOpt('none', 'Ninguno')}${seatOpt('cbore', 'Caja (counterbore)')}${seatOpt('csink', 'Avellanado (countersink)')}</select>`)
+        + frow('Ø asiento', `<input type="number" id="fp_seatdia" value="${f.params.seatDia ?? f.params.dia * 2}" step="0.5">`)
+        + frow('Prof. asiento', `<input type="number" id="fp_seatdepth" value="${f.params.seatDepth ?? f.params.dia}" step="0.5">`);
+    }
     if (f.shape === 'pattern') {
       const srcName = doc.parts.flatMap(pp => pp.features).find(x => x.id === f.params.sourceId)?.name || '?';
       dims = frow('Repite', `<b>${esc(srcName)}</b>`);
@@ -969,18 +994,21 @@ function refreshProps() {
         dims += frow('Mostrar boceto', `<input type="checkbox" id="fp_showsk" ${f.showSketch ? 'checked' : ''}>`);
         (f.params.dims || []).forEach((d, i) => {
           const val = SK.measureDim(f.params.entities, d);
-          dims += frow(`Cota ${d.locked ? '🔒' : ''}${DIM_PREFIX[d.kind]}`, `<input type="number" id="fp_dim${i}" value="${val === null ? '' : +val.toFixed(2)}" step="0.5">`);
+          dims += frow(`Cota ${d.locked ? '🔒' : '( )'}${DIM_PREFIX[d.kind]}`, `<input type="number" id="fp_dim${i}" value="${val === null ? '' : +val.toFixed(2)}" step="0.5" ${d.locked ? '' : 'title="referencia (no dirige)"'}>`);
         });
       } else {
         dims += frow('Puntos', `<b>${f.params.pts.length}</b>`);
       }
     }
+    const ubic = (['pestana', 'pattern'].includes(f.shape) ? '' : frow('Posición X/Y/Z', num3('fp_at', f.at)))
+      + (['box', 'chapaBase', 'pestana', 'pattern'].includes(f.shape) ? '' : frow('Eje X/Y/Z', num3('fp_dir', f.dir)));
     body.innerHTML = `
-      ${frow('Nombre', `<input type="text" id="fp_name" value="${esc(f.name)}">`)}
-      ${frow('Tipo', `${f.op === 'cut' ? 'corte' : 'unión'}${f.suppressed ? ' · ⏸ suprimida' : ''}`)}
-      ${dims}
-      ${['pestana', 'pattern'].includes(f.shape) ? '' : frow('Posición X/Y/Z', num3('fp_at', f.at))}
-      ${['box', 'chapaBase', 'pestana', 'pattern'].includes(f.shape) ? '' : frow('Eje X/Y/Z', num3('fp_dir', f.dir))}
+      ${crumb([{ t: p.name, id: p.id }, { t: f.name }])}
+      ${sec('Operación',
+        frow('Nombre', `<input type="text" id="fp_name" value="${esc(f.name)}">`)
+        + frow('Tipo', `${f.op === 'cut' ? 'corte' : 'unión'}${f.suppressed ? ' · ⏸ suprimida' : ''}`))}
+      ${sec('Geometría', dims)}
+      ${sec('Ubicación', ubic)}
       <div class="btnrow">
         <button id="fp_apply">Regenerar</button>
         <button id="fp_del" class="danger">Eliminar</button>
@@ -1027,6 +1055,9 @@ function refreshProps() {
         readDimField(f, 'fp_dia', 'dia');
         readDimField(f, 'fp_depth', 'depth');
         f.params.through = $('fp_through').checked;
+        if ($('fp_seat')) f.params.seat = $('fp_seat').value;
+        if ($('fp_seatdia')) f.params.seatDia = +$('fp_seatdia').value;
+        if ($('fp_seatdepth')) f.params.seatDepth = +$('fp_seatdepth').value;
         f.name = `Agujero Ø${f.params.dia}`;
       }
       if (f.shape === 'pattern') {
@@ -1082,6 +1113,13 @@ function refreshProps() {
 }
 
 const frow = (label, control) => `<div class="frow"><label>${label}</label>${control}</div>`;
+// Property Panel estilo Inventor 2026: breadcrumb + secciones de acordeón.
+// Migas de pan: array de {t, id?} — el nivel con id es clicable (salta a él).
+const crumb = (levels) => `<div class="pp-crumb">${levels.map((l, i) =>
+  `${i ? '<span class="sep">▸</span>' : ''}<span class="lvl${i === levels.length - 1 ? ' cur' : ''}${l.id ? ' link' : ''}"${l.id ? ` data-crumb="${l.id}"` : ''}>${esc(l.t)}</span>`).join('')}</div>`;
+// Sección colapsable (revelación progresiva): <details> nativo, sin JS de estado.
+const sec = (title, inner, open = true) => inner
+  ? `<details class="pp-sec"${open ? ' open' : ''}><summary>${esc(title)}</summary><div class="pp-secbody">${inner}</div></details>` : '';
 const num3 = (id, v) => `<span style="display:flex;gap:4px;flex:1">
   <input type="number" id="${id}x" value="${+(+v[0]).toFixed(3)}" step="0.5" style="width:33%">
   <input type="number" id="${id}y" value="${+(+v[1]).toFixed(3)}" step="0.5" style="width:33%">
@@ -1441,6 +1479,9 @@ const projMat = new THREE.LineBasicMaterial({ color: 0x2ee659 });          // en
 const previewMat = new THREE.LineBasicMaterial({ color: 0xf0a437, transparent: true, opacity: 0.5 });
 const ptMat = new THREE.MeshBasicMaterial({ color: 0xf0a437 });
 const snapMat = new THREE.MeshBasicMaterial({ color: 0x34a853 });
+const constraintMat = new THREE.MeshBasicMaterial({ color: 0x4d90fe }); // marcador de restricción persistente
+// línea guía de inferencia (paralela/perpendicular/horizontal/vertical) estilo Inventor
+const guideMat = new THREE.LineDashedMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.65, dashSize: 3, gapSize: 2.5 });
 
 const DIM_PREFIX = { len: 'L ', dia: 'Ø', dist: '↔ ', ang: '∠' };
 const DIM_LABEL = { len: 'Largo (mm)', dia: 'Diámetro (mm)', dist: 'Distancia (mm)', ang: 'Ángulo (°)' };
@@ -1632,6 +1673,7 @@ function clickErase(raw) {
   const pick = pickEntityAt(raw, false);
   if (!pick) { setStatus('Borrar: toca una entidad del boceto.'); return; }
   sketch.entities = sketch.entities.filter(e => e.id !== pick.ent.id);
+  sketch.constraints = sketch.constraints.filter(c => c.a !== pick.ent.id && c.b !== pick.ent.id);
   pruneDims();
   redrawSketch();
   setStatus('Entidad eliminada.');
@@ -1642,6 +1684,7 @@ function deleteSelectedSketch() {
   if (!sketch || !sketch.selIds.size) return;
   const n = sketch.selIds.size;
   sketch.entities = sketch.entities.filter(e => !sketch.selIds.has(e.id));
+  sketch.constraints = sketch.constraints.filter(c => !sketch.selIds.has(c.a) && !sketch.selIds.has(c.b));
   sketch.selIds.clear();
   pruneDims();
   redrawSketch();
@@ -1666,6 +1709,7 @@ function enterSketchForFeature(part, f) {
   sketch.editFeature = f;
   sketch.entities = JSON.parse(JSON.stringify(f.params.entities || []));
   sketch.dims = JSON.parse(JSON.stringify(f.params.dims || []));
+  sketch.constraints = JSON.parse(JSON.stringify(f.params.constraints || []));
   sketch.excluded = new Set(f.params.excluded || []);
   syncDimEls();
   redrawSketch();
@@ -1696,7 +1740,7 @@ function beginSketch(part, originL, nL, uL) {
     originW, nW, uW, vW,
     editFeature: null,
     plane: new THREE.Plane().setFromNormalAndCoplanarPoint(nW, originW),
-    entities: [], dims: [], dimEls: new Map(),
+    entities: [], dims: [], constraints: [], dimEls: new Map(),
     chainStart: null, chainLast: null, temp: null, dimPick: null, stroke: null,
     entDrag: null, profileMode: false, excluded: new Set(),
     selIds: new Set(), marquee: null, copyOp: null,
@@ -1723,6 +1767,8 @@ function beginSketch(part, originL, nL, uL) {
   orthoCam.lookAt(originW);
   sketchControls.target.copy(originW);
   sketchControls.enableRotate = false;
+  sketchControls.mouseButtons.LEFT = -1;  // en el boceto el izquierdo dibuja
+  sketchControls.touches.ONE = -1;
   document.getElementById('skOrbit')?.classList.remove('on');
   window.__updateLockIcon?.();
   activeCamera = orthoCam;
@@ -1825,17 +1871,80 @@ function polarPoint(from, len, deg) {
   return [from[0] + len * Math.cos(r), from[1] + len * Math.sin(r)];
 }
 
+// distancia angular mínima (grados) entre dos ángulos, en [0,180]
+function angDelta(a, b) { return Math.abs(((a - b) % 360 + 540) % 360 - 180); }
+
+// glyph + rótulo de cada restricción inferida (estilo Inventor)
+const INFER_GLYPH = { horizontal: '—', vertical: '│', parallel: '∥', perpendicular: '⟂', tangente: '◠', coincidente: '⌖' };
+const INFER_ES = { horizontal: 'Horizontal', vertical: 'Vertical', parallel: 'Paralela', perpendicular: 'Perpendicular', tangente: 'Tangente', coincidente: 'Coincidente' };
+const inferBadgeEl = document.getElementById('inferBadge');
+function showInferBadge(kind, pt2d) {
+  if (!inferBadgeEl) return;
+  if (!kind) { inferBadgeEl.style.display = 'none'; return; }
+  const v = to3D(pt2d[0], pt2d[1]).project(activeCamera);
+  const r = renderer.domElement.getBoundingClientRect();
+  inferBadgeEl.textContent = INFER_GLYPH[kind] || '';
+  inferBadgeEl.title = INFER_ES[kind] || '';
+  inferBadgeEl.style.left = `${(v.x * 0.5 + 0.5) * r.width}px`;
+  inferBadgeEl.style.top = `${(-v.y * 0.5 + 0.5) * r.height}px`;
+  inferBadgeEl.style.display = 'block';
+}
+function hideInferBadge() { if (inferBadgeEl) inferBadgeEl.style.display = 'none'; }
+
+// Inferencia de restricciones estilo Inventor: mientras se traza una línea,
+// deduce si es horizontal, vertical, paralela o perpendicular a la geometría
+// existente y ajusta el ángulo (dentro de una tolerancia). No crea relaciones
+// persistentes: solo guía el trazo y comunica la relación (glyph + guía).
+function inferAngle(from, rawAng) {
+  const TOL = 6; // grados de captura
+  const cands = [{ base: 0, kind: 'horizontal' }, { base: 90, kind: 'vertical' }];
+  for (const e of sketch.entities) {
+    if (e.type !== 'line') continue;
+    const a = Math.atan2(e.b[1] - e.a[1], e.b[0] - e.a[0]) * 180 / Math.PI;
+    cands.push({ base: a, kind: 'parallel' });
+    cands.push({ base: a + 90, kind: 'perpendicular' });
+  }
+  let best = null;
+  for (const c of cands) {
+    for (const t of [c.base, c.base + 180]) {
+      const d = angDelta(rawAng, t);
+      // H/V ganan empates frente a paralela/perpendicular (más significativas)
+      const rank = (c.kind === 'horizontal' || c.kind === 'vertical') ? d - 0.5 : d;
+      if (d < TOL && (!best || rank < best.rank)) best = { rank, ang: ((t % 360) + 360) % 360, kind: c.kind };
+    }
+  }
+  return best;
+}
+
 // resuelve el extremo de la línea en curso desde el cursor: respeta snap a
-// punto notable; si no, aplica snap/lock de ángulo. Devuelve {end, len, ang, onPoint}
+// punto notable; si no, infiere restricción (H/V/∥/⊥); si no, snap/lock de
+// ángulo. Devuelve {end, len, ang, onPoint, infer, guide}
 function resolveLineEnd(raw) {
   const from = sketch.chainLast;
   const sn = snap2D(raw);
   if (sn.snapped) {
-    return { end: sn.uv, len: Math.hypot(sn.uv[0] - from[0], sn.uv[1] - from[1]), ang: angleFromTo(from, sn.uv), onPoint: true };
+    // relación H/V implícita si el punto notable queda alineado con el origen
+    const dx = Math.abs(sn.uv[0] - from[0]), dy = Math.abs(sn.uv[1] - from[1]);
+    let infer = sn.kind === 'tangente' ? 'tangente' : null;
+    if (!infer && (dx > 1e-6 || dy > 1e-6)) { if (dy < dx * 0.02) infer = 'horizontal'; else if (dx < dy * 0.02) infer = 'vertical'; }
+    if (!infer) infer = 'coincidente'; // pegado a un punto notable → glyph de coincidencia (estilo Inventor)
+    return { end: sn.uv, len: Math.hypot(dx, dy), ang: angleFromTo(from, sn.uv), onPoint: true, infer, guide: null };
   }
   const rawLen = Math.hypot(raw[0] - from[0], raw[1] - from[1]);
-  const ang = sketch.angLock != null ? sketch.angLock : snapAngle(angleFromTo(from, raw));
-  return { end: polarPoint(from, rawLen, ang), len: rawLen, ang, onPoint: false };
+  if (sketch.angLock != null) {
+    return { end: polarPoint(from, rawLen, sketch.angLock), len: rawLen, ang: sketch.angLock, onPoint: false, infer: null, guide: null };
+  }
+  const inf = rawLen > 1e-3 ? inferAngle(from, angleFromTo(from, raw)) : null;
+  if (inf) {
+    const r = inf.ang * Math.PI / 180, dir = [Math.cos(r), Math.sin(r)];
+    const len = Math.max(0, (raw[0] - from[0]) * dir[0] + (raw[1] - from[1]) * dir[1]);
+    const end = [from[0] + dir[0] * len, from[1] + dir[1] * len];
+    const G = 1000; // guía larga a ambos lados del origen
+    const guide = [[from[0] - dir[0] * G, from[1] - dir[1] * G], [from[0] + dir[0] * G, from[1] + dir[1] * G]];
+    return { end, len, ang: inf.ang, onPoint: false, infer: inf.kind, guide };
+  }
+  const ang = snapAngle(angleFromTo(from, raw));
+  return { end: polarPoint(from, rawLen, ang), len: rawLen, ang, onPoint: false, infer: null, guide: null };
 }
 
 // modo del cuadro dinámico: círculo → pide solo Ø; línea → L + ∠ + snap
@@ -1923,6 +2032,7 @@ function cancelCurrentDraw() {
   sketch.chainStart = sketch.chainLast = null;
   sketch.temp = null;
   hideDynBox();
+  hideInferBadge();
   clearGroup(sketch.preview);
   redrawSketch();
   setStatus('Trazo cancelado. Elige una herramienta o toca para empezar.');
@@ -1944,7 +2054,14 @@ function clickLine(raw) {
   const closing = sketch.entities.length && Math.hypot(end[0] - sketch.chainStart[0], end[1] - sketch.chainStart[1]) < 16 * worldPerPixel();
   const tgt = closing ? sketch.chainStart : end;
   if (Math.hypot(tgt[0] - sketch.chainLast[0], tgt[1] - sketch.chainLast[1]) > 1e-3) {
-    sketch.entities.push(SK.makeLine(sketch.chainLast, tgt));
+    const ln = SK.makeLine(sketch.chainLast, tgt);
+    sketch.entities.push(ln);
+    // persistencia estilo Inventor: la relación H/V que se mostró al trazar se
+    // guarda (el segmento ya la cumple, no hace falta resolver ahora). Al cerrar
+    // el contorno el destino es chainStart (no el extremo inferido) → no se persiste.
+    if (!closing && res && (res.infer === 'horizontal' || res.infer === 'vertical')) {
+      sketch.constraints.push(SK.makeConstraint(res.infer, ln.id));
+    }
   }
   if (closing) {
     sketch.chainStart = sketch.chainLast = null;
@@ -1966,11 +2083,14 @@ function clickRect(raw) {
   const [x1, y1] = sketch.temp, [x2, y2] = uv;
   sketch.temp = null;
   if (Math.abs(x2 - x1) < 0.5 || Math.abs(y2 - y1) < 0.5) { setStatus('Rectángulo demasiado angosto.'); return; }
-  sketch.entities.push(
-    SK.makeLine([x1, y1], [x2, y1]), SK.makeLine([x2, y1], [x2, y2]),
-    SK.makeLine([x2, y2], [x1, y2]), SK.makeLine([x1, y2], [x1, y1])
-  );
-  setStatus(`Rectángulo ${Math.abs(x2 - x1).toFixed(1)}×${Math.abs(y2 - y1).toFixed(1)} mm.`);
+  const bottom = SK.makeLine([x1, y1], [x2, y1]), right = SK.makeLine([x2, y1], [x2, y2]);
+  const top = SK.makeLine([x2, y2], [x1, y2]), left = SK.makeLine([x1, y2], [x1, y1]);
+  sketch.entities.push(bottom, right, top, left);
+  // el rectángulo nace restringido (como Inventor): lados H/V
+  sketch.constraints.push(
+    SK.makeConstraint('horizontal', bottom.id), SK.makeConstraint('horizontal', top.id),
+    SK.makeConstraint('vertical', right.id), SK.makeConstraint('vertical', left.id));
+  setStatus(`Rectángulo ${Math.abs(x2 - x1).toFixed(1)}×${Math.abs(y2 - y1).toFixed(1)} mm (lados H/V restringidos).`);
   redrawSketch();
 }
 
@@ -2044,14 +2164,21 @@ function openDimDialog(dim) {
   const cur = SK.measureDim(sketch.entities, dim);
   showForm(`Cota ${DIM_PREFIX[dim.kind].trim()}`, [
     { key: 'v', label: DIM_LABEL[dim.kind], value: +(cur ?? dim.value).toFixed(2), step: 0.5 },
-    { key: 'locked', label: '🔒 Fija (restringe al mover)', type: 'checkbox', value: !!dim.locked },
+    { key: 'locked', label: '🔒 Directriz (dirige; si no, referencia)', type: 'checkbox', value: !!dim.locked },
   ], (v) => {
     dim.locked = v.locked;
     if (!(v.v > 0)) { setStatus('Valor inválido.'); return; }
+    // referencia (driven): solo mide, no dirige la geometría (no se aplica valor)
+    if (!dim.locked) {
+      SK.applyLockedDims(sketch.entities, sketch.dims);
+      updateSketchLabels(); redrawSketch();
+      setStatus(`Cota de referencia: (${DIM_PREFIX[dim.kind]}${cur != null ? cur.toFixed(1) : v.v}). Mide, no dirige.`);
+      return;
+    }
     if (SK.applyDim(sketch.entities, dim, v.v)) {
       SK.applyLockedDims(sketch.entities, sketch.dims, dim.id); // las 🔒 se mantienen
       redrawSketch();
-      setStatus(`Cota aplicada: ${DIM_PREFIX[dim.kind]}${v.v}${dim.locked ? ' 🔒' : ''}.`);
+      setStatus(`Cota directriz aplicada: 🔒${DIM_PREFIX[dim.kind]}${v.v}.`);
     } else {
       setStatus('No se pudo aplicar esa cota (¿referencia fija o entidades no compatibles?).');
     }
@@ -2089,7 +2216,11 @@ function updateSketchLabels() {
     const el = sketch.dimEls.get(dim.id);
     if (!el) continue;
     const val = SK.measureDim(sketch.entities, dim);
-    el.textContent = val === null ? '—' : `${dim.locked ? '🔒' : ''}${DIM_PREFIX[dim.kind]}${val.toFixed(1)}${dim.kind === 'ang' ? '°' : ''}`;
+    // convención Inventor (§2.4): directriz (🔒 dirige la geometría) vs
+    // referencia/driven (entre paréntesis, solo mide, no dirige).
+    const body = val === null ? '—' : `${DIM_PREFIX[dim.kind]}${val.toFixed(1)}${dim.kind === 'ang' ? '°' : ''}`;
+    el.textContent = val === null ? '—' : (dim.locked ? `🔒${body}` : `(${body})`);
+    el.classList.toggle('ref', !dim.locked);
     const w = to3D(dim.at[0], dim.at[1], 0.3).project(activeCamera);
     el.style.left = `${(w.x * 0.5 + 0.5) * r.width}px`;
     el.style.top = `${(-w.y * 0.5 + 0.5) * r.height}px`;
@@ -2161,10 +2292,11 @@ function endEntDrag() {
   const n = sketch.entDrag.ents.length;
   sketch.entDrag = null;
   sketchControls.enabled = true;
-  // las cotas con candado restringen: se re-aplican tras el movimiento
-  SK.applyLockedDims(sketch.entities, sketch.dims);
+  // restricciones geométricas + cotas con candado se re-aplican tras el movimiento
+  SK.solveSketch(sketch.entities, sketch.constraints, sketch.dims);
   redrawSketch();
-  setStatus(`${n > 1 ? n + ' entidades movidas' : 'Entidad movida'} (las cotas 🔒 se re-aplicaron).`);
+  const warn = reportOverconstrained();
+  setStatus(warn || `${n > 1 ? n + ' entidades movidas' : 'Entidad movida'} (restricciones y cotas 🔒 re-aplicadas).`);
 }
 
 // --- ⤓ Proyectar geometría (como Inventor): herramienta selectiva ---
@@ -2591,7 +2723,31 @@ function endStroke() {
 
 // --- dibujo del boceto ---
 
+// Estado del boceto estilo barra de estado de Inventor (§2.5), pero HONESTO:
+// no inventa grados de libertad (no hay solver aún); reporta lo que sí se puede
+// medir — contornos cerrados listos para extruir, cadenas abiertas y cotas.
+const skStateEl = document.getElementById('skState');
+function updateSketchState() {
+  if (!skStateEl) return;
+  if (!sketch) { skStateEl.style.display = 'none'; return; }
+  const E = sketch.entities.length;
+  const D = sketch.dims.length;
+  const { regions: regs, openCount } = SK.regions(sketch.entities, [...sketch.excluded]);
+  const L = regs.length;
+  let cls, txt;
+  if (E === 0) { cls = 'st-empty'; txt = 'Boceto vacío'; }
+  else if (L > 0) { cls = 'st-ok'; txt = `✓ ${L} contorno${L > 1 ? 's' : ''} listo${openCount ? ` · ${openCount} abierta${openCount > 1 ? 's' : ''}` : ''}`; }
+  else if (openCount > 0) { cls = 'st-open'; txt = `⚠ contorno abierto (${openCount} cadena${openCount > 1 ? 's' : ''})`; }
+  else { cls = 'st-open'; txt = 'sin contorno cerrado'; }
+  const R = sketch.constraints?.length || 0;
+  const extra = (D ? ` · ${D} cota${D > 1 ? 's' : ''}` : '') + (R ? ` · ${R} restric.` : '');
+  skStateEl.className = cls;
+  skStateEl.textContent = `${txt} · ${E} entidad${E !== 1 ? 'es' : ''}${extra}`;
+  skStateEl.style.display = 'block';
+}
+
 function redrawSketch() {
+  updateSketchState();
   clearGroup(sketch.draw);
   for (const e of sketch.entities) {
     const mat = (sketch.dimPick && sketch.dimPick.ent.id === e.id) || sketch.selIds.has(e.id) ? selEntMat : (e.proj ? projMat : drawMat);
@@ -2615,6 +2771,21 @@ function redrawSketch() {
     m.position.copy(to3D(p[0], p[1]));
     sketch.draw.add(m);
   }
+  // marcadores de restricciones persistentes (puntos azules junto a la entidad)
+  if (sketch.constraints?.length) {
+    const anchor = (e) => e.type === 'line' ? [(e.a[0] + e.b[0]) / 2, (e.a[1] + e.b[1]) / 2] : e.c;
+    const s = Math.max(0.1, 4.5 * worldPerPixel());
+    for (const c of sketch.constraints) {
+      for (const eid of [c.a, c.b]) {
+        const e = eid && sketch.entities.find(x => x.id === eid);
+        if (!e) continue;
+        const m = new THREE.Mesh(new THREE.SphereGeometry(s, 8, 6), constraintMat);
+        const ap = anchor(e);
+        m.position.copy(to3D(ap[0], ap[1], 0.2));
+        sketch.draw.add(m);
+      }
+    }
+  }
 }
 
 function updateSketchPreview(ev) {
@@ -2627,18 +2798,26 @@ function updateSketchPreview(ev) {
   if (t === 'line' && sketch.chainLast) {
     const res = resolveLineEnd(raw);
     clearGroup(sketch.preview);
+    if (res.guide) { // guía discontinua de inferencia (paralela/perp/H/V)
+      const gl = new THREE.Line(new THREE.BufferGeometry().setFromPoints(
+        [to3D(res.guide[0][0], res.guide[0][1]), to3D(res.guide[1][0], res.guide[1][1])]), guideMat);
+      gl.computeLineDistances();
+      sketch.preview.add(gl);
+    }
     const cur = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.06, 4 * worldPerPixel()), 10, 8), res.onPoint ? snapMat : ptMat);
     cur.position.copy(to3D(res.end[0], res.end[1]));
     sketch.preview.add(cur);
     sketch.preview.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(
       [to3D(sketch.chainLast[0], sketch.chainLast[1]), to3D(res.end[0], res.end[1])]), previewMat));
+    showInferBadge(res.infer, res.end);
     updateDynFields(res.len, res.ang);
     positionDynBox();
-    setStatus(`L ${res.len.toFixed(1)} mm · ∠ ${res.ang.toFixed(1)}°${sketch.angLock != null ? ' 🔒' : ''}`);
+    setStatus(`L ${res.len.toFixed(1)} mm · ∠ ${res.ang.toFixed(1)}°${res.infer ? ' · ' + INFER_ES[res.infer] : ''}${sketch.angLock != null ? ' 🔒' : ''}`);
     return;
   }
   const { uv, snapped, kind } = snap2D(raw);
   clearGroup(sketch.preview);
+  hideInferBadge();
   const cursor = new THREE.Mesh(
     new THREE.SphereGeometry(Math.max(0.06, 4 * worldPerPixel()), 10, 8),
     snapped ? snapMat : ptMat
@@ -2743,6 +2922,7 @@ function finishSketch() {
       pushUndo();
       f.params.entities = sketch.entities;
       f.params.dims = sketch.dims;
+      f.params.constraints = sketch.constraints;
       f.params.excluded = [...sketch.excluded];
       if (f.shape === 'sketch') f.params.h = v.h;
       f.op = v.op;
@@ -2773,6 +2953,7 @@ function finishSketch() {
     pushUndo();
     const f = makeSketchEntitiesFeature(entities, dims, v.h, v.op, originL, nL, uL);
     f.params.excluded = excluded;
+    f.params.constraints = sketch.constraints;
     part.features.push(f);
     cancelSketch(true);
     faceCache.clear();
@@ -2789,6 +2970,7 @@ function clickRevolveAxis(raw) {
   pushUndo();
   const f = makeRevolveFeature(sketch.entities, sketch.dims, { a: [...pick.ent.a], b: [...pick.ent.b] }, op, sketch.originL, sketch.nL, sketch.uL);
   f.params.excluded = [...sketch.excluded];
+  f.params.constraints = sketch.constraints;
   const part = sketch.part;
   part.features.push(f);
   cancelSketch(true);
@@ -2819,6 +3001,8 @@ function cancelSketch(silent) {
   if (!sketch) return;
   sketch.profileMode = false;
   hideDynBox();
+  hideInferBadge();
+  if (skStateEl) skStateEl.style.display = 'none';
   overlay.remove(sketch.group);
   sketch.group.traverse(o => o.geometry?.dispose?.());
   for (const el of sketch.dimEls.values()) el.remove();
@@ -2836,12 +3020,51 @@ function cancelSketch(silent) {
   if (mode === 'sketch') { mode = 'select'; $('btnSketch').classList.remove('on'); setHint(''); }
 }
 
+// ⊾ Restringir: aplica una restricción geométrica persistente a la selección.
+function applyConstraintUI() {
+  const sel = [...sketch.selIds].map(id => sketch.entities.find(e => e.id === id)).filter(Boolean);
+  const lines = sel.filter(e => e.type === 'line');
+  const circs = sel.filter(e => e.type === 'circle' || e.type === 'arc');
+  if (!sel.length) { setStatus('Restringir: primero selecciona entidades con ⬚ Selec.'); return; }
+  const opts = [];
+  if (lines.length) opts.push(['horizontal', `Horizontal${lines.length > 1 ? ' (cada línea)' : ''}`], ['vertical', `Vertical${lines.length > 1 ? ' (cada línea)' : ''}`]);
+  if (lines.length >= 2) opts.push(['parallel', 'Paralela'], ['perpendicular', 'Perpendicular'], ['equalL', 'Igual longitud']);
+  if (circs.length >= 2) opts.push(['equalR', 'Igual radio']);
+  if (!opts.length) { setStatus('Selecciona 1+ líneas (H/V/∥/⟂/=) o 2 círculos (= radio).'); return; }
+  showForm('Restricción geométrica', [
+    { key: 'type', label: 'Relación', type: 'select', value: opts[0][0], options: opts },
+  ], (v) => addConstraints(v.type, lines, circs));
+}
+function addConstraints(type, lines, circs) {
+  pushUndo();
+  const add = (t, a, b) => sketch.constraints.push(SK.makeConstraint(t, a, b));
+  if (type === 'horizontal' || type === 'vertical') for (const l of lines) add(type, l.id);
+  else if (type === 'parallel' || type === 'perpendicular') for (let i = 1; i < lines.length; i++) add(type, lines[i].id, lines[0].id);
+  else if (type === 'equalL') for (let i = 1; i < lines.length; i++) add('equal', lines[i].id, lines[0].id);
+  else if (type === 'equalR') for (let i = 1; i < circs.length; i++) add('equal', circs[i].id, circs[0].id);
+  SK.solveSketch(sketch.entities, sketch.constraints, sketch.dims);
+  sketch.selIds.clear();
+  syncDimEls();
+  redrawSketch();
+  const warn = reportOverconstrained();
+  setStatus(warn || `Restricción aplicada. Total: ${sketch.constraints.length} restricción(es).`);
+}
+// Nunca fallar en silencio (§2.5/§6.2): si tras resolver alguna restricción
+// queda incumplida, el sistema está en conflicto → avisar con acción correctiva.
+function reportOverconstrained() {
+  if (!sketch?.constraints?.length) return null;
+  const bad = sketch.constraints.filter(c => SK.constraintResidual(sketch.entities, c) > 0.15);
+  if (!bad.length) return null;
+  return `⚠ ${bad.length} restricción(es) en conflicto (sobre-restringido). Deshaz (↩) la última o borra una entidad para liberar.`;
+}
+
 // barra de herramientas del boceto
 sketchbar.addEventListener('click', (e) => {
   const btn = e.target.closest('button');
   if (!btn || !sketch) return;
   if (btn.id === 'skCopy') { startCopyOp(); return; }
   if (btn.id === 'skMirror') { startMirrorOp(); return; }
+  if (btn.id === 'skConstrain') { applyConstraintUI(); return; }
   if (btn.id === 'skSlice') {
     sketch.slice = !sketch.slice;
     btn.classList.toggle('on', sketch.slice);
@@ -2928,15 +3151,21 @@ function clickHole(hit) {
     { key: 'dia', label: 'Diámetro (mm)', value: 6, step: 0.5 },
     { key: 'through', label: 'Pasante', type: 'checkbox', value: true },
     { key: 'depth', label: 'Profundidad (mm)', value: 10, step: 0.5 },
+    { key: 'seat', label: 'Asiento', type: 'select', value: 'none',
+      options: [['none', 'Ninguno'], ['cbore', 'Caja (counterbore)'], ['csink', 'Avellanado (countersink)']] },
+    { key: 'seatDia', label: 'Ø asiento (mm)', value: 12, step: 0.5 },
+    { key: 'seatDepth', label: 'Prof. asiento (mm)', value: 6, step: 0.5 },
     { key: 'center', label: 'Centrar en la cara', type: 'checkbox', value: false },
   ], (v) => {
     pushUndo();
     const at = (v.center ? localCentroid : localPoint).toArray();
     const dir = localNormal.clone().negate().toArray(); // hacia adentro del material
-    part.features.push(makeHoleFeature(v.dia, v.depth, v.through, at, dir));
+    part.features.push(makeHoleFeature(v.dia, v.depth, v.through, at, dir,
+      { seat: v.seat, seatDia: v.seatDia, seatDepth: v.seatDepth }));
     faceCache.clear();
     rebuildPart(part);
-    commit(`Agujero Ø${v.dia} agregado a ${part.name}.`);
+    const asiento = v.seat === 'cbore' ? ' con caja' : v.seat === 'csink' ? ' avellanado' : '';
+    commit(`Agujero Ø${v.dia}${asiento} agregado a ${part.name}.`);
   });
 }
 
@@ -4135,6 +4364,9 @@ window.__cad = {
   get sketch() { return sketch; },
   get activeCamera() { return activeCamera; },
   rebuildAll, solveAndSync, loadDemo, setMode,
+  get selection() { return selection; },
+  set selection(s) { selection = s; },
+  refreshUI, refreshProps, redrawSketch, syncDimEls, updateSketchLabels,
   meshes, scene, camera,
   THREE,
 };
