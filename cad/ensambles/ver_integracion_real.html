@@ -60,8 +60,13 @@ for (const part of doc.parts) {
 // COLOCAR en el hueco real de la transferencia del STEP (centro X=208, Y=-1121
 // medido sobre el teselado). Bajar el plano de banda del módulo (170) al plano
 // de banda del base (~86). px/py/z ajustables por URL para calibrar el calce.
-const beltBase = 86, beltMod = 170;
-const px = Number(q.get('px') ?? 208), py = Number(q.get('py') ?? -1121);
+// Plano de transporte REAL del STEP = Z 52.3 (top de las 4 bandas, medido en el
+// teselado; el Z=86 son los rieles/guardas del borde, NO la banda). Los rodillos
+// del módulo (tangente 174 en su frame) deben emerger a 52.3 + 4 = 56.3.
+// Hueco de transferencia REAL del STEP: enmarcado por 2 travesaños del base a
+// Y=-654 y Y=-1525 (centro Y=-1090), abarcando X[-70,486] (centro X=208).
+const beltBase = 52.3, beltMod = 170;
+const px = Number(q.get('px') ?? 208), py = Number(q.get('py') ?? -1090);
 const zoff = Number(q.get('z') ?? (beltBase - beltMod));
 grp.rotation.z = Math.PI / 2;
 grp.position.set(px, py, zoff);

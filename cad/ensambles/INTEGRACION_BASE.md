@@ -12,8 +12,30 @@ montaje contra el equipo real. Ver la última sección (límite de alcance).
 
 ## 1. Equipo base — interfaz leída del STEP
 
-Del `sorter_CO.stp` (B-rep AP214, 704 piezas) se extrajo el **idioma de
-hardware** del base, que el módulo respeta:
+### 1a. Inventario de elementos reales (medido en el teselado del STEP)
+
+Máquina: **X ∈ [−482, 542] (1024 ancho) · Y ∈ [−1666, 90] (1756 largo, flujo) ·
+Z ∈ [−433, 86] (519 alto)**. Elementos identificados por segmentación de la malla:
+
+| Elemento | Cota real medida |
+|---|---|
+| **Plano de transporte (top de banda)** | **Z = 52.3** (constante en las 4 lanes; el Z=86 son los rieles/guardas del borde, NO la banda) |
+| **4 bandas pasantes** Ø40 | X = **0 / 139 / 277 / 416** (paso 139), eje a Z≈42, top Z=52.3, corren en Y[−1531,−51] |
+| **4 vigas de soporte de banda** | bajo cada lane, sección ≈40×80 a Z≈0, Y[−1551,−54] |
+| **4 largueros de bastidor** (perfil profundo) | bajo cada lane, ≈32×100 a Z≈0, Y[−1658,36] (todo el largo) |
+| **Hueco de transferencia — ya enmarcado** | **2 travesaños pesados del base** a **Y = −654** y **Y = −1525** (sección 68×300, Zc=−214), abarcan **X[−70, 486]** → hueco **556 (X) × 871 (Y), centro X=208 / Y=−1090** |
+| **Transfer de rodillos DELGADOS original** | banco de rodillos finos + soportes verticales a Y≈−1090 (Z[−155,49]) + accionamiento en el cabezal Y≈−1608 → **se elimina** |
+| **Patas al piso** | en las esquinas del transfer (Y≈−804 y −1525) y del cuerpo, bajan a Z≈−430 |
+
+**Colocación resultante del módulo** (en coordenadas del STEP): centro
+**X = 208, Y = −1090**, bajado para que la tangente de los rodillos quede en
+**Z = 56.3 = plano de banda (52.3) + 4**. Los 4 belts pasan por las calles entre
+los 5 rodillos; los 2 travesaños del base (Y=−654 / −1525) reciben las fijaciones
+del módulo. Se ve en `ver_integracion_real.html` (por defecto px=208, py=−1090).
+
+### 1b. Idioma de hardware del base (que el módulo respeta)
+
+Del `sorter_CO.stp` (B-rep AP214, 704 piezas) también se extrajo:
 
 | Elemento del base | Lo que impone al módulo |
 |---|---|

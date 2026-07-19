@@ -45,7 +45,7 @@
       1
      ],
      "params": {
-      "w": 880,
+      "w": 920,
       "d": 60,
       "h": 74
      }
@@ -212,7 +212,7 @@
       1
      ],
      "params": {
-      "w": 880,
+      "w": 920,
       "d": 60,
       "h": 74
      }
@@ -346,11 +346,11 @@
    ]
   },
   {
-   "id": "p3_base_mod_travesa_o_de_trabaz_n_x",
-   "name": "BASE-MOD · Travesaño de trabazón -X",
+   "id": "p3_base_mod_travesa_o_de_trabaz_n_x_sobre_travesa_o_base_y_1525",
+   "name": "BASE-MOD · Travesaño de trabazón -X (sobre travesaño base Y=-1525)",
    "color": "#37474f",
    "pos": [
-    -375,
+    -435,
     0,
     -51
    ],
@@ -365,7 +365,7 @@
    "features": [
     {
      "id": "f15",
-     "name": "Travesaño RHS 60×74 (X=-375)",
+     "name": "Travesaño RHS 60×74 (X=-435)",
      "shape": "box",
      "op": "union",
      "at": [
@@ -512,11 +512,11 @@
    ]
   },
   {
-   "id": "p5_base_mod_travesa_o_de_trabaz_n_x",
-   "name": "BASE-MOD · Travesaño de trabazón +X",
+   "id": "p5_base_mod_travesa_o_de_trabaz_n_x_sobre_travesa_o_base_y_654",
+   "name": "BASE-MOD · Travesaño de trabazón +X (sobre travesaño base Y=-654)",
    "color": "#37474f",
    "pos": [
-    375,
+    435,
     0,
     -51
    ],
@@ -531,7 +531,7 @@
    "features": [
     {
      "id": "f21",
-     "name": "Travesaño RHS 60×74 (X=375)",
+     "name": "Travesaño RHS 60×74 (X=435)",
      "shape": "box",
      "op": "union",
      "at": [
@@ -1015,7 +1015,7 @@
    "name": "BASE-MOD · Cartela de anclaje al bastidor (-X,-Y)",
    "color": "#455a64",
    "pos": [
-    -440,
+    -460,
     -330,
     -51
    ],
@@ -1034,7 +1034,7 @@
      "shape": "box",
      "op": "union",
      "at": [
-      -20,
+      -10,
       0,
       0
      ],
@@ -1044,7 +1044,7 @@
       1
      ],
      "params": {
-      "w": 60,
+      "w": 40,
       "d": 90,
       "h": 8
      }
@@ -1076,7 +1076,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -10,
+      10,
       -28,
       0
      ],
@@ -1097,7 +1097,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -10,
+      10,
       28,
       0
      ],
@@ -1119,7 +1119,7 @@
    "name": "BASE-MOD · Cartela de anclaje al bastidor (-X,+Y)",
    "color": "#455a64",
    "pos": [
-    -440,
+    -460,
     330,
     -51
    ],
@@ -1138,7 +1138,7 @@
      "shape": "box",
      "op": "union",
      "at": [
-      -20,
+      -10,
       0,
       0
      ],
@@ -1148,7 +1148,7 @@
       1
      ],
      "params": {
-      "w": 60,
+      "w": 40,
       "d": 90,
       "h": 8
      }
@@ -1180,7 +1180,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -10,
+      10,
       -28,
       0
      ],
@@ -1201,7 +1201,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -10,
+      10,
       28,
       0
      ],
@@ -1223,7 +1223,7 @@
    "name": "BASE-MOD · Cartela de anclaje al bastidor (+X,-Y)",
    "color": "#455a64",
    "pos": [
-    440,
+    460,
     -330,
     -51
    ],
@@ -1242,7 +1242,7 @@
      "shape": "box",
      "op": "union",
      "at": [
-      20,
+      10,
       0,
       0
      ],
@@ -1252,7 +1252,7 @@
       1
      ],
      "params": {
-      "w": 60,
+      "w": 40,
       "d": 90,
       "h": 8
      }
@@ -1284,7 +1284,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      10,
+      -10,
       -28,
       0
      ],
@@ -1305,7 +1305,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      10,
+      -10,
       28,
       0
      ],
@@ -1327,7 +1327,7 @@
    "name": "BASE-MOD · Cartela de anclaje al bastidor (+X,+Y)",
    "color": "#455a64",
    "pos": [
-    440,
+    460,
     330,
     -51
    ],
@@ -1346,7 +1346,7 @@
      "shape": "box",
      "op": "union",
      "at": [
-      20,
+      10,
       0,
       0
      ],
@@ -1356,7 +1356,7 @@
       1
      ],
      "params": {
-      "w": 60,
+      "w": 40,
       "d": 90,
       "h": 8
      }
@@ -1388,7 +1388,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      10,
+      -10,
       -28,
       0
      ],
@@ -1409,7 +1409,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      10,
+      -10,
       28,
       0
      ],

@@ -23,6 +23,9 @@ const D = {
   combX: 415,          // semiancho del módulo en X (placas a ±415)
   plateHalfY: 345,     // semilargo del módulo en Y
   footX: 375, footY: 330,   // posición de los 4 pies del módulo (±footX, ±footY)
+  // travesaños reales del base (Y=-654/-1525 con py=-1090 → module-X ±435):
+  // los travesaños de anclaje del marco caen sobre ellos.
+  crossX: 435,
   topZ: -14,           // cara superior del bastidor = donde apoyan los pies del módulo
   beamW: 60, beamH: 74,     // sección de largueros/travesaños (RHS 60×74)
   railGapZ: 8,         // holgura bajo el canal para la carrera de pop-up (6) + juego
@@ -49,7 +52,7 @@ function addPart(name, color, anchor, features, extra = {}) {
 const C = { viga: '#37474f', pad: '#546e7a', cartela: '#455a64', riel: '#8d9aa8', tuerca: '#b0bec5' };
 
 const zTop = D.topZ, zC = zTop - D.beamH / 2;   // centro de las vigas (cuelgan bajo topZ)
-const xEnd = D.combX + 25;                       // largueros llegan un poco más que las placas
+const xEnd = D.crossX + 25;                      // largueros llegan a los travesaños reales del base
 
 // --- 2 LARGUEROS longitudinales (a lo largo de X = flujo), bajo los pies -------
 for (const sy of [-1, 1]) {
@@ -63,12 +66,13 @@ for (const sy of [-1, 1]) {
   addPart(`BASE-MOD · Larguero de integración ${sy > 0 ? '+Y' : '-Y'}`, C.viga, [0, y, zC], f);
 }
 
-// --- 3 TRAVESAÑOS (a lo largo de Y = expulsión) que traban los largueros ------
-for (const [i, x] of [-D.footX, 0, D.footX].entries()) {
+// --- 3 TRAVESAÑOS (a lo largo de Y = expulsión) que traban los largueros;
+//     los 2 extremos caen sobre los travesaños reales del base (Y=-654/-1525) --
+for (const [i, x] of [-D.crossX, 0, D.crossX].entries()) {
   const f = [box(`Travesaño RHS ${D.beamW}×${D.beamH} (X=${x})`, [x, 0, zC], D.beamW, 2 * D.footY + D.beamW, D.beamH)];
-  // costura de soldadura a los largueros: perforaciones piloto Ø6 (tapón)
   for (const sy of [-1, 1]) f.push(hole('Ø6 tapón de soldadura', [x, sy * D.footY, zC], [0, 0, 1], 6, 6, false));
-  addPart(`BASE-MOD · Travesaño de trabazón ${i === 0 ? '-X' : i === 2 ? '+X' : 'centro'}`, C.viga, [x, 0, zC], f);
+  const et = i === 0 ? '-X (sobre travesaño base Y=-1525)' : i === 2 ? '+X (sobre travesaño base Y=-654)' : 'centro';
+  addPart(`BASE-MOD · Travesaño de trabazón ${et}`, C.viga, [x, 0, zC], f);
 }
 
 // --- RIELES T-slot de montaje sobre cada pie (ajuste fino + tuercas en T) ------
