@@ -8,7 +8,7 @@ import { MeshoptDecoder } from '../vendor/meshopt_decoder.module.js';
 import { svgIcon, setIcons } from './icons.js';
 import { loadCatalogo, componentToPart, envolvente } from './componentes.js';
 import {
-  newDoc, newPart, getPart, getFeature, partMatrix, uid,
+  newDoc, newPart, getPart, getFeature, partMatrix, uid, PALETTE,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
   makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, makeFilletFeature, makeChamferFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
   buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace,
@@ -330,11 +330,112 @@ function loadMeshGeometry(src, nodo = null) {
   return promise;
 }
 
+// ---------- Ensambles de malla (GLB con muchas piezas: ZP2026, etc.) ----------
+// Se decompone el GLB en GRUPOS por subcomponente (todas las instancias de un
+// tipo juntas: motores, poleas, guardas, largueros, rodillos, pernos…). Cada
+// grupo entra como una PIEZA separada, no como un sólido único. Todos comparten
+// el mismo recentrado (offset del ensamble completo) para quedar alineados.
+const assemblyCache = new Map(); // src → Promise<{ groups: Map<key,{name,geom}>, order:[] }>
+const groupKey = (name) => (name || '').toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/\d+$/, '');
+// etiquetas legibles por clave de grupo para el ZP2026 (las que no estén → nombre limpio)
+const ASM_LABELS = {
+  '300986STDUNIDRIVEMOTORDSHAFT': 'Motor UniDrive', SPEEDUPSPOOL: 'Polea (speed-up)',
+  POWERSUPPLY: 'Fuente de poder', ESCALERILLA: 'Escalerilla portacables',
+  LTG: 'Larguero lateral', TRS: 'Travesaño', GUARDA: 'Guarda', GUARDAMIR: 'Guarda (espejo)',
+  PALEBLUE: 'Rodillos', ORINGGREEN: 'O-rings', POS: 'Rodillos (soporte)',
+  B005A: 'Bracket B_005A', B004A: 'Bracket B_004A', B002A: 'Bracket B_002A', BR: 'Bracket BR_3002',
+  SENSORBTR2025PL5A25A: 'Sensor BTR20', SOPORTESENSOR: 'Soporte de sensor', C: 'Placa c0031144',
+};
+function friendlyName(key, raw) {
+  if (ASM_LABELS[key]) return ASM_LABELS[key];
+  const s = (raw || '').replace(/=>.*/, '').replace(/[_+]+/g, ' ').replace(/\s+/g, ' ').trim();
+  return s || 'Estructura';
+}
+
+function loadAssembly(src) {
+  if (assemblyCache.has(src)) return assemblyCache.get(src);
+  const p = MeshoptDecoder.ready.then(() => new Promise((resolve, reject) => {
+    gltfLoader.load(src, (gltf) => {
+      gltf.scene.updateMatrixWorld(true);
+      const v = new THREE.Vector3();
+      const gv = new Map(), gname = new Map();
+      const bb = new THREE.Box3();
+      gltf.scene.traverse((o) => {
+        if (!o.isMesh || !o.geometry) return;
+        let anc = ''; for (let q = o.parent; q; q = q.parent) if (q.name) { anc = q.name; break; }
+        const key = groupKey(anc) || 'MALLA';
+        let arr = gv.get(key); if (!arr) { arr = []; gv.set(key, arr); }
+        const clean = anc.replace(/[_\s\d]+$/, '') || anc || 'Pieza';
+        if (!gname.has(key) || clean.length < gname.get(key).length) gname.set(key, clean);
+        const g = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry;
+        const pa = g.attributes.position;
+        for (let i = 0; i < pa.count; i++) {
+          v.fromBufferAttribute(pa, i).applyMatrix4(o.matrixWorld).multiplyScalar(1000); // m→mm
+          arr.push(v.x, v.y, v.z); bb.expandByPoint(v);
+        }
+      });
+      if (!gv.size) { reject(new Error('GLB sin mallas')); return; }
+      const ox = (bb.min.x + bb.max.x) / 2, oy = (bb.min.y + bb.max.y) / 2, oz = bb.min.z;
+      const groups = new Map(), order = [];
+      for (const [key, arr] of gv) {
+        const f = new Float32Array(arr.length);
+        for (let i = 0; i < arr.length; i += 3) { f[i] = arr[i] - ox; f[i + 1] = arr[i + 1] - oy; f[i + 2] = arr[i + 2] - oz; }
+        const geom = new THREE.BufferGeometry();
+        geom.setAttribute('position', new THREE.Float32BufferAttribute(f, 3));
+        geom.computeVertexNormals(); geom.computeBoundingBox();
+        groups.set(key, { name: friendlyName(key, gname.get(key)), geom, tris: arr.length / 9 });
+        order.push(key);
+      }
+      order.sort((a, b) => groups.get(b).tris - groups.get(a).tris); // piezas grandes primero
+      resolve({ groups, order });
+    }, undefined, (e) => reject(e instanceof Error ? e : new Error(String(e))));
+  }));
+  assemblyCache.set(src, p);
+  return p;
+}
+function loadAssemblyGroupGeometry(src, key) {
+  return loadAssembly(src).then((a) => {
+    const g = a.groups.get(key);
+    if (!g) throw new Error(`grupo '${key}' no está en el ensamble`);
+    return g.geom.clone();
+  });
+}
+
+// Inserta un GLB multi-pieza como ENSAMBLE: una pieza por grupo/subcomponente.
+function insertAssembly(comp) {
+  const src = comp.ensamble.glb;
+  setStatus(`Cargando ensamble ${comp.nombre}…`);
+  loadAssembly(src).then((a) => {
+    pushUndo();
+    const spawn = nextSpawnX() + (comp.bbox_mm ? comp.bbox_mm[0] / 2 : 0);
+    let first = null, n = 0;
+    const nameCount = new Map();
+    for (const key of a.order) {
+      const g = a.groups.get(key);
+      let nm = g.name;
+      const c = (nameCount.get(nm) || 0) + 1; nameCount.set(nm, c);
+      if (c > 1) nm = `${nm} ${c}`;
+      const part = {
+        id: uid('p'), name: nm, color: PALETTE[n % PALETTE.length],
+        pos: [spawn, 0, 0], quat: [0, 0, 0, 1], fixed: n === 0, visible: true,
+        componente: comp.id,
+        features: [{ id: uid('f'), name: `Malla · ${nm}`, shape: 'mesh', op: 'mesh', at: [0, 0, 0], dir: [0, 0, 1], params: { src, group: key } }],
+      };
+      doc.parts.push(part); rebuildPart(part);
+      if (!first) first = part.id; n++;
+    }
+    if (first) selection = { kind: 'part', id: first };
+    frameModel();
+    commit(`${comp.nombre} insertado como ENSAMBLE: ${n} piezas (motores, poleas, guardas, estructura…).`);
+  }).catch((err) => setStatus(`No se pudo cargar el ensamble (${src}): ${err.message}`));
+}
+
 const isMeshPart = (part) => part.features.length === 1 && part.features[0].shape === 'mesh';
 
 function rebuildMeshPart(part) {
-  const { src, nodo } = part.features[0].params;
-  loadMeshGeometry(src, nodo || null).then((geom) => {
+  const { src, nodo, group } = part.features[0].params;
+  const loader = group ? loadAssemblyGroupGeometry(src, group) : loadMeshGeometry(src, nodo || null);
+  loader.then((geom) => {
     if (!getPart(doc, part.id)) return;           // la pieza se borró mientras cargaba
     disposePartMesh(part.id);
     const g = geom.clone();
@@ -3260,7 +3361,9 @@ function nextSpawnX() {
 // ---------- Biblioteca de componentes electrónicos ----------
 
 // grupo de un componente para el filtro de la biblioteca
-const compGroup = (c) => c.malla ? (c.malla.nodo ? 'subcomp' : 'transportador') : 'electronico';
+const compGroup = (c) => c.ensamble ? 'transportador'
+  : c.malla ? (c.malla.nodo ? 'subcomp' : 'transportador')
+  : (c.categoria === 'mecanico' ? 'mecanico' : 'electronico');
 
 $('btnComp').onclick = async () => {
   let cat;
@@ -3276,6 +3379,7 @@ $('btnComp').onclick = async () => {
     && (!q || `${c.nombre} ${c.id} ${c.familia || ''} ${c.descripcion || ''}`.toLowerCase().includes(q));
   const insert = (c) => {
     hideDialog();
+    if (c.ensamble) { insertAssembly(c); return; } // GLB multi-pieza → ensamble, no un sólido
     pushUndo();
     const part = componentToPart(c);
     const [lo] = envolvente(c);
@@ -3292,7 +3396,7 @@ $('btnComp').onclick = async () => {
     $('comp_list').innerHTML = items.length ? items.map(({ c, i }) => {
       const [lo, hi] = envolvente(c);
       const dims = [0, 1, 2].map(k => (hi[k] - lo[k]).toFixed(1)).join(' × ');
-      const badge = c.malla ? BADGE[compGroup(c)] : c.categoria;
+      const badge = c.ensamble ? 'ensamble' : c.malla ? BADGE[compGroup(c)] : c.categoria;
       return `<button class="comp-item" data-idx="${i}" title="${esc(c.descripcion || '')}">` +
         `${esc(c.nombre)}<br><small>${esc(badge)}${badge ? ' · ' : ''}${dims} mm</small></button>`;
     }).join('') : '<div class="meta" style="padding:12px 4px">Sin resultados.</div>';
