@@ -478,6 +478,48 @@
     },
     {
      "id": "f21",
+     "name": "Ventana retorno",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      338,
+      -282,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 140,
+      "d": 68,
+      "h": 8
+     }
+    },
+    {
+     "id": "f22",
+     "name": "Ventana retorno",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      338,
+      282,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 140,
+      "d": 68,
+      "h": 8
+     }
+    },
+    {
+     "id": "f23",
      "name": "Ø4.5 electroválvula",
      "shape": "hole",
      "op": "cut",
@@ -498,7 +540,7 @@
      }
     },
     {
-     "id": "f22",
+     "id": "f24",
      "name": "Ø4.5 electroválvula",
      "shape": "hole",
      "op": "cut",
@@ -519,7 +561,7 @@
      }
     },
     {
-     "id": "f23",
+     "id": "f25",
      "name": "Ø13 nivelador M12",
      "shape": "hole",
      "op": "cut",
@@ -540,7 +582,7 @@
      }
     },
     {
-     "id": "f24",
+     "id": "f26",
      "name": "Ø13 nivelador M12",
      "shape": "hole",
      "op": "cut",
@@ -561,7 +603,7 @@
      }
     },
     {
-     "id": "f25",
+     "id": "f27",
      "name": "Ø13 nivelador M12",
      "shape": "hole",
      "op": "cut",
@@ -582,7 +624,7 @@
      }
     },
     {
-     "id": "f26",
+     "id": "f28",
      "name": "Ø13 nivelador M12",
      "shape": "hole",
      "op": "cut",
@@ -623,7 +665,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f27",
+     "id": "f29",
      "name": "Cuerpo válvula 64×26×28",
      "shape": "box",
      "op": "union",
@@ -644,7 +686,7 @@
      }
     },
     {
-     "id": "f28",
+     "id": "f30",
      "name": "Solenoide 20×26×24",
      "shape": "box",
      "op": "union",
@@ -665,7 +707,7 @@
      }
     },
     {
-     "id": "f29",
+     "id": "f31",
      "name": "Racor push-in Ø8 (P. trabajo 2)",
      "shape": "cylinder",
      "op": "union",
@@ -685,7 +727,7 @@
      }
     },
     {
-     "id": "f30",
+     "id": "f32",
      "name": "Racor push-in Ø8 (P. trabajo 4)",
      "shape": "cylinder",
      "op": "union",
@@ -705,7 +747,7 @@
      }
     },
     {
-     "id": "f31",
+     "id": "f33",
      "name": "Silenciador escape",
      "shape": "cylinder",
      "op": "union",
@@ -725,7 +767,7 @@
      }
     },
     {
-     "id": "f32",
+     "id": "f34",
      "name": "Ø4.5 montaje (a)",
      "shape": "hole",
      "op": "cut",
@@ -746,7 +788,7 @@
      }
     },
     {
-     "id": "f33",
+     "id": "f35",
      "name": "Ø4.5 montaje (b)",
      "shape": "hole",
      "op": "cut",
@@ -787,7 +829,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f34",
+     "id": "f36",
      "name": "Cara vertical 60×8×34",
      "shape": "box",
      "op": "union",
@@ -808,7 +850,7 @@
      }
     },
     {
-     "id": "f35",
+     "id": "f37",
      "name": "Pie horizontal 60×46×8",
      "shape": "box",
      "op": "union",
@@ -829,7 +871,7 @@
      }
     },
     {
-     "id": "f36",
+     "id": "f38",
      "name": "Ranura T-nut M6 (ajuste X)",
      "shape": "box",
      "op": "cut",
@@ -850,7 +892,7 @@
      }
     },
     {
-     "id": "f37",
+     "id": "f39",
      "name": "Coliso M8 a canal (a)",
      "shape": "hole",
      "op": "cut",
@@ -871,7 +913,7 @@
      }
     },
     {
-     "id": "f38",
+     "id": "f40",
      "name": "Coliso M8 a canal (b)",
      "shape": "hole",
      "op": "cut",
@@ -912,7 +954,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f39",
+     "id": "f41",
      "name": "Lámina 60×40×1",
      "shape": "box",
      "op": "union",
@@ -933,7 +975,7 @@
      }
     },
     {
-     "id": "f40",
+     "id": "f42",
      "name": "Paso M6",
      "shape": "hole",
      "op": "cut",
@@ -974,7 +1016,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f41",
+     "id": "f43",
      "name": "Cara vertical 60×8×34",
      "shape": "box",
      "op": "union",
@@ -995,7 +1037,7 @@
      }
     },
     {
-     "id": "f42",
+     "id": "f44",
      "name": "Pie horizontal 60×46×8",
      "shape": "box",
      "op": "union",
@@ -1016,7 +1058,7 @@
      }
     },
     {
-     "id": "f43",
+     "id": "f45",
      "name": "Ranura T-nut M6 (ajuste X)",
      "shape": "box",
      "op": "cut",
@@ -1037,7 +1079,7 @@
      }
     },
     {
-     "id": "f44",
+     "id": "f46",
      "name": "Coliso M8 a canal (a)",
      "shape": "hole",
      "op": "cut",
@@ -1058,7 +1100,7 @@
      }
     },
     {
-     "id": "f45",
+     "id": "f47",
      "name": "Coliso M8 a canal (b)",
      "shape": "hole",
      "op": "cut",
@@ -1099,7 +1141,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f46",
+     "id": "f48",
      "name": "Lámina 60×40×1",
      "shape": "box",
      "op": "union",
@@ -1120,7 +1162,7 @@
      }
     },
     {
-     "id": "f47",
+     "id": "f49",
      "name": "Paso M6",
      "shape": "hole",
      "op": "cut",
@@ -1161,7 +1203,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f48",
+     "id": "f50",
      "name": "Cara vertical 60×8×34",
      "shape": "box",
      "op": "union",
@@ -1182,7 +1224,7 @@
      }
     },
     {
-     "id": "f49",
+     "id": "f51",
      "name": "Pie horizontal 60×46×8",
      "shape": "box",
      "op": "union",
@@ -1203,7 +1245,7 @@
      }
     },
     {
-     "id": "f50",
+     "id": "f52",
      "name": "Ranura T-nut M6 (ajuste X)",
      "shape": "box",
      "op": "cut",
@@ -1224,7 +1266,7 @@
      }
     },
     {
-     "id": "f51",
+     "id": "f53",
      "name": "Coliso M8 a canal (a)",
      "shape": "hole",
      "op": "cut",
@@ -1245,7 +1287,7 @@
      }
     },
     {
-     "id": "f52",
+     "id": "f54",
      "name": "Coliso M8 a canal (b)",
      "shape": "hole",
      "op": "cut",
@@ -1286,7 +1328,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f53",
+     "id": "f55",
      "name": "Lámina 60×40×1",
      "shape": "box",
      "op": "union",
@@ -1307,7 +1349,7 @@
      }
     },
     {
-     "id": "f54",
+     "id": "f56",
      "name": "Paso M6",
      "shape": "hole",
      "op": "cut",
@@ -1348,7 +1390,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f55",
+     "id": "f57",
      "name": "Cara vertical 60×8×34",
      "shape": "box",
      "op": "union",
@@ -1369,7 +1411,7 @@
      }
     },
     {
-     "id": "f56",
+     "id": "f58",
      "name": "Pie horizontal 60×46×8",
      "shape": "box",
      "op": "union",
@@ -1390,7 +1432,7 @@
      }
     },
     {
-     "id": "f57",
+     "id": "f59",
      "name": "Ranura T-nut M6 (ajuste X)",
      "shape": "box",
      "op": "cut",
@@ -1411,7 +1453,7 @@
      }
     },
     {
-     "id": "f58",
+     "id": "f60",
      "name": "Coliso M8 a canal (a)",
      "shape": "hole",
      "op": "cut",
@@ -1432,7 +1474,7 @@
      }
     },
     {
-     "id": "f59",
+     "id": "f61",
      "name": "Coliso M8 a canal (b)",
      "shape": "hole",
      "op": "cut",
@@ -1473,7 +1515,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f60",
+     "id": "f62",
      "name": "Lámina 60×40×1",
      "shape": "box",
      "op": "union",
@@ -1494,7 +1536,7 @@
      }
     },
     {
-     "id": "f61",
+     "id": "f63",
      "name": "Paso M6",
      "shape": "hole",
      "op": "cut",
@@ -1535,7 +1577,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f62",
+     "id": "f64",
      "name": "Nudillo fijo 28×22×28",
      "shape": "box",
      "op": "union",
@@ -1556,7 +1598,7 @@
      }
     },
     {
-     "id": "f63",
+     "id": "f65",
      "name": "Pie 46×26×6",
      "shape": "box",
      "op": "union",
@@ -1577,7 +1619,7 @@
      }
     },
     {
-     "id": "f64",
+     "id": "f66",
      "name": "Buje bronce Ø12/Ø16",
      "shape": "cylinder",
      "op": "union",
@@ -1597,7 +1639,7 @@
      }
     },
     {
-     "id": "f65",
+     "id": "f67",
      "name": "Bore Ø12.2 H7 bisagra",
      "shape": "hole",
      "op": "cut",
@@ -1618,7 +1660,7 @@
      }
     },
     {
-     "id": "f66",
+     "id": "f68",
      "name": "Ø5.5 M5 anclaje (a)",
      "shape": "hole",
      "op": "cut",
@@ -1639,7 +1681,7 @@
      }
     },
     {
-     "id": "f67",
+     "id": "f69",
      "name": "Ø5.5 M5 anclaje (b)",
      "shape": "hole",
      "op": "cut",
@@ -1680,7 +1722,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f68",
+     "id": "f70",
      "name": "Nudillo móvil 28×18×28",
      "shape": "box",
      "op": "union",
@@ -1701,7 +1743,7 @@
      }
     },
     {
-     "id": "f69",
+     "id": "f71",
      "name": "Bore Ø12.2 H7 bisagra",
      "shape": "hole",
      "op": "cut",
@@ -1742,7 +1784,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f70",
+     "id": "f72",
      "name": "Pasador Ø12 × 54",
      "shape": "cylinder",
      "op": "union",
@@ -1762,7 +1804,7 @@
      }
     },
     {
-     "id": "f71",
+     "id": "f73",
      "name": "Cabeza Ø18×4",
      "shape": "cylinder",
      "op": "union",
@@ -1782,7 +1824,7 @@
      }
     },
     {
-     "id": "f72",
+     "id": "f74",
      "name": "Ø3 pasador beta",
      "shape": "hole",
      "op": "cut",
@@ -1823,7 +1865,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f73",
+     "id": "f75",
      "name": "Cuerpo 22×26×16",
      "shape": "box",
      "op": "union",
@@ -1844,7 +1886,7 @@
      }
     },
     {
-     "id": "f74",
+     "id": "f76",
      "name": "Ranura de horquilla 24×12",
      "shape": "box",
      "op": "cut",
@@ -1865,7 +1907,7 @@
      }
     },
     {
-     "id": "f75",
+     "id": "f77",
      "name": "Pie 46×26×6",
      "shape": "box",
      "op": "union",
@@ -1886,7 +1928,7 @@
      }
     },
     {
-     "id": "f76",
+     "id": "f78",
      "name": "Perno basculante Ø10",
      "shape": "cylinder",
      "op": "union",
@@ -1906,7 +1948,7 @@
      }
     },
     {
-     "id": "f77",
+     "id": "f79",
      "name": "Ø5.5 M5 (a)",
      "shape": "hole",
      "op": "cut",
@@ -1927,7 +1969,7 @@
      }
     },
     {
-     "id": "f78",
+     "id": "f80",
      "name": "Ø5.5 M5 (b)",
      "shape": "hole",
      "op": "cut",
@@ -1968,7 +2010,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f79",
+     "id": "f81",
      "name": "Tapa trasera Ø40×8 (M10 hembra)",
      "shape": "cylinder",
      "op": "union",
@@ -1988,7 +2030,7 @@
      }
     },
     {
-     "id": "f80",
+     "id": "f82",
      "name": "Cuerpo Ø32 (ISO 6432)",
      "shape": "cylinder",
      "op": "union",
@@ -2008,7 +2050,7 @@
      }
     },
     {
-     "id": "f81",
+     "id": "f83",
      "name": "Tapa delantera Ø40×6",
      "shape": "cylinder",
      "op": "union",
@@ -2028,7 +2070,7 @@
      }
     },
     {
-     "id": "f82",
+     "id": "f84",
      "name": "Vástago Ø12 M10 (carrera 10 → sube +6)",
      "shape": "cylinder",
      "op": "union",
@@ -2068,7 +2110,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f83",
+     "id": "f85",
      "name": "Cabeza Ø18×10",
      "shape": "cylinder",
      "op": "union",
@@ -2088,7 +2130,7 @@
      }
     },
     {
-     "id": "f84",
+     "id": "f86",
      "name": "Esfera Ø14 (aro interior)",
      "shape": "cylinder",
      "op": "union",
@@ -2108,7 +2150,7 @@
      }
     },
     {
-     "id": "f85",
+     "id": "f87",
      "name": "Bore Ø10.2 (perno)",
      "shape": "hole",
      "op": "cut",
@@ -2149,7 +2191,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f86",
+     "id": "f88",
      "name": "Cabeza Ø18×10",
      "shape": "cylinder",
      "op": "union",
@@ -2169,7 +2211,7 @@
      }
     },
     {
-     "id": "f87",
+     "id": "f89",
      "name": "Esfera Ø14 (aro interior)",
      "shape": "cylinder",
      "op": "union",
@@ -2189,7 +2231,7 @@
      }
     },
     {
-     "id": "f88",
+     "id": "f90",
      "name": "Bore Ø10.2 (perno)",
      "shape": "hole",
      "op": "cut",
@@ -2230,7 +2272,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f89",
+     "id": "f91",
      "name": "Poste tope 20×12×91",
      "shape": "box",
      "op": "union",
@@ -2251,7 +2293,7 @@
      }
     },
     {
-     "id": "f90",
+     "id": "f92",
      "name": "Tornillo reglaje M10 + contratuerca",
      "shape": "hole",
      "op": "cut",
@@ -2292,7 +2334,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f91",
+     "id": "f93",
      "name": "Nudillo fijo 28×22×28",
      "shape": "box",
      "op": "union",
@@ -2313,7 +2355,7 @@
      }
     },
     {
-     "id": "f92",
+     "id": "f94",
      "name": "Pie 46×26×6",
      "shape": "box",
      "op": "union",
@@ -2334,7 +2376,7 @@
      }
     },
     {
-     "id": "f93",
+     "id": "f95",
      "name": "Buje bronce Ø12/Ø16",
      "shape": "cylinder",
      "op": "union",
@@ -2354,7 +2396,7 @@
      }
     },
     {
-     "id": "f94",
+     "id": "f96",
      "name": "Bore Ø12.2 H7 bisagra",
      "shape": "hole",
      "op": "cut",
@@ -2375,7 +2417,7 @@
      }
     },
     {
-     "id": "f95",
+     "id": "f97",
      "name": "Ø5.5 M5 anclaje (a)",
      "shape": "hole",
      "op": "cut",
@@ -2396,7 +2438,7 @@
      }
     },
     {
-     "id": "f96",
+     "id": "f98",
      "name": "Ø5.5 M5 anclaje (b)",
      "shape": "hole",
      "op": "cut",
@@ -2437,7 +2479,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f97",
+     "id": "f99",
      "name": "Nudillo móvil 28×18×28",
      "shape": "box",
      "op": "union",
@@ -2458,7 +2500,7 @@
      }
     },
     {
-     "id": "f98",
+     "id": "f100",
      "name": "Bore Ø12.2 H7 bisagra",
      "shape": "hole",
      "op": "cut",
@@ -2499,7 +2541,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f99",
+     "id": "f101",
      "name": "Pasador Ø12 × 54",
      "shape": "cylinder",
      "op": "union",
@@ -2519,7 +2561,7 @@
      }
     },
     {
-     "id": "f100",
+     "id": "f102",
      "name": "Cabeza Ø18×4",
      "shape": "cylinder",
      "op": "union",
@@ -2539,7 +2581,7 @@
      }
     },
     {
-     "id": "f101",
+     "id": "f103",
      "name": "Ø3 pasador beta",
      "shape": "hole",
      "op": "cut",
@@ -2580,7 +2622,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f102",
+     "id": "f104",
      "name": "Cuerpo 22×26×16",
      "shape": "box",
      "op": "union",
@@ -2601,7 +2643,7 @@
      }
     },
     {
-     "id": "f103",
+     "id": "f105",
      "name": "Ranura de horquilla 24×12",
      "shape": "box",
      "op": "cut",
@@ -2622,7 +2664,7 @@
      }
     },
     {
-     "id": "f104",
+     "id": "f106",
      "name": "Pie 46×26×6",
      "shape": "box",
      "op": "union",
@@ -2643,7 +2685,7 @@
      }
     },
     {
-     "id": "f105",
+     "id": "f107",
      "name": "Perno basculante Ø10",
      "shape": "cylinder",
      "op": "union",
@@ -2663,7 +2705,7 @@
      }
     },
     {
-     "id": "f106",
+     "id": "f108",
      "name": "Ø5.5 M5 (a)",
      "shape": "hole",
      "op": "cut",
@@ -2684,7 +2726,7 @@
      }
     },
     {
-     "id": "f107",
+     "id": "f109",
      "name": "Ø5.5 M5 (b)",
      "shape": "hole",
      "op": "cut",
@@ -2725,7 +2767,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f108",
+     "id": "f110",
      "name": "Tapa trasera Ø40×8 (M10 hembra)",
      "shape": "cylinder",
      "op": "union",
@@ -2745,7 +2787,7 @@
      }
     },
     {
-     "id": "f109",
+     "id": "f111",
      "name": "Cuerpo Ø32 (ISO 6432)",
      "shape": "cylinder",
      "op": "union",
@@ -2765,7 +2807,7 @@
      }
     },
     {
-     "id": "f110",
+     "id": "f112",
      "name": "Tapa delantera Ø40×6",
      "shape": "cylinder",
      "op": "union",
@@ -2785,7 +2827,7 @@
      }
     },
     {
-     "id": "f111",
+     "id": "f113",
      "name": "Vástago Ø12 M10 (carrera 10 → sube +6)",
      "shape": "cylinder",
      "op": "union",
@@ -2825,7 +2867,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f112",
+     "id": "f114",
      "name": "Cabeza Ø18×10",
      "shape": "cylinder",
      "op": "union",
@@ -2845,7 +2887,7 @@
      }
     },
     {
-     "id": "f113",
+     "id": "f115",
      "name": "Esfera Ø14 (aro interior)",
      "shape": "cylinder",
      "op": "union",
@@ -2865,7 +2907,7 @@
      }
     },
     {
-     "id": "f114",
+     "id": "f116",
      "name": "Bore Ø10.2 (perno)",
      "shape": "hole",
      "op": "cut",
@@ -2906,7 +2948,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f115",
+     "id": "f117",
      "name": "Cabeza Ø18×10",
      "shape": "cylinder",
      "op": "union",
@@ -2926,7 +2968,7 @@
      }
     },
     {
-     "id": "f116",
+     "id": "f118",
      "name": "Esfera Ø14 (aro interior)",
      "shape": "cylinder",
      "op": "union",
@@ -2946,7 +2988,7 @@
      }
     },
     {
-     "id": "f117",
+     "id": "f119",
      "name": "Bore Ø10.2 (perno)",
      "shape": "hole",
      "op": "cut",
@@ -2987,7 +3029,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f118",
+     "id": "f120",
      "name": "Poste tope 20×12×91",
      "shape": "box",
      "op": "union",
@@ -3008,7 +3050,7 @@
      }
     },
     {
-     "id": "f119",
+     "id": "f121",
      "name": "Tornillo reglaje M10 + contratuerca",
      "shape": "hole",
      "op": "cut",
@@ -3049,7 +3091,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f120",
+     "id": "f122",
      "name": "Contorno: cuerpo porta-poleas + dedos",
      "shape": "sketch",
      "op": "union",
@@ -3471,7 +3513,7 @@
      }
     },
     {
-     "id": "f121",
+     "id": "f123",
      "name": "Ranura puente",
      "shape": "box",
      "op": "cut",
@@ -3492,7 +3534,7 @@
      }
     },
     {
-     "id": "f122",
+     "id": "f124",
      "name": "Ranura puente",
      "shape": "box",
      "op": "cut",
@@ -3513,7 +3555,7 @@
      }
     },
     {
-     "id": "f123",
+     "id": "f125",
      "name": "Alojamiento eje muerto Ø20.5 línea y=-278",
      "shape": "hole",
      "op": "cut",
@@ -3534,7 +3576,7 @@
      }
     },
     {
-     "id": "f124",
+     "id": "f126",
      "name": "Alojamiento eje muerto Ø20.5 línea y=-139",
      "shape": "hole",
      "op": "cut",
@@ -3555,7 +3597,7 @@
      }
     },
     {
-     "id": "f125",
+     "id": "f127",
      "name": "Alojamiento eje muerto Ø20.5 línea y=0",
      "shape": "hole",
      "op": "cut",
@@ -3576,7 +3618,7 @@
      }
     },
     {
-     "id": "f126",
+     "id": "f128",
      "name": "Alojamiento eje muerto Ø20.5 línea y=139",
      "shape": "hole",
      "op": "cut",
@@ -3597,7 +3639,7 @@
      }
     },
     {
-     "id": "f127",
+     "id": "f129",
      "name": "Alojamiento eje muerto Ø20.5 línea y=278",
      "shape": "hole",
      "op": "cut",
@@ -3638,7 +3680,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f128",
+     "id": "f130",
      "name": "Contorno: cuerpo porta-poleas + dedos",
      "shape": "sketch",
      "op": "union",
@@ -4060,7 +4102,7 @@
      }
     },
     {
-     "id": "f129",
+     "id": "f131",
      "name": "Ranura puente",
      "shape": "box",
      "op": "cut",
@@ -4081,7 +4123,7 @@
      }
     },
     {
-     "id": "f130",
+     "id": "f132",
      "name": "Ranura puente",
      "shape": "box",
      "op": "cut",
@@ -4102,7 +4144,7 @@
      }
     },
     {
-     "id": "f131",
+     "id": "f133",
      "name": "Alojamiento eje muerto Ø20.5 línea y=-278",
      "shape": "hole",
      "op": "cut",
@@ -4123,7 +4165,7 @@
      }
     },
     {
-     "id": "f132",
+     "id": "f134",
      "name": "Alojamiento eje muerto Ø20.5 línea y=-139",
      "shape": "hole",
      "op": "cut",
@@ -4144,7 +4186,7 @@
      }
     },
     {
-     "id": "f133",
+     "id": "f135",
      "name": "Alojamiento eje muerto Ø20.5 línea y=0",
      "shape": "hole",
      "op": "cut",
@@ -4165,7 +4207,7 @@
      }
     },
     {
-     "id": "f134",
+     "id": "f136",
      "name": "Alojamiento eje muerto Ø20.5 línea y=139",
      "shape": "hole",
      "op": "cut",
@@ -4186,7 +4228,7 @@
      }
     },
     {
-     "id": "f135",
+     "id": "f137",
      "name": "Alojamiento eje muerto Ø20.5 línea y=278",
      "shape": "hole",
      "op": "cut",
@@ -4207,14 +4249,14 @@
      }
     },
     {
-     "id": "f136",
+     "id": "f138",
      "name": "Paso eje tambor Ø22",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       69.5,
-      60
+      52
      ],
      "dir": [
       1,
@@ -4228,14 +4270,14 @@
      }
     },
     {
-     "id": "f137",
+     "id": "f139",
      "name": "Ø11 bulón UCFL204 tambor",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       37.5,
-      60
+      52
      ],
      "dir": [
       1,
@@ -4244,61 +4286,40 @@
      ],
      "params": {
       "dia": 11,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f138",
-     "name": "Ø11 bulón UCFL204 tambor",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      101.5,
-      60
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 11,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f139",
-     "name": "Ø12.2 eje tensor (-208.5,58)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      -208.5,
-      35
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
       "depth": 0,
       "through": true
      }
     },
     {
      "id": "f140",
-     "name": "Ø12.2 colisa sup (-208.5,58)",
+     "name": "Ø11 bulón UCFL204 tambor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      101.5,
+      52
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f141",
+     "name": "Ø12.2 eje tensor (-208.5,60)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       -208.5,
-      45
+      37
      ],
      "dir": [
       1,
@@ -4312,35 +4333,14 @@
      }
     },
     {
-     "id": "f141",
-     "name": "Colisa tensora 12.2×10 (-208.5,58)",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      3,
-      -208.5,
-      35
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 7,
-      "d": 12.2,
-      "h": 10
-     }
-    },
-    {
      "id": "f142",
-     "name": "Ø12.2 eje tensor (-69.5,58)",
+     "name": "Ø12.2 colisa sup (-208.5,60)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
-      -69.5,
-      35
+      -208.5,
+      47
      ],
      "dir": [
       1,
@@ -4355,34 +4355,13 @@
     },
     {
      "id": "f143",
-     "name": "Ø12.2 colisa sup (-69.5,58)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      -69.5,
-      45
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f144",
-     "name": "Colisa tensora 12.2×10 (-69.5,58)",
+     "name": "Colisa tensora 12.2×10 (-208.5,60)",
      "shape": "box",
      "op": "cut",
      "at": [
       3,
-      -69.5,
-      35
+      -208.5,
+      37
      ],
      "dir": [
       0,
@@ -4396,14 +4375,35 @@
      }
     },
     {
-     "id": "f145",
-     "name": "Ø12.2 eje tensor (208.5,58)",
+     "id": "f144",
+     "name": "Ø12.2 eje tensor (-69.5,60)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
-      208.5,
-      35
+      -69.5,
+      37
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f145",
+     "name": "Ø12.2 colisa sup (-69.5,60)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -69.5,
+      47
      ],
      "dir": [
       1,
@@ -4418,34 +4418,13 @@
     },
     {
      "id": "f146",
-     "name": "Ø12.2 colisa sup (208.5,58)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      208.5,
-      45
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f147",
-     "name": "Colisa tensora 12.2×10 (208.5,58)",
+     "name": "Colisa tensora 12.2×10 (-69.5,60)",
      "shape": "box",
      "op": "cut",
      "at": [
       3,
-      208.5,
-      35
+      -69.5,
+      37
      ],
      "dir": [
       0,
@@ -4459,14 +4438,35 @@
      }
     },
     {
-     "id": "f148",
-     "name": "Ø12.2 eje retorno (-312,45)",
+     "id": "f147",
+     "name": "Ø12.2 eje tensor (208.5,60)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
-      -312,
-      27
+      208.5,
+      37
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f148",
+     "name": "Ø12.2 colisa sup (208.5,60)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      208.5,
+      47
      ],
      "dir": [
       1,
@@ -4481,13 +4481,34 @@
     },
     {
      "id": "f149",
-     "name": "Ø12.2 eje retorno (312,45)",
+     "name": "Colisa tensora 12.2×10 (208.5,60)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      3,
+      208.5,
+      37
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 7,
+      "d": 12.2,
+      "h": 10
+     }
+    },
+    {
+     "id": "f150",
+     "name": "Ø12.2 eje retorno (-282,-12)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
-      312,
-      27
+      -282,
+      -30
      ],
      "dir": [
       1,
@@ -4501,14 +4522,35 @@
      }
     },
     {
-     "id": "f150",
+     "id": "f151",
+     "name": "Ø12.2 eje retorno (282,-12)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      282,
+      -30
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f152",
      "name": "Ø12.2 pasador brazo de torque",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       14.5,
-      20
+      12
      ],
      "dir": [
       1,
@@ -4530,68 +4572,6 @@
    "pos": [
     0,
     -330,
-    105
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f151",
-     "name": "Puente 836×20×12",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 836,
-      "d": 20,
-      "h": 12
-     }
-    },
-    {
-     "id": "f152",
-     "name": "Ø10.2 rótula del cilindro (+X)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      300,
-      0,
-      6
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 10.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p30_m_vil_puente_estructural_y_330",
-   "name": "MÓVIL · Puente estructural y=330",
-   "color": "#78909c",
-   "pos": [
-    0,
-    330,
     105
    ],
    "quat": [
@@ -4648,6 +4628,68 @@
    ]
   },
   {
+   "id": "p30_m_vil_puente_estructural_y_330",
+   "name": "MÓVIL · Puente estructural y=330",
+   "color": "#78909c",
+   "pos": [
+    0,
+    330,
+    105
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f155",
+     "name": "Puente 836×20×12",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 836,
+      "d": 20,
+      "h": 12
+     }
+    },
+    {
+     "id": "f156",
+     "name": "Ø10.2 rótula del cilindro (+X)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      300,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 10.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
    "id": "p31_m_vil_eje_muerto_macizo_20_roscado_m10_l_nea_y_278",
    "name": "MÓVIL · Eje muerto macizo Ø20 roscado M10 línea y=-278",
    "color": "#b0bec5",
@@ -4667,7 +4709,7 @@
    "componente": "eje_muerto_rodillo_20",
    "features": [
     {
-     "id": "f155",
+     "id": "f157",
      "name": "Cuerpo macizo Ø20 × 830",
      "shape": "cylinder",
      "op": "union",
@@ -4687,7 +4729,7 @@
      }
     },
     {
-     "id": "f156",
+     "id": "f158",
      "name": "Chaflán 1.5×45° (-X)",
      "shape": "cylinder",
      "op": "union",
@@ -4707,7 +4749,7 @@
      }
     },
     {
-     "id": "f157",
+     "id": "f159",
      "name": "Chaflán 1.5×45° (+X)",
      "shape": "cylinder",
      "op": "union",
@@ -4727,7 +4769,7 @@
      }
     },
     {
-     "id": "f158",
+     "id": "f160",
      "name": "Taladro Ø8.5 + rosca M10 int. (-X)",
      "shape": "hole",
      "op": "cut",
@@ -4748,7 +4790,7 @@
      }
     },
     {
-     "id": "f159",
+     "id": "f161",
      "name": "Taladro Ø8.5 + rosca M10 int. (+X)",
      "shape": "hole",
      "op": "cut",
@@ -4790,7 +4832,7 @@
    "componente": "rodillo_transfer_63",
    "features": [
     {
-     "id": "f160",
+     "id": "f162",
      "name": "Tubo Ø51 × 800",
      "shape": "cylinder",
      "op": "union",
@@ -4810,7 +4852,7 @@
      }
     },
     {
-     "id": "f161",
+     "id": "f163",
      "name": "Barreno Ø42 (asientos de rodamiento 6004)",
      "shape": "hole",
      "op": "cut",
@@ -4852,7 +4894,7 @@
    "componente": "rodillo_transfer_63",
    "features": [
     {
-     "id": "f162",
+     "id": "f164",
      "name": "Caucho Ø63 (hasta x=355)",
      "shape": "cylinder",
      "op": "union",
@@ -4872,7 +4914,7 @@
      }
     },
     {
-     "id": "f163",
+     "id": "f165",
      "name": "Barreno Ø51 (sobre el tubo)",
      "shape": "hole",
      "op": "cut",
@@ -4914,7 +4956,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f164",
+     "id": "f166",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -4934,7 +4976,7 @@
      }
     },
     {
-     "id": "f165",
+     "id": "f167",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -4975,7 +5017,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f166",
+     "id": "f168",
      "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
@@ -4995,7 +5037,7 @@
      }
     },
     {
-     "id": "f167",
+     "id": "f169",
      "name": "Paso eje Ø21",
      "shape": "hole",
      "op": "cut",
@@ -5037,7 +5079,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f168",
+     "id": "f170",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -5057,7 +5099,7 @@
      }
     },
     {
-     "id": "f169",
+     "id": "f171",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -5098,7 +5140,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f170",
+     "id": "f172",
      "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
@@ -5118,7 +5160,7 @@
      }
     },
     {
-     "id": "f171",
+     "id": "f173",
      "name": "Paso eje Ø21",
      "shape": "hole",
      "op": "cut",
@@ -5160,7 +5202,7 @@
    "componente": "perno_hex_m10_din933",
    "features": [
     {
-     "id": "f172",
+     "id": "f174",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -5180,7 +5222,7 @@
      }
     },
     {
-     "id": "f173",
+     "id": "f175",
      "name": "Cabeza hexagonal M10 (e.c. 17)",
      "shape": "sketch",
      "op": "union",
@@ -5230,7 +5272,7 @@
      }
     },
     {
-     "id": "f174",
+     "id": "f176",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -5271,7 +5313,7 @@
    "componente": "perno_hex_m10_din933",
    "features": [
     {
-     "id": "f175",
+     "id": "f177",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -5291,7 +5333,7 @@
      }
     },
     {
-     "id": "f176",
+     "id": "f178",
      "name": "Cabeza hexagonal M10 (e.c. 17)",
      "shape": "sketch",
      "op": "union",
@@ -5341,7 +5383,7 @@
      }
     },
     {
-     "id": "f177",
+     "id": "f179",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -5382,7 +5424,7 @@
    "componente": "eje_muerto_rodillo_20",
    "features": [
     {
-     "id": "f178",
+     "id": "f180",
      "name": "Cuerpo macizo Ø20 × 830",
      "shape": "cylinder",
      "op": "union",
@@ -5402,7 +5444,7 @@
      }
     },
     {
-     "id": "f179",
+     "id": "f181",
      "name": "Chaflán 1.5×45° (-X)",
      "shape": "cylinder",
      "op": "union",
@@ -5422,7 +5464,7 @@
      }
     },
     {
-     "id": "f180",
+     "id": "f182",
      "name": "Chaflán 1.5×45° (+X)",
      "shape": "cylinder",
      "op": "union",
@@ -5442,7 +5484,7 @@
      }
     },
     {
-     "id": "f181",
+     "id": "f183",
      "name": "Taladro Ø8.5 + rosca M10 int. (-X)",
      "shape": "hole",
      "op": "cut",
@@ -5463,7 +5505,7 @@
      }
     },
     {
-     "id": "f182",
+     "id": "f184",
      "name": "Taladro Ø8.5 + rosca M10 int. (+X)",
      "shape": "hole",
      "op": "cut",
@@ -5505,7 +5547,7 @@
    "componente": "rodillo_transfer_63",
    "features": [
     {
-     "id": "f183",
+     "id": "f185",
      "name": "Tubo Ø51 × 800",
      "shape": "cylinder",
      "op": "union",
@@ -5525,7 +5567,7 @@
      }
     },
     {
-     "id": "f184",
+     "id": "f186",
      "name": "Barreno Ø42 (asientos de rodamiento 6004)",
      "shape": "hole",
      "op": "cut",
@@ -5567,7 +5609,7 @@
    "componente": "rodillo_transfer_63",
    "features": [
     {
-     "id": "f185",
+     "id": "f187",
      "name": "Caucho Ø63 (hasta x=355)",
      "shape": "cylinder",
      "op": "union",
@@ -5587,7 +5629,7 @@
      }
     },
     {
-     "id": "f186",
+     "id": "f188",
      "name": "Barreno Ø51 (sobre el tubo)",
      "shape": "hole",
      "op": "cut",
@@ -5629,7 +5671,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f187",
+     "id": "f189",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -5649,7 +5691,7 @@
      }
     },
     {
-     "id": "f188",
+     "id": "f190",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -5690,7 +5732,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f189",
+     "id": "f191",
      "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
@@ -5710,7 +5752,7 @@
      }
     },
     {
-     "id": "f190",
+     "id": "f192",
      "name": "Paso eje Ø21",
      "shape": "hole",
      "op": "cut",
@@ -5752,7 +5794,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f191",
+     "id": "f193",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -5772,7 +5814,7 @@
      }
     },
     {
-     "id": "f192",
+     "id": "f194",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -5813,7 +5855,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f193",
+     "id": "f195",
      "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
@@ -5833,7 +5875,7 @@
      }
     },
     {
-     "id": "f194",
+     "id": "f196",
      "name": "Paso eje Ø21",
      "shape": "hole",
      "op": "cut",
@@ -5875,7 +5917,7 @@
    "componente": "perno_hex_m10_din933",
    "features": [
     {
-     "id": "f195",
+     "id": "f197",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -5895,7 +5937,7 @@
      }
     },
     {
-     "id": "f196",
+     "id": "f198",
      "name": "Cabeza hexagonal M10 (e.c. 17)",
      "shape": "sketch",
      "op": "union",
@@ -5945,7 +5987,7 @@
      }
     },
     {
-     "id": "f197",
+     "id": "f199",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -5986,7 +6028,7 @@
    "componente": "perno_hex_m10_din933",
    "features": [
     {
-     "id": "f198",
+     "id": "f200",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -6006,7 +6048,7 @@
      }
     },
     {
-     "id": "f199",
+     "id": "f201",
      "name": "Cabeza hexagonal M10 (e.c. 17)",
      "shape": "sketch",
      "op": "union",
@@ -6056,7 +6098,7 @@
      }
     },
     {
-     "id": "f200",
+     "id": "f202",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -6097,7 +6139,7 @@
    "componente": "eje_muerto_rodillo_20",
    "features": [
     {
-     "id": "f201",
+     "id": "f203",
      "name": "Cuerpo macizo Ø20 × 830",
      "shape": "cylinder",
      "op": "union",
@@ -6117,7 +6159,7 @@
      }
     },
     {
-     "id": "f202",
+     "id": "f204",
      "name": "Chaflán 1.5×45° (-X)",
      "shape": "cylinder",
      "op": "union",
@@ -6137,7 +6179,7 @@
      }
     },
     {
-     "id": "f203",
+     "id": "f205",
      "name": "Chaflán 1.5×45° (+X)",
      "shape": "cylinder",
      "op": "union",
@@ -6157,7 +6199,7 @@
      }
     },
     {
-     "id": "f204",
+     "id": "f206",
      "name": "Taladro Ø8.5 + rosca M10 int. (-X)",
      "shape": "hole",
      "op": "cut",
@@ -6178,7 +6220,7 @@
      }
     },
     {
-     "id": "f205",
+     "id": "f207",
      "name": "Taladro Ø8.5 + rosca M10 int. (+X)",
      "shape": "hole",
      "op": "cut",
@@ -6220,7 +6262,7 @@
    "componente": "rodillo_transfer_63",
    "features": [
     {
-     "id": "f206",
+     "id": "f208",
      "name": "Tubo Ø51 × 800",
      "shape": "cylinder",
      "op": "union",
@@ -6240,7 +6282,7 @@
      }
     },
     {
-     "id": "f207",
+     "id": "f209",
      "name": "Barreno Ø42 (asientos de rodamiento 6004)",
      "shape": "hole",
      "op": "cut",
@@ -6282,7 +6324,7 @@
    "componente": "rodillo_transfer_63",
    "features": [
     {
-     "id": "f208",
+     "id": "f210",
      "name": "Caucho Ø63 (hasta x=355)",
      "shape": "cylinder",
      "op": "union",
@@ -6302,7 +6344,7 @@
      }
     },
     {
-     "id": "f209",
+     "id": "f211",
      "name": "Barreno Ø51 (sobre el tubo)",
      "shape": "hole",
      "op": "cut",
@@ -6344,7 +6386,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f210",
+     "id": "f212",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -6364,7 +6406,7 @@
      }
     },
     {
-     "id": "f211",
+     "id": "f213",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -6405,7 +6447,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f212",
+     "id": "f214",
      "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
@@ -6425,7 +6467,7 @@
      }
     },
     {
-     "id": "f213",
+     "id": "f215",
      "name": "Paso eje Ø21",
      "shape": "hole",
      "op": "cut",
@@ -6467,7 +6509,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f214",
+     "id": "f216",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -6487,7 +6529,7 @@
      }
     },
     {
-     "id": "f215",
+     "id": "f217",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -6528,7 +6570,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f216",
+     "id": "f218",
      "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
@@ -6548,7 +6590,7 @@
      }
     },
     {
-     "id": "f217",
+     "id": "f219",
      "name": "Paso eje Ø21",
      "shape": "hole",
      "op": "cut",
@@ -6590,7 +6632,7 @@
    "componente": "perno_hex_m10_din933",
    "features": [
     {
-     "id": "f218",
+     "id": "f220",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -6610,7 +6652,7 @@
      }
     },
     {
-     "id": "f219",
+     "id": "f221",
      "name": "Cabeza hexagonal M10 (e.c. 17)",
      "shape": "sketch",
      "op": "union",
@@ -6660,7 +6702,7 @@
      }
     },
     {
-     "id": "f220",
+     "id": "f222",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -6701,7 +6743,7 @@
    "componente": "perno_hex_m10_din933",
    "features": [
     {
-     "id": "f221",
+     "id": "f223",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -6721,7 +6763,7 @@
      }
     },
     {
-     "id": "f222",
+     "id": "f224",
      "name": "Cabeza hexagonal M10 (e.c. 17)",
      "shape": "sketch",
      "op": "union",
@@ -6771,7 +6813,7 @@
      }
     },
     {
-     "id": "f223",
+     "id": "f225",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -6812,7 +6854,7 @@
    "componente": "eje_muerto_rodillo_20",
    "features": [
     {
-     "id": "f224",
+     "id": "f226",
      "name": "Cuerpo macizo Ø20 × 830",
      "shape": "cylinder",
      "op": "union",
@@ -6832,7 +6874,7 @@
      }
     },
     {
-     "id": "f225",
+     "id": "f227",
      "name": "Chaflán 1.5×45° (-X)",
      "shape": "cylinder",
      "op": "union",
@@ -6852,7 +6894,7 @@
      }
     },
     {
-     "id": "f226",
+     "id": "f228",
      "name": "Chaflán 1.5×45° (+X)",
      "shape": "cylinder",
      "op": "union",
@@ -6872,7 +6914,7 @@
      }
     },
     {
-     "id": "f227",
+     "id": "f229",
      "name": "Taladro Ø8.5 + rosca M10 int. (-X)",
      "shape": "hole",
      "op": "cut",
@@ -6893,7 +6935,7 @@
      }
     },
     {
-     "id": "f228",
+     "id": "f230",
      "name": "Taladro Ø8.5 + rosca M10 int. (+X)",
      "shape": "hole",
      "op": "cut",
@@ -6935,7 +6977,7 @@
    "componente": "rodillo_transfer_63",
    "features": [
     {
-     "id": "f229",
+     "id": "f231",
      "name": "Tubo Ø51 × 800",
      "shape": "cylinder",
      "op": "union",
@@ -6955,7 +6997,7 @@
      }
     },
     {
-     "id": "f230",
+     "id": "f232",
      "name": "Barreno Ø42 (asientos de rodamiento 6004)",
      "shape": "hole",
      "op": "cut",
@@ -6997,7 +7039,7 @@
    "componente": "rodillo_transfer_63",
    "features": [
     {
-     "id": "f231",
+     "id": "f233",
      "name": "Caucho Ø63 (hasta x=355)",
      "shape": "cylinder",
      "op": "union",
@@ -7017,7 +7059,7 @@
      }
     },
     {
-     "id": "f232",
+     "id": "f234",
      "name": "Barreno Ø51 (sobre el tubo)",
      "shape": "hole",
      "op": "cut",
@@ -7059,7 +7101,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f233",
+     "id": "f235",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -7079,7 +7121,7 @@
      }
     },
     {
-     "id": "f234",
+     "id": "f236",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -7120,7 +7162,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f235",
+     "id": "f237",
      "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
@@ -7140,7 +7182,7 @@
      }
     },
     {
-     "id": "f236",
+     "id": "f238",
      "name": "Paso eje Ø21",
      "shape": "hole",
      "op": "cut",
@@ -7182,7 +7224,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f237",
+     "id": "f239",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -7202,7 +7244,7 @@
      }
     },
     {
-     "id": "f238",
+     "id": "f240",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -7243,7 +7285,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f239",
+     "id": "f241",
      "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
@@ -7263,7 +7305,7 @@
      }
     },
     {
-     "id": "f240",
+     "id": "f242",
      "name": "Paso eje Ø21",
      "shape": "hole",
      "op": "cut",
@@ -7305,7 +7347,7 @@
    "componente": "perno_hex_m10_din933",
    "features": [
     {
-     "id": "f241",
+     "id": "f243",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -7325,7 +7367,7 @@
      }
     },
     {
-     "id": "f242",
+     "id": "f244",
      "name": "Cabeza hexagonal M10 (e.c. 17)",
      "shape": "sketch",
      "op": "union",
@@ -7375,7 +7417,7 @@
      }
     },
     {
-     "id": "f243",
+     "id": "f245",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -7416,7 +7458,7 @@
    "componente": "perno_hex_m10_din933",
    "features": [
     {
-     "id": "f244",
+     "id": "f246",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -7436,7 +7478,7 @@
      }
     },
     {
-     "id": "f245",
+     "id": "f247",
      "name": "Cabeza hexagonal M10 (e.c. 17)",
      "shape": "sketch",
      "op": "union",
@@ -7486,7 +7528,7 @@
      }
     },
     {
-     "id": "f246",
+     "id": "f248",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -7527,7 +7569,7 @@
    "componente": "eje_muerto_rodillo_20",
    "features": [
     {
-     "id": "f247",
+     "id": "f249",
      "name": "Cuerpo macizo Ø20 × 830",
      "shape": "cylinder",
      "op": "union",
@@ -7547,7 +7589,7 @@
      }
     },
     {
-     "id": "f248",
+     "id": "f250",
      "name": "Chaflán 1.5×45° (-X)",
      "shape": "cylinder",
      "op": "union",
@@ -7567,7 +7609,7 @@
      }
     },
     {
-     "id": "f249",
+     "id": "f251",
      "name": "Chaflán 1.5×45° (+X)",
      "shape": "cylinder",
      "op": "union",
@@ -7587,7 +7629,7 @@
      }
     },
     {
-     "id": "f250",
+     "id": "f252",
      "name": "Taladro Ø8.5 + rosca M10 int. (-X)",
      "shape": "hole",
      "op": "cut",
@@ -7608,7 +7650,7 @@
      }
     },
     {
-     "id": "f251",
+     "id": "f253",
      "name": "Taladro Ø8.5 + rosca M10 int. (+X)",
      "shape": "hole",
      "op": "cut",
@@ -7650,7 +7692,7 @@
    "componente": "rodillo_transfer_63",
    "features": [
     {
-     "id": "f252",
+     "id": "f254",
      "name": "Tubo Ø51 × 800",
      "shape": "cylinder",
      "op": "union",
@@ -7670,7 +7712,7 @@
      }
     },
     {
-     "id": "f253",
+     "id": "f255",
      "name": "Barreno Ø42 (asientos de rodamiento 6004)",
      "shape": "hole",
      "op": "cut",
@@ -7712,7 +7754,7 @@
    "componente": "rodillo_transfer_63",
    "features": [
     {
-     "id": "f254",
+     "id": "f256",
      "name": "Caucho Ø63 (hasta x=355)",
      "shape": "cylinder",
      "op": "union",
@@ -7732,7 +7774,7 @@
      }
     },
     {
-     "id": "f255",
+     "id": "f257",
      "name": "Barreno Ø51 (sobre el tubo)",
      "shape": "hole",
      "op": "cut",
@@ -7774,7 +7816,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f256",
+     "id": "f258",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -7794,7 +7836,7 @@
      }
     },
     {
-     "id": "f257",
+     "id": "f259",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -7835,7 +7877,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f258",
+     "id": "f260",
      "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
@@ -7855,7 +7897,7 @@
      }
     },
     {
-     "id": "f259",
+     "id": "f261",
      "name": "Paso eje Ø21",
      "shape": "hole",
      "op": "cut",
@@ -7897,7 +7939,7 @@
    "componente": "rodamiento_6004_2rs",
    "features": [
     {
-     "id": "f260",
+     "id": "f262",
      "name": "Aro Ø42×12 (entre eje y tubo)",
      "shape": "cylinder",
      "op": "union",
@@ -7917,7 +7959,7 @@
      }
     },
     {
-     "id": "f261",
+     "id": "f263",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -7958,7 +8000,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f262",
+     "id": "f264",
      "name": "Tapa Ø51×3",
      "shape": "cylinder",
      "op": "union",
@@ -7978,7 +8020,7 @@
      }
     },
     {
-     "id": "f263",
+     "id": "f265",
      "name": "Paso eje Ø21",
      "shape": "hole",
      "op": "cut",
@@ -8020,7 +8062,7 @@
    "componente": "perno_hex_m10_din933",
    "features": [
     {
-     "id": "f264",
+     "id": "f266",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -8040,7 +8082,7 @@
      }
     },
     {
-     "id": "f265",
+     "id": "f267",
      "name": "Cabeza hexagonal M10 (e.c. 17)",
      "shape": "sketch",
      "op": "union",
@@ -8090,7 +8132,7 @@
      }
     },
     {
-     "id": "f266",
+     "id": "f268",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -8131,7 +8173,7 @@
    "componente": "perno_hex_m10_din933",
    "features": [
     {
-     "id": "f267",
+     "id": "f269",
      "name": "Golilla Ø22×2.5 DIN 125",
      "shape": "cylinder",
      "op": "union",
@@ -8151,7 +8193,7 @@
      }
     },
     {
-     "id": "f268",
+     "id": "f270",
      "name": "Cabeza hexagonal M10 (e.c. 17)",
      "shape": "sketch",
      "op": "union",
@@ -8201,7 +8243,7 @@
      }
     },
     {
-     "id": "f269",
+     "id": "f271",
      "name": "Vástago M10 (rosca al eje)",
      "shape": "cylinder",
      "op": "union",
@@ -8229,7 +8271,7 @@
    "pos": [
     268,
     69.5,
-    78
+    70
    ],
    "quat": [
     0,
@@ -8241,7 +8283,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f270",
+     "id": "f272",
      "name": "Cuerpo Ø20 h6 × 153",
      "shape": "cylinder",
      "op": "union",
@@ -8261,7 +8303,7 @@
      }
     },
     {
-     "id": "f271",
+     "id": "f273",
      "name": "Chaflán 1.5×45° (-X)",
      "shape": "cylinder",
      "op": "union",
@@ -8281,7 +8323,7 @@
      }
     },
     {
-     "id": "f272",
+     "id": "f274",
      "name": "Chaflán 1.5×45° (+X)",
      "shape": "cylinder",
      "op": "union",
@@ -8301,7 +8343,7 @@
      }
     },
     {
-     "id": "f273",
+     "id": "f275",
      "name": "Chavetero 6×3.5 (acople)",
      "shape": "box",
      "op": "cut",
@@ -8330,7 +8372,7 @@
    "pos": [
     356.5,
     69.5,
-    33
+    28
    ],
    "quat": [
     0,
@@ -8343,14 +8385,14 @@
    "componente": "tambor_motriz_90x30",
    "features": [
     {
-     "id": "f274",
-     "name": "Llanta Ø89.2×43",
+     "id": "f276",
+     "name": "Llanta Ø83.2×43",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      45
+      42
      ],
      "dir": [
       1,
@@ -8358,19 +8400,19 @@
       0
      ],
      "params": {
-      "dia": 89.2,
+      "dia": 83.2,
       "h": 43
      }
     },
     {
-     "id": "f275",
-     "name": "Corona Ø90×14 (abombado central)",
+     "id": "f277",
+     "name": "Corona Ø84×14 (abombado central)",
      "shape": "cylinder",
      "op": "union",
      "at": [
       14.5,
       0,
-      45
+      42
      ],
      "dir": [
       1,
@@ -8378,19 +8420,19 @@
       0
      ],
      "params": {
-      "dia": 90,
+      "dia": 84,
       "h": 14
      }
     },
     {
-     "id": "f276",
+     "id": "f278",
      "name": "Vaciado interior Ø74 (llanta rolada e=8)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       0,
-      45
+      42
      ],
      "dir": [
       1,
@@ -8404,14 +8446,14 @@
      }
     },
     {
-     "id": "f277",
+     "id": "f279",
      "name": "Tapa lateral Ø74×6 (-X, soldada)",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      45
+      42
      ],
      "dir": [
       1,
@@ -8424,14 +8466,14 @@
      }
     },
     {
-     "id": "f278",
+     "id": "f280",
      "name": "Tapa lateral Ø74×6 (+X, soldada)",
      "shape": "cylinder",
      "op": "union",
      "at": [
       37,
       0,
-      45
+      42
      ],
      "dir": [
       1,
@@ -8444,14 +8486,14 @@
      }
     },
     {
-     "id": "f279",
+     "id": "f281",
      "name": "Cubo Ø46 pasante",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      45
+      42
      ],
      "dir": [
       1,
@@ -8464,14 +8506,14 @@
      }
     },
     {
-     "id": "f280",
+     "id": "f282",
      "name": "Barreno del cubo Ø28 H7 (buje SIT-LOCK)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       0,
-      45
+      42
      ],
      "dir": [
       1,
@@ -8493,7 +8535,7 @@
    "pos": [
     354.5,
     69.5,
-    78
+    70
    ],
    "quat": [
     0,
@@ -8506,7 +8548,7 @@
    "componente": "casquillo_bloqueo_lk30",
    "features": [
     {
-     "id": "f281",
+     "id": "f283",
      "name": "Anillo cónico Ø28×39",
      "shape": "cylinder",
      "op": "union",
@@ -8526,7 +8568,7 @@
      }
     },
     {
-     "id": "f282",
+     "id": "f284",
      "name": "Brida de apriete Ø38×6",
      "shape": "cylinder",
      "op": "union",
@@ -8546,7 +8588,7 @@
      }
     },
     {
-     "id": "f283",
+     "id": "f285",
      "name": "Bore Ø20.05 (autocentrante)",
      "shape": "hole",
      "op": "cut",
@@ -8575,7 +8617,7 @@
    "pos": [
     418,
     69.5,
-    78
+    70
    ],
    "quat": [
     0,
@@ -8588,7 +8630,7 @@
    "componente": "chumacera_ucfl204",
    "features": [
     {
-     "id": "f284",
+     "id": "f286",
      "name": "Brida 12×86×30",
      "shape": "box",
      "op": "union",
@@ -8609,7 +8651,7 @@
      }
     },
     {
-     "id": "f285",
+     "id": "f287",
      "name": "Cubo Ø42×31",
      "shape": "cylinder",
      "op": "union",
@@ -8629,7 +8671,7 @@
      }
     },
     {
-     "id": "f286",
+     "id": "f288",
      "name": "Collar excéntrico Ø34×12",
      "shape": "cylinder",
      "op": "union",
@@ -8649,7 +8691,7 @@
      }
     },
     {
-     "id": "f287",
+     "id": "f289",
      "name": "Grasera M6",
      "shape": "cylinder",
      "op": "union",
@@ -8669,7 +8711,7 @@
      }
     },
     {
-     "id": "f288",
+     "id": "f290",
      "name": "Bore Ø20",
      "shape": "hole",
      "op": "cut",
@@ -8690,7 +8732,7 @@
      }
     },
     {
-     "id": "f289",
+     "id": "f291",
      "name": "Bulón M10 (a)",
      "shape": "hole",
      "op": "cut",
@@ -8711,7 +8753,7 @@
      }
     },
     {
-     "id": "f290",
+     "id": "f292",
      "name": "Bulón M10 (b)",
      "shape": "hole",
      "op": "cut",
@@ -8734,13 +8776,13 @@
    ]
   },
   {
-   "id": "p80_m_vil_eje_cantil_ver_12_208_5_58",
-   "name": "MÓVIL · Eje cantiléver Ø12 (-208.5,58)",
+   "id": "p80_m_vil_eje_cantil_ver_12_208_5_60",
+   "name": "MÓVIL · Eje cantiléver Ø12 (-208.5,60)",
    "color": "#b0bec5",
    "pos": [
     354.5,
     -208.5,
-    58
+    60
    ],
    "quat": [
     0,
@@ -8752,7 +8794,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f291",
+     "id": "f293",
      "name": "Eje Ø12 × 62.5",
      "shape": "cylinder",
      "op": "union",
@@ -8772,7 +8814,7 @@
      }
     },
     {
-     "id": "f292",
+     "id": "f294",
      "name": "Chaflán 1×45°",
      "shape": "cylinder",
      "op": "union",
@@ -8792,7 +8834,7 @@
      }
     },
     {
-     "id": "f293",
+     "id": "f295",
      "name": "Rosca M12×14",
      "shape": "cylinder",
      "op": "union",
@@ -8814,13 +8856,13 @@
    ]
   },
   {
-   "id": "p81_m_vil_tuerca_tensora_m12_golilla_208_5_58",
-   "name": "MÓVIL · Tuerca tensora M12 + golilla (-208.5,58)",
+   "id": "p81_m_vil_tuerca_tensora_m12_golilla_208_5_60",
+   "name": "MÓVIL · Tuerca tensora M12 + golilla (-208.5,60)",
    "color": "#b0bec5",
    "pos": [
     418,
     -208.5,
-    58
+    60
    ],
    "quat": [
     0,
@@ -8832,7 +8874,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f294",
+     "id": "f296",
      "name": "Golilla plana Ø24×2.5",
      "shape": "cylinder",
      "op": "union",
@@ -8852,7 +8894,7 @@
      }
     },
     {
-     "id": "f295",
+     "id": "f297",
      "name": "Tuerca M12 DIN 934 (e=19)",
      "shape": "cylinder",
      "op": "union",
@@ -8872,7 +8914,7 @@
      }
     },
     {
-     "id": "f296",
+     "id": "f298",
      "name": "Paso rosca M12",
      "shape": "hole",
      "op": "cut",
@@ -8895,13 +8937,13 @@
    ]
   },
   {
-   "id": "p82_m_vil_tensor_abombado_80_208_5_58",
-   "name": "MÓVIL · Tensor abombado Ø80 (-208.5,58)",
+   "id": "p82_m_vil_tensor_abombado_54_208_5_60",
+   "name": "MÓVIL · Tensor abombado Ø54 (-208.5,60)",
    "color": "#90a4ae",
    "pos": [
     358.5,
     -208.5,
-    18
+    33
    ],
    "quat": [
     0,
@@ -8914,14 +8956,14 @@
    "componente": "polea_tensora_50x29",
    "features": [
     {
-     "id": "f297",
-     "name": "Cuerpo Ø79.2×39",
+     "id": "f299",
+     "name": "Cuerpo Ø53.2×39",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      40
+      27
      ],
      "dir": [
       1,
@@ -8929,19 +8971,19 @@
       0
      ],
      "params": {
-      "dia": 79.2,
+      "dia": 53.2,
       "h": 39
      }
     },
     {
-     "id": "f298",
-     "name": "Corona Ø80×12 (abombado)",
+     "id": "f300",
+     "name": "Corona Ø54×12 (abombado)",
      "shape": "cylinder",
      "op": "union",
      "at": [
       13.5,
       0,
-      40
+      27
      ],
      "dir": [
       1,
@@ -8949,19 +8991,19 @@
       0
      ],
      "params": {
-      "dia": 80,
+      "dia": 54,
       "h": 12
      }
     },
     {
-     "id": "f299",
+     "id": "f301",
      "name": "Alojamiento buje Ø18 H7",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       0,
-      40
+      27
      ],
      "dir": [
       1,
@@ -8977,74 +9019,13 @@
    ]
   },
   {
-   "id": "p83_m_vil_buje_bronce_18_12_2_tensor_208_5_58",
-   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 tensor (-208.5,58)",
+   "id": "p83_m_vil_buje_bronce_18_12_2_tensor_208_5_60",
+   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 tensor (-208.5,60)",
    "color": "#b08d57",
    "pos": [
     358.5,
     -208.5,
-    58
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f300",
-     "name": "Buje Ø18×35",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "h": 35
-     }
-    },
-    {
-     "id": "f301",
-     "name": "Bore Ø12.2 H7/f7",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p84_m_vil_retenci_n_m6_polea_tensor_208_5_58",
-   "name": "MÓVIL · Retención M6 polea tensor (-208.5,58)",
-   "color": "#b0bec5",
-   "pos": [
-    356.5,
-    -208.5,
-    58
+    60
    ],
    "quat": [
     0,
@@ -9057,7 +9038,7 @@
    "features": [
     {
      "id": "f302",
-     "name": "Arandela Ø18×2",
+     "name": "Buje Ø18×35",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -9072,16 +9053,16 @@
      ],
      "params": {
       "dia": 18,
-      "h": 2
+      "h": 35
      }
     },
     {
      "id": "f303",
-     "name": "Tornillo M6 cabeza Ø10",
-     "shape": "cylinder",
-     "op": "union",
+     "name": "Bore Ø12.2 H7/f7",
+     "shape": "hole",
+     "op": "cut",
      "at": [
-      -6,
+      0,
       0,
       0
      ],
@@ -9091,20 +9072,21 @@
       0
      ],
      "params": {
-      "dia": 10,
-      "h": 6
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
      }
     }
    ]
   },
   {
-   "id": "p85_m_vil_eje_cantil_ver_12_69_5_58",
-   "name": "MÓVIL · Eje cantiléver Ø12 (-69.5,58)",
+   "id": "p84_m_vil_retenci_n_m6_polea_tensor_208_5_60",
+   "name": "MÓVIL · Retención M6 polea tensor (-208.5,60)",
    "color": "#b0bec5",
    "pos": [
-    354.5,
-    -69.5,
-    58
+    356.5,
+    -208.5,
+    60
    ],
    "quat": [
     0,
@@ -9117,6 +9099,66 @@
    "features": [
     {
      "id": "f304",
+     "name": "Arandela Ø18×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2
+     }
+    },
+    {
+     "id": "f305",
+     "name": "Tornillo M6 cabeza Ø10",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -6,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "p85_m_vil_eje_cantil_ver_12_69_5_60",
+   "name": "MÓVIL · Eje cantiléver Ø12 (-69.5,60)",
+   "color": "#b0bec5",
+   "pos": [
+    354.5,
+    -69.5,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f306",
      "name": "Eje Ø12 × 62.5",
      "shape": "cylinder",
      "op": "union",
@@ -9136,7 +9178,7 @@
      }
     },
     {
-     "id": "f305",
+     "id": "f307",
      "name": "Chaflán 1×45°",
      "shape": "cylinder",
      "op": "union",
@@ -9156,7 +9198,7 @@
      }
     },
     {
-     "id": "f306",
+     "id": "f308",
      "name": "Rosca M12×14",
      "shape": "cylinder",
      "op": "union",
@@ -9178,13 +9220,13 @@
    ]
   },
   {
-   "id": "p86_m_vil_tuerca_tensora_m12_golilla_69_5_58",
-   "name": "MÓVIL · Tuerca tensora M12 + golilla (-69.5,58)",
+   "id": "p86_m_vil_tuerca_tensora_m12_golilla_69_5_60",
+   "name": "MÓVIL · Tuerca tensora M12 + golilla (-69.5,60)",
    "color": "#b0bec5",
    "pos": [
     418,
     -69.5,
-    58
+    60
    ],
    "quat": [
     0,
@@ -9196,7 +9238,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f307",
+     "id": "f309",
      "name": "Golilla plana Ø24×2.5",
      "shape": "cylinder",
      "op": "union",
@@ -9216,7 +9258,7 @@
      }
     },
     {
-     "id": "f308",
+     "id": "f310",
      "name": "Tuerca M12 DIN 934 (e=19)",
      "shape": "cylinder",
      "op": "union",
@@ -9236,7 +9278,7 @@
      }
     },
     {
-     "id": "f309",
+     "id": "f311",
      "name": "Paso rosca M12",
      "shape": "hole",
      "op": "cut",
@@ -9259,13 +9301,13 @@
    ]
   },
   {
-   "id": "p87_m_vil_tensor_abombado_80_69_5_58",
-   "name": "MÓVIL · Tensor abombado Ø80 (-69.5,58)",
+   "id": "p87_m_vil_tensor_abombado_54_69_5_60",
+   "name": "MÓVIL · Tensor abombado Ø54 (-69.5,60)",
    "color": "#90a4ae",
    "pos": [
     358.5,
     -69.5,
-    18
+    33
    ],
    "quat": [
     0,
@@ -9278,14 +9320,14 @@
    "componente": "polea_tensora_50x29",
    "features": [
     {
-     "id": "f310",
-     "name": "Cuerpo Ø79.2×39",
+     "id": "f312",
+     "name": "Cuerpo Ø53.2×39",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      40
+      27
      ],
      "dir": [
       1,
@@ -9293,19 +9335,19 @@
       0
      ],
      "params": {
-      "dia": 79.2,
+      "dia": 53.2,
       "h": 39
      }
     },
     {
-     "id": "f311",
-     "name": "Corona Ø80×12 (abombado)",
+     "id": "f313",
+     "name": "Corona Ø54×12 (abombado)",
      "shape": "cylinder",
      "op": "union",
      "at": [
       13.5,
       0,
-      40
+      27
      ],
      "dir": [
       1,
@@ -9313,19 +9355,19 @@
       0
      ],
      "params": {
-      "dia": 80,
+      "dia": 54,
       "h": 12
      }
     },
     {
-     "id": "f312",
+     "id": "f314",
      "name": "Alojamiento buje Ø18 H7",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       0,
-      40
+      27
      ],
      "dir": [
       1,
@@ -9341,74 +9383,13 @@
    ]
   },
   {
-   "id": "p88_m_vil_buje_bronce_18_12_2_tensor_69_5_58",
-   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 tensor (-69.5,58)",
+   "id": "p88_m_vil_buje_bronce_18_12_2_tensor_69_5_60",
+   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 tensor (-69.5,60)",
    "color": "#b08d57",
    "pos": [
     358.5,
     -69.5,
-    58
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f313",
-     "name": "Buje Ø18×35",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "h": 35
-     }
-    },
-    {
-     "id": "f314",
-     "name": "Bore Ø12.2 H7/f7",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p89_m_vil_retenci_n_m6_polea_tensor_69_5_58",
-   "name": "MÓVIL · Retención M6 polea tensor (-69.5,58)",
-   "color": "#b0bec5",
-   "pos": [
-    356.5,
-    -69.5,
-    58
+    60
    ],
    "quat": [
     0,
@@ -9421,6 +9402,67 @@
    "features": [
     {
      "id": "f315",
+     "name": "Buje Ø18×35",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 35
+     }
+    },
+    {
+     "id": "f316",
+     "name": "Bore Ø12.2 H7/f7",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p89_m_vil_retenci_n_m6_polea_tensor_69_5_60",
+   "name": "MÓVIL · Retención M6 polea tensor (-69.5,60)",
+   "color": "#b0bec5",
+   "pos": [
+    356.5,
+    -69.5,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f317",
      "name": "Arandela Ø18×2",
      "shape": "cylinder",
      "op": "union",
@@ -9440,7 +9482,7 @@
      }
     },
     {
-     "id": "f316",
+     "id": "f318",
      "name": "Tornillo M6 cabeza Ø10",
      "shape": "cylinder",
      "op": "union",
@@ -9462,13 +9504,13 @@
    ]
   },
   {
-   "id": "p90_m_vil_eje_cantil_ver_12_208_5_58",
-   "name": "MÓVIL · Eje cantiléver Ø12 (208.5,58)",
+   "id": "p90_m_vil_eje_cantil_ver_12_208_5_60",
+   "name": "MÓVIL · Eje cantiléver Ø12 (208.5,60)",
    "color": "#b0bec5",
    "pos": [
     354.5,
     208.5,
-    58
+    60
    ],
    "quat": [
     0,
@@ -9480,7 +9522,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f317",
+     "id": "f319",
      "name": "Eje Ø12 × 62.5",
      "shape": "cylinder",
      "op": "union",
@@ -9500,7 +9542,7 @@
      }
     },
     {
-     "id": "f318",
+     "id": "f320",
      "name": "Chaflán 1×45°",
      "shape": "cylinder",
      "op": "union",
@@ -9520,7 +9562,7 @@
      }
     },
     {
-     "id": "f319",
+     "id": "f321",
      "name": "Rosca M12×14",
      "shape": "cylinder",
      "op": "union",
@@ -9542,13 +9584,13 @@
    ]
   },
   {
-   "id": "p91_m_vil_tuerca_tensora_m12_golilla_208_5_58",
-   "name": "MÓVIL · Tuerca tensora M12 + golilla (208.5,58)",
+   "id": "p91_m_vil_tuerca_tensora_m12_golilla_208_5_60",
+   "name": "MÓVIL · Tuerca tensora M12 + golilla (208.5,60)",
    "color": "#b0bec5",
    "pos": [
     418,
     208.5,
-    58
+    60
    ],
    "quat": [
     0,
@@ -9560,7 +9602,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f320",
+     "id": "f322",
      "name": "Golilla plana Ø24×2.5",
      "shape": "cylinder",
      "op": "union",
@@ -9580,7 +9622,7 @@
      }
     },
     {
-     "id": "f321",
+     "id": "f323",
      "name": "Tuerca M12 DIN 934 (e=19)",
      "shape": "cylinder",
      "op": "union",
@@ -9600,7 +9642,7 @@
      }
     },
     {
-     "id": "f322",
+     "id": "f324",
      "name": "Paso rosca M12",
      "shape": "hole",
      "op": "cut",
@@ -9623,13 +9665,13 @@
    ]
   },
   {
-   "id": "p92_m_vil_tensor_abombado_80_208_5_58",
-   "name": "MÓVIL · Tensor abombado Ø80 (208.5,58)",
+   "id": "p92_m_vil_tensor_abombado_54_208_5_60",
+   "name": "MÓVIL · Tensor abombado Ø54 (208.5,60)",
    "color": "#90a4ae",
    "pos": [
     358.5,
     208.5,
-    18
+    33
    ],
    "quat": [
     0,
@@ -9642,14 +9684,14 @@
    "componente": "polea_tensora_50x29",
    "features": [
     {
-     "id": "f323",
-     "name": "Cuerpo Ø79.2×39",
+     "id": "f325",
+     "name": "Cuerpo Ø53.2×39",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      40
+      27
      ],
      "dir": [
       1,
@@ -9657,19 +9699,19 @@
       0
      ],
      "params": {
-      "dia": 79.2,
+      "dia": 53.2,
       "h": 39
      }
     },
     {
-     "id": "f324",
-     "name": "Corona Ø80×12 (abombado)",
+     "id": "f326",
+     "name": "Corona Ø54×12 (abombado)",
      "shape": "cylinder",
      "op": "union",
      "at": [
       13.5,
       0,
-      40
+      27
      ],
      "dir": [
       1,
@@ -9677,19 +9719,19 @@
       0
      ],
      "params": {
-      "dia": 80,
+      "dia": 54,
       "h": 12
      }
     },
     {
-     "id": "f325",
+     "id": "f327",
      "name": "Alojamiento buje Ø18 H7",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       0,
-      40
+      27
      ],
      "dir": [
       1,
@@ -9705,74 +9747,13 @@
    ]
   },
   {
-   "id": "p93_m_vil_buje_bronce_18_12_2_tensor_208_5_58",
-   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 tensor (208.5,58)",
+   "id": "p93_m_vil_buje_bronce_18_12_2_tensor_208_5_60",
+   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 tensor (208.5,60)",
    "color": "#b08d57",
    "pos": [
     358.5,
     208.5,
-    58
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f326",
-     "name": "Buje Ø18×35",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "h": 35
-     }
-    },
-    {
-     "id": "f327",
-     "name": "Bore Ø12.2 H7/f7",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p94_m_vil_retenci_n_m6_polea_tensor_208_5_58",
-   "name": "MÓVIL · Retención M6 polea tensor (208.5,58)",
-   "color": "#b0bec5",
-   "pos": [
-    356.5,
-    208.5,
-    58
+    60
    ],
    "quat": [
     0,
@@ -9785,7 +9766,7 @@
    "features": [
     {
      "id": "f328",
-     "name": "Arandela Ø18×2",
+     "name": "Buje Ø18×35",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -9800,16 +9781,16 @@
      ],
      "params": {
       "dia": 18,
-      "h": 2
+      "h": 35
      }
     },
     {
      "id": "f329",
-     "name": "Tornillo M6 cabeza Ø10",
-     "shape": "cylinder",
-     "op": "union",
+     "name": "Bore Ø12.2 H7/f7",
+     "shape": "hole",
+     "op": "cut",
      "at": [
-      -6,
+      0,
       0,
       0
      ],
@@ -9819,20 +9800,21 @@
       0
      ],
      "params": {
-      "dia": 10,
-      "h": 6
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
      }
     }
    ]
   },
   {
-   "id": "p95_m_vil_eje_cantil_ver_12_312_45",
-   "name": "MÓVIL · Eje cantiléver Ø12 (-312,45)",
+   "id": "p94_m_vil_retenci_n_m6_polea_tensor_208_5_60",
+   "name": "MÓVIL · Retención M6 polea tensor (208.5,60)",
    "color": "#b0bec5",
    "pos": [
-    354.5,
-    -312,
-    45
+    356.5,
+    208.5,
+    60
    ],
    "quat": [
     0,
@@ -9845,209 +9827,6 @@
    "features": [
     {
      "id": "f330",
-     "name": "Eje Ø12 × 62.5",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      1,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "h": 62.5
-     }
-    },
-    {
-     "id": "f331",
-     "name": "Chaflán 1×45°",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 10,
-      "h": 1
-     }
-    }
-   ]
-  },
-  {
-   "id": "p96_m_vil_polea_de_retorno_abombada_50_312_45",
-   "name": "MÓVIL · Polea de retorno abombada Ø50 (-312,45)",
-   "color": "#90a4ae",
-   "pos": [
-    358.5,
-    -312,
-    20
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "componente": "polea_retorno_24x29",
-   "features": [
-    {
-     "id": "f332",
-     "name": "Cuerpo Ø49.2×39",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      25
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 49.2,
-      "h": 39
-     }
-    },
-    {
-     "id": "f333",
-     "name": "Corona Ø50×12 (abombado)",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      13.5,
-      0,
-      25
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 50,
-      "h": 12
-     }
-    },
-    {
-     "id": "f334",
-     "name": "Alojamiento buje Ø18 H7",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      25
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p97_m_vil_buje_bronce_18_12_2_retorno_312_45",
-   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 retorno (-312,45)",
-   "color": "#b08d57",
-   "pos": [
-    358.5,
-    -312,
-    45
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f335",
-     "name": "Buje Ø18×35",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "h": 35
-     }
-    },
-    {
-     "id": "f336",
-     "name": "Bore Ø12.2 H7/f7",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12.2,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p98_m_vil_retenci_n_m6_polea_retorno_312_45",
-   "name": "MÓVIL · Retención M6 polea retorno (-312,45)",
-   "color": "#b0bec5",
-   "pos": [
-    356.5,
-    -312,
-    45
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f337",
      "name": "Arandela Ø18×2",
      "shape": "cylinder",
      "op": "union",
@@ -10067,7 +9846,7 @@
      }
     },
     {
-     "id": "f338",
+     "id": "f331",
      "name": "Tornillo M6 cabeza Ø10",
      "shape": "cylinder",
      "op": "union",
@@ -10089,13 +9868,13 @@
    ]
   },
   {
-   "id": "p99_m_vil_eje_cantil_ver_12_312_45",
-   "name": "MÓVIL · Eje cantiléver Ø12 (312,45)",
+   "id": "p95_m_vil_eje_cantil_ver_12_282_12",
+   "name": "MÓVIL · Eje cantiléver Ø12 (-282,-12)",
    "color": "#b0bec5",
    "pos": [
     354.5,
-    312,
-    45
+    -282,
+    -12
    ],
    "quat": [
     0,
@@ -10107,7 +9886,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f339",
+     "id": "f332",
      "name": "Eje Ø12 × 62.5",
      "shape": "cylinder",
      "op": "union",
@@ -10127,7 +9906,7 @@
      }
     },
     {
-     "id": "f340",
+     "id": "f333",
      "name": "Chaflán 1×45°",
      "shape": "cylinder",
      "op": "union",
@@ -10149,13 +9928,13 @@
    ]
   },
   {
-   "id": "p100_m_vil_polea_de_retorno_abombada_50_312_45",
-   "name": "MÓVIL · Polea de retorno abombada Ø50 (312,45)",
+   "id": "p96_m_vil_polea_de_retorno_abombada_44_282_12",
+   "name": "MÓVIL · Polea de retorno abombada Ø44 (-282,-12)",
    "color": "#90a4ae",
    "pos": [
     358.5,
-    312,
-    20
+    -282,
+    -34
    ],
    "quat": [
     0,
@@ -10168,14 +9947,14 @@
    "componente": "polea_retorno_24x29",
    "features": [
     {
-     "id": "f341",
-     "name": "Cuerpo Ø49.2×39",
+     "id": "f334",
+     "name": "Cuerpo Ø43.2×39",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
       0,
-      25
+      22
      ],
      "dir": [
       1,
@@ -10183,19 +9962,19 @@
       0
      ],
      "params": {
-      "dia": 49.2,
+      "dia": 43.2,
       "h": 39
      }
     },
     {
-     "id": "f342",
-     "name": "Corona Ø50×12 (abombado)",
+     "id": "f335",
+     "name": "Corona Ø44×12 (abombado)",
      "shape": "cylinder",
      "op": "union",
      "at": [
       13.5,
       0,
-      25
+      22
      ],
      "dir": [
       1,
@@ -10203,19 +9982,19 @@
       0
      ],
      "params": {
-      "dia": 50,
+      "dia": 44,
       "h": 12
      }
     },
     {
-     "id": "f343",
+     "id": "f336",
      "name": "Alojamiento buje Ø18 H7",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       0,
-      25
+      22
      ],
      "dir": [
       1,
@@ -10231,13 +10010,13 @@
    ]
   },
   {
-   "id": "p101_m_vil_buje_bronce_18_12_2_retorno_312_45",
-   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 retorno (312,45)",
+   "id": "p97_m_vil_buje_bronce_18_12_2_retorno_282_12",
+   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 retorno (-282,-12)",
    "color": "#b08d57",
    "pos": [
     358.5,
-    312,
-    45
+    -282,
+    -12
    ],
    "quat": [
     0,
@@ -10249,7 +10028,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f344",
+     "id": "f337",
      "name": "Buje Ø18×35",
      "shape": "cylinder",
      "op": "union",
@@ -10269,7 +10048,7 @@
      }
     },
     {
-     "id": "f345",
+     "id": "f338",
      "name": "Bore Ø12.2 H7/f7",
      "shape": "hole",
      "op": "cut",
@@ -10292,13 +10071,13 @@
    ]
   },
   {
-   "id": "p102_m_vil_retenci_n_m6_polea_retorno_312_45",
-   "name": "MÓVIL · Retención M6 polea retorno (312,45)",
+   "id": "p98_m_vil_retenci_n_m6_polea_retorno_282_12",
+   "name": "MÓVIL · Retención M6 polea retorno (-282,-12)",
    "color": "#b0bec5",
    "pos": [
     356.5,
-    312,
-    45
+    -282,
+    -12
    ],
    "quat": [
     0,
@@ -10310,7 +10089,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f346",
+     "id": "f339",
      "name": "Arandela Ø18×2",
      "shape": "cylinder",
      "op": "union",
@@ -10330,7 +10109,270 @@
      }
     },
     {
+     "id": "f340",
+     "name": "Tornillo M6 cabeza Ø10",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -6,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "p99_m_vil_eje_cantil_ver_12_282_12",
+   "name": "MÓVIL · Eje cantiléver Ø12 (282,-12)",
+   "color": "#b0bec5",
+   "pos": [
+    354.5,
+    282,
+    -12
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f341",
+     "name": "Eje Ø12 × 62.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      1,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 62.5
+     }
+    },
+    {
+     "id": "f342",
+     "name": "Chaflán 1×45°",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "h": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "p100_m_vil_polea_de_retorno_abombada_44_282_12",
+   "name": "MÓVIL · Polea de retorno abombada Ø44 (282,-12)",
+   "color": "#90a4ae",
+   "pos": [
+    358.5,
+    282,
+    -34
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "polea_retorno_24x29",
+   "features": [
+    {
+     "id": "f343",
+     "name": "Cuerpo Ø43.2×39",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      22
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.2,
+      "h": 39
+     }
+    },
+    {
+     "id": "f344",
+     "name": "Corona Ø44×12 (abombado)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      13.5,
+      0,
+      22
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 44,
+      "h": 12
+     }
+    },
+    {
+     "id": "f345",
+     "name": "Alojamiento buje Ø18 H7",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      22
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p101_m_vil_buje_bronce_18_12_2_retorno_282_12",
+   "name": "MÓVIL · Buje bronce Ø18/Ø12.2 retorno (282,-12)",
+   "color": "#b08d57",
+   "pos": [
+    358.5,
+    282,
+    -12
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f346",
+     "name": "Buje Ø18×35",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 35
+     }
+    },
+    {
      "id": "f347",
+     "name": "Bore Ø12.2 H7/f7",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12.2,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p102_m_vil_retenci_n_m6_polea_retorno_282_12",
+   "name": "MÓVIL · Retención M6 polea retorno (282,-12)",
+   "color": "#b0bec5",
+   "pos": [
+    356.5,
+    282,
+    -12
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f348",
+     "name": "Arandela Ø18×2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 2
+     }
+    },
+    {
+     "id": "f349",
      "name": "Tornillo M6 cabeza Ø10",
      "shape": "cylinder",
      "op": "union",
@@ -10358,7 +10400,7 @@
    "pos": [
     378,
     0,
-    17
+    -37
    ],
    "quat": [
     0,
@@ -10370,14 +10412,14 @@
    "visible": true,
    "features": [
     {
-     "id": "f348",
+     "id": "f350",
      "name": "Cara exterior",
      "shape": "sketch",
      "op": "union",
      "at": [
       -17.5,
       0,
-      -17
+      37
      ],
      "dir": [
       1,
@@ -10387,1016 +10429,1016 @@
      "params": {
       "pts": [
        [
-        -312,
-        17
+        -282,
+        -37
        ],
        [
-        -314.37,
-        17.1
+        -283.79,
+        -36.94
        ],
        [
-        -316.72,
-        17.4
+        -285.56,
+        -36.74
        ],
        [
-        -319.04,
-        17.9
+        -287.32,
+        -36.43
        ],
        [
-        -321.3,
-        18.59
+        -289.06,
+        -35.98
        ],
        [
-        -323.5,
-        19.47
+        -290.75,
+        -35.42
        ],
        [
-        -325.62,
-        20.54
+        -292.4,
+        -34.73
        ],
        [
-        -327.64,
-        21.77
+        -294,
+        -33.93
        ],
        [
-        -329.55,
-        23.18
+        -295.54,
+        -33.02
        ],
        [
-        -331.33,
-        24.74
+        -297.01,
+        -32
        ],
        [
-        -332.97,
-        26.45
+        -298.4,
+        -30.87
        ],
        [
-        -334.47,
-        28.29
+        -299.7,
+        -29.65
        ],
        [
-        -335.8,
-        30.25
+        -300.92,
+        -28.34
        ],
        [
-        -336.96,
-        32.31
+        -302.04,
+        -26.95
        ],
        [
-        -337.94,
-        34.47
+        -303.06,
+        -25.48
        ],
        [
-        -338.74,
-        36.7
+        -303.97,
+        -23.94
        ],
        [
-        -339.35,
-        38.99
+        -304.76,
+        -22.34
        ],
        [
-        -339.76,
-        41.33
+        -305.44,
+        -20.68
        ],
        [
-        -339.97,
-        43.69
+        -306,
+        -18.99
        ],
        [
-        -339.98,
-        46.06
+        -306.44,
+        -17.25
        ],
        [
-        -339.79,
-        48.42
+        -306.76,
+        -15.49
        ],
        [
-        -339.4,
-        50.76
+        -306.94,
+        -13.71
        ],
        [
-        -338.82,
-        53.05
+        -307,
+        -11.93
        ],
        [
-        -305.3,
-        164.7
+        -306.5,
+        156.58
        ],
        [
-        -304.01,
-        168.14
+        -306.22,
+        160.46
        ],
        [
-        -302.3,
-        171.39
+        -305.42,
+        164.26
        ],
        [
-        -300.18,
-        174.4
+        -304.11,
+        167.91
        ],
        [
-        -297.69,
-        177.1
+        -302.32,
+        171.36
        ],
        [
-        -294.88,
-        179.47
+        -300.07,
+        174.53
        ],
        [
-        -291.78,
-        181.45
+        -297.42,
+        177.36
        ],
        [
-        -288.45,
-        183.01
+        -294.4,
+        179.81
        ],
        [
-        -284.95,
-        184.14
+        -291.08,
+        181.82
        ],
        [
-        -281.34,
-        184.8
+        -287.52,
+        183.36
        ],
        [
-        -277.67,
-        185
+        -283.78,
+        184.41
        ],
        [
-        -274,
-        184.72
+        -279.93,
+        184.93
        ],
        [
-        -270.4,
-        183.97
+        -276.05,
+        184.93
        ],
        [
-        -266.93,
-        182.76
+        -272.2,
+        184.4
        ],
        [
-        -263.64,
-        181.12
+        -268.46,
+        183.36
        ],
        [
-        -260.59,
-        179.07
+        -264.9,
+        181.81
        ],
        [
-        -257.83,
-        176.64
+        -261.58,
+        179.79
        ],
        [
-        -255.41,
-        173.87
+        -258.57,
+        177.35
        ],
        [
-        -253.36,
-        170.82
+        -255.91,
+        174.51
        ],
        [
-        -251.72,
-        167.53
+        -253.67,
+        171.34
        ],
        [
-        -250.52,
-        164.05
+        -251.88,
+        167.9
        ],
        [
-        -249.78,
-        160.45
+        -250.57,
+        164.24
        ],
        [
-        -249.5,
-        156.79
+        -249.77,
+        160.44
        ],
        [
-        -248.5,
-        57.6
+        -235.24,
+        56.27
        ],
        [
-        -248.04,
-        51.94
+        -234.53,
+        52.83
        ],
        [
-        -246.79,
-        46.41
+        -233.38,
+        49.51
        ],
        [
-        -244.76,
-        41.12
+        -231.81,
+        46.37
        ],
        [
-        -242.01,
-        36.16
+        -229.84,
+        43.46
        ],
        [
-        -238.58,
-        31.64
+        -227.51,
+        40.83
        ],
        [
-        -234.56,
-        27.65
+        -224.86,
+        38.52
        ],
        [
-        -230,
-        24.27
+        -221.93,
+        36.58
        ],
        [
-        -225.02,
-        21.57
+        -218.78,
+        35.03
        ],
        [
-        -219.7,
-        19.6
+        -215.45,
+        33.91
        ],
        [
-        -214.16,
-        18.4
+        -212.01,
+        33.23
        ],
        [
         -208.5,
-        18
+        33
        ],
        [
-        -202.84,
-        18.4
+        -204.99,
+        33.23
        ],
        [
-        -197.3,
-        19.6
+        -201.55,
+        33.91
        ],
        [
-        -191.98,
-        21.57
+        -198.22,
+        35.03
        ],
        [
-        -187,
-        24.27
+        -195.07,
+        36.58
        ],
        [
-        -182.44,
-        27.65
+        -192.14,
+        38.52
        ],
        [
-        -178.42,
-        31.64
+        -189.49,
+        40.83
        ],
        [
-        -174.99,
-        36.16
+        -187.16,
+        43.46
        ],
        [
-        -172.24,
-        41.12
+        -185.19,
+        46.37
        ],
        [
-        -170.21,
-        46.41
+        -183.62,
+        49.51
        ],
        [
-        -168.96,
-        51.94
+        -182.47,
+        52.83
        ],
        [
-        -168.5,
-        57.6
+        -181.76,
+        56.27
        ],
        [
-        -167.5,
-        156.79
+        -167.23,
+        160.44
        ],
        [
-        -167.17,
-        160.82
+        -166.48,
+        164.07
        ],
        [
-        -166.28,
-        164.76
+        -165.26,
+        167.57
        ],
        [
-        -164.84,
-        168.53
+        -163.6,
+        170.89
        ],
        [
-        -162.88,
-        172.06
+        -161.53,
+        173.96
        ],
        [
-        -160.44,
-        175.28
+        -159.07,
+        176.74
        ],
        [
-        -157.56,
-        178.12
+        -156.27,
+        179.17
        ],
        [
-        -154.32,
-        180.53
+        -153.18,
+        181.22
        ],
        [
-        -150.77,
-        182.46
+        -149.85,
+        182.85
        ],
        [
-        -146.98,
-        183.86
+        -146.34,
+        184.04
        ],
        [
-        -143.03,
-        184.71
+        -142.7,
+        184.76
        ],
        [
         -139,
         185
        ],
        [
-        -134.97,
-        184.71
+        -135.3,
+        184.76
        ],
        [
-        -131.02,
-        183.86
+        -131.66,
+        184.04
        ],
        [
-        -127.23,
-        182.46
+        -128.15,
+        182.85
        ],
        [
-        -123.68,
-        180.53
+        -124.82,
+        181.22
        ],
        [
-        -120.44,
-        178.12
+        -121.73,
+        179.17
        ],
        [
-        -117.56,
-        175.28
+        -118.93,
+        176.74
        ],
        [
-        -115.12,
-        172.06
+        -116.47,
+        173.96
        ],
        [
-        -113.16,
-        168.53
+        -114.4,
+        170.89
        ],
        [
-        -111.72,
-        164.76
+        -112.74,
+        167.57
        ],
        [
-        -110.83,
-        160.82
+        -111.52,
+        164.07
        ],
        [
-        -110.5,
-        156.79
+        -110.77,
+        160.44
        ],
        [
-        -109.5,
-        57.6
+        -96.24,
+        56.27
        ],
        [
-        -109.04,
-        51.94
+        -95.53,
+        52.83
        ],
        [
-        -107.79,
-        46.41
+        -94.38,
+        49.51
        ],
        [
-        -105.76,
-        41.12
+        -92.81,
+        46.37
        ],
        [
-        -103.01,
-        36.16
+        -90.84,
+        43.46
        ],
        [
-        -99.58,
-        31.64
+        -88.51,
+        40.83
        ],
        [
-        -95.56,
-        27.65
+        -85.86,
+        38.52
        ],
        [
-        -91,
-        24.27
+        -82.93,
+        36.58
        ],
        [
-        -86.02,
-        21.57
+        -79.78,
+        35.03
        ],
        [
-        -80.7,
-        19.6
+        -76.45,
+        33.91
        ],
        [
-        -75.16,
-        18.4
+        -73.01,
+        33.23
        ],
        [
         -69.5,
-        18
-       ],
-       [
-        -63.84,
-        18.4
-       ],
-       [
-        -58.3,
-        19.6
-       ],
-       [
-        -52.98,
-        21.57
-       ],
-       [
-        -48,
-        24.27
-       ],
-       [
-        -43.44,
-        27.65
-       ],
-       [
-        -39.42,
-        31.64
-       ],
-       [
-        -35.99,
-        36.16
-       ],
-       [
-        -33.24,
-        41.12
-       ],
-       [
-        -31.21,
-        46.41
-       ],
-       [
-        -29.96,
-        51.94
-       ],
-       [
-        -29.5,
-        57.6
-       ],
-       [
-        -28.5,
-        156.79
-       ],
-       [
-        -28.16,
-        160.89
-       ],
-       [
-        -27.23,
-        164.91
-       ],
-       [
-        -25.73,
-        168.75
-       ],
-       [
-        -23.7,
-        172.33
-       ],
-       [
-        -21.17,
-        175.58
-       ],
-       [
-        -18.19,
-        178.44
-       ],
-       [
-        -14.84,
-        180.83
-       ],
-       [
-        -11.18,
-        182.72
-       ],
-       [
-        -7.28,
-        184.05
-       ],
-       [
-        -3.23,
-        184.82
-       ],
-       [
-        0.89,
-        184.99
-       ],
-       [
-        4.99,
-        184.56
-       ],
-       [
-        8.98,
-        183.55
-       ],
-       [
-        12.79,
-        181.97
-       ],
-       [
-        16.33,
-        179.86
-       ],
-       [
-        19.52,
-        177.26
-       ],
-       [
-        22.31,
-        174.23
-       ],
-       [
-        24.64,
-        170.83
-       ],
-       [
-        26.45,
-        167.12
-       ],
-       [
-        27.7,
-        163.2
-       ],
-       [
-        28.38,
-        159.13
-       ],
-       [
-        28.46,
-        155.01
-       ],
-       [
-        24.56,
-        80.35
-       ],
-       [
-        24.7,
-        73.72
-       ],
-       [
-        25.82,
-        67.18
-       ],
-       [
-        27.89,
-        60.87
-       ],
-       [
-        30.86,
-        54.94
-       ],
-       [
-        34.67,
-        49.51
-       ],
-       [
-        39.23,
-        44.7
-       ],
-       [
-        44.46,
-        40.61
-       ],
-       [
-        50.23,
-        37.34
-       ],
-       [
-        56.41,
-        34.95
-       ],
-       [
-        62.88,
-        33.49
-       ],
-       [
-        69.5,
         33
        ],
        [
-        76.12,
-        33.49
+        -65.99,
+        33.23
        ],
        [
-        82.59,
-        34.95
+        -62.55,
+        33.91
        ],
        [
-        88.77,
-        37.34
+        -59.22,
+        35.03
        ],
        [
-        94.54,
-        40.61
+        -56.07,
+        36.58
        ],
        [
-        99.77,
-        44.7
+        -53.14,
+        38.52
        ],
        [
-        104.33,
+        -50.49,
+        40.83
+       ],
+       [
+        -48.16,
+        43.46
+       ],
+       [
+        -46.19,
+        46.37
+       ],
+       [
+        -44.62,
         49.51
        ],
        [
-        108.14,
-        54.94
+        -43.47,
+        52.83
        ],
        [
-        111.11,
-        60.87
+        -42.76,
+        56.27
        ],
        [
-        113.18,
-        67.18
+        -28.23,
+        160.44
        ],
        [
-        114.3,
-        73.72
+        -27.42,
+        164.26
        ],
        [
-        114.44,
-        80.35
+        -26.11,
+        167.93
        ],
        [
-        110.54,
-        155.01
-       ],
-       [
-        110.62,
-        159.13
-       ],
-       [
-        111.3,
-        163.2
-       ],
-       [
-        112.55,
-        167.12
-       ],
-       [
-        114.36,
-        170.83
-       ],
-       [
-        116.69,
-        174.23
-       ],
-       [
-        119.48,
-        177.26
-       ],
-       [
-        122.67,
-        179.86
-       ],
-       [
-        126.21,
-        181.97
-       ],
-       [
-        130.02,
-        183.55
-       ],
-       [
-        134.01,
-        184.56
-       ],
-       [
-        138.11,
-        184.99
-       ],
-       [
-        142.23,
-        184.82
-       ],
-       [
-        146.28,
-        184.05
-       ],
-       [
-        150.18,
-        182.72
-       ],
-       [
-        153.84,
-        180.83
-       ],
-       [
-        157.19,
-        178.44
-       ],
-       [
-        160.17,
-        175.58
-       ],
-       [
-        162.7,
-        172.33
-       ],
-       [
-        164.73,
-        168.75
-       ],
-       [
-        166.23,
-        164.91
-       ],
-       [
-        167.16,
-        160.89
-       ],
-       [
-        167.5,
-        156.79
-       ],
-       [
-        168.5,
-        57.6
-       ],
-       [
-        168.96,
-        51.94
-       ],
-       [
-        170.21,
-        46.41
-       ],
-       [
-        172.24,
-        41.12
-       ],
-       [
-        174.99,
-        36.16
-       ],
-       [
-        178.42,
-        31.64
-       ],
-       [
-        182.44,
-        27.65
-       ],
-       [
-        187,
-        24.27
-       ],
-       [
-        191.98,
-        21.57
-       ],
-       [
-        197.3,
-        19.6
-       ],
-       [
-        202.84,
-        18.4
-       ],
-       [
-        208.5,
-        18
-       ],
-       [
-        214.16,
-        18.4
-       ],
-       [
-        219.7,
-        19.6
-       ],
-       [
-        225.02,
-        21.57
-       ],
-       [
-        230,
-        24.27
-       ],
-       [
-        234.56,
-        27.65
-       ],
-       [
-        238.58,
-        31.64
-       ],
-       [
-        242.01,
-        36.16
-       ],
-       [
-        244.76,
-        41.12
-       ],
-       [
-        246.79,
-        46.41
-       ],
-       [
-        248.04,
-        51.94
-       ],
-       [
-        248.5,
-        57.6
-       ],
-       [
-        249.5,
-        156.79
-       ],
-       [
-        249.78,
-        160.45
-       ],
-       [
-        250.52,
-        164.05
-       ],
-       [
-        251.72,
-        167.53
-       ],
-       [
-        253.36,
-        170.82
-       ],
-       [
-        255.41,
-        173.87
-       ],
-       [
-        257.83,
-        176.64
-       ],
-       [
-        260.59,
-        179.07
-       ],
-       [
-        263.64,
-        181.12
-       ],
-       [
-        266.93,
-        182.76
-       ],
-       [
-        270.4,
-        183.97
-       ],
-       [
-        274,
-        184.72
-       ],
-       [
-        277.67,
-        185
-       ],
-       [
-        281.34,
-        184.8
-       ],
-       [
-        284.95,
-        184.14
-       ],
-       [
-        288.45,
-        183.01
-       ],
-       [
-        291.78,
-        181.45
-       ],
-       [
-        294.88,
-        179.47
-       ],
-       [
-        297.69,
-        177.1
-       ],
-       [
-        300.18,
-        174.4
-       ],
-       [
-        302.3,
+        -24.3,
         171.39
        ],
        [
-        304.01,
-        168.14
+        -22.04,
+        174.57
        ],
        [
-        305.3,
-        164.7
+        -19.37,
+        177.41
        ],
        [
-        338.82,
-        53.05
+        -16.33,
+        179.86
        ],
        [
-        339.4,
-        50.76
+        -12.98,
+        181.87
        ],
        [
-        339.79,
-        48.42
+        -9.4,
+        183.41
        ],
        [
-        339.98,
-        46.06
+        -5.63,
+        184.44
        ],
        [
-        339.97,
-        43.69
+        -1.76,
+        184.95
        ],
        [
-        339.76,
-        41.33
+        2.14,
+        184.92
        ],
        [
-        339.35,
-        38.99
+        6,
+        184.36
        ],
        [
-        338.74,
-        36.7
+        9.75,
+        183.28
        ],
        [
-        337.94,
-        34.47
+        13.32,
+        181.7
        ],
        [
-        336.96,
-        32.31
+        16.63,
+        179.64
        ],
        [
-        335.8,
-        30.25
+        19.64,
+        177.15
        ],
        [
-        334.47,
-        28.29
+        22.28,
+        174.28
        ],
        [
-        332.97,
-        26.45
+        24.5,
+        171.07
        ],
        [
-        331.33,
-        24.74
+        26.26,
+        167.58
        ],
        [
-        329.55,
-        23.18
+        27.52,
+        163.89
        ],
        [
-        327.64,
-        21.77
+        28.28,
+        160.06
        ],
        [
-        325.62,
-        20.54
+        28.5,
+        156.17
        ],
        [
-        323.5,
-        19.47
+        27.5,
+        70.49
        ],
        [
-        321.3,
-        18.59
+        27.87,
+        64.46
        ],
        [
-        319.04,
-        17.9
+        29.09,
+        58.55
        ],
        [
-        316.72,
-        17.4
+        31.15,
+        52.88
        ],
        [
-        314.37,
-        17.1
+        34,
+        47.55
        ],
        [
-        312,
-        17
+        37.58,
+        42.7
+       ],
+       [
+        41.83,
+        38.4
+       ],
+       [
+        46.64,
+        34.76
+       ],
+       [
+        51.93,
+        31.85
+       ],
+       [
+        57.58,
+        29.73
+       ],
+       [
+        63.48,
+        28.43
+       ],
+       [
+        69.5,
+        28
+       ],
+       [
+        75.52,
+        28.43
+       ],
+       [
+        81.42,
+        29.73
+       ],
+       [
+        87.07,
+        31.85
+       ],
+       [
+        92.36,
+        34.76
+       ],
+       [
+        97.17,
+        38.4
+       ],
+       [
+        101.42,
+        42.7
+       ],
+       [
+        105,
+        47.55
+       ],
+       [
+        107.85,
+        52.88
+       ],
+       [
+        109.91,
+        58.55
+       ],
+       [
+        111.13,
+        64.46
+       ],
+       [
+        111.5,
+        70.49
+       ],
+       [
+        110.5,
+        156.17
+       ],
+       [
+        110.72,
+        160.06
+       ],
+       [
+        111.48,
+        163.89
+       ],
+       [
+        112.74,
+        167.58
+       ],
+       [
+        114.5,
+        171.07
+       ],
+       [
+        116.72,
+        174.28
+       ],
+       [
+        119.36,
+        177.15
+       ],
+       [
+        122.37,
+        179.64
+       ],
+       [
+        125.68,
+        181.7
+       ],
+       [
+        129.25,
+        183.28
+       ],
+       [
+        133,
+        184.36
+       ],
+       [
+        136.86,
+        184.92
+       ],
+       [
+        140.76,
+        184.95
+       ],
+       [
+        144.63,
+        184.44
+       ],
+       [
+        148.4,
+        183.41
+       ],
+       [
+        151.98,
+        181.87
+       ],
+       [
+        155.33,
+        179.86
+       ],
+       [
+        158.37,
+        177.41
+       ],
+       [
+        161.04,
+        174.57
+       ],
+       [
+        163.3,
+        171.39
+       ],
+       [
+        165.11,
+        167.93
+       ],
+       [
+        166.42,
+        164.26
+       ],
+       [
+        167.23,
+        160.44
+       ],
+       [
+        181.76,
+        56.27
+       ],
+       [
+        182.47,
+        52.83
+       ],
+       [
+        183.62,
+        49.51
+       ],
+       [
+        185.19,
+        46.37
+       ],
+       [
+        187.16,
+        43.46
+       ],
+       [
+        189.49,
+        40.83
+       ],
+       [
+        192.14,
+        38.52
+       ],
+       [
+        195.07,
+        36.58
+       ],
+       [
+        198.22,
+        35.03
+       ],
+       [
+        201.55,
+        33.91
+       ],
+       [
+        204.99,
+        33.23
+       ],
+       [
+        208.5,
+        33
+       ],
+       [
+        212.01,
+        33.23
+       ],
+       [
+        215.45,
+        33.91
+       ],
+       [
+        218.78,
+        35.03
+       ],
+       [
+        221.93,
+        36.58
+       ],
+       [
+        224.86,
+        38.52
+       ],
+       [
+        227.51,
+        40.83
+       ],
+       [
+        229.84,
+        43.46
+       ],
+       [
+        231.81,
+        46.37
+       ],
+       [
+        233.38,
+        49.51
+       ],
+       [
+        234.53,
+        52.83
+       ],
+       [
+        235.24,
+        56.27
+       ],
+       [
+        249.77,
+        160.44
+       ],
+       [
+        250.57,
+        164.24
+       ],
+       [
+        251.88,
+        167.9
+       ],
+       [
+        253.67,
+        171.34
+       ],
+       [
+        255.91,
+        174.51
+       ],
+       [
+        258.57,
+        177.35
+       ],
+       [
+        261.58,
+        179.79
+       ],
+       [
+        264.9,
+        181.81
+       ],
+       [
+        268.46,
+        183.36
+       ],
+       [
+        272.2,
+        184.4
+       ],
+       [
+        276.05,
+        184.93
+       ],
+       [
+        279.93,
+        184.93
+       ],
+       [
+        283.78,
+        184.41
+       ],
+       [
+        287.52,
+        183.36
+       ],
+       [
+        291.08,
+        181.82
+       ],
+       [
+        294.4,
+        179.81
+       ],
+       [
+        297.42,
+        177.36
+       ],
+       [
+        300.07,
+        174.53
+       ],
+       [
+        302.32,
+        171.36
+       ],
+       [
+        304.11,
+        167.91
+       ],
+       [
+        305.42,
+        164.26
+       ],
+       [
+        306.22,
+        160.46
+       ],
+       [
+        306.5,
+        156.58
+       ],
+       [
+        307,
+        -11.93
+       ],
+       [
+        306.94,
+        -13.71
+       ],
+       [
+        306.76,
+        -15.49
+       ],
+       [
+        306.44,
+        -17.25
+       ],
+       [
+        306,
+        -18.99
+       ],
+       [
+        305.44,
+        -20.68
+       ],
+       [
+        304.76,
+        -22.34
+       ],
+       [
+        303.97,
+        -23.94
+       ],
+       [
+        303.06,
+        -25.48
+       ],
+       [
+        302.04,
+        -26.95
+       ],
+       [
+        300.92,
+        -28.34
+       ],
+       [
+        299.7,
+        -29.65
+       ],
+       [
+        298.4,
+        -30.87
+       ],
+       [
+        297.01,
+        -32
+       ],
+       [
+        295.54,
+        -33.02
+       ],
+       [
+        294,
+        -33.93
+       ],
+       [
+        292.4,
+        -34.73
+       ],
+       [
+        290.75,
+        -35.42
+       ],
+       [
+        289.06,
+        -35.98
+       ],
+       [
+        287.32,
+        -36.43
+       ],
+       [
+        285.56,
+        -36.74
+       ],
+       [
+        283.79,
+        -36.94
+       ],
+       [
+        282,
+        -37
        ]
       ],
       "h": 35,
@@ -11408,14 +11450,14 @@
      }
     },
     {
-     "id": "f349",
+     "id": "f351",
      "name": "Vaciado interior",
      "shape": "sketch",
      "op": "cut",
      "at": [
       17.5,
       0,
-      -17
+      37
      ],
      "dir": [
       1,
@@ -11425,1016 +11467,1016 @@
      "params": {
       "pts": [
        [
-        -312,
-        20
+        -282,
+        -34
        ],
        [
-        -314.11,
-        20.09
+        -283.57,
+        -33.94
        ],
        [
-        -316.21,
-        20.36
+        -285.14,
+        -33.78
        ],
        [
-        -318.28,
-        20.8
+        -286.69,
+        -33.5
        ],
        [
-        -320.3,
-        21.42
+        -288.21,
+        -33.11
        ],
        [
-        -322.27,
-        22.21
+        -289.7,
+        -32.61
        ],
        [
-        -324.16,
-        23.16
+        -291.16,
+        -32
        ],
        [
-        -325.96,
-        24.26
+        -292.56,
+        -31.3
        ],
        [
-        -327.67,
-        25.52
+        -293.91,
+        -30.49
        ],
        [
-        -329.26,
-        26.91
+        -295.21,
+        -29.6
        ],
        [
-        -330.73,
-        28.44
+        -296.43,
+        -28.61
        ],
        [
-        -332.06,
-        30.08
+        -297.58,
+        -27.53
        ],
        [
-        -333.25,
-        31.83
+        -298.65,
+        -26.38
        ],
        [
-        -334.29,
-        33.67
+        -299.63,
+        -25.15
        ],
        [
-        -335.16,
-        35.6
+        -300.53,
+        -23.86
        ],
        [
-        -335.88,
-        37.59
+        -301.33,
+        -22.5
        ],
        [
-        -336.42,
-        39.64
+        -302.03,
+        -21.1
        ],
        [
-        -336.78,
-        41.72
+        -302.63,
+        -19.64
        ],
        [
-        -336.97,
-        43.83
+        -303.12,
+        -18.15
        ],
        [
-        -336.98,
-        45.94
+        -303.51,
+        -16.62
        ],
        [
-        -336.81,
-        48.05
+        -303.78,
+        -15.07
        ],
        [
-        -336.47,
-        50.14
+        -303.95,
+        -13.51
        ],
        [
-        -335.94,
-        52.19
+        -304,
+        -11.93
        ],
        [
-        -302.42,
-        163.83
+        -303.5,
+        156.58
        ],
        [
-        -301.28,
-        166.92
-       ],
-       [
-        -299.74,
-        169.83
-       ],
-       [
-        -297.85,
-        172.51
-       ],
-       [
-        -295.62,
-        174.93
-       ],
-       [
-        -293.1,
-        177.05
-       ],
-       [
-        -290.33,
-        178.82
-       ],
-       [
-        -287.35,
-        180.22
-       ],
-       [
-        -284.22,
-        181.23
-       ],
-       [
-        -280.99,
-        181.82
-       ],
-       [
-        -277.7,
-        182
-       ],
-       [
-        -274.42,
-        181.75
-       ],
-       [
-        -271.2,
-        181.08
-       ],
-       [
-        -268.09,
-        180
-       ],
-       [
-        -265.15,
-        178.53
-       ],
-       [
-        -262.42,
-        176.69
-       ],
-       [
-        -259.95,
-        174.52
-       ],
-       [
-        -257.79,
-        172.04
-       ],
-       [
-        -255.95,
-        169.31
-       ],
-       [
-        -254.49,
-        166.37
-       ],
-       [
-        -253.41,
-        163.26
-       ],
-       [
-        -252.75,
+        -303.25,
         160.04
        ],
        [
-        -252.5,
-        156.76
+        -302.54,
+        163.44
        ],
        [
-        -251.5,
-        57.57
+        -301.37,
+        166.71
        ],
        [
-        -251,
-        51.49
+        -299.76,
+        169.79
        ],
        [
-        -249.66,
-        45.54
+        -297.75,
+        172.63
        ],
        [
-        -247.48,
-        39.85
+        -295.38,
+        175.16
        ],
        [
-        -244.52,
-        34.52
+        -292.68,
+        177.35
        ],
        [
-        -240.84,
-        29.66
+        -289.71,
+        179.15
        ],
        [
-        -236.51,
-        25.37
+        -286.52,
+        180.54
        ],
        [
-        -231.61,
-        21.74
+        -283.17,
+        181.47
        ],
        [
-        -226.25,
-        18.84
+        -279.73,
+        181.94
        ],
        [
-        -220.54,
-        16.72
+        -276.25,
+        181.94
        ],
        [
-        -214.58,
-        15.43
+        -272.81,
+        181.47
+       ],
+       [
+        -269.47,
+        180.53
+       ],
+       [
+        -266.28,
+        179.15
+       ],
+       [
+        -263.31,
+        177.34
+       ],
+       [
+        -260.61,
+        175.15
+       ],
+       [
+        -258.24,
+        172.61
+       ],
+       [
+        -256.23,
+        169.78
+       ],
+       [
+        -254.63,
+        166.7
+       ],
+       [
+        -253.46,
+        163.42
+       ],
+       [
+        -252.74,
+        160.02
+       ],
+       [
+        -238.21,
+        55.85
+       ],
+       [
+        -237.42,
+        52.03
+       ],
+       [
+        -236.14,
+        48.34
+       ],
+       [
+        -234.4,
+        44.85
+       ],
+       [
+        -232.21,
+        41.62
+       ],
+       [
+        -229.62,
+        38.7
+       ],
+       [
+        -226.68,
+        36.14
+       ],
+       [
+        -223.43,
+        33.98
+       ],
+       [
+        -219.92,
+        32.26
+       ],
+       [
+        -216.22,
+        31.01
+       ],
+       [
+        -212.39,
+        30.25
        ],
        [
         -208.5,
-        15
+        30
        ],
        [
-        -202.42,
-        15.43
+        -204.61,
+        30.25
        ],
        [
-        -196.46,
-        16.72
+        -200.78,
+        31.01
        ],
        [
-        -190.75,
-        18.84
+        -197.08,
+        32.26
        ],
        [
-        -185.39,
-        21.74
+        -193.57,
+        33.98
        ],
        [
-        -180.49,
-        25.37
+        -190.32,
+        36.14
        ],
        [
-        -176.16,
-        29.66
+        -187.38,
+        38.7
        ],
        [
-        -172.48,
-        34.52
+        -184.79,
+        41.62
        ],
        [
-        -169.52,
-        39.85
+        -182.6,
+        44.85
        ],
        [
-        -167.34,
-        45.54
+        -180.86,
+        48.34
        ],
        [
-        -166,
-        51.49
+        -179.58,
+        52.03
        ],
        [
-        -165.5,
-        57.57
+        -178.79,
+        55.85
        ],
        [
-        -164.5,
-        156.76
+        -164.26,
+        160.02
        ],
        [
-        -164.21,
-        160.36
+        -163.58,
+        163.27
        ],
        [
-        -163.41,
-        163.89
+        -162.5,
+        166.41
        ],
        [
-        -162.12,
-        167.26
+        -161.01,
+        169.37
        ],
        [
-        -160.36,
-        170.42
+        -159.15,
+        172.12
        ],
        [
-        -158.18,
-        173.31
+        -156.96,
+        174.61
        ],
        [
-        -155.61,
-        175.85
+        -154.45,
+        176.78
        ],
        [
-        -152.71,
-        178
+        -151.69,
+        178.62
        ],
        [
-        -149.53,
-        179.72
+        -148.71,
+        180.08
        ],
        [
-        -146.14,
-        180.98
+        -145.57,
+        181.14
        ],
        [
-        -142.61,
-        181.74
+        -142.31,
+        181.78
        ],
        [
         -139,
         182
        ],
        [
-        -135.39,
-        181.74
+        -135.69,
+        181.78
        ],
        [
-        -131.86,
-        180.98
+        -132.43,
+        181.14
        ],
        [
-        -128.47,
-        179.72
+        -129.29,
+        180.08
        ],
        [
-        -125.29,
-        178
+        -126.31,
+        178.62
        ],
        [
-        -122.39,
-        175.85
+        -123.55,
+        176.78
        ],
        [
-        -119.82,
-        173.31
+        -121.04,
+        174.61
        ],
        [
-        -117.64,
-        170.42
+        -118.85,
+        172.12
        ],
        [
-        -115.88,
-        167.26
+        -116.99,
+        169.37
        ],
        [
-        -114.59,
-        163.89
+        -115.5,
+        166.41
        ],
        [
-        -113.79,
-        160.36
+        -114.42,
+        163.27
        ],
        [
-        -113.5,
-        156.76
+        -113.74,
+        160.02
        ],
        [
-        -112.5,
-        57.57
+        -99.21,
+        55.85
        ],
        [
-        -112,
-        51.49
+        -98.42,
+        52.03
        ],
        [
-        -110.66,
-        45.54
+        -97.14,
+        48.34
        ],
        [
-        -108.48,
-        39.85
+        -95.4,
+        44.85
        ],
        [
-        -105.52,
-        34.52
+        -93.21,
+        41.62
        ],
        [
-        -101.84,
-        29.66
+        -90.62,
+        38.7
        ],
        [
-        -97.51,
-        25.37
+        -87.68,
+        36.14
        ],
        [
-        -92.61,
-        21.74
+        -84.43,
+        33.98
        ],
        [
-        -87.25,
-        18.84
+        -80.92,
+        32.26
        ],
        [
-        -81.54,
-        16.72
+        -77.22,
+        31.01
        ],
        [
-        -75.58,
-        15.43
+        -73.39,
+        30.25
        ],
        [
         -69.5,
-        15
-       ],
-       [
-        -63.42,
-        15.43
-       ],
-       [
-        -57.46,
-        16.72
-       ],
-       [
-        -51.75,
-        18.84
-       ],
-       [
-        -46.39,
-        21.74
-       ],
-       [
-        -41.49,
-        25.37
-       ],
-       [
-        -37.16,
-        29.66
-       ],
-       [
-        -33.48,
-        34.52
-       ],
-       [
-        -30.52,
-        39.85
-       ],
-       [
-        -28.34,
-        45.54
-       ],
-       [
-        -27,
-        51.49
-       ],
-       [
-        -26.5,
-        57.57
-       ],
-       [
-        -25.5,
-        156.76
-       ],
-       [
-        -25.19,
-        160.43
-       ],
-       [
-        -24.36,
-        164.02
-       ],
-       [
-        -23.02,
-        167.46
-       ],
-       [
-        -21.2,
-        170.67
-       ],
-       [
-        -18.94,
-        173.57
-       ],
-       [
-        -16.28,
-        176.13
-       ],
-       [
-        -13.28,
-        178.27
-       ],
-       [
-        -10,
-        179.96
-       ],
-       [
-        -6.51,
-        181.15
-       ],
-       [
-        -2.89,
-        181.84
-       ],
-       [
-        0.79,
-        181.99
-       ],
-       [
-        4.46,
-        181.61
-       ],
-       [
-        8.04,
-        180.7
-       ],
-       [
-        11.44,
-        179.29
-       ],
-       [
-        14.61,
-        177.4
-       ],
-       [
-        17.47,
-        175.08
-       ],
-       [
-        19.97,
-        172.36
-       ],
-       [
-        22.04,
-        169.32
-       ],
-       [
-        23.66,
-        166
-       ],
-       [
-        24.79,
-        162.49
-       ],
-       [
-        25.39,
-        158.86
-       ],
-       [
-        25.47,
-        155.17
-       ],
-       [
-        21.57,
-        80.5
-       ],
-       [
-        21.72,
-        73.43
-       ],
-       [
-        22.91,
-        66.45
-       ],
-       [
-        25.11,
-        59.73
-       ],
-       [
-        28.28,
-        53.4
-       ],
-       [
-        32.34,
-        47.61
-       ],
-       [
-        37.22,
-        42.48
-       ],
-       [
-        42.79,
-        38.12
-       ],
-       [
-        48.94,
-        34.63
-       ],
-       [
-        55.54,
-        32.07
-       ],
-       [
-        62.44,
-        30.52
-       ],
-       [
-        69.5,
         30
        ],
        [
-        76.56,
-        30.52
+        -65.61,
+        30.25
        ],
        [
-        83.46,
-        32.07
+        -61.78,
+        31.01
        ],
        [
-        90.06,
-        34.63
+        -58.08,
+        32.26
        ],
        [
-        96.21,
-        38.12
+        -54.57,
+        33.98
        ],
        [
-        101.78,
-        42.48
+        -51.32,
+        36.14
        ],
        [
-        106.66,
-        47.61
+        -48.38,
+        38.7
        ],
        [
-        110.72,
-        53.4
+        -45.79,
+        41.62
        ],
        [
-        113.89,
-        59.73
+        -43.6,
+        44.85
        ],
        [
-        116.09,
-        66.45
+        -41.86,
+        48.34
        ],
        [
-        117.28,
-        73.43
+        -40.58,
+        52.03
        ],
        [
-        117.43,
-        80.5
+        -39.79,
+        55.85
        ],
        [
-        113.53,
-        155.17
+        -25.26,
+        160.02
        ],
        [
-        113.61,
-        158.86
+        -24.54,
+        163.44
        ],
        [
-        114.21,
-        162.49
+        -23.36,
+        166.73
        ],
        [
-        115.34,
-        166
+        -21.74,
+        169.82
        ],
        [
-        116.96,
-        169.32
+        -19.72,
+        172.67
        ],
        [
-        119.03,
-        172.36
+        -17.33,
+        175.21
        ],
        [
-        121.53,
-        175.08
-       ],
-       [
-        124.39,
+        -14.61,
         177.4
        ],
        [
-        127.56,
-        179.29
+        -11.62,
+        179.2
        ],
        [
-        130.96,
-        180.7
+        -8.41,
+        180.57
        ],
        [
-        134.54,
-        181.61
+        -5.04,
+        181.5
        ],
        [
-        138.21,
-        181.99
+        -1.58,
+        181.95
        ],
        [
-        141.89,
-        181.84
+        1.91,
+        181.93
        ],
        [
-        145.51,
-        181.15
+        5.37,
+        181.43
        ],
        [
-        149,
-        179.96
+        8.72,
+        180.46
        ],
        [
-        152.28,
-        178.27
+        11.92,
+        179.04
        ],
        [
-        155.28,
-        176.13
+        14.88,
+        177.21
        ],
        [
-        157.94,
-        173.57
+        17.57,
+        174.98
        ],
        [
-        160.2,
-        170.67
+        19.93,
+        172.41
        ],
        [
-        162.02,
-        167.46
+        21.92,
+        169.53
        ],
        [
-        163.36,
-        164.02
+        23.49,
+        166.42
        ],
        [
-        164.19,
-        160.43
+        24.63,
+        163.12
        ],
        [
-        164.5,
-        156.76
+        25.3,
+        159.69
        ],
        [
-        165.5,
-        57.57
+        25.5,
+        156.2
        ],
        [
-        166,
-        51.49
+        24.5,
+        70.52
        ],
        [
-        167.34,
-        45.54
+        24.89,
+        64.07
        ],
        [
-        169.52,
-        39.85
+        26.2,
+        57.73
        ],
        [
-        172.48,
-        34.52
+        28.41,
+        51.65
        ],
        [
-        176.16,
-        29.66
+        31.46,
+        45.95
        ],
        [
-        180.49,
-        25.37
+        35.31,
+        40.75
        ],
        [
-        185.39,
-        21.74
+        39.85,
+        36.15
        ],
        [
-        190.75,
-        18.84
+        45.01,
+        32.25
        ],
        [
-        196.46,
-        16.72
+        50.68,
+        29.13
        ],
        [
-        202.42,
-        15.43
+        56.73,
+        26.85
+       ],
+       [
+        63.05,
+        25.46
+       ],
+       [
+        69.5,
+        25
+       ],
+       [
+        75.95,
+        25.46
+       ],
+       [
+        82.27,
+        26.85
+       ],
+       [
+        88.32,
+        29.13
+       ],
+       [
+        93.99,
+        32.25
+       ],
+       [
+        99.15,
+        36.15
+       ],
+       [
+        103.69,
+        40.75
+       ],
+       [
+        107.54,
+        45.95
+       ],
+       [
+        110.59,
+        51.65
+       ],
+       [
+        112.8,
+        57.73
+       ],
+       [
+        114.11,
+        64.07
+       ],
+       [
+        114.5,
+        70.52
+       ],
+       [
+        113.5,
+        156.2
+       ],
+       [
+        113.7,
+        159.69
+       ],
+       [
+        114.37,
+        163.12
+       ],
+       [
+        115.51,
+        166.42
+       ],
+       [
+        117.08,
+        169.53
+       ],
+       [
+        119.07,
+        172.41
+       ],
+       [
+        121.43,
+        174.98
+       ],
+       [
+        124.12,
+        177.21
+       ],
+       [
+        127.08,
+        179.04
+       ],
+       [
+        130.28,
+        180.46
+       ],
+       [
+        133.63,
+        181.43
+       ],
+       [
+        137.09,
+        181.93
+       ],
+       [
+        140.58,
+        181.95
+       ],
+       [
+        144.04,
+        181.5
+       ],
+       [
+        147.41,
+        180.57
+       ],
+       [
+        150.62,
+        179.2
+       ],
+       [
+        153.61,
+        177.4
+       ],
+       [
+        156.33,
+        175.21
+       ],
+       [
+        158.72,
+        172.67
+       ],
+       [
+        160.74,
+        169.82
+       ],
+       [
+        162.36,
+        166.73
+       ],
+       [
+        163.54,
+        163.44
+       ],
+       [
+        164.26,
+        160.02
+       ],
+       [
+        178.79,
+        55.85
+       ],
+       [
+        179.58,
+        52.03
+       ],
+       [
+        180.86,
+        48.34
+       ],
+       [
+        182.6,
+        44.85
+       ],
+       [
+        184.79,
+        41.62
+       ],
+       [
+        187.38,
+        38.7
+       ],
+       [
+        190.32,
+        36.14
+       ],
+       [
+        193.57,
+        33.98
+       ],
+       [
+        197.08,
+        32.26
+       ],
+       [
+        200.78,
+        31.01
+       ],
+       [
+        204.61,
+        30.25
        ],
        [
         208.5,
-        15
+        30
        ],
        [
-        214.58,
-        15.43
+        212.39,
+        30.25
        ],
        [
-        220.54,
-        16.72
+        216.22,
+        31.01
        ],
        [
-        226.25,
-        18.84
+        219.92,
+        32.26
        ],
        [
-        231.61,
-        21.74
+        223.43,
+        33.98
        ],
        [
-        236.51,
-        25.37
+        226.68,
+        36.14
        ],
        [
-        240.84,
-        29.66
+        229.62,
+        38.7
        ],
        [
-        244.52,
-        34.52
+        232.21,
+        41.62
        ],
        [
-        247.48,
-        39.85
+        234.4,
+        44.85
        ],
        [
-        249.66,
-        45.54
+        236.14,
+        48.34
        ],
        [
-        251,
-        51.49
+        237.42,
+        52.03
        ],
        [
-        251.5,
-        57.57
+        238.21,
+        55.85
        ],
        [
-        252.5,
-        156.76
+        252.74,
+        160.02
        ],
        [
-        252.75,
+        253.46,
+        163.42
+       ],
+       [
+        254.63,
+        166.7
+       ],
+       [
+        256.23,
+        169.78
+       ],
+       [
+        258.24,
+        172.61
+       ],
+       [
+        260.61,
+        175.15
+       ],
+       [
+        263.31,
+        177.34
+       ],
+       [
+        266.28,
+        179.15
+       ],
+       [
+        269.47,
+        180.53
+       ],
+       [
+        272.81,
+        181.47
+       ],
+       [
+        276.25,
+        181.94
+       ],
+       [
+        279.73,
+        181.94
+       ],
+       [
+        283.17,
+        181.47
+       ],
+       [
+        286.52,
+        180.54
+       ],
+       [
+        289.71,
+        179.15
+       ],
+       [
+        292.68,
+        177.35
+       ],
+       [
+        295.38,
+        175.16
+       ],
+       [
+        297.75,
+        172.63
+       ],
+       [
+        299.76,
+        169.79
+       ],
+       [
+        301.37,
+        166.71
+       ],
+       [
+        302.54,
+        163.44
+       ],
+       [
+        303.25,
         160.04
        ],
        [
-        253.41,
-        163.26
+        303.5,
+        156.58
        ],
        [
-        254.49,
-        166.37
+        304,
+        -11.93
        ],
        [
-        255.95,
-        169.31
+        303.95,
+        -13.51
        ],
        [
-        257.79,
-        172.04
+        303.78,
+        -15.07
        ],
        [
-        259.95,
-        174.52
+        303.51,
+        -16.62
        ],
        [
-        262.42,
-        176.69
+        303.12,
+        -18.15
        ],
        [
-        265.15,
-        178.53
+        302.63,
+        -19.64
        ],
        [
-        268.09,
-        180
+        302.03,
+        -21.1
        ],
        [
-        271.2,
-        181.08
+        301.33,
+        -22.5
        ],
        [
-        274.42,
-        181.75
+        300.53,
+        -23.86
        ],
        [
-        277.7,
-        182
+        299.63,
+        -25.15
        ],
        [
-        280.99,
-        181.82
+        298.65,
+        -26.38
        ],
        [
-        284.22,
-        181.23
+        297.58,
+        -27.53
        ],
        [
-        287.35,
-        180.22
+        296.43,
+        -28.61
        ],
        [
-        290.33,
-        178.82
+        295.21,
+        -29.6
        ],
        [
-        293.1,
-        177.05
+        293.91,
+        -30.49
        ],
        [
-        295.62,
-        174.93
+        292.56,
+        -31.3
        ],
        [
-        297.85,
-        172.51
+        291.16,
+        -32
        ],
        [
-        299.74,
-        169.83
+        289.7,
+        -32.61
        ],
        [
-        301.28,
-        166.92
+        288.21,
+        -33.11
        ],
        [
-        302.42,
-        163.83
+        286.69,
+        -33.5
        ],
        [
-        335.94,
-        52.19
+        285.14,
+        -33.78
        ],
        [
-        336.47,
-        50.14
+        283.57,
+        -33.94
        ],
        [
-        336.81,
-        48.05
-       ],
-       [
-        336.98,
-        45.94
-       ],
-       [
-        336.97,
-        43.83
-       ],
-       [
-        336.78,
-        41.72
-       ],
-       [
-        336.42,
-        39.64
-       ],
-       [
-        335.88,
-        37.59
-       ],
-       [
-        335.16,
-        35.6
-       ],
-       [
-        334.29,
-        33.67
-       ],
-       [
-        333.25,
-        31.83
-       ],
-       [
-        332.06,
-        30.08
-       ],
-       [
-        330.73,
-        28.44
-       ],
-       [
-        329.26,
-        26.91
-       ],
-       [
-        327.67,
-        25.52
-       ],
-       [
-        325.96,
-        24.26
-       ],
-       [
-        324.16,
-        23.16
-       ],
-       [
-        322.27,
-        22.21
-       ],
-       [
-        320.3,
-        21.42
-       ],
-       [
-        318.28,
-        20.8
-       ],
-       [
-        316.21,
-        20.36
-       ],
-       [
-        314.11,
-        20.09
-       ],
-       [
-        312,
-        20
+        282,
+        -34
        ]
       ],
       "h": 35,
@@ -12454,7 +12496,7 @@
    "pos": [
     268,
     69.5,
-    78
+    70
    ],
    "quat": [
     0,
@@ -12467,7 +12509,7 @@
    "componente": "motorreductor_eje_hueco",
    "features": [
     {
-     "id": "f350",
+     "id": "f352",
      "name": "Cubo de eje hueco Ø56×84",
      "shape": "cylinder",
      "op": "union",
@@ -12487,7 +12529,7 @@
      }
     },
     {
-     "id": "f351",
+     "id": "f353",
      "name": "Cuerpo reductor 96×86×92",
      "shape": "box",
      "op": "union",
@@ -12508,7 +12550,7 @@
      }
     },
     {
-     "id": "f352",
+     "id": "f354",
      "name": "Bore Ø20 H7 (sobre el eje del tambor)",
      "shape": "hole",
      "op": "cut",
@@ -12537,7 +12579,7 @@
    "pos": [
     290,
     69.5,
-    86.25
+    78.25
    ],
    "quat": [
     0,
@@ -12549,7 +12591,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f353",
+     "id": "f355",
      "name": "Chaveta 40×6×6",
      "shape": "box",
      "op": "union",
@@ -12578,7 +12620,7 @@
    "pos": [
     328,
     14.5,
-    38
+    30
    ],
    "quat": [
     0,
@@ -12590,7 +12632,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f354",
+     "id": "f356",
      "name": "Barra 81×24×10",
      "shape": "box",
      "op": "union",
@@ -12611,7 +12653,7 @@
      }
     },
     {
-     "id": "f355",
+     "id": "f357",
      "name": "Buje elástico Ø24",
      "shape": "cylinder",
      "op": "union",
@@ -12631,7 +12673,7 @@
      }
     },
     {
-     "id": "f356",
+     "id": "f358",
      "name": "Ø12.2 pasador a la placa",
      "shape": "hole",
      "op": "cut",
