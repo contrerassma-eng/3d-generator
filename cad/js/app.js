@@ -489,6 +489,45 @@ function loadAssemblyGroupGeometry(src, key) {
 }
 
 // Inserta un GLB multi-pieza como ENSAMBLE: una pieza por grupo/subcomponente.
+// Inserta un ENSAMBLE foto3d-cad (comp.doc → JSON con parts + constraints):
+// clona todas las piezas con ids nuevos, desplaza el conjunto al cursor y añade
+// sus RESTRICCIONES remapeadas. Editables (no una malla fija).
+function insertDocAssembly(comp) {
+  setStatus(`Cargando ensamble ${comp.nombre}…`);
+  fetch(comp.doc).then(r => {
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return r.json();
+  }).then((sub) => {
+    if (sub.format !== 'foto3d-cad' || !Array.isArray(sub.parts)) throw new Error('documento foto3d-cad inválido');
+    pushUndo();
+    const spawn = nextSpawnX() + (comp.bbox_mm ? comp.bbox_mm[0] / 2 : 0);
+    const idMap = new Map();
+    let first = null;
+    for (const sp of sub.parts) {
+      const nid = uid('p'); idMap.set(sp.id, nid);
+      const part = {
+        ...structuredClone(sp), id: nid,
+        pos: [sp.pos[0] + spawn, sp.pos[1], sp.pos[2]],
+        fixed: sp.fixed && doc.parts.length === 0 ? true : (sp.fixed || false),
+      };
+      for (const f of part.features) f.id = uid('f'); // ids de función únicos
+      doc.parts.push(part); rebuildPart(part);
+      if (!first) first = nid;
+    }
+    // restricciones remapeadas (referencian ids de pieza + anclas locales)
+    let nc = 0;
+    for (const c of (sub.constraints || [])) {
+      const a = idMap.get(c.a?.part), b = idMap.get(c.b?.part);
+      if (!a || !b) continue;
+      doc.constraints.push({ ...structuredClone(c), id: uid('c'), a: { ...c.a, part: a }, b: { ...c.b, part: b } });
+      nc++;
+    }
+    if (first) selection = { kind: 'part', id: first };
+    solveAndSync(); frameModel();
+    commit(`${comp.nombre} insertado como ENSAMBLE: ${sub.parts.length} piezas${nc ? ` + ${nc} restricciones` : ''}.`);
+  }).catch((err) => setStatus(`No se pudo cargar el ensamble (${comp.doc}): ${err.message}`));
+}
+
 function insertAssembly(comp) {
   const src = comp.ensamble.glb;
   setStatus(`Cargando ensamble ${comp.nombre}…`);
@@ -3453,7 +3492,7 @@ function nextSpawnX() {
 // ---------- Biblioteca de componentes electrónicos ----------
 
 // grupo de un componente para el filtro de la biblioteca
-const compGroup = (c) => c.ensamble ? 'transportador'
+const compGroup = (c) => (c.ensamble || c.doc) ? 'transportador'
   : c.malla ? (c.malla.nodo ? 'subcomp' : 'transportador')
   : (c.categoria === 'mecanico' ? 'mecanico' : 'electronico');
 
@@ -3471,7 +3510,8 @@ $('btnComp').onclick = async () => {
     && (!q || `${c.nombre} ${c.id} ${c.familia || ''} ${c.descripcion || ''}`.toLowerCase().includes(q));
   const insert = (c) => {
     hideDialog();
-    if (c.ensamble) { insertAssembly(c); return; } // GLB multi-pieza → ensamble, no un sólido
+    if (c.doc) { insertDocAssembly(c); return; }    // ensamble foto3d-cad (piezas + restricciones)
+    if (c.ensamble) { insertAssembly(c); return; }  // GLB multi-pieza → ensamble, no un sólido
     pushUndo();
     const part = componentToPart(c);
     const [lo] = envolvente(c);

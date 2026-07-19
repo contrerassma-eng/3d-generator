@@ -67,6 +67,19 @@ def validar_componente(comp: dict) -> list[str]:
         if comp.get("categoria") not in CATEGORIAS:
             e.append(f"categoria '{comp.get('categoria')}' no esta en {CATEGORIAS}")
         return e
+    # Ensamble foto3d-cad (doc): conjunto de piezas parametricas + restricciones
+    # referenciado por archivo (parts+constraints). No lleva 'solidos'.
+    if "doc" in comp:
+        for campo in ("id", "nombre", "categoria", "descripcion", "fuente"):
+            if campo not in comp:
+                e.append(f"falta campo '{campo}'")
+        if not comp.get("doc"):
+            e.append("doc: falta la ruta al documento foto3d-cad")
+        if len(comp.get("bbox_mm", [])) != 3:
+            e.append("doc: requiere 'bbox_mm' [x,y,z]")
+        if comp.get("categoria") not in CATEGORIAS:
+            e.append(f"categoria '{comp.get('categoria')}' no esta en {CATEGORIAS}")
+        return e
     # Componente de malla real (GLB): geometria fija importada. No lleva
     # 'solidos'; se valida el bloque 'malla' + bbox en su lugar.
     if "malla" in comp:
@@ -131,7 +144,7 @@ def envolvente(comp: dict) -> tuple[np.ndarray, np.ndarray]:
     Los componentes de MALLA real (GLB, sin 'solidos') no tienen primitivas: su
     envolvente sale de 'bbox_mm' (centrada en el origen, como la malla derivada).
     """
-    if "malla" in comp and "solidos" not in comp:
+    if "solidos" not in comp:   # ensamble/malla/doc: geometria por bbox_mm
         bb = np.array(comp["bbox_mm"], dtype=float) / 2.0
         return (-bb, bb)
     bounds = [_solid_bounds(s) for s in comp["solidos"]]
@@ -178,7 +191,7 @@ def build_mesh(comp: dict):
     envolvente 'bbox_mm' (la geometria fina vive en el GLB referenciado).
     """
     import trimesh
-    if "malla" in comp and "solidos" not in comp:
+    if "solidos" not in comp:   # ensamble/malla/doc: geometria por bbox_mm
         lo, hi = envolvente(comp)
         box = trimesh.creation.box(extents=(hi - lo))
         box.visual.face_colors = _hex_rgba(COLOR_CATEGORIA.get(comp["categoria"], "#888888"))
