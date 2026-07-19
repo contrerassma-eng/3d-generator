@@ -226,15 +226,30 @@ const gltfLoader = new GLTFLoader();
 gltfLoader.setMeshoptDecoder(MeshoptDecoder); // los GLB usan compresión EXT_meshopt_compression
 const meshGeomCache = new Map();  // src → Promise<BufferGeometry>
 
-function loadMeshGeometry(src) {
-  if (meshGeomCache.has(src)) return meshGeomCache.get(src);
+// Nombre base del nodo del subcomponente al que pertenece una malla: el primer
+// ancestro con nombre, sin sus dígitos finales de instancia. three sanea los
+// nombres del glTF (espacios→_, quita ':'/'.') y numera las instancias, así que
+// «300986+Std+UniDrive+motor+D-Shaft» = la 1.ª instancia (una pieza) y
+// «…Shaft1_» = las demás; el catálogo guarda esa clave saneada como `nodo`.
+function subcompBase(o) {
+  for (let p = o.parent; p; p = p.parent) if (p.name) return p.name.replace(/\d+$/, '');
+  return '';
+}
+
+// Carga la geometría de un GLB. Si se da `nodo`, solo fusiona las mallas de ESE
+// subcomponente (una instancia) → pieza reusable, recentrada como las demás.
+function loadMeshGeometry(src, nodo = null) {
+  const key = nodo ? `${src}#${nodo}` : src;
+  if (meshGeomCache.has(key)) return meshGeomCache.get(key);
   const promise = MeshoptDecoder.ready.then(() => new Promise((resolve, reject) => {
     gltfLoader.load(src, (gltf) => {
       gltf.scene.updateMatrixWorld(true);
       const verts = []; // se transforma vértice a vértice: fromBufferAttribute respeta
       const v = new THREE.Vector3(); // el flag 'normalized' (dequantiza KHR_mesh_quantization)
+      const inNodo = (o) => subcompBase(o) === nodo;
       gltf.scene.traverse((o) => {
         if (!o.isMesh || !o.geometry) return;
+        if (nodo && !inNodo(o)) return;
         const g = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry;
         const pa = g.attributes.position;
         for (let i = 0; i < pa.count; i++) {
@@ -253,15 +268,15 @@ function loadMeshGeometry(src) {
       resolve(geom);
     }, undefined, (err) => reject(err instanceof Error ? err : new Error(String(err))));
   }));
-  meshGeomCache.set(src, promise);
+  meshGeomCache.set(key, promise);
   return promise;
 }
 
 const isMeshPart = (part) => part.features.length === 1 && part.features[0].shape === 'mesh';
 
 function rebuildMeshPart(part) {
-  const src = part.features[0].params.src;
-  loadMeshGeometry(src).then((geom) => {
+  const { src, nodo } = part.features[0].params;
+  loadMeshGeometry(src, nodo || null).then((geom) => {
     if (!getPart(doc, part.id)) return;           // la pieza se borró mientras cargaba
     disposePartMesh(part.id);
     const g = geom.clone();
