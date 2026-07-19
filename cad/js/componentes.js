@@ -31,7 +31,7 @@ export async function loadCatalogo(url = 'componentes.json') {
 // (geometría real) se recentran al insertar (XY centrado, base en Z=0), así
 // que su envolvente canónica es [-bx/2,-by/2,0]..[bx/2,by/2,bz].
 export function envolvente(comp) {
-  if (comp.malla && comp.bbox_mm) {
+  if ((comp.malla || comp.ensamble) && comp.bbox_mm) {
     const [bx, by, bz] = comp.bbox_mm;
     return [[-bx / 2, -by / 2, 0], [bx / 2, by / 2, bz]];
   }
