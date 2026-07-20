@@ -89,6 +89,7 @@ const setView = (which) => {
   cam.position.set(...pos); controls.target.copy(tgt); controls.update();
 };
 setView('iso');
+window.__cam = cam; window.__ctr = controls;   // hook para capturas automatizadas
 
 // --- corte A-A real por CSG (perezoso, cacheado) --------------------------------
 let cutReady = false;
@@ -185,6 +186,7 @@ const updClip = () => {
 $('clipAxis').onchange = updClip;
 $('clipPos').oninput = updClip;
 $('vIso').onclick = () => setView('iso');
+window.__cam = cam; window.__ctr = controls;   // hook para capturas automatizadas
 $('vFrente').onclick = () => setView('frente');
 $('vCabezal').onclick = () => setView('cabezal');
 

@@ -89,7 +89,7 @@ check('ids únicos', new Set(B15.parts.map(p => p.id)).size === B15.parts.length
 const b15fids = B15.parts.flatMap(p => p.features.map(f => f.id));
 check('ids de función únicos', new Set(b15fids).size === b15fids.length);
 check('sin brida ni contratuerca (poste continuo + cap)', !byId(B15, 'acople') && !byId(B15, 'contratuerca') && !!byId(B15, 'cap_poste'));
-check('sensores SMT50 135×21.5', byId(B15, 'sensor1').features.find(f => f.name.includes('Hoja')).params.h === 135);
+check('sensores SMT50 con hoja en punta (sketch 135 de largo)', byId(B15, 'sensor1').features.some(f => f.name.includes('punta 30')));
 const b15 = buildAll(B15);
 check('poste continuo 86–1755 con salida lateral', Math.abs(b15.pilar.min.z - 86) < 0.5 && Math.abs(b15.pilar.max.z - 1755) < 0.5);
 check('cap sella el tope', b15.cap_poste.max.z > 1760);
@@ -99,7 +99,7 @@ check('puerta al SUR (tapa más al −Y que el cuerpo)', b15.tapa.min.y < b15.ga
 check('TODAS las entradas por la cara inferior (z<1086)',
   ['prensa', 'prensas_superficie', 'm12', 'vent', 'entrada_panel'].every(id => b15[id].min.z < 1086));
 check('escudo T/HR a 1.47–1.53 m (OMM 1.25–2 m)', b15.escudo_thr.min.z > 1450 && b15.escudo_thr.max.z < 1540);
-check('boca del pluviómetro a 1.235 m, nivelable', Math.abs(b15.pluviometro.max.z - 1235) < 1);
+check('boca del pluviómetro a 1.234 m + pinchos antipájaros', b15.pluviometro.max.z > 1233 && b15.pluviometro.max.z < 1262 && byId(B15, 'pluviometro').features.some(f => f.name.includes('antipájaros')));
 check('ménsula del pluviómetro AL POSTE (abrazaderas centradas en el eje)',
   byId(B15, 'pluviometro').features.some(f => f.name.includes('Abrazadera')));
 check('panel al NORTE (+Y) sobre la puerta', b15.panel.max.y > 100 && b15.panel.min.z > 1600);

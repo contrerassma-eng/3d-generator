@@ -74,6 +74,11 @@ const torus = (ringR, csR, at, name) => ({
 });
 const sketch = (entities, h, at, dir, u, op = 'union', name = 'Extrusión') =>
   ({ id: F(), name, shape: 'sketch', op, at: at.map(r2), dir, params: { entities, h: r2(h), u } });
+const hexEnt = (R) => {
+  const pts = [];
+  for (let i = 0; i < 6; i++) pts.push([r2(R * Math.cos(i * Math.PI / 3)), r2(R * Math.sin(i * Math.PI / 3))]);
+  return pts.map((pt, i) => ({ type: 'line', a: pt, b: pts[(i + 1) % 6] }));
+};
 const rectEnt = (x0, y0, x1, y1) => [
   { type: 'line', a: [x0, y0], b: [x1, y0] }, { type: 'line', a: [x1, y0], b: [x1, y1] },
   { type: 'line', a: [x1, y1], b: [x0, y1] }, { type: 'line', a: [x0, y1], b: [x0, y0] },
@@ -82,6 +87,10 @@ const rectEnt = (x0, y0, x1, y1) => [
 const strap = (z, name = 'Abrazadera U 1 1/2"') => [
   box(60, 60, 10, [0, 0, z], 'union', name),
   hole(49, [0, 0, z + 10], [0, 0, -1], { through: true, name: 'Paso poste' }),
+  cyl(6, 58, [28, -29, z + 5], [0, 1, 0], 'union', 'Perno U izq.'),
+  cyl(6, 58, [-28, -29, z + 5], [0, 1, 0], 'union', 'Perno U der.'),
+  cyl(11, 4.4, [28, 30, z + 5], [0, 1, 0], 'union', 'Tuerca'),
+  cyl(11, 4.4, [-28, 30, z + 5], [0, 1, 0], 'union', 'Tuerca'),
 ];
 
 // ============================================================================
@@ -113,8 +122,12 @@ const strap = (z, name = 'Abrazadera U 1 1/2"') => [
   const q = qMul(qAxis([0, 0, 1], azd), qAxis([0, 1, 0], 90));
   const rad = [Math.cos(azd * Math.PI / 180), Math.sin(azd * Math.PI / 180), 0];
   P(`sensor${i + 1}`, `0${3 + i} Sensor SMT50 #${i + 1} (${-zp / 10} cm, ±2 % VWC)`, '#3f8f4a', [0, 0, zp], [
-    box(21.5, 8, 135, [0, 0, 10], 'union', 'Hoja SMT50'),
-    cyl(15, 22, [0, 0, -12], [0, 0, 1], 'union', 'Capuchón/cable 4 hilos'),
+    sketch([{ type: 'line', a: [-10.75, 10], b: [10.75, 10] }, { type: 'line', a: [10.75, 10], b: [10.75, 115] },
+      { type: 'line', a: [10.75, 115], b: [0, 145] }, { type: 'line', a: [0, 145], b: [-10.75, 115] },
+      { type: 'line', a: [-10.75, 115], b: [-10.75, 10] }], 8, [0, 4, 0], [0, -1, 0], [1, 0, 0], 'union', 'Hoja SMT50 (punta 30°)'),
+    cyl(15, 22, [0, 0, -12], [0, 0, 1], 'union', 'Capuchón'),
+    cyl(16.5, 2, [0, 0, 8], [0, 0, 1], 'union', 'Anillo capuchón'),
+    cyl(4.8, 6, [0, 0, -18], [0, 0, 1], 'union', 'Cable 4 hilos'),
   ], { quat: q, explode: [rad[0] * 170, rad[1] * 170, 0] });
   P(`pasamuro${i + 1}`, `0${6 + i} Pasamuro sensor POM-C #${i + 1}`, '#e8e4da', [0, 0, zp], [
     cyl(34.6, 15.2, [0, 0, 14], [0, 0, 1], 'union', 'Cuerpo Ø34.6'),
@@ -127,11 +140,14 @@ P('torica_punta', '09 Tórica FKM ISO 3601 36×3 (punta)', '#3b2f2f', [0, 0, -64
 P('transicion', '10 Terminal PVC-U Ø50 cementado × hembra 1 1/2" + disco M16', '#b9bdc4', [0, 0, 32], [
   revolve([[25.1, 2], [31.5, 2], [31.5, 34], [29, 42], [29, 74], [22.25, 74], [22.25, 48],
     [7, 48], [7, 44], [22, 44], [22, 18.6], [25.1, 18.6]], [0, 0, 0], 'Terminal + disco'),
+  sketch(hexEnt(35.8), 14, [0, 0, 52], [0, 0, 1], [1, 0, 0], 'union', 'Hex de llave SW62'),
 ], { explode: [0, 0, 110] });
 P('prensa_trans', '11 Prensaestopas Skintop MS-M16 (transición)', '#c9a227', [0, 0, 53], [
-  cyl(19, 12, [0, 0, 0], [0, 0, 1], 'union', 'Cuerpo'),
-  cyl(20 / Math.cos(Math.PI / 6), 8, [0, 0, 12], [0, 0, 1], 'union', 'Hex SW20'),
+  cyl(19, 5, [0, 0, 0], [0, 0, 1], 'union', 'Capuchón'),
+  cyl(17, 7, [0, 0, 5], [0, 0, 1], 'union', 'Cuerpo'),
+  sketch(hexEnt(11.55), 8, [0, 0, 12], [0, 0, 1], [1, 0, 0], 'union', 'Hex SW20'),
   cyl(15.8, 7, [0, 0, 20], [0, 0, 1], 'union', 'Rosca M16'),
+  hole(8, [0, 0, 0], [0, 0, 1], { depth: 4, name: 'Boca de cable' }),
 ], { explode: [0, 0, 180] });
 P('collar', '12 Collar antipercolación HDPE (disco, sobre bentonita)', '#23282e', [0, 0, 0], [
   cyl(160, 6, [0, 0, 0], [0, 0, 1], 'union', 'Disco Ø160×6'),
@@ -145,13 +161,22 @@ P('tapon_hinca', '13 Cap PVC Ø63 + taco (accesorio de hinca)', '#b9bdc4', [300,
 // ============================================================================
 // POSTE CONTINUO + CAP (la brida desaparece)
 // ============================================================================
-P('pilar', '14 Poste A53 SCH40 1 1/2" × 1669, hilo en puntas, galv. + salida lateral Ø16', '#8f969c', [0, 0, 86], [
-  cyl(48.3, 1669, [0, 0, 0], [0, 0, 1], 'union', 'Cañería Ø48.3'),
-  cyl(40.9, 1671, [0, 0, -1], [0, 0, 1], 'cut', 'Ánima Ø40.9'),
-  hole(16, [0, -24.2, 1004], [0, 1, 0], { depth: 8, name: 'Salida lateral bus Ø16 (grommet)' }),
-], { explode: [0, 0, 150] });
+{
+  const feats = [
+    cyl(48.3, 1669, [0, 0, 0], [0, 0, 1], 'union', 'Cañería Ø48.3'),
+    cyl(40.9, 1671, [0, 0, -1], [0, 0, 1], 'cut', 'Ánima Ø40.9'),
+    hole(16, [0, -24.2, 1004], [0, 1, 0], { depth: 8, name: 'Salida lateral bus Ø16' }),
+    cyl(20, 2.5, [0, -26.5, 1004], [0, 1, 0], 'union', 'Grommet de goma'),
+  ];
+  for (let k = 0; k < 7; k++) {   // crestas de hilo NPT 1 1/2"-11.5 (paso 2.2)
+    feats.push(cyl(49.1, 0.8, [0, 0, 2 + k * 2.2], [0, 0, 1], 'union', `Hilo inf. ${k + 1}`));
+    feats.push(cyl(49.1, 0.8, [0, 0, 1652 + k * 2.2], [0, 0, 1], 'union', `Hilo sup. ${k + 1}`));
+  }
+  P('pilar', '14 Poste A53 SCH40 1 1/2" × 1669, hilo en puntas, galv. + salida lateral Ø16', '#8f969c', [0, 0, 86], feats, { explode: [0, 0, 150] });
+}
 P('cap_poste', '15 Cap roscado 1 1/2" (sella el tope del poste)', '#9aa2a8', [0, 0, 1730], [
   revolve([[22.25, 0], [29, 0], [29, 35], [0.01, 35], [0.01, 25], [22.25, 25]], [0, 0, 0], 'Cap hembra'),
+  sketch(hexEnt(31.2), 12, [0, 0, 23], [0, 0, 1], [1, 0, 0], 'union', 'Hex de llave SW54'),
 ], { explode: [0, 0, 260] });
 
 // ============================================================================
@@ -177,9 +202,14 @@ const RG = (o) => [GAB[0] + o[0], GAB[1] - o[2], GAB[2] + o[1]];  // R_x(90)·o 
     sketch([...rectEnt(-88, -63, 88, 63), ...rectEnt(-85, -60, 85, 60)], 1.5, [0, 0, 0], [0, 0, 1], [1, 0, 0], 'union', 'Marco PU'),
   ], { quat: QG, explode: [0, -260, 0] });
   const lidHole = hole(4.5, [84, 59, 8], [0, 0, -1], { through: true, name: 'Paso tornillo tapa' });
+  const scrHead = cyl(7, 3.5, [84, 59, 8], [0, 0, 1], 'union', 'Tornillo DIN912 M4');
+  const scrHex = hole(3, [84, 59, 11.5], [0, 0, -1], { depth: 2, name: 'Boca allen' });
   P('tapa', '18 Puerta vertical (4×M4 cautivos + cordón de retención)', '#aab4bd', RG([0, 0, 53.5]), [
     box(180, 130, 8, [0, 0, 0], 'union', 'Puerta'),
+    box(164, 114, 1.2, [0, 0, 6.9], 'cut', 'Rebaje estético 1 mm'),
     lidHole, rectPat(lidHole.id, 2, 2, -168, -118),
+    scrHead, rectPat(scrHead.id, 2, 2, -168, -118),
+    scrHex, rectPat(scrHex.id, 2, 2, -168, -118),
   ], { quat: QG, explode: [0, -340, 0] });
 }
 // electrónica en placa de espalda (vertical); posiciones = mismas locales rotadas
@@ -203,6 +233,10 @@ P('portapilas', '21 Portapilas 2×26650 (celdas verticales)', '#3a4148', RG([52,
 P('baterias', '22 2× LiFePO4 26650', '#5a7d9a', RG([52, 0, 21.1]), [
   cyl(26.2, 65.2, [-13.5, -32.6, 0], [0, 1, 0], 'union', 'Celda 1'),
   cyl(26.2, 65.2, [13.5, -32.6, 0], [0, 1, 0], 'union', 'Celda 2'),
+  cyl(8, 1.8, [-13.5, 32.6, 0], [0, 1, 0], 'union', 'Botón +'),
+  cyl(8, 1.8, [13.5, 32.6, 0], [0, 1, 0], 'union', 'Botón +'),
+  cyl(26.8, 0.6, [-13.5, 24, 0], [0, 1, 0], 'union', 'Ranura envoltura'),
+  cyl(26.8, 0.6, [13.5, 24, 0], [0, 1, 0], 'union', 'Ranura envoltura'),
 ], { quat: QG, explode: [0, -320, 0] });
 P('bms', '23 BMS/cargador solar LiFePO4', '#7a4a9e', RG([52, 45, 3]), [
   box(40, 20, 2, [0, 0, 0], 'union', 'BMS'),
@@ -217,27 +251,46 @@ P('desecante', '25 Cápsula desecante Ø30', '#d9c37a', RG([-64, -40, 3]), [
 // entradas inferiores (todas apuntan hacia abajo, con lazo de goteo)
 const BOT = 1085, YE = -55;
 P('prensa', '26 Skintop M16 bus de sonda (entrada inferior)', '#c9a227', [-66, YE, BOT - 20], [
-  cyl(19, 12, [0, 0, 0], [0, 0, 1], 'union', 'Cuerpo'),
-  cyl(20 / Math.cos(Math.PI / 6), 8, [0, 0, 12], [0, 0, 1], 'union', 'Hex SW20'),
+  cyl(19, 5, [0, 0, 0], [0, 0, 1], 'union', 'Capuchón'),
+  cyl(17, 7, [0, 0, 5], [0, 0, 1], 'union', 'Cuerpo'),
+  sketch(hexEnt(11.55), 8, [0, 0, 12], [0, 0, 1], [1, 0, 0], 'union', 'Hex SW20'),
   cyl(15.8, 11, [0, 0, 20], [0, 0, 1], 'union', 'Rosca M16'),
+  hole(8, [0, 0, 0], [0, 0, 1], { depth: 4, name: 'Boca de cable' }),
 ], { explode: [0, 0, -140] });
 P('prensas_superficie', '27 2× Skintop M16 superficie (pluvio + escudo/hoja)', '#c9a227', [-27, YE, BOT - 20], [
-  cyl(19, 12, [-13, 0, 0], [0, 0, 1], 'union', 'Prensaestopas 1'),
+  cyl(19, 5, [-13, 0, 0], [0, 0, 1], 'union', 'Capuchón 1'),
+  cyl(17, 7, [-13, 0, 5], [0, 0, 1], 'union', 'Cuerpo 1'),
   cyl(15.8, 11, [-13, 0, 20], [0, 0, 1], 'union', 'Rosca 1'),
-  cyl(19, 12, [13, 0, 0], [0, 0, 1], 'union', 'Prensaestopas 2'),
+  cyl(19, 5, [13, 0, 0], [0, 0, 1], 'union', 'Capuchón 2'),
+  cyl(17, 7, [13, 0, 5], [0, 0, 1], 'union', 'Cuerpo 2'),
   cyl(15.8, 11, [13, 0, 20], [0, 0, 1], 'union', 'Rosca 2'),
 ], { explode: [0, 0, -180] });
-P('m12', '28 Receptáculo M12 A-cod servicio (entrada inferior)', '#2b2f36', [12, YE, BOT - 6], [
-  cyl(17, 6, [0, 0, 0], [0, 0, 1], 'union', 'Tuerca frontal'),
-  cyl(12, 8, [0, 0, 6], [0, 0, 1], 'union', 'Rosca M12'),
-  cyl(14.5, 12, [0, 0, 14], [0, 0, 1], 'union', 'Cuerpo interior'),
-], { explode: [0, 0, -120] });
+{
+  const feats = [
+    cyl(17, 6, [0, 0, 0], [0, 0, 1], 'union', 'Tuerca moleteada'),
+    cyl(17.8, 0.8, [0, 0, 1], [0, 0, 1], 'union', 'Moleteado 1'),
+    cyl(17.8, 0.8, [0, 0, 2.6], [0, 0, 1], 'union', 'Moleteado 2'),
+    cyl(17.8, 0.8, [0, 0, 4.2], [0, 0, 1], 'union', 'Moleteado 3'),
+    cyl(12, 8, [0, 0, 6], [0, 0, 1], 'union', 'Rosca M12'),
+    cyl(14.5, 12, [0, 0, 14], [0, 0, 1], 'union', 'Cuerpo interior'),
+  ];
+  for (let k = 0; k < 4; k++) {
+    const a = k * Math.PI / 2;
+    feats.push(cyl(0.9, 2, [3.3 * Math.cos(a), 3.3 * Math.sin(a), -1.8], [0, 0, 1], 'union', `Pin ${k + 1}`));
+  }
+  feats.push(cyl(0.9, 2, [0, 0, -1.8], [0, 0, 1], 'union', 'Pin 5'));
+  P('m12', '28 Receptáculo M12 A-cod 5p servicio (entrada inferior)', '#2b2f36', [12, YE, BOT - 6], feats, { explode: [0, 0, -120] });
+}
 P('m12_tapa', '29 Tapa protectora M12 c/cadenilla', '#c9a227', [12, YE, BOT - 18], [
   cyl(16, 9, [0, 0, 0], [0, 0, 1], 'union', 'Tapa'),
 ], { explode: [0, 0, -170] });
 P('vent', '30 Válvula Gore M12 (cara inferior: nunca sol directo)', '#e0e0e0', [38, YE, BOT - 8], [
-  cyl(15, 8, [0, 0, 0], [0, 0, 1], 'union', 'Cabeza'),
+  sketch(hexEnt(8.1), 8, [0, 0, 0], [0, 0, 1], [1, 0, 0], 'union', 'Cabeza hex SW14'),
   cyl(12, 9, [0, 0, 8], [0, 0, 1], 'union', 'Rosca'),
+  hole(1.6, [6.2, 0, 4], [-1, 0, 0], { depth: 3, name: 'Venteo 1' }),
+  hole(1.6, [-6.2, 0, 4], [1, 0, 0], { depth: 3, name: 'Venteo 2' }),
+  hole(1.6, [0, 6.2, 4], [0, -1, 0], { depth: 3, name: 'Venteo 3' }),
+  hole(1.6, [0, -6.2, 4], [0, 1, 0], { depth: 3, name: 'Venteo 4' }),
 ], { explode: [0, 0, -150] });
 P('entrada_panel', '31 Prensaestopas M12 cable del panel (inferior)', '#c9a227', [64, YE, BOT - 10], [
   cyl(16, 10, [0, 0, 0], [0, 0, 1], 'union', 'Cuerpo'),
@@ -250,7 +303,8 @@ P('entrada_panel', '31 Prensaestopas M12 cable del panel (inferior)', '#c9a227',
 {
   const feats = [cyl(10, 55, [0, 0, 0], [0, 0, 1], 'union', 'Eje escudo'),
     box(170, 18, 5, [-80, 0, 50], 'union', 'Brazo (abrazadera al poste)')];
-  for (let k = 0; k < 5; k++) feats.push(cyl(80, 3, [0, 0, 2 + k * 11], [0, 0, 1], 'union', `Plato ${k + 1}`));
+  for (let k = 0; k < 5; k++)
+    feats.push(revolve([[6, 4.5], [37, 0], [40, 0], [40, 1.5], [8, 6], [6, 6]], [0, 0, k * 11], `Plato cónico ${k + 1}`));
   P('escudo_thr', '32 T/HR: SHT40 en escudo de radiación a 1.50 m (OMM 1.25–2 m)', '#e8e4da',
     [160, 0, 1470], feats, { explode: [170, 0, 0] });
 }
@@ -260,8 +314,14 @@ P('pluviometro', '33 Pluviómetro Ø160 en ménsula AL POSTE (2 abrazaderas + ca
   box(150, 18, 5, [-108, 0, 1150], 'union', 'Brazo'),
   sketch([{ type: 'line', a: [-36, 1150], b: [-36, 1105] }, { type: 'line', a: [-36, 1105], b: [-120, 1150] },
     { type: 'line', a: [-120, 1150], b: [-36, 1150] }], 5, [0, 2.5, 0], [0, -1, 0], [1, 0, 0], 'union', 'Cartela'),
-  cyl(90, 60, [-190, 0, 1155], [0, 0, 1], 'union', 'Cuerpo'),
-  cyl(160, 20, [-190, 0, 1215], [0, 0, 1], 'union', 'Boca Ø160 (nivelar ±1°)'),
+  cyl(90, 58, [-190, 0, 1155], [0, 0, 1], 'union', 'Cuerpo'),
+  cyl(96, 3, [-190, 0, 1155], [0, 0, 1], 'union', 'Anillo base'),
+  revolve([[6, 0], [80, 18.5], [80, 21], [77, 21], [5, 2.2]], [-190, 0, 1213], 'Embudo cónico Ø160'),
+  cyl(12, 3, [-152, 0, 1155], [0, 0, 1], 'union', 'Nivel de burbuja'),
+  ...Array.from({ length: 8 }, (_, k) => {
+    const a = k * Math.PI / 4;
+    return cyl(1.6, 22, [-190 + 72 * Math.cos(a), 72 * Math.sin(a), 1234], [0, 0, 1], 'union', `Pincho antipájaros ${k + 1}`);
+  }),
 ], { explode: [-190, 0, 40] });
 P('sensor_hoja', '34 Humedad de hoja — al follaje (heladas/enfermedades)', '#7aa05a', [250, 150, 0], [
   cyl(8, 440, [0, 0, 0], [0, 0, 1], 'union', 'Varilla ref.'),
@@ -274,11 +334,23 @@ P('soporte_panel', '35 Soporte panel al poste (abrazadera + brazo 20°)', '#98a2
 ], { explode: [0, 120, 60] });
 P('panel', '36 Panel solar 5 W ETFE al NORTE (20°)', '#20344d', [0, 60, 1640], [
   box(190, 130, 15, [0, 0, 0], 'union', 'Panel'),
+  box(174, 114, 1.2, [0, 0, 14.4], 'cut', 'Rebaje del vidrio'),
+  box(1.4, 114, 1, [-43.5, 0, 14.2], 'cut', 'Retícula v1'),
+  box(1.4, 114, 1, [0, 0, 14.2], 'cut', 'Retícula v2'),
+  box(1.4, 114, 1, [43.5, 0, 14.2], 'cut', 'Retícula v3'),
+  box(174, 1.4, 1, [0, -28.5, 14.2], 'cut', 'Retícula h1'),
+  box(174, 1.4, 1, [0, 28.5, 14.2], 'cut', 'Retícula h2'),
+  box(34, 24, 6, [0, -30, -6], 'union', 'Caja de conexiones'),
 ], { quat: qAxis([1, 0, 0], -20), explode: [0, 180, 120] });
 P('antena', '37 Antena 868/915 2 dBi al tope (~1.93 m)', '#30363f', [0, 0, 0], [
   ...strap(1690),
   cyl(14, 30, [-45, 0, 1700], [0, 0, 1], 'union', 'Base N/SMA'),
-  cyl(10, 195, [-45, 0, 1730], [0, 0, 1], 'union', 'Látigo'),
+  cyl(15.4, 1, [-45, 0, 1704], [0, 0, 1], 'union', 'Moleteado SMA 1'),
+  cyl(15.4, 1, [-45, 0, 1707], [0, 0, 1], 'union', 'Moleteado SMA 2'),
+  cyl(12, 3, [-45, 0, 1730], [0, 0, 1], 'union', 'Espira 1'),
+  cyl(12, 3, [-45, 0, 1735], [0, 0, 1], 'union', 'Espira 2'),
+  cyl(12, 3, [-45, 0, 1740], [0, 0, 1], 'union', 'Espira 3'),
+  cyl(10, 192, [-45, 0, 1733], [0, 0, 1], 'union', 'Látigo'),
 ], { explode: [-140, 0, 100] });
 
 // ============================================================================
