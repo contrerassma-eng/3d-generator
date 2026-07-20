@@ -1450,7 +1450,7 @@ renderer.domElement.addEventListener('pointerdown', (ev) => {
   if (mode === 'sketch' && sketch && ev.button === 0 && !sketch.profileMode) {
     if (sketch.tool === 'pen' && !sketch.stroke) { startStroke(ev); return; }
     if (sketch.tool === 'moveEnt' && !sketch.entDrag) { startEntDrag(ev); return; }
-    if (sketch.tool === 'select' && !sketch.marquee && !sketch.copyOp && !sketch.mirrorOp && !sketch.revolveWait) { startMarquee(ev); return; }
+    if (sketch.tool === 'select' && !sketch.marquee && !sketch.copyOp && !sketch.mirrorOp && !sketch.revolveWait && !sketch.patternWait) { startMarquee(ev); return; }
   }
   if (dragging) { switchDragVertical(); return; } // 2.º dedo durante el arrastre → mover en Z
   downPos = { x: ev.clientX, y: ev.clientY };
@@ -1775,6 +1775,7 @@ function clickSketch(hit, ev) {
   if (sketch.revolveWait) return clickRevolveAxis(raw);
   if (sketch.mirrorOp) return clickMirror(raw);
   if (sketch.copyOp) return clickCopy(raw);
+  if (sketch.patternWait) return clickPatternCenter(raw);
   const t = sketch.tool;
   if (t === 'select') { // tap suelto: alterna la entidad tocada
     const pick = pickEntityAt(raw, false);
@@ -2976,6 +2977,44 @@ function clickCopy(raw) {
   setStatus(`${copies.length} entidad(es) copiadas (Δ ${delta[0].toFixed(1)}, ${delta[1].toFixed(1)}). Toca otro destino o cambia de herramienta.`);
 }
 
+function startPatternOp() {
+  if (!sketch.selIds.size) { setStatus('Patrón: primero selecciona entidades con ⬚ Selec (o toques).'); return; }
+  const src = sketch.entities.filter(e => sketch.selIds.has(e.id));
+  showForm('Patrón de boceto', [
+    { key: 'type', label: 'Tipo', type: 'select', value: 'lin', options: [['lin', 'Rectangular'], ['circ', 'Circular']] },
+    { key: 'nx', label: 'Nº en X (rectangular)', value: 3, step: 1 },
+    { key: 'dx', label: 'Separación X (mm)', value: 20, step: 1 },
+    { key: 'ny', label: 'Nº en Y (rectangular)', value: 1, step: 1 },
+    { key: 'dy', label: 'Separación Y (mm)', value: 20, step: 1 },
+    { key: 'n', label: 'Nº ocurrencias (circular)', value: 6, step: 1 },
+    { key: 'ang', label: 'Ángulo total (circular, °)', value: 360, step: 15 },
+  ], (v) => {
+    if (v.type === 'lin') {
+      const copies = SK.patternLinear(src, v.nx, v.ny, v.dx, v.dy);
+      if (!copies.length) { setStatus('El patrón necesita al menos 2 ocurrencias.'); return; }
+      pushUndo();
+      sketch.entities.push(...copies);
+      redrawSketch();
+      setStatus(`Patrón rectangular: ${copies.length} copia(s) añadida(s).`);
+    } else {
+      sketch.patternWait = { src, n: Math.max(2, Math.round(v.n)), ang: v.ang };
+      setStatus('Patrón circular: toca el CENTRO de giro (con snap).');
+    }
+  });
+}
+
+function clickPatternCenter(raw) {
+  const { uv } = snap2D(raw);
+  const { src, n, ang } = sketch.patternWait;
+  sketch.patternWait = null;
+  const copies = SK.patternCircular(src, n, uv, ang);
+  if (!copies.length) { setStatus('Patrón circular inválido.'); return; }
+  pushUndo();
+  sketch.entities.push(...copies);
+  redrawSketch();
+  setStatus(`Patrón circular: ${copies.length} copia(s) alrededor del centro.`);
+}
+
 // --- modo lápiz (trazo a mano alzada) ---
 
 function startStroke(ev) {
@@ -3427,6 +3466,7 @@ sketchbar.addEventListener('click', (e) => {
   if (!btn || !sketch) return;
   if (btn.id === 'skCopy') { startCopyOp(); return; }
   if (btn.id === 'skMirror') { startMirrorOp(); return; }
+  if (btn.id === 'skPattern') { startPatternOp(); return; }
   if (btn.id === 'skConstrain') { applyConstraintUI(); return; }
   if (btn.id === 'skSlice') {
     sketch.slice = !sketch.slice;
@@ -3469,6 +3509,7 @@ sketchbar.addEventListener('click', (e) => {
     sketch.copyOp = null;
     sketch.mirrorOp = null;
     sketch.revolveWait = null;
+    sketch.patternWait = null;
     sketch.angLock = null;
     dynLock.textContent = '🔓'; dynLock.classList.remove('on');
     dynLen.value = ''; dynAng.value = '';
