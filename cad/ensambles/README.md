@@ -352,3 +352,9 @@ Visores autocontenidos: `node build_sonda_html.mjs [doc.json] [salida.html]` →
 Escalera completa con costos y qué cede cada nivel: §5 de
 `planos_sonda/sonda_estado_del_arte_seleccion.pdf`. Test de variantes:
 `cad/tests/test_sonda_variantes.mjs`.
+
+- **B1.5 SMT50 + estación de superficie** — `sonda_suelo_b15.json` (36 pzas):
+  B estándar con 3× Truebner SMT50 (±2 % VWC, ficha citada en webRef) + nodo
+  con ADC y estación de clima con paridad de competencia (T/HR en escudo de
+  radiación, pluviómetro balancín, humedad de hoja)
+  (`node gen_sonda_suelo.mjs smt50` → visor `sonda_suelo_b15.html`).

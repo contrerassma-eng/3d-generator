@@ -37,12 +37,17 @@ import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-// Variante: `premium` (por defecto; 316L torneado + tórica en transición) o
-// `estandar` (opción B: fittings de cañería certificados — terminal PVC
-// cementado, brida roscada comercial, collar HDPE, cap PVC de hinca —
-// misma envolvente, mismas interfaces z, misma filosofía de sellado).
-// Uso: node gen_sonda_suelo.mjs [premium|estandar]
-const STD = (process.argv[2] || 'premium') === 'estandar';
+// Variantes: `premium` (por defecto; 316L torneado + tórica en transición),
+// `estandar` (opción B: fittings de cañería certificados, misma envolvente,
+// mismas interfaces z, misma filosofía de sellado) y `smt50` (opción B1.5:
+// B estándar + sensores Truebner SMT50 analógicos ±2 % VWC [ficha 01/2018:
+// 135×21.5 mm, 0–50 %, −20…+85 °C, 0–3 V, 4 hilos] + ESTACIÓN DE SUPERFICIE
+// con paridad de competencia METER ZL6/CropX: T/HR aire en escudo de
+// radiación, pluviómetro balancín y sensor de humedad de hoja).
+// Uso: node gen_sonda_suelo.mjs [premium|estandar|smt50]
+const VAR = process.argv[2] || 'premium';
+const B15 = VAR === 'smt50';
+const STD = VAR === 'estandar' || B15;
 
 const r2 = (v) => Math.round(v * 100) / 100;
 const r6 = (v) => Math.round(v * 1e6) / 1e6;   // cuaterniones: NO redondear grueso
@@ -199,16 +204,23 @@ D.sensor.profundidades.forEach((zp, i) => {
   const azd = D.sensor.azimuts[i];
   const q = qMul(qAxis([0, 0, 1], azd), qAxis([0, 1, 0], 90)); // +Z local → radial
   const rad = [Math.cos(azd * Math.PI / 180), Math.sin(azd * Math.PI / 180), 0];
-  // sensor: hoja 182 radial (local +Z), 30 vertical (local X), 12 tangencial (local Y)
+  // sensor: hoja radial (local +Z), ancho vertical (local X), espesor tangencial (local Y)
+  if (B15) {
+    P(`sensor${i + 1}`, `0${3 + i} Sensor SMT50 #${i + 1} (${-zp / 10} cm, ±2 % VWC)`, '#3f8f4a', [0, 0, zp], [
+      box(21.5, 8, 135, [0, 0, 10], 'union', 'Hoja SMT50'),
+      cyl(15, 22, [0, 0, -12], [0, 0, 1], 'union', 'Capuchón/cable 4 hilos'),
+    ], { quat: q, explode: [rad[0] * 170, rad[1] * 170, 0] });
+  } else {
   P(`sensor${i + 1}`, `0${3 + i} Sensor SMT100 #${i + 1} (${-zp / 10} cm)`, '#2e6f40', [0, 0, zp], [
     box(D.sensor.W, D.sensor.T, D.sensor.L, [0, 0, 10], 'union', 'Hoja SMT100'),
     cyl(8, 14, [0, 0, -4], [0, 0, 1], 'union', 'Salida de cable'),
   ], { quat: q, explode: [rad[0] * 170, rad[1] * 170, 0] });
+  }
   // pasamuro POM-C: cuerpo Ø34.6 pegado en taladro Ø35 + brida exterior Ø42
   P(`pasamuro${i + 1}`, `0${6 + i} Pasamuro sensor POM-C #${i + 1}`, '#e8e4da', [0, 0, zp], [
     cyl(D.pasamuro.cuerpoD, 15.2, [0, 0, 14], [0, 0, 1], 'union', 'Cuerpo Ø34.6'),
     cyl(D.pasamuro.flangeD, 4, [0, 0, 25.2], [0, 0, 1], 'union', 'Brida Ø42'),
-    box(D.pasamuro.ranuraW, D.pasamuro.ranuraT, 22, [0, 0, 12], 'cut', 'Ranura hoja 31×13'),
+    box(B15 ? 23 : D.pasamuro.ranuraW, B15 ? 9 : D.pasamuro.ranuraT, 22, [0, 0, 12], 'cut', B15 ? 'Ranura hoja 23×9' : 'Ranura hoja 31×13'),
   ], { quat: q, explode: [rad[0] * 80, rad[1] * 80, 0] });
 });
 
@@ -409,6 +421,26 @@ D.sensor.profundidades.forEach((zp, i) => {
     box(D.panel.L, D.panel.W, D.panel.t, [0, 0, 0], 'union', 'Panel'),
   ], { quat: qAxis([0, 1, 0], D.panel.angulo), explode: [0, 0, 520] });
 
+  if (B15) {
+    // escudo de radiación multi-plato con SHT40 (T/HR aire) en brazo al pilar
+    const feats = [cyl(10, 55, [0, 0, 0], [0, 0, 1], 'union', 'Eje escudo'),
+      box(140, 18, 5, [70, 0, 50], 'union', 'Brazo al pilar')];
+    for (let k = 0; k < 5; k++) feats.push(cyl(80, 3, [0, 0, 2 + k * 11], [0, 0, 1], 'union', `Plato ${k + 1}`));
+    P('escudo_thr', '33 T/HR aire: SHT40 en escudo de radiación (brazo al pilar)', '#e8e4da',
+      [-140, 0, 690], feats, { explode: [-150, 0, 0] });
+    // pluviómetro balancín en brazo lateral, boca sobre el nivel del panel
+    P('pluviometro', '34 Pluviómetro balancín Ø160 (brazo −Y, boca libre)', '#aab4bd', [0, -230, 980], [
+      cyl(90, 60, [0, 0, 0], [0, 0, 1], 'union', 'Cuerpo'),
+      cyl(160, 20, [0, 0, 60], [0, 0, 1], 'union', 'Boca Ø160'),
+      box(18, 220, 5, [0, 115, 30], 'union', 'Brazo al pilar'),
+    ], { explode: [0, -160, 0] });
+    // sensor de humedad de hoja (se cuelga en el follaje; varilla solo de referencia)
+    P('sensor_hoja', '35 Humedad de hoja (heladas/enfermedades) — al follaje', '#7aa05a', [250, 150, 0], [
+      cyl(8, 440, [0, 0, 0], [0, 0, 1], 'union', 'Varilla ref.'),
+      box(60, 35, 3, [0, 30, 440], 'union', 'Placa capacitiva'),
+    ], { explode: [140, 90, 0] });
+  }
+
   const h = D.hinca;
   if (STD) {
     P('tapon_hinca', '30 Cap PVC Ø63 + taco de madera dura (accesorio de hinca)', '#b9bdc4', [300, -180, 0], [
@@ -561,6 +593,36 @@ if (STD) {
   CONSUMIBLES.push('Cemento PVC-U de presión + limpiador/primer (unión tubo–terminal, curado 24 h)');
 }
 
+// parches adicionales de la variante B1.5 (SMT50 + estación de superficie)
+if (B15) {
+  const bomBy = (i) => BOM.find(b => b.item === i);
+  bomBy(3).desig = 'Sensor humedad/T° Truebner SMT50 (analógico 0–3 V)';
+  bomBy(3).mat = 'Truebner (compra directa, EUR 71 c/u)';
+  bomBy(3).nota = '135×21.5 mm, ±2 % VWC en suelos minerales de salinidad moderada, 0–50 % VWC, −20…+85 °C, 4 hilos, cable 10 m (ficha 01/2018)';
+  bomBy(12).desig = 'Nodo RAK WisBlock + ADC ADS1115 (6 canales analógicos SMT50)';
+  bomBy(12).nota = 'Conversión: VWC % = V/3·50; T °C = (V−0.5)/0.01 (ficha SMT50); hardware de campo validado';
+  bomBy(7).cant = 2;
+  bomBy(7).nota = '1 cabezal (3 cables SMT50 con inserto multi-paso) + 1 transición; IP68; 2.5 N·m';
+  BOM.push(
+    { item: 33, id: 'escudo_thr', desig: 'T/HR aire: SHT40 + escudo de radiación multi-plato', mat: 'ASA/PC blanco', cant: 1, nota: '~$15; paridad METER ATMOS 14; brazo al pilar a ~0.7 m; I2C al nodo' },
+    { item: 34, id: 'pluviometro', desig: 'Pluviómetro balancín Ø160 (0.2–0.3 mm/tip)', mat: 'ABS UV + reed', cant: 1, nota: '~$25; paridad pluviómetro ZL6/Davis; brazo −Y con boca LIBRE sobre el panel; pulso al nodo; nivelar con burbuja' },
+    { item: 35, id: 'sensor_hoja', desig: 'Sensor de humedad de hoja (capacitivo)', mat: 'FR4 recubierto', cant: 1, nota: '~$12; paridad METER PHYTOS 31 (heladas/enfermedades); SE CUELGA EN EL FOLLAJE a altura de racimo, cable al nodo; analógico' },
+  );
+  const p4 = PASOS.find(x => x.n === 4);
+  p4.t = 'Sensores SMT50 + potting';
+  p4.texto = p4.texto.replaceAll('SMT100', 'SMT50').replace('el bus RS-485 en cadena (una sola pantalla)', 'los 3 cables de 4 hilos (rotulados por profundidad)');
+  const p8 = PASOS.find(x => x.n === 8);
+  p8.texto += ' B1.5: los 3 SMT50 entran por el Skintop del cabezal con inserto multi-paso (3 cables Ø4); al ADS1115 canales 0–2 (humedad) y 3 (T° multiplexada); pluviómetro a entrada de pulso, SHT40 por I2C, hoja a canal analógico libre.';
+  const p12 = PASOS.find(x => x.n === 12);
+  p12.partes.push('escudo_thr', 'pluviometro', 'sensor_hoja');
+  p12.texto += ' Montar escudo T/HR (brazo a ~0.7 m), pluviómetro NIVELADO con boca libre de sombra del panel, y colgar el sensor de hoja en el follaje a altura de fruta.';
+  FEATURES.unshift('VARIANTE B1.5 — SMT50 ±2 % VWC (calidad Truebner a 1/2 del costo de sensores) + ESTACIÓN DE SUPERFICIE con paridad de competencia (METER ZL6/CropX): T/HR aire, pluviómetro y humedad de hoja para heladas/enfermedades — riego + clima en un solo poste');
+  WEB_REF.push(
+    { afirmacion: 'SMT50: 135×21.5 mm, ±2 % VWC (minerales, salinidad moderada), 0–50 %, −20…+85 °C, 0–3 V, 3.3–30 V, cable 10 m', fuente: 'Truebner SMT50 Flyer 01/2018', url: 'https://www.truebner.de/assets/download/SMT50_Flyer_EN.pdf', acceso: '2026-07-20' },
+    { afirmacion: 'La estación de competencia ofrece por punto: T/HR/presión (ATMOS 14), pluviómetro y humedad de hoja (PHYTOS 31) plug-and-play al logger', fuente: 'METER ZL6 / ATMOS 14 / PHYTOS 31', url: 'https://metergroup.com/products/zl6/', acceso: '2026-07-20' },
+  );
+}
+
 // ============================================================================
 // salida
 // ============================================================================
@@ -587,10 +649,14 @@ const doc = {
 };
 
 const here = dirname(fileURLToPath(import.meta.url));
-const base = STD ? 'sonda_suelo_std' : 'sonda_suelo';
+const base = B15 ? 'sonda_suelo_b15' : STD ? 'sonda_suelo_std' : 'sonda_suelo';
 if (STD) {
-  doc.meta.nombre = 'Sonda de suelo industrial — VARIANTE B: fittings estándar';
-  doc.meta.variante = 'estandar';
+  doc.meta.nombre = B15 ? 'Estación de suelo+clima — VARIANTE B1.5: SMT50 + superficie'
+                        : 'Sonda de suelo industrial — VARIANTE B: fittings estándar';
+  doc.meta.variante = B15 ? 'smt50' : 'estandar';
+  if (B15) doc.meta.subtitulo = 'SMT50 ×3 (±2 % VWC) + T/HR · lluvia · hoja · IP68';
+  if (B15) doc.meta.etiquetaSensor = 'SMT50';
+  if (B15) doc.meta.costoEstimado = { proto: 'US$750–950', serie25: 'US$470–540' };
 }
 writeFileSync(join(here, base + '.json'), JSON.stringify(doc, null, 1));
 writeFileSync(join(here, base + '_dims.json'), JSON.stringify({

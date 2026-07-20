@@ -81,5 +81,25 @@ check('panel sobre la tapa', db.panel.min.z > 984);
 check('electrónica dentro de la cavidad', ['nodo', 'bateria', 'borne_bus', 'desecante'].every(id =>
   db[id].min.x > -84.1 && db[id].max.x < 84.1 && db[id].min.y > -62.1 && db[id].max.y < 62.1 && db[id].max.z < 976));
 
+// --- variante B1.5: SMT50 + estación de superficie -----------------------------
+console.log('— VARIANTE B1.5 (sonda_suelo_b15.json) —');
+const B15 = JSON.parse(readFileSync('ensambles/sonda_suelo_b15.json', 'utf8'));
+check('36 piezas (33 de B + escudo + pluviómetro + hoja)', B15.parts.length === 36, `hay ${B15.parts.length}`);
+check('sensores SMT50', byId(B15, 'sensor1').name.includes('SMT50'));
+const hoja15 = byId(B15, 'sensor1').features.find(f => f.name.includes('Hoja'));
+check('hoja SMT50 135×21.5 (ficha 01/2018)', hoja15.params.h === 135 && hoja15.params.w === 21.5);
+check('ranura pasamuro reducida 23×9', byId(B15, 'pasamuro1').features.some(f => f.name.includes('23×9')));
+check('estación de superficie presente', ['escudo_thr', 'pluviometro', 'sensor_hoja'].every(id => byId(B15, id)));
+check('BOM con SMT50 EUR 71 + ADC + 3 externos', B15.meta.bom.find(b => b.item === 3).mat.includes('EUR 71') &&
+  B15.meta.bom.find(b => b.item === 12).desig.includes('ADS1115') && B15.meta.bom.length >= 35);
+check('webRef cita ficha SMT50', B15.meta.webRef.some(w => w.url.includes('SMT50_Flyer')));
+const b15 = buildAll(B15);
+check('hoja sensora fuera del tubo >=100', Math.abs(b15.sensor1.max.x - 145) < 1.5, `${b15.sensor1.max.x}`);
+check('boca del pluviómetro sobre el panel', b15.pluviometro.max.z > b15.panel.max.z,
+  `${b15.pluviometro.max.z.toFixed(0)} vs panel ${b15.panel.max.z.toFixed(0)}`);
+check('pluviómetro fuera de la sombra del panel (|y|>150)', b15.pluviometro.min.y < -150 && b15.pluviometro.max.y - 220 < 0);
+check('escudo T/HR bajo el gabinete, lado −X', b15.escudo_thr.max.z < 924 && b15.escudo_thr.min.x < -150);
+check('interfaces compartidas: brida al piso 924', Math.abs(b15.acople.max.z - 924) < 0.5);
+
 console.log(`\n${pass} ✔ · ${fail} ✘`);
 process.exit(fail ? 1 : 0);
