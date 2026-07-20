@@ -11,7 +11,7 @@ import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid, PALETTE,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
   makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, makeMirrorFeature, makeFilletFeature, makeChamferFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
-  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace, holeToolGeometry, makeShellFeature, isConvexSolid, massProperties,
+  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace, holeToolGeometry, makeShellFeature, isConvexSolid, massProperties, sectionCap,
   makeMate, makeConcentric, solveConstraints,
   evalExpr, resolveParams, applyExpressions,
 } from './model.js';
@@ -302,26 +302,39 @@ if (vcCanvas) {
 
 // sección global: corta el modelo por un plano X/Y/Z para ver interiores
 const sectionBtn = document.getElementById('btnSection');
+// aplica el plano de corte (clipping) y, si 'cap', las tapas macizas del corte
+function applySectionPlane(axis, pos, inv, cap) {
+  const n = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] }[axis];
+  const normal = new THREE.Vector3(...n).multiplyScalar(inv ? 1 : -1);
+  SECTION.length = 0;
+  SECTION.push(new THREE.Plane(normal, inv ? -pos : pos));
+  buildSectionCaps(cap);
+  sectionBtn.classList.add('on');
+}
 if (sectionBtn) sectionBtn.onclick = () => {
-  showForm('Vista de sección', [
+  showForm('Vista de plano de corte', [
     { key: 'axis', label: 'Plano normal a', type: 'select', value: 'x', options: [['x', 'X'], ['y', 'Y'], ['z', 'Z']] },
     { key: 'pos', label: 'Posición (mm)', value: 0, step: 1 },
     { key: 'inv', label: 'Invertir lado', type: 'checkbox', value: false },
+    { key: 'cap', label: 'Tapar el corte (macizo)', type: 'checkbox', value: true },
   ], (v) => {
-    const n = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] }[v.axis];
-    const normal = new THREE.Vector3(...n).multiplyScalar(v.inv ? 1 : -1);
-    SECTION.length = 0;
-    SECTION.push(new THREE.Plane(normal, v.inv ? -v.pos : v.pos));
-    sectionBtn.classList.add('on');
-    setStatus(`Sección activa: plano ${v.axis.toUpperCase()} en ${v.pos} mm (edítala con el mismo botón).`);
+    applySectionPlane(v.axis, v.pos, v.inv, v.cap);
+    setStatus(`Corte activo: plano ${v.axis.toUpperCase()} en ${v.pos} mm${v.cap ? ' · tapado macizo' : ' · abierto'} (edítalo con el mismo botón).`);
   }, {
-    label: '✕ Quitar sección',
+    label: '✕ Quitar corte',
     onClick() {
       SECTION.length = 0;
+      clearGroup(sectionCaps);
       sectionBtn.classList.remove('on');
-      setStatus('Sección desactivada.');
+      setStatus('Corte desactivado.');
     },
   });
+  // vista previa en vivo: al mover posición/plano/lado/tapa se reconstruye el corte
+  const upd = () => {
+    const axis = $('dlg_axis').value, pos = +$('dlg_pos').value, inv = $('dlg_inv').checked, cap = $('dlg_cap').checked;
+    applySectionPlane(axis, pos, inv, cap);
+  };
+  for (const k of ['axis', 'pos', 'inv', 'cap']) { const el = $(`dlg_${k}`); el?.addEventListener('input', upd); el?.addEventListener('change', upd); }
 };
 
 // plano base ocultable (para mirar el modelo por abajo sin estorbo)
@@ -336,6 +349,34 @@ if (gridBtn) gridBtn.onclick = () => {
 
 const overlay = new THREE.Group(); // marcas de medición, resaltados persistentes
 scene.add(overlay);
+
+const sectionCaps = new THREE.Group(); // tapas macizas del plano de corte
+scene.add(sectionCaps);
+let sectionCapOn = false; // ¿el corte activo pide tapas macizas?
+// (re)construye las tapas de sección para todas las piezas en el plano activo
+function buildSectionCaps(enabled) {
+  sectionCapOn = !!enabled;
+  clearGroup(sectionCaps);
+  if (!enabled || !SECTION.length) return;
+  const pl = SECTION[0];
+  const nArr = pl.normal.toArray(), d = -pl.constant; // Plane: n·x + c = 0 → n·x = −c
+  for (const rec of meshes.values()) {
+    if (!rec.mesh.visible) continue;
+    rec.mesh.updateWorldMatrix(true, false);
+    const geo = rec.mesh.geometry.clone().applyMatrix4(rec.mesh.matrixWorld);
+    let cap = null;
+    try { cap = sectionCap(geo, nArr, d); } catch { cap = null; }
+    geo.dispose?.();
+    if (!cap) continue;
+    const col = rec.mesh.material?.color?.clone?.() || new THREE.Color(0x9aa6b2);
+    const mat = new THREE.MeshStandardMaterial({ color: col, metalness: 0.1, roughness: 0.85, side: THREE.DoubleSide });
+    const m = new THREE.Mesh(cap, mat);
+    m.position.addScaledVector(pl.normal, 0.03); // leve empuje para evitar z-fighting con el borde cortado
+    m.renderOrder = 1;
+    sectionCaps.add(m);
+  }
+}
+window.__buildSectionCaps = buildSectionCaps; // para rebuilds tras regenerar piezas
 
 function resize() {
   const w = viewport.clientWidth, h = viewport.clientHeight;
@@ -685,6 +726,7 @@ function disposePartMesh(partId) {
 function rebuildAll() {
   for (const id of [...meshes.keys()]) disposePartMesh(id);
   for (const part of doc.parts) rebuildPart(part);
+  if (SECTION.length && sectionCapOn) buildSectionCaps(true); // mantiene las tapas al día
 }
 
 function syncTransform(part) {

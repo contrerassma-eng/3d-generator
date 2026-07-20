@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
-  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, makeMirrorFeature, makeFilletFeature, makeChamferFeature, makeShellFeature, isConvexSolid, solidPlanarFaces, massProperties, planeBasis, magnetCorrections, identifyFace,
+  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, makeMirrorFeature, makeFilletFeature, makeChamferFeature, makeShellFeature, isConvexSolid, solidPlanarFaces, massProperties, sectionCap, planeBasis, magnetCorrections, identifyFace,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
   evalExpr, resolveParams, applyDocParams,
@@ -410,6 +410,29 @@ console.log('— Patrones de funciones (rectangular / circular) —');
   const cylFacet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
   const expected = 96000 - 2 * Math.PI * 9 * 10 * cylFacet;
   check('caja − simetría de agujero (2 en total)', rel(volume(g), expected) < 0.004, `vol=${volume(g)} esp=${expected.toFixed(1)}`);
+}
+
+console.log('— Tapa de sección (vista de plano de corte) —');
+{
+  // área de un polígono 3D en su plano (por triangulación ya emitida)
+  const capArea = (g) => { const p = g.attributes.position; let A = 0; const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(); for (let i = 0; i < p.count; i += 3) { a.fromBufferAttribute(p, i); b.fromBufferAttribute(p, i + 1); c.fromBufferAttribute(p, i + 2); A += new THREE.Vector3().subVectors(b, a).cross(new THREE.Vector3().subVectors(c, a)).length() / 2; } return A; };
+  // caja [-20,20]×[-20,20]×[0,40]; corte en X=0 → rectángulo 40(alto z)×40(ancho y) = 1600
+  const gBox = buildPartGeometry((() => { const d = newDoc(); const p = newPart(d, 'x'); p.features.push(makeBoxFeature(40, 40, 40, [0, 0, 0])); return p; })());
+  const cap = sectionCap(gBox, [1, 0, 0], 0);
+  check('sección de caja en X=0 → tapa de 1600 mm²', cap && Math.abs(capArea(cap) - 1600) < 5, `A=${cap ? capArea(cap).toFixed(1) : 'null'}`);
+
+  // plano fuera de la pieza → sin tapa
+  check('plano fuera de la pieza → null', sectionCap(gBox, [1, 0, 0], 100) === null);
+
+  // tubo: corte transversal deja una corona (macizo con agujero) → área anillo
+  const SK = await import('../js/sketch2d.js');
+  const rect = [SK.makeLine([10, 0], [20, 0]), SK.makeLine([20, 0], [20, 30]), SK.makeLine([20, 30], [10, 30]), SK.makeLine([10, 30], [10, 0])];
+  const gTube = buildPartGeometry((() => { const d = newDoc(); const p = newPart(d, 't'); p.features.push(makeRevolveFeature(rect, [], { a: [0, 0], b: [0, 30] }, 'union', [0, 0, 0], [0, 0, 1], [1, 0, 0])); return p; })());
+  // el eje del tubo queda en Y (mapeo de la revolución) → corte perpendicular en Y=15
+  const capT = sectionCap(gTube, [0, 1, 0], 15);
+  const facet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
+  const ringExp = Math.PI * (400 - 100) * facet; // corona r10..r20 con facetado
+  check('sección de tubo → corona con agujero', capT && Math.abs(capArea(capT) - ringExp) / ringExp < 0.02, `A=${capT ? capArea(capT).toFixed(1) : 'null'} esp=${ringExp.toFixed(1)}`);
 }
 
 console.log('— Propiedades físicas (masa/área/centro) —');
