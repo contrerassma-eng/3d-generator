@@ -5,7 +5,7 @@ import {
   fitStroke, dist, snapPoints, tangentPoints, regions, loopKey,
   moveEntity, applyLockedDims, makeArcCSE, regularPolygon, offsetEntity, filletLines,
   entityInRect, copyEntities, mirrorEntities,
-  makeConstraint, solveSketch, constraintResidual,
+  makeConstraint, solveSketch, constraintResidual, slotEntities,
 } from '../js/sketch2d.js';
 
 let pass = 0, fail = 0;
@@ -366,6 +366,14 @@ console.log('— Restricciones geométricas (solver) —');
   check('simétrica: espejo respecto al eje', res < 0.01, `res=${res}`);
   check('simétrica: B es reflejo de A en x', near(B.a[0], -A.a[0]) && near(B.b[0], -A.b[0]));
   check('simétrica: misma altura', near(B.a[1], A.a[1]) && near(B.b[1], A.b[1]));
+}
+
+console.log('— Ranura (slot) —');
+{
+  const ents = slotEntities([0, 0], [40, 0], 8);
+  check('slot: 2 líneas + 2 arcos', ents.filter(e=>e.type==='line').length===2 && ents.filter(e=>e.type==='arc').length===2);
+  const { outer, openCount } = chainLoops(ents);
+  check('slot: contorno cerrado sin cadenas abiertas', !!outer && openCount===0, `open=${openCount}`);
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);
