@@ -723,6 +723,32 @@ export function slotEntities(c1, c2, r) {
   ];
 }
 
+// rectángulo por centro y una esquina (los otros lados salen por simetría)
+export function rectCenter(center, corner) {
+  const dx = corner[0] - center[0], dy = corner[1] - center[1];
+  if (Math.abs(dx) < 1e-6 || Math.abs(dy) < 1e-6) return [];
+  const p = [
+    [center[0] - dx, center[1] - dy], [center[0] + dx, center[1] - dy],
+    [center[0] + dx, center[1] + dy], [center[0] - dx, center[1] + dy],
+  ];
+  return [makeLine(p[0], p[1]), makeLine(p[1], p[2]), makeLine(p[2], p[3]), makeLine(p[3], p[0])];
+}
+
+// rectángulo orientado por 3 puntos: p1→p2 es un lado (base y dirección);
+// p3 fija la altura (distancia perpendicular con signo). Permite rectángulos
+// en cualquier ángulo, no solo alineados a los ejes.
+export function rect3pt(p1, p2, p3) {
+  const dx = p2[0] - p1[0], dy = p2[1] - p1[1];
+  const L = Math.hypot(dx, dy);
+  if (L < 1e-6) return [];
+  const nx = -dy / L, ny = dx / L;                       // normal unitaria a la base
+  const h = (p3[0] - p1[0]) * nx + (p3[1] - p1[1]) * ny; // altura con signo
+  if (Math.abs(h) < 1e-6) return [];
+  const c = [p2[0] + nx * h, p2[1] + ny * h];
+  const d = [p1[0] + nx * h, p1[1] + ny * h];
+  return [makeLine(p1, p2), makeLine(p2, c), makeLine(c, d), makeLine(d, p1)];
+}
+
 // equidistancia: copia paralela a distancia d, hacia el lado de sidePt
 export function offsetEntity(e, d, sidePt) {
   if (!(d > 0)) return null;

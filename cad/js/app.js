@@ -1782,6 +1782,8 @@ function clickSketch(hit, ev) {
   }
   if (t === 'line') return clickLine(raw);
   if (t === 'rect') return clickRect(raw);
+  if (t === 'rectc') return clickRectCenter(raw);
+  if (t === 'rect3') return clickRect3(raw);
   if (t === 'circle') return clickCircle(raw);
   if (t === 'dim') return clickDim(raw);
   if (t === 'trim') return clickTrim(raw);
@@ -2323,6 +2325,42 @@ function clickRect(raw) {
     SK.makeConstraint('horizontal', bottom.id), SK.makeConstraint('horizontal', top.id),
     SK.makeConstraint('vertical', right.id), SK.makeConstraint('vertical', left.id));
   setStatus(`Rectángulo ${Math.abs(x2 - x1).toFixed(1)}×${Math.abs(y2 - y1).toFixed(1)} mm (lados H/V restringidos).`);
+  redrawSketch();
+}
+
+function clickRectCenter(raw) {
+  const { uv } = snap2D(raw);
+  if (!sketch.temp) { sketch.temp = uv; setStatus('Rectángulo por centro: toca una esquina.'); redrawSketch(); return; }
+  const c = sketch.temp; sketch.temp = null;
+  const ents = SK.rectCenter(c, uv);
+  if (!ents.length) { setStatus('Rectángulo demasiado angosto.'); return; }
+  const [bottom, right, top, left] = ents;
+  sketch.entities.push(...ents);
+  sketch.constraints.push(
+    SK.makeConstraint('horizontal', bottom.id), SK.makeConstraint('horizontal', top.id),
+    SK.makeConstraint('vertical', right.id), SK.makeConstraint('vertical', left.id));
+  setStatus(`Rectángulo ${Math.abs(2 * (uv[0] - c[0])).toFixed(1)}×${Math.abs(2 * (uv[1] - c[1])).toFixed(1)} mm centrado (lados H/V).`);
+  redrawSketch();
+}
+
+function clickRect3(raw) {
+  const { uv } = snap2D(raw);
+  if (!sketch.temp) { sketch.temp = { a: uv }; setStatus('Rectángulo 3 puntos: toca el 2.º punto de la base.'); redrawSketch(); return; }
+  if (!sketch.temp.b) {
+    if (SK.dist(sketch.temp.a, uv) < 0.5) { setStatus('La base es demasiado corta.'); return; }
+    sketch.temp.b = uv; setStatus('Rectángulo 3 puntos: toca el punto que fija la altura.'); redrawSketch(); return;
+  }
+  const { a, b } = sketch.temp; sketch.temp = null;
+  const ents = SK.rect3pt(a, b, uv);
+  if (!ents.length) { setStatus('Altura nula: el rectángulo no se creó.'); return; }
+  sketch.entities.push(...ents);
+  // dos lados paralelos a la base y dos perpendiculares (rectángulo orientado)
+  sketch.constraints.push(
+    SK.makeConstraint('parallel', ents[0].id, ents[2].id),
+    SK.makeConstraint('parallel', ents[1].id, ents[3].id),
+    SK.makeConstraint('perpendicular', ents[0].id, ents[1].id));
+  const L = SK.dist(a, b), H = SK.dist(ents[1].a, ents[1].b);
+  setStatus(`Rectángulo orientado ${L.toFixed(1)}×${H.toFixed(1)} mm creado.`);
   redrawSketch();
 }
 
@@ -3029,7 +3067,7 @@ function redrawSketch() {
   const tempPts = [];
   if (sketch.temp) {
     if (Array.isArray(sketch.temp)) tempPts.push(sketch.temp);
-    else { if (sketch.temp.c) tempPts.push(sketch.temp.c); if (sketch.temp.start) tempPts.push(sketch.temp.start); }
+    else for (const k of ['c', 'start', 'a', 'b']) if (sketch.temp[k]) tempPts.push(sketch.temp[k]);
   }
   for (const p of [sketch.chainLast, ...tempPts]) {
     if (!p) continue;
@@ -3438,6 +3476,8 @@ sketchbar.addEventListener('click', (e) => {
     setStatus({
       line: 'Línea: toca los puntos (snap a extremos, medios, centros, cuadrantes y tangentes); el 1.º cierra.',
       rect: 'Rectángulo: toca dos esquinas.',
+      rectc: 'Rectángulo por centro: toca el centro y luego una esquina.',
+      rect3: 'Rectángulo 3 puntos: toca dos puntos de la base y un tercero para la altura (a cualquier ángulo).',
       circle: 'Círculo: toca el centro y luego el radio.',
       pen: 'Lápiz: dibuja a mano alzada — interpreto círculos, líneas y polilíneas.',
       dim: 'Cota: toca 1 entidad (largo/Ø) o 2 (distancia/ángulo), incluidas referencias. 🔒 la fija.',
