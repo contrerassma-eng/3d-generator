@@ -85,7 +85,32 @@ luz angular entre barriles − 2), como el cuerpo araña de Rotacaster y el
 `Base.ipt` del snapshot. En el catálogo se representan como brazos radiales
 Ø8. Los pernos M4 de las placas apuntan a estas almas.
 
-## El módulo (24"×24", tangente Z=170)
+## Opción de COMPRA adoptada en el ensamble (Alibaba/Nexus, 2026-07-20)
+
+El módulo `omni_modulo.json` usa **ruedas comerciales** con el tipo de eje del
+diseño (Ø15 con chaveta — bore por pedido OEM), ajustando el layout a sus
+medidas reales:
+
+| Rueda | Producto | Cotas oficiales | Uso |
+|---|---|---|---|
+| `rueda_omni_100_pu_14182` | [Nexus 14182 Ø100 PU](https://www.nexusrobot.com/product/100mm-aluminum-omni-wheel-with-pu-14182.html) | Ø100 × 66, doble, PU, alu, 816 g, **80 kg** | AVANCE (9 uds) |
+| `rueda_omni_152_ind_nw152a` | [Nexus NW152A Ø152 industrial](http://www.nexusrobot.com/product/152mm-heavyduty-industrial-omni-wheel-nw152a.html) | Ø152 × 90, cuerpo acero, rodillos PU, **100 kg** | EYECCIÓN (4 uds) |
+
+Ambas se consiguen también vía [Alibaba (omni wheel for conveyor)](https://www.alibaba.com/showroom/omni-wheel-for-conveyor.html);
+la [14153 Ø127 con chavetero](http://www.nexusrobot.com/product/127mm-heavy-duty-aluminum-omni-wheelbearing-rollerswith-keyway14153.html)
+confirma que la línea acepta **bore con chavetero** de fábrica.
+
+Ajustes del módulo a estas ruedas: ΔR = 76−50 = 26 → **luz de 11 mm** en los
+cruces de ejes Ø15; tangente sube a **Z=200**; retícula pasa a **8"** (203.2):
+3 ejes de avance × 3 ruedas + 2 de eyección × 2 (13 contactos a tresbolillo,
+capacidad ≥ 80 kg/contacto); correas **5M-535-15 (107T)** y **5M-485-15
+(97T)** con eje D a −47.5/−48.5 por familia. Las cotas internas de las ruedas
+(rodillos, placas) están **estimadas de las fotos** — pedir plano al
+fabricante antes de fabricar los ejes. Las ruedas de fabricación propia
+(`rueda_omni_70_doble`/`rueda_omni_120_doble`) quedan en el catálogo como
+alternativa.
+
+## El módulo (24"×24", tangente Z=170 — diseño con ruedas propias)
 
 - **Ejes A — AVANCE**: 4 ejes Ø15 **transversales** (Y) en X = ±76.2, ±228.6,
   z = 135, con 4 ruedas **Ø70** cada uno (Y = ±76.2, ±228.6) → 16 contactos 4×4.

@@ -33,19 +33,22 @@ const COMP = new Map(CAT.componentes.map(c => [c.id, c]));
 const IN = 25.4;
 const D = {
   mod: 24 * IN,                 // 609.6 — largo y ancho del módulo (norma CV-OMW)
-  tang: 170,                    // plano de transporte (marco del módulo)
-  R1: 35,  W1: 42,              // rueda omni Ø70 (6 rodillos/corona) — ejes A (avance)
-  R2: 60,  W2: 54,              // rueda omni Ø120 (8 rodillos/corona) — ejes B (eyección)
-  ejeDia: 15,                   // ejes calibrados Ø15 h6, chaveta 5×5 (ambas familias)
+  tang: 200,                    // plano de transporte (sube para alojar la Ø152)
+  // RUEDAS DE COMPRA (Alibaba/Nexus, ver docs § Compra):
+  //   avance  = Nexus 14182  Ø100 PU doble, ancho 66, 80 kg
+  //   eyección = Nexus NW152A Ø152 industrial acero, ancho 90, 100 kg
+  R1: 50,  W1: 66,              // Ø100 PU (14182) — ejes A (avance)
+  R2: 76,  W2: 90,              // Ø152 industrial (NW152A) — ejes B (eyección)
+  ejeDia: 15,                   // ejes calibrados Ø15 h6, chaveta 5×5 (bore por OEM)
   luzMin: 5,                    // luz mínima admisible en cualquier cruce
-  pitch: 6 * IN,                // 152.4 — paso de la retícula de contactos
-  ejesA_X: [-1.5, -0.5, 0.5, 1.5].map(k => k * 6 * IN),   // ±76.2, ±228.6
-  ejesB_Y: [-1, 0, 1].map(k => k * 6 * IN),               // 0, ±152.4
-  ruedasA_Y: [-1.5, -0.5, 0.5, 1.5].map(k => k * 6 * IN), // 4 ruedas Ø70 por eje A
-  ruedasB_X: [-1, 0, 1].map(k => k * 6 * IN),             // 3 ruedas Ø120 por eje B
-  placa: 6, placaZ0: 40, placaZ1: 163,   // placas perimetrales (la tapa apoya encima)
+  pitch: 8 * IN,                // 203.2 — retícula de contactos 8" (ruedas grandes)
+  ejesA_X: [-1, 0, 1].map(k => k * 8 * IN),               // 0, ±203.2
+  ejesB_Y: [-0.5, 0.5].map(k => k * 8 * IN),              // ±101.6
+  ruedasA_Y: [-1, 0, 1].map(k => k * 8 * IN),             // 3 ruedas Ø100 por eje A
+  ruedasB_X: [-0.5, 0.5].map(k => k * 8 * IN),            // 2 ruedas Ø152 por eje B
+  placa: 6, placaZ0: 40, placaZ1: 193,   // placas perimetrales (la tapa apoya encima)
   fondo: 5, fondoZ: 35,                  // bandeja de fondo
-  tapa: 5, tapaZ0: 163,                  // TAPA portante negra: solo asoman las coronas
+  tapa: 5, tapaZ0: 193,                  // TAPA portante negra: solo asoman las coronas
   holgTapa: 4,                           // holgura de las aberturas alrededor de cada rueda
   fotoX: 0.82,                           // fotocélula a 0.82·L (modo 'stop')
   // --- transmisión (motor UniDrive de biblioteca + polea síncrona ad-hoc) ---
@@ -55,7 +58,7 @@ const D = {
   // pancake VERTICAL: eje D horizontal (local +Z → eje conducido), cara 152.7
   // vertical (local X), 118.1 transversal (local Y).
   motor: { id: 'cv_ZP2026__300986_std_unidrive_motor_d_shaft', bbox: [152.69, 118.12, 119.05], axial: [82, 119], shaftL: 60 },
-  motorZ: -47.5,                // altura del eje D de todos los motores (da dientes enteros)
+  motorZ: { A: -47.5, B: -48.5 },  // eje D por familia (dientes enteros; colisas absorben)
   polea: { id: 'polea_sincrona_htd5m_28t', R: 26, dp: 44.563, span: [-10.5, 22.5] }, // +X local = cubo
   correaW: 15,
   sep: 22,                       // separadores tubulares Ø22 entre ruedas (posición axial)
@@ -70,11 +73,13 @@ const zB = D.tang - D.R2;      // 110 — centro de ejes B
 // entre ruedas/ejes; dir = sentido hacia el que se extiende el cuerpo del
 // motor; hub = lado del cubo de la polea (local +X del componente).
 const DRIVES = [
-  ...D.ejesA_X.map(x => ({ fam: 'A', at: x, st: x < 0 ? -38 : 38, dir: Math.sign(x), hub: -Math.sign(x) })),
-  { fam: 'B', at: -152.4, st: 44, dir: 1, hub: 1 },
-  { fam: 'B', at: 152.4, st: -44, dir: -1, hub: -1 },
-  { fam: 'B', at: 0, st: 260, dir: -1, hub: 1 },   // ventana exterior (tras el último eje A)
+  { fam: 'A', at: -203.2, st: -60, dir: -1, hub: 1 },
+  { fam: 'A', at: 0, st: 60, dir: 1, hub: -1 },
+  { fam: 'A', at: 203.2, st: 60, dir: 1, hub: -1 },
+  { fam: 'B', at: -101.6, st: 30, dir: 1, hub: 1 },
+  { fam: 'B', at: 101.6, st: -30, dir: -1, hub: -1 },
 ];
+const MZ = (fam) => D.motorZ[fam];
 // Pancake vertical: mitades del cuerpo — VERTICAL (cara larga local X) y
 // TRANSVERSAL (local Y); intervalo AXIAL del cuerpo respecto de la punta del
 // eje D (que se coloca en la estación, sobre la polea).
@@ -111,9 +116,9 @@ gate('luz_ruedaB_fondo', (D.tang - 2 * D.R2) - (D.fondoZ + D.fondo), D.luzMin);
 // --- gates de la transmisión (motores colgados bajo la bandeja) ---
 // 7) correas con número ENTERO de dientes HTD 5M (paso 5) en relación 1:1
 for (const [fam, zEje] of [['A', zA], ['B', zB]]) {
-  const L = 2 * (zEje - D.motorZ) + Math.PI * D.polea.dp;
+  const L = 2 * (zEje - MZ(fam)) + Math.PI * D.polea.dp;
   const T = L / 5;
-  chk[`correa_${fam}`] = `HTD 5M-${Math.round(L)}-15 (${Math.round(T)}T, C=${(zEje - D.motorZ).toFixed(1)})`;
+  chk[`correa_${fam}`] = `HTD 5M-${Math.round(L)}-15 (${Math.round(T)}T, C=${(zEje - MZ(fam)).toFixed(1)})`;
   if (Math.abs(T - Math.round(T)) > 0.02) throw new Error(`correa ${fam}: ${T.toFixed(3)} dientes no enteros`);
 }
 // 8) la polea (ancho total 33 con cubo) cabe en su ventana entre ruedas y ejes
@@ -140,7 +145,7 @@ for (const d of DRIVES) {
 gate('gap_poleaA_ruedaB', (D.pitch / 2) - 26 - D.W2 / 2, D.luzMin);
 // 10) cuerpo pancake del motor bajo la bandeja: no toca el fondo ni sale del
 //     módulo, y los 7 conjuntos motor+bracket no se solapan en planta (luz ≥ 2)
-gate('luz_motor_fondo', D.fondoZ - (D.motorZ + MVERT), D.luzMin);
+gate('luz_motor_fondo', D.fondoZ - (Math.max(D.motorZ.A, D.motorZ.B) + MVERT), D.luzMin);
 const rects = [];
 for (const d of DRIVES) {
   const c = bodyCenter(d);
@@ -226,16 +231,18 @@ const poly = (pts) => pts.map((p, i) => mkLine(p, pts[(i + 1) % pts.length]));
 // → coronas de 8/12 rodillos finos, placas exteriores FESTONEADAS de aluminio
 //   con pernos pasantes entre rodillos, y ancho total 38/46.
 function ruedaTorneada(nombre, biblioteca, pos, quat, P) {
-  // P: {R, rrod, nrod, Lrod, rHub, rPlato, ePlato, wMid, chaflan}
+  // P: {R, rrod, nrod, Lrod, rHub, rPlato, ePlato, wMid, chaflan, colRodillo/colPlato/colCubo}
   const rc = P.R - P.rrod;
+  const colRod = P.colRodillo || C.rodillo;
+  const colPla = P.colPlato || C.plato, colCubo = P.colCubo || C.cubo;
   const half = P.wMid / 2 + 2 * P.rrod + P.ePlato;   // semiancho total
   const fe = [];
   const ch = P.chaflan;
   // cubo torneado + disco central (perfil de revolución con chaflanes)
   fe.push(revolve(`Cubo torneado Ø${2 * P.rHub}`, [0, 0, P.R], [0, 1, 0], [1, 0, 0],
-    poly([[-half, 8], [half, 8], [half, P.rHub - ch], [half - ch, P.rHub], [-half + ch, P.rHub], [-half, P.rHub - ch]]), C.cubo));
-  fe.push(revolve(`Disco central Ø${2 * P.rPlato}`, [0, 0, P.R], [0, 1, 0], [1, 0, 0],
-    poly([[-P.wMid / 2, P.rHub], [P.wMid / 2, P.rHub], [P.wMid / 2, P.rPlato - ch], [P.wMid / 2 - ch, P.rPlato], [-P.wMid / 2 + ch, P.rPlato], [-P.wMid / 2, P.rPlato - ch]]), C.plato));
+    poly([[-half, 8], [half, 8], [half, P.rHub - ch], [half - ch, P.rHub], [-half + ch, P.rHub], [-half, P.rHub - ch]]), colCubo));
+  if (P.wMid > 0) fe.push(revolve(`Disco central Ø${2 * P.rPlato}`, [0, 0, P.R], [0, 1, 0], [1, 0, 0],
+    poly([[-P.wMid / 2, P.rHub], [P.wMid / 2, P.rHub], [P.wMid / 2, P.rPlato - ch], [P.wMid / 2 - ch, P.rPlato], [-P.wMid / 2 + ch, P.rPlato], [-P.wMid / 2, P.rPlato - ch]]), colPla));
   // barril: arco exacto de la envolvente
   const hL = P.Lrod / 2;
   const yE = Math.sqrt(P.R ** 2 - hL ** 2) - rc;
@@ -262,7 +269,7 @@ function ruedaTorneada(nombre, biblioteca, pos, quat, P) {
     }
     ents.push(mkCircle([0, 0], P.rHub + 0.5));                      // agujero central (anillo)
     const x0 = s < 0 ? -half : half - P.ePlato;
-    fe.push({ id: fid(), name: `Placa festoneada Ø${2 * P.rPlato}`, shape: 'sketch', op: 'union', at: [x0, 0, P.R], dir: [1, 0, 0], params: { entities: ents, dims: [], h: P.ePlato, side: 'pos', u: [0, 1, 0] }, color: C.plato });
+    fe.push({ id: fid(), name: `Placa festoneada Ø${2 * P.rPlato}`, shape: 'sketch', op: 'union', at: [x0, 0, P.R], dir: [1, 0, 0], params: { entities: ents, dims: [], h: P.ePlato, side: 'pos', u: [0, 1, 0] }, color: colPla });
     // pernos pasantes en los lóbulos (referencia: placas apernadas entre rodillos)
     for (let k = 0; k < P.nrod; k++) {
       const fm = (rowOff[s] + (k + 0.5) * paso) * Math.PI / 180;
@@ -280,7 +287,7 @@ function ruedaTorneada(nombre, biblioteca, pos, quat, P) {
     for (let k = 0; k < P.nrod; k++) {
       const psi = (off + (k + 0.5) * paso) * Math.PI / 180;
       const tw = [0, Math.cos(psi), -Math.sin(psi)];
-      fe.push({ id: fid(), name: 'Alma del núcleo (porta-pasadores)', shape: 'sketch', op: 'union', at: [xw, rc * Math.sin(psi), P.R + rc * Math.cos(psi)], dir: tw, params: { entities: poly([[-w2, yIn], [w2, yIn], [w2, yOut + 2], [w2 - 1.5, yOut], [-w2 + 1.5, yOut], [-w2, yOut + 2]]), dims: [], h: webT, side: 'sym', u: [1, 0, 0] }, color: C.plato });
+      fe.push({ id: fid(), name: 'Alma del núcleo (porta-pasadores)', shape: 'sketch', op: 'union', at: [xw, rc * Math.sin(psi), P.R + rc * Math.cos(psi)], dir: tw, params: { entities: poly([[-w2, yIn], [w2, yIn], [w2, yOut + 2], [w2 - 1.5, yOut], [-w2 + 1.5, yOut], [-w2, yOut + 2]]), dims: [], h: webT, side: 'sym', u: [1, 0, 0] }, color: colPla });
     }
   }
   // rodillos finos abombados; pasadores CORTOS embebidos en las almas
@@ -294,15 +301,19 @@ function ruedaTorneada(nombre, biblioteca, pos, quat, P) {
         mkLine([-hL, 1.4], [hL, 1.4]), mkLine([hL, 1.4], [hL, yE]),
         mkArc([0, -rc], P.R, aR, Math.PI - aR), mkLine([-hL, yE], [-hL, 1.4]),
       ];
-      fe.push(revolve(`Rodillo barril Ø${2 * P.rrod}`, cRod, [1, 0, 0], tHat, ents, C.rodillo));
+      fe.push(revolve(`Rodillo barril Ø${2 * P.rrod}`, cRod, [1, 0, 0], tHat, ents, colRod));
       const Lp = P.Lrod + 3;                             // termina DENTRO de las almas
       fe.push(cyl('Pasador Ø4 (embebido)', [cRod[0], cRod[1] - tHat[1] * Lp / 2, cRod[2] - tHat[2] * Lp / 2], tHat, 4, Lp, C.pin));
     }
   }
-  parts.push({ id: `op${++np}_rt`, name: nombre, biblioteca, componente: biblioteca, color: C.rodillo, pos, quat, fixed: false, visible: true, base_ref: true, features: fe });
+  parts.push({ id: `op${++np}_rt`, name: nombre, biblioteca, componente: biblioteca, color: colRod, pos, quat, fixed: false, visible: true, base_ref: true, features: fe });
 }
-const RT70 = { R: 35, rrod: 8, nrod: 6, Lrod: 22, rHub: 15, rPlato: 27.5, ePlato: 3, wMid: 4, chaflan: 1.2 };   // 6 rodillos/corona (como el snapshot)
-const RT120 = { R: 60, rrod: 11, nrod: 8, Lrod: 32, rHub: 22, rPlato: 47, ePlato: 3, wMid: 4, chaflan: 1.5 };  // 8 rodillos/corona
+// Nexus 14182 Ø100 PU: 2 coronas × 6 rodillos PU (naranja), placas de
+// aluminio negras, ancho 66 — proporciones estimadas de la foto (verificar)
+const RT100 = { R: 50, rrod: 15, nrod: 6, Lrod: 30, rHub: 20, rPlato: 41, ePlato: 3, wMid: 0, chaflan: 1.5, colRodillo: '#e07020', colPlato: '#23272e', colCubo: '#3a4148' };
+// Nexus NW152A Ø152 industrial: 2 coronas × 4 rodillones PU (negros) sobre
+// cuerpo de ACERO, ancho 90 — proporciones estimadas de la foto (verificar)
+const RT152 = { R: 76, rrod: 21, nrod: 4, Lrod: 70, rHub: 28, rPlato: 62, ePlato: 3, wMid: 2, chaflan: 2, colRodillo: '#2b3138', colPlato: '#9aa3ab', colCubo: '#78828c' };
 
 // bastidor: bandeja (con RANURAS de paso de correa por estación) + 4 placas
 // perimetrales (con pasadas Ø16 de los ejes) + TAPA portante con aberturas
@@ -360,11 +371,11 @@ function ejeParte(tag, fam, at, zEje, ruedas, halfW) {
 }
 for (const x of D.ejesA_X) {
   ejeParte(`Eje A (avance) x=${x.toFixed(1)}`, 'A', x, zA, D.ruedasA_Y, D.W1 / 2);
-  for (const y of D.ruedasA_Y) ruedaTorneada(`Rueda avance Ø70 torneada (${x.toFixed(0)},${y.toFixed(0)})`, 'rueda_omni_70_doble', [x, y, D.tang - 2 * D.R1], Q_XtoY, RT70);
+  for (const y of D.ruedasA_Y) ruedaTorneada(`Rueda avance Ø100 PU 14182 (${x.toFixed(0)},${y.toFixed(0)})`, 'rueda_omni_100_pu_14182', [x, y, D.tang - 2 * D.R1], Q_XtoY, RT100);
 }
 for (const y of D.ejesB_Y) {
   ejeParte(`Eje B (eyección) y=${y.toFixed(1)}`, 'B', y, zB, D.ruedasB_X, D.W2 / 2);
-  for (const x of D.ruedasB_X) ruedaTorneada(`Rueda eyección Ø120 torneada (${x.toFixed(0)},${y.toFixed(0)})`, 'rueda_omni_120_doble', [x, y, D.tang - 2 * D.R2], [0, 0, 0, 1], RT120);
+  for (const x of D.ruedasB_X) ruedaTorneada(`Rueda eyección Ø152 NW152A (${x.toFixed(0)},${y.toFixed(0)})`, 'rueda_omni_152_ind_nw152a', [x, y, D.tang - 2 * D.R2], [0, 0, 0, 1], RT152);
 }
 
 // transmisión por eje: motor UniDrive DE BIBLIOTECA (malla real del ZP2026)
@@ -383,26 +394,27 @@ function quatBasis(cx, cy, cz) {
 const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
 for (const d of DRIVES) {
   const zEje = d.fam === 'A' ? zA : zB;
-  const Cc = zEje - D.motorZ;                                   // distancia entre centros
+  const mz = MZ(d.fam);
+  const Cc = zEje - mz;                                         // distancia entre centros
   const pt = (u, v) => d.fam === 'A' ? [v, u, 0] : [u, v, 0];   // (según eje, transversal) → XY
   // polea: local +X del componente → lado del cubo sobre el eje real
   const qAxis = (sign) => d.fam === 'A' ? QZ(sign > 0 ? 90 : -90) : (sign > 0 ? [0, 0, 0, 1] : QZ(180));
   const tag = d.fam === 'A' ? `eje A x=${d.at.toFixed(0)}` : `eje B y=${d.at.toFixed(0)}`;
   const [px, py] = pt(d.st, d.at);
   placeComp(`Polea conducida ${tag}`, D.polea.id, [px, py, zEje - D.polea.R], qAxis(d.hub));
-  placeComp(`Polea motriz ${tag}`, D.polea.id, [px, py, D.motorZ - D.polea.R], qAxis(d.hub));
+  placeComp(`Polea motriz ${tag}`, D.polea.id, [px, py, mz - D.polea.R], qAxis(d.hub));
   // motor pancake VERTICAL: punta del eje D (origen local) en la estación, a
   // la altura del eje motriz; local +Z → eje conducido (hacia el cuerpo),
   // local +X → vertical (cara 152.7 de pie), local +Y → transversal
   const axis = d.fam === 'A' ? [0, d.dir, 0] : [d.dir, 0, 0];
   const qMotor = quatBasis([0, 0, 1], cross(axis, [0, 0, 1]), axis);
-  placeMesh(`Motor ${tag}`, D.motor.id, [px, py, D.motorZ], qMotor);
+  placeMesh(`Motor ${tag}`, D.motor.id, [px, py, mz], qMotor);
   // bracket mordaza (origen = cara superior del ala, bajo la bandeja)
   const [mx, my] = pt(bodyCenter(d), d.at);
   placeComp(`Bracket motor ${tag}`, D.bracket.id, [mx, my, D.fondoZ], d.fam === 'A' ? QZ(90) : [0, 0, 0, 1]);
   // correa (lazo simplificado); el eje D REAL del motor llega hasta la polea
   part(`Transmisión ${tag}`, C.correa, [
-    { id: fid(), name: `Correa HTD 5M-${Math.round(2 * Cc + Math.PI * D.polea.dp)}-15`, shape: 'box', op: 'union', at: [px, py, D.motorZ], dir: [0, 0, 1], params: { w: d.fam === 'A' ? 52 : D.correaW, d: d.fam === 'A' ? D.correaW : 52, h: Cc }, color: C.correa },
+    { id: fid(), name: `Correa HTD 5M-${Math.round(2 * Cc + Math.PI * D.polea.dp)}-15`, shape: 'box', op: 'union', at: [px, py, mz], dir: [0, 0, 1], params: { w: d.fam === 'A' ? 52 : D.correaW, d: d.fam === 'A' ? D.correaW : 52, h: Cc }, color: C.correa },
   ]);
 }
 
@@ -416,10 +428,10 @@ part('Fotocélula S1 (modo stop)', C.foto, [
 // ------------------------------------------------------------------- salida
 const metrics = {
   modulo: `24"×24" (${D.mod}×${D.mod}), tangente Z=${D.tang}`,
-  ruedas: `${D.ejesA_X.length * D.ruedasA_Y.length}× Ø70 avance + ${D.ejesB_Y.length * D.ruedasB_X.length}× Ø120 eyección`,
+  ruedas: `${D.ejesA_X.length * D.ruedasA_Y.length}× Ø100 PU Nexus 14182 (avance, 80 kg c/u) + ${D.ejesB_Y.length * D.ruedasB_X.length}× Ø152 industrial NW152A (eyección, 100 kg c/u) — COMPRA Alibaba/Nexus`,
   ejes: `${D.ejesA_X.length} ejes A Ø15 (Y, z=${zA}) + ${D.ejesB_Y.length} ejes B Ø15 (X, z=${zB}) — cruzados con luz ${(zA - zB - D.ejeDia).toFixed(0)} mm`,
-  contactos: `retícula 6" (152.4): avance 4×4 intercalada con eyección 3×3 (tresbolillo, contacto más próximo ${(D.pitch / Math.SQRT2).toFixed(1)} mm)`,
-  motores: `${D.ejesA_X.length + D.ejesB_Y.length} UniDrive pancake (malla ${D.motor.id}) + 1 adicional (BOM CV-OMW); 14 poleas HTD 5M 28T; correas ${D.ejesA_X.length}× 5M-${Math.round(2 * (zA - D.motorZ) + Math.PI * D.polea.dp)}-15 + ${D.ejesB_Y.length}× 5M-${Math.round(2 * (zB - D.motorZ) + Math.PI * D.polea.dp)}-15; 7 brackets mordaza estilo ZP2026`,
+  contactos: `retícula 8" (203.2): avance 3×3 intercalada con eyección 2×2 (tresbolillo, contacto más próximo ${(D.pitch / Math.SQRT2).toFixed(1)} mm)`,
+  motores: `${DRIVES.length} UniDrive pancake (malla ${D.motor.id}) + 1 adicional (BOM CV-OMW); ${2 * DRIVES.length} poleas HTD 5M 28T; correas ${D.ejesA_X.length}× 5M-${Math.round(2 * (zA - MZ('A')) + Math.PI * D.polea.dp)}-15 + ${D.ejesB_Y.length}× 5M-${Math.round(2 * (zB - MZ('B')) + Math.PI * D.polea.dp)}-15; ${DRIVES.length} brackets mordaza estilo ZP2026`,
   ...chk,
 };
 const doc = {
@@ -428,7 +440,7 @@ const doc = {
   meta: {
     nombre: 'Módulo desviador Omniwheel CV-OMW — ejes perpendiculares, tangente común',
     capa: 'user',
-    origen: 'gen_omniwheel.mjs (paramétrico). Ruedas: rueda_omni_70_doble (snapshot Inventor del usuario, omniwheel10) y rueda_omni_120_doble (derivada mayor). La familia de EYECCIÓN usa la rueda MAYOR: con tangente común su eje queda ΔZ=25 más abajo y los ejes perpendiculares se cruzan en planta sin tocarse (luz 10 mm entre ejes Ø15).',
+    origen: 'gen_omniwheel.mjs (paramétrico). RUEDAS DE COMPRA (Alibaba/Nexus): avance = Nexus 14182 Ø100 PU doble (80 kg); eyección = Nexus NW152A Ø152 industrial de acero (100 kg). Con tangente común el eje de la rueda mayor queda ΔZ=26 más abajo y los ejes perpendiculares se cruzan sin tocarse (luz 11 mm entre ejes Ø15). Bore Ø15 H7 + chaveta 5×5 por pedido OEM al fabricante. Retícula 8".',
     anfitrion: 'CV-OMW del conveyone-simulator (docs/omniwheel.md): módulo 24"×24" inserto EN LÍNEA; lógicas dyn 30° / stop 90° con fotocélula a 0.82·L; 1 motor UniDrive 60 W por fila + 1 adicional, correa síncrona interior; 24 VDC.',
     integracion: 'se acopla en línea como un transportador (entrada connIn / salida en cadena); salidas laterales outL/outR según configuración. El plano de transporte Z=170 es el del marco del módulo (mismo idioma que base_sorter).',
     tolerancias: {

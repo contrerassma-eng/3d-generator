@@ -3242,7 +3242,7 @@
    "nombre": "Modulo desviador Omniwheel CV-OMW 24\"x24\" (ejes perpendiculares, tangente comun)",
    "categoria": "transportador",
    "familia": "conjunto",
-   "descripcion": "Modulo desviador omnidireccional del conveyone-simulator (CV-OMW) con dos familias de ruedas omni de distinto diametro y ejes perpendiculares: 4 ejes A transversales O15 (z=135) con 16 ruedas O70 de AVANCE + 3 ejes B longitudinales O15 (z=110) con 9 ruedas O120 de EYECCION; tangente comun Z=170, ejes cruzados con luz de 10 mm. TAPA portante negra (solo asoman las coronas por aberturas), ejes detallados (chumaceras de brida, separadores tubulares O22, pasadas O16 en placas). Transmision por eje: motor UniDrive pancake DE BIBLIOTECA (cv_ZP2026__300986_std_unidrive_motor_d_shaft) colgado VERTICAL bajo la bandeja en bracket mordaza estilo ZP2026 + poleas HTD 5M 28T 1:1 (correas 5M-505-15 ejes A / 5M-455-15 ejes B por ranuras de la bandeja); 7 motores + 1 adicional (BOM); fotocelula a 0.82L (modo stop).",
+   "descripcion": "Modulo desviador omnidireccional CV-OMW con RUEDAS DE COMPRA (Alibaba/Nexus) y ejes perpendiculares: 3 ejes A transversales O15 (z=150) con 9 ruedas Nexus 14182 O100 PU de AVANCE (80 kg c/u) + 2 ejes B longitudinales (z=124) con 4 ruedas Nexus NW152A O152 industriales de EYECCION (100 kg c/u); tangente comun Z=200, ejes cruzados con luz de 11 mm, reticula 8\" a tresbolillo. Tapa portante, ejes con chumaceras de brida y separadores, transmision UniDrive pancake de biblioteca + poleas HTD 5M 28T (correas 5M-535-15 / 5M-485-15); 5 motores + 1 BOM; fotocelula 0.82L. Bore de ruedas O15+chaveta por OEM.",
    "fuente": {
     "tipo": "foto3d-cad",
     "detalle": "cad/ensambles/omni_modulo.json (gen_omniwheel.mjs); ruedas rueda_omni_70_doble (snapshot Inventor del usuario) y rueda_omni_120_doble (derivada)"
@@ -3252,9 +3252,9 @@
    "bbox_mm": [
     609.6,
     609.6,
-    344
+    375
    ],
-   "notas": "74 piezas. Verificaciones abortivas en gen_omniwheel.mjs: geometria (luz_cruce_ejes=10, luz_ejeA_ruedaB=37.7, luz_ejeB_ruedaA=43.7, gap_planta_AB_X=10.2, luz_ruedaB_ruedaB=32.4, luz_ruedaB_fondo=10), transmision (dientes enteros 101T/91T, ventanas de polea >=2.2, luz_motor_fondo=6.2, luz_entre_motores=12.4) y tapa (luz_tapa_poleaA=2, luz_tapa_tangente=2). Ver docs/OMNIWHEEL_MODULO.md."
+   "notas": "50 piezas. Ruedas de compra: rueda_omni_100_pu_14182 y rueda_omni_152_ind_nw152a (fuente web con URL y fecha). Gates en verde: luz_cruce_ejes=11, gap_planta_AB_X=6.6, ventanas de polea 4.1-4.5, correas 107T/97T enteras, luz_motor_fondo=6.2, luz_entre_motores=32.5, tapa 17/2. Las ruedas rueda_omni_70_doble y rueda_omni_120_doble quedan como alternativa de fabricacion propia."
   },
   {
    "id": "ens_sorter_base",
@@ -3761,6 +3761,1205 @@
     }
    ],
    "notas": "Con el ala fijada bajo la bandeja (Z=35 del modulo) el eje D del motor queda en Z=-47.5 (-82.5 del plano de fijacion). El eje D real del motor (O12x60) llega hasta la polea: no se requiere eje intermedio. Las colisas O9x20 segun la correa dan +-10 de tensado. Interior 45 entre mejillas (cuerpo 37 + calzas 4+4); pernos M6 a la cara frontal del motor a traves de la mejilla. VERIFICAR el patron de pernos frontal contra el motor fisico."
+  },
+  {
+   "id": "rueda_omni_100_pu_14182",
+   "nombre": "Rueda omni COMPRA Nexus 14182 O100 x 66 (doble, PU, 80 kg)",
+   "categoria": "mecanico",
+   "descripcion": "Rueda omnidireccional de COMPRA para los ejes de AVANCE del modulo CV-OMW: Nexus 14182, doble corona de aluminio con 6 rodillos de POLIURETANO, O100, ancho 66, 816 g, carga 80 kg. Geometria del modelo: proporciones estimadas de la foto del producto (2 coronas x 6 rodillos PU O30, rc=35) — las cotas oficiales O100/W66/80kg son del fabricante. Eje en X; tangente Z=0.",
+   "fuente": {
+    "tipo": "web",
+    "detalle": "Nexus Robot 14182 '100mm Aluminum Omni wheel with PU' (consultado 2026-07-20): 'Diameter: 100mm, Width: 66mm, 2 plates, 6 rollers, Polyurethane, Aluminium alloy, 816g, Load 80KG/each' — nexusrobot.com/product/100mm-aluminum-omni-wheel-with-pu-14182.html; disponible tambien via Alibaba (showroom omni-wheel-for-conveyor)."
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Cubo (bore O15 H7 + chaveta 5x5 por OEM)",
+     "at": [
+      -33.0,
+      0,
+      50
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 36,
+     "alto": 66.0,
+     "color": "#3a4148"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Placa exterior O82 lado -X",
+     "at": [
+      -33.0,
+      0,
+      50
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 82,
+     "alto": 3,
+     "color": "#23272e"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Placa exterior O82 lado +X",
+     "at": [
+      30.0,
+      0,
+      50
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 82,
+     "alto": 3,
+     "color": "#23272e"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A1 O30",
+     "at": [
+      -15.0,
+      -5.0,
+      85.0
+     ],
+     "eje": [
+      0,
+      1.0,
+      -0.0
+     ],
+     "dia": 30,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A1 O28",
+     "at": [
+      -15.0,
+      -15.0,
+      85.0
+     ],
+     "eje": [
+      0,
+      1.0,
+      -0.0
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A1 O28",
+     "at": [
+      -15.0,
+      5.0,
+      85.0
+     ],
+     "eje": [
+      0,
+      1.0,
+      -0.0
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A2 O30",
+     "at": [
+      -15.0,
+      27.811,
+      71.83
+     ],
+     "eje": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "dia": 30,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A2 O28",
+     "at": [
+      -15.0,
+      22.811,
+      80.49
+     ],
+     "eje": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A2 O28",
+     "at": [
+      -15.0,
+      32.811,
+      63.17
+     ],
+     "eje": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A3 O30",
+     "at": [
+      -15.0,
+      32.811,
+      36.83
+     ],
+     "eje": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "dia": 30,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A3 O28",
+     "at": [
+      -15.0,
+      37.811,
+      45.49
+     ],
+     "eje": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A3 O28",
+     "at": [
+      -15.0,
+      27.811,
+      28.17
+     ],
+     "eje": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A4 O30",
+     "at": [
+      -15.0,
+      5.0,
+      15.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 30,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A4 O28",
+     "at": [
+      -15.0,
+      15.0,
+      15.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A4 O28",
+     "at": [
+      -15.0,
+      -5.0,
+      15.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A5 O30",
+     "at": [
+      -15.0,
+      -27.811,
+      28.17
+     ],
+     "eje": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "dia": 30,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A5 O28",
+     "at": [
+      -15.0,
+      -22.811,
+      19.51
+     ],
+     "eje": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A5 O28",
+     "at": [
+      -15.0,
+      -32.811,
+      36.83
+     ],
+     "eje": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A6 O30",
+     "at": [
+      -15.0,
+      -32.811,
+      63.17
+     ],
+     "eje": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "dia": 30,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A6 O28",
+     "at": [
+      -15.0,
+      -37.811,
+      54.51
+     ],
+     "eje": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A6 O28",
+     "at": [
+      -15.0,
+      -27.811,
+      71.83
+     ],
+     "eje": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B1 O30",
+     "at": [
+      15.0,
+      13.17,
+      82.811
+     ],
+     "eje": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "dia": 30,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B1 O28",
+     "at": [
+      15.0,
+      4.51,
+      87.811
+     ],
+     "eje": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B1 O28",
+     "at": [
+      15.0,
+      21.83,
+      77.811
+     ],
+     "eje": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B2 O30",
+     "at": [
+      15.0,
+      35.0,
+      55.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 30,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B2 O28",
+     "at": [
+      15.0,
+      35.0,
+      65.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B2 O28",
+     "at": [
+      15.0,
+      35.0,
+      45.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B3 O30",
+     "at": [
+      15.0,
+      21.83,
+      22.189
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "dia": 30,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B3 O28",
+     "at": [
+      15.0,
+      30.49,
+      27.189
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B3 O28",
+     "at": [
+      15.0,
+      13.17,
+      17.189
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B4 O30",
+     "at": [
+      15.0,
+      -13.17,
+      17.189
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "dia": 30,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B4 O28",
+     "at": [
+      15.0,
+      -4.51,
+      12.189
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B4 O28",
+     "at": [
+      15.0,
+      -21.83,
+      22.189
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B5 O30",
+     "at": [
+      15.0,
+      -35.0,
+      45.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 30,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B5 O28",
+     "at": [
+      15.0,
+      -35.0,
+      35.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B5 O28",
+     "at": [
+      15.0,
+      -35.0,
+      55.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B6 O30",
+     "at": [
+      15.0,
+      -21.83,
+      77.811
+     ],
+     "eje": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "dia": 30,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B6 O28",
+     "at": [
+      15.0,
+      -30.49,
+      72.811
+     ],
+     "eje": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B6 O28",
+     "at": [
+      15.0,
+      -13.17,
+      82.811
+     ],
+     "eje": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "dia": 28,
+     "alto": 10,
+     "color": "#e07020"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "giro libre (envolvente de rodadura)",
+     "at": [
+      -35.0,
+      0,
+      0
+     ],
+     "dim": [
+      70.0,
+      104,
+      104
+     ]
+    }
+   ],
+   "notas": "BORE: pedir O15 H7 con chaveta 5x5 al fabricante (OEM/Alibaba hace bore custom) o mecanizar manguito adaptador. Verificar bore y O de rodillos contra la unidad real."
+  },
+  {
+   "id": "rueda_omni_152_ind_nw152a",
+   "nombre": "Rueda omni COMPRA Nexus NW152A O152 x 90 (industrial, acero+PU, 100 kg)",
+   "categoria": "mecanico",
+   "descripcion": "Rueda omnidireccional industrial de COMPRA para los ejes de EYECCION del modulo CV-OMW: Nexus NW152A, cuerpo de ACERO con rodillos recubiertos de poliuretano, O152 (6\"), ancho 90, 2 placas, 8 rodillos, carga 100 kg. Geometria del modelo: proporciones estimadas de la foto (2 coronas x 4 rodillones PU O42, rc=55) — cotas oficiales O152/W90/100kg del fabricante. Eje en X; tangente Z=0.",
+   "fuente": {
+    "tipo": "web",
+    "detalle": "Nexus Robot NW152A '152MM HEAVYDUTY INDUSTRIAL OMNI WHEEL' (consultado 2026-07-20): '152mm (6 inch), 90mm width, 8 rollers, 2 plates, steel body, polyurethane-coated rollers, 100kg load' — nexusrobot.com/product/152mm-heavyduty-industrial-omni-wheel-nw152a.html; equivalentes en Alibaba (omni wheel conveyor/sorter)."
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Cubo (bore O15 H7 + chaveta 5x5 por OEM)",
+     "at": [
+      -46.0,
+      0,
+      76
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 36,
+     "alto": 92.0,
+     "color": "#78828c"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Disco central O124",
+     "at": [
+      -1.0,
+      0,
+      76
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 124,
+     "alto": 2,
+     "color": "#9aa3ab"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Placa exterior O124 lado -X",
+     "at": [
+      -46.0,
+      0,
+      76
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 124,
+     "alto": 3,
+     "color": "#9aa3ab"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Placa exterior O124 lado +X",
+     "at": [
+      43.0,
+      0,
+      76
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 124,
+     "alto": 3,
+     "color": "#9aa3ab"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A1 O42",
+     "at": [
+      -22.0,
+      -6.0,
+      131.0
+     ],
+     "eje": [
+      0,
+      1.0,
+      -0.0
+     ],
+     "dia": 42,
+     "alto": 12,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A1 O36.6",
+     "at": [
+      -22.0,
+      -29.0,
+      131.0
+     ],
+     "eje": [
+      0,
+      1.0,
+      -0.0
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A1 O36.6",
+     "at": [
+      -22.0,
+      6.0,
+      131.0
+     ],
+     "eje": [
+      0,
+      1.0,
+      -0.0
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A2 O42",
+     "at": [
+      -22.0,
+      55.0,
+      82.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 42,
+     "alto": 12,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A2 O36.6",
+     "at": [
+      -22.0,
+      55.0,
+      105.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A2 O36.6",
+     "at": [
+      -22.0,
+      55.0,
+      70.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A3 O42",
+     "at": [
+      -22.0,
+      6.0,
+      21.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 42,
+     "alto": 12,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A3 O36.6",
+     "at": [
+      -22.0,
+      29.0,
+      21.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A3 O36.6",
+     "at": [
+      -22.0,
+      -6.0,
+      21.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A4 O42",
+     "at": [
+      -22.0,
+      -55.0,
+      70.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 42,
+     "alto": 12,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A4 O36.6",
+     "at": [
+      -22.0,
+      -55.0,
+      47.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU A4 O36.6",
+     "at": [
+      -22.0,
+      -55.0,
+      82.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B1 O42",
+     "at": [
+      22.0,
+      34.648,
+      119.134
+     ],
+     "eje": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "dia": 42,
+     "alto": 12,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B1 O36.6",
+     "at": [
+      22.0,
+      18.385,
+      135.397
+     ],
+     "eje": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B1 O36.6",
+     "at": [
+      22.0,
+      43.134,
+      110.648
+     ],
+     "eje": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B2 O42",
+     "at": [
+      22.0,
+      43.134,
+      41.352
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 42,
+     "alto": 12,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B2 O36.6",
+     "at": [
+      22.0,
+      59.397,
+      57.615
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B2 O36.6",
+     "at": [
+      22.0,
+      34.648,
+      32.866
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B3 O42",
+     "at": [
+      22.0,
+      -34.648,
+      32.866
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 42,
+     "alto": 12,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B3 O36.6",
+     "at": [
+      22.0,
+      -18.385,
+      16.603
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B3 O36.6",
+     "at": [
+      22.0,
+      -43.134,
+      41.352
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B4 O42",
+     "at": [
+      22.0,
+      -43.134,
+      110.648
+     ],
+     "eje": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "dia": 42,
+     "alto": 12,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B4 O36.6",
+     "at": [
+      22.0,
+      -59.397,
+      94.385
+     ],
+     "eje": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo PU B4 O36.6",
+     "at": [
+      22.0,
+      -34.648,
+      119.134
+     ],
+     "eje": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "dia": 36.6,
+     "alto": 23,
+     "color": "#2b3138"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "giro libre (envolvente de rodadura)",
+     "at": [
+      -48.0,
+      0,
+      0
+     ],
+     "dim": [
+      96.0,
+      156,
+      156
+     ]
+    }
+   ],
+   "notas": "BORE: linea industrial — pedir con bore O15 H7 + chaveta 5x5 (o el hub que ofrezca el fabricante). Verificar ancho real de coronas y O de rodillos contra la unidad."
   },
   {
    "id": "rueda_omni_70_doble",
