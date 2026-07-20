@@ -287,7 +287,7 @@
   }
 </style>
 <script type="importmap">
-{ "imports": { "three": "./vendor/three.module.min.js" } }
+{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/three-addons/" } }
 </script>
 </head>
 <body>
@@ -352,6 +352,7 @@
       <button data-tool="circle" title="Círculo por centro y radio">◯ Círc</button>
       <button data-tool="arc" title="Arco por centro, inicio y fin (antihorario)">⌒ Arco</button>
       <button data-tool="polyg" title="Polígono regular por centro y vértice">⬡ Políg</button>
+      <button data-tool="slot" title="Ranura: toca los dos centros y da el ancho (dos líneas + dos semicírculos)">⬭ Ranura</button>
       <button data-tool="pen" title="Lápiz: dibuja a mano alzada y se interpreta como círculo, línea o polilínea">✎ Lápiz</button>
       <span class="rsep"></span>
       <button data-tool="offset" title="Equidistancia: copia paralela de una entidad o referencia a una distancia">∥ Offset</button>
@@ -497,7 +498,13 @@
   </div>
 </div>
 <input type="file" id="fileInput" accept=".json" style="display:none">
-<!-- Desarrollo con módulos ES (sin rebuild). Producción usa index.html + bundle.js -->
+<!-- Bundle clásico (es2017): funciona también en navegadores/WebViews sin
+     soporte de import maps. Para desarrollo con módulos usa dev.html.
+     Regenerar tras editar js/: npx esbuild js/app.js --bundle --minify
+     --target=es2017 --format=iife --alias:three=./vendor/three.module.min.js
+     --outfile=bundle.js
+     IMPORTANTE: sube el ?v=... en cada despliegue para invalidar la caché del
+     navegador (móvil) y que la nueva versión llegue sin borrar caché a mano. -->
 <script type="module" src="./js/app.js"></script>
 </body>
 </html>

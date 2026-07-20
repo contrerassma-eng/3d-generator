@@ -1461,7 +1461,10 @@ renderer.domElement.addEventListener('pointermove', (ev) => {
   if (sketch?.entDrag) { moveEntDrag(ev); return; }
   if (dragging) { if (ev.pointerId === dragging.pointerId) updateMoveDrag(ev); return; }
   if (mode === 'sketch' && sketch) { updateSketchPreview(ev); return; }
-  if ((ev.pointerType === 'mouse' || ev.pointerType === 'pen') && (['hole', 'mate', 'flush', 'direct', 'joint'].includes(mode) || (mode === 'sketch' && !sketch))) {
+  // preselección (§6.1): resalta la geometría bajo el cursor antes de tocar,
+  // en el modo inactivo y en todas las herramientas que eligen cara/arista.
+  if ((ev.pointerType === 'mouse' || ev.pointerType === 'pen')
+    && (['select', 'hole', 'mate', 'flush', 'direct', 'joint', 'fillet', 'chamfer', 'tochapa', 'measure'].includes(mode) || (mode === 'sketch' && !sketch))) {
     const hit = castAtEvent(ev);
     if (hit) showHover(hit, hoverMat);
     else clearHover();
@@ -1785,6 +1788,7 @@ function clickSketch(hit, ev) {
   if (t === 'erase') return clickErase(raw);
   if (t === 'arc') return clickArc(raw);
   if (t === 'polyg') return clickPolygon(raw);
+  if (t === 'slot') return clickSlot(raw);
   if (t === 'offset') return clickOffset(raw);
   if (t === 'fillet') return clickFillet(raw);
   if (t === 'project') return clickProject(raw, hit);
@@ -1816,6 +1820,20 @@ function clickPolygon(raw) {
     if (!lines.length) { setStatus('Polígono inválido.'); return; }
     sketch.entities.push(...lines);
     setStatus(`Polígono de ${lines.length} lados creado.`);
+    redrawSketch();
+  });
+}
+
+function clickSlot(raw) {
+  const { uv } = snap2D(raw);
+  if (!sketch.temp) { sketch.temp = uv; setStatus('Ranura: toca el 2.º centro.'); redrawSketch(); return; }
+  const c1 = sketch.temp; sketch.temp = null; const c2 = uv;
+  if (SK.dist(c1, c2) < 0.5) { setStatus('Los dos centros están muy juntos.'); return; }
+  showForm('Ranura', [{ key: 'w', label: 'Ancho (mm)', value: 10, step: 0.5 }], (v) => {
+    const ents = SK.slotEntities(c1, c2, Math.max(0.3, v.w / 2));
+    if (!ents.length) { setStatus('Ranura inválida.'); return; }
+    sketch.entities.push(...ents);
+    setStatus(`Ranura ${SK.dist(c1, c2).toFixed(1)} mm × ancho ${v.w} creada.`);
     redrawSketch();
   });
 }
