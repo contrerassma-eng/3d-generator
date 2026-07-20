@@ -1,0 +1,19 @@
+﻿item;ruta;buscar;cantidad;spec_minima;qa;usd_estimado
+Sensor suelo (ruta B2);AliExpress;"""RS485 soil moisture temperature sensor Modbus IP68"" (ComWinTop / JXCT / vendedor Seeed OEM)";3+1;"Púas 316 (no 304), epoxi al vacío, IP68, −40…+80 °C, Modbus RTU con mapa de registros PUBLICADO, 4.5–30 VDC; pedir versión SOLO humedad+T° (la EC/NPK barata es humo)";QA-S (secc. 3): 3 puntos + dispersión entre unidades + inmersión 24 h + ciclo térmico;16–33 c/u
+Nodo LoRa;AliExpress;"Tienda OFICIAL ""RAKwireless Official Store"": WisBlock base RAK19007 + core RAK3172 + RAK5802 (RS-485) + RAK19002 (solar)";1;"Solo tienda oficial RAK (el clon de WisBlock no existe; lo demás es otra cosa)";Flashear y probar bus + join LoRaWAN en banco;45–60 kit
+Batería;AliExpress;"""26650 LiFePO4 3.2V"" marca conocida (Liitokala) ×2 + ""26650 battery holder""";1;LiFePO4 REAL (3.2 V nominal, no 3.7): verificar química en carga;"Capacidad con carga USB tester >=3000 mAh; tensión de corte 3.65 V";5 c/u
+Cargador solar;AliExpress;"""CN3791 MPPT solar charger module 6V"" versión LiFePO4 (3.65 V) o ""1S LiFePO4 charger board""";1;Corte de carga 3.60–3.65 V (¡no 4.2 V de Li-ion: sobrecarga la LiFePO4!);Medir tensión de flote con fuente;3–5
+Panel solar;AliExpress;"""solar panel 5W 6V ETFE aluminum frame""";1;6 V (para MPPT), marco Al, ETFE o vidrio;Voc/Isc al sol;10–15
+Gabinete;AliExpress;"""waterproof junction box polycarbonate 180x130x60 IP67""";1;"POLICARBONATO (no ABS: UV lo mata en 2 años), junta PU/silicona continua, tornillos tapa inox; si no certifica PC -> comprar Fibox/Hammond local (+$25)";"QA-G: inmersión 30 min con papel indicador; junta sin costura";12–18
+Prensaestopas;AliExpress;"""M16 brass nickel cable gland IP68"" ×4 (2 sonda + spares)";2+2;Latón niquelado con tórica (no nylon para exterior), rango 4–8 mm;"Apriete 2.5 N·m sin fisura; junta presente";0.5 c/u
+Conector servicio;AliExpress;"""M12 connector 5 pin female panel mount A coded IP68"" + ""M12 5 pin male plug field wireable"" + ""M12 protective cap chain""";1;A-cod, IP68 acoplado, contactos dorados;Continuidad + inmersión acoplado;3–6 juego
+Válvula venteo;AliExpress;"""M12 waterproof breathable vent valve plug ePTFE""";1;Membrana ePTFE real (Gore-like), junta propia;"No pasa agua en inmersión 30 min; sí pasa aire soplando";1–2
+Tóricas;AliExpress;"""FKM O-ring 36x3mm"" (bolsa 10) + surtido spares";1;FKM/Viton (marrón/verde típico) — NO NBR negro genérico para UV/80 °C;QA-O: 24 h en agua 80 °C sin hinchar ni agrietar;3 bolsa
+Antena;AliExpress;"""868MHz 915MHz fiberglass antenna 2dBi N female"" + ""SMA to N pigtail RG316 30cm""";1;Banda correcta según región LoRaWAN (AU915/US915: 915);"SWR si hay analizador; si no, RSSI comparado con la PCB";8–15
+Cable bus;AliExpress;"""RVVP shielded cable 2x2x0.5mm"" o ""22AWG 4 core shielded"" 10 m";1;Apantallado, chaqueta PVC/PUR exterior;Continuidad + pantalla aislada;8–12
+Tornillería;AliExpress;"""M4 DIN912 stainless 316 A4"" surtido + ""M3 nylon standoff kit""";1;A4/316 real (imán NO se pega fuerte);Test imán + apriete;6–10
+SMT100 (ruta B1);Truebner directo;truebner.de SMT100 RS-485 Modbus;3;calibración de fábrica;QA-S1..S4;EUR 154 c/u
+"Tubo PVC-U PN16 Ø50 L700 + terminal 50×1 1/2"" + cemento";local;ferretería;1;EN 1452 PN16;—;12
+"Nipple SCH40 1 1/2"" ×810 pre-hilado + brida roscada + cap";local;ferretería industrial;1;A53 galv., NPT;—;30
+Punta 316L + 3 pasamuros POM-C;taller local / CNC online;plano SND-DT-06;1+3;según planos;dimensional con calibre;150-220
+Collar HDPE + consumibles (epoxi, potting, Molykote, Loctite, bentonita);local;distribuidor químico;kit;no vencidos;fecha de vencimiento;70-90
