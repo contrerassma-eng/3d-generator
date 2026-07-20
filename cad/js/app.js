@@ -11,7 +11,7 @@ import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid, PALETTE,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
   makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, makeMirrorFeature, makeFilletFeature, makeChamferFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
-  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace, holeToolGeometry,
+  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace, holeToolGeometry, makeShellFeature, isConvexSolid,
   makeMate, makeConcentric, solveConstraints,
   evalExpr, resolveParams, applyExpressions,
 } from './model.js';
@@ -853,6 +853,7 @@ function featureMeta(f) {
     const p = f.params, spec = p.mode === 'two' ? `${p.d}×${p.d2}` : p.mode === 'angle' ? `${p.d}×${p.angle}°` : `${p.d}`;
     return `${spec} mm · ${(p.edges || []).length} arista(s)`;
   }
+  if (f.shape === 'shell') return `pared ${f.params.t} mm${(f.params.openFaces || []).length ? ' · cara abierta' : ' · cerrado'}`;
   if (f.shape === 'pattern') {
     const srcName = doc.parts.flatMap(p => p.features).find(x => x.id === f.params.sourceId)?.name || '?';
     return f.params.kind === 'circ'
@@ -1299,10 +1300,11 @@ const MODE_HINTS = {
   direct: 'Edición directa (símil Inventor): toca una cara y muévela por DISTANCIA (+ alarga / − reduce, la opuesta queda fija) o fija la medida absoluta. Shift+clic acumula VARIAS caras y las mueve todas con una distancia. Escala/gira la pieza en Propiedades.',
   fillet: 'Empalme: toca una arista del sólido para redondearla con un radio (símil Empalme de Inventor).',
   chamfer: 'Chaflán: toca una arista del sólido; elige igual distancia, dos distancias o distancia y ángulo.',
+  shell: 'Vaciado: toca la cara que quedará ABIERTA para ahuecar la pieza con un espesor de pared (exacto en piezas convexas; conservador en cóncavas).',
   tochapa: 'A chapa: toca la CARA GRANDE de una placa; reconoce su espesor y contorno real y la convierte en chapa (acepta pestañas y desarrollo DXF/PDF).',
 };
 
-const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', joint: 'btnJoint', move: 'btnMove', direct: 'btnDirect', fillet: 'btnFillet', chamfer: 'btnChamfer', tochapa: 'btnToChapa', measure: 'btnMeasure' };
+const modeButtons = { sketch: 'btnSketch', hole: 'btnHole', pestana: 'btnPestana', mate: 'btnMate', flush: 'btnFlush', concentric: 'btnConcentric', joint: 'btnJoint', move: 'btnMove', direct: 'btnDirect', fillet: 'btnFillet', chamfer: 'btnChamfer', shell: 'btnShell', tochapa: 'btnToChapa', measure: 'btnMeasure' };
 
 function setMode(m) {
   mode = mode === m ? 'select' : m;
@@ -1327,7 +1329,7 @@ for (const [m, id] of Object.entries(modeButtons)) $(id).onclick = () => setMode
 // Conmutador tipo Inventor: la barra muestra solo las herramientas del
 // entorno activo (Sección/Vista/Medir son comunes a ambos).
 
-const ENV_OF_MODE = { sketch: 'pieza', hole: 'pieza', pestana: 'pieza', direct: 'pieza', fillet: 'pieza', chamfer: 'pieza', tochapa: 'pieza',
+const ENV_OF_MODE = { sketch: 'pieza', hole: 'pieza', pestana: 'pieza', direct: 'pieza', fillet: 'pieza', chamfer: 'pieza', shell: 'pieza', tochapa: 'pieza',
                       mate: 'ens', flush: 'ens', concentric: 'ens', joint: 'ens', move: 'ens' };
 let env = 'pieza';
 function setEnv(e) {
@@ -1467,7 +1469,7 @@ renderer.domElement.addEventListener('pointermove', (ev) => {
   // preselección (§6.1): resalta la geometría bajo el cursor antes de tocar,
   // en el modo inactivo y en todas las herramientas que eligen cara/arista.
   if ((ev.pointerType === 'mouse' || ev.pointerType === 'pen')
-    && (['select', 'hole', 'mate', 'flush', 'direct', 'joint', 'fillet', 'chamfer', 'tochapa', 'measure'].includes(mode) || (mode === 'sketch' && !sketch))) {
+    && (['select', 'hole', 'mate', 'flush', 'direct', 'joint', 'fillet', 'chamfer', 'shell', 'tochapa', 'measure'].includes(mode) || (mode === 'sketch' && !sketch))) {
     const hit = castAtEvent(ev);
     if (hit) showHover(hit, hoverMat);
     else clearHover();
@@ -1616,6 +1618,7 @@ function handleClick(ev) {
   if (mode === 'joint') return clickJoint(hit);
   if (mode === 'direct') return clickDirect(hit, ev);
   if (mode === 'fillet' || mode === 'chamfer') return clickBlend(hit, mode);
+  if (mode === 'shell') return clickShell(hit);
   if (mode === 'tochapa') return clickToChapa(hit);
   if (mode === 'measure') return clickMeasure(hit);
 }
@@ -3639,6 +3642,39 @@ function clearBlendPreview() {
   blendPreview = null;
   faceCache.clear();
   rebuildPart(part);
+}
+
+// ---------- Vaciado (shell) ----------
+// Toca la cara que quedará ABIERTA; ahueca la pieza dejando una pared del
+// espesor indicado. Exacto en piezas convexas; conservador (paredes más
+// gruesas junto a concavidades) en las cóncavas, nunca quita material de más.
+function clickShell(hit) {
+  const part = getPart(doc, hit.object.userData.partId);
+  const face = faceAtHit(hit);
+  const n = face.normal.clone().normalize();
+  const d = n.dot(face.centroid);
+  const rec0 = meshes.get(part.id);
+  const convex = rec0 && isConvexSolid(rec0.mesh.geometry);
+  showForm(`Vaciado de ${part.name}`, [
+    { key: 't', label: 'Espesor de pared (mm)', value: 3, step: 0.5 },
+    { key: 'open', label: 'Cara tocada', type: 'select', value: 'open', options: [['open', 'Abierta (quita esta cara)'], ['closed', 'Cerrada (hueco interno)']] },
+  ], (v) => {
+    if (!(v.t > 0)) { setStatus('El espesor debe ser mayor que 0.'); return; }
+    pushUndo();
+    const openFaces = v.open === 'open' ? [{ n: n.toArray(), d }] : [];
+    part.features.push(makeShellFeature(v.t, openFaces));
+    faceCache.clear();
+    rebuildPart(part);
+    const rec = meshes.get(part.id);
+    if (!rec || !rec.mesh.geometry.attributes.position?.count) {
+      part.features.pop();
+      rebuildPart(part);
+      setStatus('El vaciado no dejó material (¿espesor demasiado grande?). Prueba un valor menor.');
+      return;
+    }
+    commit(`Vaciado ${v.t} mm en ${part.name}${openFaces.length ? ' (cara abierta)' : ''}${convex ? '' : ' — pieza cóncava: vaciado conservador'}.`);
+  });
+  if (!convex) setStatus('Aviso: la pieza no es convexa; el vaciado es conservador (paredes más gruesas junto a las concavidades).');
 }
 
 // ---------- Convertir sólido en chapa (reconocer espesor + contorno) ----------

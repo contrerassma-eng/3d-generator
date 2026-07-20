@@ -28,6 +28,7 @@ export const ICON = {
   direct: '<path d="M6 3l1 14 3-3.5 2.2 5 2.4-1-2.2-5H17z"/>',
   fillet: '<path d="M6 19V12a6 6 0 0 1 6-6h7"/><path d="M6 19H4M19 6V4" opacity=".55"/>',
   chamfer: '<path d="M6 19V11l5-5h8"/><path d="M6 19H4M19 6V4" opacity=".55"/>',
+  shell: '<rect x="4" y="4" width="16" height="16" rx="1.5"/><rect x="8" y="8" width="8" height="8" rx="1" opacity=".55"/>',
   pestana: '<path d="M5 4v15h9"/><path d="M14 19l4-4" opacity=".8"/><path d="M5 12h6" opacity=".55"/>',
   patrect: '<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/>',
   patcirc: '<circle cx="12" cy="12" r="2.2"/><circle cx="12" cy="4.5" r="1.7"/><circle cx="19.5" cy="12" r="1.7"/><circle cx="12" cy="19.5" r="1.7"/><circle cx="4.5" cy="12" r="1.7"/>',
