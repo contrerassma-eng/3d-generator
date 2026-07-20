@@ -75,19 +75,39 @@ scene.background = new THREE.Color(0x14171c);
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
 renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(devicePixelRatio);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;   // look de estudio
+renderer.toneMappingExposure = 1.15;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 
-scene.add(new THREE.HemisphereLight(0xdde4f0, 0x30363f, 1.0));
-const sun = new THREE.DirectionalLight(0xffffff, 1.6);
+scene.add(new THREE.HemisphereLight(0xdde4f0, 0x272c33, 0.85));
+const sun = new THREE.DirectionalLight(0xffffff, 2.0);
 sun.position.set(400, -600, 800);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -700, right: 700, top: 700, bottom: -700, near: 100, far: 3000 });
+sun.shadow.bias = -0.0004;
 scene.add(sun);
-const fill = new THREE.DirectionalLight(0x8899bb, 0.5);
+const fill = new THREE.DirectionalLight(0x8899bb, 0.45);
 fill.position.set(-500, 400, 200);
 scene.add(fill);
+const rim = new THREE.DirectionalLight(0xbfd4ff, 0.6);  // contraluz de recorte
+rim.position.set(150, 700, 350);
+scene.add(rim);
+
+// material según color: tonos neutros = metal (ejes, poleas, chapa); color = plástico/pintura
+const matFor = (color) => {
+  const c = new THREE.Color(color);
+  const mx = Math.max(c.r, c.g, c.b), mn = Math.min(c.r, c.g, c.b);
+  const metal = (mx - mn) < 0.09;
+  return new THREE.MeshStandardMaterial({ color, metalness: metal ? 0.7 : 0.08, roughness: metal ? 0.34 : 0.52 });
+};
 
 const bbox = new THREE.Box3();
 const addMesh = (g, color, part) => {
-  const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color, metalness: 0.15, roughness: 0.7 }));
+  const mesh = new THREE.Mesh(g, matFor(color));
+  mesh.castShadow = mesh.receiveShadow = true;
   mesh.applyMatrix4(partMatrix(part));
   scene.add(mesh);
   bbox.expandByObject(mesh);
@@ -110,6 +130,15 @@ for (const part of doc.parts) {
 }
 const c = bbox.getCenter(new THREE.Vector3());
 const size = bbox.getSize(new THREE.Vector3()).length();
+
+// piso que recibe la sombra (bajo el modelo)
+const piso = new THREE.Mesh(
+  new THREE.CircleGeometry(size * 1.6, 64),
+  new THREE.MeshStandardMaterial({ color: 0x171a1f, metalness: 0, roughness: 1 }),
+);
+piso.position.set(c.x, c.y, bbox.min.z - 2);
+piso.receiveShadow = true;
+scene.add(piso);
 
 const cam = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 1, 20000);
 cam.up.set(0, 0, 1);

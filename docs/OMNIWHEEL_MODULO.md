@@ -122,18 +122,22 @@ diferencias.
 
 ## Nivel de detalle del 3D
 
-- **Ruedas**: rodillos **abombados en 3 escalones** siguiendo la envolvente
-  circular (`r(t)=√(R²−t²)−rc`; envolvente Ø120.1 vs 121.6 con cilindros
-  rectos), pasadores Ø5, arañas y cubo. El abombado real de fabricación es el
-  perfil torneado continuo.
+- **Ruedas**: en el ensamble van **torneadas por revolución de boceto**
+  (features `revolve` del CAD): rodillos = revolución del **arco exacto de la
+  envolvente** (`r(t)=√(R²−t²)−rc`, barril continuo, rodadura perfectamente
+  circular), cubo y platos con **chaflanes torneados**, pasadores Ø5. En el
+  catálogo la versión primitiva (3 escalones) se mantiene para GLB/STL
+  (trimesh no revoluciona).
 - **Tapa portante** negra 609.6×609.6×5 sobre las placas (top 2 bajo la
   tangente): 25 aberturas con holgura 4 por donde **solo asoman las coronas**,
   como el CV-OMW del simulador.
 - **Ejes**: calibrados Ø15 h6 con chaveta 5×5 (nota), **chumaceras de brida**
   (placa + boza Ø35) en las placas perimetrales con **pasadas Ø16**, y
   **separadores tubulares Ø22** que fijan la posición axial de ruedas y polea.
-- **Motor**: malla real del GLB. Simplificaciones restantes: poleas sin
-  dentado (cilindro liso), correa como lazo prismático, sin tornillería.
+- **Motor**: malla real del GLB. El visor (`ver.html`) renderiza con tone
+  mapping ACES, sombras suaves y materiales metal/pintura según color.
+  Simplificaciones restantes: poleas sin dentado (cilindro liso), correa como
+  lazo prismático, sin tornillería.
 
 ## Cómo regenerar / ver
 

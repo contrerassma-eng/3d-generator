@@ -204,8 +204,57 @@ function placeMesh(nombre, compId, pos, quat = [0, 0, 0, 1], color = '#37474f') 
   });
 }
 
-const C = { placa: '#212121', fondo: '#263238', tapa: '#1a1d21', eje: '#b0bec5', chum: '#455a64', sep: '#546e7a', motor: '#37474f', correa: '#111111', foto: '#c62828' };
+const C = { placa: '#212121', fondo: '#263238', tapa: '#1a1d21', eje: '#b0bec5', chum: '#455a64', sep: '#546e7a', motor: '#37474f', correa: '#111111', foto: '#c62828', rodillo: '#1e63c0', plato: '#e8720c', cubo: '#8a939b', pin: '#cfd8dc' };
 const H = D.mod / 2;
+
+// ---- RUEDA OMNI TORNEADA (revoluciones de boceto: superficie continua) ----
+// Rodillos = revolución del ARCO de la envolvente (barril abombado exacto,
+// r(t) = √(R²−t²) − rc) y cubo/platos = perfil torneado con chaflanes.
+let nsk = 0;
+const mkLine = (a, b) => ({ id: `sk${++nsk}`, type: 'line', a, b });
+const mkArc = (c, r, a0, a1) => ({ id: `sk${++nsk}`, type: 'arc', c, r, a0, a1 });
+const revolve = (name, at, dir, u, entities, color) =>
+  ({ id: fid(), name, shape: 'revolve', op: 'union', at, dir, params: { entities, dims: [], axis: { a: [0, 0], b: [1, 0] }, u, angle: 360 }, color });
+// contorno cerrado por puntos (líneas)
+const poly = (pts) => pts.map((p, i) => mkLine(p, pts[(i + 1) % pts.length]));
+
+function ruedaTorneada(nombre, biblioteca, pos, quat, P) {
+  // P: {R, rrod, nrod, Lrod, rHub, rPlato, half, ePlato, wMid, chaflan}
+  const rc = P.R - P.rrod;
+  const fe = [];
+  // cubo torneado con chaflanes en los extremos (perfil axial × radial)
+  const ch = P.chaflan;
+  fe.push(revolve(`Cubo torneado Ø${2 * P.rHub}`, [0, 0, P.R], [0, 1, 0], [1, 0, 0],
+    poly([[-P.half, 8], [P.half, 8], [P.half, P.rHub - ch], [P.half - ch, P.rHub], [-P.half + ch, P.rHub], [-P.half, P.rHub - ch]]), C.cubo));
+  // tres platos (araña central + 2 exteriores) con bisel superior — un solo
+  // revolve con tres regiones cerradas
+  const plato = (x0, x1) => poly([[x0, P.rHub], [x1, P.rHub], [x1, P.rPlato - ch], [x1 - ch, P.rPlato], [x0 + ch, P.rPlato], [x0, P.rPlato - ch]]);
+  fe.push(revolve(`Platos torneados Ø${2 * P.rPlato}`, [0, 0, P.R], [0, 1, 0], [1, 0, 0],
+    [...plato(-P.half, -P.half + P.ePlato), ...plato(-P.wMid / 2, P.wMid / 2), ...plato(P.half - P.ePlato, P.half)], C.plato));
+  // rodillos: barril de arco exacto + pasador
+  const xRow = P.wMid / 2 + (P.half - P.wMid / 2 - P.ePlato) / 2;   // centro axial de cada corona
+  const hL = P.Lrod / 2;
+  const yE = Math.sqrt(P.R ** 2 - hL ** 2) - rc;                     // radio del barril en el extremo
+  const a0 = Math.acos(hL / P.R), a1 = Math.PI - a0;                 // arco CCW derecha→izquierda
+  const paso = 360 / P.nrod;
+  for (const [s, off] of [[-1, 0], [1, paso / 2]]) {
+    for (let k = 0; k < P.nrod; k++) {
+      const ph = (off + k * paso) * Math.PI / 180;
+      const cRod = [s * xRow, rc * Math.sin(ph), P.R + rc * Math.cos(ph)];
+      const tHat = [0, Math.cos(ph), -Math.sin(ph)];                 // eje del rodillo (tangente)
+      const ents = [
+        mkLine([-hL, 1.6], [hL, 1.6]), mkLine([hL, 1.6], [hL, yE]),
+        mkArc([0, -rc], P.R, a0, a1), mkLine([-hL, yE], [-hL, 1.6]),
+      ];
+      fe.push(revolve(`Rodillo barril Ø${2 * P.rrod}`, cRod, [1, 0, 0], tHat, ents, C.rodillo));
+      const Lp = P.Lrod + 8;
+      fe.push(cyl('Pasador Ø5', [cRod[0], cRod[1] - tHat[1] * Lp / 2, cRod[2] - tHat[2] * Lp / 2], tHat, 5, Lp, C.pin));
+    }
+  }
+  parts.push({ id: `op${++np}_rt`, name: nombre, biblioteca, componente: biblioteca, color: C.rodillo, pos, quat, fixed: false, visible: true, base_ref: true, features: fe });
+}
+const RT70 = { R: 35, rrod: 10, nrod: 6, Lrod: 18, rHub: 17, rPlato: 27.5, half: 25, ePlato: 3, wMid: 4, chaflan: 1.5 };
+const RT120 = { R: 60, rrod: 13, nrod: 8, Lrod: 28, rHub: 24, rPlato: 47, half: 31, ePlato: 3, wMid: 4, chaflan: 2 };
 
 // bastidor: bandeja (con RANURAS de paso de correa por estación) + 4 placas
 // perimetrales (con pasadas Ø16 de los ejes) + TAPA portante con aberturas
@@ -263,11 +312,11 @@ function ejeParte(tag, fam, at, zEje, ruedas, halfW) {
 }
 for (const x of D.ejesA_X) {
   ejeParte(`Eje A (avance) x=${x.toFixed(1)}`, 'A', x, zA, D.ruedasA_Y, D.W1 / 2);
-  for (const y of D.ruedasA_Y) placeComp(`Rueda avance Ø70 (${x.toFixed(0)},${y.toFixed(0)})`, 'rueda_omni_70_doble', [x, y, D.tang - 2 * D.R1], Q_XtoY);
+  for (const y of D.ruedasA_Y) ruedaTorneada(`Rueda avance Ø70 torneada (${x.toFixed(0)},${y.toFixed(0)})`, 'rueda_omni_70_doble', [x, y, D.tang - 2 * D.R1], Q_XtoY, RT70);
 }
 for (const y of D.ejesB_Y) {
   ejeParte(`Eje B (eyección) y=${y.toFixed(1)}`, 'B', y, zB, D.ruedasB_X, D.W2 / 2);
-  for (const x of D.ruedasB_X) placeComp(`Rueda eyección Ø120 (${x.toFixed(0)},${y.toFixed(0)})`, 'rueda_omni_120_doble', [x, y, D.tang - 2 * D.R2]);
+  for (const x of D.ruedasB_X) ruedaTorneada(`Rueda eyección Ø120 torneada (${x.toFixed(0)},${y.toFixed(0)})`, 'rueda_omni_120_doble', [x, y, D.tang - 2 * D.R2], [0, 0, 0, 1], RT120);
 }
 
 // transmisión por eje: motor UniDrive DE BIBLIOTECA (malla real del ZP2026)
