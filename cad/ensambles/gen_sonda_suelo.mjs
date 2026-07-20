@@ -677,7 +677,7 @@ const doc = {
 };
 
 const here = dirname(fileURLToPath(import.meta.url));
-const base = B15 ? 'sonda_suelo_b15' : STD ? 'sonda_suelo_std' : 'sonda_suelo';
+const base = B15 ? 'sonda_suelo_b15_v1_obsoleta' : STD ? 'sonda_suelo_std' : 'sonda_suelo';
 if (STD) {
   doc.meta.nombre = B15 ? 'Estación de suelo+clima — VARIANTE B1.5: SMT50 + superficie'
                         : 'Sonda de suelo industrial — VARIANTE B: fittings estándar';

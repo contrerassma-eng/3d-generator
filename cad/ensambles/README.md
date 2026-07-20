@@ -358,3 +358,10 @@ Escalera completa con costos y qué cede cada nivel: §5 de
   con ADC y estación de clima con paridad de competencia (T/HR en escudo de
   radiación, pluviómetro balancín, humedad de hoja)
   (`node gen_sonda_suelo.mjs smt50` → visor `sonda_suelo_b15.html`).
+
+- **B1.5 v2 (vigente)** — `gen_estacion_b15.mjs` → `sonda_suelo_b15.json` (37 pzas):
+  estación de POSTE con alturas OMM (T/HR 1.5 m, pluvio 1.235 m, antena 1.93 m),
+  gabinete vertical lateral con puerta al sur y TODAS las entradas por abajo,
+  ménsula del pluviómetro al poste (2 abrazaderas + cartela), panel al norte,
+  cap roscado en vez de brida. El modo `smt50` de gen_sonda_suelo queda
+  obsoleto (emite `_v1_obsoleta`).

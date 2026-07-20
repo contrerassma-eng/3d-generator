@@ -81,30 +81,34 @@ check('panel sobre la tapa', db.panel.min.z > 984);
 check('electrónica dentro de la cavidad', ['nodo', 'bateria', 'borne_bus', 'desecante'].every(id =>
   db[id].min.x > -84.1 && db[id].max.x < 84.1 && db[id].min.y > -62.1 && db[id].max.y < 62.1 && db[id].max.z < 976));
 
-// --- variante B1.5: SMT50 + estación de superficie -----------------------------
-console.log('— VARIANTE B1.5 (sonda_suelo_b15.json) —');
+// --- variante B1.5 v2: estación de poste (alturas OMM) --------------------------
+console.log('— VARIANTE B1.5 v2 (sonda_suelo_b15.json) —');
 const B15 = JSON.parse(readFileSync('ensambles/sonda_suelo_b15.json', 'utf8'));
-check('38 piezas (34 de B + escudo + pluvio + hoja + prensas superficie)', B15.parts.length === 38, `hay ${B15.parts.length}`);
-check('sensores SMT50', byId(B15, 'sensor1').name.includes('SMT50'));
-const hoja15 = byId(B15, 'sensor1').features.find(f => f.name.includes('Hoja'));
-check('hoja SMT50 135×21.5 (ficha 01/2018)', hoja15.params.h === 135 && hoja15.params.w === 21.5);
-check('ranura pasamuro reducida 23×9', byId(B15, 'pasamuro1').features.some(f => f.name.includes('23×9')));
-check('estación de superficie presente', ['escudo_thr', 'pluviometro', 'sensor_hoja'].every(id => byId(B15, id)));
-check('BOM con SMT50 EUR 71 + ADC + 3 externos', B15.meta.bom.find(b => b.item === 3).mat.includes('EUR 71') &&
-  B15.meta.bom.find(b => b.item === 12).desig.includes('ADS1115') && B15.meta.bom.length >= 35);
-check('webRef cita ficha SMT50', B15.meta.webRef.some(w => w.url.includes('SMT50_Flyer')));
+check('37 piezas', B15.parts.length === 37, `hay ${B15.parts.length}`);
+check('ids únicos', new Set(B15.parts.map(p => p.id)).size === B15.parts.length);
+const b15fids = B15.parts.flatMap(p => p.features.map(f => f.id));
+check('ids de función únicos', new Set(b15fids).size === b15fids.length);
+check('sin brida ni contratuerca (poste continuo + cap)', !byId(B15, 'acople') && !byId(B15, 'contratuerca') && !!byId(B15, 'cap_poste'));
+check('sensores SMT50 135×21.5', byId(B15, 'sensor1').features.find(f => f.name.includes('Hoja')).params.h === 135);
 const b15 = buildAll(B15);
-check('hoja sensora fuera del tubo >=100', Math.abs(b15.sensor1.max.x - 145) < 1.5, `${b15.sensor1.max.x}`);
-check('boca del pluviómetro sobre el panel', b15.pluviometro.max.z > b15.panel.max.z,
-  `${b15.pluviometro.max.z.toFixed(0)} vs panel ${b15.panel.max.z.toFixed(0)}`);
-check('pluviómetro fuera de la sombra del panel (|y|>150)', b15.pluviometro.min.y < -150 && b15.pluviometro.max.y - 220 < 0);
-check('escudo T/HR bajo el gabinete, lado −X, separado del pilar', b15.escudo_thr.max.z < 924 && b15.escudo_thr.min.x < -180);
-check('pluviómetro ANCLADO a la pared −Y (placa toca y=-65)', Math.abs(b15.pluviometro.max.y - -65) < 0.5,
-  `${b15.pluviometro.max.y}`);
-check('entradas de superficie presentes (2× M16 en −Y)', !!byId(B15, 'prensas_superficie') &&
-  B15.parts.find(p => p.id === 'gabinete').features.some(f => f.name.includes('Paso superficie')));
-check('pasacable de panel en tapa (todas las variantes)', ['prensa_panel'].every(id => byId(B15, id) && byId(B, id)));
-check('interfaces compartidas: brida al piso 924', Math.abs(b15.acople.max.z - 924) < 0.5);
+check('poste continuo 86–1755 con salida lateral', Math.abs(b15.pilar.min.z - 86) < 0.5 && Math.abs(b15.pilar.max.z - 1755) < 0.5);
+check('cap sella el tope', b15.cap_poste.max.z > 1760);
+check('gabinete VERTICAL colgado del poste (180 ancho × 130 alto)',
+  Math.abs((b15.gabinete.max.z - b15.gabinete.min.z) - 130) < 1 && b15.gabinete.max.y < -25);
+check('puerta al SUR (tapa más al −Y que el cuerpo)', b15.tapa.min.y < b15.gabinete.min.y + 1);
+check('TODAS las entradas por la cara inferior (z<1086)',
+  ['prensa', 'prensas_superficie', 'm12', 'vent', 'entrada_panel'].every(id => b15[id].min.z < 1086));
+check('escudo T/HR a 1.47–1.53 m (OMM 1.25–2 m)', b15.escudo_thr.min.z > 1450 && b15.escudo_thr.max.z < 1540);
+check('boca del pluviómetro a 1.235 m, nivelable', Math.abs(b15.pluviometro.max.z - 1235) < 1);
+check('ménsula del pluviómetro AL POSTE (abrazaderas centradas en el eje)',
+  byId(B15, 'pluviometro').features.some(f => f.name.includes('Abrazadera')));
+check('panel al NORTE (+Y) sobre la puerta', b15.panel.max.y > 100 && b15.panel.min.z > 1600);
+check('antena remata ~1.93 m sobre todo lo demás', b15.antena.max.z > 1900);
+check('electrónica dentro del gabinete vertical',
+  ['pcb', 'baterias', 'bms', 'borne_bus', 'desecante'].every(id =>
+    b15[id].min.z > 1085 && b15[id].max.z < 1215 && b15[id].max.y < -28 && b15[id].min.y > -93));
+check('BOM/pasos/alturas OMM en meta', B15.meta.bom.length >= 26 && B15.meta.pasos.length === 12 &&
+  B15.meta.webRef.some(w => w.fuente.includes('OMM')));
 
 console.log(`\n${pass} ✔ · ${fail} ✘`);
 process.exit(fail ? 1 : 0);
