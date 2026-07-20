@@ -42,7 +42,7 @@ const byId = (id) => doc.parts.find(p => p.id === id);
 
 console.log('— Documento —');
 check('formato foto3d-cad v1', doc.format === 'foto3d-cad' && doc.version === 1);
-check('34 piezas', doc.parts.length === 34, `hay ${doc.parts.length}`);
+check('35 piezas', doc.parts.length === 35, `hay ${doc.parts.length}`);
 check('ids de pieza únicos', new Set(doc.parts.map(p => p.id)).size === doc.parts.length);
 const fids = doc.parts.flatMap(p => p.features.map(f => f.id));
 check('ids de función únicos', new Set(fids).size === fids.length);
@@ -94,7 +94,7 @@ check('prensaestopas: rosca M16 remata 4 sobre el piso', byId('prensa').pos[2] +
 check('contratuerca sobre el piso interior', byId('contratuerca').pos[2] === D.gab.zPiso + 3);
 check('cabezal elevado ~0.9 m sobre NPT (estado del arte)', D.gab.zPiso === 924 && D.pilar.L === 810);
 
-console.log('— CSG de las 34 piezas (volumen > 0, sin NaN) —');
+console.log('— CSG de las 35 piezas (volumen > 0, sin NaN) —');
 const boxAll = new THREE.Box3();
 const boxes = {};
 for (const part of doc.parts) {
@@ -123,6 +123,13 @@ check('collar apoyado en NPT (z 0–13)', Math.abs(boxes.collar.min.z) < 0.5 && 
 check('antena remata sobre el panel (>1150)', boxes.antena.max.z > 1150 && boxes.antena.max.z > boxes.panel.max.z + 100,
   `${boxes.antena.max.z.toFixed(0)} vs panel ${boxes.panel.max.z.toFixed(0)}`);
 check('antena no invade el vano del panel (x>92)', boxes.antena.min.x > 90 - 1e-6);
+// pasacable del panel bajo la sombra del propio panel (protegido de lluvia)
+{
+  const th = D.panel.angulo * Math.PI / 180;
+  const zPanelSobrePrensa = 1010.2 - (-60) * Math.sin(th);   // plano del panel en x=-60
+  check('prensaestopas de panel bajo el panel', boxes.prensa_panel.max.z < zPanelSobrePrensa - 5,
+    `${boxes.prensa_panel.max.z.toFixed(0)} vs panel ${zPanelSobrePrensa.toFixed(0)}`);
+}
 check('pilar de 86 a 896 (hilo en ambas puntas embebido)', Math.abs(boxes.pilar.min.z - 86) < 0.5 && Math.abs(boxes.pilar.max.z - 896) < 0.5);
 
 console.log(`\n${pass} ✔ · ${fail} ✘`);

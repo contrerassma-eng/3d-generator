@@ -45,7 +45,7 @@ const byId = (doc, id) => doc.parts.find(p => p.id === id);
 // --- variante B: fittings estándar ------------------------------------------
 console.log('— VARIANTE B (sonda_suelo_std.json) —');
 const B = JSON.parse(readFileSync('ensambles/sonda_suelo_std.json', 'utf8'));
-check('33 piezas (sin tórica de transición: unión cementada)', B.parts.length === 33, `hay ${B.parts.length}`);
+check('34 piezas (sin tórica de transición: unión cementada)', B.parts.length === 34, `hay ${B.parts.length}`);
 check('sin tórica de transición', !byId(B, 'torica_cabezal'));
 check('tórica de punta se mantiene', !!byId(B, 'torica_punta'));
 check('brida comercial en el cabezal', byId(B, 'acople').name.includes('Brida roscada'));
@@ -84,7 +84,7 @@ check('electrónica dentro de la cavidad', ['nodo', 'bateria', 'borne_bus', 'des
 // --- variante B1.5: SMT50 + estación de superficie -----------------------------
 console.log('— VARIANTE B1.5 (sonda_suelo_b15.json) —');
 const B15 = JSON.parse(readFileSync('ensambles/sonda_suelo_b15.json', 'utf8'));
-check('36 piezas (33 de B + escudo + pluviómetro + hoja)', B15.parts.length === 36, `hay ${B15.parts.length}`);
+check('38 piezas (34 de B + escudo + pluvio + hoja + prensas superficie)', B15.parts.length === 38, `hay ${B15.parts.length}`);
 check('sensores SMT50', byId(B15, 'sensor1').name.includes('SMT50'));
 const hoja15 = byId(B15, 'sensor1').features.find(f => f.name.includes('Hoja'));
 check('hoja SMT50 135×21.5 (ficha 01/2018)', hoja15.params.h === 135 && hoja15.params.w === 21.5);
@@ -98,7 +98,12 @@ check('hoja sensora fuera del tubo >=100', Math.abs(b15.sensor1.max.x - 145) < 1
 check('boca del pluviómetro sobre el panel', b15.pluviometro.max.z > b15.panel.max.z,
   `${b15.pluviometro.max.z.toFixed(0)} vs panel ${b15.panel.max.z.toFixed(0)}`);
 check('pluviómetro fuera de la sombra del panel (|y|>150)', b15.pluviometro.min.y < -150 && b15.pluviometro.max.y - 220 < 0);
-check('escudo T/HR bajo el gabinete, lado −X', b15.escudo_thr.max.z < 924 && b15.escudo_thr.min.x < -150);
+check('escudo T/HR bajo el gabinete, lado −X, separado del pilar', b15.escudo_thr.max.z < 924 && b15.escudo_thr.min.x < -180);
+check('pluviómetro ANCLADO a la pared −Y (placa toca y=-65)', Math.abs(b15.pluviometro.max.y - -65) < 0.5,
+  `${b15.pluviometro.max.y}`);
+check('entradas de superficie presentes (2× M16 en −Y)', !!byId(B15, 'prensas_superficie') &&
+  B15.parts.find(p => p.id === 'gabinete').features.some(f => f.name.includes('Paso superficie')));
+check('pasacable de panel en tapa (todas las variantes)', ['prensa_panel'].every(id => byId(B15, id) && byId(B, id)));
 check('interfaces compartidas: brida al piso 924', Math.abs(b15.acople.max.z - 924) < 0.5);
 
 console.log(`\n${pass} ✔ · ${fail} ✘`);

@@ -327,6 +327,8 @@ D.sensor.profundidades.forEach((zp, i) => {
     hole(D.m12.cutout, [D.m12.x, -g.W / 2, D.m12.z - g.zPiso], [0, 1, 0], { depth: 4, name: 'Recorte M12 servicio' }),
     hole(D.m12.cutout, [D.m12.x, g.W / 2, D.m12.z - g.zPiso], [0, -1, 0], { depth: 4, name: 'Recorte válvula Gore' }),
     hole(6.5, [g.L / 2, 0, D.m12.z - g.zPiso], [-1, 0, 0], { depth: 4, name: 'Paso SMA antena Ø6.5' }),
+    ...(B15 ? [hole(16.5, [-50, -g.W / 2, 26], [0, 1, 0], { depth: 4, name: 'Paso superficie 1 Ø16.5' }),
+      hole(16.5, [-80, -g.W / 2, 26], [0, 1, 0], { depth: 4, name: 'Paso superficie 2 Ø16.5' })] : []),
   ], { explode: [0, 0, 210] });
 
   P('junta', '15 Junta de tapa PU (perimetral)', '#22262b', [0, 0, Z_TAPA], [
@@ -337,7 +339,14 @@ D.sensor.profundidades.forEach((zp, i) => {
   P('tapa', '16 Tapa Fibox ARCA (4×M4 A4 cautivos)', '#aab4bd', [0, 0, Z_TAPA + 1.5], [
     box(g.L, g.W, g.Htapa, [0, 0, 0], 'union', 'Tapa'),
     lidHole, rectPat(lidHole.id, 2, 2, -2 * bossX, -2 * bossY),
+    hole(12.5, [-60, 40, D.gab.Htapa], [0, 0, -1], { through: true, name: 'Pasacable panel Ø12.5' }),
   ], { explode: [0, 0, 380] });
+  // pasacable del panel: queda BAJO LA SOMBRA del propio panel (protegido);
+  // el cable baja con lazo de servicio de 300 mm para abrir la tapa
+  P('prensa_panel', '36 Prensaestopas M12 en tapa (cable panel, lazo de servicio)', '#c9a227', [-60, 40, Z_TAPA + 1.5 + D.gab.Htapa], [
+    cyl(17, 7, [0, 0, 0], [0, 0, 1], 'union', 'Cuerpo'),
+    cyl(12, 12, [0, 0, -10], [0, 0, 1], 'union', 'Rosca M12'),
+  ], { explode: [0, 0, 430] });
 }
 
 // --- 17-24 ELECTRÓNICA INTERIOR ----------------------------------------------
@@ -422,18 +431,31 @@ D.sensor.profundidades.forEach((zp, i) => {
   ], { quat: qAxis([0, 1, 0], D.panel.angulo), explode: [0, 0, 520] });
 
   if (B15) {
-    // escudo de radiación multi-plato con SHT40 (T/HR aire) en brazo al pilar
+    // escudo de radiación multi-plato con SHT40, separado 160 del pilar (pluma
+    // térmica) y abrazado al pilar con brazo de doble apriete
     const feats = [cyl(10, 55, [0, 0, 0], [0, 0, 1], 'union', 'Eje escudo'),
-      box(140, 18, 5, [70, 0, 50], 'union', 'Brazo al pilar')];
+      box(170, 18, 5, [80, 0, 50], 'union', 'Brazo al pilar (2 abrazaderas)')];
     for (let k = 0; k < 5; k++) feats.push(cyl(80, 3, [0, 0, 2 + k * 11], [0, 0, 1], 'union', `Plato ${k + 1}`));
     P('escudo_thr', '33 T/HR aire: SHT40 en escudo de radiación (brazo al pilar)', '#e8e4da',
-      [-140, 0, 690], feats, { explode: [-150, 0, 0] });
-    // pluviómetro balancín en brazo lateral, boca sobre el nivel del panel
-    P('pluviometro', '34 Pluviómetro balancín Ø160 (brazo −Y, boca libre)', '#aab4bd', [0, -230, 980], [
-      cyl(90, 60, [0, 0, 0], [0, 0, 1], 'union', 'Cuerpo'),
-      cyl(160, 20, [0, 0, 60], [0, 0, 1], 'union', 'Boca Ø160'),
-      box(18, 220, 5, [0, 115, 30], 'union', 'Brazo al pilar'),
-    ], { explode: [0, -160, 0] });
+      [-160, 0, 720], feats, { explode: [-150, 0, 0] });
+    // pluviómetro balancín en MÉNSULA RÍGIDA a la pared −Y del gabinete:
+    // placa 4×M4 + brazo + cartela; boca sobre el panel y fuera de su sombra
+    P('pluviometro', '34 Pluviómetro balancín Ø160 en ménsula (nivelar, boca libre)', '#aab4bd', [0, -65, 938], [
+      box(40, 4, 46, [0, -2, 0], 'union', 'Placa a pared (4×M4 c/refuerzo interior)'),
+      box(18, 161, 5, [0, -84.5, 64], 'union', 'Brazo'),
+      sketch([{ type: 'line', a: [-4, 64], b: [-4, 22] }, { type: 'line', a: [-4, 22], b: [-85, 64] },
+        { type: 'line', a: [-85, 64], b: [-4, 64] }], 5, [-2.5, 0, 0], [1, 0, 0], [0, 1, 0], 'union', 'Cartela'),
+      cyl(90, 60, [0, -165, 69], [0, 0, 1], 'union', 'Cuerpo'),
+      cyl(160, 20, [0, -165, 129], [0, 0, 1], 'union', 'Boca Ø160 (nivelar ±1°)'),
+    ], { explode: [0, -170, 60] });
+    // prensaestopas de superficie (pluviómetro + escudo/hoja) en pared −Y
+    const qs = qAxis([1, 0, 0], -90);
+    P('prensas_superficie', '37 2× Skintop M16 superficie (pluvio + escudo/hoja)', '#c9a227', [0, -71, D.m12.z], [
+      cyl(19, 6, [-50, 0, 0], [0, 0, 1], 'union', 'Prensaestopas 1'),
+      cyl(15.8, 10, [-50, 0, 6], [0, 0, 1], 'union', 'Rosca 1'),
+      cyl(19, 6, [-80, 0, 0], [0, 0, 1], 'union', 'Prensaestopas 2'),
+      cyl(15.8, 10, [-80, 0, 6], [0, 0, 1], 'union', 'Rosca 2'),
+    ], { quat: qs, explode: [0, -120, 210] });
     // sensor de humedad de hoja (se cuelga en el follaje; varilla solo de referencia)
     P('sensor_hoja', '35 Humedad de hoja (heladas/enfermedades) — al follaje', '#7aa05a', [250, 150, 0], [
       cyl(8, 440, [0, 0, 0], [0, 0, 1], 'union', 'Varilla ref.'),
@@ -497,6 +519,9 @@ const BOM = [
   { item: 28, id: null, desig: 'Prisionero DIN 916 M5×8', mat: 'A4', cant: 2, nota: 'Collar antipercolación' },
   { item: 29, id: 'antena', desig: 'Antena 868/915 MHz 2 dBi látigo FV + soporte L', mat: 'Fibra vidrio / Al 5052', cant: 1, nota: 'Remata a ~1.2 m sobre NPT, por sobre el nivel del panel; 2×M4 al gabinete' },
   { item: 30, id: null, desig: 'Jumper SMA-hembra→SMA-macho 300 mm', mat: 'RG-316', cant: 1, nota: 'Paso Ø6.5 en pared +X, pasacables con junta + silicona neutra' },
+  { item: 36, id: 'prensa_panel', desig: 'Prensaestopas M12 en tapa (cable del panel)', mat: 'Latón Ni', cant: 1, nota: 'Queda bajo la sombra del propio panel; lazo de servicio 300 mm para abrir la tapa' },
+  { item: 38, id: null, desig: 'Cordón de retención de tapa (lanyard inox)', mat: 'Cable 1.5 mm forrado', cant: 1, nota: 'La tapa carga el panel: no debe caer ni tironear el cable al abrir' },
+  { item: 39, id: null, desig: 'Pica de tierra Cu 1.2 m + cable 6 mm² + abrazadera', mat: 'Cu / Cu-Sn', cant: 1, nota: 'Poste metálico elevado con antena: aterrar el pilar en un solo punto' },
   { item: 31, id: 'transicion', desig: 'Acople de transición espiga PVC + hembra 1 1/2" NPT', mat: '316L torneado', cant: 1, nota: 'A nivel de suelo; tórica 36×3 al PVC + prensaestopas M16 interno (aísla el conducto del cuerpo enterrado)' },
   { item: 32, id: 'pilar', desig: 'Pilar cañería NPS 1 1/2" SCH40 × 810, hilo en ambas puntas', mat: 'Acero ASTM A53; dúplex: galv. caliente + poliéster polvo RAL 7016', cant: 1, nota: 'OD 48.3 / pared 3.68; hilo 1 1/2"-11.5 NPT; hilos enmascarados al pintar y retocados zinc-rich; alternativa NPS 1" SCH40 si prima costo' },
 ];
@@ -523,7 +548,7 @@ const PASOS = [
   { n: 9, t: 'M12, válvula Gore y antena', partes: ['m12', 'm12_tapa', 'vent', 'antena', 'gabinete'], texto: 'Montar receptáculo M12 A-cod en el recorte Ø12.5 (pared −Y), tuerca interior, grasa dieléctrica, tapa con cadenilla. Válvula Gore M12 en la pared opuesta. Soporte L + antena 868/915 en la pared +X (2×M4); jumper SMA por el paso Ø6.5 con junta y silicona neutra. El látigo debe rematar SOBRE el nivel del panel.' },
   { n: 10, t: 'Prueba de estanqueidad (GATE)', partes: ['punta', 'tubo', 'acople', 'gabinete'], texto: 'ANTES de instalar: prueba de vacío −20 kPa / 5 min por el M12 (caída ≤ 1 kPa) o inmersión 1 m / 30 min con papel indicador interior. Si falla: revisar tóricas y potting. NO instalar una sonda que no pasó la prueba.' },
   { n: 11, t: 'Instalación en terreno', partes: ['tapon_hinca', 'collar', 'tubo', 'punta'], texto: 'Pilotar Ø45 a 750 mm con barreno. Colocar TAPÓN DE HINCA 316L en el tubo (nunca golpear el tubo ni el cabezal). Hincar hasta que la cara superior del tubo quede a +50 sobre NPT. Rellenar el anular con lechada de la misma tierra tamizada; últimos 300 mm con bentonita. Retirar tapón, montar cabezal completo. Collar antipercolación al ras del suelo, 2×M5.' },
-  { n: 12, t: 'Cierre y puesta en marcha', partes: ['junta', 'tapa', 'panel', 'soporte_panel'], texto: 'Verificar junta PU limpia y asentada. Tapa 4×M4 A4 a 1.2 N·m en cruz. Soporte 15° + panel 5 W orientado al ecuador. Verificar lecturas Modbus de los 3 sensores y enlace LoRaWAN. Registrar IDs, RSSI y fotos del cierre en la bitácora del proyecto.' },
+  { n: 12, t: 'Cierre y puesta en marcha', partes: ['junta', 'tapa', 'panel', 'soporte_panel', 'prensa_panel'], texto: 'Verificar junta PU limpia y asentada. Enganchar el CORDÓN DE RETENCIÓN de la tapa. Tapa 4×M4 A4 a 1.2 N·m en cruz. Soporte 15° + panel 5 W al ecuador; su cable entra por el prensaestopas DE LA TAPA con lazo de servicio de 300 mm. ATERRAR el pilar (pica 1.2 m, un solo punto). Verificar lecturas de los 3 sensores y enlace LoRaWAN. Registrar IDs, RSSI y fotos en la bitácora.' },
 ];
 
 const FEATURES = [
@@ -539,7 +564,8 @@ const FEATURES = [
   'Materiales no perturbadores del campo dieléctrico en la zona de medición: PVC-U + POM-C (el 316L queda solo en punta y cabezal)',
   'Collar antipercolación Ø160 sobre sello de bentonita: corta el flujo preferencial de agua superficial junto al tubo (fuente nº1 de lecturas falsas)',
   'Instalación sin daño: tapón de hinca 316L sacrificial + pilotaje Ø45 + lechada nativa',
-  'Servicio en campo: tapa 4 tornillos, desecante recambiable, tóricas de repuesto en kit',
+  'Servicio en campo: tapa 4 tornillos con cordón de retención, desecante recambiable, tóricas de repuesto en kit',
+  'Depuración de diseño industrial: pasacable del panel bajo su propia sombra con lazo de servicio, puesta a tierra del poste, y (B1.5) pluviómetro en ménsula rígida nivelable con cartela, entradas dedicadas de superficie y pincho antipájaros',
 ];
 
 const WEB_REF = [
@@ -607,6 +633,8 @@ if (B15) {
     { item: 33, id: 'escudo_thr', desig: 'T/HR aire: SHT40 + escudo de radiación multi-plato', mat: 'ASA/PC blanco', cant: 1, nota: '~$15; paridad METER ATMOS 14; brazo al pilar a ~0.7 m; I2C al nodo' },
     { item: 34, id: 'pluviometro', desig: 'Pluviómetro balancín Ø160 (0.2–0.3 mm/tip)', mat: 'ABS UV + reed', cant: 1, nota: '~$25; paridad pluviómetro ZL6/Davis; brazo −Y con boca LIBRE sobre el panel; pulso al nodo; nivelar con burbuja' },
     { item: 35, id: 'sensor_hoja', desig: 'Sensor de humedad de hoja (capacitivo)', mat: 'FR4 recubierto', cant: 1, nota: '~$12; paridad METER PHYTOS 31 (heladas/enfermedades); SE CUELGA EN EL FOLLAJE a altura de racimo, cable al nodo; analógico' },
+    { item: 37, id: 'prensas_superficie', desig: '2× Skintop M16 superficie (pared −Y)', mat: 'Latón Ni', cant: 2, nota: 'Entradas dedicadas: pluviómetro (pulso) y escudo/hoja; 2.5 N·m' },
+    { item: 40, id: null, desig: 'Pincho antipájaros p/aro del pluviómetro', mat: 'PC/inox', cant: 1, nota: '~$2 — los pájaros posados son la 1ª causa real de pluviómetro sucio/descalibrado' },
   );
   const p4 = PASOS.find(x => x.n === 4);
   p4.t = 'Sensores SMT50 + potting';

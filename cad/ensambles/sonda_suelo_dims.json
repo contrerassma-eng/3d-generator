@@ -380,6 +380,30 @@
    "nota": "Paso Ø6.5 en pared +X, pasacables con junta + silicona neutra"
   },
   {
+   "item": 36,
+   "id": "prensa_panel",
+   "desig": "Prensaestopas M12 en tapa (cable del panel)",
+   "mat": "Latón Ni",
+   "cant": 1,
+   "nota": "Queda bajo la sombra del propio panel; lazo de servicio 300 mm para abrir la tapa"
+  },
+  {
+   "item": 38,
+   "id": null,
+   "desig": "Cordón de retención de tapa (lanyard inox)",
+   "mat": "Cable 1.5 mm forrado",
+   "cant": 1,
+   "nota": "La tapa carga el panel: no debe caer ni tironear el cable al abrir"
+  },
+  {
+   "item": 39,
+   "id": null,
+   "desig": "Pica de tierra Cu 1.2 m + cable 6 mm² + abrazadera",
+   "mat": "Cu / Cu-Sn",
+   "cant": 1,
+   "nota": "Poste metálico elevado con antena: aterrar el pilar en un solo punto"
+  },
+  {
    "item": 31,
    "id": "transicion",
    "desig": "Acople de transición espiga PVC + hembra 1 1/2\" NPT",
@@ -525,9 +549,10 @@
     "junta",
     "tapa",
     "panel",
-    "soporte_panel"
+    "soporte_panel",
+    "prensa_panel"
    ],
-   "texto": "Verificar junta PU limpia y asentada. Tapa 4×M4 A4 a 1.2 N·m en cruz. Soporte 15° + panel 5 W orientado al ecuador. Verificar lecturas Modbus de los 3 sensores y enlace LoRaWAN. Registrar IDs, RSSI y fotos del cierre en la bitácora del proyecto."
+   "texto": "Verificar junta PU limpia y asentada. Enganchar el CORDÓN DE RETENCIÓN de la tapa. Tapa 4×M4 A4 a 1.2 N·m en cruz. Soporte 15° + panel 5 W al ecuador; su cable entra por el prensaestopas DE LA TAPA con lazo de servicio de 300 mm. ATERRAR el pilar (pica 1.2 m, un solo punto). Verificar lecturas de los 3 sensores y enlace LoRaWAN. Registrar IDs, RSSI y fotos en la bitácora."
   }
  ],
  "consumibles": [
@@ -552,7 +577,8 @@
   "Materiales no perturbadores del campo dieléctrico en la zona de medición: PVC-U + POM-C (el 316L queda solo en punta y cabezal)",
   "Collar antipercolación Ø160 sobre sello de bentonita: corta el flujo preferencial de agua superficial junto al tubo (fuente nº1 de lecturas falsas)",
   "Instalación sin daño: tapón de hinca 316L sacrificial + pilotaje Ø45 + lechada nativa",
-  "Servicio en campo: tapa 4 tornillos, desecante recambiable, tóricas de repuesto en kit"
+  "Servicio en campo: tapa 4 tornillos con cordón de retención, desecante recambiable, tóricas de repuesto en kit",
+  "Depuración de diseño industrial: pasacable del panel bajo su propia sombra con lazo de servicio, puesta a tierra del poste, y (B1.5) pluviómetro en ménsula rígida nivelable con cartela, entradas dedicadas de superficie y pincho antipájaros"
  ],
  "desviaciones": [
   "Cabezal elevado 900 mm sobre NPT (el informe lo dejaba implícitamente a ras): alineado con la práctica CropX/Sentek/METER (meta.webRef). Tramo aéreo = PILAR de cañería acero NPS 1 1/2\" SCH40 con hilo NPT en ambas puntas y pintura dúplex (spec del usuario); el PVC-U queda solo enterrado. Sobre NPT no rige la restricción dieléctrica (sensores a -200/-400/-600).",

@@ -124,6 +124,11 @@
     0,
     380
    ],
+   "prensa_panel": [
+    0,
+    0,
+    430
+   ],
    "pcb": [
     0,
     0,
@@ -329,9 +334,10 @@
      "junta",
      "tapa",
      "panel",
-     "soporte_panel"
+     "soporte_panel",
+     "prensa_panel"
     ],
-    "texto": "Verificar junta PU limpia y asentada. Tapa 4×M4 A4 a 1.2 N·m en cruz. Soporte 15° + panel 5 W orientado al ecuador. Verificar lecturas Modbus de los 3 sensores y enlace LoRaWAN. Registrar IDs, RSSI y fotos del cierre en la bitácora del proyecto."
+    "texto": "Verificar junta PU limpia y asentada. Enganchar el CORDÓN DE RETENCIÓN de la tapa. Tapa 4×M4 A4 a 1.2 N·m en cruz. Soporte 15° + panel 5 W al ecuador; su cable entra por el prensaestopas DE LA TAPA con lazo de servicio de 300 mm. ATERRAR el pilar (pica 1.2 m, un solo punto). Verificar lecturas de los 3 sensores y enlace LoRaWAN. Registrar IDs, RSSI y fotos en la bitácora."
    }
   ],
   "bom": [
@@ -576,6 +582,30 @@
     "nota": "Paso Ø6.5 en pared +X, pasacables con junta + silicona neutra"
    },
    {
+    "item": 36,
+    "id": "prensa_panel",
+    "desig": "Prensaestopas M12 en tapa (cable del panel)",
+    "mat": "Latón Ni",
+    "cant": 1,
+    "nota": "Queda bajo la sombra del propio panel; lazo de servicio 300 mm para abrir la tapa"
+   },
+   {
+    "item": 38,
+    "id": null,
+    "desig": "Cordón de retención de tapa (lanyard inox)",
+    "mat": "Cable 1.5 mm forrado",
+    "cant": 1,
+    "nota": "La tapa carga el panel: no debe caer ni tironear el cable al abrir"
+   },
+   {
+    "item": 39,
+    "id": null,
+    "desig": "Pica de tierra Cu 1.2 m + cable 6 mm² + abrazadera",
+    "mat": "Cu / Cu-Sn",
+    "cant": 1,
+    "nota": "Poste metálico elevado con antena: aterrar el pilar en un solo punto"
+   },
+   {
     "item": 31,
     "id": "transicion",
     "desig": "Acople de transición espiga PVC + hembra 1 1/2\" NPT",
@@ -614,7 +644,8 @@
    "Materiales no perturbadores del campo dieléctrico en la zona de medición: PVC-U + POM-C (el 316L queda solo en punta y cabezal)",
    "Collar antipercolación Ø160 sobre sello de bentonita: corta el flujo preferencial de agua superficial junto al tubo (fuente nº1 de lecturas falsas)",
    "Instalación sin daño: tapón de hinca 316L sacrificial + pilotaje Ø45 + lechada nativa",
-   "Servicio en campo: tapa 4 tornillos, desecante recambiable, tóricas de repuesto en kit"
+   "Servicio en campo: tapa 4 tornillos con cordón de retención, desecante recambiable, tóricas de repuesto en kit",
+   "Depuración de diseño industrial: pasacable del panel bajo su propia sombra con lazo de servicio, puesta a tierra del poste, y (B1.5) pluviómetro en ménsula rígida nivelable con cartela, entradas dedicadas de superficie y pincho antipájaros"
   ]
  },
  "params": [],
@@ -2963,6 +2994,86 @@
        0
       ]
      }
+    },
+    {
+     "id": "f55",
+     "name": "Pasacable panel Ø12.5",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -60,
+      40,
+      8
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 12.5,
+      "depth": 10,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "prensa_panel",
+   "name": "36 Prensaestopas M12 en tapa (cable panel, lazo de servicio)",
+   "color": "#c9a227",
+   "pos": [
+    -60,
+    40,
+    985.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f56",
+     "name": "Cuerpo",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17,
+      "h": 7
+     }
+    },
+    {
+     "id": "f57",
+     "name": "Rosca M12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -10
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "h": 12
+     }
     }
    ]
   },
@@ -2984,7 +3095,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f56",
+     "id": "f59",
      "name": "PCB 100×90",
      "shape": "box",
      "op": "union",
@@ -3005,7 +3116,7 @@
      }
     },
     {
-     "id": "f57",
+     "id": "f60",
      "name": "ESP32-WROOM-32E ind.",
      "shape": "box",
      "op": "union",
@@ -3026,7 +3137,7 @@
      }
     },
     {
-     "id": "f58",
+     "id": "f61",
      "name": "RAK3172-T LoRa",
      "shape": "box",
      "op": "union",
@@ -3047,7 +3158,7 @@
      }
     },
     {
-     "id": "f59",
+     "id": "f62",
      "name": "RS-485 (THVD1450)",
      "shape": "box",
      "op": "union",
@@ -3068,7 +3179,7 @@
      }
     },
     {
-     "id": "f60",
+     "id": "f63",
      "name": "Buck 12→3.3 aislado",
      "shape": "box",
      "op": "union",
@@ -3089,7 +3200,7 @@
      }
     },
     {
-     "id": "f61",
+     "id": "f64",
      "name": "Borne bus",
      "shape": "box",
      "op": "union",
@@ -3110,7 +3221,7 @@
      }
     },
     {
-     "id": "f55",
+     "id": "f58",
      "name": "Fijación M3",
      "shape": "hole",
      "op": "cut",
@@ -3131,7 +3242,7 @@
      }
     },
     {
-     "id": "f62",
+     "id": "f65",
      "name": "Patrón rect.",
      "shape": "pattern",
      "op": "pattern",
@@ -3146,7 +3257,7 @@
       1
      ],
      "params": {
-      "sourceId": "f55",
+      "sourceId": "f58",
       "kind": "rect",
       "nx": 2,
       "ny": 2,
@@ -3184,7 +3295,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f63",
+     "id": "f66",
      "name": "Separador M3×6",
      "shape": "cylinder",
      "op": "union",
@@ -3204,7 +3315,7 @@
      }
     },
     {
-     "id": "f64",
+     "id": "f67",
      "name": "Patrón rect.",
      "shape": "pattern",
      "op": "pattern",
@@ -3219,7 +3330,7 @@
       1
      ],
      "params": {
-      "sourceId": "f63",
+      "sourceId": "f66",
       "kind": "rect",
       "nx": 2,
       "ny": 2,
@@ -3257,7 +3368,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f65",
+     "id": "f68",
      "name": "Base",
      "shape": "box",
      "op": "union",
@@ -3278,7 +3389,7 @@
      }
     },
     {
-     "id": "f66",
+     "id": "f69",
      "name": "Pared -Y",
      "shape": "box",
      "op": "union",
@@ -3299,7 +3410,7 @@
      }
     },
     {
-     "id": "f67",
+     "id": "f70",
      "name": "Pared +Y",
      "shape": "box",
      "op": "union",
@@ -3339,7 +3450,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f68",
+     "id": "f71",
      "name": "Celda 1",
      "shape": "cylinder",
      "op": "union",
@@ -3359,7 +3470,7 @@
      }
     },
     {
-     "id": "f69",
+     "id": "f72",
      "name": "Celda 2",
      "shape": "cylinder",
      "op": "union",
@@ -3398,7 +3509,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f70",
+     "id": "f73",
      "name": "BMS",
      "shape": "box",
      "op": "union",
@@ -3438,7 +3549,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f71",
+     "id": "f74",
      "name": "Bornera",
      "shape": "box",
      "op": "union",
@@ -3478,7 +3589,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f72",
+     "id": "f75",
      "name": "Desecante",
      "shape": "cylinder",
      "op": "union",
@@ -3517,7 +3628,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f73",
+     "id": "f76",
      "name": "Tuerca frontal",
      "shape": "cylinder",
      "op": "union",
@@ -3537,7 +3648,7 @@
      }
     },
     {
-     "id": "f74",
+     "id": "f77",
      "name": "Rosca M12×1",
      "shape": "cylinder",
      "op": "union",
@@ -3557,7 +3668,7 @@
      }
     },
     {
-     "id": "f75",
+     "id": "f78",
      "name": "Cuerpo interior",
      "shape": "cylinder",
      "op": "union",
@@ -3596,7 +3707,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f76",
+     "id": "f79",
      "name": "Tapa",
      "shape": "cylinder",
      "op": "union",
@@ -3635,7 +3746,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f77",
+     "id": "f80",
      "name": "Cabeza vent.",
      "shape": "cylinder",
      "op": "union",
@@ -3655,7 +3766,7 @@
      }
     },
     {
-     "id": "f78",
+     "id": "f81",
      "name": "Rosca M12",
      "shape": "cylinder",
      "op": "union",
@@ -3694,7 +3805,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f80",
+     "id": "f83",
      "name": "Collar cónico",
      "shape": "revolve",
      "op": "union",
@@ -3784,7 +3895,7 @@
      }
     },
     {
-     "id": "f79",
+     "id": "f82",
      "name": "Prisionero M5",
      "shape": "hole",
      "op": "cut",
@@ -3805,7 +3916,7 @@
      }
     },
     {
-     "id": "f81",
+     "id": "f84",
      "name": "Patrón circ.",
      "shape": "pattern",
      "op": "pattern",
@@ -3820,7 +3931,7 @@
       1
      ],
      "params": {
-      "sourceId": "f79",
+      "sourceId": "f82",
       "kind": "circ",
       "n": 2,
       "angle": 360,
@@ -3856,7 +3967,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f82",
+     "id": "f85",
      "name": "Cuña -Y",
      "shape": "sketch",
      "op": "union",
@@ -3915,7 +4026,7 @@
      }
     },
     {
-     "id": "f83",
+     "id": "f86",
      "name": "Cuña +Y",
      "shape": "sketch",
      "op": "union",
@@ -3993,7 +4104,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f84",
+     "id": "f87",
      "name": "Panel",
      "shape": "box",
      "op": "union",
@@ -4033,7 +4144,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f85",
+     "id": "f88",
      "name": "Tapón",
      "shape": "revolve",
      "op": "union",
@@ -4153,7 +4264,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f86",
+     "id": "f89",
      "name": "Placa al gabinete (2×M4)",
      "shape": "box",
      "op": "union",
@@ -4174,7 +4285,7 @@
      }
     },
     {
-     "id": "f87",
+     "id": "f90",
      "name": "Ala superior",
      "shape": "box",
      "op": "union",
@@ -4195,7 +4306,7 @@
      }
     },
     {
-     "id": "f88",
+     "id": "f91",
      "name": "Base N/SMA",
      "shape": "cylinder",
      "op": "union",
@@ -4215,7 +4326,7 @@
      }
     },
     {
-     "id": "f89",
+     "id": "f92",
      "name": "Látigo fibra de vidrio",
      "shape": "cylinder",
      "op": "union",
