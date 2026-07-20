@@ -11,7 +11,7 @@ import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid, PALETTE,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
   makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, makeMirrorFeature, makeFilletFeature, makeChamferFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
-  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace, holeToolGeometry, makeShellFeature, isConvexSolid,
+  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace, holeToolGeometry, makeShellFeature, isConvexSolid, massProperties,
   makeMate, makeConcentric, solveConstraints,
   evalExpr, resolveParams, applyExpressions,
 } from './model.js';
@@ -1359,6 +1359,42 @@ function selectedPart() {
   return selection?.kind === 'part' ? getPart(doc, selection.id)
        : selection?.partId ? getPart(doc, selection.partId) : null;
 }
+
+// ---------- Propiedades físicas (símil iProperties) ----------
+const DENSIDADES = [ // g/cm³
+  ['7.85', 'Acero'], ['2.70', 'Aluminio'], ['8.5', 'Latón'], ['8.96', 'Cobre'],
+  ['1.05', 'ABS'], ['1.24', 'PLA'], ['0.95', 'Polietileno'], ['0.70', 'Madera'],
+];
+function showPartProps() {
+  const part = selectedPart();
+  if (!part) { setStatus('Propiedades: primero selecciona una pieza (en el árbol o tocándola).'); return; }
+  const rec = meshes.get(part.id);
+  if (!rec || !rec.mesh.geometry.attributes.position?.count) { setStatus('Esa pieza no tiene geometría medible.'); return; }
+  const mp = massProperties(rec.mesh.geometry);
+  const row = (k, v) => `<div style="display:flex;justify-content:space-between;gap:12px;padding:3px 0"><span style="color:var(--dim)">${k}</span><span>${v}</span></div>`;
+  const mm3 = (x) => `${(x / 1000).toFixed(2)} cm³`;
+  const mm2 = (x) => `${(x / 100).toFixed(1)} cm²`;
+  const v3 = (a) => a.map(n => n.toFixed(1)).join(', ');
+  dialog.innerHTML = `<h3>Propiedades — ${part.name}</h3>
+    ${row('Volumen', mm3(mp.volume))}
+    ${row('Área de superficie', mm2(mp.area))}
+    ${row('Caja delimitadora', mp.bbox.size.map(n => n.toFixed(1)).join(' × ') + ' mm')}
+    ${row('Centro de masa', `(${v3(mp.centroid)}) mm`)}
+    <div style="border-top:1px solid var(--border);margin:8px 0"></div>
+    ${frow('Material', `<select id="dlg_dens">${DENSIDADES.map(d => `<option value="${d[0]}">${d[1]} (${d[0]} g/cm³)</option>`).join('')}</select>`)}
+    <div id="massout" style="text-align:right;font-weight:600;margin-top:6px"></div>
+    <div class="btnrow"><button id="dlg_ok" class="on">Cerrar</button></div>`;
+  dialog.style.display = 'block';
+  const upd = () => {
+    const dens = +$('dlg_dens').value;          // g/cm³
+    const g = mp.volume / 1000 * dens;           // cm³ × g/cm³
+    $('massout').textContent = `Masa: ${g.toFixed(1)} g  ·  ${(g / 1000).toFixed(3)} kg`;
+  };
+  $('dlg_dens').onchange = upd; upd();
+  $('dlg_ok').onclick = hideDialog;
+  setStatus(`Propiedades de ${part.name}: ${(mp.volume / 1000).toFixed(1)} cm³.`);
+}
+$('btnProps').onclick = showPartProps;
 
 $('btnIsolate').onclick = () => {
   if (isolatedId) { restoreVisibility(); setStatus('Todas las piezas visibles (des-aislado).'); return; }
