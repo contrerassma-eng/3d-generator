@@ -28,3 +28,8 @@ Otras suites (mismo comando cambiando el archivo):
   al ras, concentricidad eje↔agujero, patrones de taladrado coincidentes).
   Correr `node ensambles/gen_transfer90.mjs` antes si se cambiaron
   parámetros; el test se corre desde `cad/` (o pasando la ruta del JSON).
+
+- `test_sonda.mjs` — ensamble `ensambles/sonda_suelo.json` (sonda de suelo):
+  31 piezas por CSG, regla Parker de la garganta tórica, ajustes espiga/tubo,
+  patrones M4 coincidentes, cadena vertical del cabezal elevado y envolventes
+  (electrónica en cavidad, antena sobre el panel). Correr `node ensambles/gen_sonda_suelo.mjs` antes.
