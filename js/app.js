@@ -849,7 +849,10 @@ function featureMeta(f) {
   if (f.shape === 'revolve') return `rev ${f.params.angle ?? 360}° ${(f.params.entities || []).length} ent`;
   if (f.shape === 'mesh') return f.params.bbox ? `malla · ${f.params.bbox.map(n => +n.toFixed(0)).join('×')} mm` : 'malla real (GLB)';
   if (f.shape === 'fillet') return `R${f.params.r} · ${(f.params.edges || []).length} arista(s)`;
-  if (f.shape === 'chamfer') return `${f.params.d} mm · ${(f.params.edges || []).length} arista(s)`;
+  if (f.shape === 'chamfer') {
+    const p = f.params, spec = p.mode === 'two' ? `${p.d}×${p.d2}` : p.mode === 'angle' ? `${p.d}×${p.angle}°` : `${p.d}`;
+    return `${spec} mm · ${(p.edges || []).length} arista(s)`;
+  }
   if (f.shape === 'pattern') {
     const srcName = doc.parts.flatMap(p => p.features).find(x => x.id === f.params.sourceId)?.name || '?';
     return f.params.kind === 'circ'
@@ -1295,7 +1298,7 @@ const MODE_HINTS = {
   measure: 'Medir: toca aristas, caras, circunferencias o paredes cilíndricas (ejes). Con 2 referencias calcula distancia o ángulo.',
   direct: 'Edición directa (símil Inventor): toca una cara y muévela por DISTANCIA (+ alarga / − reduce, la opuesta queda fija) o fija la medida absoluta. Shift+clic acumula VARIAS caras y las mueve todas con una distancia. Escala/gira la pieza en Propiedades.',
   fillet: 'Empalme: toca una arista del sólido para redondearla con un radio (símil Empalme de Inventor).',
-  chamfer: 'Chaflán: toca una arista del sólido para achaflanarla (corte a 45°) con una distancia.',
+  chamfer: 'Chaflán: toca una arista del sólido; elige igual distancia, dos distancias o distancia y ángulo.',
   tochapa: 'A chapa: toca la CARA GRANDE de una placa; reconoce su espesor y contorno real y la convierte en chapa (acepta pestañas y desarrollo DXF/PDF).',
 };
 
@@ -3577,17 +3580,29 @@ function clickBlend(hit, kind) {
   const lb = mesh.worldToLocal(b.clone()).toArray();
   const len = a.distanceTo(b);
   const label = kind === 'fillet' ? 'Empalme (redondeo)' : 'Chaflán';
-  const fld = kind === 'fillet'
-    ? { key: 'r', label: 'Radio (mm)', value: Math.max(1, Math.round(len / 10)), step: 0.5 }
-    : { key: 'd', label: 'Distancia (mm)', value: Math.max(1, Math.round(len / 10)), step: 0.5 };
-  const mkFeat = (size) => kind === 'fillet' ? makeFilletFeature([{ a: la, b: lb }], size) : makeChamferFeature([{ a: la, b: lb }], size);
-  const key = kind === 'fillet' ? 'r' : 'd';
-  showForm(`${label} en ${part.name} — arista ${len.toFixed(1)} mm`, [fld], (v) => {
-    const size = kind === 'fillet' ? v.r : v.d;
+  const d0 = Math.max(1, Math.round(len / 10));
+  const fields = kind === 'fillet'
+    ? [{ key: 'r', label: 'Radio (mm)', value: d0, step: 0.5 }]
+    : [
+      { key: 'd', label: 'Distancia (mm)', value: d0, step: 0.5 },
+      { key: 'mode', label: 'Tipo', type: 'select', value: 'equal', options: [['equal', 'Igual (una distancia)'], ['two', 'Dos distancias'], ['angle', 'Distancia y ángulo']] },
+      { key: 'd2', label: '2.ª distancia (mm, tipo Dos)', value: d0, step: 0.5 },
+      { key: 'ang', label: 'Ángulo (°, tipo Ángulo)', value: 45, step: 5 },
+    ];
+  // construye la función a partir de los valores del formulario
+  const mkFeat = (v) => kind === 'fillet'
+    ? makeFilletFeature([{ a: la, b: lb }], v.r)
+    : makeChamferFeature([{ a: la, b: lb }], v.d, { mode: v.mode, d2: v.d2, angle: v.ang });
+  // lee los valores actuales del diálogo (para la vista previa en vivo)
+  const readVals = () => kind === 'fillet'
+    ? { r: +$('dlg_r').value }
+    : { d: +$('dlg_d').value, mode: $('dlg_mode')?.value || 'equal', d2: +($('dlg_d2')?.value || 0), ang: +($('dlg_ang')?.value || 45) };
+  const primary = (v) => kind === 'fillet' ? v.r : v.d;
+  showForm(`${label} en ${part.name} — arista ${len.toFixed(1)} mm`, fields, (v) => {
     clearBlendPreview();
-    if (!(size > 0)) { setStatus('El valor debe ser mayor que 0.'); return; }
+    if (!(primary(v) > 0)) { setStatus('El valor debe ser mayor que 0.'); return; }
     pushUndo();
-    part.features.push(mkFeat(size));
+    part.features.push(mkFeat(v));
     faceCache.clear();
     rebuildPart(part);
     const rec = meshes.get(part.id);
@@ -3597,14 +3612,14 @@ function clickBlend(hit, kind) {
       setStatus('No se pudo aplicar en esa arista (¿aristas paralelas o no rectas?). Prueba otra.');
       return;
     }
-    commit(`${label} ${kind === 'fillet' ? 'R' : ''}${size} aplicado a ${part.name}.`);
+    commit(`${label} aplicado a ${part.name}.`);
   });
   // vista previa EN VIVO: aplica la operación real y la revierte al cancelar (§6.1)
   const upd = () => {
-    const size = +$(`dlg_${key}`).value;
+    const v = readVals();
     clearBlendPreview();
-    if (!(size > 0)) return;
-    const f = mkFeat(size);
+    if (!(primary(v) > 0)) return;
+    const f = mkFeat(v);
     part.features.push(f);
     blendPreview = { part, feat: f };
     faceCache.clear();
@@ -3612,7 +3627,7 @@ function clickBlend(hit, kind) {
     const rec = meshes.get(part.id);
     if (!rec || !rec.mesh.geometry.attributes.position?.count) { clearBlendPreview(); setStatus('Con ese valor no cabe la operación — prueba otro.'); }
   };
-  $(`dlg_${key}`)?.addEventListener('input', upd);
+  for (const fld of fields) { const el = $(`dlg_${fld.key}`); el?.addEventListener('input', upd); el?.addEventListener('change', upd); }
   upd();
 }
 let blendPreview = null;

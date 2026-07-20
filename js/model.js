@@ -213,12 +213,24 @@ export function mirrorGeometry(geom, plane) {
 // arista se guarda por sus dos extremos (coordenadas locales); al regenerar se
 // buscan las dos caras adyacentes en la malla y se construye el modificador CSG.
 //   fillet:  params {edges:[{a,b},...], r}
-//   chamfer: params {edges:[{a,b},...], d}
+//   chamfer: params {edges:[{a,b},...], d, mode, d2, angle}
+//     mode 'equal' (por defecto): retroceso d en ambas caras
+//     mode 'two':  retroceso d en la cara 1 y d2 en la cara 2
+//     mode 'angle': retroceso d en la cara 1 y ángulo (°) medido desde ella
 export function makeFilletFeature(edges, r) {
   return { id: uid('f'), name: `Empalme R${r}`, shape: 'fillet', op: 'blend', at: [0, 0, 0], dir: [0, 0, 1], params: { edges, r } };
 }
-export function makeChamferFeature(edges, d) {
-  return { id: uid('f'), name: `Chaflán ${d}`, shape: 'chamfer', op: 'blend', at: [0, 0, 0], dir: [0, 0, 1], params: { edges, d } };
+export function makeChamferFeature(edges, d, opts = {}) {
+  const mode = opts.mode || 'equal';
+  const name = mode === 'two' ? `Chaflán ${d}×${opts.d2}` : mode === 'angle' ? `Chaflán ${d}×${opts.angle}°` : `Chaflán ${d}`;
+  return { id: uid('f'), name, shape: 'chamfer', op: 'blend', at: [0, 0, 0], dir: [0, 0, 1], params: { edges, d, mode, d2: opts.d2, angle: opts.angle } };
+}
+// retrocesos (s1 en la cara mayor, s2 en la otra) según el modo del chaflán
+export function chamferSetbacks(p) {
+  const d = p.d;
+  if (p.mode === 'two') return [d, p.d2 > 0 ? p.d2 : d];
+  if (p.mode === 'angle') return [d, d * Math.tan(Math.max(1, Math.min(89, p.angle || 45)) * Math.PI / 180)];
+  return [d, d];
 }
 
 // Dos caras planas adyacentes a la arista (A,B) en la malla: normales exteriores
@@ -283,7 +295,7 @@ function prismFromSection(base, E) {
 
 // Modificador CSG de una arista: empalme (redondeo) o chaflán. Devuelve
 // { op:'subtract'|'union', csg } o null si no se pudieron hallar las dos caras.
-function edgeBlend(geom, edge, kind, size) {
+function edgeBlend(geom, edge, kind, size, params) {
   const A = new THREE.Vector3(...edge.a), B = new THREE.Vector3(...edge.b);
   const faces = facesAtEdge(geom, A, B);
   if (!faces) return null;
@@ -300,7 +312,9 @@ function edgeBlend(geom, edge, kind, size) {
     const i1 = n1.clone().negate(), i2 = n2.clone().negate();
     const fd1 = i2.clone().addScaledVector(n1, -i2.dot(n1)).normalize(); // tangente en cara1 hacia el material
     const fd2 = i1.clone().addScaledVector(n2, -i1.dot(n2)).normalize();
-    const T1 = O.clone().addScaledVector(fd1, size), T2 = O.clone().addScaledVector(fd2, size);
+    // retrocesos por cara: iguales, dos distancias o distancia+ángulo
+    const [s1, s2] = params ? chamferSetbacks(params) : [size, size];
+    const T1 = O.clone().addScaledVector(fd1, s1), T2 = O.clone().addScaledVector(fd2, s2);
     const prism = prismFromSection([O, T1, T2], Eext);
     return { op: convex ? 'subtract' : 'union', csg: geomToCSG(prism) };
   }
@@ -747,7 +761,7 @@ export function buildPartGeometry(part) {
       const cur = csgToGeom(csg);
       const size = f.shape === 'fillet' ? f.params.r : f.params.d;
       for (const edge of (f.params.edges || [])) {
-        const mod = edgeBlend(cur, edge, f.shape, size);
+        const mod = edgeBlend(cur, edge, f.shape, size, f.params);
         if (!mod) continue;
         csg = mod.op === 'union' ? csg.union(mod.csg) : csg.subtract(mod.csg);
       }
