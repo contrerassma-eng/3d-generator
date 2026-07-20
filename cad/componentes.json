@@ -3238,6 +3238,25 @@
    "notas": "Bore O20 H7 + chaveta 6x6x40. Brazo de torque a pasador O12 en la placa."
   },
   {
+   "id": "ens_omni_modulo",
+   "nombre": "Modulo desviador Omniwheel CV-OMW 24\"x24\" (ejes perpendiculares, tangente comun)",
+   "categoria": "transportador",
+   "familia": "conjunto",
+   "descripcion": "Modulo desviador omnidireccional del conveyone-simulator (CV-OMW) resuelto con dos familias de ruedas omni de distinto diametro y ejes perpendiculares: 4 ejes A transversales O15 (z=135) con 16 ruedas O70 de AVANCE + 3 ejes B longitudinales O15 (z=110) con 9 ruedas O120 de EYECCION. Tangente de transporte comun Z=170; la rueda mayor baja su eje DZ=25 y los ejes cruzados pasan con luz de 10 mm sin interferencia. Reticula de contactos 6\" a tresbolillo (4x4 + 3x3). 7 motores UniDrive 60W 24VDC + 1 adicional (BOM), correa sincrona interior; fotocelula a 0.82L (modo stop).",
+   "fuente": {
+    "tipo": "foto3d-cad",
+    "detalle": "cad/ensambles/omni_modulo.json (gen_omniwheel.mjs); ruedas rueda_omni_70_doble (snapshot Inventor del usuario) y rueda_omni_120_doble (derivada)"
+   },
+   "confianza": "verificar",
+   "doc": "ensambles/omni_modulo.json",
+   "bbox_mm": [
+    609.6,
+    609.6,
+    177
+   ],
+   "notas": "45 piezas. Verificaciones de no-interferencia calculadas y abortivas en gen_omniwheel.mjs (luz_cruce_ejes=10, luz_ejeA_ruedaB=37.7, luz_ejeB_ruedaA=43.7, gap_planta_AB_X=10.2, luz_ruedaB_ruedaB=32.4, luz_ruedaB_fondo=10). Ver docs/OMNIWHEEL_MODULO.md."
+  },
+  {
    "id": "ens_sorter_base",
    "nombre": "Sorter base (transportador twin-belt, item24)",
    "categoria": "transportador",
@@ -3525,6 +3544,678 @@
    "agujeros_montaje": [],
    "despejes": [],
    "notas": "Corte de barra: 575. 8 unidades = 1 barra de 6 m. Plano: lamina 2 del PDF de ejes."
+  },
+  {
+   "id": "rueda_omni_70_doble",
+   "nombre": "Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "categoria": "mecanico",
+   "descripcion": "Rueda omnidireccional de doble corona para modulo desviador CV-OMW: rodadura O70 (R35), 2 coronas de 6 rodillos abombados O20 max x 18 desfasadas 30 grados (radio de centros 25: envolvente continua O70), aranas/platos O55, cubo pasante bore O15 (chaveta 5x5). Eje de giro en X; apoyada tangente sobre Z=0. Los rodillos se modelan como cilindros O20x18: el rodillo real es abombado (perfil torneado a R35 de la rodadura).",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "snapshot Inventor del usuario (omniwheel10.snapshot.1.zip: Omni-Wheel.iam, Base Wheel.iam, Roller assembly.iam). Medido del cache grafico OGS de los .iam: platos O55.0 exactos y rodillo barril O20.0; rodadura O70 y anchos derivados geometricamente (rc = 35-10 = 25). El original hobby monta pines O3 con rodamiento 719/3-2Z; para el modulo transportador se especifica bore O15."
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Cubo pasante (bore O15)",
+     "at": [
+      -25.0,
+      0,
+      35
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 31,
+     "alto": 50.0,
+     "color": "#78909c"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Plato central O55",
+     "at": [
+      -2.0,
+      0,
+      35
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 55,
+     "alto": 4,
+     "color": "#ef6c00"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Plato exterior O55 lado -X",
+     "at": [
+      -25.0,
+      0,
+      35
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 55,
+     "alto": 3,
+     "color": "#ef6c00"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Plato exterior O55 lado +X",
+     "at": [
+      22.0,
+      0,
+      35
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 55,
+     "alto": 3,
+     "color": "#ef6c00"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O20 corona A #1",
+     "at": [
+      -12.0,
+      -9.0,
+      60.0
+     ],
+     "eje": [
+      0,
+      1.0,
+      -0.0
+     ],
+     "dia": 20,
+     "alto": 18,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O20 corona A #2",
+     "at": [
+      -12.0,
+      17.151,
+      55.294
+     ],
+     "eje": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "dia": 20,
+     "alto": 18,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O20 corona A #3",
+     "at": [
+      -12.0,
+      26.151,
+      30.294
+     ],
+     "eje": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "dia": 20,
+     "alto": 18,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O20 corona A #4",
+     "at": [
+      -12.0,
+      9.0,
+      10.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 20,
+     "alto": 18,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O20 corona A #5",
+     "at": [
+      -12.0,
+      -17.151,
+      14.706
+     ],
+     "eje": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "dia": 20,
+     "alto": 18,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O20 corona A #6",
+     "at": [
+      -12.0,
+      -26.151,
+      39.706
+     ],
+     "eje": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "dia": 20,
+     "alto": 18,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O20 corona B #1",
+     "at": [
+      12.0,
+      4.706,
+      61.151
+     ],
+     "eje": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "dia": 20,
+     "alto": 18,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O20 corona B #2",
+     "at": [
+      12.0,
+      25.0,
+      44.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 20,
+     "alto": 18,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O20 corona B #3",
+     "at": [
+      12.0,
+      20.294,
+      17.849
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "dia": 20,
+     "alto": 18,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O20 corona B #4",
+     "at": [
+      12.0,
+      -4.706,
+      8.849
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "dia": 20,
+     "alto": 18,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O20 corona B #5",
+     "at": [
+      12.0,
+      -25.0,
+      26.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 20,
+     "alto": 18,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O20 corona B #6",
+     "at": [
+      12.0,
+      -20.294,
+      52.151
+     ],
+     "eje": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "dia": 20,
+     "alto": 18,
+     "color": "#1976d2"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "giro libre de la rueda (envolvente de rodadura)",
+     "at": [
+      -27.0,
+      0,
+      0
+     ],
+     "dim": [
+      54.0,
+      74,
+      74
+     ]
+    }
+   ],
+   "notas": "Rodadura = rc + r_rodillo = 25+10 = 35 (R). Paso angular 60, arco entre centros 2*pi*25/6 = 26.2 > barril 18 + pasador. VERIFICAR con calibre sobre la rueda fisica: O de rodadura, ancho total (50 nominal) y bore real antes de fabricar ejes."
+  },
+  {
+   "id": "rueda_omni_120_doble",
+   "nombre": "Rueda omni doble corona O120 x 62 (2x8 rodillos O26, platos O94)",
+   "categoria": "mecanico",
+   "descripcion": "Rueda omnidireccional MAYOR derivada de rueda_omni_70_doble para los ejes perpendiculares del modulo CV-OMW: rodadura O120 (R60), 2 coronas de 8 rodillos abombados O26 max x 28 desfasadas 22.5 grados (radio de centros 47), platos O94, cubo pasante bore O15 (chaveta 5x5). Con tangente de transporte comun, su centro queda 25 mm MAS BAJO que el de la rueda O70 (DZ = R120-R70 = 60-35), lo que deja pasar los ejes perpendiculares cruzados sin interferencia (luz 10 mm entre ejes O15). Eje de giro en X; apoyada tangente sobre Z=0.",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "diseno derivado: escalado de rueda_omni_70_doble (snapshot del usuario) con la condicion de tangente comun y cruce de ejes sin interferencia: DR = R2-R1 >= r_ejeA + r_ejeB + luz(5) -> R2 >= 35+7.5+7.5+5 = 55; se adopta R2 = 60 (O120) -> luz real 25-7.5-7.5 = 10 mm."
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Cubo pasante (bore O15)",
+     "at": [
+      -31.0,
+      0,
+      60
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 31,
+     "alto": 62.0,
+     "color": "#78909c"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Plato central O94",
+     "at": [
+      -2.0,
+      0,
+      60
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 94,
+     "alto": 4,
+     "color": "#ef6c00"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Plato exterior O94 lado -X",
+     "at": [
+      -31.0,
+      0,
+      60
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 94,
+     "alto": 3,
+     "color": "#ef6c00"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Plato exterior O94 lado +X",
+     "at": [
+      28.0,
+      0,
+      60
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 94,
+     "alto": 3,
+     "color": "#ef6c00"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona A #1",
+     "at": [
+      -15.0,
+      -14.0,
+      107.0
+     ],
+     "eje": [
+      0,
+      1.0,
+      -0.0
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona A #2",
+     "at": [
+      -15.0,
+      23.335,
+      103.134
+     ],
+     "eje": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona A #3",
+     "at": [
+      -15.0,
+      47.0,
+      74.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona A #4",
+     "at": [
+      -15.0,
+      43.134,
+      36.665
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona A #5",
+     "at": [
+      -15.0,
+      14.0,
+      13.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona A #6",
+     "at": [
+      -15.0,
+      -23.335,
+      16.866
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona A #7",
+     "at": [
+      -15.0,
+      -47.0,
+      46.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona A #8",
+     "at": [
+      -15.0,
+      -43.134,
+      83.335
+     ],
+     "eje": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona B #1",
+     "at": [
+      15.0,
+      5.052,
+      108.78
+     ],
+     "eje": [
+      0,
+      0.92388,
+      -0.382683
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona B #2",
+     "at": [
+      15.0,
+      38.065,
+      90.92
+     ],
+     "eje": [
+      0,
+      0.382683,
+      -0.92388
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona B #3",
+     "at": [
+      15.0,
+      48.78,
+      54.948
+     ],
+     "eje": [
+      0,
+      -0.382683,
+      -0.92388
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona B #4",
+     "at": [
+      15.0,
+      30.92,
+      21.935
+     ],
+     "eje": [
+      0,
+      -0.92388,
+      -0.382683
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona B #5",
+     "at": [
+      15.0,
+      -5.052,
+      11.22
+     ],
+     "eje": [
+      0,
+      -0.92388,
+      0.382683
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona B #6",
+     "at": [
+      15.0,
+      -38.065,
+      29.08
+     ],
+     "eje": [
+      0,
+      -0.382683,
+      0.92388
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona B #7",
+     "at": [
+      15.0,
+      -48.78,
+      65.052
+     ],
+     "eje": [
+      0,
+      0.382683,
+      0.92388
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo O26 corona B #8",
+     "at": [
+      15.0,
+      -30.92,
+      98.065
+     ],
+     "eje": [
+      0,
+      0.92388,
+      0.382683
+     ],
+     "dia": 26,
+     "alto": 28,
+     "color": "#1976d2"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "giro libre de la rueda (envolvente de rodadura)",
+     "at": [
+      -33.0,
+      0,
+      0
+     ],
+     "dim": [
+      66.0,
+      124,
+      124
+     ]
+    }
+   ],
+   "notas": "Rodadura = 47+13 = 60 (R). Paso angular 45, arco entre centros 2*pi*47/8 = 36.9 > barril 28 + pasador. Envolvente minima entre coronas 60*cos(22.5) = 55.4 > plato R47: platos no tocan el plano de transporte. Misma construccion y bore que la O70 para compartir ejes O15."
   }
  ]
 }

@@ -1,0 +1,11050 @@
+{
+ "format": "foto3d-cad",
+ "version": 1,
+ "meta": {
+  "nombre": "Módulo desviador Omniwheel CV-OMW — ejes perpendiculares, tangente común",
+  "capa": "user",
+  "origen": "gen_omniwheel.mjs (paramétrico). Ruedas: rueda_omni_70_doble (snapshot Inventor del usuario, omniwheel10) y rueda_omni_120_doble (derivada mayor). La familia de EYECCIÓN usa la rueda MAYOR: con tangente común su eje queda ΔZ=25 más abajo y los ejes perpendiculares se cruzan en planta sin tocarse (luz 10 mm entre ejes Ø15).",
+  "anfitrion": "CV-OMW del conveyone-simulator (docs/omniwheel.md): módulo 24\"×24\" inserto EN LÍNEA; lógicas dyn 30° / stop 90° con fotocélula a 0.82·L; 1 motor UniDrive 60 W por fila + 1 adicional, correa síncrona interior; 24 VDC.",
+  "integracion": "se acopla en línea como un transportador (entrada connIn / salida en cadena); salidas laterales outL/outR según configuración. El plano de transporte Z=170 es el del marco del módulo (mismo idioma que base_sorter).",
+  "tolerancias": {
+   "ejes": "ejes calibrados Ø15 h6 pasantes, chaveta DIN 6885 5×5 bajo cada rueda, chumaceras de brida en las placas perimetrales; familias a Z distinta (135/110): en los 12 cruces de planta la luz entre superficies de eje es 10 mm.",
+   "ruedas": "rodillos reales ABOMBADOS (perfil torneado al radio de rodadura) para envolvente continua; en el modelo primitivo son cilindros y la envolvente de la Ø120 excede 0.8 mm radiales en los extremos de rodillo — desaparece con el abombado.",
+   "transmision": "correa síncrona interior por eje (asoma solo la corona de las ruedas, cuerpo cerrado negro mate); motores UniDrive 60 W 24 VDC bajo la cama."
+  },
+  "verificaciones": {
+   "modulo": "24\"×24\" (609.5999999999999×609.5999999999999), tangente Z=170",
+   "ruedas": "16× Ø70 avance + 9× Ø120 eyección",
+   "ejes": "4 ejes A Ø15 (Y, z=135) + 3 ejes B Ø15 (X, z=110) — cruzados con luz 10 mm",
+   "contactos": "retícula 6\" (152.4): avance 4×4 intercalada con eyección 3×3 (tresbolillo, contacto más próximo 107.8 mm)",
+   "motores": "7 UniDrive 60W 24VDC instalados + 1 adicional (BOM CV-OMW)",
+   "tangente": "Z=170 común: zA+R1 = 170 · zB+R2 = 170",
+   "luz_cruce_ejes": "10.0 mm (mín 5)",
+   "luz_ejeA_ruedaB": "37.7 mm (mín 5)",
+   "semicuerda_B_en_zA": "54.5 mm (< 68.7 disponible)",
+   "luz_ejeB_ruedaA": "43.7 mm (mín 5)",
+   "gap_planta_AB_X": "10.2 mm (mín 5)",
+   "luz_ruedaB_ruedaB": "32.4 mm (mín 5)",
+   "luz_ruedaB_fondo": "10.0 mm (mín 5)"
+  }
+ },
+ "parts": [
+  {
+   "id": "op1",
+   "name": "Bandeja de fondo",
+   "color": "#263238",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of1",
+     "name": "Fondo 609.6×609.6×5",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      35
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 609.5999999999999,
+      "d": 609.5999999999999,
+      "h": 5
+     },
+     "color": "#263238"
+    }
+   ]
+  },
+  {
+   "id": "op2",
+   "name": "Placa lateral Y-",
+   "color": "#212121",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of2",
+     "name": "Placa 609.6×6×128",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -301.79999999999995,
+      40
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 609.5999999999999,
+      "d": 6,
+      "h": 128
+     },
+     "color": "#212121"
+    }
+   ]
+  },
+  {
+   "id": "op3",
+   "name": "Placa frontal X-",
+   "color": "#212121",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of3",
+     "name": "Placa 6×597.5999999999999×128",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -301.79999999999995,
+      0,
+      40
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 6,
+      "d": 597.5999999999999,
+      "h": 128
+     },
+     "color": "#212121"
+    }
+   ]
+  },
+  {
+   "id": "op4",
+   "name": "Placa lateral Y+",
+   "color": "#212121",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of4",
+     "name": "Placa 609.6×6×128",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      301.79999999999995,
+      40
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 609.5999999999999,
+      "d": 6,
+      "h": 128
+     },
+     "color": "#212121"
+    }
+   ]
+  },
+  {
+   "id": "op5",
+   "name": "Placa frontal X+",
+   "color": "#212121",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of5",
+     "name": "Placa 6×597.5999999999999×128",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      301.79999999999995,
+      0,
+      40
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 6,
+      "d": 597.5999999999999,
+      "h": 128
+     },
+     "color": "#212121"
+    }
+   ]
+  },
+  {
+   "id": "op6",
+   "name": "Eje A (avance) x=-228.6",
+   "color": "#b0bec5",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of6",
+     "name": "Eje A Ø15×609.5999999999999",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -228.6,
+      -304.79999999999995,
+      135
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 15,
+      "h": 609.5999999999999
+     },
+     "color": "#b0bec5"
+    },
+    {
+     "id": "of7",
+     "name": "Chumacera eje A",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -228.6,
+      -287.79999999999995,
+      114
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 42,
+      "d": 22,
+      "h": 42
+     },
+     "color": "#455a64"
+    },
+    {
+     "id": "of8",
+     "name": "Chumacera eje A",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -228.6,
+      287.79999999999995,
+      114
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 42,
+      "d": 22,
+      "h": 42
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op7_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (-229,-229) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    -228.6,
+    -228.6,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of9",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of10",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of11",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of12",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of13",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of14",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of15",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of16",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of17",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of18",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of19",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of20",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of21",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of22",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of23",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of24",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op8_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (-229,-76) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    -228.6,
+    -76.19999999999999,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of25",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of26",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of27",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of28",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of29",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of30",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of31",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of32",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of33",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of34",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of35",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of36",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of37",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of38",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of39",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of40",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op9_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (-229,76) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    -228.6,
+    76.19999999999999,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of41",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of42",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of43",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of44",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of45",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of46",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of47",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of48",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of49",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of50",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of51",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of52",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of53",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of54",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of55",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of56",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op10_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (-229,229) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    -228.6,
+    228.6,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of57",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of58",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of59",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of60",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of61",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of62",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of63",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of64",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of65",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of66",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of67",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of68",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of69",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of70",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of71",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of72",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op11",
+   "name": "Eje A (avance) x=-76.2",
+   "color": "#b0bec5",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of73",
+     "name": "Eje A Ø15×609.5999999999999",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -76.19999999999999,
+      -304.79999999999995,
+      135
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 15,
+      "h": 609.5999999999999
+     },
+     "color": "#b0bec5"
+    },
+    {
+     "id": "of74",
+     "name": "Chumacera eje A",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -76.19999999999999,
+      -287.79999999999995,
+      114
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 42,
+      "d": 22,
+      "h": 42
+     },
+     "color": "#455a64"
+    },
+    {
+     "id": "of75",
+     "name": "Chumacera eje A",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -76.19999999999999,
+      287.79999999999995,
+      114
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 42,
+      "d": 22,
+      "h": 42
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op12_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (-76,-229) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    -76.19999999999999,
+    -228.6,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of76",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of77",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of78",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of79",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of80",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of81",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of82",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of83",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of84",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of85",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of86",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of87",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of88",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of89",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of90",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of91",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op13_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (-76,-76) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    -76.19999999999999,
+    -76.19999999999999,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of92",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of93",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of94",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of95",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of96",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of97",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of98",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of99",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of100",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of101",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of102",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of103",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of104",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of105",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of106",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of107",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op14_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (-76,76) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    -76.19999999999999,
+    76.19999999999999,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of108",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of109",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of110",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of111",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of112",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of113",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of114",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of115",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of116",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of117",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of118",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of119",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of120",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of121",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of122",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of123",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op15_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (-76,229) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    -76.19999999999999,
+    228.6,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of124",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of125",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of126",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of127",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of128",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of129",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of130",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of131",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of132",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of133",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of134",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of135",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of136",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of137",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of138",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of139",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op16",
+   "name": "Eje A (avance) x=76.2",
+   "color": "#b0bec5",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of140",
+     "name": "Eje A Ø15×609.5999999999999",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      76.19999999999999,
+      -304.79999999999995,
+      135
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 15,
+      "h": 609.5999999999999
+     },
+     "color": "#b0bec5"
+    },
+    {
+     "id": "of141",
+     "name": "Chumacera eje A",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      76.19999999999999,
+      -287.79999999999995,
+      114
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 42,
+      "d": 22,
+      "h": 42
+     },
+     "color": "#455a64"
+    },
+    {
+     "id": "of142",
+     "name": "Chumacera eje A",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      76.19999999999999,
+      287.79999999999995,
+      114
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 42,
+      "d": 22,
+      "h": 42
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op17_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (76,-229) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    76.19999999999999,
+    -228.6,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of143",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of144",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of145",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of146",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of147",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of148",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of149",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of150",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of151",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of152",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of153",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of154",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of155",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of156",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of157",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of158",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op18_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (76,-76) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    76.19999999999999,
+    -76.19999999999999,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of159",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of160",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of161",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of162",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of163",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of164",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of165",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of166",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of167",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of168",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of169",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of170",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of171",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of172",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of173",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of174",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op19_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (76,76) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    76.19999999999999,
+    76.19999999999999,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of175",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of176",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of177",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of178",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of179",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of180",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of181",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of182",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of183",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of184",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of185",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of186",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of187",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of188",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of189",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of190",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op20_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (76,229) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    76.19999999999999,
+    228.6,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of191",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of192",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of193",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of194",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of195",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of196",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of197",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of198",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of199",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of200",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of201",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of202",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of203",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of204",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of205",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of206",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op21",
+   "name": "Eje A (avance) x=228.6",
+   "color": "#b0bec5",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of207",
+     "name": "Eje A Ø15×609.5999999999999",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      228.6,
+      -304.79999999999995,
+      135
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 15,
+      "h": 609.5999999999999
+     },
+     "color": "#b0bec5"
+    },
+    {
+     "id": "of208",
+     "name": "Chumacera eje A",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      228.6,
+      -287.79999999999995,
+      114
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 42,
+      "d": 22,
+      "h": 42
+     },
+     "color": "#455a64"
+    },
+    {
+     "id": "of209",
+     "name": "Chumacera eje A",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      228.6,
+      287.79999999999995,
+      114
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 42,
+      "d": 22,
+      "h": 42
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op22_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (229,-229) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    228.6,
+    -228.6,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of210",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of211",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of212",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of213",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of214",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of215",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of216",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of217",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of218",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of219",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of220",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of221",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of222",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of223",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of224",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of225",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op23_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (229,-76) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    228.6,
+    -76.19999999999999,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of226",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of227",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of228",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of229",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of230",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of231",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of232",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of233",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of234",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of235",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of236",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of237",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of238",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of239",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of240",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of241",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op24_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (229,76) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    228.6,
+    76.19999999999999,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of242",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of243",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of244",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of245",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of246",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of247",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of248",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of249",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of250",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of251",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of252",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of253",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of254",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of255",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of256",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of257",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op25_rueda_omni_70_doble",
+   "name": "Rueda avance Ø70 (229,229) · Rueda omni doble corona O70 x 50 (2x6 rodillos O20, platos O55)",
+   "biblioteca": "rueda_omni_70_doble",
+   "color": "#1976d2",
+   "pos": [
+    228.6,
+    228.6,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865476,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of258",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 50
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of259",
+     "name": "Plato central O55",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of260",
+     "name": "Plato exterior O55 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of261",
+     "name": "Plato exterior O55 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      22,
+      0,
+      35
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 55,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of262",
+     "name": "Rodillo O20 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -9,
+      60
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of263",
+     "name": "Rodillo O20 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      17.151,
+      55.294
+     ],
+     "dir": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of264",
+     "name": "Rodillo O20 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      26.151,
+      30.294
+     ],
+     "dir": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of265",
+     "name": "Rodillo O20 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      9,
+      10
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of266",
+     "name": "Rodillo O20 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -17.151,
+      14.706
+     ],
+     "dir": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of267",
+     "name": "Rodillo O20 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      -26.151,
+      39.706
+     ],
+     "dir": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of268",
+     "name": "Rodillo O20 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      4.706,
+      61.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of269",
+     "name": "Rodillo O20 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      25,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of270",
+     "name": "Rodillo O20 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      20.294,
+      17.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of271",
+     "name": "Rodillo O20 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -4.706,
+      8.849
+     ],
+     "dir": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of272",
+     "name": "Rodillo O20 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -25,
+      26
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of273",
+     "name": "Rodillo O20 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      -20.294,
+      52.151
+     ],
+     "dir": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "params": {
+      "dia": 20,
+      "h": 18
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op26",
+   "name": "Eje B (eyección) y=-152.4",
+   "color": "#b0bec5",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of274",
+     "name": "Eje B Ø15×609.5999999999999",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -304.79999999999995,
+      -152.39999999999998,
+      110
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 15,
+      "h": 609.5999999999999
+     },
+     "color": "#b0bec5"
+    },
+    {
+     "id": "of275",
+     "name": "Chumacera eje B",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -287.79999999999995,
+      -152.39999999999998,
+      89
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 42,
+      "h": 42
+     },
+     "color": "#455a64"
+    },
+    {
+     "id": "of276",
+     "name": "Chumacera eje B",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      287.79999999999995,
+      -152.39999999999998,
+      89
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 42,
+      "h": 42
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op27_rueda_omni_120_doble",
+   "name": "Rueda eyección Ø120 (-152,-152) · Rueda omni doble corona O120 x 62 (2x8 rodillos O26, platos O94)",
+   "biblioteca": "rueda_omni_120_doble",
+   "color": "#1976d2",
+   "pos": [
+    -152.39999999999998,
+    -152.39999999999998,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of277",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 62
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of278",
+     "name": "Plato central O94",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of279",
+     "name": "Plato exterior O94 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of280",
+     "name": "Plato exterior O94 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of281",
+     "name": "Rodillo O26 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -14,
+      107
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of282",
+     "name": "Rodillo O26 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      23.335,
+      103.134
+     ],
+     "dir": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of283",
+     "name": "Rodillo O26 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      47,
+      74
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of284",
+     "name": "Rodillo O26 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      43.134,
+      36.665
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of285",
+     "name": "Rodillo O26 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      14,
+      13
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of286",
+     "name": "Rodillo O26 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -23.335,
+      16.866
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of287",
+     "name": "Rodillo O26 corona A #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -47,
+      46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of288",
+     "name": "Rodillo O26 corona A #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -43.134,
+      83.335
+     ],
+     "dir": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of289",
+     "name": "Rodillo O26 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      5.052,
+      108.78
+     ],
+     "dir": [
+      0,
+      0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of290",
+     "name": "Rodillo O26 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      38.065,
+      90.92
+     ],
+     "dir": [
+      0,
+      0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of291",
+     "name": "Rodillo O26 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      48.78,
+      54.948
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of292",
+     "name": "Rodillo O26 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      30.92,
+      21.935
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of293",
+     "name": "Rodillo O26 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -5.052,
+      11.22
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of294",
+     "name": "Rodillo O26 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -38.065,
+      29.08
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of295",
+     "name": "Rodillo O26 corona B #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -48.78,
+      65.052
+     ],
+     "dir": [
+      0,
+      0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of296",
+     "name": "Rodillo O26 corona B #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -30.92,
+      98.065
+     ],
+     "dir": [
+      0,
+      0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op28_rueda_omni_120_doble",
+   "name": "Rueda eyección Ø120 (0,-152) · Rueda omni doble corona O120 x 62 (2x8 rodillos O26, platos O94)",
+   "biblioteca": "rueda_omni_120_doble",
+   "color": "#1976d2",
+   "pos": [
+    0,
+    -152.39999999999998,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of297",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 62
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of298",
+     "name": "Plato central O94",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of299",
+     "name": "Plato exterior O94 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of300",
+     "name": "Plato exterior O94 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of301",
+     "name": "Rodillo O26 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -14,
+      107
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of302",
+     "name": "Rodillo O26 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      23.335,
+      103.134
+     ],
+     "dir": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of303",
+     "name": "Rodillo O26 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      47,
+      74
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of304",
+     "name": "Rodillo O26 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      43.134,
+      36.665
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of305",
+     "name": "Rodillo O26 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      14,
+      13
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of306",
+     "name": "Rodillo O26 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -23.335,
+      16.866
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of307",
+     "name": "Rodillo O26 corona A #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -47,
+      46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of308",
+     "name": "Rodillo O26 corona A #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -43.134,
+      83.335
+     ],
+     "dir": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of309",
+     "name": "Rodillo O26 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      5.052,
+      108.78
+     ],
+     "dir": [
+      0,
+      0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of310",
+     "name": "Rodillo O26 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      38.065,
+      90.92
+     ],
+     "dir": [
+      0,
+      0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of311",
+     "name": "Rodillo O26 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      48.78,
+      54.948
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of312",
+     "name": "Rodillo O26 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      30.92,
+      21.935
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of313",
+     "name": "Rodillo O26 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -5.052,
+      11.22
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of314",
+     "name": "Rodillo O26 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -38.065,
+      29.08
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of315",
+     "name": "Rodillo O26 corona B #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -48.78,
+      65.052
+     ],
+     "dir": [
+      0,
+      0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of316",
+     "name": "Rodillo O26 corona B #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -30.92,
+      98.065
+     ],
+     "dir": [
+      0,
+      0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op29_rueda_omni_120_doble",
+   "name": "Rueda eyección Ø120 (152,-152) · Rueda omni doble corona O120 x 62 (2x8 rodillos O26, platos O94)",
+   "biblioteca": "rueda_omni_120_doble",
+   "color": "#1976d2",
+   "pos": [
+    152.39999999999998,
+    -152.39999999999998,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of317",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 62
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of318",
+     "name": "Plato central O94",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of319",
+     "name": "Plato exterior O94 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of320",
+     "name": "Plato exterior O94 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of321",
+     "name": "Rodillo O26 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -14,
+      107
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of322",
+     "name": "Rodillo O26 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      23.335,
+      103.134
+     ],
+     "dir": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of323",
+     "name": "Rodillo O26 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      47,
+      74
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of324",
+     "name": "Rodillo O26 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      43.134,
+      36.665
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of325",
+     "name": "Rodillo O26 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      14,
+      13
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of326",
+     "name": "Rodillo O26 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -23.335,
+      16.866
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of327",
+     "name": "Rodillo O26 corona A #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -47,
+      46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of328",
+     "name": "Rodillo O26 corona A #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -43.134,
+      83.335
+     ],
+     "dir": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of329",
+     "name": "Rodillo O26 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      5.052,
+      108.78
+     ],
+     "dir": [
+      0,
+      0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of330",
+     "name": "Rodillo O26 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      38.065,
+      90.92
+     ],
+     "dir": [
+      0,
+      0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of331",
+     "name": "Rodillo O26 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      48.78,
+      54.948
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of332",
+     "name": "Rodillo O26 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      30.92,
+      21.935
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of333",
+     "name": "Rodillo O26 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -5.052,
+      11.22
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of334",
+     "name": "Rodillo O26 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -38.065,
+      29.08
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of335",
+     "name": "Rodillo O26 corona B #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -48.78,
+      65.052
+     ],
+     "dir": [
+      0,
+      0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of336",
+     "name": "Rodillo O26 corona B #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -30.92,
+      98.065
+     ],
+     "dir": [
+      0,
+      0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op30",
+   "name": "Eje B (eyección) y=0.0",
+   "color": "#b0bec5",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of337",
+     "name": "Eje B Ø15×609.5999999999999",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -304.79999999999995,
+      0,
+      110
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 15,
+      "h": 609.5999999999999
+     },
+     "color": "#b0bec5"
+    },
+    {
+     "id": "of338",
+     "name": "Chumacera eje B",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -287.79999999999995,
+      0,
+      89
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 42,
+      "h": 42
+     },
+     "color": "#455a64"
+    },
+    {
+     "id": "of339",
+     "name": "Chumacera eje B",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      287.79999999999995,
+      0,
+      89
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 42,
+      "h": 42
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op31_rueda_omni_120_doble",
+   "name": "Rueda eyección Ø120 (-152,0) · Rueda omni doble corona O120 x 62 (2x8 rodillos O26, platos O94)",
+   "biblioteca": "rueda_omni_120_doble",
+   "color": "#1976d2",
+   "pos": [
+    -152.39999999999998,
+    0,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of340",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 62
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of341",
+     "name": "Plato central O94",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of342",
+     "name": "Plato exterior O94 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of343",
+     "name": "Plato exterior O94 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of344",
+     "name": "Rodillo O26 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -14,
+      107
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of345",
+     "name": "Rodillo O26 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      23.335,
+      103.134
+     ],
+     "dir": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of346",
+     "name": "Rodillo O26 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      47,
+      74
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of347",
+     "name": "Rodillo O26 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      43.134,
+      36.665
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of348",
+     "name": "Rodillo O26 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      14,
+      13
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of349",
+     "name": "Rodillo O26 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -23.335,
+      16.866
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of350",
+     "name": "Rodillo O26 corona A #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -47,
+      46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of351",
+     "name": "Rodillo O26 corona A #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -43.134,
+      83.335
+     ],
+     "dir": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of352",
+     "name": "Rodillo O26 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      5.052,
+      108.78
+     ],
+     "dir": [
+      0,
+      0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of353",
+     "name": "Rodillo O26 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      38.065,
+      90.92
+     ],
+     "dir": [
+      0,
+      0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of354",
+     "name": "Rodillo O26 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      48.78,
+      54.948
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of355",
+     "name": "Rodillo O26 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      30.92,
+      21.935
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of356",
+     "name": "Rodillo O26 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -5.052,
+      11.22
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of357",
+     "name": "Rodillo O26 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -38.065,
+      29.08
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of358",
+     "name": "Rodillo O26 corona B #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -48.78,
+      65.052
+     ],
+     "dir": [
+      0,
+      0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of359",
+     "name": "Rodillo O26 corona B #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -30.92,
+      98.065
+     ],
+     "dir": [
+      0,
+      0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op32_rueda_omni_120_doble",
+   "name": "Rueda eyección Ø120 (0,0) · Rueda omni doble corona O120 x 62 (2x8 rodillos O26, platos O94)",
+   "biblioteca": "rueda_omni_120_doble",
+   "color": "#1976d2",
+   "pos": [
+    0,
+    0,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of360",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 62
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of361",
+     "name": "Plato central O94",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of362",
+     "name": "Plato exterior O94 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of363",
+     "name": "Plato exterior O94 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of364",
+     "name": "Rodillo O26 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -14,
+      107
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of365",
+     "name": "Rodillo O26 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      23.335,
+      103.134
+     ],
+     "dir": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of366",
+     "name": "Rodillo O26 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      47,
+      74
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of367",
+     "name": "Rodillo O26 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      43.134,
+      36.665
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of368",
+     "name": "Rodillo O26 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      14,
+      13
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of369",
+     "name": "Rodillo O26 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -23.335,
+      16.866
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of370",
+     "name": "Rodillo O26 corona A #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -47,
+      46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of371",
+     "name": "Rodillo O26 corona A #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -43.134,
+      83.335
+     ],
+     "dir": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of372",
+     "name": "Rodillo O26 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      5.052,
+      108.78
+     ],
+     "dir": [
+      0,
+      0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of373",
+     "name": "Rodillo O26 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      38.065,
+      90.92
+     ],
+     "dir": [
+      0,
+      0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of374",
+     "name": "Rodillo O26 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      48.78,
+      54.948
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of375",
+     "name": "Rodillo O26 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      30.92,
+      21.935
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of376",
+     "name": "Rodillo O26 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -5.052,
+      11.22
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of377",
+     "name": "Rodillo O26 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -38.065,
+      29.08
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of378",
+     "name": "Rodillo O26 corona B #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -48.78,
+      65.052
+     ],
+     "dir": [
+      0,
+      0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of379",
+     "name": "Rodillo O26 corona B #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -30.92,
+      98.065
+     ],
+     "dir": [
+      0,
+      0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op33_rueda_omni_120_doble",
+   "name": "Rueda eyección Ø120 (152,0) · Rueda omni doble corona O120 x 62 (2x8 rodillos O26, platos O94)",
+   "biblioteca": "rueda_omni_120_doble",
+   "color": "#1976d2",
+   "pos": [
+    152.39999999999998,
+    0,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of380",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 62
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of381",
+     "name": "Plato central O94",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of382",
+     "name": "Plato exterior O94 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of383",
+     "name": "Plato exterior O94 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of384",
+     "name": "Rodillo O26 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -14,
+      107
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of385",
+     "name": "Rodillo O26 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      23.335,
+      103.134
+     ],
+     "dir": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of386",
+     "name": "Rodillo O26 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      47,
+      74
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of387",
+     "name": "Rodillo O26 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      43.134,
+      36.665
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of388",
+     "name": "Rodillo O26 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      14,
+      13
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of389",
+     "name": "Rodillo O26 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -23.335,
+      16.866
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of390",
+     "name": "Rodillo O26 corona A #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -47,
+      46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of391",
+     "name": "Rodillo O26 corona A #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -43.134,
+      83.335
+     ],
+     "dir": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of392",
+     "name": "Rodillo O26 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      5.052,
+      108.78
+     ],
+     "dir": [
+      0,
+      0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of393",
+     "name": "Rodillo O26 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      38.065,
+      90.92
+     ],
+     "dir": [
+      0,
+      0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of394",
+     "name": "Rodillo O26 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      48.78,
+      54.948
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of395",
+     "name": "Rodillo O26 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      30.92,
+      21.935
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of396",
+     "name": "Rodillo O26 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -5.052,
+      11.22
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of397",
+     "name": "Rodillo O26 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -38.065,
+      29.08
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of398",
+     "name": "Rodillo O26 corona B #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -48.78,
+      65.052
+     ],
+     "dir": [
+      0,
+      0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of399",
+     "name": "Rodillo O26 corona B #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -30.92,
+      98.065
+     ],
+     "dir": [
+      0,
+      0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op34",
+   "name": "Eje B (eyección) y=152.4",
+   "color": "#b0bec5",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of400",
+     "name": "Eje B Ø15×609.5999999999999",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -304.79999999999995,
+      152.39999999999998,
+      110
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 15,
+      "h": 609.5999999999999
+     },
+     "color": "#b0bec5"
+    },
+    {
+     "id": "of401",
+     "name": "Chumacera eje B",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -287.79999999999995,
+      152.39999999999998,
+      89
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 42,
+      "h": 42
+     },
+     "color": "#455a64"
+    },
+    {
+     "id": "of402",
+     "name": "Chumacera eje B",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      287.79999999999995,
+      152.39999999999998,
+      89
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 42,
+      "h": 42
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op35_rueda_omni_120_doble",
+   "name": "Rueda eyección Ø120 (-152,152) · Rueda omni doble corona O120 x 62 (2x8 rodillos O26, platos O94)",
+   "biblioteca": "rueda_omni_120_doble",
+   "color": "#1976d2",
+   "pos": [
+    -152.39999999999998,
+    152.39999999999998,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of403",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 62
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of404",
+     "name": "Plato central O94",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of405",
+     "name": "Plato exterior O94 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of406",
+     "name": "Plato exterior O94 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of407",
+     "name": "Rodillo O26 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -14,
+      107
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of408",
+     "name": "Rodillo O26 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      23.335,
+      103.134
+     ],
+     "dir": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of409",
+     "name": "Rodillo O26 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      47,
+      74
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of410",
+     "name": "Rodillo O26 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      43.134,
+      36.665
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of411",
+     "name": "Rodillo O26 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      14,
+      13
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of412",
+     "name": "Rodillo O26 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -23.335,
+      16.866
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of413",
+     "name": "Rodillo O26 corona A #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -47,
+      46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of414",
+     "name": "Rodillo O26 corona A #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -43.134,
+      83.335
+     ],
+     "dir": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of415",
+     "name": "Rodillo O26 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      5.052,
+      108.78
+     ],
+     "dir": [
+      0,
+      0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of416",
+     "name": "Rodillo O26 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      38.065,
+      90.92
+     ],
+     "dir": [
+      0,
+      0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of417",
+     "name": "Rodillo O26 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      48.78,
+      54.948
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of418",
+     "name": "Rodillo O26 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      30.92,
+      21.935
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of419",
+     "name": "Rodillo O26 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -5.052,
+      11.22
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of420",
+     "name": "Rodillo O26 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -38.065,
+      29.08
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of421",
+     "name": "Rodillo O26 corona B #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -48.78,
+      65.052
+     ],
+     "dir": [
+      0,
+      0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of422",
+     "name": "Rodillo O26 corona B #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -30.92,
+      98.065
+     ],
+     "dir": [
+      0,
+      0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op36_rueda_omni_120_doble",
+   "name": "Rueda eyección Ø120 (0,152) · Rueda omni doble corona O120 x 62 (2x8 rodillos O26, platos O94)",
+   "biblioteca": "rueda_omni_120_doble",
+   "color": "#1976d2",
+   "pos": [
+    0,
+    152.39999999999998,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of423",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 62
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of424",
+     "name": "Plato central O94",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of425",
+     "name": "Plato exterior O94 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of426",
+     "name": "Plato exterior O94 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of427",
+     "name": "Rodillo O26 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -14,
+      107
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of428",
+     "name": "Rodillo O26 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      23.335,
+      103.134
+     ],
+     "dir": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of429",
+     "name": "Rodillo O26 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      47,
+      74
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of430",
+     "name": "Rodillo O26 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      43.134,
+      36.665
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of431",
+     "name": "Rodillo O26 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      14,
+      13
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of432",
+     "name": "Rodillo O26 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -23.335,
+      16.866
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of433",
+     "name": "Rodillo O26 corona A #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -47,
+      46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of434",
+     "name": "Rodillo O26 corona A #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -43.134,
+      83.335
+     ],
+     "dir": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of435",
+     "name": "Rodillo O26 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      5.052,
+      108.78
+     ],
+     "dir": [
+      0,
+      0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of436",
+     "name": "Rodillo O26 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      38.065,
+      90.92
+     ],
+     "dir": [
+      0,
+      0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of437",
+     "name": "Rodillo O26 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      48.78,
+      54.948
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of438",
+     "name": "Rodillo O26 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      30.92,
+      21.935
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of439",
+     "name": "Rodillo O26 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -5.052,
+      11.22
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of440",
+     "name": "Rodillo O26 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -38.065,
+      29.08
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of441",
+     "name": "Rodillo O26 corona B #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -48.78,
+      65.052
+     ],
+     "dir": [
+      0,
+      0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of442",
+     "name": "Rodillo O26 corona B #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -30.92,
+      98.065
+     ],
+     "dir": [
+      0,
+      0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op37_rueda_omni_120_doble",
+   "name": "Rueda eyección Ø120 (152,152) · Rueda omni doble corona O120 x 62 (2x8 rodillos O26, platos O94)",
+   "biblioteca": "rueda_omni_120_doble",
+   "color": "#1976d2",
+   "pos": [
+    152.39999999999998,
+    152.39999999999998,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of443",
+     "name": "Cubo pasante (bore O15)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 31,
+      "h": 62
+     },
+     "color": "#78909c"
+    },
+    {
+     "id": "of444",
+     "name": "Plato central O94",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 4
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of445",
+     "name": "Plato exterior O94 lado -X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -31,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of446",
+     "name": "Plato exterior O94 lado +X",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      0,
+      60
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 94,
+      "h": 3
+     },
+     "color": "#ef6c00"
+    },
+    {
+     "id": "of447",
+     "name": "Rodillo O26 corona A #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -14,
+      107
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of448",
+     "name": "Rodillo O26 corona A #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      23.335,
+      103.134
+     ],
+     "dir": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of449",
+     "name": "Rodillo O26 corona A #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      47,
+      74
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of450",
+     "name": "Rodillo O26 corona A #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      43.134,
+      36.665
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of451",
+     "name": "Rodillo O26 corona A #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      14,
+      13
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of452",
+     "name": "Rodillo O26 corona A #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -23.335,
+      16.866
+     ],
+     "dir": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of453",
+     "name": "Rodillo O26 corona A #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -47,
+      46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of454",
+     "name": "Rodillo O26 corona A #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15,
+      -43.134,
+      83.335
+     ],
+     "dir": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of455",
+     "name": "Rodillo O26 corona B #1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      5.052,
+      108.78
+     ],
+     "dir": [
+      0,
+      0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of456",
+     "name": "Rodillo O26 corona B #2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      38.065,
+      90.92
+     ],
+     "dir": [
+      0,
+      0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of457",
+     "name": "Rodillo O26 corona B #3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      48.78,
+      54.948
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      -0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of458",
+     "name": "Rodillo O26 corona B #4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      30.92,
+      21.935
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      -0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of459",
+     "name": "Rodillo O26 corona B #5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -5.052,
+      11.22
+     ],
+     "dir": [
+      0,
+      -0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of460",
+     "name": "Rodillo O26 corona B #6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -38.065,
+      29.08
+     ],
+     "dir": [
+      0,
+      -0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of461",
+     "name": "Rodillo O26 corona B #7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -48.78,
+      65.052
+     ],
+     "dir": [
+      0,
+      0.382683,
+      0.92388
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    },
+    {
+     "id": "of462",
+     "name": "Rodillo O26 corona B #8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      15,
+      -30.92,
+      98.065
+     ],
+     "dir": [
+      0,
+      0.92388,
+      0.382683
+     ],
+     "params": {
+      "dia": 26,
+      "h": 28
+     },
+     "color": "#1976d2"
+    }
+   ]
+  },
+  {
+   "id": "op38",
+   "name": "Motor UniDrive eje A x=-229",
+   "color": "#37474f",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of463",
+     "name": "UniDrive 60W Ø60",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -228.6,
+      -289.79999999999995,
+      62
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 60,
+      "h": 150
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of464",
+     "name": "Correa síncrona interior",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -228.6,
+      -214.79999999999995,
+      62
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 12,
+      "d": 22,
+      "h": 73
+     },
+     "color": "#111111"
+    }
+   ]
+  },
+  {
+   "id": "op39",
+   "name": "Motor UniDrive eje A x=-76",
+   "color": "#37474f",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of465",
+     "name": "UniDrive 60W Ø60",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -76.19999999999999,
+      139.79999999999995,
+      62
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 60,
+      "h": 150
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of466",
+     "name": "Correa síncrona interior",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -76.19999999999999,
+      214.79999999999995,
+      62
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 12,
+      "d": 22,
+      "h": 73
+     },
+     "color": "#111111"
+    }
+   ]
+  },
+  {
+   "id": "op40",
+   "name": "Motor UniDrive eje A x=76",
+   "color": "#37474f",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of467",
+     "name": "UniDrive 60W Ø60",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      76.19999999999999,
+      -289.79999999999995,
+      62
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 60,
+      "h": 150
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of468",
+     "name": "Correa síncrona interior",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      76.19999999999999,
+      -214.79999999999995,
+      62
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 12,
+      "d": 22,
+      "h": 73
+     },
+     "color": "#111111"
+    }
+   ]
+  },
+  {
+   "id": "op41",
+   "name": "Motor UniDrive eje A x=229",
+   "color": "#37474f",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of469",
+     "name": "UniDrive 60W Ø60",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      228.6,
+      139.79999999999995,
+      62
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 60,
+      "h": 150
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of470",
+     "name": "Correa síncrona interior",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      228.6,
+      214.79999999999995,
+      62
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 12,
+      "d": 22,
+      "h": 73
+     },
+     "color": "#111111"
+    }
+   ]
+  },
+  {
+   "id": "op42",
+   "name": "Motor UniDrive eje B y=-152",
+   "color": "#37474f",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of471",
+     "name": "UniDrive 60W Ø60",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -289.79999999999995,
+      -152.39999999999998,
+      62
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 60,
+      "h": 150
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of472",
+     "name": "Correa síncrona interior",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -214.79999999999995,
+      -152.39999999999998,
+      62
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 12,
+      "h": 48
+     },
+     "color": "#111111"
+    }
+   ]
+  },
+  {
+   "id": "op43",
+   "name": "Motor UniDrive eje B y=0",
+   "color": "#37474f",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of473",
+     "name": "UniDrive 60W Ø60",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      139.79999999999995,
+      0,
+      62
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 60,
+      "h": 150
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of474",
+     "name": "Correa síncrona interior",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      214.79999999999995,
+      0,
+      62
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 12,
+      "h": 48
+     },
+     "color": "#111111"
+    }
+   ]
+  },
+  {
+   "id": "op44",
+   "name": "Motor UniDrive eje B y=152",
+   "color": "#37474f",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of475",
+     "name": "UniDrive 60W Ø60",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -289.79999999999995,
+      152.39999999999998,
+      62
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 60,
+      "h": 150
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of476",
+     "name": "Correa síncrona interior",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -214.79999999999995,
+      152.39999999999998,
+      62
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 12,
+      "h": 48
+     },
+     "color": "#111111"
+    }
+   ]
+  },
+  {
+   "id": "op45",
+   "name": "Fotocélula S1 (modo stop)",
+   "color": "#c62828",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of477",
+     "name": "Poste",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      195.07199999999995,
+      -290.79999999999995,
+      168
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 10,
+      "d": 10,
+      "h": 20
+     },
+     "color": "#212121"
+    },
+    {
+     "id": "of478",
+     "name": "Fotocélula",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      195.07199999999995,
+      -290.79999999999995,
+      178
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 16,
+      "d": 22,
+      "h": 34
+     },
+     "color": "#c62828"
+    }
+   ]
+  }
+ ],
+ "constraints": []
+}
