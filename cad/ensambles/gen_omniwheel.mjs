@@ -43,17 +43,24 @@ const D = {
   ejesB_Y: [-1, 0, 1].map(k => k * 6 * IN),               // 0, ±152.4
   ruedasA_Y: [-1.5, -0.5, 0.5, 1.5].map(k => k * 6 * IN), // 4 ruedas Ø70 por eje A
   ruedasB_X: [-1, 0, 1].map(k => k * 6 * IN),             // 3 ruedas Ø120 por eje B
-  placa: 6, placaZ0: 40, placaZ1: 168,   // placas perimetrales (top 2 bajo tangente)
+  placa: 6, placaZ0: 40, placaZ1: 163,   // placas perimetrales (la tapa apoya encima)
   fondo: 5, fondoZ: 35,                  // bandeja de fondo
-  chum: [42, 22, 42],                    // chumacera/soporte de eje (caja)
+  tapa: 5, tapaZ0: 163,                  // TAPA portante negra: solo asoman las coronas
+  holgTapa: 4,                           // holgura de las aberturas alrededor de cada rueda
   fotoX: 0.82,                           // fotocélula a 0.82·L (modo 'stop')
   // --- transmisión (motor UniDrive de biblioteca + polea síncrona ad-hoc) ---
-  motor: { id: 'cv_ZP2026__300986_std_unidrive_motor_d_shaft', bbox: [152.69, 118.12, 119.05] },
-  motorShaftZ: 59.5,            // eje del motor al centro de la sección 118×119 (VERIFICAR vs GLB)
-  motorZ: -32.5,                // altura del eje de todos los motores (colgados bajo la bandeja)
+  // Perfil MEDIDO del GLB (probe por rebanadas, marco local recentrado base Z=0):
+  // eje D Ø12 en z 0..60 (punta en el ORIGEN), boza Ø36 en 60..79, cuerpo plano
+  // ("pancake") en 82..119: 152.7 × 118.1 × espesor 37. Se cuelga en posición
+  // pancake VERTICAL: eje D horizontal (local +Z → eje conducido), cara 152.7
+  // vertical (local X), 118.1 transversal (local Y).
+  motor: { id: 'cv_ZP2026__300986_std_unidrive_motor_d_shaft', bbox: [152.69, 118.12, 119.05], axial: [82, 119], shaftL: 60 },
+  motorZ: -47.5,                // altura del eje D de todos los motores (da dientes enteros)
   polea: { id: 'polea_sincrona_htd5m_28t', R: 26, dp: 44.563, span: [-10.5, 22.5] }, // +X local = cubo
-  correaW: 15, stubDia: 12,
-  bracket: { id: 'bracket_motor_unidrive_omni', plan: [150, 136] },   // origen = cara superior del ala
+  correaW: 15,
+  sep: 22,                       // separadores tubulares Ø22 entre ruedas (posición axial)
+  brida: { dia: 35, e: 14, placa: [12, 64, 64] },  // chumacera de brida en las placas perimetrales
+  bracket: { id: 'bracket_motor_unidrive_omni', plan: [56, 140] },   // origen = cara superior del ala
 };
 const zA = D.tang - D.R1;      // 135 — centro de ejes A
 const zB = D.tang - D.R2;      // 110 — centro de ejes B
@@ -68,9 +75,12 @@ const DRIVES = [
   { fam: 'B', at: 152.4, st: -44, dir: -1, hub: -1 },
   { fam: 'B', at: 0, st: 260, dir: -1, hub: 1 },   // ventana exterior (tras el último eje A)
 ];
-const MLEN = D.motor.bbox[0], MWID = D.motor.bbox[1], MHIG = D.motor.bbox[2];
-const BODY_GAP = 33;                                  // polea + stub de eje D entre estación y cuerpo
-const bodyCenter = (d) => d.st + d.dir * (BODY_GAP + MLEN / 2);
+// Pancake vertical: mitades del cuerpo — VERTICAL (cara larga local X) y
+// TRANSVERSAL (local Y); intervalo AXIAL del cuerpo respecto de la punta del
+// eje D (que se coloca en la estación, sobre la polea).
+const MVERT = D.motor.bbox[0] / 2, MTRAN = D.motor.bbox[1] / 2;
+const bodyAxial = (d) => [d.st + d.dir * D.motor.axial[0], d.st + d.dir * D.motor.axial[1]].sort((a, b) => a - b);
+const bodyCenter = (d) => d.st + d.dir * (D.motor.axial[0] + D.motor.axial[1]) / 2;
 
 // ------------------------------------------------------------ verificaciones
 const chk = {};
@@ -128,12 +138,14 @@ for (const d of DRIVES) {
 // 9) el disco de la polea de los ejes A (Ø52 en el plano XZ) no toca las
 //    ruedas Ø120 vecinas (separación en X)
 gate('gap_poleaA_ruedaB', (D.pitch / 2) - 26 - D.W2 / 2, D.luzMin);
-// 10) cuerpo del motor bajo la bandeja: no toca el fondo ni sale del módulo,
-//     y los 7 conjuntos motor+bracket no se solapan en planta (luz ≥ 2)
-gate('luz_motor_fondo', D.fondoZ - (D.motorZ - D.motorShaftZ + MHIG), D.luzMin);
+// 10) cuerpo pancake del motor bajo la bandeja: no toca el fondo ni sale del
+//     módulo, y los 7 conjuntos motor+bracket no se solapan en planta (luz ≥ 2)
+gate('luz_motor_fondo', D.fondoZ - (D.motorZ + MVERT), D.luzMin);
 const rects = [];
 for (const d of DRIVES) {
-  const c = bodyCenter(d), L2 = Math.max(MLEN, D.bracket.plan[0]) / 2, W2m = Math.max(MWID, D.bracket.plan[1]) / 2;
+  const c = bodyCenter(d);
+  const L2 = Math.max(D.motor.axial[1] - D.motor.axial[0], D.bracket.plan[0]) / 2;
+  const W2m = Math.max(MTRAN, D.bracket.plan[1] / 2);
   rects.push(d.fam === 'A'
     ? { n: `A_x${d.at.toFixed(0)}`, x: [d.at - W2m, d.at + W2m], y: [c - L2, c + L2] }
     : { n: `B_y${d.at.toFixed(0)}`, x: [c - L2, c + L2], y: [d.at - W2m, d.at + W2m] });
@@ -152,6 +164,11 @@ for (let i = 0; i < rects.length; i++) {
   }
 }
 chk.luz_entre_motores = `${luzMot.toFixed(1)} mm (mín ${MIN_POL})`;
+// 11) TAPA portante: sobre la polea más alta (la de los ejes A) y bajo la
+//     tangente, con las coronas asomando por las aberturas
+gate('luz_tapa_poleaA', D.tapaZ0 - (zA - D.polea.R + 52), MIN_POL);
+gate('luz_tapa_tangente', D.tang - (D.tapaZ0 + D.tapa), MIN_POL);
+chk.asomo_coronas = `Ø70 asoma ${(D.tang - D.tapaZ0 - D.tapa).toFixed(0)} mm por abertura de ${(2 * D.R1 + 2 * D.holgTapa).toFixed(0)}×${(D.W1 + 2 * D.holgTapa).toFixed(0)} · Ø120 por ${(D.W2 + 2 * D.holgTapa).toFixed(0)}×${(2 * D.R2 + 2 * D.holgTapa).toFixed(0)}`;
 
 // --------------------------------------------------------------- constructor
 let np = 0, nf = 0;
@@ -187,10 +204,11 @@ function placeMesh(nombre, compId, pos, quat = [0, 0, 0, 1], color = '#37474f') 
   });
 }
 
-const C = { placa: '#212121', fondo: '#263238', eje: '#b0bec5', chum: '#455a64', motor: '#37474f', correa: '#111111', foto: '#c62828' };
+const C = { placa: '#212121', fondo: '#263238', tapa: '#1a1d21', eje: '#b0bec5', chum: '#455a64', sep: '#546e7a', motor: '#37474f', correa: '#111111', foto: '#c62828' };
 const H = D.mod / 2;
 
 // bastidor: bandeja (con RANURAS de paso de correa por estación) + 4 placas
+// perimetrales (con pasadas Ø16 de los ejes) + TAPA portante con aberturas
 const fondoFeats = [box('Fondo 609.6×609.6×5', [0, 0, D.fondoZ], D.mod, D.mod, D.fondo, C.fondo)];
 for (const d of DRIVES) {
   const at = d.fam === 'A' ? [d.at, d.st, D.fondoZ - 1] : [d.st, d.at, D.fondoZ - 1];
@@ -199,25 +217,56 @@ for (const d of DRIVES) {
 }
 part('Bandeja de fondo', C.fondo, fondoFeats);
 for (const s of [-1, 1]) {
-  part(`Placa lateral Y${s > 0 ? '+' : '-'}`, C.placa,
-    [box(`Placa 609.6×${D.placa}×${D.placaZ1 - D.placaZ0}`, [0, s * (H - D.placa / 2), D.placaZ0], D.mod, D.placa, D.placaZ1 - D.placaZ0, C.placa)]);
-  part(`Placa frontal X${s > 0 ? '+' : '-'}`, C.placa,
-    [box(`Placa ${D.placa}×${D.mod - 2 * D.placa}×${D.placaZ1 - D.placaZ0}`, [s * (H - D.placa / 2), 0, D.placaZ0], D.placa, D.mod - 2 * D.placa, D.placaZ1 - D.placaZ0, C.placa)]);
+  const fy = [box(`Placa 609.6×${D.placa}×${D.placaZ1 - D.placaZ0}`, [0, s * (H - D.placa / 2), D.placaZ0], D.mod, D.placa, D.placaZ1 - D.placaZ0, C.placa)];
+  for (const x of D.ejesA_X) fy.push({ id: fid(), name: `Pasada eje A Ø${D.ejeDia + 1}`, shape: 'cylinder', op: 'cut', at: [x, s * (H - D.placa) - (s > 0 ? 1 : 0), zA], dir: [0, 1, 0], params: { dia: D.ejeDia + 1, h: D.placa + 2 } });
+  part(`Placa lateral Y${s > 0 ? '+' : '-'}`, C.placa, fy);
+  const fx = [box(`Placa ${D.placa}×${D.mod - 2 * D.placa}×${D.placaZ1 - D.placaZ0}`, [s * (H - D.placa / 2), 0, D.placaZ0], D.placa, D.mod - 2 * D.placa, D.placaZ1 - D.placaZ0, C.placa)];
+  for (const y of D.ejesB_Y) fx.push({ id: fid(), name: `Pasada eje B Ø${D.ejeDia + 1}`, shape: 'cylinder', op: 'cut', at: [s * (H - D.placa) - (s > 0 ? 1 : 0), y, zB], dir: [1, 0, 0], params: { dia: D.ejeDia + 1, h: D.placa + 2 } });
+  part(`Placa frontal X${s > 0 ? '+' : '-'}`, C.placa, fx);
 }
+// TAPA portante: cuerpo cerrado negro mate — por fuera solo asoma la corona
+// de las ruedas (docs/omniwheel.md del simulador)
+const tapaFeats = [box(`Tapa 609.6×609.6×${D.tapa}`, [0, 0, D.tapaZ0], D.mod, D.mod, D.tapa, C.tapa)];
+for (const x of D.ejesA_X) for (const y of D.ruedasA_Y)
+  tapaFeats.push({ id: fid(), name: 'Abertura rueda Ø70', shape: 'box', op: 'cut', at: [x, y, D.tapaZ0 - 1], dir: [0, 0, 1], params: { w: 2 * D.R1 + 2 * D.holgTapa, d: D.W1 + 2 * D.holgTapa, h: D.tapa + 2 } });
+for (const y of D.ejesB_Y) for (const x of D.ruedasB_X)
+  tapaFeats.push({ id: fid(), name: 'Abertura rueda Ø120', shape: 'box', op: 'cut', at: [x, y, D.tapaZ0 - 1], dir: [0, 0, 1], params: { w: D.W2 + 2 * D.holgTapa, d: 2 * D.R2 + 2 * D.holgTapa, h: D.tapa + 2 } });
+part('Tapa portante (aberturas de coronas)', C.tapa, tapaFeats);
 
-// ejes A (avance): Ø15 a lo ancho (Y), z=135, con chumaceras en las placas Y±
+// eje DETALLADO: eje calibrado Ø15 pasante + chumaceras de BRIDA en las placas
+// (placa cuadrada + boza) + SEPARADORES tubulares Ø22 que fijan la posición
+// axial de ruedas y polea sobre el eje
+function ejeParte(tag, fam, at, zEje, ruedas, halfW) {
+  const drv = DRIVES.find((d) => d.fam === fam && d.at === at);
+  const inner = H - D.placa;                       // cara interior de la placa
+  const uvw = (u, z = zEje) => fam === 'A' ? [at, u, z] : [u, at, z];
+  const dirEje = fam === 'A' ? [0, 1, 0] : [1, 0, 0];
+  const fe = [cyl(`Eje Ø${D.ejeDia}×${D.mod} h6 (chaveta 5×5)`, uvw(-H), dirEje, D.ejeDia, D.mod, C.eje)];
+  const tBr = 12, ladoBr = fam === 'A' ? 52 : 64;  // placa de brida (bajo la tapa en ejes A)
+  for (const s of [-1, 1]) {
+    const uc = s * (inner - tBr / 2);              // centro de la placa de brida
+    fe.push(fam === 'A'
+      ? box('Placa de brida', [at, uc, zEje - ladoBr / 2], ladoBr, tBr, ladoBr, C.chum)
+      : box('Placa de brida', [uc, at, zEje - ladoBr / 2], tBr, ladoBr, ladoBr, C.chum));
+    fe.push(cyl(`Boza de rodamiento Ø${D.brida.dia}`, uvw(s > 0 ? inner - tBr - D.brida.e : -inner + tBr), dirEje, D.brida.dia, D.brida.e, C.chum));
+  }
+  // separadores en los tramos libres entre ruedas / polea / bridas
+  const occ = ruedas.map((c) => [c - halfW, c + halfW]);
+  if (drv) occ.push(spanPolea(drv));
+  occ.sort((a, b) => a[0] - b[0]);
+  let u = -(inner - tBr - D.brida.e);
+  for (const [lo, hi] of [...occ, [inner - tBr - D.brida.e, inner]]) {
+    if (lo - u >= 8) fe.push(cyl(`Separador Ø${D.sep}×${(lo - u).toFixed(0)}`, uvw(u), dirEje, D.sep, lo - u, C.sep));
+    u = Math.max(u, hi);
+  }
+  part(tag, C.eje, fe);
+}
 for (const x of D.ejesA_X) {
-  const fe = [cyl(`Eje A Ø${D.ejeDia}×${D.mod}`, [x, -H, zA], [0, 1, 0], D.ejeDia, D.mod, C.eje)];
-  for (const s of [-1, 1]) fe.push(box('Chumacera eje A', [x, s * (H - D.placa - D.chum[1] / 2), zA - D.chum[2] / 2], D.chum[0], D.chum[1], D.chum[2], C.chum));
-  part(`Eje A (avance) x=${x.toFixed(1)}`, C.eje, fe);
+  ejeParte(`Eje A (avance) x=${x.toFixed(1)}`, 'A', x, zA, D.ruedasA_Y, D.W1 / 2);
   for (const y of D.ruedasA_Y) placeComp(`Rueda avance Ø70 (${x.toFixed(0)},${y.toFixed(0)})`, 'rueda_omni_70_doble', [x, y, D.tang - 2 * D.R1], Q_XtoY);
 }
-
-// ejes B (eyección): Ø15 según flujo (X), z=110, chumaceras en placas X±
 for (const y of D.ejesB_Y) {
-  const fe = [cyl(`Eje B Ø${D.ejeDia}×${D.mod}`, [-H, y, zB], [1, 0, 0], D.ejeDia, D.mod, C.eje)];
-  for (const s of [-1, 1]) fe.push(box('Chumacera eje B', [s * (H - D.placa - D.chum[1] / 2), y, zB - D.chum[2] / 2], D.chum[1], D.chum[0], D.chum[2], C.chum));
-  part(`Eje B (eyección) y=${y.toFixed(1)}`, C.eje, fe);
+  ejeParte(`Eje B (eyección) y=${y.toFixed(1)}`, 'B', y, zB, D.ruedasB_X, D.W2 / 2);
   for (const x of D.ruedasB_X) placeComp(`Rueda eyección Ø120 (${x.toFixed(0)},${y.toFixed(0)})`, 'rueda_omni_120_doble', [x, y, D.tang - 2 * D.R2]);
 }
 
@@ -225,36 +274,45 @@ for (const y of D.ejesB_Y) {
 // colgado bajo la bandeja en bracket estilo ZP2026 + polea síncrona HTD 5M 28T
 // ad-hoc en eje y motor (1:1) + correa por la ranura de la bandeja
 const QZ = (deg) => [0, 0, Math.sin(deg * Math.PI / 360), Math.cos(deg * Math.PI / 360)];
+// cuaternión que lleva la base local (X,Y,Z) a las columnas dadas (ortonormales)
+function quatBasis(cx, cy, cz) {
+  const m = [cx[0], cy[0], cz[0], cx[1], cy[1], cz[1], cx[2], cy[2], cz[2]];
+  const tr = m[0] + m[4] + m[8];
+  if (tr > 0) { const s = Math.sqrt(tr + 1) * 2; return [(m[7] - m[5]) / s, (m[2] - m[6]) / s, (m[3] - m[1]) / s, s / 4]; }
+  if (m[0] > m[4] && m[0] > m[8]) { const s = Math.sqrt(1 + m[0] - m[4] - m[8]) * 2; return [s / 4, (m[1] + m[3]) / s, (m[2] + m[6]) / s, (m[7] - m[5]) / s]; }
+  if (m[4] > m[8]) { const s = Math.sqrt(1 + m[4] - m[0] - m[8]) * 2; return [(m[1] + m[3]) / s, s / 4, (m[5] + m[7]) / s, (m[2] - m[6]) / s]; }
+  const s = Math.sqrt(1 + m[8] - m[0] - m[4]) * 2; return [(m[2] + m[6]) / s, (m[5] + m[7]) / s, s / 4, (m[3] - m[1]) / s];
+}
+const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
 for (const d of DRIVES) {
   const zEje = d.fam === 'A' ? zA : zB;
   const Cc = zEje - D.motorZ;                                   // distancia entre centros
-  const bc = bodyCenter(d);
-  const pt = (u, v) => d.fam === 'A' ? [v, u, 0] : [u, v, 0];   // (coord. según eje, transversal) → XY
-  // cuaterniones: local +X del componente → dirección del cubo (polea) o del
-  // extremo de eje del motor (−dir) en el eje real (Y en fam A, X en fam B)
+  const pt = (u, v) => d.fam === 'A' ? [v, u, 0] : [u, v, 0];   // (según eje, transversal) → XY
+  // polea: local +X del componente → lado del cubo sobre el eje real
   const qAxis = (sign) => d.fam === 'A' ? QZ(sign > 0 ? 90 : -90) : (sign > 0 ? [0, 0, 0, 1] : QZ(180));
   const tag = d.fam === 'A' ? `eje A x=${d.at.toFixed(0)}` : `eje B y=${d.at.toFixed(0)}`;
-  // poleas conducida (sobre el eje) y motriz (sobre el eje D del motor)
   const [px, py] = pt(d.st, d.at);
   placeComp(`Polea conducida ${tag}`, D.polea.id, [px, py, zEje - D.polea.R], qAxis(d.hub));
   placeComp(`Polea motriz ${tag}`, D.polea.id, [px, py, D.motorZ - D.polea.R], qAxis(d.hub));
-  // motor de biblioteca (bbox 152.7×118.1×119, recentrado XY / base Z=0)
-  const [mx, my] = pt(bc, d.at);
-  placeMesh(`Motor ${tag}`, D.motor.id, [mx, my, D.motorZ - D.motorShaftZ], qAxis(-d.dir));
-  // bracket colgante (origen = cara superior del ala, bajo la bandeja)
+  // motor pancake VERTICAL: punta del eje D (origen local) en la estación, a
+  // la altura del eje motriz; local +Z → eje conducido (hacia el cuerpo),
+  // local +X → vertical (cara 152.7 de pie), local +Y → transversal
+  const axis = d.fam === 'A' ? [0, d.dir, 0] : [d.dir, 0, 0];
+  const qMotor = quatBasis([0, 0, 1], cross(axis, [0, 0, 1]), axis);
+  placeMesh(`Motor ${tag}`, D.motor.id, [px, py, D.motorZ], qMotor);
+  // bracket mordaza (origen = cara superior del ala, bajo la bandeja)
+  const [mx, my] = pt(bodyCenter(d), d.at);
   placeComp(`Bracket motor ${tag}`, D.bracket.id, [mx, my, D.fondoZ], d.fam === 'A' ? QZ(90) : [0, 0, 0, 1]);
-  // correa (lazo simplificado) + stub del eje D del motor hasta la polea
-  const dirEje = d.fam === 'A' ? [0, 1, 0] : [1, 0, 0];
+  // correa (lazo simplificado); el eje D REAL del motor llega hasta la polea
   part(`Transmisión ${tag}`, C.correa, [
     { id: fid(), name: `Correa HTD 5M-${Math.round(2 * Cc + Math.PI * D.polea.dp)}-15`, shape: 'box', op: 'union', at: [px, py, D.motorZ], dir: [0, 0, 1], params: { w: d.fam === 'A' ? 52 : D.correaW, d: d.fam === 'A' ? D.correaW : 52, h: Cc }, color: C.correa },
-    cyl(`Eje D del motor Ø${D.stubDia}`, [px, py, D.motorZ], dirEje.map(v => v * d.dir), D.stubDia, BODY_GAP, C.eje),
   ]);
 }
 
 // fotocélula del modo 'stop' a 0.82·L (doc omniwheel.md del simulador)
 const fx = -H + D.fotoX * D.mod;
 part('Fotocélula S1 (modo stop)', C.foto, [
-  box('Poste', [fx, -(H - D.placa - 8), D.placaZ1], 10, 10, D.tang + 18 - D.placaZ1, C.placa),
+  box('Poste', [fx, -(H - D.placa - 8), D.tapaZ0 + D.tapa], 10, 10, D.tang + 18 - D.tapaZ0 - D.tapa, C.placa),
   box('Fotocélula', [fx, -(H - D.placa - 8), D.tang + 8], 16, 22, 34, C.foto),
 ]);
 
@@ -264,7 +322,7 @@ const metrics = {
   ruedas: `${D.ejesA_X.length * D.ruedasA_Y.length}× Ø70 avance + ${D.ejesB_Y.length * D.ruedasB_X.length}× Ø120 eyección`,
   ejes: `${D.ejesA_X.length} ejes A Ø15 (Y, z=${zA}) + ${D.ejesB_Y.length} ejes B Ø15 (X, z=${zB}) — cruzados con luz ${(zA - zB - D.ejeDia).toFixed(0)} mm`,
   contactos: `retícula 6" (152.4): avance 4×4 intercalada con eyección 3×3 (tresbolillo, contacto más próximo ${(D.pitch / Math.SQRT2).toFixed(1)} mm)`,
-  motores: `${D.ejesA_X.length + D.ejesB_Y.length} UniDrive (malla ${D.motor.id}) + 1 adicional (BOM CV-OMW); 14 poleas HTD 5M 28T; correas 4× 5M-475-15 + 3× 5M-425-15; 7 brackets colgantes estilo ZP2026`,
+  motores: `${D.ejesA_X.length + D.ejesB_Y.length} UniDrive pancake (malla ${D.motor.id}) + 1 adicional (BOM CV-OMW); 14 poleas HTD 5M 28T; correas ${D.ejesA_X.length}× 5M-${Math.round(2 * (zA - D.motorZ) + Math.PI * D.polea.dp)}-15 + ${D.ejesB_Y.length}× 5M-${Math.round(2 * (zB - D.motorZ) + Math.PI * D.polea.dp)}-15; 7 brackets mordaza estilo ZP2026`,
   ...chk,
 };
 const doc = {

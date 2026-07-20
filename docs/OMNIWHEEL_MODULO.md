@@ -70,30 +70,36 @@ luz real en el cruce = 25 − 7.5 − 7.5 = 10 mm
 Un accionamiento por eje (7 en total, + 1 motor adicional de BOM):
 
 - **Motor**: `cv_ZP2026__300986_std_unidrive_motor_d_shaft` — el UniDrive con
-  eje D **de la biblioteca** (malla real extraída de `ZP2026.glb`,
-  152.7×118.1×119.0). Los 7 cuelgan **bajo la bandeja** con el eje a Z = −32.5.
+  eje D **de la biblioteca** (malla real extraída de `ZP2026.glb`). Perfil
+  medido del GLB por rebanadas: es un motorreductor **pancake** (cuerpo plano
+  152.7×118.1×37) con **eje D Ø12×60** saliendo perpendicular a la cara y boza
+  Ø36. Los 7 cuelgan **bajo la bandeja en posición pancake vertical** (eje D
+  horizontal según su eje conducido) con el eje a Z = −47.5; el eje D real del
+  motor llega hasta la polea, sin eje intermedio.
 - **Polea síncrona ad-hoc**: `polea_sincrona_htd5m_28t` — HTD 5M 28T
   (Øp 44.563, corona 18 para correa de 15, pestañas Ø52, cubo Ø30×12), una en
   el eje (bore Ø15 + chaveta 5×5) y otra en el eje D del motor, **relación 1:1**.
   Ancho total 33: dimensionada para caber en las **ventanas libres de 37.7 mm**
   que dejan ruedas y ejes perpendiculares.
-- **Bracket**: `bracket_motor_unidrive_omni` — colgante de chapa 4 mm en U
-  invertida, **similar al soporte del motor del ZP2026**: ala superior 150×136
-  apernada bajo la bandeja con 4 colisas Ø9×20 (tensado de correa ±10),
-  mejillas laterales y fleje inferior de apoyo del motor.
+- **Bracket**: `bracket_motor_unidrive_omni` — mordaza colgante de chapa 4 mm,
+  **similar al soporte del motor del ZP2026**: ala superior 56×140 apernada
+  bajo la bandeja con 4 colisas Ø9×20 (tensado ±10) y 2 mejillas que toman el
+  cuerpo pancake por sus caras (interior 45 = 37 + calzas) con los pernos
+  frontales del motor; fleje inferior de seguridad.
 - **Correas**: la distancia entre centros la fija la geometría
-  (C = z_eje − z_motor) y da **dientes enteros exactos**:
-  ejes A: C = 167.5 → **HTD 5M-475-15 (95T)** · ejes B: C = 142.5 →
-  **HTD 5M-425-15 (85T)**. Cada correa pasa por una **ranura de 56×19 en la
-  bandeja** (cortes en el modelo).
+  (C = z_eje − z_motor con z_motor = −47.5, elegido justamente para esto) y da
+  **dientes enteros exactos**: ejes A: C = 182.5 → **HTD 5M-505-15 (101T)** ·
+  ejes B: C = 157.5 → **HTD 5M-455-15 (91T)**. Cada correa pasa por una
+  **ranura de 56×19 en la bandeja** (cortes en el modelo).
 - Estaciones elegidas para no chocar con nada: ejes A en Y = ±38; ejes B
   laterales en X = ±44; el eje B central usa la **ventana exterior** X = 260
   (entre el último eje A y la placa). Los cuerpos de motor se reparten en
-  planta sin solaparse (luz mínima 3 mm, verificada).
+  planta sin solaparse (luz mínima 12.4, verificada).
 
-La cota del eje D del motor se asume al **centro de la sección** del GLB
-(59.5 sobre su base) — verificar contra la pieza real; las colisas del
-bracket absorben la diferencia.
+El perfil del motor (eje D Ø12×60 en z-local 0..60, boza Ø36 en 60..79,
+cuerpo 82..119) está **medido del caché del GLB** por rebanadas; verificar
+igualmente contra la pieza física — las colisas del bracket absorben
+diferencias.
 
 ### Verificaciones (gates del generador — abortan si fallan)
 
@@ -108,10 +114,26 @@ bracket absorben la diferencia.
 | Rueda Ø70 ↔ rueda Ø120 en planta (X) | 10.2 |
 | Rueda Ø120 ↔ rueda Ø120 vecina | 32.4 |
 | Rueda Ø120 ↔ bandeja de fondo | 10.0 |
-| Correas con dientes enteros (1:1) | 95T / 85T exactos |
+| Correas con dientes enteros (1:1) | 101T / 91T exactos |
 | Ventanas de polea (33 de ancho, mín 2) | 2.7 (A) · 2.2 (B lat.) · 13.4 (B centro) |
 | Disco polea A ↔ rueda Ø120 | 19.2 |
-| Motor ↔ bandeja / entre motores en planta | 8.0 / 3.0 |
+| Motor ↔ bandeja / entre motores en planta | 6.2 / 12.4 |
+| Tapa ↔ polea A / ↔ tangente | 2.0 / 2.0 |
+
+## Nivel de detalle del 3D
+
+- **Ruedas**: rodillos **abombados en 3 escalones** siguiendo la envolvente
+  circular (`r(t)=√(R²−t²)−rc`; envolvente Ø120.1 vs 121.6 con cilindros
+  rectos), pasadores Ø5, arañas y cubo. El abombado real de fabricación es el
+  perfil torneado continuo.
+- **Tapa portante** negra 609.6×609.6×5 sobre las placas (top 2 bajo la
+  tangente): 25 aberturas con holgura 4 por donde **solo asoman las coronas**,
+  como el CV-OMW del simulador.
+- **Ejes**: calibrados Ø15 h6 con chaveta 5×5 (nota), **chumaceras de brida**
+  (placa + boza Ø35) en las placas perimetrales con **pasadas Ø16**, y
+  **separadores tubulares Ø22** que fijan la posición axial de ruedas y polea.
+- **Motor**: malla real del GLB. Simplificaciones restantes: poleas sin
+  dentado (cilindro liso), correa como lazo prismático, sin tornillería.
 
 ## Cómo regenerar / ver
 

@@ -21,11 +21,54 @@
 // Para editar el ensamble, abrir el mismo JSON en ../index.html con 📂 Abrir.
 import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
+import { GLTFLoader } from '../vendor/GLTFLoader.js';
+import { MeshoptDecoder } from '../vendor/meshopt_decoder.module.js';
 import { buildPartGeometry, partMatrix } from '../js/model.js';
 
 const q = new URLSearchParams(location.search);
 const docUrl = q.get('doc') || 'transfer_rodillos_90.json';
 const doc = await (await fetch(docUrl)).json();
+
+// Piezas de MALLA REAL (features shape:'mesh' con {src, nodo}): misma lógica
+// que el CAD (app.js loadMeshGeometry) — fusionar la instancia del nodo del
+// GLB y recentrar XY con base en Z=0. Los src del doc son relativos a cad/.
+const gltfLoader = new GLTFLoader();
+gltfLoader.setMeshoptDecoder(MeshoptDecoder);
+const meshGeomCache = new Map();
+const subcompBase = (o) => { for (let p = o.parent; p; p = p.parent) if (p.name) return p.name.replace(/\d+$/, ''); return ''; };
+function loadMeshGeometry(src, nodo = null) {
+  const key = nodo ? `${src}#${nodo}` : src;
+  if (meshGeomCache.has(key)) return meshGeomCache.get(key);
+  const promise = MeshoptDecoder.ready.then(() => new Promise((resolve, reject) => {
+    gltfLoader.load(`../${src}`, (gltf) => {
+      gltf.scene.updateMatrixWorld(true);
+      const verts = [];
+      const v = new THREE.Vector3();
+      gltf.scene.traverse((o) => {
+        if (!o.isMesh || !o.geometry) return;
+        if (nodo && subcompBase(o) !== nodo) return;
+        const g = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry;
+        const pa = g.attributes.position;
+        for (let i = 0; i < pa.count; i++) {
+          v.fromBufferAttribute(pa, i).applyMatrix4(o.matrixWorld);
+          verts.push(v.x, v.y, v.z);
+        }
+      });
+      if (!verts.length) { reject(new Error('GLB sin mallas')); return; }
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+      geom.scale(1000, 1000, 1000);
+      geom.computeBoundingBox();
+      const bb = geom.boundingBox;
+      geom.translate(-(bb.min.x + bb.max.x) / 2, -(bb.min.y + bb.max.y) / 2, -bb.min.z);
+      geom.computeVertexNormals();
+      resolve(geom);
+    }, undefined, (err) => reject(err instanceof Error ? err : new Error(String(err))));
+  }));
+  meshGeomCache.set(key, promise);
+  return promise;
+}
+const isMeshPart = (part) => part.features.length === 1 && part.features[0].shape === 'mesh';
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x14171c);
@@ -43,15 +86,27 @@ fill.position.set(-500, 400, 200);
 scene.add(fill);
 
 const bbox = new THREE.Box3();
-for (const part of doc.parts) {
-  if (part.visible === false) continue;
-  const g = buildPartGeometry(part);
-  const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({
-    color: part.color || '#8899aa', metalness: 0.15, roughness: 0.7,
-  }));
+const addMesh = (g, color, part) => {
+  const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color, metalness: 0.15, roughness: 0.7 }));
   mesh.applyMatrix4(partMatrix(part));
   scene.add(mesh);
   bbox.expandByObject(mesh);
+};
+for (const part of doc.parts) {
+  if (part.visible === false) continue;
+  if (isMeshPart(part)) {
+    addMesh(await loadMeshGeometry(part.features[0].params.src, part.features[0].params.nodo || null), part.color || '#8899aa', part);
+    continue;
+  }
+  // pieza solo-unión: sin booleanos — un mesh por función con su color (los
+  // componentes de la biblioteca traen color por sólido y el solape visual de
+  // una unión es idéntico al CSG); con cortes sí se construye el CSG completo
+  if (part.features.every((f) => f.op === 'union')) {
+    for (const f of part.features)
+      addMesh(buildPartGeometry({ ...part, features: [f] }), f.color || part.color || '#8899aa', part);
+  } else {
+    addMesh(buildPartGeometry(part), part.color || '#8899aa', part);
+  }
 }
 const c = bbox.getCenter(new THREE.Vector3());
 const size = bbox.getSize(new THREE.Vector3()).length();
