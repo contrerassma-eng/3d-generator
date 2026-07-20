@@ -101,13 +101,13 @@
   },
   {
     "id": "movex530_n_sprockets_18in",
-    "claim": "Movex 530 — nº de sprockets e indent para 18 in (457,2 mm)",
-    "value": "530 LBP: 5 sprockets, indent A=76,2 mm; 530 FT/GT/GTsi/PRO LBP: 6 sprockets, indent A=38,1 mm, paso B=76,2 mm. OJO: el brochure LBP invierte los grupos (discrepancia entre documentos Movex; confirmar con application engineering)",
+    "claim": "Movex 530 — nº de sprockets y GRID de posiciones para 18 in (457,2 mm) — RESUELTO con los diagramas",
+    "value": "530 LBP ESTÁNDAR: 5 sprockets en el grid A·B·C·B·C·A = 76,2/63,35/89,05/63,35/89,05/76,2 (centrado: −152,4/−89,05/0/+63,35/+152,4); las demás posiciones están PROHIBIDAS (✗ bajo los carriles de rodillos). 530 PRO LBP y 530 FT/GT/GTsi: 6 sprockets (indent 38,1, paso 76,2). El manual (p.30) y el brochure LBP (p.11) COINCIDEN: la aparente discrepancia era la tabla vecina del PRO LBP en el brochure.",
     "unit": "-",
     "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
     "accessed": "2026-07-19",
-    "quote": "A: 1,5\" ( 38,1 mm ) B: 3\" (76,2 mm /steps) ... Belt width (in/mm) Recommended n° of sprockets* ... 18 / 457.2 [530 LBP:] 5 [Others:] 6",
-    "confidence": "media"
+    "quote": "Manual p.30: 'SPROCKETS POSITION FOR: 530 LBP ... A: 3\" (76,2 mm) B: 2,5\" (63,35 mm) C: 3,5\" (89,05 mm) ... 18 / 457.2 [530 LBP] 5 [Others] 6 ... It's NOT possible to place the sprockets in this position.' — Brochure p.11: 'Position for 530 LBP ... 18 / 457.2 → 5' y 'Position for 530 PRO LBP ... 18 / 457.2 → 6'",
+    "confidence": "alta"
   },
   {
     "id": "movex530_sprocket_fijo_flotante",
@@ -317,6 +317,16 @@
     "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
     "accessed": "2026-07-20",
     "quote": "CONICAL RAIL T-SHAPE W1,00'' WHITE SS L=10ft/3m / STEEL Th1,5mm — P12201C · T-Shape CONICAL RAIL W=40mm Ti-WHITE SS Aisi304 Th.1,5 — P12401C · L-Shape CONICAL RAIL W=1.1/4'' Ti-WHITE SS Aisi304 Th.1,5 — P12501C",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_nosebar_pro_discrepancia",
+    "claim": "ADVERTENCIA cotización — el nosebar P22868 se describe \"per 530PRO LBP\" pero la banda cotizada P5324010018A es 530 LBP ESTÁNDAR",
+    "value": "Confirmar con Movex (Sylvain Dufour) que P22868 h19 c/rodamientos es compatible con la 530 LBP estándar, o corregir el artículo del nosebar (catálogo: 22867/22868 = LBP; 22865/22866 y c/rodamientos 22863/22864 = PRO LBP) o el de la banda",
+    "unit": "-",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf",
+    "accessed": "2026-07-20",
+    "quote": "PIASTRA di TRASFERIMENTO ''NOSEBAR'' h19mm c/CUSCINETTI L 152,4mm/6'' 6 FORI BluLub per 530PRO LBP — P22868 · MODULAR BELT LFA 530 LBP W 18'' — P5324010018A",
     "confidence": "alta"
   }
 ]
