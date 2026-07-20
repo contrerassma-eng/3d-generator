@@ -31,6 +31,7 @@ export const ICON = {
   pestana: '<path d="M5 4v15h9"/><path d="M14 19l4-4" opacity=".8"/><path d="M5 12h6" opacity=".55"/>',
   patrect: '<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/>',
   patcirc: '<circle cx="12" cy="12" r="2.2"/><circle cx="12" cy="4.5" r="1.7"/><circle cx="19.5" cy="12" r="1.7"/><circle cx="12" cy="19.5" r="1.7"/><circle cx="4.5" cy="12" r="1.7"/>',
+  mirror: '<path d="M12 3v18" stroke-dasharray="2 2" opacity=".7"/><path d="M9 6l-5 6 5 6z"/><path d="M15 6l5 6-5 6z" opacity=".55"/>',
   // --- riel: ensamble ---
   mate: '<rect x="3" y="6" width="7.5" height="12" rx="1"/><rect x="13.5" y="6" width="7.5" height="12" rx="1"/><path d="M12 5v14" opacity=".5"/>',
   flush: '<path d="M3 7h18" opacity=".6"/><rect x="5" y="7" width="6" height="11" rx="1"/><rect x="13" y="7" width="6" height="7.5" rx="1"/>',

@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
-  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, makeFilletFeature, makeChamferFeature, planeBasis, magnetCorrections, identifyFace,
+  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, makeMirrorFeature, makeFilletFeature, makeChamferFeature, planeBasis, magnetCorrections, identifyFace,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
   evalExpr, resolveParams, applyDocParams,
@@ -363,6 +363,29 @@ console.log('— Patrones de funciones (rectangular / circular) —');
   const pat = makePatternFeature(hole.id, 'rect', { nx: 2, ny: 1, dx: 20, dy: 0, u: [1, 0, 0], v: [0, 1, 0] });
   const g = buildPart([box, hole, pat]);
   check('origen suprimido → patrón sin efecto (caja llena)', rel(volume(g), 36000) < 1e-6, `vol=${volume(g)}`);
+}
+
+// simetría de una unión: torreta a la derecha reflejada en YZ → aparece a la izquierda
+{
+  const box = makeBoxFeature(120, 80, 10);
+  const boss = makeCylFeature(12, 8, [40, 0, 10], [0, 0, 1], 'union');
+  const mir = makeMirrorFeature(boss.id, 'YZ');
+  const vBase = volume(buildPart([box, boss]));
+  const vMir = volume(buildPart([box, boss, mir]));
+  const oneBoss = Math.PI * 36 * 8 * (0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI);
+  check('simetría YZ de unión suma 1 torreta reflejada', rel(vMir - vBase, oneBoss) < 0.02, `Δ=${(vMir - vBase).toFixed(1)}`);
+  check('simetría: malla sin NaN', !hasNaN(buildPart([box, boss, mir])));
+}
+
+// simetría de un agujero: agujero a la derecha reflejado en YZ → dos agujeros
+{
+  const box = makeBoxFeature(120, 80, 10);
+  const hole = makeHoleFeature(6, 10, true, [40, 0, 10], [0, 0, -1]);
+  const mir = makeMirrorFeature(hole.id, 'YZ');
+  const g = buildPart([box, hole, mir]);
+  const cylFacet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
+  const expected = 96000 - 2 * Math.PI * 9 * 10 * cylFacet;
+  check('caja − simetría de agujero (2 en total)', rel(volume(g), expected) < 0.004, `vol=${volume(g)} esp=${expected.toFixed(1)}`);
 }
 
 console.log('— Parámetros globales (fx) y ecuaciones —');
