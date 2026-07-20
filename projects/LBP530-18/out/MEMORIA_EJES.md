@@ -11,17 +11,26 @@ Movex, movexii.com). Los valores marcados **SUPUESTO** no son datos Movex.
 
 | Equipo | Banda | Ancho | Largo nose-nose | Lazo de banda |
 |---|---|---|---|---|
-| CV‑LBP‑5000 | Movex **530 LBP** LFA (rodillos Ø12.2 POM) | 18 in (457.2) | 5000 mm | **10.79 m** |
-| CV‑GT‑800 | Movex **530 GT** (friction top, goma 75 ShA) | 18 in (457.2) | 800 mm | **2.45 m** |
+| CV‑LBP‑5000 | Movex **530 LBP** LFA (rodillos Ø12.2 POM) | 18 in (457.2) | 5000 mm | **10.87 m** |
+| CV‑GT‑800 | Movex **530 GT** (friction top, goma 75 ShA) | 18 in (457.2) | 800 mm | **2.54 m** |
 
 Arquitectura (pedido del usuario + manual Movex):
-- **Nosebar en ambas puntas** (LBP: nosebar especial art. 22867/68; GT: art.
-  22808/09, punta R9.5 BluLub).
+- **Nosebar en ambas puntas, CON RODAMIENTOS** (cotización 26012937: LBP
+  P22868 h19 €38.73; GT P22862 h19 €31.00; 3 × L6 in por punta).
 - **Tracción abajo, extremo de descarga**: eje motriz a z=−400 del plano de
-  banda, envoltura **135°** (Movex recomienda 140±10°); snub Ø63.5.
-- Catenaria tras la motriz: sag 130 mm (rango Movex 50–150), largo ~750
-  (rango 500–900). Retorno LBP por **zapatas** cada ~500; GT por rodillo Ø63.5.
+  banda, envoltura **140.8° / 139.0°** (objetivo Movex 140±10°); snub Ø63.5.
+- Catenaria tras la motriz: sag 130 mm (rango Movex 50–150), largo ~750.
+- **Retorno por RODILLOS Ø63.5 de eje muerto** cada ~500 (decisión del
+  usuario; el manual sugiere zapatas para LBP — desviación registrada): tubo
+  con 2 rodamientos SELLADOS 6202‑2RS insertos, eje Ø15 perforado y roscado
+  M8 interior en ambas puntas → **perno hexagonal M8 + golilla POR FUERA de
+  la placa** fija el eje (misma solución del transfer90, en M8).
 - Eje tensor/deflexión abajo en el extremo de entrada (2 sprockets locos).
+- **Estructura tipo ZP2026**: soportes B_005A (chapa plegada 3 mm, 203×95,
+  con nivelador) y travesaños TR_S (C 88×40×3) — reutiliza matriz/planos.
+- **Guía de apoyo**: pletina 12 de canto + BAR CAP UHMW P101203‑30
+  (enrollable, rollo 30 m, €6.96/m). **Guía lateral**: conical rail
+  enrollable L 1¼ in P12501C (también cotizados T 1 in y T 40 mm).
 
 ## 2. Ejes (los dos únicos mecanizados de torno del proyecto)
 
@@ -45,22 +54,23 @@ Ancho entre placas 470 (banda 457.2 + 2×6.4 de holgura: Δtérmica POM
 0.110 mm/m·°C + 5 mm básica, manual Movex). Chumaceras **UCF206** (bore Ø30)
 contra la cara exterior de las placas/mechas PL8.
 
-Sprockets Movex **Z24 partidos, PD 114.9 / OD 115.5, bore CUADRADO 1.5 in,
-art. 158308YF** (datasheet 525‑530). Por eje motriz: LBP 5 (indent 76.2),
-GT 6 (indent 38.1, paso 76.2) — manual pág. 30; **el brochure LBP dice 6/5
-invertido: confirmar con Movex application engineering**. Solo el sprocket
-central se fija (collarines); el resto flota (dilatación) — manual Movex.
+Sprockets Movex de la cotización: **rueda MOLDEADA Z-32, PD 153.4 /
+OD 154.8, ancho 40, bore CUADRADO 1.5 in con GRANO M8 — art. P158808YF,
+€17.42**. Por eje motriz: LBP 5 (indent 76.2), GT 6 (indent 38.1, paso
+76.2) — manual pág. 30; **el brochure LBP dice 6/5 invertido: confirmar con
+Movex application engineering**. Solo el sprocket central se fija (grano M8
++ **collarines P21703Y**, 2 por eje); el resto flota — manual Movex.
 
 ## 3. Cargas y verificación
 
-Velocidad de diseño: v = 20 m/min → n = v/(π·PD) = 20000/(π·114.9) ≈ **55 rpm**.
+Velocidad de diseño: v = 20 m/min → n = v/(π·PD) = 20000/(π·153.4) ≈ **41.5 rpm**.
 
 Tiro de banda LBP 5 m (acumulación llena, producto 25 kg/m):
 
-- Producto Wp = 125 kg; banda (9.0 kg/m², lazo 10.79 m × 0.457) ≈ 44.4 kg.
+- Producto Wp = 125 kg; banda (9.0 kg/m², lazo 10.87 m × 0.457) ≈ 44.7 kg.
 - Carry (µ LFA/UHMW = 0.20, tabla 2.9 del manual): (125+20.6)·9.81·0.20 ≈ 286 N
 - Acumulación LBP (rodillos, **SUPUESTO** µ_acc = 0.10): 125·9.81·0.10 ≈ 123 N
-- Retorno en zapatas (0.20): ≈ 47 N
+- Retorno en rodillos (rodante, ~0.05): ≈ 12 N
 - Nosebar de descarga (estático BluLub µ≈0.18, envoltura ~180°):
   factor e^(µπ) ≈ 1.76 sobre la suma → **T1 ≈ 0.80 kN**
 
@@ -69,14 +79,14 @@ Verificaciones:
 | Ítem | Valor | Límite | Estado |
 |---|---|---|---|
 | Tracción de banda | 0.80 kN / 0.457 m ≈ 1.75 kN/m | 24 kN/m (Movex) × 50% diseño = 12 | **7 %** ✔ |
-| Par en el eje motriz | T = 0.75 kN × 0.0575 ≈ **43 N·m** | motor 0.37 kW @55 rpm = 64 N·m | ✔ |
-| Torsión muñón Ø30 | τ = 16T/πd³ ≈ 8.1 MPa | ~58 MPa adm. SAE 1045 | SF > 7 ✔ |
+| Par en el eje motriz | T = 0.75 kN × 0.0767 ≈ **58 N·m** | motor 0.37 kW @41.5 rpm = 85 N·m | ✔ |
+| Torsión muñón Ø30 | τ = 16T/πd³ ≈ 10.9 MPa | ~58 MPa adm. SAE 1045 | SF > 5 ✔ |
 | Aplastamiento chavetero 8×7×90 | ≈ 10 MPa | ~90 MPa | ✔ |
 | Deflexión eje (I=b⁴/12=1.76·10⁵ mm⁴, luz 546) | ≈ 0.06 mm | ≤ 2.5 mm (**SUPUESTO** industria; Movex no publica) | ✔ |
 | Potencia | P = F·v ≈ 0.27 kW | motorreductor 0.37 kW | ✔ |
 
 GT 0.8 m: tiro < 0.15 kN — el mismo eje y motor sobran (se unifica por
-repuestos: **un solo modelo de motorreductor 0.37 kW, i≈26 (n₂≈55 rpm), eje
+repuestos: **un solo modelo de motorreductor 0.37 kW, i≈35 (n₂≈42 rpm), eje
 hueco Ø30 H7, con brazo de torque, para los 8 equipos**).
 
 ## 4. Planos emitidos
@@ -95,7 +105,7 @@ Fuente paramétrica: `cad/ensambles/gen_lbp530.mjs` (regenerar con
 ## 5. Pendientes / advertencias (no se ocultan)
 
 1. **Confirmar con Movex** el nº de sprockets del 530 LBP 18 in (manual: 5;
-   brochure: 6) y el artículo exacto del nosebar LBP (22867 K3 / 22868 K6).
+   brochure: 6). La cotización 26012937 trae 152 Z-32: cubre ambos casos.
 2. El chavetero y la rosca de punta NO están en las primitivas del catálogo
    de componentes (limitación caja/cilindro): están en los planos EJ‑01 y en
    el ensamble `gen_lbp530.mjs`.
@@ -103,3 +113,19 @@ Fuente paramétrica: `cad/ensambles/gen_lbp530.mjs` (regenerar con
    contrapresión como "muy baja" sin valor numérico para 530 LBP estándar.
 4. Verificar con calibre el eje hueco real del motorreductor comprado antes
    de tornear los 8 muñones motrices (j6 nominal).
+
+## 6. Cotización MOVEX 26012937 (09‑07‑2026, EUR, EXW) — input/docs/
+
+| Art. | Descripción | Cotizado | Necesario 4 líneas | €/u |
+|---|---|---|---|---|
+| P5324010018A | Banda 530 LBP 18 in LFA | 90.3 m | 43.5 m | 174.85/m |
+| P5323010018A | Banda 530 GT 18 in LFA | 18 m | 10.2 m | 243.18/m |
+| P158808YF | Rueda moldeada Z‑32 □1.5 in c/grano M8 | 152 | 60 | 17.42 |
+| P21703Y | Collarín referencia 1.5×1.5 in | 60 | 32 | 2.32 |
+| P22868 | Nosebar 530 LBP h19 c/rodamientos L6 in | 51 | 24 | 38.73 |
+| P22862 | Transfer plate c/rodamientos h19 L6 in | 51 | 24 | 31.00 |
+| P101203‑30 | Bar cap UHMW 17.53×19.05 (rollo 30 m) | 360 m | según obra | 6.96/m |
+| P12201C/P12401C/P12501C | Conical rail T1"/T40/L1¼ | 156/105/105 m | según layout | 17.14/18.63/23.08/m |
+
+Lo cotizado excede lo necesario de las 4 líneas (~2× en banda): repuesto o
+futuras líneas — decisión comercial del usuario, se registra sin ocultar.

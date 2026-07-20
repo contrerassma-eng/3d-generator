@@ -411,7 +411,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 1190.55 841.89] /Resources << /Font << /F1 9 0 R >> >> /Contents 8 0 R >>
 endobj
 8 0 obj
-<< /Length 11675 >>
+<< /Length 12775 >>
 stream
 0.71 w 1 J 1 j [] 0 d
 BT /F1 12.76 Tf 335.55 789.11 Td (CORTE DE BARRAS Y LISTA DE COMPRA — EJES PARA 4 LÍNEAS \(8 transportadores\)) Tj ET
@@ -457,48 +457,60 @@ BT /F1 7.09 Tf 117.64 507.97 Td (Arandela retención Ø40×6 + tornillo M10×25 8.8)
 BT /F1 7.09 Tf 712.91 507.97 Td (8) Tj ET
 BT /F1 7.09 Tf 871.65 507.97 Td (retención axial del motorreductor) Tj ET
 BT /F1 7.09 Tf 72.28 487.56 Td (A5) Tj ET
-BT /F1 7.09 Tf 117.64 487.56 Td (Motorreductor eje hueco Ø30 H7, 0.37 kW, n2 ~ 55 rpm, par >= 64 Nm) Tj ET
+BT /F1 7.09 Tf 117.64 487.56 Td (Motorreductor eje hueco Ø30 H7, 0.37 kW, n2 ~ 42 rpm, par >= 85 Nm) Tj ET
 BT /F1 7.09 Tf 712.91 487.56 Td (8) Tj ET
-BT /F1 7.09 Tf 871.65 487.56 Td (montaje directo + brazo de torque) Tj ET
+BT /F1 7.09 Tf 871.65 487.56 Td (montaje directo + brazo de torque \(Z32: 41.5 rpm p/ 20 m/min\)) Tj ET
 BT /F1 7.09 Tf 72.28 467.15 Td (A6) Tj ET
-BT /F1 7.09 Tf 117.64 467.15 Td (Collarín/retén para sprocket central en eje cuadrado 1.5 in) Tj ET
-BT /F1 7.09 Tf 712.91 467.15 Td (16 pares) Tj ET
-BT /F1 7.09 Tf 871.65 467.15 Td (solo el sprocket central se fija) Tj ET
+BT /F1 7.09 Tf 117.64 467.15 Td (Rodillo retorno Ø63.5: tubo + 2 rodam. 6202-2RS sellados insertos) Tj ET
+BT /F1 7.09 Tf 712.91 467.15 Td (16 aprox) Tj ET
+BT /F1 7.09 Tf 871.65 467.15 Td (eje muerto Ø15 rosc. M8 int.; PERNO HEX M8 + golilla POR FUERA) Tj ET
 BT /F1 7.09 Tf 72.28 446.74 Td (A7) Tj ET
 BT /F1 7.09 Tf 117.64 446.74 Td (Perno M12×40 8.8 + tuerca \(chumaceras a mecha PL8\)) Tj ET
 BT /F1 7.09 Tf 712.91 446.74 Td (128) Tj ET
 BT /F1 7.09 Tf 871.65 446.74 Td (4 por chumacera) Tj ET
-BT /F1 7.94 Tf 72.28 391.18 Td (POS) Tj ET
-BT /F1 7.94 Tf 117.64 391.18 Td (MOVEX \(movexii.com\) — capa web: input/web_facts.json) Tj ET
-BT /F1 7.94 Tf 712.91 391.18 Td (CANT) Tj ET
-BT /F1 7.94 Tf 871.65 391.18 Td (OBSERVACIÓN) Tj ET
-BT /F1 7.09 Tf 72.28 370.77 Td (M1) Tj ET
-BT /F1 7.09 Tf 117.64 370.77 Td (Banda 530 LBP 18 in LFA — art. 5324010018A) Tj ET
-BT /F1 7.09 Tf 712.91 370.77 Td (43.16 m \(29+1 rollos 1.5 m\)) Tj ET
-BT /F1 7.09 Tf 871.65 370.77 Td (lazo 10.79 m × 4 equipos) Tj ET
-BT /F1 7.09 Tf 72.28 350.36 Td (M2) Tj ET
-BT /F1 7.09 Tf 117.64 350.36 Td (Banda 530 GT \(friction top\) 18 in LFA — art. 5323*0018A) Tj ET
-BT /F1 7.09 Tf 712.91 350.36 Td (9.8 m \(7+1 rollos 1.5 m\)) Tj ET
-BT /F1 7.09 Tf 871.65 350.36 Td (lazo 2.45 m × 4 equipos) Tj ET
-BT /F1 7.09 Tf 72.28 329.95 Td (M3) Tj ET
-BT /F1 7.09 Tf 117.64 329.95 Td (Sprocket Z24 partido, PD 114.9, BORE CUADRADO 1.5 in — art. 158308YF) Tj ET
-BT /F1 7.09 Tf 712.91 329.95 Td (60) Tj ET
-BT /F1 7.09 Tf 871.65 329.95 Td (LBP 5+2 · GT 6+2 por equipo; sólo 1 fijo/eje) Tj ET
-BT /F1 7.09 Tf 72.28 309.54 Td (M4) Tj ET
-BT /F1 7.09 Tf 117.64 309.54 Td (Nosebar especial 530 LBP \(doble cara\) — art. 22868 \(K=6 in\)) Tj ET
-BT /F1 7.09 Tf 712.91 309.54 Td (24) Tj ET
-BT /F1 7.09 Tf 871.65 309.54 Td (3×K6 = 18 in por punta × 2 puntas × 4 LBP) Tj ET
-BT /F1 7.09 Tf 72.28 289.13 Td (M5) Tj ET
-BT /F1 7.09 Tf 117.64 289.13 Td (Nosebar 530 BluLub — art. 22809 \(K=6 in\)) Tj ET
-BT /F1 7.09 Tf 712.91 289.13 Td (24) Tj ET
-BT /F1 7.09 Tf 871.65 289.13 Td (ídem para los 4 GT) Tj ET
-BT /F1 7.09 Tf 72.28 268.72 Td (M6) Tj ET
-BT /F1 7.09 Tf 117.64 268.72 Td (Perfil wearstrip UHMW y zapata de retorno LBP \(tipo R230\)) Tj ET
-BT /F1 7.09 Tf 712.91 268.72 Td (según obra) Tj ET
-BT /F1 7.09 Tf 871.65 268.72 Td (LBP: strips entre rodillos, gap <=50) Tj ET
-BT /F1 7.09 Tf 68.03 249.45 Td (Cálculo \(memoria en projects/LBP530-18/out/MEMORIA_EJES.md\): tiro de banda LBP ~ 0.8 kN \(7% de la carga admisible) Tj ET
-BT /F1 7.09 Tf 68.03 236.41 Td (Movex 24 kN/m×0.457; límite de diseño 50%\) · par en eje ~ 43 Nm · torsión muñón O30 ~ 8 MPa \(SF>7\) · deflexión ~ 0.06 mm) Tj ET
-BT /F1 7.09 Tf 68.03 223.37 Td (\(supuesto industria <=2.5 mm\) · wrap motriz 135° \(Movex 140±10°\) · velocidad 20 m/min -> 55 rpm \(PD 114.9\).) Tj ET
+BT /F1 7.09 Tf 72.28 426.33 Td (A8) Tj ET
+BT /F1 7.09 Tf 117.64 426.33 Td (Soporte tipo ZP2026 \(B_005A\) plegado 3 mm + nivelador; travesaños TR_S C 88×40) Tj ET
+BT /F1 7.09 Tf 712.91 426.33 Td (16 sop.) Tj ET
+BT /F1 7.09 Tf 871.65 426.33 Td (misma matriz/planos del ZP2026) Tj ET
+BT /F1 7.94 Tf 72.28 402.52 Td (POS) Tj ET
+BT /F1 7.94 Tf 117.64 402.52 Td (MOVEX — COTIZACIÓN 26012937 \(09-07-2026, EUR EXW\) — input/docs/) Tj ET
+BT /F1 7.94 Tf 712.91 402.52 Td (NECESARIO / COTIZADO) Tj ET
+BT /F1 7.94 Tf 871.65 402.52 Td (OBSERVACIÓN) Tj ET
+BT /F1 7.09 Tf 72.28 382.11 Td (M1) Tj ET
+BT /F1 7.09 Tf 117.64 382.11 Td (Banda 530 LBP 18 in LFA — P5324010018A \(EUR 174.85/m\)) Tj ET
+BT /F1 7.09 Tf 712.91 382.11 Td (43.48 m / 90.3 m) Tj ET
+BT /F1 7.09 Tf 871.65 382.11 Td (lazo 10.87 m × 4; cotizado cubre ~2×) Tj ET
+BT /F1 7.09 Tf 72.28 361.70 Td (M2) Tj ET
+BT /F1 7.09 Tf 117.64 361.70 Td (Banda 530 GT 18 in LFA — P5323010018A \(EUR 243.18/m\)) Tj ET
+BT /F1 7.09 Tf 712.91 361.70 Td (10.16 m / 18 m) Tj ET
+BT /F1 7.09 Tf 871.65 361.70 Td (lazo 2.54 m × 4) Tj ET
+BT /F1 7.09 Tf 72.28 341.29 Td (M3) Tj ET
+BT /F1 7.09 Tf 117.64 341.29 Td (Sprocket Z-32 MOLDEADO bore cuadrado 1.5 in c/grano M8 — P158808YF \(EUR 17.42\)) Tj ET
+BT /F1 7.09 Tf 712.91 341.29 Td (60 / 152) Tj ET
+BT /F1 7.09 Tf 871.65 341.29 Td (LBP 5+2 · GT 6+2; sólo 1 fijo/eje \(grano M8\)) Tj ET
+BT /F1 7.09 Tf 72.28 320.88 Td (M4) Tj ET
+BT /F1 7.09 Tf 117.64 320.88 Td (Collarín de referencia 1.5×1.5 in — P21703Y \(EUR 2.32\)) Tj ET
+BT /F1 7.09 Tf 712.91 320.88 Td (32 / 60) Tj ET
+BT /F1 7.09 Tf 871.65 320.88 Td (2 por eje, flanquean el sprocket central) Tj ET
+BT /F1 7.09 Tf 72.28 300.47 Td (M5) Tj ET
+BT /F1 7.09 Tf 117.64 300.47 Td (Nosebar 530 LBP h19 C/RODAMIENTOS L=6 in — P22868 \(EUR 38.73\)) Tj ET
+BT /F1 7.09 Tf 712.91 300.47 Td (24 / 51) Tj ET
+BT /F1 7.09 Tf 871.65 300.47 Td (3 por punta × 2 puntas × 4 LBP) Tj ET
+BT /F1 7.09 Tf 72.28 280.06 Td (M6) Tj ET
+BT /F1 7.09 Tf 117.64 280.06 Td (Transfer plate C/RODAMIENTOS h19 L=6 in — P22862 \(EUR 31\)) Tj ET
+BT /F1 7.09 Tf 712.91 280.06 Td (24 / 51) Tj ET
+BT /F1 7.09 Tf 871.65 280.06 Td (ídem para los 4 GT) Tj ET
+BT /F1 7.09 Tf 72.28 259.65 Td (M7) Tj ET
+BT /F1 7.09 Tf 117.64 259.65 Td (BAR CAP UHMW 17.53×19.05 p/pletina 12 — P101203-30 \(EUR 6.96/m\)) Tj ET
+BT /F1 7.09 Tf 712.91 259.65 Td (— / 360 m) Tj ET
+BT /F1 7.09 Tf 871.65 259.65 Td (guía de APOYO enrollable \(rollo 30 m\); LBP gap <=50) Tj ET
+BT /F1 7.09 Tf 72.28 239.24 Td (M8) Tj ET
+BT /F1 7.09 Tf 117.64 239.24 Td (Conical rail enrollable: T 1 in P12201C · T 40 P12401C · L 1¼ P12501C) Tj ET
+BT /F1 7.09 Tf 712.91 239.24 Td (— / 156+105+105 m) Tj ET
+BT /F1 7.09 Tf 871.65 239.24 Td (guía LATERAL \(L 1¼ en el modelo\); resto según layout) Tj ET
+BT /F1 7.09 Tf 68.03 181.42 Td (Cálculo \(memoria en projects/LBP530-18/out/MEMORIA_EJES.md\): tiro de banda LBP ~ 0.8 kN \(7% de la carga admisible) Tj ET
+BT /F1 7.09 Tf 68.03 168.38 Td (Movex 24 kN/m×0.457; límite de diseño 50%\) · par en eje ~ 58 Nm \(Z32, PD 153.4\) · torsión muñón O30 ~ 11 MPa \(SF>5\)) Tj ET
+BT /F1 7.09 Tf 68.03 155.34 Td (· deflexión ~ 0.06 mm \(supuesto industria <=2.5 mm\) · wrap motriz 141°/139° \(Movex 140±10°\) · 20 m/min -> 41.5 rpm.) Tj ET
 BT /F1 7.09 Tf 72.44 11.62 Td (1) Tj ET
 BT /F1 7.09 Tf 72.44 825.17 Td (1) Tj ET
 BT /F1 7.09 Tf 221.26 11.62 Td (2) Tj ET
@@ -587,13 +599,16 @@ BT /F1 7.37 Tf 1072.49 34.48 Td (LBP530-EJ-03) Tj ET
 68.03 481.32 m 1122.52 481.32 l S
 68.03 460.91 m 1122.52 460.91 l S
 68.03 440.50 m 1122.52 440.50 l S
-68.03 384.94 m 1122.52 384.94 l S
-68.03 364.54 m 1122.52 364.54 l S
-68.03 344.13 m 1122.52 344.13 l S
-68.03 323.72 m 1122.52 323.72 l S
-68.03 303.31 m 1122.52 303.31 l S
-68.03 282.90 m 1122.52 282.90 l S
-68.03 262.49 m 1122.52 262.49 l S
+68.03 420.09 m 1122.52 420.09 l S
+68.03 396.28 m 1122.52 396.28 l S
+68.03 375.87 m 1122.52 375.87 l S
+68.03 355.46 m 1122.52 355.46 l S
+68.03 335.06 m 1122.52 335.06 l S
+68.03 314.65 m 1122.52 314.65 l S
+68.03 294.24 m 1122.52 294.24 l S
+68.03 273.83 m 1122.52 273.83 l S
+68.03 253.42 m 1122.52 253.42 l S
+68.03 233.01 m 1122.52 233.01 l S
 0.00 0.00 m 1190.55 0.00 l 1190.55 841.89 l 0.00 841.89 l h S
 148.82 0.00 m 148.82 28.35 l S
 148.82 813.54 m 148.82 841.89 l S
@@ -634,7 +649,7 @@ BT /F1 7.37 Tf 1072.49 34.48 Td (LBP530-EJ-03) Tj ET
 1105.51 53.86 m 1105.51 82.20 l S
 1.98 w 1 J 1 j [] 0 d
 68.03 603.78 m 1122.52 603.78 l S
-68.03 405.35 m 1122.52 405.35 l S
+68.03 416.69 m 1122.52 416.69 l S
 56.69 28.35 m 1162.20 28.35 l 1162.20 813.54 l 56.69 813.54 l h S
 0.00 420.94 m 70.87 420.94 l S
 1190.55 420.94 m 1148.03 420.94 l S
@@ -659,9 +674,9 @@ xref
 0000010755 00000 n 
 0000019359 00000 n 
 0000019492 00000 n 
-0000031220 00000 n 
+0000032320 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-31317
+32417
 %%EOF

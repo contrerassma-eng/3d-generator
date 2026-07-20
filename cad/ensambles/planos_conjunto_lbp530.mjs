@@ -80,21 +80,21 @@ function gaSheet(docFile, opts) {
     sh.line([X(x), Z(z)], [X(x) + dx, Z(z) + dz], 'COTAS');
     sh.text(t, X(x) + dx + (dx >= 0 ? 1 : -1), Z(z) + dz, 2.5, dx >= 0 ? 'L' : 'R', 'COTAS');
   };
-  tag(xDrv, D.zMotriz - 58, 14, -14, `EJE MOTRIZ cuadrado 1.5in (LBP530-EJ-01) + ${opts.nSprk} sprockets Z24 + UCF206 + motorreductor eje hueco O30`);
-  tag(xTen, D.zTensor - 58, 20, -20, 'EJE TENSOR (LBP530-EJ-02) + 2 sprockets Z24 locos + UCF206');
+  tag(xDrv, D.zMotriz - 78, 14, -14, `EJE MOTRIZ cuadrado 1.5in (LBP530-EJ-01) + ${opts.nSprk} sprockets Z32 P158808YF + collarines P21703Y + UCF206 + motorreductor eje hueco O30`);
+  tag(xTen, D.zTensor - 78, 20, -20, 'EJE TENSOR (LBP530-EJ-02) + 2 sprockets Z32 locos + UCF206');
   tag(18, -20, -14, 16, `NOSEBAR ${opts.noseArt}`);
   tag(L - 18, -20, 14, 20, 'NOSEBAR (descarga)');
   if (opts.lbp) {
     tag(xDrv - 740, -285, -10, -26, 'catenaria: sag 130 (Movex 50-150)');
-    tag(xDrv - 1660, -160, -10, -34, 'zapatas de retorno UHMW cada ~500 (Movex)');
+    tag(xDrv - 1660, -160, -10, -34, 'rodillos retorno O63.5 eje muerto O15 (2x 6202-2RS sellados, perno hex M8 por fuera) cada ~500');
   } else {
-    tag(L / 2 - 20, -180, -14, -30, 'rodillo de retorno O63.5 (Movex D>50)');
+    tag(L / 2 - 20, -180, -14, -30, 'rodillo retorno O63.5 eje muerto O15 (6202-2RS sellados, perno hex M8 por fuera)');
   }
 
   const notas = [
     `Banda: ${doc.meta.nombre} · lazo ${(doc.meta.largo_banda_lazo_mm / 1000).toFixed(2)} m · wrap motriz ${opts.wrap}° (Movex 140±10)`,
     `Ancho banda 457.2 (18 in) · entre placas 470 · exterior 482 · holgura lateral 6.4/lado (dilatación POM + 5 básica)`,
-    'Ejes: ver láminas LBP530-EJ-01/02/03 (fabricación y corte de barras). Datos Movex: input/web_facts.json.',
+    'Ejes: láminas LBP530-EJ-01/02/03 · estructura tipo ZP2026 (soportes B_005A, travesaños TR_S) · guía apoyo BAR CAP P101203-30 · lateral conical rail L 1-1/4 P12501C · cotización 26012937 en input/docs/.',
   ];
   notas.forEach((t, i) => sh.text(t, 24, 60 - i * 5, 2.6, 'L'));
 
@@ -111,13 +111,13 @@ function gaSheet(docFile, opts) {
 
 const sheets = [
   gaSheet('lbp530_5m.json', {
-    den: 20, lbp: true, nSprk: dims.belt.nSprkLBP, wrap: 135,
-    noseArt: 'especial 530 LBP art. 22868', designacion: 'CV-LBP-5000 — arreglo general (Movex 530 LBP 18 in × 5.0 m)',
+    den: 20, lbp: true, nSprk: dims.belt.nSprkLBP, wrap: 140.8,
+    noseArt: 'P22868 h19 c/rodamientos', designacion: 'CV-LBP-5000 — arreglo general (Movex 530 LBP 18 in × 5.0 m)',
     numPlano: 'LBP530-GA-01',
   }),
   gaSheet('lbp530_gt08.json', {
-    den: 5, lbp: false, nSprk: dims.belt.nSprkGT, wrap: 133,
-    noseArt: '530 art. 22809', designacion: 'CV-GT-800 — arreglo general (Movex 530 GT friction top 18 in × 0.8 m)',
+    den: 5, lbp: false, nSprk: dims.belt.nSprkGT, wrap: 139,
+    noseArt: 'P22862 h19 c/rodamientos', designacion: 'CV-GT-800 — arreglo general (Movex 530 GT friction top 18 in × 0.8 m)',
     numPlano: 'LBP530-GA-02',
   }),
 ];

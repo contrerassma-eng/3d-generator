@@ -50,3 +50,18 @@ herramienta CAD/componentes + S6 para planos. Todos los datos del fabricante
 Movex se registran con URL, fecha y cita en `input/web_facts.json`; lo que no
 se encontró publicado se declara como SUPUESTO capa user y se marca
 "verificar contra manual/muestra física antes de fabricar".
+
+## Actualización 2026-07-20 (capa user — cotización Movex 26012937 adjunta)
+
+- Sprockets y anillos: los de la cotización — **rueda moldeada Z-32
+  (P158808YF), bore cuadrado 1.5 in con grano M8** + **collarines P21703Y**;
+  montaje según indicaciones Movex (solo el central fijo, resto flotante).
+- Nosebar en ambas puntas: **con rodamientos** (LBP: P22868 h19; GT: P22862).
+- Guía de apoyo y lateral: **enrollables de la cotización** — bar cap UHMW
+  P101203-30 sobre pletina 12 (apoyo) y conical rail T/L (lateral).
+- Retorno: **rodillos con rodamiento sellado inserto (6202-2RS), eje muerto
+  perforado y roscado**: desde FUERA de la estructura entra un **perno
+  hexagonal M8 por cada lado** y fija el eje (decisión del usuario; el manual
+  Movex sugiere zapatas para LBP — desviación registrada).
+- Patas: equivalente a los **soportes del ZP2026 (B_005A)**; travesaños de la
+  estructura: **los del ZP2026 (TR_S)**.

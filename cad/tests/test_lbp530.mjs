@@ -59,14 +59,18 @@ for (const [file, tipo] of [['ensambles/lbp530_5m.json', 'LBP'], ['ensambles/lbp
   const banda = doc.parts.find(p => p.name.includes('Banda'));
   check('banda: lazo cerrado (exterior + vaciado)', banda && banda.features.length === 2
     && banda.features[0].params.pts.length > 100 && banda.features[1].op === 'cut');
+  const rets = doc.parts.filter(p => p.name.includes('Rodillo retorno'));
   if (tipo === 'LBP') {
-    check('retorno por zapatas (manual Movex para LBP)', doc.parts.filter(p => p.name.includes('Zapata')).length >= 6);
+    check('retorno por rodillos de eje muerto cada ~500 (decisión usuario)', rets.length >= 7, `hay ${rets.length}`);
     check('rodillos LBP presentes', doc.parts.some(p => p.name.includes('Rodillos LBP')));
     check('catenaria dentro de 50–150', doc.meta.verificaciones.sagCatenariaLBP >= 50 && doc.meta.verificaciones.sagCatenariaLBP <= 150);
   } else {
-    check('retorno por rodillo Ø63.5 (D>50)', doc.parts.some(p => p.name.includes('Rodillo retorno')));
+    check('retorno por rodillo Ø63.5 (D>50)', rets.length >= 1);
     check('goma grip top presente', doc.parts.some(p => p.name.includes('Grip Top')));
   }
+  check('rodillo retorno: perno hex M8 por fuera en ambos lados', rets.every(p =>
+    p.features.filter(f => f.name.includes('Perno hex M8')).length === 2));
+  check('collarines P21703Y flanquean el sprocket central', doc.parts.filter(p => p.name.includes('Collarín')).length === 2);
   // regeneración CSG de los ejes (piezas de torno)
   for (const nm of ['EJE MOTRIZ', 'EJE TENSOR']) {
     const part = doc.parts.find(p => p.name.includes(nm));

@@ -238,5 +238,85 @@
     "accessed": "2026-07-19",
     "quote": "(no aparece en el manual: dato NO publicado por Movex)",
     "confidence": "baja"
+  },
+  {
+    "id": "cot_sprocket_z32",
+    "claim": "Cotización 26012937 — sprocket ofertado: rueda moldeada Z-32 serie 525-530, bore cuadrado 1.5 in, con grano M8",
+    "value": "P158808YF · €17.42 · 100+52 pzas",
+    "unit": "EUR/pza",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "RUOTA STAMP TRAINO DIV SERIE 525-530 Z-32 df 1.1/2''x1.1/2'' c/GRANO M8 — P158808YF 17,42",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_collar",
+    "claim": "Cotización — collarín de referencia para eje cuadrado 1.5 in",
+    "value": "P21703Y · €2.32 · 36+24 pzas",
+    "unit": "EUR/pza",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "COLLARE DI RIFERIMENTO df 1.1/2''x1.1/2'' — P21703Y 2,32",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_nosebar_lbp",
+    "claim": "Cotización — nosebar 530 LBP CON RODAMIENTOS h19, L=6 in, 6 agujeros, BluLub",
+    "value": "P22868 · €38.73 · 51 pzas",
+    "unit": "EUR/pza",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "PIASTRA di TRASFERIMENTO ''NOSEBAR'' h19mm c/CUSCINETTI L 152,4mm/6'' 6 FORI BluLub per 530PRO LBP — P22868 38,73",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_nosebar_gt",
+    "claim": "Cotización — transfer plate CON RODAMIENTOS h19 L=6 in (para el GT)",
+    "value": "P22862 · €31.00 · 51 pzas",
+    "unit": "EUR/pza",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "TRANSFER PLATE WITH BEARINGS h=19mm L=6\" — P22862 31,00",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_banda_lbp",
+    "claim": "Cotización — banda 530 LBP LFA 18 in",
+    "value": "P5324010018A · €174.85/m · 90.3 m",
+    "unit": "EUR/m",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "MODULAR BELT LFA 530 LBP W 18'' — P5324010018A 174,85 · mt 90,300",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_banda_gt",
+    "claim": "Cotización — banda 530 GT LFA 18 in",
+    "value": "P5323010018A · €243.18/m · 18 m",
+    "unit": "EUR/m",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "MODULAR BELT LFA 530 GT W18'' — P5323010018A 243,18 · mt 18,000",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_bar_cap",
+    "claim": "Cotización — bar cap UHMW enrollable para pletina 1/2 in / 12 mm (guía de apoyo)",
+    "value": "P101203-30 · €6.96/m · 300+60 m (rollos de 30 m)",
+    "unit": "EUR/m",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "BAR CAP 17,53x19,05 Th1/2''/12mm WHITE UHMW-PE L=100ft/30m — P101203-30 6,96",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_conical_rails",
+    "claim": "Cotización — conical rails enrollables (guía lateral)",
+    "value": "T 1 in P12201C €17.14/m ×156 m · T 40 mm P12401C €18.63/m ×105 m · L 1¼ in P12501C €23.08/m ×105 m",
+    "unit": "EUR/m",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "CONICAL RAIL T-SHAPE W1,00'' WHITE SS L=10ft/3m / STEEL Th1,5mm — P12201C · T-Shape CONICAL RAIL W=40mm Ti-WHITE SS Aisi304 Th.1,5 — P12401C · L-Shape CONICAL RAIL W=1.1/4'' Ti-WHITE SS Aisi304 Th.1,5 — P12501C",
+    "confidence": "alta"
   }
 ]

@@ -193,24 +193,28 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
   sh.text('Kerf de sierra considerado: 9 mm por corte (incluido en el largo de corte). Refrentar a largo final en torno.', 24, 224, 2.6, 'L');
 
   // tabla: acero + normalizados
+  const cm = dims.compraMovex;
   const rows1 = [
     ['POS', 'DESCRIPCIÓN', 'CANT', 'OBSERVACIÓN'],
     ['A1', 'Barra CUADRADA 1.5 in (38.1) SAE 1045 calibrada × 6 m', '2 (+1 resp.)', 'ejes motriz y tensor — ver diagrama'],
     ['A2', 'Chumacera de brida UCF206 (bore Ø30, 4 pernos)', '32', '4 por transportador (2 ejes × 2)'],
     ['A3', 'Chaveta DIN 6885 A 8×7×90, acero C45', '8 (+4 resp.)', '1 por eje motriz'],
     ['A4', 'Arandela retención Ø40×6 + tornillo M10×25 8.8', '8', 'retención axial del motorreductor'],
-    ['A5', 'Motorreductor eje hueco Ø30 H7, 0.37 kW, n2 ~ 55 rpm, par >= 64 Nm', '8', 'montaje directo + brazo de torque'],
-    ['A6', 'Collarín/retén para sprocket central en eje cuadrado 1.5 in', '16 pares', 'solo el sprocket central se fija'],
+    ['A5', 'Motorreductor eje hueco Ø30 H7, 0.37 kW, n2 ~ 42 rpm, par >= 85 Nm', '8', 'montaje directo + brazo de torque (Z32: 41.5 rpm p/ 20 m/min)'],
+    ['A6', 'Rodillo retorno Ø63.5: tubo + 2 rodam. 6202-2RS sellados insertos', `${8 + 4 + 4} aprox`, 'eje muerto Ø15 rosc. M8 int.; PERNO HEX M8 + golilla POR FUERA'],
     ['A7', 'Perno M12×40 8.8 + tuerca (chumaceras a mecha PL8)', '128', '4 por chumacera'],
+    ['A8', 'Soporte tipo ZP2026 (B_005A) plegado 3 mm + nivelador; travesaños TR_S C 88×40', '16 sop.', 'misma matriz/planos del ZP2026'],
   ];
   const rows2 = [
-    ['POS', 'MOVEX (movexii.com) — capa web: input/web_facts.json', 'CANT', 'OBSERVACIÓN'],
-    ['M1', `Banda 530 LBP 18 in LFA — art. 5324010018A`, `${dims.compraMovex.banda_530LBP_18in.metros} m (${dims.compraMovex.banda_530LBP_18in.rollos15}+1 rollos 1.5 m)`, `lazo ${dims.lazos_m.LBP_5000} m × 4 equipos`],
-    ['M2', `Banda 530 GT (friction top) 18 in LFA — art. 5323*0018A`, `${dims.compraMovex.banda_530GT_18in.metros} m (${dims.compraMovex.banda_530GT_18in.rollos15}+1 rollos 1.5 m)`, `lazo ${dims.lazos_m.GT_800} m × 4 equipos`],
-    ['M3', 'Sprocket Z24 partido, PD 114.9, BORE CUADRADO 1.5 in — art. 158308YF', `${dims.compraMovex.sprockets_Z24_cuadrado15.cantidad}`, 'LBP 5+2 · GT 6+2 por equipo; sólo 1 fijo/eje'],
-    ['M4', 'Nosebar especial 530 LBP (doble cara) — art. 22868 (K=6 in)', `${dims.compraMovex.nosebar_LBP.cantidad}`, '3×K6 = 18 in por punta × 2 puntas × 4 LBP'],
-    ['M5', 'Nosebar 530 BluLub — art. 22809 (K=6 in)', `${dims.compraMovex.nosebar_GT.cantidad}`, 'ídem para los 4 GT'],
-    ['M6', 'Perfil wearstrip UHMW y zapata de retorno LBP (tipo R230)', 'según obra', 'LBP: strips entre rodillos, gap <=50'],
+    ['POS', 'MOVEX — COTIZACIÓN 26012937 (09-07-2026, EUR EXW) — input/docs/', 'NECESARIO / COTIZADO', 'OBSERVACIÓN'],
+    ['M1', `Banda 530 LBP 18 in LFA — ${cm.banda_530LBP_18in.art} (EUR ${cm.banda_530LBP_18in.precioEUR_m}/m)`, `${cm.banda_530LBP_18in.necesario_m} m / ${cm.banda_530LBP_18in.cotizado_m} m`, `lazo ${dims.lazos_m.LBP_5000} m × 4; cotizado cubre ~2×`],
+    ['M2', `Banda 530 GT 18 in LFA — ${cm.banda_530GT_18in.art} (EUR ${cm.banda_530GT_18in.precioEUR_m}/m)`, `${cm.banda_530GT_18in.necesario_m} m / ${cm.banda_530GT_18in.cotizado_m} m`, `lazo ${dims.lazos_m.GT_800} m × 4`],
+    ['M3', `Sprocket Z-32 MOLDEADO bore cuadrado 1.5 in c/grano M8 — ${cm.sprockets_Z32_cuadrado15.art} (EUR ${cm.sprockets_Z32_cuadrado15.precioEUR})`, `${cm.sprockets_Z32_cuadrado15.necesario} / ${cm.sprockets_Z32_cuadrado15.cotizado}`, 'LBP 5+2 · GT 6+2; sólo 1 fijo/eje (grano M8)'],
+    ['M4', `Collarín de referencia 1.5×1.5 in — ${cm.collarines.art} (EUR ${cm.collarines.precioEUR})`, `${cm.collarines.necesario} / ${cm.collarines.cotizado}`, '2 por eje, flanquean el sprocket central'],
+    ['M5', `Nosebar 530 LBP h19 C/RODAMIENTOS L=6 in — ${cm.nosebar_LBP.art} (EUR ${cm.nosebar_LBP.precioEUR})`, `${cm.nosebar_LBP.necesario} / ${cm.nosebar_LBP.cotizado}`, '3 por punta × 2 puntas × 4 LBP'],
+    ['M6', `Transfer plate C/RODAMIENTOS h19 L=6 in — ${cm.nosebar_GT.art} (EUR ${cm.nosebar_GT.precioEUR})`, `${cm.nosebar_GT.necesario} / ${cm.nosebar_GT.cotizado}`, 'ídem para los 4 GT'],
+    ['M7', `BAR CAP UHMW 17.53×19.05 p/pletina 12 — ${cm.bar_cap.art} (EUR ${cm.bar_cap.precioEUR_m}/m)`, `— / ${cm.bar_cap.cotizado_m} m`, 'guía de APOYO enrollable (rollo 30 m); LBP gap <=50'],
+    ['M8', `Conical rail enrollable: T 1 in ${cm.conical_rail_T1.art} · T 40 ${cm.conical_rail_T40.art} · L 1¼ ${cm.conical_rail_L114.art}`, `— / ${cm.conical_rail_T1.cotizado_m}+${cm.conical_rail_T40.cotizado_m}+${cm.conical_rail_L114.cotizado_m} m`, 'guía LATERAL (L 1¼ en el modelo); resto según layout'],
   ];
   const table = (rows, y0) => {
     const cx = [24, 40, 250, 306];
@@ -222,13 +226,13 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
     sh.line([24, y0 + 5], [396, y0 + 5], 'NORMA');
   };
   table(rows1, 208);
-  table(rows2, 138);
+  table(rows2, 142);
   const notas = [
     'Cálculo (memoria en projects/LBP530-18/out/MEMORIA_EJES.md): tiro de banda LBP ~ 0.8 kN (7% de la carga admisible',
-    'Movex 24 kN/m×0.457; límite de diseño 50%) · par en eje ~ 43 Nm · torsión muñón O30 ~ 8 MPa (SF>7) · deflexión ~ 0.06 mm',
-    '(supuesto industria <=2.5 mm) · wrap motriz 135° (Movex 140±10°) · velocidad 20 m/min -> 55 rpm (PD 114.9).',
+    'Movex 24 kN/m×0.457; límite de diseño 50%) · par en eje ~ 58 Nm (Z32, PD 153.4) · torsión muñón O30 ~ 11 MPa (SF>5)',
+    '· deflexión ~ 0.06 mm (supuesto industria <=2.5 mm) · wrap motriz 141°/139° (Movex 140±10°) · 20 m/min -> 41.5 rpm.',
   ];
-  notas.forEach((t, i) => sh.text(t, 24, 88 - i * 4.6, 2.5, 'L'));
+  notas.forEach((t, i) => sh.text(t, 24, 64 - i * 4.6, 2.5, 'L'));
 
   sh.frame();
   sh.titleBlock({

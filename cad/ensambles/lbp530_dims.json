@@ -28,21 +28,24 @@
    "dureza": "75 ShA (disp. 50 ShA)"
   },
   "sprocket": {
-   "z": 24,
-   "pd": 114.9,
-   "od": 115.5,
-   "ancho": 24,
-   "S": 53.5,
-   "art": "158308YF bore cuadrado 1.5 in, partido, poliamida"
+   "z": 32,
+   "pd": 153.4,
+   "od": 154.8,
+   "ancho": 40,
+   "S": 72.5,
+   "art": "P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)"
   },
+  "collar": "P21703Y — collare di riferimento 1.5 in × 1.5 in (cotización)",
   "nSprkLBP": 5,
   "indentLBP": 76.2,
   "nSprkGT": 6,
   "indentGT": 38.1,
   "stepSprk": 76.2,
   "noseR": 9.5,
-  "noseArtLBP": "22867 (K3) / 22868 (K6) — nosebar especial 530 LBP doble cara",
-  "noseArtGT": "22808 (K3) / 22809 (K6) — nosebar 530 BluLub",
+  "noseArtLBP": "P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",
+  "noseArtGT": "P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+  "barCap": "P101203-30 — BAR CAP 17.53×19.05 UHMW blanco p/pletina 12 mm, rollo 30 m (cotización)",
+  "railLateral": "P12501C — L-Shape CONICAL RAIL 1¼ in AISI304+Ti-WHITE, enrollable (cotización; también T 1 in P12201C y T 40 mm P12401C)",
   "rolloM": 1.5
  },
  "D": {
@@ -79,26 +82,41 @@
   "xMotrizDesdePunta": 120,
   "zTensor": -290,
   "xTensorDesdePunta": 300,
-  "zapataTop": -150,
-  "zapataCada": 500,
-  "zapataR": 25,
+  "retTop": -150,
+  "retCada": 500,
   "gtRetDia": 63.5,
+  "retEjeDia": 15,
+  "retPernoM": 8,
   "sagR": 600,
   "sagBot": -280,
   "catenLen": 750,
   "wearLBP": {
-   "n": 10,
-   "w": 15,
-   "h": 10
+   "n": 10
   },
   "wearGT": {
-   "n": 7,
-   "w": 25,
-   "h": 10
+   "n": 7
   },
-  "guiaAlto": 40,
+  "barCap": {
+   "w": 17.53,
+   "h": 19.05
+  },
+  "pletina": {
+   "t": 12,
+   "h": 30
+  },
+  "guiaAlto": 32,
   "pisoZ": -900,
-  "pataPerfil": 50,
+  "sop": {
+   "w": 203,
+   "d": 95,
+   "t": 3,
+   "pie": 120
+  },
+  "travC": {
+   "w": 88,
+   "h": 40,
+   "t": 3
+  },
   "motor": {
    "cuerpo": [
     230,
@@ -113,7 +131,7 @@
   "sqLen": 466,
   "ejeMotrizL": 681,
   "ejeTensorL": 566,
-  "rSprk": 53.1,
+  "rSprk": 72.35,
   "ySprkLBP": [
    -152.4,
    -76.2,
@@ -131,8 +149,8 @@
   ]
  },
  "lazos_m": {
-  "LBP_5000": 10.79,
-  "GT_800": 2.45
+  "LBP_5000": 10.87,
+  "GT_800": 2.54
  },
  "ejes": {
   "motriz": {
@@ -210,29 +228,69 @@
  },
  "compraMovex": {
   "banda_530LBP_18in": {
-   "art": "5324010018A",
-   "metros": 43.16,
-   "rollos15": 29,
-   "nota": "rollos de 1.5 m (100 pasos); pedir +1 rollo de repuesto"
+   "art": "P5324010018A",
+   "precioEUR_m": 174.85,
+   "necesario_m": 43.48,
+   "cotizado_m": 90.3,
+   "nota": "cotizado cubre ~2× (repuesto/futuras líneas); rollos de 1.5 m"
   },
   "banda_530GT_18in": {
-   "art": "5323*0018A (LFA)",
-   "metros": 9.8,
-   "rollos15": 7
+   "art": "P5323010018A",
+   "precioEUR_m": 243.18,
+   "necesario_m": 10.16,
+   "cotizado_m": 18
   },
-  "sprockets_Z24_cuadrado15": {
-   "art": "158308YF",
-   "cantidad": 60,
-   "detalle": "LBP: 5 motriz + 2 locos · GT: 6 motriz + 2 locos, por transportador"
+  "sprockets_Z32_cuadrado15": {
+   "art": "P158808YF",
+   "precioEUR": 17.42,
+   "necesario": 60,
+   "cotizado": 152,
+   "detalle": "rueda moldeada Z-32 c/grano M8; LBP 5+2 · GT 6+2 por transportador"
+  },
+  "collarines": {
+   "art": "P21703Y",
+   "precioEUR": 2.32,
+   "necesario": 32,
+   "cotizado": 60,
+   "detalle": "2 por eje (flanquean el sprocket central fijo)"
   },
   "nosebar_LBP": {
-   "art": "22868 (K=6 in)",
-   "cantidad": 24,
-   "detalle": "3 × K6 = 18 in por punta, 2 puntas por LBP"
+   "art": "P22868",
+   "precioEUR": 38.73,
+   "necesario": 24,
+   "cotizado": 51,
+   "detalle": "h19 C/RODAMIENTOS, L=6 in: 3 por punta × 2 puntas × 4 LBP"
   },
   "nosebar_GT": {
-   "art": "22809 (K=6 in)",
-   "cantidad": 24
+   "art": "P22862",
+   "precioEUR": 31,
+   "necesario": 24,
+   "cotizado": 51,
+   "detalle": "transfer plate C/RODAMIENTOS h19, L=6 in"
+  },
+  "bar_cap": {
+   "art": "P101203-30",
+   "precioEUR_m": 6.96,
+   "cotizado_m": 360,
+   "detalle": "BAR CAP UHMW 17.53×19.05 p/pletina 12 — guía de APOYO enrollable (rollo 30 m)"
+  },
+  "conical_rail_T1": {
+   "art": "P12201C",
+   "precioEUR_m": 17.14,
+   "cotizado_m": 156,
+   "detalle": "T-shape 1 in blanco/acero 1.5 — guía lateral/apoyo según layout"
+  },
+  "conical_rail_T40": {
+   "art": "P12401C",
+   "precioEUR_m": 18.63,
+   "cotizado_m": 105,
+   "detalle": "T-shape 40 mm Ti-WHITE AISI304"
+  },
+  "conical_rail_L114": {
+   "art": "P12501C",
+   "precioEUR_m": 23.08,
+   "cotizado_m": 105,
+   "detalle": "L-shape 1¼ in Ti-WHITE AISI304 — guía LATERAL del modelo"
   }
  }
 }

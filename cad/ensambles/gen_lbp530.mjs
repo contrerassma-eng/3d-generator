@@ -60,12 +60,17 @@ export const BELT = {
   maxLoadGT: 26000, pesoGT: 10.6,   // web: movex530gt_friction_top (LFA)
   lbp: { alturaTotal: 12.2, rodDia: 12.2, protru: 1.75, filaCada: 152.4 / 3, material: 'POM rojo, 700 rod/m²' },
   gt: { goma: 2.0, alturaTotal: 10.7, dureza: '75 ShA (disp. 50 ShA)' },
-  sprocket: { z: 24, pd: 114.9, od: 115.5, ancho: 24, S: 53.5, art: '158308YF bore cuadrado 1.5 in, partido, poliamida' },
+  // Cotización MOVEX 26012937 (input/docs/): rueda MOLDEADA (stampata) Z-32
+  // serie 525-530, bore cuadrado 1.5 in, c/GRANO M8 — art. P158808YF
+  sprocket: { z: 32, pd: 153.4, od: 154.8, ancho: 40, S: 72.5, art: 'P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)' },
+  collar: 'P21703Y — collare di riferimento 1.5 in × 1.5 in (cotización)',
   nSprkLBP: 5, indentLBP: 76.2,     // web: movex530_n_sprockets_18in (manual)
   nSprkGT: 6, indentGT: 38.1, stepSprk: 76.2,
-  noseR: 9.5,                  // web: movex530_nosebar (R0.37 in BluLub)
-  noseArtLBP: '22867 (K3) / 22868 (K6) — nosebar especial 530 LBP doble cara',
-  noseArtGT: '22808 (K3) / 22809 (K6) — nosebar 530 BluLub',
+  noseR: 9.5,                  // nosebar h19 c/rodamientos (Ø19 → R9.5)
+  noseArtLBP: 'P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)',
+  noseArtGT: 'P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)',
+  barCap: 'P101203-30 — BAR CAP 17.53×19.05 UHMW blanco p/pletina 12 mm, rollo 30 m (cotización)',
+  railLateral: 'P12501C — L-Shape CONICAL RAIL 1¼ in AISI304+Ti-WHITE, enrollable (cotización; también T 1 in P12201C y T 40 mm P12401C)',
   rolloM: 1.5,                 // rollos de 1.5 m (ancho >12 in) — movex530lbp_suministro
 };
 
@@ -95,18 +100,26 @@ export const D = {
   // Camino de banda / tracción (manual Movex: wrap motriz 140±10°)
   zMotriz: -400, xMotrizDesdePunta: 120,   // motriz ABAJO, lado descarga (honda: wrap 135°)
   zTensor: -290, xTensorDesdePunta: 300,   // deflexión inferior, lado entrada
-  zapataTop: -150, zapataCada: 500,        // retorno LBP: zapatas cada ~500
-  zapataR: 25,                             // radio de entrada de la zapata (≥ backflex)
-  gtRetDia: 63.5,                          // retorno GT: rodillo Ø63.5 (>50)
+  retTop: -150, retCada: 500,              // retorno: rodillos cada ~500 (decisión usuario)
+  gtRetDia: 63.5,                          // rodillo retorno Ø63.5 (manual: D>50)
+  // rodillo de retorno de EJE MUERTO (decisión usuario): tubo Ø63.5 con 2
+  // rodamientos SELLADOS 6202-2RS insertos; eje Ø15 perforado y roscado M8
+  // en ambas puntas → perno hexagonal M8 + golilla POR FUERA de la placa
+  retEjeDia: 15, retPernoM: 8,
   sagR: 600, sagBot: -280,                 // catenaria tras la motriz (sag 130 ≤ 150)
   catenLen: 750,                           // largo de catenaria (manual: 500–900)
 
-  // Desgaste / apoyo (LBP: strips ENTRE los carriles de rodillos, gap ≤50)
-  wearLBP: { n: 10, w: 15, h: 10 },
-  wearGT: { n: 7, w: 25, h: 10 },
+  // Guía de APOYO (carried way): pletina de canto 12 mm + BAR CAP UHMW
+  // 17.53×19.05 enrollable (P101203-30). LBP: entre carriles, gap ≤50.
+  wearLBP: { n: 10 }, wearGT: { n: 7 },
+  barCap: { w: 17.53, h: 19.05 }, pletina: { t: 12, h: 30 },
 
-  guiaAlto: 40,
-  pisoZ: -900, pataPerfil: 50,
+  // Guía LATERAL: conical rail enrollable L 1¼ in (P12501C) sobre escuadras
+  guiaAlto: 32,
+  pisoZ: -900,
+  // Soportes tipo ZP2026 (B_005A 203×95) y travesaños tipo ZP2026 (TR_S, C 88×40)
+  sop: { w: 203, d: 95, t: 3, pie: 120 },
+  travC: { w: 88, h: 40, t: 3 },
   motor: { cuerpo: [230, 180, 200], boss: 62, bossL: 120 },
 };
 
@@ -197,15 +210,15 @@ function beltPath(L, tipo, zci) {
   const xDrv = L - D.xMotrizDesdePunta;
   seq.push({ c: [xDrv, D.zMotriz], r: D.rSprk, s: -1, rol: 'motriz' });
   if (tipo === 'LBP') {
-    // snub Ø63.5 tras la motriz (completa la envoltura a ~135°), luego
-    // catenaria (manual: sag 50–150) y zapatas cada ~500 hasta el tensor
+    // snub Ø63.5 tras la motriz (completa la envoltura), luego catenaria
+    // (manual: sag 50–150) y RODILLOS de retorno cada ~500 hasta el tensor
     seq.push({ c: [xDrv - 300, -150], r: D.gtRetDia / 2, s: 1, rol: 'snub' });
     seq.push({ c: [xDrv - 740, D.sagBot + D.sagR], r: D.sagR, s: -1, virtual: true, rol: 'catenaria' });
-    for (let x = xDrv - 1160; x > D.xTensorDesdePunta + 350; x -= D.zapataCada) {
-      seq.push({ c: [x, D.zapataTop - D.zapataR], r: D.zapataR, s: 1, rol: 'zapata' });
+    for (let x = xDrv - 1160; x > D.xTensorDesdePunta + 350; x -= D.retCada) {
+      seq.push({ c: [x, D.retTop - D.gtRetDia / 2], r: D.gtRetDia / 2, s: 1, rol: 'ret' });
     }
   } else {
-    seq.push({ c: [L / 2 - 20, -170], r: D.gtRetDia / 2, s: 1, rol: 'retGT' });
+    seq.push({ c: [L / 2 - 20, -170], r: D.gtRetDia / 2, s: 1, rol: 'ret' });
   }
   seq.push({ c: [D.xTensorDesdePunta, D.zTensor], r: D.rSprk, s: -1, rol: 'tensor' });
   return seq;
@@ -270,11 +283,22 @@ function ejeTensor(xc, zc) {
 }
 
 function sprocket(xc, yc, zc) {
-  // Z24 partido: disco OD 115.5 × 24, bore cuadrado 38.1 (+0.4/+0.3 flotante)
+  // Z-32 MOLDEADO (P158808YF): corona OD 154.8, cuerpo 40 de ancho, bore
+  // cuadrado 38.4 (flotante +0.4/+0.3), prisionero (grano) M8 en el cubo
   const { od, ancho } = BELT.sprocket;
   return [
-    cyl(`Disco Z24 OD ${od}`, [xc, yc - ancho / 2, zc], [0, 1, 0], od, ancho),
+    cyl(`Corona Z32 OD ${od}`, [xc, yc - 12, zc], [0, 1, 0], od, 24),
+    cyl('Cuerpo moldeado', [xc, yc - ancho / 2, zc], [0, 1, 0], od - 40, ancho),
     box('Bore cuadrado 38.4', [xc, yc, zc], 38.4, ancho + 4, 38.4, 'cut'),
+  ];
+}
+
+function collar(xc, yc, zc) {
+  // Collarín de referencia P21703Y 1.5×1.5 in: fija axialmente el sprocket
+  // CENTRAL (los demás flotan) — indicación Movex
+  return [
+    cyl('Collarín P21703Y', [xc, yc - 5, zc], [0, 1, 0], 60, 10),
+    box('Bore cuadrado 38.3', [xc, yc, zc], 38.3, 14, 38.3, 'cut'),
   ];
 }
 
@@ -325,24 +349,28 @@ function build(tipo, L) {
     addPart(`FAB · Placa lateral ${nm} PL6 L=${L}`, C.placa, [L / 2, y, D.plTop], f);
   }
 
-  // ---- Travesaños 40×40 ----
+  // ---- Travesaños tipo ZP2026 (TR_S): perfil C plegado 88×40×3 ----
   const pasoT = esLBP ? D.pasoTravLBP : D.pasoTravFT;
+  const zTv = D.plTop - D.plAlto + 22;
   for (let x = pasoT / 2; x < L; x += pasoT) {
-    addPart('FAB · Travesaño 40×40×3', C.trav, [x, 0, D.plTop - D.plAlto + 22], [
-      box('Tubo 40×40', [x, 0, D.plTop - D.plAlto + 22], D.travesanio, D.innerW, D.travesanio),
+    addPart('FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3', C.trav, [x, 0, zTv], [
+      box('Alma C 88', [x, 0, zTv - D.travC.h / 2 + D.travC.t / 2], D.travC.w, D.innerW, D.travC.t),
+      box('Ala +X', [x + D.travC.w / 2 - D.travC.t / 2, 0, zTv], D.travC.t, D.innerW, D.travC.h),
+      box('Ala −X', [x - D.travC.w / 2 + D.travC.t / 2, 0, zTv], D.travC.t, D.innerW, D.travC.h),
     ]);
   }
 
-  // ---- Wearstrips UHMW del carried way ----
-  // LBP: ENTRE los carriles de rodillos, gap ≤50 (web: movex_wearstrips_lbp).
+  // ---- Guía de APOYO (carried way): pletina de canto 12 + BAR CAP UHMW
+  // enrollable P101203-30 (cotización). LBP: entre carriles, gap ≤50.
   const wear = esLBP ? D.wearLBP : D.wearGT;
   const spanW = BELT.ancho - 40;
   const wearL = L - 2 * (BELT.noseR + BELT.esp + 25);
   for (let i = 0; i < wear.n; i++) {
     const y = -spanW / 2 + (i + 0.5) * spanW / wear.n;
-    addPart(`NORM · Wearstrip UHMW ${wear.w}×${wear.h} (junta 6–10, fijo lado tensor)`, C.uhmw,
-      [L / 2, y, zci - wear.h / 2], [
-        box('UHMW', [L / 2, y, zci - wear.h / 2], wearL, wear.w, wear.h),
+    addPart(`NORM · Guía de apoyo: pletina 12×${D.pletina.h} + BAR CAP ${D.barCap.w}×${D.barCap.h} (${BELT.barCap.split(' — ')[0]})`, C.uhmw,
+      [L / 2, y, zci - D.barCap.h / 2], [
+        box('Bar cap UHMW', [L / 2, y, zci - D.barCap.h / 2], wearL, D.barCap.w, D.barCap.h),
+        box('Pletina 12 de canto', [L / 2, y, zci - D.barCap.h - D.pletina.h / 2 + 6], wearL, D.pletina.t, D.pletina.h),
       ]);
   }
 
@@ -357,26 +385,34 @@ function build(tipo, L) {
     ]);
   }
 
-  // ---- Retorno: LBP zapatas cada ~500 · GT rodillo Ø63.5 ----
+  // ---- Retorno: RODILLOS de eje muerto (decisión usuario, cotización):
+  // tubo Ø63.5 con 2 rodamientos SELLADOS 6202-2RS insertos en los extremos;
+  // eje muerto Ø15 perforado+roscado M8 en ambas caras → PERNO HEXAGONAL M8
+  // + golilla POR FUERA de la placa (misma solución del transfer90 con M10)
   for (const q of path) {
-    if (q.rol === 'zapata') {
-      addPart('FAB · Zapata deslizante UHMW retorno LBP (tipo R230)', C.zapata, [q.c[0], 0, D.zapataTop - 10], [
-        box('Zapata 80×20', [q.c[0], 0, D.zapataTop - 10], 80, D.innerW, 20),
-        box('Soporte plegado 3 mm', [q.c[0], 0, D.zapataTop - 28], 60, D.innerW, 16),
-      ]);
-    } else if (q.rol === 'retGT' || q.rol === 'snub') {
-      addPart(`NORM · Rodillo retorno Ø${D.gtRetDia} (manual: D>50)`, C.ret, [q.c[0], 0, q.c[1]], [
-        cyl(`Tubo Ø${D.gtRetDia}`, [q.c[0], -D.sqLen / 2, q.c[1]], [0, 1, 0], D.gtRetDia, D.sqLen),
-        cyl('Eje Ø12', [q.c[0], -D.innerW / 2 - D.plT, q.c[1]], [0, 1, 0], 12, D.innerW + 2 * D.plT),
-      ]);
+    if (q.rol !== 'ret' && q.rol !== 'snub') continue;
+    const f = [
+      cyl(`Tubo Ø${D.gtRetDia} (2× 6202-2RS insertos)`, [q.c[0], -D.sqLen / 2, q.c[1]], [0, 1, 0], D.gtRetDia, D.sqLen),
+      cyl(`Eje muerto Ø${D.retEjeDia} (roscado M${D.retPernoM} int. ambas puntas)`, [q.c[0], -D.innerW / 2, q.c[1]], [0, 1, 0], D.retEjeDia, D.innerW),
+    ];
+    for (const sd of [-1, 1]) {
+      f.push(cyl(`Perno hex M${D.retPernoM} + golilla (por fuera)`, [q.c[0], sd * (D.innerW / 2 + D.plT), q.c[1]], [0, sd, 0], 13, 6));
     }
+    addPart(`FAB · Rodillo retorno Ø${D.gtRetDia} eje muerto Ø${D.retEjeDia} — 2× 6202-2RS sellados, perno hex M${D.retPernoM}/lado`,
+      C.ret, [q.c[0], 0, q.c[1]], f);
   }
 
   // ---- EJE MOTRIZ (abajo, descarga) + sprockets + chumaceras + motor ----
   addPart(`FAB · EJE MOTRIZ cuadrado ${D.sq} — L=${D.ejeMotrizL} (muñones Ø30 ${D.jrnTol})`, C.eje,
     [xDrv, 0, D.zMotriz], ejeMotriz(xDrv, D.zMotriz));
   for (const y of ySprk) {
-    addPart(`NORM · Sprocket Z24 ${BELT.sprocket.art}`, C.sprk, [xDrv, y, D.zMotriz], sprocket(xDrv, y, D.zMotriz));
+    addPart(`NORM · Sprocket ${BELT.sprocket.art}`, C.sprk, [xDrv, y, D.zMotriz], sprocket(xDrv, y, D.zMotriz));
+  }
+  const yFix = ySprk[Math.floor(ySprk.length / 2)];   // solo el central se fija
+  for (const sd of [-1, 1]) {
+    const yC = yFix + sd * (BELT.sprocket.ancho / 2 + 6);
+    addPart(`NORM · Collarín ${BELT.collar.split(' — ')[0]} (fija el sprocket central)`, C.chum,
+      [xDrv, yC, D.zMotriz], collar(xDrv, yC, D.zMotriz));
   }
   for (const s of [-1, 1]) {
     addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xDrv, s * yOut, D.zMotriz], chumaceraUCF(xDrv, s * yOut, D.zMotriz));
@@ -392,30 +428,38 @@ function build(tipo, L) {
   addPart(`FAB · EJE TENSOR cuadrado ${D.sq} — L=${D.ejeTensorL} (muñones Ø30 ${D.jrnTol})`, C.eje,
     [xTen, 0, D.zTensor], ejeTensor(xTen, D.zTensor));
   for (const y of [ySprk[1], ySprk[ySprk.length - 2]]) {
-    addPart('NORM · Sprocket Z24 loco (flotante +0.4/+0.3)', C.sprk, [xTen, y, D.zTensor], sprocket(xTen, y, D.zTensor));
+    addPart('NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)', C.sprk, [xTen, y, D.zTensor], sprocket(xTen, y, D.zTensor));
   }
   for (const s of [-1, 1]) {
     addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xTen, s * yOut, D.zTensor], chumaceraUCF(xTen, s * yOut, D.zTensor));
   }
 
-  // ---- Guías laterales (acumulación) ----
+  // ---- Guía LATERAL: conical rail ENROLLABLE L 1¼ in (P12501C, cotización)
+  // sobre escuadras regulables; núcleo AISI304 1.5 + cara Ti-WHITE
   for (const s of [-1, 1]) {
-    addPart('FAB · Guía lateral UHMW sobre escuadra', C.guia, [L / 2, s * (yIn - 5), 25], [
-      box('Guía UHMW 15×40', [L / 2, s * (yIn - 5), 25], L - 120, 15, D.guiaAlto),
-    ]);
+    addPart(`NORM · Guía lateral conical rail L 1¼ in (${BELT.railLateral.split(' — ')[0]}) + escuadras`, C.guia,
+      [L / 2, s * (yIn - 5), 25], [
+        box('Cara Ti-WHITE 1¼ in', [L / 2, s * (yIn - 5), 25], L - 120, 6, D.guiaAlto),
+        box('Núcleo/ala AISI304 1.5', [L / 2, s * (yIn - 5) + s * 5, 25 + D.guiaAlto / 2 - 1], L - 120, 12, 2),
+      ]);
   }
 
-  // ---- Patas ----
+  // ---- Soportes tipo ZP2026 (B_005A 203×95, chapa plegada 3 mm) ----
   const patasX = esLBP ? [700, L / 2, L - 700] : [L / 2];
+  const hSop = (D.plTop - D.plAlto) - D.pisoZ;   // frame → NPT (con nivelador)
   for (const x of patasX) {
     for (const s of [-1, 1]) {
-      addPart('FAB · Pata 50×50 regulable', C.pata, [x, s * (yOut - D.pataPerfil / 2), (D.pisoZ + D.plTop - D.plAlto) / 2], [
-        box('Perfil 50×50', [x, s * (yOut - D.pataPerfil / 2), (D.pisoZ + D.plTop - D.plAlto) / 2], D.pataPerfil, D.pataPerfil, (D.plTop - D.plAlto) - D.pisoZ),
-        box('Placa piso 120×120×6', [x, s * (yOut - D.pataPerfil / 2), D.pisoZ + 3], 120, 120, 6),
+      const y = s * (yOut + D.sop.t / 2);
+      const zc = (D.pisoZ + D.plTop - D.plAlto) / 2;
+      addPart('FAB · Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador', C.pata, [x, y, zc], [
+        box('Alma 203', [x, y, zc], D.sop.w, D.sop.t, hSop),
+        box('Ala +X', [x + D.sop.w / 2 - D.sop.t / 2, y - s * (D.sop.d / 2 - D.sop.t / 2), zc], D.sop.t, D.sop.d, hSop),
+        box('Ala −X', [x - D.sop.w / 2 + D.sop.t / 2, y - s * (D.sop.d / 2 - D.sop.t / 2), zc], D.sop.t, D.sop.d, hSop),
+        box('Placa piso + nivelador', [x, y - s * D.sop.d / 4, D.pisoZ + 3], D.sop.pie, D.sop.pie, 6),
       ]);
     }
-    addPart('FAB · Riostra pata 40×40', C.pata, [x, 0, D.pisoZ + 200], [
-      box('Riostra', [x, 0, D.pisoZ + 200], 40, D.outerW - D.pataPerfil, 40),
+    addPart('FAB · Riostra de soportes (tipo ZP2026)', C.pata, [x, 0, D.pisoZ + 200], [
+      box('Riostra C 88×40', [x, 0, D.pisoZ + 200], D.travC.w, D.outerW - D.sop.d, D.travC.h),
     ]);
   }
 
@@ -468,7 +512,7 @@ function verify(res) {
   if (D.chaveta.l > D.cuboMotor - 10) e.push('chavetero más largo que la zona del cubo');
   if (D.ucf.bore !== D.jrnDia) e.push('bore de chumacera ≠ Ø muñón');
   if (BELT.sprocket.od / 2 > Math.abs(D.zMotriz) - 100) e.push('sprocket motriz invade el bastidor');
-  if (D.zapataR < BELT.backflex) e.push(`radio de zapata ${D.zapataR} < backflex ${BELT.backflex}`);
+  if (D.gtRetDia / 2 < BELT.backflex) e.push(`rodillo de retorno R${D.gtRetDia / 2} < backflex ${BELT.backflex}`);
   if (D.gtRetDia <= 50) e.push('rodillo de retorno GT ≤ 50 (manual: D>50)');
   // corte de barras (8+8 ejes, kerf 9 mm)
   const corteM = 8 * (D.ejeMotrizL + 9), corteT = 8 * (D.ejeTensorL + 9);
@@ -481,7 +525,7 @@ function verify(res) {
     if (w < 115 || w > 175) e.push(`${tipo}: envoltura de la motriz ${w}° fuera de rango (objetivo 140±10)`);
     r.wrapMotriz = w;
     // catenaria: profundidad de sag bajo el plano de zapatas (LBP)
-    if (tipo === 'LBP') r.sag = r2(Math.abs(D.sagBot - D.zapataTop));
+    if (tipo === 'LBP') r.sag = r2(Math.abs(D.sagBot - D.retTop));
   }
   if (e.length) throw new Error('Diseño inconsistente:\n  - ' + e.join('\n  - '));
   return { corteM, corteT };
@@ -515,8 +559,9 @@ const metaComun = {
     motorreductor: 'eje hueco Ø30 H7 DIRECTO sobre el muñón motriz + brazo de torque; chaveta DIN 6885 A 8×7×90; retención arandela + tornillo M10',
   },
   traccion: 'motriz ABAJO extremo descarga (wrap objetivo 140±10°, manual Movex); deflexión/tensor abajo extremo entrada; NOSEBAR en ambas puntas',
-  sprockets: `Z24 PD 114.9 OD 115.5 ancho 24, partido, poliamida, BORE CUADRADO 1.5 in (art. 158308YF) — LBP: 5/eje (indent 76.2) · GT: 6/eje (indent 38.1, paso 76.2); SOLO el central FIJO (collarines), resto FLOTAN (+0.4/+0.3): dilatación térmica, manual Movex`,
-  retorno: 'LBP: zapatas deslizantes UHMW (tipo R230) cada ~500 · GT: rodillos Ø63.5 (D>50); catenaria 50–150 tras la motriz, primer apoyo a ~500',
+  sprockets: `Z-32 MOLDEADO PD 153.4 OD 154.8 ancho 40, BORE CUADRADO 1.5 in c/grano M8 (P158808YF, cotización 26012937) — LBP: 5/eje (indent 76.2) · GT: 6/eje (indent 38.1, paso 76.2); SOLO el central FIJO (grano M8 + collarines P21703Y), resto FLOTAN (+0.4/+0.3): dilatación térmica, manual Movex`,
+  retorno: 'RODILLOS Ø63.5 de eje muerto cada ~500 (decisión usuario; manual Movex sugiere zapata para LBP — desviación registrada): tubo con 2 rodamientos SELLADOS 6202-2RS insertos, eje Ø15 roscado M8 interior en ambas puntas, PERNO HEX M8 + golilla POR FUERA de la placa; catenaria 50–150 tras la motriz',
+  estructura: 'soportes tipo ZP2026 (B_005A, chapa plegada 3 mm, 203×95, con nivelador) y travesaños tipo ZP2026 (TR_S, C 88×40×3); guía de apoyo = pletina 12 de canto + BAR CAP UHMW P101203-30 (enrollable, rollo 30 m); guía lateral = conical rail enrollable L 1¼ in P12501C sobre escuadras',
   friction_top: 'GT: goma 75 ShA sobre la banda; el retorno del GT es sobre rodillos (recomendación del manual); la goma no toca el nosebar (contacto por cara interior)',
   verificaciones: {
     wrapMotrizLBP: res.LBP.wrapMotriz, wrapMotrizGT: res.GT.wrapMotriz,
@@ -569,12 +614,20 @@ const dims = {
       comprar: 2, nota: 'considerar 1 barra extra de respaldo',
     },
   },
+  // Cotización MOVEX 26012937 (09-07-2026, EUR, EXW Castelli Calepio) —
+  // projects/LBP530-18/input/docs/Cotizacion_MOVEX_26012937.pdf.
+  // "necesario" = lo que consumen las 4 líneas; "cotizado" = lo ofertado.
   compraMovex: {
-    banda_530LBP_18in: { art: '5324010018A', metros: r2(4 * lazoLBP), rollos15: Math.ceil(4 * lazoLBP / BELT.rolloM), nota: 'rollos de 1.5 m (100 pasos); pedir +1 rollo de repuesto' },
-    banda_530GT_18in: { art: '5323*0018A (LFA)', metros: r2(4 * lazoGT), rollos15: Math.ceil(4 * lazoGT / BELT.rolloM) },
-    sprockets_Z24_cuadrado15: { art: '158308YF', cantidad: 4 * (BELT.nSprkLBP + 2) + 4 * (BELT.nSprkGT + 2), detalle: 'LBP: 5 motriz + 2 locos · GT: 6 motriz + 2 locos, por transportador' },
-    nosebar_LBP: { art: '22868 (K=6 in)', cantidad: 4 * 2 * 3, detalle: '3 × K6 = 18 in por punta, 2 puntas por LBP' },
-    nosebar_GT: { art: '22809 (K=6 in)', cantidad: 4 * 2 * 3 },
+    banda_530LBP_18in: { art: 'P5324010018A', precioEUR_m: 174.85, necesario_m: r2(4 * lazoLBP), cotizado_m: 90.3, nota: 'cotizado cubre ~2× (repuesto/futuras líneas); rollos de 1.5 m' },
+    banda_530GT_18in: { art: 'P5323010018A', precioEUR_m: 243.18, necesario_m: r2(4 * lazoGT), cotizado_m: 18.0 },
+    sprockets_Z32_cuadrado15: { art: 'P158808YF', precioEUR: 17.42, necesario: 4 * (BELT.nSprkLBP + 2) + 4 * (BELT.nSprkGT + 2), cotizado: 152, detalle: 'rueda moldeada Z-32 c/grano M8; LBP 5+2 · GT 6+2 por transportador' },
+    collarines: { art: 'P21703Y', precioEUR: 2.32, necesario: 2 * 16, cotizado: 60, detalle: '2 por eje (flanquean el sprocket central fijo)' },
+    nosebar_LBP: { art: 'P22868', precioEUR: 38.73, necesario: 4 * 2 * 3, cotizado: 51, detalle: 'h19 C/RODAMIENTOS, L=6 in: 3 por punta × 2 puntas × 4 LBP' },
+    nosebar_GT: { art: 'P22862', precioEUR: 31.0, necesario: 4 * 2 * 3, cotizado: 51, detalle: 'transfer plate C/RODAMIENTOS h19, L=6 in' },
+    bar_cap: { art: 'P101203-30', precioEUR_m: 6.96, cotizado_m: 360, detalle: 'BAR CAP UHMW 17.53×19.05 p/pletina 12 — guía de APOYO enrollable (rollo 30 m)' },
+    conical_rail_T1: { art: 'P12201C', precioEUR_m: 17.14, cotizado_m: 156, detalle: 'T-shape 1 in blanco/acero 1.5 — guía lateral/apoyo según layout' },
+    conical_rail_T40: { art: 'P12401C', precioEUR_m: 18.63, cotizado_m: 105, detalle: 'T-shape 40 mm Ti-WHITE AISI304' },
+    conical_rail_L114: { art: 'P12501C', precioEUR_m: 23.08, cotizado_m: 105, detalle: 'L-shape 1¼ in Ti-WHITE AISI304 — guía LATERAL del modelo' },
   },
 };
 writeFileSync(join(here, 'lbp530_dims.json'), JSON.stringify(dims, null, 1));
