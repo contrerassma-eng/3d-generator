@@ -60,7 +60,7 @@ const html = `<!doctype html>
 <div id="view"></div>
 <div id="hud">
  <h1>Sonda de humedad de suelo multiprofundidad — grado industrial</h1>
- <div class="sub">31 piezas · SMT100 ×3 (20/40/60 cm) · IP68 · capa <b>user</b> (diseño CAD paramétrico, mm)</div>
+ <div class="sub">34 piezas · SMT100 ×3 (20/40/60 cm) · IP68 · capa <b>user</b> (diseño CAD paramétrico, mm)</div>
  <div class="row">
   <button id="modeFull" class="on">⬒ Completo</button>
   <button id="modeCut">▤ Corte A-A</button>

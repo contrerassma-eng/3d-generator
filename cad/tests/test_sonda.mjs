@@ -42,7 +42,7 @@ const byId = (id) => doc.parts.find(p => p.id === id);
 
 console.log('— Documento —');
 check('formato foto3d-cad v1', doc.format === 'foto3d-cad' && doc.version === 1);
-check('31 piezas', doc.parts.length === 31, `hay ${doc.parts.length}`);
+check('34 piezas', doc.parts.length === 34, `hay ${doc.parts.length}`);
 check('ids de pieza únicos', new Set(doc.parts.map(p => p.id)).size === doc.parts.length);
 const fids = doc.parts.flatMap(p => p.features.map(f => f.id));
 check('ids de función únicos', new Set(fids).size === fids.length);
@@ -82,17 +82,19 @@ const gabTapa = byId('gabinete').features.find(f => f.name === 'Rosca tapa M4');
 const tapaH = byId('tapa').features.find(f => f.shape === 'hole');
 check('patrón tapa 162×112 = torretas', gabTapa.at[0] === tapaH.at[0] && gabTapa.at[1] === tapaH.at[1]);
 
-console.log('— Cadena vertical del cabezal —');
-const a = D.acople;
-check('espiga acople engrana 18 en el tubo', a.zBase + a.espigaL === D.tubo.zTop && a.espigaL === 18);
-check('brida del acople al ras del piso del gabinete',
-  a.zBase + a.espigaL + a.collarH + a.bridaH === D.gab.zPiso);
-check('tórica cabezal dentro de la garganta', byId('torica_cabezal').pos[2] === D.acople.zBase + 6.5);
+console.log('— Cadena vertical: tubo -> transición -> pilar SCH40 -> cabezal —');
+check('espiga de transición engrana 18 en el tubo', D.trans.zBase + D.trans.espigaL === D.tubo.zTop && D.trans.espigaL === 18);
+check('tórica de transición dentro de la garganta', byId('torica_cabezal').pos[2] === D.trans.zBase + 6.5);
+check('prensaestopas transición remata en el piso de la cavidad', byId('prensa_trans').pos[2] + 27 === D.trans.zBase + 48);
+check('pilar SCH40 1 1/2": OD 48.3, pared 3.68, ID 40.9', D.pilar.OD === 48.3 && Math.abs(D.pilar.OD - 2 * D.pilar.pared - D.pilar.ID) < 0.05);
+check('pilar engrana 20 en la transición', D.pilar.z0 === D.trans.zBase + 74 - D.pilar.engage);
+check('pilar remata dentro de la rosca del cabezal', D.pilar.z1 > D.acople.zBase && D.pilar.z1 <= D.acople.zBase + D.acople.roscaProf);
+check('brida del acople al ras del piso del gabinete', D.acople.zBase + D.acople.cuboH + D.acople.bridaH === D.gab.zPiso);
 check('prensaestopas: rosca M16 remata 4 sobre el piso', byId('prensa').pos[2] + 27 === D.gab.zPiso + 7);
 check('contratuerca sobre el piso interior', byId('contratuerca').pos[2] === D.gab.zPiso + 3);
-check('cabezal elevado 900 sobre NPT (estado del arte)', D.tubo.zTop === 900);
+check('cabezal elevado ~0.9 m sobre NPT (estado del arte)', D.gab.zPiso === 924 && D.pilar.L === 810);
 
-console.log('— CSG de las 31 piezas (volumen > 0, sin NaN) —');
+console.log('— CSG de las 34 piezas (volumen > 0, sin NaN) —');
 const boxAll = new THREE.Box3();
 const boxes = {};
 for (const part of doc.parts) {
@@ -121,6 +123,7 @@ check('collar apoyado en NPT (z 0–13)', Math.abs(boxes.collar.min.z) < 0.5 && 
 check('antena remata sobre el panel (>1150)', boxes.antena.max.z > 1150 && boxes.antena.max.z > boxes.panel.max.z + 100,
   `${boxes.antena.max.z.toFixed(0)} vs panel ${boxes.panel.max.z.toFixed(0)}`);
 check('antena no invade el vano del panel (x>92)', boxes.antena.min.x > 90 - 1e-6);
+check('pilar de 86 a 896 (hilo en ambas puntas embebido)', Math.abs(boxes.pilar.min.z - 86) < 0.5 && Math.abs(boxes.pilar.max.z - 896) < 0.5);
 
 console.log(`\n${pass} ✔ · ${fail} ✘`);
 process.exit(fail ? 1 : 0);

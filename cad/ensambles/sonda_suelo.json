@@ -8,7 +8,7 @@
   "fuente": "Informe paramétrico del usuario (Truebner/Fibox/Lapp/ISO 3601/DIN 912 citados allí) + decisiones de ingeniería anotadas",
   "fecha": "2026-07-20",
   "desviaciones": [
-   "Cabezal elevado 900 mm sobre NPT (el informe lo dejaba implícitamente a ras): alineado con la práctica CropX/Sentek/METER (meta.webRef). El tramo aéreo del tubo PVC-U se pinta blanco (UV) o se reemplaza por PVC estabilizado; opcional mástil/funda galvanizada si hay tránsito de maquinaria.",
+   "Cabezal elevado 900 mm sobre NPT (el informe lo dejaba implícitamente a ras): alineado con la práctica CropX/Sentek/METER (meta.webRef). Tramo aéreo = PILAR de cañería acero NPS 1 1/2\" SCH40 con hilo NPT en ambas puntas y pintura dúplex (spec del usuario); el PVC-U queda solo enterrado. Sobre NPT no rige la restricción dieléctrica (sensores a -200/-400/-600).",
    "PLC DIN y DDR-15 (90 mm) no caben en ARCA 150/60 (interior útil 49 mm) → nodo de placa única (variante §3 del informe). Alternativa si se exige DIN: ARCA 190×190×90.",
    "Sello por espiga macho Ø42.4 + tórica 36×3 (en vez de registro hembra Ø50.2 + tórica 46×3: dejaba pared 0.4 mm en acople Ø56). Misma regla de garganta Parker del informe §5.4.",
    "Cono de punta 40° incluido ×63 mm (opción corta recomendada por el propio informe §5.1 cuando el largo preocupa)."
@@ -77,17 +77,32 @@
    "torica_cabezal": [
     0,
     0,
-    95
+    40
    ],
    "acople": [
     0,
     0,
-    150
+    480
+   ],
+   "transicion": [
+    0,
+    0,
+    110
+   ],
+   "pilar": [
+    0,
+    0,
+    260
    ],
    "prensa": [
     0,
     0,
     280
+   ],
+   "prensa_trans": [
+    0,
+    0,
+    180
    ],
    "contratuerca": [
     0,
@@ -229,33 +244,35 @@
    },
    {
     "n": 5,
-    "t": "Acople de cabezal",
+    "t": "Acople de transición",
     "partes": [
-     "acople",
+     "transicion",
      "torica_cabezal",
+     "prensa_trans",
      "tubo"
     ],
-    "texto": "Engrasar la tórica 36×3 del cabezal y montarla en la garganta de la espiga del acople. Sacar el cable de bus por el bore Ø30. Insertar la espiga en el tubo hasta asentar el collar Ø56 en la cara del tubo (sin adhesivo: unión de servicio, el sello es la tórica)."
+    "texto": "Engrasar la tórica 36×3 y montarla en la garganta de la espiga de la transición. Insertar la espiga en el tubo hasta asentar el collar Ø56 (unión de servicio: el sello es la tórica). Pasar el cable de bus por el prensaestopas M16 interno de la transición y apretarlo a 2.5 N·m: el conducto del pilar queda AISLADO del cuerpo enterrado."
    },
    {
     "n": 6,
-    "t": "Prensaestopas M16",
+    "t": "Pilar SCH40 + acople de cabezal",
     "partes": [
-     "prensa",
-     "contratuerca",
-     "gabinete",
+     "pilar",
+     "transicion",
      "acople"
     ],
-    "texto": "Desde la cavidad Ø36 del acople, subir la rosca M16 del Skintop a través del paso Ø16.5 del piso del gabinete. Contratuerca por dentro: 3 N·m. Pasar el cable de bus y apretar el cuerpo del prensaestopas a 2.5 N·m (rango 4.5–10 mm)."
+    "texto": "PTFE (3 vueltas) + sellador anaerobio en el hilo inferior del pilar 1 1/2\"-11.5 NPT y roscar a la transición (llave en el cubo Ø60, no sobre la pintura). Subir el cable por el ánima Ø40.9 con cordón de tiro. Igual sellado en el hilo superior y roscar el acople de cabezal hasta orientar su patrón M4. Retocar hilos expuestos con zinc-rich."
    },
    {
     "n": 7,
-    "t": "Gabinete → acople",
+    "t": "Gabinete → acople + prensaestopas",
     "partes": [
      "gabinete",
-     "acople"
+     "acople",
+     "prensa",
+     "contratuerca"
     ],
-    "texto": "Alinear el patrón 56×56 del piso con las 4 roscas M4 de la brida. 4× DIN 912 M4×12 A4 con Loctite 243, apriete en cruz 2 N·m. Verificar que el gabinete queda firme y nivelado."
+    "texto": "Subir la rosca M16 del Skintop del cabezal por el paso Ø16.5 del piso; contratuerca por dentro a 3 N·m; pasar el cable y apretar el cuerpo a 2.5 N·m. Alinear el patrón 56×56 con las 4 roscas M4 de la brida: 4× DIN 912 M4×12 A4 + Loctite 243, en cruz a 2 N·m."
    },
    {
     "n": 8,
@@ -303,7 +320,7 @@
      "tubo",
      "punta"
     ],
-    "texto": "Pilotar Ø45 a 750 mm con barreno. Colocar TAPÓN DE HINCA 316L en el tubo (nunca golpear el tubo ni el cabezal). Hincar hasta que el tubo sobresalga 900 mm sobre NPT (cota del cabezal). Rellenar el anular con lechada de la misma tierra tamizada; últimos 300 mm con bentonita. Retirar tapón, montar cabezal completo. Collar antipercolación al ras del suelo, 2×M5."
+    "texto": "Pilotar Ø45 a 750 mm con barreno. Colocar TAPÓN DE HINCA 316L en el tubo (nunca golpear el tubo ni el cabezal). Hincar hasta que la cara superior del tubo quede a +50 sobre NPT. Rellenar el anular con lechada de la misma tierra tamizada; últimos 300 mm con bentonita. Retirar tapón, montar cabezal completo. Collar antipercolación al ras del suelo, 2×M5."
    },
    {
     "n": 12,
@@ -329,10 +346,10 @@
    {
     "item": 2,
     "id": "tubo",
-    "desig": "Tubo portante + elevador Ø50×3.7 L1550",
+    "desig": "Tubo portante Ø50×3.7 L700 (enterrado)",
     "mat": "PVC-U EN 1452 PN16",
     "cant": 1,
-    "nota": "No metálico (no perturba el campo dieléctrico); tramo aéreo 900 mm pintado blanco (UV) o PVC estabilizado"
+    "nota": "No metálico: no perturba el campo dieléctrico de los sensores"
    },
    {
     "item": 3,
@@ -356,23 +373,23 @@
     "desig": "Tórica ISO 3601 36×3",
     "mat": "FKM (Viton) 75 Sh",
     "cant": 2,
-    "nota": "Garganta 37.6/2.4/4.0 — apriete 17 % (regla Parker 15–25 %)"
+    "nota": "Punta y transición; garganta 37.6/2.4/4.0 — apriete 17 % (regla Parker 15–25 %)"
    },
    {
     "item": 6,
     "id": "acople",
-    "desig": "Acople de cabezal espiga+brida",
+    "desig": "Acople de cabezal brida + hembra 1 1/2\" NPT",
     "mat": "316L torneado",
     "cant": 1,
-    "nota": "Brida Ø90, 4×M4 patrón 56×56, cavidad Ø36 p/prensaestopas"
+    "nota": "Brida Ø90, 4×M4 patrón 56×56, cavidad Ø36 p/prensaestopas; rosca al pilar con PTFE + anaerobio"
    },
    {
     "item": 7,
     "id": "prensa",
     "desig": "Prensaestopas Skintop MS-M16",
     "mat": "Latón Ni (Lapp)",
-    "cant": 1,
-    "nota": "IP68; apriete cuerpo 2.5 N·m; rango cable 4.5–10 mm"
+    "cant": 2,
+    "nota": "1 cabezal + 1 transición; IP68; apriete cuerpo 2.5 N·m; rango cable 4.5–10 mm"
    },
    {
     "item": 8,
@@ -557,6 +574,22 @@
     "mat": "RG-316",
     "cant": 1,
     "nota": "Paso Ø6.5 en pared +X, pasacables con junta + silicona neutra"
+   },
+   {
+    "item": 31,
+    "id": "transicion",
+    "desig": "Acople de transición espiga PVC + hembra 1 1/2\" NPT",
+    "mat": "316L torneado",
+    "cant": 1,
+    "nota": "A nivel de suelo; tórica 36×3 al PVC + prensaestopas M16 interno (aísla el conducto del cuerpo enterrado)"
+   },
+   {
+    "item": 32,
+    "id": "pilar",
+    "desig": "Pilar cañería NPS 1 1/2\" SCH40 × 810, hilo en ambas puntas",
+    "mat": "Acero ASTM A53; dúplex: galv. caliente + poliéster polvo RAL 7016",
+    "cant": 1,
+    "nota": "OD 48.3 / pared 3.68; hilo 1 1/2\"-11.5 NPT; hilos enmascarados al pintar y retocados zinc-rich; alternativa NPS 1\" SCH40 si prima costo"
    }
   ],
   "consumibles": [
@@ -569,7 +602,8 @@
    "Cinta PTFE solo en rosca M16 si el piso no queda plano (normalmente innecesaria: junta propia del prensaestopas)"
   ],
   "features": [
-   "Cabezal ELEVADO 0.9 m sobre NPT en tramo elevador del propio tubo (estado del arte: CropX exige antena sobre el canopy; Sentek PLUS y METER ZL6 montan electrónica+panel en poste): panel sin sombra ni barro, antena despejada, gabinete a salvo de anegamiento y maquinaria",
+   "Cabezal ELEVADO 0.9 m sobre PILAR de cañería acero NPS 1 1/2\" SCH40 con hilo en ambas puntas y pintura dúplex (galv.+poliéster polvo) — estado del arte: CropX exige antena sobre el canopy; Sentek PLUS y METER ZL6 montan electrónica+panel en poste de acero. E=200 GPa: sin oscilación ni riesgo UV, aguanta impacto de maquinaria",
+   "Acople de transición 316L a nivel de suelo con prensaestopas propio: el conducto del pilar queda aislado del cuerpo enterrado (doble barrera si el pilar llegara a inundarse)",
    "Antena exterior 868/915 MHz 2 dBi en soporte lateral, látigo a ~1.2 m (además el gabinete PC es radio-transparente como respaldo)",
    "Medición de humedad y temperatura a 20/40/60 cm con 3× Truebner SMT100 (±3 % VWC, −40…+80 °C) en un solo bus RS-485/Modbus",
    "Estanqueidad IP68 por doble tórica FKM 36×3 en gargantas según regla Parker (apriete 17 %) + prensaestopas Skintop MS-M16 + potting PU en sensores",
@@ -794,7 +828,7 @@
      ],
      "params": {
       "dia": 50,
-      "h": 1550
+      "h": 700
      }
     },
     {
@@ -814,7 +848,7 @@
      ],
      "params": {
       "dia": 42.6,
-      "h": 1552
+      "h": 702
      }
     },
     {
@@ -1366,12 +1400,12 @@
   },
   {
    "id": "torica_cabezal",
-   "name": "10 Tórica FKM ISO 3601 36×3 (cabezal)",
+   "name": "10 Tórica FKM ISO 3601 36×3 (transición)",
    "color": "#3b2f2f",
    "pos": [
     0,
     0,
-    888.5
+    38.5
    ],
    "quat": [
     0,
@@ -1428,12 +1462,12 @@
   },
   {
    "id": "acople",
-   "name": "11 Acople de cabezal 316L (espiga+brida 4×M4)",
+   "name": "11 Acople de cabezal 316L (brida 4×M4 + hembra 1 1/2\" NPT)",
    "color": "#8f9aa8",
    "pos": [
     0,
     0,
-    882
+    866
    ],
    "quat": [
     0,
@@ -1446,6 +1480,201 @@
     {
      "id": "f25",
      "name": "Revolución acople",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         22.25,
+         0
+        ],
+        "b": [
+         30,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         30,
+         0
+        ],
+        "b": [
+         30,
+         50
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         30,
+         50
+        ],
+        "b": [
+         45,
+         50
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         45,
+         50
+        ],
+        "b": [
+         45,
+         58
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         45,
+         58
+        ],
+        "b": [
+         18,
+         58
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         18,
+         58
+        ],
+        "b": [
+         18,
+         30
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         18,
+         30
+        ],
+        "b": [
+         22.25,
+         30
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         22.25,
+         30
+        ],
+        "b": [
+         22.25,
+         0
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f24",
+     "name": "Rosca M4 (previo Ø3.4)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      28,
+      28,
+      58
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 8,
+      "through": false
+     }
+    },
+    {
+     "id": "f26",
+     "name": "Patrón circ.",
+     "shape": "pattern",
+     "op": "pattern",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "sourceId": "f24",
+      "kind": "circ",
+      "n": 4,
+      "angle": 360,
+      "axisAt": [
+       0,
+       0,
+       0
+      ],
+      "axisDir": [
+       0,
+       0,
+       1
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "transicion",
+   "name": "31 Acople de transición 316L (espiga PVC + hembra 1 1/2\" NPT)",
+   "color": "#7d8896",
+   "pos": [
+    0,
+    0,
+    32
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f27",
+     "name": "Revolución transición",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -1555,37 +1784,81 @@
          34
         ],
         "b": [
-         45,
+         30,
          34
         ]
        },
        {
         "type": "line",
         "a": [
-         45,
+         30,
          34
         ],
         "b": [
-         45,
-         42
+         30,
+         74
         ]
        },
        {
         "type": "line",
         "a": [
-         45,
-         42
+         30,
+         74
+        ],
+        "b": [
+         22.25,
+         74
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         22.25,
+         74
+        ],
+        "b": [
+         22.25,
+         48
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         22.25,
+         48
+        ],
+        "b": [
+         7,
+         48
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         7,
+         48
+        ],
+        "b": [
+         7,
+         44
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         7,
+         44
         ],
         "b": [
          18,
-         42
+         44
         ]
        },
        {
         "type": "line",
         "a": [
          18,
-         42
+         44
         ],
         "b": [
          18,
@@ -1631,33 +1904,31 @@
        0
       ]
      }
-    },
+    }
+   ]
+  },
+  {
+   "id": "pilar",
+   "name": "32 Pilar cañería A53 SCH40 1 1/2\" hilo en puntas (dúplex RAL 7016)",
+   "color": "#383e42",
+   "pos": [
+    0,
+    0,
+    86
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
     {
-     "id": "f24",
-     "name": "Rosca M4 (previo Ø3.4)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      28,
-      28,
-      42
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 3.4,
-      "depth": 8,
-      "through": false
-     }
-    },
-    {
-     "id": "f26",
-     "name": "Patrón circ.",
-     "shape": "pattern",
-     "op": "pattern",
+     "id": "f28",
+     "name": "Cañería Ø48.3",
+     "shape": "cylinder",
+     "op": "union",
      "at": [
       0,
       0,
@@ -1669,20 +1940,28 @@
       1
      ],
      "params": {
-      "sourceId": "f24",
-      "kind": "circ",
-      "n": 4,
-      "angle": 360,
-      "axisAt": [
-       0,
-       0,
-       0
-      ],
-      "axisDir": [
-       0,
-       0,
-       1
-      ]
+      "dia": 48.3,
+      "h": 810
+     }
+    },
+    {
+     "id": "f29",
+     "name": "Ánima Ø40.9",
+     "shape": "cylinder",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 40.9,
+      "h": 812
      }
     }
    ]
@@ -1705,7 +1984,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f27",
+     "id": "f30",
      "name": "Cuerpo de apriete",
      "shape": "cylinder",
      "op": "union",
@@ -1725,7 +2004,7 @@
      }
     },
     {
-     "id": "f28",
+     "id": "f31",
      "name": "Hexágono SW20",
      "shape": "sketch",
      "op": "union",
@@ -1817,7 +2096,7 @@
      }
     },
     {
-     "id": "f29",
+     "id": "f32",
      "name": "Rosca M16×1.5",
      "shape": "cylinder",
      "op": "union",
@@ -1837,7 +2116,179 @@
      }
     },
     {
-     "id": "f30",
+     "id": "f33",
+     "name": "Paso de cable Ø10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      27
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 10,
+      "depth": 10,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "prensa_trans",
+   "name": "33 Prensaestopas Skintop MS-M16 (transición)",
+   "color": "#c9a227",
+   "pos": [
+    0,
+    0,
+    53
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f34",
+     "name": "Cuerpo de apriete",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 19,
+      "h": 12
+     }
+    },
+    {
+     "id": "f35",
+     "name": "Hexágono SW20",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         11.55,
+         0
+        ],
+        "b": [
+         5.77,
+         10
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         5.77,
+         10
+        ],
+        "b": [
+         -5.77,
+         10
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -5.77,
+         10
+        ],
+        "b": [
+         -11.55,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -11.55,
+         0
+        ],
+        "b": [
+         -5.77,
+         -10
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -5.77,
+         -10
+        ],
+        "b": [
+         5.77,
+         -10
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         5.77,
+         -10
+        ],
+        "b": [
+         11.55,
+         0
+        ]
+       }
+      ],
+      "h": 8,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f36",
+     "name": "Rosca M16×1.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      20
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15.8,
+      "h": 7
+     }
+    },
+    {
+     "id": "f37",
      "name": "Paso de cable Ø10",
      "shape": "hole",
      "op": "cut",
@@ -1877,7 +2328,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f31",
+     "id": "f38",
      "name": "Tuerca SW22",
      "shape": "sketch",
      "op": "union",
@@ -1996,7 +2447,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f35",
+     "id": "f42",
      "name": "Cuerpo",
      "shape": "box",
      "op": "union",
@@ -2017,7 +2468,7 @@
      }
     },
     {
-     "id": "f36",
+     "id": "f43",
      "name": "Cavidad",
      "shape": "box",
      "op": "cut",
@@ -2038,7 +2489,7 @@
      }
     },
     {
-     "id": "f32",
+     "id": "f39",
      "name": "Torreta esquina",
      "shape": "cylinder",
      "op": "union",
@@ -2058,7 +2509,7 @@
      }
     },
     {
-     "id": "f37",
+     "id": "f44",
      "name": "Patrón rect.",
      "shape": "pattern",
      "op": "pattern",
@@ -2073,7 +2524,7 @@
       1
      ],
      "params": {
-      "sourceId": "f32",
+      "sourceId": "f39",
       "kind": "rect",
       "nx": 2,
       "ny": 2,
@@ -2092,7 +2543,7 @@
      }
     },
     {
-     "id": "f33",
+     "id": "f40",
      "name": "Rosca tapa M4",
      "shape": "hole",
      "op": "cut",
@@ -2113,7 +2564,7 @@
      }
     },
     {
-     "id": "f38",
+     "id": "f45",
      "name": "Patrón rect.",
      "shape": "pattern",
      "op": "pattern",
@@ -2128,7 +2579,7 @@
       1
      ],
      "params": {
-      "sourceId": "f33",
+      "sourceId": "f40",
       "kind": "rect",
       "nx": 2,
       "ny": 2,
@@ -2147,7 +2598,7 @@
      }
     },
     {
-     "id": "f39",
+     "id": "f46",
      "name": "Paso prensaestopas Ø16.5",
      "shape": "hole",
      "op": "cut",
@@ -2168,7 +2619,7 @@
      }
     },
     {
-     "id": "f34",
+     "id": "f41",
      "name": "Paso M4 piso",
      "shape": "hole",
      "op": "cut",
@@ -2189,7 +2640,7 @@
      }
     },
     {
-     "id": "f40",
+     "id": "f47",
      "name": "Patrón rect.",
      "shape": "pattern",
      "op": "pattern",
@@ -2204,7 +2655,7 @@
       1
      ],
      "params": {
-      "sourceId": "f34",
+      "sourceId": "f41",
       "kind": "rect",
       "nx": 2,
       "ny": 2,
@@ -2223,7 +2674,7 @@
      }
     },
     {
-     "id": "f41",
+     "id": "f48",
      "name": "Recorte M12 servicio",
      "shape": "hole",
      "op": "cut",
@@ -2244,7 +2695,7 @@
      }
     },
     {
-     "id": "f42",
+     "id": "f49",
      "name": "Recorte válvula Gore",
      "shape": "hole",
      "op": "cut",
@@ -2265,7 +2716,7 @@
      }
     },
     {
-     "id": "f43",
+     "id": "f50",
      "name": "Paso SMA antena Ø6.5",
      "shape": "hole",
      "op": "cut",
@@ -2305,7 +2756,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f44",
+     "id": "f51",
      "name": "Marco PU",
      "shape": "sketch",
      "op": "union",
@@ -2438,7 +2889,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f46",
+     "id": "f53",
      "name": "Tapa",
      "shape": "box",
      "op": "union",
@@ -2459,7 +2910,7 @@
      }
     },
     {
-     "id": "f45",
+     "id": "f52",
      "name": "Paso tornillo tapa",
      "shape": "hole",
      "op": "cut",
@@ -2480,7 +2931,7 @@
      }
     },
     {
-     "id": "f47",
+     "id": "f54",
      "name": "Patrón rect.",
      "shape": "pattern",
      "op": "pattern",
@@ -2495,7 +2946,7 @@
       1
      ],
      "params": {
-      "sourceId": "f45",
+      "sourceId": "f52",
       "kind": "rect",
       "nx": 2,
       "ny": 2,
@@ -2533,7 +2984,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f49",
+     "id": "f56",
      "name": "PCB 100×90",
      "shape": "box",
      "op": "union",
@@ -2554,7 +3005,7 @@
      }
     },
     {
-     "id": "f50",
+     "id": "f57",
      "name": "ESP32-WROOM-32E ind.",
      "shape": "box",
      "op": "union",
@@ -2575,7 +3026,7 @@
      }
     },
     {
-     "id": "f51",
+     "id": "f58",
      "name": "RAK3172-T LoRa",
      "shape": "box",
      "op": "union",
@@ -2596,7 +3047,7 @@
      }
     },
     {
-     "id": "f52",
+     "id": "f59",
      "name": "RS-485 (THVD1450)",
      "shape": "box",
      "op": "union",
@@ -2617,7 +3068,7 @@
      }
     },
     {
-     "id": "f53",
+     "id": "f60",
      "name": "Buck 12→3.3 aislado",
      "shape": "box",
      "op": "union",
@@ -2638,7 +3089,7 @@
      }
     },
     {
-     "id": "f54",
+     "id": "f61",
      "name": "Borne bus",
      "shape": "box",
      "op": "union",
@@ -2659,7 +3110,7 @@
      }
     },
     {
-     "id": "f48",
+     "id": "f55",
      "name": "Fijación M3",
      "shape": "hole",
      "op": "cut",
@@ -2680,7 +3131,7 @@
      }
     },
     {
-     "id": "f55",
+     "id": "f62",
      "name": "Patrón rect.",
      "shape": "pattern",
      "op": "pattern",
@@ -2695,7 +3146,7 @@
       1
      ],
      "params": {
-      "sourceId": "f48",
+      "sourceId": "f55",
       "kind": "rect",
       "nx": 2,
       "ny": 2,
@@ -2733,7 +3184,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f56",
+     "id": "f63",
      "name": "Separador M3×6",
      "shape": "cylinder",
      "op": "union",
@@ -2753,7 +3204,7 @@
      }
     },
     {
-     "id": "f57",
+     "id": "f64",
      "name": "Patrón rect.",
      "shape": "pattern",
      "op": "pattern",
@@ -2768,7 +3219,7 @@
       1
      ],
      "params": {
-      "sourceId": "f56",
+      "sourceId": "f63",
       "kind": "rect",
       "nx": 2,
       "ny": 2,
@@ -2806,7 +3257,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f58",
+     "id": "f65",
      "name": "Base",
      "shape": "box",
      "op": "union",
@@ -2827,7 +3278,7 @@
      }
     },
     {
-     "id": "f59",
+     "id": "f66",
      "name": "Pared -Y",
      "shape": "box",
      "op": "union",
@@ -2848,7 +3299,7 @@
      }
     },
     {
-     "id": "f60",
+     "id": "f67",
      "name": "Pared +Y",
      "shape": "box",
      "op": "union",
@@ -2888,7 +3339,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f61",
+     "id": "f68",
      "name": "Celda 1",
      "shape": "cylinder",
      "op": "union",
@@ -2908,7 +3359,7 @@
      }
     },
     {
-     "id": "f62",
+     "id": "f69",
      "name": "Celda 2",
      "shape": "cylinder",
      "op": "union",
@@ -2947,7 +3398,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f63",
+     "id": "f70",
      "name": "BMS",
      "shape": "box",
      "op": "union",
@@ -2987,7 +3438,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f64",
+     "id": "f71",
      "name": "Bornera",
      "shape": "box",
      "op": "union",
@@ -3027,7 +3478,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f65",
+     "id": "f72",
      "name": "Desecante",
      "shape": "cylinder",
      "op": "union",
@@ -3066,7 +3517,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f66",
+     "id": "f73",
      "name": "Tuerca frontal",
      "shape": "cylinder",
      "op": "union",
@@ -3086,7 +3537,7 @@
      }
     },
     {
-     "id": "f67",
+     "id": "f74",
      "name": "Rosca M12×1",
      "shape": "cylinder",
      "op": "union",
@@ -3106,7 +3557,7 @@
      }
     },
     {
-     "id": "f68",
+     "id": "f75",
      "name": "Cuerpo interior",
      "shape": "cylinder",
      "op": "union",
@@ -3145,7 +3596,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f69",
+     "id": "f76",
      "name": "Tapa",
      "shape": "cylinder",
      "op": "union",
@@ -3184,7 +3635,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f70",
+     "id": "f77",
      "name": "Cabeza vent.",
      "shape": "cylinder",
      "op": "union",
@@ -3204,7 +3655,7 @@
      }
     },
     {
-     "id": "f71",
+     "id": "f78",
      "name": "Rosca M12",
      "shape": "cylinder",
      "op": "union",
@@ -3243,7 +3694,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f73",
+     "id": "f80",
      "name": "Collar cónico",
      "shape": "revolve",
      "op": "union",
@@ -3333,7 +3784,7 @@
      }
     },
     {
-     "id": "f72",
+     "id": "f79",
      "name": "Prisionero M5",
      "shape": "hole",
      "op": "cut",
@@ -3354,7 +3805,7 @@
      }
     },
     {
-     "id": "f74",
+     "id": "f81",
      "name": "Patrón circ.",
      "shape": "pattern",
      "op": "pattern",
@@ -3369,7 +3820,7 @@
       1
      ],
      "params": {
-      "sourceId": "f72",
+      "sourceId": "f79",
       "kind": "circ",
       "n": 2,
       "angle": 360,
@@ -3405,7 +3856,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f75",
+     "id": "f82",
      "name": "Cuña -Y",
      "shape": "sketch",
      "op": "union",
@@ -3464,7 +3915,7 @@
      }
     },
     {
-     "id": "f76",
+     "id": "f83",
      "name": "Cuña +Y",
      "shape": "sketch",
      "op": "union",
@@ -3542,7 +3993,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f77",
+     "id": "f84",
      "name": "Panel",
      "shape": "box",
      "op": "union",
@@ -3582,7 +4033,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f78",
+     "id": "f85",
      "name": "Tapón",
      "shape": "revolve",
      "op": "union",
@@ -3702,7 +4153,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f79",
+     "id": "f86",
      "name": "Placa al gabinete (2×M4)",
      "shape": "box",
      "op": "union",
@@ -3723,7 +4174,7 @@
      }
     },
     {
-     "id": "f80",
+     "id": "f87",
      "name": "Ala superior",
      "shape": "box",
      "op": "union",
@@ -3744,7 +4195,7 @@
      }
     },
     {
-     "id": "f81",
+     "id": "f88",
      "name": "Base N/SMA",
      "shape": "cylinder",
      "op": "union",
@@ -3764,7 +4215,7 @@
      }
     },
     {
-     "id": "f82",
+     "id": "f89",
      "name": "Látigo fibra de vidrio",
      "shape": "cylinder",
      "op": "union",

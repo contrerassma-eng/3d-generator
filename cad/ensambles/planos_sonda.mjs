@@ -111,19 +111,44 @@ const DRAW = {
     for (const sg of [-1, 1]) sh.circle([X(sg * 20.3), Z(-642)], 1.5 * s, ly);
   },
   torica_cabezal(sh, X, Z, s, ly) {
-    for (const sg of [-1, 1]) sh.circle([X(sg * 20.3), Z(890)], 1.5 * s, ly);
+    for (const sg of [-1, 1]) sh.circle([X(sg * 20.3), Z(40)], 1.5 * s, ly);
   },
   acople(sh, X, Z, s, ly, ha) {
     for (const sg of [1, -1]) {
-      const p = [[15, 882], [21.2, 882], [21.2, 900], [28, 900], [28, 916], [45, 916],
-        [45, 924], [18, 924], [18, 900], [15, 900]];
-      sh.poly([...p.map(([x, z]) => [X(sg * x), Z(z)]), [X(sg * 15), Z(882)]], ly);
+      const p = [[22.25, 866], [30, 866], [30, 916], [45, 916], [45, 924], [18, 924], [18, 896], [22.25, 896]];
+      sh.poly([...p.map(([x, z]) => [X(sg * x), Z(z)]), [X(sg * 22.25), Z(866)]], ly);
       if (ha) {
-        hatchRect(sh, X(sg === 1 ? 15 : -21.2), Z(882), 6.2 * s, 18 * s, 1.8);
-        hatchRect(sh, X(sg === 1 ? 18 : -28), Z(900), 10 * s, 16 * s, 1.8);
+        hatchRect(sh, X(sg === 1 ? 22.25 : -30), Z(866), 7.75 * s, 30 * s, 1.8);
         hatchRect(sh, X(sg === 1 ? 18 : -45), Z(916), 27 * s, 8 * s, 1.8);
       }
     }
+  },
+  transicion(sh, X, Z, s, ly, ha) {
+    for (const sg of [1, -1]) {
+      const p = [[15, 32], [21.2, 32], [21.2, 50], [28, 50], [28, 66], [30, 66], [30, 106],
+        [22.25, 106], [22.25, 80], [7, 80], [7, 76], [18, 76], [18, 50], [15, 50]];
+      sh.poly([...p.map(([x, z]) => [X(sg * x), Z(z)]), [X(sg * 15), Z(32)]], ly);
+      if (ha) {
+        hatchRect(sh, X(sg === 1 ? 15 : -21.2), Z(32), 6.2 * s, 18 * s, 1.8);
+        hatchRect(sh, X(sg === 1 ? 18 : -28), Z(50), 10 * s, 16 * s, 1.8);
+        hatchRect(sh, X(sg === 1 ? 22.25 : -30), Z(66), 7.75 * s, 40 * s, 1.8);
+      }
+    }
+  },
+  pilar(sh, X, Z, s, ly, ha) {
+    for (const sg of [1, -1]) {
+      const x0 = sg === 1 ? 20.45 : -24.15;
+      sh.rect(X(x0), Z(86), 3.7 * s, 810 * s, ly);
+      if (ha) hatchRect(sh, X(x0), Z(86), 3.7 * s, 810 * s, 2.2);
+      // zonas de hilo NPT (marcas)
+      for (const z0 of [86, 876]) for (let k = 0; k < 4; k++)
+        sh.line([X(sg * 20.45), Z(z0 + k * 5)], [X(sg * 24.15), Z(z0 + k * 5 + 3)], 'FINA');
+    }
+  },
+  prensa_trans(sh, X, Z, s, ly) {
+    sh.rect(X(-9.5), Z(53), 19 * s, 12 * s, ly);
+    sh.rect(X(-11.55), Z(65), 23.1 * s, 8 * s, ly);
+    sh.rect(X(-7.9), Z(73), 15.8 * s, 7 * s, ly);
   },
   prensa(sh, X, Z, s, ly) {
     sh.rect(X(-9.5), Z(904), 19 * s, 12 * s, ly);
@@ -283,18 +308,19 @@ function gaSheet() {
   tag(-96, -600, -14, 6, 'SMT100 #3 @ −60 cm (az 240°)');
   tag(25, -690, 40, -6, 'Punta 316L cono 40°, ápice romo r2');
   tag(80, 6, 44, -12, 'Collar antipercolación Ø160 POM-C + sello de bentonita');
-  tag(25, 450, 50, 0, 'TRAMO ELEVADOR (mismo tubo PVC-U): cabezal a 0.9 m — panel y antena');
-  tag(25, 450, 50, -5.2, 'despejados de vegetación/anegamiento (práctica CropX · Sentek · METER)');
+  tag(24.15, 480, 50, 0, 'PILAR canería NPS 1 1/2" SCH40 (OD 48.3) · HILO 1 1/2"-11.5 NPT EN AMBAS PUNTAS');
+  tag(24.15, 480, 50, -5.2, 'pintura dúplex: galv. caliente + poliéster polvo RAL 7016 — cabezal a 0.9 m');
+  tag(30, 80, 56, -16, 'Acople de TRANSICIÓN 316L: espiga+tórica al PVC + hembra NPT + prensaestopas M16 interno');
   tag(90, 950, 32, 4, 'Gabinete Fibox ARCA PC 150/60 HG (IP66/67) + M12 servicio + válvula Gore');
   tag(60, 1025, 30, 8, 'Panel solar 5 W sobre soporte Al 15° (orientar al ecuador)');
   tag(102, 1120, 26, 4, 'Antena 868/915 MHz 2 dBi — remata SOBRE el panel');
-  tag(25, 888, 48, -8, 'Acople 316L + tórica FKM 36×3 + Skintop MS-M16');
+  tag(30, 890, 48, -8, 'Acople de cabezal 316L: hembra 1 1/2" NPT + brida 4×M4 + Skintop MS-M16');
   const notas = [
-    'Sonda multiprofundidad grado industrial: 3× Truebner SMT100 (RS-485) a 200/400/600, tubo PVC-U Ø50×3.7 EN 1452 (portante + elevador L1550).',
-    'CABEZAL ELEVADO 900 mm (estado del arte): CropX exige la antena sobre el canopy máximo; Sentek PLUS y METER ZL6 montan electrónica y panel en poste — referencias con URL en sonda_suelo_dims.json (webRef).',
+    'Sonda multiprofundidad grado industrial: 3× Truebner SMT100 (RS-485) a 200/400/600, cuerpo enterrado PVC-U Ø50×3.7 EN 1452 L700.',
+    'CABEZAL ELEVADO 900 mm sobre PILAR NPS 1 1/2" SCH40 con hilo en ambas puntas (estado del arte: CropX exige antena sobre canopy; Sentek PLUS y METER ZL6 usan poste — URLs en sonda_suelo_dims.json/webRef).',
     'Sensores en espiga radial desfasados 120°: zona sensora en suelo NO perturbado y tubo sin debilitarse en un mismo plano.',
-    'IP68: tóricas FKM 36×3 (punta y cabezal), potting PU en pasamuros, Skintop MS-M16, junta PU de tapa, válvula Gore anti-condensación.',
-    'Tramo aéreo del tubo pintado blanco (protección UV) o PVC estabilizado; opcional funda/mástil galvanizado si hay tránsito de maquinaria.',
+    'IP68: tóricas FKM 36×3 (punta y transición), potting PU en pasamuros, 2× Skintop MS-M16, junta PU de tapa, válvula Gore; hilos NPT con PTFE + anaerobio.',
+    'Sobre NPT no rige la restricción dieléctrica (sensores a -200/-400/-600): el pilar puede ser acero. Retocar hilos expuestos con zinc-rich.',
     'Corte completo y globos → SND-CT-04 · corte del cabezal → SND-CT-05 · instrucciones → SND-EN-07/08 · BOM → SND-BM-09.',
   ];
   notas.forEach((t, i) => sh.text(t, 24, 46 - i * 5, 2.6, 'L'));
@@ -329,8 +355,9 @@ function corteSheet() {
   const ox = 265, oy = 52;
   const X = (x) => ox + x * s, Z = (z) => oy + (z + 760) * s;
   const activos = ['punta', 'tubo', 'sensor1', 'pasamuro1', 'torica_punta', 'torica_cabezal',
-    'acople', 'prensa', 'contratuerca', 'gabinete', 'junta', 'tapa', 'pcb', 'separadores',
-    'portapilas', 'baterias', 'collar', 'panel', 'soporte_panel', 'antena'];
+    'transicion', 'prensa_trans', 'pilar', 'acople', 'prensa', 'contratuerca', 'gabinete',
+    'junta', 'tapa', 'pcb', 'separadores', 'portapilas', 'baterias', 'collar', 'panel',
+    'soporte_panel', 'antena'];
   for (const id of ['sensor2', 'sensor3', 'bms', 'borne_bus', 'desecante', 'm12', 'vent'])
     DRAW[id](sh, X, Z, s, 'FINA', false);
   for (const id of activos) DRAW[id](sh, X, Z, s, 'VISIBLE', true);
@@ -349,27 +376,28 @@ function corteSheet() {
   };
   const L = 165, R = 372;
   globo(1, -12, -700, L, Z(-700));
-  globo(5, -20.3, -642, L, Z(-560));
-  globo(2, -23, -300, L, Z(-300));
-  globo(22, -78, 6, L, Z(-60));
+  globo(5, -20.3, -642, L, Z(-580));
+  globo(2, -23, -320, L, Z(-380));
+  globo(22, -78, 6, L, Z(-190));
+  globo(5, -20.3, 40, L, Z(-30));
+  globo(31, -30, 80, L, Z(130));
+  globo(7, -9.5, 60, L, Z(290));
+  globo(32, -24, 480, L, Z(480));
+  globo(6, -30, 890, L, Z(700));
+  globo(8, -12.7, 929, L, Z(830));
+  globo(12, -60, 934, L, Z(960));
+  globo(10, -86.5, 977, L, Z(1090));
+  globo(11, -80, 981, L, Z(1215));
   globo(4, 27, -200, R, Z(-260));
   globo(3, 150, -200, R, Z(-120));
-  // cabezal: columnas ordenadas por z del objetivo (líneas sin cruces)
-  globo(5, -20.3, 890, L, Z(620));
-  globo(7, -9, 912, L, Z(705));
-  globo(6, -40, 920, L, Z(790));
-  globo(8, -12.7, 929, L, Z(875));
-  globo(12, -60, 934, L, Z(960));
-  globo(9, -89, 950, L, Z(1045));
-  globo(10, -86.5, 977, L, Z(1130));
-  globo(11, -80, 981, L, Z(1215));
-  globo(14, 50, 929, R, Z(700));
-  globo(15, 65.5, 945, R, Z(790));
-  globo(19, 62, 950, R, Z(880));
-  globo(21, 68, 958, R, Z(970));
+  globo(14, 50, 929, R, Z(660));
+  globo(15, 65.5, 945, R, Z(740));
+  globo(9, 89, 950, R, Z(820));
+  globo(19, 62, 950, R, Z(900));
+  globo(21, 68, 958, R, Z(980));
   globo(24, 80, 990, R, Z(1060));
-  globo(23, 60, 1020, R, Z(1150));
-  globo(29, 102, 1120, R, Z(1240));
+  globo(23, 60, 1020, R, Z(1140));
+  globo(29, 102, 1120, R, Z(1220));
   sh.text('Los números de globo corresponden al ÍTEM de la BOM (lámina SND-BM-09).', 24, 52, 2.8, 'L');
   sh.text('Sensores #2/#3, bornera, BMS, desecante, M12 y válvula quedan FUERA del plano de corte: se muestran en línea fina (proyección).', 24, 47, 2.8, 'L');
   sh.text('CORTE A-A (plano vertical por el eje y el sensor #1) — achurado = material seccionado · cabezal elevado 900 sobre NPT', 24, 57, 3.4, 'L');
@@ -399,15 +427,15 @@ function corteCabezalSheet() {
     DRAW[id](sh, X, Z, s, 'FINA', false);
   sh.line([X(0), Z(855)], [X(0), Z(1045)], 'PLIEGUE');
   // cotas clave
-  sh.dimH(X(-21.3), X(21.3), Z(862), 8, 42.6);
+  sh.dimH(X(-24.15), X(24.15), Z(862), 8, 48.3);
   sh.dimH(X(-28), X(28), Z(902), 16, 56);
   sh.dimH(X(-45), X(45), Z(918), 24, 90);
   const tag = (x, z, dx, dz, t) => {
     sh.line([X(x), Z(z)], [X(x) + dx, Z(z) + dz], 'COTAS');
     sh.text(t, X(x) + dx + (dx >= 0 ? 1 : -1), Z(z) + dz, 2.5, dx >= 0 ? 'L' : 'R', 'COTAS');
   };
-  tag(-20.3, 890, -26, -10, 'Tórica FKM 36×3 en garganta 37.6/2.4/4.0 (detalle X, SND-DT-06)');
-  tag(-21.2, 894, -30, 6, 'Espiga Ø42.4 f7 en tubo ID 42.6 (juego 0.2)');
+  tag(-22.25, 880, -24, -14, 'Rosca hembra 1 1/2"-11.5 NPT: PTFE 3 vueltas + sellador anaerobio');
+  tag(-24.15, 870, -30, -4, 'Pilar NPS 1 1/2" SCH40 pintura dúplex (tórica del PVC: ver transición, SND-CT-04)');
   tag(-45, 920, -18, 14, 'Brida Ø90 · 4×M4 patrón 56×56 + Loctite 243 (2 N·m)');
   tag(-11.5, 920, -34, 26, 'Skintop MS-M16 colgado en cavidad Ø36 (gland-down, protegido)');
   tag(-12.7, 929, -40, 38, 'Contratuerca M16 por dentro (3 N·m)');
@@ -509,8 +537,8 @@ const VENT = {   // ventana de dibujo por paso
   2: { x0: -60, x1: 60, z0: -740, z1: -600 },
   3: { x0: -120, x1: 210, z0: -680, z1: -140 },
   4: { x0: -120, x1: 210, z0: -680, z1: -140 },
-  5: { x0: -70, x1: 70, z0: 840, z1: 940 },
-  6: { x0: -70, x1: 70, z0: 860, z1: 990 },
+  5: { x0: -70, x1: 70, z0: -30, z1: 130 },
+  6: { x0: -90, x1: 90, z0: -60, z1: 960 },
   7: { x0: -110, x1: 110, z0: 860, z1: 1000 },
   8: { x0: -100, x1: 100, z0: 910, z1: 990 },
   9: { x0: -130, x1: 150, z0: 890, z1: 1220 },

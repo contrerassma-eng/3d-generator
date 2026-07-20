@@ -60,11 +60,20 @@ const qMul = (q, p) => { // q ∘ p (aplica p primero, luego q)
 // D — DIMENSIONES (fuente única; los planos y el HTML leen este objeto)
 // ============================================================================
 export const D = {
-  // tubo portante + ELEVADOR PVC-U EN 1452 PN16 (informe: CONFIRMED OD).
+  // tubo portante PVC-U EN 1452 PN16, SOLO enterrado (informe: CONFIRMED OD).
   // El cabezal va ELEVADO ~0.9 m sobre NPT (estado del arte: CropX pide la
   // antena sobre el canopy máximo; Sentek PLUS y METER ZL6 montan la
-  // electrónica y el panel en poste, no a ras de suelo) — ver meta.webRef.
-  tubo: { OD: 50, pared: 3.7, ID: 42.6, L: 1550, zBot: -650, zTop: 900 },
+  // electrónica y el panel en poste) — ver meta.webRef. El tramo aéreo es un
+  // PILAR de cañería acero SCH40 1 1/2" con HILO NPT EN AMBAS PUNTAS y
+  // pintura especial dúplex (spec del usuario).
+  tubo: { OD: 50, pared: 3.7, ID: 42.6, L: 700, zBot: -650, zTop: 50 },
+  // acople de transición 316L a nivel de suelo: espiga+tórica al PVC abajo,
+  // rosca hembra 1 1/2"-11.5 NPT arriba, prensaestopas M16 interno (aísla el
+  // conducto del cuerpo enterrado aunque el pilar inunde)
+  trans: { zBase: 32, espigaL: 18, collarD: 56, collarH: 16, cuboD: 60, boreRosca: 44.5 },
+  // pilar ASTM A53 SCH40 NPS 1 1/2": OD 48.3, pared 3.68, ID 40.9; hilo
+  // 1 1/2"-11.5 NPT en ambas puntas; pintura dúplex (galv. + poliéster polvo)
+  pilar: { OD: 48.3, pared: 3.68, ID: 40.9, z0: 86, z1: 896, L: 810, engage: 20, hilo: '1 1/2"-11.5 NPT' },
   // sensores Truebner SMT100 RS-485 (CONFIRMED 182×30×12, −40…+80 °C)
   sensor: { L: 182, W: 30, T: 12, profundidades: [-200, -400, -600], azimuts: [0, 120, 240] },
   // pasamuros sensor POM-C (pieza torneada, pegada con epoxi estructural)
@@ -73,8 +82,8 @@ export const D = {
   punta: { baseD: 50, collarH: 15, conoH: 63, apexR: 2, espigaD: 42.4, espigaL: 18 },
   // sello tórico ISO 3601 36×3 FKM en espiga macho (garganta regla Parker 80 % CS)
   torica: { id: 36, cs: 3, gargantaFondoD: 37.6, gargantaProf: 2.4, gargantaW: 4, apriete: '17 %' },
-  // acople de cabezal 316L: espiga Ø42.4 + collar Ø56 + brida Ø90 con 4×M4
-  acople: { espigaD: 42.4, espigaL: 18, collarD: 56, collarH: 16, bridaD: 90, bridaH: 8, boreCable: 30, cavidadD: 36, patronM4: 56, zBase: 882 },
+  // acople de cabezal 316L: rosca hembra 1 1/2" NPT abajo + brida Ø90 con 4×M4
+  acople: { bridaD: 90, bridaH: 8, cuboD: 60, cuboH: 50, boreRosca: 44.5, roscaProf: 30, cavidadD: 36, patronM4: 56, zBase: 866 },
   // prensaestopas Lapp Skintop MS-M16 (CONFIRMED: SW20, ØA 22, C 31, rosca 7)
   prensa: { rosca: 'M16×1.5', SW: 20, cuerpoD: 19, roscaD: 15.8, agujero: 16.5 },
   // gabinete Fibox ARCA PC 150/60 HG (CONFIRMED ext. 180×130×60, IP66/67, PU)
@@ -201,27 +210,45 @@ D.sensor.profundidades.forEach((zp, i) => {
   const ringR = (D.torica.gargantaFondoD + D.torica.cs) / 2; // 20.3
   P('torica_punta', '09 Tórica FKM ISO 3601 36×3 (punta)', '#3b2f2f', [0, 0, -645.5],
     [torus(ringR, 1.5, [0, 0, 0], 'Toroide 36×3')], { explode: [0, 0, -80] });
-  P('torica_cabezal', '10 Tórica FKM ISO 3601 36×3 (cabezal)', '#3b2f2f', [0, 0, D.acople.zBase + 6.5],
-    [torus(ringR, 1.5, [0, 0, 0], 'Toroide 36×3')], { explode: [0, 0, 95] });
+  P('torica_cabezal', '10 Tórica FKM ISO 3601 36×3 (transición)', '#3b2f2f', [0, 0, D.trans.zBase + 6.5],
+    [torus(ringR, 1.5, [0, 0, 0], 'Toroide 36×3')], { explode: [0, 0, 40] });
 }
 
-// --- 11 ACOPLE DE CABEZAL 316L -----------------------------------------------
+// --- 11 ACOPLE DE CABEZAL 316L (rosca hembra 1 1/2\" NPT) ------------------
 {
-  const a = D.acople, g = D.torica;
-  const e = a.espigaD / 2, gb = g.gargantaFondoD / 2;
+  const a = D.acople;
   const prof = [
-    [a.boreCable / 2, 0], [e, 0],
-    [e, 6], [gb, 6], [gb, 6 + g.gargantaW], [e, 6 + g.gargantaW],
-    [e, a.espigaL], [a.collarD / 2, a.espigaL],
-    [a.collarD / 2, a.espigaL + a.collarH], [a.bridaD / 2, a.espigaL + a.collarH],
-    [a.bridaD / 2, a.espigaL + a.collarH + a.bridaH], [a.cavidadD / 2, a.espigaL + a.collarH + a.bridaH],
-    [a.cavidadD / 2, a.espigaL], [a.boreCable / 2, a.espigaL],
+    [a.boreRosca / 2, 0], [a.cuboD / 2, 0], [a.cuboD / 2, a.cuboH],
+    [a.bridaD / 2, a.cuboH], [a.bridaD / 2, a.cuboH + a.bridaH],
+    [a.cavidadD / 2, a.cuboH + a.bridaH], [a.cavidadD / 2, a.roscaProf],
+    [a.boreRosca / 2, a.roscaProf],
   ];
-  const m4 = hole(3.4, [a.patronM4 / 2, a.patronM4 / 2, 42], [0, 0, -1], { depth: 8, name: 'Rosca M4 (previo Ø3.4)' });
-  P('acople', '11 Acople de cabezal 316L (espiga+brida 4×M4)', '#8f9aa8', [0, 0, a.zBase], [
+  const m4 = hole(3.4, [a.patronM4 / 2, a.patronM4 / 2, a.cuboH + a.bridaH], [0, 0, -1], { depth: 8, name: 'Rosca M4 (previo Ø3.4)' });
+  P('acople', '11 Acople de cabezal 316L (brida 4×M4 + hembra 1 1/2\" NPT)', '#8f9aa8', [0, 0, a.zBase], [
     revolve(prof, [0, 0, 0], 'Revolución acople'),
     m4, circPat(m4.id, 4),
-  ], { explode: [0, 0, 150] });
+  ], { explode: [0, 0, 480] });
+
+  // acople de transición a nivel de suelo (espiga+tórica al PVC, hembra NPT arriba)
+  const t = D.trans;
+  const profT = [
+    [15, 0], [21.2, 0],
+    [21.2, 6], [18.8, 6], [18.8, 10], [21.2, 10],
+    [21.2, t.espigaL], [t.collarD / 2, t.espigaL],
+    [t.collarD / 2, t.espigaL + t.collarH], [t.cuboD / 2, t.espigaL + t.collarH],
+    [t.cuboD / 2, 74], [t.boreRosca / 2, 74], [t.boreRosca / 2, 48],
+    [7, 48], [7, 44], [18, 44], [18, t.espigaL], [15, t.espigaL],
+  ];
+  P('transicion', '31 Acople de transición 316L (espiga PVC + hembra 1 1/2\" NPT)', '#7d8896', [0, 0, t.zBase], [
+    revolve(profT, [0, 0, 0], 'Revolución transición'),
+  ], { explode: [0, 0, 110] });
+
+  // pilar de cañería SCH40 1 1/2\" con hilo en ambas puntas, pintura dúplex
+  const pl = D.pilar;
+  P('pilar', '32 Pilar cañería A53 SCH40 1 1/2\" hilo en puntas (dúplex RAL 7016)', '#383e42', [0, 0, pl.z0], [
+    cyl(pl.OD, pl.L, [0, 0, 0], [0, 0, 1], 'union', 'Cañería Ø48.3'),
+    cyl(pl.ID, pl.L + 2, [0, 0, -1], [0, 0, 1], 'cut', 'Ánima Ø40.9'),
+  ], { explode: [0, 0, 260] });
 }
 
 // --- 12 PRENSAESTOPAS SKINTOP MS-M16 + 13 CONTRATUERCA ------------------------
@@ -233,6 +260,12 @@ D.sensor.profundidades.forEach((zp, i) => {
     cyl(p.roscaD, 7, [0, 0, 20], [0, 0, 1], 'union', 'Rosca M16×1.5'),
     hole(10, [0, 0, 27], [0, 0, -1], { through: true, name: 'Paso de cable Ø10' }),
   ], { explode: [0, 0, 280] });
+  P('prensa_trans', '33 Prensaestopas Skintop MS-M16 (transición)', '#c9a227', [0, 0, 53], [
+    cyl(p.cuerpoD, 12, [0, 0, 0], [0, 0, 1], 'union', 'Cuerpo de apriete'),
+    sketch(hexEntities(p.SW / 2 / Math.cos(Math.PI / 6)), 8, [0, 0, 12], [0, 0, 1], [1, 0, 0], 'union', 'Hexágono SW20'),
+    cyl(p.roscaD, 7, [0, 0, 20], [0, 0, 1], 'union', 'Rosca M16×1.5'),
+    hole(10, [0, 0, 27], [0, 0, -1], { through: true, name: 'Paso de cable Ø10' }),
+  ], { explode: [0, 0, 180] });
   P('contratuerca', '13 Contratuerca M16 latón niquelado', '#c9a227', [0, 0, D.gab.zPiso + 3], [
     sketch([...hexEntities(12.7), { type: 'circle', c: [0, 0], r: 8.25 }], 4, [0, 0, 0], [0, 0, 1], [1, 0, 0], 'union', 'Tuerca SW22'),
   ], { explode: [0, 0, 350] });
@@ -362,12 +395,12 @@ D.sensor.profundidades.forEach((zp, i) => {
 // ============================================================================
 const BOM = [
   { item: 1, id: 'punta', desig: 'Punta cónica de penetración', mat: '316L torneado', cant: 1, nota: 'Cono 40° incl., ápice romo r2; espiga Ø42.4 c/garganta tórica' },
-  { item: 2, id: 'tubo', desig: 'Tubo portante + elevador Ø50×3.7 L1550', mat: 'PVC-U EN 1452 PN16', cant: 1, nota: 'No metálico (no perturba el campo dieléctrico); tramo aéreo 900 mm pintado blanco (UV) o PVC estabilizado' },
+  { item: 2, id: 'tubo', desig: 'Tubo portante Ø50×3.7 L700 (enterrado)', mat: 'PVC-U EN 1452 PN16', cant: 1, nota: 'No metálico: no perturba el campo dieléctrico de los sensores' },
   { item: 3, id: 'sensor1', desig: 'Sensor humedad/T° SMT100 RS-485', mat: 'Truebner (compra)', cant: 3, nota: '182×30×12, −40…+80 °C, bus RS-485 único; prof. 20/40/60 cm' },
   { item: 4, id: 'pasamuro1', desig: 'Pasamuro de sensor torneado', mat: 'POM-C', cant: 3, nota: 'Pegado epoxi estructural en taladro Ø35; ranura 31×13 + potting PU' },
-  { item: 5, id: 'torica_punta', desig: 'Tórica ISO 3601 36×3', mat: 'FKM (Viton) 75 Sh', cant: 2, nota: 'Garganta 37.6/2.4/4.0 — apriete 17 % (regla Parker 15–25 %)' },
-  { item: 6, id: 'acople', desig: 'Acople de cabezal espiga+brida', mat: '316L torneado', cant: 1, nota: 'Brida Ø90, 4×M4 patrón 56×56, cavidad Ø36 p/prensaestopas' },
-  { item: 7, id: 'prensa', desig: 'Prensaestopas Skintop MS-M16', mat: 'Latón Ni (Lapp)', cant: 1, nota: 'IP68; apriete cuerpo 2.5 N·m; rango cable 4.5–10 mm' },
+  { item: 5, id: 'torica_punta', desig: 'Tórica ISO 3601 36×3', mat: 'FKM (Viton) 75 Sh', cant: 2, nota: 'Punta y transición; garganta 37.6/2.4/4.0 — apriete 17 % (regla Parker 15–25 %)' },
+  { item: 6, id: 'acople', desig: 'Acople de cabezal brida + hembra 1 1/2" NPT', mat: '316L torneado', cant: 1, nota: 'Brida Ø90, 4×M4 patrón 56×56, cavidad Ø36 p/prensaestopas; rosca al pilar con PTFE + anaerobio' },
+  { item: 7, id: 'prensa', desig: 'Prensaestopas Skintop MS-M16', mat: 'Latón Ni (Lapp)', cant: 2, nota: '1 cabezal + 1 transición; IP68; apriete cuerpo 2.5 N·m; rango cable 4.5–10 mm' },
   { item: 8, id: 'contratuerca', desig: 'Contratuerca M16×1.5', mat: 'Latón Ni', cant: 1, nota: 'Por dentro del piso del gabinete' },
   { item: 9, id: 'gabinete', desig: 'Gabinete ARCA PC 150/60 HG', mat: 'Policarbonato (Fibox 6011313)', cant: 1, nota: 'IP66/67, IK08, −40…+80 °C; radio-transparente (antena interna)' },
   { item: 10, id: 'junta', desig: 'Junta de tapa PU', mat: 'PU (incluida Fibox)', cant: 1, nota: 'Inspeccionar en cada servicio; reemplazar si está marcada' },
@@ -391,6 +424,8 @@ const BOM = [
   { item: 28, id: null, desig: 'Prisionero DIN 916 M5×8', mat: 'A4', cant: 2, nota: 'Collar antipercolación' },
   { item: 29, id: 'antena', desig: 'Antena 868/915 MHz 2 dBi látigo FV + soporte L', mat: 'Fibra vidrio / Al 5052', cant: 1, nota: 'Remata a ~1.2 m sobre NPT, por sobre el nivel del panel; 2×M4 al gabinete' },
   { item: 30, id: null, desig: 'Jumper SMA-hembra→SMA-macho 300 mm', mat: 'RG-316', cant: 1, nota: 'Paso Ø6.5 en pared +X, pasacables con junta + silicona neutra' },
+  { item: 31, id: 'transicion', desig: 'Acople de transición espiga PVC + hembra 1 1/2" NPT', mat: '316L torneado', cant: 1, nota: 'A nivel de suelo; tórica 36×3 al PVC + prensaestopas M16 interno (aísla el conducto del cuerpo enterrado)' },
+  { item: 32, id: 'pilar', desig: 'Pilar cañería NPS 1 1/2" SCH40 × 810, hilo en ambas puntas', mat: 'Acero ASTM A53; dúplex: galv. caliente + poliéster polvo RAL 7016', cant: 1, nota: 'OD 48.3 / pared 3.68; hilo 1 1/2"-11.5 NPT; hilos enmascarados al pintar y retocados zinc-rich; alternativa NPS 1" SCH40 si prima costo' },
 ];
 
 const CONSUMIBLES = [
@@ -408,18 +443,19 @@ const PASOS = [
   { n: 2, t: 'Punta → tubo', partes: ['punta', 'torica_punta', 'tubo'], texto: 'Engrasar (Molykote 111) la tórica 36×3 y montarla en la garganta de la espiga de la punta. Aplicar epoxi estructural en el collar de la espiga (NO sobre la tórica). Insertar en el tubo hasta el tope con giro suave de 90°. Limpiar excedente. Curado 24 h vertical.' },
   { n: 3, t: 'Pasamuros POM-C', partes: ['tubo', 'pasamuro1', 'pasamuro2', 'pasamuro3'], texto: 'Presentar cada pasamuro en su taladro Ø35 (brida contra el tubo, ranura vertical). Pegar con epoxi estructural en todo el perímetro del cuerpo Ø34.6. Verificar que la ranura 31×13 queda alineada con el eje del tubo. Curado 24 h.' },
   { n: 4, t: 'Sensores SMT100 + potting', partes: ['sensor1', 'sensor2', 'sensor3', 'pasamuro1', 'pasamuro2', 'pasamuro3', 'tubo'], texto: 'Pasar cordón de tiro por el tubo. Insertar cada hoja SMT100 por su ranura desde afuera (cable primero), dejando la zona sensora íntegramente fuera del tubo, en suelo no perturbado. Cablear el bus RS-485 en cadena (una sola pantalla). Rellenar la cavidad de cada pasamuro con potting PU hasta enrasar la brida. Curado según ficha.' },
-  { n: 5, t: 'Acople de cabezal', partes: ['acople', 'torica_cabezal', 'tubo'], texto: 'Engrasar la tórica 36×3 del cabezal y montarla en la garganta de la espiga del acople. Sacar el cable de bus por el bore Ø30. Insertar la espiga en el tubo hasta asentar el collar Ø56 en la cara del tubo (sin adhesivo: unión de servicio, el sello es la tórica).' },
-  { n: 6, t: 'Prensaestopas M16', partes: ['prensa', 'contratuerca', 'gabinete', 'acople'], texto: 'Desde la cavidad Ø36 del acople, subir la rosca M16 del Skintop a través del paso Ø16.5 del piso del gabinete. Contratuerca por dentro: 3 N·m. Pasar el cable de bus y apretar el cuerpo del prensaestopas a 2.5 N·m (rango 4.5–10 mm).' },
-  { n: 7, t: 'Gabinete → acople', partes: ['gabinete', 'acople'], texto: 'Alinear el patrón 56×56 del piso con las 4 roscas M4 de la brida. 4× DIN 912 M4×12 A4 con Loctite 243, apriete en cruz 2 N·m. Verificar que el gabinete queda firme y nivelado.' },
+  { n: 5, t: 'Acople de transición', partes: ['transicion', 'torica_cabezal', 'prensa_trans', 'tubo'], texto: 'Engrasar la tórica 36×3 y montarla en la garganta de la espiga de la transición. Insertar la espiga en el tubo hasta asentar el collar Ø56 (unión de servicio: el sello es la tórica). Pasar el cable de bus por el prensaestopas M16 interno de la transición y apretarlo a 2.5 N·m: el conducto del pilar queda AISLADO del cuerpo enterrado.' },
+  { n: 6, t: 'Pilar SCH40 + acople de cabezal', partes: ['pilar', 'transicion', 'acople'], texto: 'PTFE (3 vueltas) + sellador anaerobio en el hilo inferior del pilar 1 1/2"-11.5 NPT y roscar a la transición (llave en el cubo Ø60, no sobre la pintura). Subir el cable por el ánima Ø40.9 con cordón de tiro. Igual sellado en el hilo superior y roscar el acople de cabezal hasta orientar su patrón M4. Retocar hilos expuestos con zinc-rich.' },
+  { n: 7, t: 'Gabinete → acople + prensaestopas', partes: ['gabinete', 'acople', 'prensa', 'contratuerca'], texto: 'Subir la rosca M16 del Skintop del cabezal por el paso Ø16.5 del piso; contratuerca por dentro a 3 N·m; pasar el cable y apretar el cuerpo a 2.5 N·m. Alinear el patrón 56×56 con las 4 roscas M4 de la brida: 4× DIN 912 M4×12 A4 + Loctite 243, en cruz a 2 N·m.' },
   { n: 8, t: 'Electrónica interior', partes: ['separadores', 'pcb', 'portapilas', 'baterias', 'bms', 'borne_bus', 'desecante'], texto: 'Separadores nylon M3×6 → PCB (4×M3×8). Portapilas + 2×26650 LiFePO4 + BMS. Bornera del bus: aterrar pantalla en un solo punto. Conectar bus, alimentación y antena LoRa interna (el PC es radio-transparente). Colocar cápsula desecante.' },
   { n: 9, t: 'M12, válvula Gore y antena', partes: ['m12', 'm12_tapa', 'vent', 'antena', 'gabinete'], texto: 'Montar receptáculo M12 A-cod en el recorte Ø12.5 (pared −Y), tuerca interior, grasa dieléctrica, tapa con cadenilla. Válvula Gore M12 en la pared opuesta. Soporte L + antena 868/915 en la pared +X (2×M4); jumper SMA por el paso Ø6.5 con junta y silicona neutra. El látigo debe rematar SOBRE el nivel del panel.' },
   { n: 10, t: 'Prueba de estanqueidad (GATE)', partes: ['punta', 'tubo', 'acople', 'gabinete'], texto: 'ANTES de instalar: prueba de vacío −20 kPa / 5 min por el M12 (caída ≤ 1 kPa) o inmersión 1 m / 30 min con papel indicador interior. Si falla: revisar tóricas y potting. NO instalar una sonda que no pasó la prueba.' },
-  { n: 11, t: 'Instalación en terreno', partes: ['tapon_hinca', 'collar', 'tubo', 'punta'], texto: 'Pilotar Ø45 a 750 mm con barreno. Colocar TAPÓN DE HINCA 316L en el tubo (nunca golpear el tubo ni el cabezal). Hincar hasta que el tubo sobresalga 900 mm sobre NPT (cota del cabezal). Rellenar el anular con lechada de la misma tierra tamizada; últimos 300 mm con bentonita. Retirar tapón, montar cabezal completo. Collar antipercolación al ras del suelo, 2×M5.' },
+  { n: 11, t: 'Instalación en terreno', partes: ['tapon_hinca', 'collar', 'tubo', 'punta'], texto: 'Pilotar Ø45 a 750 mm con barreno. Colocar TAPÓN DE HINCA 316L en el tubo (nunca golpear el tubo ni el cabezal). Hincar hasta que la cara superior del tubo quede a +50 sobre NPT. Rellenar el anular con lechada de la misma tierra tamizada; últimos 300 mm con bentonita. Retirar tapón, montar cabezal completo. Collar antipercolación al ras del suelo, 2×M5.' },
   { n: 12, t: 'Cierre y puesta en marcha', partes: ['junta', 'tapa', 'panel', 'soporte_panel'], texto: 'Verificar junta PU limpia y asentada. Tapa 4×M4 A4 a 1.2 N·m en cruz. Soporte 15° + panel 5 W orientado al ecuador. Verificar lecturas Modbus de los 3 sensores y enlace LoRaWAN. Registrar IDs, RSSI y fotos del cierre en la bitácora del proyecto.' },
 ];
 
 const FEATURES = [
-  'Cabezal ELEVADO 0.9 m sobre NPT en tramo elevador del propio tubo (estado del arte: CropX exige antena sobre el canopy; Sentek PLUS y METER ZL6 montan electrónica+panel en poste): panel sin sombra ni barro, antena despejada, gabinete a salvo de anegamiento y maquinaria',
+  'Cabezal ELEVADO 0.9 m sobre PILAR de cañería acero NPS 1 1/2" SCH40 con hilo en ambas puntas y pintura dúplex (galv.+poliéster polvo) — estado del arte: CropX exige antena sobre el canopy; Sentek PLUS y METER ZL6 montan electrónica+panel en poste de acero. E=200 GPa: sin oscilación ni riesgo UV, aguanta impacto de maquinaria',
+  'Acople de transición 316L a nivel de suelo con prensaestopas propio: el conducto del pilar queda aislado del cuerpo enterrado (doble barrera si el pilar llegara a inundarse)',
   'Antena exterior 868/915 MHz 2 dBi en soporte lateral, látigo a ~1.2 m (además el gabinete PC es radio-transparente como respaldo)',
   'Medición de humedad y temperatura a 20/40/60 cm con 3× Truebner SMT100 (±3 % VWC, −40…+80 °C) en un solo bus RS-485/Modbus',
   'Estanqueidad IP68 por doble tórica FKM 36×3 en gargantas según regla Parker (apriete 17 %) + prensaestopas Skintop MS-M16 + potting PU en sensores',
@@ -440,7 +476,7 @@ const WEB_REF = [
 ];
 
 const DESVIACIONES = [
-  'Cabezal elevado 900 mm sobre NPT (el informe lo dejaba implícitamente a ras): alineado con la práctica CropX/Sentek/METER (meta.webRef). El tramo aéreo del tubo PVC-U se pinta blanco (UV) o se reemplaza por PVC estabilizado; opcional mástil/funda galvanizada si hay tránsito de maquinaria.',
+  'Cabezal elevado 900 mm sobre NPT (el informe lo dejaba implícitamente a ras): alineado con la práctica CropX/Sentek/METER (meta.webRef). Tramo aéreo = PILAR de cañería acero NPS 1 1/2" SCH40 con hilo NPT en ambas puntas y pintura dúplex (spec del usuario); el PVC-U queda solo enterrado. Sobre NPT no rige la restricción dieléctrica (sensores a -200/-400/-600).',
   'PLC DIN y DDR-15 (90 mm) no caben en ARCA 150/60 (interior útil 49 mm) → nodo de placa única (variante §3 del informe). Alternativa si se exige DIN: ARCA 190×190×90.',
   'Sello por espiga macho Ø42.4 + tórica 36×3 (en vez de registro hembra Ø50.2 + tórica 46×3: dejaba pared 0.4 mm en acople Ø56). Misma regla de garganta Parker del informe §5.4.',
   'Cono de punta 40° incluido ×63 mm (opción corta recomendada por el propio informe §5.1 cuando el largo preocupa).',
