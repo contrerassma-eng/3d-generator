@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
-  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, makeMirrorFeature, makeFilletFeature, makeChamferFeature, makeShellFeature, isConvexSolid, solidPlanarFaces, planeBasis, magnetCorrections, identifyFace,
+  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, makeMirrorFeature, makeFilletFeature, makeChamferFeature, makeShellFeature, isConvexSolid, solidPlanarFaces, massProperties, planeBasis, magnetCorrections, identifyFace,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
   evalExpr, resolveParams, applyDocParams,
@@ -410,6 +410,23 @@ console.log('— Patrones de funciones (rectangular / circular) —');
   const cylFacet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
   const expected = 96000 - 2 * Math.PI * 9 * 10 * cylFacet;
   check('caja − simetría de agujero (2 en total)', rel(volume(g), expected) < 0.004, `vol=${volume(g)} esp=${expected.toFixed(1)}`);
+}
+
+console.log('— Propiedades físicas (masa/área/centro) —');
+{
+  const g = buildPartGeometry((() => { const d = newDoc(); const p = newPart(d, 'm'); p.features.push(makeBoxFeature(40, 40, 40, [0, 0, 0])); return p; })());
+  const mp = massProperties(g);
+  // la caja se centra en X/Y sobre 'at' y apoya en z=at.z → [-20,20]×[-20,20]×[0,40]
+  check('caja 40³: volumen 64000', rel(mp.volume, 64000) < 1e-3, `v=${mp.volume}`);
+  check('caja 40³: área 9600', rel(mp.area, 9600) < 1e-3, `a=${mp.area}`);
+  check('caja 40³: centro en (0,0,20)', Math.abs(mp.centroid[0]) < 1e-3 && Math.abs(mp.centroid[1]) < 1e-3 && Math.abs(mp.centroid[2] - 20) < 1e-3, `c=${mp.centroid}`);
+  check('caja 40³: caja delimitadora 40×40×40', mp.bbox.size.every(s => Math.abs(s - 40) < 1e-6));
+
+  // barra 20×10×10 con at=[10,0,0] → [0,20]×[-5,5]×[0,10] → centro (10,0,5)
+  const gb = buildPartGeometry((() => { const d = newDoc(); const p = newPart(d, 'b'); p.features.push(makeBoxFeature(20, 10, 10, [10, 0, 0])); return p; })());
+  const mb = massProperties(gb);
+  check('barra: volumen 2000', rel(mb.volume, 2000) < 1e-3, `v=${mb.volume}`);
+  check('barra: centro (10,0,5)', Math.abs(mb.centroid[0] - 10) < 1e-3 && Math.abs(mb.centroid[1]) < 1e-3 && Math.abs(mb.centroid[2] - 5) < 1e-3, `c=${mb.centroid}`);
 }
 
 console.log('— Vaciado (shell) —');

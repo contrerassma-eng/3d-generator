@@ -280,6 +280,35 @@ export function shellInner(geom, t, openFaces = []) {
   return inner;
 }
 
+// Propiedades físicas de una malla cerrada (símil iProperties de Inventor):
+// volumen (por tetraedros firmados), área de superficie (suma de triángulos),
+// caja delimitadora y centro de masa. Coordenadas de la propia malla.
+export function massProperties(geom) {
+  const g = geom.index ? geom.toNonIndexed() : geom;
+  const pos = g.attributes.position;
+  if (!pos || pos.count < 3) return { volume: 0, area: 0, bbox: null, centroid: [0, 0, 0] };
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
+  let vol6 = 0, area2 = 0;
+  const cen = new THREE.Vector3(); // acumula centroide ponderado por volumen firmado
+  const min = new THREE.Vector3(Infinity, Infinity, Infinity);
+  const max = new THREE.Vector3(-Infinity, -Infinity, -Infinity);
+  for (let t = 0; t < pos.count; t += 3) {
+    a.fromBufferAttribute(pos, t); b.fromBufferAttribute(pos, t + 1); c.fromBufferAttribute(pos, t + 2);
+    min.min(a).min(b).min(c); max.max(a).max(b).max(c);
+    const sv = a.dot(new THREE.Vector3().crossVectors(b, c)); // 6·volumen del tetraedro O-a-b-c
+    vol6 += sv;
+    cen.x += (a.x + b.x + c.x) * sv; cen.y += (a.y + b.y + c.y) * sv; cen.z += (a.z + b.z + c.z) * sv;
+    area2 += new THREE.Vector3().subVectors(b, a).cross(new THREE.Vector3().subVectors(c, a)).length();
+  }
+  const volume = Math.abs(vol6) / 6;
+  const centroid = Math.abs(vol6) > 1e-9 ? [cen.x / (4 * vol6), cen.y / (4 * vol6), cen.z / (4 * vol6)] : [(min.x + max.x) / 2, (min.y + max.y) / 2, (min.z + max.z) / 2];
+  return {
+    volume, area: area2 / 2,
+    bbox: { min: min.toArray(), max: max.toArray(), size: [max.x - min.x, max.y - min.y, max.z - min.z] },
+    centroid,
+  };
+}
+
 // Empalme (fillet) y chaflán (chamfer) sobre aristas del sólido ya construido.
 // A diferencia de las demás funciones, operan sobre la malla acumulada: cada
 // arista se guarda por sus dos extremos (coordenadas locales); al regenerar se
