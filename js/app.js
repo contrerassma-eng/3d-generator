@@ -11,7 +11,7 @@ import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid, PALETTE,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
   makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, makeMirrorFeature, makeFilletFeature, makeChamferFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
-  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace, holeToolGeometry, makeShellFeature, isConvexSolid, massProperties, sectionCap,
+  buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace, holeToolGeometry, makeShellFeature, isConvexSolid, massProperties, sectionCap, sectionHatch,
   makeMate, makeConcentric, solveConstraints,
   evalExpr, resolveParams, applyExpressions,
 } from './model.js';
@@ -303,11 +303,12 @@ if (vcCanvas) {
 // sección global: corta el modelo por un plano X/Y/Z para ver interiores
 const sectionBtn = document.getElementById('btnSection');
 // aplica el plano de corte (clipping) y, si 'cap', las tapas macizas del corte
-function applySectionPlane(axis, pos, inv, cap) {
+function applySectionPlane(axis, pos, inv, cap, hatch) {
   const n = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] }[axis];
   const normal = new THREE.Vector3(...n).multiplyScalar(inv ? 1 : -1);
   SECTION.length = 0;
   SECTION.push(new THREE.Plane(normal, inv ? -pos : pos));
+  sectionHatchOn = !!hatch;
   buildSectionCaps(cap);
   sectionBtn.classList.add('on');
 }
@@ -317,9 +318,10 @@ if (sectionBtn) sectionBtn.onclick = () => {
     { key: 'pos', label: 'Posición (mm)', value: 0, step: 1 },
     { key: 'inv', label: 'Invertir lado', type: 'checkbox', value: false },
     { key: 'cap', label: 'Tapar el corte (macizo)', type: 'checkbox', value: true },
+    { key: 'hatch', label: 'Rayado técnico', type: 'checkbox', value: true },
   ], (v) => {
-    applySectionPlane(v.axis, v.pos, v.inv, v.cap);
-    setStatus(`Corte activo: plano ${v.axis.toUpperCase()} en ${v.pos} mm${v.cap ? ' · tapado macizo' : ' · abierto'} (edítalo con el mismo botón).`);
+    applySectionPlane(v.axis, v.pos, v.inv, v.cap, v.hatch);
+    setStatus(`Corte activo: plano ${v.axis.toUpperCase()} en ${v.pos} mm${v.cap ? ' · tapado macizo' : ' · abierto'}${v.cap && v.hatch ? ' · rayado' : ''} (edítalo con el mismo botón).`);
   }, {
     label: '✕ Quitar corte',
     onClick() {
@@ -329,12 +331,12 @@ if (sectionBtn) sectionBtn.onclick = () => {
       setStatus('Corte desactivado.');
     },
   });
-  // vista previa en vivo: al mover posición/plano/lado/tapa se reconstruye el corte
+  // vista previa en vivo: al mover posición/plano/lado/tapa/rayado se reconstruye el corte
   const upd = () => {
-    const axis = $('dlg_axis').value, pos = +$('dlg_pos').value, inv = $('dlg_inv').checked, cap = $('dlg_cap').checked;
-    applySectionPlane(axis, pos, inv, cap);
+    const axis = $('dlg_axis').value, pos = +$('dlg_pos').value, inv = $('dlg_inv').checked, cap = $('dlg_cap').checked, hatch = $('dlg_hatch').checked;
+    applySectionPlane(axis, pos, inv, cap, hatch);
   };
-  for (const k of ['axis', 'pos', 'inv', 'cap']) { const el = $(`dlg_${k}`); el?.addEventListener('input', upd); el?.addEventListener('change', upd); }
+  for (const k of ['axis', 'pos', 'inv', 'cap', 'hatch']) { const el = $(`dlg_${k}`); el?.addEventListener('input', upd); el?.addEventListener('change', upd); }
 };
 
 // plano base ocultable (para mirar el modelo por abajo sin estorbo)
@@ -374,8 +376,23 @@ function buildSectionCaps(enabled) {
     m.position.addScaledVector(pl.normal, 0.03); // leve empuje para evitar z-fighting con el borde cortado
     m.renderOrder = 1;
     sectionCaps.add(m);
+    // rayado (hatch) técnico sobre la tapa
+    if (sectionHatchOn) {
+      let hatch = null;
+      const geo2 = rec.mesh.geometry.clone().applyMatrix4(rec.mesh.matrixWorld);
+      try { hatch = sectionHatch(geo2, nArr, d, 4, 45); } catch { hatch = null; }
+      geo2.dispose?.();
+      if (hatch) {
+        const hl = new THREE.LineSegments(hatch, sectionHatchMat);
+        hl.position.addScaledVector(pl.normal, 0.06);
+        hl.renderOrder = 2;
+        sectionCaps.add(hl);
+      }
+    }
   }
 }
+const sectionHatchMat = new THREE.LineBasicMaterial({ color: 0x11141a, transparent: true, opacity: 0.5 });
+let sectionHatchOn = true;
 window.__buildSectionCaps = buildSectionCaps; // para rebuilds tras regenerar piezas
 
 function resize() {
