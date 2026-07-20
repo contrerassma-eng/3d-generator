@@ -25,8 +25,8 @@ calibre antes de fabricar.
 | Rodillo (barril) | Ø20 máx × 18 | medido Ø / largo derivado |
 | Radio de centros de rodillos | rc = 25 | derivado: rc = R − r_rodillo |
 | **Rodadura** | **Ø70** (R35 = 25 + 10) | derivado |
-| Rodillos por corona | 8 × 2 coronas, desfase 22.5° (refinado s/ referencias web) | Nexus 14073 |
-| Ancho total | 38 (refinado; ancho/Ø = 0.54) | referencias web |
+| Rodillos por corona | 6 × 2 coronas, desfase 30° (como el snapshot) | preferencia del usuario |
+| Ancho total | 42 | rodillos Ø16×22, rc=27 |
 | Pasador de rodillo | Ø3 + rodamiento 719/3-2Z, remaches 3×6 | archivos del snapshot |
 | Bore | Ø15 (adaptado al módulo; el original es hobby) | diseño |
 
@@ -51,9 +51,9 @@ luz real en el cruce = 25 − 7.5 − 7.5 = 10 mm
 | Cota | rueda_omni_120_doble |
 |---|---|
 | Rodadura | Ø120 (R60), centro 25 mm más bajo que la Ø70 |
-| Rodillos | 2 coronas × 12, Ø18 máx × 22, desfase 15°, rc = 51 |
+| Rodillos | 2 coronas × 8, Ø22 máx × 32, desfase 22.5°, rc = 49 |
 | Placas | Ø94 de aluminio, festoneadas en el ensamble |
-| Ancho | 46 · bore Ø15, chaveta 5×5 (misma que la Ø70) |
+| Ancho | 54 · bore Ø15, chaveta 5×5 (misma que la Ø70) |
 
 ## Referencias web del diseño (consultadas 2026-07-20)
 
@@ -71,8 +71,9 @@ El proporcionado de las ruedas se refinó contra omniwheels comerciales:
   Regla adoptada: **placas festoneadas** (el rodillo asoma por la escotadura),
   no discos llenos.
 
-Aplicado: Ø70 pasa de 2×6 rodillos Ø20 (ancho 50) a **2×8 rodillos Ø14
-(ancho 38)**; Ø120 de 2×8 Ø26 (ancho 62) a **2×12 Ø18 (ancho 46)**; placas
+Aplicado (con la preferencia del usuario de POCOS rodillos, como el
+snapshot): Ø70 = **2×6 rodillos Ø16×22 (ancho 42)**; Ø120 = **2×8 rodillos
+Ø22×32 (ancho 54)**; placas
 exteriores de **aluminio festoneadas** con pernos pasantes entre rodillos
 (boceto extruido con escotaduras de arco) y agujero central. Las cotas del
 snapshot que eran medidas (platos Ø55, rodadura Ø70) se conservan.

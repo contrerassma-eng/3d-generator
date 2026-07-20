@@ -34,8 +34,8 @@ const IN = 25.4;
 const D = {
   mod: 24 * IN,                 // 609.6 — largo y ancho del módulo (norma CV-OMW)
   tang: 170,                    // plano de transporte (marco del módulo)
-  R1: 35,  W1: 38,              // rueda omni Ø70 (refinada s/ referencias web) — ejes A
-  R2: 60,  W2: 46,              // rueda omni Ø120 (derivada) — ejes B (eyección)
+  R1: 35,  W1: 42,              // rueda omni Ø70 (6 rodillos/corona) — ejes A (avance)
+  R2: 60,  W2: 54,              // rueda omni Ø120 (8 rodillos/corona) — ejes B (eyección)
   ejeDia: 15,                   // ejes calibrados Ø15 h6, chaveta 5×5 (ambas familias)
   luzMin: 5,                    // luz mínima admisible en cualquier cruce
   pitch: 6 * IN,                // 152.4 — paso de la retícula de contactos
@@ -301,8 +301,8 @@ function ruedaTorneada(nombre, biblioteca, pos, quat, P) {
   }
   parts.push({ id: `op${++np}_rt`, name: nombre, biblioteca, componente: biblioteca, color: C.rodillo, pos, quat, fixed: false, visible: true, base_ref: true, features: fe });
 }
-const RT70 = { R: 35, rrod: 7, nrod: 8, Lrod: 16, rHub: 15, rPlato: 27.5, ePlato: 3, wMid: 4, chaflan: 1.2 };
-const RT120 = { R: 60, rrod: 9, nrod: 12, Lrod: 22, rHub: 22, rPlato: 47, ePlato: 3, wMid: 4, chaflan: 1.5 };
+const RT70 = { R: 35, rrod: 8, nrod: 6, Lrod: 22, rHub: 15, rPlato: 27.5, ePlato: 3, wMid: 4, chaflan: 1.2 };   // 6 rodillos/corona (como el snapshot)
+const RT120 = { R: 60, rrod: 11, nrod: 8, Lrod: 32, rHub: 22, rPlato: 47, ePlato: 3, wMid: 4, chaflan: 1.5 };  // 8 rodillos/corona
 
 // bastidor: bandeja (con RANURAS de paso de correa por estación) + 4 placas
 // perimetrales (con pasadas Ø16 de los ejes) + TAPA portante con aberturas
