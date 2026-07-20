@@ -10,14 +10,14 @@
   "tolerancias": {
    "ejes": "ejes calibrados Ø15 h6 pasantes, chaveta DIN 6885 5×5 bajo cada rueda, chumaceras de brida en las placas perimetrales; familias a Z distinta (135/110): en los 12 cruces de planta la luz entre superficies de eje es 10 mm.",
    "ruedas": "rodillos reales ABOMBADOS (perfil torneado al radio de rodadura) para envolvente continua; en el modelo primitivo son cilindros y la envolvente de la Ø120 excede 0.8 mm radiales en los extremos de rodillo — desaparece con el abombado.",
-   "transmision": "correa síncrona interior por eje (asoma solo la corona de las ruedas, cuerpo cerrado negro mate); motores UniDrive 60 W 24 VDC bajo la cama."
+   "transmision": "motor UniDrive DE BIBLIOTECA (cv_ZP2026__300986_std_unidrive_motor_d_shaft, malla real del ZP2026) por eje, COLGADO BAJO LA BANDEJA en bracket de chapa 4 mm estilo ZP2026 (bracket_motor_unidrive_omni, colisas Ø9×20 para tensar); polea síncrona ad-hoc HTD 5M 28T (polea_sincrona_htd5m_28t) en el eje y en el eje D del motor, relación 1:1; correas HTD 5M-475-15 (95T, ejes A, C=167.5) y 5M-425-15 (85T, ejes B, C=142.5) pasando por RANURAS de 56×19 en la bandeja. Todos los ejes de motor a Z=−32.5. La altura del eje D del motor se asume al centro de la sección 118×119 del GLB — VERIFICAR; las colisas del bracket absorben la diferencia."
   },
   "verificaciones": {
    "modulo": "24\"×24\" (609.5999999999999×609.5999999999999), tangente Z=170",
    "ruedas": "16× Ø70 avance + 9× Ø120 eyección",
    "ejes": "4 ejes A Ø15 (Y, z=135) + 3 ejes B Ø15 (X, z=110) — cruzados con luz 10 mm",
    "contactos": "retícula 6\" (152.4): avance 4×4 intercalada con eyección 3×3 (tresbolillo, contacto más próximo 107.8 mm)",
-   "motores": "7 UniDrive 60W 24VDC instalados + 1 adicional (BOM CV-OMW)",
+   "motores": "7 UniDrive (malla cv_ZP2026__300986_std_unidrive_motor_d_shaft) + 1 adicional (BOM CV-OMW); 14 poleas HTD 5M 28T; correas 4× 5M-475-15 + 3× 5M-425-15; 7 brackets colgantes estilo ZP2026",
    "tangente": "Z=170 común: zA+R1 = 170 · zB+R2 = 170",
    "luz_cruce_ejes": "10.0 mm (mín 5)",
    "luz_ejeA_ruedaB": "37.7 mm (mín 5)",
@@ -25,7 +25,19 @@
    "luz_ejeB_ruedaA": "43.7 mm (mín 5)",
    "gap_planta_AB_X": "10.2 mm (mín 5)",
    "luz_ruedaB_ruedaB": "32.4 mm (mín 5)",
-   "luz_ruedaB_fondo": "10.0 mm (mín 5)"
+   "luz_ruedaB_fondo": "10.0 mm (mín 5)",
+   "correa_A": "HTD 5M-475-15 (95T, C=167.5)",
+   "correa_B": "HTD 5M-425-15 (85T, C=142.5)",
+   "ventana_polea_A_x-229": "2.7 mm (mín 2)",
+   "ventana_polea_A_x-76": "2.7 mm (mín 2)",
+   "ventana_polea_A_x76": "2.7 mm (mín 2)",
+   "ventana_polea_A_x229": "2.7 mm (mín 2)",
+   "ventana_polea_B_y-152": "2.2 mm (mín 2)",
+   "ventana_polea_B_y152": "2.2 mm (mín 2)",
+   "ventana_polea_B_y0": "13.4 mm (mín 2)",
+   "gap_poleaA_ruedaB": "19.2 mm (mín 5)",
+   "luz_motor_fondo": "8.0 mm (mín 5)",
+   "luz_entre_motores": "3.0 mm (mín 2)"
   }
  },
  "parts": [
@@ -68,6 +80,153 @@
       "h": 5
      },
      "color": "#263238"
+    },
+    {
+     "id": "of2",
+     "name": "Ranura de correa A -229",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      -228.6,
+      -38,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 56,
+      "d": 19,
+      "h": 7
+     }
+    },
+    {
+     "id": "of3",
+     "name": "Ranura de correa A -76",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      -76.19999999999999,
+      -38,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 56,
+      "d": 19,
+      "h": 7
+     }
+    },
+    {
+     "id": "of4",
+     "name": "Ranura de correa A 76",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      76.19999999999999,
+      38,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 56,
+      "d": 19,
+      "h": 7
+     }
+    },
+    {
+     "id": "of5",
+     "name": "Ranura de correa A 229",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      228.6,
+      38,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 56,
+      "d": 19,
+      "h": 7
+     }
+    },
+    {
+     "id": "of6",
+     "name": "Ranura de correa B -152",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      44,
+      -152.4,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 19,
+      "d": 56,
+      "h": 7
+     }
+    },
+    {
+     "id": "of7",
+     "name": "Ranura de correa B 152",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      -44,
+      152.4,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 19,
+      "d": 56,
+      "h": 7
+     }
+    },
+    {
+     "id": "of8",
+     "name": "Ranura de correa B 0",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      260,
+      0,
+      34
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 19,
+      "d": 56,
+      "h": 7
+     }
     }
    ]
   },
@@ -90,7 +249,7 @@
    "visible": true,
    "features": [
     {
-     "id": "of2",
+     "id": "of9",
      "name": "Placa 609.6×6×128",
      "shape": "box",
      "op": "union",
@@ -132,7 +291,7 @@
    "visible": true,
    "features": [
     {
-     "id": "of3",
+     "id": "of10",
      "name": "Placa 6×597.5999999999999×128",
      "shape": "box",
      "op": "union",
@@ -174,7 +333,7 @@
    "visible": true,
    "features": [
     {
-     "id": "of4",
+     "id": "of11",
      "name": "Placa 609.6×6×128",
      "shape": "box",
      "op": "union",
@@ -216,7 +375,7 @@
    "visible": true,
    "features": [
     {
-     "id": "of5",
+     "id": "of12",
      "name": "Placa 6×597.5999999999999×128",
      "shape": "box",
      "op": "union",
@@ -258,7 +417,7 @@
    "visible": true,
    "features": [
     {
-     "id": "of6",
+     "id": "of13",
      "name": "Eje A Ø15×609.5999999999999",
      "shape": "cylinder",
      "op": "union",
@@ -279,7 +438,7 @@
      "color": "#b0bec5"
     },
     {
-     "id": "of7",
+     "id": "of14",
      "name": "Chumacera eje A",
      "shape": "box",
      "op": "union",
@@ -301,7 +460,7 @@
      "color": "#455a64"
     },
     {
-     "id": "of8",
+     "id": "of15",
      "name": "Chumacera eje A",
      "shape": "box",
      "op": "union",
@@ -345,7 +504,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of9",
+     "id": "of16",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -366,7 +525,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of10",
+     "id": "of17",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -387,7 +546,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of11",
+     "id": "of18",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -408,7 +567,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of12",
+     "id": "of19",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -429,7 +588,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of13",
+     "id": "of20",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -450,7 +609,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of14",
+     "id": "of21",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -471,7 +630,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of15",
+     "id": "of22",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -492,7 +651,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of16",
+     "id": "of23",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -513,7 +672,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of17",
+     "id": "of24",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -534,7 +693,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of18",
+     "id": "of25",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -555,7 +714,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of19",
+     "id": "of26",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -576,7 +735,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of20",
+     "id": "of27",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -597,7 +756,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of21",
+     "id": "of28",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -618,7 +777,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of22",
+     "id": "of29",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -639,7 +798,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of23",
+     "id": "of30",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -660,7 +819,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of24",
+     "id": "of31",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -703,7 +862,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of25",
+     "id": "of32",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -724,7 +883,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of26",
+     "id": "of33",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -745,7 +904,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of27",
+     "id": "of34",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -766,7 +925,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of28",
+     "id": "of35",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -787,7 +946,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of29",
+     "id": "of36",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -808,7 +967,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of30",
+     "id": "of37",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -829,7 +988,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of31",
+     "id": "of38",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -850,7 +1009,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of32",
+     "id": "of39",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -871,7 +1030,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of33",
+     "id": "of40",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -892,7 +1051,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of34",
+     "id": "of41",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -913,7 +1072,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of35",
+     "id": "of42",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -934,7 +1093,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of36",
+     "id": "of43",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -955,7 +1114,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of37",
+     "id": "of44",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -976,7 +1135,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of38",
+     "id": "of45",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -997,7 +1156,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of39",
+     "id": "of46",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -1018,7 +1177,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of40",
+     "id": "of47",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -1061,7 +1220,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of41",
+     "id": "of48",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -1082,7 +1241,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of42",
+     "id": "of49",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -1103,7 +1262,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of43",
+     "id": "of50",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -1124,7 +1283,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of44",
+     "id": "of51",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -1145,7 +1304,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of45",
+     "id": "of52",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -1166,7 +1325,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of46",
+     "id": "of53",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -1187,7 +1346,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of47",
+     "id": "of54",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -1208,7 +1367,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of48",
+     "id": "of55",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -1229,7 +1388,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of49",
+     "id": "of56",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -1250,7 +1409,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of50",
+     "id": "of57",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -1271,7 +1430,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of51",
+     "id": "of58",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -1292,7 +1451,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of52",
+     "id": "of59",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -1313,7 +1472,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of53",
+     "id": "of60",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -1334,7 +1493,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of54",
+     "id": "of61",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -1355,7 +1514,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of55",
+     "id": "of62",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -1376,7 +1535,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of56",
+     "id": "of63",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -1419,7 +1578,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of57",
+     "id": "of64",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -1440,7 +1599,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of58",
+     "id": "of65",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -1461,7 +1620,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of59",
+     "id": "of66",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -1482,7 +1641,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of60",
+     "id": "of67",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -1503,7 +1662,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of61",
+     "id": "of68",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -1524,7 +1683,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of62",
+     "id": "of69",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -1545,7 +1704,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of63",
+     "id": "of70",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -1566,7 +1725,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of64",
+     "id": "of71",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -1587,7 +1746,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of65",
+     "id": "of72",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -1608,7 +1767,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of66",
+     "id": "of73",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -1629,7 +1788,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of67",
+     "id": "of74",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -1650,7 +1809,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of68",
+     "id": "of75",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -1671,7 +1830,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of69",
+     "id": "of76",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -1692,7 +1851,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of70",
+     "id": "of77",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -1713,7 +1872,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of71",
+     "id": "of78",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -1734,7 +1893,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of72",
+     "id": "of79",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -1775,7 +1934,7 @@
    "visible": true,
    "features": [
     {
-     "id": "of73",
+     "id": "of80",
      "name": "Eje A Ø15×609.5999999999999",
      "shape": "cylinder",
      "op": "union",
@@ -1796,7 +1955,7 @@
      "color": "#b0bec5"
     },
     {
-     "id": "of74",
+     "id": "of81",
      "name": "Chumacera eje A",
      "shape": "box",
      "op": "union",
@@ -1818,7 +1977,7 @@
      "color": "#455a64"
     },
     {
-     "id": "of75",
+     "id": "of82",
      "name": "Chumacera eje A",
      "shape": "box",
      "op": "union",
@@ -1862,7 +2021,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of76",
+     "id": "of83",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -1883,7 +2042,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of77",
+     "id": "of84",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -1904,7 +2063,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of78",
+     "id": "of85",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -1925,7 +2084,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of79",
+     "id": "of86",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -1946,7 +2105,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of80",
+     "id": "of87",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -1967,7 +2126,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of81",
+     "id": "of88",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -1988,7 +2147,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of82",
+     "id": "of89",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -2009,7 +2168,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of83",
+     "id": "of90",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -2030,7 +2189,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of84",
+     "id": "of91",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -2051,7 +2210,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of85",
+     "id": "of92",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -2072,7 +2231,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of86",
+     "id": "of93",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -2093,7 +2252,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of87",
+     "id": "of94",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -2114,7 +2273,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of88",
+     "id": "of95",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -2135,7 +2294,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of89",
+     "id": "of96",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -2156,7 +2315,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of90",
+     "id": "of97",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -2177,7 +2336,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of91",
+     "id": "of98",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -2220,7 +2379,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of92",
+     "id": "of99",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -2241,7 +2400,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of93",
+     "id": "of100",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -2262,7 +2421,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of94",
+     "id": "of101",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -2283,7 +2442,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of95",
+     "id": "of102",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -2304,7 +2463,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of96",
+     "id": "of103",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -2325,7 +2484,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of97",
+     "id": "of104",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -2346,7 +2505,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of98",
+     "id": "of105",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -2367,7 +2526,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of99",
+     "id": "of106",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -2388,7 +2547,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of100",
+     "id": "of107",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -2409,7 +2568,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of101",
+     "id": "of108",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -2430,7 +2589,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of102",
+     "id": "of109",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -2451,7 +2610,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of103",
+     "id": "of110",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -2472,7 +2631,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of104",
+     "id": "of111",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -2493,7 +2652,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of105",
+     "id": "of112",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -2514,7 +2673,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of106",
+     "id": "of113",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -2535,7 +2694,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of107",
+     "id": "of114",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -2578,7 +2737,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of108",
+     "id": "of115",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -2599,7 +2758,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of109",
+     "id": "of116",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -2620,7 +2779,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of110",
+     "id": "of117",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -2641,7 +2800,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of111",
+     "id": "of118",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -2662,7 +2821,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of112",
+     "id": "of119",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -2683,7 +2842,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of113",
+     "id": "of120",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -2704,7 +2863,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of114",
+     "id": "of121",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -2725,7 +2884,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of115",
+     "id": "of122",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -2746,7 +2905,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of116",
+     "id": "of123",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -2767,7 +2926,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of117",
+     "id": "of124",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -2788,7 +2947,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of118",
+     "id": "of125",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -2809,7 +2968,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of119",
+     "id": "of126",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -2830,7 +2989,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of120",
+     "id": "of127",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -2851,7 +3010,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of121",
+     "id": "of128",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -2872,7 +3031,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of122",
+     "id": "of129",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -2893,7 +3052,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of123",
+     "id": "of130",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -2936,7 +3095,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of124",
+     "id": "of131",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -2957,7 +3116,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of125",
+     "id": "of132",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -2978,7 +3137,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of126",
+     "id": "of133",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -2999,7 +3158,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of127",
+     "id": "of134",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -3020,7 +3179,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of128",
+     "id": "of135",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -3041,7 +3200,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of129",
+     "id": "of136",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -3062,7 +3221,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of130",
+     "id": "of137",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -3083,7 +3242,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of131",
+     "id": "of138",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -3104,7 +3263,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of132",
+     "id": "of139",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -3125,7 +3284,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of133",
+     "id": "of140",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -3146,7 +3305,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of134",
+     "id": "of141",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -3167,7 +3326,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of135",
+     "id": "of142",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -3188,7 +3347,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of136",
+     "id": "of143",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -3209,7 +3368,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of137",
+     "id": "of144",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -3230,7 +3389,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of138",
+     "id": "of145",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -3251,7 +3410,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of139",
+     "id": "of146",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -3292,7 +3451,7 @@
    "visible": true,
    "features": [
     {
-     "id": "of140",
+     "id": "of147",
      "name": "Eje A Ø15×609.5999999999999",
      "shape": "cylinder",
      "op": "union",
@@ -3313,7 +3472,7 @@
      "color": "#b0bec5"
     },
     {
-     "id": "of141",
+     "id": "of148",
      "name": "Chumacera eje A",
      "shape": "box",
      "op": "union",
@@ -3335,7 +3494,7 @@
      "color": "#455a64"
     },
     {
-     "id": "of142",
+     "id": "of149",
      "name": "Chumacera eje A",
      "shape": "box",
      "op": "union",
@@ -3379,7 +3538,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of143",
+     "id": "of150",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -3400,7 +3559,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of144",
+     "id": "of151",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -3421,7 +3580,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of145",
+     "id": "of152",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -3442,7 +3601,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of146",
+     "id": "of153",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -3463,7 +3622,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of147",
+     "id": "of154",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -3484,7 +3643,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of148",
+     "id": "of155",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -3505,7 +3664,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of149",
+     "id": "of156",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -3526,7 +3685,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of150",
+     "id": "of157",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -3547,7 +3706,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of151",
+     "id": "of158",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -3568,7 +3727,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of152",
+     "id": "of159",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -3589,7 +3748,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of153",
+     "id": "of160",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -3610,7 +3769,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of154",
+     "id": "of161",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -3631,7 +3790,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of155",
+     "id": "of162",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -3652,7 +3811,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of156",
+     "id": "of163",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -3673,7 +3832,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of157",
+     "id": "of164",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -3694,7 +3853,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of158",
+     "id": "of165",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -3737,7 +3896,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of159",
+     "id": "of166",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -3758,7 +3917,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of160",
+     "id": "of167",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -3779,7 +3938,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of161",
+     "id": "of168",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -3800,7 +3959,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of162",
+     "id": "of169",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -3821,7 +3980,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of163",
+     "id": "of170",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -3842,7 +4001,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of164",
+     "id": "of171",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -3863,7 +4022,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of165",
+     "id": "of172",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -3884,7 +4043,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of166",
+     "id": "of173",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -3905,7 +4064,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of167",
+     "id": "of174",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -3926,7 +4085,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of168",
+     "id": "of175",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -3947,7 +4106,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of169",
+     "id": "of176",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -3968,7 +4127,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of170",
+     "id": "of177",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -3989,7 +4148,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of171",
+     "id": "of178",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -4010,7 +4169,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of172",
+     "id": "of179",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -4031,7 +4190,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of173",
+     "id": "of180",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -4052,7 +4211,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of174",
+     "id": "of181",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -4095,7 +4254,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of175",
+     "id": "of182",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -4116,7 +4275,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of176",
+     "id": "of183",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -4137,7 +4296,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of177",
+     "id": "of184",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -4158,7 +4317,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of178",
+     "id": "of185",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -4179,7 +4338,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of179",
+     "id": "of186",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -4200,7 +4359,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of180",
+     "id": "of187",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -4221,7 +4380,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of181",
+     "id": "of188",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -4242,7 +4401,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of182",
+     "id": "of189",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -4263,7 +4422,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of183",
+     "id": "of190",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -4284,7 +4443,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of184",
+     "id": "of191",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -4305,7 +4464,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of185",
+     "id": "of192",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -4326,7 +4485,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of186",
+     "id": "of193",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -4347,7 +4506,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of187",
+     "id": "of194",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -4368,7 +4527,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of188",
+     "id": "of195",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -4389,7 +4548,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of189",
+     "id": "of196",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -4410,7 +4569,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of190",
+     "id": "of197",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -4453,7 +4612,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of191",
+     "id": "of198",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -4474,7 +4633,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of192",
+     "id": "of199",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -4495,7 +4654,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of193",
+     "id": "of200",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -4516,7 +4675,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of194",
+     "id": "of201",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -4537,7 +4696,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of195",
+     "id": "of202",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -4558,7 +4717,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of196",
+     "id": "of203",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -4579,7 +4738,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of197",
+     "id": "of204",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -4600,7 +4759,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of198",
+     "id": "of205",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -4621,7 +4780,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of199",
+     "id": "of206",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -4642,7 +4801,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of200",
+     "id": "of207",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -4663,7 +4822,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of201",
+     "id": "of208",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -4684,7 +4843,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of202",
+     "id": "of209",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -4705,7 +4864,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of203",
+     "id": "of210",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -4726,7 +4885,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of204",
+     "id": "of211",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -4747,7 +4906,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of205",
+     "id": "of212",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -4768,7 +4927,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of206",
+     "id": "of213",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -4809,7 +4968,7 @@
    "visible": true,
    "features": [
     {
-     "id": "of207",
+     "id": "of214",
      "name": "Eje A Ø15×609.5999999999999",
      "shape": "cylinder",
      "op": "union",
@@ -4830,7 +4989,7 @@
      "color": "#b0bec5"
     },
     {
-     "id": "of208",
+     "id": "of215",
      "name": "Chumacera eje A",
      "shape": "box",
      "op": "union",
@@ -4852,7 +5011,7 @@
      "color": "#455a64"
     },
     {
-     "id": "of209",
+     "id": "of216",
      "name": "Chumacera eje A",
      "shape": "box",
      "op": "union",
@@ -4896,7 +5055,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of210",
+     "id": "of217",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -4917,7 +5076,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of211",
+     "id": "of218",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -4938,7 +5097,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of212",
+     "id": "of219",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -4959,7 +5118,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of213",
+     "id": "of220",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -4980,7 +5139,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of214",
+     "id": "of221",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -5001,7 +5160,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of215",
+     "id": "of222",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -5022,7 +5181,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of216",
+     "id": "of223",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -5043,7 +5202,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of217",
+     "id": "of224",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -5064,7 +5223,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of218",
+     "id": "of225",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -5085,7 +5244,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of219",
+     "id": "of226",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -5106,7 +5265,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of220",
+     "id": "of227",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -5127,7 +5286,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of221",
+     "id": "of228",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -5148,7 +5307,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of222",
+     "id": "of229",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -5169,7 +5328,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of223",
+     "id": "of230",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -5190,7 +5349,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of224",
+     "id": "of231",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -5211,7 +5370,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of225",
+     "id": "of232",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -5254,7 +5413,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of226",
+     "id": "of233",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -5275,7 +5434,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of227",
+     "id": "of234",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -5296,7 +5455,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of228",
+     "id": "of235",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -5317,7 +5476,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of229",
+     "id": "of236",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -5338,7 +5497,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of230",
+     "id": "of237",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -5359,7 +5518,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of231",
+     "id": "of238",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -5380,7 +5539,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of232",
+     "id": "of239",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -5401,7 +5560,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of233",
+     "id": "of240",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -5422,7 +5581,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of234",
+     "id": "of241",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -5443,7 +5602,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of235",
+     "id": "of242",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -5464,7 +5623,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of236",
+     "id": "of243",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -5485,7 +5644,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of237",
+     "id": "of244",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -5506,7 +5665,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of238",
+     "id": "of245",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -5527,7 +5686,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of239",
+     "id": "of246",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -5548,7 +5707,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of240",
+     "id": "of247",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -5569,7 +5728,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of241",
+     "id": "of248",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -5612,7 +5771,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of242",
+     "id": "of249",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -5633,7 +5792,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of243",
+     "id": "of250",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -5654,7 +5813,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of244",
+     "id": "of251",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -5675,7 +5834,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of245",
+     "id": "of252",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -5696,7 +5855,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of246",
+     "id": "of253",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -5717,7 +5876,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of247",
+     "id": "of254",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -5738,7 +5897,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of248",
+     "id": "of255",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -5759,7 +5918,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of249",
+     "id": "of256",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -5780,7 +5939,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of250",
+     "id": "of257",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -5801,7 +5960,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of251",
+     "id": "of258",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -5822,7 +5981,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of252",
+     "id": "of259",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -5843,7 +6002,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of253",
+     "id": "of260",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -5864,7 +6023,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of254",
+     "id": "of261",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -5885,7 +6044,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of255",
+     "id": "of262",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -5906,7 +6065,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of256",
+     "id": "of263",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -5927,7 +6086,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of257",
+     "id": "of264",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -5970,7 +6129,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of258",
+     "id": "of265",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -5991,7 +6150,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of259",
+     "id": "of266",
      "name": "Plato central O55",
      "shape": "cylinder",
      "op": "union",
@@ -6012,7 +6171,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of260",
+     "id": "of267",
      "name": "Plato exterior O55 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -6033,7 +6192,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of261",
+     "id": "of268",
      "name": "Plato exterior O55 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -6054,7 +6213,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of262",
+     "id": "of269",
      "name": "Rodillo O20 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -6075,7 +6234,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of263",
+     "id": "of270",
      "name": "Rodillo O20 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -6096,7 +6255,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of264",
+     "id": "of271",
      "name": "Rodillo O20 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -6117,7 +6276,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of265",
+     "id": "of272",
      "name": "Rodillo O20 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -6138,7 +6297,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of266",
+     "id": "of273",
      "name": "Rodillo O20 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -6159,7 +6318,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of267",
+     "id": "of274",
      "name": "Rodillo O20 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -6180,7 +6339,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of268",
+     "id": "of275",
      "name": "Rodillo O20 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -6201,7 +6360,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of269",
+     "id": "of276",
      "name": "Rodillo O20 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -6222,7 +6381,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of270",
+     "id": "of277",
      "name": "Rodillo O20 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -6243,7 +6402,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of271",
+     "id": "of278",
      "name": "Rodillo O20 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -6264,7 +6423,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of272",
+     "id": "of279",
      "name": "Rodillo O20 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -6285,7 +6444,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of273",
+     "id": "of280",
      "name": "Rodillo O20 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -6326,7 +6485,7 @@
    "visible": true,
    "features": [
     {
-     "id": "of274",
+     "id": "of281",
      "name": "Eje B Ø15×609.5999999999999",
      "shape": "cylinder",
      "op": "union",
@@ -6347,7 +6506,7 @@
      "color": "#b0bec5"
     },
     {
-     "id": "of275",
+     "id": "of282",
      "name": "Chumacera eje B",
      "shape": "box",
      "op": "union",
@@ -6369,7 +6528,7 @@
      "color": "#455a64"
     },
     {
-     "id": "of276",
+     "id": "of283",
      "name": "Chumacera eje B",
      "shape": "box",
      "op": "union",
@@ -6413,7 +6572,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of277",
+     "id": "of284",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -6434,7 +6593,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of278",
+     "id": "of285",
      "name": "Plato central O94",
      "shape": "cylinder",
      "op": "union",
@@ -6455,7 +6614,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of279",
+     "id": "of286",
      "name": "Plato exterior O94 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -6476,7 +6635,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of280",
+     "id": "of287",
      "name": "Plato exterior O94 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -6497,7 +6656,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of281",
+     "id": "of288",
      "name": "Rodillo O26 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -6518,7 +6677,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of282",
+     "id": "of289",
      "name": "Rodillo O26 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -6539,7 +6698,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of283",
+     "id": "of290",
      "name": "Rodillo O26 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -6560,7 +6719,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of284",
+     "id": "of291",
      "name": "Rodillo O26 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -6581,7 +6740,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of285",
+     "id": "of292",
      "name": "Rodillo O26 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -6602,7 +6761,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of286",
+     "id": "of293",
      "name": "Rodillo O26 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -6623,7 +6782,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of287",
+     "id": "of294",
      "name": "Rodillo O26 corona A #7",
      "shape": "cylinder",
      "op": "union",
@@ -6644,7 +6803,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of288",
+     "id": "of295",
      "name": "Rodillo O26 corona A #8",
      "shape": "cylinder",
      "op": "union",
@@ -6665,7 +6824,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of289",
+     "id": "of296",
      "name": "Rodillo O26 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -6686,7 +6845,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of290",
+     "id": "of297",
      "name": "Rodillo O26 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -6707,7 +6866,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of291",
+     "id": "of298",
      "name": "Rodillo O26 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -6728,7 +6887,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of292",
+     "id": "of299",
      "name": "Rodillo O26 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -6749,7 +6908,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of293",
+     "id": "of300",
      "name": "Rodillo O26 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -6770,7 +6929,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of294",
+     "id": "of301",
      "name": "Rodillo O26 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -6791,7 +6950,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of295",
+     "id": "of302",
      "name": "Rodillo O26 corona B #7",
      "shape": "cylinder",
      "op": "union",
@@ -6812,7 +6971,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of296",
+     "id": "of303",
      "name": "Rodillo O26 corona B #8",
      "shape": "cylinder",
      "op": "union",
@@ -6855,7 +7014,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of297",
+     "id": "of304",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -6876,7 +7035,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of298",
+     "id": "of305",
      "name": "Plato central O94",
      "shape": "cylinder",
      "op": "union",
@@ -6897,7 +7056,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of299",
+     "id": "of306",
      "name": "Plato exterior O94 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -6918,7 +7077,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of300",
+     "id": "of307",
      "name": "Plato exterior O94 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -6939,7 +7098,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of301",
+     "id": "of308",
      "name": "Rodillo O26 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -6960,7 +7119,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of302",
+     "id": "of309",
      "name": "Rodillo O26 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -6981,7 +7140,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of303",
+     "id": "of310",
      "name": "Rodillo O26 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -7002,7 +7161,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of304",
+     "id": "of311",
      "name": "Rodillo O26 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -7023,7 +7182,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of305",
+     "id": "of312",
      "name": "Rodillo O26 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -7044,7 +7203,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of306",
+     "id": "of313",
      "name": "Rodillo O26 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -7065,7 +7224,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of307",
+     "id": "of314",
      "name": "Rodillo O26 corona A #7",
      "shape": "cylinder",
      "op": "union",
@@ -7086,7 +7245,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of308",
+     "id": "of315",
      "name": "Rodillo O26 corona A #8",
      "shape": "cylinder",
      "op": "union",
@@ -7107,7 +7266,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of309",
+     "id": "of316",
      "name": "Rodillo O26 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -7128,7 +7287,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of310",
+     "id": "of317",
      "name": "Rodillo O26 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -7149,7 +7308,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of311",
+     "id": "of318",
      "name": "Rodillo O26 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -7170,7 +7329,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of312",
+     "id": "of319",
      "name": "Rodillo O26 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -7191,7 +7350,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of313",
+     "id": "of320",
      "name": "Rodillo O26 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -7212,7 +7371,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of314",
+     "id": "of321",
      "name": "Rodillo O26 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -7233,7 +7392,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of315",
+     "id": "of322",
      "name": "Rodillo O26 corona B #7",
      "shape": "cylinder",
      "op": "union",
@@ -7254,7 +7413,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of316",
+     "id": "of323",
      "name": "Rodillo O26 corona B #8",
      "shape": "cylinder",
      "op": "union",
@@ -7297,7 +7456,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of317",
+     "id": "of324",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -7318,7 +7477,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of318",
+     "id": "of325",
      "name": "Plato central O94",
      "shape": "cylinder",
      "op": "union",
@@ -7339,7 +7498,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of319",
+     "id": "of326",
      "name": "Plato exterior O94 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -7360,7 +7519,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of320",
+     "id": "of327",
      "name": "Plato exterior O94 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -7381,7 +7540,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of321",
+     "id": "of328",
      "name": "Rodillo O26 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -7402,7 +7561,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of322",
+     "id": "of329",
      "name": "Rodillo O26 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -7423,7 +7582,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of323",
+     "id": "of330",
      "name": "Rodillo O26 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -7444,7 +7603,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of324",
+     "id": "of331",
      "name": "Rodillo O26 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -7465,7 +7624,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of325",
+     "id": "of332",
      "name": "Rodillo O26 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -7486,7 +7645,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of326",
+     "id": "of333",
      "name": "Rodillo O26 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -7507,7 +7666,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of327",
+     "id": "of334",
      "name": "Rodillo O26 corona A #7",
      "shape": "cylinder",
      "op": "union",
@@ -7528,7 +7687,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of328",
+     "id": "of335",
      "name": "Rodillo O26 corona A #8",
      "shape": "cylinder",
      "op": "union",
@@ -7549,7 +7708,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of329",
+     "id": "of336",
      "name": "Rodillo O26 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -7570,7 +7729,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of330",
+     "id": "of337",
      "name": "Rodillo O26 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -7591,7 +7750,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of331",
+     "id": "of338",
      "name": "Rodillo O26 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -7612,7 +7771,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of332",
+     "id": "of339",
      "name": "Rodillo O26 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -7633,7 +7792,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of333",
+     "id": "of340",
      "name": "Rodillo O26 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -7654,7 +7813,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of334",
+     "id": "of341",
      "name": "Rodillo O26 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -7675,7 +7834,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of335",
+     "id": "of342",
      "name": "Rodillo O26 corona B #7",
      "shape": "cylinder",
      "op": "union",
@@ -7696,7 +7855,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of336",
+     "id": "of343",
      "name": "Rodillo O26 corona B #8",
      "shape": "cylinder",
      "op": "union",
@@ -7737,7 +7896,7 @@
    "visible": true,
    "features": [
     {
-     "id": "of337",
+     "id": "of344",
      "name": "Eje B Ø15×609.5999999999999",
      "shape": "cylinder",
      "op": "union",
@@ -7758,7 +7917,7 @@
      "color": "#b0bec5"
     },
     {
-     "id": "of338",
+     "id": "of345",
      "name": "Chumacera eje B",
      "shape": "box",
      "op": "union",
@@ -7780,7 +7939,7 @@
      "color": "#455a64"
     },
     {
-     "id": "of339",
+     "id": "of346",
      "name": "Chumacera eje B",
      "shape": "box",
      "op": "union",
@@ -7824,7 +7983,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of340",
+     "id": "of347",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -7845,7 +8004,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of341",
+     "id": "of348",
      "name": "Plato central O94",
      "shape": "cylinder",
      "op": "union",
@@ -7866,7 +8025,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of342",
+     "id": "of349",
      "name": "Plato exterior O94 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -7887,7 +8046,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of343",
+     "id": "of350",
      "name": "Plato exterior O94 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -7908,7 +8067,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of344",
+     "id": "of351",
      "name": "Rodillo O26 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -7929,7 +8088,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of345",
+     "id": "of352",
      "name": "Rodillo O26 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -7950,7 +8109,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of346",
+     "id": "of353",
      "name": "Rodillo O26 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -7971,7 +8130,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of347",
+     "id": "of354",
      "name": "Rodillo O26 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -7992,7 +8151,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of348",
+     "id": "of355",
      "name": "Rodillo O26 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -8013,7 +8172,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of349",
+     "id": "of356",
      "name": "Rodillo O26 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -8034,7 +8193,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of350",
+     "id": "of357",
      "name": "Rodillo O26 corona A #7",
      "shape": "cylinder",
      "op": "union",
@@ -8055,7 +8214,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of351",
+     "id": "of358",
      "name": "Rodillo O26 corona A #8",
      "shape": "cylinder",
      "op": "union",
@@ -8076,7 +8235,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of352",
+     "id": "of359",
      "name": "Rodillo O26 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -8097,7 +8256,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of353",
+     "id": "of360",
      "name": "Rodillo O26 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -8118,7 +8277,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of354",
+     "id": "of361",
      "name": "Rodillo O26 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -8139,7 +8298,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of355",
+     "id": "of362",
      "name": "Rodillo O26 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -8160,7 +8319,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of356",
+     "id": "of363",
      "name": "Rodillo O26 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -8181,7 +8340,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of357",
+     "id": "of364",
      "name": "Rodillo O26 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -8202,7 +8361,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of358",
+     "id": "of365",
      "name": "Rodillo O26 corona B #7",
      "shape": "cylinder",
      "op": "union",
@@ -8223,7 +8382,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of359",
+     "id": "of366",
      "name": "Rodillo O26 corona B #8",
      "shape": "cylinder",
      "op": "union",
@@ -8266,7 +8425,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of360",
+     "id": "of367",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -8287,7 +8446,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of361",
+     "id": "of368",
      "name": "Plato central O94",
      "shape": "cylinder",
      "op": "union",
@@ -8308,7 +8467,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of362",
+     "id": "of369",
      "name": "Plato exterior O94 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -8329,7 +8488,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of363",
+     "id": "of370",
      "name": "Plato exterior O94 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -8350,7 +8509,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of364",
+     "id": "of371",
      "name": "Rodillo O26 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -8371,7 +8530,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of365",
+     "id": "of372",
      "name": "Rodillo O26 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -8392,7 +8551,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of366",
+     "id": "of373",
      "name": "Rodillo O26 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -8413,7 +8572,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of367",
+     "id": "of374",
      "name": "Rodillo O26 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -8434,7 +8593,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of368",
+     "id": "of375",
      "name": "Rodillo O26 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -8455,7 +8614,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of369",
+     "id": "of376",
      "name": "Rodillo O26 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -8476,7 +8635,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of370",
+     "id": "of377",
      "name": "Rodillo O26 corona A #7",
      "shape": "cylinder",
      "op": "union",
@@ -8497,7 +8656,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of371",
+     "id": "of378",
      "name": "Rodillo O26 corona A #8",
      "shape": "cylinder",
      "op": "union",
@@ -8518,7 +8677,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of372",
+     "id": "of379",
      "name": "Rodillo O26 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -8539,7 +8698,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of373",
+     "id": "of380",
      "name": "Rodillo O26 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -8560,7 +8719,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of374",
+     "id": "of381",
      "name": "Rodillo O26 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -8581,7 +8740,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of375",
+     "id": "of382",
      "name": "Rodillo O26 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -8602,7 +8761,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of376",
+     "id": "of383",
      "name": "Rodillo O26 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -8623,7 +8782,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of377",
+     "id": "of384",
      "name": "Rodillo O26 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -8644,7 +8803,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of378",
+     "id": "of385",
      "name": "Rodillo O26 corona B #7",
      "shape": "cylinder",
      "op": "union",
@@ -8665,7 +8824,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of379",
+     "id": "of386",
      "name": "Rodillo O26 corona B #8",
      "shape": "cylinder",
      "op": "union",
@@ -8708,7 +8867,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of380",
+     "id": "of387",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -8729,7 +8888,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of381",
+     "id": "of388",
      "name": "Plato central O94",
      "shape": "cylinder",
      "op": "union",
@@ -8750,7 +8909,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of382",
+     "id": "of389",
      "name": "Plato exterior O94 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -8771,7 +8930,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of383",
+     "id": "of390",
      "name": "Plato exterior O94 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -8792,7 +8951,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of384",
+     "id": "of391",
      "name": "Rodillo O26 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -8813,7 +8972,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of385",
+     "id": "of392",
      "name": "Rodillo O26 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -8834,7 +8993,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of386",
+     "id": "of393",
      "name": "Rodillo O26 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -8855,7 +9014,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of387",
+     "id": "of394",
      "name": "Rodillo O26 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -8876,7 +9035,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of388",
+     "id": "of395",
      "name": "Rodillo O26 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -8897,7 +9056,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of389",
+     "id": "of396",
      "name": "Rodillo O26 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -8918,7 +9077,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of390",
+     "id": "of397",
      "name": "Rodillo O26 corona A #7",
      "shape": "cylinder",
      "op": "union",
@@ -8939,7 +9098,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of391",
+     "id": "of398",
      "name": "Rodillo O26 corona A #8",
      "shape": "cylinder",
      "op": "union",
@@ -8960,7 +9119,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of392",
+     "id": "of399",
      "name": "Rodillo O26 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -8981,7 +9140,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of393",
+     "id": "of400",
      "name": "Rodillo O26 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -9002,7 +9161,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of394",
+     "id": "of401",
      "name": "Rodillo O26 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -9023,7 +9182,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of395",
+     "id": "of402",
      "name": "Rodillo O26 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -9044,7 +9203,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of396",
+     "id": "of403",
      "name": "Rodillo O26 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -9065,7 +9224,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of397",
+     "id": "of404",
      "name": "Rodillo O26 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -9086,7 +9245,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of398",
+     "id": "of405",
      "name": "Rodillo O26 corona B #7",
      "shape": "cylinder",
      "op": "union",
@@ -9107,7 +9266,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of399",
+     "id": "of406",
      "name": "Rodillo O26 corona B #8",
      "shape": "cylinder",
      "op": "union",
@@ -9148,7 +9307,7 @@
    "visible": true,
    "features": [
     {
-     "id": "of400",
+     "id": "of407",
      "name": "Eje B Ø15×609.5999999999999",
      "shape": "cylinder",
      "op": "union",
@@ -9169,7 +9328,7 @@
      "color": "#b0bec5"
     },
     {
-     "id": "of401",
+     "id": "of408",
      "name": "Chumacera eje B",
      "shape": "box",
      "op": "union",
@@ -9191,7 +9350,7 @@
      "color": "#455a64"
     },
     {
-     "id": "of402",
+     "id": "of409",
      "name": "Chumacera eje B",
      "shape": "box",
      "op": "union",
@@ -9235,7 +9394,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of403",
+     "id": "of410",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -9256,7 +9415,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of404",
+     "id": "of411",
      "name": "Plato central O94",
      "shape": "cylinder",
      "op": "union",
@@ -9277,7 +9436,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of405",
+     "id": "of412",
      "name": "Plato exterior O94 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -9298,7 +9457,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of406",
+     "id": "of413",
      "name": "Plato exterior O94 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -9319,7 +9478,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of407",
+     "id": "of414",
      "name": "Rodillo O26 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -9340,7 +9499,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of408",
+     "id": "of415",
      "name": "Rodillo O26 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -9361,7 +9520,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of409",
+     "id": "of416",
      "name": "Rodillo O26 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -9382,7 +9541,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of410",
+     "id": "of417",
      "name": "Rodillo O26 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -9403,7 +9562,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of411",
+     "id": "of418",
      "name": "Rodillo O26 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -9424,7 +9583,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of412",
+     "id": "of419",
      "name": "Rodillo O26 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -9445,7 +9604,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of413",
+     "id": "of420",
      "name": "Rodillo O26 corona A #7",
      "shape": "cylinder",
      "op": "union",
@@ -9466,7 +9625,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of414",
+     "id": "of421",
      "name": "Rodillo O26 corona A #8",
      "shape": "cylinder",
      "op": "union",
@@ -9487,7 +9646,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of415",
+     "id": "of422",
      "name": "Rodillo O26 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -9508,7 +9667,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of416",
+     "id": "of423",
      "name": "Rodillo O26 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -9529,7 +9688,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of417",
+     "id": "of424",
      "name": "Rodillo O26 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -9550,7 +9709,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of418",
+     "id": "of425",
      "name": "Rodillo O26 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -9571,7 +9730,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of419",
+     "id": "of426",
      "name": "Rodillo O26 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -9592,7 +9751,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of420",
+     "id": "of427",
      "name": "Rodillo O26 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -9613,7 +9772,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of421",
+     "id": "of428",
      "name": "Rodillo O26 corona B #7",
      "shape": "cylinder",
      "op": "union",
@@ -9634,7 +9793,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of422",
+     "id": "of429",
      "name": "Rodillo O26 corona B #8",
      "shape": "cylinder",
      "op": "union",
@@ -9677,7 +9836,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of423",
+     "id": "of430",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -9698,7 +9857,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of424",
+     "id": "of431",
      "name": "Plato central O94",
      "shape": "cylinder",
      "op": "union",
@@ -9719,7 +9878,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of425",
+     "id": "of432",
      "name": "Plato exterior O94 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -9740,7 +9899,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of426",
+     "id": "of433",
      "name": "Plato exterior O94 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -9761,7 +9920,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of427",
+     "id": "of434",
      "name": "Rodillo O26 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -9782,7 +9941,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of428",
+     "id": "of435",
      "name": "Rodillo O26 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -9803,7 +9962,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of429",
+     "id": "of436",
      "name": "Rodillo O26 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -9824,7 +9983,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of430",
+     "id": "of437",
      "name": "Rodillo O26 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -9845,7 +10004,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of431",
+     "id": "of438",
      "name": "Rodillo O26 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -9866,7 +10025,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of432",
+     "id": "of439",
      "name": "Rodillo O26 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -9887,7 +10046,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of433",
+     "id": "of440",
      "name": "Rodillo O26 corona A #7",
      "shape": "cylinder",
      "op": "union",
@@ -9908,7 +10067,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of434",
+     "id": "of441",
      "name": "Rodillo O26 corona A #8",
      "shape": "cylinder",
      "op": "union",
@@ -9929,7 +10088,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of435",
+     "id": "of442",
      "name": "Rodillo O26 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -9950,7 +10109,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of436",
+     "id": "of443",
      "name": "Rodillo O26 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -9971,7 +10130,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of437",
+     "id": "of444",
      "name": "Rodillo O26 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -9992,7 +10151,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of438",
+     "id": "of445",
      "name": "Rodillo O26 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -10013,7 +10172,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of439",
+     "id": "of446",
      "name": "Rodillo O26 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -10034,7 +10193,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of440",
+     "id": "of447",
      "name": "Rodillo O26 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -10055,7 +10214,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of441",
+     "id": "of448",
      "name": "Rodillo O26 corona B #7",
      "shape": "cylinder",
      "op": "union",
@@ -10076,7 +10235,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of442",
+     "id": "of449",
      "name": "Rodillo O26 corona B #8",
      "shape": "cylinder",
      "op": "union",
@@ -10119,7 +10278,7 @@
    "base_ref": true,
    "features": [
     {
-     "id": "of443",
+     "id": "of450",
      "name": "Cubo pasante (bore O15)",
      "shape": "cylinder",
      "op": "union",
@@ -10140,7 +10299,7 @@
      "color": "#78909c"
     },
     {
-     "id": "of444",
+     "id": "of451",
      "name": "Plato central O94",
      "shape": "cylinder",
      "op": "union",
@@ -10161,7 +10320,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of445",
+     "id": "of452",
      "name": "Plato exterior O94 lado -X",
      "shape": "cylinder",
      "op": "union",
@@ -10182,7 +10341,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of446",
+     "id": "of453",
      "name": "Plato exterior O94 lado +X",
      "shape": "cylinder",
      "op": "union",
@@ -10203,7 +10362,7 @@
      "color": "#ef6c00"
     },
     {
-     "id": "of447",
+     "id": "of454",
      "name": "Rodillo O26 corona A #1",
      "shape": "cylinder",
      "op": "union",
@@ -10224,7 +10383,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of448",
+     "id": "of455",
      "name": "Rodillo O26 corona A #2",
      "shape": "cylinder",
      "op": "union",
@@ -10245,7 +10404,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of449",
+     "id": "of456",
      "name": "Rodillo O26 corona A #3",
      "shape": "cylinder",
      "op": "union",
@@ -10266,7 +10425,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of450",
+     "id": "of457",
      "name": "Rodillo O26 corona A #4",
      "shape": "cylinder",
      "op": "union",
@@ -10287,7 +10446,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of451",
+     "id": "of458",
      "name": "Rodillo O26 corona A #5",
      "shape": "cylinder",
      "op": "union",
@@ -10308,7 +10467,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of452",
+     "id": "of459",
      "name": "Rodillo O26 corona A #6",
      "shape": "cylinder",
      "op": "union",
@@ -10329,7 +10488,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of453",
+     "id": "of460",
      "name": "Rodillo O26 corona A #7",
      "shape": "cylinder",
      "op": "union",
@@ -10350,7 +10509,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of454",
+     "id": "of461",
      "name": "Rodillo O26 corona A #8",
      "shape": "cylinder",
      "op": "union",
@@ -10371,7 +10530,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of455",
+     "id": "of462",
      "name": "Rodillo O26 corona B #1",
      "shape": "cylinder",
      "op": "union",
@@ -10392,7 +10551,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of456",
+     "id": "of463",
      "name": "Rodillo O26 corona B #2",
      "shape": "cylinder",
      "op": "union",
@@ -10413,7 +10572,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of457",
+     "id": "of464",
      "name": "Rodillo O26 corona B #3",
      "shape": "cylinder",
      "op": "union",
@@ -10434,7 +10593,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of458",
+     "id": "of465",
      "name": "Rodillo O26 corona B #4",
      "shape": "cylinder",
      "op": "union",
@@ -10455,7 +10614,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of459",
+     "id": "of466",
      "name": "Rodillo O26 corona B #5",
      "shape": "cylinder",
      "op": "union",
@@ -10476,7 +10635,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of460",
+     "id": "of467",
      "name": "Rodillo O26 corona B #6",
      "shape": "cylinder",
      "op": "union",
@@ -10497,7 +10656,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of461",
+     "id": "of468",
      "name": "Rodillo O26 corona B #7",
      "shape": "cylinder",
      "op": "union",
@@ -10518,7 +10677,7 @@
      "color": "#1976d2"
     },
     {
-     "id": "of462",
+     "id": "of469",
      "name": "Rodillo O26 corona B #8",
      "shape": "cylinder",
      "op": "union",
@@ -10541,242 +10700,246 @@
    ]
   },
   {
-   "id": "op38",
-   "name": "Motor UniDrive eje A x=-229",
-   "color": "#37474f",
+   "id": "op38_polea_sincrona_htd5m_28t",
+   "name": "Polea conducida eje A x=-229 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
    "pos": [
-    0,
-    0,
-    0
+    -228.6,
+    -38,
+    109
    ],
    "quat": [
     0,
     0,
-    0,
-    1
+    0.7071067811865475,
+    0.7071067811865476
    ],
    "fixed": false,
    "visible": true,
+   "base_ref": true,
    "features": [
-    {
-     "id": "of463",
-     "name": "UniDrive 60W Ø60",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -228.6,
-      -289.79999999999995,
-      62
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 60,
-      "h": 150
-     },
-     "color": "#37474f"
-    },
-    {
-     "id": "of464",
-     "name": "Correa síncrona interior",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      -228.6,
-      -214.79999999999995,
-      62
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 12,
-      "d": 22,
-      "h": 73
-     },
-     "color": "#111111"
-    }
-   ]
-  },
-  {
-   "id": "op39",
-   "name": "Motor UniDrive eje A x=-76",
-   "color": "#37474f",
-   "pos": [
-    0,
-    0,
-    0
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "of465",
-     "name": "UniDrive 60W Ø60",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -76.19999999999999,
-      139.79999999999995,
-      62
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 60,
-      "h": 150
-     },
-     "color": "#37474f"
-    },
-    {
-     "id": "of466",
-     "name": "Correa síncrona interior",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      -76.19999999999999,
-      214.79999999999995,
-      62
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 12,
-      "d": 22,
-      "h": 73
-     },
-     "color": "#111111"
-    }
-   ]
-  },
-  {
-   "id": "op40",
-   "name": "Motor UniDrive eje A x=76",
-   "color": "#37474f",
-   "pos": [
-    0,
-    0,
-    0
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "of467",
-     "name": "UniDrive 60W Ø60",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      76.19999999999999,
-      -289.79999999999995,
-      62
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 60,
-      "h": 150
-     },
-     "color": "#37474f"
-    },
-    {
-     "id": "of468",
-     "name": "Correa síncrona interior",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      76.19999999999999,
-      -214.79999999999995,
-      62
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 12,
-      "d": 22,
-      "h": 73
-     },
-     "color": "#111111"
-    }
-   ]
-  },
-  {
-   "id": "op41",
-   "name": "Motor UniDrive eje A x=229",
-   "color": "#37474f",
-   "pos": [
-    0,
-    0,
-    0
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "of469",
-     "name": "UniDrive 60W Ø60",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      228.6,
-      139.79999999999995,
-      62
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 60,
-      "h": 150
-     },
-     "color": "#37474f"
-    },
     {
      "id": "of470",
-     "name": "Correa síncrona interior",
-     "shape": "box",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
      "op": "union",
      "at": [
-      228.6,
-      214.79999999999995,
-      62
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of471",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of472",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of473",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op39_polea_sincrona_htd5m_28t",
+   "name": "Polea motriz eje A x=-229 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    -228.6,
+    -38,
+    -58.5
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of474",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of475",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of476",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of477",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op40_cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "name": "Motor eje A x=-229 · Motor UniDrive (eje D)",
+   "biblioteca": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "componente": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "color": "#37474f",
+   "pos": [
+    -228.6,
+    -147.345,
+    -92
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of478",
+     "name": "Malla · Motor UniDrive (eje D)",
+     "shape": "mesh",
+     "op": "mesh",
+     "at": [
+      0,
+      0,
+      0
      ],
      "dir": [
       0,
@@ -10784,18 +10947,131 @@
       1
      ],
      "params": {
-      "w": 12,
-      "d": 22,
-      "h": 73
+      "src": "componentes/models/ZP2026.glb",
+      "nodo": "300986+Std+UniDrive+motor+D-Shaft",
+      "bbox": [
+       152.69,
+       118.12,
+       119.05
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "op41_bracket_motor_unidrive_omni",
+   "name": "Bracket motor eje A x=-229 · Bracket motor UniDrive colgante 150x136x131 (chapa 4, estilo ZP2026)",
+   "biblioteca": "bracket_motor_unidrive_omni",
+   "color": "#1976d2",
+   "pos": [
+    -228.6,
+    -147.345,
+    35
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of479",
+     "name": "Ala superior 150x136x4 (colisas de tensado)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 136,
+      "h": 4
      },
-     "color": "#111111"
+     "color": "#37474f"
+    },
+    {
+     "id": "of480",
+     "name": "Mejilla lateral Y-",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of481",
+     "name": "Mejilla lateral Y+",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of482",
+     "name": "Fleje inferior 150x128x4 (apoyo del motor)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -131
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 128,
+      "h": 4
+     },
+     "color": "#455a64"
     }
    ]
   },
   {
    "id": "op42",
-   "name": "Motor UniDrive eje B y=-152",
-   "color": "#37474f",
+   "name": "Transmisión eje A x=-229",
+   "color": "#111111",
    "pos": [
     0,
     0,
@@ -10811,35 +11087,14 @@
    "visible": true,
    "features": [
     {
-     "id": "of471",
-     "name": "UniDrive 60W Ø60",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -289.79999999999995,
-      -152.39999999999998,
-      62
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 60,
-      "h": 150
-     },
-     "color": "#37474f"
-    },
-    {
-     "id": "of472",
-     "name": "Correa síncrona interior",
+     "id": "of483",
+     "name": "Correa HTD 5M-475-15",
      "shape": "box",
      "op": "union",
      "at": [
-      -214.79999999999995,
-      -152.39999999999998,
-      62
+      -228.6,
+      -38,
+      -32.5
      ],
      "dir": [
       0,
@@ -10847,18 +11102,408 @@
       1
      ],
      "params": {
-      "w": 22,
-      "d": 12,
-      "h": 48
+      "w": 52,
+      "d": 15,
+      "h": 167.5
      },
      "color": "#111111"
+    },
+    {
+     "id": "of484",
+     "name": "Eje D del motor Ø12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -228.6,
+      -38,
+      -32.5
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 33
+     },
+     "color": "#b0bec5"
     }
    ]
   },
   {
-   "id": "op43",
-   "name": "Motor UniDrive eje B y=0",
+   "id": "op43_polea_sincrona_htd5m_28t",
+   "name": "Polea conducida eje A x=-76 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    -76.19999999999999,
+    -38,
+    109
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of485",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of486",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of487",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of488",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op44_polea_sincrona_htd5m_28t",
+   "name": "Polea motriz eje A x=-76 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    -76.19999999999999,
+    -38,
+    -58.5
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of489",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of490",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of491",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of492",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op45_cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "name": "Motor eje A x=-76 · Motor UniDrive (eje D)",
+   "biblioteca": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "componente": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
    "color": "#37474f",
+   "pos": [
+    -76.19999999999999,
+    -147.345,
+    -92
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of493",
+     "name": "Malla · Motor UniDrive (eje D)",
+     "shape": "mesh",
+     "op": "mesh",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "src": "componentes/models/ZP2026.glb",
+      "nodo": "300986+Std+UniDrive+motor+D-Shaft",
+      "bbox": [
+       152.69,
+       118.12,
+       119.05
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "op46_bracket_motor_unidrive_omni",
+   "name": "Bracket motor eje A x=-76 · Bracket motor UniDrive colgante 150x136x131 (chapa 4, estilo ZP2026)",
+   "biblioteca": "bracket_motor_unidrive_omni",
+   "color": "#1976d2",
+   "pos": [
+    -76.19999999999999,
+    -147.345,
+    35
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of494",
+     "name": "Ala superior 150x136x4 (colisas de tensado)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 136,
+      "h": 4
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of495",
+     "name": "Mejilla lateral Y-",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of496",
+     "name": "Mejilla lateral Y+",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of497",
+     "name": "Fleje inferior 150x128x4 (apoyo del motor)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -131
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 128,
+      "h": 4
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op47",
+   "name": "Transmisión eje A x=-76",
+   "color": "#111111",
    "pos": [
     0,
     0,
@@ -10874,35 +11519,14 @@
    "visible": true,
    "features": [
     {
-     "id": "of473",
-     "name": "UniDrive 60W Ø60",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      139.79999999999995,
-      0,
-      62
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 60,
-      "h": 150
-     },
-     "color": "#37474f"
-    },
-    {
-     "id": "of474",
-     "name": "Correa síncrona interior",
+     "id": "of498",
+     "name": "Correa HTD 5M-475-15",
      "shape": "box",
      "op": "union",
      "at": [
-      214.79999999999995,
-      0,
-      62
+      -76.19999999999999,
+      -38,
+      -32.5
      ],
      "dir": [
       0,
@@ -10910,18 +11534,408 @@
       1
      ],
      "params": {
-      "w": 22,
-      "d": 12,
-      "h": 48
+      "w": 52,
+      "d": 15,
+      "h": 167.5
      },
      "color": "#111111"
+    },
+    {
+     "id": "of499",
+     "name": "Eje D del motor Ø12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -76.19999999999999,
+      -38,
+      -32.5
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 33
+     },
+     "color": "#b0bec5"
     }
    ]
   },
   {
-   "id": "op44",
-   "name": "Motor UniDrive eje B y=152",
+   "id": "op48_polea_sincrona_htd5m_28t",
+   "name": "Polea conducida eje A x=76 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    76.19999999999999,
+    38,
+    109
+   ],
+   "quat": [
+    0,
+    0,
+    -0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of500",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of501",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of502",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of503",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op49_polea_sincrona_htd5m_28t",
+   "name": "Polea motriz eje A x=76 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    76.19999999999999,
+    38,
+    -58.5
+   ],
+   "quat": [
+    0,
+    0,
+    -0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of504",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of505",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of506",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of507",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op50_cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "name": "Motor eje A x=76 · Motor UniDrive (eje D)",
+   "biblioteca": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "componente": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
    "color": "#37474f",
+   "pos": [
+    76.19999999999999,
+    147.345,
+    -92
+   ],
+   "quat": [
+    0,
+    0,
+    -0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of508",
+     "name": "Malla · Motor UniDrive (eje D)",
+     "shape": "mesh",
+     "op": "mesh",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "src": "componentes/models/ZP2026.glb",
+      "nodo": "300986+Std+UniDrive+motor+D-Shaft",
+      "bbox": [
+       152.69,
+       118.12,
+       119.05
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "op51_bracket_motor_unidrive_omni",
+   "name": "Bracket motor eje A x=76 · Bracket motor UniDrive colgante 150x136x131 (chapa 4, estilo ZP2026)",
+   "biblioteca": "bracket_motor_unidrive_omni",
+   "color": "#1976d2",
+   "pos": [
+    76.19999999999999,
+    147.345,
+    35
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of509",
+     "name": "Ala superior 150x136x4 (colisas de tensado)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 136,
+      "h": 4
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of510",
+     "name": "Mejilla lateral Y-",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of511",
+     "name": "Mejilla lateral Y+",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of512",
+     "name": "Fleje inferior 150x128x4 (apoyo del motor)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -131
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 128,
+      "h": 4
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op52",
+   "name": "Transmisión eje A x=76",
+   "color": "#111111",
    "pos": [
     0,
     0,
@@ -10937,35 +11951,14 @@
    "visible": true,
    "features": [
     {
-     "id": "of475",
-     "name": "UniDrive 60W Ø60",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -289.79999999999995,
-      152.39999999999998,
-      62
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 60,
-      "h": 150
-     },
-     "color": "#37474f"
-    },
-    {
-     "id": "of476",
-     "name": "Correa síncrona interior",
+     "id": "of513",
+     "name": "Correa HTD 5M-475-15",
      "shape": "box",
      "op": "union",
      "at": [
-      -214.79999999999995,
-      152.39999999999998,
-      62
+      76.19999999999999,
+      38,
+      -32.5
      ],
      "dir": [
       0,
@@ -10973,16 +11966,1765 @@
       1
      ],
      "params": {
-      "w": 22,
-      "d": 12,
-      "h": 48
+      "w": 52,
+      "d": 15,
+      "h": 167.5
      },
      "color": "#111111"
+    },
+    {
+     "id": "of514",
+     "name": "Eje D del motor Ø12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      76.19999999999999,
+      38,
+      -32.5
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 33
+     },
+     "color": "#b0bec5"
     }
    ]
   },
   {
-   "id": "op45",
+   "id": "op53_polea_sincrona_htd5m_28t",
+   "name": "Polea conducida eje A x=229 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    228.6,
+    38,
+    109
+   ],
+   "quat": [
+    0,
+    0,
+    -0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of515",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of516",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of517",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of518",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op54_polea_sincrona_htd5m_28t",
+   "name": "Polea motriz eje A x=229 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    228.6,
+    38,
+    -58.5
+   ],
+   "quat": [
+    0,
+    0,
+    -0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of519",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of520",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of521",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of522",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op55_cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "name": "Motor eje A x=229 · Motor UniDrive (eje D)",
+   "biblioteca": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "componente": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "color": "#37474f",
+   "pos": [
+    228.6,
+    147.345,
+    -92
+   ],
+   "quat": [
+    0,
+    0,
+    -0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of523",
+     "name": "Malla · Motor UniDrive (eje D)",
+     "shape": "mesh",
+     "op": "mesh",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "src": "componentes/models/ZP2026.glb",
+      "nodo": "300986+Std+UniDrive+motor+D-Shaft",
+      "bbox": [
+       152.69,
+       118.12,
+       119.05
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "op56_bracket_motor_unidrive_omni",
+   "name": "Bracket motor eje A x=229 · Bracket motor UniDrive colgante 150x136x131 (chapa 4, estilo ZP2026)",
+   "biblioteca": "bracket_motor_unidrive_omni",
+   "color": "#1976d2",
+   "pos": [
+    228.6,
+    147.345,
+    35
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of524",
+     "name": "Ala superior 150x136x4 (colisas de tensado)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 136,
+      "h": 4
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of525",
+     "name": "Mejilla lateral Y-",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of526",
+     "name": "Mejilla lateral Y+",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of527",
+     "name": "Fleje inferior 150x128x4 (apoyo del motor)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -131
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 128,
+      "h": 4
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op57",
+   "name": "Transmisión eje A x=229",
+   "color": "#111111",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of528",
+     "name": "Correa HTD 5M-475-15",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      228.6,
+      38,
+      -32.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 52,
+      "d": 15,
+      "h": 167.5
+     },
+     "color": "#111111"
+    },
+    {
+     "id": "of529",
+     "name": "Eje D del motor Ø12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      228.6,
+      38,
+      -32.5
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 33
+     },
+     "color": "#b0bec5"
+    }
+   ]
+  },
+  {
+   "id": "op58_polea_sincrona_htd5m_28t",
+   "name": "Polea conducida eje B y=-152 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    44,
+    -152.4,
+    84
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of530",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of531",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of532",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of533",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op59_polea_sincrona_htd5m_28t",
+   "name": "Polea motriz eje B y=-152 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    44,
+    -152.4,
+    -58.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of534",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of535",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of536",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of537",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op60_cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "name": "Motor eje B y=-152 · Motor UniDrive (eje D)",
+   "biblioteca": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "componente": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "color": "#37474f",
+   "pos": [
+    153.345,
+    -152.4,
+    -92
+   ],
+   "quat": [
+    0,
+    0,
+    1,
+    6.123233995736766e-17
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of538",
+     "name": "Malla · Motor UniDrive (eje D)",
+     "shape": "mesh",
+     "op": "mesh",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "src": "componentes/models/ZP2026.glb",
+      "nodo": "300986+Std+UniDrive+motor+D-Shaft",
+      "bbox": [
+       152.69,
+       118.12,
+       119.05
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "op61_bracket_motor_unidrive_omni",
+   "name": "Bracket motor eje B y=-152 · Bracket motor UniDrive colgante 150x136x131 (chapa 4, estilo ZP2026)",
+   "biblioteca": "bracket_motor_unidrive_omni",
+   "color": "#1976d2",
+   "pos": [
+    153.345,
+    -152.4,
+    35
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of539",
+     "name": "Ala superior 150x136x4 (colisas de tensado)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 136,
+      "h": 4
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of540",
+     "name": "Mejilla lateral Y-",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of541",
+     "name": "Mejilla lateral Y+",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of542",
+     "name": "Fleje inferior 150x128x4 (apoyo del motor)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -131
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 128,
+      "h": 4
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op62",
+   "name": "Transmisión eje B y=-152",
+   "color": "#111111",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of543",
+     "name": "Correa HTD 5M-425-15",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      44,
+      -152.4,
+      -32.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 15,
+      "d": 52,
+      "h": 142.5
+     },
+     "color": "#111111"
+    },
+    {
+     "id": "of544",
+     "name": "Eje D del motor Ø12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      44,
+      -152.4,
+      -32.5
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 33
+     },
+     "color": "#b0bec5"
+    }
+   ]
+  },
+  {
+   "id": "op63_polea_sincrona_htd5m_28t",
+   "name": "Polea conducida eje B y=152 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    -44,
+    152.4,
+    84
+   ],
+   "quat": [
+    0,
+    0,
+    1,
+    6.123233995736766e-17
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of545",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of546",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of547",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of548",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op64_polea_sincrona_htd5m_28t",
+   "name": "Polea motriz eje B y=152 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    -44,
+    152.4,
+    -58.5
+   ],
+   "quat": [
+    0,
+    0,
+    1,
+    6.123233995736766e-17
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of549",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of550",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of551",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of552",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op65_cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "name": "Motor eje B y=152 · Motor UniDrive (eje D)",
+   "biblioteca": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "componente": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "color": "#37474f",
+   "pos": [
+    -153.345,
+    152.4,
+    -92
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of553",
+     "name": "Malla · Motor UniDrive (eje D)",
+     "shape": "mesh",
+     "op": "mesh",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "src": "componentes/models/ZP2026.glb",
+      "nodo": "300986+Std+UniDrive+motor+D-Shaft",
+      "bbox": [
+       152.69,
+       118.12,
+       119.05
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "op66_bracket_motor_unidrive_omni",
+   "name": "Bracket motor eje B y=152 · Bracket motor UniDrive colgante 150x136x131 (chapa 4, estilo ZP2026)",
+   "biblioteca": "bracket_motor_unidrive_omni",
+   "color": "#1976d2",
+   "pos": [
+    -153.345,
+    152.4,
+    35
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of554",
+     "name": "Ala superior 150x136x4 (colisas de tensado)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 136,
+      "h": 4
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of555",
+     "name": "Mejilla lateral Y-",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of556",
+     "name": "Mejilla lateral Y+",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of557",
+     "name": "Fleje inferior 150x128x4 (apoyo del motor)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -131
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 128,
+      "h": 4
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op67",
+   "name": "Transmisión eje B y=152",
+   "color": "#111111",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of558",
+     "name": "Correa HTD 5M-425-15",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -44,
+      152.4,
+      -32.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 15,
+      "d": 52,
+      "h": 142.5
+     },
+     "color": "#111111"
+    },
+    {
+     "id": "of559",
+     "name": "Eje D del motor Ø12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      152.4,
+      -32.5
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 33
+     },
+     "color": "#b0bec5"
+    }
+   ]
+  },
+  {
+   "id": "op68_polea_sincrona_htd5m_28t",
+   "name": "Polea conducida eje B y=0 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    260,
+    0,
+    84
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of560",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of561",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of562",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of563",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op69_polea_sincrona_htd5m_28t",
+   "name": "Polea motriz eje B y=0 · Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "biblioteca": "polea_sincrona_htd5m_28t",
+   "color": "#1976d2",
+   "pos": [
+    260,
+    0,
+    -58.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of564",
+     "name": "Pestana lado correa O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of565",
+     "name": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 43.4,
+      "h": 18
+     },
+     "color": "#607d8b"
+    },
+    {
+     "id": "of566",
+     "name": "Pestana lado cubo O52",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 52,
+      "h": 1.5
+     },
+     "color": "#90a4ae"
+    },
+    {
+     "id": "of567",
+     "name": "Cubo O30 x 12 (prisioneros M5)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 12
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op70_cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "name": "Motor eje B y=0 · Motor UniDrive (eje D)",
+   "biblioteca": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "componente": "cv_ZP2026__300986_std_unidrive_motor_d_shaft",
+   "color": "#37474f",
+   "pos": [
+    150.655,
+    0,
+    -92
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of568",
+     "name": "Malla · Motor UniDrive (eje D)",
+     "shape": "mesh",
+     "op": "mesh",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "src": "componentes/models/ZP2026.glb",
+      "nodo": "300986+Std+UniDrive+motor+D-Shaft",
+      "bbox": [
+       152.69,
+       118.12,
+       119.05
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "op71_bracket_motor_unidrive_omni",
+   "name": "Bracket motor eje B y=0 · Bracket motor UniDrive colgante 150x136x131 (chapa 4, estilo ZP2026)",
+   "biblioteca": "bracket_motor_unidrive_omni",
+   "color": "#1976d2",
+   "pos": [
+    150.655,
+    0,
+    35
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "base_ref": true,
+   "features": [
+    {
+     "id": "of569",
+     "name": "Ala superior 150x136x4 (colisas de tensado)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 136,
+      "h": 4
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of570",
+     "name": "Mejilla lateral Y-",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of571",
+     "name": "Mejilla lateral Y+",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      66,
+      -127
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 4,
+      "h": 123
+     },
+     "color": "#37474f"
+    },
+    {
+     "id": "of572",
+     "name": "Fleje inferior 150x128x4 (apoyo del motor)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -131
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 128,
+      "h": 4
+     },
+     "color": "#455a64"
+    }
+   ]
+  },
+  {
+   "id": "op72",
+   "name": "Transmisión eje B y=0",
+   "color": "#111111",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "of573",
+     "name": "Correa HTD 5M-425-15",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      260,
+      0,
+      -32.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 15,
+      "d": 52,
+      "h": 142.5
+     },
+     "color": "#111111"
+    },
+    {
+     "id": "of574",
+     "name": "Eje D del motor Ø12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      260,
+      0,
+      -32.5
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 33
+     },
+     "color": "#b0bec5"
+    }
+   ]
+  },
+  {
+   "id": "op73",
    "name": "Fotocélula S1 (modo stop)",
    "color": "#c62828",
    "pos": [
@@ -11000,7 +13742,7 @@
    "visible": true,
    "features": [
     {
-     "id": "of477",
+     "id": "of575",
      "name": "Poste",
      "shape": "box",
      "op": "union",
@@ -11022,7 +13764,7 @@
      "color": "#212121"
     },
     {
-     "id": "of478",
+     "id": "of576",
      "name": "Fotocélula",
      "shape": "box",
      "op": "union",

@@ -3242,7 +3242,7 @@
    "nombre": "Modulo desviador Omniwheel CV-OMW 24\"x24\" (ejes perpendiculares, tangente comun)",
    "categoria": "transportador",
    "familia": "conjunto",
-   "descripcion": "Modulo desviador omnidireccional del conveyone-simulator (CV-OMW) resuelto con dos familias de ruedas omni de distinto diametro y ejes perpendiculares: 4 ejes A transversales O15 (z=135) con 16 ruedas O70 de AVANCE + 3 ejes B longitudinales O15 (z=110) con 9 ruedas O120 de EYECCION. Tangente de transporte comun Z=170; la rueda mayor baja su eje DZ=25 y los ejes cruzados pasan con luz de 10 mm sin interferencia. Reticula de contactos 6\" a tresbolillo (4x4 + 3x3). 7 motores UniDrive 60W 24VDC + 1 adicional (BOM), correa sincrona interior; fotocelula a 0.82L (modo stop).",
+   "descripcion": "Modulo desviador omnidireccional del conveyone-simulator (CV-OMW) resuelto con dos familias de ruedas omni de distinto diametro y ejes perpendiculares: 4 ejes A transversales O15 (z=135) con 16 ruedas O70 de AVANCE + 3 ejes B longitudinales O15 (z=110) con 9 ruedas O120 de EYECCION. Tangente de transporte comun Z=170; la rueda mayor baja su eje DZ=25 y los ejes cruzados pasan con luz de 10 mm sin interferencia. Reticula de contactos 6\" a tresbolillo (4x4 + 3x3). Transmision por eje: motor UniDrive DE BIBLIOTECA (cv_ZP2026__300986_std_unidrive_motor_d_shaft, malla real) colgado bajo la bandeja en bracket estilo ZP2026 (bracket_motor_unidrive_omni) + poleas sincronicas ad-hoc HTD 5M 28T (polea_sincrona_htd5m_28t) 1:1 con correas 5M-475-15 (ejes A) / 5M-425-15 (ejes B) por ranuras de la bandeja; 7 motores + 1 adicional (BOM); fotocelula a 0.82L (modo stop).",
    "fuente": {
     "tipo": "foto3d-cad",
     "detalle": "cad/ensambles/omni_modulo.json (gen_omniwheel.mjs); ruedas rueda_omni_70_doble (snapshot Inventor del usuario) y rueda_omni_120_doble (derivada)"
@@ -3252,9 +3252,9 @@
    "bbox_mm": [
     609.6,
     609.6,
-    177
+    308
    ],
-   "notas": "45 piezas. Verificaciones de no-interferencia calculadas y abortivas en gen_omniwheel.mjs (luz_cruce_ejes=10, luz_ejeA_ruedaB=37.7, luz_ejeB_ruedaA=43.7, gap_planta_AB_X=10.2, luz_ruedaB_ruedaB=32.4, luz_ruedaB_fondo=10). Ver docs/OMNIWHEEL_MODULO.md."
+   "notas": "73 piezas. Verificaciones de no-interferencia calculadas y abortivas en gen_omniwheel.mjs: geometria (luz_cruce_ejes=10, luz_ejeA_ruedaB=37.7, luz_ejeB_ruedaA=43.7, gap_planta_AB_X=10.2, luz_ruedaB_ruedaB=32.4, luz_ruedaB_fondo=10) y transmision (correas con dientes enteros 95T/85T, ventanas de polea >=2.2, luz_motor_fondo=8, luz_entre_motores=3). Ver docs/OMNIWHEEL_MODULO.md."
   },
   {
    "id": "ens_sorter_base",
@@ -3544,6 +3544,223 @@
    "agujeros_montaje": [],
    "despejes": [],
    "notas": "Corte de barra: 575. 8 unidades = 1 barra de 6 m. Plano: lamina 2 del PDF de ejes."
+  },
+  {
+   "id": "polea_sincrona_htd5m_28t",
+   "nombre": "Polea sincronica HTD 5M 28T x 15 (Op 44.56, bore O15)",
+   "categoria": "mecanico",
+   "descripcion": "Polea dentada ad-hoc de la transmision del modulo omniwheel (CV-OMW): HTD 5M, 28 dientes, O primitivo 44.56, corona O43.4 x 18 para correa de 15, pestanas O52 x 1.5 y cubo lateral O30 x 12 con 2 prisioneros M5 a 90 grados. Bore O15 H7 + chaveta 5x5 (ejes del modulo); la unidad del lado motor se mandrina al eje D del UniDrive. Relacion 1:1 (misma polea arriba y abajo). Eje de giro en X (+X = lado del cubo); apoyada tangente sobre Z=0.",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "transmision ad-hoc del modulo omniwheel: perfil HTD 5M estandar (Op = 28*5/pi = 44.563); dimensionada para caber en las ventanas libres de 37.7 mm entre ejes y ruedas (ancho total con cubo 33)"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Pestana lado correa O52",
+     "at": [
+      -10.5,
+      0,
+      26
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 52,
+     "alto": 1.5,
+     "color": "#90a4ae"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Corona dentada O43.4 x 18 (HTD 5M 28T)",
+     "at": [
+      -9,
+      0,
+      26
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 43.4,
+     "alto": 18,
+     "color": "#607d8b"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pestana lado cubo O52",
+     "at": [
+      9,
+      0,
+      26
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 52,
+     "alto": 1.5,
+     "color": "#90a4ae"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Cubo O30 x 12 (prisioneros M5)",
+     "at": [
+      10.5,
+      0,
+      26
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 30,
+     "alto": 12,
+     "color": "#455a64"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [
+    {
+     "nombre": "paso de correa 15 y llave de prisioneros",
+     "at": [
+      -12.5,
+      0,
+      0
+     ],
+     "dim": [
+      37,
+      60,
+      60
+     ]
+    }
+   ],
+   "notas": "Correas del modulo: HTD 5M-475-15 (95T, ejes de avance, C=167.5) y 5M-425-15 (85T, ejes de eyeccion, C=142.5) con L = 2C + pi*Op en relacion 1:1. Ancho total 33 (corona 18 + pestanas + cubo 12). VERIFICAR el bore lado motor contra el eje D real del UniDrive 300986."
+  },
+  {
+   "id": "bracket_motor_unidrive_omni",
+   "nombre": "Bracket motor UniDrive colgante 150x136x131 (chapa 4, estilo ZP2026)",
+   "categoria": "mecanico",
+   "descripcion": "Soporte colgante del motor UniDrive para el modulo omniwheel, similar al colgado del motor del ZP2026 (brackets B_/BR_3002): chapa plegada de 4 mm en U invertida — ala superior 150x136 apernada bajo la bandeja del modulo (4 colisas O9x20 para tensar la correa), 2 mejillas laterales 150x123 y fleje inferior 150x128 donde apoya el motor (separacion interior 128 para el cuerpo de 118). Origen en la CARA SUPERIOR del ala (plano de la bandeja); la pieza crece hacia -Z. Eje del motor segun X local.",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "mismo concepto que el soporte del motor UniDrive del ZP2026 (conveyone-simulator, ZP2026.glb: motor colgado bajo la cama con correa corta), redimensionado al motor 300986 (152.7x118.1x119) y a la altura de eje -67.5 respecto del plano de fijacion"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "Ala superior 150x136x4 (colisas de tensado)",
+     "at": [
+      0,
+      0,
+      -4
+     ],
+     "dim": [
+      150,
+      136,
+      4
+     ],
+     "color": "#37474f"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Mejilla lateral Y-",
+     "at": [
+      0,
+      -66,
+      -127
+     ],
+     "dim": [
+      150,
+      4,
+      123
+     ],
+     "color": "#37474f"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Mejilla lateral Y+",
+     "at": [
+      0,
+      66,
+      -127
+     ],
+     "dim": [
+      150,
+      4,
+      123
+     ],
+     "color": "#37474f"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Fleje inferior 150x128x4 (apoyo del motor)",
+     "at": [
+      0,
+      0,
+      -131
+     ],
+     "dim": [
+      150,
+      128,
+      4
+     ],
+     "color": "#455a64"
+    }
+   ],
+   "agujeros_montaje": [
+    {
+     "pos": [
+      -60,
+      -55
+     ],
+     "dia": 9
+    },
+    {
+     "pos": [
+      60,
+      -55
+     ],
+     "dia": 9
+    },
+    {
+     "pos": [
+      -60,
+      55
+     ],
+     "dia": 9
+    },
+    {
+     "pos": [
+      60,
+      55
+     ],
+     "dia": 9
+    }
+   ],
+   "despejes": [
+    {
+     "nombre": "cuerpo del motor + ventilacion",
+     "at": [
+      -80,
+      0,
+      -127
+     ],
+     "dim": [
+      160,
+      124,
+      123
+     ]
+    }
+   ],
+   "notas": "Con el ala fijada bajo la bandeja (Z=35 del modulo) el eje del motor queda en Z=-32.5 (-67.5 del plano de fijacion, asumiendo eje al centro de la seccion 118x119 del GLB — VERIFICAR). Las 4 colisas O9x20 orientadas segun la correa dan +-10 de tensado. Perfil de chapa con pestanas soldadas o plegado en una pieza; aligerar mejillas si se requiere."
   },
   {
    "id": "rueda_omni_70_doble",

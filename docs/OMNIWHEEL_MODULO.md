@@ -63,8 +63,37 @@ luz real en el cruce = 25 − 7.5 − 7.5 = 10 mm
   z = 110, con 3 ruedas **Ø120** cada uno (X = 0, ±152.4) → 9 contactos 3×3.
 - Retícula de contactos a **tresbolillo paso 6"** (contacto más próximo 107.8):
   cualquier caja ≥ 300×200 apoya siempre en ≥ 4 ruedas, todas a la misma tangente.
-- 7 motores UniDrive 60 W 24 VDC (1 por eje) + 1 adicional de BOM, correa
-  síncrona interior; fotocélula a 0.82·L para el modo `stop` (90°).
+- Fotocélula a 0.82·L para el modo `stop` (90°).
+
+## Transmisión (motor de biblioteca + polea ad-hoc + bracket estilo ZP2026)
+
+Un accionamiento por eje (7 en total, + 1 motor adicional de BOM):
+
+- **Motor**: `cv_ZP2026__300986_std_unidrive_motor_d_shaft` — el UniDrive con
+  eje D **de la biblioteca** (malla real extraída de `ZP2026.glb`,
+  152.7×118.1×119.0). Los 7 cuelgan **bajo la bandeja** con el eje a Z = −32.5.
+- **Polea síncrona ad-hoc**: `polea_sincrona_htd5m_28t` — HTD 5M 28T
+  (Øp 44.563, corona 18 para correa de 15, pestañas Ø52, cubo Ø30×12), una en
+  el eje (bore Ø15 + chaveta 5×5) y otra en el eje D del motor, **relación 1:1**.
+  Ancho total 33: dimensionada para caber en las **ventanas libres de 37.7 mm**
+  que dejan ruedas y ejes perpendiculares.
+- **Bracket**: `bracket_motor_unidrive_omni` — colgante de chapa 4 mm en U
+  invertida, **similar al soporte del motor del ZP2026**: ala superior 150×136
+  apernada bajo la bandeja con 4 colisas Ø9×20 (tensado de correa ±10),
+  mejillas laterales y fleje inferior de apoyo del motor.
+- **Correas**: la distancia entre centros la fija la geometría
+  (C = z_eje − z_motor) y da **dientes enteros exactos**:
+  ejes A: C = 167.5 → **HTD 5M-475-15 (95T)** · ejes B: C = 142.5 →
+  **HTD 5M-425-15 (85T)**. Cada correa pasa por una **ranura de 56×19 en la
+  bandeja** (cortes en el modelo).
+- Estaciones elegidas para no chocar con nada: ejes A en Y = ±38; ejes B
+  laterales en X = ±44; el eje B central usa la **ventana exterior** X = 260
+  (entre el último eje A y la placa). Los cuerpos de motor se reparten en
+  planta sin solaparse (luz mínima 3 mm, verificada).
+
+La cota del eje D del motor se asume al **centro de la sección** del GLB
+(59.5 sobre su base) — verificar contra la pieza real; las colisas del
+bracket absorben la diferencia.
 
 ### Verificaciones (gates del generador — abortan si fallan)
 
@@ -79,6 +108,10 @@ luz real en el cruce = 25 − 7.5 − 7.5 = 10 mm
 | Rueda Ø70 ↔ rueda Ø120 en planta (X) | 10.2 |
 | Rueda Ø120 ↔ rueda Ø120 vecina | 32.4 |
 | Rueda Ø120 ↔ bandeja de fondo | 10.0 |
+| Correas con dientes enteros (1:1) | 95T / 85T exactos |
+| Ventanas de polea (33 de ancho, mín 2) | 2.7 (A) · 2.2 (B lat.) · 13.4 (B centro) |
+| Disco polea A ↔ rueda Ø120 | 19.2 |
+| Motor ↔ bandeja / entre motores en planta | 8.0 / 3.0 |
 
 ## Cómo regenerar / ver
 
