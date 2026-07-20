@@ -1,0 +1,2204 @@
+{
+ "format": "foto3d-cad",
+ "version": 1,
+ "meta": {
+  "nombre": "Estación de humedad de suelo — VARIANTE D: campo directo",
+  "proyecto": "SONDA-SUELO-IND",
+  "capa": "user",
+  "variante": "campo",
+  "subtitulo": "MTEC-02A ×3 enterrados (20/40/60 cm) · poste SCH40 · IP66/68",
+  "etiquetaSensor": "MTEC",
+  "fuente": "Escalón D de la escalera de variantes (ver sonda_estado_del_arte_seleccion.pdf)",
+  "fecha": "2026-07-20",
+  "desviaciones": [],
+  "explode": {
+   "poste": [
+    0,
+    0,
+    150
+   ],
+   "brida": [
+    0,
+    0,
+    320
+   ],
+   "gabinete": [
+    0,
+    0,
+    420
+   ],
+   "junta": [
+    0,
+    0,
+    500
+   ],
+   "tapa": [
+    0,
+    0,
+    580
+   ],
+   "nodo": [
+    0,
+    0,
+    520
+   ],
+   "separadores": [
+    0,
+    0,
+    480
+   ],
+   "bateria": [
+    0,
+    0,
+    540
+   ],
+   "borne_bus": [
+    0,
+    0,
+    500
+   ],
+   "desecante": [
+    0,
+    0,
+    505
+   ],
+   "vent": [
+    0,
+    110,
+    420
+   ],
+   "prensas": [
+    0,
+    -120,
+    420
+   ],
+   "soporte_panel": [
+    0,
+    0,
+    650
+   ],
+   "panel": [
+    0,
+    0,
+    720
+   ],
+   "sensor1": [
+    145.00924592586398,
+    67.61892187851191,
+    0
+   ],
+   "sensor2": [
+    -131.06432708623865,
+    91.77222981616742,
+    0
+   ],
+   "sensor3": [
+    -13.94491883962532,
+    -159.39115169467928,
+    0
+   ],
+   "conducto": [
+    -120,
+    0,
+    0
+   ]
+  },
+  "pasos": [
+   {
+    "n": 1,
+    "t": "Verificación en banco",
+    "partes": [],
+    "texto": "Probar los 3 MTEC-02A en banco: dirección Modbus 1/2/3 según profundidad, lectura en aire y en agua. Verificar nodo WisBlock + carga solar. Etiquetar cada sensor con su profundidad."
+   },
+   {
+    "n": 2,
+    "t": "Excavación",
+    "partes": [
+     "dado"
+    ],
+    "texto": "Barreno Ø150–200 a 700 mm para los sensores (a ~200 mm del eje del poste) y hoyo Ø250×500 para el dado. No mezclar horizontes de suelo: apilar por capas en orden."
+   },
+   {
+    "n": 3,
+    "t": "Poste y dado",
+    "partes": [
+     "poste",
+     "dado"
+    ],
+    "texto": "Concretar el poste aplomado (hilo protegido con el cap). Curado 48 h antes de cargar el cabezal."
+   },
+   {
+    "n": 4,
+    "t": "Sensores enterrados",
+    "partes": [
+     "sensor1",
+     "sensor2",
+     "sensor3"
+    ],
+    "texto": "Insertar cada MTEC en suelo NO perturbado de la pared del barreno (púas horizontales, cuerpo vertical) a 20/40/60 cm. Rellenar por capas de 100 mm con el MISMO suelo en el MISMO orden, compactando suave. Bentonita en los últimos 300 mm alrededor de los cables."
+   },
+   {
+    "n": 5,
+    "t": "Conducto y cables",
+    "partes": [
+     "conducto",
+     "poste"
+    ],
+    "texto": "Subir los 3 cables por el conducto flex UV zunchado al poste. Dejar goteo (lazo bajo) antes de entrar al gabinete."
+   },
+   {
+    "n": 6,
+    "t": "Brida y gabinete",
+    "partes": [
+     "brida",
+     "gabinete"
+    ],
+    "texto": "PTFE + anaerobio y roscar la brida al poste. Fijar el gabinete con 4×M4 A4 + Loctite 243 (2 N·m). Entrar cada cable por su Skintop M16 (2.5 N·m) y la válvula Gore en la pared opuesta."
+   },
+   {
+    "n": 7,
+    "t": "Electrónica y energía",
+    "partes": [
+     "separadores",
+     "nodo",
+     "bateria",
+     "borne_bus",
+     "desecante"
+    ],
+    "texto": "WisBlock en separadores, batería + BMS, bornera (pantalla a tierra en un solo punto), desecante. Verificar lectura Modbus de los 3 sensores."
+   },
+   {
+    "n": 8,
+    "t": "Cierre y puesta en marcha",
+    "partes": [
+     "junta",
+     "tapa",
+     "soporte_panel",
+     "panel"
+    ],
+    "texto": "Junta limpia, tapa a 1.2 N·m en cruz. Soporte 15° + panel al ecuador. Verificar enlace LoRaWAN y registrar IDs/RSSI en bitácora. NOTA: el primer mes de lecturas es de reasentamiento del relleno."
+   }
+  ],
+  "bom": [
+   {
+    "item": 1,
+    "id": "dado",
+    "desig": "Dado de concreto Ø220×500",
+    "mat": "Hormigón in situ",
+    "cant": 1,
+    "nota": "~$5 — el poste se aploma antes de fraguar"
+   },
+   {
+    "item": 2,
+    "id": "poste",
+    "desig": "Poste nipple 1 1/2\" SCH40 × 1350 (hilo superior)",
+    "mat": "A53 galv. caliente",
+    "cant": 1,
+    "nota": "~$20; 450 embebido / 900 aéreo"
+   },
+   {
+    "item": 3,
+    "id": "brida",
+    "desig": "Brida roscada 1 1/2\" comercial",
+    "mat": "Galvanizada",
+    "cant": 1,
+    "nota": "~$12 con pernos; PTFE + anaerobio"
+   },
+   {
+    "item": 4,
+    "id": "gabinete",
+    "desig": "Gabinete PC IP66/67 180×130×60",
+    "mat": "Hammond 1554 (o Fibox +$20)",
+    "cant": 1,
+    "nota": "~$25; PC radio-transparente: antena LoRa interna"
+   },
+   {
+    "item": 5,
+    "id": "junta",
+    "desig": "Junta de tapa PU",
+    "mat": "incluida",
+    "cant": 1,
+    "nota": "—"
+   },
+   {
+    "item": 6,
+    "id": "tapa",
+    "desig": "Tapa 4×M4",
+    "mat": "PC",
+    "cant": 1,
+    "nota": "1.2 N·m en cruz"
+   },
+   {
+    "item": 7,
+    "id": "nodo",
+    "desig": "RAK WisBlock base + RS-485 + carga solar + RAK3172",
+    "mat": "RAKwireless",
+    "cant": 1,
+    "nota": "~$55; hardware de campo validado, antena PCB interna"
+   },
+   {
+    "item": 8,
+    "id": "separadores",
+    "desig": "Separadores M3×6 + tornillería",
+    "mat": "Nylon/A4",
+    "cant": 1,
+    "nota": "~$3"
+   },
+   {
+    "item": 9,
+    "id": "bateria",
+    "desig": "LiFePO4 26650 + portapilas + BMS solar",
+    "mat": "—",
+    "cant": 1,
+    "nota": "~$18"
+   },
+   {
+    "item": 10,
+    "id": "borne_bus",
+    "desig": "Bornera bus",
+    "mat": "—",
+    "cant": 1,
+    "nota": "~$4; pantalla a tierra en un punto"
+   },
+   {
+    "item": 11,
+    "id": "desecante",
+    "desig": "Desecante recambiable",
+    "mat": "Sílica indicadora",
+    "cant": 1,
+    "nota": "~$3"
+   },
+   {
+    "item": 12,
+    "id": "vent",
+    "desig": "Válvula equilibrio Gore M12",
+    "mat": "ePTFE",
+    "cant": 1,
+    "nota": "~$6; anti-condensación"
+   },
+   {
+    "item": 13,
+    "id": "prensas",
+    "desig": "Prensaestopas Skintop MS-M16",
+    "mat": "Latón Ni",
+    "cant": 3,
+    "nota": "~$12; un cable de sensor por prensaestopas"
+   },
+   {
+    "item": 14,
+    "id": "soporte_panel",
+    "desig": "Soporte panel Al 15°",
+    "mat": "Al 5052",
+    "cant": 1,
+    "nota": "~$8"
+   },
+   {
+    "item": 15,
+    "id": "panel",
+    "desig": "Panel solar 5 W ETFE",
+    "mat": "marco Al",
+    "cant": 1,
+    "nota": "~$15"
+   },
+   {
+    "item": 16,
+    "id": "sensor1",
+    "desig": "Sensor S-Soil MTEC-02A RS-485 Modbus",
+    "mat": "Seeed (IP68, −40…+80 °C)",
+    "cant": 3,
+    "nota": "~$130 los 3; ENTERRADOS en el relleno (no extraíbles; se abandonan al recambiar)"
+   },
+   {
+    "item": 17,
+    "id": "conducto",
+    "desig": "Conducto flex UV Ø18 + zunchos inox",
+    "mat": "PA/PVC UV",
+    "cant": 1,
+    "nota": "~$8; cables al gabinete por pared −Y"
+   },
+   {
+    "item": 18,
+    "id": null,
+    "desig": "Bentonita + relleno nativo tamizado",
+    "mat": "—",
+    "cant": 1,
+    "nota": "~$8; compactar por capas de 100 mm"
+   }
+  ],
+  "consumibles": [
+   "Concreto (1 saco)",
+   "Bentonita granular",
+   "PTFE + sellador anaerobio",
+   "Loctite 243",
+   "Zunchos inox",
+   "Silicona neutra"
+  ],
+  "features": [
+   "VARIANTE D — CAMPO DIRECTO: el costo mínimo que mantiene la supervivencia industrial (IP66/68, −40…+80 °C, LiFePO4, Gore, acero galvanizado): ~US$310–360 por punto",
+   "Sensores IP68 enterrados directo en el relleno (práctica METER/Dragino): a ~$43 c/u se abandonan al recambiar — sin mecanizado, sin cuerpo de sonda",
+   "Poste nipple SCH40 1 1/2\" concretado + brida comercial: 100 % ferretería industrial",
+   "Nodo RAK WisBlock validado en campo con antena LoRa interna (gabinete PC radio-transparente)",
+   "Pensada para DENSIDAD: muchas D por cuartel + algunas sondas A/B como puntos de referencia calibrados",
+   "Cede vs A/B (decláralo en la ficha): calibración genérica ±3–5 % VWC, sensores no extraíbles, y perfil perturbado el primer mes"
+  ],
+  "costoEstimado": {
+   "proto": "US$310–360",
+   "serie25": "US$260–300"
+  }
+ },
+ "params": [],
+ "parts": [
+  {
+   "id": "dado",
+   "name": "01 Dado de concreto Ø220×500 (in situ)",
+   "color": "#a9a49a",
+   "pos": [
+    0,
+    0,
+    -500
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": true,
+   "features": [
+    {
+     "id": "f1",
+     "name": "Dado",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 220,
+      "h": 500
+     }
+    }
+   ]
+  },
+  {
+   "id": "poste",
+   "name": "02 Poste nipple A53 SCH40 1 1/2\" × 1350 galv. (hilo arriba)",
+   "color": "#8f969c",
+   "pos": [
+    0,
+    0,
+    -450
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f2",
+     "name": "Nipple",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 48.3,
+      "h": 1346
+     }
+    },
+    {
+     "id": "f3",
+     "name": "Ánima",
+     "shape": "cylinder",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 40.9,
+      "h": 1348
+     }
+    }
+   ]
+  },
+  {
+   "id": "brida",
+   "name": "03 Brida roscada 1 1/2\" comercial (galv.) + 4×M4",
+   "color": "#9aa2a8",
+   "pos": [
+    0,
+    0,
+    866
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f5",
+     "name": "Brida",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         22.25,
+         0
+        ],
+        "b": [
+         27,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         27,
+         0
+        ],
+        "b": [
+         27,
+         50
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         27,
+         50
+        ],
+        "b": [
+         50,
+         50
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         50,
+         50
+        ],
+        "b": [
+         50,
+         58
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         50,
+         58
+        ],
+        "b": [
+         18,
+         58
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         18,
+         58
+        ],
+        "b": [
+         18,
+         30
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         18,
+         30
+        ],
+        "b": [
+         22.25,
+         30
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         22.25,
+         30
+        ],
+        "b": [
+         22.25,
+         0
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f4",
+     "name": "Paso M4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      28,
+      28,
+      58
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 10,
+      "through": true
+     }
+    },
+    {
+     "id": "f6",
+     "name": "Patrón circ.",
+     "shape": "pattern",
+     "op": "pattern",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "sourceId": "f4",
+      "kind": "circ",
+      "n": 4,
+      "angle": 360,
+      "axisAt": [
+       0,
+       0,
+       0
+      ],
+      "axisDir": [
+       0,
+       0,
+       1
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "gabinete",
+   "name": "04 Gabinete PC IP66/67 180×130×60 (Hammond 1554 / Fibox)",
+   "color": "#bfc7cf",
+   "pos": [
+    0,
+    0,
+    924
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f11",
+     "name": "Cuerpo",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 180,
+      "d": 130,
+      "h": 52
+     }
+    },
+    {
+     "id": "f12",
+     "name": "Cavidad",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      3
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 174,
+      "d": 124,
+      "h": 52
+     }
+    },
+    {
+     "id": "f7",
+     "name": "Torreta esquina",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      84,
+      59,
+      3
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 49
+     }
+    },
+    {
+     "id": "f13",
+     "name": "Patrón rect.",
+     "shape": "pattern",
+     "op": "pattern",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "sourceId": "f7",
+      "kind": "rect",
+      "nx": 2,
+      "ny": 2,
+      "dx": -168,
+      "dy": -118,
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "v": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f8",
+     "name": "Rosca tapa M4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      84,
+      59,
+      52
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 12,
+      "through": false
+     }
+    },
+    {
+     "id": "f14",
+     "name": "Patrón rect.",
+     "shape": "pattern",
+     "op": "pattern",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "sourceId": "f8",
+      "kind": "rect",
+      "nx": 2,
+      "ny": 2,
+      "dx": -168,
+      "dy": -118,
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "v": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f9",
+     "name": "Paso M4 piso",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      28,
+      28,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 4,
+      "through": false
+     }
+    },
+    {
+     "id": "f15",
+     "name": "Patrón rect.",
+     "shape": "pattern",
+     "op": "pattern",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "sourceId": "f9",
+      "kind": "rect",
+      "nx": 2,
+      "ny": 2,
+      "dx": -56,
+      "dy": -56,
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "v": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f10",
+     "name": "Paso prensaestopas M16",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -50,
+      -65,
+      26
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 16.5,
+      "depth": 4,
+      "through": false
+     }
+    },
+    {
+     "id": "f16",
+     "name": "Patrón rect.",
+     "shape": "pattern",
+     "op": "pattern",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "sourceId": "f10",
+      "kind": "rect",
+      "nx": 3,
+      "ny": 1,
+      "dx": 50,
+      "dy": 0,
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "v": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f17",
+     "name": "Recorte válvula Gore",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      60,
+      65,
+      26
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12.5,
+      "depth": 4,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "junta",
+   "name": "05 Junta de tapa PU",
+   "color": "#22262b",
+   "pos": [
+    0,
+    0,
+    976
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f18",
+     "name": "Marco PU",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         -88,
+         -63
+        ],
+        "b": [
+         88,
+         -63
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         88,
+         -63
+        ],
+        "b": [
+         88,
+         63
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         88,
+         63
+        ],
+        "b": [
+         -88,
+         63
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -88,
+         63
+        ],
+        "b": [
+         -88,
+         -63
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -85,
+         -60
+        ],
+        "b": [
+         85,
+         -60
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         85,
+         -60
+        ],
+        "b": [
+         85,
+         60
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         85,
+         60
+        ],
+        "b": [
+         -85,
+         60
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -85,
+         60
+        ],
+        "b": [
+         -85,
+         -60
+        ]
+       }
+      ],
+      "h": 1.5,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "tapa",
+   "name": "06 Tapa (4×M4 cautivos)",
+   "color": "#aab4bd",
+   "pos": [
+    0,
+    0,
+    977.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f20",
+     "name": "Tapa",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 180,
+      "d": 130,
+      "h": 8
+     }
+    },
+    {
+     "id": "f19",
+     "name": "Paso tornillo tapa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      84,
+      59,
+      8
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 10,
+      "through": true
+     }
+    },
+    {
+     "id": "f21",
+     "name": "Patrón rect.",
+     "shape": "pattern",
+     "op": "pattern",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "sourceId": "f19",
+      "kind": "rect",
+      "nx": 2,
+      "ny": 2,
+      "dx": -168,
+      "dy": -118,
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "v": [
+       0,
+       1,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "nodo",
+   "name": "07 Nodo RAK WisBlock (base+RS-485+carga solar) + RAK3172",
+   "color": "#1f6e43",
+   "pos": [
+    -30,
+    10,
+    933
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f22",
+     "name": "Base WisBlock",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 100,
+      "d": 60,
+      "h": 1.6
+     }
+    },
+    {
+     "id": "f23",
+     "name": "Core RAK3172",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -25,
+      5,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 30,
+      "d": 25,
+      "h": 6
+     }
+    },
+    {
+     "id": "f24",
+     "name": "Módulo RS-485",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      20,
+      5,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 20,
+      "d": 15,
+      "h": 5
+     }
+    },
+    {
+     "id": "f25",
+     "name": "Cargador solar",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      20,
+      -18,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 18,
+      "d": 12,
+      "h": 4
+     }
+    }
+   ]
+  },
+  {
+   "id": "separadores",
+   "name": "08 Separadores nylon M3×6 (4)",
+   "color": "#e8e4da",
+   "pos": [
+    -30,
+    10,
+    927
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f26",
+     "name": "Separador",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      45,
+      25,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 6,
+      "h": 6
+     }
+    },
+    {
+     "id": "f27",
+     "name": "Patrón rect.",
+     "shape": "pattern",
+     "op": "pattern",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "sourceId": "f26",
+      "kind": "rect",
+      "nx": 2,
+      "ny": 2,
+      "dx": -90,
+      "dy": -50,
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "v": [
+       0,
+       1,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "bateria",
+   "name": "09 LiFePO4 26650 + portapilas",
+   "color": "#5a7d9a",
+   "pos": [
+    40,
+    -35,
+    927
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f28",
+     "name": "Portapilas",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 75,
+      "d": 34,
+      "h": 5
+     }
+    },
+    {
+     "id": "f29",
+     "name": "Celda",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -32.6,
+      0,
+      18.1
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 26.2,
+      "h": 65.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "borne_bus",
+   "name": "10 Bornera bus RS-485 + 12 V",
+   "color": "#8a8f96",
+   "pos": [
+    40,
+    35,
+    927
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f30",
+     "name": "Bornera",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 30,
+      "d": 16,
+      "h": 12
+     }
+    }
+   ]
+  },
+  {
+   "id": "desecante",
+   "name": "11 Cápsula desecante Ø30",
+   "color": "#d9c37a",
+   "pos": [
+    -64,
+    -40,
+    927
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f31",
+     "name": "Desecante",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "vent",
+   "name": "12 Válvula de equilibrio Gore M12",
+   "color": "#e0e0e0",
+   "pos": [
+    60,
+    73,
+    950
+   ],
+   "quat": [
+    0.707107,
+    0,
+    0,
+    0.707107
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f32",
+     "name": "Cabeza",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15,
+      "h": 8
+     }
+    },
+    {
+     "id": "f33",
+     "name": "Rosca",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "prensas",
+   "name": "13 3× Skintop MS-M16 (entrada de sensores, pared −Y)",
+   "color": "#c9a227",
+   "pos": [
+    0,
+    -71,
+    950
+   ],
+   "quat": [
+    -0.707107,
+    0,
+    0,
+    0.707107
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f34",
+     "name": "Prensaestopas 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -50,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 19,
+      "h": 6
+     }
+    },
+    {
+     "id": "f35",
+     "name": "Prensaestopas 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 19,
+      "h": 6
+     }
+    },
+    {
+     "id": "f36",
+     "name": "Prensaestopas 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      50,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 19,
+      "h": 6
+     }
+    },
+    {
+     "id": "f37",
+     "name": "Rosca 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -50,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15.8,
+      "h": 10
+     }
+    },
+    {
+     "id": "f38",
+     "name": "Rosca 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15.8,
+      "h": 10
+     }
+    },
+    {
+     "id": "f39",
+     "name": "Rosca 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      50,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15.8,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "soporte_panel",
+   "name": "14 Soporte panel Al 15° (2 cuñas)",
+   "color": "#98a2ac",
+   "pos": [
+    0,
+    0,
+    985.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f40",
+     "name": "Cuña -Y",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      -53,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         -90,
+         0
+        ],
+        "b": [
+         90,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         90,
+         0
+        ],
+        "b": [
+         -90,
+         48
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -90,
+         48
+        ],
+        "b": [
+         -90,
+         0
+        ]
+       }
+      ],
+      "h": 4,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f41",
+     "name": "Cuña +Y",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      57,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         -90,
+         0
+        ],
+        "b": [
+         90,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         90,
+         0
+        ],
+        "b": [
+         -90,
+         48
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -90,
+         48
+        ],
+        "b": [
+         -90,
+         0
+        ]
+       }
+      ],
+      "h": 4,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "panel",
+   "name": "15 Panel solar 5 W ETFE (190×130)",
+   "color": "#20344d",
+   "pos": [
+    0,
+    0,
+    1010.2
+   ],
+   "quat": [
+    0,
+    0.129921,
+    0,
+    0.991524
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f42",
+     "name": "Panel",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 190,
+      "d": 130,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "sensor1",
+   "name": "16 Sensor S-Soil MTEC-02A #1 (20 cm, enterrado)",
+   "color": "#2e6f40",
+   "pos": [
+    181.26,
+    84.52,
+    -200
+   ],
+   "quat": [
+    0,
+    0,
+    0.21644,
+    0.976296
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f44",
+     "name": "Cuerpo resina",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 45,
+      "d": 16,
+      "h": 145
+     }
+    },
+    {
+     "id": "f43",
+     "name": "Púa 316",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4,
+      "h": 70
+     }
+    },
+    {
+     "id": "f45",
+     "name": "Púa 316",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4,
+      "h": 70
+     }
+    },
+    {
+     "id": "f46",
+     "name": "Púa 316",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4,
+      "h": 70
+     }
+    }
+   ]
+  },
+  {
+   "id": "sensor2",
+   "name": "17 Sensor S-Soil MTEC-02A #2 (40 cm, enterrado)",
+   "color": "#2e6f40",
+   "pos": [
+    -163.83,
+    114.72,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0.953717,
+    0.300706
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f48",
+     "name": "Cuerpo resina",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 45,
+      "d": 16,
+      "h": 145
+     }
+    },
+    {
+     "id": "f47",
+     "name": "Púa 316",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4,
+      "h": 70
+     }
+    },
+    {
+     "id": "f49",
+     "name": "Púa 316",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4,
+      "h": 70
+     }
+    },
+    {
+     "id": "f50",
+     "name": "Púa 316",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4,
+      "h": 70
+     }
+    }
+   ]
+  },
+  {
+   "id": "sensor3",
+   "name": "18 Sensor S-Soil MTEC-02A #3 (60 cm, enterrado)",
+   "color": "#2e6f40",
+   "pos": [
+    -17.43,
+    -199.24,
+    -600
+   ],
+   "quat": [
+    0,
+    0,
+    0.737277,
+    -0.67559
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f52",
+     "name": "Cuerpo resina",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 45,
+      "d": 16,
+      "h": 145
+     }
+    },
+    {
+     "id": "f51",
+     "name": "Púa 316",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -12,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4,
+      "h": 70
+     }
+    },
+    {
+     "id": "f53",
+     "name": "Púa 316",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4,
+      "h": 70
+     }
+    },
+    {
+     "id": "f54",
+     "name": "Púa 316",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      12,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4,
+      "h": 70
+     }
+    }
+   ]
+  },
+  {
+   "id": "conducto",
+   "name": "19 Conducto flex UV Ø18 (cables sensores, zunchado al poste)",
+   "color": "#4a4f55",
+   "pos": [
+    -34,
+    0,
+    -60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f55",
+     "name": "Flex",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18,
+      "h": 1000
+     }
+    }
+   ]
+  }
+ ],
+ "constraints": []
+}

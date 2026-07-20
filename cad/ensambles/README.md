@@ -296,3 +296,72 @@ node cad/ensambles/gen_lbp530.mjs        # → lbp530_5m.json · lbp530_gt08.jso
 
 Los entregables del proyecto (GLB, planos, memoria de cálculo y lista de
 compra de material de ejes) viven en `projects/LBP530-18/out/`.
+
+---
+
+## `sonda_suelo.json` — Sonda de humedad de suelo multiprofundidad (grado industrial)
+
+**Prototipo premium** (31 piezas, capa `user`) derivado del informe paramétrico del
+usuario (Truebner SMT100 / Fibox ARCA / Lapp Skintop / ISO 3601 / DIN 912): tubo
+PVC-U Ø50×3.7 EN 1452 (portante + elevador, L1550), punta cónica 316L 40° con
+tórica FKM 36×3, 3× SMT100 en espiga radial (20/40/60 cm, desfasados 120°, pasamuros
+POM-C Ø35 con potting PU), acople de cabezal 316L (espiga+brida 4×M4, Skintop MS-M16
+gland-down), gabinete Fibox ARCA PC 150/60 HG con nodo de placa única (ESP32 ind. +
+RAK3172-T + buck + THVD1450), 2× LiFePO4 26650 + BMS solar, M12 A-cod de servicio,
+válvula Gore, collar antipercolación, panel 5 W a 15° y **antena 868/915 exterior**.
+**Cabezal elevado 0.9 m sobre NPT** (estado del arte: CropX exige la antena sobre el
+canopy; Sentek PLUS y METER ZL6 montan electrónica y panel en poste — citas con URL
+en `sonda_suelo_dims.json → webRef`). Desviaciones de ingeniería respecto del
+informe documentadas en `meta.desviaciones`.
+
+Regenerar y validar (desde la raíz / desde `cad/`):
+
+```bash
+node cad/ensambles/gen_sonda_suelo.mjs          # → sonda_suelo.json + _dims.json
+cd cad && npx esbuild tests/test_sonda.mjs --bundle --format=esm --platform=node \
+  --alias:three=./vendor/three.module.min.js --outfile=/tmp/test_sonda.mjs && node /tmp/test_sonda.mjs
+```
+
+Entregables:
+
+- **HTML autocontenido** `sonda_suelo_premium.html` (se abre con doble clic):
+  corte A-A **por CSG real** con caras de corte destacadas, corte libre por plano,
+  despiece animado, 12 pasos de ensamble interactivos (resaltan sus piezas), BOM y
+  features. Rebuild: `node ensambles/build_sonda_html.mjs` (desde `cad/`).
+- **PDF de 9 láminas** `planos_sonda/sonda_suelo_premium.pdf` (marco ISO 5457 +
+  cajetín ISO 7200): GA acotado, vistas normalizadas + isométrica sombreada del
+  conjunto y del cabezal (malla CSG), corte A-A con globos→BOM, corte B-B del
+  cabezal 1:2, detalles de sellado (garganta Parker 5:1, pasamuro 2:1, aprietes),
+  instrucciones de ensamble en 12 viñetas y BOM/consumibles/features. Rebuild
+  (desde `cad/`): bundlear `ensambles/planos_sonda.mjs` con esbuild (alias three)
+  y ejecutar con node.
+- El JSON se abre también en el CAD del navegador (`cad/index.html` → 📂 Abrir).
+
+### Variantes de la sonda (escalera de costos A–E)
+
+- **A premium** — `sonda_suelo.json` (34 pzas): 316L torneado + SMT100 (`node gen_sonda_suelo.mjs`).
+- **B fittings estándar** — `sonda_suelo_std.json` (33 pzas): terminal PVC cementado,
+  brida roscada comercial, nipple galvanizado, collar HDPE, WisBlock — misma
+  confiabilidad, −25 % (`node gen_sonda_suelo.mjs estandar`).
+- **D campo directo** — `sonda_campo.json` (19 pzas): sensores MTEC-02A enterrados
+  directo + poste SCH40 concretado (`node gen_sonda_campo.mjs`); BOM con costos
+  por ítem en `meta.bom`.
+
+Visores autocontenidos: `node build_sonda_html.mjs [doc.json] [salida.html]` →
+`sonda_suelo_premium.html` / `sonda_suelo_std.html` / `sonda_campo.html`.
+Escalera completa con costos y qué cede cada nivel: §5 de
+`planos_sonda/sonda_estado_del_arte_seleccion.pdf`. Test de variantes:
+`cad/tests/test_sonda_variantes.mjs`.
+
+- **B1.5 SMT50 + estación de superficie** — `sonda_suelo_b15.json` (36 pzas):
+  B estándar con 3× Truebner SMT50 (±2 % VWC, ficha citada en webRef) + nodo
+  con ADC y estación de clima con paridad de competencia (T/HR en escudo de
+  radiación, pluviómetro balancín, humedad de hoja)
+  (`node gen_sonda_suelo.mjs smt50` → visor `sonda_suelo_b15.html`).
+
+- **B1.5 v2 (vigente)** — `gen_estacion_b15.mjs` → `sonda_suelo_b15.json` (37 pzas):
+  estación de POSTE con alturas OMM (T/HR 1.5 m, pluvio 1.235 m, antena 1.93 m),
+  gabinete vertical lateral con puerta al sur y TODAS las entradas por abajo,
+  ménsula del pluviómetro al poste (2 abrazaderas + cartela), panel al norte,
+  cap roscado en vez de brida. El modo `smt50` de gen_sonda_suelo queda
+  obsoleto (emite `_v1_obsoleta`).
