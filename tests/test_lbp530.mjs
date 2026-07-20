@@ -43,6 +43,8 @@ check('bore de chumacera = Ø muñón (UCF206/30)', D.ucf.bore === D.jrnDia);
 check('8 motrices salen de una barra de 6 m', 8 * (D.ejeMotrizL + 9) <= 6000);
 check('8 tensores salen de una barra de 6 m', 8 * (D.ejeTensorL + 9) <= 6000);
 check('ancho entre placas = banda 457.2 + holguras', Math.abs(D.innerW - (dims.belt.ancho + 2 * D.claroLat)) < 0.01);
+check('grid de sprockets 530 LBP = A·B·C·B·C·A del manual p.30 / brochure p.11',
+  JSON.stringify(D.ySprkLBP) === JSON.stringify([-152.4, -89.05, 0, 63.35, 152.4]));
 
 for (const [file, tipo] of [['ensambles/lbp530_5m.json', 'LBP'], ['ensambles/lbp530_gt08.json', 'GT']]) {
   const doc = JSON.parse(readFileSync(file, 'utf8'));

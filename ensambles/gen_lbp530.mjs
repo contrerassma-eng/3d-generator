@@ -131,13 +131,18 @@ D.ejeMotrizL = r2(D.sqLen + D.jrnLibre + D.jrnMotriz);   // 681
 D.ejeTensorL = r2(D.sqLen + 2 * D.jrnLibre);             // 566
 D.rSprk = r2(BELT.sprocket.pd / 2 - BELT.esp / 2);   // contacto cara interior ≈ 53.1
 
-// posiciones Y de sprockets (manual Movex, pág. 30)
+// posiciones Y de sprockets (manual Movex pág. 30 + brochure LBP pág. 11 —
+// AMBOS coinciden: 530 LBP estándar 18 in = 5 sprockets; 6 es solo PRO LBP).
+// LBP: grid VÁLIDO A·B·C·B·C·A = 76.2/63.35/89.05/63.35/89.05/76.2 (posiciones
+// entre los carriles de rodillos; las demás están PROHIBIDAS ✗ en el manual):
+// desde el borde: 76.2, 139.55, 228.6, 291.95, 381.0 → centrado:
+D.ySprkLBP = [-152.4, -89.05, 0, 63.35, 152.4];
+// GT/Others: indent 38.1 + paso 76.2 → 6 equiespaciados:
 const posSprk = (n, indent) => {
   const y0 = -BELT.ancho / 2 + indent, out = [];
   for (let i = 0; i < n; i++) out.push(r2(y0 + i * BELT.stepSprk));
   return out;
 };
-D.ySprkLBP = posSprk(BELT.nSprkLBP, BELT.indentLBP);   // 5: ±152.4, ±76.2, 0
 D.ySprkGT = posSprk(BELT.nSprkGT, BELT.indentGT);      // 6: ±190.5, ±114.3, ±38.1
 
 // ---------------------------------------------------------------------------
@@ -427,7 +432,8 @@ function build(tipo, L) {
   // ---- EJE TENSOR/DEFLEXIÓN (abajo, entrada) + 2 sprockets locos ----
   addPart(`FAB · EJE TENSOR cuadrado ${D.sq} — L=${D.ejeTensorL} (muñones Ø30 ${D.jrnTol})`, C.eje,
     [xTen, 0, D.zTensor], ejeTensor(xTen, D.zTensor));
-  for (const y of [ySprk[1], ySprk[ySprk.length - 2]]) {
+  const yLocos = esLBP ? [-152.4, 152.4] : [ySprk[1], ySprk[ySprk.length - 2]];
+  for (const y of yLocos) {
     addPart('NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)', C.sprk, [xTen, y, D.zTensor], sprocket(xTen, y, D.zTensor));
   }
   for (const s of [-1, 1]) {
@@ -513,6 +519,12 @@ function verify(res) {
   if (D.ucf.bore !== D.jrnDia) e.push('bore de chumacera ≠ Ø muñón');
   if (BELT.sprocket.od / 2 > Math.abs(D.zMotriz) - 100) e.push('sprocket motriz invade el bastidor');
   if (D.gtRetDia / 2 < BELT.backflex) e.push(`rodillo de retorno R${D.gtRetDia / 2} < backflex ${BELT.backflex}`);
+  // grid de sprockets del 530 LBP (manual p.30 / brochure p.11): A·B·C·B·C·A
+  const gaps = D.ySprkLBP.slice(1).map((y, i) => r2(y - D.ySprkLBP[i]));
+  if (JSON.stringify(gaps) !== JSON.stringify([63.35, 89.05, 63.35, 89.05]))
+    e.push(`grid de sprockets LBP inválido: gaps ${gaps} (esperado B,C,B,C = 63.35,89.05,...)`);
+  const margen = r2(BELT.ancho / 2 - Math.max(...D.ySprkLBP.map(Math.abs)));
+  if (margen !== 76.2) e.push(`indent A del grid LBP = ${margen} (esperado 76.2)`);
   if (D.gtRetDia <= 50) e.push('rodillo de retorno GT ≤ 50 (manual: D>50)');
   // corte de barras (8+8 ejes, kerf 9 mm)
   const corteM = 8 * (D.ejeMotrizL + 9), corteT = 8 * (D.ejeTensorL + 9);
@@ -559,7 +571,7 @@ const metaComun = {
     motorreductor: 'eje hueco Ø30 H7 DIRECTO sobre el muñón motriz + brazo de torque; chaveta DIN 6885 A 8×7×90; retención arandela + tornillo M10',
   },
   traccion: 'motriz ABAJO extremo descarga (wrap objetivo 140±10°, manual Movex); deflexión/tensor abajo extremo entrada; NOSEBAR en ambas puntas',
-  sprockets: `Z-32 MOLDEADO PD 153.4 OD 154.8 ancho 40, BORE CUADRADO 1.5 in c/grano M8 (P158808YF, cotización 26012937) — LBP: 5/eje (indent 76.2) · GT: 6/eje (indent 38.1, paso 76.2); SOLO el central FIJO (grano M8 + collarines P21703Y), resto FLOTAN (+0.4/+0.3): dilatación térmica, manual Movex`,
+  sprockets: `Z-32 MOLDEADO PD 153.4 OD 154.8 ancho 40, BORE CUADRADO 1.5 in c/grano M8 (P158808YF, cotización 26012937) — 530 LBP estándar 18 in: 5/eje en el grid VÁLIDO A·B·C·B·C·A (centrado: -152.4/-89.05/0/+63.35/+152.4; manual p.30 = brochure p.11; poner 6 es IMPOSIBLE: las demás posiciones caen bajo los carriles de rodillos ✗; 6 aplica solo a 530 PRO LBP) · GT: 6/eje (indent 38.1, paso 76.2); SOLO el central FIJO (grano M8 + collarines P21703Y), resto FLOTAN (+0.4/+0.3)`,
   retorno: 'RODILLOS Ø63.5 de eje muerto cada ~500 (decisión usuario; manual Movex sugiere zapata para LBP — desviación registrada): tubo con 2 rodamientos SELLADOS 6202-2RS insertos, eje Ø15 roscado M8 interior en ambas puntas, PERNO HEX M8 + golilla POR FUERA de la placa; catenaria 50–150 tras la motriz',
   estructura: 'soportes tipo ZP2026 (B_005A, chapa plegada 3 mm, 203×95, con nivelador) y travesaños tipo ZP2026 (TR_S, C 88×40×3); guía de apoyo = pletina 12 de canto + BAR CAP UHMW P101203-30 (enrollable, rollo 30 m); guía lateral = conical rail enrollable L 1¼ in P12501C sobre escuadras',
   friction_top: 'GT: goma 75 ShA sobre la banda; el retorno del GT es sobre rodillos (recomendación del manual); la goma no toca el nosebar (contacto por cara interior)',
