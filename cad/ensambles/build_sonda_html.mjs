@@ -6,17 +6,23 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, rmSync } from 'node:fs';
 
-const out = process.argv[2] || 'ensambles/sonda_suelo_premium.html';
+// Uso: node ensambles/build_sonda_html.mjs [doc.json] [salida.html]
+const docFile = process.argv[2] || 'ensambles/sonda_suelo.json';
+const out = process.argv[3] || 'ensambles/sonda_suelo_premium.html';
+const docJson = JSON.parse(readFileSync(docFile, 'utf8'));
+const TITULO = docJson.meta?.nombre || 'Sonda de humedad de suelo — foto3d';
+const SUB = `${docJson.parts.length} piezas · ${docJson.meta?.subtitulo || 'SMT100 ×3 (20/40/60 cm) · IP68'} · capa <b>user</b> (diseño CAD paramétrico, mm)`;
 const tmp = '/tmp/foto3d_sonda.js';
 execFileSync('npx', ['esbuild', 'ensambles/entry_sonda.mjs', '--bundle', '--format=iife',
-  '--minify', '--alias:three=./vendor/three.module.min.js', '--loader:.json=json', `--outfile=${tmp}`],
+  '--minify', '--alias:three=./vendor/three.module.min.js', `--alias:__doc__=./${docFile}`,
+  '--loader:.json=json', `--outfile=${tmp}`],
   { stdio: 'inherit' });
 const js = readFileSync(tmp, 'utf8').replaceAll('</script>', '<\\/script>');
 rmSync(tmp, { force: true });
 
 const html = `<!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sonda de humedad de suelo industrial — corte, despiece e instrucciones (foto3d)</title>
+<title>${TITULO} — corte, despiece e instrucciones (foto3d)</title>
 <style>
  html,body{margin:0;height:100%;background:#10141a;overflow:hidden;font:13px/1.45 system-ui;color:#cfd6e4}
  #view{position:fixed;inset:0}
@@ -59,8 +65,8 @@ const html = `<!doctype html>
 </style></head><body>
 <div id="view"></div>
 <div id="hud">
- <h1>Sonda de humedad de suelo multiprofundidad — grado industrial</h1>
- <div class="sub">34 piezas · SMT100 ×3 (20/40/60 cm) · IP68 · capa <b>user</b> (diseño CAD paramétrico, mm)</div>
+ <h1>${TITULO}</h1>
+ <div class="sub">${SUB}</div>
  <div class="row">
   <button id="modeFull" class="on">⬒ Completo</button>
   <button id="modeCut">▤ Corte A-A</button>

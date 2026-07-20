@@ -336,3 +336,19 @@ Entregables:
   (desde `cad/`): bundlear `ensambles/planos_sonda.mjs` con esbuild (alias three)
   y ejecutar con node.
 - El JSON se abre también en el CAD del navegador (`cad/index.html` → 📂 Abrir).
+
+### Variantes de la sonda (escalera de costos A–E)
+
+- **A premium** — `sonda_suelo.json` (34 pzas): 316L torneado + SMT100 (`node gen_sonda_suelo.mjs`).
+- **B fittings estándar** — `sonda_suelo_std.json` (33 pzas): terminal PVC cementado,
+  brida roscada comercial, nipple galvanizado, collar HDPE, WisBlock — misma
+  confiabilidad, −25 % (`node gen_sonda_suelo.mjs estandar`).
+- **D campo directo** — `sonda_campo.json` (19 pzas): sensores MTEC-02A enterrados
+  directo + poste SCH40 concretado (`node gen_sonda_campo.mjs`); BOM con costos
+  por ítem en `meta.bom`.
+
+Visores autocontenidos: `node build_sonda_html.mjs [doc.json] [salida.html]` →
+`sonda_suelo_premium.html` / `sonda_suelo_std.html` / `sonda_campo.html`.
+Escalera completa con costos y qué cede cada nivel: §5 de
+`planos_sonda/sonda_estado_del_arte_seleccion.pdf`. Test de variantes:
+`cad/tests/test_sonda_variantes.mjs`.

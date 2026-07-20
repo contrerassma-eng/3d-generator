@@ -37,6 +37,13 @@ import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
+// Variante: `premium` (por defecto; 316L torneado + tórica en transición) o
+// `estandar` (opción B: fittings de cañería certificados — terminal PVC
+// cementado, brida roscada comercial, collar HDPE, cap PVC de hinca —
+// misma envolvente, mismas interfaces z, misma filosofía de sellado).
+// Uso: node gen_sonda_suelo.mjs [premium|estandar]
+const STD = (process.argv[2] || 'premium') === 'estandar';
+
 const r2 = (v) => Math.round(v * 100) / 100;
 const r6 = (v) => Math.round(v * 1e6) / 1e6;   // cuaterniones: NO redondear grueso
 
@@ -210,7 +217,7 @@ D.sensor.profundidades.forEach((zp, i) => {
   const ringR = (D.torica.gargantaFondoD + D.torica.cs) / 2; // 20.3
   P('torica_punta', '09 Tórica FKM ISO 3601 36×3 (punta)', '#3b2f2f', [0, 0, -645.5],
     [torus(ringR, 1.5, [0, 0, 0], 'Toroide 36×3')], { explode: [0, 0, -80] });
-  P('torica_cabezal', '10 Tórica FKM ISO 3601 36×3 (transición)', '#3b2f2f', [0, 0, D.trans.zBase + 6.5],
+  if (!STD) P('torica_cabezal', '10 Tórica FKM ISO 3601 36×3 (transición)', '#3b2f2f', [0, 0, D.trans.zBase + 6.5],
     [torus(ringR, 1.5, [0, 0, 0], 'Toroide 36×3')], { explode: [0, 0, 40] });
 }
 
@@ -223,11 +230,22 @@ D.sensor.profundidades.forEach((zp, i) => {
     [a.cavidadD / 2, a.cuboH + a.bridaH], [a.cavidadD / 2, a.roscaProf],
     [a.boreRosca / 2, a.roscaProf],
   ];
+  if (STD) {
+    // brida roscada comercial 1 1/2" (floor flange galvanizada): disco + cubo
+    const m4 = hole(4.5, [a.patronM4 / 2, a.patronM4 / 2, a.cuboH + a.bridaH], [0, 0, -1], { through: true, name: 'Paso M4' });
+    P('acople', '11 Brida roscada 1 1/2\" comercial (galv.) + 4×M4', '#9aa2a8', [0, 0, a.zBase], [
+      revolve([[a.boreRosca / 2, 0], [27, 0], [27, a.cuboH], [50, a.cuboH], [50, a.cuboH + a.bridaH],
+        [a.cavidadD / 2, a.cuboH + a.bridaH], [a.cavidadD / 2, a.roscaProf], [a.boreRosca / 2, a.roscaProf]],
+        [0, 0, 0], 'Brida comercial'),
+      m4, circPat(m4.id, 4),
+    ], { explode: [0, 0, 480] });
+  } else {
   const m4 = hole(3.4, [a.patronM4 / 2, a.patronM4 / 2, a.cuboH + a.bridaH], [0, 0, -1], { depth: 8, name: 'Rosca M4 (previo Ø3.4)' });
   P('acople', '11 Acople de cabezal 316L (brida 4×M4 + hembra 1 1/2\" NPT)', '#8f9aa8', [0, 0, a.zBase], [
     revolve(prof, [0, 0, 0], 'Revolución acople'),
     m4, circPat(m4.id, 4),
   ], { explode: [0, 0, 480] });
+  }
 
   // acople de transición a nivel de suelo (espiga+tórica al PVC, hembra NPT arriba)
   const t = D.trans;
@@ -239,13 +257,22 @@ D.sensor.profundidades.forEach((zp, i) => {
     [t.cuboD / 2, 74], [t.boreRosca / 2, 74], [t.boreRosca / 2, 48],
     [7, 48], [7, 44], [18, 44], [18, t.espigaL], [15, t.espigaL],
   ];
+  if (STD) {
+    // terminal PVC-U PN16 Ø50 cementado × hembra 1 1/2" + disco POM p/prensaestopas
+    P('transicion', '31 Terminal PVC-U Ø50 cementado × hembra 1 1/2\" + disco M16', '#b9bdc4', [0, 0, t.zBase], [
+      revolve([[25.1, 2], [31.5, 2], [31.5, 34], [29, 42], [29, 74], [22.25, 74], [22.25, 48],
+        [7, 48], [7, 44], [22, 44], [22, 18.6], [25.1, 18.6]], [0, 0, 0], 'Terminal + disco'),
+    ], { explode: [0, 0, 110] });
+  } else {
   P('transicion', '31 Acople de transición 316L (espiga PVC + hembra 1 1/2\" NPT)', '#7d8896', [0, 0, t.zBase], [
     revolve(profT, [0, 0, 0], 'Revolución transición'),
   ], { explode: [0, 0, 110] });
+  }
 
   // pilar de cañería SCH40 1 1/2\" con hilo en ambas puntas, pintura dúplex
   const pl = D.pilar;
-  P('pilar', '32 Pilar cañería A53 SCH40 1 1/2\" hilo en puntas (dúplex RAL 7016)', '#383e42', [0, 0, pl.z0], [
+  P('pilar', STD ? '32 Pilar nipple A53 SCH40 1 1/2\" hilo en puntas (galv. caliente)'
+               : '32 Pilar cañería A53 SCH40 1 1/2\" hilo en puntas (dúplex RAL 7016)', STD ? '#8f969c' : '#383e42', [0, 0, pl.z0], [
     cyl(pl.OD, pl.L, [0, 0, 0], [0, 0, 1], 'union', 'Cañería Ø48.3'),
     cyl(pl.ID, pl.L + 2, [0, 0, -1], [0, 0, 1], 'cut', 'Ánima Ø40.9'),
   ], { explode: [0, 0, 260] });
@@ -360,11 +387,18 @@ D.sensor.profundidades.forEach((zp, i) => {
 // --- 27 COLLAR ANTIPERCOLACIÓN + 28 PANEL SOLAR + 29 SOPORTE + 30 TAPÓN HINCA --
 {
   const c = D.collar;
+  if (STD) {
+    P('collar', '27 Collar antipercolación HDPE (disco router, sobre bentonita)', '#23282e', [0, 0, 0], [
+      cyl(c.outerD, 6, [0, 0, 0], [0, 0, 1], 'union', 'Disco Ø160×6'),
+      hole(c.boreD, [0, 0, 6], [0, 0, -1], { through: true, name: 'Bore Ø50.6' }),
+    ], { explode: [150, 0, -30] });
+  } else {
   const setscrew = hole(4.2, [0, 32, 11], [0, -1, 0], { depth: 8, name: 'Prisionero M5' });
   P('collar', '27 Collar antipercolación POM-C (sobre bentonita)', '#23282e', [0, 0, 0], [
     revolve([[c.boreD / 2, 0], [c.outerD / 2, 0], [c.outerD / 2, c.rimH], [31, c.hubH], [c.boreD / 2, c.hubH]], [0, 0, 0], 'Collar cónico'),
     setscrew, circPat(setscrew.id, 2),
   ], { explode: [150, 0, -30] });
+  }
 
   const cuna = [{ type: 'line', a: [-90, 0], b: [90, 0] }, { type: 'line', a: [90, 0], b: [-90, 48] }, { type: 'line', a: [-90, 48], b: [-90, 0] }];
   P('soporte_panel', '29 Soporte panel Al 5052 15° (2 cuñas)', '#98a2ac', [0, 0, Z_LID_TOP], [
@@ -376,9 +410,16 @@ D.sensor.profundidades.forEach((zp, i) => {
   ], { quat: qAxis([0, 1, 0], D.panel.angulo), explode: [0, 0, 520] });
 
   const h = D.hinca;
+  if (STD) {
+    P('tapon_hinca', '30 Cap PVC Ø63 + taco de madera dura (accesorio de hinca)', '#b9bdc4', [300, -180, 0], [
+      cyl(63, 40, [0, 0, 0], [0, 0, 1], 'union', 'Cap PVC'),
+      cyl(48, 25, [0, 0, 40], [0, 0, 1], 'union', 'Taco'),
+    ], { explode: [80, -40, 0] });
+  } else {
   P('tapon_hinca', '30 Tapón de hinca 316L (accesorio de instalación)', '#77828e', [300, -180, 0], [
     revolve([[0.01, 0], [h.collarD / 2, 0], [h.collarD / 2, h.collarH], [h.espigaD / 2, h.collarH], [h.espigaD / 2, h.collarH + h.espigaL], [0.01, h.collarH + h.espigaL]], [0, 0, 0], 'Tapón'),
   ], { explode: [80, -40, 0] });
+  }
 
   // antena exterior en soporte lateral (+X), látigo sobre el nivel del panel
   const an = D.antena;
@@ -483,6 +524,44 @@ const DESVIACIONES = [
 ];
 
 // ============================================================================
+// variante ESTÁNDAR (opción B): parches de BOM/pasos/features (misma
+// filosofía de sellado; fittings certificados en vez de torneado custom)
+// ============================================================================
+if (STD) {
+  const bomBy = (i) => BOM.find(b => b.item === i);
+  bomBy(5).cant = 1; bomBy(5).nota = 'Solo punta; garganta 37.6/2.4/4.0 — apriete 17 % (regla Parker)';
+  bomBy(6).desig = 'Brida roscada 1 1/2" comercial (floor flange)';
+  bomBy(6).mat = 'Galvanizada (o 316 costero)';
+  bomBy(6).nota = '4×M4 pasantes al piso del gabinete con tuercas; rosca al pilar con PTFE + anaerobio';
+  bomBy(22).desig = 'Collar antipercolación Ø160 (disco HDPE router)';
+  bomBy(22).mat = 'HDPE 6 mm';
+  bomBy(22).nota = 'Sobre sello de bentonita; fijado por el relleno';
+  bomBy(25).desig = 'Cap PVC Ø63 + taco madera dura (accesorio)';
+  bomBy(25).mat = 'PVC / madera';
+  bomBy(25).nota = 'Protege el tubo al hincar; 1 por flota';
+  bomBy(31).desig = 'Terminal PVC-U PN16 Ø50 cementado × hembra 1 1/2" + disco POM M16';
+  bomBy(31).mat = 'PVC-U (fitting) + POM 6 mm';
+  bomBy(31).nota = 'Unión CEMENTADA (PN16, permanente); disco pegado porta el prensaestopas M16 que aísla el conducto';
+  bomBy(32).desig = 'Pilar nipple 1 1/2" SCH40 × 810 pre-hilado';
+  bomBy(32).mat = 'Acero A53 galvanizado en caliente (sin powder coat)';
+  bomBy(32).nota = 'Hilo de fábrica en ambas puntas; retoque zinc-rich tras roscar; alternativa NPS 1" si prima costo';
+  bomBy(12).desig = 'Nodo RAK WisBlock (base + RS-485 + carga solar) + RAK3172';
+  bomBy(12).mat = 'RAKwireless (compra)';
+  bomBy(12).nota = 'Hardware de campo ya validado; el PCB custom se justifica recién en serie >=50';
+  const p5 = PASOS.find(x => x.n === 5);
+  p5.t = 'Terminal de transición (cementado)';
+  p5.partes = ['transicion', 'prensa_trans', 'tubo'];
+  p5.texto = 'Limpiar y lijar el extremo del tubo. CEMENTAR el terminal PVC 1 1/2" (cemento PVC-U presión, giro 1/4 al insertar). Pegar el disco POM en el hombro interior. Pasar el cable de bus por el prensaestopas M16 del disco y apretarlo a 2.5 N·m: el conducto del pilar queda aislado del cuerpo enterrado. Curado 24 h antes de roscar.';
+  const p6 = PASOS.find(x => x.n === 6);
+  p6.texto = 'PTFE (3 vueltas) + sellador anaerobio en el hilo inferior del nipple 1 1/2"-11.5 NPT y roscar al terminal (llave en el hex del fitting). Subir el cable por el ánima Ø40.9 con cordón de tiro. Igual sellado arriba y roscar la brida comercial hasta orientar el patrón M4. Retocar hilos con zinc-rich.';
+  const p7 = PASOS.find(x => x.n === 7);
+  p7.texto = 'Subir la rosca M16 del Skintop del cabezal por el paso Ø16.5 del piso; contratuerca por dentro a 3 N·m; pasar el cable y apretar el cuerpo a 2.5 N·m. Fijar el gabinete a la brida comercial: 4× M4×16 A4 pasantes con tuerca y Loctite 243, en cruz a 2 N·m.';
+  FEATURES.unshift('VARIANTE B — FITTINGS ESTÁNDAR: transición y brida son piezas de cañería certificadas (misma confiabilidad, -25 % de costo); solo quedan torneadas la punta 316L y los 3 pasamuros POM-C');
+  DESVIACIONES.push('Variante estándar: unión tubo–transición CEMENTADA PN16 (permanente; el punto de servicio es el M12 y la tapa). Tórica solo en la punta.');
+  CONSUMIBLES.push('Cemento PVC-U de presión + limpiador/primer (unión tubo–terminal, curado 24 h)');
+}
+
+// ============================================================================
 // salida
 // ============================================================================
 const doc = {
@@ -508,9 +587,14 @@ const doc = {
 };
 
 const here = dirname(fileURLToPath(import.meta.url));
-writeFileSync(join(here, 'sonda_suelo.json'), JSON.stringify(doc, null, 1));
-writeFileSync(join(here, 'sonda_suelo_dims.json'), JSON.stringify({
+const base = STD ? 'sonda_suelo_std' : 'sonda_suelo';
+if (STD) {
+  doc.meta.nombre = 'Sonda de suelo industrial — VARIANTE B: fittings estándar';
+  doc.meta.variante = 'estandar';
+}
+writeFileSync(join(here, base + '.json'), JSON.stringify(doc, null, 1));
+writeFileSync(join(here, base + '_dims.json'), JSON.stringify({
   D, Z_TAPA, Z_LID_TOP, bom: BOM, pasos: PASOS, consumibles: CONSUMIBLES,
   features: FEATURES, desviaciones: DESVIACIONES, webRef: WEB_REF,
 }, null, 1));
-console.log(`OK sonda_suelo.json (${parts.length} piezas) + sonda_suelo_dims.json`);
+console.log(`OK ${base}.json (${parts.length} piezas) + ${base}_dims.json`);

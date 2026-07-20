@@ -8,7 +8,7 @@ import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
 import { buildPartGeometry, partMatrix } from '../js/model.js';
 import { geomToCSG, csgToGeom } from '../js/csg.js';
-import doc from './sonda_suelo.json';
+import doc from '__doc__';
 
 const $ = (id) => document.getElementById(id);
 
@@ -63,10 +63,11 @@ const ground = new THREE.Group();
       new THREE.MeshBasicMaterial({ color: 0x8aa0c8, transparent: true, opacity: 0.5 }));
     ring.position.z = z; ground.add(ring);
   };
+  const SN = doc.meta.etiquetaSensor || 'SMT100';
   label('NPT 0.00', 0, 82);
-  label('−20 cm · SMT100 #1', -200);
-  label('−40 cm · SMT100 #2', -400);
-  label('−60 cm · SMT100 #3', -600);
+  label(`−20 cm · ${SN} #1`, -200);
+  label(`−40 cm · ${SN} #2`, -400);
+  label(`−60 cm · ${SN} #3`, -600);
   scene.add(ground);
 }
 

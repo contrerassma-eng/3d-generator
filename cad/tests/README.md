@@ -33,3 +33,8 @@ Otras suites (mismo comando cambiando el archivo):
   31 piezas por CSG, regla Parker de la garganta tórica, ajustes espiga/tubo,
   patrones M4 coincidentes, cadena vertical del cabezal elevado y envolventes
   (electrónica en cavidad, antena sobre el panel). Correr `node ensambles/gen_sonda_suelo.mjs` antes.
+
+- `test_sonda_variantes.mjs` — variantes B (`sonda_suelo_std.json`) y D
+  (`sonda_campo.json`): CSG completo + invariantes de cada variante (unión
+  cementada sin tórica, interfaces z compartidas, sensores enterrados, poste
+  concretado). Generar ambos JSON antes.
