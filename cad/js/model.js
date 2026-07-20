@@ -280,6 +280,94 @@ export function shellInner(geom, t, openFaces = []) {
   return inner;
 }
 
+// Tapa de sección: intersecta la malla con el plano (n·x = d) y devuelve la
+// geometría rellena de la(s) sección(es) transversal(es) — el material macizo
+// en el corte, para que una vista de plano de corte se vea sólida (no hueca).
+// Devuelve null si el plano no corta la pieza.
+export function sectionCap(geom, nArr, d, tol = 0.05) {
+  const n = new THREE.Vector3(nArr[0], nArr[1], nArr[2]).normalize();
+  const { u, v } = planeBasis([n.x, n.y, n.z]);
+  const p0 = n.clone().multiplyScalar(d);
+  const g = geom.index ? geom.toNonIndexed() : geom;
+  const pos = g.attributes.position;
+  if (!pos || pos.count < 3) return null;
+  const to2 = (P) => [P.clone().sub(p0).dot(u), P.clone().sub(p0).dot(v)];
+  const V = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
+  const segs = [];
+  for (let t = 0; t < pos.count; t += 3) {
+    for (let k = 0; k < 3; k++) V[k].fromBufferAttribute(pos, t + k);
+    const s = [n.dot(V[0]) - d, n.dot(V[1]) - d, n.dot(V[2]) - d];
+    const cross = [];
+    for (let e = 0; e < 3; e++) {
+      const sa = s[e], sb = s[(e + 1) % 3];
+      if ((sa < 0 && sb >= 0) || (sa >= 0 && sb < 0)) {
+        const tt = sa / (sa - sb);
+        cross.push(to2(V[e].clone().lerp(V[(e + 1) % 3], tt)));
+      }
+    }
+    if (cross.length === 2 && Math.hypot(cross[0][0] - cross[1][0], cross[0][1] - cross[1][1]) > 1e-6) segs.push(cross);
+  }
+  if (!segs.length) return null;
+  // encadena los segmentos en contornos cerrados (empareja extremos por cercanía)
+  const rem = segs.slice();
+  const loops = [];
+  while (rem.length) {
+    let chain = rem.shift().slice();
+    let grow = true;
+    while (grow) {
+      grow = false;
+      const tail = chain[chain.length - 1], head = chain[0];
+      if (chain.length > 2 && Math.hypot(tail[0] - head[0], tail[1] - head[1]) < tol) break;
+      for (let i = 0; i < rem.length; i++) {
+        const [a, b] = rem[i];
+        if (Math.hypot(a[0] - tail[0], a[1] - tail[1]) < tol) { chain.push(b); rem.splice(i, 1); grow = true; break; }
+        if (Math.hypot(b[0] - tail[0], b[1] - tail[1]) < tol) { chain.push(a); rem.splice(i, 1); grow = true; break; }
+      }
+    }
+    // quita el vértice de cierre casi coincidente con el inicial (rompe earcut)
+    if (chain.length >= 3 && Math.hypot(chain[0][0] - chain[chain.length - 1][0], chain[0][1] - chain[chain.length - 1][1]) < tol) chain.pop();
+    if (chain.length >= 3) loops.push(chain);
+  }
+  if (!loops.length) return null;
+  const area2 = (pts) => { let s = 0; for (let i = 0; i < pts.length; i++) { const a = pts[i], b = pts[(i + 1) % pts.length]; s += a[0] * b[1] - b[0] * a[1]; } return s / 2; };
+  const inPoly = (pt, poly) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const a = poly[i], b = poly[j]; if (((a[1] > pt[1]) !== (b[1] > pt[1])) && (pt[0] < (b[0] - a[0]) * (pt[1] - a[1]) / (b[1] - a[1]) + a[0])) c = !c; } return c; };
+  // paridad de anidado: profundidad par = macizo, impar = agujero
+  const info = loops.map(l => ({ pts: l, area: Math.abs(area2(l)), parent: -1 }));
+  for (let i = 0; i < info.length; i++) {
+    let best = -1;
+    for (let j = 0; j < info.length; j++) {
+      if (i === j || info[j].area <= info[i].area) continue;
+      if (inPoly(info[i].pts[0], info[j].pts) && (best === -1 || info[j].area < info[best].area)) best = j;
+    }
+    info[i].parent = best;
+  }
+  const depth = (i) => { let dd = 0, p = info[i].parent; while (p !== -1) { dd++; p = info[p].parent; } return dd; };
+  const positions = [];
+  const push3 = (a2, b2, c2) => {
+    for (const q of [a2, b2, c2]) {
+      const P = p0.clone().addScaledVector(u, q[0]).addScaledVector(v, q[1]);
+      positions.push(P.x, P.y, P.z);
+    }
+  };
+  const ccw = (pts) => area2(pts) < 0 ? pts.slice().reverse() : pts.slice(); // contorno antihorario
+  info.forEach((l, i) => {
+    if (depth(i) % 2 !== 0) return;
+    const childPts = info.filter(h => h.parent === i).map(h => ccw(h.pts).reverse()); // agujeros en sentido opuesto
+    const outer = ccw(l.pts);
+    const contour = outer.map(p => new THREE.Vector2(p[0], p[1]));
+    const holes = childPts.map(h => h.map(p => new THREE.Vector2(p[0], p[1])));
+    const all = [...outer, ...childPts.flat()];
+    let faces;
+    try { faces = THREE.ShapeUtils.triangulateShape(contour, holes); } catch { faces = []; }
+    for (const [x, y, z] of faces) push3(all[x], all[y], all[z]);
+  });
+  if (!positions.length) return null;
+  const out = new THREE.BufferGeometry();
+  out.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  out.computeVertexNormals();
+  return out;
+}
+
 // Propiedades físicas de una malla cerrada (símil iProperties de Inventor):
 // volumen (por tetraedros firmados), área de superficie (suma de triángulos),
 // caja delimitadora y centro de masa. Coordenadas de la propia malla.
