@@ -1,0 +1,238 @@
+{
+ "proyecto": "LBP530-18",
+ "lineas": 4,
+ "transportadoresPorLinea": {
+  "GT_800": 1,
+  "LBP_5000": 1
+ },
+ "belt": {
+  "serie": "Movex 530",
+  "ancho": 457.2,
+  "paso": 15,
+  "esp": 8.7,
+  "backflex": 25,
+  "maxLoadLBP": 24000,
+  "pesoLBP": 9,
+  "maxLoadGT": 26000,
+  "pesoGT": 10.6,
+  "lbp": {
+   "alturaTotal": 12.2,
+   "rodDia": 12.2,
+   "protru": 1.75,
+   "filaCada": 50.800000000000004,
+   "material": "POM rojo, 700 rod/m²"
+  },
+  "gt": {
+   "goma": 2,
+   "alturaTotal": 10.7,
+   "dureza": "75 ShA (disp. 50 ShA)"
+  },
+  "sprocket": {
+   "z": 24,
+   "pd": 114.9,
+   "od": 115.5,
+   "ancho": 24,
+   "S": 53.5,
+   "art": "158308YF bore cuadrado 1.5 in, partido, poliamida"
+  },
+  "nSprkLBP": 5,
+  "indentLBP": 76.2,
+  "nSprkGT": 6,
+  "indentGT": 38.1,
+  "stepSprk": 76.2,
+  "noseR": 9.5,
+  "noseArtLBP": "22867 (K3) / 22868 (K6) — nosebar especial 530 LBP doble cara",
+  "noseArtGT": "22808 (K3) / 22809 (K6) — nosebar 530 BluLub",
+  "rolloM": 1.5
+ },
+ "D": {
+  "claroLat": 6.4,
+  "plT": 6,
+  "plTop": -8,
+  "plAlto": 180,
+  "alaAncho": 30,
+  "travesanio": 40,
+  "pasoTravLBP": 1000,
+  "pasoTravFT": 600,
+  "sq": 38.1,
+  "jrnDia": 30,
+  "jrnTol": "j6",
+  "jrnLibre": 50,
+  "jrnMotriz": 165,
+  "cuboMotor": 110,
+  "chaveta": {
+   "w": 8,
+   "h": 7,
+   "l": 90
+  },
+  "m10": 22,
+  "garganta": 2.5,
+  "ucf": {
+   "bore": 30,
+   "flange": 108,
+   "boltGap": 82.6,
+   "boltDia": 12,
+   "hubDia": 62,
+   "B": 38.1
+  },
+  "zMotriz": -400,
+  "xMotrizDesdePunta": 120,
+  "zTensor": -290,
+  "xTensorDesdePunta": 300,
+  "zapataTop": -150,
+  "zapataCada": 500,
+  "zapataR": 25,
+  "gtRetDia": 63.5,
+  "sagR": 600,
+  "sagBot": -280,
+  "catenLen": 750,
+  "wearLBP": {
+   "n": 10,
+   "w": 15,
+   "h": 10
+  },
+  "wearGT": {
+   "n": 7,
+   "w": 25,
+   "h": 10
+  },
+  "guiaAlto": 40,
+  "pisoZ": -900,
+  "pataPerfil": 50,
+  "motor": {
+   "cuerpo": [
+    230,
+    180,
+    200
+   ],
+   "boss": 62,
+   "bossL": 120
+  },
+  "innerW": 470,
+  "outerW": 482,
+  "sqLen": 466,
+  "ejeMotrizL": 681,
+  "ejeTensorL": 566,
+  "rSprk": 53.1,
+  "ySprkLBP": [
+   -152.4,
+   -76.2,
+   0,
+   76.2,
+   152.4
+  ],
+  "ySprkGT": [
+   -190.5,
+   -114.3,
+   -38.1,
+   38.1,
+   114.3,
+   190.5
+  ]
+ },
+ "lazos_m": {
+  "LBP_5000": 10.79,
+  "GT_800": 2.45
+ },
+ "ejes": {
+  "motriz": {
+   "plano": "LBP530-EJ-01",
+   "material": "SAE 1045 cuadrado 38.1 (1.5 in) calibrado",
+   "largoTotal": 681,
+   "corte": 690,
+   "cantidad": 8,
+   "tramos": [
+    {
+     "nombre": "muñón libre",
+     "dia": 30,
+     "tol": "j6",
+     "largo": 50
+    },
+    {
+     "nombre": "cuadrado",
+     "lado": 38.1,
+     "largo": 466
+    },
+    {
+     "nombre": "muñón motriz",
+     "dia": 30,
+     "tol": "j6",
+     "largo": 165
+    }
+   ],
+   "chaveta": {
+    "w": 8,
+    "h": 7,
+    "l": 90
+   },
+   "roscaPunta": "M10×22",
+   "garganta": 2.5
+  },
+  "tensor": {
+   "plano": "LBP530-EJ-02",
+   "material": "SAE 1045 cuadrado 38.1 (1.5 in) calibrado",
+   "largoTotal": 566,
+   "corte": 575,
+   "cantidad": 8,
+   "tramos": [
+    {
+     "nombre": "muñón",
+     "dia": 30,
+     "tol": "j6",
+     "largo": 50
+    },
+    {
+     "nombre": "cuadrado",
+     "lado": 38.1,
+     "largo": 466
+    },
+    {
+     "nombre": "muñón",
+     "dia": 30,
+     "tol": "j6",
+     "largo": 50
+    }
+   ]
+  },
+  "barras": {
+   "espec": "Barra cuadrada 1.5 in (38.1) SAE 1045 calibrada × 6 m",
+   "motriz": {
+    "porBarra": 8,
+    "usado": 5520
+   },
+   "tensor": {
+    "porBarra": 8,
+    "usado": 4600
+   },
+   "comprar": 2,
+   "nota": "considerar 1 barra extra de respaldo"
+  }
+ },
+ "compraMovex": {
+  "banda_530LBP_18in": {
+   "art": "5324010018A",
+   "metros": 43.16,
+   "rollos15": 29,
+   "nota": "rollos de 1.5 m (100 pasos); pedir +1 rollo de repuesto"
+  },
+  "banda_530GT_18in": {
+   "art": "5323*0018A (LFA)",
+   "metros": 9.8,
+   "rollos15": 7
+  },
+  "sprockets_Z24_cuadrado15": {
+   "art": "158308YF",
+   "cantidad": 60,
+   "detalle": "LBP: 5 motriz + 2 locos · GT: 6 motriz + 2 locos, por transportador"
+  },
+  "nosebar_LBP": {
+   "art": "22868 (K=6 in)",
+   "cantidad": 24,
+   "detalle": "3 × K6 = 18 in por punta, 2 puntas por LBP"
+  },
+  "nosebar_GT": {
+   "art": "22809 (K=6 in)",
+   "cantidad": 24
+  }
+ }
+}

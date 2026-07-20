@@ -1,0 +1,4746 @@
+{
+ "format": "foto3d-cad",
+ "version": 1,
+ "meta": {
+  "nombre": "CV-GT-800 · Movex 530 GT (friction top) 18 in × 0.8 m",
+  "capa": "user",
+  "origen": "gen_lbp530.mjs (paramétrico) — proyecto projects/LBP530-18",
+  "banda": "Movex 530 18 in · paso 15 · base 8.7 · LBP H12.2 rodillos Ø12.2 POM · GT goma 2.0 — datos capa web citados en input/web_facts.json",
+  "ejes": {
+   "material": "Barra CUADRADA 1.5 in (38.1) SAE 1045 calibrada",
+   "motriz": "L=681: cuadrado 466 + muñón libre Ø30 j6×50 + muñón motriz Ø30×165 (rodamiento 50 + cubo motorreductor 110); chavetero DIN 6885 A 8×7×90; rosca M10×22; garganta 2.5 en la transición cuadrado→Ø30; centros DIN 332-A2.5; concentricidad ≤0.05 TIR",
+   "tensor": "L=566: cuadrado 466 + 2 muñones Ø30 j6×50",
+   "chumaceras": "UCF206 (bore Ø30, brida 108, 4×Ø12) contra la cara exterior de la placa",
+   "motorreductor": "eje hueco Ø30 H7 DIRECTO sobre el muñón motriz + brazo de torque; chaveta DIN 6885 A 8×7×90; retención arandela + tornillo M10"
+  },
+  "traccion": "motriz ABAJO extremo descarga (wrap objetivo 140±10°, manual Movex); deflexión/tensor abajo extremo entrada; NOSEBAR en ambas puntas",
+  "sprockets": "Z24 PD 114.9 OD 115.5 ancho 24, partido, poliamida, BORE CUADRADO 1.5 in (art. 158308YF) — LBP: 5/eje (indent 76.2) · GT: 6/eje (indent 38.1, paso 76.2); SOLO el central FIJO (collarines), resto FLOTAN (+0.4/+0.3): dilatación térmica, manual Movex",
+  "retorno": "LBP: zapatas deslizantes UHMW (tipo R230) cada ~500 · GT: rodillos Ø63.5 (D>50); catenaria 50–150 tras la motriz, primer apoyo a ~500",
+  "friction_top": "GT: goma 75 ShA sobre la banda; el retorno del GT es sobre rodillos (recomendación del manual); la goma no toca el nosebar (contacto por cara interior)",
+  "verificaciones": {
+   "wrapMotrizLBP": 135.03,
+   "wrapMotrizGT": 133.17,
+   "sagCatenariaLBP": 130,
+   "corteBarraMotrices": 5520,
+   "corteBarraTensores": 4600
+  },
+  "largo_nose_a_nose": 800,
+  "largo_banda_lazo_mm": 2447.58
+ },
+ "parts": [
+  {
+   "id": "p1_fab_placa_lateral_libre_y_pl6_l_800",
+   "name": "FAB · Placa lateral libre (−Y) PL6 L=800",
+   "color": "#546e7a",
+   "pos": [
+    400,
+    -238,
+    -8
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": true,
+   "visible": true,
+   "features": [
+    {
+     "id": "f1",
+     "name": "Alma 800×180",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -180
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 800,
+      "d": 6,
+      "h": 180
+     }
+    },
+    {
+     "id": "f2",
+     "name": "Ala inferior 30×4",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      12,
+      -180
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 800,
+      "d": 30,
+      "h": 4
+     }
+    },
+    {
+     "id": "f3",
+     "name": "Mecha porta-chumacera PL8",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      235,
+      0,
+      -502
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 320,
+      "d": 8,
+      "h": 322
+     }
+    },
+    {
+     "id": "f4",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      238.70000000000005,
+      0,
+      -433.3
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f5",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      238.70000000000005,
+      0,
+      -350.7
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f6",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      321.29999999999995,
+      0,
+      -433.3
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f7",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      321.29999999999995,
+      0,
+      -350.7
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f8",
+     "name": "Mecha porta-chumacera PL8",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -55,
+      0,
+      -392
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 320,
+      "d": 8,
+      "h": 212
+     }
+    },
+    {
+     "id": "f9",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -141.3,
+      0,
+      -323.3
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f10",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -141.3,
+      0,
+      -240.7
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f11",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -58.69999999999999,
+      0,
+      -323.3
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f12",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -58.69999999999999,
+      0,
+      -240.7
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p2_fab_placa_lateral_motriz_y_pl6_l_800",
+   "name": "FAB · Placa lateral motriz (+Y) PL6 L=800",
+   "color": "#546e7a",
+   "pos": [
+    400,
+    238,
+    -8
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f13",
+     "name": "Alma 800×180",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -180
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 800,
+      "d": 6,
+      "h": 180
+     }
+    },
+    {
+     "id": "f14",
+     "name": "Ala inferior 30×4",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      -180
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 800,
+      "d": 30,
+      "h": 4
+     }
+    },
+    {
+     "id": "f15",
+     "name": "Mecha porta-chumacera PL8",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      235,
+      0,
+      -502
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 320,
+      "d": 8,
+      "h": 322
+     }
+    },
+    {
+     "id": "f16",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      238.70000000000005,
+      0,
+      -433.3
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f17",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      238.70000000000005,
+      0,
+      -350.7
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f18",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      321.29999999999995,
+      0,
+      -433.3
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f19",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      321.29999999999995,
+      0,
+      -350.7
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f20",
+     "name": "Mecha porta-chumacera PL8",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -55,
+      0,
+      -392
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 320,
+      "d": 8,
+      "h": 212
+     }
+    },
+    {
+     "id": "f21",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -141.3,
+      0,
+      -323.3
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f22",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -141.3,
+      0,
+      -240.7
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f23",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -58.69999999999999,
+      0,
+      -323.3
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f24",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -58.69999999999999,
+      0,
+      -240.7
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p3_fab_travesa_o_40_40_3",
+   "name": "FAB · Travesaño 40×40×3",
+   "color": "#455a64",
+   "pos": [
+    300,
+    0,
+    -166
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f25",
+     "name": "Tubo 40×40",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -20
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 470,
+      "h": 40
+     }
+    }
+   ]
+  },
+  {
+   "id": "p4_norm_wearstrip_uhmw_25_10_junta_6_10_fijo_lado_tensor",
+   "name": "NORM · Wearstrip UHMW 25×10 (junta 6–10, fijo lado tensor)",
+   "color": "#eceff1",
+   "pos": [
+    400,
+    -178.79999999999998,
+    -15.7
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f26",
+     "name": "UHMW",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 713.6,
+      "d": 25,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "p5_norm_wearstrip_uhmw_25_10_junta_6_10_fijo_lado_tensor",
+   "name": "NORM · Wearstrip UHMW 25×10 (junta 6–10, fijo lado tensor)",
+   "color": "#eceff1",
+   "pos": [
+    400,
+    -119.2,
+    -15.7
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f27",
+     "name": "UHMW",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 713.6,
+      "d": 25,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "p6_norm_wearstrip_uhmw_25_10_junta_6_10_fijo_lado_tensor",
+   "name": "NORM · Wearstrip UHMW 25×10 (junta 6–10, fijo lado tensor)",
+   "color": "#eceff1",
+   "pos": [
+    400,
+    -59.599999999999994,
+    -15.7
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f28",
+     "name": "UHMW",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 713.6,
+      "d": 25,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "p7_norm_wearstrip_uhmw_25_10_junta_6_10_fijo_lado_tensor",
+   "name": "NORM · Wearstrip UHMW 25×10 (junta 6–10, fijo lado tensor)",
+   "color": "#eceff1",
+   "pos": [
+    400,
+    0,
+    -15.7
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f29",
+     "name": "UHMW",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 713.6,
+      "d": 25,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "p8_norm_wearstrip_uhmw_25_10_junta_6_10_fijo_lado_tensor",
+   "name": "NORM · Wearstrip UHMW 25×10 (junta 6–10, fijo lado tensor)",
+   "color": "#eceff1",
+   "pos": [
+    400,
+    59.599999999999994,
+    -15.7
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f30",
+     "name": "UHMW",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 713.6,
+      "d": 25,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "p9_norm_wearstrip_uhmw_25_10_junta_6_10_fijo_lado_tensor",
+   "name": "NORM · Wearstrip UHMW 25×10 (junta 6–10, fijo lado tensor)",
+   "color": "#eceff1",
+   "pos": [
+    400,
+    119.20000000000002,
+    -15.7
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f31",
+     "name": "UHMW",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 713.6,
+      "d": 25,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "p10_norm_wearstrip_uhmw_25_10_junta_6_10_fijo_lado_tensor",
+   "name": "NORM · Wearstrip UHMW 25×10 (junta 6–10, fijo lado tensor)",
+   "color": "#eceff1",
+   "pos": [
+    400,
+    178.79999999999998,
+    -15.7
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f32",
+     "name": "UHMW",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 713.6,
+      "d": 25,
+      "h": 10
+     }
+    }
+   ]
+  },
+  {
+   "id": "p11_norm_nosebar_entrada_18_in_22808_k3_22809_k6_nosebar_530_blulub",
+   "name": "NORM · Nosebar entrada 18 in — 22808 (K3) / 22809 (K6) — nosebar 530 BluLub",
+   "color": "#0d47a1",
+   "pos": [
+    18.2,
+    0,
+    -20.2
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f33",
+     "name": "Punta R9.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -228.6,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 19,
+      "h": 457.2
+     }
+    },
+    {
+     "id": "f34",
+     "name": "Cuerpo BluLub",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      25.000000000000004,
+      0,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 50,
+      "d": 457.2,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p12_norm_nosebar_descarga_18_in_22808_k3_22809_k6_nosebar_530_blulub",
+   "name": "NORM · Nosebar descarga 18 in — 22808 (K3) / 22809 (K6) — nosebar 530 BluLub",
+   "color": "#0d47a1",
+   "pos": [
+    781.8,
+    0,
+    -20.2
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f35",
+     "name": "Punta R9.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -228.6,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 19,
+      "h": 457.2
+     }
+    },
+    {
+     "id": "f36",
+     "name": "Cuerpo BluLub",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -25,
+      0,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 50,
+      "d": 457.2,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p13_norm_rodillo_retorno_63_5_manual_d_50",
+   "name": "NORM · Rodillo retorno Ø63.5 (manual: D>50)",
+   "color": "#607d8b",
+   "pos": [
+    380,
+    0,
+    -170
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f37",
+     "name": "Tubo Ø63.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -233,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 63.5,
+      "h": 466
+     }
+    },
+    {
+     "id": "f38",
+     "name": "Eje Ø12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -241,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 482
+     }
+    }
+   ]
+  },
+  {
+   "id": "p14_fab_eje_motriz_cuadrado_38_1_l_681_mu_ones_30_j6",
+   "name": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 j6)",
+   "color": "#b0bec5",
+   "pos": [
+    680,
+    0,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f39",
+     "name": "Cuadrado 38.1×38.1×466",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -19.05000000000001
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.1,
+      "d": 466,
+      "h": 38.1
+     }
+    },
+    {
+     "id": "f40",
+     "name": "Muñón libre Ø30×50",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -283,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 50
+     }
+    },
+    {
+     "id": "f41",
+     "name": "Muñón motriz Ø30×165",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      233,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 165
+     }
+    },
+    {
+     "id": "f42",
+     "name": "Chavetero 8×7×90",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      343,
+      11.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 8,
+      "d": 90,
+      "h": 7
+     }
+    },
+    {
+     "id": "f43",
+     "name": "Rosca M10×22",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      398,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 22,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p15_norm_sprocket_z24_158308yf_bore_cuadrado_1_5_in_partido_poliamida",
+   "name": "NORM · Sprocket Z24 158308YF bore cuadrado 1.5 in, partido, poliamida",
+   "color": "#5d4037",
+   "pos": [
+    680,
+    -190.5,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f44",
+     "name": "Disco Z24 OD 115.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 115.5,
+      "h": 24
+     }
+    },
+    {
+     "id": "f45",
+     "name": "Bore cuadrado 38.4",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -19.19999999999999
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.4,
+      "d": 28,
+      "h": 38.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "p16_norm_sprocket_z24_158308yf_bore_cuadrado_1_5_in_partido_poliamida",
+   "name": "NORM · Sprocket Z24 158308YF bore cuadrado 1.5 in, partido, poliamida",
+   "color": "#5d4037",
+   "pos": [
+    680,
+    -114.3,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f46",
+     "name": "Disco Z24 OD 115.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 115.5,
+      "h": 24
+     }
+    },
+    {
+     "id": "f47",
+     "name": "Bore cuadrado 38.4",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -19.19999999999999
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.4,
+      "d": 28,
+      "h": 38.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "p17_norm_sprocket_z24_158308yf_bore_cuadrado_1_5_in_partido_poliamida",
+   "name": "NORM · Sprocket Z24 158308YF bore cuadrado 1.5 in, partido, poliamida",
+   "color": "#5d4037",
+   "pos": [
+    680,
+    -38.1,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f48",
+     "name": "Disco Z24 OD 115.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 115.5,
+      "h": 24
+     }
+    },
+    {
+     "id": "f49",
+     "name": "Bore cuadrado 38.4",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -19.19999999999999
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.4,
+      "d": 28,
+      "h": 38.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "p18_norm_sprocket_z24_158308yf_bore_cuadrado_1_5_in_partido_poliamida",
+   "name": "NORM · Sprocket Z24 158308YF bore cuadrado 1.5 in, partido, poliamida",
+   "color": "#5d4037",
+   "pos": [
+    680,
+    38.1,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f50",
+     "name": "Disco Z24 OD 115.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 115.5,
+      "h": 24
+     }
+    },
+    {
+     "id": "f51",
+     "name": "Bore cuadrado 38.4",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -19.19999999999999
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.4,
+      "d": 28,
+      "h": 38.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "p19_norm_sprocket_z24_158308yf_bore_cuadrado_1_5_in_partido_poliamida",
+   "name": "NORM · Sprocket Z24 158308YF bore cuadrado 1.5 in, partido, poliamida",
+   "color": "#5d4037",
+   "pos": [
+    680,
+    114.3,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f52",
+     "name": "Disco Z24 OD 115.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 115.5,
+      "h": 24
+     }
+    },
+    {
+     "id": "f53",
+     "name": "Bore cuadrado 38.4",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -19.19999999999999
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.4,
+      "d": 28,
+      "h": 38.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "p20_norm_sprocket_z24_158308yf_bore_cuadrado_1_5_in_partido_poliamida",
+   "name": "NORM · Sprocket Z24 158308YF bore cuadrado 1.5 in, partido, poliamida",
+   "color": "#5d4037",
+   "pos": [
+    680,
+    190.5,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f54",
+     "name": "Disco Z24 OD 115.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 115.5,
+      "h": 24
+     }
+    },
+    {
+     "id": "f55",
+     "name": "Bore cuadrado 38.4",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -19.19999999999999
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.4,
+      "d": 28,
+      "h": 38.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "p21_norm_chumacera_ucf206_30",
+   "name": "NORM · Chumacera UCF206 Ø30",
+   "color": "#9e9e9e",
+   "pos": [
+    680,
+    -241,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f56",
+     "name": "Brida UCF206 108×108×14",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -9,
+      -54
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 108,
+      "d": 14,
+      "h": 108
+     }
+    },
+    {
+     "id": "f57",
+     "name": "Cubo Ø62",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -2,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 62,
+      "h": 34
+     }
+    },
+    {
+     "id": "f58",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -41.299999999999955,
+      -9,
+      -41.30000000000001
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f59",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -41.299999999999955,
+      -9,
+      41.30000000000001
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f60",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      41.299999999999955,
+      -9,
+      -41.30000000000001
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f61",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      41.299999999999955,
+      -9,
+      41.30000000000001
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p22_norm_chumacera_ucf206_30",
+   "name": "NORM · Chumacera UCF206 Ø30",
+   "color": "#9e9e9e",
+   "pos": [
+    680,
+    241,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f62",
+     "name": "Brida UCF206 108×108×14",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      9,
+      -54
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 108,
+      "d": 14,
+      "h": 108
+     }
+    },
+    {
+     "id": "f63",
+     "name": "Cubo Ø62",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      2,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 62,
+      "h": 34
+     }
+    },
+    {
+     "id": "f64",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -41.299999999999955,
+      9,
+      -41.30000000000001
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f65",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -41.299999999999955,
+      9,
+      41.30000000000001
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f66",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      41.299999999999955,
+      9,
+      -41.30000000000001
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f67",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      41.299999999999955,
+      9,
+      41.30000000000001
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p23_norm_motorreductor_eje_hueco_30_brazo_de_torque",
+   "name": "NORM · Motorreductor eje hueco Ø30 + brazo de torque",
+   "color": "#1b5e20",
+   "pos": [
+    680,
+    361,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f68",
+     "name": "Cubo hueco Ø62",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -100,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 62,
+      "h": 120
+     }
+    },
+    {
+     "id": "f69",
+     "name": "Cuerpo reductor",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      40,
+      -100
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 230,
+      "d": 180,
+      "h": 200
+     }
+    },
+    {
+     "id": "f70",
+     "name": "Brazo de torque",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -130,
+      -70,
+      -140
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 12,
+      "h": 160
+     }
+    }
+   ]
+  },
+  {
+   "id": "p24_fab_eje_tensor_cuadrado_38_1_l_566_mu_ones_30_j6",
+   "name": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 j6)",
+   "color": "#b0bec5",
+   "pos": [
+    300,
+    0,
+    -290
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f71",
+     "name": "Cuadrado 38.1×38.1×466",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -19.05000000000001
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.1,
+      "d": 466,
+      "h": 38.1
+     }
+    },
+    {
+     "id": "f72",
+     "name": "Muñón Ø30×50",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -283,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 50
+     }
+    },
+    {
+     "id": "f73",
+     "name": "Muñón Ø30×50",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      233,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 50
+     }
+    }
+   ]
+  },
+  {
+   "id": "p25_norm_sprocket_z24_loco_flotante_0_4_0_3",
+   "name": "NORM · Sprocket Z24 loco (flotante +0.4/+0.3)",
+   "color": "#5d4037",
+   "pos": [
+    300,
+    -114.3,
+    -290
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f74",
+     "name": "Disco Z24 OD 115.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 115.5,
+      "h": 24
+     }
+    },
+    {
+     "id": "f75",
+     "name": "Bore cuadrado 38.4",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -19.19999999999999
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.4,
+      "d": 28,
+      "h": 38.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "p26_norm_sprocket_z24_loco_flotante_0_4_0_3",
+   "name": "NORM · Sprocket Z24 loco (flotante +0.4/+0.3)",
+   "color": "#5d4037",
+   "pos": [
+    300,
+    114.3,
+    -290
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f76",
+     "name": "Disco Z24 OD 115.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 115.5,
+      "h": 24
+     }
+    },
+    {
+     "id": "f77",
+     "name": "Bore cuadrado 38.4",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -19.19999999999999
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.4,
+      "d": 28,
+      "h": 38.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "p27_norm_chumacera_ucf206_30",
+   "name": "NORM · Chumacera UCF206 Ø30",
+   "color": "#9e9e9e",
+   "pos": [
+    300,
+    -241,
+    -290
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f78",
+     "name": "Brida UCF206 108×108×14",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -9,
+      -54
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 108,
+      "d": 14,
+      "h": 108
+     }
+    },
+    {
+     "id": "f79",
+     "name": "Cubo Ø62",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -2,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 62,
+      "h": 34
+     }
+    },
+    {
+     "id": "f80",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -41.30000000000001,
+      -9,
+      -41.30000000000001
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f81",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -41.30000000000001,
+      -9,
+      41.30000000000001
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f82",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      41.30000000000001,
+      -9,
+      -41.30000000000001
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f83",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      41.30000000000001,
+      -9,
+      41.30000000000001
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p28_norm_chumacera_ucf206_30",
+   "name": "NORM · Chumacera UCF206 Ø30",
+   "color": "#9e9e9e",
+   "pos": [
+    300,
+    241,
+    -290
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f84",
+     "name": "Brida UCF206 108×108×14",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      9,
+      -54
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 108,
+      "d": 14,
+      "h": 108
+     }
+    },
+    {
+     "id": "f85",
+     "name": "Cubo Ø62",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      2,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 62,
+      "h": 34
+     }
+    },
+    {
+     "id": "f86",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -41.30000000000001,
+      9,
+      -41.30000000000001
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f87",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -41.30000000000001,
+      9,
+      41.30000000000001
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f88",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      41.30000000000001,
+      9,
+      -41.30000000000001
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f89",
+     "name": "Perno Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      41.30000000000001,
+      9,
+      41.30000000000001
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p29_fab_gu_a_lateral_uhmw_sobre_escuadra",
+   "name": "FAB · Guía lateral UHMW sobre escuadra",
+   "color": "#78909c",
+   "pos": [
+    400,
+    -230,
+    25
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f90",
+     "name": "Guía UHMW 15×40",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -20
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 680,
+      "d": 15,
+      "h": 40
+     }
+    }
+   ]
+  },
+  {
+   "id": "p30_fab_gu_a_lateral_uhmw_sobre_escuadra",
+   "name": "FAB · Guía lateral UHMW sobre escuadra",
+   "color": "#78909c",
+   "pos": [
+    400,
+    230,
+    25
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f91",
+     "name": "Guía UHMW 15×40",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -20
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 680,
+      "d": 15,
+      "h": 40
+     }
+    }
+   ]
+  },
+  {
+   "id": "p31_fab_pata_50_50_regulable",
+   "name": "FAB · Pata 50×50 regulable",
+   "color": "#37474f",
+   "pos": [
+    400,
+    -216,
+    -544
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f92",
+     "name": "Perfil 50×50",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -356
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 50,
+      "d": 50,
+      "h": 712
+     }
+    },
+    {
+     "id": "f93",
+     "name": "Placa piso 120×120×6",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -356
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 120,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "p32_fab_pata_50_50_regulable",
+   "name": "FAB · Pata 50×50 regulable",
+   "color": "#37474f",
+   "pos": [
+    400,
+    216,
+    -544
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f94",
+     "name": "Perfil 50×50",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -356
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 50,
+      "d": 50,
+      "h": 712
+     }
+    },
+    {
+     "id": "f95",
+     "name": "Placa piso 120×120×6",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -356
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 120,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "p33_fab_riostra_pata_40_40",
+   "name": "FAB · Riostra pata 40×40",
+   "color": "#37474f",
+   "pos": [
+    400,
+    0,
+    -700
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f96",
+     "name": "Riostra",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -20
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 432,
+      "h": 40
+     }
+    }
+   ]
+  },
+  {
+   "id": "p34_norm_banda_movex_530_gt_friction_top_18_in_lazo_2_45_m",
+   "name": "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.45 m",
+   "color": "#1565c0",
+   "pos": [
+    400,
+    0,
+    -6.35
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f97",
+     "name": "Cara exterior del lazo",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      -400,
+      228.6,
+      6.35
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        4.22,
+        -31.86
+       ],
+       [
+        3.19,
+        -30.49
+       ],
+       [
+        2.28,
+        -29.03
+       ],
+       [
+        1.52,
+        -27.49
+       ],
+       [
+        0.91,
+        -25.88
+       ],
+       [
+        0.45,
+        -24.23
+       ],
+       [
+        0.15,
+        -22.54
+       ],
+       [
+        0.01,
+        -20.82
+       ],
+       [
+        0.03,
+        -19.11
+       ],
+       [
+        0.22,
+        -17.4
+       ],
+       [
+        0.56,
+        -15.72
+       ],
+       [
+        1.06,
+        -14.07
+       ],
+       [
+        1.72,
+        -12.48
+       ],
+       [
+        2.52,
+        -10.96
+       ],
+       [
+        3.46,
+        -9.53
+       ],
+       [
+        4.53,
+        -8.18
+       ],
+       [
+        5.72,
+        -6.95
+       ],
+       [
+        7.03,
+        -5.83
+       ],
+       [
+        8.43,
+        -4.84
+       ],
+       [
+        9.92,
+        -3.99
+       ],
+       [
+        11.49,
+        -3.28
+       ],
+       [
+        13.11,
+        -2.73
+       ],
+       [
+        14.78,
+        -2.32
+       ],
+       [
+        16.48,
+        -2.08
+       ],
+       [
+        18.2,
+        -2
+       ],
+       [
+        781.8,
+        -2
+       ],
+       [
+        783.1,
+        -2.05
+       ],
+       [
+        784.4,
+        -2.19
+       ],
+       [
+        785.69,
+        -2.42
+       ],
+       [
+        786.95,
+        -2.74
+       ],
+       [
+        788.19,
+        -3.16
+       ],
+       [
+        789.39,
+        -3.66
+       ],
+       [
+        790.56,
+        -4.25
+       ],
+       [
+        791.68,
+        -4.92
+       ],
+       [
+        792.75,
+        -5.66
+       ],
+       [
+        793.76,
+        -6.49
+       ],
+       [
+        794.72,
+        -7.38
+       ],
+       [
+        795.6,
+        -8.34
+       ],
+       [
+        796.42,
+        -9.36
+       ],
+       [
+        797.16,
+        -10.43
+       ],
+       [
+        797.82,
+        -11.56
+       ],
+       [
+        798.4,
+        -12.73
+       ],
+       [
+        798.89,
+        -13.94
+       ],
+       [
+        799.29,
+        -15.18
+       ],
+       [
+        799.61,
+        -16.44
+       ],
+       [
+        799.83,
+        -17.73
+       ],
+       [
+        799.96,
+        -19.03
+       ],
+       [
+        800,
+        -20.33
+       ],
+       [
+        799.94,
+        -21.64
+       ],
+       [
+        799.79,
+        -22.93
+       ],
+       [
+        741.1,
+        -409.28
+       ],
+       [
+        739.92,
+        -415.15
+       ],
+       [
+        738.17,
+        -420.87
+       ],
+       [
+        735.88,
+        -426.4
+       ],
+       [
+        733.07,
+        -431.67
+       ],
+       [
+        729.75,
+        -436.66
+       ],
+       [
+        725.98,
+        -441.3
+       ],
+       [
+        721.77,
+        -445.55
+       ],
+       [
+        717.17,
+        -449.37
+       ],
+       [
+        712.22,
+        -452.74
+       ],
+       [
+        706.97,
+        -455.6
+       ],
+       [
+        701.47,
+        -457.95
+       ],
+       [
+        695.76,
+        -459.76
+       ],
+       [
+        689.91,
+        -461
+       ],
+       [
+        683.97,
+        -461.67
+       ],
+       [
+        677.99,
+        -461.77
+       ],
+       [
+        672.02,
+        -461.28
+       ],
+       [
+        666.14,
+        -460.22
+       ],
+       [
+        660.38,
+        -458.6
+       ],
+       [
+        654.8,
+        -456.43
+       ],
+       [
+        649.47,
+        -453.73
+       ],
+       [
+        644.41,
+        -450.53
+       ],
+       [
+        639.69,
+        -446.85
+       ],
+       [
+        635.35,
+        -442.73
+       ],
+       [
+        631.43,
+        -438.21
+       ],
+       [
+        404.95,
+        -150.37
+       ],
+       [
+        402.69,
+        -147.79
+       ],
+       [
+        400.16,
+        -145.47
+       ],
+       [
+        397.4,
+        -143.44
+       ],
+       [
+        394.44,
+        -141.72
+       ],
+       [
+        391.3,
+        -140.33
+       ],
+       [
+        388.04,
+        -139.28
+       ],
+       [
+        384.68,
+        -138.6
+       ],
+       [
+        381.27,
+        -138.28
+       ],
+       [
+        377.84,
+        -138.32
+       ],
+       [
+        374.44,
+        -138.74
+       ],
+       [
+        371.1,
+        -139.52
+       ],
+       [
+        367.86,
+        -140.66
+       ],
+       [
+        364.77,
+        -142.14
+       ],
+       [
+        361.86,
+        -143.95
+       ],
+       [
+        359.15,
+        -146.05
+       ],
+       [
+        356.69,
+        -148.44
+       ],
+       [
+        354.5,
+        -151.08
+       ],
+       [
+        352.61,
+        -153.94
+       ],
+       [
+        351.04,
+        -156.99
+       ],
+       [
+        349.81,
+        -160.18
+       ],
+       [
+        348.92,
+        -163.5
+       ],
+       [
+        348.4,
+        -166.89
+       ],
+       [
+        348.25,
+        -170.31
+       ],
+       [
+        348.47,
+        -173.73
+       ],
+       [
+        361.37,
+        -282.74
+       ],
+       [
+        361.8,
+        -289.32
+       ],
+       [
+        361.52,
+        -295.92
+       ],
+       [
+        360.53,
+        -302.44
+       ],
+       [
+        358.86,
+        -308.83
+       ],
+       [
+        356.52,
+        -315
+       ],
+       [
+        353.53,
+        -320.88
+       ],
+       [
+        349.93,
+        -326.41
+       ],
+       [
+        345.76,
+        -331.53
+       ],
+       [
+        341.07,
+        -336.17
+       ],
+       [
+        335.92,
+        -340.29
+       ],
+       [
+        330.35,
+        -343.83
+       ],
+       [
+        324.43,
+        -346.76
+       ],
+       [
+        318.24,
+        -349.05
+       ],
+       [
+        311.84,
+        -350.65
+       ],
+       [
+        305.31,
+        -351.57
+       ],
+       [
+        298.71,
+        -351.79
+       ],
+       [
+        292.13,
+        -351.3
+       ],
+       [
+        285.64,
+        -350.11
+       ],
+       [
+        279.31,
+        -348.23
+       ],
+       [
+        273.22,
+        -345.69
+       ],
+       [
+        267.43,
+        -342.52
+       ],
+       [
+        262.01,
+        -338.75
+       ],
+       [
+        257.03,
+        -334.42
+       ],
+       [
+        252.54,
+        -329.58
+       ]
+      ],
+      "h": 457.2,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f98",
+     "name": "Vaciado interior",
+     "shape": "sketch",
+     "op": "cut",
+     "at": [
+      -400,
+      -228.6,
+      6.35
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        10.9,
+        -26.28
+       ],
+       [
+        10.36,
+        -25.57
+       ],
+       [
+        9.89,
+        -24.81
+       ],
+       [
+        9.49,
+        -24
+       ],
+       [
+        9.17,
+        -23.17
+       ],
+       [
+        8.94,
+        -22.3
+       ],
+       [
+        8.78,
+        -21.42
+       ],
+       [
+        8.71,
+        -20.53
+       ],
+       [
+        8.72,
+        -19.63
+       ],
+       [
+        8.81,
+        -18.74
+       ],
+       [
+        8.99,
+        -17.86
+       ],
+       [
+        9.25,
+        -17
+       ],
+       [
+        9.6,
+        -16.17
+       ],
+       [
+        10.01,
+        -15.38
+       ],
+       [
+        10.51,
+        -14.63
+       ],
+       [
+        11.06,
+        -13.93
+       ],
+       [
+        11.69,
+        -13.28
+       ],
+       [
+        12.37,
+        -12.7
+       ],
+       [
+        13.1,
+        -12.18
+       ],
+       [
+        13.88,
+        -11.74
+       ],
+       [
+        14.7,
+        -11.37
+       ],
+       [
+        15.55,
+        -11.08
+       ],
+       [
+        16.42,
+        -10.87
+       ],
+       [
+        17.3,
+        -10.74
+       ],
+       [
+        18.2,
+        -10.7
+       ],
+       [
+        781.8,
+        -10.7
+       ],
+       [
+        782.48,
+        -10.72
+       ],
+       [
+        783.16,
+        -10.8
+       ],
+       [
+        783.83,
+        -10.92
+       ],
+       [
+        784.49,
+        -11.09
+       ],
+       [
+        785.13,
+        -11.3
+       ],
+       [
+        785.76,
+        -11.57
+       ],
+       [
+        786.37,
+        -11.87
+       ],
+       [
+        786.96,
+        -12.22
+       ],
+       [
+        787.52,
+        -12.61
+       ],
+       [
+        788.04,
+        -13.04
+       ],
+       [
+        788.54,
+        -13.51
+       ],
+       [
+        789,
+        -14.01
+       ],
+       [
+        789.43,
+        -14.54
+       ],
+       [
+        789.82,
+        -15.1
+       ],
+       [
+        790.16,
+        -15.69
+       ],
+       [
+        790.46,
+        -16.3
+       ],
+       [
+        790.72,
+        -16.93
+       ],
+       [
+        790.93,
+        -17.58
+       ],
+       [
+        791.1,
+        -18.24
+       ],
+       [
+        791.21,
+        -18.91
+       ],
+       [
+        791.28,
+        -19.59
+       ],
+       [
+        791.3,
+        -20.27
+       ],
+       [
+        791.27,
+        -20.95
+       ],
+       [
+        791.19,
+        -21.63
+       ],
+       [
+        732.5,
+        -407.98
+       ],
+       [
+        731.48,
+        -413.01
+       ],
+       [
+        729.98,
+        -417.93
+       ],
+       [
+        728.01,
+        -422.68
+       ],
+       [
+        725.6,
+        -427.22
+       ],
+       [
+        722.75,
+        -431.5
+       ],
+       [
+        719.5,
+        -435.48
+       ],
+       [
+        715.89,
+        -439.14
+       ],
+       [
+        711.94,
+        -442.42
+       ],
+       [
+        707.68,
+        -445.31
+       ],
+       [
+        703.17,
+        -447.78
+       ],
+       [
+        698.45,
+        -449.79
+       ],
+       [
+        693.55,
+        -451.34
+       ],
+       [
+        688.52,
+        -452.41
+       ],
+       [
+        683.41,
+        -452.99
+       ],
+       [
+        678.27,
+        -453.07
+       ],
+       [
+        673.15,
+        -452.66
+       ],
+       [
+        668.09,
+        -451.75
+       ],
+       [
+        663.14,
+        -450.35
+       ],
+       [
+        658.35,
+        -448.49
+       ],
+       [
+        653.76,
+        -446.17
+       ],
+       [
+        649.42,
+        -443.41
+       ],
+       [
+        645.37,
+        -440.25
+       ],
+       [
+        641.64,
+        -436.72
+       ],
+       [
+        638.27,
+        -432.83
+       ],
+       [
+        411.79,
+        -144.99
+       ],
+       [
+        408.91,
+        -141.71
+       ],
+       [
+        405.69,
+        -138.75
+       ],
+       [
+        402.17,
+        -136.17
+       ],
+       [
+        398.39,
+        -133.97
+       ],
+       [
+        394.4,
+        -132.2
+       ],
+       [
+        390.24,
+        -130.87
+       ],
+       [
+        385.96,
+        -129.99
+       ],
+       [
+        381.61,
+        -129.58
+       ],
+       [
+        377.25,
+        -129.64
+       ],
+       [
+        372.91,
+        -130.18
+       ],
+       [
+        368.66,
+        -131.17
+       ],
+       [
+        364.54,
+        -132.62
+       ],
+       [
+        360.6,
+        -134.51
+       ],
+       [
+        356.88,
+        -136.81
+       ],
+       [
+        353.44,
+        -139.49
+       ],
+       [
+        350.31,
+        -142.53
+       ],
+       [
+        347.52,
+        -145.9
+       ],
+       [
+        345.11,
+        -149.54
+       ],
+       [
+        343.1,
+        -153.42
+       ],
+       [
+        341.53,
+        -157.49
+       ],
+       [
+        340.41,
+        -161.71
+       ],
+       [
+        339.75,
+        -166.03
+       ],
+       [
+        339.55,
+        -170.4
+       ],
+       [
+        339.83,
+        -174.75
+       ],
+       [
+        352.73,
+        -283.76
+       ],
+       [
+        353.1,
+        -289.42
+       ],
+       [
+        352.86,
+        -295.08
+       ],
+       [
+        352.01,
+        -300.69
+       ],
+       [
+        350.58,
+        -306.18
+       ],
+       [
+        348.56,
+        -311.48
+       ],
+       [
+        346,
+        -316.53
+       ],
+       [
+        342.9,
+        -321.29
+       ],
+       [
+        339.32,
+        -325.68
+       ],
+       [
+        335.29,
+        -329.67
+       ],
+       [
+        330.86,
+        -333.21
+       ],
+       [
+        326.08,
+        -336.26
+       ],
+       [
+        320.99,
+        -338.77
+       ],
+       [
+        315.67,
+        -340.73
+       ],
+       [
+        310.17,
+        -342.12
+       ],
+       [
+        304.56,
+        -342.9
+       ],
+       [
+        298.89,
+        -343.09
+       ],
+       [
+        293.24,
+        -342.67
+       ],
+       [
+        287.66,
+        -341.65
+       ],
+       [
+        282.22,
+        -340.04
+       ],
+       [
+        276.99,
+        -337.85
+       ],
+       [
+        272.01,
+        -335.13
+       ],
+       [
+        267.36,
+        -331.89
+       ],
+       [
+        263.08,
+        -328.17
+       ],
+       [
+        259.22,
+        -324.01
+       ]
+      ],
+      "h": 457.2,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "p35_norm_goma_grip_top_75_sha_disp_50_sha_2_46_filas",
+   "name": "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
+   "color": "#424242",
+   "pos": [
+    400,
+    0,
+    -1
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f99",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -343.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f100",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -328.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f101",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -313.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f102",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -298.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f103",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -283.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f104",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -268.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f105",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -253.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f106",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -238.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f107",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -223.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f108",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -208.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f109",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -193.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f110",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -178.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f111",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -163.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f112",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -148.6,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f113",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -133.60000000000002,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f114",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -118.60000000000002,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f115",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -103.60000000000002,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f116",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -88.60000000000002,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f117",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -73.60000000000002,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f118",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -58.60000000000002,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f119",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -43.60000000000002,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f120",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -28.600000000000023,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f121",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -13.600000000000023,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f122",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      1.3999999999999773,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f123",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      16.399999999999977,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f124",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      31.399999999999977,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f125",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      46.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f126",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      61.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f127",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      76.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f128",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      91.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f129",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      106.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f130",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      121.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f131",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      136.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f132",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      151.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f133",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      166.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f134",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      181.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f135",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      196.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f136",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      211.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f137",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      226.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f138",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      241.39999999999998,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f139",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      256.4,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f140",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      271.4,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f141",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      286.4,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f142",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      301.4,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f143",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      316.4,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    },
+    {
+     "id": "f144",
+     "name": "Goma grip top",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      331.4,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 11,
+      "d": 407.2,
+      "h": 2
+     }
+    }
+   ]
+  }
+ ],
+ "constraints": []
+}

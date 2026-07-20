@@ -1,0 +1,27 @@
+{
+  "project": "LBP530-18",
+  "stage": "S0_PENDIENTE",
+  "gates": {
+    "G6": {
+      "verdict": "PASA",
+      "metrics": {
+        "laminas": 1,
+        "vistas": [
+          "alzado",
+          "planta",
+          "perfil",
+          "isometrica"
+        ],
+        "escala_certificada": true,
+        "factor_escala": 1.0,
+        "dxf": "out/drawings/eje_tensor_lbp530_18.dxf",
+        "pdf": "out/drawings/eje_tensor_lbp530_18.pdf",
+        "hash_dxf": "sha256:c2ddd522d8cff796e4f90649669414041df8c02d9168054a2b299a540daa8d17",
+        "hash_pdf": "sha256:074e446aeb9f4de7e52b5e43c09ca6e5792bcd96af3248b78b09d558be378bb4"
+      },
+      "reasons": [],
+      "ts": "2026-07-20T00:02:49+00:00"
+    }
+  },
+  "updated": "2026-07-20T00:02:49+00:00"
+}

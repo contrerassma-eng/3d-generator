@@ -3395,6 +3395,136 @@
     450
    ],
    "notas": "586 partes (81 cilindros exactos + 505 cajas). Editable. Cajas = envolvente del sólido (aprox en piezas complejas); cilindros = exactos del B-rep."
+  },
+  {
+   "id": "eje_motriz_lbp530_18",
+   "nombre": "Eje motriz banda modular 530 · cuadrado 1.5 in x 466 + munones O30 (L=681)",
+   "categoria": "mecanico",
+   "descripcion": "Eje motriz de transportador Movex 530 (18 in): barra CUADRADA 1.5 in (38.1) SAE 1045 calibrada, munones torneados O30 j6: lado libre 50 (UCF206) y lado motriz 165 (UCF206 + cubo del motorreductor de eje hueco O30 H7). Chavetero DIN 6885 A 8x7x90 y rosca M10x22 en la punta motriz (no representados en las primitivas; ver plano LBP530-EJ-01). 5 sprockets Movex Z24 bore cuadrado 1.5 in (art. 158308YF), solo el central fijo.",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "proyecto LBP530-18: gen_lbp530.mjs / planos LBP530-EJ-01..03 (cad/ensambles/planos_lbp530)"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Munon libre O30 j6 x 50",
+     "at": [
+      0,
+      0,
+      19.05
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 30,
+     "alto": 50,
+     "color": "#90a4ae"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Cuadrado 38.1 x 466",
+     "at": [
+      283,
+      0,
+      0
+     ],
+     "dim": [
+      466,
+      38.1,
+      38.1
+     ],
+     "color": "#b0bec5"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Munon motriz O30 j6 x 165",
+     "at": [
+      516,
+      0,
+      19.05
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 30,
+     "alto": 165,
+     "color": "#90a4ae"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Corte de barra: 690 (kerf+refrentado). Concentricidad munones-cuadrado <=0.05 TIR; centros DIN 332-A2.5; chaflanes 2x45. 8 unidades = 1 barra de 6 m. Plano de fabricacion: cad/ensambles/planos_lbp530/planos_ejes_lbp530.pdf lamina 1."
+  },
+  {
+   "id": "eje_tensor_lbp530_18",
+   "nombre": "Eje tensor banda modular 530 · cuadrado 1.5 in x 466 + munones O30 (L=566)",
+   "categoria": "mecanico",
+   "descripcion": "Eje tensor/deflexion de transportador Movex 530 (18 in): barra CUADRADA 1.5 in (38.1) SAE 1045, 2 munones torneados O30 j6 x 50 para chumaceras UCF206. Lleva 2 sprockets Movex Z24 locos (bore cuadrado flotante +0.4/+0.3). Ver plano LBP530-EJ-02.",
+   "fuente": {
+    "tipo": "diseno",
+    "detalle": "proyecto LBP530-18: gen_lbp530.mjs / planos LBP530-EJ-01..03 (cad/ensambles/planos_lbp530)"
+   },
+   "confianza": "verificar",
+   "solidos": [
+    {
+     "tipo": "cilindro",
+     "nombre": "Munon O30 j6 x 50",
+     "at": [
+      0,
+      0,
+      19.05
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 30,
+     "alto": 50,
+     "color": "#90a4ae"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Cuadrado 38.1 x 466",
+     "at": [
+      283,
+      0,
+      0
+     ],
+     "dim": [
+      466,
+      38.1,
+      38.1
+     ],
+     "color": "#b0bec5"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Munon O30 j6 x 50",
+     "at": [
+      516,
+      0,
+      19.05
+     ],
+     "eje": [
+      1,
+      0,
+      0
+     ],
+     "dia": 30,
+     "alto": 50,
+     "color": "#90a4ae"
+    }
+   ],
+   "agujeros_montaje": [],
+   "despejes": [],
+   "notas": "Corte de barra: 575. 8 unidades = 1 barra de 6 m. Plano: lamina 2 del PDF de ejes."
   }
  ]
 }
