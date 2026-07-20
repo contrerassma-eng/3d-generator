@@ -280,11 +280,10 @@ export function shellInner(geom, t, openFaces = []) {
   return inner;
 }
 
-// Tapa de sección: intersecta la malla con el plano (n·x = d) y devuelve la
-// geometría rellena de la(s) sección(es) transversal(es) — el material macizo
-// en el corte, para que una vista de plano de corte se vea sólida (no hueca).
-// Devuelve null si el plano no corta la pieza.
-export function sectionCap(geom, nArr, d, tol = 0.05) {
+// Contornos 2D de la sección de la malla por el plano (n·x = d): base del plano
+// (p0,u,v) y las regiones macizas ya resueltas por paridad {outer, holes} en
+// coordenadas (u,v). Devuelve null si el plano no corta la pieza.
+export function sectionLoops(geom, nArr, d, tol = 0.05) {
   const n = new THREE.Vector3(nArr[0], nArr[1], nArr[2]).normalize();
   const { u, v } = planeBasis([n.x, n.y, n.z]);
   const p0 = n.clone().multiplyScalar(d);
@@ -331,7 +330,6 @@ export function sectionCap(geom, nArr, d, tol = 0.05) {
   if (!loops.length) return null;
   const area2 = (pts) => { let s = 0; for (let i = 0; i < pts.length; i++) { const a = pts[i], b = pts[(i + 1) % pts.length]; s += a[0] * b[1] - b[0] * a[1]; } return s / 2; };
   const inPoly = (pt, poly) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const a = poly[i], b = poly[j]; if (((a[1] > pt[1]) !== (b[1] > pt[1])) && (pt[0] < (b[0] - a[0]) * (pt[1] - a[1]) / (b[1] - a[1]) + a[0])) c = !c; } return c; };
-  // paridad de anidado: profundidad par = macizo, impar = agujero
   const info = loops.map(l => ({ pts: l, area: Math.abs(area2(l)), parent: -1 }));
   for (let i = 0; i < info.length; i++) {
     let best = -1;
@@ -342,29 +340,83 @@ export function sectionCap(geom, nArr, d, tol = 0.05) {
     info[i].parent = best;
   }
   const depth = (i) => { let dd = 0, p = info[i].parent; while (p !== -1) { dd++; p = info[p].parent; } return dd; };
-  const positions = [];
-  const push3 = (a2, b2, c2) => {
-    for (const q of [a2, b2, c2]) {
-      const P = p0.clone().addScaledVector(u, q[0]).addScaledVector(v, q[1]);
-      positions.push(P.x, P.y, P.z);
-    }
-  };
-  const ccw = (pts) => area2(pts) < 0 ? pts.slice().reverse() : pts.slice(); // contorno antihorario
+  const regions = [];
   info.forEach((l, i) => {
-    if (depth(i) % 2 !== 0) return;
-    const childPts = info.filter(h => h.parent === i).map(h => ccw(h.pts).reverse()); // agujeros en sentido opuesto
-    const outer = ccw(l.pts);
+    if (depth(i) % 2 !== 0) return; // profundidad par = macizo; impar = agujero de su padre
+    regions.push({ outer: l.pts, holes: info.filter(h => h.parent === i).map(h => h.pts) });
+  });
+  return { p0, u, v, regions, area2 };
+}
+
+// Tapa de sección: rellena las regiones macizas del corte con geometría
+// triangulada (el material en el plano), para que una vista de plano de corte
+// se vea sólida (no hueca). Devuelve null si el plano no corta la pieza.
+export function sectionCap(geom, nArr, d, tol = 0.05) {
+  const S = sectionLoops(geom, nArr, d, tol);
+  if (!S) return null;
+  const { p0, u, v, regions, area2 } = S;
+  const ccw = (pts) => area2(pts) < 0 ? pts.slice().reverse() : pts.slice(); // contorno antihorario
+  const positions = [];
+  const push3 = (q) => { const P = p0.clone().addScaledVector(u, q[0]).addScaledVector(v, q[1]); positions.push(P.x, P.y, P.z); };
+  for (const reg of regions) {
+    const outer = ccw(reg.outer);
+    const holePts = reg.holes.map(h => ccw(h).reverse()); // agujeros en sentido opuesto
     const contour = outer.map(p => new THREE.Vector2(p[0], p[1]));
-    const holes = childPts.map(h => h.map(p => new THREE.Vector2(p[0], p[1])));
-    const all = [...outer, ...childPts.flat()];
+    const holes = holePts.map(h => h.map(p => new THREE.Vector2(p[0], p[1])));
+    const all = [...outer, ...holePts.flat()];
     let faces;
     try { faces = THREE.ShapeUtils.triangulateShape(contour, holes); } catch { faces = []; }
-    for (const [x, y, z] of faces) push3(all[x], all[y], all[z]);
-  });
+    for (const [x, y, z] of faces) { push3(all[x]); push3(all[y]); push3(all[z]); }
+  }
   if (!positions.length) return null;
   const out = new THREE.BufferGeometry();
   out.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
   out.computeVertexNormals();
+  return out;
+}
+
+// Rayado (hatch) de la sección: líneas paralelas a 'angleDeg' separadas
+// 'spacing' mm, recortadas al material (regla par-impar sobre los contornos).
+// Devuelve una geometría de segmentos (para LineSegments) o null.
+export function sectionHatch(geom, nArr, d, spacing = 4, angleDeg = 45, tol = 0.05) {
+  const S = sectionLoops(geom, nArr, d, tol);
+  if (!S || !(spacing > 0)) return null;
+  const { p0, u, v, regions } = S;
+  const th = angleDeg * Math.PI / 180, ca = Math.cos(th), sa = Math.sin(th);
+  const rot = (p) => [p[0] * ca + p[1] * sa, -p[0] * sa + p[1] * ca];   // al marco del rayado
+  const unrot = (p) => [p[0] * ca - p[1] * sa, p[0] * sa + p[1] * ca];  // de vuelta al plano
+  // todas las aristas (contornos + agujeros) en el marco rotado
+  const edges = [];
+  let ymin = Infinity, ymax = -Infinity, xmin = Infinity, xmax = -Infinity;
+  for (const reg of regions) for (const ring of [reg.outer, ...reg.holes]) {
+    const R = ring.map(rot);
+    for (let i = 0; i < R.length; i++) {
+      const a = R[i], b = R[(i + 1) % R.length];
+      edges.push([a, b]);
+      ymin = Math.min(ymin, a[1]); ymax = Math.max(ymax, a[1]);
+      xmin = Math.min(xmin, a[0]); xmax = Math.max(xmax, a[0]);
+    }
+  }
+  if (!edges.length) return null;
+  const positions = [];
+  const push3 = (q2) => { const q = unrot(q2); const P = p0.clone().addScaledVector(u, q[0]).addScaledVector(v, q[1]); positions.push(P.x, P.y, P.z); };
+  const y0 = Math.ceil(ymin / spacing) * spacing;
+  for (let y = y0; y <= ymax; y += spacing) {
+    const xs = [];
+    for (const [a, b] of edges) {
+      if ((a[1] > y) === (b[1] > y)) continue;             // la arista no cruza la línea
+      const x = a[0] + (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]);
+      xs.push(x);
+    }
+    xs.sort((p, q) => p - q);
+    for (let i = 0; i + 1 < xs.length; i += 2) {           // par-impar: tramos dentro del material
+      if (xs[i + 1] - xs[i] < 1e-4) continue;
+      push3([xs[i], y]); push3([xs[i + 1], y]);
+    }
+  }
+  if (!positions.length) return null;
+  const out = new THREE.BufferGeometry();
+  out.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
   return out;
 }
 

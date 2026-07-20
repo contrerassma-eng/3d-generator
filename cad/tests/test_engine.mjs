@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
-  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, makeMirrorFeature, makeFilletFeature, makeChamferFeature, makeShellFeature, isConvexSolid, solidPlanarFaces, massProperties, sectionCap, planeBasis, magnetCorrections, identifyFace,
+  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, makeMirrorFeature, makeFilletFeature, makeChamferFeature, makeShellFeature, isConvexSolid, solidPlanarFaces, massProperties, sectionCap, sectionHatch, planeBasis, magnetCorrections, identifyFace,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
   evalExpr, resolveParams, applyDocParams,
@@ -433,6 +433,17 @@ console.log('— Tapa de sección (vista de plano de corte) —');
   const facet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
   const ringExp = Math.PI * (400 - 100) * facet; // corona r10..r20 con facetado
   check('sección de tubo → corona con agujero', capT && Math.abs(capArea(capT) - ringExp) / ringExp < 0.02, `A=${capT ? capArea(capT).toFixed(1) : 'null'} esp=${ringExp.toFixed(1)}`);
+
+  // rayado: la sección de la caja en X=0 (rectángulo 40×40 en Y-Z) produce segmentos
+  const hatch = sectionHatch(gBox, [1, 0, 0], 0, 5, 45);
+  check('rayado genera segmentos de línea', hatch && hatch.attributes.position.count >= 4, `pts=${hatch ? hatch.attributes.position.count : 'null'}`);
+  check('rayado: nº de vértices par (segmentos)', hatch && hatch.attributes.position.count % 2 === 0);
+  // todos los vértices del rayado están dentro de la caja delimitadora de la sección (±20 en Y-Z, X≈0)
+  const hp = hatch.attributes.position;
+  let inside = true;
+  for (let i = 0; i < hp.count; i++) { if (Math.abs(hp.getX(i)) > 0.5 || Math.abs(hp.getY(i)) > 20.01 || hp.getZ(i) < -0.01 || hp.getZ(i) > 40.01) inside = false; }
+  check('rayado dentro de la sección', inside);
+  check('plano fuera → sin rayado', sectionHatch(gBox, [1, 0, 0], 100, 5, 45) === null);
 }
 
 console.log('— Propiedades físicas (masa/área/centro) —');
