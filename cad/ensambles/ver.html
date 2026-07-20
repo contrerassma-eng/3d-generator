@@ -21,40 +21,124 @@
 // Para editar el ensamble, abrir el mismo JSON en ../index.html con 📂 Abrir.
 import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
+import { GLTFLoader } from '../vendor/GLTFLoader.js';
+import { MeshoptDecoder } from '../vendor/meshopt_decoder.module.js';
 import { buildPartGeometry, partMatrix } from '../js/model.js';
 
 const q = new URLSearchParams(location.search);
 const docUrl = q.get('doc') || 'transfer_rodillos_90.json';
 const doc = await (await fetch(docUrl)).json();
 
+// Piezas de MALLA REAL (features shape:'mesh' con {src, nodo}): misma lógica
+// que el CAD (app.js loadMeshGeometry) — fusionar la instancia del nodo del
+// GLB y recentrar XY con base en Z=0. Los src del doc son relativos a cad/.
+const gltfLoader = new GLTFLoader();
+gltfLoader.setMeshoptDecoder(MeshoptDecoder);
+const meshGeomCache = new Map();
+const subcompBase = (o) => { for (let p = o.parent; p; p = p.parent) if (p.name) return p.name.replace(/\d+$/, ''); return ''; };
+function loadMeshGeometry(src, nodo = null) {
+  const key = nodo ? `${src}#${nodo}` : src;
+  if (meshGeomCache.has(key)) return meshGeomCache.get(key);
+  const promise = MeshoptDecoder.ready.then(() => new Promise((resolve, reject) => {
+    gltfLoader.load(`../${src}`, (gltf) => {
+      gltf.scene.updateMatrixWorld(true);
+      const verts = [];
+      const v = new THREE.Vector3();
+      gltf.scene.traverse((o) => {
+        if (!o.isMesh || !o.geometry) return;
+        if (nodo && subcompBase(o) !== nodo) return;
+        const g = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry;
+        const pa = g.attributes.position;
+        for (let i = 0; i < pa.count; i++) {
+          v.fromBufferAttribute(pa, i).applyMatrix4(o.matrixWorld);
+          verts.push(v.x, v.y, v.z);
+        }
+      });
+      if (!verts.length) { reject(new Error('GLB sin mallas')); return; }
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+      geom.scale(1000, 1000, 1000);
+      geom.computeBoundingBox();
+      const bb = geom.boundingBox;
+      geom.translate(-(bb.min.x + bb.max.x) / 2, -(bb.min.y + bb.max.y) / 2, -bb.min.z);
+      geom.computeVertexNormals();
+      resolve(geom);
+    }, undefined, (err) => reject(err instanceof Error ? err : new Error(String(err))));
+  }));
+  meshGeomCache.set(key, promise);
+  return promise;
+}
+const isMeshPart = (part) => part.features.length === 1 && part.features[0].shape === 'mesh';
+
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x14171c);
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
 renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(devicePixelRatio);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;   // look de estudio
+renderer.toneMappingExposure = 1.15;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 
-scene.add(new THREE.HemisphereLight(0xdde4f0, 0x30363f, 1.0));
-const sun = new THREE.DirectionalLight(0xffffff, 1.6);
+scene.add(new THREE.HemisphereLight(0xdde4f0, 0x272c33, 0.85));
+const sun = new THREE.DirectionalLight(0xffffff, 2.0);
 sun.position.set(400, -600, 800);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -700, right: 700, top: 700, bottom: -700, near: 100, far: 3000 });
+sun.shadow.bias = -0.0004;
 scene.add(sun);
-const fill = new THREE.DirectionalLight(0x8899bb, 0.5);
+const fill = new THREE.DirectionalLight(0x8899bb, 0.45);
 fill.position.set(-500, 400, 200);
 scene.add(fill);
+const rim = new THREE.DirectionalLight(0xbfd4ff, 0.6);  // contraluz de recorte
+rim.position.set(150, 700, 350);
+scene.add(rim);
+
+// material según color: tonos neutros = metal (ejes, poleas, chapa); color = plástico/pintura
+const matFor = (color) => {
+  const c = new THREE.Color(color);
+  const mx = Math.max(c.r, c.g, c.b), mn = Math.min(c.r, c.g, c.b);
+  const metal = (mx - mn) < 0.09;
+  return new THREE.MeshStandardMaterial({ color, metalness: metal ? 0.7 : 0.08, roughness: metal ? 0.34 : 0.52 });
+};
 
 const bbox = new THREE.Box3();
-for (const part of doc.parts) {
-  if (part.visible === false) continue;
-  const g = buildPartGeometry(part);
-  const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({
-    color: part.color || '#8899aa', metalness: 0.15, roughness: 0.7,
-  }));
+const addMesh = (g, color, part) => {
+  const mesh = new THREE.Mesh(g, matFor(color));
+  mesh.castShadow = mesh.receiveShadow = true;
   mesh.applyMatrix4(partMatrix(part));
   scene.add(mesh);
   bbox.expandByObject(mesh);
+};
+for (const part of doc.parts) {
+  if (part.visible === false) continue;
+  if (isMeshPart(part)) {
+    addMesh(await loadMeshGeometry(part.features[0].params.src, part.features[0].params.nodo || null), part.color || '#8899aa', part);
+    continue;
+  }
+  // pieza solo-unión: sin booleanos — un mesh por función con su color (los
+  // componentes de la biblioteca traen color por sólido y el solape visual de
+  // una unión es idéntico al CSG); con cortes sí se construye el CSG completo
+  if (part.features.every((f) => f.op === 'union')) {
+    for (const f of part.features)
+      addMesh(buildPartGeometry({ ...part, features: [f] }), f.color || part.color || '#8899aa', part);
+  } else {
+    addMesh(buildPartGeometry(part), part.color || '#8899aa', part);
+  }
 }
 const c = bbox.getCenter(new THREE.Vector3());
 const size = bbox.getSize(new THREE.Vector3()).length();
+
+// piso que recibe la sombra (bajo el modelo)
+const piso = new THREE.Mesh(
+  new THREE.CircleGeometry(size * 1.6, 64),
+  new THREE.MeshStandardMaterial({ color: 0x171a1f, metalness: 0, roughness: 1 }),
+);
+piso.position.set(c.x, c.y, bbox.min.z - 2);
+piso.receiveShadow = true;
+scene.add(piso);
 
 const cam = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 1, 20000);
 cam.up.set(0, 0, 1);
