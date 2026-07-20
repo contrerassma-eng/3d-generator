@@ -276,3 +276,23 @@ planos del navegador (`js/drawing2d.js`, escritores DXF/PDF propios sin
 dependencias) para las láminas. Emite además `planos_transfer90/_despiece.json`
 (lista de materiales en JSON). Es **diseño, capa `user`** — verificar las
 dimensiones nominales con la unidad real antes de mecanizar.
+
+## Transportadores Movex 530 LBP / GT (proyecto projects/LBP530-18)
+
+Cuatro líneas de packing: por línea 1 × **CV-LBP-5000** (Movex 530 LBP 18 in
+× 5.0 m, acumulación) y 1 × **CV-GT-800** (530 GT friction top × 0.8 m).
+Nosebar en ambas puntas, tracción abajo en la descarga (wrap 135°), ejes
+CUADRADOS 1.5 in con muñones torneados Ø30 (motorreductor de eje hueco Ø30
+directo). Datos del fabricante citados en `projects/LBP530-18/input/web_facts.json`.
+
+```bash
+node cad/ensambles/gen_lbp530.mjs        # → lbp530_5m.json · lbp530_gt08.json · lbp530_dims.json
+# planos (bundlear con esbuild como los demás):
+#   planos_ejes_lbp530.mjs      → planos_lbp530/planos_ejes_lbp530.pdf (EJ-01/02/03)
+#   planos_conjunto_lbp530.mjs  → planos_lbp530/planos_conjunto_lbp530.pdf (GA-01/02)
+#   export_lbp530.mjs           → PLY con color (DOC/OUT/FILTRO/CENTRAR) → GLB con trimesh
+# prueba: tests/test_lbp530.mjs (invariantes + CSG de los ejes)
+```
+
+Los entregables del proyecto (GLB, planos, memoria de cálculo y lista de
+compra de material de ejes) viven en `projects/LBP530-18/out/`.
