@@ -230,6 +230,8 @@ export function allLoops(entities, tol = 0.7) {
   const loops = [];
   const open = [];
   const segs = [];
+  // la geometría de construcción (ejes, líneas de centro) no forma perfiles
+  entities = entities.filter(e => !e.construction);
   for (const e of entities) {
     if (e.type === 'circle') loops.push(entityPoints(e, 48).slice(0, -1));
     else segs.push(entityPoints(e, 48));
