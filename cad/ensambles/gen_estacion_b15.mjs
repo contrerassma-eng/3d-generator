@@ -83,6 +83,21 @@ const rectEnt = (x0, y0, x1, y1) => [
   { type: 'line', a: [x0, y0], b: [x1, y0] }, { type: 'line', a: [x1, y0], b: [x1, y1] },
   { type: 'line', a: [x1, y1], b: [x0, y1] }, { type: 'line', a: [x0, y1], b: [x0, y0] },
 ];
+// cable realista: polilínea 3D de segmentos cilíndricos con solape
+const cableFeats = (pts, dia, name) => {
+  const out = [];
+  for (let i = 0; i + 1 < pts.length; i++) {
+    const a = pts[i], b = pts[i + 1];
+    const d = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
+    const L = Math.hypot(...d);
+    if (L < 0.5) continue;
+    const u = d.map(v => r6(v / L));
+    const a2 = [a[0] - u[0] * 0.6, a[1] - u[1] * 0.6, a[2] - u[2] * 0.6];
+    out.push(cyl(dia, L + 1.2, a2, u, 'union', `${name} tramo ${i + 1}`));
+  }
+  return out;
+};
+
 // abrazadera U al poste (visual): placa con paso Ø49
 const strap = (z, name = 'Abrazadera U 1 1/2"') => [
   box(60, 60, 10, [0, 0, z], 'union', name),
@@ -171,7 +186,19 @@ P('tapon_hinca', '13 Cap PVC Ø63 + taco (accesorio de hinca)', '#b9bdc4', [300,
     cyl(48.3, 1669, [0, 0, 0], [0, 0, 1], 'union', 'Cañería Ø48.3'),
     cyl(40.9, 1671, [0, 0, -1], [0, 0, 1], 'cut', 'Ánima Ø40.9'),
     hole(16, [0, -24.2, 1004], [0, 1, 0], { depth: 8, name: 'Salida lateral bus Ø16' }),
-    cyl(20, 2.5, [0, -26.5, 1004], [0, 1, 0], 'union', 'Grommet de goma'),
+    cyl(20, 2.5, [0, -26.5, 1004], [0, 1, 0], 'union', 'Grommet salida bus'),
+    hole(14, [0, -24.2, 992], [0, 1, 0], { depth: 8, name: 'Salida lateral instrumentos Ø14' }),
+    cyl(18, 2.5, [0, -26.5, 992], [0, 1, 0], 'union', 'Grommet salida instrumentos'),
+    hole(10, [-24.2, 0, 1064], [1, 0, 0], { depth: 8, name: 'Pasacables pluviómetro Ø10' }),
+    cyl(14, 2.5, [-26.5, 0, 1064], [1, 0, 0], 'union', 'Grommet pluviómetro'),
+    hole(10, [24.2, 0, 1406], [-1, 0, 0], { depth: 8, name: 'Pasacables escudo Ø10' }),
+    cyl(14, 2.5, [26.5, 0, 1406], [-1, 0, 0], 'union', 'Grommet escudo'),
+    hole(10, [0, 24.2, 1526], [0, -1, 0], { depth: 8, name: 'Pasacables panel Ø10' }),
+    cyl(14, 2.5, [0, 26.5, 1526], [0, -1, 0], 'union', 'Grommet panel'),
+    hole(10, [-24.2, 0, 1606], [1, 0, 0], { depth: 8, name: 'Pasacables antena Ø10' }),
+    cyl(14, 2.5, [-26.5, 0, 1606], [1, 0, 0], 'union', 'Grommet antena'),
+    hole(8, [24.2, 0, 34], [-1, 0, 0], { depth: 8, name: 'Pasacables sensor de hoja Ø8' }),
+    cyl(12, 2.5, [26.5, 0, 34], [-1, 0, 0], 'union', 'Grommet hoja'),
   ];
   for (let k = 0; k < 7; k++) {   // crestas de hilo NPT 1 1/2"-11.5 (paso 2.2)
     feats.push(cyl(49.1, 0.8, [0, 0, 2 + k * 2.2], [0, 0, 1], 'union', `Hilo inf. ${k + 1}`));
@@ -408,6 +435,34 @@ P('antena', '37 Antena 868/915 2 dBi al tope (~1.93 m)', '#30363f', [0, 0, 0], [
 ], { explode: [-140, 0, 100] });
 
 // ============================================================================
+// CABLES (recorrido realista: por DENTRO del poste; saltos cortos con lazo
+// de goteo entre las salidas laterales y las entradas inferiores de la caja)
+// ============================================================================
+P('cable_bus', '38 Cable bus de sonda (interior poste → entrada, lazo de goteo)', '#1c1f24', [0, 0, 0],
+  cableFeats([[0, -26, 1088], [0, -40, 1068], [-24, -52, 1046], [-52, -56, 1041], [-65, -55, 1047], [-66, -55, 1062]], 6, 'Bus'),
+  { explode: [0, -60, -40] });
+P('cables_bajada', '39 Bajada instrumentos (salida Ø14 → 3 entradas, lazos de goteo)', '#1c1f24', [0, 0, 0], [
+  ...cableFeats([[0, -26, 1076], [-8, -42, 1056], [-30, -55, 1038], [-40, -55, 1045], [-40, -55, 1060]], 5, 'Superficie 1'),
+  ...cableFeats([[2, -26, 1076], [0, -44, 1054], [-10, -56, 1036], [-14, -55, 1044], [-14, -55, 1060]], 5, 'Superficie 2'),
+  ...cableFeats([[0, -26, 1078], [22, -44, 1056], [52, -55, 1036], [64, -55, 1043], [64, -55, 1058]], 5, 'Panel'),
+], { explode: [0, -60, -60] });
+P('cable_pluvio', '40 Cable pluviómetro (reed → pasacables del poste)', '#1c1f24', [0, 0, 0],
+  cableFeats([[-146, 0, 1156], [-112, 0, 1150], [-64, 0, 1147], [-27, 0, 1150]], 5, 'Pluvio'),
+  { explode: [-90, 0, 30] });
+P('cable_escudo', '41 Cable SHT40 (escudo → pasacables del poste)', '#1c1f24', [0, 0, 0],
+  cableFeats([[160, 0, 1528], [122, 0, 1519], [72, 0, 1504], [27, 0, 1492]], 4.5, 'Escudo'),
+  { explode: [90, 0, 30] });
+P('cable_panel', '42 Cable panel (caja de conexiones → pasacables)', '#1c1f24', [0, 0, 0],
+  cableFeats([[0, 35, 1624], [0, 32, 1604], [0, 26, 1612]], 5, 'Panel'),
+  { explode: [0, 90, 40] });
+P('cable_antena', '43 Jumper RG-316 (base antena → pasacables)', '#5d6570', [0, 0, 0],
+  cableFeats([[-45, 0, 1696], [-38, 0, 1686], [-26, 0, 1690]], 4, 'Jumper'),
+  { explode: [-80, 0, 50] });
+P('cable_hoja', '44 Cable sensor de hoja (enterrado somero → pasacables bajo)', '#1c1f24', [0, 0, 0],
+  cableFeats([[248, 148, 12], [170, 100, 4], [90, 46, 3], [40, 12, 8], [26, 2, 32]], 4, 'Hoja'),
+  { explode: [100, 60, 0] });
+
+// ============================================================================
 // BOM / pasos / features
 // ============================================================================
 const BOM = [
@@ -437,6 +492,7 @@ const BOM = [
   { item: 24, id: 'collar', desig: 'Collar antipercolación HDPE Ø160', mat: 'HDPE 6 mm', cant: 1, nota: 'Sobre bentonita' },
   { item: 25, id: 'tapon_hinca', desig: 'Cap PVC + taco (hinca)', mat: 'PVC/madera', cant: 1, nota: '1 por flota' },
   { item: 26, id: null, desig: 'Kit 5× abrazadera U 1 1/2" inox c/placa', mat: 'A2/A4', cant: 1, nota: '2 gabinete + 2 pluvio + 1 escudo (panel y antena traen la suya)' },
+  { item: 29, id: 'cable_bus', desig: 'Kit pasacables de goma (5× Ø10/Ø8 + 2× Ø16/Ø14) + cinta pasacables', mat: 'EPDM', cant: 1, nota: 'CABLEADO INTERIOR AL POSTE: cada instrumento entra al SCH40 junto a su montaje; nada de cables zunchados por fuera' },
   { item: 27, id: null, desig: 'Pica de tierra Cu 1.2 m + cable 6 mm² + abrazadera', mat: 'Cu', cant: 1, nota: 'Poste metálico con antena: un solo punto de tierra' },
   { item: 28, id: null, desig: 'Tornillería A4: M4 tapa/placa espalda, M3 PCB; PTFE; anaerobio; Loctite 243', mat: 'A4-70', cant: 1, nota: '' },
 ];
@@ -446,15 +502,16 @@ const PASOS = [
   { n: 3, t: 'Pasamuros POM-C', partes: ['tubo', 'pasamuro1', 'pasamuro2', 'pasamuro3'], texto: 'Pegar cada pasamuro en su Ø35 con epoxi estructural, ranura vertical. Curado 24 h.' },
   { n: 4, t: 'Sensores SMT50 + potting', partes: ['sensor1', 'sensor2', 'sensor3', 'tubo'], texto: 'Insertar hojas por las ranuras (zona sensora íntegra fuera del tubo), subir los 3 cables rotulados, potting PU hasta enrasar la brida.' },
   { n: 5, t: 'Transición cementada', partes: ['transicion', 'prensa_trans', 'tubo'], texto: 'CEMENTAR el terminal (cemento PVC presión, 1/4 de giro). Pegar el disco POM. Pasar el bus por su Skintop (2.5 N·m): conducto aislado del cuerpo. Curado 24 h.' },
-  { n: 6, t: 'Poste y cap', partes: ['pilar', 'transicion', 'cap_poste'], texto: 'PTFE + anaerobio y roscar el poste a la transición (llave en el hex del fitting). Subir el bus por el ánima y sacarlo por la SALIDA LATERAL Ø16 con su pasacables de goma. Cap roscado al tope. Retoque zinc-rich.' },
+  { n: 6, t: 'Poste, cap y pesca de cables', partes: ['pilar', 'transicion', 'cap_poste', 'cable_bus'], texto: 'PTFE + anaerobio y roscar el poste a la transición (llave en el hex del fitting). ANTES de tapar: pesca con cinta guía desde el tope hacia cada pasacables lateral (pluvio, escudo, panel, antena) y deja hilos de nylon dentro. Subir el bus por el ánima y sacarlo por la SALIDA Ø16. Cap al tope. Zinc-rich.' },
   { n: 7, t: 'Gabinete al poste', partes: ['gabinete', 'pilar'], texto: 'Colgar el gabinete por la espalda con 2 abrazaderas U (puerta al SUR). Verificar vertical. El bus baja de la salida lateral con LAZO DE GOTEO y entra por su prensaestopas inferior.' },
   { n: 8, t: 'Electrónica (placa de espalda)', partes: ['separadores', 'pcb', 'portapilas', 'baterias', 'bms', 'borne_bus', 'desecante'], texto: 'Placa de espalda con nodo WisBlock+ADS1115, portapilas con celdas verticales, BMS, bornera (pantalla a tierra en un punto), desecante. SMT50 a canales 0–2 + T multiplexada.' },
-  { n: 9, t: 'Entradas inferiores', partes: ['prensa', 'prensas_superficie', 'm12', 'm12_tapa', 'vent', 'entrada_panel', 'gabinete'], texto: 'Montar TODAS las entradas en la cara inferior: bus, 2 superficie, M12 servicio (grasa dieléctrica + tapa), válvula Gore y entrada del panel. Cada cable con lazo de goteo.' },
+  { n: 9, t: 'Entradas inferiores y saltos de goteo', partes: ['prensa', 'prensas_superficie', 'm12', 'm12_tapa', 'vent', 'entrada_panel', 'gabinete', 'cables_bajada'], texto: 'Montar TODAS las entradas en la cara inferior: bus, 2 superficie, M12 servicio (grasa dieléctrica + tapa), válvula Gore y entrada del panel. Los cables salen del poste por las 2 salidas laterales traseras y hacen un SALTO CORTO CON LAZO DE GOTEO hasta su prensaestopas — ningún cable largo a la vista.' },
   { n: 10, t: 'Prueba de estanqueidad (GATE)', partes: ['punta', 'tubo', 'transicion', 'gabinete'], texto: 'Sonda: vacío −20 kPa 5 min o inmersión 1 m 30 min. Gabinete armado: inmersión 30 min con testigo. NO se instala sin pasar.' },
   { n: 11, t: 'Instalación en terreno', partes: ['tapon_hinca', 'collar', 'tubo', 'punta'], texto: 'Pilotar Ø45 a 750. Hincar con cap+taco hasta tubo a +50. Lechada nativa + bentonita últimos 300. Collar al ras. Roscar el poste completo. ATERRAR (pica 1.2 m).' },
-  { n: 12, t: 'Instrumentos y puesta en marcha', partes: ['escudo_thr', 'pluviometro', 'sensor_hoja', 'soporte_panel', 'panel', 'antena', 'tapa', 'junta'], texto: 'Escudo T/HR a 1.50 m (OMM). Pluviómetro en su ménsula: NIVELAR ±1° y pincho antipájaros. Hoja al follaje. Panel al NORTE (20°), antena al tope. Cordón de retención + puerta 1.2 N·m en cruz. Verificar canales y LoRaWAN; bitácora.' },
+  { n: 12, t: 'Instrumentos y puesta en marcha', partes: ['escudo_thr', 'pluviometro', 'sensor_hoja', 'soporte_panel', 'panel', 'antena', 'tapa', 'junta', 'cable_pluvio', 'cable_escudo', 'cable_panel', 'cable_antena', 'cable_hoja'], texto: 'Escudo T/HR a 1.50 m (OMM). Pluviómetro en su ménsula: NIVELAR ±1° y pincho antipájaros. Hoja al follaje. Panel al NORTE (20°), antena al tope. Cordón de retención + puerta 1.2 N·m en cruz. Verificar canales y LoRaWAN; bitácora.' },
 ];
 const FEATURES = [
+  'CABLEADO 100 % INTERIOR AL POSTE: cada instrumento entra al SCH40 por pasacables de goma junto a su montaje; solo saltos cortos con lazo de goteo hacia las entradas inferiores — sin cables zunchados a la vista (mejor que el estándar ZL6/Sentek, que los amarra por fuera)',
   'ESTACIÓN DE POSTE v2 (ingeniería sobre estética): puerta VERTICAL al sur — no entra lluvia al abrir, servicio de pie a 1.15 m, panel como alero de la puerta',
   'TODAS las entradas de cable por la cara INFERIOR con lazo de goteo (la regla de oro IP en gabinetes de intemperie) — incluida la válvula Gore, que abajo nunca recibe sol ni chorro directo',
   'Alturas normativas: T/HR a 1.50 m (OMM N.º 8: 1.25–2 m), pluviómetro boca 1.235 m nivelable, antena ~1.93 m, puerta a 1.15 m',

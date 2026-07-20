@@ -84,7 +84,11 @@ check('electrónica dentro de la cavidad', ['nodo', 'bateria', 'borne_bus', 'des
 // --- variante B1.5 v2: estación de poste (alturas OMM) --------------------------
 console.log('— VARIANTE B1.5 v2 (sonda_suelo_b15.json) —');
 const B15 = JSON.parse(readFileSync('ensambles/sonda_suelo_b15.json', 'utf8'));
-check('37 piezas', B15.parts.length === 37, `hay ${B15.parts.length}`);
+check('44 piezas (37 + 7 cables realistas)', B15.parts.length === 44, `hay ${B15.parts.length}`);
+check('cableado interior: pasacables en el poste para cada instrumento',
+  ['pluviómetro', 'escudo', 'panel', 'antena', 'hoja'].every(k =>
+    byId(B15, 'pilar').features.some(f => f.name.includes('Pasacables') && f.name.includes(k))));
+check('7 cables modelados', ['cable_bus', 'cables_bajada', 'cable_pluvio', 'cable_escudo', 'cable_panel', 'cable_antena', 'cable_hoja'].every(id => byId(B15, id)));
 check('ids únicos', new Set(B15.parts.map(p => p.id)).size === B15.parts.length);
 const b15fids = B15.parts.flatMap(p => p.features.map(f => f.id));
 check('ids de función únicos', new Set(b15fids).size === b15fids.length);
@@ -107,8 +111,10 @@ check('antena remata ~1.93 m sobre todo lo demás', b15.antena.max.z > 1900);
 check('electrónica dentro del gabinete vertical',
   ['pcb', 'baterias', 'bms', 'borne_bus', 'desecante'].every(id =>
     b15[id].min.z > 1085 && b15[id].max.z < 1215 && b15[id].max.y < -28 && b15[id].min.y > -93));
-check('BOM/pasos/alturas OMM en meta', B15.meta.bom.length >= 26 && B15.meta.pasos.length === 12 &&
+check('BOM/pasos/alturas OMM en meta', B15.meta.bom.length >= 27 && B15.meta.pasos.length === 12 &&
   B15.meta.webRef.some(w => w.fuente.includes('OMM')));
+check('lazo de goteo del bus baja bajo las entradas', b15.cable_bus.min.z < 1046);
+check('saltos cortos: cables de bajada confinados tras la caja', b15.cables_bajada.min.y > -60 && b15.cables_bajada.max.z < 1085);
 
 console.log(`\n${pass} ✔ · ${fail} ✘`);
 process.exit(fail ? 1 : 0);
