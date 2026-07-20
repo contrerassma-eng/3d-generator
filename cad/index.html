@@ -9,19 +9,39 @@
     --bg:#0f1216; --panel:#171b21; --panel2:#1d222a; --border:#2b323d;
     --text:#e8eaed; --dim:#98a0ab; --accent:#4d90fe; --accent2:#f0a437;
     --ok:#34a853; --warn:#fbbc04; --danger:#e05a4e;
-    --topbar-h:48px; --rail-w:64px; --status-h:28px; --ribbon-h:74px;
+    --topbar-h:44px; --rail-w:64px; --status-h:28px; --ribbon-h:74px; --tabstrip-h:30px;
   }
   * { box-sizing:border-box; margin:0; -webkit-tap-highlight-color:transparent; }
   html,body { height:100%; }
   body { background:var(--bg); color:var(--text); font:13px/1.45 system-ui,'Segoe UI',sans-serif; overflow:hidden; }
 
   #layout { display:grid; height:100vh; height:100dvh;
-            grid-template-rows:var(--topbar-h) var(--ribbon-h) 1fr var(--status-h);
+            grid-template-rows:var(--topbar-h) var(--tabstrip-h) var(--ribbon-h) 1fr var(--status-h);
             grid-template-columns:1fr; }
 
-  /* ---- barra superior ---- */
+  /* ---- barra de título + acceso rápido (QAT) ---- */
   #toolbar { grid-row:1; display:flex; align-items:center; gap:6px; padding:0 8px;
              background:var(--panel); border-bottom:1px solid var(--border); overflow-x:auto; }
+  .qatsep { width:1px; align-self:stretch; margin:8px 4px; background:var(--border); flex:none; }
+
+  /* ---- tira de pestañas contextuales (estilo Inventor) ---- */
+  #tabstrip { grid-row:2; grid-column:1; display:flex; align-items:flex-end; gap:2px; padding:0 8px;
+              background:var(--panel); border-bottom:1px solid var(--border); overflow-x:auto; }
+  #tabstrip::-webkit-scrollbar { display:none; }
+  #tabstrip .tab { background:none; border:1px solid transparent; border-bottom:none;
+                   border-radius:8px 8px 0 0; padding:6px 15px; min-height:26px; color:var(--dim);
+                   font-weight:600; font-size:12.5px; white-space:nowrap; }
+  #tabstrip .tab:hover { color:var(--text); background:var(--panel2); }
+  #tabstrip .tab.on { color:var(--text); background:var(--panel2); border-color:var(--border);
+                      position:relative; }
+  #tabstrip .tab.on::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--accent); }
+  #tabstrip .tab.ctx { color:var(--accent2); }   /* pestaña contextual (Boceto) */
+
+  /* ---- cinta: páginas por pestaña, solo la activa visible ---- */
+  #ribbon .tabpage { display:none; align-items:stretch; width:100%; }
+  #ribbon .tabpage.active { display:flex; }
+
+  /* ---- barra superior ---- */
   #toolbar::-webkit-scrollbar { display:none; }
   #toolbar .brand { font-weight:700; font-size:14px; white-space:nowrap; padding:0 4px; }
   #toolbar .brand span { color:var(--accent); }
@@ -49,7 +69,7 @@
   .node button { display:inline-flex; align-items:center; justify-content:center; }
 
   /* ---- cinta horizontal de herramientas (arriba, estilo ribbon de Inventor) ---- */
-  #ribbon { grid-row:2; grid-column:1; background:var(--panel); border-bottom:1px solid var(--border);
+  #ribbon { grid-row:3; grid-column:1; background:var(--panel); border-bottom:1px solid var(--border);
             display:flex; align-items:stretch; overflow-x:auto; overflow-y:hidden; padding:0 2px; }
   #ribbon::-webkit-scrollbar { display:none; }
   /* panel = grupo de comandos + rótulo de categoría debajo (como Inventor) */
@@ -66,18 +86,8 @@
   .tile:hover { background:var(--panel2); border-color:var(--border); }
   .tile.on { background:#2b4270; border-color:var(--accent); color:var(--text); }
 
-  /* pestañas de entorno Pieza/Ensamble arriba (símil pestañas de Inventor) */
-  #envTabs { display:flex; flex:none; margin-left:6px; border:1px solid var(--border);
-             border-radius:9px; overflow:hidden; }
-  #envTabs button { border:none; border-radius:0; padding:8px 16px; min-height:36px;
-                    background:none; color:var(--dim); font-weight:600; font-size:12.5px; white-space:nowrap; }
-  #envTabs button + button { border-left:1px solid var(--border); }
-  #envTabs button.on { background:#2b4270; color:var(--text); }
-  #ribbon.ens .envp { display:none; }
-  #ribbon:not(.ens) .enve { display:none; }
-
   /* ---- viewport ---- */
-  #viewport { grid-row:3; grid-column:1; position:relative; overflow:hidden; }
+  #viewport { grid-row:4; grid-column:1; position:relative; overflow:hidden; }
   #viewport canvas { display:block; touch-action:none; }
 
   /* ---- panel lateral ocultable (árbol + propiedades) ---- */
@@ -209,14 +219,11 @@
   #dynBox #dyn_lock.on { background:#5a4a20; border-color:var(--accent2); }
   #dynBox #dyn_snap { padding:4px 7px; min-height:28px; font-size:11px; white-space:nowrap; }
 
-  /* cinta de boceto ARRIBA, estilo ribbon de Inventor (scroll horizontal) */
-  #sketchbar { position:absolute; top:8px; left:8px; right:8px; z-index:25;
-               display:none; gap:5px; background:#171b21f0; border:1px solid var(--accent2);
-               border-radius:12px; padding:6px; overflow-x:auto; flex-wrap:nowrap;
-               box-shadow:0 10px 30px #000a; scrollbar-width:none; }
+  /* pestaña Boceto: fila de herramientas del boceto dentro de la cinta */
+  #sketchbar { gap:4px; padding:6px 6px; overflow-x:auto; flex-wrap:nowrap;
+               align-items:center; scrollbar-width:none; }
   #sketchbar::-webkit-scrollbar { display:none; }
-  #sketchbar.open { display:flex; }
-  #sketchbar button { flex:none; }
+  #sketchbar button { flex:none; min-height:34px; }
   /* estado del boceto (honesto: contornos/cotas/entidades) estilo barra de estado de Inventor (§2.5) */
   #skState { position:absolute; top:58px; left:8px; z-index:24; display:none;
              font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:14px;
@@ -282,84 +289,167 @@
 </head>
 <body>
 <div id="layout">
+  <!-- Barra de título + Acceso Rápido (QAT): comandos frecuentes siempre visibles -->
   <div id="toolbar">
-    <button id="btnPanel" title="Mostrar/ocultar árbol y propiedades"><span class="ic" data-icon="panel"></span></button>
+    <button id="btnPanel" title="Mostrar/ocultar el navegador del modelo (árbol y propiedades)"><span class="ic" data-icon="panel"></span></button>
     <div class="brand">foto3d <span>CAD</span></div>
-    <div id="envTabs" title="Entorno de trabajo (símil pestañas de Inventor): Pieza modela sólidos; Ensamble restringe y posiciona">
-      <button id="envPieza" class="on">Pieza</button>
-      <button id="envEns">Ensamble</button>
-    </div>
-    <div class="spacer"></div>
-    <button id="btnGrid" title="Mostrar/ocultar el plano base (grilla) para mirar por abajo"><span class="ic" data-icon="grid"></span><span class="blbl">Grilla</span></button>
-    <button id="btnSTL" title="Exportar todo el ensamble a STL binario"><span class="ic" data-icon="stl"></span><span class="blbl">STL</span></button>
-    <button id="btnDXF" title="Plano técnico DXF a escala real (marco y cajetín ISO 5457/7200)"><span class="ic" data-icon="dxf"></span><span class="blbl">DXF</span></button>
-    <button id="btnPDF" title="Lámina técnica PDF lista para imprimir (vistas, cotas y cajetín)"><span class="ic" data-icon="pdf"></span><span class="blbl">PDF</span></button>
-    <button id="btnParams" title="Parámetros globales (fx): valores con nombre y ecuaciones que las cotas pueden citar (ancho, paso=ancho/4)"><span class="ic" data-icon="params"></span><span class="blbl">Parám.</span></button>
-    <button id="btnBom" title="Lista de materiales (BOM): enumera y agrupa las piezas del ensamble con cantidad, material y volumen; exporta CSV"><span class="ic" data-icon="bom"></span><span class="blbl">BOM</span></button>
-    <button id="btnSave" title="Descargar el proyecto como JSON"><span class="ic" data-icon="save"></span><span class="blbl">Guardar</span></button>
+    <span class="qatsep"></span>
+    <button id="btnClear" class="danger" title="Nuevo: vaciar el proyecto"><span class="ic" data-icon="trash"></span><span class="blbl">Nuevo</span></button>
     <button id="btnOpen" title="Abrir un proyecto JSON"><span class="ic" data-icon="open"></span><span class="blbl">Abrir</span></button>
+    <button id="btnSave" title="Descargar el proyecto como JSON"><span class="ic" data-icon="save"></span><span class="blbl">Guardar</span></button>
+    <button id="btnUndo" title="Deshacer (Ctrl+Z)"><span class="blbl">↶ Deshacer</span><span class="ic" style="display:none"></span></button>
     <button id="btnPaste" title="Pegar JSON de piezas generado por IA (prompt en PROMPT_PIEZAS.md): agrega al proyecto o lo reemplaza"><span class="ic" data-icon="paste"></span><span class="blbl">Pegar</span></button>
-    <button id="btnDemo" title="Cargar el ensamble de ejemplo"><span class="ic" data-icon="demo"></span><span class="blbl">Ejemplo</span></button>
-    <button id="btnClear" class="danger" title="Vaciar el proyecto"><span class="ic" data-icon="trash"></span><span class="blbl">Nuevo</span></button>
+    <button id="btnDemo" title="Cargar un ejemplo (mecánico o transportador cuello de cisne)"><span class="ic" data-icon="demo"></span><span class="blbl">Ejemplo</span></button>
+    <div class="spacer"></div>
+  </div>
+
+  <!-- Cinta de pestañas contextuales (estilo Inventor 2026) -->
+  <div id="tabstrip">
+    <button class="tab on" data-tab="modelo">Modelo 3D</button>
+    <button class="tab ctx" id="tabBoceto" data-tab="boceto" style="display:none">Boceto</button>
+    <button class="tab" data-tab="ensamblar">Ensamblar</button>
+    <button class="tab" data-tab="chapa">Chapa</button>
+    <button class="tab" data-tab="inspeccionar">Inspeccionar</button>
+    <button class="tab" data-tab="vista">Vista</button>
+    <button class="tab" data-tab="salida">Salida</button>
   </div>
 
   <div id="ribbon">
-    <div class="ribpanel envp">
-      <div class="ribrow">
-        <button class="tile envp" id="btnNewBox" title="Nueva pieza a partir de una caja/placa"><span class="tic" data-icon="box"></span>Caja</button>
-        <button class="tile envp" id="btnNewCyl" title="Nueva pieza a partir de un cilindro"><span class="tic" data-icon="cylinder"></span>Cilindro</button>
-        <button class="tile envp" id="btnSketch" title="Boceto 2D sobre una cara con geometría proyectada del modelo"><span class="tic" data-icon="sketch"></span>Boceto</button>
-        <button class="tile envp" id="btnComp" title="Insertar un componente de la biblioteca: electrónicos y piezas de transportador de geometría real (componentes/catalogo.json)"><span class="tic" data-icon="comp"></span>Comp.</button>
-        <button class="tile envp" id="btnChapa" title="Nueva pieza de chapa plegada: material, espesor, factor K y radio de pliegue (por defecto = espesor)"><span class="tic" data-icon="chapa"></span>Chapa</button>
-      </div><div class="riblbl envp">Crear</div>
+    <!-- Pestaña: Modelo 3D -->
+    <div class="tabpage active" data-tab="modelo">
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnNewBox" title="Nueva pieza a partir de una caja/placa"><span class="tic" data-icon="box"></span>Caja</button>
+          <button class="tile" id="btnNewCyl" title="Nueva pieza a partir de un cilindro"><span class="tic" data-icon="cylinder"></span>Cilindro</button>
+          <button class="tile" id="btnSketch" title="Boceto 2D sobre una cara con geometría proyectada del modelo"><span class="tic" data-icon="sketch"></span>Boceto</button>
+        </div><div class="riblbl">Crear</div>
+      </div>
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnHole" title="Agujero sobre una cara (toca la cara)"><span class="tic" data-icon="hole"></span>Agujero</button>
+          <button class="tile" id="btnFeature" title="Agregar unión o corte (caja/cilindro) a la pieza seleccionada"><span class="tic" data-icon="feature"></span>Función</button>
+          <button class="tile" id="btnDirect" title="Edición directa: toca una cara del sólido para cambiar su medida (diámetro, altura o tamaño)"><span class="tic" data-icon="direct"></span>Directo</button>
+          <button class="tile" id="btnFillet" title="Empalme (redondeo): toca una arista del sólido y dale un radio"><span class="tic" data-icon="fillet"></span>Empalme</button>
+          <button class="tile" id="btnChamfer" title="Chaflán: toca una arista del sólido y dale una distancia (corte a 45°)"><span class="tic" data-icon="chamfer"></span>Chaflán</button>
+        </div><div class="riblbl">Modificar</div>
+      </div>
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnPatRect" title="Patrón rectangular: repite la función seleccionada del árbol en filas y columnas"><span class="tic" data-icon="patrect"></span>Rect.</button>
+          <button class="tile" id="btnPatCirc" title="Patrón circular: repite la función seleccionada del árbol alrededor de un eje"><span class="tic" data-icon="patcirc"></span>Circular</button>
+        </div><div class="riblbl">Patrón</div>
+      </div>
     </div>
-    <div class="ribpanel envp">
-      <div class="ribrow">
-        <button class="tile envp" id="btnHole" title="Agujero sobre una cara (toca la cara)"><span class="tic" data-icon="hole"></span>Agujero</button>
-        <button class="tile envp" id="btnFeature" title="Agregar unión o corte (caja/cilindro) a la pieza seleccionada"><span class="tic" data-icon="feature"></span>Función</button>
-        <button class="tile envp" id="btnDirect" title="Edición directa: toca una cara del sólido para cambiar su medida (diámetro, altura o tamaño)"><span class="tic" data-icon="direct"></span>Directo</button>
-        <button class="tile envp" id="btnFillet" title="Empalme (redondeo): toca una arista del sólido y dale un radio (símil Empalme de Inventor)"><span class="tic" data-icon="fillet"></span>Empalme</button>
-        <button class="tile envp" id="btnChamfer" title="Chaflán: toca una arista del sólido y dale una distancia (corte a 45°)"><span class="tic" data-icon="chamfer"></span>Chaflán</button>
-        <button class="tile envp" id="btnPestana" title="Pestaña de chapa sobre una arista (de la base o de la punta de otra pestaña)"><span class="tic" data-icon="pestana"></span>Pestaña</button>
-        <button class="tile envp" id="btnToChapa" title="Convertir en chapa: toca la cara grande de una placa; reconoce su espesor y contorno real (con agujeros) y la vuelve chapa para plegar y desarrollar"><span class="tic" data-icon="chapa"></span>A chapa</button>
-      </div><div class="riblbl envp">Modificar</div>
+
+    <!-- Pestaña: Boceto (contextual) — herramientas de dibujo del boceto -->
+    <div class="tabpage" data-tab="boceto" id="sketchbar">
+      <button data-tool="line" class="on" title="Línea punto a punto (tocar el 1.º punto cierra el contorno)">╱ Línea</button>
+      <button data-tool="rect" title="Rectángulo por dos esquinas">▭ Rect</button>
+      <button data-tool="circle" title="Círculo por centro y radio">◯ Círc</button>
+      <button data-tool="arc" title="Arco por centro, inicio y fin (antihorario)">⌒ Arco</button>
+      <button data-tool="polyg" title="Polígono regular por centro y vértice">⬡ Políg</button>
+      <button data-tool="pen" title="Lápiz: dibuja a mano alzada y se interpreta como círculo, línea o polilínea">✎ Lápiz</button>
+      <span class="rsep"></span>
+      <button data-tool="offset" title="Equidistancia: copia paralela de una entidad o referencia a una distancia">∥ Offset</button>
+      <button data-tool="fillet" title="Empalme: redondea la esquina entre dos líneas con un radio">◜ Empalme</button>
+      <button data-tool="trim" title="Recortar: elimina el tramo tocado, cortando contra todas las entidades y referencias">✂ Recortar</button>
+      <button data-tool="extend" title="Alargar: extiende la línea hasta la siguiente entidad o referencia">⇥ Alargar</button>
+      <button data-tool="moveEnt" title="Mover: arrastra una entidad (las cotas con candado restringen)">✥ Mover</button>
+      <button data-tool="erase" title="Borrar la entidad tocada">⌦ Borrar</button>
+      <button data-tool="select" title="Selección por ventana (→ contenido) o captura (← tocado); tap alterna una entidad">⬚ Selec</button>
+      <button id="skCopy" title="Copiar la selección con punto base declarado (destinos múltiples con snap)">⧉ Copiar</button>
+      <button id="skMirror" title="Espejo: refleja la selección respecto a una línea declarada con dos puntos (con snap)">⇄ Espejo</button>
+      <button id="skConstrain" title="Restringir (como Inventor): H/V, paralela/perpendicular/igual/colineal, concéntrica/tangente, fijar y simétrica; el solver la mantiene al mover">⊾ Restringir</button>
+      <span class="rsep"></span>
+      <button data-tool="dim" title="Cota: largo/diámetro (1 entidad) o distancia/ángulo (2 entidades); 🔒 la fija (directriz), si no es de referencia">⇤⇥ Cota</button>
+      <span class="rsep"></span>
+      <button data-tool="project" id="skProj" title="Proyectar geometría (como Inventor): toca una CARA para proyectar todo su contorno, una ARISTA o CÍRCULO para proyectar solo esa; tocar algo ya proyectado lo desproyecta">⤓ Proyectar</button>
+      <button id="skSlice" title="Corte en el plano del boceto (slice): oculta el material por delante para ver la sección">▤ Corte</button>
+      <button id="skOrbit" title="Giro: rota la vista para ver y marcar referencias ocultas; al desactivar vuelve a la vista normal a la cara">🔄 Giro</button>
+      <button id="skClose" title="Encadenar el contorno y extruir (unión o corte)">✔ Extruir</button>
+      <button id="skUndo" title="Quitar la última entidad o selección">↩</button>
+      <button id="skCancel" class="danger" title="Salir sin crear nada">✕</button>
     </div>
-    <div class="ribpanel envp">
-      <div class="ribrow">
-        <button class="tile envp" id="btnPatRect" title="Patrón rectangular: repite la función seleccionada del árbol en filas y columnas (símil Inventor)"><span class="tic" data-icon="patrect"></span>Rect.</button>
-        <button class="tile envp" id="btnPatCirc" title="Patrón circular: repite la función seleccionada del árbol alrededor de un eje"><span class="tic" data-icon="patcirc"></span>Circular</button>
-      </div><div class="riblbl envp">Patrón</div>
+
+    <!-- Pestaña: Ensamblar -->
+    <div class="tabpage" data-tab="ensamblar">
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnComp" title="Insertar un componente de la biblioteca: electrónicos y piezas de transportador de geometría real"><span class="tic" data-icon="comp"></span>Componente</button>
+        </div><div class="riblbl">Componente</div>
+      </div>
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnMate" title="Coincidir dos caras planas (cara contra cara)"><span class="tic" data-icon="mate"></span>Coincidir</button>
+          <button class="tile" id="btnFlush" title="Alinear dos caras planas (al ras, mismo sentido)"><span class="tic" data-icon="flush"></span>Alinear</button>
+          <button class="tile" id="btnConcentric" title="Hacer concéntricos dos orificios/cilindros"><span class="tic" data-icon="concentric"></span>Concentr.</button>
+          <button class="tile" id="btnJoint" title="Unión rotacional (Joint): toca un orificio en cada pieza; alinea ejes y pone las caras en contacto en un solo paso → la pieza gira (1 grado de libertad)"><span class="tic" data-icon="concentric"></span>Unión</button>
+        </div><div class="riblbl">Relaciones</div>
+      </div>
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnMove" title="Arrastrar la pieza seleccionada (Shift o 2.º toque = vertical)"><span class="tic" data-icon="move"></span>Mover</button>
+          <button class="tile" id="btnMagnet" title="Imán de ensamble: al mover ajusta a caras en contacto/al ras, alturas, centros y ejes de orificios"><span class="tic" data-icon="magnet"></span>Imán</button>
+        </div><div class="riblbl">Posición</div>
+      </div>
     </div>
-    <div class="ribpanel enve">
-      <div class="ribrow">
-        <button class="tile enve" id="btnMate" title="Coincidir dos caras planas (cara contra cara)"><span class="tic" data-icon="mate"></span>Coincidir</button>
-        <button class="tile enve" id="btnFlush" title="Alinear dos caras planas (al ras, mismo sentido)"><span class="tic" data-icon="flush"></span>Alinear</button>
-        <button class="tile enve" id="btnConcentric" title="Hacer concéntricos dos orificios/cilindros"><span class="tic" data-icon="concentric"></span>Concentr.</button>
-        <button class="tile enve" id="btnJoint" title="Unión rotacional (Joint): toca un orificio en cada pieza; alinea sus ejes y pone en contacto las caras en un solo paso → la pieza gira (1 grado de libertad), como en Inventor"><span class="tic" data-icon="concentric"></span>Unión</button>
-      </div><div class="riblbl enve">Restringir</div>
+
+    <!-- Pestaña: Chapa -->
+    <div class="tabpage" data-tab="chapa">
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnChapa" title="Nueva pieza de chapa plegada: material, espesor, factor K y radio de pliegue"><span class="tic" data-icon="chapa"></span>Chapa</button>
+        </div><div class="riblbl">Crear</div>
+      </div>
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnPestana" title="Pestaña de chapa sobre una arista (de la base o de la punta de otra pestaña)"><span class="tic" data-icon="pestana"></span>Pestaña</button>
+          <button class="tile" id="btnToChapa" title="Convertir en chapa: toca la cara grande de una placa; reconoce su espesor y contorno real (con agujeros)"><span class="tic" data-icon="chapa"></span>A chapa</button>
+        </div><div class="riblbl">Modificar</div>
+      </div>
     </div>
-    <div class="ribpanel enve">
-      <div class="ribrow">
-        <button class="tile enve" id="btnMove" title="Arrastrar la pieza seleccionada (Shift o 2.º toque = vertical)"><span class="tic" data-icon="move"></span>Mover</button>
-        <button class="tile enve" id="btnMagnet" title="Imán de ensamble: al mover piezas ajusta a caras en contacto/al ras, alturas totales, centros y ejes de orificios"><span class="tic" data-icon="magnet"></span>Imán</button>
-      </div><div class="riblbl enve">Posición</div>
+
+    <!-- Pestaña: Inspeccionar -->
+    <div class="tabpage" data-tab="inspeccionar">
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnMeasure" title="Medir con referencias: puntos, aristas, caras, circunferencias y ejes"><span class="tic" data-icon="measure"></span>Medir</button>
+          <button class="tile" id="btnSection" title="Vista de sección: corta el modelo por un plano X/Y/Z para ver interiores"><span class="tic" data-icon="section"></span>Sección</button>
+        </div><div class="riblbl">Inspeccionar</div>
+      </div>
     </div>
-    <div class="ribpanel">
-      <div class="ribrow">
-        <button class="tile" id="btnIsolate" title="Aislar la pieza seleccionada (ocultar las demás). Con algo aislado, vuelve a tocar para MOSTRAR TODAS (des-aislar)"><span class="tic" data-icon="isolate"></span>Aislar</button>
-        <button class="tile" id="btnDelete" title="Eliminar la pieza seleccionada (y sus restricciones). Atajo: tecla Supr/Delete"><span class="tic" data-icon="trash"></span>Eliminar</button>
-      </div><div class="riblbl">Edición</div>
+
+    <!-- Pestaña: Vista -->
+    <div class="tabpage" data-tab="vista">
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnGrid" title="Mostrar/ocultar el plano base (grilla)"><span class="tic" data-icon="grid"></span>Grilla</button>
+          <button class="tile" id="btnView" title="Vista del ensamble: perspectiva libre o vistas ortogonales bloqueadas (planta/frente/lateral/iso)"><span class="tic" data-icon="view"></span>Vista</button>
+        </div><div class="riblbl">Apariencia</div>
+      </div>
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnIsolate" title="Aislar la pieza seleccionada (ocultar las demás). Con algo aislado, vuelve a tocar para MOSTRAR TODAS"><span class="tic" data-icon="isolate"></span>Aislar</button>
+          <button class="tile" id="btnDelete" title="Eliminar la pieza seleccionada (y sus restricciones). Atajo: Supr/Delete"><span class="tic" data-icon="trash"></span>Eliminar</button>
+        </div><div class="riblbl">Edición</div>
+      </div>
     </div>
-    <div class="ribpanel">
-      <div class="ribrow">
-        <button class="tile" id="btnSection" title="Vista de sección: corta el modelo por un plano X/Y/Z para ver interiores"><span class="tic" data-icon="section"></span>Sección</button>
-        <button class="tile" id="btnView" title="Vista del ensamble: perspectiva libre o vistas ortogonales bloqueadas (planta/frente/lateral/iso) para desplazar piezas sin perspectiva"><span class="tic" data-icon="view"></span>Vista</button>
-      </div><div class="riblbl">Vista</div>
-    </div>
-    <div class="ribpanel">
-      <div class="ribrow">
-        <button class="tile" id="btnMeasure" title="Medir con referencias: puntos, aristas, caras, circunferencias y ejes (distancias perpendiculares, entre ejes y ángulos)"><span class="tic" data-icon="measure"></span>Medir</button>
-      </div><div class="riblbl">Inspección</div>
+
+    <!-- Pestaña: Salida -->
+    <div class="tabpage" data-tab="salida">
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnSTL" title="Exportar todo el ensamble a STL binario"><span class="tic" data-icon="stl"></span>STL</button>
+          <button class="tile" id="btnDXF" title="Plano técnico DXF a escala real (marco y cajetín ISO 5457/7200)"><span class="tic" data-icon="dxf"></span>DXF</button>
+          <button class="tile" id="btnPDF" title="Lámina técnica PDF lista para imprimir (vistas, cotas y cajetín)"><span class="tic" data-icon="pdf"></span>PDF</button>
+        </div><div class="riblbl">Exportar</div>
+      </div>
+      <div class="ribpanel">
+        <div class="ribrow">
+          <button class="tile" id="btnBom" title="Lista de materiales (BOM): enumera y agrupa las piezas con cantidad, material y volumen; exporta CSV"><span class="tic" data-icon="bom"></span>BOM</button>
+          <button class="tile" id="btnParams" title="Parámetros globales (fx): valores con nombre y ecuaciones que las cotas pueden citar"><span class="tic" data-icon="params"></span>Parám.</button>
+        </div><div class="riblbl">Datos</div>
+      </div>
     </div>
   </div>
 
@@ -381,34 +471,6 @@
       <label class="dynf"><span id="dyn_len_lbl">L</span><input id="dyn_len" type="number" inputmode="decimal" step="1" placeholder="mm"></label>
       <label class="dynf" id="dyn_angwrap">∠<input id="dyn_ang" type="number" inputmode="decimal" step="1" placeholder="°"><button id="dyn_lock" title="Bloquear el ángulo">🔓</button></label>
       <button id="dyn_snap" title="Snap de ángulo: sin / 5° / 15° / 45°">⊾ 15°</button>
-    </div>
-    <div id="sketchbar">
-      <button data-tool="line" class="on" title="Línea punto a punto (tocar el 1.º punto cierra el contorno)">╱ Línea</button>
-      <button data-tool="rect" title="Rectángulo por dos esquinas">▭ Rect</button>
-      <button data-tool="circle" title="Círculo por centro y radio">◯ Círc</button>
-      <button data-tool="arc" title="Arco por centro, inicio y fin (antihorario)">⌒ Arco</button>
-      <button data-tool="polyg" title="Polígono regular por centro y vértice">⬡ Políg</button>
-      <button data-tool="pen" title="Lápiz: dibuja a mano alzada y se interpreta como círculo, línea o polilínea">✎ Lápiz</button>
-      <span class="rsep"></span>
-      <button data-tool="offset" title="Equidistancia: copia paralela de una entidad o referencia a una distancia">∥ Offset</button>
-      <button data-tool="fillet" title="Empalme: redondea la esquina entre dos líneas con un radio">◜ Empalme</button>
-      <button data-tool="trim" title="Recortar: elimina el tramo tocado, cortando contra todas las entidades y referencias">✂ Recortar</button>
-      <button data-tool="extend" title="Alargar: extiende la línea hasta la siguiente entidad o referencia">⇥ Alargar</button>
-      <button data-tool="moveEnt" title="Mover: arrastra una entidad (las cotas con candado restringen)">✥ Mover</button>
-      <button data-tool="erase" title="Borrar la entidad tocada">⌦ Borrar</button>
-      <button data-tool="select" title="Selección por ventana (→ contenido) o captura (← tocado); tap alterna una entidad">⬚ Selec</button>
-      <button id="skCopy" title="Copiar la selección con punto base declarado (destinos múltiples con snap)">⧉ Copiar</button>
-      <button id="skMirror" title="Espejo: refleja la selección respecto a una línea declarada con dos puntos (con snap)">⇄ Espejo</button>
-      <button id="skConstrain" title="Restringir (como Inventor): selecciona 1 línea (Horizontal/Vertical) o 2 líneas (Paralela/Perpendicular/Igual) o 2 círculos (Igual radio) y aplica la relación; el solver la mantiene al mover">⊾ Restringir</button>
-      <span class="rsep"></span>
-      <button data-tool="dim" title="Cota: largo/diámetro (1 entidad) o distancia/ángulo (2 entidades, incluidas referencias proyectadas); 🔒 la fija">⇤⇥ Cota</button>
-      <span class="rsep"></span>
-      <button data-tool="project" id="skProj" title="Proyectar geometría (como Inventor): toca una CARA para proyectar todo su contorno, una ARISTA o CÍRCULO para proyectar solo esa; tocar algo ya proyectado lo desproyecta">⤓ Proyectar</button>
-      <button id="skSlice" title="Corte en el plano del boceto (slice): oculta el material por delante para ver la sección">▤ Corte</button>
-      <button id="skOrbit" title="Giro: rota la vista para ver y marcar referencias ocultas; al desactivar vuelve a la vista normal a la cara">🔄 Giro</button>
-      <button id="skClose" title="Encadenar el contorno y extruir (unión o corte)">✔ Extruir</button>
-      <button id="skUndo" title="Quitar la última entidad o selección">↩</button>
-      <button id="skCancel" class="danger" title="Salir sin crear nada">✕</button>
     </div>
     <div id="dialog"></div>
     <div id="markMenu"></div>
