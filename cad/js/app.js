@@ -3104,21 +3104,24 @@ const fillOffMat = new THREE.MeshBasicMaterial({ color: 0x666e7a, transparent: t
 const opPrevMatU = new THREE.MeshBasicMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.26, side: THREE.DoubleSide, depthWrite: false });
 const opPrevMatC = new THREE.MeshBasicMaterial({ color: 0xe05a4e, transparent: true, opacity: 0.26, side: THREE.DoubleSide, depthWrite: false });
 let opPreviewGroup = null;
-function showExtrudePreview(h, op) {
+function showExtrudePreview(h, op, side = 'pos') {
   if (!sketch) return;
   if (!opPreviewGroup) { opPreviewGroup = new THREE.Group(); sketch.group.add(opPreviewGroup); }
   clearGroup(opPreviewGroup);
   if (!(h > 0)) return;
   const { regions: regs } = SK.regions(sketch.entities, [...sketch.excluded]);
-  // corte: se previsualiza hacia dentro (−normal); unión hacia fuera (+normal)
-  const dir = op === 'cut' ? -1 : 1;
-  const mBasis = new THREE.Matrix4().makeBasis(sketch.uW.clone().multiplyScalar(1), sketch.vW, sketch.nW.clone().multiplyScalar(dir))
+  // corte: se previsualiza hacia dentro (−normal); unión hacia fuera (+normal);
+  // 'neg' invierte el lado y 'sym' extruye simétrica respecto al plano.
+  const base = op === 'cut' ? -1 : 1;
+  const dir = side === 'neg' ? -base : base;
+  const mBasis = new THREE.Matrix4().makeBasis(sketch.uW.clone(), sketch.vW, sketch.nW.clone().multiplyScalar(dir))
     .setPosition(sketch.originW);
   const mat = op === 'cut' ? opPrevMatC : opPrevMatU;
   for (const reg of regs) {
     const shape = new THREE.Shape(reg.outer.map(p => new THREE.Vector2(p[0], p[1])));
     for (const hole of reg.holes) shape.holes.push(new THREE.Path(hole.map(p => new THREE.Vector2(p[0], p[1]))));
     const g = new THREE.ExtrudeGeometry(shape, { depth: h, bevelEnabled: false });
+    if (side === 'sym') g.translate(0, 0, -h / 2);
     g.applyMatrix4(mBasis);
     opPreviewGroup.add(new THREE.Mesh(g, mat));
   }
@@ -3209,6 +3212,7 @@ function finishSketch() {
   showForm(`Crear sólido (${nReg} región(es)${nHoles ? `, ${nHoles} agujero(s)` : ''})`, [
     { key: 'tipo', label: 'Tipo', type: 'select', value: 'ext', options: [['ext', 'Extrusión'], ['rev', 'Revolución']] },
     { key: 'h', label: 'Altura (mm, extrusión)', value: 10, step: 0.5 },
+    { key: 'dir', label: 'Dirección (extrusión)', type: 'select', value: 'pos', options: [['pos', 'Un lado'], ['sym', 'Simétrica (ambos lados)'], ['neg', 'Lado opuesto']] },
     { key: 'ang', label: 'Ángulo (°, revolución)', value: 360, step: 15 },
     { key: 'op', label: 'Operación', type: 'select', value: 'union', options: [['union', 'Unión (agrega material)'], ['cut', 'Corte (quita material)']] },
   ], (v) => {
@@ -3220,7 +3224,7 @@ function finishSketch() {
     }
     if (!(v.h > 0)) { setStatus('La altura debe ser mayor que 0.'); return; }
     pushUndo();
-    const f = makeSketchEntitiesFeature(entities, dims, v.h, v.op, originL, nL, uL);
+    const f = makeSketchEntitiesFeature(entities, dims, v.h, v.op, originL, nL, uL, v.dir);
     f.params.excluded = excluded;
     f.params.constraints = sketch.constraints;
     part.features.push(f);
@@ -3229,13 +3233,14 @@ function finishSketch() {
     rebuildPart(part);
     commit(`Boceto extruido en ${part.name}.`);
   });
-  // vista previa en vivo del sólido mientras se ajustan altura/tipo/operación (§6.1)
-  const hEl = $('dlg_h'), tEl = $('dlg_tipo'), oEl = $('dlg_op');
-  const upd = () => { if (tEl?.value === 'rev') { clearOpPreview(); return; } showExtrudePreview(+hEl.value, oEl?.value || 'union'); };
+  // vista previa en vivo del sólido mientras se ajustan altura/tipo/dirección/operación (§6.1)
+  const hEl = $('dlg_h'), tEl = $('dlg_tipo'), oEl = $('dlg_op'), dEl = $('dlg_dir');
+  const upd = () => { if (tEl?.value === 'rev') { clearOpPreview(); return; } showExtrudePreview(+hEl.value, oEl?.value || 'union', dEl?.value || 'pos'); };
   if (hEl) {
     hEl.addEventListener('input', upd);
     tEl?.addEventListener('change', upd);
     oEl?.addEventListener('change', upd);
+    dEl?.addEventListener('change', upd);
     upd();
   }
 }

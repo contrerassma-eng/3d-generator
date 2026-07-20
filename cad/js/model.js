@@ -167,8 +167,8 @@ export function makeSketchFeature(pts, h, op, at, dir, u) {
 }
 // Variante con entidades 2D (líneas/círculos/arcos) + cotas editables: el
 // contorno (y sus agujeros) se encadena en cada regeneración.
-export function makeSketchEntitiesFeature(entities, dims, h, op, at, dir, u) {
-  return { id: uid('f'), name: op === 'cut' ? 'Corte de boceto' : 'Extrusión de boceto', shape: 'sketch', op, at, dir, params: { entities, dims, h, u } };
+export function makeSketchEntitiesFeature(entities, dims, h, op, at, dir, u, side = 'pos') {
+  return { id: uid('f'), name: op === 'cut' ? 'Corte de boceto' : 'Extrusión de boceto', shape: 'sketch', op, at, dir, params: { entities, dims, h, u, side } };
 }
 // Revolución 360° del contorno alrededor de una línea del boceto (axis en 2D).
 export function makeRevolveFeature(entities, dims, axis, op, at, dir, u, angle = 360) {
@@ -440,10 +440,16 @@ function featureGeometry(f, extent, first) {
     const isCut = f.op === 'cut';
     const over = 0.5;
     const fuse = first ? 0 : 0.2; // solape para fusionar con material previo (si lo hay)
-    const depth = f.params.h + (isCut ? over : fuse);
-    const g = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: false, curveSegments: 24 });
-    // unión: de -fuse a +h (hacia afuera); corte: de -h a +over (hacia adentro)
-    g.translate(0, 0, isCut ? -f.params.h : -fuse);
+    const h = f.params.h, half = h / 2, ext = isCut ? over : fuse;
+    // dirección de extrusión respecto al plano del boceto:
+    //   'pos' (por defecto) hacia +n · 'neg' hacia −n · 'sym' simétrica a ambos lados
+    const side = f.params.side || 'pos';
+    let zLo, zHi;
+    if (side === 'sym') { zLo = -half - ext; zHi = half + ext; }
+    else if (side === 'neg') { zLo = isCut ? -ext : -h; zHi = isCut ? h : ext; }
+    else { zLo = isCut ? -h : -ext; zHi = isCut ? ext : h; } // 'pos'
+    const g = new THREE.ExtrudeGeometry(shape, { depth: zHi - zLo, bevelEnabled: false, curveSegments: 24 });
+    g.translate(0, 0, zLo);
     const n = new THREE.Vector3(...f.dir).normalize();
     const U = new THREE.Vector3(...f.params.u);
     U.addScaledVector(n, -U.dot(n)).normalize();

@@ -169,6 +169,22 @@ console.log('— Bocetos extruidos —');
   check('regeneración tras editar cota (contorno sigue cerrado)', volume(g2) > volume(g) * 1.15, `vol2=${volume(g2)}`);
 }
 
+// dirección de extrusión: un lado / simétrica / lado opuesto (cuadrado 20×20, h=10)
+{
+  const SK = await import('../js/sketch2d.js');
+  const sq = [
+    SK.makeLine([-10, -10], [10, -10]), SK.makeLine([10, -10], [10, 10]),
+    SK.makeLine([10, 10], [-10, 10]), SK.makeLine([-10, 10], [-10, -10]),
+  ];
+  const zRange = (g) => { g.computeBoundingBox(); return [g.boundingBox.min.z, g.boundingBox.max.z]; };
+  const mk = (side) => buildPart([makeSketchEntitiesFeature(sq, [], 10, 'union', [0, 0, 0], [0, 0, 1], [1, 0, 0], side)]);
+  const gp = mk('pos'), gs = mk('sym'), gn = mk('neg');
+  check('extrusión un lado: z en [0,10]', Math.abs(zRange(gp)[0]) < 1e-4 && Math.abs(zRange(gp)[1] - 10) < 1e-4, `z=${zRange(gp)}`);
+  check('extrusión simétrica: z en [-5,5]', Math.abs(zRange(gs)[0] + 5) < 1e-4 && Math.abs(zRange(gs)[1] - 5) < 1e-4, `z=${zRange(gs)}`);
+  check('extrusión lado opuesto: z en [-10,0]', Math.abs(zRange(gn)[0] + 10) < 1e-4 && Math.abs(zRange(gn)[1]) < 1e-4, `z=${zRange(gn)}`);
+  check('las tres direcciones conservan el volumen (4000)', rel(volume(gp), 4000) < 1e-3 && rel(volume(gs), 4000) < 1e-3 && rel(volume(gn), 4000) < 1e-3);
+}
+
 // revolución 360°: rectángulo (10..20, 0..30) alrededor del eje V (u=0)
 // → tubo: V = π(R²−r²)h con corrección por facetado de 48 lados
 {
