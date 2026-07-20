@@ -11,9 +11,9 @@ A9,Travesano tipo ZP2026 (TR_S) perfil C 88x40x3,~24,u,,LBP cada 1000 / GT cada 
 A10,Pletina acero 12 mm de canto (nucleo de la guia de apoyo),~110,m,,recibe el BAR CAP UHMW enrollable (M7)
 M1,Banda Movex 530 LBP 18 in LFA - art. P5324010018A,43.5 necesario / 90.3 cotizado,m,EUR 174.85/m,lazo 10.87 m x 4 equipos; lo cotizado cubre ~2x (repuesto/futuras lineas)
 M2,Banda Movex 530 GT (friction top) 18 in LFA - art. P5323010018A,10.2 necesario / 18 cotizado,m,EUR 243.18/m,lazo 2.54 m x 4 equipos
-M3,"Sprocket MOLDEADO Z-32, PD 153.4, BORE CUADRADO 1.5 in c/grano M8 - art. P158808YF",60 necesario / 152 cotizado,u,EUR 17.42,"LBP 5 motriz + 2 locos, GT 6 + 2; solo el central FIJO (grano M8), resto flotante - indicacion Movex; CONFIRMAR n LBP (manual 5 / brochure 6)"
+M3,"Sprocket MOLDEADO Z-32, PD 153.4, BORE CUADRADO 1.5 in c/grano M8 - art. P158808YF",60 necesario / 152 cotizado,u,EUR 17.42,"LBP estandar: 5 motriz (grid valido -152.4/-89.05/0/+63.35/+152.4; 6 es IMPOSIBLE, solo PRO LBP) + 2 locos; GT 6 + 2; solo el central FIJO (grano M8), resto flotante - manual p.30 y brochure p.11 COINCIDEN"
 M4,Collarin de referencia 1.5x1.5 in - art. P21703Y,32 necesario / 60 cotizado,u,EUR 2.32,2 por eje flanqueando el sprocket central fijo - indicacion Movex
-M5,Nosebar 530 LBP h19 C/RODAMIENTOS L=6 in 6 agujeros BluLub - art. P22868,24 necesario / 51 cotizado,u,EUR 38.73,3 x L6in = 18 in por punta x 2 puntas x 4 LBP
+M5,Nosebar 530 LBP h19 C/RODAMIENTOS L=6 in 6 agujeros BluLub - art. P22868,24 necesario / 51 cotizado,u,EUR 38.73,3 x L6in por punta x 2 x 4 LBP; OJO: la cotizacion lo describe "per 530PRO LBP" y la banda es LBP ESTANDAR - confirmar con Movex antes de la OC
 M6,Transfer plate C/RODAMIENTOS h19 L=6 in - art. P22862,24 necesario / 51 cotizado,u,EUR 31.00,idem para los 4 GT
 M7,BAR CAP UHMW 17.53x19.05 p/pletina 12 mm (rollo 30 m) - art. P101203-30,360 cotizado,m,EUR 6.96/m,guia de APOYO enrollable; LBP: entre carriles de rodillos gap <=50; junta dilatacion 6-10
 M8,"Conical rail ENROLLABLE: T 1in art. P12201C / T 40mm art. P12401C / L 1-1/4in art. P12501C",156 / 105 / 105 cotizado,m,EUR 17.14 / 18.63 / 23.08 por m,guia LATERAL (L 1-1/4 en el modelo 3D); T segun layout de lineas

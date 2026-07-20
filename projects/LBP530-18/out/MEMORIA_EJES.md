@@ -56,10 +56,18 @@ contra la cara exterior de las placas/mechas PL8.
 
 Sprockets Movex de la cotización: **rueda MOLDEADA Z-32, PD 153.4 /
 OD 154.8, ancho 40, bore CUADRADO 1.5 in con GRANO M8 — art. P158808YF,
-€17.42**. Por eje motriz: LBP 5 (indent 76.2), GT 6 (indent 38.1, paso
-76.2) — manual pág. 30; **el brochure LBP dice 6/5 invertido: confirmar con
-Movex application engineering**. Solo el sprocket central se fija (grano M8
-+ **collarines P21703Y**, 2 por eje); el resto flota — manual Movex.
+€17.42**. Por eje motriz — RESUELTO con los diagramas de ambos documentos
+(manual p.30 y brochure LBP p.11, que COINCIDEN):
+- **530 LBP estándar (la banda cotizada P5324010018A): 5 sprockets**, en el
+  grid VÁLIDO A·B·C·B·C·A = 76.2/63.35/89.05/63.35/89.05/76.2 → centrado:
+  **−152.4 / −89.05 / 0 / +63.35 / +152.4**. Las demás posiciones están
+  **PROHIBIDAS** (✗: caen bajo los carriles de rodillos — los dientes
+  chocarían con los rodillos que asoman por la cara inferior). Poner 6 es
+  físicamente imposible en la LBP estándar; **6 aplica al 530 PRO LBP**.
+- **530 GT: 6 sprockets** (indent 38.1, paso 76.2) ✓.
+Solo el sprocket central se fija (grano M8 + **collarines P21703Y**, 2 por
+eje); el resto flota — manual Movex. Ruedas locas del tensor LBP en
+posiciones válidas del grid (±152.4).
 
 ## 3. Cargas y verificación
 
@@ -104,8 +112,11 @@ Fuente paramétrica: `cad/ensambles/gen_lbp530.mjs` (regenerar con
 
 ## 5. Pendientes / advertencias (no se ocultan)
 
-1. **Confirmar con Movex** el nº de sprockets del 530 LBP 18 in (manual: 5;
-   brochure: 6). La cotización 26012937 trae 152 Z-32: cubre ambos casos.
+1. RESUELTO: 530 LBP estándar = 5 sprockets/eje en el grid A·B·C·B·C·A
+   (manual p.30 y brochure p.11 coinciden; 6 es solo PRO LBP). NUEVA
+   advertencia: el nosebar cotizado **P22868 se describe "per 530 PRO LBP"**
+   y la banda cotizada es LBP estándar — confirmar compatibilidad con Movex
+   (Sylvain Dufour) antes de emitir la OC.
 2. El chavetero y la rosca de punta NO están en las primitivas del catálogo
    de componentes (limitación caja/cilindro): están en los planos EJ‑01 y en
    el ensamble `gen_lbp530.mjs`.
