@@ -707,6 +707,20 @@ export function regularPolygon(c, vertex, n) {
   return lines;
 }
 
+// ranura (slot) centro-a-centro: dos líneas paralelas + dos semicírculos en los
+// extremos, radio r. Contorno cerrado listo para extruir.
+export function slotEntities(c1, c2, r) {
+  if (!(r > 0) || dist(c1, c2) < 1e-6) return [];
+  const d = norm(sub(c2, c1)), n = [-d[1], d[0]], ad = Math.atan2(d[1], d[0]);
+  const p1a = add(c1, scale(n, r)), p1b = sub(c1, scale(n, r));
+  const p2a = add(c2, scale(n, r)), p2b = sub(c2, scale(n, r));
+  return [
+    makeLine(p1a, p2a), makeLine(p2b, p1b),
+    makeArc(c2, r, ad - Math.PI / 2, ad + Math.PI / 2),         // tapa lejana (bulge +d)
+    makeArc(c1, r, ad + Math.PI / 2, ad + 3 * Math.PI / 2),     // tapa cercana (bulge −d)
+  ];
+}
+
 // equidistancia: copia paralela a distancia d, hacia el lado de sidePt
 export function offsetEntity(e, d, sidePt) {
   if (!(d > 0)) return null;
