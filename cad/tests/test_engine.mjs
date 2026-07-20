@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { geomToCSG, csgToGeom, CSG } from '../js/csg.js';
 import {
   newDoc, newPart, makeBoxFeature, makeCylFeature, makeHoleFeature,
-  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, makeMirrorFeature, makeFilletFeature, makeChamferFeature, planeBasis, magnetCorrections, identifyFace,
+  makeSketchFeature, makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, patternMatrices, makeMirrorFeature, makeFilletFeature, makeChamferFeature, makeShellFeature, isConvexSolid, solidPlanarFaces, planeBasis, magnetCorrections, identifyFace,
   buildPartGeometry, planarFaceFromHit, findAxialFeature,
   makeMate, makeConcentric, solveConstraints, partMatrix,
   evalExpr, resolveParams, applyDocParams,
@@ -410,6 +410,28 @@ console.log('— Patrones de funciones (rectangular / circular) —');
   const cylFacet = 0.5 * 48 * Math.sin(2 * Math.PI / 48) / Math.PI;
   const expected = 96000 - 2 * Math.PI * 9 * 10 * cylFacet;
   check('caja − simetría de agujero (2 en total)', rel(volume(g), expected) < 0.004, `vol=${volume(g)} esp=${expected.toFixed(1)}`);
+}
+
+console.log('— Vaciado (shell) —');
+{
+  const box = () => { const d = newDoc(); const p = newPart(d, 's'); p.features.push(makeBoxFeature(40, 40, 40, [0, 0, 0])); return p; };
+  check('caja 40³ es convexa', isConvexSolid(buildPartGeometry(box())));
+  check('caja 40³ tiene 6 caras planas', solidPlanarFaces(buildPartGeometry(box())).length === 6);
+
+  // vaciado cerrado t=5: cavidad [5,35]³ = 27000 → pared = 64000 − 27000 = 37000
+  const pc = box(); pc.features.push(makeShellFeature(5, []));
+  check('vaciado cerrado t=5 → 64000−27000', Math.abs(volume(buildPartGeometry(pc)) - 37000) < 30, `v=${volume(buildPartGeometry(pc))}`);
+
+  // vaciado con cara superior abierta (z=40): cavidad [5,35]×[5,35]×[5,40] = 31500
+  const po = box(); po.features.push(makeShellFeature(5, [{ n: [0, 0, 1], d: 40 }]));
+  const vo = volume(buildPartGeometry(po));
+  check('vaciado abierto arriba → 64000−31500 = 32500', Math.abs(vo - 32500) < 40, `v=${vo}`);
+  check('vaciado abierto quita más que el cerrado', vo < 37000);
+  check('vaciado no genera NaN', !hasNaN(buildPartGeometry(po)));
+
+  // t no positivo o sin material: no cambia el sólido
+  const pz = box(); pz.features.push(makeShellFeature(0, []));
+  check('vaciado t=0 → sólido intacto', Math.abs(volume(buildPartGeometry(pz)) - 64000) < 1e-6);
 }
 
 console.log('— Parámetros globales (fx) y ecuaciones —');

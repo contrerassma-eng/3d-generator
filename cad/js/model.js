@@ -208,6 +208,78 @@ export function mirrorGeometry(geom, plane) {
   return g;
 }
 
+// Vaciado (shell): ahueca el sólido dejando una pared de espesor t, con caras
+// opcionales abiertas. Opera sobre la malla acumulada (como empalme/chaflán).
+//   params {t, openFaces:[{n:[x,y,z], d}]}  (planos de cara a dejar abiertos)
+export function makeShellFeature(t, openFaces = []) {
+  return { id: uid('f'), name: `Vaciado ${t}`, shape: 'shell', op: 'blend', at: [0, 0, 0], dir: [0, 0, 1], params: { t, openFaces } };
+}
+
+// Planos de cara distintos de una malla: normal exterior + offset d = n·p.
+export function solidPlanarFaces(geom) {
+  const g = geom.index ? geom.toNonIndexed() : geom;
+  const pos = g.attributes.position;
+  const map = new Map();
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
+  for (let t = 0; t < pos.count; t += 3) {
+    a.fromBufferAttribute(pos, t); b.fromBufferAttribute(pos, t + 1); c.fromBufferAttribute(pos, t + 2);
+    const n = new THREE.Vector3().subVectors(b, a).cross(new THREE.Vector3().subVectors(c, a));
+    if (n.lengthSq() < 1e-12) continue;
+    n.normalize();
+    const d = n.dot(a);
+    const key = `${Math.round(n.x * 1e3)},${Math.round(n.y * 1e3)},${Math.round(n.z * 1e3)}:${Math.round(d * 1e2)}`;
+    if (!map.has(key)) map.set(key, { n, d });
+  }
+  return [...map.values()];
+}
+
+// ¿todos los vértices quedan del lado interior de todas las caras? (convexo)
+export function isConvexSolid(geom, faces) {
+  faces = faces || solidPlanarFaces(geom);
+  const g = geom.index ? geom.toNonIndexed() : geom;
+  const pos = g.attributes.position;
+  const p = new THREE.Vector3();
+  for (let i = 0; i < pos.count; i++) {
+    p.fromBufferAttribute(pos, i);
+    for (const f of faces) if (f.n.dot(p) > f.d + 0.05) return false;
+  }
+  return true;
+}
+
+// caja grande orientada que cubre el semiespacio { x : n·x <= offset }
+function halfSpaceBox(n, offset, E) {
+  const { u, v } = planeBasis(n.toArray());
+  const g = new THREE.BoxGeometry(4 * E, 4 * E, 2 * E);
+  g.translate(0, 0, -E); // z local en [-2E, 0]; la cara z=0 queda sobre el plano
+  const m = new THREE.Matrix4().makeBasis(u, v, n).setPosition(n.clone().multiplyScalar(offset));
+  g.applyMatrix4(m);
+  return g;
+}
+
+// núcleo interior a restar = intersección de los semiespacios de cada cara
+// (salvo las abiertas) desplazados hacia dentro el espesor t. Exacto para
+// sólidos convexos; conservador (paredes más gruesas junto a concavidades)
+// para no convexos, nunca quita material de más. Devuelve un CSG o null.
+export function shellInner(geom, t, openFaces = []) {
+  const faces = solidPlanarFaces(geom);
+  if (!faces.length || !(t > 0)) return null;
+  geom.computeBoundingBox();
+  const size = geom.boundingBox.getSize(new THREE.Vector3());
+  const E = Math.max(size.x, size.y, size.z, 1) * 2 + 10;
+  const isOpen = (f) => openFaces.some(o => {
+    const on = new THREE.Vector3(o.n[0], o.n[1], o.n[2]);
+    return f.n.dot(on) > 0.99 && Math.abs(f.d - o.d) < 0.6;
+  });
+  const kept = faces.filter(f => !isOpen(f));
+  if (kept.length < 3) return null; // no queda material suficiente que definir
+  let inner = null;
+  for (const f of kept) {
+    const hs = geomToCSG(halfSpaceBox(f.n, f.d - t, E));
+    inner = inner === null ? hs : inner.intersect(hs);
+  }
+  return inner;
+}
+
 // Empalme (fillet) y chaflán (chamfer) sobre aristas del sólido ya construido.
 // A diferencia de las demás funciones, operan sobre la malla acumulada: cada
 // arista se guarda por sus dos extremos (coordenadas locales); al regenerar se
@@ -765,6 +837,13 @@ export function buildPartGeometry(part) {
         if (!mod) continue;
         csg = mod.op === 'union' ? csg.union(mod.csg) : csg.subtract(mod.csg);
       }
+      continue;
+    }
+    if (f.shape === 'shell') {
+      // vaciado: resta el núcleo interior desplazado hacia dentro
+      if (csg === null) continue;
+      const inner = shellInner(csgToGeom(csg), f.params.t, f.params.openFaces || []);
+      if (inner) csg = csg.subtract(inner);
       continue;
     }
     if (f.shape === 'pattern') {
