@@ -1297,16 +1297,26 @@ const ENV_OF_MODE = { sketch: 'pieza', hole: 'pieza', pestana: 'pieza', direct: 
                       mate: 'ens', flush: 'ens', concentric: 'ens', joint: 'ens', move: 'ens' };
 let env = 'pieza';
 function setEnv(e) {
+  if (env === e) return;
   env = e;
-  document.getElementById('ribbon').classList.toggle('ens', env === 'ens');
-  $('envPieza').classList.toggle('on', env !== 'ens');
-  $('envEns').classList.toggle('on', env === 'ens');
   if (ENV_OF_MODE[mode] && ENV_OF_MODE[mode] !== env) setMode(mode); // apaga el modo del otro entorno
-  setStatus(env === 'ens' ? 'Entorno ENSAMBLE: restricciones, mover, imán y aislar.'
-                          : 'Entorno PIEZA: crear piezas y modelar sólidos.');
 }
-$('envPieza').onclick = () => setEnv('pieza');
-$('envEns').onclick = () => setEnv('ens');
+
+// ---------- Cinta de pestañas contextuales (estilo Inventor) ----------
+const tabstrip = document.getElementById('tabstrip');
+const ribbonEl = document.getElementById('ribbon');
+const TAB_ENV = { modelo: 'pieza', boceto: 'pieza', chapa: 'pieza', ensamblar: 'ens' }; // pestañas que fijan entorno
+function selectTab(name) {
+  for (const b of tabstrip.querySelectorAll('.tab')) b.classList.toggle('on', b.dataset.tab === name);
+  for (const p of ribbonEl.querySelectorAll('.tabpage')) p.classList.toggle('active', p.dataset.tab === name);
+  if (TAB_ENV[name]) setEnv(TAB_ENV[name]);
+}
+tabstrip.addEventListener('click', (e) => { const b = e.target.closest('.tab'); if (b) selectTab(b.dataset.tab); });
+// muestra u oculta la pestaña contextual Boceto y la selecciona al entrar/salir
+function showSketchTab(on) {
+  document.getElementById('tabBoceto').style.display = on ? '' : 'none';
+  selectTab(on ? 'boceto' : 'modelo');
+}
 
 // pieza actualmente seleccionada (por el árbol o por clic en el visor)
 function selectedPart() {
@@ -1928,7 +1938,7 @@ function beginSketch(part, originL, nL, uL) {
   resize();
 
   for (const b of sketchbar.querySelectorAll('[data-tool]')) b.classList.toggle('on', b.dataset.tool === 'line');
-  sketchbar.classList.add('open');
+  showSketchTab(true); // pestaña contextual Boceto (como Inventor)
   dynSnap.textContent = sketch.angleSnap ? `⊾ ${sketch.angleSnap}°` : '⊾ off';
   dynLock.textContent = '🔓'; dynLock.classList.remove('on');
   hideDynBox();
@@ -3191,7 +3201,7 @@ function cancelSketch(silent) {
   sketch.group.traverse(o => o.geometry?.dispose?.());
   for (const el of sketch.dimEls.values()) el.remove();
   sketch = null;
-  sketchbar.classList.remove('open');
+  showSketchTab(false); // oculta la pestaña Boceto y vuelve a Modelo 3D
   activeCamera = camera;
   sketchControls.enabled = false;
   sketchControls.enableRotate = false;
@@ -4552,6 +4562,7 @@ $('btnClear').onclick = () => {
   rebuildAll();
   commit('Proyecto nuevo.');
 };
+$('btnUndo').onclick = () => undo();
 
 $('btnDemo').onclick = () => {
   showForm('Cargar ejemplo', [
