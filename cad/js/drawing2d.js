@@ -712,7 +712,7 @@ export function exportDrawingDXF(parts, meta) {
 // Piezas exportadas para el generador de planos de fabricación (planos_fab.mjs):
 // permiten construir láminas propias (portada/despiece) y unir varias en un
 // único PDF multipágina.
-export { buildSheet, Sheet, chooseSheet, scaleLabel, toBytes };
+export { buildSheet, Sheet, chooseSheet, scaleLabel, toBytes, writeDXF, dxfToBytes };
 export function exportSheetsPDF(sheets, name = 'planos.pdf') {
   return { name, data: toBytes(writePDFMulti(sheets)), mime: 'application/pdf' };
 }

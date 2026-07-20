@@ -1,7 +1,7 @@
 {
   "proyecto": "Transferencia 90° — módulo de desviación pop-up",
   "archivo": "transfer_rodillos_90.json",
-  "fecha": "2026-07-19",
+  "fecha": "2026-07-20",
   "total_piezas": 106,
   "items_distintos": 42,
   "planos_fabricacion": 25,
@@ -264,7 +264,7 @@
     },
     {
       "item": 33,
-      "designacion": "Polea de retorno abombada Ø50",
+      "designacion": "Polea de retorno abombada Ø44",
       "cant": 2,
       "tipo": "FABRICADA",
       "material_norma": "Aluminio 6061-T6",
@@ -312,7 +312,7 @@
     },
     {
       "item": 39,
-      "designacion": "Tensor abombado Ø80",
+      "designacion": "Tensor abombado Ø54",
       "cant": 3,
       "tipo": "FABRICADA",
       "material_norma": "Aluminio 6061-T6",
