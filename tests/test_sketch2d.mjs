@@ -3,7 +3,7 @@ import {
   makeLine, makeCircle, makeArc, entityPoints, intersectEntities,
   trimEntity, extendLine, chainLoops, makeDim, measureDim, applyDim,
   fitStroke, dist, snapPoints, tangentPoints, regions, loopKey,
-  moveEntity, applyLockedDims, makeArcCSE, regularPolygon, offsetEntity, filletLines,
+  moveEntity, applyLockedDims, makeArcCSE, regularPolygon, rectCenter, rect3pt, offsetEntity, filletLines,
   entityInRect, copyEntities, mirrorEntities,
   makeConstraint, solveSketch, constraintResidual, slotEntities,
 } from '../js/sketch2d.js';
@@ -392,6 +392,33 @@ console.log('— Ranura (slot) —');
   check('slot: 2 líneas + 2 arcos', ents.filter(e=>e.type==='line').length===2 && ents.filter(e=>e.type==='arc').length===2);
   const { outer, openCount } = chainLoops(ents);
   check('slot: contorno cerrado sin cadenas abiertas', !!outer && openCount===0, `open=${openCount}`);
+}
+
+console.log('— Rectángulo por centro y por 3 puntos —');
+{
+  // por centro: centro (0,0), esquina (15,10) → 30×20, cerrado, centrado
+  const rc = rectCenter([0, 0], [15, 10]);
+  check('rectCenter: 4 líneas', rc.length === 4 && rc.every(e => e.type === 'line'));
+  const lc = chainLoops(rc);
+  check('rectCenter: contorno cerrado', !!lc.outer && lc.openCount === 0);
+  const xs = rc.flatMap(e => [e.a[0], e.b[0]]), ys = rc.flatMap(e => [e.a[1], e.b[1]]);
+  check('rectCenter: 30×20 centrado en el origen',
+    Math.abs(Math.max(...xs) - 15) < 1e-9 && Math.abs(Math.min(...xs) + 15) < 1e-9 &&
+    Math.abs(Math.max(...ys) - 10) < 1e-9 && Math.abs(Math.min(...ys) + 10) < 1e-9);
+
+  // por 3 puntos: base (0,0)→(10,0), altura por (0,4) → 10×4 alineado a ejes
+  const r3 = rect3pt([0, 0], [10, 0], [0, 4]);
+  check('rect3pt: 4 líneas cerradas', r3.length === 4 && !!chainLoops(r3).outer && chainLoops(r3).openCount === 0);
+  const dot = (u, v) => u[0] * v[0] + u[1] * v[1];
+  const seg = (e) => [e.b[0] - e.a[0], e.b[1] - e.a[1]];
+  check('rect3pt: esquinas en ángulo recto', Math.abs(dot(seg(r3[0]), seg(r3[1]))) < 1e-9 && Math.abs(dot(seg(r3[1]), seg(r3[2]))) < 1e-9);
+  const len = (e) => Math.hypot(...seg(e));
+  check('rect3pt: base 10 y altura 4', Math.abs(len(r3[0]) - 10) < 1e-9 && Math.abs(len(r3[1]) - 4) < 1e-9);
+
+  // por 3 puntos ORIENTADO: base a 45°, sigue siendo rectángulo (lados perpendiculares)
+  const ro = rect3pt([0, 0], [10, 10], [ -3, 3 ]);
+  check('rect3pt orientado: lados perpendiculares', Math.abs(dot(seg(ro[0]), seg(ro[1]))) < 1e-6);
+  check('rect3pt degenerado (altura 0) → vacío', rect3pt([0, 0], [10, 0], [5, 0]).length === 0);
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);
