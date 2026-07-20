@@ -269,7 +269,21 @@ function ruedaTorneada(nombre, biblioteca, pos, quat, P) {
       fe.push(cyl('Perno M4', [s * half, (rc - 1) * Math.sin(fm), P.R + (rc - 1) * Math.cos(fm)], [s, 0, 0], 6, 2.5, C.pin));
     }
   }
-  // rodillos finos abombados + pasadores
+  // NÚCLEO: almas/horquillas entre rodillos (unen el disco central con la
+  // placa exterior y SUJETAN los pasadores — como el cuerpo araña de la rueda
+  // real; los pines quedan embebidos, no a la vista)
+  const arcGap = (paso * Math.PI / 180) * rc - P.Lrod;   // luz angular entre barriles
+  const webT = Math.max(3, arcGap - 2);                  // espesor del alma (1 mm a cada rodillo)
+  for (const [s, off] of [[-1, 0], [1, paso / 2]]) {
+    const xw = s * (P.wMid / 2 + P.rrod);                // centro axial de la corona
+    const w2 = P.rrod, yIn = rc - P.rHub, yOut = -4;     // alto radial del alma
+    for (let k = 0; k < P.nrod; k++) {
+      const psi = (off + (k + 0.5) * paso) * Math.PI / 180;
+      const tw = [0, Math.cos(psi), -Math.sin(psi)];
+      fe.push({ id: fid(), name: 'Alma del núcleo (porta-pasadores)', shape: 'sketch', op: 'union', at: [xw, rc * Math.sin(psi), P.R + rc * Math.cos(psi)], dir: tw, params: { entities: poly([[-w2, yIn], [w2, yIn], [w2, yOut + 2], [w2 - 1.5, yOut], [-w2 + 1.5, yOut], [-w2, yOut + 2]]), dims: [], h: webT, side: 'sym', u: [1, 0, 0] }, color: C.plato });
+    }
+  }
+  // rodillos finos abombados; pasadores CORTOS embebidos en las almas
   for (const [s, off] of [[-1, 0], [1, paso / 2]]) {
     const xRow = s * (P.wMid / 2 + P.rrod);
     for (let k = 0; k < P.nrod; k++) {
@@ -281,8 +295,8 @@ function ruedaTorneada(nombre, biblioteca, pos, quat, P) {
         mkArc([0, -rc], P.R, aR, Math.PI - aR), mkLine([-hL, yE], [-hL, 1.4]),
       ];
       fe.push(revolve(`Rodillo barril Ø${2 * P.rrod}`, cRod, [1, 0, 0], tHat, ents, C.rodillo));
-      const Lp = P.Lrod + 6;
-      fe.push(cyl('Pasador Ø4', [cRod[0], cRod[1] - tHat[1] * Lp / 2, cRod[2] - tHat[2] * Lp / 2], tHat, 4, Lp, C.pin));
+      const Lp = P.Lrod + 3;                             // termina DENTRO de las almas
+      fe.push(cyl('Pasador Ø4 (embebido)', [cRod[0], cRod[1] - tHat[1] * Lp / 2, cRod[2] - tHat[2] * Lp / 2], tHat, 4, Lp, C.pin));
     }
   }
   parts.push({ id: `op${++np}_rt`, name: nombre, biblioteca, componente: biblioteca, color: C.rodillo, pos, quat, fixed: false, visible: true, base_ref: true, features: fe });

@@ -77,6 +77,13 @@ exteriores de **aluminio festoneadas** con pernos pasantes entre rodillos
 (boceto extruido con escotaduras de arco) y agujero central. Las cotas del
 snapshot que eran medidas (platos Ø55, rodadura Ø70) se conservan.
 
+**Núcleo porta-pasadores**: los pasadores de los rodillos NO quedan a la
+vista — van embebidos en **almas/horquillas del núcleo** entre rodillos
+(prismas extruidos que unen el disco central con la placa exterior, espesor =
+luz angular entre barriles − 2), como el cuerpo araña de Rotacaster y el
+`Base.ipt` del snapshot. En el catálogo se representan como brazos radiales
+Ø8. Los pernos M4 de las placas apuntan a estas almas.
+
 ## El módulo (24"×24", tangente Z=170)
 
 - **Ejes A — AVANCE**: 4 ejes Ø15 **transversales** (Y) en X = ±76.2, ±228.6,

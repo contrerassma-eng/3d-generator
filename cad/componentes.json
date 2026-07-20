@@ -3906,7 +3906,7 @@
       -0.0
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -3974,7 +3974,7 @@
       -0.707107
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4042,7 +4042,7 @@
       -1.0
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4110,7 +4110,7 @@
       -0.707107
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4178,7 +4178,7 @@
       -0.0
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4246,7 +4246,7 @@
       0.707107
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4314,7 +4314,7 @@
       1.0
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4382,7 +4382,7 @@
       0.707107
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4450,7 +4450,7 @@
       -0.382683
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4518,7 +4518,7 @@
       -0.92388
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4586,7 +4586,7 @@
       -0.92388
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4654,7 +4654,7 @@
       -0.382683
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4722,7 +4722,7 @@
       0.382683
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4790,7 +4790,7 @@
       0.92388
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4858,7 +4858,7 @@
       0.92388
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
     },
     {
@@ -4926,8 +4926,280 @@
       0.382683
      ],
      "dia": 4,
-     "alto": 22,
+     "alto": 18,
      "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A1 (porta-pasadores)",
+     "at": [
+      -9.0,
+      5.358,
+      47.934
+     ],
+     "eje": [
+      0,
+      0.382683,
+      0.92388
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A2 (porta-pasadores)",
+     "at": [
+      -9.0,
+      12.934,
+      40.358
+     ],
+     "eje": [
+      0,
+      0.92388,
+      0.382683
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A3 (porta-pasadores)",
+     "at": [
+      -9.0,
+      12.934,
+      29.642
+     ],
+     "eje": [
+      0,
+      0.92388,
+      -0.382683
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A4 (porta-pasadores)",
+     "at": [
+      -9.0,
+      5.358,
+      22.066
+     ],
+     "eje": [
+      0,
+      0.382683,
+      -0.92388
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A5 (porta-pasadores)",
+     "at": [
+      -9.0,
+      -5.358,
+      22.066
+     ],
+     "eje": [
+      0,
+      -0.382683,
+      -0.92388
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A6 (porta-pasadores)",
+     "at": [
+      -9.0,
+      -12.934,
+      29.642
+     ],
+     "eje": [
+      0,
+      -0.92388,
+      -0.382683
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A7 (porta-pasadores)",
+     "at": [
+      -9.0,
+      -12.934,
+      40.358
+     ],
+     "eje": [
+      0,
+      -0.92388,
+      0.382683
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A8 (porta-pasadores)",
+     "at": [
+      -9.0,
+      -5.358,
+      47.934
+     ],
+     "eje": [
+      0,
+      -0.382683,
+      0.92388
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B1 (porta-pasadores)",
+     "at": [
+      9.0,
+      9.899,
+      44.899
+     ],
+     "eje": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B2 (porta-pasadores)",
+     "at": [
+      9.0,
+      14.0,
+      35.0
+     ],
+     "eje": [
+      0,
+      1.0,
+      0.0
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B3 (porta-pasadores)",
+     "at": [
+      9.0,
+      9.899,
+      25.101
+     ],
+     "eje": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B4 (porta-pasadores)",
+     "at": [
+      9.0,
+      0.0,
+      21.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B5 (porta-pasadores)",
+     "at": [
+      9.0,
+      -9.899,
+      25.101
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B6 (porta-pasadores)",
+     "at": [
+      9.0,
+      -14.0,
+      35.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B7 (porta-pasadores)",
+     "at": [
+      9.0,
+      -9.899,
+      44.899
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B8 (porta-pasadores)",
+     "at": [
+      9.0,
+      -0.0,
+      49.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 8,
+     "alto": 17,
+     "color": "#b9c2c9"
     }
    ],
    "agujeros_montaje": [],
@@ -4946,7 +5218,7 @@
      ]
     }
    ],
-   "notas": "Proporcion rodillo/rueda 0.2 y ancho/diametro 0.54, en linea con las referencias (Nexus 127: 0.15 y 0.23). Rodadura = rc+r = 28+7 = 35. VERIFICAR con calibre antes de fabricar."
+   "notas": "Proporcion rodillo/rueda 0.2 y ancho/diametro 0.54, en linea con las referencias (Nexus 127: 0.15 y 0.23). Rodadura = rc+r = 28+7 = 35. VERIFICAR con calibre antes de fabricar. NUCLEO: los pasadores van embebidos en brazos/almas entre rodillos (cuerpo arana, como Rotacaster y el Base.ipt del snapshot); en el ensamble las almas son prismas festoneados, aqui brazos cilindricos O8."
   },
   {
    "id": "rueda_omni_120_doble",
@@ -5092,7 +5364,7 @@
       -0.0
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5160,7 +5432,7 @@
       -0.5
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5228,7 +5500,7 @@
       -0.866025
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5296,7 +5568,7 @@
       -1.0
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5364,7 +5636,7 @@
       -0.866025
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5432,7 +5704,7 @@
       -0.5
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5500,7 +5772,7 @@
       -0.0
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5568,7 +5840,7 @@
       0.5
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5636,7 +5908,7 @@
       0.866025
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5704,7 +5976,7 @@
       1.0
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5772,7 +6044,7 @@
       0.866025
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5840,7 +6112,7 @@
       0.5
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5908,7 +6180,7 @@
       -0.258819
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -5976,7 +6248,7 @@
       -0.707107
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -6044,7 +6316,7 @@
       -0.965926
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -6112,7 +6384,7 @@
       -0.965926
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -6180,7 +6452,7 @@
       -0.707107
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -6248,7 +6520,7 @@
       -0.258819
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -6316,7 +6588,7 @@
       0.258819
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -6384,7 +6656,7 @@
       0.707107
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -6452,7 +6724,7 @@
       0.965926
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -6520,7 +6792,7 @@
       0.965926
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -6588,7 +6860,7 @@
       0.707107
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
     },
     {
@@ -6656,8 +6928,416 @@
       0.258819
      ],
      "dia": 4,
-     "alto": 28,
+     "alto": 24,
      "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A1 (porta-pasadores)",
+     "at": [
+      -11.0,
+      5.435,
+      80.284
+     ],
+     "eje": [
+      0,
+      0.258819,
+      0.965926
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A2 (porta-pasadores)",
+     "at": [
+      -11.0,
+      14.849,
+      74.849
+     ],
+     "eje": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A3 (porta-pasadores)",
+     "at": [
+      -11.0,
+      20.284,
+      65.435
+     ],
+     "eje": [
+      0,
+      0.965926,
+      0.258819
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A4 (porta-pasadores)",
+     "at": [
+      -11.0,
+      20.284,
+      54.565
+     ],
+     "eje": [
+      0,
+      0.965926,
+      -0.258819
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A5 (porta-pasadores)",
+     "at": [
+      -11.0,
+      14.849,
+      45.151
+     ],
+     "eje": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A6 (porta-pasadores)",
+     "at": [
+      -11.0,
+      5.435,
+      39.716
+     ],
+     "eje": [
+      0,
+      0.258819,
+      -0.965926
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A7 (porta-pasadores)",
+     "at": [
+      -11.0,
+      -5.435,
+      39.716
+     ],
+     "eje": [
+      0,
+      -0.258819,
+      -0.965926
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A8 (porta-pasadores)",
+     "at": [
+      -11.0,
+      -14.849,
+      45.151
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A9 (porta-pasadores)",
+     "at": [
+      -11.0,
+      -20.284,
+      54.565
+     ],
+     "eje": [
+      0,
+      -0.965926,
+      -0.258819
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A10 (porta-pasadores)",
+     "at": [
+      -11.0,
+      -20.284,
+      65.435
+     ],
+     "eje": [
+      0,
+      -0.965926,
+      0.258819
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A11 (porta-pasadores)",
+     "at": [
+      -11.0,
+      -14.849,
+      74.849
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo A12 (porta-pasadores)",
+     "at": [
+      -11.0,
+      -5.435,
+      80.284
+     ],
+     "eje": [
+      0,
+      -0.258819,
+      0.965926
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B1 (porta-pasadores)",
+     "at": [
+      11.0,
+      10.5,
+      78.187
+     ],
+     "eje": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B2 (porta-pasadores)",
+     "at": [
+      11.0,
+      18.187,
+      70.5
+     ],
+     "eje": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B3 (porta-pasadores)",
+     "at": [
+      11.0,
+      21.0,
+      60.0
+     ],
+     "eje": [
+      0,
+      1.0,
+      0.0
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B4 (porta-pasadores)",
+     "at": [
+      11.0,
+      18.187,
+      49.5
+     ],
+     "eje": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B5 (porta-pasadores)",
+     "at": [
+      11.0,
+      10.5,
+      41.813
+     ],
+     "eje": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B6 (porta-pasadores)",
+     "at": [
+      11.0,
+      0.0,
+      39.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B7 (porta-pasadores)",
+     "at": [
+      11.0,
+      -10.5,
+      41.813
+     ],
+     "eje": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B8 (porta-pasadores)",
+     "at": [
+      11.0,
+      -18.187,
+      49.5
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B9 (porta-pasadores)",
+     "at": [
+      11.0,
+      -21.0,
+      60.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B10 (porta-pasadores)",
+     "at": [
+      11.0,
+      -18.187,
+      70.5
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B11 (porta-pasadores)",
+     "at": [
+      11.0,
+      -10.5,
+      78.187
+     ],
+     "eje": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Brazo del nucleo B12 (porta-pasadores)",
+     "at": [
+      11.0,
+      -0.0,
+      81.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 8,
+     "alto": 33,
+     "color": "#b9c2c9"
     }
    ],
    "agujeros_montaje": [],
@@ -6676,7 +7356,7 @@
      ]
     }
    ],
-   "notas": "12 rodillos/corona a paso 30 (Nexus 127 usa 11/corona). Rodadura = 51+9 = 60. Ancho 46 mejora todas las luces del modulo respecto de la version de 62."
+   "notas": "12 rodillos/corona a paso 30 (Nexus 127 usa 11/corona). Rodadura = 51+9 = 60. Ancho 46 mejora todas las luces del modulo respecto de la version de 62. NUCLEO: los pasadores van embebidos en brazos/almas entre rodillos (cuerpo arana, como Rotacaster y el Base.ipt del snapshot); en el ensamble las almas son prismas festoneados, aqui brazos cilindricos O8."
   }
  ]
 }
