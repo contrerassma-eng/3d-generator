@@ -497,7 +497,9 @@
      soporte de import maps. Para desarrollo con módulos usa dev.html.
      Regenerar tras editar js/: npx esbuild js/app.js --bundle --minify
      --target=es2017 --format=iife --alias:three=./vendor/three.module.min.js
-     --outfile=bundle.js -->
-<script defer src="./bundle.js"></script>
+     --outfile=bundle.js
+     IMPORTANTE: sube el ?v=... en cada despliegue para invalidar la caché del
+     navegador (móvil) y que la nueva versión llegue sin borrar caché a mano. -->
+<script defer src="./bundle.js?v=20260720a"></script>
 </body>
 </html>
