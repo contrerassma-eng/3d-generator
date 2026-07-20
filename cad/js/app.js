@@ -846,7 +846,7 @@ function featureMeta(f) {
   if (f.shape === 'cylinder') return `Ø${f.params.dia}×${f.params.h}`;
   if (f.shape === 'hole') return f.params.through ? `Ø${f.params.dia} pasante` : `Ø${f.params.dia}×${f.params.depth}`;
   if (f.shape === 'sketch') return `${(f.params.entities || f.params.pts || []).length} ent ×${f.params.h}`;
-  if (f.shape === 'revolve') return `rev 360° ${(f.params.entities || []).length} ent`;
+  if (f.shape === 'revolve') return `rev ${f.params.angle ?? 360}° ${(f.params.entities || []).length} ent`;
   if (f.shape === 'mesh') return f.params.bbox ? `malla · ${f.params.bbox.map(n => +n.toFixed(0)).join('×')} mm` : 'malla real (GLB)';
   if (f.shape === 'fillet') return `R${f.params.r} · ${(f.params.edges || []).length} arista(s)`;
   if (f.shape === 'chamfer') return `${f.params.d} mm · ${(f.params.edges || []).length} arista(s)`;
@@ -3207,13 +3207,15 @@ function finishSketch() {
   const nReg = info.regions.length;
   const nHoles = info.regions.reduce((s, r) => s + r.holes.length, 0);
   showForm(`Crear sólido (${nReg} región(es)${nHoles ? `, ${nHoles} agujero(s)` : ''})`, [
-    { key: 'tipo', label: 'Tipo', type: 'select', value: 'ext', options: [['ext', 'Extrusión'], ['rev', 'Revolución 360°']] },
+    { key: 'tipo', label: 'Tipo', type: 'select', value: 'ext', options: [['ext', 'Extrusión'], ['rev', 'Revolución']] },
     { key: 'h', label: 'Altura (mm, extrusión)', value: 10, step: 0.5 },
+    { key: 'ang', label: 'Ángulo (°, revolución)', value: 360, step: 15 },
     { key: 'op', label: 'Operación', type: 'select', value: 'union', options: [['union', 'Unión (agrega material)'], ['cut', 'Corte (quita material)']] },
   ], (v) => {
     if (v.tipo === 'rev') {
-      sketch.revolveWait = { op: v.op };
-      setStatus('Revolución: toca la LÍNEA del boceto que será el eje de giro.');
+      const ang = Math.max(1, Math.min(360, v.ang || 360));
+      sketch.revolveWait = { op: v.op, angle: ang };
+      setStatus(`Revolución ${ang}°: toca la LÍNEA del boceto que será el eje de giro.`);
       return;
     }
     if (!(v.h > 0)) { setStatus('La altura debe ser mayor que 0.'); return; }
@@ -3242,9 +3244,10 @@ function clickRevolveAxis(raw) {
   const pick = pickEntityAt(raw, false);
   if (!pick || pick.ent.type !== 'line') { setStatus('Toca una LÍNEA del boceto para usarla como eje.'); return; }
   const op = sketch.revolveWait.op;
+  const angle = sketch.revolveWait.angle ?? 360;
   sketch.revolveWait = null;
   pushUndo();
-  const f = makeRevolveFeature(sketch.entities, sketch.dims, { a: [...pick.ent.a], b: [...pick.ent.b] }, op, sketch.originL, sketch.nL, sketch.uL);
+  const f = makeRevolveFeature(sketch.entities, sketch.dims, { a: [...pick.ent.a], b: [...pick.ent.b] }, op, sketch.originL, sketch.nL, sketch.uL, angle);
   f.params.excluded = [...sketch.excluded];
   f.params.constraints = sketch.constraints;
   const part = sketch.part;

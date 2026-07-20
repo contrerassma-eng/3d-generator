@@ -171,8 +171,8 @@ export function makeSketchEntitiesFeature(entities, dims, h, op, at, dir, u) {
   return { id: uid('f'), name: op === 'cut' ? 'Corte de boceto' : 'Extrusión de boceto', shape: 'sketch', op, at, dir, params: { entities, dims, h, u } };
 }
 // Revolución 360° del contorno alrededor de una línea del boceto (axis en 2D).
-export function makeRevolveFeature(entities, dims, axis, op, at, dir, u) {
-  return { id: uid('f'), name: op === 'cut' ? 'Corte de revolución' : 'Revolución de boceto', shape: 'revolve', op, at, dir, params: { entities, dims, axis, u } };
+export function makeRevolveFeature(entities, dims, axis, op, at, dir, u, angle = 360) {
+  return { id: uid('f'), name: op === 'cut' ? 'Corte de revolución' : 'Revolución de boceto', shape: 'revolve', op, at, dir, params: { entities, dims, axis, u, angle } };
 }
 // Patrón de una función existente (símil "Patrón" de Inventor). Replica la
 // geometría de la función origen en varias ocurrencias, aplicando su misma
@@ -467,29 +467,63 @@ function featureGeometry(f, extent, first) {
     const A3 = new THREE.Vector3(...f.at).addScaledVector(U, a2[0]).addScaledVector(V, a2[1]);
     const axis3 = U.clone().multiplyScalar(ad[0]).addScaledVector(V, ad[1]);
     const rad3 = U.clone().multiplyScalar(rd[0]).addScaledVector(V, rd[1]);
-    const SEG2 = 48;
+    // ángulo de revolución (grados). 360 = completa (sin tapas); parcial = con tapas.
+    const angDeg = Math.max(1, Math.min(360, f.params.angle ?? 360));
+    const full = angDeg >= 359.999;
+    const A = angDeg * Math.PI / 180;
+    const SEG2 = full ? 48 : Math.max(4, Math.round(48 * angDeg / 360));
     const positions = [];
     const pt3 = (h, r, th) => A3.clone().addScaledVector(axis3, h)
       .addScaledVector(rad3, r * Math.cos(th)).addScaledVector(n, r * Math.sin(th));
+    // agrega un triángulo con la orientación que haga su normal apuntar como 'out'
+    const pushTri = (p0, p1, p2, out) => {
+      const nrm = new THREE.Vector3().subVectors(p1, p0).cross(new THREE.Vector3().subVectors(p2, p0));
+      const [a, b, c] = nrm.dot(out) < 0 ? [p0, p2, p1] : [p0, p1, p2];
+      positions.push(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z);
+    };
     for (const reg of regs) {
+      // perfil de cada anillo (contorno + agujeros) en el plano (altura h, radio r)
+      const ringsHR = [];
+      let crosses = false;
       for (const ring of [reg.outer, ...reg.holes]) {
         const hr = ring.map(p => {
           const q = [p[0] - a2[0], p[1] - a2[1]];
           return [q[0] * ad[0] + q[1] * ad[1], q[0] * rd[0] + q[1] * rd[1]];
         });
         const rs = hr.map(x => x[1]);
-        if (Math.min(...rs) < -0.05 && Math.max(...rs) > 0.05) return null; // el contorno cruza el eje
+        if (Math.min(...rs) < -0.05 && Math.max(...rs) > 0.05) { crosses = true; break; }
         const flip = Math.max(...rs) <= 0.05; // contorno al otro lado: reflejar
-        const HR = hr.map(([h, r]) => [h, Math.max(0, flip ? -r : r)]);
+        ringsHR.push(hr.map(([h, r]) => [h, Math.max(0, flip ? -r : r)]));
+      }
+      if (crosses) return null; // algún contorno cruza el eje
+      // paredes: barrido de cada anillo entre 0 y A
+      for (const HR of ringsHR) {
         for (let k = 0; k < HR.length; k++) {
           const [h1, r1] = HR[k], [h2, r2] = HR[(k + 1) % HR.length];
           for (let j = 0; j < SEG2; j++) {
-            const t1 = j * Math.PI * 2 / SEG2, t2 = (j + 1) * Math.PI * 2 / SEG2;
+            const t1 = A * j / SEG2, t2 = A * (j + 1) / SEG2;
             const pA = pt3(h1, r1, t1), pB = pt3(h2, r2, t1);
             const pC = pt3(h2, r2, t2), pD = pt3(h1, r1, t2);
             positions.push(pA.x, pA.y, pA.z, pB.x, pB.y, pB.z, pC.x, pC.y, pC.z);
             positions.push(pA.x, pA.y, pA.z, pC.x, pC.y, pC.z, pD.x, pD.y, pD.z);
           }
+        }
+      }
+      // tapas de los extremos (solo revolución parcial): triangula el perfil y
+      // lo coloca en th=0 y th=A, con la normal orientada hacia afuera del sólido.
+      if (!full && ringsHR.length) {
+        const outer = ringsHR[0], holes = ringsHR.slice(1);
+        const toV2 = (arr) => arr.map(([h, r]) => new THREE.Vector2(h, r));
+        const contour = toV2(outer), holeV2 = holes.map(toV2);
+        const all = [...outer, ...holes.flat()];
+        let faces;
+        try { faces = THREE.ShapeUtils.triangulateShape(contour, holeV2); } catch { faces = []; }
+        const out0 = n.clone().multiplyScalar(-1);                          // th=0 mira a −n
+        const outA = rad3.clone().multiplyScalar(-Math.sin(A)).addScaledVector(n, Math.cos(A)); // th=A
+        for (const [i, j, k] of faces) {
+          const [ha, ra] = all[i], [hb, rb] = all[j], [hc, rc] = all[k];
+          pushTri(pt3(ha, ra, 0), pt3(hb, rb, 0), pt3(hc, rc, 0), out0);
+          pushTri(pt3(ha, ra, A), pt3(hb, rb, A), pt3(hc, rc, A), outA);
         }
       }
     }
