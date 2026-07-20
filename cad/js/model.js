@@ -183,6 +183,30 @@ export function makePatternFeature(sourceId, kind, params) {
   const name = kind === 'circ' ? 'Patrón circular' : 'Patrón rectangular';
   return { id: uid('f'), name, shape: 'pattern', op: 'pattern', at: [0, 0, 0], dir: [0, 0, 1], params: { sourceId, kind, ...params } };
 }
+// Simetría de una función (símil "Reflejar/Simetría" de Inventor): replica la
+// geometría de la función origen reflejada respecto a un plano principal que
+// pasa por el origen (XY, YZ o XZ), aplicando su misma operación (unión/corte).
+//   params {sourceId, plane:'XY'|'YZ'|'XZ'}
+export function makeMirrorFeature(sourceId, plane) {
+  return { id: uid('f'), name: `Simetría ${plane}`, shape: 'mirror', op: 'mirror', at: [0, 0, 0], dir: [0, 0, 1], params: { sourceId, plane } };
+}
+// Refleja una geometría respecto a un plano principal por el origen. La
+// reflexión invierte el bobinado de cada triángulo (determinante negativo), así
+// que se intercambian dos vértices por cara y se recalculan las normales para
+// que geomToCSG obtenga la orientación exterior correcta.
+export function mirrorGeometry(geom, plane) {
+  const s = plane === 'YZ' ? [-1, 1, 1] : plane === 'XZ' ? [1, -1, 1] : [1, 1, -1];
+  const g = geom.index ? geom.toNonIndexed() : geom.clone();
+  g.applyMatrix4(new THREE.Matrix4().makeScale(s[0], s[1], s[2]));
+  const arr = g.attributes.position.array;
+  for (let i = 0; i + 8 < arr.length; i += 9) {
+    for (let k = 0; k < 3; k++) { const t = arr[i + 3 + k]; arr[i + 3 + k] = arr[i + 6 + k]; arr[i + 6 + k] = t; }
+  }
+  g.attributes.position.needsUpdate = true;
+  g.deleteAttribute('normal');
+  g.computeVertexNormals();
+  return g;
+}
 
 // Empalme (fillet) y chaflán (chamfer) sobre aristas del sólido ya construido.
 // A diferencia de las demás funciones, operan sobre la malla acumulada: cada
@@ -703,6 +727,20 @@ export function buildPartGeometry(part) {
         const c = geomToCSG(g);
         csg = src.op === 'cut' ? csg.subtract(c) : csg.union(c);
       }
+      continue;
+    }
+    if (f.shape === 'mirror') {
+      // replica la geometría de la función origen reflejada respecto al plano
+      if (csg === null) continue; // sin material base que reflejar/cortar
+      const src = part.features.find(x => x.id === f.params.sourceId);
+      if (!src || src.suppressed) continue;
+      const extent = bbox.isEmpty() ? 100 : bbox.getSize(new THREE.Vector3()).length();
+      const base = featureGeometry(src, extent, false);
+      if (!base) continue;
+      const g = mirrorGeometry(base, f.params.plane);
+      if (src.op === 'union') { g.computeBoundingBox(); bbox.union(g.boundingBox); }
+      const c = geomToCSG(g);
+      csg = src.op === 'cut' ? csg.subtract(c) : csg.union(c);
       continue;
     }
     if (f.op === 'union' || csg !== null) {

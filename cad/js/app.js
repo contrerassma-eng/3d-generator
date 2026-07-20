@@ -10,7 +10,7 @@ import { loadCatalogo, componentToPart, envolvente } from './componentes.js';
 import {
   newDoc, newPart, getPart, getFeature, partMatrix, uid, PALETTE,
   makeBoxFeature, makeCylFeature, makeHoleFeature, makeSketchFeature,
-  makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, makeFilletFeature, makeChamferFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
+  makeSketchEntitiesFeature, makeRevolveFeature, makePatternFeature, makeMirrorFeature, makeFilletFeature, makeChamferFeature, planeBasis, referenceEdges, referencePoints, referencePrimitives, magnetCorrections,
   buildPartGeometry, planarFaceFromHit, faceHighlightGeometry, findAxialFeature, identifyFace, holeToolGeometry,
   makeMate, makeConcentric, solveConstraints,
   evalExpr, resolveParams, applyExpressions,
@@ -749,9 +749,9 @@ function commit(msg) { autosave(); if (msg) setStatus(msg); }
 
 // ---------- Interfaz: árbol ----------
 
-const OP_ICON = { union: '⊕', cut: '⊖', blend: '◜', pattern: '▦', mesh: '◈' };
+const OP_ICON = { union: '⊕', cut: '⊖', blend: '◜', pattern: '▦', mirror: '◫', mesh: '◈' };
 // nombre de icono SVG para cada operación de función del árbol
-const OP_ICON_NAME = { union: 'union', cut: 'cut', blend: 'blend', pattern: 'patrect', mesh: 'mesh' };
+const OP_ICON_NAME = { union: 'union', cut: 'cut', blend: 'blend', pattern: 'patrect', mirror: 'mirror', mesh: 'mesh' };
 const featureIconName = (f) => f.suppressed ? 'pause' : (OP_ICON_NAME[f.op] || 'feature');
 
 let treeFilter = '';
@@ -4332,7 +4332,7 @@ function selectedFeatureForPattern() {
   if (selection?.kind !== 'feature') return null;
   const part = getPart(doc, selection.partId);
   const f = part && getFeature(part, selection.id);
-  if (!f || f.shape === 'pattern') return null;
+  if (!f || f.shape === 'pattern' || f.shape === 'mirror') return null;
   return { part, f };
 }
 
@@ -4380,8 +4380,25 @@ function patternCirc() {
   });
 }
 
+function mirrorFeat() {
+  const sel = selectedFeatureForPattern();
+  if (!sel) { setStatus('Simetría: primero selecciona en el árbol la función a reflejar (agujero, cilindro, boceto…).'); return; }
+  const { part, f } = sel;
+  showForm(`Simetría de "${f.name}"`, [
+    { key: 'plane', label: 'Plano de simetría', type: 'select', value: 'YZ', options: [['YZ', 'YZ (refleja en X)'], ['XZ', 'XZ (refleja en Y)'], ['XY', 'XY (refleja en Z)']] },
+  ], (v) => {
+    pushUndo();
+    const mir = makeMirrorFeature(f.id, v.plane);
+    part.features.push(mir);
+    faceCache.clear();
+    rebuildPart(part);
+    commit(`Simetría ${v.plane} de "${f.name}".`);
+  });
+}
+
 $('btnPatRect').onclick = patternRect;
 $('btnPatCirc').onclick = patternCirc;
+$('btnMirror').onclick = mirrorFeat;
 
 // ---------- Exportar STL ----------
 
