@@ -91,7 +91,9 @@ export const D = {
   //   hueco hacia los rodillos; los retornos bajan a una fila propia clara →
   //   el ramal inferior de retorno queda separado de los tensores.
   idlerDia: 54,                  // tensores 2ª fila (Ø menor → más gap con los rodillos)
-  idlerPos: [[-208.5, 60], [-69.5, 60], [208.5, 60]],  // fila media; 4º hueco = tambor
+  // fila media BAJADA a z=42 → crece la luz con los rodillos (gap F1–F2 38→56)
+  // y quedan las 3 filas repartidas (F1 156 · F2 42 · F3 -12).
+  idlerPos: [[-208.5, 42], [-69.5, 42], [208.5, 42]],  // fila media; 4º hueco = tambor
   retDia: 44,                    // poleas de retorno Ø44 (Habasit: Ø mín de polea
   // fila 3 BAJA a z=-12 (−50 respecto a 38) y JUNTA al centro (Y ±282, −30):
   // el ramal de retorno cuelga en el rebaje/abertura del anfitrión → un tramo
