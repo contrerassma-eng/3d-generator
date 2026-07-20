@@ -3,7 +3,7 @@ import {
   makeLine, makeCircle, makeArc, entityPoints, intersectEntities,
   trimEntity, extendLine, chainLoops, makeDim, measureDim, applyDim,
   fitStroke, dist, snapPoints, tangentPoints, regions, loopKey,
-  moveEntity, applyLockedDims, makeArcCSE, regularPolygon, rectCenter, rect3pt, offsetEntity, filletLines,
+  moveEntity, applyLockedDims, makeArcCSE, regularPolygon, rectCenter, rect3pt, patternLinear, patternCircular, offsetEntity, filletLines,
   entityInRect, copyEntities, mirrorEntities,
   makeConstraint, solveSketch, constraintResidual, slotEntities,
 } from '../js/sketch2d.js';
@@ -419,6 +419,27 @@ console.log('— Rectángulo por centro y por 3 puntos —');
   const ro = rect3pt([0, 0], [10, 10], [ -3, 3 ]);
   check('rect3pt orientado: lados perpendiculares', Math.abs(dot(seg(ro[0]), seg(ro[1]))) < 1e-6);
   check('rect3pt degenerado (altura 0) → vacío', rect3pt([0, 0], [10, 0], [5, 0]).length === 0);
+}
+
+console.log('— Patrón de boceto (rectangular y circular) —');
+{
+  const c0 = makeCircle([0, 0], 2);
+  // rectangular 3×2 de un círculo → 5 copias extra
+  const lin = patternLinear([c0], 3, 2, 10, 8);
+  check('patternLinear 3×2 → 5 copias', lin.length === 5);
+  const centers = lin.map(e => e.c);
+  check('patternLinear coloca copia en (20,8)', centers.some(c => Math.abs(c[0] - 20) < 1e-9 && Math.abs(c[1] - 8) < 1e-9));
+  check('patternLinear no repite el original (0,0)', !centers.some(c => Math.abs(c[0]) < 1e-9 && Math.abs(c[1]) < 1e-9));
+
+  // circular: círculo en (10,0), 4 ocurrencias a 360° → 3 copias a 90/180/270°
+  const cc = makeCircle([10, 0], 2);
+  const cir = patternCircular([cc], 4, [0, 0], 360);
+  check('patternCircular n=4 (360°) → 3 copias', cir.length === 3);
+  const at90 = cir.some(e => Math.abs(e.c[0]) < 1e-6 && Math.abs(e.c[1] - 10) < 1e-6);
+  const at180 = cir.some(e => Math.abs(e.c[0] + 10) < 1e-6 && Math.abs(e.c[1]) < 1e-6);
+  check('patternCircular copia a 90° en (0,10)', at90);
+  check('patternCircular copia a 180° en (-10,0)', at180);
+  check('patternCircular conserva el radio', cir.every(e => Math.abs(e.r - 2) < 1e-9));
 }
 
 console.log(`\nRESULTADO: ${pass} pasan, ${fail} fallan`);
