@@ -34,8 +34,8 @@ const IN = 25.4;
 const D = {
   mod: 24 * IN,                 // 609.6 — largo y ancho del módulo (norma CV-OMW)
   tang: 170,                    // plano de transporte (marco del módulo)
-  R1: 35,  W1: 50,              // rueda omni Ø70 (snapshot) — ejes A (avance)
-  R2: 60,  W2: 62,              // rueda omni Ø120 (derivada) — ejes B (eyección)
+  R1: 35,  W1: 38,              // rueda omni Ø70 (refinada s/ referencias web) — ejes A
+  R2: 60,  W2: 46,              // rueda omni Ø120 (derivada) — ejes B (eyección)
   ejeDia: 15,                   // ejes calibrados Ø15 h6, chaveta 5×5 (ambas familias)
   luzMin: 5,                    // luz mínima admisible en cualquier cruce
   pitch: 6 * IN,                // 152.4 — paso de la retícula de contactos
@@ -204,7 +204,7 @@ function placeMesh(nombre, compId, pos, quat = [0, 0, 0, 1], color = '#37474f') 
   });
 }
 
-const C = { placa: '#212121', fondo: '#263238', tapa: '#1a1d21', eje: '#b0bec5', chum: '#455a64', sep: '#546e7a', motor: '#37474f', correa: '#111111', foto: '#c62828', rodillo: '#1e63c0', plato: '#e8720c', cubo: '#8a939b', pin: '#cfd8dc' };
+const C = { placa: '#212121', fondo: '#263238', tapa: '#1a1d21', eje: '#b0bec5', chum: '#455a64', sep: '#546e7a', motor: '#37474f', correa: '#111111', foto: '#c62828', rodillo: '#1e63c0', plato: '#b9c2c9', cubo: '#6d777f', pin: '#dfe5ea' };
 const H = D.mod / 2;
 
 // ---- RUEDA OMNI TORNEADA (revoluciones de boceto: superficie continua) ----
@@ -213,48 +213,82 @@ const H = D.mod / 2;
 let nsk = 0;
 const mkLine = (a, b) => ({ id: `sk${++nsk}`, type: 'line', a, b });
 const mkArc = (c, r, a0, a1) => ({ id: `sk${++nsk}`, type: 'arc', c, r, a0, a1 });
+const mkCircle = (c, r) => ({ id: `sk${++nsk}`, type: 'circle', c, r });
 const revolve = (name, at, dir, u, entities, color) =>
   ({ id: fid(), name, shape: 'revolve', op: 'union', at, dir, params: { entities, dims: [], axis: { a: [0, 0], b: [1, 0] }, u, angle: 360 }, color });
 // contorno cerrado por puntos (líneas)
 const poly = (pts) => pts.map((p, i) => mkLine(p, pts[(i + 1) % pts.length]));
 
+// Referencias de construcción real (ver docs/OMNIWHEEL_MODULO.md § Referencias):
+// Nexus 14073 (Ø127 doble aluminio): 22 rodillos (11/corona) Ø19 de goma con
+// rodamiento, 2 placas de aluminio, ancho total 29 — MUCHOS rodillos DELGADOS
+// y rueda ANGOSTA. Rotacaster: cuerpo araña (web-like), no discos llenos.
+// → coronas de 8/12 rodillos finos, placas exteriores FESTONEADAS de aluminio
+//   con pernos pasantes entre rodillos, y ancho total 38/46.
 function ruedaTorneada(nombre, biblioteca, pos, quat, P) {
-  // P: {R, rrod, nrod, Lrod, rHub, rPlato, half, ePlato, wMid, chaflan}
+  // P: {R, rrod, nrod, Lrod, rHub, rPlato, ePlato, wMid, chaflan}
   const rc = P.R - P.rrod;
+  const half = P.wMid / 2 + 2 * P.rrod + P.ePlato;   // semiancho total
   const fe = [];
-  // cubo torneado con chaflanes en los extremos (perfil axial × radial)
   const ch = P.chaflan;
+  // cubo torneado + disco central (perfil de revolución con chaflanes)
   fe.push(revolve(`Cubo torneado Ø${2 * P.rHub}`, [0, 0, P.R], [0, 1, 0], [1, 0, 0],
-    poly([[-P.half, 8], [P.half, 8], [P.half, P.rHub - ch], [P.half - ch, P.rHub], [-P.half + ch, P.rHub], [-P.half, P.rHub - ch]]), C.cubo));
-  // tres platos (araña central + 2 exteriores) con bisel superior — un solo
-  // revolve con tres regiones cerradas
-  const plato = (x0, x1) => poly([[x0, P.rHub], [x1, P.rHub], [x1, P.rPlato - ch], [x1 - ch, P.rPlato], [x0 + ch, P.rPlato], [x0, P.rPlato - ch]]);
-  fe.push(revolve(`Platos torneados Ø${2 * P.rPlato}`, [0, 0, P.R], [0, 1, 0], [1, 0, 0],
-    [...plato(-P.half, -P.half + P.ePlato), ...plato(-P.wMid / 2, P.wMid / 2), ...plato(P.half - P.ePlato, P.half)], C.plato));
-  // rodillos: barril de arco exacto + pasador
-  const xRow = P.wMid / 2 + (P.half - P.wMid / 2 - P.ePlato) / 2;   // centro axial de cada corona
+    poly([[-half, 8], [half, 8], [half, P.rHub - ch], [half - ch, P.rHub], [-half + ch, P.rHub], [-half, P.rHub - ch]]), C.cubo));
+  fe.push(revolve(`Disco central Ø${2 * P.rPlato}`, [0, 0, P.R], [0, 1, 0], [1, 0, 0],
+    poly([[-P.wMid / 2, P.rHub], [P.wMid / 2, P.rHub], [P.wMid / 2, P.rPlato - ch], [P.wMid / 2 - ch, P.rPlato], [-P.wMid / 2 + ch, P.rPlato], [-P.wMid / 2, P.rPlato - ch]]), C.plato));
+  // barril: arco exacto de la envolvente
   const hL = P.Lrod / 2;
-  const yE = Math.sqrt(P.R ** 2 - hL ** 2) - rc;                     // radio del barril en el extremo
-  const a0 = Math.acos(hL / P.R), a1 = Math.PI - a0;                 // arco CCW derecha→izquierda
+  const yE = Math.sqrt(P.R ** 2 - hL ** 2) - rc;
+  const aR = Math.acos(hL / P.R);
   const paso = 360 / P.nrod;
+  const rowOff = { '-1': 0, 1: paso / 2 };
+  // placas exteriores FESTONEADAS (boceto extruido): valles en los ángulos de
+  // los rodillos de SU corona (el barril asoma por la escotadura) y lóbulos
+  // entre rodillos con perno pasante
+  const rv = yE + 1.2;                                // radio de la escotadura
+  const gam = Math.acos((rc ** 2 + P.rPlato ** 2 - rv ** 2) / (2 * rc * P.rPlato)); // semiapertura del valle
+  for (const s of [-1, 1]) {
+    const ents = [];
+    for (let k = 0; k < P.nrod; k++) {
+      const tv = (rowOff[s] + k * paso) * Math.PI / 180;            // ángulo del valle
+      const tn = (rowOff[s] + (k + 1) * paso) * Math.PI / 180;      // valle siguiente
+      const vk = [rc * Math.cos(tv), rc * Math.sin(tv)];
+      const A = [P.rPlato * Math.cos(tv - gam), P.rPlato * Math.sin(tv - gam)];
+      const B = [P.rPlato * Math.cos(tv + gam), P.rPlato * Math.sin(tv + gam)];
+      let a = Math.atan2(A[1] - vk[1], A[0] - vk[0]), b = Math.atan2(B[1] - vk[1], B[0] - vk[0]);
+      if (((b - a) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) > Math.PI) [a, b] = [b, a];
+      ents.push(mkArc(vk, rv, a, b));                               // escotadura del rodillo
+      ents.push(mkArc([0, 0], P.rPlato, tv + gam, tn - gam));       // lóbulo entre rodillos
+    }
+    ents.push(mkCircle([0, 0], P.rHub + 0.5));                      // agujero central (anillo)
+    const x0 = s < 0 ? -half : half - P.ePlato;
+    fe.push({ id: fid(), name: `Placa festoneada Ø${2 * P.rPlato}`, shape: 'sketch', op: 'union', at: [x0, 0, P.R], dir: [1, 0, 0], params: { entities: ents, dims: [], h: P.ePlato, side: 'pos', u: [0, 1, 0] }, color: C.plato });
+    // pernos pasantes en los lóbulos (referencia: placas apernadas entre rodillos)
+    for (let k = 0; k < P.nrod; k++) {
+      const fm = (rowOff[s] + (k + 0.5) * paso) * Math.PI / 180;
+      fe.push(cyl('Perno M4', [s * half, (rc - 1) * Math.sin(fm), P.R + (rc - 1) * Math.cos(fm)], [s, 0, 0], 6, 2.5, C.pin));
+    }
+  }
+  // rodillos finos abombados + pasadores
   for (const [s, off] of [[-1, 0], [1, paso / 2]]) {
+    const xRow = s * (P.wMid / 2 + P.rrod);
     for (let k = 0; k < P.nrod; k++) {
       const ph = (off + k * paso) * Math.PI / 180;
-      const cRod = [s * xRow, rc * Math.sin(ph), P.R + rc * Math.cos(ph)];
-      const tHat = [0, Math.cos(ph), -Math.sin(ph)];                 // eje del rodillo (tangente)
+      const cRod = [xRow, rc * Math.sin(ph), P.R + rc * Math.cos(ph)];
+      const tHat = [0, Math.cos(ph), -Math.sin(ph)];
       const ents = [
-        mkLine([-hL, 1.6], [hL, 1.6]), mkLine([hL, 1.6], [hL, yE]),
-        mkArc([0, -rc], P.R, a0, a1), mkLine([-hL, yE], [-hL, 1.6]),
+        mkLine([-hL, 1.4], [hL, 1.4]), mkLine([hL, 1.4], [hL, yE]),
+        mkArc([0, -rc], P.R, aR, Math.PI - aR), mkLine([-hL, yE], [-hL, 1.4]),
       ];
       fe.push(revolve(`Rodillo barril Ø${2 * P.rrod}`, cRod, [1, 0, 0], tHat, ents, C.rodillo));
-      const Lp = P.Lrod + 8;
-      fe.push(cyl('Pasador Ø5', [cRod[0], cRod[1] - tHat[1] * Lp / 2, cRod[2] - tHat[2] * Lp / 2], tHat, 5, Lp, C.pin));
+      const Lp = P.Lrod + 6;
+      fe.push(cyl('Pasador Ø4', [cRod[0], cRod[1] - tHat[1] * Lp / 2, cRod[2] - tHat[2] * Lp / 2], tHat, 4, Lp, C.pin));
     }
   }
   parts.push({ id: `op${++np}_rt`, name: nombre, biblioteca, componente: biblioteca, color: C.rodillo, pos, quat, fixed: false, visible: true, base_ref: true, features: fe });
 }
-const RT70 = { R: 35, rrod: 10, nrod: 6, Lrod: 18, rHub: 17, rPlato: 27.5, half: 25, ePlato: 3, wMid: 4, chaflan: 1.5 };
-const RT120 = { R: 60, rrod: 13, nrod: 8, Lrod: 28, rHub: 24, rPlato: 47, half: 31, ePlato: 3, wMid: 4, chaflan: 2 };
+const RT70 = { R: 35, rrod: 7, nrod: 8, Lrod: 16, rHub: 15, rPlato: 27.5, ePlato: 3, wMid: 4, chaflan: 1.2 };
+const RT120 = { R: 60, rrod: 9, nrod: 12, Lrod: 22, rHub: 22, rPlato: 47, ePlato: 3, wMid: 4, chaflan: 1.5 };
 
 // bastidor: bandeja (con RANURAS de paso de correa por estación) + 4 placas
 // perimetrales (con pasadas Ø16 de los ejes) + TAPA portante con aberturas

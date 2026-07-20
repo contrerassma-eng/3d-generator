@@ -25,8 +25,8 @@ calibre antes de fabricar.
 | Rodillo (barril) | Ø20 máx × 18 | medido Ø / largo derivado |
 | Radio de centros de rodillos | rc = 25 | derivado: rc = R − r_rodillo |
 | **Rodadura** | **Ø70** (R35 = 25 + 10) | derivado |
-| Rodillos por corona | 6 × 2 coronas, desfase 30° | foto + arco 2π·25/6 = 26.2 > 18 |
-| Ancho total | 50 | 3 + 20 + 4 + 20 + 3 |
+| Rodillos por corona | 8 × 2 coronas, desfase 22.5° (refinado s/ referencias web) | Nexus 14073 |
+| Ancho total | 38 (refinado; ancho/Ø = 0.54) | referencias web |
 | Pasador de rodillo | Ø3 + rodamiento 719/3-2Z, remaches 3×6 | archivos del snapshot |
 | Bore | Ø15 (adaptado al módulo; el original es hobby) | diseño |
 
@@ -51,9 +51,31 @@ luz real en el cruce = 25 − 7.5 − 7.5 = 10 mm
 | Cota | rueda_omni_120_doble |
 |---|---|
 | Rodadura | Ø120 (R60), centro 25 mm más bajo que la Ø70 |
-| Rodillos | 2 coronas × 8, Ø26 máx × 28, desfase 22.5°, rc = 47 |
-| Platos | Ø94 (envolvente mínima entre coronas 60·cos 22.5° = 55.4 > 47) |
-| Ancho | 62 · bore Ø15, chaveta 5×5 (misma que la Ø70) |
+| Rodillos | 2 coronas × 12, Ø18 máx × 22, desfase 15°, rc = 51 |
+| Placas | Ø94 de aluminio, festoneadas en el ensamble |
+| Ancho | 46 · bore Ø15, chaveta 5×5 (misma que la Ø70) |
+
+## Referencias web del diseño (consultadas 2026-07-20)
+
+El proporcionado de las ruedas se refinó contra omniwheels comerciales:
+
+- **Nexus 14073** — Ø127 doble de aluminio: *"22 rollers Ø19 de goma con
+  rodamiento, 2 placas de aluminio, ancho 29 mm, 480 g, 30 kg"* →
+  [nexusrobot.com](http://www.nexusrobot.com/product/5inch127mm-double-aluminum-omni-wheel-wbearing-rollers-14073.html).
+  Regla adoptada: **muchos rodillos delgados** (11/corona en Ø127) y **rueda
+  angosta** (ancho ≈ 0.23·Ø).
+- **Rotacaster** — cuerpo araña inyectado con ejes de rodillo integrados,
+  rodillos de PU sobremoldeados, dobles/triples soldadas sónicamente →
+  [rotacaster.com.au](https://www.rotacaster.com.au/),
+  [materialshandling.com.au](https://www.materialshandling.com.au/products/rotacaster-omnidirectional-wheels/).
+  Regla adoptada: **placas festoneadas** (el rodillo asoma por la escotadura),
+  no discos llenos.
+
+Aplicado: Ø70 pasa de 2×6 rodillos Ø20 (ancho 50) a **2×8 rodillos Ø14
+(ancho 38)**; Ø120 de 2×8 Ø26 (ancho 62) a **2×12 Ø18 (ancho 46)**; placas
+exteriores de **aluminio festoneadas** con pernos pasantes entre rodillos
+(boceto extruido con escotaduras de arco) y agujero central. Las cotas del
+snapshot que eran medidas (platos Ø55, rodadura Ø70) se conservan.
 
 ## El módulo (24"×24", tangente Z=170)
 

@@ -3764,12 +3764,12 @@
   },
   {
    "id": "rueda_omni_70_doble",
-   "nombre": "Rueda omni doble corona O70 x 50 (2x6 rodillos abombados O20, platos O55)",
+   "nombre": "Rueda omni doble corona O70 x 38 (2x8 rodillos abombados O14, placas O55)",
    "categoria": "mecanico",
-   "descripcion": "Rueda omnidireccional de doble corona para modulo desviador CV-OMW: rodadura O70 (R35), 2 coronas de 6 rodillos ABOMBADOS O20 max x 18 (3 escalones 20/18.8 siguiendo la envolvente circular r(t)=sqrt(35^2-t^2)-25) desfasadas 30 grados, radio de centros 25, pasadores O5, platos O55, cubo pasante bore O15 (chaveta 5x5). Eje de giro en X; apoyada tangente sobre Z=0.",
+   "descripcion": "Rueda omnidireccional de doble corona para modulo desviador CV-OMW, REFINADA segun referencias de omniwheels comerciales (muchos rodillos delgados, rueda angosta, placas festoneadas): rodadura O70 (R35), 2 coronas de 8 rodillos ABOMBADOS O14 max x 16 desfasadas 22.5 grados (rc=28, envolvente circular), pasadores O4, placas de aluminio O55 (medidas del snapshot; festoneadas en el ensamble), cubo bore O15 chaveta 5x5. Eje de giro en X; tangente sobre Z=0.",
    "fuente": {
     "tipo": "diseno",
-    "detalle": "snapshot Inventor del usuario (omniwheel10.snapshot.1.zip). Medido del cache OGS: platos O55.0 exactos y rodillo barril O20.0; rodadura O70 derivada (rc=25). El abombado real es un perfil torneado continuo; aqui 3 escalones por rodillo (error radial < 0.6 mm). El original monta pin O3 + rodamiento 719/3-2Z; se representa pasador O5 y bore O15 de modulo."
+    "detalle": "snapshot Inventor del usuario (omniwheel10: platos O55.0 medidos del cache OGS, rodadura O70 derivada) + Referencias web (2026-07-20): Nexus 14073 O127 doble aluminio - 22 rodillos (11/corona) O19 de goma con rodamiento, 2 placas de aluminio, ancho 29, 480 g, 30 kg (nexusrobot.com/product/5inch127mm-double-aluminum-omni-wheel-wbearing-rollers-14073.html); Rotacaster: cuerpo arana moldeado con ejes integrados, rodillos PU sobremoldeados, dobles/triples soldadas sonicamente (rotacaster.com.au, materialshandling.com.au)."
    },
    "confianza": "verificar",
    "solidos": [
@@ -3777,7 +3777,7 @@
      "tipo": "cilindro",
      "nombre": "Cubo pasante (bore O15, chaveta 5x5)",
      "at": [
-      -25.0,
+      -19.0,
       0,
       35
      ],
@@ -3786,13 +3786,13 @@
       0,
       0
      ],
-     "dia": 31,
-     "alto": 50.0,
-     "color": "#78909c"
+     "dia": 29,
+     "alto": 38.0,
+     "color": "#6d777f"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Plato central O55",
+     "nombre": "Disco central O55",
      "at": [
       -2.0,
       0,
@@ -3805,13 +3805,13 @@
      ],
      "dia": 55,
      "alto": 4,
-     "color": "#ef6c00"
+     "color": "#b9c2c9"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Plato exterior O55 lado -X",
+     "nombre": "Placa exterior O55 lado -X (festoneada en el ensamble)",
      "at": [
-      -25.0,
+      -19.0,
       0,
       35
      ],
@@ -3822,13 +3822,13 @@
      ],
      "dia": 55,
      "alto": 3,
-     "color": "#ef6c00"
+     "color": "#b9c2c9"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Plato exterior O55 lado +X",
+     "nombre": "Placa exterior O55 lado +X (festoneada en el ensamble)",
      "at": [
-      22.0,
+      16.0,
       0,
       35
      ],
@@ -3839,823 +3839,1095 @@
      ],
      "dia": 55,
      "alto": 3,
-     "color": "#ef6c00"
+     "color": "#b9c2c9"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A1 O20 (escalon t=0)",
+     "nombre": "Rodillo A1 O14 (escalon t=0)",
      "at": [
-      -12.0,
-      -4.0,
-      60.0
-     ],
-     "eje": [
-      0,
-      1.0,
-      -0.0
-     ],
-     "dia": 20,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo A1 O18.8 (escalon t=-6.5)",
-     "at": [
-      -12.0,
       -9.0,
-      60.0
+      -3.0,
+      63.0
      ],
      "eje": [
       0,
       1.0,
       -0.0
      ],
-     "dia": 18.8,
-     "alto": 5,
-     "color": "#1976d2"
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A1 O18.8 (escalon t=6.5)",
+     "nombre": "Rodillo A1 O13.1 (escalon t=-5.5)",
      "at": [
-      -12.0,
-      4.0,
-      60.0
+      -9.0,
+      -8.0,
+      63.0
      ],
      "eje": [
       0,
       1.0,
       -0.0
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador A1 O5",
+     "nombre": "Rodillo A1 O13.1 (escalon t=5.5)",
      "at": [
-      -12.0,
-      -13.0,
-      60.0
+      -9.0,
+      3.0,
+      63.0
      ],
      "eje": [
       0,
       1.0,
       -0.0
      ],
-     "dia": 5,
-     "alto": 26,
-     "color": "#b0bec5"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo A2 O20 (escalon t=0)",
-     "at": [
-      -12.0,
-      19.651,
-      50.964
-     ],
-     "eje": [
-      0,
-      0.5,
-      -0.866025
-     ],
-     "dia": 20,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo A2 O18.8 (escalon t=-6.5)",
-     "at": [
-      -12.0,
-      17.151,
-      55.294
-     ],
-     "eje": [
-      0,
-      0.5,
-      -0.866025
-     ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A2 O18.8 (escalon t=6.5)",
+     "nombre": "Pasador A1 O4",
      "at": [
-      -12.0,
-      23.651,
-      44.036
+      -9.0,
+      -11.0,
+      63.0
      ],
      "eje": [
       0,
-      0.5,
-      -0.866025
+      1.0,
+      -0.0
      ],
-     "dia": 18.8,
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A2 O14 (escalon t=0)",
+     "at": [
+      -9.0,
+      17.678,
+      56.92
+     ],
+     "eje": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A2 O13.1 (escalon t=-5.5)",
+     "at": [
+      -9.0,
+      14.142,
+      60.456
+     ],
+     "eje": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador A2 O5",
+     "nombre": "Rodillo A2 O13.1 (escalon t=5.5)",
      "at": [
-      -12.0,
-      15.151,
-      58.758
+      -9.0,
+      21.92,
+      52.678
      ],
      "eje": [
       0,
-      0.5,
-      -0.866025
+      0.707107,
+      -0.707107
      ],
-     "dia": 5,
-     "alto": 26,
-     "color": "#b0bec5"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo A3 O20 (escalon t=0)",
-     "at": [
-      -12.0,
-      23.651,
-      25.964
-     ],
-     "eje": [
-      0,
-      -0.5,
-      -0.866025
-     ],
-     "dia": 20,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo A3 O18.8 (escalon t=-6.5)",
-     "at": [
-      -12.0,
-      26.151,
-      30.294
-     ],
-     "eje": [
-      0,
-      -0.5,
-      -0.866025
-     ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A3 O18.8 (escalon t=6.5)",
+     "nombre": "Pasador A2 O4",
      "at": [
-      -12.0,
-      19.651,
-      19.036
+      -9.0,
+      12.021,
+      62.577
      ],
      "eje": [
       0,
-      -0.5,
-      -0.866025
+      0.707107,
+      -0.707107
      ],
-     "dia": 18.8,
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A3 O14 (escalon t=0)",
+     "at": [
+      -9.0,
+      28.0,
+      38.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A3 O13.1 (escalon t=-5.5)",
+     "at": [
+      -9.0,
+      28.0,
+      43.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador A3 O5",
+     "nombre": "Rodillo A3 O13.1 (escalon t=5.5)",
      "at": [
-      -12.0,
-      28.151,
-      33.758
+      -9.0,
+      28.0,
+      32.0
      ],
      "eje": [
       0,
-      -0.5,
-      -0.866025
+      0.0,
+      -1.0
      ],
-     "dia": 5,
-     "alto": 26,
-     "color": "#b0bec5"
+     "dia": 13.1,
+     "alto": 5,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A4 O20 (escalon t=0)",
+     "nombre": "Pasador A3 O4",
      "at": [
-      -12.0,
-      4.0,
-      10.0
+      -9.0,
+      28.0,
+      46.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A4 O14 (escalon t=0)",
+     "at": [
+      -9.0,
+      21.92,
+      17.322
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A4 O13.1 (escalon t=-5.5)",
+     "at": [
+      -9.0,
+      25.456,
+      20.858
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 13.1,
+     "alto": 5,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A4 O13.1 (escalon t=5.5)",
+     "at": [
+      -9.0,
+      17.678,
+      13.08
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 13.1,
+     "alto": 5,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A4 O4",
+     "at": [
+      -9.0,
+      27.577,
+      22.979
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A5 O14 (escalon t=0)",
+     "at": [
+      -9.0,
+      3.0,
+      7.0
      ],
      "eje": [
       0,
       -1.0,
       -0.0
      ],
-     "dia": 20,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A4 O18.8 (escalon t=-6.5)",
+     "nombre": "Rodillo A5 O13.1 (escalon t=-5.5)",
      "at": [
-      -12.0,
+      -9.0,
+      8.0,
+      7.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 13.1,
+     "alto": 5,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A5 O13.1 (escalon t=5.5)",
+     "at": [
+      -9.0,
+      -3.0,
+      7.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 13.1,
+     "alto": 5,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A5 O4",
+     "at": [
+      -9.0,
+      11.0,
+      7.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A6 O14 (escalon t=0)",
+     "at": [
+      -9.0,
+      -17.678,
+      13.08
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A6 O13.1 (escalon t=-5.5)",
+     "at": [
+      -9.0,
+      -14.142,
+      9.544
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 13.1,
+     "alto": 5,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A6 O13.1 (escalon t=5.5)",
+     "at": [
+      -9.0,
+      -21.92,
+      17.322
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 13.1,
+     "alto": 5,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A6 O4",
+     "at": [
+      -9.0,
+      -12.021,
+      7.423
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A7 O14 (escalon t=0)",
+     "at": [
+      -9.0,
+      -28.0,
+      32.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A7 O13.1 (escalon t=-5.5)",
+     "at": [
+      -9.0,
+      -28.0,
+      27.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 13.1,
+     "alto": 5,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A7 O13.1 (escalon t=5.5)",
+     "at": [
+      -9.0,
+      -28.0,
+      38.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 13.1,
+     "alto": 5,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A7 O4",
+     "at": [
+      -9.0,
+      -28.0,
+      24.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A8 O14 (escalon t=0)",
+     "at": [
+      -9.0,
+      -21.92,
+      52.678
+     ],
+     "eje": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A8 O13.1 (escalon t=-5.5)",
+     "at": [
+      -9.0,
+      -25.456,
+      49.142
+     ],
+     "eje": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "dia": 13.1,
+     "alto": 5,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A8 O13.1 (escalon t=5.5)",
+     "at": [
+      -9.0,
+      -17.678,
+      56.92
+     ],
+     "eje": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "dia": 13.1,
+     "alto": 5,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A8 O4",
+     "at": [
+      -9.0,
+      -27.577,
+      47.021
+     ],
+     "eje": [
+      0,
+      0.707107,
+      0.707107
+     ],
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B1 O14 (escalon t=0)",
+     "at": [
       9.0,
-      10.0
+      7.943,
+      62.017
      ],
      "eje": [
       0,
-      -1.0,
-      -0.0
+      0.92388,
+      -0.382683
      ],
-     "dia": 18.8,
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B1 O13.1 (escalon t=-5.5)",
+     "at": [
+      9.0,
+      3.324,
+      63.93
+     ],
+     "eje": [
+      0,
+      0.92388,
+      -0.382683
+     ],
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A4 O18.8 (escalon t=6.5)",
+     "nombre": "Rodillo B1 O13.1 (escalon t=5.5)",
      "at": [
-      -12.0,
-      -4.0,
-      10.0
+      9.0,
+      13.487,
+      59.721
      ],
      "eje": [
       0,
-      -1.0,
-      -0.0
+      0.92388,
+      -0.382683
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador A4 O5",
+     "nombre": "Pasador B1 O4",
      "at": [
-      -12.0,
-      13.0,
-      10.0
+      9.0,
+      0.552,
+      65.078
      ],
      "eje": [
       0,
-      -1.0,
-      -0.0
+      0.92388,
+      -0.382683
      ],
-     "dia": 5,
-     "alto": 26,
-     "color": "#b0bec5"
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A5 O20 (escalon t=0)",
+     "nombre": "Rodillo B2 O14 (escalon t=0)",
      "at": [
-      -12.0,
-      -19.651,
-      19.036
+      9.0,
+      24.721,
+      48.487
      ],
      "eje": [
       0,
-      -0.5,
-      0.866025
+      0.382683,
+      -0.92388
      ],
-     "dia": 20,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A5 O18.8 (escalon t=-6.5)",
+     "nombre": "Rodillo B2 O13.1 (escalon t=-5.5)",
      "at": [
-      -12.0,
-      -17.151,
-      14.706
+      9.0,
+      22.807,
+      53.106
      ],
      "eje": [
       0,
-      -0.5,
-      0.866025
+      0.382683,
+      -0.92388
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A5 O18.8 (escalon t=6.5)",
+     "nombre": "Rodillo B2 O13.1 (escalon t=5.5)",
      "at": [
-      -12.0,
-      -23.651,
-      25.964
+      9.0,
+      27.017,
+      42.943
      ],
      "eje": [
       0,
-      -0.5,
-      0.866025
+      0.382683,
+      -0.92388
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador A5 O5",
+     "nombre": "Pasador B2 O4",
      "at": [
-      -12.0,
-      -15.151,
-      11.242
+      9.0,
+      21.659,
+      55.878
      ],
      "eje": [
       0,
-      -0.5,
-      0.866025
+      0.382683,
+      -0.92388
      ],
-     "dia": 5,
-     "alto": 26,
-     "color": "#b0bec5"
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A6 O20 (escalon t=0)",
+     "nombre": "Rodillo B3 O14 (escalon t=0)",
      "at": [
-      -12.0,
-      -23.651,
-      44.036
+      9.0,
+      27.017,
+      27.057
      ],
      "eje": [
       0,
-      0.5,
-      0.866025
+      -0.382683,
+      -0.92388
      ],
-     "dia": 20,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A6 O18.8 (escalon t=-6.5)",
+     "nombre": "Rodillo B3 O13.1 (escalon t=-5.5)",
      "at": [
-      -12.0,
-      -26.151,
-      39.706
+      9.0,
+      28.93,
+      31.676
      ],
      "eje": [
       0,
-      0.5,
-      0.866025
+      -0.382683,
+      -0.92388
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A6 O18.8 (escalon t=6.5)",
+     "nombre": "Rodillo B3 O13.1 (escalon t=5.5)",
      "at": [
-      -12.0,
-      -19.651,
-      50.964
+      9.0,
+      24.721,
+      21.513
      ],
      "eje": [
       0,
-      0.5,
-      0.866025
+      -0.382683,
+      -0.92388
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador A6 O5",
+     "nombre": "Pasador B3 O4",
      "at": [
-      -12.0,
-      -28.151,
-      36.242
+      9.0,
+      30.078,
+      34.448
      ],
      "eje": [
       0,
-      0.5,
-      0.866025
+      -0.382683,
+      -0.92388
      ],
-     "dia": 5,
-     "alto": 26,
-     "color": "#b0bec5"
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B1 O20 (escalon t=0)",
+     "nombre": "Rodillo B4 O14 (escalon t=0)",
      "at": [
-      12.0,
-      9.036,
-      58.651
+      9.0,
+      13.487,
+      10.279
      ],
      "eje": [
       0,
-      0.866025,
-      -0.5
+      -0.92388,
+      -0.382683
      ],
-     "dia": 20,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B1 O18.8 (escalon t=-6.5)",
+     "nombre": "Rodillo B4 O13.1 (escalon t=-5.5)",
      "at": [
-      12.0,
-      4.706,
-      61.151
+      9.0,
+      18.106,
+      12.193
      ],
      "eje": [
       0,
-      0.866025,
-      -0.5
+      -0.92388,
+      -0.382683
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B1 O18.8 (escalon t=6.5)",
+     "nombre": "Rodillo B4 O13.1 (escalon t=5.5)",
      "at": [
-      12.0,
-      15.964,
-      54.651
+      9.0,
+      7.943,
+      7.983
      ],
      "eje": [
       0,
-      0.866025,
-      -0.5
+      -0.92388,
+      -0.382683
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador B1 O5",
+     "nombre": "Pasador B4 O4",
      "at": [
-      12.0,
-      1.242,
-      63.151
+      9.0,
+      20.878,
+      13.341
      ],
      "eje": [
       0,
-      0.866025,
-      -0.5
+      -0.92388,
+      -0.382683
      ],
-     "dia": 5,
-     "alto": 26,
-     "color": "#b0bec5"
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B2 O20 (escalon t=0)",
+     "nombre": "Rodillo B5 O14 (escalon t=0)",
      "at": [
-      12.0,
-      25.0,
-      39.0
+      9.0,
+      -7.943,
+      7.983
      ],
      "eje": [
       0,
-      0.0,
-      -1.0
+      -0.92388,
+      0.382683
      ],
-     "dia": 20,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B2 O18.8 (escalon t=-6.5)",
+     "nombre": "Rodillo B5 O13.1 (escalon t=-5.5)",
      "at": [
-      12.0,
-      25.0,
-      44.0
+      9.0,
+      -3.324,
+      6.07
      ],
      "eje": [
       0,
-      0.0,
-      -1.0
+      -0.92388,
+      0.382683
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B2 O18.8 (escalon t=6.5)",
+     "nombre": "Rodillo B5 O13.1 (escalon t=5.5)",
      "at": [
-      12.0,
-      25.0,
-      31.0
+      9.0,
+      -13.487,
+      10.279
      ],
      "eje": [
       0,
-      0.0,
-      -1.0
+      -0.92388,
+      0.382683
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador B2 O5",
+     "nombre": "Pasador B5 O4",
      "at": [
-      12.0,
-      25.0,
-      48.0
+      9.0,
+      -0.552,
+      4.922
      ],
      "eje": [
       0,
-      0.0,
-      -1.0
+      -0.92388,
+      0.382683
      ],
-     "dia": 5,
-     "alto": 26,
-     "color": "#b0bec5"
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B3 O20 (escalon t=0)",
+     "nombre": "Rodillo B6 O14 (escalon t=0)",
      "at": [
-      12.0,
-      15.964,
-      15.349
+      9.0,
+      -24.721,
+      21.513
      ],
      "eje": [
       0,
-      -0.866025,
-      -0.5
+      -0.382683,
+      0.92388
      ],
-     "dia": 20,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B3 O18.8 (escalon t=-6.5)",
+     "nombre": "Rodillo B6 O13.1 (escalon t=-5.5)",
      "at": [
-      12.0,
-      20.294,
-      17.849
+      9.0,
+      -22.807,
+      16.894
      ],
      "eje": [
       0,
-      -0.866025,
-      -0.5
+      -0.382683,
+      0.92388
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B3 O18.8 (escalon t=6.5)",
+     "nombre": "Rodillo B6 O13.1 (escalon t=5.5)",
      "at": [
-      12.0,
-      9.036,
-      11.349
+      9.0,
+      -27.017,
+      27.057
      ],
      "eje": [
       0,
-      -0.866025,
-      -0.5
+      -0.382683,
+      0.92388
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador B3 O5",
+     "nombre": "Pasador B6 O4",
      "at": [
-      12.0,
-      23.758,
-      19.849
+      9.0,
+      -21.659,
+      14.122
      ],
      "eje": [
       0,
-      -0.866025,
-      -0.5
+      -0.382683,
+      0.92388
      ],
-     "dia": 5,
-     "alto": 26,
-     "color": "#b0bec5"
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B4 O20 (escalon t=0)",
+     "nombre": "Rodillo B7 O14 (escalon t=0)",
      "at": [
-      12.0,
-      -9.036,
-      11.349
+      9.0,
+      -27.017,
+      42.943
      ],
      "eje": [
       0,
-      -0.866025,
-      0.5
+      0.382683,
+      0.92388
      ],
-     "dia": 20,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B4 O18.8 (escalon t=-6.5)",
+     "nombre": "Rodillo B7 O13.1 (escalon t=-5.5)",
      "at": [
-      12.0,
-      -4.706,
-      8.849
+      9.0,
+      -28.93,
+      38.324
      ],
      "eje": [
       0,
-      -0.866025,
-      0.5
+      0.382683,
+      0.92388
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B4 O18.8 (escalon t=6.5)",
+     "nombre": "Rodillo B7 O13.1 (escalon t=5.5)",
      "at": [
-      12.0,
-      -15.964,
-      15.349
+      9.0,
+      -24.721,
+      48.487
      ],
      "eje": [
       0,
-      -0.866025,
-      0.5
+      0.382683,
+      0.92388
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador B4 O5",
+     "nombre": "Pasador B7 O4",
      "at": [
-      12.0,
-      -1.242,
-      6.849
+      9.0,
+      -30.078,
+      35.552
      ],
      "eje": [
       0,
-      -0.866025,
-      0.5
+      0.382683,
+      0.92388
      ],
-     "dia": 5,
-     "alto": 26,
-     "color": "#b0bec5"
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B5 O20 (escalon t=0)",
+     "nombre": "Rodillo B8 O14 (escalon t=0)",
      "at": [
-      12.0,
-      -25.0,
-      31.0
+      9.0,
+      -13.487,
+      59.721
      ],
      "eje": [
       0,
-      -0.0,
-      1.0
+      0.92388,
+      0.382683
      ],
-     "dia": 20,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 14,
+     "alto": 6,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B5 O18.8 (escalon t=-6.5)",
+     "nombre": "Rodillo B8 O13.1 (escalon t=-5.5)",
      "at": [
-      12.0,
-      -25.0,
-      26.0
+      9.0,
+      -18.106,
+      57.807
      ],
      "eje": [
       0,
-      -0.0,
-      1.0
+      0.92388,
+      0.382683
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B5 O18.8 (escalon t=6.5)",
+     "nombre": "Rodillo B8 O13.1 (escalon t=5.5)",
      "at": [
-      12.0,
-      -25.0,
-      39.0
+      9.0,
+      -7.943,
+      62.017
      ],
      "eje": [
       0,
-      -0.0,
-      1.0
+      0.92388,
+      0.382683
      ],
-     "dia": 18.8,
+     "dia": 13.1,
      "alto": 5,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador B5 O5",
+     "nombre": "Pasador B8 O4",
      "at": [
-      12.0,
-      -25.0,
-      22.0
+      9.0,
+      -20.878,
+      56.659
      ],
      "eje": [
       0,
-      -0.0,
-      1.0
+      0.92388,
+      0.382683
      ],
-     "dia": 5,
-     "alto": 26,
-     "color": "#b0bec5"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B6 O20 (escalon t=0)",
-     "at": [
-      12.0,
-      -15.964,
-      54.651
-     ],
-     "eje": [
-      0,
-      0.866025,
-      0.5
-     ],
-     "dia": 20,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B6 O18.8 (escalon t=-6.5)",
-     "at": [
-      12.0,
-      -20.294,
-      52.151
-     ],
-     "eje": [
-      0,
-      0.866025,
-      0.5
-     ],
-     "dia": 18.8,
-     "alto": 5,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B6 O18.8 (escalon t=6.5)",
-     "at": [
-      12.0,
-      -9.036,
-      58.651
-     ],
-     "eje": [
-      0,
-      0.866025,
-      0.5
-     ],
-     "dia": 18.8,
-     "alto": 5,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Pasador B6 O5",
-     "at": [
-      12.0,
-      -23.758,
-      50.151
-     ],
-     "eje": [
-      0,
-      0.866025,
-      0.5
-     ],
-     "dia": 5,
-     "alto": 26,
-     "color": "#b0bec5"
+     "dia": 4,
+     "alto": 22,
+     "color": "#dfe5ea"
     }
    ],
    "agujeros_montaje": [],
@@ -4663,27 +4935,27 @@
     {
      "nombre": "giro libre de la rueda (envolvente de rodadura)",
      "at": [
-      -27.0,
+      -21.0,
       0,
       0
      ],
      "dim": [
-      54.0,
+      42.0,
       74,
       74
      ]
     }
    ],
-   "notas": "Envolvente: rc + r_rodillo = 35 en el centro del rodillo y 33.8/34.4 en los escalones (vs. ideal 35): rodadura practicamente circular. VERIFICAR con calibre antes de fabricar."
+   "notas": "Proporcion rodillo/rueda 0.2 y ancho/diametro 0.54, en linea con las referencias (Nexus 127: 0.15 y 0.23). Rodadura = rc+r = 28+7 = 35. VERIFICAR con calibre antes de fabricar."
   },
   {
    "id": "rueda_omni_120_doble",
-   "nombre": "Rueda omni doble corona O120 x 62 (2x8 rodillos abombados O26, platos O94)",
+   "nombre": "Rueda omni doble corona O120 x 46 (2x12 rodillos abombados O18, placas O94)",
    "categoria": "mecanico",
-   "descripcion": "Rueda omnidireccional MAYOR derivada de rueda_omni_70_doble para los ejes perpendiculares del modulo CV-OMW: rodadura O120 (R60), 2 coronas de 8 rodillos ABOMBADOS O26 max x 28 (3 escalones 26/24.4 siguiendo r(t)=sqrt(60^2-t^2)-47) desfasadas 22.5 grados, radio de centros 47, pasadores O5, platos O94, cubo pasante bore O15 (chaveta 5x5). Con tangente comun su centro queda 25 mm mas bajo que la O70: los ejes perpendiculares cruzan con luz de 10 mm (ejes O15). Eje en X; tangente Z=0.",
+   "descripcion": "Rueda omnidireccional MAYOR derivada de rueda_omni_70_doble para los ejes perpendiculares del modulo CV-OMW, refinada segun referencias comerciales: rodadura O120 (R60), 2 coronas de 12 rodillos ABOMBADOS O18 max x 22 desfasadas 15 grados (rc=51), pasadores O4, placas de aluminio O94 festoneadas (en el ensamble), cubo bore O15 chaveta 5x5. Con tangente comun su centro queda 25 mm mas bajo que la O70: ejes cruzados con luz de 10 mm. Eje en X; tangente Z=0.",
    "fuente": {
     "tipo": "diseno",
-    "detalle": "diseno derivado: escalado de rueda_omni_70_doble con la condicion DR = R2-R1 >= r_ejeA + r_ejeB + luz(5) -> R2 >= 55; se adopta R2=60 (O120) -> luz 10 mm."
+    "detalle": "diseno derivado de rueda_omni_70_doble (DR>=r_ejeA+r_ejeB+luz -> R2=60) + Referencias web (2026-07-20): Nexus 14073 O127 doble aluminio - 22 rodillos (11/corona) O19 de goma con rodamiento, 2 placas de aluminio, ancho 29, 480 g, 30 kg (nexusrobot.com/product/5inch127mm-double-aluminum-omni-wheel-wbearing-rollers-14073.html); Rotacaster: cuerpo arana moldeado con ejes integrados, rodillos PU sobremoldeados, dobles/triples soldadas sonicamente (rotacaster.com.au, materialshandling.com.au)."
    },
    "confianza": "verificar",
    "solidos": [
@@ -4691,7 +4963,7 @@
      "tipo": "cilindro",
      "nombre": "Cubo pasante (bore O15, chaveta 5x5)",
      "at": [
-      -31.0,
+      -23.0,
       0,
       60
      ],
@@ -4700,13 +4972,13 @@
       0,
       0
      ],
-     "dia": 31,
-     "alto": 62.0,
-     "color": "#78909c"
+     "dia": 29,
+     "alto": 46.0,
+     "color": "#6d777f"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Plato central O94",
+     "nombre": "Disco central O94",
      "at": [
       -2.0,
       0,
@@ -4719,13 +4991,13 @@
      ],
      "dia": 94,
      "alto": 4,
-     "color": "#ef6c00"
+     "color": "#b9c2c9"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Plato exterior O94 lado -X",
+     "nombre": "Placa exterior O94 lado -X (festoneada en el ensamble)",
      "at": [
-      -31.0,
+      -23.0,
       0,
       60
      ],
@@ -4736,13 +5008,13 @@
      ],
      "dia": 94,
      "alto": 3,
-     "color": "#ef6c00"
+     "color": "#b9c2c9"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Plato exterior O94 lado +X",
+     "nombre": "Placa exterior O94 lado +X (festoneada en el ensamble)",
      "at": [
-      28.0,
+      20.0,
       0,
       60
      ],
@@ -4753,167 +5025,269 @@
      ],
      "dia": 94,
      "alto": 3,
-     "color": "#ef6c00"
+     "color": "#b9c2c9"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A1 O26 (escalon t=0)",
+     "nombre": "Rodillo A1 O18 (escalon t=0)",
      "at": [
-      -15.0,
-      -6.0,
-      107.0
+      -11.0,
+      -4.0,
+      111.0
      ],
      "eje": [
       0,
       1.0,
       -0.0
      ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A1 O24.4 (escalon t=-10)",
+     "nombre": "Rodillo A1 O17.1 (escalon t=-7.5)",
      "at": [
-      -15.0,
+      -11.0,
+      -11.0,
+      111.0
+     ],
+     "eje": [
+      0,
+      1.0,
+      -0.0
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A1 O17.1 (escalon t=7.5)",
+     "at": [
+      -11.0,
+      4.0,
+      111.0
+     ],
+     "eje": [
+      0,
+      1.0,
+      -0.0
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A1 O4",
+     "at": [
+      -11.0,
       -14.0,
-      107.0
+      111.0
      ],
      "eje": [
       0,
       1.0,
       -0.0
      ],
-     "dia": 24.4,
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A2 O18 (escalon t=0)",
+     "at": [
+      -11.0,
+      22.036,
+      106.167
+     ],
+     "eje": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "dia": 18,
      "alto": 8,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A1 O24.4 (escalon t=10)",
+     "nombre": "Rodillo A2 O17.1 (escalon t=-7.5)",
      "at": [
-      -15.0,
-      6.0,
-      107.0
+      -11.0,
+      15.974,
+      109.667
      ],
      "eje": [
       0,
-      1.0,
-      -0.0
+      0.866025,
+      -0.5
      ],
-     "dia": 24.4,
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A2 O17.1 (escalon t=7.5)",
+     "at": [
+      -11.0,
+      28.964,
+      102.167
+     ],
+     "eje": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A2 O4",
+     "at": [
+      -11.0,
+      13.376,
+      111.167
+     ],
+     "eje": [
+      0,
+      0.866025,
+      -0.5
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A3 O18 (escalon t=0)",
+     "at": [
+      -11.0,
+      42.167,
+      88.964
+     ],
+     "eje": [
+      0,
+      0.5,
+      -0.866025
+     ],
+     "dia": 18,
      "alto": 8,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador A1 O5",
+     "nombre": "Rodillo A3 O17.1 (escalon t=-7.5)",
      "at": [
-      -15.0,
-      -18.0,
-      107.0
+      -11.0,
+      38.667,
+      95.026
      ],
      "eje": [
       0,
-      1.0,
-      -0.0
+      0.5,
+      -0.866025
      ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A2 O26 (escalon t=0)",
+     "nombre": "Rodillo A3 O17.1 (escalon t=7.5)",
      "at": [
-      -15.0,
-      28.991,
-      97.477
+      -11.0,
+      46.167,
+      82.036
      ],
      "eje": [
       0,
-      0.707107,
-      -0.707107
+      0.5,
+      -0.866025
      ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A2 O24.4 (escalon t=-10)",
+     "nombre": "Pasador A3 O4",
      "at": [
-      -15.0,
-      23.335,
-      103.134
+      -11.0,
+      37.167,
+      97.624
      ],
      "eje": [
       0,
-      0.707107,
-      -0.707107
+      0.5,
+      -0.866025
      ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A2 O24.4 (escalon t=10)",
+     "nombre": "Rodillo A4 O18 (escalon t=0)",
      "at": [
-      -15.0,
-      37.477,
-      88.991
-     ],
-     "eje": [
-      0,
-      0.707107,
-      -0.707107
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Pasador A2 O5",
-     "at": [
-      -15.0,
-      20.506,
-      105.962
-     ],
-     "eje": [
-      0,
-      0.707107,
-      -0.707107
-     ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo A3 O26 (escalon t=0)",
-     "at": [
-      -15.0,
-      47.0,
-      66.0
+      -11.0,
+      51.0,
+      64.0
      ],
      "eje": [
       0,
       0.0,
       -1.0
      ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A3 O24.4 (escalon t=-10)",
+     "nombre": "Rodillo A4 O17.1 (escalon t=-7.5)",
      "at": [
-      -15.0,
-      47.0,
+      -11.0,
+      51.0,
+      71.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A4 O17.1 (escalon t=7.5)",
+     "at": [
+      -11.0,
+      51.0,
+      56.0
+     ],
+     "eje": [
+      0,
+      0.0,
+      -1.0
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A4 O4",
+     "at": [
+      -11.0,
+      51.0,
       74.0
      ],
      "eje": [
@@ -4921,271 +5295,407 @@
       0.0,
       -1.0
      ],
-     "dia": 24.4,
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A5 O18 (escalon t=0)",
+     "at": [
+      -11.0,
+      46.167,
+      37.964
+     ],
+     "eje": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "dia": 18,
      "alto": 8,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A3 O24.4 (escalon t=10)",
+     "nombre": "Rodillo A5 O17.1 (escalon t=-7.5)",
      "at": [
-      -15.0,
-      47.0,
-      54.0
+      -11.0,
+      49.667,
+      44.026
      ],
      "eje": [
       0,
-      0.0,
-      -1.0
+      -0.5,
+      -0.866025
      ],
-     "dia": 24.4,
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A5 O17.1 (escalon t=7.5)",
+     "at": [
+      -11.0,
+      42.167,
+      31.036
+     ],
+     "eje": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A5 O4",
+     "at": [
+      -11.0,
+      51.167,
+      46.624
+     ],
+     "eje": [
+      0,
+      -0.5,
+      -0.866025
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A6 O18 (escalon t=0)",
+     "at": [
+      -11.0,
+      28.964,
+      17.833
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      -0.5
+     ],
+     "dia": 18,
      "alto": 8,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador A3 O5",
+     "nombre": "Rodillo A6 O17.1 (escalon t=-7.5)",
      "at": [
-      -15.0,
-      47.0,
-      78.0
+      -11.0,
+      35.026,
+      21.333
      ],
      "eje": [
       0,
-      0.0,
-      -1.0
+      -0.866025,
+      -0.5
      ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A4 O26 (escalon t=0)",
+     "nombre": "Rodillo A6 O17.1 (escalon t=7.5)",
      "at": [
-      -15.0,
-      37.477,
-      31.009
+      -11.0,
+      22.036,
+      13.833
      ],
      "eje": [
       0,
-      -0.707107,
-      -0.707107
+      -0.866025,
+      -0.5
      ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A4 O24.4 (escalon t=-10)",
+     "nombre": "Pasador A6 O4",
      "at": [
-      -15.0,
-      43.134,
-      36.665
+      -11.0,
+      37.624,
+      22.833
      ],
      "eje": [
       0,
-      -0.707107,
-      -0.707107
+      -0.866025,
+      -0.5
      ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A4 O24.4 (escalon t=10)",
+     "nombre": "Rodillo A7 O18 (escalon t=0)",
      "at": [
-      -15.0,
-      28.991,
-      22.523
-     ],
-     "eje": [
-      0,
-      -0.707107,
-      -0.707107
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Pasador A4 O5",
-     "at": [
-      -15.0,
-      45.962,
-      39.494
-     ],
-     "eje": [
-      0,
-      -0.707107,
-      -0.707107
-     ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo A5 O26 (escalon t=0)",
-     "at": [
-      -15.0,
-      6.0,
-      13.0
+      -11.0,
+      4.0,
+      9.0
      ],
      "eje": [
       0,
       -1.0,
       -0.0
      ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A5 O24.4 (escalon t=-10)",
+     "nombre": "Rodillo A7 O17.1 (escalon t=-7.5)",
      "at": [
-      -15.0,
+      -11.0,
+      11.0,
+      9.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A7 O17.1 (escalon t=7.5)",
+     "at": [
+      -11.0,
+      -4.0,
+      9.0
+     ],
+     "eje": [
+      0,
+      -1.0,
+      -0.0
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A7 O4",
+     "at": [
+      -11.0,
       14.0,
-      13.0
+      9.0
      ],
      "eje": [
       0,
       -1.0,
       -0.0
      ],
-     "dia": 24.4,
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A8 O18 (escalon t=0)",
+     "at": [
+      -11.0,
+      -22.036,
+      13.833
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "dia": 18,
      "alto": 8,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A5 O24.4 (escalon t=10)",
+     "nombre": "Rodillo A8 O17.1 (escalon t=-7.5)",
      "at": [
-      -15.0,
-      -6.0,
-      13.0
+      -11.0,
+      -15.974,
+      10.333
      ],
      "eje": [
       0,
-      -1.0,
-      -0.0
+      -0.866025,
+      0.5
      ],
-     "dia": 24.4,
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A8 O17.1 (escalon t=7.5)",
+     "at": [
+      -11.0,
+      -28.964,
+      17.833
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A8 O4",
+     "at": [
+      -11.0,
+      -13.376,
+      8.833
+     ],
+     "eje": [
+      0,
+      -0.866025,
+      0.5
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A9 O18 (escalon t=0)",
+     "at": [
+      -11.0,
+      -42.167,
+      31.036
+     ],
+     "eje": [
+      0,
+      -0.5,
+      0.866025
+     ],
+     "dia": 18,
      "alto": 8,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador A5 O5",
+     "nombre": "Rodillo A9 O17.1 (escalon t=-7.5)",
      "at": [
-      -15.0,
-      18.0,
-      13.0
+      -11.0,
+      -38.667,
+      24.974
      ],
      "eje": [
       0,
-      -1.0,
-      -0.0
+      -0.5,
+      0.866025
      ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A6 O26 (escalon t=0)",
+     "nombre": "Rodillo A9 O17.1 (escalon t=7.5)",
      "at": [
-      -15.0,
-      -28.991,
-      22.523
+      -11.0,
+      -46.167,
+      37.964
      ],
      "eje": [
       0,
-      -0.707107,
-      0.707107
+      -0.5,
+      0.866025
      ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A6 O24.4 (escalon t=-10)",
+     "nombre": "Pasador A9 O4",
      "at": [
-      -15.0,
-      -23.335,
-      16.866
+      -11.0,
+      -37.167,
+      22.376
      ],
      "eje": [
       0,
-      -0.707107,
-      0.707107
+      -0.5,
+      0.866025
      ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A6 O24.4 (escalon t=10)",
+     "nombre": "Rodillo A10 O18 (escalon t=0)",
      "at": [
-      -15.0,
-      -37.477,
-      31.009
-     ],
-     "eje": [
-      0,
-      -0.707107,
-      0.707107
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Pasador A6 O5",
-     "at": [
-      -15.0,
-      -20.506,
-      14.038
-     ],
-     "eje": [
-      0,
-      -0.707107,
-      0.707107
-     ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo A7 O26 (escalon t=0)",
-     "at": [
-      -15.0,
-      -47.0,
-      54.0
+      -11.0,
+      -51.0,
+      56.0
      ],
      "eje": [
       0,
       -0.0,
       1.0
      ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A7 O24.4 (escalon t=-10)",
+     "nombre": "Rodillo A10 O17.1 (escalon t=-7.5)",
      "at": [
-      -15.0,
-      -47.0,
+      -11.0,
+      -51.0,
+      49.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A10 O17.1 (escalon t=7.5)",
+     "at": [
+      -11.0,
+      -51.0,
+      64.0
+     ],
+     "eje": [
+      0,
+      -0.0,
+      1.0
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A10 O4",
+     "at": [
+      -11.0,
+      -51.0,
       46.0
      ],
      "eje": [
@@ -5193,655 +5703,961 @@
       -0.0,
       1.0
      ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A7 O24.4 (escalon t=10)",
+     "nombre": "Rodillo A11 O18 (escalon t=0)",
      "at": [
-      -15.0,
-      -47.0,
-      66.0
+      -11.0,
+      -46.167,
+      82.036
      ],
      "eje": [
       0,
-      -0.0,
-      1.0
+      0.5,
+      0.866025
      ],
-     "dia": 24.4,
+     "dia": 18,
      "alto": 8,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador A7 O5",
+     "nombre": "Rodillo A11 O17.1 (escalon t=-7.5)",
      "at": [
-      -15.0,
-      -47.0,
-      42.0
+      -11.0,
+      -49.667,
+      75.974
      ],
      "eje": [
       0,
-      -0.0,
-      1.0
+      0.5,
+      0.866025
      ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A8 O26 (escalon t=0)",
+     "nombre": "Rodillo A11 O17.1 (escalon t=7.5)",
      "at": [
-      -15.0,
-      -37.477,
-      88.991
+      -11.0,
+      -42.167,
+      88.964
+     ],
+     "eje": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A11 O4",
+     "at": [
+      -11.0,
+      -51.167,
+      73.376
+     ],
+     "eje": [
+      0,
+      0.5,
+      0.866025
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A12 O18 (escalon t=0)",
+     "at": [
+      -11.0,
+      -28.964,
+      102.167
+     ],
+     "eje": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A12 O17.1 (escalon t=-7.5)",
+     "at": [
+      -11.0,
+      -35.026,
+      98.667
+     ],
+     "eje": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo A12 O17.1 (escalon t=7.5)",
+     "at": [
+      -11.0,
+      -22.036,
+      106.167
+     ],
+     "eje": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador A12 O4",
+     "at": [
+      -11.0,
+      -37.624,
+      97.167
+     ],
+     "eje": [
+      0,
+      0.866025,
+      0.5
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B1 O18 (escalon t=0)",
+     "at": [
+      11.0,
+      9.336,
+      110.297
+     ],
+     "eje": [
+      0,
+      0.965926,
+      -0.258819
+     ],
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B1 O17.1 (escalon t=-7.5)",
+     "at": [
+      11.0,
+      2.575,
+      112.109
+     ],
+     "eje": [
+      0,
+      0.965926,
+      -0.258819
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B1 O17.1 (escalon t=7.5)",
+     "at": [
+      11.0,
+      17.063,
+      108.227
+     ],
+     "eje": [
+      0,
+      0.965926,
+      -0.258819
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador B1 O4",
+     "at": [
+      11.0,
+      -0.323,
+      112.886
+     ],
+     "eje": [
+      0,
+      0.965926,
+      -0.258819
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B2 O18 (escalon t=0)",
+     "at": [
+      11.0,
+      33.234,
+      98.891
+     ],
+     "eje": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B2 O17.1 (escalon t=-7.5)",
+     "at": [
+      11.0,
+      28.284,
+      103.841
+     ],
+     "eje": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B2 O17.1 (escalon t=7.5)",
+     "at": [
+      11.0,
+      38.891,
+      93.234
+     ],
+     "eje": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador B2 O4",
+     "at": [
+      11.0,
+      26.163,
+      105.962
+     ],
+     "eje": [
+      0,
+      0.707107,
+      -0.707107
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B3 O18 (escalon t=0)",
+     "at": [
+      11.0,
+      48.227,
+      77.063
+     ],
+     "eje": [
+      0,
+      0.258819,
+      -0.965926
+     ],
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B3 O17.1 (escalon t=-7.5)",
+     "at": [
+      11.0,
+      46.415,
+      83.825
+     ],
+     "eje": [
+      0,
+      0.258819,
+      -0.965926
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B3 O17.1 (escalon t=7.5)",
+     "at": [
+      11.0,
+      50.297,
+      69.336
+     ],
+     "eje": [
+      0,
+      0.258819,
+      -0.965926
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador B3 O4",
+     "at": [
+      11.0,
+      45.639,
+      86.723
+     ],
+     "eje": [
+      0,
+      0.258819,
+      -0.965926
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B4 O18 (escalon t=0)",
+     "at": [
+      11.0,
+      50.297,
+      50.664
+     ],
+     "eje": [
+      0,
+      -0.258819,
+      -0.965926
+     ],
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B4 O17.1 (escalon t=-7.5)",
+     "at": [
+      11.0,
+      52.109,
+      57.425
+     ],
+     "eje": [
+      0,
+      -0.258819,
+      -0.965926
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B4 O17.1 (escalon t=7.5)",
+     "at": [
+      11.0,
+      48.227,
+      42.937
+     ],
+     "eje": [
+      0,
+      -0.258819,
+      -0.965926
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador B4 O4",
+     "at": [
+      11.0,
+      52.886,
+      60.323
+     ],
+     "eje": [
+      0,
+      -0.258819,
+      -0.965926
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B5 O18 (escalon t=0)",
+     "at": [
+      11.0,
+      38.891,
+      26.766
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B5 O17.1 (escalon t=-7.5)",
+     "at": [
+      11.0,
+      43.841,
+      31.716
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B5 O17.1 (escalon t=7.5)",
+     "at": [
+      11.0,
+      33.234,
+      21.109
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador B5 O4",
+     "at": [
+      11.0,
+      45.962,
+      33.837
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      -0.707107
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B6 O18 (escalon t=0)",
+     "at": [
+      11.0,
+      17.063,
+      11.773
+     ],
+     "eje": [
+      0,
+      -0.965926,
+      -0.258819
+     ],
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B6 O17.1 (escalon t=-7.5)",
+     "at": [
+      11.0,
+      23.825,
+      13.585
+     ],
+     "eje": [
+      0,
+      -0.965926,
+      -0.258819
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B6 O17.1 (escalon t=7.5)",
+     "at": [
+      11.0,
+      9.336,
+      9.703
+     ],
+     "eje": [
+      0,
+      -0.965926,
+      -0.258819
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador B6 O4",
+     "at": [
+      11.0,
+      26.723,
+      14.361
+     ],
+     "eje": [
+      0,
+      -0.965926,
+      -0.258819
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B7 O18 (escalon t=0)",
+     "at": [
+      11.0,
+      -9.336,
+      9.703
+     ],
+     "eje": [
+      0,
+      -0.965926,
+      0.258819
+     ],
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B7 O17.1 (escalon t=-7.5)",
+     "at": [
+      11.0,
+      -2.575,
+      7.891
+     ],
+     "eje": [
+      0,
+      -0.965926,
+      0.258819
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B7 O17.1 (escalon t=7.5)",
+     "at": [
+      11.0,
+      -17.063,
+      11.773
+     ],
+     "eje": [
+      0,
+      -0.965926,
+      0.258819
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador B7 O4",
+     "at": [
+      11.0,
+      0.323,
+      7.114
+     ],
+     "eje": [
+      0,
+      -0.965926,
+      0.258819
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B8 O18 (escalon t=0)",
+     "at": [
+      11.0,
+      -33.234,
+      21.109
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B8 O17.1 (escalon t=-7.5)",
+     "at": [
+      11.0,
+      -28.284,
+      16.159
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B8 O17.1 (escalon t=7.5)",
+     "at": [
+      11.0,
+      -38.891,
+      26.766
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador B8 O4",
+     "at": [
+      11.0,
+      -26.163,
+      14.038
+     ],
+     "eje": [
+      0,
+      -0.707107,
+      0.707107
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B9 O18 (escalon t=0)",
+     "at": [
+      11.0,
+      -48.227,
+      42.937
+     ],
+     "eje": [
+      0,
+      -0.258819,
+      0.965926
+     ],
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B9 O17.1 (escalon t=-7.5)",
+     "at": [
+      11.0,
+      -46.415,
+      36.175
+     ],
+     "eje": [
+      0,
+      -0.258819,
+      0.965926
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B9 O17.1 (escalon t=7.5)",
+     "at": [
+      11.0,
+      -50.297,
+      50.664
+     ],
+     "eje": [
+      0,
+      -0.258819,
+      0.965926
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador B9 O4",
+     "at": [
+      11.0,
+      -45.639,
+      33.277
+     ],
+     "eje": [
+      0,
+      -0.258819,
+      0.965926
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B10 O18 (escalon t=0)",
+     "at": [
+      11.0,
+      -50.297,
+      69.336
+     ],
+     "eje": [
+      0,
+      0.258819,
+      0.965926
+     ],
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B10 O17.1 (escalon t=-7.5)",
+     "at": [
+      11.0,
+      -52.109,
+      62.575
+     ],
+     "eje": [
+      0,
+      0.258819,
+      0.965926
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B10 O17.1 (escalon t=7.5)",
+     "at": [
+      11.0,
+      -48.227,
+      77.063
+     ],
+     "eje": [
+      0,
+      0.258819,
+      0.965926
+     ],
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Pasador B10 O4",
+     "at": [
+      11.0,
+      -52.886,
+      59.677
+     ],
+     "eje": [
+      0,
+      0.258819,
+      0.965926
+     ],
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Rodillo B11 O18 (escalon t=0)",
+     "at": [
+      11.0,
+      -38.891,
+      93.234
      ],
      "eje": [
       0,
       0.707107,
       0.707107
      ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
+     "dia": 18,
+     "alto": 8,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A8 O24.4 (escalon t=-10)",
+     "nombre": "Rodillo B11 O17.1 (escalon t=-7.5)",
      "at": [
-      -15.0,
-      -43.134,
-      83.335
+      11.0,
+      -43.841,
+      88.284
      ],
      "eje": [
       0,
       0.707107,
       0.707107
      ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo A8 O24.4 (escalon t=10)",
+     "nombre": "Rodillo B11 O17.1 (escalon t=7.5)",
      "at": [
-      -15.0,
-      -28.991,
-      97.477
+      11.0,
+      -33.234,
+      98.891
      ],
      "eje": [
       0,
       0.707107,
       0.707107
      ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador A8 O5",
+     "nombre": "Pasador B11 O4",
      "at": [
-      -15.0,
+      11.0,
       -45.962,
-      80.506
+      86.163
      ],
      "eje": [
       0,
       0.707107,
       0.707107
      ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B1 O26 (escalon t=0)",
+     "nombre": "Rodillo B12 O18 (escalon t=0)",
      "at": [
-      15.0,
-      12.443,
-      105.718
+      11.0,
+      -17.063,
+      108.227
      ],
      "eje": [
       0,
-      0.92388,
-      -0.382683
+      0.965926,
+      0.258819
      ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B1 O24.4 (escalon t=-10)",
-     "at": [
-      15.0,
-      5.052,
-      108.78
-     ],
-     "eje": [
-      0,
-      0.92388,
-      -0.382683
-     ],
-     "dia": 24.4,
+     "dia": 18,
      "alto": 8,
-     "color": "#1976d2"
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B1 O24.4 (escalon t=10)",
+     "nombre": "Rodillo B12 O17.1 (escalon t=-7.5)",
      "at": [
-      15.0,
-      23.529,
-      101.126
+      11.0,
+      -23.825,
+      106.415
      ],
      "eje": [
       0,
-      0.92388,
-      -0.382683
+      0.965926,
+      0.258819
      ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Pasador B1 O5",
+     "nombre": "Rodillo B12 O17.1 (escalon t=7.5)",
      "at": [
-      15.0,
-      1.356,
-      110.311
+      11.0,
+      -9.336,
+      110.297
      ],
      "eje": [
       0,
-      0.92388,
-      -0.382683
+      0.965926,
+      0.258819
      ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
+     "dia": 17.1,
+     "alto": 7,
+     "color": "#1e63c0"
     },
     {
      "tipo": "cilindro",
-     "nombre": "Rodillo B2 O26 (escalon t=0)",
+     "nombre": "Pasador B12 O4",
      "at": [
-      15.0,
-      41.126,
-      83.529
+      11.0,
+      -26.723,
+      105.639
      ],
      "eje": [
       0,
-      0.382683,
-      -0.92388
+      0.965926,
+      0.258819
      ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B2 O24.4 (escalon t=-10)",
-     "at": [
-      15.0,
-      38.065,
-      90.92
-     ],
-     "eje": [
-      0,
-      0.382683,
-      -0.92388
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B2 O24.4 (escalon t=10)",
-     "at": [
-      15.0,
-      45.718,
-      72.443
-     ],
-     "eje": [
-      0,
-      0.382683,
-      -0.92388
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Pasador B2 O5",
-     "at": [
-      15.0,
-      36.534,
-      94.616
-     ],
-     "eje": [
-      0,
-      0.382683,
-      -0.92388
-     ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B3 O26 (escalon t=0)",
-     "at": [
-      15.0,
-      45.718,
-      47.557
-     ],
-     "eje": [
-      0,
-      -0.382683,
-      -0.92388
-     ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B3 O24.4 (escalon t=-10)",
-     "at": [
-      15.0,
-      48.78,
-      54.948
-     ],
-     "eje": [
-      0,
-      -0.382683,
-      -0.92388
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B3 O24.4 (escalon t=10)",
-     "at": [
-      15.0,
-      41.126,
-      36.471
-     ],
-     "eje": [
-      0,
-      -0.382683,
-      -0.92388
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Pasador B3 O5",
-     "at": [
-      15.0,
-      50.311,
-      58.644
-     ],
-     "eje": [
-      0,
-      -0.382683,
-      -0.92388
-     ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B4 O26 (escalon t=0)",
-     "at": [
-      15.0,
-      23.529,
-      18.874
-     ],
-     "eje": [
-      0,
-      -0.92388,
-      -0.382683
-     ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B4 O24.4 (escalon t=-10)",
-     "at": [
-      15.0,
-      30.92,
-      21.935
-     ],
-     "eje": [
-      0,
-      -0.92388,
-      -0.382683
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B4 O24.4 (escalon t=10)",
-     "at": [
-      15.0,
-      12.443,
-      14.282
-     ],
-     "eje": [
-      0,
-      -0.92388,
-      -0.382683
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Pasador B4 O5",
-     "at": [
-      15.0,
-      34.616,
-      23.466
-     ],
-     "eje": [
-      0,
-      -0.92388,
-      -0.382683
-     ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B5 O26 (escalon t=0)",
-     "at": [
-      15.0,
-      -12.443,
-      14.282
-     ],
-     "eje": [
-      0,
-      -0.92388,
-      0.382683
-     ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B5 O24.4 (escalon t=-10)",
-     "at": [
-      15.0,
-      -5.052,
-      11.22
-     ],
-     "eje": [
-      0,
-      -0.92388,
-      0.382683
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B5 O24.4 (escalon t=10)",
-     "at": [
-      15.0,
-      -23.529,
-      18.874
-     ],
-     "eje": [
-      0,
-      -0.92388,
-      0.382683
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Pasador B5 O5",
-     "at": [
-      15.0,
-      -1.356,
-      9.689
-     ],
-     "eje": [
-      0,
-      -0.92388,
-      0.382683
-     ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B6 O26 (escalon t=0)",
-     "at": [
-      15.0,
-      -41.126,
-      36.471
-     ],
-     "eje": [
-      0,
-      -0.382683,
-      0.92388
-     ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B6 O24.4 (escalon t=-10)",
-     "at": [
-      15.0,
-      -38.065,
-      29.08
-     ],
-     "eje": [
-      0,
-      -0.382683,
-      0.92388
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B6 O24.4 (escalon t=10)",
-     "at": [
-      15.0,
-      -45.718,
-      47.557
-     ],
-     "eje": [
-      0,
-      -0.382683,
-      0.92388
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Pasador B6 O5",
-     "at": [
-      15.0,
-      -36.534,
-      25.384
-     ],
-     "eje": [
-      0,
-      -0.382683,
-      0.92388
-     ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B7 O26 (escalon t=0)",
-     "at": [
-      15.0,
-      -45.718,
-      72.443
-     ],
-     "eje": [
-      0,
-      0.382683,
-      0.92388
-     ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B7 O24.4 (escalon t=-10)",
-     "at": [
-      15.0,
-      -48.78,
-      65.052
-     ],
-     "eje": [
-      0,
-      0.382683,
-      0.92388
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B7 O24.4 (escalon t=10)",
-     "at": [
-      15.0,
-      -41.126,
-      83.529
-     ],
-     "eje": [
-      0,
-      0.382683,
-      0.92388
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Pasador B7 O5",
-     "at": [
-      15.0,
-      -50.311,
-      61.356
-     ],
-     "eje": [
-      0,
-      0.382683,
-      0.92388
-     ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B8 O26 (escalon t=0)",
-     "at": [
-      15.0,
-      -23.529,
-      101.126
-     ],
-     "eje": [
-      0,
-      0.92388,
-      0.382683
-     ],
-     "dia": 26,
-     "alto": 12,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B8 O24.4 (escalon t=-10)",
-     "at": [
-      15.0,
-      -30.92,
-      98.065
-     ],
-     "eje": [
-      0,
-      0.92388,
-      0.382683
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Rodillo B8 O24.4 (escalon t=10)",
-     "at": [
-      15.0,
-      -12.443,
-      105.718
-     ],
-     "eje": [
-      0,
-      0.92388,
-      0.382683
-     ],
-     "dia": 24.4,
-     "alto": 8,
-     "color": "#1976d2"
-    },
-    {
-     "tipo": "cilindro",
-     "nombre": "Pasador B8 O5",
-     "at": [
-      15.0,
-      -34.616,
-      96.534
-     ],
-     "eje": [
-      0,
-      0.92388,
-      0.382683
-     ],
-     "dia": 5,
-     "alto": 36,
-     "color": "#b0bec5"
+     "dia": 4,
+     "alto": 28,
+     "color": "#dfe5ea"
     }
    ],
    "agujeros_montaje": [],
@@ -5849,18 +6665,18 @@
     {
      "nombre": "giro libre de la rueda (envolvente de rodadura)",
      "at": [
-      -33.0,
+      -25.0,
       0,
       0
      ],
      "dim": [
-      66.0,
+      50.0,
       124,
       124
      ]
     }
    ],
-   "notas": "Envolvente en escalones 58.4/59.4/60 (vs. ideal 60). Paso angular 45; arco entre centros 36.9 > barril 28. Misma construccion y bore que la O70 para compartir ejes O15."
+   "notas": "12 rodillos/corona a paso 30 (Nexus 127 usa 11/corona). Rodadura = 51+9 = 60. Ancho 46 mejora todas las luces del modulo respecto de la version de 62."
   }
  ]
 }
