@@ -166,15 +166,33 @@ function frameModel(target) {
 
 // Doble clic: encuadra en la pieza tocada (o en todo el modelo si es al vacío),
 // símil "Zoom to fit / Focus" de Inventor. Facilita orbitar alrededor de la pieza.
+// Doble-clic = EDITAR EN EL LIENZO (como Inventor): identifica la operación que
+// creó la cara tocada y abre su panel; si es un boceto, entra a editarlo.
+// Doble-clic en vacío = encuadrar todo el modelo.
 renderer.domElement.addEventListener('dblclick', (ev) => {
   if (sketch) return;
   const hit = castAtEvent(ev);
-  if (hit) {
-    const rec = meshes.get(hit.object.userData.partId);
-    if (rec) {
-      const box = new THREE.Box3().expandByObject(rec.mesh);
-      frameModel({ center: box.getCenter(new THREE.Vector3()), size: box.getSize(new THREE.Vector3()).length() });
-      setStatus(`Enfocado en ${getPart(doc, hit.object.userData.partId)?.name || 'la pieza'}.`);
+  if (hit && hit.object.userData.partId) {
+    const part = getPart(doc, hit.object.userData.partId);
+    if (part) {
+      const face = faceAtHit(hit);
+      const found = identifyFace(part, face.centroid, face.normal);
+      setSidebar(true);
+      openProps();
+      const f = found?.feature;
+      if (f && (f.shape === 'sketch' || f.shape === 'revolve') && f.params?.entities) {
+        enterSketchForFeature(part, f); // editar el croquis in-situ
+        return;
+      }
+      if (f) {
+        selection = { kind: 'feature', partId: part.id, id: f.id };
+        refreshUI();
+        setStatus(`Editando "${f.name}" de ${part.name} — ajusta en Propiedades.`);
+        return;
+      }
+      selection = { kind: 'part', id: part.id };
+      refreshUI();
+      setStatus(`${part.name} seleccionada — edita en Propiedades.`);
       return;
     }
   }
@@ -358,6 +376,7 @@ let mode = 'select';            // select | hole | mate | flush | concentric | m
 let pickStage = null;           // datos temporales de operaciones de 2 pasos
 let jointStage = null;          // datos temporales de la unión rotacional (2 toques)
 const undoStack = [];
+const redoStack = [];
 
 const $ = (id) => document.getElementById(id);
 const statusEl = $('status'), hintEl = $('hintTag'), statsEl = $('stats');
@@ -702,15 +721,26 @@ function buildSketchOverlay(f) {
 
 function pushUndo() {
   undoStack.push(JSON.stringify(doc));
-  if (undoStack.length > 40) undoStack.shift();
+  if (undoStack.length > 60) undoStack.shift();
+  redoStack.length = 0; // una acción nueva invalida el rehacer
 }
 function undo() {
-  if (!undoStack.length) return;
+  if (!undoStack.length) { setStatus('Nada que deshacer.'); return; }
+  redoStack.push(JSON.stringify(doc)); // guarda el estado actual para rehacer
   doc = JSON.parse(undoStack.pop());
   selection = null;
   rebuildAll();
   autosave();
-  setStatus('Deshecho.');
+  setStatus('Deshecho. (Rehacer con Ctrl+Y)');
+}
+function redo() {
+  if (!redoStack.length) { setStatus('Nada que rehacer.'); return; }
+  undoStack.push(JSON.stringify(doc));
+  doc = JSON.parse(redoStack.pop());
+  selection = null;
+  rebuildAll();
+  autosave();
+  setStatus('Rehecho.');
 }
 function autosave() {
   try { localStorage.setItem('foto3d-cad-doc', JSON.stringify(doc)); } catch (e) { /* sin almacenamiento */ }
@@ -1247,6 +1277,7 @@ function hideDialog() {
   dialog.style.display = 'none'; dialog.innerHTML = '';
   if (typeof clearOpPreview === 'function') clearOpPreview();
   if (typeof clearHolePreview === 'function') clearHolePreview();
+  if (typeof clearBlendPreview === 'function') clearBlendPreview();
 }
 const dialogOpen = () => dialog.style.display === 'block';
 
@@ -1527,7 +1558,9 @@ window.addEventListener('resize', () => { if (markMenu.classList.contains('open'
 
 window.addEventListener('keydown', (ev) => {
   if (ev.key === 'Escape') { hideDialog(); clearDirectSel(); setModeSelect(); }
-  if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); undo(); }
+  if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey) && ev.shiftKey) { ev.preventDefault(); redo(); return; }
+  if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); undo(); return; }
+  if (ev.key === 'y' && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); redo(); return; }
   const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
   // en boceto: Supr/Backspace borra TODA la selección múltiple de entidades
   if ((ev.key === 'Delete' || ev.key === 'Backspace') && sketch && sketch.selIds.size && !dialogOpen() && !typing) {
@@ -2423,16 +2456,38 @@ function clickExtend(raw) {
 
 // --- mover entidad (edición directa por arrastre) ---
 
+// arrastra un extremo compartido de las líneas vecinas (mantiene el contorno unido)
+function healEndpoint(entities, exceptId, oldPt, newPt, tol = 0.7) {
+  for (const e of entities) {
+    if (e.id === exceptId || e.type !== 'line') continue;
+    if (Math.hypot(e.a[0] - oldPt[0], e.a[1] - oldPt[1]) < tol) e.a = [...newPt];
+    if (Math.hypot(e.b[0] - oldPt[0], e.b[1] - oldPt[1]) < tol) e.b = [...newPt];
+  }
+}
+
 function startEntDrag(ev) {
   const raw = eventTo2D(ev);
   if (!raw) return;
   const pick = pickEntityAt(raw, false);
-  if (!pick) { setStatus('Mover: toca una entidad del boceto y arrastra.'); return; }
-  // si la entidad tocada está dentro de la selección múltiple, se mueve TODA
-  const ents = (sketch.selIds.has(pick.ent.id) && sketch.selIds.size > 1)
-    ? sketch.entities.filter(e => sketch.selIds.has(e.id))
-    : [pick.ent];
-  sketch.entDrag = { ents, pointerId: ev.pointerId, lastUV: raw };
+  if (!pick) { setStatus('Mover: toca una entidad, un punto o el radio y arrastra.'); return; }
+  const e = pick.ent;
+  const pxTol = 16 * worldPerPixel();
+  // ¿agarró un PUNTO (extremo/centro) o el RADIO? → edición directa fina
+  let point = null;
+  if (!(sketch.selIds.has(e.id) && sketch.selIds.size > 1)) {
+    if (e.type === 'line') {
+      if (Math.hypot(raw[0] - e.a[0], raw[1] - e.a[1]) < pxTol) point = { ent: e, which: 'a' };
+      else if (Math.hypot(raw[0] - e.b[0], raw[1] - e.b[1]) < pxTol) point = { ent: e, which: 'b' };
+    } else if (e.c) { // círculo/arco: centro vs radio
+      const dc = Math.hypot(raw[0] - e.c[0], raw[1] - e.c[1]);
+      if (dc < e.r * 0.35) point = { ent: e, which: 'c' };
+      else point = { ent: e, which: 'r' };
+    }
+  }
+  const ents = (sketch.selIds.has(e.id) && sketch.selIds.size > 1)
+    ? sketch.entities.filter(x => sketch.selIds.has(x.id))
+    : [e];
+  sketch.entDrag = { ents, point, pointerId: ev.pointerId, lastUV: raw };
   sketchControls.enabled = false;
   try { renderer.domElement.setPointerCapture(ev.pointerId); } catch (e) { /* ya liberado */ }
 }
@@ -2442,9 +2497,18 @@ function moveEntDrag(ev) {
   if (!d || ev.pointerId !== d.pointerId) return;
   const raw = eventTo2D(ev);
   if (!raw) return;
-  const delta = [raw[0] - d.lastUV[0], raw[1] - d.lastUV[1]];
-  for (const e of d.ents) SK.moveEntity(sketch.entities, e, delta);
+  if (d.point) { // arrastre de un punto o radio (edición directa)
+    const e = d.point.ent, w = d.point.which;
+    if (w === 'r') e.r = Math.max(0.3, Math.hypot(raw[0] - e.c[0], raw[1] - e.c[1]));
+    else if (w === 'c') e.c = [...raw];
+    else { const old = [...e[w]]; e[w] = [...raw]; healEndpoint(sketch.entities, e.id, old, raw); }
+  } else {
+    const delta = [raw[0] - d.lastUV[0], raw[1] - d.lastUV[1]];
+    for (const e of d.ents) SK.moveEntity(sketch.entities, e, delta);
+  }
   d.lastUV = raw;
+  // restricciones y cotas 🔒 se mantienen EN VIVO durante el arrastre (como Inventor)
+  SK.solveSketch(sketch.entities, sketch.constraints, sketch.dims);
   redrawSketch();
 }
 
@@ -3426,17 +3490,18 @@ function clickBlend(hit, kind) {
   const fld = kind === 'fillet'
     ? { key: 'r', label: 'Radio (mm)', value: Math.max(1, Math.round(len / 10)), step: 0.5 }
     : { key: 'd', label: 'Distancia (mm)', value: Math.max(1, Math.round(len / 10)), step: 0.5 };
+  const mkFeat = (size) => kind === 'fillet' ? makeFilletFeature([{ a: la, b: lb }], size) : makeChamferFeature([{ a: la, b: lb }], size);
+  const key = kind === 'fillet' ? 'r' : 'd';
   showForm(`${label} en ${part.name} — arista ${len.toFixed(1)} mm`, [fld], (v) => {
     const size = kind === 'fillet' ? v.r : v.d;
+    clearBlendPreview();
     if (!(size > 0)) { setStatus('El valor debe ser mayor que 0.'); return; }
     pushUndo();
-    const edges = [{ a: la, b: lb }];
-    part.features.push(kind === 'fillet' ? makeFilletFeature(edges, size) : makeChamferFeature(edges, size));
+    part.features.push(mkFeat(size));
     faceCache.clear();
     rebuildPart(part);
     const rec = meshes.get(part.id);
     if (!rec || !rec.mesh.geometry.attributes.position?.count) {
-      // el modificador no encontró las dos caras (o degeneró): revierte
       part.features.pop();
       rebuildPart(part);
       setStatus('No se pudo aplicar en esa arista (¿aristas paralelas o no rectas?). Prueba otra.');
@@ -3444,6 +3509,31 @@ function clickBlend(hit, kind) {
     }
     commit(`${label} ${kind === 'fillet' ? 'R' : ''}${size} aplicado a ${part.name}.`);
   });
+  // vista previa EN VIVO: aplica la operación real y la revierte al cancelar (§6.1)
+  const upd = () => {
+    const size = +$(`dlg_${key}`).value;
+    clearBlendPreview();
+    if (!(size > 0)) return;
+    const f = mkFeat(size);
+    part.features.push(f);
+    blendPreview = { part, feat: f };
+    faceCache.clear();
+    rebuildPart(part);
+    const rec = meshes.get(part.id);
+    if (!rec || !rec.mesh.geometry.attributes.position?.count) { clearBlendPreview(); setStatus('Con ese valor no cabe la operación — prueba otro.'); }
+  };
+  $(`dlg_${key}`)?.addEventListener('input', upd);
+  upd();
+}
+let blendPreview = null;
+function clearBlendPreview() {
+  if (!blendPreview) return;
+  const { part, feat } = blendPreview;
+  const i = part.features.indexOf(feat);
+  if (i >= 0) part.features.splice(i, 1);
+  blendPreview = null;
+  faceCache.clear();
+  rebuildPart(part);
 }
 
 // ---------- Convertir sólido en chapa (reconocer espesor + contorno) ----------
@@ -4563,6 +4653,7 @@ $('btnClear').onclick = () => {
   commit('Proyecto nuevo.');
 };
 $('btnUndo').onclick = () => undo();
+$('btnRedo').onclick = () => redo();
 
 $('btnDemo').onclick = () => {
   showForm('Cargar ejemplo', [
