@@ -81,40 +81,59 @@ check('panel sobre la tapa', db.panel.min.z > 984);
 check('electrónica dentro de la cavidad', ['nodo', 'bateria', 'borne_bus', 'desecante'].every(id =>
   db[id].min.x > -84.1 && db[id].max.x < 84.1 && db[id].min.y > -62.1 && db[id].max.y < 62.1 && db[id].max.z < 976));
 
-// --- variante B1.5 v2: estación de poste (alturas OMM) --------------------------
-console.log('— VARIANTE B1.5 v2 (sonda_suelo_b15.json) —');
+// --- variante B1.5 v3: cabezal cilíndrico coaxial (alturas OMM) -----------------
+console.log('— VARIANTE B1.5 v3 (sonda_suelo_b15.json) —');
 const B15 = JSON.parse(readFileSync('ensambles/sonda_suelo_b15.json', 'utf8'));
-check('44 piezas (37 + 7 cables realistas)', B15.parts.length === 44, `hay ${B15.parts.length}`);
+check('37 piezas (33 + 4 cables realistas)', B15.parts.length === 37, `hay ${B15.parts.length}`);
 check('cableado interior: pasacables en el poste para cada instrumento',
-  ['pluviómetro', 'escudo', 'panel', 'antena', 'hoja'].every(k =>
+  ['pluviómetro', 'escudo', 'panel', 'hoja'].every(k =>
     byId(B15, 'pilar').features.some(f => f.name.includes('Pasacables') && f.name.includes(k))));
-check('7 cables modelados', ['cable_bus', 'cables_bajada', 'cable_pluvio', 'cable_escudo', 'cable_panel', 'cable_antena', 'cable_hoja'].every(id => byId(B15, id)));
+check('sin salidas laterales de bajada (el cableado remata en el cabezal)',
+  !byId(B15, 'pilar').features.some(f => f.name.includes('Salida lateral')));
+check('4 cables de instrumento modelados', ['cable_pluvio', 'cable_escudo', 'cable_panel', 'cable_hoja'].every(id => byId(B15, id)));
 check('ids únicos', new Set(B15.parts.map(p => p.id)).size === B15.parts.length);
 const b15fids = B15.parts.flatMap(p => p.features.map(f => f.id));
 check('ids de función únicos', new Set(b15fids).size === b15fids.length);
-check('sin brida ni contratuerca (poste continuo + cap)', !byId(B15, 'acople') && !byId(B15, 'contratuerca') && !!byId(B15, 'cap_poste'));
+check('sin gabinete, cap ni prensaestopas de cable (v3)',
+  ['gabinete', 'junta', 'tapa', 'cap_poste', 'prensa', 'prensas_superficie', 'entrada_panel'].every(id => !byId(B15, id)));
+check('cabezal en norma: tubo EN ISO 1452 + tóricas ISO 3601 + NPT hembra',
+  byId(B15, 'cabezal_cuerpo').name.includes('EN ISO 1452') && byId(B15, 'cabezal_base').name.includes('NPT') &&
+  byId(B15, 'torica_base').name.includes('ISO 3601') && !!byId(B15, 'torica_tapa'));
+check('gargantas regla Parker en base y tapa',
+  byId(B15, 'cabezal_base').features.some(f => f.name.includes('Parker')) &&
+  byId(B15, 'cabezal_tapa').features.some(f => f.name.includes('Parker')));
 check('sensores SMT50 con hoja en punta (sketch 135 de largo)', byId(B15, 'sensor1').features.some(f => f.name.includes('punta 30')));
 const b15 = buildAll(B15);
-check('poste continuo 86–1755 con salida lateral', Math.abs(b15.pilar.min.z - 86) < 0.5 && Math.abs(b15.pilar.max.z - 1755) < 0.5);
-check('cap sella el tope', b15.cap_poste.max.z > 1760);
-check('gabinete VERTICAL colgado del poste (180 ancho × 130 alto)',
-  Math.abs((b15.gabinete.max.z - b15.gabinete.min.z) - 130) < 1 && b15.gabinete.max.y < -25);
-check('puerta al SUR (tapa más al −Y que el cuerpo)', b15.tapa.min.y < b15.gabinete.min.y + 1);
-check('TODAS las entradas por la cara inferior (z<1086)',
-  ['prensa', 'prensas_superficie', 'm12', 'vent', 'entrada_panel'].every(id => b15[id].min.z < 1086));
+check('poste continuo 86–1755', Math.abs(b15.pilar.min.z - 86) < 0.5 && Math.abs(b15.pilar.max.z - 1755) < 0.5);
+check('base del cabezal rosca el tope del poste (hub desde 1730)',
+  Math.abs(b15.cabezal_base.min.z - 1730) < 0.5 && b15.cabezal_base.max.z > 1784);
+check('cabezal coaxial y compacto: cuerpo Ø125 centrado en el eje',
+  Math.abs(b15.cabezal_cuerpo.max.x + b15.cabezal_cuerpo.min.x) < 0.5 &&
+  Math.abs(b15.cabezal_cuerpo.max.y + b15.cabezal_cuerpo.min.y) < 0.5 &&
+  (b15.cabezal_cuerpo.max.x - b15.cabezal_cuerpo.min.x) < 128.5);
+check('tóricas 104×3 en sus gargantas (z 1771 y 1906)',
+  Math.abs((b15.torica_base.max.z + b15.torica_base.min.z) / 2 - 1771) < 0.3 &&
+  Math.abs((b15.torica_tapa.max.z + b15.torica_tapa.min.z) / 2 - 1906) < 0.3 &&
+  Math.abs((b15.torica_base.max.x - b15.torica_base.min.x) - 111) < 0.6);
+check('tapa con goterón y pasamuro N/SMA',
+  byId(B15, 'cabezal_tapa').features.some(f => f.name.includes('Goterón')) &&
+  byId(B15, 'cabezal_tapa').features.some(f => f.name.includes('N/SMA')));
+check('penetraciones exteriores SOLO bajo el disco (m12, tapa M12, Gore)',
+  ['m12_tapa', 'vent'].every(id => b15[id].max.z < 1765.5 && b15[id].min.z > 1725) &&
+  b15.m12.min.z > 1725 && b15.m12.max.z < 1774);
+check('electrónica dentro del cilindro (Ø110.2, z 1785–1901)',
+  ['pcb', 'portapilas', 'baterias', 'desecante', 'columnas'].every(id =>
+    Math.max(Math.abs(b15[id].min.x), Math.abs(b15[id].max.x), Math.abs(b15[id].min.y), Math.abs(b15[id].max.y)) < 55.2 &&
+    b15[id].min.z > 1784.5 && b15[id].max.z < 1901.5));
 check('escudo T/HR a 1.47–1.53 m (OMM 1.25–2 m)', b15.escudo_thr.min.z > 1450 && b15.escudo_thr.max.z < 1540);
 check('boca del pluviómetro a 1.234 m + pinchos antipájaros', b15.pluviometro.max.z > 1233 && b15.pluviometro.max.z < 1262 && byId(B15, 'pluviometro').features.some(f => f.name.includes('antipájaros')));
 check('ménsula del pluviómetro AL POSTE (abrazaderas centradas en el eje)',
   byId(B15, 'pluviometro').features.some(f => f.name.includes('Abrazadera')));
-check('panel al NORTE (+Y) sobre la puerta', b15.panel.max.y > 100 && b15.panel.min.z > 1600);
-check('antena remata ~1.93 m sobre todo lo demás', b15.antena.max.z > 1900);
-check('electrónica dentro del gabinete vertical',
-  ['pcb', 'baterias', 'bms', 'borne_bus', 'desecante'].every(id =>
-    b15[id].min.z > 1085 && b15[id].max.z < 1215 && b15[id].max.y < -28 && b15[id].min.y > -93));
-check('BOM/pasos/alturas OMM en meta', B15.meta.bom.length >= 27 && B15.meta.pasos.length === 12 &&
-  B15.meta.webRef.some(w => w.fuente.includes('OMM')));
-check('lazo de goteo del bus baja bajo las entradas', b15.cable_bus.min.z < 1046);
-check('saltos cortos: cables de bajada confinados tras la caja', b15.cables_bajada.min.y > -60 && b15.cables_bajada.max.z < 1085);
+check('panel al NORTE (+Y) en el poste', b15.panel.max.y > 100 && b15.panel.min.z > 1600);
+check('antena coaxial sobre la tapa, remata ~2.15 m',
+  b15.antena.max.z > 2100 && Math.abs(b15.antena.max.x + b15.antena.min.x) < 1);
+check('BOM/pasos/alturas OMM en meta', B15.meta.bom.length >= 25 && B15.meta.pasos.length === 12 &&
+  B15.meta.webRef.some(w => w.fuente.includes('OMM')) && B15.meta.variante === 'smt50-v3');
 
 console.log(`\n${pass} ✔ · ${fail} ✘`);
 process.exit(fail ? 1 : 0);

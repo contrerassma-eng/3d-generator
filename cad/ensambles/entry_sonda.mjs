@@ -78,9 +78,10 @@ const cam = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, size / 800
 cam.up.set(0, 0, 1);
 const controls = new OrbitControls(cam, renderer.domElement);
 const setView = (which) => {
-  const zc = (doc.meta.variante || '').includes('v2') ? 1350 : 980;
+  const v = doc.meta.variante || '';
+  const zc = v.includes('v3') ? 1830 : v.includes('v2') ? 1350 : 980;
   const tgt = which === 'cabezal' ? new THREE.Vector3(0, 0, zc) : c0.clone();
-  const d = which === 'cabezal' ? ((doc.meta.variante || '').includes('v2') ? 760 : 520) : size * 0.62;
+  const d = which === 'cabezal' ? (v.includes('v3') ? 620 : v.includes('v2') ? 760 : 520) : size * 0.62;
   const pos = {
     iso: [tgt.x + d, tgt.y - d, tgt.z + d * 0.72],
     frente: [tgt.x, tgt.y - d * 1.6, tgt.z + 6],

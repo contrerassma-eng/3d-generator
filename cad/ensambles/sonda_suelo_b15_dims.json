@@ -1,4 +1,90 @@
 {
+ "_nota_v3": {
+  "resumen": "v3 (pedido del usuario): la caja rectangular se reemplaza por un CABEZAL CILÍNDRICO COMPACTO coaxial al poste. La fuente única de la geometría v3 es gen_estacion_b15.mjs; las secciones D/bom/pasos de este archivo documentan iteraciones anteriores (gabinete ARCA / caja 180×130).",
+  "cabezal": {
+   "base": {
+    "mat": "POM-C torneado",
+    "rosca": "1 1/2\"-11.5 NPT hembra",
+    "hexSW": 54,
+    "discoD": 132,
+    "zHub": [
+     1730,
+     1755
+    ],
+    "zDisco": [
+     1755,
+     1765
+    ],
+    "espigaD": 110.1,
+    "zEspiga": [
+     1765,
+     1785
+    ],
+    "conductoD": 30,
+    "pasaPisoD": 15,
+    "plenum": [
+     1765,
+     1779
+    ]
+   },
+   "cuerpo": {
+    "norma": "EN ISO 1452-2",
+    "tubo": "PVC-U DN125 PN16 Ø125×7.4",
+    "ID": 110.2,
+    "L": 150,
+    "z": [
+     1765,
+     1915
+    ],
+    "fijacion": "4+4 DIN 912 M4 radiales A4"
+   },
+   "tapa": {
+    "mat": "POM-C torneado",
+    "discoD": 132,
+    "z": [
+     1901,
+     1923
+    ],
+    "goteron": true,
+    "pasamuro": "N/SMA Ø6.5"
+   },
+   "toricas": {
+    "norma": "ISO 3601",
+    "medida": "104×3 FKM 75 Sh",
+    "garganta": {
+     "pisoD": 105.0,
+     "prof": 2.55,
+     "W": 4.0,
+     "apriete": "15 % (regla Parker)"
+    },
+    "z": [
+     1771,
+     1906
+    ]
+   },
+   "entradas_inferiores": {
+    "m12_servicio": [
+     0,
+     -41
+    ],
+    "gore": [
+     0,
+     41
+    ],
+    "nota": "bajo el disco: sombra permanente; cero prensaestopas de cable (cableado 100 % interior al poste)"
+   },
+   "interior": {
+    "cavidad": "Ø110.2 × z 1785–1901",
+    "portapilas": "2×26650 verticales al piso",
+    "placa": "portadora circular Ø100 sobre 3 columnas M4 (z 1866)",
+    "desecante": "Ø18 al piso"
+   },
+   "antena": {
+    "monta": "pasamuro N/SMA en tapa",
+    "zTope": 2153
+   }
+  }
+ },
  "D": {
   "tubo": {
    "OD": 50,
