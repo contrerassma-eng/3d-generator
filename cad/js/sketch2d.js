@@ -847,6 +847,39 @@ export function mirrorEntities(entities, a, b) {
   return out;
 }
 
+// patrón rectangular: nx×ny copias desplazadas (excluye el original 0,0)
+export function patternLinear(entities, nx, ny, dx, dy) {
+  const out = [];
+  nx = Math.max(1, Math.round(nx)); ny = Math.max(1, Math.round(ny));
+  for (let i = 0; i < nx; i++) for (let j = 0; j < ny; j++) {
+    if (i === 0 && j === 0) continue;
+    out.push(...copyEntities(entities, [i * dx, j * dy]));
+  }
+  return out;
+}
+
+// patrón circular: n copias giradas alrededor de 'center', repartidas en
+// 'totalDeg' (360 = completo uniforme). Excluye el original. Ids nuevos.
+export function patternCircular(entities, n, center, totalDeg = 360) {
+  n = Math.max(2, Math.round(n));
+  const full = Math.abs(totalDeg) >= 359.999;
+  const step = (full ? totalDeg / n : totalDeg / (n - 1)) * Math.PI / 180;
+  const rot = (p, th) => {
+    const q = sub(p, center), c = Math.cos(th), s = Math.sin(th);
+    return [center[0] + q[0] * c - q[1] * s, center[1] + q[0] * s + q[1] * c];
+  };
+  const out = [];
+  for (let k = 1; k < n; k++) {
+    const th = step * k;
+    for (const e of entities) {
+      if (e.type === 'line') out.push(makeLine(rot(e.a, th), rot(e.b, th)));
+      else if (e.type === 'circle') out.push(makeCircle(rot(e.c, th), e.r));
+      else if (e.type === 'arc') out.push(makeArc(rot(e.c, th), e.r, e.a0 + th, e.a1 + th));
+    }
+  }
+  return out;
+}
+
 // ---------- reconocimiento de trazos a mano (modo lápiz) ----------
 
 export function douglasPeucker(pts, eps) {
