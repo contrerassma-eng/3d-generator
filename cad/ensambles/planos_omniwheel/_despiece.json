@@ -1,0 +1,210 @@
+{
+  "proyecto": "Módulo desviador Omniwheel CV-OMW HD (ruedas de compra)",
+  "archivo": "omni_modulo.json",
+  "fecha": "2026-07-20",
+  "total_piezas": 50,
+  "items_distintos": 25,
+  "planos_fabricacion": 14,
+  "despiece": [
+    {
+      "item": 1,
+      "designacion": "Bandeja de fondo",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e=5/6 (corte láser + plegado)",
+      "plano": "OW-01"
+    },
+    {
+      "item": 2,
+      "designacion": "Placa frontal X-",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e=5/6 (corte láser + plegado)",
+      "plano": "OW-02"
+    },
+    {
+      "item": 3,
+      "designacion": "Placa frontal X+",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e=5/6 (corte láser + plegado)",
+      "plano": "OW-03"
+    },
+    {
+      "item": 4,
+      "designacion": "Placa lateral Y-",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e=5/6 (corte láser + plegado)",
+      "plano": "OW-04"
+    },
+    {
+      "item": 5,
+      "designacion": "Placa lateral Y+",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e=5/6 (corte láser + plegado)",
+      "plano": "OW-05"
+    },
+    {
+      "item": 6,
+      "designacion": "Tapa portante (aberturas de coronas)",
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR e=5/6 (corte láser + plegado)",
+      "plano": "OW-06"
+    },
+    {
+      "item": 7,
+      "designacion": "Eje A (avance)",
+      "cant": 3,
+      "tipo": "FABRICADA",
+      "material_norma": "Eje SAE 1045 Ø15 h6 + separadores Ø22 + bridas (conjunto)",
+      "plano": "OW-07"
+    },
+    {
+      "item": 8,
+      "designacion": "Eje B (eyección)",
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Eje SAE 1045 Ø15 h6 + separadores Ø22 + bridas (conjunto)",
+      "plano": "OW-08"
+    },
+    {
+      "item": 9,
+      "designacion": "Rueda avance Ø100 PU 14182",
+      "cant": 9,
+      "tipo": "COMPRA",
+      "material_norma": "Nexus 14182 · Ø100×66 doble PU alu · 80 kg · bore Ø15 H7 + chaveta 5×5 por OEM",
+      "plano": "—"
+    },
+    {
+      "item": 10,
+      "designacion": "Rueda eyección Ø152 NW152A",
+      "cant": 4,
+      "tipo": "COMPRA",
+      "material_norma": "Nexus NW152A · Ø152×90 industrial acero+PU · 100 kg · bore Ø15 por OEM",
+      "plano": "—"
+    },
+    {
+      "item": 11,
+      "designacion": "Bracket motor eje A · mordaza chapa 4",
+      "cant": 3,
+      "tipo": "FABRICADA",
+      "material_norma": "Chapa S275JR e=4 plegada",
+      "plano": "OW-09"
+    },
+    {
+      "item": 12,
+      "designacion": "Bracket motor eje B · mordaza chapa 4",
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Chapa S275JR e=4 plegada",
+      "plano": "OW-10"
+    },
+    {
+      "item": 13,
+      "designacion": "Motor eje A · Motor UniDrive (eje D)",
+      "cant": 3,
+      "tipo": "COMPRA",
+      "material_norma": "UniDrive 300986 (eje D Ø12) · 60 W 24 VDC — malla ZP2026",
+      "plano": "—"
+    },
+    {
+      "item": 14,
+      "designacion": "Motor eje B · Motor UniDrive (eje D)",
+      "cant": 2,
+      "tipo": "COMPRA",
+      "material_norma": "UniDrive 300986 (eje D Ø12) · 60 W 24 VDC — malla ZP2026",
+      "plano": "—"
+    },
+    {
+      "item": 15,
+      "designacion": "Polea conducida eje A · HTD 5M 28T",
+      "cant": 3,
+      "tipo": "FABRICADA",
+      "material_norma": "Aluminio 6061-T6 (dentado HTD 5M)",
+      "plano": "OW-11"
+    },
+    {
+      "item": 16,
+      "designacion": "Polea conducida eje B · HTD 5M 28T",
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Aluminio 6061-T6 (dentado HTD 5M)",
+      "plano": "OW-12"
+    },
+    {
+      "item": 17,
+      "designacion": "Polea motriz eje A · HTD 5M 28T",
+      "cant": 3,
+      "tipo": "FABRICADA",
+      "material_norma": "Aluminio 6061-T6 (dentado HTD 5M)",
+      "plano": "OW-13"
+    },
+    {
+      "item": 18,
+      "designacion": "Polea motriz eje B · HTD 5M 28T",
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Aluminio 6061-T6 (dentado HTD 5M)",
+      "plano": "OW-14"
+    },
+    {
+      "item": 19,
+      "designacion": "Transmisión eje A",
+      "cant": 3,
+      "tipo": "COMPRA",
+      "material_norma": "Correa síncrona HTD 5M-535-15 (107T)",
+      "plano": "—"
+    },
+    {
+      "item": 20,
+      "designacion": "Transmisión eje B",
+      "cant": 2,
+      "tipo": "COMPRA",
+      "material_norma": "Correa síncrona HTD 5M-485-15 (97T)",
+      "plano": "—"
+    },
+    {
+      "item": 21,
+      "designacion": "Fotocélula S1 (modo stop)",
+      "cant": 1,
+      "tipo": "COMPRA",
+      "material_norma": "Fotocélula difusa M18 · 24 VDC · PNP",
+      "plano": "—"
+    },
+    {
+      "item": 22,
+      "designacion": "Motor UniDrive adicional (repuesto BOM CV-OMW)",
+      "cant": 1,
+      "tipo": "COMPRA",
+      "material_norma": "UniDrive 300986 · 60 W 24 VDC",
+      "plano": "—"
+    },
+    {
+      "item": 23,
+      "designacion": "Chaveta DIN 6885 A 5×5×20 (ruedas y poleas)",
+      "cant": 15,
+      "tipo": "NORMALIZADA",
+      "material_norma": "DIN 6885 A · 5×5",
+      "plano": "—"
+    },
+    {
+      "item": 24,
+      "designacion": "Rodamiento de brida Ø35 (bore Ø15) por extremo de eje",
+      "cant": 10,
+      "tipo": "NORMALIZADA",
+      "material_norma": "UCFL202 o brida Ø35 equivalente",
+      "plano": "—"
+    },
+    {
+      "item": 25,
+      "designacion": "Perno M6 + tuerca T (bracket a bandeja, colisas)",
+      "cant": 20,
+      "tipo": "NORMALIZADA",
+      "material_norma": "DIN 933 M6 8.8",
+      "plano": "—"
+    }
+  ]
+}

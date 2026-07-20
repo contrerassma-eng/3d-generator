@@ -194,6 +194,23 @@ diferencias.
   Simplificaciones restantes: poleas sin dentado (cilindro liso), correa como
   lazo prismático, sin tornillería.
 
+## Planos de fabricación + BOM (HD)
+
+`cad/ensambles/planos_omniwheel.mjs` genera el juego de taller del módulo HD:
+portada + despiece (COMPRAS con producto/fuente, normalizadas con norma) +
+14 láminas ISO de las piezas fabricadas. Láminas ANALÍTICAS dedicadas: ejes
+(vista lateral con escalones, separadores acotados en cadena y bridas) y caras
+de corte láser (bandeja con ranuras, tapa con las 13 aberturas, placas con
+pasadas Ø16). Salida en `cad/ensambles/planos_omniwheel/`
+(`planos_fabricacion_omniwheel.pdf` + `_despiece.json`).
+
+```bash
+cd cad
+npx esbuild ensambles/planos_omniwheel.mjs --bundle --format=esm --platform=node \
+  --alias:three=./vendor/three.module.min.js --outfile=/tmp/planos_omni.mjs
+node /tmp/planos_omni.mjs 2026-07-20     # la fecha va al cajetín
+```
+
 ## Cómo regenerar / ver
 
 ```bash
