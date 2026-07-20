@@ -463,6 +463,21 @@ console.log('— Parámetros globales (fx) y ecuaciones —');
   const vc = volume(buildPartGeometry(pc));
   check('chaflán 5 = triángulo 5×5/2 ×40', Math.abs(vc - (64000 - 12.5 * 40)) < 5, `vc=${vc}`);
 
+  // chaflán de dos distancias 8×3: cuña = ½·8·3·40 = 480
+  const pc2 = box(); pc2.features.push(makeChamferFeature([{ a: [20, 20, 0], b: [20, 20, 40] }], 8, { mode: 'two', d2: 3 }));
+  const vc2 = volume(buildPartGeometry(pc2));
+  check('chaflán 8×3 = ½·8·3·40 = 480', Math.abs(vc2 - (64000 - 0.5 * 8 * 3 * 40)) < 5, `vc2=${vc2}`);
+
+  // chaflán distancia+ángulo 6 @ 30°: s2 = 6·tan30° ; cuña = ½·6·s2·40
+  const s2 = 6 * Math.tan(30 * Math.PI / 180);
+  const pc3 = box(); pc3.features.push(makeChamferFeature([{ a: [20, 20, 0], b: [20, 20, 40] }], 6, { mode: 'angle', angle: 30 }));
+  const vc3 = volume(buildPartGeometry(pc3));
+  check('chaflán 6@30° = ½·6·(6·tan30)·40', Math.abs(vc3 - (64000 - 0.5 * 6 * s2 * 40)) < 5, `vc3=${vc3} s2=${s2.toFixed(3)}`);
+
+  // el chaflán 45° por ángulo coincide con el simétrico de igual distancia
+  const pc4 = box(); pc4.features.push(makeChamferFeature([{ a: [20, 20, 0], b: [20, 20, 40] }], 5, { mode: 'angle', angle: 45 }));
+  check('chaflán 5@45° ≡ chaflán simétrico 5', Math.abs(volume(buildPartGeometry(pc4)) - vc) < 2);
+
   // Arista cóncava (interior): el empalme AGREGA material.
   const dL = newDoc(); const pL = newPart(dL, 'L');
   pL.features.push(makeBoxFeature(40, 20, 20, [0, 0, 0]));
