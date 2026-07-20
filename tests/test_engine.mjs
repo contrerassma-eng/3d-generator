@@ -193,6 +193,14 @@ console.log('— Bocetos extruidos —');
   let crashed = false, g2 = null;
   try { g2 = buildPart([f2]); } catch (e) { crashed = true; }
   check('contorno que cruza el eje se omite sin crash', !crashed && (!g2.attributes.position || g2.attributes.position.count === 0));
+
+  // revolución parcial 90°: mismo perfil → 1/4 del tubo (12 facetas = 12 de las 48
+  // del anillo completo, con tapas planas justo en los límites de faceta)
+  const f90 = makeRevolveFeature(rect, [], { a: [0, 0], b: [0, 30] }, 'union', [0, 0, 0], [0, 0, 1], [1, 0, 0], 90);
+  const g90 = buildPart([f90]);
+  check('revolución parcial 90° ≈ 1/4 del tubo', rel(volume(g90), expected / 4) < 0.01, `vol=${volume(g90)} esp=${(expected / 4).toFixed(0)}`);
+  check('revolución parcial sin NaN', !hasNaN(g90));
+  check('revolución parcial genera sólido', g90.attributes.position && g90.attributes.position.count > 0);
 }
 
 console.log('— Detección de caras y ejes —');
