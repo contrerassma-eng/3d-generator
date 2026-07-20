@@ -1,0 +1,322 @@
+[
+  {
+    "id": "movex530_paso",
+    "claim": "Movex serie 530 — paso (pitch) de banda",
+    "value": 15,
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_530-LBP-and-PRO-LBP-Low-Backline-Pressure-Modular-Belt-Solutions.pdf",
+    "accessed": "2026-07-19",
+    "quote": "Belt pitch 15 mm ... Pitch: 15 mm | Thickness: 8,7 mm",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex530_espesor",
+    "claim": "Movex 530 — espesor de la base de banda (todas las versiones planas)",
+    "value": 8.7,
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_Conveyor_modular_belts_and_chains_Catalog_Digital_Imperial.pdf",
+    "accessed": "2026-07-19",
+    "quote": "Modular Belt Series 530 FT, H=0.34\" M=3\"",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex530lbp_altura",
+    "claim": "Movex 530 LBP — altura total con rodillos",
+    "value": 12.2,
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
+    "accessed": "2026-07-19",
+    "quote": "530 LBP - H 12,2mm ... 530 PRO LBP - H 12,2mm  [tabla de transferencias, sección 2.10]",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex530lbp_rodillo",
+    "claim": "Movex 530 LBP — diámetro de rodillo LBP, material y densidad",
+    "value": "Ø12,2 mm, POM rojo, 700 rodillos/m² (3 filas por módulo de 6 in)",
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_530-LBP-and-PRO-LBP-Low-Backline-Pressure-Modular-Belt-Solutions.pdf",
+    "accessed": "2026-07-19",
+    "quote": "Ø12.2 [cota del dibujo técnico] ... Material: POM Red | Density: 700 rollers/m² ... 530 LBP (3 rows of rollers) has a density of 700 rollers per square meter",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex530lbp_carga_peso",
+    "claim": "Movex 530 LBP — tracción admisible y peso (material LFA, único ofrecido)",
+    "value": "24000 N/m (max working load); 9,0 kg/m²; solo LFA (Low Friction Acetal), pin PBT blanco",
+    "unit": "N/m; kg/m²",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_530-LBP-and-PRO-LBP-Low-Backline-Pressure-Modular-Belt-Solutions.pdf",
+    "accessed": "2026-07-19",
+    "quote": "Max Load 24.000N/m ... Weight: 9,0 kg/m2 ... Material LFA - Code 01 Low friction Acetal ... Pin Material: PBT White",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex530gt_friction_top",
+    "claim": "Friction top de la familia 530 = 530 GT (Grip Top): goma sobre banda y altura",
+    "value": "banda 8,7 + goma 2,0 = 10,7 mm; goma 75 ShA (disp. 50 ShA); LFA: 26000 N/m y 10,6 kg/m²",
+    "unit": "mm; N/m; kg/m²",
+    "url": "https://opis.cz/movex/pdf/modular_belts.pdf",
+    "accessed": "2026-07-19",
+    "quote": "Hardness of Grip top Rubber: 75 ShA ... [LFA] 26000 N/m 10,6 kg/m2  [pág. 195, Modular Belt Series 530 GT] — '520 GT - H 10,7mm' [Eng. Manual 2.10]",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex530_ancho18",
+    "claim": "Movex 530 — ancho 18 in disponible (LBP en incrementos de 6 in)",
+    "value": "18 in = 457,2 mm; art. 5324010018A (LBP 18 in)",
+    "unit": "in/mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_530-LBP-and-PRO-LBP-Low-Backline-Pressure-Modular-Belt-Solutions.pdf",
+    "accessed": "2026-07-19",
+    "quote": "0018 5324010018A ... * Belts wider than 54 inch are available with 6 inch increments.",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex530_backflex",
+    "claim": "Movex 530 — radio mínimo de backflex (FT/FTT/LBP/PRO LBP)",
+    "value": 25,
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/525-530_ModularBeltsSprockets.pdf",
+    "accessed": "2026-07-19",
+    "quote": "Pitch: 15 mm | Backflex radius min.: 25 mm",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex530_sprocket_z24",
+    "claim": "Movex 530 — sprocket mecanizado partido Z24: PD, OD, ancho y S",
+    "value": "Z24: PD 114,9 / OD 115,5 / S 53,5 mm; ancho total 24 mm; poliamida; partido (split)",
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/525-530_ModularBeltsSprockets.pdf",
+    "accessed": "2026-07-19",
+    "quote": "158301 24 25 114,9 115,5 53,5 ... **Drive sprockets Z-12 and Z-16 are supplied non-split. Material: Polyamide",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex530_sprocket_bore_cuadrado15",
+    "claim": "Movex 530 — bore CUADRADO 1½ in disponible en sprocket partido mecanizado",
+    "value": "art. 158308YF (1583, bore 1½ □); bores: redondos 1, 1¼, 1 7/16, 1½ in; cuadrados 1×1, 1¼×1¼, 1½×1½ in (métrico: cuadrados 25/30/40)",
+    "unit": "in",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_Conveyor_modular_belts_and_chains_Catalog_Digital_Imperial.pdf",
+    "accessed": "2026-07-19",
+    "quote": "1583 158308YF 1¹⁄₂* 1¹⁄₂ □ ... 1584 158408YF 1¹⁄₂* 1¹⁄₂ □  [pág. 238, Split drive sprocket machined 525-530]",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex530_n_sprockets_18in",
+    "claim": "Movex 530 — nº de sprockets e indent para 18 in (457,2 mm)",
+    "value": "530 LBP: 5 sprockets, indent A=76,2 mm; 530 FT/GT/GTsi/PRO LBP: 6 sprockets, indent A=38,1 mm, paso B=76,2 mm. OJO: el brochure LBP invierte los grupos (discrepancia entre documentos Movex; confirmar con application engineering)",
+    "unit": "-",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
+    "accessed": "2026-07-19",
+    "quote": "A: 1,5\" ( 38,1 mm ) B: 3\" (76,2 mm /steps) ... Belt width (in/mm) Recommended n° of sprockets* ... 18 / 457.2 [530 LBP:] 5 [Others:] 6",
+    "confidence": "media"
+  },
+  {
+    "id": "movex530_sprocket_fijo_flotante",
+    "claim": "Movex — montaje de sprockets: uno fijo, el resto flotan (dilatación)",
+    "value": "bore fijo P9; flotantes +0,3/+0,5 (sufijo X); cuadrados +0,4/+0,3; solo se fija el sprocket alineado con el positioner; torque tornillos sprocket partido 12 Nm",
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
+    "accessed": "2026-07-19",
+    "quote": "All sprockets with tight seat tolerance P9 are also available with plus tolerance +0,3 / +0,5, floating on the shaft. ... Recommended thightening torque 12 Nm",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex530_nosebar",
+    "claim": "Movex 530 — nosebar: disponible en toda la serie; radio de punta y artículos",
+    "value": "Estándar 530 (LBP excluida): art. 22808 (K=3 in) / 22809 (K=6 in), punta R0.37 in ≈ 9,5 mm, material BluLub; versión rodillos inox Ø19 (22808B/22809B, LBP excluida); NOSEBAR ESPECIAL 530 LBP doble cara: art. 22867/22868 (PRO LBP: 22865/22866; con rodamientos 22863/22864)",
+    "unit": "-",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_Conveyor_modular_belts_and_chains_Catalog_Digital_Imperial.pdf",
+    "accessed": "2026-07-19",
+    "quote": "NoseBars for 530 Series (LBP version excluded) Article-Nr. 22808 K 3.00 / 22809 K 6.00 ... Movex 530 LBP Nosebars are special Nosebars ... installed in two different ways: idler side and active side ... Material: BluLub",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex_diam_min_rodillos",
+    "claim": "Movex paso 15 mm — diámetros mínimos: nosebar/idler, retorno y deflexión",
+    "value": "Nosebar D>19; retorno D>50 (LBP: zapata deslizante); deflexión D>(backflex+10)×2 = 70 mm para 530",
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
+    "accessed": "2026-07-19",
+    "quote": "Idler Nosebar D> 100 D> 19 D> 19 D> 40 D> 50 D> 75* ... Return Sliding shoe D> 50 ... Deflection D> (backflex radius + 10)*2",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex_retorno_lbp",
+    "claim": "Movex — retorno para LBP: zapatas deslizantes; para GT: rodillos",
+    "value": "LBP: 'Sliding shoe for LBP chains/belts' (tipo R230); GT: rodillos de retorno recomendados; regla: cuanto más grande el rodillo, mejor (respetando backflex)",
+    "unit": "-",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
+    "accessed": "2026-07-19",
+    "quote": "For GT chain/belt versions return rollers are recommended. ... general rule: the bigger the better (with respect to backflex-radius).",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex_wrap",
+    "claim": "Movex — ángulo de abrace (wrap) en el sprocket motriz",
+    "value": "140 ± 10",
+    "unit": "grados",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
+    "accessed": "2026-07-19",
+    "quote": "Wrap around angle – chain/belt around drive sprocket • Observe – general recommendation: 140+/-10°",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex_catenaria",
+    "claim": "Movex — catenaria: profundidad, largo y distancias de retorno",
+    "value": "sag nominal 50–150 mm (alarma >150); largo catenaria 500–900 (por defecto 700); distancia entre apoyos de retorno 500 mm; primer apoyo a 500±50 del sprocket",
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
+    "accessed": "2026-07-19",
+    "quote": "H1 - Nominal height: between 50 and 150 mm / H2 - Alarm height: bigger than 150 mm ... Recommended catenary length: 500-900mm, recommended return shaft distance: 500mm ... Desired catenary length: Dcl [m]; default value is 700 mm",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex_wearstrips_lbp",
+    "claim": "Movex 530 LBP — wearstrips del carried way: entre filas de rodillos, separación máxima",
+    "value": "máx 50 mm entre wearstrips (PRO LBP: 25 mm); para rodillos motrices, wearstrips en contacto directo bajo los rodillos; junta de dilatación 6–10 mm; fijar solo el extremo hacia el lado conducido",
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_Conveyor_modular_belts_and_chains_Catalog_Digital_Imperial.pdf",
+    "accessed": "2026-07-19",
+    "quote": "For accumulation system, please place the wear strips between the rollers (max 2.00 in). ... Clearance = 6 to 10 mm ... Fix wear strips only at their end looking towards the idler end of the conveyor.",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex_holgura_lateral",
+    "claim": "Movex — holgura lateral banda↔bastidor",
+    "value": "holgura total = Δancho térmico + 5 mm básica de diseño; POM 0,110 mm/m/°C",
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
+    "accessed": "2026-07-19",
+    "quote": "Total clearance: delta width + basic recommended design clearance ... At 23°C ... total clearence = 5 mm (basic recommended design cleareance). ... PBT POM PP UHMW-PE PE PA 0.130 0.110 0.200 0.150 0.180 0.100",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex_tensado",
+    "claim": "Movex — fuerza de tensado y filosofía",
+    "value": "TF = Cbw × (Dcl − Rcl) × 9,81 [N]; 'tensar justo lo suficiente, ni más ni menos' (la banda modular NO se pretensa: catenaria)",
+    "unit": "N",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
+    "accessed": "2026-07-19",
+    "quote": "Tensioning force: TF = Cbw * (Dcl - Rcl) * 9.81 (gravity constant) ... tension just enough, not more, not less.",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex_factor_diseno",
+    "claim": "Movex — factor de diseño sobre carga admisible",
+    "value": "quedarse bajo el 50% de la carga admisible",
+    "unit": "%",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
+    "accessed": "2026-07-19",
+    "quote": "it is strongly recommended to stay below 50% of the admissible working load.",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex530lbp_suministro",
+    "claim": "Movex 530 LBP — largo de rollo de suministro y accionamiento recomendado",
+    "value": "ancho >12 in: rollos de 1,5 m (100 pasos); accionamiento recomendado Center/Hinge-Driven",
+    "unit": "m",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_530-LBP-and-PRO-LBP-Low-Backline-Pressure-Modular-Belt-Solutions.pdf",
+    "accessed": "2026-07-19",
+    "quote": "Supplied coil length: Width ≤ 12 in: 3 meter (200 pitches) | Width > 12 in: 1,5 meter (100 pitches) ... Drive method (recommended) Center/Hinge-Driven",
+    "confidence": "alta"
+  },
+  {
+    "id": "movex_transferencia_lt",
+    "claim": "Movex — dimensión LT de transferencia punta a punta (tabla 2.10)",
+    "value": "530 FT→530 FT: 40; 530 FT→530 LBP: 43; 530 LBP→530 LBP: 45 mm",
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
+    "accessed": "2026-07-19",
+    "quote": "530 FT - H 8,7mm 31 40 40 40 ... 530 LBP - H 12,2mm 33,5 43 43 43 ... 45 45",
+    "confidence": "media"
+  },
+  {
+    "id": "supuesto_deflexion_eje",
+    "claim": "SUPUESTO (no Movex): deflexión máxima admisible del eje motriz",
+    "value": "2,5 mm (0.1 in) a plena carga — práctica estándar de la industria (Intralox/Habasit); Movex no publica límite y remite a application engineering",
+    "unit": "mm",
+    "url": "https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex_EngineeringManual_V2.0_ENG.pdf",
+    "accessed": "2026-07-19",
+    "quote": "(no aparece en el manual: dato NO publicado por Movex)",
+    "confidence": "baja"
+  },
+  {
+    "id": "cot_sprocket_z32",
+    "claim": "Cotización 26012937 — sprocket ofertado: rueda moldeada Z-32 serie 525-530, bore cuadrado 1.5 in, con grano M8",
+    "value": "P158808YF · €17.42 · 100+52 pzas",
+    "unit": "EUR/pza",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "RUOTA STAMP TRAINO DIV SERIE 525-530 Z-32 df 1.1/2''x1.1/2'' c/GRANO M8 — P158808YF 17,42",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_collar",
+    "claim": "Cotización — collarín de referencia para eje cuadrado 1.5 in",
+    "value": "P21703Y · €2.32 · 36+24 pzas",
+    "unit": "EUR/pza",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "COLLARE DI RIFERIMENTO df 1.1/2''x1.1/2'' — P21703Y 2,32",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_nosebar_lbp",
+    "claim": "Cotización — nosebar 530 LBP CON RODAMIENTOS h19, L=6 in, 6 agujeros, BluLub",
+    "value": "P22868 · €38.73 · 51 pzas",
+    "unit": "EUR/pza",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "PIASTRA di TRASFERIMENTO ''NOSEBAR'' h19mm c/CUSCINETTI L 152,4mm/6'' 6 FORI BluLub per 530PRO LBP — P22868 38,73",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_nosebar_gt",
+    "claim": "Cotización — transfer plate CON RODAMIENTOS h19 L=6 in (para el GT)",
+    "value": "P22862 · €31.00 · 51 pzas",
+    "unit": "EUR/pza",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "TRANSFER PLATE WITH BEARINGS h=19mm L=6\" — P22862 31,00",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_banda_lbp",
+    "claim": "Cotización — banda 530 LBP LFA 18 in",
+    "value": "P5324010018A · €174.85/m · 90.3 m",
+    "unit": "EUR/m",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "MODULAR BELT LFA 530 LBP W 18'' — P5324010018A 174,85 · mt 90,300",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_banda_gt",
+    "claim": "Cotización — banda 530 GT LFA 18 in",
+    "value": "P5323010018A · €243.18/m · 18 m",
+    "unit": "EUR/m",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "MODULAR BELT LFA 530 GT W18'' — P5323010018A 243,18 · mt 18,000",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_bar_cap",
+    "claim": "Cotización — bar cap UHMW enrollable para pletina 1/2 in / 12 mm (guía de apoyo)",
+    "value": "P101203-30 · €6.96/m · 300+60 m (rollos de 30 m)",
+    "unit": "EUR/m",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "BAR CAP 17,53x19,05 Th1/2''/12mm WHITE UHMW-PE L=100ft/30m — P101203-30 6,96",
+    "confidence": "alta"
+  },
+  {
+    "id": "cot_conical_rails",
+    "claim": "Cotización — conical rails enrollables (guía lateral)",
+    "value": "T 1 in P12201C €17.14/m ×156 m · T 40 mm P12401C €18.63/m ×105 m · L 1¼ in P12501C €23.08/m ×105 m",
+    "unit": "EUR/m",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "accessed": "2026-07-20",
+    "quote": "CONICAL RAIL T-SHAPE W1,00'' WHITE SS L=10ft/3m / STEEL Th1,5mm — P12201C · T-Shape CONICAL RAIL W=40mm Ti-WHITE SS Aisi304 Th.1,5 — P12401C · L-Shape CONICAL RAIL W=1.1/4'' Ti-WHITE SS Aisi304 Th.1,5 — P12501C",
+    "confidence": "alta"
+  }
+]
