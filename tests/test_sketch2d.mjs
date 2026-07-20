@@ -214,6 +214,24 @@ console.log('— Regiones por paridad y selección de perfiles —');
   check('isla excluida → 1 región', r2.regions.length === 1 && r2.regions[0].holes.length === 1, `regs=${r2.regions.length}`);
 }
 
+console.log('— Geometría de construcción (no forma perfiles) —');
+{
+  const sq = [
+    makeLine([0, 0], [40, 0]), makeLine([40, 0], [40, 40]),
+    makeLine([40, 40], [0, 40]), makeLine([0, 40], [0, 0]),
+  ];
+  // una línea de centro que cruza el cuadrado y un círculo de construcción interior
+  const axis = makeLine([-10, 20], [50, 20]); axis.construction = true;
+  const cc = makeCircle([20, 20], 8); cc.construction = true;
+  const r = regions([...sq, axis, cc], []);
+  check('construcción ignorada → 1 región sin agujeros', r.regions.length === 1 && r.regions[0].holes.length === 0, `regs=${r.regions.length} holes=${r.regions[0]?.holes.length}`);
+  check('construcción no cuenta como contorno', r.loops.length === 1, `loops=${r.loops.length}`);
+  // sin la marca, el círculo SÍ sería un agujero
+  const cc2 = makeCircle([20, 20], 8);
+  const r3 = regions([...sq, cc2], []);
+  check('mismo círculo sin marca → agujero', r3.regions.length === 1 && r3.regions[0].holes.length === 1);
+}
+
 console.log('— Mover con cotas fijas (candado) —');
 {
   const ents = [

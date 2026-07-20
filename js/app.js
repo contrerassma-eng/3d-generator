@@ -1679,6 +1679,7 @@ const snapMat = new THREE.MeshBasicMaterial({ color: 0x34a853 });
 const constraintMat = new THREE.MeshBasicMaterial({ color: 0x4d90fe }); // marcador de restricción persistente
 // línea guía de inferencia (paralela/perpendicular/horizontal/vertical) estilo Inventor
 const guideMat = new THREE.LineDashedMaterial({ color: 0x4d90fe, transparent: true, opacity: 0.65, dashSize: 3, gapSize: 2.5 });
+const constrMat = new THREE.LineDashedMaterial({ color: 0xf0a437, transparent: true, opacity: 0.8, dashSize: 2.5, gapSize: 2 });
 
 const DIM_PREFIX = { len: 'L ', dia: 'Ø', dist: '↔ ', ang: '∠' };
 const DIM_LABEL = { len: 'Largo (mm)', dia: 'Diámetro (mm)', dist: 'Distancia (mm)', ang: 'Ángulo (°)' };
@@ -1901,6 +1902,25 @@ function deleteSelectedSketch() {
   pruneDims();
   redrawSketch();
   setStatus(`${n} entidad(es) borrada(s).`);
+}
+
+// alterna la marca de construcción (referencia) en las entidades seleccionadas:
+// la geometría de construcción no forma perfiles pero sí sirve de eje/apoyo/cota
+function toggleConstruction() {
+  if (!sketch || !sketch.selIds.size) {
+    setStatus('Construcción: selecciona primero una o más entidades (herramienta ⬚ Selec).');
+    return;
+  }
+  pushUndo();
+  let on = 0, off = 0;
+  for (const e of sketch.entities) {
+    if (!sketch.selIds.has(e.id)) continue;
+    e.construction = !e.construction;
+    e.construction ? on++ : off++;
+  }
+  redrawSketch();
+  drawProfileFills();
+  setStatus(`Construcción: ${on} a referencia, ${off} a normal. La geometría de construcción no forma perfiles.`);
 }
 
 function enterSketch(hit) {
@@ -2993,10 +3013,13 @@ function redrawSketch() {
   updateSketchState();
   clearGroup(sketch.draw);
   for (const e of sketch.entities) {
-    const mat = (sketch.dimPick && sketch.dimPick.ent.id === e.id) || sketch.selIds.has(e.id) ? selEntMat : (e.proj ? projMat : drawMat);
+    const picked = (sketch.dimPick && sketch.dimPick.ent.id === e.id) || sketch.selIds.has(e.id);
+    const mat = picked ? selEntMat : (e.proj ? projMat : e.construction ? constrMat : drawMat);
     // las proyectadas se dibujan un pelo más arriba para que el verde tape la referencia amarilla
     const pts = SK.entityPoints(e, 64).map(p => to3D(p[0], p[1], e.proj ? 0.16 : 0.1));
-    sketch.draw.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat));
+    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat);
+    if (mat === constrMat) line.computeLineDistances(); // material discontinuo
+    sketch.draw.add(line);
   }
   if (sketch.dimPick?.isRef) {
     const e = sketch.dimPick.ent;
@@ -3389,6 +3412,7 @@ sketchbar.addEventListener('click', (e) => {
       : 'Giro desactivado: vista normal a la cara restaurada.');
     return;
   }
+  if (btn.id === 'skConstr') { toggleConstruction(); return; }
   if (btn.dataset.tool) {
     // re-tocar la herramienta activa la APAGA (vuelve a Selección, neutral)
     const clicked = btn.dataset.tool;
