@@ -140,7 +140,7 @@
     0,
     -140
    ],
-   "prensas_superficie": [
+   "m12_panelbar": [
     0,
     0,
     -180
@@ -327,7 +327,7 @@
      "gabinete",
      "cables_bajada"
     ],
-    "texto": "Montar TODAS las entradas en la cara inferior: bus, 2 superficie, M12 servicio (grasa dieléctrica + tapa), válvula Gore y entrada del panel. Los cables salen del poste por las 2 salidas laterales traseras y hacen un SALTO CORTO CON LAZO DE GOTEO hasta su prensaestopas — ningún cable largo a la vista."
+    "texto": "Montar TODAS las entradas en la cara inferior: bus, 2 superficie, M12 servicio (grasa dieléctrica + tapa), válvula Gore y entrada del panel. Los cables salen del poste por las 2 salidas traseras con SALTO CORTO Y LAZO DE GOTEO: los de sensores terminan en CONECTOR M12 VOLANTE que enchufa a su receptáculo rotulado (grasa dieléctrica, apriete a mano) — recambio futuro sin abrir la caja."
    },
    {
     "n": 10,
@@ -487,11 +487,11 @@
    },
    {
     "item": 15,
-    "id": "prensas_superficie",
-    "desig": "2× Skintop M16 superficie",
-    "mat": "Latón Ni",
-    "cant": 2,
-    "nota": "Pluviómetro (pulso) y escudo/hoja"
+    "id": "m12_panelbar",
+    "desig": "Patch panel M12: 3× receptáculo A-cod + 3× conector volante moldeado + placa rotulada",
+    "mat": "IEC 61076-2-101, IP68 acoplado",
+    "cant": 1,
+    "nota": "LLUVIA · T/HR · HOJA — recambio de sensor SIN abrir la caja ni herramientas (estilo GroPoint; supera el jack 3.5 mm de METER ZL6)"
    },
    {
     "item": 16,
@@ -619,6 +619,7 @@
    "Silicona neutra (salida lateral)"
   ],
   "features": [
+   "PATCH PANEL M12 ROTULADO en la cara inferior (LLUVIA·T/HR·HOJA·SRV): recambio de sensores en segundos con giro de rosca, IP68 acoplado — el conector industrial de GroPoint con la comodidad plug-and-play del ZL6, sin su jack 3.5 mm no estanco",
    "CABLEADO 100 % INTERIOR AL POSTE: cada instrumento entra al SCH40 por pasacables de goma junto a su montaje; solo saltos cortos con lazo de goteo hacia las entradas inferiores — sin cables zunchados a la vista (mejor que el estándar ZL6/Sentek, que los amarra por fuera)",
    "ESTACIÓN DE POSTE v2 (ingeniería sobre estética): puerta VERTICAL al sur — no entra lluvia al abrir, servicio de pie a 1.15 m, panel como alero de la puerta",
    "TODAS las entradas de cable por la cara INFERIOR con lazo de goteo (la regla de oro IP en gabinetes de intemperie) — incluida la válvula Gore, que abajo nunca recibe sol ni chorro directo",
@@ -642,9 +643,15 @@
     "acceso": "2026-07-20"
    },
    {
-    "afirmacion": "Por estación la competencia ofrece T/HR (ATMOS 14), pluviómetro y humedad de hoja (PHYTOS 31)",
+    "afirmacion": "Por estación la competencia ofrece T/HR (ATMOS 14), pluviómetro y humedad de hoja (PHYTOS 31); el ZL6 conecta sensores por jack estéreo 3.5 mm plug-and-play en la cara inferior",
     "fuente": "METER ZL6",
     "url": "https://metergroup.com/products/zl6/",
+    "acceso": "2026-07-20"
+   },
+   {
+    "afirmacion": "GroPoint usa ecosistema M12 IP68 completo: sensores con M12 moldeado, cables M-H y barra de expansión de 4 puertos",
+    "fuente": "GroPoint 4-Port Expansion Bar / M12 cables",
+    "url": "https://www.gropoint.com/products-1/4-port-expansion-bar-with-m12-cable-part-2998-amp-2999",
     "acceso": "2026-07-20"
    }
   ],
@@ -3602,7 +3609,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -66,
+      -68,
       -65,
       26
      ],
@@ -3623,7 +3630,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -40,
+      -44,
       -65,
       26
      ],
@@ -3633,7 +3640,7 @@
       0
      ],
      "params": {
-      "dia": 16.5,
+      "dia": 12.5,
       "depth": 4,
       "through": false
      }
@@ -3644,7 +3651,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -14,
+      -20,
       -65,
       26
      ],
@@ -3654,7 +3661,7 @@
       0
      ],
      "params": {
-      "dia": 16.5,
+      "dia": 12.5,
       "depth": 4,
       "through": false
      }
@@ -3665,7 +3672,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      12,
+      4,
       -65,
       26
      ],
@@ -3686,7 +3693,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      38,
+      28,
       -65,
       26
      ],
@@ -3707,7 +3714,28 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      64,
+      50,
+      -65,
+      26
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12.5,
+      "depth": 4,
+      "through": false
+     }
+    },
+    {
+     "id": "f97",
+     "name": "Entrada inferior 7",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      70,
       -65,
       26
      ],
@@ -3742,7 +3770,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f97",
+     "id": "f98",
      "name": "Marco PU",
      "shape": "sketch",
      "op": "union",
@@ -3875,7 +3903,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f101",
+     "id": "f102",
      "name": "Puerta",
      "shape": "box",
      "op": "union",
@@ -3896,7 +3924,7 @@
      }
     },
     {
-     "id": "f102",
+     "id": "f103",
      "name": "Rebaje estético 1 mm",
      "shape": "box",
      "op": "cut",
@@ -3917,7 +3945,7 @@
      }
     },
     {
-     "id": "f98",
+     "id": "f99",
      "name": "Paso tornillo tapa",
      "shape": "hole",
      "op": "cut",
@@ -3935,60 +3963,6 @@
       "dia": 4.5,
       "depth": 10,
       "through": true
-     }
-    },
-    {
-     "id": "f103",
-     "name": "Patrón rect.",
-     "shape": "pattern",
-     "op": "pattern",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "sourceId": "f98",
-      "kind": "rect",
-      "nx": 2,
-      "ny": 2,
-      "dx": -168,
-      "dy": -118,
-      "u": [
-       1,
-       0,
-       0
-      ],
-      "v": [
-       0,
-       1,
-       0
-      ]
-     }
-    },
-    {
-     "id": "f99",
-     "name": "Tornillo DIN912 M4",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      84,
-      59,
-      8
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 7,
-      "h": 3.5
      }
     },
     {
@@ -4027,6 +4001,60 @@
     },
     {
      "id": "f100",
+     "name": "Tornillo DIN912 M4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      84,
+      59,
+      8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 3.5
+     }
+    },
+    {
+     "id": "f105",
+     "name": "Patrón rect.",
+     "shape": "pattern",
+     "op": "pattern",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "sourceId": "f100",
+      "kind": "rect",
+      "nx": 2,
+      "ny": 2,
+      "dx": -168,
+      "dy": -118,
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "v": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f101",
      "name": "Boca allen",
      "shape": "hole",
      "op": "cut",
@@ -4047,7 +4075,7 @@
      }
     },
     {
-     "id": "f105",
+     "id": "f106",
      "name": "Patrón rect.",
      "shape": "pattern",
      "op": "pattern",
@@ -4062,7 +4090,7 @@
       1
      ],
      "params": {
-      "sourceId": "f100",
+      "sourceId": "f101",
       "kind": "rect",
       "nx": 2,
       "ny": 2,
@@ -4100,7 +4128,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f106",
+     "id": "f107",
      "name": "PCB 100×90",
      "shape": "box",
      "op": "union",
@@ -4121,7 +4149,7 @@
      }
     },
     {
-     "id": "f107",
+     "id": "f108",
      "name": "Core LoRa",
      "shape": "box",
      "op": "union",
@@ -4142,7 +4170,7 @@
      }
     },
     {
-     "id": "f108",
+     "id": "f109",
      "name": "RAK3172",
      "shape": "box",
      "op": "union",
@@ -4163,7 +4191,7 @@
      }
     },
     {
-     "id": "f109",
+     "id": "f110",
      "name": "Conector u.FL",
      "shape": "cylinder",
      "op": "union",
@@ -4183,7 +4211,7 @@
      }
     },
     {
-     "id": "f110",
+     "id": "f111",
      "name": "ADS1115",
      "shape": "box",
      "op": "union",
@@ -4204,7 +4232,7 @@
      }
     },
     {
-     "id": "f111",
+     "id": "f112",
      "name": "Buck aislado",
      "shape": "box",
      "op": "union",
@@ -4225,7 +4253,7 @@
      }
     },
     {
-     "id": "f112",
+     "id": "f113",
      "name": "Borne",
      "shape": "box",
      "op": "union",
@@ -4246,7 +4274,7 @@
      }
     },
     {
-     "id": "f113",
+     "id": "f114",
      "name": "USB-C",
      "shape": "box",
      "op": "union",
@@ -4267,7 +4295,7 @@
      }
     },
     {
-     "id": "f114",
+     "id": "f115",
      "name": "Header 2×10",
      "shape": "box",
      "op": "union",
@@ -4288,7 +4316,7 @@
      }
     },
     {
-     "id": "f115",
+     "id": "f116",
      "name": "LED estado",
      "shape": "cylinder",
      "op": "union",
@@ -4308,7 +4336,7 @@
      }
     },
     {
-     "id": "f116",
+     "id": "f117",
      "name": "LED LoRa",
      "shape": "cylinder",
      "op": "union",
@@ -4328,7 +4356,7 @@
      }
     },
     {
-     "id": "f117",
+     "id": "f118",
      "name": "Golilla 1",
      "shape": "cylinder",
      "op": "union",
@@ -4348,7 +4376,7 @@
      }
     },
     {
-     "id": "f118",
+     "id": "f119",
      "name": "Golilla 2",
      "shape": "cylinder",
      "op": "union",
@@ -4368,7 +4396,7 @@
      }
     },
     {
-     "id": "f119",
+     "id": "f120",
      "name": "Golilla 3",
      "shape": "cylinder",
      "op": "union",
@@ -4388,7 +4416,7 @@
      }
     },
     {
-     "id": "f120",
+     "id": "f121",
      "name": "Golilla 4",
      "shape": "cylinder",
      "op": "union",
@@ -4427,7 +4455,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f121",
+     "id": "f122",
      "name": "Separador",
      "shape": "cylinder",
      "op": "union",
@@ -4447,7 +4475,7 @@
      }
     },
     {
-     "id": "f122",
+     "id": "f123",
      "name": "Patrón rect.",
      "shape": "pattern",
      "op": "pattern",
@@ -4462,7 +4490,7 @@
       1
      ],
      "params": {
-      "sourceId": "f121",
+      "sourceId": "f122",
       "kind": "rect",
       "nx": 2,
       "ny": 2,
@@ -4500,7 +4528,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f123",
+     "id": "f124",
      "name": "Base",
      "shape": "box",
      "op": "union",
@@ -4521,7 +4549,7 @@
      }
     },
     {
-     "id": "f124",
+     "id": "f125",
      "name": "Pared",
      "shape": "box",
      "op": "union",
@@ -4542,7 +4570,7 @@
      }
     },
     {
-     "id": "f125",
+     "id": "f126",
      "name": "Pared",
      "shape": "box",
      "op": "union",
@@ -4563,7 +4591,7 @@
      }
     },
     {
-     "id": "f126",
+     "id": "f127",
      "name": "Divisor central",
      "shape": "box",
      "op": "union",
@@ -4584,7 +4612,7 @@
      }
     },
     {
-     "id": "f127",
+     "id": "f128",
      "name": "Contacto 1-",
      "shape": "box",
      "op": "union",
@@ -4605,7 +4633,7 @@
      }
     },
     {
-     "id": "f128",
+     "id": "f129",
      "name": "Contacto 2-",
      "shape": "box",
      "op": "union",
@@ -4626,7 +4654,7 @@
      }
     },
     {
-     "id": "f129",
+     "id": "f130",
      "name": "Contacto 1+",
      "shape": "box",
      "op": "union",
@@ -4647,7 +4675,7 @@
      }
     },
     {
-     "id": "f130",
+     "id": "f131",
      "name": "Contacto 2+",
      "shape": "box",
      "op": "union",
@@ -4687,7 +4715,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f131",
+     "id": "f132",
      "name": "Celda 1",
      "shape": "cylinder",
      "op": "union",
@@ -4707,7 +4735,7 @@
      }
     },
     {
-     "id": "f132",
+     "id": "f133",
      "name": "Celda 2",
      "shape": "cylinder",
      "op": "union",
@@ -4727,7 +4755,7 @@
      }
     },
     {
-     "id": "f133",
+     "id": "f134",
      "name": "Botón +",
      "shape": "cylinder",
      "op": "union",
@@ -4747,7 +4775,7 @@
      }
     },
     {
-     "id": "f134",
+     "id": "f135",
      "name": "Botón +",
      "shape": "cylinder",
      "op": "union",
@@ -4767,7 +4795,7 @@
      }
     },
     {
-     "id": "f135",
+     "id": "f136",
      "name": "Ranura envoltura",
      "shape": "cylinder",
      "op": "union",
@@ -4787,7 +4815,7 @@
      }
     },
     {
-     "id": "f136",
+     "id": "f137",
      "name": "Ranura envoltura",
      "shape": "cylinder",
      "op": "union",
@@ -4826,7 +4854,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f137",
+     "id": "f138",
      "name": "BMS",
      "shape": "box",
      "op": "union",
@@ -4866,7 +4894,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f138",
+     "id": "f139",
      "name": "Bornera",
      "shape": "box",
      "op": "union",
@@ -4887,7 +4915,7 @@
      }
     },
     {
-     "id": "f139",
+     "id": "f140",
      "name": "Tornillo 1",
      "shape": "cylinder",
      "op": "union",
@@ -4907,7 +4935,7 @@
      }
     },
     {
-     "id": "f140",
+     "id": "f141",
      "name": "Tornillo 2",
      "shape": "cylinder",
      "op": "union",
@@ -4927,7 +4955,7 @@
      }
     },
     {
-     "id": "f141",
+     "id": "f142",
      "name": "Tornillo 3",
      "shape": "cylinder",
      "op": "union",
@@ -4947,7 +4975,7 @@
      }
     },
     {
-     "id": "f142",
+     "id": "f143",
      "name": "Tornillo 4",
      "shape": "cylinder",
      "op": "union",
@@ -4967,7 +4995,7 @@
      }
     },
     {
-     "id": "f143",
+     "id": "f144",
      "name": "Boca 1",
      "shape": "hole",
      "op": "cut",
@@ -4988,7 +5016,7 @@
      }
     },
     {
-     "id": "f144",
+     "id": "f145",
      "name": "Boca 2",
      "shape": "hole",
      "op": "cut",
@@ -5009,7 +5037,7 @@
      }
     },
     {
-     "id": "f145",
+     "id": "f146",
      "name": "Boca 3",
      "shape": "hole",
      "op": "cut",
@@ -5030,7 +5058,7 @@
      }
     },
     {
-     "id": "f146",
+     "id": "f147",
      "name": "Boca 4",
      "shape": "hole",
      "op": "cut",
@@ -5070,7 +5098,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f147",
+     "id": "f148",
      "name": "Cuerpo",
      "shape": "cylinder",
      "op": "union",
@@ -5090,7 +5118,7 @@
      }
     },
     {
-     "id": "f148",
+     "id": "f149",
      "name": "Tapa",
      "shape": "cylinder",
      "op": "union",
@@ -5110,7 +5138,7 @@
      }
     },
     {
-     "id": "f149",
+     "id": "f150",
      "name": "Perforación 1",
      "shape": "hole",
      "op": "cut",
@@ -5131,7 +5159,7 @@
      }
     },
     {
-     "id": "f150",
+     "id": "f151",
      "name": "Perforación 2",
      "shape": "hole",
      "op": "cut",
@@ -5152,7 +5180,7 @@
      }
     },
     {
-     "id": "f151",
+     "id": "f152",
      "name": "Perforación 3",
      "shape": "hole",
      "op": "cut",
@@ -5173,7 +5201,7 @@
      }
     },
     {
-     "id": "f152",
+     "id": "f153",
      "name": "Perforación 4",
      "shape": "hole",
      "op": "cut",
@@ -5194,7 +5222,7 @@
      }
     },
     {
-     "id": "f153",
+     "id": "f154",
      "name": "Perforación 5",
      "shape": "hole",
      "op": "cut",
@@ -5215,7 +5243,7 @@
      }
     },
     {
-     "id": "f154",
+     "id": "f155",
      "name": "Perforación 6",
      "shape": "hole",
      "op": "cut",
@@ -5242,7 +5270,7 @@
    "name": "26 Skintop M16 bus de sonda (entrada inferior)",
    "color": "#c9a227",
    "pos": [
-    -66,
+    -68,
     -55,
     1065
    ],
@@ -5255,7 +5283,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f155",
+     "id": "f156",
      "name": "Capuchón",
      "shape": "cylinder",
      "op": "union",
@@ -5275,7 +5303,7 @@
      }
     },
     {
-     "id": "f156",
+     "id": "f157",
      "name": "Cuerpo",
      "shape": "cylinder",
      "op": "union",
@@ -5295,7 +5323,7 @@
      }
     },
     {
-     "id": "f157",
+     "id": "f158",
      "name": "Hex SW20",
      "shape": "sketch",
      "op": "union",
@@ -5387,7 +5415,7 @@
      }
     },
     {
-     "id": "f158",
+     "id": "f159",
      "name": "Rosca M16",
      "shape": "cylinder",
      "op": "union",
@@ -5407,7 +5435,7 @@
      }
     },
     {
-     "id": "f159",
+     "id": "f160",
      "name": "Boca de cable",
      "shape": "hole",
      "op": "cut",
@@ -5430,150 +5458,11 @@
    ]
   },
   {
-   "id": "prensas_superficie",
-   "name": "27 2× Skintop M16 superficie (pluvio + escudo/hoja)",
-   "color": "#c9a227",
-   "pos": [
-    -27,
-    -55,
-    1065
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "features": [
-    {
-     "id": "f160",
-     "name": "Capuchón 1",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -13,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 19,
-      "h": 5
-     }
-    },
-    {
-     "id": "f161",
-     "name": "Cuerpo 1",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -13,
-      0,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 17,
-      "h": 7
-     }
-    },
-    {
-     "id": "f162",
-     "name": "Rosca 1",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -13,
-      0,
-      20
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 15.8,
-      "h": 11
-     }
-    },
-    {
-     "id": "f163",
-     "name": "Capuchón 2",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      13,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 19,
-      "h": 5
-     }
-    },
-    {
-     "id": "f164",
-     "name": "Cuerpo 2",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      13,
-      0,
-      5
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 17,
-      "h": 7
-     }
-    },
-    {
-     "id": "f165",
-     "name": "Rosca 2",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      13,
-      0,
-      20
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 15.8,
-      "h": 11
-     }
-    }
-   ]
-  },
-  {
-   "id": "m12",
-   "name": "28 Receptáculo M12 A-cod 5p servicio (entrada inferior)",
+   "id": "m12_panelbar",
+   "name": "27 Patch panel M12: LLUVIA · T/HR · HOJA (estilo GroPoint)",
    "color": "#2b2f36",
    "pos": [
-    12,
+    0,
     -55,
     1079
    ],
@@ -5586,7 +5475,707 @@
    "fixed": false,
    "features": [
     {
+     "id": "f161",
+     "name": "Tuerca LLUVIA",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17,
+      "h": 6
+     }
+    },
+    {
+     "id": "f162",
+     "name": "Moleteado LLUVIA a",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      0,
+      1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f163",
+     "name": "Moleteado LLUVIA b",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      0,
+      2.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f164",
+     "name": "Moleteado LLUVIA c",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      0,
+      4.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f165",
+     "name": "Rosca LLUVIA",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "h": 8
+     }
+    },
+    {
      "id": "f166",
+     "name": "Cuerpo LLUVIA",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      0,
+      14
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 14.5,
+      "h": 12
+     }
+    },
+    {
+     "id": "f167",
+     "name": "Pin LLUVIA1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -40.7,
+      0,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f168",
+     "name": "Pin LLUVIA2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      3.3,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f169",
+     "name": "Pin LLUVIA3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -47.3,
+      0,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f170",
+     "name": "Pin LLUVIA4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      -3.3,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f171",
+     "name": "Pin LLUVIA5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      0,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f172",
+     "name": "Tuerca T/HR",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17,
+      "h": 6
+     }
+    },
+    {
+     "id": "f173",
+     "name": "Moleteado T/HR a",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      0,
+      1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f174",
+     "name": "Moleteado T/HR b",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      0,
+      2.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f175",
+     "name": "Moleteado T/HR c",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      0,
+      4.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f176",
+     "name": "Rosca T/HR",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "h": 8
+     }
+    },
+    {
+     "id": "f177",
+     "name": "Cuerpo T/HR",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      0,
+      14
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 14.5,
+      "h": 12
+     }
+    },
+    {
+     "id": "f178",
+     "name": "Pin T/HR1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -16.7,
+      0,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f179",
+     "name": "Pin T/HR2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      3.3,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f180",
+     "name": "Pin T/HR3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -23.3,
+      0,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f181",
+     "name": "Pin T/HR4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      -3.3,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f182",
+     "name": "Pin T/HR5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      0,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f183",
+     "name": "Tuerca HOJA",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17,
+      "h": 6
+     }
+    },
+    {
+     "id": "f184",
+     "name": "Moleteado HOJA a",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      0,
+      1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f185",
+     "name": "Moleteado HOJA b",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      0,
+      2.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f186",
+     "name": "Moleteado HOJA c",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      0,
+      4.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f187",
+     "name": "Rosca HOJA",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "h": 8
+     }
+    },
+    {
+     "id": "f188",
+     "name": "Cuerpo HOJA",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      0,
+      14
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 14.5,
+      "h": 12
+     }
+    },
+    {
+     "id": "f189",
+     "name": "Pin HOJA1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      7.3,
+      0,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f190",
+     "name": "Pin HOJA2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      3.3,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f191",
+     "name": "Pin HOJA3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0.7,
+      0,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f192",
+     "name": "Pin HOJA4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      -3.3,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f193",
+     "name": "Pin HOJA5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      0,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f194",
+     "name": "Placa rotulada (grabado láser)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -20,
+      0,
+      -0.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 76,
+      "d": 22,
+      "h": 1.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "m12",
+   "name": "28 Receptáculo M12 A-cod 5p servicio (entrada inferior)",
+   "color": "#2b2f36",
+   "pos": [
+    28,
+    -55,
+    1079
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f195",
      "name": "Tuerca moleteada",
      "shape": "cylinder",
      "op": "union",
@@ -5606,7 +6195,7 @@
      }
     },
     {
-     "id": "f167",
+     "id": "f196",
      "name": "Moleteado 1",
      "shape": "cylinder",
      "op": "union",
@@ -5626,7 +6215,7 @@
      }
     },
     {
-     "id": "f168",
+     "id": "f197",
      "name": "Moleteado 2",
      "shape": "cylinder",
      "op": "union",
@@ -5646,7 +6235,7 @@
      }
     },
     {
-     "id": "f169",
+     "id": "f198",
      "name": "Moleteado 3",
      "shape": "cylinder",
      "op": "union",
@@ -5666,7 +6255,7 @@
      }
     },
     {
-     "id": "f170",
+     "id": "f199",
      "name": "Rosca M12",
      "shape": "cylinder",
      "op": "union",
@@ -5686,7 +6275,7 @@
      }
     },
     {
-     "id": "f171",
+     "id": "f200",
      "name": "Cuerpo interior",
      "shape": "cylinder",
      "op": "union",
@@ -5706,7 +6295,7 @@
      }
     },
     {
-     "id": "f172",
+     "id": "f201",
      "name": "Pin 1",
      "shape": "cylinder",
      "op": "union",
@@ -5726,7 +6315,7 @@
      }
     },
     {
-     "id": "f173",
+     "id": "f202",
      "name": "Pin 2",
      "shape": "cylinder",
      "op": "union",
@@ -5746,7 +6335,7 @@
      }
     },
     {
-     "id": "f174",
+     "id": "f203",
      "name": "Pin 3",
      "shape": "cylinder",
      "op": "union",
@@ -5766,7 +6355,7 @@
      }
     },
     {
-     "id": "f175",
+     "id": "f204",
      "name": "Pin 4",
      "shape": "cylinder",
      "op": "union",
@@ -5786,7 +6375,7 @@
      }
     },
     {
-     "id": "f176",
+     "id": "f205",
      "name": "Pin 5",
      "shape": "cylinder",
      "op": "union",
@@ -5812,7 +6401,7 @@
    "name": "29 Tapa protectora M12 c/cadenilla",
    "color": "#c9a227",
    "pos": [
-    12,
+    28,
     -55,
     1067
    ],
@@ -5825,7 +6414,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f177",
+     "id": "f206",
      "name": "Tapa",
      "shape": "cylinder",
      "op": "union",
@@ -5845,7 +6434,7 @@
      }
     },
     {
-     "id": "f178",
+     "id": "f207",
      "name": "Moleteado 1",
      "shape": "cylinder",
      "op": "union",
@@ -5865,7 +6454,7 @@
      }
     },
     {
-     "id": "f179",
+     "id": "f208",
      "name": "Moleteado 2",
      "shape": "cylinder",
      "op": "union",
@@ -5885,7 +6474,7 @@
      }
     },
     {
-     "id": "f180",
+     "id": "f209",
      "name": "Moleteado 3",
      "shape": "cylinder",
      "op": "union",
@@ -5905,7 +6494,7 @@
      }
     },
     {
-     "id": "f181",
+     "id": "f210",
      "name": "Oreja cadenilla",
      "shape": "box",
      "op": "union",
@@ -5926,7 +6515,7 @@
      }
     },
     {
-     "id": "f182",
+     "id": "f211",
      "name": "Paso cadenilla",
      "shape": "hole",
      "op": "cut",
@@ -5953,7 +6542,7 @@
    "name": "30 Válvula Gore M12 (cara inferior: nunca sol directo)",
    "color": "#e0e0e0",
    "pos": [
-    38,
+    50,
     -55,
     1077
    ],
@@ -5966,7 +6555,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f183",
+     "id": "f212",
      "name": "Cabeza hex SW14",
      "shape": "sketch",
      "op": "union",
@@ -6058,7 +6647,7 @@
      }
     },
     {
-     "id": "f184",
+     "id": "f213",
      "name": "Rosca",
      "shape": "cylinder",
      "op": "union",
@@ -6078,7 +6667,7 @@
      }
     },
     {
-     "id": "f185",
+     "id": "f214",
      "name": "Venteo 1",
      "shape": "hole",
      "op": "cut",
@@ -6099,7 +6688,7 @@
      }
     },
     {
-     "id": "f186",
+     "id": "f215",
      "name": "Venteo 2",
      "shape": "hole",
      "op": "cut",
@@ -6120,7 +6709,7 @@
      }
     },
     {
-     "id": "f187",
+     "id": "f216",
      "name": "Venteo 3",
      "shape": "hole",
      "op": "cut",
@@ -6141,7 +6730,7 @@
      }
     },
     {
-     "id": "f188",
+     "id": "f217",
      "name": "Venteo 4",
      "shape": "hole",
      "op": "cut",
@@ -6168,7 +6757,7 @@
    "name": "31 Prensaestopas M12 cable del panel (inferior)",
    "color": "#c9a227",
    "pos": [
-    64,
+    70,
     -55,
     1075
    ],
@@ -6181,7 +6770,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f189",
+     "id": "f218",
      "name": "Capuchón",
      "shape": "cylinder",
      "op": "union",
@@ -6201,7 +6790,7 @@
      }
     },
     {
-     "id": "f190",
+     "id": "f219",
      "name": "Hex SW16",
      "shape": "sketch",
      "op": "union",
@@ -6293,7 +6882,7 @@
      }
     },
     {
-     "id": "f191",
+     "id": "f220",
      "name": "Rosca M12",
      "shape": "cylinder",
      "op": "union",
@@ -6313,7 +6902,7 @@
      }
     },
     {
-     "id": "f192",
+     "id": "f221",
      "name": "Boca de cable",
      "shape": "hole",
      "op": "cut",
@@ -6353,7 +6942,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f193",
+     "id": "f222",
      "name": "Eje escudo",
      "shape": "cylinder",
      "op": "union",
@@ -6373,7 +6962,7 @@
      }
     },
     {
-     "id": "f194",
+     "id": "f223",
      "name": "Brazo (abrazadera al poste)",
      "shape": "box",
      "op": "union",
@@ -6394,7 +6983,7 @@
      }
     },
     {
-     "id": "f195",
+     "id": "f224",
      "name": "Plato cónico 1",
      "shape": "revolve",
      "op": "union",
@@ -6495,7 +7084,7 @@
      }
     },
     {
-     "id": "f196",
+     "id": "f225",
      "name": "Plato cónico 2",
      "shape": "revolve",
      "op": "union",
@@ -6596,7 +7185,7 @@
      }
     },
     {
-     "id": "f197",
+     "id": "f226",
      "name": "Plato cónico 3",
      "shape": "revolve",
      "op": "union",
@@ -6697,7 +7286,7 @@
      }
     },
     {
-     "id": "f198",
+     "id": "f227",
      "name": "Plato cónico 4",
      "shape": "revolve",
      "op": "union",
@@ -6798,7 +7387,7 @@
      }
     },
     {
-     "id": "f199",
+     "id": "f228",
      "name": "Plato cónico 5",
      "shape": "revolve",
      "op": "union",
@@ -6899,7 +7488,7 @@
      }
     },
     {
-     "id": "f200",
+     "id": "f229",
      "name": "Sonda SHT40",
      "shape": "cylinder",
      "op": "union",
@@ -6919,7 +7508,7 @@
      }
     },
     {
-     "id": "f201",
+     "id": "f230",
      "name": "Cable de la sonda",
      "shape": "cylinder",
      "op": "union",
@@ -6958,7 +7547,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f202",
+     "id": "f231",
      "name": "Abrazadera U 1 1/2\"",
      "shape": "box",
      "op": "union",
@@ -6979,7 +7568,7 @@
      }
     },
     {
-     "id": "f203",
+     "id": "f232",
      "name": "Paso poste",
      "shape": "hole",
      "op": "cut",
@@ -7000,7 +7589,7 @@
      }
     },
     {
-     "id": "f204",
+     "id": "f233",
      "name": "Perno U izq.",
      "shape": "cylinder",
      "op": "union",
@@ -7020,7 +7609,7 @@
      }
     },
     {
-     "id": "f205",
+     "id": "f234",
      "name": "Perno U der.",
      "shape": "cylinder",
      "op": "union",
@@ -7040,7 +7629,7 @@
      }
     },
     {
-     "id": "f206",
+     "id": "f235",
      "name": "Tuerca",
      "shape": "cylinder",
      "op": "union",
@@ -7060,7 +7649,7 @@
      }
     },
     {
-     "id": "f207",
+     "id": "f236",
      "name": "Tuerca",
      "shape": "cylinder",
      "op": "union",
@@ -7080,7 +7669,7 @@
      }
     },
     {
-     "id": "f208",
+     "id": "f237",
      "name": "Abrazadera U 1 1/2\"",
      "shape": "box",
      "op": "union",
@@ -7101,7 +7690,7 @@
      }
     },
     {
-     "id": "f209",
+     "id": "f238",
      "name": "Paso poste",
      "shape": "hole",
      "op": "cut",
@@ -7122,7 +7711,7 @@
      }
     },
     {
-     "id": "f210",
+     "id": "f239",
      "name": "Perno U izq.",
      "shape": "cylinder",
      "op": "union",
@@ -7142,7 +7731,7 @@
      }
     },
     {
-     "id": "f211",
+     "id": "f240",
      "name": "Perno U der.",
      "shape": "cylinder",
      "op": "union",
@@ -7162,7 +7751,7 @@
      }
     },
     {
-     "id": "f212",
+     "id": "f241",
      "name": "Tuerca",
      "shape": "cylinder",
      "op": "union",
@@ -7182,7 +7771,7 @@
      }
     },
     {
-     "id": "f213",
+     "id": "f242",
      "name": "Tuerca",
      "shape": "cylinder",
      "op": "union",
@@ -7202,7 +7791,7 @@
      }
     },
     {
-     "id": "f214",
+     "id": "f243",
      "name": "Placa vertical",
      "shape": "box",
      "op": "union",
@@ -7223,7 +7812,7 @@
      }
     },
     {
-     "id": "f215",
+     "id": "f244",
      "name": "Brazo",
      "shape": "box",
      "op": "union",
@@ -7244,7 +7833,7 @@
      }
     },
     {
-     "id": "f216",
+     "id": "f245",
      "name": "Cartela",
      "shape": "sketch",
      "op": "union",
@@ -7303,7 +7892,7 @@
      }
     },
     {
-     "id": "f217",
+     "id": "f246",
      "name": "Cuerpo",
      "shape": "cylinder",
      "op": "union",
@@ -7323,7 +7912,7 @@
      }
     },
     {
-     "id": "f218",
+     "id": "f247",
      "name": "Anillo base",
      "shape": "cylinder",
      "op": "union",
@@ -7343,7 +7932,7 @@
      }
     },
     {
-     "id": "f219",
+     "id": "f248",
      "name": "Perno nivelación 1",
      "shape": "cylinder",
      "op": "union",
@@ -7363,7 +7952,7 @@
      }
     },
     {
-     "id": "f220",
+     "id": "f249",
      "name": "Perno nivelación 2",
      "shape": "cylinder",
      "op": "union",
@@ -7383,7 +7972,7 @@
      }
     },
     {
-     "id": "f221",
+     "id": "f250",
      "name": "Perno nivelación 3",
      "shape": "cylinder",
      "op": "union",
@@ -7403,7 +7992,7 @@
      }
     },
     {
-     "id": "f222",
+     "id": "f251",
      "name": "Caja del reed",
      "shape": "box",
      "op": "union",
@@ -7424,7 +8013,7 @@
      }
     },
     {
-     "id": "f223",
+     "id": "f252",
      "name": "Drenaje del cuerpo",
      "shape": "hole",
      "op": "cut",
@@ -7445,7 +8034,7 @@
      }
     },
     {
-     "id": "f224",
+     "id": "f253",
      "name": "Embudo cónico Ø160",
      "shape": "revolve",
      "op": "union",
@@ -7535,7 +8124,7 @@
      }
     },
     {
-     "id": "f225",
+     "id": "f254",
      "name": "Nivel de burbuja",
      "shape": "cylinder",
      "op": "union",
@@ -7555,7 +8144,7 @@
      }
     },
     {
-     "id": "f226",
+     "id": "f255",
      "name": "Pincho antipájaros 1",
      "shape": "cylinder",
      "op": "union",
@@ -7575,7 +8164,7 @@
      }
     },
     {
-     "id": "f227",
+     "id": "f256",
      "name": "Pincho antipájaros 2",
      "shape": "cylinder",
      "op": "union",
@@ -7595,7 +8184,7 @@
      }
     },
     {
-     "id": "f228",
+     "id": "f257",
      "name": "Pincho antipájaros 3",
      "shape": "cylinder",
      "op": "union",
@@ -7615,7 +8204,7 @@
      }
     },
     {
-     "id": "f229",
+     "id": "f258",
      "name": "Pincho antipájaros 4",
      "shape": "cylinder",
      "op": "union",
@@ -7635,7 +8224,7 @@
      }
     },
     {
-     "id": "f230",
+     "id": "f259",
      "name": "Pincho antipájaros 5",
      "shape": "cylinder",
      "op": "union",
@@ -7655,7 +8244,7 @@
      }
     },
     {
-     "id": "f231",
+     "id": "f260",
      "name": "Pincho antipájaros 6",
      "shape": "cylinder",
      "op": "union",
@@ -7675,7 +8264,7 @@
      }
     },
     {
-     "id": "f232",
+     "id": "f261",
      "name": "Pincho antipájaros 7",
      "shape": "cylinder",
      "op": "union",
@@ -7695,7 +8284,7 @@
      }
     },
     {
-     "id": "f233",
+     "id": "f262",
      "name": "Pincho antipájaros 8",
      "shape": "cylinder",
      "op": "union",
@@ -7734,7 +8323,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f234",
+     "id": "f263",
      "name": "Varilla ref.",
      "shape": "cylinder",
      "op": "union",
@@ -7754,7 +8343,7 @@
      }
     },
     {
-     "id": "f235",
+     "id": "f264",
      "name": "Placa capacitiva",
      "shape": "box",
      "op": "union",
@@ -7794,7 +8383,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f236",
+     "id": "f265",
      "name": "Abrazadera U 1 1/2\"",
      "shape": "box",
      "op": "union",
@@ -7815,7 +8404,7 @@
      }
     },
     {
-     "id": "f237",
+     "id": "f266",
      "name": "Paso poste",
      "shape": "hole",
      "op": "cut",
@@ -7836,7 +8425,7 @@
      }
     },
     {
-     "id": "f238",
+     "id": "f267",
      "name": "Perno U izq.",
      "shape": "cylinder",
      "op": "union",
@@ -7856,7 +8445,7 @@
      }
     },
     {
-     "id": "f239",
+     "id": "f268",
      "name": "Perno U der.",
      "shape": "cylinder",
      "op": "union",
@@ -7876,7 +8465,7 @@
      }
     },
     {
-     "id": "f240",
+     "id": "f269",
      "name": "Tuerca",
      "shape": "cylinder",
      "op": "union",
@@ -7896,7 +8485,7 @@
      }
     },
     {
-     "id": "f241",
+     "id": "f270",
      "name": "Tuerca",
      "shape": "cylinder",
      "op": "union",
@@ -7916,7 +8505,7 @@
      }
     },
     {
-     "id": "f242",
+     "id": "f271",
      "name": "Brazo +N",
      "shape": "box",
      "op": "union",
@@ -7937,7 +8526,7 @@
      }
     },
     {
-     "id": "f243",
+     "id": "f272",
      "name": "Travesaño",
      "shape": "box",
      "op": "union",
@@ -7958,7 +8547,7 @@
      }
     },
     {
-     "id": "f244",
+     "id": "f273",
      "name": "Cartela",
      "shape": "sketch",
      "op": "union",
@@ -8017,7 +8606,7 @@
      }
     },
     {
-     "id": "f245",
+     "id": "f274",
      "name": "Perno panel 1",
      "shape": "cylinder",
      "op": "union",
@@ -8037,7 +8626,7 @@
      }
     },
     {
-     "id": "f246",
+     "id": "f275",
      "name": "Perno panel 2",
      "shape": "cylinder",
      "op": "union",
@@ -8076,7 +8665,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f247",
+     "id": "f276",
      "name": "Panel",
      "shape": "box",
      "op": "union",
@@ -8097,7 +8686,7 @@
      }
     },
     {
-     "id": "f248",
+     "id": "f277",
      "name": "Rebaje del vidrio",
      "shape": "box",
      "op": "cut",
@@ -8118,7 +8707,7 @@
      }
     },
     {
-     "id": "f249",
+     "id": "f278",
      "name": "Retícula v1",
      "shape": "box",
      "op": "cut",
@@ -8139,7 +8728,7 @@
      }
     },
     {
-     "id": "f250",
+     "id": "f279",
      "name": "Retícula v2",
      "shape": "box",
      "op": "cut",
@@ -8160,7 +8749,7 @@
      }
     },
     {
-     "id": "f251",
+     "id": "f280",
      "name": "Retícula v3",
      "shape": "box",
      "op": "cut",
@@ -8181,7 +8770,7 @@
      }
     },
     {
-     "id": "f252",
+     "id": "f281",
      "name": "Retícula h1",
      "shape": "box",
      "op": "cut",
@@ -8202,7 +8791,7 @@
      }
     },
     {
-     "id": "f253",
+     "id": "f282",
      "name": "Retícula h2",
      "shape": "box",
      "op": "cut",
@@ -8223,7 +8812,7 @@
      }
     },
     {
-     "id": "f254",
+     "id": "f283",
      "name": "Caja de conexiones",
      "shape": "box",
      "op": "union",
@@ -8263,7 +8852,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f255",
+     "id": "f284",
      "name": "Abrazadera U 1 1/2\"",
      "shape": "box",
      "op": "union",
@@ -8284,7 +8873,7 @@
      }
     },
     {
-     "id": "f256",
+     "id": "f285",
      "name": "Paso poste",
      "shape": "hole",
      "op": "cut",
@@ -8305,7 +8894,7 @@
      }
     },
     {
-     "id": "f257",
+     "id": "f286",
      "name": "Perno U izq.",
      "shape": "cylinder",
      "op": "union",
@@ -8325,7 +8914,7 @@
      }
     },
     {
-     "id": "f258",
+     "id": "f287",
      "name": "Perno U der.",
      "shape": "cylinder",
      "op": "union",
@@ -8345,7 +8934,7 @@
      }
     },
     {
-     "id": "f259",
+     "id": "f288",
      "name": "Tuerca",
      "shape": "cylinder",
      "op": "union",
@@ -8365,7 +8954,7 @@
      }
     },
     {
-     "id": "f260",
+     "id": "f289",
      "name": "Tuerca",
      "shape": "cylinder",
      "op": "union",
@@ -8385,7 +8974,7 @@
      }
     },
     {
-     "id": "f261",
+     "id": "f290",
      "name": "Base N/SMA",
      "shape": "cylinder",
      "op": "union",
@@ -8405,7 +8994,7 @@
      }
     },
     {
-     "id": "f262",
+     "id": "f291",
      "name": "Moleteado SMA 1",
      "shape": "cylinder",
      "op": "union",
@@ -8425,7 +9014,7 @@
      }
     },
     {
-     "id": "f263",
+     "id": "f292",
      "name": "Moleteado SMA 2",
      "shape": "cylinder",
      "op": "union",
@@ -8445,7 +9034,7 @@
      }
     },
     {
-     "id": "f264",
+     "id": "f293",
      "name": "Espira 1",
      "shape": "cylinder",
      "op": "union",
@@ -8465,7 +9054,7 @@
      }
     },
     {
-     "id": "f265",
+     "id": "f294",
      "name": "Espira 2",
      "shape": "cylinder",
      "op": "union",
@@ -8485,7 +9074,7 @@
      }
     },
     {
-     "id": "f266",
+     "id": "f295",
      "name": "Espira 3",
      "shape": "cylinder",
      "op": "union",
@@ -8505,7 +9094,7 @@
      }
     },
     {
-     "id": "f267",
+     "id": "f296",
      "name": "Látigo",
      "shape": "cylinder",
      "op": "union",
@@ -8544,7 +9133,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f268",
+     "id": "f297",
      "name": "Bus tramo 1",
      "shape": "cylinder",
      "op": "union",
@@ -8564,72 +9153,72 @@
      }
     },
     {
-     "id": "f269",
+     "id": "f298",
      "name": "Bus tramo 2",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      0.42,
-      -39.79,
-      1068.38
+      0.43,
+      -39.8,
+      1068.37
      ],
      "dir": [
-      -0.691669,
-      -0.345834,
-      -0.634029
+      -0.720003,
+      -0.332309,
+      -0.609234
      ],
      "params": {
       "dia": 6,
-      "h": 35.9
+      "h": 37.31
      }
     },
     {
-     "id": "f270",
+     "id": "f299",
      "name": "Bus tramo 3",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      -23.42,
+      -25.41,
       -51.92,
       1046.1
      ],
      "dir": [
-      -0.974835,
-      -0.139262,
-      -0.174078
+      -0.977972,
+      -0.130396,
+      -0.162995
      ],
      "params": {
       "dia": 6,
-      "h": 29.92
+      "h": 31.88
      }
     },
     {
-     "id": "f271",
+     "id": "f300",
      "name": "Bus tramo 4",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      -51.46,
-      -56.04,
-      1040.75
+      -55.47,
+      -56.05,
+      1040.71
      ],
      "dir": [
-      -0.905753,
-      0.069673,
-      0.41804
+      -0.875113,
+      0.079556,
+      0.477334
      ],
      "params": {
       "dia": 6,
-      "h": 15.55
+      "h": 13.77
      }
     },
     {
-     "id": "f272",
+     "id": "f301",
      "name": "Bus tramo 5",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      -64.96,
+      -66.96,
       -55,
       1046.4
      ],
@@ -8647,7 +9236,7 @@
   },
   {
    "id": "cables_bajada",
-   "name": "39 Bajada instrumentos (salida Ø14 → 3 entradas, lazos de goteo)",
+   "name": "39 Bajadas con conector M12 volante (lazos de goteo)",
    "color": "#1c1f24",
    "pos": [
     0,
@@ -8663,74 +9252,334 @@
    "fixed": false,
    "features": [
     {
-     "id": "f273",
-     "name": "Superficie 1 tramo 1",
+     "id": "f302",
+     "name": "LLUVIA tramo 1",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      0.18,
-      -25.64,
-      1076.45
+      0.21,
+      -25.67,
+      1076.46
      ],
      "dir": [
-      -0.298142,
-      -0.596285,
-      -0.745356
+      -0.345033,
+      -0.552052,
+      -0.759072
      ],
      "params": {
       "dia": 5,
-      "h": 28.03
+      "h": 30.18
      }
     },
     {
-     "id": "f274",
-     "name": "Superficie 1 tramo 2",
+     "id": "f303",
+     "name": "LLUVIA tramo 2",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      -7.58,
-      -41.75,
-      1056.35
+      -9.57,
+      -41.77,
+      1054.35
      ],
      "dir": [
-      -0.703842,
-      -0.415907,
-      -0.575871
+      -0.709265,
+      -0.384185,
+      -0.591054
      ],
      "params": {
       "dia": 5,
-      "h": 32.46
+      "h": 35.04
      }
     },
     {
-     "id": "f275",
-     "name": "Superficie 1 tramo 3",
+     "id": "f304",
+     "name": "LLUVIA tramo 3",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      -29.51,
+      -33.49,
       -55,
-      1037.66
+      1033.69
      ],
      "dir": [
-      -0.819232,
+      -0.857493,
       0,
-      0.573462
+      0.514496
      ],
      "params": {
       "dia": 5,
-      "h": 13.41
+      "h": 12.86
      }
     },
     {
-     "id": "f276",
-     "name": "Superficie 1 tramo 4",
+     "id": "f305",
+     "name": "Conector M12 volante",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      -40,
+      -44,
       -55,
-      1044.4
+      1043
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 14,
+      "h": 18
+     }
+    },
+    {
+     "id": "f306",
+     "name": "Moleteado plug a",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      -55,
+      1046
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15,
+      "h": 1
+     }
+    },
+    {
+     "id": "f307",
+     "name": "Moleteado plug b",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      -55,
+      1049
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15,
+      "h": 1
+     }
+    },
+    {
+     "id": "f308",
+     "name": "Bota antitracción",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44,
+      -55,
+      1036
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 9,
+      "h": 7
+     }
+    },
+    {
+     "id": "f309",
+     "name": "T/HR tramo 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      1.09,
+      -25.66,
+      1076.49
+     ],
+     "dir": [
+      -0.156174,
+      -0.562226,
+      -0.812104
+     ],
+     "params": {
+      "dia": 5,
+      "h": 33.22
+     }
+    },
+    {
+     "id": "f310",
+     "name": "T/HR tramo 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -3.71,
+      -43.71,
+      1050.44
+     ],
+     "dir": [
+      -0.485071,
+      -0.485071,
+      -0.727607
+     ],
+     "params": {
+      "dia": 5,
+      "h": 25.94
+     }
+    },
+    {
+     "id": "f311",
+     "name": "T/HR tramo 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -15.67,
+      -56.08,
+      1031.51
+     ],
+     "dir": [
+      -0.549442,
+      0.137361,
+      0.824163
+     ],
+     "params": {
+      "dia": 5,
+      "h": 8.48
+     }
+    },
+    {
+     "id": "f312",
+     "name": "Conector M12 volante",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      -55,
+      1041
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 14,
+      "h": 18
+     }
+    },
+    {
+     "id": "f313",
+     "name": "Moleteado plug a",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      -55,
+      1044
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15,
+      "h": 1
+     }
+    },
+    {
+     "id": "f314",
+     "name": "Moleteado plug b",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      -55,
+      1047
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15,
+      "h": 1
+     }
+    },
+    {
+     "id": "f315",
+     "name": "Bota antitracción",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -20,
+      -55,
+      1034
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 9,
+      "h": 7
+     }
+    },
+    {
+     "id": "f316",
+     "name": "HOJA tramo 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      1.96,
+      -25.66,
+      1078.49
+     ],
+     "dir": [
+      0.063119,
+      -0.568075,
+      -0.820553
+     ],
+     "params": {
+      "dia": 5,
+      "h": 32.89
+     }
+    },
+    {
+     "id": "f317",
+     "name": "HOJA tramo 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      -43.69,
+      1052.51
+     ],
+     "dir": [
+      0,
+      -0.52145,
+      -0.853282
+     ],
+     "params": {
+      "dia": 5,
+      "h": 22.3
+     }
+    },
+    {
+     "id": "f318",
+     "name": "HOJA tramo 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      -55,
+      1033.4
      ],
      "dir": [
       0,
@@ -8739,76 +9588,156 @@
      ],
      "params": {
       "dia": 5,
-      "h": 16.2
+      "h": 7.2
      }
     },
     {
-     "id": "f277",
-     "name": "Superficie 2 tramo 1",
+     "id": "f319",
+     "name": "Conector M12 volante",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      2.04,
-      -25.62,
-      1076.46
+      4,
+      -55,
+      1043
      ],
      "dir": [
-      -0.070186,
-      -0.631676,
-      -0.772049
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 14,
+      "h": 18
+     }
+    },
+    {
+     "id": "f320",
+     "name": "Moleteado plug a",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      -55,
+      1046
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15,
+      "h": 1
+     }
+    },
+    {
+     "id": "f321",
+     "name": "Moleteado plug b",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      -55,
+      1049
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15,
+      "h": 1
+     }
+    },
+    {
+     "id": "f322",
+     "name": "Bota antitracción",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      4,
+      -55,
+      1036
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 9,
+      "h": 7
+     }
+    },
+    {
+     "id": "f323",
+     "name": "Panel tramo 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -0.37,
+      -25.71,
+      1080.37
+     ],
+     "dir": [
+      0.621164,
+      -0.477818,
+      -0.621164
      ],
      "params": {
       "dia": 5,
-      "h": 29.7
+      "h": 43.06
      }
     },
     {
-     "id": "f278",
-     "name": "Superficie 2 tramo 2",
+     "id": "f324",
+     "name": "Panel tramo 2",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      0.25,
-      -43.7,
-      1054.45
+      25.49,
+      -45.86,
+      1054.29
      ],
      "dir": [
-      -0.419591,
-      -0.503509,
-      -0.755263
+      0.846513,
+      -0.238082,
+      -0.476164
      ],
      "params": {
       "dia": 5,
-      "h": 25.03
+      "h": 39
      }
     },
     {
-     "id": "f279",
-     "name": "Superficie 2 tramo 3",
+     "id": "f325",
+     "name": "Panel tramo 3",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      -9.73,
-      -56.07,
-      1035.47
+      57.5,
+      -55,
+      1035.67
      ],
      "dir": [
-      -0.444444,
-      0.111111,
-      0.888889
+      0.83205,
+      0,
+      0.5547
      ],
      "params": {
       "dia": 5,
-      "h": 10.2
+      "h": 15.62
      }
     },
     {
-     "id": "f280",
-     "name": "Superficie 2 tramo 4",
+     "id": "f326",
+     "name": "Panel tramo 4",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      -14,
+      70,
       -55,
       1043.4
      ],
@@ -8819,87 +9748,7 @@
      ],
      "params": {
       "dia": 5,
-      "h": 17.2
-     }
-    },
-    {
-     "id": "f281",
-     "name": "Panel tramo 1",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -0.37,
-      -25.7,
-      1078.37
-     ],
-     "dir": [
-      0.612056,
-      -0.500773,
-      -0.612056
-     ],
-     "params": {
-      "dia": 5,
-      "h": 37.14
-     }
-    },
-    {
-     "id": "f282",
-     "name": "Panel tramo 2",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      21.52,
-      -43.82,
-      1056.32
-     ],
-     "dir": [
-      0.795837,
-      -0.291807,
-      -0.530558
-     ],
-     "params": {
-      "dia": 5,
-      "h": 38.9
-     }
-    },
-    {
-     "id": "f283",
-     "name": "Panel tramo 3",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      51.48,
-      -55,
-      1035.7
-     ],
-     "dir": [
-      0.863779,
-      0,
-      0.503871
-     ],
-     "params": {
-      "dia": 5,
-      "h": 15.09
-     }
-    },
-    {
-     "id": "f284",
-     "name": "Panel tramo 4",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      64,
-      -55,
-      1042.4
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 5,
-      "h": 16.2
+      "h": 15.2
      }
     }
    ]
@@ -8922,7 +9771,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f285",
+     "id": "f327",
      "name": "Pluvio tramo 1",
      "shape": "cylinder",
      "op": "union",
@@ -8942,7 +9791,7 @@
      }
     },
     {
-     "id": "f286",
+     "id": "f328",
      "name": "Pluvio tramo 2",
      "shape": "cylinder",
      "op": "union",
@@ -8962,7 +9811,7 @@
      }
     },
     {
-     "id": "f287",
+     "id": "f329",
      "name": "Pluvio tramo 3",
      "shape": "cylinder",
      "op": "union",
@@ -9001,7 +9850,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f288",
+     "id": "f330",
      "name": "Escudo tramo 1",
      "shape": "cylinder",
      "op": "union",
@@ -9021,7 +9870,7 @@
      }
     },
     {
-     "id": "f289",
+     "id": "f331",
      "name": "Escudo tramo 2",
      "shape": "cylinder",
      "op": "union",
@@ -9041,7 +9890,7 @@
      }
     },
     {
-     "id": "f290",
+     "id": "f332",
      "name": "Escudo tramo 3",
      "shape": "cylinder",
      "op": "union",
@@ -9080,7 +9929,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f291",
+     "id": "f333",
      "name": "Panel tramo 1",
      "shape": "cylinder",
      "op": "union",
@@ -9100,7 +9949,7 @@
      }
     },
     {
-     "id": "f292",
+     "id": "f334",
      "name": "Panel tramo 2",
      "shape": "cylinder",
      "op": "union",
@@ -9139,7 +9988,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f293",
+     "id": "f335",
      "name": "Jumper tramo 1",
      "shape": "cylinder",
      "op": "union",
@@ -9159,7 +10008,7 @@
      }
     },
     {
-     "id": "f294",
+     "id": "f336",
      "name": "Jumper tramo 2",
      "shape": "cylinder",
      "op": "union",
@@ -9198,7 +10047,7 @@
    "fixed": false,
    "features": [
     {
-     "id": "f295",
+     "id": "f337",
      "name": "Hoja tramo 1",
      "shape": "cylinder",
      "op": "union",
@@ -9218,7 +10067,7 @@
      }
     },
     {
-     "id": "f296",
+     "id": "f338",
      "name": "Hoja tramo 2",
      "shape": "cylinder",
      "op": "union",
@@ -9238,7 +10087,7 @@
      }
     },
     {
-     "id": "f297",
+     "id": "f339",
      "name": "Hoja tramo 3",
      "shape": "cylinder",
      "op": "union",
@@ -9258,7 +10107,7 @@
      }
     },
     {
-     "id": "f298",
+     "id": "f340",
      "name": "Hoja tramo 4",
      "shape": "cylinder",
      "op": "union",

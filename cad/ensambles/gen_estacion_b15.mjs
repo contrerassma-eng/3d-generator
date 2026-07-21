@@ -83,6 +83,31 @@ const rectEnt = (x0, y0, x1, y1) => [
   { type: 'line', a: [x0, y0], b: [x1, y0] }, { type: 'line', a: [x1, y0], b: [x1, y1] },
   { type: 'line', a: [x1, y1], b: [x0, y1] }, { type: 'line', a: [x0, y1], b: [x0, y0] },
 ];
+// receptáculo M12 A-cod detallado (tuerca moleteada + rosca + cuerpo + 5 pines)
+const m12Feats = (x, tag) => {
+  const f = [
+    cyl(17, 6, [x, 0, 0], [0, 0, 1], 'union', `Tuerca ${tag}`),
+    cyl(17.8, 0.8, [x, 0, 1], [0, 0, 1], 'union', `Moleteado ${tag} a`),
+    cyl(17.8, 0.8, [x, 0, 2.6], [0, 0, 1], 'union', `Moleteado ${tag} b`),
+    cyl(17.8, 0.8, [x, 0, 4.2], [0, 0, 1], 'union', `Moleteado ${tag} c`),
+    cyl(12, 8, [x, 0, 6], [0, 0, 1], 'union', `Rosca ${tag}`),
+    cyl(14.5, 12, [x, 0, 14], [0, 0, 1], 'union', `Cuerpo ${tag}`),
+  ];
+  for (let k = 0; k < 4; k++) {
+    const a = k * Math.PI / 2;
+    f.push(cyl(0.9, 2, [x + 3.3 * Math.cos(a), 3.3 * Math.sin(a), -1.8], [0, 0, 1], 'union', `Pin ${tag}${k + 1}`));
+  }
+  f.push(cyl(0.9, 2, [x, 0, -1.8], [0, 0, 1], 'union', `Pin ${tag}5`));
+  return f;
+};
+// conector M12 volante moldeado (extremo de cable): cuerpo + moleteado + bota
+const m12Plug = (at) => [
+  cyl(14, 18, [at[0], at[1], at[2]], [0, 0, 1], 'union', 'Conector M12 volante'),
+  cyl(15, 1, [at[0], at[1], at[2] + 3], [0, 0, 1], 'union', 'Moleteado plug a'),
+  cyl(15, 1, [at[0], at[1], at[2] + 6], [0, 0, 1], 'union', 'Moleteado plug b'),
+  cyl(9, 7, [at[0], at[1], at[2] - 7], [0, 0, 1], 'union', 'Bota antitracción'),
+];
+
 // cable realista: polilínea 3D de segmentos cilíndricos con solape
 const cableFeats = (pts, dia, name) => {
   const out = [];
@@ -221,7 +246,7 @@ const RG = (o) => [GAB[0] + o[0], GAB[1] - o[2], GAB[2] + o[1]];  // R_x(90)·o 
   const bossX = 84, bossY = 59;
   const boss = cyl(10, 49, [bossX, bossY, 3], [0, 0, 1], 'union', 'Torreta esquina');
   const tapM4 = hole(3.4, [bossX, bossY, 52], [0, 0, -1], { depth: 12, name: 'Rosca tapa M4' });
-  const entradas = [-66, -40, -14, 12, 38, 64];   // cara inferior (local −Y)
+  const entradas = [-68, -44, -20, 4, 28, 50, 70];   // cara inferior (local −Y)
   P('gabinete', '16 Gabinete PC IP66/67 180×130×60 vertical (2 abrazaderas U por la espalda)', '#bfc7cf', GAB, [
     box(180, 130, 52, [0, 0, 0], 'union', 'Cuerpo'),
     box(174, 124, 52, [0, 0, 3], 'cut', 'Cavidad'),
@@ -231,7 +256,7 @@ const RG = (o) => [GAB[0] + o[0], GAB[1] - o[2], GAB[2] + o[1]];  // R_x(90)·o 
     cyl(16, 3.5, [-40, 0, 0], [0, 0, -1], 'union', 'Separador de espalda 2'),
     box(3, 100, 2, [62, 0, -2], 'union', 'Nervio de espalda 1'),
     box(3, 100, 2, [-62, 0, -2], 'union', 'Nervio de espalda 2'),
-    ...entradas.map((x, i) => hole(i >= 3 ? 12.5 : 16.5, [x, -65, 26], [0, 1, 0],
+    ...entradas.map((x, i) => hole(i === 0 ? 16.5 : 12.5, [x, -65, 26], [0, 1, 0],
       { depth: 4, name: `Entrada inferior ${i + 1}` })),
   ], { quat: QG, explode: [0, -180, 0] });
   P('junta', '17 Junta de tapa PU (perimetral)', '#22262b', RG([0, 0, 52]), [
@@ -313,20 +338,16 @@ P('desecante', '25 Cápsula desecante Ø30 (tapa perforada)', '#d9c37a', RG([-64
 
 // entradas inferiores (todas apuntan hacia abajo, con lazo de goteo)
 const BOT = 1085, YE = -55;
-P('prensa', '26 Skintop M16 bus de sonda (entrada inferior)', '#c9a227', [-66, YE, BOT - 20], [
+P('prensa', '26 Skintop M16 bus de sonda (entrada inferior)', '#c9a227', [-68, YE, BOT - 20], [
   cyl(19, 5, [0, 0, 0], [0, 0, 1], 'union', 'Capuchón'),
   cyl(17, 7, [0, 0, 5], [0, 0, 1], 'union', 'Cuerpo'),
   sketch(hexEnt(11.55), 8, [0, 0, 12], [0, 0, 1], [1, 0, 0], 'union', 'Hex SW20'),
   cyl(15.8, 11, [0, 0, 20], [0, 0, 1], 'union', 'Rosca M16'),
   hole(8, [0, 0, 0], [0, 0, 1], { depth: 4, name: 'Boca de cable' }),
 ], { explode: [0, 0, -140] });
-P('prensas_superficie', '27 2× Skintop M16 superficie (pluvio + escudo/hoja)', '#c9a227', [-27, YE, BOT - 20], [
-  cyl(19, 5, [-13, 0, 0], [0, 0, 1], 'union', 'Capuchón 1'),
-  cyl(17, 7, [-13, 0, 5], [0, 0, 1], 'union', 'Cuerpo 1'),
-  cyl(15.8, 11, [-13, 0, 20], [0, 0, 1], 'union', 'Rosca 1'),
-  cyl(19, 5, [13, 0, 0], [0, 0, 1], 'union', 'Capuchón 2'),
-  cyl(17, 7, [13, 0, 5], [0, 0, 1], 'union', 'Cuerpo 2'),
-  cyl(15.8, 11, [13, 0, 20], [0, 0, 1], 'union', 'Rosca 2'),
+P('m12_panelbar', '27 Patch panel M12: LLUVIA · T/HR · HOJA (estilo GroPoint)', '#2b2f36', [0, YE, BOT - 6], [
+  ...m12Feats(-44, 'LLUVIA'), ...m12Feats(-20, 'T/HR'), ...m12Feats(4, 'HOJA'),
+  box(76, 22, 1.2, [-20, 0, -0.6], 'union', 'Placa rotulada (grabado láser)'),
 ], { explode: [0, 0, -180] });
 {
   const feats = [
@@ -342,9 +363,9 @@ P('prensas_superficie', '27 2× Skintop M16 superficie (pluvio + escudo/hoja)', 
     feats.push(cyl(0.9, 2, [3.3 * Math.cos(a), 3.3 * Math.sin(a), -1.8], [0, 0, 1], 'union', `Pin ${k + 1}`));
   }
   feats.push(cyl(0.9, 2, [0, 0, -1.8], [0, 0, 1], 'union', 'Pin 5'));
-  P('m12', '28 Receptáculo M12 A-cod 5p servicio (entrada inferior)', '#2b2f36', [12, YE, BOT - 6], feats, { explode: [0, 0, -120] });
+  P('m12', '28 Receptáculo M12 A-cod 5p servicio (entrada inferior)', '#2b2f36', [28, YE, BOT - 6], feats, { explode: [0, 0, -120] });
 }
-P('m12_tapa', '29 Tapa protectora M12 c/cadenilla', '#c9a227', [12, YE, BOT - 18], [
+P('m12_tapa', '29 Tapa protectora M12 c/cadenilla', '#c9a227', [28, YE, BOT - 18], [
   cyl(16, 9, [0, 0, 0], [0, 0, 1], 'union', 'Tapa'),
   cyl(16.8, 0.8, [0, 0, 1.5], [0, 0, 1], 'union', 'Moleteado 1'),
   cyl(16.8, 0.8, [0, 0, 3.5], [0, 0, 1], 'union', 'Moleteado 2'),
@@ -352,7 +373,7 @@ P('m12_tapa', '29 Tapa protectora M12 c/cadenilla', '#c9a227', [12, YE, BOT - 18
   box(5, 3, 4, [10, 0, 1], 'union', 'Oreja cadenilla'),
   hole(2, [10, -2, 3], [0, 1, 0], { through: true, name: 'Paso cadenilla' }),
 ], { explode: [0, 0, -170] });
-P('vent', '30 Válvula Gore M12 (cara inferior: nunca sol directo)', '#e0e0e0', [38, YE, BOT - 8], [
+P('vent', '30 Válvula Gore M12 (cara inferior: nunca sol directo)', '#e0e0e0', [50, YE, BOT - 8], [
   sketch(hexEnt(8.1), 8, [0, 0, 0], [0, 0, 1], [1, 0, 0], 'union', 'Cabeza hex SW14'),
   cyl(12, 9, [0, 0, 8], [0, 0, 1], 'union', 'Rosca'),
   hole(1.6, [6.2, 0, 4], [-1, 0, 0], { depth: 3, name: 'Venteo 1' }),
@@ -360,7 +381,7 @@ P('vent', '30 Válvula Gore M12 (cara inferior: nunca sol directo)', '#e0e0e0', 
   hole(1.6, [0, 6.2, 4], [0, -1, 0], { depth: 3, name: 'Venteo 3' }),
   hole(1.6, [0, -6.2, 4], [0, 1, 0], { depth: 3, name: 'Venteo 4' }),
 ], { explode: [0, 0, -150] });
-P('entrada_panel', '31 Prensaestopas M12 cable del panel (inferior)', '#c9a227', [64, YE, BOT - 10], [
+P('entrada_panel', '31 Prensaestopas M12 cable del panel (inferior)', '#c9a227', [70, YE, BOT - 10], [
   cyl(15, 5, [0, 0, 0], [0, 0, 1], 'union', 'Capuchón'),
   sketch(hexEnt(9.25), 5, [0, 0, 5], [0, 0, 1], [1, 0, 0], 'union', 'Hex SW16'),
   cyl(12, 9, [0, 0, 10], [0, 0, 1], 'union', 'Rosca M12'),
@@ -439,12 +460,16 @@ P('antena', '37 Antena 868/915 2 dBi al tope (~1.93 m)', '#30363f', [0, 0, 0], [
 // de goteo entre las salidas laterales y las entradas inferiores de la caja)
 // ============================================================================
 P('cable_bus', '38 Cable bus de sonda (interior poste → entrada, lazo de goteo)', '#1c1f24', [0, 0, 0],
-  cableFeats([[0, -26, 1088], [0, -40, 1068], [-24, -52, 1046], [-52, -56, 1041], [-65, -55, 1047], [-66, -55, 1062]], 6, 'Bus'),
+  cableFeats([[0, -26, 1088], [0, -40, 1068], [-26, -52, 1046], [-56, -56, 1041], [-67, -55, 1047], [-68, -55, 1062]], 6, 'Bus'),
   { explode: [0, -60, -40] });
-P('cables_bajada', '39 Bajada instrumentos (salida Ø14 → 3 entradas, lazos de goteo)', '#1c1f24', [0, 0, 0], [
-  ...cableFeats([[0, -26, 1076], [-8, -42, 1056], [-30, -55, 1038], [-40, -55, 1045], [-40, -55, 1060]], 5, 'Superficie 1'),
-  ...cableFeats([[2, -26, 1076], [0, -44, 1054], [-10, -56, 1036], [-14, -55, 1044], [-14, -55, 1060]], 5, 'Superficie 2'),
-  ...cableFeats([[0, -26, 1078], [22, -44, 1056], [52, -55, 1036], [64, -55, 1043], [64, -55, 1058]], 5, 'Panel'),
+P('cables_bajada', '39 Bajadas con conector M12 volante (lazos de goteo)', '#1c1f24', [0, 0, 0], [
+  ...cableFeats([[0, -26, 1076], [-10, -42, 1054], [-34, -55, 1034], [-44, -55, 1040]], 5, 'LLUVIA'),
+  ...m12Plug([-44, -55, 1043]),
+  ...cableFeats([[1, -26, 1076], [-4, -44, 1050], [-16, -56, 1032], [-20, -55, 1038]], 5, 'T/HR'),
+  ...m12Plug([-20, -55, 1041]),
+  ...cableFeats([[2, -26, 1078], [4, -44, 1052], [4, -55, 1034], [4, -55, 1040]], 5, 'HOJA'),
+  ...m12Plug([4, -55, 1043]),
+  ...cableFeats([[0, -26, 1080], [26, -46, 1054], [58, -55, 1036], [70, -55, 1044], [70, -55, 1058]], 5, 'Panel'),
 ], { explode: [0, -60, -60] });
 P('cable_pluvio', '40 Cable pluviómetro (reed → pasacables del poste)', '#1c1f24', [0, 0, 0],
   cableFeats([[-146, 0, 1156], [-112, 0, 1150], [-64, 0, 1147], [-27, 0, 1150]], 5, 'Pluvio'),
@@ -480,7 +505,7 @@ const BOM = [
   { item: 12, id: 'pcb', desig: 'Nodo WisBlock + ADS1115 en placa de espalda', mat: 'RAK + placa Al', cant: 1, nota: 'VWC=V/3·50; T=(V−0.5)/0.01 (ficha SMT50)' },
   { item: 13, id: 'baterias', desig: '2× LiFePO4 26650 + portapilas (celdas verticales) + BMS solar', mat: '—', cant: 1, nota: '' },
   { item: 14, id: 'prensa', desig: 'Skintop M16 bus (entrada inferior)', mat: 'Latón Ni', cant: 1, nota: 'Todas las entradas por ABAJO con lazo de goteo' },
-  { item: 15, id: 'prensas_superficie', desig: '2× Skintop M16 superficie', mat: 'Latón Ni', cant: 2, nota: 'Pluviómetro (pulso) y escudo/hoja' },
+  { item: 15, id: 'm12_panelbar', desig: 'Patch panel M12: 3× receptáculo A-cod + 3× conector volante moldeado + placa rotulada', mat: 'IEC 61076-2-101, IP68 acoplado', cant: 1, nota: 'LLUVIA · T/HR · HOJA — recambio de sensor SIN abrir la caja ni herramientas (estilo GroPoint; supera el jack 3.5 mm de METER ZL6)' },
   { item: 16, id: 'm12', desig: 'M12 A-cod servicio + tapa c/cadenilla (inferior)', mat: 'IEC 61076-2-101', cant: 1, nota: 'Grasa dieléctrica' },
   { item: 17, id: 'vent', desig: 'Válvula Gore M12 (cara inferior)', mat: 'ePTFE', cant: 1, nota: 'Abajo: nunca sol directo ni chorro' },
   { item: 18, id: 'entrada_panel', desig: 'Prensaestopas M12 cable panel (inferior)', mat: 'Latón Ni', cant: 1, nota: 'El cable del panel baja por el poste' },
@@ -505,12 +530,13 @@ const PASOS = [
   { n: 6, t: 'Poste, cap y pesca de cables', partes: ['pilar', 'transicion', 'cap_poste', 'cable_bus'], texto: 'PTFE + anaerobio y roscar el poste a la transición (llave en el hex del fitting). ANTES de tapar: pesca con cinta guía desde el tope hacia cada pasacables lateral (pluvio, escudo, panel, antena) y deja hilos de nylon dentro. Subir el bus por el ánima y sacarlo por la SALIDA Ø16. Cap al tope. Zinc-rich.' },
   { n: 7, t: 'Gabinete al poste', partes: ['gabinete', 'pilar'], texto: 'Colgar el gabinete por la espalda con 2 abrazaderas U (puerta al SUR). Verificar vertical. El bus baja de la salida lateral con LAZO DE GOTEO y entra por su prensaestopas inferior.' },
   { n: 8, t: 'Electrónica (placa de espalda)', partes: ['separadores', 'pcb', 'portapilas', 'baterias', 'bms', 'borne_bus', 'desecante'], texto: 'Placa de espalda con nodo WisBlock+ADS1115, portapilas con celdas verticales, BMS, bornera (pantalla a tierra en un punto), desecante. SMT50 a canales 0–2 + T multiplexada.' },
-  { n: 9, t: 'Entradas inferiores y saltos de goteo', partes: ['prensa', 'prensas_superficie', 'm12', 'm12_tapa', 'vent', 'entrada_panel', 'gabinete', 'cables_bajada'], texto: 'Montar TODAS las entradas en la cara inferior: bus, 2 superficie, M12 servicio (grasa dieléctrica + tapa), válvula Gore y entrada del panel. Los cables salen del poste por las 2 salidas laterales traseras y hacen un SALTO CORTO CON LAZO DE GOTEO hasta su prensaestopas — ningún cable largo a la vista.' },
+  { n: 9, t: 'Entradas inferiores y saltos de goteo', partes: ['prensa', 'prensas_superficie', 'm12', 'm12_tapa', 'vent', 'entrada_panel', 'gabinete', 'cables_bajada'], texto: 'Montar TODAS las entradas en la cara inferior: bus, 2 superficie, M12 servicio (grasa dieléctrica + tapa), válvula Gore y entrada del panel. Los cables salen del poste por las 2 salidas traseras con SALTO CORTO Y LAZO DE GOTEO: los de sensores terminan en CONECTOR M12 VOLANTE que enchufa a su receptáculo rotulado (grasa dieléctrica, apriete a mano) — recambio futuro sin abrir la caja.' },
   { n: 10, t: 'Prueba de estanqueidad (GATE)', partes: ['punta', 'tubo', 'transicion', 'gabinete'], texto: 'Sonda: vacío −20 kPa 5 min o inmersión 1 m 30 min. Gabinete armado: inmersión 30 min con testigo. NO se instala sin pasar.' },
   { n: 11, t: 'Instalación en terreno', partes: ['tapon_hinca', 'collar', 'tubo', 'punta'], texto: 'Pilotar Ø45 a 750. Hincar con cap+taco hasta tubo a +50. Lechada nativa + bentonita últimos 300. Collar al ras. Roscar el poste completo. ATERRAR (pica 1.2 m).' },
   { n: 12, t: 'Instrumentos y puesta en marcha', partes: ['escudo_thr', 'pluviometro', 'sensor_hoja', 'soporte_panel', 'panel', 'antena', 'tapa', 'junta', 'cable_pluvio', 'cable_escudo', 'cable_panel', 'cable_antena', 'cable_hoja'], texto: 'Escudo T/HR a 1.50 m (OMM). Pluviómetro en su ménsula: NIVELAR ±1° y pincho antipájaros. Hoja al follaje. Panel al NORTE (20°), antena al tope. Cordón de retención + puerta 1.2 N·m en cruz. Verificar canales y LoRaWAN; bitácora.' },
 ];
 const FEATURES = [
+  'PATCH PANEL M12 ROTULADO en la cara inferior (LLUVIA·T/HR·HOJA·SRV): recambio de sensores en segundos con giro de rosca, IP68 acoplado — el conector industrial de GroPoint con la comodidad plug-and-play del ZL6, sin su jack 3.5 mm no estanco',
   'CABLEADO 100 % INTERIOR AL POSTE: cada instrumento entra al SCH40 por pasacables de goma junto a su montaje; solo saltos cortos con lazo de goteo hacia las entradas inferiores — sin cables zunchados a la vista (mejor que el estándar ZL6/Sentek, que los amarra por fuera)',
   'ESTACIÓN DE POSTE v2 (ingeniería sobre estética): puerta VERTICAL al sur — no entra lluvia al abrir, servicio de pie a 1.15 m, panel como alero de la puerta',
   'TODAS las entradas de cable por la cara INFERIOR con lazo de goteo (la regla de oro IP en gabinetes de intemperie) — incluida la válvula Gore, que abajo nunca recibe sol ni chorro directo',
@@ -523,7 +549,8 @@ const FEATURES = [
 const WEB_REF = [
   { afirmacion: 'T/HR de aire a 1.25–2 m; pluviómetro con obstáculos a >=2× (mejor 4×) su altura sobre la boca', fuente: 'OMM Guía N.º 8 (CIMO)', url: 'https://community.wmo.int/site/knowledge-hub/programmes-and-initiatives/instruments-and-methods-of-observation-programme-imop/guide-instruments-and-methods-of-observation-wmo-no-8', acceso: '2026-07-20' },
   { afirmacion: 'SMT50: 135×21.5 mm, ±2 % VWC (minerales), 0–50 %, −20…+85 °C, 0–3 V, 3.3–30 V', fuente: 'Truebner SMT50 Flyer 01/2018', url: 'https://www.truebner.de/assets/download/SMT50_Flyer_EN.pdf', acceso: '2026-07-20' },
-  { afirmacion: 'Por estación la competencia ofrece T/HR (ATMOS 14), pluviómetro y humedad de hoja (PHYTOS 31)', fuente: 'METER ZL6', url: 'https://metergroup.com/products/zl6/', acceso: '2026-07-20' },
+  { afirmacion: 'Por estación la competencia ofrece T/HR (ATMOS 14), pluviómetro y humedad de hoja (PHYTOS 31); el ZL6 conecta sensores por jack estéreo 3.5 mm plug-and-play en la cara inferior', fuente: 'METER ZL6', url: 'https://metergroup.com/products/zl6/', acceso: '2026-07-20' },
+  { afirmacion: 'GroPoint usa ecosistema M12 IP68 completo: sensores con M12 moldeado, cables M-H y barra de expansión de 4 puertos', fuente: 'GroPoint 4-Port Expansion Bar / M12 cables', url: 'https://www.gropoint.com/products-1/4-port-expansion-bar-with-m12-cable-part-2998-amp-2999', acceso: '2026-07-20' },
 ];
 
 const doc = {

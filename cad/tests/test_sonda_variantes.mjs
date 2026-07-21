@@ -101,7 +101,11 @@ check('gabinete VERTICAL colgado del poste (180 ancho × 130 alto)',
   Math.abs((b15.gabinete.max.z - b15.gabinete.min.z) - 130) < 1 && b15.gabinete.max.y < -25);
 check('puerta al SUR (tapa más al −Y que el cuerpo)', b15.tapa.min.y < b15.gabinete.min.y + 1);
 check('TODAS las entradas por la cara inferior (z<1086)',
-  ['prensa', 'prensas_superficie', 'm12', 'vent', 'entrada_panel'].every(id => b15[id].min.z < 1086));
+  ['prensa', 'm12_panelbar', 'm12', 'vent', 'entrada_panel'].every(id => b15[id].min.z < 1086));
+check('patch panel M12 rotulado (LLUVIA/T-HR/HOJA) presente',
+  ['LLUVIA', 'T/HR', 'HOJA'].every(t => byId(B15, 'm12_panelbar').features.some(f => f.name.includes(t))));
+check('bajadas terminan en conector M12 volante',
+  byId(B15, 'cables_bajada').features.filter(f => f.name.includes('volante')).length === 3);
 check('escudo T/HR a 1.47–1.53 m (OMM 1.25–2 m)', b15.escudo_thr.min.z > 1450 && b15.escudo_thr.max.z < 1540);
 check('boca del pluviómetro a 1.234 m + pinchos antipájaros', b15.pluviometro.max.z > 1233 && b15.pluviometro.max.z < 1262 && byId(B15, 'pluviometro').features.some(f => f.name.includes('antipájaros')));
 check('ménsula del pluviómetro AL POSTE (abrazaderas centradas en el eje)',
@@ -114,7 +118,7 @@ check('electrónica dentro del gabinete vertical',
 check('BOM/pasos/alturas OMM en meta', B15.meta.bom.length >= 27 && B15.meta.pasos.length === 12 &&
   B15.meta.webRef.some(w => w.fuente.includes('OMM')));
 check('lazo de goteo del bus baja bajo las entradas', b15.cable_bus.min.z < 1046);
-check('saltos cortos: cables de bajada confinados tras la caja', b15.cables_bajada.min.y > -60 && b15.cables_bajada.max.z < 1085);
+check('saltos cortos: cables de bajada confinados tras la caja', b15.cables_bajada.min.y > -64 && b15.cables_bajada.max.z < 1085);
 
 console.log(`\n${pass} ✔ · ${fail} ✘`);
 process.exit(fail ? 1 : 0);
