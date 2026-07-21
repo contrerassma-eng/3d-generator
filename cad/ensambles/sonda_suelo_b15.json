@@ -8,14 +8,13 @@
   "variante": "smt50-v3",
   "subtitulo": "SMT50 ×3 (±2 %) · cabezal Ø125 EN ISO 1452 + tóricas ISO 3601 · T/HR 1.5 m OMM · pluvio 1.24 m · entradas bajo el disco",
   "etiquetaSensor": "SMT50",
-  "fuente": "gen_estacion_b15.mjs — v3: cabezal cilíndrico compacto en norma (tubo EN ISO 1452 + tóricas ISO 3601 regla Parker)",
+  "fuente": "gen_estacion_b15.mjs — v3: cabezal cilíndrico compacto en norma (tubo EN ISO 1452 + tóricas ISO 3601 regla Parker). Manual/dossier: manual_b15_capturas.mjs + manual_b15_pdf.py",
   "fecha": "2026-07-20",
   "desviaciones": [
    "v3 (pedido del usuario): la caja rectangular lateral de v2 se reemplaza por un CABEZAL CILÍNDRICO COMPACTO coaxial al poste — base/tapa torneadas POM-C + cuerpo de tubo estándar EN ISO 1452 DN125 y tóricas ISO 3601 en gargantas regla Parker; desaparecen el cap, las 2 abrazaderas del gabinete y TODOS los prensaestopas de cable.",
    "El acceso de servicio sube de 1.15 m (puerta de v2) a ~1.9 m (tapa superior, 4×M4): aceptado a cambio de eliminar todas las penetraciones de cable exteriores; se alcanza de pie, sin escalera.",
    "La electrónica pasa de placa de espalda rectangular a placa portadora circular Ø100 (mismos módulos WisBlock/ADS1115/BMS/bornera).",
-   "Pluviómetro compacto: no cumple la regla 2× de OMM respecto del propio poste (sesgo declarado, común a toda estación integrada).",
-   "El manual sonda_b15_manual_ensamble.pdf corresponde a la v2 (gabinete rectangular): pendiente de regenerar para v3."
+   "Pluviómetro compacto: no cumple la regla 2× de OMM respecto del propio poste (sesgo declarado, común a toda estación integrada)."
   ],
   "explode": {
    "punta": [
