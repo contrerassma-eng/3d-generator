@@ -120,5 +120,23 @@ check('BOM/pasos/alturas OMM en meta', B15.meta.bom.length >= 27 && B15.meta.pas
 check('lazo de goteo del bus baja bajo las entradas', b15.cable_bus.min.z < 1046);
 check('saltos cortos: cables de bajada confinados tras la caja', b15.cables_bajada.min.y > -64 && b15.cables_bajada.max.z < 1085);
 
+// --- opción CIL: gabinete cilíndrico coaxial (compacto, IP68) -----------------
+console.log('— OPCIÓN CIL (gabinete_cil.json) —');
+const CIL = JSON.parse(readFileSync('ensambles/gabinete_cil.json', 'utf8'));
+check('18 piezas', CIL.parts.length === 18, `hay ${CIL.parts.length}`);
+check('ids únicos', new Set(CIL.parts.map(p => p.id)).size === CIL.parts.length);
+const cilfids = CIL.parts.flatMap(p => p.features.map(f => f.id));
+check('ids de función únicos', new Set(cilfids).size === cilfids.length);
+check('doble barrera IP68: 2 tóricas de cuerpo + 2 de eje', ['or_top', 'or_bot', 'or_mast_t', 'or_mast_b'].every(id => byId(CIL, id)));
+check('patch panel M12 rotulado en la base', ['LLUVIA', 'T/HR', 'HOJA'].every(t => byId(CIL, 'm12_panel').features.some(f => f.name.includes(t))));
+check('meta CIL: normas IEC 60529 + ISO 3601 en webRef', CIL.meta.webRef.some(w => w.fuente.includes('60529')) && CIL.meta.webRef.some(w => w.fuente.includes('3601')));
+const cb = buildAll(CIL);
+check('cuerpo cilíndrico Ø160 (banda 1090–1310)', Math.abs((cb.cuerpo.max.x - cb.cuerpo.min.x) - 160) < 2 && Math.abs(cb.cuerpo.min.z - 1090) < 1 && Math.abs(cb.cuerpo.max.z - 1310) < 1);
+check('poste PASANTE y continuo por el eje (850–1560)', Math.abs(cb.mastil.min.z - 850) < 1 && Math.abs(cb.mastil.max.z - 1560) < 1 && Math.abs(cb.mastil.min.x + cb.mastil.max.x) < 1);
+check('tapas sup./inf. cierran la cápsula', cb.cap_top.min.z > 1285 && cb.cap_bot.max.z < 1116);
+check('electrónica dentro de la cavidad anular (poste 1090–1310)', ['pcb', 'baterias', 'bms', 'desecante'].every(id => cb[id].min.z > 1090 && cb[id].max.z < 1310));
+check('celdas 18650 fuera del tubo interior Ø56 (en el anillo)', Math.hypot((cb.baterias.min.x + cb.baterias.max.x) / 2, (cb.baterias.min.y + cb.baterias.max.y) / 2) < 80 && (cb.baterias.max.x - cb.baterias.min.x) > 60);
+check('antena remata sobre la tapa superior', cb.antena.min.z > 1315);
+
 console.log(`\n${pass} ✔ · ${fail} ✘`);
 process.exit(fail ? 1 : 0);
