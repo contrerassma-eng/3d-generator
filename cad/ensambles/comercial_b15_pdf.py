@@ -12,7 +12,7 @@
 import math
 import os
 
-from PIL import Image
+from PIL import Image, ImageOps
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase import pdfmetrics
@@ -55,6 +55,50 @@ def cropped(name, pad=40):
     if x1 <= x0:
         return im
     return im.crop((max(0, x0 - pad), max(0, y0 - pad), min(w, x1 + pad), min(h, y1 + pad)))
+
+
+FOTOS = os.path.join(HERE, 'planos_sonda', '_fotos')
+_DUO = [(0, (10, 13, 18)), (110, (52, 66, 92)), (200, (148, 163, 190)), (255, (222, 230, 243))]
+
+
+def foto_duo(name, mezcla=0.18):
+    """Foto real gradada al duotono de la paleta (+ mezcla del color original)."""
+    im = Image.open(os.path.join(FOTOS, name + '.jpg')).convert('RGB')
+    g = ImageOps.autocontrast(ImageOps.grayscale(im), cutoff=1)
+    lut = []
+    for t in range(256):
+        for (a, ca), (b2, cb) in zip(_DUO, _DUO[1:]):
+            if a <= t <= b2:
+                f = (t - a) / (b2 - a)
+                lut.append(tuple(round(ca[k] + (cb[k] - ca[k]) * f) for k in range(3)))
+                break
+    duo = Image.merge('RGB', tuple(g.point([lut[i][k] for i in range(256)]) for k in range(3)))
+    return Image.blend(duo, im, mezcla)
+
+
+def foto_marco(name, W, H, brillo=1.0, grad_izq=1.0, mezcla=0.18):
+    """Recorte tipo cover; opcionalmente más oscura hacia la izquierda (texto)."""
+    im = foto_duo(name, mezcla)
+    sc = max(W / im.width, H / im.height)
+    im = im.resize((int(im.width * sc) + 1, int(im.height * sc) + 1), Image.LANCZOS)
+    x0, y0 = (im.width - int(W)) // 2, (im.height - int(H)) // 2
+    im = im.crop((x0, y0, x0 + int(W), y0 + int(H)))
+    if grad_izq < 1.0:
+        base = im.point(lambda v: int(v * brillo))
+        dark = im.point(lambda v: int(v * brillo * grad_izq))
+        m = Image.new('L', (480, 1))
+        m.putdata([max(0, 255 - int(i * 255 / 300)) for i in range(480)])
+        return Image.composite(dark, base, m.resize(im.size))
+    return im.point(lambda v: int(v * brillo)) if brillo != 1.0 else im
+
+
+def foto_jpg(img):
+    import hashlib, io
+    h = hashlib.md5(img.tobytes()[:4096]).hexdigest()[:10]
+    path = f'/tmp/foto3d_{h}.jpg'
+    if not os.path.exists(path):
+        img.save(path, quality=84)
+    return path
 
 
 def bg(c):
@@ -109,7 +153,7 @@ def draw_img(c, img, x, y, w, h):
 def foot(c, n, tag):
     mono(c, f'FOTO3D · SONDA-SUELO-IND · B1.5 V3 · 2026-07', 36, 20, 6.5, MUT)
     mono(c, tag, PW / 2 - mono_w(tag, 6.5) / 2, 20, 6.5, MUT)
-    mono(c, f'{n:02d} / 08', PW - 36 - mono_w(f'{n:02d} / 08', 6.5), 20, 6.5, MUT)
+    mono(c, f'{n:02d} / 09', PW - 36 - mono_w(f'{n:02d} / 09', 6.5), 20, 6.5, MUT)
 
 
 def wrap_sans(c, text, x, y, width, size=9, leading=None, color=FG, bold=False):
@@ -134,12 +178,19 @@ def wrap_sans(c, text, x, y, width, size=9, leading=None, color=FG, bold=False):
 
 c = canvas.Canvas(OUT, pagesize=(PW, PH))
 c.setTitle('Estación B1.5 v3 — documento comercial')
-TOTAL = 8
+TOTAL = 9
 
 # ═══════════════════════════════════════════════════ 01 · PORTADA
 bg(c)
+c.drawImage(foto_jpg(foto_marco('campo_maiz', 1684, 1190, brillo=0.42, grad_izq=0.34)), 0, 0, PW, PH)
+px_, py_, pw_, ph_ = PW * 0.545, 22, PW * 0.42, PH - 44
+c.setFillColorRGB(*INK)
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.9)
+c.roundRect(px_, py_, pw_, ph_, 10, stroke=1, fill=1)
 img = cropped('hero', 60)
-draw_img(c, img, PW * 0.52, 30, PW * 0.46, PH - 60)
+draw_img(c, img, px_ + 6, py_ + 6, pw_ - 12, ph_ - 12)
+mono(c, 'MODELO CAD PARAMÉTRICO · RENDER DEL DISEÑO', px_ + 14, py_ + 10, 5.6, MUT)
 ruler(c, 36, 60, PH - 60)
 mono(c, 'DOCUMENTO COMERCIAL · ATLAS DE DECISIÓN Nº 1', 58, PH - 74, 7, MUT)
 c.setFont('Big', 52)
@@ -151,8 +202,8 @@ c.setLineWidth(2.2)
 c.line(58, PH - 208, 218, PH - 208)
 y = PH - 238
 wrap_sans(c, 'Estación de suelo + clima con cabezal cilíndrico en norma: mide la raíz a 3 profundidades, '
-             'el clima a alturas OMM, y convierte cada dato en una decisión de riego por volumen: metros cúbicos, no horas.', 58, y, 330, 11, 15.5)
-y -= 58
+             'el clima a alturas OMM, y convierte cada dato en una decisión de riego por volumen: metros cúbicos, no horas.', 58, y, 352, 11, 15.5)
+y -= 82
 for k, v in [('SONDA', '3 NIVELES · ±2 % VWC'), ('CLIMA', 'T/HR · LLUVIA · HOJA'),
              ('ENERGÍA', 'SOLAR AUTÓNOMA'), ('ENLACE', 'LORAWAN 2.15 M')]:
     mono(c, k, 58, y, 6.5, MUT)
@@ -224,6 +275,11 @@ for i, st in enumerate(flow):
         c.setLineWidth(0.8)
         c.line(cx + 18 + mono_w(st, 8) + 8, 96, cx + fw - 6, 96)
 mono(c, 'CADA 15 MIN, LA ESTACIÓN REPITE ESTE CICLO SIN INTERVENCIÓN HUMANA', 360, 72, 6.5, MUT)
+c.drawImage(foto_jpg(foto_marco('campo_agua', 324, 272, brillo=0.85)), gx, 114, 162, 136)
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.8)
+c.rect(gx, 114, 162, 136, stroke=1, fill=0)
+mono(c, 'EL AGUA QUE SE DECIDE', gx + 8, 122, 5.6, FG)
 foot(c, 2, 'DE DATO A DECISIÓN')
 c.showPage()
 
@@ -394,6 +450,7 @@ c.showPage()
 
 # ═══════════════════════════════════════════════════ 05 · EL AHORRO
 bg(c)
+c.drawImage(foto_jpg(foto_marco('campo_pivot', 1684, 1190, brillo=0.34, grad_izq=0.5)), 0, 0, PW, PH)
 ruler(c, 36, 60, PH - 60)
 c.setFont('Big', 30)
 c.setFillColorRGB(*FG)
@@ -458,17 +515,18 @@ def rango_barra(cc, x, y, w, v0, v1, vmax, col, punto=False):
 
 # ── izquierda: % publicado
 mono(c, 'AGUA AHORRADA · % PUBLICADO', 56, PH - 108, 7, FG, bold=True)
-PCT = [('LECHUGA · IOT CAPACITIVO', 28.8, 28.8, ACC, True, '28.8 %'),
+PCT = [('CEREZO · RDI \'SANTINA\' (CL)', 10, 28, AMB, False, '10–28 %'),
+       ('LECHUGA · IOT CAPACITIVO', 28.8, 28.8, ACC, True, '28.8 %'),
        ('HORTALIZAS · DSS ITALIA', 10, 17, GRN, False, '10–17 %'),
        ('FRESA · UC ANR', 10, 16, GRN, False, '10–16 %'),
        ('ALMENDRO · UC ANR', 10, 16, GRN, False, '10–16 %')]
 bx, bw = 56, 260
-yy = PH - 132
+yy = PH - 134
 for lab, v0, v1, col, punto, vlab in PCT:
     mono(c, lab, bx, yy + 13, 6.2, MUT)
     rango_barra(c, bx, yy, bw, v0, v1, 30, col, punto)
     mono(c, vlab, bx + bw + 8, yy + 1.5, 7.5, FG, bold=True)
-    yy -= 40
+    yy -= 34
 c.setStrokeColorRGB(*EDGE)
 c.setLineWidth(0.5)
 for v in (0, 10, 20, 30):
@@ -478,30 +536,31 @@ for v in (0, 10, 20, 30):
 
 # ── derecha: m³/ha por temporada
 mono(c, 'EN VOLUMEN · M³/HA POR TEMPORADA', 420, PH - 108, 7, FG, bold=True)
-VOL = [('MAÍZ', 500, 1360, '500–1 360'),
+VOL = [('CEREZO', 800, 2240, '800–2 240'),
+       ('MAÍZ', 500, 1360, '500–1 360'),
        ('TOMATE', 400, 1360, '400–1 360'),
        ('CÍTRICOS', 900, 2040, '900–2 040'),
        ('ALFALFA', 800, 2720, '800–2 720')]
 vx, vw = 420, 280
-yy = PH - 132
+yy = PH - 134
 for i, (lab, v0, v1, vlab) in enumerate(VOL):
     mono(c, lab, vx, yy + 13, 6.2, MUT)
-    rango_barra(c, vx, yy, vw, v0, v1, 2800, GRN, False)
+    rango_barra(c, vx, yy, vw, v0, v1, 2800, AMB if lab == 'CEREZO' else GRN, False)
     mono(c, vlab, vx + vw + 8, yy + 1.5, 7.5, FG, bold=True)
-    if i == 0:  # marcador medido en maíz (MSU/NRCS: 1.9 in ≈ 48 mm)
+    if lab == 'MAÍZ':  # marcador medido en maíz (MSU/NRCS: 1.9 in ≈ 48 mm)
         mx = vx + vw * 480 / 2800
         c.setStrokeColorRGB(*AMB)
         c.setLineWidth(1.4)
         c.line(mx, yy - 4, mx, yy + 13)
         mono(c, 'MEDIDO EN CAMPO: 480 M³/HA (MSU/NRCS)', mx + 6, yy - 4, 5.5, AMB, bold=True)
-    yy -= 40
+    yy -= 34
 c.setStrokeColorRGB(*EDGE)
 c.setLineWidth(0.5)
 for v in (0, 1000, 2000, 2800):
     xx = vx + vw * v / 2800
     c.line(xx, yy + 26, xx, yy + 20)
     mono(c, f'{v}', xx - 4, yy + 10, 5.5, MUT)
-mono(c, 'SUPUESTO · NECESIDAD HÍDRICA ESTACIONAL FAO (MAÍZ 500–800 · TOMATE 400–800 · CÍTRICOS 900–1 200 · ALFALFA 800–1 600 MM) × AHORRO 10–17 %', 56, PH - 322, 5.6, MUT)
+mono(c, 'SUPUESTOS · FAO: MAÍZ 500–800 · TOMATE 400–800 · CÍTRICOS 900–1 200 · ALFALFA 800–1 600 MM × AHORRO 10–17 % · CEREZO: 8 000 M³/HA (U. DE CHILE) × RDI 10–28 %', 56, PH - 322, 5.6, MUT)
 mono(c, 'FUENTES · fao.org/4/s2022e/s2022e07.htm · canr.msu.edu · LOS RESULTADOS VARÍAN SEGÚN SUELO, CLIMA Y PRÁCTICA DE BASE', 56, PH - 332, 5.6, MUT)
 
 # ── cierre: volumen, no tiempo
@@ -526,7 +585,75 @@ for i, (st, un) in enumerate([('LÁMINA', 'mm'), ('VOLUMEN', 'm³'), ('TIEMPO', 
         c.setLineWidth(1.2)
         c.line(cxx + 78, PH - 392, cxx + 90, PH - 392)
 mono(c, 'EL M³ ES EL DATO QUE FACTURA SU POZO', 540, PH - 424, 5.8, MUT)
+c.drawImage(foto_jpg(foto_marco('campo_goteo', (PW - 112) * 2, 208, brillo=0.8)), 56, 44, PW - 112, 104)
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.8)
+c.rect(56, 44, PW - 112, 104, stroke=1, fill=0)
+mono(c, 'MICRO-RIEGO EN CAMPO · USDA NRCS', 64, 52, 5.6, FG)
 foot(c, 6, 'POR CULTIVO, EN VOLUMEN')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 07 · EL CASO DEL CEREZO
+bg(c)
+ruler(c, 36, 60, PH - 60)
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'EL CASO DEL CEREZO')
+mono(c, 'DATOS EMPÍRICOS DE RIEGO EN CEREZO · ZONA CENTRAL DE CHILE', 58, PH - 80, 7, MUT)
+# foto vertical derecha
+c.drawImage(foto_jpg(foto_marco('campo_cerezo', 380, 660, brillo=0.9, mezcla=0.26)), PW - 246, 116, 190, 330)
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.8)
+c.rect(PW - 246, 116, 190, 330, stroke=1, fill=0)
+mono(c, 'HUERTO DE CEREZOS · CC0', PW - 238, 124, 5.4, FG)
+
+# ── la brecha real (m³/ha por temporada)
+mono(c, 'LA BRECHA REAL · M³/HA POR TEMPORADA', 56, PH - 110, 7, FG, bold=True)
+GAP = [('RIEGO SUBJETIVO (SIN DATOS)', 10000, '>10 000', AMB),
+       ('DEMANDA ZONA CENTRAL', 8000, '7 000–8 000', (0.55, 0.62, 0.75)),
+       ('MANEJO TÉCNICO ASESORADO', 5460, '5 460 · 17 T/HA', GRN)]
+yy = PH - 134
+for lab, v, vlab, col in GAP:
+    mono(c, lab, 56, yy + 13, 6.2, MUT)
+    c.setFillColorRGB(*GLASS)
+    c.roundRect(56, yy, 300, 10, 5, stroke=0, fill=1)
+    c.setFillColorRGB(*col)
+    c.roundRect(56, yy, 300 * v / 11000, 10, 5, stroke=0, fill=1)
+    mono(c, vlab, 362, yy + 2, 7.5, FG, bold=True)
+    yy -= 38
+mono(c, 'FUENTES · DIARIOFRUTICOLA.CL · REDAGRICOLA.COM · U. DE CHILE (8 168 M³/HA·AÑO)', 56, yy + 18, 5.4, MUT)
+
+# ── lo que la ciencia permite (RDI post-cosecha, sin penalizar rendimiento)
+mono(c, 'RIEGO DEFICITARIO CONTROLADO POST-COSECHA · SIN PENALIZAR RENDIMIENTO NI CALIDAD', 56, PH - 292, 7, FG, bold=True)
+RDI = [("−39 %", "'PRIME GIANT' · ESPAÑA", GRN), ("−45 %", "'SUMMIT' · AÑO DE BAJA CARGA", GRN), ("10–28 %", "'SANTINA' · 2025", AMB)]
+for i, (num, lab, col) in enumerate(RDI):
+    x = 56 + i * 168
+    c.setFont('Big', 27)
+    c.setFillColorRGB(*col)
+    c.drawString(x, PH - 324, num)
+    mono(c, lab, x + 1, PH - 336, 5.6, MUT)
+mono(c, 'REQUIERE MEDIR EL SUELO: EL DÉFICIT SE CONTROLA, NO SE ADIVINA — EXACTAMENTE LO QUE HACE LA ESTACIÓN', 56, PH - 352, 5.8, ACC, bold=True)
+
+# ── en dinero (solo energía de bombeo, supuestos declarados)
+c.setStrokeColorRGB(*EDGE)
+c.line(56, PH - 366, PW - 296, PH - 366)
+mono(c, 'EN DINERO · SOLO LA ENERGÍA DE BOMBEO QUE NO SE GASTA', 56, PH - 382, 7, FG, bold=True)
+c.setFont('Big', 30)
+c.setFillColorRGB(*GRN)
+c.drawString(56, PH - 414, 'US$ 70–210')
+mono(c, 'POR HA · TEMPORADA', 58, PH - 426, 6, MUT)
+c.setFont('Big', 30)
+c.setFillColorRGB(*GRN)
+c.drawString(240, PH - 414, 'US$ 350–2 100')
+mono(c, 'POR AÑO EN UN SECTOR DE 5–10 HA', 242, PH - 426, 6, MUT)
+c.setFont('Big', 17)
+c.setFillColorRGB(*FG)
+c.drawString(462, PH - 408, 'US$ 610–700')
+mono(c, 'PRECIO OBJETIVO / ESTACIÓN · SERIE', 462, PH - 420, 5.6, MUT)
+mono(c, 'SUPUESTOS · BRECHA CERRADA 2 000–4 500 M³/HA · POZO 60 M DINÁMICO · EFIC. BOMBA 60 % → 0.27 KWH/M³ · US$ 0.13–0.17/KWH → US$ 0.035–0.046/M³', 56, 92, 5.4, MUT)
+mono(c, 'NO INCLUYE EL VALOR DE LA FRUTA PROTEGIDA NI EL AGUA NO COMPRADA; CON AGUAS SUPERFICIALES EL BENEFICIO ES DISPONIBILIDAD, NO ENERGÍA', 56, 82, 5.4, MUT)
+mono(c, 'RDI · SCIENCEDIRECT (S0304423819300925) · SPRINGER (S00271-009-0174-Z) · PMC12693967 — RESULTADOS VARÍAN POR HUERTO Y PORTAINJERTO', 56, 72, 5.4, MUT)
+foot(c, 7, 'EL CASO DEL CEREZO')
 c.showPage()
 
 # ═══════════════════════════════════════════════════ 07 · A ESCALA DE SU CAMPO
@@ -573,7 +700,7 @@ mono(c, 'SERIE · 25 UDS', 240, 60, 6, MUT)
 wrap_sans(c, 'Incluye contingencia del +30 % declarada sobre el costo estimado de BOM (760–950 / 470–540): '
              'logística, mermas, tipo de cambio e imprevistos de prototipado. Cifras base auditables en la BOM paramétrica.',
           400, 86, PW - 456, 7.5, 10.5, MUT)
-foot(c, 7, 'A ESCALA DE SU CAMPO')
+foot(c, 8, 'A ESCALA DE SU CAMPO')
 c.showPage()
 
 # ═══════════════════════════════════════════════════ 06 · RUTA + CTA
@@ -611,6 +738,7 @@ c.setFillColorRGB(*MUT)
 c.drawString(56, 132, 'UN POSTE A LA VEZ.')
 mono(c, 'CONTACTO · CONTRERAS.SMA@GMAIL.COM', 56, 96, 7.5, ACC, bold=True)
 mono(c, 'REPOSITORIO DE DISEÑO AUDITABLE · METODO FOTO3D · CAPA USER', 56, 82, 6, MUT)
+mono(c, 'FOTOS DE CAMPO · USDA NRCS / USACE (DOM. PÚBLICO) · JERNEJ FURMAN (CC BY 2.0) · WIKIMEDIA (CC0) · EDITADAS: RECORTE + DUOTONO', 56, 40, 5.2, MUT)
 xb = 56
 for tag in ['EN ISO 1452', 'ISO 3601', 'DIN 912 A4', 'OMM Nº 8', 'IEC 61076', 'LORAWAN']:
     wch = mono_w(tag, 6) + 14
@@ -618,7 +746,7 @@ for tag in ['EN ISO 1452', 'ISO 3601', 'DIN 912 A4', 'OMM Nº 8', 'IEC 61076', '
     c.roundRect(xb, 52, wch, 14, 7, stroke=1, fill=0)
     mono(c, tag, xb + 7, 56, 6, MUT)
     xb += wch + 7
-foot(c, 8, 'LA RUTA')
+foot(c, 9, 'LA RUTA')
 c.showPage()
 
 c.save()
