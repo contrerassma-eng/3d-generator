@@ -45,7 +45,7 @@ const b = await chromium.launch({
   executablePath: process.env.CHROMIUM_BIN || '/opt/pw-browsers/chromium',
 });
 const pg = await b.newPage({ viewport: { width: 1500, height: 1050 } });
-await pg.goto('file://' + join(here, 'sonda_suelo_b15.html'));
+await pg.goto('file://' + join(here, 'sonda_suelo_b15.html') + '?real=1');
 await pg.waitForTimeout(2500);
 await pg.addStyleTag({ content: '#hud,#panel,#foot{display:none!important}' });
 

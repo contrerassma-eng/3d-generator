@@ -109,7 +109,7 @@ def draw_img(c, img, x, y, w, h):
 def foot(c, n, tag):
     mono(c, f'FOTO3D · SONDA-SUELO-IND · B1.5 V3 · 2026-07', 36, 20, 6.5, MUT)
     mono(c, tag, PW / 2 - mono_w(tag, 6.5) / 2, 20, 6.5, MUT)
-    mono(c, f'{n:02d} / 06', PW - 36 - mono_w(f'{n:02d} / 06', 6.5), 20, 6.5, MUT)
+    mono(c, f'{n:02d} / 08', PW - 36 - mono_w(f'{n:02d} / 08', 6.5), 20, 6.5, MUT)
 
 
 def wrap_sans(c, text, x, y, width, size=9, leading=None, color=FG, bold=False):
@@ -134,6 +134,7 @@ def wrap_sans(c, text, x, y, width, size=9, leading=None, color=FG, bold=False):
 
 c = canvas.Canvas(OUT, pagesize=(PW, PH))
 c.setTitle('Estación B1.5 v3 — documento comercial')
+TOTAL = 8
 
 # ═══════════════════════════════════════════════════ 01 · PORTADA
 bg(c)
@@ -150,7 +151,7 @@ c.setLineWidth(2.2)
 c.line(58, PH - 208, 218, PH - 208)
 y = PH - 238
 wrap_sans(c, 'Estación de suelo + clima con cabezal cilíndrico en norma: mide la raíz a 3 profundidades, '
-             'el clima a alturas OMM, y convierte cada dato en una decisión de riego.', 58, y, 330, 11, 15.5)
+             'el clima a alturas OMM, y convierte cada dato en una decisión de riego por volumen: metros cúbicos, no horas.', 58, y, 330, 11, 15.5)
 y -= 58
 for k, v in [('SONDA', '3 NIVELES · ±2 % VWC'), ('CLIMA', 'T/HR · LLUVIA · HOJA'),
              ('ENERGÍA', 'SOLAR AUTÓNOMA'), ('ENLACE', 'LORAWAN 2.15 M')]:
@@ -207,9 +208,9 @@ mono(c, 'DECISIÓN', gx + 14, PH - 216, 6.5, MUT)
 c.setFont('Big', 26)
 c.setFillColorRGB(*FG)
 c.drawString(gx + 14, PH - 246, 'REGAR 11 mm')
-mono(c, 'LA RAÍZ PROFUNDA AÚN', gx + 14, PH - 262, 6, MUT)
-mono(c, 'TIENE RESERVA: LÁMINA CORTA', gx + 14, PH - 272, 6, MUT)
-mono(c, '· ILUSTRATIVO ·', gx + 14, PH - 284, 5.5, MUT)
+mono(c, '= 110 M³ EN LA HA DEL SECTOR', gx + 14, PH - 260, 6.2, ACC, bold=True)
+mono(c, 'RESERVA EN -60: LÁMINA CORTA', gx + 14, PH - 271, 6, MUT)
+mono(c, '· ILUSTRATIVO ·', gx + 14, PH - 283, 5.5, MUT)
 # flujo inferior
 flow = ['MEDIR', 'TRANSMITIR', 'DECIDIR', 'AHORRAR']
 fx, fw = 360, (PW - 96 - 360) / 4
@@ -359,6 +360,7 @@ c.setFillColorRGB(*FG)
 c.drawString(rx + 14, wy + wh - 78, 'REGAR 11 mm · JUE 06:00')
 wrap_sans(c, 'La banda de -20 cm cruza el umbral mañana; -60 cm conserva reserva. Lámina corta para no percolar.',
           rx + 14, wy + wh - 96, 252, 8, 11, MUT)
+mono(c, '= 110 M³ · 9.6 L/S → 3 H 11 MIN', rx + 14, wy + wh - 124, 6.8, ACC, bold=True)
 c.setStrokeColorRGB(*EDGE)
 c.line(rx + 14, wy + wh - 134, rx + 266, wy + wh - 134)
 mono(c, 'ALERTAS', rx + 14, wy + wh - 148, 6, MUT)
@@ -374,10 +376,10 @@ for i, (t, s, col) in enumerate([
 c.setStrokeColorRGB(*EDGE)
 c.line(rx + 14, wy + 74, rx + 266, wy + 74)
 mono(c, 'SALUD DE LA ESTACIÓN', rx + 14, wy + 62, 6, MUT)
-mono(c, 'BAT 3.29 V ▂▄▆ CARGANDO · RSSI -97 dBm · ÚLT. PAQUETE 00:12', rx + 14, wy + 48, 5.6, GRN)
+mono(c, 'BAT 3.29 V ||| CARGANDO · RSSI -97 dBm · ÚLT. PAQUETE 00:12', rx + 14, wy + 48, 5.6, GRN)
 mono(c, 'DESECANTE OK · PRÓX. SERVICIO 180 D', rx + 14, wy + 36, 5.6, MUT)
 # chips de features
-chips = ['MULTI-PARCELA', 'ALERTAS PUSH', 'LÁMINA RECOMENDADA', 'REPORTES PDF', 'API ABIERTA',
+chips = ['RIEGO POR VOLUMEN', 'MULTI-PARCELA', 'ALERTAS PUSH', 'REPORTES PDF', 'API ABIERTA',
          'OTA LORAWAN', 'GEMELO DIGITAL 3D', 'PRONÓSTICO ML']
 cxx = 56
 for ch_ in chips:
@@ -414,7 +416,7 @@ for i, (num, t, s, col) in enumerate(BIG):
     c.line(x + 2, y - 14, x + 70, y - 14)
     mono(c, t, x + 2, y - 30, 8, FG, bold=True)
     wrap_sans(c, s, x + 2, y - 48, colw - 8, 8.3, 11.6, MUT)
-mono(c, 'FUENTES · ucanr.edu/site/irrigation-and-nutrient-management/soil-moisture-sensors · pmc.ncbi.nlm.nih.gov/articles/PMC11902337', 56, PH - 296, 5.8, MUT)
+mono(c, 'FUENTES · ucanr.edu/site/irrigation-and-nutrient-management/soil-moisture-sensors · pmc.ncbi.nlm.nih.gov/articles/PMC11902337 · canr.msu.edu (maíz: 48 mm medidos)', 56, PH - 296, 5.8, MUT)
 mono(c, 'LOS PORCENTAJES DEPENDEN DE CULTIVO, SUELO Y PRÁCTICA DE BASE; NO CONSTITUYEN GARANTÍA DE RESULTADO', 56, PH - 306, 5.8, MUT)
 # decisiones que habilita
 c.setStrokeColorRGB(*EDGE)
@@ -431,7 +433,132 @@ for k, v in dec:
     mono(c, k, dx, PH - 358, 8.5, ACC, bold=True)
     wrap_sans(c, v, dx, PH - 372, dw - 14, 8, 11, MUT)
     dx += dw
-# escalera de precios
+foot(c, 5, 'EL AHORRO')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 06 · POR CULTIVO, EN VOLUMEN
+bg(c)
+ruler(c, 36, 60, PH - 60)
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'POR CULTIVO, EN VOLUMEN')
+mono(c, 'PORCENTAJES PUBLICADOS → METROS CÚBICOS POR HECTÁREA Y TEMPORADA', 58, PH - 80, 7, MUT)
+
+
+def rango_barra(cc, x, y, w, v0, v1, vmax, col, punto=False):
+    cc.setFillColorRGB(*GLASS)
+    cc.roundRect(x, y, w, 9, 4.5, stroke=0, fill=1)
+    if punto:
+        cc.setFillColorRGB(*col)
+        cc.circle(x + w * v0 / vmax, y + 4.5, 4.2, stroke=0, fill=1)
+    else:
+        cc.setFillColorRGB(*col)
+        cc.roundRect(x + w * v0 / vmax, y, w * (v1 - v0) / vmax, 9, 4.5, stroke=0, fill=1)
+
+
+# ── izquierda: % publicado
+mono(c, 'AGUA AHORRADA · % PUBLICADO', 56, PH - 108, 7, FG, bold=True)
+PCT = [('LECHUGA · IOT CAPACITIVO', 28.8, 28.8, ACC, True, '28.8 %'),
+       ('HORTALIZAS · DSS ITALIA', 10, 17, GRN, False, '10–17 %'),
+       ('FRESA · UC ANR', 10, 16, GRN, False, '10–16 %'),
+       ('ALMENDRO · UC ANR', 10, 16, GRN, False, '10–16 %')]
+bx, bw = 56, 260
+yy = PH - 132
+for lab, v0, v1, col, punto, vlab in PCT:
+    mono(c, lab, bx, yy + 13, 6.2, MUT)
+    rango_barra(c, bx, yy, bw, v0, v1, 30, col, punto)
+    mono(c, vlab, bx + bw + 8, yy + 1.5, 7.5, FG, bold=True)
+    yy -= 40
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.5)
+for v in (0, 10, 20, 30):
+    xx = bx + bw * v / 30
+    c.line(xx, yy + 26, xx, yy + 20)
+    mono(c, str(v), xx - 2, yy + 10, 5.5, MUT)
+
+# ── derecha: m³/ha por temporada
+mono(c, 'EN VOLUMEN · M³/HA POR TEMPORADA', 420, PH - 108, 7, FG, bold=True)
+VOL = [('MAÍZ', 500, 1360, '500–1 360'),
+       ('TOMATE', 400, 1360, '400–1 360'),
+       ('CÍTRICOS', 900, 2040, '900–2 040'),
+       ('ALFALFA', 800, 2720, '800–2 720')]
+vx, vw = 420, 280
+yy = PH - 132
+for i, (lab, v0, v1, vlab) in enumerate(VOL):
+    mono(c, lab, vx, yy + 13, 6.2, MUT)
+    rango_barra(c, vx, yy, vw, v0, v1, 2800, GRN, False)
+    mono(c, vlab, vx + vw + 8, yy + 1.5, 7.5, FG, bold=True)
+    if i == 0:  # marcador medido en maíz (MSU/NRCS: 1.9 in ≈ 48 mm)
+        mx = vx + vw * 480 / 2800
+        c.setStrokeColorRGB(*AMB)
+        c.setLineWidth(1.4)
+        c.line(mx, yy - 4, mx, yy + 13)
+        mono(c, 'MEDIDO EN CAMPO: 480 M³/HA (MSU/NRCS)', mx + 6, yy - 4, 5.5, AMB, bold=True)
+    yy -= 40
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.5)
+for v in (0, 1000, 2000, 2800):
+    xx = vx + vw * v / 2800
+    c.line(xx, yy + 26, xx, yy + 20)
+    mono(c, f'{v}', xx - 4, yy + 10, 5.5, MUT)
+mono(c, 'SUPUESTO · NECESIDAD HÍDRICA ESTACIONAL FAO (MAÍZ 500–800 · TOMATE 400–800 · CÍTRICOS 900–1 200 · ALFALFA 800–1 600 MM) × AHORRO 10–17 %', 56, PH - 322, 5.6, MUT)
+mono(c, 'FUENTES · fao.org/4/s2022e/s2022e07.htm · canr.msu.edu · LOS RESULTADOS VARÍAN SEGÚN SUELO, CLIMA Y PRÁCTICA DE BASE', 56, PH - 332, 5.6, MUT)
+
+# ── cierre: volumen, no tiempo
+c.setStrokeColorRGB(*EDGE)
+c.line(56, PH - 348, PW - 56, PH - 348)
+c.setFont('Big', 22)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 380, 'RIEGUE POR VOLUMEN, NO POR TIEMPO.')
+wrap_sans(c, 'Las horas no miden agua: con presión y caudal variables, la misma hora entrega láminas distintas. '
+             'La plataforma recomienda LÁMINA (mm), la convierte a VOLUMEN (metros cúbicos) por sector, y solo al final a tiempo — '
+             'con el caudal real de su equipo.', 56, PH - 400, 430, 8.8, 12.4, MUT)
+fx = 540
+for i, (st, un) in enumerate([('LÁMINA', 'mm'), ('VOLUMEN', 'm³'), ('TIEMPO', 'h')]):
+    cxx = fx + i * 92
+    glass(c, cxx, PH - 412, 76, 40, 5, edge=ACC if i == 1 else EDGE)
+    mono(c, st, cxx + 10, PH - 388, 6, MUT)
+    c.setFont('Big', 16)
+    c.setFillColorRGB(*(ACC if i == 1 else FG))
+    c.drawString(cxx + 10, PH - 406, un)
+    if i < 2:
+        c.setStrokeColorRGB(*EDGE)
+        c.setLineWidth(1.2)
+        c.line(cxx + 78, PH - 392, cxx + 90, PH - 392)
+mono(c, 'EL M³ ES EL DATO QUE FACTURA SU POZO', 540, PH - 424, 5.8, MUT)
+foot(c, 6, 'POR CULTIVO, EN VOLUMEN')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 07 · A ESCALA DE SU CAMPO
+bg(c)
+ruler(c, 36, 60, PH - 60)
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'A ESCALA DE SU CAMPO')
+mono(c, 'EL AHORRO ESCALA CON LAS HECTÁREAS; EL COSTO, POR SECTOR DE RIEGO', 58, PH - 80, 7, MUT)
+HA = [(10, '8 000', 3, '1–2'), (50, '40 000', 16, '5–10'), (100, '80 000', 32, '10–20'), (500, '400 000', 160, '50–100')]
+colw = (PW - 112 - 72) / 4
+import math as _m
+for i, (ha, m3, pisc, est) in enumerate(HA):
+    x = 56 + i * (colw + 24)
+    barh = 26 + 118 * _m.sqrt(ha / 500)
+    c.setFillColorRGB(*GLASS)
+    c.roundRect(x, PH - 300, colw, barh, 6, stroke=0, fill=1)
+    c.setStrokeColorRGB(*GRN)
+    c.setLineWidth(1)
+    c.roundRect(x, PH - 300, colw, barh, 6, stroke=1, fill=0)
+    mono(c, f'{ha} HA', x + 12, PH - 300 + barh - 16, 7.5, GRN, bold=True)
+    c.setFont('Big', 24)
+    c.setFillColorRGB(*FG)
+    c.drawString(x + 12, PH - 330, m3)
+    mono(c, 'M³/AÑO NO BOMBEADOS', x + 12, PH - 342, 5.6, MUT)
+    mono(c, f'≈ {pisc} PISCINAS OLÍMPICAS', x + 12, PH - 356, 6.2, ACC, bold=True)
+    mono(c, f'{est} ESTACIONES', x + 12, PH - 370, 6.2, MUT)
+mono(c, 'SUPUESTO · 800 M³/HA·AÑO (CASO MEDIO MAÍZ FAO × 10–17 %) · PISCINA OLÍMPICA ≈ 2 500 M³ · 1 ESTACIÓN POR SECTOR HOMOGÉNEO DE RIEGO (TÍP. 5–10 HA)', 56, PH - 392, 5.6, MUT)
+wrap_sans(c, 'Cada metro cúbico no bombeado también ahorra energía y desgaste del equipo (−16.2 % de horas de bomba en el estudio IoT). '
+             'El retorno monetario depende de su tarifa de agua y energía: la plataforma lo calculará con sus datos reales.',
+          56, PH - 410, 520, 8.5, 12, MUT)
+# precio objetivo
 c.setStrokeColorRGB(*EDGE)
 c.line(56, 116, PW - 56, 116)
 mono(c, 'PRECIO OBJETIVO POR ESTACIÓN (HARDWARE)', 56, 100, 7, FG, bold=True)
@@ -446,7 +573,7 @@ mono(c, 'SERIE · 25 UDS', 240, 60, 6, MUT)
 wrap_sans(c, 'Incluye contingencia del +30 % declarada sobre el costo estimado de BOM (760–950 / 470–540): '
              'logística, mermas, tipo de cambio e imprevistos de prototipado. Cifras base auditables en la BOM paramétrica.',
           400, 86, PW - 456, 7.5, 10.5, MUT)
-foot(c, 5, 'EL AHORRO')
+foot(c, 7, 'A ESCALA DE SU CAMPO')
 c.showPage()
 
 # ═══════════════════════════════════════════════════ 06 · RUTA + CTA
@@ -491,8 +618,8 @@ for tag in ['EN ISO 1452', 'ISO 3601', 'DIN 912 A4', 'OMM Nº 8', 'IEC 61076', '
     c.roundRect(xb, 52, wch, 14, 7, stroke=1, fill=0)
     mono(c, tag, xb + 7, 56, 6, MUT)
     xb += wch + 7
-foot(c, 6, 'LA RUTA')
+foot(c, 8, 'LA RUTA')
 c.showPage()
 
 c.save()
-print(f'OK {OUT} ({os.path.getsize(OUT) // 1024} KB, 6 láminas)')
+print(f'OK {OUT} ({os.path.getsize(OUT) // 1024} KB, {TOTAL} láminas)')

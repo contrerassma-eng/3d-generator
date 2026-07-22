@@ -25,6 +25,41 @@ const s1 = new THREE.DirectionalLight(0xffffff, 1.7); s1.position.set(500, -700,
 const s2 = new THREE.DirectionalLight(0x93a6c8, 0.6); s2.position.set(-600, 500, -300); scene.add(s2);
 const s3 = new THREE.DirectionalLight(0xffe9c4, 0.35); s3.position.set(200, 300, -800); scene.add(s3);
 
+// --- modo fotorreal (?real=1): fotografía de producto sobre negro --------------
+// ACES + entorno softbox procedural (PMREM) + sombras suaves + materiales PBR.
+const REAL = /[?#]real/.test(location.href);
+if (REAL) {
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.12;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  const cv = document.createElement('canvas'); cv.width = 1024; cv.height = 512;
+  const g = cv.getContext('2d');
+  const grad = g.createLinearGradient(0, 0, 0, 512);
+  grad.addColorStop(0, '#46536a'); grad.addColorStop(0.45, '#12161d');
+  grad.addColorStop(0.55, '#0a0d12'); grad.addColorStop(1, '#05070a');
+  g.fillStyle = grad; g.fillRect(0, 0, 1024, 512);
+  g.filter = 'blur(26px)';
+  g.fillStyle = '#e8eef8'; g.fillRect(110, 55, 320, 95);    // softbox cálido superior
+  g.fillStyle = '#8fb0dd'; g.fillRect(650, 125, 260, 75);   // softbox frío lateral
+  g.filter = 'none';
+  const tex = new THREE.CanvasTexture(cv);
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  scene.environment = new THREE.PMREMGenerator(renderer).fromEquirectangular(tex).texture;
+  s1.position.set(1500, -2100, 2700);
+  s1.intensity = 2.3; s2.intensity = 0.35; s3.intensity = 0.2;
+  s1.castShadow = true;
+  s1.shadow.mapSize.set(4096, 4096);
+  Object.assign(s1.shadow.camera, { left: -2600, right: 2600, top: 2600, bottom: -2600, near: 100, far: 8000 });
+  s1.shadow.bias = -0.0005;
+  s1.shadow.normalBias = 3;
+  const piso = new THREE.Mesh(new THREE.CircleGeometry(950, 64), new THREE.ShadowMaterial({ opacity: 0.42 }));
+  piso.position.z = 0.3;
+  piso.receiveShadow = true;
+  scene.add(piso);
+}
+
 // --- piezas: geometría completa + (perezosa) geometría cortada -----------------
 const CLIP = new THREE.Plane(new THREE.Vector3(1, 0, 0), 0);
 const parts = [];         // {part, full:Group, cut:Group|null, mats:[], ghost, exploded}
@@ -40,7 +75,16 @@ for (const part of doc.parts) {
   const g = buildPartGeometry(part);
   g.applyMatrix4(partMatrix(part));               // horneado a coordenadas de mundo
   const mats = makeMats(part.color || '#8899aa');
+  if (REAL) {
+    const col = new THREE.Color(part.color || '#8899aa');
+    const sat = Math.max(col.r, col.g, col.b) - Math.min(col.r, col.g, col.b);
+    const metal = sat < 0.07 && col.r > 0.42;     // grises claros → metal/torneado
+    mats.std.metalness = metal ? 0.88 : 0.05;
+    mats.std.roughness = metal ? 0.34 : 0.52;
+    mats.std.envMapIntensity = 1.25;
+  }
   const mesh = new THREE.Mesh(g, mats.std);
+  if (REAL) { mesh.castShadow = true; mesh.receiveShadow = true; }
   const grp = new THREE.Group(); grp.add(mesh); scene.add(grp);
   g.computeBoundingBox(); boxAll.union(g.boundingBox);
   parts.push({ part, geomFull: g, full: grp, cut: null, mats, explodeV: doc.meta.explode[part.id] || [0, 0, 0] });
