@@ -45,9 +45,9 @@ const b = await chromium.launch({
   executablePath: process.env.CHROMIUM_BIN || '/opt/pw-browsers/chromium',
 });
 const pg = await b.newPage({ viewport: { width: 1500, height: 1050 } });
-await pg.goto('file://' + join(here, 'sonda_suelo_b15.html') + '?real=1');
+await pg.goto('file://' + join(here, 'sonda_suelo_b15.html') + '?real=1&alpha=1');
 await pg.waitForTimeout(2500);
-await pg.addStyleTag({ content: '#hud,#panel,#foot{display:none!important}' });
+await pg.addStyleTag({ content: '#hud,#panel,#foot{display:none!important} html,body{background:transparent!important}' });
 
 let cutBuilt = false;
 for (const [name, s] of SHOTS) {
@@ -77,7 +77,7 @@ for (const [name, s] of SHOTS) {
     window.__ctr.update();
   }, { tgt: s.tgt, pos: s.pos, suelo: !!s.suelo });
   await pg.waitForTimeout(350);
-  await pg.screenshot({ path: join(out, `${name}.png`) });
+  await pg.screenshot({ path: join(out, `${name}.png`), omitBackground: true });
   console.log(`  ${name}.png`);
 }
 await b.close();

@@ -42,7 +42,15 @@ BG_RGB = (16, 20, 26)
 
 
 def cropped(name, pad=40):
-    im = Image.open(os.path.join(CAPS, name + '.png')).convert('RGB')
+    im = Image.open(os.path.join(CAPS, name + '.png'))
+    if im.mode == 'RGBA':
+        bbox = im.getbbox()
+        if bbox:
+            x0, y0, x1, y1 = bbox
+            return im.crop((max(0, x0 - pad), max(0, y0 - pad),
+                            min(im.width, x1 + pad), min(im.height, y1 + pad)))
+        return im
+    im = im.convert('RGB')
     px = im.load()
     w, h = im.size
     x0, y0, x1, y1 = w, h, 0, 0
@@ -146,7 +154,7 @@ def draw_img(c, img, x, y, w, h):
     iw, ih = img.size
     s = min(w / iw, h / ih)
     dw, dh = iw * s, ih * s
-    c.drawImage(ImageReader(img), x + (w - dw) / 2, y + (h - dh) / 2, dw, dh)
+    c.drawImage(ImageReader(img), x + (w - dw) / 2, y + (h - dh) / 2, dw, dh, mask='auto')
     return x + (w - dw) / 2, y + (h - dh) / 2, dw, dh
 
 
@@ -183,14 +191,9 @@ TOTAL = 9
 # ═══════════════════════════════════════════════════ 01 · PORTADA
 bg(c)
 c.drawImage(foto_jpg(foto_marco('campo_maiz', 1684, 1190, brillo=0.42, grad_izq=0.34)), 0, 0, PW, PH)
-px_, py_, pw_, ph_ = PW * 0.545, 22, PW * 0.42, PH - 44
-c.setFillColorRGB(*INK)
-c.setStrokeColorRGB(*EDGE)
-c.setLineWidth(0.9)
-c.roundRect(px_, py_, pw_, ph_, 10, stroke=1, fill=1)
-img = cropped('hero', 60)
-draw_img(c, img, px_ + 6, py_ + 6, pw_ - 12, ph_ - 12)
-mono(c, 'MODELO CAD PARAMÉTRICO · RENDER DEL DISEÑO', px_ + 14, py_ + 10, 5.6, MUT)
+img = cropped('hero', 30)
+draw_img(c, img, PW * 0.55, 14, PW * 0.42, PH - 28)
+mono(c, 'RENDER DEL DISEÑO CAD PARAMÉTRICO', PW - 248, PH - 28, 5.6, MUT)
 ruler(c, 36, 60, PH - 60)
 mono(c, 'DOCUMENTO COMERCIAL · ATLAS DE DECISIÓN Nº 1', 58, PH - 74, 7, MUT)
 c.setFont('Big', 52)
@@ -201,8 +204,8 @@ c.setStrokeColorRGB(*ACC)
 c.setLineWidth(2.2)
 c.line(58, PH - 208, 218, PH - 208)
 y = PH - 238
-wrap_sans(c, 'Estación de suelo + clima con cabezal cilíndrico en norma: mide la raíz a 3 profundidades, '
-             'el clima a alturas OMM, y convierte cada dato en una decisión de riego por volumen: metros cúbicos, no horas.', 58, y, 352, 11, 15.5)
+wrap_sans(c, 'Mide la raíz a tres profundidades y el clima a alturas OMM. Convierte cada lectura '
+             'en una orden de riego en metros cúbicos — no en horas.', 58, y, 352, 11.5, 16)
 y -= 82
 for k, v in [('SONDA', '3 NIVELES · ±2 % VWC'), ('CLIMA', 'T/HR · LLUVIA · HOJA'),
              ('ENERGÍA', 'SOLAR AUTÓNOMA'), ('ENLACE', 'LORAWAN 2.15 M')]:
@@ -599,7 +602,7 @@ ruler(c, 36, 60, PH - 60)
 c.setFont('Big', 30)
 c.setFillColorRGB(*FG)
 c.drawString(56, PH - 64, 'EL CASO DEL CEREZO')
-mono(c, 'DATOS EMPÍRICOS DE RIEGO EN CEREZO · ZONA CENTRAL DE CHILE', 58, PH - 80, 7, MUT)
+mono(c, 'EL CULTIVO DONDE EL RIEGO DECIDE LA TEMPORADA · DATOS EMPÍRICOS · ZONA CENTRAL DE CHILE', 58, PH - 80, 7, MUT)
 # foto vertical derecha
 c.drawImage(foto_jpg(foto_marco('campo_cerezo', 380, 660, brillo=0.9, mezcla=0.26)), PW - 246, 116, 190, 330)
 c.setStrokeColorRGB(*EDGE)
@@ -736,6 +739,7 @@ c.drawString(56, 160, 'MENOS AGUA. MEJORES DECISIONES.')
 c.setFont('Big', 24)
 c.setFillColorRGB(*MUT)
 c.drawString(56, 132, 'UN POSTE A LA VEZ.')
+mono(c, 'DISPONIBLE HOY · GEMELO DIGITAL 3D NAVEGABLE DE LA ESTACIÓN — PIDA LA DEMO', 56, 112, 6.8, GRN, bold=True)
 mono(c, 'CONTACTO · CONTRERAS.SMA@GMAIL.COM', 56, 96, 7.5, ACC, bold=True)
 mono(c, 'REPOSITORIO DE DISEÑO AUDITABLE · METODO FOTO3D · CAPA USER', 56, 82, 6, MUT)
 mono(c, 'FOTOS DE CAMPO · USDA NRCS / USACE (DOM. PÚBLICO) · JERNEJ FURMAN (CC BY 2.0) · WIKIMEDIA (CC0) · EDITADAS: RECORTE + DUOTONO', 56, 40, 5.2, MUT)

@@ -15,7 +15,7 @@ const $ = (id) => document.getElementById(id);
 // --- escena ------------------------------------------------------------------
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x10141a);
-const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: true });
 renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.localClippingEnabled = true;
@@ -28,6 +28,8 @@ const s3 = new THREE.DirectionalLight(0xffe9c4, 0.35); s3.position.set(200, 300,
 // --- modo fotorreal (?real=1): fotografía de producto sobre negro --------------
 // ACES + entorno softbox procedural (PMREM) + sombras suaves + materiales PBR.
 const REAL = /[?#]real/.test(location.href);
+const ALPHA = /[?#&]alpha/.test(location.href);   // captura con fondo transparente
+if (ALPHA) { scene.background = null; renderer.setClearAlpha(0); }
 if (REAL) {
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.12;

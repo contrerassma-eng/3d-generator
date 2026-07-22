@@ -32,7 +32,13 @@ BG_RGB = (16, 20, 26)
 
 def cropped(name, pad=40):
     """Recorta la captura al contenido (fondo #10141a) con margen."""
-    im = Image.open(os.path.join(CAPS, name + '.png')).convert('RGB')
+    im = Image.open(os.path.join(CAPS, name + '.png'))
+    if im.mode == 'RGBA':
+        base = Image.new('RGB', im.size, BG_RGB)
+        base.paste(im, mask=im.split()[3])
+        im = base
+    else:
+        im = im.convert('RGB')
     px = im.load()
     w, h = im.size
     x0, y0, x1, y1 = w, h, 0, 0
