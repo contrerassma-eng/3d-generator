@@ -171,7 +171,8 @@ def draw_img(c, img, x, y, w, h):
 def foot(c, n, tag):
     mono(c, f'FOTO3D · SONDA-SUELO-IND · B1.5 V3 · 2026-07', 36, 20, 6.5, MUT)
     mono(c, tag, PW / 2 - mono_w(tag, 6.5) / 2, 20, 6.5, MUT)
-    mono(c, f'{n:02d} / 09', PW - 36 - mono_w(f'{n:02d} / 09', 6.5), 20, 6.5, MUT)
+    den = f'{n:02d} / {TOTAL:02d}'
+    mono(c, den, PW - 36 - mono_w(den, 6.5), 20, 6.5, MUT)
 
 
 def wrap_sans(c, text, x, y, width, size=9, leading=None, color=FG, bold=False):
@@ -196,7 +197,7 @@ def wrap_sans(c, text, x, y, width, size=9, leading=None, color=FG, bold=False):
 
 c = canvas.Canvas(OUT, pagesize=(PW, PH))
 c.setTitle('Estación B1.5 v3 — documento comercial')
-TOTAL = 9
+TOTAL = 10
 
 # ═══════════════════════════════════════════════════ 01 · PORTADA
 bg(c)
@@ -478,7 +479,168 @@ for ch_ in chips:
 foot(c, 4, 'LA PLATAFORMA · CONCEPTO')
 c.showPage()
 
-# ═══════════════════════════════════════════════════ 05 · EL AHORRO
+# ═══════════════════════════════════════════════════ 05 · COBERTURA Y ZONAS
+bg(c)
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'COBERTURA Y ZONAS DE MANEJO')
+mono(c, 'VISTA DE FLOTA · MAPA LoRaWAN + RIEGO VARIABLE · CONCEPTO ILUSTRATIVO · DATOS SIMULADOS', 58, PH - 80, 7, AMB, bold=True)
+
+
+def seq_blue(t):
+    a, b = (0.84, 0.89, 0.97), (0.09, 0.19, 0.52)   # claro → azul profundo (secuencial 1 hue)
+    return tuple(a[k] + (b[k] - a[k]) * t for k in range(3))
+
+
+# ── PANEL IZQ · mapa de cobertura LoRaWAN ────────────────────────────────────
+lx, ly, lw, lh = 56, 166, 352, 334
+glass(c, lx, ly, lw, lh, 8)
+mono(c, 'MAPA DE COBERTURA LoRaWAN · UNA FLOTA, UN GATEWAY', lx + 14, ly + lh - 16, 6.5, MUT)
+c.saveState()
+p = c.beginPath()
+p.roundRect(lx + 2, ly + 2, lw - 4, lh - 30, 6)
+c.clipPath(p, stroke=0, fill=0)
+gx, gy = lx + 132, ly + 150
+# parcelas de fondo
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.6)
+for (px, py, pw2, ph2) in [(gx - 40, gy - 30, 150, 110), (gx + 70, gy + 60, 120, 90),
+                           (gx - 90, gy + 40, 90, 80), (gx + 40, gy - 120, 130, 90)]:
+    c.roundRect(px, py, pw2, ph2, 4, stroke=1, fill=0)
+# anillos de cobertura (2 / 5 / 15 km) — secuencial por intensidad de señal
+for r, km, al in [(150, '15 KM', 0.05), (100, '5 KM', 0.09), (52, '2 KM', 0.15)]:
+    c.setFillColorRGB(*ACC)
+    c.setFillAlpha(al)
+    c.circle(gx, gy, r, stroke=0, fill=1)
+    c.setFillAlpha(1)
+    c.setStrokeColorRGB(*ACC)
+    c.setStrokeAlpha(0.5)
+    c.setLineWidth(0.8)
+    c.circle(gx, gy, r, stroke=1, fill=0)
+    c.setStrokeAlpha(1)
+    mono(c, km, gx + r * 0.70 - 8, gy + r * 0.70, 5.6, ACC, bold=True)
+# estaciones (marcas ≥8px, con anillo de 2px sobre solapamiento)
+for dx, dy in [(-30, 20), (35, 45), (78, -20), (-55, -30), (60, 92), (-70, 60), (100, 30), (18, -70)]:
+    c.setFillColorRGB(*INK)
+    c.circle(gx + dx, gy + dy, 4.6, stroke=0, fill=1)
+    c.setFillColorRGB(*GRN)
+    c.circle(gx + dx, gy + dy, 3.2, stroke=0, fill=1)
+# gateway (marca distinta: mástil + rombo)
+c.setStrokeColorRGB(*FG)
+c.setLineWidth(1.4)
+c.line(gx, gy, gx, gy + 16)
+c.setFillColorRGB(*AMB)
+c.saveState()
+c.translate(gx, gy + 16)
+c.rotate(45)
+c.rect(-4.2, -4.2, 8.4, 8.4, stroke=0, fill=1)
+c.restoreState()
+c.setFillColorRGB(*INK)
+c.circle(gx, gy, 3.4, stroke=0, fill=1)
+c.setFillColorRGB(*AMB)
+c.circle(gx, gy, 2.0, stroke=0, fill=1)
+c.restoreState()
+# leyenda del mapa
+lyy = ly + 14
+c.setFillColorRGB(*GRN)
+c.circle(lx + 18, lyy + 3, 3.2, stroke=0, fill=1)
+mono(c, 'ESTACIÓN B1.5', lx + 26, lyy, 6, MUT)
+c.setFillColorRGB(*AMB)
+c.saveState(); c.translate(lx + 150, lyy + 3); c.rotate(45); c.rect(-3, -3, 6, 6, stroke=0, fill=1); c.restoreState()
+mono(c, 'GATEWAY', lx + 160, lyy, 6, MUT)
+c.setStrokeColorRGB(*ACC); c.setLineWidth(0.9); c.circle(lx + 244, lyy + 3, 4, stroke=1, fill=0)
+mono(c, 'COBERTURA', lx + 252, lyy, 6, MUT)
+
+# ── PANEL DER · zonas de manejo (riego variable) ─────────────────────────────
+rx, ry, rw, rh = 434, 166, 352, 334
+glass(c, rx, ry, rw, rh, 8)
+mono(c, 'ZONAS DE MANEJO · RIEGO VARIABLE POR SECTOR', rx + 14, ry + rh - 16, 6.5, MUT)
+hx, hy, hw, hh = rx + 16, ry + 54, rw - 32, rh - 92
+cols, rows = 16, 10
+cw, ch = hw / cols, hh / rows
+# contorno irregular de parcela (no un cuadrado): límite de campo real
+FIELD = [(0.04, 0.40), (0.14, 0.86), (0.46, 0.99), (0.72, 0.93), (0.99, 0.60),
+         (0.93, 0.20), (0.66, 0.04), (0.30, 0.02), (0.10, 0.14)]
+fpts = [(hx + u * hw, hy + v * hh) for u, v in FIELD]
+c.saveState()
+fp = c.beginPath()
+fp.moveTo(*fpts[0])
+for pt in fpts[1:]:
+    fp.lineTo(*pt)
+fp.close()
+c.clipPath(fp, stroke=0, fill=0)   # las celdas se recortan a la forma de la parcela
+for i in range(cols):
+    for j in range(rows):
+        u, v = (i + 0.5) / cols, (j + 0.5) / rows
+        nv = 0.5 + 0.36 * math.sin(3.0 * u + 0.5) * math.cos(2.5 * v + 0.4) + 0.14 * (0.5 - v)
+        nv = max(0.06, min(0.95, nv))
+        c.setFillColorRGB(*seq_blue(nv))
+        c.rect(hx + i * cw + 0.5, hy + j * ch + 0.5, cw - 1.0, ch - 1.0, stroke=0, fill=1)
+c.restoreState()
+# límite de la parcela dibujado
+c.setStrokeColorRGB(*ACC)
+c.setStrokeAlpha(0.55)
+c.setLineWidth(1.3)
+fp2 = c.beginPath()
+fp2.moveTo(*fpts[0])
+for pt in fpts[1:]:
+    fp2.lineTo(*pt)
+fp2.close()
+c.drawPath(fp2, stroke=1, fill=0)
+c.setStrokeAlpha(1)
+# etiquetas de zona: la recomendación se lee del propio color (nv) debajo,
+# así 'más oscuro = más necesidad = más lámina' siempre es coherente.
+def nv_at(u, v):
+    val = 0.5 + 0.36 * math.sin(3.0 * u + 0.5) * math.cos(2.5 * v + 0.4) + 0.14 * (0.5 - v)
+    return max(0.06, min(0.95, val))
+
+
+def reco(nv):
+    if nv >= 0.6:
+        return 'NEC. ALTA', '+30 % · 14 mm'
+    if nv >= 0.4:
+        return 'NEC. MEDIA', 'BASE · 11 mm'
+    return 'NEC. BAJA', '−20 % · 8 mm'
+
+
+for zi, (uu, vv) in enumerate([(0.28, 0.12), (0.64, 0.52), (0.34, 0.88)]):
+    zx, zy = hx + hw * uu, hy + hh * vv
+    zt, zl = reco(nv_at(uu, vv))
+    zt = f'ZONA {chr(65 + zi)} · {zt}'
+    w_ = 92
+    c.setFillColorRGB(*INK); c.setFillAlpha(0.74)
+    c.roundRect(zx - w_ / 2, zy - 4, w_, 22, 4, stroke=0, fill=1)
+    c.setFillAlpha(1)
+    c.setStrokeColorRGB(*FG); c.setStrokeAlpha(0.35); c.setLineWidth(0.6)
+    c.roundRect(zx - w_ / 2, zy - 4, w_, 22, 4, stroke=1, fill=0); c.setStrokeAlpha(1)
+    mono(c, zt, zx - w_ / 2 + 7, zy + 9, 6.2, FG, bold=True)
+    mono(c, zl, zx - w_ / 2 + 7, zy + 0.5, 6.4, (0.78, 0.85, 0.97), bold=True)
+# barra de leyenda secuencial
+lgx, lgy, lgw = hx, ry + 22, hw
+for i in range(int(lgw)):
+    c.setFillColorRGB(*seq_blue(i / lgw))
+    c.rect(lgx + i, lgy, 1.4, 8, stroke=0, fill=1)
+mono(c, 'MENOS', lgx, lgy - 10, 5.6, MUT)
+mono(c, 'NECESIDAD DE RIEGO', lgx + lgw / 2 - 26, lgy - 10, 5.6, MUT)
+mono(c, 'MÁS', lgx + lgw - 16, lgy - 10, 5.6, MUT)
+
+# ── franja de cifras de cobertura ────────────────────────────────────────────
+STAT = [('5–15 KM', 'ALCANCE LoS RURAL'), ('1 GATEWAY', 'CUBRE MILES DE HA'),
+        ('1 ESTACIÓN', 'POR ZONA DE MANEJO'), ('CADA 15 MIN', 'MAPA QUE SE ACTUALIZA')]
+sw = (PW - 112) / 4
+for i, (num, sub) in enumerate(STAT):
+    sx = 56 + i * sw
+    if i:
+        c.setStrokeColorRGB(*EDGE); c.setLineWidth(0.6); c.line(sx - 8, 96, sx - 8, 134)
+    c.setFont('Big', 22)
+    c.setFillColorRGB(*(GRN if i < 2 else ACC))
+    c.drawString(sx, 112, num)
+    mono(c, sub, sx + 1, 100, 6, MUT)
+mono(c, 'REFERENCIAS · LoRaWAN LoS RURAL 5–15 KM (TEKTELIC · MINEW) · ZONAS DE MANEJO / RIEGO VARIABLE (UMN EXTENSION · MDPI AGRONOMY) · MAPA ILUSTRATIVO, NO GEORREFERENCIADO', 56, 78, 5.4, MUT)
+foot(c, 5, 'COBERTURA Y ZONAS')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 06 · EL AHORRO
 bg(c)
 c.drawImage(foto_jpg(foto_marco('campo_pivot', 1684, 1190, brillo=0.34, grad_izq=0.5)), 0, 0, PW, PH)
 ruler(c, 36, 60, PH - 60)
@@ -520,7 +682,7 @@ for k, v in dec:
     mono(c, k, dx, PH - 358, 8.5, ACC, bold=True)
     wrap_sans(c, v, dx, PH - 372, dw - 14, 8, 11, MUT)
     dx += dw
-foot(c, 5, 'EL AHORRO')
+foot(c, 6, 'EL AHORRO')
 c.showPage()
 
 # ═══════════════════════════════════════════════════ 06 · POR CULTIVO, EN VOLUMEN
@@ -553,10 +715,12 @@ PCT = [('CEREZO · RDI \'SANTINA\' (CL)', 10, 28, AMB, False, '10–28 %'),
 bx, bw = 56, 260
 yy = PH - 134
 for lab, v0, v1, col, punto, vlab in PCT:
-    mono(c, lab, bx, yy + 13, 6.2, MUT)
+    mono(c, lab, bx, yy + 14, 6.4, MUT)
     rango_barra(c, bx, yy, bw, v0, v1, 30, col, punto)
-    mono(c, vlab, bx + bw + 8, yy + 1.5, 7.5, FG, bold=True)
-    yy -= 34
+    c.setFont('Big', 13)
+    c.setFillColorRGB(*FG)
+    c.drawString(bx + bw + 8, yy - 1, vlab)
+    yy -= 36
 c.setStrokeColorRGB(*EDGE)
 c.setLineWidth(0.5)
 for v in (0, 10, 20, 30):
@@ -574,16 +738,18 @@ VOL = [('CEREZO', 800, 2240, '800–2 240'),
 vx, vw = 420, 280
 yy = PH - 134
 for i, (lab, v0, v1, vlab) in enumerate(VOL):
-    mono(c, lab, vx, yy + 13, 6.2, MUT)
+    mono(c, lab, vx, yy + 14, 6.4, MUT)
     rango_barra(c, vx, yy, vw, v0, v1, 2800, AMB if lab == 'CEREZO' else GRN, False)
-    mono(c, vlab, vx + vw + 8, yy + 1.5, 7.5, FG, bold=True)
+    c.setFont('Big', 13)
+    c.setFillColorRGB(*FG)
+    c.drawString(vx + vw + 8, yy - 1, vlab)
     if lab == 'MAÍZ':  # marcador medido en maíz (MSU/NRCS: 1.9 in ≈ 48 mm)
         mx = vx + vw * 480 / 2800
         c.setStrokeColorRGB(*AMB)
         c.setLineWidth(1.4)
         c.line(mx, yy - 4, mx, yy + 13)
         mono(c, 'MEDIDO EN CAMPO: 480 M³/HA (MSU/NRCS)', mx + 6, yy - 4, 5.5, AMB, bold=True)
-    yy -= 34
+    yy -= 36
 c.setStrokeColorRGB(*EDGE)
 c.setLineWidth(0.5)
 for v in (0, 1000, 2000, 2800):
@@ -620,7 +786,7 @@ c.setStrokeColorRGB(*EDGE)
 c.setLineWidth(0.8)
 c.rect(56, 44, PW - 112, 104, stroke=1, fill=0)
 mono(c, 'MICRO-RIEGO EN CAMPO · USDA NRCS', 64, 52, 5.6, FG)
-foot(c, 6, 'POR CULTIVO, EN VOLUMEN')
+foot(c, 7, 'POR CULTIVO, EN VOLUMEN')
 c.showPage()
 
 # ═══════════════════════════════════════════════════ 07 · EL CASO DEL CEREZO
@@ -642,15 +808,17 @@ mono(c, 'LA BRECHA REAL · M³/HA POR TEMPORADA', 56, PH - 110, 7, FG, bold=True
 GAP = [('RIEGO SUBJETIVO (SIN DATOS)', 10000, '>10 000', AMB),
        ('DEMANDA ZONA CENTRAL', 8000, '7 000–8 000', (0.55, 0.62, 0.75)),
        ('MANEJO TÉCNICO ASESORADO', 5460, '5 460 · 17 T/HA', GRN)]
-yy = PH - 134
+yy = PH - 136
 for lab, v, vlab, col in GAP:
-    mono(c, lab, 56, yy + 13, 6.2, MUT)
+    mono(c, lab, 56, yy + 15, 6.4, MUT)
     c.setFillColorRGB(*GLASS)
-    c.roundRect(56, yy, 300, 10, 5, stroke=0, fill=1)
+    c.roundRect(56, yy, 300, 11, 5.5, stroke=0, fill=1)
     c.setFillColorRGB(*col)
-    c.roundRect(56, yy, 300 * v / 11000, 10, 5, stroke=0, fill=1)
-    mono(c, vlab, 362, yy + 2, 7.5, FG, bold=True)
-    yy -= 38
+    c.roundRect(56, yy, 300 * v / 11000, 11, 5.5, stroke=0, fill=1)
+    c.setFont('Big', 15)
+    c.setFillColorRGB(*FG)
+    c.drawString(364, yy - 1, vlab)
+    yy -= 40
 mono(c, 'FUENTES · DIARIOFRUTICOLA.CL · REDAGRICOLA.COM · U. DE CHILE (8 168 M³/HA·AÑO)', 56, yy + 18, 5.4, MUT)
 
 # ── lo que la ciencia permite (RDI post-cosecha, sin penalizar rendimiento)
@@ -681,7 +849,7 @@ mono(c, 'EN CONVERSACIÓN DIRECTA', 462, PH - 414, 6.5, FG, bold=True)
 mono(c, 'SUPUESTOS · BRECHA CERRADA 2 000–4 500 M³/HA · POZO 60 M DINÁMICO · EFIC. BOMBA 60 % → 0.27 KWH/M³ · US$ 0.13–0.17/KWH → US$ 0.035–0.046/M³', 56, 92, 5.4, MUT)
 mono(c, 'NO INCLUYE EL VALOR DE LA FRUTA PROTEGIDA NI EL AGUA NO COMPRADA; CON AGUAS SUPERFICIALES EL BENEFICIO ES DISPONIBILIDAD, NO ENERGÍA', 56, 82, 5.4, MUT)
 mono(c, 'RDI · SCIENCEDIRECT (S0304423819300925) · SPRINGER (S00271-009-0174-Z) · PMC12693967 — RESULTADOS VARÍAN POR HUERTO Y PORTAINJERTO', 56, 72, 5.4, MUT)
-foot(c, 7, 'EL CASO DEL CEREZO')
+foot(c, 8, 'EL CASO DEL CEREZO')
 c.showPage()
 
 # ═══════════════════════════════════════════════════ 07 · A ESCALA DE SU CAMPO
@@ -719,7 +887,7 @@ c.setFont('Big', 22)
 c.setFillColorRGB(*FG)
 c.drawString(56, 74, 'HABLEMOS DE SU CAMPO.')
 mono(c, 'PRECIO Y CONDICIONES EN CONVERSACIÓN DIRECTA · CONTRERAS.SMA@GMAIL.COM', 300, 80, 6.8, ACC, bold=True)
-foot(c, 8, 'A ESCALA DE SU CAMPO')
+foot(c, 9, 'A ESCALA DE SU CAMPO')
 c.showPage()
 
 # ═══════════════════════════════════════════════════ 06 · RUTA + CTA
@@ -766,7 +934,7 @@ for tag in ['EN ISO 1452', 'ISO 3601', 'DIN 912 A4', 'OMM Nº 8', 'IEC 61076', '
     c.roundRect(xb, 52, wch, 14, 7, stroke=1, fill=0)
     mono(c, tag, xb + 7, 56, 6, MUT)
     xb += wch + 7
-foot(c, 9, 'LA RUTA')
+foot(c, 10, 'LA RUTA')
 c.showPage()
 
 c.save()
