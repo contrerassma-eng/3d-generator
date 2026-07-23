@@ -199,6 +199,56 @@ svg .stn{cursor:pointer}
 .foot{display:flex;align-items:center;gap:14px;color:var(--mut2);font-size:11px;margin-top:16px;flex-wrap:wrap}
 .foot .grow{flex:1}
 @media(max-width:1100px){.cols{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
+/* tablet */
+@media(max-width:820px){
+  .top{gap:8px;padding:0 12px}
+  .search{display:none}
+  .user>div{display:none}
+}
+/* teléfono */
+@media(max-width:600px){
+  .app{grid-template-columns:1fr;grid-template-rows:52px 1fr;height:100dvh}
+  /* sidebar → barra inferior de pestañas */
+  .side{grid-row:auto;position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:58px;
+    flex-direction:row;padding:0 4px;border-right:none;border-top:1px solid var(--edge);
+    justify-content:space-around;align-items:center;z-index:60;background:#0f141b}
+  .side .logo,.side .sp,.side>a.nav{display:none}
+  .side .nav{flex-direction:row;margin:0;gap:0;width:100%;justify-content:space-around}
+  .nav a{width:46px;height:44px}
+  .nav a.on{background:transparent;color:var(--acc)}
+  .nav a.on::before{display:none}
+  .nav a .tip{display:none}
+  .top{grid-column:1;padding:0 10px;gap:8px}
+  .main{grid-column:1;padding:12px 12px 74px}
+  .sel{padding:5px 8px;min-width:0}
+  .sel select{max-width:44vw;text-overflow:ellipsis}
+  .live span:not(.dot){display:none}
+  .icbtn[title="Sincronizar"]{display:none}
+  .h1{font-size:17px}
+  .sub{font-size:11px}
+  .demo-tag{font-size:9px}
+  .filters{gap:8px;margin:4px 0 12px}
+  .kpis{grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+  .kpi{padding:11px}
+  .kpi .v{font-size:20px}
+  .kpi .spark{display:none}
+  .card .hd{padding:11px 12px}
+  .card .bd{padding:12px}
+  /* detalle */
+  .dhead{flex-wrap:wrap;gap:8px}
+  .health{grid-template-columns:repeat(2,1fr)}
+  .reco{flex-direction:column;align-items:stretch;gap:12px}
+  .reco .rs{max-width:none}
+  .reco .cta{width:100%;text-align:center;padding:12px}
+  /* tabla de flota: prioriza Estación · VWC · Batería · Estado */
+  .fleet{table-layout:auto}
+  .fleet col{width:auto}
+  .fleet th:nth-child(2),.fleet td:nth-child(2),
+  .fleet th:nth-child(5),.fleet td:nth-child(5),
+  .fleet th:nth-child(6),.fleet td:nth-child(6){display:none}
+  .maplegend{gap:9px;font-size:10px;padding:6px 8px}
+  .maptools{display:none}
+}
 </style>
 </head>
 <body>
