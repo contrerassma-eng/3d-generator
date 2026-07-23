@@ -2,8 +2,7 @@
 # manual_b15_pdf.py — compone el manual/dossier PDF de la estación B1.5 v3 a
 # partir de las capturas de manual_b15_capturas.mjs y de los datos del propio
 # modelo (sonda_suelo_b15.json: BOM, pasos, features, desviaciones, webRef).
-# Los costos provienen de meta.costoEstimado; la contingencia del 30 % se
-# muestra SIEMPRE como columna rotulada (nunca fundida al costo base).
+# No se publican precios: el costo/precio se trata en conversación directa.
 # Uso (desde cad/):  python3 ensambles/manual_b15_pdf.py
 import json
 import os
@@ -366,48 +365,20 @@ for it in bom:
 footer(c, 9, TOTAL)
 c.showPage()
 
-# ----------------------------------------------------- 10 · costos + respaldo
-header(c, 'Costos, precio objetivo y respaldo',
-       'Costo base = BOM paramétrica del modelo · contingencia declarada explícitamente')
-ce = META.get('costoEstimado', {})
-p0, p1 = rango(ce.get('proto', 'US$760–950'))
-s0, s1 = rango(ce.get('serie25', 'US$470–540'))
+# ----------------------------------------------------- 10 · calidad + respaldo
+header(c, 'Aseguramiento de calidad y respaldo',
+       'BOM y geometría de una fuente paramétrica auditable')
 x0 = 36
 y = PH - 96
 c.setFont('Helvetica-Bold', 12)
 c.setFillColorRGB(*INK)
-c.drawString(x0, y, 'Escalera de costos (US$ por unidad)')
-y -= 12
-tcols = [x0, x0 + 150, x0 + 280, x0 + 400]
-c.setFillColorRGB(*SUB)
-c.setFont('Helvetica-Bold', 8.2)
-y -= 12
-for t, x in zip(['CONCEPTO', 'COSTO ESTIMADO (BOM)', 'CONTINGENCIA +30 %', 'PRECIO OBJETIVO'], tcols):
-    c.drawString(x, y, t)
-y -= 6
-rows = [
-    ('Prototipo (1 ud)', (p0, p1)),
-    ('Serie 25 uds', (s0, s1)),
-]
-for name, (a, b) in rows:
-    y -= 17
-    c.setStrokeColorRGB(*LINE)
-    c.line(x0, y - 4, x0 + 500, y - 4)
-    c.setFillColorRGB(*INK)
-    c.setFont('Helvetica', 9.5)
-    c.drawString(tcols[0], y, name)
-    c.drawString(tcols[1], y, f'{fmt(a)} – {fmt(b)}')
-    c.setFillColorRGB(*SUB)
-    c.drawString(tcols[2], y, f'+ {fmt(a * 0.3)} – {fmt(b * 0.3)}')
-    c.setFillColorRGB(*ACC)
-    c.setFont('Helvetica-Bold', 9.5)
-    c.drawString(tcols[3], y, f'{fmt(a * 1.3)} – {fmt(b * 1.3)}')
-y -= 20
-y = wrap(c, 'El “precio objetivo” incorpora una contingencia del 30 % sobre el costo estimado '
-            '(logística, mermas, tipo de cambio e imprevistos de prototipado), declarada en esta '
-            'columna: las cifras base provienen de la BOM paramétrica y no se alteran.',
-         x0, y, 500, size=8.2, color=SUB)
-y -= 12
+c.drawString(x0, y, 'Costos y precio')
+y -= 16
+y = wrap(c, 'La estructura de costos se deriva de la BOM paramétrica del modelo (fuente única, auditable). '
+            'El precio y las condiciones comerciales se tratan en conversación directa, no se publican en '
+            'este documento.',
+         x0, y, 500, size=9.2, color=INK)
+y -= 14
 c.setFont('Helvetica-Bold', 12)
 c.setFillColorRGB(*INK)
 c.drawString(x0, y, 'Compuertas de calidad')

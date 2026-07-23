@@ -6,7 +6,7 @@
 #
 # Honestidad comercial: la plataforma de software es CONCEPTO DE PRODUCTO
 # (interfaz ilustrativa, datos simulados, así rotulada); los ahorros citan
-# estudios reales con URL; el precio objetivo declara su contingencia +30 %.
+# estudios reales con URL; SIN precios publicados (en conversación directa).
 # Usa las capturas de manual_b15_capturas.mjs.
 # Uso (desde cad/):  python3 ensambles/comercial_b15_pdf.py
 import math
@@ -676,10 +676,8 @@ c.setFont('Big', 30)
 c.setFillColorRGB(*GRN)
 c.drawString(240, PH - 414, 'US$ 350–2 100')
 mono(c, 'POR AÑO EN UN SECTOR DE 5–10 HA', 242, PH - 426, 6, MUT)
-c.setFont('Big', 17)
-c.setFillColorRGB(*FG)
-c.drawString(462, PH - 408, 'US$ 610–700')
-mono(c, 'PRECIO OBJETIVO / ESTACIÓN · SERIE', 462, PH - 420, 5.6, MUT)
+mono(c, 'PRECIO POR ESTACIÓN', 462, PH - 404, 6, MUT)
+mono(c, 'EN CONVERSACIÓN DIRECTA', 462, PH - 414, 6.5, FG, bold=True)
 mono(c, 'SUPUESTOS · BRECHA CERRADA 2 000–4 500 M³/HA · POZO 60 M DINÁMICO · EFIC. BOMBA 60 % → 0.27 KWH/M³ · US$ 0.13–0.17/KWH → US$ 0.035–0.046/M³', 56, 92, 5.4, MUT)
 mono(c, 'NO INCLUYE EL VALOR DE LA FRUTA PROTEGIDA NI EL AGUA NO COMPRADA; CON AGUAS SUPERFICIALES EL BENEFICIO ES DISPONIBILIDAD, NO ENERGÍA', 56, 82, 5.4, MUT)
 mono(c, 'RDI · SCIENCEDIRECT (S0304423819300925) · SPRINGER (S00271-009-0174-Z) · PMC12693967 — RESULTADOS VARÍAN POR HUERTO Y PORTAINJERTO', 56, 72, 5.4, MUT)
@@ -692,7 +690,7 @@ ruler(c, 36, 60, PH - 60)
 c.setFont('Big', 30)
 c.setFillColorRGB(*FG)
 c.drawString(56, PH - 64, 'A ESCALA DE SU CAMPO')
-mono(c, 'EL AHORRO ESCALA CON LAS HECTÁREAS; EL COSTO, POR SECTOR DE RIEGO', 58, PH - 80, 7, MUT)
+mono(c, 'EL AHORRO ESCALA CON LAS HECTÁREAS; UNA ESTACIÓN POR SECTOR DE RIEGO', 58, PH - 80, 7, MUT)
 HA = [(10, '8 000', 3, '1–2'), (50, '40 000', 16, '5–10'), (100, '80 000', 32, '10–20'), (500, '400 000', 160, '50–100')]
 colw = (PW - 112 - 72) / 4
 import math as _m
@@ -715,21 +713,12 @@ mono(c, 'SUPUESTO · 800 M³/HA·AÑO (CASO MEDIO MAÍZ FAO × 10–17 %) · PIS
 wrap_sans(c, 'Cada metro cúbico no bombeado también ahorra energía y desgaste del equipo (−16.2 % de horas de bomba en el estudio IoT). '
              'El retorno monetario depende de su tarifa de agua y energía: la plataforma lo calculará con sus datos reales.',
           56, PH - 410, 520, 8.5, 12, MUT)
-# precio objetivo
 c.setStrokeColorRGB(*EDGE)
 c.line(56, 116, PW - 56, 116)
-mono(c, 'PRECIO OBJETIVO POR ESTACIÓN (HARDWARE)', 56, 100, 7, FG, bold=True)
-c.setFont('Big', 20)
+c.setFont('Big', 22)
 c.setFillColorRGB(*FG)
-c.drawString(56, 72, 'US$ 990–1 235')
-mono(c, 'PROTOTIPO · 1 UD', 56, 60, 6, MUT)
-c.setFont('Big', 20)
-c.setFillColorRGB(*FG)
-c.drawString(240, 72, 'US$ 610–700')
-mono(c, 'SERIE · 25 UDS', 240, 60, 6, MUT)
-wrap_sans(c, 'Incluye contingencia del +30 % declarada sobre el costo estimado de BOM (760–950 / 470–540): '
-             'logística, mermas, tipo de cambio e imprevistos de prototipado. Cifras base auditables en la BOM paramétrica.',
-          400, 86, PW - 456, 7.5, 10.5, MUT)
+c.drawString(56, 74, 'HABLEMOS DE SU CAMPO.')
+mono(c, 'PRECIO Y CONDICIONES EN CONVERSACIÓN DIRECTA · CONTRERAS.SMA@GMAIL.COM', 300, 80, 6.8, ACC, bold=True)
 foot(c, 8, 'A ESCALA DE SU CAMPO')
 c.showPage()
 
