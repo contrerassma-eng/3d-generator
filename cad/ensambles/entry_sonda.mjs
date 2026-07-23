@@ -84,6 +84,7 @@ for (const part of doc.parts) {
     mats.std.metalness = metal ? 0.88 : 0.05;
     mats.std.roughness = metal ? 0.34 : 0.52;
     mats.std.envMapIntensity = 1.25;
+    if (part.id === 'antena') { mats.std.color = new THREE.Color('#59626f'); mats.std.roughness = 0.4; }
   }
   const mesh = new THREE.Mesh(g, mats.std);
   if (REAL) { mesh.castShadow = true; mesh.receiveShadow = true; }

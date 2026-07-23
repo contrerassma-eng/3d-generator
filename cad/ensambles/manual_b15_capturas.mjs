@@ -4,7 +4,7 @@
 // Uso (desde cad/):  node ensambles/manual_b15_capturas.mjs [dirSalida]
 // Requiere playwright (usa el del sistema si no está en node_modules) y
 // Chromium (PLAYWRIGHT_BROWSERS_PATH o /opt/pw-browsers/chromium).
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
@@ -21,7 +21,7 @@ mkdirSync(out, { recursive: true });
 // [nombre, {tgt, pos, suelo?, li? (índice de paso), mode?, explode?}]
 const SHOTS = [
   ['hero', { tgt: [0, 0, 720], pos: [2400, -2400, 1950], suelo: true }],
-  ['frente', { tgt: [0, 0, 720], pos: [80, -3100, 880], suelo: true }],
+  ['frente', { tgt: [0, 0, 700], pos: [80, -4300, 830], suelo: true }],
   ['cabezal', { tgt: [0, 0, 1845], pos: [430, -430, 2015] }],
   ['inferior', { tgt: [0, 0, 1750], pos: [520, -520, 1580] }],
   ['explode', { tgt: [0, 0, 1000], pos: [2100, -2100, 1900], explode: 72 }],
@@ -78,6 +78,32 @@ for (const [name, s] of SHOTS) {
   }, { tgt: s.tgt, pos: s.pos, suelo: !!s.suelo });
   await pg.waitForTimeout(350);
   await pg.screenshot({ path: join(out, `${name}.png`), omitBackground: true });
+  if (name === 'frente') {
+    // proyección real de los componentes a píxeles (para callouts exactos)
+    const anclas = await pg.evaluate(() => {
+      const cam = window.__cam;
+      cam.updateMatrixWorld();
+      const mv = cam.matrixWorldInverse.elements, pr = cam.projectionMatrix.elements;
+      const apply = (m, v) => [
+        m[0] * v[0] + m[4] * v[1] + m[8] * v[2] + m[12] * v[3],
+        m[1] * v[0] + m[5] * v[1] + m[9] * v[2] + m[13] * v[3],
+        m[2] * v[0] + m[6] * v[1] + m[10] * v[2] + m[14] * v[3],
+        m[3] * v[0] + m[7] * v[1] + m[11] * v[2] + m[15] * v[3]];
+      const P = {
+        antena: [0, 0, 2020], cabezal: [0, 0, 1840], panel: [0, 62, 1645],
+        escudo: [160, 0, 1500], pluvio: [-150, 0, 1200], poste: [0, -24, 950],
+        sonda: [0, -25, -250],
+      };
+      const o = { w: innerWidth, h: innerHeight };
+      for (const [k, [x, y, z]] of Object.entries(P)) {
+        const c4 = apply(pr, apply(mv, [x, y, z, 1]));
+        o[k] = [(c4[0] / c4[3] * 0.5 + 0.5) * innerWidth, (0.5 - c4[1] / c4[3] * 0.5) * innerHeight];
+      }
+      return o;
+    });
+    writeFileSync(join(out, 'anclas_frente.json'), JSON.stringify(anclas, null, 1));
+    console.log('  anclas_frente.json');
+  }
   console.log(`  ${name}.png`);
 }
 await b.close();

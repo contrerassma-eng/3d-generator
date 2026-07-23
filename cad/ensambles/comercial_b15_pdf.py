@@ -65,6 +65,16 @@ def cropped(name, pad=40):
     return im.crop((max(0, x0 - pad), max(0, y0 - pad), min(w, x1 + pad), min(h, y1 + pad)))
 
 
+def cropped_off(name, pad=40):
+    """Como cropped(), pero devuelve (imagen, x0, y0) del recorte en px originales."""
+    im = Image.open(os.path.join(CAPS, name + '.png'))
+    bbox = im.getbbox()
+    x0, y0, x1, y1 = bbox
+    x0, y0 = max(0, x0 - pad), max(0, y0 - pad)
+    x1, y1 = min(im.width, x1 + pad), min(im.height, y1 + pad)
+    return im.crop((x0, y0, x1, y1)), x0, y0
+
+
 FOTOS = os.path.join(HERE, 'planos_sonda', '_fotos')
 _DUO = [(0, (10, 13, 18)), (110, (52, 66, 92)), (200, (148, 163, 190)), (255, (222, 230, 243))]
 
@@ -293,37 +303,54 @@ c.setFont('Big', 30)
 c.setFillColorRGB(*FG)
 c.drawString(56, PH - 64, 'UN POSTE. TODO EL CAMPO.')
 mono(c, 'HARDWARE V3 · 37 PIEZAS · VERIFICACIÓN GEOMÉTRICA 138/138 OK', 58, PH - 80, 7, MUT)
-img = cropped('frente', 55)
-ix, iy, iw, ih = draw_img(c, img, PW / 2 - 130, 44, 260, PH - 140)
+img, cx0, cy0 = cropped_off('frente', 45)
+ix, iy, dw, dh = draw_img(c, img, PW / 2 - 130, 44, 260, PH - 140)
+import json as _json
+ANC = _json.load(open(os.path.join(CAPS, 'anclas_frente.json')))
+
+
+def ancla_pt(k):
+    ax, ay = ANC[k]
+    return ix + (ax - cx0) * dw / img.width, iy + dh - (ay - cy0) * dh / img.height
+
+
 CALL = [
-    (0.985, 'ANTENA LORAWAN ~2.15 M', 'MEJOR HORIZONTE DE RADIO', 1),
-    (0.928, 'CABEZAL Ø125 EN NORMA', 'EN ISO 1452 · TÓRICAS ISO 3601', 1),
-    (0.890, 'PANEL SOLAR 5 W', 'AUTONOMÍA TODO EL AÑO', 0),
-    (0.730, 'ESCUDO T/HR A 1.50 M', 'ALTURA NORMATIVA OMM Nº 8', 0),
-    (0.645, 'PLUVIÓMETRO Ø160 · 1.235 M', 'NIVELABLE ± 1°', 1),
-    (0.430, 'CERO CABLES A LA VISTA', '100 % INTERIOR AL POSTE', 0),
-    (0.110, 'SONDA A 20 / 40 / 60 CM', 'SMT50 ±2 % VWC · TUBO DIELÉCTRICO', 1),
+    ('antena', 'ANTENA LORAWAN ~2.15 M', 'MEJOR HORIZONTE DE RADIO', 1),
+    ('cabezal', 'CABEZAL Ø125 EN NORMA', 'EN ISO 1452 · TÓRICAS ISO 3601', 1),
+    ('panel', 'PANEL SOLAR 5 W', 'AUTONOMÍA TODO EL AÑO', 0),
+    ('escudo', 'ESCUDO T/HR A 1.50 M', 'ALTURA NORMATIVA OMM Nº 8', 0),
+    ('pluvio', 'PLUVIÓMETRO Ø160 · 1.235 M', 'NIVELABLE ± 1°', 1),
+    ('poste', 'CERO CABLES A LA VISTA', '100 % INTERIOR AL POSTE', 0),
+    ('sonda', 'SONDA A 20 / 40 / 60 CM', 'SMT50 ±2 % VWC · TUBO DIELÉCTRICO', 1),
 ]
-for frac, t1, t2, side in CALL:
-    yy = iy + ih * frac
-    if side:  # derecha
+PTS = {k: ancla_pt(k) for k, _, _, _ in CALL}
+LY = {}
+for sv in (0, 1):   # separación mínima de 24 pt entre etiquetas del mismo lado
+    grupo = sorted([c_ for c_ in CALL if c_[3] == sv], key=lambda c_: -PTS[c_[0]][1])
+    prev = None
+    for c_ in grupo:
+        py = PTS[c_[0]][1]
+        LY[c_[0]] = py if prev is None else min(py, prev - 24)
+        prev = LY[c_[0]]
+for k, t1, t2, side in CALL:
+    px, py = PTS[k]
+    ly = LY[k]
+    c.setStrokeColorRGB(*EDGE)
+    c.setLineWidth(0.6)
+    if side:  # etiqueta a la derecha
         x_lab = PW / 2 + 170
-        c.setStrokeColorRGB(*EDGE)
-        c.setLineWidth(0.6)
-        c.line(PW / 2 + 34, yy, x_lab - 8, yy)
+        c.line(px + 7, py, x_lab - 8, ly)
         c.setFillColorRGB(*ACC)
-        c.circle(PW / 2 + 34, yy, 1.6, stroke=0, fill=1)
-        mono(c, t1, x_lab, yy + 1.5, 7.5, FG, bold=True)
-        mono(c, t2, x_lab, yy - 8.5, 6, MUT)
-    else:     # izquierda
+        c.circle(px + 5, py, 1.7, stroke=0, fill=1)
+        mono(c, t1, x_lab, ly + 1.5, 7.5, FG, bold=True)
+        mono(c, t2, x_lab, ly - 8.5, 6, MUT)
+    else:     # etiqueta a la izquierda
         x_lab = 66
-        c.setStrokeColorRGB(*EDGE)
-        c.setLineWidth(0.6)
-        c.line(x_lab + 168, yy, PW / 2 - 34, yy)
+        c.line(x_lab + 168, ly, px - 7, py)
         c.setFillColorRGB(*ACC)
-        c.circle(PW / 2 - 34, yy, 1.6, stroke=0, fill=1)
-        mono(c, t1, x_lab, yy + 1.5, 7.5, FG, bold=True)
-        mono(c, t2, x_lab, yy - 8.5, 6, MUT)
+        c.circle(px - 5, py, 1.7, stroke=0, fill=1)
+        mono(c, t1, x_lab, ly + 1.5, 7.5, FG, bold=True)
+        mono(c, t2, x_lab, ly - 8.5, 6, MUT)
 foot(c, 3, 'LA ESTACIÓN')
 c.showPage()
 
