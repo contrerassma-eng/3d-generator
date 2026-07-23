@@ -1,0 +1,1006 @@
+#!/usr/bin/env python3
+# comercial_b15_pdf.py — documento COMERCIAL de la estación B1.5 v3 bajo la
+# filosofía de diseño "Instrumento Nocturno" (planos_sonda/comercial_filosofia.md):
+# fondo de tinta, información como luz calibrada, cifras monumentales, etiquetas
+# monoespaciadas de bitácora. Enfocado en TOMA DE DECISIONES y AHORRO.
+#
+# Honestidad comercial: la plataforma de software es CONCEPTO DE PRODUCTO
+# (interfaz ilustrativa, datos simulados, así rotulada); los ahorros citan
+# estudios reales con URL; SIN precios publicados (en conversación directa).
+# Usa las capturas de manual_b15_capturas.mjs.
+# Uso (desde cad/):  python3 ensambles/comercial_b15_pdf.py
+import math
+import os
+
+from PIL import Image, ImageOps
+from reportlab.lib.pagesizes import A4, landscape
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfgen import canvas
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+CAPS = os.path.join(HERE, 'planos_sonda', '_caps_b15')
+OUT = os.path.join(HERE, 'planos_sonda', 'sonda_b15_comercial.pdf')
+FONTS = '/root/.claude/skills/canvas-design/canvas-fonts'
+
+for name, f in [('Big', 'BigShoulders-Bold.ttf'), ('BigR', 'BigShoulders-Regular.ttf'),
+                ('Sans', 'InstrumentSans-Regular.ttf'), ('SansB', 'InstrumentSans-Bold.ttf'),
+                ('Mono', 'GeistMono-Regular.ttf'), ('MonoB', 'GeistMono-Bold.ttf')]:
+    pdfmetrics.registerFont(TTFont(name, os.path.join(FONTS, f)))
+
+PW, PH = landscape(A4)
+INK = (0x10 / 255, 0x14 / 255, 0x1a / 255)      # = fondo de los renders
+GLASS = (0x14 / 255, 0x1a / 255, 0x24 / 255)
+EDGE = (0x27 / 255, 0x33 / 255, 0x49 / 255)
+FG = (0xe9 / 255, 0xee / 255, 0xf6 / 255)
+MUT = (0x7e / 255, 0x8c / 255, 0xa4 / 255)
+ACC = (0x47 / 255, 0x6c / 255, 0xff / 255)
+GRN = (0x4e / 255, 0xc9 / 255, 0x7b / 255)
+AMB = (0xd9 / 255, 0xa7 / 255, 0x2e / 255)
+BG_RGB = (16, 20, 26)
+
+
+def cropped(name, pad=40):
+    im = Image.open(os.path.join(CAPS, name + '.png'))
+    if im.mode == 'RGBA':
+        bbox = im.getbbox()
+        if bbox:
+            x0, y0, x1, y1 = bbox
+            return im.crop((max(0, x0 - pad), max(0, y0 - pad),
+                            min(im.width, x1 + pad), min(im.height, y1 + pad)))
+        return im
+    im = im.convert('RGB')
+    px = im.load()
+    w, h = im.size
+    x0, y0, x1, y1 = w, h, 0, 0
+    for y in range(0, h, 3):
+        for x in range(0, w, 3):
+            r, g, b = px[x, y]
+            if abs(r - BG_RGB[0]) + abs(g - BG_RGB[1]) + abs(b - BG_RGB[2]) > 24:
+                x0, y0 = min(x0, x), min(y0, y)
+                x1, y1 = max(x1, x), max(y1, y)
+    if x1 <= x0:
+        return im
+    return im.crop((max(0, x0 - pad), max(0, y0 - pad), min(w, x1 + pad), min(h, y1 + pad)))
+
+
+def cropped_off(name, pad=40):
+    """Como cropped(), pero devuelve (imagen, x0, y0) del recorte en px originales."""
+    im = Image.open(os.path.join(CAPS, name + '.png'))
+    bbox = im.getbbox()
+    x0, y0, x1, y1 = bbox
+    x0, y0 = max(0, x0 - pad), max(0, y0 - pad)
+    x1, y1 = min(im.width, x1 + pad), min(im.height, y1 + pad)
+    return im.crop((x0, y0, x1, y1)), x0, y0
+
+
+FOTOS = os.path.join(HERE, 'planos_sonda', '_fotos')
+_DUO = [(0, (10, 13, 18)), (110, (52, 66, 92)), (200, (148, 163, 190)), (255, (222, 230, 243))]
+
+
+def foto_duo(name, mezcla=0.18):
+    """Foto real gradada al duotono de la paleta (+ mezcla del color original)."""
+    im = Image.open(os.path.join(FOTOS, name + '.jpg')).convert('RGB')
+    g = ImageOps.autocontrast(ImageOps.grayscale(im), cutoff=1)
+    lut = []
+    for t in range(256):
+        for (a, ca), (b2, cb) in zip(_DUO, _DUO[1:]):
+            if a <= t <= b2:
+                f = (t - a) / (b2 - a)
+                lut.append(tuple(round(ca[k] + (cb[k] - ca[k]) * f) for k in range(3)))
+                break
+    duo = Image.merge('RGB', tuple(g.point([lut[i][k] for i in range(256)]) for k in range(3)))
+    return Image.blend(duo, im, mezcla)
+
+
+def foto_marco(name, W, H, brillo=1.0, grad_izq=1.0, mezcla=0.18):
+    """Recorte tipo cover; opcionalmente más oscura hacia la izquierda (texto)."""
+    im = foto_duo(name, mezcla)
+    sc = max(W / im.width, H / im.height)
+    im = im.resize((int(im.width * sc) + 1, int(im.height * sc) + 1), Image.LANCZOS)
+    x0, y0 = (im.width - int(W)) // 2, (im.height - int(H)) // 2
+    im = im.crop((x0, y0, x0 + int(W), y0 + int(H)))
+    if grad_izq < 1.0:
+        base = im.point(lambda v: int(v * brillo))
+        dark = im.point(lambda v: int(v * brillo * grad_izq))
+        m = Image.new('L', (480, 1))
+        m.putdata([max(0, 255 - int(i * 255 / 300)) for i in range(480)])
+        return Image.composite(dark, base, m.resize(im.size))
+    return im.point(lambda v: int(v * brillo)) if brillo != 1.0 else im
+
+
+def foto_jpg(img):
+    import hashlib, io
+    h = hashlib.md5(img.tobytes()[:4096]).hexdigest()[:10]
+    path = f'/tmp/foto3d_{h}.jpg'
+    if not os.path.exists(path):
+        img.save(path, quality=84)
+    return path
+
+
+def bg(c):
+    c.setFillColorRGB(*INK)
+    c.rect(0, 0, PW, PH, stroke=0, fill=1)
+
+
+def ruler(c, x, y0, y1, step=8, major=5):
+    """Regla graduada vertical — motivo de instrumento."""
+    c.setStrokeColorRGB(*EDGE)
+    c.setLineWidth(0.5)
+    c.line(x, y0, x, y1)
+    n = 0
+    y = y0
+    while y <= y1:
+        L = 7 if n % major == 0 else 3.5
+        c.line(x, y, x + L, y)
+        y += step
+        n += 1
+
+
+def mono(c, txt, x, y, size=7, color=MUT, bold=False, tracking=0.6):
+    c.setFont('MonoB' if bold else 'Mono', size)
+    c.setFillColorRGB(*color)
+    if tracking:
+        for ch in txt:
+            c.drawString(x, y, ch)
+            x += pdfmetrics.stringWidth(ch, 'MonoB' if bold else 'Mono', size) + tracking
+    else:
+        c.drawString(x, y, txt)
+
+
+def mono_w(txt, size=7, tracking=0.6):
+    return sum(pdfmetrics.stringWidth(ch, 'Mono', size) + tracking for ch in txt) - tracking
+
+
+def glass(c, x, y, w, h, r=6, edge=EDGE):
+    c.setFillColorRGB(*GLASS)
+    c.setStrokeColorRGB(*edge)
+    c.setLineWidth(0.8)
+    c.roundRect(x, y, w, h, r, stroke=1, fill=1)
+
+
+def draw_img(c, img, x, y, w, h):
+    iw, ih = img.size
+    s = min(w / iw, h / ih)
+    dw, dh = iw * s, ih * s
+    c.drawImage(ImageReader(img), x + (w - dw) / 2, y + (h - dh) / 2, dw, dh, mask='auto')
+    return x + (w - dw) / 2, y + (h - dh) / 2, dw, dh
+
+
+def foot(c, n, tag):
+    mono(c, f'FOTO3D · SONDA-SUELO-IND · B1.5 V3 · 2026-07', 36, 20, 6.5, MUT)
+    mono(c, tag, PW / 2 - mono_w(tag, 6.5) / 2, 20, 6.5, MUT)
+    den = f'{n:02d} / {TOTAL:02d}'
+    mono(c, den, PW - 36 - mono_w(den, 6.5), 20, 6.5, MUT)
+
+
+def kicker(c, idx, label):
+    """Eyebrow de índice, arriba-derecha — cohesión entre láminas."""
+    t = f'{idx:02d} / {TOTAL:02d}   {label}'
+    mono(c, t, PW - 56 - mono_w(t, 6.8), PH - 58, 6.8, MUT)
+
+
+def wrap_sans(c, text, x, y, width, size=9, leading=None, color=FG, bold=False):
+    f = 'SansB' if bold else 'Sans'
+    leading = leading or size * 1.35
+    c.setFont(f, size)
+    c.setFillColorRGB(*color)
+    words, line, lines = text.split(), '', []
+    for wd in words:
+        t = (line + ' ' + wd).strip()
+        if c.stringWidth(t, f, size) <= width:
+            line = t
+        else:
+            lines.append(line)
+            line = wd
+    lines.append(line)
+    for ln in lines:
+        c.drawString(x, y, ln)
+        y -= leading
+    return y
+
+
+c = canvas.Canvas(OUT, pagesize=(PW, PH))
+c.setTitle('Estación B1.5 v3 — documento comercial')
+TOTAL = 10
+
+# ═══════════════════════════════════════════════════ 01 · PORTADA
+bg(c)
+c.drawImage(foto_jpg(foto_marco('campo_maiz', 1684, 1190, brillo=0.42, grad_izq=0.34)), 0, 0, PW, PH)
+img = cropped('hero', 30)
+draw_img(c, img, PW * 0.55, 14, PW * 0.42, PH - 28)
+mono(c, 'RENDER DEL DISEÑO CAD PARAMÉTRICO', PW - 248, PH - 28, 5.6, MUT)
+ruler(c, 36, 60, PH - 60)
+mono(c, 'DOCUMENTO COMERCIAL · ATLAS DE DECISIÓN Nº 1', 58, PH - 74, 7, MUT)
+c.setFont('Big', 52)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 138, 'DECIDIR CON')
+c.drawString(56, PH - 190, 'DATOS DEL SUELO.')
+c.setStrokeColorRGB(*ACC)
+c.setLineWidth(2.2)
+c.line(58, PH - 208, 218, PH - 208)
+y = PH - 238
+wrap_sans(c, 'Mide la raíz a tres profundidades y el clima a alturas OMM. Convierte cada lectura '
+             'en una orden de riego en metros cúbicos — no en horas.', 58, y, 352, 11.5, 16)
+y -= 82
+for k, v in [('SONDA', '3 NIVELES · ±2 % VWC'), ('CLIMA', 'T/HR · LLUVIA · HOJA'),
+             ('ENERGÍA', 'SOLAR AUTÓNOMA'), ('ENLACE', 'LORAWAN 2.15 M')]:
+    mono(c, k, 58, y, 6.5, MUT)
+    mono(c, v, 58, y - 11, 7.5, FG, bold=True)
+    y -= 34
+mono(c, 'CABEZAL Ø125 · EN ISO 1452 · ISO 3601 · OMM Nº 8', 58, 40, 6.5, MUT)
+foot(c, 1, '')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 02 · DE DATO A DECISIÓN
+bg(c)
+kicker(c, 2, 'DE DATO A DECISIÓN')
+ruler(c, 36, 60, PH - 60)
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'DE DATO A DECISIÓN')
+mono(c, 'EL AGUA INVISIBLE, MEDIDA DONDE VIVE LA RAÍZ', 58, PH - 80, 7, MUT)
+img = cropped('paso4', 40)
+ix, iy, iw, ih = draw_img(c, img, 60, 46, 210, PH - 150)
+# marcas de profundidad (sensores a -200/-400/-600 en un tubo de -740 a +60)
+for frac, lab in [(0.675, '-20 CM'), (0.425, '-40 CM'), (0.175, '-60 CM')]:
+    yy = iy + ih * frac
+    c.setStrokeColorRGB(*EDGE)
+    c.setLineWidth(0.6)
+    c.line(ix + iw * 0.62, yy, 300, yy)
+    mono(c, lab, 304, yy - 2.4, 7, MUT)
+# panel de barras VWC → umbral → decisión
+px0, pw = 360, 210
+for i, (lab, frac, col) in enumerate([('-20 CM', 0.64, GRN), ('-40 CM', 0.48, GRN), ('-60 CM', 0.30, AMB)]):
+    yy = PH - 170 - i * 64
+    mono(c, f'VWC {lab}', px0, yy + 30, 6.5, MUT)
+    c.setFillColorRGB(*GLASS)
+    c.roundRect(px0, yy, pw, 20, 4, stroke=0, fill=1)
+    c.setFillColorRGB(*col)
+    c.roundRect(px0, yy, pw * frac, 20, 4, stroke=0, fill=1)
+    mono(c, f'{frac * 50:.0f} %', px0 + pw + 10, yy + 6, 8, FG, bold=True)
+# umbral
+ux = px0 + pw * 0.40
+c.setStrokeColorRGB(*ACC)
+c.setLineWidth(1)
+c.setDash(3, 3)
+c.line(ux, PH - 190 - 128, ux, PH - 128)
+c.setDash()
+mono(c, 'UMBRAL DE MANEJO', ux - 30, PH - 122, 6.5, ACC, bold=True)
+# flecha → decisión
+c.setStrokeColorRGB(*ACC)
+c.setLineWidth(1.4)
+c.line(px0 + pw + 42, PH - 234, px0 + pw + 72, PH - 234)
+c.line(px0 + pw + 66, PH - 230, px0 + pw + 72, PH - 234)
+c.line(px0 + pw + 66, PH - 238, px0 + pw + 72, PH - 234)
+gx = px0 + pw + 84
+glass(c, gx, PH - 292, 150, 96, edge=ACC)
+mono(c, 'DECISIÓN', gx + 14, PH - 216, 6.5, MUT)
+c.setFont('Big', 26)
+c.setFillColorRGB(*FG)
+c.drawString(gx + 14, PH - 246, 'REGAR 11 mm')
+mono(c, '= 110 M³ EN LA HA DEL SECTOR', gx + 14, PH - 260, 6.2, ACC, bold=True)
+mono(c, 'RESERVA EN -60: LÁMINA CORTA', gx + 14, PH - 271, 6, MUT)
+mono(c, '· ILUSTRATIVO ·', gx + 14, PH - 283, 5.5, MUT)
+# flujo inferior
+flow = ['MEDIR', 'TRANSMITIR', 'DECIDIR', 'AHORRAR']
+fx, fw = 360, (PW - 96 - 360) / 4
+for i, st in enumerate(flow):
+    cx = fx + i * fw
+    c.setFillColorRGB(*(ACC if i < 3 else GRN))
+    c.circle(cx + 8, 96, 3.2, stroke=0, fill=1)
+    mono(c, st, cx + 18, 92.6, 8, FG, bold=True)
+    if i < 3:
+        c.setStrokeColorRGB(*EDGE)
+        c.setLineWidth(0.8)
+        c.line(cx + 18 + mono_w(st, 8) + 8, 96, cx + fw - 6, 96)
+mono(c, 'CADA 15 MIN, LA ESTACIÓN REPITE ESTE CICLO SIN INTERVENCIÓN HUMANA', 360, 72, 6.5, MUT)
+c.drawImage(foto_jpg(foto_marco('campo_agua', 324, 272, brillo=0.85)), gx, 114, 162, 136)
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.8)
+c.rect(gx, 114, 162, 136, stroke=1, fill=0)
+mono(c, 'EL AGUA QUE SE DECIDE', gx + 8, 122, 5.6, FG)
+foot(c, 2, 'DE DATO A DECISIÓN')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 03 · LA ESTACIÓN
+bg(c)
+kicker(c, 3, 'LA ESTACIÓN')
+ruler(c, 36, 60, PH - 60)
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'UN POSTE. TODO EL CAMPO.')
+mono(c, 'ANATOMÍA DE LA ESTACIÓN · ALTURAS NORMATIVAS · HARDWARE V3 · 37 PIEZAS · VERIFICACIÓN 138/138', 58, PH - 80, 7, MUT)
+import json as _json
+ANC = _json.load(open(os.path.join(CAPS, 'anclas_frente.json')))
+# render centrado (más angosto para dejar dos columnas de información)
+img, cx0, cy0 = cropped_off('frente', 45)
+ix, iy, dw, dh = draw_img(c, img, PW / 2 - 116, 96, 232, PH - 208)
+
+
+def ancla_pt(k):
+    ax, ay = ANC[k]
+    return ix + (ax - cx0) * dw / img.width, iy + dh - (ay - cy0) * dh / img.height
+
+
+# ── mapa lineal altura(mm) → y de página, calibrado con dos anclas del render ──
+_za, _pya = 2020, ancla_pt('antena')[1]
+_zs, _pys = -250, ancla_pt('sonda')[1]
+_m = (_pya - _pys) / (_za - _zs)
+_b = _pya - _m * _za
+
+
+def zy(z):
+    return _m * z + _b
+
+
+# ── línea de suelo (NPT) que une altímetro y render + banda enterrada ─────────
+gy0 = zy(0)
+c.setFillColorRGB(0x2a / 255, 0x22 / 255, 0x18 / 255)
+c.setFillAlpha(0.5)
+c.rect(150, zy(-660), PW / 2 + 130 - 150, gy0 - zy(-660), stroke=0, fill=1)
+c.setFillAlpha(1)
+c.setStrokeColorRGB(*AMB)
+c.setStrokeAlpha(0.6)
+c.setLineWidth(0.8)
+c.setDash(3, 3)
+c.line(150, gy0, PW / 2 + 90, gy0)
+c.setDash()
+c.setStrokeAlpha(1)
+
+# ── ALTÍMETRO (izquierda): alturas normativas ────────────────────────────────
+axx = 150
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(1)
+c.line(axx, zy(2200), axx, zy(-660))
+mono(c, 'ALTURAS', 56, zy(2200) + 16, 6.5, MUT, bold=True)
+mono(c, 'NORMATIVAS', 56, zy(2200) + 7, 6.5, MUT, bold=True)
+HTS = [(2153, 'ANTENA', '~2.15 m', ACC),
+       (1500, 'T / HR', '1.50 m · OMM Nº 8', GRN),
+       (1235, 'PLUVIÓMETRO', 'boca 1.235 m', FG),
+       (0, 'SUPERFICIE', 'NPT 0.00', AMB),
+       (-200, 'SENSOR 1', '−20 cm', (0.72, 0.8, 0.92)),
+       (-400, 'SENSOR 2', '−40 cm', (0.72, 0.8, 0.92)),
+       (-600, 'SENSOR 3', '−60 cm', (0.72, 0.8, 0.92))]
+for z, t, v, col in HTS:
+    yy = zy(z)
+    c.setStrokeColorRGB(*EDGE)
+    c.setLineWidth(0.8)
+    c.line(axx - 6, yy, axx, yy)
+    c.setFillColorRGB(*INK)
+    c.circle(axx, yy, 3.0, stroke=0, fill=1)
+    c.setFillColorRGB(*col)
+    c.circle(axx, yy, 2.0, stroke=0, fill=1)
+    mono(c, t, 56, yy + 2, 6.8, FG, bold=True)
+    mono(c, v, 56, yy - 7, 6, MUT)
+
+# ── LEDGER de especificaciones (derecha) con guías al render ──────────────────
+LED = [('antena', 'ANTENA', 'LoRaWAN 868/915 · ~2.15 m'),
+       ('cabezal', 'CABEZAL', 'Ø125 · EN ISO 1452 · tóricas ISO 3601'),
+       ('panel', 'PANEL SOLAR', '5 W ETFE · orientado al norte'),
+       ('escudo', 'CLIMA T / HR', 'escudo a 1.50 m · OMM Nº 8'),
+       ('pluvio', 'PLUVIÓMETRO', 'Ø160 · boca 1.235 m · ±1°'),
+       ('poste', 'POSTE', 'SCH40 1½" · cero cables a la vista'),
+       ('sonda', 'SONDA', 'SMT50 ×3 · 20/40/60 cm · ±2 % VWC')]
+lx0, ltop, lbot = PW - 300, PH - 118, 156
+rowh = (ltop - lbot) / (len(LED) - 1)
+for i, (k, t, v) in enumerate(LED):
+    ry_ = ltop - i * rowh
+    px, py = ancla_pt(k)
+    c.setStrokeColorRGB(*EDGE)
+    c.setLineWidth(0.6)
+    c.line(px + 6, py, lx0 - 8, ry_ + 4)
+    c.setFillColorRGB(*ACC)
+    c.circle(px + 5, py, 1.8, stroke=0, fill=1)
+    c.setFillColorRGB(*ACC)
+    c.rect(lx0, ry_ - 2, 2.2, 15, stroke=0, fill=1)
+    mono(c, t, lx0 + 9, ry_ + 4, 7.4, FG, bold=True)
+    mono(c, v, lx0 + 9, ry_ - 5.5, 6, MUT)
+
+# ── franja de normas al pie ───────────────────────────────────────────────────
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.6)
+c.line(56, 96, PW - 56, 96)
+xb = 56
+for tag in ['EN ISO 1452', 'ISO 3601 · PARKER', 'DIN 912 A4', 'NPT 1½"', 'IEC 61076-2-101', 'OMM Nº 8', 'LORAWAN 868/915', 'IP68 OBJETIVO']:
+    wch = mono_w(tag, 6.4) + 16
+    c.setStrokeColorRGB(*EDGE)
+    c.setLineWidth(0.7)
+    c.roundRect(xb, 68, wch, 16, 8, stroke=1, fill=0)
+    mono(c, tag, xb + 8, 72.5, 6.4, MUT)
+    xb += wch + 7
+foot(c, 3, 'LA ESTACIÓN')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 04 · LA PLATAFORMA (CONCEPTO)
+bg(c)
+kicker(c, 4, 'LA PLATAFORMA · CONCEPTO')
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'LA PLATAFORMA QUE VIENE')
+mono(c, 'CONCEPTO DE PRODUCTO · INTERFAZ ILUSTRATIVA · DATOS SIMULADOS', 58, PH - 80, 7, AMB, bold=True)
+# ventana
+wx, wy, ww, wh = 56, 92, PW - 112, PH - 196
+glass(c, wx, wy, ww, wh, 10)
+for i, col in enumerate([(0.85, 0.35, 0.35), (0.85, 0.7, 0.3), (0.35, 0.75, 0.4)]):
+    c.setFillColorRGB(*col)
+    c.circle(wx + 16 + i * 13, wy + wh - 13, 3.4, stroke=0, fill=1)
+mono(c, 'plataforma.foto3d — PARCELA NORTE · ESTACIÓN B1.5-001', wx + 60, wy + wh - 16, 6.5, MUT)
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.7)
+c.line(wx, wy + wh - 26, wx + ww, wy + wh - 26)
+# KPIs
+kw = (ww - 320 - 48) / 3
+kpis = [('VWC RAÍZ (PONDERADO)', '31.4 %', GRN, 'EN BANDA DE MANEJO'),
+        ('AGUA AHORRADA — MES', '12 400 L', ACC, 'VS. CALENDARIO FIJO · SIM.'),
+        ('RIEGOS EVITADOS', '3', FG, 'ÚLTIMOS 30 DÍAS · SIM.')]
+for i, (k, v, col, s) in enumerate(kpis):
+    kx = wx + 16 + i * (kw + 8)
+    ky = wy + wh - 92
+    glass(c, kx, ky, kw, 56, 5)
+    mono(c, k, kx + 10, ky + 42, 5.8, MUT)
+    c.setFont('Big', 21)
+    c.setFillColorRGB(*col)
+    c.drawString(kx + 10, ky + 18, v)
+    mono(c, s, kx + 10, ky + 7, 5.2, MUT)
+# gráfico VWC
+gx0, gy0 = wx + 16, wy + 16
+gw, gh = ww - 320 - 24, wh - 92 - 40
+glass(c, gx0, gy0, gw, gh, 5)
+mono(c, 'HUMEDAD VOLUMÉTRICA · 3 PROFUNDIDADES · 14 DÍAS', gx0 + 10, gy0 + gh - 12, 6, MUT)
+cx0, cy0, cw, ch = gx0 + 34, gy0 + 20, gw - 50, gh - 44
+c.setFillColorRGB(0.13, 0.22, 0.19)
+c.rect(cx0, cy0 + ch * 0.38, cw, ch * 0.34, stroke=0, fill=1)
+mono(c, 'BANDA ÓPTIMA', cx0 + cw - 66, cy0 + ch * 0.66, 5.2, GRN)
+for fr, lab in [(0.0, '20'), (0.5, '30'), (1.0, '40')]:
+    mono(c, lab, cx0 - 16, cy0 + ch * fr - 2, 5.5, MUT)
+    c.setStrokeColorRGB(*EDGE)
+    c.setLineWidth(0.4)
+    c.line(cx0, cy0 + ch * fr, cx0 + cw, cy0 + ch * fr)
+riegos = [3.5, 8.2, 12.6]
+
+
+def curva(base, amp, drop, phase, col, lw=1.3):
+    c.setStrokeColorRGB(*col)
+    c.setLineWidth(lw)
+    pts = []
+    for i in range(281):
+        t = i / 280 * 14
+        v = base + amp * math.sin(t / 2.1 + phase) - drop * (t % 4.6) / 4.6
+        for r in riegos:
+            if t >= r:
+                v += drop * 0.9 * math.exp(-(t - r) / 1.6)
+        frac = (v - 20) / 20
+        pts.append((cx0 + cw * i / 280, cy0 + ch * max(0.03, min(0.97, frac))))
+    p = c.beginPath()
+    p.moveTo(*pts[0])
+    for pt in pts[1:]:
+        p.lineTo(*pt)
+    c.drawPath(p, stroke=1, fill=0)
+
+
+curva(31.5, 1.1, 5.0, 0.0, GRN)
+curva(30.0, 0.8, 3.2, 1.1, (0.35, 0.62, 0.95))
+curva(28.6, 0.5, 1.7, 2.3, AMB)
+for r in riegos:
+    xx = cx0 + cw * r / 14
+    c.setStrokeColorRGB(*ACC)
+    c.setLineWidth(0.8)
+    c.setDash(2, 3)
+    c.line(xx, cy0, xx, cy0 + ch)
+    c.setDash()
+    mono(c, 'RIEGO', xx - 9, cy0 + ch + 4, 5, ACC)
+for i, (lab, col) in enumerate([('-20', GRN), ('-40', (0.35, 0.62, 0.95)), ('-60', AMB)]):
+    lx = cx0 + 6 + i * 44
+    c.setStrokeColorRGB(*col)
+    c.setLineWidth(2)
+    c.line(lx, cy0 + 8, lx + 12, cy0 + 8)
+    mono(c, lab + ' CM', lx + 16, cy0 + 5.6, 5.5, MUT)
+# rail derecho
+rx = wx + ww - 296
+glass(c, rx, wy + 16, 280, wh - 48, 6, edge=ACC)
+mono(c, 'RECOMENDACIÓN', rx + 14, wy + wh - 52, 6, MUT)
+c.setFont('Big', 22)
+c.setFillColorRGB(*FG)
+c.drawString(rx + 14, wy + wh - 78, 'REGAR 11 mm · JUE 06:00')
+wrap_sans(c, 'La banda de -20 cm cruza el umbral mañana; -60 cm conserva reserva. Lámina corta para no percolar.',
+          rx + 14, wy + wh - 96, 252, 8, 11, MUT)
+mono(c, '= 110 M³ · 9.6 L/S → 3 H 11 MIN', rx + 14, wy + wh - 124, 6.8, ACC, bold=True)
+c.setStrokeColorRGB(*EDGE)
+c.line(rx + 14, wy + wh - 134, rx + 266, wy + wh - 134)
+mono(c, 'ALERTAS', rx + 14, wy + wh - 148, 6, MUT)
+for i, (t, s, col) in enumerate([
+        ('RIESGO DE HELADA 02:40', 'T PRONOSTICADA -1.2 °C · ACTIVAR DEFENSA', AMB),
+        ('HOJA MOJADA 9 H SEGUIDAS', 'VENTANA DE HONGOS · REVISAR PROGRAMA', AMB),
+        ('VWC -20 BAJO UMBRAL', 'SECTOR 3 · CONFIRMAR RIEGO DE ANOCHE', ACC)]):
+    ay = wy + wh - 170 - i * 34
+    c.setFillColorRGB(*col)
+    c.circle(rx + 20, ay + 8, 2.4, stroke=0, fill=1)
+    mono(c, t, rx + 30, ay + 6, 6.8, FG, bold=True)
+    mono(c, s, rx + 30, ay - 4, 5.4, MUT)
+c.setStrokeColorRGB(*EDGE)
+c.line(rx + 14, wy + 74, rx + 266, wy + 74)
+mono(c, 'SALUD DE LA ESTACIÓN', rx + 14, wy + 62, 6, MUT)
+mono(c, 'BAT 3.29 V ||| CARGANDO · RSSI -97 dBm · ÚLT. PAQUETE 00:12', rx + 14, wy + 48, 5.6, GRN)
+mono(c, 'DESECANTE OK · PRÓX. SERVICIO 180 D', rx + 14, wy + 36, 5.6, MUT)
+# chips de features
+chips = ['RIEGO POR VOLUMEN', 'MULTI-PARCELA', 'ALERTAS PUSH', 'REPORTES PDF', 'API ABIERTA',
+         'OTA LORAWAN', 'GEMELO DIGITAL 3D', 'PRONÓSTICO ML']
+cxx = 56
+for ch_ in chips:
+    wch = mono_w(ch_, 6) + 16
+    c.setStrokeColorRGB(*EDGE)
+    c.setLineWidth(0.7)
+    c.roundRect(cxx, 56, wch, 15, 7.5, stroke=1, fill=0)
+    mono(c, ch_, cxx + 8, 60.5, 6, MUT)
+    cxx += wch + 8
+foot(c, 4, 'LA PLATAFORMA · CONCEPTO')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 05 · COBERTURA Y ZONAS
+bg(c)
+kicker(c, 5, 'COBERTURA Y ZONAS')
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'COBERTURA Y ZONAS DE MANEJO')
+mono(c, 'VISTA DE FLOTA · MAPA LoRaWAN + RIEGO VARIABLE · CONCEPTO ILUSTRATIVO · DATOS SIMULADOS', 58, PH - 80, 7, AMB, bold=True)
+
+
+def seq_blue(t):
+    a, b = (0.84, 0.89, 0.97), (0.09, 0.19, 0.52)   # claro → azul profundo (secuencial 1 hue)
+    return tuple(a[k] + (b[k] - a[k]) * t for k in range(3))
+
+
+# ── PANEL IZQ · mapa de cobertura LoRaWAN ────────────────────────────────────
+lx, ly, lw, lh = 56, 166, 352, 334
+glass(c, lx, ly, lw, lh, 8)
+mono(c, 'MAPA DE COBERTURA LoRaWAN · UNA FLOTA, UN GATEWAY', lx + 14, ly + lh - 16, 6.5, MUT)
+c.saveState()
+p = c.beginPath()
+p.roundRect(lx + 2, ly + 2, lw - 4, lh - 30, 6)
+c.clipPath(p, stroke=0, fill=0)
+gx, gy = lx + 132, ly + 150
+# parcelas de fondo
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.6)
+for (px, py, pw2, ph2) in [(gx - 40, gy - 30, 150, 110), (gx + 70, gy + 60, 120, 90),
+                           (gx - 90, gy + 40, 90, 80), (gx + 40, gy - 120, 130, 90)]:
+    c.roundRect(px, py, pw2, ph2, 4, stroke=1, fill=0)
+# anillos de cobertura (2 / 5 / 15 km) — secuencial por intensidad de señal
+for r, km, al in [(150, '15 KM', 0.05), (100, '5 KM', 0.09), (52, '2 KM', 0.15)]:
+    c.setFillColorRGB(*ACC)
+    c.setFillAlpha(al)
+    c.circle(gx, gy, r, stroke=0, fill=1)
+    c.setFillAlpha(1)
+    c.setStrokeColorRGB(*ACC)
+    c.setStrokeAlpha(0.5)
+    c.setLineWidth(0.8)
+    c.circle(gx, gy, r, stroke=1, fill=0)
+    c.setStrokeAlpha(1)
+    mono(c, km, gx + r * 0.70 - 8, gy + r * 0.70, 5.6, ACC, bold=True)
+# estaciones (marcas ≥8px, con anillo de 2px sobre solapamiento)
+for dx, dy in [(-30, 20), (35, 45), (78, -20), (-55, -30), (60, 92), (-70, 60), (100, 30), (18, -70)]:
+    c.setFillColorRGB(*INK)
+    c.circle(gx + dx, gy + dy, 4.6, stroke=0, fill=1)
+    c.setFillColorRGB(*GRN)
+    c.circle(gx + dx, gy + dy, 3.2, stroke=0, fill=1)
+# gateway (marca distinta: mástil + rombo)
+c.setStrokeColorRGB(*FG)
+c.setLineWidth(1.4)
+c.line(gx, gy, gx, gy + 16)
+c.setFillColorRGB(*AMB)
+c.saveState()
+c.translate(gx, gy + 16)
+c.rotate(45)
+c.rect(-4.2, -4.2, 8.4, 8.4, stroke=0, fill=1)
+c.restoreState()
+c.setFillColorRGB(*INK)
+c.circle(gx, gy, 3.4, stroke=0, fill=1)
+c.setFillColorRGB(*AMB)
+c.circle(gx, gy, 2.0, stroke=0, fill=1)
+c.restoreState()
+# leyenda del mapa
+lyy = ly + 14
+c.setFillColorRGB(*GRN)
+c.circle(lx + 18, lyy + 3, 3.2, stroke=0, fill=1)
+mono(c, 'ESTACIÓN B1.5', lx + 26, lyy, 6, MUT)
+c.setFillColorRGB(*AMB)
+c.saveState(); c.translate(lx + 150, lyy + 3); c.rotate(45); c.rect(-3, -3, 6, 6, stroke=0, fill=1); c.restoreState()
+mono(c, 'GATEWAY', lx + 160, lyy, 6, MUT)
+c.setStrokeColorRGB(*ACC); c.setLineWidth(0.9); c.circle(lx + 244, lyy + 3, 4, stroke=1, fill=0)
+mono(c, 'COBERTURA', lx + 252, lyy, 6, MUT)
+
+# ── PANEL DER · zonas de manejo (riego variable) ─────────────────────────────
+rx, ry, rw, rh = 434, 166, 352, 334
+glass(c, rx, ry, rw, rh, 8)
+mono(c, 'ZONAS DE MANEJO · RIEGO VARIABLE POR SECTOR', rx + 14, ry + rh - 16, 6.5, MUT)
+hx, hy, hw, hh = rx + 16, ry + 54, rw - 32, rh - 92
+cols, rows = 16, 10
+cw, ch = hw / cols, hh / rows
+# contorno irregular de parcela (no un cuadrado): límite de campo real
+FIELD = [(0.04, 0.40), (0.14, 0.86), (0.46, 0.99), (0.72, 0.93), (0.99, 0.60),
+         (0.93, 0.20), (0.66, 0.04), (0.30, 0.02), (0.10, 0.14)]
+fpts = [(hx + u * hw, hy + v * hh) for u, v in FIELD]
+c.saveState()
+fp = c.beginPath()
+fp.moveTo(*fpts[0])
+for pt in fpts[1:]:
+    fp.lineTo(*pt)
+fp.close()
+c.clipPath(fp, stroke=0, fill=0)   # las celdas se recortan a la forma de la parcela
+for i in range(cols):
+    for j in range(rows):
+        u, v = (i + 0.5) / cols, (j + 0.5) / rows
+        nv = 0.5 + 0.36 * math.sin(3.0 * u + 0.5) * math.cos(2.5 * v + 0.4) + 0.14 * (0.5 - v)
+        nv = max(0.06, min(0.95, nv))
+        c.setFillColorRGB(*seq_blue(nv))
+        c.rect(hx + i * cw + 0.5, hy + j * ch + 0.5, cw - 1.0, ch - 1.0, stroke=0, fill=1)
+c.restoreState()
+# límite de la parcela dibujado
+c.setStrokeColorRGB(*ACC)
+c.setStrokeAlpha(0.55)
+c.setLineWidth(1.3)
+fp2 = c.beginPath()
+fp2.moveTo(*fpts[0])
+for pt in fpts[1:]:
+    fp2.lineTo(*pt)
+fp2.close()
+c.drawPath(fp2, stroke=1, fill=0)
+c.setStrokeAlpha(1)
+# etiquetas de zona: la recomendación se lee del propio color (nv) debajo,
+# así 'más oscuro = más necesidad = más lámina' siempre es coherente.
+def nv_at(u, v):
+    val = 0.5 + 0.36 * math.sin(3.0 * u + 0.5) * math.cos(2.5 * v + 0.4) + 0.14 * (0.5 - v)
+    return max(0.06, min(0.95, val))
+
+
+def reco(nv):
+    if nv >= 0.6:
+        return 'NEC. ALTA', '+30 % · 14 mm'
+    if nv >= 0.4:
+        return 'NEC. MEDIA', 'BASE · 11 mm'
+    return 'NEC. BAJA', '−20 % · 8 mm'
+
+
+for zi, (uu, vv) in enumerate([(0.28, 0.12), (0.64, 0.52), (0.34, 0.88)]):
+    zx, zy = hx + hw * uu, hy + hh * vv
+    zt, zl = reco(nv_at(uu, vv))
+    zt = f'ZONA {chr(65 + zi)} · {zt}'
+    w_ = 92
+    c.setFillColorRGB(*INK); c.setFillAlpha(0.74)
+    c.roundRect(zx - w_ / 2, zy - 4, w_, 22, 4, stroke=0, fill=1)
+    c.setFillAlpha(1)
+    c.setStrokeColorRGB(*FG); c.setStrokeAlpha(0.35); c.setLineWidth(0.6)
+    c.roundRect(zx - w_ / 2, zy - 4, w_, 22, 4, stroke=1, fill=0); c.setStrokeAlpha(1)
+    mono(c, zt, zx - w_ / 2 + 7, zy + 9, 6.2, FG, bold=True)
+    mono(c, zl, zx - w_ / 2 + 7, zy + 0.5, 6.4, (0.78, 0.85, 0.97), bold=True)
+# barra de leyenda secuencial
+lgx, lgy, lgw = hx, ry + 22, hw
+for i in range(int(lgw)):
+    c.setFillColorRGB(*seq_blue(i / lgw))
+    c.rect(lgx + i, lgy, 1.4, 8, stroke=0, fill=1)
+mono(c, 'MENOS', lgx, lgy - 10, 5.6, MUT)
+mono(c, 'NECESIDAD DE RIEGO', lgx + lgw / 2 - 26, lgy - 10, 5.6, MUT)
+mono(c, 'MÁS', lgx + lgw - 16, lgy - 10, 5.6, MUT)
+
+# ── franja de cifras de cobertura ────────────────────────────────────────────
+STAT = [('5–15 KM', 'ALCANCE LoS RURAL'), ('1 GATEWAY', 'CUBRE MILES DE HA'),
+        ('1 ESTACIÓN', 'POR ZONA DE MANEJO'), ('CADA 15 MIN', 'MAPA QUE SE ACTUALIZA')]
+sw = (PW - 112) / 4
+for i, (num, sub) in enumerate(STAT):
+    sx = 56 + i * sw
+    if i:
+        c.setStrokeColorRGB(*EDGE); c.setLineWidth(0.6); c.line(sx - 8, 96, sx - 8, 134)
+    c.setFont('Big', 22)
+    c.setFillColorRGB(*(GRN if i < 2 else ACC))
+    c.drawString(sx, 112, num)
+    mono(c, sub, sx + 1, 100, 6, MUT)
+mono(c, 'REFERENCIAS · LoRaWAN LoS RURAL 5–15 KM (TEKTELIC · MINEW) · ZONAS DE MANEJO / RIEGO VARIABLE (UMN EXTENSION · MDPI AGRONOMY) · MAPA ILUSTRATIVO, NO GEORREFERENCIADO', 56, 78, 5.4, MUT)
+foot(c, 5, 'COBERTURA Y ZONAS')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 06 · EL AHORRO
+bg(c)
+kicker(c, 6, 'EL AHORRO')
+c.drawImage(foto_jpg(foto_marco('campo_pivot', 1684, 1190, brillo=0.34, grad_izq=0.5)), 0, 0, PW, PH)
+ruler(c, 36, 60, PH - 60)
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'EL AHORRO, CON FUENTES.')
+mono(c, 'RIEGO GUIADO POR SENSORES DE HUMEDAD — EVIDENCIA PUBLICADA', 58, PH - 80, 7, MUT)
+BIG = [
+    ('10–17 %', 'MENOS AGUA', 'Riego guiado por sensores de humedad: 10–16 % en fresa y almendro con rendimiento máximo (UC ANR); 10–17 % con sistema de apoyo a decisión en Italia.', GRN),
+    ('−28.8 %', 'AGUA EN SISTEMA IOT', 'Sensores capacitivos IoT vs. programación climática convencional en lechuga — estudio revisado por pares (2025).', ACC),
+    ('−16.2 %', 'HORAS DE BOMBEO', 'El mismo estudio IoT: menos horas de bomba, menos energía y desgaste del equipo de riego.', AMB),
+]
+colw = (PW - 112 - 48) / 3
+for i, (num, t, s, col) in enumerate(BIG):
+    x = 56 + i * (colw + 24)
+    y = PH - 175
+    c.setFont('Big', 44)
+    c.setFillColorRGB(*col)
+    c.drawString(x, y, num)
+    c.setStrokeColorRGB(*col)
+    c.setLineWidth(1.6)
+    c.line(x + 2, y - 14, x + 70, y - 14)
+    mono(c, t, x + 2, y - 30, 8, FG, bold=True)
+    wrap_sans(c, s, x + 2, y - 48, colw - 8, 8.3, 11.6, MUT)
+mono(c, 'FUENTES · ucanr.edu/site/irrigation-and-nutrient-management/soil-moisture-sensors · pmc.ncbi.nlm.nih.gov/articles/PMC11902337 · canr.msu.edu (maíz: 48 mm medidos)', 56, PH - 296, 5.8, MUT)
+mono(c, 'LOS PORCENTAJES DEPENDEN DE CULTIVO, SUELO Y PRÁCTICA DE BASE; NO CONSTITUYEN GARANTÍA DE RESULTADO', 56, PH - 306, 5.8, MUT)
+# decisiones que habilita
+c.setStrokeColorRGB(*EDGE)
+c.line(56, PH - 322, PW - 56, PH - 322)
+mono(c, 'LAS DECISIONES QUE HABILITA', 56, PH - 338, 7, FG, bold=True)
+dec = [('CUÁNDO', 'regar: umbral por profundidad, no calendario'),
+       ('CUÁNTO', 'lámina justa: sin percolar bajo la raíz'),
+       ('DÓNDE', 'por sector: cada estación, su parcela'),
+       ('RIESGO', 'helada y hongos: alerta antes del daño'),
+       ('FLOTA', 'mantenimiento predictivo: batería, enlace, desecante')]
+dx = 56
+dw = (PW - 112) / 5
+for k, v in dec:
+    mono(c, k, dx, PH - 358, 8.5, ACC, bold=True)
+    wrap_sans(c, v, dx, PH - 372, dw - 14, 8, 11, MUT)
+    dx += dw
+foot(c, 6, 'EL AHORRO')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 07 · POR CULTIVO, EN VOLUMEN
+bg(c)
+kicker(c, 7, 'POR CULTIVO, EN VOLUMEN')
+ruler(c, 36, 60, PH - 60)
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'POR CULTIVO, EN VOLUMEN')
+mono(c, 'PORCENTAJES PUBLICADOS → METROS CÚBICOS POR HECTÁREA Y TEMPORADA', 58, PH - 80, 7, MUT)
+
+
+def rango_barra(cc, x, y, w, v0, v1, vmax, col, punto=False):
+    cc.setFillColorRGB(*GLASS)
+    cc.roundRect(x, y, w, 9, 4.5, stroke=0, fill=1)
+    if punto:
+        cc.setFillColorRGB(*col)
+        cc.circle(x + w * v0 / vmax, y + 4.5, 4.2, stroke=0, fill=1)
+    else:
+        cc.setFillColorRGB(*col)
+        cc.roundRect(x + w * v0 / vmax, y, w * (v1 - v0) / vmax, 9, 4.5, stroke=0, fill=1)
+
+
+# ── izquierda: % publicado
+mono(c, 'AGUA AHORRADA · % PUBLICADO', 56, PH - 108, 7, FG, bold=True)
+PCT = [('CEREZO · RDI \'SANTINA\' (CL)', 10, 28, AMB, False, '10–28 %'),
+       ('LECHUGA · IOT CAPACITIVO', 28.8, 28.8, ACC, True, '28.8 %'),
+       ('HORTALIZAS · DSS ITALIA', 10, 17, GRN, False, '10–17 %'),
+       ('FRESA · UC ANR', 10, 16, GRN, False, '10–16 %'),
+       ('ALMENDRO · UC ANR', 10, 16, GRN, False, '10–16 %')]
+bx, bw = 56, 260
+yy = PH - 134
+for lab, v0, v1, col, punto, vlab in PCT:
+    mono(c, lab, bx, yy + 14, 6.4, MUT)
+    rango_barra(c, bx, yy, bw, v0, v1, 30, col, punto)
+    c.setFont('Big', 13)
+    c.setFillColorRGB(*FG)
+    c.drawString(bx + bw + 8, yy - 1, vlab)
+    yy -= 36
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.5)
+for v in (0, 10, 20, 30):
+    xx = bx + bw * v / 30
+    c.line(xx, yy + 26, xx, yy + 20)
+    mono(c, str(v), xx - 2, yy + 10, 5.5, MUT)
+
+# ── derecha: m³/ha por temporada
+mono(c, 'EN VOLUMEN · M³/HA POR TEMPORADA', 420, PH - 108, 7, FG, bold=True)
+VOL = [('CEREZO', 800, 2240, '800–2 240'),
+       ('MAÍZ', 500, 1360, '500–1 360'),
+       ('TOMATE', 400, 1360, '400–1 360'),
+       ('CÍTRICOS', 900, 2040, '900–2 040'),
+       ('ALFALFA', 800, 2720, '800–2 720')]
+vx, vw = 420, 280
+yy = PH - 134
+for i, (lab, v0, v1, vlab) in enumerate(VOL):
+    mono(c, lab, vx, yy + 14, 6.4, MUT)
+    rango_barra(c, vx, yy, vw, v0, v1, 2800, AMB if lab == 'CEREZO' else GRN, False)
+    c.setFont('Big', 13)
+    c.setFillColorRGB(*FG)
+    c.drawString(vx + vw + 8, yy - 1, vlab)
+    if lab == 'MAÍZ':  # marcador medido en maíz (MSU/NRCS: 1.9 in ≈ 48 mm)
+        mx = vx + vw * 480 / 2800
+        c.setStrokeColorRGB(*AMB)
+        c.setLineWidth(1.4)
+        c.line(mx, yy - 4, mx, yy + 13)
+        mono(c, 'MEDIDO EN CAMPO: 480 M³/HA (MSU/NRCS)', mx + 6, yy - 4, 5.5, AMB, bold=True)
+    yy -= 36
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.5)
+for v in (0, 1000, 2000, 2800):
+    xx = vx + vw * v / 2800
+    c.line(xx, yy + 26, xx, yy + 20)
+    mono(c, f'{v}', xx - 4, yy + 10, 5.5, MUT)
+mono(c, 'SUPUESTOS · FAO: MAÍZ 500–800 · TOMATE 400–800 · CÍTRICOS 900–1 200 · ALFALFA 800–1 600 MM × AHORRO 10–17 % · CEREZO: 8 000 M³/HA (U. DE CHILE) × RDI 10–28 %', 56, PH - 322, 5.6, MUT)
+mono(c, 'FUENTES · fao.org/4/s2022e/s2022e07.htm · canr.msu.edu · LOS RESULTADOS VARÍAN SEGÚN SUELO, CLIMA Y PRÁCTICA DE BASE', 56, PH - 332, 5.6, MUT)
+
+# ── cierre: volumen, no tiempo
+c.setStrokeColorRGB(*EDGE)
+c.line(56, PH - 348, PW - 56, PH - 348)
+c.setFont('Big', 22)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 380, 'RIEGUE POR VOLUMEN, NO POR TIEMPO.')
+wrap_sans(c, 'Las horas no miden agua: con presión y caudal variables, la misma hora entrega láminas distintas. '
+             'La plataforma recomienda LÁMINA (mm), la convierte a VOLUMEN (metros cúbicos) por sector, y solo al final a tiempo — '
+             'con el caudal real de su equipo.', 56, PH - 400, 430, 8.8, 12.4, MUT)
+fx = 540
+for i, (st, un) in enumerate([('LÁMINA', 'mm'), ('VOLUMEN', 'm³'), ('TIEMPO', 'h')]):
+    cxx = fx + i * 92
+    glass(c, cxx, PH - 412, 76, 40, 5, edge=ACC if i == 1 else EDGE)
+    mono(c, st, cxx + 10, PH - 388, 6, MUT)
+    c.setFont('Big', 16)
+    c.setFillColorRGB(*(ACC if i == 1 else FG))
+    c.drawString(cxx + 10, PH - 406, un)
+    if i < 2:
+        c.setStrokeColorRGB(*EDGE)
+        c.setLineWidth(1.2)
+        c.line(cxx + 78, PH - 392, cxx + 90, PH - 392)
+mono(c, 'EL M³ ES EL DATO QUE FACTURA SU POZO', 540, PH - 424, 5.8, MUT)
+c.drawImage(foto_jpg(foto_marco('campo_goteo', (PW - 112) * 2, 208, brillo=0.8)), 56, 44, PW - 112, 104)
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.8)
+c.rect(56, 44, PW - 112, 104, stroke=1, fill=0)
+mono(c, 'MICRO-RIEGO EN CAMPO · USDA NRCS', 64, 52, 5.6, FG)
+foot(c, 7, 'POR CULTIVO, EN VOLUMEN')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 08 · EL CASO DEL CEREZO
+bg(c)
+kicker(c, 8, 'EL CASO DEL CEREZO')
+ruler(c, 36, 60, PH - 60)
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'EL CASO DEL CEREZO')
+mono(c, 'EL CULTIVO DONDE EL RIEGO DECIDE LA TEMPORADA · DATOS EMPÍRICOS · ZONA CENTRAL DE CHILE', 58, PH - 80, 7, MUT)
+# foto vertical derecha
+c.drawImage(foto_jpg(foto_marco('campo_cerezo', 380, 660, brillo=0.9, mezcla=0.26)), PW - 246, 116, 190, 330)
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.8)
+c.rect(PW - 246, 116, 190, 330, stroke=1, fill=0)
+mono(c, 'HUERTO DE CEREZOS · CC0', PW - 238, 124, 5.4, FG)
+
+# ── la brecha real (m³/ha por temporada)
+mono(c, 'LA BRECHA REAL · M³/HA POR TEMPORADA', 56, PH - 110, 7, FG, bold=True)
+GAP = [('RIEGO SUBJETIVO (SIN DATOS)', 10000, '>10 000', AMB),
+       ('DEMANDA ZONA CENTRAL', 8000, '7 000–8 000', (0.55, 0.62, 0.75)),
+       ('MANEJO TÉCNICO ASESORADO', 5460, '5 460 · 17 T/HA', GRN)]
+yy = PH - 136
+for lab, v, vlab, col in GAP:
+    mono(c, lab, 56, yy + 15, 6.4, MUT)
+    c.setFillColorRGB(*GLASS)
+    c.roundRect(56, yy, 300, 11, 5.5, stroke=0, fill=1)
+    c.setFillColorRGB(*col)
+    c.roundRect(56, yy, 300 * v / 11000, 11, 5.5, stroke=0, fill=1)
+    c.setFont('Big', 15)
+    c.setFillColorRGB(*FG)
+    c.drawString(364, yy - 1, vlab)
+    yy -= 40
+mono(c, 'FUENTES · DIARIOFRUTICOLA.CL · REDAGRICOLA.COM · U. DE CHILE (8 168 M³/HA·AÑO)', 56, yy + 18, 5.4, MUT)
+
+# ── lo que la ciencia permite (RDI post-cosecha, sin penalizar rendimiento)
+mono(c, 'RIEGO DEFICITARIO CONTROLADO POST-COSECHA · SIN PENALIZAR RENDIMIENTO NI CALIDAD', 56, PH - 292, 7, FG, bold=True)
+RDI = [("−39 %", "'PRIME GIANT' · ESPAÑA", GRN), ("−45 %", "'SUMMIT' · AÑO DE BAJA CARGA", GRN), ("10–28 %", "'SANTINA' · 2025", AMB)]
+for i, (num, lab, col) in enumerate(RDI):
+    x = 56 + i * 168
+    c.setFont('Big', 27)
+    c.setFillColorRGB(*col)
+    c.drawString(x, PH - 324, num)
+    mono(c, lab, x + 1, PH - 336, 5.6, MUT)
+mono(c, 'REQUIERE MEDIR EL SUELO: EL DÉFICIT SE CONTROLA, NO SE ADIVINA — EXACTAMENTE LO QUE HACE LA ESTACIÓN', 56, PH - 352, 5.8, ACC, bold=True)
+
+# ── en dinero (solo energía de bombeo, supuestos declarados)
+c.setStrokeColorRGB(*EDGE)
+c.line(56, PH - 366, PW - 296, PH - 366)
+mono(c, 'EN DINERO · SOLO LA ENERGÍA DE BOMBEO QUE NO SE GASTA', 56, PH - 382, 7, FG, bold=True)
+c.setFont('Big', 30)
+c.setFillColorRGB(*GRN)
+c.drawString(56, PH - 414, 'US$ 70–210')
+mono(c, 'POR HA · TEMPORADA', 58, PH - 426, 6, MUT)
+c.setFont('Big', 30)
+c.setFillColorRGB(*GRN)
+c.drawString(240, PH - 414, 'US$ 350–2 100')
+mono(c, 'POR AÑO EN UN SECTOR DE 5–10 HA', 242, PH - 426, 6, MUT)
+mono(c, 'PRECIO POR ESTACIÓN', 462, PH - 404, 6, MUT)
+mono(c, 'EN CONVERSACIÓN DIRECTA', 462, PH - 414, 6.5, FG, bold=True)
+mono(c, 'SUPUESTOS · BRECHA CERRADA 2 000–4 500 M³/HA · POZO 60 M DINÁMICO · EFIC. BOMBA 60 % → 0.27 KWH/M³ · US$ 0.13–0.17/KWH → US$ 0.035–0.046/M³', 56, 92, 5.4, MUT)
+mono(c, 'NO INCLUYE EL VALOR DE LA FRUTA PROTEGIDA NI EL AGUA NO COMPRADA; CON AGUAS SUPERFICIALES EL BENEFICIO ES DISPONIBILIDAD, NO ENERGÍA', 56, 82, 5.4, MUT)
+mono(c, 'RDI · SCIENCEDIRECT (S0304423819300925) · SPRINGER (S00271-009-0174-Z) · PMC12693967 — RESULTADOS VARÍAN POR HUERTO Y PORTAINJERTO', 56, 72, 5.4, MUT)
+foot(c, 8, 'EL CASO DEL CEREZO')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 09 · A ESCALA DE SU CAMPO
+bg(c)
+kicker(c, 9, 'A ESCALA DE SU CAMPO')
+ruler(c, 36, 60, PH - 60)
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'A ESCALA DE SU CAMPO')
+mono(c, 'EL AHORRO ESCALA CON LAS HECTÁREAS; UNA ESTACIÓN POR SECTOR DE RIEGO', 58, PH - 80, 7, MUT)
+HA = [(10, '8 000', 3, '1–2'), (50, '40 000', 16, '5–10'), (100, '80 000', 32, '10–20'), (500, '400 000', 160, '50–100')]
+colw = (PW - 112 - 72) / 4
+import math as _m
+for i, (ha, m3, pisc, est) in enumerate(HA):
+    x = 56 + i * (colw + 24)
+    barh = 26 + 118 * _m.sqrt(ha / 500)
+    c.setFillColorRGB(*GLASS)
+    c.roundRect(x, PH - 300, colw, barh, 6, stroke=0, fill=1)
+    c.setStrokeColorRGB(*GRN)
+    c.setLineWidth(1)
+    c.roundRect(x, PH - 300, colw, barh, 6, stroke=1, fill=0)
+    mono(c, f'{ha} HA', x + 12, PH - 300 + barh - 16, 7.5, GRN, bold=True)
+    c.setFont('Big', 24)
+    c.setFillColorRGB(*FG)
+    c.drawString(x + 12, PH - 330, m3)
+    mono(c, 'M³/AÑO NO BOMBEADOS', x + 12, PH - 342, 5.6, MUT)
+    mono(c, f'≈ {pisc} PISCINAS OLÍMPICAS', x + 12, PH - 356, 6.2, ACC, bold=True)
+    mono(c, f'{est} ESTACIONES', x + 12, PH - 370, 6.2, MUT)
+mono(c, 'SUPUESTO · 800 M³/HA·AÑO (CASO MEDIO MAÍZ FAO × 10–17 %) · PISCINA OLÍMPICA ≈ 2 500 M³ · 1 ESTACIÓN POR SECTOR HOMOGÉNEO DE RIEGO (TÍP. 5–10 HA)', 56, PH - 392, 5.6, MUT)
+wrap_sans(c, 'Cada metro cúbico no bombeado también ahorra energía y desgaste del equipo (−16.2 % de horas de bomba en el estudio IoT). '
+             'El retorno monetario depende de su tarifa de agua y energía: la plataforma lo calculará con sus datos reales.',
+          56, PH - 410, 520, 8.5, 12, MUT)
+c.setStrokeColorRGB(*EDGE)
+c.line(56, 116, PW - 56, 116)
+c.setFont('Big', 22)
+c.setFillColorRGB(*FG)
+c.drawString(56, 74, 'HABLEMOS DE SU CAMPO.')
+mono(c, 'PRECIO Y CONDICIONES EN CONVERSACIÓN DIRECTA · CONTRERAS.SMA@GMAIL.COM', 300, 80, 6.8, ACC, bold=True)
+foot(c, 9, 'A ESCALA DE SU CAMPO')
+c.showPage()
+
+# ═══════════════════════════════════════════════════ 10 · RUTA + CTA
+bg(c)
+kicker(c, 10, 'LA RUTA')
+img = cropped('cabezal', 60)
+draw_img(c, img, PW - 300, 60, 250, PH - 140)
+ruler(c, 36, 60, PH - 60)
+c.setFont('Big', 30)
+c.setFillColorRGB(*FG)
+c.drawString(56, PH - 64, 'LA RUTA')
+mono(c, 'FASES PROPUESTAS — EL HARDWARE DE LA FASE 0 YA ESTÁ DISEÑADO Y VERIFICADO', 58, PH - 80, 7, MUT)
+FASES = [
+    ('F0 · HOY', 'HARDWARE V3 VERIFICADO', 'Diseño paramétrico completo: 37 piezas, 138/138 pruebas geométricas, manual de ensamble y BOM auditable.', GRN),
+    ('F1', 'PILOTO EN CAMPO', 'Primeras estaciones instaladas; telemetría cruda en la nube y calibración por cultivo con datos reales.', ACC),
+    ('F2', 'PLATAFORMA WEB', 'Dashboard multi-parcela, alertas push, recomendación de lámina y reportes — el concepto de la lámina 04.', ACC),
+    ('F3', 'FLOTA + ML', 'Pronóstico de secado del perfil, riego prescriptivo por sector y mantenimiento predictivo de la flota.', AMB),
+]
+tx0, tx1 = 70, PW - 340
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(1)
+c.line(tx0, PH - 150, tx1, PH - 150)
+for i, (f, t, s, col) in enumerate(FASES):
+    x = tx0 + i * (tx1 - tx0) / 3.3
+    c.setFillColorRGB(*col)
+    c.circle(x, PH - 150, 4 if i else 5.2, stroke=0, fill=1)
+    mono(c, f, x - 4, PH - 138, 7, col, bold=True)
+    mono(c, t, x - 4, PH - 170, 7.5, FG, bold=True)
+    wrap_sans(c, s, x - 4, PH - 184, 118, 7.6, 10.4, MUT)
+# cierre
+c.setFont('Big', 24)
+c.setFillColorRGB(*FG)
+c.drawString(56, 160, 'MENOS AGUA. MEJORES DECISIONES.')
+c.setFont('Big', 24)
+c.setFillColorRGB(*MUT)
+c.drawString(56, 132, 'UN POSTE A LA VEZ.')
+mono(c, 'DISPONIBLE HOY · GEMELO DIGITAL 3D NAVEGABLE DE LA ESTACIÓN — PIDA LA DEMO', 56, 112, 6.8, GRN, bold=True)
+mono(c, 'CONTACTO · CONTRERAS.SMA@GMAIL.COM', 56, 96, 7.5, ACC, bold=True)
+mono(c, 'REPOSITORIO DE DISEÑO AUDITABLE · METODO FOTO3D · CAPA USER', 56, 82, 6, MUT)
+mono(c, 'FOTOS DE CAMPO · USDA NRCS / USACE (DOM. PÚBLICO) · JERNEJ FURMAN (CC BY 2.0) · WIKIMEDIA (CC0) · EDITADAS: RECORTE + DUOTONO', 56, 40, 5.2, MUT)
+xb = 56
+for tag in ['EN ISO 1452', 'ISO 3601', 'DIN 912 A4', 'OMM Nº 8', 'IEC 61076', 'LORAWAN']:
+    wch = mono_w(tag, 6) + 14
+    c.setStrokeColorRGB(*EDGE)
+    c.roundRect(xb, 52, wch, 14, 7, stroke=1, fill=0)
+    mono(c, tag, xb + 7, 56, 6, MUT)
+    xb += wch + 7
+foot(c, 10, 'LA RUTA')
+c.showPage()
+
+c.save()
+print(f'OK {OUT} ({os.path.getsize(OUT) // 1024} KB, {TOTAL} láminas)')

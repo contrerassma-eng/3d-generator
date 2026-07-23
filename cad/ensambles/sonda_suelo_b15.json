@@ -1,0 +1,8164 @@
+{
+ "format": "foto3d-cad",
+ "version": 1,
+ "meta": {
+  "nombre": "Estación de suelo+clima B1.5 v3 — cabezal cilíndrico coaxial, alturas OMM",
+  "proyecto": "SONDA-SUELO-IND",
+  "capa": "user",
+  "variante": "smt50-v3",
+  "subtitulo": "SMT50 ×3 (±2 %) · cabezal Ø125 EN ISO 1452 + tóricas ISO 3601 · T/HR 1.5 m OMM · pluvio 1.24 m · entradas bajo el disco",
+  "etiquetaSensor": "SMT50",
+  "fuente": "gen_estacion_b15.mjs — v3: cabezal cilíndrico compacto en norma (tubo EN ISO 1452 + tóricas ISO 3601 regla Parker). Manual/dossier: manual_b15_capturas.mjs + manual_b15_pdf.py",
+  "fecha": "2026-07-20",
+  "desviaciones": [
+   "v3 (pedido del usuario): la caja rectangular lateral de v2 se reemplaza por un CABEZAL CILÍNDRICO COMPACTO coaxial al poste — base/tapa torneadas POM-C + cuerpo de tubo estándar EN ISO 1452 DN125 y tóricas ISO 3601 en gargantas regla Parker; desaparecen el cap, las 2 abrazaderas del gabinete y TODOS los prensaestopas de cable.",
+   "El acceso de servicio sube de 1.15 m (puerta de v2) a ~1.9 m (tapa superior, 4×M4): aceptado a cambio de eliminar todas las penetraciones de cable exteriores; se alcanza de pie, sin escalera.",
+   "La electrónica pasa de placa de espalda rectangular a placa portadora circular Ø100 (mismos módulos WisBlock/ADS1115/BMS/bornera).",
+   "Pluviómetro compacto: no cumple la regla 2× de OMM respecto del propio poste (sesgo declarado, común a toda estación integrada)."
+  ],
+  "explode": {
+   "punta": [
+    0,
+    0,
+    -130
+   ],
+   "sensor1": [
+    170,
+    0,
+    0
+   ],
+   "pasamuro1": [
+    80,
+    0,
+    0
+   ],
+   "sensor2": [
+    -84.99999999999996,
+    147.2243186433546,
+    0
+   ],
+   "pasamuro2": [
+    -39.999999999999986,
+    69.2820323027551,
+    0
+   ],
+   "sensor3": [
+    -85.00000000000007,
+    -147.22431864335454,
+    0
+   ],
+   "pasamuro3": [
+    -40.000000000000036,
+    -69.28203230275508,
+    0
+   ],
+   "torica_punta": [
+    0,
+    0,
+    -80
+   ],
+   "transicion": [
+    0,
+    0,
+    110
+   ],
+   "prensa_trans": [
+    0,
+    0,
+    180
+   ],
+   "collar": [
+    150,
+    0,
+    -30
+   ],
+   "tapon_hinca": [
+    80,
+    -40,
+    0
+   ],
+   "pilar": [
+    0,
+    0,
+    150
+   ],
+   "cabezal_base": [
+    0,
+    0,
+    90
+   ],
+   "torica_base": [
+    0,
+    0,
+    150
+   ],
+   "cabezal_cuerpo": [
+    0,
+    0,
+    430
+   ],
+   "torica_tapa": [
+    0,
+    0,
+    505
+   ],
+   "cabezal_tapa": [
+    0,
+    0,
+    560
+   ],
+   "columnas": [
+    0,
+    0,
+    260
+   ],
+   "portapilas": [
+    0,
+    0,
+    195
+   ],
+   "baterias": [
+    0,
+    0,
+    230
+   ],
+   "pcb": [
+    0,
+    0,
+    300
+   ],
+   "desecante": [
+    0,
+    0,
+    210
+   ],
+   "m12": [
+    0,
+    -70,
+    -130
+   ],
+   "m12_tapa": [
+    0,
+    -70,
+    -180
+   ],
+   "vent": [
+    0,
+    70,
+    -130
+   ],
+   "escudo_thr": [
+    170,
+    0,
+    0
+   ],
+   "pluviometro": [
+    -190,
+    0,
+    40
+   ],
+   "sensor_hoja": [
+    140,
+    90,
+    0
+   ],
+   "soporte_panel": [
+    0,
+    120,
+    60
+   ],
+   "panel": [
+    0,
+    180,
+    120
+   ],
+   "antena": [
+    0,
+    0,
+    640
+   ],
+   "cable_pluvio": [
+    -90,
+    0,
+    30
+   ],
+   "cable_escudo": [
+    90,
+    0,
+    30
+   ],
+   "cable_panel": [
+    0,
+    90,
+    40
+   ],
+   "cable_hoja": [
+    100,
+    60,
+    0
+   ]
+  },
+  "pasos": [
+   {
+    "n": 1,
+    "t": "Recepción y verificación",
+    "partes": [],
+    "texto": "BOM completa; tórica sin mordeduras; probar los 3 SMT50 en banco (aire/agua: V/3·50) y rotularlos por profundidad; nodo + carga solar OK."
+   },
+   {
+    "n": 2,
+    "t": "Punta → tubo",
+    "partes": [
+     "punta",
+     "torica_punta",
+     "tubo"
+    ],
+    "texto": "Engrasar tórica (Molykote 111), epoxi estructural en el collar (no sobre la tórica), insertar a tope con giro 90°. Curado 24 h vertical."
+   },
+   {
+    "n": 3,
+    "t": "Pasamuros POM-C",
+    "partes": [
+     "tubo",
+     "pasamuro1",
+     "pasamuro2",
+     "pasamuro3"
+    ],
+    "texto": "Pegar cada pasamuro en su Ø35 con epoxi estructural, ranura vertical. Curado 24 h."
+   },
+   {
+    "n": 4,
+    "t": "Sensores SMT50 + potting",
+    "partes": [
+     "sensor1",
+     "sensor2",
+     "sensor3",
+     "tubo"
+    ],
+    "texto": "Insertar hojas por las ranuras (zona sensora íntegra fuera del tubo), subir los 3 cables rotulados, potting PU hasta enrasar la brida."
+   },
+   {
+    "n": 5,
+    "t": "Transición cementada",
+    "partes": [
+     "transicion",
+     "prensa_trans",
+     "tubo"
+    ],
+    "texto": "CEMENTAR el terminal (cemento PVC presión, 1/4 de giro). Pegar el disco POM. Pasar el bus por su Skintop (2.5 N·m): conducto aislado del cuerpo. Curado 24 h."
+   },
+   {
+    "n": 6,
+    "t": "Poste y pesca de cables",
+    "partes": [
+     "pilar",
+     "transicion"
+    ],
+    "texto": "PTFE + anaerobio y roscar el poste a la transición (llave en el hex del fitting). Pesca con cinta guía desde el tope hacia cada pasacables lateral (pluvio, escudo, panel, hoja) y dejar hilos de nylon dentro. Subir el bus por el ánima hasta el tope. Zinc-rich."
+   },
+   {
+    "n": 7,
+    "t": "Cabezal: base al poste y entradas inferiores",
+    "partes": [
+     "cabezal_base",
+     "pilar",
+     "m12",
+     "m12_tapa",
+     "vent"
+    ],
+    "texto": "PTFE + anaerobio y roscar la BASE del cabezal al hilo superior (llave en el hex SW54), orientando el pasa-piso al NE. Sacar todos los cables por el conducto central y el pasa-piso Ø15. Roscar bajo el disco el receptáculo M12 de servicio (grasa dieléctrica + tapa) y la válvula Gore — quedan a la sombra, sin sol ni chorro."
+   },
+   {
+    "n": 8,
+    "t": "Electrónica (pila vertical)",
+    "partes": [
+     "columnas",
+     "portapilas",
+     "baterias",
+     "pcb",
+     "desecante"
+    ],
+    "texto": "3 columnas M4 al piso, portapilas con 2×26650 verticales, placa portadora circular Ø100 (nodo WisBlock + ADS1115 + BMS + bornera; pantalla a tierra en un punto) sobre las columnas, desecante al piso. SMT50 a canales 0–2 + T multiplexada."
+   },
+   {
+    "n": 9,
+    "t": "Cuerpo, tapa y antena",
+    "partes": [
+     "cabezal_cuerpo",
+     "torica_base",
+     "torica_tapa",
+     "cabezal_tapa",
+     "antena"
+    ],
+    "texto": "Engrasar la tórica de la base (Molykote 111), calzar el tubo DN125 y fijar los 4 DIN 912 M4 radiales inferiores (0.8 N·m). Conectar el jumper u.FL → pasamuro N/SMA, engrasar la tórica de la tapa, calzarla y fijar los 4 M4 superiores. Roscar la antena a la torreta."
+   },
+   {
+    "n": 10,
+    "t": "Prueba de estanqueidad (GATE)",
+    "partes": [
+     "punta",
+     "tubo",
+     "transicion",
+     "cabezal_cuerpo"
+    ],
+    "texto": "Sonda: vacío −20 kPa 5 min o inmersión 1 m 30 min. Cabezal armado: inmersión 30 min con testigo de humedad. NO se instala sin pasar."
+   },
+   {
+    "n": 11,
+    "t": "Instalación en terreno",
+    "partes": [
+     "tapon_hinca",
+     "collar",
+     "tubo",
+     "punta"
+    ],
+    "texto": "Pilotar Ø45 a 750. Hincar con cap+taco hasta tubo a +50. Lechada nativa + bentonita últimos 300. Collar al ras. Roscar el poste completo. ATERRAR (pica 1.2 m)."
+   },
+   {
+    "n": 12,
+    "t": "Instrumentos y puesta en marcha",
+    "partes": [
+     "escudo_thr",
+     "pluviometro",
+     "sensor_hoja",
+     "soporte_panel",
+     "panel",
+     "cable_pluvio",
+     "cable_escudo",
+     "cable_panel",
+     "cable_hoja"
+    ],
+    "texto": "Escudo T/HR a 1.50 m (OMM). Pluviómetro en su ménsula: NIVELAR ±1° y pincho antipájaros. Hoja al follaje. Panel al NORTE (20°). Cada cable entra al poste por su pasacables y sube al cabezal. Verificar canales y LoRaWAN; bitácora."
+   }
+  ],
+  "bom": [
+   {
+    "item": 1,
+    "id": "punta",
+    "desig": "Punta cónica 316L",
+    "mat": "316L torneado",
+    "cant": 1,
+    "nota": "Única pieza torneada de acero; tórica 36×3 FKM"
+   },
+   {
+    "item": 2,
+    "id": "tubo",
+    "desig": "Tubo portante PVC-U Ø50×3.7 L700",
+    "mat": "EN 1452 PN16",
+    "cant": 1,
+    "nota": "Solo enterrado (dieléctrico)"
+   },
+   {
+    "item": 3,
+    "id": "sensor1",
+    "desig": "Sensor Truebner SMT50 (0–3 V)",
+    "mat": "Truebner directo, EUR 71 c/u",
+    "cant": 3,
+    "nota": "135×21.5, ±2 % VWC minerales, 0–50 %, −20…+85 °C (ficha 01/2018)"
+   },
+   {
+    "item": 4,
+    "id": "pasamuro1",
+    "desig": "Pasamuro POM-C + potting PU",
+    "mat": "POM-C",
+    "cant": 3,
+    "nota": "Ranura 23×9; epoxi estructural en Ø35"
+   },
+   {
+    "item": 5,
+    "id": "torica_punta",
+    "desig": "Tórica ISO 3601 36×3",
+    "mat": "FKM 75 Sh",
+    "cant": 1,
+    "nota": "Garganta Parker 37.6/2.4/4.0 (17 %)"
+   },
+   {
+    "item": 6,
+    "id": "transicion",
+    "desig": "Terminal PVC-U Ø50 cementado × hembra 1 1/2\" + disco POM M16",
+    "mat": "PVC-U + POM",
+    "cant": 1,
+    "nota": "Unión CEMENTADA PN16; el disco porta el Skintop que aísla el conducto"
+   },
+   {
+    "item": 7,
+    "id": "prensa_trans",
+    "desig": "Skintop MS-M16 transición",
+    "mat": "Latón Ni",
+    "cant": 1,
+    "nota": "2.5 N·m"
+   },
+   {
+    "item": 8,
+    "id": "pilar",
+    "desig": "Poste NPS 1 1/2\" SCH40 × 1669, hilo en puntas",
+    "mat": "A53 galv. caliente",
+    "cant": 1,
+    "nota": "Cableado 100 % interior; pasacables de goma por instrumento; retoque zinc-rich"
+   },
+   {
+    "item": 9,
+    "id": "cabezal_base",
+    "desig": "Cabezal: base torneada hembra 1 1/2\" NPT + disco de entradas + espiga",
+    "mat": "POM-C (o Al 6082 anodizado)",
+    "cant": 1,
+    "nota": "Conducto central Ø30 → plenum → pasa-piso Ø15; garganta tórica regla Parker; hex SW54"
+   },
+   {
+    "item": 10,
+    "id": "cabezal_cuerpo",
+    "desig": "Cabezal: cuerpo tubo PVC-U DN125 PN16 × 150 (Ø125×7.4)",
+    "mat": "EN ISO 1452-2",
+    "cant": 1,
+    "nota": "Corte de tubo estándar de catálogo; 4+4 pasos M4 radiales"
+   },
+   {
+    "item": 11,
+    "id": "cabezal_tapa",
+    "desig": "Cabezal: tapa torneada c/goterón y pasamuro N/SMA",
+    "mat": "POM-C",
+    "cant": 1,
+    "nota": "Espiga con garganta Parker; goterón perimetral; torreta de antena"
+   },
+   {
+    "item": 12,
+    "id": "torica_base",
+    "desig": "2× tórica ISO 3601 104×3",
+    "mat": "FKM 75 Sh",
+    "cant": 2,
+    "nota": "Garganta radial Ø105.0 / prof. 2.55 / W 4.0 — apriete 15 % (regla Parker); Molykote 111"
+   },
+   {
+    "item": 13,
+    "id": "pcb",
+    "desig": "Nodo WisBlock + ADS1115 + BMS + bornera en placa portadora circular Ø100",
+    "mat": "RAK + FR4",
+    "cant": 1,
+    "nota": "VWC=V/3·50; T=(V−0.5)/0.01 (ficha SMT50); sobre 3 columnas M4"
+   },
+   {
+    "item": 14,
+    "id": "baterias",
+    "desig": "2× LiFePO4 26650 + portapilas al piso (celdas verticales)",
+    "mat": "—",
+    "cant": 1,
+    "nota": "Pila vertical: aprovecha la sección circular"
+   },
+   {
+    "item": 16,
+    "id": "m12",
+    "desig": "M12 A-cod servicio + tapa c/cadenilla (bajo el disco)",
+    "mat": "IEC 61076-2-101",
+    "cant": 1,
+    "nota": "Grasa dieléctrica; cara inferior del disco: sombra permanente"
+   },
+   {
+    "item": 17,
+    "id": "vent",
+    "desig": "Válvula Gore M12 (bajo el disco)",
+    "mat": "ePTFE",
+    "cant": 1,
+    "nota": "Abajo: nunca sol directo ni chorro"
+   },
+   {
+    "item": 18,
+    "id": "desecante",
+    "desig": "Cápsula desecante Ø18 recambiable",
+    "mat": "Sílica gel",
+    "cant": 1,
+    "nota": "Al piso del cabezal; cambiar en cada servicio"
+   },
+   {
+    "item": 19,
+    "id": "escudo_thr",
+    "desig": "SHT40 + escudo de radiación a 1.50 m",
+    "mat": "ASA/PC",
+    "cant": 1,
+    "nota": "OMM N.º 8: T/HR a 1.25–2 m — CUMPLE"
+   },
+   {
+    "item": 20,
+    "id": "pluviometro",
+    "desig": "Pluviómetro balancín Ø160 en ménsula al poste",
+    "mat": "ABS UV + reed",
+    "cant": 1,
+    "nota": "Boca 1.235 m; 2 abrazaderas U + cartela; NIVELAR ±1°; pincho antipájaros; sesgo por poste cercano declarado (regla 2× OMM no aplica en estación compacta)"
+   },
+   {
+    "item": 21,
+    "id": "sensor_hoja",
+    "desig": "Humedad de hoja capacitiva",
+    "mat": "FR4 recubierto",
+    "cant": 1,
+    "nota": "Al follaje a altura de fruta"
+   },
+   {
+    "item": 22,
+    "id": "panel",
+    "desig": "Panel 5 W ETFE + soporte al poste 20°",
+    "mat": "Al",
+    "cant": 1,
+    "nota": "Al NORTE (ecuador); cable interior al poste"
+   },
+   {
+    "item": 23,
+    "id": "antena",
+    "desig": "Antena 868/915 2 dBi sobre pasamuro N/SMA de la tapa (~2.15 m)",
+    "mat": "FV",
+    "cant": 1,
+    "nota": "Jumper u.FL → N/SMA interior al cabezal"
+   },
+   {
+    "item": 24,
+    "id": "collar",
+    "desig": "Collar antipercolación HDPE Ø160",
+    "mat": "HDPE 6 mm",
+    "cant": 1,
+    "nota": "Sobre bentonita"
+   },
+   {
+    "item": 25,
+    "id": "tapon_hinca",
+    "desig": "Cap PVC + taco (hinca)",
+    "mat": "PVC/madera",
+    "cant": 1,
+    "nota": "1 por flota"
+   },
+   {
+    "item": 26,
+    "id": null,
+    "desig": "Kit 3× abrazadera U 1 1/2\" inox c/placa",
+    "mat": "A2/A4",
+    "cant": 1,
+    "nota": "2 pluvio + 1 escudo (panel trae la suya; el cabezal va roscado, sin abrazaderas)"
+   },
+   {
+    "item": 29,
+    "id": null,
+    "desig": "Kit pasacables de goma (4× Ø10/Ø8) + cinta pasacables",
+    "mat": "EPDM",
+    "cant": 1,
+    "nota": "CABLEADO INTERIOR AL POSTE: cada instrumento entra al SCH40 junto a su montaje y sube al cabezal — cero cables ni prensas a la vista"
+   },
+   {
+    "item": 27,
+    "id": null,
+    "desig": "Pica de tierra Cu 1.2 m + cable 6 mm² + abrazadera",
+    "mat": "Cu",
+    "cant": 1,
+    "nota": "Poste metálico con antena: un solo punto de tierra"
+   },
+   {
+    "item": 28,
+    "id": "columnas",
+    "desig": "Tornillería A4: 8× DIN 912 M4×8 radiales, 3× columna M4, M3 PCB; PTFE; anaerobio; Loctite 243",
+    "mat": "A4-70 / Al",
+    "cant": 1,
+    "nota": ""
+   }
+  ],
+  "consumibles": [
+   "Cemento PVC presión + primer",
+   "Epoxi estructural",
+   "Potting PU",
+   "Molykote 111",
+   "PTFE + anaerobio",
+   "Loctite 243",
+   "Grasa dieléctrica",
+   "Bentonita",
+   "Zinc-rich",
+   "Silicona neutra (pasacables del poste)"
+  ],
+  "features": [
+   "CABEZAL CILÍNDRICO COMPACTO COAXIAL AL POSTE (v3, pedido del usuario): Ø125×~195, base y tapa torneadas + cuerpo de TUBO ESTÁNDAR PVC-U DN125 PN16 (EN ISO 1452) de catálogo — arquitectura de cabezal en poste como CropX/Sentek PLUS",
+   "CERO prensaestopas de cable: el 100 % del cableado entra al SCH40 por pasacables de goma junto a cada instrumento y sube POR DENTRO hasta el conducto central del cabezal — ni un cable ni una prensa a la vista (mejor que ZL6/Sentek, que los amarran por fuera)",
+   "Sellado en norma: 2× tórica radial ISO 3601 104×3 FKM en gargantas regla Parker (Ø105.0 / prof. 2.55 / W 4.0 — apriete 15 %); 8× DIN 912 M4 A4 radiales; goterón perimetral en la tapa",
+   "Únicas penetraciones exteriores en la cara INFERIOR del disco de la base (receptáculo M12 de servicio + válvula Gore): sombra permanente, nunca sol ni chorro directo",
+   "Alturas normativas: T/HR a 1.50 m (OMM N.º 8: 1.25–2 m), pluviómetro boca 1.235 m nivelable, antena ~2.15 m sobre la tapa (mejor horizonte LoRa)",
+   "Ménsula del pluviómetro AL POSTE (2 abrazaderas U + cartela): rígida, nivelable, sin perforar la envolvente IP del cabezal",
+   "Electrónica en pila vertical: 2×26650 al piso + placa portadora circular Ø100 sobre columnas — la sección circular se aprovecha completa; desecante recambiable al piso",
+   "SMT50 ±2 % VWC (ficha 01/2018) + T/HR + lluvia + humedad de hoja: paridad METER ZL6/CropX en un solo poste",
+   "Sesgo declarado del pluviómetro compacto: el poste a 190 mm no cumple la regla 2× de OMM — igual que toda estación integrada comercial; para pluviometría de referencia usar pluviómetro exento"
+  ],
+  "webRef": [
+   {
+    "afirmacion": "T/HR de aire a 1.25–2 m; pluviómetro con obstáculos a >=2× (mejor 4×) su altura sobre la boca",
+    "fuente": "OMM Guía N.º 8 (CIMO)",
+    "url": "https://community.wmo.int/site/knowledge-hub/programmes-and-initiatives/instruments-and-methods-of-observation-programme-imop/guide-instruments-and-methods-of-observation-wmo-no-8",
+    "acceso": "2026-07-20"
+   },
+   {
+    "afirmacion": "SMT50: 135×21.5 mm, ±2 % VWC (minerales), 0–50 %, −20…+85 °C, 0–3 V, 3.3–30 V",
+    "fuente": "Truebner SMT50 Flyer 01/2018",
+    "url": "https://www.truebner.de/assets/download/SMT50_Flyer_EN.pdf",
+    "acceso": "2026-07-20"
+   },
+   {
+    "afirmacion": "Por estación la competencia ofrece T/HR (ATMOS 14), pluviómetro y humedad de hoja (PHYTOS 31)",
+    "fuente": "METER ZL6",
+    "url": "https://metergroup.com/products/zl6/",
+    "acceso": "2026-07-20"
+   },
+   {
+    "afirmacion": "La antena debe quedar por encima de la altura máxima del canopy (en poste/extensión si hace falta)",
+    "fuente": "CropX installation guide",
+    "url": "https://help.cropx.com/portal/en/kb/articles/cropx-sensor-v04-installation-guide-21-9-2023-1",
+    "acceso": "2026-07-20"
+   }
+  ],
+  "costoEstimado": {
+   "proto": "US$760–950",
+   "serie25": "US$470–540"
+  }
+ },
+ "params": [],
+ "parts": [
+  {
+   "id": "punta",
+   "name": "01 Punta cónica 316L (40°, ápice r2)",
+   "color": "#9aa5b1",
+   "pos": [
+    0,
+    0,
+    -728
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f1",
+     "name": "Revolución punta",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         0,
+         0
+        ],
+        "b": [
+         2,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         2,
+         0
+        ],
+        "b": [
+         25,
+         63
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         25,
+         63
+        ],
+        "b": [
+         25,
+         78
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         25,
+         78
+        ],
+        "b": [
+         21.2,
+         78
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         21.2,
+         78
+        ],
+        "b": [
+         21.2,
+         84
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         21.2,
+         84
+        ],
+        "b": [
+         18.8,
+         84
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         18.8,
+         84
+        ],
+        "b": [
+         18.8,
+         88
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         18.8,
+         88
+        ],
+        "b": [
+         21.2,
+         88
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         21.2,
+         88
+        ],
+        "b": [
+         21.2,
+         96
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         21.2,
+         96
+        ],
+        "b": [
+         0,
+         96
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         0,
+         96
+        ],
+        "b": [
+         0,
+         0
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "tubo",
+   "name": "02 Tubo portante PVC-U Ø50×3.7 L700 (EN 1452 PN16)",
+   "color": "#d8d3c4",
+   "pos": [
+    0,
+    0,
+    -650
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": true,
+   "features": [
+    {
+     "id": "f2",
+     "name": "Tubo Ø50",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 50,
+      "h": 700
+     }
+    },
+    {
+     "id": "f3",
+     "name": "Ánima Ø42.6",
+     "shape": "cylinder",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42.6,
+      "h": 702
+     }
+    },
+    {
+     "id": "f4",
+     "name": "Taladro pasamuro Ø35 @ 200 mm",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      25.5,
+      0,
+      450
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 35,
+      "depth": 16,
+      "through": false
+     }
+    },
+    {
+     "id": "f5",
+     "name": "Taladro pasamuro Ø35 @ 400 mm",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -12.75,
+      22.08,
+      250
+     ],
+     "dir": [
+      0.4999999999999998,
+      -0.8660254037844387,
+      0
+     ],
+     "params": {
+      "dia": 35,
+      "depth": 16,
+      "through": false
+     }
+    },
+    {
+     "id": "f6",
+     "name": "Taladro pasamuro Ø35 @ 600 mm",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -12.75,
+      -22.08,
+      50
+     ],
+     "dir": [
+      0.5000000000000004,
+      0.8660254037844385,
+      0
+     ],
+     "params": {
+      "dia": 35,
+      "depth": 16,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "sensor1",
+   "name": "03 Sensor SMT50 #1 (20 cm, ±2 % VWC)",
+   "color": "#3f8f4a",
+   "pos": [
+    0,
+    0,
+    -200
+   ],
+   "quat": [
+    0,
+    0.707107,
+    0,
+    0.707107
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f7",
+     "name": "Hoja SMT50 (punta 30°)",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      4,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         -10.75,
+         10
+        ],
+        "b": [
+         10.75,
+         10
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         10.75,
+         10
+        ],
+        "b": [
+         10.75,
+         115
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         10.75,
+         115
+        ],
+        "b": [
+         0,
+         145
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         0,
+         145
+        ],
+        "b": [
+         -10.75,
+         115
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -10.75,
+         115
+        ],
+        "b": [
+         -10.75,
+         10
+        ]
+       }
+      ],
+      "h": 8,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f8",
+     "name": "Capuchón",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15,
+      "h": 22
+     }
+    },
+    {
+     "id": "f9",
+     "name": "Anillo capuchón",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 16.5,
+      "h": 2
+     }
+    },
+    {
+     "id": "f10",
+     "name": "Cable 4 hilos",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -18
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4.8,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "pasamuro1",
+   "name": "06 Pasamuro sensor POM-C #1",
+   "color": "#e8e4da",
+   "pos": [
+    0,
+    0,
+    -200
+   ],
+   "quat": [
+    0,
+    0.707107,
+    0,
+    0.707107
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f11",
+     "name": "Cuerpo Ø34.6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      14
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34.6,
+      "h": 15.2
+     }
+    },
+    {
+     "id": "f12",
+     "name": "Brida Ø42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      25.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 4
+     }
+    },
+    {
+     "id": "f13",
+     "name": "Chaflán de brida",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      29.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 39,
+      "h": 1.2
+     }
+    },
+    {
+     "id": "f14",
+     "name": "Rebaje de potting Ø28",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      30.4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 28,
+      "depth": 2.4,
+      "through": false
+     }
+    },
+    {
+     "id": "f15",
+     "name": "Ranura hoja 23×9",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 23,
+      "d": 9,
+      "h": 22
+     }
+    }
+   ]
+  },
+  {
+   "id": "sensor2",
+   "name": "04 Sensor SMT50 #2 (40 cm, ±2 % VWC)",
+   "color": "#3f8f4a",
+   "pos": [
+    0,
+    0,
+    -400
+   ],
+   "quat": [
+    -0.612372,
+    0.353554,
+    0.612372,
+    0.353554
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f16",
+     "name": "Hoja SMT50 (punta 30°)",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      4,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         -10.75,
+         10
+        ],
+        "b": [
+         10.75,
+         10
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         10.75,
+         10
+        ],
+        "b": [
+         10.75,
+         115
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         10.75,
+         115
+        ],
+        "b": [
+         0,
+         145
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         0,
+         145
+        ],
+        "b": [
+         -10.75,
+         115
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -10.75,
+         115
+        ],
+        "b": [
+         -10.75,
+         10
+        ]
+       }
+      ],
+      "h": 8,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f17",
+     "name": "Capuchón",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15,
+      "h": 22
+     }
+    },
+    {
+     "id": "f18",
+     "name": "Anillo capuchón",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 16.5,
+      "h": 2
+     }
+    },
+    {
+     "id": "f19",
+     "name": "Cable 4 hilos",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -18
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4.8,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "pasamuro2",
+   "name": "07 Pasamuro sensor POM-C #2",
+   "color": "#e8e4da",
+   "pos": [
+    0,
+    0,
+    -400
+   ],
+   "quat": [
+    -0.612372,
+    0.353554,
+    0.612372,
+    0.353554
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f20",
+     "name": "Cuerpo Ø34.6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      14
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34.6,
+      "h": 15.2
+     }
+    },
+    {
+     "id": "f21",
+     "name": "Brida Ø42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      25.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 4
+     }
+    },
+    {
+     "id": "f22",
+     "name": "Chaflán de brida",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      29.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 39,
+      "h": 1.2
+     }
+    },
+    {
+     "id": "f23",
+     "name": "Rebaje de potting Ø28",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      30.4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 28,
+      "depth": 2.4,
+      "through": false
+     }
+    },
+    {
+     "id": "f24",
+     "name": "Ranura hoja 23×9",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 23,
+      "d": 9,
+      "h": 22
+     }
+    }
+   ]
+  },
+  {
+   "id": "sensor3",
+   "name": "05 Sensor SMT50 #3 (60 cm, ±2 % VWC)",
+   "color": "#3f8f4a",
+   "pos": [
+    0,
+    0,
+    -600
+   ],
+   "quat": [
+    -0.612372,
+    -0.353553,
+    0.612372,
+    -0.353553
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f25",
+     "name": "Hoja SMT50 (punta 30°)",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      4,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         -10.75,
+         10
+        ],
+        "b": [
+         10.75,
+         10
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         10.75,
+         10
+        ],
+        "b": [
+         10.75,
+         115
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         10.75,
+         115
+        ],
+        "b": [
+         0,
+         145
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         0,
+         145
+        ],
+        "b": [
+         -10.75,
+         115
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -10.75,
+         115
+        ],
+        "b": [
+         -10.75,
+         10
+        ]
+       }
+      ],
+      "h": 8,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f26",
+     "name": "Capuchón",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15,
+      "h": 22
+     }
+    },
+    {
+     "id": "f27",
+     "name": "Anillo capuchón",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 16.5,
+      "h": 2
+     }
+    },
+    {
+     "id": "f28",
+     "name": "Cable 4 hilos",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -18
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 4.8,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "pasamuro3",
+   "name": "08 Pasamuro sensor POM-C #3",
+   "color": "#e8e4da",
+   "pos": [
+    0,
+    0,
+    -600
+   ],
+   "quat": [
+    -0.612372,
+    -0.353553,
+    0.612372,
+    -0.353553
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f29",
+     "name": "Cuerpo Ø34.6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      14
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 34.6,
+      "h": 15.2
+     }
+    },
+    {
+     "id": "f30",
+     "name": "Brida Ø42",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      25.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 42,
+      "h": 4
+     }
+    },
+    {
+     "id": "f31",
+     "name": "Chaflán de brida",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      29.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 39,
+      "h": 1.2
+     }
+    },
+    {
+     "id": "f32",
+     "name": "Rebaje de potting Ø28",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      30.4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 28,
+      "depth": 2.4,
+      "through": false
+     }
+    },
+    {
+     "id": "f33",
+     "name": "Ranura hoja 23×9",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 23,
+      "d": 9,
+      "h": 22
+     }
+    }
+   ]
+  },
+  {
+   "id": "torica_punta",
+   "name": "09 Tórica FKM ISO 3601 36×3 (punta)",
+   "color": "#3b2f2f",
+   "pos": [
+    0,
+    0,
+    -645.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f34",
+     "name": "Toroide 36×3",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "circle",
+        "c": [
+         20.3,
+         1.5
+        ],
+        "r": 1.5
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "transicion",
+   "name": "10 Terminal PVC-U Ø50 cementado × hembra 1 1/2\" + disco M16",
+   "color": "#b9bdc4",
+   "pos": [
+    0,
+    0,
+    32
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f35",
+     "name": "Terminal + disco",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         25.1,
+         2
+        ],
+        "b": [
+         31.5,
+         2
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         31.5,
+         2
+        ],
+        "b": [
+         31.5,
+         34
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         31.5,
+         34
+        ],
+        "b": [
+         29,
+         42
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         29,
+         42
+        ],
+        "b": [
+         29,
+         74
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         29,
+         74
+        ],
+        "b": [
+         22.25,
+         74
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         22.25,
+         74
+        ],
+        "b": [
+         22.25,
+         48
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         22.25,
+         48
+        ],
+        "b": [
+         7,
+         48
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         7,
+         48
+        ],
+        "b": [
+         7,
+         44
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         7,
+         44
+        ],
+        "b": [
+         22,
+         44
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         22,
+         44
+        ],
+        "b": [
+         22,
+         18.6
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         22,
+         18.6
+        ],
+        "b": [
+         25.1,
+         18.6
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         25.1,
+         18.6
+        ],
+        "b": [
+         25.1,
+         2
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f36",
+     "name": "Hex de llave SW62",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      52
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         35.8,
+         0
+        ],
+        "b": [
+         17.9,
+         31
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         17.9,
+         31
+        ],
+        "b": [
+         -17.9,
+         31
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -17.9,
+         31
+        ],
+        "b": [
+         -35.8,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -35.8,
+         0
+        ],
+        "b": [
+         -17.9,
+         -31
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -17.9,
+         -31
+        ],
+        "b": [
+         17.9,
+         -31
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         17.9,
+         -31
+        ],
+        "b": [
+         35.8,
+         0
+        ]
+       }
+      ],
+      "h": 14,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "prensa_trans",
+   "name": "11 Prensaestopas Skintop MS-M16 (transición)",
+   "color": "#c9a227",
+   "pos": [
+    0,
+    0,
+    53
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f37",
+     "name": "Capuchón",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 19,
+      "h": 5
+     }
+    },
+    {
+     "id": "f38",
+     "name": "Cuerpo",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17,
+      "h": 7
+     }
+    },
+    {
+     "id": "f39",
+     "name": "Hex SW20",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      12
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         11.55,
+         0
+        ],
+        "b": [
+         5.78,
+         10
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         5.78,
+         10
+        ],
+        "b": [
+         -5.77,
+         10
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -5.77,
+         10
+        ],
+        "b": [
+         -11.55,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -11.55,
+         0
+        ],
+        "b": [
+         -5.78,
+         -10
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -5.78,
+         -10
+        ],
+        "b": [
+         5.78,
+         -10
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         5.78,
+         -10
+        ],
+        "b": [
+         11.55,
+         0
+        ]
+       }
+      ],
+      "h": 8,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f40",
+     "name": "Rosca M16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      20
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15.8,
+      "h": 7
+     }
+    },
+    {
+     "id": "f41",
+     "name": "Boca de cable",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "depth": 4,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "collar",
+   "name": "12 Collar antipercolación HDPE (disco, sobre bentonita)",
+   "color": "#23282e",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f42",
+     "name": "Disco Ø160×6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 160,
+      "h": 6
+     }
+    },
+    {
+     "id": "f43",
+     "name": "Chaflán perimetral",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 150,
+      "h": 1.2
+     }
+    },
+    {
+     "id": "f44",
+     "name": "Bore Ø50.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      7.2
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 50.6,
+      "depth": 10,
+      "through": true
+     }
+    },
+    {
+     "id": "f45",
+     "name": "Ranura de drenaje X",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      5.7
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 160,
+      "d": 2,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f46",
+     "name": "Ranura de drenaje Y",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      5.7
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 2,
+      "d": 160,
+      "h": 1.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "tapon_hinca",
+   "name": "13 Cap PVC Ø63 + taco (accesorio de hinca)",
+   "color": "#b9bdc4",
+   "pos": [
+    300,
+    -180,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f47",
+     "name": "Cap PVC",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 63,
+      "h": 40
+     }
+    },
+    {
+     "id": "f48",
+     "name": "Taco",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      40
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 48,
+      "h": 25
+     }
+    }
+   ]
+  },
+  {
+   "id": "pilar",
+   "name": "14 Poste A53 SCH40 1 1/2\" × 1669, hilo en puntas, galv. (cableado 100 % interior)",
+   "color": "#8f969c",
+   "pos": [
+    0,
+    0,
+    86
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f49",
+     "name": "Cañería Ø48.3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 48.3,
+      "h": 1669
+     }
+    },
+    {
+     "id": "f50",
+     "name": "Ánima Ø40.9",
+     "shape": "cylinder",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 40.9,
+      "h": 1671
+     }
+    },
+    {
+     "id": "f51",
+     "name": "Pasacables pluviómetro Ø10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -24.2,
+      0,
+      1064
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "depth": 8,
+      "through": false
+     }
+    },
+    {
+     "id": "f52",
+     "name": "Grommet pluviómetro",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -26.5,
+      0,
+      1064
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 14,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f53",
+     "name": "Pasacables escudo Ø10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      24.2,
+      0,
+      1406
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "depth": 8,
+      "through": false
+     }
+    },
+    {
+     "id": "f54",
+     "name": "Grommet escudo",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      26.5,
+      0,
+      1406
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 14,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f55",
+     "name": "Pasacables panel Ø10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      24.2,
+      1526
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "depth": 8,
+      "through": false
+     }
+    },
+    {
+     "id": "f56",
+     "name": "Grommet panel",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      26.5,
+      1526
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 14,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f57",
+     "name": "Pasacables sensor de hoja Ø8",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      24.2,
+      0,
+      34
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "depth": 8,
+      "through": false
+     }
+    },
+    {
+     "id": "f58",
+     "name": "Grommet hoja",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      26.5,
+      0,
+      34
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f59",
+     "name": "Hilo inf. 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f60",
+     "name": "Hilo sup. 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1652
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f61",
+     "name": "Hilo inf. 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      4.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f62",
+     "name": "Hilo sup. 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1654.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f63",
+     "name": "Hilo inf. 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      6.4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f64",
+     "name": "Hilo sup. 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1656.4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f65",
+     "name": "Hilo inf. 4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      8.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f66",
+     "name": "Hilo sup. 4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1658.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f67",
+     "name": "Hilo inf. 5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      10.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f68",
+     "name": "Hilo sup. 5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1660.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f69",
+     "name": "Hilo inf. 6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      13
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f70",
+     "name": "Hilo sup. 6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1663
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f71",
+     "name": "Hilo inf. 7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      15.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f72",
+     "name": "Hilo sup. 7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1665.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 49.1,
+      "h": 0.8
+     }
+    }
+   ]
+  },
+  {
+   "id": "cabezal_base",
+   "name": "15 Cabezal: base POM-C torneada — hembra 1 1/2\" NPT, disco de entradas, espiga c/tórica y piso",
+   "color": "#e8e4da",
+   "pos": [
+    0,
+    0,
+    1730
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f73",
+     "name": "Cuerpo torneado",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         22.25,
+         0
+        ],
+        "b": [
+         29,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         29,
+         0
+        ],
+        "b": [
+         29,
+         25
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         29,
+         25
+        ],
+        "b": [
+         66,
+         25
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         66,
+         25
+        ],
+        "b": [
+         66,
+         35
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         66,
+         35
+        ],
+        "b": [
+         55.05,
+         35
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         55.05,
+         35
+        ],
+        "b": [
+         55.05,
+         55
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         55.05,
+         55
+        ],
+        "b": [
+         0.01,
+         55
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         0.01,
+         55
+        ],
+        "b": [
+         0.01,
+         49
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         0.01,
+         49
+        ],
+        "b": [
+         49,
+         49
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         49,
+         49
+        ],
+        "b": [
+         49,
+         35
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         49,
+         35
+        ],
+        "b": [
+         15,
+         35
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         15,
+         35
+        ],
+        "b": [
+         15,
+         25
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         15,
+         25
+        ],
+        "b": [
+         22.25,
+         25
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         22.25,
+         25
+        ],
+        "b": [
+         22.25,
+         0
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f74",
+     "name": "Hex de llave SW54",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      7
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         31.2,
+         0
+        ],
+        "b": [
+         15.6,
+         27.02
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         15.6,
+         27.02
+        ],
+        "b": [
+         -15.6,
+         27.02
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -15.6,
+         27.02
+        ],
+        "b": [
+         -31.2,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -31.2,
+         0
+        ],
+        "b": [
+         -15.6,
+         -27.02
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -15.6,
+         -27.02
+        ],
+        "b": [
+         15.6,
+         -27.02
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         15.6,
+         -27.02
+        ],
+        "b": [
+         31.2,
+         0
+        ]
+       }
+      ],
+      "h": 12,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f75",
+     "name": "Garganta tórica Ø105.0×2.55 W4 (Parker 15 %)",
+     "shape": "revolve",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         52.5,
+         39
+        ],
+        "b": [
+         57,
+         39
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         57,
+         39
+        ],
+        "b": [
+         57,
+         43
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         57,
+         43
+        ],
+        "b": [
+         52.5,
+         43
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         52.5,
+         43
+        ],
+        "b": [
+         52.5,
+         39
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f76",
+     "name": "Pasa-cables del piso Ø15",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      38.1,
+      13.9,
+      56
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 15,
+      "depth": 8,
+      "through": false
+     }
+    },
+    {
+     "id": "f77",
+     "name": "Rosca M12 receptáculo servicio",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -41,
+      24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 12,
+      "through": false
+     }
+    },
+    {
+     "id": "f78",
+     "name": "Rosca M12 válvula Gore",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      41,
+      24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 12,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "torica_base",
+   "name": "16 Tórica ISO 3601 104×3 FKM (base ↔ cuerpo)",
+   "color": "#3b2f2f",
+   "pos": [
+    0,
+    0,
+    1769.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f79",
+     "name": "Toroide 104×3",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "circle",
+        "c": [
+         54,
+         1.5
+        ],
+        "r": 1.5
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cabezal_cuerpo",
+   "name": "17 Cabezal: cuerpo tubo PVC-U DN125 PN16 EN ISO 1452 × 150 + 8× DIN 912 M4 radiales",
+   "color": "#bfc7cf",
+   "pos": [
+    0,
+    0,
+    1765
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f80",
+     "name": "Tubo Ø125",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 125,
+      "h": 150
+     }
+    },
+    {
+     "id": "f81",
+     "name": "Ánima Ø110.2",
+     "shape": "cylinder",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 110.2,
+      "h": 152
+     }
+    },
+    {
+     "id": "f82",
+     "name": "Paso M4 inferior 1",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      44.55,
+      44.55,
+      10
+     ],
+     "dir": [
+      -0.7071067811865476,
+      -0.7071067811865475,
+      0
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 15,
+      "through": false
+     }
+    },
+    {
+     "id": "f83",
+     "name": "DIN 912 M4 inf. 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      44.9,
+      44.9,
+      10
+     ],
+     "dir": [
+      -0.7071067811865476,
+      -0.7071067811865475,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "h": 3
+     }
+    },
+    {
+     "id": "f84",
+     "name": "Paso M4 superior 1",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      44.55,
+      44.55,
+      140
+     ],
+     "dir": [
+      -0.7071067811865476,
+      -0.7071067811865475,
+      0
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 15,
+      "through": false
+     }
+    },
+    {
+     "id": "f85",
+     "name": "DIN 912 M4 sup. 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      44.9,
+      44.9,
+      140
+     ],
+     "dir": [
+      -0.7071067811865476,
+      -0.7071067811865475,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "h": 3
+     }
+    },
+    {
+     "id": "f86",
+     "name": "Paso M4 inferior 2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -44.55,
+      44.55,
+      10
+     ],
+     "dir": [
+      0.7071067811865475,
+      -0.7071067811865476,
+      0
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 15,
+      "through": false
+     }
+    },
+    {
+     "id": "f87",
+     "name": "DIN 912 M4 inf. 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44.9,
+      44.9,
+      10
+     ],
+     "dir": [
+      0.7071067811865475,
+      -0.7071067811865476,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "h": 3
+     }
+    },
+    {
+     "id": "f88",
+     "name": "Paso M4 superior 2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -44.55,
+      44.55,
+      140
+     ],
+     "dir": [
+      0.7071067811865475,
+      -0.7071067811865476,
+      0
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 15,
+      "through": false
+     }
+    },
+    {
+     "id": "f89",
+     "name": "DIN 912 M4 sup. 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44.9,
+      44.9,
+      140
+     ],
+     "dir": [
+      0.7071067811865475,
+      -0.7071067811865476,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "h": 3
+     }
+    },
+    {
+     "id": "f90",
+     "name": "Paso M4 inferior 3",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -44.55,
+      -44.55,
+      10
+     ],
+     "dir": [
+      0.7071067811865477,
+      0.7071067811865475,
+      0
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 15,
+      "through": false
+     }
+    },
+    {
+     "id": "f91",
+     "name": "DIN 912 M4 inf. 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44.9,
+      -44.9,
+      10
+     ],
+     "dir": [
+      0.7071067811865477,
+      0.7071067811865475,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "h": 3
+     }
+    },
+    {
+     "id": "f92",
+     "name": "Paso M4 superior 3",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -44.55,
+      -44.55,
+      140
+     ],
+     "dir": [
+      0.7071067811865477,
+      0.7071067811865475,
+      0
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 15,
+      "through": false
+     }
+    },
+    {
+     "id": "f93",
+     "name": "DIN 912 M4 sup. 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -44.9,
+      -44.9,
+      140
+     ],
+     "dir": [
+      0.7071067811865477,
+      0.7071067811865475,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "h": 3
+     }
+    },
+    {
+     "id": "f94",
+     "name": "Paso M4 inferior 4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      44.55,
+      -44.55,
+      10
+     ],
+     "dir": [
+      -0.7071067811865474,
+      0.7071067811865477,
+      0
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 15,
+      "through": false
+     }
+    },
+    {
+     "id": "f95",
+     "name": "DIN 912 M4 inf. 4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      44.9,
+      -44.9,
+      10
+     ],
+     "dir": [
+      -0.7071067811865474,
+      0.7071067811865477,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "h": 3
+     }
+    },
+    {
+     "id": "f96",
+     "name": "Paso M4 superior 4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      44.55,
+      -44.55,
+      140
+     ],
+     "dir": [
+      -0.7071067811865474,
+      0.7071067811865477,
+      0
+     ],
+     "params": {
+      "dia": 4.5,
+      "depth": 15,
+      "through": false
+     }
+    },
+    {
+     "id": "f97",
+     "name": "DIN 912 M4 sup. 4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      44.9,
+      -44.9,
+      140
+     ],
+     "dir": [
+      -0.7071067811865474,
+      0.7071067811865477,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "h": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "torica_tapa",
+   "name": "18 Tórica ISO 3601 104×3 FKM (cuerpo ↔ tapa)",
+   "color": "#3b2f2f",
+   "pos": [
+    0,
+    0,
+    1904.5
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f98",
+     "name": "Toroide 104×3",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "circle",
+        "c": [
+         54,
+         1.5
+        ],
+        "r": 1.5
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cabezal_tapa",
+   "name": "19 Cabezal: tapa POM-C torneada — espiga c/tórica, goterón, pasamuro N/SMA",
+   "color": "#e8e4da",
+   "pos": [
+    0,
+    0,
+    1901
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f99",
+     "name": "Tapa torneada",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         49,
+         0
+        ],
+        "b": [
+         55.05,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         55.05,
+         0
+        ],
+        "b": [
+         55.05,
+         14
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         55.05,
+         14
+        ],
+        "b": [
+         66,
+         14
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         66,
+         14
+        ],
+        "b": [
+         66,
+         22
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         66,
+         22
+        ],
+        "b": [
+         0.01,
+         22
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         0.01,
+         22
+        ],
+        "b": [
+         0.01,
+         8
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         0.01,
+         8
+        ],
+        "b": [
+         49,
+         8
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         49,
+         8
+        ],
+        "b": [
+         49,
+         0
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f100",
+     "name": "Garganta tórica Ø105.0×2.55 W4 (Parker 15 %)",
+     "shape": "revolve",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         52.5,
+         3
+        ],
+        "b": [
+         57,
+         3
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         57,
+         3
+        ],
+        "b": [
+         57,
+         7
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         57,
+         7
+        ],
+        "b": [
+         52.5,
+         7
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         52.5,
+         7
+        ],
+        "b": [
+         52.5,
+         3
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f101",
+     "name": "Goterón perimetral",
+     "shape": "revolve",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         58,
+         13
+        ],
+        "b": [
+         61,
+         13
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         61,
+         13
+        ],
+        "b": [
+         61,
+         15.5
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         61,
+         15.5
+        ],
+        "b": [
+         58,
+         15.5
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         58,
+         15.5
+        ],
+        "b": [
+         58,
+         13
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f102",
+     "name": "Realce superior",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      22
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 120,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f103",
+     "name": "Torreta pasamuro antena",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      24.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 16,
+      "h": 5
+     }
+    },
+    {
+     "id": "f104",
+     "name": "Pasamuro N/SMA Ø6.5",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      30.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 6.5,
+      "depth": 10,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "columnas",
+   "name": "20 3× columna separadora M4 Al (piso → placa portadora)",
+   "color": "#98a2ac",
+   "pos": [
+    0,
+    0,
+    1785
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f105",
+     "name": "Columna N",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      48,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "h": 81
+     }
+    },
+    {
+     "id": "f106",
+     "name": "Columna SO",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -41.57,
+      -24,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "h": 81
+     }
+    },
+    {
+     "id": "f107",
+     "name": "Columna SE",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      41.57,
+      -24,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "h": 81
+     }
+    }
+   ]
+  },
+  {
+   "id": "portapilas",
+   "name": "21 Portapilas 2×26650 al piso (celdas verticales)",
+   "color": "#3a4148",
+   "pos": [
+    -6,
+    0,
+    1785
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f108",
+     "name": "Base",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 70,
+      "h": 5
+     }
+    },
+    {
+     "id": "f109",
+     "name": "Pared S",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -33,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 4,
+      "h": 68
+     }
+    },
+    {
+     "id": "f110",
+     "name": "Pared N",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      33,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 4,
+      "h": 68
+     }
+    },
+    {
+     "id": "f111",
+     "name": "Divisor central",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 3,
+      "d": 62,
+      "h": 60
+     }
+    },
+    {
+     "id": "f112",
+     "name": "Contacto celda 1",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -13.5,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 16,
+      "d": 16,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f113",
+     "name": "Contacto celda 2",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      13.5,
+      0,
+      5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 16,
+      "d": 16,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f114",
+     "name": "Puente superior",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      73
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 44,
+      "d": 12,
+      "h": 1.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "baterias",
+   "name": "22 2× LiFePO4 26650 (verticales)",
+   "color": "#5a7d9a",
+   "pos": [
+    -6,
+    0,
+    1792
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f115",
+     "name": "Celda 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -13.5,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26.2,
+      "h": 65.2
+     }
+    },
+    {
+     "id": "f116",
+     "name": "Celda 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      13.5,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26.2,
+      "h": 65.2
+     }
+    },
+    {
+     "id": "f117",
+     "name": "Botón +",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -13.5,
+      0,
+      65.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "h": 1.8
+     }
+    },
+    {
+     "id": "f118",
+     "name": "Botón +",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      13.5,
+      0,
+      65.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "h": 1.8
+     }
+    },
+    {
+     "id": "f119",
+     "name": "Ranura envoltura",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -13.5,
+      0,
+      8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26.8,
+      "h": 0.6
+     }
+    },
+    {
+     "id": "f120",
+     "name": "Ranura envoltura",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      13.5,
+      0,
+      8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 26.8,
+      "h": 0.6
+     }
+    }
+   ]
+  },
+  {
+   "id": "pcb",
+   "name": "23 Nodo: placa portadora circular Ø100 — WisBlock + ADS1115 + BMS + bornera",
+   "color": "#1f6e43",
+   "pos": [
+    0,
+    0,
+    1866
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f121",
+     "name": "PCB Ø100",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 100,
+      "h": 1.6
+     }
+    },
+    {
+     "id": "f122",
+     "name": "Core LoRa",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -30,
+      20,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 25.5,
+      "d": 18,
+      "h": 3.1
+     }
+    },
+    {
+     "id": "f123",
+     "name": "RAK3172",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -30,
+      -25,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 15,
+      "d": 15.5,
+      "h": 3.5
+     }
+    },
+    {
+     "id": "f124",
+     "name": "Conector u.FL",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -19,
+      -33,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 1.6
+     }
+    },
+    {
+     "id": "f125",
+     "name": "ADS1115",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      5,
+      25,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 10,
+      "d": 6,
+      "h": 2
+     }
+    },
+    {
+     "id": "f126",
+     "name": "Buck aislado",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      8,
+      -22,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 20,
+      "d": 15,
+      "h": 8
+     }
+    },
+    {
+     "id": "f127",
+     "name": "BMS/cargador solar",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      35,
+      0,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 20,
+      "d": 40,
+      "h": 2.4
+     }
+    },
+    {
+     "id": "f128",
+     "name": "Bornera bus + 12 V",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -38,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 30,
+      "d": 16,
+      "h": 12
+     }
+    },
+    {
+     "id": "f129",
+     "name": "USB-C",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -45.5,
+      10,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 9,
+      "d": 7,
+      "h": 3.2
+     }
+    },
+    {
+     "id": "f130",
+     "name": "Header 2×10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -5,
+      33,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 25,
+      "d": 2.5,
+      "h": 8.5
+     }
+    },
+    {
+     "id": "f131",
+     "name": "LED estado",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      14,
+      38,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 2,
+      "h": 1
+     }
+    },
+    {
+     "id": "f132",
+     "name": "LED LoRa",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      20,
+      38,
+      1.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 2,
+      "h": 1
+     }
+    },
+    {
+     "id": "f133",
+     "name": "Golilla columna N",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      48,
+      -0.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f134",
+     "name": "Golilla columna SO",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -41.57,
+      -24,
+      -0.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f135",
+     "name": "Golilla columna SE",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      41.57,
+      -24,
+      -0.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "h": 0.8
+     }
+    }
+   ]
+  },
+  {
+   "id": "desecante",
+   "name": "24 Cápsula desecante Ø18 recambiable (al piso)",
+   "color": "#d9c37a",
+   "pos": [
+    43,
+    -6,
+    1785
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f136",
+     "name": "Cuerpo",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 18,
+      "h": 10
+     }
+    },
+    {
+     "id": "f137",
+     "name": "Tapa perforada",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      10
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 19,
+      "h": 2
+     }
+    },
+    {
+     "id": "f138",
+     "name": "Perforación 1",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      5.5,
+      0,
+      12.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 1.8,
+      "depth": 2,
+      "through": false
+     }
+    },
+    {
+     "id": "f139",
+     "name": "Perforación 2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      2.75,
+      4.76,
+      12.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 1.8,
+      "depth": 2,
+      "through": false
+     }
+    },
+    {
+     "id": "f140",
+     "name": "Perforación 3",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -2.75,
+      4.76,
+      12.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 1.8,
+      "depth": 2,
+      "through": false
+     }
+    },
+    {
+     "id": "f141",
+     "name": "Perforación 4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -5.5,
+      0,
+      12.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 1.8,
+      "depth": 2,
+      "through": false
+     }
+    },
+    {
+     "id": "f142",
+     "name": "Perforación 5",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -2.75,
+      -4.76,
+      12.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 1.8,
+      "depth": 2,
+      "through": false
+     }
+    },
+    {
+     "id": "f143",
+     "name": "Perforación 6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      2.75,
+      -4.76,
+      12.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 1.8,
+      "depth": 2,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "m12",
+   "name": "28 Receptáculo M12 A-cod 5p servicio (bajo el disco, al sur)",
+   "color": "#2b2f36",
+   "pos": [
+    0,
+    -41,
+    1747
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f144",
+     "name": "Tuerca moleteada",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17,
+      "h": 6
+     }
+    },
+    {
+     "id": "f145",
+     "name": "Moleteado 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f146",
+     "name": "Moleteado 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      2.6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f147",
+     "name": "Moleteado 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      4.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 17.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f148",
+     "name": "Rosca M12",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "h": 8
+     }
+    },
+    {
+     "id": "f149",
+     "name": "Cuerpo interior",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      14
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 14.5,
+      "h": 12
+     }
+    },
+    {
+     "id": "f150",
+     "name": "Pin 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      3.3,
+      0,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f151",
+     "name": "Pin 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      3.3,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f152",
+     "name": "Pin 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -3.3,
+      0,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f153",
+     "name": "Pin 4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -3.3,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    },
+    {
+     "id": "f154",
+     "name": "Pin 5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -1.8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 0.9,
+      "h": 2
+     }
+    }
+   ]
+  },
+  {
+   "id": "m12_tapa",
+   "name": "29 Tapa protectora M12 c/cadenilla",
+   "color": "#c9a227",
+   "pos": [
+    0,
+    -41,
+    1733
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f155",
+     "name": "Tapa",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 16,
+      "h": 9
+     }
+    },
+    {
+     "id": "f156",
+     "name": "Moleteado 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 16.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f157",
+     "name": "Moleteado 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      3.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 16.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f158",
+     "name": "Moleteado 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      5.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 16.8,
+      "h": 0.8
+     }
+    },
+    {
+     "id": "f159",
+     "name": "Oreja cadenilla",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      10,
+      0,
+      1
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 5,
+      "d": 3,
+      "h": 4
+     }
+    },
+    {
+     "id": "f160",
+     "name": "Paso cadenilla",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      10,
+      -2,
+      3
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 2,
+      "depth": 10,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "vent",
+   "name": "30 Válvula Gore M12 (bajo el disco, al norte: nunca sol directo)",
+   "color": "#e0e0e0",
+   "pos": [
+    0,
+    41,
+    1746
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f161",
+     "name": "Cabeza hex SW14",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         8.1,
+         0
+        ],
+        "b": [
+         4.05,
+         7.01
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         4.05,
+         7.01
+        ],
+        "b": [
+         -4.05,
+         7.01
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -4.05,
+         7.01
+        ],
+        "b": [
+         -8.1,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -8.1,
+         0
+        ],
+        "b": [
+         -4.05,
+         -7.01
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -4.05,
+         -7.01
+        ],
+        "b": [
+         4.05,
+         -7.01
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         4.05,
+         -7.01
+        ],
+        "b": [
+         8.1,
+         0
+        ]
+       }
+      ],
+      "h": 8,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f162",
+     "name": "Rosca",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      8
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "h": 9
+     }
+    },
+    {
+     "id": "f163",
+     "name": "Venteo 1",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      6.2,
+      0,
+      4
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 1.6,
+      "depth": 3,
+      "through": false
+     }
+    },
+    {
+     "id": "f164",
+     "name": "Venteo 2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -6.2,
+      0,
+      4
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 1.6,
+      "depth": 3,
+      "through": false
+     }
+    },
+    {
+     "id": "f165",
+     "name": "Venteo 3",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      6.2,
+      4
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 1.6,
+      "depth": 3,
+      "through": false
+     }
+    },
+    {
+     "id": "f166",
+     "name": "Venteo 4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -6.2,
+      4
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 1.6,
+      "depth": 3,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "escudo_thr",
+   "name": "32 T/HR: SHT40 en escudo de radiación a 1.50 m (OMM 1.25–2 m)",
+   "color": "#e8e4da",
+   "pos": [
+    160,
+    0,
+    1470
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f167",
+     "name": "Eje escudo",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 55
+     }
+    },
+    {
+     "id": "f168",
+     "name": "Brazo (abrazadera al poste)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -80,
+      0,
+      50
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 170,
+      "d": 18,
+      "h": 5
+     }
+    },
+    {
+     "id": "f169",
+     "name": "Plato cónico 1",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         6,
+         4.5
+        ],
+        "b": [
+         37,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         37,
+         0
+        ],
+        "b": [
+         40,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         40,
+         0
+        ],
+        "b": [
+         40,
+         1.5
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         40,
+         1.5
+        ],
+        "b": [
+         8,
+         6
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         8,
+         6
+        ],
+        "b": [
+         6,
+         6
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         6,
+         6
+        ],
+        "b": [
+         6,
+         4.5
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f170",
+     "name": "Plato cónico 2",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      11
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         6,
+         4.5
+        ],
+        "b": [
+         37,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         37,
+         0
+        ],
+        "b": [
+         40,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         40,
+         0
+        ],
+        "b": [
+         40,
+         1.5
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         40,
+         1.5
+        ],
+        "b": [
+         8,
+         6
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         8,
+         6
+        ],
+        "b": [
+         6,
+         6
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         6,
+         6
+        ],
+        "b": [
+         6,
+         4.5
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f171",
+     "name": "Plato cónico 3",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      22
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         6,
+         4.5
+        ],
+        "b": [
+         37,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         37,
+         0
+        ],
+        "b": [
+         40,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         40,
+         0
+        ],
+        "b": [
+         40,
+         1.5
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         40,
+         1.5
+        ],
+        "b": [
+         8,
+         6
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         8,
+         6
+        ],
+        "b": [
+         6,
+         6
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         6,
+         6
+        ],
+        "b": [
+         6,
+         4.5
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f172",
+     "name": "Plato cónico 4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      33
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         6,
+         4.5
+        ],
+        "b": [
+         37,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         37,
+         0
+        ],
+        "b": [
+         40,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         40,
+         0
+        ],
+        "b": [
+         40,
+         1.5
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         40,
+         1.5
+        ],
+        "b": [
+         8,
+         6
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         8,
+         6
+        ],
+        "b": [
+         6,
+         6
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         6,
+         6
+        ],
+        "b": [
+         6,
+         4.5
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f173",
+     "name": "Plato cónico 5",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      44
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         6,
+         4.5
+        ],
+        "b": [
+         37,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         37,
+         0
+        ],
+        "b": [
+         40,
+         0
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         40,
+         0
+        ],
+        "b": [
+         40,
+         1.5
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         40,
+         1.5
+        ],
+        "b": [
+         8,
+         6
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         8,
+         6
+        ],
+        "b": [
+         6,
+         6
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         6,
+         6
+        ],
+        "b": [
+         6,
+         4.5
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f174",
+     "name": "Sonda SHT40",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      14
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "h": 30
+     }
+    },
+    {
+     "id": "f175",
+     "name": "Cable de la sonda",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      44
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 3.5,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "id": "pluviometro",
+   "name": "33 Pluviómetro Ø160 en ménsula AL POSTE (2 abrazaderas + cartela), boca 1.235 m",
+   "color": "#aab4bd",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f176",
+     "name": "Abrazadera U 1 1/2\"",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1050
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 60,
+      "h": 10
+     }
+    },
+    {
+     "id": "f177",
+     "name": "Paso poste",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      1060
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 49,
+      "depth": 10,
+      "through": true
+     }
+    },
+    {
+     "id": "f178",
+     "name": "Perno U izq.",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      -29,
+      1055
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 6,
+      "h": 58
+     }
+    },
+    {
+     "id": "f179",
+     "name": "Perno U der.",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -28,
+      -29,
+      1055
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 6,
+      "h": 58
+     }
+    },
+    {
+     "id": "f180",
+     "name": "Tuerca",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      30,
+      1055
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "h": 4.4
+     }
+    },
+    {
+     "id": "f181",
+     "name": "Tuerca",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -28,
+      30,
+      1055
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "h": 4.4
+     }
+    },
+    {
+     "id": "f182",
+     "name": "Abrazadera U 1 1/2\"",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1130
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 60,
+      "h": 10
+     }
+    },
+    {
+     "id": "f183",
+     "name": "Paso poste",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      1140
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 49,
+      "depth": 10,
+      "through": true
+     }
+    },
+    {
+     "id": "f184",
+     "name": "Perno U izq.",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      -29,
+      1135
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 6,
+      "h": 58
+     }
+    },
+    {
+     "id": "f185",
+     "name": "Perno U der.",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -28,
+      -29,
+      1135
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 6,
+      "h": 58
+     }
+    },
+    {
+     "id": "f186",
+     "name": "Tuerca",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      30,
+      1135
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "h": 4.4
+     }
+    },
+    {
+     "id": "f187",
+     "name": "Tuerca",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -28,
+      30,
+      1135
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "h": 4.4
+     }
+    },
+    {
+     "id": "f188",
+     "name": "Placa vertical",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -33,
+      0,
+      1040
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 6,
+      "d": 40,
+      "h": 120
+     }
+    },
+    {
+     "id": "f189",
+     "name": "Brazo",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -108,
+      0,
+      1150
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 150,
+      "d": 18,
+      "h": 5
+     }
+    },
+    {
+     "id": "f190",
+     "name": "Cartela",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      2.5,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         -36,
+         1150
+        ],
+        "b": [
+         -36,
+         1105
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -36,
+         1105
+        ],
+        "b": [
+         -120,
+         1150
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         -120,
+         1150
+        ],
+        "b": [
+         -36,
+         1150
+        ]
+       }
+      ],
+      "h": 5,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f191",
+     "name": "Cuerpo",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -190,
+      0,
+      1155
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 90,
+      "h": 58
+     }
+    },
+    {
+     "id": "f192",
+     "name": "Anillo base",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -190,
+      0,
+      1155
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 96,
+      "h": 3
+     }
+    },
+    {
+     "id": "f193",
+     "name": "Perno nivelación 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -150,
+      0,
+      1148
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 5,
+      "h": 8
+     }
+    },
+    {
+     "id": "f194",
+     "name": "Perno nivelación 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -210,
+      34.6,
+      1148
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 5,
+      "h": 8
+     }
+    },
+    {
+     "id": "f195",
+     "name": "Perno nivelación 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -210,
+      -34.6,
+      1148
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 5,
+      "h": 8
+     }
+    },
+    {
+     "id": "f196",
+     "name": "Caja del reed",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -148,
+      0,
+      1162
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 10,
+      "d": 14,
+      "h": 18
+     }
+    },
+    {
+     "id": "f197",
+     "name": "Drenaje del cuerpo",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -190,
+      -44,
+      1158
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 3,
+      "depth": 4,
+      "through": false
+     }
+    },
+    {
+     "id": "f198",
+     "name": "Embudo cónico Ø160",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      -190,
+      0,
+      1213
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         6,
+         0
+        ],
+        "b": [
+         80,
+         18.5
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         80,
+         18.5
+        ],
+        "b": [
+         80,
+         21
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         80,
+         21
+        ],
+        "b": [
+         77,
+         21
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         77,
+         21
+        ],
+        "b": [
+         5,
+         2.2
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         5,
+         2.2
+        ],
+        "b": [
+         6,
+         0
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        0,
+        1
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f199",
+     "name": "Nivel de burbuja",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -152,
+      0,
+      1155
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "h": 3
+     }
+    },
+    {
+     "id": "f200",
+     "name": "Pincho antipájaros 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -118,
+      0,
+      1234
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 1.6,
+      "h": 22
+     }
+    },
+    {
+     "id": "f201",
+     "name": "Pincho antipájaros 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -139.09,
+      50.91,
+      1234
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 1.6,
+      "h": 22
+     }
+    },
+    {
+     "id": "f202",
+     "name": "Pincho antipájaros 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -190,
+      72,
+      1234
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 1.6,
+      "h": 22
+     }
+    },
+    {
+     "id": "f203",
+     "name": "Pincho antipájaros 4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -240.91,
+      50.91,
+      1234
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 1.6,
+      "h": 22
+     }
+    },
+    {
+     "id": "f204",
+     "name": "Pincho antipájaros 5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -262,
+      0,
+      1234
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 1.6,
+      "h": 22
+     }
+    },
+    {
+     "id": "f205",
+     "name": "Pincho antipájaros 6",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -240.91,
+      -50.91,
+      1234
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 1.6,
+      "h": 22
+     }
+    },
+    {
+     "id": "f206",
+     "name": "Pincho antipájaros 7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -190,
+      -72,
+      1234
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 1.6,
+      "h": 22
+     }
+    },
+    {
+     "id": "f207",
+     "name": "Pincho antipájaros 8",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -139.09,
+      -50.91,
+      1234
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 1.6,
+      "h": 22
+     }
+    }
+   ]
+  },
+  {
+   "id": "sensor_hoja",
+   "name": "34 Humedad de hoja — al follaje (heladas/enfermedades)",
+   "color": "#7aa05a",
+   "pos": [
+    250,
+    150,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f208",
+     "name": "Varilla ref.",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "h": 440
+     }
+    },
+    {
+     "id": "f209",
+     "name": "Placa capacitiva",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      30,
+      440
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 35,
+      "h": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "soporte_panel",
+   "name": "35 Soporte panel al poste (abrazadera + brazo 20°)",
+   "color": "#98a2ac",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f210",
+     "name": "Abrazadera U 1 1/2\"",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1570
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 60,
+      "d": 60,
+      "h": 10
+     }
+    },
+    {
+     "id": "f211",
+     "name": "Paso poste",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      1580
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 49,
+      "depth": 10,
+      "through": true
+     }
+    },
+    {
+     "id": "f212",
+     "name": "Perno U izq.",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      -29,
+      1575
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 6,
+      "h": 58
+     }
+    },
+    {
+     "id": "f213",
+     "name": "Perno U der.",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -28,
+      -29,
+      1575
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 6,
+      "h": 58
+     }
+    },
+    {
+     "id": "f214",
+     "name": "Tuerca",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28,
+      30,
+      1575
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "h": 4.4
+     }
+    },
+    {
+     "id": "f215",
+     "name": "Tuerca",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -28,
+      30,
+      1575
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "h": 4.4
+     }
+    },
+    {
+     "id": "f216",
+     "name": "Brazo +N",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      45,
+      1582
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 24,
+      "d": 60,
+      "h": 14
+     }
+    },
+    {
+     "id": "f217",
+     "name": "Travesaño",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      68,
+      1594
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 80,
+      "d": 12,
+      "h": 10
+     }
+    },
+    {
+     "id": "f218",
+     "name": "Cartela",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      -2,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "entities": [
+       {
+        "type": "line",
+        "a": [
+         32,
+         1582
+        ],
+        "b": [
+         70,
+         1594
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         70,
+         1594
+        ],
+        "b": [
+         32,
+         1594
+        ]
+       },
+       {
+        "type": "line",
+        "a": [
+         32,
+         1594
+        ],
+        "b": [
+         32,
+         1582
+        ]
+       }
+      ],
+      "h": 4,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f219",
+     "name": "Perno panel 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      30,
+      68,
+      1604
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 3
+     }
+    },
+    {
+     "id": "f220",
+     "name": "Perno panel 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -30,
+      68,
+      1604
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "panel",
+   "name": "36 Panel solar 5 W ETFE al NORTE (20°)",
+   "color": "#20344d",
+   "pos": [
+    0,
+    60,
+    1640
+   ],
+   "quat": [
+    -0.173648,
+    0,
+    0,
+    0.984808
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f221",
+     "name": "Panel",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 190,
+      "d": 130,
+      "h": 15
+     }
+    },
+    {
+     "id": "f222",
+     "name": "Rebaje del vidrio",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      14.4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 174,
+      "d": 114,
+      "h": 1.2
+     }
+    },
+    {
+     "id": "f223",
+     "name": "Retícula v1",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      -43.5,
+      0,
+      14.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 1.4,
+      "d": 114,
+      "h": 1
+     }
+    },
+    {
+     "id": "f224",
+     "name": "Retícula v2",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      14.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 1.4,
+      "d": 114,
+      "h": 1
+     }
+    },
+    {
+     "id": "f225",
+     "name": "Retícula v3",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      43.5,
+      0,
+      14.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 1.4,
+      "d": 114,
+      "h": 1
+     }
+    },
+    {
+     "id": "f226",
+     "name": "Retícula h1",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      -28.5,
+      14.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 174,
+      "d": 1.4,
+      "h": 1
+     }
+    },
+    {
+     "id": "f227",
+     "name": "Retícula h2",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      28.5,
+      14.2
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 174,
+      "d": 1.4,
+      "h": 1
+     }
+    },
+    {
+     "id": "f228",
+     "name": "Caja de conexiones",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -30,
+      -6
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 34,
+      "d": 24,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "antena",
+   "name": "37 Antena 868/915 2 dBi sobre el pasamuro N/SMA de la tapa (~2.15 m)",
+   "color": "#30363f",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f229",
+     "name": "Base N/SMA",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1930
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 14,
+      "h": 28
+     }
+    },
+    {
+     "id": "f230",
+     "name": "Moleteado SMA 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1934
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15.4,
+      "h": 1
+     }
+    },
+    {
+     "id": "f231",
+     "name": "Moleteado SMA 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1937
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 15.4,
+      "h": 1
+     }
+    },
+    {
+     "id": "f232",
+     "name": "Espira 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1958
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "h": 3
+     }
+    },
+    {
+     "id": "f233",
+     "name": "Espira 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1963
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "h": 3
+     }
+    },
+    {
+     "id": "f234",
+     "name": "Espira 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1968
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "h": 3
+     }
+    },
+    {
+     "id": "f235",
+     "name": "Látigo",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      1961
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 192
+     }
+    }
+   ]
+  },
+  {
+   "id": "cable_pluvio",
+   "name": "40 Cable pluviómetro (reed → pasacables del poste)",
+   "color": "#1c1f24",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f236",
+     "name": "Pluvio tramo 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -146.59,
+      0,
+      1156.1
+     ],
+     "dir": [
+      0.984784,
+      0,
+      -0.173785
+     ],
+     "params": {
+      "dia": 5,
+      "h": 35.73
+     }
+    },
+    {
+     "id": "f237",
+     "name": "Pluvio tramo 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -112.6,
+      0,
+      1150.04
+     ],
+     "dir": [
+      0.998053,
+      0,
+      -0.062378
+     ],
+     "params": {
+      "dia": 5,
+      "h": 49.29
+     }
+    },
+    {
+     "id": "f238",
+     "name": "Pluvio tramo 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -64.6,
+      0,
+      1146.95
+     ],
+     "dir": [
+      0.996729,
+      0,
+      0.080816
+     ],
+     "params": {
+      "dia": 5,
+      "h": 38.32
+     }
+    }
+   ]
+  },
+  {
+   "id": "cable_escudo",
+   "name": "41 Cable SHT40 (escudo → pasacables del poste)",
+   "color": "#1c1f24",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f239",
+     "name": "Escudo tramo 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      160.58,
+      0,
+      1528.14
+     ],
+     "dir": [
+      -0.97308,
+      0,
+      -0.230466
+     ],
+     "params": {
+      "dia": 4.5,
+      "h": 40.25
+     }
+    },
+    {
+     "id": "f240",
+     "name": "Escudo tramo 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      122.57,
+      0,
+      1519.17
+     ],
+     "dir": [
+      -0.957826,
+      0,
+      -0.287348
+     ],
+     "params": {
+      "dia": 4.5,
+      "h": 53.4
+     }
+    },
+    {
+     "id": "f241",
+     "name": "Escudo tramo 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      72.58,
+      0,
+      1504.15
+     ],
+     "dir": [
+      -0.966235,
+      0,
+      -0.257663
+     ],
+     "params": {
+      "dia": 4.5,
+      "h": 47.77
+     }
+    }
+   ]
+  },
+  {
+   "id": "cable_panel",
+   "name": "42 Cable panel (caja de conexiones → pasacables)",
+   "color": "#1c1f24",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f242",
+     "name": "Panel tramo 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      35.09,
+      1624.59
+     ],
+     "dir": [
+      0,
+      -0.14834,
+      -0.988936
+     ],
+     "params": {
+      "dia": 5,
+      "h": 21.42
+     }
+    },
+    {
+     "id": "f243",
+     "name": "Panel tramo 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      32.36,
+      1603.52
+     ],
+     "dir": [
+      0,
+      -0.6,
+      0.8
+     ],
+     "params": {
+      "dia": 5,
+      "h": 11.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "cable_hoja",
+   "name": "44 Cable sensor de hoja (enterrado somero → pasacables bajo)",
+   "color": "#1c1f24",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "features": [
+    {
+     "id": "f244",
+     "name": "Hoja tramo 1",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      248.51,
+      148.31,
+      12.05
+     ],
+     "dir": [
+      -0.848428,
+      -0.522109,
+      -0.087018
+     ],
+     "params": {
+      "dia": 4,
+      "h": 93.13
+     }
+    },
+    {
+     "id": "f245",
+     "name": "Hoja tramo 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      170.5,
+      100.34,
+      4.01
+     ],
+     "dir": [
+      -0.828804,
+      -0.559443,
+      -0.01036
+     ],
+     "params": {
+      "dia": 4,
+      "h": 97.72
+     }
+    },
+    {
+     "id": "f246",
+     "name": "Hoja tramo 3",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      90.49,
+      46.34,
+      2.95
+     ],
+     "dir": [
+      -0.824114,
+      -0.560397,
+      0.082411
+     ],
+     "params": {
+      "dia": 4,
+      "h": 61.87
+     }
+    },
+    {
+     "id": "f247",
+     "name": "Hoja tramo 4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      40.28,
+      12.2,
+      7.51
+     ],
+     "dir": [
+      -0.4741,
+      -0.338643,
+      0.812743
+     ],
+     "params": {
+      "dia": 4,
+      "h": 30.73
+     }
+    }
+   ]
+  }
+ ],
+ "constraints": []
+}
