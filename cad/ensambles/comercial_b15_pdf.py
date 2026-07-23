@@ -175,6 +175,12 @@ def foot(c, n, tag):
     mono(c, den, PW - 36 - mono_w(den, 6.5), 20, 6.5, MUT)
 
 
+def kicker(c, idx, label):
+    """Eyebrow de índice, arriba-derecha — cohesión entre láminas."""
+    t = f'{idx:02d} / {TOTAL:02d}   {label}'
+    mono(c, t, PW - 56 - mono_w(t, 6.8), PH - 58, 6.8, MUT)
+
+
 def wrap_sans(c, text, x, y, width, size=9, leading=None, color=FG, bold=False):
     f = 'SansB' if bold else 'Sans'
     leading = leading or size * 1.35
@@ -229,6 +235,7 @@ c.showPage()
 
 # ═══════════════════════════════════════════════════ 02 · DE DATO A DECISIÓN
 bg(c)
+kicker(c, 2, 'DE DATO A DECISIÓN')
 ruler(c, 36, 60, PH - 60)
 c.setFont('Big', 30)
 c.setFillColorRGB(*FG)
@@ -299,15 +306,17 @@ c.showPage()
 
 # ═══════════════════════════════════════════════════ 03 · LA ESTACIÓN
 bg(c)
+kicker(c, 3, 'LA ESTACIÓN')
 ruler(c, 36, 60, PH - 60)
 c.setFont('Big', 30)
 c.setFillColorRGB(*FG)
 c.drawString(56, PH - 64, 'UN POSTE. TODO EL CAMPO.')
-mono(c, 'HARDWARE V3 · 37 PIEZAS · VERIFICACIÓN GEOMÉTRICA 138/138 OK', 58, PH - 80, 7, MUT)
-img, cx0, cy0 = cropped_off('frente', 45)
-ix, iy, dw, dh = draw_img(c, img, PW / 2 - 130, 44, 260, PH - 140)
+mono(c, 'ANATOMÍA DE LA ESTACIÓN · ALTURAS NORMATIVAS · HARDWARE V3 · 37 PIEZAS · VERIFICACIÓN 138/138', 58, PH - 80, 7, MUT)
 import json as _json
 ANC = _json.load(open(os.path.join(CAPS, 'anclas_frente.json')))
+# render centrado (más angosto para dejar dos columnas de información)
+img, cx0, cy0 = cropped_off('frente', 45)
+ix, iy, dw, dh = draw_img(c, img, PW / 2 - 116, 96, 232, PH - 208)
 
 
 def ancla_pt(k):
@@ -315,48 +324,98 @@ def ancla_pt(k):
     return ix + (ax - cx0) * dw / img.width, iy + dh - (ay - cy0) * dh / img.height
 
 
-CALL = [
-    ('antena', 'ANTENA LORAWAN ~2.15 M', 'MEJOR HORIZONTE DE RADIO', 1),
-    ('cabezal', 'CABEZAL Ø125 EN NORMA', 'EN ISO 1452 · TÓRICAS ISO 3601', 1),
-    ('panel', 'PANEL SOLAR 5 W', 'AUTONOMÍA TODO EL AÑO', 0),
-    ('escudo', 'ESCUDO T/HR A 1.50 M', 'ALTURA NORMATIVA OMM Nº 8', 0),
-    ('pluvio', 'PLUVIÓMETRO Ø160 · 1.235 M', 'NIVELABLE ± 1°', 1),
-    ('poste', 'CERO CABLES A LA VISTA', '100 % INTERIOR AL POSTE', 0),
-    ('sonda', 'SONDA A 20 / 40 / 60 CM', 'SMT50 ±2 % VWC · TUBO DIELÉCTRICO', 1),
-]
-PTS = {k: ancla_pt(k) for k, _, _, _ in CALL}
-LY = {}
-for sv in (0, 1):   # separación mínima de 24 pt entre etiquetas del mismo lado
-    grupo = sorted([c_ for c_ in CALL if c_[3] == sv], key=lambda c_: -PTS[c_[0]][1])
-    prev = None
-    for c_ in grupo:
-        py = PTS[c_[0]][1]
-        LY[c_[0]] = py if prev is None else min(py, prev - 24)
-        prev = LY[c_[0]]
-for k, t1, t2, side in CALL:
-    px, py = PTS[k]
-    ly = LY[k]
+# ── mapa lineal altura(mm) → y de página, calibrado con dos anclas del render ──
+_za, _pya = 2020, ancla_pt('antena')[1]
+_zs, _pys = -250, ancla_pt('sonda')[1]
+_m = (_pya - _pys) / (_za - _zs)
+_b = _pya - _m * _za
+
+
+def zy(z):
+    return _m * z + _b
+
+
+# ── línea de suelo (NPT) que une altímetro y render + banda enterrada ─────────
+gy0 = zy(0)
+c.setFillColorRGB(0x2a / 255, 0x22 / 255, 0x18 / 255)
+c.setFillAlpha(0.5)
+c.rect(150, zy(-660), PW / 2 + 130 - 150, gy0 - zy(-660), stroke=0, fill=1)
+c.setFillAlpha(1)
+c.setStrokeColorRGB(*AMB)
+c.setStrokeAlpha(0.6)
+c.setLineWidth(0.8)
+c.setDash(3, 3)
+c.line(150, gy0, PW / 2 + 90, gy0)
+c.setDash()
+c.setStrokeAlpha(1)
+
+# ── ALTÍMETRO (izquierda): alturas normativas ────────────────────────────────
+axx = 150
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(1)
+c.line(axx, zy(2200), axx, zy(-660))
+mono(c, 'ALTURAS', 56, zy(2200) + 16, 6.5, MUT, bold=True)
+mono(c, 'NORMATIVAS', 56, zy(2200) + 7, 6.5, MUT, bold=True)
+HTS = [(2153, 'ANTENA', '~2.15 m', ACC),
+       (1500, 'T / HR', '1.50 m · OMM Nº 8', GRN),
+       (1235, 'PLUVIÓMETRO', 'boca 1.235 m', FG),
+       (0, 'SUPERFICIE', 'NPT 0.00', AMB),
+       (-200, 'SENSOR 1', '−20 cm', (0.72, 0.8, 0.92)),
+       (-400, 'SENSOR 2', '−40 cm', (0.72, 0.8, 0.92)),
+       (-600, 'SENSOR 3', '−60 cm', (0.72, 0.8, 0.92))]
+for z, t, v, col in HTS:
+    yy = zy(z)
+    c.setStrokeColorRGB(*EDGE)
+    c.setLineWidth(0.8)
+    c.line(axx - 6, yy, axx, yy)
+    c.setFillColorRGB(*INK)
+    c.circle(axx, yy, 3.0, stroke=0, fill=1)
+    c.setFillColorRGB(*col)
+    c.circle(axx, yy, 2.0, stroke=0, fill=1)
+    mono(c, t, 56, yy + 2, 6.8, FG, bold=True)
+    mono(c, v, 56, yy - 7, 6, MUT)
+
+# ── LEDGER de especificaciones (derecha) con guías al render ──────────────────
+LED = [('antena', 'ANTENA', 'LoRaWAN 868/915 · ~2.15 m'),
+       ('cabezal', 'CABEZAL', 'Ø125 · EN ISO 1452 · tóricas ISO 3601'),
+       ('panel', 'PANEL SOLAR', '5 W ETFE · orientado al norte'),
+       ('escudo', 'CLIMA T / HR', 'escudo a 1.50 m · OMM Nº 8'),
+       ('pluvio', 'PLUVIÓMETRO', 'Ø160 · boca 1.235 m · ±1°'),
+       ('poste', 'POSTE', 'SCH40 1½" · cero cables a la vista'),
+       ('sonda', 'SONDA', 'SMT50 ×3 · 20/40/60 cm · ±2 % VWC')]
+lx0, ltop, lbot = PW - 300, PH - 118, 156
+rowh = (ltop - lbot) / (len(LED) - 1)
+for i, (k, t, v) in enumerate(LED):
+    ry_ = ltop - i * rowh
+    px, py = ancla_pt(k)
     c.setStrokeColorRGB(*EDGE)
     c.setLineWidth(0.6)
-    if side:  # etiqueta a la derecha
-        x_lab = PW / 2 + 170
-        c.line(px + 7, py, x_lab - 8, ly)
-        c.setFillColorRGB(*ACC)
-        c.circle(px + 5, py, 1.7, stroke=0, fill=1)
-        mono(c, t1, x_lab, ly + 1.5, 7.5, FG, bold=True)
-        mono(c, t2, x_lab, ly - 8.5, 6, MUT)
-    else:     # etiqueta a la izquierda
-        x_lab = 66
-        c.line(x_lab + 168, ly, px - 7, py)
-        c.setFillColorRGB(*ACC)
-        c.circle(px - 5, py, 1.7, stroke=0, fill=1)
-        mono(c, t1, x_lab, ly + 1.5, 7.5, FG, bold=True)
-        mono(c, t2, x_lab, ly - 8.5, 6, MUT)
+    c.line(px + 6, py, lx0 - 8, ry_ + 4)
+    c.setFillColorRGB(*ACC)
+    c.circle(px + 5, py, 1.8, stroke=0, fill=1)
+    c.setFillColorRGB(*ACC)
+    c.rect(lx0, ry_ - 2, 2.2, 15, stroke=0, fill=1)
+    mono(c, t, lx0 + 9, ry_ + 4, 7.4, FG, bold=True)
+    mono(c, v, lx0 + 9, ry_ - 5.5, 6, MUT)
+
+# ── franja de normas al pie ───────────────────────────────────────────────────
+c.setStrokeColorRGB(*EDGE)
+c.setLineWidth(0.6)
+c.line(56, 96, PW - 56, 96)
+xb = 56
+for tag in ['EN ISO 1452', 'ISO 3601 · PARKER', 'DIN 912 A4', 'NPT 1½"', 'IEC 61076-2-101', 'OMM Nº 8', 'LORAWAN 868/915', 'IP68 OBJETIVO']:
+    wch = mono_w(tag, 6.4) + 16
+    c.setStrokeColorRGB(*EDGE)
+    c.setLineWidth(0.7)
+    c.roundRect(xb, 68, wch, 16, 8, stroke=1, fill=0)
+    mono(c, tag, xb + 8, 72.5, 6.4, MUT)
+    xb += wch + 7
 foot(c, 3, 'LA ESTACIÓN')
 c.showPage()
 
 # ═══════════════════════════════════════════════════ 04 · LA PLATAFORMA (CONCEPTO)
 bg(c)
+kicker(c, 4, 'LA PLATAFORMA · CONCEPTO')
 c.setFont('Big', 30)
 c.setFillColorRGB(*FG)
 c.drawString(56, PH - 64, 'LA PLATAFORMA QUE VIENE')
@@ -481,6 +540,7 @@ c.showPage()
 
 # ═══════════════════════════════════════════════════ 05 · COBERTURA Y ZONAS
 bg(c)
+kicker(c, 5, 'COBERTURA Y ZONAS')
 c.setFont('Big', 30)
 c.setFillColorRGB(*FG)
 c.drawString(56, PH - 64, 'COBERTURA Y ZONAS DE MANEJO')
@@ -642,6 +702,7 @@ c.showPage()
 
 # ═══════════════════════════════════════════════════ 06 · EL AHORRO
 bg(c)
+kicker(c, 6, 'EL AHORRO')
 c.drawImage(foto_jpg(foto_marco('campo_pivot', 1684, 1190, brillo=0.34, grad_izq=0.5)), 0, 0, PW, PH)
 ruler(c, 36, 60, PH - 60)
 c.setFont('Big', 30)
@@ -685,8 +746,9 @@ for k, v in dec:
 foot(c, 6, 'EL AHORRO')
 c.showPage()
 
-# ═══════════════════════════════════════════════════ 06 · POR CULTIVO, EN VOLUMEN
+# ═══════════════════════════════════════════════════ 07 · POR CULTIVO, EN VOLUMEN
 bg(c)
+kicker(c, 7, 'POR CULTIVO, EN VOLUMEN')
 ruler(c, 36, 60, PH - 60)
 c.setFont('Big', 30)
 c.setFillColorRGB(*FG)
@@ -789,8 +851,9 @@ mono(c, 'MICRO-RIEGO EN CAMPO · USDA NRCS', 64, 52, 5.6, FG)
 foot(c, 7, 'POR CULTIVO, EN VOLUMEN')
 c.showPage()
 
-# ═══════════════════════════════════════════════════ 07 · EL CASO DEL CEREZO
+# ═══════════════════════════════════════════════════ 08 · EL CASO DEL CEREZO
 bg(c)
+kicker(c, 8, 'EL CASO DEL CEREZO')
 ruler(c, 36, 60, PH - 60)
 c.setFont('Big', 30)
 c.setFillColorRGB(*FG)
@@ -852,8 +915,9 @@ mono(c, 'RDI · SCIENCEDIRECT (S0304423819300925) · SPRINGER (S00271-009-0174-Z
 foot(c, 8, 'EL CASO DEL CEREZO')
 c.showPage()
 
-# ═══════════════════════════════════════════════════ 07 · A ESCALA DE SU CAMPO
+# ═══════════════════════════════════════════════════ 09 · A ESCALA DE SU CAMPO
 bg(c)
+kicker(c, 9, 'A ESCALA DE SU CAMPO')
 ruler(c, 36, 60, PH - 60)
 c.setFont('Big', 30)
 c.setFillColorRGB(*FG)
@@ -890,8 +954,9 @@ mono(c, 'PRECIO Y CONDICIONES EN CONVERSACIÓN DIRECTA · CONTRERAS.SMA@GMAIL.CO
 foot(c, 9, 'A ESCALA DE SU CAMPO')
 c.showPage()
 
-# ═══════════════════════════════════════════════════ 06 · RUTA + CTA
+# ═══════════════════════════════════════════════════ 10 · RUTA + CTA
 bg(c)
+kicker(c, 10, 'LA RUTA')
 img = cropped('cabezal', 60)
 draw_img(c, img, PW - 300, 60, 250, PH - 140)
 ruler(c, 36, 60, PH - 60)
