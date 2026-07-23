@@ -8,28 +8,22 @@
   --ink:#0e1218; --panel:#151b23; --panel2:#1b222c; --raise:#212a36;
   --edge:#273349; --edge2:#324056; --fg:#e9eef6; --fg2:#c2ccdb; --mut:#7e8ca4; --mut2:#5b6675;
   --acc:#5b7cff; --acc-d:#2f4bd6; --grn:#4ec97b; --amb:#e0ad33; --red:#e5565b; --cyan:#49b6c8;
-  --d20:#4ec97b; --d40:#5b7cff; --d60:#e0ad33;   /* series por profundidad */
+  --d20:#4ec97b; --d40:#5b7cff; --d60:#e0ad33;
   --r:11px; --r2:8px;
   --shadow:0 1px 0 rgba(255,255,255,.03), 0 8px 24px -12px rgba(0,0,0,.6);
   font-synthesis:none;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{
-  background:
-    radial-gradient(1200px 600px at 78% -8%, #182234 0%, transparent 60%),
-    var(--ink);
-  color:var(--fg);
-  font:13px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  -webkit-font-smoothing:antialiased;
-}
+body{background:radial-gradient(1200px 600px at 78% -8%, #182234 0%, transparent 60%),var(--ink);
+  color:var(--fg);font:13px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
 .mono{font-family:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace}
-.kick{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.12em;color:var(--mut);text-transform:uppercase}
 button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
+a{color:inherit}
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-thumb{background:#2b3644;border-radius:8px;border:2px solid var(--ink)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
 
-/* ---- shell ---- */
 .app{display:grid;grid-template-columns:60px 1fr;grid-template-rows:56px 1fr;height:100vh;min-height:0}
 .side{grid-row:1/3;background:linear-gradient(180deg,#141a22,#10151c);border-right:1px solid var(--edge);
   display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 0}
@@ -46,64 +40,49 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
   font-size:11px;opacity:0;pointer-events:none;transform:translateX(-4px);transition:.12s;z-index:40;border:1px solid var(--edge2)}
 .nav a:hover .tip{opacity:1;transform:none}
 
-/* ---- topbar ---- */
 .top{grid-column:2;display:flex;align-items:center;gap:14px;padding:0 18px;border-bottom:1px solid var(--edge);
   background:rgba(16,21,28,.7);backdrop-filter:blur(8px)}
-.crumb{display:flex;align-items:center;gap:8px;color:var(--mut);font-size:12px}
-.crumb b{color:var(--fg)}
-.sel{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--edge);
-  border-radius:9px;padding:6px 10px}
+.sel{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--edge);border-radius:9px;padding:6px 10px}
 .sel svg{width:14px;height:14px;stroke:var(--mut);fill:none;stroke-width:1.8}
 .sel select{background:none;border:none;color:var(--fg);font:inherit;font-weight:600;outline:none}
-.search{flex:1;max-width:340px;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--edge);
-  border-radius:9px;padding:6px 10px;color:var(--mut)}
+.search{flex:1;max-width:340px;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--edge);border-radius:9px;padding:6px 10px;color:var(--mut)}
 .search svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
 .search input{background:none;border:none;color:var(--fg);font:inherit;outline:none;width:100%}
 .grow{flex:1}
 .live{display:flex;align-items:center;gap:7px;color:var(--grn);font-family:ui-monospace,monospace;font-size:11px}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--grn);box-shadow:0 0 0 0 rgba(78,201,123,.6);animation:pulse 2s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(78,201,123,.5)}70%{box-shadow:0 0 0 7px rgba(78,201,123,0)}100%{box-shadow:0 0 0 0 rgba(78,201,123,0)}}
+@media(prefers-reduced-motion:reduce){.dot{animation:none}}
 .icbtn{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;color:var(--mut);border:1px solid transparent;position:relative}
 .icbtn:hover{background:var(--panel);border-color:var(--edge);color:var(--fg2)}
 .icbtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7}
-.badge{position:absolute;top:5px;right:5px;min-width:15px;height:15px;padding:0 3px;border-radius:8px;background:var(--red);
-  color:#fff;font-size:9px;font-weight:700;display:grid;place-items:center;border:2px solid var(--ink)}
+.badge{position:absolute;top:5px;right:5px;min-width:15px;height:15px;padding:0 3px;border-radius:8px;background:var(--red);color:#fff;font-size:9px;font-weight:700;display:grid;place-items:center;border:2px solid var(--ink)}
 .user{display:flex;align-items:center;gap:9px;padding:4px 6px;border-radius:9px}
 .user:hover{background:var(--panel)}
-.avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#3a4a63,#25303f);display:grid;place-items:center;
-  font-weight:700;font-size:12px;color:#dbe4f0;border:1px solid var(--edge2)}
+.avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#3a4a63,#25303f);display:grid;place-items:center;font-weight:700;font-size:12px;color:#dbe4f0;border:1px solid var(--edge2)}
 
-/* ---- main ---- */
 .main{grid-column:2;overflow:auto;padding:16px 18px 26px}
 .h1{font-size:20px;font-weight:750;letter-spacing:-.01em;margin:2px 0 2px}
 .sub{color:var(--mut);font-size:12px;margin-bottom:14px}
-.demo-tag{display:inline-flex;align-items:center;gap:6px;color:var(--amb);border:1px solid rgba(224,173,51,.35);
-  background:rgba(224,173,51,.07);border-radius:999px;padding:2px 9px;font-size:10.5px;font-family:ui-monospace,monospace;letter-spacing:.06em}
-
-/* filtros */
+.demo-tag{display:inline-flex;align-items:center;gap:6px;color:var(--amb);border:1px solid rgba(224,173,51,.35);background:rgba(224,173,51,.07);border-radius:999px;padding:2px 9px;font-size:10.5px;font-family:ui-monospace,monospace;letter-spacing:.06em}
 .filters{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 16px}
 .seg{display:inline-flex;background:var(--panel);border:1px solid var(--edge);border-radius:9px;padding:3px}
 .seg button{padding:5px 11px;border-radius:7px;color:var(--mut);font-size:12px;font-weight:600}
 .seg button.on{background:var(--raise);color:var(--fg)}
-.chip{display:inline-flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--edge);border-radius:9px;
-  padding:6px 10px;color:var(--mut);font-size:12px;font-weight:600}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--edge);border-radius:9px;padding:6px 10px;color:var(--mut);font-size:12px;font-weight:600}
 .chip input{accent-color:var(--acc)}
-.filters .grow{flex:1}
 .ghostbtn{border:1px solid var(--edge);border-radius:9px;padding:6px 11px;color:var(--fg2);font-size:12px;font-weight:600;display:inline-flex;gap:7px;align-items:center}
 .ghostbtn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
 .ghostbtn:hover{border-color:var(--edge2);background:var(--panel)}
 
-/* KPIs */
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
-.kpi{background:linear-gradient(180deg,var(--panel),#12171e);border:1px solid var(--edge);border-radius:var(--r);
-  padding:13px 14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.kpi{background:linear-gradient(180deg,var(--panel),#12171e);border:1px solid var(--edge);border-radius:var(--r);padding:13px 14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
 .kpi .k{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.08em;color:var(--mut);text-transform:uppercase}
-.kpi .v{font-size:26px;font-weight:750;letter-spacing:-.02em;margin-top:6px}
+.kpi .v{font-size:26px;font-weight:750;letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums}
 .kpi .d{font-size:11px;margin-top:2px;color:var(--mut);display:flex;align-items:center;gap:6px}
 .kpi .spark{position:absolute;right:12px;top:12px;opacity:.85}
-.up{color:var(--grn)} .down{color:var(--red)} .warnc{color:var(--amb)}
+.up{color:var(--grn)} .warnc{color:var(--amb)}
 
-/* grid principal */
 .cols{display:grid;grid-template-columns:1.35fr 1fr;gap:14px;align-items:start}
 .card{background:linear-gradient(180deg,var(--panel),#12171e);border:1px solid var(--edge);border-radius:var(--r);box-shadow:var(--shadow)}
 .card .hd{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--edge)}
@@ -111,28 +90,20 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
 .card .hd .k{margin-left:auto;color:var(--mut)}
 .card .bd{padding:14px}
 
-/* mapa */
 .mapwrap{position:relative}
-.maplegend{position:absolute;left:12px;bottom:12px;display:flex;gap:14px;background:rgba(14,18,24,.72);border:1px solid var(--edge);
-  border-radius:9px;padding:7px 10px;font-size:11px;color:var(--mut);backdrop-filter:blur(4px)}
+.maplegend{position:absolute;left:12px;bottom:12px;display:flex;gap:14px;background:rgba(14,18,24,.72);border:1px solid var(--edge);border-radius:9px;padding:7px 10px;font-size:11px;color:var(--mut);backdrop-filter:blur(4px)}
 .maplegend b{color:var(--fg2);font-weight:600}
-.lg{display:flex;align-items:center;gap:6px}
-.sw{width:9px;height:9px;border-radius:50%} .swr{width:11px;height:11px;border:1.4px solid var(--acc);border-radius:50%}
+.lg{display:flex;align-items:center;gap:6px}.sw{width:9px;height:9px;border-radius:50%}
 .maptools{position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:6px}
 .maptools button{width:30px;height:30px;border-radius:8px;background:rgba(20,26,34,.8);border:1px solid var(--edge);color:var(--mut)}
 .maptools button:hover{color:var(--fg);border-color:var(--edge2)}
 svg .stn{cursor:pointer}
-.mtip{position:absolute;pointer-events:none;background:#0a0d12;border:1px solid var(--edge2);border-radius:8px;padding:7px 9px;
-  font-size:11px;opacity:0;transition:opacity .1s;z-index:20;box-shadow:0 8px 20px -8px #000;min-width:120px}
-.mtip .t{font-weight:700;margin-bottom:3px}
-.mtip .r{display:flex;justify-content:space-between;gap:14px;color:var(--mut)}
-.mtip .r b{color:var(--fg)}
+.mtip{position:absolute;pointer-events:none;background:#0a0d12;border:1px solid var(--edge2);border-radius:8px;padding:7px 9px;font-size:11px;opacity:0;transition:opacity .1s;z-index:20;box-shadow:0 8px 20px -8px #000;min-width:120px}
+.mtip .t{font-weight:700;margin-bottom:3px}.mtip .r{display:flex;justify-content:space-between;gap:14px;color:var(--mut)}.mtip .r b{color:var(--fg)}
 
-/* fleet table */
 .fleet{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
-.fleet th{text-align:left;color:var(--mut);font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.06em;
-  text-transform:uppercase;font-weight:600;padding:8px 10px;border-bottom:1px solid var(--edge)}
-.fleet td{padding:9px 10px;border-bottom:1px solid #1c2330;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fleet th{text-align:left;color:var(--mut);font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;padding:8px 10px;border-bottom:1px solid var(--edge)}
+.fleet td{padding:9px 10px;border-bottom:1px solid #1c2330;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
 .fleet tr{cursor:pointer}
 .fleet tr:hover td{background:#1a212b}
 .fleet tr.rowsel td{background:rgba(91,124,255,.10)}
@@ -140,588 +111,496 @@ svg .stn{cursor:pointer}
 .st{display:inline-flex;align-items:center;gap:6px;font-weight:600}
 .st .d{width:8px;height:8px;border-radius:50%;box-shadow:none;animation:none}
 .bat{display:inline-flex;align-items:center;gap:7px}
-.batbar{width:34px;height:7px;border-radius:4px;background:#222c39;overflow:hidden}
-.batbar i{display:block;height:100%;border-radius:4px}
-.sig{display:inline-flex;gap:2px;align-items:flex-end;height:12px}
-.sig i{width:3px;background:var(--mut2);border-radius:1px}
+.batbar{width:34px;height:7px;border-radius:4px;background:#222c39;overflow:hidden}.batbar i{display:block;height:100%;border-radius:4px}
+.sig{display:inline-flex;gap:2px;align-items:flex-end;height:12px}.sig i{width:3px;background:var(--mut2);border-radius:1px}
 .tag{font-family:ui-monospace,monospace;font-size:10.5px;color:var(--mut)}
 
-/* detalle */
 .dhead{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--edge)}
-.dhead .id{font-size:16px;font-weight:750}
-.dhead .meta{color:var(--mut);font-size:11.5px}
+.dhead .id{font-size:16px;font-weight:750}.dhead .meta{color:var(--mut);font-size:11.5px}
 .pill{font-family:ui-monospace,monospace;font-size:10px;padding:3px 8px;border-radius:999px;border:1px solid var(--edge2);color:var(--fg2)}
 .pill.ok{color:var(--grn);border-color:rgba(78,201,123,.4);background:rgba(78,201,123,.08)}
 .pill.warn{color:var(--amb);border-color:rgba(224,173,51,.4);background:rgba(224,173,51,.08)}
 .health{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--edge);border-bottom:1px solid var(--edge)}
 .health .h{background:var(--panel);padding:11px 12px}
 .health .k{font-family:ui-monospace,monospace;font-size:9.5px;letter-spacing:.06em;color:var(--mut);text-transform:uppercase}
-.health .v{font-size:16px;font-weight:700;margin-top:3px}
-.health .v small{font-size:11px;color:var(--mut);font-weight:500}
-
+.health .v{font-size:16px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums}.health .v small{font-size:11px;color:var(--mut);font-weight:500}
 .section{padding:13px 14px;border-bottom:1px solid var(--edge)}
 .section .lb{display:flex;align-items:center;gap:8px;margin-bottom:9px}
-.section .lb h4{margin:0;font-size:12px;font-weight:700}
-.section .lb .k{margin-left:auto;color:var(--mut);font-size:10.5px}
-.legend{display:flex;gap:14px;font-size:11px;color:var(--mut)}
-.legend .ln{display:flex;align-items:center;gap:6px}
-.legend .ln i{width:14px;height:2.5px;border-radius:2px}
-
+.section .lb h4{margin:0;font-size:12px;font-weight:700}.section .lb .k{margin-left:auto;color:var(--mut);font-size:10.5px}
+.legend{display:flex;gap:14px;font-size:11px;color:var(--mut);flex-wrap:wrap}
+.legend .ln{display:flex;align-items:center;gap:6px}.legend .ln i{width:14px;height:2.5px;border-radius:2px}
 .chartwrap{position:relative}
-.ctip{position:absolute;pointer-events:none;background:#0a0d12;border:1px solid var(--edge2);border-radius:8px;padding:8px 10px;
-  font-size:11px;opacity:0;transition:opacity .08s;z-index:15;box-shadow:0 8px 20px -8px #000;min-width:132px}
+.ctip{position:absolute;pointer-events:none;background:#0a0d12;border:1px solid var(--edge2);border-radius:8px;padding:8px 10px;font-size:11px;opacity:0;transition:opacity .08s;z-index:15;box-shadow:0 8px 20px -8px #000;min-width:132px}
 .ctip .d{color:var(--mut);font-size:10px;margin-bottom:5px;font-family:ui-monospace,monospace}
-.ctip .r{display:flex;align-items:center;gap:8px;justify-content:space-between}
-.ctip .r span{display:flex;align-items:center;gap:6px;color:var(--fg2)}
-.ctip .r b{font-variant-numeric:tabular-nums}
-.ctip .r i{width:12px;height:2.5px;border-radius:2px}
-
-/* recomendación */
+.ctip .r{display:flex;align-items:center;gap:8px;justify-content:space-between}.ctip .r span{display:flex;align-items:center;gap:6px;color:var(--fg2)}
+.ctip .r b{font-variant-numeric:tabular-nums}.ctip .r i{width:12px;height:2.5px;border-radius:2px}
 .reco{padding:14px;border-bottom:1px solid var(--edge);display:flex;gap:14px;align-items:center}
-.reco .big{flex:1}
-.reco .rk{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.06em;color:var(--mut);text-transform:uppercase}
-.reco .rv{font-size:22px;font-weight:750;margin-top:3px}
-.reco .rv b{color:var(--acc)}
+.reco .big{flex:1}.reco .rk{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.06em;color:var(--mut);text-transform:uppercase}
+.reco .rv{font-size:22px;font-weight:750;margin-top:3px}.reco .rv b{color:var(--acc)}
 .reco .rs{color:var(--mut);font-size:11.5px;margin-top:3px;max-width:270px}
-.reco .cta{background:var(--acc);color:#fff;font-weight:700;border-radius:10px;padding:10px 16px;box-shadow:0 8px 18px -8px var(--acc-d);white-space:nowrap}
-.reco .cta:hover{background:#6a89ff}
-
-/* alertas */
-.alert{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #1b2230}
-.alert:last-child{border-bottom:none}
-.alert .ai{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:0 0 auto}
+.cta{background:var(--acc);color:#fff;font-weight:700;border-radius:10px;padding:10px 16px;box-shadow:0 8px 18px -8px var(--acc-d);white-space:nowrap}
+.cta:hover{background:#6a89ff}.cta.sm{padding:6px 11px;font-size:12px}
+.alert{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #1b2230}.alert:last-child{border-bottom:none}
+.alert .ai{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:0 0 auto;background:rgba(255,255,255,.05)}
 .alert .ai svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
-.alert .at{font-weight:600;font-size:12px}
-.alert .as{color:var(--mut);font-size:11px}
-.alert .aw{color:var(--amb)} .alert .ac{color:var(--acc)} .alert .ar{color:var(--red)}
+.alert .at{font-weight:600;font-size:12px}.alert .as{color:var(--mut);font-size:11px}
+.aw{color:var(--amb)}.ac{color:var(--acc)}.ar{color:var(--red)}
 
 .foot{display:flex;align-items:center;gap:14px;color:var(--mut2);font-size:11px;margin-top:16px;flex-wrap:wrap}
-.foot .grow{flex:1}
+.abar{height:9px;border-radius:5px;background:#222c39;overflow:hidden}.abar i{display:block;height:100%}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#0a0d12;border:1px solid var(--acc);
+  color:var(--fg);padding:11px 16px;border-radius:11px;box-shadow:0 12px 30px -10px #000;font-size:13px;font-weight:600;opacity:0;
+  pointer-events:none;transition:.25s;z-index:80;display:flex;align-items:center;gap:9px}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast .dot{background:var(--acc);animation:none;box-shadow:none}
+
 @media(max-width:1100px){.cols{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
-/* tablet */
-@media(max-width:820px){
-  .top{gap:8px;padding:0 12px}
-  .search{display:none}
-  .user>div{display:none}
-}
-/* teléfono */
+@media(max-width:820px){.top{gap:8px;padding:0 12px}.search{display:none}.user>div{display:none}}
 @media(max-width:600px){
   .app{grid-template-columns:1fr;grid-template-rows:52px 1fr;height:100dvh}
-  /* sidebar → barra inferior de pestañas */
-  .side{grid-row:auto;position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:58px;
-    flex-direction:row;padding:0 4px;border-right:none;border-top:1px solid var(--edge);
-    justify-content:space-around;align-items:center;z-index:60;background:#0f141b}
+  .side{grid-row:auto;position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:58px;flex-direction:row;padding:0 4px;
+    border-right:none;border-top:1px solid var(--edge);justify-content:space-around;align-items:center;z-index:60;background:#0f141b}
   .side .logo,.side .sp,.side>a.nav{display:none}
   .side .nav{flex-direction:row;margin:0;gap:0;width:100%;justify-content:space-around}
-  .nav a{width:46px;height:44px}
-  .nav a.on{background:transparent;color:var(--acc)}
-  .nav a.on::before{display:none}
-  .nav a .tip{display:none}
-  .top{grid-column:1;padding:0 10px;gap:8px}
-  .main{grid-column:1;padding:12px 12px 74px}
-  .sel{padding:5px 8px;min-width:0}
-  .sel select{max-width:44vw;text-overflow:ellipsis}
-  .live span:not(.dot){display:none}
-  .icbtn[title="Sincronizar"]{display:none}
-  .h1{font-size:17px}
-  .sub{font-size:11px}
-  .demo-tag{font-size:9px}
-  .filters{gap:8px;margin:4px 0 12px}
-  .kpis{grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
-  .kpi{padding:11px}
-  .kpi .v{font-size:20px}
-  .kpi .spark{display:none}
-  .card .hd{padding:11px 12px}
-  .card .bd{padding:12px}
-  /* detalle */
-  .dhead{flex-wrap:wrap;gap:8px}
-  .health{grid-template-columns:repeat(2,1fr)}
-  .reco{flex-direction:column;align-items:stretch;gap:12px}
-  .reco .rs{max-width:none}
-  .reco .cta{width:100%;text-align:center;padding:12px}
-  /* tabla de flota: prioriza Estación · VWC · Batería · Estado */
-  .fleet{table-layout:auto}
-  .fleet col{width:auto}
-  .fleet th:nth-child(2),.fleet td:nth-child(2),
-  .fleet th:nth-child(5),.fleet td:nth-child(5),
-  .fleet th:nth-child(6),.fleet td:nth-child(6){display:none}
-  .maplegend{gap:9px;font-size:10px;padding:6px 8px}
-  .maptools{display:none}
+  .nav a{width:46px;height:44px}.nav a.on{background:transparent;color:var(--acc)}.nav a.on::before{display:none}.nav a .tip{display:none}
+  .top{grid-column:1;padding:0 10px;gap:8px}.main{grid-column:1;padding:12px 12px 74px}
+  .sel{padding:5px 8px;min-width:0}.sel select{max-width:42vw;text-overflow:ellipsis}
+  .live span:not(.dot){display:none}.icbtn[title="Sincronizar"]{display:none}
+  .h1{font-size:17px}.sub{font-size:11px}.demo-tag{font-size:9px}
+  .filters{gap:8px;margin:4px 0 12px}.kpis{grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+  .kpi{padding:11px}.kpi .v{font-size:20px}.kpi .spark{display:none}
+  .card .hd{padding:11px 12px}.card .bd{padding:12px}
+  .dhead{flex-wrap:wrap;gap:8px}.health{grid-template-columns:repeat(2,1fr)}
+  .reco{flex-direction:column;align-items:stretch;gap:12px}.reco .rs{max-width:none}.reco .cta{width:100%;text-align:center;padding:12px}
+  .fleet{table-layout:auto}.fleet col{width:auto}
+  .fleet th:nth-child(2),.fleet td:nth-child(2),.fleet th:nth-child(5),.fleet td:nth-child(5),.fleet th:nth-child(6),.fleet td:nth-child(6){display:none}
+  .maplegend{gap:9px;font-size:10px;padding:6px 8px}.maptools{display:none}
 }
 </style>
 </head>
 <body>
 <div class="app">
-  <!-- SIDEBAR -->
   <aside class="side">
     <div class="logo">f3</div>
     <nav class="nav" id="nav">
-      <a data-t="Panel" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="14" y="11" width="7" height="10" rx="1.5"></rect><rect x="3" y="15" width="7" height="6" rx="1.5"></rect></svg><span class="tip">Panel</span></a>
-      <a data-t="Mapa"><svg viewBox="0 0 24 24"><polygon points="9 4 3 6 3 20 9 18 15 20 21 18 21 4 15 6 9 4"></polygon><line x1="9" y1="4" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="20"></line></svg><span class="tip">Mapa de flota</span></a>
-      <a data-t="Estaciones"><svg viewBox="0 0 24 24"><path d="M4 20h16"></path><path d="M12 20V8"></path><circle cx="12" cy="6" r="2.5"></circle><path d="M7 20l1.5-6M17 20l-1.5-6"></path></svg><span class="tip">Estaciones</span></a>
-      <a data-t="Riego"><svg viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"></path></svg><span class="tip">Riego</span></a>
-      <a data-t="Alertas"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"></path><path d="M10.5 20a1.8 1.8 0 0 0 3 0"></path></svg><span class="tip">Alertas</span></a>
-      <a data-t="Reportes"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"></rect><line x1="9" y1="8" x2="15" y2="8"></line><line x1="9" y1="12" x2="15" y2="12"></line><line x1="9" y1="16" x2="13" y2="16"></line></svg><span class="tip">Reportes</span></a>
+      <a data-view="panel" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="14" y="11" width="7" height="10" rx="1.5"></rect><rect x="3" y="15" width="7" height="6" rx="1.5"></rect></svg><span class="tip">Panel</span></a>
+      <a data-view="mapa"><svg viewBox="0 0 24 24"><polygon points="9 4 3 6 3 20 9 18 15 20 21 18 21 4 15 6 9 4"></polygon><line x1="9" y1="4" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="20"></line></svg><span class="tip">Mapa de flota</span></a>
+      <a data-view="estaciones"><svg viewBox="0 0 24 24"><path d="M4 20h16"></path><path d="M12 20V8"></path><circle cx="12" cy="6" r="2.5"></circle><path d="M7 20l1.5-6M17 20l-1.5-6"></path></svg><span class="tip">Estaciones</span></a>
+      <a data-view="riego"><svg viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"></path></svg><span class="tip">Riego</span></a>
+      <a data-view="alertas"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"></path><path d="M10.5 20a1.8 1.8 0 0 0 3 0"></path></svg><span class="tip">Alertas</span></a>
+      <a data-view="reportes"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"></rect><line x1="9" y1="8" x2="15" y2="8"></line><line x1="9" y1="12" x2="15" y2="12"></line><line x1="9" y1="16" x2="13" y2="16"></line></svg><span class="tip">Reportes</span></a>
     </nav>
     <div class="sp"></div>
     <a class="nav" style="color:var(--mut)"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"></path></svg></a>
   </aside>
 
-  <!-- TOPBAR -->
   <header class="top">
     <div class="sel"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>
-      <select id="parcela"><option>Fundo El Peral · Parcela Norte</option><option>Fundo El Peral · Parcela Sur</option><option>Campo Los Almendros</option></select>
-    </div>
-    <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
-      <input placeholder="Buscar estación, sector, alerta…"></label>
+      <select id="parcela"><option>Fundo El Peral · Parcela Norte</option><option>Fundo El Peral · Parcela Sur</option><option>Campo Los Almendros</option></select></div>
+    <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg><input placeholder="Buscar estación, sector, alerta…"></label>
     <div class="grow"></div>
     <div class="live"><span class="dot"></span><span id="clock">EN VIVO · 00:00</span></div>
     <button class="icbtn" title="Sincronizar"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5l2 2M20 12a8 8 0 0 1-14 5l-2-2"></path><path d="M18 4v5h-5M6 20v-5h5"></path></svg></button>
-    <button class="icbtn" title="Alertas"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"></path><path d="M10.5 20a1.8 1.8 0 0 0 3 0"></path></svg><span class="badge">3</span></button>
+    <button class="icbtn" title="Alertas" id="bellBtn"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 6h16s-2-1-2-6a6 6 0 0 0-6-6z"></path><path d="M10.5 20a1.8 1.8 0 0 0 3 0"></path></svg><span class="badge" id="bellBadge">6</span></button>
     <button class="user"><div class="avatar">SC</div><div style="text-align:left;line-height:1.1"><div style="font-weight:700;font-size:12px">S. Contreras</div><div class="tag">Agrónomo</div></div></button>
   </header>
 
-  <!-- MAIN -->
   <main class="main">
     <div style="display:flex;align-items:center;gap:12px">
-      <div>
-        <div class="h1">Panel de campo</div>
-        <div class="sub">Fundo El Peral · Parcela Norte — 6 estaciones · 52 ha en 6 sectores de riego</div>
-      </div>
+      <div><div class="h1" id="viewTitle">Panel de campo</div><div class="sub" id="viewSub">Fundo El Peral · Parcela Norte — 6 estaciones · 52 ha en 6 sectores</div></div>
       <div class="grow"></div>
       <span class="demo-tag">● DEMO · DATOS SIMULADOS</span>
     </div>
-
-    <!-- filtros (una fila, arriba; scopean todo) -->
     <div class="filters">
-      <div class="seg" id="range">
-        <button data-r="7">7 días</button><button data-r="14" class="on">14 días</button><button data-r="30">30 días</button>
-      </div>
-      <label class="chip"><input type="checkbox" id="lyZonas" checked=""> Zonas de manejo</label>
-      <label class="chip"><input type="checkbox" id="lyCob"> Cobertura LoRaWAN</label>
+      <div class="seg" id="range"><button data-r="7">7 días</button><button data-r="14" class="on">14 días</button><button data-r="30">30 días</button></div>
+      <label class="chip" id="chZonas"><input type="checkbox" id="lyZonas" checked=""> Zonas de manejo</label>
+      <label class="chip" id="chCob"><input type="checkbox" id="lyCob"> Cobertura LoRaWAN</label>
       <div class="grow"></div>
-      <button class="ghostbtn"><svg viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>Exportar reporte</button>
+      <button class="ghostbtn" id="btnExport"><svg viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>Exportar reporte</button>
     </div>
-
-    <!-- KPIs (scopeados por rango) -->
-    <div class="kpis" id="kpis">
-   <div class="kpi"><div class="k">VWC raíz · ponderado</div><div class="v">30.3 <span style="font-size:15px;color:var(--mut)">%</span></div>
-     <div class="d"><span class="up">▲ en banda</span> media de la flota</div><svg class="spark" width="54" height="18"><polyline points="0,9.771750527943093 4.153846153846154,12.319870010247698 8.307692307692308,16.613434379987297 12.461538461538462,9.31914646019422 16.615384615384617,14.389558405068113 20.76923076923077,18 24.923076923076923,9.552295531918213 29.076923076923077,13.2017084647218 33.23076923076923,14.82938113595674 37.38461538461539,1.3221055261886647 41.53846153846154,0 45.69230769230769,7.0105835006739206 49.84615384615385,11.381416888102326 54,4.951756223610785" fill="none" stroke="#4ec97b" stroke-width="1.6"></polyline></svg></div>
-   <div class="kpi"><div class="k">Agua ahorrada · 14 d</div><div class="v">3808 <span style="font-size:15px;color:var(--mut)">m³</span></div>
-     <div class="d"><span class="up">▲ 12 %</span> vs. calendario fijo</div><svg class="spark" width="54" height="18"><polyline points="0,17.636913171004075 4.153846153846154,18 8.307692307692308,15.312021208228623 12.461538461538462,13.043082194631939 16.615384615384617,10.900356738859422 20.76923076923077,12.009065610526008 24.923076923076923,8.930567243356018 29.076923076923077,10.066629295573126 33.23076923076923,5.507515948519069 37.38461538461539,7.430123633704227 41.53846153846154,5.076779125983457 45.69230769230769,4.2958201828079385 49.84615384615385,1.6620749254038323 54,0" fill="none" stroke="#5b7cff" stroke-width="1.6"></polyline></svg></div>
-   <div class="kpi"><div class="k">Riegos evitados</div><div class="v">38</div>
-     <div class="d">últimos 14 días · sim.</div><svg class="spark" width="54" height="18"><polyline points="0,18 9,12 18,12 27,6 36,6 45,0 54,0" fill="none" stroke="#5b7cff" stroke-width="1.6"></polyline></svg></div>
-   <div class="kpi"><div class="k">Alertas activas</div><div class="v warnc">3</div>
-     <div class="d"><span class="warnc">2 helada · 1 hoja</span></div>
-     <svg class="spark" width="54" height="18"><g><rect x="0" y="18" width="6" height="0" fill="#e0ad33" rx="1"></rect><rect x="9" y="13" width="6" height="5" fill="#e0ad33" rx="1"></rect><rect x="18" y="18" width="6" height="0" fill="#e0ad33" rx="1"></rect><rect x="27" y="8" width="6" height="10" fill="#e0ad33" rx="1"></rect><rect x="36" y="13" width="6" height="5" fill="#e0ad33" rx="1"></rect><rect x="45" y="3" width="6" height="15" fill="#e0ad33" rx="1"></rect></g></svg></div></div>
-
-    <!-- grid principal -->
-    <div class="cols">
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <!-- MAPA -->
-        <div class="card">
-          <div class="hd"><h3>Mapa de flota</h3><span class="k mono" id="mapmeta">1 GATEWAY · 6 ESTACIONES · ZONAS </span></div>
-          <div class="bd" style="padding:0">
-            <div class="mapwrap">
-              <svg id="map" viewBox="0 0 620 360" style="width:100%;display:block"><defs><clipPath id="fclip"><polygon points="45.400000000000006,153.76 104.2,48.800000000000004 262.96,25.84 427.59999999999997,42.24 562.84,114.39999999999999 592.24,219.35999999999999 486.40000000000003,317.76 262.96,340.71999999999997 110.08,304.64 51.28,232.48000000000002"></polygon></clipPath>
-     <radialGradient id="cov" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#5b7cff" stop-opacity=".22"></stop><stop offset="100%" stop-color="#5b7cff" stop-opacity="0"></stop></radialGradient></defs><polygon points="45.400000000000006,153.76 104.2,48.800000000000004 262.96,25.84 427.59999999999997,42.24 562.84,114.39999999999999 592.24,219.35999999999999 486.40000000000003,317.76 262.96,340.71999999999997 110.08,304.64 51.28,232.48000000000002" fill="#141b24" stroke="#273349" stroke-width="1"></polygon><g clip-path="url(#fclip)"><rect x="16" y="16" width="37.35" height="33.4" fill="rgb(60,88,193)" opacity=".9"></rect><rect x="16" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(66,94,195)" opacity=".9"></rect><rect x="16" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(73,100,196)" opacity=".9"></rect><rect x="16" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(81,108,199)" opacity=".9"></rect><rect x="16" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(90,115,201)" opacity=".9"></rect><rect x="16" y="180" width="37.35" height="33.4" fill="rgb(98,123,203)" opacity=".9"></rect><rect x="16" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(106,131,205)" opacity=".9"></rect><rect x="16" y="245.6" width="37.35" height="33.4" fill="rgb(114,138,207)" opacity=".9"></rect><rect x="16" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(120,143,209)" opacity=".9"></rect><rect x="16" y="311.2" width="37.35" height="33.4" fill="rgb(125,148,210)" opacity=".9"></rect><rect x="52.75" y="16" width="37.35" height="33.4" fill="rgb(54,83,191)" opacity=".9"></rect><rect x="52.75" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(61,89,193)" opacity=".9"></rect><rect x="52.75" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(70,97,196)" opacity=".9"></rect><rect x="52.75" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(79,106,198)" opacity=".9"></rect><rect x="52.75" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="52.75" y="180" width="37.35" height="33.4" fill="rgb(100,124,204)" opacity=".9"></rect><rect x="52.75" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(109,133,206)" opacity=".9"></rect><rect x="52.75" y="245.6" width="37.35" height="33.4" fill="rgb(118,142,209)" opacity=".9"></rect><rect x="52.75" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(126,149,211)" opacity=".9"></rect><rect x="52.75" y="311.2" width="37.35" height="33.4" fill="rgb(132,154,212)" opacity=".9"></rect><rect x="89.5" y="16" width="37.35" height="33.4" fill="rgb(49,78,190)" opacity=".9"></rect><rect x="89.5" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(57,85,192)" opacity=".9"></rect><rect x="89.5" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(67,94,195)" opacity=".9"></rect><rect x="89.5" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(78,104,198)" opacity=".9"></rect><rect x="89.5" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="89.5" y="180" width="37.35" height="33.4" fill="rgb(101,126,204)" opacity=".9"></rect><rect x="89.5" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(112,136,207)" opacity=".9"></rect><rect x="89.5" y="245.6" width="37.35" height="33.4" fill="rgb(122,145,210)" opacity=".9"></rect><rect x="89.5" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(130,153,212)" opacity=".9"></rect><rect x="89.5" y="311.2" width="37.35" height="33.4" fill="rgb(137,159,214)" opacity=".9"></rect><rect x="126.25" y="16" width="37.35" height="33.4" fill="rgb(46,75,189)" opacity=".9"></rect><rect x="126.25" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(54,82,191)" opacity=".9"></rect><rect x="126.25" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(64,92,194)" opacity=".9"></rect><rect x="126.25" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(76,103,197)" opacity=".9"></rect><rect x="126.25" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="126.25" y="180" width="37.35" height="33.4" fill="rgb(102,126,204)" opacity=".9"></rect><rect x="126.25" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(114,138,207)" opacity=".9"></rect><rect x="126.25" y="245.6" width="37.35" height="33.4" fill="rgb(125,148,210)" opacity=".9"></rect><rect x="126.25" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(134,156,213)" opacity=".9"></rect><rect x="126.25" y="311.2" width="37.35" height="33.4" fill="rgb(141,163,215)" opacity=".9"></rect><rect x="163" y="16" width="37.35" height="33.4" fill="rgb(43,72,188)" opacity=".9"></rect><rect x="163" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(52,81,191)" opacity=".9"></rect><rect x="163" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(63,91,194)" opacity=".9"></rect><rect x="163" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(75,102,197)" opacity=".9"></rect><rect x="163" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,114,201)" opacity=".9"></rect><rect x="163" y="180" width="37.35" height="33.4" fill="rgb(102,127,204)" opacity=".9"></rect><rect x="163" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(115,139,208)" opacity=".9"></rect><rect x="163" y="245.6" width="37.35" height="33.4" fill="rgb(127,149,211)" opacity=".9"></rect><rect x="163" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(136,158,213)" opacity=".9"></rect><rect x="163" y="311.2" width="37.35" height="33.4" fill="rgb(144,165,215)" opacity=".9"></rect><rect x="199.75" y="16" width="37.35" height="33.4" fill="rgb(42,71,188)" opacity=".9"></rect><rect x="199.75" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(51,80,191)" opacity=".9"></rect><rect x="199.75" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(62,90,194)" opacity=".9"></rect><rect x="199.75" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(75,102,197)" opacity=".9"></rect><rect x="199.75" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,114,201)" opacity=".9"></rect><rect x="199.75" y="180" width="37.35" height="33.4" fill="rgb(102,127,204)" opacity=".9"></rect><rect x="199.75" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(116,139,208)" opacity=".9"></rect><rect x="199.75" y="245.6" width="37.35" height="33.4" fill="rgb(127,150,211)" opacity=".9"></rect><rect x="199.75" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(137,159,214)" opacity=".9"></rect><rect x="199.75" y="311.2" width="37.35" height="33.4" fill="rgb(145,166,216)" opacity=".9"></rect><rect x="236.5" y="16" width="37.35" height="33.4" fill="rgb(43,72,188)" opacity=".9"></rect><rect x="236.5" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(52,80,191)" opacity=".9"></rect><rect x="236.5" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(63,90,194)" opacity=".9"></rect><rect x="236.5" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(75,102,197)" opacity=".9"></rect><rect x="236.5" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,114,201)" opacity=".9"></rect><rect x="236.5" y="180" width="37.35" height="33.4" fill="rgb(102,127,204)" opacity=".9"></rect><rect x="236.5" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(115,139,208)" opacity=".9"></rect><rect x="236.5" y="245.6" width="37.35" height="33.4" fill="rgb(127,150,211)" opacity=".9"></rect><rect x="236.5" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(137,159,214)" opacity=".9"></rect><rect x="236.5" y="311.2" width="37.35" height="33.4" fill="rgb(144,166,216)" opacity=".9"></rect><rect x="273.25" y="16" width="37.35" height="33.4" fill="rgb(44,74,189)" opacity=".9"></rect><rect x="273.25" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(53,82,191)" opacity=".9"></rect><rect x="273.25" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(64,91,194)" opacity=".9"></rect><rect x="273.25" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(76,103,197)" opacity=".9"></rect><rect x="273.25" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="273.25" y="180" width="37.35" height="33.4" fill="rgb(102,127,204)" opacity=".9"></rect><rect x="273.25" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(114,138,208)" opacity=".9"></rect><rect x="273.25" y="245.6" width="37.35" height="33.4" fill="rgb(126,149,211)" opacity=".9"></rect><rect x="273.25" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(135,157,213)" opacity=".9"></rect><rect x="273.25" y="311.2" width="37.35" height="33.4" fill="rgb(142,164,215)" opacity=".9"></rect><rect x="310" y="16" width="37.35" height="33.4" fill="rgb(48,77,190)" opacity=".9"></rect><rect x="310" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(56,84,192)" opacity=".9"></rect><rect x="310" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(66,93,194)" opacity=".9"></rect><rect x="310" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(77,104,197)" opacity=".9"></rect><rect x="310" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="310" y="180" width="37.35" height="33.4" fill="rgb(101,126,204)" opacity=".9"></rect><rect x="310" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(113,137,207)" opacity=".9"></rect><rect x="310" y="245.6" width="37.35" height="33.4" fill="rgb(123,146,210)" opacity=".9"></rect><rect x="310" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(132,154,212)" opacity=".9"></rect><rect x="310" y="311.2" width="37.35" height="33.4" fill="rgb(139,161,214)" opacity=".9"></rect><rect x="346.75" y="16" width="37.35" height="33.4" fill="rgb(52,81,191)" opacity=".9"></rect><rect x="346.75" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(59,87,193)" opacity=".9"></rect><rect x="346.75" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(68,96,195)" opacity=".9"></rect><rect x="346.75" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(78,105,198)" opacity=".9"></rect><rect x="346.75" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="346.75" y="180" width="37.35" height="33.4" fill="rgb(100,125,204)" opacity=".9"></rect><rect x="346.75" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(110,135,206)" opacity=".9"></rect><rect x="346.75" y="245.6" width="37.35" height="33.4" fill="rgb(120,143,209)" opacity=".9"></rect><rect x="346.75" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(128,151,211)" opacity=".9"></rect><rect x="346.75" y="311.2" width="37.35" height="33.4" fill="rgb(134,156,213)" opacity=".9"></rect><rect x="383.5" y="16" width="37.35" height="33.4" fill="rgb(58,86,192)" opacity=".9"></rect><rect x="383.5" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(64,92,194)" opacity=".9"></rect><rect x="383.5" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(72,99,196)" opacity=".9"></rect><rect x="383.5" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(80,107,198)" opacity=".9"></rect><rect x="383.5" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(90,115,201)" opacity=".9"></rect><rect x="383.5" y="180" width="37.35" height="33.4" fill="rgb(99,124,203)" opacity=".9"></rect><rect x="383.5" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(108,132,206)" opacity=".9"></rect><rect x="383.5" y="245.6" width="37.35" height="33.4" fill="rgb(116,139,208)" opacity=".9"></rect><rect x="383.5" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(123,146,210)" opacity=".9"></rect><rect x="383.5" y="311.2" width="37.35" height="33.4" fill="rgb(128,151,211)" opacity=".9"></rect><rect x="420.25" y="16" width="37.35" height="33.4" fill="rgb(64,92,194)" opacity=".9"></rect><rect x="420.25" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(69,97,195)" opacity=".9"></rect><rect x="420.25" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(76,102,197)" opacity=".9"></rect><rect x="420.25" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(83,109,199)" opacity=".9"></rect><rect x="420.25" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(90,116,201)" opacity=".9"></rect><rect x="420.25" y="180" width="37.35" height="33.4" fill="rgb(97,122,203)" opacity=".9"></rect><rect x="420.25" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(104,129,205)" opacity=".9"></rect><rect x="420.25" y="245.6" width="37.35" height="33.4" fill="rgb(111,135,207)" opacity=".9"></rect><rect x="420.25" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(116,140,208)" opacity=".9"></rect><rect x="420.25" y="311.2" width="37.35" height="33.4" fill="rgb(121,144,209)" opacity=".9"></rect><rect x="457" y="16" width="37.35" height="33.4" fill="rgb(71,98,196)" opacity=".9"></rect><rect x="457" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(75,102,197)" opacity=".9"></rect><rect x="457" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(80,106,198)" opacity=".9"></rect><rect x="457" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(85,111,200)" opacity=".9"></rect><rect x="457" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(90,116,201)" opacity=".9"></rect><rect x="457" y="180" width="37.35" height="33.4" fill="rgb(96,121,202)" opacity=".9"></rect><rect x="457" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(101,126,204)" opacity=".9"></rect><rect x="457" y="245.6" width="37.35" height="33.4" fill="rgb(106,130,205)" opacity=".9"></rect><rect x="457" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(110,134,206)" opacity=".9"></rect><rect x="457" y="311.2" width="37.35" height="33.4" fill="rgb(113,137,207)" opacity=".9"></rect><rect x="493.75" y="16" width="37.35" height="33.4" fill="rgb(79,105,198)" opacity=".9"></rect><rect x="493.75" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(82,108,199)" opacity=".9"></rect><rect x="493.75" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(84,110,199)" opacity=".9"></rect><rect x="493.75" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(87,113,200)" opacity=".9"></rect><rect x="493.75" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(91,116,201)" opacity=".9"></rect><rect x="493.75" y="180" width="37.35" height="33.4" fill="rgb(94,119,202)" opacity=".9"></rect><rect x="493.75" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(97,122,203)" opacity=".9"></rect><rect x="493.75" y="245.6" width="37.35" height="33.4" fill="rgb(100,125,204)" opacity=".9"></rect><rect x="493.75" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(103,127,204)" opacity=".9"></rect><rect x="493.75" y="311.2" width="37.35" height="33.4" fill="rgb(105,130,205)" opacity=".9"></rect><rect x="530.5" y="16" width="37.35" height="33.4" fill="rgb(87,113,200)" opacity=".9"></rect><rect x="530.5" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(88,114,200)" opacity=".9"></rect><rect x="530.5" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="530.5" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(90,116,201)" opacity=".9"></rect><rect x="530.5" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(91,117,201)" opacity=".9"></rect><rect x="530.5" y="180" width="37.35" height="33.4" fill="rgb(92,117,201)" opacity=".9"></rect><rect x="530.5" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(93,118,202)" opacity=".9"></rect><rect x="530.5" y="245.6" width="37.35" height="33.4" fill="rgb(94,119,202)" opacity=".9"></rect><rect x="530.5" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(95,121,202)" opacity=".9"></rect><rect x="530.5" y="311.2" width="37.35" height="33.4" fill="rgb(97,122,203)" opacity=".9"></rect><rect x="567.25" y="16" width="37.35" height="33.4" fill="rgb(94,120,202)" opacity=".9"></rect><rect x="567.25" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(94,120,202)" opacity=".9"></rect><rect x="567.25" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(94,119,202)" opacity=".9"></rect><rect x="567.25" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(93,118,202)" opacity=".9"></rect><rect x="567.25" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(91,117,201)" opacity=".9"></rect><rect x="567.25" y="180" width="37.35" height="33.4" fill="rgb(90,116,201)" opacity=".9"></rect><rect x="567.25" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="567.25" y="245.6" width="37.35" height="33.4" fill="rgb(88,114,201)" opacity=".9"></rect><rect x="567.25" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(88,114,200)" opacity=".9"></rect><rect x="567.25" y="311.2" width="37.35" height="33.4" fill="rgb(88,114,201)" opacity=".9"></rect></g><polygon points="45.400000000000006,153.76 104.2,48.800000000000004 262.96,25.84 427.59999999999997,42.24 562.84,114.39999999999999 592.24,219.35999999999999 486.40000000000003,317.76 262.96,340.71999999999997 110.08,304.64 51.28,232.48000000000002" fill="none" stroke="rgba(91,124,255,.5)" stroke-width="1.4"></polygon><g transform="translate(286.48,180)"><line x1="0" y1="0" x2="0" y2="-13" stroke="#e9eef6" stroke-width="1.4"></line>
-     <rect x="-4.5" y="-18" width="9" height="9" transform="rotate(45 0 -13.5)" fill="#e0ad33"></rect><circle r="3" fill="#0a0d12"></circle><circle r="1.8" fill="#e0ad33"></circle></g><g class="stn" data-id="B15-001"><circle cx="192.4" cy="114.39999999999999" r="9" fill="none" stroke="#5b7cff" stroke-width="2"></circle>
-       <circle cx="192.4" cy="114.39999999999999" r="5" fill="#0a0d12"></circle><circle cx="192.4" cy="114.39999999999999" r="3.4" fill="#4ec97b"></circle>
-       <text x="201.4" y="117.39999999999999" fill="#e9eef6" font-size="9" font-family="ui-monospace">001</text></g><g class="stn" data-id="B15-002"><circle cx="339.40000000000003" cy="94.72" r="6" fill="none" stroke="transparent" stroke-width="2"></circle>
-       <circle cx="339.40000000000003" cy="94.72" r="5" fill="#0a0d12"></circle><circle cx="339.40000000000003" cy="94.72" r="3.4" fill="#4ec97b"></circle>
-       <text x="348.40000000000003" y="97.72" fill="#e9eef6" font-size="9" font-family="ui-monospace">002</text></g><g class="stn" data-id="B15-003"><circle cx="439.35999999999996" cy="163.6" r="6" fill="none" stroke="transparent" stroke-width="2"></circle>
-       <circle cx="439.35999999999996" cy="163.6" r="5" fill="#0a0d12"></circle><circle cx="439.35999999999996" cy="163.6" r="3.4" fill="#e0ad33"></circle>
-       <text x="448.35999999999996" y="166.6" fill="#e9eef6" font-size="9" font-family="ui-monospace">003</text></g><g class="stn" data-id="B15-004"><circle cx="368.8" cy="245.6" r="6" fill="none" stroke="transparent" stroke-width="2"></circle>
-       <circle cx="368.8" cy="245.6" r="5" fill="#0a0d12"></circle><circle cx="368.8" cy="245.6" r="3.4" fill="#4ec97b"></circle>
-       <text x="377.8" y="248.6" fill="#e9eef6" font-size="9" font-family="ui-monospace">004</text></g><g class="stn" data-id="B15-005"><circle cx="215.92000000000002" cy="219.35999999999999" r="6" fill="none" stroke="transparent" stroke-width="2"></circle>
-       <circle cx="215.92000000000002" cy="219.35999999999999" r="5" fill="#0a0d12"></circle><circle cx="215.92000000000002" cy="219.35999999999999" r="3.4" fill="#4ec97b"></circle>
-       <text x="224.92000000000002" y="222.35999999999999" fill="#e9eef6" font-size="9" font-family="ui-monospace">005</text></g><g class="stn" data-id="B15-006"><circle cx="145.36" cy="180" r="6" fill="none" stroke="transparent" stroke-width="2"></circle>
-       <circle cx="145.36" cy="180" r="5" fill="#0a0d12"></circle><circle cx="145.36" cy="180" r="3.4" fill="#4ec97b"></circle>
-       <text x="154.36" y="183" fill="#e9eef6" font-size="9" font-family="ui-monospace">006</text></g></svg>
-              <div class="maptools"><button title="Acercar">+</button><button title="Alejar">−</button><button title="Centrar">⌖</button></div>
-              <div class="maplegend" id="maplegend"><div class="lg"><span class="sw" style="background:#4ec97b"></span><b>Estación OK</b></div>
+    <div id="view"><div class="kpis" id="kpis"><div class="kpi"><div class="k">VWC raíz · ponderado</div><div class="v">30.3 <span style="font-size:15px;color:var(--mut)">%</span></div><div class="d"><span class="up">▲ en banda</span> media de la flota</div><svg class="spark" width="54" height="18"><polyline points="0,9.771750527943093 4.153846153846154,12.319870010247698 8.307692307692308,16.613434379987297 12.461538461538462,9.31914646019422 16.615384615384617,14.389558405068113 20.76923076923077,18 24.923076923076923,9.552295531918213 29.076923076923077,13.2017084647218 33.23076923076923,14.82938113595674 37.38461538461539,1.3221055261886647 41.53846153846154,0 45.69230769230769,7.0105835006739206 49.84615384615385,11.381416888102326 54,4.951756223610785" fill="none" stroke="#4ec97b" stroke-width="1.6"></polyline></svg></div>
+   <div class="kpi"><div class="k">Agua ahorrada · 14 d</div><div class="v">3.808 <span style="font-size:15px;color:var(--mut)">m³</span></div><div class="d"><span class="up">▲ 12 %</span> vs. calendario fijo</div><svg class="spark" width="54" height="18"><polyline points="0,17.636913171004075 4.153846153846154,18 8.307692307692308,15.312021208228623 12.461538461538462,13.043082194631939 16.615384615384617,10.900356738859422 20.76923076923077,12.009065610526008 24.923076923076923,8.930567243356018 29.076923076923077,10.066629295573126 33.23076923076923,5.507515948519069 37.38461538461539,7.430123633704227 41.53846153846154,5.076779125983457 45.69230769230769,4.2958201828079385 49.84615384615385,1.6620749254038323 54,0" fill="none" stroke="#5b7cff" stroke-width="1.6"></polyline></svg></div>
+   <div class="kpi"><div class="k">Riegos evitados</div><div class="v">38</div><div class="d">últimos 14 días · sim.</div><svg class="spark" width="54" height="18"><polyline points="0,18 9,12 18,12 27,6 36,6 45,0 54,0" fill="none" stroke="#5b7cff" stroke-width="1.6"></polyline></svg></div>
+   <div class="kpi"><div class="k">Alertas activas</div><div class="v warnc">6</div><div class="d"><span class="warnc">4 helada · 2 hoja</span></div>
+     <svg class="spark" width="54" height="18"><rect x="0" y="18" width="6" height="0" fill="#e0ad33" rx="1"></rect><rect x="9" y="13" width="6" height="5" fill="#e0ad33" rx="1"></rect><rect x="18" y="18" width="6" height="0" fill="#e0ad33" rx="1"></rect><rect x="27" y="8" width="6" height="10" fill="#e0ad33" rx="1"></rect><rect x="36" y="13" width="6" height="5" fill="#e0ad33" rx="1"></rect><rect x="45" y="3" width="6" height="15" fill="#e0ad33" rx="1"></rect></svg></div></div>
+   <div class="cols"><div style="display:flex;flex-direction:column;gap:14px">
+     <div class="card"><div class="hd"><h3>Mapa de flota</h3><span class="k mono" id="mapmeta">1 GATEWAY · 6 ESTACIONES · ZONAS </span></div>
+       <div class="bd" style="padding:0"><div class="mapwrap"><svg id="map" viewBox="0 0 620 360" style="width:100%;display:block"><defs><clipPath id="fclip"><polygon points="45.400000000000006,153.76 104.2,48.800000000000004 262.96,25.84 427.59999999999997,42.24 562.84,114.39999999999999 592.24,219.35999999999999 486.40000000000003,317.76 262.96,340.71999999999997 110.08,304.64 51.28,232.48000000000002"></polygon></clipPath>
+    <radialGradient id="cov" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#5b7cff" stop-opacity=".22"></stop><stop offset="100%" stop-color="#5b7cff" stop-opacity="0"></stop></radialGradient></defs><polygon points="45.400000000000006,153.76 104.2,48.800000000000004 262.96,25.84 427.59999999999997,42.24 562.84,114.39999999999999 592.24,219.35999999999999 486.40000000000003,317.76 262.96,340.71999999999997 110.08,304.64 51.28,232.48000000000002" fill="#141b24" stroke="#273349" stroke-width="1"></polygon><g clip-path="url(#fclip)"><rect x="16" y="16" width="37.35" height="33.4" fill="rgb(60,88,193)" opacity=".9"></rect><rect x="16" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(66,94,195)" opacity=".9"></rect><rect x="16" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(73,100,196)" opacity=".9"></rect><rect x="16" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(81,108,199)" opacity=".9"></rect><rect x="16" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(90,115,201)" opacity=".9"></rect><rect x="16" y="180" width="37.35" height="33.4" fill="rgb(98,123,203)" opacity=".9"></rect><rect x="16" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(106,131,205)" opacity=".9"></rect><rect x="16" y="245.6" width="37.35" height="33.4" fill="rgb(114,138,207)" opacity=".9"></rect><rect x="16" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(120,143,209)" opacity=".9"></rect><rect x="16" y="311.2" width="37.35" height="33.4" fill="rgb(125,148,210)" opacity=".9"></rect><rect x="52.75" y="16" width="37.35" height="33.4" fill="rgb(54,83,191)" opacity=".9"></rect><rect x="52.75" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(61,89,193)" opacity=".9"></rect><rect x="52.75" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(70,97,196)" opacity=".9"></rect><rect x="52.75" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(79,106,198)" opacity=".9"></rect><rect x="52.75" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="52.75" y="180" width="37.35" height="33.4" fill="rgb(100,124,204)" opacity=".9"></rect><rect x="52.75" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(109,133,206)" opacity=".9"></rect><rect x="52.75" y="245.6" width="37.35" height="33.4" fill="rgb(118,142,209)" opacity=".9"></rect><rect x="52.75" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(126,149,211)" opacity=".9"></rect><rect x="52.75" y="311.2" width="37.35" height="33.4" fill="rgb(132,154,212)" opacity=".9"></rect><rect x="89.5" y="16" width="37.35" height="33.4" fill="rgb(49,78,190)" opacity=".9"></rect><rect x="89.5" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(57,85,192)" opacity=".9"></rect><rect x="89.5" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(67,94,195)" opacity=".9"></rect><rect x="89.5" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(78,104,198)" opacity=".9"></rect><rect x="89.5" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="89.5" y="180" width="37.35" height="33.4" fill="rgb(101,126,204)" opacity=".9"></rect><rect x="89.5" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(112,136,207)" opacity=".9"></rect><rect x="89.5" y="245.6" width="37.35" height="33.4" fill="rgb(122,145,210)" opacity=".9"></rect><rect x="89.5" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(130,153,212)" opacity=".9"></rect><rect x="89.5" y="311.2" width="37.35" height="33.4" fill="rgb(137,159,214)" opacity=".9"></rect><rect x="126.25" y="16" width="37.35" height="33.4" fill="rgb(46,75,189)" opacity=".9"></rect><rect x="126.25" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(54,82,191)" opacity=".9"></rect><rect x="126.25" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(64,92,194)" opacity=".9"></rect><rect x="126.25" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(76,103,197)" opacity=".9"></rect><rect x="126.25" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="126.25" y="180" width="37.35" height="33.4" fill="rgb(102,126,204)" opacity=".9"></rect><rect x="126.25" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(114,138,207)" opacity=".9"></rect><rect x="126.25" y="245.6" width="37.35" height="33.4" fill="rgb(125,148,210)" opacity=".9"></rect><rect x="126.25" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(134,156,213)" opacity=".9"></rect><rect x="126.25" y="311.2" width="37.35" height="33.4" fill="rgb(141,163,215)" opacity=".9"></rect><rect x="163" y="16" width="37.35" height="33.4" fill="rgb(43,72,188)" opacity=".9"></rect><rect x="163" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(52,81,191)" opacity=".9"></rect><rect x="163" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(63,91,194)" opacity=".9"></rect><rect x="163" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(75,102,197)" opacity=".9"></rect><rect x="163" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,114,201)" opacity=".9"></rect><rect x="163" y="180" width="37.35" height="33.4" fill="rgb(102,127,204)" opacity=".9"></rect><rect x="163" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(115,139,208)" opacity=".9"></rect><rect x="163" y="245.6" width="37.35" height="33.4" fill="rgb(127,149,211)" opacity=".9"></rect><rect x="163" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(136,158,213)" opacity=".9"></rect><rect x="163" y="311.2" width="37.35" height="33.4" fill="rgb(144,165,215)" opacity=".9"></rect><rect x="199.75" y="16" width="37.35" height="33.4" fill="rgb(42,71,188)" opacity=".9"></rect><rect x="199.75" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(51,80,191)" opacity=".9"></rect><rect x="199.75" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(62,90,194)" opacity=".9"></rect><rect x="199.75" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(75,102,197)" opacity=".9"></rect><rect x="199.75" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,114,201)" opacity=".9"></rect><rect x="199.75" y="180" width="37.35" height="33.4" fill="rgb(102,127,204)" opacity=".9"></rect><rect x="199.75" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(116,139,208)" opacity=".9"></rect><rect x="199.75" y="245.6" width="37.35" height="33.4" fill="rgb(127,150,211)" opacity=".9"></rect><rect x="199.75" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(137,159,214)" opacity=".9"></rect><rect x="199.75" y="311.2" width="37.35" height="33.4" fill="rgb(145,166,216)" opacity=".9"></rect><rect x="236.5" y="16" width="37.35" height="33.4" fill="rgb(43,72,188)" opacity=".9"></rect><rect x="236.5" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(52,80,191)" opacity=".9"></rect><rect x="236.5" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(63,90,194)" opacity=".9"></rect><rect x="236.5" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(75,102,197)" opacity=".9"></rect><rect x="236.5" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,114,201)" opacity=".9"></rect><rect x="236.5" y="180" width="37.35" height="33.4" fill="rgb(102,127,204)" opacity=".9"></rect><rect x="236.5" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(115,139,208)" opacity=".9"></rect><rect x="236.5" y="245.6" width="37.35" height="33.4" fill="rgb(127,150,211)" opacity=".9"></rect><rect x="236.5" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(137,159,214)" opacity=".9"></rect><rect x="236.5" y="311.2" width="37.35" height="33.4" fill="rgb(144,166,216)" opacity=".9"></rect><rect x="273.25" y="16" width="37.35" height="33.4" fill="rgb(44,74,189)" opacity=".9"></rect><rect x="273.25" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(53,82,191)" opacity=".9"></rect><rect x="273.25" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(64,91,194)" opacity=".9"></rect><rect x="273.25" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(76,103,197)" opacity=".9"></rect><rect x="273.25" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="273.25" y="180" width="37.35" height="33.4" fill="rgb(102,127,204)" opacity=".9"></rect><rect x="273.25" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(114,138,208)" opacity=".9"></rect><rect x="273.25" y="245.6" width="37.35" height="33.4" fill="rgb(126,149,211)" opacity=".9"></rect><rect x="273.25" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(135,157,213)" opacity=".9"></rect><rect x="273.25" y="311.2" width="37.35" height="33.4" fill="rgb(142,164,215)" opacity=".9"></rect><rect x="310" y="16" width="37.35" height="33.4" fill="rgb(48,77,190)" opacity=".9"></rect><rect x="310" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(56,84,192)" opacity=".9"></rect><rect x="310" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(66,93,194)" opacity=".9"></rect><rect x="310" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(77,104,197)" opacity=".9"></rect><rect x="310" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="310" y="180" width="37.35" height="33.4" fill="rgb(101,126,204)" opacity=".9"></rect><rect x="310" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(113,137,207)" opacity=".9"></rect><rect x="310" y="245.6" width="37.35" height="33.4" fill="rgb(123,146,210)" opacity=".9"></rect><rect x="310" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(132,154,212)" opacity=".9"></rect><rect x="310" y="311.2" width="37.35" height="33.4" fill="rgb(139,161,214)" opacity=".9"></rect><rect x="346.75" y="16" width="37.35" height="33.4" fill="rgb(52,81,191)" opacity=".9"></rect><rect x="346.75" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(59,87,193)" opacity=".9"></rect><rect x="346.75" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(68,96,195)" opacity=".9"></rect><rect x="346.75" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(78,105,198)" opacity=".9"></rect><rect x="346.75" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="346.75" y="180" width="37.35" height="33.4" fill="rgb(100,125,204)" opacity=".9"></rect><rect x="346.75" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(110,135,206)" opacity=".9"></rect><rect x="346.75" y="245.6" width="37.35" height="33.4" fill="rgb(120,143,209)" opacity=".9"></rect><rect x="346.75" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(128,151,211)" opacity=".9"></rect><rect x="346.75" y="311.2" width="37.35" height="33.4" fill="rgb(134,156,213)" opacity=".9"></rect><rect x="383.5" y="16" width="37.35" height="33.4" fill="rgb(58,86,192)" opacity=".9"></rect><rect x="383.5" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(64,92,194)" opacity=".9"></rect><rect x="383.5" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(72,99,196)" opacity=".9"></rect><rect x="383.5" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(80,107,198)" opacity=".9"></rect><rect x="383.5" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(90,115,201)" opacity=".9"></rect><rect x="383.5" y="180" width="37.35" height="33.4" fill="rgb(99,124,203)" opacity=".9"></rect><rect x="383.5" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(108,132,206)" opacity=".9"></rect><rect x="383.5" y="245.6" width="37.35" height="33.4" fill="rgb(116,139,208)" opacity=".9"></rect><rect x="383.5" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(123,146,210)" opacity=".9"></rect><rect x="383.5" y="311.2" width="37.35" height="33.4" fill="rgb(128,151,211)" opacity=".9"></rect><rect x="420.25" y="16" width="37.35" height="33.4" fill="rgb(64,92,194)" opacity=".9"></rect><rect x="420.25" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(69,97,195)" opacity=".9"></rect><rect x="420.25" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(76,102,197)" opacity=".9"></rect><rect x="420.25" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(83,109,199)" opacity=".9"></rect><rect x="420.25" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(90,116,201)" opacity=".9"></rect><rect x="420.25" y="180" width="37.35" height="33.4" fill="rgb(97,122,203)" opacity=".9"></rect><rect x="420.25" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(104,129,205)" opacity=".9"></rect><rect x="420.25" y="245.6" width="37.35" height="33.4" fill="rgb(111,135,207)" opacity=".9"></rect><rect x="420.25" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(116,140,208)" opacity=".9"></rect><rect x="420.25" y="311.2" width="37.35" height="33.4" fill="rgb(121,144,209)" opacity=".9"></rect><rect x="457" y="16" width="37.35" height="33.4" fill="rgb(71,98,196)" opacity=".9"></rect><rect x="457" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(75,102,197)" opacity=".9"></rect><rect x="457" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(80,106,198)" opacity=".9"></rect><rect x="457" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(85,111,200)" opacity=".9"></rect><rect x="457" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(90,116,201)" opacity=".9"></rect><rect x="457" y="180" width="37.35" height="33.4" fill="rgb(96,121,202)" opacity=".9"></rect><rect x="457" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(101,126,204)" opacity=".9"></rect><rect x="457" y="245.6" width="37.35" height="33.4" fill="rgb(106,130,205)" opacity=".9"></rect><rect x="457" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(110,134,206)" opacity=".9"></rect><rect x="457" y="311.2" width="37.35" height="33.4" fill="rgb(113,137,207)" opacity=".9"></rect><rect x="493.75" y="16" width="37.35" height="33.4" fill="rgb(79,105,198)" opacity=".9"></rect><rect x="493.75" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(82,108,199)" opacity=".9"></rect><rect x="493.75" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(84,110,199)" opacity=".9"></rect><rect x="493.75" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(87,113,200)" opacity=".9"></rect><rect x="493.75" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(91,116,201)" opacity=".9"></rect><rect x="493.75" y="180" width="37.35" height="33.4" fill="rgb(94,119,202)" opacity=".9"></rect><rect x="493.75" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(97,122,203)" opacity=".9"></rect><rect x="493.75" y="245.6" width="37.35" height="33.4" fill="rgb(100,125,204)" opacity=".9"></rect><rect x="493.75" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(103,127,204)" opacity=".9"></rect><rect x="493.75" y="311.2" width="37.35" height="33.4" fill="rgb(105,130,205)" opacity=".9"></rect><rect x="530.5" y="16" width="37.35" height="33.4" fill="rgb(87,113,200)" opacity=".9"></rect><rect x="530.5" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(88,114,200)" opacity=".9"></rect><rect x="530.5" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="530.5" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(90,116,201)" opacity=".9"></rect><rect x="530.5" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(91,117,201)" opacity=".9"></rect><rect x="530.5" y="180" width="37.35" height="33.4" fill="rgb(92,117,201)" opacity=".9"></rect><rect x="530.5" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(93,118,202)" opacity=".9"></rect><rect x="530.5" y="245.6" width="37.35" height="33.4" fill="rgb(94,119,202)" opacity=".9"></rect><rect x="530.5" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(95,121,202)" opacity=".9"></rect><rect x="530.5" y="311.2" width="37.35" height="33.4" fill="rgb(97,122,203)" opacity=".9"></rect><rect x="567.25" y="16" width="37.35" height="33.4" fill="rgb(94,120,202)" opacity=".9"></rect><rect x="567.25" y="48.800000000000004" width="37.35" height="33.4" fill="rgb(94,120,202)" opacity=".9"></rect><rect x="567.25" y="81.60000000000001" width="37.35" height="33.4" fill="rgb(94,119,202)" opacity=".9"></rect><rect x="567.25" y="114.39999999999999" width="37.35" height="33.4" fill="rgb(93,118,202)" opacity=".9"></rect><rect x="567.25" y="147.20000000000002" width="37.35" height="33.4" fill="rgb(91,117,201)" opacity=".9"></rect><rect x="567.25" y="180" width="37.35" height="33.4" fill="rgb(90,116,201)" opacity=".9"></rect><rect x="567.25" y="212.79999999999998" width="37.35" height="33.4" fill="rgb(89,115,201)" opacity=".9"></rect><rect x="567.25" y="245.6" width="37.35" height="33.4" fill="rgb(88,114,201)" opacity=".9"></rect><rect x="567.25" y="278.40000000000003" width="37.35" height="33.4" fill="rgb(88,114,200)" opacity=".9"></rect><rect x="567.25" y="311.2" width="37.35" height="33.4" fill="rgb(88,114,201)" opacity=".9"></rect></g><polygon points="45.400000000000006,153.76 104.2,48.800000000000004 262.96,25.84 427.59999999999997,42.24 562.84,114.39999999999999 592.24,219.35999999999999 486.40000000000003,317.76 262.96,340.71999999999997 110.08,304.64 51.28,232.48000000000002" fill="none" stroke="rgba(91,124,255,.5)" stroke-width="1.4"></polygon><g transform="translate(286.48,180)"><line x1="0" y1="0" x2="0" y2="-13" stroke="#e9eef6" stroke-width="1.4"></line>
+    <rect x="-4.5" y="-18" width="9" height="9" transform="rotate(45 0 -13.5)" fill="#e0ad33"></rect><circle r="3" fill="#0a0d12"></circle><circle r="1.8" fill="#e0ad33"></circle></g><g class="stn" data-id="B15-001"><circle cx="192.4" cy="114.39999999999999" r="9" fill="none" stroke="#5b7cff" stroke-width="2"></circle>
+      <circle cx="192.4" cy="114.39999999999999" r="5" fill="#0a0d12"></circle><circle cx="192.4" cy="114.39999999999999" r="3.4" fill="#4ec97b"></circle>
+      <text x="201.4" y="117.39999999999999" fill="#e9eef6" font-size="9" font-family="ui-monospace">001</text></g><g class="stn" data-id="B15-002"><circle cx="339.40000000000003" cy="94.72" r="6" fill="none" stroke="transparent" stroke-width="2"></circle>
+      <circle cx="339.40000000000003" cy="94.72" r="5" fill="#0a0d12"></circle><circle cx="339.40000000000003" cy="94.72" r="3.4" fill="#4ec97b"></circle>
+      <text x="348.40000000000003" y="97.72" fill="#e9eef6" font-size="9" font-family="ui-monospace">002</text></g><g class="stn" data-id="B15-003"><circle cx="439.35999999999996" cy="163.6" r="6" fill="none" stroke="transparent" stroke-width="2"></circle>
+      <circle cx="439.35999999999996" cy="163.6" r="5" fill="#0a0d12"></circle><circle cx="439.35999999999996" cy="163.6" r="3.4" fill="#e0ad33"></circle>
+      <text x="448.35999999999996" y="166.6" fill="#e9eef6" font-size="9" font-family="ui-monospace">003</text></g><g class="stn" data-id="B15-004"><circle cx="368.8" cy="245.6" r="6" fill="none" stroke="transparent" stroke-width="2"></circle>
+      <circle cx="368.8" cy="245.6" r="5" fill="#0a0d12"></circle><circle cx="368.8" cy="245.6" r="3.4" fill="#4ec97b"></circle>
+      <text x="377.8" y="248.6" fill="#e9eef6" font-size="9" font-family="ui-monospace">004</text></g><g class="stn" data-id="B15-005"><circle cx="215.92000000000002" cy="219.35999999999999" r="6" fill="none" stroke="transparent" stroke-width="2"></circle>
+      <circle cx="215.92000000000002" cy="219.35999999999999" r="5" fill="#0a0d12"></circle><circle cx="215.92000000000002" cy="219.35999999999999" r="3.4" fill="#4ec97b"></circle>
+      <text x="224.92000000000002" y="222.35999999999999" fill="#e9eef6" font-size="9" font-family="ui-monospace">005</text></g><g class="stn" data-id="B15-006"><circle cx="145.36" cy="180" r="6" fill="none" stroke="transparent" stroke-width="2"></circle>
+      <circle cx="145.36" cy="180" r="5" fill="#0a0d12"></circle><circle cx="145.36" cy="180" r="3.4" fill="#4ec97b"></circle>
+      <text x="154.36" y="183" fill="#e9eef6" font-size="9" font-family="ui-monospace">006</text></g></svg>
+         <div class="maptools"><button title="Acercar">+</button><button title="Alejar">−</button><button title="Centrar">⌖</button></div>
+         <div class="maplegend" id="maplegend"><div class="lg"><span class="sw" style="background:#4ec97b"></span><b>Estación OK</b></div>
     <div class="lg"><span class="sw" style="background:#e0ad33"></span><b>Requiere atención</b></div>
-    <div class="lg"><span class="sw" style="background:#e0ad33;transform:rotate(45deg);border-radius:1px"></span><b>Gateway</b></div></div>
-              <div class="mtip" id="mtip"></div>
-            </div>
-          </div>
-        </div>
-        <!-- FLOTA -->
-        <div class="card">
-          <div class="hd"><h3>Estaciones</h3><span class="k mono">SALUD DE LA FLOTA</span></div>
-          <div class="bd" style="padding:0">
-            <table class="fleet">
-              <colgroup><col style="width:19%"><col style="width:13%"><col style="width:13%"><col style="width:17%"><col style="width:15%"><col style="width:12%"><col style="width:11%"></colgroup>
-              <thead><tr>
-              <th>Estación</th><th>Sector</th><th>VWC raíz</th><th>Batería</th><th>Señal</th><th>Últ. paquete</th><th>Estado</th>
-            </tr></thead><tbody id="fleet"><tr data-id="B15-001" class="rowsel">
-    <td><b>B15-001</b></td><td class="tag">N-1 · ZA</td>
-    <td><b>28.3</b> <span class="tag">%</span></td>
+    <div class="lg"><span class="sw" style="background:#e0ad33;transform:rotate(45deg);border-radius:1px"></span><b>Gateway</b></div></div><div class="mtip" id="mtip"></div></div></div></div>
+     <div class="card"><div class="hd"><h3>Estaciones</h3><span class="k mono">SALUD DE LA FLOTA</span></div>
+       <div class="bd" style="padding:0"><table class="fleet"><colgroup><col style="width:19%"><col style="width:13%"><col style="width:13%"><col style="width:17%"><col style="width:15%"><col style="width:12%"><col style="width:11%"></colgroup>
+       <thead><tr><th>Estación</th><th>Sector</th><th>VWC raíz</th><th>Batería</th><th>Señal</th><th>Últ. paquete</th><th>Estado</th></tr></thead><tbody id="fleet"><tr data-id="B15-001" class="rowsel">
+    <td><b>B15-001</b></td><td class="tag">N-1 · ZA</td><td><b>28.3</b> <span class="tag">%</span></td>
     <td><span class="bat"><span class="batbar"><i style="width:82%;background:#4ec97b"></i></span><span class="tag">82%</span></span></td>
-    <td><span class="sig"><i style="height:3px;background:#5b7cff"></i><i style="height:6px;background:#5b7cff"></i><i style="height:9px;background:#5b7cff"></i><i style="height:12px;background:#2b3644"></i></span> <span class="tag">-96</span></td>
-    <td class="tag">1 min</td>
+    <td><span class="sig"><i style="height:3px;background:#5b7cff"></i><i style="height:6px;background:#5b7cff"></i><i style="height:9px;background:#5b7cff"></i><i style="height:12px;background:#2b3644"></i></span> <span class="tag">-96</span></td><td class="tag">1 min</td>
     <td><span class="st"><span class="d" style="background:#4ec97b"></span>OK</span></td></tr><tr data-id="B15-002" class="">
-    <td><b>B15-002</b></td><td class="tag">N-2 · ZB</td>
-    <td><b>30.3</b> <span class="tag">%</span></td>
+    <td><b>B15-002</b></td><td class="tag">N-2 · ZB</td><td><b>30.3</b> <span class="tag">%</span></td>
     <td><span class="bat"><span class="batbar"><i style="width:74%;background:#4ec97b"></i></span><span class="tag">74%</span></span></td>
-    <td><span class="sig"><i style="height:3px;background:#5b7cff"></i><i style="height:6px;background:#5b7cff"></i><i style="height:9px;background:#2b3644"></i><i style="height:12px;background:#2b3644"></i></span> <span class="tag">-101</span></td>
-    <td class="tag">3 min</td>
+    <td><span class="sig"><i style="height:3px;background:#5b7cff"></i><i style="height:6px;background:#5b7cff"></i><i style="height:9px;background:#2b3644"></i><i style="height:12px;background:#2b3644"></i></span> <span class="tag">-101</span></td><td class="tag">3 min</td>
     <td><span class="st"><span class="d" style="background:#4ec97b"></span>OK</span></td></tr><tr data-id="B15-003" class="">
-    <td><b>B15-003</b></td><td class="tag">N-3 · ZA</td>
-    <td><b>31.7</b> <span class="tag">%</span></td>
+    <td><b>B15-003</b></td><td class="tag">N-3 · ZA</td><td><b>31.7</b> <span class="tag">%</span></td>
     <td><span class="bat"><span class="batbar"><i style="width:38%;background:#e0ad33"></i></span><span class="tag">38%</span></span></td>
-    <td><span class="sig"><i style="height:3px;background:#5b7cff"></i><i style="height:6px;background:#2b3644"></i><i style="height:9px;background:#2b3644"></i><i style="height:12px;background:#2b3644"></i></span> <span class="tag">-108</span></td>
-    <td class="tag">9 min</td>
+    <td><span class="sig"><i style="height:3px;background:#5b7cff"></i><i style="height:6px;background:#2b3644"></i><i style="height:9px;background:#2b3644"></i><i style="height:12px;background:#2b3644"></i></span> <span class="tag">-108</span></td><td class="tag">9 min</td>
     <td><span class="st"><span class="d" style="background:#e0ad33"></span>Atención</span></td></tr><tr data-id="B15-004" class="">
-    <td><b>B15-004</b></td><td class="tag">N-4 · ZC</td>
-    <td><b>28.5</b> <span class="tag">%</span></td>
+    <td><b>B15-004</b></td><td class="tag">N-4 · ZC</td><td><b>28.5</b> <span class="tag">%</span></td>
     <td><span class="bat"><span class="batbar"><i style="width:91%;background:#4ec97b"></i></span><span class="tag">91%</span></span></td>
-    <td><span class="sig"><i style="height:3px;background:#5b7cff"></i><i style="height:6px;background:#5b7cff"></i><i style="height:9px;background:#5b7cff"></i><i style="height:12px;background:#5b7cff"></i></span> <span class="tag">-92</span></td>
-    <td class="tag">2 min</td>
+    <td><span class="sig"><i style="height:3px;background:#5b7cff"></i><i style="height:6px;background:#5b7cff"></i><i style="height:9px;background:#5b7cff"></i><i style="height:12px;background:#5b7cff"></i></span> <span class="tag">-92</span></td><td class="tag">2 min</td>
     <td><span class="st"><span class="d" style="background:#4ec97b"></span>OK</span></td></tr><tr data-id="B15-005" class="">
-    <td><b>B15-005</b></td><td class="tag">N-5 · ZB</td>
-    <td><b>30.6</b> <span class="tag">%</span></td>
+    <td><b>B15-005</b></td><td class="tag">N-5 · ZB</td><td><b>30.6</b> <span class="tag">%</span></td>
     <td><span class="bat"><span class="batbar"><i style="width:66%;background:#4ec97b"></i></span><span class="tag">66%</span></span></td>
-    <td><span class="sig"><i style="height:3px;background:#5b7cff"></i><i style="height:6px;background:#5b7cff"></i><i style="height:9px;background:#2b3644"></i><i style="height:12px;background:#2b3644"></i></span> <span class="tag">-104</span></td>
-    <td class="tag">4 min</td>
+    <td><span class="sig"><i style="height:3px;background:#5b7cff"></i><i style="height:6px;background:#5b7cff"></i><i style="height:9px;background:#2b3644"></i><i style="height:12px;background:#2b3644"></i></span> <span class="tag">-104</span></td><td class="tag">4 min</td>
     <td><span class="st"><span class="d" style="background:#4ec97b"></span>OK</span></td></tr><tr data-id="B15-006" class="">
-    <td><b>B15-006</b></td><td class="tag">N-6 · ZC</td>
-    <td><b>32.1</b> <span class="tag">%</span></td>
+    <td><b>B15-006</b></td><td class="tag">N-6 · ZC</td><td><b>32.1</b> <span class="tag">%</span></td>
     <td><span class="bat"><span class="batbar"><i style="width:57%;background:#e0ad33"></i></span><span class="tag">57%</span></span></td>
-    <td><span class="sig"><i style="height:3px;background:#5b7cff"></i><i style="height:6px;background:#5b7cff"></i><i style="height:9px;background:#5b7cff"></i><i style="height:12px;background:#2b3644"></i></span> <span class="tag">-99</span></td>
-    <td class="tag">6 min</td>
-    <td><span class="st"><span class="d" style="background:#4ec97b"></span>OK</span></td></tr></tbody></table>
-          </div>
-        </div>
-      </div>
-
-      <!-- DETALLE -->
-      <div class="card" id="detail">
-   <div class="dhead"><div><div class="id">B15-001</div><div class="meta">Sector N-1 · Zona A · necesidad alta</div></div>
-     <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-       <span class="pill ok">OPERATIVA</span>
-       <span class="pill">-96 dBm</span></div></div>
-   <div class="health">
-     <div class="h"><div class="k">VWC raíz</div><div class="v">28.3<small> %</small></div></div>
+    <td><span class="sig"><i style="height:3px;background:#5b7cff"></i><i style="height:6px;background:#5b7cff"></i><i style="height:9px;background:#5b7cff"></i><i style="height:12px;background:#2b3644"></i></span> <span class="tag">-99</span></td><td class="tag">6 min</td>
+    <td><span class="st"><span class="d" style="background:#4ec97b"></span>OK</span></td></tr></tbody></table></div></div>
+   </div><div class="card" id="detail"><div class="dhead"><div><div class="id">B15-001</div><div class="meta">Sector N-1 · Zona A · necesidad alta</div></div>
+     <div style="margin-left:auto;display:flex;gap:8px;align-items:center"><span class="pill ok">OPERATIVA</span><span class="pill">-96 dBm</span></div></div>
+   <div class="health"><div class="h"><div class="k">VWC raíz</div><div class="v">28.3<small> %</small></div></div>
      <div class="h"><div class="k">Batería</div><div class="v" style="color:#4ec97b">82<small> %</small></div></div>
      <div class="h"><div class="k">Temp. suelo</div><div class="v">14.2<small> °C</small></div></div>
      <div class="h"><div class="k">Últ. paquete</div><div class="v">1<small> min</small></div></div></div>
-   <div class="section">
-     <div class="lb"><h4>Humedad volumétrica · 3 profundidades</h4><span class="k mono">14 DÍAS</span></div>
-     <div class="legend"><span class="ln"><i style="background:#4ec97b"></i>−20 cm</span><span class="ln"><i style="background:#5b7cff"></i>−40 cm</span><span class="ln"><i style="background:#e0ad33"></i>−60 cm</span>
-       <span class="ln" style="margin-left:auto"><i style="background:#5b7cff;height:0;border-top:2px dashed #5b7cff;width:14px"></i>riego</span></div>
-     <div class="chartwrap" style="margin-top:8px"><svg id="vwc" viewBox="0 0 430 176" style="width:100%;display:block"><rect x="30" y="25.555555555555557" width="390" height="46.66666666666666" fill="#4ec97b" opacity=".08"></rect><text x="416" y="36.55555555555556" text-anchor="end" fill="#4ec97b" font-size="8.5" font-family="ui-monospace" opacity=".8">BANDA ÓPTIMA</text><line x1="30" y1="150" x2="420" y2="150" stroke="#273349" stroke-width=".5" opacity=".5"></line>
-    <text x="24" y="153" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">20</text><line x1="30" y1="134.44444444444446" x2="420" y2="134.44444444444446" stroke="#273349" stroke-width=".5" opacity=".5"></line>
-    <text x="24" y="137.44444444444446" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">22</text><line x1="30" y1="118.88888888888889" x2="420" y2="118.88888888888889" stroke="#273349" stroke-width=".5" opacity=".5"></line>
-    <text x="24" y="121.88888888888889" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">24</text><line x1="30" y1="103.33333333333334" x2="420" y2="103.33333333333334" stroke="#273349" stroke-width=".5" opacity=".5"></line>
-    <text x="24" y="106.33333333333334" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">26</text><line x1="30" y1="87.77777777777777" x2="420" y2="87.77777777777777" stroke="#273349" stroke-width=".5" opacity=".5"></line>
-    <text x="24" y="90.77777777777777" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">28</text><line x1="30" y1="72.22222222222221" x2="420" y2="72.22222222222221" stroke="#273349" stroke-width=".5" opacity=".5"></line>
-    <text x="24" y="75.22222222222221" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">30</text><line x1="30" y1="56.66666666666667" x2="420" y2="56.66666666666667" stroke="#273349" stroke-width=".5" opacity=".5"></line>
-    <text x="24" y="59.66666666666667" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">32</text><line x1="30" y1="41.111111111111114" x2="420" y2="41.111111111111114" stroke="#273349" stroke-width=".5" opacity=".5"></line>
-    <text x="24" y="44.111111111111114" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">34</text><line x1="30" y1="25.555555555555557" x2="420" y2="25.555555555555557" stroke="#273349" stroke-width=".5" opacity=".5"></line>
-    <text x="24" y="28.555555555555557" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">36</text><line x1="30" y1="10" x2="420" y2="10" stroke="#273349" stroke-width=".5" opacity=".5"></line>
-    <text x="24" y="13" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">38</text><text x="30" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-14d</text><text x="86.72727272727272" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-12d</text><text x="143.45454545454544" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-10d</text><text x="200.1818181818182" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-8d</text><text x="249.8181818181818" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-6d</text><text x="306.54545454545456" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-4d</text><text x="363.27272727272725" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-2d</text><text x="420" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">hoy</text><line x1="278.1818181818182" y1="10" x2="278.1818181818182" y2="150" stroke="#5b7cff" stroke-width=".8" stroke-dasharray="2 3" opacity=".55"></line>
-      <text x="278.1818181818182" y="8" text-anchor="middle" fill="#5b7cff" font-size="7.5" font-family="ui-monospace">riego</text><path d="M30.0,102.7 L37.1,102.7 L44.2,108.0 L51.3,107.9 L58.4,112.4 L65.5,117.3 L72.5,122.6 L79.6,126.9 L86.7,128.9 L93.8,92.0 L100.9,94.7 L108.0,96.0 L115.1,100.9 L122.2,109.2 L129.3,110.9 L136.4,112.5 L143.5,120.3 L150.5,123.7 L157.6,128.0 L164.7,127.6 L171.8,134.2 L178.9,137.9 L186.0,140.4 L193.1,100.3 L200.2,101.8 L207.3,109.1 L214.4,109.8 L221.5,114.4 L228.5,115.8 L235.6,116.1 L242.7,118.9 L249.8,121.4 L256.9,122.0 L264.0,125.9 L271.1,124.6 L278.2,128.1 L285.3,70.3 L292.4,42.3 L299.5,49.4 L306.5,58.7 L313.6,65.2 L320.7,75.8 L327.8,78.1 L334.9,82.5 L342.0,92.1 L349.1,95.5 L356.2,101.1 L363.3,101.4 L370.4,108.8 L377.5,110.7 L384.5,114.5 L391.6,120.8 L398.7,84.2 L405.8,87.4 L412.9,90.8 L420.0,95.2" fill="none" stroke="#4ec97b" stroke-width="1.7" stroke-linejoin="round"></path><path d="M30.0,73.4 L37.1,76.0 L44.2,76.0 L51.3,82.6 L58.4,81.7 L65.5,84.8 L72.5,86.3 L79.6,88.8 L86.7,94.6 L93.8,71.9 L100.9,72.1 L108.0,72.5 L115.1,78.1 L122.2,78.8 L129.3,78.3 L136.4,83.7 L143.5,86.4 L150.5,84.3 L157.6,88.9 L164.7,86.9 L171.8,88.8 L178.9,91.7 L186.0,94.1 L193.1,69.4 L200.2,70.2 L207.3,68.3 L214.4,71.8 L221.5,75.1 L228.5,76.6 L235.6,77.9 L242.7,75.5 L249.8,73.9 L256.9,75.5 L264.0,78.7 L271.1,80.1 L278.2,84.1 L285.3,45.4 L292.4,28.4 L299.5,36.6 L306.5,40.9 L313.6,44.1 L320.7,50.0 L327.8,52.2 L334.9,60.1 L342.0,63.9 L349.1,67.7 L356.2,69.5 L363.3,71.1 L370.4,76.9 L377.5,79.4 L384.5,79.7 L391.6,84.4 L398.7,63.9 L405.8,67.5 L412.9,70.1 L420.0,68.4" fill="none" stroke="#5b7cff" stroke-width="1.7" stroke-linejoin="round"></path><path d="M30.0,89.7 L37.1,87.9 L44.2,92.0 L51.3,94.4 L58.4,95.8 L65.5,91.4 L72.5,93.3 L79.6,95.2 L86.7,98.9 L93.8,83.5 L100.9,82.2 L108.0,85.1 L115.1,84.5 L122.2,87.9 L129.3,90.1 L136.4,90.8 L143.5,88.9 L150.5,87.9 L157.6,87.8 L164.7,90.6 L171.8,90.3 L178.9,89.9 L186.0,89.1 L193.1,80.4 L200.2,78.2 L207.3,77.8 L214.4,79.3 L221.5,83.6 L228.5,83.2 L235.6,83.5 L242.7,80.5 L249.8,85.6 L256.9,87.2 L264.0,89.1 L271.1,88.8 L278.2,85.3 L285.3,72.5 L292.4,57.9 L299.5,65.4 L306.5,69.0 L313.6,70.6 L320.7,75.4 L327.8,76.0 L334.9,78.1 L342.0,84.0 L349.1,84.3 L356.2,86.0 L363.3,90.7 L370.4,92.3 L377.5,94.0 L384.5,91.5 L391.6,96.8 L398.7,83.1 L405.8,82.7 L412.9,87.2 L420.0,86.9" fill="none" stroke="#e0ad33" stroke-width="1.7" stroke-linejoin="round"></path><g id="cross" style="opacity:0"><line stroke="#7e8ca4" stroke-width="1" stroke-dasharray="2 2"></line></g><rect id="hit" x="30" y="10" width="390" height="140" fill="transparent"></rect></svg><div class="ctip" id="ctip"></div></div>
-   </div>
-   <div class="section">
-     <div class="lb"><h4>Precipitación</h4><span class="k mono">MM/DÍA · 14 D</span></div>
-     <svg id="rain" viewBox="0 0 430 64" style="width:100%;display:block"><line x1="30" y1="46" x2="420" y2="46" stroke="#273349" stroke-width=".5" opacity=".6"></line>
-    <text x="24" y="49" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">0</text><line x1="30" y1="8" x2="420" y2="8" stroke="#273349" stroke-width=".5" opacity=".6"></line>
-    <text x="24" y="11" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">17.3</text><rect class="rbar" data-i="0" data-v="0" x="31.2" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a" style="cursor: pointer;"></rect><rect class="rbar" data-i="1" data-v="0" x="59.1" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a" style="cursor: pointer;"></rect><rect class="rbar" data-i="2" data-v="0" x="86.9" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a" style="cursor: pointer;"></rect><rect class="rbar" data-i="3" data-v="11.6" x="114.8" y="20.5" width="25.5" height="25.5" rx="1.5" fill="#49b6c8" style="cursor: pointer;"></rect><rect class="rbar" data-i="4" data-v="0" x="142.6" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a" style="cursor: pointer;"></rect><rect class="rbar" data-i="5" data-v="12.7" x="170.5" y="18.1" width="25.5" height="27.9" rx="1.5" fill="#49b6c8" style="cursor: pointer;"></rect><rect class="rbar" data-i="6" data-v="0" x="198.3" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a" style="cursor: pointer;"></rect><rect class="rbar" data-i="7" data-v="0" x="226.2" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a" style="cursor: pointer;"></rect><rect class="rbar" data-i="8" data-v="15" x="254.1" y="13.1" width="25.5" height="32.9" rx="1.5" fill="#49b6c8" style="cursor: pointer;"></rect><rect class="rbar" data-i="9" data-v="0" x="281.9" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a" style="cursor: pointer;"></rect><rect class="rbar" data-i="10" data-v="0" x="309.8" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a" style="cursor: pointer;"></rect><rect class="rbar" data-i="11" data-v="0" x="337.6" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a" style="cursor: pointer;"></rect><rect class="rbar" data-i="12" data-v="0" x="365.5" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a" style="cursor: pointer;"></rect><rect class="rbar" data-i="13" data-v="17.3" x="393.3" y="8.0" width="25.5" height="38.0" rx="1.5" fill="#49b6c8" style="cursor: pointer;"></rect><text x="43.9" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-13d</text><text x="99.6" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-11d</text><text x="155.4" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-9d</text><text x="211.1" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-7d</text><text x="238.9" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-6d</text><text x="294.6" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-4d</text><text x="350.4" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-2d</text><text x="406.1" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">hoy</text><text x="420" y="14" text-anchor="end" fill="#49b6c8" font-size="8.5" font-family="ui-monospace">Σ 57 mm</text></svg>
-   </div>
-   <div class="reco">
-     <div class="big"><div class="rk">Recomendación de riego</div>
-       <div class="rv">REGAR <b>14 mm</b> · Jue 06:00</div>
-       <div class="rs">= <b style="color:var(--acc)">1213 m³</b> en el sector · a 9.6 L/s → 0 h 2 min</div>
-       <div class="rs" style="margin-top:4px">La banda de −20 cm cruza el umbral; −60 cm conserva reserva. Lámina +30 % para la zona A.</div></div>
-     <button class="cta">Programar riego</button></div>
-   <div class="section" style="border-bottom:none">
-     <div class="lb"><h4>Alertas de la estación</h4><span class="k mono">3 ACTIVAS</span></div>
-     <div class="alert"><div class="ai ar" style="background:rgba(255,255,255,.05)"><svg viewBox="0 0 24 24" class="ar"><path d="M12 3v18M5 7l14 10M19 7L5 17"></path></svg></div>
-        <div><div class="at">Riesgo de helada 02:40</div><div class="as">T pronosticada −1.2 °C · activar defensa</div></div></div><div class="alert"><div class="ai aw" style="background:rgba(255,255,255,.05)"><svg viewBox="0 0 24 24" class="aw"><path d="M4 20c8 2 16-4 16-14 0 0-12-2-16 6 0 0 4 2 4 8z"></path></svg></div>
-        <div><div class="at">Hoja mojada 9 h seguidas</div><div class="as">Ventana de hongos · revisar programa</div></div></div><div class="alert"><div class="ai ac" style="background:rgba(255,255,255,.05)"><svg viewBox="0 0 24 24" class="ac"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"></path></svg></div>
-        <div><div class="at">VWC −20 bajo umbral</div><div class="as">Sector N-1 · confirmar riego de anoche</div></div></div>
-   </div></div>
-    </div>
-
+   <div class="section"><div class="lb"><h4>Humedad volumétrica · 3 profundidades</h4><span class="k mono">14 DÍAS</span></div>
+     <div class="legend"><span class="ln"><i style="background:#4ec97b"></i>−20 cm</span><span class="ln"><i style="background:#5b7cff"></i>−40 cm</span><span class="ln"><i style="background:#e0ad33"></i>−60 cm</span><span class="ln" style="margin-left:auto"><i style="background:#5b7cff;height:0;border-top:2px dashed #5b7cff;width:14px"></i>riego</span></div>
+     <div class="chartwrap" style="margin-top:8px"><svg id="vwc" viewBox="0 0 430 176" style="width:100%;display:block"><rect x="30" y="25.555555555555557" width="390" height="46.66666666666666" fill="#4ec97b" opacity=".08"></rect><text x="416" y="36.55555555555556" text-anchor="end" fill="#4ec97b" font-size="8.5" font-family="ui-monospace" opacity=".8">BANDA ÓPTIMA</text><line x1="30" y1="150" x2="420" y2="150" stroke="#273349" stroke-width=".5" opacity=".5"></line><text x="24" y="153" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">20</text><line x1="30" y1="134.44444444444446" x2="420" y2="134.44444444444446" stroke="#273349" stroke-width=".5" opacity=".5"></line><text x="24" y="137.44444444444446" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">22</text><line x1="30" y1="118.88888888888889" x2="420" y2="118.88888888888889" stroke="#273349" stroke-width=".5" opacity=".5"></line><text x="24" y="121.88888888888889" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">24</text><line x1="30" y1="103.33333333333334" x2="420" y2="103.33333333333334" stroke="#273349" stroke-width=".5" opacity=".5"></line><text x="24" y="106.33333333333334" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">26</text><line x1="30" y1="87.77777777777777" x2="420" y2="87.77777777777777" stroke="#273349" stroke-width=".5" opacity=".5"></line><text x="24" y="90.77777777777777" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">28</text><line x1="30" y1="72.22222222222221" x2="420" y2="72.22222222222221" stroke="#273349" stroke-width=".5" opacity=".5"></line><text x="24" y="75.22222222222221" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">30</text><line x1="30" y1="56.66666666666667" x2="420" y2="56.66666666666667" stroke="#273349" stroke-width=".5" opacity=".5"></line><text x="24" y="59.66666666666667" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">32</text><line x1="30" y1="41.111111111111114" x2="420" y2="41.111111111111114" stroke="#273349" stroke-width=".5" opacity=".5"></line><text x="24" y="44.111111111111114" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">34</text><line x1="30" y1="25.555555555555557" x2="420" y2="25.555555555555557" stroke="#273349" stroke-width=".5" opacity=".5"></line><text x="24" y="28.555555555555557" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">36</text><line x1="30" y1="10" x2="420" y2="10" stroke="#273349" stroke-width=".5" opacity=".5"></line><text x="24" y="13" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">38</text><text x="30" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-14d</text><text x="86.72727272727272" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-12d</text><text x="143.45454545454544" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-10d</text><text x="200.1818181818182" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-8d</text><text x="249.8181818181818" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-6d</text><text x="306.54545454545456" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-4d</text><text x="363.27272727272725" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-2d</text><text x="420" y="168" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">hoy</text><line x1="278.1818181818182" y1="10" x2="278.1818181818182" y2="150" stroke="#5b7cff" stroke-width=".8" stroke-dasharray="2 3" opacity=".55"></line><text x="278.1818181818182" y="8" text-anchor="middle" fill="#5b7cff" font-size="7.5" font-family="ui-monospace">riego</text><path d="M30.0,102.7 L37.1,102.7 L44.2,108.0 L51.3,107.9 L58.4,112.4 L65.5,117.3 L72.5,122.6 L79.6,126.9 L86.7,128.9 L93.8,92.0 L100.9,94.7 L108.0,96.0 L115.1,100.9 L122.2,109.2 L129.3,110.9 L136.4,112.5 L143.5,120.3 L150.5,123.7 L157.6,128.0 L164.7,127.6 L171.8,134.2 L178.9,137.9 L186.0,140.4 L193.1,100.3 L200.2,101.8 L207.3,109.1 L214.4,109.8 L221.5,114.4 L228.5,115.8 L235.6,116.1 L242.7,118.9 L249.8,121.4 L256.9,122.0 L264.0,125.9 L271.1,124.6 L278.2,128.1 L285.3,70.3 L292.4,42.3 L299.5,49.4 L306.5,58.7 L313.6,65.2 L320.7,75.8 L327.8,78.1 L334.9,82.5 L342.0,92.1 L349.1,95.5 L356.2,101.1 L363.3,101.4 L370.4,108.8 L377.5,110.7 L384.5,114.5 L391.6,120.8 L398.7,84.2 L405.8,87.4 L412.9,90.8 L420.0,95.2" fill="none" stroke="#4ec97b" stroke-width="1.7" stroke-linejoin="round"></path><path d="M30.0,73.4 L37.1,76.0 L44.2,76.0 L51.3,82.6 L58.4,81.7 L65.5,84.8 L72.5,86.3 L79.6,88.8 L86.7,94.6 L93.8,71.9 L100.9,72.1 L108.0,72.5 L115.1,78.1 L122.2,78.8 L129.3,78.3 L136.4,83.7 L143.5,86.4 L150.5,84.3 L157.6,88.9 L164.7,86.9 L171.8,88.8 L178.9,91.7 L186.0,94.1 L193.1,69.4 L200.2,70.2 L207.3,68.3 L214.4,71.8 L221.5,75.1 L228.5,76.6 L235.6,77.9 L242.7,75.5 L249.8,73.9 L256.9,75.5 L264.0,78.7 L271.1,80.1 L278.2,84.1 L285.3,45.4 L292.4,28.4 L299.5,36.6 L306.5,40.9 L313.6,44.1 L320.7,50.0 L327.8,52.2 L334.9,60.1 L342.0,63.9 L349.1,67.7 L356.2,69.5 L363.3,71.1 L370.4,76.9 L377.5,79.4 L384.5,79.7 L391.6,84.4 L398.7,63.9 L405.8,67.5 L412.9,70.1 L420.0,68.4" fill="none" stroke="#5b7cff" stroke-width="1.7" stroke-linejoin="round"></path><path d="M30.0,89.7 L37.1,87.9 L44.2,92.0 L51.3,94.4 L58.4,95.8 L65.5,91.4 L72.5,93.3 L79.6,95.2 L86.7,98.9 L93.8,83.5 L100.9,82.2 L108.0,85.1 L115.1,84.5 L122.2,87.9 L129.3,90.1 L136.4,90.8 L143.5,88.9 L150.5,87.9 L157.6,87.8 L164.7,90.6 L171.8,90.3 L178.9,89.9 L186.0,89.1 L193.1,80.4 L200.2,78.2 L207.3,77.8 L214.4,79.3 L221.5,83.6 L228.5,83.2 L235.6,83.5 L242.7,80.5 L249.8,85.6 L256.9,87.2 L264.0,89.1 L271.1,88.8 L278.2,85.3 L285.3,72.5 L292.4,57.9 L299.5,65.4 L306.5,69.0 L313.6,70.6 L320.7,75.4 L327.8,76.0 L334.9,78.1 L342.0,84.0 L349.1,84.3 L356.2,86.0 L363.3,90.7 L370.4,92.3 L377.5,94.0 L384.5,91.5 L391.6,96.8 L398.7,83.1 L405.8,82.7 L412.9,87.2 L420.0,86.9" fill="none" stroke="#e0ad33" stroke-width="1.7" stroke-linejoin="round"></path><g id="cross" style="opacity:0"><line stroke="#7e8ca4" stroke-width="1" stroke-dasharray="2 2"></line></g><rect id="hit" x="30" y="10" width="390" height="140" fill="transparent"></rect></svg><div class="ctip" id="ctip"></div></div></div>
+   <div class="section"><div class="lb"><h4>Precipitación</h4><span class="k mono">MM/DÍA · 14 D</span></div><svg id="rain" viewBox="0 0 430 64" style="width:100%;display:block"><line x1="30" y1="46" x2="420" y2="46" stroke="#273349" stroke-width=".5" opacity=".6"></line><text x="24" y="49" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">0</text><line x1="30" y1="8" x2="420" y2="8" stroke="#273349" stroke-width=".5" opacity=".6"></line><text x="24" y="11" text-anchor="end" fill="#7e8ca4" font-size="8" font-family="ui-monospace">17.3</text><rect class="rbar" x="31.2" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a"></rect><rect class="rbar" x="59.1" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a"></rect><rect class="rbar" x="86.9" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a"></rect><rect class="rbar" x="114.8" y="20.5" width="25.5" height="25.5" rx="1.5" fill="#49b6c8"></rect><rect class="rbar" x="142.6" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a"></rect><rect class="rbar" x="170.5" y="18.1" width="25.5" height="27.9" rx="1.5" fill="#49b6c8"></rect><rect class="rbar" x="198.3" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a"></rect><rect class="rbar" x="226.2" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a"></rect><rect class="rbar" x="254.1" y="13.1" width="25.5" height="32.9" rx="1.5" fill="#49b6c8"></rect><rect class="rbar" x="281.9" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a"></rect><rect class="rbar" x="309.8" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a"></rect><rect class="rbar" x="337.6" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a"></rect><rect class="rbar" x="365.5" y="46.0" width="25.5" height="0.0" rx="1.5" fill="#22303a"></rect><rect class="rbar" x="393.3" y="8.0" width="25.5" height="38.0" rx="1.5" fill="#49b6c8"></rect><text x="43.9" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-13d</text><text x="99.6" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-11d</text><text x="155.4" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-9d</text><text x="211.1" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-7d</text><text x="238.9" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-6d</text><text x="294.6" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-4d</text><text x="350.4" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">-2d</text><text x="406.1" y="58" text-anchor="middle" fill="#7e8ca4" font-size="8" font-family="ui-monospace">hoy</text><text x="420" y="14" text-anchor="end" fill="#49b6c8" font-size="8.5" font-family="ui-monospace">Σ 57 mm</text></svg></div>
+   <div class="reco"><div class="big"><div class="rk">Recomendación de riego</div><div class="rv">REGAR <b>14 mm</b> · Jue 06:00</div>
+     <div class="rs">= <b style="color:var(--acc)">1.274 m³</b> en el sector · a 9.6 L/s → 0 h 2 min</div>
+     <div class="rs" style="margin-top:4px">La banda de −20 cm cruza el umbral; −60 cm conserva reserva. Lámina +30 % para la zona A.</div></div><button class="cta" data-prog="B15-001">Programar riego</button></div>
+   <div class="section" style="border-bottom:none"><div class="lb"><h4>Alertas de la estación</h4><span class="k mono">3 ACTIVAS</span></div>
+     <div class="alert"><div class="ai ar"><svg viewBox="0 0 24 24" class="ar"><path d="M12 3v18M5 7l14 10M19 7L5 17"></path></svg></div><div><div class="at">Riesgo de helada 02:40</div><div class="as">T pronosticada −1.2 °C · activar defensa</div></div></div><div class="alert"><div class="ai aw"><svg viewBox="0 0 24 24" class="aw"><path d="M4 20c8 2 16-4 16-14 0 0-12-2-16 6 0 0 4 2 4 8z"></path></svg></div><div><div class="at">Hoja mojada 9 h seguidas</div><div class="as">Ventana de hongos · revisar programa</div></div></div><div class="alert"><div class="ai ac"><svg viewBox="0 0 24 24" class="ac"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"></path></svg></div><div><div class="at">VWC −20 bajo umbral</div><div class="as">Sector N-1 · confirmar riego de anoche</div></div></div></div></div></div></div>
     <div class="foot">
-      <span class="mono">foto3d · plataforma de riego v0 (concepto)</span>
-      <span>·</span><span>Última actualización <b id="upd">hace unos segundos</b></span>
-      <div class="grow"></div>
+      <span class="mono">foto3d · plataforma de riego v0 (concepto)</span><span>·</span>
+      <span>Última actualización <b id="upd">hace unos segundos</b></span><div class="grow"></div>
       <span>Interfaz ilustrativa con datos simulados — no representa mediciones reales.</span>
     </div>
   </main>
 </div>
+<div class="toast" id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
 
 <script>
 "use strict";
 const $=(s,el=document)=>el.querySelector(s), $$=(s,el=document)=>[...el.querySelectorAll(s)];
-const C={acc:'#5b7cff',grn:'#4ec97b',amb:'#e0ad33',red:'#e5565b',mut:'#7e8ca4',edge:'#273349',fg:'#e9eef6',
-  d20:'#4ec97b',d40:'#5b7cff',d60:'#e0ad33',cyan:'#49b6c8'};
-// ---- PRNG determinista ----
-function lcg(seed){let s=seed>>>0;return()=>((s=(s*1664525+1013904223)>>>0)/4294967296);}
+const C={acc:'#5b7cff',grn:'#4ec97b',amb:'#e0ad33',red:'#e5565b',mut:'#7e8ca4',edge:'#273349',fg:'#e9eef6',cyan:'#49b6c8',d20:'#4ec97b',d40:'#5b7cff',d60:'#e0ad33'};
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const nf=v=>v.toLocaleString('es-CL');
+function lcg(seed){let s=seed>>>0;return()=>((s=(s*1664525+1013904223)>>>0)/4294967296);}
 
-// ---- campo (parcela irregular) ----
 const FIELD=[[.05,.42],[.15,.10],[.42,.03],[.70,.08],[.93,.30],[.98,.62],[.80,.92],[.42,.99],[.16,.88],[.06,.66]];
-// ---- estaciones ----
-const Z={A:{n:'A · necesidad alta',mm:14,d:'+30 %',col:C.acc},B:{n:'B · media',mm:11,d:'base',col:C.acc},C:{n:'C · baja',mm:8,d:'−20 %',col:C.acc}};
+const Z={A:{n:'A · necesidad alta',mm:14,d:'+30 %'},B:{n:'B · media',mm:11,d:'base'},C:{n:'C · baja',mm:8,d:'−20 %'}};
 const STN=[
- {id:'B15-001',sec:'N-1',zone:'A',u:.30,v:.30,bat:82,rssi:-96,last:1,tC:14.2},
- {id:'B15-002',sec:'N-2',zone:'B',u:.55,v:.24,bat:74,rssi:-101,last:3,tC:13.8},
- {id:'B15-003',sec:'N-3',zone:'A',u:.72,v:.45,bat:38,rssi:-108,last:9,tC:14.6},
- {id:'B15-004',sec:'N-4',zone:'C',u:.60,v:.70,bat:91,rssi:-92,last:2,tC:13.1},
- {id:'B15-005',sec:'N-5',zone:'B',u:.34,v:.62,bat:66,rssi:-104,last:4,tC:13.5},
- {id:'B15-006',sec:'N-6',zone:'C',u:.22,v:.50,bat:57,rssi:-99,last:6,tC:12.9},
+ {id:'B15-001',sec:'N-1',zone:'A',u:.30,v:.30,bat:82,rssi:-96,last:1,tC:14.2,ha:9.1},
+ {id:'B15-002',sec:'N-2',zone:'B',u:.55,v:.24,bat:74,rssi:-101,last:3,tC:13.8,ha:8.4},
+ {id:'B15-003',sec:'N-3',zone:'A',u:.72,v:.45,bat:38,rssi:-108,last:9,tC:14.6,ha:9.7},
+ {id:'B15-004',sec:'N-4',zone:'C',u:.60,v:.70,bat:91,rssi:-92,last:2,tC:13.1,ha:7.8},
+ {id:'B15-005',sec:'N-5',zone:'B',u:.34,v:.62,bat:66,rssi:-104,last:4,tC:13.5,ha:8.6},
+ {id:'B15-006',sec:'N-6',zone:'C',u:.22,v:.50,bat:57,rssi:-99,last:6,tC:12.9,ha:8.4},
 ];
-const GATE={u:.46,v:.50};
-const STEP=6, DAYS=30, N=DAYS*24/STEP; // muestras cada 6 h
-// genera series por estación
+const GATE={u:.46,v:.50}, STEP=6, DAYS=30, N=DAYS*24/STEP;
 STN.forEach((s,idx)=>{
   const r=lcg(1000+idx*7);
-  const bases={d20:30-s.zone.charCodeAt(0)%3*1.2, d40:31, d60:29};
-  const irr=[]; for(let d=0;d<DAYS;d++){ if(r()< (s.zone==='A'?.28:s.zone==='C'?.14:.2)) irr.push(d); }
-  const mk=(base,amp,drop,ph)=>{const a=[];for(let i=0;i<N;i++){const t=i*STEP/24;
-    let v=base+amp*Math.sin(t/2.0+ph)-drop*((t%3.6)/3.6);
-    irr.forEach(d=>{if(t>=d)v+=drop*1.5*Math.exp(-(t-d)/1.4);});
-    v+=(r()-.5)*0.8; a.push(clamp(v,14,44));} return a;};
-  s.series={d20:mk(bases.d20,1.1,5.2,0),d40:mk(bases.d40,.8,3.2,1.1),d60:mk(bases.d60,.5,1.7,2.3)};
+  const irr=[]; for(let d=0;d<DAYS;d++){ if(r()<(s.zone==='A'?.28:s.zone==='C'?.14:.2)) irr.push(d); }
+  const mk=(base,amp,drop,ph)=>{const a=[];for(let i=0;i<N;i++){const t=i*STEP/24;let v=base+amp*Math.sin(t/2.0+ph)-drop*((t%3.6)/3.6);
+    irr.forEach(d=>{if(t>=d)v+=drop*1.5*Math.exp(-(t-d)/1.4);});v+=(r()-.5)*0.8;a.push(clamp(v,14,44));}return a;};
+  s.series={d20:mk(30-s.zone.charCodeAt(0)%3*1.2,1.1,5.2,0),d40:mk(31,.8,3.2,1.1),d60:mk(29,.5,1.7,2.3)};
   s.rain=[];for(let d=0;d<DAYS;d++){s.rain.push(r()<.34?+(2+r()*16).toFixed(1):0);}
   s.irr=irr;
-  const last3=[s.series.d20,s.series.d40,s.series.d60].map(a=>a[a.length-1]);
-  s.vwcRoot=+((last3[0]*.5+last3[1]*.3+last3[2]*.2)).toFixed(1);
-  s.status = s.bat<45||s.rssi<-106 ? 'warn':'ok';
+  const l3=[s.series.d20,s.series.d40,s.series.d60].map(a=>a[a.length-1]);
+  s.vwcRoot=+((l3[0]*.5+l3[1]*.3+l3[2]*.2)).toFixed(1);
+  s.status=s.bat<45||s.rssi<-106?'warn':'ok';
 });
-let RANGE=14, SEL='B15-001';
+let RANGE=14, SEL='B15-001', VIEW='panel';
 const rangeN=()=>Math.round(RANGE*24/STEP);
-const sliceT=n=>Array.from({length:n},(_,i)=>i);
+function reco(st){const z=Z[st.zone];const below=st.vwcRoot<31;const mm=below?z.mm:Math.max(0,z.mm-4);
+  const vol=Math.round(mm*10*st.ha);const cau=9.6;const hrs=vol/cau/3600;
+  return{mm,vol,hrs,below,text:below?`La banda de −20 cm cruza el umbral; −60 cm conserva reserva. Lámina ${z.d} para la zona ${st.zone}.`:`Perfil dentro de banda óptima. Diferir riego y revisar mañana.`,when:below?'Jue 06:00':'Sin riego hoy'};}
+function alertsFor(st){const a=[];a.push(['ar','Riesgo de helada 02:40','T pronosticada −1.2 °C · activar defensa','frost']);
+  a.push(['aw','Hoja mojada 9 h seguidas','Ventana de hongos · revisar programa','leaf']);
+  if(st.vwcRoot<31)a.push(['ac','VWC −20 bajo umbral',`Sector ${st.sec} · confirmar riego de anoche`,'drop']);return a;}
+const ICON={frost:'<path d="M12 3v18M5 7l14 10M19 7L5 17"/>',leaf:'<path d="M4 20c8 2 16-4 16-14 0 0-12-2-16 6 0 0 4 2 4 8z"/>',drop:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'};
 
-// ---------- MAPA ----------
-const MAPW=620,MAPH=360, PAD=16;
-const fx=u=>PAD+u*(MAPW-2*PAD), fy=v=>PAD+v*(MAPH-2*PAD);
-function pip(u,v){let c=false;for(let i=0,j=FIELD.length-1;i<FIELD.length;j=i++){const[xi,yi]=FIELD[i],[xj,yj]=FIELD[j];
-  if(((yi>v)!=(yj>v))&&(u<(xj-xi)*(v-yi)/(yj-yi)+xi))c=!c;}return c;}
-function seqBlue(t){const a=[.62,.70,.86],b=[.10,.22,.72];return`rgb(${a.map((x,i)=>Math.round((x+(b[i]-x)*t)*255)).join(',')})`;}
-function drawMap(){
-  const svg=$('#map'); const showZ=$('#lyZonas').checked, showC=$('#lyCob').checked;
-  const poly=FIELD.map(([u,v])=>`${fx(u)},${fy(v)}`).join(' ');
-  let s=`<defs><clipPath id="fclip"><polygon points="${poly}"/></clipPath>
-     <radialGradient id="cov" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="${C.acc}" stop-opacity=".22"/><stop offset="100%" stop-color="${C.acc}" stop-opacity="0"/></radialGradient></defs>`;
-  // fondo campo
-  s+=`<polygon points="${poly}" fill="#141b24" stroke="${C.edge}" stroke-width="1"/>`;
-  // heatmap zonas
-  if(showZ){s+=`<g clip-path="url(#fclip)">`;const cols=16,rows=10;
-    for(let i=0;i<cols;i++)for(let j=0;j<rows;j++){const u=(i+.5)/cols,v=(j+.5)/rows;
-      let nv=.5+.36*Math.sin(3*u+.5)*Math.cos(2.5*v+.4)+.14*(.5-v);nv=clamp(nv,.06,.95);
-      s+=`<rect x="${fx(i/cols)}" y="${fy(j/rows)}" width="${(MAPW-2*PAD)/cols+.6}" height="${(MAPH-2*PAD)/rows+.6}" fill="${seqBlue(nv)}" opacity=".9"/>`;}
-    s+=`</g>`;}
-  // parcela borde
-  s+=`<polygon points="${poly}" fill="none" stroke="${showZ?'rgba(91,124,255,.5)':C.edge}" stroke-width="1.4"/>`;
-  // cobertura
-  if(showC){[150,100,55].forEach((r,k)=>{s+=`<circle cx="${fx(GATE.u)}" cy="${fy(GATE.v)}" r="${r}" fill="url(#cov)" stroke="${C.acc}" stroke-opacity=".4" stroke-width="1"/>`;});
-    s+=`<text x="${fx(GATE.u)+108}" y="${fy(GATE.v)-2}" fill="${C.acc}" font-size="9" font-family="ui-monospace" opacity=".8">15 km</text>`;}
-  // gateway
-  s+=`<g transform="translate(${fx(GATE.u)},${fy(GATE.v)})"><line x1="0" y1="0" x2="0" y2="-13" stroke="${C.fg}" stroke-width="1.4"/>
-     <rect x="-4.5" y="-18" width="9" height="9" transform="rotate(45 0 -13.5)" fill="${C.amb}"/><circle r="3" fill="#0a0d12"/><circle r="1.8" fill="${C.amb}"/></g>`;
-  // estaciones
-  STN.forEach(st=>{const col=st.status==='warn'?C.amb:C.grn;const sel=st.id===SEL;
-    s+=`<g class="stn" data-id="${st.id}"><circle cx="${fx(st.u)}" cy="${fy(st.v)}" r="${sel?9:6}" fill="none" stroke="${sel?C.acc:'transparent'}" stroke-width="2"/>
-       <circle cx="${fx(st.u)}" cy="${fy(st.v)}" r="5" fill="#0a0d12"/><circle cx="${fx(st.u)}" cy="${fy(st.v)}" r="3.4" fill="${col}"/>
-       <text x="${fx(st.u)+9}" y="${fy(st.v)+3}" fill="${C.fg}" font-size="9" font-family="ui-monospace">${st.id.slice(4)}</text></g>`;});
-  svg.innerHTML=s;
-  $('#mapmeta').textContent=`1 GATEWAY · ${STN.length} ESTACIONES · ${showZ?'ZONAS':'—'} ${showC?'· COBERTURA':''}`;
-  // leyenda
-  $('#maplegend').innerHTML=`<div class="lg"><span class="sw" style="background:${C.grn}"></span><b>Estación OK</b></div>
-    <div class="lg"><span class="sw" style="background:${C.amb}"></span><b>Requiere atención</b></div>
-    <div class="lg"><span class="sw" style="background:${C.amb};transform:rotate(45deg);border-radius:1px"></span><b>Gateway</b></div>`;
-  // interacción
-  $$('.stn',svg).forEach(g=>{const st=STN.find(x=>x.id===g.dataset.id);
-    g.addEventListener('click',()=>select(st.id));
-    g.addEventListener('pointermove',e=>{const t=$('#mtip');const wrap=$('.mapwrap').getBoundingClientRect();
-      t.innerHTML=`<div class="t">${st.id} · Sector ${st.sec}</div>
-        <div class="r"><span>VWC raíz</span><b>${st.vwcRoot} %</b></div>
-        <div class="r"><span>Batería</span><b>${st.bat} %</b></div>
-        <div class="r"><span>Señal</span><b>${st.rssi} dBm</b></div>
-        <div class="r"><span>Zona</span><b>${st.zone}</b></div>`;
-      t.style.left=(e.clientX-wrap.left+12)+'px';t.style.top=(e.clientY-wrap.top+12)+'px';t.style.opacity=1;});
-    g.addEventListener('pointerleave',()=>$('#mtip').style.opacity=0);});
-}
-
-// ---------- FLOTA ----------
-function sigBars(rssi){const q=clamp(Math.round((rssi+115)/6),1,4);let h='';for(let i=1;i<=4;i++)h+=`<i style="height:${i*3}px;background:${i<=q?C.acc:'#2b3644'}"></i>`;return`<span class="sig">${h}</span>`;}
+function toast(msg){const t=$('#toast');$('#toastMsg').textContent=msg;t.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('on'),2200);}
 function batCol(b){return b>60?C.grn:b>35?C.amb:C.red;}
-function drawFleet(){
-  $('#fleet').innerHTML=STN.map(st=>`<tr data-id="${st.id}" class="${st.id===SEL?'rowsel':''}">
-    <td><b>${st.id}</b></td><td class="tag">${st.sec} · Z${st.zone}</td>
-    <td><b>${st.vwcRoot}</b> <span class="tag">%</span></td>
-    <td><span class="bat"><span class="batbar"><i style="width:${st.bat}%;background:${batCol(st.bat)}"></i></span><span class="tag">${st.bat}%</span></span></td>
-    <td>${sigBars(st.rssi)} <span class="tag">${st.rssi}</span></td>
-    <td class="tag">${st.last} min</td>
-    <td><span class="st"><span class="d" style="background:${st.status==='warn'?C.amb:C.grn}"></span>${st.status==='warn'?'Atención':'OK'}</span></td></tr>`).join('');
-  $$('#fleet tr').forEach(tr=>tr.addEventListener('click',()=>select(tr.dataset.id)));
-}
-
-// ---------- KPIs ----------
+function sigBars(rssi){const q=clamp(Math.round((rssi+115)/6),1,4);let h='';for(let i=1;i<=4;i++)h+=`<i style="height:${i*3}px;background:${i<=q?C.acc:'#2b3644'}"></i>`;return`<span class="sig">${h}</span>`;}
 function miniSpark(vals,col){const w=54,h=18,mn=Math.min(...vals),mx=Math.max(...vals)||1;
   const pts=vals.map((v,i)=>`${i/(vals.length-1)*w},${h-(v-mn)/(mx-mn||1)*h}`).join(' ');
   return`<svg class="spark" width="${w}" height="${h}"><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.6"/></svg>`;}
-function drawKPIs(){
-  const n=rangeN();
-  const avgRoot=(STN.reduce((a,s)=>a+s.vwcRoot,0)/STN.length).toFixed(1);
-  const saved=Math.round(STN.length*RANGE*13.6/30*100); // m³ acumulados sim.
-  const avoided=STN.reduce((a,s)=>a+s.irr.slice(-RANGE).length,0);
-  const alerts=3;
-  const trend=STN[0].series.d20.slice(-n).filter((_,i)=>i%4===0);
-  const el=$('#kpis');
-  el.innerHTML=`
-   <div class="kpi"><div class="k">VWC raíz · ponderado</div><div class="v">${avgRoot} <span style="font-size:15px;color:var(--mut)">%</span></div>
-     <div class="d"><span class="up">▲ en banda</span> media de la flota</div>${miniSpark(trend,C.grn)}</div>
-   <div class="kpi"><div class="k">Agua ahorrada · ${RANGE} d</div><div class="v">${saved.toLocaleString('es')} <span style="font-size:15px;color:var(--mut)">m³</span></div>
-     <div class="d"><span class="up">▲ 12 %</span> vs. calendario fijo</div>${miniSpark(trend.map((v,i)=>i+ (v%3)),C.acc)}</div>
-   <div class="kpi"><div class="k">Riegos evitados</div><div class="v">${avoided}</div>
-     <div class="d">últimos ${RANGE} días · sim.</div>${miniSpark([2,3,3,4,4,5,5],C.acc)}</div>
-   <div class="kpi"><div class="k">Alertas activas</div><div class="v warnc">${alerts}</div>
-     <div class="d"><span class="warnc">2 helada · 1 hoja</span></div>
-     <svg class="spark" width="54" height="18"><g>${[0,1,0,2,1,3].map((v,i)=>`<rect x="${i*9}" y="${18-v*5}" width="6" height="${v*5}" fill="${C.amb}" rx="1"/>`).join('')}</g></svg></div>`;
-}
+function seqBlue(t){const a=[.62,.70,.86],b=[.10,.22,.72];return`rgb(${a.map((x,i)=>Math.round((x+(b[i]-x)*t)*255)).join(',')})`;}
 
-// ---------- CHART VWC ----------
+// ---------- MAPA ----------
+const MAPW=620,MAPH=360,PAD=16;const fx=u=>PAD+u*(MAPW-2*PAD),fy=v=>PAD+v*(MAPH-2*PAD);
+function drawMap(){
+  const svg=$('#map');if(!svg)return;const showZ=$('#lyZonas').checked,showC=$('#lyCob').checked;
+  const poly=FIELD.map(([u,v])=>`${fx(u)},${fy(v)}`).join(' ');
+  let s=`<defs><clipPath id="fclip"><polygon points="${poly}"/></clipPath>
+    <radialGradient id="cov" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="${C.acc}" stop-opacity=".22"/><stop offset="100%" stop-color="${C.acc}" stop-opacity="0"/></radialGradient></defs>`;
+  s+=`<polygon points="${poly}" fill="#141b24" stroke="${C.edge}" stroke-width="1"/>`;
+  if(showZ){s+=`<g clip-path="url(#fclip)">`;const cols=16,rows=10;
+    for(let i=0;i<cols;i++)for(let j=0;j<rows;j++){const u=(i+.5)/cols,v=(j+.5)/rows;let nv=.5+.36*Math.sin(3*u+.5)*Math.cos(2.5*v+.4)+.14*(.5-v);nv=clamp(nv,.06,.95);
+      s+=`<rect x="${fx(i/cols)}" y="${fy(j/rows)}" width="${(MAPW-2*PAD)/cols+.6}" height="${(MAPH-2*PAD)/rows+.6}" fill="${seqBlue(nv)}" opacity=".9"/>`;}s+=`</g>`;}
+  s+=`<polygon points="${poly}" fill="none" stroke="${showZ?'rgba(91,124,255,.5)':C.edge}" stroke-width="1.4"/>`;
+  if(showC){[150,100,55].forEach(r=>{s+=`<circle cx="${fx(GATE.u)}" cy="${fy(GATE.v)}" r="${r}" fill="url(#cov)" stroke="${C.acc}" stroke-opacity=".4" stroke-width="1"/>`;});
+    s+=`<text x="${fx(GATE.u)+108}" y="${fy(GATE.v)-2}" fill="${C.acc}" font-size="9" font-family="ui-monospace" opacity=".8">15 km</text>`;}
+  s+=`<g transform="translate(${fx(GATE.u)},${fy(GATE.v)})"><line x1="0" y1="0" x2="0" y2="-13" stroke="${C.fg}" stroke-width="1.4"/>
+    <rect x="-4.5" y="-18" width="9" height="9" transform="rotate(45 0 -13.5)" fill="${C.amb}"/><circle r="3" fill="#0a0d12"/><circle r="1.8" fill="${C.amb}"/></g>`;
+  STN.forEach(st=>{const col=st.status==='warn'?C.amb:C.grn;const sel=st.id===SEL;
+    s+=`<g class="stn" data-id="${st.id}"><circle cx="${fx(st.u)}" cy="${fy(st.v)}" r="${sel?9:6}" fill="none" stroke="${sel?C.acc:'transparent'}" stroke-width="2"/>
+      <circle cx="${fx(st.u)}" cy="${fy(st.v)}" r="5" fill="#0a0d12"/><circle cx="${fx(st.u)}" cy="${fy(st.v)}" r="3.4" fill="${col}"/>
+      <text x="${fx(st.u)+9}" y="${fy(st.v)+3}" fill="${C.fg}" font-size="9" font-family="ui-monospace">${st.id.slice(4)}</text></g>`;});
+  svg.innerHTML=s;
+  if($('#mapmeta'))$('#mapmeta').textContent=`1 GATEWAY · ${STN.length} ESTACIONES · ${showZ?'ZONAS':'—'} ${showC?'· COBERTURA':''}`;
+  if($('#maplegend'))$('#maplegend').innerHTML=`<div class="lg"><span class="sw" style="background:${C.grn}"></span><b>Estación OK</b></div>
+    <div class="lg"><span class="sw" style="background:${C.amb}"></span><b>Requiere atención</b></div>
+    <div class="lg"><span class="sw" style="background:${C.amb};transform:rotate(45deg);border-radius:1px"></span><b>Gateway</b></div>`;
+  $$('.stn',svg).forEach(g=>{const st=STN.find(x=>x.id===g.dataset.id);
+    g.addEventListener('click',()=>select(st.id));
+    g.addEventListener('pointermove',e=>{const t=$('#mtip');if(!t)return;const wrap=$('.mapwrap').getBoundingClientRect();
+      t.innerHTML=`<div class="t">${st.id} · Sector ${st.sec}</div><div class="r"><span>VWC raíz</span><b>${st.vwcRoot} %</b></div>
+        <div class="r"><span>Batería</span><b>${st.bat} %</b></div><div class="r"><span>Señal</span><b>${st.rssi} dBm</b></div><div class="r"><span>Zona</span><b>${st.zone}</b></div>`;
+      t.style.left=(e.clientX-wrap.left+12)+'px';t.style.top=(e.clientY-wrap.top+12)+'px';t.style.opacity=1;});
+    g.addEventListener('pointerleave',()=>{if($('#mtip'))$('#mtip').style.opacity=0;});});
+}
+function fleetRows(all){return STN.map(st=>`<tr data-id="${st.id}" class="${st.id===SEL?'rowsel':''}">
+    <td><b>${st.id}</b></td><td class="tag">${st.sec} · Z${st.zone}</td><td><b>${st.vwcRoot}</b> <span class="tag">%</span></td>
+    <td><span class="bat"><span class="batbar"><i style="width:${st.bat}%;background:${batCol(st.bat)}"></i></span><span class="tag">${st.bat}%</span></span></td>
+    <td>${sigBars(st.rssi)} <span class="tag">${st.rssi}</span></td><td class="tag">${st.last} min</td>
+    <td><span class="st"><span class="d" style="background:${st.status==='warn'?C.amb:C.grn}"></span>${st.status==='warn'?'Atención':'OK'}</span></td></tr>`).join('');}
+function wireFleet(){$$('#fleet tr').forEach(tr=>tr.addEventListener('click',()=>select(tr.dataset.id)));}
+
+// ---------- CHARTS ----------
 function lineChart(st){
-  const n=rangeN(), W=430,H=176,L=30,R=10,T=10,B=26, pw=W-L-R, ph=H-T-B;
+  const n=rangeN(),W=430,H=176,L=30,R=10,T=10,B=26,pw=W-L-R,ph=H-T-B;
   const keys=[['d20',C.d20,'−20 cm'],['d40',C.d40,'−40 cm'],['d60',C.d60,'−60 cm']];
   const data=keys.map(([k])=>st.series[k].slice(-n));
-  const all=data.flat(), mn=Math.floor(Math.min(...all,26)/2)*2, mx=Math.ceil(Math.max(...all,38)/2)*2;
-  const X=i=>L+i/(n-1)*pw, Y=v=>T+ph-(v-mn)/(mx-mn)*ph;
+  const all=data.flat(),mn=Math.floor(Math.min(...all,26)/2)*2,mx=Math.ceil(Math.max(...all,38)/2)*2;
+  const X=i=>L+i/(n-1)*pw,Y=v=>T+ph-(v-mn)/(mx-mn)*ph;
   let s=`<svg id="vwc" viewBox="0 0 ${W} ${H}" style="width:100%;display:block">`;
-  // banda óptima 30–36
   s+=`<rect x="${L}" y="${Y(36)}" width="${pw}" height="${Y(30)-Y(36)}" fill="${C.grn}" opacity=".08"/>`;
   s+=`<text x="${L+pw-4}" y="${Y(36)+11}" text-anchor="end" fill="${C.grn}" font-size="8.5" font-family="ui-monospace" opacity=".8">BANDA ÓPTIMA</text>`;
-  // grid + eje Y
-  for(let g=mn;g<=mx;g+=2){s+=`<line x1="${L}" y1="${Y(g)}" x2="${W-R}" y2="${Y(g)}" stroke="${C.edge}" stroke-width=".5" opacity=".5"/>
-    <text x="${L-6}" y="${Y(g)+3}" text-anchor="end" fill="${C.mut}" font-size="8" font-family="ui-monospace">${g}</text>`;}
-  // eje X (fechas)
+  for(let g=mn;g<=mx;g+=2){s+=`<line x1="${L}" y1="${Y(g)}" x2="${W-R}" y2="${Y(g)}" stroke="${C.edge}" stroke-width=".5" opacity=".5"/><text x="${L-6}" y="${Y(g)+3}" text-anchor="end" fill="${C.mut}" font-size="8" font-family="ui-monospace">${g}</text>`;}
   const ticks=RANGE<=7?RANGE:RANGE<=14?7:6;
-  for(let i=0;i<=ticks;i++){const idx=Math.round(i/ticks*(n-1));const dd=RANGE-Math.round(i/ticks*RANGE);
-    s+=`<text x="${X(idx)}" y="${H-8}" text-anchor="middle" fill="${C.mut}" font-size="8" font-family="ui-monospace">${dd===0?'hoy':'-'+dd+'d'}</text>`;}
-  // marcadores de riego
-  st.irr.filter(d=>d>=DAYS-RANGE).forEach(d=>{const idx=Math.round((d-(DAYS-RANGE))/RANGE*(n-1));
-    s+=`<line x1="${X(idx)}" y1="${T}" x2="${X(idx)}" y2="${T+ph}" stroke="${C.acc}" stroke-width=".8" stroke-dasharray="2 3" opacity=".55"/>
-      <text x="${X(idx)}" y="${T-2}" text-anchor="middle" fill="${C.acc}" font-size="7.5" font-family="ui-monospace">riego</text>`;});
-  // líneas
-  data.forEach((arr,ki)=>{const p=arr.map((v,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
-    s+=`<path d="${p}" fill="none" stroke="${keys[ki][1]}" stroke-width="1.7" stroke-linejoin="round"/>`;});
-  // capa de hover
-  s+=`<g id="cross" style="opacity:0"><line stroke="${C.mut}" stroke-width="1" stroke-dasharray="2 2"/></g>`;
-  s+=`<rect id="hit" x="${L}" y="${T}" width="${pw}" height="${ph}" fill="transparent"/></svg>`;
-  return{svg:s,meta:{n,L,R,T,B,W,H,pw,ph,X,Y,data,keys}};
+  for(let i=0;i<=ticks;i++){const idx=Math.round(i/ticks*(n-1));const dd=RANGE-Math.round(i/ticks*RANGE);s+=`<text x="${X(idx)}" y="${H-8}" text-anchor="middle" fill="${C.mut}" font-size="8" font-family="ui-monospace">${dd===0?'hoy':'-'+dd+'d'}</text>`;}
+  st.irr.filter(d=>d>=DAYS-RANGE).forEach(d=>{const idx=Math.round((d-(DAYS-RANGE))/RANGE*(n-1));s+=`<line x1="${X(idx)}" y1="${T}" x2="${X(idx)}" y2="${T+ph}" stroke="${C.acc}" stroke-width=".8" stroke-dasharray="2 3" opacity=".55"/><text x="${X(idx)}" y="${T-2}" text-anchor="middle" fill="${C.acc}" font-size="7.5" font-family="ui-monospace">riego</text>`;});
+  data.forEach((arr,ki)=>{const p=arr.map((v,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');s+=`<path d="${p}" fill="none" stroke="${keys[ki][1]}" stroke-width="1.7" stroke-linejoin="round"/>`;});
+  s+=`<g id="cross" style="opacity:0"><line stroke="${C.mut}" stroke-width="1" stroke-dasharray="2 2"/></g><rect id="hit" x="${L}" y="${T}" width="${pw}" height="${ph}" fill="transparent"/></svg>`;
+  return{svg:s,meta:{n,L,T,W,pw,ph,X,Y,data,keys}};
 }
 function rainChart(st){
-  const rain=st.rain.slice(-RANGE), W=430,H=64,L=30,R=10,T=8,B=18,pw=W-L-R,ph=H-T-B;
-  const mx=Math.max(6,...rain), bw=pw/rain.length, total=rain.reduce((a,b)=>a+b,0);
+  const rain=st.rain.slice(-RANGE),W=430,H=64,L=30,R=10,T=8,B=18,pw=W-L-R,ph=H-T-B;
+  const mx=Math.max(6,...rain),bw=pw/rain.length,total=rain.reduce((a,b)=>a+b,0);
   let s=`<svg id="rain" viewBox="0 0 ${W} ${H}" style="width:100%;display:block">`;
-  // grid Y (0 / máx)
-  [0,mx].forEach(g=>{const y=T+ph-g/mx*ph;s+=`<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="${C.edge}" stroke-width=".5" opacity=".6"/>
-    <text x="${L-6}" y="${y+3}" text-anchor="end" fill="${C.mut}" font-size="8" font-family="ui-monospace">${g}</text>`;});
-  rain.forEach((v,i)=>{const h=Math.max(v>0?1.5:0,v/mx*ph);
-    s+=`<rect class="rbar" data-i="${i}" data-v="${v}" x="${(L+i*bw+1.2).toFixed(1)}" y="${(T+ph-h).toFixed(1)}" width="${(bw-2.4).toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" fill="${v>0?C.cyan:'#22303a'}"/>`;});
-  // ticks de día
-  const tk=RANGE<=7?RANGE:7;
-  for(let i=0;i<=tk;i++){const di=Math.round(i/tk*(rain.length-1)), dd=RANGE-1-di;
-    s+=`<text x="${(L+di*bw+bw/2).toFixed(1)}" y="${H-6}" text-anchor="middle" fill="${C.mut}" font-size="8" font-family="ui-monospace">${dd===0?'hoy':'-'+dd+'d'}</text>`;}
-  s+=`<text x="${W-R}" y="${T+6}" text-anchor="end" fill="${C.cyan}" font-size="8.5" font-family="ui-monospace">Σ ${total.toFixed(0)} mm</text>`;
-  s+=`</svg>`;return s;
+  [0,mx].forEach(g=>{const y=T+ph-g/mx*ph;s+=`<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="${C.edge}" stroke-width=".5" opacity=".6"/><text x="${L-6}" y="${y+3}" text-anchor="end" fill="${C.mut}" font-size="8" font-family="ui-monospace">${g}</text>`;});
+  rain.forEach((v,i)=>{const h=Math.max(v>0?1.5:0,v/mx*ph);s+=`<rect class="rbar" x="${(L+i*bw+1.2).toFixed(1)}" y="${(T+ph-h).toFixed(1)}" width="${(bw-2.4).toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" fill="${v>0?C.cyan:'#22303a'}"/>`;});
+  const tk=RANGE<=7?RANGE:7;for(let i=0;i<=tk;i++){const di=Math.round(i/tk*(rain.length-1)),dd=RANGE-1-di;s+=`<text x="${(L+di*bw+bw/2).toFixed(1)}" y="${H-6}" text-anchor="middle" fill="${C.mut}" font-size="8" font-family="ui-monospace">${dd===0?'hoy':'-'+dd+'d'}</text>`;}
+  s+=`<text x="${W-R}" y="${T+6}" text-anchor="end" fill="${C.cyan}" font-size="8.5" font-family="ui-monospace">Σ ${total.toFixed(0)} mm</text></svg>`;return s;
 }
-
-// ---------- DETALLE ----------
-function reco(st){const z=Z[st.zone];const below=st.vwcRoot<31;
-  const mm=below?z.mm:Math.max(0,z.mm-4);
-  const vol=Math.round(mm*10* (52/6)); // mm→m³ por sector (~8.7 ha)
-  const cau=9.6, hrs=(vol/cau/3600);
-  return{mm,vol,hrs,text: below?`La banda de −20 cm cruza el umbral; −60 cm conserva reserva. Lámina ${z.d} para la zona ${st.zone}.`:`Perfil dentro de banda óptima. Diferir riego y revisar mañana.`,when: below?'Jue 06:00':'Sin riego programado'};}
-function alertsFor(st){const a=[];
-  if(st.tC<0.5||true) a.push(['ar','Riesgo de helada 02:40','T pronosticada −1.2 °C · activar defensa','frost']);
-  a.push(['aw','Hoja mojada 9 h seguidas','Ventana de hongos · revisar programa','leaf']);
-  if(st.vwcRoot<31) a.push(['ac','VWC −20 bajo umbral',`Sector ${st.sec} · confirmar riego de anoche`,'drop']);
-  return a;}
-const ICON={frost:'<path d="M12 3v18M5 7l14 10M19 7L5 17"/>',leaf:'<path d="M4 20c8 2 16-4 16-14 0 0-12-2-16 6 0 0 4 2 4 8z"/>',drop:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'};
-function detail(){
-  const st=STN.find(x=>x.id===SEL), rc=reco(st), z=Z[st.zone];
-  const lc=lineChart(st);
-  const el=$('#detail');
-  el.innerHTML=`
-   <div class="dhead"><div><div class="id">${st.id}</div><div class="meta">Sector ${st.sec} · Zona ${z.n}</div></div>
-     <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-       <span class="pill ${st.status==='warn'?'warn':'ok'}">${st.status==='warn'?'REQUIERE ATENCIÓN':'OPERATIVA'}</span>
-       <span class="pill">${st.rssi} dBm</span></div></div>
-   <div class="health">
-     <div class="h"><div class="k">VWC raíz</div><div class="v">${st.vwcRoot}<small> %</small></div></div>
+function detailHtml(){
+  const st=STN.find(x=>x.id===SEL),rc=reco(st),z=Z[st.zone],lc=lineChart(st);
+  return{html:`<div class="dhead"><div><div class="id">${st.id}</div><div class="meta">Sector ${st.sec} · Zona ${z.n}</div></div>
+     <div style="margin-left:auto;display:flex;gap:8px;align-items:center"><span class="pill ${st.status==='warn'?'warn':'ok'}">${st.status==='warn'?'REQUIERE ATENCIÓN':'OPERATIVA'}</span><span class="pill">${st.rssi} dBm</span></div></div>
+   <div class="health"><div class="h"><div class="k">VWC raíz</div><div class="v">${st.vwcRoot}<small> %</small></div></div>
      <div class="h"><div class="k">Batería</div><div class="v" style="color:${batCol(st.bat)}">${st.bat}<small> %</small></div></div>
      <div class="h"><div class="k">Temp. suelo</div><div class="v">${st.tC.toFixed(1)}<small> °C</small></div></div>
      <div class="h"><div class="k">Últ. paquete</div><div class="v">${st.last}<small> min</small></div></div></div>
-   <div class="section">
-     <div class="lb"><h4>Humedad volumétrica · 3 profundidades</h4><span class="k mono">${RANGE} DÍAS</span></div>
-     <div class="legend">${lc.meta.keys.map(k=>`<span class="ln"><i style="background:${k[1]}"></i>${k[2]}</span>`).join('')}
-       <span class="ln" style="margin-left:auto"><i style="background:${C.acc};height:0;border-top:2px dashed ${C.acc};width:14px"></i>riego</span></div>
-     <div class="chartwrap" style="margin-top:8px">${lc.svg}<div class="ctip" id="ctip"></div></div>
-   </div>
-   <div class="section">
-     <div class="lb"><h4>Precipitación</h4><span class="k mono">MM/DÍA · ${RANGE} D</span></div>
-     ${rainChart(st)}
-   </div>
-   <div class="reco">
-     <div class="big"><div class="rk">Recomendación de riego</div>
-       <div class="rv">REGAR <b>${rc.mm} mm</b> · ${rc.when}</div>
-       <div class="rs">= <b style="color:var(--acc)">${rc.vol.toLocaleString('es')} m³</b> en el sector · a 9.6 L/s → ${Math.floor(rc.hrs)} h ${Math.round((rc.hrs%1)*60)} min</div>
-       <div class="rs" style="margin-top:4px">${rc.text}</div></div>
-     <button class="cta">Programar riego</button></div>
-   <div class="section" style="border-bottom:none">
-     <div class="lb"><h4>Alertas de la estación</h4><span class="k mono">${alertsFor(st).length} ACTIVAS</span></div>
-     ${alertsFor(st).map(a=>`<div class="alert"><div class="ai ${a[0]}" style="background:rgba(255,255,255,.05)"><svg viewBox="0 0 24 24" class="${a[0]}">${ICON[a[3]]||ICON.drop}</svg></div>
-        <div><div class="at">${a[1]}</div><div class="as">${a[2]}</div></div></div>`).join('')}
-   </div>`;
-  wireChart(st,lc.meta);
+   <div class="section"><div class="lb"><h4>Humedad volumétrica · 3 profundidades</h4><span class="k mono">${RANGE} DÍAS</span></div>
+     <div class="legend">${lc.meta.keys.map(k=>`<span class="ln"><i style="background:${k[1]}"></i>${k[2]}</span>`).join('')}<span class="ln" style="margin-left:auto"><i style="background:${C.acc};height:0;border-top:2px dashed ${C.acc};width:14px"></i>riego</span></div>
+     <div class="chartwrap" style="margin-top:8px">${lc.svg}<div class="ctip" id="ctip"></div></div></div>
+   <div class="section"><div class="lb"><h4>Precipitación</h4><span class="k mono">MM/DÍA · ${RANGE} D</span></div>${rainChart(st)}</div>
+   <div class="reco"><div class="big"><div class="rk">Recomendación de riego</div><div class="rv">REGAR <b>${rc.mm} mm</b> · ${rc.when}</div>
+     <div class="rs">= <b style="color:var(--acc)">${nf(rc.vol)} m³</b> en el sector · a 9.6 L/s → ${Math.floor(rc.hrs)} h ${Math.round((rc.hrs%1)*60)} min</div>
+     <div class="rs" style="margin-top:4px">${rc.text}</div></div><button class="cta" data-prog="${st.id}">Programar riego</button></div>
+   <div class="section" style="border-bottom:none"><div class="lb"><h4>Alertas de la estación</h4><span class="k mono">${alertsFor(st).length} ACTIVAS</span></div>
+     ${alertsFor(st).map(a=>`<div class="alert"><div class="ai ${a[0]}"><svg viewBox="0 0 24 24" class="${a[0]}">${ICON[a[3]]||ICON.drop}</svg></div><div><div class="at">${a[1]}</div><div class="as">${a[2]}</div></div></div>`).join('')}</div>`,meta:lc.meta};
 }
-function wireChart(st,m){
-  const svg=$('#vwc'),cross=$('#cross',svg),ln=cross.querySelector('line'),tip=$('#ctip');
-  const hit=$('#hit',svg);
-  hit.addEventListener('pointermove',e=>{
-    const r=svg.getBoundingClientRect(), sx=(e.clientX-r.left)/r.width*m.W;
-    let i=Math.round((sx-m.L)/m.pw*(m.n-1)); i=clamp(i,0,m.n-1);
-    const x=m.X(i); ln.setAttribute('x1',x);ln.setAttribute('x2',x);ln.setAttribute('y1',m.T);ln.setAttribute('y2',m.T+m.ph);
-    cross.style.opacity=1;
-    // puntos
-    cross.querySelectorAll('circle').forEach(c=>c.remove());
-    m.data.forEach((arr,ki)=>{const cy=m.Y(arr[i]);const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
-      c.setAttribute('cx',x);c.setAttribute('cy',cy);c.setAttribute('r',3);c.setAttribute('fill',m.keys[ki][1]);
-      c.setAttribute('stroke','#0a0d12');c.setAttribute('stroke-width','1.5');cross.appendChild(c);});
-    const dd=RANGE-Math.round(i/(m.n-1)*RANGE);
-    tip.innerHTML=`<div class="d">${dd===0?'HOY':'HACE '+dd+' D'} · ${['00','06','12','18'][i%4]}:00</div>`+
-      m.keys.map((k,ki)=>`<div class="r"><span><i style="background:${k[1]}"></i>${k[2]}</span><b>${m.data[ki][i].toFixed(1)} %</b></div>`).join('');
-    const wrap=$('.chartwrap',$('#detail')).getBoundingClientRect();
-    let lx=e.clientX-wrap.left+14; if(lx>wrap.width-150)lx=e.clientX-wrap.left-146;
-    tip.style.left=lx+'px';tip.style.top=(e.clientY-wrap.top-10)+'px';tip.style.opacity=1;});
-  hit.addEventListener('pointerleave',()=>{cross.style.opacity=0;tip.style.opacity=0;});
-  // barras de lluvia hover
-  $$('.rbar',$('#detail')).forEach(b=>{b.style.cursor='pointer';
-    b.addEventListener('pointerenter',()=>b.setAttribute('opacity','.7'));
-    b.addEventListener('pointerleave',()=>b.setAttribute('opacity','1'));});
+function wireDetail(m){
+  const svg=$('#vwc');if(svg){const cross=$('#cross',svg),ln=cross.querySelector('line'),tip=$('#ctip'),hit=$('#hit',svg);
+    hit.addEventListener('pointermove',e=>{const r=svg.getBoundingClientRect(),sx=(e.clientX-r.left)/r.width*m.W;let i=clamp(Math.round((sx-m.L)/m.pw*(m.n-1)),0,m.n-1);
+      const x=m.X(i);ln.setAttribute('x1',x);ln.setAttribute('x2',x);ln.setAttribute('y1',m.T);ln.setAttribute('y2',m.T+m.ph);cross.style.opacity=1;
+      cross.querySelectorAll('circle').forEach(c=>c.remove());
+      m.data.forEach((arr,ki)=>{const cy=m.Y(arr[i]);const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',x);c.setAttribute('cy',cy);c.setAttribute('r',3);c.setAttribute('fill',m.keys[ki][1]);c.setAttribute('stroke','#0a0d12');c.setAttribute('stroke-width','1.5');cross.appendChild(c);});
+      const dd=RANGE-Math.round(i/(m.n-1)*RANGE);
+      tip.innerHTML=`<div class="d">${dd===0?'HOY':'HACE '+dd+' D'} · ${['00','06','12','18'][i%4]}:00</div>`+m.keys.map((k,ki)=>`<div class="r"><span><i style="background:${k[1]}"></i>${k[2]}</span><b>${m.data[ki][i].toFixed(1)} %</b></div>`).join('');
+      const wrap=svg.closest('.chartwrap').getBoundingClientRect();let lx=e.clientX-wrap.left+14;if(lx>wrap.width-150)lx=e.clientX-wrap.left-146;tip.style.left=lx+'px';tip.style.top=(e.clientY-wrap.top-10)+'px';tip.style.opacity=1;});
+    hit.addEventListener('pointerleave',()=>{cross.style.opacity=0;tip.style.opacity=0;});}
+  $$('.rbar').forEach(b=>{b.addEventListener('pointerenter',()=>b.setAttribute('opacity','.7'));b.addEventListener('pointerleave',()=>b.setAttribute('opacity','1'));});
+  $$('[data-prog]').forEach(btn=>btn.addEventListener('click',()=>toast('Riego programado · '+btn.dataset.prog)));
 }
 
-function select(id){SEL=id;drawMap();drawFleet();detail();}
-function renderAll(){drawKPIs();drawMap();drawFleet();detail();}
+// ---------- KPIs de flota ----------
+function fleetKPIs(){const n=rangeN();
+  const avg=(STN.reduce((a,s)=>a+s.vwcRoot,0)/STN.length).toFixed(1);
+  const saved=Math.round(STN.length*RANGE*13.6/30*100);
+  const avoided=STN.reduce((a,s)=>a+s.irr.slice(-RANGE).length,0);
+  const trend=STN[0].series.d20.slice(-n).filter((_,i)=>i%4===0);
+  return`<div class="kpi"><div class="k">VWC raíz · ponderado</div><div class="v">${avg} <span style="font-size:15px;color:var(--mut)">%</span></div><div class="d"><span class="up">▲ en banda</span> media de la flota</div>${miniSpark(trend,C.grn)}</div>
+   <div class="kpi"><div class="k">Agua ahorrada · ${RANGE} d</div><div class="v">${nf(saved)} <span style="font-size:15px;color:var(--mut)">m³</span></div><div class="d"><span class="up">▲ 12 %</span> vs. calendario fijo</div>${miniSpark(trend.map((v,i)=>i+(v%3)),C.acc)}</div>
+   <div class="kpi"><div class="k">Riegos evitados</div><div class="v">${avoided}</div><div class="d">últimos ${RANGE} días · sim.</div>${miniSpark([2,3,3,4,4,5,5],C.acc)}</div>
+   <div class="kpi"><div class="k">Alertas activas</div><div class="v warnc">6</div><div class="d"><span class="warnc">4 helada · 2 hoja</span></div>
+     <svg class="spark" width="54" height="18">${[0,1,0,2,1,3].map((v,i)=>`<rect x="${i*9}" y="${18-v*5}" width="6" height="${v*5}" fill="${C.amb}" rx="1"/>`).join('')}</svg></div>`;}
 
-// filtros
-$$('#range button').forEach(b=>b.addEventListener('click',()=>{$$('#range button').forEach(x=>x.classList.remove('on'));b.classList.add('on');RANGE=+b.dataset.r;renderAll();}));
-$('#lyZonas').addEventListener('change',drawMap);
-$('#lyCob').addEventListener('change',drawMap);
-$$('#nav a').forEach(a=>a.addEventListener('click',()=>{$$('#nav a').forEach(x=>x.classList.remove('on'));a.classList.add('on');}));
+// ---------- VIEWS ----------
+function viewPanel(){
+  $('#view').innerHTML=`<div class="kpis" id="kpis">${fleetKPIs()}</div>
+   <div class="cols"><div style="display:flex;flex-direction:column;gap:14px">
+     <div class="card"><div class="hd"><h3>Mapa de flota</h3><span class="k mono" id="mapmeta"></span></div>
+       <div class="bd" style="padding:0"><div class="mapwrap"><svg id="map" viewBox="0 0 620 360" style="width:100%;display:block"></svg>
+         <div class="maptools"><button title="Acercar">+</button><button title="Alejar">−</button><button title="Centrar">⌖</button></div>
+         <div class="maplegend" id="maplegend"></div><div class="mtip" id="mtip"></div></div></div></div>
+     <div class="card"><div class="hd"><h3>Estaciones</h3><span class="k mono">SALUD DE LA FLOTA</span></div>
+       <div class="bd" style="padding:0"><table class="fleet"><colgroup><col style="width:19%"><col style="width:13%"><col style="width:13%"><col style="width:17%"><col style="width:15%"><col style="width:12%"><col style="width:11%"></colgroup>
+       <thead><tr><th>Estación</th><th>Sector</th><th>VWC raíz</th><th>Batería</th><th>Señal</th><th>Últ. paquete</th><th>Estado</th></tr></thead><tbody id="fleet">${fleetRows()}</tbody></table></div></div>
+   </div><div class="card" id="detail"></div></div>`;
+  drawMap();wireFleet();const d=detailHtml();$('#detail').innerHTML=d.html;wireDetail(d.meta);
+}
+function viewMapa(){
+  $('#view').innerHTML=`<div class="cols" style="grid-template-columns:1.7fr 1fr">
+     <div class="card"><div class="hd"><h3>Mapa de flota</h3><span class="k mono" id="mapmeta"></span></div>
+       <div class="bd" style="padding:0"><div class="mapwrap"><svg id="map" viewBox="0 0 620 360" style="width:100%;display:block;min-height:420px"></svg>
+         <div class="maptools"><button title="Acercar">+</button><button title="Alejar">−</button><button title="Centrar">⌖</button></div>
+         <div class="maplegend" id="maplegend"></div><div class="mtip" id="mtip"></div></div></div></div>
+     <div class="card" id="detail"></div></div>`;
+  drawMap();const d=detailHtml();$('#detail').innerHTML=d.html;wireDetail(d.meta);
+}
+function viewEstaciones(){
+  $('#view').innerHTML=`<div class="cols">
+     <div class="card"><div class="hd"><h3>Estaciones</h3><span class="k mono">${STN.length} DISPOSITIVOS · SALUD DE LA FLOTA</span></div>
+       <div class="bd" style="padding:0"><table class="fleet"><colgroup><col style="width:19%"><col style="width:13%"><col style="width:13%"><col style="width:17%"><col style="width:15%"><col style="width:12%"><col style="width:11%"></colgroup>
+       <thead><tr><th>Estación</th><th>Sector</th><th>VWC raíz</th><th>Batería</th><th>Señal</th><th>Últ. paquete</th><th>Estado</th></tr></thead><tbody id="fleet">${fleetRows()}</tbody></table></div></div>
+     <div class="card" id="detail"></div></div>`;
+  wireFleet();const d=detailHtml();$('#detail').innerHTML=d.html;wireDetail(d.meta);
+}
+function viewRiego(){
+  const rows=STN.map(st=>({st,r:reco(st)}));
+  const totalVol=rows.filter(x=>x.r.below).reduce((a,x)=>a+x.r.vol,0);
+  const zoneVol={A:0,B:0,C:0};rows.forEach(x=>{if(x.r.below)zoneVol[x.st.zone]+=x.r.vol;});
+  const mzv=Math.max(1,...Object.values(zoneVol));
+  const zcol={A:C.acc,B:C.cyan,C:C.grn};
+  $('#view').innerHTML=`<div class="cols" style="grid-template-columns:1.5fr 1fr">
+     <div class="card"><div class="hd"><h3>Plan de riego por sector</h3><span class="k mono">HOY · UMBRAL POR ZONA</span></div>
+       <div class="bd" style="padding:0"><table class="fleet" style="table-layout:auto">
+       <thead><tr><th>Sector</th><th>Zona</th><th>VWC</th><th>Lámina</th><th>Volumen</th><th>Tiempo</th><th></th></tr></thead>
+       <tbody>${rows.map(({st,r})=>`<tr>
+         <td><b>${st.sec}</b> <span class="tag">${st.id}</span></td><td><span class="pill ${r.below?'warn':'ok'}">Z${st.zone} · ${Z[st.zone].d}</span></td>
+         <td><b>${st.vwcRoot}</b><span class="tag"> %</span></td>
+         <td>${r.below?`<b style="font-size:14px">${r.mm}</b><span class="tag"> mm</span>`:'<span class="tag">—</span>'}</td>
+         <td>${r.below?`<b>${nf(r.vol)}</b><span class="tag"> m³</span>`:'<span class="tag">reserva OK</span>'}</td>
+         <td class="tag">${r.below?`${Math.floor(r.hrs)} h ${Math.round((r.hrs%1)*60)} min`:'—'}</td>
+         <td style="text-align:right">${r.below?`<button class="cta sm" data-prog="${st.id}">Programar</button>`:'<span class="tag">diferir</span>'}</td></tr>`).join('')}</tbody></table></div></div>
+     <div class="card"><div class="hd"><h3>Volumen a aplicar</h3><span class="k mono">HOY</span></div>
+       <div class="bd"><div style="font-size:30px;font-weight:750;letter-spacing:-.02em">${nf(totalVol)} <span style="font-size:16px;color:var(--mut)">m³</span></div>
+       <div class="tag" style="margin-bottom:16px">${rows.filter(x=>x.r.below).length} de ${STN.length} sectores requieren riego</div>
+       ${Object.keys(zoneVol).map(z=>`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px"><span class="tag">ZONA ${z} · ${Z[z].n.split('·')[1].trim()}</span><b>${nf(zoneVol[z])} m³</b></div>
+         <div class="abar"><i style="width:${zoneVol[z]/mzv*100}%;background:${zcol[z]}"></i></div></div>`).join('')}
+       <button class="cta" style="width:100%;text-align:center;margin-top:8px" id="progAll">Programar todo el plan</button>
+       <div class="tag" style="margin-top:10px">Riego por VOLUMEN (m³), convertido a tiempo con el caudal real del equipo (9.6 L/s).</div></div></div></div>`;
+  $$('[data-prog]').forEach(b=>b.addEventListener('click',()=>toast('Riego programado · '+b.dataset.prog)));
+  $('#progAll').addEventListener('click',()=>toast('Plan de riego programado · '+nf(totalVol)+' m³'));
+}
+function viewAlertas(){
+  const all=STN.flatMap(st=>alertsFor(st).map(a=>({st,a})));
+  const sev={ar:'Crítica',aw:'Advertencia',ac:'Aviso'};
+  $('#view').innerHTML=`<div class="card"><div class="hd"><h3>Alertas de la flota</h3>
+      <span class="k mono">${all.length} ACTIVAS</span></div>
+     <div style="padding:12px 14px;border-bottom:1px solid var(--edge);display:flex;gap:8px;flex-wrap:wrap">
+       <button class="chip afil on" data-f="all">Todas · ${all.length}</button>
+       <button class="chip afil" data-f="frost"><span class="sw" style="background:${C.red}"></span>Helada · ${all.filter(x=>x.a[3]==='frost').length}</button>
+       <button class="chip afil" data-f="leaf"><span class="sw" style="background:${C.amb}"></span>Hoja mojada · ${all.filter(x=>x.a[3]==='leaf').length}</button>
+       <button class="chip afil" data-f="drop"><span class="sw" style="background:${C.acc}"></span>Humedad · ${all.filter(x=>x.a[3]==='drop').length}</button></div>
+     <div class="bd" id="afeed"></div></div>`;
+  const feed=(f)=>{const list=all.filter(x=>f==='all'||x.a[3]===f);
+    $('#afeed').innerHTML=list.map(({st,a})=>`<div class="alert"><div class="ai ${a[0]}"><svg viewBox="0 0 24 24" class="${a[0]}">${ICON[a[3]]||ICON.drop}</svg></div>
+      <div style="flex:1"><div class="at">${a[1]} <span class="tag" style="color:var(--mut)"> · ${sev[a[0]]}</span></div><div class="as">${a[2]}</div></div>
+      <div style="text-align:right"><button class="chip go" data-id="${st.id}" style="padding:5px 9px">${st.id}</button></div></div>`).join('')||'<div class="tag" style="padding:12px 0">Sin alertas de este tipo.</div>';
+    $$('#afeed .go').forEach(b=>b.addEventListener('click',()=>select(b.dataset.id,'estaciones')));};
+  feed('all');
+  $$('.afil').forEach(b=>b.addEventListener('click',()=>{$$('.afil').forEach(x=>x.classList.remove('on'));b.classList.add('on');feed(b.dataset.f);}));
+}
+function areaChart(series,col,unit){
+  const W=560,H=200,L=40,R=12,T=12,B=24,pw=W-L-R,ph=H-T-B,n=series.length;
+  const mx=Math.ceil(Math.max(...series)/1000)*1000||1000;
+  const X=i=>L+i/(n-1)*pw,Y=v=>T+ph-v/mx*ph;
+  let s=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${col}" stop-opacity=".35"/><stop offset="100%" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>`;
+  for(let g=0;g<=mx;g+=mx/4){s+=`<line x1="${L}" y1="${Y(g)}" x2="${W-R}" y2="${Y(g)}" stroke="${C.edge}" stroke-width=".5" opacity=".55"/><text x="${L-6}" y="${Y(g)+3}" text-anchor="end" fill="${C.mut}" font-size="8" font-family="ui-monospace">${nf(g)}</text>`;}
+  const line=series.map((v,i)=>`${i?'L':'M'}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
+  s+=`<path d="${line} L${X(n-1)},${T+ph} L${L},${T+ph} Z" fill="url(#ag)"/><path d="${line}" fill="none" stroke="${col}" stroke-width="2"/>`;
+  s+=`<circle cx="${X(n-1)}" cy="${Y(series[n-1])}" r="3.5" fill="${col}" stroke="#0a0d12" stroke-width="1.5"/>`;
+  [0,7,14,21,29].forEach(i=>{s+=`<text x="${X(i)}" y="${H-8}" text-anchor="middle" fill="${C.mut}" font-size="8" font-family="ui-monospace">${i===29?'hoy':'-'+(29-i)+'d'}</text>`;});
+  s+=`<text x="${W-R}" y="${T+4}" text-anchor="end" fill="${col}" font-size="9" font-family="ui-monospace">${nf(series[n-1])} ${unit}</text></svg>`;return s;
+}
+function viewReportes(){
+  let cum=0;const saved=[];for(let d=0;d<DAYS;d++){cum+=STN.length*(120+(d%5)*30);saved.push(Math.round(cum));}
+  const total=saved[saved.length-1];const avoided=STN.reduce((a,s)=>a+s.irr.length,0);
+  const zoneSaved={A:.42,B:.33,C:.25};
+  $('#view').innerHTML=`<div class="kpis">
+     <div class="kpi"><div class="k">Agua ahorrada · 30 d</div><div class="v">${nf(total)} <span style="font-size:15px;color:var(--mut)">m³</span></div><div class="d"><span class="up">▲ 14 %</span> vs. calendario fijo</div></div>
+     <div class="kpi"><div class="k">Energía de bombeo evitada</div><div class="v">${nf(Math.round(total*0.27))} <span style="font-size:15px;color:var(--mut)">kWh</span></div><div class="d">0.27 kWh/m³ · pozo 60 m</div></div>
+     <div class="kpi"><div class="k">Riegos evitados</div><div class="v">${avoided}</div><div class="d">reemplazados por decisión con datos</div></div>
+     <div class="kpi"><div class="k">Equivale a</div><div class="v">${(total/2500).toFixed(1)} <span style="font-size:15px;color:var(--mut)">pisc.</span></div><div class="d">piscinas olímpicas (2 500 m³)</div></div></div>
+   <div class="cols" style="grid-template-columns:1.7fr 1fr">
+     <div class="card"><div class="hd"><h3>Agua ahorrada acumulada</h3><span class="k mono">30 DÍAS · SIM.</span></div><div class="bd">${areaChart(saved,C.acc,'m³')}</div></div>
+     <div class="card"><div class="hd"><h3>Por zona de manejo</h3></div><div class="bd">
+       ${Object.entries(zoneSaved).map(([z,f])=>`<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px"><span class="tag">ZONA ${z}</span><b>${nf(Math.round(total*f))} m³ · ${Math.round(f*100)} %</b></div><div class="abar"><i style="width:${f*100}%;background:${z==='A'?C.acc:z==='B'?C.cyan:C.grn}"></i></div></div>`).join('')}
+       <button class="cta" style="width:100%;text-align:center;margin-top:6px" id="dl">Descargar PDF</button>
+       <div class="tag" style="margin-top:10px">Cifras de ahorro estimadas con estudios publicados (UC ANR, MSU) — ver dossier.</div></div></div></div>`;
+  $('#dl').addEventListener('click',()=>toast('Generando reporte PDF…'));
+}
 
-// reloj en vivo
+// ---------- ROUTER ----------
+const VIEWS={
+  panel:{t:'Panel de campo',s:()=>`Fundo El Peral · Parcela Norte — ${STN.length} estaciones · 52 ha en 6 sectores`,f:viewPanel,filt:'all'},
+  mapa:{t:'Mapa de flota',s:()=>'Cobertura LoRaWAN · zonas de manejo · toca una estación para ver su detalle',f:viewMapa,filt:'map'},
+  estaciones:{t:'Estaciones',s:()=>`${STN.length} dispositivos · humedad, batería, señal y último paquete`,f:viewEstaciones,filt:'range'},
+  riego:{t:'Riego',s:()=>'Plan por sector · lámina → volumen → tiempo con el caudal real',f:viewRiego,filt:'none'},
+  alertas:{t:'Alertas',s:()=>'Helada, hoja mojada y umbrales de humedad en toda la flota',f:viewAlertas,filt:'none'},
+  reportes:{t:'Reportes',s:()=>'Agua y energía ahorradas · evidencia para dirección',f:viewReportes,filt:'export'},
+};
+function setView(v){VIEW=v;const cfg=VIEWS[v];
+  $('#viewTitle').textContent=cfg.t;$('#viewSub').textContent=cfg.s();
+  $$('#nav a[data-view]').forEach(a=>a.classList.toggle('on',a.dataset.view===v));
+  $('#range').style.display=(cfg.filt==='range'||cfg.filt==='all')?'':'none';
+  $('#chZonas').style.display=(cfg.filt==='map'||cfg.filt==='all')?'':'none';
+  $('#chCob').style.display=(cfg.filt==='map'||cfg.filt==='all')?'':'none';
+  $('#range').style.display=(cfg.filt==='range'||cfg.filt==='all')?'':'none';
+  $('#btnExport').style.display=(cfg.filt==='export'||cfg.filt==='all')?'':'none';
+  cfg.f();
+}
+function select(id,go){SEL=id;if(go&&go!==VIEW){setView(go);return;}
+  if(VIEW==='panel'||VIEW==='mapa'||VIEW==='estaciones'){
+    drawMap();if($('#fleet')){$('#fleet').innerHTML=fleetRows();wireFleet();}
+    if($('#detail')){const d=detailHtml();$('#detail').innerHTML=d.html;wireDetail(d.meta);}
+  }
+}
+function renderView(){VIEWS[VIEW].f();}
+
+$$('#nav a[data-view]').forEach(a=>a.addEventListener('click',()=>setView(a.dataset.view)));
+$$('#range button').forEach(b=>b.addEventListener('click',()=>{$$('#range button').forEach(x=>x.classList.remove('on'));b.classList.add('on');RANGE=+b.dataset.r;renderView();}));
+$('#lyZonas').addEventListener('change',()=>{if($('#map'))drawMap();});
+$('#lyCob').addEventListener('change',()=>{if($('#map'))drawMap();});
+$('#btnExport').addEventListener('click',()=>toast('Exportando reporte…'));
+$('#bellBtn').addEventListener('click',()=>setView('alertas'));
+
 let t0=Date.now();setInterval(()=>{const s=Math.floor((Date.now()-t0)/1000);
   $('#clock').textContent='EN VIVO · '+String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
   $('#upd').textContent='hace '+(s%60)+' s';},1000);
 
-renderAll();
+setView('panel');
 </script>
 
 
