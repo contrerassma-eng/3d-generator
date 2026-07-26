@@ -157,6 +157,61 @@ def verificar(proj: Path) -> dict:
            "ni entra ni cae)",
            "revisar y_cavidad_local, la carrera o la posición de las bocas")
 
+    # ---------------- V18 el camino está ABIERTO, no solo alineado -----------
+    # V16 comprueba que la cavidad quede ENFRENTADA a las bocas, pero sondea un
+    # tramo corto y solo contra el cajón y el canal. Un tapón dentro de una pieza
+    # que no esté en esa lista pasa desapercibido: el adaptador de cuello llegó a
+    # tener 2 mm de PLA macizo cerrando la boca de carga entera —el aparato no
+    # dejaba pasar NI UN GRANO— y las 21 pruebas lo dieron por bueno.
+    #
+    # No sirve tirar rayos verticales: una tolva converge, así que un rayo recto
+    # choca con la pared aunque el material fluya perfectamente. Lo que hay que
+    # medir a cada altura es el HUECO LIBRE MAYOR —el círculo más grande que cabe
+    # en la sección libre—, que es justo lo que tiene que atravesar la croqueta.
+    from scipy import ndimage as _nd
+    paso_v18 = 2.0
+    croqueta = al["croqueta_dia_mm"]
+    perfiles_v18, minimos_v18 = {}, {}
+    tramos_v18 = {
+        "carga": (C["y_carga"], 0.0, C["z_deslizamiento"] + 2.0,
+                  C["z_tapa_sup"] + C["transicion_alto"] * 0.30),
+        "descarga": (C["y_descarga"], C["carrera"], C["z_canal_base"] - 55.0,
+                     C["z_corredera_sup"] - 2.0),
+    }
+    for etapa, (y_boca, avance, z0_, z1_) in tramos_v18.items():
+        cajon = E._t(piezas["ali_corredera"],
+                     at=(0, C["y_carga"] + avance - y_cav_local, C["z_deslizamiento"]))
+        estorbos = dict(fijas)
+        estorbos["ali_corredera"] = cajon
+        xs = np.arange(-do["cavidad_x"] / 2 - 8, do["cavidad_x"] / 2 + 8, paso_v18)
+        ys = np.arange(y_boca - do["cavidad_y"] / 2 - 8, y_boca + do["cavidad_y"] / 2 + 8, paso_v18)
+        X, Y = np.meshgrid(xs, ys, indexing="ij")
+        perfil = []
+        for z in np.linspace(z0_, z1_, 22):
+            pts = np.column_stack([X.ravel(), Y.ravel(), np.full(X.size, z)])
+            solido = np.zeros(len(pts), dtype=bool)
+            culpable, peor = None, 0
+            for nombre, malla in estorbos.items():
+                dentro = malla.contains(pts)
+                if dentro.sum() > peor:
+                    peor, culpable = int(dentro.sum()), nombre
+                solido |= dentro
+            libre = (~solido).reshape(X.shape)
+            # círculo mayor inscrito en el hueco libre, en mm
+            hueco = 2.0 * float(_nd.distance_transform_edt(libre).max()) * paso_v18
+            perfil.append({"z_mm": round(float(z), 1), "hueco_libre_mm": round(hueco, 1),
+                           "pieza_dominante": culpable})
+        perfiles_v18[etapa] = perfil
+        minimos_v18[etapa] = min(perfil, key=lambda r: r["hueco_libre_mm"])
+    peor_hueco = min(m["hueco_libre_mm"] for m in minimos_v18.values())
+    prueba("V18", "El camino de la croqueta está ABIERTO de la tolva al plato",
+           "PASA" if peor_hueco >= croqueta else "FALLA",
+           {"hueco_libre_minimo_mm": round(peor_hueco, 1),
+            "croqueta_mm": croqueta, "donde": minimos_v18, "perfiles": perfiles_v18},
+           f"a NINGUNA altura del camino el hueco libre puede bajar de una croqueta "
+           f"({croqueta:.0f} mm); si baja a 0 es que hay una pieza tapando el paso",
+           "mirar 'donde': dice la altura y la pieza que estrecha el camino")
+
     # ---------------- V5 dosis medida sobre la malla -------------------------
     cajon0 = piezas["ali_corredera"]
     caja_cav = S.caja((do["cavidad_x"] + 40, do["cavidad_y"] + 40, C["cavidad_z"]),

@@ -725,7 +725,11 @@ def ali_adaptador_cuello(P, C):
                    (do["cavidad_x"] / 2, do["cavidad_y"] / 2), (-do["cavidad_x"] / 2, do["cavidad_y"] / 2)])
     ext = S.prisma(inf.buffer(5.0, join_style=2), 6.0, at=(0, 0, 3))       # brida inferior
     cono = _piramide_a_circulo(inf.buffer(5.0, join_style=2), dcuello / 2 + 5.0, 6.0, H - 6.0)
-    hueco = _piramide_a_circulo(inf, dcuello / 2 - 2.0, 2.0, H)
+    # OJO con el arranque del hueco: la brida inferior empieza en z=0, así que si
+    # el vaciado arranca en z=2 quedan 2 mm de PLA macizo TAPANDO la boca de
+    # carga entera. El adaptador sale precioso y el aparato no deja pasar ni un
+    # grano. Arranca por debajo de la brida y se lleva ese suelo por delante.
+    hueco = _piramide_a_circulo(inf, dcuello / 2 - 2.0, -1.0, H + 3.0)
     a = S.resta(S.union(ext, cono), hueco)
     # abrazadera partida sobre el cuello
     a = S.union(a, S.tubo(dcuello + 12.0, dcuello + 0.8, 26.0, at=(0, 0, H + 12)))
@@ -794,7 +798,7 @@ def ali_adaptador_hombro(P, C):
                    (do["cavidad_x"] / 2, do["cavidad_y"] / 2), (-do["cavidad_x"] / 2, do["cavidad_y"] / 2)])
     ext = S.prisma(inf.buffer(5.0, join_style=2), 6.0, at=(0, 0, 3))
     cono = _piramide_a_circulo(inf.buffer(5.0, join_style=2), d_corte / 2 + 5.0, 6.0, H - 6.0)
-    hueco = _piramide_a_circulo(inf, d_corte / 2, 2.0, H)
+    hueco = _piramide_a_circulo(inf, d_corte / 2, -1.0, H + 3.0)   # ver nota del cuello
     a = S.resta(S.union(ext, cono), hueco)
     # garganta de recepción del canto cortado del envase (apoya por gravedad)
     a = S.union(a, S.tubo(d_corte + 14.0, d_corte + 2.0, 20.0, at=(0, 0, H + 9)))

@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-26T07:30:03+00:00",
+  "generado": "2026-07-26T17:25:49+00:00",
   "proyecto": "YT0101-dispensador-canino",
   "capa": "user",
   "pruebas": [
@@ -281,6 +281,43 @@
       "accion": "revisar y_cavidad_local, la carrera o la posición de las bocas"
     },
     {
+      "id": "V18",
+      "titulo": "El camino de la croqueta está ABIERTO de la tolva al plato",
+      "veredicto": "FALLA",
+      "medido": {
+        "rayos_libres_pct": {
+          "carga": 71.4,
+          "descarga": 20.0
+        },
+        "detalle": {
+          "carga": {
+            "rayos": 35,
+            "libres": 25,
+            "z_mm": [
+              338.0,
+              392.0
+            ],
+            "obstruccion_pct_por_pieza": {
+              "ali_adaptador_cuello": 0.9
+            }
+          },
+          "descarga": {
+            "rayos": 35,
+            "libres": 7,
+            "z_mm": [
+              270.0,
+              364.9
+            ],
+            "obstruccion_pct_por_pieza": {
+              "ali_chute": 6.8
+            }
+          }
+        }
+      },
+      "criterio": "≥80% de los rayos verticales atraviesan el camino sin tocar NINGUNA pieza (el resto es el estrechamiento normal de la tolva)",
+      "accion": "mirar qué pieza aparece en obstruccion_pct_por_pieza: hay material donde tiene que pasar el alimento"
+    },
+    {
       "id": "V5",
       "titulo": "La cavidad entrega la dosis objetivo con el alimento de diseño",
       "veredicto": "PASA",
@@ -545,13 +582,15 @@
     }
   ],
   "resumen": {
-    "pruebas": 21,
-    "fallas": [],
+    "pruebas": 22,
+    "fallas": [
+      "V18"
+    ],
     "advertencias": [
       "V7b",
       "V8"
     ],
-    "veredicto": "PASA_CON_ADVERTENCIAS"
+    "veredicto": "FALLA"
   },
   "calculos": {
     "cavidad_z_calculada": 30.86,
@@ -725,5 +764,5 @@
     "carga_bidon_alimento_N": 86.5,
     "autonomia_alimento_dosis": 159
   },
-  "masa_pla_total_g": 2283.6
+  "masa_pla_total_g": 2258.5
 }
