@@ -59,32 +59,43 @@ class Campo:
         n = np.array(self.sdf.shape, dtype=float) - 1.0
         return np.stack([self.origen, self.origen + n * self.paso])
 
-    def distancia(self, p: np.ndarray, con_gradiente: bool = True):
-        """Distancia (y normal saliente) en los puntos locales `p` (N,3).
+    def _indice(self, p: np.ndarray):
+        lim = self.limites
+        dentro = np.all((p >= lim[0] + self.paso) & (p <= lim[1] - self.paso), axis=1)
+        return dentro, (p[dentro] - self.origen) / self.paso
+
+    def valor(self, p: np.ndarray) -> np.ndarray:
+        """Distancia con signo en los puntos locales `p` (N,3).
 
         Fuera de la rejilla devuelve LEJOS: el margen del campo garantiza que
         cualquier punto capaz de tocar la pieza cae dentro.
         """
-        n = len(p)
-        d = np.full(n, LEJOS, dtype=float)
-        grad = np.zeros((n, 3), dtype=float)
-        lim = self.limites
-        dentro = np.all((p >= lim[0] + self.paso) & (p <= lim[1] - self.paso), axis=1)
+        d = np.full(len(p), LEJOS, dtype=float)
+        dentro, u = self._indice(p)
+        if dentro.any():
+            d[dentro] = ndimage.map_coordinates(self.sdf, u.T, order=1, mode="nearest")
+        return d
+
+    def gradiente(self, p: np.ndarray) -> np.ndarray:
+        """Normal saliente unitaria. Seis muestreos por punto: se pide SOLO para
+        los granos que están tocando, que son un puñado de los que hay."""
+        grad = np.zeros((len(p), 3), dtype=float)
+        dentro, u = self._indice(p)
         if not dentro.any():
-            return d, grad
-        u = (p[dentro] - self.origen) / self.paso           # coordenadas de índice
-        d[dentro] = ndimage.map_coordinates(self.sdf, u.T, order=1, mode="nearest")
-        if con_gradiente:
-            g = np.empty((dentro.sum(), 3))
-            for k in range(3):
-                du = np.zeros(3)
-                du[k] = 1.0
-                mas = ndimage.map_coordinates(self.sdf, (u + du).T, order=1, mode="nearest")
-                menos = ndimage.map_coordinates(self.sdf, (u - du).T, order=1, mode="nearest")
-                g[:, k] = (mas - menos) / (2.0 * self.paso)
-            norma = np.linalg.norm(g, axis=1, keepdims=True)
-            grad[dentro] = g / np.maximum(norma, 1e-12)
-        return d, grad
+            return grad
+        g = np.empty((int(dentro.sum()), 3))
+        for k in range(3):
+            du = np.zeros(3)
+            du[k] = 1.0
+            mas = ndimage.map_coordinates(self.sdf, (u + du).T, order=1, mode="nearest")
+            menos = ndimage.map_coordinates(self.sdf, (u - du).T, order=1, mode="nearest")
+            g[:, k] = (mas - menos) / (2.0 * self.paso)
+        grad[dentro] = g / np.maximum(np.linalg.norm(g, axis=1, keepdims=True), 1e-12)
+        return grad
+
+    def distancia(self, p: np.ndarray, con_gradiente: bool = True):
+        d = self.valor(p)
+        return (d, self.gradiente(p)) if con_gradiente else (d, np.zeros_like(p))
 
 
 def campo_de_malla(malla, paso_mm: float, margen_mm: float, cache: Path | None = None,
@@ -144,12 +155,22 @@ class Cuerpo:
     cinema: Callable[[float], tuple[np.ndarray, np.ndarray]] = \
         field(default=lambda t: (np.zeros(3), np.zeros(3)))
 
-    def contacto(self, x: np.ndarray, t: float):
-        """Distancia y normal saliente (mundo) para cada partícula."""
+    def contacto(self, x: np.ndarray, t: float, r=None):
+        """Distancia y normal saliente (mundo) para cada partícula.
+
+        Con `r` (los radios) la normal se calcula solo donde hay contacto. Es la
+        diferencia entre seis muestreos del campo por grano y seis por grano que
+        de verdad toca, que son unos pocos: el paso de integración se vuelve
+        varias veces más barato sin cambiar un solo resultado.
+        """
         R, c = self.pose(t)
         q = (x - c) @ R                                  # R⁻¹·(x−c) con R ortonormal
-        d, g = self.campo.distancia(q)
-        return d, g @ R.T
+        d = self.campo.valor(q)
+        n = np.zeros_like(x)
+        cerca = np.ones(len(x), dtype=bool) if r is None else (d < r)
+        if cerca.any():
+            n[cerca] = self.campo.gradiente(q[cerca]) @ R.T
+        return d, n
 
     def velocidad_en(self, x: np.ndarray, t: float) -> np.ndarray:
         v, w = self.cinema(t)
@@ -171,7 +192,7 @@ class CuerpoPlano(Cuerpo):
         self.n = np.asarray(normal, dtype=float)
         self.n /= np.linalg.norm(self.n)
 
-    def contacto(self, x, t):
+    def contacto(self, x, t, r=None):
         return x @ self.n - self.z0, np.tile(self.n, (len(x), 1))
 
     def velocidad_en(self, x, t):
@@ -186,18 +207,20 @@ class CuerpoTubo(Cuerpo):
     """
 
     def __init__(self, nombre: str, radio: float, z0: float, z1: float,
-                 alza: Callable[[float], float] | None = None):
+                 alza: Callable[[float], float] | None = None,
+                 centro: tuple[float, float] = (0.0, 0.0)):
         self.nombre, self.radio, self.z0, self.z1 = nombre, radio, z0, z1
         self.alza = alza or (lambda t: 0.0)
+        self.cx, self.cy = centro
 
-    def contacto(self, x, t):
+    def contacto(self, x, t, r=None):
         dz = self.alza(t)
-        rho = np.hypot(x[:, 0], x[:, 1])
+        rho = np.hypot(x[:, 0] - self.cx, x[:, 1] - self.cy)
         d = self.radio - rho                                   # + hacia dentro
         n = np.zeros_like(x)
         seguro = rho > 1e-9
-        n[seguro, 0] = -x[seguro, 0] / rho[seguro]
-        n[seguro, 1] = -x[seguro, 1] / rho[seguro]
+        n[seguro, 0] = -(x[seguro, 0] - self.cx) / rho[seguro]
+        n[seguro, 1] = -(x[seguro, 1] - self.cy) / rho[seguro]
         fuera = (x[:, 2] < self.z0 + dz) | (x[:, 2] > self.z1 + dz) | (d < -0.02)
         d = np.where(fuera, LEJOS, d)
         return d, n
@@ -216,20 +239,22 @@ class CuerpoCono(Cuerpo):
     Radio r0 en z0 y r1 en z1. Exacto, sin error de vóxel.
     """
 
-    def __init__(self, nombre: str, r0: float, z0: float, r1: float, z1: float):
+    def __init__(self, nombre: str, r0: float, z0: float, r1: float, z1: float,
+                 centro: tuple[float, float] = (0.0, 0.0)):
         self.nombre = nombre
         self.r0, self.z0, self.r1, self.z1 = r0, z0, r1, z1
         self.pend = (r1 - r0) / (z1 - z0)
         self.cos = 1.0 / math.hypot(1.0, self.pend)
+        self.cx, self.cy = centro
 
-    def contacto(self, x, t):
-        rho = np.hypot(x[:, 0], x[:, 1])
+    def contacto(self, x, t, r=None):
+        rho = np.hypot(x[:, 0] - self.cx, x[:, 1] - self.cy)
         r_pared = self.r0 + self.pend * (x[:, 2] - self.z0)
         d = (r_pared - rho) * self.cos                        # distancia perpendicular
         n = np.zeros_like(x)
         seguro = rho > 1e-9
-        n[seguro, 0] = -x[seguro, 0] / rho[seguro] * self.cos
-        n[seguro, 1] = -x[seguro, 1] / rho[seguro] * self.cos
+        n[seguro, 0] = -(x[seguro, 0] - self.cx) / rho[seguro] * self.cos
+        n[seguro, 1] = -(x[seguro, 1] - self.cy) / rho[seguro] * self.cos
         n[:, 2] = self.pend * self.cos
         fuera = (x[:, 2] < self.z0) | (x[:, 2] > self.z1)
         return np.where(fuera, LEJOS, d), n
@@ -414,7 +439,7 @@ class DEM:
 
     def _grano_pared(self, F, T):
         for b, cuerpo in enumerate(self.cuerpos):
-            d, nrm = cuerpo.contacto(self.x, self.t)
+            d, nrm = cuerpo.contacto(self.x, self.t, self.r)
             toca = d < self.r
             if not toca.any():
                 self.xi_w[b, :] = 0.0

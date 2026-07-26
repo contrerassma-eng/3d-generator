@@ -33,6 +33,8 @@ def cargar(proj: Path):
         (proj / "input" / "web_facts.json").read_text(encoding="utf-8"))}
     ver = json.loads((proj / "out" / "VERIFICACION.json").read_text(encoding="utf-8")) \
         if (proj / "out" / "VERIFICACION.json").exists() else None
+    sim = json.loads((proj / "out" / "SIMULACION.json").read_text(encoding="utf-8")) \
+        if (proj / "out" / "SIMULACION.json").exists() else None
     idx = json.loads((proj / "out" / "piezas" / "INDICE.json").read_text(encoding="utf-8")) \
         if (proj / "out" / "piezas" / "INDICE.json").exists() else None
     return P, C, hechos, ver, idx
@@ -45,7 +47,7 @@ def cita(hechos: dict, id_: str) -> str:
     return f"[{id_}]({h['url']}) — «{h['quote'][:150]}{'…' if len(h['quote']) > 150 else ''}»"
 
 
-def memoria(P, C, hechos, ver) -> str:
+def memoria(P, C, hechos, ver, sim=None) -> str:
     al, do, ag, es, im = (P["alimento"], P["dosificador"], P["agua"],
                           P["estructura"], P["impresion"])
     bi, aa = P["bidon"], C["anti_arco"]
@@ -287,15 +289,52 @@ def memoria(P, C, hechos, ver) -> str:
     A("## 11. Lo que este diseño todavía no demuestra")
     A("")
     A("Honestidad de ingeniería: la verificación es geométrica y analítica. NO")
-    A("sustituye al prototipo. Quedan por comprobar en el aparato físico:")
+    A("sustituye al prototipo.")
     A("")
-    A("1. El factor de llenado real de la cavidad (se supuso "
-      f"{al['factor_llenado']:.2f}).")
+    if sim:
+        base = sim.get("casos", {}).get("base", {})
+        cal = sim.get("calibracion", {})
+        A("La simulación de grano (`SIMULACION.md`, gate G-SIM) ataca tres de")
+        A("estos puntos, pero con un MODELO: esferas polidispersas con fricción")
+        A("de rodadura calibrada contra el ángulo de reposo publicado. Reduce la")
+        A("incertidumbre, no la elimina.")
+        A("")
+        A("| Antes era un supuesto | Qué dice el modelo |")
+        A("|---|---|")
+        fl = base.get("factor_llenado_medido")
+        A(f"| Llenado {al['factor_llenado']:.2f} de la cavidad | "
+          f"{fl if fl is not None else '—'} simulado |")
+        s7 = next((x for x in sim.get("pruebas", []) if x["id"] == "S7"), None)
+        if s7:
+            A(f"| El agitador es obligatorio | {s7['medido'].get('con_agitador_g')} g "
+              f"con agitador contra {s7['medido'].get('sin_agitador_g')} g sin él |")
+        A(f"| El bisel no parte la croqueta | fuerza máxima de contacto "
+          f"{base.get('fuerza_contacto_max_N')} N contra "
+          f"{P.get('dem', {}).get('carga_rotura_croqueta_N')} N de rotura publicada |")
+        A("")
+        d = cal.get("densidad", {})
+        A("Y deja al descubierto una contradicción entre dos fuentes citadas que")
+        A("el modelo no puede resolver: la densidad de partícula publicada de la")
+        A("croqueta es incompatible con la densidad aparente del fabricante")
+        A(f"({cal.get('densidad_citada_g_ml')} g/ml exigiría empaquetar muy por")
+        A("encima del máximo físico de un lecho de esferas). El modelo empaqueta")
+        A(f"a φ = {d.get('fraccion_empaquetamiento')} y da "
+          f"{d.get('densidad_aparente_g_ml')} g/ml. **La cavidad entrega un")
+        A("volumen conocido y verificado; la masa en gramos hereda esa")
+        A("incertidumbre** y por eso la calibración con balanza no es opcional.")
+        A("")
+    A("Queda por comprobar en el aparato físico:")
+    A("")
+    A("1. El llenado real de la cavidad con el alimento que se vaya a usar "
+      "(pesando cinco golpes: `ENSAMBLE.md` §5).")
     A("2. Si el agitador basta para el cuello del bidón con croqueta de "
-      f"{al['croqueta_dia_mm']:.0f} mm.")
+      f"{al['croqueta_dia_mm']:.0f} mm REAL, que no es una esfera.")
     A("3. El desgaste del par cremallera-piñón en PLA tras unos miles de ciclos.")
     A("4. Que el perro no vuelque el conjunto (de ahí la escuadra de muro).")
-    A("5. El ángulo de reposo del alimento real.")
+    A("5. El ángulo de reposo del alimento real: para croqueta de perro NO hay "
+      "valor numérico publicado, solo extrapolaciones de pellet extruido.")
+    A("6. La fricción croqueta-PLA: no existe ninguna fuente. El modelo usa la "
+      "medida contra ABS como cota superior.")
     A("")
     return "\n".join(L)
 
@@ -539,7 +578,7 @@ def main() -> None:
     out = proj / "out"
     out.mkdir(exist_ok=True)
 
-    (out / "MEMORIA_DISENO.md").write_text(memoria(P, C, hechos, ver), encoding="utf-8")
+    (out / "MEMORIA_DISENO.md").write_text(memoria(P, C, hechos, ver, sim), encoding="utf-8")
     (out / "ENSAMBLE.md").write_text(ensamble(P, C, hechos, idx), encoding="utf-8")
     if idx:
         with open(out / "LISTA_IMPRESION.csv", "w", newline="", encoding="utf-8") as f:

@@ -35,12 +35,16 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import sys
 import time
+from concurrent.futures import ProcessPoolExecutor
+from functools import partial
 from pathlib import Path
 
 import numpy as np
 import trimesh
+from scipy.spatial import cKDTree
 
 sys.path.insert(0, str(Path(__file__).parent))
 import gen_dispensador as G
@@ -96,7 +100,8 @@ def techo_diametro(P: dict, escala: float | None = None) -> float:
 
 
 def sembrar_cilindro(radio: float, z0: float, z1: float, d_paso: float, rng,
-                     d_margen: float | None = None) -> np.ndarray:
+                     d_margen: float | None = None,
+                     centro: tuple[float, float] = (0.0, 0.0)) -> np.ndarray:
     """Rejilla hexagonal dentro de un cilindro (semilla, no empaquetado).
 
     Dos separaciones distintas, y confundirlas revienta la corrida:
@@ -124,6 +129,8 @@ def sembrar_cilindro(radio: float, z0: float, z1: float, d_paso: float, rng,
         z += d_paso
         nz += 1
     a = np.array(pts, dtype=float).reshape(-1, 3)
+    a[:, 0] += centro[0]
+    a[:, 1] += centro[1]
     return a + rng.normal(0.0, d_paso * 0.005, a.shape)
 
 
@@ -165,7 +172,7 @@ def reposar(sim: D.DEM, t_max: float, umbral: float = 2e-5, cada: int = 400) -> 
 # ---------------------------------------------------------------------------
 
 def ensayo_reposo(P: dict, mu_rod: float, semilla: int = 20260726,
-                  radio: float = 0.040, alto: float = 0.10) -> dict:
+                  radio: float = 0.045, alto: float = 0.17) -> dict:
     """Ángulo de reposo por retirada de cilindro (el ensayo de la literatura).
 
     Se llena un cilindro, se levanta despacio y se mide la pendiente del talud
@@ -250,18 +257,23 @@ def ensayo_densidad(P: dict, mu_rod: float, semilla: int = 20260726,
             "particulas_en_control": int(dentro.sum())}
 
 
+def _reposo_para(P: dict, mu: float) -> dict:
+    """Punto del barrido, aislado para poder repartirlo entre procesos."""
+    return ensayo_reposo(P, mu)
+
+
 def calibrar(P: dict, valores: list[float], hechos: dict) -> dict:
     """Barrido de fricción de rodadura contra el ángulo de reposo publicado."""
     obj = P.get("dem", {}).get("angulo_reposo_objetivo_deg")
     rango = P.get("dem", {}).get("angulo_reposo_rango_deg", [25.7, 38.7])
-    curva = []
-    for mu in valores:
-        t0 = time.time()
-        rep = ensayo_reposo(P, mu)
-        rep["segundos"] = round(time.time() - t0, 1)
-        curva.append(rep)
-        print(f"   mu_rod {mu:5.3f} -> reposo {rep['angulo_reposo_deg']:5.2f}°"
-              f"  ({rep['particulas']} granos, {rep['segundos']}s)", flush=True)
+    # Cada punto del barrido es independiente: van en paralelo, uno por núcleo.
+    t0 = time.time()
+    with ProcessPoolExecutor(max_workers=min(len(valores), os.cpu_count() or 1)) as pool:
+        curva = list(pool.map(partial(_reposo_para, P), valores))
+    for rep in curva:
+        print(f"   mu_rod {rep['mu_rodadura']:5.3f} -> reposo "
+              f"{rep['angulo_reposo_deg']:5.2f}°  ({rep['particulas']} granos)", flush=True)
+    print(f"   barrido en {time.time() - t0:.0f}s", flush=True)
     if obj is None:
         obj = 0.5 * (rango[0] + rango[1])
     elegido = min(curva, key=lambda c: abs(c["angulo_reposo_deg"] - obj))
@@ -309,10 +321,15 @@ def mundo_alimento(P: dict, C: dict, piezas: dict, cache: Path, con_agitador: bo
     # que no cambiarían el resultado y sí el tiempo de cálculo.
     h_cuerpo = P.get("dem", {}).get("altura_columna_simulada_mm", 130.0) * mm
     z_tope = z_cono + h_cuerpo
+    # OJO: el eje del envase es el de la TOLVA (y = y_carga), no el del mundo.
+    # El adaptador de cuello va montado desplazado sobre la boca de carga, así
+    # que un bidón centrado en el origen quedaría descolgado 29 mm del agujero
+    # por el que tiene que caer la croqueta.
+    eje = (0.0, C["y_carga"] * mm)
     cuerpos += [
-        D.CuerpoTubo("bidon_cuello", r_cuello, z_boca - 0.004, z_hombro),
-        D.CuerpoCono("bidon_hombro", r_cuello, z_hombro, r_cuerpo, z_cono),
-        D.CuerpoTubo("bidon_cuerpo", r_cuerpo, z_cono, z_tope + 0.22),
+        D.CuerpoTubo("bidon_cuello", r_cuello, z_boca - 0.004, z_hombro, centro=eje),
+        D.CuerpoCono("bidon_hombro", r_cuello, z_hombro, r_cuerpo, z_cono, centro=eje),
+        D.CuerpoTubo("bidon_cuerpo", r_cuerpo, z_cono, z_tope + 0.22, centro=eje),
     ]
 
     # --- cajón: traslación pura a lo largo de Y ----------------------------
@@ -347,7 +364,8 @@ def mundo_alimento(P: dict, C: dict, piezas: dict, cache: Path, con_agitador: bo
 
         cuerpos.append(D.Cuerpo("ali_agitador", campo_ag, pose_ag, cinema_ag))
 
-    info = {"z_salida": (C["z_canal_base"] - 95.0) * mm,
+    info = {"eje": eje,
+            "z_salida": (C["z_canal_base"] - 95.0) * mm,
             "z_tope_relleno": z_tope,
             "r_relleno": r_cuerpo,
             "z_relleno0": z_cono + 0.002,
@@ -381,6 +399,31 @@ def perfil_golpe(t: float, t_ida: float, t_espera: float, carrera: float):
     return 0.0, 0.0
 
 
+def _huecos_libres(sim: D.DEM, info: dict, d_nom: float, cuantos: int, rng) -> np.ndarray:
+    """Sitios vacíos en lo alto del depósito para devolver los granos que salieron.
+
+    Hay que buscar hueco, no repetir la retícula: dos tandas recicladas sobre
+    los mismos puntos nacerían una encima de otra, y un solape así revienta la
+    corrida justo cuando ya lleva media hora.
+    """
+    z0 = info["z_tope_relleno"] + 0.005
+    sitios = sembrar_cilindro(info["r_relleno"] * 0.92, z0, z0 + 0.30, d_nom, rng,
+                              centro=info["eje"])
+    if not len(sitios):
+        sitios = np.array([[0.0, 0.0, z0]])
+    libres = sitios[cKDTree(sim.x).query(sitios)[0] > d_nom]
+    if len(libres) < cuantos:                       # apilar por encima de todo
+        falta = cuantos - len(libres)
+        alto = float(sim.x[:, 2].max()) + d_nom
+        extra = np.column_stack([
+            info["eje"][0] + rng.uniform(-1, 1, falta) * info["r_relleno"] * 0.5,
+            info["eje"][1] + rng.uniform(-1, 1, falta) * info["r_relleno"] * 0.5,
+            alto + np.arange(falta) * d_nom * 1.2])
+        libres = np.vstack([libres, extra]) if len(libres) else extra
+    rng.shuffle(libres)
+    return libres[:cuantos]
+
+
 def escenario_dosificar(P, C, piezas, cache, golpes=3, con_agitador=True,
                         d_croqueta=None, t_ida=1.1, t_espera=0.35,
                         semilla=20260726, mu_rod=None, traza=None) -> dict:
@@ -398,8 +441,9 @@ def escenario_dosificar(P, C, piezas, cache, golpes=3, con_agitador=True,
     r_cuello = C["anti_arco"]["seccion_critica_cuello_mm"] / 2 * mm
     tramos = [(info["r_relleno"] * 0.98, info["z_relleno0"], info["z_tope_relleno"]),
               (r_cuello * 0.98, (C["z_tapa_sup"] + 102.0) * mm, info["z_relleno0"] - 0.004),
-              (0.020, z_ini, (C["z_tapa_sup"] + 96.0) * mm)]
-    x = np.vstack([sembrar_cilindro(rr, za, zb, d_med, rng, d_margen=d_top)
+              (0.019, z_ini, (C["z_tapa_sup"] + 96.0) * mm)]
+    x = np.vstack([sembrar_cilindro(rr, za, zb, d_med, rng, d_margen=d_top,
+                                    centro=info["eje"])
                    for rr, za, zb in tramos])
     r = diametros(P, len(x), rng, escala=(d_croqueta or P["alimento"]["croqueta_dia_mm"])) / 2
 
@@ -434,12 +478,23 @@ def escenario_dosificar(P, C, piezas, cache, golpes=3, con_agitador=True,
     pasos_golpe = int(ciclo / dt)
     cav = info["cavidad"]
 
+    v_cavidad_m3 = cav["x"] * cav["y"] * (cav["z1"] - cav["z0"])
+
     def masa_en_cavidad(avance):
+        """Lo que el cajón se lleva: los granos cuyo CENTRO está en la cavidad.
+
+        Se devuelven masa y volumen sólido por separado a propósito. El factor
+        de llenado del diseño es GEOMÉTRICO —qué fracción del hueco ocupa el
+        lecho— y compararlo con una masa mezclaría dos cosas: cuánto entra y
+        cuánto pesa lo que entró. La densidad aparente es justo el número que
+        las dos fuentes citadas se contradicen.
+        """
         yc = cav["y_carga"] + avance
         m = ((np.abs(sim.x[:, 0]) < cav["x"] / 2) &
              (np.abs(sim.x[:, 1] - yc) < cav["y"] / 2) &
              (sim.x[:, 2] > cav["z0"]) & (sim.x[:, 2] < cav["z1"]))
-        return float(sim.m[m].sum()), int(m.sum())
+        v_solido = float((4.0 / 3.0 * math.pi * sim.r[m] ** 3).sum())
+        return float(sim.m[m].sum()), int(m.sum()), v_solido
 
     t0 = time.time()
     for g in range(golpes):
@@ -449,35 +504,36 @@ def escenario_dosificar(P, C, piezas, cache, golpes=3, con_agitador=True,
             sincronizar(t_golpe)
             sim.paso()
             if k == int(0.02 / dt):                 # justo antes de arrancar
-                mc, nc = masa_en_cavidad(0.0)
+                mc, nc, vc = masa_en_cavidad(0.0)
                 llenado.append({"golpe": g + 1, "masa_g": round(mc * 1000, 2),
-                                "granos": nc})
+                                "granos": nc,
+                                "fraccion_solida": round(vc / v_cavidad_m3, 4)})
             fuera = np.flatnonzero(sim.x[:, 2] < info["z_salida"])
             if len(fuera):
                 masa_g += float(sim.m[fuera].sum())
                 n_reciclados += len(fuera)
-                destino = sembrar_cilindro(info["r_relleno"] * 0.9,
-                                           info["z_tope_relleno"] + 0.01,
-                                           info["z_tope_relleno"] + 0.12,
-                                           d_nom, rng)[:len(fuera)]
-                if len(destino) < len(fuera):       # depósito lleno: apilar arriba
-                    extra = np.tile(destino[-1] if len(destino) else
-                                    [0, 0, info["z_tope_relleno"] + 0.05],
-                                    (len(fuera) - len(destino), 1)).astype(float)
-                    extra[:, 2] += np.arange(len(extra)) * d_nom * 1.1
-                    destino = np.vstack([destino, extra]) if len(destino) else extra
-                sim.reciclar(fuera, destino)
+                sim.reciclar(fuera, _huecos_libres(sim, info, d_nom, len(fuera), rng))
             if traza is not None and k % traza["cada"] == 0:
                 cuadros.append({"t": round(g * ciclo + t_golpe, 4),
                                 "avance_mm": round(estado["avance"] / mm, 2),
                                 "x": sim.x.copy(), "r": sim.r.copy()})
         masa_fuera += masa_g
         salidas.append({"golpe": g + 1, "masa_g": round(masa_g * 1000, 2)})
-        print(f"   golpe {g + 1}/{golpes}: {masa_g * 1000:6.1f} g"
-              f"  ({time.time() - t0:.0f}s)", flush=True)
+        print(f"   [{'con' if con_agitador else 'sin'} agitador] golpe {g + 1}/{golpes}: "
+              f"{masa_g * 1000:6.1f} g  ({time.time() - t0:.0f}s)", flush=True)
 
     dosis = np.array([s["masa_g"] for s in salidas])
     llen = np.array([l["masa_g"] for l in llenado])
+    phi_cav = np.array([l["fraccion_solida"] for l in llenado])
+    # Empaquetamiento del lecho libre, medido en la misma corrida: sirve de
+    # referencia para convertir la fracción sólida de la cavidad en un factor
+    # de llenado comparable con el 0.90 declarado.
+    alto_libre = info["z_relleno0"] + 0.02
+    rho_libre = np.hypot(sim.x[:, 0] - info["eje"][0], sim.x[:, 1] - info["eje"][1])
+    libre = ((sim.x[:, 2] > alto_libre) & (sim.x[:, 2] < alto_libre + 0.06) &
+             (rho_libre < info["r_relleno"]))
+    phi_lecho = float((4.0 / 3.0 * math.pi * sim.r[libre] ** 3).sum() /
+                      (math.pi * info["r_relleno"] ** 2 * 0.06)) if libre.sum() > 20 else None
     v_cav = C["volumen_cavidad_ml"]
     rho_ap = P["alimento"]["densidad_aparente_g_ml"]
     return {
@@ -489,9 +545,13 @@ def escenario_dosificar(P, C, piezas, cache, golpes=3, con_agitador=True,
         "dosis_media_g": round(float(dosis.mean()), 2) if len(dosis) else 0.0,
         "dosis_desv_g": round(float(dosis.std(ddof=1)), 2) if len(dosis) > 1 else None,
         "masa_en_cavidad_g": llenado,
-        "factor_llenado_medido": round(float(llen.mean()) / (v_cav * rho_ap), 3)
-        if len(llen) and v_cav * rho_ap else None,
+        "fraccion_solida_cavidad": round(float(phi_cav.mean()), 4) if len(phi_cav) else None,
+        "empaquetamiento_lecho": round(phi_lecho, 4) if phi_lecho else None,
+        "factor_llenado_medido": round(float(phi_cav.mean()) / phi_lecho, 3)
+        if len(phi_cav) and phi_lecho else None,
         "factor_llenado_declarado": P["alimento"]["factor_llenado"],
+        "masa_cavidad_media_g": round(float(llen.mean()), 2) if len(llen) else None,
+        "masa_cavidad_si_densidad_citada_g": round(v_cav * rho_ap, 1),
         "granos_reciclados": n_reciclados,
         "fuerza_contacto_max_N": round(sim.fn_max, 2),
         "carga_rotura_croqueta_N": P.get("dem", {}).get("carga_rotura_croqueta_N"),
@@ -642,6 +702,10 @@ def evaluar(P: dict, C: dict, cal: dict, casos: dict) -> list[dict]:
                "PASA" if abs(fl - fd) / fd <= 0.15 else "ADVERTENCIA",
                {"llenado_simulado": fl, "llenado_declarado": fd,
                 "discrepancia_pct": round(abs(fl - fd) / fd * 100, 1),
+                "fraccion_solida_cavidad": base.get("fraccion_solida_cavidad"),
+                "empaquetamiento_lecho": base.get("empaquetamiento_lecho"),
+                "masa_cavidad_media_g": base.get("masa_cavidad_media_g"),
+                "masa_si_densidad_citada_g": base.get("masa_cavidad_si_densidad_citada_g"),
                 "masa_en_cavidad_g": base.get("masa_en_cavidad_g")},
                "el llenado simulado no se aparta más de 15% del declarado (0.90)",
                "corregir alimento.factor_llenado en params.json y regenerar")
@@ -700,7 +764,9 @@ def informe(P, C, cal, casos, pruebas, destino: Path) -> Path:
     a("|---|---|---|")
     fl = base.get("factor_llenado_medido")
     a(f"| La cavidad se llena al {base.get('factor_llenado_declarado')} | declarado, "
-      f"«conservador» | {fl if fl is not None else '—'} medido sobre el lecho |")
+      f"«conservador» | {fl if fl is not None else '—'} medido "
+      f"(fracción sólida {base.get('fraccion_solida_cavidad')} contra "
+      f"{base.get('empaquetamiento_lecho')} del lecho libre) |")
     s7 = next((p for p in pruebas if p["id"] == "S7"), None)
     a(f"| El agitador es obligatorio | deducido del criterio de Jenike | "
       f"{s7['veredicto'] if s7 else '—'}: "
@@ -830,15 +896,19 @@ def main() -> None:
     casos = previo.get("casos", {}) if args.modo == "calibrar" else {}
     if args.modo in ("dosificar", "todo"):
         mu = cal["elegido"]["mu_rodadura"]
-        print(f"[sim] dosificando con agitador (μ_rod = {mu})…", flush=True)
-        casos["base"] = escenario_dosificar(
-            P, C, piezas, cache, golpes=args.golpes, con_agitador=True,
-            d_croqueta=args.croqueta, mu_rod=mu,
-            traza={"cada": 900} if args.anim else None)
-        print(f"[sim] dosificando SIN agitador (contraste)…", flush=True)
-        casos["sin_agitador"] = escenario_dosificar(
-            P, C, piezas, cache, golpes=args.golpes, con_agitador=False,
-            d_croqueta=args.croqueta, mu_rod=mu)
+        print(f"[sim] dosificando con y sin agitador en paralelo (μ_rod = {mu})…",
+              flush=True)
+        # Los dos casos son independientes y cada uno usa un núcleo: en paralelo
+        # el contraste sale en el tiempo de una sola corrida.
+        comun = dict(golpes=args.golpes, d_croqueta=args.croqueta, mu_rod=mu)
+        with ProcessPoolExecutor(max_workers=2) as pool:
+            fut_con = pool.submit(escenario_dosificar, P, C, piezas, cache,
+                                  con_agitador=True,
+                                  traza={"cada": 3200} if args.anim else None, **comun)
+            fut_sin = pool.submit(escenario_dosificar, P, C, piezas, cache,
+                                  con_agitador=False, **comun)
+            casos["base"] = fut_con.result()
+            casos["sin_agitador"] = fut_sin.result()
 
     cuadros = casos.get("base", {}).pop("_cuadros", []) if casos.get("base") else []
     for c in casos.values():
@@ -865,9 +935,15 @@ def main() -> None:
         print(f"[sim] animación → {gif}")
 
     estado = load_state(proj)
-    set_gate(proj, estado, "G-SIM", None if falla else True,
-             f"{len(pruebas)} pruebas, {len(falla)} fallas, {len(avisos)} advertencias")
-    save_state(proj, estado)
+    metricas = {"pruebas": len(pruebas), "fallas": len(falla), "advertencias": len(avisos),
+                "dosis_media_g": casos.get("base", {}).get("dosis_media_g"),
+                "llenado_simulado": casos.get("base", {}).get("factor_llenado_medido"),
+                "angulo_reposo_deg": cal["elegido"]["angulo_reposo_deg"],
+                "mu_rodadura": cal["elegido"]["mu_rodadura"]}
+    razones = [f"{p['id']}: {p['titulo']}" for p in pruebas if p["veredicto"] != "PASA"]
+    set_gate(proj, estado, "G-SIM", False if falla else (None if avisos else True),
+             metricas, razones or ["todas las pruebas del modelo pasan"],
+             estado.get("stage", "S2_OK"))
     audit(proj, "SIM", "sim_granos", "FALLA" if falla else "OK",
           pruebas=len(pruebas), fallas=len(falla), advertencias=len(avisos))
 

@@ -212,10 +212,11 @@
     "altura_columna_capa": "user",
     "altura_columna_nota": "Altura de croqueta simulada sobre el hombro. Por Janssen la friccion de pared absorbe el peso y la tension sobre la boca satura en pocos diametros de columna: simular el bidon entero no cambiaria el resultado y multiplicaria el calculo.",
     "barrido_rodadura": [
-      0.02,
-      0.069,
       0.15,
-      0.3
-    ]
+      0.3,
+      0.5,
+      0.8
+    ],
+    "barrido_rodadura_nota": "Rango del barrido de calibracion. Con esferas hace falta rodadura alta para llegar al angulo de reposo de un material no esferico: es exactamente lo que la rodadura esta sustituyendo. A 0.30 el talud se queda en 23 grados, por debajo del rango publicado."
   }
 }

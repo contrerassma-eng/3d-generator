@@ -1,0 +1,146 @@
+{
+  "generado": "2026-07-26T16:34:48+00:00",
+  "proyecto": "YT0101-dispensador-canino",
+  "capa": "user",
+  "modelo": "DEM esferas polidispersas, contacto lineal con historia tangencial y fricción de rodadura",
+  "paso_voxel_mm": 1.25,
+  "calibracion": {
+    "objetivo_deg": 32.5,
+    "rango_publicado_deg": [
+      27.0,
+      38.0
+    ],
+    "curva": [
+      {
+        "mu_rodadura": 0.02,
+        "angulo_reposo_deg": 0.08,
+        "particulas": 192,
+        "radio_talud_mm": 249.1,
+        "altura_talud_mm": 13.7
+      },
+      {
+        "mu_rodadura": 0.069,
+        "angulo_reposo_deg": 7.4,
+        "particulas": 192,
+        "radio_talud_mm": 114.2,
+        "altura_talud_mm": 16.0
+      },
+      {
+        "mu_rodadura": 0.15,
+        "angulo_reposo_deg": 16.23,
+        "particulas": 192,
+        "radio_talud_mm": 129.6,
+        "altura_talud_mm": 27.0
+      },
+      {
+        "mu_rodadura": 0.3,
+        "angulo_reposo_deg": 23.11,
+        "particulas": 192,
+        "radio_talud_mm": 92.7,
+        "altura_talud_mm": 31.4
+      }
+    ],
+    "elegido": {
+      "mu_rodadura": 0.3,
+      "angulo_reposo_deg": 23.11,
+      "particulas": 192,
+      "radio_talud_mm": 92.7,
+      "altura_talud_mm": 31.4
+    },
+    "densidad": {
+      "mu_rodadura": 0.3,
+      "fraccion_empaquetamiento": 0.4726,
+      "densidad_aparente_g_ml": 0.2552,
+      "particulas_en_control": 160
+    },
+    "densidad_citada_g_ml": 0.4
+  },
+  "casos": {},
+  "pruebas": [
+    {
+      "id": "S1",
+      "titulo": "La corrida es numéricamente limpia",
+      "veredicto": "PASA",
+      "medido": {
+        "solape_max_pct_radio": 0.0,
+        "contactos_acotados": 0
+      },
+      "criterio": "solape < 2% del radio (rigidez suficiente) y ningún contacto acotado",
+      "accion": "subir rigidez_normal_N_m y bajar dt_s en params.json"
+    },
+    {
+      "id": "S2",
+      "titulo": "El grano calibrado cae en el ángulo de reposo publicado",
+      "veredicto": "ADVERTENCIA",
+      "medido": {
+        "angulo_simulado_deg": 23.11,
+        "rango_publicado_deg": [
+          27.0,
+          38.0
+        ],
+        "mu_rodadura": 0.3,
+        "curva": [
+          {
+            "mu_rodadura": 0.02,
+            "angulo_reposo_deg": 0.08,
+            "particulas": 192,
+            "radio_talud_mm": 249.1,
+            "altura_talud_mm": 13.7
+          },
+          {
+            "mu_rodadura": 0.069,
+            "angulo_reposo_deg": 7.4,
+            "particulas": 192,
+            "radio_talud_mm": 114.2,
+            "altura_talud_mm": 16.0
+          },
+          {
+            "mu_rodadura": 0.15,
+            "angulo_reposo_deg": 16.23,
+            "particulas": 192,
+            "radio_talud_mm": 129.6,
+            "altura_talud_mm": 27.0
+          },
+          {
+            "mu_rodadura": 0.3,
+            "angulo_reposo_deg": 23.11,
+            "particulas": 192,
+            "radio_talud_mm": 92.7,
+            "altura_talud_mm": 31.4
+          }
+        ]
+      },
+      "criterio": "ángulo de reposo dentro de 27.0-38.0° (pellet extruido flotante)",
+      "accion": "ampliar el barrido de friccion_rodadura en la calibración"
+    },
+    {
+      "id": "S3",
+      "titulo": "La densidad aparente del modelo contra la citada",
+      "veredicto": "ADVERTENCIA",
+      "medido": {
+        "densidad_simulada_g_ml": 0.2552,
+        "densidad_citada_g_ml": 0.4,
+        "discrepancia_pct": 36.2,
+        "fraccion_empaquetamiento": 0.4726,
+        "densidad_particula_kg_m3": 540.0
+      },
+      "criterio": "discrepancia ≤ 15% con la densidad aparente citada",
+      "accion": "la densidad aparente citada y la densidad de partícula publicada no son del mismo producto: hay que medir el alimento real"
+    },
+    {
+      "id": "S4",
+      "titulo": "Entrega alimento en todos los golpes (no se atasca)",
+      "veredicto": "FALLA",
+      "medido": {
+        "por_golpe_g": []
+      },
+      "criterio": "ningún golpe entrega menos de la mitad del mayor, y ninguno sale vacío",
+      "accion": "revisar el criterio anti-arco y la geometría del cuello"
+    }
+  ],
+  "resumen": {
+    "pruebas": 4,
+    "fallas": 1,
+    "advertencias": 2
+  }
+}
