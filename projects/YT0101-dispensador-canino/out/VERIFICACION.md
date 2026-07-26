@@ -1,8 +1,8 @@
 # Verificación funcional — YT0101-dispensador-canino
 
-Generado: 2026-07-26T07:25:46+00:00 · capa `user` (diseño, no medición).
+Generado: 2026-07-26T07:30:03+00:00 · capa `user` (diseño, no medición).
 
-**Veredicto: PASA_CON_ADVERTENCIAS** (20 pruebas, 0 fallas, 2 advertencias)
+**Veredicto: PASA_CON_ADVERTENCIAS** (21 pruebas, 0 fallas, 2 advertencias)
 
 | Prueba | Qué comprueba | Resultado |
 |---|---|---|
@@ -26,6 +26,7 @@ Generado: 2026-07-26T07:25:46+00:00 · capa `user` (diseño, no medición).
 | V14 | Ninguna pieza del cabezal ocupa el sitio de otra | **PASA** |
 | V10 | Bebedero de nivel constante coherente (principio de Mariotte) | **PASA** |
 | V15 | La cadena del bajante encaja y solapa lo suficiente | **PASA** |
+| V17 | Las piezas que se atornillan tienen los taladros enfrentados | **PASA** |
 
 ## V1 — Todas las piezas son sólidos cerrados (imprimibles)
 
@@ -166,3 +167,10 @@ Generado: 2026-07-26T07:25:46+00:00 · capa `user` (diseño, no medición).
 - **Criterio:** cada unión con 0.4-1.6 mm de holgura diametral y ≥10 mm de solape
 - **Medido:** `{"holguras_macho_hembra_mm": {"boquilla→tramo fijo": 1.1, "tramo fijo→tubo de nivel": 0.7, "tubo de nivel→difusor": 0.7}, "solapes_de_union_mm": {"boquilla en el tramo fijo": 12.0, "telescopio de nivel": 55.0, "difusor sobre el tubo": 16.0}, "diametros": {"d_paso": 25.0, "d_bajante_ext": 31.0, "d_nivel_int": 31.7, "d_nivel_ext": 37.7, "d_difusor_int": 38.4}}`
 - **Acción / nota:** revisar la cadena de diámetros en calculos() o el alto de cada tramo
+
+## V17 — Las piezas que se atornillan tienen los taladros enfrentados
+
+- **Resultado:** PASA
+- **Criterio:** en cada punto del patrón, ambas piezas están perforadas de lado a lado
+- **Medido:** `{"taladros_ciegos": {}, "patrones": {"tapa_base": 4, "adaptador_tapa": 4, "chute_base": 4, "mensula_canal": 3}}`
+- **Acción / nota:** taladrar desde C['patrones'] en la pieza señalada

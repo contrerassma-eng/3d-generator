@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-26T07:25:46+00:00",
+  "generado": "2026-07-26T07:30:03+00:00",
   "proyecto": "YT0101-dispensador-canino",
   "capa": "user",
   "pruebas": [
@@ -526,10 +526,26 @@
       },
       "criterio": "cada unión con 0.4-1.6 mm de holgura diametral y ≥10 mm de solape",
       "accion": "revisar la cadena de diámetros en calculos() o el alto de cada tramo"
+    },
+    {
+      "id": "V17",
+      "titulo": "Las piezas que se atornillan tienen los taladros enfrentados",
+      "veredicto": "PASA",
+      "medido": {
+        "taladros_ciegos": {},
+        "patrones": {
+          "tapa_base": 4,
+          "adaptador_tapa": 4,
+          "chute_base": 4,
+          "mensula_canal": 3
+        }
+      },
+      "criterio": "en cada punto del patrón, ambas piezas están perforadas de lado a lado",
+      "accion": "taladrar desde C['patrones'] en la pieza señalada"
     }
   ],
   "resumen": {
-    "pruebas": 20,
+    "pruebas": 21,
     "fallas": [],
     "advertencias": [
       "V7b",
@@ -588,6 +604,76 @@
     "z_pinon": 351.4,
     "z_torre_sup": 397.2,
     "z_palanca": 407.2,
+    "patrones": {
+      "tapa_base": [
+        [
+          -74.85,
+          -55.0
+        ],
+        [
+          -74.85,
+          55.0
+        ],
+        [
+          74.85,
+          -55.0
+        ],
+        [
+          74.85,
+          55.0
+        ]
+      ],
+      "adaptador_tapa": [
+        [
+          -55.0,
+          -57.0
+        ],
+        [
+          -55.0,
+          -2.0
+        ],
+        [
+          55.0,
+          -57.0
+        ],
+        [
+          55.0,
+          -2.0
+        ]
+      ],
+      "chute_base": [
+        [
+          -61.0,
+          -4.0
+        ],
+        [
+          -61.0,
+          63.0
+        ],
+        [
+          61.0,
+          -4.0
+        ],
+        [
+          61.0,
+          63.0
+        ]
+      ],
+      "mensula_canal": [
+        [
+          5.8170722959499274e-15,
+          95.0
+        ],
+        [
+          -82.27241335952166,
+          -47.50000000000001
+        ],
+        [
+          82.27241335952165,
+          -47.50000000000004
+        ]
+      ]
+    },
     "x_biela": 88.0,
     "z_pasador_cajon": 372.9,
     "y_pasador_cerrado": -139.0,
@@ -639,5 +725,5 @@
     "carga_bidon_alimento_N": 86.5,
     "autonomia_alimento_dosis": 159
   },
-  "masa_pla_total_g": 2283.9
+  "masa_pla_total_g": 2283.6
 }

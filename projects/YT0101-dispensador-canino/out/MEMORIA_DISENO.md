@@ -1,6 +1,6 @@
 # MEMORIA DE DISEÑO — Dispensador canino YT0101
 
-Generado: 2026-07-26T07:26:29+00:00 · Capa `user` (diseño paramétrico, no medición).
+Generado: 2026-07-26T07:30:09+00:00 · Capa `user` (diseño paramétrico, no medición).
 Cada cota nace de `input/params.json`; cada dato externo está citado en
 `input/web_facts.json` con URL, fecha de acceso y cita textual.
 
@@ -189,7 +189,7 @@ vez de esconderse.
 
 ## 10. Resultado de la verificación
 
-**PASA_CON_ADVERTENCIAS** — 20 pruebas, 0 fallas, 2 advertencias (detalle completo en `VERIFICACION.md`).
+**PASA_CON_ADVERTENCIAS** — 21 pruebas, 0 fallas, 2 advertencias (detalle completo en `VERIFICACION.md`).
 
 | | Prueba | Resultado |
 |---|---|---|
@@ -213,6 +213,7 @@ vez de esconderse.
 | V14 | Ninguna pieza del cabezal ocupa el sitio de otra | **PASA** |
 | V10 | Bebedero de nivel constante coherente (principio de Mariotte) | **PASA** |
 | V15 | La cadena del bajante encaja y solapa lo suficiente | **PASA** |
+| V17 | Las piezas que se atornillan tienen los taladros enfrentados | **PASA** |
 
 ## 11. Lo que este diseño todavía no demuestra
 

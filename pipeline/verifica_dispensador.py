@@ -430,6 +430,33 @@ def verificar(proj: Path) -> dict:
            "cada unión con 0.4-1.6 mm de holgura diametral y ≥10 mm de solape",
            "revisar la cadena de diámetros en calculos() o el alto de cada tramo")
 
+    # ---------------- V17 los taladros de piezas que se atornillan coinciden --
+    # se sondea SOLO el entorno del plano de unión: más abajo o más arriba cada
+    # pieza sigue su camino y ahí sí puede haber material
+    posadas = {
+        "tapa_base": (C["z_tapa_inf"], [("ali_canal_tapa", C["z_tapa_inf"], 0.0),
+                                        ("ali_canal_base", C["z_canal_base"], 0.0)]),
+        "adaptador_tapa": (C["z_tapa_sup"], [("ali_adaptador_cuello", C["z_tapa_sup"], C["y_carga"]),
+                                             ("ali_canal_tapa", C["z_tapa_inf"], 0.0)]),
+        "chute_base": (C["z_canal_base"], [("ali_chute", C["z_canal_base"], C["y_descarga"]),
+                                           ("ali_canal_base", C["z_canal_base"], 0.0)]),
+    }
+    ciegos = {}
+    for patron, (z_union, piezas_p) in posadas.items():
+        for (cx, cy) in C["patrones"][patron]:
+            for nombre, z0_, y0_ in piezas_p:
+                m = E._t(piezas[nombre], at=(0, y0_, z0_))
+                broca = S.caja((G.M4 - 1.2, G.M4 - 1.2, 14.0), at=(cx, cy, z_union))
+                v = _vol_interseccion(broca, m)
+                if v > 12.0:                      # el taladro no está donde debería
+                    ciegos[f"{patron} @({cx:.0f},{cy:.0f}) en {nombre}"] = round(v, 1)
+    prueba("V17", "Las piezas que se atornillan tienen los taladros enfrentados",
+           "PASA" if not ciegos else "FALLA",
+           {"taladros_ciegos": ciegos,
+            "patrones": {k: len(v) for k, v in C["patrones"].items()}},
+           "en cada punto del patrón, ambas piezas están perforadas de lado a lado",
+           "taladrar desde C['patrones'] en la pieza señalada")
+
     # ---------------- resumen -------------------------------------------------
     fallas = [p["id"] for p in R["pruebas"] if p["veredicto"] == "FALLA"]
     advert = [p["id"] for p in R["pruebas"] if p["veredicto"] == "ADVERTENCIA"]

@@ -1,6 +1,6 @@
 {
   "proyecto": "YT0101-dispensador-canino",
-  "generado": "2026-07-26T07:26:13+00:00",
+  "generado": "2026-07-26T07:29:47+00:00",
   "capa": "user",
   "piezas": {
     "est_anillo_segmento": {
@@ -270,16 +270,16 @@
     "ali_canal_base": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 423.46,
-        "area_cm2": 1004.98,
+        "volumen_cm3": 423.09,
+        "area_cm2": 1007.08,
         "bbox_mm": [
           236.27,
           203.0,
           91.25
         ],
-        "triangulos": 4902,
+        "triangulos": 6454,
         "cabe_en_cama": true,
-        "masa_pla_g": 337.4
+        "masa_pla_g": 337.1
       },
       "cantidad": 1,
       "nota": "Imprimir apoyada en el piso: carriles, torre y topes salen sin soportes.",
@@ -554,5 +554,5 @@
       }
     }
   },
-  "masa_pla_total_g": 2283.9
+  "masa_pla_total_g": 2283.6
 }

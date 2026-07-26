@@ -124,6 +124,23 @@ def calculos(P: dict) -> dict:
                              + do["corredera_holgura"] + 30.0, 1)
     C["z_palanca"] = round(C["z_torre_sup"] + 10.0, 1)
 
+    # --- patrones de tornillería (una sola fuente de verdad) ---------------
+    # Cada punto es (x, y) en coordenadas de máquina. Las piezas taladran DESDE
+    # aquí, así que dos piezas que se atornillan no pueden desalinearse.
+    W_, L_ = C["canal_ancho"], C["canal_largo"]
+    C["patrones"] = {
+        "tapa_base": [(sx * (W_ - do["canal_pared"]) / 2, sy * (L_ / 2 - 12))
+                      for sx in (-1, 1) for sy in (-1, 1)],
+        "adaptador_tapa": [(sx * (do["cavidad_x"] / 2 + 5),
+                            C["y_carga"] + sy * (do["cavidad_y"] / 2 + 5))
+                           for sx in (-1, 1) for sy in (-1, 1)],
+        "chute_base": [(sx * (do["cavidad_x"] / 2 + 11),
+                        C["y_descarga"] + sy * (do["cavidad_y"] / 2 + 11))
+                       for sx in (-1, 1) for sy in (-1, 1)],
+        "mensula_canal": [(95.0 * math.cos(math.radians(120 * k + 90)),
+                           95.0 * math.sin(math.radians(120 * k + 90))) for k in range(3)],
+    }
+
     # --- biela-manivela del agitador -------------------------------------
     # El cajón hace de corredera: al recorrer su carrera arrastra la biela y
     # ésta da una vuelta COMPLETA a la manivela del agitador. Manivela y biela
@@ -556,14 +573,10 @@ def ali_canal_base(P, C):
     base = S.resta(base, S.caja((xp - W / 2 + 40, do["pinon_ancho"] + 24, alto_carril + 3.0),
                                 at=(-(W / 2), 0, piso + alto_carril / 2 + 1.5)))
     base = S.resta(base, S.cilindro(do["eje_pinon_entrecaras"] + 1.0, 400, at=(-xp, 0, 0)))
-    for k in range(3):
-        a = math.radians(120 * k + 90)
-        base = S.resta(base, S.cilindro(M4, piso + 8,
-                                        at=(r_or * math.cos(a), r_or * math.sin(a), piso / 2)))
-    for sx in (-1, 1):                       # unión con la tapa
-        for sy in (-1, 1):
-            base = S.resta(base, S.cilindro(M4, 3 * z_bajo,
-                                            at=(sx * (W - pared) / 2, sy * (L / 2 - 12), 0)))
+    for (cx, cy) in C["patrones"]["mensula_canal"] + C["patrones"]["chute_base"]:
+        base = S.resta(base, S.cilindro(M4, piso + 8, at=(cx, cy, piso / 2)))
+    for (cx, cy) in C["patrones"]["tapa_base"]:      # unión con la tapa
+        base = S.resta(base, S.cilindro(M4, 3 * z_bajo, at=(cx, cy, 0)))
     return base, "carcasa", {"cantidad": 1,
                              "nota": "Imprimir apoyada en el piso: carriles, torre y topes salen "
                                      "sin soportes."}
@@ -579,12 +592,8 @@ def ali_canal_tapa(P, C):
     tapa = S.resta(tapa, S.caja((do["cavidad_x"], do["cavidad_y"], t + 4), at=(0, yc, t / 2)))
     # sin brida sobresaliente: la pestaña del adaptador apoya sobre la cara
     # superior de la tapa, plana, y ambos se atornillan con los mismos M4
-    for sx in (-1, 1):
-        for sy in (-1, 1):
-            tapa = S.resta(tapa, S.cilindro(M4, 40, at=(sx * (do["cavidad_x"] / 2 + 5),
-                                                        yc + sy * (do["cavidad_y"] / 2 + 5), t + 4)))
-            tapa = S.resta(tapa, S.cilindro(M4, 30, at=(sx * (W - do["canal_pared"]) / 2,
-                                                        sy * (L / 2 - 12), t / 2)))
+    for (cx, cy) in C["patrones"]["adaptador_tapa"] + C["patrones"]["tapa_base"]:
+        tapa = S.resta(tapa, S.cilindro(M4, 3 * t + 12, at=(cx, cy, t / 2)))
     return tapa, "carcasa", {"cantidad": 1,
                              "nota": "Imprimir con la brida hacia arriba; sin soportes."}
 
@@ -730,10 +739,8 @@ def ali_adaptador_cuello(P, C):
     for sx in (-1, 1):                                    # refuerzo del cojinete
         a = S.union(a, S.cilindro(20, 8, at=(sx * (do["cavidad_x"] / 2 - 4), 0, za), eje="x"))
     a = S.resta(a, S.cilindro(8.6, do["cavidad_x"] + 60, at=(0, 0, za), eje="x"))
-    for sx in (-1, 1):
-        for sy in (-1, 1):
-            a = S.resta(a, S.cilindro(M4, 14, at=(sx * (do["cavidad_x"] / 2 + 5),
-                                                  sy * (do["cavidad_y"] / 2 + 5), 3)))
+    for (cx, cy) in C["patrones"]["adaptador_tapa"]:
+        a = S.resta(a, S.cilindro(M4, 14, at=(cx, cy - C["y_carga"], 3)))
     return a, "carcasa", {"cantidad": 1,
                           "nota": f"Pared a {al['angulo_pared_tolva_deg']:.0f}° (flujo másico). "
                                   "Imprimir invertida (brida arriba): sin soportes."}
@@ -793,10 +800,8 @@ def ali_adaptador_hombro(P, C):
     a = S.union(a, S.tubo(d_corte + 14.0, d_corte + 2.0, 20.0, at=(0, 0, H + 9)))
     za = C["z_agitador"] - C["z_tapa_sup"]
     a = S.resta(a, S.cilindro(8.6, d_corte + 40, at=(0, 0, za), eje="x"))
-    for sx in (-1, 1):
-        for sy in (-1, 1):
-            a = S.resta(a, S.cilindro(M4, 14, at=(sx * (do["cavidad_x"] / 2 + 5),
-                                                  sy * (do["cavidad_y"] / 2 + 5), 3)))
+    for (cx, cy) in C["patrones"]["adaptador_tapa"]:
+        a = S.resta(a, S.cilindro(M4, 14, at=(cx, cy - C["y_carga"], 3)))
     return a, "carcasa", {"cantidad": 1,
                           "nota": "Alternativa: cortar el envase donde mide Ø152 y apoyarlo aquí. "
                                   "Mejor flujo, pero el corte queda a la vista y hay que desbarbarlo."}
@@ -869,9 +874,8 @@ def ali_chute(P, C):
     brida = S.caja((do["cavidad_x"] + 34, do["cavidad_y"] + 34, 5.0), at=(0, 0, -2.5))
     brida = S.resta(brida, S.caja((do["cavidad_x"], do["cavidad_y"], 14)))
     c = S.union(c, brida)
-    for sx in (-1, 1):
-        for sy in (-1, 1):
-            c = S.resta(c, S.cilindro(M4, 14, at=(sx * (x0 + 11), sy * (y0 + 11), -2.5)))
+    for (cx, cy) in C["patrones"]["chute_base"]:
+        c = S.resta(c, S.cilindro(M4, 14, at=(cx, cy - C["y_descarga"], -2.5)))
     return c, "bandeja", {"cantidad": 1,
                           "nota": "Se atornilla bajo la boca de descarga; entrega a ~95 mm por debajo "
                                   "y 55 mm por delante. Imprimir con la boca ancha sobre la cama."}
