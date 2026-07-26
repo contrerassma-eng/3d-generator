@@ -1,8 +1,8 @@
 # Verificación funcional — YT0101-dispensador-canino
 
-Generado: 2026-07-26T07:20:55+00:00 · capa `user` (diseño, no medición).
+Generado: 2026-07-26T07:25:46+00:00 · capa `user` (diseño, no medición).
 
-**Veredicto: PASA_CON_ADVERTENCIAS** (19 pruebas, 0 fallas, 2 advertencias)
+**Veredicto: PASA_CON_ADVERTENCIAS** (20 pruebas, 0 fallas, 2 advertencias)
 
 | Prueba | Qué comprueba | Resultado |
 |---|---|---|
@@ -10,6 +10,7 @@ Generado: 2026-07-26T07:20:55+00:00 · capa `user` (diseño, no medición).
 | V2 | Cada pieza cabe en la cama declarada | **PASA** |
 | V3 | El cajón recorre toda la carrera sin chocar con las piezas fijas | **PASA** |
 | V4 | Con el cajón afuera, la boca de la tolva queda obturada | **PASA** |
+| V16 | La cavidad queda alineada con la boca de carga y con la de descarga | **PASA** |
 | V5 | La cavidad entrega la dosis objetivo con el alimento de diseño | **PASA** |
 | V6 | Cremallera y piñón engranan con la distancia correcta | **PASA** |
 | V6c | La cremallera queda engranada en los dos extremos de la carrera | **PASA** |
@@ -53,6 +54,13 @@ Generado: 2026-07-26T07:20:55+00:00 · capa `user` (diseño, no medición).
 - **Criterio:** cobertura ≥ 99.5% de la boca de carga
 - **Medido:** `{"cobertura": 1.0, "volumen_sonda_mm3": 13068.0}`
 - **Acción / nota:** alargar la falda obturadora (sello_tabique) del cajón
+
+## V16 — La cavidad queda alineada con la boca de carga y con la de descarga
+
+- **Resultado:** PASA
+- **Criterio:** ≥97% de la sección de paso libre en las dos posiciones (si no, la croqueta ni entra ni cae)
+- **Medido:** `{"paso_libre_pct": {"llenado": 100.0, "descarga": 100.0}, "seccion_sonda_mm": [96.0, 41.0]}`
+- **Acción / nota:** revisar y_cavidad_local, la carrera o la posición de las bocas
 
 ## V5 — La cavidad entrega la dosis objetivo con el alimento de diseño
 
@@ -100,7 +108,7 @@ Generado: 2026-07-26T07:20:55+00:00 · capa `user` (diseño, no medición).
 
 - **Resultado:** ADVERTENCIA
 - **Criterio:** < 6% del área de cada pieza por debajo de 45.0° en su orientación de impresión
-- **Medido:** `{"piezas_con_voladizo_pct": {"est_pie": 18.3, "est_soporte_cabezal": 10.7, "est_escuadra_muro": 18.0, "agua_boquilla": 10.0, "agua_difusor": 17.9, "ali_corredera": 13.8, "ali_agitador": 9.3, "ali_chute": 7.8}, "limite_deg": 45.0}`
+- **Medido:** `{"piezas_con_voladizo_pct": {"est_pie": 18.3, "est_soporte_cabezal": 10.7, "est_escuadra_muro": 18.0, "agua_boquilla": 10.0, "agua_difusor": 17.9, "ali_corredera": 13.8, "ali_agitador": 9.3, "ali_chute": 6.3}, "limite_deg": 45.0}`
 - **Acción / nota:** reorientar la pieza en el laminador o activar soportes solo en ella
 
 ## V9 — Columnas y anillo soportan el bidón lleno

@@ -496,76 +496,77 @@ def _perfil_canal(P, C):
 
 
 def ali_canal_base(P, C):
-    """Base del canal: piso, carriles, boca de descarga y torre del piñón."""
+    """Base del canal: piso, carriles, boca de descarga, torre del piñón y
+    orejas de anclaje.
+
+    Se construye en dos tiempos —primero TODO lo que suma y después TODO lo que
+    resta— porque si no, cualquier refuerzo añadido más tarde vuelve a tapar la
+    boca de descarga (pasó, y la prueba V16 lo cazó).
+    """
     do = P["dosificador"]
     W, L = C["canal_ancho"], C["canal_largo"]
     piso, pared = 6.0, do["canal_pared"]
     alto_carril = C["cavidad_z"] + do["corredera_holgura"]
+    xp, yd = C["x_pinon"], C["y_descarga"]
+    d_hueco = C["pinon"]["dia_cabeza"] + 6.0
+    z_bajo = piso + alto_carril
+    alto_torre = z_bajo + 30.0
+    x_fuera = W / 2 + do["corredera_holgura"]
+    r_or = 95.0
 
+    # ---- lo que suma ----
     base = S.caja((W, L, piso), at=(0, 0, piso / 2))
     for s in (-1, 1):
-        base = S.union(base, S.caja((pared, L, piso + alto_carril),
-                                    at=(s * (W - pared) / 2, 0, (piso + alto_carril) / 2)))
-    # boca de descarga (posición avanzada del cajón) con labios achaflanados
-    yd = C["y_descarga"]
-    base = S.resta(base, S.caja((do["cavidad_x"], do["cavidad_y"], piso + 6), at=(0, yd, piso / 2)))
-    for s in (-1, 1):
+        base = S.union(base, S.caja((pared, L, z_bajo), at=(s * (W - pared) / 2, 0, z_bajo / 2)))
+    base = S.union(base, S.caja((d_hueco + 26, d_hueco + 22, z_bajo), at=(-xp, 0, z_bajo / 2)))
+    ancho_alto = (xp + (d_hueco + 26) / 2) - x_fuera
+    base = S.union(base, S.caja((ancho_alto, d_hueco + 22, alto_torre - z_bajo),
+                                at=(-(x_fuera + ancho_alto / 2), 0, (alto_torre + z_bajo) / 2)))
+    base = S.union(base, S.caja((xp - W / 2 + 30, d_hueco + 22, piso),
+                                at=(-(W / 2 + (xp - W / 2) / 2), 0, piso / 2)))
+    for k in range(3):                       # orejas de anclaje a las ménsulas
+        a = math.radians(120 * k + 90)
+        cx, cy = r_or * math.cos(a), r_or * math.sin(a)
+        puente = S.caja((22, 2 * r_or, piso), at=(0, 0, piso / 2))
+        puente.apply_transform(trimesh.transformations.rotation_matrix(a - math.pi / 2, [0, 0, 1]))
+        base = S.union(base, S.interseccion(puente, S.cilindro(2 * r_or + 26, piso + 2,
+                                                               at=(0, 0, piso / 2))),
+                       S.caja((26, 26, piso), at=(cx, cy, piso / 2)))
+    for az in (C["palanca_ang_cerrado"] - 18.0, C["palanca_ang_abierto"] + 18.0):
+        a = math.radians(az)                 # topes del barrido de la palanca
+        rt = d_hueco / 2 + 14.0
+        base = S.union(base, S.cilindro(11.0, 30.0,
+                                        at=(-xp + rt * math.cos(a), rt * math.sin(a),
+                                            alto_torre + 9.0)))
+
+    # ---- lo que resta ----
+    base = S.resta(base, S.caja((do["cavidad_x"], do["cavidad_y"], 3 * piso), at=(0, yd, piso / 2)))
+    for s in (-1, 1):                        # labios achaflanados de la descarga
         labio = S.prisma([(0, 0), (7, 0), (0, 7)], do["cavidad_x"] + 12, eje="x")
         labio.apply_transform(trimesh.transformations.rotation_matrix(
             math.pi if s > 0 else 0, [0, 0, 1]))
         labio.apply_translation([0, yd + s * do["cavidad_y"] / 2, 0])
         base = S.resta(base, labio)
-    # ventana lateral por donde el piñón alcanza la cremallera del cajón
+    base = S.resta(base, S.caja((W - 2 * pared, L + 240, alto_carril),
+                                at=(0, 0, piso + alto_carril / 2)))
     base = S.resta(base, S.caja((3 * pared, do["pinon_ancho"] + 24, alto_carril + 2),
                                 at=(-(W - pared) / 2, 0, piso + alto_carril / 2)))
-    # torre del piñón: aloja el piñón entero (Ø cabeza + holgura), sujeta el eje
-    # vertical arriba y abajo, y lleva los dos topes que limitan el barrido de
-    # la palanca — sin topes, "un golpe = una dosis" no está garantizado.
-    xp = C["x_pinon"]
-    d_hueco = C["pinon"]["dia_cabeza"] + 6.0
-    alto_torre = piso + alto_carril + 30.0
-    z_bajo = piso + alto_carril
-    torre = S.caja((d_hueco + 26, d_hueco + 22, z_bajo), at=(-xp, 0, z_bajo / 2))
-    x_fuera = W / 2 + do["corredera_holgura"]          # cara exterior del canal
-    ancho_alto = (xp + (d_hueco + 26) / 2) - x_fuera
-    torre = S.union(torre, S.caja((ancho_alto, d_hueco + 22, alto_torre - z_bajo),
-                                  at=(-(x_fuera + ancho_alto / 2), 0, (alto_torre + z_bajo) / 2)))
-    base = S.union(base, torre)
-    # cámara del piñón, abierta hacia el canal para que los dientes lleguen
     base = S.resta(base, S.cilindro(d_hueco, alto_carril + 3.0,
                                     at=(-xp, 0, piso + alto_carril / 2 + 1.5)))
     base = S.resta(base, S.caja((xp - W / 2 + 40, do["pinon_ancho"] + 24, alto_carril + 3.0),
                                 at=(-(W / 2), 0, piso + alto_carril / 2 + 1.5)))
     base = S.resta(base, S.cilindro(do["eje_pinon_entrecaras"] + 1.0, 400, at=(-xp, 0, 0)))
-    # nada de la torre puede meterse en el canal por donde corre el cajón
-    base = S.resta(base, S.caja((W - 2 * pared, L + 240, alto_carril),
-                                at=(0, 0, piso + alto_carril / 2)))
-    # topes del barrido: dos postes en la coronación de la torre, a la altura
-    # del brazo de la palanca (sin ellos, "un golpe = una dosis" no se cumple)
-    for az in (C["palanca_ang_cerrado"] - 18.0, C["palanca_ang_abierto"] + 18.0):
-        a = math.radians(az)
-        rt = d_hueco / 2 + 14.0
-        base = S.union(base, S.cilindro(11.0, 30.0,
-                                        at=(-xp + rt * math.cos(a), rt * math.sin(a),
-                                            alto_torre + 9.0)))
-    # taladros de unión con la tapa
-    for sx in (-1, 1):
-        for sy in (-1, 1):
-            base = S.resta(base, S.cilindro(M4, 3 * (piso + alto_carril),
-                                            at=(sx * (W - pared) / 2, sy * (L / 2 - 12), 0)))
-    # tres orejas a 0/120/240° donde apoyan las ménsulas de las columnas
-    r_or = 95.0
     for k in range(3):
         a = math.radians(120 * k + 90)
-        cx, cy = r_or * math.cos(a), r_or * math.sin(a)
-        orej = S.caja((26, 26, piso), at=(cx, cy, piso / 2))
-        puente = S.caja((22, 2 * r_or, piso), at=(0, 0, piso / 2))
-        puente.apply_transform(trimesh.transformations.rotation_matrix(a - math.pi / 2, [0, 0, 1]))
-        base = S.union(base, S.interseccion(
-            puente, S.cilindro(2 * r_or + 26, piso + 2, at=(0, 0, piso / 2))), orej)
-        base = S.resta(base, S.cilindro(M4, piso + 8, at=(cx, cy, piso / 2)))
+        base = S.resta(base, S.cilindro(M4, piso + 8,
+                                        at=(r_or * math.cos(a), r_or * math.sin(a), piso / 2)))
+    for sx in (-1, 1):                       # unión con la tapa
+        for sy in (-1, 1):
+            base = S.resta(base, S.cilindro(M4, 3 * z_bajo,
+                                            at=(sx * (W - pared) / 2, sy * (L / 2 - 12), 0)))
     return base, "carcasa", {"cantidad": 1,
-                             "nota": "Imprimir apoyada en el piso: carriles y torre salen sin soportes."}
+                             "nota": "Imprimir apoyada en el piso: carriles, torre y topes salen "
+                                     "sin soportes."}
 
 
 def ali_canal_tapa(P, C):
@@ -857,14 +858,16 @@ def ali_chute(P, C):
     do = P["dosificador"]
     x0, y0 = do["cavidad_x"] / 2, do["cavidad_y"] / 2
     caida, avance, e = 95.0, 55.0, 3.5
-    sup = _rect(-x0, x0, -y0, y0)
-    inf = _rect(-x0 - 12, x0 + 12, -y0 + avance, y0 + avance + 26)
-    sup_i = _rect(-x0 + e, x0 - e, -y0 + e, y0 - e)
-    inf_i = _rect(-x0 - 12 + e, x0 + 12 - e, -y0 + avance + e, y0 + avance + 26 - e)
+    # la boca de la canaleta es EXACTAMENTE la de descarga: la pared va por
+    # fuera, para no dejar un escalón donde se detenga la croqueta
+    sup_i = _rect(-x0, x0, -y0, y0)
+    sup = _rect(-x0 - e, x0 + e, -y0 - e, y0 + e)
+    inf_i = _rect(-x0 - 12, x0 + 12, -y0 + avance, y0 + avance + 26)
+    inf = _rect(-x0 - 12 - e, x0 + 12 + e, -y0 + avance - e, y0 + avance + 26 + e)
     c = S.resta(S.loft(inf, sup, -caida, 0.0), S.loft(inf_i, sup_i, -caida - 6.0, 6.0))
     # brida de montaje bajo la base del canal
     brida = S.caja((do["cavidad_x"] + 34, do["cavidad_y"] + 34, 5.0), at=(0, 0, -2.5))
-    brida = S.resta(brida, S.caja((do["cavidad_x"] - 2 * e, do["cavidad_y"] - 2 * e, 14)))
+    brida = S.resta(brida, S.caja((do["cavidad_x"], do["cavidad_y"], 14)))
     c = S.union(c, brida)
     for sx in (-1, 1):
         for sy in (-1, 1):

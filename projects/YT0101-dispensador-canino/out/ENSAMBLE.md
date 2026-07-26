@@ -1,6 +1,6 @@
 # ARMADO, CALIBRACIÓN Y USO — Dispensador canino YT0101
 
-Generado: 2026-07-26T07:21:26+00:00
+Generado: 2026-07-26T07:26:29+00:00
 
 ## 1. Antes de imprimir: medir el bidón
 
@@ -139,10 +139,23 @@ apoyado en el fondo del plato, súbelo.
 
 | Cada | Qué |
 |---|---|
-| Semana | Sacar el cajón (se sale tirando) y lavarlo con agua y jabón |
+| Semana | Sacar el cajón (ver abajo) y lavarlo con agua y jabón |
 | Semana | Lavar el plato del bebedero |
 | Mes | Desmontar el bajante y limpiar el difusor |
 | Cambio de saco | Vaciar el bidón y aspirar el polvo de croqueta del canal |
+
+### Cómo se saca el cajón
+
+La cremallera está engranada con el piñón, así que el cajón **no** sale de
+un tirón. Son tres movimientos:
+
+1. Saca el pasador Ø3 de la parte baja del eje del piñón.
+2. Levanta el eje (con la palanca puesta hace de asa) hasta que el piñón
+   salga de su alojamiento en la torre.
+3. Ahora el cajón sale tirando hacia atrás.
+
+Para volver a montarlo, el orden inverso: cajón dentro, eje abajo con el
+piñón engranando en la cremallera, pasador puesto.
 
 Agua y jabón bastan: [pla_limpieza_efectiva](https://hackaday.com/2022/09/05/food-safe-3d-printing-a-study/) — «ordinary dish soap and water are totally sufficient to remove 90% or more of all of the pathogens... even those pesky biofilms could be quickly dispat…»
 **No** lavar en lavavajillas: el PLA se deforma cerca de los 60 °C.

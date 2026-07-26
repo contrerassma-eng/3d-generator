@@ -1,6 +1,6 @@
 # MEMORIA DE DISEÑO — Dispensador canino YT0101
 
-Generado: 2026-07-26T07:21:26+00:00 · Capa `user` (diseño paramétrico, no medición).
+Generado: 2026-07-26T07:26:29+00:00 · Capa `user` (diseño paramétrico, no medición).
 Cada cota nace de `input/params.json`; cada dato externo está citado en
 `input/web_facts.json` con URL, fecha de acceso y cita textual.
 
@@ -189,7 +189,7 @@ vez de esconderse.
 
 ## 10. Resultado de la verificación
 
-**PASA_CON_ADVERTENCIAS** — 19 pruebas, 0 fallas, 2 advertencias (detalle completo en `VERIFICACION.md`).
+**PASA_CON_ADVERTENCIAS** — 20 pruebas, 0 fallas, 2 advertencias (detalle completo en `VERIFICACION.md`).
 
 | | Prueba | Resultado |
 |---|---|---|
@@ -197,6 +197,7 @@ vez de esconderse.
 | V2 | Cada pieza cabe en la cama declarada | **PASA** |
 | V3 | El cajón recorre toda la carrera sin chocar con las piezas fijas | **PASA** |
 | V4 | Con el cajón afuera, la boca de la tolva queda obturada | **PASA** |
+| V16 | La cavidad queda alineada con la boca de carga y con la de descarga | **PASA** |
 | V5 | La cavidad entrega la dosis objetivo con el alimento de diseño | **PASA** |
 | V6 | Cremallera y piñón engranan con la distancia correcta | **PASA** |
 | V6c | La cremallera queda engranada en los dos extremos de la carrera | **PASA** |

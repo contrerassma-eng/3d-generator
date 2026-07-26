@@ -1,6 +1,6 @@
 {
   "proyecto": "YT0101-dispensador-canino",
-  "generado": "2026-07-26T07:21:10+00:00",
+  "generado": "2026-07-26T07:26:13+00:00",
   "capa": "user",
   "piezas": {
     "est_anillo_segmento": {
@@ -270,19 +270,19 @@
     "ali_canal_base": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 440.4,
-        "area_cm2": 1059.2,
+        "volumen_cm3": 423.46,
+        "area_cm2": 1004.98,
         "bbox_mm": [
           236.27,
           203.0,
           91.25
         ],
-        "triangulos": 5058,
+        "triangulos": 4902,
         "cabe_en_cama": true,
-        "masa_pla_g": 350.9
+        "masa_pla_g": 337.4
       },
       "cantidad": 1,
-      "nota": "Imprimir apoyada en el piso: carriles y torre salen sin soportes.",
+      "nota": "Imprimir apoyada en el piso: carriles, torre y topes salen sin soportes.",
       "_id": "ali_canal_base",
       "archivos": {
         "glb": "out/piezas/ali_canal_base.glb",
@@ -534,16 +534,16 @@
     "ali_chute": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 142.61,
-        "area_cm2": 853.97,
+        "volumen_cm3": 146.86,
+        "area_cm2": 891.91,
         "bbox_mm": [
           134.0,
-          143.0,
+          146.5,
           95.0
         ],
         "triangulos": 1642,
         "cabe_en_cama": true,
-        "masa_pla_g": 113.6
+        "masa_pla_g": 117.0
       },
       "cantidad": 1,
       "nota": "Se atornilla bajo la boca de descarga; entrega a ~95 mm por debajo y 55 mm por delante. Imprimir con la boca ancha sobre la cama.",
@@ -554,5 +554,5 @@
       }
     }
   },
-  "masa_pla_total_g": 2294.0
+  "masa_pla_total_g": 2283.9
 }

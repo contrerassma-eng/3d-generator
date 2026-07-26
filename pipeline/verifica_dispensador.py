@@ -132,6 +132,31 @@ def verificar(proj: Path) -> dict:
            "cobertura ≥ 99.5% de la boca de carga",
            "alargar la falda obturadora (sello_tabique) del cajón")
 
+    # ---------------- V16 el camino de la croqueta está despejado ------------
+    # No basta con que nada choque: la cavidad tiene que quedar ALINEADA con la
+    # boca de carga (para llenarse) y con la de descarga (para vaciarse).
+    # llenado: desde la boca de la tapa hasta el fondo de la cavidad (el piso
+    # del canal cierra la cavidad por abajo, que es justo lo que debe hacer).
+    # descarga: desde dentro de la cavidad hasta salir por el piso del canal.
+    tramos = {"llenado": (C["z_deslizamiento"] + 1.0, C["z_tapa_sup"] + 1.0, C["y_carga"]),
+              "descarga": (C["z_canal_base"] - 1.0, C["z_corredera_sup"] - 1.0, C["y_descarga"])}
+    caminos = {}
+    for etapa, (z0_, z1_, y_boca) in tramos.items():
+        y_cajon = C["y_carga"] + (0.0 if etapa == "llenado" else C["carrera"])
+        cajon = E._t(piezas["ali_corredera"], at=(0, y_cajon - y_cav_local, C["z_deslizamiento"]))
+        sonda = S.caja((do["cavidad_x"] - 4, do["cavidad_y"] - 4, z1_ - z0_),
+                       at=(0, y_boca, (z0_ + z1_) / 2.0))
+        v_libre = float(sonda.volume)
+        obstruido = sum(_vol_interseccion(sonda, m) for m in
+                        [cajon, fijas["ali_canal_base"], fijas["ali_canal_tapa"]])
+        caminos[etapa] = round(100.0 * (1.0 - obstruido / v_libre), 1)
+    prueba("V16", "La cavidad queda alineada con la boca de carga y con la de descarga",
+           "PASA" if min(caminos.values()) >= 97.0 else "FALLA",
+           {"paso_libre_pct": caminos, "seccion_sonda_mm": [do["cavidad_x"] - 4, do["cavidad_y"] - 4]},
+           "≥97% de la sección de paso libre en las dos posiciones (si no, la croqueta "
+           "ni entra ni cae)",
+           "revisar y_cavidad_local, la carrera o la posición de las bocas")
+
     # ---------------- V5 dosis medida sobre la malla -------------------------
     cajon0 = piezas["ali_corredera"]
     caja_cav = S.caja((do["cavidad_x"] + 40, do["cavidad_y"] + 40, C["cavidad_z"]),

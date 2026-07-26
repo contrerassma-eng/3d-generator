@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-26T07:20:55+00:00",
+  "generado": "2026-07-26T07:25:46+00:00",
   "proyecto": "YT0101-dispensador-canino",
   "capa": "user",
   "pruebas": [
@@ -264,6 +264,23 @@
       "accion": "alargar la falda obturadora (sello_tabique) del cajón"
     },
     {
+      "id": "V16",
+      "titulo": "La cavidad queda alineada con la boca de carga y con la de descarga",
+      "veredicto": "PASA",
+      "medido": {
+        "paso_libre_pct": {
+          "llenado": 100.0,
+          "descarga": 100.0
+        },
+        "seccion_sonda_mm": [
+          96.0,
+          41.0
+        ]
+      },
+      "criterio": "≥97% de la sección de paso libre en las dos posiciones (si no, la croqueta ni entra ni cae)",
+      "accion": "revisar y_cavidad_local, la carrera o la posición de las bocas"
+    },
+    {
       "id": "V5",
       "titulo": "La cavidad entrega la dosis objetivo con el alimento de diseño",
       "veredicto": "PASA",
@@ -370,7 +387,7 @@
           "agua_difusor": 17.9,
           "ali_corredera": 13.8,
           "ali_agitador": 9.3,
-          "ali_chute": 7.8
+          "ali_chute": 6.3
         },
         "limite_deg": 45.0
       },
@@ -512,7 +529,7 @@
     }
   ],
   "resumen": {
-    "pruebas": 19,
+    "pruebas": 20,
     "fallas": [],
     "advertencias": [
       "V7b",
@@ -622,5 +639,5 @@
     "carga_bidon_alimento_N": 86.5,
     "autonomia_alimento_dosis": 159
   },
-  "masa_pla_total_g": 2294.0
+  "masa_pla_total_g": 2283.9
 }
