@@ -1,0 +1,42 @@
+{
+  "project": "YT0101-dispensador-canino",
+  "stage": "DISENO_VERIFICADO",
+  "gates": {
+    "G_DIS": {
+      "verdict": "SIN_CONTRASTE",
+      "metrics": {
+        "pruebas": 13,
+        "fallas": [],
+        "advertencias": [
+          "V7b",
+          "V8"
+        ],
+        "dosis_g": 50.1,
+        "masa_pla_total_g": 2046.5
+      },
+      "reasons": [],
+      "ts": "2026-07-26T06:48:55+00:00"
+    },
+    "G6": {
+      "verdict": "PASA",
+      "metrics": {
+        "laminas": 1,
+        "vistas": [
+          "alzado",
+          "planta",
+          "perfil",
+          "isometrica"
+        ],
+        "escala_certificada": true,
+        "factor_escala": 1.0,
+        "dxf": "out/drawings/agua_difusor.dxf",
+        "pdf": "out/drawings/agua_difusor.pdf",
+        "hash_dxf": "sha256:604c7d01b92e642f184d1a308c3f9dabc650f6d70b8d032d697d5a8b931dff75",
+        "hash_pdf": "sha256:18602da1cc3598c0e8f8db1fc9dd65485b97556124310272bd972d51e640347a"
+      },
+      "reasons": [],
+      "ts": "2026-07-26T06:47:34+00:00"
+    }
+  },
+  "updated": "2026-07-26T06:48:55+00:00"
+}
