@@ -28,7 +28,7 @@ inclinadas 12°, anillos de segmentos impresos y collar de cuello partido.
 | `pipeline/lib_solidos.py` | primitivas de diseño: engranaje de evolvente, cremallera, trinquete, loft, revolución, booleanas y utilidades FDM |
 | `pipeline/gen_dispensador.py` | genera las piezas (STL + GLB) desde `input/params.json`, ya orientadas para imprimir |
 | `pipeline/ens_dispensador.py` | ensambles en posición de trabajo, vistas y animación del ciclo |
-| `pipeline/verifica_dispensador.py` | gate **G-DIS**: 14 pruebas medidas sobre las mallas reales |
+| `pipeline/verifica_dispensador.py` | gate **G-DIS**: 21 pruebas medidas sobre las mallas reales |
 | `pipeline/doc_dispensador.py` | memoria, manual de armado, lista de impresión y de compra |
 | `pipeline/web_dispensador.py` | paquete web navegable autocontenido |
 
@@ -59,7 +59,7 @@ Todo vive en `projects/<X>/input/params.json`. Los cambios más habituales:
 | Otra impresora | `impresion.cama_mm` (la prueba V2 avisa si algo deja de caber) |
 | Otro nivel de agua | `agua.nivel_agua` |
 
-Tras cualquier cambio, **volver a correr generación + verificación**: las 14
+Tras cualquier cambio, **volver a correr generación + verificación**: las 21
 pruebas están para eso.
 
 ## Las pruebas del gate G-DIS
@@ -77,6 +77,12 @@ pruebas están para eso.
 | V9 | estructura: aplastamiento, pandeo y vuelco |
 | V10 | coherencia del nivel de equilibrio del bebedero |
 | V11 | las ménsulas alcanzan de verdad las orejas del canal |
+| V12 | el biela-manivela del agitador cierra en toda la carrera |
+| V13 / V13b | la palanca barre sin golpear columnas, y los topes muerden pasado el recorrido |
+| V14 | ninguna pieza fija ocupa el sitio de otra (con lista de encajes intencionados) |
+| V15 | la cadena macho-hembra del bajante encaja y solapa |
+| V16 | la cavidad queda alineada con la boca de carga y con la de descarga |
+| V17 | las piezas que se atornillan tienen los taladros enfrentados |
 
 Un `FALLA` detiene el trabajo. Un `ADVERTENCIA` es un límite conocido del
 diseño que se documenta y se explica, no se maquilla.

@@ -1,6 +1,6 @@
 # MEMORIA DE DISEÑO — Dispensador canino YT0101
 
-Generado: 2026-07-26T07:30:09+00:00 · Capa `user` (diseño paramétrico, no medición).
+Generado: 2026-07-26T07:30:42+00:00 · Capa `user` (diseño paramétrico, no medición).
 Cada cota nace de `input/params.json`; cada dato externo está citado en
 `input/web_facts.json` con URL, fecha de acceso y cita textual.
 
@@ -122,6 +122,17 @@ rango de flujo másico: [angulo-pared-tolva-DEM-pellets](https://www.mdpi.com/20
 La cremallera va embutida en el flanco del cajón: las puntas de los dientes
 quedan 2 mm por dentro del plano de deslizamiento, así el
 piñón entra por la ventana del carril y nada roza (prueba V3).
+
+### Qué cuesta accionarla
+
+Estimación, no medición (queda para el prototipo): sobre la boca de carga
+(100×45 mm) la columna de croquetas apoya con del orden de 6 N —
+mucho menos que la altura de la tolva por su peso, porque en una tolva
+convergente el rozamiento con las paredes descarga la base (efecto Janssen).
+Sumando el rozamiento del cajón y el corte de alguna croqueta en el canto,
+del orden de 30 N en el cajón. Con la ventaja mecánica de 6.5:1 quedan
+unos 5 N en la empuñadura: un dedo. Si cuesta más que eso, algo
+está rozando y conviene revisar antes de forzar.
 
 ### El agitador va colgado del mismo movimiento
 
