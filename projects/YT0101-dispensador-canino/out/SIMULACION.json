@@ -38,6 +38,20 @@
         "particulas": 429,
         "radio_talud_mm": 111.0,
         "altura_talud_mm": 51.4
+      },
+      {
+        "mu_rodadura": 1.2,
+        "angulo_reposo_deg": 29.98,
+        "particulas": 429,
+        "radio_talud_mm": 108.9,
+        "altura_talud_mm": 51.0
+      },
+      {
+        "mu_rodadura": 1.8,
+        "angulo_reposo_deg": 24.18,
+        "particulas": 429,
+        "radio_talud_mm": 121.0,
+        "altura_talud_mm": 41.3
       }
     ],
     "elegido": {
@@ -53,7 +67,9 @@
       "densidad_aparente_g_ml": 0.2627,
       "particulas_en_control": 164
     },
-    "densidad_citada_g_ml": 0.4
+    "densidad_citada_g_ml": 0.4,
+    "techo_del_modelo_deg": 29.98,
+    "nota_techo": "La curva no crece sin fin: llega a un maximo cerca de mu_rod 1.2 y despues BAJA (a 1.8 el talud cae a 24.18 grados, porque tanta rodadura deja el lecho tan suelto que se desparrama). El modelo de esferas no puede pasar de unos 30 grados, asi que alcanza la parte BAJA del rango publicado (27-38) y no la alta. Es el limite de representar una croqueta no esferica con esferas, y acota lo que esta simulacion puede afirmar."
   },
   "casos": {},
   "pruebas": [

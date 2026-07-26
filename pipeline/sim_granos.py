@@ -405,7 +405,7 @@ def perfil_golpe(t: float, t_ida: float, t_espera: float, carrera: float):
     return 0.0, 0.0
 
 
-def _huecos_libres(sim: D.DEM, info: dict, d_nom: float, cuantos: int, rng) -> np.ndarray:
+def _huecos_libres(sim: D.DEM, info: dict, d_max: float, cuantos: int, rng) -> np.ndarray:
     """Sitios vacíos en lo alto del depósito para devolver los granos que salieron.
 
     Hay que buscar hueco, no repetir la retícula: dos tandas recicladas sobre
@@ -413,18 +413,18 @@ def _huecos_libres(sim: D.DEM, info: dict, d_nom: float, cuantos: int, rng) -> n
     corrida justo cuando ya lleva media hora.
     """
     z0 = info["z_tope_relleno"] + 0.005
-    sitios = sembrar_cilindro(info["r_relleno"] * 0.92, z0, z0 + 0.30, d_nom, rng,
+    sitios = sembrar_cilindro(info["r_relleno"] * 0.92, z0, z0 + 0.30, d_max, rng,
                               centro=info["eje"])
     if not len(sitios):
         sitios = np.array([[0.0, 0.0, z0]])
-    libres = sitios[cKDTree(sim.x).query(sitios)[0] > d_nom]
+    libres = sitios[cKDTree(sim.x).query(sitios)[0] > d_max]
     if len(libres) < cuantos:                       # apilar por encima de todo
         falta = cuantos - len(libres)
-        alto = float(sim.x[:, 2].max()) + d_nom
+        alto = float(sim.x[:, 2].max()) + d_max
         extra = np.column_stack([
             info["eje"][0] + rng.uniform(-1, 1, falta) * info["r_relleno"] * 0.5,
             info["eje"][1] + rng.uniform(-1, 1, falta) * info["r_relleno"] * 0.5,
-            alto + np.arange(falta) * d_nom * 1.2])
+            alto + np.arange(falta) * d_max * 1.2])
         libres = np.vstack([libres, extra]) if len(libres) else extra
     rng.shuffle(libres)
     return libres[:cuantos]
@@ -518,7 +518,7 @@ def escenario_dosificar(P, C, piezas, cache, golpes=3, con_agitador=True,
             if len(fuera):
                 masa_g += float(sim.m[fuera].sum())
                 n_reciclados += len(fuera)
-                sim.reciclar(fuera, _huecos_libres(sim, info, d_nom, len(fuera), rng))
+                sim.reciclar(fuera, _huecos_libres(sim, info, d_top, len(fuera), rng))
             if traza is not None and k % traza["cada"] == 0:
                 cuadros.append({"t": round(g * ciclo + t_golpe, 4),
                                 "avance_mm": round(estado["avance"] / mm, 2),

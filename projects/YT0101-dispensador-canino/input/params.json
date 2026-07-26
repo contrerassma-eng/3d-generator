@@ -215,7 +215,9 @@
       0.15,
       0.3,
       0.5,
-      0.8
+      0.8,
+      1.2,
+      1.8
     ],
     "barrido_rodadura_nota": "Rango del barrido de calibracion. Con esferas hace falta rodadura alta para llegar al angulo de reposo de un material no esferico: es exactamente lo que la rodadura esta sustituyendo. A 0.30 el talud se queda en 23 grados, por debajo del rango publicado."
   }
