@@ -118,11 +118,33 @@ def estructura(P, C, piezas, z_anillo: float, mensulas_z: float | None = None):
 # Conjuntos
 # ---------------------------------------------------------------------------
 
+def tren_agitador(P, C, piezas, avance: float = 0.0):
+    """Agitador, manivela y biela colocados para un avance dado del cajón.
+
+    El cajón hace de corredera del biela-manivela: recorrer la carrera le da al
+    agitador una vuelta larga, y volver se la devuelve.
+    """
+    th = G.angulo_manivela(C, avance)
+    r = C["manivela_radio"]
+    y_pin = C["y_carga"] + r * math.cos(math.radians(th))
+    z_pin = C["z_agitador"] + r * math.sin(math.radians(th))
+    y_ear = C["y_pasador_cerrado"] + avance
+    psi = math.degrees(math.atan2(C["z_pasador_cajon"] - z_pin, y_ear - y_pin))
+    return [
+        ("ali_agitador", _color(_t(piezas["ali_agitador"], at=(0, C["y_carga"], C["z_agitador"]),
+                                   rx=th), S.COLORES["rotor"])),
+        ("ali_manivela", _color(_t(piezas["ali_manivela"],
+                                   at=(C["x_biela"], C["y_carga"], C["z_agitador"]), rx=th),
+                                S.COLORES["palanca"])),
+        ("ali_biela", _color(_t(piezas["ali_biela"], at=(C["x_biela"], y_pin, z_pin), rx=psi),
+                             S.COLORES["palanca"])),
+    ]
+
+
 def conjunto_alimento(P, C, piezas):
     do = P["dosificador"]
     z0 = C["z_canal_base"]
-    y_cav_local = C["corredera_largo"] / 2 - do["cavidad_y"] / 2 - 26.0
-    y_biela = C["y_carga"] - y_cav_local - C["corredera_largo"] / 2 + 9
+    y_cav_local = C["y_cavidad_local"]
     partes = [
         ("ali_canal_base", _color(_t(piezas["ali_canal_base"], at=(0, 0, z0)), S.COLORES["carcasa"])),
         ("ali_canal_tapa", _color(_t(piezas["ali_canal_tapa"], at=(0, 0, C["z_tapa_inf"])), S.COLORES["carcasa"])),
@@ -130,24 +152,18 @@ def conjunto_alimento(P, C, piezas):
                                     at=(0, C["y_carga"] - y_cav_local, C["z_deslizamiento"])), S.COLORES["rotor"])),
         ("ali_adaptador_cuello", _color(_t(piezas["ali_adaptador_cuello"],
                                            at=(0, C["y_carga"], C["z_tapa_sup"])), S.COLORES["carcasa"])),
-        ("ali_agitador", _color(_t(piezas["ali_agitador"], at=(0, C["y_carga"], C["z_agitador"])),
-                                S.COLORES["rotor"])),
         ("ali_pinon", _color(_t(piezas["ali_pinon"], at=(-C["x_pinon"], 0, C["z_pinon"])), S.COLORES["engranaje"])),
         ("ali_eje_pinon", _color(_t(piezas["ali_eje_pinon"], at=(-C["x_pinon"], 0, C["z_pinon"] + 10)),
                                  S.COLORES["engranaje"])),
         ("ali_palanca", _color(_t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_pinon"] + 48), rz=-30),
                                S.COLORES["palanca"])),
-        ("ali_manivela", _color(_t(piezas["ali_manivela"],
-                                   at=(do["cavidad_x"] / 2 + 24, C["y_carga"], C["z_agitador"]), ry=90, rz=90),
-                                S.COLORES["palanca"])),
-        ("ali_biela", _color(_t(piezas["ali_biela"], at=(C["corredera_ancho"] / 2 - 5, y_biela,
-                                                         C["z_corredera_sup"] + 6), rx=-90), S.COLORES["palanca"])),
         ("ali_chute", _color(_t(piezas["ali_chute"], at=(0, C["y_descarga"], z0)), S.COLORES["bandeja"])),
         ("est_collar_cuello_a", _color(_t(piezas["est_collar_cuello"], at=(0, 0, C["z_labio_alimento"] + 14)),
                                        S.COLORES["estructura"])),
         ("est_collar_cuello_b", _color(_t(piezas["est_collar_cuello"], at=(0, 0, C["z_labio_alimento"] + 14),
                                           rz=180), S.COLORES["estructura"])),
     ]
+    partes += tren_agitador(P, C, piezas, 0.0)
     est, perfiles = estructura(P, C, piezas, C["z_anillo_alimento"],
                                mensulas_z=C["z_canal_base"] + 18.0)
     partes += [(n, _color(m, S.COLORES["estructura"])) for n, m in est]
@@ -231,7 +247,8 @@ def animacion(P, C, piezas, destino: Path, cuadros: int = 16) -> Path:
     do = P["dosificador"]
     y_cav = C["y_cavidad_local"]
     fijas = [m for n, m in conjunto_alimento(P, C, piezas)
-             if n.startswith("ali_") and n not in ("ali_corredera", "ali_palanca")]
+             if n.startswith("ali_") and n not in ("ali_corredera", "ali_palanca",
+                                                   "ali_agitador", "ali_manivela", "ali_biela")]
     imgs = []
     destino.mkdir(parents=True, exist_ok=True)
     ida = list(range(cuadros)) + list(range(cuadros - 2, 0, -1))
@@ -251,8 +268,9 @@ def animacion(P, C, piezas, destino: Path, cuadros: int = 16) -> Path:
         if cae:
             dosis = S.caja((do["cavidad_x"] - 6, do["cavidad_y"] - 6, 30),
                            at=(0, C["y_descarga"] + 20, C["z_canal_base"] - 90))
+        tren = [m for _, m in tren_agitador(P, C, piezas, avance)]
         p_img = destino / f"ciclo_{i:02d}.png"
-        render(fijas + [cajon, palanca, _color(dosis, "#8d6e3b")], p_img,
+        render(fijas + tren + [cajon, palanca, _color(dosis, "#8d6e3b")], p_img,
                f"Ciclo de dosificación — avance {avance:.0f} mm de {C['carrera']:.0f}"
                + ("  ·  DOSIS ENTREGADA" if cae else ""),
                elev=16.0, azim=-64.0)

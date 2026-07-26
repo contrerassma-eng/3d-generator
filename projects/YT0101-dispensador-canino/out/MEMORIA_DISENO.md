@@ -1,6 +1,6 @@
 # MEMORIA DE DISEÑO — Dispensador canino YT0101
 
-Generado: 2026-07-26T07:00:53+00:00 · Capa `user` (diseño paramétrico, no medición).
+Generado: 2026-07-26T07:07:37+00:00 · Capa `user` (diseño paramétrico, no medición).
 Cada cota nace de `input/params.json`; cada dato externo está citado en
 `input/web_facts.json` con URL, fecha de acceso y cita textual.
 
@@ -119,6 +119,25 @@ La cremallera va embutida en el flanco del cajón: las puntas de los dientes
 quedan 2 mm por dentro del plano de deslizamiento, así el
 piñón entra por la ventana del carril y nada roza (prueba V3).
 
+### El agitador va colgado del mismo movimiento
+
+El cajón hace de corredera de un biela-manivela: al recorrer su carrera
+arrastra una biela de **98.8 mm** entre ejes que gira la manivela de
+**23.9 mm** montada en el eje del agitador. Ni la biela ni la manivela
+se eligieron a ojo — salen de las dos posiciones extremas del pasador:
+
+```
+pasador del cajón: y = -139 mm (cargado) → -80 mm (descargando)
+desnivel al eje del agitador: 55.4 mm
+biela   = (dist_max + dist_min) / 2 = 98.81 mm
+manivela = (dist_max − dist_min) / 2 = 23.88 mm
+```
+
+Resultado: **el agitador gira unos 200° por golpe** y otros tantos al volver,
+con los puntos muertos justo en los extremos de la carrera, que es donde el
+cajón se detiene de todas formas. La prueba V12 comprueba el cierre del
+cuadrilátero en los 21 pasos del recorrido.
+
 **Sin resortes.** El accionamiento es positivo en los dos sentidos, porque
 [spring_pla_mal_material](https://hackaday.com/2026/04/27/the-challenges-of-3d-printing-reliable-springs/) — «PLA makes for a very poor spring material, so you probably want to skip that one.»
 
@@ -166,7 +185,7 @@ vez de esconderse.
 
 ## 10. Resultado de la verificación
 
-**PASA_CON_ADVERTENCIAS** — 14 pruebas, 0 fallas, 2 advertencias (detalle completo en `VERIFICACION.md`).
+**PASA_CON_ADVERTENCIAS** — 15 pruebas, 0 fallas, 2 advertencias (detalle completo en `VERIFICACION.md`).
 
 | | Prueba | Resultado |
 |---|---|---|
@@ -182,6 +201,7 @@ vez de esconderse.
 | V7b | Cuello del bidón (abertura circular) sobre el criterio anti-arco | **ADVERTENCIA** |
 | V8 | Voladizos dentro de lo imprimible sin soportes | **ADVERTENCIA** |
 | V9 | Columnas y anillo soportan el bidón lleno | **PASA** |
+| V12 | El biela-manivela del agitador cierra en toda la carrera | **PASA** |
 | V11 | Las tres ménsulas alcanzan las orejas del canal | **PASA** |
 | V10 | Bebedero de nivel constante coherente (principio de Mariotte) | **PASA** |
 

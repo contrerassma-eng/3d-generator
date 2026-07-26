@@ -263,6 +263,29 @@ def verificar(proj: Path) -> dict:
            f"con {round(vuelco_N)} N de empuje lateral el conjunto vuelca: la escuadra de muro "
            "(est_escuadra_muro) es OBLIGATORIA en la unidad de alimento")
 
+    # ---------------- V12 el biela-manivela del agitador cierra --------------
+    r, Lb = C["manivela_radio"], C["biela_largo"]
+    angs, errores = [], []
+    for k in range(pasos):
+        av = C["carrera"] * k / (pasos - 1)
+        th = math.radians(G.angulo_manivela(C, av))
+        y_pin = C["y_carga"] + r * math.cos(th)
+        z_pin = C["z_agitador"] + r * math.sin(th)
+        d = math.hypot((C["y_pasador_cerrado"] + av) - y_pin, C["z_pasador_cajon"] - z_pin)
+        errores.append(abs(d - Lb))
+        angs.append(math.degrees(th))
+    barrido = max(angs) - min(angs)
+    ok_l = max(errores) <= 0.05 and barrido >= 120.0 and Lb > r * 1.5
+    prueba("V12", "El biela-manivela del agitador cierra en toda la carrera",
+           "PASA" if ok_l else "FALLA",
+           {"manivela_radio_mm": r, "biela_largo_mm": Lb,
+            "error_maximo_cierre_mm": round(max(errores), 4),
+            "giro_del_agitador_por_golpe_deg": round(barrido, 1),
+            "relacion_biela_manivela": round(Lb / r, 2)},
+           "la biela mantiene su largo (±0.05 mm) en los 21 pasos, el agitador gira ≥120° "
+           "por golpe y la biela es ≥1.5× la manivela (sin punto muerto de bloqueo)",
+           "recalcular manivela_radio y biela_largo desde las posiciones del pasador")
+
     # ---------------- V11 el cabezal cuelga de verdad de las columnas --------
     import ens_dispensador as EN
     partes = dict(EN.conjunto_alimento(P, C, piezas))

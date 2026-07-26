@@ -1,8 +1,8 @@
 # Verificación funcional — YT0101-dispensador-canino
 
-Generado: 2026-07-26T07:00:48+00:00 · capa `user` (diseño, no medición).
+Generado: 2026-07-26T07:07:31+00:00 · capa `user` (diseño, no medición).
 
-**Veredicto: PASA_CON_ADVERTENCIAS** (14 pruebas, 0 fallas, 2 advertencias)
+**Veredicto: PASA_CON_ADVERTENCIAS** (15 pruebas, 0 fallas, 2 advertencias)
 
 | Prueba | Qué comprueba | Resultado |
 |---|---|---|
@@ -18,6 +18,7 @@ Generado: 2026-07-26T07:00:48+00:00 · capa `user` (diseño, no medición).
 | V7b | Cuello del bidón (abertura circular) sobre el criterio anti-arco | **ADVERTENCIA** |
 | V8 | Voladizos dentro de lo imprimible sin soportes | **ADVERTENCIA** |
 | V9 | Columnas y anillo soportan el bidón lleno | **PASA** |
+| V12 | El biela-manivela del agitador cierra en toda la carrera | **PASA** |
 | V11 | Las tres ménsulas alcanzan las orejas del canal | **PASA** |
 | V10 | Bebedero de nivel constante coherente (principio de Mariotte) | **PASA** |
 
@@ -95,7 +96,7 @@ Generado: 2026-07-26T07:00:48+00:00 · capa `user` (diseño, no medición).
 
 - **Resultado:** ADVERTENCIA
 - **Criterio:** < 6% del área de cada pieza por debajo de 45.0° en su orientación de impresión
-- **Medido:** `{"piezas_con_voladizo_pct": {"est_pie": 18.3, "est_soporte_cabezal": 10.8, "est_escuadra_muro": 18.0, "agua_boquilla": 10.3, "agua_difusor": 11.3, "ali_corredera": 13.8, "ali_agitador": 9.8, "ali_chute": 7.8}, "limite_deg": 45.0}`
+- **Medido:** `{"piezas_con_voladizo_pct": {"est_pie": 18.3, "est_soporte_cabezal": 10.8, "est_escuadra_muro": 18.0, "agua_boquilla": 10.3, "agua_difusor": 11.3, "ali_corredera": 13.8, "ali_agitador": 9.3, "ali_chute": 7.8}, "limite_deg": 45.0}`
 - **Acción / nota:** reorientar la pieza en el laminador o activar soportes solo en ella
 
 ## V9 — Columnas y anillo soportan el bidón lleno
@@ -104,6 +105,13 @@ Generado: 2026-07-26T07:00:48+00:00 · capa `user` (diseño, no medición).
 - **Criterio:** factor de seguridad ≥ 3.0 en aplastamiento y pandeo
 - **Medido:** `{"carga_total_N": 205.0, "carga_por_columna_N": 68.3, "tension_MPa": 0.26, "fs_aplastamiento": 176.0, "fs_pandeo_columna_impresa": 5.0, "area_perfil_impreso_mm2": 267.3, "area_perfil_macizo_mm2": 400.0, "empuje_lateral_para_volcar_N": 72.5, "radio_base_mm": 232.2}`
 - **Acción / nota:** con 73 N de empuje lateral el conjunto vuelca: la escuadra de muro (est_escuadra_muro) es OBLIGATORIA en la unidad de alimento
+
+## V12 — El biela-manivela del agitador cierra en toda la carrera
+
+- **Resultado:** PASA
+- **Criterio:** la biela mantiene su largo (±0.05 mm) en los 21 pasos, el agitador gira ≥120° por golpe y la biela es ≥1.5× la manivela (sin punto muerto de bloqueo)
+- **Medido:** `{"manivela_radio_mm": 23.88, "biela_largo_mm": 98.81, "error_maximo_cierre_mm": 0.0042, "giro_del_agitador_por_golpe_deg": 200.8, "relacion_biela_manivela": 4.14}`
+- **Acción / nota:** recalcular manivela_radio y biela_largo desde las posiciones del pasador
 
 ## V11 — Las tres ménsulas alcanzan las orejas del canal
 

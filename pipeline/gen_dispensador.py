@@ -115,6 +115,25 @@ def calculos(P: dict) -> dict:
     C["y_cremallera_local"] = round(-C["y_desplazamiento_cajon"] - C["carrera"] / 2.0, 2)
     C["z_pinon"] = round(C["z_deslizamiento"] + C["cavidad_z"] / 2.0, 1)
 
+    # --- biela-manivela del agitador -------------------------------------
+    # El cajón hace de corredera: al recorrer su carrera arrastra la biela y
+    # ésta da una vuelta COMPLETA a la manivela del agitador. Manivela y biela
+    # no se eligen a ojo: salen de las dos posiciones extremas del pasador.
+    C["x_biela"] = round(do["cavidad_x"] / 2.0 + 58.0 / 2.0 + 9.0, 1)
+    C["z_pasador_cajon"] = round(C["z_corredera_sup"] + 6.0, 2)
+    y_or_local = -C["corredera_largo"] / 2.0 + 5.0
+    y_cerrado = y_or_local + C["y_desplazamiento_cajon"]
+    C["y_pasador_cerrado"] = round(y_cerrado, 2)
+    C["y_pasador_abierto"] = round(y_cerrado + C["carrera"], 2)
+    dz = C["z_agitador"] - C["z_pasador_cajon"]
+    d_max = abs(C["y_carga"] - C["y_pasador_cerrado"])      # cajón dentro
+    d_min = abs(C["y_carga"] - C["y_pasador_abierto"])       # cajón afuera
+    h_max, h_min = math.hypot(d_max, dz), math.hypot(d_min, dz)
+    C["biela_largo"] = round((h_max + h_min) / 2.0, 2)
+    C["manivela_radio"] = round((h_max - h_min) / 2.0, 2)
+    C["agitador_largo"] = round(do["cavidad_x"] + 58.0, 1)
+    C["biela_dz"] = round(dz, 2)
+
     # el hombro del bidón toca el anillo donde el cono alcanza dia_asiento_hombro
     C["hombro_alto"] = 150.0            # supuesto declarado (perfil del envase)
     C["subida_asiento"] = round((bi["dia_asiento_hombro"] - bi["dia_boca_ext"])
@@ -165,6 +184,21 @@ def calculos(P: dict) -> dict:
     C["carga_bidon_alimento_N"] = round((masa_alimento + bi["masa_vacio_kg"]) * 9.81, 1)
     C["autonomia_alimento_dosis"] = int(masa_alimento * 1000 / C["dosis_g"])
     return C
+
+
+def angulo_manivela(C, avance: float) -> float:
+    """Ángulo de la manivela del agitador (grados) para un avance del cajón.
+
+    Cierre del cuadrilátero: el pasador del cajón está a distancia `biela_largo`
+    del pasador de la manivela, que gira en torno al eje del agitador.
+    """
+    a = (C["y_pasador_cerrado"] + avance) - C["y_carga"]      # horizontal
+    b = C["z_pasador_cajon"] - C["z_agitador"]                # vertical
+    r, L = C["manivela_radio"], C["biela_largo"]
+    R = math.hypot(a, b)
+    k = (r * r + R * R - L * L) / (2.0 * r * R)
+    k = max(-1.0, min(1.0, k))
+    return math.degrees(math.atan2(b, a) + math.acos(k))
 
 
 # ===========================================================================
@@ -542,9 +576,9 @@ def ali_corredera(P, C):
     # oreja de la biela: viaja SIEMPRE por detrás del canal, y por fuera de los
     # carriles, así que nunca se cruza con la tapa
     y_or = y_cola + 5.0
-    c = S.union(c, S.caja((do["biela_voladizo"] + 12, 10, 22),
-                          at=(W / 2 + do["biela_voladizo"] / 2 - 6, y_or, h + 3)))
-    c = S.resta(c, S.cilindro(4.3, 40, at=(W / 2 + do["biela_voladizo"], y_or, h + 6), eje="x"))
+    voladizo = C["x_biela"] - W / 2
+    c = S.union(c, S.caja((voladizo + 12, 10, 22), at=(W / 2 + voladizo / 2 - 6, y_or, h + 3)))
+    c = S.resta(c, S.cilindro(4.3, 40, at=(C["x_biela"], y_or, h + 6), eje="x"))
     return c, "rotor", {"cantidad": 1,
                         "nota": f"Cavidad {do['cavidad_x']:.0f}x{do['cavidad_y']:.0f}x{h:.1f} mm "
                                 f"= {C['volumen_cavidad_ml']:.0f} ml -> {C['dosis_g']:.0f} g por golpe. "
@@ -706,7 +740,7 @@ def ali_adaptador_hombro(P, C):
 def ali_agitador(P, C):
     """Rompe-arcos: cuatro dedos que barren la garganta en cada golpe."""
     do = P["dosificador"]
-    largo = do["cavidad_x"] + 40.0
+    largo = C["agitador_largo"]
     eje = S.cilindro(8.0, largo, eje="x")
     r = do["agitador_dia"] / 2.0
     for k in range(do["agitador_dedos"]):
@@ -721,26 +755,29 @@ def ali_agitador(P, C):
 
 
 def ali_manivela(P, C):
-    """Manivela del agitador: convierte la carrera del cajón en balanceo."""
-    do = P["dosificador"]
-    r = do["manivela_radio"]
+    """Manivela del agitador: la carrera del cajón la hace dar una vuelta entera."""
+    r = C["manivela_radio"]
     m = S.caja((8, r + 22, 14), at=(0, r / 2, 0))
     m = S.union(m, S.cilindro(20, 8, eje="x"))
     m = S.resta(m, S.prisma(S.hexagono(8.3), 20, eje="x"))
     m = S.union(m, S.cilindro(14, 8, at=(0, r, 0), eje="x"))
     m = S.resta(m, S.cilindro(4.3, 20, at=(0, r, 0), eje="x"))
-    return m, "palanca", {"cantidad": 1, "nota": "Radio 25 mm: la carrera del cajón la hace oscilar ±65°."}
+    return m, "palanca", {"cantidad": 1,
+                          "nota": f"Radio {r:.1f} mm (calculado): con la biela de "
+                                  f"{C['biela_largo']:.0f} mm da una vuelta completa por golpe."}
 
 
 def ali_biela(P, C):
-    """Biela cajón → manivela del agitador."""
+    """Biela cajón → manivela del agitador (largo calculado, no elegido)."""
     do = P["dosificador"]
-    largo = C["z_agitador"] - C["z_corredera_sup"] - 10.0
+    largo = C["biela_largo"]
     b = S.caja((do["biela_espesor"], largo, do["biela_ancho"]), at=(0, largo / 2, 0))
     for y in (0.0, largo):
         b = S.union(b, S.cilindro(do["biela_ancho"] + 6, do["biela_espesor"], at=(0, y, 0), eje="x"))
         b = S.resta(b, S.cilindro(4.3, do["biela_espesor"] + 6, at=(0, y, 0), eje="x"))
-    return b, "palanca", {"cantidad": 1, "nota": "Unir con tornillos M4 y tuerca floja (articulación)."}
+    return b, "palanca", {"cantidad": 1,
+                          "nota": f"Entre ejes {largo:.1f} mm. Unir con M4 y tuerca FLOJA: "
+                                  "es una articulación, no un apriete."}
 
 
 def _rect(x0, x1, y0, y1):

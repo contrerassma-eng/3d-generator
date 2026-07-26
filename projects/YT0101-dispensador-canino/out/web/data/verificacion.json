@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-26T07:00:48+00:00",
+  "generado": "2026-07-26T07:07:31+00:00",
   "proyecto": "YT0101-dispensador-canino",
   "capa": "user",
   "pruebas": [
@@ -369,7 +369,7 @@
           "agua_boquilla": 10.3,
           "agua_difusor": 11.3,
           "ali_corredera": 13.8,
-          "ali_agitador": 9.8,
+          "ali_agitador": 9.3,
           "ali_chute": 7.8
         },
         "limite_deg": 45.0
@@ -394,6 +394,20 @@
       },
       "criterio": "factor de seguridad ≥ 3.0 en aplastamiento y pandeo",
       "accion": "con 73 N de empuje lateral el conjunto vuelca: la escuadra de muro (est_escuadra_muro) es OBLIGATORIA en la unidad de alimento"
+    },
+    {
+      "id": "V12",
+      "titulo": "El biela-manivela del agitador cierra en toda la carrera",
+      "veredicto": "PASA",
+      "medido": {
+        "manivela_radio_mm": 23.88,
+        "biela_largo_mm": 98.81,
+        "error_maximo_cierre_mm": 0.0042,
+        "giro_del_agitador_por_golpe_deg": 200.8,
+        "relacion_biela_manivela": 4.14
+      },
+      "criterio": "la biela mantiene su largo (±0.05 mm) en los 21 pasos, el agitador gira ≥120° por golpe y la biela es ≥1.5× la manivela (sin punto muerto de bloqueo)",
+      "accion": "recalcular manivela_radio y biela_largo desde las posiciones del pasador"
     },
     {
       "id": "V11",
@@ -427,7 +441,7 @@
     }
   ],
   "resumen": {
-    "pruebas": 14,
+    "pruebas": 15,
     "fallas": [],
     "advertencias": [
       "V7b",
@@ -482,6 +496,14 @@
     "y_desplazamiento_cajon": -57.5,
     "y_cremallera_local": 28.0,
     "z_pinon": 351.4,
+    "x_biela": 88.0,
+    "z_pasador_cajon": 372.9,
+    "y_pasador_cerrado": -139.0,
+    "y_pasador_abierto": -80.0,
+    "biela_largo": 98.81,
+    "manivela_radio": 23.88,
+    "agitador_largo": 158.0,
+    "biela_dz": 55.35,
     "hombro_alto": 150.0,
     "subida_asiento": 85.2,
     "z_anillo_alimento": 565.4,
@@ -518,5 +540,5 @@
     "carga_bidon_alimento_N": 86.5,
     "autonomia_alimento_dosis": 159
   },
-  "masa_pla_total_g": 2186.9
+  "masa_pla_total_g": 2190.7
 }

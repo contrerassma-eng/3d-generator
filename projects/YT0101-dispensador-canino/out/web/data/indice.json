@@ -1,6 +1,6 @@
 {
   "proyecto": "YT0101-dispensador-canino",
-  "generado": "2026-07-26T07:00:33+00:00",
+  "generado": "2026-07-26T07:07:31+00:00",
   "capa": "user",
   "piezas": {
     "est_anillo_segmento": {
@@ -292,16 +292,16 @@
     "ali_corredera": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 247.72,
-        "area_cm2": 984.5,
+        "volumen_cm3": 248.38,
+        "area_cm2": 986.42,
         "bbox_mm": [
-          157.0,
+          160.0,
           173.0,
           44.9
         ],
         "triangulos": 816,
         "cabe_en_cama": true,
-        "masa_pla_g": 197.4
+        "masa_pla_g": 197.9
       },
       "cantidad": 1,
       "nota": "Cavidad 100x45x30.9 mm = 139 ml -> 50 g por golpe. Imprimir boca abajo (piel contra la cama).",
@@ -446,16 +446,16 @@
     "ali_agitador": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 13.43,
-        "area_cm2": 78.74,
+        "volumen_cm3": 14.33,
+        "area_cm2": 83.26,
         "bbox_mm": [
           46.0,
           46.0,
-          158.0
+          176.0
         ],
         "triangulos": 1206,
         "cabe_en_cama": true,
-        "masa_pla_g": 10.7
+        "masa_pla_g": 11.4
       },
       "cantidad": 1,
       "nota": "Gira ~130° por golpe: rompe el puente de croquetas en el cuello.",
@@ -468,19 +468,19 @@
     "ali_manivela": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 5.14,
-        "area_cm2": 26.26,
+        "volumen_cm3": 5.02,
+        "area_cm2": 25.76,
         "bbox_mm": [
           20.0,
-          47.0,
+          45.88,
           8.0
         ],
         "triangulos": 1212,
         "cabe_en_cama": true,
-        "masa_pla_g": 4.1
+        "masa_pla_g": 4.0
       },
       "cantidad": 1,
-      "nota": "Radio 25 mm: la carrera del cajón la hace oscilar ±65°.",
+      "nota": "Radio 23.9 mm (calculado): con la biela de 99 mm da una vuelta completa por golpe.",
       "_id": "ali_manivela",
       "archivos": {
         "glb": "out/piezas/ali_manivela.glb",
@@ -490,19 +490,19 @@
     "ali_biela": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 5.38,
-        "area_cm2": 29.32,
+        "volumen_cm3": 8.8,
+        "area_cm2": 46.41,
         "bbox_mm": [
           18.0,
-          69.35,
+          116.81,
           6.0
         ],
         "triangulos": 1556,
         "cabe_en_cama": true,
-        "masa_pla_g": 4.3
+        "masa_pla_g": 7.0
       },
       "cantidad": 1,
-      "nota": "Unir con tornillos M4 y tuerca floja (articulación).",
+      "nota": "Entre ejes 98.8 mm. Unir con M4 y tuerca FLOJA: es una articulación, no un apriete.",
       "_id": "ali_biela",
       "archivos": {
         "glb": "out/piezas/ali_biela.glb",
@@ -532,5 +532,5 @@
       }
     }
   },
-  "masa_pla_total_g": 2186.9
+  "masa_pla_total_g": 2190.7
 }

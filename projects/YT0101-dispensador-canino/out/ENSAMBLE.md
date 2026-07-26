@@ -1,6 +1,6 @@
 # ARMADO, CALIBRACIÓN Y USO — Dispensador canino YT0101
 
-Generado: 2026-07-26T07:00:53+00:00
+Generado: 2026-07-26T07:07:37+00:00
 
 ## 1. Antes de imprimir: medir el bidón
 

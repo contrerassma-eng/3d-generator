@@ -5,17 +5,17 @@
     "G_DIS": {
       "verdict": "SIN_CONTRASTE",
       "metrics": {
-        "pruebas": 14,
+        "pruebas": 15,
         "fallas": [],
         "advertencias": [
           "V7b",
           "V8"
         ],
         "dosis_g": 50.1,
-        "masa_pla_total_g": 2186.9
+        "masa_pla_total_g": 2190.7
       },
       "reasons": [],
-      "ts": "2026-07-26T07:00:53+00:00"
+      "ts": "2026-07-26T07:07:36+00:00"
     },
     "G6": {
       "verdict": "PASA",
@@ -29,14 +29,14 @@
         ],
         "escala_certificada": true,
         "factor_escala": 1.0,
-        "dxf": "out/drawings/agua_difusor.dxf",
-        "pdf": "out/drawings/agua_difusor.pdf",
-        "hash_dxf": "sha256:b75c4fe8d4f82aa825d4abb1ec02059b63c08729815b90e6ebb4a14d4c1b3e0b",
-        "hash_pdf": "sha256:04d30addd830489d69bf1a5bf23c0cff4832cd67a7039ab943ec12824e16d24e"
+        "dxf": "out/drawings/ali_manivela.dxf",
+        "pdf": "out/drawings/ali_manivela.pdf",
+        "hash_dxf": "sha256:dd0658a4f7966ff2e6f4be871a28c6cf2e5fd86ede6053bdd11b46eaebd5d88f",
+        "hash_pdf": "sha256:21c85b325b4229411656de2939639be352ad0ddd162dbb1371a0e13796ddcd74"
       },
       "reasons": [],
-      "ts": "2026-07-26T07:03:12+00:00"
+      "ts": "2026-07-26T07:08:18+00:00"
     }
   },
-  "updated": "2026-07-26T07:03:12+00:00"
+  "updated": "2026-07-26T07:08:18+00:00"
 }
