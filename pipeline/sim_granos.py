@@ -502,6 +502,11 @@ def escenario_dosificar(P, C, piezas, cache, golpes=3, con_agitador=True,
         v_solido = float((4.0 / 3.0 * math.pi * sim.r[m] ** 3).sum())
         return float(sim.m[m].sum()), int(m.sum()), v_solido
 
+    mc0, nc0, vc0 = masa_en_cavidad(0.0)
+    print(f"   [{'con' if con_agitador else 'sin'} agitador] {len(sim.x)} granos; "
+          f"tras asentar la cavidad lleva {nc0} granos "
+          f"({vc0 / v_cavidad_m3 * 100:.1f}% de su hueco)", flush=True)
+
     t0 = time.time()
     for g in range(golpes):
         masa_g = 0.0
@@ -758,12 +763,25 @@ def evaluar(P: dict, C: dict, cal: dict, casos: dict) -> list[dict]:
     fmax = base.get("fuerza_contacto_max_N")
     rot = dem.get("carga_rotura_croqueta_N")
     if fmax is not None and rot and por_golpe:
+        # Si el solape se fue del rango de validez, el contacto blando ya no
+        # representa el pellizco: un grano de verdad no se aplasta 2 mm, aguanta
+        # y devuelve MUCHA más fuerza. El modelo subestima, así que un «no la
+        # rompe» aquí no demostraría nada y la prueba sale sin veredicto.
+        creible = (base.get("solape_max_pct_radio") or 0.0) < 10.0
         prueba("S8", "La fuerza de contacto no llega a romper la croqueta",
-               "PASA" if fmax < rot[0] else "ADVERTENCIA",
-               {"fuerza_max_N": fmax, "carga_rotura_N": rot},
+               ("PASA" if fmax < rot[0] else "ADVERTENCIA") if creible else "ADVERTENCIA",
+               {"fuerza_max_N": fmax, "carga_rotura_N": rot,
+                "solape_max_pct_radio": base.get("solape_max_pct_radio"),
+                "concluyente": creible},
                f"fuerza máxima de contacto por debajo de {rot[0]} N (rotura mínima "
-               "publicada de croqueta de perro)",
-               "aumentar el bisel de corte o bajar la velocidad del golpe")
+               "publicada de croqueta de perro), Y con el solape dentro del rango "
+               "de validez del contacto blando (<10% del radio)",
+               "aumentar el bisel de corte o bajar la velocidad del golpe"
+               if creible else
+               "NO CONCLUYENTE: el solape máximo se salió del rango de validez, así "
+               "que la fuerza medida es una COTA INFERIOR de la real. Para zanjarlo "
+               "hay que subir rigidez_normal_N_m y bajar dt_s, que multiplica el "
+               "tiempo de cálculo.")
     return pruebas
 
 

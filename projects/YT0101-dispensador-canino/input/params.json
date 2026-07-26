@@ -201,7 +201,7 @@
     "cv_diametro_nota": "Dispersion de tamano. Bahnasawy publica CV 2-3% del diametro medio dentro de un calibre y 12-33% del largo; se toma 12% para no simular un lecho monodisperso, que traba distinto al real.",
     "dt_s": 3e-05,
     "dt_s_capa": "user",
-    "t_asentado_s": 1.6,
+    "t_asentado_s": 2.5,
     "carga_rotura_croqueta_N": [
       64.0,
       135.0
@@ -219,6 +219,7 @@
       1.2,
       1.8
     ],
-    "barrido_rodadura_nota": "Rango del barrido de calibracion. Con esferas hace falta rodadura alta para llegar al angulo de reposo de un material no esferico: es exactamente lo que la rodadura esta sustituyendo. A 0.30 el talud se queda en 23 grados, por debajo del rango publicado."
+    "barrido_rodadura_nota": "Rango del barrido de calibracion. Con esferas hace falta rodadura alta para llegar al angulo de reposo de un material no esferico: es exactamente lo que la rodadura esta sustituyendo. A 0.30 el talud se queda en 23 grados, por debajo del rango publicado.",
+    "t_asentado_nota": "Tiempo que se deja caer el lecho antes de contar golpes. La cavidad tiene que llenarse por gravedad ANTES del primer golpe; con poco asentado se mediria el llenado a medias y la dosis saldria corta por un artefacto del montaje, no por el diseno."
   }
 }
