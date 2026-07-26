@@ -39,6 +39,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import lib_solidos as S
 import gen_dispensador as G
 import ens_dispensador as E
+import ens_dispensador as EN
 from lib_audit import audit, load_state, now_iso, project_dir, save_state, set_gate
 
 E_PLA_MPA = 3500.0        # módulo elástico típico del PLA impreso (orden de magnitud)
@@ -263,6 +264,28 @@ def verificar(proj: Path) -> dict:
            f"con {round(vuelco_N)} N de empuje lateral el conjunto vuelca: la escuadra de muro "
            "(est_escuadra_muro) es OBLIGATORIA en la unidad de alimento")
 
+    # ---------------- V13 la palanca barre sin golpear la estructura --------
+    columnas = [m for _, m in EN.estructura(P, C, piezas, C["z_anillo_alimento"],
+                                            mensulas_z=C["z_canal_base"] + 18.0)[1]]
+    otras = [m for n, m in EN.estructura(P, C, piezas, C["z_anillo_alimento"],
+                                         mensulas_z=C["z_canal_base"] + 18.0)[0]]
+    peor_p, donde = 0.0, None
+    for k in range(13):
+        ang = C["palanca_ang_cerrado"] - 90.0 + C["palanca_barrido_deg"] * k / 12.0
+        pal = EN._t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_pinon"] + 48), rz=ang)
+        for j, obst in enumerate(columnas + otras):
+            v = _vol_interseccion(pal, obst)
+            if v > peor_p:
+                peor_p, donde = v, {"paso": k, "angulo_deg": round(ang + 90, 1), "obstaculo": j}
+    prueba("V13", "La palanca barre sin golpear columnas ni anillos",
+           "PASA" if peor_p <= tol else "FALLA",
+           {"solape_maximo_mm3": round(peor_p, 1), "primer_choque": donde,
+            "barrido_deg": [C["palanca_ang_cerrado"], C["palanca_ang_abierto"]],
+            "columnas_a_deg": [90, 210, 330]},
+           f"solape ≤ {tol} mm³ en los 13 pasos del barrido",
+           "recolocar palanca_ang_cerrado para que el barrido caiga en el hueco entre columnas, "
+           "o acortar palanca_largo")
+
     # ---------------- V12 el biela-manivela del agitador cierra --------------
     r, Lb = C["manivela_radio"], C["biela_largo"]
     angs, errores = [], []
@@ -287,7 +310,6 @@ def verificar(proj: Path) -> dict:
            "recalcular manivela_radio y biela_largo desde las posiciones del pasador")
 
     # ---------------- V11 el cabezal cuelga de verdad de las columnas --------
-    import ens_dispensador as EN
     partes = dict(EN.conjunto_alimento(P, C, piezas))
     canal = partes["ali_canal_base"]
     pq = trimesh.proximity.ProximityQuery(canal)

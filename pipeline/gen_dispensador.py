@@ -108,6 +108,12 @@ def calculos(P: dict) -> dict:
     C["x_linea_primitiva"] = round(C["corredera_ancho"] / 2.0
                                    - do["cremallera_empotre"] - do["modulo"], 2)
     C["x_pinon"] = round(C["x_linea_primitiva"] + C["pinon"]["dia_primitivo"] / 2.0, 2)
+    # Barrido de la palanca: tiene que caber en el hueco ENTRE columnas. Las
+    # tres columnas están a 90°, 210° y 330° vistas desde el eje del aparato;
+    # desde el eje del piñón (a −X) dos de ellas quedan al alcance del brazo,
+    # así que el barrido se centra en el sector libre que dejan.
+    C["palanca_ang_cerrado"] = 70.0
+    C["palanca_ang_abierto"] = round(70.0 + C["palanca_barrido_deg"], 1)
     C["y_cavidad_local"] = round(C["corredera_largo"] / 2.0 - do["frente"] - do["cavidad_y"] / 2.0, 2)
     # el piñón está fijo en y=0; la cremallera debe quedar bajo él durante TODA
     # la carrera, así que se centra en el punto medio de su recorrido

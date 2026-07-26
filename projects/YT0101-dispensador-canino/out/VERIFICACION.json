@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-26T07:07:31+00:00",
+  "generado": "2026-07-26T07:11:01+00:00",
   "proyecto": "YT0101-dispensador-canino",
   "capa": "user",
   "pruebas": [
@@ -396,6 +396,26 @@
       "accion": "con 73 N de empuje lateral el conjunto vuelca: la escuadra de muro (est_escuadra_muro) es OBLIGATORIA en la unidad de alimento"
     },
     {
+      "id": "V13",
+      "titulo": "La palanca barre sin golpear columnas ni anillos",
+      "veredicto": "PASA",
+      "medido": {
+        "solape_maximo_mm3": 0.0,
+        "primer_choque": null,
+        "barrido_deg": [
+          70.0,
+          192.9
+        ],
+        "columnas_a_deg": [
+          90,
+          210,
+          330
+        ]
+      },
+      "criterio": "solape ≤ 25.0 mm³ en los 13 pasos del barrido",
+      "accion": "recolocar palanca_ang_cerrado para que el barrido caiga en el hueco entre columnas, o acortar palanca_largo"
+    },
+    {
       "id": "V12",
       "titulo": "El biela-manivela del agitador cierra en toda la carrera",
       "veredicto": "PASA",
@@ -441,7 +461,7 @@
     }
   ],
   "resumen": {
-    "pruebas": 15,
+    "pruebas": 16,
     "fallas": [],
     "advertencias": [
       "V7b",
@@ -492,6 +512,8 @@
     "z_labio_alimento": 448.2,
     "x_linea_primitiva": 67.5,
     "x_pinon": 95.0,
+    "palanca_ang_cerrado": 70.0,
+    "palanca_ang_abierto": 192.9,
     "y_cavidad_local": 28.0,
     "y_desplazamiento_cajon": -57.5,
     "y_cremallera_local": 28.0,

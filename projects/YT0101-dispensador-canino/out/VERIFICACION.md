@@ -1,8 +1,8 @@
 # Verificación funcional — YT0101-dispensador-canino
 
-Generado: 2026-07-26T07:07:31+00:00 · capa `user` (diseño, no medición).
+Generado: 2026-07-26T07:11:01+00:00 · capa `user` (diseño, no medición).
 
-**Veredicto: PASA_CON_ADVERTENCIAS** (15 pruebas, 0 fallas, 2 advertencias)
+**Veredicto: PASA_CON_ADVERTENCIAS** (16 pruebas, 0 fallas, 2 advertencias)
 
 | Prueba | Qué comprueba | Resultado |
 |---|---|---|
@@ -18,6 +18,7 @@ Generado: 2026-07-26T07:07:31+00:00 · capa `user` (diseño, no medición).
 | V7b | Cuello del bidón (abertura circular) sobre el criterio anti-arco | **ADVERTENCIA** |
 | V8 | Voladizos dentro de lo imprimible sin soportes | **ADVERTENCIA** |
 | V9 | Columnas y anillo soportan el bidón lleno | **PASA** |
+| V13 | La palanca barre sin golpear columnas ni anillos | **PASA** |
 | V12 | El biela-manivela del agitador cierra en toda la carrera | **PASA** |
 | V11 | Las tres ménsulas alcanzan las orejas del canal | **PASA** |
 | V10 | Bebedero de nivel constante coherente (principio de Mariotte) | **PASA** |
@@ -105,6 +106,13 @@ Generado: 2026-07-26T07:07:31+00:00 · capa `user` (diseño, no medición).
 - **Criterio:** factor de seguridad ≥ 3.0 en aplastamiento y pandeo
 - **Medido:** `{"carga_total_N": 205.0, "carga_por_columna_N": 68.3, "tension_MPa": 0.26, "fs_aplastamiento": 176.0, "fs_pandeo_columna_impresa": 5.0, "area_perfil_impreso_mm2": 267.3, "area_perfil_macizo_mm2": 400.0, "empuje_lateral_para_volcar_N": 72.5, "radio_base_mm": 232.2}`
 - **Acción / nota:** con 73 N de empuje lateral el conjunto vuelca: la escuadra de muro (est_escuadra_muro) es OBLIGATORIA en la unidad de alimento
+
+## V13 — La palanca barre sin golpear columnas ni anillos
+
+- **Resultado:** PASA
+- **Criterio:** solape ≤ 25.0 mm³ en los 13 pasos del barrido
+- **Medido:** `{"solape_maximo_mm3": 0.0, "primer_choque": null, "barrido_deg": [70.0, 192.9], "columnas_a_deg": [90, 210, 330]}`
+- **Acción / nota:** recolocar palanca_ang_cerrado para que el barrido caiga en el hueco entre columnas, o acortar palanca_largo
 
 ## V12 — El biela-manivela del agitador cierra en toda la carrera
 

@@ -155,8 +155,8 @@ def conjunto_alimento(P, C, piezas):
         ("ali_pinon", _color(_t(piezas["ali_pinon"], at=(-C["x_pinon"], 0, C["z_pinon"])), S.COLORES["engranaje"])),
         ("ali_eje_pinon", _color(_t(piezas["ali_eje_pinon"], at=(-C["x_pinon"], 0, C["z_pinon"] + 10)),
                                  S.COLORES["engranaje"])),
-        ("ali_palanca", _color(_t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_pinon"] + 48), rz=-30),
-                               S.COLORES["palanca"])),
+        ("ali_palanca", _color(_t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_pinon"] + 48),
+                                  rz=C["palanca_ang_cerrado"] - 90.0), S.COLORES["palanca"])),
         ("ali_chute", _color(_t(piezas["ali_chute"], at=(0, C["y_descarga"], z0)), S.COLORES["bandeja"])),
         ("est_collar_cuello_a", _color(_t(piezas["est_collar_cuello"], at=(0, 0, C["z_labio_alimento"] + 14)),
                                        S.COLORES["estructura"])),
@@ -258,7 +258,7 @@ def animacion(P, C, piezas, destino: Path, cuadros: int = 16) -> Path:
         cajon = _color(_t(piezas["ali_corredera"],
                           at=(0, C["y_carga"] + avance - y_cav, C["z_deslizamiento"])),
                        S.COLORES["rotor"])
-        ang = -C["palanca_barrido_deg"] / 2 + f * C["palanca_barrido_deg"]
+        ang = C["palanca_ang_cerrado"] - 90.0 + f * C["palanca_barrido_deg"]
         palanca = _color(_t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_pinon"] + 48),
                             rz=ang), S.COLORES["palanca"])
         # la croqueta que va en la cavidad, dibujada como bloque testigo

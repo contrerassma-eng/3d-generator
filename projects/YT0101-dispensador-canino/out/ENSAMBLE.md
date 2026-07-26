@@ -1,6 +1,6 @@
 # ARMADO, CALIBRACIÓN Y USO — Dispensador canino YT0101
 
-Generado: 2026-07-26T07:07:37+00:00
+Generado: 2026-07-26T07:11:06+00:00
 
 ## 1. Antes de imprimir: medir el bidón
 
@@ -47,7 +47,10 @@ La lista completa con cantidades y gramos está en `LISTA_IMPRESION.csv`.
 3. Tapa con `ali_canal_tapa` y aprieta los cuatro M4×30.
 4. Enfila `ali_eje_pinon` por la torre, monta `ali_pinon` a media altura
    (tiene que engranar con la cremallera del cajón) y fija con el pasador Ø3.
-5. Encaja `ali_palanca` en el hexágono superior del eje.
+5. Encaja `ali_palanca` en el hexágono superior del eje **apuntando al sector
+   libre entre columnas** (con el cajón dentro debe quedar a unos 70° del
+   frente, girando hacia la izquierda al tirar). Si la montas en otra posición
+   del hexágono, el brazo golpea una columna a mitad de barrido.
 6. Mueve la palanca de tope a tope: el cajón debe recorrer 59 mm y la
    cavidad quedar exactamente bajo la boca de carga en un extremo y sobre la
    de descarga en el otro.

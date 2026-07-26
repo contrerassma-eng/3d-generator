@@ -1,6 +1,6 @@
 # MEMORIA DE DISEÑO — Dispensador canino YT0101
 
-Generado: 2026-07-26T07:07:37+00:00 · Capa `user` (diseño paramétrico, no medición).
+Generado: 2026-07-26T07:11:06+00:00 · Capa `user` (diseño paramétrico, no medición).
 Cada cota nace de `input/params.json`; cada dato externo está citado en
 `input/web_facts.json` con URL, fecha de acceso y cita textual.
 
@@ -114,6 +114,10 @@ rango de flujo másico: [angulo-pared-tolva-DEM-pellets](https://www.mdpi.com/20
   es manual y va a entrar polvo de croqueta: [gear_backlash_flanco](https://kingroon.com/blogs/3d-printing-guides/how-to-get-perfect-3d-printed-gears) — «a suitable backlash value could be anywhere between 0.18–0.3mm... a clearance of around 0.1–0.2 mm is a good starting point between mating gear teeth».
 - Un barrido de palanca de **123°** desplaza el cajón 59 mm — exactamente la carrera necesaria (cavidad 45 + tabique 14).
 - Ventaja mecánica de la palanca: **6.5:1**.
+- La palanca barre entre 70° y 193°, dentro del
+  sector libre que dejan las tres columnas (que están a 90°, 210° y 330°).
+  No es una elección estética: con el brazo montado 130° más allá, el barrido
+  golpea la columna trasera. La prueba V13 lo comprueba en 13 posiciones.
 
 La cremallera va embutida en el flanco del cajón: las puntas de los dientes
 quedan 2 mm por dentro del plano de deslizamiento, así el
@@ -185,7 +189,7 @@ vez de esconderse.
 
 ## 10. Resultado de la verificación
 
-**PASA_CON_ADVERTENCIAS** — 15 pruebas, 0 fallas, 2 advertencias (detalle completo en `VERIFICACION.md`).
+**PASA_CON_ADVERTENCIAS** — 16 pruebas, 0 fallas, 2 advertencias (detalle completo en `VERIFICACION.md`).
 
 | | Prueba | Resultado |
 |---|---|---|
@@ -201,6 +205,7 @@ vez de esconderse.
 | V7b | Cuello del bidón (abertura circular) sobre el criterio anti-arco | **ADVERTENCIA** |
 | V8 | Voladizos dentro de lo imprimible sin soportes | **ADVERTENCIA** |
 | V9 | Columnas y anillo soportan el bidón lleno | **PASA** |
+| V13 | La palanca barre sin golpear columnas ni anillos | **PASA** |
 | V12 | El biela-manivela del agitador cierra en toda la carrera | **PASA** |
 | V11 | Las tres ménsulas alcanzan las orejas del canal | **PASA** |
 | V10 | Bebedero de nivel constante coherente (principio de Mariotte) | **PASA** |

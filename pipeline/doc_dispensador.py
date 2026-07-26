@@ -184,6 +184,10 @@ def memoria(P, C, hechos, ver) -> str:
       f"{C['carrera']:.0f} mm — exactamente la carrera necesaria (cavidad {do['cavidad_y']:.0f} + "
       f"tabique {do['sello_tabique']:.0f}).")
     A(f"- Ventaja mecánica de la palanca: **{C['ventaja_palanca']:.1f}:1**.")
+    A(f"- La palanca barre entre {C['palanca_ang_cerrado']:.0f}° y {C['palanca_ang_abierto']:.0f}°, dentro del")
+    A("  sector libre que dejan las tres columnas (que están a 90°, 210° y 330°).")
+    A("  No es una elección estética: con el brazo montado 130° más allá, el barrido")
+    A("  golpea la columna trasera. La prueba V13 lo comprueba en 13 posiciones.")
     A("")
     A("La cremallera va embutida en el flanco del cajón: las puntas de los dientes")
     A(f"quedan {do['cremallera_empotre']:.0f} mm por dentro del plano de deslizamiento, así el")
@@ -344,7 +348,11 @@ def ensamble(P, C, hechos, idx) -> str:
     A("3. Tapa con `ali_canal_tapa` y aprieta los cuatro M4×30.")
     A("4. Enfila `ali_eje_pinon` por la torre, monta `ali_pinon` a media altura")
     A("   (tiene que engranar con la cremallera del cajón) y fija con el pasador Ø3.")
-    A("5. Encaja `ali_palanca` en el hexágono superior del eje.")
+    A(f"5. Encaja `ali_palanca` en el hexágono superior del eje **apuntando al sector")
+    A(f"   libre entre columnas** (con el cajón dentro debe quedar a unos "
+      f"{C['palanca_ang_cerrado']:.0f}° del")
+    A("   frente, girando hacia la izquierda al tirar). Si la montas en otra posición")
+    A("   del hexágono, el brazo golpea una columna a mitad de barrido.")
     A(f"6. Mueve la palanca de tope a tope: el cajón debe recorrer {C['carrera']:.0f} mm y la")
     A("   cavidad quedar exactamente bajo la boca de carga en un extremo y sobre la")
     A("   de descarga en el otro.")

@@ -5,7 +5,7 @@
     "G_DIS": {
       "verdict": "SIN_CONTRASTE",
       "metrics": {
-        "pruebas": 15,
+        "pruebas": 16,
         "fallas": [],
         "advertencias": [
           "V7b",
@@ -15,7 +15,7 @@
         "masa_pla_total_g": 2190.7
       },
       "reasons": [],
-      "ts": "2026-07-26T07:07:36+00:00"
+      "ts": "2026-07-26T07:11:06+00:00"
     },
     "G6": {
       "verdict": "PASA",
@@ -38,5 +38,5 @@
       "ts": "2026-07-26T07:08:18+00:00"
     }
   },
-  "updated": "2026-07-26T07:08:18+00:00"
+  "updated": "2026-07-26T07:11:06+00:00"
 }

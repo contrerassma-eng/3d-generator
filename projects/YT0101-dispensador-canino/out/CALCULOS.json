@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-26T07:07:29+00:00",
+  "generado": "2026-07-26T07:10:44+00:00",
   "calculos": {
     "cavidad_z_calculada": 30.86,
     "cavidad_z": 30.9,
@@ -43,6 +43,8 @@
     "z_labio_alimento": 448.2,
     "x_linea_primitiva": 67.5,
     "x_pinon": 95.0,
+    "palanca_ang_cerrado": 70.0,
+    "palanca_ang_abierto": 192.9,
     "y_cavidad_local": 28.0,
     "y_desplazamiento_cajon": -57.5,
     "y_cremallera_local": 28.0,
