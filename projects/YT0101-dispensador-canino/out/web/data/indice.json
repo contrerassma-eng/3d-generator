@@ -1,21 +1,21 @@
 {
   "proyecto": "YT0101-dispensador-canino",
-  "generado": "2026-07-26T07:10:46+00:00",
+  "generado": "2026-07-26T07:17:28+00:00",
   "capa": "user",
   "piezas": {
     "est_anillo_segmento": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 80.02,
-        "area_cm2": 308.72,
+        "volumen_cm3": 62.75,
+        "area_cm2": 232.85,
         "bbox_mm": [
-          132.28,
-          230.87,
+          200.92,
+          82.49,
           46.0
         ],
-        "triangulos": 3642,
+        "triangulos": 2772,
         "cabe_en_cama": true,
-        "masa_pla_g": 63.7
+        "masa_pla_g": 50.0
       },
       "cantidad": 6,
       "nota": "3 arriba (asiento del bidón) + 3 abajo (arriostre). Verificar el asiento con el envase real: el cono admite Ø160-200.",
@@ -72,16 +72,16 @@
     "est_collar_cuello": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 34.7,
-        "area_cm2": 122.85,
+        "volumen_cm3": 28.28,
+        "area_cm2": 100.99,
         "bbox_mm": [
           95.0,
-          53.25,
+          39.5,
           22.0
         ],
-        "triangulos": 1762,
+        "triangulos": 1464,
         "cabe_en_cama": true,
-        "masa_pla_g": 27.6
+        "masa_pla_g": 22.5
       },
       "cantidad": 2,
       "nota": "Dos mitades iguales + 2 tornillos M4x30. Apretar sobre el cuello; el peso NO cuelga de aquí.",
@@ -94,16 +94,16 @@
     "est_soporte_cabezal": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 49.68,
-        "area_cm2": 189.23,
+        "volumen_cm3": 50.78,
+        "area_cm2": 191.64,
         "bbox_mm": [
           50.3,
           104.6,
-          94.0
+          99.0
         ],
-        "triangulos": 2158,
+        "triangulos": 2020,
         "cabe_en_cama": true,
-        "masa_pla_g": 39.6
+        "masa_pla_g": 40.5
       },
       "cantidad": 3,
       "nota": "Sujeta el canal a las columnas. Montar con nivel: el canal debe quedar horizontal o la dosis varía.",
@@ -111,6 +111,28 @@
       "archivos": {
         "glb": "out/piezas/est_soporte_cabezal.glb",
         "stl": "out/piezas/est_soporte_cabezal.stl"
+      }
+    },
+    "est_eclisa": {
+      "metricas": {
+        "estanca": true,
+        "volumen_cm3": 4.95,
+        "area_cm2": 29.03,
+        "bbox_mm": [
+          33.18,
+          38.2,
+          5.0
+        ],
+        "triangulos": 1740,
+        "cabe_en_cama": true,
+        "masa_pla_g": 3.9
+      },
+      "cantidad": 6,
+      "nota": "Va por DEBAJO del anillo, a caballo de la junta. 3 por aparato (6 si se monta el anillo de arriostre).",
+      "_id": "est_eclisa",
+      "archivos": {
+        "glb": "out/piezas/est_eclisa.glb",
+        "stl": "out/piezas/est_eclisa.stl"
       }
     },
     "est_escuadra_muro": {
@@ -248,16 +270,16 @@
     "ali_canal_base": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 218.78,
-        "area_cm2": 853.33,
+        "volumen_cm3": 440.4,
+        "area_cm2": 1059.2,
         "bbox_mm": [
-          207.27,
+          236.27,
           203.0,
-          63.25
+          91.25
         ],
-        "triangulos": 4006,
+        "triangulos": 5058,
         "cabe_en_cama": true,
-        "masa_pla_g": 174.3
+        "masa_pla_g": 350.9
       },
       "cantidad": 1,
       "nota": "Imprimir apoyada en el piso: carriles y torre salen sin soportes.",
@@ -270,16 +292,16 @@
     "ali_canal_tapa": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 122.56,
-        "area_cm2": 438.07,
+        "volumen_cm3": 96.65,
+        "area_cm2": 380.84,
         "bbox_mm": [
           154.7,
           134.0,
-          14.0
+          6.0
         ],
-        "triangulos": 3152,
+        "triangulos": 3136,
         "cabe_en_cama": true,
-        "masa_pla_g": 97.6
+        "masa_pla_g": 77.0
       },
       "cantidad": 1,
       "nota": "Imprimir con la brida hacia arriba; sin soportes.",
@@ -532,5 +554,5 @@
       }
     }
   },
-  "masa_pla_total_g": 2190.7
+  "masa_pla_total_g": 2280.4
 }

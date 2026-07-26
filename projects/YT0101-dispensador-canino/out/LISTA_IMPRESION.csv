@@ -1,17 +1,18 @@
 pieza,cantidad,archivo_stl,bbox_mm,masa_pla_g,soportes,notas
-est_anillo_segmento,6,piezas/est_anillo_segmento.stl,132×231×46,64,no,3 arriba (asiento del bidón) + 3 abajo (arriostre). Verificar el asiento con el envase real: el cono admite Ø160-200.
+est_anillo_segmento,6,piezas/est_anillo_segmento.stl,201×82×46,50,no,3 arriba (asiento del bidón) + 3 abajo (arriostre). Verificar el asiento con el envase real: el cono admite Ø160-200.
 est_barra,0,piezas/est_barra.stl,20×20×200,41,no,OPCIONAL. Solo si no se consigue perfil 20x20: 2 barras solapadas por columna en la unidad de agua. Para la unidad de alimento usar perfil comercial.
 est_pie,3,piezas/est_pie.stl,78×77×101,64,sí (parcial),Pegar fieltro o goma EVA de 2 mm en el rebaje inferior.
-est_collar_cuello,2,piezas/est_collar_cuello.stl,95×53×22,28,no,Dos mitades iguales + 2 tornillos M4x30. Apretar sobre el cuello; el peso NO cuelga de aquí.
-est_soporte_cabezal,3,piezas/est_soporte_cabezal.stl,50×105×94,40,no,Sujeta el canal a las columnas. Montar con nivel: el canal debe quedar horizontal o la dosis varía.
+est_collar_cuello,2,piezas/est_collar_cuello.stl,95×40×22,22,no,Dos mitades iguales + 2 tornillos M4x30. Apretar sobre el cuello; el peso NO cuelga de aquí.
+est_soporte_cabezal,3,piezas/est_soporte_cabezal.stl,50×105×99,40,no,Sujeta el canal a las columnas. Montar con nivel: el canal debe quedar horizontal o la dosis varía.
+est_eclisa,6,piezas/est_eclisa.stl,33×38×5,4,no,"Va por DEBAJO del anillo, a caballo de la junta. 3 por aparato (6 si se monta el anillo de arriostre)."
 est_escuadra_muro,2,piezas/est_escuadra_muro.stl,60×145×74,70,sí (parcial),Tarugo Ø6 + tornillo Ø5 al muro. Obligatoria en la unidad de alimento.
 agua_bebedero,1,piezas/agua_bebedero.stl,190×190×72,205,no,Nivel de equilibrio 38.0 mm ≈ 969 ml en el plato.
 agua_boquilla,1,piezas/agua_boquilla.stl,62×62×50,43,sí (parcial),Sellar con 2-3 vueltas de cinta de teflón en las acanaladuras antes de invertir el bidón.
 agua_bajante,1,piezas/agua_bajante.stl,33×33×86,19,no,Tramo fijo de 86 mm; el nivel fino se ajusta con el tramo deslizante.
 agua_tubo_nivel,1,piezas/agua_tubo_nivel.stl,49×31×120,31,no,Marcas cada 10 mm: cada marca = 10 mm de nivel de agua.
 agua_difusor,1,piezas/agua_difusor.stl,39×39×40,10,sí (parcial),El borde INFERIOR de las ventanas (z=+5 mm de la pieza) fija el nivel del agua.
-ali_canal_base,1,piezas/ali_canal_base.stl,207×203×63,174,no,Imprimir apoyada en el piso: carriles y torre salen sin soportes.
-ali_canal_tapa,1,piezas/ali_canal_tapa.stl,155×134×14,98,no,Imprimir con la brida hacia arriba; sin soportes.
+ali_canal_base,1,piezas/ali_canal_base.stl,236×203×91,351,no,Imprimir apoyada en el piso: carriles y torre salen sin soportes.
+ali_canal_tapa,1,piezas/ali_canal_tapa.stl,155×134×6,77,no,Imprimir con la brida hacia arriba; sin soportes.
 ali_corredera,1,piezas/ali_corredera.stl,160×173×45,198,sí (parcial),Cavidad 100x45x30.9 mm = 139 ml -> 50 g por golpe. Imprimir boca abajo (piel contra la cama).
 ali_inserto_dosis,1,piezas/ali_inserto_dosis.stl,100×22×31,17,no,Media dosis: 25 g por golpe.
 ali_pinon,1,piezas/ali_pinon.stl,60×60×23,28,no,"O primitivo 55.0 mm, 20 grados, backlash 0.3 mm. Imprimir plano: 5 perimetros, 40% relleno."

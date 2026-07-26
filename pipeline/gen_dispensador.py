@@ -120,6 +120,9 @@ def calculos(P: dict) -> dict:
     C["y_desplazamiento_cajon"] = round(C["y_carga"] - C["y_cavidad_local"], 2)
     C["y_cremallera_local"] = round(-C["y_desplazamiento_cajon"] - C["carrera"] / 2.0, 2)
     C["z_pinon"] = round(C["z_deslizamiento"] + C["cavidad_z"] / 2.0, 1)
+    C["z_torre_sup"] = round(C["z_canal_base"] + 6.0 + C["cavidad_z"]
+                             + do["corredera_holgura"] + 30.0, 1)
+    C["z_palanca"] = round(C["z_torre_sup"] + 10.0, 1)
 
     # --- biela-manivela del agitador -------------------------------------
     # El cajón hace de corredera: al recorrer su carrera arrastra la biela y
@@ -222,20 +225,21 @@ def est_anillo_segmento(P, C):
     ri = bi["dia_asiento_hombro"] / 2.0 - es["anillo_ancho"] + 6.0
     h = es["anillo_espesor"]
     ang = 360.0 / es["anillo_segmentos"]
-    seg = S.sector_anular(ri, re, -ang / 2, ang / 2, h, pasos=64)
+    # el sector se centra en +Y, que es donde va la abrazadera de la columna
+    seg = S.sector_anular(ri, re, 90.0 - ang / 2, 90.0 + ang / 2, h, pasos=64)
     # asiento cónico interior: el hombro del envase apoya en toda una corona
     a = math.radians(es["anillo_asiento_ang"])
     perfil = np.array([[ri - 1, -h / 2 - 1], [bi["dia_asiento_hombro"] / 2.0, -h / 2 - 1],
                        [bi["dia_asiento_hombro"] / 2.0 + h / math.tan(a) + 2, h / 2 + 1],
                        [ri - 1, h / 2 + 1]])
     seg = S.resta(seg, S.revolucion(perfil, secciones=96))
-    # orejas de unión entre segmentos (2 tornillos M4 por junta)
+    # taladros de la eclisa: quedan DENTRO del propio segmento (dos por junta),
+    # nunca invadiendo al vecino — las tres piezas son idénticas y a tope
     for s in (-1, 1):
-        a0 = math.radians(s * ang / 2)
-        for rr in (re - 12, ri + 14):
-            c = (rr * math.cos(a0) - s * 9 * math.sin(a0), rr * math.sin(a0) + s * 9 * math.cos(a0))
-            seg = S.union(seg, S.caja((16, 16, h), at=(c[0], c[1], 0)))
-            seg = S.resta(seg, S.cilindro(M4, h + 4, at=(c[0], c[1], 0)))
+        a0 = math.radians(90.0 + s * (ang / 2 - 6.0))
+        for rr in (re - 13, ri + 15):
+            seg = S.resta(seg, S.cilindro(M4, h + 8,
+                                          at=(rr * math.cos(a0), rr * math.sin(a0), 0)))
     # abrazadera de la columna: recibe el perfil 20x20 inclinado hacia afuera
     lado = es["pata_seccion"] + es["pata_holgura"]
     incl = math.radians(es["pata_inclinacion_deg"])
@@ -252,6 +256,23 @@ def est_anillo_segmento(P, C):
         "cantidad": 6,
         "nota": "3 arriba (asiento del bidón) + 3 abajo (arriostre). Verificar el asiento "
                 "con el envase real: el cono admite Ø160-200."}
+
+
+def est_eclisa(P, C):
+    """Eclisa: cubrejunta que une dos segmentos de anillo a tope (4 × M4)."""
+    es = P["estructura"]
+    re = es["anillo_dia_ext"] / 2.0
+    ri = P["bidon"]["dia_asiento_hombro"] / 2.0 - es["anillo_ancho"] + 6.0
+    ang = 360.0 / es["anillo_segmentos"]
+    pl = S.sector_anular(ri + 8, re - 6, -10.0, 10.0, 5.0, pasos=24)
+    for s in (-1, 1):
+        a0 = math.radians(s * 6.0)
+        for rr in (re - 13, ri + 15):
+            pl = S.resta(pl, S.cilindro(M4, 20, at=(rr * math.cos(a0), rr * math.sin(a0), 0)))
+    del ang
+    return pl, "estructura", {"cantidad": 6,
+                              "nota": "Va por DEBAJO del anillo, a caballo de la junta. "
+                                      "3 por aparato (6 si se monta el anillo de arriostre)."}
 
 
 def est_barra(P, C):
@@ -295,14 +316,14 @@ def est_collar_cuello(P, C):
     d = bi["dia_boca_ext"]
     ext = d + 16.0
     mitad = S.tubo(ext, d + 0.8, 22.0)
-    mitad = S.interseccion(mitad, S.caja((ext + 2, ext + 2, 30), at=(0, (ext + 2) / 4 + 0.5, 0)))
+    corte = S.caja((ext + 2, ext + 2, 30), at=(0, (ext + 2) / 2 + 0.4, 0))   # media exacta
+    mitad = S.interseccion(mitad, corte)
     for s in (-1, 1):
         oreja = S.caja((14, 20, 22), at=(s * (ext / 2 + 5), 6, 0))
         mitad = S.union(mitad, oreja)
         mitad = S.resta(mitad, S.cilindro(M4, 30, at=(s * (ext / 2 + 5), 6, 0), eje="y"))
     # labio interior que engancha bajo el collarín moldeado del envase
-    labio = S.tubo(d + 0.8, d - 5.0, 3.0, at=(0, 0, -9.5))
-    labio = S.interseccion(labio, S.caja((ext + 2, ext + 2, 30), at=(0, (ext + 2) / 4 + 0.5, 0)))
+    labio = S.interseccion(S.tubo(d + 0.8, d - 5.0, 3.0, at=(0, 0, -9.5)), corte)
     return S.union(mitad, labio), "estructura", {
         "cantidad": 2,
         "nota": "Dos mitades iguales + 2 tornillos M4x30. Apretar sobre el cuello; el peso NO cuelga de aquí."}
@@ -320,21 +341,21 @@ def est_soporte_cabezal(P, C):
     incl = math.radians(es["pata_inclinacion_deg"])
     largo = 78.0
     m = S.caja((lado + 12, lado + 12, 46), at=(0, 0, 0))
-    m = S.union(m, S.caja((22, largo, 10), at=(0, -largo / 2 - lado / 2, -18)))
+    m = S.union(m, S.caja((22, largo, 10), at=(0, -largo / 2 - lado / 2, -23)))
     hueco = S.caja((lado, lado, 70))
     hueco.apply_transform(trimesh.transformations.rotation_matrix(incl, [1, 0, 0]))
     m = S.resta(m, hueco)
     for z in (-14.0, 14.0):                      # tornillos de apriete del perfil
         m = S.resta(m, S.cilindro(M4, lado + 40, at=(0, 0, z), eje="y"))
     # ranura del brazo: ajuste radial fino al montar
-    ranura = S.union(S.cilindro(M4, 20, at=(0, -largo - lado / 2 + 14, -18)),
-                     S.caja((M4, 24, 20), at=(0, -largo - lado / 2 + 26, -18)),
-                     S.cilindro(M4, 20, at=(0, -largo - lado / 2 + 38, -18)))
+    ranura = S.union(S.cilindro(M4, 20, at=(0, -largo - lado / 2 + 14, -23)),
+                     S.caja((M4, 24, 20), at=(0, -largo - lado / 2 + 26, -23)),
+                     S.cilindro(M4, 20, at=(0, -largo - lado / 2 + 38, -23)))
     m = S.resta(m, ranura)
     # cartela: el brazo trabaja en voladizo
     cart = S.prisma([(0, 0), (0, 34), (58, 0)], 8.0, eje="x")
     cart.apply_transform(trimesh.transformations.rotation_matrix(math.pi / 2, [0, 0, 1]))
-    cart.apply_translation([0, -lado / 2 - 2, -13])
+    cart.apply_translation([0, -lado / 2 - 2, -18])
     m = S.union(m, cart)
     return m, "estructura", {"cantidad": 3,
                              "nota": "Sujeta el canal a las columnas. Montar con nivel: el canal debe "
@@ -481,15 +502,36 @@ def ali_canal_base(P, C):
     # ventana lateral por donde el piñón alcanza la cremallera del cajón
     base = S.resta(base, S.caja((3 * pared, do["pinon_ancho"] + 24, alto_carril + 2),
                                 at=(-(W - pared) / 2, 0, piso + alto_carril / 2)))
-    # torre del piñón: dos apoyos del eje vertical, arriba y abajo
+    # torre del piñón: aloja el piñón entero (Ø cabeza + holgura), sujeta el eje
+    # vertical arriba y abajo, y lleva los dos topes que limitan el barrido de
+    # la palanca — sin topes, "un golpe = una dosis" no está garantizado.
     xp = C["x_pinon"]
-    torre = S.caja((34, 40, piso + alto_carril + 26), at=(-xp, 0, (piso + alto_carril + 26) / 2))
-    torre = S.union(torre, S.caja((xp - W / 2 + 20, 40, piso),
-                                  at=(-(W / 2 + (xp - W / 2) / 2), 0, piso / 2)))
+    d_hueco = C["pinon"]["dia_cabeza"] + 6.0
+    alto_torre = piso + alto_carril + 30.0
+    z_bajo = piso + alto_carril
+    torre = S.caja((d_hueco + 26, d_hueco + 22, z_bajo), at=(-xp, 0, z_bajo / 2))
+    x_fuera = W / 2 + do["corredera_holgura"]          # cara exterior del canal
+    ancho_alto = (xp + (d_hueco + 26) / 2) - x_fuera
+    torre = S.union(torre, S.caja((ancho_alto, d_hueco + 22, alto_torre - z_bajo),
+                                  at=(-(x_fuera + ancho_alto / 2), 0, (alto_torre + z_bajo) / 2)))
     base = S.union(base, torre)
-    base = S.resta(base, S.caja((26, 30, alto_carril + 4),
-                                at=(-xp, 0, piso + 2 + alto_carril / 2)))
-    base = S.resta(base, S.cilindro(do["eje_pinon_entrecaras"] + 1.0, 200, at=(-xp, 0, 0)))
+    # cámara del piñón, abierta hacia el canal para que los dientes lleguen
+    base = S.resta(base, S.cilindro(d_hueco, alto_carril + 3.0,
+                                    at=(-xp, 0, piso + alto_carril / 2 + 1.5)))
+    base = S.resta(base, S.caja((xp - W / 2 + 40, do["pinon_ancho"] + 24, alto_carril + 3.0),
+                                at=(-(W / 2), 0, piso + alto_carril / 2 + 1.5)))
+    base = S.resta(base, S.cilindro(do["eje_pinon_entrecaras"] + 1.0, 400, at=(-xp, 0, 0)))
+    # nada de la torre puede meterse en el canal por donde corre el cajón
+    base = S.resta(base, S.caja((W - 2 * pared, L + 240, alto_carril),
+                                at=(0, 0, piso + alto_carril / 2)))
+    # topes del barrido: dos postes en la coronación de la torre, a la altura
+    # del brazo de la palanca (sin ellos, "un golpe = una dosis" no se cumple)
+    for az in (C["palanca_ang_cerrado"] - 18.0, C["palanca_ang_abierto"] + 18.0):
+        a = math.radians(az)
+        rt = d_hueco / 2 + 14.0
+        base = S.union(base, S.cilindro(11.0, 30.0,
+                                        at=(-xp + rt * math.cos(a), rt * math.sin(a),
+                                            alto_torre + 9.0)))
     # taladros de unión con la tapa
     for sx in (-1, 1):
         for sy in (-1, 1):
@@ -518,8 +560,8 @@ def ali_canal_tapa(P, C):
     tapa = S.caja((W, L, t), at=(0, 0, t / 2))
     yc = C["y_carga"]
     tapa = S.resta(tapa, S.caja((do["cavidad_x"], do["cavidad_y"], t + 4), at=(0, yc, t / 2)))
-    tapa = S.union(tapa, S.caja((do["cavidad_x"] + 20, do["cavidad_y"] + 20, 8), at=(0, yc, t + 4)))
-    tapa = S.resta(tapa, S.caja((do["cavidad_x"], do["cavidad_y"], 24), at=(0, yc, t + 4)))
+    # sin brida sobresaliente: la pestaña del adaptador apoya sobre la cara
+    # superior de la tapa, plana, y ambos se atornillan con los mismos M4
     for sx in (-1, 1):
         for sy in (-1, 1):
             tapa = S.resta(tapa, S.cilindro(M4, 40, at=(sx * (do["cavidad_x"] / 2 + 5),
@@ -826,6 +868,7 @@ PIEZAS = {
     "est_pie": est_pie,
     "est_collar_cuello": est_collar_cuello,
     "est_soporte_cabezal": est_soporte_cabezal,
+    "est_eclisa": est_eclisa,
     "est_escuadra_muro": est_escuadra_muro,
     "agua_bebedero": agua_bebedero,
     "agua_boquilla": agua_boquilla,

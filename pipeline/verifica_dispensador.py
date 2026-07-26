@@ -272,7 +272,7 @@ def verificar(proj: Path) -> dict:
     peor_p, donde = 0.0, None
     for k in range(13):
         ang = C["palanca_ang_cerrado"] - 90.0 + C["palanca_barrido_deg"] * k / 12.0
-        pal = EN._t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_pinon"] + 48), rz=ang)
+        pal = EN._t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_palanca"]), rz=ang)
         for j, obst in enumerate(columnas + otras):
             v = _vol_interseccion(pal, obst)
             if v > peor_p:
@@ -285,6 +285,19 @@ def verificar(proj: Path) -> dict:
            f"solape ≤ {tol} mm³ en los 13 pasos del barrido",
            "recolocar palanca_ang_cerrado para que el barrido caiga en el hueco entre columnas, "
            "o acortar palanca_largo")
+
+    # V13b: los topes tienen que MORDER justo pasado el recorrido útil
+    base_fija = fijas["ali_canal_base"]
+    fuera = {}
+    for lado, ang in (("antes del cierre", C["palanca_ang_cerrado"] - 10.0),
+                      ("pasado el fin", C["palanca_ang_abierto"] + 10.0)):
+        pal = EN._t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_palanca"]), rz=ang - 90.0)
+        fuera[lado] = round(_vol_interseccion(pal, base_fija), 1)
+    prueba("V13b", "Los topes limitan el barrido a una dosis exacta",
+           "PASA" if min(fuera.values()) > 100.0 else "FALLA",
+           {"solape_al_pasarse_mm3": fuera, "barrido_util_deg": C["palanca_barrido_deg"]},
+           "10° más allá de cada extremo la palanca ya choca con su tope (> 100 mm³)",
+           "acercar los postes de tope en ali_canal_base")
 
     # ---------------- V12 el biela-manivela del agitador cierra --------------
     r, Lb = C["manivela_radio"], C["biela_largo"]
@@ -326,6 +339,35 @@ def verificar(proj: Path) -> dict:
             "nota": "distancia mínima entre cada ménsula y el cuerpo del canal"},
            "cada ménsula toca el canal (holgura ≤ 1.5 mm); la ranura del brazo da ±12 mm de ajuste",
            "corregir el radio del brazo (est_soporte_cabezal) o el de las orejas del canal")
+
+    # ---------------- V14 nada se solapa con nada en reposo -----------------
+    fijos = {n: m for n, m in partes.items() if n != "ali_corredera"}
+    fijos |= {n: m for n, m in EN.estructura(P, C, piezas, C["z_anillo_alimento"],
+                                             mensulas_z=C["z_canal_base"] + 18.0)[1]}
+    # pares que SE INTERPENETRAN a propósito (eje en su alojamiento, perfil en
+    # su cajera, pasador en su ojo): no son choques
+    def encajan(a, b):
+        pares = (("perfil_columna", "est_pie"), ("perfil_columna", "est_anillo"),
+                 ("perfil_columna", "est_soporte_cabezal"), ("ali_eje_pinon", "ali_palanca"),
+                 ("ali_eje_pinon", "ali_canal_base"), ("ali_eje_pinon", "ali_pinon"),
+                 ("ali_agitador", "ali_adaptador"), ("ali_agitador", "ali_manivela"),
+                 ("ali_manivela", "ali_biela"), ("ali_corredera", "ali_biela"))
+        return any((x in a and y in b) or (x in b and y in a) for x, y in pares)
+
+    nombres = list(fijos)
+    choques = {}
+    for i, a in enumerate(nombres):
+        for b in nombres[i + 1:]:
+            if encajan(a, b) or not _bbox_cruza(fijos[a], fijos[b]):
+                continue
+            v = _vol_interseccion(fijos[a], fijos[b])
+            if v > tol:
+                choques[f"{a} ∩ {b}"] = round(v, 1)
+    prueba("V14", "Ninguna pieza del cabezal ocupa el sitio de otra",
+           "PASA" if not choques else "FALLA",
+           {"solapes_mm3": choques, "piezas_comparadas": len(nombres)},
+           f"todo par de piezas fijas con solape ≤ {tol} mm³ (tocarse sí, invadirse no)",
+           "corregir la geometría de la pieza señalada")
 
     # ---------------- V10 agua ------------------------------------------------
     nivel_ok = abs((C["z_difusor"] + 5.0) - ag["nivel_agua"]) < 0.51

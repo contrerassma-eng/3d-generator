@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-26T07:10:44+00:00",
+  "generado": "2026-07-26T07:17:25+00:00",
   "calculos": {
     "cavidad_z_calculada": 30.86,
     "cavidad_z": 30.9,
@@ -49,6 +49,8 @@
     "y_desplazamiento_cajon": -57.5,
     "y_cremallera_local": 28.0,
     "z_pinon": 351.4,
+    "z_torre_sup": 397.2,
+    "z_palanca": 407.2,
     "x_biela": 88.0,
     "z_pasador_cajon": 372.9,
     "y_pasador_cerrado": -139.0,

@@ -1,8 +1,8 @@
 # Verificación funcional — YT0101-dispensador-canino
 
-Generado: 2026-07-26T07:11:01+00:00 · capa `user` (diseño, no medición).
+Generado: 2026-07-26T07:17:44+00:00 · capa `user` (diseño, no medición).
 
-**Veredicto: PASA_CON_ADVERTENCIAS** (16 pruebas, 0 fallas, 2 advertencias)
+**Veredicto: PASA_CON_ADVERTENCIAS** (18 pruebas, 0 fallas, 2 advertencias)
 
 | Prueba | Qué comprueba | Resultado |
 |---|---|---|
@@ -19,15 +19,17 @@ Generado: 2026-07-26T07:11:01+00:00 · capa `user` (diseño, no medición).
 | V8 | Voladizos dentro de lo imprimible sin soportes | **ADVERTENCIA** |
 | V9 | Columnas y anillo soportan el bidón lleno | **PASA** |
 | V13 | La palanca barre sin golpear columnas ni anillos | **PASA** |
+| V13b | Los topes limitan el barrido a una dosis exacta | **PASA** |
 | V12 | El biela-manivela del agitador cierra en toda la carrera | **PASA** |
 | V11 | Las tres ménsulas alcanzan las orejas del canal | **PASA** |
+| V14 | Ninguna pieza del cabezal ocupa el sitio de otra | **PASA** |
 | V10 | Bebedero de nivel constante coherente (principio de Mariotte) | **PASA** |
 
 ## V1 — Todas las piezas son sólidos cerrados (imprimibles)
 
 - **Resultado:** PASA
 - **Criterio:** malla estanca (watertight) en el 100% de las piezas
-- **Medido:** `{"no_estancas": [], "total": 24}`
+- **Medido:** `{"no_estancas": [], "total": 25}`
 - **Acción / nota:** revisar la operación booleana de la pieza indicada
 
 ## V2 — Cada pieza cabe en la cama declarada
@@ -97,7 +99,7 @@ Generado: 2026-07-26T07:11:01+00:00 · capa `user` (diseño, no medición).
 
 - **Resultado:** ADVERTENCIA
 - **Criterio:** < 6% del área de cada pieza por debajo de 45.0° en su orientación de impresión
-- **Medido:** `{"piezas_con_voladizo_pct": {"est_pie": 18.3, "est_soporte_cabezal": 10.8, "est_escuadra_muro": 18.0, "agua_boquilla": 10.3, "agua_difusor": 11.3, "ali_corredera": 13.8, "ali_agitador": 9.3, "ali_chute": 7.8}, "limite_deg": 45.0}`
+- **Medido:** `{"piezas_con_voladizo_pct": {"est_pie": 18.3, "est_soporte_cabezal": 10.7, "est_escuadra_muro": 18.0, "agua_boquilla": 10.3, "agua_difusor": 11.3, "ali_corredera": 13.8, "ali_agitador": 9.3, "ali_chute": 7.8}, "limite_deg": 45.0}`
 - **Acción / nota:** reorientar la pieza en el laminador o activar soportes solo en ella
 
 ## V9 — Columnas y anillo soportan el bidón lleno
@@ -114,6 +116,13 @@ Generado: 2026-07-26T07:11:01+00:00 · capa `user` (diseño, no medición).
 - **Medido:** `{"solape_maximo_mm3": 0.0, "primer_choque": null, "barrido_deg": [70.0, 192.9], "columnas_a_deg": [90, 210, 330]}`
 - **Acción / nota:** recolocar palanca_ang_cerrado para que el barrido caiga en el hueco entre columnas, o acortar palanca_largo
 
+## V13b — Los topes limitan el barrido a una dosis exacta
+
+- **Resultado:** PASA
+- **Criterio:** 10° más allá de cada extremo la palanca ya choca con su tope (> 100 mm³)
+- **Medido:** `{"solape_al_pasarse_mm3": {"antes del cierre": 1013.3, "pasado el fin": 1013.3}, "barrido_util_deg": 122.9}`
+- **Acción / nota:** acercar los postes de tope en ali_canal_base
+
 ## V12 — El biela-manivela del agitador cierra en toda la carrera
 
 - **Resultado:** PASA
@@ -125,8 +134,15 @@ Generado: 2026-07-26T07:11:01+00:00 · capa `user` (diseño, no medición).
 
 - **Resultado:** PASA
 - **Criterio:** cada ménsula toca el canal (holgura ≤ 1.5 mm); la ranura del brazo da ±12 mm de ajuste
-- **Medido:** `{"holgura_minima_mm": {"est_soporte_cabezal0": 0.05, "est_soporte_cabezal1": 0.07, "est_soporte_cabezal2": 0.01}, "nota": "distancia mínima entre cada ménsula y el cuerpo del canal"}`
+- **Medido:** `{"holgura_minima_mm": {"est_soporte_cabezal0": 0.0, "est_soporte_cabezal1": 0.0, "est_soporte_cabezal2": 0.0}, "nota": "distancia mínima entre cada ménsula y el cuerpo del canal"}`
 - **Acción / nota:** corregir el radio del brazo (est_soporte_cabezal) o el de las orejas del canal
+
+## V14 — Ninguna pieza del cabezal ocupa el sitio de otra
+
+- **Resultado:** PASA
+- **Criterio:** todo par de piezas fijas con solape ≤ 25.0 mm³ (tocarse sí, invadirse no)
+- **Medido:** `{"solapes_mm3": {}, "piezas_comparadas": 28}`
+- **Acción / nota:** corregir la geometría de la pieza señalada
 
 ## V10 — Bebedero de nivel constante coherente (principio de Mariotte)
 

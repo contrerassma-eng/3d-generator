@@ -93,6 +93,9 @@ def estructura(P, C, piezas, z_anillo: float, mensulas_z: float | None = None):
     for k in range(es["anillo_segmentos"]):
         a = 360.0 / es["anillo_segmentos"] * k
         partes.append((f"est_anillo_segmento_sup{k}", _t(piezas["est_anillo_segmento"], at=(0, 0, z_anillo), rz=a)))
+        partes.append((f"est_eclisa_sup{k}", _t(piezas["est_eclisa"],
+                                                at=(0, 0, z_anillo - es["anillo_espesor"] / 2 - 2.5),
+                                                rz=a + 60.0 + 90.0)))
         if z_bajo and z_anillo - z_bajo > 120:
             partes.append((f"est_anillo_segmento_inf{k}",
                            _t(piezas["est_anillo_segmento"], at=(0, 0, z_bajo), rz=a)))
@@ -136,7 +139,7 @@ def tren_agitador(P, C, piezas, avance: float = 0.0):
         ("ali_manivela", _color(_t(piezas["ali_manivela"],
                                    at=(C["x_biela"], C["y_carga"], C["z_agitador"]), rx=th),
                                 S.COLORES["palanca"])),
-        ("ali_biela", _color(_t(piezas["ali_biela"], at=(C["x_biela"], y_pin, z_pin), rx=psi),
+        ("ali_biela", _color(_t(piezas["ali_biela"], at=(C["x_biela"] + 8.0, y_pin, z_pin), rx=psi),
                              S.COLORES["palanca"])),
     ]
 
@@ -155,13 +158,9 @@ def conjunto_alimento(P, C, piezas):
         ("ali_pinon", _color(_t(piezas["ali_pinon"], at=(-C["x_pinon"], 0, C["z_pinon"])), S.COLORES["engranaje"])),
         ("ali_eje_pinon", _color(_t(piezas["ali_eje_pinon"], at=(-C["x_pinon"], 0, C["z_pinon"] + 10)),
                                  S.COLORES["engranaje"])),
-        ("ali_palanca", _color(_t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_pinon"] + 48),
+        ("ali_palanca", _color(_t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_palanca"]),
                                   rz=C["palanca_ang_cerrado"] - 90.0), S.COLORES["palanca"])),
         ("ali_chute", _color(_t(piezas["ali_chute"], at=(0, C["y_descarga"], z0)), S.COLORES["bandeja"])),
-        ("est_collar_cuello_a", _color(_t(piezas["est_collar_cuello"], at=(0, 0, C["z_labio_alimento"] + 14)),
-                                       S.COLORES["estructura"])),
-        ("est_collar_cuello_b", _color(_t(piezas["est_collar_cuello"], at=(0, 0, C["z_labio_alimento"] + 14),
-                                          rz=180), S.COLORES["estructura"])),
     ]
     partes += tren_agitador(P, C, piezas, 0.0)
     est, perfiles = estructura(P, C, piezas, C["z_anillo_alimento"],
@@ -259,7 +258,7 @@ def animacion(P, C, piezas, destino: Path, cuadros: int = 16) -> Path:
                           at=(0, C["y_carga"] + avance - y_cav, C["z_deslizamiento"])),
                        S.COLORES["rotor"])
         ang = C["palanca_ang_cerrado"] - 90.0 + f * C["palanca_barrido_deg"]
-        palanca = _color(_t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_pinon"] + 48),
+        palanca = _color(_t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_palanca"]),
                             rz=ang), S.COLORES["palanca"])
         # la croqueta que va en la cavidad, dibujada como bloque testigo
         dosis = S.caja((do["cavidad_x"] - 6, do["cavidad_y"] - 6, C["cavidad_z"] - 6),

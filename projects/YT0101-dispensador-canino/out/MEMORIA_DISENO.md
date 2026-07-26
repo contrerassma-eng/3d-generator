@@ -1,6 +1,6 @@
 # MEMORIA DE DISEÑO — Dispensador canino YT0101
 
-Generado: 2026-07-26T07:11:06+00:00 · Capa `user` (diseño paramétrico, no medición).
+Generado: 2026-07-26T07:17:49+00:00 · Capa `user` (diseño paramétrico, no medición).
 Cada cota nace de `input/params.json`; cada dato externo está citado en
 `input/web_facts.json` con URL, fecha de acceso y cita textual.
 
@@ -189,7 +189,7 @@ vez de esconderse.
 
 ## 10. Resultado de la verificación
 
-**PASA_CON_ADVERTENCIAS** — 16 pruebas, 0 fallas, 2 advertencias (detalle completo en `VERIFICACION.md`).
+**PASA_CON_ADVERTENCIAS** — 18 pruebas, 0 fallas, 2 advertencias (detalle completo en `VERIFICACION.md`).
 
 | | Prueba | Resultado |
 |---|---|---|
@@ -206,8 +206,10 @@ vez de esconderse.
 | V8 | Voladizos dentro de lo imprimible sin soportes | **ADVERTENCIA** |
 | V9 | Columnas y anillo soportan el bidón lleno | **PASA** |
 | V13 | La palanca barre sin golpear columnas ni anillos | **PASA** |
+| V13b | Los topes limitan el barrido a una dosis exacta | **PASA** |
 | V12 | El biela-manivela del agitador cierra en toda la carrera | **PASA** |
 | V11 | Las tres ménsulas alcanzan las orejas del canal | **PASA** |
+| V14 | Ninguna pieza del cabezal ocupa el sitio de otra | **PASA** |
 | V10 | Bebedero de nivel constante coherente (principio de Mariotte) | **PASA** |
 
 ## 11. Lo que este diseño todavía no demuestra

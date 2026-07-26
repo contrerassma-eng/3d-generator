@@ -5,17 +5,17 @@
     "G_DIS": {
       "verdict": "SIN_CONTRASTE",
       "metrics": {
-        "pruebas": 16,
+        "pruebas": 18,
         "fallas": [],
         "advertencias": [
           "V7b",
           "V8"
         ],
         "dosis_g": 50.1,
-        "masa_pla_total_g": 2190.7
+        "masa_pla_total_g": 2280.4
       },
       "reasons": [],
-      "ts": "2026-07-26T07:11:06+00:00"
+      "ts": "2026-07-26T07:17:48+00:00"
     },
     "G6": {
       "verdict": "PASA",
@@ -29,14 +29,14 @@
         ],
         "escala_certificada": true,
         "factor_escala": 1.0,
-        "dxf": "out/drawings/ali_manivela.dxf",
-        "pdf": "out/drawings/ali_manivela.pdf",
-        "hash_dxf": "sha256:dd0658a4f7966ff2e6f4be871a28c6cf2e5fd86ede6053bdd11b46eaebd5d88f",
-        "hash_pdf": "sha256:21c85b325b4229411656de2939639be352ad0ddd162dbb1371a0e13796ddcd74"
+        "dxf": "out/drawings/est_soporte_cabezal.dxf",
+        "pdf": "out/drawings/est_soporte_cabezal.pdf",
+        "hash_dxf": "sha256:addcc07cf77e3d8bc449ca3125522129f24a8752077097e795f8cb63bbd0593b",
+        "hash_pdf": "sha256:9f03dcd7c0ddf66f5a569c920eabbb44d732592093e8d335f7b430a4d75bf1a3"
       },
       "reasons": [],
-      "ts": "2026-07-26T07:08:18+00:00"
+      "ts": "2026-07-26T07:19:23+00:00"
     }
   },
-  "updated": "2026-07-26T07:11:06+00:00"
+  "updated": "2026-07-26T07:19:23+00:00"
 }

@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-26T07:11:01+00:00",
+  "generado": "2026-07-26T07:17:44+00:00",
   "proyecto": "YT0101-dispensador-canino",
   "capa": "user",
   "pruebas": [
@@ -9,7 +9,7 @@
       "veredicto": "PASA",
       "medido": {
         "no_estancas": [],
-        "total": 24
+        "total": 25
       },
       "criterio": "malla estanca (watertight) en el 100% de las piezas",
       "accion": "revisar la operación booleana de la pieza indicada"
@@ -364,7 +364,7 @@
       "medido": {
         "piezas_con_voladizo_pct": {
           "est_pie": 18.3,
-          "est_soporte_cabezal": 10.8,
+          "est_soporte_cabezal": 10.7,
           "est_escuadra_muro": 18.0,
           "agua_boquilla": 10.3,
           "agua_difusor": 11.3,
@@ -416,6 +416,20 @@
       "accion": "recolocar palanca_ang_cerrado para que el barrido caiga en el hueco entre columnas, o acortar palanca_largo"
     },
     {
+      "id": "V13b",
+      "titulo": "Los topes limitan el barrido a una dosis exacta",
+      "veredicto": "PASA",
+      "medido": {
+        "solape_al_pasarse_mm3": {
+          "antes del cierre": 1013.3,
+          "pasado el fin": 1013.3
+        },
+        "barrido_util_deg": 122.9
+      },
+      "criterio": "10° más allá de cada extremo la palanca ya choca con su tope (> 100 mm³)",
+      "accion": "acercar los postes de tope en ali_canal_base"
+    },
+    {
       "id": "V12",
       "titulo": "El biela-manivela del agitador cierra en toda la carrera",
       "veredicto": "PASA",
@@ -435,14 +449,25 @@
       "veredicto": "PASA",
       "medido": {
         "holgura_minima_mm": {
-          "est_soporte_cabezal0": 0.05,
-          "est_soporte_cabezal1": 0.07,
-          "est_soporte_cabezal2": 0.01
+          "est_soporte_cabezal0": 0.0,
+          "est_soporte_cabezal1": 0.0,
+          "est_soporte_cabezal2": 0.0
         },
         "nota": "distancia mínima entre cada ménsula y el cuerpo del canal"
       },
       "criterio": "cada ménsula toca el canal (holgura ≤ 1.5 mm); la ranura del brazo da ±12 mm de ajuste",
       "accion": "corregir el radio del brazo (est_soporte_cabezal) o el de las orejas del canal"
+    },
+    {
+      "id": "V14",
+      "titulo": "Ninguna pieza del cabezal ocupa el sitio de otra",
+      "veredicto": "PASA",
+      "medido": {
+        "solapes_mm3": {},
+        "piezas_comparadas": 28
+      },
+      "criterio": "todo par de piezas fijas con solape ≤ 25.0 mm³ (tocarse sí, invadirse no)",
+      "accion": "corregir la geometría de la pieza señalada"
     },
     {
       "id": "V10",
@@ -461,7 +486,7 @@
     }
   ],
   "resumen": {
-    "pruebas": 16,
+    "pruebas": 18,
     "fallas": [],
     "advertencias": [
       "V7b",
@@ -518,6 +543,8 @@
     "y_desplazamiento_cajon": -57.5,
     "y_cremallera_local": 28.0,
     "z_pinon": 351.4,
+    "z_torre_sup": 397.2,
+    "z_palanca": 407.2,
     "x_biela": 88.0,
     "z_pasador_cajon": 372.9,
     "y_pasador_cerrado": -139.0,
@@ -562,5 +589,5 @@
     "carga_bidon_alimento_N": 86.5,
     "autonomia_alimento_dosis": 159
   },
-  "masa_pla_total_g": 2190.7
+  "masa_pla_total_g": 2280.4
 }
