@@ -276,7 +276,13 @@ def calibrar(P: dict, valores: list[float], hechos: dict) -> dict:
     print(f"   barrido en {time.time() - t0:.0f}s", flush=True)
     if obj is None:
         obj = 0.5 * (rango[0] + rango[1])
-    elegido = min(curva, key=lambda c: abs(c["angulo_reposo_deg"] - obj))
+    # Se elige la MENOR rodadura que ya cae dentro del rango publicado, no la
+    # que más se acerca al centro: la rodadura es un artificio para tapar que el
+    # grano no es una esfera, y cuanto menos artificio haga falta, mejor. Si
+    # ninguna llega al rango, se coge la más cercana y la prueba S2 avisa.
+    dentro = [c for c in curva if rango[0] <= c["angulo_reposo_deg"] <= rango[1]]
+    elegido = (min(dentro, key=lambda c: c["mu_rodadura"]) if dentro
+               else min(curva, key=lambda c: abs(c["angulo_reposo_deg"] - obj)))
     dens = ensayo_densidad(P, elegido["mu_rodadura"])
     return {"objetivo_deg": obj, "rango_publicado_deg": rango, "curva": curva,
             "elegido": elegido, "densidad": dens,
@@ -653,8 +659,10 @@ def evaluar(P: dict, C: dict, cal: dict, casos: dict) -> list[dict]:
     dem = P.get("dem", {})
 
     # -- S1 la corrida es numéricamente utilizable ---------------------------
-    sol = base.get("solape_max_pct_radio", 0.0)
+    sol = base.get("solape_max_pct_radio")
     acot = base.get("contactos_acotados", 0)
+    if sol is None:
+        sol, acot = 0.0, 0
     prueba("S1", "La corrida es numéricamente limpia",
            "PASA" if sol < 2.0 and acot == 0 else "FALLA",
            {"solape_max_pct_radio": sol, "contactos_acotados": acot},
@@ -682,17 +690,29 @@ def evaluar(P: dict, C: dict, cal: dict, casos: dict) -> list[dict]:
             "fraccion_empaquetamiento": cal["densidad"]["fraccion_empaquetamiento"],
             "densidad_particula_kg_m3": dem.get("densidad_particula_kg_m3")},
            "discrepancia ≤ 15% con la densidad aparente citada",
-           "la densidad aparente citada y la densidad de partícula publicada no "
-           "son del mismo producto: hay que medir el alimento real")
+           "Dos causas distintas y las dos hay que decirlas. (1) Las fuentes se "
+           "contradicen: la densidad aparente del fabricante y la densidad de "
+           "partícula publicada exigirían un empaquetamiento por encima del "
+           "máximo físico de un lecho de esferas, así que no son del mismo "
+           "producto. (2) Con esferas se puede reproducir el ÁNGULO DE REPOSO o "
+           "el EMPAQUETAMIENTO, no los dos: la rodadura alta que hace falta para "
+           "el talud de un grano no esférico deja el lecho suelto. Se eligió "
+           "acertar el flujo, que es lo que se está preguntando. Consecuencia: "
+           "las masas simuladas salen BAJAS y el resultado que vale es el "
+           "FACTOR DE LLENADO (un cociente, donde el sesgo se cancela), no los "
+           "gramos. Los gramos se calibran con balanza.")
 
     # -- S4 el aparato no atasca ---------------------------------------------
+    # Sin corrida de dosificación esta prueba NO se emite. Un gate que falla
+    # porque falta el dato miente: no es lo mismo «no cumple» que «no medido».
     por_golpe = [g["masa_g"] for g in base.get("descarga_por_golpe_g", [])]
-    prueba("S4", "Entrega alimento en todos los golpes (no se atasca)",
-           "PASA" if por_golpe and min(por_golpe) > 0.5 * max(por_golpe) and min(por_golpe) > 5
-           else "FALLA",
-           {"por_golpe_g": por_golpe},
-           "ningún golpe entrega menos de la mitad del mayor, y ninguno sale vacío",
-           "revisar el criterio anti-arco y la geometría del cuello")
+    if por_golpe:
+        prueba("S4", "Entrega alimento en todos los golpes (no se atasca)",
+               "PASA" if min(por_golpe) > 0.5 * max(por_golpe) and min(por_golpe) > 5
+               else "FALLA",
+               {"por_golpe_g": por_golpe},
+               "ningún golpe entrega menos de la mitad del mayor, y ninguno sale vacío",
+               "revisar el criterio anti-arco y la geometría del cuello")
 
     # -- S5 el factor de llenado declarado ------------------------------------
     fl = base.get("factor_llenado_medido")
@@ -737,7 +757,7 @@ def evaluar(P: dict, C: dict, cal: dict, casos: dict) -> list[dict]:
     # -- S8 no tritura la croqueta --------------------------------------------
     fmax = base.get("fuerza_contacto_max_N")
     rot = dem.get("carga_rotura_croqueta_N")
-    if fmax is not None and rot:
+    if fmax is not None and rot and por_golpe:
         prueba("S8", "La fuerza de contacto no llega a romper la croqueta",
                "PASA" if fmax < rot[0] else "ADVERTENCIA",
                {"fuerza_max_N": fmax, "carga_rotura_N": rot},
@@ -811,7 +831,25 @@ def informe(P, C, cal, casos, pruebas, destino: Path) -> Path:
       f"{cal['densidad_citada_g_ml']} g/ml citados del fabricante. "
       "La densidad aparente NO es un parámetro de entrada: sale del tamaño de "
       "grano, de la densidad de partícula y del empaquetamiento que consigue la "
-      "gravedad, así que sirve de control del modelo.\n")
+      "gravedad, así que sirve de control del modelo — y aquí NO cuadra.\n")
+    a("Merece la pena separar las dos razones, porque no dicen lo mismo:\n")
+    a("1. **Las fuentes citadas se contradicen entre sí.** La densidad aparente "
+      f"del fabricante ({cal['densidad_citada_g_ml']} g/ml) junto con la densidad "
+      f"de partícula medida de croqueta ({dem['densidad_particula_kg_m3']:.0f} kg/m³) "
+      "exigiría empaquetar por encima del máximo físico de un lecho de esferas "
+      "(0.64). No pueden ser el mismo producto.")
+    a("2. **Con esferas no se puede acertar todo a la vez.** La rodadura alta que "
+      "hace falta para levantar el talud de un grano no esférico deja el lecho "
+      "suelto. Se puede reproducir el ángulo de reposo o el empaquetamiento, no "
+      "los dos. Aquí se eligió el ángulo de reposo, porque lo que se está "
+      "preguntando es de FLUJO: si arquea, si el agitador sirve, si la cavidad "
+      "se llena.")
+    a("\nConsecuencia práctica, y es la que importa: **las masas que salen de "
+      "esta simulación están sesgadas a la baja**. El resultado utilizable es el "
+      "FACTOR DE LLENADO —un cociente entre la fracción sólida de la cavidad y "
+      "la del lecho libre, donde el sesgo se cancela—, no los gramos. La cavidad "
+      "entrega un VOLUMEN verificado sobre la malla (prueba V5); convertirlo a "
+      "gramos exige la densidad aparente del alimento real, medida con balanza.\n")
 
     a("\n## 3. Resultados\n")
     for nombre, caso in casos.items():

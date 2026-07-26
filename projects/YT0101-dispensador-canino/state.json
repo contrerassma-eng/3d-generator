@@ -36,7 +36,24 @@
       },
       "reasons": [],
       "ts": "2026-07-26T07:26:57+00:00"
+    },
+    "G-SIM": {
+      "verdict": "FALLA",
+      "metrics": {
+        "pruebas": 4,
+        "fallas": 1,
+        "advertencias": 1,
+        "dosis_media_g": null,
+        "llenado_simulado": null,
+        "angulo_reposo_deg": 28.26,
+        "mu_rodadura": 0.8
+      },
+      "reasons": [
+        "S3: La densidad aparente del modelo contra la citada",
+        "S4: Entrega alimento en todos los golpes (no se atasca)"
+      ],
+      "ts": "2026-07-26T16:42:55+00:00"
     }
   },
-  "updated": "2026-07-26T07:30:08+00:00"
+  "updated": "2026-07-26T16:42:55+00:00"
 }

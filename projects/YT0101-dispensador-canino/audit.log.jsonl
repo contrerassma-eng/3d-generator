@@ -156,3 +156,5 @@
 {"ts": "2026-07-26T07:30:09+00:00", "stage": "DOC", "action": "memoria, manual de armado y listas generados", "result": "OK"}
 {"ts": "2026-07-26T07:30:10+00:00", "stage": "WEB", "action": "paquete web del dispensador", "result": "OK", "faltan": [], "hash_index": "sha256:6218e0222bdc7d4b89e0c81106bbc6d9ca1907c31dad8643e0185e06a80cc974"}
 {"ts": "2026-07-26T07:30:42+00:00", "stage": "DOC", "action": "memoria, manual de armado y listas generados", "result": "OK"}
+{"ts": "2026-07-26T16:42:55+00:00", "stage": "G-SIM", "action": "evaluacion gate", "result": "FALLA", "metrics": {"pruebas": 4, "fallas": 1, "advertencias": 1, "dosis_media_g": null, "llenado_simulado": null, "angulo_reposo_deg": 28.26, "mu_rodadura": 0.8}, "reasons": ["S3: La densidad aparente del modelo contra la citada", "S4: Entrega alimento en todos los golpes (no se atasca)"]}
+{"ts": "2026-07-26T16:42:55+00:00", "stage": "SIM", "action": "sim_granos", "result": "FALLA", "pruebas": 4, "fallas": 1, "advertencias": 1}

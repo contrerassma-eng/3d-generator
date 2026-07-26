@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-26T16:34:48+00:00",
+  "generado": "2026-07-26T16:42:55+00:00",
   "proyecto": "YT0101-dispensador-canino",
   "capa": "user",
   "modelo": "DEM esferas polidispersas, contacto lineal con historia tangencial y fricción de rodadura",
@@ -12,46 +12,46 @@
     ],
     "curva": [
       {
-        "mu_rodadura": 0.02,
-        "angulo_reposo_deg": 0.08,
-        "particulas": 192,
-        "radio_talud_mm": 249.1,
-        "altura_talud_mm": 13.7
-      },
-      {
-        "mu_rodadura": 0.069,
-        "angulo_reposo_deg": 7.4,
-        "particulas": 192,
-        "radio_talud_mm": 114.2,
-        "altura_talud_mm": 16.0
-      },
-      {
         "mu_rodadura": 0.15,
-        "angulo_reposo_deg": 16.23,
-        "particulas": 192,
-        "radio_talud_mm": 129.6,
-        "altura_talud_mm": 27.0
+        "angulo_reposo_deg": 14.19,
+        "particulas": 429,
+        "radio_talud_mm": 183.3,
+        "altura_talud_mm": 34.2
       },
       {
         "mu_rodadura": 0.3,
-        "angulo_reposo_deg": 23.11,
-        "particulas": 192,
-        "radio_talud_mm": 92.7,
-        "altura_talud_mm": 31.4
+        "angulo_reposo_deg": 21.67,
+        "particulas": 429,
+        "radio_talud_mm": 119.9,
+        "altura_talud_mm": 43.0
+      },
+      {
+        "mu_rodadura": 0.5,
+        "angulo_reposo_deg": 25.4,
+        "particulas": 429,
+        "radio_talud_mm": 114.6,
+        "altura_talud_mm": 48.4
+      },
+      {
+        "mu_rodadura": 0.8,
+        "angulo_reposo_deg": 28.26,
+        "particulas": 429,
+        "radio_talud_mm": 111.0,
+        "altura_talud_mm": 51.4
       }
     ],
     "elegido": {
-      "mu_rodadura": 0.3,
-      "angulo_reposo_deg": 23.11,
-      "particulas": 192,
-      "radio_talud_mm": 92.7,
-      "altura_talud_mm": 31.4
+      "mu_rodadura": 0.8,
+      "angulo_reposo_deg": 28.26,
+      "particulas": 429,
+      "radio_talud_mm": 111.0,
+      "altura_talud_mm": 51.4
     },
     "densidad": {
-      "mu_rodadura": 0.3,
-      "fraccion_empaquetamiento": 0.4726,
-      "densidad_aparente_g_ml": 0.2552,
-      "particulas_en_control": 160
+      "mu_rodadura": 0.8,
+      "fraccion_empaquetamiento": 0.4864,
+      "densidad_aparente_g_ml": 0.2627,
+      "particulas_en_control": 164
     },
     "densidad_citada_g_ml": 0.4
   },
@@ -71,42 +71,42 @@
     {
       "id": "S2",
       "titulo": "El grano calibrado cae en el ángulo de reposo publicado",
-      "veredicto": "ADVERTENCIA",
+      "veredicto": "PASA",
       "medido": {
-        "angulo_simulado_deg": 23.11,
+        "angulo_simulado_deg": 28.26,
         "rango_publicado_deg": [
           27.0,
           38.0
         ],
-        "mu_rodadura": 0.3,
+        "mu_rodadura": 0.8,
         "curva": [
           {
-            "mu_rodadura": 0.02,
-            "angulo_reposo_deg": 0.08,
-            "particulas": 192,
-            "radio_talud_mm": 249.1,
-            "altura_talud_mm": 13.7
-          },
-          {
-            "mu_rodadura": 0.069,
-            "angulo_reposo_deg": 7.4,
-            "particulas": 192,
-            "radio_talud_mm": 114.2,
-            "altura_talud_mm": 16.0
-          },
-          {
             "mu_rodadura": 0.15,
-            "angulo_reposo_deg": 16.23,
-            "particulas": 192,
-            "radio_talud_mm": 129.6,
-            "altura_talud_mm": 27.0
+            "angulo_reposo_deg": 14.19,
+            "particulas": 429,
+            "radio_talud_mm": 183.3,
+            "altura_talud_mm": 34.2
           },
           {
             "mu_rodadura": 0.3,
-            "angulo_reposo_deg": 23.11,
-            "particulas": 192,
-            "radio_talud_mm": 92.7,
-            "altura_talud_mm": 31.4
+            "angulo_reposo_deg": 21.67,
+            "particulas": 429,
+            "radio_talud_mm": 119.9,
+            "altura_talud_mm": 43.0
+          },
+          {
+            "mu_rodadura": 0.5,
+            "angulo_reposo_deg": 25.4,
+            "particulas": 429,
+            "radio_talud_mm": 114.6,
+            "altura_talud_mm": 48.4
+          },
+          {
+            "mu_rodadura": 0.8,
+            "angulo_reposo_deg": 28.26,
+            "particulas": 429,
+            "radio_talud_mm": 111.0,
+            "altura_talud_mm": 51.4
           }
         ]
       },
@@ -118,10 +118,10 @@
       "titulo": "La densidad aparente del modelo contra la citada",
       "veredicto": "ADVERTENCIA",
       "medido": {
-        "densidad_simulada_g_ml": 0.2552,
+        "densidad_simulada_g_ml": 0.2627,
         "densidad_citada_g_ml": 0.4,
-        "discrepancia_pct": 36.2,
-        "fraccion_empaquetamiento": 0.4726,
+        "discrepancia_pct": 34.3,
+        "fraccion_empaquetamiento": 0.4864,
         "densidad_particula_kg_m3": 540.0
       },
       "criterio": "discrepancia ≤ 15% con la densidad aparente citada",
@@ -141,6 +141,6 @@
   "resumen": {
     "pruebas": 4,
     "fallas": 1,
-    "advertencias": 2
+    "advertencias": 1
   }
 }
