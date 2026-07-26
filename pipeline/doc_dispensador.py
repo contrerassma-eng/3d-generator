@@ -37,7 +37,7 @@ def cargar(proj: Path):
         if (proj / "out" / "SIMULACION.json").exists() else None
     idx = json.loads((proj / "out" / "piezas" / "INDICE.json").read_text(encoding="utf-8")) \
         if (proj / "out" / "piezas" / "INDICE.json").exists() else None
-    return P, C, hechos, ver, idx
+    return P, C, hechos, ver, idx, sim
 
 
 def cita(hechos: dict, id_: str) -> str:
@@ -301,9 +301,11 @@ def memoria(P, C, hechos, ver, sim=None) -> str:
         A("")
         A("| Antes era un supuesto | Qué dice el modelo |")
         A("|---|---|")
-        fl = base.get("factor_llenado_medido")
+        s5 = next((x for x in sim.get("pruebas", []) if x["id"] == "S5"), None)
+        fl = (s5 or {}).get("medido", {}).get("llenado_simulado")
         A(f"| Llenado {al['factor_llenado']:.2f} de la cavidad | "
-          f"{fl if fl is not None else '—'} simulado |")
+          f"**{fl if fl is not None else '—'} simulado** "
+          f"({(s5 or {}).get('veredicto', '')}) |")
         s7 = next((x for x in sim.get("pruebas", []) if x["id"] == "S7"), None)
         if s7:
             A(f"| El agitador es obligatorio | {s7['medido'].get('con_agitador_g')} g "
@@ -313,6 +315,16 @@ def memoria(P, C, hechos, ver, sim=None) -> str:
           f"{P.get('dem', {}).get('carga_rotura_croqueta_N')} N de rotura publicada |")
         A("")
         d = cal.get("densidad", {})
+        s1 = next((x for x in sim.get("pruebas", []) if x["id"] == "S1"), None)
+        if s1 and s1["veredicto"] != "PASA":
+            A(f"**Y la corrida NO es numéricamente limpia** (prueba S1): el solape "
+              f"máximo llegó al {s1['medido'].get('solape_max_pct_radio')}% del radio "
+              f"y hubo {s1['medido'].get('contactos_acotados')} contactos con la fuerza "
+              "acotada, casi todos donde el canto del cajón cizalla el lecho. El "
+              "contacto blando deja de representar bien ese pellizco, así que **los "
+              "gramos por golpe son indicativos, no certificados**. El factor de "
+              "llenado aguanta mejor porque es un cociente y el sesgo se cancela.")
+            A("")
         A("Y deja al descubierto una contradicción entre dos fuentes citadas que")
         A("el modelo no puede resolver: la densidad de partícula publicada de la")
         A("croqueta es incompatible con la densidad aparente del fabricante")
@@ -572,7 +584,7 @@ def main() -> None:
         print(__doc__)
         sys.exit(1)
     proj = project_dir(sys.argv[1])
-    P, C, hechos, ver, idx = cargar(proj)
+    P, C, hechos, ver, idx, sim = cargar(proj)
     if idx:
         C["masa_pla_total_g"] = idx.get("masa_pla_total_g")
     out = proj / "out"

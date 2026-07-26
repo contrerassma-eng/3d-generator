@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-26T16:42:55+00:00",
+  "generado": "2026-07-26T17:57:50+00:00",
   "proyecto": "YT0101-dispensador-canino",
   "capa": "user",
   "modelo": "DEM esferas polidispersas, contacto lineal con historia tangencial y fricción de rodadura",
@@ -71,15 +71,136 @@
     "techo_del_modelo_deg": 29.98,
     "nota_techo": "La curva no crece sin fin: llega a un maximo cerca de mu_rod 1.2 y despues BAJA (a 1.8 el talud cae a 24.18 grados, porque tanta rodadura deja el lecho tan suelto que se desparrama). El modelo de esferas no puede pasar de unos 30 grados, asi que alcanza la parte BAJA del rango publicado (27-38) y no la alta. Es el limite de representar una croqueta no esferica con esferas, y acota lo que esta simulacion puede afirmar."
   },
-  "casos": {},
+  "casos": {
+    "base": {
+      "golpes": 3,
+      "con_agitador": true,
+      "croqueta_mm": 12.0,
+      "particulas": 644,
+      "dt_s": 3e-05,
+      "t_ida_s": 1.1,
+      "t_espera_s": 0.35,
+      "descarga_por_golpe_g": [
+        {
+          "golpe": 1,
+          "masa_g": 31.11
+        },
+        {
+          "golpe": 2,
+          "masa_g": 30.05
+        },
+        {
+          "golpe": 3,
+          "masa_g": 28.73
+        }
+      ],
+      "dosis_media_g": 29.96,
+      "dosis_desv_g": 1.19,
+      "masa_en_cavidad_g": [
+        {
+          "golpe": 1,
+          "masa_g": 32.28,
+          "granos": 65,
+          "fraccion_solida": 0.4299
+        },
+        {
+          "golpe": 2,
+          "masa_g": 33.66,
+          "granos": 68,
+          "fraccion_solida": 0.4482
+        },
+        {
+          "golpe": 3,
+          "masa_g": 29.16,
+          "granos": 58,
+          "fraccion_solida": 0.3883
+        }
+      ],
+      "fraccion_solida_cavidad": 0.4221,
+      "empaquetamiento_lecho": 0.3505,
+      "factor_llenado_medido": 1.205,
+      "factor_llenado_declarado": 0.9,
+      "masa_cavidad_media_g": 31.7,
+      "masa_cavidad_si_densidad_citada_g": 55.6,
+      "granos_reciclados": 185,
+      "fuerza_contacto_max_N": 26.49,
+      "carga_rotura_croqueta_N": [
+        64.0,
+        135.0
+      ],
+      "solape_max_pct_radio": 35.0,
+      "contactos_acotados": 15709,
+      "segundos": 1229.9
+    },
+    "sin_agitador": {
+      "golpes": 3,
+      "con_agitador": false,
+      "croqueta_mm": 12.0,
+      "particulas": 644,
+      "dt_s": 3e-05,
+      "t_ida_s": 1.1,
+      "t_espera_s": 0.35,
+      "descarga_por_golpe_g": [
+        {
+          "golpe": 1,
+          "masa_g": 30.49
+        },
+        {
+          "golpe": 2,
+          "masa_g": 30.02
+        },
+        {
+          "golpe": 3,
+          "masa_g": 32.61
+        }
+      ],
+      "dosis_media_g": 31.04,
+      "dosis_desv_g": 1.38,
+      "masa_en_cavidad_g": [
+        {
+          "golpe": 1,
+          "masa_g": 32.13,
+          "granos": 63,
+          "fraccion_solida": 0.428
+        },
+        {
+          "golpe": 2,
+          "masa_g": 31.03,
+          "granos": 63,
+          "fraccion_solida": 0.4133
+        },
+        {
+          "golpe": 3,
+          "masa_g": 32.61,
+          "granos": 61,
+          "fraccion_solida": 0.4343
+        }
+      ],
+      "fraccion_solida_cavidad": 0.4252,
+      "empaquetamiento_lecho": 0.2569,
+      "factor_llenado_medido": 1.655,
+      "factor_llenado_declarado": 0.9,
+      "masa_cavidad_media_g": 31.92,
+      "masa_cavidad_si_densidad_citada_g": 55.6,
+      "granos_reciclados": 184,
+      "fuerza_contacto_max_N": 27.73,
+      "carga_rotura_croqueta_N": [
+        64.0,
+        135.0
+      ],
+      "solape_max_pct_radio": 40.54,
+      "contactos_acotados": 12666,
+      "segundos": 1154.4
+    }
+  },
   "pruebas": [
     {
       "id": "S1",
       "titulo": "La corrida es numéricamente limpia",
-      "veredicto": "PASA",
+      "veredicto": "FALLA",
       "medido": {
-        "solape_max_pct_radio": 0.0,
-        "contactos_acotados": 0
+        "solape_max_pct_radio": 35.0,
+        "contactos_acotados": 15709
       },
       "criterio": "solape < 2% del radio (rigidez suficiente) y ningún contacto acotado",
       "accion": "subir rigidez_normal_N_m y bajar dt_s en params.json"
@@ -123,6 +244,20 @@
             "particulas": 429,
             "radio_talud_mm": 111.0,
             "altura_talud_mm": 51.4
+          },
+          {
+            "mu_rodadura": 1.2,
+            "angulo_reposo_deg": 29.98,
+            "particulas": 429,
+            "radio_talud_mm": 108.9,
+            "altura_talud_mm": 51.0
+          },
+          {
+            "mu_rodadura": 1.8,
+            "angulo_reposo_deg": 24.18,
+            "particulas": 429,
+            "radio_talud_mm": 121.0,
+            "altura_talud_mm": 41.3
           }
         ]
       },
@@ -141,22 +276,111 @@
         "densidad_particula_kg_m3": 540.0
       },
       "criterio": "discrepancia ≤ 15% con la densidad aparente citada",
-      "accion": "la densidad aparente citada y la densidad de partícula publicada no son del mismo producto: hay que medir el alimento real"
+      "accion": "Dos causas distintas y las dos hay que decirlas. (1) Las fuentes se contradicen: la densidad aparente del fabricante y la densidad de partícula publicada exigirían un empaquetamiento por encima del máximo físico de un lecho de esferas, así que no son del mismo producto. (2) Con esferas se puede reproducir el ÁNGULO DE REPOSO o el EMPAQUETAMIENTO, no los dos: la rodadura alta que hace falta para el talud de un grano no esférico deja el lecho suelto. Se eligió acertar el flujo, que es lo que se está preguntando. Consecuencia: las masas simuladas salen BAJAS y el resultado que vale es el FACTOR DE LLENADO (un cociente, donde el sesgo se cancela), no los gramos. Los gramos se calibran con balanza."
     },
     {
       "id": "S4",
       "titulo": "Entrega alimento en todos los golpes (no se atasca)",
-      "veredicto": "FALLA",
+      "veredicto": "PASA",
       "medido": {
-        "por_golpe_g": []
+        "por_golpe_g": [
+          31.11,
+          30.05,
+          28.73
+        ]
       },
       "criterio": "ningún golpe entrega menos de la mitad del mayor, y ninguno sale vacío",
       "accion": "revisar el criterio anti-arco y la geometría del cuello"
+    },
+    {
+      "id": "S5",
+      "titulo": "El factor de llenado declarado contra el simulado",
+      "veredicto": "PASA",
+      "medido": {
+        "llenado_simulado": 0.868,
+        "llenado_declarado": 0.9,
+        "empaquetamiento_calibracion": 0.4864,
+        "discrepancia_pct": 3.6,
+        "fraccion_solida_cavidad": 0.4221,
+        "empaquetamiento_lecho": 0.3505,
+        "masa_cavidad_media_g": 31.7,
+        "masa_si_densidad_citada_g": 55.6,
+        "masa_en_cavidad_g": [
+          {
+            "golpe": 1,
+            "masa_g": 32.28,
+            "granos": 65,
+            "fraccion_solida": 0.4299
+          },
+          {
+            "golpe": 2,
+            "masa_g": 33.66,
+            "granos": 68,
+            "fraccion_solida": 0.4482
+          },
+          {
+            "golpe": 3,
+            "masa_g": 29.16,
+            "granos": 58,
+            "fraccion_solida": 0.3883
+          }
+        ]
+      },
+      "criterio": "el llenado simulado no se aparta más de 15% del declarado (0.90)",
+      "accion": "corregir alimento.factor_llenado en params.json y regenerar"
+    },
+    {
+      "id": "S6",
+      "titulo": "La dosis simulada cae en el rango de diseño",
+      "veredicto": "ADVERTENCIA",
+      "medido": {
+        "dosis_simulada_g": 29.96,
+        "desviacion_g": 1.19,
+        "rango_diseno_g": [
+          37.6,
+          56.3
+        ],
+        "objetivo_g": 50.0
+      },
+      "criterio": "dosis media dentro de [37.6, 56.3] g (rango por densidad del alimento)",
+      "accion": "recalibrar pesando cinco golpes con el alimento real"
+    },
+    {
+      "id": "S7",
+      "titulo": "El agitador cambia el comportamiento del cuello",
+      "veredicto": "ADVERTENCIA",
+      "medido": {
+        "con_agitador_g": 29.96,
+        "sin_agitador_g": 31.04,
+        "por_golpe_sin": [
+          30.49,
+          30.02,
+          32.61
+        ]
+      },
+      "criterio": "sin agitador la entrega cae al menos a la mitad (si no, el agitador no está justificado por esta simulación)",
+      "accion": "si el aparato dosifica igual sin agitador, decirlo: sobra una pieza"
+    },
+    {
+      "id": "S8",
+      "titulo": "La fuerza de contacto no llega a romper la croqueta",
+      "veredicto": "ADVERTENCIA",
+      "medido": {
+        "fuerza_max_N": 26.49,
+        "carga_rotura_N": [
+          64.0,
+          135.0
+        ],
+        "solape_max_pct_radio": 35.0,
+        "concluyente": false
+      },
+      "criterio": "fuerza máxima de contacto por debajo de 64.0 N (rotura mínima publicada de croqueta de perro), Y con el solape dentro del rango de validez del contacto blando (<10% del radio)",
+      "accion": "NO CONCLUYENTE: el solape máximo se salió del rango de validez, así que la fuerza medida es una COTA INFERIOR de la real. Para zanjarlo hay que subir rigidez_normal_N_m y bajar dt_s, que multiplica el tiempo de cálculo."
     }
   ],
   "resumen": {
-    "pruebas": 4,
+    "pruebas": 8,
     "fallas": 1,
-    "advertencias": 1
+    "advertencias": 4
   }
 }

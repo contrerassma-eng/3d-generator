@@ -536,15 +536,21 @@ def escenario_dosificar(P, C, piezas, cache, golpes=3, con_agitador=True,
     dosis = np.array([s["masa_g"] for s in salidas])
     llen = np.array([l["masa_g"] for l in llenado])
     phi_cav = np.array([l["fraccion_solida"] for l in llenado])
-    # Empaquetamiento del lecho libre, medido en la misma corrida: sirve de
-    # referencia para convertir la fracción sólida de la cavidad en un factor
-    # de llenado comparable con el 0.90 declarado.
-    alto_libre = info["z_relleno0"] + 0.02
+    # Empaquetamiento del lecho libre en el depósito, para convertir la fracción
+    # sólida de la cavidad en un factor de llenado comparable con el 0.90
+    # declarado. La ventana se coloca POR DEBAJO DE LA SUPERFICIE REAL del lecho,
+    # no a una altura fija: el material baja golpe a golpe, y una ventana fija
+    # acaba midiendo aire y devolviendo un empaquetamiento ridículo (con él, el
+    # factor de llenado salía 1.2 y 1.65, que no significan nada).
     rho_libre = np.hypot(sim.x[:, 0] - info["eje"][0], sim.x[:, 1] - info["eje"][1])
-    libre = ((sim.x[:, 2] > alto_libre) & (sim.x[:, 2] < alto_libre + 0.06) &
-             (rho_libre < info["r_relleno"]))
-    phi_lecho = float((4.0 / 3.0 * math.pi * sim.r[libre] ** 3).sum() /
-                      (math.pi * info["r_relleno"] ** 2 * 0.06)) if libre.sum() > 20 else None
+    en_deposito = rho_libre < info["r_relleno"] * 0.95
+    phi_lecho = None
+    if en_deposito.sum() > 40:
+        z_sup = float(np.percentile(sim.x[en_deposito, 2], 95))
+        banda = en_deposito & (sim.x[:, 2] < z_sup - 0.02) & (sim.x[:, 2] > z_sup - 0.08)
+        if banda.sum() > 20:
+            phi_lecho = float((4.0 / 3.0 * math.pi * sim.r[banda] ** 3).sum() /
+                              (math.pi * (info["r_relleno"] * 0.95) ** 2 * 0.06))
     v_cav = C["volumen_cavidad_ml"]
     rho_ap = P["alimento"]["densidad_aparente_g_ml"]
     return {
@@ -720,12 +726,18 @@ def evaluar(P: dict, C: dict, cal: dict, casos: dict) -> list[dict]:
                "revisar el criterio anti-arco y la geometría del cuello")
 
     # -- S5 el factor de llenado declarado ------------------------------------
-    fl = base.get("factor_llenado_medido")
+    # El factor de llenado se calcula contra el empaquetamiento medido en la
+    # CALIBRACIÓN (recipiente controlado), no contra el de la corrida: en la
+    # corrida el lecho se mueve y su empaquetamiento local es ruidoso.
+    phi_cal = cal.get("densidad", {}).get("fraccion_empaquetamiento")
+    fs = base.get("fraccion_solida_cavidad")
+    fl = round(fs / phi_cal, 3) if (fs and phi_cal) else base.get("factor_llenado_medido")
     fd = base.get("factor_llenado_declarado")
     if fl is not None and fd:
         prueba("S5", "El factor de llenado declarado contra el simulado",
                "PASA" if abs(fl - fd) / fd <= 0.15 else "ADVERTENCIA",
                {"llenado_simulado": fl, "llenado_declarado": fd,
+                "empaquetamiento_calibracion": phi_cal,
                 "discrepancia_pct": round(abs(fl - fd) / fd * 100, 1),
                 "fraccion_solida_cavidad": base.get("fraccion_solida_cavidad"),
                 "empaquetamiento_lecho": base.get("empaquetamiento_lecho"),

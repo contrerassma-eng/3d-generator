@@ -18,8 +18,8 @@ ali_inserto_dosis,1,piezas/ali_inserto_dosis.stl,100×22×31,17,no,Media dosis: 
 ali_pinon,1,piezas/ali_pinon.stl,60×60×23,28,no,"O primitivo 55.0 mm, 20 grados, backlash 0.3 mm. Imprimir plano: 5 perimetros, 40% relleno."
 ali_eje_pinon,1,piezas/ali_eje_pinon.stl,14×12×101,10,no,Pasador O3 abajo: retiene el eje en la torre.
 ali_palanca,1,piezas/ali_palanca.stl,34×190×16,45,no,Barrido util 123 grados = 1 dosis. Ventaja mecanica 6.5:1.
-ali_adaptador_cuello,1,piezas/ali_adaptador_cuello.stl,110×67×100,125,no,Pared a 65° (flujo másico). Imprimir invertida (brida arriba): sin soportes.
-ali_adaptador_hombro,1,piezas/ali_adaptador_hombro.stl,166×166×94,166,no,"Alternativa: cortar el envase donde mide Ø152 y apoyarlo aquí. Mejor flujo, pero el corte queda a la vista y hay que desbarbarlo."
+ali_adaptador_cuello,1,piezas/ali_adaptador_cuello.stl,110×67×100,121,no,Pared a 65° (flujo másico). Imprimir invertida (brida arriba): sin soportes.
+ali_adaptador_hombro,1,piezas/ali_adaptador_hombro.stl,166×166×94,145,no,"Alternativa: cortar el envase donde mide Ø152 y apoyarlo aquí. Mejor flujo, pero el corte queda a la vista y hay que desbarbarlo."
 ali_agitador,1,piezas/ali_agitador.stl,46×46×176,11,sí (parcial),Gira ~130° por golpe: rompe el puente de croquetas en el cuello.
 ali_manivela,1,piezas/ali_manivela.stl,20×46×8,4,no,Radio 23.9 mm (calculado): con la biela de 99 mm da una vuelta completa por golpe.
 ali_biela,1,piezas/ali_biela.stl,18×117×6,7,no,"Entre ejes 98.8 mm. Unir con M4 y tuerca FLOJA: es una articulación, no un apriete."

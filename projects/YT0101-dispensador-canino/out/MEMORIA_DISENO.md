@@ -1,6 +1,6 @@
 # MEMORIA DE DISEÑO — Dispensador canino YT0101
 
-Generado: 2026-07-26T07:30:42+00:00 · Capa `user` (diseño paramétrico, no medición).
+Generado: 2026-07-26T18:00:53+00:00 · Capa `user` (diseño paramétrico, no medición).
 Cada cota nace de `input/params.json`; cada dato externo está citado en
 `input/web_facts.json` con URL, fecha de acceso y cita textual.
 
@@ -200,7 +200,7 @@ vez de esconderse.
 
 ## 10. Resultado de la verificación
 
-**PASA_CON_ADVERTENCIAS** — 21 pruebas, 0 fallas, 2 advertencias (detalle completo en `VERIFICACION.md`).
+**PASA_CON_ADVERTENCIAS** — 22 pruebas, 0 fallas, 2 advertencias (detalle completo en `VERIFICACION.md`).
 
 | | Prueba | Resultado |
 |---|---|---|
@@ -209,6 +209,7 @@ vez de esconderse.
 | V3 | El cajón recorre toda la carrera sin chocar con las piezas fijas | **PASA** |
 | V4 | Con el cajón afuera, la boca de la tolva queda obturada | **PASA** |
 | V16 | La cavidad queda alineada con la boca de carga y con la de descarga | **PASA** |
+| V18 | El camino de la croqueta está ABIERTO de la tolva al plato | **PASA** |
 | V5 | La cavidad entrega la dosis objetivo con el alimento de diseño | **PASA** |
 | V6 | Cremallera y piñón engranan con la distancia correcta | **PASA** |
 | V6c | La cremallera queda engranada en los dos extremos de la carrera | **PASA** |
@@ -229,10 +230,35 @@ vez de esconderse.
 ## 11. Lo que este diseño todavía no demuestra
 
 Honestidad de ingeniería: la verificación es geométrica y analítica. NO
-sustituye al prototipo. Quedan por comprobar en el aparato físico:
+sustituye al prototipo.
 
-1. El factor de llenado real de la cavidad (se supuso 0.90).
-2. Si el agitador basta para el cuello del bidón con croqueta de 12 mm.
+La simulación de grano (`SIMULACION.md`, gate G-SIM) ataca tres de
+estos puntos, pero con un MODELO: esferas polidispersas con fricción
+de rodadura calibrada contra el ángulo de reposo publicado. Reduce la
+incertidumbre, no la elimina.
+
+| Antes era un supuesto | Qué dice el modelo |
+|---|---|
+| Llenado 0.90 de la cavidad | **0.868 simulado** (PASA) |
+| El agitador es obligatorio | 29.96 g con agitador contra 31.04 g sin él |
+| El bisel no parte la croqueta | fuerza máxima de contacto 26.49 N contra [64.0, 135.0] N de rotura publicada |
+
+**Y la corrida NO es numéricamente limpia** (prueba S1): el solape máximo llegó al 35.0% del radio y hubo 15709 contactos con la fuerza acotada, casi todos donde el canto del cajón cizalla el lecho. El contacto blando deja de representar bien ese pellizco, así que **los gramos por golpe son indicativos, no certificados**. El factor de llenado aguanta mejor porque es un cociente y el sesgo se cancela.
+
+Y deja al descubierto una contradicción entre dos fuentes citadas que
+el modelo no puede resolver: la densidad de partícula publicada de la
+croqueta es incompatible con la densidad aparente del fabricante
+(0.4 g/ml exigiría empaquetar muy por
+encima del máximo físico de un lecho de esferas). El modelo empaqueta
+a φ = 0.4864 y da 0.2627 g/ml. **La cavidad entrega un
+volumen conocido y verificado; la masa en gramos hereda esa
+incertidumbre** y por eso la calibración con balanza no es opcional.
+
+Queda por comprobar en el aparato físico:
+
+1. El llenado real de la cavidad con el alimento que se vaya a usar (pesando cinco golpes: `ENSAMBLE.md` §5).
+2. Si el agitador basta para el cuello del bidón con croqueta de 12 mm REAL, que no es una esfera.
 3. El desgaste del par cremallera-piñón en PLA tras unos miles de ciclos.
 4. Que el perro no vuelque el conjunto (de ahí la escuadra de muro).
-5. El ángulo de reposo del alimento real.
+5. El ángulo de reposo del alimento real: para croqueta de perro NO hay valor numérico publicado, solo extrapolaciones de pellet extruido.
+6. La fricción croqueta-PLA: no existe ninguna fuente. El modelo usa la medida contra ABS como cota superior.

@@ -40,20 +40,20 @@
     "G-SIM": {
       "verdict": "FALLA",
       "metrics": {
-        "pruebas": 4,
+        "pruebas": 8,
         "fallas": 1,
-        "advertencias": 1,
-        "dosis_media_g": null,
-        "llenado_simulado": null,
-        "angulo_reposo_deg": 28.26,
-        "mu_rodadura": 0.8
+        "advertencias": 4,
+        "dosis_media_g": 29.96
       },
       "reasons": [
+        "S1: La corrida es numéricamente limpia",
         "S3: La densidad aparente del modelo contra la citada",
-        "S4: Entrega alimento en todos los golpes (no se atasca)"
+        "S6: La dosis simulada cae en el rango de diseño",
+        "S7: El agitador cambia el comportamiento del cuello",
+        "S8: La fuerza de contacto no llega a romper la croqueta"
       ],
-      "ts": "2026-07-26T16:42:55+00:00"
+      "ts": "2026-07-26T18:00:13+00:00"
     }
   },
-  "updated": "2026-07-26T17:27:51+00:00"
+  "updated": "2026-07-26T18:00:13+00:00"
 }
