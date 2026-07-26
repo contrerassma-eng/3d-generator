@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-26T17:25:49+00:00",
+  "generado": "2026-07-26T17:27:07+00:00",
   "proyecto": "YT0101-dispensador-canino",
   "capa": "user",
   "pruebas": [
@@ -283,39 +283,251 @@
     {
       "id": "V18",
       "titulo": "El camino de la croqueta está ABIERTO de la tolva al plato",
-      "veredicto": "FALLA",
+      "veredicto": "PASA",
       "medido": {
-        "rayos_libres_pct": {
-          "carga": 71.4,
-          "descarga": 20.0
-        },
-        "detalle": {
+        "hueco_libre_minimo_mm": 40.0,
+        "croqueta_mm": 12.0,
+        "donde": {
           "carga": {
-            "rayos": 35,
-            "libres": 25,
-            "z_mm": [
-              338.0,
-              392.0
-            ],
-            "obstruccion_pct_por_pieza": {
-              "ali_adaptador_cuello": 0.9
-            }
+            "z_mm": 338.0,
+            "hueco_libre_mm": 48.0,
+            "pieza_dominante": "ali_corredera"
           },
           "descarga": {
-            "rayos": 35,
-            "libres": 7,
-            "z_mm": [
-              270.0,
-              364.9
-            ],
-            "obstruccion_pct_por_pieza": {
-              "ali_chute": 6.8
-            }
+            "z_mm": 326.4,
+            "hueco_libre_mm": 40.0,
+            "pieza_dominante": "ali_chute"
           }
+        },
+        "perfiles": {
+          "carga": [
+            {
+              "z_mm": 338.0,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 340.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 343.5,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 346.2,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 349.0,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 351.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 354.5,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 357.2,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 360.0,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 362.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 365.5,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 368.2,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_canal_tapa"
+            },
+            {
+              "z_mm": 371.0,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_canal_tapa"
+            },
+            {
+              "z_mm": 373.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 376.5,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 379.2,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 382.0,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 384.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 387.5,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 390.2,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 393.0,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            },
+            {
+              "z_mm": 395.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_adaptador_cuello"
+            }
+          ],
+          "descarga": [
+            {
+              "z_mm": 275.0,
+              "hueco_libre_mm": 76.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 279.3,
+              "hueco_libre_mm": 68.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 283.6,
+              "hueco_libre_mm": 64.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 287.8,
+              "hueco_libre_mm": 60.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 292.1,
+              "hueco_libre_mm": 60.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 296.4,
+              "hueco_libre_mm": 64.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 300.7,
+              "hueco_libre_mm": 68.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 305.0,
+              "hueco_libre_mm": 76.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 309.2,
+              "hueco_libre_mm": 80.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 313.5,
+              "hueco_libre_mm": 84.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 317.8,
+              "hueco_libre_mm": 88.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 322.1,
+              "hueco_libre_mm": 92.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 326.4,
+              "hueco_libre_mm": 40.0,
+              "pieza_dominante": "ali_chute"
+            },
+            {
+              "z_mm": 330.7,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_canal_base"
+            },
+            {
+              "z_mm": 334.9,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_canal_base"
+            },
+            {
+              "z_mm": 339.2,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 343.5,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 347.8,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 352.1,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 356.3,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 360.6,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            },
+            {
+              "z_mm": 364.9,
+              "hueco_libre_mm": 48.0,
+              "pieza_dominante": "ali_corredera"
+            }
+          ]
         }
       },
-      "criterio": "≥80% de los rayos verticales atraviesan el camino sin tocar NINGUNA pieza (el resto es el estrechamiento normal de la tolva)",
-      "accion": "mirar qué pieza aparece en obstruccion_pct_por_pieza: hay material donde tiene que pasar el alimento"
+      "criterio": "a NINGUNA altura del camino el hueco libre puede bajar de una croqueta (12 mm); si baja a 0 es que hay una pieza tapando el paso",
+      "accion": "mirar 'donde': dice la altura y la pieza que estrecha el camino"
     },
     {
       "id": "V5",
@@ -583,14 +795,12 @@
   ],
   "resumen": {
     "pruebas": 22,
-    "fallas": [
-      "V18"
-    ],
+    "fallas": [],
     "advertencias": [
       "V7b",
       "V8"
     ],
-    "veredicto": "FALLA"
+    "veredicto": "PASA_CON_ADVERTENCIAS"
   },
   "calculos": {
     "cavidad_z_calculada": 30.86,

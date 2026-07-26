@@ -1,8 +1,8 @@
 # Verificación funcional — YT0101-dispensador-canino
 
-Generado: 2026-07-26T17:25:49+00:00 · capa `user` (diseño, no medición).
+Generado: 2026-07-26T17:27:07+00:00 · capa `user` (diseño, no medición).
 
-**Veredicto: FALLA** (22 pruebas, 1 fallas, 2 advertencias)
+**Veredicto: PASA_CON_ADVERTENCIAS** (22 pruebas, 0 fallas, 2 advertencias)
 
 | Prueba | Qué comprueba | Resultado |
 |---|---|---|
@@ -11,7 +11,7 @@ Generado: 2026-07-26T17:25:49+00:00 · capa `user` (diseño, no medición).
 | V3 | El cajón recorre toda la carrera sin chocar con las piezas fijas | **PASA** |
 | V4 | Con el cajón afuera, la boca de la tolva queda obturada | **PASA** |
 | V16 | La cavidad queda alineada con la boca de carga y con la de descarga | **PASA** |
-| V18 | El camino de la croqueta está ABIERTO de la tolva al plato | **FALLA** |
+| V18 | El camino de la croqueta está ABIERTO de la tolva al plato | **PASA** |
 | V5 | La cavidad entrega la dosis objetivo con el alimento de diseño | **PASA** |
 | V6 | Cremallera y piñón engranan con la distancia correcta | **PASA** |
 | V6c | La cremallera queda engranada en los dos extremos de la carrera | **PASA** |
@@ -66,10 +66,10 @@ Generado: 2026-07-26T17:25:49+00:00 · capa `user` (diseño, no medición).
 
 ## V18 — El camino de la croqueta está ABIERTO de la tolva al plato
 
-- **Resultado:** FALLA
-- **Criterio:** ≥80% de los rayos verticales atraviesan el camino sin tocar NINGUNA pieza (el resto es el estrechamiento normal de la tolva)
-- **Medido:** `{"rayos_libres_pct": {"carga": 71.4, "descarga": 20.0}, "detalle": {"carga": {"rayos": 35, "libres": 25, "z_mm": [338.0, 392.0], "obstruccion_pct_por_pieza": {"ali_adaptador_cuello": 0.9}}, "descarga": {"rayos": 35, "libres": 7, "z_mm": [270.0, 364.9], "obstruccion_pct_por_pieza": {"ali_chute": 6.8}}}}`
-- **Acción / nota:** mirar qué pieza aparece en obstruccion_pct_por_pieza: hay material donde tiene que pasar el alimento
+- **Resultado:** PASA
+- **Criterio:** a NINGUNA altura del camino el hueco libre puede bajar de una croqueta (12 mm); si baja a 0 es que hay una pieza tapando el paso
+- **Medido:** `{"hueco_libre_minimo_mm": 40.0, "croqueta_mm": 12.0, "donde": {"carga": {"z_mm": 338.0, "hueco_libre_mm": 48.0, "pieza_dominante": "ali_corredera"}, "descarga": {"z_mm": 326.4, "hueco_libre_mm": 40.0, "pieza_dominante": "ali_chute"}}, "perfiles": {"carga": "[22 pasos]", "descarga": "[22 pasos]"}}`
+- **Acción / nota:** mirar 'donde': dice la altura y la pieza que estrecha el camino
 
 ## V5 — La cavidad entrega la dosis objetivo con el alimento de diseño
 

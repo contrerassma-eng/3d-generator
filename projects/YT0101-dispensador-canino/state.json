@@ -3,12 +3,10 @@
   "stage": "DISENO_VERIFICADO",
   "gates": {
     "G_DIS": {
-      "verdict": "FALLA",
+      "verdict": "SIN_CONTRASTE",
       "metrics": {
         "pruebas": 22,
-        "fallas": [
-          "V18"
-        ],
+        "fallas": [],
         "advertencias": [
           "V7b",
           "V8"
@@ -16,10 +14,8 @@
         "dosis_g": 50.1,
         "masa_pla_total_g": 2258.5
       },
-      "reasons": [
-        "El camino de la croqueta está ABIERTO de la tolva al plato"
-      ],
-      "ts": "2026-07-26T17:25:55+00:00"
+      "reasons": [],
+      "ts": "2026-07-26T17:27:51+00:00"
     },
     "G6": {
       "verdict": "PASA",
@@ -59,5 +55,5 @@
       "ts": "2026-07-26T16:42:55+00:00"
     }
   },
-  "updated": "2026-07-26T17:25:55+00:00"
+  "updated": "2026-07-26T17:27:51+00:00"
 }

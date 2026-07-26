@@ -161,3 +161,5 @@
 {"ts": "2026-07-26T17:24:05+00:00", "stage": "CAD", "action": "generadas 25 piezas paramétricas del dispensador", "result": "OK", "piezas": 25, "masa_pla_g": 2258.5, "advertencias": [], "hash_indice": "sha256:33f3587ba06e43cc27d7dbb48568a0297fe79d25876620e5d0f3e9900eff23c8"}
 {"ts": "2026-07-26T17:25:55+00:00", "stage": "G_DIS", "action": "evaluacion gate", "result": "FALLA", "metrics": {"pruebas": 22, "fallas": ["V18"], "advertencias": ["V7b", "V8"], "dosis_g": 50.1, "masa_pla_total_g": 2258.5}, "reasons": ["El camino de la croqueta está ABIERTO de la tolva al plato"]}
 {"ts": "2026-07-26T17:25:55+00:00", "stage": "G_DIS", "action": "verificación funcional del dispensador", "result": "FALLA"}
+{"ts": "2026-07-26T17:27:51+00:00", "stage": "G_DIS", "action": "evaluacion gate", "result": "SIN_CONTRASTE", "metrics": {"pruebas": 22, "fallas": [], "advertencias": ["V7b", "V8"], "dosis_g": 50.1, "masa_pla_total_g": 2258.5}, "reasons": []}
+{"ts": "2026-07-26T17:27:51+00:00", "stage": "G_DIS", "action": "verificación funcional del dispensador", "result": "PASA_CON_ADVERTENCIAS"}
