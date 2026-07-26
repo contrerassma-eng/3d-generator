@@ -160,5 +160,62 @@
     "dosis_tolerancia_pct": 15.0,
     "seguridad_estructural_min": 3.0,
     "pasos_barrido_corredera": 21
+  },
+  "dem": {
+    "_nota": "Modelo de grano para pipeline/sim_granos.py. NINGUN parametro es de croqueta de perro medida contra PLA: esa fuente NO EXISTE. Cada valor declara de donde sale y que tan lejos esta del material real.",
+    "densidad_particula_kg_m3": 540.0,
+    "densidad_particula_ref": "dem_kibble_densidad_particula_alvarenga",
+    "densidad_particula_rango_kg_m3": [
+      342.0,
+      556.0
+    ],
+    "densidad_particula_rango_ref": "dem_kibble_densidad_particula_insectos",
+    "densidad_particula_nota": "Croqueta de perro seca, medida (calibre + balanza, densidad de envolvente: incluye los poros, que es la que corresponde a un DEM).",
+    "restitucion": 0.533,
+    "restitucion_ref": "dem_aquafeed_restitucion_vs_abs",
+    "restitucion_nota": "EXTRAPOLADO: pellet de acuicultura extruido y flotante contra ABS. Es el analogo mas cercano publicado (mismo proceso, misma flotabilidad).",
+    "friccion_grano_pared": 0.331,
+    "friccion_grano_pared_ref": "dem_aquafeed_friccion_estatica_vs_abs",
+    "friccion_grano_pared_nota": "EXTRAPOLADO de ABS. El PLA impreso da COF MENOR que el ABS (dem_pla_vs_abs_direccion_friccion): se conoce la direccion del error, no su magnitud. 0.331 se usa como COTA SUPERIOR (mas friccion = mas riesgo de arco = conservador).",
+    "friccion_grano_grano": 0.5,
+    "friccion_grano_grano_capa": "user",
+    "friccion_grano_grano_ref": "dem_bahnasawy_friccion_estatica_por_superficie",
+    "friccion_grano_grano_nota": "SIN FUENTE DIRECTA: nadie publica parametros particula-particula de extruido de alimento. Se adopta dentro del rango de friccion INTERNA del lecho de Bahnasawy (0.48-0.80), que es tan(angulo de reposo) y NO friccion de pared (dem_bahnasawy_friccion_metodo).",
+    "friccion_rodadura": 0.069,
+    "friccion_rodadura_ref": "dem_aquafeed_friccion_rodadura_vs_abs",
+    "friccion_rodadura_capa": "user",
+    "friccion_rodadura_nota": "Punto de partida. El valor que se usa sale de la CALIBRACION contra el angulo de reposo publicado; la rodadura es el sustituto de la forma no esferica de la croqueta.",
+    "angulo_reposo_rango_deg": [
+      27.0,
+      38.0
+    ],
+    "angulo_reposo_rango_ref": "dem_khater_reposo_extruido_flotante",
+    "angulo_reposo_objetivo_deg": 32.5,
+    "angulo_reposo_objetivo_capa": "user",
+    "angulo_reposo_nota": "EXTRAPOLADO de pellet de pescado extruido flotante. Para croqueta de perro NO hay valor numerico publicado (dem_kibble_reposo_sin_valor_numerico): la unica fuente que dice medirlo solo publica 'fair flow property'.",
+    "rigidez_normal_N_m": 10000.0,
+    "rigidez_normal_capa": "user",
+    "rigidez_normal_nota": "Rigidez reducida: practica estandar en DEM de flujo. Valida mientras el solape se mantenga bajo el 1% del diametro; se mide y se informa en cada corrida.",
+    "cv_diametro": 0.12,
+    "cv_diametro_capa": "user",
+    "cv_diametro_nota": "Dispersion de tamano. Bahnasawy publica CV 2-3% del diametro medio dentro de un calibre y 12-33% del largo; se toma 12% para no simular un lecho monodisperso, que traba distinto al real.",
+    "dt_s": 3e-05,
+    "dt_s_capa": "user",
+    "t_asentado_s": 1.6,
+    "carga_rotura_croqueta_N": [
+      64.0,
+      135.0
+    ],
+    "carga_rotura_croqueta_ref": "dem_kibble_dureza_insectos",
+    "carga_rotura_croqueta_nota": "Fuerza de fractura de croqueta de perro (sonda 25 mm, 50% de deformacion). Es el umbral contra el que se compara la fuerza maxima de contacto en el bisel del cajon.",
+    "altura_columna_simulada_mm": 130.0,
+    "altura_columna_capa": "user",
+    "altura_columna_nota": "Altura de croqueta simulada sobre el hombro. Por Janssen la friccion de pared absorbe el peso y la tension sobre la boca satura en pocos diametros de columna: simular el bidon entero no cambiaria el resultado y multiplicaria el calculo.",
+    "barrido_rodadura": [
+      0.02,
+      0.069,
+      0.15,
+      0.3
+    ]
   }
 }

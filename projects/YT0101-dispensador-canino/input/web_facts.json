@@ -118,7 +118,10 @@
   {
     "id": "densidad-rango-objetivo-industria",
     "claim": "rango objetivo de densidad aparente de la croqueta extruida",
-    "value": [300, 400],
+    "value": [
+      300,
+      400
+    ],
     "unit": "g/L",
     "url": "https://www.mdpi.com/2227-9717/13/7/2083",
     "accessed": "2026-07-26",
@@ -128,7 +131,10 @@
   {
     "id": "densidad-seca-faba-2019",
     "claim": "densidad aparente de croqueta seca medida en ensayo de extrusión",
-    "value": [296, 338],
+    "value": [
+      296,
+      338
+    ],
     "unit": "g/L",
     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6351981/",
     "accessed": "2026-07-26",
@@ -171,7 +177,10 @@
   {
     "id": "kibble-tamano-afb-pequena",
     "claim": "diámetro de croqueta para raza pequeña",
-    "value": [7, 8],
+    "value": [
+      7,
+      8
+    ],
     "unit": "mm",
     "url": "https://www.afbinternational.com/blog/white_paper/small-dogs-large-kibble/",
     "accessed": "2026-07-26",
@@ -181,7 +190,10 @@
   {
     "id": "kibble-tamano-afb-mediana",
     "claim": "diámetro de croqueta para raza mediana (croqueta de diseño)",
-    "value": [11, 12],
+    "value": [
+      11,
+      12
+    ],
     "unit": "mm",
     "url": "https://www.afbinternational.com/blog/white_paper/small-dogs-large-kibble/",
     "accessed": "2026-07-26",
@@ -191,7 +203,10 @@
   {
     "id": "kibble-tamano-afb-grande",
     "claim": "diámetro de croqueta para raza grande",
-    "value": [15, 16],
+    "value": [
+      15,
+      16
+    ],
     "unit": "mm",
     "url": "https://www.afbinternational.com/blog/white_paper/small-dogs-large-kibble/",
     "accessed": "2026-07-26",
@@ -233,7 +248,10 @@
   {
     "id": "angulo-pared-tolva-DEM-pellets",
     "claim": "semiángulo de tolva recomendado para flujo másico de pellets cilíndricos",
-    "value": [65, 75],
+    "value": [
+      65,
+      75
+    ],
     "unit": "grados desde la horizontal",
     "url": "https://www.mdpi.com/2077-0472/14/4/523",
     "accessed": "2026-07-26",
@@ -244,7 +262,10 @@
   {
     "id": "angulo-reposo-pellets-alimento-2015",
     "claim": "ángulo de reposo medido en pellets de alimento animal (análogo)",
-    "value": [25.67, 38.7],
+    "value": [
+      25.67,
+      38.7
+    ],
     "unit": "grados",
     "url": "https://adelbahnasawy.wordpress.com/wp-content/uploads/2014/09/some-engineering-properties-of-different-feed-pellets.pdf",
     "accessed": "2026-07-26",
@@ -276,7 +297,10 @@
   {
     "id": "rotary_clearance_tipica",
     "claim": "holgura radial rotor-carcasa en rueda de paletas industrial",
-    "value": [0.05, 0.25],
+    "value": [
+      0.05,
+      0.25
+    ],
     "unit": "mm",
     "url": "https://www.powderprocess.net/Pneumatic_Transport/Airlock_Rotary_Valve.html",
     "accessed": "2026-07-26",
@@ -341,7 +365,10 @@
   {
     "id": "gear_backlash_flanco",
     "claim": "holgura de flanco recomendada en engranajes impresos",
-    "value": [0.1, 0.3],
+    "value": [
+      0.1,
+      0.3
+    ],
     "unit": "mm",
     "url": "https://kingroon.com/blogs/3d-printing-guides/how-to-get-perfect-3d-printed-gears",
     "accessed": "2026-07-26",
@@ -352,7 +379,10 @@
   {
     "id": "gear_ancho_cara",
     "claim": "ancho de cara recomendado para un engranaje recto",
-    "value": [6, 10],
+    "value": [
+      6,
+      10
+    ],
     "unit": "× módulo",
     "url": "https://meta-matic.com/en/3d/spur-gear/guide/",
     "accessed": "2026-07-26",
@@ -439,7 +469,10 @@
   {
     "id": "fdm_clearance_ajuste_deslizante",
     "claim": "holgura recomendada para un ajuste deslizante entre piezas impresas",
-    "value": [0.3, 0.4],
+    "value": [
+      0.3,
+      0.4
+    ],
     "unit": "mm",
     "url": "https://www.snapmaker.com/blog/3d-printing-tolerances/",
     "accessed": "2026-07-26",
@@ -466,5 +499,485 @@
     "accessed": "2026-07-26",
     "quote": "Horizontal holes through a wall should have a minimum diameter of 2.0 mm, and the top of the hole is an overhang; using a teardrop shape provides the best results.",
     "confidence": "media"
+  },
+  {
+    "id": "dem_kibble_densidad_particula_alvarenga",
+    "claim": "densidad de la PIEZA (densidad de partícula para DEM) de croqueta de perro seca",
+    "value": [
+      0.527,
+      0.554
+    ],
+    "unit": "g/cm3",
+    "url": "https://www.mdpi.com/2304-8158/10/11/2526",
+    "accessed": "2026-07-26",
+    "quote": "Density, g/cm3 — HS: 0.527; MS: 0.540; LS: 0.554 (p = 0.2770)",
+    "confidence": "alta",
+    "nota": "CROQUETA DE PERRO (dato directo, no extrapolado). Corsato Alvarenga, Keller, Waldy & Aldrich (2021), Foods 10(11):2526, Tabla 4, croqueta SECA de tres tratamientos de extrusión (HS/MS/LS = alto/medio/bajo cizalle). Es la densidad de envolvente (masa / volumen del cilindro medido con calibre), es decir EXACTAMENTE la densidad de partícula que pide un DEM, no la densidad del sólido sin poros. Es <1.0 g/cm3: la croqueta flota."
+  },
+  {
+    "id": "dem_kibble_densidad_particula_metodo",
+    "claim": "método de medición de la densidad de pieza de croqueta (define qué densidad es)",
+    "value": null,
+    "unit": null,
+    "url": "https://www.mdpi.com/2304-8158/10/11/2526",
+    "accessed": "2026-07-26",
+    "quote": "The diameter and length of 15 wet and dry kibbles were measured twice with a digital caliper and averaged, then these were weighed on an analytical balance (Ohaus, Explorer: E1RW60, OHAUS, Parsippany, NJ) to calculate kibble density and expansion indices.",
+    "confidence": "alta",
+    "nota": "CROQUETA DE PERRO. Clave metodológica: es densidad geométrica de envolvente (incluye los poros internos). No es densidad real por picnómetro. Para DEM es la correcta."
+  },
+  {
+    "id": "dem_kibble_densidad_particula_insectos",
+    "claim": "densidad de pieza de croqueta de perro con distintas fuentes proteicas",
+    "value": [
+      0.342,
+      0.556
+    ],
+    "unit": "g/cm3",
+    "url": "https://www.mdpi.com/2227-9717/13/7/2083",
+    "accessed": "2026-07-26",
+    "quote": "ρ was higher for BSFL and CF (0.426–0.556 g/cm3) as compared to FM and PM (0.342–0.396 g/cm3)",
+    "confidence": "alta",
+    "nota": "CROQUETA DE PERRO (dato directo). Processes 13(7):2083. BSFL = larva de mosca soldado negra, CF = harina de pollo, FM = harina de pescado, PM = harina de subproducto de ave. Confirma y amplía el rango de Alvarenga: la densidad de partícula de croqueta de perro está entre 0.34 y 0.56 g/cm3 según formulación. Es el valor que debe entrar como 'density' en el DEM."
+  },
+  {
+    "id": "dem_kibble_dureza_alvarenga",
+    "claim": "fuerza de fractura (dureza) de croqueta de perro seca en compresión",
+    "value": [
+      8.13,
+      9.96
+    ],
+    "unit": "kg-fuerza (≈80-98 N)",
+    "url": "https://www.mdpi.com/2304-8158/10/11/2526",
+    "accessed": "2026-07-26",
+    "quote": "Texture analysis was performed on 20 dried kibbles per replicate using a 25 mm cylindrical compression probe equipped with a 50 kg load-cell (TA-XT2; Texture Technology Corp., Scarsdale, NJ, USA) at 50% strain level.",
+    "confidence": "alta",
+    "nota": "CROQUETA DE PERRO. Valores de la Tabla 4: Hardness, kg — HS: 8.37; MS: 8.13; LS: 9.96. Es fuerza de rotura, NO módulo elástico: no permite derivar E sin la curva fuerza-desplazamiento, que el artículo no publica. Sirve como cota superior de la fuerza que el mecanismo puede aplicar sin triturar croqueta."
+  },
+  {
+    "id": "dem_kibble_dureza_insectos",
+    "claim": "fuerza pico de rotura de croqueta de perro según formulación",
+    "value": [
+      6.55,
+      13.72
+    ],
+    "unit": "kg-fuerza (≈64-135 N)",
+    "url": "https://www.mdpi.com/2227-9717/13/7/2083",
+    "accessed": "2026-07-26",
+    "quote": "BSFL kibbles […] had the lowest peak force of 6.55 kg […] CF kibbles being the hardest, having a peak force of 13.72 kg",
+    "confidence": "alta",
+    "nota": "CROQUETA DE PERRO. Amplía el rango de dureza a 6.5-13.7 kgf (64-135 N) según formulación."
+  },
+  {
+    "id": "dem_kibble_porosidad_interna_patente",
+    "claim": "porosidad interna de la croqueta convencional y su densidad aparente asociada",
+    "value": 54,
+    "unit": "% de porosidad (con 365 g/L de densidad aparente)",
+    "url": "https://patents.google.com/patent/WO2013177143A1/en",
+    "accessed": "2026-07-26",
+    "quote": "A conventional kibble having a porosity of 54% and a bulk density of 365 g/L is shown in FIG. 2.",
+    "confidence": "media",
+    "nota": "CROQUETA DE PERRO. Fuente: solicitud de patente (no revisada por pares). Es la porosidad INTERNA de la pieza (medida sobre corte), NO la fracción de huecos del lecho a granel. La misma patente dice: 'a conventional kibble may have a porosity between 33% and 55%'. Coherente con densidad de partícula 0.34-0.56 g/cm3."
+  },
+  {
+    "id": "dem_kibble_indice_compresibilidad_carr",
+    "claim": "índice de compresibilidad (Carr) medido sobre alimento seco de perro",
+    "value": 20.47,
+    "unit": "%",
+    "url": "https://bulkinside.com/bulk-solids-handling/weighing-systems-scales/flowability-and-physical-properties-of-feed-mixes-pet-food-and-aqua-feed/",
+    "accessed": "2026-07-26",
+    "quote": "Compressibility index for measuring the bulk density it shows for pet food – dog 20,47 % indicating a passable flow character",
+    "confidence": "media",
+    "nota": "CROQUETA DE PERRO. Artículo técnico de fabricante (Jesma Weighing Solutions, 14 oct 2020), no paper revisado. Único número publicado que encontré sobre el empaquetamiento del lecho de croqueta: Carr 20.47% implica razón de Hausner ≈1.26 (derivación mía, NO citada). Clasificación 'passable'."
+  },
+  {
+    "id": "dem_kibble_reposo_sin_valor_numerico",
+    "claim": "ausencia documentada de valor numérico de ángulo de reposo de croqueta de perro",
+    "value": null,
+    "unit": "grados",
+    "url": "https://bulkinside.com/bulk-solids-handling/weighing-systems-scales/flowability-and-physical-properties-of-feed-mixes-pet-food-and-aqua-feed/",
+    "accessed": "2026-07-26",
+    "quote": "Further analysis of the material using Angle of Repose testing indicates a fair flow property for the dog food",
+    "confidence": "alta",
+    "nota": "CROQUETA DE PERRO. HECHO NEGATIVO deliberado: la única fuente que declara haber MEDIDO el ángulo de reposo de alimento seco de perro publica solo la clasificación cualitativa ('fair flow'), sin el número en grados. Tras búsqueda sistemática NO existe fuente publicada con el valor numérico del ángulo de reposo de croqueta de perro. Debe medirse en banco."
+  },
+  {
+    "id": "dem_aquafeed_densidad_particula",
+    "claim": "densidad de partícula de pellet extruido flotante (aquafeed), medida por desplazamiento de líquido",
+    "value": 656.4,
+    "unit": "kg/m3",
+    "url": "https://iopscience.iop.org/article/10.1088/1742-6596/2951/1/012070",
+    "accessed": "2026-07-26",
+    "quote": "The density of the chosen feed pellets was found to be 656.4 kg/m³ through the liquid displacement technique utilizing a graduated measuring cylinder.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: pellet extruido FLOTANTE de acuicultura (Tongwei 180-tipo 5.0), no croqueta de perro. Mismo proceso (extrusión con expansión) y misma condición (<1000 kg/m3, flota). Wang, Ji, Zheng & Zheng (2025), J. Phys.: Conf. Ser. 2951:012070, open access CC-BY. Es ~20% más denso que la croqueta de perro (0.34-0.56 g/cm3), así que las fricciones que aporta este paper deben tratarse como orden de magnitud."
+  },
+  {
+    "id": "dem_aquafeed_poisson_y_modulo_cizalle",
+    "claim": "coeficiente de Poisson y módulo de cizalle del pellet extruido flotante (entrada DEM)",
+    "value": [
+      0.3,
+      33.08
+    ],
+    "unit": "adimensional / MPa",
+    "url": "https://iopscience.iop.org/article/10.1088/1742-6596/2951/1/012070",
+    "accessed": "2026-07-26",
+    "quote": "The Poisson coefficient and shear modulus for the extruded floating feed were 0.3 and 33.08 MPa, respectively.",
+    "confidence": "media",
+    "nota": "EXTRAPOLADO: aquafeed extruido, no croqueta de perro. El paper NO explica cómo obtuvo G=33.08 MPa (no da método ni fuente). Con ν=0.3, E = 2G(1+ν) = 86.0 MPa (derivación mía, NO citada). Es el único módulo publicado para un extruido expandido de alimento que encontré."
+  },
+  {
+    "id": "dem_aquafeed_restitucion_vs_abs",
+    "claim": "coeficiente de restitución pellet extruido flotante contra plástico ABS",
+    "value": 0.533,
+    "unit": "adimensional",
+    "url": "https://iopscience.iop.org/article/10.1088/1742-6596/2951/1/012070",
+    "accessed": "2026-07-26",
+    "quote": "The rebound coefficient, along with the static and rolling friction coefficients between the pellets and ABS plastic, were measured as 0.533, 0.331, and 0.069 in that order.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: aquafeed extruido contra ABS, no croqueta contra PLA. Calibrado por rebote desde H=200 mm (altura de rebote medida 42.98±22.95 mm) y ajuste polinómico R2=0.986, validado con error del 0.41%. ADVERTENCIA IMPORTANTE: pese a que el resumen del paper anuncia parámetros pellet-pellet, el artículo NO publica ningún valor pellet-pellet (restitución, fricción estática ni de rodadura entre partículas). Ese juego queda SIN FUENTE."
+  },
+  {
+    "id": "dem_aquafeed_friccion_estatica_vs_abs",
+    "claim": "coeficiente de fricción estática pellet extruido flotante contra plástico ABS",
+    "value": 0.331,
+    "unit": "adimensional",
+    "url": "https://iopscience.iop.org/article/10.1088/1742-6596/2951/1/012070",
+    "accessed": "2026-07-26",
+    "quote": "The measured inclination angle from the bench test, 23.54°, was substituted into Equation (2), yielding Y 2=0.331.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: aquafeed extruido contra ABS. Método correcto: plano inclinado con pellets pegados (impedidos de rodar), 10 repeticiones, ángulo de deslizamiento 23.54°, después calibración inversa en EDEM (error 3.23%). Nótese que tan(23.54°)=0.436 ≠ 0.331: la calibración DEM da un valor MENOR que el tan del ángulo medido, lo que muestra por qué el método tan(ángulo) de Bahnasawy sobreestima."
+  },
+  {
+    "id": "dem_aquafeed_friccion_rodadura_vs_abs",
+    "claim": "coeficiente de fricción de rodadura pellet extruido flotante contra plástico ABS",
+    "value": 0.069,
+    "unit": "adimensional",
+    "url": "https://iopscience.iop.org/article/10.1088/1742-6596/2951/1/012070",
+    "accessed": "2026-07-26",
+    "quote": "Substituting the measured horizontal distance from the bench test, s=64.09 mm, into Equation (3) yields Y3=0.069.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: aquafeed extruido contra ABS. Calibrado por rodadura sobre plano inclinado a 45° desde 50 mm de altura, 5 repeticiones (distancia de rodadura horizontal 64.09±11.55 mm), validación con error 4.52%. Es el ÚNICO coeficiente de rodadura publicado para un alimento extruido expandido que encontré."
+  },
+  {
+    "id": "dem_aquafeed_dimensiones",
+    "claim": "dimensiones medias del pellet extruido flotante usado en la calibración DEM",
+    "value": [
+      6.85,
+      6.45,
+      6.95,
+      6.75
+    ],
+    "unit": "mm (largo, ancho, espesor, diámetro equivalente)",
+    "url": "https://iopscience.iop.org/article/10.1088/1742-6596/2951/1/012070",
+    "accessed": "2026-07-26",
+    "quote": "Mean value 6.85 6.45 6.95 6.75",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: aquafeed extruido. Tabla 1, sobre 100 pellets (mín. 5.63 mm, máx. 7.86 mm de diámetro equivalente). Es casi esférico (relación de aspecto ~1.06), muy parecido a la croqueta de raza pequeña. La croqueta mediana del proyecto (11-15 mm) es 2x mayor."
+  },
+  {
+    "id": "dem_aquafeed_masa_particula",
+    "claim": "masa de un pellet extruido flotante individual",
+    "value": 0.25,
+    "unit": "g",
+    "url": "https://iopscience.iop.org/article/10.1088/1742-6596/2951/1/012070",
+    "accessed": "2026-07-26",
+    "quote": "Drawing from the assessed characteristics of extruded floating feed pellets, which have a mass of 0.25 g and a density of 656.4 kg/m³, a discrete element model was created in EDEM.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: aquafeed extruido de 6.75 mm. Para la croqueta mediana del proyecto (12-15 mm, densidad 0.40-0.55 g/cm3) la masa por pieza sería del orden de 0.5-1.5 g (estimación mía, NO citada)."
+  },
+  {
+    "id": "dem_abs_propiedades_pared",
+    "claim": "propiedades del plástico ABS usadas como pared en el DEM del paper de aquafeed",
+    "value": [
+      0.34,
+      1250,
+      3000
+    ],
+    "unit": "Poisson / kg/m3 / MPa (módulo de cizalle)",
+    "url": "https://iopscience.iop.org/article/10.1088/1742-6596/2951/1/012070",
+    "accessed": "2026-07-26",
+    "quote": "This study utilizes ABS plastic as the contact material, with the following physical properties determined: a Poisson coefficient of 0.34, a mass density of 1250 kg/m³, and a shear stiffness of 3000 MPa",
+    "confidence": "media",
+    "nota": "PARED de ABS, no croqueta. Referencia para configurar la pared en el DEM. El PLA impreso NO es ABS: ver dem_pla_vs_abs_direccion_fricción."
+  },
+  {
+    "id": "dem_pla_vs_abs_direccion_friccion",
+    "claim": "el PLA impreso presenta menor coeficiente de fricción que el ABS impreso",
+    "value": null,
+    "unit": null,
+    "url": "https://revmaterialeplastice.ro/pdf/19%20CHISIU%201%2021.pdf",
+    "accessed": "2026-07-26",
+    "quote": "3D-printed PLA samples exhibit lower COF values than ABS samples along both longitudinal and transverse directions",
+    "confidence": "media",
+    "nota": "NO es croqueta: es ensayo pin-on-plate (ASTM G133) de PLA/ABS impresos contra un pin, Chisiu, Stoica & Stoica (2021), Mater. Plast. 58(1):176-185. Solo sirve para declarar la DIRECCIÓN del error al extrapolar el μ=0.331 croqueta-ABS a croqueta-PLA: el valor contra PLA sería probablemente algo MENOR. La magnitud del ajuste es DESCONOCIDA. El mismo paper reporta para ABS contra el pin: 'The COF values of 3D printed ABS sample for the longitudinal direction are 0.297 and 0.375 at 0.5mm/s and 1mm/s, respectively, under 50 N load.'"
+  },
+  {
+    "id": "dem_bahnasawy_dimensiones",
+    "claim": "dimensiones lineales de pellets de alimento animal (largo y diámetro medio)",
+    "value": [
+      [
+        0.5,
+        2.44
+      ],
+      [
+        0.4,
+        1.24
+      ]
+    ],
+    "unit": "cm (largo; diámetro medio)",
+    "url": "https://adelbahnasawy.wordpress.com/wp-content/uploads/2014/09/some-engineering-properties-of-different-feed-pellets.pdf",
+    "accessed": "2026-07-26",
+    "quote": "The length and mean diameters were in the range of 0.50-2.44 and 0.40-1.24 cm for all pellet sizes with CV of 12-33 and 2-3 %. Feed pellet types in all sizes were cylindrical in shape.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: pellets peletizados (comprimidos) de ganado/conejo/aves de Egipto, NO croqueta extruida. Bahnasawy & Mostafa, Benha University. Por tipo (Tabla 2): ganado 2.44×1.24 cm; conejo 1.5×0.40 cm; aves crecimiento 0.50×0.39 cm; aves acabado 1.38×0.40 cm. Son CILÍNDRICOS y muy esbeltos; la croqueta es un disco/esferoide: la forma DEM no es transferible."
+  },
+  {
+    "id": "dem_bahnasawy_densidad_real",
+    "claim": "densidad real (de partícula) de pellets de alimento animal peletizado",
+    "value": [
+      1.02,
+      1.15
+    ],
+    "unit": "g/cm3",
+    "url": "https://adelbahnasawy.wordpress.com/wp-content/uploads/2014/09/some-engineering-properties-of-different-feed-pellets.pdf",
+    "accessed": "2026-07-26",
+    "quote": "the bulk density ranged from 0.64-0.74 g/cm3 with CV of 23-36% and real density ranged from 1.02-1.15 g/cm3 with CV of 9-14% for feeds.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO y NO APLICABLE DIRECTAMENTE: el pellet peletizado es 2-3x más denso que la croqueta extruida (1.02-1.15 vs 0.34-0.56 g/cm3) porque NO está expandido. Por tabla 3: ganado 1.02, conejo 1.10, aves crecimiento 1.14, aves acabado 1.15 g/cm3. Estos pellets se HUNDEN; la croqueta FLOTA. Usar este valor en un DEM de croqueta duplicaría la masa de partícula."
+  },
+  {
+    "id": "dem_bahnasawy_densidad_aparente",
+    "claim": "densidad aparente (a granel) de pellets de alimento animal peletizado",
+    "value": [
+      0.64,
+      0.74
+    ],
+    "unit": "g/cm3",
+    "url": "https://adelbahnasawy.wordpress.com/wp-content/uploads/2014/09/some-engineering-properties-of-different-feed-pellets.pdf",
+    "accessed": "2026-07-26",
+    "quote": "the bulk density ranged from 0.64-0.74 g/cm3 with CV of 23-36%",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: pellets peletizados. Tabla 3: ganado 0.64, conejo 0.66, aves crecimiento 0.74, aves acabado 0.73 kg/L. Con la densidad real de la misma tabla, la fracción de empaquetamiento resulta 0.63-0.65 (derivación mía 0.64/1.02 … 0.74/1.14, NO citada) — un lecho de cilindros esbeltos."
+  },
+  {
+    "id": "dem_bahnasawy_reposo_por_superficie",
+    "claim": "ángulo de reposo de pellets de alimento animal desglosado por superficie",
+    "value": [
+      [
+        25.67,
+        35
+      ],
+      [
+        25.67,
+        36.7
+      ],
+      [
+        27,
+        38.7
+      ]
+    ],
+    "unit": "grados (acero galvanizado; contrachapado; hormigón)",
+    "url": "https://adelbahnasawy.wordpress.com/wp-content/uploads/2014/09/some-engineering-properties-of-different-feed-pellets.pdf",
+    "accessed": "2026-07-26",
+    "quote": "The repose angle values ranged from 25.67-35 degrees on the galvanized steel surface, whereas, it ranged from 25.67-36.7 and 27-38.7 degrees on the plywood and concrete surfaces, respectively.",
+    "confidence": "media",
+    "nota": "EXTRAPOLADO: pellets peletizados, NO croqueta. Desglose (Tabla 4, media sobre acero/contrachapado/hormigón): ganado 35 / 36.7 / 38.7; conejo 28.3 / 25.7 / 29; aves crecimiento 25.67 / 25.67 / 27.33; aves acabado 26.33 / 26.33 / 27.0. El ángulo crece con el TAMAÑO del pellet. Amplía el hecho ya existente 'angulo-reposo-pellets-alimento-2015' de web_facts.json separando por superficie."
+  },
+  {
+    "id": "dem_bahnasawy_friccion_estatica_por_superficie",
+    "claim": "coeficiente de fricción estática de pellets de alimento animal por superficie",
+    "value": [
+      [
+        0.48,
+        0.7
+      ],
+      [
+        0.48,
+        0.7
+      ],
+      [
+        0.51,
+        0.8
+      ]
+    ],
+    "unit": "adimensional (acero galvanizado; contrachapado; hormigón)",
+    "url": "https://adelbahnasawy.wordpress.com/wp-content/uploads/2014/09/some-engineering-properties-of-different-feed-pellets.pdf",
+    "accessed": "2026-07-26",
+    "quote": "The coefficient of static friction values ranged from 0.48 to 0.7 on both of the galvanized steel and the plywood surfaces, whereas, it ranged from 0.51 to 0.80 on concrete surfaces.",
+    "confidence": "baja",
+    "nota": "EXTRAPOLADO y METODOLÓGICAMENTE DÉBIL — ver dem_bahnasawy_friccion_metodo. Desglose (Tabla 5): ganado 0.7/0.7/0.8; conejo 0.5/0.5/0.6; aves crecimiento 0.48/0.48/0.52; aves acabado 0.50/0.50/0.51. Ninguna superficie es plástico. NO hay ningún valor contra PLA, acrílico ni polietileno en esta fuente."
+  },
+  {
+    "id": "dem_bahnasawy_friccion_metodo",
+    "claim": "advertencia metodológica: la fricción de Bahnasawy es la tangente del ángulo de reposo, no un ensayo de deslizamiento",
+    "value": null,
+    "unit": null,
+    "url": "https://adelbahnasawy.wordpress.com/wp-content/uploads/2014/09/some-engineering-properties-of-different-feed-pellets.pdf",
+    "accessed": "2026-07-26",
+    "quote": "Coefficients of friction were determined for feed pellets on three surfaces: concrete, galvanized steel and plywood and these were calculated as a tangent of the slope angle (angle of repose).",
+    "confidence": "alta",
+    "nota": "CAVEAT CRÍTICO. El 'coeficiente de fricción estática' de este paper NO es una fricción pellet-pared medida por deslizamiento: es tan(ángulo de reposo), que es una propiedad del LECHO (fricción interna partícula-partícula), no de la interfaz con la pared. Por eso los valores para acero galvanizado y contrachapado salen idénticos. NO deben usarse como 'particle-wall static friction' en un DEM; a lo sumo como estimador grueso de la fricción partícula-partícula."
+  },
+  {
+    "id": "dem_bahnasawy_carga_rotura",
+    "claim": "carga de rotura (crushing load) de pellets de alimento animal en posición vertical y horizontal",
+    "value": [
+      [
+        90.74,
+        454.13
+      ],
+      [
+        29.5,
+        348.35
+      ]
+    ],
+    "unit": "N (vertical; horizontal)",
+    "url": "https://adelbahnasawy.wordpress.com/wp-content/uploads/2014/09/some-engineering-properties-of-different-feed-pellets.pdf",
+    "accessed": "2026-07-26",
+    "quote": "Crushing load increased with the pellet size. It ranged from 90.74-454.13 and from 29.5-348.35 N in vertical and horizontal position, respectively, depending on the feed pellet size.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: pellets peletizados (más duros que la croqueta). Tabla 6, medias±SD: ganado 454.13±81.19 V / 348.35±93.49 H; conejo 177.89±17.12 V / 32.20±9.88 H; aves crecimiento 90.74±18.23 V / 29.50±5.09 H; aves acabado 91.99±14.48 V / 31.08±4.13 H. La ANISOTROPÍA es lo relevante para el diseño: el pellet resiste 3-5x menos de canto que de pie. La croqueta de perro es más blanda: 64-135 N (ver dem_kibble_dureza_*)."
+  },
+  {
+    "id": "dem_bahnasawy_masa_particula",
+    "claim": "masa de un pellet de alimento animal individual",
+    "value": [
+      0.07,
+      3.01
+    ],
+    "unit": "g",
+    "url": "https://adelbahnasawy.wordpress.com/wp-content/uploads/2014/09/some-engineering-properties-of-different-feed-pellets.pdf",
+    "accessed": "2026-07-26",
+    "quote": "The surface areas ranged from 0.86-11.95 cm2. Feed pellet mass ranged from 0.07-3.01 g depending on the feed pellet size.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: pellets peletizados. Tabla 2: ganado 3.01 g; conejo 0.20 g; aves crecimiento 0.07 g; aves acabado 0.20 g. Volumen 0.06-2.96 cm3."
+  },
+  {
+    "id": "dem_khater_reposo_extruido_flotante",
+    "claim": "ángulo de reposo de pellet de pescado EXTRUIDO (expandido, flotante)",
+    "value": [
+      27.0,
+      38.0
+    ],
+    "unit": "grados",
+    "url": "https://www.walshmedicalmedia.com/open-access/physical-and-mechanical-properties-of-fish-feed-pellets-2157-7110.1000378.pdf",
+    "accessed": "2026-07-26",
+    "quote": "The repose angle of pellets fish feed value ranged from 27.00 to 38.00°.",
+    "confidence": "media",
+    "nota": "EXTRAPOLADO pero es el análogo MÁS CERCANO disponible: alimento EXTRUIDO y EXPANDIDO (flota), igual que la croqueta. Khater, Bahnasawy & Ali (2014), J Food Process Technol 5:378, open access. Pellets de 1.0-3.0 mm (mucho menores que la croqueta). El ángulo crece con el tamaño de pellet: de 28.67±0.27° (1.0 mm) a 38.00±0.94° (3.0 mm) al 25% de proteína. Extrapolando la tendencia por tamaño, una croqueta de 12-15 mm daría un ángulo aún mayor — pero eso es conjetura mía, NO está en la fuente."
+  },
+  {
+    "id": "dem_khater_densidad_aparente_extruido",
+    "claim": "densidad aparente de pellet de pescado extruido flotante",
+    "value": [
+      267.11,
+      711.35
+    ],
+    "unit": "kg/m3",
+    "url": "https://www.walshmedicalmedia.com/open-access/physical-and-mechanical-properties-of-fish-feed-pellets-2157-7110.1000378.pdf",
+    "accessed": "2026-07-26",
+    "quote": "The bulk density of pellets of fish feed value ranged from 267.11 to 711.35 kg m-3.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: aquafeed extruido. El extremo bajo (267 kg/m3) es prácticamente idéntico a la densidad aparente de croqueta de perro (286-338 g/L, ver web_facts.json), lo que respalda usar este paper como análogo."
+  },
+  {
+    "id": "dem_khater_flotabilidad",
+    "claim": "flotabilidad del pellet extruido: evidencia directa de densidad de partícula < 1000 kg/m3",
+    "value": [
+      79.51,
+      96.45
+    ],
+    "unit": "% de piezas que flotan",
+    "url": "https://www.walshmedicalmedia.com/open-access/physical-and-mechanical-properties-of-fish-feed-pellets-2157-7110.1000378.pdf",
+    "accessed": "2026-07-26",
+    "quote": "The floatability of pellets of fish feed value ranged from 79.51 to 96.45%.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: aquafeed extruido. Evidencia física independiente de que el alimento extruido y expandido tiene densidad de partícula <1.0 g/cm3, coherente con los 0.34-0.56 g/cm3 medidos en croqueta de perro."
+  },
+  {
+    "id": "dem_khater_carga_rotura_extruido",
+    "claim": "carga de rotura de pellet de pescado extruido flotante",
+    "value": [
+      6.13,
+      33.28
+    ],
+    "unit": "N",
+    "url": "https://www.walshmedicalmedia.com/open-access/physical-and-mechanical-properties-of-fish-feed-pellets-2157-7110.1000378.pdf",
+    "accessed": "2026-07-26",
+    "quote": "The crushing load of pellets fish feed value ranged from 6.13 to 33.28 N.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: aquafeed extruido de 1.0-3.0 mm. Un orden de magnitud menor que el pellet peletizado de Bahnasawy: la expansión debilita mucho la pieza. Escala con el tamaño, así que NO es transferible directo a la croqueta de 12-15 mm."
+  },
+  {
+    "id": "dem_liu_modulo_elastico_pellet",
+    "claim": "módulo elástico (Young) medido en pellet de alimento compuesto por compresión uniaxial",
+    "value": 258.83,
+    "unit": "MPa (±61.58)",
+    "url": "https://www.nature.com/articles/s41598-026-43893-y",
+    "accessed": "2026-07-26",
+    "quote": "The elastic modulus was calculated from the changes in pellet height and diameter measured before and after the compression tests, yielding an average value of 258.83 ± 61.58 MPa.",
+    "confidence": "media",
+    "nota": "EXTRAPOLADO con salvedad grande: pellet COMPUESTO PELETIZADO para lechón destetado (maíz, harina de soya, trigo, salvado), densidad 1093 kg/m3 — es decir, material DENSO, no espumado. La croqueta es una espuma a ~la mitad de esa densidad, por lo que su E real será sustancialmente MENOR (por Gibson-Ashby E∝ρ², un factor ~4x; derivación mía, NO citada). Contrasta fuertemente con los 86 MPa derivables del aquafeed extruido (dem_aquafeed_poisson_y_modulo_cizalle). Liu, Kong, Wang, Liu, Leng & Zhou (2026), Scientific Reports."
+  },
+  {
+    "id": "dem_liu_poisson_pellet",
+    "claim": "coeficiente de Poisson medido en pellet de alimento compuesto",
+    "value": 0.34,
+    "unit": "adimensional (±0.06)",
+    "url": "https://www.nature.com/articles/s41598-026-43893-y",
+    "accessed": "2026-07-26",
+    "quote": "The corresponding Poisson's ratio was determined to be 0.34 ± 0.06.",
+    "confidence": "media",
+    "nota": "EXTRAPOLADO: pellet peletizado de lechón. Consistente con el 0.3 asumido para aquafeed extruido. El Poisson es el parámetro DEM menos sensible; usar 0.3-0.34 es seguro."
+  },
+  {
+    "id": "dem_liu_densidad_pellet",
+    "claim": "densidad de partícula de pellet de alimento compuesto peletizado",
+    "value": 1093.28,
+    "unit": "kg/m3 (±21.83)",
+    "url": "https://www.nature.com/articles/s41598-026-43893-y",
+    "accessed": "2026-07-26",
+    "quote": "The average pellet density was calculated as 1093.28 ± 21.83 kg/m3.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO y NO aplicable a croqueta: 2-3x la densidad de la croqueta de perro. Confirma la separación entre pellet peletizado (~1.0-1.1 g/cm3) y croqueta extruida expandida (0.34-0.56 g/cm3)."
+  },
+  {
+    "id": "dem_liu_fuerza_rotura_pellet",
+    "claim": "fuerza media de rotura de pellet de alimento compuesto peletizado",
+    "value": 32.3,
+    "unit": "N (±6.5, n=100)",
+    "url": "https://www.nature.com/articles/s41598-026-43893-y",
+    "accessed": "2026-07-26",
+    "quote": "Based on the tests conducted on 100 pellets, the average breakage force was 32.3 ± 6.5 N.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: pellet peletizado de 12.47±1.22 mm de largo × 4.16±0.08 mm de diámetro, humedad 12.30±0.03%."
+  },
+  {
+    "id": "dem_peng_dureza_pellet_cerdo",
+    "claim": "dureza y elasticidad de pellet de alimento de cerdo medidas con analizador de textura",
+    "value": [
+      5.44,
+      32.43
+    ],
+    "unit": "N (dureza)",
+    "url": "https://ijabe.org/index.php/ijabe/article/view/5721",
+    "accessed": "2026-07-26",
+    "quote": "The results of compression tests showed that the hardness of pig pellet feed was 5.44-32.43 N, the elastic index was 0.04-0.94 mm, the tackiness was 0.07- 6.63 N, the chewiness was 5.52-27.39 mJ.",
+    "confidence": "alta",
+    "nota": "EXTRAPOLADO: pellet peletizado de cerdo. Peng, Huang & Fang (2020), Int J Agric Biol Eng 13(4). Único artículo que combina DEM + modelo de partículas ligadas (bonded particle model) para ROTURA de pellet de alimento; los parámetros calibrados (stiffness coefficient, critical stress, bonding radius) NO se publican en el resumen accesible. La dureza depende fuertemente de la humedad (8-16% b.h.) y de la dirección de carga."
+  },
+  {
+    "id": "dem_boac_granos_no_extrapolar",
+    "claim": "parámetros DEM de referencia para granos: NO deben aplicarse a croqueta",
+    "value": [
+      1130,
+      1325.2
+    ],
+    "unit": "kg/m3 (densidad de partícula de soya)",
+    "url": "https://www.ars.usda.gov/ARSUserFiles/30200525/432%20Material%20Interaction%20Properties.pdf",
+    "accessed": "2026-07-26",
+    "quote": "The best particle model had a particle coefficient of restitution of 0.6, particle coefficient of static friction of 0.45 for soybean-soybean contact (0.30 for soybean-steel interaction), particle coefficient of rolling friction of 0.05, normal particle size distribution with standard deviation factor of 0.4",
+    "confidence": "alta",
+    "nota": "NO ES CROQUETA — se incluye como ADVERTENCIA. Boac, Casada, Maghirang & Harner III (2010), Transactions of the ASABE. Es la tabla de referencia DEM más citada para materiales agrícolas granulares, pero sus densidades de partícula (soya 1130-1325.2 kg/m3; maíz 1270-1396.5; trigo 1290-1430) son 2-4x las de la croqueta. Tomar de aquí el juego (e=0.6, μs=0.45/0.30, μr=0.05) para simular croqueta es un error de material. Se cita para poder RECHAZARLO explícitamente en la auditoría."
   }
 ]
