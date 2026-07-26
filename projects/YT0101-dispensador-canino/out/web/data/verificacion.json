@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-26T07:17:44+00:00",
+  "generado": "2026-07-26T07:20:55+00:00",
   "proyecto": "YT0101-dispensador-canino",
   "capa": "user",
   "pruebas": [
@@ -366,8 +366,8 @@
           "est_pie": 18.3,
           "est_soporte_cabezal": 10.7,
           "est_escuadra_muro": 18.0,
-          "agua_boquilla": 10.3,
-          "agua_difusor": 11.3,
+          "agua_boquilla": 10.0,
+          "agua_difusor": 17.9,
           "ali_corredera": 13.8,
           "ali_agitador": 9.3,
           "ali_chute": 7.8
@@ -483,10 +483,36 @@
       },
       "criterio": "borde inferior de las ventanas = nivel declarado (±0.5 mm) y ≥ 25 mm de margen hasta el borde del plato",
       "accion": "corregir z_difusor o el alto del bebedero"
+    },
+    {
+      "id": "V15",
+      "titulo": "La cadena del bajante encaja y solapa lo suficiente",
+      "veredicto": "PASA",
+      "medido": {
+        "holguras_macho_hembra_mm": {
+          "boquilla→tramo fijo": 1.1,
+          "tramo fijo→tubo de nivel": 0.7,
+          "tubo de nivel→difusor": 0.7
+        },
+        "solapes_de_union_mm": {
+          "boquilla en el tramo fijo": 12.0,
+          "telescopio de nivel": 55.0,
+          "difusor sobre el tubo": 16.0
+        },
+        "diametros": {
+          "d_paso": 25.0,
+          "d_bajante_ext": 31.0,
+          "d_nivel_int": 31.7,
+          "d_nivel_ext": 37.7,
+          "d_difusor_int": 38.4
+        }
+      },
+      "criterio": "cada unión con 0.4-1.6 mm de holgura diametral y ≥10 mm de solape",
+      "accion": "revisar la cadena de diámetros en calculos() o el alto de cada tramo"
     }
   ],
   "resumen": {
-    "pruebas": 18,
+    "pruebas": 19,
     "fallas": [],
     "advertencias": [
       "V7b",
@@ -559,6 +585,13 @@
     "z_tope_bidon_alimento": 943.2,
     "z_labio_agua": 210.0,
     "z_anillo_agua": 327.2,
+    "d_paso": 25.0,
+    "d_bajante_ext": 31.0,
+    "d_nivel_int": 31.7,
+    "d_nivel_ext": 37.7,
+    "d_difusor_int": 38.4,
+    "d_difusor_ext": 44.4,
+    "d_copa_bajante": 31.7,
     "z_difusor": 33.0,
     "z_tubo_nivel_inf": 51.0,
     "z_tubo_nivel_sup": 171.0,
@@ -589,5 +622,5 @@
     "carga_bidon_alimento_N": 86.5,
     "autonomia_alimento_dosis": 159
   },
-  "masa_pla_total_g": 2280.4
+  "masa_pla_total_g": 2294.0
 }

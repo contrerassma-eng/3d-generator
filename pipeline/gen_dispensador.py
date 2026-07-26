@@ -153,6 +153,17 @@ def calculos(P: dict) -> dict:
     # --- agua ---
     C["z_labio_agua"] = 210.0
     C["z_anillo_agua"] = round(C["z_labio_agua"] + bi["altura_cuello"] + C["subida_asiento"], 1)
+    # cadena macho-hembra del bajante: cada unión es espiga + copa con 0.7 mm
+    # de holgura, y el tubo de nivel telescopa POR FUERA del tramo fijo
+    hol, e_t = 0.7, ag["bajante_pared"]
+    C["d_paso"] = ag["bajante_dia_int"]                       # luz de agua/aire
+    C["d_bajante_ext"] = round(C["d_paso"] + 2 * e_t, 1)      # tramo fijo, macho
+    C["d_nivel_int"] = round(C["d_bajante_ext"] + hol, 1)     # telescopa encima
+    C["d_nivel_ext"] = round(C["d_nivel_int"] + 2 * e_t, 1)
+    C["d_difusor_int"] = round(C["d_nivel_ext"] + hol, 1)     # copa del difusor
+    C["d_difusor_ext"] = round(C["d_difusor_int"] + 2 * e_t, 1)
+    C["d_copa_bajante"] = round(C["d_bajante_ext"] + hol, 1)  # copa que recibe la boquilla
+
     # cadena del bajante (de abajo hacia arriba): difusor → tubo de nivel
     # (deslizante) → tramo fijo → boquilla en el cuello del bidón
     C["z_difusor"] = round(ag["nivel_agua"] - 5.0, 1)          # borde inferior de ventanas = nivel
@@ -396,50 +407,50 @@ def agua_bebedero(P, C):
 
 
 def agua_boquilla(P, C):
-    """Tapón cónico que entra en el cuello del bidón y recibe el bajante."""
+    """Tapón cónico que entra en el cuello del bidón y baja en espiga."""
     bi, ag = P["bidon"], P["agua"]
     d_int = bi["dia_boca_ext"] - 2 * 2.5          # Ø interior estimado del cuello
     perfil = np.array([
         [0, 0], [d_int / 2 + 6, 0], [d_int / 2 + 6, 6],          # brida de tope sobre el labio
         [d_int / 2 - 0.5, 6], [d_int / 2 - 3.0, 34], [0, 34]])
     b = S.revolucion(perfil, secciones=96)
-    # tres acanaladuras para cinta de teflón / junta de silicona
-    for z in (12, 20, 28):
+    for z in (12, 20, 28):                        # acanaladuras para cinta de teflón
         b = S.resta(b, S.tubo(d_int + 4, d_int - 6.0, 2.0, at=(0, 0, z)))
-    # paso central: por aquí baja el agua y SUBE el aire (contracorriente)
-    b = S.resta(b, S.cilindro(ag["bajante_dia_int"], 60, at=(0, 0, 17)))
-    # cuello de encastre para el tubo bajante
-    b = S.union(b, S.tubo(ag["bajante_dia_int"] + 2 * ag["bajante_pared"] + 2 * 1.2,
-                          ag["bajante_dia_int"] + 2 * 0.4, 16.0, at=(0, 0, -8)))
+    # por el paso central baja el agua y SUBE el aire (contracorriente)
+    b = S.resta(b, S.cilindro(C["d_paso"], 80, at=(0, 0, 17)))
+    # espiga macho: entra en la copa del tramo fijo
+    b = S.union(b, S.tubo(C["d_bajante_ext"] - 0.4, C["d_paso"], 20.0, at=(0, 0, -10)))
     return b, "agua", {"cantidad": 1,
-                       "nota": "Sellar con 2-3 vueltas de cinta de teflón en las acanaladuras antes de invertir el bidón."}
+                       "nota": "Sellar con 2-3 vueltas de cinta de teflón en las acanaladuras "
+                               "antes de invertir el bidón. La espiga entra en el tramo fijo."}
 
 
 def agua_bajante(P, C):
-    """Tubo de bajada (a medida del alto de trabajo) con encastre superior."""
-    ag = P["agua"]
-    di, t = ag["bajante_dia_int"], ag["bajante_pared"]
+    """Tramo fijo del bajante: copa arriba (recibe la boquilla), macho abajo."""
     largo = min(C["bajante_largo"], 200.0)
-    tubo = S.tubo(di + 2 * t, di, largo, at=(0, 0, largo / 2))
-    # ranura longitudinal de ajuste + tope: el tramo inferior desliza dentro
-    tubo = S.union(tubo, S.tubo(di + 2 * t + 2 * 1.2, di + 2 * t + 0.7, 18.0, at=(0, 0, largo - 9)))
+    tubo = S.tubo(C["d_bajante_ext"], C["d_paso"], largo, at=(0, 0, largo / 2))
+    tubo = S.union(tubo, S.tubo(C["d_copa_bajante"] + 2 * 1.2, C["d_copa_bajante"],
+                                20.0, at=(0, 0, largo - 10)))
     return tubo, "agua", {"cantidad": 1,
-                          "nota": f"Tramo fijo de {largo:.0f} mm; el nivel fino se ajusta con el tramo deslizante."}
+                          "nota": f"Tramo fijo de {largo:.0f} mm. El nivel fino se ajusta con el "
+                                  "tramo deslizante que lo abraza por fuera."}
 
 
 def agua_tubo_nivel(P, C):
-    """Tramo deslizante: subiéndolo o bajándolo se fija el nivel del agua."""
+    """Tramo deslizante: telescopa sobre el fijo y FIJA el nivel del agua."""
     ag = P["agua"]
-    di, t = ag["bajante_dia_int"], ag["bajante_pared"]
     largo = ag["bajante_carrera_ajuste"] + 60.0
-    tubo = S.tubo(di + 2 * t, di, largo, at=(0, 0, largo / 2))
-    # collar de apriete con tornillo M4 (fija la altura elegida)
-    tubo = S.union(tubo, S.caja((di + 2 * t + 18, 14, 14), at=(0, 0, largo - 10)))
-    tubo = S.resta(tubo, S.cilindro(M4, di + 2 * t + 24, at=(0, 0, largo - 10), eje="x"))
-    for k in range(int(ag["bajante_carrera_ajuste"] / 10) + 1):
+    tubo = S.tubo(C["d_nivel_ext"], C["d_nivel_int"], largo, at=(0, 0, largo / 2))
+    # collar de apriete: fija la altura elegida
+    tubo = S.union(tubo, S.caja((C["d_nivel_ext"] + 18, 14, 14), at=(0, 0, largo - 10)))
+    tubo = S.resta(tubo, S.cilindro(M4, C["d_nivel_ext"] + 24, at=(0, 0, largo - 10), eje="x"))
+    for k in range(int(ag["bajante_carrera_ajuste"] / 10) + 1):   # escala de 10 en 10
         z = largo - 26 - 10 * k
-        tubo = S.resta(tubo, S.caja((1.2, di / 2 + t + 2, 1.2), at=(0, (di + 2 * t) / 2, z)))
-    return tubo, "agua", {"cantidad": 1, "nota": "Marcas cada 10 mm: cada marca = 10 mm de nivel de agua."}
+        tubo = S.resta(tubo, S.caja((1.2, C["d_nivel_ext"] / 2 + 2, 1.2),
+                                    at=(0, C["d_nivel_ext"] / 2, z)))
+    return tubo, "agua", {"cantidad": 1,
+                          "nota": "Cada marca = 10 mm de nivel de agua. Apretar el collar M4 "
+                                  "cuando el nivel quede donde se quiere."}
 
 
 def agua_difusor(P, C):
@@ -451,22 +462,27 @@ def agua_difusor(P, C):
     las ventanas es, por tanto, la cota que fija el nivel del bebedero.
     """
     ag = P["agua"]
-    di, t = ag["bajante_dia_int"], ag["bajante_pared"]
-    alto, d_def = 34.0, di + 2 * t + 8.0
-    d = S.tubo(di + 2 * t, di, alto, at=(0, 0, alto / 2))
+    alto = 34.0
+    d_e, d_i = C["d_difusor_ext"], C["d_difusor_int"] - 2 * ag["bajante_pared"]
+    d_def = d_e + 10.0
+    d = S.tubo(d_e, d_i, alto, at=(0, 0, alto / 2))
     d = S.union(d, S.cilindro(d_def, 3.0, at=(0, 0, 1.5)))            # deflector
     for k in range(3):                                                # pies
         a = math.radians(120 * k + 45)
         r = d_def / 2 - 6
         d = S.union(d, S.caja((10, 6, 8), at=(r * math.cos(a), r * math.sin(a), -2.0)))
-    d = S.union(d, S.tubo(di + 2 * t + 2 * 1.2, di + 2 * t + 0.7, 16.0, at=(0, 0, alto - 8)))
+    # copa superior: abraza el tramo deslizante
+    d = S.union(d, S.tubo(C["d_difusor_int"] + 2 * 1.2, C["d_difusor_int"], 18.0,
+                          at=(0, 0, alto - 9)))
+    d = S.resta(d, S.cilindro(C["d_difusor_int"], 20.0, at=(0, 0, alto - 9)))
     for k in range(ag["difusor_ventanas"]):                           # ventanas
         a = math.radians(360 / ag["difusor_ventanas"] * k)
-        w = S.caja((15, di + 2 * t + 20, 12), at=(0, 0, 11.0))
+        w = S.caja((15, d_e + 20, 12), at=(0, 0, 11.0))
         w.apply_transform(trimesh.transformations.rotation_matrix(a, [0, 0, 1]))
         d = S.resta(d, w)
     return d, "agua", {"cantidad": 1,
-                       "nota": "El borde INFERIOR de las ventanas (z=+5 mm de la pieza) fija el nivel del agua."}
+                       "nota": "El borde INFERIOR de las ventanas (z=+5 mm de la pieza) fija el "
+                               "nivel del agua. Sus tres pies impiden que se apoye en el fondo."}
 
 
 # ===========================================================================

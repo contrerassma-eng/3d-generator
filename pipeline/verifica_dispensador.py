@@ -384,6 +384,27 @@ def verificar(proj: Path) -> dict:
            "margen hasta el borde del plato",
            "corregir z_difusor o el alto del bebedero")
 
+    # ---------------- V15 la cadena del bajante encaja de verdad ------------
+    hol = {"boquilla→tramo fijo": round(C["d_copa_bajante"] - (C["d_bajante_ext"] - 0.4), 2),
+           "tramo fijo→tubo de nivel": round(C["d_nivel_int"] - C["d_bajante_ext"], 2),
+           "tubo de nivel→difusor": round(C["d_difusor_int"] - C["d_nivel_ext"], 2)}
+    sol = {"boquilla en el tramo fijo": round(min(C["z_labio_agua"], C["z_bajante_inf"]
+                                                  + C["bajante_largo"])
+                                              - max(C["z_labio_agua"] - 20.0,
+                                                    C["z_bajante_inf"] + C["bajante_largo"] - 20.0), 1),
+           "telescopio de nivel": round(min(C["z_tubo_nivel_sup"], C["z_bajante_inf"]
+                                            + C["bajante_largo"]) - C["z_bajante_inf"], 1),
+           "difusor sobre el tubo": round(C["z_difusor"] + 34.0 - C["z_tubo_nivel_inf"], 1)}
+    ok_h = all(0.4 <= v <= 1.6 for v in hol.values())
+    ok_s = all(v >= 10.0 for v in sol.values())
+    prueba("V15", "La cadena del bajante encaja y solapa lo suficiente",
+           "PASA" if ok_h and ok_s else "FALLA",
+           {"holguras_macho_hembra_mm": hol, "solapes_de_union_mm": sol,
+            "diametros": {k: C[k] for k in ("d_paso", "d_bajante_ext", "d_nivel_int",
+                                            "d_nivel_ext", "d_difusor_int")}},
+           "cada unión con 0.4-1.6 mm de holgura diametral y ≥10 mm de solape",
+           "revisar la cadena de diámetros en calculos() o el alto de cada tramo")
+
     # ---------------- resumen -------------------------------------------------
     fallas = [p["id"] for p in R["pruebas"] if p["veredicto"] == "FALLA"]
     advert = [p["id"] for p in R["pruebas"] if p["veredicto"] == "ADVERTENCIA"]

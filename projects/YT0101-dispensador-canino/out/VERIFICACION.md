@@ -1,8 +1,8 @@
 # Verificación funcional — YT0101-dispensador-canino
 
-Generado: 2026-07-26T07:17:44+00:00 · capa `user` (diseño, no medición).
+Generado: 2026-07-26T07:20:55+00:00 · capa `user` (diseño, no medición).
 
-**Veredicto: PASA_CON_ADVERTENCIAS** (18 pruebas, 0 fallas, 2 advertencias)
+**Veredicto: PASA_CON_ADVERTENCIAS** (19 pruebas, 0 fallas, 2 advertencias)
 
 | Prueba | Qué comprueba | Resultado |
 |---|---|---|
@@ -24,6 +24,7 @@ Generado: 2026-07-26T07:17:44+00:00 · capa `user` (diseño, no medición).
 | V11 | Las tres ménsulas alcanzan las orejas del canal | **PASA** |
 | V14 | Ninguna pieza del cabezal ocupa el sitio de otra | **PASA** |
 | V10 | Bebedero de nivel constante coherente (principio de Mariotte) | **PASA** |
+| V15 | La cadena del bajante encaja y solapa lo suficiente | **PASA** |
 
 ## V1 — Todas las piezas son sólidos cerrados (imprimibles)
 
@@ -99,7 +100,7 @@ Generado: 2026-07-26T07:17:44+00:00 · capa `user` (diseño, no medición).
 
 - **Resultado:** ADVERTENCIA
 - **Criterio:** < 6% del área de cada pieza por debajo de 45.0° en su orientación de impresión
-- **Medido:** `{"piezas_con_voladizo_pct": {"est_pie": 18.3, "est_soporte_cabezal": 10.7, "est_escuadra_muro": 18.0, "agua_boquilla": 10.3, "agua_difusor": 11.3, "ali_corredera": 13.8, "ali_agitador": 9.3, "ali_chute": 7.8}, "limite_deg": 45.0}`
+- **Medido:** `{"piezas_con_voladizo_pct": {"est_pie": 18.3, "est_soporte_cabezal": 10.7, "est_escuadra_muro": 18.0, "agua_boquilla": 10.0, "agua_difusor": 17.9, "ali_corredera": 13.8, "ali_agitador": 9.3, "ali_chute": 7.8}, "limite_deg": 45.0}`
 - **Acción / nota:** reorientar la pieza en el laminador o activar soportes solo en ella
 
 ## V9 — Columnas y anillo soportan el bidón lleno
@@ -150,3 +151,10 @@ Generado: 2026-07-26T07:17:44+00:00 · capa `user` (diseño, no medición).
 - **Criterio:** borde inferior de las ventanas = nivel declarado (±0.5 mm) y ≥ 25 mm de margen hasta el borde del plato
 - **Medido:** `{"nivel_equilibrio_mm": 38.0, "borde_ventanas_difusor_mm": 38.0, "margen_hasta_el_borde_mm": 34.0, "agua_en_el_plato_ml": 969.0, "autonomia_total_l": 21.0, "ajuste_de_nivel_mm": 60.0}`
 - **Acción / nota:** corregir z_difusor o el alto del bebedero
+
+## V15 — La cadena del bajante encaja y solapa lo suficiente
+
+- **Resultado:** PASA
+- **Criterio:** cada unión con 0.4-1.6 mm de holgura diametral y ≥10 mm de solape
+- **Medido:** `{"holguras_macho_hembra_mm": {"boquilla→tramo fijo": 1.1, "tramo fijo→tubo de nivel": 0.7, "tubo de nivel→difusor": 0.7}, "solapes_de_union_mm": {"boquilla en el tramo fijo": 12.0, "telescopio de nivel": 55.0, "difusor sobre el tubo": 16.0}, "diametros": {"d_paso": 25.0, "d_bajante_ext": 31.0, "d_nivel_int": 31.7, "d_nivel_ext": 37.7, "d_difusor_int": 38.4}}`
+- **Acción / nota:** revisar la cadena de diámetros en calculos() o el alto de cada tramo

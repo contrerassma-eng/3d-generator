@@ -1,6 +1,6 @@
 {
   "proyecto": "YT0101-dispensador-canino",
-  "generado": "2026-07-26T07:17:28+00:00",
+  "generado": "2026-07-26T07:21:10+00:00",
   "capa": "user",
   "piezas": {
     "est_anillo_segmento": {
@@ -182,19 +182,19 @@
     "agua_boquilla": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 53.56,
-        "area_cm2": 166.29,
+        "volumen_cm3": 52.8,
+        "area_cm2": 171.46,
         "bbox_mm": [
           62.0,
           62.0,
-          50.0
+          54.0
         ],
-        "triangulos": 4224,
+        "triangulos": 4032,
         "cabe_en_cama": true,
-        "masa_pla_g": 42.7
+        "masa_pla_g": 42.1
       },
       "cantidad": 1,
-      "nota": "Sellar con 2-3 vueltas de cinta de teflón en las acanaladuras antes de invertir el bidón.",
+      "nota": "Sellar con 2-3 vueltas de cinta de teflón en las acanaladuras antes de invertir el bidón. La espiga entra en el tramo fijo.",
       "_id": "agua_boquilla",
       "archivos": {
         "glb": "out/piezas/agua_boquilla.glb",
@@ -204,19 +204,19 @@
     "agua_bajante": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 24.24,
-        "area_cm2": 195.09,
+        "volumen_cm3": 25.16,
+        "area_cm2": 200.36,
         "bbox_mm": [
-          33.4,
-          33.4,
+          34.1,
+          34.1,
           86.0
         ],
         "triangulos": 1536,
         "cabe_en_cama": true,
-        "masa_pla_g": 19.3
+        "masa_pla_g": 20.0
       },
       "cantidad": 1,
-      "nota": "Tramo fijo de 86 mm; el nivel fino se ajusta con el tramo deslizante.",
+      "nota": "Tramo fijo de 86 mm. El nivel fino se ajusta con el tramo deslizante que lo abraza por fuera.",
       "_id": "agua_bajante",
       "archivos": {
         "glb": "out/piezas/agua_bajante.glb",
@@ -226,19 +226,19 @@
     "agua_tubo_nivel": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 39.24,
-        "area_cm2": 243.05,
+        "volumen_cm3": 48.05,
+        "area_cm2": 299.79,
         "bbox_mm": [
-          49.0,
-          31.0,
+          55.7,
+          37.7,
           120.0
         ],
-        "triangulos": 1676,
+        "triangulos": 1596,
         "cabe_en_cama": true,
-        "masa_pla_g": 31.3
+        "masa_pla_g": 38.3
       },
       "cantidad": 1,
-      "nota": "Marcas cada 10 mm: cada marca = 10 mm de nivel de agua.",
+      "nota": "Cada marca = 10 mm de nivel de agua. Apretar el collar M4 cuando el nivel quede donde se quiere.",
       "_id": "agua_tubo_nivel",
       "archivos": {
         "glb": "out/piezas/agua_tubo_nivel.glb",
@@ -248,19 +248,19 @@
     "agua_difusor": {
       "metricas": {
         "estanca": true,
-        "volumen_cm3": 11.95,
-        "area_cm2": 114.27,
+        "volumen_cm3": 20.07,
+        "area_cm2": 130.31,
         "bbox_mm": [
-          39.0,
-          39.0,
+          54.4,
+          54.4,
           40.0
         ],
-        "triangulos": 2592,
+        "triangulos": 1872,
         "cabe_en_cama": true,
-        "masa_pla_g": 9.5
+        "masa_pla_g": 16.0
       },
       "cantidad": 1,
-      "nota": "El borde INFERIOR de las ventanas (z=+5 mm de la pieza) fija el nivel del agua.",
+      "nota": "El borde INFERIOR de las ventanas (z=+5 mm de la pieza) fija el nivel del agua. Sus tres pies impiden que se apoye en el fondo.",
       "_id": "agua_difusor",
       "archivos": {
         "glb": "out/piezas/agua_difusor.glb",
@@ -554,5 +554,5 @@
       }
     }
   },
-  "masa_pla_total_g": 2280.4
+  "masa_pla_total_g": 2294.0
 }
