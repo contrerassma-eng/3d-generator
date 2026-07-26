@@ -1,8 +1,8 @@
 # Verificación funcional — YT0101-dispensador-canino
 
-Generado: 2026-07-26T06:48:51+00:00 · capa `user` (diseño, no medición).
+Generado: 2026-07-26T07:00:48+00:00 · capa `user` (diseño, no medición).
 
-**Veredicto: PASA_CON_ADVERTENCIAS** (13 pruebas, 0 fallas, 2 advertencias)
+**Veredicto: PASA_CON_ADVERTENCIAS** (14 pruebas, 0 fallas, 2 advertencias)
 
 | Prueba | Qué comprueba | Resultado |
 |---|---|---|
@@ -18,13 +18,14 @@ Generado: 2026-07-26T06:48:51+00:00 · capa `user` (diseño, no medición).
 | V7b | Cuello del bidón (abertura circular) sobre el criterio anti-arco | **ADVERTENCIA** |
 | V8 | Voladizos dentro de lo imprimible sin soportes | **ADVERTENCIA** |
 | V9 | Columnas y anillo soportan el bidón lleno | **PASA** |
+| V11 | Las tres ménsulas alcanzan las orejas del canal | **PASA** |
 | V10 | Bebedero de nivel constante coherente (principio de Mariotte) | **PASA** |
 
 ## V1 — Todas las piezas son sólidos cerrados (imprimibles)
 
 - **Resultado:** PASA
 - **Criterio:** malla estanca (watertight) en el 100% de las piezas
-- **Medido:** `{"no_estancas": [], "total": 23}`
+- **Medido:** `{"no_estancas": [], "total": 24}`
 - **Acción / nota:** revisar la operación booleana de la pieza indicada
 
 ## V2 — Cada pieza cabe en la cama declarada
@@ -94,7 +95,7 @@ Generado: 2026-07-26T06:48:51+00:00 · capa `user` (diseño, no medición).
 
 - **Resultado:** ADVERTENCIA
 - **Criterio:** < 6% del área de cada pieza por debajo de 45.0° en su orientación de impresión
-- **Medido:** `{"piezas_con_voladizo_pct": {"est_pie": 18.3, "est_escuadra_muro": 18.0, "agua_boquilla": 10.3, "agua_difusor": 11.3, "ali_corredera": 13.8, "ali_agitador": 9.8, "ali_chute": 7.8}, "limite_deg": 45.0}`
+- **Medido:** `{"piezas_con_voladizo_pct": {"est_pie": 18.3, "est_soporte_cabezal": 10.8, "est_escuadra_muro": 18.0, "agua_boquilla": 10.3, "agua_difusor": 11.3, "ali_corredera": 13.8, "ali_agitador": 9.8, "ali_chute": 7.8}, "limite_deg": 45.0}`
 - **Acción / nota:** reorientar la pieza en el laminador o activar soportes solo en ella
 
 ## V9 — Columnas y anillo soportan el bidón lleno
@@ -103,6 +104,13 @@ Generado: 2026-07-26T06:48:51+00:00 · capa `user` (diseño, no medición).
 - **Criterio:** factor de seguridad ≥ 3.0 en aplastamiento y pandeo
 - **Medido:** `{"carga_total_N": 205.0, "carga_por_columna_N": 68.3, "tension_MPa": 0.26, "fs_aplastamiento": 176.0, "fs_pandeo_columna_impresa": 5.0, "area_perfil_impreso_mm2": 267.3, "area_perfil_macizo_mm2": 400.0, "empuje_lateral_para_volcar_N": 72.5, "radio_base_mm": 232.2}`
 - **Acción / nota:** con 73 N de empuje lateral el conjunto vuelca: la escuadra de muro (est_escuadra_muro) es OBLIGATORIA en la unidad de alimento
+
+## V11 — Las tres ménsulas alcanzan las orejas del canal
+
+- **Resultado:** PASA
+- **Criterio:** cada ménsula toca el canal (holgura ≤ 1.5 mm); la ranura del brazo da ±12 mm de ajuste
+- **Medido:** `{"holgura_minima_mm": {"est_soporte_cabezal0": 0.05, "est_soporte_cabezal1": 0.07, "est_soporte_cabezal2": 0.01}, "nota": "distancia mínima entre cada ménsula y el cuerpo del canal"}`
+- **Acción / nota:** corregir el radio del brazo (est_soporte_cabezal) o el de las orejas del canal
 
 ## V10 — Bebedero de nivel constante coherente (principio de Mariotte)
 

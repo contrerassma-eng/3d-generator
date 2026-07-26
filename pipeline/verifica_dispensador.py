@@ -263,6 +263,25 @@ def verificar(proj: Path) -> dict:
            f"con {round(vuelco_N)} N de empuje lateral el conjunto vuelca: la escuadra de muro "
            "(est_escuadra_muro) es OBLIGATORIA en la unidad de alimento")
 
+    # ---------------- V11 el cabezal cuelga de verdad de las columnas --------
+    import ens_dispensador as EN
+    partes = dict(EN.conjunto_alimento(P, C, piezas))
+    canal = partes["ali_canal_base"]
+    pq = trimesh.proximity.ProximityQuery(canal)
+    contactos = {}
+    for n, m in partes.items():
+        if not n.startswith("est_soporte_cabezal"):
+            continue
+        pts = m.vertices[np.linspace(0, len(m.vertices) - 1, 400).astype(int)]
+        contactos[n] = round(float(np.abs(pq.signed_distance(pts)).min()), 2)
+    ok_c = contactos and max(contactos.values()) <= 1.5
+    prueba("V11", "Las tres ménsulas alcanzan las orejas del canal",
+           "PASA" if ok_c else "FALLA",
+           {"holgura_minima_mm": contactos,
+            "nota": "distancia mínima entre cada ménsula y el cuerpo del canal"},
+           "cada ménsula toca el canal (holgura ≤ 1.5 mm); la ranura del brazo da ±12 mm de ajuste",
+           "corregir el radio del brazo (est_soporte_cabezal) o el de las orejas del canal")
+
     # ---------------- V10 agua ------------------------------------------------
     nivel_ok = abs((C["z_difusor"] + 5.0) - ag["nivel_agua"]) < 0.51
     rebalse = ag["bebedero_alto"] - ag["nivel_agua"]

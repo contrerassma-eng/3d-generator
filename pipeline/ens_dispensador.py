@@ -78,7 +78,7 @@ def referencia_bidon(P, C, z_labio: float, cortado: bool = False):
 # Estructura común
 # ---------------------------------------------------------------------------
 
-def estructura(P, C, piezas, z_anillo: float):
+def estructura(P, C, piezas, z_anillo: float, mensulas_z: float | None = None):
     """Trípode: 3 columnas de perfil 20x20 inclinadas 12°, anillo de asiento
     arriba y anillo de arriostre abajo (la MISMA pieza impresa en ambos)."""
     es = P["estructura"]
@@ -102,8 +102,15 @@ def estructura(P, C, piezas, z_anillo: float):
         col.apply_transform(trimesh.transformations.rotation_matrix(incl, [1, 0, 0]))
         col.apply_translation([0, r_pata + (z_anillo - zc) * math.tan(incl), zc])
         perfiles.append((f"perfil_columna{k}", _t(col, rz=a)))
+        # OJO: primero se lleva la pieza a su radio y altura, y RECIÉN
+        # después se gira alrededor del eje del aparato. Al revés quedarían
+        # las tres en el mismo sitio.
         r_pie = r_pata + z_anillo * math.tan(incl)
-        partes.append((f"est_pie{k}", _t(piezas["est_pie"], at=(0, r_pie, 0), rz=a)))
+        partes.append((f"est_pie{k}", _t(_t(piezas["est_pie"], at=(0, r_pie, 0)), rz=a)))
+        if mensulas_z is not None:               # ménsulas que cuelgan el cabezal
+            r_m = r_pata + (z_anillo - mensulas_z) * math.tan(incl)
+            partes.append((f"est_soporte_cabezal{k}",
+                           _t(_t(piezas["est_soporte_cabezal"], at=(0, r_m, mensulas_z)), rz=a)))
     return partes, perfiles
 
 
@@ -141,7 +148,8 @@ def conjunto_alimento(P, C, piezas):
         ("est_collar_cuello_b", _color(_t(piezas["est_collar_cuello"], at=(0, 0, C["z_labio_alimento"] + 14),
                                           rz=180), S.COLORES["estructura"])),
     ]
-    est, perfiles = estructura(P, C, piezas, C["z_anillo_alimento"])
+    est, perfiles = estructura(P, C, piezas, C["z_anillo_alimento"],
+                               mensulas_z=C["z_canal_base"] + 18.0)
     partes += [(n, _color(m, S.COLORES["estructura"])) for n, m in est]
     partes += [(n, _color(m, "#8d6e63")) for n, m in perfiles]      # perfil comercial 20x20
     return partes
@@ -209,6 +217,60 @@ def render(escena: list, path: Path, titulo: str, elev=18.0, azim=-62.0) -> None
     plt.close(fig)
 
 
+# ---------------------------------------------------------------------------
+# Animación del ciclo de dosificación (la prueba visual de que esto funciona)
+# ---------------------------------------------------------------------------
+
+def animacion(P, C, piezas, destino: Path, cuadros: int = 16) -> Path:
+    """Un ciclo completo: cargar → llevar la dosis → descargar → volver.
+
+    Se dibuja el cabezal con el cajón en cada posición del recorrido y con la
+    palanca girada lo que le corresponde por la relación cremallera-piñón.
+    """
+    import math as _m
+    do = P["dosificador"]
+    y_cav = C["y_cavidad_local"]
+    fijas = [m for n, m in conjunto_alimento(P, C, piezas)
+             if n.startswith("ali_") and n not in ("ali_corredera", "ali_palanca")]
+    imgs = []
+    destino.mkdir(parents=True, exist_ok=True)
+    ida = list(range(cuadros)) + list(range(cuadros - 2, 0, -1))
+    for i, k in enumerate(ida):
+        f = k / (cuadros - 1)
+        avance = f * C["carrera"]
+        cajon = _color(_t(piezas["ali_corredera"],
+                          at=(0, C["y_carga"] + avance - y_cav, C["z_deslizamiento"])),
+                       S.COLORES["rotor"])
+        ang = -C["palanca_barrido_deg"] / 2 + f * C["palanca_barrido_deg"]
+        palanca = _color(_t(piezas["ali_palanca"], at=(-C["x_pinon"], 0, C["z_pinon"] + 48),
+                            rz=ang), S.COLORES["palanca"])
+        # la croqueta que va en la cavidad, dibujada como bloque testigo
+        dosis = S.caja((do["cavidad_x"] - 6, do["cavidad_y"] - 6, C["cavidad_z"] - 6),
+                       at=(0, C["y_carga"] + avance, C["z_deslizamiento"] + C["cavidad_z"] / 2))
+        cae = f >= 0.999
+        if cae:
+            dosis = S.caja((do["cavidad_x"] - 6, do["cavidad_y"] - 6, 30),
+                           at=(0, C["y_descarga"] + 20, C["z_canal_base"] - 90))
+        p_img = destino / f"ciclo_{i:02d}.png"
+        render(fijas + [cajon, palanca, _color(dosis, "#8d6e3b")], p_img,
+               f"Ciclo de dosificación — avance {avance:.0f} mm de {C['carrera']:.0f}"
+               + ("  ·  DOSIS ENTREGADA" if cae else ""),
+               elev=16.0, azim=-64.0)
+        imgs.append(p_img)
+    try:
+        from PIL import Image
+        cuadros_img = [Image.open(x).convert("P", palette=Image.ADAPTIVE) for x in imgs]
+        gif = destino / "ciclo_dosificacion.gif"
+        cuadros_img[0].save(gif, save_all=True, append_images=cuadros_img[1:],
+                            duration=160, loop=0)
+        for x in imgs:                           # los cuadros sueltos se regeneran
+            x.unlink(missing_ok=True)
+        return gif
+    except Exception as e:                       # sin PIL: quedan los cuadros sueltos
+        print(f"  (sin GIF: {e})")
+        return destino
+
+
 def main() -> None:
     if len(sys.argv) < 2:
         print(__doc__)
@@ -260,6 +322,10 @@ def main() -> None:
                "Cabezal dosificador — alzado", elev=2.0, azim=-90.0)
         render(det, proj / "out" / "vistas" / "detalle_cabezal_planta.png",
                "Cabezal dosificador — planta", elev=88.0, azim=-90.0)
+
+    if render_on and "--anim" in sys.argv[2:]:
+        gif = animacion(P, C, piezas, proj / "out" / "vistas" / "ciclo")
+        print(f"Animación → {gif.relative_to(proj)}")
 
     audit(proj, "CAD", "ensambles y vistas del dispensador", "OK",
           conjuntos=list(conjuntos), hashes={k: sha256_file(v) for k, v in salidas.items()})

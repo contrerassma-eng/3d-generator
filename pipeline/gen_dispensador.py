@@ -268,6 +268,39 @@ def est_collar_cuello(P, C):
         "nota": "Dos mitades iguales + 2 tornillos M4x30. Apretar sobre el cuello; el peso NO cuelga de aquí."}
 
 
+def est_soporte_cabezal(P, C):
+    """Ménsula que cuelga el cabezal dosificador de una columna.
+
+    Abraza el perfil 20x20 a la altura que se quiera (la ranura del brazo da
+    ±12 mm de ajuste radial) y termina en el taladro donde apoya la oreja del
+    canal. Tres iguales por aparato.
+    """
+    es = P["estructura"]
+    lado = es["pata_seccion"] + es["pata_holgura"]
+    incl = math.radians(es["pata_inclinacion_deg"])
+    largo = 78.0
+    m = S.caja((lado + 12, lado + 12, 46), at=(0, 0, 0))
+    m = S.union(m, S.caja((22, largo, 10), at=(0, -largo / 2 - lado / 2, -18)))
+    hueco = S.caja((lado, lado, 70))
+    hueco.apply_transform(trimesh.transformations.rotation_matrix(incl, [1, 0, 0]))
+    m = S.resta(m, hueco)
+    for z in (-14.0, 14.0):                      # tornillos de apriete del perfil
+        m = S.resta(m, S.cilindro(M4, lado + 40, at=(0, 0, z), eje="y"))
+    # ranura del brazo: ajuste radial fino al montar
+    ranura = S.union(S.cilindro(M4, 20, at=(0, -largo - lado / 2 + 14, -18)),
+                     S.caja((M4, 24, 20), at=(0, -largo - lado / 2 + 26, -18)),
+                     S.cilindro(M4, 20, at=(0, -largo - lado / 2 + 38, -18)))
+    m = S.resta(m, ranura)
+    # cartela: el brazo trabaja en voladizo
+    cart = S.prisma([(0, 0), (0, 34), (58, 0)], 8.0, eje="x")
+    cart.apply_transform(trimesh.transformations.rotation_matrix(math.pi / 2, [0, 0, 1]))
+    cart.apply_translation([0, -lado / 2 - 2, -13])
+    m = S.union(m, cart)
+    return m, "estructura", {"cantidad": 3,
+                             "nota": "Sujeta el canal a las columnas. Montar con nivel: el canal debe "
+                                     "quedar horizontal o la dosis varía."}
+
+
 def est_escuadra_muro(P, C):
     """Escuadra de anclaje a muro: el conjunto es alto y esbelto."""
     e = S.caja((60, 8, 90), at=(0, 4, 45))
@@ -422,11 +455,17 @@ def ali_canal_base(P, C):
         for sy in (-1, 1):
             base = S.resta(base, S.cilindro(M4, 3 * (piso + alto_carril),
                                             at=(sx * (W - pared) / 2, sy * (L / 2 - 12), 0)))
-    # patas de anclaje del cabezal al anillo de la estructura
-    for sx in (-1, 1):
-        orej = S.caja((22, 26, piso), at=(sx * (W / 2 + 8), -L / 2 + 16, piso / 2))
-        base = S.union(base, orej)
-        base = S.resta(base, S.cilindro(M4, piso + 8, at=(sx * (W / 2 + 8), -L / 2 + 16, piso / 2)))
+    # tres orejas a 0/120/240° donde apoyan las ménsulas de las columnas
+    r_or = 95.0
+    for k in range(3):
+        a = math.radians(120 * k + 90)
+        cx, cy = r_or * math.cos(a), r_or * math.sin(a)
+        orej = S.caja((26, 26, piso), at=(cx, cy, piso / 2))
+        puente = S.caja((22, 2 * r_or, piso), at=(0, 0, piso / 2))
+        puente.apply_transform(trimesh.transformations.rotation_matrix(a - math.pi / 2, [0, 0, 1]))
+        base = S.union(base, S.interseccion(
+            puente, S.cilindro(2 * r_or + 26, piso + 2, at=(0, 0, piso / 2))), orej)
+        base = S.resta(base, S.cilindro(M4, piso + 8, at=(cx, cy, piso / 2)))
     return base, "carcasa", {"cantidad": 1,
                              "nota": "Imprimir apoyada en el piso: carriles y torre salen sin soportes."}
 
@@ -743,6 +782,7 @@ PIEZAS = {
     "est_barra": est_barra,
     "est_pie": est_pie,
     "est_collar_cuello": est_collar_cuello,
+    "est_soporte_cabezal": est_soporte_cabezal,
     "est_escuadra_muro": est_escuadra_muro,
     "agua_bebedero": agua_bebedero,
     "agua_boquilla": agua_boquilla,
