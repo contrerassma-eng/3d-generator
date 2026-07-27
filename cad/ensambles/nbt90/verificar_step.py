@@ -36,17 +36,19 @@ def main() -> int:
 
     doc = json.loads(Path(a.doc).read_text(encoding="utf-8"))
     escena = trimesh.load(a.glb)
-    # el GLB nombra cada malla como la pieza; puede añadir sufijos al repetirse
-    mallas = {}
-    for nombre, g in escena.geometry.items():
-        mallas.setdefault(nombre.split(".")[0], []).append(g)
+    # El GLB nombra cada malla como la pieza. NO se puede normalizar partiendo
+    # por el punto: los nombres llevan cotas decimales y comillas de pulgada
+    # («Placa peine 3/16" 432×292.5 (lado libre)») y dos piezas distintas
+    # colapsarían en la misma clave, comparando una contra la malla de la otra.
+    # Se casa por nombre EXACTO; trimesh solo añade sufijo si hay repetidos.
+    mallas = {nombre: g for nombre, g in escena.geometry.items()}
 
     peor, revisar, sin_malla, n = 0.0, [], 0, 0
     for part in doc["parts"]:
         if part.get("contexto"):
             continue
-        cand = mallas.get(part["name"].split(".")[0]) or mallas.get(part["name"])
-        if not cand:
+        g = mallas.get(part["name"])
+        if g is None:
             sin_malla += 1
             continue
         s = construir(part)
@@ -54,7 +56,7 @@ def main() -> int:
             revisar.append((part["name"], "sin sólido B-rep", 100.0))
             continue
         vb = s.Volume() / 1000.0                       # cm³
-        vm = abs(cand[0].volume) / 1000.0
+        vm = abs(g.volume) / 1000.0
         if vm <= 0:
             continue
         dif = abs(vb - vm) / vm * 100.0
