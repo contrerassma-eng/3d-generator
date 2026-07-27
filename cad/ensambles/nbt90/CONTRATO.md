@@ -8,11 +8,12 @@ mediciones de `analisis/`); las **primitivas** viven en `lib.mjs`.
 ## 1. Sistema de coordenadas (único, no se discute)
 
 ```
- X = eje de los rodillos y de todos los ejes de poleas
-     ( = dirección de flujo del transportador ANFITRIÓN )
- Y = dirección de marcha de las bandas angostas ( = expulsión a 90° )
- Z = arriba.  Z = 0 en la CARA INFERIOR del bastidor de la transferencia.
- Origen (0,0,0) = centro del bastidor en planta, sobre su cara inferior.
+ X = eje de los rodillos de transferencia ( = flujo del transportador ANFITRIÓN;
+     también la dirección en que corren las bandas angostas del clasificador )
+ Y = expulsión a 90° ( = dirección en que se REPARTEN los rodillos, a paso 3" ).
+     Origen Y = 0 en el eje de simetría del módulo.
+ Z = arriba.  Z = 0 en la cara inferior del bastidor; X = 0 en la placa lateral
+     de accionamiento. El plano de las bandas del anfitrión está en Z = P.planoBanda.
 ```
 
 Todo en **milímetros**. El equipo original es imperial: `lib.mjs` exporta
@@ -38,8 +39,11 @@ export function bastidor(E) { … return { chapas: 12, masaKg: 41.2 }; }
 ```
 
 - **No** escribe archivos, **no** imprime, **no** lee JSON: solo agrega piezas.
-- **No** redefine cotas: toda dimensión sale de `P` (si falta una, se agrega a
-  `params.mjs` con un comentario que diga de dónde sale).
+- **No** redefine cotas globales: toda dimensión compartida sale de `P`. Las
+  cotas que solo usa el módulo van en un bloque local al principio del archivo
+  (`const L = { … }`), cada una con su justificación (`med`/`cat`/`txt`/`dis`).
+  **Nadie edita `params.mjs` ni `lib.mjs`** — se escriben en paralelo y un
+  cambio ahí rompería a los demás.
 - Puede exportar además constantes derivadas que otros módulos necesiten
   (p. ej. `export const ejeMotrizZ = …`), pero **nunca** duplicando un valor
   que ya está en `P`.
@@ -97,10 +101,17 @@ dato con el que se construyó el sólido.
 
 | Módulo | Archivo | Contenido |
 |---|---|---|
-| Bastidor | `bastidor.mjs` | placas laterales, travesaños, canal de montaje, guardas, patas y su tornillería |
-| Transmisión | `transmision.mjs` | motorreductor, rodillo motriz, banda motriz, tensor de la banda motriz, colisas de ajuste, chumaceras |
-| Cassette de bandas | `cassette.mjs` | carretes/poleas de banda angosta, ejes, rodamientos, bandas angostas, rodillos y nariz, tensores individuales |
-| Elevación y neumática | `elevacion.mjs` | cilindros, palancas/levas, pasadores, FRL, válvula, racores, mangueras, topes y guías del pop-up |
+| Bastidor | `bastidor.mjs` | ROLLER FRAME WELDMENT (placas peine), SIDE CHANNEL, TRANSFER CROSS CHANNEL, CROSS ANGLE, SPACER PLATE, TRANSFER ROLLER GUARD, NOTCHED BRACE CHANNEL, BASE CHANNEL WELDMENT y su tornillería |
+| Rodillos | `rodillos.mjs` | 6 rodillos vulcanizados Ø1-3/8" con eje hexagonal 5/16", rodamientos, retención en las ranuras del peine, y las 5 bandas angostas + regletas del anfitrión (contexto) |
+| Transmisión | `transmision.mjs` | serpentín de banda plana de 1", poleas locas Ø2-1/2", tensor con colisa, poleas de retorno, rueda motriz, buje sin chaveta y motorreductor SEW |
+| Elevación y neumática | `elevacion.mjs` | mesa guía neumática Ø100×20, canal de montaje del cilindro con colisas, 4 jack bolts, válvula 4 vías, silenciador, racores y tubería |
 
 El integrador `gen_nbt90.mjs` llama a los cuatro en ese orden, corre `verify()`
 y emite `narrow_belt_transfer_90.json`.
+
+## 7. Banco de pruebas
+
+`node cad/ensambles/nbt90/_check.mjs <modulo> [--v]` construye la geometría real
+de cada pieza del módulo con el motor CSG y falla si alguna no tiene malla,
+tiene volumen ≤ 0 o NaN. Además avisa de piezas fuera de la envolvente. **Un
+módulo no se da por terminado hasta que este banco pasa en verde.**
