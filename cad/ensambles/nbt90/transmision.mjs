@@ -21,7 +21,7 @@
 import {
   box, cyl, hole, sketchYZ, revolve, rectR, colisa,
   bandaFaces, largoBanda, envolventes,
-  polea, pernoHex, tuercaHex, golilla, anilloRet,
+  arcoPts, rodamiento, pernoHex, tuercaHex, golilla, anilloRet,
   COL, pulg, r2,
 } from './lib.mjs';
 import { P } from './params.mjs';
@@ -53,13 +53,38 @@ const L = {
                           // FIJO ocupa Y 189.1…228.6 a los dos lados, así que ninguna pieza
                           // MÓVIL puede pasar de ±187 (integración, informe de interferencias).
 
-  // --- poleas locas / retorno --------------------------------------------
-  ejeRan: 6.5,            // dis: fondo de la ranura del anillo de retención (Ø13 en eje 9/16")
-  ranAncho: 1.4,          // dis: ancho de ranura DIN 471 para eje 14.29
+  // --- poleas locas / retorno: eje y rodamientos --------------------------
+  // CAMBIO DE EJE. P.idlerEje = 9/16" (14.29) NO tiene rodamiento de catálogo
+  // (la serie R salta de R8 = 1/2" a R10 = 5/8"), así que el eje sube a 5/8".
+  // Se elige la vía IMPERIAL y no la métrica (Ø15 + 6002-2RS) porque todo el
+  // equipo Hytrol lo es —paso 3", banda 1", poleas 2-1/2", hex 5/16"— y el
+  // propio despiece ya lista tornillo de hombro de 5/8" (042.512); la única
+  // interfaz métrica del módulo es el motorreductor SEW (eje Ø20, buje 20/45).
+  ejeRod: pulg(0.625),    // 15.88 — dis: eje de polea loca 5/8" g6 (sube a params)
+  rodam: {                // cat: rodamiento rígido de bolas 2RS, serie R en pulgadas
+    desig: 'R10-2RS', bore: pulg(0.625), od: pulg(1.375), w: pulg(0.3125),  // 15.88×34.93×7.94
+    C0: 2400, C: 4400,    // N — capacidad estática / dinámica de catálogo
+  },
+  // Ajustes (en una polea loca el eje está QUIETO y la llanta gira):
+  //   aro EXTERIOR = carga rotante  → apretado en el bore de la polea .... N7
+  //   aro INTERIOR = carga estacionaria → deslizante sobre el eje ........ g6
+  ajusteExt: 'N7', ajusteInt: 'g6',
   hombro: 22.0,           // dis: Ø del hombro del eje que apoya en la placa
-  bujeOD: pulg(0.75),     // 19.05 — cat: buje de bronce sinterizado 9/16"×3/4"
-  bujeL: pulg(0.5),       // 12.7  — cat: largo del buje (2 por polea)
-  cuboPolea: 28.0,        // dis: Ø del cubo de la polea loca (aloja el buje Ø19.05)
+  ribDia: 30.0,           // dis: resalte central del bore contra el que topan los dos aros ext.
+  circInt: { ranura: 37.0, t: 1.5, ancho: 1.6, ri: 16.1 },  // cat DIN 472 para alojamiento Ø35
+  ejeRan: 7.35,           // dis: fondo de la ranura DIN 471 del eje 5/8" (Ø14.7)
+  ranAncho: 1.3,          // dis: ancho de esa ranura
+
+  // --- pestañas laterales de guía de la banda ------------------------------
+  // La banda plana se CENTRA por abombado; las pestañas son sólo TOPE de
+  // seguridad, por eso llevan luz y no rozan en marcha.
+  pestanaAlto: 5.0,       // dis: 2 × P.serpEsp sobre la superficie de rodadura
+  pestanaEsp: 3.58,       // dis: espesor axial. 28.4 + 2×3.58 = 35.56 = P.idlerAncho EXACTO:
+                          //      las pestañas se mecanizan de la polea de catálogo de 1.4",
+                          //      así que el ancho total NO crece y no hay que revisar el hueco
+                          //      entre la placa peine y la guarda.
+  pestanaR: 1.5,          // dis: radio del canto interior (una pestaña viva corta la banda)
+  luzPestanas: 28.4,      // dis: P.serpAncho + 1.5 por lado
 
   // --- tensor (TAKE-UP IDLER) ---------------------------------------------
   // txt pág. 8: "loosen 3/8 locknut holding take-up idler, tension belt by
@@ -134,8 +159,15 @@ const X = {
   rueda1: r2(P.planoSerp + P.ruedaAncho / 2),     // 107.5
   placa1: r2(L.xPlaca + L.espPlaca),              // 119.35 (cara +X de la placa)
 };
-X.eje0 = r2(X.pol0 - 3.2);                        // punta del eje de polea loca
-X.ran0 = r2(X.eje0 + 1.4);                        // ranura del anillo de retención
+// reparto axial dentro del cubo de la polea loca (h medido desde X.pol0):
+//   0.5 ranura DIN 472 · rodamiento A · resalte central · rodamiento B · ranura DIN 472
+X.ranIntA = r2(X.pol0 + 0.5);
+X.rodA0 = r2(X.ranIntA + L.circInt.ancho);
+X.rodB1 = r2(X.pol1 - 0.5 - L.circInt.ancho);     // aquí topa el hombro del eje
+X.rodB0 = r2(X.rodB1 - L.rodam.w);
+X.ranIntB = X.rodB1;
+X.eje0 = r2(X.rodA0 - 5.3);                       // punta del eje de polea loca
+X.ran0 = r2(X.rodA0 - L.ranAncho);                // ranura DIN 471 que topa el aro interior A
 X.pad0 = r2(L.xPlaca - L.espPlaca);               // cara −X del doblador de la colisa
 X.apriete1 = r2(X.placa1 + L.espPlaca);           // cara +X de la placa de apriete del tensor
 X.rosca1 = r2(L.xPlaca + 18);                     // fin de la rosca 3/8 de un eje fijo
@@ -178,25 +210,47 @@ function serpentin(zTensor) {
 // ---------------------------------------------------------------------------
 // Piezas auxiliares del módulo
 // ---------------------------------------------------------------------------
-/** Buje de bronce sinterizado (SAE 841) — el "rodamiento" de una polea loca plana. */
-function bujeBronce(E, { nombre, at, id, od, largo, capa }) {
-  return E.addPart(`${capa}Buje bronce SAE 841 ${nombre}`, COL.rodamiento, at, [
-    revolve(`Buje Ø${id}/Ø${od}×${largo}`, at, 'x',
-      [[0, id / 2], [0, od / 2], [largo, od / 2], [largo, id / 2]]),
-  ], { hardware: true, componente: `buje_${id}x${od}x${largo}` });
+/** Anillo de retención INTERIOR (DIN 472): se aloja en una ranura del bore y
+ *  sobresale hacia dentro para topar el aro exterior del rodamiento. */
+function anilloInt(E, { nombre, at, capa }) {
+  const c = L.circInt;
+  return E.addPart(`${capa}Anillo retención interior DIN 472 Ø35 ${nombre}`, COL.inox, at, [
+    revolve(`Anillo DIN 472 Ø35 (t=${c.t})`, at, 'x',
+      [[0, c.ri], [0, c.ranura / 2], [c.t, c.ranura / 2], [c.t, c.ri]]),
+  ], { hardware: true, norma: 'DIN 472' });
+}
+
+/** Sección revolucionada de una polea loca CON PESTAÑAS de guía: llanta a
+ *  Ø P.idlerDia (la que usa `bandaFaces`), dos pestañas de `pestanaAlto` con el
+ *  canto interior redondeado R`pestanaR`, y el bore escalonado con resalte
+ *  central y ranuras para los dos anillos DIN 472. */
+function perfilPoleaLoca(w) {
+  const rB = L.rodam.od / 2;                    // 17.47 — asiento del rodamiento
+  const rRib = L.ribDia / 2;                    // 15    — resalte central
+  const rRod = P.idlerDia / 2;                  // 31.75 — superficie de rodadura
+  const rPes = r2(rRod + L.pestanaAlto);        // 36.75 — Ø exterior de la pestaña
+  const t = L.pestanaEsp, R = L.pestanaR;
+  const asiento = r2(L.rodam.w + L.circInt.ancho + 0.5);
+  const p = [[0, rB], [0, rPes], [t, rPes], [t, r2(rRod + R)]];
+  p.push(...arcoPts(t + R, rRod + R, R, Math.PI, 1.5 * Math.PI, 6));
+  p.push([r2(w - t - R), rRod]);
+  p.push(...arcoPts(w - t - R, rRod + R, R, 1.5 * Math.PI, 2 * Math.PI, 6));
+  p.push([r2(w - t), rPes], [w, rPes], [w, rB],
+    [r2(w - asiento), rB], [r2(w - asiento), rRib], [asiento, rRib], [asiento, rB]);
+  return p.map((q) => [r2(q[0]), r2(q[1])]);
 }
 
 /** Eje-espárrago de una polea loca: vástago Ø9/16" en voladizo, ranura para el
  *  anillo de retención, hombro que apoya en la placa y rosca 3/8-16 con tuerca. */
 function ejePolea(E, { nombre, y, z, xApoyo, xRosca, capa }) {
   const at = [X.eje0, y, z];
-  return E.addPart(`${capa}Eje polea Ø9/16"×${r2(xRosca - X.eje0)} ${nombre}`, COL.acero, at, [
-    cyl(`Vástago Ø${P.idlerEje}`, [X.eje0, y, z], [1, 0, 0], P.idlerEje, r2(X.pol1 - X.eje0)),
-    cyl(`Hombro Ø${L.hombro}`, [X.pol1, y, z], [1, 0, 0], L.hombro, r2(xApoyo - X.pol1)),
+  return E.addPart(`${capa}Eje polea Ø5/8" g6 × ${r2(xRosca - X.eje0)} ${nombre}`, COL.acero, at, [
+    cyl(`Vástago Ø${L.ejeRod} g6`, [X.eje0, y, z], [1, 0, 0], L.ejeRod, r2(X.rodB1 - X.eje0)),
+    cyl(`Hombro Ø${L.hombro}`, [X.rodB1, y, z], [1, 0, 0], L.hombro, r2(xApoyo - X.rodB1)),
     cyl(`Rosca 3/8-16 × ${r2(xRosca - xApoyo)}`, [xApoyo, y, z], [1, 0, 0], B38.d, r2(xRosca - xApoyo)),
     revolve('Ranura anillo DIN 471', [X.ran0, y, z], 'x',
-      [[0, L.ejeRan], [0, 9], [L.ranAncho, 9], [L.ranAncho, L.ejeRan]], 'cut'),
-  ], { componente: 'eje_polea_9_16' });
+      [[0, L.ejeRan], [0, 10], [L.ranAncho, 10], [L.ranAncho, L.ejeRan]], 'cut'),
+  ], { componente: 'eje_polea_5_8' });
 }
 
 /** Conjunto completo de una polea loca / de retorno: polea + 2 bujes + eje +
@@ -209,22 +263,31 @@ const poleasPuestas = [];
 function conjuntoLoca(E, { nombre, pos, y, z, capa, tensor = false }) {
   const n0 = E.parts.length;
   poleasPuestas.push({ y, z, nombre: `${nombre} (${pos})` });
-  polea(E, {
-    nombre: `${nombre} (${pos})`, at: [X.pol0, y, z], dir: [1, 0, 0],
-    od: P.idlerDia, ancho: P.idlerAncho, bore: L.bujeOD, cubo: L.cuboPolea,
-    color: COL.polea, capa, extra: { componente: 'polea_923.00975' },
-  });
-  for (const [i, x] of [X.pol0, r2(X.pol1 - L.bujeL)].entries()) {
-    bujeBronce(E, {
-      nombre: `9/16"×3/4"×1/2" (${pos}, ${i ? 'interior' : 'exterior'})`,
-      at: [x, y, z], id: P.idlerEje, od: L.bujeOD, largo: L.bujeL, capa,
+  const at = [X.pol0, y, z];
+  E.addPart(`${capa}${nombre} (${pos})`, COL.polea, at, [
+    revolve(`Llanta Ø${P.idlerDia}×${P.idlerAncho} c/pestañas Ø${r2(P.idlerDia + 2 * L.pestanaAlto)}, luz ${L.luzPestanas}`,
+      at, 'x', perfilPoleaLoca(P.idlerAncho)),
+    revolve(`Ranura DIN 472 exterior (${L.circInt.ranura}×${L.circInt.ancho})`, [X.ranIntA, y, z], 'x',
+      [[0, r2(L.rodam.od / 2)], [0, r2(L.circInt.ranura / 2)],
+        [L.circInt.ancho, r2(L.circInt.ranura / 2)], [L.circInt.ancho, r2(L.rodam.od / 2)]], 'cut'),
+    revolve(`Ranura DIN 472 interior (${L.circInt.ranura}×${L.circInt.ancho})`, [X.ranIntB, y, z], 'x',
+      [[0, r2(L.rodam.od / 2)], [0, r2(L.circInt.ranura / 2)],
+        [L.circInt.ancho, r2(L.circInt.ranura / 2)], [L.circInt.ancho, r2(L.rodam.od / 2)]], 'cut'),
+  ], { componente: 'polea_loca_flanged_2_5', extra_ajuste: L.ajusteExt });
+  for (const [i, x] of [X.rodA0, X.rodB0].entries()) {
+    rodamiento(E, {
+      nombre: `${L.rodam.desig} (${pos}, ${i ? 'interior' : 'exterior'})`,
+      at: [x, y, z], dir: [1, 0, 0], bore: L.rodam.bore, od: L.rodam.od, w: L.rodam.w, capa,
     });
+  }
+  for (const [i, x] of [X.ranIntA, X.ranIntB].entries()) {
+    anilloInt(E, { nombre: `(${pos}, ${i ? 'interior' : 'exterior'})`, at: [x, y, z], capa });
   }
   ejePolea(E, {
     nombre: `(${pos})`, y, z, capa,
     xApoyo: tensor ? X.pad0 : L.xPlaca, xRosca: tensor ? X.roscaT : X.rosca1,
   });
-  anilloRet(E, { nombre: `eje polea (${pos})`, at: [r2(X.ran0 + 0.1), y, z], dir: [1, 0, 0], eje: P.idlerEje, capa });
+  anilloRet(E, { nombre: `eje polea (${pos})`, at: [r2(X.ran0 + 0.05), y, z], dir: [1, 0, 0], eje: L.ejeRod, capa });
   if (tensor) {
     // placa de apriete: reparte el apriete de la contratuerca sobre la colisa y
     // deja libre el anillo de 21.8 mm que queda entre el espárrago y la brida.
@@ -458,6 +521,24 @@ export function transmision(E) {
   }
   gapCanal = r2(gapCanal); recorte = r2(Math.max(0, recorte));
 
+  // --- las pestañas Ø73.5 crecen 5 mm sobre la llanta: hay que rehacer la
+  //     holgura de CADA polea con pestañas a la misma envolvente FIJA.
+  const rPes = P.idlerDia / 2 + L.pestanaAlto;
+  let gapPes = Infinity, gapPesEn = null;
+  for (const s of seq) {
+    if (s.n.startsWith('rodillo') || s.n === 'rueda motriz') continue;   // sin pestañas
+    for (let k = 0; k <= 720; k++) {
+      const a = k * Math.PI / 360;
+      const y = Math.abs(s.c[0] + rPes * Math.cos(a)), z = s.c[1] + rPes * Math.sin(a);
+      const dy = Math.max(L.canalFijoY[0] - y, y - L.canalFijoY[1]);
+      const dz = Math.max(L.canalFijoZ[0] - z, z - L.canalFijoZ[1]);
+      const d = (dy > 0 || dz > 0) ? Math.hypot(Math.max(dy, 0), Math.max(dz, 0)) : Math.max(dy, dz);
+      if (d < gapPes) { gapPes = d; gapPesEn = [s.n, r2(y), r2(z)]; }
+      if (z <= L.canalFijoZ[1] && z >= L.canalFijoZ[0]) recorte = Math.max(recorte, y + L.holguraMin - L.canalFijoY[0]);
+    }
+  }
+  gapPes = r2(gapPes); recorte = r2(Math.max(0, recorte));
+
   return {
     verificacion: {
       elementosBanda: seq.length, poleasSolidas: poleasPuestas.length,
@@ -467,6 +548,8 @@ export function transmision(E) {
       // si no llega: el ala interior del `Side channel` FIJO tiene que acortarse
       // esto (la trayectoria de la banda la fijan cotas medidas y no se puede mover)
       recorteAlaCanalNecesario: recorte,
+      pestanaACanal: gapPes, pestanaACanalEn: gapPesEn,
+      pestanaACanalOK: gapPes >= L.holguraMin,
     },
     banda: {
       largoDesarrollado: largo,
@@ -484,8 +567,45 @@ export function transmision(E) {
       mu, T1_T2_rodillo: r2(Math.exp(mu * Math.min(...envRod) * Math.PI / 180)),
       T1_T2_ruedaMotriz: r2(Math.exp(mu * env[idx('rueda motriz')] * Math.PI / 180)),
     },
+    // --- rodamientos de las 6 poleas locas (la rueda motriz va sobre el buje) ---
+    rodamientos: (() => {
+      const rP = L.pestanaAlto, T2 = 150;            // dis: tensión de montaje del ramal flojo
+      const T1 = r2(par / (P.ruedaDia / 2000) + T2);  // ramal tenso
+      const carga = r2((T1 + T2) / 2);                // N por rodamiento (envolvente ≈ 190°)
+      return {
+        designacion: L.rodam.desig, cantidadPorPolea: 2, total: 12,
+        medidas: `${L.rodam.bore}×${L.rodam.od}×${L.rodam.w}`,
+        ejeAntes: P.idlerEje, ejeAhora: L.ejeRod,     // 14.29 (9/16") → 15.88 (5/8")
+        ajusteAroExterior: `${L.ajusteExt} — carga ROTANTE (gira la llanta)`,
+        ajusteAroInterior: `${L.ajusteInt} — carga ESTACIONARIA (el eje está quieto)`,
+        retencionAxial: 'aros ext.: resalte Ø30 del bore + 2 anillos DIN 472 Ø35 · '
+          + 'aros int.: hombro Ø22 del eje + anillo DIN 471 Ø5/8"',
+        paredLlantaBajoRodamiento: r2(P.idlerDia / 2 - L.rodam.od / 2),   // ≥4 exigido
+        paredBajoPestana: r2(P.idlerDia / 2 + rP - L.rodam.od / 2),
+        cargaPorRodamiento_N: carga, C0_N: L.rodam.C0,
+        coefSeguridadEstatico: r2(L.rodam.C0 / carga),
+      };
+    })(),
+    pestanas: {
+      alto: L.pestanaAlto, espesor: L.pestanaEsp, radioCanto: L.pestanaR,
+      luz: L.luzPestanas, holguraBandaPorLado: r2((L.luzPestanas - P.serpAncho) / 2),
+      odConPestanas: r2(P.idlerDia + 2 * L.pestanaAlto),
+      anchoPoleaAntes: P.idlerAncho, anchoPoleaDespues: r2(L.luzPestanas + 2 * L.pestanaEsp),
+      // las pestañas ocupan X 67.2…70.78 y 99.22…102.8 y la banda X 72.3…97.7:
+      // no comparten X en ningún punto, así que ninguna banda puede tocar la
+      // pestaña de una polea vecina; el único contacto posible es el tope lateral.
+      pestanaX: [[X.pol0, r2(X.pol0 + L.pestanaEsp)], [r2(X.pol1 - L.pestanaEsp), X.pol1]],
+      bandaX: [X.banda0, X.banda1],
+      pestanaSobreDorsoBanda: r2(L.pestanaAlto - P.serpEsp),
+      abombado: 'las locas son CILÍNDRICAS (nunca tuvieron abombado); el centrado lo da el '
+        + `abombado de ${L.ruedaCorona} mm de la rueda motriz, que se mantiene. Las pestañas sólo topan.`,
+    },
     holguras_mm: {
       locaContiguas: holgura(q('loca Y=-152.4'), q('loca Y=-76.2')),
+      // con pestañas Ø73.5 la holgura crítica ya no es entre llantas sino entre pestañas
+      pestanasContiguas: r2(P.paso - 2 * (P.idlerDia / 2 + L.pestanaAlto)),
+      pestanaARetorno: r2(Math.hypot(P.bandaY[4] - P.retornoY, P.idlerZ - P.retornoZ) - 2 * (P.idlerDia / 2 + L.pestanaAlto)),
+      pestanaARueda: r2(Math.hypot(P.bandaY[P.tomaIdlerIdx], zToma - P.motrizZ) - (P.idlerDia / 2 + L.pestanaAlto) - P.ruedaDia / 2),
       locaRetorno: holgura(q('loca Y=-152.4'), q('retorno −Y')),
       tensorRueda: holgura(q(`loca Y=${yT}`), q('rueda motriz')),
       tensorLocaVecina: holgura(q(`loca Y=${yT}`), q('loca Y=152.4')),
