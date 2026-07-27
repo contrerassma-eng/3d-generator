@@ -78,9 +78,11 @@ function verify() {
   }
 
   // --- 5. la banda del serpentín cierra y agarra ----------------------------
-  const env = m.transmision.envolventeRodillo;
-  if (env !== undefined && env < 60) e.push(`envolvente de la banda sobre el rodillo ${env}° < 60° (no arrastra)`);
-  if (m.transmision.largoBanda === undefined) e.push('la transmisión no reportó el largo desarrollado de la banda');
+  const env = m.transmision.envolvente_grados?.rodilloMin ?? m.transmision.envolventeRodillo;
+  const largoBanda = m.transmision.banda?.largoDesarrollado ?? m.transmision.largoBanda;
+  if (env === undefined) e.push('la transmisión no reportó la envolvente de la banda sobre el rodillo');
+  else if (env < 60) e.push(`envolvente de la banda sobre el rodillo ${env}° < 60° (no arrastra)`);
+  if (largoBanda === undefined) e.push('la transmisión no reportó el largo desarrollado de la banda');
 
   // --- 6. el actuador puede con la carga -----------------------------------
   const fs = m.elevacion.factorSeguridad;
@@ -114,7 +116,7 @@ function verify() {
         holguraRodilloRegleta: r2(holgura),
         solapesAABB: choques,
         rodillos: P.nRodillos, bandas: P.nBandas, paso: P.paso, BR: P.BR,
-        largoBanda: m.transmision.largoBanda, envolventeRodillo: env,
+        largoBanda, envolventeRodillo: env,
         empujeN: m.elevacion.empujeN, factorSeguridad: fs,
       };
 }

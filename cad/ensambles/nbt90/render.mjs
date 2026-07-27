@@ -39,7 +39,7 @@ const navegador = await chromium.launch({
   ...(existsSync(chromePre) ? { executablePath: chromePre } : {}),
   args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--no-sandbox'],
 });
-const pág = await navegador.newPage({ viewport: { width: 1600, height: 1100 }, deviceScaleFactor: 1.5 });
+const pág = await navegador.newPage({ viewport: { width: 1600, height: 1100 }, deviceScaleFactor: 1 });
 pág.on('pageerror', e => console.error('  ! error en el visor:', e.message));
 
 const vistas = ['iso', 'frente', 'lado', 'planta'];
@@ -47,9 +47,10 @@ for (const v of vistas) {
   const url = `http://127.0.0.1:${puerto}/ensambles/ver.html?doc=${encodeURIComponent(doc)}&view=${v}`;
   await pág.goto(url, { waitUntil: 'load', timeout: 120000 });
   await pág.waitForFunction('window.__listo === true', null, { timeout: 300000 });
-  await pág.waitForTimeout(700);                       // un par de cuadros ya renderizados
+  await pág.waitForTimeout(2500);                      // un par de cuadros ya renderizados
   const salida = join(outDir, `nbt90_${v}.png`);
-  await pág.screenshot({ path: salida });
+  // con 300+ piezas y WebGL por software, un cuadro tarda decenas de segundos
+  await pág.screenshot({ path: salida, timeout: 600000 });
   const info = await pág.textContent('#info');
   console.log(`  ✔ ${v.padEnd(7)} → ${salida}   (${info})`);
 }

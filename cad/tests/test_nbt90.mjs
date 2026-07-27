@@ -59,8 +59,18 @@ ok(propias.every(p => /^(FIJO|MÓVIL)/.test(p.name)),
 ok(V.tornilleria >= 20, `${V.tornilleria} piezas de tornillería normalizada`);
 
 console.log('— Armado: nada flota, nada choca —');
-ok(V.solapesAABB === 0 || V.solapesAABB < 4,
-  `${V.solapesAABB} solapes gruesos de caja entre módulo móvil y fijo`);
+// El solape de CAJAS no prueba interferencia: un perfil en U es hueco y su caja
+// envolvente incluye el vacío interior. La comprobación buena es la intersección
+// de sólidos que emite ensambles/nbt90/interferencias.mjs.
+let inf = null;
+try { inf = JSON.parse(readFileSync('ensambles/nbt90/interferencias.json', 'utf8')); } catch { /* sin informe */ }
+ok(inf !== null, 'existe el informe de interferencia real (interferencias.mjs)');
+if (inf) {
+  ok(inf.interferencias_reales === 0,
+    `0 interferencias reales de sólidos sobre ${inf.pares_candidatos_aabb} pares que la caja marcaba (${V.solapesAABB} gruesos)`);
+  ok(inf.contacto_popup?.ok === true,
+    `la mesa guía apoya en el conjunto móvil (separación ${inf.contacto_popup?.separacion_mm} mm)`);
+}
 const sueltas = propias.filter(p => {
   const b = bboxPieza(p);
   return b.lo[2] > P.altoTotal + 45 || b.hi[2] < -1;
@@ -70,8 +80,11 @@ ok(sueltas.length === 0, 'ninguna pieza queda fuera del volumen del equipo');
 console.log('— Fabricación —');
 const chapas = propias.filter(p => p.chapa);
 ok(chapas.length >= 4, `${chapas.length} piezas declaradas como chapa plegada (llevan desarrollo)`);
-ok(chapas.every(p => p.chapa.t >= 1.5 && p.chapa.radio >= p.chapa.t * 0.99),
-  'toda chapa tiene espesor de calibre y radio de plegado ≥ espesor');
+// una placa PLANA (fibra de 2 puntos = sin pliegue) no necesita radio; la
+// exigencia de radio ≥ espesor solo aplica a las que sí se pliegan.
+const plegadas = chapas.filter(p => (p.chapa.fibra?.length ?? 0) >= 3);
+ok(chapas.every(p => p.chapa.t >= 1.5) && plegadas.every(p => p.chapa.radio >= p.chapa.t * 0.99),
+  `las ${chapas.length} chapas tienen espesor de calibre y las ${plegadas.length} plegadas, radio ≥ espesor`);
 const compradas = propias.filter(p => p.hardware || p.componente);
 ok(compradas.length >= 20, `${compradas.length} piezas compradas identificadas para la lista de materiales`);
 

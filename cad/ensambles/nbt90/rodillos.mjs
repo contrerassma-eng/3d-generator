@@ -29,6 +29,10 @@
 
 import { Ensamble, revolve, sketchYZ, box, rodamiento, anilloRet, hexPts, COL, r2 } from './lib.mjs';
 import { P } from './params.mjs';
+// Interfaz con el bastidor: él es dueño de las placas peine, así que él fija
+// dónde pueden ir los anillos del eje (fuera del espesor de la placa). Se
+// importa el valor, no se copia: si mueve las placas, esto lo sigue solo.
+import { anilloRetX } from './bastidor.mjs';
 
 // ---------------------------------------------------------------------------
 // Cotas locales de este módulo (justificación: med / cat / txt / dis)
@@ -55,17 +59,24 @@ const L = {
                              //      (vista izq.: 13.5 px entre caras en corte por
                              //      fila) → las dos caras verticales guían en la
                              //      ranura en U de la placa peine
-  ejeLargo: 400,             // dis: cara 375 + 12.5 de vuelo por lado (ver juego axial)
+  ejeLargo: 410,             // dis: llega a 26.5…436.5, o sea 8.42 mm de barra por
+                             //      fuera de cada garganta (6.2 de hexágono entero
+                             //      tras el chaflán). Mínimo impuesto por los
+                             //      anillos del bastidor: arrancar antes de 34.92
+                             //      y terminar después de 428.08.
   ranuraD: 6.8,              // dis: garganta torneada para el anillo DIN 471 de Ø8
                              //      (6.8 < 7.94 entre caras ⇒ es un círculo completo)
   ranuraW: 1.2,              // dis: ancho de garganta = 1.2 × espesor del anillo
   anilloT: 1.0,              // cat: espesor del anillo DIN 471 de Ø8 (el que dibuja lib)
   ejeChaflan: 2.2,           // dis: matado de las puntas del hexágono a 45°
-  anilloJuego: 0.2,          // dis: holgura anillo ↔ cara exterior de la placa peine
 
   // -- interfaz con bastidor.mjs (NO define nada: lo lee) --------------------
-  placaPeineX: [41.6, 421.4],  // planos de las ranuras en U de las placas peine
-                               // (= P.rodX0 − P.placaT/2 y P.rodX1 + P.placaT/2)
+  placaPeineX: [40.1, 422.9],  // planos medios de las placas peine, tal como las
+                               // sitúa bastidor.mjs (L.placaXa / L.placaXb): sus
+                               // caras interiores en 42.48 y 420.52 dejan al tubo
+                               // (X 44…419) 1.52 mm de juego axial por lado.
+                               // Las ranuras en U reciben el hexágono con las
+                               // CARAS VERTICALES, que es como se modela aquí.
 };
 
 // Radios de trabajo (todo lo demás se deriva de P).
@@ -89,10 +100,14 @@ const PEINE_EXT = [r2(L.placaPeineX[0] - P.placaT / 2), r2(L.placaPeineX[1] + P.
 const EJE_X0 = r2((P.rodX0 + P.rodX1 - L.ejeLargo) / 2);              // 31.5
 const EJE_X1 = r2(EJE_X0 + L.ejeLargo);                               // 431.5
 
-// Anillos de retención: uno contra cada cara EXTERIOR de placa peine, con
-// `anilloJuego` por lado ⇒ el eje flota 0.4 mm en marcha y no se sale del U.
-const AN_X = [r2(PEINE_EXT[0] - L.anilloJuego - L.anilloT), r2(PEINE_EXT[1] + L.anilloJuego)];
+// Anillos de retención: `anilloRetX` (de bastidor.mjs) es el PLANO DE ASIENTO
+// de cada anillo, o sea la cara del anillo que mira a su placa peine. El anillo
+// del lado motriz crece hacia +X, así que arranca un espesor antes.
+const AN_X = [r2(anilloRetX[0] - L.anilloT), r2(anilloRetX[1])];
 const RAN_X = AN_X.map((x) => r2(x - (L.ranuraW - L.anilloT) / 2));   // garganta centrada
+// Juego axial del eje = lo que le dejan los dos anillos contra las caras
+// exteriores de las placas peine (bastidor: 1.7 mm por lado).
+const JUEGO_EJE = r2((anilloRetX[1] - anilloRetX[0]) - (PEINE_EXT[1] - PEINE_EXT[0]));
 
 /** Cotas que necesita transmision.mjs: el serpentín se apoya en el ACERO
  *  desnudo (no en la goma), y ese es el radio que abraza. */
@@ -175,15 +190,17 @@ export function rodillos(E) {
 
     // --- 1.2 eje hexagonal 5/16" pasante ----------------------------------
     // NO GIRA: se apoya por sus dos caras verticales en las ranuras en U de las
-    // placas peine (X = 41.6 y 421.4) y sobresale 12.5 mm de cada testa del tubo.
-    // JUEGO AXIAL — lo exige el manual (pág. 8): «the drive rollers must be
-    // removed … by pushing one side of the hex axle through the transfer support
-    // channel». Cotas de ese desmontaje, medidas sobre este modelo:
-    //   · en marcha el eje flota 2 × 0.2 = 0.40 mm entre los dos anillos;
-    //   · quitando UN anillo, el eje corre 12.48 mm (= 43.98 − 31.50) hasta que
+    // placas peine (planos medios X = 40.1 y 422.9) y sobresale 17.5 mm de cada
+    // testa del tubo. JUEGO AXIAL — lo exige el manual (pág. 8): «the drive
+    // rollers must be removed … by pushing one side of the hex axle through the
+    // transfer support channel». Cotas de ese desmontaje sobre este modelo:
+    //   · en marcha el eje flota 3.40 mm entre anillos (1.7 por lado, según el
+    //     `anilloRetX` del bastidor); va con el juego del propio tubo entre
+    //     placas (3.04 mm) y no deja que el hexágono salte de su ranura;
+    //   · quitando UN anillo, el eje corre 15.98 mm (= 42.48 − 26.50) hasta que
     //     su punta libera la ranura en U de la placa peine opuesta;
-    //   · para permitirlo, el SIDE CHANNEL de ese lado necesita 20.20 mm libres
-    //     (12.48 de carrera + 7.72 de vuelo del eje ya existente).
+    //   · la punta contraria llega entonces a X = 452.5, dentro del paso libre
+    //     que el bastidor deja a ese lado (425.3…463). Cabe.
     E.addPart(`MÓVIL · Eje hexagonal 5/16" × ${L.ejeLargo} (${ln})`, COL.acero,
       [EJE_X0, Y, Z], [
         sketchYZ(`Barra hexagonal e/c ${r2(P.rodHex)} × ${L.ejeLargo}`, EJE_X0,
@@ -275,12 +292,12 @@ export function rodillos(E) {
   const bajoBanda = c2(zPortante - topeBajo);            // por debajo del cuerpo de la banda
   // 3.3 el serpentín queda rehundido respecto de la cara de transporte
   const rebaje = c2(RV - (RO + P.serpEsp));                                        // 0.50
-  // 3.4 AVISO que se reporta y NO se maquilla: con P.rodCara = 375 (med) y las
-  // placas peine en 41.6/421.4, entre sus caras interiores quedan 375.04 mm, o
-  // sea 0.04 mm de juego axial para el tubo. En taller se pide ≥ 1.5 mm; la
-  // corrección es del BASTIDOR (separar las placas peine 1.6 mm más), no de este
-  // módulo: `P.rodCara` y `P.rodX0` son cotas MEDIDAS y no se tocan. Sale en las
-  // métricas como `juegoTuboPlaca` para que el integrador lo vea.
+  // 3.4 juego axial: el bastidor separó las placas peine a 42.48 / 420.52, así
+  // que el tubo (375 entre testas) flota 3.04 mm — 1.52 por lado, el que pide el
+  // taller. Queda resuelto el aviso de la versión anterior de este módulo.
+  // 3.5 los anillos tienen que caer FUERA del espesor de la placa peine; se
+  // comprueba contra las caras exteriores reales en vez de darlo por bueno.
+  const anillosLibres = AN_X[0] + L.anilloT <= PEINE_EXT[0] && AN_X[1] >= PEINE_EXT[1];
 
   return {
     piezas: n.rodillos + n.ejes + n.tapas + n.rodamientos + n.anillos,             // 48
@@ -301,9 +318,11 @@ export function rodillos(E) {
     topeAlto, topeBajo, planoBanda: P.planoBanda,
 
     // montaje / desmontaje del eje
-    juegoAxialEje: r2(2 * L.anilloJuego),
+    juegoAxialEje: JUEGO_EJE,                  // entre los dos anillos (1.7 mm por lado)
+    juegoTuboPlaca: r2((PEINE_INT[1] - PEINE_INT[0]) - P.rodCara),   // 3.04 = 1.52 por lado
     carreraExtraccionEje: r2(PEINE_INT[0] - EJE_X0),
-    juegoTuboPlaca: r2((PEINE_INT[1] - PEINE_INT[0]) - P.rodCara),
+    ejeExtraidoHasta: r2(EJE_X1 + PEINE_INT[0] - EJE_X0),
+    gargantasX: RAN_X, anillosX: AN_X, anillosFueraDePlaca: anillosLibres,
     placaPeineX: L.placaPeineX,
   };
 }

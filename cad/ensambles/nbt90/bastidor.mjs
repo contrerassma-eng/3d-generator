@@ -50,9 +50,14 @@ const L = {
   //   entrecaras 7.94 en Y, entre vértices 9.17 en Z (interfaz de rodillos.mjs)
   ranuraW: r2(P.rodHex + P.holgura.deslizante),          // 8.14
   get ranuraR() { return r2(this.ranuraW / 2); },        // 4.07
-  // con el vértice inferior del hexágono apoyado en el fondo redondo, el eje
-  // queda a P.rodZ si el centro del arco está 0.515 mm más abajo:
-  get ranuraZc() { return r2(P.rodZ - (P.rodHex * Math.SQRT2 / Math.sqrt(3) / 2 - this.ranuraR)); },
+  // ASIENTO EN V: el fondo redondo (radio ranuraR) toca el hexágono en sus DOS
+  // vértices inferiores (a ±AF/2 en Y y AC/4 = P.rodHex/2√3 bajo el eje), de modo
+  // que la ranura posiciona el eje en Y y en Z a la vez. Centro del arco:
+  //   h = AC/4 − √(r² − (AF/2)²) = 2.292 − 0.897 = 1.395 mm bajo P.rodZ
+  get ranuraZc() {
+    const AF2 = P.rodHex / 2, AC4 = P.rodHex / (2 * Math.sqrt(3));
+    return r2(P.rodZ - (AC4 - Math.sqrt(this.ranuraR ** 2 - AF2 ** 2)));
+  },
 
   // ---- travesaños del cassette móvil --------------------------------------
   cruzY: 200,           // dis: alma del TRANSFER CROSS CHANNEL (± )
@@ -70,6 +75,8 @@ const L = {
                         //      con la carrera de 10 mm aplicada)
   espX: [42.48, 415.76],// dis: SPACER PLATE contra la cara interior de cada peine
   espZ0: 96, espZ1: 176,// dis
+  espTornZ: 112,        // dis: fila de pernos bajo el motorreductor (Ø145 llega a Z=126.4)
+  espTornY: [-170, -55, 55, 170],   // dis: fuera de las alas de los brace channel
   // ---- guarda del serpentín ----------------------------------------------
   guardaX: 110,         // dis: entre el serpentín (X 72.3…97.7) y el motor (X ≥ 145)
   guardaAla: 30,        // dis: pestaña de rigidez / atornillado
@@ -326,8 +333,8 @@ export function bastidor(E) {
       f.push(hole(`Paso eje motriz / buje Ø${r2(P.bujeDia + P.holgura.pasante)}`,
         [xc - T316, 0, P.motrizZ], [1, 0, 0], r2(P.bujeDia + P.holgura.pasante), T316 + 4, false));
     }
-    for (const y of [-170, -55, 55, 170]) {
-      f.push(hole(`Spacer plate Ø${PAS38}`, [xc - T316, y, 130], [1, 0, 0], PAS38, T316 + 4, false));
+    for (const y of L.espTornY) {
+      f.push(hole(`Spacer plate Ø${PAS38}`, [xc - T316, y, L.espTornZ], [1, 0, 0], PAS38, T316 + 4, false));
     }
     E.addPart(`${MOVIL}Placa peine 3/16" ${2 * L.peineY}×${r2(L.peineZt - L.peineZ0)} (lado ${motriz ? 'motriz' : 'libre'})`,
       COL.movil, [r2(xc - T316 / 2), 0, L.peineZ0], f, {
@@ -413,16 +420,16 @@ export function bastidor(E) {
       sketchYZ(`Placa 3/16" ${2 * L.peineYbajo}×${r2(L.espZ1 - L.espZ0)}`, x0,
         rectR(-L.peineYbajo, L.espZ0, L.peineYbajo, L.espZ1, 8), T316),
     ];
-    for (const y of [-170, -55, 55, 170]) f.push(hole(`Unión peine Ø${PAS38}`, [x0 - 2, y, 130], [1, 0, 0], PAS38, T316 + 4, false));
+    for (const y of L.espTornY) f.push(hole(`Unión peine Ø${PAS38}`, [x0 - 2, y, L.espTornZ], [1, 0, 0], PAS38, T316 + 4, false));
     E.addPart(`${MOVIL}Spacer plate 3/16" ${2 * L.peineYbajo}×${r2(L.espZ1 - L.espZ0)} (lado ${i ? 'libre' : 'motriz'})`,
       COL.movil, [x0, 0, L.espZ0], f, {
         chapa: { t: r2(T316), material: 'acero A36 3/16"', fibra: [], radio: 0 },
         catalogo: 'PT-086781 · SPACER PLATE (SPECIFY BR), RLR SUPT',
       });
     M.chapas++;
-    for (const y of [-170, -55, 55, 170]) {
+    for (const y of L.espTornY) {
       const dir = i ? [-1, 0, 0] : [1, 0, 0];
-      const at = i ? [r2(L.placaXb + T316 / 2 + GOL), y, 130] : [r2(L.placaXa - T316 / 2 - GOL), y, 130];
+      const at = i ? [r2(L.placaXb + T316 / 2 + GOL), y, L.espTornZ] : [r2(L.placaXa - T316 / 2 - GOL), y, L.espTornZ];
       tornilleria(E, { nombre: `Spacer plate ${i ? 'libre' : 'motriz'} Y${y}`, capa: MOVIL, at, dir, agarre: 2 * T316 });
       M.pernos++;
     }
@@ -461,10 +468,13 @@ export function bastidor(E) {
   // ------------------------------------------------------------------ métricas
   M.piezas = E.parts.length;
   M.juegoAxialRodillo = r2(P.rodX0 - (L.placaXa + T316 / 2));      // ≥ 1.5 mm por lado
-  M.ranuraU = { ancho: L.ranuraW, radioFondo: L.ranuraR, fondoZ: r2(L.ranuraZc - L.ranuraR), ejeZ: P.rodZ };
-  M.pasoExtraccion = { desde: r2(L.placaXa - T316 / 2), hasta: r2(L.placaXb + T316 / 2), libreExtremos: r2(L.placaXa - T316 / 2) };
-  M.apoyoMesaGuiaZ = padMovilZ;
-  M.anilloRetX = anilloRetX;
+  M.ranuraU = {
+    ancho: L.ranuraW, radioFondo: L.ranuraR, fondoZ: r2(L.ranuraZc - L.ranuraR), ejeZ: r2(P.rodZ),
+    asiento: 'V: el arco toca los dos vértices inferiores del hexágono (posiciona en Y y en Z)',
+    dienteSobreEje: r2(L.peineZt - (P.rodZ + P.rodHex / Math.sqrt(3))),
+  };
+  M.pasoExtraccionEje = { motriz: [0, r2(L.placaXa - T316 / 2)], libre: [r2(L.placaXb + T316 / 2), P.largo] };
+  M.interfaces = { apoyoMesaGuiaZ: padMovilZ, motorEnvX, anilloRetX, mesaHuella };
   return M;
 }
 
