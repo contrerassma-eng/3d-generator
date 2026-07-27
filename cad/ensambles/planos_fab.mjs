@@ -15,7 +15,7 @@
 
 import * as THREE from 'three';
 import { buildPartGeometry } from '../js/model.js';
-import { buildSheet, Sheet, chooseSheet, scaleLabel, exportSheetsPDF } from '../js/drawing2d.js';
+import { buildSheet, Sheet, chooseSheet, scaleLabel, exportSheetsPDF, writeDXF, dxfToBytes } from '../js/drawing2d.js';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -103,6 +103,8 @@ const jsonPath = process.env.DOC || 'ensambles/transfer_rodillos_90.json';
 const doc = JSON.parse(readFileSync(jsonPath, 'utf8'));
 const outDir = process.env.OUTDIR || 'ensambles/planos_transfer90';
 mkdirSync(outDir, { recursive: true });
+const dxfDir = join(outDir, 'dxf');
+if (process.env.EMIT_DXF) mkdirSync(dxfDir, { recursive: true });
 
 // --- Clasificación: piezas NORMALIZADAS (compradas, solo van al despiece) ----
 const NORMA = [
@@ -232,6 +234,14 @@ for (const g of lista) {
       if (tris > 12000) sheet = plateSheet(g.part, meta) || simpleSheet(geom, meta);
       else sheet = buildSheet([{ geometry: geom, matrixWorld: M4 }], 'paper', meta);
       fabSheets.push(sheet);
+      // DXF por pieza (4 vistas a ESCALA REAL 1:1 en mm, para editar en CAD y
+      // rayar correcciones). Piezas de malla grande → misma lámina que el PDF.
+      if (process.env.EMIT_DXF) {
+        const dxfSheet = tris > 12000 ? sheet
+          : buildSheet([{ geometry: geom, matrixWorld: M4 }], 'real', meta);
+        const safe = `${plano}_${desig.replace(/[^\w\-]+/g, '_').replace(/^_|_$/g, '').slice(0, 44)}`;
+        writeFileSync(join(dxfDir, `${safe}.dxf`), Buffer.from(dxfToBytes(writeDXF(dxfSheet))));
+      }
     } catch (e) {
       console.warn(`  ! sin geometría para plano: ${desig} (${e.message})`);
       planoN--; plano = '';

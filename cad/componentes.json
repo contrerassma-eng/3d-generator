@@ -3320,7 +3320,7 @@
    "nombre": "CONJUNTO REAL: Sorter (sorter_CO.stp) + Transferencia 90",
    "categoria": "transportador",
    "familia": "conjunto",
-   "descripcion": "Conjunto al detalle: el equipo base REAL (geometria exacta del STEP sorter_CO.stp) con la TRANSFERENCIA 90 (mis rodillos Ø63) montada en su HUECO real (rotada 90 al flujo del base, plano de banda real 52.3). Malla fija de referencia full-detalle; la transferencia en azul.",
+   "descripcion": "Conjunto al detalle: equipo base REAL (geometria exacta del STEP sorter_CO.stp) con la TRANSFERENCIA 90 montada en su hueco. La transferencia original de 2 rodillos se elimina; la cubierta del anfitrion (bandas+guias 80x40+largueros) se RECORTA en la huella (abertura MRT); y los rodillos Ø63 se ELEVAN (cama +18 sobre el plano de banda, ref. Hytrol MRT) para no interferir con bandas/guias en reposo ni en actuacion. Base gris full-detalle; transferencia en azul.",
    "fuente": {
     "tipo": "step",
     "detalle": "sorter_CO.stp real + transfer_rodillos_90.json teselado (CSG) y transformado al hueco (X=208,Y=-1090,Z 170->52.3) -> GLB combinado"
