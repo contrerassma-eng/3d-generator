@@ -88,19 +88,20 @@ const L = {
   motorPaso: r2(P.motorDia + 5),    // 150 — pasante del motorreductor: el SEW mide 314 mm
                         //      desde la brida y su cola cae en X=433.4, o sea ATRAVIESA la
                         //      placa peine libre (X 420.5…425.3). Es como se monta de veras.
-  // ---- guarda del serpentín ----------------------------------------------
-  guardaX: 110,         // dis: entre el serpentín (X 72.3…97.7) y la placa soporte
-                        //      de la transmisión (X 113…119.35)
-  guardaAla: 30,        // dis: pestaña de rigidez / atornillado
-  guardaEjeD: 20,       // dis: pasante de los ejes de polea (Ø9/16" + hombro Ø22 → holgura)
-  guardaEjes: [[-152.4, 252.9], [152.4, 252.9], [-76.2, 252.9], [76.2, 228.65],
-               [-144.5, 176.6], [144.5, 176.6]],   // ejes de locas, tensor y retorno
-  guardaEscX: [113, 119.35],   // dis: escotadura del ala inferior — paso de la placa
-                        //      soporte de la transmisión (chapa de 1/4" en X 113…119.35)
-  guardaZ0: 175, guardaZ1: 297,  // dis: la pestaña superior atornilla al ala
-                                 //      inferior del cross channel
-  guardaY: 185,         // dis: no toca el ala del SIDE CHANNEL (189.14)
-
+  // ---- guarda del rodillo (TRANSFER ROLLER GUARD) -------------------------
+  // La placa soporte de la transmisión (X 106.5…155, Y ±187, Z 124…278) ya cierra
+  // el serpentín por el lado del accionamiento: una guarda ahí sería redundante y
+  // además no cabe. La cara que SÍ queda expuesta es la exterior de la placa peine
+  // motriz — puntas de eje, anillos de retención y el pinzamiento contra el canal
+  // cuando el cassette sube. Ahí va la guarda, y su largo de catálogo (17" = 431.8)
+  // coincide con el de la placa peine (432).
+  guardaX: 24,          // dis: cara exterior del alma de la guarda
+  guardaPest: 11.82,    // dis: la pestaña de retorno llega a la cara exterior del peine
+  guardaTab: 11,        // dis: alto de la pestaña atornillada
+  guardaZ0: 151, guardaZ1: 299,   // dis: sobre la fila de pernos de la spacer plate
+                        //      (Z=112) y bajo la cota de extracción de los ejes
+  guardaY: 215.9,       // cat PT-086812: 17 in. = 431.8 de largo
+  guardaTornY: [-150, 150], guardaTornZ: [160, 290],   // dis: 4 pernos de 3/8"
   // ---- estructura fija ----------------------------------------------------
   canalZ1: P.canalTopZ,                       // med 383.1 — cara superior del ala
   get canalZ0() { return r2(this.canalZ1 - P.canalAlto); },  // 218.0 (cat 6-1/2")
@@ -134,10 +135,12 @@ const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
 /** Interfaces que consumen los otros módulos (nunca duplican un valor de P). */
 export const padMovilZ = L.braceZ0;      // = P.rielInfZ (143.5): cara inferior del alma de
                                          // los brace channel, donde empuja el plato de la mesa
-export const guardaSerpX = L.guardaX;    // plano de la guarda que parte los dos compartimentos
-/** Compartimento del motorreductor: arranca tras la placa soporte de la transmisión y
+export const guardaRodilloX = L.guardaX; // cara exterior de la guarda del rodillo (X 24…37.7)
+/** El serpentín lo cierra la placa soporte de transmision.mjs; este módulo no pone
+ *  guarda ahí (no cabe entre la banda, X≤97.7, y esa placa, X≥106.5).
+ *  Compartimento del motorreductor: arranca tras la placa soporte de la transmisión y
  *  ATRAVIESA la placa peine libre por el pasante Ø150 (la cola del SEW llega a X≈433). */
-export const motorEnvX = [r2(L.guardaEscX[1] + 2), P.largo];
+export const motorEnvX = [121.35, P.largo];   // dis: tras la placa soporte de transmisión
 export const motorPasoD = L.motorPaso;
 /** Huella libre para la mesa guía neumática (bajo el centro, sin estructura fija). */
 export const mesaHuella = { x: [110, 375], y: [-185, 185], z: [P.baseZ + 2, L.braceZ0] };
@@ -370,6 +373,11 @@ export function bastidor(E) {
     for (const y of L.espTornY) {
       f.push(hole(`Spacer plate Ø${PAS38}`, [xc - T316, y, L.espTornZ], [1, 0, 0], PAS38, T316 + 4, false));
     }
+    if (motriz) {                         // fijación de la TRANSFER ROLLER GUARD
+      for (const y of L.guardaTornY) for (const z of L.guardaTornZ) {
+        f.push(hole(`Guarda Ø${PAS38}`, [xc - T316, y, z], [1, 0, 0], PAS38, T316 + 4, false));
+      }
+    }
     if (!motriz) {                        // paso de la cola del motorreductor
       f.push(hole(`Paso del motorreductor Ø${L.motorPaso}`, [xc - T316, 0, P.motrizZ],
         [1, 0, 0], L.motorPaso, T316 + 6, false));
@@ -480,39 +488,31 @@ export function bastidor(E) {
   }
 
   // =========================================================================
-  // 10. MÓVIL — TRANSFER ROLLER GUARD (PT-086812): guarda de chapa 14 GA que tapa
-  //     el serpentín por el lado del accionamiento. Sección en sombrero (2
-  //     pestañas de 30) atornillada al ala inferior de los cross channel.
+  // 10. MÓVIL — TRANSFER ROLLER GUARD - 17 in. LONG (PT-086812): tapa de chapa
+  //     14 GA sobre la cara EXTERIOR de la placa peine motriz. Sección en Z: alma
+  //     separada 12 mm de la placa + dos pestañas de retorno que apoyan en ella y
+  //     se atornillan con 4 pernos de 3/8" que entran desde fuera.
   // =========================================================================
   {
-    const xm = r2(L.guardaX + T14 / 2);
+    const xPeine = r2(L.placaXa - T316 / 2);            // 37.72 — cara exterior del peine
+    const xa = r2(L.guardaX + T14 / 2);                 // fibra media del alma
+    const xb = r2(xPeine - T14 / 2);                    // fibra media de las pestañas
+    const z0 = r2(L.guardaZ0 + T14 / 2), z1 = r2(L.guardaZ1 - T14 / 2);
     const fib = [
-      [r2(L.guardaX + L.guardaAla), r2(L.guardaZ1 - T14 / 2)], [xm, r2(L.guardaZ1 - T14 / 2)],
-      [xm, r2(L.guardaZ0 + T14 / 2)], [r2(L.guardaX + L.guardaAla), r2(L.guardaZ0 + T14 / 2)],
+      [xb, r2(z0 + L.guardaTab)], [xb, z0], [xa, z0], [xa, z1], [xb, z1], [xb, r2(z1 - L.guardaTab)],
     ];
-    const f = [sketchXZ('Guarda en sombrero 14 GA', L.guardaY, seccionChapa(fib, T14, RB), r2(2 * L.guardaY))];
-    f.push(hole(`Paso eje motriz Ø${r2(P.bujeDia + P.holgura.pasante)}`,
-      [L.guardaX - 2, 0, P.motrizZ], [1, 0, 0], r2(P.bujeDia + P.holgura.pasante), T14 + 4, false));
-    // pasantes de los 6 ejes del serpentín (4 locas + tensor + 2 de retorno)
-    for (const [y, z] of L.guardaEjes) {
-      f.push(hole(`Paso eje de polea Ø${L.guardaEjeD} (Y=${y}, Z=${z})`,
-        [L.guardaX - 2, y, z], [1, 0, 0], L.guardaEjeD, T14 + 4, false));
+    const f = [sketchXZ('Guarda en Z 14 GA', L.guardaY, seccionChapa(fib, T14, RB), r2(2 * L.guardaY))];
+    for (const y of L.guardaTornY) for (const z of L.guardaTornZ) {
+      f.push(hole(`Fijación a la placa peine Ø${PAS38}`, [xPeine - T14 - 2, y, z], [1, 0, 0], PAS38, T14 + 5, false));
     }
-    // escotadura del ala inferior: por ahí baja la placa soporte de la transmisión
-    f.push(box('Escotadura del ala inferior (placa de transmisión)',
-      [r2((L.guardaEscX[0] + L.guardaEscX[1]) / 2), 0, L.guardaZ0 - 2],
-      r2(L.guardaEscX[1] - L.guardaEscX[0]), r2(2 * L.guardaY + 10), r2(T14 + 6), 'cut'));
-    for (const s of [1, -1]) for (const x of [118, 133]) {
-      f.push(hole(`Fijación cross channel Ø${PAS38}`, [x, s * 175, L.guardaZ1 - T14 - 2], [0, 0, 1], PAS38, 8, false));
-    }
-    E.addPart(`${MOVIL}Guarda del serpentín 14 GA ${r2(2 * L.guardaY)}×${r2(L.guardaZ1 - L.guardaZ0)}`,
+    E.addPart(`${MOVIL}Transfer roller guard 14 GA ${r2(2 * L.guardaY)}×${r2(L.guardaZ1 - L.guardaZ0)}`,
       COL.guarda, [L.guardaX, L.guardaY, L.guardaZ0], f,
       { ...chapa(T14, fib, 'acero A36 14 GA'), catalogo: 'PT-086812 · TRANSFER ROLLER GUARD - 17 in. LONG' });
-    M.chapas++; desa('guarda_serpentin', fib, T14);
-    for (const s of [1, -1]) for (const x of [118, 133]) {
+    M.chapas++; desa('guarda_rodillo', fib, T14);
+    for (const y of L.guardaTornY) for (const z of L.guardaTornZ) {
       tornilleria(E, {
-        nombre: `Guarda ${s > 0 ? '+Y' : '-Y'} X${x}`, capa: MOVIL,
-        at: [x, s * 175, r2(L.guardaZ1 - T14 - GOL)], dir: [0, 0, 1], agarre: r2(T14 + T12),
+        nombre: `Guarda Y${y} Z${z}`, capa: MOVIL,
+        at: [r2(xPeine - T14 - GOL), y, z], dir: [1, 0, 0], agarre: r2(T14 + T316),
       });
       M.pernos++;
     }
