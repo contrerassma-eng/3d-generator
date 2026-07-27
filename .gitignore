@@ -35,3 +35,6 @@ cad/node_modules/
 # Avance parcial del NBT90 (se regenera; el ensamble bueno es narrow_belt_transfer_90.json)
 cad/ensambles/nbt90/_avance.json
 cad/ensambles/nbt90/out/
+
+# Scratch de los agentes de diseño
+cad/_tmp_*.mjs

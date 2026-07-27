@@ -298,11 +298,16 @@ export function elevacion(E) {
       hole(`Ø${L.mesaVastago + 1} vástago`, [mX, 0, cuerpoZ1 + 1], [0, 0, -1], L.mesaVastago + 1, cuerpoH, false),
       ...[-1, 1].map(s => hole(`Ø${L.mesaColDia + 1} columna guía (${s > 0 ? '+' : '−'}X)`,
         [mX + s * L.mesaColSep, 0, cuerpoZ1 + 1], [0, 0, -1], L.mesaColDia + 1, cuerpoH, false)),
-      // paso y avellanado de los tirantes de tope de carrera
-      ...[-1, 1].flatMap(s => [
-        hole(`Ø14 tirante de tope (${s > 0 ? '+' : '−'}Y)`, [mX, s * L.topeY, webZ - 1], [0, 0, 1], 14),
-        hole(`Ø25 alojamiento de contratuerca (${s > 0 ? '+' : '−'}Y)`, [mX, s * L.topeY, cuerpoZ1 + 1], [0, 0, -1], 25, 10, false),
-      ]),
+      // Taladro pasante Ø14 de cada tirante de tope, con caja Ø25 × 9 en la cara
+      // superior para que la contratuerca se aloje al retraerse.  Es UNA sola
+      // función escalonada (pasante + cbore): dos cortes coaxiales separados
+      // dejan caras cilíndricas coincidentes que el motor CSG no resuelve bien.
+      ...[-1, 1].map(s => {
+        const f = hole(`Ø14 tirante de tope, caja Ø25×9 para contratuerca (${s > 0 ? '+' : '−'}Y)`,
+          [mX, s * L.topeY, cuerpoZ1], [0, 0, -1], 14);
+        Object.assign(f.params, { seat: 'cbore', seatDia: 25, seatDepth: 9 });
+        return f;
+      }),
       // roscas M12 de fijación al canal
       ...[-1, 1].flatMap(sx => [-1, 1].map(sy =>
         hole(`M12 fijación (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
