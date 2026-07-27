@@ -28,3 +28,6 @@ cad/ensambles/*.stl
 cad/ensambles/*_colors.bin
 cad/ensambles/*_remove.bin
 cad/ensambles/transfer_animacion_standalone.html
+
+# Dependencias de node para correr los tests/exportadores del CAD (npm i en cad/)
+cad/node_modules/
