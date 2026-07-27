@@ -85,9 +85,18 @@ const L = {
   espZ0: 96, espZ1: 176,// dis
   espTornZ: 112,        // dis: fila de pernos bajo el motorreductor (Ø145 llega a Z=126.4)
   espTornY: [-170, -55, 55, 170],   // dis: fuera de las alas de los brace channel
+  motorPaso: r2(P.motorDia + 5),    // 150 — pasante del motorreductor: el SEW mide 314 mm
+                        //      desde la brida y su cola cae en X=433.4, o sea ATRAVIESA la
+                        //      placa peine libre (X 420.5…425.3). Es como se monta de veras.
   // ---- guarda del serpentín ----------------------------------------------
-  guardaX: 110,         // dis: entre el serpentín (X 72.3…97.7) y el motor (X ≥ 145)
+  guardaX: 110,         // dis: entre el serpentín (X 72.3…97.7) y la placa soporte
+                        //      de la transmisión (X 113…119.35)
   guardaAla: 30,        // dis: pestaña de rigidez / atornillado
+  guardaEjeD: 20,       // dis: pasante de los ejes de polea (Ø9/16" + hombro Ø22 → holgura)
+  guardaEjes: [[-152.4, 252.9], [152.4, 252.9], [-76.2, 252.9], [76.2, 228.65],
+               [-144.5, 176.6], [144.5, 176.6]],   // ejes de locas, tensor y retorno
+  guardaEscX: [113, 119.35],   // dis: escotadura del ala inferior — paso de la placa
+                        //      soporte de la transmisión (chapa de 1/4" en X 113…119.35)
   guardaZ0: 175, guardaZ1: 297,  // dis: la pestaña superior atornilla al ala
                                  //      inferior del cross channel
   guardaY: 185,         // dis: no toca el ala del SIDE CHANNEL (189.14)
@@ -97,6 +106,10 @@ const L = {
   get canalZ0() { return r2(this.canalZ1 - P.canalAlto); },  // 218.0 (cat 6-1/2")
                         // comprobación: 218.0 + T12 = 220.66 = P.canalBotZ (med) ✓
   ladoY: 227.24,        // dis: alma del SIDE CHANNEL, a tope con el alma anfitriona
+  ladoAla: r2(P.canalAla - 3.2),  // 34.9 (1-3/8") — el ala se acorta 3.2 mm respecto
+                        //      del perfil anfitrión: el ramal que sube de la polea de
+                        //      retorno al rodillo exterior pasa por (Y ∓189.25, Z 248.81)
+                        //      y rozaba la punta. Con la punta en Y ±192.34 quedan 3.09 mm.
   ladoZ1: 250,          // dis: solapa 32 mm con el alma del canal anfitrión
   get ladoZ0() { return r2(this.ladoZ1 - P.canalAlto); },    // 84.9
   ladoLargo: r2(18 * 25.4),                   // cat PT-087017 «SIDE CHANNEL - 18 in.»
@@ -122,9 +135,10 @@ const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
 export const padMovilZ = L.braceZ0;      // = P.rielInfZ (143.5): cara inferior del alma de
                                          // los brace channel, donde empuja el plato de la mesa
 export const guardaSerpX = L.guardaX;    // plano de la guarda que parte los dos compartimentos
-/** Compartimento del motorreductor: entre la pestaña de la guarda y la placa peine libre.
- *  275.5 mm útiles → el cuerpo del RF07DRS71S4 (262.3) cabe con el eje de salida hacia −X. */
-export const motorEnvX = [r2(L.guardaX + L.guardaAla + 4), L.espX[1]];
+/** Compartimento del motorreductor: arranca tras la placa soporte de la transmisión y
+ *  ATRAVIESA la placa peine libre por el pasante Ø150 (la cola del SEW llega a X≈433). */
+export const motorEnvX = [r2(L.guardaEscX[1] + 2), P.largo];
+export const motorPasoD = L.motorPaso;
 /** Huella libre para la mesa guía neumática (bajo el centro, sin estructura fija). */
 export const mesaHuella = { x: [110, 375], y: [-185, 185], z: [P.baseZ + 2, L.braceZ0] };
 /** Los anillos DIN 471 del eje hexagonal deben caer FUERA de las placas peine. */
@@ -218,8 +232,8 @@ export function bastidor(E) {
   const zLadoSup = r2(L.ladoZ1 - T12 / 2), zLadoInf = r2(L.ladoZ0 + T12 / 2);
   for (const s of [1, -1]) {
     const fib = [
-      [s * (L.ladoY - P.canalAla), zLadoSup], [s * L.ladoY, zLadoSup],
-      [s * L.ladoY, zLadoInf], [s * (L.ladoY - P.canalAla), zLadoInf],
+      [s * (L.ladoY - L.ladoAla), zLadoSup], [s * L.ladoY, zLadoSup],
+      [s * L.ladoY, zLadoInf], [s * (L.ladoY - L.ladoAla), zLadoInf],
     ];
     const f = [sketchYZ('Canal C 6-1/2×1-1/2 12 GA', ladoX0, seccionChapa(fib, T12, RB), L.ladoLargo)];
     // colisas verticales de reglaje (±8 mm) en el alma
@@ -237,9 +251,9 @@ export function bastidor(E) {
     // Ventana de paso de la OREJA de la placa soporte de transmisión: esa oreja
     // busca el ALMA DEL CANAL ANFITRIÓN (Y = P.almaY) y este canal se le cruza.
     f.push(box('Ventana de paso de la placa de transmisión',
-      [r2((L.ventanaX[0] + L.ventanaX[1]) / 2), s * r2(L.ladoY - P.canalAla / 2), L.ventanaZ],
-      r2(L.ventanaX[1] - L.ventanaX[0]), r2(P.canalAla + 14), r2(L.ladoZ1 - L.ventanaZ + 6), 'cut'));
-    E.addPart(`${FIJO}Side channel 6-1/2"×1-1/2" 12 GA × ${L.ladoLargo} (${s > 0 ? '+Y' : '-Y'})`,
+      [r2((L.ventanaX[0] + L.ventanaX[1]) / 2), s * r2(L.ladoY - L.ladoAla / 2), L.ventanaZ],
+      r2(L.ventanaX[1] - L.ventanaX[0]), r2(L.ladoAla + 14), r2(L.ladoZ1 - L.ventanaZ + 6), 'cut'));
+    E.addPart(`${FIJO}Side channel 6-1/2"×1-3/8" 12 GA × ${L.ladoLargo} (${s > 0 ? '+Y' : '-Y'})`,
       COL.fijo, [ladoX0, s * L.ladoY, L.ladoZ0], f,
       { ...chapa(T12, fib), catalogo: 'PT-087017 · SIDE CHANNEL - 18 in. LONG' });
     M.chapas++;
@@ -356,6 +370,10 @@ export function bastidor(E) {
     for (const y of L.espTornY) {
       f.push(hole(`Spacer plate Ø${PAS38}`, [xc - T316, y, L.espTornZ], [1, 0, 0], PAS38, T316 + 4, false));
     }
+    if (!motriz) {                        // paso de la cola del motorreductor
+      f.push(hole(`Paso del motorreductor Ø${L.motorPaso}`, [xc - T316, 0, P.motrizZ],
+        [1, 0, 0], L.motorPaso, T316 + 6, false));
+    }
     E.addPart(`${MOVIL}Placa peine 3/16" ${2 * L.peineY}×${r2(L.peineZt - L.peineZ0)} (lado ${motriz ? 'motriz' : 'libre'})`,
       COL.movil, [r2(xc - T316 / 2), 0, L.peineZ0], f, {
         chapa: { t: r2(T316), material: 'acero A36 laminado en caliente 3/16"', fibra: [], radio: 0 },
@@ -446,6 +464,7 @@ export function bastidor(E) {
         rectR(-L.peineYbajo, L.espZ0, L.peineYbajo, L.espZ1, 8), T316),
     ];
     for (const y of L.espTornY) f.push(hole(`Unión peine Ø${PAS38}`, [x0 - 2, y, L.espTornZ], [1, 0, 0], PAS38, T316 + 4, false));
+    if (i) f.push(hole(`Paso del motorreductor Ø${L.motorPaso}`, [x0 - 2, 0, P.motrizZ], [1, 0, 0], L.motorPaso, T316 + 6, false));
     E.addPart(`${MOVIL}Spacer plate 3/16" ${2 * L.peineYbajo}×${r2(L.espZ1 - L.espZ0)} (lado ${i ? 'libre' : 'motriz'})`,
       COL.movil, [x0, 0, L.espZ0], f, {
         chapa: { t: r2(T316), material: 'acero A36 3/16"', fibra: [], radio: 0 },
@@ -474,6 +493,15 @@ export function bastidor(E) {
     const f = [sketchXZ('Guarda en sombrero 14 GA', L.guardaY, seccionChapa(fib, T14, RB), r2(2 * L.guardaY))];
     f.push(hole(`Paso eje motriz Ø${r2(P.bujeDia + P.holgura.pasante)}`,
       [L.guardaX - 2, 0, P.motrizZ], [1, 0, 0], r2(P.bujeDia + P.holgura.pasante), T14 + 4, false));
+    // pasantes de los 6 ejes del serpentín (4 locas + tensor + 2 de retorno)
+    for (const [y, z] of L.guardaEjes) {
+      f.push(hole(`Paso eje de polea Ø${L.guardaEjeD} (Y=${y}, Z=${z})`,
+        [L.guardaX - 2, y, z], [1, 0, 0], L.guardaEjeD, T14 + 4, false));
+    }
+    // escotadura del ala inferior: por ahí baja la placa soporte de la transmisión
+    f.push(box('Escotadura del ala inferior (placa de transmisión)',
+      [r2((L.guardaEscX[0] + L.guardaEscX[1]) / 2), 0, L.guardaZ0 - 2],
+      r2(L.guardaEscX[1] - L.guardaEscX[0]), r2(2 * L.guardaY + 10), r2(T14 + 6), 'cut'));
     for (const s of [1, -1]) for (const x of [118, 133]) {
       f.push(hole(`Fijación cross channel Ø${PAS38}`, [x, s * 175, L.guardaZ1 - T14 - 2], [0, 0, 1], PAS38, 8, false));
     }

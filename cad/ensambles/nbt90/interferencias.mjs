@@ -9,6 +9,16 @@
 //
 // Además comprueba el CONTACTO del pop-up: la mesa guía tiene que empujar
 // realmente al conjunto móvil (si no lo toca, el mecanismo no sube nada).
+//
+// LÍMITE CONOCIDO — esto marca CANDIDATOS, no dicta veredictos. El motor CSG
+// devuelve volumen fantasma en dos situaciones, ambas vistas en este ensamble:
+//   · dos cortes COAXIALES sobre la misma pieza (un pasante y su avellanado)
+//     dejan caras cilíndricas coincidentes;
+//   · un sólido fino y muy no convexo (la banda en serpentín) se clasifica mal
+//     en ~5 % de sus triángulos.
+// Antes de tocar geometría por un aviso de aquí, biseca: quita funciones de una
+// pieza hasta ver cuál dispara el fantasma, o prueba con un punto-en-sólido. En
+// este ensamble, 4 de los 16 avisos iniciales eran artefactos de este tipo.
 import * as THREE from 'three';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
