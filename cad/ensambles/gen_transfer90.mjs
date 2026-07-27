@@ -40,7 +40,7 @@ import { dirname, join } from 'node:path';
 // ---------------------------------------------------------------------------
 export const D = {
   hostPlane: 170,                // plano de transporte del anfitrión (bandas de 40)
-  stroke: 6,                     // carrera vertical (espec. usuario)
+  stroke: 10,                    // carrera vertical del pop-up = 0.394" (ref. Hytrol Fig 8A)
 
   // Rodillos de desvío — AJUSTADOS AL ESPACIO DEL EQUIPO BASE (STEP sorter_CO):
   // 4 bandas pasantes a X=0/139/277/416 (paso 139, hueco libre ~99). Se pone
@@ -82,27 +82,18 @@ export const D = {
   // al tambor, POR DENTRO, colgado bajo el eje (en el rebaje del base).
   bandT: 3, bandW: 35,           // banda PLANA 35×3 (2 capas poliéster + cara nitrilo)
   beltPlane: 378,                // plano x del serpentín (centro del tramo desnudo +X)
-  // 2ª línea de tensores MÁS GRANDES y MÁS BAJOS: bajan el ramal de la banda
-  // para que el serpentín dé la compliancia del pop-up sin sobre-tensarse
-  // (crece la altura del módulo). Ø80 a z=58 (antes Ø50 a z=98).
-  // TRES FILAS BIEN SEPARADAS EN ALTURA (holgura de banda y de tensión):
-  //   fila 1 rodillos z=156.5 (arriba) · fila 2 tensores z=44 (media) ·
-  //   fila 3 retornos z=16 (abajo). Tensores Ø68 (antes 80) para no invadir el
-  //   hueco hacia los rodillos; los retornos bajan a una fila propia clara →
-  //   el ramal inferior de retorno queda separado de los tensores.
-  idlerDia: 54,                  // tensores 2ª fila (Ø menor → más gap con los rodillos)
-  // fila media BAJADA a z=42 → crece la luz con los rodillos (gap F1–F2 38→56)
-  // y quedan las 3 filas repartidas (F1 156 · F2 42 · F3 -12).
-  idlerPos: [[-208.5, 42], [-69.5, 42], [208.5, 42]],  // fila media; 4º hueco = tambor
-  retDia: 44,                    // poleas de retorno Ø44 (Habasit: Ø mín de polea
-  // fila 3 BAJA a z=-12 (−50 respecto a 38) y JUNTA al centro (Y ±282, −30):
-  // el ramal de retorno cuelga en el rebaje/abertura del anfitrión → un tramo
-  // vertical largo y despejado, con holgura franca de tensión. La base lleva una
-  // ventana bajo cada retorno para que la banda pase sin cortar la placa.
-  retPos: [[-282, -12], [282, -12]],
-  floorZ: -48,                   // suelo del rebaje al que baja la transmisión
-  drumDia: 84, drumW: 43,        // tambor motriz liso abombado (fricción)
-  drumPos: [69.5, 70],           // en el hueco R3–R4 (entre rodillos, sin tocarlos)
+  // SERPENTÍN COMPACTO estilo Hytrol Fig 8A: take-up idlers PEQUEÑOS (Ø40) y
+  // ARRIBA, intercalados entre los rodillos motrices, justo bajo el plano de
+  // rodillos; el tambor motriz central (drive drum, mayor) va en la misma banda
+  // alta. La banda plana teje el serpentín cerca del plano de banda y deja libre
+  // el rebaje inferior para el motorreductor y el canal del cilindro.
+  idlerDia: 40,                  // take-up idlers pequeños ARRIBA, entre rodillos (Fig 8A)
+  idlerPos: [[-208.5, 110], [-69.5, 110], [208.5, 110]],  // altos, justo bajo los rodillos
+  retDia: 44,                    // poleas de retorno Ø44 (extremos, banda inferior)
+  retPos: [[-300, 48], [300, 48]],     // ramal inferior de retorno (bajo el tambor)
+  floorZ: -48,                   // suelo del rebaje (motorreductor + canal del cilindro)
+  drumDia: 90, drumW: 43,        // tambor motriz central (drive drum) prominente
+  drumPos: [69.5, 78],           // central, entre idlers (arriba) y retornos (abajo)
   shaftDia: 20,                  // eje tambor Ø20 h6 (unificado con el base)
   pulleyW: 39,                   // ancho de tensores y retornos (banda 35 + 4)
 
@@ -351,11 +342,6 @@ function canalFijo() {
   // ventana en la base para que el cuerpo del motorreductor cuelgue en el
   // rebaje del transportador (queda POR DENTRO del envolvente del base)
   f.push(box('Ventana motorreductor', [D.beltPlane - 80, D.drumPos[0], D.baseT], 120, 100, D.baseT + 2, 'cut'));
-  // ventanas bajo las poleas de RETORNO (fila 3): la banda y la polea bajan al
-  // rebaje sin cortar la placa base
-  for (const [ry] of D.retPos) {
-    f.push(box('Ventana retorno', [D.beltPlane - 40, ry, D.baseT], 140, D.retDia + 24, D.baseT + 2, 'cut'));
-  }
   // patrón de montaje de la electroválvula (zona libre -X del canal)
   for (const dy of [-25, 25]) f.push(hole('Ø4.5 electroválvula', [-300 + dy, 330, D.baseT], [0, 0, -1], D.M4));
   // agujeros de los niveladores M12
