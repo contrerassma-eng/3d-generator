@@ -1,0 +1,422 @@
+// transmision.mjs — ACCIONAMIENTO EN SERPENTÍN de la transferencia 90° de
+// rodillos emergentes (Hytrol ProSort MRT 90° Transfer).
+//
+// Una sola banda plana `FLEXPROOF ENDLESS BELT - 1 in. WIDE` arrastra los 6
+// rodillos vulcanizados: pasa POR ENCIMA de cada rodillo (sobre el tubo desnudo)
+// y POR DEBAJO de las poleas locas Ø2-1/2" intercaladas a medio paso, con la
+// rueda motriz en el centro (Y = 0) sobre el eje del motorreductor y dos poleas
+// de retorno en las esquinas inferiores. El ramal de retorno cruza la máquina
+// por abajo, a Z ≈ P.rielInfZ.
+//
+// Ejes (CONTRATO.md §1): X = eje de los rodillos · Y = expulsión a 90° · Z = arriba.
+// El plano de la banda es X = P.planoSerp, así que la trayectoria vive en YZ y se
+// construye con bandaFaces(seq) en coordenadas (u,v) = (Y,Z) + sketchYZ.
+//
+// Toda la transmisión es capa MÓVIL: sube y baja con el cassette del pop-up.
+//
+// Procedencia de las cotas locales (`L`): med = medido sobre las vistas ·
+// cat = catálogo del fabricante · txt = texto del manual · dis = decisión de
+// diseño de este repositorio. Las cotas compartidas salen SIEMPRE de `P`.
+
+import {
+  box, cyl, hole, sketchYZ, revolve, rectR, colisa,
+  bandaFaces, largoBanda, envolventes,
+  polea, pernoHex, tuercaHex, golilla, anilloRet,
+  COL, pulg, r2,
+} from './lib.mjs';
+import { P } from './params.mjs';
+
+// ---------------------------------------------------------------------------
+// Cotas propias del módulo
+// ---------------------------------------------------------------------------
+const B38 = P.M.b38;                       // 3/8-16 UNC: la tornillería del manual (txt pág. 8)
+
+const L = {
+  // --- radio de arrastre sobre el rodillo ---------------------------------
+  // El tubo desnudo NO mide P.rodTubo (1.19" = 30.23, procedencia `dis`): ese
+  // valor es incompatible con el par P.rodDia = 34.93 (med + cat, error 0.03 %)
+  // y P.rodVulcE = 3.0, porque 30.23 + 2×3 = 36.23 ≠ 34.93. `rodillos.mjs`
+  // resolvió mandando P.rodDia —de él cuelga la emergencia de 1/4" que verifica
+  // el gate—, así que el tubo real es Ø28.93 y la banda arrastra sobre r = 14.465.
+  rodArrastre: r2(P.rodDia / 2 - P.rodVulcE),   // 14.465 — dis (interfaz con rodillos.mjs)
+  rodDesnudo: [70.3, 99.7],                     // dis: tramo de tubo sin vulcanizar (rodillos.mjs)
+
+  // --- reparto en X -------------------------------------------------------
+  // Todo el tren de poleas va EN VOLADIZO hacia −X desde una única placa
+  // vertical situada detrás del serpentín: así la banda sale por −X una vez
+  // retirados los rodillos, que es lo que exige el manual ("To remove belt the
+  // drive rollers must be removed"), y ningún soporte cruza el plano de la banda.
+  xPlaca: 113.0,          // dis: cara −X de la placa; deja 5.5 mm tras la rueda motriz
+  espPlaca: pulg(0.25),   // 6.35 — dis: chapa 1/4" de catálogo (voladizo del motorreductor)
+  zPlaca: [124.0, 278.0], // dis: cubre las 6 poleas, la colisa del tensor y la brida
+  yPlaca: r2(P.almaY - P.placaT),   // 225.14 — la placa muere contra el alma del canal lateral
+
+  // --- poleas locas / retorno --------------------------------------------
+  ejeRan: 6.5,            // dis: fondo de la ranura del anillo de retención (Ø13 en eje 9/16")
+  ranAncho: 1.4,          // dis: ancho de ranura DIN 471 para eje 14.29
+  hombro: 22.0,           // dis: Ø del hombro del eje que apoya en la placa
+  bujeOD: pulg(0.75),     // 19.05 — cat: buje de bronce sinterizado 9/16"×3/4"
+  bujeL: pulg(0.5),       // 12.7  — cat: largo del buje (2 por polea)
+  cuboPolea: 28.0,        // dis: Ø del cubo de la polea loca (aloja el buje Ø19.05)
+
+  // --- tensor (TAKE-UP IDLER) ---------------------------------------------
+  // txt pág. 8: "loosen 3/8 locknut holding take-up idler, tension belt by
+  // pushing take-up idler down". La colisa es vertical y el recorrido útil, hacia
+  // ABAJO desde la cota de las demás locas, es P.tomaCarrera.
+  colisaAncho: pulg(0.5), // 12.7 — med 10.55 @0.5277 → 12.63 (= 3/8" + P.holgura.colisa)
+  mensulaY: [37.2, 115.2],  // dis: ancho de la ménsula tensora (doblador de la colisa)
+  mensulaZ: [183.0, 274.0], // dis
+  mensulaPernoY: [51.2, 101.2],   // dis: 4 pernos 3/8-16, fuera del giro de la polea
+  mensulaPernoZ: [197.6, 259.6],  // dis
+
+  // --- motorreductor SEW RF07DRS71S4 --------------------------------------
+  // cat 300.0322 · el Ø145 concéntrico con la rueda motriz medido en la vista
+  // izquierda (228.5 px) es la carcasa DRS71: reductor helicoidal de ejes
+  // paralelos con entrada y salida COLINEALES (R = coaxial, F = brida).
+  ejeLargo: 68.0,         // dis: no publicado (catálogo §7). Se dimensiona para alojar
+                          // el buje sin chaveta (42) + 2.5 de salida + paso por la placa
+  bridaDia: 140,          // cat: brida RF07 Ø120/140/160 → se elige la de 140
+  bridaEsp: 14,           // dis
+  bridaCentraje: 60,      // dis: resalte de centraje que encaja en la placa
+  bridaCirculo: 115,      // dis: círculo de taladros (no publicado, catálogo §7)
+  reductorW: 120,         // dis: ancho del cárter (sólo se midió el alto = P.reductorH)
+  reductorR: 22,          // dis: radio de las esquinas del cárter fundido
+  ventiladorDia: 130,     // dis: tapa del ventilador
+  ventiladorL: 30,        // dis
+  bornes: [100, 95, 55],  // dis: caja de bornes (X, Y, Z)
+  bornesX: 320,           // dis
+
+  // --- buje sin chaveta ----------------------------------------------------
+  // cat 099.128420 KEYLESS BUSHING 20 mm ID × 45 mm OD, tipo Trantorque:
+  // tuerca integral en un extremo (queda FUERA del cubo, hay que poder llavearla)
+  // y manguito cónico dentro del cubo. Apriete P.bujePar = 169 N·m.
+  bujeTuercaDia: 56,      // dis
+  bujeTuercaL: 10,        // dis
+  ruedaCorona: 0.4,       // dis: abombado de la rueda motriz (centra la banda plana)
+
+  // --- fijación de la placa al bastidor ------------------------------------
+  orejaX: [105.0, 145.0], // dis: oreja soldada que apoya en el alma del canal lateral
+  orejaZ: [224.0, 272.0], // dis
+  orejaPernoX: 127.0,     // dis
+  orejaPernoZ: [232.0, 264.0], // dis
+};
+
+// posiciones derivadas en X (todas cuelgan de P.planoSerp)
+const X = {
+  banda0: r2(P.planoSerp - P.serpAncho / 2),      // 72.3
+  banda1: r2(P.planoSerp + P.serpAncho / 2),      // 97.7
+  pol0: r2(P.planoSerp - P.idlerAncho / 2),       // 67.2
+  pol1: r2(P.planoSerp + P.idlerAncho / 2),       // 102.8
+  rueda0: r2(P.planoSerp - P.ruedaAncho / 2),     // 62.5
+  rueda1: r2(P.planoSerp + P.ruedaAncho / 2),     // 107.5
+  placa1: r2(L.xPlaca + L.espPlaca),              // 119.35 (cara +X de la placa)
+};
+X.eje0 = r2(X.pol0 - 3.2);                        // punta del eje de polea loca
+X.ran0 = r2(X.eje0 + 1.4);                        // ranura del anillo de retención
+X.mens1 = r2(X.placa1 + L.espPlaca);              // cara +X de la ménsula tensora
+X.rosca1 = r2(L.xPlaca + 18);                     // fin de la rosca 3/8 de un eje fijo
+X.roscaT = r2(X.mens1 + 15.4);                    // fin de la rosca 3/8 del eje tensor
+X.brida1 = r2(X.placa1 + L.bridaEsp);
+X.reduct1 = r2(X.brida1 + P.reductorL);
+X.motor1 = r2(X.placa1 + P.motorLargo - L.ventiladorL);
+X.eje0Motor = r2(X.placa1 - L.ejeLargo);
+
+// altura del eje del tensor: mitad del recorrido de la colisa (txt: se tensa
+// empujando la polea HACIA ABAJO desde la cota de las demás locas)
+const zToma = r2(P.idlerZ - P.tomaCarrera / 2);   // 228.6
+
+/** Contorno circular cerrado para `sketchYZ`: se usa en lugar de `cyl` cuando la
+ *  pieza es larga, porque `bboxPieza` infla la caja de un cilindro en ±r en los
+ *  tres ejes y sacaría al motorreductor de la envolvente del módulo. */
+const disco = (dia, zc, n = 10) => rectR(-dia / 2, r2(zc - dia / 2), dia / 2, r2(zc + dia / 2), dia / 2, n);
+
+// ---------------------------------------------------------------------------
+// Trayectoria del serpentín (plano YZ, u = Y, v = Z)
+// ---------------------------------------------------------------------------
+/** seq de bandaFaces: la banda envuelve los rodillos POR ARRIBA (s = −1, giro
+ *  horario) y las locas / la rueda motriz POR ABAJO (s = +1). Las dos poleas de
+ *  retorno cierran el bucle por debajo (s = −1) y dejan el ramal de retorno
+ *  horizontal a Z = P.retornoZ − (P.retornoDia + P.serpEsp)/2 ≈ P.rielInfZ. */
+function serpentin(zTensor) {
+  const s = [];
+  s.push({ c: [-P.retornoY, P.retornoZ], r: P.retornoDia / 2, s: -1, n: 'retorno −Y' });
+  for (let i = 0; i < P.nRodillos; i++) {
+    s.push({ c: [P.rodY[i], P.rodZ], r: P.rodTubo / 2, s: -1, n: `rodillo ${i + 1}` });
+    if (i >= P.nBandas) continue;
+    const y = P.bandaY[i];
+    if (y === 0) s.push({ c: [0, P.motrizZ], r: P.ruedaDia / 2, s: 1, n: 'rueda motriz' });
+    else s.push({ c: [y, i === P.tomaIdlerIdx ? zTensor : P.idlerZ], r: P.idlerDia / 2, s: 1, n: `loca Y=${y}` });
+  }
+  s.push({ c: [P.retornoY, P.retornoZ], r: P.retornoDia / 2, s: -1, n: 'retorno +Y' });
+  return s;
+}
+
+// ---------------------------------------------------------------------------
+// Piezas auxiliares del módulo
+// ---------------------------------------------------------------------------
+/** Buje de bronce sinterizado (SAE 841) — el "rodamiento" de una polea loca plana. */
+function bujeBronce(E, { nombre, at, id, od, largo, capa }) {
+  return E.addPart(`${capa}Buje bronce SAE 841 ${nombre}`, COL.rodamiento, at, [
+    revolve(`Buje Ø${id}/Ø${od}×${largo}`, at, 'x',
+      [[0, id / 2], [0, od / 2], [largo, od / 2], [largo, id / 2]]),
+  ], { hardware: true, componente: `buje_${id}x${od}x${largo}` });
+}
+
+/** Eje-espárrago de una polea loca: vástago Ø9/16" en voladizo, ranura para el
+ *  anillo de retención, hombro que apoya en la placa y rosca 3/8-16 con tuerca. */
+function ejePolea(E, { nombre, y, z, xRosca, capa }) {
+  const at = [X.eje0, y, z];
+  return E.addPart(`${capa}Eje polea Ø9/16"×${r2(xRosca - X.eje0)} ${nombre}`, COL.acero, at, [
+    cyl(`Vástago Ø${P.idlerEje}`, [X.eje0, y, z], [1, 0, 0], P.idlerEje, r2(X.pol1 - X.eje0)),
+    cyl(`Hombro Ø${L.hombro}`, [X.pol1, y, z], [1, 0, 0], L.hombro, r2(L.xPlaca - X.pol1)),
+    cyl(`Rosca 3/8-16 × ${r2(xRosca - L.xPlaca)}`, [L.xPlaca, y, z], [1, 0, 0], B38.d, r2(xRosca - L.xPlaca)),
+    revolve('Ranura anillo DIN 471', [X.ran0, y, z], 'x',
+      [[0, L.ejeRan], [0, 9], [L.ranAncho, 9], [L.ranAncho, L.ejeRan]], 'cut'),
+  ], { componente: 'eje_polea_9_16' });
+}
+
+/** Conjunto completo de una polea loca / de retorno: polea + 2 bujes + eje +
+ *  anillo de retención + tuerca. Devuelve el nº de piezas creadas. */
+function conjuntoLoca(E, { nombre, pos, y, z, capa, tensor = false }) {
+  const n0 = E.parts.length;
+  polea(E, {
+    nombre: `${nombre} (${pos})`, at: [X.pol0, y, z], dir: [1, 0, 0],
+    od: P.idlerDia, ancho: P.idlerAncho, bore: L.bujeOD, cubo: L.cuboPolea,
+    color: COL.polea, capa, extra: { componente: 'polea_923.00975' },
+  });
+  for (const [i, x] of [X.pol0, r2(X.pol1 - L.bujeL)].entries()) {
+    bujeBronce(E, {
+      nombre: `9/16"×3/4"×1/2" (${pos}, ${i ? 'interior' : 'exterior'})`,
+      at: [x, y, z], id: P.idlerEje, od: L.bujeOD, largo: L.bujeL, capa,
+    });
+  }
+  ejePolea(E, { nombre: `(${pos})`, y, z, xRosca: tensor ? X.roscaT : X.rosca1, capa });
+  anilloRet(E, { nombre: `eje polea (${pos})`, at: [r2(X.ran0 + 0.1), y, z], dir: [1, 0, 0], eje: P.idlerEje, capa });
+  if (tensor) {
+    golilla(E, { nombre: `tensor 3/8" reforzada (${pos})`, at: [X.mens1, y, z], dir: [1, 0, 0], dia: B38.d, ext: 34, esp: 3, capa });
+    tuercaHex(E, { nombre: `3/8-16 CONTRATUERCA tensor (${pos})`, at: [r2(X.mens1 + 3), y, z], dir: [1, 0, 0], dia: B38.d, af: B38.af, alto: B38.tuerca, capa });
+  } else {
+    tuercaHex(E, { nombre: `3/8-16 autoblocante eje polea (${pos})`, at: [X.placa1, y, z], dir: [1, 0, 0], dia: B38.d, af: B38.af, alto: B38.tuerca, capa });
+  }
+  return E.parts.length - n0;
+}
+
+// ---------------------------------------------------------------------------
+// Módulo
+// ---------------------------------------------------------------------------
+/** @param {import('./lib.mjs').Ensamble} E
+ *  @returns {object} métricas del serpentín para el gate */
+export function transmision(E) {
+  const cap = 'MÓVIL · ';
+  const seq = serpentin(zToma);
+  const idlerY = P.bandaY.filter((y) => y !== 0);          // 4 locas: el centro lo ocupa la rueda
+
+  // =========================================================== 1. PLACA SOPORTE
+  // Weldment: placa 1/4" en el plano YZ + 2 orejas que apoyan en el alma de los
+  // canales laterales. Lleva los 6 alojamientos de eje, la colisa del tensor y
+  // el asiento de la brida del motorreductor.
+  const cortes = [];
+  for (const y of idlerY) if (y !== P.bandaY[P.tomaIdlerIdx]) cortes.push([y, P.idlerZ]);
+  cortes.push([-P.retornoY, P.retornoZ], [P.retornoY, P.retornoZ]);
+  const fPlaca = [
+    sketchYZ(`Placa 1/4" ${r2(2 * L.yPlaca)}×${r2(L.zPlaca[1] - L.zPlaca[0])}`, L.xPlaca,
+      rectR(-L.yPlaca, L.zPlaca[0], L.yPlaca, L.zPlaca[1], 12), L.espPlaca),
+  ];
+  for (const sg of [-1, 1]) {
+    fPlaca.push(box(`Oreja ${sg > 0 ? '+Y' : '−Y'} 3/16"×${r2(L.orejaX[1] - L.orejaX[0])}×${r2(L.orejaZ[1] - L.orejaZ[0])}`,
+      [r2((L.orejaX[0] + L.orejaX[1]) / 2), r2(sg * (P.almaY - P.placaT / 2)), L.orejaZ[0]],
+      r2(L.orejaX[1] - L.orejaX[0]), P.placaT, r2(L.orejaZ[1] - L.orejaZ[0])));
+  }
+  for (const [y, z] of cortes) {
+    fPlaca.push(hole(`Paso eje polea Ø${r2(B38.d + P.holgura.pasante)} (Y=${y})`,
+      [r2(L.xPlaca - 0.5), y, z], [1, 0, 0], r2(B38.d + P.holgura.pasante)));
+  }
+  fPlaca.push(
+    hole(`Centraje brida motorreductor Ø${r2(L.bridaCentraje + 0.4)}`,
+      [r2(L.xPlaca - 0.5), 0, P.motrizZ], [1, 0, 0], r2(L.bridaCentraje + 0.4)),
+    sketchYZ(`Colisa tensor ${L.colisaAncho}×${r2(P.tomaCarrera + L.colisaAncho)} (recorrido ${P.tomaCarrera})`,
+      r2(X.placa1 + 0.65), colisa(P.bandaY[P.tomaIdlerIdx], zToma, r2(P.tomaCarrera + L.colisaAncho), L.colisaAncho, true),
+      9, 'cut'));
+  for (const s of [-1, 1]) for (const s2 of [-1, 1]) {
+    fPlaca.push(hole(`Taladro brida motorreductor Ø${r2(B38.d + P.holgura.pasante)}`,
+      [r2(L.xPlaca - 0.5), r2(s * L.bridaCirculo / Math.SQRT2 / 2), r2(P.motrizZ + s2 * L.bridaCirculo / Math.SQRT2 / 2)],
+      [1, 0, 0], r2(B38.d + P.holgura.pasante)));
+  }
+  for (const y of L.mensulaPernoY) for (const z of L.mensulaPernoZ) {
+    fPlaca.push(hole(`Taladro ménsula tensora Ø${r2(B38.d + P.holgura.pasante)}`,
+      [r2(L.xPlaca - 0.5), y, z], [1, 0, 0], r2(B38.d + P.holgura.pasante)));
+  }
+  for (const sg of [-1, 1]) for (const z of L.orejaPernoZ) {
+    fPlaca.push(hole(`Taladro oreja Ø${r2(B38.d + P.holgura.pasante)} (${sg > 0 ? '+Y' : '−Y'})`,
+      [L.orejaPernoX, r2(sg * (P.almaY + 0.5)), z], [0, -sg, 0], r2(B38.d + P.holgura.pasante), 8, false));
+  }
+  E.addPart(`${cap}Placa soporte de transmisión 1/4"×${r2(2 * L.yPlaca)}×${r2(L.zPlaca[1] - L.zPlaca[0])} (weldment)`,
+    COL.movil, [L.xPlaca, 0, L.zPlaca[0]], fPlaca, { weldment: true });
+
+  // =============================================== 2. BANDA PLANA DEL SERPENTÍN
+  // `bandaFaces` falla si algún tramo no tiene tangente: que cierre es la
+  // comprobación de que las 13 envolturas son compatibles entre sí.
+  const caras = bandaFaces(seq, P.serpEsp, 12);
+  const largo = largoBanda(seq, P.serpEsp);
+  const env = envolventes(seq, P.serpEsp);
+  E.addPart(`${cap}Banda plana FLEXPROOF sin fin 1"×${P.serpEsp} — serpentín L=${largo} (069.722xx)`,
+    COL.banda, [X.banda0, 0, 0], [
+      sketchYZ('Cara exterior del serpentín', X.banda0, caras.outer, P.serpAncho),
+      sketchYZ('Cara interior del serpentín', r2(X.banda1 + 0.5), caras.inner, r2(P.serpAncho + 1), 'cut'),
+    ], { hardware: true, componente: 'banda_flexproof_1in', capaDato: 'cat' });
+
+  // ============================================ 3. POLEAS LOCAS Y TENSOR (4 ud)
+  for (const y of idlerY) {
+    const tensor = y === P.bandaY[P.tomaIdlerIdx];
+    conjuntoLoca(E, {
+      nombre: tensor
+        ? 'TAKE-UP IDLER banda plana Ø2-1/2"×1.4"'
+        : 'Polea loca banda plana Ø2-1/2"×1.4"',
+      pos: `Y=${y}`, y, z: tensor ? zToma : P.idlerZ, capa: cap, tensor,
+    });
+  }
+
+  // --- ménsula tensora: doblador con la MISMA colisa, para que el espárrago
+  //     quede guiado en 12.7 mm de largo y la contratuerca de 3/8" apriete de
+  //     verdad. Se monta ANTES que el motorreductor (acceso de llave por +X).
+  const yT = P.bandaY[P.tomaIdlerIdx];
+  const fMen = [
+    sketchYZ(`Ménsula 1/4" ${r2(L.mensulaY[1] - L.mensulaY[0])}×${r2(L.mensulaZ[1] - L.mensulaZ[0])}`,
+      X.placa1, rectR(L.mensulaY[0], L.mensulaZ[0], L.mensulaY[1], L.mensulaZ[1], 8), L.espPlaca),
+    sketchYZ(`Colisa ${L.colisaAncho}×${r2(P.tomaCarrera + L.colisaAncho)}`, r2(X.mens1 + 0.65),
+      colisa(yT, zToma, r2(P.tomaCarrera + L.colisaAncho), L.colisaAncho, true), 9, 'cut'),
+  ];
+  for (const y of L.mensulaPernoY) for (const z of L.mensulaPernoZ) {
+    fMen.push(hole(`Taladro Ø${r2(B38.d + P.holgura.pasante)}`, [r2(X.placa1 - 0.5), y, z], [1, 0, 0], r2(B38.d + P.holgura.pasante)));
+  }
+  E.addPart(`${cap}Ménsula tensora c/colisa ${L.colisaAncho}×${r2(P.tomaCarrera + L.colisaAncho)} — recorrido ${P.tomaCarrera} (Y=${yT})`,
+    COL.movil, [X.placa1, yT, zToma], fMen);
+  for (const y of L.mensulaPernoY) for (const z of L.mensulaPernoZ) {
+    pernoHex(E, { nombre: `3/8-16 × 1" ménsula tensora (Y=${y})`, at: [X.mens1, y, z], dir: [-1, 0, 0], dia: B38.d, largo: pulg(1), af: B38.af, altoCab: B38.hh, capa: cap });
+    tuercaHex(E, { nombre: `3/8-16 ménsula tensora (Y=${y})`, at: [L.xPlaca, y, z], dir: [-1, 0, 0], dia: B38.d, af: B38.af, alto: B38.tuerca, capa: cap });
+  }
+
+  // =========================================== 4. POLEAS DE RETORNO (2 ud)
+  for (const sg of [-1, 1]) {
+    conjuntoLoca(E, {
+      nombre: 'Polea de retorno banda plana Ø2-1/2"×1.4"',
+      pos: `Y=${r2(sg * P.retornoY)}`, y: r2(sg * P.retornoY), z: P.retornoZ, capa: cap,
+    });
+  }
+
+  // ================================ 5. RUEDA MOTRIZ + BUJE SIN CHAVETA
+  // cat 024.15502 FLAT BELT DRIVE WHEEL 2-1/2" D × 1.772": llanta abombada
+  // (L.ruedaCorona) para que la banda plana se centre sola, barreno Ø45 = OD del
+  // buje sin chaveta. No lleva chaveta: el buje es la unión y la retención axial.
+  const cr = r2(P.ruedaDia / 2 - L.ruedaCorona);
+  E.addPart(`${cap}Rueda motriz banda plana Ø2-1/2"×1.772" (024.15502, Y=0)`, COL.polea,
+    [X.rueda0, 0, P.motrizZ], [
+      revolve(`Llanta Ø${P.ruedaDia}×${P.ruedaAncho} abombada ${L.ruedaCorona}, barreno Ø${P.bujeDia}`,
+        [X.rueda0, 0, P.motrizZ], 'x', [
+          [0, P.bujeDia / 2], [0, cr], [r2(P.ruedaAncho / 4), P.ruedaDia / 2],
+          [r2(3 * P.ruedaAncho / 4), P.ruedaDia / 2], [P.ruedaAncho, cr], [P.ruedaAncho, P.bujeDia / 2]]),
+    ], { componente: 'rueda_024.15502' });
+
+  const xBuje = r2(X.rueda0 - L.bujeTuercaL);
+  E.addPart(`${cap}Buje sin chaveta 20 mm ID × 45 mm OD (099.128420, apriete ${P.bujePar} N·m)`,
+    COL.rodamiento, [xBuje, 0, P.motrizZ], [
+      revolve(`Tuerca de apriete Ø${L.bujeTuercaDia}×${L.bujeTuercaL}`, [xBuje, 0, P.motrizZ], 'x',
+        [[0, P.motorEjeDia / 2], [0, L.bujeTuercaDia / 2], [L.bujeTuercaL, L.bujeTuercaDia / 2], [L.bujeTuercaL, P.motorEjeDia / 2]]),
+      revolve(`Manguito cónico Ø${P.bujeDia}×${r2(P.bujeLargo - L.bujeTuercaL)}`, [X.rueda0, 0, P.motrizZ], 'x',
+        [[0, P.motorEjeDia / 2], [0, P.bujeDia / 2], [r2(P.bujeLargo - L.bujeTuercaL), P.bujeDia / 2],
+          [r2(P.bujeLargo - L.bujeTuercaL), P.motorEjeDia / 2]]),
+    ], { hardware: true, componente: 'buje_099.128420' });
+
+  // ============================================== 6. MOTORREDUCTOR SEW RF07DRS71S4
+  // cat 300.0322: 1/2 hp, 230/460/3, 462 rpm. Eje de salida Ø20 hacia −X, a Y=0
+  // y Z = P.motrizZ; la brida se atornilla a la placa soporte con 4 pernos de
+  // 3/8-16 y un resalte de centraje: ésa es toda su fijación (RF = flange mount).
+  E.addPart(`${cap}Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, ${P.motorRpm} rpm (300.0322)`,
+    COL.motor, [X.placa1, 0, P.motrizZ], [
+      cyl(`Eje de salida Ø${P.motorEjeDia}×${L.ejeLargo}`, [X.eje0Motor, 0, P.motrizZ], [1, 0, 0], P.motorEjeDia, L.ejeLargo),
+      cyl(`Centraje Ø${L.bridaCentraje}×${L.espPlaca}`, [L.xPlaca, 0, P.motrizZ], [1, 0, 0], L.bridaCentraje, L.espPlaca),
+      sketchYZ(`Brida Ø${L.bridaDia}×${L.bridaEsp}`, X.placa1, disco(L.bridaDia, P.motrizZ), L.bridaEsp),
+      sketchYZ(`Cárter reductor ${L.reductorW}×${P.reductorH}×${P.reductorL}`, X.brida1,
+        rectR(r2(-L.reductorW / 2), r2(P.motrizZ - P.reductorH / 2), r2(L.reductorW / 2), r2(P.motrizZ + P.reductorH / 2), L.reductorR),
+        P.reductorL),
+      sketchYZ(`Carcasa motor DRS71 Ø${P.motorDia}×${r2(X.motor1 - X.reduct1)}`, X.reduct1,
+        disco(P.motorDia, P.motrizZ), r2(X.motor1 - X.reduct1)),
+      sketchYZ(`Tapa de ventilador Ø${L.ventiladorDia}×${L.ventiladorL}`, X.motor1,
+        disco(L.ventiladorDia, P.motrizZ), L.ventiladorL),
+      box(`Caja de bornes ${L.bornes[0]}×${L.bornes[1]}×${L.bornes[2]}`,
+        [L.bornesX, 0, r2(P.motrizZ + P.motorDia / 2)], L.bornes[0], L.bornes[1], L.bornes[2]),
+    ], { hardware: true, componente: 'motorreductor_300.0322' });
+
+  for (const s of [-1, 1]) for (const s2 of [-1, 1]) {
+    pernoHex(E, {
+      nombre: `3/8-16 × 3/4" brida motorreductor (${s > 0 ? '+Y' : '−Y'}${s2 > 0 ? '+Z' : '−Z'})`,
+      at: [L.xPlaca, r2(s * L.bridaCirculo / Math.SQRT2 / 2), r2(P.motrizZ + s2 * L.bridaCirculo / Math.SQRT2 / 2)],
+      dir: [1, 0, 0], dia: B38.d, largo: pulg(0.75), af: B38.af, altoCab: B38.hh, capa: cap,
+    });
+  }
+
+  // ================================ 7. FIJACIÓN DE LA PLACA AL BASTIDOR MÓVIL
+  // Las orejas apoyan contra el alma (12 GA) de los canales laterales; el perno
+  // entra desde fuera (+Y / −Y) y la tuerca queda por dentro.
+  for (const sg of [-1, 1]) for (const z of L.orejaPernoZ) {
+    pernoHex(E, {
+      nombre: `3/8-16 × 3/4" placa↔canal lateral (${sg > 0 ? '+Y' : '−Y'}, Z=${z})`,
+      at: [L.orejaPernoX, r2(sg * (P.almaY + P.cal12)), z], dir: [0, -sg, 0],
+      dia: B38.d, largo: pulg(0.75), af: B38.af, altoCab: B38.hh, capa: cap,
+    });
+    tuercaHex(E, {
+      nombre: `3/8-16 placa↔canal lateral (${sg > 0 ? '+Y' : '−Y'}, Z=${z})`,
+      at: [L.orejaPernoX, r2(sg * (P.almaY - P.placaT)), z], dir: [0, -sg, 0],
+      dia: B38.d, af: B38.af, alto: B38.tuerca, capa: cap,
+    });
+  }
+
+  // ---------------------------------------------------------------- métricas
+  const idx = (n) => seq.findIndex((q) => q.n === n);
+  const envRod = seq.map((q, i) => (q.n.startsWith('rodillo') ? env[i] : null)).filter((v) => v !== null);
+  const holgura = (a, b) => r2(Math.hypot(a.c[0] - b.c[0], a.c[1] - b.c[1]) - a.r - b.r);
+  const q = (n) => seq[idx(n)];
+  const vBanda = Math.PI * P.ruedaDia / 1000 * P.motorRpm / 60;         // m/s en el paso de la rueda
+  const nRod = vBanda / (Math.PI * P.rodTubo / 1000) * 60;              // rpm del rodillo
+  const par = P.motorHP * 745.7 / (2 * Math.PI * P.motorRpm / 60);      // N·m a la salida
+  const mu = 0.40;                                                      // cat Habasit TF/TC sobre acero
+
+  return {
+    banda: {
+      largoDesarrollado: largo,
+      largoNominal: largoBanda(serpentin(P.idlerZ), P.serpEsp),         // tensor arriba del todo
+      largoMaxTension: largoBanda(serpentin(r2(P.idlerZ - P.tomaCarrera)), P.serpEsp),
+      ancho: P.serpAncho, espesor: P.serpEsp, elementos: seq.length,
+    },
+    envolvente_grados: {
+      rodillos: envRod, rodilloMin: r2(Math.min(...envRod)),
+      ruedaMotriz: env[idx('rueda motriz')],
+      locas: idlerY.map((y) => env[idx(`loca Y=${y}`)]),
+      retorno: env[idx('retorno +Y')],
+    },
+    friccion: {
+      mu, T1_T2_rodillo: r2(Math.exp(mu * Math.min(...envRod) * Math.PI / 180)),
+      T1_T2_ruedaMotriz: r2(Math.exp(mu * env[idx('rueda motriz')] * Math.PI / 180)),
+    },
+    holguras_mm: {
+      locaContiguas: holgura(q('loca Y=-152.4'), q('loca Y=-76.2')),
+      locaRetorno: holgura(q('loca Y=-152.4'), q('retorno −Y')),
+      tensorRueda: holgura(q(`loca Y=${yT}`), q('rueda motriz')),
+      tensorLocaVecina: holgura(q(`loca Y=${yT}`), q('loca Y=152.4')),
+      ruedaLoca: holgura(q('rueda motriz'), q('loca Y=-76.2')),
+      bandaAAlma: r2(P.almaY - (P.rodY[5] + P.rodTubo / 2 + P.serpEsp)),
+      poleaAPlaca: r2(L.xPlaca - X.pol1),
+      ramalRetornoZ: r2(P.retornoZ - P.retornoDia / 2 - P.serpEsp / 2),  // ≈ P.rielInfZ
+    },
+    cinematica: {
+      rpmMotor: P.motorRpm, vBanda_m_s: r2(vBanda), vBanda_fpm: r2(vBanda * 196.85),
+      rpmRodillo: r2(nRod), vTransferencia_m_s: r2(nRod / 60 * Math.PI * P.rodDia / 1000),
+      parSalida_Nm: r2(par), tiroBanda_N: r2(par / (P.ruedaDia / 2000)),
+      parPorRodillo_Nm: r2(par * (P.rodTubo / P.ruedaDia) / P.nRodillos),
+      empujeEnTransferencia_N: r2(par / (P.ruedaDia / 2000) * (P.rodTubo / P.rodDia)),
+    },
+    tensor: { zNominal: P.idlerZ, zModelado: zToma, carrera: P.tomaCarrera, colisa: `${L.colisaAncho}×${r2(P.tomaCarrera + L.colisaAncho)}` },
+  };
+}
+
+export default transmision;
