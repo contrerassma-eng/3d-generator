@@ -29,7 +29,22 @@ const FUENTE = 'diseño paramétrico foto3d — capa user (escala 0.6320 mm/px, 
 const MARGIN = 10, MARGIN_L = 20, TITLE_H = 42, GAP = 26;
 
 // --- material sugerido por tipo de pieza fabricada ---------------------------
-function materialDe(n) {
+function espesorDe(n, chapa) {
+  if (chapa?.t) return chapa.t;                      // lo declara la pieza: manda
+  const ga = n.match(/(\d{1,2})\s*GA/i);
+  if (ga) return { 7: 4.554, 10: 3.416, 11: 3.038, 12: 2.657, 14: 1.897, 16: 1.519 }[+ga[1]];
+  const frac = n.match(/(\d+)\/(\d+)"/);            // 3/16", 1/4"…
+  if (frac) {
+    const v = (+frac[1] / +frac[2]) * 25.4;
+    if (v >= 1.5 && v <= 25) return Math.round(v * 1000) / 1000;
+  }
+  const mm = n.match(/×(\d{1,2})(?:\s|$|\))/);       // «170×42×12»
+  if (mm && +mm[1] >= 3 && +mm[1] <= 25) return +mm[1];
+  return null;
+}
+
+function materialDe(n, chapa) {
+  const esp = espesorDe(n, chapa);
   // El orden importa: primero lo que define la PIEZA (chapa, tubo, goma) y solo
   // después las palabras que aparecen en nombres compuestos ("ménsula jack bolt"
   // es chapa, no un eje mecanizado).
@@ -37,12 +52,12 @@ function materialDe(n) {
   if (/banda|correa/i.test(n)) return `Banda plana poliéster/uretano ${P.serpEsp} mm (empalme sin fin)`;
   if (/vulcaniz/i.test(n)) return 'Tubo de acero ST37 + vulcanizado NBR 70 ShA';
   if (/\btubo\b/i.test(n)) return 'Tubo de acero ST37';
-  if (/guarda|cubierta/i.test(n)) return `Chapa de acero ${enPulg(P.cal14)} (14 GA), galvanizada`;
+  if (/guarda|guard|cubierta/i.test(n)) return `Chapa de acero ${enPulg(esp ?? P.cal14)}${esp ? "" : " (14 GA)"}, galvanizada`;
   if (/\bcanal\b|side channel|cross channel|brace channel|tapa extremo/i.test(n)) {
-    return `Chapa de acero ${enPulg(P.cal12)} (12 GA) conformada, galvanizada`;
+    return `Chapa de acero ${enPulg(esp ?? P.cal12)}${esp ? '' : ' (12 GA)'} conformada, galvanizada`;
   }
-  if (/peine|spacer plate|placa|ménsula|mensula|soporte|escuadra|angular|angle|travesaño|plato/i.test(n)) {
-    return `Chapa de acero ${enPulg(P.cal12)} (12 GA), galvanizada`;
+  if (/peine|spacer plate|placa|ménsula|mensula|soporte|escuadra|angular|angle|travesaño|plato|brazo/i.test(n)) {
+    return `Chapa de acero ${enPulg(esp ?? P.cal12)}${esp ? '' : ' (12 GA)'}, galvanizada`;
   }
   if (/eje hex/i.test(n)) return 'Barra hexagonal 5/16" acero SAE 1045 estirado en frío';
   if (/\beje\b|pasador|espárrago|tirante|vástago/i.test(n)) return 'Acero SAE 1045 rectificado';
@@ -139,7 +154,8 @@ for (const g of lista) {
   const comprada = !!(g.part.hardware || g.part.componente);
   const contexto = !!g.part.contexto;
   const fabricada = !comprada && !contexto;
-  const material = comprada ? (g.part.norma || g.part.componente || 'componente de catálogo') : materialDe(g.desig);
+  const material = comprada ? (g.part.norma || g.part.componente || 'componente de catálogo')
+      : materialDe(g.desig, g.part.chapa);
   let plano = '';
   if (fabricada) {
     planoN++;

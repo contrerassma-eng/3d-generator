@@ -2,10 +2,10 @@
  "proyecto": "TRANSFERENCIA 90° — RODILLOS EMERGENTES (NBT90)",
  "archivo": "narrow_belt_transfer_90.json",
  "fecha": "2026-07-27",
- "piezas_totales": 368,
- "items": 299,
- "fabricadas": 26,
- "compradas": 271,
+ "piezas_totales": 385,
+ "items": 328,
+ "fabricadas": 27,
+ "compradas": 299,
  "despiece": [
   {
    "item": 1,
@@ -13,7 +13,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
    "plano": "NBT90-01"
   },
   {
@@ -22,7 +22,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
    "plano": "NBT90-02"
   },
   {
@@ -31,7 +31,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
    "plano": "NBT90-03"
   },
   {
@@ -40,7 +40,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
    "plano": "NBT90-04"
   },
   {
@@ -49,7 +49,7 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.105\", galvanizada",
    "plano": "NBT90-05"
   },
   {
@@ -58,16 +58,16 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.105\", galvanizada",
    "plano": "NBT90-06"
   },
   {
    "item": 7,
-   "designacion": "Ménsula jack bolt superior 12 GA 50×30",
+   "designacion": "Ménsula jack bolt superior 12 GA 96×30",
    "cant": 4,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.105\", galvanizada",
    "plano": "NBT90-07"
   },
   {
@@ -76,34 +76,34 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.187\" conformada, galvanizada",
    "plano": "NBT90-08"
   },
   {
    "item": 9,
-   "designacion": "Side channel 6-1/2\"×1-1/2\" 12 GA × 457.2",
+   "designacion": "Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
    "plano": "NBT90-09"
   },
   {
    "item": 10,
-   "designacion": "Side channel 6-1/2\"×1-1/2\" 12 GA × 457.2",
+   "designacion": "Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
    "plano": "NBT90-10"
   },
   {
    "item": 11,
-   "designacion": "Soporte de válvula 3/16\" 53.76×72×70",
+   "designacion": "Soporte de válvula 3/16\" 86×97",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.187\", galvanizada",
    "plano": "NBT90-11"
   },
   {
@@ -112,7 +112,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
    "plano": "NBT90-12"
   },
   {
@@ -121,52 +121,52 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
    "plano": "NBT90-13"
   },
   {
    "item": 14,
-   "designacion": "Cross angle 1-1/2\"×1\" 12 GA × 215.9",
-   "cant": 1,
+   "designacion": "Brazo de empuje de la horquilla 170×42×12",
+   "cant": 2,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.472\", galvanizada",
    "plano": "NBT90-14"
   },
   {
    "item": 15,
-   "designacion": "Cross angle 1-1/2\"×1\" 12 GA × 215.9",
+   "designacion": "Cross angle 1-3/4\"×1\" 12 GA × 215.9",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.105\", galvanizada",
    "plano": "NBT90-15"
   },
   {
    "item": 16,
-   "designacion": "Guarda del serpentín 14 GA 370×122",
+   "designacion": "Cross angle 1-3/4\"×1\" 12 GA × 215.9",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.075\" (14 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.105\", galvanizada",
    "plano": "NBT90-16"
   },
   {
    "item": 17,
-   "designacion": "Notched brace channel 2\"×40 12 GA × 363.76",
+   "designacion": "Notched brace channel 1-3/4\"×40 12 GA × 363.76",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
    "plano": "NBT90-17"
   },
   {
    "item": 18,
-   "designacion": "Notched brace channel 2\"×40 12 GA × 363.76",
+   "designacion": "Notched brace channel 1-3/4\"×40 12 GA × 363.76",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
    "plano": "NBT90-18"
   },
   {
@@ -175,7 +175,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.25\", galvanizada",
    "plano": "NBT90-19"
   },
   {
@@ -184,7 +184,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.187\", galvanizada",
    "plano": "NBT90-20"
   },
   {
@@ -193,34 +193,34 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.187\", galvanizada",
    "plano": "NBT90-21"
   },
   {
    "item": 22,
-   "designacion": "Placa soporte de transmisión 1/4\"×450.28×154 c/colisa tensor",
+   "designacion": "Placa soporte de transmisión 1/4\"×374×154 c/colisa tensor",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.25\", galvanizada",
    "plano": "NBT90-22"
   },
   {
    "item": 23,
-   "designacion": "Plato de empuje 170×200×12",
+   "designacion": "Spacer plate 3/16\" 370×80",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.187\", galvanizada",
    "plano": "NBT90-23"
   },
   {
    "item": 24,
    "designacion": "Spacer plate 3/16\" 370×80",
-   "cant": 2,
+   "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
+   "material_norma": "Chapa de acero 0.187\", galvanizada",
    "plano": "NBT90-24"
   },
   {
@@ -229,7 +229,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
    "plano": "NBT90-25"
   },
   {
@@ -238,17 +238,17 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
    "plano": "NBT90-26"
   },
   {
    "item": 27,
-   "designacion": "Eje hexagonal 5/16\" × 410",
+   "designacion": "Transfer roller guard 14 GA 370×118",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Chapa de acero 0.075\", galvanizada",
+   "plano": "NBT90-27"
   },
   {
    "item": 28,
@@ -297,60 +297,69 @@
   },
   {
    "item": 33,
-   "designacion": "Eje polea Ø9/16\"×66.98",
+   "designacion": "Eje hexagonal 5/16\" × 410",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "eje_polea_9_16",
+   "material_norma": "SA-036881",
    "plano": "—"
   },
   {
    "item": 34,
-   "designacion": "Eje polea Ø9/16\"×66.98",
+   "designacion": "Eje polea Ø5/8\" g6 × 68.4",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "eje_polea_9_16",
+   "material_norma": "eje_polea_5_8",
    "plano": "—"
   },
   {
    "item": 35,
-   "designacion": "Eje polea Ø9/16\"×66.98",
+   "designacion": "Eje polea Ø5/8\" g6 × 68.4",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "eje_polea_9_16",
+   "material_norma": "eje_polea_5_8",
    "plano": "—"
   },
   {
    "item": 36,
-   "designacion": "Eje polea Ø9/16\"×66.98",
+   "designacion": "Eje polea Ø5/8\" g6 × 68.4",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "eje_polea_9_16",
+   "material_norma": "eje_polea_5_8",
    "plano": "—"
   },
   {
    "item": 37,
-   "designacion": "Eje polea Ø9/16\"×66.98",
+   "designacion": "Eje polea Ø5/8\" g6 × 68.4",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "eje_polea_9_16",
+   "material_norma": "eje_polea_5_8",
    "plano": "—"
   },
   {
    "item": 38,
-   "designacion": "Eje polea Ø9/16\"×72.08",
+   "designacion": "Eje polea Ø5/8\" g6 × 68.4",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "eje_polea_9_16",
+   "material_norma": "eje_polea_5_8",
    "plano": "—"
   },
   {
    "item": 39,
+   "designacion": "Eje polea Ø5/8\" g6 × 73.5",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "eje_polea_5_8",
+   "plano": "—"
+  },
+  {
+   "item": 40,
    "designacion": "Mesa guía — columna guía Ø30 × 75",
    "cant": 2,
    "capa": "MÓVIL",
@@ -359,17 +368,8 @@
    "plano": "—"
   },
   {
-   "item": 40,
-   "designacion": "Mesa guía — placa móvil 170×200×25",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "mesa_guia_MGF100_20",
-   "plano": "—"
-  },
-  {
    "item": 41,
-   "designacion": "Mesa guía — vástago Ø36",
+   "designacion": "Mesa guía — placa móvil 170×200×25 c/rebaje de paso del motorreductor 102×10.6",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -378,65 +378,65 @@
   },
   {
    "item": 42,
-   "designacion": "Polea de retorno banda plana Ø2-1/2\"×1.4\"",
+   "designacion": "Mesa guía — vástago Ø36",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "polea_923.00975",
+   "material_norma": "mesa_guia_MGF100_20",
    "plano": "—"
   },
   {
    "item": 43,
-   "designacion": "Polea de retorno banda plana Ø2-1/2\"×1.4\"",
+   "designacion": "Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "polea_923.00975",
+   "material_norma": "polea_loca_flanged_2_5",
    "plano": "—"
   },
   {
    "item": 44,
-   "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\"",
+   "designacion": "Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "polea_923.00975",
+   "material_norma": "polea_loca_flanged_2_5",
    "plano": "—"
   },
   {
    "item": 45,
-   "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\"",
+   "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "polea_923.00975",
+   "material_norma": "polea_loca_flanged_2_5",
    "plano": "—"
   },
   {
    "item": 46,
-   "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\"",
+   "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "polea_923.00975",
+   "material_norma": "polea_loca_flanged_2_5",
    "plano": "—"
   },
   {
    "item": 47,
-   "designacion": "Rodillo vulcanizado Ø1-3/8\" × 375",
+   "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
+   "material_norma": "polea_loca_flanged_2_5",
    "plano": "—"
   },
   {
    "item": 48,
-   "designacion": "Rodillo vulcanizado Ø1-3/8\" × 375",
+   "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 TAKE-UP IDLER",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
+   "material_norma": "polea_loca_flanged_2_5",
    "plano": "—"
   },
   {
@@ -477,29 +477,29 @@
   },
   {
    "item": 53,
+   "designacion": "Rodillo vulcanizado Ø1-3/8\" × 375",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "SA-036881",
+   "plano": "—"
+  },
+  {
+   "item": 54,
+   "designacion": "Rodillo vulcanizado Ø1-3/8\" × 375",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "SA-036881",
+   "plano": "—"
+  },
+  {
+   "item": 55,
    "designacion": "Rueda motriz banda plana Ø2-1/2\"×1.772\"",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
    "material_norma": "rueda_024.15502",
-   "plano": "—"
-  },
-  {
-   "item": 54,
-   "designacion": "TAKE-UP IDLER banda plana Ø2-1/2\"×1.4\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "polea_923.00975",
-   "plano": "—"
-  },
-  {
-   "item": 55,
-   "designacion": "Tapa-soporte de extremo Ø25.93/Ø22 × 11",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
    "plano": "—"
   },
   {
@@ -603,16 +603,16 @@
   },
   {
    "item": 67,
-   "designacion": "Anillo retención eje polea (Y=-144.5) Ø14.288",
+   "designacion": "Tapa-soporte de extremo Ø25.93/Ø22 × 11",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 471 / ASME B27.7",
+   "material_norma": "SA-036881",
    "plano": "—"
   },
   {
    "item": 68,
-   "designacion": "Anillo retención eje polea (Y=-152.4) Ø14.288",
+   "designacion": "Anillo retención eje polea (Y=-144.5) Ø15.875",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -621,7 +621,7 @@
   },
   {
    "item": 69,
-   "designacion": "Anillo retención eje polea (Y=-76.2) Ø14.288",
+   "designacion": "Anillo retención eje polea (Y=-152.4) Ø15.875",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -630,7 +630,7 @@
   },
   {
    "item": 70,
-   "designacion": "Anillo retención eje polea (Y=144.5) Ø14.288",
+   "designacion": "Anillo retención eje polea (Y=-76.2) Ø15.875",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -639,7 +639,7 @@
   },
   {
    "item": 71,
-   "designacion": "Anillo retención eje polea (Y=152.4) Ø14.288",
+   "designacion": "Anillo retención eje polea (Y=144.5) Ø15.875",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -648,7 +648,7 @@
   },
   {
    "item": 72,
-   "designacion": "Anillo retención eje polea (Y=76.2) Ø14.288",
+   "designacion": "Anillo retención eje polea (Y=152.4) Ø15.875",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -657,7 +657,7 @@
   },
   {
    "item": 73,
-   "designacion": "Anillo retención eje rodillo (línea 1, Y=-190.5, libre) Ø8",
+   "designacion": "Anillo retención eje polea (Y=76.2) Ø15.875",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -666,7 +666,7 @@
   },
   {
    "item": 74,
-   "designacion": "Anillo retención eje rodillo (línea 1, Y=-190.5, motriz) Ø8",
+   "designacion": "Anillo retención eje rodillo (línea 1, Y=-190.5, libre) Ø8",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -675,7 +675,7 @@
   },
   {
    "item": 75,
-   "designacion": "Anillo retención eje rodillo (línea 2, Y=-114.3, libre) Ø8",
+   "designacion": "Anillo retención eje rodillo (línea 1, Y=-190.5, motriz) Ø8",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -684,7 +684,7 @@
   },
   {
    "item": 76,
-   "designacion": "Anillo retención eje rodillo (línea 2, Y=-114.3, motriz) Ø8",
+   "designacion": "Anillo retención eje rodillo (línea 2, Y=-114.3, libre) Ø8",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -693,7 +693,7 @@
   },
   {
    "item": 77,
-   "designacion": "Anillo retención eje rodillo (línea 3, Y=-38.1, libre) Ø8",
+   "designacion": "Anillo retención eje rodillo (línea 2, Y=-114.3, motriz) Ø8",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -702,7 +702,7 @@
   },
   {
    "item": 78,
-   "designacion": "Anillo retención eje rodillo (línea 3, Y=-38.1, motriz) Ø8",
+   "designacion": "Anillo retención eje rodillo (línea 3, Y=-38.1, libre) Ø8",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -711,7 +711,7 @@
   },
   {
    "item": 79,
-   "designacion": "Anillo retención eje rodillo (línea 4, Y=38.1, libre) Ø8",
+   "designacion": "Anillo retención eje rodillo (línea 3, Y=-38.1, motriz) Ø8",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -720,7 +720,7 @@
   },
   {
    "item": 80,
-   "designacion": "Anillo retención eje rodillo (línea 4, Y=38.1, motriz) Ø8",
+   "designacion": "Anillo retención eje rodillo (línea 4, Y=38.1, libre) Ø8",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -729,7 +729,7 @@
   },
   {
    "item": 81,
-   "designacion": "Anillo retención eje rodillo (línea 5, Y=114.3, libre) Ø8",
+   "designacion": "Anillo retención eje rodillo (línea 4, Y=38.1, motriz) Ø8",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -738,7 +738,7 @@
   },
   {
    "item": 82,
-   "designacion": "Anillo retención eje rodillo (línea 5, Y=114.3, motriz) Ø8",
+   "designacion": "Anillo retención eje rodillo (línea 5, Y=114.3, libre) Ø8",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -747,7 +747,7 @@
   },
   {
    "item": 83,
-   "designacion": "Anillo retención eje rodillo (línea 6, Y=190.5, libre) Ø8",
+   "designacion": "Anillo retención eje rodillo (línea 5, Y=114.3, motriz) Ø8",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -756,7 +756,7 @@
   },
   {
    "item": 84,
-   "designacion": "Anillo retención eje rodillo (línea 6, Y=190.5, motriz) Ø8",
+   "designacion": "Anillo retención eje rodillo (línea 6, Y=190.5, libre) Ø8",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -765,6 +765,123 @@
   },
   {
    "item": 85,
+   "designacion": "Anillo retención eje rodillo (línea 6, Y=190.5, motriz) Ø8",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 471 / ASME B27.7",
+   "plano": "—"
+  },
+  {
+   "item": 86,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472",
+   "plano": "—"
+  },
+  {
+   "item": 87,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472",
+   "plano": "—"
+  },
+  {
+   "item": 88,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472",
+   "plano": "—"
+  },
+  {
+   "item": 89,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472",
+   "plano": "—"
+  },
+  {
+   "item": 90,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472",
+   "plano": "—"
+  },
+  {
+   "item": 91,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472",
+   "plano": "—"
+  },
+  {
+   "item": 92,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472",
+   "plano": "—"
+  },
+  {
+   "item": 93,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472",
+   "plano": "—"
+  },
+  {
+   "item": 94,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472",
+   "plano": "—"
+  },
+  {
+   "item": 95,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472",
+   "plano": "—"
+  },
+  {
+   "item": 96,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472",
+   "plano": "—"
+  },
+  {
+   "item": 97,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472",
+   "plano": "—"
+  },
+  {
+   "item": 98,
    "designacion": "Banda plana FLEXPROOF sin fin 1\"×2.5 — serpentín L=3043.56",
    "cant": 1,
    "capa": "MÓVIL",
@@ -773,115 +890,7 @@
    "plano": "—"
   },
   {
-   "item": 86,
-   "designacion": "Buje bronce SAE 841 9/16\"×3/4\"×1/2\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "buje_14.288x19.05x12.7",
-   "plano": "—"
-  },
-  {
-   "item": 87,
-   "designacion": "Buje bronce SAE 841 9/16\"×3/4\"×1/2\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "buje_14.288x19.05x12.7",
-   "plano": "—"
-  },
-  {
-   "item": 88,
-   "designacion": "Buje bronce SAE 841 9/16\"×3/4\"×1/2\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "buje_14.288x19.05x12.7",
-   "plano": "—"
-  },
-  {
-   "item": 89,
-   "designacion": "Buje bronce SAE 841 9/16\"×3/4\"×1/2\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "buje_14.288x19.05x12.7",
-   "plano": "—"
-  },
-  {
-   "item": 90,
-   "designacion": "Buje bronce SAE 841 9/16\"×3/4\"×1/2\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "buje_14.288x19.05x12.7",
-   "plano": "—"
-  },
-  {
-   "item": 91,
-   "designacion": "Buje bronce SAE 841 9/16\"×3/4\"×1/2\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "buje_14.288x19.05x12.7",
-   "plano": "—"
-  },
-  {
-   "item": 92,
-   "designacion": "Buje bronce SAE 841 9/16\"×3/4\"×1/2\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "buje_14.288x19.05x12.7",
-   "plano": "—"
-  },
-  {
-   "item": 93,
-   "designacion": "Buje bronce SAE 841 9/16\"×3/4\"×1/2\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "buje_14.288x19.05x12.7",
-   "plano": "—"
-  },
-  {
-   "item": 94,
-   "designacion": "Buje bronce SAE 841 9/16\"×3/4\"×1/2\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "buje_14.288x19.05x12.7",
-   "plano": "—"
-  },
-  {
-   "item": 95,
-   "designacion": "Buje bronce SAE 841 9/16\"×3/4\"×1/2\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "buje_14.288x19.05x12.7",
-   "plano": "—"
-  },
-  {
-   "item": 96,
-   "designacion": "Buje bronce SAE 841 9/16\"×3/4\"×1/2\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "buje_14.288x19.05x12.7",
-   "plano": "—"
-  },
-  {
-   "item": 97,
-   "designacion": "Buje bronce SAE 841 9/16\"×3/4\"×1/2\"",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "buje_14.288x19.05x12.7",
-   "plano": "—"
-  },
-  {
-   "item": 98,
+   "item": 99,
    "designacion": "Buje sin chaveta 20 mm ID × 45 mm OD",
    "cant": 1,
    "capa": "MÓVIL",
@@ -890,17 +899,8 @@
    "plano": "—"
   },
   {
-   "item": 99,
-   "designacion": "Golilla 1/4\" soporte de válvula (Y=-163) Ø6.35",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
-  },
-  {
    "item": 100,
-   "designacion": "Golilla 1/4\" soporte de válvula (Y=-219) Ø6.35",
+   "designacion": "Golilla 1/4\" soporte de válvula (X=138, Y=-190) Ø6.35",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -909,16 +909,16 @@
   },
   {
    "item": 101,
-   "designacion": "Golilla 3/8\" bajo cabeza (+Y, Z=232) Ø9.525",
+   "designacion": "Golilla 1/4\" soporte de válvula (X=208, Y=-190) Ø6.35",
    "cant": 1,
-   "capa": "MÓVIL",
+   "capa": "FIJO",
    "tipo": "COMPRADA",
    "material_norma": "DIN 125 / ASME B18.22.1",
    "plano": "—"
   },
   {
    "item": 102,
-   "designacion": "Golilla 3/8\" bajo cabeza (+Y, Z=264) Ø9.525",
+   "designacion": "Golilla 3/8\" bajo cabeza (+Y, X=134) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -927,7 +927,7 @@
   },
   {
    "item": 103,
-   "designacion": "Golilla 3/8\" bajo cabeza (−Y, Z=232) Ø9.525",
+   "designacion": "Golilla 3/8\" bajo cabeza (+Y, X=162) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -936,7 +936,7 @@
   },
   {
    "item": 104,
-   "designacion": "Golilla 3/8\" bajo cabeza (−Y, Z=264) Ø9.525",
+   "designacion": "Golilla 3/8\" bajo cabeza (−Y, X=134) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -945,16 +945,16 @@
   },
   {
    "item": 105,
-   "designacion": "Golilla 3/8\" de colisa (X=141.5, Y=+231.23) Ø9.525",
+   "designacion": "Golilla 3/8\" bajo cabeza (−Y, X=162) Ø9.525",
    "cant": 1,
-   "capa": "FIJO",
+   "capa": "MÓVIL",
    "tipo": "COMPRADA",
    "material_norma": "DIN 125 / ASME B18.22.1",
    "plano": "—"
   },
   {
    "item": 106,
-   "designacion": "Golilla 3/8\" de colisa (X=141.5, Y=−231.23) Ø9.525",
+   "designacion": "Golilla 3/8\" de colisa (X=141.5, Y=+228.57) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -963,7 +963,7 @@
   },
   {
    "item": 107,
-   "designacion": "Golilla 3/8\" de colisa (X=321.5, Y=+231.23) Ø9.525",
+   "designacion": "Golilla 3/8\" de colisa (X=141.5, Y=−228.57) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -972,7 +972,7 @@
   },
   {
    "item": 108,
-   "designacion": "Golilla 3/8\" de colisa (X=321.5, Y=−231.23) Ø9.525",
+   "designacion": "Golilla 3/8\" de colisa (X=321.5, Y=+228.57) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -981,7 +981,7 @@
   },
   {
    "item": 109,
-   "designacion": "Golilla 3/8\" jack bolt (X=115.75, Y=+247.4) Ø9.525",
+   "designacion": "Golilla 3/8\" de colisa (X=321.5, Y=−228.57) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -990,7 +990,7 @@
   },
   {
    "item": 110,
-   "designacion": "Golilla 3/8\" jack bolt (X=115.75, Y=−247.4) Ø9.525",
+   "designacion": "Golilla 3/8\" jack bolt (X=115.75, Y=+247.4) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -999,7 +999,7 @@
   },
   {
    "item": 111,
-   "designacion": "Golilla 3/8\" jack bolt (X=347.25, Y=+247.4) Ø9.525",
+   "designacion": "Golilla 3/8\" jack bolt (X=115.75, Y=−247.4) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1008,7 +1008,7 @@
   },
   {
    "item": 112,
-   "designacion": "Golilla 3/8\" jack bolt (X=347.25, Y=−247.4) Ø9.525",
+   "designacion": "Golilla 3/8\" jack bolt (X=347.25, Y=+247.4) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1017,7 +1017,7 @@
   },
   {
    "item": 113,
-   "designacion": "Golilla Canal base -Y X32 (cabeza) Ø9.525",
+   "designacion": "Golilla 3/8\" jack bolt (X=347.25, Y=−247.4) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1026,7 +1026,7 @@
   },
   {
    "item": 114,
-   "designacion": "Golilla Canal base -Y X32 (tuerca) Ø9.525",
+   "designacion": "Golilla Canal base -Y X32 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1035,7 +1035,7 @@
   },
   {
    "item": 115,
-   "designacion": "Golilla Canal base -Y X95 (cabeza) Ø9.525",
+   "designacion": "Golilla Canal base -Y X32 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1044,7 +1044,7 @@
   },
   {
    "item": 116,
-   "designacion": "Golilla Canal base -Y X95 (tuerca) Ø9.525",
+   "designacion": "Golilla Canal base -Y X95 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1053,7 +1053,7 @@
   },
   {
    "item": 117,
-   "designacion": "Golilla Canal base +Y X32 (cabeza) Ø9.525",
+   "designacion": "Golilla Canal base -Y X95 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1062,7 +1062,7 @@
   },
   {
    "item": 118,
-   "designacion": "Golilla Canal base +Y X32 (tuerca) Ø9.525",
+   "designacion": "Golilla Canal base +Y X32 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1071,7 +1071,7 @@
   },
   {
    "item": 119,
-   "designacion": "Golilla Canal base +Y X95 (cabeza) Ø9.525",
+   "designacion": "Golilla Canal base +Y X32 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1080,7 +1080,7 @@
   },
   {
    "item": 120,
-   "designacion": "Golilla Canal base +Y X95 (tuerca) Ø9.525",
+   "designacion": "Golilla Canal base +Y X95 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1089,16 +1089,16 @@
   },
   {
    "item": 121,
-   "designacion": "Golilla Guarda -Y X118 (cabeza) Ø9.525",
+   "designacion": "Golilla Canal base +Y X95 (tuerca) Ø9.525",
    "cant": 1,
-   "capa": "MÓVIL",
+   "capa": "FIJO",
    "tipo": "COMPRADA",
    "material_norma": "DIN 125 / ASME B18.22.1",
    "plano": "—"
   },
   {
    "item": 122,
-   "designacion": "Golilla Guarda -Y X118 (tuerca) Ø9.525",
+   "designacion": "Golilla Guarda Y-150 Z196 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -1107,7 +1107,7 @@
   },
   {
    "item": 123,
-   "designacion": "Golilla Guarda -Y X133 (cabeza) Ø9.525",
+   "designacion": "Golilla Guarda Y-150 Z196 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -1116,7 +1116,7 @@
   },
   {
    "item": 124,
-   "designacion": "Golilla Guarda -Y X133 (tuerca) Ø9.525",
+   "designacion": "Golilla Guarda Y-150 Z284 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -1125,7 +1125,7 @@
   },
   {
    "item": 125,
-   "designacion": "Golilla Guarda +Y X118 (cabeza) Ø9.525",
+   "designacion": "Golilla Guarda Y-150 Z284 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -1134,7 +1134,7 @@
   },
   {
    "item": 126,
-   "designacion": "Golilla Guarda +Y X118 (tuerca) Ø9.525",
+   "designacion": "Golilla Guarda Y150 Z196 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -1143,7 +1143,7 @@
   },
   {
    "item": 127,
-   "designacion": "Golilla Guarda +Y X133 (cabeza) Ø9.525",
+   "designacion": "Golilla Guarda Y150 Z196 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -1152,7 +1152,7 @@
   },
   {
    "item": 128,
-   "designacion": "Golilla Guarda +Y X133 (tuerca) Ø9.525",
+   "designacion": "Golilla Guarda Y150 Z284 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -1161,16 +1161,16 @@
   },
   {
    "item": 129,
-   "designacion": "Golilla M12 mesa (X=169.5, Y=+85) Ø12",
+   "designacion": "Golilla Guarda Y150 Z284 (tuerca) Ø9.525",
    "cant": 1,
-   "capa": "FIJO",
+   "capa": "MÓVIL",
    "tipo": "COMPRADA",
    "material_norma": "DIN 125 / ASME B18.22.1",
    "plano": "—"
   },
   {
    "item": 130,
-   "designacion": "Golilla M12 mesa (X=169.5, Y=−85) Ø12",
+   "designacion": "Golilla M12 mesa (X=183, Y=+85) Ø12",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1179,7 +1179,7 @@
   },
   {
    "item": 131,
-   "designacion": "Golilla M12 mesa (X=293.5, Y=+85) Ø12",
+   "designacion": "Golilla M12 mesa (X=183, Y=−85) Ø12",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1188,7 +1188,7 @@
   },
   {
    "item": 132,
-   "designacion": "Golilla M12 mesa (X=293.5, Y=−85) Ø12",
+   "designacion": "Golilla M12 mesa (X=307, Y=+85) Ø12",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1197,7 +1197,7 @@
   },
   {
    "item": 133,
-   "designacion": "Golilla Ménsula jack inf -Y X115.75 Z100 (cabeza) Ø9.525",
+   "designacion": "Golilla M12 mesa (X=307, Y=−85) Ø12",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1206,7 +1206,7 @@
   },
   {
    "item": 134,
-   "designacion": "Golilla Ménsula jack inf -Y X115.75 Z100 (tuerca) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf -Y X115.75 Z100 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1215,7 +1215,7 @@
   },
   {
    "item": 135,
-   "designacion": "Golilla Ménsula jack inf -Y X115.75 Z118 (cabeza) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf -Y X115.75 Z100 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1224,7 +1224,7 @@
   },
   {
    "item": 136,
-   "designacion": "Golilla Ménsula jack inf -Y X115.75 Z118 (tuerca) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf -Y X115.75 Z118 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1233,7 +1233,7 @@
   },
   {
    "item": 137,
-   "designacion": "Golilla Ménsula jack inf -Y X347.25 Z100 (cabeza) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf -Y X115.75 Z118 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1242,7 +1242,7 @@
   },
   {
    "item": 138,
-   "designacion": "Golilla Ménsula jack inf -Y X347.25 Z100 (tuerca) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf -Y X347.25 Z100 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1251,7 +1251,7 @@
   },
   {
    "item": 139,
-   "designacion": "Golilla Ménsula jack inf -Y X347.25 Z118 (cabeza) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf -Y X347.25 Z100 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1260,7 +1260,7 @@
   },
   {
    "item": 140,
-   "designacion": "Golilla Ménsula jack inf -Y X347.25 Z118 (tuerca) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf -Y X347.25 Z118 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1269,7 +1269,7 @@
   },
   {
    "item": 141,
-   "designacion": "Golilla Ménsula jack inf +Y X115.75 Z100 (cabeza) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf -Y X347.25 Z118 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1278,7 +1278,7 @@
   },
   {
    "item": 142,
-   "designacion": "Golilla Ménsula jack inf +Y X115.75 Z100 (tuerca) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf +Y X115.75 Z100 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1287,7 +1287,7 @@
   },
   {
    "item": 143,
-   "designacion": "Golilla Ménsula jack inf +Y X115.75 Z118 (cabeza) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf +Y X115.75 Z100 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1296,7 +1296,7 @@
   },
   {
    "item": 144,
-   "designacion": "Golilla Ménsula jack inf +Y X115.75 Z118 (tuerca) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf +Y X115.75 Z118 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1305,7 +1305,7 @@
   },
   {
    "item": 145,
-   "designacion": "Golilla Ménsula jack inf +Y X347.25 Z100 (cabeza) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf +Y X115.75 Z118 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1314,7 +1314,7 @@
   },
   {
    "item": 146,
-   "designacion": "Golilla Ménsula jack inf +Y X347.25 Z100 (tuerca) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf +Y X347.25 Z100 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1323,7 +1323,7 @@
   },
   {
    "item": 147,
-   "designacion": "Golilla Ménsula jack inf +Y X347.25 Z118 (cabeza) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf +Y X347.25 Z100 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1332,7 +1332,7 @@
   },
   {
    "item": 148,
-   "designacion": "Golilla Ménsula jack inf +Y X347.25 Z118 (tuerca) Ø9.525",
+   "designacion": "Golilla Ménsula jack inf +Y X347.25 Z118 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1341,8 +1341,8 @@
   },
   {
    "item": 149,
-   "designacion": "Golilla Ménsula jack sup -Y X115.75 (cabeza) Ø9.525",
-   "cant": 2,
+   "designacion": "Golilla Ménsula jack inf +Y X347.25 Z118 (tuerca) Ø9.525",
+   "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
    "material_norma": "DIN 125 / ASME B18.22.1",
@@ -1350,8 +1350,8 @@
   },
   {
    "item": 150,
-   "designacion": "Golilla Ménsula jack sup -Y X115.75 (tuerca) Ø9.525",
-   "cant": 2,
+   "designacion": "Golilla Ménsula jack sup -Y X145.75 (cabeza) Ø9.525",
+   "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
    "material_norma": "DIN 125 / ASME B18.22.1",
@@ -1359,8 +1359,8 @@
   },
   {
    "item": 151,
-   "designacion": "Golilla Ménsula jack sup -Y X347.25 (cabeza) Ø9.525",
-   "cant": 2,
+   "designacion": "Golilla Ménsula jack sup -Y X145.75 (tuerca) Ø9.525",
+   "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
    "material_norma": "DIN 125 / ASME B18.22.1",
@@ -1368,8 +1368,8 @@
   },
   {
    "item": 152,
-   "designacion": "Golilla Ménsula jack sup -Y X347.25 (tuerca) Ø9.525",
-   "cant": 2,
+   "designacion": "Golilla Ménsula jack sup -Y X317.25 (cabeza) Ø9.525",
+   "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
    "material_norma": "DIN 125 / ASME B18.22.1",
@@ -1377,8 +1377,8 @@
   },
   {
    "item": 153,
-   "designacion": "Golilla Ménsula jack sup +Y X115.75 (cabeza) Ø9.525",
-   "cant": 2,
+   "designacion": "Golilla Ménsula jack sup -Y X317.25 (tuerca) Ø9.525",
+   "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
    "material_norma": "DIN 125 / ASME B18.22.1",
@@ -1386,8 +1386,8 @@
   },
   {
    "item": 154,
-   "designacion": "Golilla Ménsula jack sup +Y X115.75 (tuerca) Ø9.525",
-   "cant": 2,
+   "designacion": "Golilla Ménsula jack sup -Y X377.25 (cabeza) Ø9.525",
+   "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
    "material_norma": "DIN 125 / ASME B18.22.1",
@@ -1395,8 +1395,8 @@
   },
   {
    "item": 155,
-   "designacion": "Golilla Ménsula jack sup +Y X347.25 (cabeza) Ø9.525",
-   "cant": 2,
+   "designacion": "Golilla Ménsula jack sup -Y X377.25 (tuerca) Ø9.525",
+   "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
    "material_norma": "DIN 125 / ASME B18.22.1",
@@ -1404,8 +1404,8 @@
   },
   {
    "item": 156,
-   "designacion": "Golilla Ménsula jack sup +Y X347.25 (tuerca) Ø9.525",
-   "cant": 2,
+   "designacion": "Golilla Ménsula jack sup -Y X85.75 (cabeza) Ø9.525",
+   "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
    "material_norma": "DIN 125 / ASME B18.22.1",
@@ -1413,7 +1413,7 @@
   },
   {
    "item": 157,
-   "designacion": "Golilla Side channel -Y X231.5 (cabeza) Ø9.525",
+   "designacion": "Golilla Ménsula jack sup -Y X85.75 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1422,7 +1422,7 @@
   },
   {
    "item": 158,
-   "designacion": "Golilla Side channel -Y X231.5 (tuerca) Ø9.525",
+   "designacion": "Golilla Ménsula jack sup +Y X145.75 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1431,7 +1431,7 @@
   },
   {
    "item": 159,
-   "designacion": "Golilla Side channel -Y X403 (cabeza) Ø9.525",
+   "designacion": "Golilla Ménsula jack sup +Y X145.75 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1440,7 +1440,7 @@
   },
   {
    "item": 160,
-   "designacion": "Golilla Side channel -Y X403 (tuerca) Ø9.525",
+   "designacion": "Golilla Ménsula jack sup +Y X317.25 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1449,7 +1449,7 @@
   },
   {
    "item": 161,
-   "designacion": "Golilla Side channel -Y X60 (cabeza) Ø9.525",
+   "designacion": "Golilla Ménsula jack sup +Y X317.25 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1458,7 +1458,7 @@
   },
   {
    "item": 162,
-   "designacion": "Golilla Side channel -Y X60 (tuerca) Ø9.525",
+   "designacion": "Golilla Ménsula jack sup +Y X377.25 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1467,7 +1467,7 @@
   },
   {
    "item": 163,
-   "designacion": "Golilla Side channel +Y X231.5 (cabeza) Ø9.525",
+   "designacion": "Golilla Ménsula jack sup +Y X377.25 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1476,7 +1476,7 @@
   },
   {
    "item": 164,
-   "designacion": "Golilla Side channel +Y X231.5 (tuerca) Ø9.525",
+   "designacion": "Golilla Ménsula jack sup +Y X85.75 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1485,7 +1485,7 @@
   },
   {
    "item": 165,
-   "designacion": "Golilla Side channel +Y X403 (cabeza) Ø9.525",
+   "designacion": "Golilla Ménsula jack sup +Y X85.75 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1494,7 +1494,7 @@
   },
   {
    "item": 166,
-   "designacion": "Golilla Side channel +Y X403 (tuerca) Ø9.525",
+   "designacion": "Golilla Side channel -Y X231.5 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1503,7 +1503,7 @@
   },
   {
    "item": 167,
-   "designacion": "Golilla Side channel +Y X60 (cabeza) Ø9.525",
+   "designacion": "Golilla Side channel -Y X231.5 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1512,7 +1512,7 @@
   },
   {
    "item": 168,
-   "designacion": "Golilla Side channel +Y X60 (tuerca) Ø9.525",
+   "designacion": "Golilla Side channel -Y X403 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1521,6 +1521,87 @@
   },
   {
    "item": 169,
+   "designacion": "Golilla Side channel -Y X403 (tuerca) Ø9.525",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 125 / ASME B18.22.1",
+   "plano": "—"
+  },
+  {
+   "item": 170,
+   "designacion": "Golilla Side channel -Y X60 (cabeza) Ø9.525",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 125 / ASME B18.22.1",
+   "plano": "—"
+  },
+  {
+   "item": 171,
+   "designacion": "Golilla Side channel -Y X60 (tuerca) Ø9.525",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 125 / ASME B18.22.1",
+   "plano": "—"
+  },
+  {
+   "item": 172,
+   "designacion": "Golilla Side channel +Y X231.5 (cabeza) Ø9.525",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 125 / ASME B18.22.1",
+   "plano": "—"
+  },
+  {
+   "item": 173,
+   "designacion": "Golilla Side channel +Y X231.5 (tuerca) Ø9.525",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 125 / ASME B18.22.1",
+   "plano": "—"
+  },
+  {
+   "item": 174,
+   "designacion": "Golilla Side channel +Y X403 (cabeza) Ø9.525",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 125 / ASME B18.22.1",
+   "plano": "—"
+  },
+  {
+   "item": 175,
+   "designacion": "Golilla Side channel +Y X403 (tuerca) Ø9.525",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 125 / ASME B18.22.1",
+   "plano": "—"
+  },
+  {
+   "item": 176,
+   "designacion": "Golilla Side channel +Y X60 (cabeza) Ø9.525",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 125 / ASME B18.22.1",
+   "plano": "—"
+  },
+  {
+   "item": 177,
+   "designacion": "Golilla Side channel +Y X60 (tuerca) Ø9.525",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 125 / ASME B18.22.1",
+   "plano": "—"
+  },
+  {
+   "item": 178,
    "designacion": "Golilla Spacer plate libre Y-170 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1529,7 +1610,7 @@
    "plano": "—"
   },
   {
-   "item": 170,
+   "item": 179,
    "designacion": "Golilla Spacer plate libre Y-170 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1538,7 +1619,7 @@
    "plano": "—"
   },
   {
-   "item": 171,
+   "item": 180,
    "designacion": "Golilla Spacer plate libre Y-55 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1547,7 +1628,7 @@
    "plano": "—"
   },
   {
-   "item": 172,
+   "item": 181,
    "designacion": "Golilla Spacer plate libre Y-55 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1556,7 +1637,7 @@
    "plano": "—"
   },
   {
-   "item": 173,
+   "item": 182,
    "designacion": "Golilla Spacer plate libre Y170 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1565,7 +1646,7 @@
    "plano": "—"
   },
   {
-   "item": 174,
+   "item": 183,
    "designacion": "Golilla Spacer plate libre Y170 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1574,7 +1655,7 @@
    "plano": "—"
   },
   {
-   "item": 175,
+   "item": 184,
    "designacion": "Golilla Spacer plate libre Y55 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1583,7 +1664,7 @@
    "plano": "—"
   },
   {
-   "item": 176,
+   "item": 185,
    "designacion": "Golilla Spacer plate libre Y55 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1592,7 +1673,7 @@
    "plano": "—"
   },
   {
-   "item": 177,
+   "item": 186,
    "designacion": "Golilla Spacer plate motriz Y-170 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1601,7 +1682,7 @@
    "plano": "—"
   },
   {
-   "item": 178,
+   "item": 187,
    "designacion": "Golilla Spacer plate motriz Y-170 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1610,7 +1691,7 @@
    "plano": "—"
   },
   {
-   "item": 179,
+   "item": 188,
    "designacion": "Golilla Spacer plate motriz Y-55 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1619,7 +1700,7 @@
    "plano": "—"
   },
   {
-   "item": 180,
+   "item": 189,
    "designacion": "Golilla Spacer plate motriz Y-55 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1628,7 +1709,7 @@
    "plano": "—"
   },
   {
-   "item": 181,
+   "item": 190,
    "designacion": "Golilla Spacer plate motriz Y170 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1637,7 +1718,7 @@
    "plano": "—"
   },
   {
-   "item": 182,
+   "item": 191,
    "designacion": "Golilla Spacer plate motriz Y170 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1646,7 +1727,7 @@
    "plano": "—"
   },
   {
-   "item": 183,
+   "item": 192,
    "designacion": "Golilla Spacer plate motriz Y55 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1655,7 +1736,7 @@
    "plano": "—"
   },
   {
-   "item": 184,
+   "item": 193,
    "designacion": "Golilla Spacer plate motriz Y55 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1664,7 +1745,7 @@
    "plano": "—"
   },
   {
-   "item": 185,
+   "item": 194,
    "designacion": "Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1673,7 +1754,25 @@
    "plano": "—"
   },
   {
-   "item": 186,
+   "item": 195,
+   "designacion": "NEUMÁTICA · Golilla 1/4\" válvula↔soporte (X=157) Ø6.35",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 125 / ASME B18.22.1",
+   "plano": "—"
+  },
+  {
+   "item": 196,
+   "designacion": "NEUMÁTICA · Golilla 1/4\" válvula↔soporte (X=189) Ø6.35",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 125 / ASME B18.22.1",
+   "plano": "—"
+  },
+  {
+   "item": 197,
    "designacion": "NEUMÁTICA · Mesa guía Ø100 × 20 mm — cuerpo 170×200×81",
    "cant": 1,
    "capa": "FIJO",
@@ -1682,7 +1781,16 @@
    "plano": "—"
   },
   {
-   "item": 187,
+   "item": 198,
+   "designacion": "NEUMÁTICA · Perno hex 1/4-20 × 2-1/2\" válvula↔soporte",
+   "cant": 2,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 199,
    "designacion": "NEUMÁTICA · Perno hex M12 × 115 tope regulable de carrera",
    "cant": 2,
    "capa": "MÓVIL",
@@ -1691,7 +1799,7 @@
    "plano": "—"
   },
   {
-   "item": 188,
+   "item": 200,
    "designacion": "NEUMÁTICA · Racor codo giratorio 360° 1/4\"",
    "cant": 1,
    "capa": "FIJO",
@@ -1700,7 +1808,7 @@
    "plano": "—"
   },
   {
-   "item": 189,
+   "item": 201,
    "designacion": "NEUMÁTICA · Racor codo giratorio 360° 1/4\"",
    "cant": 1,
    "capa": "FIJO",
@@ -1709,8 +1817,17 @@
    "plano": "—"
   },
   {
-   "item": 190,
+   "item": 202,
    "designacion": "NEUMÁTICA · Racor codo giratorio 360° 1/4\"",
+   "cant": 2,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "componente de catálogo",
+   "plano": "—"
+  },
+  {
+   "item": 203,
+   "designacion": "NEUMÁTICA · Silenciador 1/8\" NPT Ø18 (Z=35)",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1718,8 +1835,8 @@
    "plano": "—"
   },
   {
-   "item": 191,
-   "designacion": "NEUMÁTICA · Racor codo giratorio 360° 1/4\"",
+   "item": 204,
+   "designacion": "NEUMÁTICA · Silenciador 1/8\" NPT Ø18 (Z=65)",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1727,25 +1844,7 @@
    "plano": "—"
   },
   {
-   "item": 192,
-   "designacion": "NEUMÁTICA · Silenciador 1/8\" NPT Ø18 (Y=-169)",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "componente de catálogo",
-   "plano": "—"
-  },
-  {
-   "item": 193,
-   "designacion": "NEUMÁTICA · Silenciador 1/8\" NPT Ø18 (Y=-213)",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "componente de catálogo",
-   "plano": "—"
-  },
-  {
-   "item": 194,
+   "item": 205,
    "designacion": "NEUMÁTICA · Tubería 1/4\" OD Ø7.94 — línea A",
    "cant": 1,
    "capa": "FIJO",
@@ -1754,7 +1853,7 @@
    "plano": "—"
   },
   {
-   "item": 195,
+   "item": 206,
    "designacion": "NEUMÁTICA · Tubería 1/4\" OD Ø7.94 — línea B",
    "cant": 1,
    "capa": "FIJO",
@@ -1763,7 +1862,7 @@
    "plano": "—"
   },
   {
-   "item": 196,
+   "item": 207,
    "designacion": "NEUMÁTICA · Tuerca hex M12 contratuerca del tope de carrera",
    "cant": 2,
    "capa": "MÓVIL",
@@ -1772,7 +1871,7 @@
    "plano": "—"
   },
   {
-   "item": 197,
+   "item": 208,
    "designacion": "NEUMÁTICA · Unión Unifit 1/4\" Ø15 × 26",
    "cant": 1,
    "capa": "FIJO",
@@ -1781,7 +1880,7 @@
    "plano": "—"
   },
   {
-   "item": 198,
+   "item": 209,
    "designacion": "NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC 72×46×60",
    "cant": 1,
    "capa": "FIJO",
@@ -1790,7 +1889,7 @@
    "plano": "—"
   },
   {
-   "item": 199,
+   "item": 210,
    "designacion": "Pasador guía Ø12.7 × 39.91 en colisa",
    "cant": 4,
    "capa": "MÓVIL",
@@ -1799,8 +1898,8 @@
    "plano": "—"
   },
   {
-   "item": 200,
-   "designacion": "Perno hex 1/4-20 × 1\" soporte de válvula",
+   "item": 211,
+   "designacion": "Perno hex 1/4-20 × 1-1/4\" soporte de válvula",
    "cant": 2,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -1808,7 +1907,7 @@
    "plano": "—"
   },
   {
-   "item": 201,
+   "item": 212,
    "designacion": "Perno hex 3/8-16 × 1\" de colisa",
    "cant": 2,
    "capa": "FIJO",
@@ -1817,7 +1916,7 @@
    "plano": "—"
   },
   {
-   "item": 202,
+   "item": 213,
    "designacion": "Perno hex 3/8-16 × 1\" de colisa",
    "cant": 2,
    "capa": "FIJO",
@@ -1826,43 +1925,7 @@
    "plano": "—"
   },
   {
-   "item": 203,
-   "designacion": "Perno hex 3/8-16 × 20.08 · Guarda -Y X118",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 204,
-   "designacion": "Perno hex 3/8-16 × 20.08 · Guarda -Y X133",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 205,
-   "designacion": "Perno hex 3/8-16 × 20.08 · Guarda +Y X118",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 206,
-   "designacion": "Perno hex 3/8-16 × 20.08 · Guarda +Y X133",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 207,
+   "item": 214,
    "designacion": "Perno hex 3/8-16 × 20.85 · Canal base -Y X32",
    "cant": 1,
    "capa": "FIJO",
@@ -1871,7 +1934,7 @@
    "plano": "—"
   },
   {
-   "item": 208,
+   "item": 215,
    "designacion": "Perno hex 3/8-16 × 20.85 · Canal base -Y X95",
    "cant": 1,
    "capa": "FIJO",
@@ -1880,7 +1943,7 @@
    "plano": "—"
   },
   {
-   "item": 209,
+   "item": 216,
    "designacion": "Perno hex 3/8-16 × 20.85 · Canal base +Y X32",
    "cant": 1,
    "capa": "FIJO",
@@ -1889,7 +1952,7 @@
    "plano": "—"
   },
   {
-   "item": 210,
+   "item": 217,
    "designacion": "Perno hex 3/8-16 × 20.85 · Canal base +Y X95",
    "cant": 1,
    "capa": "FIJO",
@@ -1898,7 +1961,7 @@
    "plano": "—"
   },
   {
-   "item": 211,
+   "item": 218,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z100",
    "cant": 1,
    "capa": "FIJO",
@@ -1907,7 +1970,7 @@
    "plano": "—"
   },
   {
-   "item": 212,
+   "item": 219,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z118",
    "cant": 1,
    "capa": "FIJO",
@@ -1916,7 +1979,7 @@
    "plano": "—"
   },
   {
-   "item": 213,
+   "item": 220,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z100",
    "cant": 1,
    "capa": "FIJO",
@@ -1925,7 +1988,7 @@
    "plano": "—"
   },
   {
-   "item": 214,
+   "item": 221,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z118",
    "cant": 1,
    "capa": "FIJO",
@@ -1934,7 +1997,7 @@
    "plano": "—"
   },
   {
-   "item": 215,
+   "item": 222,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z100",
    "cant": 1,
    "capa": "FIJO",
@@ -1943,7 +2006,7 @@
    "plano": "—"
   },
   {
-   "item": 216,
+   "item": 223,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z118",
    "cant": 1,
    "capa": "FIJO",
@@ -1952,7 +2015,7 @@
    "plano": "—"
   },
   {
-   "item": 217,
+   "item": 224,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z100",
    "cant": 1,
    "capa": "FIJO",
@@ -1961,7 +2024,7 @@
    "plano": "—"
   },
   {
-   "item": 218,
+   "item": 225,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z118",
    "cant": 1,
    "capa": "FIJO",
@@ -1970,71 +2033,8 @@
    "plano": "—"
   },
   {
-   "item": 219,
-   "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X115.75",
-   "cant": 2,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 220,
-   "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X347.25",
-   "cant": 2,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 221,
-   "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X115.75",
-   "cant": 2,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 222,
-   "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X347.25",
-   "cant": 2,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 223,
-   "designacion": "Perno hex 3/8-16 × 20.85 · Side channel -Y X231.5",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 224,
-   "designacion": "Perno hex 3/8-16 × 20.85 · Side channel -Y X403",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 225,
-   "designacion": "Perno hex 3/8-16 × 20.85 · Side channel -Y X60",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
    "item": 226,
-   "designacion": "Perno hex 3/8-16 × 20.85 · Side channel +Y X231.5",
+   "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X145.75",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -2043,7 +2043,7 @@
   },
   {
    "item": 227,
-   "designacion": "Perno hex 3/8-16 × 20.85 · Side channel +Y X403",
+   "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X317.25",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -2052,7 +2052,7 @@
   },
   {
    "item": 228,
-   "designacion": "Perno hex 3/8-16 × 20.85 · Side channel +Y X60",
+   "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X377.25",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
@@ -2061,6 +2061,141 @@
   },
   {
    "item": 229,
+   "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X85.75",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 230,
+   "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X145.75",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 231,
+   "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X317.25",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 232,
+   "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X377.25",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 233,
+   "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X85.75",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 234,
+   "designacion": "Perno hex 3/8-16 × 20.85 · Side channel -Y X231.5",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 235,
+   "designacion": "Perno hex 3/8-16 × 20.85 · Side channel -Y X403",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 236,
+   "designacion": "Perno hex 3/8-16 × 20.85 · Side channel -Y X60",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 237,
+   "designacion": "Perno hex 3/8-16 × 20.85 · Side channel +Y X231.5",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 238,
+   "designacion": "Perno hex 3/8-16 × 20.85 · Side channel +Y X403",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 239,
+   "designacion": "Perno hex 3/8-16 × 20.85 · Side channel +Y X60",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 240,
+   "designacion": "Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z196",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 241,
+   "designacion": "Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z284",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 242,
+   "designacion": "Perno hex 3/8-16 × 22.19 · Guarda Y150 Z196",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 243,
+   "designacion": "Perno hex 3/8-16 × 22.19 · Guarda Y150 Z284",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 244,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-170",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2069,7 +2204,7 @@
    "plano": "—"
   },
   {
-   "item": 230,
+   "item": 245,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-55",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2078,7 +2213,7 @@
    "plano": "—"
   },
   {
-   "item": 231,
+   "item": 246,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate libre Y170",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2087,7 +2222,7 @@
    "plano": "—"
   },
   {
-   "item": 232,
+   "item": 247,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate libre Y55",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2096,7 +2231,7 @@
    "plano": "—"
   },
   {
-   "item": 233,
+   "item": 248,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-170",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2105,7 +2240,7 @@
    "plano": "—"
   },
   {
-   "item": 234,
+   "item": 249,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-55",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2114,7 +2249,7 @@
    "plano": "—"
   },
   {
-   "item": 235,
+   "item": 250,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y170",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2123,7 +2258,7 @@
    "plano": "—"
   },
   {
-   "item": 236,
+   "item": 251,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y55",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2132,8 +2267,8 @@
    "plano": "—"
   },
   {
-   "item": 237,
-   "designacion": "Perno hex 3/8-16 × 3/4\" brida motorreductor",
+   "item": 252,
+   "designacion": "Perno hex 3/8-16 × 3/4\" placa↔cartela del larguero",
    "cant": 4,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -2141,25 +2276,7 @@
    "plano": "—"
   },
   {
-   "item": 238,
-   "designacion": "Perno hex 3/8-16 × 3/4\" placa↔canal lateral",
-   "cant": 2,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 239,
-   "designacion": "Perno hex 3/8-16 × 3/4\" placa↔canal lateral",
-   "cant": 2,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 240,
+   "item": 253,
    "designacion": "Perno hex 3/8-16 × 6\" jack bolt",
    "cant": 4,
    "capa": "FIJO",
@@ -2168,8 +2285,8 @@
    "plano": "—"
   },
   {
-   "item": 241,
-   "designacion": "Perno hex M10 × 32 plato de empuje",
+   "item": 254,
+   "designacion": "Perno hex M10 × 32 brazo de empuje",
    "cant": 4,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -2177,7 +2294,7 @@
    "plano": "—"
   },
   {
-   "item": 242,
+   "item": 255,
    "designacion": "Perno hex M12 × 45 fijación de la mesa",
    "cant": 4,
    "capa": "FIJO",
@@ -2186,7 +2303,16 @@
    "plano": "—"
   },
   {
-   "item": 243,
+   "item": 256,
+   "designacion": "Perno hex M8 × 20 brida motorreductor IEC B14 C120",
+   "cant": 4,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 / DIN 933",
+   "plano": "—"
+  },
+  {
+   "item": 257,
    "designacion": "Rodamiento 608-2RS bore hex 5/16\" (línea 1, Y=-190.5, libre)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2195,7 +2321,7 @@
    "plano": "—"
   },
   {
-   "item": 244,
+   "item": 258,
    "designacion": "Rodamiento 608-2RS bore hex 5/16\" (línea 1, Y=-190.5, motriz)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2204,7 +2330,7 @@
    "plano": "—"
   },
   {
-   "item": 245,
+   "item": 259,
    "designacion": "Rodamiento 608-2RS bore hex 5/16\" (línea 2, Y=-114.3, libre)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2213,7 +2339,7 @@
    "plano": "—"
   },
   {
-   "item": 246,
+   "item": 260,
    "designacion": "Rodamiento 608-2RS bore hex 5/16\" (línea 2, Y=-114.3, motriz)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2222,7 +2348,7 @@
    "plano": "—"
   },
   {
-   "item": 247,
+   "item": 261,
    "designacion": "Rodamiento 608-2RS bore hex 5/16\" (línea 3, Y=-38.1, libre)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2231,7 +2357,7 @@
    "plano": "—"
   },
   {
-   "item": 248,
+   "item": 262,
    "designacion": "Rodamiento 608-2RS bore hex 5/16\" (línea 3, Y=-38.1, motriz)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2240,7 +2366,7 @@
    "plano": "—"
   },
   {
-   "item": 249,
+   "item": 263,
    "designacion": "Rodamiento 608-2RS bore hex 5/16\" (línea 4, Y=38.1, libre)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2249,7 +2375,7 @@
    "plano": "—"
   },
   {
-   "item": 250,
+   "item": 264,
    "designacion": "Rodamiento 608-2RS bore hex 5/16\" (línea 4, Y=38.1, motriz)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2258,7 +2384,7 @@
    "plano": "—"
   },
   {
-   "item": 251,
+   "item": 265,
    "designacion": "Rodamiento 608-2RS bore hex 5/16\" (línea 5, Y=114.3, libre)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2267,7 +2393,7 @@
    "plano": "—"
   },
   {
-   "item": 252,
+   "item": 266,
    "designacion": "Rodamiento 608-2RS bore hex 5/16\" (línea 5, Y=114.3, motriz)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2276,7 +2402,7 @@
    "plano": "—"
   },
   {
-   "item": 253,
+   "item": 267,
    "designacion": "Rodamiento 608-2RS bore hex 5/16\" (línea 6, Y=190.5, libre)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2285,7 +2411,7 @@
    "plano": "—"
   },
   {
-   "item": 254,
+   "item": 268,
    "designacion": "Rodamiento 608-2RS bore hex 5/16\" (línea 6, Y=190.5, motriz)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2294,7 +2420,115 @@
    "plano": "—"
   },
   {
-   "item": 255,
+   "item": 269,
+   "designacion": "Rodamiento R10-2RS (Y=-144.5, exterior)",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_15.875x34.92x7.94",
+   "plano": "—"
+  },
+  {
+   "item": 270,
+   "designacion": "Rodamiento R10-2RS (Y=-144.5, interior)",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_15.875x34.92x7.94",
+   "plano": "—"
+  },
+  {
+   "item": 271,
+   "designacion": "Rodamiento R10-2RS (Y=-152.4, exterior)",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_15.875x34.92x7.94",
+   "plano": "—"
+  },
+  {
+   "item": 272,
+   "designacion": "Rodamiento R10-2RS (Y=-152.4, interior)",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_15.875x34.92x7.94",
+   "plano": "—"
+  },
+  {
+   "item": 273,
+   "designacion": "Rodamiento R10-2RS (Y=-76.2, exterior)",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_15.875x34.92x7.94",
+   "plano": "—"
+  },
+  {
+   "item": 274,
+   "designacion": "Rodamiento R10-2RS (Y=-76.2, interior)",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_15.875x34.92x7.94",
+   "plano": "—"
+  },
+  {
+   "item": 275,
+   "designacion": "Rodamiento R10-2RS (Y=144.5, exterior)",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_15.875x34.92x7.94",
+   "plano": "—"
+  },
+  {
+   "item": 276,
+   "designacion": "Rodamiento R10-2RS (Y=144.5, interior)",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_15.875x34.92x7.94",
+   "plano": "—"
+  },
+  {
+   "item": 277,
+   "designacion": "Rodamiento R10-2RS (Y=152.4, exterior)",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_15.875x34.92x7.94",
+   "plano": "—"
+  },
+  {
+   "item": 278,
+   "designacion": "Rodamiento R10-2RS (Y=152.4, interior)",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_15.875x34.92x7.94",
+   "plano": "—"
+  },
+  {
+   "item": 279,
+   "designacion": "Rodamiento R10-2RS (Y=76.2, exterior)",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_15.875x34.92x7.94",
+   "plano": "—"
+  },
+  {
+   "item": 280,
+   "designacion": "Rodamiento R10-2RS (Y=76.2, interior)",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_15.875x34.92x7.94",
+   "plano": "—"
+  },
+  {
+   "item": 281,
    "designacion": "Tuerca hex 1/4-20 soporte de válvula",
    "cant": 2,
    "capa": "FIJO",
@@ -2303,7 +2537,7 @@
    "plano": "—"
   },
   {
-   "item": 256,
+   "item": 282,
    "designacion": "Tuerca hex 3/8-16 · Canal base -Y X32",
    "cant": 1,
    "capa": "FIJO",
@@ -2312,7 +2546,7 @@
    "plano": "—"
   },
   {
-   "item": 257,
+   "item": 283,
    "designacion": "Tuerca hex 3/8-16 · Canal base -Y X95",
    "cant": 1,
    "capa": "FIJO",
@@ -2321,7 +2555,7 @@
    "plano": "—"
   },
   {
-   "item": 258,
+   "item": 284,
    "designacion": "Tuerca hex 3/8-16 · Canal base +Y X32",
    "cant": 1,
    "capa": "FIJO",
@@ -2330,7 +2564,7 @@
    "plano": "—"
   },
   {
-   "item": 259,
+   "item": 285,
    "designacion": "Tuerca hex 3/8-16 · Canal base +Y X95",
    "cant": 1,
    "capa": "FIJO",
@@ -2339,242 +2573,8 @@
    "plano": "—"
   },
   {
-   "item": 260,
-   "designacion": "Tuerca hex 3/8-16 · Guarda -Y X118",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 261,
-   "designacion": "Tuerca hex 3/8-16 · Guarda -Y X133",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 262,
-   "designacion": "Tuerca hex 3/8-16 · Guarda +Y X118",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 263,
-   "designacion": "Tuerca hex 3/8-16 · Guarda +Y X133",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 264,
-   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z100",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 265,
-   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z118",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 266,
-   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z100",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 267,
-   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z118",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 268,
-   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z100",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 269,
-   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z118",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 270,
-   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z100",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 271,
-   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z118",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 272,
-   "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup -Y X115.75",
-   "cant": 2,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 273,
-   "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup -Y X347.25",
-   "cant": 2,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 274,
-   "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup +Y X115.75",
-   "cant": 2,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 275,
-   "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup +Y X347.25",
-   "cant": 2,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 276,
-   "designacion": "Tuerca hex 3/8-16 · Side channel -Y X231.5",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 277,
-   "designacion": "Tuerca hex 3/8-16 · Side channel -Y X403",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 278,
-   "designacion": "Tuerca hex 3/8-16 · Side channel -Y X60",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 279,
-   "designacion": "Tuerca hex 3/8-16 · Side channel +Y X231.5",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 280,
-   "designacion": "Tuerca hex 3/8-16 · Side channel +Y X403",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 281,
-   "designacion": "Tuerca hex 3/8-16 · Side channel +Y X60",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 282,
-   "designacion": "Tuerca hex 3/8-16 · Spacer plate libre Y-170",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 283,
-   "designacion": "Tuerca hex 3/8-16 · Spacer plate libre Y-55",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 284,
-   "designacion": "Tuerca hex 3/8-16 · Spacer plate libre Y170",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 285,
-   "designacion": "Tuerca hex 3/8-16 · Spacer plate libre Y55",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
    "item": 286,
-   "designacion": "Tuerca hex 3/8-16 · Spacer plate motriz Y-170",
+   "designacion": "Tuerca hex 3/8-16 · Guarda Y-150 Z196",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -2583,7 +2583,7 @@
   },
   {
    "item": 287,
-   "designacion": "Tuerca hex 3/8-16 · Spacer plate motriz Y-55",
+   "designacion": "Tuerca hex 3/8-16 · Guarda Y-150 Z284",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -2592,7 +2592,7 @@
   },
   {
    "item": 288,
-   "designacion": "Tuerca hex 3/8-16 · Spacer plate motriz Y170",
+   "designacion": "Tuerca hex 3/8-16 · Guarda Y150 Z196",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -2601,7 +2601,7 @@
   },
   {
    "item": 289,
-   "designacion": "Tuerca hex 3/8-16 · Spacer plate motriz Y55",
+   "designacion": "Tuerca hex 3/8-16 · Guarda Y150 Z284",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -2610,6 +2610,276 @@
   },
   {
    "item": 290,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z100",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 291,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z118",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 292,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z100",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 293,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z118",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 294,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z100",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 295,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z118",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 296,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z100",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 297,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z118",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 298,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup -Y X145.75",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 299,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup -Y X317.25",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 300,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup -Y X377.25",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 301,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup -Y X85.75",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 302,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup +Y X145.75",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 303,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup +Y X317.25",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 304,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup +Y X377.25",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 305,
+   "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup +Y X85.75",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 306,
+   "designacion": "Tuerca hex 3/8-16 · Side channel -Y X231.5",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 307,
+   "designacion": "Tuerca hex 3/8-16 · Side channel -Y X403",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 308,
+   "designacion": "Tuerca hex 3/8-16 · Side channel -Y X60",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 309,
+   "designacion": "Tuerca hex 3/8-16 · Side channel +Y X231.5",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 310,
+   "designacion": "Tuerca hex 3/8-16 · Side channel +Y X403",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 311,
+   "designacion": "Tuerca hex 3/8-16 · Side channel +Y X60",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 312,
+   "designacion": "Tuerca hex 3/8-16 · Spacer plate libre Y-170",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 313,
+   "designacion": "Tuerca hex 3/8-16 · Spacer plate libre Y-55",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 314,
+   "designacion": "Tuerca hex 3/8-16 · Spacer plate libre Y170",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 315,
+   "designacion": "Tuerca hex 3/8-16 · Spacer plate libre Y55",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 316,
+   "designacion": "Tuerca hex 3/8-16 · Spacer plate motriz Y-170",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 317,
+   "designacion": "Tuerca hex 3/8-16 · Spacer plate motriz Y-55",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 318,
+   "designacion": "Tuerca hex 3/8-16 · Spacer plate motriz Y170",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 319,
+   "designacion": "Tuerca hex 3/8-16 · Spacer plate motriz Y55",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.2 / DIN 934",
+   "plano": "—"
+  },
+  {
+   "item": 320,
    "designacion": "Tuerca hex 3/8-16 autoblocante eje polea",
    "cant": 5,
    "capa": "MÓVIL",
@@ -2618,7 +2888,7 @@
    "plano": "—"
   },
   {
-   "item": 291,
+   "item": 321,
    "designacion": "Tuerca hex 3/8-16 CONTRATUERCA tensor",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2627,7 +2897,7 @@
    "plano": "—"
   },
   {
-   "item": 292,
+   "item": 322,
    "designacion": "Tuerca hex 3/8-16 de colisa",
    "cant": 2,
    "capa": "FIJO",
@@ -2636,7 +2906,7 @@
    "plano": "—"
   },
   {
-   "item": 293,
+   "item": 323,
    "designacion": "Tuerca hex 3/8-16 de colisa",
    "cant": 2,
    "capa": "FIJO",
@@ -2645,7 +2915,7 @@
    "plano": "—"
   },
   {
-   "item": 294,
+   "item": 324,
    "designacion": "Tuerca hex 3/8-16 inferior de jack bolt",
    "cant": 4,
    "capa": "FIJO",
@@ -2654,25 +2924,16 @@
    "plano": "—"
   },
   {
-   "item": 295,
-   "designacion": "Tuerca hex 3/8-16 placa↔canal lateral",
-   "cant": 2,
+   "item": 325,
+   "designacion": "Tuerca hex 3/8-16 SOLDADA bajo la cartela",
+   "cant": 4,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
    "material_norma": "ASME B18.2.2 / DIN 934",
    "plano": "—"
   },
   {
-   "item": 296,
-   "designacion": "Tuerca hex 3/8-16 placa↔canal lateral",
-   "cant": 2,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
-  },
-  {
-   "item": 297,
+   "item": 326,
    "designacion": "Tuerca hex 3/8-16 superior de jack bolt",
    "cant": 4,
    "capa": "FIJO",
@@ -2681,7 +2942,7 @@
    "plano": "—"
   },
   {
-   "item": 298,
+   "item": 327,
    "designacion": "CONTEXTO · Banda angosta del clasificador 1\"×2.5",
    "cant": 5,
    "capa": "MÓVIL",
@@ -2690,7 +2951,7 @@
    "plano": "—"
   },
   {
-   "item": 299,
+   "item": 328,
    "designacion": "CONTEXTO · Regleta de desgaste UHMW 1-1/4\"×3/8\"",
    "cant": 5,
    "capa": "MÓVIL",
