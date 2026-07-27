@@ -4,9 +4,13 @@
   "type": "module",
   "description": "Kernel CAD del repo (three.js). npm i para correr tests y exportadores desde node.",
   "scripts": {
-    "test": "for f in tests/test_*.mjs; do node $f || exit 1; done"
+    "test": "for f in tests/test_*.mjs; do node $f || exit 1; done",
+    "render": "node ensambles/nbt90/render.mjs"
   },
   "dependencies": {
     "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.0"
   }
 }
