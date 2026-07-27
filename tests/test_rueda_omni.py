@@ -154,6 +154,67 @@ def main():
     lineas = (proj / "audit.log.jsonl").read_text(encoding="utf-8").splitlines()
     check("medición y lámina auditadas", len(lineas) == 2)
 
+    # --- piezas del sándwich --------------------------------------------------
+    hexmm, d_eje, esp = 12.85, 3.0, 3.0
+    cp = subprocess.run([PY, str(REPO / "pipeline" / "rueda_omni_piezas.py"), str(proj),
+                         "--hex", str(hexmm), "--eje", str(d_eje),
+                         "--espesor", str(esp)], capture_output=True, text=True)
+    check("piezas termina OK", cp.returncode == 0)
+    if cp.returncode != 0:
+        print(cp.stdout, cp.stderr)
+        fails = [n for n, ok in CHECKS if not ok]
+        sys.exit("FALLAN: " + ", ".join(fails))
+    pz = json.loads((proj / "out" / "piezas" / "piezas.json").read_text(encoding="utf-8"))
+    g = pz["derivado"]
+
+    # invariantes de diseño: si alguno cae, la rueda no se puede montar
+    check(f"hileras separadas lo exigido ({g['separacion_planos_eje']} ≥ "
+          f"{g['separacion_minima_exigida']})",
+          g["separacion_planos_eje"] >= g["separacion_minima_exigida"])
+    check("tornillos libres de los dos juegos de rodillos",
+          g["circunferencia_tornillos"] / 2 + g["taladro_paso"] / 2
+          <= g["radio_libre_de_rodillos"])
+    check("la placa no llega a la banda de rodadura",
+          g["diametro_placa"] / 2 <= R_VERD - 1.0)
+    check("el barreno del rodillo deja juego sobre el eje",
+          g["barreno_rodillo"] > d_eje)
+    check("sin interferencias entre sólidos montados",
+          pz["verificacion_interferencias"]["resultado"] == "SIN INTERFERENCIAS")
+    check("las islas desprendidas quedan registradas, no silenciadas",
+          all(i["islas"] > 0 for i in pz["islas_descartadas"]))
+    check("todos los STL cerrados",
+          all(v["estanco"] for v in pz["estanqueidad_stl"].values()))
+
+    import trimesh
+    piezas_dir = proj / "out" / "piezas"
+    rod = trimesh.load(piezas_dir / "rodillo.stl")
+    r_rod = np.hypot(*rod.vertices[:, :2].T).max()
+    check(f"rodillo: Ø máx {2*r_rod:.2f} y largo {rod.extents[2]:.2f}",
+          abs(2 * r_rod - g["diametro_max_rodillo"]) < 0.15 and
+          abs(rod.extents[2] - pz["heredado_de_la_foto"]["longitud_rodillo"]) < 0.05)
+    eje = trimesh.load(piezas_dir / "eje_rodillo.stl")
+    check(f"eje Ø{d_eje} x {g['largo_eje_rodillo']}",
+          abs(eje.extents[0] - d_eje) < 0.05 and
+          abs(eje.extents[2] - g["largo_eje_rodillo"]) < 0.05)
+
+    # el material más próximo al eje son las 6 aristas del hexágono: su radio
+    # es la entrecaras / raíz(3), y hay 6 posiciones angulares distintas
+    placa = trimesh.load(piezas_dir / "placa_ext_avellanada.stl")
+    r_v = np.hypot(*placa.vertices[:, :2].T)
+    r_min = r_v.min()
+    esquinas = placa.vertices[r_v < r_min * 1.001]
+    angs = sorted({round(math.degrees(math.atan2(y, x)) % 60, 1)
+                   for x, y, _ in esquinas})
+    check(f"barreno hexagonal {hexmm} entrecaras (vértices a {r_min:.3f})",
+          abs(r_min - hexmm / math.sqrt(3)) < 0.01 and len(angs) == 1
+          and len(esquinas) == 12)
+    ranurada = trimesh.load(piezas_dir / "placa_ranurada_A.stl")
+    check("la placa ranurada tiene menos material que la lisa (la ranura)",
+          ranurada.volume < trimesh.load(piezas_dir / "placa_ext_roscada.stl").volume)
+
+    lineas = (proj / "audit.log.jsonl").read_text(encoding="utf-8").splitlines()
+    check("las piezas también quedan auditadas", len(lineas) == 3)
+
     fails = [n for n, ok in CHECKS if not ok]
     print(f"\n{len(CHECKS) - len(fails)}/{len(CHECKS)} pruebas OK")
     if fails:

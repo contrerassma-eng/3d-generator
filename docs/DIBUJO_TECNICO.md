@@ -193,6 +193,50 @@ medido, incertidumbre asociada, contorno festoneado de la placa (se acota sólo
 su disco continuo mínimo, entre paréntesis, como cota de referencia) y las
 cotas ausentes. La verificación de escala del cajetín dice NO CERTIFICADA.
 
+### Piezas del sándwich (`rueda_omni_piezas.py`)
+
+Convierte esa medición en piezas fabricables. Es **diseño (capa `user`)**, no
+medición: hereda de la foto el Ø exterior, el radio del eje de rodillos, su
+longitud y el número de rodillos, y añade las decisiones del usuario.
+
+```powershell
+python pipeline/rueda_omni_piezas.py projects/<X> `
+    [--hex 12.85] [--eje 3] [--espesor 3] [--tornillo M3] [--asiento 3] [--holgura 0.2]
+```
+
+Construcción: un eje de rodillos por INTERFAZ de placas. La placa ranurada
+lleva media caña y la contigua la cierra, así que **el eje queda cazado por el
+sándwich**: sin cabeza, sin tuerca, gira el rodillo y no el eje. El paquete lo
+aprietan 5 tornillos avellanados que atraviesan el cubo.
+
+Lo que el script resuelve solo, con su justificación en `piezas.json`:
+
+- **Separación entre planos de eje.** En la bisectriz del solape angular de las
+  dos hileras los dos barriles están al MISMO radio y sólo los separa la altura:
+  exigen `2·rho(a·tan(desfase/2))` más holgura. De ahí sale el número de placas
+  intermedias — no se elige a ojo.
+- **Circunferencia de tornillos.** Ha de caber dentro del radio libre de las dos
+  hileras (`2a - R`). La circunferencia que se mide en la foto del original
+  normalmente NO sirve: chocaría con los rodillos de la hilera opuesta.
+- **Huecos de rodillo por placa.** Cada placa se recorta con la sección del
+  barril a SU altura (`sqrt(rho² - dw²)`), no con la sección máxima. Cuando el
+  recorte desprende la punta de un brazo (pasa en las intermedias), la isla se
+  descarta y queda anotada en `islas_descartadas`: nunca se entrega una pieza
+  con material suelto sin decirlo.
+
+Salidas en `out/piezas/`: un STL por pieza, `conjunto.glb` + `conjunto.png` con
+todo montado, `placas.dxf` con los contornos a escala real (capa `CORTE` para lo
+pasante; `RANURA` y `AVELLANADO` son mecanizados posteriores, en trazo
+discontinuo) y `piezas.json` con cotas, justificaciones, lista de piezas y
+montaje.
+
+Dos verificaciones que se ejecutan siempre y se imprimen:
+
+- **Interferencias**: volumen de intersección de cada par de sólidos montados
+  (rodillo–rodillo y rodillo–placa). Cualquier valor > 0 sale como `REVISAR`.
+- **Estanqueidad**: cada STL se relee del disco y se comprueba que cierra. Una
+  malla estanca en memoria puede abrirse al exportarla, y eso rompe el laminado.
+
 ## Dependencias
 
 `pip install -r requirements.txt` (añade: trimesh, shapely, ezdxf,
