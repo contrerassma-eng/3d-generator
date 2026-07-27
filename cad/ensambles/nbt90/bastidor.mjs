@@ -39,8 +39,8 @@ const L = {
   peineY: 216,          // dis: cubre los 6 rodillos (±207.6) sin tocar el canal anfitrión
   peineYbajo: 185,      // dis: libra las alas del SIDE CHANNEL (punta en Y=189.14)
   peineZ0: 96,          // dis: encierra las poleas de retorno (fondo en Z=144.85)
-  peineZ1: 296,         // dis: fin del tramo estrecho
-  peineZ2: 305,         // dis: arranque del tramo ancho
+  peineZ1: 285,         // dis: fin del tramo estrecho
+  peineZ2: 294,         // dis: arranque del tramo ancho (bajo el cross channel)
   peineZt: 388.5,       // dis: 2.1 mm bajo el plano de banda (P.planoBanda)
   huecoZ: 320,          // dis: fondo del hueco de cada banda (8 mm bajo el ramal
                         //      de retorno del anfitrión, que pasa a Z 328…330.5)
@@ -56,7 +56,8 @@ const L = {
 
   // ---- travesaños del cassette móvil --------------------------------------
   cruzY: 200,           // dis: alma del TRANSFER CROSS CHANNEL (± )
-  cruzZ0: 305, cruzZ1: 355.8,   // dis: 2" de canto, bajo el barrido del rodillo
+  cruzZ0: 297, cruzZ1: 347.8,   // dis: 2" de canto; el ala superior queda 4.2 mm bajo la
+                                //      generatriz inferior del rodillo RETRAÍDO (Z=352.0)
   cruzAla: P.canalAla,          // 38.1 — ala hacia dentro
   braceY: 100,          // dis: alma del NOTCHED BRACE CHANNEL (±), fuera del motor Ø145
   braceSemi: 20,        // dis: semiancho del canal de refuerzo (40 mm de alma)
@@ -72,7 +73,8 @@ const L = {
   // ---- guarda del serpentín ----------------------------------------------
   guardaX: 110,         // dis: entre el serpentín (X 72.3…97.7) y el motor (X ≥ 145)
   guardaAla: 30,        // dis: pestaña de rigidez / atornillado
-  guardaZ0: 175, guardaZ1: 305,  // dis
+  guardaZ0: 175, guardaZ1: 297,  // dis: la pestaña superior atornilla al ala
+                                 //      inferior del cross channel
   guardaY: 185,         // dis: no toca el ala del SIDE CHANNEL (189.14)
 
   // ---- estructura fija ----------------------------------------------------
@@ -102,7 +104,7 @@ export const padMovilZ = L.braceZ0;      // cara donde empuja la mesa guía (Z=1
 export const guardaSerpX = L.guardaX;    // plano de la guarda que parte los dos compartimentos
 /** Compartimento del motorreductor: entre la pestaña de la guarda y la placa peine libre.
  *  275.5 mm útiles → el cuerpo del RF07DRS71S4 (262.3) cabe con el eje de salida hacia −X. */
-export const motorEnvX = [r2(L.guardaX + L.guardaAla + 4), r2(L.placaXb - T316 / 2)];
+export const motorEnvX = [r2(L.guardaX + L.guardaAla + 4), L.espX[1]];
 /** Huella libre para la mesa guía neumática (bajo el centro, sin estructura fija). */
 export const mesaHuella = { x: [110, 375], y: [-185, 185], z: [P.baseZ + 2, L.braceZ0] };
 /** Los anillos DIN 471 del eje hexagonal deben caer FUERA de las placas peine. */
