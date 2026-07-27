@@ -1,42 +1,12 @@
 {
  "tolerancia_cm3": 0.5,
- "pares_candidatos_aabb": 146,
- "interferencias_reales": 16,
+ "pares_candidatos_aabb": 50,
+ "interferencias_reales": 4,
  "detalle": [
-  {
-   "cm3": 24.824,
-   "movil": "MÓVIL · Placa soporte de transmisión 1/4\"×450.28×154 c/colisa tensor (weldment)",
-   "fijo": "FIJO · Side channel 6-1/2\"×1-1/2\" 12 GA × 457.2 (+Y)"
-  },
-  {
-   "cm3": 3.081,
-   "movil": "MÓVIL · Placa soporte de transmisión 1/4\"×450.28×154 c/colisa tensor (weldment)",
-   "fijo": "FIJO · Side channel 6-1/2\"×1-1/2\" 12 GA × 457.2 (-Y)"
-  },
-  {
-   "cm3": 1.27,
-   "movil": "MÓVIL · Notched brace channel 2\"×40 12 GA × 363.76 (+Y)",
-   "fijo": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)"
-  },
-  {
-   "cm3": 1.268,
-   "movil": "MÓVIL · Notched brace channel 2\"×40 12 GA × 363.76 (-Y)",
-   "fijo": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)"
-  },
   {
    "cm3": 9.801,
    "movil": "MÓVIL · Banda plana FLEXPROOF sin fin 1\"×2.5 — serpentín L=3043.56 (069.722xx)",
    "fijo": "FIJO · Side channel 6-1/2\"×1-1/2\" 12 GA × 457.2 (+Y)"
-  },
-  {
-   "cm3": 5.511,
-   "movil": "MÓVIL · NEUMÁTICA · Perno hex M12 × 115 tope regulable de carrera (Y=−70, limita 20→10 mm)",
-   "fijo": "FIJO · NEUMÁTICA · Mesa guía Ø100 × 20 mm — cuerpo 170×200×81 (923.01022)"
-  },
-  {
-   "cm3": 5.413,
-   "movil": "MÓVIL · NEUMÁTICA · Perno hex M12 × 115 tope regulable de carrera (Y=+70, limita 20→10 mm)",
-   "fijo": "FIJO · NEUMÁTICA · Mesa guía Ø100 × 20 mm — cuerpo 170×200×81 (923.01022)"
   },
   {
    "cm3": 8.831,
@@ -51,36 +21,6 @@
   {
    "cm3": 124.145,
    "movil": "MÓVIL · Placa peine 3/16\" 432×292.5 (lado motriz)",
-   "fijo": "FIJO · Side channel 6-1/2\"×1-1/2\" 12 GA × 457.2 (+Y)"
-  },
-  {
-   "cm3": 1.415,
-   "movil": "MÓVIL · Placa soporte de transmisión 1/4\"×450.28×154 c/colisa tensor (weldment)",
-   "fijo": "FIJO · Placa colgante del canal 3/16\" con colisas 12.7×38.1 (Y=+223.53)"
-  },
-  {
-   "cm3": 1.415,
-   "movil": "MÓVIL · Placa soporte de transmisión 1/4\"×450.28×154 c/colisa tensor (weldment)",
-   "fijo": "FIJO · Placa colgante del canal 3/16\" con colisas 12.7×38.1 (Y=−223.53)"
-  },
-  {
-   "cm3": 4.399,
-   "movil": "MÓVIL · Perno hex 3/8-16 × 3/4\" placa↔canal lateral (+Y, Z=232)",
-   "fijo": "FIJO · Side channel 6-1/2\"×1-1/2\" 12 GA × 457.2 (+Y)"
-  },
-  {
-   "cm3": 2.295,
-   "movil": "MÓVIL · Placa soporte de transmisión 1/4\"×450.28×154 c/colisa tensor (weldment)",
-   "fijo": "FIJO · Canal lateral anfitrión 6-1/2\"×1-1/2\" 12 GA × 463 (+Y)"
-  },
-  {
-   "cm3": 2.295,
-   "movil": "MÓVIL · Placa soporte de transmisión 1/4\"×450.28×154 c/colisa tensor (weldment)",
-   "fijo": "FIJO · Canal lateral anfitrión 6-1/2\"×1-1/2\" 12 GA × 463 (-Y)"
-  },
-  {
-   "cm3": 0.879,
-   "movil": "MÓVIL · Tuerca hex 3/8-16 placa↔canal lateral (+Y, Z=232)",
    "fijo": "FIJO · Side channel 6-1/2\"×1-1/2\" 12 GA × 457.2 (+Y)"
   }
  ],

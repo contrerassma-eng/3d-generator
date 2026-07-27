@@ -67,7 +67,7 @@ const L = {
   // ABAJO desde la cota de las demás locas, es P.tomaCarrera.
   colisaAncho: pulg(0.5), // 12.7 — med 10.55 @0.5277 → 12.63 (= 3/8" + P.holgura.colisa)
   padY: [60.0, 92.4],     // dis: doblador soldado en la cara −X alrededor de la colisa,
-  padZ: [176.0, 278.0],   //      duplica el espesor de apriete (12.7) y guía el espárrago.
+  padZ: [191.0, 278.0],   //      duplica el espesor de apriete (12.7) y guía el espárrago.
                           //      Va SOLDADO y no atornillado porque a Y=76.2 sólo hay 21.8 mm
                           //      de anillo libre entre el espárrago y la brida del motorreductor.
   aprieteY: 24.0,         // dis: placa de apriete bajo la contratuerca (ancho en Y)
@@ -106,11 +106,16 @@ const L = {
   // Z = 149.5. La placa lleva una escotadura por cada uno —de ahí el nombre
   // "notched" del larguero— y una pestaña que apoya encima y se atornilla.
   // NO se atornilla al `Side channel`: ése es FIJO y bloquearía el pop-up.
-  braceY: [77.5, 122.5],  // interfaz: hueco de la escotadura (2.5 de holgura al canal)
-  braceZ: 149.5,          // interfaz: cara superior del notched brace channel
-  pestanaX: [113.0, 145.0],  // dis
-  pestanaY: [85.0, 115.0],   // dis
-  pestanaPerno: [[122.0, 92.0], [138.0, 108.0]],   // dis: (X, |Y|) de los 2 pernos por lado
+  // INTERFAZ (medida sobre el ensamble integrado; si bastidor.mjs mueve estos
+  // largueros hay que revisar estos cuatro valores):
+  //   Notched brace channel  Y 80…120      Z 143.5…186.62   X 47.24…411
+  //   Cross angle (cartela)  Y 77.34…104.07 Z 150…187.95    X 47.24…263.14
+  braceY: [74.8, 122.5],  // hueco de la escotadura (2.5 de holgura a los dos)
+  braceZ: 190.5,          // techo de la escotadura (2.5 sobre la cartela)
+  asientoZ: 187.95,       // cara superior de la cartela: sobre ella apoya la pestaña
+  pestanaX: [113.0, 155.0],  // dis
+  pestanaY: [79.0, 102.0],   // dis: dentro de la cartela, libre del espárrago del tensor
+  pestanaPerno: [[127.0, 90.5], [141.0, 90.5]],  // dis: (X, |Y|) de los 2 pernos de cada lado
 
   // --- envolventes FIJAS con las que se verifica la banda ------------------
   // Interfaz con bastidor.mjs (informe de interferencias del ensamble integrado).
@@ -259,18 +264,13 @@ export function transmision(E) {
     sketchYZ(`Placa 1/4" ${r2(2 * L.yPlaca)}×${r2(L.zPlaca[1] - L.zPlaca[0])}`, L.xPlaca,
       rectR(-L.yPlaca, L.zPlaca[0], L.yPlaca, L.zPlaca[1], 12), L.espPlaca),
   ];
-  for (const sg of [-1, 1]) {
-    fPlaca.push(box(`Pestaña de apoyo sobre notched brace channel ${sg > 0 ? '+Y' : '−Y'} 1/4"×${r2(L.pestanaX[1] - L.pestanaX[0])}×${r2(L.pestanaY[1] - L.pestanaY[0])}`,
-      [r2((L.pestanaX[0] + L.pestanaX[1]) / 2), r2(sg * (L.pestanaY[0] + L.pestanaY[1]) / 2), L.braceZ],
-      r2(L.pestanaX[1] - L.pestanaX[0]), r2(L.pestanaY[1] - L.pestanaY[0]), L.espPlaca));
-  }
   fPlaca.push(sketchYZ(`Doblador de la colisa 1/4"×${r2(L.padY[1] - L.padY[0])}×${r2(L.padZ[1] - L.padZ[0])} (soldado)`,
     X.pad0, rectR(L.padY[0], L.padZ[0], L.padY[1], L.padZ[1], 8), L.espPlaca));
-  // escotaduras por las que pasan los dos notched brace channel
+  // escotaduras por las que pasan los dos notched brace channel y sus cartelas
   for (const sg of [-1, 1]) {
     const y0 = r2(Math.min(sg * L.braceY[0], sg * L.braceY[1])), y1 = r2(Math.max(sg * L.braceY[0], sg * L.braceY[1]));
     fPlaca.push(sketchYZ(`Escotadura notched brace channel ${sg > 0 ? '+Y' : '−Y'} (${r2(y1 - y0)}×${r2(L.braceZ - L.zPlaca[0])})`,
-      r2(X.placa1 + 0.65), rectR(y0, r2(L.zPlaca[0] - 8), y1, L.braceZ, 4), 9, 'cut'));
+      r2(X.placa1 + 0.65), rectR(y0, r2(L.zPlaca[0] - 8), y1, L.braceZ, 4), 14, 'cut'));
   }
   for (const [y, z] of cortes) {
     fPlaca.push(hole(`Paso eje polea Ø${r2(B38.d + P.holgura.pasante)} (Y=${y})`,
@@ -287,9 +287,16 @@ export function transmision(E) {
       [r2(L.xPlaca - 0.5), r2(s * L.bridaCirculo / Math.SQRT2 / 2), r2(P.motrizZ + s2 * L.bridaCirculo / Math.SQRT2 / 2)],
       [1, 0, 0], r2(B38.d + P.holgura.pasante)));
   }
+  // pestañas de apoyo: se añaden DESPUÉS de las escotaduras (si no, el corte se
+  // las llevaría por delante) y se apoyan sobre la cartela del larguero móvil.
+  for (const sg of [-1, 1]) {
+    fPlaca.push(box(`Pestaña de apoyo sobre cartela ${sg > 0 ? '+Y' : '−Y'} 1/4"×${r2(L.pestanaX[1] - L.pestanaX[0])}×${r2(L.pestanaY[1] - L.pestanaY[0])}`,
+      [r2((L.pestanaX[0] + L.pestanaX[1]) / 2), r2(sg * (L.pestanaY[0] + L.pestanaY[1]) / 2), L.asientoZ],
+      r2(L.pestanaX[1] - L.pestanaX[0]), r2(L.pestanaY[1] - L.pestanaY[0]), L.espPlaca));
+  }
   for (const sg of [-1, 1]) for (const [px, py] of L.pestanaPerno) {
     fPlaca.push(hole(`Taladro pestaña Ø${r2(B38.d + P.holgura.pasante)} (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
-      [px, r2(sg * py), r2(L.braceZ + L.espPlaca + 0.5)], [0, 0, -1], r2(B38.d + P.holgura.pasante), 9, false));
+      [px, r2(sg * py), r2(L.asientoZ + L.espPlaca + 0.5)], [0, 0, -1], r2(B38.d + P.holgura.pasante), 9, false));
   }
   E.addPart(`${cap}Placa soporte de transmisión 1/4"×${r2(2 * L.yPlaca)}×${r2(L.zPlaca[1] - L.zPlaca[0])} c/colisa tensor (weldment)`,
     COL.movil, [L.xPlaca, 0, L.zPlaca[0]], fPlaca, { weldment: true });
@@ -388,20 +395,20 @@ export function transmision(E) {
   // ================================ 7. FIJACIÓN DE LA PLACA AL BASTIDOR MÓVIL
   // La pestaña apoya sobre el ala superior del notched brace channel (MÓVIL) y
   // el perno entra desde arriba, que es por donde hay acceso de llave.
-  const zCab = r2(L.braceZ + L.espPlaca);
+  const zCab = r2(L.asientoZ + L.espPlaca);
   for (const sg of [-1, 1]) for (const [px, py] of L.pestanaPerno) {
     golilla(E, {
       nombre: `3/8" bajo cabeza (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
       at: [px, r2(sg * py), zCab], dir: [0, 0, 1], dia: B38.d, ext: pulg(1), esp: 1.6, capa: cap,
     });
     pernoHex(E, {
-      nombre: `3/8-16 × 3/4" placa↔notched brace channel (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
+      nombre: `3/8-16 × 3/4" placa↔cartela del larguero (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
       at: [px, r2(sg * py), r2(zCab + 1.6)], dir: [0, 0, -1],
       dia: B38.d, largo: pulg(0.75), af: B38.af, altoCab: B38.hh, capa: cap,
     });
     tuercaHex(E, {
-      nombre: `3/8-16 placa↔notched brace channel (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
-      at: [px, r2(sg * py), r2(L.braceZ - P.cal12)], dir: [0, 0, -1],
+      nombre: `3/8-16 placa↔cartela del larguero (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
+      at: [px, r2(sg * py), r2(L.asientoZ - P.cal12)], dir: [0, 0, -1],
       dia: B38.d, af: B38.af, alto: B38.tuerca, capa: cap,
     });
   }
@@ -436,20 +443,30 @@ export function transmision(E) {
     const a = caras.outer[i], b = caras.outer[(i + 1) % caras.outer.length];
     for (let k = 0; k < 8; k++) dens.push([a[0] + (b[0] - a[0]) * k / 8, a[1] + (b[1] - a[1]) * k / 8]);
   }
-  let gapCanal = Infinity;
+  let gapCanal = Infinity, gapEn = null, recorte = 0;
   for (const [y, z] of dens) {
     const ay = Math.abs(y);
-    const dy = Math.max(L.canalFijoY[0] - ay, ay - L.canalFijoY[1], 0);
-    const dz = Math.max(L.canalFijoZ[0] - z, z - L.canalFijoZ[1], 0);
-    gapCanal = Math.min(gapCanal, Math.hypot(dy, dz));
+    const dy = Math.max(L.canalFijoY[0] - ay, ay - L.canalFijoY[1]);
+    const dz = Math.max(L.canalFijoZ[0] - z, z - L.canalFijoZ[1]);
+    // distancia con signo a la caja del canal: negativa = la banda entra en él
+    const d = (dy > 0 || dz > 0) ? Math.hypot(Math.max(dy, 0), Math.max(dz, 0)) : Math.max(dy, dz);
+    if (d < gapCanal) { gapCanal = d; gapEn = [r2(y), r2(z)]; }
+    // cuánto habría que acortar el ala interior del canal para dejar `holguraMin`
+    if (z <= L.canalFijoZ[1] && z >= L.canalFijoZ[0]) {
+      recorte = Math.max(recorte, ay + L.holguraMin - L.canalFijoY[0]);
+    }
   }
-  gapCanal = r2(gapCanal);
+  gapCanal = r2(gapCanal); recorte = r2(Math.max(0, recorte));
 
   return {
     verificacion: {
       elementosBanda: seq.length, poleasSolidas: poleasPuestas.length,
       poleasSinSolido: sinSolido.length, poleasSinBanda: sinBanda.length,
-      bandaACanal: gapCanal, holguraMinExigida: L.holguraMin, bandaACanalOK: gapCanal >= L.holguraMin,
+      bandaACanal: gapCanal, bandaACanalEn: gapEn,
+      holguraMinExigida: L.holguraMin, bandaACanalOK: gapCanal >= L.holguraMin,
+      // si no llega: el ala interior del `Side channel` FIJO tiene que acortarse
+      // esto (la trayectoria de la banda la fijan cotas medidas y no se puede mover)
+      recorteAlaCanalNecesario: recorte,
     },
     banda: {
       largoDesarrollado: largo,

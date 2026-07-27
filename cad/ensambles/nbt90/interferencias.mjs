@@ -34,15 +34,33 @@ const volumen = (g) => {
 const propias = doc.parts.filter(p => !p.contexto);
 const movil = propias.filter(p => /^MÓVIL/.test(p.name));
 const fijo = propias.filter(p => /^FIJO/.test(p.name));
-console.log(`${movil.length} piezas MÓVIL × ${fijo.length} FIJO — buscando candidatos por caja…`);
+
+// La BANDA es un lazo fino y muy no convexo: el motor CSG clasifica mal parte de
+// sus triángulos y da un volumen de intersección espurio (se comprobó alejándola
+// 100 mm: el "solape" no cambiaba). Su holgura se mide analíticamente en
+// transmision.mjs (métrica `bandaACanal`), no aquí.
+const NO_FIABLE = /Banda plana/;
+const fiable = (p) => !NO_FIABLE.test(p.name);
+
+// Por defecto se comparan TODOS los pares (también MÓVIL⨯MÓVIL: un motor que no
+// cabe en su placa es tan grave como uno que choca con el bastidor).
+const soloCruce = process.argv.includes('--solo-cruce');
+console.log(soloCruce
+  ? `${movil.length} piezas MÓVIL × ${fijo.length} FIJO — buscando candidatos por caja…`
+  : `${propias.length} piezas, todos los pares — buscando candidatos por caja…`);
 
 const pares = [];
+const bbTodas = propias.map(p => [p, bboxPieza(p)]);
 const bbM = movil.map(p => [p, bboxPieza(p)]);
 const bbF = fijo.map(p => [p, bboxPieza(p)]);
-for (const [pm, bm] of bbM) {
-  for (const [pf, bf] of bbF) {
+const izq = soloCruce ? bbM : bbTodas;
+for (let i = 0; i < izq.length; i++) {
+  const der = soloCruce ? bbF : bbTodas.slice(i + 1);
+  for (const [pf, bf] of der) {
+    const [pm, bm] = izq[i];
+    if (pm === pf || !fiable(pm) || !fiable(pf)) continue;
     if (!solapan(bm, bf, 0.2)) continue;
-    const d = [0, 1, 2].map(i => Math.min(bm.hi[i], bf.hi[i]) - Math.max(bm.lo[i], bf.lo[i]));
+    const d = [0, 1, 2].map(k => Math.min(bm.hi[k], bf.hi[k]) - Math.max(bm.lo[k], bf.lo[k]));
     pares.push([d[0] * d[1] * d[2], pm, pf]);
   }
 }
@@ -70,7 +88,8 @@ for (const [, pm, pf] of pares) {
   } catch (err) { console.log(`  ? no se pudo intersecar ${pm.name} × ${pf.name}: ${err.message}`); continue; }
   if (v > TOL) {
     reales++;
-    detalle.push({ cm3: +v.toFixed(3), movil: pm.name, fijo: pf.name });
+    detalle.push({ cm3: +v.toFixed(3), a: pm.name, b: pf.name,
+      cruce: /^MÓVIL/.test(pm.name) !== /^MÓVIL/.test(pf.name) });
     console.log(`  ✘ ${v.toFixed(2)} cm³  ${pm.name}\n            ⨯ ${pf.name}`);
   }
 }
