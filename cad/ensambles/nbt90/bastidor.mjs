@@ -100,17 +100,20 @@ const L = {
   guardaTab: 11,        // dis: alto de la pestaña atornillada
   guardaZ0: 151, guardaZ1: 299,   // dis: sobre la fila de pernos de la spacer plate
                         //      (Z=112) y bajo la cota de extracción de los ejes
-  guardaY: 215.9,       // cat PT-086812: 17 in. = 431.8 de largo
+  guardaY: 185,         // dis: el catálogo da 17" (431.8) pero con el SIDE CHANNEL puesto
+                        //      no cabe: su ala superior llega a Y ±192.34 en Z 247.3…250.
+                        //      370 de largo deja 7.34 mm y la holgura no cambia con la carrera.
   guardaTornY: [-150, 150], guardaTornZ: [160, 290],   // dis: 4 pernos de 3/8"
   // ---- estructura fija ----------------------------------------------------
   canalZ1: P.canalTopZ,                       // med 383.1 — cara superior del ala
   get canalZ0() { return r2(this.canalZ1 - P.canalAlto); },  // 218.0 (cat 6-1/2")
                         // comprobación: 218.0 + T12 = 220.66 = P.canalBotZ (med) ✓
   ladoY: 227.24,        // dis: alma del SIDE CHANNEL, a tope con el alma anfitriona
-  ladoAla: r2(P.canalAla - 3.2),  // 34.9 (1-3/8") — el ala se acorta 3.2 mm respecto
-                        //      del perfil anfitrión: el ramal que sube de la polea de
-                        //      retorno al rodillo exterior pasa por (Y ∓189.25, Z 248.81)
-                        //      y rozaba la punta. Con la punta en Y ±192.34 quedan 3.09 mm.
+  ladoAla: r2(1.25 * 25.4),   // 31.75 (1-1/4") — med: el vuelo del ala medido en la vista
+                        //      izquierda es 1.226" (analisis/vista_izquierda.md §3), no 1-1/2".
+                        //      Con la punta en Y ±195.49 el ramal que sube de la polea de
+                        //      retorno al rodillo exterior (Y ∓189.25, Z 248.81) pasa con
+                        //      6.24 mm y la pestaña Ø73.5 de la loca Y=152.4 con 6.34 mm.
   ladoZ1: 250,          // dis: solapa 32 mm con el alma del canal anfitrión
   get ladoZ0() { return r2(this.ladoZ1 - P.canalAlto); },    // 84.9
   ladoLargo: r2(18 * 25.4),                   // cat PT-087017 «SIDE CHANNEL - 18 in.»
@@ -145,6 +148,12 @@ export const motorPasoD = L.motorPaso;
 /** Huella libre para la mesa guía neumática (bajo el centro, sin estructura fija). */
 export const mesaHuella = { x: [110, 375], y: [-185, 185], z: [P.baseZ + 2, L.braceZ0] };
 /** Los anillos DIN 471 del eje hexagonal deben caer FUERA de las placas peine. */
+// Envolvente del SIDE CHANNEL fijo, para que la transmisión verifique contra la
+// geometría REAL y no contra un literal copiado: la punta del ala se movió al
+// acortarla a 1-1/4" y el valor viejo dejó el gate en falso.
+export const canalFijoY = [r2(L.ladoY - L.ladoAla), L.ladoY];
+export const canalFijoZ = [L.ladoZ0, L.ladoZ1];
+
 export const anilloRetX = [r2(L.placaXa - T316 / 2 - 1.7), r2(L.placaXb + T316 / 2 + 1.7)];
 
 // ---------------------------------------------------------------------------
@@ -256,7 +265,7 @@ export function bastidor(E) {
     f.push(box('Ventana de paso de la placa de transmisión',
       [r2((L.ventanaX[0] + L.ventanaX[1]) / 2), s * r2(L.ladoY - L.ladoAla / 2), L.ventanaZ],
       r2(L.ventanaX[1] - L.ventanaX[0]), r2(L.ladoAla + 14), r2(L.ladoZ1 - L.ventanaZ + 6), 'cut'));
-    E.addPart(`${FIJO}Side channel 6-1/2"×1-3/8" 12 GA × ${L.ladoLargo} (${s > 0 ? '+Y' : '-Y'})`,
+    E.addPart(`${FIJO}Side channel 6-1/2"×1-1/4" 12 GA × ${L.ladoLargo} (${s > 0 ? '+Y' : '-Y'})`,
       COL.fijo, [ladoX0, s * L.ladoY, L.ladoZ0], f,
       { ...chapa(T12, fib), catalogo: 'PT-087017 · SIDE CHANNEL - 18 in. LONG' });
     M.chapas++;

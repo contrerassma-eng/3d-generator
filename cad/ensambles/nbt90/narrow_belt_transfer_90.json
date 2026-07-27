@@ -23,7 +23,7 @@
    "retraccion": 3.65,
    "carrera": 10,
    "holguraRodilloRegleta": 4.76,
-   "solapesAABB": 26,
+   "solapesAABB": 24,
    "rodillos": 6,
    "bandas": 5,
    "paso": 76.2,
@@ -39,7 +39,7 @@
     "pernos": 38,
     "desarrollos": {
      "canal_anfitrion": 234.7,
-     "side_channel": 228.3,
+     "side_channel": 222,
      "canal_base": 140.49,
      "cross_channel": 120.4,
      "brace_channel": 116.99,
@@ -146,21 +146,21 @@
      "poleasSolidas": 7,
      "poleasSinSolido": 0,
      "poleasSinBanda": 0,
-     "bandaACanal": -0.15,
+     "bandaACanal": 6.24,
      "bandaACanalEn": [
       -189.25,
       248.81
      ],
      "holguraMinExigida": 3,
-     "bandaACanalOK": false,
-     "recorteAlaCanalNecesario": 3.15,
-     "pestanaACanal": 0.07,
+     "bandaACanalOK": true,
+     "recorteAlaCanalNecesario": 0,
+     "pestanaACanal": 6.44,
      "pestanaACanalEn": [
-      "loca Y=152.4",
-      189.04,
-      250.02
+      "loca Y=-152.4",
+      189.06,
+      250.34
      ],
-     "pestanaACanalOK": false
+     "pestanaACanalOK": true
     },
     "banda": {
      "largoDesarrollado": 3043.56,
@@ -991,8 +991,8 @@
    ]
   },
   {
-   "id": "p3_fijo_side_channel_6_1_2_1_3_8_12_ga_457_2_y",
-   "name": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
+   "id": "p3_fijo_side_channel_6_1_2_1_1_4_12_ga_457_2_y",
+   "name": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
    "color": "#455a64",
    "pos": [
     2.9,
@@ -1012,7 +1012,7 @@
     "material": "acero A36 laminado en frío",
     "fibra": [
      [
-      192.34,
+      195.49,
       248.67
      ],
      [
@@ -1024,7 +1024,7 @@
       86.23
      ],
      [
-      192.34,
+      195.49,
       86.23
      ]
     ],
@@ -1050,7 +1050,7 @@
      "params": {
       "pts": [
        [
-        192.34,
+        195.49,
         250
        ],
        [
@@ -1110,11 +1110,11 @@
         84.9
        ],
        [
-        192.34,
+        195.49,
         84.9
        ],
        [
-        192.34,
+        195.49,
         87.56
        ],
        [
@@ -1174,7 +1174,7 @@
         247.34
        ],
        [
-        192.34,
+        195.49,
         247.34
        ]
       ],
@@ -1661,7 +1661,7 @@
      "op": "cut",
      "at": [
       122.1,
-      -17.450000000000017,
+      -15.870000000000005,
       135.1
      ],
      "dir": [
@@ -1671,7 +1671,7 @@
      ],
      "params": {
       "w": 44,
-      "d": 48.9,
+      "d": 45.75,
       "h": 36
      }
     }
@@ -2611,8 +2611,8 @@
    ]
   },
   {
-   "id": "p16_fijo_side_channel_6_1_2_1_3_8_12_ga_457_2_y",
-   "name": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (-Y)",
+   "id": "p16_fijo_side_channel_6_1_2_1_1_4_12_ga_457_2_y",
+   "name": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (-Y)",
    "color": "#455a64",
    "pos": [
     2.9,
@@ -2632,7 +2632,7 @@
     "material": "acero A36 laminado en frío",
     "fibra": [
      [
-      -192.34,
+      -195.49,
       248.67
      ],
      [
@@ -2644,7 +2644,7 @@
       86.23
      ],
      [
-      -192.34,
+      -195.49,
       86.23
      ]
     ],
@@ -2670,7 +2670,7 @@
      "params": {
       "pts": [
        [
-        -192.34,
+        -195.49,
         247.34
        ],
        [
@@ -2730,11 +2730,11 @@
         87.56
        ],
        [
-        -192.34,
+        -195.49,
         87.56
        ],
        [
-        -192.34,
+        -195.49,
         84.9
        ],
        [
@@ -2794,7 +2794,7 @@
         250
        ],
        [
-        -192.34,
+        -195.49,
         250
        ]
       ],
@@ -3281,7 +3281,7 @@
      "op": "cut",
      "at": [
       122.1,
-      17.450000000000017,
+      15.870000000000005,
       135.1
      ],
      "dir": [
@@ -3291,7 +3291,7 @@
      ],
      "params": {
       "w": 44,
-      "d": 48.9,
+      "d": 45.75,
       "h": 36
      }
     }
@@ -18859,12 +18859,12 @@
    ]
   },
   {
-   "id": "p162_movil_transfer_roller_guard_14_ga_431_8_148",
-   "name": "MÓVIL · Transfer roller guard 14 GA 431.8×148",
+   "id": "p162_movil_transfer_roller_guard_14_ga_370_148",
+   "name": "MÓVIL · Transfer roller guard 14 GA 370×148",
    "color": "#78909c",
    "pos": [
     24,
-    215.9,
+    185,
     151
    ],
    "quat": [
@@ -19166,7 +19166,7 @@
         162.95
        ]
       ],
-      "h": 431.8,
+      "h": 370,
       "u": [
        1,
        0,
@@ -19181,7 +19181,7 @@
      "op": "cut",
      "at": [
       9.823,
-      -365.9,
+      -335,
       9
      ],
      "dir": [
@@ -19202,7 +19202,7 @@
      "op": "cut",
      "at": [
       9.823,
-      -365.9,
+      -335,
       139
      ],
      "dir": [
@@ -19223,7 +19223,7 @@
      "op": "cut",
      "at": [
       9.823,
-      -65.9,
+      -35,
       9
      ],
      "dir": [
@@ -19244,7 +19244,7 @@
      "op": "cut",
      "at": [
       9.823,
-      -65.9,
+      -35,
       139
      ],
      "dir": [

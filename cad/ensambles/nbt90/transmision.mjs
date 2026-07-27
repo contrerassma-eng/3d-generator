@@ -25,6 +25,7 @@ import {
   COL, pulg, r2,
 } from './lib.mjs';
 import { P } from './params.mjs';
+import { canalFijoY as CANAL_Y, canalFijoZ as CANAL_Z } from './bastidor.mjs';
 
 // ---------------------------------------------------------------------------
 // Cotas propias del módulo
@@ -144,8 +145,9 @@ const L = {
 
   // --- envolventes FIJAS con las que se verifica la banda ------------------
   // Interfaz con bastidor.mjs (informe de interferencias del ensamble integrado).
-  canalFijoY: [189.1, 228.6],
-  canalFijoZ: [84.9, 250.0],
+  // se importan de bastidor.mjs (abajo): la punta del ala es suya y se mueve
+  canalFijoY: CANAL_Y,
+  canalFijoZ: CANAL_Z,
   holguraMin: 3.0,        // txt del coordinador: ≥3 mm entre la banda y cualquier pieza FIJA
 };
 
