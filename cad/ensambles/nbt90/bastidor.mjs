@@ -64,15 +64,23 @@ const L = {
   cruzZ0: 297, cruzZ1: 347.8,   // dis: 2" de canto; el ala superior queda 4.2 mm bajo la
                                 //      generatriz inferior del rodillo RETRAÍDO (Z=352.0)
   cruzAla: P.canalAla,          // 38.1 — ala hacia dentro
-  braceY: 100,          // dis: alma del NOTCHED BRACE CHANNEL (±), fuera del motor Ø145
+  braceY: 100,          // dis: alma del NOTCHED BRACE CHANNEL (±). El motorreductor
+                        //      ocupa Y ±72.5 y el plato de empuje de la mesa Y ±100:
+                        //      80…120 es la única banda libre a esta altura.
   braceSemi: 20,        // dis: semiancho del canal de refuerzo (40 mm de alma)
-  braceZ0: 100, braceZ1: 150.8, // dis: 2" de canto; cara inferior = apoyo de la mesa guía
+  braceZ0: P.rielInfZ,  // 143.5 — la CARA INFERIOR del alma es el «riel del bastidor
+                        //      móvil» contra el que empuja el plato de la mesa guía.
+                        //      Deja 17.7 mm sobre el canal de montaje del cilindro
+                        //      (Z ≤ 115.8) aun con los 10 mm de carrera retraídos.
+  braceAlto: r2(1.75 * 25.4),   // 44.45 (1-3/4") — el ala no alcanza la banda que
+                        //      envuelve por debajo la polea tensora (Z = 194.4)
+  get braceZ1() { return r2(this.braceZ0 + this.braceAlto); },
   muescaX0: 57, muescaX1: 113,  // dis: muesca que deja pasar el serpentín (X=85 ± 28)
-  angX: [70, 395],      // dis: X de los CROSS ANGLE (fuera del serpentín y del motor)
-  angY: 107.95,         // cat: 8-1/2" = 215.9 de largo → ±107.95
-  angLeg: P.canalAla,   // 38.1 — ala horizontal
-  angLegV: 25.4,        // dis: ala vertical de 1" (deja 18.5 mm sobre el canal base
-                        //      con la carrera de 10 mm aplicada)
+  muescaZ1: 150,        // dis: hasta aquí se recorta el ALMA (paso del ramal de retorno);
+                        //      por encima sólo se recorta el ala exterior
+  angX0: 47.24,         // dis: los CROSS ANGLE son las cartelas que puentean la muesca
+  angY: [78.67, 104.07],// dis: ala vertical solapada al ala interior + ala de 1" hacia dentro
+  angZ0: 150,           // dis: arrancan donde termina la muesca del alma
   espX: [42.48, 415.76],// dis: SPACER PLATE contra la cara interior de cada peine
   espZ0: 96, espZ1: 176,// dis
   espTornZ: 112,        // dis: fila de pernos bajo el motorreductor (Ø145 llega a Z=126.4)
@@ -92,12 +100,16 @@ const L = {
   ladoZ1: 250,          // dis: solapa 32 mm con el alma del canal anfitrión
   get ladoZ0() { return r2(this.ladoZ1 - P.canalAlto); },    // 84.9
   ladoLargo: r2(18 * 25.4),                   // cat PT-087017 «SIDE CHANNEL - 18 in.»
+  ventanaX: [103, 147],                       // dis: paso de la oreja de transmision.mjs
+  ventanaZ: 220,                              // dis: desde aquí hasta el canto superior
   baseX0: 26, baseX1: 102.2,                  // dis: canal base de 3" de ancho, corrido al
                                               //      extremo motriz para dejar libre la
                                               //      huella de la mesa guía (X 146.5…316.5)
   baseTapaX: [22, 105], baseTornX: [32, 95],  // dis: tapas de extremo y su tornillería
   baseZ1: 56.1,                               // dis: P.baseZ + 1-1/2"
   jackX: [115.75, 347.25],                    // dis: 1/4 y 3/4 del largo (4 jack bolts)
+  transX: 127, transZ: [232, 264],            // interfaz transmision.mjs: pernos 3/8-16
+                                              //   de la oreja de la placa soporte
   jackAncho: 50,                              // dis: ancho de las ménsulas en X
   jackY0: 232, jackY1: 262,                   // dis: la oreja abraza P.jackY = 247.4
 };
@@ -107,7 +119,8 @@ const mul = (a, s) => [a[0] * s, a[1] * s, a[2] * s];
 const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
 
 /** Interfaces que consumen los otros módulos (nunca duplican un valor de P). */
-export const padMovilZ = L.braceZ0;      // cara donde empuja la mesa guía (Z=100)
+export const padMovilZ = L.braceZ0;      // = P.rielInfZ (143.5): cara inferior del alma de
+                                         // los brace channel, donde empuja el plato de la mesa
 export const guardaSerpX = L.guardaX;    // plano de la guarda que parte los dos compartimentos
 /** Compartimento del motorreductor: entre la pestaña de la guarda y la placa peine libre.
  *  275.5 mm útiles → el cuerpo del RF07DRS71S4 (262.3) cabe con el eje de salida hacia −X. */
@@ -187,6 +200,8 @@ export function bastidor(E) {
     // taladros de los 4 jack bolts (ala inferior) y del SIDE CHANNEL (alma)
     for (const x of L.jackX) f.push(hole(`Jack bolt 3/8" Ø${PAS38}`, [x, s * P.jackY, L.canalZ0 + T12 + 2], [0, 0, -1], PAS38, 8, false));
     for (const x of [60, 231.5, 403]) f.push(hole(`Unión SIDE CHANNEL Ø${PAS38}`, [x, s * (P.almaY + 4), 234], [0, -s, 0], PAS38, 10, false));
+    // paso de los 2 pernos de la oreja de la placa soporte de transmisión
+    for (const z of L.transZ) f.push(hole(`Placa de transmisión Ø${PAS38}`, [L.transX, s * (P.almaY + 4), z], [0, -s, 0], PAS38, 10, false));
     E.addPart(`${FIJO}Canal lateral anfitrión 6-1/2"×1-1/2" 12 GA × ${P.largo} (${s > 0 ? '+Y' : '-Y'})`,
       COL.chapa, [0, s * P.almaY, L.canalZ0], f,
       { ...chapa(T12, fib), catalogo: 'perfil conformado 6-1/2 × 1-1/2 × 12 ga.' });
@@ -219,6 +234,11 @@ export function bastidor(E) {
     for (const x of L.baseTornX) {
       f.push(hole(`Tapa canal base Ø${PAS38}`, [x, s * 210, L.ladoZ0 - 2], [0, 0, 1], PAS38, 8, false));
     }
+    // Ventana de paso de la OREJA de la placa soporte de transmisión: esa oreja
+    // busca el ALMA DEL CANAL ANFITRIÓN (Y = P.almaY) y este canal se le cruza.
+    f.push(box('Ventana de paso de la placa de transmisión',
+      [r2((L.ventanaX[0] + L.ventanaX[1]) / 2), s * r2(L.ladoY - P.canalAla / 2), L.ventanaZ],
+      r2(L.ventanaX[1] - L.ventanaX[0]), r2(P.canalAla + 14), r2(L.ladoZ1 - L.ventanaZ + 6), 'cut'));
     E.addPart(`${FIJO}Side channel 6-1/2"×1-1/2" 12 GA × ${L.ladoLargo} (${s > 0 ? '+Y' : '-Y'})`,
       COL.fijo, [ladoX0, s * L.ladoY, L.ladoZ0], f,
       { ...chapa(T12, fib), catalogo: 'PT-087017 · SIDE CHANNEL - 18 in. LONG' });
@@ -366,8 +386,8 @@ export function bastidor(E) {
 
   // =========================================================================
   // 7. MÓVIL — NOTCHED BRACE CHANNEL WELDMENT ×2: canal en U con MUESCA que deja
-  //    pasar el serpentín (plano X = P.planoSerp). Su cara inferior (Z=100) es
-  //    el apoyo de la mesa guía neumática.
+  //    pasar el serpentín (plano X = P.planoSerp). Su cara inferior (Z = P.rielInfZ)
+  //    es el riel contra el que empuja el plato de la mesa guía neumática.
   // =========================================================================
   const xBr0 = r2(L.espX[0] + T316), xBr1 = r2(L.espX[1] - T316);
   for (const s of [1, -1]) {
@@ -377,15 +397,22 @@ export function bastidor(E) {
       [yo - s * T12 / 2, L.braceZ0 + T12 / 2], [yo - s * T12 / 2, L.braceZ1 - T12 / 2],
     ];
     const f = [
-      sketchYZ('Canal U 2"×40 12 GA', xBr0, seccionChapa(fib, T12, RB), r2(xBr1 - xBr0)),
-      box('Muesca de paso del serpentín', [r2((L.muescaX0 + L.muescaX1) / 2), s * L.braceY, L.braceZ0 + 5],
-        r2(L.muescaX1 - L.muescaX0), 2 * L.braceSemi + 6, 60, 'cut'),
+      sketchYZ('Canal U 1-3/4"×40 12 GA', xBr0, seccionChapa(fib, T12, RB), r2(xBr1 - xBr0)),
+      // MUESCA A — recorta el ALMA: por aquí cruza a lo ancho el ramal de retorno
+      // del serpentín (Z 142.4…144.9) entre las dos poleas de retorno.
+      box('Muesca del alma (ramal de retorno)', [r2((L.muescaX0 + L.muescaX1) / 2), s * L.braceY, L.braceZ0 - 3],
+        r2(L.muescaX1 - L.muescaX0), 2 * L.braceSemi + 6, r2(L.muescaZ1 - L.braceZ0 + 3), 'cut'),
+      // MUESCA B — recorta el ALA EXTERIOR: por aquí pasan las poleas de retorno
+      // Ø2-1/2" (Y 112.8…176.3). El ala interior sigue de largo y hace de puente.
+      box('Muesca del ala exterior (poleas de retorno)',
+        [r2((L.muescaX0 + L.muescaX1) / 2), s * r2(L.braceY + L.braceSemi / 2 + 3), L.muescaZ1],
+        r2(L.muescaX1 - L.muescaX0), r2(L.braceSemi + 6), 60, 'cut'),
     ];
-    // desahogos de pliegue en las 4 esquinas de la muesca
+    // desahogos de pliegue en las esquinas de la muesca
     for (const x of [L.muescaX0, L.muescaX1]) for (const yy of [yi, yo]) {
-      f.push(hole(`Desahogo Ø${r2(2 * T12)}`, [x, yy - s * 8, L.braceZ0 + 5], [0, s, 0], r2(2 * T12), 16, false));
+      f.push(hole(`Desahogo Ø${r2(2 * T12)}`, [x, yy - s * 8, L.muescaZ1 - 3], [0, s, 0], r2(2 * T12), 16, false));
     }
-    E.addPart(`${MOVIL}Notched brace channel 2"×40 12 GA × ${r2(xBr1 - xBr0)} (${s > 0 ? '+Y' : '-Y'})`,
+    E.addPart(`${MOVIL}Notched brace channel 1-3/4"×40 12 GA × ${r2(xBr1 - xBr0)} (${s > 0 ? '+Y' : '-Y'})`,
       COL.movil, [xBr0, s * L.braceY, L.braceZ0], f,
       { ...chapa(T12, fib), catalogo: 'NOTCHED BRACE CHANNEL WELDMENT', union: 'soldada a las spacer plate' });
     M.chapas++;
@@ -396,19 +423,17 @@ export function bastidor(E) {
   // 8. MÓVIL — CROSS ANGLE - 8-1/2 in. LONG ×2 (PT-086833): angular transversal
   //    soldado bajo los dos NOTCHED BRACE CHANNEL; cierra el cassette por abajo.
   // =========================================================================
-  for (const x of L.angX) {
-    const x0 = r2(x - L.angLeg / 2), x1 = r2(x + L.angLeg / 2);
-    const xv = x === L.angX[0] ? r2(x0 + T12 / 2) : r2(x1 - T12 / 2);
-    const fib = [
-      [x === L.angX[0] ? x1 : x0, r2(L.braceZ0 - T12 / 2)], [xv, r2(L.braceZ0 - T12 / 2)],
-      [xv, r2(L.braceZ0 - L.angLegV + T12 / 2)],
-    ];
-    E.addPart(`${MOVIL}Cross angle 1-1/2"×1" 12 GA × ${r2(2 * L.angY)} (X${x})`, COL.movil,
-      [x, L.angY, r2(L.braceZ0 - L.angLegV)],
-      [sketchXZ('Angular 1-1/2×1 12 GA', L.angY, seccionChapa(fib, T12, RB), r2(2 * L.angY))],
-      { ...chapa(T12, fib), catalogo: 'PT-086833 · CROSS ANGLE - 8-1/2 in. LONG', union: 'soldada a los brace channel' });
+  const angLargo = r2(8.5 * 25.4);                       // cat 215.9 = 8-1/2"
+  for (const s of [1, -1]) {
+    const zTop = r2(L.braceZ1 - T12 / 2);
+    const fib = [[s * L.angY[0], L.angZ0], [s * L.angY[0], zTop], [s * L.angY[1], zTop]];
+    E.addPart(`${MOVIL}Cross angle 1-3/4"×1" 12 GA × ${angLargo} (cartela de la muesca ${s > 0 ? '+Y' : '-Y'})`,
+      COL.movil, [L.angX0, s * L.angY[0], L.angZ0],
+      [sketchYZ('Angular 1-3/4×1 12 GA', L.angX0, seccionChapa(fib, T12, RB), angLargo)],
+      { ...chapa(T12, fib), catalogo: 'PT-086833 · CROSS ANGLE - 8-1/2 in. LONG',
+        union: 'soldada al ala interior del brace channel; puentea la muesca' });
     M.chapas++;
-    if (x === L.angX[0]) desa('cross_angle', fib, T12);
+    if (s > 0) desa('cross_angle', fib, T12);
   }
 
   // =========================================================================

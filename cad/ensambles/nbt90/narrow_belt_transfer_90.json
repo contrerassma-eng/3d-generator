@@ -46659,90 +46659,54 @@
     },
     {
      "id": "f764",
-     "name": "Ø14 tirante de tope (−Y)",
+     "name": "Ø14 tirante de tope, caja Ø25×9 para contratuerca (−Y)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       -70,
-      -1
+      81
      ],
      "dir": [
       0,
       0,
-      1
+      -1
      ],
      "params": {
       "dia": 14,
       "depth": 0,
-      "through": true
+      "through": true,
+      "seat": "cbore",
+      "seatDia": 25,
+      "seatDepth": 9
      }
     },
     {
      "id": "f765",
-     "name": "Ø25 alojamiento de contratuerca (−Y)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      -70,
-      82
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 25,
-      "depth": 10,
-      "through": false
-     }
-    },
-    {
-     "id": "f766",
-     "name": "Ø14 tirante de tope (+Y)",
+     "name": "Ø14 tirante de tope, caja Ø25×9 para contratuerca (+Y)",
      "shape": "hole",
      "op": "cut",
      "at": [
       0,
       70,
-      -1
+      81
      ],
      "dir": [
       0,
       0,
-      1
+      -1
      ],
      "params": {
       "dia": 14,
       "depth": 0,
-      "through": true
+      "through": true,
+      "seat": "cbore",
+      "seatDia": 25,
+      "seatDepth": 9
      }
     },
     {
-     "id": "f767",
-     "name": "Ø25 alojamiento de contratuerca (+Y)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      70,
-      82
-     ],
-     "dir": [
-      0,
-      0,
-      -1
-     ],
-     "params": {
-      "dia": 25,
-      "depth": 10,
-      "through": false
-     }
-    },
-    {
-     "id": "f768",
+     "id": "f766",
      "name": "M12 fijación (−X,−Y)",
      "shape": "hole",
      "op": "cut",
@@ -46763,7 +46727,7 @@
      }
     },
     {
-     "id": "f769",
+     "id": "f767",
      "name": "M12 fijación (−X,+Y)",
      "shape": "hole",
      "op": "cut",
@@ -46784,7 +46748,7 @@
      }
     },
     {
-     "id": "f770",
+     "id": "f768",
      "name": "M12 fijación (+X,−Y)",
      "shape": "hole",
      "op": "cut",
@@ -46805,7 +46769,7 @@
      }
     },
     {
-     "id": "f771",
+     "id": "f769",
      "name": "M12 fijación (+X,+Y)",
      "shape": "hole",
      "op": "cut",
@@ -46826,7 +46790,7 @@
      }
     },
     {
-     "id": "f772",
+     "id": "f770",
      "name": "Puerto Rc1/4 A (Z=75)",
      "shape": "hole",
      "op": "cut",
@@ -46847,7 +46811,7 @@
      }
     },
     {
-     "id": "f773",
+     "id": "f771",
      "name": "Puerto Rc1/4 B (Z=45)",
      "shape": "hole",
      "op": "cut",
@@ -46889,7 +46853,7 @@
    "componente": "mesa_guia_MGF100_20",
    "features": [
     {
-     "id": "f774",
+     "id": "f772",
      "name": "Placa móvil 170×200×25",
      "shape": "box",
      "op": "union",
@@ -46910,7 +46874,7 @@
      }
     },
     {
-     "id": "f775",
+     "id": "f773",
      "name": "M12 tirante de tope (−Y)",
      "shape": "hole",
      "op": "cut",
@@ -46931,7 +46895,7 @@
      }
     },
     {
-     "id": "f776",
+     "id": "f774",
      "name": "M12 tirante de tope (+Y)",
      "shape": "hole",
      "op": "cut",
@@ -46952,7 +46916,7 @@
      }
     },
     {
-     "id": "f777",
+     "id": "f775",
      "name": "M10 plato de empuje (−X,−Y)",
      "shape": "hole",
      "op": "cut",
@@ -46973,7 +46937,7 @@
      }
     },
     {
-     "id": "f778",
+     "id": "f776",
      "name": "M10 plato de empuje (−X,+Y)",
      "shape": "hole",
      "op": "cut",
@@ -46994,7 +46958,7 @@
      }
     },
     {
-     "id": "f779",
+     "id": "f777",
      "name": "M10 plato de empuje (+X,−Y)",
      "shape": "hole",
      "op": "cut",
@@ -47015,7 +46979,7 @@
      }
     },
     {
-     "id": "f780",
+     "id": "f778",
      "name": "M10 plato de empuje (+X,+Y)",
      "shape": "hole",
      "op": "cut",
@@ -47057,7 +47021,7 @@
    "componente": "mesa_guia_MGF100_20",
    "features": [
     {
-     "id": "f781",
+     "id": "f779",
      "name": "Vástago Ø36×46",
      "shape": "cylinder",
      "op": "union",
@@ -47098,7 +47062,7 @@
    "componente": "mesa_guia_MGF100_20",
    "features": [
     {
-     "id": "f782",
+     "id": "f780",
      "name": "Columna Ø30×75",
      "shape": "cylinder",
      "op": "union",
@@ -47139,7 +47103,7 @@
    "componente": "mesa_guia_MGF100_20",
    "features": [
     {
-     "id": "f783",
+     "id": "f781",
      "name": "Columna Ø30×75",
      "shape": "cylinder",
      "op": "union",
@@ -47181,7 +47145,7 @@
    "norma": "DIN 125 / ASME B18.22.1",
    "features": [
     {
-     "id": "f784",
+     "id": "f782",
      "name": "Arandela Ø20×2",
      "shape": "cylinder",
      "op": "union",
@@ -47201,7 +47165,7 @@
      }
     },
     {
-     "id": "f785",
+     "id": "f783",
      "name": "Ø12.6",
      "shape": "hole",
      "op": "cut",
@@ -47244,7 +47208,7 @@
    "norma": "ASME B18.2.1 / DIN 933",
    "features": [
     {
-     "id": "f786",
+     "id": "f784",
      "name": "Cabeza hex e/c 18",
      "shape": "sketch",
      "op": "union",
@@ -47294,7 +47258,7 @@
      }
     },
     {
-     "id": "f787",
+     "id": "f785",
      "name": "Vástago Ø12×45",
      "shape": "cylinder",
      "op": "union",
@@ -47336,7 +47300,7 @@
    "norma": "DIN 125 / ASME B18.22.1",
    "features": [
     {
-     "id": "f788",
+     "id": "f786",
      "name": "Arandela Ø20×2",
      "shape": "cylinder",
      "op": "union",
@@ -47356,7 +47320,7 @@
      }
     },
     {
-     "id": "f789",
+     "id": "f787",
      "name": "Ø12.6",
      "shape": "hole",
      "op": "cut",
@@ -47399,7 +47363,7 @@
    "norma": "ASME B18.2.1 / DIN 933",
    "features": [
     {
-     "id": "f790",
+     "id": "f788",
      "name": "Cabeza hex e/c 18",
      "shape": "sketch",
      "op": "union",
@@ -47449,7 +47413,7 @@
      }
     },
     {
-     "id": "f791",
+     "id": "f789",
      "name": "Vástago Ø12×45",
      "shape": "cylinder",
      "op": "union",
@@ -47491,7 +47455,7 @@
    "norma": "DIN 125 / ASME B18.22.1",
    "features": [
     {
-     "id": "f792",
+     "id": "f790",
      "name": "Arandela Ø20×2",
      "shape": "cylinder",
      "op": "union",
@@ -47511,7 +47475,7 @@
      }
     },
     {
-     "id": "f793",
+     "id": "f791",
      "name": "Ø12.6",
      "shape": "hole",
      "op": "cut",
@@ -47554,7 +47518,7 @@
    "norma": "ASME B18.2.1 / DIN 933",
    "features": [
     {
-     "id": "f794",
+     "id": "f792",
      "name": "Cabeza hex e/c 18",
      "shape": "sketch",
      "op": "union",
@@ -47604,7 +47568,7 @@
      }
     },
     {
-     "id": "f795",
+     "id": "f793",
      "name": "Vástago Ø12×45",
      "shape": "cylinder",
      "op": "union",
@@ -47646,7 +47610,7 @@
    "norma": "DIN 125 / ASME B18.22.1",
    "features": [
     {
-     "id": "f796",
+     "id": "f794",
      "name": "Arandela Ø20×2",
      "shape": "cylinder",
      "op": "union",
@@ -47666,7 +47630,7 @@
      }
     },
     {
-     "id": "f797",
+     "id": "f795",
      "name": "Ø12.6",
      "shape": "hole",
      "op": "cut",
@@ -47696,6 +47660,98 @@
     293.5,
     85,
     3.34
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f796",
+     "name": "Cabeza hex e/c 18",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        10.39,
+        0
+       ],
+       [
+        5.2,
+        9
+       ],
+       [
+        -5.2,
+        9
+       ],
+       [
+        -10.39,
+        0
+       ],
+       [
+        -5.2,
+        -9
+       ],
+       [
+        5.2,
+        -9
+       ]
+      ],
+      "h": 7.5,
+      "u": [
+       0,
+       -1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f797",
+     "name": "Vástago Ø12×45",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      7.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 12,
+      "h": 45
+     }
+    }
+   ]
+  },
+  {
+   "id": "p339_movil_neumatica_perno_hex_m12_115_tope_regulable_de_carrera_",
+   "name": "MÓVIL · NEUMÁTICA · Perno hex M12 × 115 tope regulable de carrera (Y=−70, limita 20→10 mm)",
+   "color": "#d5b46a",
+   "pos": [
+    231.5,
+    -70,
+    7.5
    ],
    "quat": [
     0,
@@ -47750,98 +47806,6 @@
         -9
        ]
       ],
-      "h": 7.5,
-      "u": [
-       0,
-       -1,
-       0
-      ]
-     }
-    },
-    {
-     "id": "f799",
-     "name": "Vástago Ø12×45",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      7.5
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 12,
-      "h": 45
-     }
-    }
-   ]
-  },
-  {
-   "id": "p339_movil_neumatica_perno_hex_m12_115_tope_regulable_de_carrera_",
-   "name": "MÓVIL · NEUMÁTICA · Perno hex M12 × 115 tope regulable de carrera (Y=−70, limita 20→10 mm)",
-   "color": "#d5b46a",
-   "pos": [
-    231.5,
-    -70,
-    7.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "hardware": true,
-   "norma": "ASME B18.2.1 / DIN 933",
-   "features": [
-    {
-     "id": "f800",
-     "name": "Cabeza hex e/c 18",
-     "shape": "sketch",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "pts": [
-       [
-        10.39,
-        0
-       ],
-       [
-        5.2,
-        9
-       ],
-       [
-        -5.2,
-        9
-       ],
-       [
-        -10.39,
-        0
-       ],
-       [
-        -5.2,
-        -9
-       ],
-       [
-        5.2,
-        -9
-       ]
-      ],
       "h": 8,
       "u": [
        0,
@@ -47851,7 +47815,7 @@
      }
     },
     {
-     "id": "f801",
+     "id": "f799",
      "name": "Vástago Ø12×115",
      "shape": "cylinder",
      "op": "union",
@@ -47893,7 +47857,7 @@
    "norma": "ASME B18.2.2 / DIN 934",
    "features": [
     {
-     "id": "f802",
+     "id": "f800",
      "name": "Tuerca e/c 18",
      "shape": "sketch",
      "op": "union",
@@ -47943,7 +47907,7 @@
      }
     },
     {
-     "id": "f803",
+     "id": "f801",
      "name": "Rosca Ø12",
      "shape": "hole",
      "op": "cut",
@@ -47986,7 +47950,7 @@
    "norma": "ASME B18.2.1 / DIN 933",
    "features": [
     {
-     "id": "f804",
+     "id": "f802",
      "name": "Cabeza hex e/c 18",
      "shape": "sketch",
      "op": "union",
@@ -48036,7 +48000,7 @@
      }
     },
     {
-     "id": "f805",
+     "id": "f803",
      "name": "Vástago Ø12×115",
      "shape": "cylinder",
      "op": "union",
@@ -48078,7 +48042,7 @@
    "norma": "ASME B18.2.2 / DIN 934",
    "features": [
     {
-     "id": "f806",
+     "id": "f804",
      "name": "Tuerca e/c 18",
      "shape": "sketch",
      "op": "union",
@@ -48128,7 +48092,7 @@
      }
     },
     {
-     "id": "f807",
+     "id": "f805",
      "name": "Rosca Ø12",
      "shape": "hole",
      "op": "cut",
@@ -48170,7 +48134,7 @@
    "plano": true,
    "features": [
     {
-     "id": "f808",
+     "id": "f806",
      "name": "Plato 170×200×12",
      "shape": "box",
      "op": "union",
@@ -48191,7 +48155,7 @@
      }
     },
     {
-     "id": "f809",
+     "id": "f807",
      "name": "Ø10.5 perno M10 (−X,−Y)",
      "shape": "hole",
      "op": "cut",
@@ -48212,7 +48176,7 @@
      }
     },
     {
-     "id": "f810",
+     "id": "f808",
      "name": "Ø10.5 perno M10 (−X,+Y)",
      "shape": "hole",
      "op": "cut",
@@ -48233,7 +48197,7 @@
      }
     },
     {
-     "id": "f811",
+     "id": "f809",
      "name": "Ø10.5 perno M10 (+X,−Y)",
      "shape": "hole",
      "op": "cut",
@@ -48254,7 +48218,7 @@
      }
     },
     {
-     "id": "f812",
+     "id": "f810",
      "name": "Ø10.5 perno M10 (+X,+Y)",
      "shape": "hole",
      "op": "cut",
@@ -48283,6 +48247,98 @@
    "pos": [
     171.5,
     -60,
+    100
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f811",
+     "name": "Cabeza hex e/c 16",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        9.24,
+        0
+       ],
+       [
+        4.62,
+        8
+       ],
+       [
+        -4.62,
+        8
+       ],
+       [
+        -9.24,
+        0
+       ],
+       [
+        -4.62,
+        -8
+       ],
+       [
+        4.62,
+        -8
+       ]
+      ],
+      "h": 6.5,
+      "u": [
+       0,
+       -1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f812",
+     "name": "Vástago Ø10×32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      6.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 10,
+      "h": 32
+     }
+    }
+   ]
+  },
+  {
+   "id": "p345_movil_perno_hex_m10_32_plato_de_empuje_x_171_5_y_60",
+   "name": "MÓVIL · Perno hex M10 × 32 plato de empuje (X=171.5, Y=+60)",
+   "color": "#d5b46a",
+   "pos": [
+    171.5,
+    60,
     100
    ],
    "quat": [
@@ -48369,12 +48425,12 @@
    ]
   },
   {
-   "id": "p345_movil_perno_hex_m10_32_plato_de_empuje_x_171_5_y_60",
-   "name": "MÓVIL · Perno hex M10 × 32 plato de empuje (X=171.5, Y=+60)",
+   "id": "p346_movil_perno_hex_m10_32_plato_de_empuje_x_291_5_y_60",
+   "name": "MÓVIL · Perno hex M10 × 32 plato de empuje (X=291.5, Y=−60)",
    "color": "#d5b46a",
    "pos": [
-    171.5,
-    60,
+    291.5,
+    -60,
     100
    ],
    "quat": [
@@ -48461,12 +48517,12 @@
    ]
   },
   {
-   "id": "p346_movil_perno_hex_m10_32_plato_de_empuje_x_291_5_y_60",
-   "name": "MÓVIL · Perno hex M10 × 32 plato de empuje (X=291.5, Y=−60)",
+   "id": "p347_movil_perno_hex_m10_32_plato_de_empuje_x_291_5_y_60",
+   "name": "MÓVIL · Perno hex M10 × 32 plato de empuje (X=291.5, Y=+60)",
    "color": "#d5b46a",
    "pos": [
     291.5,
-    -60,
+    60,
     100
    ],
    "quat": [
@@ -48553,98 +48609,6 @@
    ]
   },
   {
-   "id": "p347_movil_perno_hex_m10_32_plato_de_empuje_x_291_5_y_60",
-   "name": "MÓVIL · Perno hex M10 × 32 plato de empuje (X=291.5, Y=+60)",
-   "color": "#d5b46a",
-   "pos": [
-    291.5,
-    60,
-    100
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "hardware": true,
-   "norma": "ASME B18.2.1 / DIN 933",
-   "features": [
-    {
-     "id": "f819",
-     "name": "Cabeza hex e/c 16",
-     "shape": "sketch",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "pts": [
-       [
-        9.24,
-        0
-       ],
-       [
-        4.62,
-        8
-       ],
-       [
-        -4.62,
-        8
-       ],
-       [
-        -9.24,
-        0
-       ],
-       [
-        -4.62,
-        -8
-       ],
-       [
-        4.62,
-        -8
-       ]
-      ],
-      "h": 6.5,
-      "u": [
-       0,
-       -1,
-       0
-      ]
-     }
-    },
-    {
-     "id": "f820",
-     "name": "Vástago Ø10×32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      6.5
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "dia": 10,
-      "h": 32
-     }
-    }
-   ]
-  },
-  {
    "id": "p348_movil_pasador_guia_12_7_39_91_en_colisa_x_190_y_223_53_z_179",
    "name": "MÓVIL · Pasador guía Ø12.7 × 39.91 en colisa (X=190, Y=+223.53, Z=179)",
    "color": "#d5b46a",
@@ -48665,7 +48629,7 @@
    "norma": "perno de hombro 1/2\" (042.512)",
    "features": [
     {
-     "id": "f821",
+     "id": "f819",
      "name": "Collar Ø25.4×10",
      "shape": "cylinder",
      "op": "union",
@@ -48685,7 +48649,7 @@
      }
     },
     {
-     "id": "f822",
+     "id": "f820",
      "name": "Vástago Ø12.7×39.91",
      "shape": "cylinder",
      "op": "union",
@@ -48727,7 +48691,7 @@
    "norma": "perno de hombro 1/2\" (042.512)",
    "features": [
     {
-     "id": "f823",
+     "id": "f821",
      "name": "Collar Ø25.4×10",
      "shape": "cylinder",
      "op": "union",
@@ -48747,7 +48711,7 @@
      }
     },
     {
-     "id": "f824",
+     "id": "f822",
      "name": "Vástago Ø12.7×39.91",
      "shape": "cylinder",
      "op": "union",
@@ -48789,7 +48753,7 @@
    "norma": "perno de hombro 1/2\" (042.512)",
    "features": [
     {
-     "id": "f825",
+     "id": "f823",
      "name": "Collar Ø25.4×10",
      "shape": "cylinder",
      "op": "union",
@@ -48809,7 +48773,7 @@
      }
     },
     {
-     "id": "f826",
+     "id": "f824",
      "name": "Vástago Ø12.7×39.91",
      "shape": "cylinder",
      "op": "union",
@@ -48851,7 +48815,7 @@
    "norma": "perno de hombro 1/2\" (042.512)",
    "features": [
     {
-     "id": "f827",
+     "id": "f825",
      "name": "Collar Ø25.4×10",
      "shape": "cylinder",
      "op": "union",
@@ -48871,7 +48835,7 @@
      }
     },
     {
-     "id": "f828",
+     "id": "f826",
      "name": "Vástago Ø12.7×39.91",
      "shape": "cylinder",
      "op": "union",
@@ -48912,7 +48876,7 @@
    "plano": true,
    "features": [
     {
-     "id": "f829",
+     "id": "f827",
      "name": "Escuadra de soporte",
      "shape": "sketch",
      "op": "union",
@@ -48984,7 +48948,7 @@
    "norma": "DIN 125 / ASME B18.22.1",
    "features": [
     {
-     "id": "f830",
+     "id": "f828",
      "name": "Arandela Ø16×2",
      "shape": "cylinder",
      "op": "union",
@@ -49004,7 +48968,7 @@
      }
     },
     {
-     "id": "f831",
+     "id": "f829",
      "name": "Ø6.95",
      "shape": "hole",
      "op": "cut",
@@ -49047,7 +49011,7 @@
    "norma": "ASME B18.2.1 / DIN 933",
    "features": [
     {
-     "id": "f832",
+     "id": "f830",
      "name": "Cabeza hex e/c 11.112",
      "shape": "sketch",
      "op": "union",
@@ -49097,7 +49061,7 @@
      }
     },
     {
-     "id": "f833",
+     "id": "f831",
      "name": "Vástago Ø6.35×25.4",
      "shape": "cylinder",
      "op": "union",
@@ -49139,7 +49103,7 @@
    "norma": "ASME B18.2.2 / DIN 934",
    "features": [
     {
-     "id": "f834",
+     "id": "f832",
      "name": "Tuerca e/c 11.112",
      "shape": "sketch",
      "op": "union",
@@ -49189,7 +49153,7 @@
      }
     },
     {
-     "id": "f835",
+     "id": "f833",
      "name": "Rosca Ø6.35",
      "shape": "hole",
      "op": "cut",
@@ -49232,7 +49196,7 @@
    "norma": "DIN 125 / ASME B18.22.1",
    "features": [
     {
-     "id": "f836",
+     "id": "f834",
      "name": "Arandela Ø16×2",
      "shape": "cylinder",
      "op": "union",
@@ -49252,7 +49216,7 @@
      }
     },
     {
-     "id": "f837",
+     "id": "f835",
      "name": "Ø6.95",
      "shape": "hole",
      "op": "cut",
@@ -49295,7 +49259,7 @@
    "norma": "ASME B18.2.1 / DIN 933",
    "features": [
     {
-     "id": "f838",
+     "id": "f836",
      "name": "Cabeza hex e/c 11.112",
      "shape": "sketch",
      "op": "union",
@@ -49345,7 +49309,7 @@
      }
     },
     {
-     "id": "f839",
+     "id": "f837",
      "name": "Vástago Ø6.35×25.4",
      "shape": "cylinder",
      "op": "union",
@@ -49387,7 +49351,7 @@
    "norma": "ASME B18.2.2 / DIN 934",
    "features": [
     {
-     "id": "f840",
+     "id": "f838",
      "name": "Tuerca e/c 11.112",
      "shape": "sketch",
      "op": "union",
@@ -49437,7 +49401,7 @@
      }
     },
     {
-     "id": "f841",
+     "id": "f839",
      "name": "Rosca Ø6.35",
      "shape": "hole",
      "op": "cut",
@@ -49481,7 +49445,7 @@
    "parte": "094.10795",
    "features": [
     {
-     "id": "f842",
+     "id": "f840",
      "name": "Cuerpo 72×46×60",
      "shape": "box",
      "op": "union",
@@ -49502,7 +49466,7 @@
      }
     },
     {
-     "id": "f843",
+     "id": "f841",
      "name": "Solenoide 24 VDC Ø30×42",
      "shape": "cylinder",
      "op": "union",
@@ -49522,7 +49486,7 @@
      }
     },
     {
-     "id": "f844",
+     "id": "f842",
      "name": "Accionamiento manual Ø10",
      "shape": "cylinder",
      "op": "union",
@@ -49542,7 +49506,7 @@
      }
     },
     {
-     "id": "f845",
+     "id": "f843",
      "name": "Escape 1/8 NPT (Y=-213)",
      "shape": "hole",
      "op": "cut",
@@ -49563,7 +49527,7 @@
      }
     },
     {
-     "id": "f846",
+     "id": "f844",
      "name": "Escape 1/8 NPT (Y=-169)",
      "shape": "hole",
      "op": "cut",
@@ -49584,7 +49548,7 @@
      }
     },
     {
-     "id": "f847",
+     "id": "f845",
      "name": "Puerto de trabajo 1/4 (Y=-205)",
      "shape": "hole",
      "op": "cut",
@@ -49605,7 +49569,7 @@
      }
     },
     {
-     "id": "f848",
+     "id": "f846",
      "name": "Puerto de trabajo 1/4 (Y=-177)",
      "shape": "hole",
      "op": "cut",
@@ -49634,6 +49598,68 @@
    "pos": [
     63.74,
     -213,
+    62
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "parte": "923.0059",
+   "features": [
+    {
+     "id": "f847",
+     "name": "Niple 1/8 NPT Ø9.5×7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9.5,
+      "h": 7
+     }
+    },
+    {
+     "id": "f848",
+     "name": "Cuerpo sinterizado Ø18×20",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -7,
+      0,
+      0
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 18,
+      "h": 20
+     }
+    }
+   ]
+  },
+  {
+   "id": "p361_fijo_neumatica_silenciador_1_8_npt_18_y_169_923_0059",
+   "name": "FIJO · NEUMÁTICA · Silenciador 1/8\" NPT Ø18 (Y=-169) (923.0059)",
+   "color": "#c3ccd6",
+   "pos": [
+    63.74,
+    -169,
     62
    ],
    "quat": [
@@ -49690,68 +49716,6 @@
    ]
   },
   {
-   "id": "p361_fijo_neumatica_silenciador_1_8_npt_18_y_169_923_0059",
-   "name": "FIJO · NEUMÁTICA · Silenciador 1/8\" NPT Ø18 (Y=-169) (923.0059)",
-   "color": "#c3ccd6",
-   "pos": [
-    63.74,
-    -169,
-    62
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "hardware": true,
-   "parte": "923.0059",
-   "features": [
-    {
-     "id": "f851",
-     "name": "Niple 1/8 NPT Ø9.5×7",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      -1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 9.5,
-      "h": 7
-     }
-    },
-    {
-     "id": "f852",
-     "name": "Cuerpo sinterizado Ø18×20",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -7,
-      0,
-      0
-     ],
-     "dir": [
-      -1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 18,
-      "h": 20
-     }
-    }
-   ]
-  },
-  {
    "id": "p362_fijo_neumatica_racor_codo_giratorio_360_1_4_valvula_y_205",
    "name": "FIJO · NEUMÁTICA · Racor codo giratorio 360° 1/4\" (válvula, Y=-205)",
    "color": "#1e88a8",
@@ -49772,7 +49736,7 @@
    "parte": "094.1406 (codo macho giratorio 360°)",
    "features": [
     {
-     "id": "f853",
+     "id": "f851",
      "name": "Cuerpo Ø16",
      "shape": "cylinder",
      "op": "union",
@@ -49792,7 +49756,7 @@
      }
     },
     {
-     "id": "f854",
+     "id": "f852",
      "name": "Salida giratoria Ø13",
      "shape": "cylinder",
      "op": "union",
@@ -49812,7 +49776,7 @@
      }
     },
     {
-     "id": "f855",
+     "id": "f853",
      "name": "Ø8.2 paso de tubo",
      "shape": "hole",
      "op": "cut",
@@ -49855,7 +49819,7 @@
    "parte": "094.1406 (codo macho giratorio 360°)",
    "features": [
     {
-     "id": "f856",
+     "id": "f854",
      "name": "Cuerpo Ø16",
      "shape": "cylinder",
      "op": "union",
@@ -49875,7 +49839,7 @@
      }
     },
     {
-     "id": "f857",
+     "id": "f855",
      "name": "Salida giratoria Ø13",
      "shape": "cylinder",
      "op": "union",
@@ -49895,7 +49859,7 @@
      }
     },
     {
-     "id": "f858",
+     "id": "f856",
      "name": "Ø8.2 paso de tubo",
      "shape": "hole",
      "op": "cut",
@@ -49938,7 +49902,7 @@
    "parte": "094.1406 (codo macho giratorio 360°)",
    "features": [
     {
-     "id": "f859",
+     "id": "f857",
      "name": "Cuerpo Ø16",
      "shape": "cylinder",
      "op": "union",
@@ -49958,7 +49922,7 @@
      }
     },
     {
-     "id": "f860",
+     "id": "f858",
      "name": "Salida giratoria Ø15",
      "shape": "cylinder",
      "op": "union",
@@ -49978,7 +49942,7 @@
      }
     },
     {
-     "id": "f861",
+     "id": "f859",
      "name": "Ø8.2 paso de tubo",
      "shape": "hole",
      "op": "cut",
@@ -50021,7 +49985,7 @@
    "parte": "094.1406 (codo macho giratorio 360°)",
    "features": [
     {
-     "id": "f862",
+     "id": "f860",
      "name": "Cuerpo Ø16",
      "shape": "cylinder",
      "op": "union",
@@ -50041,7 +50005,7 @@
      }
     },
     {
-     "id": "f863",
+     "id": "f861",
      "name": "Salida giratoria Ø15",
      "shape": "cylinder",
      "op": "union",
@@ -50061,7 +50025,7 @@
      }
     },
     {
-     "id": "f864",
+     "id": "f862",
      "name": "Ø8.2 paso de tubo",
      "shape": "hole",
      "op": "cut",
@@ -50104,7 +50068,7 @@
    "parte": "094.1465 (unión Unifit 1/4 in.)",
    "features": [
     {
-     "id": "f865",
+     "id": "f863",
      "name": "Cuerpo de unión Ø15×26",
      "shape": "cylinder",
      "op": "union",
@@ -50124,7 +50088,7 @@
      }
     },
     {
-     "id": "f866",
+     "id": "f864",
      "name": "Ø8.2 paso de tubo",
      "shape": "hole",
      "op": "cut",
@@ -50167,7 +50131,7 @@
    "parte": "094.1148 (tubo PU 1/4 in. OD)",
    "features": [
     {
-     "id": "f867",
+     "id": "f865",
      "name": "Tramo 1",
      "shape": "cylinder",
      "op": "union",
@@ -50187,7 +50151,7 @@
      }
     },
     {
-     "id": "f868",
+     "id": "f866",
      "name": "Tramo 2",
      "shape": "cylinder",
      "op": "union",
@@ -50207,7 +50171,7 @@
      }
     },
     {
-     "id": "f869",
+     "id": "f867",
      "name": "Tramo 3",
      "shape": "cylinder",
      "op": "union",
@@ -50227,7 +50191,7 @@
      }
     },
     {
-     "id": "f870",
+     "id": "f868",
      "name": "Tramo 4",
      "shape": "cylinder",
      "op": "union",
@@ -50247,7 +50211,7 @@
      }
     },
     {
-     "id": "f871",
+     "id": "f869",
      "name": "Tramo 5",
      "shape": "cylinder",
      "op": "union",
@@ -50267,7 +50231,7 @@
      }
     },
     {
-     "id": "f872",
+     "id": "f870",
      "name": "Tramo 6",
      "shape": "cylinder",
      "op": "union",
@@ -50287,7 +50251,7 @@
      }
     },
     {
-     "id": "f873",
+     "id": "f871",
      "name": "Tramo 7",
      "shape": "cylinder",
      "op": "union",
@@ -50307,7 +50271,7 @@
      }
     },
     {
-     "id": "f874",
+     "id": "f872",
      "name": "Tramo 8",
      "shape": "cylinder",
      "op": "union",
@@ -50327,7 +50291,7 @@
      }
     },
     {
-     "id": "f875",
+     "id": "f873",
      "name": "Tramo 9",
      "shape": "cylinder",
      "op": "union",
@@ -50347,7 +50311,7 @@
      }
     },
     {
-     "id": "f876",
+     "id": "f874",
      "name": "Tramo 10",
      "shape": "cylinder",
      "op": "union",
@@ -50367,7 +50331,7 @@
      }
     },
     {
-     "id": "f877",
+     "id": "f875",
      "name": "Tramo 11",
      "shape": "cylinder",
      "op": "union",
@@ -50387,7 +50351,7 @@
      }
     },
     {
-     "id": "f878",
+     "id": "f876",
      "name": "Tramo 12",
      "shape": "cylinder",
      "op": "union",
@@ -50407,7 +50371,7 @@
      }
     },
     {
-     "id": "f879",
+     "id": "f877",
      "name": "Tramo 13",
      "shape": "cylinder",
      "op": "union",
@@ -50427,7 +50391,7 @@
      }
     },
     {
-     "id": "f880",
+     "id": "f878",
      "name": "Tramo 14",
      "shape": "cylinder",
      "op": "union",
@@ -50447,7 +50411,7 @@
      }
     },
     {
-     "id": "f881",
+     "id": "f879",
      "name": "Tramo 15",
      "shape": "cylinder",
      "op": "union",
@@ -50467,7 +50431,7 @@
      }
     },
     {
-     "id": "f882",
+     "id": "f880",
      "name": "Tramo 16",
      "shape": "cylinder",
      "op": "union",
@@ -50487,7 +50451,7 @@
      }
     },
     {
-     "id": "f883",
+     "id": "f881",
      "name": "Tramo 17",
      "shape": "cylinder",
      "op": "union",
@@ -50507,7 +50471,7 @@
      }
     },
     {
-     "id": "f884",
+     "id": "f882",
      "name": "Tramo 18",
      "shape": "cylinder",
      "op": "union",
@@ -50549,7 +50513,7 @@
    "parte": "094.1148 (tubo PU 1/4 in. OD)",
    "features": [
     {
-     "id": "f885",
+     "id": "f883",
      "name": "Tramo 1",
      "shape": "cylinder",
      "op": "union",
@@ -50569,7 +50533,7 @@
      }
     },
     {
-     "id": "f886",
+     "id": "f884",
      "name": "Tramo 2",
      "shape": "cylinder",
      "op": "union",
@@ -50589,7 +50553,7 @@
      }
     },
     {
-     "id": "f887",
+     "id": "f885",
      "name": "Tramo 3",
      "shape": "cylinder",
      "op": "union",
@@ -50609,7 +50573,7 @@
      }
     },
     {
-     "id": "f888",
+     "id": "f886",
      "name": "Tramo 4",
      "shape": "cylinder",
      "op": "union",
@@ -50629,7 +50593,7 @@
      }
     },
     {
-     "id": "f889",
+     "id": "f887",
      "name": "Tramo 5",
      "shape": "cylinder",
      "op": "union",
@@ -50649,7 +50613,7 @@
      }
     },
     {
-     "id": "f890",
+     "id": "f888",
      "name": "Tramo 6",
      "shape": "cylinder",
      "op": "union",
@@ -50669,7 +50633,7 @@
      }
     },
     {
-     "id": "f891",
+     "id": "f889",
      "name": "Tramo 7",
      "shape": "cylinder",
      "op": "union",
@@ -50689,7 +50653,7 @@
      }
     },
     {
-     "id": "f892",
+     "id": "f890",
      "name": "Tramo 8",
      "shape": "cylinder",
      "op": "union",
@@ -50709,7 +50673,7 @@
      }
     },
     {
-     "id": "f893",
+     "id": "f891",
      "name": "Tramo 9",
      "shape": "cylinder",
      "op": "union",
@@ -50729,7 +50693,7 @@
      }
     },
     {
-     "id": "f894",
+     "id": "f892",
      "name": "Tramo 10",
      "shape": "cylinder",
      "op": "union",
@@ -50749,7 +50713,7 @@
      }
     },
     {
-     "id": "f895",
+     "id": "f893",
      "name": "Tramo 11",
      "shape": "cylinder",
      "op": "union",
@@ -50769,7 +50733,7 @@
      }
     },
     {
-     "id": "f896",
+     "id": "f894",
      "name": "Tramo 12",
      "shape": "cylinder",
      "op": "union",
@@ -50789,7 +50753,7 @@
      }
     },
     {
-     "id": "f897",
+     "id": "f895",
      "name": "Tramo 13",
      "shape": "cylinder",
      "op": "union",

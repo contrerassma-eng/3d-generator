@@ -38,3 +38,6 @@ cad/ensambles/nbt90/out/
 
 # Scratch de los agentes de diseño
 cad/_tmp_*.mjs
+
+# STEP y GLB derivados: se regeneran con a_step.py / export_glb.mjs en menos de un minuto
+cad/ensambles/nbt90/step/

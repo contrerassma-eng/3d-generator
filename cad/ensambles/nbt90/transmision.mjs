@@ -49,7 +49,9 @@ const L = {
   xPlaca: 113.0,          // dis: cara −X de la placa; deja 5.5 mm tras la rueda motriz
   espPlaca: pulg(0.25),   // 6.35 — dis: chapa 1/4" de catálogo (voladizo del motorreductor)
   zPlaca: [124.0, 278.0], // dis: cubre las 6 poleas, la colisa del tensor y la brida
-  yPlaca: r2(P.almaY - P.placaT),   // 225.14 — la placa muere contra el alma del canal lateral
+  yPlaca: 187.0,          // dis: LÍMITE DE INTERFAZ. Por debajo de Z≈252 el `Side channel`
+                          // FIJO ocupa Y 189.1…228.6 a los dos lados, así que ninguna pieza
+                          // MÓVIL puede pasar de ±187 (integración, informe de interferencias).
 
   // --- poleas locas / retorno --------------------------------------------
   ejeRan: 6.5,            // dis: fondo de la ranura del anillo de retención (Ø13 en eje 9/16")
@@ -98,11 +100,23 @@ const L = {
   bujeTuercaL: 10,        // dis
   ruedaCorona: 0.4,       // dis: abombado de la rueda motriz (centra la banda plana)
 
-  // --- fijación de la placa al bastidor ------------------------------------
-  orejaX: [105.0, 145.0], // dis: oreja soldada que apoya en el alma del canal lateral
-  orejaZ: [224.0, 272.0], // dis
-  orejaPernoX: 127.0,     // dis
-  orejaPernoZ: [232.0, 264.0], // dis
+  // --- fijación de la placa al bastidor MÓVIL ------------------------------
+  // La placa se apoya y se atornilla sobre los dos `NOTCHED BRACE CHANNEL`
+  // (bastidor.mjs, MÓVIL): X 47.2…411, Y 80…120 y −120…−80, cara superior
+  // Z = 149.5. La placa lleva una escotadura por cada uno —de ahí el nombre
+  // "notched" del larguero— y una pestaña que apoya encima y se atornilla.
+  // NO se atornilla al `Side channel`: ése es FIJO y bloquearía el pop-up.
+  braceY: [77.5, 122.5],  // interfaz: hueco de la escotadura (2.5 de holgura al canal)
+  braceZ: 149.5,          // interfaz: cara superior del notched brace channel
+  pestanaX: [113.0, 145.0],  // dis
+  pestanaY: [85.0, 115.0],   // dis
+  pestanaPerno: [[122.0, 92.0], [138.0, 108.0]],   // dis: (X, |Y|) de los 2 pernos por lado
+
+  // --- envolventes FIJAS con las que se verifica la banda ------------------
+  // Interfaz con bastidor.mjs (informe de interferencias del ensamble integrado).
+  canalFijoY: [189.1, 228.6],
+  canalFijoZ: [84.9, 250.0],
+  holguraMin: 3.0,        // txt del coordinador: ≥3 mm entre la banda y cualquier pieza FIJA
 };
 
 // posiciones derivadas en X (todas cuelgan de P.planoSerp)
@@ -182,8 +196,14 @@ function ejePolea(E, { nombre, y, z, xApoyo, xRosca, capa }) {
 
 /** Conjunto completo de una polea loca / de retorno: polea + 2 bujes + eje +
  *  anillo de retención + tuerca. Devuelve el nº de piezas creadas. */
+/** Registro de los sólidos de polea creados, para cotejarlos uno a uno con la
+ *  secuencia de la banda (la banda se calcula de una lista y las poleas se
+ *  dibujan en otra: sin este cotejo un `addPart` que falte pasa desapercibido). */
+const poleasPuestas = [];
+
 function conjuntoLoca(E, { nombre, pos, y, z, capa, tensor = false }) {
   const n0 = E.parts.length;
+  poleasPuestas.push({ y, z, nombre: `${nombre} (${pos})` });
   polea(E, {
     nombre: `${nombre} (${pos})`, at: [X.pol0, y, z], dir: [1, 0, 0],
     od: P.idlerDia, ancho: P.idlerAncho, bore: L.bujeOD, cubo: L.cuboPolea,
@@ -224,6 +244,7 @@ function conjuntoLoca(E, { nombre, pos, y, z, capa, tensor = false }) {
  *  @returns {object} métricas del serpentín para el gate */
 export function transmision(E) {
   const cap = 'MÓVIL · ';
+  poleasPuestas.length = 0;
   const seq = serpentin(zToma);
   const idlerY = P.bandaY.filter((y) => y !== 0);          // 4 locas: el centro lo ocupa la rueda
 
@@ -239,12 +260,18 @@ export function transmision(E) {
       rectR(-L.yPlaca, L.zPlaca[0], L.yPlaca, L.zPlaca[1], 12), L.espPlaca),
   ];
   for (const sg of [-1, 1]) {
-    fPlaca.push(box(`Oreja ${sg > 0 ? '+Y' : '−Y'} 3/16"×${r2(L.orejaX[1] - L.orejaX[0])}×${r2(L.orejaZ[1] - L.orejaZ[0])}`,
-      [r2((L.orejaX[0] + L.orejaX[1]) / 2), r2(sg * (P.almaY - P.placaT / 2)), L.orejaZ[0]],
-      r2(L.orejaX[1] - L.orejaX[0]), P.placaT, r2(L.orejaZ[1] - L.orejaZ[0])));
+    fPlaca.push(box(`Pestaña de apoyo sobre notched brace channel ${sg > 0 ? '+Y' : '−Y'} 1/4"×${r2(L.pestanaX[1] - L.pestanaX[0])}×${r2(L.pestanaY[1] - L.pestanaY[0])}`,
+      [r2((L.pestanaX[0] + L.pestanaX[1]) / 2), r2(sg * (L.pestanaY[0] + L.pestanaY[1]) / 2), L.braceZ],
+      r2(L.pestanaX[1] - L.pestanaX[0]), r2(L.pestanaY[1] - L.pestanaY[0]), L.espPlaca));
   }
   fPlaca.push(sketchYZ(`Doblador de la colisa 1/4"×${r2(L.padY[1] - L.padY[0])}×${r2(L.padZ[1] - L.padZ[0])} (soldado)`,
     X.pad0, rectR(L.padY[0], L.padZ[0], L.padY[1], L.padZ[1], 8), L.espPlaca));
+  // escotaduras por las que pasan los dos notched brace channel
+  for (const sg of [-1, 1]) {
+    const y0 = r2(Math.min(sg * L.braceY[0], sg * L.braceY[1])), y1 = r2(Math.max(sg * L.braceY[0], sg * L.braceY[1]));
+    fPlaca.push(sketchYZ(`Escotadura notched brace channel ${sg > 0 ? '+Y' : '−Y'} (${r2(y1 - y0)}×${r2(L.braceZ - L.zPlaca[0])})`,
+      r2(X.placa1 + 0.65), rectR(y0, r2(L.zPlaca[0] - 8), y1, L.braceZ, 4), 9, 'cut'));
+  }
   for (const [y, z] of cortes) {
     fPlaca.push(hole(`Paso eje polea Ø${r2(B38.d + P.holgura.pasante)} (Y=${y})`,
       [r2(L.xPlaca - 0.5), y, z], [1, 0, 0], r2(B38.d + P.holgura.pasante)));
@@ -260,9 +287,9 @@ export function transmision(E) {
       [r2(L.xPlaca - 0.5), r2(s * L.bridaCirculo / Math.SQRT2 / 2), r2(P.motrizZ + s2 * L.bridaCirculo / Math.SQRT2 / 2)],
       [1, 0, 0], r2(B38.d + P.holgura.pasante)));
   }
-  for (const sg of [-1, 1]) for (const z of L.orejaPernoZ) {
-    fPlaca.push(hole(`Taladro oreja Ø${r2(B38.d + P.holgura.pasante)} (${sg > 0 ? '+Y' : '−Y'})`,
-      [L.orejaPernoX, r2(sg * (P.almaY + 0.5)), z], [0, -sg, 0], r2(B38.d + P.holgura.pasante), 8, false));
+  for (const sg of [-1, 1]) for (const [px, py] of L.pestanaPerno) {
+    fPlaca.push(hole(`Taladro pestaña Ø${r2(B38.d + P.holgura.pasante)} (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
+      [px, r2(sg * py), r2(L.braceZ + L.espPlaca + 0.5)], [0, 0, -1], r2(B38.d + P.holgura.pasante), 9, false));
   }
   E.addPart(`${cap}Placa soporte de transmisión 1/4"×${r2(2 * L.yPlaca)}×${r2(L.zPlaca[1] - L.zPlaca[0])} c/colisa tensor (weldment)`,
     COL.movil, [L.xPlaca, 0, L.zPlaca[0]], fPlaca, { weldment: true });
@@ -286,7 +313,7 @@ export function transmision(E) {
     const tensor = y === P.bandaY[P.tomaIdlerIdx];
     conjuntoLoca(E, {
       nombre: tensor
-        ? 'TAKE-UP IDLER banda plana Ø2-1/2"×1.4"'
+        ? 'Polea loca banda plana Ø2-1/2"×1.4" TAKE-UP IDLER'
         : 'Polea loca banda plana Ø2-1/2"×1.4"',
       pos: `Y=${y}`, y, z: tensor ? zToma : P.idlerZ, capa: cap, tensor,
     });
@@ -307,6 +334,7 @@ export function transmision(E) {
   // (L.ruedaCorona) para que la banda plana se centre sola, barreno Ø45 = OD del
   // buje sin chaveta. No lleva chaveta: el buje es la unión y la retención axial.
   const cr = r2(P.ruedaDia / 2 - L.ruedaCorona);
+  poleasPuestas.push({ y: 0, z: P.motrizZ, nombre: 'Rueda motriz banda plana Ø2-1/2"×1.772" (Y=0)' });
   E.addPart(`${cap}Rueda motriz banda plana Ø2-1/2"×1.772" (024.15502, Y=0)`, COL.polea,
     [X.rueda0, 0, P.motrizZ], [
       revolve(`Llanta Ø${P.ruedaDia}×${P.ruedaAncho} abombada ${L.ruedaCorona}, barreno Ø${P.bujeDia}`,
@@ -358,22 +386,22 @@ export function transmision(E) {
   }
 
   // ================================ 7. FIJACIÓN DE LA PLACA AL BASTIDOR MÓVIL
-  // Las orejas apoyan contra el alma (12 GA) de los canales laterales; el perno
-  // entra desde fuera (+Y / −Y) y la tuerca queda por dentro.
-  for (const sg of [-1, 1]) for (const z of L.orejaPernoZ) {
+  // La pestaña apoya sobre el ala superior del notched brace channel (MÓVIL) y
+  // el perno entra desde arriba, que es por donde hay acceso de llave.
+  const zCab = r2(L.braceZ + L.espPlaca);
+  for (const sg of [-1, 1]) for (const [px, py] of L.pestanaPerno) {
     golilla(E, {
-      nombre: `3/8" bajo cabeza (${sg > 0 ? '+Y' : '−Y'}, Z=${z})`,
-      at: [L.orejaPernoX, r2(sg * (P.almaY + P.cal12)), z], dir: [0, sg, 0],
-      dia: B38.d, ext: pulg(1), esp: 1.6, capa: cap,
+      nombre: `3/8" bajo cabeza (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
+      at: [px, r2(sg * py), zCab], dir: [0, 0, 1], dia: B38.d, ext: pulg(1), esp: 1.6, capa: cap,
     });
     pernoHex(E, {
-      nombre: `3/8-16 × 3/4" placa↔canal lateral (${sg > 0 ? '+Y' : '−Y'}, Z=${z})`,
-      at: [L.orejaPernoX, r2(sg * (P.almaY + P.cal12 + 1.6)), z], dir: [0, -sg, 0],
+      nombre: `3/8-16 × 3/4" placa↔notched brace channel (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
+      at: [px, r2(sg * py), r2(zCab + 1.6)], dir: [0, 0, -1],
       dia: B38.d, largo: pulg(0.75), af: B38.af, altoCab: B38.hh, capa: cap,
     });
     tuercaHex(E, {
-      nombre: `3/8-16 placa↔canal lateral (${sg > 0 ? '+Y' : '−Y'}, Z=${z})`,
-      at: [L.orejaPernoX, r2(sg * (P.almaY - P.placaT)), z], dir: [0, -sg, 0],
+      nombre: `3/8-16 placa↔notched brace channel (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
+      at: [px, r2(sg * py), r2(L.braceZ - P.cal12)], dir: [0, 0, -1],
       dia: B38.d, af: B38.af, alto: B38.tuerca, capa: cap,
     });
   }
@@ -389,7 +417,40 @@ export function transmision(E) {
   const par = P.motorHP * 745.7 / (2 * Math.PI * P.motorRpm / 60);      // N·m a la salida
   const mu = 0.40;                                                      // cat Habasit TF/TC sobre acero
 
+  // --- cotejo poleas ↔ secuencia de la banda: cada elemento de `seq` que no sea
+  //     un rodillo tiene que tener un sólido de polea en la MISMA (Y, Z).
+  const sinSolido = seq.filter((s) => !s.n.startsWith('rodillo'))
+    .filter((s) => !poleasPuestas.some((p) => Math.abs(p.y - s.c[0]) < 0.01 && Math.abs(p.z - s.c[1]) < 0.01))
+    .map((s) => `${s.n} (Y=${s.c[0]}, Z=${r2(s.c[1])})`);
+  const sinBanda = poleasPuestas
+    .filter((p) => !seq.some((s) => Math.abs(p.y - s.c[0]) < 0.01 && Math.abs(p.z - s.c[1]) < 0.01))
+    .map((p) => p.nombre);
+  if (sinSolido.length || sinBanda.length) {
+    throw new Error(`transmision: la banda y las poleas no cuadran — sin sólido: [${sinSolido}] · sin banda: [${sinBanda}]`);
+  }
+
+  // --- holgura de la banda a la envolvente del Side channel FIJO (plano YZ; el
+  //     canal recorre todo X, así que no hay separación posible en X).
+  const dens = [];
+  for (let i = 0; i < caras.outer.length; i++) {
+    const a = caras.outer[i], b = caras.outer[(i + 1) % caras.outer.length];
+    for (let k = 0; k < 8; k++) dens.push([a[0] + (b[0] - a[0]) * k / 8, a[1] + (b[1] - a[1]) * k / 8]);
+  }
+  let gapCanal = Infinity;
+  for (const [y, z] of dens) {
+    const ay = Math.abs(y);
+    const dy = Math.max(L.canalFijoY[0] - ay, ay - L.canalFijoY[1], 0);
+    const dz = Math.max(L.canalFijoZ[0] - z, z - L.canalFijoZ[1], 0);
+    gapCanal = Math.min(gapCanal, Math.hypot(dy, dz));
+  }
+  gapCanal = r2(gapCanal);
+
   return {
+    verificacion: {
+      elementosBanda: seq.length, poleasSolidas: poleasPuestas.length,
+      poleasSinSolido: sinSolido.length, poleasSinBanda: sinBanda.length,
+      bandaACanal: gapCanal, holguraMinExigida: L.holguraMin, bandaACanalOK: gapCanal >= L.holguraMin,
+    },
     banda: {
       largoDesarrollado: largo,
       largoNominal: largoBanda(serpentin(P.idlerZ), P.serpEsp),         // tensor arriba del todo
