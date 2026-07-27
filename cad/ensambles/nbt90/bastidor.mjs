@@ -60,10 +60,16 @@ const L = {
   },
 
   // ---- travesaños del cassette móvil --------------------------------------
-  cruzY: 200,           // dis: alma del TRANSFER CROSS CHANNEL (± )
+  cruzY: 214,           // dis: alma del TRANSFER CROSS CHANNEL (±). Tiene que quedar
+                        //      FUERA del serpentín: el B-rep exacto da la banda hasta
+                        //      Y=201.3 en la franja Z 318…346, que es justo esta.
   cruzZ0: 297, cruzZ1: 347.8,   // dis: 2" de canto; el ala superior queda 4.2 mm bajo la
                                 //      generatriz inferior del rodillo RETRAÍDO (Z=352.0)
   cruzAla: P.canalAla,          // 38.1 — ala hacia dentro
+  serpMuescaX: [62, 108],       // dis: muesca de las alas en el plano del serpentín
+  serpMuescaY: [151, 212],      //      (la banda ocupa X 72.3…97.7 y llega a Y=201.3).
+                                //      Se recortan las dos alas; el alma (Y ≥ 212.67)
+                                //      queda entera y el canal no se parte.
   braceY: 100,          // dis: alma del NOTCHED BRACE CHANNEL (±). El motorreductor
                         //      ocupa Y ±72.5 y el plato de empuje de la mesa Y ±100:
                         //      80…120 es la única banda libre a esta altura.
@@ -79,7 +85,12 @@ const L = {
   muescaZ1: 150,        // dis: hasta aquí se recorta el ALMA (paso del ramal de retorno);
                         //      por encima sólo se recorta el ala exterior
   angX0: 47.24,         // dis: los CROSS ANGLE son las cartelas que puentean la muesca
-  angY: [78.67, 104.07],// dis: ala vertical solapada al ala interior + ala de 1" hacia dentro
+  angY: [83.99, 109.39],// dis: el ala vertical apoya en la cara INTERIOR del ala del brace
+                        //      channel (Y=82.66); si se pone en la exterior, el ala
+                        //      horizontal de la cartela se come el ala del canal.
+  angTorn: [[127, 90.5], [141, 90.5]],   // interfaz transmision.mjs: la pestaña de la
+                        //      placa soporte apoya sobre la cara superior de la cartela
+                        //      (Z = braceZ1 = 187.95) y la atornilla con 2 × 3/8".
   angZ0: 150,           // dis: arrancan donde termina la muesca del alma
   espX: [42.48, 415.76],// dis: SPACER PLATE contra la cara interior de cada peine
   espZ0: 96, espZ1: 176,// dis
@@ -97,13 +108,15 @@ const L = {
   // coincide con el de la placa peine (432).
   guardaX: 24,          // dis: cara exterior del alma de la guarda
   guardaPest: 11.82,    // dis: la pestaña de retorno llega a la cara exterior del peine
-  guardaTab: 11,        // dis: alto de la pestaña atornillada
-  guardaZ0: 151, guardaZ1: 299,   // dis: sobre la fila de pernos de la spacer plate
-                        //      (Z=112) y bajo la cota de extracción de los ejes
+  guardaTab: 26,        // dis: alto de la pestaña atornillada. Con 11 no cabía: la
+                        //      cabeza del perno (R=8.24) se comía el ala inferior.
+  guardaZ0: 181, guardaZ1: 299,   // dis: la pestaña inferior tiene que quedar POR ENCIMA
+                        //      de la spacer plate (acaba en Z=176), que es donde iban a
+                        //      parar las tuercas de sus pernos
   guardaY: 185,         // dis: el catálogo da 17" (431.8) pero con el SIDE CHANNEL puesto
                         //      no cabe: su ala superior llega a Y ±192.34 en Z 247.3…250.
                         //      370 de largo deja 7.34 mm y la holgura no cambia con la carrera.
-  guardaTornY: [-150, 150], guardaTornZ: [160, 290],   // dis: 4 pernos de 3/8"
+  guardaTornY: [-150, 150], guardaTornZ: [196, 284],   // dis: 4 pernos de 3/8"
   // ---- estructura fija ----------------------------------------------------
   canalZ1: P.canalTopZ,                       // med 383.1 — cara superior del ala
   get canalZ0() { return r2(this.canalZ1 - P.canalAlto); },  // 218.0 (cat 6-1/2")
@@ -117,6 +130,11 @@ const L = {
   ladoZ1: 250,          // dis: solapa 32 mm con el alma del canal anfitrión
   get ladoZ0() { return r2(this.ladoZ1 - P.canalAlto); },    // 84.9
   ladoLargo: r2(18 * 25.4),                   // cat PT-087017 «SIDE CHANNEL - 18 in.»
+  cilgX: [141.5, 321.5],                      // interfaz elevacion.mjs: tornillos 3/8" que
+  cilgZ: 180,                                 //   cuelgan y regulan el canal de montaje del
+  cilgD: 10.3,                                //   cilindro. Agujero REDONDO: el recorrido
+                                              //   vertical lo da la colisa 12.7×38.1 de la
+                                              //   placa colgante, no este taladro.
   ventanaX: [103, 147],                       // dis: paso de la oreja de transmision.mjs
   ventanaZ: 220,                              // dis: desde aquí hasta el canto superior
   baseX0: 26, baseX1: 102.2,                  // dis: canal base de 3" de ancho, corrido al
@@ -127,7 +145,12 @@ const L = {
   jackX: [115.75, 347.25],                    // dis: 1/4 y 3/4 del largo (4 jack bolts)
   transX: 127, transZ: [232, 264],            // interfaz transmision.mjs: pernos 3/8-16
                                               //   de la oreja de la placa soporte
-  jackAncho: 50,                              // dis: ancho de las ménsulas en X
+  jackAncho: 50,                              // dis: ancho de las ménsulas inferiores en X
+  jackSupAncho: 96,                           // dis: la ménsula superior es más larga para
+  jackSupTornX: 30,                           //   llevar sus 2 tornillos ALINEADOS EN X a
+                                              //   ±30 del eje del jack bolt: rodeándolo no
+                                              //   caben (una golilla de 3/8" ya mide Ø25.4)
+                                              //   y hay que dejar llave a sus dos tuercas.
   jackY0: 232, jackY1: 262,                   // dis: la oreja abraza P.jackY = 247.4
 };
 
@@ -160,17 +183,21 @@ export const anilloRetX = [r2(L.placaXa - T316 / 2 - 1.7), r2(L.placaXb + T316 /
 // Tornillería: perno hexagonal 3/8-16 + 2 golillas + tuerca. `at` es la cara
 // exterior por donde entra el perno; `agarre` la suma de espesores apretados.
 // ---------------------------------------------------------------------------
+// `at` = CARA EXTERIOR de la pieza por la que entra el perno. Reparto a lo largo
+// de `dir`:  cabeza (−GOL−hh … −GOL) · golilla (−GOL … 0) · agarre (0 … agarre)
+// · golilla (agarre … agarre+GOL) · tuerca. `pernoHex` dibuja la cabeza HACIA ATRÁS
+// desde `at`, así que el perno se ancla en la cara exterior de la golilla.
 function tornilleria(E, { nombre, at, dir, agarre, capa }) {
   const d = n3(dir), p = (s) => add(at, mul(d, s));
   const largo = r2(agarre + 2 * GOL + P.M.b38.tuerca + 4);
-  golilla(E, { nombre: `${nombre} (cabeza)`, at: p(0), dir: d, dia: D38, ext: GOLD, esp: GOL, capa });
+  golilla(E, { nombre: `${nombre} (cabeza)`, at: p(-GOL), dir: d, dia: D38, ext: GOLD, esp: GOL, capa });
   pernoHex(E, {
-    nombre: `3/8-16 × ${largo} · ${nombre}`, at: p(GOL), dir: d, dia: D38,
+    nombre: `3/8-16 × ${largo} · ${nombre}`, at: p(-GOL), dir: d, dia: D38,
     largo, af: P.M.b38.af, altoCab: P.M.b38.hh, capa,
   });
-  golilla(E, { nombre: `${nombre} (tuerca)`, at: p(GOL + agarre), dir: d, dia: D38, ext: GOLD, esp: GOL, capa });
+  golilla(E, { nombre: `${nombre} (tuerca)`, at: p(agarre), dir: d, dia: D38, ext: GOLD, esp: GOL, capa });
   tuercaHex(E, {
-    nombre: `3/8-16 · ${nombre}`, at: p(2 * GOL + agarre), dir: d, dia: D38,
+    nombre: `3/8-16 · ${nombre}`, at: p(agarre + GOL), dir: d, dia: D38,
     af: P.M.b38.af, alto: P.M.b38.tuerca, capa,
   });
 }
@@ -224,7 +251,12 @@ export function bastidor(E) {
     ];
     const f = [sketchYZ(`Canal C 6-1/2×1-1/2 12 GA`, 0, seccionChapa(fib, T12, RB), P.largo)];
     // taladros de los 4 jack bolts (ala inferior) y del SIDE CHANNEL (alma)
-    for (const x of L.jackX) f.push(hole(`Jack bolt 3/8" Ø${PAS38}`, [x, s * P.jackY, L.canalZ0 + T12 + 2], [0, 0, -1], PAS38, 8, false));
+    for (const x of L.jackX) {
+      f.push(hole(`Jack bolt 3/8" Ø${PAS38}`, [x, s * P.jackY, L.canalZ0 + T12 + 2], [0, 0, -1], PAS38, 8, false));
+      for (const dx of [-L.jackSupTornX, L.jackSupTornX]) {
+        f.push(hole(`Ménsula jack sup Ø${PAS38}`, [x + dx, s * P.jackY, L.canalZ0 + T12 + 2], [0, 0, -1], PAS38, 8, false));
+      }
+    }
     for (const x of [60, 231.5, 403]) f.push(hole(`Unión SIDE CHANNEL Ø${PAS38}`, [x, s * (P.almaY + 4), 234], [0, -s, 0], PAS38, 10, false));
     // paso de los 2 pernos de la oreja de la placa soporte de transmisión
     for (const z of L.transZ) f.push(hole(`Placa de transmisión Ø${PAS38}`, [L.transX, s * (P.almaY + 4), z], [0, -s, 0], PAS38, 10, false));
@@ -260,6 +292,11 @@ export function bastidor(E) {
     for (const x of L.baseTornX) {
       f.push(hole(`Tapa canal base Ø${PAS38}`, [x, s * 210, L.ladoZ0 - 2], [0, 0, 1], PAS38, 8, false));
     }
+    // paso de los tornillos que cuelgan y regulan el canal de montaje del cilindro
+    for (const x of L.cilgX) {
+      f.push(hole(`Cuelgue canal del cilindro Ø${L.cilgD}`, [x, s * (L.ladoY + 4), L.cilgZ],
+        [0, -s, 0], L.cilgD, 10, false));
+    }
     // Ventana de paso de la OREJA de la placa soporte de transmisión: esa oreja
     // busca el ALMA DEL CANAL ANFITRIÓN (Y = P.almaY) y este canal se le cruza.
     f.push(box('Ventana de paso de la placa de transmisión',
@@ -274,7 +311,7 @@ export function bastidor(E) {
     for (const x of [60, 231.5, 403]) {
       tornilleria(E, {
         nombre: `Side channel ${s > 0 ? '+Y' : '-Y'} X${x}`, capa: FIJO,
-        at: [x, s * (P.almaY + T12 / 2 + GOL), 234], dir: [0, -s, 0], agarre: 2 * T12,
+        at: [x, s * r2(P.almaY + T12 / 2), 234], dir: [0, -s, 0], agarre: 2 * T12,
       });
       M.pernos++;
     }
@@ -307,7 +344,7 @@ export function bastidor(E) {
       for (const x of L.baseTornX) {
         tornilleria(E, {
           nombre: `Canal base ${s > 0 ? '+Y' : '-Y'} X${x}`, capa: FIJO,
-          at: [x, s * 210, r2(83.57 - T12 / 2 - GOL)], dir: [0, 0, 1], agarre: 2 * T12,
+          at: [x, s * 210, r2(83.57 - T12 / 2)], dir: [0, 0, 1], agarre: 2 * T12,
         });
         M.pernos++;
       }
@@ -323,25 +360,27 @@ export function bastidor(E) {
     // superior: doblador bajo el ala inferior del canal anfitrión
     const zSup = r2(L.canalZ0 - T12);
     const fSup = [
-      box(`Placa ${L.jackAncho}×${r2(L.jackY1 - L.jackY0)} 12 GA`,
-        [x, s * r2((L.jackY0 + L.jackY1) / 2), zSup], L.jackAncho, r2(L.jackY1 - L.jackY0), T12),
+      box(`Placa ${L.jackSupAncho}×${r2(L.jackY1 - L.jackY0)} 12 GA`,
+        [x, s * r2((L.jackY0 + L.jackY1) / 2), zSup], L.jackSupAncho, r2(L.jackY1 - L.jackY0), T12),
       hole(`Paso jack bolt Ø${PAS38}`, [x, s * P.jackY, zSup - 2], [0, 0, 1], PAS38, 8, false),
     ];
-    for (const dy of [-11.4, 10.6]) {
-      fSup.push(hole(`Fijación Ø${PAS38}`, [x, s * (P.jackY + dy), zSup - 2], [0, 0, 1], PAS38, 8, false));
+    for (const dx of [-L.jackSupTornX, L.jackSupTornX]) {
+      fSup.push(hole(`Fijación Ø${PAS38}`, [x + dx, s * P.jackY, zSup - 2], [0, 0, 1], PAS38, 8, false));
     }
-    E.addPart(`${FIJO}Ménsula jack bolt superior 12 GA ${L.jackAncho}×30 (${s > 0 ? '+Y' : '-Y'} X${x})`,
+    E.addPart(`${FIJO}Ménsula jack bolt superior 12 GA ${L.jackSupAncho}×30 (${s > 0 ? '+Y' : '-Y'} X${x})`,
       COL.fijo, [x, s * P.jackY, zSup], fSup, { chapa: { t: r2(T12), material: 'acero A36', fibra: [], radio: 0 } });
     M.chapas++;
-    for (const dy of [-11.4, 10.6]) {
+    for (const dx of [-L.jackSupTornX, L.jackSupTornX]) {
       tornilleria(E, {
-        nombre: `Ménsula jack sup ${s > 0 ? '+Y' : '-Y'} X${x}`, capa: FIJO,
-        at: [x, s * (P.jackY + dy), r2(zSup - GOL)], dir: [0, 0, 1], agarre: 2 * T12,
+        nombre: `Ménsula jack sup ${s > 0 ? '+Y' : '-Y'} X${r2(x + dx)}`, capa: FIJO,
+        at: [x + dx, s * P.jackY, zSup], dir: [0, 0, 1], agarre: 2 * T12,
       });
       M.pernos++;
     }
     // inferior: angular atornillado al alma exterior del SIDE CHANNEL
-    const yAlma = r2(P.almaY - T12 / 2);
+    // el ala vertical apoya en la cara EXTERIOR del alma del SIDE CHANNEL (Y=228.57):
+    // su fibra media va medio espesor más afuera, o si no se mete dentro del alma.
+    const yAlma = P.almaY;
     const fibInf = [[s * yAlma, 130], [s * yAlma, P.jackInfZ], [s * L.jackY1, P.jackInfZ]];
     const fInf = [
       sketchYZ('Angular ménsula', x - L.jackAncho / 2, seccionChapa(fibInf, T12, RB), L.jackAncho),
@@ -354,7 +393,7 @@ export function bastidor(E) {
     for (const z of [100, 118]) {
       tornilleria(E, {
         nombre: `Ménsula jack inf ${s > 0 ? '+Y' : '-Y'} X${x} Z${z}`, capa: FIJO,
-        at: [x, s * (P.almaY + T12 / 2 + GOL), z], dir: [0, -s, 0], agarre: 2 * T12,
+        at: [x, s * r2(P.almaY + T12 / 2), z], dir: [0, -s, 0], agarre: 2 * T12,
       });
       M.pernos++;
     }
@@ -411,6 +450,13 @@ export function bastidor(E) {
       [s * L.cruzY, L.cruzZ1 - T12 / 2], [s * (L.cruzY - L.cruzAla), L.cruzZ1 - T12 / 2],
     ];
     const f = [sketchYZ('Canal U 2"×1-1/2" 12 GA', xCruz0, seccionChapa(fib, T12, RB), r2(xCruz1 - xCruz0))];
+    // MUESCA de las alas en el plano del serpentín: el ramal que sube de la polea
+    // loca Y=152.4 al rodillo Y=190.5 cruza este canal. Se recortan las dos alas y
+    // el alma (Y ≥ 196) queda entera.
+    f.push(box('Muesca de paso del serpentín',
+      [r2((L.serpMuescaX[0] + L.serpMuescaX[1]) / 2), s * r2((L.serpMuescaY[0] + L.serpMuescaY[1]) / 2), L.cruzZ0 - 4],
+      r2(L.serpMuescaX[1] - L.serpMuescaX[0]), r2(L.serpMuescaY[1] - L.serpMuescaY[0]),
+      r2(L.cruzZ1 - L.cruzZ0 + 8), 'cut'));
     for (const x of [118, 133]) f.push(hole(`Guarda serpentín Ø${PAS38}`, [x, s * 175, L.cruzZ0 - 2], [0, 0, 1], PAS38, 8, false));
     E.addPart(`${MOVIL}Transfer cross channel 2"×1-1/2" 12 GA × ${r2(xCruz1 - xCruz0)} (${s > 0 ? '+Y' : '-Y'})`,
       COL.movil, [xCruz0, s * L.cruzY, L.cruzZ0], f,
@@ -462,9 +508,17 @@ export function bastidor(E) {
   for (const s of [1, -1]) {
     const zTop = r2(L.braceZ1 - T12 / 2);
     const fib = [[s * L.angY[0], L.angZ0], [s * L.angY[0], zTop], [s * L.angY[1], zTop]];
+    const fAng = [sketchYZ('Angular 1-3/4×1 12 GA', L.angX0, seccionChapa(fib, T12, RB), angLargo)];
+    for (const [tx, ty] of L.angTorn) {
+      fAng.push(hole(`Placa de transmisión Ø${PAS38}`, [tx, s * ty, r2(L.braceZ1 + 2)], [0, 0, -1], PAS38, 8, false));
+    }
+    // relieve para las 2 TUERCAS de esos pernos: quedan bajo el ala horizontal y su
+    // hexágono (R=8.24 en torno a Y=90.5) llega a Y=82.25, dentro del ala vertical.
+    fAng.push(box('Relieve de las tuercas de la placa de transmisión',
+      [r2((L.angTorn[0][0] + L.angTorn[1][0]) / 2), s * r2(L.angY[0] + 2), 173],
+      r2(L.angTorn[1][0] - L.angTorn[0][0] + 22), 10, r2(L.braceZ1 - T12 - 173), 'cut'));
     E.addPart(`${MOVIL}Cross angle 1-3/4"×1" 12 GA × ${angLargo} (cartela de la muesca ${s > 0 ? '+Y' : '-Y'})`,
-      COL.movil, [L.angX0, s * L.angY[0], L.angZ0],
-      [sketchYZ('Angular 1-3/4×1 12 GA', L.angX0, seccionChapa(fib, T12, RB), angLargo)],
+      COL.movil, [L.angX0, s * L.angY[0], L.angZ0], fAng,
       { ...chapa(T12, fib), catalogo: 'PT-086833 · CROSS ANGLE - 8-1/2 in. LONG',
         union: 'soldada al ala interior del brace channel; puentea la muesca' });
     M.chapas++;
@@ -490,7 +544,7 @@ export function bastidor(E) {
     M.chapas++;
     for (const y of L.espTornY) {
       const dir = i ? [-1, 0, 0] : [1, 0, 0];
-      const at = i ? [r2(L.placaXb + T316 / 2 + GOL), y, L.espTornZ] : [r2(L.placaXa - T316 / 2 - GOL), y, L.espTornZ];
+      const at = i ? [r2(L.placaXb + T316 / 2), y, L.espTornZ] : [r2(L.placaXa - T316 / 2), y, L.espTornZ];
       tornilleria(E, { nombre: `Spacer plate ${i ? 'libre' : 'motriz'} Y${y}`, capa: MOVIL, at, dir, agarre: 2 * T316 });
       M.pernos++;
     }
@@ -521,7 +575,7 @@ export function bastidor(E) {
     for (const y of L.guardaTornY) for (const z of L.guardaTornZ) {
       tornilleria(E, {
         nombre: `Guarda Y${y} Z${z}`, capa: MOVIL,
-        at: [r2(xPeine - T14 - GOL), y, z], dir: [1, 0, 0], agarre: r2(T14 + T316),
+        at: [r2(xPeine - T14), y, z], dir: [1, 0, 0], agarre: r2(T14 + T316),
       });
       M.pernos++;
     }
