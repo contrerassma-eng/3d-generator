@@ -1,0 +1,407 @@
+{
+  "_meta": {
+    "fuente": "cad/ensambles/nbt90/ref/iso_despiece.jpeg",
+    "tamano_px": [1170, 1219],
+    "unidades": "px de la imagen original; en dibujo isometrico la longitud en px de un segmento paralelo a un eje = longitud verdadera en unidades de dibujo",
+    "ejes_isometricos": {
+      "X": {"pantalla": [0.866, -0.5], "angulo_deg": -30, "significado": "eje de los arboles del carro; ancho entre bandas"},
+      "Y": {"pantalla": [0.866, 0.5], "angulo_deg": 30, "significado": "direccion de marcha de las bandas angostas"},
+      "Z": {"pantalla": [0.0, -1.0], "angulo_deg": -90, "significado": "vertical, carrera del pop-up"}
+    },
+    "verificacion_ejes": "HoughLinesP sobre la imagen completa devuelve segmentos a -30.0, +30.0 y -90.0 grados exactos (p.ej. 482px -30.0 (413,930)-(831,689); 304px +30.0 (792,541)-(1055,693); 262px -90.0 (603,494)-(603,232))",
+    "elipses": "circulo D en plano principal -> caja envolvente 0.866*D (ancho) x 1.118*D (alto) si el eje de giro es X o Y; eje mayor 1.2247*D",
+    "escala_absoluta": "DESCONOCIDA en la isometrica; solo se dan proporciones",
+    "globos_faltantes": [6, 7, 8, 13],
+    "globos_cortados_por_borde": ["12 (parcial, legible)", "11 (parcial superior, legible)", "'2_' (parcial derecho, ilegible)", "4 directrices sin globo: 1 por el borde izquierdo, 3 por el derecho"]
+  },
+
+  "globos": [
+    {
+      "n": 1,
+      "nombre_es": "Buje / cojinete de brida",
+      "nombre_en": "Flanged bearing / bushing",
+      "fabricacion": "comprado de catalogo",
+      "cantidad": 1,
+      "geometria": "Cilindro con pestaña, diametro aprox 22 px, alojado en el taladro central de la placa 9; brida visible como elipse doble.",
+      "confianza": "alta",
+      "notas": "Globo en (180,1135); flecha en (202,955); zona leida roi 160 920 300 1070 x9. Apoyo del eje de pivote de las palancas. Existe el simetrico en el costado opuesto."
+    },
+    {
+      "n": 2,
+      "nombre_es": "Palanca acodada / balancin de elevacion",
+      "nombre_en": "Bell-crank lever / rocker arm",
+      "fabricacion": "placa gruesa cortada (laser/plasma)",
+      "cantidad": 2,
+      "geometria": "Placa perfilada tipo bumeran; brazo largo aprox 198 px; cubo/pivote con buje soldado saliente diametro 39 px en (838,887); taladros en (731,792),(804,868),(814,963),(838,995),(822,1005); cantos con radios.",
+      "confianza": "alta",
+      "notas": "Globo en (855,795); flecha en (838,845); roi 650 730 1170 1100 x3. Una unidad explotada y otra dibujada montada entre (639,565) y (717,741) (segmentos Hough 66.1 y 66.2 grados, 193 y 201 px)."
+    },
+    {
+      "n": 3,
+      "nombre_es": "Escuadra / soporte de extremo del carro",
+      "nombre_en": "Carriage end bracket",
+      "fabricacion": "chapa plegada",
+      "cantidad": 2,
+      "geometria": "Chapa plegada; ala vertical con esquina superior redondeada y 2 taladros en (852,517) y (852,547); ala horizontal atornillada a la cara superior de la viga del carro.",
+      "confianza": "alta",
+      "notas": "Globo en (957,285); flecha en (877,455); roi 760 440 900 570 x8."
+    },
+    {
+      "n": 4,
+      "nombre_es": "Larguero / travesano de bastidor",
+      "nombre_en": "Frame channel / cross member",
+      "fabricacion": "chapa plegada (perfil de canal)",
+      "cantidad": 1,
+      "geometria": "Perfil largo en direccion X, longitud >= 275 px ((480,628)-(718,498)); placa de extremo con esquinas redondeadas y 2-4 taladros en (475-500, 630-700); taladros en el alma en (490,655),(495,678),(515,660),(520,685).",
+      "confianza": "alta",
+      "notas": "Globo en (133,547); flecha en (472,632); roi 440 440 720 720 x5. En la maquina hay al menos 2 (par)."
+    },
+    {
+      "n": 5,
+      "nombre_es": "Angular largo de cierre / guarda",
+      "nombre_en": "Long closure angle",
+      "fabricacion": "chapa plegada (perfil L)",
+      "cantidad": 1,
+      "geometria": "Perfil en L en direccion X, de (287,347) a (465,243), longitud aprox 206 px, ala estrecha (3 lineas paralelas en el recorte).",
+      "confianza": "media-alta",
+      "notas": "Globo en (322,175); flecha en (456,274); roi 440 240 640 380 x6 y roi 100 80 620 560 x3."
+    },
+    {
+      "n": 6,
+      "nombre_es": "NO VISIBLE (globo fuera de encuadre)",
+      "nombre_en": "NOT VISIBLE (balloon off-frame)",
+      "fabricacion": "desconocida",
+      "cantidad": 0,
+      "geometria": "Numero ausente. Corresponde a una de las 4 directrices que entran por los bordes; ver notas.",
+      "confianza": "baja",
+      "notas": "Candidatos de destino (no asignables individualmente): (a) borde izq, directriz en y=929.5, flecha en (25,950) -> chapa plana rectangular con 4 taladros de esquina en (38-108, 875-1055); (b) borde der, directriz en y=579.5, flecha en (933,688) -> placa vertical ranurada (900-955, 605-760); (c) borde der, directriz en y=652.5, flecha en (1148,655) -> angular largo en L (980-1160, 640-760); (d) borde der, directriz en y=774.5, flecha en (1128,782) -> pestana plegada del panel de guarda lejano (1010-1135, 700-880)."
+    },
+    {
+      "n": 7,
+      "nombre_es": "NO VISIBLE (globo fuera de encuadre)",
+      "nombre_en": "NOT VISIBLE (balloon off-frame)",
+      "fabricacion": "desconocida",
+      "cantidad": 0,
+      "geometria": "Numero ausente; ver la lista de 4 destinos en el globo 6.",
+      "confianza": "baja",
+      "notas": "Mismos candidatos que el globo 6."
+    },
+    {
+      "n": 8,
+      "nombre_es": "NO VISIBLE (globo fuera de encuadre)",
+      "nombre_en": "NOT VISIBLE (balloon off-frame)",
+      "fabricacion": "desconocida",
+      "cantidad": 0,
+      "geometria": "Numero ausente; ver la lista de 4 destinos en el globo 6.",
+      "confianza": "baja",
+      "notas": "Mismos candidatos que el globo 6."
+    },
+    {
+      "n": 9,
+      "nombre_es": "Placa portacojinete",
+      "nombre_en": "Bearing mounting plate",
+      "fabricacion": "chapa cortada plana",
+      "cantidad": 2,
+      "geometria": "Placa rectangular plana aprox 57x55 px con 4 taladros de esquina ((190,935),(225,955),...) y taladro central grande para el buje 1.",
+      "confianza": "alta",
+      "notas": "Globo en (258,1128); flecha en (183,953); roi 160 920 300 1070 x9. Se atornilla a la placa lateral 12 centrada en su ventana."
+    },
+    {
+      "n": 10,
+      "nombre_es": "Panel de cierre / guarda lateral",
+      "nombre_en": "Side cover panel / guard",
+      "fabricacion": "chapa plegada",
+      "cantidad": 1,
+      "geometria": "Chapa 192 (X) x 222 (Z) px, plana, con pestana de refuerzo plegada en el canto vertical izquierdo (banda estrecha x 288-303). Sin taladros visibles en la cara.",
+      "confianza": "alta",
+      "notas": "Globo en (163,417); flecha en (293,462); roi 100 80 620 560 x3; ancho medido con perfil --fila 400 (aristas en x=291.5 y 458.0 -> 166.5/0.866=192)."
+    },
+    {
+      "n": 11,
+      "nombre_es": "Barra / tirante superior plano",
+      "nombre_en": "Top tie strap / hold-down bar",
+      "fabricacion": "chapa cortada plana",
+      "cantidad": 5,
+      "geometria": "Pletina plana en direccion Y; longitud entre centros de taladro 224 px; ancho 17 px; un taladro en cada extremo. Taladros izquierdos en (506,168),(540,147),(574,127),(609,108),(644,87). Paso entre barras 40 px en X.",
+      "confianza": "alta",
+      "notas": "Globo en (800,30) (cortado por el borde superior, legible); flecha en (753,132); roi 460 60 900 330 x4. Conteo verificado con perfil --col 660 y --col 700 (5 pares de aristas en ambas). Lineas verticales de trayectoria de explosion en x=603,638,673,707 (paso 34.6 = 40*cos30)."
+    },
+    {
+      "n": 12,
+      "nombre_es": "Placa lateral del bastidor (lado cercano)",
+      "nombre_en": "Frame side plate (near side)",
+      "fabricacion": "chapa plegada",
+      "cantidad": 2,
+      "geometria": "Chapa plegada en C: alma vertical + ala superior y ala inferior con hilera de taladros; ventana rectangular recortada en el centro. Ala superior de (107,723) a (354,866) = 287 px en Y; altura de alma aprox 170 px (perfil --col 300: alas en y=834 y y=1007).",
+      "confianza": "alta",
+      "notas": "Globo centrado en (-34,757), solo se ve el '2' (perfil --col 3 da cuerdas en y=726.5 y 788.5); flecha en (113,843); roi 0 540 260 1120 x4."
+    },
+    {
+      "n": 13,
+      "nombre_es": "NO VISIBLE (globo fuera de encuadre)",
+      "nombre_en": "NOT VISIBLE (balloon off-frame)",
+      "fabricacion": "desconocida",
+      "cantidad": 0,
+      "geometria": "Numero ausente; ver la lista de 4 destinos en el globo 6.",
+      "confianza": "baja",
+      "notas": "Mismos candidatos que el globo 6."
+    },
+    {
+      "n": 14,
+      "nombre_es": "Chapa / bandeja inferior",
+      "nombre_en": "Bottom pan / base plate",
+      "fabricacion": "chapa cortada plana",
+      "cantidad": 1,
+      "geometria": "Chapa plana grande de contorno escalonado (escalones y muescas); taladros perimetrales en (545,976),(613,1014),(682,1053),(813,963),(870,945); arista larga en X de 482 px ((413,930)-(831,689)).",
+      "confianza": "alta",
+      "notas": "Globo en (1050,1078); flecha en (867,1045); roi 420 870 960 1150 x3. Explotada hacia abajo respecto al bastidor."
+    },
+    {
+      "n": 15,
+      "nombre_es": "Casquillo separador",
+      "nombre_en": "Spacer sleeve / bushing",
+      "fabricacion": "tubo / mecanizado",
+      "cantidad": 2,
+      "geometria": "Tubo corto de pared gruesa, diametro exterior aprox 33 px, longitud aprox 40 px; visible en (400-435, 805-845) y otro similar en (350-400, 815-865).",
+      "confianza": "media-alta",
+      "notas": "Globo en (487,1120); flecha en (430,821) (segmento Hough 272px a 79.6 grados desde (481,1092)); roi 330 690 580 880 x6."
+    },
+    {
+      "n": 16,
+      "nombre_es": "Pletina / soporte en L pequeno",
+      "nombre_en": "Small retainer bracket",
+      "fabricacion": "chapa plegada",
+      "cantidad": 2,
+      "geometria": "Pletina plana con 2 taladros ((215,1000),(240,1015)) y pestana plegada en el extremo derecho (245-265, 1015-1035).",
+      "confianza": "media",
+      "notas": "Globo en (360,1140); flecha en (264,1027); roi 160 920 300 1070 x9."
+    },
+    {
+      "n": 17,
+      "nombre_es": "Horquilla / rotula del vastago",
+      "nombre_en": "Rod clevis / rod-end",
+      "fabricacion": "mecanizado o comprado de catalogo",
+      "cantidad": 1,
+      "geometria": "Extremo del vastago: rosca + tuerca de bloqueo en (505-525, 805-830) + horquilla/ojo en (535-570, 830-870).",
+      "confianza": "media-alta",
+      "notas": "Globo en (610,1135); flecha en (551,828) (segmento Hough 279px a 79.5 grados desde (604,1105)); roi 330 690 580 880 x6. Se une al brazo inferior de la palanca 2 mediante el pasador 19."
+    },
+    {
+      "n": 18,
+      "nombre_es": "Polea acanalada de banda angosta (alma radiada, cubo hexagonal)",
+      "nombre_en": "Narrow-belt grooved pulley (spoked web, hex bore)",
+      "fabricacion": "comprado de catalogo o mecanizado",
+      "cantidad": 1,
+      "geometria": "Rueda con llanta acanalada, alma radiada de 30-36 radios y cubo hexagonal. Diametro 62 px medido sobre la polea frontal limpia en (609,547) (caja 52.8x71.1 -> 61.0 y 63.6). En la maquina hay 10 (2 filas x 5).",
+      "confianza": "alta",
+      "notas": "Globo en (430,110); flecha en (542,274); la unidad explotada esta en (558,313) y da caja 70x75 (relacion 1.07, distinta de la teorica 1.29) => esta girada respecto a los ejes, por eso no se usa para el diametro. Cubo hexagonal visible en (600,545) y en la fig 8A."
+    },
+    {
+      "n": 19,
+      "nombre_es": "Pasador con cabeza (bulon de horquilla)",
+      "nombre_en": "Clevis pin",
+      "fabricacion": "mecanizado / catalogo",
+      "cantidad": 1,
+      "geometria": "Cilindro de diametro aprox 9 px y longitud aprox 45 px con cabeza en el extremo inferior-izquierdo, en (763-800, 1020-1048).",
+      "confianza": "alta",
+      "notas": "Globo en (880,1145); flecha en (782,1047); roi 420 870 960 1150 x3. Explotado bajo la palanca 2."
+    },
+    {
+      "n": 20,
+      "nombre_es": "Escuadra / horquilla de anclaje trasero del cilindro",
+      "nombre_en": "Cylinder rear mounting clevis",
+      "fabricacion": "chapa plegada",
+      "cantidad": 1,
+      "geometria": "Escuadra plegada con 2-3 taladros en el ala vertical, en (363-395, 725-760); recibe el pie trasero del cilindro neumatico.",
+      "confianza": "media-alta",
+      "notas": "Globo en (65,628); flecha en (362,732); roi 330 690 580 880 x6."
+    },
+    {
+      "n": 21,
+      "nombre_es": "Casquillo separador corto",
+      "nombre_en": "Short spacer / standoff",
+      "fabricacion": "tubo",
+      "cantidad": 1,
+      "geometria": "Cilindro corto vertical de diametro aprox 5 px y longitud aprox 28 px, en (838, 222-250).",
+      "confianza": "media",
+      "notas": "Globo en (963,158); flecha en (855,238); roi 700 0 1170 480 x3. Se monta bajo la pestana taladrada de (825-855, 195-215), formando pareja con el tornillo 23. Probablemente 5 unidades (una por barra 11)."
+    },
+    {
+      "n": 22,
+      "nombre_es": "Anillo / clip de retencion del pasador",
+      "nombre_en": "Retaining clip / cotter",
+      "fabricacion": "comprado de catalogo",
+      "cantidad": 1,
+      "geometria": "Pieza pequena oscura junto al taladro inferior de la palanca 2, en (840-855, 990-1005). No se resuelve el tipo (E-clip, pasador de aletas o arandela).",
+      "confianza": "baja",
+      "notas": "Globo en (1043,985); flecha en (853,995); roi 650 730 1170 1100 x3. Pareja funcional del pasador 19."
+    },
+    {
+      "n": 23,
+      "nombre_es": "Tornillo / varilla larga",
+      "nombre_en": "Long screw / stud",
+      "fabricacion": "comprado de catalogo",
+      "cantidad": 1,
+      "geometria": "Vastago fino vertical de diametro aprox 5 px, de (838,140) a (838,205), con cabeza pequena arriba.",
+      "confianza": "media-alta",
+      "notas": "Globo en (912,55); flecha en (848,135); roi 460 60 900 330 x4. Atraviesa la pestana taladrada y el separador 21. Probablemente 5 unidades."
+    },
+    {
+      "n": 24,
+      "nombre_es": "Tornillo de cabeza hexagonal (fijacion / tensado)",
+      "nombre_en": "Hex-head bolt",
+      "fabricacion": "comprado de catalogo",
+      "cantidad": 1,
+      "geometria": "Tornillo con cabeza hexagonal y vastago, en (465-490, 340-355), orientado hacia abajo-izquierda.",
+      "confianza": "media",
+      "notas": "Globo en (192,280); flecha en (465,352); trazado de la directriz verificado en roi 100 80 620 560 x3 y roi 440 240 640 380 x6. Asociado al conjunto de la polea 18."
+    },
+    {
+      "n": 25,
+      "nombre_es": "Disco / tapa (arandela grande o tapon)",
+      "nombre_en": "Disc / cap (large washer or plug)",
+      "fabricacion": "chapa cortada plana o mecanizado",
+      "cantidad": 1,
+      "geometria": "Disco delgado de diametro aprox 24 px con taladro central pequeno, en (218-240, 1018-1055). Caja 22x37 (relacion 1.68, incompatible con circulo axial) => esta girado o es una tapa embutida.",
+      "confianza": "baja",
+      "notas": "Globo en (258,1145); flecha en (238,1063); roi 160 920 300 1070 x9."
+    }
+  ],
+
+  "piezas_sin_globo": [
+    {"nombre_es": "Unidad FRL (filtro-regulador con vaso + racor codo)", "coord": "(760-830, 250-360)", "notas": "Pomo regulador (800-815,250-275), cuerpo, vaso con purga; codo push-in a la izquierda. Montada sobre la placa vertical derecha."},
+    {"nombre_es": "Cilindro neumatico de doble efecto", "coord": "(363-565, 725-870)", "notas": "Cabezal con 4 tirantes en (390-420,738-772); cuerpo a lo largo de Y, longitud aprox 115 px, diametro cabezal aprox 32 px."},
+    {"nombre_es": "Bandas angostas (5)", "coord": "(720-870, 555-750)", "notas": "Extremos envolventes en (723,740),(745,728),(777,712),(798,700),(813,690); ramal inclinado 33.7 grados (dY=150, dZ=-100)."},
+    {"nombre_es": "Escuadra-guia con pasador vertical (5)", "coord": "(696,541),(732,520),(767,502),(802,481)", "notas": "Pasador de diametro aprox 6 px y 18 px de alto; paso 40 px en X; una por linea de banda."},
+    {"nombre_es": "Soporte vertical ranurado del carro (2)", "coord": "(655-710,545-635) y (900-955,605-760)", "notas": "Placa con 2 ranuras oblongas de reglaje de altura + taladros redondos + ala inferior plegada."},
+    {"nombre_es": "Escuadra en U (canal) con ranuras", "coord": "(950-1010, 555-600)", "notas": "Canal plegado con 2 ranuras oblongas en el ala horizontal."},
+    {"nombre_es": "Arbol de extremo del carro", "coord": "(715-870, 555-650)", "notas": "Tubo/eje en direccion X, diametro aprox 27 px (perfil --col 745: 610->641 = 31 = 1.155*D)."}
+  ],
+
+  "proporciones": [
+    {"relacion": "numero de lineas de banda angosta", "valor": 5, "metodo": "conteo doble: 5 barras (globo 11) por perfil --col 660 y --col 700 (5 pares de aristas), y 5 extremos envolventes en el abanico de bandas (roi 690 540 900 780 x6)"},
+    {"relacion": "paso entre bandas / diametro de polea (p/Dp)", "valor": 0.65, "metodo": "40/62; p de los taladros de las barras 11 (delta 34.5,-20.25 = 40 unidades en X); Dp de la caja envolvente 52.8x71.1 de la polea frontal (609,547) dividida por 0.866 y 1.118"},
+    {"relacion": "diametro de polea / paso (Dp/p)", "valor": 1.55, "metodo": "reciproco de la anterior; las poleas se solapan en proyeccion porque comparten arbol"},
+    {"relacion": "largo de barra 11 / paso (Lb/p)", "valor": 5.6, "metodo": "224/40; Lb medido entre centros de taladro (506,168)-(700,280), segmento paralelo a Y"},
+    {"relacion": "esbeltez de la barra 11 (Lb/wb)", "valor": 13.2, "metodo": "224/17; wb = separacion vertical entre las dos aristas de la barra a x constante (perfil --col 660), que en isometria equivale al ancho segun X"},
+    {"relacion": "ancho de barra / paso (wb/p)", "valor": 0.43, "metodo": "17/40; implica hueco libre entre barras de 0.57*p"},
+    {"relacion": "ancho util del carro / largo de barra 11", "valor": 0.71, "metodo": "(4*40)/224; 4 pasos entre las 5 lineas"},
+    {"relacion": "alto del alma de la viga del carro / paso (hv/p)", "valor": 1.05, "metodo": "42/40; hv = separacion vertical entre las dos rectas paralelas a X (707,591)-(877,492) y (706,634)-(877,534), que por ser ambas axiales da directamente la diferencia en Z"},
+    {"relacion": "diametro de polea / alto del alma de la viga (Dp/hv)", "valor": 1.48, "metodo": "62/42"},
+    {"relacion": "largo del perfil 4 / ancho util del carro", "valor": 1.72, "metodo": "275/160; L4 de (480,628)-(718,498) = 238/0.866"},
+    {"relacion": "huella del bastidor: arista larga chapa 14 (X) / largo barra 11 (Y)", "valor": 2.15, "metodo": "482/224; L14 del segmento Hough (413,930)-(831,689) a -30 grados exactos"},
+    {"relacion": "ala superior de placa lateral / largo de barra 11 (ambas en Y)", "valor": 1.28, "metodo": "287/224; L12 de (107,723)-(354,866), segmento Hough a +30.1 grados"},
+    {"relacion": "esbeltez de la placa lateral (H12/L12)", "valor": 0.59, "metodo": "170/287; H12 por perfil --col 300 (alas en y=834 y y=1007)"},
+    {"relacion": "panel de guarda 10, alto/ancho", "valor": 1.16, "metodo": "222/192; ancho por perfil --fila 400 (aristas en x=291.5 y 458.0 -> 166.5/0.866); alto por lectura vertical directa"},
+    {"relacion": "panel de guarda 10, ancho / paso", "valor": 4.8, "metodo": "192/40"},
+    {"relacion": "brazo de la palanca / diametro de su pivote (Lpal/Db)", "valor": 5.1, "metodo": "198/39; Lpal de los segmentos Hough a 66.1 y 66.2 grados (193 y 201 px); Db de la caja 34x43 del cubo en (838,887) dividida por 0.866 y 1.118"},
+    {"relacion": "diametro del pivote de palanca / diametro de polea", "valor": 0.63, "metodo": "39/62"},
+    {"relacion": "diametro del cabezal del cilindro / diametro de polea", "valor": 0.52, "metodo": "32/62; Dc de la caja 30x34 del cabezal en (390-420,738-772)"},
+    {"relacion": "largo del cuerpo del cilindro / brazo de palanca", "valor": 0.58, "metodo": "115/198; Lc de (400,755)-(500,812), paralelo a Y (100/0.866)"},
+    {"relacion": "diametro del arbol de extremo / diametro de polea (De/Dp)", "valor": 0.44, "metodo": "27/62; De por perfil --col 745 (610->641 = 31 px = 1.155*D para un cilindro axial en X)"},
+    {"relacion": "diametro del buje 1 / diametro de polea", "valor": 0.35, "metodo": "22/62"},
+    {"relacion": "diametro del buje 1 / diametro del pivote de palanca", "valor": 0.56, "metodo": "22/39; coherente con buje montado en la placa 9 y cubo girando sobre el"},
+    {"relacion": "inclinacion del ramal de banda hacia el accionamiento (dZ/dY)", "valor": 0.67, "metodo": "direccion medida en pantalla (-130,+175) resuelta en ejes isometricos: dY=150, dZ=-100 => 33.7 grados bajo la horizontal"},
+    {"relacion": "separacion entre las dos filas de poleas (dY/dZ)", "valor": 2.4, "metodo": "offsets perpendiculares de fila p=709.7 vs 810.9 y offset axial de 24 px, resueltos en ejes: dY aprox 82, dZ aprox 34"},
+    {"relacion": "paso de poleas / diametro del arbol (p/De)", "valor": 1.48, "metodo": "40/27"},
+    {"relacion": "FIG 8A: paso / diametro de polea superior", "valor": 1.85, "metodo": "120 px / 65 px sobre fig8a_vistas.png (centros en x=231,351,471,591,711,831; escala 0.5277 mm/px => paso 63.3 mm = 2.49 pulg, diametro 34 mm = 1.35 pulg). CONTRADICE el 0.65 de la isometrica en un factor 2.8"}
+  ],
+
+  "ensamble": [
+    {
+      "paso": 1,
+      "piezas": ["4 larguero de bastidor", "12 placa lateral (x2)"],
+      "tornilleria": "Pernos pasantes por la placa de extremo del larguero (2-4 taladros, esquinas redondeadas, en 475-500 x 630-700) y por los taladros del alma (490,655),(495,678),(515,660),(520,685)"
+    },
+    {
+      "paso": 2,
+      "piezas": ["14 chapa inferior", "12 placa lateral (ala inferior)"],
+      "tornilleria": "Tornillos por los taladros perimetrales de la chapa escalonada: (545,976),(613,1014),(682,1053),(813,963),(870,945)"
+    },
+    {
+      "paso": 3,
+      "piezas": ["1 buje de brida", "9 placa portacojinete", "12 placa lateral"],
+      "tornilleria": "Buje 1 insertado a presion en el taladro central de la placa 9; placa 9 atornillada con 4 tornillos de esquina a la placa lateral 12, centrada en su ventana rectangular"
+    },
+    {
+      "paso": 4,
+      "piezas": ["2 palanca acodada (x2)", "1 buje", "eje transversal en X"],
+      "tornilleria": "Cubo de la palanca (diametro 39) montado sobre el buje 1; retencion axial no resuelta en el dibujo (posible collarin o el disco 25)"
+    },
+    {
+      "paso": 5,
+      "piezas": ["cilindro neumatico", "20 escuadra de anclaje trasero", "17 horquilla del vastago", "19 pasador", "22 clip de retencion", "15 casquillos separadores"],
+      "tornilleria": "Pie trasero del cilindro a la escuadra 20 (2-3 tornillos); vastago -> tuerca de bloqueo -> horquilla 17 -> pasador 19 por el brazo inferior de la palanca 2, con casquillos 15 de centrado y clip 22 de retencion"
+    },
+    {
+      "paso": 6,
+      "piezas": ["viga del carro", "3 escuadras de extremo (x2)", "soportes verticales ranurados (x2)", "2 arboles hexagonales", "18 poleas acanaladas (x10)", "escuadras-guia con pasador vertical (x5)", "arbol de extremo"],
+      "tornilleria": "Escuadras 3 atornilladas a la cara superior de la viga; soportes ranurados con tornillos en ranuras oblongas (reglaje de altura); poleas posicionadas por forma sobre arbol hexagonal (paso 40, 5 por arbol); escuadras-guia atornilladas a la cara superior, paso 40"
+    },
+    {
+      "paso": 7,
+      "piezas": ["5 bandas angostas", "poleas 18", "arbol de extremo"],
+      "tornilleria": "Sin tornilleria; se enfilan sobre sus pares de poleas y bajan al accionamiento con inclinacion 33.7 grados"
+    },
+    {
+      "paso": 8,
+      "piezas": ["11 barras superiores (x5)", "23 tornillo largo", "21 casquillo separador"],
+      "tornilleria": "Tornillo 23 + separador 21 en cada extremo de cada barra, a traves de las pestanas taladradas (p.ej. 825-855 x 195-215). Trayectorias verticales de explosion en x=603,638,673,707,(742)"
+    },
+    {
+      "paso": 9,
+      "piezas": ["10 panel de guarda cercano", "panel de guarda lejano", "5 angular de cierre", "angular largo en L (globo cortado derecho)"],
+      "tornilleria": "Atornillados a las alas de las placas laterales 12 y a los angulares de remate; el panel 10 lleva pestana plegada hacia dentro"
+    },
+    {
+      "paso": 10,
+      "piezas": ["unidad FRL", "tuberia push-in", "cilindro neumatico"],
+      "tornilleria": "FRL atornillado a la placa vertical derecha; dos lineas de tubo push-in hasta las dos bocas del cilindro (doble efecto)"
+    }
+  ],
+
+  "cinematica": {
+    "entrada_de_aire": "Red -> unidad FRL (filtro con vaso + regulador con pomo) en (760-830,250-360) -> tuberia push-in -> dos bocas del cilindro (doble efecto)",
+    "actuador": "Cilindro neumatico horizontal con eje segun Y (cuerpo de (390,750) a (500,820), delta (110,70) = +32.5 grados = eje Y), anclado por culata a la escuadra 20",
+    "transmision_a_la_elevacion": "Vastago -> horquilla 17 -> pasador 19 -> brazo inferior de la palanca 2 -> giro sobre el cubo (diametro 39) apoyado en el buje 1 -> brazo superior levanta el carro. Dos palancas en fase, una por costado.",
+    "ventaja_mecanica": "brazo/pivote = 5.1; con giro tipico de 20-30 grados la carrera vertical del carro es del orden de 0.35-0.5 veces la carrera del cilindro",
+    "reglaje_de_altura": "Ranuras oblongas de los soportes verticales del carro (655-710,545-635 y 900-955,605-760); equivalen al ADJUSTMENT SLOT de FIGURE 8A. La cota 1/4 pulgada de 8A es la altura de sobresalido de la banda sobre el plano de rodillos.",
+    "marcha_de_banda": "5 bandas angostas en direccion Y; cada una sobre 2 poleas del carro (2 arboles separados dY aprox 82, dZ aprox 34) y bajando 33.7 grados hacia el accionamiento; guiadas lateralmente por 5 escuadras con pasador vertical y por las 5 barras superiores 11",
+    "accionamiento": "Segun FIGURE 8A: motorreductor 1/2 HP 230/460 V -> DRIVE BELT -> DRIVE ROLLER. NO aparece en la isometrica.",
+    "tensado": "Segun FIGURE 8A: ADJUSTMENT SLOT en la bancada del motor para tensar la banda motriz; cota 0.394 pulgadas (= 10 mm exactos) de recorrido del rodillo motriz; TAKE-UP IDLER para la tension de los ramales; JACK BOLTS (pernos de argolla) para nivelar el conjunto.",
+    "ciclo": "Reposo: cilindro retraido, carro bajo el plano de transporte. Transferencia: se presuriza, el carro sube aprox 1/4 pulgada sobre los rodillos, las 5 bandas en marcha toman la carga y la desvian 90 grados (marcha en Y, perpendicular a la linea principal en X). Retorno: se invierte el cilindro y el carro baja."
+  },
+
+  "coherencia_fig8a": {
+    "comunes": [
+      "poleas de banda angosta en fila con paso constante",
+      "cubo/agujero hexagonal en las poleas (arbol hexagonal)",
+      "bandas angostas descendiendo inclinadas hacia el accionamiento",
+      "cilindro neumatico horizontal",
+      "soportes con ranuras oblongas de reglaje (ADJUSTMENT SLOT)",
+      "placas laterales con alas taladradas",
+      "tuberia y racores neumaticos"
+    ],
+    "solo_en_8a": [
+      "motorreductor 1/2 HP 230/460 V",
+      "DRIVE ROLLER (rodillo motriz largo)",
+      "DRIVE BELT (banda motriz motor-rodillo)",
+      "JACK BOLTS (pernos de argolla de nivelacion)",
+      "cotas 1/4 pulgada y 0.394 pulgada"
+    ],
+    "solo_en_isometrica": [
+      "unidad FRL",
+      "palanca acodada 2 con pasadores 19/22",
+      "barras superiores 11 con tornillos 23 y separadores 21",
+      "paneles de guarda 10 y angulares de cierre 5",
+      "chapa inferior 14 de contorno escalonado",
+      "placa portacojinete 9 + buje 1 + pletina 16 + disco 25"
+    ],
+    "contradicciones": [
+      "Relacion paso/diametro de polea: 1.85 en 8A frente a 0.65 en la isometrica (factor 2.8). Aun suponiendo filas intercaladas y paso real 80 en la isometrica, quedaria 1.29, un 43 por ciento por debajo de 8A. No son el mismo tamano de maquina o lo medido como polea en la isometrica incluye la banda envolvente.",
+      "Numero de lineas de banda: 5 en la isometrica (conteo doble) frente a al menos 6 en 8A (vista recortada por la derecha).",
+      "8A se titula conjunto motriz y no contiene el carro pop-up ni la palanca; la isometrica no contiene el motorreductor ni el rodillo motriz. Deben tratarse como dos subconjuntos distintos del mismo equipo, no como dos vistas de lo mismo."
+    ],
+    "recomendacion": "Usar la isometrica para topologia y proporciones del carro pop-up, bastidor y neumatica; usar 8A solo para cotas absolutas del accionamiento (rodillo 1.9 pulgadas, recorrido 10 mm, motorreductor 1/2 HP). No mezclar el paso entre bandas de una vista con el de la otra."
+  }
+}
