@@ -60,17 +60,30 @@ ok(V.tornilleria >= 20, `${V.tornilleria} piezas de tornillería normalizada`);
 
 console.log('— Armado: nada flota, nada choca —');
 // El solape de CAJAS no prueba interferencia: un perfil en U es hueco y su caja
-// envolvente incluye el vacío interior. La comprobación buena es la intersección
-// de sólidos que emite ensambles/nbt90/interferencias.mjs.
+// envolvente incluye el vacío interior. Y el chequeo por MALLAS tampoco decide:
+// el motor BSP da volumen fantasma con sólidos no convexos. La verificación que
+// manda es la de sólidos B-rep exactos (ensambles/nbt90/interferencias_brep.py).
 let inf = null;
-try { inf = JSON.parse(readFileSync('ensambles/nbt90/interferencias.json', 'utf8')); } catch { /* sin informe */ }
-ok(inf !== null, 'existe el informe de interferencia real (interferencias.mjs)');
+try { inf = JSON.parse(readFileSync('ensambles/nbt90/interferencias_brep.json', 'utf8')); } catch { /* sin informe */ }
+ok(inf !== null, 'existe el informe de interferencia exacta (interferencias_brep.py)');
 if (inf) {
-  ok(inf.interferencias_reales === 0,
-    `0 interferencias reales de sólidos sobre ${inf.pares_candidatos_aabb} pares que la caja marcaba (${V.solapesAABB} gruesos)`);
-  ok(inf.contacto_popup?.ok === true,
-    `la mesa guía apoya en el conjunto móvil (separación ${inf.contacto_popup?.separacion_mm} mm)`);
+  // Convención declarada: las piezas COMPRADAS se modelan macizas, sin sus
+  // taladros roscados, así que su propia tornillería las penetra. No es un
+  // choque de diseño; cualquier otro par sí lo es.
+  const flag = new Map(partes.map(p => [p.name, { hw: !!p.hardware, comp: !!p.componente }]));
+  const convencion = (d) => {
+    const a = flag.get(d.a) || {}, b = flag.get(d.b) || {};
+    return (a.hw && b.comp) || (b.hw && a.comp);
+  };
+  const reales = (inf.detalle || []).filter(d => !convencion(d));
+  ok(reales.length === 0,
+    `${reales.length} interferencias de diseño sobre ${inf.pares_candidatos} pares candidatos `
+    + `(${(inf.detalle || []).length - reales.length} son tornillería dentro de piezas compradas, convención declarada)`);
+  for (const d of reales.slice(0, 8)) console.log(`      ${d.cm3} cm³  ${d.a} ⨯ ${d.b}`);
 }
+const contacto = JSON.parse(readFileSync('ensambles/nbt90/interferencias.json', 'utf8') || '{}').contacto_popup;
+ok(contacto?.ok === true,
+  `la mesa guía apoya en el conjunto móvil (separación ${contacto?.separacion_mm} mm)`);
 const sueltas = propias.filter(p => {
   const b = bboxPieza(p);
   return b.lo[2] > P.altoTotal + 45 || b.hi[2] < -1;

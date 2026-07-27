@@ -1,8 +1,8 @@
 {
  "tolerancia_cm3": 0.05,
- "piezas": 371,
- "pares_candidatos": 923,
- "interferencias": 8,
+ "piezas": 375,
+ "pares_candidatos": 939,
+ "interferencias": 4,
  "detalle": [
   {
    "cm3": 0.6861,
@@ -30,34 +30,6 @@
    "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
    "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (+Y+Z)",
    "pct_de_la_menor": 38.52,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1899,
-   "a": "MÓVIL · Cross angle 1-3/4\"×1\" 12 GA × 215.9 (cartela de la muesca +Y)",
-   "b": "MÓVIL · Perno hex 3/8-16 × 3/4\" placa↔cartela del larguero (+Y, X=162)",
-   "pct_de_la_menor": 7.88,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1899,
-   "a": "MÓVIL · Cross angle 1-3/4\"×1\" 12 GA × 215.9 (cartela de la muesca -Y)",
-   "b": "MÓVIL · Perno hex 3/8-16 × 3/4\" placa↔cartela del larguero (−Y, X=162)",
-   "pct_de_la_menor": 7.88,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0969,
-   "a": "MÓVIL · Cross angle 1-3/4\"×1\" 12 GA × 215.9 (cartela de la muesca +Y)",
-   "b": "MÓVIL · Perno hex 3/8-16 × 3/4\" placa↔cartela del larguero (+Y, X=134)",
-   "pct_de_la_menor": 4.02,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0969,
-   "a": "MÓVIL · Cross angle 1-3/4\"×1\" 12 GA × 215.9 (cartela de la muesca -Y)",
-   "b": "MÓVIL · Perno hex 3/8-16 × 3/4\" placa↔cartela del larguero (−Y, X=134)",
-   "pct_de_la_menor": 4.02,
    "cruce": false
   }
  ]

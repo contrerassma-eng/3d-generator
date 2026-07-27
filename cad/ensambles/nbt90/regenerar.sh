@@ -17,8 +17,10 @@ paso() { printf '\n\033[1m▸ %s\033[0m\n' "$1"; }
 paso "1/7  Ensamble (compuerta de diseño)"
 node $N/gen_nbt90.mjs
 
-paso "2/7  Interferencias reales (intersección de sólidos)"
-node $N/interferencias.mjs 1.0 || echo "  ⚠ hay candidatos que revisar — biseca antes de tocar geometría"
+paso "2/7  Interferencias exactas (sólidos B-rep, OpenCascade)"
+# Es la verificación que decide. El chequeo por mallas (interferencias.mjs) se
+# conserva como sonda rápida, pero fantasea con perfiles no convexos.
+python3 $N/interferencias_brep.py --tol 0.05 || echo "  ⚠ revisar el informe antes de fabricar"
 
 paso "3/7  Pruebas del ensamble"
 node tests/test_nbt90.mjs

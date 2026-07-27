@@ -88,9 +88,21 @@ const L = {
   angY: [83.99, 109.39],// dis: el ala vertical apoya en la cara INTERIOR del ala del brace
                         //      channel (Y=82.66); si se pone en la exterior, el ala
                         //      horizontal de la cartela se come el ala del canal.
-  angTorn: [[127, 90.5], [141, 90.5]],   // interfaz transmision.mjs: la pestaña de la
-                        //      placa soporte apoya sobre la cara superior de la cartela
-                        //      (Z = braceZ1 = 187.95) y la atornilla con 2 × 3/8".
+  angTorn: [[134, 90.5], [162, 90.5]],   // interfaz transmision.mjs: la pestaña de la
+                        //      placa soporte (X 113…178) apoya sobre la cara superior de
+                        //      la cartela (Z = braceZ1 = 187.95) y la atornilla con 2×3/8".
+                        // El ala es de 12 GA (2.657) y por debajo queda el hueco ciego del
+                        // canal: no hay llave para una tuerca suelta. Solución: TUERCA
+                        // HEXAGONAL SOLDADA a la cara inferior del ala (DIN 929 / soldadura
+                        // por proyección), puesta en taller junto con la propia cartela —
+                        // que ya es una pieza soldada— y no en el montaje. Se atornilla
+                        // solo desde arriba.
+                        //   · roscar directo el ala: 2.657 / 1.588 (paso 3/8-16) = 1.67
+                        //     filetes → descartado, muy por debajo de la carga de prueba.
+                        //   · tuerca remachable: en 2.657 mm está en el extremo alto de su
+                        //     rango de agarre y gira al reapretar → descartada.
+                        //   · tuerca soldada 3/8-16 (e/c 14.27, alto 8.33): 5.2 filetes en
+                        //     la tuerca; con el ala, agarre 10.99 = 1.15·d ≥ 1·d (acero).
   angZ0: 150,           // dis: arrancan donde termina la muesca del alma
   espX: [42.48, 415.76],// dis: SPACER PLATE contra la cara interior de cada peine
   espZ0: 96, espZ1: 176,// dis
@@ -523,6 +535,15 @@ export function bastidor(E) {
         union: 'soldada al ala interior del brace channel; puentea la muesca' });
     M.chapas++;
     if (s > 0) desa('cross_angle', fib, T12);
+    // tuercas soldadas bajo el ala: el perno de transmision.mjs entra desde arriba
+    for (const [tx, ty] of L.angTorn) {
+      tuercaHex(E, {
+        nombre: `3/8-16 SOLDADA bajo la cartela (X=${tx}, ${s > 0 ? '+Y' : '−Y'})`, capa: MOVIL,
+        at: [tx, s * ty, r2(L.braceZ1 - T12)], dir: [0, 0, -1],
+        dia: D38, af: P.M.b38.af, alto: P.M.b38.tuerca,
+      });
+      M.tuercasSoldadas = (M.tuercasSoldadas || 0) + 1;
+    }
   }
 
   // =========================================================================
