@@ -253,8 +253,9 @@ function ejePolea(E, { nombre, y, z, xApoyo, xRosca, capa }) {
   ], { componente: 'eje_polea_5_8' });
 }
 
-/** Conjunto completo de una polea loca / de retorno: polea + 2 bujes + eje +
- *  anillo de retención + tuerca. Devuelve el nº de piezas creadas. */
+/** Conjunto completo de una polea loca / de retorno: llanta con pestañas +
+ *  2 rodamientos R10-2RS + 2 anillos DIN 472 en el bore + eje 5/8" + anillo
+ *  DIN 471 + tuerca. Devuelve el nº de piezas creadas. */
 /** Registro de los sólidos de polea creados, para cotejarlos uno a uno con la
  *  secuencia de la banda (la banda se calcula de una lista y las poleas se
  *  dibujan en otra: sin este cotejo un `addPart` que falte pasa desapercibido). */
@@ -383,8 +384,8 @@ export function transmision(E) {
     const tensor = y === P.bandaY[P.tomaIdlerIdx];
     conjuntoLoca(E, {
       nombre: tensor
-        ? 'Polea loca banda plana Ø2-1/2"×1.4" TAKE-UP IDLER'
-        : 'Polea loca banda plana Ø2-1/2"×1.4"',
+        ? 'Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5 TAKE-UP IDLER'
+        : 'Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5',
       pos: `Y=${y}`, y, z: tensor ? zToma : P.idlerZ, capa: cap, tensor,
     });
   }
@@ -394,7 +395,7 @@ export function transmision(E) {
   // =========================================== 4. POLEAS DE RETORNO (2 ud)
   for (const sg of [-1, 1]) {
     conjuntoLoca(E, {
-      nombre: 'Polea de retorno banda plana Ø2-1/2"×1.4"',
+      nombre: 'Polea de retorno banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5',
       pos: `Y=${r2(sg * P.retornoY)}`, y: r2(sg * P.retornoY), z: P.retornoZ, capa: cap,
     });
   }

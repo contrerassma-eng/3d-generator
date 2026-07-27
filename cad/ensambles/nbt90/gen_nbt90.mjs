@@ -84,6 +84,20 @@ function verify() {
   else if (env < 60) e.push(`envolvente de la banda sobre el rodillo ${env}° < 60° (no arrastra)`);
   if (largoBanda === undefined) e.push('la transmisión no reportó el largo desarrollado de la banda');
 
+  // Holguras que NO se pueden medir por intersección de sólidos (la banda es un
+  // lazo fino y el motor CSG da falsos positivos): la transmisión las calcula
+  // analíticamente sobre la trayectoria y aquí se exigen.
+  const vt = m.transmision.verificacion || {};
+  if (vt.bandaACanalOK === false) {
+    e.push(`la banda roza el ala del canal: holgura ${vt.bandaACanal} mm en (Y=${vt.bandaACanalEn?.[0]}, `
+      + `Z=${vt.bandaACanalEn?.[1]}); recorte necesario del ala ${vt.recorteAlaCanalNecesario} mm`);
+  }
+  if (vt.pestanaACanalOK === false) {
+    e.push(`una pestaña de polea roza el ala del canal: holgura ${vt.pestanaACanal} mm `
+      + `(${vt.pestanaACanalEn?.[0]})`);
+  }
+  if (vt.poleasSinSolido) e.push(`${vt.poleasSinSolido} elementos de la banda sin sólido de polea`);
+
   // --- 6. el actuador puede con la carga -----------------------------------
   const fs = m.elevacion.factorSeguridad;
   if (fs !== undefined && fs < 1.5) e.push(`factor de seguridad del actuador ${fs} < 1.5`);

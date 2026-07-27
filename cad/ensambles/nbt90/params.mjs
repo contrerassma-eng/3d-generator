@@ -99,7 +99,15 @@ export const P = {
   idlerDia: p(2.5),                // med 64.5 · cat 923.00975 lista 2-3/4"; manda lo medido
                                    // (a paso 76.2 el Ø2-3/4" dejaría solo 6 mm entre locas)
   idlerAncho: p(1.4),              // cat 35.6
-  idlerEje: p(0.5625),             // med 14.2 — eje 9/16" de las poleas locas
+  // Eje de las poleas locas. La vista da 14.2 (9/16"), pero **9/16" no tiene
+  // rodamiento de catálogo**: la serie R salta de R8 (1/2") a R10 (5/8"). Al
+  // pasar las locas de buje de bronce a rodamiento (petición del usuario), el
+  // eje sube al tamaño comercial más cercano, 5/8", que además es coherente con
+  // que todo el equipo es imperial (el propio despiece lista tornillo de hombro
+  // de 5/8", 042.512). Med → dis, y la desviación queda declarada: +1.6 mm.
+  idlerEje: p(0.625),              // 15.88 — 5/8" g6, para 2 × R10-2RS por polea
+  idlerEjeMedido: p(0.5625),       // med 14.2 (9/16") — lo que se lee en el dibujo
+  idlerRodam: { bore: p(0.625), od: p(1.375), w: p(0.3125), desig: 'R10-2RS' },
   retornoDia: p(2.5),              // med 64.5 — poleas de retorno inferiores
   retornoY: 144.5,                 // med x=294/751 px (±)
   serpAncho: p(1),                 // cat 069.722xx FLEXPROOF ENDLESS BELT 1 in. WIDE

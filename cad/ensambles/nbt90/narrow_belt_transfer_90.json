@@ -199,7 +199,7 @@
      "cantidadPorPolea": 2,
      "total": 12,
      "medidas": "15.88×34.92×7.94",
-     "ejeAntes": 14.288,
+     "ejeAntes": 15.875,
      "ejeAhora": 15.88,
      "ajusteAroExterior": "N7 — carga ROTANTE (gira la llanta)",
      "ajusteAroInterior": "g6 — carga ESTACIONARIA (el eje está quieto)",
@@ -13103,7 +13103,7 @@
     },
     {
      "id": "f287",
-     "name": "Eje polea loca 9/16\" Ø14.49",
+     "name": "Eje polea loca 9/16\" Ø16.08",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -13117,14 +13117,14 @@
       0
      ],
      "params": {
-      "dia": 14.49,
+      "dia": 16.08,
       "depth": 8.76,
       "through": false
      }
     },
     {
      "id": "f288",
-     "name": "Eje polea loca 9/16\" Ø14.49",
+     "name": "Eje polea loca 9/16\" Ø16.08",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -13138,14 +13138,14 @@
       0
      ],
      "params": {
-      "dia": 14.49,
+      "dia": 16.08,
       "depth": 8.76,
       "through": false
      }
     },
     {
      "id": "f289",
-     "name": "Eje polea loca 9/16\" Ø14.49",
+     "name": "Eje polea loca 9/16\" Ø16.08",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -13159,14 +13159,14 @@
       0
      ],
      "params": {
-      "dia": 14.49,
+      "dia": 16.08,
       "depth": 8.76,
       "through": false
      }
     },
     {
      "id": "f290",
-     "name": "Eje polea loca 9/16\" Ø14.49",
+     "name": "Eje polea loca 9/16\" Ø16.08",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -13180,14 +13180,14 @@
       0
      ],
      "params": {
-      "dia": 14.49,
+      "dia": 16.08,
       "depth": 8.76,
       "through": false
      }
     },
     {
      "id": "f291",
-     "name": "Eje polea retorno Ø14.49",
+     "name": "Eje polea retorno Ø16.08",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -13201,14 +13201,14 @@
       0
      ],
      "params": {
-      "dia": 14.49,
+      "dia": 16.08,
       "depth": 8.76,
       "through": false
      }
     },
     {
      "id": "f292",
-     "name": "Eje polea retorno Ø14.49",
+     "name": "Eje polea retorno Ø16.08",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -13222,7 +13222,7 @@
       0
      ],
      "params": {
-      "dia": 14.49,
+      "dia": 16.08,
       "depth": 8.76,
       "through": false
      }
@@ -35908,8 +35908,8 @@
    ]
   },
   {
-   "id": "p239_movil_polea_loca_banda_plana_2_1_2_1_4_y_152_4",
-   "name": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" (Y=-152.4)",
+   "id": "p239_movil_polea_loca_banda_plana_2_1_2_1_4_c_pestanas_73_5_y_152",
+   "name": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-152.4)",
    "color": "#c9752e",
    "pos": [
     67.22,
@@ -37570,8 +37570,8 @@
    ]
   },
   {
-   "id": "p247_movil_polea_loca_banda_plana_2_1_2_1_4_y_76_2",
-   "name": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" (Y=-76.2)",
+   "id": "p247_movil_polea_loca_banda_plana_2_1_2_1_4_c_pestanas_73_5_y_76_",
+   "name": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-76.2)",
    "color": "#c9752e",
    "pos": [
     67.22,
@@ -39232,8 +39232,8 @@
    ]
   },
   {
-   "id": "p255_movil_polea_loca_banda_plana_2_1_2_1_4_take_up_idler_y_76_2",
-   "name": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" TAKE-UP IDLER (Y=76.2)",
+   "id": "p255_movil_polea_loca_banda_plana_2_1_2_1_4_c_pestanas_73_5_take_",
+   "name": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 TAKE-UP IDLER (Y=76.2)",
    "color": "#c9752e",
    "pos": [
     67.22,
@@ -41105,8 +41105,8 @@
    ]
   },
   {
-   "id": "p264_movil_polea_loca_banda_plana_2_1_2_1_4_y_152_4",
-   "name": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" (Y=152.4)",
+   "id": "p264_movil_polea_loca_banda_plana_2_1_2_1_4_c_pestanas_73_5_y_152",
+   "name": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=152.4)",
    "color": "#c9752e",
    "pos": [
     67.22,
@@ -42767,8 +42767,8 @@
    ]
   },
   {
-   "id": "p272_movil_polea_de_retorno_banda_plana_2_1_2_1_4_y_144_5",
-   "name": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" (Y=-144.5)",
+   "id": "p272_movil_polea_de_retorno_banda_plana_2_1_2_1_4_c_pestanas_73_5",
+   "name": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-144.5)",
    "color": "#c9752e",
    "pos": [
     67.22,
@@ -44429,8 +44429,8 @@
    ]
   },
   {
-   "id": "p280_movil_polea_de_retorno_banda_plana_2_1_2_1_4_y_144_5",
-   "name": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" (Y=144.5)",
+   "id": "p280_movil_polea_de_retorno_banda_plana_2_1_2_1_4_c_pestanas_73_5",
+   "name": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=144.5)",
    "color": "#c9752e",
    "pos": [
     67.22,
