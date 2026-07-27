@@ -1,98 +1,63 @@
 {
  "tolerancia_cm3": 0.05,
- "piezas": 375,
- "pares_candidatos": 950,
- "interferencias": 13,
+ "piezas": 371,
+ "pares_candidatos": 923,
+ "interferencias": 8,
  "detalle": [
   {
-   "cm3": 0.9059,
+   "cm3": 0.6861,
    "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
-   "b": "MÓVIL · Perno hex 3/8-16 × 3/4\" brida motorreductor (−Y−Z)",
-   "pct_de_la_menor": 37.61,
+   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (−Y−Z)",
+   "pct_de_la_menor": 38.52,
    "cruce": false
   },
   {
-   "cm3": 0.9059,
+   "cm3": 0.6861,
    "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
-   "b": "MÓVIL · Perno hex 3/8-16 × 3/4\" brida motorreductor (−Y+Z)",
-   "pct_de_la_menor": 37.61,
+   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (−Y+Z)",
+   "pct_de_la_menor": 38.52,
    "cruce": false
   },
   {
-   "cm3": 0.9059,
+   "cm3": 0.6861,
    "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
-   "b": "MÓVIL · Perno hex 3/8-16 × 3/4\" brida motorreductor (+Y−Z)",
-   "pct_de_la_menor": 37.61,
+   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (+Y−Z)",
+   "pct_de_la_menor": 38.52,
    "cruce": false
   },
   {
-   "cm3": 0.9059,
+   "cm3": 0.6861,
    "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
-   "b": "MÓVIL · Perno hex 3/8-16 × 3/4\" brida motorreductor (+Y+Z)",
-   "pct_de_la_menor": 37.61,
+   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (+Y+Z)",
+   "pct_de_la_menor": 38.52,
    "cruce": false
   },
   {
-   "cm3": 0.194,
-   "a": "MÓVIL · Golilla 3/8\" bajo cabeza (−Y, X=127) Ø9.525",
-   "b": "MÓVIL · Golilla 3/8\" bajo cabeza (−Y, X=141) Ø9.525",
-   "pct_de_la_menor": 28.45,
+   "cm3": 0.1899,
+   "a": "MÓVIL · Cross angle 1-3/4\"×1\" 12 GA × 215.9 (cartela de la muesca +Y)",
+   "b": "MÓVIL · Perno hex 3/8-16 × 3/4\" placa↔cartela del larguero (+Y, X=162)",
+   "pct_de_la_menor": 7.88,
    "cruce": false
   },
   {
-   "cm3": 0.194,
-   "a": "MÓVIL · Golilla 3/8\" bajo cabeza (+Y, X=127) Ø9.525",
-   "b": "MÓVIL · Golilla 3/8\" bajo cabeza (+Y, X=141) Ø9.525",
-   "pct_de_la_menor": 28.45,
+   "cm3": 0.1899,
+   "a": "MÓVIL · Cross angle 1-3/4\"×1\" 12 GA × 215.9 (cartela de la muesca -Y)",
+   "b": "MÓVIL · Perno hex 3/8-16 × 3/4\" placa↔cartela del larguero (−Y, X=162)",
+   "pct_de_la_menor": 7.88,
    "cruce": false
   },
   {
-   "cm3": 0.1152,
-   "a": "MÓVIL · Banda plana FLEXPROOF sin fin 1\"×2.5 — serpentín L=3043.56 (069.722xx)",
-   "b": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-152.4)",
-   "pct_de_la_menor": 0.13,
+   "cm3": 0.0969,
+   "a": "MÓVIL · Cross angle 1-3/4\"×1\" 12 GA × 215.9 (cartela de la muesca +Y)",
+   "b": "MÓVIL · Perno hex 3/8-16 × 3/4\" placa↔cartela del larguero (+Y, X=134)",
+   "pct_de_la_menor": 4.02,
    "cruce": false
   },
   {
-   "cm3": 0.1152,
-   "a": "MÓVIL · Banda plana FLEXPROOF sin fin 1\"×2.5 — serpentín L=3043.56 (069.722xx)",
-   "b": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-76.2)",
-   "pct_de_la_menor": 0.13,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1152,
-   "a": "MÓVIL · Banda plana FLEXPROOF sin fin 1\"×2.5 — serpentín L=3043.56 (069.722xx)",
-   "b": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=152.4)",
-   "pct_de_la_menor": 0.13,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1145,
-   "a": "MÓVIL · Placa soporte de transmisión 1/4\"×374×154 c/colisa tensor (weldment)",
-   "b": "MÓVIL · Golilla 3/8\" bajo cabeza (−Y, X=127) Ø9.525",
-   "pct_de_la_menor": 16.79,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1145,
-   "a": "MÓVIL · Placa soporte de transmisión 1/4\"×374×154 c/colisa tensor (weldment)",
-   "b": "MÓVIL · Golilla 3/8\" bajo cabeza (+Y, X=127) Ø9.525",
-   "pct_de_la_menor": 16.79,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1133,
-   "a": "MÓVIL · Banda plana FLEXPROOF sin fin 1\"×2.5 — serpentín L=3043.56 (069.722xx)",
-   "b": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 TAKE-UP IDLER (Y=76.2)",
-   "pct_de_la_menor": 0.13,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1033,
-   "a": "MÓVIL · Banda plana FLEXPROOF sin fin 1\"×2.5 — serpentín L=3043.56 (069.722xx)",
-   "b": "MÓVIL · Rueda motriz banda plana Ø2-1/2\"×1.772\" (024.15502, Y=0)",
-   "pct_de_la_menor": 0.15,
+   "cm3": 0.0969,
+   "a": "MÓVIL · Cross angle 1-3/4\"×1\" 12 GA × 215.9 (cartela de la muesca -Y)",
+   "b": "MÓVIL · Perno hex 3/8-16 × 3/4\" placa↔cartela del larguero (−Y, X=134)",
+   "pct_de_la_menor": 4.02,
    "cruce": false
   }
  ]

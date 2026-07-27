@@ -21,7 +21,7 @@
 import {
   box, cyl, hole, sketchYZ, revolve, rectR, colisa,
   bandaFaces, largoBanda, envolventes,
-  arcoPts, rodamiento, pernoHex, tuercaHex, golilla, anilloRet,
+  arcoPts, rodamiento, pernoHex, tuercaHex, golilla, anilloRet, PASO,
   COL, pulg, r2,
 } from './lib.mjs';
 import { P } from './params.mjs';
@@ -61,9 +61,10 @@ const L = {
   // equipo Hytrol lo es —paso 3", banda 1", poleas 2-1/2", hex 5/16"— y el
   // propio despiece ya lista tornillo de hombro de 5/8" (042.512); la única
   // interfaz métrica del módulo es el motorreductor SEW (eje Ø20, buje 20/45).
-  ejeRod: pulg(0.625),    // 15.88 — dis: eje de polea loca 5/8" g6 (sube a params)
+  ejeRod: P.idlerEje,     // 15.88 — ya subido a params.mjs como `idlerEje` 5/8" g6
+                          // (el 9/16" medido queda ahí como `idlerEjeMedido`)
   rodam: {                // cat: rodamiento rígido de bolas 2RS, serie R en pulgadas
-    desig: 'R10-2RS', bore: pulg(0.625), od: pulg(1.375), w: pulg(0.3125),  // 15.88×34.93×7.94
+    desig: 'R10-2RS', bore: P.idlerEje, od: pulg(1.375), w: pulg(0.3125),   // 15.88×34.93×7.94
     C0: 2400, C: 4400,    // N — capacidad estática / dinámica de catálogo
   },
   // Ajustes (en una polea loca el eje está QUIETO y la llanta gira):
@@ -80,12 +81,19 @@ const L = {
   // La banda plana se CENTRA por abombado; las pestañas son sólo TOPE de
   // seguridad, por eso llevan luz y no rozan en marcha.
   pestanaAlto: 5.0,       // dis: 2 × P.serpEsp sobre la superficie de rodadura
-  pestanaEsp: 3.58,       // dis: espesor axial. 28.4 + 2×3.58 = 35.56 = P.idlerAncho EXACTO:
-                          //      las pestañas se mecanizan de la polea de catálogo de 1.4",
-                          //      así que el ancho total NO crece y no hay que revisar el hueco
-                          //      entre la placa peine y la guarda.
+  pestanaEsp: 3.5,        // dis: espesor axial. Ancho total = 31.4 + 2×3.5 = 38.4, o sea
+                          //      2.84 más que la polea de catálogo de 1.4" (35.56). Cabe:
+                          //      centrada en P.planoSerp ocupa X 65.8…104.2, con 23.3 mm a la
+                          //      placa peine (X 42.5) y 5.8 mm al alma de la guarda (X 110).
   pestanaR: 1.5,          // dis: radio del canto interior (una pestaña viva corta la banda)
-  luzPestanas: 28.4,      // dis: P.serpAncho + 1.5 por lado
+  // La luz se mide entre CARAS de pestaña, pero el redondeo R1.5 se come 1.5 mm
+  // de cada lado: la superficie PLANA de rodadura sólo mide luz − 2R. Con
+  // luz = 28.4 la parte plana quedaba en 25.4 = el ancho exacto de la banda, o
+  // sea holgura efectiva CERO y el canto de la banda apoyado justo en el
+  // arranque del redondeo (eso es lo que veía el B-rep). La luz correcta es
+  //   P.serpAncho + 2·holguraLateral + 2·pestanaR = 25.4 + 3 + 3 = 31.4
+  luzPestanas: 31.4,      // dis
+  holguraLateral: 1.5,    // dis: holgura efectiva banda ↔ arranque del redondeo, por lado
 
   // --- tensor (TAKE-UP IDLER) ---------------------------------------------
   // txt pág. 8: "loosen 3/8 locknut holding take-up idler, tension belt by
@@ -109,7 +117,12 @@ const L = {
                           //      espárrago del tensor pasa a sólo 81.8 mm del eje del motor
   bridaEsp: 14,           // dis
   bridaCentraje: 60,      // dis: resalte de centraje que encaja en la placa
-  bridaCirculo: 100,      // dis: círculo de taladros (no publicado, catálogo §7)
+  // El patrón de brida SÍ es el real: Ø120 exterior + círculo de taladros Ø100 +
+  // 4 × M8 es exactamente la brida normalizada IEC B14 «C120», que es la que
+  // monta un RF07 con brida de 120. Lo único `dis` era suponer que la de este
+  // equipo es la C120 y no la C140/C160 (§7 del catálogo: SEW no publica cuál).
+  bridaCirculo: 100,      // cat IEC 60072 B14 C120
+  bridaPerno: { d: 8, af: 13, hh: 5.3, largo: 20 },  // cat: M8 (la brida es métrica, como el SEW)
   reductorW: 110,         // dis: ancho del cárter (sólo se midió el alto = P.reductorH);
                           //      deja paso de llave a la contratuerca del tensor
   reductorR: 22,          // dis: radio de las esquinas del cárter fundido
@@ -139,9 +152,15 @@ const L = {
   braceY: [74.8, 122.5],  // hueco de la escotadura (2.5 de holgura a los dos)
   braceZ: 190.5,          // techo de la escotadura (2.5 sobre la cartela)
   asientoZ: 187.95,       // cara superior de la cartela: sobre ella apoya la pestaña
-  pestanaX: [113.0, 155.0],  // dis
+  pestanaX: [113.0, 178.0],  // dis: largo para separar los 2 pernos 28 mm y que la
+                             //      golilla del primero libre la cara +X de la placa
   pestanaY: [79.0, 102.0],   // dis: dentro de la cartela, libre del espárrago del tensor
-  pestanaPerno: [[127.0, 90.5], [141.0, 90.5]],  // dis: (X, |Y|) de los 2 pernos de cada lado
+  // dis: (X, |Y|) de los 2 pernos de cada lado. Separados 28 mm: una golilla de
+  // 3/8" mide Ø25.4, así que a los 14 mm de antes se solapaban entre sí y el
+  // conjunto no se podía armar. 28 > 25.4 + 2 de holgura de montaje.
+  // Además el primero arranca en X=134 y no en 128: con Ø25.4 de golilla, a 128
+  // el borde de la golilla (115.3) se metía dentro de la propia placa (…119.35).
+  pestanaPerno: [[134.0, 90.5], [162.0, 90.5]],
 
   // --- envolventes FIJAS con las que se verifica la banda ------------------
   // Interfaz con bastidor.mjs (informe de interferencias del ensamble integrado).
@@ -155,8 +174,10 @@ const L = {
 const X = {
   banda0: r2(P.planoSerp - P.serpAncho / 2),      // 72.3
   banda1: r2(P.planoSerp + P.serpAncho / 2),      // 97.7
-  pol0: r2(P.planoSerp - P.idlerAncho / 2),       // 67.2
-  pol1: r2(P.planoSerp + P.idlerAncho / 2),       // 102.8
+  // el ancho de la polea loca ya NO es P.idlerAncho: lo fija la luz que necesita
+  // la banda entre pestañas (luz + 2 espesores). Ver L.pestanaEsp.
+  pol0: r2(P.planoSerp - (L.luzPestanas + 2 * L.pestanaEsp) / 2),   // 65.8
+  pol1: r2(P.planoSerp + (L.luzPestanas + 2 * L.pestanaEsp) / 2),   // 104.2
   rueda0: r2(P.planoSerp - P.ruedaAncho / 2),     // 62.5
   rueda1: r2(P.planoSerp + P.ruedaAncho / 2),     // 107.5
   placa1: r2(L.xPlaca + L.espPlaca),              // 119.35 (cara +X de la placa)
@@ -268,8 +289,8 @@ function conjuntoLoca(E, { nombre, pos, y, z, capa, tensor = false }) {
   poleasPuestas.push({ y, z, nombre: `${nombre} (${pos})` });
   const at = [X.pol0, y, z];
   E.addPart(`${capa}${nombre} (${pos})`, COL.polea, at, [
-    revolve(`Llanta Ø${P.idlerDia}×${P.idlerAncho} c/pestañas Ø${r2(P.idlerDia + 2 * L.pestanaAlto)}, luz ${L.luzPestanas}`,
-      at, 'x', perfilPoleaLoca(P.idlerAncho)),
+    revolve(`Llanta Ø${P.idlerDia}×${r2(X.pol1 - X.pol0)} c/pestañas Ø${r2(P.idlerDia + 2 * L.pestanaAlto)}, luz ${L.luzPestanas}`,
+      at, 'x', perfilPoleaLoca(r2(X.pol1 - X.pol0))),
     revolve(`Ranura DIN 472 exterior (${L.circInt.ranura}×${L.circInt.ancho})`, [X.ranIntA, y, z], 'x',
       [[0, r2(L.rodam.od / 2)], [0, r2(L.circInt.ranura / 2)],
         [L.circInt.ancho, r2(L.circInt.ranura / 2)], [L.circInt.ancho, r2(L.rodam.od / 2)]], 'cut'),
@@ -349,9 +370,9 @@ export function transmision(E) {
       r2(X.placa1 + 0.65), colisa(P.bandaY[P.tomaIdlerIdx], zToma, r2(P.tomaCarrera + L.colisaAncho), L.colisaAncho, true),
       14, 'cut'));
   for (const s of [-1, 1]) for (const s2 of [-1, 1]) {
-    fPlaca.push(hole(`Taladro brida motorreductor Ø${r2(B38.d + P.holgura.pasante)}`,
+    fPlaca.push(hole(`Taladro brida motorreductor M8 Ø${PASO.M8}`,
       [r2(L.xPlaca - 0.5), r2(s * L.bridaCirculo / Math.SQRT2 / 2), r2(P.motrizZ + s2 * L.bridaCirculo / Math.SQRT2 / 2)],
-      [1, 0, 0], r2(B38.d + P.holgura.pasante)));
+      [1, 0, 0], PASO.M8));
   }
   // pestañas de apoyo: se añaden DESPUÉS de las escotaduras (si no, el corte se
   // las llevaría por delante) y se apoyan sobre la cartela del larguero móvil.
@@ -372,9 +393,21 @@ export function transmision(E) {
   // comprobación de que las 13 envolturas son compatibles entre sí.
   // n = 26 puntos por arco: la flecha de la poligonal queda en 0.06 mm, de modo
   // que la banda apoya sobre la llanta sin morderla por efecto de la faceta.
-  const caras = bandaFaces(seq, P.serpEsp, 26);
   const largo = largoBanda(seq, P.serpEsp);
   const env = envolventes(seq, P.serpEsp);
+  // La poligonal de `bandaFaces` va INSCRITA en cada circunferencia: sus puntos
+  // caen sobre el círculo y el lado se mete hacia dentro la flecha
+  //     f = r·(1 − cos(paso/2)),   paso = envolvente / nArco
+  // Con nArco = 26 eso son 0.064 mm que se comen la llanta de TODAS las poleas
+  // envueltas (por eso el B-rep acusaba contacto incluso en la rueda motriz, que
+  // no tiene pestañas). Se compensa levantando cada radio esa misma flecha, con
+  // lo que la poligonal pasa a estar CIRCUNSCRITA: toca el círculo en el punto
+  // medio de cada lado y no lo penetra en ningún sitio. El desvío es de 0.06 mm
+  // y no altera ni el largo ni las envolventes, que se calculan con `seq` real.
+  const nArco = 26;
+  const flecha = seq.map((s, i) => r2(s.r * (1 - Math.cos(env[i] * Math.PI / 180 / nArco / 2))));
+  const seqFacetas = seq.map((s, i) => ({ c: s.c, r: s.r + flecha[i], s: s.s }));
+  const caras = bandaFaces(seqFacetas, P.serpEsp, nArco);
   E.addPart(`${cap}Banda plana FLEXPROOF sin fin 1"×${P.serpEsp} — serpentín L=${largo} (069.722xx)`,
     COL.banda, [X.banda0, 0, 0], [
       sketchYZ('Cara exterior del serpentín', X.banda0, caras.outer, P.serpAncho),
@@ -452,15 +485,27 @@ export function transmision(E) {
 
   for (const s of [-1, 1]) for (const s2 of [-1, 1]) {
     pernoHex(E, {
-      nombre: `3/8-16 × 3/4" brida motorreductor (${s > 0 ? '+Y' : '−Y'}${s2 > 0 ? '+Z' : '−Z'})`,
+      // M8 y no 3/8": la brida del SEW es IEC B14 C120, o sea métrica.
+      // El vástago entra en el cuerpo del motorreductor, que se modela MACIZO
+      // (sin sus taladros roscados), igual que el resto de piezas compradas:
+      // ese solape de 4 × ~0.4 cm³ es convención declarada, no interferencia.
+      nombre: `M8 × ${L.bridaPerno.largo} brida motorreductor IEC B14 C120 (${s > 0 ? '+Y' : '−Y'}${s2 > 0 ? '+Z' : '−Z'})`,
       at: [L.xPlaca, r2(s * L.bridaCirculo / Math.SQRT2 / 2), r2(P.motrizZ + s2 * L.bridaCirculo / Math.SQRT2 / 2)],
-      dir: [1, 0, 0], dia: B38.d, largo: pulg(0.75), af: B38.af, altoCab: B38.hh, capa: cap,
+      dir: [1, 0, 0], dia: L.bridaPerno.d, largo: L.bridaPerno.largo,
+      af: L.bridaPerno.af, altoCab: L.bridaPerno.hh, capa: cap,
     });
   }
 
   // ================================ 7. FIJACIÓN DE LA PLACA AL BASTIDOR MÓVIL
-  // La pestaña apoya sobre el ala superior del notched brace channel (MÓVIL) y
-  // el perno entra desde arriba, que es por donde hay acceso de llave.
+  // La pestaña apoya sobre el ala de la cartela del larguero (MÓVIL) y el perno
+  // entra desde ARRIBA, que es por donde hay acceso de llave.
+  //
+  // Sin tuerca suelta: el ala es de 12 GA (2.66) y por debajo queda el hueco
+  // ciego del canal, donde no entra una llave para sujetar la tuerca. La rosca
+  // la pone una TUERCA REMACHABLE (self-clinching) montada en la cartela, que
+  // es pieza de `bastidor.mjs`; por eso aquí sólo van perno y golilla.
+  // Lo que le falta a la cartela para cerrar la unión son 4 taladros Ø11.13 en
+  // (X=134, Y=±90.5) y (X=162, Y=±90.5) con su tuerca remachable.
   const zCab = r2(L.asientoZ + L.espPlaca);
   for (const sg of [-1, 1]) for (const [px, py] of L.pestanaPerno) {
     golilla(E, {
@@ -471,11 +516,6 @@ export function transmision(E) {
       nombre: `3/8-16 × 3/4" placa↔cartela del larguero (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
       at: [px, r2(sg * py), r2(zCab + 1.6)], dir: [0, 0, -1],
       dia: B38.d, largo: pulg(0.75), af: B38.af, altoCab: B38.hh, capa: cap,
-    });
-    tuercaHex(E, {
-      nombre: `3/8-16 placa↔cartela del larguero (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
-      at: [px, r2(sg * py), r2(L.asientoZ - P.cal12)], dir: [0, 0, -1],
-      dia: B38.d, af: B38.af, alto: B38.tuerca, capa: cap,
     });
   }
 
@@ -578,7 +618,7 @@ export function transmision(E) {
       return {
         designacion: L.rodam.desig, cantidadPorPolea: 2, total: 12,
         medidas: `${L.rodam.bore}×${L.rodam.od}×${L.rodam.w}`,
-        ejeAntes: P.idlerEje, ejeAhora: L.ejeRod,     // 14.29 (9/16") → 15.88 (5/8")
+        ejeMedidoEnPlano: P.idlerEjeMedido, ejeAdoptado: L.ejeRod,   // 14.29 (9/16") → 15.88 (5/8")
         ajusteAroExterior: `${L.ajusteExt} — carga ROTANTE (gira la llanta)`,
         ajusteAroInterior: `${L.ajusteInt} — carga ESTACIONARIA (el eje está quieto)`,
         retencionAxial: 'aros ext.: resalte Ø30 del bore + 2 anillos DIN 472 Ø35 · '
@@ -591,7 +631,14 @@ export function transmision(E) {
     })(),
     pestanas: {
       alto: L.pestanaAlto, espesor: L.pestanaEsp, radioCanto: L.pestanaR,
-      luz: L.luzPestanas, holguraBandaPorLado: r2((L.luzPestanas - P.serpAncho) / 2),
+      luz: L.luzPestanas,
+      // La holgura que importa NO es a la cara de la pestaña sino al ARRANQUE
+      // del redondeo R1.5, donde la llanta deja de ser cilíndrica: ahí es donde
+      // el B-rep detectaba el contacto. Ambas se calculan del propio perfil.
+      anchoPlanoRodadura: r2(L.luzPestanas - 2 * L.pestanaR),
+      holguraBandaACara: r2((L.luzPestanas - P.serpAncho) / 2),
+      holguraBandaAPlano: r2((L.luzPestanas - 2 * L.pestanaR - P.serpAncho) / 2),
+      planoRodaduraX: [r2(X.pol0 + L.pestanaEsp + L.pestanaR), r2(X.pol1 - L.pestanaEsp - L.pestanaR)],
       odConPestanas: r2(P.idlerDia + 2 * L.pestanaAlto),
       anchoPoleaAntes: P.idlerAncho, anchoPoleaDespues: r2(L.luzPestanas + 2 * L.pestanaEsp),
       // las pestañas ocupan X 67.2…70.78 y 99.22…102.8 y la banda X 72.3…97.7:
