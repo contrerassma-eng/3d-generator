@@ -13,7 +13,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), acabado galvanizado",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-01"
   },
   {
@@ -22,7 +22,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), acabado galvanizado",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-02"
   },
   {
@@ -31,7 +31,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), acabado galvanizado",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-03"
   },
   {
@@ -40,7 +40,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), acabado galvanizado",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-04"
   },
   {
@@ -49,7 +49,7 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Acero SAE 1045 (eje hex. estirado en frío)",
+   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
    "plano": "NBT90-05"
   },
   {
@@ -58,7 +58,7 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Acero SAE 1045 (eje hex. estirado en frío)",
+   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
    "plano": "NBT90-06"
   },
   {
@@ -67,7 +67,7 @@
    "cant": 4,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Acero SAE 1045 (eje hex. estirado en frío)",
+   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
    "plano": "NBT90-07"
   },
   {
@@ -76,7 +76,7 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), acabado galvanizado",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-08"
   },
   {
@@ -85,7 +85,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Acero al carbono",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-09"
   },
   {
@@ -94,7 +94,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Acero al carbono",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-10"
   },
   {
@@ -103,7 +103,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), acabado galvanizado",
+   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
    "plano": "NBT90-11"
   },
   {
@@ -112,7 +112,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), acabado galvanizado",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-12"
   },
   {
@@ -121,7 +121,7 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), acabado galvanizado",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-13"
   },
   {
@@ -130,7 +130,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Acero al carbono",
+   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
    "plano": "NBT90-14"
   },
   {
@@ -139,7 +139,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Acero al carbono",
+   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
    "plano": "NBT90-15"
   },
   {
@@ -157,7 +157,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Acero al carbono",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-17"
   },
   {
@@ -166,7 +166,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Acero al carbono",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-18"
   },
   {
@@ -175,7 +175,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), acabado galvanizado",
+   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
    "plano": "NBT90-19"
   },
   {
@@ -184,7 +184,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), acabado galvanizado",
+   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
    "plano": "NBT90-20"
   },
   {
@@ -193,7 +193,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), acabado galvanizado",
+   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
    "plano": "NBT90-21"
   },
   {
@@ -202,7 +202,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" (12 GA), acabado galvanizado",
+   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
    "plano": "NBT90-22"
   },
   {
@@ -211,7 +211,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Acero al carbono",
+   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
    "plano": "NBT90-23"
   },
   {
@@ -220,7 +220,7 @@
    "cant": 2,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Acero al carbono",
+   "material_norma": "Chapa de acero 0.105\" (12 GA), galvanizada",
    "plano": "NBT90-24"
   },
   {
@@ -229,7 +229,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Acero al carbono",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-25"
   },
   {
@@ -238,7 +238,7 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Acero al carbono",
+   "material_norma": "Chapa de acero 0.105\" (12 GA) conformada, galvanizada",
    "plano": "NBT90-26"
   },
   {

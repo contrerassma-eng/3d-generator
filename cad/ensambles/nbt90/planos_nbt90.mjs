@@ -30,16 +30,24 @@ const MARGIN = 10, MARGIN_L = 20, TITLE_H = 42, GAP = 26;
 
 // --- material sugerido por tipo de pieza fabricada ---------------------------
 function materialDe(n) {
+  // El orden importa: primero lo que define la PIEZA (chapa, tubo, goma) y solo
+  // después las palabras que aparecen en nombres compuestos ("ménsula jack bolt"
+  // es chapa, no un eje mecanizado).
   if (/regleta|UHMW/i.test(n)) return 'UHMW-PE 1000';
   if (/banda|correa/i.test(n)) return `Banda plana poliéster/uretano ${P.serpEsp} mm (empalme sin fin)`;
-  if (/vulcaniz/i.test(n)) return 'Tubo de acero + vulcanizado NBR 70 ShA';
-  if (/tubo|rodillo/i.test(n)) return 'Tubo de acero ST37';
-  if (/eje|pasador|jack|espárrago/i.test(n)) return 'Acero SAE 1045 (eje hex. estirado en frío)';
-  if (/polea|rueda|loca/i.test(n)) return 'Aluminio 6061-T6 (o acero mecanizado)';
+  if (/vulcaniz/i.test(n)) return 'Tubo de acero ST37 + vulcanizado NBR 70 ShA';
+  if (/\btubo\b/i.test(n)) return 'Tubo de acero ST37';
   if (/guarda|cubierta/i.test(n)) return `Chapa de acero ${enPulg(P.cal14)} (14 GA), galvanizada`;
-  if (/placa|peine|ménsula|mensula|soporte|escuadra|angular|canal|travesaño|traves/i.test(n)) {
-    return `Chapa de acero ${enPulg(P.cal12)} (12 GA), acabado galvanizado`;
+  if (/\bcanal\b|side channel|cross channel|brace channel|tapa extremo/i.test(n)) {
+    return `Chapa de acero ${enPulg(P.cal12)} (12 GA) conformada, galvanizada`;
   }
+  if (/peine|spacer plate|placa|ménsula|mensula|soporte|escuadra|angular|angle|travesaño|plato/i.test(n)) {
+    return `Chapa de acero ${enPulg(P.cal12)} (12 GA), galvanizada`;
+  }
+  if (/eje hex/i.test(n)) return 'Barra hexagonal 5/16" acero SAE 1045 estirado en frío';
+  if (/\beje\b|pasador|espárrago|tirante|vástago/i.test(n)) return 'Acero SAE 1045 rectificado';
+  if (/polea|rueda|loca|buje|casquillo/i.test(n)) return 'Aluminio 6061-T6 (o acero mecanizado)';
+  if (/tapa|separador/i.test(n)) return 'Acero al carbono mecanizado';
   return 'Acero al carbono';
 }
 
