@@ -1,0 +1,6 @@
+{
+  "project": "RUEDA-OMNI-58",
+  "stage": "S0_PENDIENTE",
+  "gates": {},
+  "nota": "Proyecto sólo de dibujo: la entrada es UNA foto de catálogo, no una captura fotogramétrica, así que S0-S5 no se han ejecutado y no existe capa `measured`. La entrega está en out/drawings/ (vista de frente generada con pipeline/rueda_omni.py, capa `user`). Para levantar geometría medida hace falta recapturar según docs/PROTOCOLO_CAPTURA.md."
+}

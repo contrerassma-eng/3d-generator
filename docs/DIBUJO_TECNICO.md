@@ -1,12 +1,15 @@
 # S6 — Dibujo técnico y CAD
 
-Dos herramientas complementarias sobre el modelo medido:
+Tres herramientas complementarias:
 
-- `pipeline/s6_drawings.py` — láminas normalizadas (DXF a escala real + PDF).
+- `pipeline/s6_drawings.py` — láminas normalizadas (DXF a escala real + PDF)
+  sobre el modelo medido.
 - `pipeline/cad_cli.py` — planos de referencia, bocetos con referencias
   geométricas y sólidos (extrusión, revolución, barrido).
+- `pipeline/rueda_omni.py` — vista de frente de una rueda omnidireccional a
+  partir de una sola foto frontal (ver más abajo).
 
-Ambas respetan las reglas de oro: nada se inventa (todo deriva de la malla
+Las tres respetan las reglas de oro: nada se inventa (todo deriva de la malla
 medida o de entidades declaradas por el usuario), toda acción queda en
 `audit.log.jsonl`, y la certificación de escala nunca se oculta.
 
@@ -148,6 +151,47 @@ medición; aristas sin líneas ocultas).
    **pide** al usuario la geometría en función de ellas.
 3. Claude escribe el JSON de entidades citando `@rN`, ejecuta `boceto` y
    ofrece extruir / revolucionar / barrer / exportar DXF.
+
+## Vista de frente desde UNA foto (`rueda_omni.py`)
+
+Caso acotado: una rueda omnidireccional de doble hilera fotografiada de
+frente, de la que el usuario sólo conoce el diámetro exterior. Con una única
+vista no hay triangulación posible — no existe capa `measured` — así que la
+herramienta vive fuera de la máquina S0–S5 y todo lo que produce es capa
+`user` con la procedencia anotada valor por valor.
+
+```powershell
+python pipeline/rueda_omni.py medir projects/<X> [--foto <rel>] [--diametro 58]
+python pipeline/rueda_omni.py vista projects/<X> [--formato A3] [--escala 2:1]
+```
+
+`medir` escribe `work/00_medicion/parametros.json`. El diámetro exterior
+DECLARADO es el único ancla de escala (mm/px); de ahí salen, por proporción,
+el radio del eje de los rodillos, su diámetro y longitud, la circunferencia
+de tornillos y el cubo. Cada cota lleva `fuente`: `declarado`, `medido_foto`,
+`derivado` o `no_determinable` — el barreno del eje y el ancho de la rueda
+caen en el último grupo y se quedan **sin cota**, no se rellenan a ojo.
+
+`vista` compone la lámina (marco ISO 5457, cajetín ISO 7200, cotas ISO 129):
+DXF a escala real, PDF de papel y PNG de previsualización.
+
+El perfil del rodillo no se dibuja a mano. El eje del rodillo es la cuerda
+`x = a`; la sección del barril en la estación axial `t` se proyecta como un
+segmento radial de `a - rho(t)` a `a + rho(t)`, y rodar a radio constante
+impone `sqrt((a + rho)² + t²) = R`, o sea
+
+    rho(t) = sqrt(R² - t²) - a
+
+De ahí sale el contorno exacto: la corona ES el arco de radio R y la cara
+interior es su reflejo `2a - sqrt(R² - t²)`. Y, de paso, un contraste de
+coherencia de la medición: `a + rho(0)` debe dar `R`.
+El residuo se imprime y se estampa en la lámina; si se dispara, la foto o el
+diámetro declarado no son lo que se creía.
+
+Lo que la foto no resuelve queda declarado en las NOTAS de la lámina: escorzo
+medido, incertidumbre asociada, contorno festoneado de la placa (se acota sólo
+su disco continuo mínimo, entre paréntesis, como cota de referencia) y las
+cotas ausentes. La verificación de escala del cajetín dice NO CERTIFICADA.
 
 ## Dependencias
 
