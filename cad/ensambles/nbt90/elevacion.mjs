@@ -61,12 +61,16 @@ const L = {
   // en Y = ±227.24 con alas hacia dentro a Z ≈ 84.9 y 250.  Las placas quedan
   // ENTRE esas dos alas y a tope contra la cara interior del alma.
   ladoY: 227.24,           // dis (= bastidor.mjs L.ladoY): alma del SIDE CHANNEL
+  placaX: [130, 333],      // dis: no alcanza X=115.75 ni 347.25, donde bastidor.mjs atornilla
+                           // las ménsulas inferiores de jack bolt al alma del SIDE CHANNEL
   placaZ0: 88,             // dis: por encima del ala inferior del SIDE CHANNEL (83.6…86.2)
   placaZ1: 246,            // dis: por debajo del ala superior del SIDE CHANNEL (248.7…251.3)
   placaZfull: 195,         // dis: cota hasta la que la placa es de ancho completo
   montanteAncho: 36,       // dis: ancho en X de los dos montantes que suben a las colisas
   ajusteX: [141.5, 321.5], // dis: P.largo/2 ∓ 90 — libres de la unión SIDE CHANNEL↔anfitrión (X 60/231.5/403)
-  ajusteZ: 225,            // dis: centro de la colisa, dentro del alma del SIDE CHANNEL
+  ajusteZ: 180,            // dis: centro de la colisa. Por debajo de Z=218 sólo hay el alma
+                           // del SIDE CHANNEL: por encima se le suma el alma del canal
+                           // anfitrión (218…383.1) y el perno no tendría por dónde salir.
   colisaAncho: 12.7,       // dis: 1/2" = 3/8" + P.holgura.colisa → colisa para perno de 3/8"
   colisaLargo: 38.1,       // med 16.1×32.2 @0.5277 → 19.3×38.6 @0.6320 · 1-1/2" ⇒ recorrido 25.4 mm (1")
 
@@ -91,16 +95,46 @@ const L = {
   mesaPernoY: 85,          // dis
   topeY: 70,               // dis: tirantes de tope de carrera, a ±70 en Y
   topeDia: 12,             // dis: M12
-  platoT: 12,              // dis: plato de empuje contra el ROLLER FRAME WELDMENT
+  // Centro de la mesa en X: NO es P.largo/2 (231.5).  La placa soporte de
+  // transmisión ocupa X 106.7…155 desde Z=124, así que la mesa se corre a
+  // X=245 para que su huella (160…330) libre esa placa con 5 mm.
+  mesaX: 245,              // dis
+  platoT: 12,              // dis: espesor de los brazos de la horquilla de empuje
+
+  // --- horquilla de empuje: esquiva el motorreductor -----------------------
+  // Medido sobre el sólido del motor (X 41.3…433.4, eje Y=0 Z=P.motrizZ): sobre
+  // la huella de la mesa el macizo llega a |Y| ≤ 48 en Z=131.5 (bloque reductor)
+  // y a |Y| ≤ 54 en Z=143.5.  Su punto más bajo es Z=123.9.
+  motorZ0: 123.9,          // med sobre el sólido de transmision.mjs
+  motorY131: 48, motorY143: 54,
+  rebajeY: 51,             // dis: semiancho del rebaje de paso del motor (48 + 3)
+  rebajeZ: 120.9,          // dis: fondo del rebaje (motorZ0 − 3)
+  brazoY0: 58,             // dis: arranque de los brazos de la horquilla (54 + 4)
+  brazoY1: 100,            // dis: borde exterior = borde de la placa móvil
+  brazoPernoY: 79,         // dis: pernos M10 de cada brazo, centrados en el brazo
+  // La cara de empuje se apoya en la cara inferior de los NOTCHED BRACE CHANNEL
+  // del bastidor móvil, que están en Y = ±(80…120) con la cara inferior en
+  // Z = P.rielInfZ: contacto real de 20 mm de ancho por brazo.
+  contactoY: [80, 120],    // dis (= bastidor.mjs: notched brace channel)
 
   // --- neumática -----------------------------------------------------------
   // med (vista izquierda): el bloque de válvulas ocupa Y −185…−248, Z 25…117.
-  // Se monta sobre la cara exterior del ala −X del canal, dentro de la
-  // envolvente (en la vista derecha el fabricante lo dibuja saliendo por la
-  // izquierda del bastidor, en X < 0; aquí se lleva dentro — dis).
-  valvY: [-227, -155],     // med Y del bloque neumático
-  valvZ0: 40,              // med: repisa del soporte (Z 25…117 del bloque)
+  // No cabe ahí: el SIDE CHANNEL baja hasta Z=84.9 con el ala hasta Y=−189.1 y
+  // la TAPA DEL CANAL BASE ocupa X 22…105, Y −225.9…−200, Z 18…84.9.  Se lleva
+  // al hueco libre DENTRO de la artesa del canal, entre el extremo −Y de la
+  // mesa (Y=−100) y el ala del SIDE CHANNEL: Y −185…−113, Z 20.3…80.3 (dis).
+  valvY: [-185, -113],     // dis: hueco libre dentro de la artesa
+  valvX: [150, 196],       // dis: fuera del canal base (X ≤ 102) y de la mesa (Y)
+  valvZ0: 15.5,            // dis: el soporte apoya en el alma del canal
+  sopY: [-200, -103],      // dis: envolvente del soporte
+  sopX: [130, 216],
+  sopPernos: [[138, -190], [208, -190]],   // dis: anclaje del soporte al alma del canal,
+                                           // fuera de la válvula (Y −185…−113) y del
+                                           // solenoide (Ø30 en Y −164…−134)
   silenDia: 18,            // cat 923.0059 MUFFLER - 1/8 in. NPT
+  silenZ: [35, 65],        // dis: escapes en la cara −Y de la válvula
+  racorX: [170, 186],      // dis: puertos de trabajo A/B en la cara superior
+  racorY: -160,            // dis
   puertoZ: [75, 45],       // dis: puertos A/B en la cara −X del cuerpo de la mesa
   puertoY: [-70, -45],     // dis
   radioTubo: 25,           // dis: radio de curvatura del tubo de 1/4" (≥ 3 × OD)
@@ -170,14 +204,15 @@ export function elevacion(E) {
   const canalX1 = L.canalX0 + P.canalCilY;            // 348.5
   const canalZ1 = r2(canalZ0 + P.canalCilZ);          // 115.84
   const ladoInt = r2(L.ladoY - t12 / 2);              // 225.91 — cara interior del alma del SIDE CHANNEL
-  const ladoExt = r2(P.almaY + t12 / 2);              // 231.23 — cara exterior del alma anfitriona
+  const ladoOut = r2(L.ladoY + t12 / 2);              // 228.57 — cara exterior del alma del SIDE CHANNEL
   const placaY = r2(ladoInt - P.placaT);              // 221.15 — cara interior de la placa colgante
   const webZ = r2(canalZ0 + t12);                     // 15.5 — cara superior del alma del canal
   const cuerpoZ1 = r2(webZ + cuerpoH);                // 96.5 — cara superior del cuerpo de la mesa
   const placaZ0 = r2(cuerpoZ1 + P.carrera);           // 106.5 — cara inferior de la mesa móvil (ELEVADA)
   const placaZ1 = r2(placaZ0 + L.mesaPlacaT);         // 131.5
   const platoZ1 = r2(placaZ1 + L.platoT);             // 143.5 = P.rielInfZ
-  const mX = P.largo / 2;                             // 231.5 — centro del módulo en X
+  const mX = L.mesaX;                                 // 245 — centro de la mesa en X
+  const canalXc = r2(L.canalX0 + P.canalCilY / 2);    // 231.5 — centro del canal en X
   const [mw, md] = P.mesaPlaca;                       // 170 × 200 — huella de la mesa
   const mX0 = r2(mX - mw / 2);                        // 146.5 — cara −X del cuerpo (puertos)
 
@@ -207,13 +242,18 @@ export function elevacion(E) {
       // paso de la cabeza de los tirantes de tope de carrera
       ...[-1, 1].map(sy => hole(`Ø30 paso cabeza tirante de tope (${sy > 0 ? '+' : '−'}Y)`,
         [mX, sy * L.topeY, canalZ0 - 1], [0, 0, 1], 30)),
-      // fijación del soporte de la válvula (2 × 1/4-20 en el ala −X)
-      ...[-219, -163].map(y => hole(`Ø7.9 soporte de válvula (Y=${y})`,
-        [L.canalX0 - 1, y, 100], [1, 0, 0], 7.9)),
+      // fijación del soporte de la válvula (2 × 1/4-20 en el alma)
+      ...L.sopPernos.map(([x, y]) => hole(`Ø7.9 soporte de válvula (X=${x}, Y=${y})`,
+        [x, y, canalZ0 - 1], [0, 0, 1], 7.9)),
       // rebaje de las alas para que pase el ala inferior del SIDE CHANNEL
       // (bastidor.mjs: ala hacia dentro hasta Y=189.1 en Z 83.6…86.2)
       ...[1, -1].map(s => box(`Rebaje paso ala SIDE CHANNEL (${s > 0 ? '+' : '−'}Y)`,
-        [mX, s * 204.5, 82], P.canalCilY + 10, 35, 6.5, 'cut')),
+        [canalXc, s * 204.5, 82], P.canalCilY + 10, 35, 6.5, 'cut')),
+      // muescas de paso de la tornillería con que bastidor.mjs cuelga las
+      // ménsulas inferiores de jack bolt del alma del SIDE CHANNEL (X=115.75 y
+      // 347.25, Z=100, con el vástago entrando hasta Y≈±212)
+      ...L.jackX.flatMap(x => [1, -1].map(s => box(`Muesca paso perno ménsula jack (X=${x}, ${s > 0 ? '+' : '−'}Y)`,
+        [x, s * 216, 92], 20, 20, 34, 'cut'))),
     ],
     {
       chapa: { t: r2(t12), material: 'acero al carbono 12 GA', fibra, radio: P.radioPliegue },
@@ -224,19 +264,20 @@ export function elevacion(E) {
   // Perfil: ancho completo hasta placaZfull y dos montantes hasta placaZ1, que
   // solapan el alma del canal lateral fijo (P.canalBotZ … P.canalTopZ).
   const ma = L.montanteAncho / 2;
+  const [pX0, pX1] = L.placaX;
   const perfilPlaca = [
-    [L.canalX0, L.placaZ0], [canalX1, L.placaZ0], [canalX1, L.placaZfull],
+    [pX0, L.placaZ0], [pX1, L.placaZ0], [pX1, L.placaZfull],
     [L.ajusteX[1] + ma, L.placaZfull], [L.ajusteX[1] + ma, L.placaZ1], [L.ajusteX[1] - ma, L.placaZ1],
     [L.ajusteX[1] - ma, L.placaZfull],
     [L.ajusteX[0] + ma, L.placaZfull], [L.ajusteX[0] + ma, L.placaZ1], [L.ajusteX[0] - ma, L.placaZ1],
-    [L.ajusteX[0] - ma, L.placaZfull], [L.canalX0, L.placaZfull],
+    [L.ajusteX[0] - ma, L.placaZfull], [pX0, L.placaZfull],
   ];
   for (const s of [1, -1]) {
     const yUnion = s > 0 ? ladoInt : -placaY;   // sketchXZ extruye h hacia −Y desde yFace
     const yCorte = s > 0 ? placaY - 0.5 : -ladoInt - 0.5;
     E.addPart(
       `FIJO · Placa colgante del canal 3/16" con colisas ${L.colisaAncho}×${L.colisaLargo} (Y=${s > 0 ? '+' : '−'}${r2(placaY + P.placaT / 2)})`,
-      COL.chapaOsc, [L.canalX0, s * placaY, L.placaZ0],
+      COL.chapaOsc, [pX0, s * placaY, L.placaZ0],
       [
         sketchXZ('Placa 3/16" recortada', yUnion, perfilPlaca, P.placaT),
         // 2 colisas verticales de ajuste (tornillos de 3/8" del procedimiento del manual)
@@ -257,7 +298,10 @@ export function elevacion(E) {
   //    se afloja una y se aprieta la otra para subir o bajar ese punto.
   // =========================================================================
   const mT = t12 / 2;                     // ménsula inferior de 12 GA centrada en P.jackInfZ
-  const zApoyo = r2(P.jackSupZ + t12);    // cara superior de la ménsula superior (12 GA)
+  // La ménsula superior de bastidor.mjs es una pletina 12 GA pegada BAJO el ala
+  // inferior del canal anfitrión: la cabeza y la golilla del jack bolt apoyan
+  // encima de esa ala (P.canalBotZ), que va taladrada Ø10.3 para el paso.
+  const zApoyo = P.canalBotZ;             // 220.6 — cara superior del ala inferior
   for (const x of L.jackX) {
     for (const sy of [1, -1]) {
       const y = sy * P.jackY, pos = `X=${x}, Y=${sy > 0 ? '+' : '−'}${P.jackY}`;
@@ -277,8 +321,8 @@ export function elevacion(E) {
   // =========================================================================
   for (const x of L.ajusteX) {
     for (const sy of [1, -1]) {
-      const yOut = sy * r2(ladoExt + 1.67), d = [0, -sy, 0];
-      const pos = `X=${x}, Y=${sy > 0 ? '+' : '−'}${ladoExt}`;
+      const yOut = sy * r2(ladoOut + 1.67), d = [0, -sy, 0];
+      const pos = `X=${x}, Y=${sy > 0 ? '+' : '−'}${ladoOut}`;
       golilla(E, { nombre: `3/8" de colisa (${pos})`, at: [x, yOut, L.ajusteZ], dir: d, dia: b38.d, ext: 25, esp: 1.67, capa: 'FIJO · ' });
       pernoHex(E, { nombre: `3/8-16 × 1" de colisa (${pos})`, at: [x, yOut, L.ajusteZ], dir: d, dia: b38.d, largo: IN, af: b38.af, altoCab: b38.hh, capa: 'FIJO · ' });
       tuercaHex(E, { nombre: `3/8-16 de colisa (${pos})`, at: [x, sy * placaY, L.ajusteZ], dir: d, dia: b38.d, af: b38.af, alto: b38.tuerca, capa: 'FIJO · ' });
@@ -311,7 +355,8 @@ export function elevacion(E) {
       // roscas M12 de fijación al canal
       ...[-1, 1].flatMap(sx => [-1, 1].map(sy =>
         hole(`M12 fijación (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
-          [mX + sx * L.mesaPernoX, sy * L.mesaPernoY, webZ - 1], [0, 0, 1], L.mesaPernoDia, 35, false))),
+          [mX + sx * L.mesaPernoX, sy * L.mesaPernoY, webZ - 1], [0, 0, 1],
+          r2(L.mesaPernoDia + P.holgura.deslizante), 45, false))),
       // puertos Rc 1/4 en la cara −X
       ...L.puertoZ.map((z, i) => hole(`Puerto Rc1/4 ${i ? 'B' : 'A'} (Z=${z})`,
         [mX0, L.puertoY[i], z], [1, 0, 0], 15.5, 14, false)),
@@ -319,15 +364,19 @@ export function elevacion(E) {
     { componente: 'mesa_guia_MGF100_20', hardware: true, parte: '923.01022' });
 
   E.addPart(
-    `MÓVIL · Mesa guía — placa móvil ${mw}×${md}×${L.mesaPlacaT} (carrera aplicada ${P.carrera})`,
+    `MÓVIL · Mesa guía — placa móvil ${mw}×${md}×${L.mesaPlacaT} c/rebaje de paso del motorreductor ${r2(2 * L.rebajeY)}×${r2(placaZ1 - L.rebajeZ)} (carrera aplicada ${P.carrera})`,
     COL.neumatica, [mX, 0, placaZ0],
     [
       box(`Placa móvil ${mw}×${md}×${L.mesaPlacaT}`, [mX, 0, placaZ0], mw, md, L.mesaPlacaT),
-      // roscas de los tirantes de tope y de los pernos del plato de empuje
+      // Rebaje central: el motorreductor baja hasta Z=123.9 y sobre la huella de
+      // la mesa su macizo llega a |Y| ≤ 48 — el rebaje deja 3 mm a ambos lados.
+      box(`Rebaje paso motorreductor ${r2(2 * L.rebajeY)}×${r2(placaZ1 - L.rebajeZ)}`,
+        [mX, 0, L.rebajeZ], mw + 2, 2 * L.rebajeY, L.mesaPlacaT, 'cut'),
+      // roscas de los tirantes de tope y de los pernos de la horquilla de empuje
       ...[-1, 1].map(s => hole(`M12 tirante de tope (${s > 0 ? '+' : '−'}Y)`, [mX, s * L.topeY, placaZ0 - 1], [0, 0, 1], L.topeDia, 26, false)),
       ...[-1, 1].flatMap(sx => [-1, 1].map(sy =>
-        hole(`M10 plato de empuje (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
-          [mX + sx * 60, sy * 60, placaZ0 - 1], [0, 0, 1], 10, L.mesaPlacaT + 2, false))),
+        hole(`M10 brazo de empuje (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
+          [mX + sx * 60, sy * L.brazoPernoY, placaZ0 - 1], [0, 0, 1], 10, L.mesaPlacaT + 2, false))),
     ],
     { componente: 'mesa_guia_MGF100_20' });
 
@@ -368,22 +417,26 @@ export function elevacion(E) {
   //    4 pasadores guía en las colisas de las placas colgantes: el conjunto
   //    sube los 10 mm en paralelo y no bascula.
   // =========================================================================
-  E.addPart(
-    `MÓVIL · Plato de empuje ${mw}×${md}×${L.platoT} (cara superior Z=${platoZ1} = riel del bastidor móvil)`,
-    COL.movil, [mX, 0, placaZ1],
-    [
-      box(`Plato ${mw}×${md}×${L.platoT}`, [mX, 0, placaZ1], mw, md, L.platoT),
-      ...[-1, 1].flatMap(sx => [-1, 1].map(sy =>
-        hole(`Ø10.5 perno M10 (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
-          [mX + sx * 60, sy * 60, placaZ1 - 1], [0, 0, 1], 10.5, 6, false))),
-    ], { plano: true });
-
-  for (const sx of [-1, 1]) {
-    for (const sy of [-1, 1]) {
-      const x = r2(mX + sx * 60), y = sy * 60;
+  // La cara de empuje NO puede ser una placa maciza: el motorreductor cuelga
+  // sobre la mesa (Z ≥ 123.9, |Y| ≤ 54 a la cota de empuje).  Se resuelve con
+  // una HORQUILLA de dos brazos a |Y| = 58…100, que pasan por fuera del motor y
+  // apoyan en la cara inferior de los notched brace channel (Y ±80…120).
+  const brazoAncho = r2(L.brazoY1 - L.brazoY0);
+  for (const sy of [1, -1]) {
+    const yc = sy * r2((L.brazoY0 + L.brazoY1) / 2);
+    E.addPart(
+      `MÓVIL · Brazo de empuje de la horquilla ${mw}×${brazoAncho}×${L.platoT} (Y=${sy > 0 ? '+' : '−'}${L.brazoY0}…${L.brazoY1}, cara de empuje Z=${platoZ1})`,
+      COL.movil, [mX, yc, placaZ1],
+      [
+        box(`Brazo ${mw}×${brazoAncho}×${L.platoT}`, [mX, yc, placaZ1], mw, brazoAncho, L.platoT),
+        ...[-1, 1].map(sx => hole(`Rosca M10 (${sx > 0 ? '+' : '−'}X)`,
+          [mX + sx * 60, sy * L.brazoPernoY, placaZ1 - 1], [0, 0, 1], 10.2, 9, false)),
+      ], { plano: true });
+    for (const sx of [-1, 1]) {
       pernoHex(E, {
-        nombre: `M10 × 32 plato de empuje (X=${x}, Y=${sy > 0 ? '+' : '−'}60)`,
-        at: [x, y, placaZ0], dir: [0, 0, 1], dia: 10, largo: 32, af: 16, altoCab: 6.5, capa: 'MÓVIL · ',
+        nombre: `M10 × 32 brazo de empuje (X=${r2(mX + sx * 60)}, Y=${sy > 0 ? '+' : '−'}${L.brazoPernoY})`,
+        at: [r2(mX + sx * 60), sy * L.brazoPernoY, placaZ0], dir: [0, 0, 1],
+        dia: 10, largo: 32, af: 16, altoCab: 6.5, capa: 'MÓVIL · ',
       });
     }
   }
@@ -410,85 +463,99 @@ export function elevacion(E) {
   // =========================================================================
   // 6. NEUMÁTICA: soporte, válvula, silenciadores, racores, unión y tubería
   // =========================================================================
-  const vY0 = L.valvY[0], vY1 = L.valvY[1], vAlto = P.valvula[2];
-  const brZ1 = r2(L.valvZ0 + vAlto + 10);                        // 110 — alto del soporte
-  const brX1 = L.canalX0, brX0 = r2(brX1 - P.placaT);            // ala vertical del soporte
-  const vX1 = brX0, vX0 = r2(vX1 - P.valvula[1]);                // cuerpo de la válvula (46 en X)
-  const repisaZ1 = r2(L.valvZ0 + P.placaT);
+  const [vY0, vY1] = L.valvY, [vX0, vX1] = L.valvX, vAlto = P.valvula[2];
+  const [sX0, sX1] = L.sopX, [sY0, sY1] = L.sopY;
+  const sopZ1 = r2(L.valvZ0 + P.placaT);                         // 20.26 — cara superior del soporte
+  const vZ0 = sopZ1, vZ1 = r2(vZ0 + vAlto);                      // 20.26 … 80.26
+  const vYc = r2((vY0 + vY1) / 2), vXc = r2((vX0 + vX1) / 2);
+  const vTornY = r2(vYc + 24);                        // −125 — lejos de los racores (Y=−160)
 
   E.addPart(
-    `FIJO · Soporte de válvula 3/16" ${r2(brX1 - vX0 + 3)}×${r2(vY1 - vY0)}×${r2(brZ1 - L.valvZ0)}`,
-    COL.chapaOsc, [vX0, vY1, L.valvZ0],
-    [sketchXZ('Escuadra de soporte', vY1, [
-      [brX1, brZ1], [brX0, brZ1], [brX0, repisaZ1], [vX0 - 3, repisaZ1], [vX0 - 3, L.valvZ0], [brX1, L.valvZ0],
-    ], r2(vY1 - vY0))], { plano: true });
+    `FIJO · Soporte de válvula 3/16" ${r2(sX1 - sX0)}×${r2(sY1 - sY0)}`,
+    COL.chapaOsc, [sX0, sY0, L.valvZ0],
+    [
+      box(`Placa de soporte ${r2(sX1 - sX0)}×${r2(sY1 - sY0)}×${P.placaT}`,
+        [r2((sX0 + sX1) / 2), r2((sY0 + sY1) / 2), L.valvZ0], r2(sX1 - sX0), r2(sY1 - sY0), P.placaT),
+      ...L.sopPernos.map(([x, y]) => hole(`Ø7.9 anclaje al canal (X=${x}, Y=${y})`, [x, y, L.valvZ0 - 1], [0, 0, 1], 7.9)),
+      ...[-1, 1].map(s => hole(`Rosca 1/4-20 de la válvula (${s > 0 ? '+' : '−'}X)`,
+        [r2(vXc + s * 16), vTornY, sopZ1 + 1], [0, 0, -1], b14.d, P.placaT + 1, false)),
+    ], { plano: true });
 
-  for (const y of [-219, -163]) {
-    golilla(E, { nombre: `1/4" soporte de válvula (Y=${y})`, at: [r2(brX0 - 2), y, 100], dir: [1, 0, 0], dia: b14.d, ext: 16, esp: 2, capa: 'FIJO · ' });
-    pernoHex(E, { nombre: `1/4-20 × 1" soporte de válvula (Y=${y})`, at: [r2(brX0 - 2), y, 100], dir: [1, 0, 0], dia: b14.d, largo: IN, af: b14.af, altoCab: b14.hh, capa: 'FIJO · ' });
-    tuercaHex(E, { nombre: `1/4-20 soporte de válvula (Y=${y})`, at: [r2(L.canalX0 + t12), y, 100], dir: [1, 0, 0], dia: b14.d, af: b14.af, alto: b14.tuerca, capa: 'FIJO · ' });
+  for (const [x, y] of L.sopPernos) {
+    golilla(E, { nombre: `1/4" soporte de válvula (X=${x}, Y=${y})`, at: [x, y, canalZ0], dir: [0, 0, -1], dia: b14.d, ext: 16, esp: 2, capa: 'FIJO · ' });
+    pernoHex(E, { nombre: `1/4-20 × 1-1/4" soporte de válvula (X=${x}, Y=${y})`, at: [x, y, r2(canalZ0 - 2)], dir: [0, 0, 1], dia: b14.d, largo: r2(1.25 * IN), af: b14.af, altoCab: b14.hh, capa: 'FIJO · ' });
+    tuercaHex(E, { nombre: `1/4-20 soporte de válvula (X=${x}, Y=${y})`, at: [x, y, sopZ1], dir: [0, 0, 1], dia: b14.d, af: b14.af, alto: b14.tuerca, capa: 'FIJO · ' });
   }
 
-  const vZ0 = repisaZ1, vZ1 = r2(vZ0 + vAlto);
   E.addPart(
     `FIJO · NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC ${P.valvula.join('×')} (094.10795)`,
     COL.neumatica, [vX0, vY0, vZ0],
     [
-      box(`Cuerpo ${P.valvula.join('×')}`, [r2((vX0 + vX1) / 2), r2((vY0 + vY1) / 2), vZ0], r2(vX1 - vX0), r2(vY1 - vY0), vAlto),
-      cyl('Solenoide 24 VDC Ø30×42', [r2((vX0 + vX1) / 2), vY1, r2(vZ0 + vAlto * 0.55)], [0, 1, 0], 30, 42),
-      cyl('Accionamiento manual Ø10', [r2((vX0 + vX1) / 2), vY0, r2(vZ0 + vAlto * 0.55)], [0, -1, 0], 10, 8),
+      box(`Cuerpo ${P.valvula.join('×')}`, [vXc, vYc, vZ0], r2(vX1 - vX0), r2(vY1 - vY0), vAlto),
+      cyl('Solenoide 24 VDC Ø30×42', [vX1, vYc, r2(vZ0 + vAlto * 0.55)], [1, 0, 0], 30, 42),
+      cyl('Accionamiento manual Ø10', [vX0, vYc, r2(vZ0 + vAlto * 0.55)], [-1, 0, 0], 10, 8),
       // puertos de escape (silenciadores) y de trabajo A/B
-      ...[-213, -169].map(y => hole(`Escape 1/8 NPT (Y=${y})`, [vX0, y, 62], [1, 0, 0], 9.5, 10, false)),
-      ...[-205, -177].map(y => hole(`Puerto de trabajo 1/4 (Y=${y})`, [85, y, vZ1], [0, 0, -1], 14, 12, false)),
+      ...L.silenZ.map(z => hole(`Escape 1/8 NPT (Z=${z})`, [vXc, vY0, z], [0, 1, 0], 9.5, 10, false)),
+      ...L.racorX.map((x, i) => hole(`Puerto de trabajo 1/4 ${i ? 'B' : 'A'} (X=${x})`, [x, L.racorY, vZ1], [0, 0, -1], 16.4, 12, false)),
+      ...[-1, 1].map(s => hole(`Ø7.9 fijación al soporte (${s > 0 ? '+' : '−'}X)`, [r2(vXc + s * 16), vTornY, vZ1 + 1], [0, 0, -1], 7.9)),
     ], { hardware: true, componente: 'valvula_4v_24vdc', parte: '094.10795' });
 
-  for (const y of [-213, -169]) {
-    E.addPart(`FIJO · NEUMÁTICA · Silenciador 1/8" NPT Ø${L.silenDia} (Y=${y}) (923.0059)`, COL.inox,
-      [vX0, y, 62], [
-        cyl('Niple 1/8 NPT Ø9.5×7', [vX0, y, 62], [-1, 0, 0], 9.5, 7),
-        cyl(`Cuerpo sinterizado Ø${L.silenDia}×20`, [r2(vX0 - 7), y, 62], [-1, 0, 0], L.silenDia, 20),
+  for (const s of [-1, 1]) {
+    const x = r2(vXc + s * 16);
+    golilla(E, { nombre: `1/4" válvula↔soporte (X=${x})`, at: [x, vTornY, vZ1], dir: [0, 0, 1], dia: b14.d, ext: 16, esp: 2, capa: 'FIJO · NEUMÁTICA · ' });
+    pernoHex(E, { nombre: `1/4-20 × 2-1/2" válvula↔soporte (X=${x})`, at: [x, vTornY, r2(vZ1 + 2)], dir: [0, 0, -1], dia: b14.d, largo: r2(2.5 * IN), af: b14.af, altoCab: b14.hh, capa: 'FIJO · NEUMÁTICA · ' });
+  }
+
+  for (const z of L.silenZ) {
+    E.addPart(`FIJO · NEUMÁTICA · Silenciador 1/8" NPT Ø${L.silenDia} (Z=${z}) (923.0059)`, COL.inox,
+      [vXc, vY0, z], [
+        cyl('Niple 1/8 NPT Ø9.5×7', [vXc, vY0, z], [0, -1, 0], 9.5, 7),
+        cyl(`Cuerpo sinterizado Ø${L.silenDia}×20`, [vXc, r2(vY0 - 7), z], [0, -1, 0], L.silenDia, 20),
       ], { hardware: true, parte: '923.0059' });
   }
 
   // ---- racores codo giratorios 360° sobre la válvula ----------------------
-  const codoZ = [125, 137];                          // altura del brazo de cada codo
-  const codoXsal = 100;
-  [-205, -177].forEach((y, i) => {
-    E.addPart(`FIJO · NEUMÁTICA · Racor codo giratorio 360° 1/4" (válvula, Y=${y})`, COL.neumatica,
-      [85, y, vZ1], [
-        cyl('Cuerpo Ø16', [85, y, r2(vZ1 - 6)], [0, 0, 1], 16, r2(codoZ[i] - vZ1 + 12)),
-        cyl('Salida giratoria Ø13', [85, y, codoZ[i]], [1, 0, 0], 13, r2(codoXsal - 85 + 2)),
-        hole('Ø8.2 paso de tubo', [r2(codoXsal + 2), y, codoZ[i]], [-1, 0, 0], r2(P.tuboOD + 0.3), 22, false),
+  // El tubo sale hacia −X por el pasillo libre entre el ala del canal (X≤117.2)
+  // y la cara −X de la mesa (X=160); las dos alturas quedan por debajo de la
+  // placa soporte de transmisión (X 106.7…155, Z ≥ 124).
+  const codoZ = [105, 118];                          // altura del brazo de cada codo
+  const codoXsal = 155;
+  L.racorX.forEach((x, i) => {
+    E.addPart(`FIJO · NEUMÁTICA · Racor codo giratorio 360° 1/4" (válvula, X=${x})`, COL.neumatica,
+      [x, L.racorY, vZ1], [
+        cyl('Cuerpo Ø16', [x, L.racorY, r2(vZ1 - 6)], [0, 0, 1], 16, r2(codoZ[i] - vZ1 + 12)),
+        cyl('Salida giratoria Ø13', [x, L.racorY, codoZ[i]], [-1, 0, 0], 13, r2(x - codoXsal + 2)),
+        hole('Ø8.2 paso de tubo', [r2(codoXsal - 2), L.racorY, codoZ[i]], [1, 0, 0], r2(P.tuboOD + 0.3), 26, false),
       ], { hardware: true, parte: '094.1406 (codo macho giratorio 360°)' });
   });
 
   // ---- racores codo giratorios 360° en los puertos de la mesa -------------
-  const codoMesaX = [140.5, 139];
+  const codoMesaX = 146;
   L.puertoZ.forEach((z, i) => {
-    const y = L.puertoY[i], x = codoMesaX[i];
+    const y = L.puertoY[i];
     E.addPart(`FIJO · NEUMÁTICA · Racor codo giratorio 360° 1/4" (mesa, puerto ${i ? 'B' : 'A'}, Z=${z})`, COL.neumatica,
-      [x, y, z], [
-        cyl('Cuerpo Ø16', [x, y, r2(z + 13)], [0, 0, -1], 16, 20),
-        cyl('Salida giratoria Ø15', [x, y, z], [1, 0, 0], 15, r2(mX0 - x + 6)),
-        hole('Ø8.2 paso de tubo', [x, y, r2(z + 15)], [0, 0, -1], r2(P.tuboOD + 0.3), 16, false),
+      [codoMesaX, y, z], [
+        cyl('Cuerpo Ø16', [codoMesaX, y, r2(z + 13)], [0, 0, -1], 16, 20),
+        cyl('Salida giratoria Ø15', [codoMesaX, y, z], [1, 0, 0], 15, r2(mX0 - codoMesaX + 6)),
+        hole('Ø8.2 paso de tubo', [codoMesaX, y, r2(z + 15)], [0, 0, -1], r2(P.tuboOD + 0.3), 16, false),
       ], { hardware: true, parte: '094.1406 (codo macho giratorio 360°)' });
   });
 
   // ---- unión Unifit de 1/4" en la línea A --------------------------------
-  E.addPart(`FIJO · NEUMÁTICA · Unión Unifit 1/4" Ø15 × 26 (X=130, Y=−140)`, COL.neumatica,
-    [130, -140, codoZ[0]], [
-      cyl('Cuerpo de unión Ø15×26', [130, -127, codoZ[0]], [0, -1, 0], 15, 26),
-      hole('Ø8.2 paso de tubo', [130, -125, codoZ[0]], [0, -1, 0], r2(P.tuboOD + 0.3), 30, false),
+  E.addPart(`FIJO · NEUMÁTICA · Unión Unifit 1/4" Ø15 × 26 (X=136, Y=−120)`, COL.neumatica,
+    [136, -120, codoZ[0]], [
+      cyl('Cuerpo de unión Ø15×26', [136, -107, codoZ[0]], [0, -1, 0], 15, 26),
+      hole('Ø8.2 paso de tubo', [136, -105, codoZ[0]], [0, -1, 0], r2(P.tuboOD + 0.3), 30, false),
     ], { hardware: true, parte: '094.1465 (unión Unifit 1/4 in.)' });
 
   // ---- tubería de 1/4" (P.tuboOD): vertical + codo + horizontal ----------
   const rutaA = [
-    [codoXsal, -205, codoZ[0]], [130, -205, codoZ[0]], [130, L.puertoY[0], codoZ[0]],
-    [codoMesaX[0], L.puertoY[0], codoZ[0]], [codoMesaX[0], L.puertoY[0], r2(L.puertoZ[0] + 9)],
+    [codoXsal, L.racorY, codoZ[0]], [136, L.racorY, codoZ[0]], [136, L.puertoY[0], codoZ[0]],
+    [codoMesaX, L.puertoY[0], codoZ[0]], [codoMesaX, L.puertoY[0], r2(L.puertoZ[0] + 9)],
   ];
   const rutaB = [
-    [codoXsal, -177, codoZ[1]], [139, -177, codoZ[1]], [139, L.puertoY[1], codoZ[1]],
-    [139, L.puertoY[1], r2(L.puertoZ[1] + 9)],
+    [codoXsal, L.racorY, codoZ[1]], [140, L.racorY, codoZ[1]], [140, L.puertoY[1], codoZ[1]],
+    [codoMesaX, L.puertoY[1], codoZ[1]], [codoMesaX, L.puertoY[1], r2(L.puertoZ[1] + 9)],
   ];
   const tA = tubo(rutaA, P.tuboOD), tB = tubo(rutaB, P.tuboOD);
   E.addPart(`FIJO · NEUMÁTICA · Tubería 1/4" OD Ø${r2(P.tuboOD)} — línea A (válvula → mesa, ${tA.largo} mm)`,
@@ -518,13 +585,10 @@ export function elevacion(E) {
     masaElevadaKg: L.masaMovilKg + P.cargaMaxKg,
     factorSeguridad: r2(util / carga),
     factorSeguridad60psi: r2(util60 / carga),
-    zPlatoEmpuje: platoZ1,
-    // AVISO DE INTEGRACIÓN: la altura de la mesa no es negociable — P.mesaAlto
-    // (106, catálogo) + P.carrera (10) + el alma del canal obligan a que la cara
-    // de empuje quede en Z=143.5 (= P.rielInfZ) con el canal en su Z medido.
-    // bastidor.mjs exporta `padMovilZ = 100`: ese valor NO cabe (haría arrancar
-    // la mesa en Z = −16). Hay que subir el apoyo del bastidor móvil a 143.5.
-    avisoIntegracion: `cara de empuje en Z=${platoZ1} (bastidor.mjs supone 100: incompatible con P.mesaAlto=${P.mesaAlto})`,
+    zCaraEmpuje: platoZ1,
+    empujeInterfaz: `horquilla de 2 brazos en Y=±${L.brazoY0}…${L.brazoY1}; contacto de ${r2(L.brazoY1 - L.contactoY[0])} mm de ancho por brazo contra la cara inferior de los notched brace channel (Y=±${L.contactoY[0]}…${L.contactoY[1]})`,
+    huecoMotorMm: r2(L.brazoY0 - L.motorY143),   // holgura de la horquilla al motorreductor
+    presionContactoMPa: r2((L.masaMovilKg + P.cargaMaxKg) * 9.80665 / (2 * (L.brazoY1 - L.contactoY[0]) * P.mesaPlaca[0])),
     canalZ: [canalZ0, canalZ1],
     desarrolloCanalMm: desa.largo,
     plegadosCanal: desa.plegados.length,
