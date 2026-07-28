@@ -184,6 +184,10 @@ def main():
           all(i["islas"] > 0 for i in pz["islas_descartadas"]))
     check("todos los STL cerrados",
           all(v["estanco"] for v in pz["estanqueidad_stl"].values()))
+    for f, kb in (("conjunto.glb", 20), ("conjunto.png", 20), ("placas.dxf", 5),
+                  ("catalogo_piezas.pdf", 100)):
+        p = proj / "out" / "piezas" / f
+        check(f"{f} generado", p.exists() and p.stat().st_size > kb * 1024)
 
     import trimesh
     piezas_dir = proj / "out" / "piezas"

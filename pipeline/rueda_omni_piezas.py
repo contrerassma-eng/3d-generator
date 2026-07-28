@@ -44,7 +44,7 @@ from rueda_omni import opt
 
 # Tornillos avellanados DIN 965 (cabeza 90°): métrica -> (Ø paso, Ø cabeza, Ø núcleo)
 TORNILLOS = {"M2.5": (2.7, 4.7, 2.05), "M3": (3.2, 5.6, 2.5), "M4": (4.3, 7.5, 3.3)}
-COLORES = {"placa": [235, 235, 235, 255], "rodillo": [40, 40, 44, 255],
+COLORES = {"placa": [214, 219, 224, 255], "rodillo": [48, 48, 54, 255],
            "eje": [150, 158, 165, 255]}
 
 
@@ -393,11 +393,10 @@ def verificar(piezas: dict) -> list[dict]:
     return choques
 
 
-def render(piezas: dict, path: Path, az=35.0, el=58.0) -> None:
-    """Render isométrico del conjunto montado (pintor: caras ordenadas por z)."""
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
+def pintar(ax, mallas, az=35.0, el=58.0, escala_comun=None) -> float:
+    """Pinta mallas sobre unos ejes por el algoritmo del pintor (caras ordenadas
+    en profundidad). Devuelve el semilado usado, para poder encuadrar varias
+    vistas a la MISMA escala y que las piezas se puedan comparar entre páginas."""
     from matplotlib.collections import PolyCollection
 
     a, e = math.radians(az), math.radians(el)
@@ -405,32 +404,207 @@ def render(piezas: dict, path: Path, az=35.0, el=58.0) -> None:
                      [0, 0, 1.0]])
     incl = np.array([[1.0, 0, 0], [0, math.cos(e), -math.sin(e)],
                      [0, math.sin(e), math.cos(e)]])
-    luz = np.array([0.3, -0.5, 0.8])
+    luz = np.array([-0.40, -0.50, 0.62])
+    luz /= np.linalg.norm(luz)
     caras, colores, hondo = [], [], []
-    for nombre, (malla, tipo) in piezas.items():
-        if tipo not in ("montaje", "placa"):
-            continue
+    for malla in mallas:
         V = malla.vertices @ giro.T @ incl.T
-        tri = V[malla.faces]
-        sombra = malla.face_normals @ luz
-        sombra = (sombra - sombra.min()) / (np.ptp(sombra) + 1e-9)
+        N = malla.face_normals @ giro.T @ incl.T
+        # Sin descartar las caras traseras el algoritmo del pintor deja ver el
+        # interior: los triángulos largos de la tapa extruida no se ordenan bien.
+        vista = N[:, 2] > 1e-9
+        difusa = np.clip(N @ luz, 0, 1)
         base = np.asarray(malla.visual.face_colors[:, :3]) / 255.0
-        for t, s, c in zip(tri, sombra, base):
+        for t, s, c, v in zip(V[malla.faces], difusa, base, vista):
+            if not v:
+                continue
             caras.append(t[:, :2])
-            colores.append(np.clip(c * (0.35 + 0.75 * s), 0, 1))
+            colores.append(np.clip(c * (0.30 + 0.78 * s), 0, 1))
             hondo.append(t[:, 2].mean())
     orden = np.argsort(hondo)
-    fig, ax = plt.subplots(figsize=(7, 7))
-    ax.add_collection(PolyCollection([caras[i] for i in orden],
-                                     facecolors=[colores[i] for i in orden],
-                                     edgecolors="none"))
+    # el borde del mismo color que la cara tapa las costuras de antialias que
+    # deja el mallado entre triángulos contiguos
+    col = [colores[i] for i in orden]
+    ax.add_collection(PolyCollection([caras[i] for i in orden], facecolors=col,
+                                     edgecolors=col, linewidths=0.3))
     pts = np.concatenate(caras)
-    ax.set_xlim(pts[:, 0].min() - 2, pts[:, 0].max() + 2)
-    ax.set_ylim(pts[:, 1].min() - 2, pts[:, 1].max() + 2)
+    cx, cy = pts[:, 0].mean(), pts[:, 1].mean()
+    semi = escala_comun or max(np.ptp(pts[:, 0]), np.ptp(pts[:, 1])) / 2 * 1.08
+    ax.set_xlim(cx - semi, cx + semi)
+    ax.set_ylim(cy - semi, cy + semi)
     ax.set_aspect("equal")
     ax.axis("off")
+    return semi
+
+
+def render(piezas: dict, path: Path) -> None:
+    """Render isométrico del conjunto montado."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    mallas = [m for m, t in piezas.values() if t in ("montaje", "placa")]
+    fig, ax = plt.subplots(figsize=(7, 7))
+    pintar(ax, mallas)
     fig.savefig(path, dpi=110, bbox_inches="tight", facecolor="white")
     plt.close(fig)
+
+
+def _bloque(fig, y: float, titulo: str, lineas, vinetas=False) -> float:
+    """Escribe un bloque de texto plegando las líneas largas; devuelve la y final
+    para que el siguiente bloque no se le monte encima."""
+    import textwrap
+    fig.text(0.08, y, titulo, size=10, weight="bold")
+    y -= 0.008
+    for linea in lineas:
+        color = "#b00000" if linea.startswith("AVISO") else "black"
+        for i, trozo in enumerate(textwrap.wrap(linea, 108)):
+            y -= 0.0165
+            fig.text(0.09 if vinetas else 0.08, y,
+                     ("· " if vinetas and i == 0 else "  " if vinetas else "") + trozo,
+                     size=7.5, color=color)
+    return y - 0.014
+
+
+def catalogo_pdf(piezas: dict, d: dict, path: Path) -> None:
+    """Catálogo A4: portada con el conjunto y la lista, y una página por pieza
+    con tres vistas renderizadas, sus cotas y qué hay que mecanizar en ella."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib.backends.backend_pdf import PdfPages
+
+    A4 = (8.27, 11.69)
+    g, u, h = d["derivado"], d["decidido_por_el_usuario"], d["heredado_de_la_foto"]
+    cant = {p["pieza"]: p["cant"] for p in d["lista_de_piezas"]}
+    nota = {p["pieza"]: p["nota"] for p in d["lista_de_piezas"]}
+    mecanizado = {
+        "placa_ext_avellanada":
+            [f"5 taladros Ø{g['taladro_paso']} con avellanado Ø{g['cabeza_avellanada']} "
+             f"a 90° en la cara EXTERIOR",
+             "cara interior lisa: es la que cierra la ranura de la placa siguiente"],
+        "placa_ranurada_A":
+            [f"5 medias cañas Ø{u['diametro_eje_rodillo'] + 0.1:g} en la cara que mira "
+             f"a la hilera A, sobre la cuerda a R{h['radio_eje_rodillo']:.2f}",
+             f"5 taladros Ø{g['taladro_paso']} pasantes"],
+        "placa_ranurada_B":
+            [f"idéntica a la A pero con las cañas en la cara OPUESTA y giradas "
+             f"{h['desfase_deg']:g}°: no es la misma pieza volteada",
+             f"5 taladros Ø{g['taladro_paso']} pasantes"],
+        "placa_intermedia_1": [f"5 taladros Ø{g['taladro_paso']} pasantes",
+                               "sin ranura ni avellanado: sólo separa las hileras"],
+        "placa_intermedia_2": [f"5 taladros Ø{g['taladro_paso']} pasantes",
+                               "espejo de la intermedia 1"],
+        "placa_ext_roscada":
+            [f"5 taladros Ø{g['taladro_para_roscar']} para roscar {u['tornillo']}",
+             f"rosca útil {u['espesor_placa']:g} mm: en plástico o aluminio blando, "
+             f"tuerca o inserto"],
+        "rodillo": [f"barreno Ø{g['barreno_rodillo']} pasante",
+                    "perfil de rodadura rho(t) = sqrt(R² - t²) - a: la corona "
+                    "describe el Ø exterior de la rueda"],
+        "eje_rodillo": [f"varilla lisa Ø{u['diametro_eje_rodillo']:g}, sin cabeza ni "
+                        f"rosca: lo retiene el sándwich",
+                        f"asiento {g['asiento_eje_por_lado']} mm por lado en la ranura"],
+    }
+
+    def cabecera(fig, titulo, sub):
+        fig.text(0.08, 0.955, titulo, size=15, weight="bold")
+        fig.text(0.08, 0.935, sub, size=8.5, color="#444444")
+        fig.lines.append(plt.Line2D([0.08, 0.92], [0.928, 0.928],
+                                    transform=fig.transFigure, color="#999999", lw=0.8))
+        fig.text(0.08, 0.035, "foto3d · rueda omni · capa `user` (diseño) — "
+                 f"cotas heredadas de la foto con ±{h['incertidumbre_pct']:g}% "
+                 "de incertidumbre", size=7, color="#666666")
+
+    with PdfPages(path) as pp:
+        # --- portada ---------------------------------------------------------
+        fig = plt.figure(figsize=A4)
+        cabecera(fig, f"Rueda omnidireccional doble Ø{h['diametro_exterior']:g}",
+                 f"Sándwich de {g['placas_totales']} placas de "
+                 f"{u['espesor_placa']:g} mm · ancho total {g['ancho_total_rueda']:g} mm "
+                 f"· {h['hileras']}x{h['rodillos_por_hilera']} rodillos a "
+                 f"{h['desfase_deg']:g}° · {d['generado'][:10]}")
+        ax = fig.add_axes([0.06, 0.545, 0.88, 0.37])
+        pintar(ax, [m for m, t in piezas.values() if t in ("montaje", "placa")])
+        filas = [[p["pieza"].replace("_", " "), str(p["cant"]),
+                  ("comprado" if p.get("comprado") else "fabricar"), p["nota"]]
+                 for p in d["lista_de_piezas"]]
+        tab = fig.add_axes([0.06, 0.30, 0.88, 0.22])
+        tab.axis("off")
+        t = tab.table(cellText=filas, colLabels=["Pieza", "Cant.", "Origen", "Nota"],
+                      colWidths=[0.26, 0.06, 0.10, 0.58], loc="upper center",
+                      cellLoc="left")
+        t.auto_set_font_size(False)
+        t.set_fontsize(7)
+        t.scale(1, 1.32)
+        for (fi, _), celda in t.get_celld().items():
+            celda.set_linewidth(0.4)
+            celda.set_edgecolor("#bbbbbb")
+            if fi == 0:
+                celda.set_facecolor("#eeeeee")
+                celda.set_text_props(weight="bold")
+        y = 0.275
+        y = _bloque(fig, y, "Montaje", d["montaje"])
+        y = _bloque(fig, y - 0.012, "Verificado", (
+            f"interferencias entre sólidos montados: "
+            f"{d['verificacion_interferencias']['resultado'].lower()}",
+            f"estanqueidad de los STL, releídos del disco: "
+            f"{sum(1 for v in d['estanqueidad_stl'].values() if v['estanco'])}"
+            f"/{len(d['estanqueidad_stl'])}",
+            f"separación entre planos de eje {g['separacion_planos_eje']:g} mm "
+            f"(la geometría exige {g['separacion_minima_exigida']:g})",
+            f"tornillos a Ø{g['circunferencia_tornillos']:g}, dentro del radio libre "
+            f"de las dos hileras (Ø{2*g['radio_libre_de_rodillos']:.2f})",
+        ), vinetas=True)
+        pp.savefig(fig)
+        plt.close(fig)
+
+        # --- una página por pieza ---------------------------------------------
+        for nombre, (malla, tipo) in piezas.items():
+            if tipo == "montaje":
+                continue
+            fig = plt.figure(figsize=A4)
+            ext = malla.extents
+            cabecera(fig, nombre.replace("_", " "),
+                     f"{cant.get(nombre, 1)} ud · {nota.get(nombre, '')}")
+            semi = max(ext) / 2 * 1.15
+            for i, (tit, az, el) in enumerate((("isométrica", 35, 58),
+                                               ("planta (cara)", 0, 0),
+                                               ("alzado (canto)", 0, 90))):
+                ax = fig.add_axes([0.06 + 0.31 * i, 0.62, 0.29, 0.27])
+                pintar(ax, [malla], az=az, el=el, escala_comun=semi)
+                ax.set_title(tit, size=8, color="#444444")
+            cotas = [["envolvente", f"{ext[0]:.2f} x {ext[1]:.2f} x {ext[2]:.2f} mm"],
+                     ["volumen", f"{malla.volume:.1f} mm³"],
+                     ["estanco (STL)",
+                      "sí" if d["estanqueidad_stl"][nombre]["estanco"] else "NO"]]
+            if tipo == "placa":
+                cotas += [["espesor", f"{u['espesor_placa']:g} mm"],
+                          ["hexágono central", f"{u['hexagono_entrecaras']:g} entrecaras"],
+                          ["circunferencia de tornillos",
+                           f"Ø{g['circunferencia_tornillos']:g} — 5 x {u['tornillo']}"]]
+            elif nombre == "rodillo":
+                cotas += [["Ø máximo", f"{g['diametro_max_rodillo']:g} mm"],
+                          ["longitud", f"{h['longitud_rodillo']:g} mm"],
+                          ["barreno", f"Ø{g['barreno_rodillo']:g} (juego sobre el eje)"]]
+            else:
+                cotas += [["Ø", f"{u['diametro_eje_rodillo']:g} mm"],
+                          ["longitud", f"{g['largo_eje_rodillo']:g} mm"]]
+            tab = fig.add_axes([0.06, 0.40, 0.88, 0.20])
+            tab.axis("off")
+            t = tab.table(cellText=cotas, colLabels=["Cota", "Valor"],
+                          colWidths=[0.34, 0.56], loc="upper left", cellLoc="left")
+            t.auto_set_font_size(False)
+            t.set_fontsize(8)
+            t.scale(1, 1.35)
+            for (fi, _), celda in t.get_celld().items():
+                celda.set_linewidth(0.4)
+                celda.set_edgecolor("#bbbbbb")
+                if fi == 0:
+                    celda.set_facecolor("#eeeeee")
+                    celda.set_text_props(weight="bold")
+            _bloque(fig, 0.385, "Mecanizado", mecanizado.get(nombre, []), vinetas=True)
+            pp.savefig(fig)
+            plt.close(fig)
 
 
 def dxf_placas(perfiles: dict, d: dict, path: Path) -> None:
@@ -564,6 +738,9 @@ def main() -> None:
     dxf = out / "placas.dxf"
     dxf_placas(perfiles, d, dxf)
     escritos.append(dxf)
+    pdf = out / "catalogo_piezas.pdf"
+    catalogo_pdf(piezas, d, pdf)
+    escritos.append(pdf)
     pj = out / "piezas.json"
     pj.write_text(json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8")
 
