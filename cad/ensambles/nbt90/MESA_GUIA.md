@@ -130,23 +130,29 @@ Presión de trabajo del ProSort MRT según su manual: **60 psi = 4.14 bar**.
 | | Ø63 | **Ø80** | Ø100 |
 |---|---:|---:|---:|
 | Área de empuje (mm²) | 3117 | **5027** | 7854 |
-| Empuje a 4.14 bar (N) | 1290 | **2081** | 3252 |
-| Factor de seguridad | **1.48** ✗ | **2.38** ✓ | 3.73 ✓ |
+| Empuje teórico a 4.14 bar (N) | 1290 | **2081** | 3252 |
+| Empuje útil, rendimiento 0.85 (N) | 1097 | **1769** | 2764 |
+| Factor de seguridad | **1.26** ✗ | **2.03** ✓ | 3.17 ✓ |
 | Aire por ciclo a 4.14 bar (L ANR) | 0.30 | **0.49** | 0.76 |
 | Huella del cuerpo (mm) | 162 × 78 | **202 × 91.5** | 240 × 111.5 |
 | Alto retraído A (mm) | 106.5 | **115** | 137 |
 
-- **Ø63 se cae por fuerza**: 1.48 no llega al 1.5 que exige la compuerta, y
+El factor de seguridad se calcula sobre el **empuje útil**, no el teórico: el
+módulo aplica un rendimiento de 0.85 (`L.rendimiento`) por rozamiento de juntas y
+de guías, como venía haciendo desde el primer dimensionado. El empuje teórico es
+dato de catálogo; el 0.85 es una tolerancia de diseño de este repositorio.
+
+- **Ø63 se cae por fuerza**: 1.26 no llega al 1.5 que exige la compuerta, y
   precisamente a la presión que declara el fabricante del equipo. Subir la presión
   de red para salvarlo sería cambiar el equipo, no dimensionar el actuador.
 - **Ø100 se cae por geometría y por velocidad**: 22 mm más alto que el Ø80 sobre
   una cadena de alturas que ya va justa, y **57 % más de aire por ciclo**, que con
   la misma válvula y el mismo tubo es directamente 57 % más de tiempo de llenado.
-- **Ø80 pasa las tres**: factor 2.38, cabe, y es el más rápido de los que pasan.
+- **Ø80 pasa las tres**: factor 2.03, cabe, y es el más rápido de los que pasan.
 
 Margen de presión: con Ø80 el equipo sigue levantando con factor 1.5 hasta
-**2.60 bar (38 psi)**. El retorno da 1878 N a 4.14 bar, y además baja a favor de
-la gravedad.
+**3.06 bar (44 psi)**. El retorno da 1878 N teóricos a 4.14 bar, y además baja a
+favor de la gravedad.
 
 ---
 
@@ -190,8 +196,8 @@ pág. 7). Capa `cat`.
 
 ## 5. Fuerza, velocidad, geometría, estabilidad
 
-**Fuerza.** 2081 N a 4.14 bar contra 873 N de carga → **factor 2.38**. A 6 bar,
-3016 N → factor 3.46.
+**Fuerza.** 2081 N teóricos a 4.14 bar → 1769 N útiles contra 873 N de carga,
+**factor 2.03**. A 6 bar, 3016 N teóricos → 2564 útiles, factor 2.94.
 
 **Velocidad.** El límite no lo pone el cilindro (admite 400 mm/s) sino la energía
 cinética del bulto: con M + m = 89 + 4.27 = 93.27 kg y 2.71 J admisibles,
