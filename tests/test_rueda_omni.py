@@ -185,9 +185,17 @@ def main():
     check("todos los STL cerrados",
           all(v["estanco"] for v in pz["estanqueidad_stl"].values()))
     for f, kb in (("conjunto.glb", 20), ("conjunto.png", 20), ("placas.dxf", 5),
-                  ("catalogo_piezas.pdf", 100)):
+                  ("catalogo_piezas.pdf", 100), ("test-omni_piezas.zip", 500),
+                  ("LEEME.txt", 0)):
         p = proj / "out" / "piezas" / f
         check(f"{f} generado", p.exists() and p.stat().st_size > kb * 1024)
+    import zipfile
+    with zipfile.ZipFile(proj / "out" / "piezas" / "test-omni_piezas.zip") as z:
+        dentro = z.namelist()
+    check(f"el zip lleva las 8 piezas, el catálogo y el LEEME ({len(dentro)} archivos)",
+          sum(1 for n in dentro if n.endswith(".stl")) == 8 and
+          "LEEME.txt" in dentro and "catalogo_piezas.pdf" in dentro and
+          not any(n.endswith(".zip") for n in dentro))
 
     import trimesh
     piezas_dir = proj / "out" / "piezas"

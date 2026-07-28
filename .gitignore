@@ -18,6 +18,9 @@ projects/*/out/*.mvs
 # Salidas de la biblioteca de componentes (se regeneran del catalogo)
 componentes/out/
 
+# Zip de entrega: solo empaqueta archivos que ya estan versionados al lado
+projects/*/out/**/*_piezas.zip
+
 __pycache__/
 *.pyc
 .venv/

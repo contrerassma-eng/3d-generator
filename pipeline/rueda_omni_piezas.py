@@ -643,6 +643,91 @@ def dxf_placas(perfiles: dict, d: dict, path: Path) -> None:
     doc.saveas(path)
 
 
+def leeme(d: dict, proyecto: str, archivos) -> str:
+    """Texto que acompaña al zip: qué es cada archivo, qué se decidió y qué no
+    está verificado. El zip sale del proyecto y viaja solo, así que se lleva su
+    procedencia dentro."""
+    g, u, h = d["derivado"], d["decidido_por_el_usuario"], d["heredado_de_la_foto"]
+    import textwrap
+    parrafo = lambda t: textwrap.fill(t, 76, initial_indent="  ",
+                                      subsequent_indent="  ")
+    L = [f"RUEDA OMNIDIRECCIONAL DOBLE Ø{h['diametro_exterior']:g} — piezas",
+         f"proyecto {proyecto} · generado {d['generado'][:19]}Z", "",
+         "QUÉ ES ESTO",
+         parrafo(
+             f"Diseño (capa `user`), no medición. Las cotas de partida salen de "
+             f"UNA foto frontal escalada por el Ø{h['diametro_exterior']:g} "
+             f"exterior que declaró el usuario: arrastran "
+             f"±{h['incertidumbre_pct']:g}% de incertidumbre. VERIFIQUE CON "
+             f"CALIBRE antes de fabricar nada que tenga que acoplar con una "
+             f"rueda existente."),
+         f"  Foto de origen: {d['origen_medicion']}", "",
+         "DECIDIDO POR EL USUARIO",
+         f"  hexágono central   {u['hexagono_entrecaras']:g} mm ENTRECARAS (no entre vértices)",
+         f"  eje de rodillos    Ø{u['diametro_eje_rodillo']:g} mm",
+         f"  espesor de placa   {u['espesor_placa']:g} mm",
+         f"  tornillos          {u['tornillo']} avellanados", "",
+         "CALCULADO",
+         f"  placas             {g['placas_totales']} ({g['placas_intermedias']} intermedias)",
+         f"  separación de ejes {g['separacion_planos_eje']:g} mm (la geometría exige "
+         f"{g['separacion_minima_exigida']:g})",
+         f"  paquete de placas  {g['espesor_paquete_placas']:g} mm · ancho total "
+         f"{g['ancho_total_rueda']:g} mm",
+         f"  Ø de placa         {g['diametro_placa']:g} mm",
+         f"  tornillos a        Ø{g['circunferencia_tornillos']:g} (paso Ø{g['taladro_paso']}, "
+         f"cabeza Ø{g['cabeza_avellanada']}, roscar Ø{g['taladro_para_roscar']})",
+         f"  rodillo            Ø{g['diametro_max_rodillo']:g} x {h['longitud_rodillo']:g}, "
+         f"barreno Ø{g['barreno_rodillo']:g}",
+         f"  eje                Ø{u['diametro_eje_rodillo']:g} x {g['largo_eje_rodillo']:g}, "
+         f"asiento {g['asiento_eje_por_lado']:g} por lado", "",
+         "LISTA DE PIEZAS"]
+    for p in d["lista_de_piezas"]:
+        L.append(f"  {p['cant']:>2} x {p['pieza']:<26} "
+                 f"{'(comprado) ' if p.get('comprado') else ''}{p['nota']}")
+    L += ["", "MONTAJE"] + ["  " + m for m in d["montaje"]]
+    L += ["", "VERIFICADO",
+          f"  interferencias entre sólidos montados: "
+          f"{d['verificacion_interferencias']['resultado'].lower()}",
+          f"  estanqueidad de los STL (releídos del disco): "
+          f"{sum(1 for v in d['estanqueidad_stl'].values() if v['estanco'])}"
+          f"/{len(d['estanqueidad_stl'])}"]
+    if d.get("islas_descartadas"):
+        L.append("  en las placas intermedias, el hueco del rodillo de la hilera "
+                 "opuesta desprende")
+        for i in d["islas_descartadas"]:
+            L.append(f"    {i['placa']}: {i['islas']} islas de "
+                     f"{i['area_mm2'][0]:g} mm² — descartadas, no van en la pieza")
+    L += ["", "ARCHIVOS"]
+    desc = {".stl": "sólido para imprimir/mecanizar (mm)",
+            ".glb": "conjunto montado, para visor 3D",
+            ".png": "render del conjunto",
+            ".dxf": "contornos de placa a escala real; capa CORTE = pasante, "
+                    "RANURA y AVELLANADO = mecanizado posterior",
+            ".pdf": "catálogo: una página por pieza con vistas, cotas y mecanizado",
+            ".json": "todas las cotas con su procedencia y justificación"}
+    for f in archivos:
+        L.append(f"  {f.name:<28} {desc.get(f.suffix, '')}")
+    L += ["", "NO DETERMINADO POR LA FOTO",
+          parrafo("El barreno del eje del original y el ancho real de la rueda no "
+                  "se pueden sacar de una vista frontal única: aquí no se han "
+                  "copiado, se han diseñado a partir de lo que pidió el usuario."),
+          ""]
+    return "\n".join(L)
+
+
+def empaquetar(out: Path, archivos, d: dict, proyecto: str) -> Path:
+    """Zip con todas las piezas y un LEEME que viaja con ellas."""
+    import zipfile
+    destino = out / f"{proyecto.lower()}_piezas.zip"
+    texto = leeme(d, proyecto, archivos)
+    (out / "LEEME.txt").write_text(texto, encoding="utf-8")
+    with zipfile.ZipFile(destino, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("LEEME.txt", texto)
+        for f in archivos:
+            z.write(f, f.name)
+    return destino
+
+
 def _cajas_tocan(m1, m2) -> bool:
     a, b = m1.bounds, m2.bounds
     return bool(np.all(a[0] <= b[1]) and np.all(b[0] <= a[1]))
@@ -762,12 +847,13 @@ def main() -> None:
           f" · STL estancos: {len(d['estanqueidad_stl']) - len(abiertas)}"
           f"/{len(d['estanqueidad_stl'])}"
           + (f" (ABIERTOS: {', '.join(abiertas)})" if abiertas else ""))
-    for f in escritos + [pj]:
+    zipf = empaquetar(out, escritos + [pj], d, proj.name)
+    for f in escritos + [pj, zipf]:
         print(f"  → {f.relative_to(proj)}")
-    audit(proj, "RUEDA_OMNI", "piezas del sándwich (STL + conjunto)", "OK",
+    audit(proj, "RUEDA_OMNI", "piezas del sándwich (STL + conjunto + zip)", "OK",
           metrics={k: v for k, v in g.items()},
           interferencias=d["verificacion_interferencias"]["resultado"],
-          hash_piezas=sha256_file(pj))
+          hash_piezas=sha256_file(pj), hash_zip=sha256_file(zipf))
 
 
 if __name__ == "__main__":
