@@ -112,7 +112,7 @@ const L = {
                         //      desde la brida y su cola cae en X=433.4, o sea ATRAVIESA la
                         //      placa peine libre (X 420.5…425.3). Es como se monta de veras.
   // ---- guarda del rodillo (TRANSFER ROLLER GUARD) -------------------------
-  // La placa soporte de la transmisión (X 106.5…155, Y ±187, Z 124…278) ya cierra
+  // La placa soporte de la transmisión (X 106.5…155, Y ±187, Z 128…278) ya cierra
   // el serpentín por el lado del accionamiento: una guarda ahí sería redundante y
   // además no cabe. La cara que SÍ queda expuesta es la exterior de la placa peine
   // motriz — puntas de eje, anillos de retención y el pinzamiento contra el canal

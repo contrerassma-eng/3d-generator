@@ -63,24 +63,40 @@ console.log('— Armado: nada flota, nada choca —');
 // envolvente incluye el vacío interior. Y el chequeo por MALLAS tampoco decide:
 // el motor BSP da volumen fantasma con sólidos no convexos. La verificación que
 // manda es la de sólidos B-rep exactos (ensambles/nbt90/interferencias_brep.py).
-let inf = null;
-try { inf = JSON.parse(readFileSync('ensambles/nbt90/interferencias_brep.json', 'utf8')); } catch { /* sin informe */ }
-ok(inf !== null, 'existe el informe de interferencia exacta (interferencias_brep.py)');
-if (inf) {
-  // Convención declarada: las piezas COMPRADAS se modelan macizas, sin sus
-  // taladros roscados, así que su propia tornillería las penetra. No es un
-  // choque de diseño; cualquier otro par sí lo es.
-  const flag = new Map(partes.map(p => [p.name, { hw: !!p.hardware, comp: !!p.componente }]));
-  const convencion = (d) => {
-    const a = flag.get(d.a) || {}, b = flag.get(d.b) || {};
-    return (a.hw && b.comp) || (b.hw && a.comp);
-  };
+// Convención declarada: las piezas COMPRADAS se modelan macizas, sin sus
+// taladros roscados, así que su propia tornillería las penetra. No es un
+// choque de diseño; cualquier otro par sí lo es.
+const flag = new Map(partes.map(p => [p.name, { hw: !!p.hardware, comp: !!p.componente }]));
+const convencion = (d) => {
+  const a = flag.get(d.a) || {}, b = flag.get(d.b) || {};
+  return (a.hw && b.comp) || (b.hw && a.comp);
+};
+// Los DOS estados se juzgan igual. El elevado es el que dibuja el modelo; el
+// retraído sale de `out/nbt90_retraido.json`, que gen_nbt90.mjs emite bajando la
+// carrera a las piezas MÓVIL. Hasta que existió ese segundo informe nadie miraba
+// el estado bajo, y ahí había un choque real de 1.00 cm³ (placa soporte de
+// transmisión ⨯ labio del canal de montaje del cilindro).
+for (const [estado, ruta] of [['ELEVADO', 'interferencias_brep.json'],
+  ['RETRAÍDO', 'interferencias_brep_retraido.json']]) {
+  let inf = null;
+  try { inf = JSON.parse(readFileSync(`ensambles/nbt90/${ruta}`, 'utf8')); } catch { /* sin informe */ }
+  ok(inf !== null, `existe el informe de interferencia exacta en estado ${estado} (interferencias_brep.py)`);
+  if (!inf) continue;
   const reales = (inf.detalle || []).filter(d => !convencion(d));
   ok(reales.length === 0,
-    `${reales.length} interferencias de diseño sobre ${inf.pares_candidatos} pares candidatos `
+    `${estado}: ${reales.length} interferencias de diseño sobre ${inf.pares_candidatos} pares candidatos `
     + `(${(inf.detalle || []).length - reales.length} son tornillería dentro de piezas compradas, convención declarada)`);
   for (const d of reales.slice(0, 8)) console.log(`      ${d.cm3} cm³  ${d.a} ⨯ ${d.b}`);
 }
+// La compuerta de gen_nbt90.mjs mira el estado retraído por cajas envolventes:
+// ningún par MÓVIL↔FIJO puede GANAR solape al bajar (salvo los perfiles huecos
+// enumerados en RETRAIDO_CAJA_ABIERTA, que verifica el B-rep de arriba).
+ok(V.retraidoParesQueCrecen === 0,
+  `retraído: ${V.retraidoParesQueCrecen} pares MÓVIL↔FIJO ganan solape de caja al bajar `
+  + `(${V.retraidoParesTolerados} tolerados por perfil hueco)`);
+ok(V.holguraPlacaTransmisionCanalRetraidoMm >= 2,
+  `retraída, la placa soporte de transmisión libra el techo del canal de montaje por `
+  + `${V.holguraPlacaTransmisionCanalRetraidoMm} mm`);
 const contacto = JSON.parse(readFileSync('ensambles/nbt90/interferencias.json', 'utf8') || '{}').contacto_popup;
 ok(contacto?.ok === true,
   `la mesa guía apoya en el conjunto móvil (separación ${contacto?.separacion_mm} mm)`);

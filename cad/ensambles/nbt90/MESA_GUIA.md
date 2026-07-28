@@ -356,18 +356,28 @@ se emite el ensamble.
 
 ### 6.5 Lo que queda abierto
 
-1. **Choque en estado RETRAÍDO, ajeno a este cambio.** Bajando 10 mm todas las
-   piezas MÓVIL y volviendo a intersecar con B-rep aparece **1.00 cm³** entre la
-   *placa soporte de transmisión* (`transmision.mjs`, borde inferior
-   `L.zPlaca[0]` = 124 → 114 retraída) y el labio superior del *canal de montaje
-   del cilindro* (techo en Z = 115.34). **Ya existía antes** de cambiar el
-   actuador —con el canal medio milímetro más alto eran 1.53 cm³— y no lo delata
-   ninguna compuerta porque el modelo sólo representa el estado elevado. El sitio
-   donde se arregla es `transmision.mjs`: subir `zPlaca[0]` de 124 a 128 deja
-   2.7 mm (la pieza más baja de esa placa es el eje de la polea de retorno, en
-   Z = 176.6, así que recortar 4 mm por abajo no toca nada). Resolverlo desde
-   este módulo saldría caro: haría falta engordar la horquilla a 26 mm, con lo
-   que las varillas guía bajarían otros 4 mm.
+1. ~~**Choque en estado RETRAÍDO, ajeno a este cambio.**~~ **CORREGIDO.** Bajando
+   10 mm todas las piezas MÓVIL y volviendo a intersecar con B-rep aparecía
+   **1.00 cm³** entre la *placa soporte de transmisión* (`transmision.mjs`, borde
+   inferior `L.zPlaca[0]` = 124 → 114 retraída) y el labio superior del *canal de
+   montaje del cilindro* (techo en Z = 115.34). **Ya existía antes** de cambiar el
+   actuador —con el canal medio milímetro más alto eran 1.53 cm³— y no lo delataba
+   ninguna compuerta porque el modelo sólo representaba el estado elevado.
+   Se arregló donde tocaba, en `transmision.mjs`: `zPlaca[0]` sube de 124 a **128**
+   y quedan **2.66 mm** de holgura retraída. Los 4 mm recortados no le hacen falta
+   a nada — por debajo de Z = 138.9 (borde de la brida Ø120 del motorreductor, que
+   apoya contra la placa) la placa no lleva ni un taladro ni un asiento: el más
+   bajo es el M8 de la brida (borde 159.04) y el paso del eje de la polea de
+   retorno (borde 171.04, eje en 176.6). No se tocó este módulo: bajar el canal
+   habría obligado a engordar la horquilla a 26 mm y las varillas guía habrían
+   bajado otros 4 mm.
+   Y sobre todo, **ya no puede volver a pasar sin que se vea**: `gen_nbt90.mjs`
+   baja las piezas MÓVIL la carrera y comprueba que ninguna gane solape con una
+   FIJA (§8 de `verify`, con la lista de perfiles huecos tolerados en
+   `RETRAIDO_CAJA_ABIERTA`), y además emite `out/nbt90_retraido.json`, que
+   `regenerar.sh` pasa por `interferencias_brep.py` — la misma verificación exacta
+   que el estado elevado. Los dos estados dan hoy las mismas 4 interferencias de
+   convención declarada y ninguna más.
 2. **Carrera de 10 mm en Ø80 no es estándar SMC.** La tabla del Ø80 empieza en
    25; los clones sí la fabrican y los tres listados consultados la ofrecen. Si
    se compra SMC original hay que pedirla como carrera especial: aceptar 25 y

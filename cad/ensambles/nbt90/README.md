@@ -31,6 +31,11 @@ se fijó la escala y por qué se corrigió: **[ESCALA.md](ESCALA.md)**.
 cd cad
 npm install                                   # three, para node
 node ensambles/nbt90/gen_nbt90.mjs            # genera el ensamble (falla si no pasa el gate)
+                                              # + out/nbt90_retraido.json (mismo ensamble, bajado)
+python3 ensambles/nbt90/interferencias_brep.py --tol 0.05      # interferencia exacta, ELEVADO
+python3 ensambles/nbt90/interferencias_brep.py --tol 0.05 \
+        --doc ensambles/nbt90/out/nbt90_retraido.json \
+        --informe interferencias_brep_retraido.json            # … y RETRAÍDO
 node tests/test_nbt90.mjs                     # invariantes de función, fabricación y armado
 node ensambles/nbt90/export_glb.mjs ensambles/nbt90/narrow_belt_transfer_90.json out.glb
 node ensambles/nbt90/_check.mjs bastidor --v  # probar un módulo suelto
@@ -69,6 +74,13 @@ o abrir el JSON en `cad/index.html` con **📂 Abrir** para editarlo.
 
 - Emergencia de 1/4" arriba y retracción por debajo del plano de bandas, con
   carrera de 10 mm: `emergencia + retracción = carrera`.
+- **La máquina puede bajar**: el modelo se dibuja ELEVADO, así que el gate baja
+  además las piezas `MÓVIL` los 10 mm de carrera y exige que ninguna gane solape
+  con una `FIJA`. Como las cajas envolventes no distinguen el hueco de un perfil
+  en U, la lista de perfiles huecos tolerados está escrita en
+  `RETRAIDO_CAJA_ABIERTA` (`gen_nbt90.mjs`) y quien decide de verdad es
+  `interferencias_brep.py`, que se corre sobre `out/nbt90_retraido.json` —el
+  mismo ensamble bajado, que emite el propio integrador.
 - Holgura real entre cada rodillo y la regleta de la banda vecina.
 - La banda del serpentín **cierra geométricamente** (tangentes calculadas, no
   dibujadas) y abraza cada rodillo lo suficiente para arrastrarlo por fricción.

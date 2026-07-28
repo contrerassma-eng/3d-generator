@@ -49,7 +49,20 @@ const L = {
   // drive rollers must be removed"), y ningún soporte cruza el plano de la banda.
   xPlaca: 113.0,          // dis: cara −X de la placa; deja 5.5 mm tras la rueda motriz
   espPlaca: pulg(0.25),   // 6.35 — dis: chapa 1/4" de catálogo (voladizo del motorreductor)
-  zPlaca: [124.0, 278.0], // dis: cubre las 6 poleas, la colisa del tensor y la brida
+  // Borde inferior 128.0 (dis) y no la cota generosa de antes (124.0). Esta placa
+  // es MÓVIL: **retraída** su borde baja a 118.0, y el techo del CYLINDER
+  // MOUNTING CHANNEL —pieza FIJA— está en Z = 115.34 (`canalZ1` de elevacion.mjs),
+  // con el labio ocupando X 114.5…131.8, que se cruza con la franja X 114.5…119.35
+  // de la placa. Con 124.0 la placa se metía 1.34 mm en ese labio (1.00 cm³ en
+  // B-rep) y la máquina no podía bajar; con 128.0 quedan 2.66 mm de holgura
+  // retraída. Los 4 mm recortados no le hacen falta a nada de lo que cuelga: por
+  // debajo de Z = 138.9 —borde de la brida Ø120 del motorreductor, que apoya
+  // contra esta placa— no hay ni un taladro ni un asiento. El más bajo es el M8
+  // de la brida (borde inferior 159.04) y el paso del eje de la polea de retorno
+  // (borde inferior 171.04, eje en 176.6). La escotadura del notched brace
+  // channel se sigue calculando a `zPlaca[0] − 8` = 120, o sea sigue abierta por
+  // abajo (el larguero arranca en 143.5).
+  zPlaca: [128.0, 278.0], // dis: cubre las 6 poleas, la colisa del tensor y la brida
   yPlaca: 187.0,          // dis: LÍMITE DE INTERFAZ. Por debajo de Z≈252 el `Side channel`
                           // FIJO ocupa Y 189.1…228.6 a los dos lados, así que ninguna pieza
                           // MÓVIL puede pasar de ±187 (integración, informe de interferencias).

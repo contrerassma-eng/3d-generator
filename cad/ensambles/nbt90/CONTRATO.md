@@ -24,6 +24,12 @@ Estado modelado: **elevado** (pop-up con la carrera aplicada), igual que el
 transfer de rodillos del repo. `params.mjs` expone `P.carrera` y el estado
 retraído se obtiene restando `P.carrera` a las piezas del módulo móvil.
 
+Ese estado retraído **se verifica, no se supone**: `gen_nbt90.mjs` lo emite como
+`out/nbt90_retraido.json` (mismas piezas, las `MÓVIL` bajadas `P.carrera`) y la
+compuerta exige que ninguna pieza `MÓVIL` gane solape con una `FIJA` al bajar.
+Al escribir un módulo hay que pensar por tanto en las DOS posiciones: una pieza
+`MÓVIL` que libre por poco a una `FIJA` estando arriba puede chocar 10 mm abajo.
+
 ## 2. Firma de un módulo
 
 Cada subsistema es un archivo `cad/ensambles/nbt90/<modulo>.mjs` que exporta

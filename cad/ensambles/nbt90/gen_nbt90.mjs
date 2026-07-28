@@ -3,14 +3,17 @@
 // para clasificador de bandas angostas (Hytrol ProSort MRT 90° Transfer).
 //
 // Llama a los cuatro módulos de diseño, corre la compuerta de verificación y
-// emite `narrow_belt_transfer_90.json` (formato foto3d-cad, capa `user`).
+// emite `narrow_belt_transfer_90.json` (formato foto3d-cad, capa `user`) y,
+// derivado de él, `out/nbt90_retraido.json` — el MISMO ensamble con las piezas
+// MÓVIL bajadas la carrera, para poder verificar el estado bajo con la misma
+// herramienta exacta que el alto (`interferencias_brep.py`).
 //
 //   node cad/ensambles/nbt90/gen_nbt90.mjs
 //
 // Ejes: X = eje de los rodillos (flujo del anfitrión) · Y = expulsión a 90°
 // (los rodillos se reparten en Y a paso 3") · Z = arriba. mm. Estado: ELEVADO.
 
-import { writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -20,6 +23,45 @@ import { bastidor } from './bastidor.mjs';
 import { rodillos } from './rodillos.mjs';
 import { transmision } from './transmision.mjs';
 import { elevacion } from './elevacion.mjs';
+
+// ---------------------------------------------------------------------------
+// Pares MÓVIL ↔ FIJO cuyo solape de CAJAS crece al retraer SIN que haya choque.
+//
+// La comprobación del estado retraído (§8 de `verify`) trabaja con envolventes
+// AABB, y una AABB no sabe que un perfil en U o en C está HUECO: la caja del
+// `Canal de montaje del cilindro` incluye toda la artesa, que es justamente por
+// donde bajan el cilindro, su horquilla y el cárter del motorreductor. Por eso
+// aquí hay LISTA DE PARES y no umbral en cm³: un umbral capaz de tapar estos
+// falsos positivos —decenas de cm³— escondería a la vez choques de verdad (el
+// que destapó esta comprobación medía 1.00 cm³).
+//
+// LO QUE ESTA COMPROBACIÓN **NO** VE, y conviene decirlo sin adornos:
+//   · los pares de esta lista: no se miran, se dan por buenos;
+//   · una pieza que YA estaba dentro de la caja de otra y al bajar choca contra
+//     el fondo sin que el solape de cajas crezca — el pasador guía dentro de su
+//     colisa es exactamente ese caso.
+// La verificación que DECIDE sigue siendo la de sólidos B-rep exactos, que
+// ahora se corre también sobre el estado bajo: este integrador emite
+// `out/nbt90_retraido.json` y `regenerar.sh` le pasa `interferencias_brep.py`
+// con la misma tolerancia que al estado elevado. Lo de aquí es sólo la red que
+// impide EMITIR un ensamble con un choque franco al bajar.
+const RETRAIDO_CAJA_ABIERTA = [
+  [/^MÓVIL · (NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil|Brazo de empuje de la horquilla|Tornillo SHCS M12|Motorreductor SEW)/,
+    /^FIJO · Canal de montaje del cilindro/,
+    'el canal es una artesa en U abierta hacia arriba (boca X 131.8…331.2): el cilindro, '
+    + 'su horquilla y el cárter del motorreductor trabajan DENTRO de ella'],
+  [/^MÓVIL · NEUMÁTICA · Cilindro MGPM80-10Z — (vástago|varilla guía)/,
+    /^FIJO · NEUMÁTICA · Cilindro compacto con guías/,
+    'vástago y varillas guía deslizan dentro del cuerpo del propio cilindro; sus '
+    + 'alojamientos son cortes y una AABB no resta cortes'],
+  [/^MÓVIL · (Banda plana FLEXPROOF|Placa peine)/, /^FIJO · Side channel/,
+    'el side channel es un perfil en C abierto hacia dentro: la caja se traga el hueco '
+    + 'en el que corren la banda y la placa peine (que bajo Z=285 sólo llega a |Y|=185)'],
+  [/^MÓVIL · Placa peine/, /^FIJO · (Golilla|Perno hex|Tuerca hex) .*Canal base/,
+    'la caja de un cilindro se infla ±r también en su propio eje: la tornillería vertical '
+    + 'del canal base parece 21 mm más alta de lo que es (acaba en Z=97.5 frente a los '
+    + '86 del borde bajo de la placa peine retraída, y a |Y|=210 frente a los 185 de la placa)'],
+];
 
 const E = new Ensamble();
 const m = {
@@ -155,6 +197,59 @@ function verify() {
     }
   }
 
+  // --- 8. interferencia MÓVIL ↔ FIJO en estado RETRAÍDO --------------------
+  // El modelo se dibuja ELEVADO, así que hasta ahora NINGUNA compuerta miraba el
+  // estado bajo — y ahí había un choque real (la placa soporte de transmisión
+  // dentro del labio del canal de montaje, 1.00 cm³, que impedía que la máquina
+  // bajase). Aquí se baja cada pieza MÓVIL `P.carrera` en Z y se exige que su
+  // caja NO GANE solape con ninguna pieza FIJA: si el solape crece al bajar, la
+  // pieza se está metiendo donde arriba no estaba. Se compara CONTRA EL ESTADO
+  // ELEVADO —y no contra cero— porque el estado elevado ya está certificado con
+  // sólidos exactos: un solape de cajas que no crece al bajar no es información
+  // nueva. Ver `RETRAIDO_CAJA_ABIERTA` arriba: qué se tolera, por qué, y qué es
+  // lo que este chequeo NO puede ver.
+  const solapeVol = (a, b) => {
+    let v = 1;
+    for (let i = 0; i < 3; i++) {
+      const d = Math.min(a.hi[i], b.hi[i]) - Math.max(a.lo[i], b.lo[i]);
+      if (d <= 0) return 0;
+      v *= d;
+    }
+    return v;
+  };
+  const bajar = (b) => ({ lo: [b.lo[0], b.lo[1], b.lo[2] - P.carrera], hi: [b.hi[0], b.hi[1], b.hi[2] - P.carrera] });
+  const choquesBajo = [];
+  let toleradosBajo = 0;
+  for (const [pm, bm] of bbM) {
+    const bb = bajar(bm);
+    for (const [pf, bf] of bbF) {
+      const crece = solapeVol(bb, bf) - solapeVol(bm, bf);
+      if (crece <= 1e-6) continue;
+      if (RETRAIDO_CAJA_ABIERTA.some(([rm, rf]) => rm.test(pm.name) && rf.test(pf.name))) { toleradosBajo++; continue; }
+      choquesBajo.push({ movil: pm.name, fijo: pf.name, cm3: r2(crece / 1000) });
+    }
+  }
+  choquesBajo.sort((a, b) => b.cm3 - a.cm3);
+  for (const c of choquesBajo.slice(0, 6)) {
+    e.push(`RETRAÍDO (bajando ${P.carrera} mm): «${c.movil}» invade «${c.fijo}» — la caja gana ${c.cm3} cm³`);
+  }
+  if (choquesBajo.length > 6) e.push(`… y ${choquesBajo.length - 6} pares más chocan en estado retraído`);
+
+  // Cota dirigida sobre el choque que este bloque destapó: retraída, la placa
+  // soporte de transmisión (MÓVIL) contra el techo del canal de montaje (FIJO).
+  // El mínimo exigido es el mismo que usa la elevación para la placa del
+  // cilindro contra el motorreductor (`platoHolguraMotor` = 2 mm).
+  const placaTrans = movil.find((p) => /Placa soporte de transmisión/.test(p.name));
+  const canalTechoZ = m.elevacion.canalZ?.[1];
+  let holguraPlacaCanal;
+  if (placaTrans && canalTechoZ !== undefined) {
+    holguraPlacaCanal = r2(bboxPieza(placaTrans).lo[2] - P.carrera - canalTechoZ);
+    if (holguraPlacaCanal < 2) {
+      e.push(`retraída, la placa soporte de transmisión queda a ${holguraPlacaCanal} mm del techo `
+        + `del canal de montaje del cilindro (Z=${canalTechoZ}); mínimo 2 mm`);
+    }
+  }
+
   return e.length
     ? (() => { throw new Error('Diseño inconsistente:\n  - ' + e.join('\n  - ')); })()
     : {
@@ -163,6 +258,9 @@ function verify() {
         emergencia: r2(emerge), retraccion: r2(retrae), carrera: P.carrera,
         holguraRodilloRegleta: r2(holgura),
         solapesAABB: choques,
+        retraidoParesQueCrecen: choquesBajo.length,
+        retraidoParesTolerados: toleradosBajo,
+        holguraPlacaTransmisionCanalRetraidoMm: holguraPlacaCanal,
         rodillos: P.nRodillos, bandas: P.nBandas, paso: P.paso, BR: P.BR,
         largoBanda, envolventeRodillo: env,
         actuador: el.actuador, componenteActuador: el.componente,
@@ -214,9 +312,46 @@ const doc = {
   constraints: [],
 };
 
-const out = join(dirname(fileURLToPath(import.meta.url)), 'narrow_belt_transfer_90.json');
+const aqui = dirname(fileURLToPath(import.meta.url));
+const out = join(aqui, 'narrow_belt_transfer_90.json');
 writeFileSync(out, JSON.stringify(doc, null, 1));
+
+// ---------------------------------------------------------------------------
+// El MISMO ensamble en estado RETRAÍDO, para poder verificarlo con la misma
+// herramienta exacta que el elevado.
+//
+// No es un modelo distinto ni una segunda fuente de verdad: es este documento
+// con las piezas MÓVIL trasladadas −P.carrera en Z. Vale porque las features de
+// cada pieza son relativas a su ancla (`Ensamble.addPart` las relativiza), así
+// que mover `pos` mueve la pieza entera y nada más. Se emite aparte —y no se
+// deja sólo en la comprobación de cajas de `verify`— porque el estado bajo tiene
+// que pasar por `interferencias_brep.py`, que es la verificación que decide:
+//
+//   python3 ensambles/nbt90/interferencias_brep.py --doc ensambles/nbt90/out/nbt90_retraido.json \
+//           --informe interferencias_brep_retraido.json --tol 0.05
+//
+// (`regenerar.sh`, paso 3/8, lo hace y se detiene si aparece algo nuevo.)
+const docBajo = structuredClone(doc);
+let nBajadas = 0;
+for (const p of docBajo.parts) {
+  if (!/^MÓVIL/.test(p.name)) continue;
+  p.pos = [p.pos[0], p.pos[1], r2(p.pos[2] - P.carrera)];
+  nBajadas++;
+}
+docBajo.meta.nombre += ' — ESTADO RETRAÍDO';
+docBajo.meta.estado_modelado = `RETRAÍDO: derivado de narrow_belt_transfer_90.json bajando las `
+  + `${nBajadas} piezas MÓVIL ${P.carrera} mm en Z. La generatriz superior del rodillo queda `
+  + `${r2(metricas.retraccion)} mm por DEBAJO del plano de las bandas del anfitrión. No se edita a `
+  + `mano: lo emite gen_nbt90.mjs en la misma pasada que el estado elevado.`;
+mkdirSync(join(aqui, 'out'), { recursive: true });
+const outBajo = join(aqui, 'out', 'nbt90_retraido.json');
+writeFileSync(outBajo, JSON.stringify(docBajo, null, 1));
+
 console.log(`OK: ${E.parts.length} piezas (${metricas.movil} móviles, ${metricas.fijo} fijas, `
   + `${metricas.tornilleria} de tornillería, ${metricas.contexto} de contexto), ${E.nf} funciones → ${out}`);
 console.log(`   emergencia ${metricas.emergencia} mm · carrera ${metricas.carrera} mm · `
   + `holgura rodillo↔regleta ${metricas.holguraRodilloRegleta} mm · banda ${metricas.largoBanda ?? '—'} mm`);
+console.log(`   RETRAÍDO: ${metricas.retraidoParesQueCrecen} pares MÓVIL↔FIJO ganan solape de caja al bajar `
+  + `(${metricas.retraidoParesTolerados} tolerados por perfil hueco, ver RETRAIDO_CAJA_ABIERTA); `
+  + `placa de transmisión ↔ techo del canal ${metricas.holguraPlacaTransmisionCanalRetraidoMm} mm`);
+console.log(`   ${nBajadas} piezas MÓVIL bajadas ${P.carrera} mm → ${outBajo} (para interferencias_brep.py)`);
