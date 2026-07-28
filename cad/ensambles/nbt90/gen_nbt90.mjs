@@ -99,10 +99,44 @@ function verify() {
   if (vt.poleasSinSolido) e.push(`${vt.poleasSinSolido} elementos de la banda sin sólido de polea`);
 
   // --- 6. el actuador puede con la carga -----------------------------------
-  const fs = m.elevacion.factorSeguridad;
+  const el = m.elevacion;
+  const fs = el.factorSeguridad;
   if (fs !== undefined && fs < 1.5) e.push(`factor de seguridad del actuador ${fs} < 1.5`);
-  if (m.elevacion.carrera !== undefined && Math.abs(m.elevacion.carrera - P.carrera) > 0.01) {
-    e.push(`la carrera del actuador (${m.elevacion.carrera}) no es la del equipo (${P.carrera})`);
+  if (el.carrera !== undefined && Math.abs(el.carrera - P.carrera) > 0.01) {
+    e.push(`la carrera del actuador (${el.carrera}) no es la del equipo (${P.carrera})`);
+  }
+  // El actuador es una pieza de catálogo: sus límites publicados no se negocian.
+  // Un cilindro con guías falla por energía de impacto, por par sobre la placa o
+  // por carga lateral mucho antes que por fuerza, así que se comprueban los cuatro.
+  if (el.velocidadMaxMmS !== undefined) {
+    const [vMin, vMax] = el.velocidadAdmisibleMmS ?? [0, Infinity];
+    // La velocidad que impone la energía cinética admisible tiene que caer DENTRO
+    // de la banda de velocidad de émbolo del catálogo: si quedara por debajo del
+    // mínimo, no habría forma de estrangular el cilindro hasta esa velocidad.
+    if (el.velocidadMaxMmS < vMin) {
+      e.push(`la masa elevada obliga a ${el.velocidadMaxMmS} mm/s para no pasarse de energía `
+        + `cinética, por debajo del mínimo de émbolo del catálogo (${vMin} mm/s)`);
+    }
+    if (el.velocidadMaxMmS > vMax) {
+      e.push(`velocidad de diseño ${el.velocidadMaxMmS} mm/s > máxima de catálogo (${vMax} mm/s)`);
+    }
+  }
+  if (el.energiaCineticaJ !== undefined && el.energiaAdmisibleJ !== undefined
+      && el.energiaCineticaJ > el.energiaAdmisibleJ + 1e-6) {
+    e.push(`energía cinética de impacto ${el.energiaCineticaJ} J > admisible del actuador `
+      + `(${el.energiaAdmisibleJ} J): los topes de goma no la absorben`);
+  }
+  if (el.parPlacaNm !== undefined && el.parAdmisibleNm !== undefined && el.parPlacaNm > el.parAdmisibleNm) {
+    e.push(`par sobre la placa del actuador ${el.parPlacaNm} N·m > admisible (${el.parAdmisibleNm} N·m)`);
+  }
+  if (el.cargaLateralN !== undefined && el.cargaLateralAdmisibleN !== undefined
+      && el.cargaLateralN > el.cargaLateralAdmisibleN) {
+    e.push(`carga lateral sobre la placa ${el.cargaLateralN} N > admisible (${el.cargaLateralAdmisibleN} N)`);
+  }
+  // Holgura de la placa móvil al motorreductor: es la cota que cierra la cadena
+  // de alturas y la que ya no se puede resolver rebajando la placa (es comprada).
+  if (el.holguraPlacaMotorMm !== undefined && el.holguraPlacaMotorMm < 2) {
+    e.push(`la placa móvil del actuador queda a ${el.holguraPlacaMotorMm} mm del motorreductor (< 2 mm)`);
   }
 
   // --- 7. interferencia gruesa MÓVIL ↔ FIJO en estado elevado --------------
@@ -131,7 +165,13 @@ function verify() {
         solapesAABB: choques,
         rodillos: P.nRodillos, bandas: P.nBandas, paso: P.paso, BR: P.BR,
         largoBanda, envolventeRodillo: env,
-        empujeN: m.elevacion.empujeN, factorSeguridad: fs,
+        actuador: el.actuador, componenteActuador: el.componente,
+        empujeN: el.empujeN, empujeN60psi: el.empujeN60psi, factorSeguridad: fs,
+        factorSeguridad60psi: el.factorSeguridad60psi,
+        velocidadMaxMmS: el.velocidadMaxMmS, tiempoSubidaMs: el.tiempoSubidaMs,
+        energiaCineticaJ: el.energiaCineticaJ, aireLitrosANRciclo: el.aireLitrosANRciclo,
+        parPlacaNm: el.parPlacaNm, cargaLateralN: el.cargaLateralN,
+        salidaVarillasMm: el.salidaVarillasMm, holguraPlacaMotorMm: el.holguraPlacaMotorMm,
       };
 }
 
@@ -155,7 +195,7 @@ const doc = {
     equipo: `BR ${enPulg(P.BR)} · ${P.nRodillos} rodillos vulcanizados Ø${enPulg(P.rodDia)} a paso `
       + `${enPulg(P.paso)} · ${P.nBandas} bandas angostas de ${enPulg(P.bandaAncho)} del anfitrión · `
       + `serpentín de banda plana de ${enPulg(P.serpAncho)} · motorreductor ${P.motorHP} HP a ${P.motorRpm} rpm · `
-      + `elevación neumática Ø${P.mesaBore} de ${P.carrera} mm`,
+      + `elevación neumática con cilindro compacto de guías SMC MGPM80-10Z (Ø${P.mesaBore}, carrera ${P.mesaCarrera} mm)`,
     estado_modelado: `ELEVADO: la generatriz superior del rodillo queda ${r2(metricas.emergencia)} mm `
       + `(= ${enPulg(P.emerge)}) sobre el plano de las bandas; retraído baja ${r2(metricas.retraccion)} mm por debajo`,
     ejes: 'X = eje de los rodillos (flujo del anfitrión, y sentido de marcha de las bandas angostas); '

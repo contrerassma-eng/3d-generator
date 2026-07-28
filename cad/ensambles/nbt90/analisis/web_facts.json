@@ -1,7 +1,7 @@
 {
   "$comment": "Capa 'web' del ensamble nbt90 (transferencia de bandas angostas 90 grados). Sigue schemas/provenance.schema.json (seccion facts). Cada hecho lleva url + accessed + quote obligatorios. Claves en espanol (tema, afirmacion, fuente_titulo) anadidas como alias no normativos.",
   "project": "nbt90",
-  "generated": "2026-07-27T00:00:00Z",
+  "generated": "2026-07-28T00:00:00Z",
   "layers": {
     "measured": {
       "nota": "No hay capa measured: no se ejecuto el pipeline foto3d. Las cotas de la figura provienen de digitalizacion de FIGURE 8A a 0.5277 mm/px (capa user)."
@@ -1345,6 +1345,62 @@
       "nota": "Cita obtenida en investigacion asistida y NO re-descargada en esta sesion. ATENCION: los puertos son G1/2 (BSPP). Hytrol especifica 1/2 in NPT, por lo que hace falta la variante NPT. Las unidades aparecen escritas de forma anomala en la pagina ('40MIM', '3400L2', '43CCM', '920G') y se citan tal cual. Las cotas fisicas H x A x P del LFR no se pudieron obtener."
     },
     {
+      "id": "PNEU-016",
+      "tema": "neumatica/actuador del pop-up (geometria)",
+      "claim": "El cilindro compacto con guias SMC serie MGP de 80 mm de diametro y casquillo de deslizamiento (MGPM80) tiene placa movil T x S x FA = 198 x 75 x 22 mm, hueco placa-cuerpo FB = 18 mm, cuerpo C = 56.5 mm de largo y seccion H x G = 202 x 91.5 mm repartida J = 45.5 / K = 46, varillas guia oDA = 25 mm a U = 156 mm entre ejes que sobresalen E = 18.5 mm por la cara opuesta a la placa, largo total A = 115 mm (carrera <= 50), 4 roscas MM = M12 x 1.75 de profundidad ML = 25 en la cara inferior del cuerpo, 4 roscas NN = M12 x 1.75 pasantes en la placa con patron R x Q = 174 x 52, 2 puertos Rc 3/8 y ranuras en T de a/b/c/d/e = 13.3/20.3/12/8/22.5 para tornillo M12",
+      "afirmacion": "Cotas del actuador real que sustituye a la mesa guia inventada del pop-up de la transferencia 90 grados",
+      "value": "T198 S75 FA22 FB18 C56.5 H202 G91.5 J45.5 K46 DA25 U156 E18.5 A115 MM/NN M12x1.75 R174 Q52 Rc3/8",
+      "unit": "mm",
+      "layer": "web",
+      "source": {
+        "type": "web",
+        "url": "https://www.smcworld.com/",
+        "accessed": "2026-07-28",
+        "quote": "MGPM, MGPL/Common Dimensions  Bore (mm) 80  B 96.5  C 56.5  DA 25  FA 22  FB 18  G 91.5  GA 19  GB 15.5  GC 14.5  H 202  HA M12  J 45.5  JA 38  JB 7.5  K 46  L 54  MM M12 X 1.75  ML 25  NN M12 X 1.75  OA 10.6  OB 17.5  PA 14.5  PB 25.5  PW 74  Q 52  R 174  S 75  T 198  U 156  VA 180  VB 140  X 100  YY M12 X 1.75  YL 24  Z 28 ... MGPM(Slide Bearing)/Dimensions A, DB, E  Bore 80  A 50st>= 115  DB 30  E 50st>= 18.5 ... Dimension of T slot  Bore (mm) 80  a 13.3  b 20.3  c 12  d 8  e 22.5 ... 2-Rc3/8"
+      },
+      "fuente_titulo": "SMC - Compact Guide Cylinder Series MGP, hoja de dimensiones o80/o100 (MGPM_2139.pdf pag. 15)",
+      "confidence": "alta",
+      "metodo_verificacion": "Pagina rasterizada en ref/mesa/smc_mgp80_100_cotas.png: el dibujo lleva la tabla impresa al pie. Se midio el dibujo por pixeles con un unico anclaje (Q = 52 mm en 100.0 px, k = 0.5200 mm/px) y se contrastaron 7 cotas independientes contra la tabla: R 173.7 vs 174, S 75.1 vs 75, T 198.6 vs 198, H 202.8 vs 202, DB 30.2 vs 30, U 157.0 vs 156, X 100.9 vs 100. Error maximo 0.9 %, medio 0.4 %. Ver MESA_GUIA.md seccion 2. Al modelo entran los numeros de la TABLA, no los pixeles.",
+      "nota": "E = 18.5 es la salida de las varillas guia en el estado RETRAIDO y A = 115 el largo total retraido; A + carrera = 125 es la envolvente BARRIDA (placa extendida a rodillo retraido), que es el espacio que hay que reservar. Como las varillas van solidarias a la placa, al extender los 10 mm de carrera la salida por debajo del cuerpo BAJA a 8.5 mm. Se comprueba con las dos gamas de carrera de la tabla: A - E = B = 96.5 constante."
+    },
+    {
+      "id": "PNEU-017",
+      "tema": "neumatica/actuador del pop-up (prestaciones)",
+      "claim": "El MGPM de 80 mm de diametro tiene area de embolo de 5027 mm2 en empuje y 4536 mm2 en retorno, vastago de 25 mm, presion maxima de trabajo 1.0 MPa y minima 0.1 MPa, velocidad de embolo admisible de 50 a 400 mm/s, amortiguacion por tope de goma en ambos extremos, energia cinetica admisible 2.71 J, carga lateral admisible 352 N, par de giro admisible sobre la placa 21.9 N.m, precision de no giro +-0.04 grados y masa 6.49 kg (de ellos 4.27 kg de partes moviles) con la carrera de 25 mm",
+      "afirmacion": "Prestaciones con las que se dimensiona el pop-up: fuerza, velocidad limite por energia de impacto, consumo de aire y estabilidad de la placa",
+      "value": "5027 / 4536 mm2; 0.1-1.0 MPa; 50-400 mm/s; Ek 2.71 J; 352 N; 21.9 N.m; +-0.04 grados; 6.49 / 4.27 kg",
+      "unit": "mm2 / MPa / mm-s / J / N / N.m / grados / kg",
+      "layer": "web",
+      "source": {
+        "type": "web",
+        "url": "https://www.smcworld.com/",
+        "accessed": "2026-07-28",
+        "quote": "Bore size (mm) 80  Rod size 25  Piston area (mm2) OUT 5027 IN 4536 ... Maximum operating pressure 1.0 MPa  Minimum operating pressure 0.1 MPa  Piston speed 50 to 400 mm/s  Cushion Rubber bumper on both ends  Allowable kinetic energy (J) 2.71 ... Allowable lateral load (N) MGPM80 352  Allowable rotational torque (N.m) MGPM80 21.9  Non-rotating accuracy MGPM +-0.04 ... Weight/Standard stroke 25  MGPM80 6.49  Moving parts 4.27"
+      },
+      "fuente_titulo": "SMC - Compact Guide Cylinder Series MGP, especificaciones (MGPM_2139.pdf pag. 6-7 y MGP-old-e.pdf pag. 7)",
+      "confidence": "alta",
+      "nota": "La carrera de 10 mm no esta tabulada en la columna de masas (SMC empieza en 25 para el o80): se usa el valor de la carrera 25, que es CONSERVADOR por exceso. Calculos propios, no citados: empuje a 0.414 MPa (60 psi) = 2081 N; a 0.6 MPa = 3016 N; velocidad de impacto maxima con 93.27 kg elevados = raiz(2*2.71/93.27) = 0.241 m/s; aire por ciclo a 4.14 bar = (5027+4536)*10 mm3 * 5.087 = 0.486 L ANR."
+    },
+    {
+      "id": "PNEU-018",
+      "tema": "neumatica/actuador del pop-up (ficha de venta)",
+      "claim": "El cilindro MGPM80 con carrera de 10 mm y sufijo Z (con iman) se vende como clon en AliExpress: listado del vendedor YIYUN 'MGPM40 MGPM50 MGPM63 MGPM80 MGPM100-10-20-25-30-40-50-75-100-125-150-150A YIYUN Cylinder with guide rod', productId 3256808952498802, desde US$153.07; y listado alternativo 'MGPM12 ... MGPM80 Stroke 10 to 300mm Air Pneumatic Compact Guide', productId 3256806658078453, desde US$19.49 (el precio bajo corresponde a los diametros pequenos)",
+      "afirmacion": "El actuador elegido para el pop-up es una pieza comprable con referencia y precio, no una invencion del modelo",
+      "value": "MGPM80-10Z; US$153.07 (YIYUN, productId 3256808952498802)",
+      "unit": "USD",
+      "layer": "web",
+      "source": {
+        "type": "web",
+        "url": "https://www.aliexpress.com/item/3256808952498802.html",
+        "accessed": "2026-07-28",
+        "quote": "MGPM40 MGPM50 MGPM63 MGPM80 MGPM100-10-20-25-30-40-50-75-100-125-150-150A YIYUN Cylinder with guide rod ... US $153.07"
+      },
+      "fuente_titulo": "AliExpress - listado YIYUN de cilindros compactos con guias serie MGPM",
+      "confidence": "media",
+      "metodo_verificacion": "Fotografias del producto guardadas en ref/mesa/ (aliexpress_mgpm_foto.jpg, aliexpress_mgp_codigo.jpg, vpc_mgp_foto.jpg). La tabla 'How to Order' del vendedor usa la nomenclatura SMC sin desviarse (MGP + M/L/A + calibre + carrera + Z + auto-switch). Sobre la foto en perspectiva solo se comprobo la ARQUITECTURA (embolo centrado entre las dos varillas, con 0.1 % de error sobre razones medidas en una misma recta); las cotas absolutas NO se toman de la foto (ver MESA_GUIA.md seccion 2).",
+      "nota": "La carrera de 10 mm en o80 NO es carrera estandar del catalogo SMC (la tabla del o80 empieza en 25), pero si la fabrican los clones y los tres listados consultados la ofrecen. Si se compra SMC original habra que pedirla como carrera especial o aceptar 25 y recortarla, lo que reintroduciria un tope postizo."
+    },
+    {
       "id": "MOT-006",
       "tema": "motorreductor/familia SEW R07-RF07",
       "claim": "El reductor helicoidal SEW R07/RF07 cubre de 0.09 a 0.37 kW con motor de 4 polos, par de salida maximo 50 Nm, relaciones de 3.21 a 18.31 en 2 etapas y de 21.73 a 78.24 en 3 etapas (30 relaciones en total), velocidades de salida de 17 a 430 rpm; el RF07 es de montaje por brida y se ofrece con brida de 120, 140 o 160 mm; el eje de salida es de 20 mm k6",
@@ -1423,13 +1479,14 @@
     "Cotas fisicas (alto x ancho x fondo) del filtro-regulador de 1/2 in NPT y de la valvula SY5120: no se logro cita verbatim (paginas con 403 y PDF de SMC con cifrado AES no descifrable).",
     "Cv y tiempo de respuesta de la valvula 5/2 de 24 V DC.",
     "Cilindro Bimba de 1-1/2 in de diametro x 8 in de carrera (equivalente del tensor Hytrol 094.121508): todas las fuentes de catalogo devolvieron 403/503 o superaron el limite de descarga. NO inventar numero de parte Bimba.",
-    "Tablas numericas de carga admisible excentrica y de par de giro admisible del MGF100 (el catalogo las publica como graficas). Unico dato puntual con fuente: 'When the load mass is 70 kg, eccentric distance is 60 mm, and the maximum speed is 150 mm/s Select MGF100 from Graph.'",
+    "RESUELTO/SIN OBJETO: las tablas de carga excentrica y par de giro del MGF100 ya no hacen falta. El actuador del pop-up es ahora un SMC MGPM80-10Z (PNEU-016/017/018), cuyo catalogo SI publica los valores puntuales: carga lateral admisible 352 N y par de giro admisible sobre la placa 21.9 N.m.",
     "Envolvente del cilindro SMC C96 de 40 mm y cotas del soporte de munon.",
     "Hoja PDS de Habasit TF-102T y APH150HTS (espesor, k1%, diametro minimo de polea): los PDF de tdm.habasit.com son escaneados y su capa de texto no es extraible.",
     "Espesor de pared del tubo del rodillo de 1-3/8 in calibre 18 en pulgadas decimales.",
     "Medida del hexagono del eje de los rodillos emergentes del ProSort MRT (el estandar de catalogo para 1-3/8 in es 5/16 in, pero Hytrol no lo publica).",
     "Elevacion efectiva del rodillo sobre la linea de banda: relacion entre el rotulo '0.394\" MOVEMENT' de FIGURE 8A y la carrera de 20 mm del cilindro. Requiere dibujo de instalacion acotado o medicion en campo.",
     "Numero de bandas, carrera y capacidad de transferencias equivalentes de Interroll, Lewco, Omni Metalcraft, Dematic y Ashland (el manual Interroll RM 8731 es un PDF escaneado).",
-    "Motorreductor NEMA 56C de 1/2 HP con dimensiones publicadas y salida cercana a 460 rpm; y estilos de montaje C-face / eje hueco / brazo de par con cita verbatim."
+    "Motorreductor NEMA 56C de 1/2 HP con dimensiones publicadas y salida cercana a 460 rpm; y estilos de montaje C-face / eje hueco / brazo de par con cita verbatim.",
+    "Confirmar con el vendedor que el MGPM80 con carrera de 10 mm se sirve con la misma cota E = 18.5 mm de salida de varillas guia que la gama tabulada (carrera <= 50): el catalogo SMC no tabula la carrera 10 para el o80 y el clon podria acortar las varillas. Afecta al despeje bajo el alma del canal de montaje."
   ]
 }

@@ -128,10 +128,18 @@ export const P = {
   motorHP: 0.5,                    // cat
 
   // ------------------------------------------------ elevación y neumática (18,12,16,19)
-  mesaBore: 100,                   // cat 923.01022 GUIDE TABLE - 100 mm BORE, 20 mm STROKE
-  mesaCarrera: 20,                 // cat (la carrera útil del transfer es `carrera` = 10)
-  mesaPlaca: [170, 200],           // cat: envolvente de la mesa guía (SMC MGF100)
-  mesaAlto: 106,                   // cat (cuerpo + placa, retraída)
+  // Actuador del pop-up: SMC MGPM80-10Z — cilindro compacto con guías, casquillo
+  // de deslizamiento, con imán. Sustituye a la «mesa guía 923.01022 · tipo
+  // MGF100» que el modelo inventaba (Ø100 × 20 con topes postizos). Pieza real y
+  // comprable; registrada como componente `mgpm80_10z` en componentes/catalogo.json
+  // y documentada en cad/ensambles/nbt90/MESA_GUIA.md. Las cotas de detalle del
+  // cilindro (FA, FB, C, E, H, G, J, K, T, S, U, patrones MM/NN, prestaciones)
+  // viven en el bloque L de elevacion.mjs: sólo las usa ese módulo.
+  mesaBore: 80,                    // cat SMC serie MGP, hoja Ø80/Ø100 — Ø del émbolo
+  mesaCarrera: 10,                 // cat — carrera de catálogo = `carrera` del equipo
+  mesaCuerpo: [91.5, 202],         // cat G × H — huella del cuerpo (X, Y) en el equipo
+  mesaAlto: 115,                   // cat A — largo total retraído (placa + hueco + cuerpo
+                                   //         + salida de varillas guía)
   tuboOD: p(0.3125),               // med 8.5 — tubo neumático de 5/16" (1/4" nominal)
   valvula: [72, 46, 60],           // cat 094.10795 válvula 4 vías monosolenoide 24 VDC
   canalCilY: 234,                  // med 195.2/0.5277·0.632 — canal de montaje del cilindro

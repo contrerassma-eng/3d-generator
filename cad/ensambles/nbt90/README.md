@@ -18,7 +18,7 @@ se fijó la escala y por qué se corrigió: **[ESCALA.md](ESCALA.md)**.
 | `bastidor.mjs` | estructura de chapa: placas peine, canales, guardas, ménsulas |
 | `rodillos.mjs` | los 6 rodillos vulcanizados con eje hexagonal, rodamientos y las bandas del anfitrión (contexto) |
 | `transmision.mjs` | serpentín de banda plana, poleas locas, tensor, rueda motriz y motorreductor |
-| `elevacion.mjs` | mesa guía neumática, canal de montaje, jack bolts, válvula y tubería |
+| `elevacion.mjs` | cilindro compacto con guías SMC MGPM80-10Z, canal de montaje, jack bolts, horquilla de empuje, válvula y tubería |
 | `gen_nbt90.mjs` | integrador + **compuerta de verificación**; emite `narrow_belt_transfer_90.json` |
 | `_check.mjs` | banco de pruebas de un módulo suelto (construye la malla real de cada pieza) |
 | `export_glb.mjs` | exporta el ensamble a GLB (una malla y un material por pieza) |
@@ -48,8 +48,12 @@ o abrir el JSON en `cad/index.html` con **📂 Abrir** para editarlo.
 
 1. El clasificador anfitrión mueve el bulto sobre **5 bandas angostas de 1"** a
    paso 3", que corren en **X** apoyadas en regletas de desgaste UHMW.
-2. Para desviar a 90°, la **mesa guía neumática** de Ø100 mm eleva **10 mm**
-   (cota `0.394—MOVEMENT` del manual) todo el conjunto de rodillos. Los seis
+2. Para desviar a 90°, un **cilindro compacto con guías SMC MGPM80-10Z** (Ø80,
+   carrera de catálogo 10 mm) eleva **10 mm** —la cota `0.394—MOVEMENT` del
+   manual— todo el conjunto de rodillos. El manual lista para ese puesto una
+   *guide table* de Ø100 y 20 mm de carrera; el modelo monta el Ø80 real y
+   comprable, que da la carrera exacta sin topes postizos (ver `MESA_GUIA.md`).
+   Los seis
    rodillos Ø1-3/8", que estaban por debajo del plano de bandas, emergen
    **1/4"** por encima y levantan el bulto de las bandas.
 3. Los rodillos giran arrastrados por un **serpentín de una sola banda plana de

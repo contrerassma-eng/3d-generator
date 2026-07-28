@@ -104,7 +104,7 @@ dato con el que se construyó el sólido.
 | Bastidor | `bastidor.mjs` | ROLLER FRAME WELDMENT (placas peine), SIDE CHANNEL, TRANSFER CROSS CHANNEL, CROSS ANGLE, SPACER PLATE, TRANSFER ROLLER GUARD, NOTCHED BRACE CHANNEL, BASE CHANNEL WELDMENT y su tornillería |
 | Rodillos | `rodillos.mjs` | 6 rodillos vulcanizados Ø1-3/8" con eje hexagonal 5/16", rodamientos, retención en las ranuras del peine, y las 5 bandas angostas + regletas del anfitrión (contexto) |
 | Transmisión | `transmision.mjs` | serpentín de banda plana de 1", poleas locas Ø2-1/2", tensor con colisa, poleas de retorno, rueda motriz, buje sin chaveta y motorreductor SEW |
-| Elevación y neumática | `elevacion.mjs` | mesa guía neumática Ø100×20, canal de montaje del cilindro con colisas, 4 jack bolts, válvula 4 vías, silenciador, racores y tubería |
+| Elevación y neumática | `elevacion.mjs` | cilindro compacto con guías SMC MGPM80-10Z (componente `mgpm80_10z`; ver `MESA_GUIA.md`), canal de montaje del cilindro con colisas, 4 jack bolts, horquilla de empuje, válvula 4 vías, silenciador, racores y tubería |
 
 El integrador `gen_nbt90.mjs` llama a los cuatro en ese orden, corre `verify()`
 y emite `narrow_belt_transfer_90.json`.

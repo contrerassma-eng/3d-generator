@@ -255,6 +255,12 @@ item 18), todas coherentes con la tabla de referencias del mismo dibujo.
 
 #### El actuador pop-up, identificado: SMC serie MGF «Guide Table»
 
+> **Nota de integración (28-07-2026).** Lo que sigue es lo que dice el catálogo Hytrol y lo que
+> se dedujo de él sobre el actuador ORIGINAL. El modelo ya **no** monta un MGF100: monta un
+> **SMC MGPM80-10Z** real y comprable, con carrera de catálogo igual a los 10 mm del equipo.
+> Motivo, cotas, comparativa de calibres y trazabilidad en `MESA_GUIA.md`; hechos con URL y cita
+> en `analisis/web_facts.json` (PNEU-016, PNEU-017, PNEU-018).
+
 Es la única familia de catálogo cuya denominación coincide literalmente con el
 «guided table cylinder» de Hytrol. **Hallazgo importante para la lista de materiales:**
 
