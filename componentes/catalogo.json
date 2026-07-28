@@ -3525,6 +3525,168 @@
    "agujeros_montaje": [],
    "despejes": [],
    "notas": "Corte de barra: 575. 8 unidades = 1 barra de 6 m. Plano: lamina 2 del PDF de ejes."
+  },
+  {
+   "id": "mgpm80_10z",
+   "nombre": "Cilindro compacto con guias SMC MGPM80-10Z (mesa guia, O80, carrera 10)",
+   "categoria": "mecanico",
+   "descripcion": "Cilindro compacto de doble efecto con dos varillas guia y casquillo de deslizamiento. Embolo O80 en el centro, dos varillas O25 a 156 mm entre ejes, placa movil 198x75x22 arriba, cuerpo 202x91.5x56.5 abajo con ranuras en T en los costados y dos puertos Rc3/8. Modelado RETRAIDO: la placa esta a 74.5 mm de la cara inferior del cuerpo y las varillas asoman 18.5 mm por debajo. Con los 10 mm de carrera la placa sube a 84.5 y las varillas asoman 28.5.",
+   "fuente": {
+    "tipo": "catalogo",
+    "detalle": "SMC Compact Guide Cylinder Series MGP, hoja O80/O100 (dimensiones B/C/DA/FA/FB/G/H/S/T/U/R/Q/E y tabla A,DB,E) y hoja de especificaciones (areas de embolo 5027/4536 mm2, velocidad 50-400 mm/s, energia cinetica admisible 2.71 J, carga lateral 352 N, par de placa 21.9 Nm, masa 6.49 kg / 4.27 kg moviles). Comprable como clon: AliExpress 3256808952498802 (YIYUN, O80 carrera 10 dentro del rango del listado), consultado 2026-07-28. Escala del dibujo verificada por pixeles: k=0.5200 mm/px anclada en Q=52, error maximo 0.9 % sobre 7 cotas impresas (ver cad/ensambles/nbt90/MESA_GUIA.md)."
+   },
+   "confianza": "datasheet",
+   "bbox_mm": [
+    202,
+    91.5,
+    115
+   ],
+   "solidos": [
+    {
+     "tipo": "caja",
+     "nombre": "Cuerpo 202x91.5x56.5 (reparto J 45.5 / K 46)",
+     "at": [
+      0,
+      0.25,
+      0
+     ],
+     "dim": [
+      202,
+      91.5,
+      56.5
+     ],
+     "color": "#b8bcc0"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Varilla guia O25 (+X)",
+     "at": [
+      78,
+      0,
+      -18.5
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 25,
+     "alto": 115,
+     "color": "#9aa0a6"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Varilla guia O25 (-X)",
+     "at": [
+      -78,
+      0,
+      -18.5
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 25,
+     "alto": 115,
+     "color": "#9aa0a6"
+    },
+    {
+     "tipo": "cilindro",
+     "nombre": "Vastago del embolo O25",
+     "at": [
+      0,
+      0,
+      56.5
+     ],
+     "eje": [
+      0,
+      0,
+      1
+     ],
+     "dia": 25,
+     "alto": 18,
+     "color": "#cfd3d6"
+    },
+    {
+     "tipo": "caja",
+     "nombre": "Placa movil 198x75x22",
+     "at": [
+      0,
+      0,
+      74.5
+     ],
+     "dim": [
+      198,
+      75,
+      22
+     ],
+     "color": "#c8ccd0"
+    }
+   ],
+   "agujeros_montaje": [
+    {
+     "pos": [
+      90,
+      26
+     ],
+     "dia": 12,
+     "nota": "M12x1.75 prof. 25 (4-MM)"
+    },
+    {
+     "pos": [
+      90,
+      -26
+     ],
+     "dia": 12,
+     "nota": "M12x1.75 prof. 25 (4-MM)"
+    },
+    {
+     "pos": [
+      -90,
+      26
+     ],
+     "dia": 12,
+     "nota": "M12x1.75 prof. 25 (4-MM)"
+    },
+    {
+     "pos": [
+      -90,
+      -26
+     ],
+     "dia": 12,
+     "nota": "M12x1.75 prof. 25 (4-MM)"
+    }
+   ],
+   "despejes": [
+    {
+     "nombre": "salida de las varillas guia con la carrera aplicada",
+     "at": [
+      0,
+      0,
+      -28.5
+     ],
+     "dim": [
+      202,
+      91.5,
+      28.5
+     ]
+    },
+    {
+     "nombre": "recorrido de la placa movil (carrera 10)",
+     "at": [
+      0,
+      0,
+      96.5
+     ],
+     "dim": [
+      198,
+      75,
+      10
+     ]
+    }
+   ],
+   "notas": "Origen en el EJE del embolo, sobre la cara inferior del cuerpo (no en el centro geometrico: el cuerpo reparte 45.5/46 a cada lado). X = direccion larga (varillas guia y patron de 180/174); Y = direccion corta (patron de 52). La placa lleva 4 roscas M12x1.75 pasantes a 174 x 52 para colgar la carga. No se modelan las ranuras en T de los costados (a 13.3, b 20.3, c 12, d 8, e 22.5, tornillo M12) ni los puertos Rc3/8, que salen por el lado J. Empuje 5027 mm2: 2081 N a 4.14 bar (60 psi), 3016 N a 6 bar. Limite de velocidad de impacto por energia cinetica, no por el cilindro."
   }
  ]
 }
