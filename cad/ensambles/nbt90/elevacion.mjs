@@ -44,7 +44,41 @@ import { juntaATope } from './tolerancias.mjs';
 // k = 0.6320 mm/px (ESCALA.md) · cat = catálogo · txt = texto del manual ·
 // dis = decisión de diseño de este repositorio.
 // ---------------------------------------------------------------------------
-const t12 = P.cal12;                              // 2.657 — chapa 12 GA del canal
+const t12 = P.cal12;   // 2.657 — 12 GA. Es el espesor del SIDE CHANNEL y de las
+                       // ménsulas de jack bolt de bastidor.mjs, con las que este
+                       // módulo hace cadena (ladoInt/ladoOut, mT). NO es ya el del
+                       // canal de montaje: ver `tCanal`.
+// ESPESOR DEL CYLINDER MOUNTING CHANNEL — 3/16" (4.763), no 12 GA.
+//
+// `dis` (revisión estructural 2026-07-29, hallazgo EST-10). El canal se dibujaba
+// en 12 GA como el resto de la chapa del bastidor, y con ese espesor su ALMA no
+// aguanta: el MGPM80 se atornilla justo en el centro de un vano libre de 229 mm
+// entre las dos alas y la banda de 1 mm de ancho da 182.8 MPa de flexión frente a
+// los 150 de 0.6·Fy(A36) — y ≈233 con la aceleración de la carrera. Además los dos
+// taladros Ø30 de paso de las varillas guía caen EN la sección de momento máximo.
+//
+// Por qué se sube el calibre y no se refuerza: el refuerzo obvio no cabe.
+//   · placa de refuerzo o segunda piel POR ENCIMA del alma → empuja el cilindro
+//     hacia arriba y hay que recuperar esa altura acortando la horquilla, que es
+//     precisamente lo que NO se puede hacer: con `platoT` = 22 la cara superior de
+//     la placa móvil ya está a 2.4 mm del cárter del motorreductor (Z = 123.9).
+//   · placa de refuerzo POR DEBAJO → el canal baja lo mismo y las cabezas de los
+//     4 M12 de fijación (7.5 + golilla 2 = 9.5 mm bajo el alma, hoy con 2.84 mm de
+//     sobra hasta Z = 0) se salen por debajo del bastidor.
+//   · nervios en la artesa de 12.34 mm que queda bajo el alma → hay que esquivar
+//     las 4 cabezas M12 (Y = ±90) y las dos varillas guía (Y = ±78, que RETRAÍDAS
+//     bajan a Z = −3.5), y son 3 tiras soldadas a chapa fina, con su alabeo.
+// Subir el calibre no gasta espacio: el alma crece hacia ABAJO (`canalZ0` baja de
+// 12.34 a 10.24, y las cabezas M12 se quedan en Z = 0.74) y la cara de fijación
+// —`webZ` = 15.0— no se mueve, porque la fija la cadena de alturas desde
+// P.rielInfZ. De regalo, el techo del canal baja de 115.34 a 113.24 y por primera
+// vez queda POR DEBAJO del cárter del motorreductor retraído (113.9).
+// 3/16" no es un calibre nuevo en el equipo: es `P.placaT`, la chapa de las placas
+// peine, las spacer plate y las propias placas colgantes de este canal.
+const tCanal = P.placaT;                          // 4.763 — 3/16", ver arriba
+const radioCanal = tCanal;                        // dis: radio interior = espesor
+                                                  // (la misma regla de taller que
+                                                  // P.radioPliegue, aplicada a 3/16")
 const L = {
   // --- CYLINDER MOUNTING CHANNEL -------------------------------------------
   // med: contorno x 1497→1867 px, y 759.5→922.5 px de la vista derecha.
@@ -507,27 +541,32 @@ export function elevacion(E) {
   //           71.5 ────┤ cara superior del cuerpo
   //     C        56.5  │ cuerpo del MGPM80                 (cat)
   //           15.0 ────┤ cara superior del alma del canal = cara de fijación
-  //     t12      2.657 │ alma del canal de montaje, 12 GA
-  //           12.34 ───┴ canalZ0
+  //     tCanal   4.763 │ alma del canal de montaje, 3/16"  (dis, EST-10)
+  //           10.24 ───┴ canalZ0   (bajo él, 10.24 mm hasta Z = 0; las cabezas de
+  //                    │           los 4 M12 se comen 9.5 y acaban en Z = 0.74)
   //
   // El conjunto real mide 106.5 mm por ENCIMA de su cara de fijación (frente a
   // los 116 de la mesa inventada), así que el canal podría subir 9.5 mm; pero la
   // placa móvil ya no se puede rebajar para dejar pasar el motorreductor, de modo
   // que esos 9.5 mm (y 0.5 más) se gastan engordando la horquilla de 12 a 22 mm
   // para bajar la placa hasta 121.5 y librar el cárter del reductor (123.9) por
-  // 2.4 mm.  Resultado: el canal se queda prácticamente donde estaba —12.34
+  // 2.4 mm.  Resultado: el canal se queda prácticamente donde estaba —10.24
   // frente a 12.84— y no hay que tocar ni el canal base, ni las ménsulas de jack
   // bolt, ni el rebaje de paso del ala del SIDE CHANNEL, que son cotas absolutas.
   // Ver `holguraPlacaMotorMm` y `libreBajoAlmaMm` en las verificaciones.
+  //   Al pasar el alma de 12 GA a 3/16" (EST-10, ver `tCanal`) el ÚNICO eslabón
+  //   que se mueve es el último: `canalZ0` baja 2.11 mm. Todo lo que hay por
+  //   encima de la cara de fijación —cuerpo, hueco, placa, horquilla— cuelga de
+  //   P.rielInfZ y no se entera.
   const cuerpoH = L.cilC;                             // 56.5 — cuerpo del MGPM80 (cat)
   const huecoFB = r2(L.cilFB + P.carrera);            // 28 — hueco placa↔cuerpo ELEVADO
-  const canalZ0 = r2(P.rielInfZ - L.platoT - L.cilFA - huecoFB - cuerpoH - t12);  // 12.34
+  const canalZ0 = r2(P.rielInfZ - L.platoT - L.cilFA - huecoFB - cuerpoH - tCanal);  // 10.24
   const canalX1 = L.canalX0 + P.canalCilY;            // 348.5
   const canalZ1 = r2(canalZ0 + P.canalCilZ);          // 115.34
   const ladoInt = r2(L.ladoY - t12 / 2);              // 225.91 — cara interior del alma del SIDE CHANNEL
   const ladoOut = r2(L.ladoY + t12 / 2);              // 228.57 — cara exterior del alma del SIDE CHANNEL
   const placaY = r2(ladoInt - P.placaT);              // 221.15 — cara interior de la placa colgante
-  const webZ = r2(canalZ0 + t12);                     // 15.0 — cara superior del alma = cara de fijación
+  const webZ = r2(canalZ0 + tCanal);                  // 15.0 — cara superior del alma = cara de fijación
   const cuerpoZ1 = r2(webZ + cuerpoH);                // 71.5 — cara superior del cuerpo
   const placaZ0 = r2(cuerpoZ1 + huecoFB);             // 99.5 — cara inferior de la placa móvil (ELEVADA)
   const placaZ1 = r2(placaZ0 + L.cilFA);              // 121.5
@@ -573,20 +612,20 @@ export function elevacion(E) {
   // =========================================================================
   // 1. CYLINDER MOUNTING CHANNEL (WA-025833) — chapa 12 GA conformada
   // =========================================================================
-  const xa = r2(L.canalX0 + t12 / 2), xb = r2(canalX1 - t12 / 2);
-  const zb = r2(canalZ0 + t12 / 2), zt = r2(canalZ1 - t12 / 2);
+  const xa = r2(L.canalX0 + tCanal / 2), xb = r2(canalX1 - tCanal / 2);
+  const zb = r2(canalZ0 + tCanal / 2), zt = r2(canalZ1 - tCanal / 2);
   const fibra = [                        // fibra media de la sección, en (x, z)
     [xa + L.labio, zt], [xa, zt], [xa, zb], [xb, zb], [xb, zt], [xb - L.labio, zt],
   ];
-  const secc = seccionChapa(fibra, t12, P.radioPliegue);
-  const desa = desarrollo(fibra, t12, P.radioPliegue, P.factorK);
+  const secc = seccionChapa(fibra, tCanal, radioCanal);
+  const desa = desarrollo(fibra, tCanal, radioCanal, P.factorK);
   const canalLargoY = r2(2 * placaY);                 // 447.6 — de placa a placa
 
   E.addPart(
-    `FIJO · Canal de montaje del cilindro 12 GA ${P.canalCilY}×${P.canalCilZ}×${canalLargoY} (WA-025833)`,
+    `FIJO · Canal de montaje del cilindro 3/16" ${P.canalCilY}×${P.canalCilZ}×${canalLargoY} (WA-025833)`,
     COL.chapa, [L.canalX0, 0, canalZ0],
     [
-      sketchXZ(`Perfil conformado ${P.canalCilY}×${P.canalCilZ} e=${r2(t12)}`, placaY, secc, canalLargoY),
+      sketchXZ(`Perfil conformado ${P.canalCilY}×${P.canalCilZ} e=${r2(tCanal)}`, placaY, secc, canalLargoY),
       // fijación del cilindro: 4 pasantes de Ø13.5 en el alma, patrón MM 180 × 52
       ...[-1, 1].flatMap(sx => [-1, 1].map(sy =>
         hole(`Ø13.5 fijación del cilindro (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
@@ -612,7 +651,7 @@ export function elevacion(E) {
         [x, s * 216, 92], 20, 20, 34, 'cut'))),
     ],
     {
-      chapa: { t: r2(t12), material: 'acero al carbono 12 GA', fibra, radio: P.radioPliegue },
+      chapa: { t: r2(tCanal), material: 'acero al carbono 3/16" (A36 mínimo defendible)', fibra, radio: radioCanal },
       desarrollo: desa, plano: true, parte: 'WA-025833',
       union: 'soldada a las 2 placas colgantes (WA-025833)',
       encajes: [1, -1].map((s) => juntaATope({
