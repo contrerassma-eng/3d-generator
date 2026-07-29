@@ -29,6 +29,9 @@ bastidor sin tocar nada.
 | `interferencias_brep.py` | interferencias exactas con sólidos OpenCascade |
 | `export_glb.mjs` | GLB para el visor |
 | `regenerar.sh` | rehace todo de una vez |
+| `abastecimiento.mjs` | cantidades, plazos, rutas de compra y costo para un lote con fecha |
+| `ABASTECIMIENTO.md` | **el plan de compra**: qué se trae de China, qué se compra en Chile, qué se fabrica |
+| `ver_corte.html` / `render.mjs` | visor de corte y renderizador de vistas |
 | `ESCALA.md` | de qué píxeles del catálogo sale cada cota |
 | `rodillos_sch40.json` | **el modelo** — se abre en la app de diseño del repo |
 
@@ -192,22 +195,34 @@ entre caras mide **12.70 entre vértices**, o sea que sale exactamente de una ba
 
 ## El eje: opción A vs opción B
 
-Las dos que planteaste, resueltas:
+Las dos que planteaste, resueltas — y con una corrección de material que salió al
+cotizar (ver `ABASTECIMIENTO.md` §4):
 
-| | **A — barra Ø12 calibrada** *(elegida)* | **B — barra 1/2" rebajada** |
+| | **A — barra Ø12 trefilada** *(elegida)* | **B — barra 1/2" rebajada** |
 |---|---|---|
-| Material | SAE 1045 trefilado o acero plata Ø12 | SAE 1045 Ø12.70 (1/2") |
-| Mecanizado | 2 caras planas + 2 gargantas | **rebajar todo el cuerpo a Ø12 g6** + caras + gargantas |
-| Asiento del rodamiento | ya está a medida | hay que tornear 553 mm de largo |
-| Riesgo | el acero plata viene **h9**: hay que pedirlo rectificado a **g6** o rectificarlo | ninguno de tolerancia (lo defines tú) |
-| Costo | menor | mayor (torneado de todo el largo, con luneta) |
-| Disponibilidad Chile | ISESA (acero plata Ø12) | Küpfer (SAE 1045 1/2") |
+| Material | **SAE 1045 trefilado Ø12 h11, barra de 6 m** | SAE 1045 Ø12.70 (1/2") |
+| Mecanizado | 2 caras planas + 2 gargantas + **rectificar 40 mm de cada punta a g6** | **rebajar todo el cuerpo a Ø12** + caras + gargantas |
+| Asiento del rodamiento | sólo las puntas | hay que tornear 553 mm de largo |
+| Aprovechamiento | **10 ejes por barra de 6 m** | 10 ejes por barra |
+| Costo material (80 ejes) | **≈ US$ 95–125** | similar |
+| Disponibilidad Chile | Otero (1045 trefilado H11, 6–65 mm), Küpfer, Aceros RAY | Küpfer (SAE 1045 1/2") |
 
-**Recomendación: A**, con una salvedad — pide la barra **rectificada g6** y
-verifícala con micrómetro. Si el proveedor sólo tiene h9 (que es lo normal en
-acero plata), la diferencia es de centésimas y para este servicio (rodillo por
-gravedad, aro interior quieto) **h9 funciona igual**: sólo hace que el eje quede
-un poco más holgado en el aro interior, que es justo la dirección segura.
+**Recomendación: A, pero con 1045 trefilado — NO con acero plata.**
+
+> ⚠️ **Corrección respecto de la primera versión de este documento.** Antes se
+> recomendaba «barra calibrada / acero plata Ø12». Al cotizar apareció que **el
+> acero plata se vende en barras de 1 metro** (ISESA, $29.760 CLP), y con un eje
+> de 553 mm sale **un eje por barra**: 45 % de desperdicio y **≈ US$ 2 506** en
+> material contra los ≈ US$ 110 del trefilado en barra de 6 m. **Casi 20 veces.**
+> El acero plata es material de matricería vendido al detalle, no materia prima de
+> producción.
+
+El trefilado de catálogo viene **h11** (−0/−0.11 sobre Ø12), demasiado holgado
+para que el aro interior no baile. Por eso el eje se compra h11 y se **rectifica a
+g6 sólo los 40 mm de cada punta** — el tramo que recorre el aro interior (10 de
+ancho del rodamiento + los ~13 de carrera del resorte + margen). Es la misma
+sujeción en la que ya se hacen las caras planas y las gargantas: no agrega
+operación.
 
 La opción B tiene sentido si vas a hacer el hexágono de 11 mm: ahí la barra de
 1/2" es la materia prima correcta y el rebaje deja de ser trabajo extra.
@@ -462,7 +477,7 @@ Honestidad sobre los huecos, para que nadie los descubra en el taller:
 | Letra de tolerancia de la garganta DIN 471 | ambigua en la fuente; verificar con un anillo. |
 | `C` del 6001-2Z (si cambias de rodamiento) | fuentes en conflicto (4.42 vs 5.4 kN). El **6201-2Z** usado aquí sí está confirmado: C = 7.28 kN, C0 = 3.1 kN (ficha SKF). |
 | Fluencia del PA-CF | **no existe dato publicado**. Ver §Tapa impresa. |
-| Barra Ø12 **g6** en Chile | sólo se encontró acero plata (h9). Confirmar con el proveedor. |
+| Barra Ø12 en Chile | resuelto: **1045 trefilado h11 en barra de 6 m** y rectificar 40 mm por punta a g6. El acero plata (barras de 1 m) costaba 20× — ver ABASTECIMIENTO.md §4. Falta el precio del trefilado. |
 | Hipótesis de carga (500 N, 0.5 m/s) | **supuesta**. Confírmala y vuelve a correr la compuerta. |
 
 ## Procedencia

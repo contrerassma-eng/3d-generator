@@ -154,7 +154,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 1190.55 841.89] /Resources << /Font << /F1 17 0 R >> >> /Contents 6 0 R >>
 endobj
 6 0 obj
-<< /Length 8332 >>
+<< /Length 8331 >>
 stream
 0.71 w 1 J 1 j [] 0 d
 BT /F1 17.01 Tf 498.14 736.55 Td (LISTA DE MATERIALES) Tj ET
@@ -186,7 +186,7 @@ BT /F1 8.50 Tf 45.35 621.92 Td (4) Tj ET
 BT /F1 8.50 Tf 96.38 621.92 Td (Eje pasante Ø12 g6 × 553 con 2 caras planas e/c 11) Tj ET
 BT /F1 8.50 Tf 362.83 621.92 Td (2) Tj ET
 BT /F1 8.50 Tf 419.53 621.92 Td (PLANO) Tj ET
-BT /F1 8.50 Tf 555.59 621.92 Td (FABRICADA · SAE 1045 trefilado rectificado Ø12 g6 \(alt. acero ) Tj ET
+BT /F1 8.50 Tf 555.59 621.92 Td (FABRICADA · SAE 1045 trefilado Ø12 h11 en barra de 6 m, rectif) Tj ET
 BT /F1 8.50 Tf 907.09 621.92 Td (RC48-04) Tj ET
 BT /F1 8.50 Tf 45.35 603.78 Td (5) Tj ET
 BT /F1 8.50 Tf 96.38 603.78 Td (Tubo SCH40 NPS 1-1/2 pulg Ø48.26×3.68 × 522) Tj ET
@@ -8700,7 +8700,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 3370.39 2383.94] /Resources << /Font << /F1 17 0 R >> >> /Contents 14 0 R >>
 endobj
 14 0 obj
-<< /Length 299012 >>
+<< /Length 299003 >>
 stream
 0.71 w 1 J 1 j [] 0 d
 0.57 g 3123.51 1622.32 m 3123.30 1622.45 l 3122.06 1623.86 l h f 0 g
@@ -15231,7 +15231,7 @@ BT /F1 6.80 Tf 2949.73 61.61 Td (CAD EN MM \(CAPA USER\)) Tj ET
 BT /F1 3.97 Tf 3107.62 75.40 Td (PIEZAS) Tj ET
 BT /F1 7.37 Tf 3108.47 61.41 Td (2) Tj ET
 BT /F1 3.97 Tf 2948.88 47.06 Td (NOTA) Tj ET
-BT /F1 5.67 Tf 2949.73 35.09 Td (PLANO · Material: SAE 1045 trefilado rectificado Ø12 g6 \(alt. acero plata h9 rectificado a g6\) · tol. g…) Tj ET
+BT /F1 5.67 Tf 2949.73 35.09 Td (PLANO · Material: SAE 1045 trefilado Ø12 h11 en barra de 6 m, rectificado a g6 en 40 mm de cada …) Tj ET
 BT /F1 3.97 Tf 3215.34 140.60 Td (ESCALA) Tj ET
 BT /F1 14.17 Tf 3267.00 119.91 Td (1:1) Tj ET
 BT /F1 3.97 Tf 3215.34 103.75 Td (FORMATO) Tj ET
@@ -18502,19 +18502,19 @@ xref
 0000000288 00000 n 
 0000007854 00000 n 
 0000007988 00000 n 
-0000016372 00000 n 
-0000016507 00000 n 
-0000139265 00000 n 
-0000139401 00000 n 
-0000281746 00000 n 
-0000281883 00000 n 
-0000424372 00000 n 
-0000424509 00000 n 
-0000723576 00000 n 
-0000723713 00000 n 
-0000871166 00000 n 
+0000016371 00000 n 
+0000016506 00000 n 
+0000139264 00000 n 
+0000139400 00000 n 
+0000281745 00000 n 
+0000281882 00000 n 
+0000424371 00000 n 
+0000424508 00000 n 
+0000723566 00000 n 
+0000723703 00000 n 
+0000871156 00000 n 
 trailer
 << /Size 18 /Root 1 0 R >>
 startxref
-871264
+871254
 %%EOF

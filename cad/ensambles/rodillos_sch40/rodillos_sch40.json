@@ -293,14 +293,14 @@
    ],
    "fixed": false,
    "visible": true,
-   "material": "SAE 1045 trefilado rectificado Ø12 g6 (alt. acero plata h9 rectificado a g6)",
+   "material": "SAE 1045 trefilado Ø12 h11 en barra de 6 m, rectificado a g6 en 40 mm de cada punta",
    "gira": false,
-   "nota": "las caras planas son el seguro antigiro en la ranura del larguero; el aro interior va con ajuste g6 porque debe DESLIZAR (carga estacionaria sobre el aro interior, NTN tabla 7.2(1))",
+   "nota": "las caras planas son el seguro antigiro en la ranura del larguero; el aro interior va con ajuste g6 porque debe DESLIZAR (carga estacionaria sobre el aro interior, NTN tabla 7.2(1)). La barra se compra trefilada h11 en 6 m y se rectifica a g6 sólo en los 40 mm de cada punta, que es el tramo que recorre el aro interior",
    "capaDato": "req",
    "features": [
     {
      "id": "f2",
-     "name": "Barra Ø12 g6 × 553",
+     "name": "Barra Ø12 h11 × 553 (rectificada a g6 en 40 de cada punta)",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -3403,14 +3403,14 @@
    ],
    "fixed": false,
    "visible": true,
-   "material": "SAE 1045 trefilado rectificado Ø12 g6 (alt. acero plata h9 rectificado a g6)",
+   "material": "SAE 1045 trefilado Ø12 h11 en barra de 6 m, rectificado a g6 en 40 mm de cada punta",
    "gira": false,
-   "nota": "las caras planas son el seguro antigiro en la ranura del larguero; el aro interior va con ajuste g6 porque debe DESLIZAR (carga estacionaria sobre el aro interior, NTN tabla 7.2(1))",
+   "nota": "las caras planas son el seguro antigiro en la ranura del larguero; el aro interior va con ajuste g6 porque debe DESLIZAR (carga estacionaria sobre el aro interior, NTN tabla 7.2(1)). La barra se compra trefilada h11 en 6 m y se rectifica a g6 sólo en los 40 mm de cada punta, que es el tramo que recorre el aro interior",
    "capaDato": "req",
    "features": [
     {
      "id": "f36",
-     "name": "Barra Ø12 g6 × 553",
+     "name": "Barra Ø12 h11 × 553 (rectificada a g6 en 40 de cada punta)",
      "shape": "cylinder",
      "op": "union",
      "at": [

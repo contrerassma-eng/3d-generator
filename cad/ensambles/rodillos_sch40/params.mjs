@@ -89,12 +89,20 @@ export const P = {
   // ─────────────────────────────────────────────────────────────────── eje
   // req: "un eje redondo, que puede ser de doce milímetros, y le hago una cara
   // plana en los terminales". Es PASANTE (ver README §Resorte).
+  // El material se decidió por COSTO, no sólo por tolerancia: el acero plata se
+  // vende en barras de 1 m (ISESA), y con un eje de 553 sale UN eje por barra —
+  // 45 % de desperdicio y ~20× el costo. El SAE 1045 trefilado viene en barras
+  // de 6 m (10 ejes por barra) pero en h11, que es demasiado holgado para el
+  // asiento del rodamiento. Solución: barra h11 y rectificar a g6 SÓLO los 40 mm
+  // de cada punta, que es donde el aro interior corre. Ver ABASTECIMIENTO.md.
   eje: {
     d: 12,
     tol: 'g6',          // nor: aro interior estacionario que DEBE deslizar → g6 (NTN tabla 7.2(1))
+    tolBarra: 'h11',    // nor: como viene el trefilado de catálogo (Otero, ISO 286-2)
+    zonaAjustada: 40,   // dis: largo rectificado a g6 desde cada punta
     entrecaras: 11,     // req
     largoPlano: 12,     // dis: cubre el saliente de 10.5 sin llegar a la garganta
-    material: 'SAE 1045 trefilado rectificado Ø12 g6 (alt. acero plata h9 rectificado a g6)',
+    material: 'SAE 1045 trefilado Ø12 h11 en barra de 6 m, rectificado a g6 en 40 mm de cada punta',
   },
 
   // ───────────────────────────────────────────────────────── seguros y resorte

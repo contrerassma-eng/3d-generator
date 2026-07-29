@@ -1,16 +1,13 @@
 #!/usr/bin/env node
-// abastecimiento.mjs — modelo de CANTIDADES, TIEMPOS y RUTAS DE COMPRA para
-// producir un lote de rodillos RC-SCH40-48 con una fecha límite.
+// abastecimiento.mjs — CANTIDADES, TIEMPOS, RUTAS y COSTO para producir un lote
+// de rodillos RC-SCH40-48 contra una fecha límite.
 //
 //   node ensambles/rodillos_sch40/abastecimiento.mjs [nPlanos] [nConicos] [semanas]
 //   node ensambles/rodillos_sch40/abastecimiento.mjs 80 0 8
-//   node ensambles/rodillos_sch40/abastecimiento.mjs 60 20 8
 //
-// Las CANTIDADES y los TIEMPOS DE MÁQUINA salen del modelo (volúmenes reales de
-// rodillos_sch40.json). Los PRECIOS y PLAZOS DE FLETE son parámetros: están en
-// el bloque COSTO con su fuente, y hay que reemplazarlos por cotizaciones
-// reales antes de decidir. El script marca con «?» todo lo que sea estimación.
-import { readFileSync } from 'node:fs';
+// Las CANTIDADES y los VOLÚMENES salen del modelo. Los PRECIOS y PLAZOS llevan
+// etiqueta de procedencia:  [F] con fuente (ver ABASTECIMIENTO.md y
+// projects/RC-SCH40-48/input/web_facts.json)  ·  [E] estimado, hay que cotizar.
 import { P } from './params.mjs';
 
 const nPlanos = +(process.argv[2] ?? 80);
@@ -18,154 +15,160 @@ const nConicos = +(process.argv[3] ?? 0);
 const semanas = +(process.argv[4] ?? 8);
 const N = nPlanos + nConicos;
 const DIAS = semanas * 7;
+const CLP_USD = 950;            // [E] verificar el tipo de cambio del día
 
-const doc = JSON.parse(readFileSync(new URL('./rodillos_sch40.json', import.meta.url), 'utf8'));
-const volDe = (re) => {
-  const p = doc.parts.find((q) => re.test(q.name));
-  return p ? p.__vol ?? null : null;
-};
+// ── volúmenes reales del modelo (cm³) — `node _check.mjs plano --v` ────────
+const VOL = { tubo: 261.19, eje: 62.27, tapa: 8.54, camisa: [127.63, 169.64, 215.23] };
+const DENS = { acero: 7.85, pacf: 1.09 };   // g/cm³
 
-// ── volúmenes reales medidos con el motor CSG (cm³) ────────────────────────
-// (se dejan explícitos para que el script corra sin three; se verifican con
-//  `node _check.mjs plano --v`)
-const VOL = {
-  tubo: 261.19, eje: 62.27, tapa: 8.54,
-  camisa: [127.63, 169.64, 215.23],       // cm³ por camisa
-};
-const DENS = { acero: 7.85e-3, pacf: 1.09e-3 };   // g/mm³ → g/cm³ ×1000
-
-// ── parámetros de proceso (estimaciones: verificar) ────────────────────────
+// ── proceso ────────────────────────────────────────────────────────────────
 const PROC = {
-  // torneado
-  minTubo: 6.0,        // ? cortar + refrentar y contrataladrar las 2 testas
-  minEje: 8.0,         // ? cortar + 2 gargantas al torno + 4 caras planas fresadas
-  minTapaTorneada: 6.0,// ? tapa torneada de barra Ø50 (alternativa a importarla)
-  setupH: 4.0,         // ? puesta a punto por operación
-  hTallerDia: 8,       // turno
-  // impresión PA-CF
-  cm3PorHora: 35,      // ? boquilla 0.6, capa 0.25, PA-CF; verificar con la máquina real
-  mermaImpresion: 1.20,// ? soportes + purgas + fallos
-  horasImpresoraDia: 20,
+  minTubo: 5.0,          // [E] refrentar + contrataladrar las 2 testas (4-6 min)
+  minEje: 6.5,           // [E] cortar, 2 gargantas, 4 caras planas, rectificar puntas (5-8 min)
+  minTapaTorneada: 6.0,  // [E] tapa torneada de barra Ø50
+  setupH: 2.0,           // [E] 0.5-2 h por operación
+  hTallerDia: 8,
+  // [F] PA6-CF: velocidad volumétrica máxima 8 mm³/s = 28.8 cm³/h; lo realista
+  //     es 60-75 % de ese máximo por viajes, aceleraciones y cambios de perímetro
+  cm3PorHora: 20,
+  mermaImpresion: 1.20,  // [E] soportes, purgas y fallos
+  horasImpresoraDia: 19, // [E] 18-20 h productivas por día
+  fallosImpresion: 1.30, // [E] margen por reimpresión
 };
 
-// ── plazos por ruta (días corridos) ────────────────────────────────────────
+// ── plazos (días corridos) ─────────────────────────────────────────────────
 const PLAZO = {
-  chinaProduccion: 15,   // ? fabricación del proveedor
-  chinaMar: 45,          // ? puerto a puerto + consolidación LCL
-  chinaAire: 8,          // ? aéreo
-  aduanaChile: 7,        // ? desaduanaje + transporte a Santiago
-  localStock: 3,         // material de bodega en Chile
-  localResortes: 20,     // ? resorte a pedido en Chile
-  compraLocalRodam: 3,
+  chinaRFQ: 5,           // [F] 3-7 d de cotización
+  chinaProduccion: 20,   // [F] 15-25 d estándar (hasta 45 si es a medida)
+  chinaBooking: 3,       // [F] 2-4 d
+  aire: 8,               // [F] 7-10 d de tránsito
+  marFCL: 31,            // [F] 28-34 d puerto a puerto
+  aduanaAire: 4,         // [F] 1-3 d canal verde, hasta 7 en canal rojo
+  aduanaMar: 10,         // [F] 7-15 d con manejo portuario
+  localStock: 3,         // [F] cañería y barra: ítem de bodega
+  localResortes: 12,     // [F] 3-5 días hábiles de fabricación + cotización y muestra
+  localAnillos: 7,       // [E] Gerwuth: importa y fabrica
+  localRodam: 3,
+  tallerCola: 7,         // [E] cola del taller antes de empezar
 };
+const rutaAire = PLAZO.chinaRFQ + PLAZO.chinaProduccion + PLAZO.chinaBooking + PLAZO.aire + PLAZO.aduanaAire;
+const rutaMar = PLAZO.chinaRFQ + PLAZO.chinaProduccion + PLAZO.chinaBooking + PLAZO.marFCL + PLAZO.aduanaMar;
 
-const rutaChinaMar = PLAZO.chinaProduccion + PLAZO.chinaMar + PLAZO.aduanaChile;
-const rutaChinaAire = PLAZO.chinaProduccion + PLAZO.chinaAire + PLAZO.aduanaChile;
+// ── costos unitarios (USD salvo indicación) ────────────────────────────────
+const C = {
+  caneriaBarra6m: 49000 / CLP_USD,   // [F] ~$49.000 CLP la barra de 6 m (Küpfer)
+  ejeBarra6m: 13000 / CLP_USD,       // [E] $11.000-15.000 CLP la barra de 6 m de 1045 trefilado
+  barraTapasKg: 2.2,                 // [E] barra Ø50 de acero
+  tapaChina: [1.00, 2.25],           // [F] rango del tramo de 100 u en Made-in-China (pieza análoga)
+  rodamChina: [0.20, 0.50],          // [F] 6201ZZ a 200 u
+  rodamChile: 2.57,                  // [F] ~$2.440 CLP/u en retail
+  anilloChile: [150, 400].map((v) => v / CLP_USD),   // [E] CLP/u
+  resorteChile: [300, 800].map((v) => v / CLP_USD),  // [E] CLP/u
+  horaTaller: [18000, 35000].map((v) => v / CLP_USD),// [E] CLP/h de torno CNC en Santiago
+  filamentoKg: 42.67,                // [F] 3DJake, bobina de 1 kg
+  aireUSDkg: 7,                      // [F] 5-8 USD/kg
+  agenteAduana: 350,                 // [F] 200-500 por embarque
+  rodilloConicoCompleto: [5, 20],    // [F] rodillo cónico completo de catálogo chino
+};
 
 // ── cantidades ─────────────────────────────────────────────────────────────
-const Q = {
-  tubos: N, ejes: N, tapas: 2 * N, rodamientos: 2 * N, anillos: 2 * N, resortes: 2 * N,
-  camisas: 3 * nConicos,
-};
-
-// ── materia prima ──────────────────────────────────────────────────────────
-const barra = (largoPieza, largoBarra = 6000) => {
-  const porBarra = Math.floor(largoBarra / largoPieza);
-  return { porBarra, barras: Math.ceil(N / porBarra) };
-};
+const Q = { tubos: N, ejes: N, tapas: 2 * N, rodamientos: 2 * N, anillos: 2 * N, resortes: 2 * N, camisas: 3 * nConicos };
+const barras = (largoPieza) => ({ porBarra: Math.floor(6000 / largoPieza), barras: Math.ceil(N / Math.floor(6000 / largoPieza)) });
 const MP = {
-  caneria: barra(P.tuboLargo + 3),          // +3 de corte
-  eje: barra(P.sobreEjes + 3),
-  kgCaneria: +(Q.tubos * VOL.tubo * DENS.acero * 1000 / 1000).toFixed(1),
-  kgEje: +(Q.ejes * VOL.eje * DENS.acero * 1000 / 1000).toFixed(1),
-  // PA-CF
-  kgTapasImpresas: +(Q.tapas * VOL.tapa * DENS.pacf * PROC.mermaImpresion).toFixed(2),
-  kgCamisasImpresas: +(nConicos * VOL.camisa.reduce((a, b) => a + b, 0) * DENS.pacf * PROC.mermaImpresion).toFixed(1),
-  // barra Ø50 si se tornean las tapas
-  kgBarraTapas: +(Q.tapas * (Math.PI / 4 * 50 ** 2 * 18) / 1000 * DENS.acero).toFixed(1),
+  caneria: barras(P.tuboLargo + 3),
+  eje: barras(P.sobreEjes + 3),
+  kgBarraTapas: +(Q.tapas * (Math.PI / 4 * 50 ** 2 * 18) / 1000 * DENS.acero / 1000).toFixed(1),
+  kgFilTapas: +(Q.tapas * VOL.tapa * DENS.pacf / 1000 * PROC.mermaImpresion).toFixed(2),
+  kgFilCamisas: +(nConicos * VOL.camisa.reduce((a, b) => a + b) * DENS.pacf / 1000 * PROC.mermaImpresion).toFixed(1),
+  kgAereo: +((Q.tapas * VOL.tapa * DENS.acero + Q.rodamientos * 39 + Q.anillos * 1) / 1000).toFixed(1),
 };
 
 // ── tiempos ────────────────────────────────────────────────────────────────
-const hTubos = (Q.tubos * PROC.minTubo) / 60 + PROC.setupH;
-const hEjes = (Q.ejes * PROC.minEje) / 60 + PROC.setupH;
-const hTapasTorneadas = (Q.tapas * PROC.minTapaTorneada) / 60 + PROC.setupH;
-const hImpTapas = (Q.tapas * VOL.tapa * PROC.mermaImpresion) / PROC.cm3PorHora;
-const hImpCamisas = (Q.camisas ? nConicos * VOL.camisa.reduce((a, b) => a + b, 0) * PROC.mermaImpresion / PROC.cm3PorHora : 0);
+const hTubos = Q.tubos * PROC.minTubo / 60 + PROC.setupH;
+const hEjes = Q.ejes * PROC.minEje / 60 + PROC.setupH;
+const hTapasTorno = Q.tapas * PROC.minTapaTorneada / 60 + PROC.setupH;
+const hImp = (cm3) => cm3 * PROC.mermaImpresion * PROC.fallosImpresion / PROC.cm3PorHora;
+const hImpTapas = hImp(Q.tapas * VOL.tapa);
+const hImpCamisas = hImp(nConicos * VOL.camisa.reduce((a, b) => a + b, 0));
+const dias = (h) => Math.ceil(h / PROC.hTallerDia);
+const impresoras = (h, d) => Math.ceil(h / (PROC.horasImpresoraDia * Math.max(1, d)));
 
-const diasTaller = (h) => Math.ceil(h / PROC.hTallerDia);
-const impresorasPara = (h, dias) => Math.ceil(h / (PROC.horasImpresoraDia * dias));
+// ── escenarios de costo ────────────────────────────────────────────────────
+const rango = (a, b) => [a, b];
+const suma = (...xs) => xs.reduce((a, x) => [a[0] + x[0], a[1] + x[1]], [0, 0]);
+const esc = (v) => Array.isArray(v) ? v : [v, v];
 
-// ── rutas para cada ítem ───────────────────────────────────────────────────
-const R = (nombre, opciones) => ({ nombre, opciones });
-const rutas = [
-  R('Cañería SCH40', [
-    { via: 'Chile, stock (Küpfer / Cintac)', dias: PLAZO.localStock, nota: `${MP.caneria.barras} barras de 6 m · ${MP.kgCaneria} kg`, ok: true },
-  ]),
-  R('Eje Ø12', [
-    { via: 'Chile, stock (ISESA acero plata / Küpfer 1045)', dias: PLAZO.localStock, nota: `${MP.eje.barras} barras de 6 m · ${MP.kgEje} kg`, ok: true },
-  ]),
-  R('Rodamiento 6201-2Z', [
-    { via: 'Chile, distribuidor', dias: PLAZO.compraLocalRodam, nota: `${Q.rodamientos} u`, ok: true },
-    { via: 'China, marítimo', dias: rutaChinaMar, nota: `${Q.rodamientos} u — más barato por unidad`, ok: rutaChinaMar <= DIAS },
-  ]),
-  R('Anillo DIN 471 Ø12', [
-    { via: 'Chile (Anillos Gerwuth: importa y fabrica)', dias: PLAZO.localStock, nota: `${Q.anillos} u`, ok: true },
-  ]),
-  R('Resorte Ø18×1.4 L0=32', [
-    { via: 'Chile, a pedido (resortera)', dias: PLAZO.localResortes, nota: `${Q.resortes} u`, ok: PLAZO.localResortes <= DIAS },
-    { via: 'China, marítimo', dias: rutaChinaMar, nota: `${Q.resortes} u`, ok: rutaChinaMar <= DIAS },
-  ]),
-  R('TAPA portarodamiento ×' + Q.tapas, [
-    { via: 'China SKPB4812-2.0, marítimo', dias: rutaChinaMar, nota: 'el más barato por unidad', ok: rutaChinaMar <= DIAS },
-    { via: 'China SKPB4812-2.0, aéreo', dias: rutaChinaAire, nota: 'flete caro, pieza liviana (~67 g c/u)', ok: rutaChinaAire <= DIAS },
-    { via: 'Tornear en Chile de barra Ø50', dias: diasTaller(hTapasTorneadas) + PLAZO.localStock, nota: `${hTapasTorneadas.toFixed(0)} h de torno · ${MP.kgBarraTapas} kg de barra`, ok: true },
-    { via: 'Imprimir en PA6-CF', dias: Math.ceil(hImpTapas / PROC.horasImpresoraDia) + 2, nota: `${hImpTapas.toFixed(0)} h de impresión · ${MP.kgTapasImpresas} kg de filamento`, ok: true },
-  ]),
-];
-if (nConicos > 0) {
-  rutas.push(R('CAMISA cónica ×' + Q.camisas, [
-    { via: 'China, catálogo (Damon 2.640), marítimo', dias: rutaChinaMar, nota: 'pieza moldeada de serie', ok: rutaChinaMar <= DIAS },
-    { via: 'China, aéreo', dias: rutaChinaAire, nota: 'voluminosa: el aéreo se paga por volumen', ok: rutaChinaAire <= DIAS },
-    { via: 'Imprimir en PA6-CF', dias: '—', nota: `${hImpCamisas.toFixed(0)} h · ${MP.kgCamisasImpresas} kg de filamento · ${impresorasPara(hImpCamisas, DIAS - 14)} impresoras en paralelo`, ok: true },
-    { via: 'Molde de inyección', dias: '> 60', nota: 'el utillaje solo ya no cabe en el plazo', ok: false },
-  ]));
-}
+const base = suma(
+  esc(MP.caneria.barras * C.caneriaBarra6m),
+  esc(MP.eje.barras * C.ejeBarra6m),
+  rango(Q.anillos * C.anilloChile[0], Q.anillos * C.anilloChile[1]),
+  rango(Q.resortes * C.resorteChile[0], Q.resortes * C.resorteChile[1]),
+  rango((hTubos + hEjes) * C.horaTaller[0], (hTubos + hEjes) * C.horaTaller[1]),
+);
+
+const tapaChinaAire = suma(
+  rango(Q.tapas * C.tapaChina[0], Q.tapas * C.tapaChina[1]),
+  rango(Q.rodamientos * C.rodamChina[0], Q.rodamientos * C.rodamChina[1]),
+  esc(MP.kgAereo * C.aireUSDkg + C.agenteAduana),
+);
+const tapaTorneada = suma(
+  esc(MP.kgBarraTapas * C.barraTapasKg),
+  rango(hTapasTorno * C.horaTaller[0], hTapasTorno * C.horaTaller[1]),
+  esc(Q.rodamientos * C.rodamChile),
+);
+const tapaImpresa = suma(
+  esc(MP.kgFilTapas * C.filamentoKg),
+  esc(Q.rodamientos * C.rodamChile),
+);
+const camisaImpresa = nConicos ? esc(MP.kgFilCamisas * C.filamentoKg) : [0, 0];
+const camisaChina = nConicos
+  ? suma(rango(nConicos * 3 * 2, nConicos * 3 * 6), esc(nConicos * 3 * 0.35 * C.aireUSDkg))
+  : [0, 0];
 
 // ── salida ─────────────────────────────────────────────────────────────────
 const l = (s = '') => console.log(s);
-l(`RC-SCH40-48 · abastecimiento de ${N} rodillos (${nPlanos} planos + ${nConicos} cónicos) en ${semanas} semanas (${DIAS} días)`);
-l('='.repeat(100));
+const usd = (r) => r[0] === r[1] ? `US$ ${r[0].toFixed(0)}` : `US$ ${r[0].toFixed(0)}–${r[1].toFixed(0)}`;
+const ok = (d) => d <= DIAS ? '✔' : '✘';
+
+l(`RC-SCH40-48 · ${N} rodillos (${nPlanos} planos + ${nConicos} cónicos) en ${semanas} semanas (${DIAS} días)`);
+l('='.repeat(96));
+l('\nCANTIDADES');
+for (const [k, v] of Object.entries(Q)) if (v) l(`  ${k.padEnd(13)} ${String(v).padStart(5)}`);
+
+l('\nMATERIA PRIMA');
+l(`  cañería SCH40     ${MP.caneria.barras} barras de 6 m (${MP.caneria.porBarra}/barra)`);
+l(`  barra Ø12 1045    ${MP.eje.barras} barras de 6 m (${MP.eje.porBarra}/barra)   ← NO acero plata: viene en 1 m`);
+l(`  barra Ø50 tapas   ${MP.kgBarraTapas} kg        (sólo si se tornean)`);
+l(`  filamento PA6-CF  ${MP.kgFilTapas} kg tapas${nConicos ? ` · ${MP.kgFilCamisas} kg camisas` : ''}`);
+l(`  carga aérea       ${MP.kgAereo} kg  (tapas + rodamientos + anillos desde China)`);
+
+l('\nCARGA DE TALLER');
+l(`  tubos             ${hTubos.toFixed(0)} h → ${dias(hTubos)} d`);
+l(`  ejes              ${hEjes.toFixed(0)} h → ${dias(hEjes)} d`);
+l(`  tapas torneadas   ${hTapasTorno.toFixed(0)} h → ${dias(hTapasTorno)} d   (alternativa a importar)`);
+l(`  IMPRESIÓN a ${PROC.cm3PorHora} cm³/h (máx. de ficha 28.8, con margen de fallo ${PROC.fallosImpresion})`);
+l(`    ${Q.tapas} tapas    ${hImpTapas.toFixed(0)} h → ${impresoras(hImpTapas, DIAS - 14)} impresora(s)`);
+if (nConicos) l(`    ${Q.camisas} camisas  ${hImpCamisas.toFixed(0)} h → ${impresoras(hImpCamisas, DIAS - 14)} impresoras en paralelo`);
+
+l(`\nPLAZOS DE IMPORTACIÓN`);
+l(`  ${ok(rutaAire)} AÉREO     ${PLAZO.chinaRFQ}+${PLAZO.chinaProduccion}+${PLAZO.chinaBooking} pre + ${PLAZO.aire} vuelo + ${PLAZO.aduanaAire} aduana = ${rutaAire} d`);
+l(`  ${ok(rutaMar)} MARÍTIMO  ${PLAZO.chinaRFQ}+${PLAZO.chinaProduccion}+${PLAZO.chinaBooking} pre + ${PLAZO.marFCL} barco + ${PLAZO.aduanaMar} aduana = ${rutaMar} d`);
+l(`  arancel 6 % → 0 % con Certificado de Origen Form F (TLC Chile–China); IVA 19 % recuperable`);
+
+l('\nCOSTO (sin IVA; [E] = estimado, hay que cotizar)');
+l(`  BASE común (cañería, eje, anillos, resortes, torno)          ${usd(base)}`);
 l();
-l('CANTIDADES');
-for (const [k, v] of Object.entries(Q)) if (v) l(`  ${k.padEnd(14)} ${String(v).padStart(5)}`);
-l();
-l('MATERIA PRIMA');
-l(`  cañería SCH40      ${MP.caneria.barras} barras de 6 m (${MP.caneria.porBarra} piezas por barra) · ${MP.kgCaneria} kg`);
-l(`  barra Ø12          ${MP.eje.barras} barras de 6 m (${MP.eje.porBarra} piezas por barra) · ${MP.kgEje} kg`);
-l(`  barra Ø50 (tapas)  ${MP.kgBarraTapas} kg   — solo si se tornean las tapas`);
-l(`  filamento PA6-CF   ${MP.kgTapasImpresas} kg para las tapas${nConicos ? ` · ${MP.kgCamisasImpresas} kg para las camisas` : ''}`);
-l();
-l('CARGA DE TALLER (estimada)');
-l(`  tubos              ${hTubos.toFixed(0)} h  → ${diasTaller(hTubos)} días de torno`);
-l(`  ejes               ${hEjes.toFixed(0)} h  → ${diasTaller(hEjes)} días (torno + fresa)`);
-l(`  tapas torneadas    ${hTapasTorneadas.toFixed(0)} h  → ${diasTaller(hTapasTorneadas)} días   (alternativa a importarlas)`);
-l(`  TOTAL sin tapas    ${(hTubos + hEjes).toFixed(0)} h → ${diasTaller(hTubos + hEjes)} días de un torno`);
-l();
-l('IMPRESIÓN PA-CF (a ' + PROC.cm3PorHora + ' cm³/h)');
-l(`  ${Q.tapas} tapas     ${hImpTapas.toFixed(0)} h → ${Math.ceil(hImpTapas / PROC.horasImpresoraDia)} días con UNA impresora`);
-if (nConicos) l(`  ${Q.camisas} camisas   ${hImpCamisas.toFixed(0)} h → ${impresorasPara(hImpCamisas, DIAS - 14)} impresoras en paralelo para cerrar en ${DIAS - 14} días`);
-l();
-l(`RUTAS  (límite: ${DIAS} días)`);
-for (const r of rutas) {
-  l(`\n  ${r.nombre}`);
-  for (const o of r.opciones) {
-    const d = typeof o.dias === 'number' ? `${o.dias} d` : `${o.dias}`;
-    l(`    ${o.ok ? '✔' : '✘'} ${d.padStart(6)}  ${o.via.padEnd(42)} ${o.nota}`);
-  }
+l(`  TAPAS — opción 1: China por aéreo + rodamientos chinos        ${usd(tapaChinaAire)}   ${ok(rutaAire)} ${rutaAire} d`);
+l(`  TAPAS — opción 2: tornear en Chile + rodamientos locales      ${usd(tapaTorneada)}   ✔ ${dias(hTapasTorno) + PLAZO.tallerCola} d`);
+l(`  TAPAS — opción 3: imprimir PA6-CF + rodamientos locales       ${usd(tapaImpresa)}   ✔ ${Math.ceil(hImpTapas / PROC.horasImpresoraDia) + 3} d`);
+if (nConicos) {
+  l();
+  l(`  CAMISAS — imprimir PA6-CF (${MP.kgFilCamisas} kg)                      ${usd(camisaImpresa)}`);
+  l(`  CAMISAS — comprar en China por aéreo                          ${usd(camisaChina)}   ${ok(rutaAire)} ${rutaAire} d`);
 }
 l();
-l('PLAZOS DE IMPORTACIÓN USADOS (parámetros — verificar con el forwarder)');
-l(`  China marítimo : ${PLAZO.chinaProduccion} producción + ${PLAZO.chinaMar} tránsito + ${PLAZO.aduanaChile} aduana = ${rutaChinaMar} días  ${rutaChinaMar <= DIAS ? '' : '← NO CABE'}`);
-l(`  China aéreo    : ${PLAZO.chinaProduccion} producción + ${PLAZO.chinaAire} tránsito + ${PLAZO.aduanaChile} aduana = ${rutaChinaAire} días  ${rutaChinaAire <= DIAS ? '' : '← NO CABE'}`);
-l();
-l('Los precios NO están en este script: dependen de cotización. Ver ABASTECIMIENTO.md.');
+for (const [nom, t] of [['1 China aéreo', tapaChinaAire], ['2 tornear', tapaTorneada], ['3 imprimir', tapaImpresa]]) {
+  const tot = suma(base, t, nConicos ? camisaImpresa : [0, 0]);
+  l(`  TOTAL con tapa ${nom.padEnd(14)} ${usd(tot).padStart(16)}   →  ${usd([tot[0] / N, tot[1] / N])} por rodillo`);
+}
+l('\nDetalle, fuentes y plan de compra: ABASTECIMIENTO.md');

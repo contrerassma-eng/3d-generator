@@ -112,7 +112,7 @@ export function nucleo(E, { y = 0, z = 0, capa = '', suf = '' } = {}) {
     `${capa}Eje pasante Ø${P.eje.d} ${P.eje.tol} × ${X.ejeLargo} con 2 caras planas e/c ${P.eje.entrecaras}${suf ? ` (${suf})` : ''}`,
     COL.acero, [X.ejeX0, y, z],
     [
-      cyl(`Barra Ø${P.eje.d} ${P.eje.tol} × ${X.ejeLargo}`, [X.ejeX0, y, z], DIR, P.eje.d, X.ejeLargo),
+      cyl(`Barra Ø${P.eje.d} ${P.eje.tolBarra} × ${X.ejeLargo} (rectificada a ${P.eje.tol} en ${P.eje.zonaAjustada} de cada punta)`, [X.ejeX0, y, z], DIR, P.eje.d, X.ejeLargo),
       ...[0, 1].flatMap((s) => {
         const x0 = s === 0 ? X.ejeX0 : r2(X.ejeX0 + X.ejeLargo - P.eje.largoPlano);
         const lado = s === 0 ? 'izq' : 'der';
@@ -131,7 +131,7 @@ export function nucleo(E, { y = 0, z = 0, capa = '', suf = '' } = {}) {
     {
       material: P.eje.material,
       gira: false,
-      nota: 'las caras planas son el seguro antigiro en la ranura del larguero; el aro interior va con ajuste g6 porque debe DESLIZAR (carga estacionaria sobre el aro interior, NTN tabla 7.2(1))',
+      nota: `las caras planas son el seguro antigiro en la ranura del larguero; el aro interior va con ajuste g6 porque debe DESLIZAR (carga estacionaria sobre el aro interior, NTN tabla 7.2(1)). La barra se compra trefilada ${P.eje.tolBarra} en 6 m y se rectifica a ${P.eje.tol} sólo en los ${P.eje.zonaAjustada} mm de cada punta, que es el tramo que recorre el aro interior`,
       capaDato: 'req',
     });
   n.ejes++;
