@@ -1,346 +1,346 @@
-item,designacion,cantidad,modulo,tipo,material_o_norma,plano
-1,"Canal base en U 76×38 12 GA × 446.5",1,FIJO,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-01
-2,"Canal de montaje del cilindro 12 GA 234×103×442.3",1,FIJO,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-02
-3,"Canal lateral anfitrión 6-1/2"×1-1/2" 12 GA × 463",1,FIJO,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-03
-4,"Canal lateral anfitrión 6-1/2"×1-1/2" 12 GA × 463",1,FIJO,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-04
-5,"Ménsula jack bolt inferior 12 GA 50×47",2,FIJO,FABRICADA,"Chapa de acero 0.105", galvanizada",NBT90-05
-6,"Ménsula jack bolt inferior 12 GA 50×47",2,FIJO,FABRICADA,"Chapa de acero 0.105", galvanizada",NBT90-06
-7,"Ménsula jack bolt superior 12 GA 96×30",4,FIJO,FABRICADA,"Chapa de acero 0.105", galvanizada",NBT90-07
-8,"Placa colgante del canal 3/16" con colisas 12.7×38.1",2,FIJO,FABRICADA,"Chapa de acero 0.187" conformada, galvanizada",NBT90-08
-9,"Side channel 6-1/2"×1-1/4" 12 GA × 457.2",1,FIJO,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-09
-10,"Side channel 6-1/2"×1-1/4" 12 GA × 457.2",1,FIJO,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-10
-11,"Soporte de válvula 3/16" 52×98",1,FIJO,FABRICADA,"Chapa de acero 0.187", galvanizada",NBT90-11
-12,"Tapa extremo canal base 12 GA 83×67",1,FIJO,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-12
-13,"Tapa extremo canal base 12 GA 83×67",1,FIJO,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-13
-14,"Brazo de empuje de la horquilla 75×42×22",2,MÓVIL,FABRICADA,"Chapa de acero 0.866", galvanizada",NBT90-14
-15,"Cross angle 1-3/4"×1" 12 GA × 215.9",1,MÓVIL,FABRICADA,"Chapa de acero 0.105", galvanizada",NBT90-15
-16,"Cross angle 1-3/4"×1" 12 GA × 215.9",1,MÓVIL,FABRICADA,"Chapa de acero 0.105", galvanizada",NBT90-16
-17,"Notched brace channel 1-3/4"×40 12 GA × 363.76",1,MÓVIL,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-17
-18,"Notched brace channel 1-3/4"×40 12 GA × 363.76",1,MÓVIL,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-18
-19,"Placa de apriete del tensor 1/4"×24×40",1,MÓVIL,FABRICADA,"Chapa de acero 0.25", galvanizada",NBT90-19
-20,"Placa peine 3/16" 432×292.5",1,MÓVIL,FABRICADA,"Chapa de acero 0.187", galvanizada",NBT90-20
-21,"Placa peine 3/16" 432×292.5",1,MÓVIL,FABRICADA,"Chapa de acero 0.187", galvanizada",NBT90-21
-22,"Placa soporte de transmisión 1/4"×374×150 c/colisa tensor",1,MÓVIL,FABRICADA,"Chapa de acero 0.25", galvanizada",NBT90-22
-23,"Spacer plate 3/16" 370×80",1,MÓVIL,FABRICADA,"Chapa de acero 0.187", galvanizada",NBT90-23
-24,"Spacer plate 3/16" 370×80",1,MÓVIL,FABRICADA,"Chapa de acero 0.187", galvanizada",NBT90-24
-25,"Transfer cross channel 2"×1-1/2" 12 GA × 378.04",1,MÓVIL,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-25
-26,"Transfer cross channel 2"×1-1/2" 12 GA × 378.04",1,MÓVIL,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-26
-27,"Transfer roller guard 14 GA 370×118",1,MÓVIL,FABRICADA,"Chapa de acero 0.075", galvanizada",NBT90-27
-28,"Casquillo separador Ø17.46 × 18.34",1,FIJO,COMPRADA,"B-20760",—
-29,"Casquillo separador Ø17.46 × 18.35",1,FIJO,COMPRADA,"B-20760",—
-30,"Eje de rodillo de retorno Ø12.7 × 457.14",1,FIJO,COMPRADA,"B-20760",—
-31,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"SA-036881",—
-32,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"SA-036881",—
-33,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"SA-036881",—
-34,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"SA-036881",—
-35,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"SA-036881",—
-36,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"SA-036881",—
-37,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
-38,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
-39,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
-40,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
-41,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
-42,"Eje polea Ø5/8" g6 × 73.5",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
-43,"NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil 198×75×22",1,MÓVIL,COMPRADA,"mgpm80_10z",—
-44,"NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø25 × 93",1,MÓVIL,COMPRADA,"mgpm80_10z",—
-45,"NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø25 × 93",1,MÓVIL,COMPRADA,"mgpm80_10z",—
-46,"NEUMÁTICA · Cilindro MGPM80-10Z — vástago del émbolo Ø25",1,MÓVIL,COMPRADA,"mgpm80_10z",—
-47,"Polea de retorno banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
-48,"Polea de retorno banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
-49,"Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
-50,"Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
-51,"Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
-52,"Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5 TAKE-UP IDLER",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
-53,"Rodillo de retorno B-20760 Ø1.9" × 425.45",1,FIJO,COMPRADA,"B-20760",—
-54,"Rueda motriz banda plana Ø2-1/2"×1.772"",1,MÓVIL,COMPRADA,"rueda_024.15502",—
-55,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
-56,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
-57,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
-58,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
-59,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
-60,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
-61,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
-62,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
-63,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
-64,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
-65,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
-66,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
-67,"Tapa-soporte de rodillo de retorno Ø44.96/Ø28.58 × 14",1,FIJO,COMPRADA,"B-20760",—
-68,"Tapa-soporte de rodillo de retorno Ø44.96/Ø28.58 × 14",1,FIJO,COMPRADA,"B-20760",—
-69,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"SA-036881",—
-70,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"SA-036881",—
-71,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"SA-036881",—
-72,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"SA-036881",—
-73,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"SA-036881",—
-74,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"SA-036881",—
-75,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"SA-036881",—
-76,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"SA-036881",—
-77,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"SA-036881",—
-78,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"SA-036881",—
-79,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"SA-036881",—
-80,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"SA-036881",—
-81,"Anillo retención eje polea (Y=-144.5) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-82,"Anillo retención eje polea (Y=-152.4) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-83,"Anillo retención eje polea (Y=-76.2) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-84,"Anillo retención eje polea (Y=144.5) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-85,"Anillo retención eje polea (Y=152.4) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-86,"Anillo retención eje polea (Y=76.2) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-87,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
-88,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
-89,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
-90,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
-91,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
-92,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
-93,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
-94,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
-95,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
-96,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
-97,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
-98,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
-99,"Banda plana FLEXPROOF sin fin 1"×2.5 — serpentín L=3043.56",1,MÓVIL,COMPRADA,"banda_flexproof_1in",—
-100,"Buje sin chaveta 20 mm ID × 45 mm OD",1,MÓVIL,COMPRADA,"buje_099.128420",—
-101,"Golilla 1/4" soporte de válvula (X=296, Y=-182) Ø6.35",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-102,"Golilla 1/4" soporte de válvula (X=332, Y=-182) Ø6.35",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-103,"Golilla 3/8" bajo cabeza (+Y, X=134) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-104,"Golilla 3/8" bajo cabeza (+Y, X=162) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-105,"Golilla 3/8" bajo cabeza (−Y, X=134) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-106,"Golilla 3/8" bajo cabeza (−Y, X=162) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-107,"Golilla 3/8" de colisa (X=141.5, Y=+228.57) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-108,"Golilla 3/8" de colisa (X=141.5, Y=−228.57) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-109,"Golilla 3/8" de colisa (X=321.5, Y=+228.57) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-110,"Golilla 3/8" de colisa (X=321.5, Y=−228.57) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-111,"Golilla 3/8" jack bolt (X=115.75, Y=+247.4) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-112,"Golilla 3/8" jack bolt (X=115.75, Y=−247.4) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-113,"Golilla 3/8" jack bolt (X=347.25, Y=+247.4) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-114,"Golilla 3/8" jack bolt (X=347.25, Y=−247.4) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-115,"Golilla Canal base -Y X32 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-116,"Golilla Canal base -Y X32 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-117,"Golilla Canal base -Y X95 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-118,"Golilla Canal base -Y X95 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-119,"Golilla Canal base +Y X32 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-120,"Golilla Canal base +Y X32 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-121,"Golilla Canal base +Y X95 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-122,"Golilla Canal base +Y X95 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-123,"Golilla Guarda Y-150 Z196 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-124,"Golilla Guarda Y-150 Z196 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-125,"Golilla Guarda Y-150 Z284 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-126,"Golilla Guarda Y-150 Z284 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-127,"Golilla Guarda Y150 Z196 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-128,"Golilla Guarda Y150 Z196 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-129,"Golilla Guarda Y150 Z284 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-130,"Golilla Guarda Y150 Z284 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-131,"Golilla M12 cilindro (X=204.5, Y=+90) Ø12",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-132,"Golilla M12 cilindro (X=204.5, Y=−90) Ø12",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-133,"Golilla M12 cilindro (X=258.5, Y=+90) Ø12",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-134,"Golilla M12 cilindro (X=258.5, Y=−90) Ø12",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-135,"Golilla Ménsula jack inf -Y X115.75 Z100 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-136,"Golilla Ménsula jack inf -Y X115.75 Z100 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-137,"Golilla Ménsula jack inf -Y X115.75 Z118 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-138,"Golilla Ménsula jack inf -Y X115.75 Z118 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-139,"Golilla Ménsula jack inf -Y X347.25 Z100 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-140,"Golilla Ménsula jack inf -Y X347.25 Z100 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-141,"Golilla Ménsula jack inf -Y X347.25 Z118 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-142,"Golilla Ménsula jack inf -Y X347.25 Z118 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-143,"Golilla Ménsula jack inf +Y X115.75 Z100 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-144,"Golilla Ménsula jack inf +Y X115.75 Z100 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-145,"Golilla Ménsula jack inf +Y X115.75 Z118 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-146,"Golilla Ménsula jack inf +Y X115.75 Z118 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-147,"Golilla Ménsula jack inf +Y X347.25 Z100 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-148,"Golilla Ménsula jack inf +Y X347.25 Z100 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-149,"Golilla Ménsula jack inf +Y X347.25 Z118 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-150,"Golilla Ménsula jack inf +Y X347.25 Z118 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-151,"Golilla Ménsula jack sup -Y X145.75 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-152,"Golilla Ménsula jack sup -Y X145.75 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-153,"Golilla Ménsula jack sup -Y X317.25 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-154,"Golilla Ménsula jack sup -Y X317.25 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-155,"Golilla Ménsula jack sup -Y X377.25 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-156,"Golilla Ménsula jack sup -Y X377.25 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-157,"Golilla Ménsula jack sup -Y X85.75 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-158,"Golilla Ménsula jack sup -Y X85.75 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-159,"Golilla Ménsula jack sup +Y X145.75 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-160,"Golilla Ménsula jack sup +Y X145.75 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-161,"Golilla Ménsula jack sup +Y X317.25 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-162,"Golilla Ménsula jack sup +Y X317.25 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-163,"Golilla Ménsula jack sup +Y X377.25 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-164,"Golilla Ménsula jack sup +Y X377.25 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-165,"Golilla Ménsula jack sup +Y X85.75 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-166,"Golilla Ménsula jack sup +Y X85.75 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-167,"Golilla rodillo (línea 1, Y=-190.5, libre) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-168,"Golilla rodillo (línea 1, Y=-190.5, motriz) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-169,"Golilla rodillo (línea 2, Y=-114.3, libre) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-170,"Golilla rodillo (línea 2, Y=-114.3, motriz) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-171,"Golilla rodillo (línea 3, Y=-38.1, libre) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-172,"Golilla rodillo (línea 3, Y=-38.1, motriz) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-173,"Golilla rodillo (línea 4, Y=38.1, libre) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-174,"Golilla rodillo (línea 4, Y=38.1, motriz) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-175,"Golilla rodillo (línea 5, Y=114.3, libre) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-176,"Golilla rodillo (línea 5, Y=114.3, motriz) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-177,"Golilla rodillo (línea 6, Y=190.5, libre) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-178,"Golilla rodillo (línea 6, Y=190.5, motriz) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-179,"Golilla rodillo de retorno (+Y) Ø7.938",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-180,"Golilla rodillo de retorno (−Y) Ø7.938",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-181,"Golilla Side channel -Y X231.5 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-182,"Golilla Side channel -Y X231.5 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-183,"Golilla Side channel -Y X403 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-184,"Golilla Side channel -Y X403 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-185,"Golilla Side channel -Y X60 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-186,"Golilla Side channel -Y X60 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-187,"Golilla Side channel +Y X231.5 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-188,"Golilla Side channel +Y X231.5 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-189,"Golilla Side channel +Y X403 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-190,"Golilla Side channel +Y X403 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-191,"Golilla Side channel +Y X60 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-192,"Golilla Side channel +Y X60 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-193,"Golilla Spacer plate libre Y-170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-194,"Golilla Spacer plate libre Y-170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-195,"Golilla Spacer plate libre Y-55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-196,"Golilla Spacer plate libre Y-55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-197,"Golilla Spacer plate libre Y170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-198,"Golilla Spacer plate libre Y170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-199,"Golilla Spacer plate libre Y55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-200,"Golilla Spacer plate libre Y55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-201,"Golilla Spacer plate motriz Y-170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-202,"Golilla Spacer plate motriz Y-170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-203,"Golilla Spacer plate motriz Y-55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-204,"Golilla Spacer plate motriz Y-55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-205,"Golilla Spacer plate motriz Y170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-206,"Golilla Spacer plate motriz Y170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-207,"Golilla Spacer plate motriz Y55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-208,"Golilla Spacer plate motriz Y55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-209,"Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm",1,MÓVIL,COMPRADA,"motorreductor_300.0322",—
-210,"NEUMÁTICA · Cilindro compacto con guías SMC MGPM80-10Z Ø80 × 10 — cuerpo 202×91.5×56.5",1,FIJO,COMPRADA,"mgpm80_10z",—
-211,"NEUMÁTICA · Golilla 1/4" válvula↔soporte (X=303) Ø6.35",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-212,"NEUMÁTICA · Golilla 1/4" válvula↔soporte (X=335) Ø6.35",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-213,"NEUMÁTICA · Perno hex 1/4-20 × 2-1/2" válvula↔soporte",2,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-214,"NEUMÁTICA · Racor codo giratorio 360° 1/4"",2,FIJO,COMPRADA,"componente de catálogo",—
-215,"NEUMÁTICA · Racor codo giratorio 360° Rc3/8–1/4"",2,FIJO,COMPRADA,"componente de catálogo",—
-216,"NEUMÁTICA · Silenciador 1/8" NPT Ø18 (X=307)",1,FIJO,COMPRADA,"componente de catálogo",—
-217,"NEUMÁTICA · Silenciador 1/8" NPT Ø18 (X=331)",1,FIJO,COMPRADA,"componente de catálogo",—
-218,"NEUMÁTICA · Tubería 1/4" OD Ø7.94 — línea A",1,FIJO,COMPRADA,"componente de catálogo",—
-219,"NEUMÁTICA · Tubería 1/4" OD Ø7.94 — línea B",1,FIJO,COMPRADA,"componente de catálogo",—
-220,"NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC 72×46×60",1,FIJO,COMPRADA,"valvula_4v_24vdc",—
-221,"Pasador guía Ø12.7 × 39.91 en colisa",4,MÓVIL,COMPRADA,"perno de hombro 1/2" (042.512)",—
-222,"Perno hex 1/4-20 × 1-1/4" soporte de válvula",2,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-223,"Perno hex 1/4-20 UNC × 19.05 · rodillo",6,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-224,"Perno hex 1/4-20 UNC × 19.05 · rodillo",6,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-225,"Perno hex 3/8-16 × 1" de colisa",2,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-226,"Perno hex 3/8-16 × 1" de colisa",2,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-227,"Perno hex 3/8-16 × 20.85 · Canal base -Y X32",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-228,"Perno hex 3/8-16 × 20.85 · Canal base -Y X95",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-229,"Perno hex 3/8-16 × 20.85 · Canal base +Y X32",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-230,"Perno hex 3/8-16 × 20.85 · Canal base +Y X95",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-231,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-232,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-233,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-234,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-235,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-236,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-237,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-238,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-239,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-240,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-241,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-242,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-243,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-244,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-245,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-246,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-247,"Perno hex 3/8-16 × 20.85 · Side channel -Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-248,"Perno hex 3/8-16 × 20.85 · Side channel -Y X403",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-249,"Perno hex 3/8-16 × 20.85 · Side channel -Y X60",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-250,"Perno hex 3/8-16 × 20.85 · Side channel +Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-251,"Perno hex 3/8-16 × 20.85 · Side channel +Y X403",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-252,"Perno hex 3/8-16 × 20.85 · Side channel +Y X60",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-253,"Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-254,"Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-255,"Perno hex 3/8-16 × 22.19 · Guarda Y150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-256,"Perno hex 3/8-16 × 22.19 · Guarda Y150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-257,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-258,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-259,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y170",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-260,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y55",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-261,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-262,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-263,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y170",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-264,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y55",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-265,"Perno hex 3/8-16 × 3/4" placa↔cartela del larguero",4,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-266,"Perno hex 3/8-16 × 6" jack bolt",4,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-267,"Perno hex 5/16-18 UNC × 19.05 · rodillo de retorno",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-268,"Perno hex 5/16-18 UNC × 19.05 · rodillo de retorno",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-269,"Perno hex M12 × 25 fijación del cilindro",4,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-270,"Perno hex M8 × 20 brida motorreductor IEC B14 C120",4,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-271,"Rodamiento 608-2RS (línea 1, Y=-190.5, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-272,"Rodamiento 608-2RS (línea 1, Y=-190.5, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-273,"Rodamiento 608-2RS (línea 2, Y=-114.3, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-274,"Rodamiento 608-2RS (línea 2, Y=-114.3, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-275,"Rodamiento 608-2RS (línea 3, Y=-38.1, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-276,"Rodamiento 608-2RS (línea 3, Y=-38.1, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-277,"Rodamiento 608-2RS (línea 4, Y=38.1, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-278,"Rodamiento 608-2RS (línea 4, Y=38.1, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-279,"Rodamiento 608-2RS (línea 5, Y=114.3, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-280,"Rodamiento 608-2RS (línea 5, Y=114.3, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-281,"Rodamiento 608-2RS (línea 6, Y=190.5, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-282,"Rodamiento 608-2RS (línea 6, Y=190.5, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-283,"Rodamiento R10-2RS (Y=-144.5, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-284,"Rodamiento R10-2RS (Y=-144.5, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-285,"Rodamiento R10-2RS (Y=-152.4, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-286,"Rodamiento R10-2RS (Y=-152.4, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-287,"Rodamiento R10-2RS (Y=-76.2, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-288,"Rodamiento R10-2RS (Y=-76.2, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-289,"Rodamiento R10-2RS (Y=144.5, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-290,"Rodamiento R10-2RS (Y=144.5, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-291,"Rodamiento R10-2RS (Y=152.4, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-292,"Rodamiento R10-2RS (Y=152.4, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-293,"Rodamiento R10-2RS (Y=76.2, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-294,"Rodamiento R10-2RS (Y=76.2, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-295,"Rodamiento R8-2RS ABEC-1 rodillo de retorno (+Y)",1,FIJO,COMPRADA,"rodamiento_12.7x28.58x7.94",—
-296,"Rodamiento R8-2RS ABEC-1 rodillo de retorno (−Y)",1,FIJO,COMPRADA,"rodamiento_12.7x28.58x7.94",—
-297,"Tornillo SHCS M12 × 30 de la horquilla",4,MÓVIL,COMPRADA,"ISO 4762 / DIN 912 M12 × 1.75",—
-298,"Tuerca hex 1/4-20 soporte de válvula",2,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-299,"Tuerca hex 3/8-16 · Canal base -Y X32",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-300,"Tuerca hex 3/8-16 · Canal base -Y X95",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-301,"Tuerca hex 3/8-16 · Canal base +Y X32",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-302,"Tuerca hex 3/8-16 · Canal base +Y X95",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-303,"Tuerca hex 3/8-16 · Guarda Y-150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-304,"Tuerca hex 3/8-16 · Guarda Y-150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-305,"Tuerca hex 3/8-16 · Guarda Y150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-306,"Tuerca hex 3/8-16 · Guarda Y150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-307,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-308,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-309,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-310,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-311,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-312,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-313,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-314,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-315,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-316,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-317,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-318,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-319,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-320,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-321,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-322,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-323,"Tuerca hex 3/8-16 · Side channel -Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-324,"Tuerca hex 3/8-16 · Side channel -Y X403",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-325,"Tuerca hex 3/8-16 · Side channel -Y X60",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-326,"Tuerca hex 3/8-16 · Side channel +Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-327,"Tuerca hex 3/8-16 · Side channel +Y X403",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-328,"Tuerca hex 3/8-16 · Side channel +Y X60",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-329,"Tuerca hex 3/8-16 · Spacer plate libre Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-330,"Tuerca hex 3/8-16 · Spacer plate libre Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-331,"Tuerca hex 3/8-16 · Spacer plate libre Y170",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-332,"Tuerca hex 3/8-16 · Spacer plate libre Y55",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-333,"Tuerca hex 3/8-16 · Spacer plate motriz Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-334,"Tuerca hex 3/8-16 · Spacer plate motriz Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-335,"Tuerca hex 3/8-16 · Spacer plate motriz Y170",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-336,"Tuerca hex 3/8-16 · Spacer plate motriz Y55",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-337,"Tuerca hex 3/8-16 autoblocante eje polea",5,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-338,"Tuerca hex 3/8-16 CONTRATUERCA tensor",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-339,"Tuerca hex 3/8-16 de colisa",2,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-340,"Tuerca hex 3/8-16 de colisa",2,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-341,"Tuerca hex 3/8-16 inferior de jack bolt",4,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-342,"Tuerca hex 3/8-16 SOLDADA bajo la cartela",4,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-343,"Tuerca hex 3/8-16 superior de jack bolt",4,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-344,"CONTEXTO · Banda angosta del clasificador 1"×2.5",5,MÓVIL,CONTEXTO (no se fabrica),"069.722xx FLEXPROOF ENDLESS BELT 1 in. WIDE",—
-345,"CONTEXTO · Regleta de desgaste UHMW 1-1/4"×3/8"",5,MÓVIL,CONTEXTO (no se fabrica),"UHMW-PE 1000",—
+item,designacion,cantidad,modulo,tipo,material_o_norma,plano,tolerancia_general,ajustes,soldadura,encajes,acabado
+1,"Canal base en U 76×38 12 GA × 446.5",1,FIJO,FABRICADA,"Chapa de acero 0.105"" conformada, galvanizada",NBT90-01,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U4-+Y-pos lengueta/posicion · U4-+Y-paso lengueta/paso · U4--Y-pos lengueta/posicion · U4--Y-paso lengueta/paso","—"
+2,"Canal de montaje del cilindro 12 GA 234×103×442.3",1,FIJO,FABRICADA,"Chapa de acero 0.105"" conformada, galvanizada",NBT90-02,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U5-+Y tope/tope · U5--Y tope/tope","—"
+3,"Canal lateral anfitrión 6-1/2""×1-1/2"" 12 GA × 463",1,FIJO,FABRICADA,"Chapa de acero 0.105"" conformada, galvanizada",NBT90-03,"tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+4,"Canal lateral anfitrión 6-1/2""×1-1/2"" 12 GA × 463",1,FIJO,FABRICADA,"Chapa de acero 0.105"" conformada, galvanizada",NBT90-04,"tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+5,"Ménsula jack bolt inferior 12 GA 50×47",2,FIJO,FABRICADA,"Chapa de acero 0.105"", galvanizada",NBT90-05,"tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+6,"Ménsula jack bolt inferior 12 GA 50×47",2,FIJO,FABRICADA,"Chapa de acero 0.105"", galvanizada",NBT90-06,"tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+7,"Ménsula jack bolt superior 12 GA 96×30",4,FIJO,FABRICADA,"Chapa de acero 0.105"", galvanizada",NBT90-07,"tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+8,"Placa colgante del canal 3/16"" con colisas 12.7×38.1",2,FIJO,FABRICADA,"Chapa de acero 0.187"" conformada, galvanizada",NBT90-08,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U5-+Y tope/tope","—"
+9,"Side channel 6-1/2""×1-1/4"" 12 GA × 457.2",1,FIJO,FABRICADA,"Chapa de acero 0.105"" conformada, galvanizada",NBT90-09,"tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+10,"Side channel 6-1/2""×1-1/4"" 12 GA × 457.2",1,FIJO,FABRICADA,"Chapa de acero 0.105"" conformada, galvanizada",NBT90-10,"tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+11,"Soporte de válvula 3/16"" 52×98",1,FIJO,FABRICADA,"Chapa de acero 0.187"", galvanizada",NBT90-11,"tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+12,"Tapa extremo canal base 12 GA 88×67",1,FIJO,FABRICADA,"Chapa de acero 0.105"" conformada, galvanizada",NBT90-12,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U4-+Y-pos ranura/posicion · U4-+Y-paso ranura/paso","—"
+13,"Tapa extremo canal base 12 GA 88×67",1,FIJO,FABRICADA,"Chapa de acero 0.105"" conformada, galvanizada",NBT90-13,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U4--Y-pos ranura/posicion · U4--Y-paso ranura/paso","—"
+14,"Brazo de empuje de la horquilla 75×42×22",2,MÓVIL,FABRICADA,"Chapa de acero 0.866"", galvanizada",NBT90-14,"tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+15,"Cross angle 1-3/4""×1"" 12 GA × 215.9",1,MÓVIL,FABRICADA,"Chapa de acero 0.105"", galvanizada",NBT90-15,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U3-+Y-a pasador/posicion · U3-+Y-b pasador/paso · U3-solape-+Y tope/tope","—"
+16,"Cross angle 1-3/4""×1"" 12 GA × 215.9",1,MÓVIL,FABRICADA,"Chapa de acero 0.105"", galvanizada",NBT90-16,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U3--Y-a pasador/posicion · U3--Y-b pasador/paso · U3-solape--Y tope/tope","—"
+17,"Notched brace channel 1-3/4""×40 12 GA × 368.52",1,MÓVIL,FABRICADA,"Chapa de acero 0.105"" conformada, galvanizada",NBT90-17,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U2-motriz-+Y-pos lengueta/posicion · U2-motriz-+Y-paso lengueta/paso · U2-libre-+Y-pos lengueta/posicion · U2-libre-+Y-paso lengueta/paso · U3-+Y-a pasador/posicion · U3-+Y-b pasador/paso","—"
+18,"Notched brace channel 1-3/4""×40 12 GA × 368.52",1,MÓVIL,FABRICADA,"Chapa de acero 0.105"" conformada, galvanizada",NBT90-18,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U2-motriz--Y-pos lengueta/posicion · U2-motriz--Y-paso lengueta/paso · U2-libre--Y-pos lengueta/posicion · U2-libre--Y-paso lengueta/paso · U3--Y-a pasador/posicion · U3--Y-b pasador/paso","—"
+19,"Placa de apriete del tensor 1/4""×24×40",1,MÓVIL,FABRICADA,"Chapa de acero 0.25"", galvanizada",NBT90-19,"tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+20,"Placa peine 3/16"" 432×292.5",1,MÓVIL,FABRICADA,"Chapa de acero 0.187"", galvanizada",NBT90-20,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M","Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 (taladro de POSICIÓN, no de paso: el vástago hace de pasador y toma la carga radial del rodillo. Un taladro de paso normal de 1/4"" sería Ø7,95 (holgura 1,6).) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U1-motriz-+Y ranura/posicion · U1-motriz--Y ranura/posicion","—"
+21,"Placa peine 3/16"" 432×292.5",1,MÓVIL,FABRICADA,"Chapa de acero 0.187"", galvanizada",NBT90-21,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M","Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 (taladro de POSICIÓN, no de paso: el vástago hace de pasador y toma la carga radial del rodillo. Un taladro de paso normal de 1/4"" sería Ø7,95 (holgura 1,6).) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U1-libre-+Y ranura/posicion · U1-libre--Y ranura/posicion","—"
+22,"Placa soporte de transmisión 1/4""×374×150 c/colisa tensor",1,MÓVIL,FABRICADA,"Chapa de acero 0.25"", galvanizada",NBT90-22,"tol. gral. ISO 13920-BF · conjunto soldado ISO 13920-BF · Ø60 H8 H8/h8 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a4.44 AWS D1.1/D1.1M","Ø60 H8 H8/h8 (resalte de centraje de una brida IEC: tiene que centrar, no apretar. Con H8/h8 el juego máximo es 0,092 mm; el modelo dibuja 0,05 de radio para que el sólido no se solape.) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=4.44 · AWS D1.1/D1.1M — Structural Welding Code, Steel; símbolo según ISO 2553","U6-pestana--Y lengueta/posicion · U6-pestana-+Y lengueta/posicion · U6-doblador tope/tope","—"
+23,"Spacer plate 3/16"" 370×80",1,MÓVIL,FABRICADA,"Chapa de acero 0.187"", galvanizada",NBT90-23,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U2-motriz-+Y-pos ranura/posicion · U2-motriz-+Y-paso ranura/paso · U2-motriz--Y-pos ranura/posicion · U2-motriz--Y-paso ranura/paso","—"
+24,"Spacer plate 3/16"" 370×80",1,MÓVIL,FABRICADA,"Chapa de acero 0.187"", galvanizada",NBT90-24,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U2-libre-+Y-pos ranura/posicion · U2-libre-+Y-paso ranura/paso · U2-libre--Y-pos ranura/posicion · U2-libre--Y-paso ranura/paso","—"
+25,"Transfer cross channel 2""×1-1/2"" 12 GA × 378.04",1,MÓVIL,FABRICADA,"Chapa de acero 0.105"" conformada, galvanizada",NBT90-25,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U1-motriz-+Y lengueta/posicion · U1-libre-+Y lengueta/posicion · U1-tope-+Y tope/tope","—"
+26,"Transfer cross channel 2""×1-1/2"" 12 GA × 378.04",1,MÓVIL,FABRICADA,"Chapa de acero 0.105"" conformada, galvanizada",NBT90-26,"tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553","U1-motriz--Y lengueta/posicion · U1-libre--Y lengueta/posicion · U1-tope--Y tope/tope","—"
+27,"Transfer roller guard 14 GA 370×118",1,MÓVIL,FABRICADA,"Chapa de acero 0.075"", galvanizada",NBT90-27,"tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+28,"Casquillo separador Ø17.46 × 18.34",1,FIJO,COMPRADA,"Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",—,"eje 1/2"" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados","—","—","—","—"
+29,"Casquillo separador Ø17.46 × 18.35",1,FIJO,COMPRADA,"Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",—,"eje 1/2"" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados","—","—","—","—"
+30,"Eje de rodillo de retorno Ø12.7 × 457.14",1,FIJO,COMPRADA,"Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",—,"eje 1/2"" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados","—","—","—","—"
+31,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+32,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+33,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+34,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+35,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+36,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+37,"Eje polea Ø5/8"" g6 × 68.4",1,MÓVIL,FABRICADA,"Acero SAE 1045 rectificado",NBT90-28,"tol. gral. ISO 2768-fH · Ø15,875 (5/8"") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø15,875 (5/8"") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+38,"Eje polea Ø5/8"" g6 × 68.4",1,MÓVIL,FABRICADA,"Acero SAE 1045 rectificado",NBT90-29,"tol. gral. ISO 2768-fH · Ø15,875 (5/8"") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø15,875 (5/8"") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+39,"Eje polea Ø5/8"" g6 × 68.4",1,MÓVIL,FABRICADA,"Acero SAE 1045 rectificado",NBT90-30,"tol. gral. ISO 2768-fH · Ø15,875 (5/8"") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø15,875 (5/8"") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+40,"Eje polea Ø5/8"" g6 × 68.4",1,MÓVIL,FABRICADA,"Acero SAE 1045 rectificado",NBT90-31,"tol. gral. ISO 2768-fH · Ø15,875 (5/8"") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø15,875 (5/8"") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+41,"Eje polea Ø5/8"" g6 × 68.4",1,MÓVIL,FABRICADA,"Acero SAE 1045 rectificado",NBT90-32,"tol. gral. ISO 2768-fH · Ø15,875 (5/8"") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø15,875 (5/8"") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+42,"Eje polea Ø5/8"" g6 × 73.5",1,MÓVIL,FABRICADA,"Acero SAE 1045 rectificado",NBT90-33,"tol. gral. ISO 2768-fH · Ø15,875 (5/8"") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø15,875 (5/8"") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+43,"NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil 198×75×22",1,MÓVIL,COMPRADA,"SMC serie MGP — MGPM80-10Z, cilindro compacto con guías Ø80, carrera 10 mm, casquillo de deslizamiento, con imán",—,"roscas de montaje M12 × 1,75 (patrones MM 180 × 54 y NN 174 × 52); puertos Rc 3/8 (ISO 7-1)","—","—","—","—"
+44,"NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø25 × 93",1,MÓVIL,COMPRADA,"SMC serie MGP — MGPM80-10Z, cilindro compacto con guías Ø80, carrera 10 mm, casquillo de deslizamiento, con imán",—,"roscas de montaje M12 × 1,75 (patrones MM 180 × 54 y NN 174 × 52); puertos Rc 3/8 (ISO 7-1)","—","—","—","—"
+45,"NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø25 × 93",1,MÓVIL,COMPRADA,"SMC serie MGP — MGPM80-10Z, cilindro compacto con guías Ø80, carrera 10 mm, casquillo de deslizamiento, con imán",—,"roscas de montaje M12 × 1,75 (patrones MM 180 × 54 y NN 174 × 52); puertos Rc 3/8 (ISO 7-1)","—","—","—","—"
+46,"NEUMÁTICA · Cilindro MGPM80-10Z — vástago del émbolo Ø25",1,MÓVIL,COMPRADA,"SMC serie MGP — MGPM80-10Z, cilindro compacto con guías Ø80, carrera 10 mm, casquillo de deslizamiento, con imán",—,"roscas de montaje M12 × 1,75 (patrones MM 180 × 54 y NN 174 × 52); puertos Rc 3/8 (ISO 7-1)","—","—","—","—"
+47,"Polea de retorno banda plana Ø2-1/2""×1.4"" c/pestañas Ø73.5",1,MÓVIL,FABRICADA,"Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",NBT90-34,"tol. gral. ISO 2768-fH · Ø34,925 (1-3/8"") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø34,925 (1-3/8"") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+48,"Polea de retorno banda plana Ø2-1/2""×1.4"" c/pestañas Ø73.5",1,MÓVIL,FABRICADA,"Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",NBT90-35,"tol. gral. ISO 2768-fH · Ø34,925 (1-3/8"") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø34,925 (1-3/8"") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+49,"Polea loca banda plana Ø2-1/2""×1.4"" c/pestañas Ø73.5",1,MÓVIL,FABRICADA,"Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",NBT90-36,"tol. gral. ISO 2768-fH · Ø34,925 (1-3/8"") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø34,925 (1-3/8"") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+50,"Polea loca banda plana Ø2-1/2""×1.4"" c/pestañas Ø73.5",1,MÓVIL,FABRICADA,"Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",NBT90-37,"tol. gral. ISO 2768-fH · Ø34,925 (1-3/8"") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø34,925 (1-3/8"") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+51,"Polea loca banda plana Ø2-1/2""×1.4"" c/pestañas Ø73.5",1,MÓVIL,FABRICADA,"Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",NBT90-38,"tol. gral. ISO 2768-fH · Ø34,925 (1-3/8"") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø34,925 (1-3/8"") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+52,"Polea loca banda plana Ø2-1/2""×1.4"" c/pestañas Ø73.5 TAKE-UP IDLER",1,MÓVIL,FABRICADA,"Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",NBT90-39,"tol. gral. ISO 2768-fH · Ø34,925 (1-3/8"") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525","Ø34,925 (1-3/8"") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)","—","—","—"
+53,"Rodillo de retorno B-20760 Ø1.9"" × 425.45",1,FIJO,COMPRADA,"Rodillo de retorno galvanizado Ø1.9"", rodamientos ABEC-1 · Hytrol B-20760 (Specify BR −1-1/4)",—,"tubo de acero galvanizado 1.9"" × 0,065"" de pared","—","—","—","—"
+54,"Rueda motriz banda plana Ø2-1/2""×1.772""",1,MÓVIL,COMPRADA,"Rueda motriz de banda plana Ø2-1/2"" × 1,772"", barreno Ø45 H8 · Hytrol 024.15502",—,"llanta abombada 0,4 mm; el barreno recibe el buje sin chaveta","—","—","—","—"
+55,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+56,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+57,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+58,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+59,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+60,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+61,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+62,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+63,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+64,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+65,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+66,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+67,"Tapa-soporte de rodillo de retorno Ø44.96/Ø28.58 × 14",1,FIJO,COMPRADA,"Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",—,"eje 1/2"" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados","—","—","—","—"
+68,"Tapa-soporte de rodillo de retorno Ø44.96/Ø28.58 × 14",1,FIJO,COMPRADA,"Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",—,"eje 1/2"" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados","—","—","—","—"
+69,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+70,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+71,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+72,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+73,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+74,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+75,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+76,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+77,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+78,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+79,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+80,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"Conjunto de rodillo vulcanizado Ø1-3/8"" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",—,"tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)","—","—","—","—"
+81,"Anillo retención eje polea (Y=-144.5) Ø15.875",1,MÓVIL,COMPRADA,"ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625"")",—,"acero SAE 1060-1090, e = 0,035"" (0,89 mm)","—","—","—","fosfatado"
+82,"Anillo retención eje polea (Y=-152.4) Ø15.875",1,MÓVIL,COMPRADA,"ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625"")",—,"acero SAE 1060-1090, e = 0,035"" (0,89 mm)","—","—","—","fosfatado"
+83,"Anillo retención eje polea (Y=-76.2) Ø15.875",1,MÓVIL,COMPRADA,"ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625"")",—,"acero SAE 1060-1090, e = 0,035"" (0,89 mm)","—","—","—","fosfatado"
+84,"Anillo retención eje polea (Y=144.5) Ø15.875",1,MÓVIL,COMPRADA,"ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625"")",—,"acero SAE 1060-1090, e = 0,035"" (0,89 mm)","—","—","—","fosfatado"
+85,"Anillo retención eje polea (Y=152.4) Ø15.875",1,MÓVIL,COMPRADA,"ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625"")",—,"acero SAE 1060-1090, e = 0,035"" (0,89 mm)","—","—","—","fosfatado"
+86,"Anillo retención eje polea (Y=76.2) Ø15.875",1,MÓVIL,COMPRADA,"ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625"")",—,"acero SAE 1060-1090, e = 0,035"" (0,89 mm)","—","—","—","fosfatado"
+87,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",—,"acero para muelles C67S, ranura Ø37,0 H12 × 1,6","—","—","—","fosfatado"
+88,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",—,"acero para muelles C67S, ranura Ø37,0 H12 × 1,6","—","—","—","fosfatado"
+89,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",—,"acero para muelles C67S, ranura Ø37,0 H12 × 1,6","—","—","—","fosfatado"
+90,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",—,"acero para muelles C67S, ranura Ø37,0 H12 × 1,6","—","—","—","fosfatado"
+91,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",—,"acero para muelles C67S, ranura Ø37,0 H12 × 1,6","—","—","—","fosfatado"
+92,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",—,"acero para muelles C67S, ranura Ø37,0 H12 × 1,6","—","—","—","fosfatado"
+93,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",—,"acero para muelles C67S, ranura Ø37,0 H12 × 1,6","—","—","—","fosfatado"
+94,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",—,"acero para muelles C67S, ranura Ø37,0 H12 × 1,6","—","—","—","fosfatado"
+95,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",—,"acero para muelles C67S, ranura Ø37,0 H12 × 1,6","—","—","—","fosfatado"
+96,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",—,"acero para muelles C67S, ranura Ø37,0 H12 × 1,6","—","—","—","fosfatado"
+97,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",—,"acero para muelles C67S, ranura Ø37,0 H12 × 1,6","—","—","—","fosfatado"
+98,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",—,"acero para muelles C67S, ranura Ø37,0 H12 × 1,6","—","—","—","fosfatado"
+99,"Banda plana FLEXPROOF sin fin 1""×2.5 — serpentín L=3043.56",1,MÓVIL,COMPRADA,"Banda de transmisión sin fin de 1"" de ancho, empalme Flexproof · Hytrol 069.722xx",—,"poliéster/uretano, 2 telas, e = 2,5 mm; Ø mínimo de polea 1,0""","—","—","—","—"
+100,"Buje sin chaveta 20 mm ID × 45 mm OD",1,MÓVIL,COMPRADA,"Buje cónico sin chaveta 20 mm ID × 45 mm OD — Hytrol 099.128420",—,"fabricante elegido y citado: Fenner Drives Trantorque GT ref. 6202811 (d 20, D 45,0, L 22,2, par de apriete 170 N·m, par transmisible 290 N·m, Ø mínimo de cubo 55,7 mm)","—","—","—","zincado claro RoHS"
+101,"Golilla 1/4"" soporte de válvula (X=296, Y=-182) Ø6.35",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27) — AVISO: el modelo dibuja Ø16, 1.73 mm fuera de tabla",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+102,"Golilla 1/4"" soporte de válvula (X=332, Y=-182) Ø6.35",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27) — AVISO: el modelo dibuja Ø16, 1.73 mm fuera de tabla",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+103,"Golilla 3/8"" bajo cabeza (+Y, X=134) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie ancha (W, Ø ext. 25.4)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+104,"Golilla 3/8"" bajo cabeza (+Y, X=162) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie ancha (W, Ø ext. 25.4)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+105,"Golilla 3/8"" bajo cabeza (−Y, X=134) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie ancha (W, Ø ext. 25.4)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+106,"Golilla 3/8"" bajo cabeza (−Y, X=162) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie ancha (W, Ø ext. 25.4)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+107,"Golilla 3/8"" de colisa (X=141.5, Y=+228.57) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie ancha (W, Ø ext. 25.4)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+108,"Golilla 3/8"" de colisa (X=141.5, Y=−228.57) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie ancha (W, Ø ext. 25.4)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+109,"Golilla 3/8"" de colisa (X=321.5, Y=+228.57) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie ancha (W, Ø ext. 25.4)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+110,"Golilla 3/8"" de colisa (X=321.5, Y=−228.57) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie ancha (W, Ø ext. 25.4)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+111,"Golilla 3/8"" jack bolt (X=115.75, Y=+247.4) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie ancha (W, Ø ext. 25.4)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+112,"Golilla 3/8"" jack bolt (X=115.75, Y=−247.4) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie ancha (W, Ø ext. 25.4)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+113,"Golilla 3/8"" jack bolt (X=347.25, Y=+247.4) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie ancha (W, Ø ext. 25.4)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+114,"Golilla 3/8"" jack bolt (X=347.25, Y=−247.4) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie ancha (W, Ø ext. 25.4)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+115,"Golilla Canal base -Y X32 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+116,"Golilla Canal base -Y X32 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+117,"Golilla Canal base -Y X95 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+118,"Golilla Canal base -Y X95 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+119,"Golilla Canal base +Y X32 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+120,"Golilla Canal base +Y X32 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+121,"Golilla Canal base +Y X95 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+122,"Golilla Canal base +Y X95 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+123,"Golilla Guarda Y-150 Z196 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+124,"Golilla Guarda Y-150 Z196 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+125,"Golilla Guarda Y-150 Z284 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+126,"Golilla Guarda Y-150 Z284 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+127,"Golilla Guarda Y150 Z196 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+128,"Golilla Guarda Y150 Z196 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+129,"Golilla Guarda Y150 Z284 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+130,"Golilla Guarda Y150 Z284 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+131,"Golilla M12 cilindro (X=204.5, Y=+90) Ø12",1,FIJO,COMPRADA,"ISO 7092 (DIN 433) — arandela plana, serie estrecha",—,"dureza 200 HV; Ø exterior modelado 20 mm","—","—","—","zincado ISO 4042"
+132,"Golilla M12 cilindro (X=204.5, Y=−90) Ø12",1,FIJO,COMPRADA,"ISO 7092 (DIN 433) — arandela plana, serie estrecha",—,"dureza 200 HV; Ø exterior modelado 20 mm","—","—","—","zincado ISO 4042"
+133,"Golilla M12 cilindro (X=258.5, Y=+90) Ø12",1,FIJO,COMPRADA,"ISO 7092 (DIN 433) — arandela plana, serie estrecha",—,"dureza 200 HV; Ø exterior modelado 20 mm","—","—","—","zincado ISO 4042"
+134,"Golilla M12 cilindro (X=258.5, Y=−90) Ø12",1,FIJO,COMPRADA,"ISO 7092 (DIN 433) — arandela plana, serie estrecha",—,"dureza 200 HV; Ø exterior modelado 20 mm","—","—","—","zincado ISO 4042"
+135,"Golilla Ménsula jack inf -Y X115.75 Z100 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+136,"Golilla Ménsula jack inf -Y X115.75 Z100 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+137,"Golilla Ménsula jack inf -Y X115.75 Z118 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+138,"Golilla Ménsula jack inf -Y X115.75 Z118 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+139,"Golilla Ménsula jack inf -Y X347.25 Z100 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+140,"Golilla Ménsula jack inf -Y X347.25 Z100 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+141,"Golilla Ménsula jack inf -Y X347.25 Z118 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+142,"Golilla Ménsula jack inf -Y X347.25 Z118 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+143,"Golilla Ménsula jack inf +Y X115.75 Z100 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+144,"Golilla Ménsula jack inf +Y X115.75 Z100 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+145,"Golilla Ménsula jack inf +Y X115.75 Z118 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+146,"Golilla Ménsula jack inf +Y X115.75 Z118 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+147,"Golilla Ménsula jack inf +Y X347.25 Z100 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+148,"Golilla Ménsula jack inf +Y X347.25 Z100 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+149,"Golilla Ménsula jack inf +Y X347.25 Z118 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+150,"Golilla Ménsula jack inf +Y X347.25 Z118 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+151,"Golilla Ménsula jack sup -Y X145.75 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+152,"Golilla Ménsula jack sup -Y X145.75 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+153,"Golilla Ménsula jack sup -Y X317.25 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+154,"Golilla Ménsula jack sup -Y X317.25 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+155,"Golilla Ménsula jack sup -Y X377.25 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+156,"Golilla Ménsula jack sup -Y X377.25 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+157,"Golilla Ménsula jack sup -Y X85.75 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+158,"Golilla Ménsula jack sup -Y X85.75 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+159,"Golilla Ménsula jack sup +Y X145.75 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+160,"Golilla Ménsula jack sup +Y X145.75 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+161,"Golilla Ménsula jack sup +Y X317.25 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+162,"Golilla Ménsula jack sup +Y X317.25 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+163,"Golilla Ménsula jack sup +Y X377.25 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+164,"Golilla Ménsula jack sup +Y X377.25 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+165,"Golilla Ménsula jack sup +Y X85.75 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+166,"Golilla Ménsula jack sup +Y X85.75 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+167,"Golilla rodillo (línea 1, Y=-190.5, libre) Ø6.35",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+168,"Golilla rodillo (línea 1, Y=-190.5, motriz) Ø6.35",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+169,"Golilla rodillo (línea 2, Y=-114.3, libre) Ø6.35",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+170,"Golilla rodillo (línea 2, Y=-114.3, motriz) Ø6.35",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+171,"Golilla rodillo (línea 3, Y=-38.1, libre) Ø6.35",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+172,"Golilla rodillo (línea 3, Y=-38.1, motriz) Ø6.35",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+173,"Golilla rodillo (línea 4, Y=38.1, libre) Ø6.35",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+174,"Golilla rodillo (línea 4, Y=38.1, motriz) Ø6.35",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+175,"Golilla rodillo (línea 5, Y=114.3, libre) Ø6.35",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+176,"Golilla rodillo (línea 5, Y=114.3, motriz) Ø6.35",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+177,"Golilla rodillo (línea 6, Y=190.5, libre) Ø6.35",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+178,"Golilla rodillo (línea 6, Y=190.5, motriz) Ø6.35",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+179,"Golilla rodillo de retorno (+Y) Ø6.35",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+180,"Golilla rodillo de retorno (−Y) Ø6.35",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+181,"Golilla Side channel -Y X231.5 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+182,"Golilla Side channel -Y X231.5 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+183,"Golilla Side channel -Y X403 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+184,"Golilla Side channel -Y X403 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+185,"Golilla Side channel -Y X60 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+186,"Golilla Side channel -Y X60 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+187,"Golilla Side channel +Y X231.5 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+188,"Golilla Side channel +Y X231.5 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+189,"Golilla Side channel +Y X403 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+190,"Golilla Side channel +Y X403 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+191,"Golilla Side channel +Y X60 (cabeza) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+192,"Golilla Side channel +Y X60 (tuerca) Ø9.525",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+193,"Golilla Spacer plate libre Y-170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+194,"Golilla Spacer plate libre Y-170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+195,"Golilla Spacer plate libre Y-55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+196,"Golilla Spacer plate libre Y-55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+197,"Golilla Spacer plate libre Y170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+198,"Golilla Spacer plate libre Y170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+199,"Golilla Spacer plate libre Y55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+200,"Golilla Spacer plate libre Y55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+201,"Golilla Spacer plate motriz Y-170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+202,"Golilla Spacer plate motriz Y-170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+203,"Golilla Spacer plate motriz Y-55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+204,"Golilla Spacer plate motriz Y-55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+205,"Golilla Spacer plate motriz Y170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+206,"Golilla Spacer plate motriz Y170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+207,"Golilla Spacer plate motriz Y55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+208,"Golilla Spacer plate motriz Y55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 3/8"", serie estrecha (N, Ø ext. 20.62)",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+209,"Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm",1,MÓVIL,COMPRADA,"SEW-EURODRIVE RF07 DRS71S4 — motorreductor de ejes paralelos con brida · Hytrol 300.0322",—,"1/2 hp, 230/460 V 3~, 462 rpm de salida; brida IEC 60072 B14 C120 (Ø120, círculo Ø100, 4 × M8)","—","—","—","—"
+210,"NEUMÁTICA · Cilindro compacto con guías SMC MGPM80-10Z Ø80 × 10 — cuerpo 202×91.5×56.5",1,FIJO,COMPRADA,"SMC serie MGP — MGPM80-10Z, cilindro compacto con guías Ø80, carrera 10 mm, casquillo de deslizamiento, con imán",—,"roscas de montaje M12 × 1,75 (patrones MM 180 × 54 y NN 174 × 52); puertos Rc 3/8 (ISO 7-1)","—","—","—","—"
+211,"NEUMÁTICA · Golilla 1/4"" válvula↔soporte (X=303) Ø6.35",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27) — AVISO: el modelo dibuja Ø16, 1.73 mm fuera de tabla",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+212,"NEUMÁTICA · Golilla 1/4"" válvula↔soporte (X=335) Ø6.35",1,FIJO,COMPRADA,"ASME B18.22.1 — arandela plana tipo A, 1/4"", serie estrecha (N, Ø ext. 14.27) — AVISO: el modelo dibuja Ø16, 1.73 mm fuera de tabla",—,"acero al carbono","—","—","—","zincado ASTM F1941"
+213,"NEUMÁTICA · Perno hex 1/4-20 × 2-1/2"" válvula↔soporte",2,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+214,"NEUMÁTICA · Racor codo giratorio 360° 1/4""",2,FIJO,COMPRADA,"Racor codo giratorio 360°, macho 1/4-18 NPT (ASME B1.20.1) — tubo 1/4"" OD · Hytrol 094.1406",—,"cuerpo de latón niquelado, pinza de acero inoxidable","—","—","—","—"
+215,"NEUMÁTICA · Racor codo giratorio 360° Rc3/8–1/4""",2,FIJO,COMPRADA,"Racor codo giratorio 360°, macho Rc 3/8 (ISO 7-1) — tubo 1/4"" OD · Hytrol 094.1406",—,"cuerpo de latón niquelado, pinza de acero inoxidable","—","—","—","—"
+216,"NEUMÁTICA · Silenciador 1/8"" NPT Ø18 (X=307)",1,FIJO,COMPRADA,"Silenciador de bronce sinterizado, rosca 1/8-27 NPT (ASME B1.20.1) · Hytrol 923.0059",—,"caudal libre ≥ 200 Nl/min","—","—","—","—"
+217,"NEUMÁTICA · Silenciador 1/8"" NPT Ø18 (X=331)",1,FIJO,COMPRADA,"Silenciador de bronce sinterizado, rosca 1/8-27 NPT (ASME B1.20.1) · Hytrol 923.0059",—,"caudal libre ≥ 200 Nl/min","—","—","—","—"
+218,"NEUMÁTICA · Tubería 1/4"" OD Ø7.94 — línea A",1,FIJO,COMPRADA,"Tubo de poliuretano 1/4"" OD × 0,160"" ID (6,35 × 4,06 mm) · Hytrol 094.1148",—,"PU 95 Sh A, presión de trabajo ≥ 10 bar a 20 °C","—","—","—","—"
+219,"NEUMÁTICA · Tubería 1/4"" OD Ø7.94 — línea B",1,FIJO,COMPRADA,"Tubo de poliuretano 1/4"" OD × 0,160"" ID (6,35 × 4,06 mm) · Hytrol 094.1148",—,"PU 95 Sh A, presión de trabajo ≥ 10 bar a 20 °C","—","—","—","—"
+220,"NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC 72×46×60",1,FIJO,COMPRADA,"Válvula 5/2 monoestable 24 V CC · Hytrol 094.10795",—,"equivalente comprable citado: SMC SY5120-5DZ-N7T (2 posiciones monosolenoide, 24 V CC, racor instantáneo 1/4"", rosca NPTF, conexión DIN, 0,1 W)","—","—","—","—"
+221,"Pasador guía Ø12.7 × 39.91 en colisa",4,MÓVIL,COMPRADA,"ASME B18.3 — tornillo de hombro, hombro Ø1/2"" × 25, rosca 3/8-16 UNC · Hytrol 042.512",—,"acero aleado templado 45 HRC mínimo, hombro rectificado h9","—","—","—","pavonado"
+222,"Perno hex 1/4-20 × 1-1/4"" soporte de válvula",2,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+223,"Perno hex 1/4-20 UNC × 19.05 · rodillo",6,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+224,"Perno hex 1/4-20 UNC × 19.05 · rodillo",6,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+225,"Perno hex 1/4-20 UNC × 19.05 · rodillo de retorno",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+226,"Perno hex 1/4-20 UNC × 19.05 · rodillo de retorno",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+227,"Perno hex 3/8-16 × 1"" de colisa",2,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+228,"Perno hex 3/8-16 × 1"" de colisa",2,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+229,"Perno hex 3/8-16 × 20.85 · Canal base -Y X32",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+230,"Perno hex 3/8-16 × 20.85 · Canal base -Y X95",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+231,"Perno hex 3/8-16 × 20.85 · Canal base +Y X32",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+232,"Perno hex 3/8-16 × 20.85 · Canal base +Y X95",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+233,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+234,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+235,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+236,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+237,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+238,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+239,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+240,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+241,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+242,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+243,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+244,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+245,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+246,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+247,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+248,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+249,"Perno hex 3/8-16 × 20.85 · Side channel -Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+250,"Perno hex 3/8-16 × 20.85 · Side channel -Y X403",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+251,"Perno hex 3/8-16 × 20.85 · Side channel -Y X60",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+252,"Perno hex 3/8-16 × 20.85 · Side channel +Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+253,"Perno hex 3/8-16 × 20.85 · Side channel +Y X403",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+254,"Perno hex 3/8-16 × 20.85 · Side channel +Y X60",1,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+255,"Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+256,"Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+257,"Perno hex 3/8-16 × 22.19 · Guarda Y150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+258,"Perno hex 3/8-16 × 22.19 · Guarda Y150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+259,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+260,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+261,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y170",1,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+262,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y55",1,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+263,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+264,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+265,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y170",1,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+266,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y55",1,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+267,"Perno hex 3/8-16 × 3/4"" placa↔cartela del larguero",4,MÓVIL,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+268,"Perno hex 3/8-16 × 6"" jack bolt",4,FIJO,COMPRADA,"ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A, rosca total (FT)",—,"SAE J429 grado 5 (carga de prueba 85 ksi)","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+269,"Perno hex M12 × 25 fijación del cilindro",4,FIJO,COMPRADA,"ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",—,"clase de resistencia 8.8 (ISO 898-1)","—","—","—","zincado electrolítico ISO 4042"
+270,"Perno hex M8 × 20 brida motorreductor IEC B14 C120",4,MÓVIL,COMPRADA,"ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M8, rosca total",—,"clase de resistencia 8.8 (ISO 898-1)","—","—","—","zincado electrolítico ISO 4042"
+271,"Rodamiento 608-2RS (línea 1, Y=-190.5, libre)",1,MÓVIL,COMPRADA,"ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",—,"clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma","—","—","—","—"
+272,"Rodamiento 608-2RS (línea 1, Y=-190.5, motriz)",1,MÓVIL,COMPRADA,"ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",—,"clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma","—","—","—","—"
+273,"Rodamiento 608-2RS (línea 2, Y=-114.3, libre)",1,MÓVIL,COMPRADA,"ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",—,"clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma","—","—","—","—"
+274,"Rodamiento 608-2RS (línea 2, Y=-114.3, motriz)",1,MÓVIL,COMPRADA,"ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",—,"clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma","—","—","—","—"
+275,"Rodamiento 608-2RS (línea 3, Y=-38.1, libre)",1,MÓVIL,COMPRADA,"ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",—,"clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma","—","—","—","—"
+276,"Rodamiento 608-2RS (línea 3, Y=-38.1, motriz)",1,MÓVIL,COMPRADA,"ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",—,"clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma","—","—","—","—"
+277,"Rodamiento 608-2RS (línea 4, Y=38.1, libre)",1,MÓVIL,COMPRADA,"ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",—,"clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma","—","—","—","—"
+278,"Rodamiento 608-2RS (línea 4, Y=38.1, motriz)",1,MÓVIL,COMPRADA,"ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",—,"clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma","—","—","—","—"
+279,"Rodamiento 608-2RS (línea 5, Y=114.3, libre)",1,MÓVIL,COMPRADA,"ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",—,"clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma","—","—","—","—"
+280,"Rodamiento 608-2RS (línea 5, Y=114.3, motriz)",1,MÓVIL,COMPRADA,"ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",—,"clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma","—","—","—","—"
+281,"Rodamiento 608-2RS (línea 6, Y=190.5, libre)",1,MÓVIL,COMPRADA,"ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",—,"clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma","—","—","—","—"
+282,"Rodamiento 608-2RS (línea 6, Y=190.5, motriz)",1,MÓVIL,COMPRADA,"ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",—,"clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma","—","—","—","—"
+283,"Rodamiento R10-2RS (Y=-144.5, exterior)",1,MÓVIL,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8"" × 1-3/8"" × 5/16"")",—,"ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma","—","—","—","—"
+284,"Rodamiento R10-2RS (Y=-144.5, interior)",1,MÓVIL,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8"" × 1-3/8"" × 5/16"")",—,"ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma","—","—","—","—"
+285,"Rodamiento R10-2RS (Y=-152.4, exterior)",1,MÓVIL,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8"" × 1-3/8"" × 5/16"")",—,"ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma","—","—","—","—"
+286,"Rodamiento R10-2RS (Y=-152.4, interior)",1,MÓVIL,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8"" × 1-3/8"" × 5/16"")",—,"ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma","—","—","—","—"
+287,"Rodamiento R10-2RS (Y=-76.2, exterior)",1,MÓVIL,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8"" × 1-3/8"" × 5/16"")",—,"ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma","—","—","—","—"
+288,"Rodamiento R10-2RS (Y=-76.2, interior)",1,MÓVIL,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8"" × 1-3/8"" × 5/16"")",—,"ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma","—","—","—","—"
+289,"Rodamiento R10-2RS (Y=144.5, exterior)",1,MÓVIL,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8"" × 1-3/8"" × 5/16"")",—,"ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma","—","—","—","—"
+290,"Rodamiento R10-2RS (Y=144.5, interior)",1,MÓVIL,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8"" × 1-3/8"" × 5/16"")",—,"ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma","—","—","—","—"
+291,"Rodamiento R10-2RS (Y=152.4, exterior)",1,MÓVIL,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8"" × 1-3/8"" × 5/16"")",—,"ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma","—","—","—","—"
+292,"Rodamiento R10-2RS (Y=152.4, interior)",1,MÓVIL,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8"" × 1-3/8"" × 5/16"")",—,"ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma","—","—","—","—"
+293,"Rodamiento R10-2RS (Y=76.2, exterior)",1,MÓVIL,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8"" × 1-3/8"" × 5/16"")",—,"ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma","—","—","—","—"
+294,"Rodamiento R10-2RS (Y=76.2, interior)",1,MÓVIL,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8"" × 1-3/8"" × 5/16"")",—,"ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma","—","—","—","—"
+295,"Rodamiento R8-2RS ABEC-1 rodillo de retorno (+Y)",1,FIJO,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R8-2RS (1/2"" × 1-1/8"" × 5/16"")",—,"ABEC-1, la clase que especifica el manual del equipo para este rodillo","—","—","—","—"
+296,"Rodamiento R8-2RS ABEC-1 rodillo de retorno (−Y)",1,FIJO,COMPRADA,"ABMA — rodamiento rígido de bolas serie R en pulgadas, R8-2RS (1/2"" × 1-1/8"" × 5/16"")",—,"ABEC-1, la clase que especifica el manual del equipo para este rodillo","—","—","—","—"
+297,"Tornillo SHCS M12 × 30 de la horquilla",4,MÓVIL,COMPRADA,"ISO 4762 (DIN 912) — tornillo de cabeza cilíndrica con hexágono interior M12",—,"clase de resistencia 12.9 (ISO 898-1)","—","—","—","pavonado"
+298,"Tuerca hex 1/4-20 soporte de válvula",2,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 1/4-20 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+299,"Tuerca hex 3/8-16 · Canal base -Y X32",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+300,"Tuerca hex 3/8-16 · Canal base -Y X95",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+301,"Tuerca hex 3/8-16 · Canal base +Y X32",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+302,"Tuerca hex 3/8-16 · Canal base +Y X95",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+303,"Tuerca hex 3/8-16 · Guarda Y-150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+304,"Tuerca hex 3/8-16 · Guarda Y-150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+305,"Tuerca hex 3/8-16 · Guarda Y150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+306,"Tuerca hex 3/8-16 · Guarda Y150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+307,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+308,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+309,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+310,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+311,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+312,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+313,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+314,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+315,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+316,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+317,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+318,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+319,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+320,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+321,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+322,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+323,"Tuerca hex 3/8-16 · Side channel -Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+324,"Tuerca hex 3/8-16 · Side channel -Y X403",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+325,"Tuerca hex 3/8-16 · Side channel -Y X60",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+326,"Tuerca hex 3/8-16 · Side channel +Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+327,"Tuerca hex 3/8-16 · Side channel +Y X403",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+328,"Tuerca hex 3/8-16 · Side channel +Y X60",1,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+329,"Tuerca hex 3/8-16 · Spacer plate libre Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+330,"Tuerca hex 3/8-16 · Spacer plate libre Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+331,"Tuerca hex 3/8-16 · Spacer plate libre Y170",1,MÓVIL,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+332,"Tuerca hex 3/8-16 · Spacer plate libre Y55",1,MÓVIL,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+333,"Tuerca hex 3/8-16 · Spacer plate motriz Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+334,"Tuerca hex 3/8-16 · Spacer plate motriz Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+335,"Tuerca hex 3/8-16 · Spacer plate motriz Y170",1,MÓVIL,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+336,"Tuerca hex 3/8-16 · Spacer plate motriz Y55",1,MÓVIL,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+337,"Tuerca hex 3/8-16 autoblocante eje polea",5,MÓVIL,COMPRADA,"ASME B18.16.6 — tuerca autoblocante con inserto de nailon 3/8-16 UNC-2B",—,"grado A (equivale a SAE J995 grado 5); temperatura máx. 120 °C por el inserto","—","—","—","zincado electrolítico ASTM F1941"
+338,"Tuerca hex 3/8-16 CONTRATUERCA tensor",1,MÓVIL,COMPRADA,"ASME B18.16.6 — tuerca autoblocante con inserto de nailon 3/8-16 UNC-2B",—,"grado A (equivale a SAE J995 grado 5); temperatura máx. 120 °C por el inserto","—","—","—","zincado electrolítico ASTM F1941"
+339,"Tuerca hex 3/8-16 de colisa",2,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+340,"Tuerca hex 3/8-16 de colisa",2,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+341,"Tuerca hex 3/8-16 inferior de jack bolt",4,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+342,"Tuerca hex 3/8-16 SOLDADA bajo la cartela",4,MÓVIL,COMPRADA,"Tuerca hexagonal para SOLDAR POR PROYECCIÓN 3/8-16 UNC-2B, piloto corto — sin norma ISO/ASME en pulgadas",—,"catálogo: Albany County Fasteners 8100-006 «Hex Weld Nuts (6 Projections & Short Pilot), Plain Steel, 3/8""-16» (equivalente métrico normalizado: DIN 929)","—","soldadura por resistencia, por PROYECCIÓN (la tuerca trae sus proyecciones) · AWS C1.1M/C1.1 — Recommended Practices for Resistance Welding","—","acero al carbono SIN recubrimiento (un zincado impide la soldadura)"
+343,"Tuerca hex 3/8-16 superior de jack bolt",4,FIJO,COMPRADA,"ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",—,"SAE J995 grado 5","—","—","—","zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+344,"CONTEXTO · Banda angosta del clasificador 1""×2.5",5,MÓVIL,CONTEXTO (no se fabrica),"069.722xx FLEXPROOF ENDLESS BELT 1 in. WIDE",—,"—","—","—","—","—"
+345,"CONTEXTO · Regleta de desgaste UHMW 1-1/4""×3/8""",5,MÓVIL,CONTEXTO (no se fabrica),"UHMW-PE 1000",—,"—","—","—","—","—"

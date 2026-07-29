@@ -17,6 +17,8 @@ import {
   rectR, colisa, arcoPts, pernoHex, tuercaHex, golilla, COL, PASO, r2,
 } from './lib.mjs';
 import { P } from './params.mjs';
+// Esquema de tolerancias y encajes (archivo nuevo; no toca params.mjs ni lib.mjs).
+import { ranuraPara, largoRanura, encaje, juntaATope, NORMA, tol13920 } from './tolerancias.mjs';
 
 // ---------------------------------------------------------------------------
 // Cotas locales de ESTE módulo (nadie más las usa)
@@ -152,7 +154,11 @@ const L = {
   baseX0: 26, baseX1: 102.2,                  // dis: canal base de 3" de ancho, corrido al
                                               //      extremo motriz para dejar libre la
                                               //      huella de la mesa guía (X 146.5…316.5)
-  baseTapaX: [22, 105], baseTornX: [32, 95],  // dis: tapas de extremo y su tornillería
+  baseTapaX: [20, 108], baseTornX: [32, 95],  // dis: tapas de extremo y su tornillería.
+                                              //   Antes 22…105: se ensancha 2 mm por lado para
+                                              //   que las ranuras del encaje U4 queden a ≥1.5·e
+                                              //   (4.0 mm) del canto de la chapa de 12 GA; con
+                                              //   105 la ranura de la derecha quedaba a 3.78.
   baseZ1: 56.1,                               // dis: P.baseZ + 1-1/2"
   jackX: [115.75, 347.25],                    // dis: 1/4 y 3/4 del largo (4 jack bolts)
   transX: 127, transZ: [232, 264],            // interfaz transmision.mjs: pernos 3/8-16
@@ -166,9 +172,74 @@ const L = {
   jackY0: 232, jackY1: 262,                   // dis: la oreja abraza P.jackY = 247.4
 };
 
+// ---------------------------------------------------------------------------
+// ENCAJES DE POSICIONAMIENTO de los conjuntos soldados de este módulo
+// ---------------------------------------------------------------------------
+// Qué problema resuelven: los conjuntos soldados se apoyaban «donde toca» según
+// la cota, así que cada uno pedía un utillaje propio o un soldador midiendo. Con
+// estos rasgos el conjunto se sitúa solo y el utillaje pasa a ser una mesa plana.
+//
+// REGLA (la verifica la compuerta, §9 de gen_nbt90.mjs): en cada junta, cada
+// grado de libertad lo fija UN SOLO rasgo. Por eso hay dos papeles distintos:
+//   · `posicion` — ranura ajustada: sitúa. Como mucho una por junta y dirección.
+//   · `paso`     — ranura 1 mm más grande por lado en LAS DOS direcciones: no
+//                  sitúa nada. Sujeta mientras se puntea y deja ventana de
+//                  soldadura. Que sea holgada es lo que impide que el conjunto
+//                  no entre por competir con la de posición.
+//   · `tope`     — cara contra cara: fija la dirección normal a esa cara.
+//
+// La holgura no se elige: sale de `ranuraPara()` (espesor nominal + tolerancia
+// de laminación ASTM/AISI + tolerancia de corte ISO 2768-m + montaje).
+const RAN12 = ranuraPara('12GA');           // 3.11 · holgura por lado 0.10…0.35
+
+const ENC = {
+  // -- U1: TRANSFER CROSS CHANNEL → PLACA PEINE ----------------------------
+  // La lengüeta NO puede ir en el alma del canal: el alma está en |Y| = 214 y el
+  // canto de la placa peine en 216, o sea 0.67 mm de distancia al borde — una
+  // ranura ahí revienta el canto. Va en el ALA SUPERIOR, que a |Y| = 195 tiene
+  // 11.2 mm hasta el hueco de paso de banda (acaba en 173.4) y 10.6 hasta el
+  // canto (216); las dos por encima de 1.5·e = 7.1 mm de la chapa de 3/16".
+  // Una sola por extremo, y de posición: sitúa Y y Z. La testa del canal contra
+  // la cara interior de la placa fija X. Θ lo fijan las dos lengüetas del canal,
+  // separadas 378 mm.
+  u1: { y: 195, ancho: 20, get z() { return r2(L.cruzZ1 - T12 / 2); } },
+  // -- U2: NOTCHED BRACE CHANNEL → SPACER PLATE ----------------------------
+  // Lengüeta de posición en el ALMA (horizontal, Z = 144.83): sitúa Z y Y con
+  // 47 mm de canto por debajo y 30 por arriba en la spacer plate. La segunda,
+  // en el ala interior, es DE PASO: ventana de soldadura, no sitúa.
+  u2: { y: 100, ancho: 24, get z() { return r2(L.braceZ0 + T12 / 2); },
+    pasoZ: [148, 166], get pasoY() { return r2(L.braceY - L.braceSemi + T12 / 2); } },
+  // -- U3: CROSS ANGLE → NOTCHED BRACE CHANNEL -----------------------------
+  // Solape cara contra cara (el ala vertical de la cartela sobre la cara interior
+  // del ala del canal). En un solape de chapas PARALELAS no cabe lengüeta: el
+  // rasgo que sitúa son dos AGUJEROS DE PASADOR coincidentes, uno redondo y otro
+  // en colisa (el clásico redondo + colisa, que sitúa sin sobre-restringir).
+  // Tras puntear se retiran los pasadores y los agujeros quedan como soldadura
+  // de tapón.
+  u3: { x: [130, 240], z: 168, dia: 8.0, colisa: 12.0 },
+  // -- U4: TAPA DE EXTREMO → CANAL BASE EN U -------------------------------
+  // Lengüetas en las DOS alas verticales del canal. La tapa se ensancha de
+  // X 22…105 a 20…108 porque con la anterior la ranura izquierda quedaba a
+  // 3.78 mm del canto y hacen falta 1.5·e = 4.0 en chapa de 12 GA.
+  u4: { zPos: [30, 48], zPaso: [29, 49] },
+};
+
+// Largos de ranura derivados (la holgura sale de la cadena, no de una elección)
+const u1Largo = largoRanura(ENC.u1.ancho, 'posicion').largo;          // 20.8
+const u2Largo = largoRanura(ENC.u2.ancho, 'posicion').largo;          // 24.8
+const u2PasoAlto = r2(ENC.u2.pasoZ[1] - ENC.u2.pasoZ[0]);             // 18
+const u2PasoLargo = largoRanura(u2PasoAlto, 'paso').largo;            // 20
+
 const n3 = (v) => { const l = Math.hypot(...v) || 1; return [v[0] / l, v[1] / l, v[2] / l]; };
 const mul = (a, s) => [a[0] * s, a[1] * s, a[2] * s];
 const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+
+/** Contorno rectangular de una ranura de encaje, en el plano del boceto.
+ *  Esquinas VIVAS a propósito: el radio interior que deja un corte por láser
+ *  (≤0.3 mm) es menor que la holgura de esquina del encaje, así que redondear
+ *  el modelo mentiría sobre el ajuste. */
+const ranuraRect = (u, v, du, dv) =>
+  rectR(r2(u - du / 2), r2(v - dv / 2), r2(u + du / 2), r2(v + dv / 2), 0);
 
 /** Interfaces que consumen los otros módulos (nunca duplican un valor de P). */
 export const padMovilZ = L.braceZ0;      // = P.rielInfZ (143.5): cara inferior del alma de
@@ -397,19 +468,65 @@ export function bastidor(E) {
       [L.baseX0 + T12 / 2, L.baseZ1 - T12 / 2], [L.baseX0 + T12 / 2, P.baseZ + T12 / 2],
       [L.baseX1 - T12 / 2, P.baseZ + T12 / 2], [L.baseX1 - T12 / 2, L.baseZ1 - T12 / 2],
     ];
+    const yv = r2(L.ladoY - T12 / 2 - T12 / 2);          // fibra media del alma de la tapa
+    const xAlaIzq = r2(L.baseX0 + T12 / 2), xAlaDer = r2(L.baseX1 - T12 / 2);   // 27.33 / 100.87
+    const u4Pos = largoRanura(18, 'posicion');
+    const u4Paso = largoRanura(20, 'paso');
+    const zU4 = r2((ENC.u4.zPos[0] + ENC.u4.zPos[1]) / 2);                       // 39
+    // ENCAJE U4 — lengüetas del canal base que atraviesan las tapas de extremo
+    const fBase = [sketchXZ('Canal U 3"×1-1/2" 12 GA', yTapa, seccionChapa(fib, T12, RB), r2(2 * yTapa))];
+    for (const s of [1, -1]) {
+      fBase.push(box(`Lengüeta de posición ${T12}×18 (ala −X, ${s > 0 ? '+Y' : '−Y'})`,
+        [xAlaIzq, s * r2(yTapa + T12 / 2), ENC.u4.zPos[0]], T12, T12, 18));
+      fBase.push(box(`Lengüeta de paso ${T12}×20 (ala +X, ${s > 0 ? '+Y' : '−Y'})`,
+        [xAlaDer, s * r2(yTapa + T12 / 2), ENC.u4.zPaso[0]], T12, T12, 20));
+    }
     E.addPart(`${FIJO}Canal base en U 76×38 12 GA × ${r2(2 * yTapa)}`, COL.fijo,
-      [0, yTapa, P.baseZ], [sketchXZ('Canal U 3"×1-1/2" 12 GA', yTapa, seccionChapa(fib, T12, RB), r2(2 * yTapa))],
-      { ...chapa(T12, fib), catalogo: 'WA-025817 · BASE CHANNEL WELDMENT', union: 'soldada a las tapas' });
+      [0, yTapa, P.baseZ], fBase,
+      { ...chapa(T12, fib), catalogo: 'WA-025817 · BASE CHANNEL WELDMENT', union: 'soldada a las tapas',
+        encajes: [1, -1].flatMap((s) => [
+          encaje({ id: `U4-${s > 0 ? '+Y' : '-Y'}-pos`, union: 'Canal base ↔ Tapa de extremo',
+            tipo: 'lengueta', rol: 'posicion', lado: 'lengueta', gdl: ['X', 'Z'],
+            lengueta: { calibre: '12GA', t: T12, ancho: 18, sale: T12 },
+            ranura: { ancho: RAN12.ancho, largo: u4Pos.largo },
+            nota: `ala −X del canal (X=${xAlaIzq}); sitúa la tapa en X y en Z. ${RAN12.cadena}` }),
+          encaje({ id: `U4-${s > 0 ? '+Y' : '-Y'}-paso`, union: 'Canal base ↔ Tapa de extremo',
+            tipo: 'lengueta', rol: 'paso', lado: 'lengueta', gdl: [],
+            lengueta: { calibre: '12GA', t: T12, ancho: 20, sale: T12 },
+            ranura: { ancho: r2(RAN12.ancho + 2), largo: u4Paso.largo },
+            nota: 'ala +X: ranura 1 mm más grande por lado en las DOS direcciones — no sitúa, '
+              + 'sujeta mientras se puntea y deja ventana de soldadura' }),
+        ]) });
     M.chapas++; desa('canal_base', fib, T12);
 
     for (const s of [1, -1]) {
-      const yv = r2(L.ladoY - T12 / 2 - T12 / 2);        // fibra media del alma de la tapa
       const fibT = [[s * yv, P.baseZ], [s * yv, 83.57], [s * 200, 83.57]];
       const largoTapa = r2(L.baseTapaX[1] - L.baseTapaX[0]);
       const f = [sketchYZ('Tapa en L', L.baseTapaX[0], seccionChapa(fibT, T12, RB), largoTapa)];
       for (const x of L.baseTornX) f.push(hole(`Unión side channel Ø${PAS38}`, [x, s * 210, 80], [0, 0, 1], PAS38, 10, false));
+      // ENCAJE U4 — ranuras que reciben las lengüetas del canal base
+      // `sketchXZ` corta de yFace−0.5 a yFace+h (normal −Y): se encuadra el alma
+      // de la tapa (|Y| 223.25…225.91) con 0.75 mm de sobra por cada cara.
+      const yCorte = s > 0 ? r2(yv - T12 / 2 - 0.75) : r2(-(yv + T12 / 2) - 1.75);
+      f.push(sketchXZ(`Ranura de posición ${RAN12.ancho}×${u4Pos.largo} (ala −X)`,
+        yCorte, ranuraRect(xAlaIzq, zU4, RAN12.ancho, u4Pos.largo), 5, 'cut'));
+      f.push(sketchXZ(`Ranura de paso ${r2(RAN12.ancho + 2)}×${u4Paso.largo} (ala +X)`,
+        yCorte, ranuraRect(xAlaDer, zU4, r2(RAN12.ancho + 2), u4Paso.largo), 5, 'cut'));
       E.addPart(`${FIJO}Tapa extremo canal base 12 GA ${largoTapa}×67 (${s > 0 ? '+Y' : '-Y'})`, COL.fijo,
-        [L.baseTapaX[0], s * yv, P.baseZ], f, { ...chapa(T12, fibT), union: 'soldada al canal base' });
+        [L.baseTapaX[0], s * yv, P.baseZ], f, { ...chapa(T12, fibT), union: 'soldada al canal base',
+          encajes: [
+            encaje({ id: `U4-${s > 0 ? '+Y' : '-Y'}-pos`, union: 'Canal base ↔ Tapa de extremo',
+              tipo: 'ranura', rol: 'posicion', lado: 'ranura', gdl: ['X', 'Z'],
+              lengueta: { calibre: '12GA', t: T12, ancho: 18, sale: T12 },
+              ranura: { ancho: RAN12.ancho, largo: u4Pos.largo },
+              nota: `holgura por lado ${RAN12.holguraPorLado.join('…')} mm en X y `
+                + `${u4Pos.holguraPorLado.join('…')} en Z` }),
+            encaje({ id: `U4-${s > 0 ? '+Y' : '-Y'}-paso`, union: 'Canal base ↔ Tapa de extremo',
+              tipo: 'ranura', rol: 'paso', lado: 'ranura', gdl: [],
+              lengueta: { calibre: '12GA', t: T12, ancho: 20, sale: T12 },
+              ranura: { ancho: r2(RAN12.ancho + 2), largo: u4Paso.largo },
+              nota: 'no sitúa: ≈1 mm de holgura por lado en las dos direcciones' }),
+          ] });
       M.chapas++;
       for (const x of L.baseTornX) {
         tornilleria(E, {
@@ -503,6 +620,13 @@ export function bastidor(E) {
         f.push(hole(`Guarda Ø${PAS38}`, [xc - T316, y, z], [1, 0, 0], PAS38, T316 + 4, false));
       }
     }
+    // ENCAJE U1 — ranuras que reciben la lengüeta del ala superior de cada
+    // TRANSFER CROSS CHANNEL. `sketchYZ` corta de xFace−h a xFace+0.5, así que
+    // se ancla en la cara +X de la placa y se le da h = espesor + 2.
+    for (const s of [1, -1]) {
+      f.push(sketchYZ(`Ranura de posición ${u1Largo}×${RAN12.ancho} (cross channel ${s > 0 ? '+Y' : '−Y'})`,
+        r2(xc + T316 / 2), ranuraRect(s * ENC.u1.y, ENC.u1.z, u1Largo, RAN12.ancho), r2(T316 + 2), 'cut'));
+    }
     if (!motriz) {                        // paso de la cola del motorreductor
       f.push(hole(`Paso del motorreductor Ø${L.motorPaso}`, [xc - T316, 0, P.motrizZ],
         [1, 0, 0], L.motorPaso, T316 + 6, false));
@@ -511,6 +635,18 @@ export function bastidor(E) {
       COL.movil, [r2(xc - T316 / 2), 0, L.peineZ0], f, {
         chapa: { t: r2(T316), material: 'acero A36 laminado en caliente 3/16"', fibra: [], radio: 0 },
         catalogo: 'WA-025802 · ROLLER FRAME WELDMENT (SPECIFY BR)', corte: 'láser / plasma, contorno único',
+        weldment: 'WA-025802',
+        encajes: [1, -1].map((s) => encaje({
+          id: `U1-${motriz ? 'motriz' : 'libre'}-${s > 0 ? '+Y' : '-Y'}`,
+          union: 'Transfer cross channel ↔ Placa peine',
+          tipo: 'ranura', rol: 'posicion', lado: 'ranura', gdl: ['Y', 'Z'],
+          lengueta: { calibre: '12GA', t: T12, ancho: ENC.u1.ancho, sale: T316 },
+          ranura: { ancho: RAN12.ancho, largo: u1Largo },
+          nota: `en el ala superior del canal (Z=${ENC.u1.z}), a |Y|=${ENC.u1.y}: 11.2 mm al hueco `
+            + `de paso de banda y 10.6 al canto de la placa, los dos por encima de 1.5·e = 7.1 mm. `
+            + `Holgura por lado ${RAN12.holguraPorLado.join('…')} mm en Z y `
+            + `${largoRanura(ENC.u1.ancho, 'posicion').holguraPorLado.join('…')} en Y`,
+        })),
       });
     M.chapas++;
   }
@@ -535,9 +671,32 @@ export function bastidor(E) {
       r2(L.serpMuescaX[1] - L.serpMuescaX[0]), r2(L.serpMuescaY[1] - L.serpMuescaY[0]),
       r2(L.cruzZ1 - L.cruzZ0 + 8), 'cut'));
     for (const x of [118, 133]) f.push(hole(`Guarda serpentín Ø${PAS38}`, [x, s * 175, L.cruzZ0 - 2], [0, 0, 1], PAS38, 8, false));
+    // ENCAJE U1 — una lengüeta de posición por extremo, en el ALA SUPERIOR.
+    // Sale hasta la cara EXTERIOR de la placa peine (largo = espesor de la placa)
+    // y no la sobrepasa: por fuera está la guarda del rodillo.
+    for (const [j, xTab] of [r2(xCruz0 - T316 / 2), r2(xCruz1 + T316 / 2)].entries()) {
+      f.push(box(`Lengüeta de posición ${ENC.u1.ancho}×${T12} (extremo ${j ? 'libre' : 'motriz'})`,
+        [xTab, s * ENC.u1.y, r2(ENC.u1.z - T12 / 2)], T316, ENC.u1.ancho, T12));
+    }
     E.addPart(`${MOVIL}Transfer cross channel 2"×1-1/2" 12 GA × ${r2(xCruz1 - xCruz0)} (${s > 0 ? '+Y' : '-Y'})`,
       COL.movil, [xCruz0, s * L.cruzY, L.cruzZ0], f,
-      { ...chapa(T12, fib), catalogo: 'PT-086818 · TRANSFER CROSS CHANNEL', union: 'soldada a las placas peine' });
+      { ...chapa(T12, fib), catalogo: 'PT-086818 · TRANSFER CROSS CHANNEL', union: 'soldada a las placas peine',
+        encajes: ['motriz', 'libre'].map((ext) => encaje({
+          id: `U1-${ext}-${s > 0 ? '+Y' : '-Y'}`, union: 'Transfer cross channel ↔ Placa peine',
+          tipo: 'lengueta', rol: 'posicion', lado: 'lengueta', gdl: ['Y', 'Z'],
+          lengueta: { calibre: '12GA', t: T12, ancho: ENC.u1.ancho, sale: T316 },
+          ranura: { ancho: RAN12.ancho, largo: u1Largo },
+          nota: 'una sola lengüeta por extremo: dos (ala superior + ala inferior) fijarían Z dos '
+            + 'veces en la misma estación y el conjunto no entraría. X lo fija la TESTA del canal '
+            + 'contra la cara interior de la placa; θ, las dos lengüetas separadas 378 mm.',
+        })).concat([
+          juntaATope({ id: `U1-tope-${s > 0 ? '+Y' : '-Y'}`, union: 'Transfer cross channel ↔ Placa peine',
+            motivo: 'la testa cortada del canal apoya plana contra la cara INTERIOR de la placa peine',
+            posicionamiento: 'extremo MOTRIZ = referencia (a tope); en el extremo libre la holgura de '
+              + `ajuste (hasta ${tol13920(r2(xCruz1 - xCruz0), 'B')} mm por ISO 13920-B sobre `
+              + `${r2(xCruz1 - xCruz0)} mm) la absorbe el cordón`,
+            referencia: 'cara interior de la placa peine del lado motriz (X = 42.48)' }),
+        ]) });
     M.chapas++;
     if (s > 0) desa('cross_channel', fib, T12);
   }
@@ -547,7 +706,14 @@ export function bastidor(E) {
   //    pasar el serpentín (plano X = P.planoSerp). Su cara inferior (Z = P.rielInfZ)
   //    es el riel contra el que empuja el plato de la mesa guía neumática.
   // =========================================================================
-  const xBr0 = r2(L.espX[0] + T316), xBr1 = r2(L.espX[1] - T316);
+  // X del canal: de cara a cara de las dos SPACER PLATE. La motriz se extruye
+  // desde `espX[0]` hacia +X (ocupa 42.48…47.24) y la libre desde `espX[1]`
+  // hacia +X (415.76…420.52), así que el canal va de 47.24 a 415.76.
+  // Estaba `espX[1] − T316` = 411.0: el canal se quedaba a 4.76 mm de la spacer
+  // plate libre, o sea que la unión que el propio nombre declara soldada NO
+  // TOCABA. Corregido; el tramo ganado está libre (el ventilador del SEW llega a
+  // |Y| = 65 y este canal empieza en |Y| = 80).
+  const xBr0 = r2(L.espX[0] + T316), xBr1 = L.espX[1];
   for (const s of [1, -1]) {
     const yi = s * (L.braceY - L.braceSemi), yo = s * (L.braceY + L.braceSemi);
     const fib = [
@@ -570,9 +736,48 @@ export function bastidor(E) {
     for (const x of [L.muescaX0, L.muescaX1]) for (const yy of [yi, yo]) {
       f.push(hole(`Desahogo Ø${r2(2 * T12)}`, [x, yy - s * 8, L.muescaZ1 - 3], [0, s, 0], r2(2 * T12), 16, false));
     }
+    // ENCAJE U3 — agujeros de pasador / soldadura de tapón que reciben la cartela
+    // (CROSS ANGLE). Aquí van los DOS redondos; la cartela lleva uno redondo y el
+    // otro en colisa, que es lo que sitúa sin sobre-restringir.
+    for (const x of ENC.u3.x) {
+      f.push(hole(`Pasador de montaje / tapón Ø${ENC.u3.dia} (cartela, X=${x})`,
+        [x, s * (L.braceY - L.braceSemi - 4), ENC.u3.z], [0, s, 0], ENC.u3.dia, 12, false));
+    }
+    // ENCAJE U2 — lengüetas en las dos SPACER PLATE
+    for (const [j, xTab] of [r2(xBr0 - T316 / 2), r2(xBr1 + T316 / 2)].entries()) {
+      f.push(box(`Lengüeta de posición ${ENC.u2.ancho}×${T12} en el alma (extremo ${j ? 'libre' : 'motriz'})`,
+        [xTab, s * ENC.u2.y, r2(ENC.u2.z - T12 / 2)], T316, ENC.u2.ancho, T12));
+      f.push(box(`Lengüeta de paso ${u2PasoAlto}×${T12} en el ala interior (extremo ${j ? 'libre' : 'motriz'})`,
+        [xTab, s * ENC.u2.pasoY, ENC.u2.pasoZ[0]], T316, T12, u2PasoAlto));
+    }
     E.addPart(`${MOVIL}Notched brace channel 1-3/4"×40 12 GA × ${r2(xBr1 - xBr0)} (${s > 0 ? '+Y' : '-Y'})`,
       COL.movil, [xBr0, s * L.braceY, L.braceZ0], f,
-      { ...chapa(T12, fib), catalogo: 'NOTCHED BRACE CHANNEL WELDMENT', union: 'soldada a las spacer plate' });
+      { ...chapa(T12, fib), catalogo: 'NOTCHED BRACE CHANNEL WELDMENT', union: 'soldada a las spacer plate',
+        encajes: ['motriz', 'libre'].flatMap((ext) => [
+          encaje({ id: `U2-${ext}-${s > 0 ? '+Y' : '-Y'}-pos`, union: 'Notched brace channel ↔ Spacer plate',
+            tipo: 'lengueta', rol: 'posicion', lado: 'lengueta', gdl: ['Y', 'Z'],
+            lengueta: { calibre: '12GA', t: T12, ancho: ENC.u2.ancho, sale: T316 },
+            ranura: { ancho: RAN12.ancho, largo: u2Largo },
+            nota: `en el ALMA (Z=${ENC.u2.z}), a |Y|=${ENC.u2.y}: 47 mm al canto inferior de la `
+              + 'spacer plate y 30 al superior' }),
+          encaje({ id: `U2-${ext}-${s > 0 ? '+Y' : '-Y'}-paso`, union: 'Notched brace channel ↔ Spacer plate',
+            tipo: 'lengueta', rol: 'paso', lado: 'lengueta', gdl: [],
+            lengueta: { calibre: '12GA', t: T12, ancho: u2PasoAlto, sale: T316 },
+            ranura: { ancho: r2(RAN12.ancho + 2), largo: u2PasoLargo },
+            nota: 'en el ala interior; holgada en las dos direcciones para no competir con la de '
+              + 'posición. Sujeta el canal mientras se puntea.' }),
+        ]).concat([
+          encaje({ id: `U3-${s > 0 ? '+Y' : '-Y'}-a`, union: 'Cross angle ↔ Notched brace channel',
+            tipo: 'pasador', rol: 'posicion', lado: 'pasador', gdl: ['X', 'Z'],
+            lengueta: { dia: ENC.u3.dia }, ranura: { dia: ENC.u3.dia },
+            nota: `redondo Ø${ENC.u3.dia} H8 en X=${ENC.u3.x[0]}, Z=${ENC.u3.z}` }),
+          encaje({ id: `U3-${s > 0 ? '+Y' : '-Y'}-b`, union: 'Cross angle ↔ Notched brace channel',
+            tipo: 'pasador', rol: 'paso', lado: 'pasador', gdl: [],
+            lengueta: { dia: ENC.u3.dia }, ranura: { dia: ENC.u3.dia, colisa: ENC.u3.colisa },
+            nota: `redondo Ø${ENC.u3.dia} en el canal contra COLISA ${ENC.u3.dia}×${ENC.u3.colisa} en `
+              + 'la cartela: absorbe la tolerancia de distancia entre los dos taladros y sólo deja '
+              + 'fijado el giro' }),
+        ]) });
     M.chapas++;
     if (s > 0) desa('brace_channel', fib, T12);
   }
@@ -594,10 +799,40 @@ export function bastidor(E) {
     fAng.push(box('Relieve de las tuercas de la placa de transmisión',
       [r2((L.angTorn[0][0] + L.angTorn[1][0]) / 2), s * r2(L.angY[0] + 2), 173],
       r2(L.angTorn[1][0] - L.angTorn[0][0] + 22), 10, r2(L.braceZ1 - T12 - 173), 'cut'));
+    // ENCAJE U3 — REDONDO + COLISA. La cartela se solapa cara contra cara con el
+    // ala del canal: en chapas PARALELAS no cabe lengüeta, así que lo que sitúa
+    // son dos agujeros de pasador de montaje. El segundo va en colisa porque dos
+    // redondos sobre dos redondos exigirían que la distancia entre taladros
+    // coincidiera en las dos piezas dentro de la holgura del pasador; con la
+    // colisa, la tolerancia de esa distancia (±0.5 por ISO 2768-m sobre 110 mm)
+    // deja de ser un problema y el conjunto sigue sin poder girar.
+    // Cortan de yFace−0.5 a yFace+h (normal −Y de `sketchXZ`).
+    const yCortAng = s > 0 ? r2(L.angY[0] - T12 / 2 - 1) : r2(-(L.angY[0] + T12 / 2) - 2);
+    fAng.push(hole(`Pasador de montaje / tapón Ø${ENC.u3.dia} H8 (X=${ENC.u3.x[0]})`,
+      [ENC.u3.x[0], s * (L.angY[0] - 6), ENC.u3.z], [0, s, 0], ENC.u3.dia, 12, false));
+    fAng.push(sketchXZ(`Colisa de montaje / tapón ${ENC.u3.dia}×${ENC.u3.colisa} (X=${ENC.u3.x[1]})`,
+      yCortAng, colisa(ENC.u3.x[1], ENC.u3.z, ENC.u3.colisa, ENC.u3.dia, false), 6, 'cut'));
     E.addPart(`${MOVIL}Cross angle 1-3/4"×1" 12 GA × ${angLargo} (cartela de la muesca ${s > 0 ? '+Y' : '-Y'})`,
       COL.movil, [L.angX0, s * L.angY[0], L.angZ0], fAng,
       { ...chapa(T12, fib), catalogo: 'PT-086833 · CROSS ANGLE - 8-1/2 in. LONG',
-        union: 'soldada al ala interior del brace channel; puentea la muesca' });
+        union: 'soldada al ala interior del brace channel; puentea la muesca',
+        encajes: [
+          encaje({ id: `U3-${s > 0 ? '+Y' : '-Y'}-a`, union: 'Cross angle ↔ Notched brace channel',
+            tipo: 'pasador', rol: 'posicion', lado: 'agujero', gdl: ['X', 'Z'],
+            lengueta: { dia: ENC.u3.dia }, ranura: { dia: ENC.u3.dia },
+            nota: `Ø${ENC.u3.dia} H8 con pasador Ø${ENC.u3.dia} h8; tras puntear se retira y el `
+              + 'agujero queda como soldadura de tapón' }),
+          encaje({ id: `U3-${s > 0 ? '+Y' : '-Y'}-b`, union: 'Cross angle ↔ Notched brace channel',
+            tipo: 'pasador', rol: 'paso', lado: 'agujero', gdl: [],
+            lengueta: { dia: ENC.u3.dia }, ranura: { dia: ENC.u3.dia, colisa: ENC.u3.colisa },
+            nota: `colisa ${ENC.u3.dia}×${ENC.u3.colisa} orientada en X, que es la dirección en la `
+              + 'que se acumula la tolerancia de distancia entre los dos taladros' }),
+          juntaATope({ id: `U3-solape-${s > 0 ? '+Y' : '-Y'}`, union: 'Cross angle ↔ Notched brace channel',
+            motivo: 'solape de chapas paralelas: la cara del ala vertical de la cartela apoya en la '
+              + 'cara interior del ala del canal, y esa cara fija Y',
+            posicionamiento: 'apoyo plano + los dos pasadores de montaje',
+            referencia: 'cara interior del ala del notched brace channel (|Y| = 82.66)' }),
+        ] });
     M.chapas++;
     if (s > 0) desa('cross_angle', fib, T12);
     // tuercas soldadas bajo el ala: el perno de transmision.mjs entra desde arriba
@@ -622,10 +857,34 @@ export function bastidor(E) {
     ];
     for (const y of L.espTornY) f.push(hole(`Unión peine Ø${PAS38}`, [x0 - 2, y, L.espTornZ], [1, 0, 0], PAS38, T316 + 4, false));
     if (i) f.push(hole(`Paso del motorreductor Ø${L.motorPaso}`, [x0 - 2, 0, P.motrizZ], [1, 0, 0], L.motorPaso, T316 + 6, false));
+    // ENCAJE U2 — ranuras que reciben las lengüetas de los 2 NOTCHED BRACE CHANNEL
+    const zU2Paso = r2((ENC.u2.pasoZ[0] + ENC.u2.pasoZ[1]) / 2);
+    for (const s of [1, -1]) {
+      f.push(sketchYZ(`Ranura de posición ${u2Largo}×${RAN12.ancho} (brace channel ${s > 0 ? '+Y' : '−Y'}, alma)`,
+        r2(x0 + T316), ranuraRect(s * ENC.u2.y, ENC.u2.z, u2Largo, RAN12.ancho), r2(T316 + 2), 'cut'));
+      f.push(sketchYZ(`Ranura de paso ${r2(RAN12.ancho + 2)}×${u2PasoLargo} (brace channel ${s > 0 ? '+Y' : '−Y'}, ala)`,
+        r2(x0 + T316), ranuraRect(s * ENC.u2.pasoY, zU2Paso, r2(RAN12.ancho + 2), u2PasoLargo), r2(T316 + 2), 'cut'));
+    }
     E.addPart(`${MOVIL}Spacer plate 3/16" ${2 * L.peineYbajo}×${r2(L.espZ1 - L.espZ0)} (lado ${i ? 'libre' : 'motriz'})`,
       COL.movil, [x0, 0, L.espZ0], f, {
         chapa: { t: r2(T316), material: 'acero A36 3/16"', fibra: [], radio: 0 },
         catalogo: 'PT-086781 · SPACER PLATE (SPECIFY BR), RLR SUPT',
+        union: 'atornillada a la placa peine; recibe soldados los 2 notched brace channel',
+        encajes: [1, -1].flatMap((s) => [
+          encaje({ id: `U2-${i ? 'libre' : 'motriz'}-${s > 0 ? '+Y' : '-Y'}-pos`,
+            union: 'Notched brace channel ↔ Spacer plate',
+            tipo: 'ranura', rol: 'posicion', lado: 'ranura', gdl: ['Y', 'Z'],
+            lengueta: { calibre: '12GA', t: T12, ancho: ENC.u2.ancho, sale: T316 },
+            ranura: { ancho: RAN12.ancho, largo: u2Largo },
+            nota: `holgura por lado ${RAN12.holguraPorLado.join('…')} mm en Z y `
+              + `${largoRanura(ENC.u2.ancho, 'posicion').holguraPorLado.join('…')} en Y` }),
+          encaje({ id: `U2-${i ? 'libre' : 'motriz'}-${s > 0 ? '+Y' : '-Y'}-paso`,
+            union: 'Notched brace channel ↔ Spacer plate',
+            tipo: 'ranura', rol: 'paso', lado: 'ranura', gdl: [],
+            lengueta: { calibre: '12GA', t: T12, ancho: u2PasoAlto, sale: T316 },
+            ranura: { ancho: r2(RAN12.ancho + 2), largo: u2PasoLargo },
+            nota: 'no sitúa: ≈1 mm de holgura por lado en las dos direcciones' }),
+        ]),
       });
     M.chapas++;
     for (const y of L.espTornY) {

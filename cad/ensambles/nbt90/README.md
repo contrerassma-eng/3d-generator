@@ -19,10 +19,13 @@ se fijó la escala y por qué se corrigió: **[ESCALA.md](ESCALA.md)**.
 | `rodillos.mjs` | los 6 rodillos vulcanizados (goma negra sólo en el tramo de carga) con eje de hilo interior + perno por fuera, rodamientos, el rodillo de retorno B-20760 Ø1.9" y las bandas del anfitrión (contexto) |
 | `transmision.mjs` | serpentín de banda plana, poleas locas, tensor, rueda motriz y motorreductor |
 | `elevacion.mjs` | cilindro compacto con guías SMC MGPM80-10Z, canal de montaje, jack bolts, horquilla de empuje, válvula y tubería |
+| `tolerancias.mjs` | **esquema de tolerancias, ajustes y encajes**: las clases generales con sus tablas de norma, la tabla de ajustes ISO 286 con su criterio, la cadena de cotas de la holgura lengüeta↔ranura y el cordón de soldadura |
+| `normalizado.mjs` | **designación de los componentes comprados**: cada perno, tuerca, golilla, anillo, rodamiento, racor o buje con su norma o su referencia de catálogo, en un solo sitio |
 | `gen_nbt90.mjs` | integrador + **compuerta de verificación**; emite `narrow_belt_transfer_90.json` |
 | `_check.mjs` | banco de pruebas de un módulo suelto (construye la malla real de cada pieza) |
 | `export_glb.mjs` | exporta el ensamble a GLB (una malla y un material por pieza) |
 | `CONTRATO.md` | ejes, firma de los módulos, nombres, colores y reglas del gate |
+| `REVISION_ESTRUCTURAL.md` | revisión de **resistencia y dinámica** ordenada por gravedad: qué no cumple, qué cumple justo y qué no se puede saber. Sus 21 comprobaciones viven en `gen_nbt90.mjs` §9 |
 | `analisis/` | el levantamiento: mediciones por píxeles de cada vista, lectura del despiece y hechos de catálogo con procedencia |
 
 ## Cómo se usa
@@ -120,6 +123,52 @@ procedurales viven en `../estudio.mjs` (compartido con `ver.html`).
 - Toda chapa tiene espesor de calibre, radio de plegado ≥ espesor y su
   **desarrollo** calculado con la misma fibra media con que se construyó.
 - El actuador se dimensiona contra la masa que sube, con factor de seguridad.
+
+## Fabricación: encajes, tolerancias y componentes
+
+Tres cosas que hacen la diferencia entre un modelo y algo que un taller puede
+cortar, situar y comprar sin interpretar el plano a ojo. Las tres se verifican
+en el §10 de la compuerta.
+
+### Encajes de posicionamiento
+
+Los conjuntos soldados llevan rasgos que los sitúan solos: **lengüeta y ranura**,
+**agujeros de pasador** (redondo + colisa) y **topes de testa**. Cada rasgo declara
+qué grados de libertad fija, y la compuerta exige que **ninguno esté fijado dos
+veces en la misma junta** — una lengüeta ajustada en las dos direcciones y además
+redundante con otra es un conjunto que no entra.
+
+| Junta | Encaje | Qué fija |
+|---|---|---|
+| Transfer cross channel ↔ Placa peine | 1 lengüeta de posición por extremo, en el **ala superior** (el alma queda a 0.67 mm del canto: ahí no cabe ranura) + testa a tope | Y, Z (lengüeta) · X (testa) |
+| Notched brace channel ↔ Spacer plate | 1 lengüeta de posición en el alma + 1 **de paso** en el ala interior | Y, Z · la de paso NO sitúa |
+| Cross angle ↔ Notched brace channel | 2 agujeros Ø8: uno **redondo** y otro en **colisa** (chapas paralelas: no cabe lengüeta) | X, Z · la colisa absorbe la tolerancia entre taladros |
+| Canal base ↔ Tapas de extremo | 1 lengüeta de posición + 1 de paso, en las dos alas del canal | X, Z |
+| Pestaña de apoyo ↔ Placa soporte de transmisión | lengüeta **pasante** por una muesca abierta hacia abajo | Y, Z |
+| Canal de montaje del cilindro ↔ Placa colgante | **a tope, sin encaje** — y se declara por qué y con qué utillaje se posiciona | — |
+
+La holgura no se elige, se calcula: `ranura = espesor nominal + tolerancia de
+laminación (ASTM/AISI) + tolerancia de corte (ISO 2768-m) + holgura de montaje`.
+Para 12 GA: 2.657 + 0.152 + 0.10 + 0.20 = **3.11 mm**, o sea 0.10…0.35 mm de
+holgura por lado. La compuerta recalcula la cadena y falla si alguien retoca una
+holgura a mano.
+
+### Tolerancias
+
+| Familia | Clase | Norma |
+|---|---|---|
+| Chapa cortada y plegada | **ISO 2768-mK** | ISO 2768-1 clase m + ISO 2768-2 clase K |
+| Pieza mecanizada | **ISO 2768-fH** | ISO 2768-1 clase f + ISO 2768-2 clase H |
+| Conjunto soldado | **ISO 13920-BF** | ISO 13920:2023 clase B (longitudes) + F (forma) |
+
+Las cotas donde el ajuste manda llevan su designación ISO 286 propia (tabla
+`AJUSTES` de `tolerancias.mjs`). El criterio de rodamientos es el que ya usaba el
+repositorio y ahora está citado: **el aro que gira respecto de la dirección de la
+carga va apretado** (alojamientos N7) y el que está quieto respecto de ella, con
+juego (ejes g6/h6).
+
+Todo esto llega al plano: cajetín de cada pieza, dos láminas de tolerancias, una
+lámina por cada 40 encajes y seis columnas nuevas en `despiece.csv`.
 
 ## Procedencia
 

@@ -37,6 +37,7 @@ import {
   seccionChapa, desarrollo, pernoHex, tuercaHex, golilla, COL, r2, IN,
 } from './lib.mjs';
 import { P } from './params.mjs';
+import { juntaATope } from './tolerancias.mjs';
 
 // ---------------------------------------------------------------------------
 // Cotas locales del módulo.  src: med = medido sobre ref/fig8a_vistas.png con
@@ -613,6 +614,21 @@ export function elevacion(E) {
     {
       chapa: { t: r2(t12), material: 'acero al carbono 12 GA', fibra, radio: P.radioPliegue },
       desarrollo: desa, plano: true, parte: 'WA-025833',
+      union: 'soldada a las 2 placas colgantes (WA-025833)',
+      encajes: [1, -1].map((s) => juntaATope({
+        id: `U5-${s > 0 ? '+Y' : '-Y'}`, union: 'Canal de montaje del cilindro ↔ Placa colgante',
+        motivo: 'SIN ENCAJE, y hay que decir por qué: la sección del canal (X 114.5…348.5, '
+          + 'Z 12.34…115.34) y la placa colgante (X 130…333, Z 88…246) sólo COINCIDEN en los dos '
+          + 'labios de rigidez, o sea en 3.16 mm de X por el lado −X y 1.83 por el +X. En esa franja '
+          + 'no cabe ni una lengüeta ni un taladro de pasador. Alargar los labios hacia dentro (que '
+          + 'sería la solución) mete el labio bajo el cárter del motorreductor RETRAÍDO (Z 113.9 '
+          + 'contra el techo del labio 115.34, en X 133.4…149.8), así que tampoco. '
+          + 'HALLAZGO PARA REVISIÓN ESTRUCTURAL: la unión de este weldment tiene muy poco solape.',
+        posicionamiento: 'utillaje: el canal se apoya sobre dos calzos a Z = canalZ0 y las placas se '
+          + 'aprietan contra sus caras de extremo (|Y| = 221.15) con la propia cota de 447.6 mm '
+          + 'entre caras exteriores como referencia',
+        referencia: 'cara de extremo del canal (|Y| = 221.15) y canto inferior de la placa (Z = 88)',
+      })),
     });
 
   // ---- placas colgantes (mismo weldment) con las COLISAS DE AJUSTE ---------
@@ -642,7 +658,15 @@ export function elevacion(E) {
         ...L.guiaX.map(x => sketchXZ(`Colisa de guía ${r2(L.guiaPasador + 0.2)}×${r2(L.guiaPasador + 0.2 + L.guiaRecorrido)} (X=${x})`,
           yCorte, colisa(x, L.guiaZ, L.guiaPasador + 0.2 + L.guiaRecorrido, L.guiaPasador + 0.2, true), P.placaT + 1, 'cut')),
       ],
-      { plano: true, parte: 'WA-025833 (placa colgante)' });
+      { plano: true, parte: 'WA-025833 (placa colgante)',
+        union: 'soldada al canal de montaje del cilindro',
+        encajes: [juntaATope({
+          id: `U5-${s > 0 ? '+Y' : '-Y'}`, union: 'Canal de montaje del cilindro ↔ Placa colgante',
+          motivo: 'ver el mismo registro en el canal: el solape con la sección del canal se reduce '
+            + 'a los dos labios de rigidez y no admite encaje',
+          posicionamiento: 'utillaje con calzos y apriete contra las caras de extremo del canal',
+          referencia: 'cara interior de la placa (|Y| = 221.15)',
+        })] });
   }
 
   // =========================================================================

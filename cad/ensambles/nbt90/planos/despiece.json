@@ -4,8 +4,8 @@
  "fecha": "2026-07-29",
  "piezas_totales": 410,
  "items": 345,
- "fabricadas": 27,
- "compradas": 316,
+ "fabricadas": 39,
+ "compradas": 304,
  "despiece": [
   {
    "item": 1,
@@ -14,7 +14,12 @@
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
-   "plano": "NBT90-01"
+   "plano": "NBT90-01",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U4-+Y-pos lengueta/posicion · U4-+Y-paso lengueta/paso · U4--Y-pos lengueta/posicion · U4--Y-paso lengueta/paso",
+   "acabado": "—"
   },
   {
    "item": 2,
@@ -23,7 +28,12 @@
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
-   "plano": "NBT90-02"
+   "plano": "NBT90-02",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U5-+Y tope/tope · U5--Y tope/tope",
+   "acabado": "—"
   },
   {
    "item": 3,
@@ -32,7 +42,12 @@
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
-   "plano": "NBT90-03"
+   "plano": "NBT90-03",
+   "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 4,
@@ -41,7 +56,12 @@
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
-   "plano": "NBT90-04"
+   "plano": "NBT90-04",
+   "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 5,
@@ -50,7 +70,12 @@
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\", galvanizada",
-   "plano": "NBT90-05"
+   "plano": "NBT90-05",
+   "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 6,
@@ -59,7 +84,12 @@
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\", galvanizada",
-   "plano": "NBT90-06"
+   "plano": "NBT90-06",
+   "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 7,
@@ -68,7 +98,12 @@
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\", galvanizada",
-   "plano": "NBT90-07"
+   "plano": "NBT90-07",
+   "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 8,
@@ -77,7 +112,12 @@
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.187\" conformada, galvanizada",
-   "plano": "NBT90-08"
+   "plano": "NBT90-08",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U5-+Y tope/tope",
+   "acabado": "—"
   },
   {
    "item": 9,
@@ -86,7 +126,12 @@
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
-   "plano": "NBT90-09"
+   "plano": "NBT90-09",
+   "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 10,
@@ -95,7 +140,12 @@
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
-   "plano": "NBT90-10"
+   "plano": "NBT90-10",
+   "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 11,
@@ -104,25 +154,40 @@
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.187\", galvanizada",
-   "plano": "NBT90-11"
+   "plano": "NBT90-11",
+   "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 12,
-   "designacion": "Tapa extremo canal base 12 GA 83×67",
+   "designacion": "Tapa extremo canal base 12 GA 88×67",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
-   "plano": "NBT90-12"
+   "plano": "NBT90-12",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U4-+Y-pos ranura/posicion · U4-+Y-paso ranura/paso",
+   "acabado": "—"
   },
   {
    "item": 13,
-   "designacion": "Tapa extremo canal base 12 GA 83×67",
+   "designacion": "Tapa extremo canal base 12 GA 88×67",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
-   "plano": "NBT90-13"
+   "plano": "NBT90-13",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U4--Y-pos ranura/posicion · U4--Y-paso ranura/paso",
+   "acabado": "—"
   },
   {
    "item": 14,
@@ -131,7 +196,12 @@
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.866\", galvanizada",
-   "plano": "NBT90-14"
+   "plano": "NBT90-14",
+   "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 15,
@@ -140,7 +210,12 @@
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\", galvanizada",
-   "plano": "NBT90-15"
+   "plano": "NBT90-15",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U3-+Y-a pasador/posicion · U3-+Y-b pasador/paso · U3-solape-+Y tope/tope",
+   "acabado": "—"
   },
   {
    "item": 16,
@@ -149,25 +224,40 @@
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\", galvanizada",
-   "plano": "NBT90-16"
+   "plano": "NBT90-16",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U3--Y-a pasador/posicion · U3--Y-b pasador/paso · U3-solape--Y tope/tope",
+   "acabado": "—"
   },
   {
    "item": 17,
-   "designacion": "Notched brace channel 1-3/4\"×40 12 GA × 363.76",
+   "designacion": "Notched brace channel 1-3/4\"×40 12 GA × 368.52",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
-   "plano": "NBT90-17"
+   "plano": "NBT90-17",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U2-motriz-+Y-pos lengueta/posicion · U2-motriz-+Y-paso lengueta/paso · U2-libre-+Y-pos lengueta/posicion · U2-libre-+Y-paso lengueta/paso · U3-+Y-a pasador/posicion · U3-+Y-b pasador/paso",
+   "acabado": "—"
   },
   {
    "item": 18,
-   "designacion": "Notched brace channel 1-3/4\"×40 12 GA × 363.76",
+   "designacion": "Notched brace channel 1-3/4\"×40 12 GA × 368.52",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
-   "plano": "NBT90-18"
+   "plano": "NBT90-18",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U2-motriz--Y-pos lengueta/posicion · U2-motriz--Y-paso lengueta/paso · U2-libre--Y-pos lengueta/posicion · U2-libre--Y-paso lengueta/paso · U3--Y-a pasador/posicion · U3--Y-b pasador/paso",
+   "acabado": "—"
   },
   {
    "item": 19,
@@ -176,7 +266,12 @@
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.25\", galvanizada",
-   "plano": "NBT90-19"
+   "plano": "NBT90-19",
+   "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 20,
@@ -185,7 +280,12 @@
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.187\", galvanizada",
-   "plano": "NBT90-20"
+   "plano": "NBT90-20",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M",
+   "ajustes": "Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 (taladro de POSICIÓN, no de paso: el vástago hace de pasador y toma la carga radial del rodillo. Un taladro de paso normal de 1/4\" sería Ø7,95 (holgura 1,6).) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U1-motriz-+Y ranura/posicion · U1-motriz--Y ranura/posicion",
+   "acabado": "—"
   },
   {
    "item": 21,
@@ -194,7 +294,12 @@
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.187\", galvanizada",
-   "plano": "NBT90-21"
+   "plano": "NBT90-21",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M",
+   "ajustes": "Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 (taladro de POSICIÓN, no de paso: el vástago hace de pasador y toma la carga radial del rodillo. Un taladro de paso normal de 1/4\" sería Ø7,95 (holgura 1,6).) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U1-libre-+Y ranura/posicion · U1-libre--Y ranura/posicion",
+   "acabado": "—"
   },
   {
    "item": 22,
@@ -203,7 +308,12 @@
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.25\", galvanizada",
-   "plano": "NBT90-22"
+   "plano": "NBT90-22",
+   "tolerancia": "tol. gral. ISO 13920-BF · conjunto soldado ISO 13920-BF · Ø60 H8 H8/h8 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a4.44 AWS D1.1/D1.1M",
+   "ajustes": "Ø60 H8 H8/h8 (resalte de centraje de una brida IEC: tiene que centrar, no apretar. Con H8/h8 el juego máximo es 0,092 mm; el modelo dibuja 0,05 de radio para que el sólido no se solape.) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=4.44 · AWS D1.1/D1.1M — Structural Welding Code, Steel; símbolo según ISO 2553",
+   "encajes": "U6-pestana--Y lengueta/posicion · U6-pestana-+Y lengueta/posicion · U6-doblador tope/tope",
+   "acabado": "—"
   },
   {
    "item": 23,
@@ -212,7 +322,12 @@
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.187\", galvanizada",
-   "plano": "NBT90-23"
+   "plano": "NBT90-23",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U2-motriz-+Y-pos ranura/posicion · U2-motriz-+Y-paso ranura/paso · U2-motriz--Y-pos ranura/posicion · U2-motriz--Y-paso ranura/paso",
+   "acabado": "—"
   },
   {
    "item": 24,
@@ -221,7 +336,12 @@
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.187\", galvanizada",
-   "plano": "NBT90-24"
+   "plano": "NBT90-24",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U2-libre-+Y-pos ranura/posicion · U2-libre-+Y-paso ranura/paso · U2-libre--Y-pos ranura/posicion · U2-libre--Y-paso ranura/paso",
+   "acabado": "—"
   },
   {
    "item": 25,
@@ -230,7 +350,12 @@
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
-   "plano": "NBT90-25"
+   "plano": "NBT90-25",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U1-motriz-+Y lengueta/posicion · U1-libre-+Y lengueta/posicion · U1-tope-+Y tope/tope",
+   "acabado": "—"
   },
   {
    "item": 26,
@@ -239,7 +364,12 @@
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
-   "plano": "NBT90-26"
+   "plano": "NBT90-26",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U1-motriz--Y lengueta/posicion · U1-libre--Y lengueta/posicion · U1-tope--Y tope/tope",
+   "acabado": "—"
   },
   {
    "item": 27,
@@ -248,7 +378,12 @@
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.075\", galvanizada",
-   "plano": "NBT90-27"
+   "plano": "NBT90-27",
+   "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 28,
@@ -256,8 +391,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "B-20760",
-   "plano": "—"
+   "material_norma": "Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",
+   "plano": "—",
+   "tolerancia": "eje 1/2\" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 29,
@@ -265,8 +405,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "B-20760",
-   "plano": "—"
+   "material_norma": "Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",
+   "plano": "—",
+   "tolerancia": "eje 1/2\" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 30,
@@ -274,8 +419,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "B-20760",
-   "plano": "—"
+   "material_norma": "Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",
+   "plano": "—",
+   "tolerancia": "eje 1/2\" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 31,
@@ -283,8 +433,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 32,
@@ -292,8 +447,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 33,
@@ -301,8 +461,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 34,
@@ -310,8 +475,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 35,
@@ -319,8 +489,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 36,
@@ -328,62 +503,97 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 37,
    "designacion": "Eje polea Ø5/8\" g6 × 68.4",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "eje_polea_5_8",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Acero SAE 1045 rectificado",
+   "plano": "NBT90-28",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø15,875 (5/8\") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø15,875 (5/8\") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 38,
    "designacion": "Eje polea Ø5/8\" g6 × 68.4",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "eje_polea_5_8",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Acero SAE 1045 rectificado",
+   "plano": "NBT90-29",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø15,875 (5/8\") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø15,875 (5/8\") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 39,
    "designacion": "Eje polea Ø5/8\" g6 × 68.4",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "eje_polea_5_8",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Acero SAE 1045 rectificado",
+   "plano": "NBT90-30",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø15,875 (5/8\") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø15,875 (5/8\") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 40,
    "designacion": "Eje polea Ø5/8\" g6 × 68.4",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "eje_polea_5_8",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Acero SAE 1045 rectificado",
+   "plano": "NBT90-31",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø15,875 (5/8\") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø15,875 (5/8\") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 41,
    "designacion": "Eje polea Ø5/8\" g6 × 68.4",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "eje_polea_5_8",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Acero SAE 1045 rectificado",
+   "plano": "NBT90-32",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø15,875 (5/8\") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø15,875 (5/8\") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 42,
    "designacion": "Eje polea Ø5/8\" g6 × 73.5",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "eje_polea_5_8",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Acero SAE 1045 rectificado",
+   "plano": "NBT90-33",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø15,875 (5/8\") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø15,875 (5/8\") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 43,
@@ -391,8 +601,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "mgpm80_10z",
-   "plano": "—"
+   "material_norma": "SMC serie MGP — MGPM80-10Z, cilindro compacto con guías Ø80, carrera 10 mm, casquillo de deslizamiento, con imán",
+   "plano": "—",
+   "tolerancia": "roscas de montaje M12 × 1,75 (patrones MM 180 × 54 y NN 174 × 52); puertos Rc 3/8 (ISO 7-1)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 44,
@@ -400,8 +615,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "mgpm80_10z",
-   "plano": "—"
+   "material_norma": "SMC serie MGP — MGPM80-10Z, cilindro compacto con guías Ø80, carrera 10 mm, casquillo de deslizamiento, con imán",
+   "plano": "—",
+   "tolerancia": "roscas de montaje M12 × 1,75 (patrones MM 180 × 54 y NN 174 × 52); puertos Rc 3/8 (ISO 7-1)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 45,
@@ -409,8 +629,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "mgpm80_10z",
-   "plano": "—"
+   "material_norma": "SMC serie MGP — MGPM80-10Z, cilindro compacto con guías Ø80, carrera 10 mm, casquillo de deslizamiento, con imán",
+   "plano": "—",
+   "tolerancia": "roscas de montaje M12 × 1,75 (patrones MM 180 × 54 y NN 174 × 52); puertos Rc 3/8 (ISO 7-1)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 46,
@@ -418,62 +643,97 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "mgpm80_10z",
-   "plano": "—"
+   "material_norma": "SMC serie MGP — MGPM80-10Z, cilindro compacto con guías Ø80, carrera 10 mm, casquillo de deslizamiento, con imán",
+   "plano": "—",
+   "tolerancia": "roscas de montaje M12 × 1,75 (patrones MM 180 × 54 y NN 174 × 52); puertos Rc 3/8 (ISO 7-1)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 47,
    "designacion": "Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "polea_loca_flanged_2_5",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",
+   "plano": "NBT90-34",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø34,925 (1-3/8\") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø34,925 (1-3/8\") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 48,
    "designacion": "Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "polea_loca_flanged_2_5",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",
+   "plano": "NBT90-35",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø34,925 (1-3/8\") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø34,925 (1-3/8\") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 49,
    "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "polea_loca_flanged_2_5",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",
+   "plano": "NBT90-36",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø34,925 (1-3/8\") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø34,925 (1-3/8\") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 50,
    "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "polea_loca_flanged_2_5",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",
+   "plano": "NBT90-37",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø34,925 (1-3/8\") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø34,925 (1-3/8\") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 51,
    "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "polea_loca_flanged_2_5",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",
+   "plano": "NBT90-38",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø34,925 (1-3/8\") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø34,925 (1-3/8\") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 52,
    "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 TAKE-UP IDLER",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "polea_loca_flanged_2_5",
-   "plano": "—"
+   "tipo": "FABRICADA",
+   "material_norma": "Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",
+   "plano": "NBT90-39",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø34,925 (1-3/8\") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø34,925 (1-3/8\") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 53,
@@ -481,8 +741,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "B-20760",
-   "plano": "—"
+   "material_norma": "Rodillo de retorno galvanizado Ø1.9\", rodamientos ABEC-1 · Hytrol B-20760 (Specify BR −1-1/4)",
+   "plano": "—",
+   "tolerancia": "tubo de acero galvanizado 1.9\" × 0,065\" de pared",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 54,
@@ -490,8 +755,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rueda_024.15502",
-   "plano": "—"
+   "material_norma": "Rueda motriz de banda plana Ø2-1/2\" × 1,772\", barreno Ø45 H8 · Hytrol 024.15502",
+   "plano": "—",
+   "tolerancia": "llanta abombada 0,4 mm; el barreno recibe el buje sin chaveta",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 55,
@@ -499,8 +769,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 56,
@@ -508,8 +783,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 57,
@@ -517,8 +797,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 58,
@@ -526,8 +811,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 59,
@@ -535,8 +825,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 60,
@@ -544,8 +839,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 61,
@@ -553,8 +853,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 62,
@@ -562,8 +867,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 63,
@@ -571,8 +881,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 64,
@@ -580,8 +895,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 65,
@@ -589,8 +909,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 66,
@@ -598,8 +923,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 67,
@@ -607,8 +937,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "B-20760",
-   "plano": "—"
+   "material_norma": "Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",
+   "plano": "—",
+   "tolerancia": "eje 1/2\" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 68,
@@ -616,8 +951,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "B-20760",
-   "plano": "—"
+   "material_norma": "Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",
+   "plano": "—",
+   "tolerancia": "eje 1/2\" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 69,
@@ -625,8 +965,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 70,
@@ -634,8 +979,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 71,
@@ -643,8 +993,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 72,
@@ -652,8 +1007,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 73,
@@ -661,8 +1021,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 74,
@@ -670,8 +1035,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 75,
@@ -679,8 +1049,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 76,
@@ -688,8 +1063,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 77,
@@ -697,8 +1077,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 78,
@@ -706,8 +1091,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 79,
@@ -715,8 +1105,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 80,
@@ -724,8 +1119,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "SA-036881",
-   "plano": "—"
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 81,
@@ -733,8 +1133,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 471 / ASME B27.7",
-   "plano": "—"
+   "material_norma": "ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625\")",
+   "plano": "—",
+   "tolerancia": "acero SAE 1060-1090, e = 0,035\" (0,89 mm)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 82,
@@ -742,8 +1147,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 471 / ASME B27.7",
-   "plano": "—"
+   "material_norma": "ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625\")",
+   "plano": "—",
+   "tolerancia": "acero SAE 1060-1090, e = 0,035\" (0,89 mm)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 83,
@@ -751,8 +1161,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 471 / ASME B27.7",
-   "plano": "—"
+   "material_norma": "ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625\")",
+   "plano": "—",
+   "tolerancia": "acero SAE 1060-1090, e = 0,035\" (0,89 mm)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 84,
@@ -760,8 +1175,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 471 / ASME B27.7",
-   "plano": "—"
+   "material_norma": "ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625\")",
+   "plano": "—",
+   "tolerancia": "acero SAE 1060-1090, e = 0,035\" (0,89 mm)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 85,
@@ -769,8 +1189,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 471 / ASME B27.7",
-   "plano": "—"
+   "material_norma": "ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625\")",
+   "plano": "—",
+   "tolerancia": "acero SAE 1060-1090, e = 0,035\" (0,89 mm)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 86,
@@ -778,8 +1203,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 471 / ASME B27.7",
-   "plano": "—"
+   "material_norma": "ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625\")",
+   "plano": "—",
+   "tolerancia": "acero SAE 1060-1090, e = 0,035\" (0,89 mm)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 87,
@@ -787,8 +1217,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 472",
-   "plano": "—"
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 88,
@@ -796,8 +1231,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 472",
-   "plano": "—"
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 89,
@@ -805,8 +1245,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 472",
-   "plano": "—"
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 90,
@@ -814,8 +1259,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 472",
-   "plano": "—"
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 91,
@@ -823,8 +1273,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 472",
-   "plano": "—"
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 92,
@@ -832,8 +1287,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 472",
-   "plano": "—"
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 93,
@@ -841,8 +1301,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 472",
-   "plano": "—"
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 94,
@@ -850,8 +1315,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 472",
-   "plano": "—"
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 95,
@@ -859,8 +1329,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 472",
-   "plano": "—"
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 96,
@@ -868,8 +1343,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 472",
-   "plano": "—"
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 97,
@@ -877,8 +1357,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 472",
-   "plano": "—"
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 98,
@@ -886,8 +1371,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 472",
-   "plano": "—"
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
   },
   {
    "item": 99,
@@ -895,8 +1385,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "banda_flexproof_1in",
-   "plano": "—"
+   "material_norma": "Banda de transmisión sin fin de 1\" de ancho, empalme Flexproof · Hytrol 069.722xx",
+   "plano": "—",
+   "tolerancia": "poliéster/uretano, 2 telas, e = 2,5 mm; Ø mínimo de polea 1,0\"",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 100,
@@ -904,8 +1399,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "buje_099.128420",
-   "plano": "—"
+   "material_norma": "Buje cónico sin chaveta 20 mm ID × 45 mm OD — Hytrol 099.128420",
+   "plano": "—",
+   "tolerancia": "fabricante elegido y citado: Fenner Drives Trantorque GT ref. 6202811 (d 20, D 45,0, L 22,2, par de apriete 170 N·m, par transmisible 290 N·m, Ø mínimo de cubo 55,7 mm)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado claro RoHS"
   },
   {
    "item": 101,
@@ -913,8 +1413,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27) — AVISO: el modelo dibuja Ø16, 1.73 mm fuera de tabla",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 102,
@@ -922,8 +1427,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27) — AVISO: el modelo dibuja Ø16, 1.73 mm fuera de tabla",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 103,
@@ -931,8 +1441,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie ancha (W, Ø ext. 25.4)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 104,
@@ -940,8 +1455,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie ancha (W, Ø ext. 25.4)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 105,
@@ -949,8 +1469,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie ancha (W, Ø ext. 25.4)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 106,
@@ -958,8 +1483,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie ancha (W, Ø ext. 25.4)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 107,
@@ -967,8 +1497,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie ancha (W, Ø ext. 25.4)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 108,
@@ -976,8 +1511,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie ancha (W, Ø ext. 25.4)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 109,
@@ -985,8 +1525,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie ancha (W, Ø ext. 25.4)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 110,
@@ -994,8 +1539,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie ancha (W, Ø ext. 25.4)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 111,
@@ -1003,8 +1553,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie ancha (W, Ø ext. 25.4)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 112,
@@ -1012,8 +1567,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie ancha (W, Ø ext. 25.4)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 113,
@@ -1021,8 +1581,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie ancha (W, Ø ext. 25.4)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 114,
@@ -1030,8 +1595,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie ancha (W, Ø ext. 25.4)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 115,
@@ -1039,8 +1609,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 116,
@@ -1048,8 +1623,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 117,
@@ -1057,8 +1637,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 118,
@@ -1066,8 +1651,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 119,
@@ -1075,8 +1665,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 120,
@@ -1084,8 +1679,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 121,
@@ -1093,8 +1693,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 122,
@@ -1102,8 +1707,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 123,
@@ -1111,8 +1721,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 124,
@@ -1120,8 +1735,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 125,
@@ -1129,8 +1749,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 126,
@@ -1138,8 +1763,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 127,
@@ -1147,8 +1777,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 128,
@@ -1156,8 +1791,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 129,
@@ -1165,8 +1805,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 130,
@@ -1174,8 +1819,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 131,
@@ -1183,8 +1833,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ISO 7092 (DIN 433) — arandela plana, serie estrecha",
+   "plano": "—",
+   "tolerancia": "dureza 200 HV; Ø exterior modelado 20 mm",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ISO 4042"
   },
   {
    "item": 132,
@@ -1192,8 +1847,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ISO 7092 (DIN 433) — arandela plana, serie estrecha",
+   "plano": "—",
+   "tolerancia": "dureza 200 HV; Ø exterior modelado 20 mm",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ISO 4042"
   },
   {
    "item": 133,
@@ -1201,8 +1861,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ISO 7092 (DIN 433) — arandela plana, serie estrecha",
+   "plano": "—",
+   "tolerancia": "dureza 200 HV; Ø exterior modelado 20 mm",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ISO 4042"
   },
   {
    "item": 134,
@@ -1210,8 +1875,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ISO 7092 (DIN 433) — arandela plana, serie estrecha",
+   "plano": "—",
+   "tolerancia": "dureza 200 HV; Ø exterior modelado 20 mm",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ISO 4042"
   },
   {
    "item": 135,
@@ -1219,8 +1889,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 136,
@@ -1228,8 +1903,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 137,
@@ -1237,8 +1917,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 138,
@@ -1246,8 +1931,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 139,
@@ -1255,8 +1945,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 140,
@@ -1264,8 +1959,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 141,
@@ -1273,8 +1973,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 142,
@@ -1282,8 +1987,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 143,
@@ -1291,8 +2001,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 144,
@@ -1300,8 +2015,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 145,
@@ -1309,8 +2029,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 146,
@@ -1318,8 +2043,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 147,
@@ -1327,8 +2057,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 148,
@@ -1336,8 +2071,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 149,
@@ -1345,8 +2085,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 150,
@@ -1354,8 +2099,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 151,
@@ -1363,8 +2113,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 152,
@@ -1372,8 +2127,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 153,
@@ -1381,8 +2141,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 154,
@@ -1390,8 +2155,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 155,
@@ -1399,8 +2169,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 156,
@@ -1408,8 +2183,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 157,
@@ -1417,8 +2197,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 158,
@@ -1426,8 +2211,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 159,
@@ -1435,8 +2225,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 160,
@@ -1444,8 +2239,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 161,
@@ -1453,8 +2253,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 162,
@@ -1462,8 +2267,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 163,
@@ -1471,8 +2281,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 164,
@@ -1480,8 +2295,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 165,
@@ -1489,8 +2309,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 166,
@@ -1498,8 +2323,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 167,
@@ -1507,8 +2337,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 168,
@@ -1516,8 +2351,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 169,
@@ -1525,8 +2365,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 170,
@@ -1534,8 +2379,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 171,
@@ -1543,8 +2393,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 172,
@@ -1552,8 +2407,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 173,
@@ -1561,8 +2421,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 174,
@@ -1570,8 +2435,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 175,
@@ -1579,8 +2449,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 176,
@@ -1588,8 +2463,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 177,
@@ -1597,8 +2477,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 178,
@@ -1606,26 +2491,41 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 179,
-   "designacion": "Golilla rodillo de retorno (+Y) Ø7.938",
+   "designacion": "Golilla rodillo de retorno (+Y) Ø6.35",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 180,
-   "designacion": "Golilla rodillo de retorno (−Y) Ø7.938",
+   "designacion": "Golilla rodillo de retorno (−Y) Ø6.35",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 181,
@@ -1633,8 +2533,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 182,
@@ -1642,8 +2547,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 183,
@@ -1651,8 +2561,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 184,
@@ -1660,8 +2575,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 185,
@@ -1669,8 +2589,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 186,
@@ -1678,8 +2603,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 187,
@@ -1687,8 +2617,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 188,
@@ -1696,8 +2631,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 189,
@@ -1705,8 +2645,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 190,
@@ -1714,8 +2659,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 191,
@@ -1723,8 +2673,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 192,
@@ -1732,8 +2687,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 193,
@@ -1741,8 +2701,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 194,
@@ -1750,8 +2715,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 195,
@@ -1759,8 +2729,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 196,
@@ -1768,8 +2743,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 197,
@@ -1777,8 +2757,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 198,
@@ -1786,8 +2771,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 199,
@@ -1795,8 +2785,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 200,
@@ -1804,8 +2799,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 201,
@@ -1813,8 +2813,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 202,
@@ -1822,8 +2827,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 203,
@@ -1831,8 +2841,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 204,
@@ -1840,8 +2855,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 205,
@@ -1849,8 +2869,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 206,
@@ -1858,8 +2883,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 207,
@@ -1867,8 +2897,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 208,
@@ -1876,8 +2911,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 209,
@@ -1885,8 +2925,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "motorreductor_300.0322",
-   "plano": "—"
+   "material_norma": "SEW-EURODRIVE RF07 DRS71S4 — motorreductor de ejes paralelos con brida · Hytrol 300.0322",
+   "plano": "—",
+   "tolerancia": "1/2 hp, 230/460 V 3~, 462 rpm de salida; brida IEC 60072 B14 C120 (Ø120, círculo Ø100, 4 × M8)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 210,
@@ -1894,8 +2939,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "mgpm80_10z",
-   "plano": "—"
+   "material_norma": "SMC serie MGP — MGPM80-10Z, cilindro compacto con guías Ø80, carrera 10 mm, casquillo de deslizamiento, con imán",
+   "plano": "—",
+   "tolerancia": "roscas de montaje M12 × 1,75 (patrones MM 180 × 54 y NN 174 × 52); puertos Rc 3/8 (ISO 7-1)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 211,
@@ -1903,8 +2953,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27) — AVISO: el modelo dibuja Ø16, 1.73 mm fuera de tabla",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 212,
@@ -1912,8 +2967,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "DIN 125 / ASME B18.22.1",
-   "plano": "—"
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27) — AVISO: el modelo dibuja Ø16, 1.73 mm fuera de tabla",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
   },
   {
    "item": 213,
@@ -1921,8 +2981,13 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 214,
@@ -1930,8 +2995,13 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "componente de catálogo",
-   "plano": "—"
+   "material_norma": "Racor codo giratorio 360°, macho 1/4-18 NPT (ASME B1.20.1) — tubo 1/4\" OD · Hytrol 094.1406",
+   "plano": "—",
+   "tolerancia": "cuerpo de latón niquelado, pinza de acero inoxidable",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 215,
@@ -1939,8 +3009,13 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "componente de catálogo",
-   "plano": "—"
+   "material_norma": "Racor codo giratorio 360°, macho Rc 3/8 (ISO 7-1) — tubo 1/4\" OD · Hytrol 094.1406",
+   "plano": "—",
+   "tolerancia": "cuerpo de latón niquelado, pinza de acero inoxidable",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 216,
@@ -1948,8 +3023,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "componente de catálogo",
-   "plano": "—"
+   "material_norma": "Silenciador de bronce sinterizado, rosca 1/8-27 NPT (ASME B1.20.1) · Hytrol 923.0059",
+   "plano": "—",
+   "tolerancia": "caudal libre ≥ 200 Nl/min",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 217,
@@ -1957,8 +3037,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "componente de catálogo",
-   "plano": "—"
+   "material_norma": "Silenciador de bronce sinterizado, rosca 1/8-27 NPT (ASME B1.20.1) · Hytrol 923.0059",
+   "plano": "—",
+   "tolerancia": "caudal libre ≥ 200 Nl/min",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 218,
@@ -1966,8 +3051,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "componente de catálogo",
-   "plano": "—"
+   "material_norma": "Tubo de poliuretano 1/4\" OD × 0,160\" ID (6,35 × 4,06 mm) · Hytrol 094.1148",
+   "plano": "—",
+   "tolerancia": "PU 95 Sh A, presión de trabajo ≥ 10 bar a 20 °C",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 219,
@@ -1975,8 +3065,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "componente de catálogo",
-   "plano": "—"
+   "material_norma": "Tubo de poliuretano 1/4\" OD × 0,160\" ID (6,35 × 4,06 mm) · Hytrol 094.1148",
+   "plano": "—",
+   "tolerancia": "PU 95 Sh A, presión de trabajo ≥ 10 bar a 20 °C",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 220,
@@ -1984,8 +3079,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "valvula_4v_24vdc",
-   "plano": "—"
+   "material_norma": "Válvula 5/2 monoestable 24 V CC · Hytrol 094.10795",
+   "plano": "—",
+   "tolerancia": "equivalente comprable citado: SMC SY5120-5DZ-N7T (2 posiciones monosolenoide, 24 V CC, racor instantáneo 1/4\", rosca NPTF, conexión DIN, 0,1 W)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 221,
@@ -1993,8 +3093,13 @@
    "cant": 4,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "perno de hombro 1/2\" (042.512)",
-   "plano": "—"
+   "material_norma": "ASME B18.3 — tornillo de hombro, hombro Ø1/2\" × 25, rosca 3/8-16 UNC · Hytrol 042.512",
+   "plano": "—",
+   "tolerancia": "acero aleado templado 45 HRC mínimo, hombro rectificado h9",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "pavonado"
   },
   {
    "item": 222,
@@ -2002,8 +3107,13 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 223,
@@ -2011,8 +3121,13 @@
    "cant": 6,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 224,
@@ -2020,404 +3135,629 @@
    "cant": 6,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 225,
-   "designacion": "Perno hex 3/8-16 × 1\" de colisa",
-   "cant": 2,
+   "designacion": "Perno hex 1/4-20 UNC × 19.05 · rodillo de retorno",
+   "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 226,
+   "designacion": "Perno hex 1/4-20 UNC × 19.05 · rodillo de retorno",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+  },
+  {
+   "item": 227,
    "designacion": "Perno hex 3/8-16 × 1\" de colisa",
    "cant": 2,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 227,
+   "item": 228,
+   "designacion": "Perno hex 3/8-16 × 1\" de colisa",
+   "cant": 2,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+  },
+  {
+   "item": 229,
    "designacion": "Perno hex 3/8-16 × 20.85 · Canal base -Y X32",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 228,
+   "item": 230,
    "designacion": "Perno hex 3/8-16 × 20.85 · Canal base -Y X95",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 229,
+   "item": 231,
    "designacion": "Perno hex 3/8-16 × 20.85 · Canal base +Y X32",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 230,
+   "item": 232,
    "designacion": "Perno hex 3/8-16 × 20.85 · Canal base +Y X95",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 231,
+   "item": 233,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z100",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 232,
+   "item": 234,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z118",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 233,
+   "item": 235,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z100",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 234,
+   "item": 236,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z118",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 235,
+   "item": 237,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z100",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 236,
+   "item": 238,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z118",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 237,
+   "item": 239,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z100",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 238,
+   "item": 240,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z118",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 239,
+   "item": 241,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X145.75",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 240,
+   "item": 242,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X317.25",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 241,
+   "item": 243,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X377.25",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 242,
+   "item": 244,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X85.75",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 243,
+   "item": 245,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X145.75",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 244,
+   "item": 246,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X317.25",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 245,
+   "item": 247,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X377.25",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 246,
+   "item": 248,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X85.75",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 247,
+   "item": 249,
    "designacion": "Perno hex 3/8-16 × 20.85 · Side channel -Y X231.5",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 248,
+   "item": 250,
    "designacion": "Perno hex 3/8-16 × 20.85 · Side channel -Y X403",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 249,
+   "item": 251,
    "designacion": "Perno hex 3/8-16 × 20.85 · Side channel -Y X60",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 250,
+   "item": 252,
    "designacion": "Perno hex 3/8-16 × 20.85 · Side channel +Y X231.5",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 251,
+   "item": 253,
    "designacion": "Perno hex 3/8-16 × 20.85 · Side channel +Y X403",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 252,
+   "item": 254,
    "designacion": "Perno hex 3/8-16 × 20.85 · Side channel +Y X60",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 253,
+   "item": 255,
    "designacion": "Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z196",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 254,
+   "item": 256,
    "designacion": "Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z284",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 255,
+   "item": 257,
    "designacion": "Perno hex 3/8-16 × 22.19 · Guarda Y150 Z196",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 256,
+   "item": 258,
    "designacion": "Perno hex 3/8-16 × 22.19 · Guarda Y150 Z284",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 257,
+   "item": 259,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-170",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 258,
+   "item": 260,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-55",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 259,
+   "item": 261,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate libre Y170",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 260,
+   "item": 262,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate libre Y55",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 261,
+   "item": 263,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-170",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 262,
+   "item": 264,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-55",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 263,
+   "item": 265,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y170",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 264,
+   "item": 266,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y55",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 265,
+   "item": 267,
    "designacion": "Perno hex 3/8-16 × 3/4\" placa↔cartela del larguero",
    "cant": 4,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 266,
+   "item": 268,
    "designacion": "Perno hex 3/8-16 × 6\" jack bolt",
    "cant": 4,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 267,
-   "designacion": "Perno hex 5/16-18 UNC × 19.05 · rodillo de retorno",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
-  },
-  {
-   "item": 268,
-   "designacion": "Perno hex 5/16-18 UNC × 19.05 · rodillo de retorno",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A, rosca total (FT)",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 269,
@@ -2425,8 +3765,13 @@
    "cant": 4,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
+   "plano": "—",
+   "tolerancia": "clase de resistencia 8.8 (ISO 898-1)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ISO 4042"
   },
   {
    "item": 270,
@@ -2434,8 +3779,13 @@
    "cant": 4,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 / DIN 933",
-   "plano": "—"
+   "material_norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M8, rosca total",
+   "plano": "—",
+   "tolerancia": "clase de resistencia 8.8 (ISO 898-1)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ISO 4042"
   },
   {
    "item": 271,
@@ -2443,8 +3793,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_8x22x7",
-   "plano": "—"
+   "material_norma": "ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",
+   "plano": "—",
+   "tolerancia": "clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 272,
@@ -2452,8 +3807,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_8x22x7",
-   "plano": "—"
+   "material_norma": "ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",
+   "plano": "—",
+   "tolerancia": "clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 273,
@@ -2461,8 +3821,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_8x22x7",
-   "plano": "—"
+   "material_norma": "ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",
+   "plano": "—",
+   "tolerancia": "clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 274,
@@ -2470,8 +3835,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_8x22x7",
-   "plano": "—"
+   "material_norma": "ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",
+   "plano": "—",
+   "tolerancia": "clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 275,
@@ -2479,8 +3849,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_8x22x7",
-   "plano": "—"
+   "material_norma": "ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",
+   "plano": "—",
+   "tolerancia": "clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 276,
@@ -2488,8 +3863,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_8x22x7",
-   "plano": "—"
+   "material_norma": "ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",
+   "plano": "—",
+   "tolerancia": "clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 277,
@@ -2497,8 +3877,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_8x22x7",
-   "plano": "—"
+   "material_norma": "ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",
+   "plano": "—",
+   "tolerancia": "clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 278,
@@ -2506,8 +3891,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_8x22x7",
-   "plano": "—"
+   "material_norma": "ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",
+   "plano": "—",
+   "tolerancia": "clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 279,
@@ -2515,8 +3905,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_8x22x7",
-   "plano": "—"
+   "material_norma": "ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",
+   "plano": "—",
+   "tolerancia": "clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 280,
@@ -2524,8 +3919,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_8x22x7",
-   "plano": "—"
+   "material_norma": "ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",
+   "plano": "—",
+   "tolerancia": "clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 281,
@@ -2533,8 +3933,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_8x22x7",
-   "plano": "—"
+   "material_norma": "ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",
+   "plano": "—",
+   "tolerancia": "clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 282,
@@ -2542,8 +3947,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_8x22x7",
-   "plano": "—"
+   "material_norma": "ISO 15 / DIN 625-1 — rodamiento rígido de bolas 608-2RS (8 × 22 × 7)",
+   "plano": "—",
+   "tolerancia": "clase de tolerancia normal (ISO 492 P0); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 283,
@@ -2551,8 +3961,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_15.875x34.92x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8\" × 1-3/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 284,
@@ -2560,8 +3975,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_15.875x34.92x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8\" × 1-3/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 285,
@@ -2569,8 +3989,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_15.875x34.92x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8\" × 1-3/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 286,
@@ -2578,8 +4003,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_15.875x34.92x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8\" × 1-3/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 287,
@@ -2587,8 +4017,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_15.875x34.92x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8\" × 1-3/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 288,
@@ -2596,8 +4031,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_15.875x34.92x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8\" × 1-3/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 289,
@@ -2605,8 +4045,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_15.875x34.92x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8\" × 1-3/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 290,
@@ -2614,8 +4059,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_15.875x34.92x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8\" × 1-3/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 291,
@@ -2623,8 +4073,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_15.875x34.92x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8\" × 1-3/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 292,
@@ -2632,8 +4087,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_15.875x34.92x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8\" × 1-3/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 293,
@@ -2641,8 +4101,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_15.875x34.92x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8\" × 1-3/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 294,
@@ -2650,8 +4115,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_15.875x34.92x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R10-2RS (5/8\" × 1-3/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1 (ABMA Std. 20); 2RS = dos tapas de goma",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 295,
@@ -2659,8 +4129,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_12.7x28.58x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R8-2RS (1/2\" × 1-1/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1, la clase que especifica el manual del equipo para este rodillo",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 296,
@@ -2668,8 +4143,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "rodamiento_12.7x28.58x7.94",
-   "plano": "—"
+   "material_norma": "ABMA — rodamiento rígido de bolas serie R en pulgadas, R8-2RS (1/2\" × 1-1/8\" × 5/16\")",
+   "plano": "—",
+   "tolerancia": "ABEC-1, la clase que especifica el manual del equipo para este rodillo",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 297,
@@ -2677,8 +4157,13 @@
    "cant": 4,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ISO 4762 / DIN 912 M12 × 1.75",
-   "plano": "—"
+   "material_norma": "ISO 4762 (DIN 912) — tornillo de cabeza cilíndrica con hexágono interior M12",
+   "plano": "—",
+   "tolerancia": "clase de resistencia 12.9 (ISO 898-1)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "pavonado"
   },
   {
    "item": 298,
@@ -2686,8 +4171,13 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 1/4-20 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 299,
@@ -2695,8 +4185,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 300,
@@ -2704,8 +4199,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 301,
@@ -2713,8 +4213,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 302,
@@ -2722,8 +4227,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 303,
@@ -2731,8 +4241,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 304,
@@ -2740,8 +4255,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 305,
@@ -2749,8 +4269,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 306,
@@ -2758,8 +4283,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 307,
@@ -2767,8 +4297,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 308,
@@ -2776,8 +4311,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 309,
@@ -2785,8 +4325,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 310,
@@ -2794,8 +4339,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 311,
@@ -2803,8 +4353,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 312,
@@ -2812,8 +4367,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 313,
@@ -2821,8 +4381,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 314,
@@ -2830,8 +4395,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 315,
@@ -2839,8 +4409,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 316,
@@ -2848,8 +4423,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 317,
@@ -2857,8 +4437,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 318,
@@ -2866,8 +4451,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 319,
@@ -2875,8 +4465,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 320,
@@ -2884,8 +4479,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 321,
@@ -2893,8 +4493,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 322,
@@ -2902,8 +4507,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 323,
@@ -2911,8 +4521,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 324,
@@ -2920,8 +4535,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 325,
@@ -2929,8 +4549,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 326,
@@ -2938,8 +4563,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 327,
@@ -2947,8 +4577,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 328,
@@ -2956,8 +4591,13 @@
    "cant": 1,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 329,
@@ -2965,8 +4605,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 330,
@@ -2974,8 +4619,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 331,
@@ -2983,8 +4633,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 332,
@@ -2992,8 +4647,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 333,
@@ -3001,8 +4661,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 334,
@@ -3010,8 +4675,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 335,
@@ -3019,8 +4689,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 336,
@@ -3028,8 +4703,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 337,
@@ -3037,8 +4717,13 @@
    "cant": 5,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.16.6 — tuerca autoblocante con inserto de nailon 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "grado A (equivale a SAE J995 grado 5); temperatura máx. 120 °C por el inserto",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941"
   },
   {
    "item": 338,
@@ -3046,8 +4731,13 @@
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.16.6 — tuerca autoblocante con inserto de nailon 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "grado A (equivale a SAE J995 grado 5); temperatura máx. 120 °C por el inserto",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941"
   },
   {
    "item": 339,
@@ -3055,8 +4745,13 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 340,
@@ -3064,8 +4759,13 @@
    "cant": 2,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 341,
@@ -3073,8 +4773,13 @@
    "cant": 4,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 342,
@@ -3082,8 +4787,13 @@
    "cant": 4,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "Tuerca hexagonal para SOLDAR POR PROYECCIÓN 3/8-16 UNC-2B, piloto corto — sin norma ISO/ASME en pulgadas",
+   "plano": "—",
+   "tolerancia": "catálogo: Albany County Fasteners 8100-006 «Hex Weld Nuts (6 Projections & Short Pilot), Plain Steel, 3/8\"-16» (equivalente métrico normalizado: DIN 929)",
+   "ajustes": "—",
+   "soldadura": "soldadura por resistencia, por PROYECCIÓN (la tuerca trae sus proyecciones) · AWS C1.1M/C1.1 — Recommended Practices for Resistance Welding",
+   "encajes": "—",
+   "acabado": "acero al carbono SIN recubrimiento (un zincado impide la soldadura)"
   },
   {
    "item": 343,
@@ -3091,8 +4801,13 @@
    "cant": 4,
    "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.2 / DIN 934",
-   "plano": "—"
+   "material_norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
+   "plano": "—",
+   "tolerancia": "SAE J995 grado 5",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
    "item": 344,
@@ -3101,7 +4816,12 @@
    "capa": "MÓVIL",
    "tipo": "CONTEXTO (no se fabrica)",
    "material_norma": "069.722xx FLEXPROOF ENDLESS BELT 1 in. WIDE",
-   "plano": "—"
+   "plano": "—",
+   "tolerancia": "—",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   },
   {
    "item": 345,
@@ -3110,7 +4830,12 @@
    "capa": "MÓVIL",
    "tipo": "CONTEXTO (no se fabrica)",
    "material_norma": "UHMW-PE 1000",
-   "plano": "—"
+   "plano": "—",
+   "tolerancia": "—",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
   }
  ]
 }

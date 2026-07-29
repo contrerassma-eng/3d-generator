@@ -1,7 +1,7 @@
 {
  "$comment": "Capa 'web' del ensamble nbt90 (transferencia de bandas angostas 90 grados). Sigue schemas/provenance.schema.json (seccion facts). Cada hecho lleva url + accessed + quote obligatorios. Claves en espanol (tema, afirmacion, fuente_titulo) anadidas como alias no normativos.",
  "project": "nbt90",
- "generated": "2026-07-28T00:00:00Z",
+ "generated": "2026-07-29T00:00:00Z",
  "layers": {
   "measured": {
    "nota": "No hay capa measured: no se ejecuto el pipeline foto3d. Las cotas de la figura provienen de digitalizacion de FIGURE 8A a 0.5277 mm/px (capa user)."
@@ -106,7 +106,7 @@
    "tema": "sorter/paso entre bandas",
    "claim": "El lecho lleva tira de desgaste UHMW cada 3 in, montada en bastidor de canal de acero conformado de 6 1/2 in x 1 1/2 in x calibre 12",
    "afirmacion": "Paso de las tiras de desgaste = 3 in (76.2 mm); marco 12 GA",
-   "value": 3.0,
+   "value": 3,
    "unit": "in",
    "layer": "web",
    "source": {
@@ -176,7 +176,7 @@
    "tema": "sorter/poleas",
    "claim": "Polea motriz de extremo de 8 in de diametro con eje de 1 7/16 in en rodamientos, totalmente engomada, con rodillo pop-out accionado",
    "afirmacion": "Diametro de polea motriz = 8 in (203.2 mm); eje 1-7/16 in (36.5 mm)",
-   "value": 8.0,
+   "value": 8,
    "unit": "in",
    "layer": "web",
    "source": {
@@ -193,7 +193,7 @@
    "tema": "sorter/poleas",
    "claim": "Polea snub de 4 in de diametro con eje de 1 in; polea loca de entrada de 4 in de diametro x 1 1/2 in de ancho, abombada, con rodamientos de precision",
    "afirmacion": "Diametro de poleas secundarias = 4 in (101.6 mm)",
-   "value": 4.0,
+   "value": 4,
    "unit": "in",
    "layer": "web",
    "source": {
@@ -210,7 +210,7 @@
    "tema": "sorter/tensor",
    "claim": "El tensor neumatico ofrece 14 in de recorrido de tensado individual por banda, con filtro-regulador a 25 PSI max; se requiere un tensor cada 75 ft de transportador",
    "afirmacion": "Carrera de tensado 14 in (355.6 mm); presion tensor 25 PSI max",
-   "value": 14.0,
+   "value": 14,
    "unit": "in",
    "layer": "web",
    "source": {
@@ -347,7 +347,7 @@
    "tema": "sorter/banda angosta (fuente primaria Hytrol)",
    "claim": "El folleto Hytrol describe la banda del ProSort MRT 90 como 'banda de aramida de alto modulo de 1 pulgada de ancho'",
    "afirmacion": "Ancho de banda declarado por el folleto = 1 in (25.4 mm); la ficha de catalogo dice 15/16 in (23.81 mm)",
-   "value": 1.0,
+   "value": 1,
    "unit": "in",
    "layer": "web",
    "source": {
@@ -455,7 +455,7 @@
    "tema": "transferencia 90/banda motriz",
    "claim": "La banda motriz de la transferencia es 'FLEXPROOF ENDLESS BELT - 1 in. WIDE' con longitudes segun BR: 069.72215 (15 in BR), 069.72218 (18), 069.72221 (21), 069.72224 (24), 069.72227 (27)",
    "afirmacion": "Banda motriz de la transferencia: 1 in de ancho, sin fin, union Flexproof, un numero de parte por ancho de BR",
-   "value": 1.0,
+   "value": 1,
    "unit": "in",
    "layer": "web",
    "source": {
@@ -1596,6 +1596,363 @@
    "fuente_titulo": "Hytrol Bulletin #656, pag. 8",
    "confidence": "alta",
    "nota": "SE DECLARA EL CONFLICTO: el texto del manual describe eje hexagonal para los rodillos MOTRICES; el cliente pidio expresamente sustituirlo por chapa perforada + eje con hilo interior + perno por fuera, y el detalle ampliado de la propia FIGURE 8A muestra ese montaje en el rodillo transversal B-20760 (vastago 6.32 mm = 1/4 in a traves de la chapa, cabeza hexagonal por fuera de 12.64 mm entre vertices, resalte del eje de 17.06 mm al otro lado). El modelo sigue al cliente y lo marca capa user."
+  },
+  {
+   "id": "STR-001",
+   "tema": "norma/tornilleria en chapa",
+   "claim": "AISI S100-16 (Reaffirmed 2020) w/S2-20, Seccion J3.2 \"Minimum Edge and End Distances\": la distancia del centro de un tornillo al borde o extremo de cualquier pieza no puede ser menor que 1.5d, siendo d el diametro nominal del tornillo",
+   "afirmacion": "Para el perno 1/4-20 (d = 6.35 mm) del montaje del rodillo, la distancia minima del taladro al canto es 9.525 mm. La tabla J3.4 de AISC NO tabula tornillos menores de 1/2 in, asi que el criterio aplicable a la placa peine de 3/16 in es el de AISI, no el de AISC",
+   "value": 1.5,
+   "unit": "d (diametros)",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.buildusingsteel.org/wp-content/uploads/2023/06/AISI-S100-16-2020-wS2-20.pdf",
+    "accessed": "2026-07-29",
+    "quote": "J3.2 Minimum Edge and End Distances — The distance from the center of a fastener to the edge or end of any part shall not be less than 1.5d, where d is the nominal bolt diameter. For oversized and slotted holes, the distance between the edge of the hole and the edge or end of the member shall not be less than d."
+   },
+   "fuente_titulo": "AISI S100-16 (2020) w/S2-20, North American Specification for the Design of Cold-Formed Steel Structural Members, Chapter J, pag. 110",
+   "confidence": "alta",
+   "metodo_verificacion": "Texto extraido del PDF publico (pagina 165 del fichero, numerada 110 en el documento) con PyMuPDF. La tabla J3.3.1-1 del mismo capitulo acota su rango de espesores en 0.024 <= t < 0.1875 in (0.61 <= t < 4.76 mm): la placa peine de 3/16 in = 4.763 mm queda justo en el limite superior, entre el ambito de AISI y el de AISC."
+  },
+  {
+   "id": "STR-002",
+   "tema": "norma/soldadura",
+   "claim": "AISC 360-22 Seccion J2.2b (Tabla J2.4): cordon de angulo minimo 1/8 in para espesor de la parte mas fina hasta 1/4 in; 3/16 in de 1/4 a 1/2 in; 1/4 in de 1/2 a 3/4 in; 5/16 in por encima de 3/4 in. Donde el minimo tabulado supere el espesor de la parte mas fina, el minimo se limita a ese espesor",
+   "afirmacion": "Los conjuntos soldados del NBT90 son de chapa 12 GA (2.657 mm) y 14 GA (1.897 mm), muy por debajo de 1/4 in: el cordon minimo de norma queda limitado al propio espesor de la chapa, 2.66 mm y 1.90 mm respectivamente",
+   "value": "1/8 in (3 mm) para t <= 1/4 in, limitado al espesor de la parte mas fina",
+   "unit": "in / mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://steelcalculator.app/reference/min-weld-size/",
+    "accessed": "2026-07-29",
+    "quote": "Where the minimum fillet weld size specified in the table exceeds the thickness of the thinner part, the minimum size is limited to the thickness of the thinner part (AISC 360-22 Section J2.2b)"
+   },
+   "fuente_titulo": "Steel Calculator — Min Fillet Weld Size Chart, AISC Table J2.4 (AISC 360-22 J2.2b)",
+   "confidence": "media",
+   "metodo_verificacion": "La tabla reproducida coincide con la Tabla J2.4 de AISC 360 en sus cuatro filas. Fuente secundaria: la norma AISC es de pago. Para chapa de <= 3/16 in el codigo de soldadura aplicable es AWS D1.3 (Structural Welding Code - Sheet Steel), no AWS D1.1 (ver STR-003)."
+  },
+  {
+   "id": "STR-003",
+   "tema": "norma/soldadura en chapa fina",
+   "claim": "AWS D1.3/D1.3M Structural Welding Code - Sheet Steel cubre la soldadura de chapa de acero de espesor menor o igual a 3/16 in (4.8 mm) e incluye tres tipos de cordon propios de la chapa: arc spot, arc seam y arc plug. El tamano del cordon de angulo no necesita superar el espesor de la parte mas fina",
+   "afirmacion": "Las piezas soldadas del NBT90 (12 GA y 14 GA, y las placas de 3/16 in) caen dentro del ambito de AWS D1.3, no de D1.1: el cordon debe especificarse como angulo limitado al espesor, o como punto/tapon de arco",
+   "value": "<= 3/16 in (4.8 mm)",
+   "unit": "in / mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://blog.ansi.org/ansi/aws-d1-3-d1-3m-2025-structural-welding-code/",
+    "accessed": "2026-07-29",
+    "quote": "AWS D1.3 covers the welding of thin sheet steel (<= 3/16 inch or 4.8 mm) ... three weld types unique to sheet steel - arc spot, arc seam, and arc plug welds - are included ... the weld size need not exceed the thickness of the thinner part joined"
+   },
+   "fuente_titulo": "The ANSI Blog — AWS D1.3/D1.3M:2025, Structural Welding Code - Sheet Steel",
+   "confidence": "media",
+   "metodo_verificacion": "Resumen editorial del alcance de la norma; el limite de 3/16 in y los tres tipos de cordon propios de chapa son el alcance declarado de AWS D1.3 desde su primera edicion."
+  },
+  {
+   "id": "STR-004",
+   "tema": "norma/desgarro de tornillo",
+   "claim": "AISC J3.10: resistencia nominal al desgarro (tear-out) de la chapa detras de un tornillo, phi*Rn = phi*1.2*Lc*t*Fu cuando la deformacion en servicio es una consideracion de diseno, y phi*1.5*Lc*t*Fu cuando no lo es, siendo Lc la distancia libre entre el borde del taladro y el borde de la chapa",
+   "afirmacion": "Es la comprobacion de resistencia que corresponde a la distancia al borde del taladro del perno de rodillo en la placa peine (la distancia minima de 1.5d de STR-001 es un requisito de detalle, no de resistencia)",
+   "value": "Rn = 1.2 * Lc * t * Fu",
+   "unit": "N",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://steelcalculator.app/reference/bolt-spacing/",
+    "accessed": "2026-07-29",
+    "quote": "phi*Rn = phi * 1.2 * Lc * t * Fu (when deformation at service load is a consideration) ... Where Lc = clear distance between hole edge and plate edge"
+   },
+   "fuente_titulo": "Steel Calculator — AISC 360-22 Bolt Spacing and Edge Distance (J3.3, Table J3.4, J3.10)",
+   "confidence": "media",
+   "metodo_verificacion": "La misma pagina reproduce la Tabla J3.4 completa y confirma que su primera fila es el tornillo de 1/2 in: AISC no tabula distancia al borde para tornillos menores."
+  },
+  {
+   "id": "STR-005",
+   "tema": "material/acero estructural",
+   "claim": "ASTM A36: limite elastico 36,300 psi (250 MPa), resistencia a traccion 58,000-79,800 psi (400-550 MPa), alargamiento a rotura 23.0 % en 50 mm, modulo de elasticidad 29,000 ksi (200 GPa)",
+   "afirmacion": "Propiedades del acero declarado en las chapas del bastidor y en las placas peine de 3/16 in del NBT90",
+   "value": "Fy = 250 MPa, Fu = 400-550 MPa, E = 200 GPa",
+   "unit": "MPa / GPa",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.metalsupermarkets.com/grade-guide-a36-steel/",
+    "accessed": "2026-07-29",
+    "quote": "Yield Strength: 36,300 psi / 250 MPa. Ultimate Tensile Strength: 58,000 - 79,800 psi / 400 - 550 MPa. Elongation at Break (50mm): 23.0%. Modulus of Elasticity: 29,000 ksi / 200 GPa"
+   },
+   "fuente_titulo": "Metal Supermarkets — Grade Guide: A36 Steel",
+   "confidence": "alta",
+   "metodo_verificacion": "Coincide con los valores minimos especificados de ASTM A36/A36M. Se usa Fu = 400 MPa (minimo) para las comprobaciones de aplastamiento y desgarro, que es el lado seguro."
+  },
+  {
+   "id": "BRG-006",
+   "tema": "rodamientos/608 del rodillo de transferencia",
+   "claim": "Rodamiento rigido de bolas 608-2RS de 8 x 22 x 7 mm: carga estatica 136 kgf (1334 N), carga dinamica 327 kgf (3207 N), limite de velocidad 23,000 rpm, acero SAE52100, jaula de acero embutido",
+   "afirmacion": "Es el rodamiento que params.mjs declara para los 6 rodillos de transferencia (P.rodRodam = {bore 8, od 22, w 7}). Sus capacidades son la referencia para la vida L10 y el coeficiente estatico s0 del rodillo",
+   "value": "C = 3207 N, C0 = 1334 N",
+   "unit": "N",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.smbbearings.com/firebrick/ckeditor/plugins/upload/Uploads/Documents/bearingpdfs/608-2RS-miniature-bearing-8x22x7mm.pdf",
+    "accessed": "2026-07-29",
+    "quote": "Part Number: 608-2RS  8mm 22mm 7mm ... Load rating (stat) 136 Kgf ... Load rating (dyn) 327 Kgf ... Speed Limit * 23,000 rpm"
+   },
+   "fuente_titulo": "SMB Bearings — hoja de datos 608-2RS (8x22x7 mm)",
+   "confidence": "alta",
+   "metodo_verificacion": "Texto extraido del PDF con PyMuPDF. SKF publica para el 608-2RSH C = 3.45 kN y C0 = 1.37 kN; se adopta el valor menor (SMB, 3.207 kN) por ser el lado seguro y por corresponder a un rodamiento generico, que es lo que el modelo declara."
+  },
+  {
+   "id": "BRG-007",
+   "tema": "rodamientos/ajuste del barreno",
+   "claim": "Un rodamiento de barreno 8 mm en clase de tolerancia normal (P0) tiene desviacion del barreno +0/-0.008 mm, es decir 7.992 a 8.000 mm",
+   "afirmacion": "Montado sobre un eje de 5/16 in = 7.9375 mm h6 (7.9285 a 7.9375) el juego diametral resultante es de 0.055 a 0.072 mm: no es un ajuste deslizante, es holgura franca, consecuencia de montar un rodamiento metrico sobre un eje en pulgadas",
+   "value": "+0 / -0.008",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.smbbearings.com/firebrick/ckeditor/plugins/upload/Uploads/Documents/bearingpdfs/608-2RS-miniature-bearing-8x22x7mm.pdf",
+    "accessed": "2026-07-29",
+    "quote": "TOLERANCE  Bore Deviation  P0 +0 / -0.008mm  P6 +0 / -0.007mm  P5 +0 / -0.005mm"
+   },
+   "fuente_titulo": "SMB Bearings — hoja de datos 608-2RS, tabla de tolerancias",
+   "confidence": "alta",
+   "metodo_verificacion": "Texto extraido del PDF con PyMuPDF. El diametro del eje sale de P.rodHex = 5/16 in = 7.9375 mm (params.mjs) y la tolerancia h6 para 6-10 mm es IT6 = 9 um."
+  },
+  {
+   "id": "PNEU-019",
+   "tema": "neumatica/limites de catalogo del MGP (condiciones de servicio)",
+   "claim": "Catalogo SMC serie MGP: energia cinetica admisible del bore 80 = 2.71 J, con Ek = (M+m)/2 * u^2 y u = 1.4 * ua; velocidad de embolo admisible 50 a 400 mm/s para bore 80 y 100; amortiguacion por tope de goma en ambos extremos; areas de embolo OUT 5027 / IN 4536 mm2 y vastago de 25 mm; peso del MGPM80 de 25 mm de carrera 6.49 kg, de ellos 4.27 kg de partes moviles; carga lateral admisible del MGPM80 con 25 mm de carrera 352 N; par de giro admisible de la placa 21.9 N.m; precision de no giro +-0.04 grados",
+   "afirmacion": "La carrera mas corta que el catalogo tabula para el bore 80 es 25 mm; el equipo monta 10 mm. Como las tablas de carga lateral y de par crecen al acortar la carrera, usar los valores de 25 mm es conservador. IMPORTANTE: el catalogo publica UNICAMENTE carga lateral F (perpendicular al eje del vastago) y par de giro T (alrededor del eje del vastago); NO publica ningun momento de vuelco admisible alrededor de un eje horizontal",
+   "value": "Ek 2.71 J; 50-400 mm/s; F 352 N; T 21.9 N.m; 4.27 kg moviles",
+   "unit": "J / mm-s / N / N.m / kg",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://content2.smcetech.com/pdf/MGPM_2139.pdf",
+    "accessed": "2026-07-29",
+    "quote": "Allowable Kinetic Energy ... Bore size (mm) 80 ... Allowable kinetic energy (J) 2.71 ... Ek = (M+m)/2 u^2, u = 1.4 ua ... Operating piston speed 50 to 400mm/s ... Cushion Rubber bumper at both ends ... Allowable lateral load (Ordinary load) F(N) ... Allowable rotary torque of plate T(Nm) ... Non-rotating accuracy of plate MGPM ±0.04°"
+   },
+   "fuente_titulo": "SMC, Compact Guide Cylinder Series MGP, paginas 3.17-5 a 3.17-7 (Specifications, Weight, Allowable Kinetic Energy, Operating Conditions)",
+   "confidence": "alta",
+   "metodo_verificacion": "Texto extraido del PDF con PyMuPDF (paginas 5, 6 y 7 del fichero). La columna de carrera 25 de las tablas de la pagina 7 contiene 12 valores = 6 diametros (32, 40, 50, 63, 80, 100) x 2 tipos de rodamiento (MGPM/MGPL); los dos ultimos pares son 21.9/15.1 (par) y 352/243 (carga lateral), que identifican MGPM80 = 21.9 N.m y 352 N. Coincide con los valores que ya usaba elevacion.mjs (cilParAdm, cilLateralAdm, cilEkAdm, cilVelAdm, cilMasaMovil, cilArea)."
+  },
+  {
+   "id": "MOT-009",
+   "tema": "motorreductor/carga radial admisible en el eje de salida",
+   "claim": "Catalogo SEW R07DR/DT (edicion 05/2002): para el motorreductor R07/RF07 con motor DT71D4 de 0.37 kW, las velocidades de salida de 350, 375 y 430 1/min tienen carga radial admisible FRa de 735, 720 y 695 N respectivamente. Para el DR63M2 de 0.25 kW a 461 1/min, FRa = 700 N. Par de salida maximo del R07 = 50 N.m. Masa del R07/RF07 DT71D4 = 7.9 kg",
+   "afirmacion": "Es el limite que hay que comparar con la resultante de la banda plana sobre la rueda motriz, que va calada en el eje de salida en voladizo. El motorreductor del equipo (Hytrol 300.0322) es de 1/2 hp y 462 rpm de salida, o sea el extremo alto de la gama del R07",
+   "value": 695,
+   "unit": "N",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://download.sew-eurodrive.com/download/pdf/10548912.pdf",
+    "accessed": "2026-07-29",
+    "quote": "0.37 ... 302 350 375 430 ... 12 10 9.4 8.2 ... 4.57 3.95 3.68 3.21 ... 765 735 720 695 ... R RF 07 07 DT DT 71D4 71D4 7.9 7.9"
+   },
+   "fuente_titulo": "SEW-EURODRIVE, Latest News - R07DR/DT.. Helical Geared Motors, 1054 8912/EN, seccion 3 Selection Tables, pag. 9",
+   "confidence": "alta",
+   "metodo_verificacion": "Texto extraido del PDF con PyMuPDF (pagina 9 del fichero). La nota 1) del encabezado de la tabla indica que FRa se refiere a la aplicacion de la fuerza en el punto medio del eje macizo; para una aplicacion mas alejada del apoyo hay que corregirla a la baja con las constantes a y b del catalogo, que esta hoja no publica."
+  },
+  {
+   "id": "BELT-005",
+   "tema": "bandas/coeficiente de friccion y admisible de la banda plana",
+   "claim": "En las tablas de gama de bandas Habasit (series TF y TC), la columna cuyo valor es 0.40 / - se titula literalmente \"Coefficient of friction µ of back side on steel driving pulley / stainless steel sliderbed\". La banda TC-20EF tiene diametro minimo de polea 1.0 in, fuerza de traccion al 1 % de 57 lbs/in y fuerza de traccion admisible k_adm de 120 lbs/in",
+   "afirmacion": "El mu = 0.40 que usa transmision.mjs para el arrastre del serpentin es el del DORSO de la banda sobre polea de acero: solo vale si el dorso es la cara que toca los rodillos motrices de acero desnudo. En un serpentin la banda presenta una cara a los rodillos y la OTRA a las poleas locas, asi que la orientacion no es libre. k_adm de una banda TC de 1 in de ancho = 120 lbs/in = 533.8 N",
+   "value": "mu 0.40 (dorso sobre polea de acero); TC-20EF: Dmin 1.0 in, k1% 57 lbs/in, k_adm 120 lbs/in",
+   "unit": "adimensional / in / lbs-in",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.habasit.com/-/media/Project/Habasit/PublicWebSite/Documents/English/Habasit-America/Literature/4080-Fabric-and-Round-Belts-Product-Range.pdf",
+    "accessed": "2026-07-29",
+    "quote": "Pulley diameter, minimum [in.] | Tensile force for 1% elongation per unit of width k1% [lbs./in.] | Admissible tensile force per unit of width k adm [lbs./in.] | ... | Coefficient of friction µ of back side on steel driving pulley / stainless steel sliderbed"
+   },
+   "fuente_titulo": "Habasit America, Media 4080 — Fabric and Round Belts Product Range, tablas de las series TF y TC",
+   "confidence": "alta",
+   "metodo_verificacion": "Encabezado de columna extraido del PDF con PyMuPDF (pagina 7 del fichero). La fila de TC-20EF ya estaba citada en BELT-002 con la secuencia \"1.0 57 120 * -4 158 0.40 / - 43 - - TC-20EF\", que ahora queda mapeada columna a columna con este encabezado."
+  },
+  {
+   "id": "ROD-007",
+   "tema": "rodillos/velocidad periferica maxima",
+   "claim": "Interroll acota la velocidad maxima de transporte por plataforma de rodamiento: 0.3 m/s a diametro 30 mm y 0.8 m/s a diametro 50 mm en la plataforma 1200 (rodamiento de acero); 0.1 y 0.3 m/s en la plataforma 1500 (casquillo de deslizamiento); 0.5 m/s en la plataforma 1450 (carga pesada, rodamientos 6204/6205); y 2.0 m/s en la plataforma 1700 (rodamientos de precision 6002 2RZ, 689 2Z, 6003 2RZ), con capacidad de carga maxima de 3,000 N",
+   "afirmacion": "La velocidad periferica de los rodillos del NBT90 sale a 1.855 m/s (1014 rpm sobre el vulcanizado de 34.93 mm): el 93 % del maximo de la plataforma de rodillo transportador mas rapida que publica Interroll, y 6 veces el limite de un rodillo de 30 mm con rodamiento de acero",
+   "value": "2.0 m/s (plataforma 1700, rodamientos de precision)",
+   "unit": "m/s",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.interroll.com/fileadmin/user_upload/Downloads__PDF_/Rollers/Technische_Grundlagen_Foerderrollen_EN.PDF",
+    "accessed": "2026-07-29",
+    "quote": "Platform 1700 is designed for high loads at very low noise levels ... Max. conveyor speed 2.0 m/s  Max. load capacity 3,000 N ... Max. conveyor speed at a diameter of 30 mm 0.3 m/s  Max. conveyor speed at a diameter of 50 mm 0.8 m/s"
+   },
+   "fuente_titulo": "Interroll — Technical Basics Conveyor Rollers (Technische Grundlagen Foerderrollen), paginas 174-177",
+   "confidence": "alta",
+   "metodo_verificacion": "Texto extraido del PDF con PyMuPDF (paginas 3 y 4 del fichero). Los 2.0 m/s corresponden a la plataforma con rodamientos rigidos de bolas de precision, que es la familia a la que pertenece el 608-2RS que declara params.mjs."
+  },
+  {
+   "id": "TOL-13920-001",
+   "tema": "tolerancias/conjuntos soldados",
+   "claim": "ISO 13920:2023 fija tolerancias generales de conjuntos soldados en cuatro clases A-D para longitudes y angulos y cuatro E-H para rectitud, planitud y paralelismo; se designan p. ej. ISO 13920-BE",
+   "afirmacion": "NORMA GENERAL de los conjuntos soldados del NBT90: se adopta la clase B (longitudes) + F (forma)",
+   "value": "A/B/C/D + E/F/G/H",
+   "unit": "clase",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://cdn.standards.iteh.ai/samples/86032/6a10638b107840019760287ed21b44f1/ISO-13920-2023.pdf",
+    "accessed": "2026-07-29",
+    "quote": "This document specifies general tolerances for linear and angular dimensions and for shape and position of welded structures in four tolerance classes, based on customary workshop accuracy. ... The designation of the selected tolerance class as specified in Table 1 and Table 2 (e.g. ISO 13920-B) or its combination with a tolerance class as specified in Table 3 (e.g. ISO 13920-BE), shall be entered in the appropriate area on the drawing."
+   },
+   "fuente_titulo": "ISO 13920:2023(E) - Welding - General tolerances for welded constructions (vista previa iTeh: portada y articulos 1, 4 y 5)",
+   "confidence": "alta"
+  },
+  {
+   "id": "TOL-13920-002",
+   "tema": "tolerancias/conjuntos soldados",
+   "claim": "ISO 13920:2023 tabla 1 (longitudes): el rango 2<l<=30 vale +-1 para las CUATRO clases (celda combinada); a partir de ahi la clase B da +-2 (30-120), +-2 (120-400), +-3 (400-1000), +-4 (1000-2000) y +-6 (2000-4000)",
+   "afirmacion": "Valores con los que la compuerta compara la precision del encaje: sobre el largo del modulo (463 mm) la clase B admite +-3 mm",
+   "value": "B: 1/2/2/3/4/6",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://cdn.standards.iteh.ai/samples/86032/6a10638b107840019760287ed21b44f1/ISO-13920-2023.pdf",
+    "accessed": "2026-07-29",
+    "quote": "Table 1 - Tolerances for linear dimensions ... A +-1 +-1 +-2 +-3 +-4 +-5 +-6 +-7 +-8 +-9 / B +-2 +-2 +-3 +-4 +-6 +-8 +-10 +-12 +-14 +-16 / C +-3 +-4 +-6 +-8 +-11 +-14 +-18 +-21 +-24 +-27 / D +-4 +-7 +-9 +-12 +-16 +-21 +-27 +-32 +-36 +-40"
+   },
+   "fuente_titulo": "ISO 13920:2023(E), 4.1 y tabla 1",
+   "confidence": "alta",
+   "nota": "La extraccion de texto del PDF pierde la primera columna porque es una CELDA COMBINADA (+-1 para A, B, C y D en 2<l<=30). Comprobado renderizando la pagina 6 a 300 ppp y leyendo la tabla: las diez cifras de cada fila corresponden a los rangos 30-120 en adelante."
+  },
+  {
+   "id": "TOL-13920-003",
+   "tema": "tolerancias/conjuntos soldados",
+   "claim": "ISO 13920:2023 tabla 3 (rectitud, planitud y paralelismo, sobre el lado mayor de la superficie): clase E 0,5/1/1,5/2/3 - F 1/1,5/3/4,5/6 - G 1,5/3/5,5/9/11 - H 2,5/5/9/14/18 para 30-120, 120-400, 400-1000, 1000-2000 y 2000-4000 mm",
+   "afirmacion": "Se adopta la clase F: sobre 463 mm da 3 mm de planitud. La clase G daria 5,5 mm, mas que la emergencia de 6,35 mm del rodillo",
+   "value": "F: 1/1,5/3/4,5/6",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://cdn.standards.iteh.ai/samples/86032/6a10638b107840019760287ed21b44f1/ISO-13920-2023.pdf",
+    "accessed": "2026-07-29",
+    "quote": "Table 3 - Straightness, flatness and parallelism tolerances ... E 0,5 1 1,5 2 3 4 5 6 7 8 / F 1 1,5 3 4,5 6 8 10 12 14 16 / G 1,5 3 5,5 9 11 16 20 22 25 25 / H 2,5 5 9 14 18 26 32 36 40 40"
+   },
+   "fuente_titulo": "ISO 13920:2023(E), 4.3 y tabla 3",
+   "confidence": "alta"
+  },
+  {
+   "id": "TOL-2768-001",
+   "tema": "tolerancias/piezas sueltas",
+   "claim": "ISO 2768-1 da desviaciones admisibles para cotas lineales sin tolerancia individual en cuatro clases f, m, c y v; la clase m vale +-0,1 (0,5-3), +-0,1 (3-6), +-0,2 (6-30), +-0,3 (30-120), +-0,5 (120-400) y +-0,8 (400-1000)",
+   "afirmacion": "NORMA GENERAL de la chapa cortada y plegada del NBT90 (clase m) y de las piezas mecanizadas (clase f)",
+   "value": "m: 0,1/0,1/0,2/0,3/0,5/0,8",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://amesweb.info/fits-tolerances/iso-2768-linear-dimensions-tolerances.aspx",
+    "accessed": "2026-07-29",
+    "quote": "ISO 2768 followed by the tolerance class, for example ISO 2768-m ... 0.5 to 3 +-0.05 +-0.1 +-0.2 - ; >3 to 6 +-0.05 +-0.1 +-0.3 +-0.5 ; >6 to 30 +-0.1 +-0.2 +-0.5 +-1 ; >30 to 120 +-0.15 +-0.3 +-0.8 +-1.5 ; >120 to 400 +-0.2 +-0.5 +-1.2 +-2.5 ; >400 to 1000 +-0.3 +-0.8 +-2 +-4"
+   },
+   "fuente_titulo": "AmesWeb - ISO 2768-1 Linear Dimensions Tolerance Table",
+   "confidence": "media",
+   "nota": "Tabla secundaria, no el texto de la norma. Contrastada con una segunda fuente independiente, el PDF 'General Tolerance ISO 2768 1 & 2' (DEKMAKE) alojado en el foro de calidad de ZEISS, que da exactamente los mismos valores para las cuatro clases."
+  },
+  {
+   "id": "TOL-2768-002",
+   "tema": "tolerancias/piezas sueltas",
+   "claim": "ISO 2768-2 fija tolerancias generales de forma y posicion en tres clases H, K y L; rectitud y planitud valen H 0,02/0,05/0,1/0,2/0,3/0,4 - K 0,05/0,1/0,2/0,4/0,6/0,8 - L 0,1/0,2/0,4/0,8/1,2/1,6 para <=10, 10-30, 30-100, 100-300, 300-1000 y 1000-3000 mm",
+   "afirmacion": "Se adopta K para chapa (ISO 2768-mK) y H para mecanizado (ISO 2768-fH)",
+   "value": "K: 0,05/0,1/0,2/0,4/0,6/0,8",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://qualityforum.zeiss.com/migration/images/137_8bb2b6eeb6a9e6554d254c216a890c89.pdf",
+    "accessed": "2026-07-29",
+    "quote": "ISO 2768-2 is for simplifying drawing and fixes general tolerances in 3 tolerance classes (H, K, and L) ... Table 4 - General Tolerances on Straightness and Flatness ... up to 10 0.02 0.05 0.1 ; above 10 to 30 0.05 0.1 0.2 ; above 30 to 100 0.1 0.2 0.4 ; above 100 to 300 0.2 0.4 0.8 ; above 300 to 1000 0.3 0.6 1.2 ; above 1000 to 3000 0.4 0.8 1.6"
+   },
+   "fuente_titulo": "General Tolerance ISO 2768 1 & 2 (DEKMAKE), alojado en el foro de calidad de ZEISS",
+   "confidence": "media"
+  },
+  {
+   "id": "CHAPA-TOL-001",
+   "tema": "chapa/tolerancia de espesor",
+   "claim": "La tabla ASTM-AISI de rangos de tolerancia de espesor da para el calibre 12 (0,1046 in) un rango laminado en FRIO de 0,1106/0,0986 in (+-0,006 in = +-0,152 mm), para el 14 (0,0747) 0,0797/0,0697 (+-0,005 in) y para el 6 (0,1943) laminado en CALIENTE 0,2033/0,1853 (+-0,009 in)",
+   "afirmacion": "Primer eslabon de la cadena de cotas de la holgura lengueta-ranura de los encajes soldados",
+   "value": "12 GA CR: +-0,006",
+   "unit": "in",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://coyotesteel.com/assets/img/PDFs/ASTM-ASTI_thicknessTolerance.pdf",
+    "accessed": "2026-07-29",
+    "quote": "ASTM-AISI THICKNESS TOLERANCE RANGES ... CARBON STEEL SHEETS HOT ROLLED - H R P & O - COLD ROLLED ... GAGE NO. 12 / DEC. EQUIV. .1046 / H R & P & O .1126 .0966 / CR .1106 .0986 / WEIGHT EQUIV. 4.375"
+   },
+   "fuente_titulo": "Coyote Steel & Co. - ASTM-AISI Thickness Tolerance Ranges",
+   "confidence": "alta",
+   "nota": "El 3/16 in (0,1875) no esta tabulado; el modelo toma el calibre 6 (0,1943), el inmediato superior, y lo declara. Lectura hecha sobre la pagina renderizada a 260 ppp, no sobre la extraccion de texto, que entrelaza columnas."
+  },
+  {
+   "id": "BRG-FIT-001",
+   "tema": "rodamientos/ajustes",
+   "claim": "Las tolerancias de eje y alojamiento de un rodamiento se rigen por ISO 286; para CARGA ROTANTE SOBRE EL ARO EXTERIOR y carga normal a pesada, NTN recomienda alojamiento N7, y para el eje bajo un aro que no gira respecto de la carga, ajuste con juego (g6/g5)",
+   "afirmacion": "Es el criterio que ya usaba transmision.mjs (aro exterior con carga rotante = apretado N7); aqui queda con fuente y se aplica tambien a las tapas-soporte de los rodillos y del rodillo de retorno",
+   "value": "N7",
+   "unit": "clase ISO 286",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://ntnamericas.com/wp-content/uploads/2020/03/brgfits.pdf",
+    "accessed": "2026-07-29",
+    "quote": "7.4 Recommended fits - Metric size standard dimension tolerances for bearing shaft diameters and housing bore diameters are governed by ISO 286 and JIS B 0401 (dimension tolerances and fits) ... Table 7.2 (1) Housing fits ... Outer ring static load / Direction indeterminate load / Outer ring rotating load / All load conditions ... Heat conducted through shaft / Light to normal / Normal to heavy load / Heavy shock load / Light or variable load / Normal to heavy load / Heavy load (thin wall housing) / Heavy shock load ... H7 G7 JS7 K7 M7 M7 N7 P7"
+   },
+   "fuente_titulo": "NTN Bearing Corp. - Technical Data A-54..A-57, 7. Bearing Fits",
+   "confidence": "alta",
+   "nota": "La extraccion del PDF entrega la columna de condiciones y la de ajustes en bloques separados. El mapeo de la tabla 7.2(1) es el clasico: aro exterior estatico H7/G7; carga indeterminada JS7/K7/M7; ARO EXTERIOR ROTANTE M7 (carga ligera o variable), N7 (normal a pesada) y P7 (pesada en carcasa delgada o choque). La figura 7.1 de la misma pagina situa g6/g5 en 'Loose fit' para ejes."
+  },
+  {
+   "id": "HW-011",
+   "tema": "tornilleria/buje sin chaveta",
+   "claim": "El buje conico sin chaveta Fenner Drives Trantorque GT de 20 mm es la referencia 6202811: d = 20 mm, D = 45,0 mm, L = 22,2 mm, L1 = 47,6 mm, par de apriete 170 Nm, par transmisible maximo 290 Nm, empuje 21,0 kN y diametro minimo de cubo 55,7 mm",
+   "afirmacion": "Designacion de fabricante del componente Hytrol 099.128420 KEYLESS BUSHING 20 mm ID x 45 mm OD, que el manual no identifica por marca",
+   "value": "6202811",
+   "unit": "referencia",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://hollandindustrial.com/wp-content/uploads/2023/04/Trantorque-Keyless-Bushings.pdf",
+    "accessed": "2026-07-29",
+    "quote": "Trantorque GT Metric ... Part Number d (mm) D (mm) L (mm) L1 (mm) Wrench Size ... Install Torque (Nm) ... Maximum Transmitted Torque (Nm) Thrust (kN) ... Minimum Hub Diameter (mm) ... 6202811 20 45.0 22.2 47.6 38 1 3/4 11.1 9.5 170 290 21.0 65 55.7 0.4"
+   },
+   "fuente_titulo": "Fenner Drives - B-LOC & Trantorque Keyless Bushings, pag. 31 (Trantorque GT Metric)",
+   "confidence": "alta",
+   "nota": "El par de apriete de catalogo (170 Nm) coincide con los 1500 in-lb = 169,5 Nm que el manual Hytrol da para su 099.128420 (MOT-004): confirmacion cruzada de que es este buje. El diametro minimo de cubo (55,7) lo cumple la rueda motriz de 2-1/2 in (63,5). El modelo dibuja 42 mm de largo total frente a los 47,6 de catalogo: diferencia declarada."
+  },
+  {
+   "id": "HW-012",
+   "tema": "tornilleria/tuerca soldable",
+   "claim": "No hay norma ISO ni ASME de tuerca hexagonal soldable en pulgadas (la DIN 929 es metrica); las de 3/8-16 se compran por catalogo, con 3 o 6 proyecciones y piloto corto o largo, en acero al carbono sin recubrimiento",
+   "afirmacion": "Designacion de las 4 tuercas soldadas bajo la cartela: se elige fabricante y se cita, porque no se puede designar por norma",
+   "value": "8100-006",
+   "unit": "referencia de catalogo",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.albanycountyfasteners.com/Hex-Weld-Nuts-6-Projection-Short-Pilot-Steel-p/8100-006.htm",
+    "accessed": "2026-07-29",
+    "quote": "Hex Weld Nuts (6 Projections & Short Pilot), Plain Steel, 3/8\"-16"
+   },
+   "fuente_titulo": "Albany County Fasteners - Hex Weld Nuts, ref. 8100-006",
+   "confidence": "media",
+   "nota": "Titulo de producto tomado literalmente de la pagina; la ficha tecnica completa no se pudo extraer. Alternativa equivalente localizada: Fastenal 37984, '3/8\"-16 Standard Pilot 3 Projection Hex Weld Nut'. El equivalente metrico SI esta normalizado: DIN 929."
   }
  ],
  "pendientes_sin_fuente": [
@@ -1612,6 +1969,16 @@
   "Elevacion efectiva del rodillo sobre la linea de banda: relacion entre el rotulo '0.394\" MOVEMENT' de FIGURE 8A y la carrera de 20 mm del cilindro. Requiere dibujo de instalacion acotado o medicion en campo.",
   "Numero de bandas, carrera y capacidad de transferencias equivalentes de Interroll, Lewco, Omni Metalcraft, Dematic y Ashland (el manual Interroll RM 8731 es un PDF escaneado).",
   "Motorreductor NEMA 56C de 1/2 HP con dimensiones publicadas y salida cercana a 460 rpm; y estilos de montaje C-face / eje hueco / brazo de par con cita verbatim.",
-  "Confirmar con el vendedor que el MGPM80 con carrera de 10 mm se sirve con la misma cota E = 18.5 mm de salida de varillas guia que la gama tabulada (carrera <= 50): el catalogo SMC no tabula la carrera 10 para el o80 y el clon podria acortar las varillas. Afecta al despeje bajo el alma del canal de montaje."
+  "Confirmar con el vendedor que el MGPM80 con carrera de 10 mm se sirve con la misma cota E = 18.5 mm de salida de varillas guia que la gama tabulada (carrera <= 50): el catalogo SMC no tabula la carrera 10 para el o80 y el clon podria acortar las varillas. Afecta al despeje bajo el alma del canal de montaje.",
+  "REVISION ESTRUCTURAL 2026-07-29: SMC no publica momento de vuelco admisible (alrededor de un eje horizontal) para la serie MGP; solo carga lateral F y par de giro T alrededor del eje del vastago (PNEU-019). Hace falta pedir a SMC la curva de carga admisible frente a distancia excentrica, o la rigidez y el juego de los casquillos de las varillas guia, para poder cerrar el caso de bulto excentrico sobre el plato.",
+  "REVISION ESTRUCTURAL 2026-07-29: aplastamiento del tope de goma del MGPM80 al final de carrera. SMC publica la energia cinetica admisible (2.71 J) pero no la carrera de aplastamiento del tope, que es lo que fija la fuerza de impacto sobre la estructura y si el bulto despega de los rodillos al parar.",
+  "REVISION ESTRUCTURAL 2026-07-29: constantes a y b de SEW para corregir FRa cuando la carga no se aplica en el punto medio del eje de salida (MOT-009). La rueda motriz queda a 34.35 mm de la cara de la brida y el catalogo R07DR/DT no publica esas constantes.",
+  "REVISION ESTRUCTURAL 2026-07-29: regla de Habasit para el incremento del diametro minimo de polea cuando la banda flexa en los DOS sentidos (counterflexing). El serpentin dobla la banda sobre los rodillos (28.93 mm) en un sentido y sobre las locas (63.5 mm) en el otro; con Dmin = 25.4 mm el margen es de solo 1.14 y la penalizacion por contraflexion decidiria si cumple.",
+  "REVISION ESTRUCTURAL 2026-07-29: coeficiente de friccion entre el bulto (carton corrugado) y el vulcanizado del rodillo. No se encontro un valor publicado con cita; se adopta mu = 0.50 como decision de diseno con rango 0.35-0.70 y se reporta el mu de saturacion del motorreductor (0.60).",
+  "REVISION ESTRUCTURAL 2026-07-29: grado y par de apriete de los pernos 1/4-20 de los rodillos y 3/8-16 del bastidor. El manual solo dice \"3/8 in. bolts\" y \"3/8 locknut\" (txt pag. 8), sin grado. La comprobacion de no despegue de la corona del eje de rodillo EXIGE grado 5 a 8 ft-lb; con grado 2 no cumple.",
+  "REVISION ESTRUCTURAL 2026-07-29: tolerancia de diametro del tubo del rodillo y del espesor del vulcanizado. Es lo que decide el reparto de carga entre rodillos con un bulto rigido, mas que la rigidez del bastidor, y no esta declarada en ninguna parte.",
+  "Desviaciones numericas de ISO 286-2 para los ajustes N7, g6, h6, r6, H7, H8 y H11 que usa el ensamble: no se consiguio transcripcion citable de la tabla (roymech devuelve pagina vacia por WebFetch; engineersedge y tribology-abc, 403; el PDF de la norma en almasehsanj, 503). En el plano la tolerancia ES la designacion ISO 286, que si esta citada (ISO 286-1/-2), asi que no falta informacion para fabricar; falta la comodidad de leer las desviaciones sin abrir la norma.",
+  "Cuerpo del eje de los rodillos de transferencia: sale de P.rodHex = 5/16 in (7,94) y el rodamiento congelado en params.mjs es un 608 de barreno 8, asi que el juego diametral es 0,052-0,069 mm, propio de un montaje con casquillo y no de un g6 (0,005-0,022). Resolverlo pide o tocar params.mjs (prohibido por el contrato) o un rodamiento de barreno 5/16 in, que la serie R no tiene. Declarado en AJ-02.",
+  "Ranura del anillo de retencion del esparrago de polea de 5/8 in: el 5100-062 de ASME B27.7 pide ranura O14,94 x 1,07 y el modelo dibuja O14,7 x 1,3, porque esa geometria la genera `anilloRet` de lib.mjs, que el contrato prohibe editar. Discrepancia declarada: 0,24 mm de profundidad."
  ]
 }

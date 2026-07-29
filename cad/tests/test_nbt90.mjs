@@ -186,7 +186,16 @@ const volumen = (g) => {
   }
   return v;
 };
-let malas = 0, volTot = 0;
+// La masa del conjunto MÓVIL se pesa AQUÍ y no en la compuerta porque construir
+// los 410 sólidos cuesta ~30 s y `gen_nbt90.mjs` tarda 0.08: meter esto en el gate
+// multiplicaría por 350 el ciclo de trabajo de quien edita un módulo. Aquí el coste
+// marginal es cero, porque este bucle ya construye todas las mallas.
+// Densidades (`dis`, acero al carbono y goma vulcanizada); las piezas de contexto
+// (bandas y regletas del anfitrión) no cuentan: no son del equipo.
+const RHO = { acero: 7.85e-6, goma: 1.20e-6 };          // kg/mm³
+const densidadDe = (p) => (/goma|caucho|Vulcanizado|Banda plana|FLEXPROOF/i
+  .test(`${p.material || ''} ${p.name}`) ? RHO.goma : RHO.acero);
+let malas = 0, volTot = 0, masaMovil = 0, masaMotorSolido = 0;
 for (const p of partes) {
   try {
     const g = buildPartGeometry(p);
@@ -196,9 +205,32 @@ for (const p of partes) {
     const v = volumen(g);
     if (v <= 0) { console.log(`      volumen ${r2(v)}: ${p.name}`); malas++; continue; }
     volTot += v;
+    if (!p.contexto && /^MÓVIL/.test(p.name)) {
+      masaMovil += v * densidadDe(p);
+      if (/Motorreductor SEW/.test(p.name)) masaMotorSolido = v * densidadDe(p);
+    }
   } catch (e) { console.log(`      error: ${p.name} — ${e.message}`); malas++; }
 }
 ok(malas === 0, `las ${partes.length} piezas construyen malla cerrada (${(volTot / 1e6).toFixed(1)} dm³ de material)`);
+
+console.log('— Masa del conjunto móvil: la declarada contra la que pesan los sólidos —');
+// El motorreductor se modela MACIZO (convención del repositorio para piezas
+// compradas): pesarlo así da 43 kg en vez de los 7.9 de catálogo (web MOT-007).
+// Se corrige, se le suman las partes móviles del cilindro (4.27 kg, web PNEU-019)
+// y se compara con `masaMovilKg` de elevacion.mjs, que hoy es una estimación `dis`.
+const MASA_MOTOR_CAT = 7.9, MASA_MOVIL_CILINDRO = 4.27;
+const masaPesada = masaMovil - masaMotorSolido + MASA_MOTOR_CAT + MASA_MOVIL_CILINDRO;
+const masaDeclarada = doc.meta.verificaciones.estructural?.cassette?.masaMovilDeclaradaKg
+  ?? (V.masaElevadaKg !== undefined ? V.masaElevadaKg - P.cargaMaxKg : 55);
+ok(masaPesada <= masaDeclarada + 1e-9,
+  `la masa móvil declarada (${r2(masaDeclarada)} kg) cubre la que pesan los sólidos `
+  + `(${r2(masaPesada)} kg = ${r2(masaMovil - masaMotorSolido)} de estructura + ${MASA_MOTOR_CAT} del SEW `
+  + `+ ${MASA_MOVIL_CILINDRO} de las partes móviles del cilindro)`);
+// Y no puede ir tan sobrada que deje de ser un dato: la masa TAMBIÉN estabiliza el
+// cassette contra el vuelco (EST-03), así que sobrestimarla no es el lado seguro.
+ok(masaDeclarada <= masaPesada * 1.6,
+  `y no la sobrestima más de un 60 % (${r2(masaDeclarada / masaPesada)}×): la masa móvil es lo único `
+  + `que impide que un bulto excéntrico despegue el apoyo de la horquilla, así que pasarse NO es conservador`);
 
 console.log(`\n${pass} OK, ${fail} fallas`);
 process.exit(fail ? 1 : 0);
