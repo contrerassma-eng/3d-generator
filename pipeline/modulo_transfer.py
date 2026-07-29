@@ -1235,17 +1235,36 @@ def leeme_modulo(d, bom, verif) -> str:
          "  holguras críticas (mm): " + ", ".join(
              f"{k} {v:g}" for k, v in verif["holguras"]["mm"].items()),
          "",
+         "SECUENCIA DE MONTAJE (el orden importa: las correas son lazos SIN FIN)",
+         "  1. Frame: canales + placas extremas + pantalla + mampara (sin apretar).",
+         "  2. Bloques soporte al alma con sus FR8ZZ; tapa aún NO.",
+         "  3. Eje común: enhebrar las 3 correas y el spool ANTES de montar las",
+         "     chumaceras — las poleas motrices Ø60 entran por el extremo del eje",
+         "     y se fijan con prisionero en su plano y.",
+         "  4. Casetes: cada casete se arma alrededor de su correa (placas +",
+         "     terminales + snub en colisa baja + cama) y se atornilla al alma A",
+         "     y a la pantalla. Tensar con la colisa del snub (take-up 1-2%).",
+         "  5. Ejes omni con sus ruedas y spool (prisionero), a los bloques.",
+         "  6. O-rings estirados 10-12% en sus gargantas; motores A y B con sus",
+         "     poleas; anillo motor-eje en su plano.",
+         "  7. Tapa arriba (M4 a los bloques). Girar a mano ambos trenes antes",
+         "     de conectar.",
+         "",
          "LISTA DE MATERIALES"]
     for fila in bom:
         L.append(f"  {fila['cant']:>2} x {fila['pieza']:<24} [{fila['origen']}] "
                  f"{fila['nota']}")
     L += ["", "LO QUE ESTE DISEÑO NO RESUELVE AÚN",
           parrafo("Selección eléctrica de los UniDrive (par/velocidad según "
-                  "carga real), fijación del módulo al bastidor anfitrión "
-                  "(pestañas con agujeros a definir sobre el transportador "
-                  "real), y el desvío hacia el lado B pierde apoyo de correa "
-                  "en los últimos 100 mm (franja del tren): preferir desviar "
-                  "hacia el lado A."),
+                  "carga real); par transmisible de los o-rings 3/16 con la "
+                  "carga real (el esquema lineshaft mueve un rodillo por "
+                  "anillo — aquí cada anillo arrastra un eje con 4-5 ruedas: "
+                  "validar deslizamiento o subir a 2 anillos por tramo); "
+                  "fijación del módulo al bastidor anfitrión (pestañas con "
+                  "agujeros a definir sobre el transportador real); y el "
+                  "desvío hacia el lado B pierde apoyo de correa en los "
+                  "últimos 100 mm (franja del tren): preferir desviar hacia "
+                  "el lado A."),
           "",
           "Todas las cotas heredan la incertidumbre declarada de sus fuentes "
           "(ver DECISIONES.md y web_facts.json).", ""]
@@ -1276,7 +1295,7 @@ def catalogo_modulo_pdf(piezas, unicos, d, bom, verif, out: Path) -> Path:
             ax.axis("off")
         except Exception:
             pass
-        tab = fig.add_axes([0.06, 0.10, 0.88, 0.40])
+        tab = fig.add_axes([0.06, 0.06, 0.88, 0.45])
         tab.axis("off")
         filas = [[b["pieza"], str(b["cant"]), b["origen"]] for b in bom]
         t = tab.table(cellText=filas, colLabels=["Pieza", "Cant.", "Origen"],
@@ -1291,7 +1310,7 @@ def catalogo_modulo_pdf(piezas, unicos, d, bom, verif, out: Path) -> Path:
             if fi == 0:
                 c.set_facecolor("#eeeeee")
                 c.set_text_props(weight="bold")
-        fig.text(0.08, 0.075, "Verificación global: "
+        fig.text(0.08, 0.028, "Verificación global: "
                  + d["verificacion"]["verdicto_global"]
                  + " — detalle en modulo.json y LEEME.txt", size=8)
         pp.savefig(fig)

@@ -1,5 +1,5 @@
 MÓDULO DE TRANSFERENCIA OMNI + CORREAS — BF 21"
-proyecto TRANSFER-BF21 · generado 2026-07-29T04:04:13Z · capa `user` (diseño)
+proyecto TRANSFER-BF21 · generado 2026-07-29T04:07:50Z · capa `user` (diseño)
 
 QUÉ ES
   Módulo insertable entre bastidores de un transportador de rodillos BF 21
@@ -22,6 +22,21 @@ VERIFICADO POR EL GENERADOR
   lazo: motriz 170.3° (gate >=120; Movex 140±10) · contraflexión mínima Ø50 (Habasit >=50)
   caja 250x250: mínimo 4 ruedas / 2 hileras / 2 correas bajo la caja
   holguras críticas (mm): anillo_oring_a_tapa 3.14, spool_a_pantalla 11, correa_a_pantalla 4.5, lazo_a_fondo 26.5, rueda_a_ranura_tapa 2.96, correa_a_ranura_tapa 3, casete_a_rueda_vecina 2.5, motorA_a_eje4 11.17, motorB_a_eje_comun 42.02
+
+SECUENCIA DE MONTAJE (el orden importa: las correas son lazos SIN FIN)
+  1. Frame: canales + placas extremas + pantalla + mampara (sin apretar).
+  2. Bloques soporte al alma con sus FR8ZZ; tapa aún NO.
+  3. Eje común: enhebrar las 3 correas y el spool ANTES de montar las
+     chumaceras — las poleas motrices Ø60 entran por el extremo del eje
+     y se fijan con prisionero en su plano y.
+  4. Casetes: cada casete se arma alrededor de su correa (placas +
+     terminales + snub en colisa baja + cama) y se atornilla al alma A
+     y a la pantalla. Tensar con la colisa del snub (take-up 1-2%).
+  5. Ejes omni con sus ruedas y spool (prisionero), a los bloques.
+  6. O-rings estirados 10-12% en sus gargantas; motores A y B con sus
+     poleas; anillo motor-eje en su plano.
+  7. Tapa arriba (M4 a los bloques). Girar a mano ambos trenes antes
+     de conectar.
 
 LISTA DE MATERIALES
    2 x canal_lateral            [fabricar] chapa plegada 3 mm (desarrollo DXF)
