@@ -1,0 +1,41 @@
+{
+  "project": "RC-SCH40-48",
+  "stage": "S0_PENDIENTE",
+  "nota": "Proyecto de DISEÑO (no fotogrametria): no hay fotos ni etapas S0-S5. El entregable es el conjunto parametrico cad/ensambles/rodillos_sch40/.",
+  "gates": {
+    "G_DISENO": {
+      "verdict": "PASA",
+      "metrics": {
+        "piezas": 23,
+        "EL": 532,
+        "tubo": 522,
+        "sobre_tapas": 531,
+        "sobre_ejes": 553,
+        "contrataladro": "Ø45 H8 × 20",
+        "pared_restante_mm": 1.63,
+        "pared_peor_caso_mm": 1.23,
+        "cono_k": 0.06289,
+        "cono_semiangulo_deg": 1.8,
+        "cono_error_max_vs_tabla_catalogo_mm": 0.08,
+        "curva_radio_interior_mm": 884.08,
+        "rodamiento_s0": 12.4,
+        "rodamiento_L10h": 2079902.17,
+        "flecha_tubo_mm": 0.0535,
+        "interferencias_brep": 0,
+        "step_desviacion_max_pct": 0.29,
+        "pruebas": "cad/tests/test_rodillos_sch40.mjs — 38 ok, 0 fallos",
+        "hash_modelo": "sha256:4c899cf84b388b390a05c65200b550bc621490cbba21a214eb0a5ac88c19abcb",
+        "hash_glb": "sha256:bdf55965fb20f3fb7eab631be05d4aee7a8ba8294fd2d5d4019b997c8bc520c8",
+        "hash_step": "sha256:20786e603b7bf18a6b65a372f257cb473f9ec7cb285f02693805d7f06675ee85",
+        "hash_pdf": "sha256:66225893586dd1d5caedccb3a64f99887317c30427adb294052370fe4e480f3e"
+      },
+      "reasons": [],
+      "avisos": [
+        "CANALES: el canal Ø38.5 exige rebajar 4.88 mm y la pared de la SCH40 es 3.68 mm — NO se puede mecanizar sobre esta cañería (ver README §Canales de correa)",
+        "EJE HEXAGONAL: el \"11 Hex\" del plano Damon es 11 mm MÉTRICO (no 7/16\"); 9/16\" no es una medida estándar de rodillo por gravedad y no se encontró barra hexagonal de 11 mm en Chile → se usa eje redondo Ø12 con caras planas (opción del usuario)."
+      ],
+      "ts": "2026-07-29T03:17:37.549025+00:00"
+    }
+  },
+  "updated": "2026-07-29T03:17:37.549136+00:00"
+}
