@@ -68,9 +68,12 @@ const perfilRanura = () => [
   [0, L.ranuraD / 2], [0, RE + 1.0], [L.ranuraW, RE + 1.0], [L.ranuraW, L.ranuraD / 2],
 ];
 
-const perfilResorte = (len) => {
-  const re = P.resorte.de / 2, ri = P.resorte.di / 2;
-  return [[0, ri], [0, re], [len, re], [len, ri]];
+/** Sección del alambre de UNA espira (cuadrada equivalente al Ø del alambre).
+ *  El resorte se modela espira por espira y no como manguito: así la vista de
+ *  corte muestra lo que realmente hay adentro. */
+const perfilEspira = () => {
+  const a = P.resorte.alambre, rm = (P.resorte.de - a) / 2;   // radio medio del resorte
+  return [[0, rm - a / 2], [0, rm + a / 2], [a, rm + a / 2], [a, rm - a / 2]];
 };
 
 const espejo = (perfil, len) => perfil.map(([h, r]) => [r2(len - h), r]);
@@ -140,7 +143,7 @@ export function nucleo(E, { y = 0, z = 0, capa = '', suf = '' } = {}) {
 
     E.addPart(
       `${capa}Tapa portarodamiento Ø${P.contra.d}/Ø${T.asientoD} × ${T.largo} (${marca}${lado})`,
-      COL.acero, [xTapa, y, z],
+      COL.chapaOsc, [xTapa, y, z],
       [revolve(`Brida Ø${T.bridaD}, cuerpo de prensa Ø${P.contra.d}, alojamiento Ø${T.asientoD} con hombro Ø${T.hombroD}`,
         [xTapa, y, z], 'x', s === 0 ? perfilTapa() : espejo(perfilTapa(), T.largo))],
       {
@@ -163,6 +166,7 @@ export function nucleo(E, { y = 0, z = 0, capa = '', suf = '' } = {}) {
     anilloRet(E, {
       nombre: 'asiento de resorte',
       at: [r2(xr + (L.ranuraW - P.anillo.esp) / 2), y, z], dir: DIR, eje: P.eje.d, capa,
+      color: COL.neumatica,   // color propio para que se distinga en la vista de corte
     });
     n.anillos++;
 
@@ -171,8 +175,12 @@ export function nucleo(E, { y = 0, z = 0, capa = '', suf = '' } = {}) {
     const x0 = s === 0 ? X.rodamIzqX1 : r2(xr + L.ranuraW);
     E.addPart(
       `${capa}Resorte de compresión Ø${P.resorte.de}×${P.resorte.alambre} L0=${P.resorte.libre} (${marca}${lado})`,
-      COL.inox, [x0, y, z],
-      [revolve(`Manguito equivalente L=${P.resorte.montado} (montado)`, [x0, y, z], 'x', perfilResorte(P.resorte.montado))],
+      COL.tornillo, [x0, y, z],
+      Array.from({ length: Math.round(P.resorte.nTotal) }, (_, i) => {
+        const paso = P.resorte.montado / P.resorte.nTotal;
+        return revolve(`Espira ${i + 1}/${Math.round(P.resorte.nTotal)} Ø${P.resorte.alambre}`,
+          [r2(x0 + i * paso), y, z], 'x', perfilEspira());
+      }),
       {
         hardware: true,
         norma: 'alambre de acero para resortes ASTM A228',
