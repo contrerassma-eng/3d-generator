@@ -93,9 +93,9 @@ ok(Math.abs(R.retorno.largo - (P.BR - 1.25 * 25.4)) < 0.01,
 ok(Math.abs(R.retorno.tangenciaMm) < 0.1,
   `su generatriz superior (Z=${R.retorno.generatrizSuperiorZ}) es tangente al ramal de retorno de las bandas`);
 ok(nombre(/^FIJO · Rodamiento R8-2RS/).length === 2 && nombre(/^FIJO · Eje de rodillo de retorno/).length === 1,
-  'gira sobre 2 rodamientos R8-2RS montados en un eje Ø1/2" con hilo interior 5/16-18');
-ok(nombre(/^FIJO · Perno hex 5\/16-18 UNC × .* rodillo de retorno/).length === 2 && R.retorno.roscaEngranadaEnD >= 1,
-  `2 pernos 5/16-18 desde fuera del alma, rosca engranada ${R.retorno.roscaEngranadaEnD}·d`);
+  'gira sobre 2 rodamientos R8-2RS montados en un eje Ø1/2" con hilo interior 1/4-20');
+ok(nombre(/^FIJO · Perno hex 1\/4-20 UNC × .* rodillo de retorno/).length === 2 && R.retorno.roscaEngranadaEnD >= 1,
+  `2 pernos 1/4-20 desde fuera del alma (med: vástago 6.32 mm ≈ 1/4"), rosca engranada ${R.retorno.roscaEngranadaEnD}·d`);
 // La regla de catálogo deja el tubo 1-1/4" más corto que el vano: sin los dos
 // casquillos el rodillo caminaría 15.9 mm por lado (contrato §5.3).
 ok(nombre(/^FIJO · Casquillo separador/).length === 2 && R.retorno.juegoAxialTubo === 0,

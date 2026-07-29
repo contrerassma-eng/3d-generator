@@ -121,12 +121,12 @@
       "pared": 1.65,
       "y": 229.9,
       "t": 2.657,
-      "pasante": 8.7,
+      "pasante": 7,
       "torn": {
-       "d": 7.938,
-       "af": 12.7,
-       "hh": 4.978,
-       "tuerca": 6.934
+       "d": 6.35,
+       "af": 11.112,
+       "hh": 4.14,
+       "tuerca": 5.74
       },
       "roscaProf": 15.88,
       "x": 452,
@@ -216,12 +216,12 @@
      "ramalRetornoZ": 326.7,
      "tangenciaMm": 0,
      "rodamiento": "R8-2RS",
-     "montaje": "perno 5/16-18 × 3/4\" desde fuera del alma del canal anfitrión",
+     "montaje": "perno 1/4-20 × 3/4\" desde fuera del alma del canal anfitrión",
      "separadorD": 17.46,
      "juegoAxialTubo": 0,
      "agarreMm": 4.26,
      "roscaEngranadaMm": 14.79,
-     "roscaEngranadaEnD": 1.86
+     "roscaEngranadaEnD": 2.33
     }
    },
    "transmision": {
@@ -827,7 +827,7 @@
     },
     {
      "id": "f11",
-     "name": "Rodillo de retorno B-20760 Ø8.7",
+     "name": "Rodillo de retorno B-20760 Ø7",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -841,7 +841,7 @@
       0
      ],
      "params": {
-      "dia": 8.7,
+      "dia": 7,
       "depth": 10,
       "through": false
      }
@@ -1277,7 +1277,7 @@
     },
     {
      "id": "f24",
-     "name": "Rodillo de retorno B-20760 Ø8.7",
+     "name": "Rodillo de retorno B-20760 Ø7",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -1291,7 +1291,7 @@
       0
      ],
      "params": {
-      "dia": 8.7,
+      "dia": 7,
       "depth": 10,
       "through": false
      }
@@ -32137,8 +32137,8 @@
    ]
   },
   {
-   "id": "p253_fijo_golilla_rodillo_de_retorno_y_7_938",
-   "name": "FIJO · Golilla rodillo de retorno (−Y) Ø7.938",
+   "id": "p253_fijo_golilla_rodillo_de_retorno_y_6_35",
+   "name": "FIJO · Golilla rodillo de retorno (−Y) Ø6.35",
    "color": "#9aa4b2",
    "pos": [
     452,
@@ -32158,7 +32158,7 @@
    "features": [
     {
      "id": "f616",
-     "name": "Arandela Ø17.46×1.6",
+     "name": "Arandela Ø13.97×1.6",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -32172,13 +32172,13 @@
       0
      ],
      "params": {
-      "dia": 17.46,
+      "dia": 13.97,
       "h": 1.6
      }
     },
     {
      "id": "f617",
-     "name": "Ø8.54",
+     "name": "Ø6.95",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -32192,7 +32192,7 @@
       0
      ],
      "params": {
-      "dia": 8.54,
+      "dia": 6.95,
       "depth": 0,
       "through": true
      }
@@ -32200,12 +32200,12 @@
    ]
   },
   {
-   "id": "p254_fijo_perno_hex_5_16_18_unc_19_05_rodillo_de_retorno_y",
-   "name": "FIJO · Perno hex 5/16-18 UNC × 19.05 · rodillo de retorno (−Y)",
+   "id": "p254_fijo_perno_hex_1_4_20_unc_19_05_rodillo_de_retorno_y",
+   "name": "FIJO · Perno hex 1/4-20 UNC × 19.05 · rodillo de retorno (−Y)",
    "color": "#d5b46a",
    "pos": [
     452,
-    -237.808,
+    -236.96999999999997,
     302.57
    ],
    "quat": [
@@ -32221,7 +32221,7 @@
    "features": [
     {
      "id": "f618",
-     "name": "Cabeza hex e/c 12.7",
+     "name": "Cabeza hex e/c 11.112",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -32237,31 +32237,31 @@
      "params": {
       "pts": [
        [
-        7.33,
+        6.42,
         0
        ],
        [
-        3.67,
-        6.35
+        3.21,
+        5.56
        ],
        [
-        -3.67,
-        6.35
+        -3.21,
+        5.56
        ],
        [
-        -7.33,
+        -6.42,
         0
        ],
        [
-        -3.67,
-        -6.35
+        -3.21,
+        -5.56
        ],
        [
-        3.67,
-        -6.35
+        3.21,
+        -5.56
        ]
       ],
-      "h": 4.978,
+      "h": 4.14,
       "u": [
        -1,
        0,
@@ -32271,12 +32271,12 @@
     },
     {
      "id": "f619",
-     "name": "Vástago Ø7.938×19.05",
+     "name": "Vástago Ø6.35×19.05",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      4.978000000000009,
+      4.139999999999986,
       0
      ],
      "dir": [
@@ -32285,7 +32285,7 @@
       0
      ],
      "params": {
-      "dia": 7.94,
+      "dia": 6.35,
       "h": 19.05
      }
     }
@@ -32827,8 +32827,8 @@
    ]
   },
   {
-   "id": "p258_fijo_golilla_rodillo_de_retorno_y_7_938",
-   "name": "FIJO · Golilla rodillo de retorno (+Y) Ø7.938",
+   "id": "p258_fijo_golilla_rodillo_de_retorno_y_6_35",
+   "name": "FIJO · Golilla rodillo de retorno (+Y) Ø6.35",
    "color": "#9aa4b2",
    "pos": [
     452,
@@ -32848,7 +32848,7 @@
    "features": [
     {
      "id": "f625",
-     "name": "Arandela Ø17.46×1.6",
+     "name": "Arandela Ø13.97×1.6",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -32862,13 +32862,13 @@
       0
      ],
      "params": {
-      "dia": 17.46,
+      "dia": 13.97,
       "h": 1.6
      }
     },
     {
      "id": "f626",
-     "name": "Ø8.54",
+     "name": "Ø6.95",
      "shape": "hole",
      "op": "cut",
      "at": [
@@ -32882,7 +32882,7 @@
       0
      ],
      "params": {
-      "dia": 8.54,
+      "dia": 6.95,
       "depth": 0,
       "through": true
      }
@@ -32890,12 +32890,12 @@
    ]
   },
   {
-   "id": "p259_fijo_perno_hex_5_16_18_unc_19_05_rodillo_de_retorno_y",
-   "name": "FIJO · Perno hex 5/16-18 UNC × 19.05 · rodillo de retorno (+Y)",
+   "id": "p259_fijo_perno_hex_1_4_20_unc_19_05_rodillo_de_retorno_y",
+   "name": "FIJO · Perno hex 1/4-20 UNC × 19.05 · rodillo de retorno (+Y)",
    "color": "#d5b46a",
    "pos": [
     452,
-    237.808,
+    236.96999999999997,
     302.57
    ],
    "quat": [
@@ -32911,7 +32911,7 @@
    "features": [
     {
      "id": "f627",
-     "name": "Cabeza hex e/c 12.7",
+     "name": "Cabeza hex e/c 11.112",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -32927,31 +32927,31 @@
      "params": {
       "pts": [
        [
-        7.33,
+        6.42,
         0
        ],
        [
-        3.67,
-        6.35
+        3.21,
+        5.56
        ],
        [
-        -3.67,
-        6.35
+        -3.21,
+        5.56
        ],
        [
-        -7.33,
+        -6.42,
         0
        ],
        [
-        -3.67,
-        -6.35
+        -3.21,
+        -5.56
        ],
        [
-        3.67,
-        -6.35
+        3.21,
+        -5.56
        ]
       ],
-      "h": 4.978,
+      "h": 4.14,
       "u": [
        1,
        0,
@@ -32961,12 +32961,12 @@
     },
     {
      "id": "f628",
-     "name": "Vástago Ø7.938×19.05",
+     "name": "Vástago Ø6.35×19.05",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      -4.978000000000009,
+      -4.139999999999986,
       0
      ],
      "dir": [
@@ -32975,15 +32975,15 @@
       0
      ],
      "params": {
-      "dia": 7.94,
+      "dia": 6.35,
       "h": 19.05
      }
     }
    ]
   },
   {
-   "id": "p260_fijo_eje_de_rodillo_de_retorno_12_7_457_14_hilo_interior_5_1",
-   "name": "FIJO · Eje de rodillo de retorno Ø12.7 × 457.14 (hilo interior 5/16-18)",
+   "id": "p260_fijo_eje_de_rodillo_de_retorno_12_7_457_14_hilo_interior_1_4",
+   "name": "FIJO · Eje de rodillo de retorno Ø12.7 × 457.14 (hilo interior 1/4-20)",
    "color": "#9aa4b2",
    "pos": [
     452,
@@ -33089,7 +33089,7 @@
     },
     {
      "id": "f630",
-     "name": "Hilo interior 5/16-18 UNC × 15.88 (−Y)",
+     "name": "Hilo interior 1/4-20 UNC × 15.88 (−Y)",
      "shape": "revolve",
      "op": "cut",
      "at": [
@@ -33113,7 +33113,7 @@
         ],
         "b": [
          0,
-         3.97
+         3.18
         ]
        },
        {
@@ -33121,11 +33121,11 @@
         "type": "line",
         "a": [
          0,
-         3.97
+         3.18
         ],
         "b": [
          15.88,
-         3.97
+         3.18
         ]
        },
        {
@@ -33133,7 +33133,7 @@
         "type": "line",
         "a": [
          15.88,
-         3.97
+         3.18
         ],
         "b": [
          15.88,
@@ -33173,7 +33173,7 @@
     },
     {
      "id": "f631",
-     "name": "Hilo interior 5/16-18 UNC × 15.88 (+Y)",
+     "name": "Hilo interior 1/4-20 UNC × 15.88 (+Y)",
      "shape": "revolve",
      "op": "cut",
      "at": [
@@ -33197,7 +33197,7 @@
         ],
         "b": [
          15.88,
-         3.97
+         3.18
         ]
        },
        {
@@ -33205,11 +33205,11 @@
         "type": "line",
         "a": [
          15.88,
-         3.97
+         3.18
         ],
         "b": [
          0,
-         3.97
+         3.18
         ]
        },
        {
@@ -33217,7 +33217,7 @@
         "type": "line",
         "a": [
          0,
-         3.97
+         3.18
         ],
         "b": [
          0,

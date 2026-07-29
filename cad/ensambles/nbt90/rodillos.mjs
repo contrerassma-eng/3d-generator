@@ -387,20 +387,20 @@ export function rodillos(E) {
       pernoDeEje(E, {
         nombre: `rodillo de retorno (${lado})`,
         at: [R.x, s === 0 ? -almaExt : almaExt, R.z], dir: s === 0 ? DIRY : [0, -1, 0],
-        torn: R.torn, desig: '5/16-18 UNC', largo: L.retPernoLargo,
+        torn: R.torn, desig: '1/4-20 UNC', largo: L.retPernoLargo,
         golE: L.golillaE, golD: r2(2.2 * R.torn.d),
         capa: 'FIJO · ',
       });
       n.pernos++;
     }
 
-    E.addPart(`FIJO · Eje de rodillo de retorno Ø${R.eje} × ${R.ejeLargo} (hilo interior 5/16-18)`,
+    E.addPart(`FIJO · Eje de rodillo de retorno Ø${R.eje} × ${R.ejeLargo} (hilo interior 1/4-20)`,
       COL.acero, [R.x, ejeY0, R.z], [
         revolve(`Barra Ø${R.eje} × ${R.ejeLargo}`, [R.x, ejeY0, R.z], 'y',
           [[0, 0], [0, R.eje / 2], [R.ejeLargo, R.eje / 2], [R.ejeLargo, 0]]),
-        revolve(`Hilo interior 5/16-18 UNC × ${R.roscaProf} (−Y)`, [R.x, ejeY0, R.z], 'y',
+        revolve(`Hilo interior 1/4-20 UNC × ${R.roscaProf} (−Y)`, [R.x, ejeY0, R.z], 'y',
           perfilRosca(R.roscaProf, R.torn.d), 'cut'),
-        revolve(`Hilo interior 5/16-18 UNC × ${R.roscaProf} (+Y)`,
+        revolve(`Hilo interior 1/4-20 UNC × ${R.roscaProf} (+Y)`,
           [R.x, r2(ejeY0 + R.ejeLargo - R.roscaProf), R.z], 'y',
           espejo(perfilRosca(R.roscaProf, R.torn.d), R.roscaProf), 'cut'),
       ], {
@@ -512,7 +512,7 @@ export function rodillos(E) {
       dia: rodRetorno.dia, largo: rodRetorno.largo, eje: rodRetorno.eje,
       ejeLargo: rodRetorno.ejeLargo, x: rodRetorno.x, z: rodRetorno.z,
       generatrizSuperiorZ: retTope, ramalRetornoZ: zRetorno, tangenciaMm: retTangencia,
-      rodamiento: L.retRodam.desig, montaje: 'perno 5/16-18 × 3/4" desde fuera del alma del canal anfitrión',
+      rodamiento: L.retRodam.desig, montaje: 'perno 1/4-20 × 3/4" desde fuera del alma del canal anfitrión',
       separadorD: c2(L.retSepD), juegoAxialTubo: 0,
       agarreMm: retAgarre, roscaEngranadaMm: retEngrane,
       roscaEngranadaEnD: r2(retEngrane / rodRetorno.torn.d),

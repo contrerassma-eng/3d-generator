@@ -1578,6 +1578,24 @@
    },
    "fuente_titulo": "Interroll - Conveyor Rollers, Product Information (US), tabla de tubos",
    "confidence": "alta"
+  },
+  {
+   "id": "ROD-RET-003",
+   "tema": "rodillos",
+   "claim": "El manual (pag. 8, DRIVE BELT TENSION) describe el desmontaje de los rodillos motrices de la transferencia como 'Remove by pushing one side of the hex axle though the transfer support channel'",
+   "afirmacion": "En el equipo original de Hytrol los 6 rodillos de transferencia llevan EJE HEXAGONAL, no eje atornillado; el montaje atornillado que se modela es una decision del cliente (capa user)",
+   "value": null,
+   "unit": null,
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://cdn.hytrol.com/2013_656_mrt.pdf",
+    "accessed": "2026-07-29",
+    "quote": "2. To remove belt the drive rollers must be removed (See Fig. 8A). Remove by pushing one side of the hex axle though the transfer support channel."
+   },
+   "fuente_titulo": "Hytrol Bulletin #656, pag. 8",
+   "confidence": "alta",
+   "nota": "SE DECLARA EL CONFLICTO: el texto del manual describe eje hexagonal para los rodillos MOTRICES; el cliente pidio expresamente sustituirlo por chapa perforada + eje con hilo interior + perno por fuera, y el detalle ampliado de la propia FIGURE 8A muestra ese montaje en el rodillo transversal B-20760 (vastago 6.32 mm = 1/4 in a traves de la chapa, cabeza hexagonal por fuera de 12.64 mm entre vertices, resalte del eje de 17.06 mm al otro lado). El modelo sigue al cliente y lo marca capa user."
   }
  ],
  "pendientes_sin_fuente": [

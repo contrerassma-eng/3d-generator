@@ -159,7 +159,7 @@ export const PRESETS = {
     // la superficie que más metros cuadrados ocupa: si esta no se lee, no se
     // lee nada. El spangle va a TAMAÑO REAL (≈13 mm por cristal).
     color: '#a3a9ae', metalness: 1.0, roughness: 0.56,
-    tex: { tipo: 'moteado', mm: 95, n: 0.03 },
+    tex: { tipo: 'moteado', mm: 95, n: 0.18 },
   },
   acero_cincado: {
     familia: 'acero cincado / galvanizado',

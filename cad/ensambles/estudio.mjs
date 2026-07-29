@@ -43,7 +43,7 @@ export function entornoEstudio(THREE, renderer, { brillo = 1 } = {}) {
     new THREE.BoxGeometry(20, 20, 12),
     new THREE.MeshStandardMaterial({
       color: 0x000000, emissive: new THREE.Color('#343b45'),
-      emissiveIntensity: 0.32 * brillo, roughness: 1, metalness: 0,
+      emissiveIntensity: 0.40 * brillo, roughness: 1, metalness: 0,
       side: THREE.BackSide,
     }));
   e.add(sala);
@@ -57,11 +57,17 @@ export function entornoEstudio(THREE, renderer, { brillo = 1 } = {}) {
   // 3) Suelo: rebote de hormigón, tibio y flojo. Sin él las caras de abajo se
   //    quedan planas y todo parece flotar.
   panel(THREE, e, [20, 20, 0.2], [0, 0, -5.6], '#4b4b48', 0.40 * brillo);
-  // 4) Paredes de relleno, una fría y otra cálida: dan al metal una dirección
-  //    de color y evitan el reflejo gris uniforme, que es lo que hace que un
-  //    metal parezca plástico.
+  // 4) Paredes de relleno en los CUATRO lados, dos frías y dos cálidas: dan al
+  //    metal una dirección de color y evitan el reflejo gris uniforme, que es lo
+  //    que hace que un metal parezca plástico.
+  //    Que estén las cuatro no es decorativo: una cara VERTICAL de chapa refleja
+  //    casi en horizontal, así que solo ve las paredes. Con dos de los cuatro
+  //    lados a oscuras, el alma de un canal salía notablemente más apagada que
+  //    su propia ala —misma pieza, mismo material— y parecía otro acero.
   panel(THREE, e, [0.2, 17, 10], [8.2, 0, 0], '#9fadbf', 0.55 * brillo);
-  panel(THREE, e, [17, 0.2, 10], [0, -8.2, 0], '#8e8375', 0.36 * brillo);
+  panel(THREE, e, [17, 0.2, 10], [0, -8.2, 0], '#8e8375', 0.40 * brillo);
+  panel(THREE, e, [0.2, 17, 10], [-8.2, 0, 0], '#8d97a6', 0.38 * brillo);
+  panel(THREE, e, [17, 0.2, 10], [0, 8.2, 0], '#9aa2ad', 0.34 * brillo);
 
   // 5) Tiras de luz. Son lo que de verdad "dibuja" un metal: reflejos
   //    alargados y brillantes con bordes duros. Sin ellas el aluminio y el
@@ -307,36 +313,74 @@ function fbm(tam, capas, semilla) {
 }
 
 /**
- * Celdas de Voronoi toroidales: `n`×`n` semillas con sacudida. Devuelve, por
- * píxel, el valor aleatorio de SU cristal y la distancia relativa al borde con
- * el vecino (F2−F1). Es el spangle del galvanizado: cristales planos de zinc,
- * cada uno solidificado en una orientación, separados por una frontera visible.
+ * CRISTALES DE ZINC (la «flor» del galvanizado por inmersión en caliente).
+ *
+ * Un Voronoi normal NO sirve, y este código ya lo intentó: con las semillas
+ * repartidas en una retícula regular salen celdas casi del mismo tamaño y
+ * alineadas, y la chapa se lee como un tejido de fibra de carbono. La flor real
+ * es un mosaico de cristales de tamaños MUY distintos —de 2 mm y de 30 mm en la
+ * misma chapa— con bordes rectos y orientaciones al azar.
+ *
+ * Dos decisiones dan eso:
+ *
+ *  · **Voronoi con pesos aditivos** (Apollonius): `d − w` en vez de `d`. Los
+ *    bordes siguen siendo rectos —eso lo conserva el peso ADITIVO, no el
+ *    multiplicativo, que los curva— pero un cristal con peso alto se come a sus
+ *    vecinos y otro con peso bajo queda reducido a una esquirla. Con la sacudida
+ *    COMPLETA dentro de la celda (no el ±35 % de antes), los tamaños se
+ *    dispersan de verdad.
+ *  · Cada cristal devuelve su **orientación**, no un valor de gris. El spangle
+ *    no es un dibujo de manchas oscuras: es que cada cristal solidificó en un
+ *    plano distinto y refleja hacia otro lado. Por eso esto alimenta el mapa de
+ *    NORMALES (una inclinación diminuta y constante dentro del cristal, sin
+ *    cresta en la frontera) y el de rugosidad, y nunca el color.
+ *
+ * Devuelve, por píxel, la inclinación (nx, ny) de su cristal y un valor de
+ * rugosidad, ya suavizados en una banda estrecha alrededor de la frontera para
+ * que el borde no centellee al reducir la imagen.
  */
-function celdas(tam, n, semilla) {
+function cristales(tam, n, semilla) {
   const r = prng(semilla);
-  const sx = new Float32Array(n * n), sy = new Float32Array(n * n), val = new Float32Array(n * n);
-  for (let i = 0; i < n * n; i++) {
-    sx[i] = ((i % n) + 0.15 + 0.7 * r()) / n;
-    sy[i] = (Math.floor(i / n) + 0.15 + 0.7 * r()) / n;
-    val[i] = r();
+  const N = n * n;
+  const sx = new Float32Array(N), sy = new Float32Array(N), w = new Float32Array(N);
+  const nx = new Float32Array(N), ny = new Float32Array(N), rg = new Float32Array(N);
+  for (let i = 0; i < N; i++) {
+    sx[i] = ((i % n) + r()) / n;                 // sacudida completa: tamaños dispares
+    sy[i] = (Math.floor(i / n) + r()) / n;
+    w[i] = r() * 0.62 / n;                       // peso aditivo: quién se come a quién
+    const a = r() * Math.PI * 2, m = 0.25 + 0.75 * r();
+    nx[i] = Math.cos(a) * m;                     // orientación del cristal
+    ny[i] = Math.sin(a) * m;
+    rg[i] = r();
   }
-  const cel = new Float32Array(tam * tam), borde = new Float32Array(tam * tam);
+  const fnx = new Float32Array(tam * tam), fny = new Float32Array(tam * tam);
+  const frg = new Float32Array(tam * tam);
+  // 5×5 celdas de búsqueda: con pesos aditivos un cristal grande alcanza más
+  // allá de sus vecinas inmediatas, y con 3×3 la frontera saldría cortada.
+  const R = 2;
   for (let y = 0; y < tam; y++) for (let x = 0; x < tam; x++) {
     const px = x / tam, py = y / tam;
     const cx = Math.floor(px * n), cy = Math.floor(py * n);
-    let d1 = 9, d2 = 9, mejor = 0;
-    for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) {
+    let d1 = 9, d2 = 9, k1 = 0;
+    for (let j = -R; j <= R; j++) for (let i = -R; i <= R; i++) {
       const k = ((cy + j + n) % n) * n + ((cx + i + n) % n);
       let dx = sx[k] - px, dy = sy[k] - py;              // envolvente toroidal
       if (dx > 0.5) dx -= 1; else if (dx < -0.5) dx += 1;
       if (dy > 0.5) dy -= 1; else if (dy < -0.5) dy += 1;
-      const d = dx * dx + dy * dy;
-      if (d < d1) { d2 = d1; d1 = d; mejor = k; } else if (d < d2) d2 = d;
+      const d = Math.sqrt(dx * dx + dy * dy) - w[k];
+      if (d < d1) { d2 = d1; d1 = d; k1 = k; } else if (d < d2) d2 = d;
     }
-    cel[y * tam + x] = val[mejor];
-    borde[y * tam + x] = Math.min(1, (Math.sqrt(d2) - Math.sqrt(d1)) * n * 2.2);
+    // Banda de mezcla de ~3 píxeles: el cristal es plano hasta el borde, pero un
+    // salto de un texel al siguiente aliasa al generar los mipmaps. En la
+    // frontera la inclinación se va a cero (la superficie se aplana) y la
+    // rugosidad al valor medio, que es lo que hace la unión entre dos granos.
+    const a = suav(Math.min(1, (d2 - d1) * tam / 3));
+    const k = y * tam + x;
+    fnx[k] = nx[k1] * a;
+    fny[k] = ny[k1] * a;
+    frg[k] = rg[k1] * a + 0.5 * (1 - a);
   }
-  return { cel, borde };
+  return { nx: fnx, ny: fny, rug: frg };
 }
 
 /** Sube un campo [0,1] a una textura de canal único (gris). */
@@ -349,6 +393,29 @@ function aGris(THREE, campo, tam) {
     const v = Math.max(0, Math.min(255, campo[k] * 255)) | 0;
     img.data[k * 4] = img.data[k * 4 + 1] = img.data[k * 4 + 2] = v;
     img.data[k * 4 + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+  return ajustar(THREE, new THREE.CanvasTexture(c));
+}
+
+/**
+ * Mapa de normales a partir de la INCLINACIÓN de cada punto, sin pasar por un
+ * campo de alturas. Lo necesita el spangle: sus cristales son planos con
+ * orientaciones distintas, y una altura constante por cristal solo produciría
+ * gradiente en la frontera — es decir, una cresta donde no la hay.
+ */
+function aNormalDirecta(THREE, nx, ny, tam, fuerza) {
+  const c = document.createElement('canvas');
+  c.width = c.height = tam;
+  const ctx = c.getContext('2d');
+  const img = ctx.createImageData(tam, tam);
+  for (let k = 0; k < tam * tam; k++) {
+    const dx = nx[k] * fuerza, dy = ny[k] * fuerza;
+    const l = Math.hypot(dx, dy, 1), i = k * 4;
+    img.data[i] = (dx / l * 0.5 + 0.5) * 255;
+    img.data[i + 1] = (dy / l * 0.5 + 0.5) * 255;
+    img.data[i + 2] = (1 / l * 0.5 + 0.5) * 255;
+    img.data[i + 3] = 255;
   }
   ctx.putImageData(img, 0, 0);
   return ajustar(THREE, new THREE.CanvasTexture(c));
@@ -442,32 +509,39 @@ const ACABADOS = {
     return { alt, rug, relieve: 0.35, amp: 0.10 };
   },
 
-  /** Spangle del galvanizado: cristales de zinc + marcas de laminación. */
+  /**
+   * Spangle del galvanizado: la flor del cincado por inmersión en caliente.
+   *
+   * Historial, porque el error se repitió dos veces y conviene no repetirlo una
+   * tercera: la primera versión metía la variación en el RELIEVE (crestas en la
+   * frontera de cada cristal) → chapa acolchada, como muro de piedra. La segunda
+   * la metía en el COLOR/rugosidad sobre una retícula regular → damero diagonal,
+   * como fibra de carbono. Las dos se leían como un patrón, y un acabado que se
+   * lee como patrón está mal: a la distancia de la vista general esto solo debe
+   * notarse como un metal que no es liso.
+   *
+   * Lo que queda: cristales IRREGULARES (Voronoi de pesos aditivos), cada uno
+   * plano y con su propia orientación, que van al mapa de NORMALES con una
+   * inclinación diminuta; y una variación de rugosidad muy pequeña, porque la
+   * flor se ve por cómo cada cristal devuelve la luz —a contraluz— y no porque
+   * dibuje manchas oscuras.
+   */
   moteado(tam, semilla) {
-    const { cel, borde } = celdas(tam, 9, semilla);   // 9²; con 95 mm de baldosa,
-                                                     // cristales de ≈10 mm
-    const lam = ruido1D(tam, Math.round(tam / 5), semilla + 3);   // laminación, en v
-    const fino = fbm(tam, [[40, 1], [96, 0.55], [180, 0.3]], semilla + 9);
-    const alt = new Float32Array(tam * tam), rug = new Float32Array(tam * tam);
-    // amp BAJA a propósito: un cristal de zinc y su vecino reflejan distinto,
-    // pero poco. Con la variación fuerte del primer ajuste (0.18) y relieve de
-    // sobra, la chapa salía como un mosaico de piedra: el patrón se leía antes
-    // que la pieza.
-    const amp = 0.06;
+    // 7² sobre la baldosa de 95 mm ⇒ cristal nominal ≈13 mm, pero los pesos
+    // aditivos y la sacudida completa lo reparten entre ~3 y ~35 mm.
+    const c = cristales(tam, 7, semilla);
+    // Marcas de laminación: rectas, muy tenues, en la dirección de la banda.
+    const lam = ruido1D(tam, Math.round(tam / 6), semilla + 3);
+    const amp = 0.018;
+    const nx = new Float32Array(tam * tam), ny = new Float32Array(tam * tam);
+    const rug = new Float32Array(tam * tam);
     for (let y = 0; y < tam; y++) for (let x = 0; x < tam; x++) {
       const k = y * tam + x;
-      // El cristal es PLANO: casi todo el relieve es grano fino y laminación.
-      // Si el peso del BORDE sube, cada cristal se recorta con una arista y la
-      // chapa pasa de galvanizada a acolchada (probado: parecía muro de piedra).
-      alt[k] = 0.20 * borde[k] + 0.12 * cel[k] + 0.20 * lam[y] + 0.48 * fino[k];
-      // …y sobre todo que cada cristal refleja distinto.
-      // La rugosidad NO lleva el ruido fino: a 95 mm de baldosa ese ruido cae en
-      // 2-3 mm, y una chapa que cambia de brillo cada 2 mm se lee como hormigón.
-      // El spangle que se ve a un metro es el CRISTAL entero, de ~10 mm.
-      const v = 0.72 * cel[k] + 0.28 * borde[k];
-      rug[k] = (1 - 2 * amp) + 2 * amp * v;
+      nx[k] = c.nx[k];
+      ny[k] = c.ny[k] + (lam[y] - 0.5) * 0.35;
+      rug[k] = (1 - 2 * amp) + 2 * amp * c.rug[k];
     }
-    return { alt, rug, relieve: 0.55, amp };
+    return { nx, ny, fuerza: 0.09, rug, amp };
   },
 
   /** Piel de naranja del esmalte industrial. */
@@ -502,8 +576,13 @@ export function crearTexturas(THREE, { tam = 512, semilla = 20250729 } = {}) {
   return function tex(tipo) {
     if (!ACABADOS[tipo]) throw new Error(`acabado desconocido: ${tipo}`);
     if (cache.has(tipo)) return cache.get(tipo);
-    const { alt, rug, relieve, amp } = ACABADOS[tipo](tam, semilla + tipo.length * 104729);
-    const t = { normal: aNormal(THREE, alt, tam, relieve), rugosidad: aGris(THREE, rug, tam), amp };
+    const a = ACABADOS[tipo](tam, semilla + tipo.length * 104729);
+    // Un acabado describe su relieve de una de dos maneras: por un campo de
+    // ALTURAS (`alt`, lo normal) o directamente por la INCLINACIÓN de cada punto
+    // (`nx`/`ny`), que es lo que necesita un mosaico de caras planas.
+    const normal = a.nx ? aNormalDirecta(THREE, a.nx, a.ny, tam, a.fuerza)
+      : aNormal(THREE, a.alt, tam, a.relieve);
+    const t = { normal, rugosidad: aGris(THREE, a.rug, tam), amp: a.amp };
     cache.set(tipo, t);
     return t;
   };
@@ -525,12 +604,25 @@ export function crearTexturas(THREE, { tam = 512, semilla = 20250729 } = {}) {
  * todas no indexadas, así que los tres vértices de una cara pueden compartir
  * criterio sin pisar a nadie.
  */
-export function uvPorEjeLargo(THREE, geom, escala = 25) {
+export function uvPorEjeLargo(THREE, geom, escala = 25, eje = 'largo') {
   const p = geom.attributes.position.array;
   const n = geom.attributes.position.count;
   geom.computeBoundingBox();
   const s = geom.boundingBox.getSize(new THREE.Vector3());
-  const largo = s.x >= s.y && s.x >= s.z ? 0 : s.y >= s.z ? 1 : 2;
+  let largo;
+  if (eje === 'revolucion') {
+    // Eje de un SÓLIDO DE REVOLUCIÓN: un cuerpo torneado tiene dos medidas
+    // iguales (el diámetro) y una distinta (la longitud), así que su eje es la
+    // que más se aparta de la mediana. No sirve el eje mayor: una polea Ø73×35
+    // es más ancha que larga y las marcas de torno le saldrían giradas 90°
+    // —a lo largo de la pieza en vez de dando la vuelta—, que es justo lo que
+    // pasaba. Para un eje Ø12.7×378 las dos reglas coinciden.
+    const d = [s.x, s.y, s.z];
+    const med = [...d].sort((a, b) => a - b)[1];
+    largo = d.map((v, i) => [Math.abs(v - med), i]).sort((a, b) => b[0] - a[0])[0][1];
+  } else {
+    largo = s.x >= s.y && s.x >= s.z ? 0 : s.y >= s.z ? 1 : 2;    // dirección de extrusión
+  }
   const uv = new Float32Array(n * 2);
   const inv = 1 / escala;
   for (let i = 0; i < n; i += 3) {

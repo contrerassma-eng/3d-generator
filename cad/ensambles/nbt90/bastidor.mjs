@@ -207,11 +207,22 @@ export const rodRetorno = {
   dia: r2(1.9 * 25.4),        // 48.26 · cat B-20760 «1.9 in. OD» (med 48.03, −0.5 %)
   eje: r2(0.5 * 25.4),        // 12.70 · cat Interroll 1.9": eje 1/2" redondo ED&T
   pared: r2(0.065 * 25.4),    // 1.65 · cat Interroll: tubo 1.9" C/S galvanizado 0.065"
-  y: P.almaY,                 // 229.9 — alma del canal anfitrión (med)
+  y: P.almaY,                 // 229.9 — alma del canal anfitrión (med). El detalle
+                              //   ampliado de la 8A pone la chapa en |Y| = 222.5 (x =
+                              //   170.5 px); se monta sobre el alma del anfitrión
+                              //   porque es la ÚNICA chapa fija que llega a Z ≈ 303
+                              //   (Z 218…383.1). Desviación declarada: +7.4 mm.
   t: T12,
-  pasante: PASO['5/16'],      // 8.7 — taladro de paso del perno 5/16-18
-  torn: P.M.b516,
-  roscaProf: r2(0.625 * 25.4),  // 15.88 = 5/8" · cat «ED&T 5/16-18 x 5/8 deep»
+  // El perno sale del propio dibujo, no de una preferencia: en el extremo ampliado
+  // el vástago que atraviesa la chapa mide 10 px = 6.32 mm (1/4" = 6.35, error
+  // 0.5 %) y la cabeza hexagonal, 20 px entre vértices = 12.64 (AC de una cabeza
+  // de 7/16" e/c = 12.83, error 1.5 %; alto 7 px = 4.4 frente a 4.14 de catálogo).
+  // O sea: 1/4-20 UNC. Interroll da 5/16-18 para su eje de 1/2" en tubo de 1.9",
+  // pero 1/4-20 x 5/8 también es rosca ED&T de catálogo (serie 1100) y es la que
+  // mide el dibujo; además deja 3.18 mm de pared en el eje en vez de 2.38.
+  pasante: PASO['1/4'],       // 7.0 — taladro de paso cerrado del perno 1/4-20
+  torn: P.M.b14,
+  roscaProf: r2(0.625 * 25.4),  // 15.88 = 5/8" · cat «ED&T … x 5/8 deep»
   // X: el cassette MÓVIL (placas peine X 37.72…425.28 y los dos transfer cross
   // channel, que a |Y| = 214 barren Z 287…347.8) ocupa toda la franja de altura
   // de este rodillo. El único hueco en el que un rodillo FIJO de Ø48.26 no toca
