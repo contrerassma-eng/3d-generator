@@ -192,6 +192,79 @@ pág. 7). Capa `cat`.
 | Par admisible sobre la placa | 21.9 N·m |
 | Precisión de no-giro | ±0.04° |
 
+### 4.1 El perfil del cuerpo, medido
+
+El cuerpo no es el prisma 202 × 91.5 × 56.5 que el modelo dibujó al principio: es
+la arquitectura clásica de un MGP, **un tubo cilíndrico de radio `J` = 45.5 (la
+camisa del émbolo Ø80) entre dos orejas prismáticas** que van de −`K` a +`JA`
+respecto del eje y alojan las varillas guía y las 4 roscas `MM`. `G` = `J` + `K`
+no se mide en ninguna sección: es la envolvente (tubo por un lado, oreja por el
+otro), y de ahí que el catálogo publique `J` ≠ `K`.
+
+Lo que la tabla no dice —a qué altura cambia cada cara, en qué costado van las
+ranuras— se midió con `tools/med_px.py` sobre la vista de extremo de
+`ref/mesa/smc_mgp80_100_cotas.png`, con el **mismo anclaje del §2**: k = 0.5200
+mm/px, tomado del paso corto `Q` = 52 mm de las 4 roscas `NN` de la vista de la
+placa, que `circulos` sitúa en (240, 928) (340, 928) (240, 1262) (340, 1262) px
+→ 100.0 px. En la vista de extremo el cuerpo ocupa x 1192…1368 px, y 900…1290 px,
+y el eje del émbolo cae en x = 1279.5 px.
+
+Contraste contra las **cotas impresas** (sin tocar el anclaje):
+
+| cota | píxeles | mm por píxeles | catálogo | error |
+|---|---|---:|---:|---:|
+| `H` largo del cuerpo | y 900 → 1290 | 202.80 | 202 | +0.4 % |
+| `G` = `J` + `K` | x 1192 → 1368 | 91.52 | 91.5 | 0.0 % |
+| `J` (radio del tubo) | 1279.5 → 1192 | 45.50 | 45.5 | 0.0 % |
+| `JA` (cara plana lado J) | 1279.5 → 1206.5 | 37.96 | 38 | −0.1 % |
+| `K` (cara plana lado K) | 1368 → 1279.5 | 46.02 | 46 | 0.0 % |
+| `VA` (paso 4-`MM` en H) | y 920 → 1268 | 180.96 | 180 | +0.5 % |
+| `VB` (paso de las ranuras) | y 960.0 → 1230.25 | 140.53 | 140 | +0.4 % |
+| `DB` (Ø casquillo, en la placa) | Ø 58 px | 30.16 | 30 | +0.5 % |
+| `U`/2 (varilla guía) | 1095 → 944 | 78.52 | 78 | +0.7 % |
+| ranura `a` (boca) | y 947.5 → 972.5 | 13.00 | 13.3 | −2.3 % |
+| ranura `b` (fondo ancho) | y 940.5 → 979 | 20.02 | 20.3 | −1.4 % |
+| ranura `c` (prof. ancho) | x 1352 → 1330 | 11.44 | 12 | −4.7 % |
+| ranura `d` (prof. boca) | x 1368 → 1352 | 8.32 | 8 | +4.0 % |
+| ranura `e` (prof. total) | x 1368 → 1324.5 | 22.62 | 22.5 | +0.5 % |
+
+Catorce cotas impresas predichas desde el mismo anclaje único: **error medio
+1.1 %, máximo 4.7 %**. Los tres peores son `c`, `d` y `a`, que son distancias de
+16 a 25 px: medio píxel de lectura ya vale ahí un 2…3 %, y el reparto `c`/`d` es
+justo la frontera entre dos rachas contiguas. Por eso **al modelo entran los
+números de la tabla**, no los píxeles; los píxeles sólo verifican y resuelven lo
+que la tabla calla.
+
+Y eso que calla, medido (capa `med`, sin cota impresa contra la que contrastar):
+
+- **`e` ≠ `c` + `d`.** Entre el fondo ancho y el fondo real hay un relieve
+  central de `e` − `c` − `d` = 2.5 mm, del ancho de la boca. Se lee en la vista
+  de extremo y, sin ambigüedad, en la figura «Dimension of T slot»: cara →
+  boca `a` → ensanche `b` → estrechamiento a `a` otra vez.
+- **Las ranuras van en la cara `K`**, las dos, a ±`VB`/2, y corren toda la altura
+  del cuerpo. La cara `K` (x = 1368 px) se interrumpe exactamente en las dos
+  bocas; la cara `J` (x = 1206.5 px) no se interrumpe en ningún sitio.
+- **Cintura del lado `K`**: la cara `K` = 46 muere a |Y| = **41.6** y baja por un
+  chaflán recto hasta el arco del tubo, que arranca a |Y| = **33.0**. Medido
+  punto a punto sobre la transición —(1368, 1015) (1363, 1018) (1357.5, 1021)
+  (1352, 1024) px, pendiente 1.72 px/px— y comprobado: el punto de encuentro cae
+  sobre el arco de R = 45.5 con 0.5 % de error.
+- **Retirada en los extremos**: por encima de |Y| ≈ 87…92 la cara `K` vuelve a
+  ≈ 38. Dos lecturas independientes (vista de extremo 87.4 → 91.5; vista «Back
+  side» 87.36 → 91.78) que difieren 0.4 %.
+- **Puertos**: sobre la cara plana `JA` = 38 —no sobre la envolvente `J` = 45.5—
+  y a `PW` = 74 del eje en la dirección larga, los dos del mismo lado.
+- **Placa**: la caja central mide Ø 61.5 px → 31.98 mm y dentro lleva un
+  **hexágono de 40.5 px → 20.80 mm entre caras**, con dos caras rectas
+  verticales en x = 270 y 310.5 px. Su diagonal, 20.80 × 2/√3 = 24.02, cabe en
+  el vástago de Ø25: es el rebaje de llave del extremo del vástago.
+
+Lo que se ve y **no** se modela, por no tener cota en el dibujo: las cuatro
+ranuras de captador del encuentro tubo↔oreja (cuadrados girados de ~9.4 mm de
+lado, en x 1200…1225 y 1345…1358 px a y ≈ 1033 y 1157) y el segundo par de
+Rc 3/8 tapado que el catálogo rotula «2-Rc3/8 (Plug)». Las fotos confirman que
+los rasgos existen; sin cota, quedan declarados y fuera del sólido.
+
 ---
 
 ## 5. Fuerza, velocidad, geometría, estabilidad

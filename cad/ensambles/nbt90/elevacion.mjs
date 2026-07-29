@@ -33,7 +33,7 @@
 //   inferior: se afloja una y se aprieta la otra) y se vuelven a apretar.
 
 import {
-  Ensamble, box, cyl, hole, sketchXZ, sketchXY, colisa, rectR,
+  Ensamble, box, cyl, hole, sketchXZ, sketchXY, colisa, rectR, arcoPts, hexPts,
   seccionChapa, desarrollo, pernoHex, tuercaHex, golilla, COL, r2, IN,
 } from './lib.mjs';
 import { P } from './params.mjs';
@@ -120,9 +120,20 @@ const L = {
   cilU: 156,               // cat: paso entre ejes de varillas guía → ±78 en Y
   cilDA: 25,               // cat: Ø de las varillas guía
   cilVastagoDia: 25,       // cat (MGP-old-e.pdf pág. 7, «Rod size»): Ø del vástago
-  cilMM: [180, 52],        // cat/med: patrón de las 4 roscas M12×1.75 prof. 25 de la
-                           //      cara INFERIOR del cuerpo (Y, X). Medido por píxeles
-                           //      sobre el dibujo de catálogo: 179.2 × 53.1 mm.
+  cilMM: [180, 54],        // cat VA × L: patrón de las 4 roscas M12×1.75 prof. 25 de
+                           //      la cara INFERIOR del cuerpo (Y, X) → ±90 en Y, ±27 en X.
+                           //
+                           //      El paso corto es L = 54, NO la Q = 52 de la placa:
+                           //      son patrones distintos y confundirlos deja los 4
+                           //      pernos 1 mm adentro, fuera de los Ø13.5 de paso.
+                           //      Medido por los bordes de las dos circunferencias
+                           //      concéntricas de cada rosca en la vista de extremo
+                           //      (p15.png fila y = 1220: 1366/1368…1387/1389 y
+                           //      1470/1472…1491/1493 → centros 1377.5 y 1481.5 px,
+                           //      paso 104.0 px × 0.5200 = 54.08 mm, +0.15 % sobre
+                           //      L = 54; si fuera 52 el error sería +4.0 %).
+                           //      El paso largo cuadra igual de bien: |Y| = 173 px
+                           //      = 89.96 mm = VA/2 = 90 (0.0 %).
   cilML: 25,               // cat: profundidad útil de esas roscas
   cilNN: [174, 52],        // cat R × Q: patrón de las 4 roscas M12×1.75 PASANTES de
                            //      la placa móvil (Y, X) → ±87 en Y, ±26 en X
@@ -130,10 +141,173 @@ const L = {
   cilGA: 19, cilGB: 15.5,  // cat: posición axial de los dos puertos Rc 3/8 medida
                            //      desde la cara de la placa (GA) y la opuesta (GB)
   cilPuertoDia: 17,        // cat: Rc 3/8 (Ø del taladro roscado ≈ 16.7)
-  // Las RANURAS EN T de los costados (a 13.3 · b 20.3 · c 12 · d 8 · e 22.5, para
-  // tornillo M12) y los casquillos de posicionamiento ø6H7 a paso X = 100 NO se
-  // modelan: son alternativas de fijación que este montaje no usa (se fija por
-  // los 4 × MM de la cara inferior) y no cambian la envolvente.
+
+  // =========================================================================
+  // PERFIL EXTRUIDO REAL DEL CUERPO — medido por píxeles sobre
+  // `ref/mesa/smc_mgp80_100_cotas.png` (tools/med_px.py), escala anclada como
+  // en MESA_GUIA.md §2: **k = 0.5200 mm/px**, ancla Q = 52 mm sobre los centros
+  // de las 4 roscas NN de la vista de la placa, que `circulos` sitúa en
+  // (240, 928) (340, 928) (240, 1262) (340, 1262) px → paso corto 100.0 px.
+  // Contraste del ancla en la propia vista de extremo (cuerpo x 1192…1368,
+  // y 900…1290 px, eje del émbolo en x = 1279.5 px):
+  //     J   87.5 px → 45.50 mm  (cat 45.5,  0.0 %)
+  //     K   88.5 px → 46.02 mm  (cat 46,    0.0 %)
+  //     G  176.0 px → 91.52 mm  (cat 91.5,  0.0 %)
+  //     H  390.0 px → 202.80 mm (cat 202,  +0.4 %)
+  //     VA 348.0 px → 180.96 mm (cat 180,  +0.5 %)   paso de las 4 roscas MM
+  //     VB 270.25 px → 140.53 mm (cat 140, +0.4 %)   paso de las dos ranuras
+  //   (la primera versión de este bloque ponía la cara K en x = 1368.5 y sacaba
+  //    K 46.28 y G 91.78; la columna x = 1368 tiene tinta y la 1369 no, así que
+  //    la cara está en 1368 y el error se va a cero. Media línea de diferencia.)
+  //
+  // El cuerpo NO es el prisma 91.5 × 202 que decía el modelo. Es la arquitectura
+  // clásica de un MGP: un TUBO CILÍNDRICO central de radio J = 45.5 (el camisa
+  // del émbolo Ø80) unido a DOS OREJAS prismáticas —las que alojan las varillas
+  // guía y las 4 roscas MM— que van de X = −K a X = +JA respecto del eje. G no
+  // se mide en ninguna sección: es la envolvente (tubo por el lado J, oreja por
+  // el lado K), y por eso el catálogo publica J ≠ K con J + K = G.
+  //   · lado J (el de los puertos): cara plana de la oreja a JA = 38 del eje;
+  //     sobre ella asoma el tubo, de radio J = 45.5, que completa los JB = 7.5
+  //     restantes. med: la cara plana está en x = 1206.5 px (73.0 px del eje →
+  //     37.96 mm, cat JA 38, −0.1 %) y el punto más saliente del arco en
+  //     x = 1192 px (JB = 14.5 px → 7.54 mm, cat 7.5, +0.5 %). El arco muerde la
+  //     cara plana entre y = 1034 y 1156 px, que son los ±48.2 px = ±25.06 mm
+  //     que predice √(J² − JA²) = 25.02: el arco es el del tubo, no otro.
+  //   · lado K: cara plana de la oreja a K = 46 (x = 1368 px = 88.5 px del eje →
+  //     46.02 mm, cat 46, 0.0 %). Esa cara NO llega ni al centro ni a los
+  //     extremos, y las dos interrupciones se leen directamente en la columna
+  //     x = 1368, que sólo tiene tinta en y 927…1015 y 1175…1290:
+  //       – CINTURA CENTRAL (rasgo que faltaba): entre y 1015 y 1175 la cara K
+  //         desaparece y el contorno lo hace el ARCO DEL TUBO. Transición por
+  //         chaflán recto medido punto a punto (1368,1015) (1363,1018)
+  //         (1357.5,1021) (1352,1024) → pendiente 1.72 px/px, que corta el arco
+  //         de R 87.5 px en (1338.6, 1031.5). En mm: la cara K acaba a
+  //         |Y| = 41.6 y el arco arranca a |Y| = 33.0, x = 31.3 del eje
+  //         (√(45.5² − 33²) = 31.32: el punto está sobre el arco al 0.5 %).
+  //       – EXTREMOS: por encima de |Y| ≈ 87.4 la cara K se retira otra vez a
+  //         ≈ 38 (columna x = 1353 con tinta en y 904…919, o sea |Y| 91.5…99.3).
+  //     Dos lecturas independientes de esa retirada: la de este bloque
+  //     (87.4 → 91.5) y la de la vista «Back side» (87.36 → 91.78). Difieren
+  //     0.4 %; se conserva el promedio [87.1, 91.9] que ya estaba escrito.
+  //   · Lo que se ve en el dibujo y NO se modela (declarado, no inventado): las
+  //     cuatro RANURAS DE CAPTADOR en el encuentro tubo↔oreja (pequeños
+  //     cuadrados girados 45° de ~18 px = 9.4 mm de lado, en x 1200…1225 y
+  //     1345…1358 a y ≈ 1033 y 1157), y el segundo par «2-Rc3/8 (Plug)» que el
+  //     catálogo secciona en la cara de extremo. Las fotos los enseñan; el
+  //     dibujo no los acota, así que no entran al sólido (ver informe).
+  cilJA: 38,               // cat (tabla, JA): cara plana de la oreja, lado J
+  cilJB: 7.5,              // cat (tabla, JB): lo que el tubo asoma sobre esa cara
+                           //      plana  (JA + JB = J = 45.5)
+  cilKcintura: [33.0, 41.6], // med: |Y| donde arranca el arco del tubo y donde
+                           //      acaba la cara K = 46, en la CINTURA central del
+                           //      lado K. Entre los dos, chaflán recto. Ver arriba
+                           //      el punto a punto de la transición (1368,1015) …
+                           //      (1352,1024) y su corte con el arco.
+  cilKbanda: [87.1, 91.9], // med: |Y| donde el resalte de la cara K (46) se
+                           //      retira a 38. Dos lecturas independientes:
+                           //      vista de extremo, transición y 918→928 px →
+                           //      |H| 92.04 → 86.84 mm; vista «Back side»,
+                           //      líneas continuas y 162 y 170.5 px sobre el
+                           //      borde 143.5 → |H| 91.78 → 87.36 mm.  Promedio.
+  cilChaflan: 1.5,         // med: la esquina longitudinal de la oreja (84 × 202)
+                           //      se cierra en 3 px (1.56 mm) — vista de extremo,
+                           //      esquina J/+H: la cara superior arranca en
+                           //      x = 1210 px y la cara J en y = 903 px. Es el
+                           //      LÍMITE DE RESOLUCIÓN del dibujo (la línea mide
+                           //      2 px), así que el valor vale ±0.5 mm; las fotos
+                           //      (`aliexpress_mgpm_foto.jpg`, `vpc_mgp_foto.jpg`)
+                           //      confirman que el chaflán existe, no su tamaño.
+
+  // --- RANURAS EN T de los costados (figura «Dimension of T slot» + tabla) ---
+  // La tabla da la SECCIÓN para Ø80 (capa cat); lo que NO dice —en qué cara van,
+  // a qué altura, y cómo se reparte la profundidad— se midió por píxeles sobre la
+  // ranura superior de la vista de extremo (cara K, x 1325.5…1368.5 px, y
+  // 940.5…979.5 px). Contraste de las CINCO cotas impresas:
+  //     a  boca            947.5→972.5 y  = 25.0 px → 13.00 mm  (cat 13.3, −2.3 %)
+  //     b  fondo ancho     940.5→979.5 y  = 39.0 px → 20.28 mm  (cat 20.3, −0.1 %)
+  //     c  prof. ancho    1330.5→1353.5 x = 23.0 px → 11.96 mm  (cat 12,   −0.3 %)
+  //     d  prof. boca     1353.5→1368.5 x = 15.0 px →  7.80 mm  (cat 8,    −2.5 %)
+  //     e  prof. total    1325.5→1368.5 x = 43.0 px → 22.36 mm  (cat 22.5, −0.6 %)
+  //   error medio 1.1 %, máximo 2.5 % (sobre distancias de 15…43 px: ±0.5 px de
+  //   lectura ya son ±2 % en las cortas). Relectura independiente tomando el
+  //   CENTRO de cada racha en vez de su borde exterior: a 25.0 px, b 38.5 px,
+  //   c 22.0 px (−4.7 %), d 16.0 px (+4.0 %), e 43.5 px (+0.5 %). O sea que el
+  //   reparto c/d baila un píxel según dónde se ponga la frontera —son los dos
+  //   tramos más cortos y comparten una sola línea— mientras que la SUMA `e`
+  //   sale igual por los dos caminos. Otra razón para meter al modelo la tabla y
+  //   no los píxeles. La figura del catálogo es esquemática y
+  //   NO está a escala (a/b dibujado 0.600 contra 0.655 real, −8 %): sirve para
+  //   la topología, no para medir. Las cotas que entran al modelo son las de la
+  //   tabla; los píxeles sólo las verifican y resuelven lo que la tabla calla:
+  //   · **e ≠ c + d**: entre el fondo ancho y el fondo real hay un RELIEVE
+  //     central de e − c − d = 2.5 mm de profundidad y del ancho de la boca
+  //     (med: 947.5→972.5 px, los mismos 25 px que `a`). Se lee igual en la
+  //     figura de detalle y en la vista de extremo.
+  //   · van en la cara **K** (la de 46), no en la J: en la cara J el mismo barrido
+  //     da la arista continua sin interrupción, y la vista «Back side» —que mira
+  //     esa cara K— enseña las dos bocas como líneas continuas de extremo a
+  //     extremo del cuerpo (x 643…848.5 px, cobertura 205/205).
+  //   · son **DOS**, centradas en y = 960 y 1230 px = ±135.0 px = ±70.2 mm del
+  //     plano medio (y = 1095 px): paso 270 px = 140.40 mm = la cota tabulada
+  //     **VB = 140** (+0.3 %). Se modelan por tanto a ±VB/2 = ±70 exactos.
+  //   · corren toda la altura del cuerpo (C), que es la dirección de extrusión.
+  cilT_a: 13.3, cilT_b: 20.3, cilT_c: 12, cilT_d: 8, cilT_e: 22.5,   // cat (tabla)
+  cilVB: 140,              // cat (tabla VB): paso entre ejes de las dos ranuras
+  cilHA: 'M12',            // cat (tabla HA): tornillo de cabeza cilíndrica que admite
+
+  // --- puertos Rc 3/8: dónde caen de verdad --------------------------------
+  // No están en el plano medio: el catálogo los sitúa a **PW = 74** del eje del
+  // émbolo en la dirección larga (H), los dos del mismo lado. Confirmado por
+  // píxeles dos veces sobre la vista lateral: los dos roscados salen centrados
+  // en y = 1237.5 px (143 px del eje y = 1095 → 74.36 mm, +0.5 %) y la propia
+  // línea de cota de PW ocupa x = 940 px, y 1095…1238 px = 143 px. Axialmente
+  // caen donde ya los ponía el módulo: x = 680 px (37 px de la cara de la placa
+  // → 19.24 mm, cat GA 19, +1.3 %) y x = 819.5 px (29 px de la cara de fijación
+  // → 15.08 mm, cat GB 15.5, −2.7 %).
+  cilPW: 74,               // cat (tabla PW): eje del émbolo → eje de los puertos
+  cilPuertoLadoY: -1,      // dis: los dos puertos miran a −Y, que es donde está
+                           //      la válvula (Y −172…−100): acorta la tubería
+  cilPuertoProf: 12,       // dis: profundidad del roscado Rc 3/8. med sobre el
+                           //      puerto TAPADO de la vista de extremo (cara H,
+                           //      y 1289.5→1271 px) = 18.5 px = 9.62 mm; se deja
+                           //      en 12 porque un Rc 3/8 necesita ~11 mm de rosca
+                           //      útil y es lo que aloja el niple del racor.
+
+  // --- placa móvil: alojamientos que enseñan la vista de la placa y las fotos --
+  // med sobre la vista de la placa (centro en x = 290, y = 1095 px):
+  //   · en cada varilla guía (y = 944.5 y 1245.5 px = ±150.5 px = ±78.3 mm, cat
+  //     U/2 = 78) hay una circunferencia de 56.5 px → 29.38 mm ≈ cat DB = 30.
+  //     En las dos fotos es un ALOJAMIENTO circular en la cara superior con el
+  //     tornillo de fijación de la varilla en el fondo.
+  //   · en el centro NO hay dos circunferencias y un hexágono dentro, como se
+  //     había escrito: hay UNA circunferencia y UN hexágono, y el «segundo
+  //     círculo» era el propio hexágono. La fila y = 1095 px cruza exactamente
+  //     cinco líneas —259.5 · 270 · 290 (eje) · 310.5 · 321— o sea dos rasgos
+  //     concéntricos y nada más:
+  //       caja Ø 61.5 px → 31.98 mm   (se conserva 32.2, +0.7 %, ver abajo)
+  //       hexágono, dos caras VERTICALES en x = 270 y 310.5 → 40.5 px
+  //                                    → **20.80 mm entre caras**
+  //     El recorte ampliado enseña las dos caras rectas y los vértices arriba y
+  //     abajo (y ≈ 1073 y 1118 px, entrecaras × 2/√3 = 46.8 px, medido 45): es un
+  //     hexágono con e/c 20.8, no 17.7. Y cuadra con la pieza: su diagonal
+  //     20.8 × 2/√3 = 24.02 cabe en el vástago de Ø25 (cat), que es justo lo que
+  //     tiene que pasar si el hexágono es el rebaje de llave del extremo del
+  //     vástago. Con 17.7 la diagonal habría sido 20.4 y sobraría material.
+  // Los DIÁMETROS y el entrecaras son medidos; las PROFUNDIDADES no las acota el
+  // catálogo y son decisión de este repositorio (`dis`), tomadas para que quede
+  // alma sana en una placa de FA = 22.
+  cilPlacaCajaDia: 29.4,   // med 56.5 px (cat DB 30, −2.1 %). Relectura propia:
+                           //      bordes en 262 y 318 px = 56.0 px → 29.12 mm,
+                           //      1.0 % por debajo del valor escrito: se conserva.
+  cilPlacaCajaProf: 8,     // dis
+  cilPlacaAsientoDia: 25.6,// dis: DA 25 + P.holgura.deslizante — asiento de la varilla
+  cilPlacaAsientoProf: 10, // dis
+  cilPlacaVastagoDia: 32.2,// med 62 px — caja del extremo del vástago, cara superior
+                           //      (relectura 61.5 px → 31.98; se conserva 32.2)
+  cilPlacaHexAF: 20.8,     // med 40.5 px entre caras — alojamiento hexagonal del
+                           //      extremo del vástago, en el FONDO de esa caja
+  cilPlacaHexProf: 14,     // dis: total desde la cara superior (6 mm por debajo
+                           //      del fondo de la caja Ø32.2); deja 8 mm de alma
   // Prestaciones (cat; las usa el bloque de verificaciones del final):
   cilArea: [5027, 4536],   // cat: área de empuje / de retorno, mm²
   cilPresion: [0.1, 1.0],  // cat: presión de trabajo mín. / máx., MPa
@@ -257,6 +431,47 @@ function suavizar3(pts, r, n = 5) {
   return out;
 }
 
+/** Boceto en planta (XY) extruido en Z, pero expresado en la MISMA base que usa
+ *  `bboxPieza` de lib.mjs. Para un boceto de normal +Z, `bboxPieza` no lee
+ *  `params.u` y supone la base que le da `baseOrtogonal`, que es u = [0,−1,0] ·
+ *  v = [1,0,0]; `sketchXY` declara u = [1,0,0]. Si no se reexpresa el contorno,
+ *  la caja del gate sale girada 90° y un cuerpo de 91.5 (X) × 202 (Y) pasa a
+ *  medir 202 × 91.5. Aquí se gira el contorno a esa base y se declara la `u`
+ *  correspondiente: model.js y a_step.py sí leen `params.u`, así que el SÓLIDO
+ *  es exactamente el mismo y la caja del gate deja de mentir.
+ *  (Mismo recurso que `barraZ` más abajo y que el `disco()` de transmision.mjs.) */
+/** Quita de un contorno CERRADO los puntos repetidos consecutivos (incluido el
+ *  par último↔primero). Un contorno que mezcla puntos escritos a mano con puntos
+ *  calculados los repite a menudo —el redondeo a 2 decimales hace que el primer
+ *  punto de un `arcoPts` caiga EXACTAMENTE sobre el vértice que ya estaba en la
+ *  lista— y cada repetición es una arista de longitud cero.
+ *  Medido antes de escribir esto, para no exagerar el problema: con los dos
+ *  repetidos que tenía el arco del lado J, `ExtrudeGeometry` daba los MISMOS 128
+ *  triángulos y CERO degenerados —three.js ya los descarta al construir el
+ *  `Shape`— y `a_step.py` cerraba el sólido igual. O sea que no era la causa de
+ *  ningún artefacto visible. Se limpia igualmente porque un contorno con aristas
+ *  nulas es una bomba de relojería para cualquier otro traductor (OCC se queja
+ *  al construir el `Wire`), y porque cuesta una función de seis líneas. */
+function sinRepes(pts, eps = 1e-6) {
+  const out = [];
+  for (const p of pts) {
+    const q = out[out.length - 1];
+    if (!q || Math.abs(q[0] - p[0]) > eps || Math.abs(q[1] - p[1]) > eps) out.push(p);
+  }
+  while (out.length > 1) {
+    const a = out[0], b = out[out.length - 1];
+    if (Math.abs(a[0] - b[0]) > eps || Math.abs(a[1] - b[1]) > eps) break;
+    out.pop();
+  }
+  return out;
+}
+
+function perfilXY(nombre, zFace, ptsXY, h, op = 'union') {
+  const f = sketchXY(nombre, zFace, ptsXY.map(([x, y]) => [-y, x]), h, op);
+  f.params.u = [0, -1, 0];
+  return f;
+}
+
 /** Features de un tubo que sigue una polilínea; devuelve {features, largo}. */
 function tubo(pts, dia, r = L.radioTubo, n = 5) {
   const c = suavizar3(pts, r, n), features = [];
@@ -342,6 +557,15 @@ export function elevacion(E) {
   const varillaZ0 = r2(webZ - salidaElev);            // 6.5 — punta de varilla, ELEVADO
   const varillaLargo = r2(placaZ0 - varillaZ0);       // 93 = FB + carrera + C + salida
   const puertoZ = [r2(webZ + L.cilGB), r2(cuerpoZ1 - L.cilGA)];   // 30.5 / 52.5 (cat GB / GA)
+  // Los dos puertos NO están en el plano medio: van a PW = 74 del eje, los dos
+  // al mismo lado (ver bloque L). Y no salen por la envolvente J = 45.5 sino por
+  // la CARA PLANA del extruido, a JA = 38 del eje: ese escalón de JB = 7.5 es el
+  // rebaje real del puerto.
+  const puertoY = r2(L.cilPuertoLadoY * L.cilPW);     // −74
+  const cilJfl = r2(mX + L.cilJA);                    // 269.5 — cara plana del lado J
+  const cilKfl = r2(mX - L.cilK);                     // 185.5 — cara K (banda central)
+  const cilKend = r2(mX - L.cilJA);                   // 193.5 — cara K en los extremos
+  const cilYend = r2(md / 2);                         // 101 — semilargo H
 
   const b38 = P.M.b38, b14 = P.M.b14;
 
@@ -467,13 +691,90 @@ export function elevacion(E) {
   //    Reparto de piezas: cuerpo = FIJO (atornillado al alma del canal);
   //    placa móvil, vástago y las 2 varillas guía = MÓVIL (suben con el pop-up).
   // =========================================================================
+  // --- SECCIÓN DEL EXTRUIDO (plano XY; la extrusión va según Z = eje del émbolo)
+  // Dos OREJAS prismáticas de X = −K … +JA (84 mm) × H = 202 (Y), con las cuatro
+  // aristas longitudinales achaflanadas, y entre ellas el TUBO del émbolo, de
+  // radio J = 45.5 centrado en el eje:
+  //   +X (lado J): el tubo ASOMA sobre la cara plana JA = 38 y corta esa cara a
+  //                |Y| = √(J² − JA²) = 25.02 → ahí la envolvente vale J = 45.5
+  //   −X (lado K): la cara plana está más afuera (K = 46) que el tubo, así que
+  //                entre ellos queda una CINTURA: la cara K muere a |Y| = 41.6
+  //                (med) y baja por un chaflán recto hasta el arco, que arranca
+  //                a |Y| = 33.0 (med). Es el rasgo que faltaba en la primera
+  //                versión de este perfil, que dejaba la cara K recta de punta a
+  //                punta y regalaba material entre el tubo y la oreja.
+  //   extremos:    por encima de |Y| ≈ 87…92 la cara K se retira otra vez a 38
+  // La envolvente NO cambia: sigue midiendo 91.5 (X 185.5…277.0) × 202 × 56.5.
+  // Lo que cambia es que ahora hay material sólo donde el catálogo dice que lo hay.
+  const ch = L.cilChaflan;
+  const yArc = r2(Math.sqrt(L.cilJ ** 2 - L.cilJA ** 2));   // 25.02
+  const aArc = Math.atan2(yArc, L.cilJA);                   // ±33.4°
+  const [yK1, yK0] = L.cilKbanda;                           // 87.1 (resalte) … 91.9 (extremo)
+  const [yW0, yW1] = L.cilKcintura;                         // 33.0 (arco) … 41.6 (cara K)
+  const xW = r2(Math.sqrt(L.cilJ ** 2 - yW0 ** 2));         // 31.32 — el arco en |Y| = 33
+  const aW = Math.atan2(yW0, -xW);                          // ≈ 133.5°, segundo cuadrante
+  const cilKw = r2(mX - xW);                                // 200.18
+  // el arco de la cintura se recorre por −π (el punto más saliente del lado K),
+  // no por 0: de −aW a −(2π − aW). Se le quitan los DOS EXTREMOS porque coinciden
+  // exactamente con los puntos del chaflán que ya están en la lista: `arcoPts`
+  // devuelve n+1 puntos incluyendo ambos bordes y, al redondear a 2 decimales,
+  // el primero cae en (cilKw, −yW0) y el último en (cilKw, +yW0). Lo mismo le
+  // pasaba al arco del lado J con (cilJfl, ±yArc). Ver `sinRepes` para qué
+  // consecuencias tiene eso realmente (menos de las que parece) y por qué se
+  // limpia de todos modos.
+  const arcoK = arcoPts(mX, 0, L.cilJ, -aW, aW - 2 * Math.PI, 20)
+    .map(([x, y]) => [r2(x), r2(y)]).slice(1, -1);
+  const perfilCuerpo = sinRepes([
+    [r2(cilJfl - ch), -cilYend],                            // cara H (−Y), desde el lado J
+    [r2(cilKend + ch), -cilYend],
+    [cilKend, r2(-cilYend + ch)],                           // chaflán arista K/−Y
+    [cilKend, -yK0],                                        // banda de extremo del lado K
+    [cilKfl, -yK1],                                         // sale a la cara K = 46
+    [cilKfl, -yW1],                                         // …que muere en la cintura
+    [cilKw, r2(-yW0)],                                      // chaflán de la cintura
+    ...arcoK,                                               // tubo, lado K
+    [cilKw, r2(yW0)],
+    [cilKfl, yW1],
+    [cilKfl, yK1],                                          // cara K, mitad +Y
+    [cilKend, yK0],
+    [cilKend, r2(cilYend - ch)],
+    [r2(cilKend + ch), cilYend],                            // chaflán arista K/+Y
+    [r2(cilJfl - ch), cilYend],
+    [cilJfl, r2(cilYend - ch)],                             // chaflán arista J/+Y
+    [cilJfl, yArc],                                         // cara plana del lado J (JA = 38)
+    ...arcoPts(mX, 0, L.cilJ, aArc, -aArc, 20)
+      .map(([x, y]) => [r2(x), r2(y)]).slice(1, -1),        // tubo, lado J
+    [cilJfl, r2(-yArc)],
+    [cilJfl, r2(-cilYend + ch)],                            // chaflán arista J/−Y
+  ]);
+  // Sección de la ranura en T, cortada desde la cara K hacia +X: boca (a × d),
+  // fondo ancho (b × c) y relieve central (a × [e − c − d]).
+  const ranuraT = (y0) => {
+    const a2 = r2(L.cilT_a / 2), b2 = r2(L.cilT_b / 2);
+    const x0 = r2(cilKfl - 0.5), x1 = r2(cilKfl + L.cilT_d);
+    const x2 = r2(cilKfl + L.cilT_d + L.cilT_c), x3 = r2(cilKfl + L.cilT_e);
+    return [
+      [x0, r2(y0 - a2)], [x1, r2(y0 - a2)], [x1, r2(y0 - b2)], [x2, r2(y0 - b2)],
+      [x2, r2(y0 - a2)], [x3, r2(y0 - a2)], [x3, r2(y0 + a2)], [x2, r2(y0 + a2)],
+      [x2, r2(y0 + b2)], [x1, r2(y0 + b2)], [x1, r2(y0 + a2)], [x0, r2(y0 + a2)],
+    ];
+  };
+  const ranuraY = [r2(-L.cilVB / 2), r2(L.cilVB / 2)];      // ±70 (cat VB = 140)
+
   E.addPart(
     `FIJO · NEUMÁTICA · Cilindro compacto con guías SMC MGPM80-10Z Ø${P.mesaBore} × ${P.mesaCarrera} `
     + `— cuerpo ${md}×${mw}×${cuerpoH} (MGPM80-10Z)`,
     COL.neumatica, [cilXc, 0, webZ],
     [
-      // cat H × G × C, con el reparto J/K asimétrico respecto del eje del émbolo
-      box(`Cuerpo ${md}×${mw}×${cuerpoH} (J=${L.cilJ} / K=${L.cilK})`, [cilXc, 0, webZ], mw, md, cuerpoH),
+      // perfil extruido real (cat J/K/JA/JB + med de los resaltes y el chaflán)
+      perfilXY(`Perfil extruido ${md}×${mw} (orejas −${L.cilK}…+${L.cilJA}, tubo R${L.cilJ} con cintura)`,
+        webZ, perfilCuerpo, cuerpoH),
+      // 2 RANURAS EN T (cat a/b/c/d/e para tornillo ${L.cilHA}) en la cara K, a
+      // ±VB/2 del plano medio y de extremo a extremo del cuerpo
+      ...ranuraY.map(y => perfilXY(
+        `Ranura en T ${L.cilT_a}/${L.cilT_b}/${L.cilT_c}/${L.cilT_d}/${L.cilT_e} para ${L.cilHA} `
+        + `(cara K, Y=${y > 0 ? '+' : '−'}${Math.abs(y)})`,
+        r2(cuerpoZ1 + 0.5), ranuraT(y), r2(cuerpoH + 2), 'cut')),
       // casquillos de deslizamiento de las varillas guía: pasantes (las varillas
       // atraviesan el cuerpo y asoman por la cara inferior)
       ...[-1, 1].map(s => hole(`Ø${r2(L.cilDA + 0.6)} casquillo de varilla guía (${s > 0 ? '+' : '−'}Y)`,
@@ -481,15 +782,27 @@ export function elevacion(E) {
       // alojamiento del vástago del émbolo: ciego, no sale por la cara inferior
       hole(`Ø${r2(L.cilVastagoDia + 0.6)} paso del vástago`, [mX, 0, cuerpoZ1], [0, 0, -1],
         r2(L.cilVastagoDia + 0.6), r2(cuerpoH - 6), false),
-      // 4 × MM: M12 × 1.75 profundidad ML = 25 en la CARA INFERIOR (cat)
+      // 4 × MM: M12 × 1.75 profundidad ML = 25 en la CARA INFERIOR (cat).
+      // El taladro arranca 1 mm por debajo de la cara de fijación y mide ML + 1,
+      // así que la cavidad en el material va de webZ a webZ + ML = **Z = 40.00
+      // exacto**. Aviso para quien mire cortes: `ver_corte.html` recorta con un
+      // plano, no con una booleana, y un corte pedido justo en Z = 40 cae sobre
+      // el techo plano de estos cuatro agujeros. La tapa del cilindro de corte
+      // está triangulada en abanico de 48 gajos y, con el plano encima, unos
+      // gajos pasan la prueba de recorte y otros no: salen cuatro ESTRELLAS
+      // negras. No es malla degenerada —a 39 y a 41 no hay nada— y no se
+      // arregla en la geometría, que es la correcta: se pide el corte en otra
+      // cota (35 y 30 son buenas: enseñan los puertos y las ranuras).
       ...[-1, 1].flatMap(sx => [-1, 1].map(sy =>
         hole(`4-MM M12×1.75 prof. ${L.cilML} (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
           [mX + sx * pernoMMX, sy * pernoMMY, webZ - 1], [0, 0, 1],
           r2(L.cilPernoDia + P.holgura.deslizante), r2(L.cilML + 1), false))),
-      // 2 × Rc 3/8 en la cara del lado J (cat GB desde la cara de fijación y GA
-      // desde la cara opuesta): el de abajo alimenta la cámara de EMPUJE
-      ...puertoZ.map((z, i) => hole(`Puerto Rc3/8 ${i ? 'B (retorno)' : 'A (empuje)'} (Z=${z})`,
-        [cilX1, 0, z], [-1, 0, 0], L.cilPuertoDia, 14, false)),
+      // 2 × Rc 3/8 en la CARA PLANA del lado J (a JA = 38 del eje, o sea 7.5 mm
+      // rebajada respecto de la envolvente J), a PW = 74 del eje en Y y a GB / GA
+      // de cada cara: el de abajo alimenta la cámara de EMPUJE
+      ...puertoZ.map((z, i) => hole(
+        `Puerto Rc3/8 ${i ? 'B (retorno)' : 'A (empuje)'} (Y=${puertoY}, Z=${z})`,
+        [cilJfl, puertoY, z], [-1, 0, 0], L.cilPuertoDia, L.cilPuertoProf, false)),
     ],
     { componente: 'mgpm80_10z', hardware: true, parte: 'MGPM80-10Z',
       catalogo: 'SMC serie MGP · MGPM80-10Z (Ø80, carrera 10, casquillo de deslizamiento, con imán)' });
@@ -507,6 +820,28 @@ export function elevacion(E) {
         hole(`4-NN M12×1.75 pasante (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
           [mX + sx * pernoNNX, sy * pernoNNY, placaZ0 - 1], [0, 0, 1],
           r2(L.cilPernoDia + P.holgura.deslizante)))),
+      // Alojamientos de las DOS VARILLAS GUÍA (cat U/2 = ±78): caja Ø29.4 en la
+      // cara superior —la que se ve en las dos fotos, con el tornillo de fijación
+      // en el fondo— y asiento de la varilla por la cara inferior. Ø med, prof dis.
+      ...[-1, 1].flatMap(sy => [
+        hole(`Caja Ø${L.cilPlacaCajaDia}×${L.cilPlacaCajaProf} de varilla guía (${sy > 0 ? '+' : '−'}Y)`,
+          [mX, sy * varillaY, placaZ1], [0, 0, -1], L.cilPlacaCajaDia, L.cilPlacaCajaProf, false),
+        hole(`Asiento Ø${L.cilPlacaAsientoDia}×${L.cilPlacaAsientoProf} de varilla guía (${sy > 0 ? '+' : '−'}Y)`,
+          [mX, sy * varillaY, placaZ0], [0, 0, 1], L.cilPlacaAsientoDia, L.cilPlacaAsientoProf, false),
+      ]),
+      // Extremo del vástago: caja Ø32.2 en la cara SUPERIOR y, en su fondo, el
+      // ALOJAMIENTO HEXAGONAL de 20.8 e/c. Los dos se ven en la vista de planta
+      // de la placa, dibujados con línea gruesa continua y concéntricos: el
+      // hexágono está dentro de la caja y se ve desde arriba, luego se mecaniza
+      // desde la misma cara. (La versión anterior lo cortaba desde la cara
+      // INFERIOR y con 17.7 e/c; ni una cosa ni la otra: ver el bloque L.)
+      hole(`Caja Ø${L.cilPlacaVastagoDia}×${L.cilPlacaCajaProf} del extremo del vástago`,
+        [mX, 0, placaZ1], [0, 0, -1], L.cilPlacaVastagoDia, L.cilPlacaCajaProf, false),
+      // (un boceto `cut` con side «pos» ocupa de zFace−h a zFace+0.5: poniendo
+      //  zFace en la cara superior y h = la profundidad, la caja sale justo)
+      perfilXY(`Alojamiento hexagonal ${L.cilPlacaHexAF} e/c × ${L.cilPlacaHexProf} del extremo del vástago`,
+        placaZ1, hexPts(mX, 0, L.cilPlacaHexAF).map(([x, y]) => [r2(x), r2(y)]),
+        L.cilPlacaHexProf, 'cut'),
     ],
     { componente: 'mgpm80_10z' });
 
@@ -701,14 +1036,19 @@ export function elevacion(E) {
 
   // ---- racores codo giratorios 360° en los puertos Rc3/8 del cilindro -----
   // Niple Rc 3/8 dentro del puerto + cuerpo por fuera + salida giratoria hacia −Y.
-  const codoCilY = -12;                              // final del brazo del codo del cilindro
+  // Los puertos están donde los pone el catálogo —PW = 74 del eje en Y y sobre la
+  // cara plana del lado J, a JA = 38 del eje—, no en el plano medio: el racor sale
+  // por tanto de X = 269.5, Y = −74, y la tubería hasta la válvula (Y −172…−100)
+  // baja de los 96 mm que medía a un tramo corto.
+  const niple = r2(L.cilPuertoProf - 1);             // 11 — cabe en el puerto de 12
+  const codoCilY = r2(puertoY - 12);                 // −86 — final del brazo del codo
   puertoZ.forEach((z, i) => {
-    E.addPart(`FIJO · NEUMÁTICA · Racor codo giratorio 360° Rc3/8–1/4" (cilindro, puerto ${i ? 'B' : 'A'}, Z=${z})`,
-      COL.neumatica, [cilX1, 0, z], [
-        cyl('Niple Rc3/8 Ø16.4×13', [r2(cilX1 - 13), 0, z], [1, 0, 0], 16.4, 13),
-        cyl('Cuerpo Ø22', [cilX1, 0, z], [1, 0, 0], 22, r2(L.tuboX - cilX1 + 8)),
-        cyl('Salida giratoria Ø13', [L.tuboX, 0, z], [0, -1, 0], 13, r2(-codoCilY)),
-        hole('Ø8.2 paso de tubo', [L.tuboX, 2, z], [0, -1, 0], r2(P.tuboOD + 0.3), 26, false),
+    E.addPart(`FIJO · NEUMÁTICA · Racor codo giratorio 360° Rc3/8–1/4" (cilindro, puerto ${i ? 'B' : 'A'}, Y=${puertoY}, Z=${z})`,
+      COL.neumatica, [cilJfl, puertoY, z], [
+        cyl(`Niple Rc3/8 Ø16.4×${niple}`, [r2(cilJfl - niple), puertoY, z], [1, 0, 0], 16.4, niple),
+        cyl('Cuerpo Ø22', [cilJfl, puertoY, z], [1, 0, 0], 22, r2(L.tuboX - cilJfl + 8)),
+        cyl('Salida giratoria Ø13', [L.tuboX, puertoY, z], [0, -1, 0], 13, r2(puertoY - codoCilY)),
+        hole('Ø8.2 paso de tubo', [L.tuboX, r2(puertoY + 2), z], [0, -1, 0], r2(P.tuboOD + 0.3), 26, false),
       ], { hardware: true, parte: '094.1406 (codo macho giratorio 360°)' });
   });
 

@@ -3628,34 +3628,34 @@
     {
      "pos": [
       90,
-      26
+      27
      ],
      "dia": 12,
-     "nota": "M12x1.75 prof. 25 (4-MM)"
+     "nota": "M12x1.75 prof. 25 (4-MM), patron VA x L = 180 x 54"
     },
     {
      "pos": [
       90,
-      -26
+      -27
      ],
      "dia": 12,
-     "nota": "M12x1.75 prof. 25 (4-MM)"
+     "nota": "M12x1.75 prof. 25 (4-MM), patron VA x L = 180 x 54"
     },
     {
      "pos": [
       -90,
-      26
+      27
      ],
      "dia": 12,
-     "nota": "M12x1.75 prof. 25 (4-MM)"
+     "nota": "M12x1.75 prof. 25 (4-MM), patron VA x L = 180 x 54"
     },
     {
      "pos": [
       -90,
-      -26
+      -27
      ],
      "dia": 12,
-     "nota": "M12x1.75 prof. 25 (4-MM)"
+     "nota": "M12x1.75 prof. 25 (4-MM), patron VA x L = 180 x 54"
     }
    ],
    "despejes": [
@@ -3686,7 +3686,7 @@
      ]
     }
    ],
-   "notas": "Origen en el EJE del embolo, sobre la cara inferior del cuerpo (no en el centro geometrico: el cuerpo reparte 45.5/46 a cada lado). X = direccion larga (varillas guia y patron de 180/174); Y = direccion corta (patron de 52). La placa lleva 4 roscas M12x1.75 pasantes a 174 x 52 para colgar la carga. No se modelan las ranuras en T de los costados (a 13.3, b 20.3, c 12, d 8, e 22.5, tornillo M12) ni los puertos Rc3/8, que salen por el lado J. Empuje 5027 mm2: 2081 N a 4.14 bar (60 psi), 3016 N a 6 bar. Limite de velocidad de impacto por energia cinetica, no por el cilindro. La cota A+carrera del catalogo (125) es la ENVOLVENTE BARRIDA de la unidad entera, de la cara superior de la placa extendida a la punta de varilla retraida; no significa que las varillas bajen mas al extender. Que A - E = B = 96.5 en las tres gamas de carrera lo confirma."
+   "notas": "Origen en el EJE del embolo, sobre la cara inferior del cuerpo (no en el centro geometrico: el cuerpo reparte 45.5/46 a cada lado). X = direccion larga (varillas guia y patron de 180 (VA) / 174 (R)); Y = direccion corta (patron L = 54 en el cuerpo, Q = 52 en la placa: son distintos). La placa lleva 4 roscas M12x1.75 pasantes a 174 x 52 para colgar la carga. Los solidos de ESTE componente son la envolvente simplificada, porque el catalogo solo admite cajas y cilindros unidos, sin cortes; ahi el cuerpo sigue siendo un prisma. La geometria real del extruido si esta modelada en el ensamble, en cad/ensambles/nbt90/elevacion.mjs: 2 ranuras en T en la cara K (a 13.3, b 20.3, c 12, d 8, e 22.5, tornillo M12; a VB=140 entre ejes y de extremo a extremo del cuerpo, con el relieve central de e-c-d=2.5), los 2 puertos Rc3/8 sobre la cara plana del lado J (a JA=38 del eje, no sobre la envolvente J=45.5, y a PW=74 del eje en la direccion larga), la cintura del lado K entre las orejas y el tubo del embolo, los chaflanes de las 4 aristas longitudinales y, en la placa, las cajas de varilla, la caja del vastago y el hexagono de 20.8 entre caras. Sigue SIN modelarse, por falta de cotas en el dibujo: las 4 ranuras de captador del encuentro tubo-oreja y el segundo par de Rc3/8 tapado (Plug). Empuje 5027 mm2: 2081 N a 4.14 bar (60 psi), 3016 N a 6 bar. Limite de velocidad de impacto por energia cinetica, no por el cilindro. La cota A+carrera del catalogo (125) es la ENVOLVENTE BARRIDA de la unidad entera, de la cara superior de la placa extendida a la punta de varilla retraida; no significa que las varillas bajen mas al extender. Que A - E = B = 96.5 en las tres gamas de carrera lo confirma."
   }
  ]
 }
