@@ -9,7 +9,7 @@
   "estado_modelado": "eje CENTRADO (reposo, las dos puntas afuera)",
   "procedencia": {
    "web": "ASME B36.10M / ASTM A53 (cañería y tolerancias), SKF 6201-2Z (C y C0), NTN tabla 7.1/7.2 (ajustes), DIN 471 (anillos), US8439573B2 (mecanismo de resorte), Damon e Interroll (cono 3.6°/1.8°)",
-   "measured-2D": "medición en píxeles sobre los planos rasterizados: escala 0.104712 mm/px, cadena 553/531/522, perfil del canal = arco único R5",
+   "measured-2D": "medición en píxeles sobre los planos rasterizados: escala 0.104712 mm/px, cadena 553/531/522, perfil del canal = arco único R5, D1 y k del cono; y sobre el croquis Type 1 del catálogo de portarodamientos (escala 0.063351 mm/px anclada en el barreno d=12.1) el LARGO DE LA TAPA = 12.42 → 14.5 con el 6201. Ver ESCALA.md.",
    "user": "cañería SCH40 1-1/2\", eje redondo Ø12 con caras planas, tapa metálica de catálogo, camisas plásticas"
   },
   "verificaciones": {
@@ -18,9 +18,9 @@
    "tubo": 522,
    "sobreTapas": 531,
    "sobreEjes": 553,
-   "contrataladro": "Ø45 H8 × 20",
-   "paredRestante": 1.63,
-   "paredPeorCaso": 1.23,
+   "contrataladro": "Ø44 H8 × 14",
+   "paredRestante": 2.13,
+   "paredPeorCaso": 1.73,
    "idCañeriaPeorCaso": "39.4…42.2",
    "resorte": {
     "k": 1.514,
@@ -48,8 +48,8 @@
     "cargaPorRodamiento_N": 250
    },
    "tubo_I_mm4": 128369.08,
-   "luzEntreRodamientos": 509,
-   "flecha_mm": 0.0535,
+   "luzEntreRodamientos": 516,
+   "flecha_mm": 0.0557,
    "solapesAABB": 70,
    "avisos": [
     "CANALES: el canal Ø38.5 exige rebajar 4.88 mm y la pared de la SCH40 es 3.68 mm — NO se puede mecanizar sobre esta cañería (ver README §Canales de correa)",
@@ -71,8 +71,8 @@
     "sobreEjes": 553,
     "caraUtil": 522,
     "odRodillo": 48.26,
-    "contrataladro": "Ø45 H8 × 20",
-    "paredRestante": 1.63
+    "contrataladro": "Ø44 H8 × 14",
+    "paredRestante": 2.13
    },
    "conico": {
     "piezas": 13,
@@ -114,13 +114,13 @@
    "fixed": true,
    "visible": true,
    "material": "cañería ASTM A53 Gr.B / ASME B36.10M — NPS 1-1/2 pulg, Schedule 40",
-   "mecanizado": "refrentar a 522 ±0.2 (escuadra 0.1) y contrataladrar Ø45 H8 × 20 en ambos extremos, Ra ≤ 3.2; eliminar el cordón interior de la costura en esa zona",
+   "mecanizado": "refrentar a 522 ±0.2 (escuadra 0.1) y contrataladrar Ø44 H8 × 14 en ambos extremos, Ra ≤ 3.2; eliminar el cordón interior de la costura en esa zona",
    "ajuste": "H8/u7 con el cuerpo de prensa de la tapa",
    "capaDato": "dis",
    "features": [
     {
      "id": "f1",
-     "name": "Cañería Ø48.26 pared 3.68; contrataladro Ø45 H8 × 20 en ambas testas",
+     "name": "Cañería Ø48.26 pared 3.68; contrataladro Ø44 H8 × 14 en ambas testas",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -140,11 +140,11 @@
         "type": "line",
         "a": [
          0,
-         23
+         22.5
         ],
         "b": [
          0.5,
-         22.5
+         22
         ]
        },
        {
@@ -152,22 +152,22 @@
         "type": "line",
         "a": [
          0.5,
-         22.5
+         22
         ],
         "b": [
-         20,
-         22.5
+         14,
+         22
         ]
        },
        {
         "id": "e0_2",
         "type": "line",
         "a": [
-         20,
-         22.5
+         14,
+         22
         ],
         "b": [
-         20,
+         14,
          20.47
         ]
        },
@@ -175,11 +175,11 @@
         "id": "e0_3",
         "type": "line",
         "a": [
-         20,
+         14,
          20.47
         ],
         "b": [
-         502,
+         508,
          20.47
         ]
        },
@@ -187,24 +187,24 @@
         "id": "e0_4",
         "type": "line",
         "a": [
-         502,
+         508,
          20.47
         ],
         "b": [
-         502,
-         22.5
+         508,
+         22
         ]
        },
        {
         "id": "e0_5",
         "type": "line",
         "a": [
-         502,
-         22.5
+         508,
+         22
         ],
         "b": [
          521.5,
-         22.5
+         22
         ]
        },
        {
@@ -212,11 +212,11 @@
         "type": "line",
         "a": [
          521.5,
-         22.5
+         22
         ],
         "b": [
          522,
-         23
+         22.5
         ]
        },
        {
@@ -224,7 +224,7 @@
         "type": "line",
         "a": [
          522,
-         23
+         22.5
         ],
         "b": [
          522,
@@ -252,7 +252,7 @@
         ],
         "b": [
          0,
-         23
+         22.5
         ]
        }
       ],
@@ -408,7 +408,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      53,
+      49.5,
       0,
       0
      ],
@@ -492,7 +492,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      498.9,
+      502.4,
       0,
       0
      ],
@@ -573,8 +573,8 @@
    ]
   },
   {
-   "id": "p3_plano_tapa_portarodamiento_45_32_24_5_izq",
-   "name": "PLANO · Tapa portarodamiento Ø45/Ø32 × 24.5 (izq)",
+   "id": "p3_plano_tapa_portarodamiento_44_32_14_5_izq",
+   "name": "PLANO · Tapa portarodamiento Ø44/Ø32 × 14.5 (izq)",
    "color": "#9aa4b2",
    "pos": [
     0.5,
@@ -589,15 +589,15 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "SKPB4812-1.5",
+   "componente": "SKPB4812-2.0",
    "material": "acero al carbono embutido zincado (catálogo) — alt. SAE 1020 torneado",
-   "ajuste": "prensado Ø45 u7 en el contrataladro H8 del tubo; alojamiento Ø32 M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)",
-   "nota": "portarodamiento de catálogo (brida F=48, prensa D=45, alojamiento D2=32). El catálogo NO publica el largo: verificar los 24.5 contra la pieza comprada.",
+   "ajuste": "prensado Ø44 u7 en el contrataladro H8 del tubo; alojamiento Ø32 M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)",
+   "nota": "portarodamiento de catálogo SKPB4812-2.0 (brida F=48, prensa D=44, alojamiento D2=32). El largo 14.5 sale de medir en píxeles el croquis Type 1 de la lámina (ver ESCALA.md); verificar contra la pieza comprada.",
    "capaDato": "cat",
    "features": [
     {
      "id": "f9",
-     "name": "Brida Ø48, cuerpo de prensa Ø45, alojamiento Ø32 con hombro Ø28",
+     "name": "Brida Ø48, cuerpo de prensa Ø44, alojamiento Ø32 con hombro Ø28",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -621,7 +621,7 @@
         ],
         "b": [
          0,
-         12
+         11
         ]
        },
        {
@@ -629,35 +629,35 @@
         "type": "line",
         "a": [
          0,
-         12
+         11
         ],
         "b": [
-         1.2,
-         15
+         1,
+         13.5
         ]
        },
        {
         "id": "e8_2",
         "type": "line",
         "a": [
-         1.2,
-         15
+         1,
+         13.5
         ],
         "b": [
-         2.6,
-         20
+         2.4,
+         18
         ]
        },
        {
         "id": "e8_3",
         "type": "line",
         "a": [
-         2.6,
-         20
+         2.4,
+         18
         ],
         "b": [
          3.6,
-         23.4
+         22.4
         ]
        },
        {
@@ -665,7 +665,7 @@
         "type": "line",
         "a": [
          3.6,
-         23.4
+         22.4
         ],
         "b": [
          4.5,
@@ -681,7 +681,7 @@
         ],
         "b": [
          4.5,
-         22.5
+         22
         ]
        },
        {
@@ -689,22 +689,22 @@
         "type": "line",
         "a": [
          4.5,
-         22.5
+         22
         ],
         "b": [
-         24.5,
-         22.5
+         14.5,
+         22
         ]
        },
        {
         "id": "e8_7",
         "type": "line",
         "a": [
-         24.5,
-         22.5
+         14.5,
+         22
         ],
         "b": [
-         24.5,
+         14.5,
          19.5
         ]
        },
@@ -712,11 +712,11 @@
         "id": "e8_8",
         "type": "line",
         "a": [
-         24.5,
+         14.5,
          19.5
         ],
         "b": [
-         16,
+         12.5,
          19.5
         ]
        },
@@ -724,11 +724,11 @@
         "id": "e8_9",
         "type": "line",
         "a": [
-         16,
+         12.5,
          19.5
         ],
         "b": [
-         16,
+         12.5,
          16
         ]
        },
@@ -736,11 +736,11 @@
         "id": "e8_10",
         "type": "line",
         "a": [
-         16,
+         12.5,
          16
         ],
         "b": [
-         6,
+         2.5,
          16
         ]
        },
@@ -748,11 +748,11 @@
         "id": "e8_11",
         "type": "line",
         "a": [
-         6,
+         2.5,
          16
         ],
         "b": [
-         6,
+         2.5,
          14
         ]
        },
@@ -760,11 +760,11 @@
         "id": "e8_12",
         "type": "line",
         "a": [
-         6,
+         2.5,
          14
         ],
         "b": [
-         2,
+         1.5,
          14
         ]
        },
@@ -772,11 +772,11 @@
         "id": "e8_13",
         "type": "line",
         "a": [
-         2,
+         1.5,
          14
         ],
         "b": [
-         2,
+         1.5,
          7
         ]
        },
@@ -784,7 +784,7 @@
         "id": "e8_14",
         "type": "line",
         "a": [
-         2,
+         1.5,
          7
         ],
         "b": [
@@ -818,7 +818,7 @@
    "name": "PLANO · Rodamiento 6201-2Z (12×32×10)",
    "color": "#7e57c2",
    "pos": [
-    6.5,
+    3,
     0,
     60
    ],
@@ -1092,7 +1092,7 @@
    "name": "PLANO · Anillo retención asiento de resorte Ø12",
    "color": "#c3ccd6",
    "pos": [
-    42.55,
+    39.05,
     0,
     60
    ],
@@ -1198,7 +1198,7 @@
    "name": "PLANO · Resorte de compresión Ø18×1.4 L0=32 (izq)",
    "color": "#c3ccd6",
    "pos": [
-    16.5,
+    13,
     0,
     60
    ],
@@ -1302,11 +1302,11 @@
    ]
   },
   {
-   "id": "p7_plano_tapa_portarodamiento_45_32_24_5_der",
-   "name": "PLANO · Tapa portarodamiento Ø45/Ø32 × 24.5 (der)",
+   "id": "p7_plano_tapa_portarodamiento_44_32_14_5_der",
+   "name": "PLANO · Tapa portarodamiento Ø44/Ø32 × 14.5 (der)",
    "color": "#9aa4b2",
    "pos": [
-    507,
+    517,
     0,
     60
    ],
@@ -1318,15 +1318,15 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "SKPB4812-1.5",
+   "componente": "SKPB4812-2.0",
    "material": "acero al carbono embutido zincado (catálogo) — alt. SAE 1020 torneado",
-   "ajuste": "prensado Ø45 u7 en el contrataladro H8 del tubo; alojamiento Ø32 M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)",
-   "nota": "portarodamiento de catálogo (brida F=48, prensa D=45, alojamiento D2=32). El catálogo NO publica el largo: verificar los 24.5 contra la pieza comprada.",
+   "ajuste": "prensado Ø44 u7 en el contrataladro H8 del tubo; alojamiento Ø32 M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)",
+   "nota": "portarodamiento de catálogo SKPB4812-2.0 (brida F=48, prensa D=44, alojamiento D2=32). El largo 14.5 sale de medir en píxeles el croquis Type 1 de la lámina (ver ESCALA.md); verificar contra la pieza comprada.",
    "capaDato": "cat",
    "features": [
     {
      "id": "f15",
-     "name": "Brida Ø48, cuerpo de prensa Ø45, alojamiento Ø32 con hombro Ø28",
+     "name": "Brida Ø48, cuerpo de prensa Ø44, alojamiento Ø32 con hombro Ø28",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -1345,59 +1345,59 @@
         "id": "e14_0",
         "type": "line",
         "a": [
-         24.5,
+         14.5,
          7
         ],
         "b": [
-         24.5,
-         12
+         14.5,
+         11
         ]
        },
        {
         "id": "e14_1",
         "type": "line",
         "a": [
-         24.5,
-         12
+         14.5,
+         11
         ],
         "b": [
-         23.3,
-         15
+         13.5,
+         13.5
         ]
        },
        {
         "id": "e14_2",
         "type": "line",
         "a": [
-         23.3,
-         15
+         13.5,
+         13.5
         ],
         "b": [
-         21.9,
-         20
+         12.1,
+         18
         ]
        },
        {
         "id": "e14_3",
         "type": "line",
         "a": [
-         21.9,
-         20
+         12.1,
+         18
         ],
         "b": [
-         20.9,
-         23.4
+         10.9,
+         22.4
         ]
        },
        {
         "id": "e14_4",
         "type": "line",
         "a": [
-         20.9,
-         23.4
+         10.9,
+         22.4
         ],
         "b": [
-         20,
+         10,
          24
         ]
        },
@@ -1405,24 +1405,24 @@
         "id": "e14_5",
         "type": "line",
         "a": [
-         20,
+         10,
          24
         ],
         "b": [
-         20,
-         22.5
+         10,
+         22
         ]
        },
        {
         "id": "e14_6",
         "type": "line",
         "a": [
-         20,
-         22.5
+         10,
+         22
         ],
         "b": [
          0,
-         22.5
+         22
         ]
        },
        {
@@ -1430,7 +1430,7 @@
         "type": "line",
         "a": [
          0,
-         22.5
+         22
         ],
         "b": [
          0,
@@ -1445,7 +1445,7 @@
          19.5
         ],
         "b": [
-         8.5,
+         2,
          19.5
         ]
        },
@@ -1453,11 +1453,11 @@
         "id": "e14_9",
         "type": "line",
         "a": [
-         8.5,
+         2,
          19.5
         ],
         "b": [
-         8.5,
+         2,
          16
         ]
        },
@@ -1465,11 +1465,11 @@
         "id": "e14_10",
         "type": "line",
         "a": [
-         8.5,
+         2,
          16
         ],
         "b": [
-         18.5,
+         12,
          16
         ]
        },
@@ -1477,11 +1477,11 @@
         "id": "e14_11",
         "type": "line",
         "a": [
-         18.5,
+         12,
          16
         ],
         "b": [
-         18.5,
+         12,
          14
         ]
        },
@@ -1489,11 +1489,11 @@
         "id": "e14_12",
         "type": "line",
         "a": [
-         18.5,
+         12,
          14
         ],
         "b": [
-         22.5,
+         13,
          14
         ]
        },
@@ -1501,11 +1501,11 @@
         "id": "e14_13",
         "type": "line",
         "a": [
-         22.5,
+         13,
          14
         ],
         "b": [
-         22.5,
+         13,
          7
         ]
        },
@@ -1513,11 +1513,11 @@
         "id": "e14_14",
         "type": "line",
         "a": [
-         22.5,
+         13,
          7
         ],
         "b": [
-         24.5,
+         14.5,
          7
         ]
        }
@@ -1547,7 +1547,7 @@
    "name": "PLANO · Rodamiento 6201-2Z (12×32×10)",
    "color": "#7e57c2",
    "pos": [
-    515.5,
+    519,
     0,
     60
    ],
@@ -1821,7 +1821,7 @@
    "name": "PLANO · Anillo retención asiento de resorte Ø12",
    "color": "#c3ccd6",
    "pos": [
-    488.45,
+    491.95,
     0,
     60
    ],
@@ -1927,7 +1927,7 @@
    "name": "PLANO · Resorte de compresión Ø18×1.4 L0=32 (der)",
    "color": "#c3ccd6",
    "pos": [
-    489.5,
+    493,
     0,
     60
    ],
@@ -2048,13 +2048,13 @@
    "fixed": false,
    "visible": true,
    "material": "cañería ASTM A53 Gr.B / ASME B36.10M — NPS 1-1/2 pulg, Schedule 40",
-   "mecanizado": "refrentar a 522 ±0.2 (escuadra 0.1) y contrataladrar Ø45 H8 × 20 en ambos extremos, Ra ≤ 3.2; eliminar el cordón interior de la costura en esa zona",
+   "mecanizado": "refrentar a 522 ±0.2 (escuadra 0.1) y contrataladrar Ø44 H8 × 14 en ambos extremos, Ra ≤ 3.2; eliminar el cordón interior de la costura en esa zona",
    "ajuste": "H8/u7 con el cuerpo de prensa de la tapa",
    "capaDato": "dis",
    "features": [
     {
      "id": "f21",
-     "name": "Cañería Ø48.26 pared 3.68; contrataladro Ø45 H8 × 20 en ambas testas",
+     "name": "Cañería Ø48.26 pared 3.68; contrataladro Ø44 H8 × 14 en ambas testas",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -2074,11 +2074,11 @@
         "type": "line",
         "a": [
          0,
-         23
+         22.5
         ],
         "b": [
          0.5,
-         22.5
+         22
         ]
        },
        {
@@ -2086,22 +2086,22 @@
         "type": "line",
         "a": [
          0.5,
-         22.5
+         22
         ],
         "b": [
-         20,
-         22.5
+         14,
+         22
         ]
        },
        {
         "id": "e20_2",
         "type": "line",
         "a": [
-         20,
-         22.5
+         14,
+         22
         ],
         "b": [
-         20,
+         14,
          20.47
         ]
        },
@@ -2109,11 +2109,11 @@
         "id": "e20_3",
         "type": "line",
         "a": [
-         20,
+         14,
          20.47
         ],
         "b": [
-         502,
+         508,
          20.47
         ]
        },
@@ -2121,24 +2121,24 @@
         "id": "e20_4",
         "type": "line",
         "a": [
-         502,
+         508,
          20.47
         ],
         "b": [
-         502,
-         22.5
+         508,
+         22
         ]
        },
        {
         "id": "e20_5",
         "type": "line",
         "a": [
-         502,
-         22.5
+         508,
+         22
         ],
         "b": [
          521.5,
-         22.5
+         22
         ]
        },
        {
@@ -2146,11 +2146,11 @@
         "type": "line",
         "a": [
          521.5,
-         22.5
+         22
         ],
         "b": [
          522,
-         23
+         22.5
         ]
        },
        {
@@ -2158,7 +2158,7 @@
         "type": "line",
         "a": [
          522,
-         23
+         22.5
         ],
         "b": [
          522,
@@ -2186,7 +2186,7 @@
         ],
         "b": [
          0,
-         23
+         22.5
         ]
        }
       ],
@@ -2342,7 +2342,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      53,
+      49.5,
       0,
       0
      ],
@@ -2426,7 +2426,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      498.9,
+      502.4,
       0,
       0
      ],
@@ -2507,8 +2507,8 @@
    ]
   },
   {
-   "id": "p13_conico_tapa_portarodamiento_45_32_24_5_conico_izq",
-   "name": "CÓNICO · Tapa portarodamiento Ø45/Ø32 × 24.5 (cónico, izq)",
+   "id": "p13_conico_tapa_portarodamiento_44_32_14_5_conico_izq",
+   "name": "CÓNICO · Tapa portarodamiento Ø44/Ø32 × 14.5 (cónico, izq)",
    "color": "#9aa4b2",
    "pos": [
     0.5,
@@ -2523,15 +2523,15 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "SKPB4812-1.5",
+   "componente": "SKPB4812-2.0",
    "material": "acero al carbono embutido zincado (catálogo) — alt. SAE 1020 torneado",
-   "ajuste": "prensado Ø45 u7 en el contrataladro H8 del tubo; alojamiento Ø32 M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)",
-   "nota": "portarodamiento de catálogo (brida F=48, prensa D=45, alojamiento D2=32). El catálogo NO publica el largo: verificar los 24.5 contra la pieza comprada.",
+   "ajuste": "prensado Ø44 u7 en el contrataladro H8 del tubo; alojamiento Ø32 M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)",
+   "nota": "portarodamiento de catálogo SKPB4812-2.0 (brida F=48, prensa D=44, alojamiento D2=32). El largo 14.5 sale de medir en píxeles el croquis Type 1 de la lámina (ver ESCALA.md); verificar contra la pieza comprada.",
    "capaDato": "cat",
    "features": [
     {
      "id": "f29",
-     "name": "Brida Ø48, cuerpo de prensa Ø45, alojamiento Ø32 con hombro Ø28",
+     "name": "Brida Ø48, cuerpo de prensa Ø44, alojamiento Ø32 con hombro Ø28",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -2555,7 +2555,7 @@
         ],
         "b": [
          0,
-         12
+         11
         ]
        },
        {
@@ -2563,35 +2563,35 @@
         "type": "line",
         "a": [
          0,
-         12
+         11
         ],
         "b": [
-         1.2,
-         15
+         1,
+         13.5
         ]
        },
        {
         "id": "e28_2",
         "type": "line",
         "a": [
-         1.2,
-         15
+         1,
+         13.5
         ],
         "b": [
-         2.6,
-         20
+         2.4,
+         18
         ]
        },
        {
         "id": "e28_3",
         "type": "line",
         "a": [
-         2.6,
-         20
+         2.4,
+         18
         ],
         "b": [
          3.6,
-         23.4
+         22.4
         ]
        },
        {
@@ -2599,7 +2599,7 @@
         "type": "line",
         "a": [
          3.6,
-         23.4
+         22.4
         ],
         "b": [
          4.5,
@@ -2615,7 +2615,7 @@
         ],
         "b": [
          4.5,
-         22.5
+         22
         ]
        },
        {
@@ -2623,22 +2623,22 @@
         "type": "line",
         "a": [
          4.5,
-         22.5
+         22
         ],
         "b": [
-         24.5,
-         22.5
+         14.5,
+         22
         ]
        },
        {
         "id": "e28_7",
         "type": "line",
         "a": [
-         24.5,
-         22.5
+         14.5,
+         22
         ],
         "b": [
-         24.5,
+         14.5,
          19.5
         ]
        },
@@ -2646,11 +2646,11 @@
         "id": "e28_8",
         "type": "line",
         "a": [
-         24.5,
+         14.5,
          19.5
         ],
         "b": [
-         16,
+         12.5,
          19.5
         ]
        },
@@ -2658,11 +2658,11 @@
         "id": "e28_9",
         "type": "line",
         "a": [
-         16,
+         12.5,
          19.5
         ],
         "b": [
-         16,
+         12.5,
          16
         ]
        },
@@ -2670,11 +2670,11 @@
         "id": "e28_10",
         "type": "line",
         "a": [
-         16,
+         12.5,
          16
         ],
         "b": [
-         6,
+         2.5,
          16
         ]
        },
@@ -2682,11 +2682,11 @@
         "id": "e28_11",
         "type": "line",
         "a": [
-         6,
+         2.5,
          16
         ],
         "b": [
-         6,
+         2.5,
          14
         ]
        },
@@ -2694,11 +2694,11 @@
         "id": "e28_12",
         "type": "line",
         "a": [
-         6,
+         2.5,
          14
         ],
         "b": [
-         2,
+         1.5,
          14
         ]
        },
@@ -2706,11 +2706,11 @@
         "id": "e28_13",
         "type": "line",
         "a": [
-         2,
+         1.5,
          14
         ],
         "b": [
-         2,
+         1.5,
          7
         ]
        },
@@ -2718,7 +2718,7 @@
         "id": "e28_14",
         "type": "line",
         "a": [
-         2,
+         1.5,
          7
         ],
         "b": [
@@ -2752,7 +2752,7 @@
    "name": "CÓNICO · Rodamiento 6201-2Z (12×32×10)",
    "color": "#7e57c2",
    "pos": [
-    6.5,
+    3,
     150,
     60
    ],
@@ -3026,7 +3026,7 @@
    "name": "CÓNICO · Anillo retención asiento de resorte Ø12",
    "color": "#c3ccd6",
    "pos": [
-    42.55,
+    39.05,
     150,
     60
    ],
@@ -3132,7 +3132,7 @@
    "name": "CÓNICO · Resorte de compresión Ø18×1.4 L0=32 (cónico, izq)",
    "color": "#c3ccd6",
    "pos": [
-    16.5,
+    13,
     150,
     60
    ],
@@ -3236,11 +3236,11 @@
    ]
   },
   {
-   "id": "p17_conico_tapa_portarodamiento_45_32_24_5_conico_der",
-   "name": "CÓNICO · Tapa portarodamiento Ø45/Ø32 × 24.5 (cónico, der)",
+   "id": "p17_conico_tapa_portarodamiento_44_32_14_5_conico_der",
+   "name": "CÓNICO · Tapa portarodamiento Ø44/Ø32 × 14.5 (cónico, der)",
    "color": "#9aa4b2",
    "pos": [
-    507,
+    517,
     150,
     60
    ],
@@ -3252,15 +3252,15 @@
    ],
    "fixed": false,
    "visible": true,
-   "componente": "SKPB4812-1.5",
+   "componente": "SKPB4812-2.0",
    "material": "acero al carbono embutido zincado (catálogo) — alt. SAE 1020 torneado",
-   "ajuste": "prensado Ø45 u7 en el contrataladro H8 del tubo; alojamiento Ø32 M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)",
-   "nota": "portarodamiento de catálogo (brida F=48, prensa D=45, alojamiento D2=32). El catálogo NO publica el largo: verificar los 24.5 contra la pieza comprada.",
+   "ajuste": "prensado Ø44 u7 en el contrataladro H8 del tubo; alojamiento Ø32 M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)",
+   "nota": "portarodamiento de catálogo SKPB4812-2.0 (brida F=48, prensa D=44, alojamiento D2=32). El largo 14.5 sale de medir en píxeles el croquis Type 1 de la lámina (ver ESCALA.md); verificar contra la pieza comprada.",
    "capaDato": "cat",
    "features": [
     {
      "id": "f35",
-     "name": "Brida Ø48, cuerpo de prensa Ø45, alojamiento Ø32 con hombro Ø28",
+     "name": "Brida Ø48, cuerpo de prensa Ø44, alojamiento Ø32 con hombro Ø28",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -3279,59 +3279,59 @@
         "id": "e34_0",
         "type": "line",
         "a": [
-         24.5,
+         14.5,
          7
         ],
         "b": [
-         24.5,
-         12
+         14.5,
+         11
         ]
        },
        {
         "id": "e34_1",
         "type": "line",
         "a": [
-         24.5,
-         12
+         14.5,
+         11
         ],
         "b": [
-         23.3,
-         15
+         13.5,
+         13.5
         ]
        },
        {
         "id": "e34_2",
         "type": "line",
         "a": [
-         23.3,
-         15
+         13.5,
+         13.5
         ],
         "b": [
-         21.9,
-         20
+         12.1,
+         18
         ]
        },
        {
         "id": "e34_3",
         "type": "line",
         "a": [
-         21.9,
-         20
+         12.1,
+         18
         ],
         "b": [
-         20.9,
-         23.4
+         10.9,
+         22.4
         ]
        },
        {
         "id": "e34_4",
         "type": "line",
         "a": [
-         20.9,
-         23.4
+         10.9,
+         22.4
         ],
         "b": [
-         20,
+         10,
          24
         ]
        },
@@ -3339,24 +3339,24 @@
         "id": "e34_5",
         "type": "line",
         "a": [
-         20,
+         10,
          24
         ],
         "b": [
-         20,
-         22.5
+         10,
+         22
         ]
        },
        {
         "id": "e34_6",
         "type": "line",
         "a": [
-         20,
-         22.5
+         10,
+         22
         ],
         "b": [
          0,
-         22.5
+         22
         ]
        },
        {
@@ -3364,7 +3364,7 @@
         "type": "line",
         "a": [
          0,
-         22.5
+         22
         ],
         "b": [
          0,
@@ -3379,7 +3379,7 @@
          19.5
         ],
         "b": [
-         8.5,
+         2,
          19.5
         ]
        },
@@ -3387,11 +3387,11 @@
         "id": "e34_9",
         "type": "line",
         "a": [
-         8.5,
+         2,
          19.5
         ],
         "b": [
-         8.5,
+         2,
          16
         ]
        },
@@ -3399,11 +3399,11 @@
         "id": "e34_10",
         "type": "line",
         "a": [
-         8.5,
+         2,
          16
         ],
         "b": [
-         18.5,
+         12,
          16
         ]
        },
@@ -3411,11 +3411,11 @@
         "id": "e34_11",
         "type": "line",
         "a": [
-         18.5,
+         12,
          16
         ],
         "b": [
-         18.5,
+         12,
          14
         ]
        },
@@ -3423,11 +3423,11 @@
         "id": "e34_12",
         "type": "line",
         "a": [
-         18.5,
+         12,
          14
         ],
         "b": [
-         22.5,
+         13,
          14
         ]
        },
@@ -3435,11 +3435,11 @@
         "id": "e34_13",
         "type": "line",
         "a": [
-         22.5,
+         13,
          14
         ],
         "b": [
-         22.5,
+         13,
          7
         ]
        },
@@ -3447,11 +3447,11 @@
         "id": "e34_14",
         "type": "line",
         "a": [
-         22.5,
+         13,
          7
         ],
         "b": [
-         24.5,
+         14.5,
          7
         ]
        }
@@ -3481,7 +3481,7 @@
    "name": "CÓNICO · Rodamiento 6201-2Z (12×32×10)",
    "color": "#7e57c2",
    "pos": [
-    515.5,
+    519,
     150,
     60
    ],
@@ -3755,7 +3755,7 @@
    "name": "CÓNICO · Anillo retención asiento de resorte Ø12",
    "color": "#c3ccd6",
    "pos": [
-    488.45,
+    491.95,
     150,
     60
    ],
@@ -3861,7 +3861,7 @@
    "name": "CÓNICO · Resorte de compresión Ø18×1.4 L0=32 (cónico, der)",
    "color": "#c3ccd6",
    "pos": [
-    489.5,
+    493,
     150,
     60
    ],

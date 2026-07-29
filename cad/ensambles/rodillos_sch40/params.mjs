@@ -46,25 +46,33 @@ export const P = {
   },
 
   // ───────────────────────────────────────────────────── tapa portarodamiento
-  // Interfaz del portarodamiento de catálogo SKPB4812-1.5 (brida F=48,
-  // cuerpo de prensa D=45, alojamiento D2=32). Cota local h desde la cara
-  // exterior hacia adentro. El catálogo no publica el largo: se adopta 24.5
-  // (4.5 de saliente + 20 de prensa) y se marca para verificar con la pieza real.
+  // Portarodamiento de catálogo **SKPB4812-2.0** — el de tubo de 2 mm de pared:
+  // brida F=48, cuerpo de prensa **D=44**, alojamiento D2=32, rodamiento 6201ZZ.
+  // Se elige el de 2.0 en vez del de 1.5 (D=45) porque su Ø44 deja 2.13 mm de
+  // pared en el contrataladro en lugar de 1.63.
+  //
+  // LARGO: el catálogo no lo tabula, pero el croquis "Type 1" de la lámina sí
+  // está a escala. Medido en píxeles con ancla en el barreno d = 12.1
+  // (0.063351 mm/px; con esa escala la brida sale 48.37 contra 48 nominal,
+  // 0.8 % de error): **12.42 mm**. Ese croquis está dibujado para la variante
+  // de 6001 (D2 = 28, aro de 8 de ancho); nuestro 6201 es de 10 de ancho, así
+  // que 12.42 + 2 = **14.5**. Concuerda con los H = 12 que el propio catálogo
+  // publica para la serie SKP de este porte. Detalle en ESCALA.md.
   tapa: {
-    largo: 24.5,        // dis (verificar contra la pieza comprada)
+    largo: 14.5,        // med (croquis Type 1) + 2 por el ancho del 6201
     saliente: 4.5,      // cat+med
     boreFrontal: 14,    // dis: paso holgado del eje Ø12
     // El morro embutido va ENTERO fuera del tubo (h 0…4.5); en h = 4.5 está la
     // testa del tubo y desde ahí entra el cuerpo de prensa. Si la brida Ø48
     // invadiera h > 4.5 se metería dentro de la pared del tubo (interferencia).
-    domo: [[0, 7.0], [0, 12.0], [1.2, 15.0], [2.6, 20.0], [3.6, 23.4], [4.5, 24.0]],  // dis
+    domo: [[0, 7.0], [0, 11.0], [1.0, 13.5], [2.4, 18.0], [3.6, 22.4], [4.5, 24.0]],  // dis
     bridaD: 48,         // cat: F de la serie SKPB48xx
-    prensaD: 45,        // cat: D de la serie SKPB48xx
+    prensaD: 44,        // cat: D de la SKPB4812-2.0
     asientoD: 32,       // cat: D2 → aloja 6201/6002
-    asientoH0: 6.0, asientoH1: 16.0,
-    frenteH: 2.0,       // dis: espesor de la pared frontal
+    asientoH0: 2.5, asientoH1: 12.5,   // el rodamiento va detrás del morro embutido
+    frenteH: 1.5,       // dis: espesor de la pared frontal embutida
     hombroD: 28,        // dis: tope axial del aro exterior
-    faldonD: 39,        // dis: alivio interior del faldón (h 16…24.5)
+    faldonD: 39,        // dis: alivio interior del faldón (h 12.5…14.5)
     material: 'acero al carbono embutido zincado (catálogo) — alt. SAE 1020 torneado',
     materialImpreso: 'PA6-CF / PA12-CF (variante impresa, ver README §Tapa impresa)',
   },
@@ -72,7 +80,11 @@ export const P = {
   // ─────────────────────────────────────────── contrataladro (¡crítico!)
   // El ID real de la SCH40 es 40.94 nominal y 39.4…42.2 con tolerancia de
   // laminación: NINGUNA tapa de catálogo entra, y el ID en bruto no es asiento.
-  contra: { d: 45, tol: 'H8', prof: 20, Ra: 3.2 },   // dis
+  // Ø44 = cuerpo de prensa de la SKPB4812-2.0 → deja 2.13 mm de pared (1.73 en
+  // el peor caso de laminación). Profundidad 14 contra los 10 de tapa que
+  // entran: la posición axial la fija la BRIDA contra la testa del tubo, no el
+  // fondo, así que sobran 4 mm por si la tapa real es más larga que los 14.5.
+  contra: { d: 44, tol: 'H8', prof: 14, Ra: 3.2 },   // dis
 
   // ─────────────────────────────────────────────────────────────────── eje
   // req: "un eje redondo, que puede ser de doce milímetros, y le hago una cara

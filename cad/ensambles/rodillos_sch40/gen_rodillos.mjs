@@ -147,7 +147,7 @@ const doc = {
     estado_modelado: 'eje CENTRADO (reposo, las dos puntas afuera)',
     procedencia: {
       web: 'ASME B36.10M / ASTM A53 (cañería y tolerancias), SKF 6201-2Z (C y C0), NTN tabla 7.1/7.2 (ajustes), DIN 471 (anillos), US8439573B2 (mecanismo de resorte), Damon e Interroll (cono 3.6°/1.8°)',
-      'measured-2D': 'medición en píxeles sobre los planos rasterizados: escala 0.104712 mm/px, cadena 553/531/522, perfil del canal = arco único R5',
+      'measured-2D': 'medición en píxeles sobre los planos rasterizados: escala 0.104712 mm/px, cadena 553/531/522, perfil del canal = arco único R5, D1 y k del cono; y sobre el croquis Type 1 del catálogo de portarodamientos (escala 0.063351 mm/px anclada en el barreno d=12.1) el LARGO DE LA TAPA = 12.42 → 14.5 con el 6201. Ver ESCALA.md.',
       user: 'cañería SCH40 1-1/2", eje redondo Ø12 con caras planas, tapa metálica de catálogo, camisas plásticas',
     },
     verificaciones: v,

@@ -110,6 +110,55 @@ Damon `Taper: 3.6°` e Interroll `the shaft ... is inclined by 1.8°`
 → semiángulo 1.8014° = k 0.06289. `gen_rodillos.mjs` lo verifica contra las 18
 filas y falla si el error supera 0.35 mm (hoy: **0.08 mm**).
 
+## Largo de la tapa — medido en el croquis «Type 1» del catálogo
+
+El plano del rodillo **no dibuja la tapa por dentro** (no hay líneas ocultas), así
+que de ahí no sale el largo. Pero la lámina de portarodamientos (`Rod.pdf`) trae
+arriba los croquis **Type 1…4 en corte**, y ésos sí están dibujados a escala.
+
+Rasterizado de la p. 2 a 600 dpi. Eje del croquis Type 1 en **y = 1245.8 px**
+(punto medio de todos los pares simétricos hallados).
+
+**Ancla:** el barreno `d = 12.1`, que es el rasgo más nítido y el único que se
+identifica sin ambigüedad. Par simétrico medido en la columna x = 520:
+**r = 95.5 px** → escala **0.063351 mm/px**.
+
+Contraste con las otras cotas tabuladas:
+
+| Cota | px medidos | mm con esa escala | Nominal | Error |
+|---|---|---|---|---|
+| `d` (barreno) | r = 95.5 | 12.10 | 12.1 | **0.0 %** |
+| `F` (brida, radio de la silueta) | r = 381.8 | 48.37 | 48 | **0.8 %** |
+| `D2` (línea de cota en x = 825) | r = 228.0 | 28.89 | 28 | 3.2 % |
+
+Dos de tres dentro del 1 %. Además `D2 ≈ 28` identifica **de qué pieza es el
+croquis**: la variante de la `SKPB4812-1.5` que lleva **6001ZZ** (`F 48 · D 45 ·
+d 12.1 · D2 28`), no la de 6201. Lo confirma el saliente del aro interior que
+asoma del cubo: **r = 136.8 px → Ø17.3**, y el aro interior de un 6001 mide
+**Ø17.0** (`d1` de la ficha SKF).
+
+**Largo:** la silueta da el cuerpo de la tapa entre **x = 514 y x = 710 px**:
+
+```
+196 px × 0.063351 = 12.42 mm
+```
+
+Contraste independiente, dentro del mismo catálogo: la tabla de la serie **SKP**
+publica **H = 12** para `SKP5012-1.0` (F = 50), y la de **Pressed Bearing** da
+**H = 12.0** para `SK1232A` y `SK1235A`. Un portarodamiento embutido de este porte
+mide 12, no 24.
+
+**Corrección aplicada al diseño:** el croquis es de la variante con **6001**
+(aro de **8** de ancho). Nuestro rodamiento es un **6201**, de **10** de ancho, así
+que el cubo crece 2 mm:
+
+```
+largo de la tapa = 12.42 + 2 = 14.5 mm     (4.5 fuera del tubo + 10 dentro)
+```
+
+> Antes de esta medición el modelo llevaba **24.5 mm supuestos**. Era el único dato
+> del conjunto que no estaba ni medido ni citado, y estaba mal por casi el doble.
+
 ## Reproducir estas mediciones
 
 ```bash
@@ -126,4 +175,9 @@ python3 tools/med_px.py perfil SHC_400.png --fila 1050 --x0 900 --x1 1900
 
 # líneas de referencia de las cotas de largo
 for Y in 1600 1700 1800; do python3 tools/med_px.py perfil SHC_400.png --fila $Y --x0 850 --x1 3400; done
+
+# croquis Type 1 del catálogo de portarodamientos (p. 2 a 600 dpi, banda superior)
+python3 tools/med_px.py perfil rod_p2_types.png --col 520 --y0 830 --y1 1690   # diámetros
+python3 tools/med_px.py perfil rod_p2_types.png --col 825 --y0 830 --y1 1690   # línea de cota D2
+python3 tools/med_px.py perfil rod_p2_types.png --fila 1010 --x0 400 --x1 1000 # extremos axiales
 ```

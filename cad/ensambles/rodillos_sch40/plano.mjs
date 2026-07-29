@@ -144,10 +144,10 @@ export function nucleo(E, { y = 0, z = 0, capa = '', suf = '' } = {}) {
       [revolve(`Brida Ø${T.bridaD}, cuerpo de prensa Ø${P.contra.d}, alojamiento Ø${T.asientoD} con hombro Ø${T.hombroD}`,
         [xTapa, y, z], 'x', s === 0 ? perfilTapa() : espejo(perfilTapa(), T.largo))],
       {
-        componente: 'SKPB4812-1.5',
+        componente: 'SKPB4812-2.0',
         material: T.material,
         ajuste: `prensado Ø${P.contra.d} u7 en el contrataladro H8 del tubo; alojamiento Ø${T.asientoD} M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)`,
-        nota: 'portarodamiento de catálogo (brida F=48, prensa D=45, alojamiento D2=32). El catálogo NO publica el largo: verificar los 24.5 contra la pieza comprada.',
+        nota: 'portarodamiento de catálogo SKPB4812-2.0 (brida F=48, prensa D=44, alojamiento D2=32). El largo 14.5 sale de medir en píxeles el croquis Type 1 de la lámina (ver ESCALA.md); verificar contra la pieza comprada.',
         capaDato: 'cat',
       });
     n.tapas++;

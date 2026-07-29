@@ -59,20 +59,29 @@ Trabajar un módulo suelto: `node ensambles/rodillos_sch40/_check.mjs plano --v`
 
 ### 1. Hay que CONTRATALADRAR el tubo. No es opcional.
 
-El cuerpo de prensa de cualquier portarodamiento de la serie SKPB48xx es
-**Ø45**. El interior de la cañería SCH 40 es **Ø40.94 nominal**, y con las
-tolerancias de laminación de A53 (`OD +0.397/−0.794`, pared `−12.5 %`) queda
-entre **39.4 y 42.2**. Además es tubo con costura: tiene cordón interior.
+El cuerpo de prensa de los portarodamientos SKPB48xx es **Ø45** (variante de tubo
+de 1.5 mm) o **Ø44** (variante de 2.0 mm). El interior de la cañería SCH 40 es
+**Ø40.94 nominal**, y con las tolerancias de laminación de A53
+(`OD +0.397/−0.794`, pared `−12.5 %`) queda entre **39.4 y 42.2**. Además es tubo
+con costura: tiene cordón interior.
 
 O sea: **ninguna tapa de catálogo entra en la cañería en bruto**, y aunque
 entrara, un interior laminado con ±1.4 mm de dispersión y un cordón de soldadura
 no es asiento para nada.
 
-> **Solución:** refrentar las dos testas y **contrataladrar Ø45 H8 × 20 de
-> profundidad**, Ra ≤ 3.2, eliminando el cordón en esa zona. Quedan **1.63 mm**
-> de pared en el contrataladro (**1.23 mm** en el peor caso de tolerancia) — que
-> es del mismo orden que el tubo Ø50×1.5 original del catálogo, donde el mismo
-> prensado funciona.
+> **Solución:** refrentar las dos testas y **contrataladrar Ø44 H8 × 14 de
+> profundidad**, Ra ≤ 3.2, eliminando el cordón en esa zona.
+
+Se usa la tapa de la variante **de 2.0 mm de pared** (`SKPB4812-2.0`, Ø44) y no la
+de 1.5 (Ø45) precisamente por esto: el Ø44 deja **2.13 mm** de pared en el
+contrataladro (**1.73 mm** en el peor caso de tolerancia) contra los 1.63 / 1.23
+que dejaría el Ø45. Es 0.5 mm más de pared en la zona más comprometida de la
+pieza, y no cuesta nada — es otro artículo del mismo catálogo.
+
+La profundidad son **14** contra los **10** de tapa que entran: la posición axial
+la fija la **brida contra la testa del tubo**, no el fondo del contrataladro, así
+que esos 4 mm de sobra sólo son margen por si la tapa real resulta más larga que
+lo medido.
 
 Esto se hace al torno con luneta (la cañería de 522 no pasa por el husillo) o con
 cabezal de mandrinar. Es la operación que más encarece la pieza y es la que hay
@@ -131,7 +140,7 @@ desplazarse** (nuestro caso: el eje desliza contra el resorte) → **g6**.
 |---|---|---|
 | eje Ø12 ↔ aro interior 6201 | **g6** | carga estacionaria + tiene que deslizar |
 | aro exterior Ø32 ↔ alojamiento de la tapa | **M7 / N7** | carga rotatoria: aprieto obligatorio |
-| tapa Ø45 ↔ contrataladro del tubo | **H8 / u7** | prensado permanente |
+| tapa Ø44 ↔ contrataladro del tubo | **H8 / u7** | prensado permanente |
 | camisa Ø48.5 ↔ cañería Ø48.26 | deslizante + adhesivo | ver §Camisas |
 
 Es un error clásico apretar el eje y dejar suelto el exterior. Aquí es al revés.
@@ -218,7 +227,7 @@ anillo se queda sin asiento circular completo.
 |---|---|---|
 | **Anillo DIN 471 Ø12** ×2 | asiento del resorte sobre el eje; es lo que impide que el eje se salga | garganta **Ø11.5 × 1.1**, anillo e = 1.0 |
 | **Hombro Ø28 de la tapa** | tope axial del aro exterior del rodamiento hacia afuera | integral de la tapa |
-| **Prensado Ø45 H8/u7** | la tapa contra el tubo | interferencia; opcional **Loctite 638** |
+| **Prensado Ø44 H8/u7** | la tapa contra el tubo | interferencia; opcional **Loctite 638** |
 | **Caras planas 11 e/c** | antigiro del eje en el larguero | ranura del bastidor 11.2 H13 |
 | **Adhesivo + 2 prisioneros M5** | las camisas cónicas contra el tubo | ver §Camisas |
 
@@ -234,7 +243,7 @@ contra una cara mecanizada; no hay ningún tornillo trabajando a tracción.
 ## Secuencia de armado
 
 1. Cortar la cañería a **522 ±0.2**, refrentar a escuadra (0.1).
-2. **Contrataladrar Ø45 H8 × 20** en las dos testas; quitar el cordón interior de
+2. **Contrataladrar Ø44 H8 × 14** en las dos testas; quitar el cordón interior de
    la costura en esa zona; achaflanar 0.5 × 45° la boca.
 3. Desengrasar y zincar (o pintar) el tubo.
 4. Prensar el **rodamiento 6201-2Z** en cada tapa, **desde el lado interior**,
@@ -315,13 +324,29 @@ Tres segmentos de **169 mm**, Ø55.6 → Ø66.23 → Ø76.86 → Ø87.49. Cada u
 
 ### La metálica (la que manda el diseño)
 
-**SKPB4812-1.5**: brida F = 48, cuerpo de prensa D = 45, alojamiento D2 = 32, para
-rodamiento 6201. Acero al carbono embutido y zincado.
+**SKPB4812-2.0**: brida F = 48, cuerpo de prensa **D = 44**, alojamiento D2 = 32,
+para rodamiento 6201ZZ. Acero al carbono embutido y zincado. Es la variante para
+tubo de **2.0 mm de pared**; se elige sobre la de 1.5 (D = 45) porque deja 0.5 mm
+más de pared en el contrataladro — ver §1.
 
-⚠️ **El catálogo no publica el largo de la tapa.** Este modelo adopta **24.5**
-(4.5 de morro + 20 de prensa) y esa cota está marcada para **verificar contra la
-pieza comprada** antes de fijar la profundidad del contrataladro. Es el único dato
-del conjunto que no está ni medido ni citado.
+**Largo: 14.5 mm, medido, no supuesto.** El catálogo no lo tabula, pero el croquis
+**Type 1** de la lámina sí está a escala. Midiéndolo en píxeles con ancla en el
+barreno `d = 12.1` (0.063351 mm/px, con la que la brida sale **48.37** contra 48
+nominal — 0.8 % de error) el cuerpo de la tapa da **12.42 mm**. Ese croquis está
+dibujado para la variante de **6001** (D2 = 28, aro de 8 de ancho), lo que además
+se confirma por el saliente del aro interior (Ø17.3 medido contra Ø17.0 de la
+ficha del 6001); nuestro **6201 es de 10 de ancho**, así que **12.42 + 2 = 14.5**.
+
+Contraste independiente dentro del mismo catálogo: la serie **SKP** publica
+**H = 12** para `SKP5012-1.0`, y la tabla *Pressed Bearing* da **H = 12.0** para
+`SK1232A`. Un portarodamiento embutido de este porte mide 12, no 24.
+
+Procedimiento completo en `ESCALA.md`.
+
+⚠️ Sigue conviniendo **medir la tapa comprada** antes de mecanizar la serie: la
+medición en píxeles fija el valor con ~1 % de error, no con centésimas. Por eso el
+contrataladro se hace de **14** de profundidad para 10 de tapa: la posición axial
+la fija la brida contra la testa, y esos 4 mm sobran de margen.
 
 ⚠️ La brida es **Ø48** y la cañería es **Ø48.26**: la tapa queda **0.13 mm
 rehundida** por lado. Es cosmético y no afecta a nada, pero conviene saberlo.
@@ -384,19 +409,19 @@ Si el rodillo va a la intemperie o cerca de un horno, **usa la metálica**.
 
 | Pieza | Volumen | Material | Masa |
 |---|---|---|---|
-| Tubo SCH 40 Ø48.26×3.68 × 522 | 256.0 cm³ | acero | **2 009 g** |
+| Tubo SCH 40 Ø48.26×3.68 × 522 | 261.2 cm³ | acero | **2 050 g** |
 | Eje pasante Ø12 × 553 | 62.3 cm³ | acero | 489 g |
-| Tapas ×2 | 15.9 cm³ c/u | acero | 250 g |
+| Tapas ×2 | 8.5 cm³ c/u | acero | 134 g |
 | Rodamientos 6201-2Z ×2 | — | — | 78 g |
 | Resortes ×2 + anillos ×2 | — | — | 32 g |
-| **Rodillo PLANO** | | | **≈ 2.86 kg** |
+| **Rodillo PLANO** | | | **≈ 2.78 kg** |
 | Camisas ×3 | 512.5 cm³ | PA6-CF (1.09) | 559 g |
-| **Rodillo CÓNICO** | | | **≈ 3.42 kg** |
+| **Rodillo CÓNICO** | | | **≈ 3.34 kg** |
 
 Para comparar: el tubo Ø50×1.5 del catálogo original pesa **937 g** contra los
-**2 009 g** de la cañería. **El tubo pesa 2.1× más.**
+**2 050 g** de la cañería. **El tubo pesa 2.2× más.**
 
-Estructuralmente sobra —la flecha bajo 500 N es de **0.054 mm** y el rodamiento
+Estructuralmente sobra —la flecha bajo 500 N es de **0.056 mm** y el rodamiento
 tiene `s₀ = 12.4` y `L10h ≈ 2×10⁶ h`— pero en un transportador por gravedad el
 peso **sí** importa: más inercia por rodillo significa más pendiente para arrancar
 y más golpe al frenar. Si el transportador es por gravedad y los bultos son
@@ -409,7 +434,7 @@ casarse con la cañería.
 
 1. envolvente idéntico al catálogo (532 / 531 / 553 / 522);
 2. el contrataladro supera el ID de la cañería **en el peor caso de tolerancia** y
-   deja ≥ 1.2 mm de pared (≥ 0.9 en el peor caso);
+   deja ≥ 1.2 mm de pared (≥ 0.9 en el peor caso); hoy quedan 2.13 / 1.73;
 3. el alojamiento del rodamiento cabe en el cuerpo de prensa y el hombro lo retiene;
 4. el resorte da la carrera necesaria sin llegar a bloque, queda precargado, pasa
    por el eje y entra en el faldón;
@@ -432,7 +457,7 @@ Honestidad sobre los huecos, para que nadie los descubra en el taller:
 
 | Dato | Estado |
 |---|---|
-| **Largo de la tapa de catálogo (24.5)** | adoptado, **no publicado**. Medir la pieza comprada. |
+| Largo de la tapa de catálogo (14.5) | **medido en píxeles** sobre el croquis Type 1 (~1 % de error) y contrastado con los H = 12 de la serie SKP. No está tabulado: medir la pieza comprada para cerrar centésimas. El contrataladro lleva 4 mm de margen justamente por esto. |
 | **Fuerza del resorte** | dimensionada por nosotros; ningún fabricante la publica. |
 | Letra de tolerancia de la garganta DIN 471 | ambigua en la fuente; verificar con un anillo. |
 | `C` del 6001-2Z (si cambias de rodamiento) | fuentes en conflicto (4.42 vs 5.4 kN). El **6201-2Z** usado aquí sí está confirmado: C = 7.28 kN, C0 = 3.1 kN (ficha SKF). |

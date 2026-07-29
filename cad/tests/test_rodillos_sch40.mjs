@@ -26,7 +26,10 @@ t(v.sobreTapas - v.tubo === 9, 'la tapa debe asomar 4.5 por lado');
 // ── el contrataladro es lo que hace entrar la tapa ───────────────────────────
 t(v.paredRestante >= 1.2, `pared del contrataladro ${v.paredRestante} >= 1.2`);
 t(v.paredPeorCaso >= 0.9, `pared en el peor caso ${v.paredPeorCaso} >= 0.9`);
-t(/Ø45 H8 × 20/.test(v.contrataladro), 'el contrataladro debe ser Ø45 H8 × 20');
+// Ø44 = cuerpo de prensa de la SKPB4812-2.0 (la tapa de tubo de 2 mm de pared),
+// elegida justamente porque deja más pared que la de 1.5 (Ø45 → 1.63 mm).
+t(/Ø44 H8/.test(v.contrataladro), 'el contrataladro debe ser Ø44 H8 (tapa de 2.0)');
+t(v.paredRestante > 2.0, `la tapa de 2.0 debe dejar > 2 mm de pared (${v.paredRestante})`);
 
 // ── el cono: las 18 filas del catálogo, y el ángulo que publican Damon/Interroll
 t(v.cono.k === 0.06289, 'k del cono debe ser 0.06289');
@@ -75,8 +78,11 @@ t(new RegExp(`→Ø${v.cono.D2}`).test(camisas[2].name), `la última camisa lleg
 
 // ── el eje NO gira y las tapas son de catálogo ───────────────────────────────
 t(uno(/Eje pasante/).every((p) => p.gira === false), 'el eje está marcado como pieza que no gira');
-t(uno(/Tapa portarodamiento/).every((p) => p.componente === 'SKPB4812-1.5'),
-  'las tapas deben referenciar el portarodamiento de catálogo');
+t(uno(/Tapa portarodamiento/).every((p) => p.componente === 'SKPB4812-2.0'),
+  'las tapas deben referenciar el portarodamiento de catálogo SKPB4812-2.0');
+// el largo de la tapa sale de medir el croquis Type 1 en píxeles (ESCALA.md)
+t(uno(/Tapa portarodamiento Ø44\/Ø32 × 14.5/).length === 4,
+  'la tapa debe medir 14.5 de largo (medido en píxeles, no supuesto)');
 
 // ── hallazgos que el diseño debe seguir reportando ──────────────────────────
 t(v.avisos.some((a) => /CANALES/.test(a)), 'debe seguir avisando que los canales no se pueden mecanizar');
