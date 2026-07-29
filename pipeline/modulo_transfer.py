@@ -24,6 +24,9 @@ uso: python pipeline/modulo_transfer.py projects/<X> [opciones]
   --ejes <n>           número de ejes omni (def: 4)
   --paso <mm>          paso entre ejes omni (def: 110)
   --banda <mm>         ancho de la correa (def: 35, la del transfer90)
+  --desnivel-correas <mm>  lomo de correa BAJO la tangente omni (def: 0 =
+                       coplanar; con 1-1.5 el avance no arrastra las correas
+                       paradas, a costa de exigir caja rígida al desviar)
 """
 from __future__ import annotations
 
@@ -386,7 +389,7 @@ def disenar_modulo(p: dict) -> dict:
     r_term, r_snub, r_motriz = 30.0, 25.0, 30.0      # Ø60 / Ø50 / Ø60
     x_ls, z_ls = 190.0, 58.0                     # eje común (corre en Y)
     term_a, term_b = 35.0, 316.0
-    z_term = tangente - esp_banda - r_term
+    z_term = tangente - esp_banda - r_term - p.get("desnivel_correas", 0.0)
     snub = (248.0, 88.0)
     circulos = [
         (term_a, z_term, r_term + esp_banda / 2, 185.0),   # envuelve su izquierda
@@ -441,7 +444,7 @@ def disenar_modulo(p: dict) -> dict:
         "soportes": {"bloque": (20.0, 54.0, 54.0), "z_top": 159.8,
                      "rodamiento": "FR8ZZ-HexHD (web_facts wf01-wf05)"},
         "tapa": {"z": (160.0, 163.0), "ranura_rueda": (44.0, 30.0),
-                 "ranura_correa": banda + 6.0},
+                 "ranura_correa": banda + 8.0},
         "justificacion": {
             "ancho": f"BF {bf:g} - 2x{holg:g} de holgura = {ancho_total:g}; "
                      f"pestañas {pi:g} afuera => luz entre almas {luz:.1f}",
@@ -494,7 +497,8 @@ def disenar_modulo(p: dict) -> dict:
 
 PARAMS_DEF = {"bf": 21 * IN, "holgura_bf": 3.0, "alto": 6.5 * IN, "espesor": 3.0,
               "pestana_sup": 1.4 * IN, "pestana_inf": 1.5 * IN, "resalte": 0.0,
-              "hex": 12.7, "ejes": 4, "paso": 110.0, "banda": 35.0}
+              "hex": 12.7, "ejes": 4, "paso": 110.0, "banda": 35.0,
+              "desnivel_correas": 0.0}
 
 
 # ---------------------------------------------------------------------------
@@ -939,9 +943,12 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
                 if n.startswith("rueda_")]
     z_correas = [round(m.bounds[1][2], 3) for n, m, g in piezas
                  if n.startswith("correa_")]
-    err = max(abs(z - tang) for z in z_ruedas + z_correas)
+    desn = d["parametros"].get("desnivel_correas", 0.0)
+    err = max([abs(z - tang) for z in z_ruedas] +
+              [abs(z - (tang - desn)) for z in z_correas])
     v["tangencia"] = {"plano": tang, "ruedas_max": max(z_ruedas),
                       "correas_max": max(z_correas),
+                      "desnivel_correas": desn,
                       "error_max": round(err, 3),
                       "verdicto": "PASA" if err <= 0.1 else "FALLA"}
 
@@ -1235,6 +1242,15 @@ def leeme_modulo(d, bom, verif) -> str:
          "  holguras críticas (mm): " + ", ".join(
              f"{k} {v:g}" for k, v in verif["holguras"]["mm"].items()),
          "",
+         "COMPROMISO DE TANGENTES FIJAS (sin pop-up)",
+         parrafo("Avanzando, las correas están paradas y la caja desliza "
+                 "sobre 3 franjas de 35: si el arrastre omni no puede con esa "
+                 "fricción, regenerar con --desnivel-correas 1 a 1.5 (lomo de "
+                 "correa bajo la tangente; exige caja rígida al desviar). "
+                 "Desviando, los barriles de las omnis ruedan libres: no "
+                 "pelean. La solución definitiva sería un pop-up como el "
+                 "transfer90 del repo — fuera del alcance pedido."),
+         "",
          "SECUENCIA DE MONTAJE (el orden importa: las correas son lazos SIN FIN)",
          "  1. Frame: canales + placas extremas + pantalla + mampara (sin apretar).",
          "  2. Bloques soporte al alma con sus FR8ZZ; tapa aún NO.",
@@ -1358,6 +1374,7 @@ def opciones(args):
     mapa = {"--bf": "bf", "--holgura-bf": "holgura_bf", "--alto": "alto",
             "--espesor": "espesor", "--pestana-sup": "pestana_sup",
             "--pestana-inf": "pestana_inf", "--resalte": "resalte",
+            "--desnivel-correas": "desnivel_correas",
             "--hex": "hex", "--ejes": "ejes", "--paso": "paso",
             "--banda": "banda"}
     for flag, clave in mapa.items():

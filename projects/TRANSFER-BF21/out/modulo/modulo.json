@@ -1,7 +1,7 @@
 {
   "formato": "foto3d-modulo-transfer",
   "version": 1,
-  "generado": "2026-07-29T04:07:50+00:00",
+  "generado": "2026-07-29T04:13:34+00:00",
   "capa": "user",
   "parametros": {
     "bf": 533.4,
@@ -14,7 +14,8 @@
     "hex": 12.7,
     "ejes": 4,
     "paso": 110.0,
-    "banda": 35.0
+    "banda": 35.0,
+    "desnivel_correas": 0.0
   },
   "frame": {
     "ancho_total": 527.4,
@@ -322,7 +323,7 @@
       44.0,
       30.0
     ],
-    "ranura_correa": 41.0
+    "ranura_correa": 43.0
   },
   "justificacion": {
     "ancho": "BF 533.4 - 2x3 de holgura = 527.4; pestañas 38.1 afuera => luz entre almas 445.2",
@@ -351,6 +352,7 @@
       "plano": 165.1,
       "ruedas_max": 165.085,
       "correas_max": 165.1,
+      "desnivel_correas": 0.0,
       "error_max": 0.015,
       "verdicto": "PASA"
     },
@@ -380,7 +382,7 @@
         "correa_a_pantalla": 4.5,
         "lazo_a_fondo": 26.5,
         "rueda_a_ranura_tapa": 2.96,
-        "correa_a_ranura_tapa": 3.0,
+        "correa_a_ranura_tapa": 4.0,
         "casete_a_rueda_vecina": 2.5,
         "motorA_a_eje4": 11.17,
         "motorB_a_eje_comun": 42.02
@@ -420,7 +422,7 @@
     },
     "tapa_superior": {
       "estanco": true,
-      "volumen_mm3": 448411.8
+      "volumen_mm3": 442183.8
     },
     "placa_casete": {
       "estanco": true,

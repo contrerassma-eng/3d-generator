@@ -1,5 +1,5 @@
 MÓDULO DE TRANSFERENCIA OMNI + CORREAS — BF 21"
-proyecto TRANSFER-BF21 · generado 2026-07-29T04:07:50Z · capa `user` (diseño)
+proyecto TRANSFER-BF21 · generado 2026-07-29T04:13:34Z · capa `user` (diseño)
 
 QUÉ ES
   Módulo insertable entre bastidores de un transportador de rodillos BF 21
@@ -21,7 +21,15 @@ VERIFICADO POR EL GENERADOR
   tangencias omnis/correas/pestaña: error máx 0.015
   lazo: motriz 170.3° (gate >=120; Movex 140±10) · contraflexión mínima Ø50 (Habasit >=50)
   caja 250x250: mínimo 4 ruedas / 2 hileras / 2 correas bajo la caja
-  holguras críticas (mm): anillo_oring_a_tapa 3.14, spool_a_pantalla 11, correa_a_pantalla 4.5, lazo_a_fondo 26.5, rueda_a_ranura_tapa 2.96, correa_a_ranura_tapa 3, casete_a_rueda_vecina 2.5, motorA_a_eje4 11.17, motorB_a_eje_comun 42.02
+  holguras críticas (mm): anillo_oring_a_tapa 3.14, spool_a_pantalla 11, correa_a_pantalla 4.5, lazo_a_fondo 26.5, rueda_a_ranura_tapa 2.96, correa_a_ranura_tapa 4, casete_a_rueda_vecina 2.5, motorA_a_eje4 11.17, motorB_a_eje_comun 42.02
+
+COMPROMISO DE TANGENTES FIJAS (sin pop-up)
+  Avanzando, las correas están paradas y la caja desliza sobre 3 franjas de
+  35: si el arrastre omni no puede con esa fricción, regenerar con
+  --desnivel-correas 1 a 1.5 (lomo de correa bajo la tangente; exige caja
+  rígida al desviar). Desviando, los barriles de las omnis ruedan libres: no
+  pelean. La solución definitiva sería un pop-up como el transfer90 del repo
+  — fuera del alcance pedido.
 
 SECUENCIA DE MONTAJE (el orden importa: las correas son lazos SIN FIN)
   1. Frame: canales + placas extremas + pantalla + mampara (sin apretar).
@@ -66,10 +74,12 @@ LISTA DE MATERIALES
    1 x tornillería M5/M4 avellanada [comprar] bloques y tapa al alma; casetes a alma A y pantalla
 
 LO QUE ESTE DISEÑO NO RESUELVE AÚN
-  Selección eléctrica de los UniDrive (par/velocidad según carga real),
-  fijación del módulo al bastidor anfitrión (pestañas con agujeros a definir
-  sobre el transportador real), y el desvío hacia el lado B pierde apoyo de
-  correa en los últimos 100 mm (franja del tren): preferir desviar hacia el
-  lado A.
+  Selección eléctrica de los UniDrive (par/velocidad según carga real); par
+  transmisible de los o-rings 3/16 con la carga real (el esquema lineshaft
+  mueve un rodillo por anillo — aquí cada anillo arrastra un eje con 4-5
+  ruedas: validar deslizamiento o subir a 2 anillos por tramo); fijación del
+  módulo al bastidor anfitrión (pestañas con agujeros a definir sobre el
+  transportador real); y el desvío hacia el lado B pierde apoyo de correa en
+  los últimos 100 mm (franja del tren): preferir desviar hacia el lado A.
 
 Todas las cotas heredan la incertidumbre declarada de sus fuentes (ver DECISIONES.md y web_facts.json).
