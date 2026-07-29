@@ -305,7 +305,8 @@
     "quote": "CAPACITY - Maximum unit package weight of 75 lbs. PACKAGE SIZE - Minimum of 8 in. long x 6 in. wide. Maximum length of 28 in."
    },
    "fuente_titulo": "Hytrol Catalog, PROSORT MRT 90, Standard Specifications - 90 Degree Medium Roller Transfer, pag. 9.5-2",
-   "confidence": "alta"
+   "confidence": "alta",
+   "nota": "De aqui cuelgan desde el 2026-07-29 dos comprobaciones del gate, y conviene que se sepa: el LARGO MINIMO de 8 in (203.2 mm) es lo que acota la excentricidad en X del centroide de contacto del bulto sobre la cara del rodillo (375 mm), ±(375-203.2)/2 = ±85.9 mm. Con ese numero se calculan EST-12 (par de giro sobre la placa del actuador, 14.32 de 21.9 N.m) y el vuelco del cassette alrededor de Y (EST-03). Si el cliente admitiera bultos mas cortos, los dos numeros suben: vive en L.bultoMinLargo de elevacion.mjs."
   },
   {
    "id": "SORT-015",

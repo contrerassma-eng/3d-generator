@@ -1,8 +1,8 @@
 {
  "documento": "nbt90_retraido.json",
  "tolerancia_cm3": 0.05,
- "piezas": 400,
- "pares_candidatos": 1036,
+ "piezas": 410,
+ "pares_candidatos": 1058,
  "interferencias": 4,
  "detalle": [
   {

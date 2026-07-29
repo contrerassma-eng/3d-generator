@@ -209,7 +209,10 @@ export function designar(p) {
         + 'L1 = 47,6 mm con la tuerca. Diferencia declarada: −5,6 mm.',
     };
   }
-  if (/Pasador gu[íi]a/.test(n)) {
+  // «guía» → «retención» desde que la horquilla va atornillada al cassette (EST-03):
+  // el paralelismo lo dan las varillas del MGPM y estos pasadores se quedan de tope
+  // de sobrerrecorrido. La pieza comprada es la misma; se aceptan los dos nombres.
+  if (/Pasador (gu[íi]a|de retenci[óo]n)/.test(n)) {
     return {
       norma: 'ASME B18.3 — tornillo de hombro, hombro Ø1/2" × 25, rosca 3/8-16 UNC · Hytrol 042.512',
       clase: 'acero aleado templado 45 HRC mínimo, hombro rectificado h9',

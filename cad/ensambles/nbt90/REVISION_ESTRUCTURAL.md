@@ -44,6 +44,19 @@ canal del cilindro), y con ellos **`E1`**, la comprobación tautológica: §9 pa
 corrigió la base de masa con la que se juzga, con lo que su utilización pasó de 1.21 a
 **1.35**; cerrarlo exige 4 taladros en una pieza de `bastidor.mjs` (ver A1).
 
+**Cuarta pasada, 2026-07-29 (`EST-03`, el último hallazgo abierto).** **CERRADO**, y
+no por donde decía la tercera pasada. La horquilla deja de sólo apoyar: cada brazo va
+**atornillado** al cassette con 2 pernos 1/4-20 horizontales contra una **ménsula de
+3/16" soldada a la cara EXTERIOR del ala** del `NOTCHED BRACE CHANNEL`. Los 4 taladros
+Ø9 en el ALMA que proponía A1 **caben pero no se pueden apretar** —la evidencia, en el
+recuadro de A1—. Al hacerlo aparecieron **dos términos del caso de carga que faltaban**
+y que empeoran el número de partida: la reacción de arrastrar el bulto (42.25 N·m más
+de vuelco) y el vuelco alrededor de **Y**, que nadie miraba. Con los dos, el diseño
+anterior no «iba justo»: **volcaba por los dos ejes** (FS 0.67 y 0.92). §9 pasa a
+**24 comprobaciones** con la nueva **`EST-12`** —el par de giro sobre la placa, que
+antes lo acotaba el rozamiento de los apoyos y ahora ya no—, y a **0 hallazgos
+abiertos**.
+
 Los apartados cerrados llevan un recuadro al principio que dice cómo se cerraron y qué
 colgaba de ellos; el texto original se conserva debajo, sin retocar, porque es el que
 explica por qué el hallazgo existía.
@@ -52,108 +65,189 @@ explica por qué el hallazgo existía.
 
 ## Resumen: el resultado del §9
 
-> **Estado al 2026-07-29 (segunda pasada).** De las cinco que incumplían, **cuatro
-> están cerradas**: `DIN-01` (velocidad) y `EST-05` (borde del taladro) en
-> `params.mjs`/`bastidor.mjs`/`rodillos.mjs`, y `DIN-12` (el bulto despegaba al
-> frenar) y `EST-10` (el alma del canal del cilindro) en `elevacion.mjs`. Sus cuatro
-> dispensas se borraron de `HALLAZGOS_ABIERTOS`. El bloque §9 pasó de 21 a **23**
-> comprobaciones: `EST-11` cierra el ajuste `AJ-02` del eje de rodillo y `DIN-14`
-> —energía cinética de impacto— cierra el hallazgo `E1`, la comprobación
-> tautológica. **Queda abierta una sola: `EST-03`**, el vuelco del cassette, y su
-> número ha subido de 1.21 a 1.35 a propósito: ya no se comprueba con la masa móvil
-> *declarada* (55 kg, cota superior) sino con la cota inferior de 38 kg, coherente
-> con los 41.5 kg que pesan los sólidos. El diseño mejoró y el número empeoró porque
-> el número anterior era optimista. Las filas cerradas van tachadas abajo y el
-> detalle de cómo se cerraron, en A1, A2, A3, A4, A5, B6 y E1.
+> **Estado al 2026-07-29 (cuarta pasada).** **Las cinco que incumplían están
+> cerradas y no queda ningún hallazgo abierto**: `DIN-01` (velocidad) y `EST-05`
+> (borde del taladro) en `params.mjs`/`bastidor.mjs`/`rodillos.mjs`; `DIN-12` (el
+> bulto despegaba al frenar) y `EST-10` (el alma del canal del cilindro) en
+> `elevacion.mjs`; y **`EST-03`** (el vuelco del cassette) en `elevacion.mjs` +
+> `bastidor.mjs`, atornillando la horquilla al cassette. Las cinco dispensas se
+> borraron de `HALLAZGOS_ABIERTOS`. El bloque §9 pasó de 21 a **24**
+> comprobaciones: `EST-11` cierra el ajuste `AJ-02` del eje de rodillo, `DIN-14`
+> —energía cinética de impacto— cierra el hallazgo `E1`, y **`EST-12`** —par de giro
+> sobre la placa del actuador— es la consecuencia de `EST-03`: con la unión
+> atornillada, el par que llega a la placa ya no lo acota el rozamiento de los
+> apoyos. Las filas cerradas van tachadas abajo y el detalle de cómo se cerraron, en
+> A1, A2, A3, A4, A5, B6 y E1.
 
 | id | comprobación | valor | límite | uso | fuente del límite |
 |---|---|---|---|---|---|
-| ~~DIN-01~~ | ~~velocidad declarada vs. real~~ | **0.27 %** | 5 % | **0.05** | **cerrado 2026-07-29** (ver A2) |
-| **EST-03** | vuelco: no despegar el apoyo de la horquilla | 63.52 N·m | 47.07 N·m | **1.35** | equilibrio + FS 1.5 `dis` |
+| ~~DIN-01~~ | ~~velocidad declarada vs. real~~ | **0.28 %** | 5 % | **0.06** | **cerrado 2026-07-29** (ver A2) |
+| ~~EST-03~~ | ~~vuelco: no despegar el apoyo de la horquilla~~ | **105.77 N·m** | 498.16 N·m | **0.21** | **cerrado 2026-07-29** (ver A1) |
 | ~~DIN-12~~ | ~~el bulto no despega al frenar el pop-up~~ | **7.06 m/s²** | 9.81 m/s² | **0.72** | **cerrado 2026-07-29** (ver A3) |
 | ~~EST-05~~ | ~~borde del taladro del perno de rodillo~~ | **9.77 mm** | 9.53 mm | **0.97** | **cerrado 2026-07-29** (ver A5) |
 | ~~EST-10~~ | ~~flexión del alma del canal bajo el cilindro~~ | **80.1 MPa** | 150 MPa | **0.53** | **cerrado 2026-07-29** (ver A4) |
 | EST-11 | asiento del rodamiento del rodillo (nuevo) | 0 mm | 0 mm | **0** | nominal del barreno (cierra `AJ-02`) |
 | DIN-14 | energía cinética contra los topes (nueva) | 1.32 J | 2.71 J | **0.49** | Ek adm SMC (`web` PNEU-019); cierra `E1` |
+| EST-12 | par de giro sobre la placa del actuador (nueva) | 14.32 N·m | 21.9 N·m | **0.65** | SMC (`web` PNEU-019); consecuencia de `EST-03` |
 | DIN-02 | velocidad periférica del rodillo | 1.85 m/s | 2.0 m/s | 0.93 | Interroll (`web` ROD-007) |
 | DIN-04 | patinaje del bulto hasta sincronizar | 350.8 mm | 381 mm | 0.92 | campo de rodillos |
 | DIN-07 | deslizamiento de la banda en la rueda | 2.62 | 2.83 | 0.92 | Eytelwein + FS 1.3 `dis` |
 | DIN-03 | empuje disponible en la cara del rodillo | 201.0 N | 166.7 N | 0.83 | µ·m·g con µ = 0.5 `dis` |
-| EST-01 | la corona del eje no despega de la placa | 8 828 N·mm | 11 302 N·mm | 0.78 | precarga Gr5 + FS 1.5 |
+| EST-01 | la corona del eje no despega de la placa | 8 764 N·mm | 11 302 N·mm | 0.78 | precarga Gr5 + FS 1.5 |
 | EST-07 | carga radial en el eje del SEW | 542.0 N | 695 N | 0.78 | FRa SEW (`web` MOT-009) |
 | DIN-09 | vida L10 del rodamiento del rodillo | 26 480 h | 20 000 h | 0.76 | ISO 281 + objetivo `dis` |
 | DIN-05 | tensión del ramal tenso | 392.7 N | 533.8 N | 0.74 | k_adm Habasit (`web` BELT-005) |
 | DIN-06 | Ø mínimo de envoltura de la banda | 28.92 mm | 25.4 mm | 0.88 | Dmin Habasit (`web` BELT-005) |
 | DIN-08 | coeficiente estático del rodamiento | 2.39 | 1.5 | 0.63 | ISO 281 s₀, C0 (`web` BRG-006) |
-| EST-02 | tensión del eje de rodillo (junta cerrada) | 71.7 MPa | 150 MPa | 0.48 | 0.6·Fy A36 |
+| EST-02 | tensión del eje de rodillo (junta cerrada) | 71.3 MPa | 150 MPa | 0.48 | 0.6·Fy A36 |
 | EST-04 | carga lateral en Y sobre la placa | 166.7 N | 352 N | 0.47 | SMC (`web` PNEU-019) |
 | DIN-13 | vida L10 de las poleas locas | 51 286 h | 20 000 h | 0.39 | ISO 281 |
-| EST-06 | desgarro de la placa peine | 1 117 N | 12 595 N | 0.09 | AISC J3.10 (`web` STR-004) |
-| EST-09 | impacto contra los 8 pernos 3/8" | 2 710 N | 37 556 N | 0.07 | rozamiento con precarga |
+| EST-06 | desgarro de la placa peine | 1 117 N | 14 332 N | 0.08 | AISC J3.10 (`web` STR-004) |
+| EST-09 | impacto contra los 8 pernos 3/8" | 1 316 N | 37 556 N | 0.04 | rozamiento con precarga |
 | ~~EST-08~~ | conjuntos soldados sin cordón declarado | 0 | 0 | — | **cerrado el mismo día** |
 
 ---
 
 # A · NO CUMPLE
 
-## A1 — El cassette es una mesa apoyada en un solo punto: un bulto excéntrico está a un 24 % de despegar el apoyo `EST-03`
+## A1 — ~~El cassette es una mesa apoyada en un solo punto~~ `EST-03` · **CERRADO 2026-07-29**
 
-> **Estado al 2026-07-29: SIGUE ABIERTO, y el número ha subido de 1.21 a 1.35.**
-> Las dos cosas hay que leerlas juntas.
+> **Cómo se cerró: la horquilla deja de sólo apoyar.** Cada brazo va **atornillado**
+> al cassette con **2 pernos 1/4-20 UNC × 3/4" SAE J429 Gr5** metidos en HORIZONTAL
+> (X = 206.7 y 256.3, Z = 132.5, |Y| = 120), que atraviesan una **ménsula de 3/16"
+> soldada a la cara EXTERIOR del ala del `NOTCHED BRACE CHANNEL`** y roscan 16 mm en
+> el propio brazo. Con eso el despegue **deja de ser un modo de fallo**: la unión
+> trabaja a tracción y el momento resistente ya no depende sólo de la masa.
+> Utilización **1.35 → 0.21**.
 >
-> **Lo que sí se ha hecho** (`elevacion.mjs`, y es lo único que ese módulo podía hacer
-> solo): los brazos de la horquilla pasan de Y 58…100 a **58…120**, con lo que la
-> huella de apoyo cubre los **40 mm completos** del alma del `NOTCHED BRACE CHANNEL`
-> en vez de 20 y su centroide sube de **90 a 100 mm**. A igualdad de base de masa eso
-> baja la utilización de **1.212 a 1.092** y el FS al despegue sube de 1.24 a 1.37.
-> Cuesta 0.5 kg de acero y ninguna cota de nadie más. Peaje declarado: el radio polar
-> de la huella crece de 92.8 a 103.0 mm, así que el par que el rozamiento de los
-> apoyos puede meter en la placa del actuador sube de 16.19 a **17.97 N·m** frente a
-> los 21.9 de catálogo — sigue cumpliendo, con menos margen (0.74 → 0.82).
+> **Lo que NO se hizo, y por qué — la propuesta de la tercera pasada no es
+> construible.** Decía «4 taladros Ø9 en el ALMA de los dos brace channel (X 205.5 y
+> 257.5, Y = ±100) y 4 M8 desde abajo con la rosca en el brazo». Dos cosas:
 >
-> **Por qué el número empeora igualmente.** Porque la comprobación ha dejado de usar
-> la masa móvil **declarada** (55 kg). Como dice el propio apartado, ese 55 es una
-> **cota superior**: conservadora para el empuje del actuador, para la energía
-> cinética y para el aire, y **anticonservadora justo aquí**, donde la masa es lo
-> único que estabiliza. `elevacion.mjs` declara ahora **dos** masas —
-> `masaMovilKg = 55` (superior) y `masaMovilVuelcoKg = 38` (**inferior**, contra los
-> 41.5 kg que pesan los sólidos)— y `EST-03` usa la de abajo. Con la misma geometría
-> de antes y la masa honesta, la utilización habría sido **1.50**. O sea: el diseño
-> mejoró un 10 % y el número subió porque el número anterior era optimista.
-> `tests/test_nbt90.mjs` guarda las dos cotas: 38 ≤ pesada ≤ 55.
+> - **«desde abajo» y «rosca en el brazo» se contradicen**: el brazo está DEBAJO del
+>   alma, así que si la rosca va en el brazo el perno entra por arriba, y si entra por
+>   abajo la rosca tendría que ir en la chapa de 12 GA (2.657 mm = 2.1 filetes de M8).
+> - **los taladros caben, pero la unión no se puede apretar por ninguno de los dos
+>   lados.** Caben: el alma tiene 40 mm y su tramo plano entre tangentes de pliegue va
+>   de |Y| 85.32 a 114.68, o sea que un Ø9 centrado en 100 deja **10.2 mm** hasta el
+>   arranque del pliegue (la regla de plegadora pide 1.5·t = 4.0). Pero:
+>   - **por arriba** la cabeza queda dentro de la artesa en U del canal —34.7 mm de
+>     boca, 41.8 de fondo— y encima la **cartela** (`cross angle`, X 47.24…263.14,
+>     Y 82.66…110.72, Z 185.3) la techa **justo en esos dos X**. Una llave de estrella
+>     apoyada en el fondo gira **3°** antes de topar con las alas del canal; no hay
+>     ningún X sobre el brazo (194…269) que quede fuera de la cartela salvo 5.9 mm;
+>   - **por abajo** no cabe la herramienta: entre el canto de la placa móvil del
+>     cilindro (|Y| = 99) y el arranque del pliegue del alma (114.68) hay 15.7 mm, y
+>     un perno pide 7.5 mm de radio de cabeza a un lado y 4.5 + 4.0 de taladro y
+>     ligamento al otro. **Falla por 0.3 mm** (106.5 necesarios contra 106.2
+>     disponibles).
 >
-> **Por qué no se cierra, con la evidencia.** Con la huella en 100 mm y 38 kg haría
-> falta llevar el centroide a **134.9 mm** para llegar a FS 1.5, y **el cassette no
-> ofrece ninguna superficie más allá de Y = 120 a esa altura**: entre Y 120 y 195, en
-> toda la banda de X que alcanza el cilindro (185…280) y entre Z 130 y 200, no hay
-> ninguna pieza `MÓVIL` — sólo los `SIDE CHANNEL`, que son fijos. Las tres opciones
-> que proponía este apartado se han comprobado una por una:
+> **Por dónde sí.** La cara accesible es la **exterior**: entre el ala del brace
+> channel (|Y| = 120) y el `SIDE CHANNEL` fijo (195.5) hay un corredor de **75 mm
+> libre de cualquier pieza en los dos estados**, y bajo él otros 106 mm de altura
+> libre (a X 194…269 el canal de montaje es sólo su alma, Z ≤ 15). El test
+> `test_nbt90.mjs` comprueba ese corredor con un envolvente de Ø25 —vaso de 1/4" con
+> su carraca— elevado y retraído. La ménsula lleva **colisa vertical** 7.0 × 11: el
+> apoyo plano sigue fijando Z y el perno no compite con él (la misma doctrina
+> «redondo + colisa» de los encajes U3), y los 4 mm de recorrido son exactamente el
+> ±2 que ISO 13920-B admite sobre los 368.5 mm del canal soldado.
 >
-> 1. **separar los apoyos a Y = ±150** — imposible desde `elevacion.mjs`: la horquilla
->    empujaría contra aire. Exige mover los `notched brace channel`, que son de
->    `bastidor.mjs`;
-> 2. **topes fijos bajo el cassette a |Y| ≈ 185** — no funciona tal como está escrito.
->    Un tope FIJO bajo el cassette sólo toca en el estado **retraído**; elevado queda
->    10 mm por debajo, que es justo cuando hace falta. Y un tope que suba con el
->    pop-up tendría que colgar de la placa móvil (|Y| ≤ 99) y llegar a las spacer
->    plate, que están a X 42 y 418: 190 mm de voladizo;
-> 3. **que los pasadores guía tomen carga vertical** — su brazo (|Y| = 221) sería
->    excelente, pero hoy los 4 pasadores **no están empotrados en nada**: en X = 190 y
->    273, |Y| 185…195, el cassette no tiene ninguna pieza. Están dibujados al aire
->    (contrato §5.1). Darles apoyo exige, otra vez, una pieza de `bastidor.mjs`. Y
->    aunque la tuvieran, un apoyo con juego no arregla el paralelismo: lo que fija el
->    desnivel del plano de rodillos pasa a ser la holgura del pasador en su colisa.
+> **1/4-20 y no M8.** Es la familia del equipo —el manual sólo habla de pulgadas y los
+> pernos de rodillo ya son 1/4-20—, reutiliza el grado y el par que la propia
+> compuerta fija y cita para `EST-01` (SAE J429 Gr5 a 8 ft·lb = 10.85 N·m,
+> `web` HW-007/008) y no obliga a meter una serie métrica nueva de arandela. No hace
+> falta más: la demanda es de 176 N y un solo perno da **2 819 N** de deslizamiento
+> (µ = 0.33, AISC clase A) y 10 172 N a cortante si la junta llegara a deslizar.
 >
-> **Lo que sí lo cierra, y a quién le toca.** Que el apoyo pueda trabajar **a
-> tracción**: **4 taladros Ø9 en el alma de los dos `NOTCHED BRACE CHANNEL`**, en
-> X = 205.5 y 257.5 (los mismos X de los pernos NN de la placa) e Y = ±100, para
-> atornillar la horquilla al cassette con 4 M8 desde abajo. Con la unión atornillada
-> el modo de fallo **desaparece**: no hay despegue que comprobar, sino 4 pernos a
-> tracción con FS > 10, sin holgura y sin depender de la masa. Es la solución más
-> barata de las cuatro y la única que además arregla el paralelismo, porque elimina
-> la rotación relativa entre cassette y placa. **Dueño del taladro: `bastidor.mjs`.**
-> El alma es de 12 GA y el brazo tiene 22 mm de canto: la rosca va en el brazo, no en
-> la chapa.
+> ### Lo que apareció al cerrarlo: el caso de carga estaba incompleto por dos sitios
+>
+> Los dos términos que faltaban van **contra** el diseño, o sea que el 1.35 de partida
+> era optimista. Con ellos, el diseño anterior no «iba justo»: **volcaba**.
+>
+> 1. **La reacción de arrastrar el bulto.** El rodillo lo empuja con µ·m·g = 166.7 N
+>    y la reacción entra en el cassette en la **generatriz superior del rodillo**,
+>    (`P.rodZ` + Ø/2 − `P.rielInfZ`) = **253.45 mm por encima** del plano de apoyo:
+>    **42.25 N·m** más de vuelco. Con el bulto en el rodillo extremo −Y y el arrastre
+>    hacia +Y —un bulto que viaja pegado a ese costado del anfitrión, que es lo normal
+>    en un sorter con guía lateral— los dos momentos **se suman**: 63.52 + 42.25 =
+>    **105.77 N·m** contra los 70.60 que da el peso. El apoyo +Y no iba justo: se
+>    despegaba (**FS 0.67**).
+> 2. **El vuelco alrededor de Y, que nadie miraba.** La huella de la horquilla mide
+>    **75 mm en X** (el ancho de la placa del cilindro) y el campo de rodillos, 375.
+>    La excentricidad no es libre: el equipo no admite bultos de menos de 8" de largo
+>    (`web` SORT-014, *«Minimum of 8 in. long x 6 in. wide»*), así que el centroide de
+>    contacto se queda en **±(375 − 203.2)/2 = ±85.9 mm**. Con eso basta:
+>    **28.64 N·m** de vuelco contra **26.48** de peso estabilizador → **FS 0.92**.
+>
+> Y un tercer síntoma del mismo hueco, que el anclaje arregla de paso: esa reacción de
+> 166.7 N en Y sólo la podía transmitir el **rozamiento** de los apoyos, que da
+> µ·N = 0.20 × 706 = **141 N**. O sea que el cassette, además de bascular, **resbalaba**
+> — y `EST-04` llevaba desde el principio dando por hecho que la carga lateral llega
+> al cilindro. Con la horquilla atornillada, por fin llega.
+>
+> ### Lo que esto cambia en el resto del diseño (y hay que leerlo)
+>
+> - **Paralelismo del plano de rodillos: mejora, no empeora.** Antes el cassette
+>   podía bascular sobre la línea de apoyo sin que nada lo retuviese —los 4 pasadores
+>   no están empotrados en nada (E3)—, así que el desnivel no estaba acotado por
+>   ninguna cota del modelo. Ahora el cassette es solidario de la placa del MGPM y su
+>   paralelismo **es el de la placa**, que es justo lo que el módulo decía que
+>   garantizaba el cilindro: 0.02° por el juego de los casquillos de las varillas =
+>   **0.13 mm sobre los 381 mm** del campo de rodillos (D8), del orden de la
+>   tolerancia del propio rodillo.
+> - **Sobre-restricción: no la hay hoy, pero había una trampa y se ha quitado.** Con
+>   el cassette solidario de la placa, el conjunto tiene **un solo grado de libertad**
+>   y los 4 pasadores en colisa serían **redundantes** en X y en θz si llegaran a
+>   engranar. No engranan —flotan (E3)—, pero dejar una colisa de 0.2 mm de holgura
+>   pretendiendo guiar entre **dos conjuntos soldados**, cuya distancia relativa sólo
+>   se garantiza a ±2 mm (ISO 13920-B sobre 390 mm), es exactamente lo que E3 denuncia.
+>   Se les quita el papel de guía: la colisa se ensancha a `guiaPasador + 4.0` y pasan
+>   a llamarse **pasadores de retención**. Conservan el tope de sobrerrecorrido en Z,
+>   que es la función que sí tiene sentido. **Lo que sigue abierto de E3 —que no
+>   estén empotrados en nada— no es de este hallazgo y no se toca.**
+> - **Desmontaje: se conserva.** La ménsula va **por fuera** del brazo (|Y| ≥ 120), o
+>   sea que no se solapan en planta: sacados los 4 pernos, el cassette se levanta en
+>   vertical sin nada que lo enganche. Lo comprueba el test. Y el ajuste de altura del
+>   manual (*«Loosen 3/8 in. bolts holding the cylinder-mounting channel…»*) no se
+>   toca: sigue haciéndose desde las colisas de las placas colgantes, por fuera.
+> - **Lo que le llega al vástago.** Antes sólo empujaba; ahora también puede tirar. El
+>   **momento** sobre la placa **no cambia** por atornillar: mientras no despegue, la
+>   resultante que le llega es la misma (peso + arrastre) — lo que cambia es que ya no
+>   está obligada a caer dentro de la huella. En **tracción** el vástago no ve nada
+>   nuevo en servicio (la reacción de despegue, 176 N, la toman los pernos del anclaje
+>   entre sí, no el vástago); lo único que puede tirar del cassette es el **retorno**
+>   del cilindro si el conjunto se agarrota, y ahí el tope es la propia fuerza de
+>   retorno a la presión de trabajo, **1 878 N** sobre un vástago Ø25 → **3.8 MPa**.
+>   Nada. **Lo que sí cambia de verdad es el par alrededor de Z**: mientras la
+>   horquilla sólo apoyaba, el rozamiento lo acotaba en 17.97 N·m y lo que excediera
+>   hacía **girar** el cassette sin que nada lo retuviera; ahora la junta no desliza y
+>   a la placa le llega el par real, 166.7 N × 85.9 mm = **14.32 N·m** frente a los
+>   **21.9** que SMC publica para el MGPM80 (`web` PNEU-019) — satura con 131 mm de
+>   excentricidad. Es la comprobación **`EST-12`**, nueva, y es la deuda que había que
+>   pagar por quitar el tope de rozamiento: se paga con 0.65 de utilización.
+> - **Lo que NO cambia**: la huella de apoyo (|Y| 80…120) se deja donde estaba a
+>   propósito. Llevarla más afuera —lo que el apartado proponía como opción 1— habría
+>   subido el radio polar y con él el par de rozamiento sobre la placa a **24.5 N·m**
+>   contra 21.9: habría cambiado un incumplimiento por otro. Coste del anclaje:
+>   **0.89 kg** (2 ménsulas + 8 piezas de tornillería) y ninguna cota de la cadena de
+>   alturas.
+>
+> ### Las tres opciones que este apartado proponía, comprobadas una por una
+>
+> 1. **separar los apoyos a Y = ±150** — para FS 1.5 hace falta el centroide en
+>    **Y = 135** (224.7 con el caso de carga completo) y **el cassette no ofrece nada
+>    entre Y 120 y 195 a esa altura**: en toda la banda de X que alcanza el cilindro
+>    (185…280) y entre Z 120 y 215 no hay ninguna pieza `MÓVIL` — sólo los
+>    `SIDE CHANNEL`, que son fijos. Y aunque se añadiera, el par de rozamiento se sale
+>    de catálogo (ver arriba);
+> 2. **topes fijos bajo el cassette a |Y| ≈ 185** — un tope FIJO sólo toca en el estado
+>    **retraído**; elevado queda 10 mm por debajo, que es justo cuando hace falta;
+> 3. **que los pasadores tomen carga vertical** — corren en colisas **verticales** y
+>    además no están empotrados en nada (E3). Y aunque lo estuvieran, un apoyo con
+>    juego no arregla el paralelismo: el desnivel pasaría a fijarlo la holgura del
+>    pasador en su colisa.
+
+<details><summary>Texto original del hallazgo (se conserva sin retocar)</summary>
 
 **Qué pasa.** Todo el conjunto móvil —55 kg declarados, 41 kg si se pesan los
 sólidos— se sostiene sobre **dos zonas de contacto** de la horquilla de empuje, a
@@ -209,6 +303,8 @@ para la energía cinética, pero **anticonservador aquí**, porque la masa móvi
 único que estabiliza el cassette. Por eso `tests/test_nbt90.mjs` ahora comprueba
 las **dos** cotas: que la declarada cubra la pesada y que no la sobrestime más de
 un 60 %.
+
+</details>
 
 ---
 
@@ -835,13 +931,20 @@ Estos huecos están anotados en `analisis/web_facts.json`,
 **D1 · Momento de vuelco admisible del MGPM80.** SMC publica para la serie MGP
 **sólo** carga lateral F (perpendicular al eje del vástago) y par de giro T
 **alrededor del eje del vástago** — verificado leyendo la tabla «Operating
-Conditions» del catálogo (`web` PNEU-019). **No publica momento de vuelco.** El
-`parPlacaNm = 16.19` que calcula `elevacion.mjs` compara contra los 21.9 N·m el
-par que el rozamiento de los apoyos puede meter alrededor de Z — eso está bien
-planteado y cumple. Lo que **no** se puede juzgar es el momento de vuelco de 63.5
-N·m alrededor de X (A1), porque el fabricante no da límite para ese eje. Hace
-falta pedir a SMC la curva de carga admisible frente a distancia excéntrica, o la
-rigidez y el juego de los casquillos de las varillas guía.
+Conditions» del catálogo (`web` PNEU-019). **No publica momento de vuelco.** Lo que
+sí se puede juzgar, y cumple, es el par alrededor de Z: `EST-12` compara los
+**14.32 N·m** de la reacción de arrastre por su excentricidad contra los 21.9 de
+catálogo. Lo que **no** se puede juzgar es el momento de vuelco alrededor de X, que
+con el caso de carga completo vale **105.77 N·m** (63.52 de peso excéntrico + 42.25
+de la reacción de arrastre; A1), porque el fabricante no da límite para ese eje.
+**Y ahora importa más que antes**, porque al atornillar la horquilla al cassette ese
+momento le llega entero a la placa en vez de descargarse despegando el apoyo — que
+es lo que hacía antes, y era peor. Estimación de orden con lo que sí se sabe: el
+momento lo reaccionan los dos casquillos de las varillas Ø25 (156 mm de paso, 56.5
+mm de guiado), o sea ≈936 N de contacto en cada extremo de cada casquillo, ≈2.7 MPa
+de presión proyectada — holgado para un casquillo de deslizamiento, pero es una
+estimación, no un dato. Hace falta pedir a SMC la curva de carga admisible frente a
+distancia excéntrica, o la rigidez y el juego de los casquillos de las varillas guía.
 
 **D2 · Aplastamiento del tope de goma del MGPM.** SMC publica la energía cinética
 admisible (2.71 J) pero no la carrera del tope. De ella dependen la fuerza de
@@ -874,8 +977,16 @@ de las varillas guía. SMC publica precisión de no-giro ±0.04° pero **eso es
 alrededor del eje del vástago**, no la basculación. Con un juego típico de
 casquillo de bronce (0.03–0.06 mm sobre 156 mm de paso de varillas) saldrían
 0.02° = **0.13 mm sobre los 381 mm del campo de rodillos**, del mismo orden que la
-tolerancia del propio rodillo (D7). Pero si el apoyo despega (A1), el desnivel lo
-fijan las colisas de los pasadores: **hasta 2 mm**.
+tolerancia del propio rodillo (D7).
+
+> **Al 2026-07-29 esto pasó a ser la ÚNICA fuente de desnivel, y eso es una mejora.**
+> Antes, si el apoyo despegaba (A1) el desnivel lo fijaban las colisas de los
+> pasadores —hasta 2 mm— y en realidad ni eso, porque los pasadores no están
+> empotrados en nada (E3): el cassette basculaba sin cota que lo acotase. Con la
+> horquilla **atornillada** el cassette es solidario de la placa, así que el
+> paralelismo del plano de rodillos **es** el de la placa y se queda en esos 0.13 mm
+> estimados. Lo que sigue faltando es el dato de SMC para convertir la estimación en
+> número: el juego de los casquillos de las varillas.
 
 ---
 
@@ -933,6 +1044,20 @@ esté escrito. **Dueño: `elevacion.mjs`.**
 > («nada flota») y la compuerta no lo ve, porque no comprueba adyacencia. Arreglarlo
 > exige una cara del cassette donde empotrarlos, que es pieza de `bastidor.mjs`: los
 > mismos taladros que pide A1 resolverían las dos cosas si se hacen a la vez.
+>
+> **Rectificación 2026-07-29, al cerrar A1: la corrección de E3 ya NO es empotrarlos.**
+> Con la horquilla atornillada al cassette, el conjunto móvil queda solidario de la
+> placa del MGPM y tiene **un solo grado de libertad**; los 4 pasadores en colisa
+> serían **redundantes** en X y en θz si llegaran a engranar, y con 0.2 mm de holgura
+> entre dos conjuntos SOLDADOS —cuya distancia relativa sólo se garantiza a ±2 mm por
+> ISO 13920-B sobre 390 mm— agarrotarían o se desgastarían, que es lo que este mismo
+> apartado ya decía. Así que se les quita el papel de guía: la colisa se ensancha a
+> `guiaPasador + 4.0` (`L.guiaHolguraX`, derivado de esa misma tolerancia) y las
+> piezas pasan a llamarse **pasadores de retención**; conservan el tope de
+> sobrerrecorrido en Z, que es la única función que les queda con sentido.
+> **Lo que sigue abierto es sólo que floten** (contrato §5.1): o se les da una cara
+> del cassette donde topar —ya sólo como retención, con juego, no como guía— o se
+> retiran del modelo. Dueño: `elevacion.mjs`.
 
 **E4 · ~~`P.cargaMaxKg` está etiquetado `dis` y es `web`~~ · CORREGIDO 2026-07-29.**
 El comentario decía *«dis: bulto máximo típico de un MRT (75 lb)»*, pero es un dato
@@ -945,8 +1070,9 @@ de la ficha del fabricante, ya citado con URL y cita textual en `web_facts.json`
 # Qué se ha metido en la compuerta
 
 `gen_nbt90.mjs` gana un bloque **§9 · Resistencia y dinámica** con **21
-comprobaciones** —**22** desde que `EST-11` cerró `AJ-02` y **23** desde que `DIN-14`
-cerró `E1`—, cada una con su umbral y
+comprobaciones** —**22** desde que `EST-11` cerró `AJ-02`, **23** desde que `DIN-14`
+cerró `E1` y **24** desde que `EST-12` (par de giro sobre la placa) nació al cerrar
+`EST-03`—, cada una con su umbral y
 la fuente del umbral en el comentario. Lo que hace distinto a este bloque:
 
 - **recalcula, no copia**: la cinemática, las tensiones del serpentín, el reparto
@@ -956,9 +1082,14 @@ la fuente del umbral en el comentario. Lo que hace distinto a este bloque:
 - **vigila la tensión de montaje de la banda**: `T2 = 150 N` es una constante local
   de `transmision.mjs` que no se exporta y de la que cuelga toda la vida de los
   rodamientos. §9.0 la reconstruye de las métricas del módulo y falla si cambia;
+- **vigila el µ del bulto**: `L.muBulto` es un `dis` que vive a la vez en
+  `elevacion.mjs` (que lo necesita desde que el anclaje hizo real la carga lateral y
+  el par sobre la placa) y en `LIM.muBulto`. §9.0 exige que no se hayan separado,
+  igual que con la T2;
 - **`HALLAZGOS_ABIERTOS` con trinquete**: las comprobaciones que incumplen (5 al
-  emitir este informe, **3** tras la segunda pasada: las de `elevacion.mjs`)
-  están escritas con su utilización. Si una **empeora**, la compuerta para; si una
+  emitir este informe, **3** tras la segunda pasada, **1** tras la tercera y
+  **ninguna** tras la cuarta) están escritas con su utilización. Si una
+  **empeora**, la compuerta para; si una
   se **arregla**, la compuerta para pidiendo que se borre la dispensa (nada de
   dispensas caducadas); si aparece una violación **nueva**, la compuerta para sin
   más. Es el mismo patrón que `RETRAIDO_CAJA_ABIERTA`;
@@ -1000,36 +1131,59 @@ sobrestime más del 60 %) por lo dicho en A1.
    superior y en el vuelco el lado seguro es el contrario (A1). Lo que sigue
    faltando es que **cada pieza declare su masa o su material con densidad**, para
    que la compuerta pueda pesar el cassette en vez de creerse dos números `dis`;
-   hoy sólo lo hace `tests/test_nbt90.mjs`, que construye las 410 mallas.
+   hoy sólo lo hace `tests/test_nbt90.mjs`, que construye las 420 mallas.
 7. **Masa de cada pieza** o su material con densidad, para que el gate pueda pesar
    sin construir mallas.
+9. **Posición del bulto sobre el campo de rodillos.** Al cerrar `EST-03` hizo falta
+   acotar dos cosas que el modelo no tenía: dónde puede estar el centroide del bulto
+   en Y (se conserva el caso peor, el rodillo extremo) y en X. La segunda se resolvió
+   con `web` SORT-014 —el equipo no admite bultos de menos de 8" de largo, así que el
+   centroide de contacto se queda en ±85.9 mm— y de ella cuelgan `EST-12` y el vuelco
+   alrededor de Y. Si el cliente admitiera bultos más cortos, los dos números se
+   mueven: `L.bultoMinLargo` de `elevacion.mjs`.
 
 ---
 
 ## Verificación
 
-Estado tras la tercera pasada (2026-07-29, cierre de `DIN-12`, `EST-10` y `E1`):
+Estado tras la cuarta pasada (2026-07-29, cierre de `EST-03`):
 
 ```
 node ensambles/nbt90/gen_nbt90.mjs
-   → 22/23 comprobaciones estructurales cumplen; 1 abierta (EST-03), listada por
-     consola, más el aviso de AJ-02 en tolerancias.mjs
+   → 24/24 comprobaciones estructurales cumplen; NINGUNA abierta
+     (420 piezas: +2 ménsulas de anclaje, +4 pernos, +4 golillas)
 python3 ensambles/nbt90/interferencias_brep.py --tol 0.05
-   → 4 sobre 1032 pares en elevado y 4 sobre 1036 en retraído (convención declarada:
+   → 4 sobre 1052 pares en elevado y 4 sobre 1058 en retraído (convención declarada:
      tornillería dentro de piezas compradas) — ninguna nueva
 node tests/test_nbt90.mjs
-   → 64 OK, 0 fallas
+   → 74 OK, 0 fallas
+node ensambles/nbt90/planos_nbt90.mjs
+   → 73 láminas; despiece de 352 ítems
 ```
 
 En la primera pasada eran 16/21, 5 abiertas y 53 OK; en la segunda, 19/22, 3 abiertas
-y 63 OK.
+y 63 OK; en la tercera, 22/23, 1 abierta y 64 OK.
 
-Las tres comprobaciones tocadas en esta pasada se verificaron **forzando el fallo**
+Las comprobaciones tocadas en la tercera pasada se verificaron **forzando el fallo**
 desde `elevacion.mjs`, una a una, y comprobando que la compuerta para y nombra la
 comprobación esperada: velocidad de émbolo a 160 mm/s (`DIN-12` a 12.54 m/s²), a 260
 (`DIN-14` a 6.18 J **y** el `e.push` de §6), a 30 (por debajo del mínimo de émbolo del
 catálogo), canal otra vez en 12 GA (`EST-10` a 259 MPa) y horquilla otra vez a Y = 100
 (`EST-03` **ha EMPEORADO**, rama del trinquete).
+
+Las de la cuarta pasada, igual — **cinco perturbaciones, cinco paradas**:
+
+| perturbación | qué tiene que pasar | qué pasó |
+|---|---|---|
+| `anclajeHorquilla.nPorBrazo` 2 → **0** (sin retención) | `EST-03` falla | para: 105.77 N·m > 47.07, **utilización 2.25** |
+| `L.bultoMinLargo` 203.2 → **60** mm | `EST-12` falla | para: par 26.26 > 21.9 N·m (uso 1.20) **y** el `e.push` de §6 |
+| `L.muBulto` 0.50 → **0.45** | §9.0 denuncia la divergencia | para: «el µ del bulto de elevacion.mjs (0.45) ya no es el de `LIM.muBulto`» |
+| `L.anclaProf` 16 → **10** mm (el perno tocaría fondo) | el test falla | falla: «rosca engranada 12.64 mm dentro de los 10 mm de hilo» |
+| anclaje subido a **Z = 179** (a la altura de los pasadores) | el corredor de llave falla | falla en los DOS estados: 2 estorbos, los pasadores de retención |
+
+Y la rama del trinquete que faltaba por ejercitar: **volver a meter la dispensa de
+`EST-03` con el hallazgo ya cerrado** → la compuerta para y pide borrarla («YA CUMPLE
+(utilización 0.21): borra su entrada de `HALLAZGOS_ABIERTOS`»).
 
 Que las comprobaciones nuevas **muerden** se verificó forzando fallos en 21 de 21:
 perturbando `P` (velocidad, rpm, carga, Ø de rueda, espesor de vulcanizado, plano

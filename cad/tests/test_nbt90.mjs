@@ -157,6 +157,77 @@ console.log('— Elevación —');
 ok(V.factorSeguridad >= 1.5, `factor de seguridad del actuador ${V.factorSeguridad}`);
 ok(V.empujeN > 0, `empuje disponible ${V.empujeN} N`);
 
+console.log('— Anclaje de la horquilla al cassette (EST-03): apoyar no basta —');
+// El cassette era una mesa sobre un pedestal de 75 × 240 mm: un bulto excéntrico —y
+// la reacción de arrastrarlo, que entra 253 mm por encima del apoyo— lo despegaban
+// por los DOS ejes. Lo que lo cierra es que la unión trabaje a tracción, así que lo
+// que hay que comprobar aquí es que esa unión EXISTE, que se puede apretar y que se
+// puede deshacer para sacar el cassette.
+const C = V.estructural.cassette, AN = C.anclaje;
+const pernosAncla = nombre(/^MÓVIL · Perno hex 1\/4-20 UNC × 3\/4" anclaje de la horquilla/);
+const mensulas = nombre(/^MÓVIL · Ménsula de anclaje de la horquilla/);
+ok(AN && pernosAncla.length === AN.n && mensulas.length === 2,
+  `${pernosAncla.length} pernos ${AN?.torn} (${AN?.nPorBrazo} por brazo) contra ${mensulas.length} `
+  + 'ménsulas soldadas al ala exterior del notched brace channel');
+ok(nombre(/^MÓVIL · Golilla 1\/4" anclaje de la horquilla/).length === AN.n,
+  'cada perno del anclaje lleva su golilla, que además tapa la colisa');
+// Rosca en el BRAZO (22 mm de canto), no en la chapa de 12 GA: engrane y pared.
+ok(AN.engraneEnD >= 1 && AN.roscaProfMm > AN.engraneMm,
+  `rosca engranada ${AN.engraneMm} mm = ${AN.engraneEnD}·d (≥1·d) dentro de los ${AN.roscaProfMm} mm `
+  + `de hilo; agarre golilla+ménsula ${AN.agarreMm} mm`);
+ok(AN.paredZenD >= 1 && AN.paredXenD >= 1,
+  `queda ${AN.paredZmm} mm = ${AN.paredZenD}·d de pared a las caras del brazo y ${AN.paredXmm} mm `
+  + `= ${AN.paredXenD}·d al canto en X`);
+// El anclaje es lo que cierra el hallazgo: sin él, el cassette VUELCA por los dos ejes.
+ok(C.FSdespegueSinAnclajeX < 1 && C.FSdespegueSinAnclajeY < 1 && C.usoX <= 1 && C.usoY <= 1,
+  `sin retención el FS al despegue sería ${C.FSdespegueSinAnclajeX} en X y ${C.FSdespegueSinAnclajeY} `
+  + `en Y (volcaba); con ella la utilización es ${C.usoX} y ${C.usoY}`);
+ok(C.momentoArrastreNm > 0 && Math.abs(C.brazoArrastreMm - (P.rodZ + P.rodDia / 2 - P.rielInfZ)) < 0.01,
+  `el caso de carga incluye la reacción de arrastrar el bulto (${C.reaccionArrastreN} N a `
+  + `${C.brazoArrastreMm} mm sobre el plano de apoyo = ${C.momentoArrastreNm} N·m), que la primera `
+  + 'versión de EST-03 no tenía');
+// Demanda contra capacidad, con el mismo grado y par que EST-01 exige a los pernos.
+ok(AN.deslizamientoPernoN * AN.nPorBrazo > AN.demandaDespegueN * 5,
+  `la retención de un brazo da ${r2(AN.deslizamientoPernoN * AN.nPorBrazo)} N de deslizamiento `
+  + `(${AN.grado} a ${AN.parNm} N·m, µ = ${AN.muUnion}) contra ${AN.demandaDespegueN} N de despegue; `
+  + `si llegara a deslizar, el perno topa en la colisa y da ${AN.cortantePernoN} N a cortante`);
+// SE PUEDE APRETAR: el corredor entre la cara exterior de la ménsula y el SIDE
+// CHANNEL fijo tiene que estar libre en los DOS estados. Ésta es la razón por la que
+// el anclaje NO se hizo en el alma, como proponía la revisión: allí no cabe la llave.
+const EL = doc.meta.modulos.elevacion;
+// La caja del CANAL DE MONTAJE miente y hay que descontarla con su razón, no por
+// nombre: dentro de su boca (`canalBocaX`) y por encima de su cara de fijación
+// (`zCaraFijacion`) el canal NO tiene material — es la artesa en U por la que baja
+// todo el conjunto móvil, la misma convención que declara RETRAIDO_CAJA_ABIERTA.
+const dentroDeLaArtesa = (p, lo, hi) => /^FIJO · Canal de montaje del cilindro/.test(p.name)
+  && lo[0] >= EL.canalBocaX[0] && hi[0] <= EL.canalBocaX[1] && lo[2] >= EL.zCaraFijacion;
+for (const [estado, dz] of [['ELEVADO', 0], ['RETRAÍDO', -P.carrera]]) {
+  const yIni = AN.yBrazoMm + 6;                 // justo fuera de la ménsula
+  const zEje = AN.zMm + dz, rLlave = 12.5;      // vaso de 1/4" con su carraca
+  const caja = { lo: [AN.xMm[0] - rLlave, yIni, zEje - rLlave], hi: [AN.xMm[1] + rLlave, 190, zEje + rLlave] };
+  const estorbo = propias.filter((p) => {
+    if (/anclaje de la horquilla|M[ée]nsula de anclaje/.test(p.name)) return false;
+    const b = bboxPieza(p);
+    const movil = /^MÓVIL/.test(p.name);
+    const lo = [b.lo[0], b.lo[1], b.lo[2] + (movil ? dz : 0)];
+    const hi = [b.hi[0], b.hi[1], b.hi[2] + (movil ? dz : 0)];
+    if (dentroDeLaArtesa(p, caja.lo, caja.hi)) return false;
+    return AN.xMm.some((x) => hi[0] > x - rLlave && lo[0] < x + rLlave)
+      && hi[1] > yIni && lo[1] < 190 && hi[2] > zEje - rLlave && lo[2] < zEje + rLlave;
+  });
+  ok(estorbo.length === 0,
+    `${estado}: el corredor de llave (|Y| ${yIni}…190, Ø${2 * rLlave} en torno a los 2 pernos) está `
+    + `libre — ${estorbo.length} estorbos${estorbo.length ? ': ' + estorbo[0].name : ''}`);
+}
+// SE PUEDE DESMONTAR: la ménsula va POR FUERA del brazo (|Y| ≥ 120), así que al
+// quitar los 4 pernos el cassette sube en vertical sin nada que lo enganche.
+const brazos = nombre(/^MÓVIL · Brazo de empuje de la horquilla/);
+const yBrazoMax = Math.max(...brazos.map((p) => bboxPieza(p).hi[1]));
+const yMensulaMin = Math.min(...mensulas.filter((p) => bboxPieza(p).lo[1] > 0).map((p) => bboxPieza(p).lo[1]));
+ok(yMensulaMin >= yBrazoMax - 1e-6,
+  `la ménsula arranca en Y=${r2(yMensulaMin)} y el brazo acaba en Y=${r2(yBrazoMax)}: no se solapan en `
+  + 'planta, así que sacados los 4 pernos el cassette se levanta en vertical (mantenimiento del manual)');
+
 console.log('— Módulos identificados —');
 ok(V.movil >= 10 && V.fijo >= 5, `${V.movil} piezas MÓVIL y ${V.fijo} FIJO`);
 ok(propias.every(p => /^(FIJO|MÓVIL)/.test(p.name)),

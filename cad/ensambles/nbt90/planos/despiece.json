@@ -2,10 +2,10 @@
  "proyecto": "TRANSFERENCIA 90° — RODILLOS EMERGENTES (NBT90)",
  "archivo": "narrow_belt_transfer_90.json",
  "fecha": "2026-07-29",
- "piezas_totales": 410,
- "items": 345,
- "fabricadas": 39,
- "compradas": 304,
+ "piezas_totales": 420,
+ "items": 352,
+ "fabricadas": 40,
+ "compradas": 310,
  "despiece": [
   {
    "item": 1,
@@ -233,16 +233,16 @@
   },
   {
    "item": 17,
-   "designacion": "Notched brace channel 1-3/4\"×40 12 GA × 368.52",
-   "cant": 1,
+   "designacion": "Ménsula de anclaje de la horquilla 3/16\" 73.64×60.97",
+   "cant": 2,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.187\", galvanizada",
    "plano": "NBT90-17",
-   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
-   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · colisa 7,0 H13 × 11 (vertical) holgura 0,65 mm en X · ±2,0 mm en Z · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "colisa 7,0 H13 × 11 (vertical) holgura 0,65 mm en X · ±2,0 mm en Z (las dos direcciones NO son iguales, y ahí está el ajuste: en X el taladro es CERRADO (0,65 mm, el mismo criterio de AJ-11) y sitúa; en Z es colisa, porque quien fija Z es el APOYO PLANO del brazo contra el alma del canal y el perno no puede competir con él. Los ±2 mm de recorrido son ISO 13920-B sobre los 368,5 mm del canal soldado al que va la ménsula. La unión trabaja por rozamiento bajo la golilla (2 819 N por perno).) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
    "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
-   "encajes": "U2-motriz-+Y-pos lengueta/posicion · U2-motriz-+Y-paso lengueta/paso · U2-libre-+Y-pos lengueta/posicion · U2-libre-+Y-paso lengueta/paso · U3-+Y-a pasador/posicion · U3-+Y-b pasador/paso",
+   "encajes": "U6-+Y tope/tope",
    "acabado": "—"
   },
   {
@@ -256,35 +256,35 @@
    "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
    "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
    "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
-   "encajes": "U2-motriz--Y-pos lengueta/posicion · U2-motriz--Y-paso lengueta/paso · U2-libre--Y-pos lengueta/posicion · U2-libre--Y-paso lengueta/paso · U3--Y-a pasador/posicion · U3--Y-b pasador/paso",
+   "encajes": "U2-motriz-+Y-pos lengueta/posicion · U2-motriz-+Y-paso lengueta/paso · U2-libre-+Y-pos lengueta/posicion · U2-libre-+Y-paso lengueta/paso · U3-+Y-a pasador/posicion · U3-+Y-b pasador/paso",
    "acabado": "—"
   },
   {
    "item": 19,
+   "designacion": "Notched brace channel 1-3/4\"×40 12 GA × 368.52",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "FABRICADA",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
+   "plano": "NBT90-19",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U2-motriz--Y-pos lengueta/posicion · U2-motriz--Y-paso lengueta/paso · U2-libre--Y-pos lengueta/posicion · U2-libre--Y-paso lengueta/paso · U3--Y-a pasador/posicion · U3--Y-b pasador/paso",
+   "acabado": "—"
+  },
+  {
+   "item": 20,
    "designacion": "Placa de apriete del tensor 1/4\"×24×40",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.25\", galvanizada",
-   "plano": "NBT90-19",
+   "plano": "NBT90-20",
    "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
    "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
    "soldadura": "—",
    "encajes": "—",
-   "acabado": "—"
-  },
-  {
-   "item": 20,
-   "designacion": "Placa peine 3/16\" 432×293.26",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.187\", galvanizada",
-   "plano": "NBT90-20",
-   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M",
-   "ajustes": "Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 (taladro de POSICIÓN, no de paso: el vástago hace de pasador y toma la carga radial del rodillo. Un taladro de paso normal de 1/4\" sería Ø7,95 (holgura 1,6).) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
-   "soldadura": "cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
-   "encajes": "U1-motriz-+Y ranura/posicion · U1-motriz--Y ranura/posicion",
    "acabado": "—"
   },
   {
@@ -298,35 +298,35 @@
    "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M",
    "ajustes": "Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 (taladro de POSICIÓN, no de paso: el vástago hace de pasador y toma la carga radial del rodillo. Un taladro de paso normal de 1/4\" sería Ø7,95 (holgura 1,6).) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
    "soldadura": "cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
-   "encajes": "U1-libre-+Y ranura/posicion · U1-libre--Y ranura/posicion",
+   "encajes": "U1-motriz-+Y ranura/posicion · U1-motriz--Y ranura/posicion",
    "acabado": "—"
   },
   {
    "item": 22,
+   "designacion": "Placa peine 3/16\" 432×293.26",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "FABRICADA",
+   "material_norma": "Chapa de acero 0.187\", galvanizada",
+   "plano": "NBT90-22",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M",
+   "ajustes": "Ø7,0 H12 holgura 0,65 mm sobre el vástago Ø6,35 (taladro de POSICIÓN, no de paso: el vástago hace de pasador y toma la carga radial del rodillo. Un taladro de paso normal de 1/4\" sería Ø7,95 (holgura 1,6).) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U1-libre-+Y ranura/posicion · U1-libre--Y ranura/posicion",
+   "acabado": "—"
+  },
+  {
+   "item": 23,
    "designacion": "Placa soporte de transmisión 1/4\"×374×150 c/colisa tensor",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.25\", galvanizada",
-   "plano": "NBT90-22",
+   "plano": "NBT90-23",
    "tolerancia": "tol. gral. ISO 13920-BF · conjunto soldado ISO 13920-BF · Ø60 H8 H8/h8 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a4.44 AWS D1.1/D1.1M",
    "ajustes": "Ø60 H8 H8/h8 (resalte de centraje de una brida IEC: tiene que centrar, no apretar. Con H8/h8 el juego máximo es 0,092 mm; el modelo dibuja 0,05 de radio para que el sólido no se solape.) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
    "soldadura": "cordón en ángulo (filete) a=4.44 · AWS D1.1/D1.1M — Structural Welding Code, Steel; símbolo según ISO 2553",
    "encajes": "U6-pestana--Y lengueta/posicion · U6-pestana-+Y lengueta/posicion · U6-doblador tope/tope",
-   "acabado": "—"
-  },
-  {
-   "item": 23,
-   "designacion": "Spacer plate 3/16\" 370×80",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.187\", galvanizada",
-   "plano": "NBT90-23",
-   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M",
-   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
-   "soldadura": "cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
-   "encajes": "U2-motriz-+Y-pos ranura/posicion · U2-motriz-+Y-paso ranura/paso · U2-motriz--Y-pos ranura/posicion · U2-motriz--Y-paso ranura/paso",
    "acabado": "—"
   },
   {
@@ -340,21 +340,21 @@
    "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M",
    "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
    "soldadura": "cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
-   "encajes": "U2-libre-+Y-pos ranura/posicion · U2-libre-+Y-paso ranura/paso · U2-libre--Y-pos ranura/posicion · U2-libre--Y-paso ranura/paso",
+   "encajes": "U2-motriz-+Y-pos ranura/posicion · U2-motriz-+Y-paso ranura/paso · U2-motriz--Y-pos ranura/posicion · U2-motriz--Y-paso ranura/paso",
    "acabado": "—"
   },
   {
    "item": 25,
-   "designacion": "Transfer cross channel 2\"×1-1/2\" 12 GA × 378.04",
+   "designacion": "Spacer plate 3/16\" 370×80",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.187\", galvanizada",
    "plano": "NBT90-25",
-   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M",
    "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
-   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
-   "encajes": "U1-motriz-+Y lengueta/posicion · U1-libre-+Y lengueta/posicion · U1-tope-+Y tope/tope",
+   "soldadura": "cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U2-libre-+Y-pos ranura/posicion · U2-libre-+Y-paso ranura/paso · U2-libre--Y-pos ranura/posicion · U2-libre--Y-paso ranura/paso",
    "acabado": "—"
   },
   {
@@ -368,17 +368,31 @@
    "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
    "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
    "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
-   "encajes": "U1-motriz--Y lengueta/posicion · U1-libre--Y lengueta/posicion · U1-tope--Y tope/tope",
+   "encajes": "U1-motriz-+Y lengueta/posicion · U1-libre-+Y lengueta/posicion · U1-tope-+Y tope/tope",
    "acabado": "—"
   },
   {
    "item": 27,
+   "designacion": "Transfer cross channel 2\"×1-1/2\" 12 GA × 378.04",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "FABRICADA",
+   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
+   "plano": "NBT90-27",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "encajes": "U1-motriz--Y lengueta/posicion · U1-libre--Y lengueta/posicion · U1-tope--Y tope/tope",
+   "acabado": "—"
+  },
+  {
+   "item": 28,
    "designacion": "Transfer roller guard 14 GA 370×118",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
    "material_norma": "Chapa de acero 0.075\", galvanizada",
-   "plano": "NBT90-27",
+   "plano": "NBT90-28",
    "tolerancia": "tol. gral. ISO 2768-mK · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
    "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
    "soldadura": "—",
@@ -386,7 +400,7 @@
    "acabado": "—"
   },
   {
-   "item": 28,
+   "item": 29,
    "designacion": "Casquillo separador Ø17.46 × 18.34",
    "cant": 1,
    "capa": "FIJO",
@@ -400,7 +414,7 @@
    "acabado": "—"
   },
   {
-   "item": 29,
+   "item": 30,
    "designacion": "Casquillo separador Ø17.46 × 18.35",
    "cant": 1,
    "capa": "FIJO",
@@ -414,7 +428,7 @@
    "acabado": "—"
   },
   {
-   "item": 30,
+   "item": 31,
    "designacion": "Eje de rodillo de retorno Ø12.7 × 457.14",
    "cant": 1,
    "capa": "FIJO",
@@ -422,20 +436,6 @@
    "material_norma": "Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",
    "plano": "—",
    "tolerancia": "eje 1/2\" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados",
-   "ajustes": "—",
-   "soldadura": "—",
-   "encajes": "—",
-   "acabado": "—"
-  },
-  {
-   "item": 31,
-   "designacion": "Eje de rodillo Ø12.7/Ø8 × 378.04",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
-   "plano": "—",
-   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
    "ajustes": "—",
    "soldadura": "—",
    "encajes": "—",
@@ -513,14 +513,14 @@
   },
   {
    "item": 37,
-   "designacion": "Eje polea Ø5/8\" g6 × 68.4",
+   "designacion": "Eje de rodillo Ø12.7/Ø8 × 378.04",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "FABRICADA",
-   "material_norma": "Acero SAE 1045 rectificado",
-   "plano": "NBT90-28",
-   "tolerancia": "tol. gral. ISO 2768-fH · Ø15,875 (5/8\") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
-   "ajustes": "Ø15,875 (5/8\") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "tipo": "COMPRADA",
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
    "soldadura": "—",
    "encajes": "—",
    "acabado": "—"
@@ -583,7 +583,7 @@
   },
   {
    "item": 42,
-   "designacion": "Eje polea Ø5/8\" g6 × 73.5",
+   "designacion": "Eje polea Ø5/8\" g6 × 68.4",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
@@ -597,21 +597,21 @@
   },
   {
    "item": 43,
-   "designacion": "NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil 198×75×22",
+   "designacion": "Eje polea Ø5/8\" g6 × 73.5",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "SMC serie MGP — MGPM80-10Z, cilindro compacto con guías Ø80, carrera 10 mm, casquillo de deslizamiento, con imán",
-   "plano": "—",
-   "tolerancia": "roscas de montaje M12 × 1,75 (patrones MM 180 × 54 y NN 174 × 52); puertos Rc 3/8 (ISO 7-1)",
-   "ajustes": "—",
+   "tipo": "FABRICADA",
+   "material_norma": "Acero SAE 1045 rectificado",
+   "plano": "NBT90-34",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø15,875 (5/8\") g6 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø15,875 (5/8\") g6 (carga ESTACIONARIA sobre el aro interior ⇒ deslizante) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
    "soldadura": "—",
    "encajes": "—",
    "acabado": "—"
   },
   {
    "item": 44,
-   "designacion": "NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø25 × 93",
+   "designacion": "NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil 198×75×22",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -639,7 +639,7 @@
   },
   {
    "item": 46,
-   "designacion": "NEUMÁTICA · Cilindro MGPM80-10Z — vástago del émbolo Ø25",
+   "designacion": "NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø25 × 93",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -653,14 +653,14 @@
   },
   {
    "item": 47,
-   "designacion": "Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
+   "designacion": "NEUMÁTICA · Cilindro MGPM80-10Z — vástago del émbolo Ø25",
    "cant": 1,
    "capa": "MÓVIL",
-   "tipo": "FABRICADA",
-   "material_norma": "Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",
-   "plano": "NBT90-34",
-   "tolerancia": "tol. gral. ISO 2768-fH · Ø34,925 (1-3/8\") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
-   "ajustes": "Ø34,925 (1-3/8\") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "tipo": "COMPRADA",
+   "material_norma": "SMC serie MGP — MGPM80-10Z, cilindro compacto con guías Ø80, carrera 10 mm, casquillo de deslizamiento, con imán",
+   "plano": "—",
+   "tolerancia": "roscas de montaje M12 × 1,75 (patrones MM 180 × 54 y NN 174 × 52); puertos Rc 3/8 (ISO 7-1)",
+   "ajustes": "—",
    "soldadura": "—",
    "encajes": "—",
    "acabado": "—"
@@ -681,7 +681,7 @@
   },
   {
    "item": 49,
-   "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
+   "designacion": "Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
@@ -723,7 +723,7 @@
   },
   {
    "item": 52,
-   "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 TAKE-UP IDLER",
+   "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",
@@ -737,6 +737,20 @@
   },
   {
    "item": 53,
+   "designacion": "Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 TAKE-UP IDLER",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "FABRICADA",
+   "material_norma": "Banda plana poliéster/uretano 2.5 mm (empalme sin fin)",
+   "plano": "NBT90-40",
+   "tolerancia": "tol. gral. ISO 2768-fH · Ø34,925 (1-3/8\") N7 · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525",
+   "ajustes": "Ø34,925 (1-3/8\") N7 (carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)) · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
+  },
+  {
+   "item": 54,
    "designacion": "Rodillo de retorno B-20760 Ø1.9\" × 425.45",
    "cant": 1,
    "capa": "FIJO",
@@ -750,7 +764,7 @@
    "acabado": "—"
   },
   {
-   "item": 54,
+   "item": 55,
    "designacion": "Rueda motriz banda plana Ø2-1/2\"×1.772\"",
    "cant": 1,
    "capa": "MÓVIL",
@@ -758,20 +772,6 @@
    "material_norma": "Rueda motriz de banda plana Ø2-1/2\" × 1,772\", barreno Ø45 H8 · Hytrol 024.15502",
    "plano": "—",
    "tolerancia": "llanta abombada 0,4 mm; el barreno recibe el buje sin chaveta",
-   "ajustes": "—",
-   "soldadura": "—",
-   "encajes": "—",
-   "acabado": "—"
-  },
-  {
-   "item": 55,
-   "designacion": "Tapa-soporte de extremo Ø25.93/Ø22 × 24",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
-   "plano": "—",
-   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
    "ajustes": "—",
    "soldadura": "—",
    "encajes": "—",
@@ -933,13 +933,13 @@
   },
   {
    "item": 67,
-   "designacion": "Tapa-soporte de rodillo de retorno Ø44.96/Ø28.58 × 14",
+   "designacion": "Tapa-soporte de extremo Ø25.93/Ø22 × 24",
    "cant": 1,
-   "capa": "FIJO",
+   "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
    "plano": "—",
-   "tolerancia": "eje 1/2\" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
    "ajustes": "—",
    "soldadura": "—",
    "encajes": "—",
@@ -961,13 +961,13 @@
   },
   {
    "item": 69,
-   "designacion": "Tubo de rodillo Ø28.93 × 375",
+   "designacion": "Tapa-soporte de rodillo de retorno Ø44.96/Ø28.58 × 14",
    "cant": 1,
-   "capa": "MÓVIL",
+   "capa": "FIJO",
    "tipo": "COMPRADA",
-   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "material_norma": "Componente del conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1» (no se suministra suelto)",
    "plano": "—",
-   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "tolerancia": "eje 1/2\" estirado en frío con hilo interior 1/4-20 ED&T; tapas y casquillos mecanizados",
    "ajustes": "—",
    "soldadura": "—",
    "encajes": "—",
@@ -1045,7 +1045,7 @@
   },
   {
    "item": 75,
-   "designacion": "Vulcanizado negro e=3 → Ø34.93 × 316.3",
+   "designacion": "Tubo de rodillo Ø28.93 × 375",
    "cant": 1,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -1129,6 +1129,20 @@
   },
   {
    "item": 81,
+   "designacion": "Vulcanizado negro e=3 → Ø34.93 × 316.3",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "Conjunto de rodillo vulcanizado Ø1-3/8\" · Hytrol SA-036881 «VULCANIZED 138 ROLLER ASSEMBLY»",
+   "plano": "—",
+   "tolerancia": "tubo de acero 16 GA con cubierta vulcanizada; eje con hilo interior 1/4-20 (end drilled & tapped)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "—"
+  },
+  {
+   "item": 82,
    "designacion": "Anillo retención eje polea (Y=-144.5) Ø15.875",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1142,7 +1156,7 @@
    "acabado": "fosfatado"
   },
   {
-   "item": 82,
+   "item": 83,
    "designacion": "Anillo retención eje polea (Y=-152.4) Ø15.875",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1156,7 +1170,7 @@
    "acabado": "fosfatado"
   },
   {
-   "item": 83,
+   "item": 84,
    "designacion": "Anillo retención eje polea (Y=-76.2) Ø15.875",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1170,7 +1184,7 @@
    "acabado": "fosfatado"
   },
   {
-   "item": 84,
+   "item": 85,
    "designacion": "Anillo retención eje polea (Y=144.5) Ø15.875",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1184,7 +1198,7 @@
    "acabado": "fosfatado"
   },
   {
-   "item": 85,
+   "item": 86,
    "designacion": "Anillo retención eje polea (Y=152.4) Ø15.875",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1198,7 +1212,7 @@
    "acabado": "fosfatado"
   },
   {
-   "item": 86,
+   "item": 87,
    "designacion": "Anillo retención eje polea (Y=76.2) Ø15.875",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1206,20 +1220,6 @@
    "material_norma": "ASME B27.7 — anillo de retención exterior serie 5100, referencia 5100-062 (eje 0,625\")",
    "plano": "—",
    "tolerancia": "acero SAE 1060-1090, e = 0,035\" (0,89 mm)",
-   "ajustes": "—",
-   "soldadura": "—",
-   "encajes": "—",
-   "acabado": "fosfatado"
-  },
-  {
-   "item": 87,
-   "designacion": "Anillo retención interior DIN 472 Ø35",
-   "cant": 1,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
-   "plano": "—",
-   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
    "ajustes": "—",
    "soldadura": "—",
    "encajes": "—",
@@ -1381,6 +1381,20 @@
   },
   {
    "item": 99,
+   "designacion": "Anillo retención interior DIN 472 Ø35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 472 — anillo de retención interior Ø35 × 1,5 para alojamiento",
+   "plano": "—",
+   "tolerancia": "acero para muelles C67S, ranura Ø37,0 H12 × 1,6",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "fosfatado"
+  },
+  {
+   "item": 100,
    "designacion": "Banda plana FLEXPROOF sin fin 1\"×2.5 — serpentín L=3043.56",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1394,7 +1408,7 @@
    "acabado": "—"
   },
   {
-   "item": 100,
+   "item": 101,
    "designacion": "Buje sin chaveta 20 mm ID × 45 mm OD",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1408,7 +1422,63 @@
    "acabado": "zincado claro RoHS"
   },
   {
-   "item": 101,
+   "item": 102,
+   "designacion": "Golilla 1/4\" anclaje de la horquilla (X=206.7, Y=+124.76) Ø6.35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
+  },
+  {
+   "item": 103,
+   "designacion": "Golilla 1/4\" anclaje de la horquilla (X=206.7, Y=−124.76) Ø6.35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
+  },
+  {
+   "item": 104,
+   "designacion": "Golilla 1/4\" anclaje de la horquilla (X=256.3, Y=+124.76) Ø6.35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
+  },
+  {
+   "item": 105,
+   "designacion": "Golilla 1/4\" anclaje de la horquilla (X=256.3, Y=−124.76) Ø6.35",
+   "cant": 1,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
+   "plano": "—",
+   "tolerancia": "acero al carbono",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado ASTM F1941"
+  },
+  {
+   "item": 106,
    "designacion": "Golilla 1/4\" soporte de válvula (X=296, Y=-182) Ø6.35",
    "cant": 1,
    "capa": "FIJO",
@@ -1422,7 +1492,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 102,
+   "item": 107,
    "designacion": "Golilla 1/4\" soporte de válvula (X=332, Y=-182) Ø6.35",
    "cant": 1,
    "capa": "FIJO",
@@ -1436,7 +1506,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 103,
+   "item": 108,
    "designacion": "Golilla 3/8\" bajo cabeza (+Y, X=134) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1450,7 +1520,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 104,
+   "item": 109,
    "designacion": "Golilla 3/8\" bajo cabeza (+Y, X=162) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1464,7 +1534,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 105,
+   "item": 110,
    "designacion": "Golilla 3/8\" bajo cabeza (−Y, X=134) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1478,7 +1548,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 106,
+   "item": 111,
    "designacion": "Golilla 3/8\" bajo cabeza (−Y, X=162) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1492,7 +1562,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 107,
+   "item": 112,
    "designacion": "Golilla 3/8\" de colisa (X=141.5, Y=+228.57) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1506,7 +1576,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 108,
+   "item": 113,
    "designacion": "Golilla 3/8\" de colisa (X=141.5, Y=−228.57) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1520,7 +1590,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 109,
+   "item": 114,
    "designacion": "Golilla 3/8\" de colisa (X=321.5, Y=+228.57) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1534,7 +1604,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 110,
+   "item": 115,
    "designacion": "Golilla 3/8\" de colisa (X=321.5, Y=−228.57) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1548,7 +1618,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 111,
+   "item": 116,
    "designacion": "Golilla 3/8\" jack bolt (X=115.75, Y=+247.4) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1562,7 +1632,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 112,
+   "item": 117,
    "designacion": "Golilla 3/8\" jack bolt (X=115.75, Y=−247.4) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1576,7 +1646,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 113,
+   "item": 118,
    "designacion": "Golilla 3/8\" jack bolt (X=347.25, Y=+247.4) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1590,7 +1660,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 114,
+   "item": 119,
    "designacion": "Golilla 3/8\" jack bolt (X=347.25, Y=−247.4) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1604,7 +1674,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 115,
+   "item": 120,
    "designacion": "Golilla Canal base -Y X32 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1618,7 +1688,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 116,
+   "item": 121,
    "designacion": "Golilla Canal base -Y X32 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1632,7 +1702,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 117,
+   "item": 122,
    "designacion": "Golilla Canal base -Y X95 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1646,7 +1716,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 118,
+   "item": 123,
    "designacion": "Golilla Canal base -Y X95 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1660,7 +1730,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 119,
+   "item": 124,
    "designacion": "Golilla Canal base +Y X32 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1674,7 +1744,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 120,
+   "item": 125,
    "designacion": "Golilla Canal base +Y X32 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1688,7 +1758,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 121,
+   "item": 126,
    "designacion": "Golilla Canal base +Y X95 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1702,7 +1772,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 122,
+   "item": 127,
    "designacion": "Golilla Canal base +Y X95 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1716,7 +1786,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 123,
+   "item": 128,
    "designacion": "Golilla Guarda Y-150 Z196 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1730,7 +1800,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 124,
+   "item": 129,
    "designacion": "Golilla Guarda Y-150 Z196 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1744,7 +1814,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 125,
+   "item": 130,
    "designacion": "Golilla Guarda Y-150 Z284 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1758,7 +1828,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 126,
+   "item": 131,
    "designacion": "Golilla Guarda Y-150 Z284 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1772,7 +1842,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 127,
+   "item": 132,
    "designacion": "Golilla Guarda Y150 Z196 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1786,7 +1856,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 128,
+   "item": 133,
    "designacion": "Golilla Guarda Y150 Z196 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1800,7 +1870,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 129,
+   "item": 134,
    "designacion": "Golilla Guarda Y150 Z284 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1814,7 +1884,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 130,
+   "item": 135,
    "designacion": "Golilla Guarda Y150 Z284 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -1828,7 +1898,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 131,
+   "item": 136,
    "designacion": "Golilla M12 cilindro (X=204.5, Y=+90) Ø12",
    "cant": 1,
    "capa": "FIJO",
@@ -1842,7 +1912,7 @@
    "acabado": "zincado ISO 4042"
   },
   {
-   "item": 132,
+   "item": 137,
    "designacion": "Golilla M12 cilindro (X=204.5, Y=−90) Ø12",
    "cant": 1,
    "capa": "FIJO",
@@ -1856,7 +1926,7 @@
    "acabado": "zincado ISO 4042"
   },
   {
-   "item": 133,
+   "item": 138,
    "designacion": "Golilla M12 cilindro (X=258.5, Y=+90) Ø12",
    "cant": 1,
    "capa": "FIJO",
@@ -1870,7 +1940,7 @@
    "acabado": "zincado ISO 4042"
   },
   {
-   "item": 134,
+   "item": 139,
    "designacion": "Golilla M12 cilindro (X=258.5, Y=−90) Ø12",
    "cant": 1,
    "capa": "FIJO",
@@ -1884,7 +1954,7 @@
    "acabado": "zincado ISO 4042"
   },
   {
-   "item": 135,
+   "item": 140,
    "designacion": "Golilla Ménsula jack inf -Y X115.75 Z100 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1898,7 +1968,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 136,
+   "item": 141,
    "designacion": "Golilla Ménsula jack inf -Y X115.75 Z100 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1912,7 +1982,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 137,
+   "item": 142,
    "designacion": "Golilla Ménsula jack inf -Y X115.75 Z118 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1926,7 +1996,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 138,
+   "item": 143,
    "designacion": "Golilla Ménsula jack inf -Y X115.75 Z118 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1940,7 +2010,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 139,
+   "item": 144,
    "designacion": "Golilla Ménsula jack inf -Y X347.25 Z100 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1954,7 +2024,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 140,
+   "item": 145,
    "designacion": "Golilla Ménsula jack inf -Y X347.25 Z100 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1968,7 +2038,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 141,
+   "item": 146,
    "designacion": "Golilla Ménsula jack inf -Y X347.25 Z118 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1982,7 +2052,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 142,
+   "item": 147,
    "designacion": "Golilla Ménsula jack inf -Y X347.25 Z118 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -1996,7 +2066,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 143,
+   "item": 148,
    "designacion": "Golilla Ménsula jack inf +Y X115.75 Z100 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2010,7 +2080,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 144,
+   "item": 149,
    "designacion": "Golilla Ménsula jack inf +Y X115.75 Z100 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2024,7 +2094,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 145,
+   "item": 150,
    "designacion": "Golilla Ménsula jack inf +Y X115.75 Z118 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2038,7 +2108,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 146,
+   "item": 151,
    "designacion": "Golilla Ménsula jack inf +Y X115.75 Z118 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2052,7 +2122,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 147,
+   "item": 152,
    "designacion": "Golilla Ménsula jack inf +Y X347.25 Z100 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2066,7 +2136,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 148,
+   "item": 153,
    "designacion": "Golilla Ménsula jack inf +Y X347.25 Z100 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2080,7 +2150,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 149,
+   "item": 154,
    "designacion": "Golilla Ménsula jack inf +Y X347.25 Z118 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2094,7 +2164,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 150,
+   "item": 155,
    "designacion": "Golilla Ménsula jack inf +Y X347.25 Z118 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2108,7 +2178,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 151,
+   "item": 156,
    "designacion": "Golilla Ménsula jack sup -Y X145.75 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2122,7 +2192,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 152,
+   "item": 157,
    "designacion": "Golilla Ménsula jack sup -Y X145.75 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2136,7 +2206,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 153,
+   "item": 158,
    "designacion": "Golilla Ménsula jack sup -Y X317.25 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2150,7 +2220,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 154,
+   "item": 159,
    "designacion": "Golilla Ménsula jack sup -Y X317.25 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2164,7 +2234,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 155,
+   "item": 160,
    "designacion": "Golilla Ménsula jack sup -Y X377.25 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2178,7 +2248,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 156,
+   "item": 161,
    "designacion": "Golilla Ménsula jack sup -Y X377.25 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2192,7 +2262,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 157,
+   "item": 162,
    "designacion": "Golilla Ménsula jack sup -Y X85.75 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2206,7 +2276,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 158,
+   "item": 163,
    "designacion": "Golilla Ménsula jack sup -Y X85.75 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2220,7 +2290,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 159,
+   "item": 164,
    "designacion": "Golilla Ménsula jack sup +Y X145.75 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2234,7 +2304,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 160,
+   "item": 165,
    "designacion": "Golilla Ménsula jack sup +Y X145.75 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2248,7 +2318,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 161,
+   "item": 166,
    "designacion": "Golilla Ménsula jack sup +Y X317.25 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2262,7 +2332,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 162,
+   "item": 167,
    "designacion": "Golilla Ménsula jack sup +Y X317.25 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2276,7 +2346,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 163,
+   "item": 168,
    "designacion": "Golilla Ménsula jack sup +Y X377.25 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2290,7 +2360,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 164,
+   "item": 169,
    "designacion": "Golilla Ménsula jack sup +Y X377.25 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2304,7 +2374,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 165,
+   "item": 170,
    "designacion": "Golilla Ménsula jack sup +Y X85.75 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2318,7 +2388,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 166,
+   "item": 171,
    "designacion": "Golilla Ménsula jack sup +Y X85.75 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2332,7 +2402,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 167,
+   "item": 172,
    "designacion": "Golilla rodillo (línea 1, Y=-190.5, libre) Ø6.35",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2346,7 +2416,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 168,
+   "item": 173,
    "designacion": "Golilla rodillo (línea 1, Y=-190.5, motriz) Ø6.35",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2360,7 +2430,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 169,
+   "item": 174,
    "designacion": "Golilla rodillo (línea 2, Y=-114.3, libre) Ø6.35",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2374,7 +2444,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 170,
+   "item": 175,
    "designacion": "Golilla rodillo (línea 2, Y=-114.3, motriz) Ø6.35",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2388,7 +2458,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 171,
+   "item": 176,
    "designacion": "Golilla rodillo (línea 3, Y=-38.1, libre) Ø6.35",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2402,7 +2472,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 172,
+   "item": 177,
    "designacion": "Golilla rodillo (línea 3, Y=-38.1, motriz) Ø6.35",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2416,7 +2486,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 173,
+   "item": 178,
    "designacion": "Golilla rodillo (línea 4, Y=38.1, libre) Ø6.35",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2430,7 +2500,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 174,
+   "item": 179,
    "designacion": "Golilla rodillo (línea 4, Y=38.1, motriz) Ø6.35",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2444,7 +2514,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 175,
+   "item": 180,
    "designacion": "Golilla rodillo (línea 5, Y=114.3, libre) Ø6.35",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2458,7 +2528,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 176,
+   "item": 181,
    "designacion": "Golilla rodillo (línea 5, Y=114.3, motriz) Ø6.35",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2472,7 +2542,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 177,
+   "item": 182,
    "designacion": "Golilla rodillo (línea 6, Y=190.5, libre) Ø6.35",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2486,7 +2556,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 178,
+   "item": 183,
    "designacion": "Golilla rodillo (línea 6, Y=190.5, motriz) Ø6.35",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2500,7 +2570,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 179,
+   "item": 184,
    "designacion": "Golilla rodillo de retorno (+Y) Ø6.35",
    "cant": 1,
    "capa": "FIJO",
@@ -2514,7 +2584,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 180,
+   "item": 185,
    "designacion": "Golilla rodillo de retorno (−Y) Ø6.35",
    "cant": 1,
    "capa": "FIJO",
@@ -2528,7 +2598,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 181,
+   "item": 186,
    "designacion": "Golilla Side channel -Y X231.5 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2542,7 +2612,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 182,
+   "item": 187,
    "designacion": "Golilla Side channel -Y X231.5 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2556,7 +2626,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 183,
+   "item": 188,
    "designacion": "Golilla Side channel -Y X403 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2570,7 +2640,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 184,
+   "item": 189,
    "designacion": "Golilla Side channel -Y X403 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2584,7 +2654,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 185,
+   "item": 190,
    "designacion": "Golilla Side channel -Y X60 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2598,7 +2668,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 186,
+   "item": 191,
    "designacion": "Golilla Side channel -Y X60 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2612,7 +2682,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 187,
+   "item": 192,
    "designacion": "Golilla Side channel +Y X231.5 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2626,7 +2696,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 188,
+   "item": 193,
    "designacion": "Golilla Side channel +Y X231.5 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2640,7 +2710,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 189,
+   "item": 194,
    "designacion": "Golilla Side channel +Y X403 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2654,7 +2724,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 190,
+   "item": 195,
    "designacion": "Golilla Side channel +Y X403 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2668,7 +2738,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 191,
+   "item": 196,
    "designacion": "Golilla Side channel +Y X60 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2682,7 +2752,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 192,
+   "item": 197,
    "designacion": "Golilla Side channel +Y X60 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "FIJO",
@@ -2696,7 +2766,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 193,
+   "item": 198,
    "designacion": "Golilla Spacer plate libre Y-170 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2710,7 +2780,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 194,
+   "item": 199,
    "designacion": "Golilla Spacer plate libre Y-170 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2724,7 +2794,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 195,
+   "item": 200,
    "designacion": "Golilla Spacer plate libre Y-55 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2738,7 +2808,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 196,
+   "item": 201,
    "designacion": "Golilla Spacer plate libre Y-55 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2752,7 +2822,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 197,
+   "item": 202,
    "designacion": "Golilla Spacer plate libre Y170 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2766,7 +2836,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 198,
+   "item": 203,
    "designacion": "Golilla Spacer plate libre Y170 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2780,7 +2850,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 199,
+   "item": 204,
    "designacion": "Golilla Spacer plate libre Y55 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2794,7 +2864,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 200,
+   "item": 205,
    "designacion": "Golilla Spacer plate libre Y55 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2808,7 +2878,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 201,
+   "item": 206,
    "designacion": "Golilla Spacer plate motriz Y-170 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2822,7 +2892,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 202,
+   "item": 207,
    "designacion": "Golilla Spacer plate motriz Y-170 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2836,7 +2906,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 203,
+   "item": 208,
    "designacion": "Golilla Spacer plate motriz Y-55 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2850,7 +2920,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 204,
+   "item": 209,
    "designacion": "Golilla Spacer plate motriz Y-55 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2864,7 +2934,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 205,
+   "item": 210,
    "designacion": "Golilla Spacer plate motriz Y170 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2878,7 +2948,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 206,
+   "item": 211,
    "designacion": "Golilla Spacer plate motriz Y170 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2892,7 +2962,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 207,
+   "item": 212,
    "designacion": "Golilla Spacer plate motriz Y55 (cabeza) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2906,7 +2976,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 208,
+   "item": 213,
    "designacion": "Golilla Spacer plate motriz Y55 (tuerca) Ø9.525",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2920,7 +2990,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 209,
+   "item": 214,
    "designacion": "Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm",
    "cant": 1,
    "capa": "MÓVIL",
@@ -2934,7 +3004,7 @@
    "acabado": "—"
   },
   {
-   "item": 210,
+   "item": 215,
    "designacion": "NEUMÁTICA · Cilindro compacto con guías SMC MGPM80-10Z Ø80 × 10 — cuerpo 202×91.5×56.5",
    "cant": 1,
    "capa": "FIJO",
@@ -2948,7 +3018,7 @@
    "acabado": "—"
   },
   {
-   "item": 211,
+   "item": 216,
    "designacion": "NEUMÁTICA · Golilla 1/4\" válvula↔soporte (X=303) Ø6.35",
    "cant": 1,
    "capa": "FIJO",
@@ -2962,7 +3032,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 212,
+   "item": 217,
    "designacion": "NEUMÁTICA · Golilla 1/4\" válvula↔soporte (X=335) Ø6.35",
    "cant": 1,
    "capa": "FIJO",
@@ -2976,7 +3046,7 @@
    "acabado": "zincado ASTM F1941"
   },
   {
-   "item": 213,
+   "item": 218,
    "designacion": "NEUMÁTICA · Perno hex 1/4-20 × 2-1/2\" válvula↔soporte",
    "cant": 2,
    "capa": "FIJO",
@@ -2990,7 +3060,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 214,
+   "item": 219,
    "designacion": "NEUMÁTICA · Racor codo giratorio 360° 1/4\"",
    "cant": 2,
    "capa": "FIJO",
@@ -3004,7 +3074,7 @@
    "acabado": "—"
   },
   {
-   "item": 215,
+   "item": 220,
    "designacion": "NEUMÁTICA · Racor codo giratorio 360° Rc3/8–1/4\"",
    "cant": 2,
    "capa": "FIJO",
@@ -3018,7 +3088,7 @@
    "acabado": "—"
   },
   {
-   "item": 216,
+   "item": 221,
    "designacion": "NEUMÁTICA · Silenciador 1/8\" NPT Ø18 (X=307)",
    "cant": 1,
    "capa": "FIJO",
@@ -3032,7 +3102,7 @@
    "acabado": "—"
   },
   {
-   "item": 217,
+   "item": 222,
    "designacion": "NEUMÁTICA · Silenciador 1/8\" NPT Ø18 (X=331)",
    "cant": 1,
    "capa": "FIJO",
@@ -3046,7 +3116,7 @@
    "acabado": "—"
   },
   {
-   "item": 218,
+   "item": 223,
    "designacion": "NEUMÁTICA · Tubería 1/4\" OD Ø7.94 — línea A",
    "cant": 1,
    "capa": "FIJO",
@@ -3060,7 +3130,7 @@
    "acabado": "—"
   },
   {
-   "item": 219,
+   "item": 224,
    "designacion": "NEUMÁTICA · Tubería 1/4\" OD Ø7.94 — línea B",
    "cant": 1,
    "capa": "FIJO",
@@ -3074,7 +3144,7 @@
    "acabado": "—"
   },
   {
-   "item": 220,
+   "item": 225,
    "designacion": "NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC 72×46×60",
    "cant": 1,
    "capa": "FIJO",
@@ -3088,8 +3158,8 @@
    "acabado": "—"
   },
   {
-   "item": 221,
-   "designacion": "Pasador guía Ø12.7 × 39.91 en colisa",
+   "item": 226,
+   "designacion": "Pasador de retención Ø12.7 × 39.91 en colisa",
    "cant": 4,
    "capa": "MÓVIL",
    "tipo": "COMPRADA",
@@ -3102,7 +3172,7 @@
    "acabado": "pavonado"
   },
   {
-   "item": 222,
+   "item": 227,
    "designacion": "Perno hex 1/4-20 × 1-1/4\" soporte de válvula",
    "cant": 2,
    "capa": "FIJO",
@@ -3116,82 +3186,12 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 223,
-   "designacion": "Perno hex 1/4-20 UNC × 19.05 · rodillo",
-   "cant": 6,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
-   "plano": "—",
-   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
-   "ajustes": "—",
-   "soldadura": "—",
-   "encajes": "—",
-   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
-  },
-  {
-   "item": 224,
-   "designacion": "Perno hex 1/4-20 UNC × 19.05 · rodillo",
-   "cant": 6,
-   "capa": "MÓVIL",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
-   "plano": "—",
-   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
-   "ajustes": "—",
-   "soldadura": "—",
-   "encajes": "—",
-   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
-  },
-  {
-   "item": 225,
-   "designacion": "Perno hex 1/4-20 UNC × 19.05 · rodillo de retorno",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
-   "plano": "—",
-   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
-   "ajustes": "—",
-   "soldadura": "—",
-   "encajes": "—",
-   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
-  },
-  {
-   "item": 226,
-   "designacion": "Perno hex 1/4-20 UNC × 19.05 · rodillo de retorno",
-   "cant": 1,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
-   "plano": "—",
-   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
-   "ajustes": "—",
-   "soldadura": "—",
-   "encajes": "—",
-   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
-  },
-  {
-   "item": 227,
-   "designacion": "Perno hex 3/8-16 × 1\" de colisa",
-   "cant": 2,
-   "capa": "FIJO",
-   "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
-   "plano": "—",
-   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
-   "ajustes": "—",
-   "soldadura": "—",
-   "encajes": "—",
-   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
-  },
-  {
    "item": 228,
-   "designacion": "Perno hex 3/8-16 × 1\" de colisa",
-   "cant": 2,
-   "capa": "FIJO",
+   "designacion": "Perno hex 1/4-20 UNC × 19.05 · rodillo",
+   "cant": 6,
+   "capa": "MÓVIL",
    "tipo": "COMPRADA",
-   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
    "plano": "—",
    "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
    "ajustes": "—",
@@ -3201,6 +3201,104 @@
   },
   {
    "item": 229,
+   "designacion": "Perno hex 1/4-20 UNC × 19.05 · rodillo",
+   "cant": 6,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+  },
+  {
+   "item": 230,
+   "designacion": "Perno hex 1/4-20 UNC × 19.05 · rodillo de retorno",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+  },
+  {
+   "item": 231,
+   "designacion": "Perno hex 1/4-20 UNC × 19.05 · rodillo de retorno",
+   "cant": 1,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+  },
+  {
+   "item": 232,
+   "designacion": "Perno hex 1/4-20 UNC × 3/4\" anclaje de la horquilla al cassette",
+   "cant": 2,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+  },
+  {
+   "item": 233,
+   "designacion": "Perno hex 1/4-20 UNC × 3/4\" anclaje de la horquilla al cassette",
+   "cant": 2,
+   "capa": "MÓVIL",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+  },
+  {
+   "item": 234,
+   "designacion": "Perno hex 3/8-16 × 1\" de colisa",
+   "cant": 2,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+  },
+  {
+   "item": 235,
+   "designacion": "Perno hex 3/8-16 × 1\" de colisa",
+   "cant": 2,
+   "capa": "FIJO",
+   "tipo": "COMPRADA",
+   "material_norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
+   "plano": "—",
+   "tolerancia": "SAE J429 grado 5 (carga de prueba 85 ksi)",
+   "ajustes": "—",
+   "soldadura": "—",
+   "encajes": "—",
+   "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
+  },
+  {
+   "item": 236,
    "designacion": "Perno hex 3/8-16 × 20.85 · Canal base -Y X32",
    "cant": 1,
    "capa": "FIJO",
@@ -3214,7 +3312,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 230,
+   "item": 237,
    "designacion": "Perno hex 3/8-16 × 20.85 · Canal base -Y X95",
    "cant": 1,
    "capa": "FIJO",
@@ -3228,7 +3326,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 231,
+   "item": 238,
    "designacion": "Perno hex 3/8-16 × 20.85 · Canal base +Y X32",
    "cant": 1,
    "capa": "FIJO",
@@ -3242,7 +3340,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 232,
+   "item": 239,
    "designacion": "Perno hex 3/8-16 × 20.85 · Canal base +Y X95",
    "cant": 1,
    "capa": "FIJO",
@@ -3256,7 +3354,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 233,
+   "item": 240,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z100",
    "cant": 1,
    "capa": "FIJO",
@@ -3270,7 +3368,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 234,
+   "item": 241,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z118",
    "cant": 1,
    "capa": "FIJO",
@@ -3284,7 +3382,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 235,
+   "item": 242,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z100",
    "cant": 1,
    "capa": "FIJO",
@@ -3298,7 +3396,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 236,
+   "item": 243,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z118",
    "cant": 1,
    "capa": "FIJO",
@@ -3312,7 +3410,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 237,
+   "item": 244,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z100",
    "cant": 1,
    "capa": "FIJO",
@@ -3326,7 +3424,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 238,
+   "item": 245,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z118",
    "cant": 1,
    "capa": "FIJO",
@@ -3340,7 +3438,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 239,
+   "item": 246,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z100",
    "cant": 1,
    "capa": "FIJO",
@@ -3354,7 +3452,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 240,
+   "item": 247,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z118",
    "cant": 1,
    "capa": "FIJO",
@@ -3368,7 +3466,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 241,
+   "item": 248,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X145.75",
    "cant": 1,
    "capa": "FIJO",
@@ -3382,7 +3480,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 242,
+   "item": 249,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X317.25",
    "cant": 1,
    "capa": "FIJO",
@@ -3396,7 +3494,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 243,
+   "item": 250,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X377.25",
    "cant": 1,
    "capa": "FIJO",
@@ -3410,7 +3508,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 244,
+   "item": 251,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X85.75",
    "cant": 1,
    "capa": "FIJO",
@@ -3424,7 +3522,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 245,
+   "item": 252,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X145.75",
    "cant": 1,
    "capa": "FIJO",
@@ -3438,7 +3536,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 246,
+   "item": 253,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X317.25",
    "cant": 1,
    "capa": "FIJO",
@@ -3452,7 +3550,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 247,
+   "item": 254,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X377.25",
    "cant": 1,
    "capa": "FIJO",
@@ -3466,7 +3564,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 248,
+   "item": 255,
    "designacion": "Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X85.75",
    "cant": 1,
    "capa": "FIJO",
@@ -3480,7 +3578,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 249,
+   "item": 256,
    "designacion": "Perno hex 3/8-16 × 20.85 · Side channel -Y X231.5",
    "cant": 1,
    "capa": "FIJO",
@@ -3494,7 +3592,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 250,
+   "item": 257,
    "designacion": "Perno hex 3/8-16 × 20.85 · Side channel -Y X403",
    "cant": 1,
    "capa": "FIJO",
@@ -3508,7 +3606,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 251,
+   "item": 258,
    "designacion": "Perno hex 3/8-16 × 20.85 · Side channel -Y X60",
    "cant": 1,
    "capa": "FIJO",
@@ -3522,7 +3620,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 252,
+   "item": 259,
    "designacion": "Perno hex 3/8-16 × 20.85 · Side channel +Y X231.5",
    "cant": 1,
    "capa": "FIJO",
@@ -3536,7 +3634,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 253,
+   "item": 260,
    "designacion": "Perno hex 3/8-16 × 20.85 · Side channel +Y X403",
    "cant": 1,
    "capa": "FIJO",
@@ -3550,7 +3648,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 254,
+   "item": 261,
    "designacion": "Perno hex 3/8-16 × 20.85 · Side channel +Y X60",
    "cant": 1,
    "capa": "FIJO",
@@ -3564,7 +3662,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 255,
+   "item": 262,
    "designacion": "Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z196",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3578,7 +3676,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 256,
+   "item": 263,
    "designacion": "Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z284",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3592,7 +3690,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 257,
+   "item": 264,
    "designacion": "Perno hex 3/8-16 × 22.19 · Guarda Y150 Z196",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3606,7 +3704,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 258,
+   "item": 265,
    "designacion": "Perno hex 3/8-16 × 22.19 · Guarda Y150 Z284",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3620,7 +3718,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 259,
+   "item": 266,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-170",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3634,7 +3732,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 260,
+   "item": 267,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-55",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3648,7 +3746,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 261,
+   "item": 268,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate libre Y170",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3662,7 +3760,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 262,
+   "item": 269,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate libre Y55",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3676,7 +3774,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 263,
+   "item": 270,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-170",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3690,7 +3788,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 264,
+   "item": 271,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-55",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3704,7 +3802,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 265,
+   "item": 272,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y170",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3718,7 +3816,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 266,
+   "item": 273,
    "designacion": "Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y55",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3732,7 +3830,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 267,
+   "item": 274,
    "designacion": "Perno hex 3/8-16 × 3/4\" placa↔cartela del larguero",
    "cant": 4,
    "capa": "MÓVIL",
@@ -3746,7 +3844,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 268,
+   "item": 275,
    "designacion": "Perno hex 3/8-16 × 6\" jack bolt",
    "cant": 4,
    "capa": "FIJO",
@@ -3760,7 +3858,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 269,
+   "item": 276,
    "designacion": "Perno hex M12 × 25 fijación del cilindro",
    "cant": 4,
    "capa": "FIJO",
@@ -3774,7 +3872,7 @@
    "acabado": "zincado electrolítico ISO 4042"
   },
   {
-   "item": 270,
+   "item": 277,
    "designacion": "Perno hex M8 × 20 brida motorreductor IEC B14 C120",
    "cant": 4,
    "capa": "MÓVIL",
@@ -3788,7 +3886,7 @@
    "acabado": "zincado electrolítico ISO 4042"
   },
   {
-   "item": 271,
+   "item": 278,
    "designacion": "Rodamiento 608-2RS (línea 1, Y=-190.5, libre)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3802,7 +3900,7 @@
    "acabado": "—"
   },
   {
-   "item": 272,
+   "item": 279,
    "designacion": "Rodamiento 608-2RS (línea 1, Y=-190.5, motriz)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3816,7 +3914,7 @@
    "acabado": "—"
   },
   {
-   "item": 273,
+   "item": 280,
    "designacion": "Rodamiento 608-2RS (línea 2, Y=-114.3, libre)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3830,7 +3928,7 @@
    "acabado": "—"
   },
   {
-   "item": 274,
+   "item": 281,
    "designacion": "Rodamiento 608-2RS (línea 2, Y=-114.3, motriz)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3844,7 +3942,7 @@
    "acabado": "—"
   },
   {
-   "item": 275,
+   "item": 282,
    "designacion": "Rodamiento 608-2RS (línea 3, Y=-38.1, libre)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3858,7 +3956,7 @@
    "acabado": "—"
   },
   {
-   "item": 276,
+   "item": 283,
    "designacion": "Rodamiento 608-2RS (línea 3, Y=-38.1, motriz)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3872,7 +3970,7 @@
    "acabado": "—"
   },
   {
-   "item": 277,
+   "item": 284,
    "designacion": "Rodamiento 608-2RS (línea 4, Y=38.1, libre)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3886,7 +3984,7 @@
    "acabado": "—"
   },
   {
-   "item": 278,
+   "item": 285,
    "designacion": "Rodamiento 608-2RS (línea 4, Y=38.1, motriz)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3900,7 +3998,7 @@
    "acabado": "—"
   },
   {
-   "item": 279,
+   "item": 286,
    "designacion": "Rodamiento 608-2RS (línea 5, Y=114.3, libre)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3914,7 +4012,7 @@
    "acabado": "—"
   },
   {
-   "item": 280,
+   "item": 287,
    "designacion": "Rodamiento 608-2RS (línea 5, Y=114.3, motriz)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3928,7 +4026,7 @@
    "acabado": "—"
   },
   {
-   "item": 281,
+   "item": 288,
    "designacion": "Rodamiento 608-2RS (línea 6, Y=190.5, libre)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3942,7 +4040,7 @@
    "acabado": "—"
   },
   {
-   "item": 282,
+   "item": 289,
    "designacion": "Rodamiento 608-2RS (línea 6, Y=190.5, motriz)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3956,7 +4054,7 @@
    "acabado": "—"
   },
   {
-   "item": 283,
+   "item": 290,
    "designacion": "Rodamiento R10-2RS (Y=-144.5, exterior)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3970,7 +4068,7 @@
    "acabado": "—"
   },
   {
-   "item": 284,
+   "item": 291,
    "designacion": "Rodamiento R10-2RS (Y=-144.5, interior)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3984,7 +4082,7 @@
    "acabado": "—"
   },
   {
-   "item": 285,
+   "item": 292,
    "designacion": "Rodamiento R10-2RS (Y=-152.4, exterior)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -3998,7 +4096,7 @@
    "acabado": "—"
   },
   {
-   "item": 286,
+   "item": 293,
    "designacion": "Rodamiento R10-2RS (Y=-152.4, interior)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4012,7 +4110,7 @@
    "acabado": "—"
   },
   {
-   "item": 287,
+   "item": 294,
    "designacion": "Rodamiento R10-2RS (Y=-76.2, exterior)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4026,7 +4124,7 @@
    "acabado": "—"
   },
   {
-   "item": 288,
+   "item": 295,
    "designacion": "Rodamiento R10-2RS (Y=-76.2, interior)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4040,7 +4138,7 @@
    "acabado": "—"
   },
   {
-   "item": 289,
+   "item": 296,
    "designacion": "Rodamiento R10-2RS (Y=144.5, exterior)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4054,7 +4152,7 @@
    "acabado": "—"
   },
   {
-   "item": 290,
+   "item": 297,
    "designacion": "Rodamiento R10-2RS (Y=144.5, interior)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4068,7 +4166,7 @@
    "acabado": "—"
   },
   {
-   "item": 291,
+   "item": 298,
    "designacion": "Rodamiento R10-2RS (Y=152.4, exterior)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4082,7 +4180,7 @@
    "acabado": "—"
   },
   {
-   "item": 292,
+   "item": 299,
    "designacion": "Rodamiento R10-2RS (Y=152.4, interior)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4096,7 +4194,7 @@
    "acabado": "—"
   },
   {
-   "item": 293,
+   "item": 300,
    "designacion": "Rodamiento R10-2RS (Y=76.2, exterior)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4110,7 +4208,7 @@
    "acabado": "—"
   },
   {
-   "item": 294,
+   "item": 301,
    "designacion": "Rodamiento R10-2RS (Y=76.2, interior)",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4124,7 +4222,7 @@
    "acabado": "—"
   },
   {
-   "item": 295,
+   "item": 302,
    "designacion": "Rodamiento R8-2RS ABEC-1 rodillo de retorno (+Y)",
    "cant": 1,
    "capa": "FIJO",
@@ -4138,7 +4236,7 @@
    "acabado": "—"
   },
   {
-   "item": 296,
+   "item": 303,
    "designacion": "Rodamiento R8-2RS ABEC-1 rodillo de retorno (−Y)",
    "cant": 1,
    "capa": "FIJO",
@@ -4152,7 +4250,7 @@
    "acabado": "—"
   },
   {
-   "item": 297,
+   "item": 304,
    "designacion": "Tornillo SHCS M12 × 30 de la horquilla",
    "cant": 4,
    "capa": "MÓVIL",
@@ -4166,7 +4264,7 @@
    "acabado": "pavonado"
   },
   {
-   "item": 298,
+   "item": 305,
    "designacion": "Tuerca hex 1/4-20 soporte de válvula",
    "cant": 2,
    "capa": "FIJO",
@@ -4180,7 +4278,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 299,
+   "item": 306,
    "designacion": "Tuerca hex 3/8-16 · Canal base -Y X32",
    "cant": 1,
    "capa": "FIJO",
@@ -4194,7 +4292,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 300,
+   "item": 307,
    "designacion": "Tuerca hex 3/8-16 · Canal base -Y X95",
    "cant": 1,
    "capa": "FIJO",
@@ -4208,7 +4306,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 301,
+   "item": 308,
    "designacion": "Tuerca hex 3/8-16 · Canal base +Y X32",
    "cant": 1,
    "capa": "FIJO",
@@ -4222,7 +4320,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 302,
+   "item": 309,
    "designacion": "Tuerca hex 3/8-16 · Canal base +Y X95",
    "cant": 1,
    "capa": "FIJO",
@@ -4236,7 +4334,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 303,
+   "item": 310,
    "designacion": "Tuerca hex 3/8-16 · Guarda Y-150 Z196",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4250,7 +4348,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 304,
+   "item": 311,
    "designacion": "Tuerca hex 3/8-16 · Guarda Y-150 Z284",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4264,7 +4362,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 305,
+   "item": 312,
    "designacion": "Tuerca hex 3/8-16 · Guarda Y150 Z196",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4278,7 +4376,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 306,
+   "item": 313,
    "designacion": "Tuerca hex 3/8-16 · Guarda Y150 Z284",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4292,7 +4390,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 307,
+   "item": 314,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z100",
    "cant": 1,
    "capa": "FIJO",
@@ -4306,7 +4404,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 308,
+   "item": 315,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z118",
    "cant": 1,
    "capa": "FIJO",
@@ -4320,7 +4418,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 309,
+   "item": 316,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z100",
    "cant": 1,
    "capa": "FIJO",
@@ -4334,7 +4432,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 310,
+   "item": 317,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z118",
    "cant": 1,
    "capa": "FIJO",
@@ -4348,7 +4446,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 311,
+   "item": 318,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z100",
    "cant": 1,
    "capa": "FIJO",
@@ -4362,7 +4460,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 312,
+   "item": 319,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z118",
    "cant": 1,
    "capa": "FIJO",
@@ -4376,7 +4474,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 313,
+   "item": 320,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z100",
    "cant": 1,
    "capa": "FIJO",
@@ -4390,7 +4488,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 314,
+   "item": 321,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z118",
    "cant": 1,
    "capa": "FIJO",
@@ -4404,7 +4502,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 315,
+   "item": 322,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup -Y X145.75",
    "cant": 1,
    "capa": "FIJO",
@@ -4418,7 +4516,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 316,
+   "item": 323,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup -Y X317.25",
    "cant": 1,
    "capa": "FIJO",
@@ -4432,7 +4530,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 317,
+   "item": 324,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup -Y X377.25",
    "cant": 1,
    "capa": "FIJO",
@@ -4446,7 +4544,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 318,
+   "item": 325,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup -Y X85.75",
    "cant": 1,
    "capa": "FIJO",
@@ -4460,7 +4558,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 319,
+   "item": 326,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup +Y X145.75",
    "cant": 1,
    "capa": "FIJO",
@@ -4474,7 +4572,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 320,
+   "item": 327,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup +Y X317.25",
    "cant": 1,
    "capa": "FIJO",
@@ -4488,7 +4586,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 321,
+   "item": 328,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup +Y X377.25",
    "cant": 1,
    "capa": "FIJO",
@@ -4502,7 +4600,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 322,
+   "item": 329,
    "designacion": "Tuerca hex 3/8-16 · Ménsula jack sup +Y X85.75",
    "cant": 1,
    "capa": "FIJO",
@@ -4516,7 +4614,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 323,
+   "item": 330,
    "designacion": "Tuerca hex 3/8-16 · Side channel -Y X231.5",
    "cant": 1,
    "capa": "FIJO",
@@ -4530,7 +4628,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 324,
+   "item": 331,
    "designacion": "Tuerca hex 3/8-16 · Side channel -Y X403",
    "cant": 1,
    "capa": "FIJO",
@@ -4544,7 +4642,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 325,
+   "item": 332,
    "designacion": "Tuerca hex 3/8-16 · Side channel -Y X60",
    "cant": 1,
    "capa": "FIJO",
@@ -4558,7 +4656,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 326,
+   "item": 333,
    "designacion": "Tuerca hex 3/8-16 · Side channel +Y X231.5",
    "cant": 1,
    "capa": "FIJO",
@@ -4572,7 +4670,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 327,
+   "item": 334,
    "designacion": "Tuerca hex 3/8-16 · Side channel +Y X403",
    "cant": 1,
    "capa": "FIJO",
@@ -4586,7 +4684,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 328,
+   "item": 335,
    "designacion": "Tuerca hex 3/8-16 · Side channel +Y X60",
    "cant": 1,
    "capa": "FIJO",
@@ -4600,7 +4698,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 329,
+   "item": 336,
    "designacion": "Tuerca hex 3/8-16 · Spacer plate libre Y-170",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4614,7 +4712,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 330,
+   "item": 337,
    "designacion": "Tuerca hex 3/8-16 · Spacer plate libre Y-55",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4628,7 +4726,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 331,
+   "item": 338,
    "designacion": "Tuerca hex 3/8-16 · Spacer plate libre Y170",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4642,7 +4740,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 332,
+   "item": 339,
    "designacion": "Tuerca hex 3/8-16 · Spacer plate libre Y55",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4656,7 +4754,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 333,
+   "item": 340,
    "designacion": "Tuerca hex 3/8-16 · Spacer plate motriz Y-170",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4670,7 +4768,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 334,
+   "item": 341,
    "designacion": "Tuerca hex 3/8-16 · Spacer plate motriz Y-55",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4684,7 +4782,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 335,
+   "item": 342,
    "designacion": "Tuerca hex 3/8-16 · Spacer plate motriz Y170",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4698,7 +4796,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 336,
+   "item": 343,
    "designacion": "Tuerca hex 3/8-16 · Spacer plate motriz Y55",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4712,7 +4810,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 337,
+   "item": 344,
    "designacion": "Tuerca hex 3/8-16 autoblocante eje polea",
    "cant": 5,
    "capa": "MÓVIL",
@@ -4726,7 +4824,7 @@
    "acabado": "zincado electrolítico ASTM F1941"
   },
   {
-   "item": 338,
+   "item": 345,
    "designacion": "Tuerca hex 3/8-16 CONTRATUERCA tensor",
    "cant": 1,
    "capa": "MÓVIL",
@@ -4740,7 +4838,7 @@
    "acabado": "zincado electrolítico ASTM F1941"
   },
   {
-   "item": 339,
+   "item": 346,
    "designacion": "Tuerca hex 3/8-16 de colisa",
    "cant": 2,
    "capa": "FIJO",
@@ -4754,7 +4852,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 340,
+   "item": 347,
    "designacion": "Tuerca hex 3/8-16 de colisa",
    "cant": 2,
    "capa": "FIJO",
@@ -4768,7 +4866,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 341,
+   "item": 348,
    "designacion": "Tuerca hex 3/8-16 inferior de jack bolt",
    "cant": 4,
    "capa": "FIJO",
@@ -4782,7 +4880,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 342,
+   "item": 349,
    "designacion": "Tuerca hex 3/8-16 SOLDADA bajo la cartela",
    "cant": 4,
    "capa": "MÓVIL",
@@ -4796,7 +4894,7 @@
    "acabado": "acero al carbono SIN recubrimiento (un zincado impide la soldadura)"
   },
   {
-   "item": 343,
+   "item": 350,
    "designacion": "Tuerca hex 3/8-16 superior de jack bolt",
    "cant": 4,
    "capa": "FIJO",
@@ -4810,7 +4908,7 @@
    "acabado": "zincado electrolítico ASTM F1941 Fe/Zn 5AN"
   },
   {
-   "item": 344,
+   "item": 351,
    "designacion": "CONTEXTO · Banda angosta del clasificador 1\"×2.5",
    "cant": 5,
    "capa": "MÓVIL",
@@ -4824,7 +4922,7 @@
    "acabado": "—"
   },
   {
-   "item": 345,
+   "item": 352,
    "designacion": "CONTEXTO · Regleta de desgaste UHMW 1-1/4\"×3/8\"",
    "cant": 5,
    "capa": "MÓVIL",

@@ -37,7 +37,7 @@ import {
   seccionChapa, desarrollo, pernoHex, tuercaHex, golilla, COL, r2, IN,
 } from './lib.mjs';
 import { P } from './params.mjs';
-import { juntaATope } from './tolerancias.mjs';
+import { juntaATope, tol13920 } from './tolerancias.mjs';
 
 // ---------------------------------------------------------------------------
 // Cotas locales del módulo.  src: med = medido sobre ref/fig8a_vistas.png con
@@ -123,6 +123,18 @@ const L = {
   guiaPasador: 12.7,       // dis: pasador Ø1/2"
   guiaRecorrido: 12,       // dis: 12 mm > P.carrera → la colisa es tope de seguridad, no el tope de servicio
   guiaMontY: 195,          // dis: cara del bastidor móvil donde va empotrado el pasador
+  // HOLGURA EN X DE LA COLISA DE GUÍA. Era 0.2 mm (ajuste deslizante), o sea que el
+  // pasador pretendía GUIAR en X y en θz. Desde que la horquilla va ATORNILLADA al
+  // cassette eso sobra y estorba: el conjunto móvil queda solidario de la placa del
+  // MGPM, que ya está guiada por sus dos varillas Ø25 a 156 mm de paso, así que un
+  // segundo guiado en X sería una sobre-restricción entre dos conjuntos SOLDADOS,
+  // cuya distancia relativa sólo se puede garantizar a ±2 mm (ISO 13920-B sobre los
+  // 390 mm entre pasadores). Con 0.2 mm de holgura, o agarrotan o se desgastan hasta
+  // que sobra holgura — que es lo que ya denunciaba E3 del informe.
+  // Se les quita el papel de guía y se quedan de TOPE DE SEGURIDAD: la colisa se
+  // ensancha lo que dice la norma para esa cota soldada, y el recorrido vertical
+  // (`guiaRecorrido`) no se toca, que es la función que sí conservan.
+  guiaHolguraX: r2(2 * tol13920(390, 'B')),   // 4.0 = 2 × ISO 13920-B (120…400 mm)
 
   // --- jack bolts ----------------------------------------------------------
   jackX: [115.75, 347.25], // dis (= bastidor.mjs L.jackX): sobre el alma de cada ala del canal
@@ -418,6 +430,99 @@ const L = {
   // Z = P.rielInfZ: contacto real de 20 mm de ancho por brazo.
   contactoY: [80, 120],    // dis (= bastidor.mjs: notched brace channel)
 
+  // =========================================================================
+  // ANCLAJE DE LA HORQUILLA AL CASSETTE — cierra EST-03 (vuelco)
+  // =========================================================================
+  // EL PROBLEMA. Apoyar NO BASTA. Con la horquilla apoyada y nada más, la
+  // resultante vertical tiene que caer dentro de la huella (|Y| ≤ 120, |X − 231.5|
+  // ≤ 37.5) o el cassette despega, y no cae:
+  //   · en Y — bulto de 34 kg en el rodillo extremo (Y = ±190.5) contra 38 kg de
+  //     masa móvil (cota INFERIOR): resultante en Y = 89.96, FS al despegue 1.11
+  //     frente a los 1.5 exigidos. Y ESO ERA SÓLO LA MITAD DEL CASO: falta la
+  //     REACCIÓN DE ARRASTRAR EL BULTO. El rodillo empuja el bulto con µ·m·g =
+  //     166.7 N y la reacción entra en el cassette en la GENERATRIZ SUPERIOR del
+  //     rodillo, 253.45 mm por encima del plano de apoyo → 42.25 N·m más de
+  //     vuelco. Con el bulto en el extremo −Y y el arrastre hacia +Y los dos
+  //     momentos SE SUMAN (105.77 N·m contra 70.60 disponibles) y el apoyo +Y no
+  //     es que vaya justo: **despega**. La revisión anterior no metía este término.
+  //   · en X — la huella de la horquilla mide 75 mm y el campo de rodillos, 375.
+  //     El bulto más corto que admite el equipo (8" = 203.2, web SORT-014) puesto
+  //     en un extremo de la cara del rodillo lleva la resultante a 40.6 mm del eje
+  //     con 37.5 de huella: también despega, y por el otro eje.
+  // Y hay un tercer síntoma del mismo hueco: la reacción de arrastre en Y (166.7 N)
+  // sólo la puede transmitir el rozamiento de los apoyos, que da µ·N = 0.20 × 706 =
+  // 141 N < 166.7. O sea que hoy el cassette, además de bascular, RESBALA.
+  //
+  // LO QUE NO LO CIERRA (comprobado, no supuesto):
+  //   · separar los apoyos en Y — para FS 1.5 haría falta el centroide de la
+  //     huella en Y = 135 y el cassette no ofrece NADA entre Y 120 y 195 a esta
+  //     altura (sólo los SIDE CHANNEL, que son FIJOS). Llevar la huella a 80…190
+  //     pondría el centroide justo en 135 y de paso subiría el par de rozamiento
+  //     sobre la placa a 24.5 N·m > 21.9 de catálogo: cambia un incumplimiento
+  //     por otro.
+  //   · un tope fijo bajo el cassette — sólo toca RETRAÍDO, que es cuando no hace
+  //     falta.
+  //   · que los 4 pasadores guía tomen carga vertical — corren en colisas
+  //     VERTICALES y además no están empotrados en nada (E3, contrato §5.1).
+  //
+  // LA SOLUCIÓN: que la unión trabaje A TRACCIÓN. Con la horquilla atornillada al
+  // cassette el modo de fallo desaparece —no hay despegue que comprobar— y de
+  // paso el arrastre en Y deja de depender del rozamiento.
+  //
+  // POR DÓNDE SE ATORNILLA, Y POR QUÉ NO POR DONDE PROPONÍA LA REVISIÓN. La
+  // propuesta era «4 taladros Ø9 en el ALMA de los notched brace channel (X 205.5
+  // y 257.5, Y = ±100) y 4 M8 con la rosca en el brazo». Los taladros CABEN —el
+  // alma tiene 40 mm y su tramo plano entre tangentes de pliegue va de |Y| 85.32 a
+  // 114.68, así que un Ø9 en 100 deja 10.2 mm al arranque del pliegue— pero la
+  // unión NO SE PUEDE APRETAR, y por dos sitios a la vez:
+  //   · POR ARRIBA (que es la única dirección posible si la rosca va en el brazo:
+  //     «desde abajo» y «rosca en el brazo» se contradicen) la cabeza queda dentro
+  //     de la artesa en U del canal, de 34.7 mm de boca y 41.8 de fondo, y encima
+  //     la CARTELA (`cross angle`, X 47.24…263.14, Y 82.66…110.72, Z 185.3) la
+  //     techa justo en esos dos X. Una llave de estrella metida por el canal gira
+  //     3° antes de topar con las alas.
+  //   · POR ABAJO no cabe la herramienta: entre el canto de la placa móvil del
+  //     cilindro (|Y| = 99) y el arranque del pliegue del alma (114.68) quedan
+  //     15.7 mm, y un perno necesita 7.5 de radio de cabeza a un lado y 4.5 + 4 de
+  //     taladro y ligamento al pliegue al otro: 106.5 > 106.2 mm. Falla por 0.3 mm.
+  // La cara que SÍ es accesible es la EXTERIOR: entre el ala del brace channel
+  // (|Y| = 120) y el SIDE CHANNEL fijo (195.5) hay un corredor de 75 mm libre en
+  // los dos estados, y bajo él otros 106 mm de altura libre. Así que el anclaje se
+  // hace por ahí, en HORIZONTAL:
+  //   · `bastidor.mjs` suelda a la cara exterior del ala una MÉNSULA de 3/16" que
+  //     baja por delante del brazo (es pieza del cassette y se va con él);
+  //   · el brazo lleva 2 roscas 1/4-20 en su cara exterior (aquí abajo);
+  //   · 2 pernos por brazo, desde fuera, con la ménsula en COLISA VERTICAL: el
+  //     apoyo plano sigue fijando Z y el perno no compite con él (la misma
+  //     doctrina «redondo + colisa» de los encajes de bastidor.mjs).
+  // Rosca 1/4-20 y no M8: es la familia del equipo (el manual sólo habla de
+  // pulgadas), reutiliza el grado y el par que la compuerta ya fija y cita para
+  // EST-01 (SAE J429 Gr5 a 8 ft·lb, web HW-007/008) y no obliga a meter una serie
+  // métrica nueva de arandela. Capacidad: 8 543 N de precarga por perno → 2 819 N
+  // de deslizamiento (µ = 0.33, AISC clase A) contra los 176 N de despegue.
+  anclaProf: 16,           // dis: profundidad de la rosca en el brazo (2.5·d). El brazo
+                           //      tiene 62 mm de fondo en Y: sobra carne, y la rosca acaba
+                           //      en |Y| = 104, a 7.5 mm del avellanado Ø19 del M12 (|Y| ≤ 96.5)
+  anclaLargo: 19.05,       // cat ASME B18.2.1 · 1/4-20 UNC × 3/4"
+  anclaGolillaE: 1.65,     // cat ASME B18.22.1 tipo A, 1/4" serie N: espesor 0.065"
+  anclaGolillaD: 14.27,    // cat ídem: Ø exterior 0.562". Tapa la colisa (11 mm de largo)
+  anclaBordeEnD: 2.0,      // dis: distancia del eje de la rosca al canto del brazo, en
+                           //      diámetros. El mínimo de norma para un taladro en chapa es
+                           //      1.5·d (web STR-001); aquí es una rosca en un macizo de 22
+                           //      mm, así que se toma 2·d y además se comprueba la pared.
+
+  // µ del bulto sobre el vulcanizado. Es el MISMO `dis` D5 que usa `LIM.muBulto` de
+  // la compuerta, y hace falta aquí porque con la unión atornillada el par y la
+  // carga lateral que llegan a la placa ya NO son la cota de rozamiento de los
+  // apoyos: son la reacción de arrastrar el bulto. La compuerta comprueba que los
+  // dos números no se hayan separado (§9.0), como hace con la T2 de transmision.mjs.
+  muBulto: 0.50,           // dis (= LIM.muBulto de gen_nbt90.mjs; ver D5 del informe)
+  // Largo mínimo de bulto que admite el equipo. Acota la excentricidad en X del
+  // centroide de contacto, que es lo que decide el par sobre la placa y el vuelco
+  // alrededor de Y: el bulto se apoya en la cara del rodillo (P.rodCara = 375) y no
+  // puede ser más corto que esto, así que su centroide no sale de ±(375−203.2)/2.
+  bultoMinLargo: 203.2,    // web SORT-014 · «PACKAGE SIZE - Minimum of 8 in. long x 6 in. wide»
+
   // --- neumática -----------------------------------------------------------
   // med (vista izquierda): el bloque de válvulas ocupa Y −185…−248, Z 25…117.
   // No cabe ahí: el SIDE CHANNEL baja hasta Z=84.9 con el ala hasta Y=−189.1 y
@@ -504,6 +609,39 @@ const L = {
   presionTrabajoBar: 4.14, // cat: «Working pressure 60 PSI» del ProSort MRT
   presionAtmBar: 1.013,    // cat: atmósfera normal ANR (0.1013 MPa, 20 °C, 65 % HR)
   rendimiento: 0.85,       // dis: pérdidas por juntas y rozamiento de las guías
+};
+
+// ---------------------------------------------------------------------------
+// INTERFAZ DEL ANCLAJE HORQUILLA ↔ CASSETTE  (la consume `bastidor.mjs`, que es
+// quien fabrica la ménsula soldada al ala del notched brace channel).
+//
+// Se exporta en vez de duplicarse a los dos lados: el patrón de taladros vive en
+// UN sitio, y si el brazo cambia de tamaño la ménsula se mueve con él. Es la misma
+// vía por la que `rodillos.mjs` toma `rodMontaje` de `bastidor.mjs`.
+// ---------------------------------------------------------------------------
+const anclaD = P.M.b14.d;                                   // 6.35 — 1/4-20 UNC
+/** Cara exterior del brazo (= cara exterior del ala del brace channel). */
+const anclaYcara = L.brazoY1;                               // 120
+/** Eje de la rosca a media altura del brazo: 11 mm = 1.73·d de pared arriba y abajo. */
+const anclaZ = r2(P.rielInfZ - L.platoT / 2);               // 132.5
+/** Separación en X respecto del eje del cilindro: deja `anclaBordeEnD`·d al canto. */
+const anclaDX = r2(L.cilS / 2 - L.anclaBordeEnD * anclaD);  // 24.8
+/** Colisa de retención del pasador: ancha en X (no guía), con el recorrido de siempre. */
+const colisaGuiaAncho = r2(L.guiaPasador + L.guiaHolguraX);          // 16.7
+const colisaGuiaLargo = r2(colisaGuiaAncho + L.guiaRecorrido);       // 28.7
+export const anclajeHorquilla = {
+  torn: '1/4-20 UNC',
+  dia: anclaD,                                              // 6.35
+  x: [r2(L.mesaX - anclaDX), r2(L.mesaX + anclaDX)],        // 206.7 · 256.3
+  z: anclaZ,                                                // 132.5
+  yCara: anclaYcara,                                        // 120
+  prof: L.anclaProf,                                        // 16 — rosca en el brazo
+  largo: L.anclaLargo,                                      // 19.05 — perno 1/4-20 × 3/4"
+  golilla: { dia: L.anclaGolillaD, esp: L.anclaGolillaE },
+  brazoX: [r2(L.mesaX - L.cilS / 2), r2(L.mesaX + L.cilS / 2)],   // 194 … 269
+  brazoZ: [r2(P.rielInfZ - L.platoT), P.rielInfZ],                // 121.5 … 143.5
+  bordeEnD: L.anclaBordeEnD,
+  nPorBrazo: 2,
 };
 
 // --------------------------------------------------------------------------
@@ -762,9 +900,10 @@ export function elevacion(E) {
         // 2 colisas verticales de ajuste (tornillos de 3/8" del procedimiento del manual)
         ...L.ajusteX.map(x => sketchXZ(`Colisa de ajuste ${L.colisaAncho}×${L.colisaLargo} (X=${x})`,
           yCorte, colisa(x, L.ajusteZ, L.colisaLargo, L.colisaAncho, true), P.placaT + 1, 'cut')),
-        // 2 colisas de guía del movimiento vertical (tope de seguridad de la carrera)
-        ...L.guiaX.map(x => sketchXZ(`Colisa de guía ${r2(L.guiaPasador + 0.2)}×${r2(L.guiaPasador + 0.2 + L.guiaRecorrido)} (X=${x})`,
-          yCorte, colisa(x, L.guiaZ, L.guiaPasador + 0.2 + L.guiaRecorrido, L.guiaPasador + 0.2, true), P.placaT + 1, 'cut')),
+        // 2 colisas de RETENCIÓN del movimiento vertical (tope de seguridad de la
+        // carrera). Ya NO guían en X: ver `L.guiaHolguraX`.
+        ...L.guiaX.map(x => sketchXZ(`Colisa de retención ${colisaGuiaAncho}×${colisaGuiaLargo} (X=${x})`,
+          yCorte, colisa(x, L.guiaZ, colisaGuiaLargo, colisaGuiaAncho, true), P.placaT + 1, 'cut')),
       ],
       { plano: true, parte: 'WA-025833 (placa colgante)',
         union: 'soldada al canal de montaje del cilindro',
@@ -1030,13 +1169,15 @@ export function elevacion(E) {
   // =========================================================================
   // 5. INTERFAZ CON EL MÓDULO MÓVIL
   //    Plato de empuje (la mesa empuja aquí el ROLLER FRAME WELDMENT) y
-  //    4 pasadores guía en las colisas de las placas colgantes: el conjunto
-  //    sube los 10 mm en paralelo y no bascula.
+  //    2 pasadores de retención por lado en las colisas de las placas colgantes
+  //    (tope de sobrerrecorrido; el paralelismo lo dan las varillas del MGPM).
   // =========================================================================
   // La cara de empuje NO puede ser una placa maciza: el motorreductor cuelga
   // sobre el cilindro (Z ≥ 123.9, |Y| ≤ 54.9 a la cota de empuje).  Se resuelve
-  // con una HORQUILLA de dos brazos a |Y| = 58…100, que pasan por fuera del
+  // con una HORQUILLA de dos brazos a |Y| = 58…120, que pasan por fuera del
   // motor y apoyan en la cara inferior de los notched brace channel (Y ±80…120).
+  // Y NO SÓLO APOYAN: cada brazo va ATORNILLADO al cassette con 2 pernos 1/4-20 en
+  // su cara exterior (EST-03), de modo que la unión trabaja también a tracción.
   //
   // Cambia respecto de la mesa inventada: los pernos ya no se ponen donde
   // convenga, sino en las 4 roscas NN REALES de la placa (M12, patrón 174 × 52),
@@ -1060,7 +1201,33 @@ export function elevacion(E) {
           [mX + sx * pernoNNX, sy * pernoNNY, platoZ1 + 1], [0, 0, -1], 13.5)),
         ...[-1, 1].map(sx => hole(`Caja Ø${cajaDia}×${cajaProf} para la cabeza SHCS (${sx > 0 ? '+' : '−'}X)`,
           [mX + sx * pernoNNX, sy * pernoNNY, platoZ1], [0, 0, -1], cajaDia, cajaProf, false)),
+        // ANCLAJE AL CASSETTE (EST-03): 2 roscas 1/4-20 en la CARA EXTERIOR del
+        // brazo. El perno entra desde el corredor libre |Y| 120…195 atravesando la
+        // ménsula que `bastidor.mjs` suelda al ala del notched brace channel.
+        ...anclajeHorquilla.x.map(x => hole(
+          `Rosca ${anclajeHorquilla.torn} × ${anclajeHorquilla.prof} del anclaje al cassette (X=${x})`,
+          [x, sy * anclajeHorquilla.yCara, anclajeHorquilla.z], [0, -sy, 0],
+          anclajeHorquilla.dia, anclajeHorquilla.prof, false)),
       ], { plano: true });
+    // Los 2 pernos del anclaje de este brazo. Entran POR FUERA (contrato §5.5):
+    // cabeza y golilla quedan en el corredor libre, con llave de vaso desde el
+    // lateral de la máquina; para desmontar el cassette se sacan estos 4 y se
+    // levanta, sin tocar nada más.
+    for (const x of anclajeHorquilla.x) {
+      const yCara = r2(anclajeHorquilla.yCara + P.placaT);      // 124.76 — cara exterior de la ménsula
+      const pos = `X=${x}, Y=${sy > 0 ? '+' : '−'}${yCara}`;
+      golilla(E, {
+        nombre: `1/4" anclaje de la horquilla (${pos})`, at: [x, sy * yCara, anclajeHorquilla.z],
+        dir: [0, sy, 0], dia: anclajeHorquilla.dia, ext: anclajeHorquilla.golilla.dia,
+        esp: anclajeHorquilla.golilla.esp, capa: 'MÓVIL · ',
+      });
+      pernoHex(E, {
+        nombre: `1/4-20 UNC × 3/4" anclaje de la horquilla al cassette (${pos})`,
+        at: [x, sy * r2(yCara + anclajeHorquilla.golilla.esp), anclajeHorquilla.z], dir: [0, -sy, 0],
+        dia: anclajeHorquilla.dia, largo: anclajeHorquilla.largo, af: b14.af, altoCab: b14.hh,
+        capa: 'MÓVIL · ',
+      });
+    }
     for (const sx of [-1, 1]) {
       const x = r2(mX + sx * pernoNNX), zCab = r2(platoZ1 - cajaProf);
       E.addPart(
@@ -1073,9 +1240,14 @@ export function elevacion(E) {
     }
   }
 
-  // Pasadores guía: van empotrados en el bastidor MÓVIL y ruedan por las colisas
-  // de las placas colgantes; entran desde dentro y no llegan al alma del SIDE
-  // CHANNEL, así que no hay que retenerlos por fuera.
+  // Pasadores de RETENCIÓN: corren por las colisas de las placas colgantes; entran
+  // desde dentro y no llegan al alma del SIDE CHANNEL, así que no hay que
+  // retenerlos por fuera. Desde el anclaje atornillado ya NO guían —el guiado es
+  // entero del MGPM, que es para lo que lleva sus dos varillas— y su colisa se
+  // ensanchó a `L.guiaHolguraX` para que no puedan competir con él. Lo que
+  // conservan es el tope de sobrerrecorrido en Z. Sigue abierto de E3 —y no es de
+  // este hallazgo— que en X = 190/273 con |Y| 185…195 el cassette no tiene ninguna
+  // pieza donde empotrarlos: flotan (contrato §5.1).
   for (const x of L.guiaX) {
     for (const sy of [1, -1]) {
       const d = [0, sy, 0], y0 = sy * (L.guiaMontY - 10);
@@ -1083,7 +1255,7 @@ export function elevacion(E) {
       const zPin = r2(L.guiaZ + L.guiaRecorrido / 2 - 1);        // elevado: 1 mm del tope superior
       const pos = `X=${x}, Y=${sy > 0 ? '+' : '−'}${r2(placaY + P.placaT / 2)}`;
       E.addPart(
-        `MÓVIL · Pasador guía Ø${L.guiaPasador} × ${largo} en colisa (${pos}, Z=${zPin})`,
+        `MÓVIL · Pasador de retención Ø${L.guiaPasador} × ${largo} en colisa (${pos}, Z=${zPin})`,
         COL.tornillo, [x, y0, zPin],
         [
           cyl(`Collar Ø25.4×10`, [x, y0, zPin], d, 25.4, 10),
@@ -1234,25 +1406,43 @@ export function elevacion(E) {
   const aireCiclo = (area + areaRet) * P.carrera / 1e6 * compresion;   // litros ANR
 
   // --- par y carga lateral sobre la placa móvil -----------------------------
-  // Los dos brazos de la horquilla EMPUJAN contra la cara inferior de los
-  // notched brace channel: no van atornillados a ellos. Por tanto no pueden
-  // transmitir a la placa más fuerza horizontal ni más par que el rozamiento de
-  // sus dos apoyos; todo lo que exceda de eso desliza y lo reaccionan los 4
-  // pasadores guía en colisa, que es exactamente su función. Esa es la cota
-  // superior que se compara con los límites de catálogo.
-  const anchoContacto = r2(L.brazoY1 - L.contactoY[0]);           // 20 — ancho útil de cada apoyo
-  const yContacto = r2((L.contactoY[0] + L.brazoY1) / 2);         // 90 — centroide de cada apoyo
+  // ESTO CAMBIÓ AL ATORNILLAR LA HORQUILLA AL CASSETTE (EST-03), y hay que decirlo
+  // porque el número anterior ya no valía. Antes los brazos sólo EMPUJABAN, así que
+  // no podían meter en la placa más fuerza horizontal ni más par que el rozamiento
+  // de sus apoyos (µ = 0.20 → 17.97 N·m): esa cota de rozamiento era el criterio.
+  // Con la unión atornillada la junta NO desliza —2 819 N por perno contra los 176
+  // de despegue— y a la placa le llega la solicitación REAL, que es la reacción de
+  // arrastrar el bulto:
+  //   · fuerza lateral en Y  = µ_bulto · m_bulto · g            = 166.7 N
+  //   · par alrededor de Z   = esa fuerza × su excentricidad en X
+  // La excentricidad NO es libre: el bulto se apoya en la cara del rodillo (375 mm)
+  // y el equipo no admite bultos de menos de 8" de largo (web SORT-014), así que el
+  // centroide del contacto se queda dentro de (375 − 203.2)/2 = ±85.9 mm del eje.
+  const anchoContacto = r2(L.brazoY1 - L.contactoY[0]);           // 40 — ancho útil de cada apoyo
+  const yContacto = r2((L.contactoY[0] + L.brazoY1) / 2);         // 100 — centroide de cada apoyo
   const areaContacto = r2(2 * anchoContacto * L.cilS);            // mm² — los dos apoyos
   // radio polar medio de las dos huellas de contacto respecto del eje del émbolo
   const rApoyo = Math.sqrt(L.cilS ** 2 / 12 + yContacto ** 2 + anchoContacto ** 2 / 12);
-  const cargaLateral = L.muApoyo * carga;                         // N
-  const parPlaca = L.muApoyo * carga * rApoyo / 1000;             // N·m
+  const parRozamiento = L.muApoyo * carga * rApoyo / 1000;        // N·m — ya NO es el criterio
+  const fArrastre = L.muBulto * P.cargaMaxKg * 9.80665;           // 166.7 N
+  const excBultoX = r2((P.rodCara - L.bultoMinLargo) / 2);        // 85.9 mm (web SORT-014)
+  const cargaLateral = r2(fArrastre);                             // N
+  const parPlaca = r2(fArrastre * excBultoX / 1000);              // N·m
   // Excentricidad residual del CG del conjunto móvil respecto del eje del
   // cilindro: el cassette es simétrico respecto de X = P.largo/2 = 231.5 (placas
   // peine en 40.1 y 422.9, travesaños centrados), así que sólo descentra el
   // motorreductor. Con la mesa ya centrada en 231.5:
   const excCG = r2(L.masaMotorKg * (L.cgMotorX - mX) / (L.masaMovilKg + P.cargaMaxKg));
   const parExcentricidad = r2(carga * Math.abs(excCG) / 1000);    // N·m
+
+  // --- geometría del anclaje que la compuerta necesita para EST-03 ----------
+  // El módulo publica el BRAZO de la retención (dónde agarra) y el ENGRANE de la
+  // rosca; la capacidad por perno la calcula la compuerta con el grado y el par que
+  // ella misma fija (LIM.perno14), para que no haya dos precargas distintas.
+  const anclaAgarre = r2(anclajeHorquilla.golilla.esp + P.placaT);        // 6.41 — golilla + ménsula
+  const anclaEngrane = r2(anclajeHorquilla.largo - anclaAgarre);          // 12.64 mm de rosca útil
+  const anclaParedZ = r2(L.platoT / 2);                                   // 11 — pared rosca ↔ cara del brazo
+  const anclaParedX = r2(L.cilS / 2 - (anclajeHorquilla.x[1] - mX));      // 12.7 — al canto en X
 
   // --- geometría crítica ----------------------------------------------------
   const r3 = (v) => Math.round(v * 1000) / 1000;                  // 3 decimales, sin ruido de coma flotante
@@ -1305,30 +1495,60 @@ export function elevacion(E) {
     aireLitrosANRmin20cpm: r2(aireCiclo * 20),
 
     // ---- estabilidad de la placa (cat: 352 N y 21.9 N·m) ------------------
-    cargaLateralN: r2(cargaLateral),
+    // Con el anclaje atornillado la junta no desliza, así que estos DOS números
+    // dejaron de ser la cota de rozamiento de los apoyos y pasan a ser la
+    // solicitación real: la reacción de arrastrar el bulto.
+    cargaLateralN: cargaLateral,
     cargaLateralAdmisibleN: L.cilLateralAdm,
-    parPlacaNm: r2(parPlaca),
+    parPlacaNm: parPlaca,
     parAdmisibleNm: L.cilParAdm,
-    parPlacaCriterio: `cota superior por rozamiento en los dos apoyos de la horquilla `
-      + `(μ = ${L.muApoyo}, radio polar medio ${r2(rApoyo)} mm): por encima deslizan y el par lo `
-      + `toman los 4 pasadores guía. El par por excentricidad del CG es ${parExcentricidad} N·m.`,
+    muBulto: L.muBulto,                         // dis — la compuerta comprueba que no diverja
+    bultoMinLargoMm: L.bultoMinLargo,           // web SORT-014
+    excentricidadBultoXmm: excBultoX,           // ±85.9 — centroide de contacto, acotado por SORT-014
+    parRozamientoApoyosNm: r2(parRozamiento),   // referencia: lo que era el criterio antes
+    parPlacaCriterio: `reacción de arrastrar el bulto (µ = ${L.muBulto} · ${P.cargaMaxKg} kg → `
+      + `${r2(fArrastre)} N) por su excentricidad máxima en X (±${excBultoX} mm: la cara del rodillo `
+      + `mide ${P.rodCara} y el bulto no baja de ${L.bultoMinLargo} mm, web SORT-014). Antes del `
+      + `anclaje el criterio era el rozamiento de los apoyos (${r2(parRozamiento)} N·m, µ = ${L.muApoyo}), `
+      + `que ya no aplica porque la junta no desliza. Par por excentricidad del CG: ${parExcentricidad} N·m.`,
     excentricidadCGmm: excCG,
     parExcentricidadNm: parExcentricidad,
     noGiroGrados: L.cilNoGiro,
 
     // ---- estabilidad del CASSETTE sobre la horquilla (EST-03) -------------
-    // El cassette no está atornillado a la horquilla: se apoya. Lo único que lo
-    // sostiene son las dos huellas de contacto, así que el vuelco se juega en
-    // dónde está su CENTROIDE y en cuánta masa hay encima. Las dos cotas se
-    // publican aquí para que la compuerta las recalcule y no las suponga.
+    // El cassette YA NO se apoya y nada más: va ATORNILLADO a los dos brazos con 4
+    // pernos 1/4-20 (2 por brazo) en la cara exterior. Se publican las dos cosas que
+    // la compuerta necesita para rehacer el equilibrio: dónde apoya (huella) y dónde
+    // agarra la retención (brazo del anclaje), más el engrane de la rosca.
     apoyoContactoY: [L.contactoY[0], L.brazoY1],
     yApoyoContactoMm: yContacto,                // 100 — centroide de cada huella
     anchoContactoMm: anchoContacto,             // 40 — alma completa del brace channel
+    xApoyoSemiMm: r2(L.cilS / 2),               // 37.5 — semihuella en X (vuelco alrededor de Y)
     masaMovilDeclaradaKg: L.masaMovilKg,        // 55 — cota SUPERIOR (empuje, Ek, aire)
     masaMovilVuelcoKg: L.masaMovilVuelcoKg,     // 38 — cota INFERIOR, la del vuelco
-    vuelcoCriterio: 'la masa móvil es lo ÚNICO que estabiliza el cassette, así que el vuelco se '
-      + `comprueba con la cota INFERIOR (${L.masaMovilVuelcoKg} kg), no con la declarada `
-      + `(${L.masaMovilKg} kg), que es conservadora para todo lo demás y anticonservadora aquí.`,                  // cat ±0.04°
+    vuelcoCriterio: 'la masa móvil es lo ÚNICO que estabilizaba el cassette mientras la horquilla '
+      + `sólo apoyaba, así que el vuelco se comprueba con la cota INFERIOR (${L.masaMovilVuelcoKg} kg), `
+      + `no con la declarada (${L.masaMovilKg} kg). Desde el anclaje atornillado la masa deja de ser `
+      + 'lo único: la retención aporta un momento que no depende de ella.',
+    anclaje: {
+      torn: anclajeHorquilla.torn,
+      nPorBrazo: anclajeHorquilla.nPorBrazo,
+      n: 2 * anclajeHorquilla.nPorBrazo,
+      xMm: anclajeHorquilla.x,
+      zMm: anclajeHorquilla.z,
+      yBrazoMm: anclajeHorquilla.yCara,         // 120 — plano en el que agarra la retención
+      roscaProfMm: anclajeHorquilla.prof,
+      agarreMm: anclaAgarre,
+      engraneMm: anclaEngrane,                  // 12.64
+      engraneEnD: r2(anclaEngrane / anclajeHorquilla.dia),      // 1.99·d
+      paredZmm: anclaParedZ,                    // 11 — de la rosca a las caras del brazo
+      paredZenD: r2(anclaParedZ / anclajeHorquilla.dia),        // 1.73·d
+      paredXmm: anclaParedX,                    // 12.7 — al canto en X
+      paredXenD: r2(anclaParedX / anclajeHorquilla.dia),        // 2.0·d
+      montaje: 'la ménsula (bastidor.mjs) lleva COLISA VERTICAL: el apoyo plano sigue fijando Z y '
+        + 'el perno no compite con él. Se aprietan desde el corredor libre |Y| 120…195, que está '
+        + 'despejado en los dos estados; para desmontar el cassette se sacan estos 4 y se levanta.',
+    },
 
     // ---- geometría --------------------------------------------------------
     huellaCuerpoMm: [mw, md],                   // 91.5 (X) × 202 (Y)
@@ -1351,10 +1571,19 @@ export function elevacion(E) {
 
     empujeInterfaz: `horquilla de 2 brazos en Y=±${L.brazoY0}…${L.brazoY1}, atornillados a las 4 roscas `
       + `NN reales de la placa (M12, X=±${pernoNNX}, Y=±${pernoNNY}); contacto de ${anchoContacto} × ${L.cilS} mm `
-      + `por brazo contra la cara inferior de los notched brace channel (Y=±${L.contactoY[0]}…${L.contactoY[1]})`,
+      + `por brazo contra la cara inferior de los notched brace channel (Y=±${L.contactoY[0]}…${L.contactoY[1]}) `
+      + `y ANCLAJE a tracción con ${2 * anclajeHorquilla.nPorBrazo} pernos ${anclajeHorquilla.torn} en la cara `
+      + `exterior (|Y|=${anclajeHorquilla.yCara}, X=${anclajeHorquilla.x.join('/')}, Z=${anclajeHorquilla.z}): `
+      + 'el cassette no puede despegar (EST-03)',
     huecoMotorMm: r2(L.brazoY0 - L.motorY143),   // holgura de la horquilla al motorreductor
     presionContactoMPa: r3(carga / areaContacto),
     canalZ: [canalZ0, canalZ1],
+    // Boca libre de la artesa en U: entre los dos labios de rigidez. DENTRO de esta
+    // franja de X, por encima de la cara de fijación (`zCaraFijacion` = 15.0) el
+    // canal no tiene material — es lo que permite que el cilindro, la horquilla, la
+    // ménsula de anclaje y el cárter del motorreductor trabajen dentro de él, y lo
+    // que hace que su caja envolvente mienta (ver RETRAIDO_CAJA_ABIERTA).
+    canalBocaX: [r2(xa + L.labio), r2(xb - L.labio)],   // 131.76 … 331.24
     // Datos del alma del canal que necesita EST-10 (la compuerta recalcula la
     // flexión con ellos; si aquí cambia el calibre, allí cambia la tensión).
     espesorCanalMm: r2(tCanal),                 // 4.76 — 3/16", dis (EST-10)

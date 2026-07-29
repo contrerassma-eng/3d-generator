@@ -55,10 +55,12 @@ const c3 = (v) => Math.round(v * 1000 + 1e-9) / 1000;
 // con la misma tolerancia que al estado elevado. Lo de aquí es sólo la red que
 // impide EMITIR un ensamble con un choque franco al bajar.
 const RETRAIDO_CAJA_ABIERTA = [
-  [/^MÓVIL · (NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil|Brazo de empuje de la horquilla|Tornillo SHCS M12|Motorreductor SEW)/,
+  [/^MÓVIL · (NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil|Brazo de empuje de la horquilla|Tornillo SHCS M12|Motorreductor SEW|Ménsula de anclaje de la horquilla)/,
     /^FIJO · Canal de montaje del cilindro/,
     'el canal es una artesa en U abierta hacia arriba (boca X 131.8…331.2): el cilindro, '
-    + 'su horquilla y el cárter del motorreductor trabajan DENTRO de ella'],
+    + 'su horquilla, la ménsula de anclaje del cassette y el cárter del motorreductor trabajan '
+    + 'DENTRO de ella. La ménsula baja retraída hasta Z=104.97 y la caja del canal llega a 113.24, '
+    + 'pero a X 194.7…268.3 el canal es sólo su alma (Z ≤ 15): las alas están en X 114.5 y 348.5'],
   [/^MÓVIL · NEUMÁTICA · Cilindro MGPM80-10Z — (vástago|varilla guía)/,
     /^FIJO · NEUMÁTICA · Cilindro compacto con guías/,
     'vástago y varillas guía deslizan dentro del cuerpo del propio cilindro; sus '
@@ -173,23 +175,18 @@ const HALLAZGOS_ABIERTOS = {
   // despega. De paso, la energía cinética pasó a ser una consecuencia y nació DIN-14,
   // que es la comprobación con dos lados que E1 echaba en falta.
   //
-  // EST-03 sigue ABIERTO, y su número ha EMPEORADO a propósito: ver la nota.
-  'EST-03': { uso: 1.35, dueño: 'elevacion.mjs + bastidor.mjs',
-    nota: 'El cassette es una mesa apoyada SÓLO en las dos huellas de la horquilla; las colisas de '
-      + 'los 4 pasadores guía son verticales y no dan reacción en Z. `elevacion.mjs` ha hecho ya lo '
-      + 'único que podía hacer solo: ensanchar los brazos de Y 58…100 a 58…120, con lo que la huella '
-      + 'cubre los 40 mm completos del alma del NOTCHED BRACE CHANNEL y su centroide sube de 90 a '
-      + '100 mm. A igualdad de base de masa eso baja la utilización de 1.212 a 1.092. Sube a 1.35 '
-      + 'porque la comprobación ha dejado de usar la masa DECLARADA (55 kg, cota superior, '
-      + 'anticonservadora para el vuelco) y usa la cota inferior de 38 kg, coherente con los 40.98 kg '
-      + 'que pesan los sólidos: el 1.212 de antes era un número optimista, no un diseño mejor. '
-      + 'Para cerrarlo hace falta que el apoyo pueda TRABAJAR A TRACCIÓN, y eso está fuera de este '
-      + 'módulo: 4 taladros Ø9 en el alma de los dos NOTCHED BRACE CHANNEL (X = 205.5 y 257.5, '
-      + 'Y = ±100) para atornillar la horquilla al cassette con 4 M8. Con la unión atornillada el '
-      + 'modo de fallo desaparece: no hay despegue que comprobar, sino 4 pernos a tracción con FS > 10. '
-      + 'Con el apoyo a 100 mm y 38 kg haría falta llevar el centroide a 135 mm para llegar a FS 1.5, '
-      + 'y el cassette no ofrece ninguna superficie más allá de Y = 120 a esa altura. Dueño del '
-      + 'taladro: bastidor.mjs.' },
+  // EST-03 CERRADO el 2026-07-29 por `elevacion.mjs` + `bastidor.mjs`. La horquilla
+  // dejó de sólo APOYAR: cada brazo va atornillado al cassette con 2 pernos 1/4-20
+  // horizontales contra una ménsula de 3/16" soldada a la cara EXTERIOR del ala del
+  // notched brace channel, así que la unión trabaja a tracción y el despegue deja de
+  // ser un modo de fallo. NO se hizo por donde proponía la revisión (4 taladros Ø9 en
+  // el ALMA, con la rosca en el brazo): esos taladros caben, pero la unión no se puede
+  // apretar —por arriba la cartela techa la artesa y una llave gira 3°; por abajo
+  // faltan 0.3 mm entre el canto de la placa del cilindro y el arranque del pliegue
+  // del alma—. De paso, el caso de carga se corrigió en dos cosas que faltaban y que
+  // lo empeoraban: la reacción de arrastrar el bulto (42.25 N·m más de vuelco) y el
+  // vuelco alrededor de Y, que nadie miraba. Sin retención el FS al despegue sale
+  // 0.67 en X y 0.92 en Y: el cassette volcaba por los dos ejes, no «iba justo».
   // EST-05 CERRADO el 2026-07-29 por bastidor.mjs. El comentario del módulo decía
   // que no se podía subir `peineZt` porque el plano de bandas estaba 2.1 mm más
   // arriba; de esos 2.1 sólo hacían falta 0.775. `L.peineZt` deja de ser un literal
@@ -694,6 +691,14 @@ function verify() {
     e.push(`la tensión del ramal flojo de transmision.mjs (${r2(T2rep)} N) ya no es la de `
       + `LIM.banda.T2N (${LIM.banda.T2N} N): todo el §9 de tensiones y vida cuelga de ese número`);
   }
+  // Mismo patrón con el µ del bulto: desde que la horquilla va ATORNILLADA al
+  // cassette, `elevacion.mjs` lo necesita para publicar la carga lateral y el par
+  // reales sobre la placa (ya no valen las cotas de rozamiento de los apoyos). Es
+  // un `dis` que vive en los dos sitios; aquí se exige que no se hayan separado.
+  if (m.elevacion.muBulto !== undefined && Math.abs(m.elevacion.muBulto - LIM.muBulto) > 1e-9) {
+    e.push(`el µ del bulto de elevacion.mjs (${m.elevacion.muBulto}) ya no es el de LIM.muBulto `
+      + `(${LIM.muBulto}): de él cuelgan la carga lateral y el par que llegan a la placa del actuador`);
+  }
 
   // -- 9.1 las TRES fuentes de la velocidad de transferencia tienen que coincidir
   // La banda plana MULTIPLICA: Ø63.5 en la rueda motriz contra Ø28.93 en el tubo
@@ -835,32 +840,96 @@ function verify() {
     + `que es el mínimo defendible. Grado de empotramiento del diente: ${r2(empotramiento)}.`, 'MPa');
 
   // -- 9.12 vuelco del cassette sobre el actuador ----------------------------
-  // El conjunto móvil se apoya en DOS zonas de la horquilla, a Y = ±90, y en nada
-  // más: las colisas de los 4 pasadores guía son VERTICALES y no pueden dar
-  // reacción en Z. Un bulto excéntrico descarga un apoyo hasta despegarlo.
-  // La masa con la que se comprueba el vuelco NO es la declarada (55 kg): ésa es una
-  // cota SUPERIOR, buena para dimensionar el actuador y anticonservadora aquí, porque
-  // la masa móvil es lo único que estabiliza el cassette. Se usa la cota INFERIOR que
-  // publica el módulo (38 kg), y `tests/test_nbt90.mjs` comprueba contra los sólidos
-  // pesados que 38 ≤ pesada ≤ 55. El centroide del apoyo también se lee del módulo:
-  // si la horquilla se estrecha, el número se mueve solo.
+  // EL CASSETTE ES UNA MESA SOBRE UN PEDESTAL DE 75 × 240 mm que sostiene un campo
+  // de rodillos de 375 × 381. Mientras la horquilla sólo APOYABA, la resultante
+  // vertical tenía que caer dentro de esa huella o el cassette despegaba, y no caía
+  // ni en Y (utilización 1.35) ni —cosa que la revisión no miró— en X.
+  //
+  // DOS CORRECCIONES DEL CASO DE CARGA respecto de la versión anterior, las dos
+  // hacia el lado inseguro, o sea que el número de antes era optimista:
+  //   1) faltaba la REACCIÓN DE ARRASTRAR EL BULTO. El rodillo lo empuja con
+  //      µ·m·g y la reacción entra en el cassette en la generatriz superior del
+  //      rodillo, (P.rodZ + Ø/2 − P.rielInfZ) = 253.45 mm por encima del plano de
+  //      apoyo: 42.25 N·m más de vuelco. Con el bulto en el rodillo extremo −Y y el
+  //      arrastre hacia +Y los dos momentos SE SUMAN;
+  //   2) faltaba el vuelco alrededor de Y. La huella mide 75 mm en X (el ancho de
+  //      la placa del cilindro) contra 375 de cara de rodillo. La excentricidad no
+  //      es libre —el equipo no admite bultos de menos de 8" (web SORT-014), así
+  //      que el centroide de contacto se queda en ±(375−203.2)/2 = ±85.9— pero con
+  //      ella basta: 28.6 N·m contra 26.5 de peso estabilizador.
+  //
+  // LO QUE LO CIERRA: la horquilla ya NO sólo apoya. Va atornillada al cassette con
+  // 4 pernos 1/4-20 (2 por brazo) contra la ménsula que bastidor.mjs suelda a la
+  // cara exterior del ala del notched brace channel, así que la unión trabaja a
+  // TRACCIÓN y el momento resistente deja de depender sólo de la masa. La capacidad
+  // de la retención se calcula AQUÍ con el mismo grado y par que fija `LIM.perno14`
+  // para EST-01, no con un número que traiga el módulo.
+  //
+  // La masa con la que se comprueba el vuelco sigue siendo la cota INFERIOR (38 kg,
+  // no los 55 declarados): la declarada es conservadora para el actuador y
+  // anticonservadora aquí. `tests/test_nbt90.mjs` comprueba 38 ≤ pesada ≤ 55.
   const masaMovil = m.elevacion.masaMovilDeclaradaKg
     ?? ((m.elevacion.masaElevadaKg ?? 89) - P.cargaMaxKg);
   const masaVuelco = m.elevacion.masaMovilVuelcoKg ?? masaMovil;
   const yApoyo = m.elevacion.yApoyoContactoMm ?? 90;    // centroide de cada huella de contacto
-  const Mvuelco = P.cargaMaxKg * g * ((P.nRodillos - 1) / 2 * P.paso) / 1000;
-  const Mdespega = (masaVuelco + P.cargaMaxKg) * g * yApoyo / 1000;
-  chk('EST-03', 'vuelco del cassette: no despegar el apoyo de la horquilla',
-    Mvuelco, Mdespega / 1.5, '<=',
-    `bulto de ${P.cargaMaxKg} kg sobre el rodillo extremo (Y = ±${r2((P.nRodillos - 1) / 2 * P.paso)}) `
-    + `contra ${masaVuelco} kg de conjunto móvil (cota INFERIOR, no los ${masaMovil} declarados) apoyados `
-    + `en dos huellas con el centroide en Y = ±${yApoyo}. El cassette sólo se apoya ahí: las colisas de `
-    + `los 4 pasadores guía son verticales y no dan reacción en Z. SMC NO publica momento de vuelco `
-    + `admisible para la serie MGP (web PNEU-019): sólo carga lateral y par alrededor del eje del vástago.`, 'N·m');
+  const xApoyo = m.elevacion.xApoyoSemiMm ?? 37.5;      // semihuella en X
+  const anc = m.elevacion.anclaje;
+  // Precarga y deslizamiento de un perno de la retención (mismo criterio que EST-09).
+  const FiAncla = LIM.perno14.parNm / (LIM.perno14.K * P.M.b14.d / 1000);
+  const FslipAncla = LIM.muChapa * FiAncla;                        // N por perno
+  const brazoArrastre = (P.rodZ + P.rodDia / 2 - P.rielInfZ) / 1000;   // 0.2535 m
+  const Farrastre = Math.min(fricBulto, empujeSup);                // N — la reacción, en Y
+  const excX = m.elevacion.excentricidadBultoXmm ?? 0;
+  // --- alrededor de X (plano Y-Z): peso excéntrico + reacción de arrastre
+  const MvuelcoX = P.cargaMaxKg * g * ((P.nRodillos - 1) / 2 * P.paso) / 1000
+    + Farrastre * brazoArrastre;
+  const MdespegaX = (masaVuelco + P.cargaMaxKg) * g * yApoyo / 1000
+    + (anc ? anc.nPorBrazo * FslipAncla * anc.yBrazoMm / 1000 : 0);
+  // --- alrededor de Y (plano X-Z): peso excéntrico contra la semihuella en X
+  const MvuelcoY = P.cargaMaxKg * g * excX / 1000;
+  const brazoAnclaX = anc ? Math.abs(anc.xMm[1] - (anc.xMm[0] + anc.xMm[1]) / 2) : 0;
+  const MdespegaY = (masaVuelco + P.cargaMaxKg) * g * xApoyo / 1000
+    + (anc ? 2 * anc.nPorBrazo * FslipAncla * brazoAnclaX / 1000 : 0);
+  // Se comprueba el eje que peor va; los dos números viajan al documento.
+  const usoX = MvuelcoX / (MdespegaX / 1.5), usoY = MvuelcoY / (MdespegaY / 1.5);
+  const ejeMalo = usoX >= usoY ? 'X' : 'Y';
+  chk('EST-03', 'despegue del cassette: apoyo + retención de la horquilla',
+    ejeMalo === 'X' ? MvuelcoX : MvuelcoY, (ejeMalo === 'X' ? MdespegaX : MdespegaY) / 1.5, '<=',
+    `alrededor de ${ejeMalo}. Bulto de ${P.cargaMaxKg} kg en el rodillo extremo `
+    + `(Y = ±${r2((P.nRodillos - 1) / 2 * P.paso)}, X descentrado ±${excX}) contra ${masaVuelco} kg de `
+    + `conjunto móvil (cota INFERIOR, no los ${masaMovil} declarados). Vuelco: ${r2(MvuelcoX)} N·m en X `
+    + `(${r2(P.cargaMaxKg * g * ((P.nRodillos - 1) / 2 * P.paso) / 1000)} de peso + `
+    + `${r2(Farrastre * brazoArrastre)} de la reacción de arrastre, ${r2(Farrastre)} N a `
+    + `${r2(brazoArrastre * 1000)} mm sobre el apoyo) y ${r2(MvuelcoY)} en Y. Resiste: ${r2(MdespegaX)} y `
+    + `${r2(MdespegaY)} N·m, de los que sólo ${r2((masaVuelco + P.cargaMaxKg) * g * yApoyo / 1000)} y `
+    + `${r2((masaVuelco + P.cargaMaxKg) * g * xApoyo / 1000)} son peso: el resto lo pone la RETENCIÓN `
+    + `(${anc ? 2 * anc.nPorBrazo : 0} pernos ${anc?.torn ?? '—'} ${LIM.perno14.grado} a `
+    + `${LIM.perno14.parNm} N·m → ${r2(FiAncla)} N de precarga y ${r2(FslipAncla)} N de deslizamiento por `
+    + `perno con µ = ${LIM.muChapa}). SIN retención el FS al despegue sería `
+    + `${r2((masaVuelco + P.cargaMaxKg) * g * yApoyo / 1000 / MvuelcoX)} en X y `
+    + `${r2((masaVuelco + P.cargaMaxKg) * g * xApoyo / 1000 / MvuelcoY)} en Y: el cassette VUELCA por los `
+    + `dos ejes. SMC no publica momento de vuelco admisible para la serie MGP (web PNEU-019).`, 'N·m');
   chk('EST-04', 'carga lateral en Y sobre la placa del actuador',
-    Math.min(fricBulto, empujeSup), m.elevacion.cargaLateralAdmisibleN ?? 352, '<=',
-    'es la reacción de empujar el bulto, no el rozamiento de los apoyos: los 4 pasadores guía '
-    + 'no restringen Y (su collar queda a 26 mm de la placa colgante).', 'N');
+    Farrastre, m.elevacion.cargaLateralAdmisibleN ?? 352, '<=',
+    'es la reacción de empujar el bulto. Antes del anclaje llegaba a la placa por ROZAMIENTO de los '
+    + `apoyos, que sólo da µ·N = ${r2((m.elevacion.parRozamientoApoyosNm ?? 0) > 0 ? 0.20 * (m.elevacion.cargaN ?? 873) : 0)} N `
+    + '— menos que la propia reacción, o sea que el cassette resbalaba. Con la horquilla atornillada '
+    + 'la transmite la unión, que es lo que EST-04 daba por hecho desde el principio.', 'N');
+  // -- 9.12b par de giro sobre la placa: el anclaje quitó el tope de rozamiento
+  // Con la horquilla apoyada, el par que podía llegar a la placa estaba acotado por
+  // el rozamiento de las huellas (µ = 0.20 → 17.97 N·m) y lo que excediera hacía
+  // GIRAR el cassette, sin que nada lo retuviera (los pasadores flotan, E3). Con la
+  // unión atornillada ese tope desaparece: la junta no desliza —2 819 N por perno—
+  // y a la placa le llega el par real. Hay que comprobarlo, o el gate estaría
+  // juzgando una cota que ya no existe.
+  chk('EST-12', 'par de giro alrededor de Z sobre la placa del actuador',
+    Farrastre * excX / 1000, m.elevacion.parAdmisibleNm ?? 21.9, '<=',
+    `la reacción de arrastre (${r2(Farrastre)} N en Y) por la excentricidad en X del centroide de `
+    + `contacto del bulto (±${excX} mm: la cara del rodillo mide ${P.rodCara} mm y el equipo no admite `
+    + `bultos de menos de ${m.elevacion.bultoMinLargoMm} mm de largo, web SORT-014). Límite de catálogo `
+    + `SMC para el MGPM80 (web PNEU-019); satura con ${r2((m.elevacion.parAdmisibleNm ?? 21.9) * 1000 / Farrastre)} mm `
+    + `de excentricidad. La cota de rozamiento que era el criterio antes del anclaje valía `
+    + `${m.elevacion.parRozamientoApoyosNm} N·m y ya no aplica.`, 'N·m');
 
   // -- 9.13/9.14 tornillería del rodillo: borde y desgarro -------------------
   const eBorde = rodM.dienteSobreEje ?? 0;
@@ -1069,12 +1138,34 @@ function verify() {
             masaMovilDeclaradaKg: r2(masaMovil),
             masaMovilVuelcoKg: r2(masaVuelco),
             yApoyoMm: yApoyo, anchoApoyoMm: m.elevacion.anchoContactoMm ?? null,
-            momentoVuelcoNm: r2(Mvuelco), momentoDespegueApoyoNm: r2(Mdespega),
-            FSdespegue: r2(Mdespega / Mvuelco),
-            FSdespegueConMasaDeclarada: r2((masaMovil + P.cargaMaxKg) * g * yApoyo / 1000 / Mvuelco),
-            cargaLateralYN: r2(Math.min(fricBulto, empujeSup)),
-            excentricidadAdmisibleFS15mm: r2(Mdespega / 1.5 / (P.cargaMaxKg * g) * 1000),
-            yApoyoNecesarioFS15mm: r2(1.5 * Mvuelco * 1000 / ((masaVuelco + P.cargaMaxKg) * g)),
+            xApoyoSemiMm: xApoyo,
+            // Vuelco alrededor de X (plano Y-Z) y alrededor de Y (plano X-Z). El
+            // segundo no existía en la revisión anterior y también incumplía.
+            momentoVuelcoXNm: r2(MvuelcoX), momentoResistenteXNm: r2(MdespegaX), usoX: r2(usoX),
+            momentoVuelcoYNm: r2(MvuelcoY), momentoResistenteYNm: r2(MdespegaY), usoY: r2(usoY),
+            reaccionArrastreN: r2(Farrastre),
+            brazoArrastreMm: r2(brazoArrastre * 1000),
+            momentoArrastreNm: r2(Farrastre * brazoArrastre),
+            excentricidadBultoXmm: excX,
+            // Lo que había ANTES del anclaje, para que se vea qué lo cerró:
+            FSdespegueSinAnclajeX: r2((masaVuelco + P.cargaMaxKg) * g * yApoyo / 1000 / MvuelcoX),
+            FSdespegueSinAnclajeY: r2((masaVuelco + P.cargaMaxKg) * g * xApoyo / 1000 / MvuelcoY),
+            yApoyoNecesarioSinAnclajeFS15mm:
+              r2(1.5 * MvuelcoX * 1000 / ((masaVuelco + P.cargaMaxKg) * g)),
+            anclaje: anc ? {
+              ...anc,
+              precargaPernoN: r2(FiAncla), deslizamientoPernoN: r2(FslipAncla),
+              grado: LIM.perno14.grado, parNm: LIM.perno14.parNm, muUnion: LIM.muChapa,
+              // Si la junta llegara a deslizar, el perno topa en el extremo de la
+              // colisa y trabaja a cortante: 10.2 kN por perno, 58× la demanda.
+              cortantePernoN: r2(0.6 * 827 * LIM.perno14.As),
+              demandaDespegueN: r2(Math.max(0,
+                (MvuelcoX - (masaVuelco + P.cargaMaxKg) * g * yApoyo / 1000) / (2 * yApoyo / 1000))),
+            } : null,
+            cargaLateralYN: r2(Farrastre),
+            parZNm: r2(Farrastre * excX / 1000),
+            parZadmisibleNm: m.elevacion.parAdmisibleNm ?? 21.9,
+            parZrozamientoAntesNm: m.elevacion.parRozamientoApoyosNm ?? null,
           },
           impacto: {
             velocidadDisenoMmS: m.elevacion.velocidadDisenoMmS ?? null,
@@ -1237,6 +1328,15 @@ console.log(`   ${nBajadas} piezas MÓVIL bajadas ${P.carrera} mm → ${outBajo}
   }
   for (const a of S.avisos ?? []) {
     console.log(`   ⚠ AVISO ${a.id} (dueño: ${a.dueño}): ${a.texto}`);
+  }
+  {
+    const C = S.cassette;
+    console.log(`   CASSETTE: apoyo en |Y| ≤ ${C.yApoyoMm} y |X−${P.largo / 2}| ≤ ${C.xApoyoSemiMm} + `
+      + `retención de ${C.anclaje?.n ?? 0} pernos ${C.anclaje?.torn ?? '—'} (${r2(C.anclaje?.deslizamientoPernoN ?? 0)} N `
+      + `de deslizamiento c/u) · vuelco ${C.momentoVuelcoXNm}/${C.momentoResistenteXNm} N·m en X `
+      + `(uso ${C.usoX}) y ${C.momentoVuelcoYNm}/${C.momentoResistenteYNm} en Y (uso ${C.usoY}) · `
+      + `SIN retención el FS al despegue sería ${C.FSdespegueSinAnclajeX} en X y `
+      + `${C.FSdespegueSinAnclajeY} en Y (volcaba por los dos ejes)`);
   }
   console.log(`   POP-UP: ${S.impacto.velocidadDisenoMmS} mm/s de émbolo (dis) → `
     + `${S.impacto.velocidadImpactoMmS} mm/s de impacto → ${S.impacto.deceleracionMs2} m/s² = `

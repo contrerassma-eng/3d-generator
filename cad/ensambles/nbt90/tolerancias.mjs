@@ -242,12 +242,28 @@ export const AJUSTES = [
   },
   {
     id: 'AJ-10',
-    donde: 'Pasador guía Ø12,70 en la colisa de la placa colgante',
-    pieza: /Pasador gu[íi]a/,
-    cota: 'Ø12,70 h9 en colisa 12,9 H12', ajuste: 'juego 0,20…0,29 mm',
-    criterio: 'el pasador NO guía la carrera (la guían los casquillos del propio cilindro): es tope '
-      + 'de seguridad y reacción de par. Juego amplio para que nunca agarrote.',
-    fuente: 'ISO 286-2 · decisión de diseño declarada en elevacion.mjs',
+    donde: 'Pasador de retención Ø12,70 en la colisa de la placa colgante',
+    pieza: /Pasador (gu[íi]a|de retenci[óo]n)/,
+    cota: 'Ø12,70 h9 en colisa 16,7 H13', ajuste: 'juego 4,00…4,31 mm',
+    criterio: 'el pasador NO guía NADA: ni la carrera (la guían los casquillos del propio cilindro) '
+      + 'ni el giro alrededor de Z, desde que la horquilla va ATORNILLADA al cassette y el conjunto '
+      + 'móvil es solidario de la placa del MGPM (EST-03). Es sólo tope de sobrerrecorrido, y el '
+      + 'juego es GRANDE a propósito: 4 mm = 2 × ISO 13920-B sobre los 390 mm que separan los dos '
+      + 'pasadores, que es la precisión con la que se pueden situar dos conjuntos soldados. Con los '
+      + '0,2 mm que tenía, o agarrotaba o se desgastaba hasta que sobraba holgura.',
+    fuente: 'ISO 286-2 + ISO 13920-B · decisión de diseño declarada en elevacion.mjs (L.guiaHolguraX)',
+  },
+  {
+    id: 'AJ-13',
+    donde: 'Colisa del anclaje de la horquilla en la ménsula del cassette',
+    pieza: /M[ée]nsula de anclaje de la horquilla/,
+    cota: 'colisa 7,0 H13 × 11 (vertical)', ajuste: 'holgura 0,65 mm en X · ±2,0 mm en Z',
+    criterio: 'las dos direcciones NO son iguales, y ahí está el ajuste: en X el taladro es CERRADO '
+      + '(0,65 mm, el mismo criterio de AJ-11) y sitúa; en Z es colisa, porque quien fija Z es el '
+      + 'APOYO PLANO del brazo contra el alma del canal y el perno no puede competir con él. Los '
+      + '±2 mm de recorrido son ISO 13920-B sobre los 368,5 mm del canal soldado al que va la '
+      + 'ménsula. La unión trabaja por rozamiento bajo la golilla (2 819 N por perno).',
+    fuente: 'ISO 286-2 + ISO 13920-B · bastidor.mjs (ménsula) y elevacion.mjs (patrón de taladros)',
   },
   {
     id: 'AJ-11',
@@ -370,6 +386,12 @@ export function encaje({ id, union, tipo, rol, lado, gdl, lengueta, ranura, nota
 // ser DISCONTINUO (decisión de diseño declarada: menos aporte, menos alabeo, y
 // el alabeo es justo lo que se come la clase F de ISO 13920).
 const espesorLocal = (nombre, part) => {
+  // El cateto lo limita la chapa MÁS FINA de la junta, y ésa no siempre es la de la
+  // propia pieza: una ménsula de 3/16" soldada al ala de un canal de 12 GA se suelda
+  // con el cateto del 12 GA, no con el suyo. Cuando las dos chapas no son iguales, la
+  // pieza lo declara y manda ese valor. (Si no lo declara se sigue usando el suyo,
+  // que es lo correcto en todas las juntas de igual espesor de este ensamble.)
+  if (part?.soldaduraEspesorMin) return part.soldaduraEspesorMin;
   if (part?.chapa?.t) return part.chapa.t;
   const ga = nombre.match(/(\d{1,2})\s*GA/i);
   if (ga) return { 7: 4.554, 10: 3.416, 11: 3.038, 12: 2.657, 14: 1.897, 16: 1.519 }[+ga[1]] ?? null;

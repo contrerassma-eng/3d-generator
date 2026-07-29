@@ -19,6 +19,11 @@ import {
 import { P } from './params.mjs';
 // Esquema de tolerancias y encajes (archivo nuevo; no toca params.mjs ni lib.mjs).
 import { ranuraPara, largoRanura, encaje, juntaATope, NORMA, tol13920 } from './tolerancias.mjs';
+// Patrón de taladros del ANCLAJE de la horquilla (EST-03). Vive en `elevacion.mjs`,
+// que es quien fabrica el brazo: aquí sólo se cuelga de él la ménsula del cassette,
+// para que el patrón exista en UN solo sitio. Misma vía por la que rodillos.mjs toma
+// `rodMontaje` de este archivo. No hay ciclo: elevacion.mjs no importa bastidor.mjs.
+import { anclajeHorquilla } from './elevacion.mjs';
 
 // ---------------------------------------------------------------------------
 // Cotas locales de ESTE módulo (nadie más las usa)
@@ -806,6 +811,82 @@ export function bastidor(E) {
         ]) });
     M.chapas++;
     if (s > 0) desa('brace_channel', fib, T12);
+  }
+
+  // =========================================================================
+  // 7b. MÓVIL — MÉNSULA DE ANCLAJE DE LA HORQUILLA ×2 (cierra EST-03)
+  //
+  //     Por qué existe. El cassette se apoyaba en las dos huellas de la horquilla
+  //     y en NADA MÁS: un bulto de 34 kg en el rodillo extremo, más la reacción de
+  //     arrastrarlo (166.7 N aplicados 253 mm por encima del apoyo), despegan el
+  //     apoyo contrario — y en X, con 75 mm de huella contra 375 de campo de
+  //     rodillos, también. La unión tiene que poder trabajar A TRACCIÓN.
+  //
+  //     Dónde. La revisión estructural proponía taladrar el ALMA de este canal
+  //     (Y = ±100) y atornillar en vertical. Los taladros caben, pero la unión no
+  //     se puede apretar: por arriba la cabeza queda dentro de la artesa en U con
+  //     la cartela por techo (una llave gira 3°), y por abajo no hay hueco entre el
+  //     canto de la placa del cilindro (|Y| = 99) y el arranque del pliegue del
+  //     alma (114.68) — faltan 0.3 mm. La cara que sí es accesible es la EXTERIOR
+  //     del ala: entre ella (|Y| = 120) y el SIDE CHANNEL fijo (195.5) hay 75 mm
+  //     libres en los dos estados. Así que la ménsula se suelda ahí, baja por
+  //     delante del brazo y se atornilla en HORIZONTAL. El detalle y los números
+  //     están en el bloque ANCLAJE de elevacion.mjs.
+  //
+  //     Colisa y no taladro redondo: el apoyo plano (cara inferior del alma contra
+  //     la cara del brazo) es quien fija Z, y el perno no puede competir con él —
+  //     la misma doctrina «redondo + colisa» de los encajes U3. La colisa absorbe
+  //     ±ISO 13920-B sobre el largo de este canal soldado; en X el taladro es
+  //     cerrado (PASO 1/4) y sí sitúa.
+  // =========================================================================
+  const AN = anclajeHorquilla;
+  const anclaTolZ = tol13920(r2(xBr1 - xBr0), 'B');            // ±2 sobre los 368.5 del canal
+  const anclaColisa = r2(PASO['1/4'] + 2 * anclaTolZ);         // 11 — largo de la colisa en Z
+  const anclaBorde = r2(L.bordeEnD * P.M.b14.d + 2.5);         // 12.03 — 1.5·d (web STR-001) + margen
+  const mensX = [r2(AN.x[0] - anclaBorde), r2(AN.x[1] + anclaBorde)];        // 194.67 … 268.33
+  const mensZ = [r2(AN.z - anclaColisa / 2 - anclaBorde),                    // 114.97 …
+    r2(L.braceZ1 - 12)];                                                     // … 175.95 (12 mm bajo el canto)
+  for (const s of [1, -1]) {
+    const yExt = r2(AN.yCara + T316);              // 124.76 — cara exterior de la ménsula
+    // `sketchXZ` extruye a lo largo de su normal (−Y); el corte ocupa de yFace+h a
+    // yFace−0.5, así que la cara de corte es la MENOR en Y menos 0.5.
+    const yFace = s > 0 ? yExt : -AN.yCara;
+    const yCorte = s > 0 ? r2(AN.yCara - 0.5) : r2(-yExt - 0.5);
+    const f = [
+      sketchXZ(`Ménsula 3/16" ${r2(mensX[1] - mensX[0])}×${r2(mensZ[1] - mensZ[0])}`,
+        yFace, rectR(mensX[0], mensZ[0], mensX[1], mensZ[1], 6), T316),
+      ...AN.x.map((x) => sketchXZ(
+        `Colisa de anclaje ${PASO['1/4']}×${anclaColisa} (X=${x})`,
+        yCorte, colisa(x, AN.z, anclaColisa, PASO['1/4'], true), r2(T316 + 1), 'cut')),
+    ];
+    E.addPart(
+      `${MOVIL}Ménsula de anclaje de la horquilla 3/16" ${r2(mensX[1] - mensX[0])}×${r2(mensZ[1] - mensZ[0])} `
+      + `(${s > 0 ? '+Y' : '-Y'})`,
+      COL.movil, [mensX[0], s * AN.yCara, mensZ[0]], f, {
+        chapa: { t: r2(T316), material: 'acero A36 3/16"', fibra: [], radio: 0 },
+        plano: true,
+        // Junta de espesores DISTINTOS —la única del ensamble—: ménsula de 3/16"
+        // contra ala de 12 GA. El cateto del filete lo limita la chapa más fina
+        // (AISC 360-22 J2.2b / AWS D1.3), o sea el 12 GA, no el 3/16" de la pieza.
+        soldaduraEspesorMin: r2(T12),
+        union: 'soldada a la cara EXTERIOR del ala del notched brace channel (|Y| = '
+          + `${AN.yCara}), en Z ${L.braceZ0}…${mensZ[1]}; por debajo baja libre por delante del `
+          + 'brazo de la horquilla, que es donde la atornillan los 2 pernos',
+        encajes: [juntaATope({
+          id: `U6-${s > 0 ? '+Y' : '-Y'}`, union: 'Ménsula de anclaje ↔ Notched brace channel',
+          motivo: 'solape de chapas PARALELAS cara contra cara: no cabe lengüeta. Y no se le pone '
+            + 'pasador de montaje a propósito — lo que tiene que quedar libre es justamente Z, '
+            + 'para que el apoyo plano del brazo (Z = ' + L.braceZ0 + ') sea el único que lo fija. '
+            + `La colisa ${PASO['1/4']}×${anclaColisa} del perno absorbe ±${anclaTolZ} mm, que es lo `
+            + `que ISO 13920-B admite sobre los ${r2(xBr1 - xBr0)} mm de este canal soldado.`,
+          posicionamiento: 'utillaje de soldadura: la ménsula se apoya a tope contra la cara '
+            + 'exterior del ala y se referencia en Z contra la propia cara inferior del alma del '
+            + 'canal, que es la que después apoya en el brazo',
+          referencia: `cara exterior del ala del notched brace channel (|Y| = ${AN.yCara}) y cara `
+            + `inferior de su alma (Z = ${L.braceZ0})`,
+        })],
+      });
+    M.chapas++;
   }
 
   // =========================================================================

@@ -439,6 +439,25 @@ pasadores guía en colisa, que es exactamente su función. Los dos valores no se
 alcanzan a la vez: los limita el mismo rozamiento. El par por excentricidad del
 CG, aparte, es de 1.2 N·m.
 
+> **Actualización 2026-07-29 — esta tabla y los dos párrafos de arriba son
+> anteriores a la revisión estructural y ya NO describen el módulo.** Lo que ha
+> cambiado, con el detalle en `REVISION_ESTRUCTURAL.md`:
+>
+> - **la horquilla ya no sólo apoya: va ATORNILLADA al cassette** (`EST-03`). Dos
+>   brazos de 75 × **62** × 22 en Y = ±58…**120**, y cada uno con **2 pernos 1/4-20
+>   horizontales** contra una ménsula de 3/16" soldada a la cara exterior del ala del
+>   `notched brace channel`. Sin eso el cassette **volcaba** —FS 0.67 en X y 0.92 en
+>   Y con el caso de carga completo—, no «iba justo»;
+> - **por eso el párrafo del rozamiento ya no vale**: la junta no desliza (2 819 N por
+>   perno), así que a la placa le llega la solicitación REAL, no μ·N. Par de giro
+>   **14.32 N·m** de 21.9 (comprobación `EST-12`) y carga lateral **166.7 N** de 352,
+>   las dos derivadas de la reacción de arrastrar el bulto;
+> - los 4 pasadores pasan a llamarse **de retención** y su colisa se ensancha 4 mm:
+>   con el cassette solidario de la placa, guiar en X sería sobre-restringir;
+> - y de la tercera pasada: la velocidad de subida es un **dato** (120 mm/s de émbolo,
+>   168 de impacto), la energía cinética su consecuencia (**1.32 J** de 2.71), el
+>   tiempo de subida **83.3 ms**, y el alma del canal es de **3/16"**, no 12 GA.
+
 Los cuatro límites de catálogo (velocidad, energía cinética, par y carga lateral)
 son ahora **chequeos de la compuerta** en `gen_nbt90.mjs`: si alguno se supera, no
 se emite el ensamble.
