@@ -1,0 +1,60 @@
+MÓDULO DE TRANSFERENCIA OMNI + CORREAS — BF 21"
+proyecto TRANSFER-BF21 · generado 2026-07-29T04:04:13Z · capa `user` (diseño)
+
+QUÉ ES
+  Módulo insertable entre bastidores de un transportador de rodillos BF 21
+  pulg. AVANCE: 4 ejes hexagonales de 1/2 pulg con 18 ruedas omni Ø58
+  (proyecto RUEDA-OMNI-58) en tresbolillo. DESVÍO: 3 correas planas
+  transversales en los huecos entre ejes, movidas por un eje común inferior
+  Ø20 con tracción de cabeza baja (motriz Ø60 + snub Ø50 en colisa). Dos
+  motores UniDrive ONE: A para las omnis (spool + o-rings, esquema ZP2026),
+  B para el eje común.
+
+GEOMETRÍA CLAVE (mm)
+  ancho total 527.4 (BF 533.4 − 2×3) · largo 530 · alto 165.1
+  plano de transporte z=165.1 — rasante con la pestaña superior (labio de desvío)
+  ejes omni z=136.1 · paso 110 · correas y=[110.0, 220.0, 330.0]
+  eje común (190, z=58) · envolvente motriz 170.3°
+
+VERIFICADO POR EL GENERADOR
+  encaje en BF: margen 3 por lado
+  tangencias omnis/correas/pestaña: error máx 0.015
+  lazo: motriz 170.3° (gate >=120; Movex 140±10) · contraflexión mínima Ø50 (Habasit >=50)
+  caja 250x250: mínimo 4 ruedas / 2 hileras / 2 correas bajo la caja
+  holguras críticas (mm): anillo_oring_a_tapa 3.14, spool_a_pantalla 11, correa_a_pantalla 4.5, lazo_a_fondo 26.5, rueda_a_ranura_tapa 2.96, correa_a_ranura_tapa 3, casete_a_rueda_vecina 2.5, motorA_a_eje4 11.17, motorB_a_eje_comun 42.02
+
+LISTA DE MATERIALES
+   2 x canal_lateral            [fabricar] chapa plegada 3 mm (desarrollo DXF)
+   2 x placa_extremo            [fabricar] chapa 3 mm; la A lleva el paso del eje común
+   1 x mampara_motores          [fabricar] chapa 3 mm: patrón UniDrive B + paso eje común
+   1 x pantalla_tren            [fabricar] chapa 3 mm: separa correas del tren de o-rings
+   1 x soporte_motor_A          [fabricar] chapa 3 mm con patrón UniDrive; pestañas al alma B y a la mampara (plegado en obra)
+   8 x soporte_eje              [fabricar] bloque 20 mm, alojamiento FR8ZZ-HexHD Ø28.6
+   1 x tapa_superior            [fabricar] chapa 3 mm ranurada, 2.1 bajo la tangente, atornillada a los soportes de eje
+   6 x placa_casete             [fabricar] chapa 3 mm: terminales, colisas take-up y paso del eje común
+   3 x cama_deslizante          [fabricar] apoyo del ramal superior (REVISION_ING. §8)
+   4 x eje_hexagonal            [fabricar] hex 12.7 x 441.2 mm
+   4 x spool_eje_omni           [fabricar] Ø36 dos gargantas (±16.87, esquema ZP2026), barreno hex + prisionero
+   1 x spool_eje_comun          [fabricar] Ø36 una garganta útil, bore 20.2 + prisionero
+   6 x polea_terminal_60        [fabricar] Ø60x39 bore 12.2 (cara = banda + 4, regla del catálogo)
+   3 x snub_50                  [fabricar] Ø50x39 (mínimo Habasit contraflexión) en colisa take-up
+   3 x polea_motriz_60          [fabricar] Ø60x39 bore 20.2 + prisionero, en el eje común
+   2 x polea_motor_2g           [fabricar] Ø44, garganta a plano de anillo, bore D 12.7
+   9 x eje_polea_12             [fabricar] Ø12 h9 al ras de placas (ajuste 12.2 H11; retención con DIN 471 interiores)
+   1 x eje_comun_20             [fabricar] Ø20 h6 x 507; chumaceras UCFL204
+   2 x motor_unidrive           [comprar] UniDrive ONE (S-UD23062200R01)
+   2 x chumacera_ucfl204        [comprar] UCFL204 bore Ø20
+   8 x rodamiento_fr8zz_hex     [comprar] FR8ZZ-HexHD 1/2 pulg hex (web_facts wf01-wf05)
+  18 x rueda_omni_58            [proyecto RUEDA-OMNI-58] Ø58, barreno hex 12.85, sándwich de placas
+   3 x correa_plana             [comprar] banda 35x3 poliéster/NBR, lazo cerrado
+   5 x oring_pu_316             [comprar] PU 3/16 pulg 83A, estirado 10-12% (web_facts wf06-wf08)
+   1 x tornillería M5/M4 avellanada [comprar] bloques y tapa al alma; casetes a alma A y pantalla
+
+LO QUE ESTE DISEÑO NO RESUELVE AÚN
+  Selección eléctrica de los UniDrive (par/velocidad según carga real),
+  fijación del módulo al bastidor anfitrión (pestañas con agujeros a definir
+  sobre el transportador real), y el desvío hacia el lado B pierde apoyo de
+  correa en los últimos 100 mm (franja del tren): preferir desviar hacia el
+  lado A.
+
+Todas las cotas heredan la incertidumbre declarada de sus fuentes (ver DECISIONES.md y web_facts.json).

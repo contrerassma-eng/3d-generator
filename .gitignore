@@ -20,6 +20,7 @@ componentes/out/
 
 # Zip de entrega: solo empaqueta archivos que ya estan versionados al lado
 projects/*/out/**/*_piezas.zip
+projects/*/out/**/*_modulo.zip
 
 __pycache__/
 *.pyc

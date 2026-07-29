@@ -393,7 +393,7 @@ def verificar(piezas: dict) -> list[dict]:
     return choques
 
 
-def pintar(ax, mallas, az=35.0, el=58.0, escala_comun=None) -> float:
+def pintar(ax, mallas, az=35.0, el=58.0, escala_comun=None, luz=None) -> float:
     """Pinta mallas sobre unos ejes por el algoritmo del pintor (caras ordenadas
     en profundidad). Devuelve el semilado usado, para poder encuadrar varias
     vistas a la MISMA escala y que las piezas se puedan comparar entre páginas."""
@@ -404,7 +404,7 @@ def pintar(ax, mallas, az=35.0, el=58.0, escala_comun=None) -> float:
                      [0, 0, 1.0]])
     incl = np.array([[1.0, 0, 0], [0, math.cos(e), -math.sin(e)],
                      [0, math.sin(e), math.cos(e)]])
-    luz = np.array([-0.40, -0.50, 0.62])
+    luz = np.array([-0.40, -0.50, 0.62] if luz is None else luz, dtype=float)
     luz /= np.linalg.norm(luz)
     caras, colores, hondo = [], [], []
     for malla in mallas:

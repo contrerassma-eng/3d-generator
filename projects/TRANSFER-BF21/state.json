@@ -1,0 +1,6 @@
+{
+  "project": "TRANSFER-BF21",
+  "stage": "S0_PENDIENTE",
+  "gates": {},
+  "nota": "Proyecto de DISEÑO (capa user): sin fotos, S0-S5 no aplican. Entrega en out/modulo/ (pipeline/modulo_transfer.py); verificación propia en modulo.json (encaje BF, tangencias, lazo, apoyo caja 250, holguras, interferencias). Decisiones y lecturas del pedido en DECISIONES.md; hechos web con cita en input/web_facts.json."
+}
