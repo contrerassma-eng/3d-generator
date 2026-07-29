@@ -37,9 +37,9 @@ es un solo parámetro: `--resalte 35.56`.
 | Eje de poleas terminales de correa (Ø60 + banda 3) | 132.1 |
 | Tapa superior ranurada (3 mm, 2.1 bajo la tangente) | 160–163 |
 | Ramal de retorno de correa | ≈100.6 |
-| Snub Ø50 por correa (colisa take-up de 20) | (248, 88) |
-| Eje común de correas Ø20 (motriz Ø60, envolvente ≈170°) | (190, 58) |
-| Motores UniDrive (Ø118×62.7) | bahía de cola, eje a z=73 |
+| Snub Ø50 por correa (colisa take-up 16 + puentes tensores M6) | (218, 92) |
+| Eje común de correas Ø20 (motriz Ø60, envolvente 181.4°) | (160, 58) |
+| Motores UniDrive (Ø118×62.7, espárragos al patrón 152.7×139.7) | bahía de cola, ejes a z=80 |
 
 ## Esquema en planta — COMO CONSTRUIDO
 
@@ -48,21 +48,34 @@ es un solo parámetro: `--resalte 35.56`.
 - Paso entre ejes: 110 → hueco entre coronas Ø58 = 52. La correa es de **35×3**
   (la del transfer90 del repo, poleas de cara 39): con banda de 40 el casete
   tocaría el disco Ø58 de la rueda vecina; con 35 quedan 2.5 mm por lado.
-- Ruedas en tresbolillo a paso 76/74: 5+4+5+4 = 18. Una caja de 250 apoya
-  siempre en ≥4 ruedas de ≥2 hileras, y en ≥2 correas al desviar (verificado
-  por barrido de posiciones en `modulo.json`).
-- Largo del módulo 530 = 4×110 de rodadura + **bahía de motores de 90**: el
-  UniDrive es un panqueque Ø118×62.7 con patrón 152.7×139.7 que NO cabe entre
-  casetes; ambos motores viven en la bahía de cola (A sobre soporte plegado,
-  eje en X; B sobre la mampara, eje en Y). La caja de 250 puentea la bahía
-  entre la última hilera y el primer rodillo del transportador vecino.
-- Tren de o-rings junto al alma B en x≈361–407 (spools Ø36 de dos gargantas a
-  ±16.87, el paso medido en el GLB del ZP2026); pantalla separadora en x=352.
-- Lazo de correa: terminales Ø60 en (35,132.1) y (316,132.1), snub Ø50 en
-  colisa, motriz Ø60 en el eje común (190,58) — envolvente 170.3° (gate ≥120,
-  objetivo Movex 140±10), contraflexión mínima Ø50 (Habasit).
-- Desvío preferente hacia el alma A (las correas cubren x 35–316; hacia B la
-  caja puentea la franja del tren).
+- Ruedas en tresbolillo a paso 74 con desfase 37: 5+4+5+4 = 18. Una caja de
+  250 apoya siempre en ≥4 ruedas de ≥2 hileras, y en ≥2 correas al desviar
+  (verificado por barrido de posiciones en `modulo.json`).
+- Largo del módulo 586 = 4×110 de rodadura + **bahía de motores de 146**: el
+  UniDrive es un panqueque Ø118×62.7 cuyo patrón de espárragos 152.7×139.7
+  dicta la bahía (la revisión adversarial tumbó las bahías de 90 y 140: el
+  patrón no cabía o chocaba con la mampara/el casete 3). Motor A en (y=458,
+  z=80) sobre soporte propio, eje en X; motor B en (x=246, z=80) sobre la
+  mampara, eje en Y; a x<252 los dos cuerpos Ø118 se cruzaban y a x>269 el
+  motor B se comía el cubo de la chumacera — 246 con el eje común en x=160
+  libra ambos, todo con holgura medida en `modulo.json`.
+- Tren de o-rings junto al alma B: spools Ø36×34 con gargantas a ±12 (más
+  juntas que las ±16.87 del ZP2026 para librar el soporte del motor y el
+  bloque B de 12), planos de anillo x=402/426; pantalla separadora en x=350
+  con pasos Ø18 para los ejes, terminada en y=372.
+- Lazo de correa: terminales Ø60 en (35,132.1) y (314,132.1), snub Ø50 en
+  colisa con puentes tensores M6, motriz Ø60 en el eje común (160,58) —
+  envolventes term 149.3/160.1°, snub 49.2°,
+  motriz 181.4° (gate ≥120; Movex 140±10 como referencia),
+  contraflexión mínima Ø50 (Habasit).
+- Desvío preferente hacia el alma A (las correas cubren x 35–314; hacia B la
+  caja cruza ~100 sobre la pestaña rasante).
+- La revisión adversarial (agente) tumbó además: desarrollo de chapa sin
+  deducción de pliegue (−12 mm), ranuras de rueda de la tapa giradas 90°,
+  patrón del motor desfasado 6 mm entre modelo y placas, casetes sin fijación,
+  take-up sin mecanismo y verificación con pares silenciados por grupos. Todo
+  corregido; el barrido AABB ya corre SIN exenciones por grupo, con lista
+  blanca nominal respaldada por holguras medidas (23 entradas).
 
 ## Qué viene del repo y qué se diseña
 
