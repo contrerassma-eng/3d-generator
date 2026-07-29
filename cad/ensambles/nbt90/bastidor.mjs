@@ -43,7 +43,18 @@ const L = {
   peineZ0: 96,          // dis: encierra las poleas de retorno (fondo en Z=144.85)
   peineZ1: 285,         // dis: fin del tramo estrecho
   peineZ2: 294,         // dis: arranque del tramo ancho (bajo el cross channel)
-  peineZt: 388.5,       // dis: 2.1 mm bajo el plano de banda (P.planoBanda)
+  // Canto superior del diente. Ya NO es un literal: lo fija la DISTANCIA AL BORDE
+  // que la norma pide para el taladro del perno de rodillo (ver `rodPasante`), que
+  // es la cota crítica de esta chapa. Crece hacia arriba desde el eje del rodillo:
+  //     peineZt = P.rodZ + 1.5·d + margen = 379.49 + 9.525 + 0.25 = 389.26
+  // El techo es el plano de bandas del anfitrión (P.planoBanda = 390.6): el diente
+  // no puede asomar por encima de la cara de transporte. Quedan 1.34 mm.
+  bordeEnD: 1.5,        // web STR-001 · AISI S100-16 J3.2: e ≥ 1.5·d
+  bordeMargen: 0.25,    // dis: la cota no se deja EN el mínimo de norma. Cubre la
+                        //      tolerancia general de la chapa cortada (ISO 2768-m
+                        //      da ±0.2 sobre 6…30 mm, ver tolerancias.mjs) sin
+                        //      comerse la holgura al plano de bandas.
+  get peineZt() { return r2(P.rodZ + this.bordeEnD * P.M.b14.d + this.bordeMargen); },
   huecoZ: 320,          // dis: fondo del hueco de cada banda (8 mm bajo el ramal
                         //      de retorno del anfitrión, que pasa a Z 328…330.5)
   dienteSemi: 17.1,     // dis: semiancho del diente (hueco = 42 > regleta 31.75)
@@ -55,10 +66,25 @@ const L = {
   //   · Ø 7.0 = taladro de paso CERRADO para 1/4-20 (0.65 mm de holgura, no los
   //     1.6 de `P.holgura.pasante`): así el vástago hace también de pasador y toma
   //     la carga radial del rodillo en vez de dejarla a la fricción bajo la golilla.
-  //   · Distancia al canto superior de la placa = peineZt − P.rodZ = 9.01 mm =
-  //     1.42·d. El mínimo de AISC para 1/4" en canto cizallado es 3/8" = 9.53, o
-  //     sea queda 0.5 mm corto; se declara. No se sube `peineZt` porque el plano
-  //     de bandas del anfitrión está 2.1 mm más arriba (P.planoBanda = 390.6).
+  //   · Distancia al canto superior de la placa = peineZt − P.rodZ = 9.78 mm =
+  //     1.54·d, contra el mínimo de 1.5·d = 9.525.
+  //
+  //     LA FUENTE DE ESE MÍNIMO NO ES AISC, y el comentario que había aquí lo
+  //     atribuía mal: la tabla J3.4 de AISC **no tabula tornillos menores de
+  //     1/2"** (su primera fila es 7/8" para 1/2" en canto cizallado, web STR-004),
+  //     así que a una placa de 3/16" con un tornillo de 1/4" quien le aplica es
+  //     **AISI S100-16 J3.2** (web STR-001): «The distance from the center of a
+  //     fastener to the edge or end of any part shall not be less than 1.5d». El
+  //     número, 9.525, es el mismo; la fuente, no.
+  //
+  //     Y NO ES CIERTO que no se pudiera subir `peineZt`: lo que había escrito
+  //     («el plano de bandas está 2.1 mm más arriba») era la razón para dejar la
+  //     cota 0.51 mm corta, y sobraban 2.1 mm de los que solo hacían falta 0.775.
+  //     Se sube (EST-05 de la revisión estructural) y quedan 1.34 mm al plano de
+  //     bandas. Lo que se juega en esos 0.5 mm no es resistencia —el desgarro de
+  //     AISC J3.10 da FS 22.6 y además la carga del rodillo empuja hacia ABAJO,
+  //     alejándose de este canto— sino PUNZONADO: 5.5 mm de ligamento en chapa de
+  //     3/16" abomba o agrieta el canto. Con 1.5·d el taladro se puede punzonar.
   rodPasante: PASO['1/4'],          // 7.0 · dis (ver arriba)
 
   // ---- travesaños del cassette móvil --------------------------------------
@@ -932,7 +958,14 @@ export function bastidor(E) {
   M.montajeRodillo = {
     tipo: 'taladro pasante en la placa + hilo interior en la punta del eje + perno por fuera',
     pasanteD: L.rodPasante, perno: '1/4-20 UNC', ejeZ: r2(P.rodZ),
-    dienteSobreEje: r2(L.peineZt - P.rodZ),         // 9.01 = 1.42·d (AISC pide 9.53)
+    // Distancia al canto superior del diente: la exige AISI S100-16 J3.2 (e ≥ 1.5·d
+    // = 9.525), NO AISC —cuya tabla J3.4 no baja de 1/2"—. La comprueba EST-05.
+    dienteSobreEje: r2(L.peineZt - P.rodZ),              // 9.78 = 1.54·d
+    dienteSobreEjeEnD: r2((L.peineZt - P.rodZ) / P.M.b14.d),
+    // Y el techo de esa cota: el canto del diente tiene que quedar por DEBAJO de la
+    // cara de transporte del anfitrión. Lo comprueba la compuerta (§2).
+    dienteBajoPlanoBanda: r2(P.planoBanda - L.peineZt),  // 1.34
+    cantoDienteZ: L.peineZt,
     taladros: 2 * P.nRodillos,
   };
   M.pasoRodillo = 'el rodillo se extrae VERTICALMENTE: quitados los 2 pernos nada lo retiene';

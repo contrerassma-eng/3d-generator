@@ -30,6 +30,9 @@ import {
 } from './tolerancias.mjs';
 import { normalizar } from './normalizado.mjs';
 
+/** Redondeo a µm: los ajustes no se pueden contar con 2 decimales. */
+const c3 = (v) => Math.round(v * 1000 + 1e-9) / 1000;
+
 // ---------------------------------------------------------------------------
 // Pares MÓVIL ↔ FIJO cuyo solape de CAJAS crece al retraer SIN que haya choque.
 //
@@ -158,11 +161,11 @@ const LIM = {
 // El detalle y la corrección propuesta están en REVISION_ESTRUCTURAL.md.
 // ---------------------------------------------------------------------------
 const HALLAZGOS_ABIERTOS = {
-  'DIN-01': { uso: 1.963, dueño: 'params.mjs',
-    nota: 'P.velocidad = 0.9 m/s se dedujo con Ø34.93 y las 462 rpm del MOTOR, ignorando la '
-      + 'multiplicación Ø63.5/Ø28.93 = 2.195 de la banda plana. La velocidad real de la cara '
-      + 'del rodillo es 1.855 m/s (365 fpm). Nada del modelo usa P.velocidad, pero es el dato '
-      + 'con el que se dimensiona el resto del sistema.' },
+  // DIN-01 CERRADO el 2026-07-29. `P.velocidad` ya no es un literal: params.mjs lo
+  // deriva de la cadena (motorRpm → ruedaDia → rodDiaArrastre → rodDia), así que no
+  // puede volver a desincronizarse. La comprobación se reforzó en vez de retirarse:
+  // ahora coteja las TRES fuentes —lo que declara `P`, lo que recalcula la compuerta
+  // y lo que reporta `transmision.mjs` por su cuenta— y la tercera es independiente.
   'DIN-12': { uso: 1.481, dueño: 'elevacion.mjs',
     nota: 'Al frenar el pop-up contra el tope de goma la deceleración supera 1 g y el bulto se '
       + 'despega de los rodillos (salto ≈3 mm, reasienta a 241 mm/s con 0.99 J). Se corrige '
@@ -173,10 +176,12 @@ const HALLAZGOS_ABIERTOS = {
       + '63.5 N·m de vuelco frente a los 78.6 N·m que despegan el apoyo: FS 1.24, y sólo 1.04 '
       + 'con la masa móvil que sale de los sólidos. Los 4 pasadores guía NO pueden ayudar: sus '
       + 'colisas son verticales.' },
-  'EST-05': { uso: 1.057, dueño: 'bastidor.mjs',
-    nota: 'Del taladro del perno de rodillo al canto del diente hay 9.01 mm = 1.42·d, frente a '
-      + 'los 9.525 = 1.5·d de AISI S100-16 J3.2. Subir L.peineZt de 388.5 a 389.02 lo resuelve '
-      + 'y deja 1.58 mm al plano de bandas (hoy 2.10).' },
+  // EST-05 CERRADO el 2026-07-29 por bastidor.mjs. El comentario del módulo decía
+  // que no se podía subir `peineZt` porque el plano de bandas estaba 2.1 mm más
+  // arriba; de esos 2.1 sólo hacían falta 0.775. `L.peineZt` deja de ser un literal
+  // y sale de la propia norma: P.rodZ + 1.5·d + 0.25 de margen = 389.26, o sea
+  // 9.78 mm = 1.54·d al canto y 1.34 mm al plano de bandas. La compuerta comprueba
+  // ahora las DOS cotas (EST-05 y, en §2, que el diente no asome sobre las bandas).
   'EST-10': { uso: 1.219, dueño: 'elevacion.mjs',
     nota: 'El alma del canal de montaje es chapa de 12 GA con 231.3 mm de vano libre entre alas y '
       + 'lleva encima toda la reacción del cilindro (937 N estáticos) repartida en la huella de '
@@ -267,6 +272,17 @@ function verify() {
   // --- 2. geometría: los rodillos pasan entre las bandas --------------------
   const holgura = P.paso / 2 - P.rodDia / 2 - P.regletaAncho / 2;
   if (holgura < 2) e.push(`holgura rodillo↔regleta ${r2(holgura)} < 2 mm`);
+  // El canto del diente de la placa peine (MÓVIL) no puede asomar sobre la cara de
+  // transporte del anfitrión NI ESTANDO ARRIBA. Es el techo que limita EST-05: al
+  // subir el taladro para cumplir 1.5·d se sube el canto, y esta cota es lo que se
+  // gasta. Hasta el 2026-07-29 nadie la comprobaba y era el argumento —equivocado—
+  // con el que bastidor.mjs justificaba dejar el taladro corto.
+  const dienteBajo = m.bastidor.montajeRodillo?.dienteBajoPlanoBanda;
+  if (dienteBajo !== undefined && dienteBajo <= 0) {
+    e.push(`el canto del diente de la placa peine (Z=${m.bastidor.montajeRodillo.cantoDienteZ}) `
+      + `asoma ${r2(-dienteBajo)} mm SOBRE el plano de bandas del anfitrión (Z=${P.planoBanda}): `
+      + `el producto que viaja sobre las bandas lo engancharía`);
+  }
   if (P.rodY.length !== P.nRodillos) e.push('nº de rodillos incoherente con el paso');
   if (P.bandaY.length !== P.nBandas) e.push('nº de bandas incoherente con el paso');
   const span = (P.nRodillos - 1) * P.paso;
@@ -606,6 +622,8 @@ function verify() {
   const g = 9.80665;
   const R9 = [];        // registro de todas las comprobaciones (va al documento)
   const abiertos = [];  // las que incumplen y están dispensadas
+  const avisos = [];    // lo que hay que arreglar en un módulo AJENO: se denuncia,
+                        // no se parchea desde aquí ni se para el gate por ello
 
   /** Registra una comprobación. `uso` = utilización (>1 incumple). */
   function chk(id, titulo, valor, limite, sentido, detalle, unidad = '') {
@@ -651,10 +669,6 @@ function verify() {
   const parSalida = P.motorHP * 745.7 / wMotor;         // N·m
   const tiroBanda = parSalida / rRueda;                 // N — tiro máximo del motorreductor
   const empujeSup = tiroBanda * dArrastre / P.rodDia;   // N en la cara del bulto
-  if (cin.vTransferencia_m_s !== undefined && Math.abs(cin.vTransferencia_m_s - vRodillo) > 0.02) {
-    e.push(`la transmisión reporta ${cin.vTransferencia_m_s} m/s de velocidad de transferencia y `
-      + `el gate calcula ${r2(vRodillo)} m/s a partir de P`);
-  }
   // La transmisión NO exporta su tensión de montaje del ramal flojo (T2 local).
   // Se recupera de sus propias métricas y se exige que siga siendo la de LIM.
   const T2rep = (m.transmision.rodamientos?.cargaPorRodamiento_N ?? 0) - (cin.tiroBanda_N ?? 0) / 2;
@@ -663,13 +677,38 @@ function verify() {
       + `LIM.banda.T2N (${LIM.banda.T2N} N): todo el §9 de tensiones y vida cuelga de ese número`);
   }
 
-  // -- 9.1 la velocidad declarada en params.mjs tiene que ser la real ---------
+  // -- 9.1 las TRES fuentes de la velocidad de transferencia tienen que coincidir
   // La banda plana MULTIPLICA: Ø63.5 en la rueda motriz contra Ø28.93 en el tubo
-  // desnudo del rodillo = 2.195. P.velocidad la ignora.
-  chk('DIN-01', 'velocidad de transferencia declarada vs. real',
-    vRodillo / P.velocidad, 1.05, '<=',
-    `P.velocidad = ${P.velocidad} m/s pero la cara del rodillo va a ${r2(vRodillo)} m/s `
-    + `(${r2(vRodillo * 196.85)} fpm): el rodillo gira a ${r2(nRodillo)} rpm, no a ${P.motorRpm}.`, '×');
+  // desnudo del rodillo = 2.195. `P.velocidad` ignoraba ese eslabón y se quedaba
+  // 2.06 veces corta (0.9 m/s deducidos con las rpm del MOTOR).
+  //
+  // ARREGLADO EL 2026-07-29 y por eso la comprobación CAMBIA DE FORMA. Ahora
+  // `params.mjs` deriva `velocidad` de la cadena, así que «declarada vs. calculada»
+  // sería tautológica —justo el vicio que esta misma revisión denuncia en §6 (E1)—.
+  // Se sustituye por un cotejo a TRES BANDAS, y el que muerde es el tercero:
+  //   1) lo que declara `P.velocidad`  ── deriva de P: coherencia estructural;
+  //   2) lo que recalcula esta compuerta desde los parámetros primitivos;
+  //   3) lo que reporta `transmision.mjs` en `cinematica`, que llega por OTRO
+  //      camino: su propio `L.rodArrastre` y su propia construcción del serpentín.
+  // Si un módulo mueve un Ø por su cuenta, (3) se separa de (1) y (2) y esto para.
+  // (Antes ese cotejo era un `e.push` suelto en §9.0; se pliega aquí para que quede
+  // un solo sitio donde vive la cinemática y no dos que puedan divergir.)
+  const vFuentes = [
+    ['P.velocidad', P.velocidad],
+    ['compuerta', vRodillo],
+    ...(cin.vTransferencia_m_s !== undefined ? [['transmision.cinematica', cin.vTransferencia_m_s]] : []),
+  ];
+  const vMax = Math.max(...vFuentes.map((q) => q[1]));
+  const vMin = Math.min(...vFuentes.map((q) => q[1]));
+  // Se mide la DESVIACIÓN en %, no el cociente: un cociente de 1.003 contra un límite
+  // de 1.05 daría «utilización 96 %» y colocaría esta comprobación entre las más
+  // apretadas de la máquina, que es información falsa. El cero de la escala es 1.
+  chk('DIN-01', 'coherencia de la velocidad de transferencia (declarada · compuerta · transmisión)',
+    (vMax / vMin - 1) * 100, 5, '<=',
+    `${vFuentes.map((q) => `${q[0]} = ${r2(q[1])}`).join(' · ')} m/s. La cara del rodillo va a `
+    + `${r2(vRodillo)} m/s = ${r2(vRodillo * 196.85)} fpm porque el rodillo gira a `
+    + `${r2(nRodillo)} rpm, no a las ${P.motorRpm} del motor: la banda plana multiplica `
+    + `Ø${P.ruedaDia}/Ø${c3(dArrastre)} = ${c3(P.ruedaDia / dArrastre)}.`, '% de desviación');
 
   // -- 9.2 velocidad periférica dentro de lo que admite un rodillo transportador
   chk('DIN-02', 'velocidad periférica del rodillo', vRodillo, LIM.rodilloVmaxMs, '<=',
@@ -746,7 +785,7 @@ function verify() {
   const Lv = xB - xA;
   const [xr1, xr2] = m.rodillos.rodamientosX ?? [58, 398];
   const a1 = xr1 - xA, a2 = xr2 - xA;
-  const dEje = P.rodHex, dPunta = 25.4 / 2;                  // Ø7.94 cuerpo / Ø12.70 punta
+  const dEje = P.rodEjeD, dPunta = 25.4 / 2;                 // Ø8.00 cuerpo / Ø12.70 punta
   const Zeje = Math.PI * dEje ** 3 / 32, Zpunta = Math.PI * dPunta ** 3 / 32;
   const Ieje = Math.PI * dEje ** 4 / 64;
   const Pcarga = Rbulto / 2;                                  // por rodamiento
@@ -807,6 +846,41 @@ function verify() {
     Pcarga * LIM.desgarroOmega, Rdesgarro, '<=',
     `AISC J3.10 (web STR-004) con Lc = ${r2(Lc)} mm y t = ${r2(P.placaT)} mm. La carga del rodillo `
     + 'empuja hacia ABAJO, o sea alejándose del canto corto: la resistencia no es el problema.', 'N');
+
+  // -- 9.14b el asiento del rodamiento del rodillo ES un ajuste, no una holgura
+  // Cierra AJ-02, que el módulo de fabricación dejó declarado y sin poder tocar:
+  // el cuerpo del eje salía de un 5/16" de catálogo (7.9375) y el 608-2RS tiene
+  // barreno Ø8, así que el juego diametral era 0.055…0.072 mm — el de un montaje
+  // con casquillo. Con el aro interior quieto y carga pulsante, ese juego martillea
+  // y produce corrosión por rozamiento. La comprobación no mira el juego (que
+  // depende del ajuste elegido) sino la RAÍZ: el nominal del asiento tiene que ser
+  // el nominal del barreno. Cualquier diferencia ya no es un ajuste, es holgura.
+  const desajusteNominal = Math.abs(P.rodEjeD - P.rodRodam.bore);
+  const juegoRod = [
+    (P.rodRodam.bore + P.rodRodamBoreDesv[1]) - (P.rodEjeD + P.rodEjeDesv[0]),
+    (P.rodRodam.bore + P.rodRodamBoreDesv[0]) - (P.rodEjeD + P.rodEjeDesv[1]),
+  ];
+  chk('EST-11', 'el asiento del rodamiento del rodillo comparte nominal con el barreno',
+    desajusteNominal, 0, '<=',
+    `eje Ø${P.rodEjeD} ${P.rodEjeAjuste} contra el barreno Ø${P.rodRodam.bore} del 608-2RS `
+    + `(ISO 492 clase Normal ${P.rodRodamBoreDesv.join('/')}, web BRG-007) → juego diametral `
+    + `${c3(juegoRod[0])}…${c3(juegoRod[1])} mm. Con 5/16" (7.9375) el desajuste de nominal era `
+    + `0.0625 mm y el juego 0.055…0.072: un orden de magnitud más.`, 'mm');
+  // `tolerancias.mjs` declara AJ-02 con la cota y el juego escritos a mano, y esos
+  // literales viajan al documento en `p.tol.ajustes`. Al cerrar AJ-02 desde
+  // params.mjs se quedan viejos, y este integrador NO los corrige: ese archivo
+  // tiene dueño (contrato §2). Se denuncia por consola y en el JSON.
+  const aj02 = AJUSTES.find((a) => a.id === 'AJ-02');
+  if (aj02?.juegoDiametralMm && Math.abs(aj02.juegoDiametralMm[1] - juegoRod[1]) > 0.002) {
+    avisos.push({
+      id: 'AJ-02', dueño: 'tolerancias.mjs',
+      texto: `el ajuste AJ-02 sigue declarado como «${aj02.cota} ${aj02.ajuste}» con juego `
+        + `${aj02.juegoDiametralMm.join('…')} mm, que es el del eje de 5/16" que YA NO EXISTE. `
+        + `El asiento es Ø${P.rodEjeD} ${P.rodEjeAjuste} y el juego ${c3(juegoRod[0])}…`
+        + `${c3(juegoRod[1])} mm (EST-11). Hay que actualizar cota, ajuste, juego y borrar el `
+        + `aviso de «pendiente»; el integrador no toca ese archivo.`,
+    });
+  }
 
   // -- 9.15 voladizo del motorreductor ---------------------------------------
   const Rrueda = resul(T1, LIM.banda.T2N, envG.ruedaMotriz ?? 180);
@@ -893,9 +967,19 @@ function verify() {
           comprobaciones: R9,
           incumplen: fallos9.length,
           abiertos: abiertos.map((f) => ({ id: f.id, titulo: f.titulo, uso: f.uso, dueño: f.dueño })),
+          avisos,
           cinematica: {
-            rpmRodillo: r2(nRodillo), vRodilloMs: r2(vRodillo), vRodilloFpm: r2(vRodillo * 196.85),
-            multiplicacion: r2(nRodillo / P.motorRpm), vDeclaradaMs: P.velocidad,
+            // La cadena entera, eslabón a eslabón, para que nadie tenga que
+            // reconstruirla: es lo que faltaba cuando P.velocidad decía 0.9 m/s.
+            rpmMotor: P.motorRpm, diaRuedaMm: P.ruedaDia, vBandaMs: r2(vBanda),
+            diaArrastreMm: c3(dArrastre), multiplicacion: c3(nRodillo / P.motorRpm),
+            rpmRodillo: r2(nRodillo), diaVulcanizadoMm: c3(P.rodDia),
+            vRodilloMs: r2(vRodillo), vRodilloFpm: r2(vRodillo * 196.85),
+            vDeclaradaMs: r2(P.velocidad), vTransmisionMs: cin.vTransferencia_m_s,
+            // Contraste con la ficha del fabricante (no es un límite del gate: es la
+            // evidencia de que el equipo estaba bien concebido y el número, mal escrito).
+            fabricanteFpm: 350, fabricanteFuente: 'web SORT-016 / SORT-018 · Hytrol Bulletin 711',
+            desviacionSobreFabricantePct: r2((vRodillo * 196.85 / 350 - 1) * 100),
             parSalidaNm: r2(parSalida), tiroBandaN: r2(tiroBanda), empujeSuperficieN: r2(empujeSup),
           },
           bulto: {
@@ -916,7 +1000,15 @@ function verify() {
             sigmaEjeMPa: r2(sigmaEje), sigmaEjeSiDespegaMPa: r2(sigmaEjeArticulado),
             momentoCoronaNmm: r2(Mempot), momentoDespegueCoronaNmm: r2(Mdespegue),
             precargaPerno14N: r2(Fi14), pernoDeclarado: LIM.perno14.grado,
-            juegoRodamientoSobreEjeMm: [r2(7.992 - 7.9375), r2(8.000 - 7.9285)],   // web BRG-007
+            // Ajuste del aro interior sobre el eje: sale de la CADENA de desviaciones
+            // (ISO 492 clase Normal para el barreno, web BRG-007 · ISO 286-2 para el
+            // asiento), no de un literal. Cerró AJ-02.
+            asientoRodamiento: {
+              ejeNominalMm: P.rodEjeD, ajuste: P.rodEjeAjuste,
+              barrenoNominalMm: P.rodRodam.bore,
+              juegoDiametralMm: [c3(juegoRod[0]), c3(juegoRod[1])],
+              juegoAntesMm: [0.055, 0.072],       // con el eje de 5/16" que había
+            },
           },
           cassette: {
             masaMovilDeclaradaKg: r2(masaMovil),
@@ -982,7 +1074,9 @@ const doc = {
       + 'comprables, no sus planos.',
     equipo: `BR ${enPulg(P.BR)} · ${P.nRodillos} rodillos vulcanizados Ø${enPulg(P.rodDia)} a paso `
       + `${enPulg(P.paso)} · ${P.nBandas} bandas angostas de ${enPulg(P.bandaAncho)} del anfitrión · `
-      + `serpentín de banda plana de ${enPulg(P.serpAncho)} · motorreductor ${P.motorHP} HP a ${P.motorRpm} rpm · `
+      + `serpentín de banda plana de ${enPulg(P.serpAncho)} · motorreductor ${P.motorHP} HP a ${P.motorRpm} rpm `
+      + `→ rodillo a ${r2(P.rodRpm)} rpm (la banda plana multiplica ×${c3(P.relacionBanda)}) = `
+      + `${r2(P.velocidad)} m/s = ${r2(P.velocidadFpm)} fpm en la cara del rodillo · `
       + `elevación neumática con cilindro compacto de guías SMC MGPM80-10Z (Ø${P.mesaBore}, carrera ${P.mesaCarrera} mm)`,
     estado_modelado: `ELEVADO: la generatriz superior del rodillo queda ${r2(metricas.emergencia)} mm `
       + `(= ${enPulg(P.emerge)}) sobre el plano de las bandas; retraído baja ${r2(metricas.retraccion)} mm por debajo`,
@@ -1051,15 +1145,29 @@ console.log(`   ${nBajadas} piezas MÓVIL bajadas ${P.carrera} mm → ${outBajo}
 // 800 kB: sale por consola en cada generación, con su utilización y su dueño.
 {
   const S = metricas.estructural;
-  const peor = [...S.comprobaciones].filter((c) => c.ok).sort((a, b) => b.uso - a.uso)[0];
+  // Las TRES que menos margen tienen, no sólo la primera: con una sola, una cota
+  // nueva y apretada tapa a la que ya lo estaba (DIN-02 quedó oculta al cerrar EST-05).
+  const peores = [...S.comprobaciones].filter((c) => c.ok).sort((a, b) => b.uso - a.uso).slice(0, 3);
   console.log(`   ESTRUCTURAL: ${S.comprobaciones.length - S.incumplen}/${S.comprobaciones.length} comprobaciones cumplen · `
     + `rodillo ${S.cinematica.rpmRodillo} rpm = ${S.cinematica.vRodilloMs} m/s (${S.cinematica.vRodilloFpm} fpm) · `
     + `T1 ${S.banda.T1N} N · L10 rodillo ${S.rodillo.L10h} h · σ eje ${S.rodillo.sigmaEjeMPa} MPa`);
-  if (peor) console.log(`   la que menos margen tiene de las que cumplen: ${peor.id} «${peor.titulo}» al ${r2(peor.uso * 100)} %`);
+  console.log(`   CINEMÁTICA: ${S.cinematica.rpmMotor} rpm motor × Ø${S.cinematica.diaRuedaMm}/Ø${S.cinematica.diaArrastreMm} `
+    + `= ${S.cinematica.multiplicacion} → ${S.cinematica.rpmRodillo} rpm de rodillo → `
+    + `${S.cinematica.vRodilloFpm} fpm en la cara Ø${S.cinematica.diaVulcanizadoMm}, `
+    + `${S.cinematica.desviacionSobreFabricantePct} % sobre los ${S.cinematica.fabricanteFpm} FPM de `
+    + `${S.cinematica.fabricanteFuente}`);
+  if (peores.length) {
+    console.log('   las que menos margen tienen de las que cumplen: '
+      + peores.map((q) => `${q.id} al ${r2(q.uso * 100)} %`).join(' · ')
+      + ` (${peores[0].titulo})`);
+  }
   for (const a of S.abiertos) {
     const c = S.comprobaciones.find((x) => x.id === a.id);
     console.log(`   ✗ ABIERTO ${a.id} · ${a.titulo}: ${c.valor} ${c.unidad} frente a ${c.limite} `
       + `(utilización ${a.uso}) → ${a.dueño}`);
+  }
+  for (const a of S.avisos ?? []) {
+    console.log(`   ⚠ AVISO ${a.id} (dueño: ${a.dueño}): ${a.texto}`);
   }
   if (S.impacto.chequeoEkTautologico) {
     console.log('   ⚠ la comprobación de energía cinética de §6 es TAUTOLÓGICA: elevacion.mjs deriva la '

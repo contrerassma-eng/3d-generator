@@ -170,14 +170,16 @@ export const AJUSTES = [
     id: 'AJ-02',
     donde: 'Cuerpo del eje del rodillo de transferencia bajo el aro interior del 608-2RS',
     pieza: /Eje de rodillo Ø/,
-    cota: 'Ø7,94 (5/16")', ajuste: 'h6',
-    pareja: 'aro interior del 608-2RS, barreno Ø8 (0/−0,008)',
+    cota: 'Ø8', ajuste: 'g6',
+    pareja: 'aro interior del 608-2RS, barreno Ø8 (0/−0,008, ISO 492 clase Normal)',
     criterio: 'carga ESTACIONARIA sobre el aro interior (el eje no gira) ⇒ ajuste con juego',
-    juegoDiametralMm: [0.052, 0.069],
-    aviso: 'el juego es el de un montaje con casquillo, no el de un g6 (5…22 µm): el Ø del cuerpo '
-      + 'sale de P.rodHex = 5/16" y el rodamiento está congelado en params.mjs con barreno Ø8. '
-      + 'Se declara y queda pendiente (ver informe); no se maquilla.',
-    fuente: 'NTN 7.4 fig. 7.1 (loose fit g6/g5) · ISO 286-2 · discrepancia declarada',
+    juegoDiametralMm: [-0.003, 0.014],
+    // Cerrado. El cuerpo del eje salía de P.rodHex = 5/16" (7,94) contra un barreno
+    // Ø8: 0,052…0,069 mm de juego diametral, el de un montaje con casquillo y no el
+    // de un ajuste. El eje pasa a Ø8 g6 y el juego se calcula de la cadena ISO 492
+    // clase Normal contra ISO 286-2 g6, no de un literal. La compuerta lo vigila en
+    // EST-11 (el asiento comparte nominal con el barreno).
+    fuente: 'NTN 7.4 fig. 7.1 (loose fit g6/g5) · ISO 286-2 g6 · ISO 492 clase Normal',
   },
   {
     id: 'AJ-03',

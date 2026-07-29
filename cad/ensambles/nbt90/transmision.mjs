@@ -738,9 +738,18 @@ export function transmision(E) {
       bandaEnTuboDesnudo: [r2(X.banda0 - L.rodDesnudo[0]), r2(L.rodDesnudo[1] - X.banda1)],
     },
     cinematica: {
+      // La banda plana MULTIPLICA: arrastra sobre el TUBO DESNUDO (Ø28.93) desde la
+      // rueda motriz (Ø63.5), así que el rodillo gira a 2.195 × las rpm del motor.
+      // Éste es el eslabón que `P.velocidad` ignoraba (DIN-01, cerrado). Se reporta
+      // entero para que la compuerta pueda cotejar la cadena contra `P`.
       rpmMotor: P.motorRpm, vBanda_m_s: r2(vBanda), vBanda_fpm: r2(vBanda * 196.85),
-      diaArrastre: dArr, rpmRodillo: r2(nRod),
+      // 3 decimales a propósito: con `r2` la multiplicación sale «2.2» y no se puede
+      // cotejar con la que publica la compuerta (2.195) sin que parezca discrepancia.
+      diaRueda: P.ruedaDia, diaArrastre: dArr,
+      multiplicacion: Math.round(P.ruedaDia / dArr * 1000) / 1000,
+      rpmRodillo: r2(nRod),
       vTransferencia_m_s: r2(nRod / 60 * Math.PI * P.rodDia / 1000),
+      vTransferencia_fpm: r2(nRod / 60 * Math.PI * P.rodDia / 1000 * 196.85),
       parSalida_Nm: r2(par), tiroBanda_N: r2(par / (P.ruedaDia / 2000)),
       parPorRodillo_Nm: r2(par * (dArr / P.ruedaDia) / P.nRodillos),
       empujeEnTransferencia_N: r2(par / (P.ruedaDia / 2000) * (dArr / P.rodDia)),

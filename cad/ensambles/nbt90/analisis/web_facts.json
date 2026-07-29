@@ -340,7 +340,26 @@
    },
    "fuente_titulo": "Hytrol - prosort mrt 90 and 30, Bulletin No. 711 (folleto de producto, hytrol.com)",
    "confidence": "alta",
-   "nota": "350 FPM = 1.778 m/s. Fuente de primera mano (dominio cdn.hytrol.com)."
+   "nota": "350 FPM = 1.778 m/s. Fuente de primera mano (dominio cdn.hytrol.com). Es la cifra contra la que se contrasta la cadena cinematica del modelo (ver SORT-018): la cara del rodillo sale a 365 FPM, un 4.3 % por encima."
+  },
+  {
+   "id": "SORT-018",
+   "tema": "sorter/velocidad de transferencia (contraste de la cadena cinematica)",
+   "claim": "Las Standard Specifications del ProSort MRT 90 no publican velocidad de transferencia: la de la banda del sorter se declara 'determinada por los requisitos de la aplicacion' y el mecanismo de transferencia se describe por su geometria (rodillos motrices de 1 1/2 in de diametro x 17 in de largo con engomado de 3/32 in, accionados por banda flexproof de poliester de 1 in de ancho)",
+   "afirmacion": "CONTRASTE CON EL FABRICANTE del hallazgo DIN-01. La cadena cinematica del modelo (462 rpm de motorreductor -> rueda motriz o63.5 -> banda 1.536 m/s -> tubo desnudo o28.93 -> rodillo 1014 rpm -> cara vulcanizada o34.93) da 1.855 m/s = 365 FPM en la cara del rodillo. El unico dato de velocidad que Hytrol publica para el ProSort MRT es 'Capable of 350 FPM' (SORT-016): el modelo queda un 4.3 % por encima, y el MRT 30 publica 367 FPM @80 Hz (TR-009). O sea que el equipo esta bien concebido a esa velocidad y lo que estaba mal era el numero escrito en params.mjs (0.9 m/s, deducido con las rpm del MOTOR, 2.06 veces corto).",
+   "value": 365,
+   "unit": "FPM (calculo propio contrastado)",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.cisco-eagle.com/uploads/Hytrol-Spec-Sortation/ProSort-MRT-90-Specs.pdf",
+    "accessed": "2026-07-29",
+    "quote": "BELT SPEED - Determined by application requirements including rate required, package size, and weight. ... Standard Specifications - 90 Degree Medium Roller Transfer ... TRANSFER MECHANISM - Series of 1 1/2 in. dia. x 17 in. long drive rollers with 3/32 in. lagging. Driven by 1 in. wide flexproof endless polyester belt. ... MOTOR - 1/2 HP, 230/460 V, 3 Ph. 60 Hz. flange mount gearmotor. AC DRIVE - 1/2 HP, AC variable frequency controller."
+   },
+   "fuente_titulo": "Hytrol Catalog, PROSORT MRT 90, Standard Specifications, pag. 9.5-2",
+   "confidence": "alta",
+   "metodo_verificacion": "PDF re-descargado y extraido con pypdf en esta sesion (2026-07-29); las lineas BELT SPEED y TRANSFER MECHANISM se leyeron literalmente de la pagina 2. Es la misma hoja que ya citan SORT-013 y TR-001.",
+   "nota": "Dos consecuencias que conviene tener escritas. (1) El valor NO es un limite de la compuerta: 350 FPM es una capacidad de folleto, no un maximo de norma; el techo duro de la velocidad periferica sigue siendo el de ROD-007 (Interroll, 2.0 m/s), que se comprueba en DIN-02. (2) La hoja describe el rodillo de transferencia como 1 1/2 in de diametro con 3/32 in de engomado y 17 in de largo, mientras que la lista de partes del bulletin 656 lo llama SA-036881 'VULCANIZED 138 ROLLER ASSEMBLY' (o1-3/8 in) y la vista mide 34.92 mm y 375 mm de cara. Esa discrepancia ya estaba declarada en TR-001 y NO se toca aqui: manda P.rodDia, de quien cuelga la emergencia de 1/4 in que verifica el gate. Con el o1.5 in de la hoja la cadena daria 345 FPM, aun mas cerca de los 350."
   },
   {
    "id": "SORT-017",
@@ -695,7 +714,7 @@
    },
    "fuente_titulo": "Hytrol Bulletin #656, pag. 13-14, lista MRT 90 DEG. ROLLER TRANSFER ASSY. (item 20)",
    "confidence": "alta",
-   "nota": "462 rpm sobre rueda motriz de 2.5 in de diametro = 302 FPM de banda motriz (calculo propio, no citado); coherente con la velocidad de transferencia publicada de 275 FPM @60 Hz del MRT 30."
+   "nota": "CORREGIDO 2026-07-29 (hallazgo DIN-01). La nota anterior decia: '462 rpm sobre rueda motriz de 2.5 in de diametro = 302 FPM de banda motriz; coherente con la velocidad de transferencia publicada de 275 FPM @60 Hz del MRT 30'. Confundia la velocidad de la BANDA MOTRIZ con la velocidad de TRANSFERENCIA, que no son la misma: la banda plana arrastra el TUBO DESNUDO del rodillo (o28.93), no su cara vulcanizada (o34.93), asi que MULTIPLICA 63.5/28.93 = 2.195. Calculo propio, no citado: 462 rpm de motor -> banda motriz 1.536 m/s = 302 FPM -> rodillo 1014 rpm -> cara del rodillo 1.855 m/s = 365 FPM. Es esa cifra, y no los 302, la que hay que contrastar con el fabricante: Hytrol declara 'Capable of 350 FPM' para el ProSort MRT (SORT-016), un 4.3 % por debajo, y el MRT 30 publica 367 FPM @80 Hz (TR-009)."
   },
   {
    "id": "MOT-002",
@@ -1965,7 +1984,7 @@
   "Envolvente del cilindro SMC C96 de 40 mm y cotas del soporte de munon.",
   "Hoja PDS de Habasit TF-102T y APH150HTS (espesor, k1%, diametro minimo de polea): los PDF de tdm.habasit.com son escaneados y su capa de texto no es extraible.",
   "Espesor de pared del tubo del rodillo de 1-3/8 in calibre 18 en pulgadas decimales.",
-  "Medida del hexagono del eje de los rodillos emergentes del ProSort MRT (el estandar de catalogo para 1-3/8 in es 5/16 in, pero Hytrol no lo publica).",
+  "SIN OBJETO desde 2026-07-29: medida del hexagono del eje de los rodillos emergentes del ProSort MRT. El modelo ya no lleva eje hexagonal — el montaje que describe el cliente (eje con hilo interior y perno por fuera de la chapa) exige un eje REDONDO escalonado, y el o del cuerpo lo fija el barreno del rodamiento, no el hexagono de catalogo. Se deja anotado por si el dato aparece: el estandar de catalogo para 1-3/8 in es 5/16 in y Hytrol no lo publica.",
   "Elevacion efectiva del rodillo sobre la linea de banda: relacion entre el rotulo '0.394\" MOVEMENT' de FIGURE 8A y la carrera de 20 mm del cilindro. Requiere dibujo de instalacion acotado o medicion en campo.",
   "Numero de bandas, carrera y capacidad de transferencias equivalentes de Interroll, Lewco, Omni Metalcraft, Dematic y Ashland (el manual Interroll RM 8731 es un PDF escaneado).",
   "Motorreductor NEMA 56C de 1/2 HP con dimensiones publicadas y salida cercana a 460 rpm; y estilos de montaje C-face / eje hueco / brazo de par con cita verbatim.",
@@ -1978,7 +1997,7 @@
   "REVISION ESTRUCTURAL 2026-07-29: grado y par de apriete de los pernos 1/4-20 de los rodillos y 3/8-16 del bastidor. El manual solo dice \"3/8 in. bolts\" y \"3/8 locknut\" (txt pag. 8), sin grado. La comprobacion de no despegue de la corona del eje de rodillo EXIGE grado 5 a 8 ft-lb; con grado 2 no cumple.",
   "REVISION ESTRUCTURAL 2026-07-29: tolerancia de diametro del tubo del rodillo y del espesor del vulcanizado. Es lo que decide el reparto de carga entre rodillos con un bulto rigido, mas que la rigidez del bastidor, y no esta declarada en ninguna parte.",
   "Desviaciones numericas de ISO 286-2 para los ajustes N7, g6, h6, r6, H7, H8 y H11 que usa el ensamble: no se consiguio transcripcion citable de la tabla (roymech devuelve pagina vacia por WebFetch; engineersedge y tribology-abc, 403; el PDF de la norma en almasehsanj, 503). En el plano la tolerancia ES la designacion ISO 286, que si esta citada (ISO 286-1/-2), asi que no falta informacion para fabricar; falta la comodidad de leer las desviaciones sin abrir la norma.",
-  "Cuerpo del eje de los rodillos de transferencia: sale de P.rodHex = 5/16 in (7,94) y el rodamiento congelado en params.mjs es un 608 de barreno 8, asi que el juego diametral es 0,052-0,069 mm, propio de un montaje con casquillo y no de un g6 (0,005-0,022). Resolverlo pide o tocar params.mjs (prohibido por el contrato) o un rodamiento de barreno 5/16 in, que la serie R no tiene. Declarado en AJ-02.",
+  "RESUELTO 2026-07-29 (AJ-02, comprobacion EST-11): el cuerpo del eje de los rodillos de transferencia salia de P.rodHex = 5/16 in (7,9375) contra el barreno o8 del 608-2RS, o sea 0,055-0,072 mm de juego diametral, el de un montaje con casquillo. Se resolvio por donde manda el rodamiento: params.mjs deja de declarar un hexagono que el modelo ya no tiene (P.rodHex -> P.rodEjeD = 8) y el asiento pasa a o8 g6, con juego -0,003 a +0,014 mm de la cadena ISO 492 clase Normal (0/-0,008, BRG-007) contra ISO 286-2 g6 (-0,005/-0,014). La alternativa de rodamiento en pulgadas se descarto con numeros: la serie R no tiene barreno de 5/16 in y el R6 (3/8 in x 7/8 in) que si cabria en el tubo o28,93 tiene C0 del orden de 780 N, con lo que el coeficiente estatico s0 caeria de 2,39 a 1,4 e incumpliria DIN-08. PENDIENTE EN OTRO MODULO: tolerancias.mjs sigue declarando AJ-02 con la cota y el juego del eje de 5/16 in; la compuerta lo denuncia por consola en cada generacion.",
   "Ranura del anillo de retencion del esparrago de polea de 5/8 in: el 5100-062 de ASME B27.7 pide ranura O14,94 x 1,07 y el modelo dibuja O14,7 x 1,3, porque esa geometria la genera `anilloRet` de lib.mjs, que el contrato prohibe editar. Discrepancia declarada: 0,24 mm de profundidad."
  ]
 }

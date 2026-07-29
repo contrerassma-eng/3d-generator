@@ -35,12 +35,38 @@ export const P = {
   // ------------------------------------------------------- rodillos (item 3)
   // cat SA-036881 "VULCANIZED 138 ROLLER ASSEMBLY": Ø1-3/8" vulcanizado.
   rodDia: p(1.375),                // 34.93 · med 34.92 (coincidencia 0.03 %)
-  rodTubo: p(1.19),                // dis: tubo de acero bajo el vulcanizado (e≈3 mm de goma)
+  rodTubo: p(1.19),                // dis · NO USAR: 30.23 + 2×3 = 36.23 ≠ 34.93, o sea que es
+                                   // incompatible con el par (rodDia, rodVulcE). Manda `rodDia`,
+                                   // de quien cuelga la emergencia de 1/4" que verifica el gate.
+                                   // El Ø real del tubo bajo la banda es `rodDiaArrastre` (28.93),
+                                   // que sí sale de la cadena. Ningún módulo lee `rodTubo`.
   rodCara: 375,                    // med 594 px de la vista derecha
-  rodHex: p(0.3125),               // 7.94 — eje hexagonal 5/16" · med 8.53 · cat (Hytrol usa
-                                   // 7/16" en Ø1.9" y 5/16" en Ø1-3/8")
   rodPared: 1.5,                   // dis: tubo 16 GA
-  rodRodam: { bore: 8, od: 22, w: 7 },  // dis: rodamiento de rodillo de transporte (608-2RS)
+  rodRodam: { bore: 8, od: 22, w: 7 },  // dis: rodamiento de rodillo de transporte (608-2RS).
+                                   // web BRG-006: C = 3207 N, C0 = 1334 N. De él cuelgan DIN-02
+                                   // (familia de rodamiento que admite 2 m/s), DIN-08 y DIN-09.
+  // Cuerpo del eje bajo los aros interiores. YA NO ES EL HEXÁGONO DE 5/16" de
+  // Hytrol: el montaje que describe el cliente (eje con hilo interior + perno por
+  // fuera de la chapa) obliga a un eje REDONDO escalonado, y entonces quien fija
+  // este Ø no es el catálogo del hexágono sino el BARRENO DEL RODAMIENTO que gira
+  // encima. Con 5/16" (7.9375) contra el barreno Ø8 del 608-2RS el juego diametral
+  // salía 0.055…0.072 mm: el de un montaje con casquillo, no el de un ajuste
+  // (AJ-02 de tolerancias.mjs lo llevaba declarado como pendiente porque el módulo
+  // de fabricación no podía tocar este archivo). Se resuelve por donde manda el
+  // rodamiento: Ø8 nominal, o sea el mismo nominal que el barreno.
+  //   · el aro interior está QUIETO respecto de la dirección de la carga (el eje
+  //     no gira) ⇒ ajuste CON JUEGO: g6 (web BRG-FIT-001, NTN 7.4 fig. 7.1).
+  //   · med 8.53 en la vista: Ø8 se acerca MÁS a lo medido que los 7.94 de 5/16".
+  //   · no toca la punta Ø1/2" (que es la que lleva el hilo 1/4-20 y el tope
+  //     contra la chapa) ni el rodamiento; el eje sigue siendo escalonado.
+  // El nombre anterior (`rodHex`) desapareció a propósito: describía una pieza que
+  // el modelo ya no tiene. Lo leían rodillos.mjs y gen_nbt90.mjs, y los dos van
+  // a `rodEjeD`.
+  rodEjeD: 8,                      // cat: = barreno del 608-2RS (`rodRodam.bore`); el gate
+                                   //      comprueba que sigue siendo el mismo nominal
+  rodEjeAjuste: 'g6',              // web BRG-FIT-001 · aro interior con carga estacionaria
+  rodEjeDesv: [-0.005, -0.014],    // web ISO 286-2 · Ø8 g6 (es, ei), IT6 = 9 µm
+  rodRodamBoreDesv: [0, -0.008],   // web BRG-007 · ISO 492 clase Normal, 2.5 < d ≤ 10: 0/−8 µm
   rodVulcE: 3.0,                   // dis: espesor del vulcanizado (Ø tubo → Ø1-3/8")
 
   // -------------------------------------------- bandas angostas del anfitrión
@@ -162,8 +188,33 @@ export const P = {
   holgura: { pasante: 1.6, deslizante: 0.2, colisa: 3.2 },                 // dis
 
   // --------------------------------------------------------------- cargas
-  cargaMaxKg: 34,                  // dis: bulto máximo típico de un MRT (75 lb)
-  velocidad: 0.9,                  // dis: v = π·Ø·rpm/60 con Ø34.93 y 462 rpm ≈ 0.845 m/s
+  cargaMaxKg: 34,                  // cat/web SORT-013 y SORT-014: «Maximum unit package weight
+                                   // of 75 lbs» = 34.0 kg. NO es una decisión de diseño: es la
+                                   // capacidad publicada del ProSort MRT (lo corrige E4 de la
+                                   // revisión estructural, que lo encontró etiquetado `dis`).
+
+  // ------------------------------------------------------------- cinemática
+  // NO SE ESCRIBE A MANO: sale de la CADENA, para que no pueda volver a
+  // desincronizarse. La banda plana del serpentín MULTIPLICA, porque la rueda
+  // motriz (Ø63.5) arrastra el TUBO DESNUDO del rodillo (Ø28.93 = rodDia −
+  // 2·rodVulcE) y no la cara vulcanizada:
+  //
+  //   motorreductor 462 rpm  →  rueda Ø63.5  →  banda 1.536 m/s
+  //     →  tubo desnudo Ø28.93  →  rodillo 1014 rpm
+  //       →  cara vulcanizada Ø34.93  →  1.855 m/s = 365 fpm
+  //
+  // Lo que había escrito —`velocidad: 0.9` con el comentario «v = π·Ø·rpm/60 con
+  // Ø34.93 y 462 rpm»— daba por hecho que el rodillo gira a las rpm del MOTOR y se
+  // quedaba 2.06 veces corto (DIN-01 de la revisión estructural). El equipo estaba
+  // bien concebido: 365 fpm cuadra con los «Capable of 350 FPM» que Hytrol declara
+  // para el ProSort MRT (web SORT-016 / SORT-018) y con los 367 FPM @80 Hz que
+  // publica el MRT 30 (web TR-009). El número escrito era el que estaba mal.
+  get rodDiaArrastre() { return this.rodDia - 2 * this.rodVulcE; },   // 28.925 — bajo la banda
+  get relacionBanda() { return this.ruedaDia / this.rodDiaArrastre; },// 2.195 — MULTIPLICA
+  get rodRpm() { return this.motorRpm * this.relacionBanda; },        // 1014.2 rpm, no 462
+  get vBanda() { return Math.PI * this.ruedaDia / 1000 * this.motorRpm / 60; },   // 1.536 m/s
+  get velocidad() { return Math.PI * this.rodDia / 1000 * this.rodRpm / 60; },    // 1.855 m/s
+  get velocidadFpm() { return this.velocidad * 196.85; },            // 365.1 fpm
 };
 
 /** Cota nominal en pulgadas de un valor en mm (para rótulos de plano). */

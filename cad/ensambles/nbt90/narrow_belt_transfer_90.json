@@ -5,7 +5,7 @@
   "nombre": "Transferencia 90° de rodillos emergentes para clasificador de bandas angostas (NBT90)",
   "capa": "user",
   "origen": "gen_nbt90.mjs (paramétrico). Levantado de las dos vistas aportadas por el usuario (FIGURE 8A y despiece del tensor neumático del manual Hytrol ProSort MRT, bulletin 656) escalando por píxeles con tools/med_px.py: k = 0.6320 mm/px, anclada al paso de bandas de 3\" y confirmada por ocho piezas de catálogo (ver ESCALA.md). La geometría es un diseño paramétrico propio; del manual se toman cotas de referencia y nomenclatura de componentes comprables, no sus planos.",
-  "equipo": "BR 18\" · 6 rodillos vulcanizados Ø1.375\" a paso 3\" · 5 bandas angostas de 1\" del anfitrión · serpentín de banda plana de 1\" · motorreductor 0.5 HP a 462 rpm · elevación neumática con cilindro compacto de guías SMC MGPM80-10Z (Ø80, carrera 10 mm)",
+  "equipo": "BR 18\" · 6 rodillos vulcanizados Ø1.375\" a paso 3\" · 5 bandas angostas de 1\" del anfitrión · serpentín de banda plana de 1\" · motorreductor 0.5 HP a 462 rpm → rodillo a 1014.24 rpm (la banda plana multiplica ×2.195) = 1.85 m/s = 365.1 fpm en la cara del rodillo · elevación neumática con cilindro compacto de guías SMC MGPM80-10Z (Ø80, carrera 10 mm)",
   "estado_modelado": "ELEVADO: la generatriz superior del rodillo queda 6.35 mm (= 0.25\") sobre el plano de las bandas; retraído baja 3.65 mm por debajo",
   "ejes": "X = eje de los rodillos (flujo del anfitrión, y sentido de marcha de las bandas angostas); Y = expulsión a 90° (los rodillos se reparten en Y); Z = arriba, Z=0 en la cara inferior del bastidor",
   "procedencia": {
@@ -51,14 +51,12 @@
     "comprobaciones": [
      {
       "id": "DIN-01",
-      "titulo": "velocidad de transferencia declarada vs. real",
-      "valor": 2.06,
-      "limite": 1.05,
-      "unidad": "×",
-      "uso": 1.96,
-      "ok": false,
-      "abierto": true,
-      "dueño": "params.mjs"
+      "titulo": "coherencia de la velocidad de transferencia (declarada · compuerta · transmisión)",
+      "valor": 0.28,
+      "limite": 5,
+      "unidad": "% de desviación",
+      "uso": 0.06,
+      "ok": true
      },
      {
       "id": "DIN-02",
@@ -144,7 +142,7 @@
      {
       "id": "EST-01",
       "titulo": "la corona del eje de rodillo no despega de la placa peine",
-      "valor": 8827.88,
+      "valor": 8764.12,
       "limite": 11302.08,
       "unidad": "N·mm",
       "uso": 0.78,
@@ -153,7 +151,7 @@
      {
       "id": "EST-02",
       "titulo": "tensión de flexión del eje de rodillo (Ø7.94, junta cerrada)",
-      "valor": 71.66,
+      "valor": 71.28,
       "limite": 150,
       "unidad": "MPa",
       "uso": 0.48,
@@ -182,21 +180,28 @@
      {
       "id": "EST-05",
       "titulo": "distancia del taladro del perno de rodillo al canto del diente",
-      "valor": 9.01,
+      "valor": 9.77,
       "limite": 9.52,
       "unidad": "mm",
-      "uso": 1.06,
-      "ok": false,
-      "abierto": true,
-      "dueño": "bastidor.mjs"
+      "uso": 0.97,
+      "ok": true
      },
      {
       "id": "EST-06",
       "titulo": "desgarro de la placa peine detrás del perno de rodillo",
       "valor": 1117.22,
-      "limite": 12594.54,
+      "limite": 14331.72,
       "unidad": "N",
-      "uso": 0.09,
+      "uso": 0.08,
+      "ok": true
+     },
+     {
+      "id": "EST-11",
+      "titulo": "el asiento del rodamiento del rodillo comparte nominal con el barreno",
+      "valor": 0,
+      "limite": 0,
+      "unidad": "mm",
+      "uso": 0,
       "ok": true
      },
      {
@@ -249,25 +254,13 @@
       "ok": true
      }
     ],
-    "incumplen": 5,
+    "incumplen": 3,
     "abiertos": [
-     {
-      "id": "DIN-01",
-      "titulo": "velocidad de transferencia declarada vs. real",
-      "uso": 1.96,
-      "dueño": "params.mjs"
-     },
      {
       "id": "EST-03",
       "titulo": "vuelco del cassette: no despegar el apoyo de la horquilla",
       "uso": 1.21,
       "dueño": "elevacion.mjs"
-     },
-     {
-      "id": "EST-05",
-      "titulo": "distancia del taladro del perno de rodillo al canto del diente",
-      "uso": 1.06,
-      "dueño": "bastidor.mjs"
      },
      {
       "id": "DIN-12",
@@ -282,12 +275,22 @@
       "dueño": "elevacion.mjs"
      }
     ],
+    "avisos": [],
     "cinematica": {
+     "rpmMotor": 462,
+     "diaRuedaMm": 63.5,
+     "vBandaMs": 1.54,
+     "diaArrastreMm": 28.925,
+     "multiplicacion": 2.195,
      "rpmRodillo": 1014.24,
+     "diaVulcanizadoMm": 34.925,
      "vRodilloMs": 1.85,
      "vRodilloFpm": 365.1,
-     "multiplicacion": 2.2,
-     "vDeclaradaMs": 0.9,
+     "vDeclaradaMs": 1.85,
+     "vTransmisionMs": 1.86,
+     "fabricanteFpm": 350,
+     "fabricanteFuente": "web SORT-016 / SORT-018 · Hytrol Bulletin 711",
+     "desviacionSobreFabricantePct": 4.31,
      "parSalidaNm": 7.71,
      "tiroBandaN": 242.73,
      "empujeSuperficieN": 201.03
@@ -317,17 +320,26 @@
      "s0": 2.39,
      "L10h": 26479.87,
      "L10hConBultoPermanente": 3109.42,
-     "gradoEmpotramiento": 0.77,
-     "sigmaEjeMPa": 71.66,
-     "sigmaEjeSiDespegaMPa": 251.44,
-     "momentoCoronaNmm": 8827.88,
+     "gradoEmpotramiento": 0.76,
+     "sigmaEjeMPa": 71.28,
+     "sigmaEjeSiDespegaMPa": 245.63,
+     "momentoCoronaNmm": 8764.12,
      "momentoDespegueCoronaNmm": 16953.12,
      "precargaPerno14N": 8543.31,
      "pernoDeclarado": "SAE J429 Gr5",
-     "juegoRodamientoSobreEjeMm": [
-      0.05,
-      0.07
-     ]
+     "asientoRodamiento": {
+      "ejeNominalMm": 8,
+      "ajuste": "g6",
+      "barrenoNominalMm": 8,
+      "juegoDiametralMm": [
+       -0.003,
+       0.014
+      ],
+      "juegoAntesMm": [
+       0.055,
+       0.072
+      ]
+     }
     },
     "cassette": {
      "masaMovilDeclaradaKg": 55,
@@ -398,7 +410,10 @@
      "pasanteD": 7,
      "perno": "1/4-20 UNC",
      "ejeZ": 379.49,
-     "dienteSobreEje": 9.01,
+     "dienteSobreEje": 9.77,
+     "dienteSobreEjeEnD": 1.54,
+     "dienteBajoPlanoBanda": 1.34,
+     "cantoDienteZ": 389.26,
      "taladros": 12
     },
     "pasoRodillo": "el rodillo se extrae VERTICALMENTE: quitados los 2 pernos nada lo retiene",
@@ -502,9 +517,29 @@
     ],
     "rebajeSerpentin": 0.5,
     "montaje": "placa peine con taladro pasante Ø7.0 · eje con hilo interior 1/4-20 · perno por fuera",
-    "ejeCuerpoD": 7.94,
+    "ejeCuerpoD": 8,
     "ejePuntaD": 12.7,
     "ejeLargo": 378.04,
+    "ejeRodamiento": {
+     "rodamiento": "608-2RS",
+     "barrenoNominalMm": 8,
+     "barrenoDesvMm": [
+      0,
+      -0.008
+     ],
+     "asientoNominalMm": 8,
+     "ajuste": "g6",
+     "asientoDesvMm": [
+      -0.005,
+      -0.014
+     ],
+     "juegoDiametralMm": [
+      -0.003,
+      0.014
+     ],
+     "criterio": "aro interior con carga ESTACIONARIA (el eje no gira) ⇒ ajuste con juego",
+     "antes": "Ø7.9375 (5/16\") con el mismo barreno Ø8 → juego 0.055…0.072 mm (AJ-02, cerrado)"
+    },
     "puntaLargo": 13.52,
     "roscaProf": 13,
     "perno": "1/4-20 UNC × 19.05",
@@ -677,9 +712,12 @@
      "rpmMotor": 462,
      "vBanda_m_s": 1.54,
      "vBanda_fpm": 302.38,
+     "diaRueda": 63.5,
      "diaArrastre": 28.92,
+     "multiplicacion": 2.196,
      "rpmRodillo": 1014.42,
      "vTransferencia_m_s": 1.86,
+     "vTransferencia_fpm": 365.16,
      "parSalida_Nm": 7.71,
      "tiroBanda_N": 242.73,
      "parPorRodillo_Nm": 0.58,
@@ -14388,8 +14426,8 @@
    }
   },
   {
-   "id": "p120_movil_placa_peine_3_16_432_292_5_lado_motriz",
-   "name": "MÓVIL · Placa peine 3/16\" 432×292.5 (lado motriz)",
+   "id": "p120_movil_placa_peine_3_16_432_293_26_lado_motriz",
+   "name": "MÓVIL · Placa peine 3/16\" 432×293.26 (lado motriz)",
    "color": "#2a4fd7",
    "pos": [
     37.72,
@@ -14462,7 +14500,7 @@
    "features": [
     {
      "id": "f308",
-     "name": "Placa peine 3/16\" 432×292.5",
+     "name": "Placa peine 3/16\" 432×293.26",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -14495,11 +14533,11 @@
        ],
        [
         216,
-        388.5
+        389.26
        ],
        [
         173.4,
-        388.5
+        389.26
        ],
        [
         173.4,
@@ -14567,11 +14605,11 @@
        ],
        [
         131.4,
-        388.5
+        389.26
        ],
        [
         97.2,
-        388.5
+        389.26
        ],
        [
         97.2,
@@ -14639,11 +14677,11 @@
        ],
        [
         55.2,
-        388.5
+        389.26
        ],
        [
         21,
-        388.5
+        389.26
        ],
        [
         21,
@@ -14711,11 +14749,11 @@
        ],
        [
         -21,
-        388.5
+        389.26
        ],
        [
         -55.2,
-        388.5
+        389.26
        ],
        [
         -55.2,
@@ -14783,11 +14821,11 @@
        ],
        [
         -97.2,
-        388.5
+        389.26
        ],
        [
         -131.4,
-        388.5
+        389.26
        ],
        [
         -131.4,
@@ -14855,11 +14893,11 @@
        ],
        [
         -173.4,
-        388.5
+        389.26
        ],
        [
         -216,
-        388.5
+        389.26
        ],
        [
         -216,
@@ -15436,8 +15474,8 @@
    }
   },
   {
-   "id": "p121_movil_placa_peine_3_16_432_292_5_lado_libre",
-   "name": "MÓVIL · Placa peine 3/16\" 432×292.5 (lado libre)",
+   "id": "p121_movil_placa_peine_3_16_432_293_26_lado_libre",
+   "name": "MÓVIL · Placa peine 3/16\" 432×293.26 (lado libre)",
    "color": "#2a4fd7",
    "pos": [
     420.52,
@@ -15510,7 +15548,7 @@
    "features": [
     {
      "id": "f332",
-     "name": "Placa peine 3/16\" 432×292.5",
+     "name": "Placa peine 3/16\" 432×293.26",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -15543,11 +15581,11 @@
        ],
        [
         216,
-        388.5
+        389.26
        ],
        [
         173.4,
-        388.5
+        389.26
        ],
        [
         173.4,
@@ -15615,11 +15653,11 @@
        ],
        [
         131.4,
-        388.5
+        389.26
        ],
        [
         97.2,
-        388.5
+        389.26
        ],
        [
         97.2,
@@ -15687,11 +15725,11 @@
        ],
        [
         55.2,
-        388.5
+        389.26
        ],
        [
         21,
-        388.5
+        389.26
        ],
        [
         21,
@@ -15759,11 +15797,11 @@
        ],
        [
         -21,
-        388.5
+        389.26
        ],
        [
         -55.2,
-        388.5
+        389.26
        ],
        [
         -55.2,
@@ -15831,11 +15869,11 @@
        ],
        [
         -97.2,
-        388.5
+        389.26
        ],
        [
         -131.4,
-        388.5
+        389.26
        ],
        [
         -131.4,
@@ -15903,11 +15941,11 @@
        ],
        [
         -173.4,
-        388.5
+        389.26
        ],
        [
         -216,
-        388.5
+        389.26
        ],
        [
         -216,
@@ -25362,8 +25400,8 @@
    }
   },
   {
-   "id": "p185_movil_eje_de_rodillo_12_7_7_94_378_04_linea_1_y_190_5",
-   "name": "MÓVIL · Eje de rodillo Ø12.7/Ø7.94 × 378.04 (línea 1, Y=-190.5)",
+   "id": "p185_movil_eje_de_rodillo_12_7_8_378_04_linea_1_y_190_5",
+   "name": "MÓVIL · Eje de rodillo Ø12.7/Ø8 × 378.04 (línea 1, Y=-190.5)",
    "color": "#9aa4b2",
    "pos": [
     42.48,
@@ -25383,10 +25421,11 @@
    "material": "acero estirado en frío",
    "gira": false,
    "rosca": "1/4-20 UNC-2B end drilled & tapped en las dos puntas",
+   "ajuste": "cuerpo Ø8 g6 bajo los aros interiores de los 608-2RS (aro interior con carga estacionaria ⇒ con juego)",
    "features": [
     {
      "id": "f526",
-     "name": "Barra escalonada: puntas Ø12.7 × 13.52, cuerpo Ø7.94",
+     "name": "Barra escalonada: puntas Ø12.7 × 13.52, cuerpo Ø8",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -25434,7 +25473,7 @@
         ],
         "b": [
          13.52,
-         3.97
+         4
         ]
        },
        {
@@ -25442,11 +25481,11 @@
         "type": "line",
         "a": [
          13.52,
-         3.97
+         4
         ],
         "b": [
          364.52,
-         3.97
+         4
         ]
        },
        {
@@ -25454,7 +25493,7 @@
         "type": "line",
         "a": [
          364.52,
-         3.97
+         4
         ],
         "b": [
          364.52,
@@ -27198,8 +27237,8 @@
    }
   },
   {
-   "id": "p196_movil_eje_de_rodillo_12_7_7_94_378_04_linea_2_y_114_3",
-   "name": "MÓVIL · Eje de rodillo Ø12.7/Ø7.94 × 378.04 (línea 2, Y=-114.3)",
+   "id": "p196_movil_eje_de_rodillo_12_7_8_378_04_linea_2_y_114_3",
+   "name": "MÓVIL · Eje de rodillo Ø12.7/Ø8 × 378.04 (línea 2, Y=-114.3)",
    "color": "#9aa4b2",
    "pos": [
     42.48,
@@ -27219,10 +27258,11 @@
    "material": "acero estirado en frío",
    "gira": false,
    "rosca": "1/4-20 UNC-2B end drilled & tapped en las dos puntas",
+   "ajuste": "cuerpo Ø8 g6 bajo los aros interiores de los 608-2RS (aro interior con carga estacionaria ⇒ con juego)",
    "features": [
     {
      "id": "f547",
-     "name": "Barra escalonada: puntas Ø12.7 × 13.52, cuerpo Ø7.94",
+     "name": "Barra escalonada: puntas Ø12.7 × 13.52, cuerpo Ø8",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -27270,7 +27310,7 @@
         ],
         "b": [
          13.52,
-         3.97
+         4
         ]
        },
        {
@@ -27278,11 +27318,11 @@
         "type": "line",
         "a": [
          13.52,
-         3.97
+         4
         ],
         "b": [
          364.52,
-         3.97
+         4
         ]
        },
        {
@@ -27290,7 +27330,7 @@
         "type": "line",
         "a": [
          364.52,
-         3.97
+         4
         ],
         "b": [
          364.52,
@@ -29034,8 +29074,8 @@
    }
   },
   {
-   "id": "p207_movil_eje_de_rodillo_12_7_7_94_378_04_linea_3_y_38_1",
-   "name": "MÓVIL · Eje de rodillo Ø12.7/Ø7.94 × 378.04 (línea 3, Y=-38.1)",
+   "id": "p207_movil_eje_de_rodillo_12_7_8_378_04_linea_3_y_38_1",
+   "name": "MÓVIL · Eje de rodillo Ø12.7/Ø8 × 378.04 (línea 3, Y=-38.1)",
    "color": "#9aa4b2",
    "pos": [
     42.48,
@@ -29055,10 +29095,11 @@
    "material": "acero estirado en frío",
    "gira": false,
    "rosca": "1/4-20 UNC-2B end drilled & tapped en las dos puntas",
+   "ajuste": "cuerpo Ø8 g6 bajo los aros interiores de los 608-2RS (aro interior con carga estacionaria ⇒ con juego)",
    "features": [
     {
      "id": "f568",
-     "name": "Barra escalonada: puntas Ø12.7 × 13.52, cuerpo Ø7.94",
+     "name": "Barra escalonada: puntas Ø12.7 × 13.52, cuerpo Ø8",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -29106,7 +29147,7 @@
         ],
         "b": [
          13.52,
-         3.97
+         4
         ]
        },
        {
@@ -29114,11 +29155,11 @@
         "type": "line",
         "a": [
          13.52,
-         3.97
+         4
         ],
         "b": [
          364.52,
-         3.97
+         4
         ]
        },
        {
@@ -29126,7 +29167,7 @@
         "type": "line",
         "a": [
          364.52,
-         3.97
+         4
         ],
         "b": [
          364.52,
@@ -30870,8 +30911,8 @@
    }
   },
   {
-   "id": "p218_movil_eje_de_rodillo_12_7_7_94_378_04_linea_4_y_38_1",
-   "name": "MÓVIL · Eje de rodillo Ø12.7/Ø7.94 × 378.04 (línea 4, Y=38.1)",
+   "id": "p218_movil_eje_de_rodillo_12_7_8_378_04_linea_4_y_38_1",
+   "name": "MÓVIL · Eje de rodillo Ø12.7/Ø8 × 378.04 (línea 4, Y=38.1)",
    "color": "#9aa4b2",
    "pos": [
     42.48,
@@ -30891,10 +30932,11 @@
    "material": "acero estirado en frío",
    "gira": false,
    "rosca": "1/4-20 UNC-2B end drilled & tapped en las dos puntas",
+   "ajuste": "cuerpo Ø8 g6 bajo los aros interiores de los 608-2RS (aro interior con carga estacionaria ⇒ con juego)",
    "features": [
     {
      "id": "f589",
-     "name": "Barra escalonada: puntas Ø12.7 × 13.52, cuerpo Ø7.94",
+     "name": "Barra escalonada: puntas Ø12.7 × 13.52, cuerpo Ø8",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -30942,7 +30984,7 @@
         ],
         "b": [
          13.52,
-         3.97
+         4
         ]
        },
        {
@@ -30950,11 +30992,11 @@
         "type": "line",
         "a": [
          13.52,
-         3.97
+         4
         ],
         "b": [
          364.52,
-         3.97
+         4
         ]
        },
        {
@@ -30962,7 +31004,7 @@
         "type": "line",
         "a": [
          364.52,
-         3.97
+         4
         ],
         "b": [
          364.52,
@@ -32706,8 +32748,8 @@
    }
   },
   {
-   "id": "p229_movil_eje_de_rodillo_12_7_7_94_378_04_linea_5_y_114_3",
-   "name": "MÓVIL · Eje de rodillo Ø12.7/Ø7.94 × 378.04 (línea 5, Y=114.3)",
+   "id": "p229_movil_eje_de_rodillo_12_7_8_378_04_linea_5_y_114_3",
+   "name": "MÓVIL · Eje de rodillo Ø12.7/Ø8 × 378.04 (línea 5, Y=114.3)",
    "color": "#9aa4b2",
    "pos": [
     42.48,
@@ -32727,10 +32769,11 @@
    "material": "acero estirado en frío",
    "gira": false,
    "rosca": "1/4-20 UNC-2B end drilled & tapped en las dos puntas",
+   "ajuste": "cuerpo Ø8 g6 bajo los aros interiores de los 608-2RS (aro interior con carga estacionaria ⇒ con juego)",
    "features": [
     {
      "id": "f610",
-     "name": "Barra escalonada: puntas Ø12.7 × 13.52, cuerpo Ø7.94",
+     "name": "Barra escalonada: puntas Ø12.7 × 13.52, cuerpo Ø8",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -32778,7 +32821,7 @@
         ],
         "b": [
          13.52,
-         3.97
+         4
         ]
        },
        {
@@ -32786,11 +32829,11 @@
         "type": "line",
         "a": [
          13.52,
-         3.97
+         4
         ],
         "b": [
          364.52,
-         3.97
+         4
         ]
        },
        {
@@ -32798,7 +32841,7 @@
         "type": "line",
         "a": [
          364.52,
-         3.97
+         4
         ],
         "b": [
          364.52,
@@ -34542,8 +34585,8 @@
    }
   },
   {
-   "id": "p240_movil_eje_de_rodillo_12_7_7_94_378_04_linea_6_y_190_5",
-   "name": "MÓVIL · Eje de rodillo Ø12.7/Ø7.94 × 378.04 (línea 6, Y=190.5)",
+   "id": "p240_movil_eje_de_rodillo_12_7_8_378_04_linea_6_y_190_5",
+   "name": "MÓVIL · Eje de rodillo Ø12.7/Ø8 × 378.04 (línea 6, Y=190.5)",
    "color": "#9aa4b2",
    "pos": [
     42.48,
@@ -34563,10 +34606,11 @@
    "material": "acero estirado en frío",
    "gira": false,
    "rosca": "1/4-20 UNC-2B end drilled & tapped en las dos puntas",
+   "ajuste": "cuerpo Ø8 g6 bajo los aros interiores de los 608-2RS (aro interior con carga estacionaria ⇒ con juego)",
    "features": [
     {
      "id": "f631",
-     "name": "Barra escalonada: puntas Ø12.7 × 13.52, cuerpo Ø7.94",
+     "name": "Barra escalonada: puntas Ø12.7 × 13.52, cuerpo Ø8",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -34614,7 +34658,7 @@
         ],
         "b": [
          13.52,
-         3.97
+         4
         ]
        },
        {
@@ -34622,11 +34666,11 @@
         "type": "line",
         "a": [
          13.52,
-         3.97
+         4
         ],
         "b": [
          364.52,
-         3.97
+         4
         ]
        },
        {
@@ -34634,7 +34678,7 @@
         "type": "line",
         "a": [
          364.52,
-         3.97
+         4
         ],
         "b": [
          364.52,

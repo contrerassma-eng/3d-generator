@@ -30,7 +30,10 @@
 // por tanto  tubo = P.rodDia − 2·P.rodVulcE = 28.93  y vulcanizado de espesor
 // CONSTANTE 3.0 mm. Efecto lateral favorable y buscado: en el tramo desnudo el
 // serpentín (2.5 mm) queda 0.50 mm POR DEBAJO de la cara vulcanizada, así que
-// el bulto nunca pisa la banda motriz. `params.mjs` NO se toca (contrato §2).
+// el bulto nunca pisa la banda motriz.
+// Desde el cierre de DIN-01 ese diámetro ya no se recalcula en cada módulo: vive
+// en `P.rodDiaArrastre`, y de él cuelga la cadena cinemática (`P.rodRpm`,
+// `P.velocidad`). `P.rodTubo` queda marcado NO USAR en params.mjs.
 
 import {
   Ensamble, revolve, box, rodamiento, pernoHex, golilla, COL, r2, pulg,
@@ -69,12 +72,20 @@ const L = {
   // «sujeciones con perforación y rodillo con su eje con hilo interior, entonces
   //  perno por fuera chapa». Es la opción de catálogo *end drilled & tapped*:
   //  Interroll ofrece ED&T sólo a partir de eje Ø12 mm / 7/16" hex, nunca en
-  //  5/16" (ficha en analisis/web_facts.json, ROD-ED&T-001/002). Como el
-  //  rodamiento de `P.rodRodam` (bore 8) está congelado en params.mjs, el eje se
-  //  hace ESCALONADO: cuerpo Ø7.94 (5/16", = P.rodHex) donde giran los
-  //  rodamientos y PUNTAS Ø12.70 (1/2") donde va la rosca y el tope contra chapa.
-  ejeCuerpoD: P.rodHex,      // 7.94 — 5/16" redondo (mismo tamaño de catálogo que
-                             //        el hexágono que sustituye; ya no gira en ranura)
+  //  5/16" (ficha en analisis/web_facts.json, ROD-ED&T-001/002). Por eso el eje es
+  //  ESCALONADO: cuerpo donde giran los rodamientos y PUNTAS Ø12.70 (1/2") donde
+  //  va la rosca y el tope contra chapa.
+  //
+  //  EL Ø DEL CUERPO LO FIJA EL RODAMIENTO, no el hexágono de catálogo. Antes
+  //  salía de `P.rodHex` = 5/16" (7.9375) y el 608-2RS tiene barreno Ø8: el juego
+  //  diametral era 0.055…0.072 mm — el de un montaje con casquillo, no el de un
+  //  ajuste, y con la carga pulsante de cada bulto el aro martillea y aparece
+  //  corrosión por rozamiento (AJ-02 de tolerancias.mjs lo llevaba declarado como
+  //  pendiente porque el módulo de fabricación no podía tocar params.mjs). Ahora
+  //  `P.rodEjeD` = 8 = el nominal del barreno, con ajuste `P.rodEjeAjuste` = g6
+  //  (aro interior con carga ESTACIONARIA ⇒ con juego; web BRG-FIT-001). El juego
+  //  baja a −0.003…+0.014 mm, un orden de magnitud menos.
+  ejeCuerpoD: P.rodEjeD,     // 8.00 — Ø del asiento del aro interior del 608-2RS
   ejePuntaD: pulg(0.5),      // 12.70 · cat: Ø de eje mínimo que admite ED&T
   ejeRodamGap: 2.0,          // dis: el escalón Ø12.70→Ø7.94 no toca el rodamiento
                              //      (el bolt tira del eje hacia FUERA y el tope es
@@ -108,6 +119,15 @@ const RB = P.rodRodam.od / 2;          // 11.0 — asiento del rodamiento
 const DIR = [1, 0, 0];                 // los 6 rodillos de transferencia van según +X
 const DIRY = [0, 1, 0];                // el rodillo de retorno, según +Y
 const c2 = (v) => Math.round(v * 100 + 1e-9) / 100;   // rótulos: 34.925 → 34.93
+const c3 = (v) => Math.round(v * 1000 + 1e-9) / 1000; // ajustes: 3 decimales (µm)
+
+// Juego diametral del aro interior del 608-2RS sobre el asiento del eje, de la
+// CADENA de desviaciones: barreno (ISO 492 clase Normal, web BRG-007) contra
+// asiento (ISO 286-2, P.rodEjeAjuste). Negativo = aprieta.
+const juegoRodam = [
+  (P.rodRodam.bore + P.rodRodamBoreDesv[1]) - (P.rodEjeD + P.rodEjeDesv[0]),   // mínimo
+  (P.rodRodam.bore + P.rodRodamBoreDesv[0]) - (P.rodEjeD + P.rodEjeDesv[1]),   // máximo
+];
 
 // ---------------------------------------------------------------------------
 // CONTACTO REAL DE LA BANDA DEL SERPENTÍN SOBRE EL RODILLO
@@ -274,6 +294,8 @@ export function rodillos(E) {
       ], {
         ...conj, material: 'acero estirado en frío',
         gira: false, rosca: '1/4-20 UNC-2B end drilled & tapped en las dos puntas',
+        ajuste: `cuerpo Ø${c2(L.ejeCuerpoD)} ${P.rodEjeAjuste} bajo los aros interiores de los `
+          + `608-2RS (aro interior con carga estacionaria ⇒ con juego)`,
       });
     n.ejes++;
 
@@ -289,8 +311,9 @@ export function rodillos(E) {
         ], { ...conj, ajuste: `prensado H7/r6 en el tubo Ø${c2(L.tuboID)}` });
       n.tapas++;
 
-      // rodamiento asentado contra el hombro; su bore Ø8 gira sobre el cuerpo
-      // Ø7.94 del eje (ajuste deslizante: el que no gira es el eje)
+      // rodamiento asentado contra el hombro; su barreno Ø8 monta sobre el cuerpo
+      // Ø8 g6 del eje (el que NO gira es el eje: el aro interior está quieto
+      // respecto de la carga, así que el ajuste es con juego)
       rodamiento(E, {
         nombre: `608-2RS (${ln}, ${lado})`, at: [RODAM_X[s], Y, Z], dir: DIR,
         ...P.rodRodam, capa: 'MÓVIL · ',
@@ -492,6 +515,17 @@ export function rodillos(E) {
     // montaje atornillado (sustituye al eje hexagonal con anillos DIN 471)
     montaje: 'placa peine con taladro pasante Ø7.0 · eje con hilo interior 1/4-20 · perno por fuera',
     ejeCuerpoD: c2(L.ejeCuerpoD), ejePuntaD: c2(L.ejePuntaD), ejeLargo: EJE_LARGO,
+    // El ajuste del asiento del rodamiento sale de la CADENA (nominal + desviaciones
+    // citadas), no de un literal: lo comprueba EST-11 de la compuerta.
+    ejeRodamiento: {
+      rodamiento: '608-2RS', barrenoNominalMm: P.rodRodam.bore,
+      barrenoDesvMm: P.rodRodamBoreDesv,                       // web BRG-007 · ISO 492 Normal
+      asientoNominalMm: P.rodEjeD, ajuste: P.rodEjeAjuste,     // web BRG-FIT-001 · ISO 286-2
+      asientoDesvMm: P.rodEjeDesv,
+      juegoDiametralMm: [c3(juegoRodam[0]), c3(juegoRodam[1])],
+      criterio: 'aro interior con carga ESTACIONARIA (el eje no gira) ⇒ ajuste con juego',
+      antes: 'Ø7.9375 (5/16") con el mismo barreno Ø8 → juego 0.055…0.072 mm (AJ-02, cerrado)',
+    },
     puntaLargo: PUNTA_L, roscaProf: L.roscaProf, perno: `1/4-20 UNC × ${L.pernoLargo}`,
     agarreMm: agarre, roscaEngranadaMm: engrane, roscaEngranadaEnD: r2(engrane / P.M.b14.d),
     roscaOK, topeEjeContraChapa: `corona Ø${c2(L.ejePuntaD)} contra la cara interior de la placa`,

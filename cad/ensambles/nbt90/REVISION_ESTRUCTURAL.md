@@ -25,22 +25,39 @@ Está ordenado por **gravedad**, no por tema. Cada hallazgo lleva:
 Y se distingue **NO CUMPLE** · **CUMPLE JUSTO** (margen < 1.35) · **CUMPLE** ·
 **NO SE PUEDE SABER**.
 
-Las 21 comprobaciones nuevas están en `gen_nbt90.mjs` §9 y su resultado viaja en
-`meta.verificaciones.estructural` del ensamble. Las 5 que hoy incumplen están en
+Las comprobaciones están en `gen_nbt90.mjs` §9 y su resultado viaja en
+`meta.verificaciones.estructural` del ensamble. Las que incumplen están en
 `HALLAZGOS_ABIERTOS` con su utilización registrada: **si una empeora, la compuerta
 para**; si una se arregla, la compuerta obliga a borrar la dispensa.
+
+**Segunda pasada, 2026-07-29.** Este informe se emitió con **21 comprobaciones y 5
+hallazgos abiertos**, y sin tocar geometría. Después se cerraron **`DIN-01`**
+(velocidad), **`EST-05`** (borde del taladro) y **`AJ-02`/B6** (ajuste del eje de
+rodillo), esta vez **sí moviendo cotas** en `params.mjs`, `bastidor.mjs` y
+`rodillos.mjs`; §9 pasó a **22 comprobaciones** con la nueva `EST-11`. Los apartados
+cerrados llevan un recuadro al principio que dice cómo se cerraron y qué colgaba de
+ellos; el texto original se conserva debajo, sin retocar, porque es el que explica
+por qué el hallazgo existía.
 
 ---
 
 ## Resumen: el resultado del §9
 
+> **Estado al 2026-07-29 (segunda pasada).** De las cinco que incumplían, **dos están
+> cerradas**: `DIN-01` (velocidad) y `EST-05` (borde del taladro). Sus dispensas se
+> borraron de `HALLAZGOS_ABIERTOS` y el bloque §9 pasó de 21 a 22 comprobaciones —la
+> nueva, `EST-11`, cierra además el ajuste `AJ-02` del eje de rodillo—. Quedan
+> abiertas las **tres de `elevacion.mjs`**. Las filas cerradas van tachadas abajo y
+> el detalle de cómo se cerraron, en A2, A5 y B6.
+
 | id | comprobación | valor | límite | uso | fuente del límite |
 |---|---|---|---|---|---|
-| **DIN-01** | velocidad declarada vs. real | 2.06× | 1.05× | **1.96** | coherencia interna |
+| ~~DIN-01~~ | ~~velocidad declarada vs. real~~ | **0.27 %** | 5 % | **0.05** | **cerrado 2026-07-29** (ver A2) |
 | **EST-03** | vuelco: no despegar el apoyo de la horquilla | 63.52 N·m | 52.37 N·m | **1.21** | equilibrio + FS 1.5 `dis` |
 | **DIN-12** | el bulto no despega al frenar el pop-up | 14.53 m/s² | 9.81 m/s² | **1.48** | g |
-| **EST-05** | borde del taladro del perno de rodillo | 9.01 mm | 9.53 mm | **1.06** | AISI S100-16 J3.2 (`web` STR-001) |
+| ~~EST-05~~ | ~~borde del taladro del perno de rodillo~~ | **9.77 mm** | 9.53 mm | **0.97** | **cerrado 2026-07-29** (ver A5) |
 | **EST-10** | flexión del alma del canal bajo el cilindro | 182.8 MPa | 150 MPa | **1.22** | 0.6·Fy A36 (`web` STR-005) |
+| EST-11 | asiento del rodamiento del rodillo (nuevo) | 0 mm | 0 mm | **0** | nominal del barreno (cierra `AJ-02`) |
 | DIN-02 | velocidad periférica del rodillo | 1.85 m/s | 2.0 m/s | 0.93 | Interroll (`web` ROD-007) |
 | DIN-04 | patinaje del bulto hasta sincronizar | 350.8 mm | 381 mm | 0.92 | campo de rodillos |
 | DIN-07 | deslizamiento de la banda en la rueda | 2.62 | 2.83 | 0.92 | Eytelwein + FS 1.3 `dis` |
@@ -121,7 +138,37 @@ un 60 %.
 
 ---
 
-## A2 — La velocidad de transferencia del modelo es 2.06 veces la que declara `params.mjs` `DIN-01`
+## A2 — ~~La velocidad de transferencia del modelo es 2.06 veces la que declara `params.mjs`~~ `DIN-01` · **CERRADO 2026-07-29**
+
+> **Cómo se cerró.** `P.velocidad` dejó de ser un literal: `params.mjs` lo **deriva de
+> la cadena** (`motorRpm` → `ruedaDia` → `rodDiaArrastre` → `rodDia`), junto con
+> `rodRpm`, `vBanda`, `relacionBanda` y `velocidadFpm`. Ya no se puede desincronizar.
+> Como «declarada vs. calculada» habría quedado **tautológica** —el vicio que este
+> mismo informe denuncia en E1—, `DIN-01` se reescribió como **cotejo a tres bandas**:
+> lo que declara `P`, lo que recalcula la compuerta y lo que reporta
+> `transmision.mjs` por su cuenta; ese tercer camino es independiente y es el que
+> muerde. Se mide la **desviación en %** (0.27 % de 5 admitido), no el cociente, para
+> que la utilización no mienta. Se plegó ahí el `e.push` suelto que hacía el mismo
+> cotejo en §9.0, para que la cinemática viva en un solo sitio.
+>
+> **Lo que colgaba del número equivocado y también se corrigió:**
+> - `tests/test_nbt90.mjs` calculaba `π·Ø34.93·462/60` y comprobaba que cayera entre
+>   0.3 y 1.5 m/s: **pasaba confirmando una cadena inexistente**. Ahora comprueba la
+>   cadena real eslabón a eslabón, que las tres fuentes coinciden, que el resultado
+>   **no** es la cuenta ingenua, y el contraste con la ficha del fabricante.
+> - `web_facts.json`, nota de `MOT-001`: decía que los 302 FPM de **banda motriz**
+>   eran «coherentes con los 275 FPM de transferencia del MRT 30». No son magnitudes
+>   homólogas. Corregida, y añadido el hecho **`SORT-018`** con la hoja de
+>   especificaciones del MRT 90 (URL, fecha 2026-07-29 y cita textual).
+> - `analisis/catalogo_componentes.md` repetía la misma comparación. Corregida.
+> - `transmision.mjs` publica ahora `multiplicacion` y `vTransferencia_fpm`.
+>
+> **Contraste con el fabricante:** 365 fpm frente a los *«Capable of 350 FPM»* de
+> Hytrol (`web` SORT-016/SORT-018) → **+4.3 %**. No se convierte en umbral de la
+> compuerta: 350 FPM es una capacidad de folleto, no un máximo de norma; el techo
+> duro sigue siendo el de `DIN-02` (Interroll, 2.0 m/s).
+
+Lo que decía el hallazgo:
 
 **Qué pasa.** `P.velocidad = 0.9` lleva escrito `dis: v = π·Ø·rpm/60 con Ø34.93 y
 462 rpm ≈ 0.845 m/s`. Ese cálculo supone que el rodillo gira a la velocidad del
@@ -156,7 +203,9 @@ escrito.
 
 **Qué habría que cambiar** (dueño: `params.mjs`): `velocidad: 1.855` con la
 justificación `calc` de la multiplicación, o mejor, borrarlo y que se lea de
-`transmision.cinematica`, que es quien lo sabe.
+`transmision.cinematica`, que es quien lo sabe. → **Hecho, por la tercera vía: se
+deriva en `params.mjs` de la cadena, que es la única forma de que no vuelva a
+desincronizarse. Ver el recuadro del principio de este apartado.**
 
 ---
 
@@ -230,7 +279,31 @@ alturas.
 
 ---
 
-## A5 — El taladro del perno de rodillo queda a 1.42·d del canto `EST-05`
+## A5 — ~~El taladro del perno de rodillo queda a 1.42·d del canto~~ `EST-05` · **CERRADO 2026-07-29**
+
+> **Cómo se cerró.** `L.peineZt` dejó de ser el literal `388.5` y **sale de la propia
+> norma**: `P.rodZ + 1.5·d + 0.25` = **389.26**. La distancia al canto pasa de 9.01 a
+> **9.77 mm = 1.54·d** (uso 0.97) y quedan **1.34 mm** al plano de bandas. Los 0.25 mm
+> de margen son `dis` y están justificados: cubren la tolerancia general de la chapa
+> cortada (ISO 2768-m da ±0.2 sobre una cota de 6…30 mm), así que **la cota aguanta el
+> peor caso** — 9.575 ≥ 9.525 — en vez de quedarse clavada en el mínimo.
+>
+> **El comentario del código, que afirmaba lo contrario, se corrigió entero**: decía
+> que no se podía subir `peineZt` «porque el plano de bandas está 2.1 mm más arriba»,
+> y de esos 2.1 sólo hacían falta 0.775. También atribuía el mínimo a **AISC**, que no
+> tabula tornillos menores de 1/2"; la fuente correcta es **AISI S100-16 J3.2**.
+>
+> **Y se cerró el hueco que dejaba abierto:** nadie comprobaba el techo. La compuerta
+> (§2) exige ahora que el canto del diente quede **por debajo** del plano de bandas, y
+> `bastidor.mjs` publica `dienteBajoPlanoBanda`. Sin esa comprobación, subir el
+> taladro para cumplir la norma podría hacer que el diente enganchara al producto que
+> viaja sobre las bandas del anfitrión — y nada lo habría detectado.
+>
+> Comprobado que no rompe lo demás: emergencia **6.35 mm** (1/4") y holgura
+> rodillo↔regleta **4.76 mm**, las dos intactas; 0 interferencias nuevas en elevado y
+> en retraído.
+
+Lo que decía el hallazgo:
 
 Esta cota venía ya declarada como floja en `bastidor.mjs`. **Se confirma que
 incumple, pero no por donde el comentario dice, y la consecuencia real es otra.**
@@ -442,7 +515,36 @@ down»* (`txt` pág. 8) sin ningún número—, la vida cae a **una octava parte
 3. Revisar el duty real de este divert. A partir del 15 % de duty no llega a los
    20 000 h.
 
-## B6 — El rodamiento del rodillo no tiene ajuste: tiene 0.07 mm de holgura
+## B6 — ~~El rodamiento del rodillo no tiene ajuste: tiene 0.07 mm de holgura~~ · **CERRADO 2026-07-29** (`AJ-02` / `EST-11`)
+
+> **Cómo se cerró.** El `P.rodHex` de 5/16" describía **una pieza que el modelo ya no
+> tiene**: desde que el montaje es «eje con hilo interior + perno por fuera», el eje es
+> redondo y escalonado, y quien fija el Ø del cuerpo **no es el hexágono de catálogo
+> sino el barreno del rodamiento**. La clave pasa a `P.rodEjeD = 8` con
+> `P.rodEjeAjuste = 'g6'` y sus desviaciones citadas. Juego diametral: de
+> **0.055…0.072 mm** a **−0.003…+0.014 mm** — un orden de magnitud —, calculado de la
+> cadena ISO 492 clase Normal (0/−0.008, `web` BRG-007) contra ISO 286-2 g6
+> (−0.005/−0.014), no de un literal. `g6` es lo que NTN recomienda para **aro interior
+> con carga estacionaria** (`web` BRG-FIT-001); el intervalo 0.005…0.022 que se cita
+> en el enunciado del hallazgo corresponde en realidad a **f6**, que daría más juego
+> justo donde el problema era el martilleo del aro.
+>
+> **Las otras dos salidas se descartaron con números, no por gusto:**
+> - *Rodamiento de barreno en pulgadas*: la serie R **no tiene 5/16"** (salta de R4 =
+>   1/4" a R6 = 3/8"), igual que ya se documentó para el eje de las poleas locas. El
+>   R6-2RS sí cabría en el tubo Ø28.93 (OD 22.23 contra los 22 del 608), pero su C0 es
+>   del orden de 780 N: `DIN-08` caería de s₀ = 2.39 a ≈1.4 y **dejaría de cumplir**.
+> - *Casquillo*: para 0.03 mm de pared. No es una pieza.
+>
+> Efecto lateral favorable: el cuerpo pasa de Ø7.94 a Ø8.00, así que `EST-02` baja de
+> 71.66 a **71.28 MPa**. Y `med` daba 8.53: Ø8 se acerca más a lo medido que 5/16".
+>
+> **Lo que queda en otro módulo (no lo toco):** `tolerancias.mjs` sigue declarando
+> `AJ-02` con la cota `Ø7,94 (5/16") h6` y el juego `0.052…0.069`. La compuerta lo
+> **denuncia por consola en cada generación** y lo escribe en
+> `meta.verificaciones.estructural.avisos`; corregirlo es del dueño de ese archivo.
+
+Lo que decía el hallazgo:
 
 `P.rodRodam = { bore: 8, … }` (`dis`) montado sobre `P.rodHex = 5/16" = 7.9375 mm`:
 
@@ -462,6 +564,12 @@ por rozamiento.
 **Qué habría que cambiar** (dueño: `rodillos.mjs` / `params.mjs`): o eje métrico
 Ø8 h6 con el 608, o —mejor, y coherente con B4— **eje Ø1/2" con R8-2RS**, que es
 la serie en pulgadas que ya usa el rodillo de retorno del mismo módulo.
+→ **Se hizo lo primero (Ø8, con g6 en vez de h6: h6 daría hasta 8 µm de aprieto).
+Lo segundo NO cabe y conviene dejarlo escrito para que nadie lo intente otra vez:
+el R8-2RS mide Ø1-1/8" = 28.575 mm de exterior y el tubo del rodillo de
+transferencia tiene Ø25.93 interior. Cabe en el rodillo de retorno porque aquél es
+Ø1.9". La recomendación de fondo de B4 —eje Ø12.70 en toda su longitud— sigue en
+pie, pero exige otro rodamiento, y eso ya no es este hallazgo.**
 
 ## B7 — El motorreductor va al 78 % de su carga radial admisible, medida en el punto equivocado `EST-07`
 
@@ -663,18 +771,19 @@ reacción de empujar el bulto (166.7 N en Y) va entera al cilindro, que la aguan
 (`EST-04`, 352 N admisibles) — pero por diseño, no por casualidad, y conviene que
 esté escrito. **Dueño: `elevacion.mjs`.**
 
-**E4 · `P.cargaMaxKg` está etiquetado `dis` y es `web`.** El comentario dice
-*«dis: bulto máximo típico de un MRT (75 lb)»*, pero es un dato de la ficha del
-fabricante, ya citado con URL y cita textual en `web_facts.json` (SORT-013 y
-SORT-014: *«Maximum unit package weight of 75 lbs»*). Debería ser `cat`/`web`.
+**E4 · ~~`P.cargaMaxKg` está etiquetado `dis` y es `web`~~ · CORREGIDO 2026-07-29.**
+El comentario decía *«dis: bulto máximo típico de un MRT (75 lb)»*, pero es un dato
+de la ficha del fabricante, ya citado con URL y cita textual en `web_facts.json`
+(SORT-013 y SORT-014: *«Maximum unit package weight of 75 lbs»*). Ya está como
+`cat`/`web`, con los dos ids en el comentario.
 
 ---
 
 # Qué se ha metido en la compuerta
 
 `gen_nbt90.mjs` gana un bloque **§9 · Resistencia y dinámica** con **21
-comprobaciones**, cada una con su umbral y la fuente del umbral en el comentario.
-Lo que hace distinto a este bloque:
+comprobaciones** —**22** desde que `EST-11` cerró `AJ-02`—, cada una con su umbral y
+la fuente del umbral en el comentario. Lo que hace distinto a este bloque:
 
 - **recalcula, no copia**: la cinemática, las tensiones del serpentín, el reparto
   de carga y las tensiones se derivan de `P` y de las métricas que publican los
@@ -683,7 +792,8 @@ Lo que hace distinto a este bloque:
 - **vigila la tensión de montaje de la banda**: `T2 = 150 N` es una constante local
   de `transmision.mjs` que no se exporta y de la que cuelga toda la vida de los
   rodamientos. §9.0 la reconstruye de las métricas del módulo y falla si cambia;
-- **`HALLAZGOS_ABIERTOS` con trinquete**: las 5 comprobaciones que hoy incumplen
+- **`HALLAZGOS_ABIERTOS` con trinquete**: las comprobaciones que incumplen (5 al
+  emitir este informe, **3** tras la segunda pasada: las de `elevacion.mjs`)
   están escritas con su utilización. Si una **empeora**, la compuerta para; si una
   se **arregla**, la compuerta para pidiendo que se borre la dispensa (nada de
   dispensas caducadas); si aparece una violación **nueva**, la compuerta para sin
@@ -724,14 +834,20 @@ sobrestime más del 60 %) por lo dicho en A1.
 
 ## Verificación
 
+Estado tras la segunda pasada (2026-07-29, cierre de `DIN-01`, `EST-05` y `AJ-02`):
+
 ```
 node ensambles/nbt90/gen_nbt90.mjs
-   → 16/21 comprobaciones estructurales cumplen; 5 abiertas, listadas por consola
+   → 19/22 comprobaciones estructurales cumplen; 3 abiertas (las de elevacion.mjs),
+     listadas por consola, más el aviso de AJ-02 en tolerancias.mjs
 python3 ensambles/nbt90/interferencias_brep.py --tol 0.05
-   → 4 sobre 1024 pares (convención declarada: tornillería dentro de piezas compradas)
+   → 4 sobre 1032 pares en elevado y 4 sobre 1037 en retraído (convención declarada:
+     tornillería dentro de piezas compradas) — ninguna nueva
 node tests/test_nbt90.mjs
-   → 53 OK, 0 fallas
+   → 63 OK, 0 fallas
 ```
+
+En la primera pasada eran 16/21, 5 abiertas y 53 OK.
 
 Que las comprobaciones nuevas **muerden** se verificó forzando fallos en 21 de 21:
 perturbando `P` (velocidad, rpm, carga, Ø de rueda, espesor de vulcanizado, plano

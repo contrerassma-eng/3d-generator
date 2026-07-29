@@ -83,6 +83,17 @@ ok(pernosRod.every((p) => {
   const b = bboxPieza(p);
   return b.lo[0] < R.placaPeineX[0] - caraExt[0] || b.hi[0] > R.placaPeineX[1] + caraExt[1];
 }), 'todas las cabezas quedan por fuera de las placas peine (hay llave)');
+// EST-05: distancia del taladro al canto del diente. El mínimo es de AISI S100-16
+// J3.2 (1.5·d), NO de AISC —cuya tabla J3.4 no baja de 1/2"—, y lo que se juega en
+// esos 0.5 mm es el punzonado, no la resistencia. Las dos cotas van juntas: subir el
+// taladro sube el canto, y el canto tiene por techo el plano de bandas.
+const MR = doc.meta.modulos.bastidor.montajeRodillo;
+ok(MR.dienteSobreEje >= 1.5 * P.M.b14.d,
+  `del taladro al canto del diente hay ${MR.dienteSobreEje} mm = ${MR.dienteSobreEjeEnD}·d `
+  + `(AISI S100-16 J3.2 pide 1.5·d = ${r2(1.5 * P.M.b14.d)})`);
+ok(MR.dienteBajoPlanoBanda > 0,
+  `y el canto (Z=${MR.cantoDienteZ}) sigue ${MR.dienteBajoPlanoBanda} mm POR DEBAJO del plano de `
+  + `bandas del anfitrión (Z=${P.planoBanda}): no engancha al producto que viaja sobre las bandas`);
 
 console.log('— Rodillo de retorno B-20760: el que limita las bandas del sorter —');
 const ret = nombre(/^FIJO · Rodillo de retorno B-20760/);
@@ -104,8 +115,43 @@ ok(nombre(/^FIJO · Casquillo separador/).length === 2 && R.retorno.juegoAxialTu
 console.log('— Transmisión —');
 ok(V.largoBanda > 500, `banda del serpentín de ${V.largoBanda} mm de desarrollo`);
 ok(V.envolventeRodillo >= 60, `envolvente de ${V.envolventeRodillo}° sobre cada rodillo (arrastre por fricción)`);
-const vel = Math.PI * P.rodDia * P.motorRpm / 60000;
-ok(vel > 0.3 && vel < 1.5, `velocidad periférica ${vel.toFixed(2)} m/s con ${P.motorRpm} rpm`);
+
+console.log('— Cinemática: la cadena entera, no las rpm del motor —');
+// LO QUE HABÍA AQUÍ COMPROBABA ALGO FALSO: `Math.PI * P.rodDia * P.motorRpm / 60000`
+// es la velocidad que tendría la cara del rodillo SI el rodillo girase a las rpm del
+// motor. No gira: entre el motorreductor y el rodillo hay una banda plana que
+// MULTIPLICA, porque la rueda motriz (Ø63.5) arrastra el tubo desnudo (Ø28.93). La
+// prueba pasaba —0.845 está entre 0.3 y 1.5— confirmando una cadena inexistente, y
+// con ella pasaba el `P.velocidad = 0.9` que salía de la misma cuenta (DIN-01).
+// Ahora se comprueba la cadena real, eslabón a eslabón, contra las tres fuentes.
+const K = V.estructural.cinematica;
+const relacion = P.ruedaDia / (P.rodDia - 2 * P.rodVulcE);
+const rpmRodillo = P.motorRpm * relacion;
+const vel = Math.PI * P.rodDia * rpmRodillo / 60000;                 // m/s en el vulcanizado
+const velIngenua = Math.PI * P.rodDia * P.motorRpm / 60000;          // la cuenta equivocada
+ok(relacion > 1 && Math.abs(relacion - 2.195) < 0.01,
+  `la banda plana MULTIPLICA ×${relacion.toFixed(3)} (rueda Ø${P.ruedaDia} / tubo desnudo Ø${K.diaArrastreMm})`);
+ok(Math.abs(rpmRodillo - K.rpmRodillo) < 1,
+  `el rodillo gira a ${rpmRodillo.toFixed(0)} rpm, no a las ${P.motorRpm} del motor`);
+ok(Math.abs(vel - P.velocidad) < 0.005,
+  `P.velocidad (${P.velocidad.toFixed(3)} m/s) SALE de la cadena, no está escrita a mano`);
+ok(Math.abs(vel - velIngenua) > 0.5,
+  `y no es la cuenta con las rpm del motor, que daría ${velIngenua.toFixed(3)} m/s `
+  + `(${(vel / velIngenua).toFixed(2)}× por debajo: el error DIN-01)`);
+ok(Math.abs(vel - doc.meta.modulos.transmision.cinematica.vTransferencia_m_s) < 0.02,
+  `y coincide con la que reporta transmision.mjs por su cuenta `
+  + `(${doc.meta.modulos.transmision.cinematica.vTransferencia_m_s} m/s)`);
+// Contraste con el fabricante: Hytrol declara «Capable of 350 FPM» para el ProSort
+// MRT (web SORT-016). No es un límite del gate —es la evidencia de que el equipo
+// estaba bien concebido y lo que estaba mal era el número escrito—, pero un 20 % de
+// desviación querría decir que la cadena que hemos reconstruido no es la del equipo.
+ok(Math.abs(vel * 196.85 / 350 - 1) < 0.20,
+  `${(vel * 196.85).toFixed(0)} fpm frente a los 350 FPM que declara Hytrol `
+  + `(${K.desviacionSobreFabricantePct} %, web SORT-016/SORT-018)`);
+// Y sigue por debajo del techo de catálogo de un rodillo transportador (DIN-02).
+const din02 = V.estructural.comprobaciones.find((c) => c.id === 'DIN-02');
+ok(din02.ok, `velocidad periférica ${din02.valor} m/s ≤ ${din02.limite} m/s de la plataforma `
+  + `Interroll 1700 (web ROD-007), al ${r2(din02.uso * 100)} %`);
 
 console.log('— Elevación —');
 ok(V.factorSeguridad >= 1.5, `factor de seguridad del actuador ${V.factorSeguridad}`);
@@ -175,6 +221,18 @@ ok(chapas.every(p => p.chapa.t >= 1.5) && plegadas.every(p => p.chapa.radio >= p
   `las ${chapas.length} chapas tienen espesor de calibre y las ${plegadas.length} plegadas, radio ≥ espesor`);
 const compradas = propias.filter(p => p.hardware || p.componente);
 ok(compradas.length >= 20, `${compradas.length} piezas compradas identificadas para la lista de materiales`);
+// AJ-02: el asiento del rodamiento del rodillo tiene que ser un AJUSTE, no una
+// holgura. Con el eje de 5/16" (7.9375) bajo el barreno Ø8 del 608-2RS el juego era
+// 0.055…0.072 mm, el de un montaje con casquillo: el aro martillea con la carga
+// pulsante de cada bulto. El nominal del asiento manda y es el del barreno.
+const AR = R.ejeRodamiento;
+ok(AR.asientoNominalMm === AR.barrenoNominalMm,
+  `el asiento del rodamiento (Ø${AR.asientoNominalMm} ${AR.ajuste}) comparte nominal con el `
+  + `barreno del ${AR.rodamiento} (Ø${AR.barrenoNominalMm})`);
+ok(Math.max(...AR.juegoDiametralMm.map(Math.abs)) <= 0.025,
+  `juego diametral ${AR.juegoDiametralMm.join('…')} mm de la cadena de desviaciones `
+  + `(ISO 492 Normal ${AR.barrenoDesvMm.join('/')} · ISO 286-2 ${AR.ajuste}), frente a los `
+  + `0.055…0.072 que había`);
 
 console.log('— Malla: todas las piezas construyen —');
 const volumen = (g) => {
