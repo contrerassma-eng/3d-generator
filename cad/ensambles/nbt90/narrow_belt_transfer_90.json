@@ -39,11 +39,12 @@
    "empujeN60psi": 2081.18,
    "factorSeguridad": 2.94,
    "factorSeguridad60psi": 2.03,
-   "velocidadMaxMmS": 241.06,
-   "tiempoSubidaMs": 58.08,
-   "energiaCineticaJ": 2.71,
+   "velocidadDisenoMmS": 120,
+   "velocidadImpactoMmS": 168,
+   "tiempoSubidaMs": 83.33,
+   "energiaCineticaJ": 1.316,
    "aireLitrosANRciclo": 0.486,
-   "parPlacaNm": 16.19,
+   "parPlacaNm": 17.97,
    "cargaLateralN": 174.56,
    "salidaVarillasMm": 18.5,
    "holguraPlacaMotorMm": 2.4,
@@ -161,12 +162,12 @@
       "id": "EST-03",
       "titulo": "vuelco del cassette: no despegar el apoyo de la horquilla",
       "valor": 63.52,
-      "limite": 52.37,
+      "limite": 47.07,
       "unidad": "N·m",
-      "uso": 1.21,
+      "uso": 1.35,
       "ok": false,
       "abierto": true,
-      "dueño": "elevacion.mjs"
+      "dueño": "elevacion.mjs + bastidor.mjs"
      },
      {
       "id": "EST-04",
@@ -216,33 +217,38 @@
      {
       "id": "DIN-12",
       "titulo": "el bulto no despega de los rodillos al frenar el pop-up",
-      "valor": 14.53,
+      "valor": 7.06,
       "limite": 9.81,
       "unidad": "m/s²",
-      "uso": 1.48,
-      "ok": false,
-      "abierto": true,
-      "dueño": "elevacion.mjs"
+      "uso": 0.72,
+      "ok": true
+     },
+     {
+      "id": "DIN-14",
+      "titulo": "energía cinética de impacto contra los topes de goma del cilindro",
+      "valor": 1.32,
+      "limite": 2.71,
+      "unidad": "J",
+      "uso": 0.49,
+      "ok": true
      },
      {
       "id": "EST-09",
       "titulo": "impacto del pop-up contra los 8 pernos 3/8\" de las spacer plate",
-      "valor": 2710,
+      "valor": 1316,
       "limite": 37555.91,
       "unidad": "N",
-      "uso": 0.07,
+      "uso": 0.04,
       "ok": true
      },
      {
       "id": "EST-10",
       "titulo": "flexión del alma del canal de montaje bajo el cilindro",
-      "valor": 182.81,
+      "valor": 80.11,
       "limite": 150,
       "unidad": "MPa",
-      "uso": 1.22,
-      "ok": false,
-      "abierto": true,
-      "dueño": "elevacion.mjs"
+      "uso": 0.53,
+      "ok": true
      },
      {
       "id": "EST-08",
@@ -254,25 +260,13 @@
       "ok": true
      }
     ],
-    "incumplen": 3,
+    "incumplen": 1,
     "abiertos": [
      {
       "id": "EST-03",
       "titulo": "vuelco del cassette: no despegar el apoyo de la horquilla",
-      "uso": 1.21,
-      "dueño": "elevacion.mjs"
-     },
-     {
-      "id": "DIN-12",
-      "titulo": "el bulto no despega de los rodillos al frenar el pop-up",
-      "uso": 1.48,
-      "dueño": "elevacion.mjs"
-     },
-     {
-      "id": "EST-10",
-      "titulo": "flexión del alma del canal de montaje bajo el cilindro",
-      "uso": 1.22,
-      "dueño": "elevacion.mjs"
+      "uso": 1.35,
+      "dueño": "elevacion.mjs + bastidor.mjs"
      }
     ],
     "avisos": [],
@@ -343,22 +337,44 @@
     },
     "cassette": {
      "masaMovilDeclaradaKg": 55,
+     "masaMovilVuelcoKg": 38,
+     "yApoyoMm": 100,
+     "anchoApoyoMm": 40,
      "momentoVuelcoNm": 63.52,
-     "momentoDespegueApoyoNm": 78.55,
-     "FSdespegue": 1.24,
+     "momentoDespegueApoyoNm": 70.61,
+     "FSdespegue": 1.11,
+     "FSdespegueConMasaDeclarada": 1.37,
      "cargaLateralYN": 166.71,
-     "excentricidadAdmisibleFS15mm": 157.06
+     "excentricidadAdmisibleFS15mm": 141.18,
+     "yApoyoNecesarioFS15mm": 134.94
     },
     "impacto": {
-     "velocidadImpactoMmS": 241.06,
+     "velocidadDisenoMmS": 120,
+     "velocidadImpactoMmS": 168,
      "aplastamientoSupuestoMm": 2,
-     "deceleracionMs2": 14.53,
-     "enG": 1.48,
-     "saltoBultoMm": 2.96,
-     "energiaReasienteJ": 0.99,
-     "fuerzaEnEstructuraN": 2710,
-     "velocidadSinDespegueMmS": 198.06,
-     "chequeoEkTautologico": true
+     "deceleracionMs2": 7.06,
+     "enG": 0.72,
+     "despegaElBulto": false,
+     "saltoBultoMm": 0,
+     "energiaReasienteJ": 0,
+     "fuerzaEnEstructuraN": 1316,
+     "velocidadImpactoSinDespegueMmS": 198.06,
+     "aplastamientoMinimoDelTopeMm": 1.44,
+     "chequeoEkTautologico": false
+    },
+    "almaCanal": {
+     "espesorMm": 4.76,
+     "calibre": "3/16\"",
+     "vanoLibreMm": 229.24,
+     "huellaMm": [
+      91.5,
+      202
+     ],
+     "cargaN": 936.44,
+     "momentoNmmPorMm": 212.66,
+     "factorSeccionNeta": 1.42,
+     "sigmaMPa": 80.11,
+     "sigmaConAceleracionMPa": 91.64
     },
     "soldadura": {
      "conjuntosSoldados": 21,
@@ -751,26 +767,38 @@
     "presionMinimaBar": 2.04,
     "masaMovilCilindroKg": 4.27,
     "masaTotalMovilKg": 93.27,
-    "velocidadMaxMs": 0.241,
-    "velocidadMaxMmS": 241.06,
+    "velocidadDisenoMmS": 120,
     "velocidadAdmisibleMmS": [
      50,
      400
     ],
-    "energiaCineticaJ": 2.71,
+    "factorImpacto": 1.4,
+    "velocidadImpactoMmS": 168,
+    "velocidadImpactoMs": 0.168,
+    "energiaCineticaJ": 1.316,
     "energiaAdmisibleJ": 2.71,
-    "velocidadMediaMmS": 172.19,
-    "tiempoSubidaMs": 58.08,
+    "velocidadMaxImpactoMmS": 241.06,
+    "velocidadDisenoCriterio": "dato de diseño (dis): 120 mm/s de velocidad media de émbolo → 168 mm/s de impacto (×1.4 cat) → 1.316 J de los 2.71 admisibles. Se elige por la deceleración de frenado, no por la energía: con 168 mm/s el bulto no despega de los rodillos.",
+    "tiempoSubidaMs": 83.33,
     "aireLitrosANRciclo": 0.486,
     "aireLitrosANRmin20cpm": 9.73,
     "cargaLateralN": 174.56,
     "cargaLateralAdmisibleN": 352,
-    "parPlacaNm": 16.19,
+    "parPlacaNm": 17.97,
     "parAdmisibleNm": 21.9,
-    "parPlacaCriterio": "cota superior por rozamiento en los dos apoyos de la horquilla (μ = 0.2, radio polar medio 92.75 mm): por encima deslizan y el par lo toman los 4 pasadores guía. El par por excentricidad del CG es 1.2 N·m.",
+    "parPlacaCriterio": "cota superior por rozamiento en los dos apoyos de la horquilla (μ = 0.2, radio polar medio 102.97 mm): por encima deslizan y el par lo toman los 4 pasadores guía. El par por excentricidad del CG es 1.2 N·m.",
     "excentricidadCGmm": 1.38,
     "parExcentricidadNm": 1.2,
     "noGiroGrados": 0.04,
+    "apoyoContactoY": [
+     80,
+     120
+    ],
+    "yApoyoContactoMm": 100,
+    "anchoContactoMm": 40,
+    "masaMovilDeclaradaKg": 55,
+    "masaMovilVuelcoKg": 38,
+    "vuelcoCriterio": "la masa móvil es lo ÚNICO que estabiliza el cassette, así que el vuelco se comprueba con la cota INFERIOR (38 kg), no con la declarada (55 kg), que es conservadora para todo lo demás y anticonservadora aquí.",
     "huellaCuerpoMm": [
      91.5,
      202
@@ -792,12 +820,20 @@
     "salidaVarillasRetraidoMm": 18.5,
     "libreBajoAlmaMm": 15,
     "pasoVarillasCanal": "2 taladros Ø30 en el alma del canal, a X=231.5 e Y=±78; bajo ellos no hay ninguna pieza (el canal base ocupa X 26…102.2)",
-    "empujeInterfaz": "horquilla de 2 brazos en Y=±58…100, atornillados a las 4 roscas NN reales de la placa (M12, X=±26, Y=±87); contacto de 20 × 75 mm por brazo contra la cara inferior de los notched brace channel (Y=±80…120)",
+    "empujeInterfaz": "horquilla de 2 brazos en Y=±58…120, atornillados a las 4 roscas NN reales de la placa (M12, X=±26, Y=±87); contacto de 40 × 75 mm por brazo contra la cara inferior de los notched brace channel (Y=±80…120)",
     "huecoMotorMm": 4,
-    "presionContactoMPa": 0.291,
+    "presionContactoMPa": 0.145,
     "canalZ": [
      10.24,
      113.24
+    ],
+    "espesorCanalMm": 4.76,
+    "espesorCanalCalibre": "3/16\"",
+    "vanoAlmaMm": 229.24,
+    "pasoVarillaCanalDia": 30,
+    "pasoVarillaCanalY": [
+     -78,
+     78
     ],
     "desarrolloCanalMm": 443.68,
     "plegadosCanal": 4,
@@ -55663,8 +55699,8 @@
    }
   },
   {
-   "id": "p337_fijo_canal_de_montaje_del_cilindro_12_ga_234_103_442_3_wa_02",
-   "name": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "id": "p337_fijo_canal_de_montaje_del_cilindro_3_16_234_103_442_3_wa_025",
+   "name": "FIJO · Canal de montaje del cilindro 3/16\" 234×103×442.3 (WA-025833)",
    "color": "#8fa3b8",
    "pos": [
     114.5,
@@ -55680,8 +55716,8 @@
    "fixed": false,
    "visible": true,
    "chapa": {
-    "t": 2.66,
-    "material": "acero al carbono 12 GA",
+    "t": 4.76,
+    "material": "acero al carbono 3/16\" (A36 mínimo defendible)",
     "fibra": [
      [
       132.88,
@@ -55708,7 +55744,7 @@
       110.86
      ]
     ],
-    "radio": 2.657
+    "radio": 4.762
    },
    "desarrollo": {
     "largo": 443.68,
@@ -55757,7 +55793,7 @@
      "rol": "tope",
      "lado": "ambos",
      "gdl": [],
-     "motivo": "SIN ENCAJE, y hay que decir por qué: la sección del canal (X 114.5…348.5, Z 12.34…115.34) y la placa colgante (X 130…333, Z 88…246) sólo COINCIDEN en los dos labios de rigidez, o sea en 3.16 mm de X por el lado −X y 1.83 por el +X. En esa franja no cabe ni una lengüeta ni un taladro de pasador. Alargar los labios hacia dentro (que sería la solución) mete el labio bajo el cárter del motorreductor RETRAÍDO (Z 113.9 contra el techo del labio 115.34, en X 133.4…149.8), así que tampoco. HALLAZGO PARA REVISIÓN ESTRUCTURAL: la unión de este weldment tiene muy poco solape.",
+     "motivo": "SIN ENCAJE, y hay que decir por qué: la sección del canal (X 114.5…348.5, Z 10.24…113.24) y la placa colgante (X 130…333, Z 88…246) sólo COINCIDEN en los dos labios de rigidez, o sea en 3.16 mm de X por el lado −X y 1.83 por el +X. En esa franja no cabe ni una lengüeta ni un taladro de pasador. Alargar los labios hacia dentro (que sería la solución) los mete bajo el cárter del motorreductor RETRAÍDO (Z 113.9) en X 133.4…149.8; con el alma en 3/16\" el techo del labio baja a 113.24 y ya libra, pero por 0.66 mm, que no es holgura para un utillaje. HALLAZGO PARA REVISIÓN ESTRUCTURAL: la unión de este weldment tiene muy poco solape.",
      "posicionamiento": "utillaje: el canal se apoya sobre dos calzos a Z = canalZ0 y las placas se aprietan contra sus caras de extremo (|Y| = 221.15) con la propia cota de 447.6 mm entre caras exteriores como referencia",
      "referencia": "cara de extremo del canal (|Y| = 221.15) y canto inferior de la placa (Z = 88)"
     },
@@ -55768,7 +55804,7 @@
      "rol": "tope",
      "lado": "ambos",
      "gdl": [],
-     "motivo": "SIN ENCAJE, y hay que decir por qué: la sección del canal (X 114.5…348.5, Z 12.34…115.34) y la placa colgante (X 130…333, Z 88…246) sólo COINCIDEN en los dos labios de rigidez, o sea en 3.16 mm de X por el lado −X y 1.83 por el +X. En esa franja no cabe ni una lengüeta ni un taladro de pasador. Alargar los labios hacia dentro (que sería la solución) mete el labio bajo el cárter del motorreductor RETRAÍDO (Z 113.9 contra el techo del labio 115.34, en X 133.4…149.8), así que tampoco. HALLAZGO PARA REVISIÓN ESTRUCTURAL: la unión de este weldment tiene muy poco solape.",
+     "motivo": "SIN ENCAJE, y hay que decir por qué: la sección del canal (X 114.5…348.5, Z 10.24…113.24) y la placa colgante (X 130…333, Z 88…246) sólo COINCIDEN en los dos labios de rigidez, o sea en 3.16 mm de X por el lado −X y 1.83 por el +X. En esa franja no cabe ni una lengüeta ni un taladro de pasador. Alargar los labios hacia dentro (que sería la solución) los mete bajo el cárter del motorreductor RETRAÍDO (Z 113.9) en X 133.4…149.8; con el alma en 3/16\" el techo del labio baja a 113.24 y ya libra, pero por 0.66 mm, que no es holgura para un utillaje. HALLAZGO PARA REVISIÓN ESTRUCTURAL: la unión de este weldment tiene muy poco solape.",
      "posicionamiento": "utillaje: el canal se apoya sobre dos calzos a Z = canalZ0 y las placas se aprietan contra sus caras de extremo (|Y| = 221.15) con la propia cota de 447.6 mm entre caras exteriores como referencia",
      "referencia": "cara de extremo del canal (|Y| = 221.15) y canto inferior de la placa (Z = 88)"
     }
@@ -55776,7 +55812,7 @@
    "features": [
     {
      "id": "f856",
-     "name": "Perfil conformado 234×103 e=2.66",
+     "name": "Perfil conformado 234×103 e=4.76",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -56351,8 +56387,8 @@
    },
    "soldadura": {
     "tipo": "cordón en ángulo (filete)",
-    "lado": 2.66,
-    "garganta": 1.86,
+    "lado": 4.76,
+    "garganta": 3.33,
     "disposicion": "DISCONTINUO 25/50 (25 mm de cordón cada 50), mínimo dos tramos por junta y siempre uno en cada extremo del encaje",
     "proceso": "GMAW en corto circuito, hilo ER70S-6 Ø0,9 mm, Ar-CO₂ 82/18",
     "norma": "AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
@@ -62458,12 +62494,12 @@
    }
   },
   {
-   "id": "p381_movil_brazo_de_empuje_de_la_horquilla_75_42_22_y_58_100_cara",
-   "name": "MÓVIL · Brazo de empuje de la horquilla 75×42×22 (Y=+58…100, cara de empuje Z=143.5)",
+   "id": "p381_movil_brazo_de_empuje_de_la_horquilla_75_62_22_y_58_120_cara",
+   "name": "MÓVIL · Brazo de empuje de la horquilla 75×62×22 (Y=+58…120, cara de empuje Z=143.5)",
    "color": "#2a4fd7",
    "pos": [
     231.5,
-    79,
+    89,
     121.5
    ],
    "quat": [
@@ -62478,7 +62514,7 @@
    "features": [
     {
      "id": "f979",
-     "name": "Brazo 75×42×22",
+     "name": "Brazo 75×62×22",
      "shape": "box",
      "op": "union",
      "at": [
@@ -62493,7 +62529,7 @@
      ],
      "params": {
       "w": 75,
-      "d": 42,
+      "d": 62,
       "h": 22
      }
     },
@@ -62504,7 +62540,7 @@
      "op": "cut",
      "at": [
       -26,
-      8,
+      -2,
       23
      ],
      "dir": [
@@ -62525,7 +62561,7 @@
      "op": "cut",
      "at": [
       26,
-      8,
+      -2,
       23
      ],
      "dir": [
@@ -62546,7 +62582,7 @@
      "op": "cut",
      "at": [
       -26,
-      8,
+      -2,
       22
      ],
      "dir": [
@@ -62567,7 +62603,7 @@
      "op": "cut",
      "at": [
       26,
-      8,
+      -2,
       22
      ],
      "dir": [
@@ -62735,12 +62771,12 @@
    }
   },
   {
-   "id": "p384_movil_brazo_de_empuje_de_la_horquilla_75_42_22_y_58_100_cara",
-   "name": "MÓVIL · Brazo de empuje de la horquilla 75×42×22 (Y=−58…100, cara de empuje Z=143.5)",
+   "id": "p384_movil_brazo_de_empuje_de_la_horquilla_75_62_22_y_58_120_cara",
+   "name": "MÓVIL · Brazo de empuje de la horquilla 75×62×22 (Y=−58…120, cara de empuje Z=143.5)",
    "color": "#2a4fd7",
    "pos": [
     231.5,
-    -79,
+    -89,
     121.5
    ],
    "quat": [
@@ -62755,7 +62791,7 @@
    "features": [
     {
      "id": "f988",
-     "name": "Brazo 75×42×22",
+     "name": "Brazo 75×62×22",
      "shape": "box",
      "op": "union",
      "at": [
@@ -62770,7 +62806,7 @@
      ],
      "params": {
       "w": 75,
-      "d": 42,
+      "d": 62,
       "h": 22
      }
     },
@@ -62781,7 +62817,7 @@
      "op": "cut",
      "at": [
       -26,
-      -8,
+      2,
       23
      ],
      "dir": [
@@ -62802,7 +62838,7 @@
      "op": "cut",
      "at": [
       26,
-      -8,
+      2,
       23
      ],
      "dir": [
@@ -62823,7 +62859,7 @@
      "op": "cut",
      "at": [
       -26,
-      -8,
+      2,
       22
      ],
      "dir": [
@@ -62844,7 +62880,7 @@
      "op": "cut",
      "at": [
       26,
-      -8,
+      2,
       22
      ],
      "dir": [

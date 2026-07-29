@@ -23,15 +23,15 @@
   },
   {
    "item": 2,
-   "designacion": "Canal de montaje del cilindro 12 GA 234×103×442.3",
+   "designacion": "Canal de montaje del cilindro 3/16\" 234×103×442.3",
    "cant": 1,
    "capa": "FIJO",
    "tipo": "FABRICADA",
-   "material_norma": "Chapa de acero 0.105\" conformada, galvanizada",
+   "material_norma": "Chapa de acero 0.187\" conformada, galvanizada",
    "plano": "NBT90-02",
-   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a1.86 AWS D1.3/D1.3M",
+   "tolerancia": "tol. gral. ISO 2768-mK · conjunto soldado ISO 13920-BF · Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 · cordón a3.33 AWS D1.3/D1.3M",
    "ajustes": "Ø11,13 H13 holgura 1,60 mm sobre el vástago Ø9,525 (taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.)",
-   "soldadura": "cordón en ángulo (filete) a=1.86 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
+   "soldadura": "cordón en ángulo (filete) a=3.33 · AWS D1.3/D1.3M — Structural Welding Code, Sheet Steel (e ≤ 4,8 mm); símbolo según ISO 2553",
    "encajes": "U5-+Y tope/tope · U5--Y tope/tope",
    "acabado": "—"
   },
@@ -191,7 +191,7 @@
   },
   {
    "item": 14,
-   "designacion": "Brazo de empuje de la horquilla 75×42×22",
+   "designacion": "Brazo de empuje de la horquilla 75×62×22",
    "cant": 2,
    "capa": "MÓVIL",
    "tipo": "FABRICADA",

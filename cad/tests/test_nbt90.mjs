@@ -289,6 +289,14 @@ ok(masaPesada <= masaDeclarada + 1e-9,
 ok(masaDeclarada <= masaPesada * 1.6,
   `y no la sobrestima más de un 60 % (${r2(masaDeclarada / masaPesada)}×): la masa móvil es lo único `
   + `que impide que un bulto excéntrico despegue el apoyo de la horquilla, así que pasarse NO es conservador`);
+// La cota INFERIOR es la que usa EST-03, y por eso tiene que ser de verdad una cota
+// inferior: si el cassette adelgaza por debajo de ella, el vuelco se estaría
+// comprobando con más masa estabilizadora de la que hay.
+const masaVuelco = doc.meta.verificaciones.estructural?.cassette?.masaMovilVuelcoKg;
+ok(masaVuelco !== undefined && masaVuelco <= masaPesada + 1e-9,
+  `la masa con la que se comprueba el VUELCO (${masaVuelco} kg, cota inferior de elevacion.mjs) `
+  + `no llega a la que pesan los sólidos (${r2(masaPesada)} kg): margen ${r2(masaPesada - masaVuelco)} kg `
+  + `= ${r2((masaPesada / masaVuelco - 1) * 100)} %`);
 
 console.log(`\n${pass} OK, ${fail} fallas`);
 process.exit(fail ? 1 : 0);

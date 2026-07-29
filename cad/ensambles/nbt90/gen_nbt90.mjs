@@ -166,29 +166,44 @@ const HALLAZGOS_ABIERTOS = {
   // puede volver a desincronizarse. La comprobación se reforzó en vez de retirarse:
   // ahora coteja las TRES fuentes —lo que declara `P`, lo que recalcula la compuerta
   // y lo que reporta `transmision.mjs` por su cuenta— y la tercera es independiente.
-  'DIN-12': { uso: 1.481, dueño: 'elevacion.mjs',
-    nota: 'Al frenar el pop-up contra el tope de goma la deceleración supera 1 g y el bulto se '
-      + 'despega de los rodillos (salto ≈3 mm, reasienta a 241 mm/s con 0.99 J). Se corrige '
-      + 'estrangulando el cilindro a ≤198 mm/s, dentro de la banda de catálogo (50-400 mm/s).' },
-  'EST-03': { uso: 1.212, dueño: 'elevacion.mjs',
-    nota: 'El cassette es una mesa apoyada en UN solo punto: los dos apoyos de la horquilla, '
-      + 'separados 180 mm en Y. Un bulto de 34 kg sobre el rodillo extremo (Y = ±190.5) da '
-      + '63.5 N·m de vuelco frente a los 78.6 N·m que despegan el apoyo: FS 1.24, y sólo 1.04 '
-      + 'con la masa móvil que sale de los sólidos. Los 4 pasadores guía NO pueden ayudar: sus '
-      + 'colisas son verticales.' },
+  // DIN-12 CERRADO el 2026-07-29 por `elevacion.mjs`: la velocidad de subida dejó de
+  // despejarse del límite de energía cinética (que la ponía en 241 mm/s) y pasó a ser
+  // un DATO DE DISEÑO, `L.velEmboloMmS` = 120 mm/s de émbolo → 168 mm/s de impacto
+  // (×1.4, cat) → 7.06 m/s² = 0.72 g al frenar contra los 2 mm de tope. El bulto ya no
+  // despega. De paso, la energía cinética pasó a ser una consecuencia y nació DIN-14,
+  // que es la comprobación con dos lados que E1 echaba en falta.
+  //
+  // EST-03 sigue ABIERTO, y su número ha EMPEORADO a propósito: ver la nota.
+  'EST-03': { uso: 1.35, dueño: 'elevacion.mjs + bastidor.mjs',
+    nota: 'El cassette es una mesa apoyada SÓLO en las dos huellas de la horquilla; las colisas de '
+      + 'los 4 pasadores guía son verticales y no dan reacción en Z. `elevacion.mjs` ha hecho ya lo '
+      + 'único que podía hacer solo: ensanchar los brazos de Y 58…100 a 58…120, con lo que la huella '
+      + 'cubre los 40 mm completos del alma del NOTCHED BRACE CHANNEL y su centroide sube de 90 a '
+      + '100 mm. A igualdad de base de masa eso baja la utilización de 1.212 a 1.092. Sube a 1.35 '
+      + 'porque la comprobación ha dejado de usar la masa DECLARADA (55 kg, cota superior, '
+      + 'anticonservadora para el vuelco) y usa la cota inferior de 38 kg, coherente con los 40.98 kg '
+      + 'que pesan los sólidos: el 1.212 de antes era un número optimista, no un diseño mejor. '
+      + 'Para cerrarlo hace falta que el apoyo pueda TRABAJAR A TRACCIÓN, y eso está fuera de este '
+      + 'módulo: 4 taladros Ø9 en el alma de los dos NOTCHED BRACE CHANNEL (X = 205.5 y 257.5, '
+      + 'Y = ±100) para atornillar la horquilla al cassette con 4 M8. Con la unión atornillada el '
+      + 'modo de fallo desaparece: no hay despegue que comprobar, sino 4 pernos a tracción con FS > 10. '
+      + 'Con el apoyo a 100 mm y 38 kg haría falta llevar el centroide a 135 mm para llegar a FS 1.5, '
+      + 'y el cassette no ofrece ninguna superficie más allá de Y = 120 a esa altura. Dueño del '
+      + 'taladro: bastidor.mjs.' },
   // EST-05 CERRADO el 2026-07-29 por bastidor.mjs. El comentario del módulo decía
   // que no se podía subir `peineZt` porque el plano de bandas estaba 2.1 mm más
   // arriba; de esos 2.1 sólo hacían falta 0.775. `L.peineZt` deja de ser un literal
   // y sale de la propia norma: P.rodZ + 1.5·d + 0.25 de margen = 389.26, o sea
   // 9.78 mm = 1.54·d al canto y 1.34 mm al plano de bandas. La compuerta comprueba
   // ahora las DOS cotas (EST-05 y, en §2, que el diente no asome sobre las bandas).
-  'EST-10': { uso: 1.219, dueño: 'elevacion.mjs',
-    nota: 'El alma del canal de montaje es chapa de 12 GA con 231.3 mm de vano libre entre alas y '
-      + 'lleva encima toda la reacción del cilindro (937 N estáticos) repartida en la huella de '
-      + '91.5 × 202 mm, justo en el centro del vano — donde además están los dos taladros Ø30 de '
-      + 'paso de las varillas guía. Salen 182.9 MPa frente a los 150 de 0.6·Fy(A36), y con la '
-      + 'aceleración de la carrera sube a ≈233. Se resuelve con una placa de refuerzo bajo la '
-      + 'huella del cilindro o un nervio transversal; no hace falta cambiar el canal.' },
+  // EST-10 CERRADO el 2026-07-29 por `elevacion.mjs`: el CYLINDER MOUNTING CHANNEL
+  // pasa de 12 GA (2.657) a 3/16" (4.763 = P.placaT). Ni refuerzo bajo la huella ni
+  // nervio: los dos gastan altura y no hay (por arriba la placa móvil ya está a 2.4 mm
+  // del cárter del motorreductor; por abajo quedan 12.34 mm y las cabezas de los 4 M12
+  // se comen 9.5). Subir el calibre crece hacia ABAJO —`canalZ0` 12.34 → 10.24— y deja
+  // la cara de fijación donde estaba. σ 182.8 → 56.2 MPa de sección bruta, 80.0 con la
+  // sección neta de los dos Ø30 (factor que la revisión mencionaba pero no metía en el
+  // número, y que ahora la compuerta calcula).
   // EST-08 CERRADO el 2026-07-29 por el bloque de FABRICACIÓN (§10) de este mismo
   // integrador: toda pieza con `union: soldada…` o `weldment` recibe ahora su
   // `soldadura: { tipo, lado, garganta, disposicion, proceso, norma }`, que calcula
@@ -339,19 +354,22 @@ function verify() {
   // El actuador es una pieza de catálogo: sus límites publicados no se negocian.
   // Un cilindro con guías falla por energía de impacto, por par sobre la placa o
   // por carga lateral mucho antes que por fuerza, así que se comprueban los cuatro.
-  if (el.velocidadMaxMmS !== undefined) {
+  // La velocidad de diseño es ahora un DATO del módulo (dis), no algo despejado del
+  // límite de energía: lo que hay que comprobar es que ese dato caiga dentro de la
+  // banda de velocidad de émbolo del catálogo — si quedara por debajo del mínimo,
+  // no habría forma de estrangular el cilindro hasta ahí.
+  if (el.velocidadDisenoMmS !== undefined) {
     const [vMin, vMax] = el.velocidadAdmisibleMmS ?? [0, Infinity];
-    // La velocidad que impone la energía cinética admisible tiene que caer DENTRO
-    // de la banda de velocidad de émbolo del catálogo: si quedara por debajo del
-    // mínimo, no habría forma de estrangular el cilindro hasta esa velocidad.
-    if (el.velocidadMaxMmS < vMin) {
-      e.push(`la masa elevada obliga a ${el.velocidadMaxMmS} mm/s para no pasarse de energía `
-        + `cinética, por debajo del mínimo de émbolo del catálogo (${vMin} mm/s)`);
+    if (el.velocidadDisenoMmS < vMin) {
+      e.push(`velocidad de diseño ${el.velocidadDisenoMmS} mm/s por debajo del mínimo de émbolo `
+        + `del catálogo (${vMin} mm/s): no se puede estrangular tanto`);
     }
-    if (el.velocidadMaxMmS > vMax) {
-      e.push(`velocidad de diseño ${el.velocidadMaxMmS} mm/s > máxima de catálogo (${vMax} mm/s)`);
+    if (el.velocidadDisenoMmS > vMax) {
+      e.push(`velocidad de diseño ${el.velocidadDisenoMmS} mm/s > máxima de catálogo (${vMax} mm/s)`);
     }
   }
+  // Y la energía cinética pasa a ser una CONSECUENCIA de esa velocidad, así que
+  // esta comprobación ya puede fallar (antes Ek ≡ Ek_adm por construcción: E1).
   if (el.energiaCineticaJ !== undefined && el.energiaAdmisibleJ !== undefined
       && el.energiaCineticaJ > el.energiaAdmisibleJ + 1e-6) {
     e.push(`energía cinética de impacto ${el.energiaCineticaJ} J > admisible del actuador `
@@ -820,15 +838,25 @@ function verify() {
   // El conjunto móvil se apoya en DOS zonas de la horquilla, a Y = ±90, y en nada
   // más: las colisas de los 4 pasadores guía son VERTICALES y no pueden dar
   // reacción en Z. Un bulto excéntrico descarga un apoyo hasta despegarlo.
-  const masaMovil = (m.elevacion.masaElevadaKg ?? 89) - P.cargaMaxKg;
-  const yApoyo = 90;                                    // dis: centroide de cada apoyo (Y ±80…100)
+  // La masa con la que se comprueba el vuelco NO es la declarada (55 kg): ésa es una
+  // cota SUPERIOR, buena para dimensionar el actuador y anticonservadora aquí, porque
+  // la masa móvil es lo único que estabiliza el cassette. Se usa la cota INFERIOR que
+  // publica el módulo (38 kg), y `tests/test_nbt90.mjs` comprueba contra los sólidos
+  // pesados que 38 ≤ pesada ≤ 55. El centroide del apoyo también se lee del módulo:
+  // si la horquilla se estrecha, el número se mueve solo.
+  const masaMovil = m.elevacion.masaMovilDeclaradaKg
+    ?? ((m.elevacion.masaElevadaKg ?? 89) - P.cargaMaxKg);
+  const masaVuelco = m.elevacion.masaMovilVuelcoKg ?? masaMovil;
+  const yApoyo = m.elevacion.yApoyoContactoMm ?? 90;    // centroide de cada huella de contacto
   const Mvuelco = P.cargaMaxKg * g * ((P.nRodillos - 1) / 2 * P.paso) / 1000;
-  const Mdespega = (masaMovil + P.cargaMaxKg) * g * yApoyo / 1000;
+  const Mdespega = (masaVuelco + P.cargaMaxKg) * g * yApoyo / 1000;
   chk('EST-03', 'vuelco del cassette: no despegar el apoyo de la horquilla',
     Mvuelco, Mdespega / 1.5, '<=',
-    `bulto de ${P.cargaMaxKg} kg sobre el rodillo extremo (Y = ±${r2((P.nRodillos - 1) / 2 * P.paso)}). `
-    + `SMC NO publica momento de vuelco admisible para la serie MGP (web PNEU-019): sólo carga lateral `
-    + `y par alrededor del eje del vástago.`, 'N·m');
+    `bulto de ${P.cargaMaxKg} kg sobre el rodillo extremo (Y = ±${r2((P.nRodillos - 1) / 2 * P.paso)}) `
+    + `contra ${masaVuelco} kg de conjunto móvil (cota INFERIOR, no los ${masaMovil} declarados) apoyados `
+    + `en dos huellas con el centroide en Y = ±${yApoyo}. El cassette sólo se apoya ahí: las colisas de `
+    + `los 4 pasadores guía son verticales y no dan reacción en Z. SMC NO publica momento de vuelco `
+    + `admisible para la serie MGP (web PNEU-019): sólo carga lateral y par alrededor del eje del vástago.`, 'N·m');
   chk('EST-04', 'carga lateral en Y sobre la placa del actuador',
     Math.min(fricBulto, empujeSup), m.elevacion.cargaLateralAdmisibleN ?? 352, '<=',
     'es la reacción de empujar el bulto, no el rozamiento de los apoyos: los 4 pasadores guía '
@@ -890,18 +918,31 @@ function verify() {
     + `queda a 34.4 mm de la cara de la brida y SEW no publica las constantes a y b para corregirla.`, 'N');
 
   // -- 9.16 impacto del pop-up ------------------------------------------------
-  // La comprobación §6 de energía cinética NO puede fallar: elevacion.mjs deriva la
-  // velocidad de la propia energía admisible, así que Ek ≡ Ek_adm por construcción.
-  // Se denuncia aquí y se sustituye por dos comprobaciones que sí muerden.
+  // El guardián de E1: si alguien vuelve a despejar la velocidad de la energía
+  // admisible, Ek ≡ Ek_adm por construcción y DIN-14 deja de poder fallar. La
+  // compuerta lo detecta y lo denuncia por consola en cada generación.
   const ekTautologico = m.elevacion.energiaCineticaJ !== undefined
     && Math.abs(m.elevacion.energiaCineticaJ - m.elevacion.energiaAdmisibleJ) < 1e-3;
-  const uImp = (m.elevacion.velocidadMaxMmS ?? 0) / 1000;               // m/s de impacto
+  // Velocidad de IMPACTO contra el tope = 1.4 × la media de émbolo (cat). La media
+  // es dato de diseño del módulo; aquí se recalcula el impacto y no se copia.
+  const uImp = (m.elevacion.velocidadImpactoMmS
+    ?? (m.elevacion.velocidadDisenoMmS ?? 0) * (m.elevacion.factorImpacto ?? 1.4)) / 1000;
   const decel = uImp ** 2 / (2 * LIM.topeAplastamientoMm / 1000);       // m/s² al frenar
   chk('DIN-12', 'el bulto no despega de los rodillos al frenar el pop-up',
     decel, g, '<=',
-    `con ${LIM.topeAplastamientoMm} mm de aplastamiento del tope; el bulto salta `
-    + `${r2(uImp ** 2 / (2 * g) * 1000)} mm y reasienta con ${r2(0.5 * P.cargaMaxKg * uImp ** 2)} J. `
-    + `Se corrige estrangulando a ≤ ${r2(Math.sqrt(2 * g * LIM.topeAplastamientoMm / 1000) * 1000)} mm/s.`, 'm/s²');
+    `impacto a ${r2(uImp * 1000)} mm/s (= ${m.elevacion.factorImpacto ?? 1.4} × los `
+    + `${m.elevacion.velocidadDisenoMmS} mm/s de émbolo, cat) contra ${LIM.topeAplastamientoMm} mm de `
+    + `aplastamiento del tope. El límite es g: por encima el bulto —que no está sujeto— deja los `
+    + `rodillos. Deja de cumplir si el tope real aplasta menos de `
+    + `${r2(uImp ** 2 / (2 * g) * 1000)} mm (hoy se supone ${LIM.topeAplastamientoMm}, D2 abierto).`, 'm/s²');
+  // La energía cinética es ahora una CONSECUENCIA de la velocidad de diseño, así que
+  // ésta sí es una comprobación con dos lados. Antes no existía como tal (E1).
+  chk('DIN-14', 'energía cinética de impacto contra los topes de goma del cilindro',
+    m.elevacion.energiaCineticaJ ?? 0, m.elevacion.energiaAdmisibleJ ?? 2.71, '<=',
+    `½·M·u² con M = ${m.elevacion.masaTotalMovilKg} kg (conjunto móvil + bulto + partes móviles del `
+    + `cilindro) y u = ${r2(uImp * 1000)} mm/s. Los topes de serie del MGPM80 absorben `
+    + `${m.elevacion.energiaAdmisibleJ} J (cat, web PNEU-019); a `
+    + `${m.elevacion.velocidadMaxImpactoMmS} mm/s de impacto se agotarían.`, 'J');
   const Fimpacto = 2 * (m.elevacion.energiaCineticaJ ?? 0) / (LIM.topeAplastamientoMm / 1000);
   const Fi38 = LIM.perno38.parNm / (LIM.perno38.K * P.M.b38.d / 1000);
   chk('EST-09', 'impacto del pop-up contra los 8 pernos 3/8" de las spacer plate',
@@ -917,18 +958,31 @@ function verify() {
   // un ala de 103 mm de alto en 12 GA es una sección abierta, su rigidez torsional
   // es GJ/L ≈ 1.1e5 N·mm/rad y no puede empotrar nada.
   const cargaAlma = (m.elevacion.cargaN ?? 873) + 6.49 * g;             // móvil + bulto + cilindro
-  const vanoAlma = P.canalCilY - P.cal12;                               // entre fibras medias de las alas
+  const tAlma = m.elevacion.espesorCanalMm ?? P.cal12;                  // lo declara el módulo
+  const vanoAlma = P.canalCilY - tAlma;                                 // entre fibras medias de las alas
   const huellaX = m.elevacion.huellaCuerpoMm?.[0] ?? 91.5;
   const huellaY = m.elevacion.huellaCuerpoMm?.[1] ?? 202;
+  // SECCIÓN NETA. Los dos taladros de paso de las varillas guía caen en X = mesaX,
+  // o sea EXACTAMENTE en el centro del vano, que es donde el momento es máximo. El
+  // ancho resistente de la banda cargada no es la huella entera sino la huella menos
+  // los dos agujeros; la carga que les tocaría la reparten las bandas vecinas. Se
+  // toma el reparto en proporción al ancho neto, que es la hipótesis conservadora
+  // habitual y la que faltaba en el número de la revisión.
+  const diaPaso = m.elevacion.pasoVarillaCanalDia ?? 0;
+  const anchoNeto = Math.max(1, huellaY - 2 * diaPaso);
+  const factorNeto = huellaY / anchoNeto;
   const wAlma = cargaAlma / huellaY;                                    // N por mm de ancho en Y
   const Malma = wAlma / 8 * (2 * vanoAlma - huellaX);                   // N·mm por mm de ancho
-  const sigmaAlma = Malma / (P.cal12 ** 2 / 6);
+  const sigmaAlma = factorNeto * Malma / (tAlma ** 2 / 6);
+  const aCarrera = uImp ** 2 / (2 * P.carrera / 1000);                  // m/s² al arrancar la carrera
   chk('EST-10', 'flexión del alma del canal de montaje bajo el cilindro',
     sigmaAlma, 0.6 * LIM.A36.Fy, '<=',
     `${r2(cargaAlma)} N repartidos en la huella de ${huellaX}×${huellaY} mm sobre un vano de `
-    + `${r2(vanoAlma)} mm de chapa de ${r2(P.cal12)} mm. Y en el centro del vano hay además los dos `
-    + `taladros Ø30 de paso de las varillas guía. Con la aceleración de la carrera la carga sube a `
-    + `${r2((m.elevacion.masaElevadaKg ?? 89) * (g + (uImp * 1000 / 1000) ** 2 / (2 * P.carrera / 1000)) + 6.49 * g)} N.`, 'MPa');
+    + `${r2(vanoAlma)} mm de chapa de ${r2(tAlma)} mm (banda de 1 mm APOYADA en las dos alas: un ala de `
+    + `103 mm en chapa fina es una sección abierta y no empotra). En el centro del vano están además `
+    + `los dos taladros Ø${diaPaso} de paso de las varillas guía → sección neta ×${r2(factorNeto)}. `
+    + `Con la aceleración de la carrera (${r2(aCarrera)} m/s²) sube a `
+    + `${r2(sigmaAlma * (1 + aCarrera / g))} MPa.`, 'MPa');
 
   // -- 9.18 los conjuntos soldados declaran su cordón -------------------------
   const soldadas = propias.filter((p) => p.weldment || /soldad/i.test(p.union || '') || /SOLDADA/.test(p.name));
@@ -957,7 +1011,8 @@ function verify() {
         actuador: el.actuador, componenteActuador: el.componente,
         empujeN: el.empujeN, empujeN60psi: el.empujeN60psi, factorSeguridad: fs,
         factorSeguridad60psi: el.factorSeguridad60psi,
-        velocidadMaxMmS: el.velocidadMaxMmS, tiempoSubidaMs: el.tiempoSubidaMs,
+        velocidadDisenoMmS: el.velocidadDisenoMmS, velocidadImpactoMmS: el.velocidadImpactoMmS,
+        tiempoSubidaMs: el.tiempoSubidaMs,
         energiaCineticaJ: el.energiaCineticaJ, aireLitrosANRciclo: el.aireLitrosANRciclo,
         parPlacaNm: el.parPlacaNm, cargaLateralN: el.cargaLateralN,
         salidaVarillasMm: el.salidaVarillasMm, holguraPlacaMotorMm: el.holguraPlacaMotorMm,
@@ -1012,19 +1067,33 @@ function verify() {
           },
           cassette: {
             masaMovilDeclaradaKg: r2(masaMovil),
+            masaMovilVuelcoKg: r2(masaVuelco),
+            yApoyoMm: yApoyo, anchoApoyoMm: m.elevacion.anchoContactoMm ?? null,
             momentoVuelcoNm: r2(Mvuelco), momentoDespegueApoyoNm: r2(Mdespega),
             FSdespegue: r2(Mdespega / Mvuelco),
+            FSdespegueConMasaDeclarada: r2((masaMovil + P.cargaMaxKg) * g * yApoyo / 1000 / Mvuelco),
             cargaLateralYN: r2(Math.min(fricBulto, empujeSup)),
             excentricidadAdmisibleFS15mm: r2(Mdespega / 1.5 / (P.cargaMaxKg * g) * 1000),
+            yApoyoNecesarioFS15mm: r2(1.5 * Mvuelco * 1000 / ((masaVuelco + P.cargaMaxKg) * g)),
           },
           impacto: {
+            velocidadDisenoMmS: m.elevacion.velocidadDisenoMmS ?? null,
             velocidadImpactoMmS: r2(uImp * 1000), aplastamientoSupuestoMm: LIM.topeAplastamientoMm,
             deceleracionMs2: r2(decel), enG: r2(decel / g),
-            saltoBultoMm: r2(uImp ** 2 / (2 * g) * 1000),
-            energiaReasienteJ: r2(0.5 * P.cargaMaxKg * uImp ** 2),
+            despegaElBulto: decel > g,
+            saltoBultoMm: decel > g ? r2(uImp ** 2 / (2 * g) * 1000) : 0,
+            energiaReasienteJ: decel > g ? r2(0.5 * P.cargaMaxKg * uImp ** 2) : 0,
             fuerzaEnEstructuraN: r2(Fimpacto),
-            velocidadSinDespegueMmS: r2(Math.sqrt(2 * g * LIM.topeAplastamientoMm / 1000) * 1000),
+            velocidadImpactoSinDespegueMmS: r2(Math.sqrt(2 * g * LIM.topeAplastamientoMm / 1000) * 1000),
+            aplastamientoMinimoDelTopeMm: r2(uImp ** 2 / (2 * g) * 1000),
             chequeoEkTautologico: ekTautologico,
+          },
+          almaCanal: {
+            espesorMm: r2(tAlma), calibre: m.elevacion.espesorCanalCalibre ?? null,
+            vanoLibreMm: r2(vanoAlma), huellaMm: [huellaX, huellaY],
+            cargaN: r2(cargaAlma), momentoNmmPorMm: r2(Malma),
+            factorSeccionNeta: r2(factorNeto), sigmaMPa: r2(sigmaAlma),
+            sigmaConAceleracionMPa: r2(sigmaAlma * (1 + aCarrera / g)),
           },
           soldadura: { conjuntosSoldados: soldadas.length, sinCordonDeclarado: sinCordon.length },
         },
@@ -1169,8 +1238,18 @@ console.log(`   ${nBajadas} piezas MÓVIL bajadas ${P.carrera} mm → ${outBajo}
   for (const a of S.avisos ?? []) {
     console.log(`   ⚠ AVISO ${a.id} (dueño: ${a.dueño}): ${a.texto}`);
   }
+  console.log(`   POP-UP: ${S.impacto.velocidadDisenoMmS} mm/s de émbolo (dis) → `
+    + `${S.impacto.velocidadImpactoMmS} mm/s de impacto → ${S.impacto.deceleracionMs2} m/s² = `
+    + `${S.impacto.enG} g al frenar contra ${S.impacto.aplastamientoSupuestoMm} mm de tope · `
+    + `Ek ${metricas.energiaCineticaJ} de ${m.elevacion.energiaAdmisibleJ} J · `
+    + `subida ${metricas.tiempoSubidaMs} ms · `
+    + `el bulto ${S.impacto.despegaElBulto ? 'DESPEGA' : 'no despega'} `
+    + `(el tope tendría que aplastar menos de ${S.impacto.aplastamientoMinimoDelTopeMm} mm para que despegara)`);
+  // Guardián de E1: si alguien vuelve a despejar la velocidad del propio límite de
+  // energía, Ek ≡ Ek_adm por construcción y DIN-14 deja de poder fallar.
   if (S.impacto.chequeoEkTautologico) {
-    console.log('   ⚠ la comprobación de energía cinética de §6 es TAUTOLÓGICA: elevacion.mjs deriva la '
-      + 'velocidad del propio límite, así que Ek ≡ Ek_adm y nunca puede fallar (ver REVISION_ESTRUCTURAL.md).');
+    console.log('   ⚠ la comprobación de energía cinética (DIN-14) ha vuelto a ser TAUTOLÓGICA: alguien '
+      + 'ha derivado la velocidad de subida del propio límite de catálogo, así que Ek ≡ Ek_adm y nunca '
+      + 'puede fallar. La velocidad tiene que ser un dato de diseño (ver REVISION_ESTRUCTURAL.md, E1).');
   }
 }

@@ -272,19 +272,35 @@ los rasgos existen; sin cota, quedan declarados y fuera del sólido.
 **Fuerza.** 2081 N teóricos a 4.14 bar → 1769 N útiles contra 873 N de carga,
 **factor 2.03**. A 6 bar, 3016 N teóricos → 2564 útiles, factor 2.94.
 
-**Velocidad.** El límite no lo pone el cilindro (admite 400 mm/s) sino la energía
-cinética del bulto: con M + m = 89 + 4.27 = 93.27 kg y 2.71 J admisibles,
+**Velocidad.** *(Reescrito el 2026-07-29 al cerrar `DIN-12`/`E1` de la revisión
+estructural. Lo que decía este apartado —que el límite lo pone la energía cinética—
+era cierto pero no era el límite que manda, y además dejaba la velocidad **derivada**
+del propio límite, con lo que la comprobación de energía no podía fallar nunca.)*
 
-    u_máx = √(2 · 2.71 / 93.27) = 0.241 m/s
+El techo del cilindro sí sale de la energía cinética: con M + m = 89 + 4.27 =
+93.27 kg y 2.71 J admisibles,
 
-Con la relación del catálogo `u = 1.4 · u_media`, la velocidad media es 172 mm/s y
-los 10 mm de carrera se hacen en **58 ms**. Estrangulando a 150 mm/s de pico son
-93 ms. Cualquiera de los dos sobra para un clasificador. Consumo **0.49 L ANR por
-ciclo**; a 20 ciclos/min, 9.7 L/min ANR.
+    u_topes = √(2 · 2.71 / 93.27) = 0.241 m/s de impacto
 
-Esto se traduce en una condición de montaje que hay que respetar: **los reguladores
-de escape tienen que dejar la velocidad de impacto por debajo de 241 mm/s**. No es
-un consejo, es el límite de catálogo del actuador.
+pero **el criterio que manda es otro y es más bajo**: al frenar contra el tope de
+goma, la deceleración vale u²/(2δ), y si supera 1 g el bulto —que no va sujeto— se
+despega de los rodillos, salta y reasienta. Con δ = 2 mm (`dis`; SMC no publica la
+carrera del tope) eso acota el impacto a 198 mm/s.
+
+La velocidad es por tanto un **dato de diseño**, no una consecuencia:
+`elevacion.mjs` declara `L.velEmboloMmS = 120 mm/s` de velocidad **media de émbolo**
+—la magnitud que mide el catálogo con su banda 50…400 y la que se ajusta en los
+reguladores—. Con la relación `u = 1.4 · u_media`: impacto **168 mm/s**,
+deceleración **7.06 m/s² = 0.72 g**, energía **1.32 J** de los 2.71, y los 10 mm de
+carrera en **83 ms**. Se elige 120 y no el 141 que daría los 198 justos porque δ es
+una suposición: con 120 la comprobación sigue cumpliendo mientras el tope real
+aplaste ≥ 1.44 mm. Consumo **0.49 L ANR por ciclo**; a 20 ciclos/min, 9.7 L/min ANR.
+
+Condición de montaje, que ahora es más exigente que el límite de catálogo:
+**los reguladores de escape tienen que dejar la velocidad media de émbolo en 120 mm/s
+(carrera de 10 mm en 83 ms, medible con un cronómetro de PLC)**, no simplemente por
+debajo de los 241 mm/s de impacto que aguantan los topes. Lo primero lo pide el
+bulto; lo segundo, el cilindro.
 
 **Geometría.** La huella pasa de los 170 × 200 inventados a **91.5 (X) × 202 (Y)**:
 78 mm más estrecha en la dirección de los rodillos, prácticamente igual en la de

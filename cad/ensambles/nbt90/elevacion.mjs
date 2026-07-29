@@ -75,6 +75,13 @@ const t12 = P.cal12;   // 2.657 — 12 GA. Es el espesor del SIDE CHANNEL y de l
 // vez queda POR DEBAJO del cárter del motorreductor retraído (113.9).
 // 3/16" no es un calibre nuevo en el equipo: es `P.placaT`, la chapa de las placas
 // peine, las spacer plate y las propias placas colgantes de este canal.
+// Lo que SÍ hay que vigilar del cambio, y queda declarado: el labio de rigidez de
+// 16 mm (`L.labio`, medido sobre la fibra) pasa a ser la pestaña más corta de la
+// pieza. Con radio interior = espesor, el retroceso al punto de tangencia vale
+// r + t/2 = 7.14 mm, así que del labio quedan 8.86 mm de tramo recto y su borde
+// exterior está a 18.4 mm = 3.9·t del alma. La regla de plegadora (pestaña mínima
+// ≈ 4·t con matriz en V estándar) queda justo en el límite: el labio se pliega,
+// pero hay que plegarlo con matriz estrecha y decirlo en el plano.
 const tCanal = P.placaT;                          // 4.763 — 3/16", ver arriba
 const radioCanal = tCanal;                        // dis: radio interior = espesor
                                                   // (la misma regla de taller que
@@ -346,8 +353,12 @@ const L = {
   // Prestaciones (cat; las usa el bloque de verificaciones del final):
   cilArea: [5027, 4536],   // cat: área de empuje / de retorno, mm²
   cilPresion: [0.1, 1.0],  // cat: presión de trabajo mín. / máx., MPa
-  cilVelAdm: [50, 400],    // cat: velocidad de émbolo admisible, mm/s
+  cilVelAdm: [50, 400],    // cat: velocidad de émbolo admisible, mm/s (velocidad MEDIA
+                           //      de émbolo, que es la que se ajusta con el regulador)
   cilEkAdm: 2.71,          // cat: energía cinética admisible, J (topes de goma)
+  cilFactorImpacto: 1.4,   // cat: nota de la hoja de la serie MGP — la velocidad de
+                           //      IMPACTO contra el tope de final de carrera es
+                           //      1.4 × la velocidad media de émbolo
   cilMasa: 6.49,           // cat: masa del MGPM80 con carrera 25 (la menor tabulada;
   cilMasaMovil: 4.27,      // cat:  de ella, partes móviles). Valor conservador para
                            //      la carrera 10, que el catálogo no tabula.
@@ -385,7 +396,20 @@ const L = {
   motorZ0: 123.9,          // med sobre el sólido de transmision.mjs
   motorY131: 48, motorY143: 54,
   brazoY0: 58,             // dis: arranque de los brazos de la horquilla (54 + 4)
-  brazoY1: 100,            // dis: borde exterior ≈ borde de la placa móvil (99)
+  // Borde exterior de los brazos. Era 100 —el borde de la placa móvil (T/2 = 99)—
+  // y eso dejaba el apoyo en Y 80…100, o sea 20 de los 40 mm de alma del NOTCHED
+  // BRACE CHANNEL, con el centroide en Y = 90.  El cassette se apoya SÓLO ahí, así
+  // que ese 90 es el brazo con el que se juega el vuelco (EST-03): un bulto sobre
+  // el rodillo del extremo (Y = ±190.5) despega el apoyo contrario.  Se lleva el
+  // brazo hasta 120 (dis) para cubrir el alma ENTERA y subir el centroide a 100:
+  // es el máximo que ofrece el cassette —el alma del brace channel acaba en 120 y
+  // más afuera no hay nada a esta altura hasta el SIDE CHANNEL, que es FIJO—.
+  // El brazo vuela por tanto 21 mm sobre el borde de la placa; sus dos pernos
+  // están en Y = ±87 (roscas NN reales), luego el voladizo desde la línea de
+  // pernos hasta el nuevo centroide es de 13 mm sobre un macizo de 22 mm de canto:
+  // σ = 6·(436·0.013)/(75·22²) = 0.16 MPa. El brazo no se entera; el que no llega
+  // es el cassette (ver EST-03 en REVISION_ESTRUCTURAL.md).
+  brazoY1: 120,            // dis (= contactoY[1]): el apoyo cubre el alma completa
   // Los pernos de la horquilla YA NO son libres: caen en las 4 roscas NN reales
   // de la placa, o sea a Y = ±87 y X = ±26 del eje (patrón 174 × 52).
   brazoPernoY: 87,         // cat (= cilNN[0] / 2)
@@ -419,7 +443,21 @@ const L = {
 
   // --- masas y cargas para el dimensionado ---------------------------------
   masaMovilKg: 55,         // dis: ROLLER FRAME WELDMENT + 6 rodillos + serpentín y
-                           // poleas + motorreductor SEW RF07 (7.9 kg cat) ≈ 45–60 kg
+                           // poleas + motorreductor SEW RF07 (7.9 kg cat) ≈ 45–60 kg.
+                           // Es una cota SUPERIOR: conservadora para el empuje del
+                           // actuador, para la energía cinética y para el consumo de
+                           // aire, que son las tres cosas que crecen con la masa.
+  // …y ANTICONSERVADORA para el vuelco, porque ahí la masa móvil es lo único que
+  // estabiliza el cassette. El vuelco necesita por tanto su propia cota, y por el
+  // otro lado:
+  masaMovilVuelcoKg: 38,   // dis: cota INFERIOR de la masa del conjunto móvil, la
+                           // única que vale para EST-03. Los sólidos del ensamble
+                           // pesan 40.98 kg (tests/test_nbt90.mjs los pesa con el
+                           // motor de mallas: estructura + SEW de catálogo 7.9 kg +
+                           // partes móviles del cilindro 4.27 kg). Se declara 38 para
+                           // dejar 7 % de margen a los cambios que otros módulos
+                           // puedan hacer en el cassette. El test comprueba las DOS
+                           // cotas: 38 ≤ pesada ≤ 55.
   masaMotorKg: 7.9,        // cat 300.0322 (SEW RF07DRS71S4) — la única masa del
                            // conjunto móvil que NO es simétrica respecto de X=231.5
   cgMotorX: 247,           // dis: centro de gravedad del motorreductor en X, estimado
@@ -432,6 +470,36 @@ const L = {
                            // atornillados al cassette— pueden transmitir a la placa en
                            // horizontal y en giro; por encima deslizan y la reacción se
                            // la llevan los 4 pasadores guía, que es su función.
+  // VELOCIDAD DE SUBIDA DEL POP-UP — dato de diseño INDEPENDIENTE, no derivado.
+  //
+  // Es la velocidad MEDIA de émbolo que se deja ajustada en los dos reguladores de
+  // caudal de escape de la válvula, y se mide en puesta en marcha con el tiempo de
+  // carrera (10 mm / 83 ms). Se declara aquí, y la energía cinética y la
+  // deceleración de frenado salen de ella — no al revés.
+  //
+  // Antes este módulo hacía justo lo contrario: despejaba la velocidad de la
+  // energía cinética admisible del catálogo (u = √(2·Ek/M) = 241 mm/s) y después
+  // calculaba Ek con esa u, con lo que Ek ≡ Ek_adm por construcción y la
+  // comprobación «Ek ≤ Ek_adm» de la compuerta no podía fallar nunca (E1 de la
+  // revisión estructural). Además esos 241 mm/s no valían: al frenar contra el tope
+  // de goma daban 1.48 g y el bulto —que no está sujeto— se despegaba de los
+  // rodillos, saltaba 2.96 mm y reasentaba con 0.99 J (DIN-12).
+  //
+  // Por qué 120 y no el 198 justo del límite (u_impacto = √(2·g·δ) con δ = 2 mm de
+  // aplastamiento del tope):
+  //   · con la nota del catálogo, u_impacto = 1.4 × 120 = 168 mm/s → 7.06 m/s² =
+  //     0.72 g. El bulto no despega, con 28 % de margen;
+  //   · ese margen es exactamente lo que hace falta, porque δ = 2 mm es una
+  //     SUPOSICIÓN (`dis`, D2: SMC publica la energía admisible pero no la carrera
+  //     del tope). Con 120 mm/s la comprobación sigue cumpliendo hasta δ = 1.44 mm;
+  //     con los 198 del límite, cualquier δ real por debajo de 2 la haría fallar;
+  //   · 120 mm/s está holgadamente dentro de la banda de émbolo del catálogo
+  //     (50…400) y el tiempo de subida sube de 58 a 83 ms, que sigue siendo el 14 %
+  //     del ciclo de 600 ms de un sorter a 100 sorts/min (web SORT-015) — y este
+  //     divert ve un bulto cada ~5 s, no cada 0.6;
+  //   · la energía de impacto baja de 2.71 J (el límite) a 1.32 J: 49 % del
+  //     admisible, y la fuerza sobre la estructura de 2 710 a 1 316 N.
+  velEmboloMmS: 120,       // dis: velocidad MEDIA de émbolo en la subida, ver arriba
   presionBar: 6.0,         // dis: presión de red del cálculo pedido
   presionTrabajoBar: 4.14, // cat: «Working pressure 60 PSI» del ProSort MRT
   presionAtmBar: 1.013,    // cat: atmósfera normal ANR (0.1013 MPa, 20 °C, 65 % HR)
@@ -657,11 +725,12 @@ export function elevacion(E) {
       encajes: [1, -1].map((s) => juntaATope({
         id: `U5-${s > 0 ? '+Y' : '-Y'}`, union: 'Canal de montaje del cilindro ↔ Placa colgante',
         motivo: 'SIN ENCAJE, y hay que decir por qué: la sección del canal (X 114.5…348.5, '
-          + 'Z 12.34…115.34) y la placa colgante (X 130…333, Z 88…246) sólo COINCIDEN en los dos '
+          + `Z ${canalZ0}…${canalZ1}) y la placa colgante (X 130…333, Z 88…246) sólo COINCIDEN en los dos `
           + 'labios de rigidez, o sea en 3.16 mm de X por el lado −X y 1.83 por el +X. En esa franja '
           + 'no cabe ni una lengüeta ni un taladro de pasador. Alargar los labios hacia dentro (que '
-          + 'sería la solución) mete el labio bajo el cárter del motorreductor RETRAÍDO (Z 113.9 '
-          + 'contra el techo del labio 115.34, en X 133.4…149.8), así que tampoco. '
+          + 'sería la solución) los mete bajo el cárter del motorreductor RETRAÍDO (Z 113.9) en '
+          + `X 133.4…149.8; con el alma en 3/16" el techo del labio baja a ${canalZ1} y ya libra, pero `
+          + 'por 0.66 mm, que no es holgura para un utillaje. '
           + 'HALLAZGO PARA REVISIÓN ESTRUCTURAL: la unión de este weldment tiene muy poco solape.',
         posicionamiento: 'utillaje: el canal se apoya sobre dos calzos a Z = canalZ0 y las placas se '
           + 'aprietan contra sus caras de extremo (|Y| = 221.15) con la propia cota de 447.6 mm '
@@ -941,11 +1010,12 @@ export function elevacion(E) {
 
   // ---- 4 pernos M12 × 25 de fijación del cilindro al canal (por debajo) ----
   // El encargo los pedía SHCS; se dejan de CABEZA HEXAGONAL porque bajo el alma
-  // sólo hay 12.34 mm hasta el plano inferior del bastidor: una cabeza cilíndrica
-  // M12 (Ø18 × 12) más la golilla llegaría a Z = −1.7, y la hexagonal (7.5 de
-  // alto) se queda en 2.84. Se aprietan con llave de vaso desde abajo igual.
-  // Agarre: golilla 2 + alma 2.657 = 4.66 → 20.3 mm dentro de la rosca MM de
-  // 25 de profundidad = 1.7 · d.
+  // sólo hay 10.24 mm hasta el plano inferior del bastidor: una cabeza cilíndrica
+  // M12 (Ø18 × 12) más la golilla llegaría a Z = −3.8, y la hexagonal (7.5 de
+  // alto) se queda en 0.74. Se aprietan con llave de vaso desde abajo igual (bajo
+  // el canal no hay ninguna pieza: el canal base está en X 26…102.2).
+  // Agarre: golilla 2 + alma 4.763 = 6.76 → 18.2 mm dentro de la rosca MM de
+  // 25 de profundidad = 1.52 · d ≥ 1 · d.
   for (const sx of [-1, 1]) {
     for (const sy of [-1, 1]) {
       const x = r2(mX + sx * pernoMMX), y = sy * pernoMMY;
@@ -1140,17 +1210,23 @@ export function elevacion(E) {
   // rozamiento de las guías), igual que en el primer dimensionado del módulo.
   const util = empuje * L.rendimiento, util60 = empuje60 * L.rendimiento;
 
-  // --- velocidad: la limita la ENERGÍA CINÉTICA admisible, no el caudal -----
-  // El cilindro admite 50…400 mm/s, pero sus topes de goma sólo absorben 2.71 J.
-  // Con M = masa elevada y m = masa móvil del propio cilindro (4.27 kg cat):
-  //     u = √( 2·Ek_adm / (M + m) )
+  // --- velocidad: DATO DE DISEÑO; la energía cinética es la consecuencia -----
+  // La velocidad media de émbolo la fija `L.velEmboloMmS` (dis, ver su bloque) y es
+  // lo que se deja ajustado en los reguladores de caudal. De ahí salen, en este
+  // orden y no al revés:
+  //     u_impacto = 1.4 · v_media        (cat, nota de la hoja MGP)
+  //     Ek        = ½ · M · u_impacto²   → se compara con Ek_adm (2.71 J, cat)
+  //     a_frenado = u_impacto² / (2·δ)   → se compara con g (DIN-12, en la compuerta)
+  // `uMaxTopes` es la otra cara: la velocidad de impacto a la que se agotarían los
+  // topes de goma. Se reporta como referencia —es el techo del cilindro— pero YA NO
+  // define la velocidad de diseño, que es lo que hacía tautológica la comprobación.
   const masaElevada = L.masaMovilKg + P.cargaMaxKg;               // 89 kg
   const masaTotalMovil = r2(masaElevada + L.cilMasaMovil);        // 93.27 kg
-  const uMax = Math.sqrt(2 * L.cilEkAdm / masaTotalMovil);        // m/s — velocidad de impacto máxima
-  const ekDiseno = 0.5 * masaTotalMovil * uMax * uMax;            // J — por construcción = cilEkAdm
-  // Nota del catálogo: la velocidad de impacto es u = 1.4 · velocidad media.
-  const uMedia = uMax / 1.4;                                      // m/s
-  const tSubida = P.carrera / (uMedia * 1000);                    // s
+  const uMedia = L.velEmboloMmS / 1000;                           // m/s — dis
+  const uImpacto = uMedia * L.cilFactorImpacto;                   // m/s — cat (×1.4)
+  const ekDiseno = 0.5 * masaTotalMovil * uImpacto * uImpacto;    // J — consecuencia
+  const uMaxTopes = Math.sqrt(2 * L.cilEkAdm / masaTotalMovil);   // m/s — techo del cilindro
+  const tSubida = P.carrera / L.velEmboloMmS;                     // s
 
   // --- consumo de aire por ciclo (ida + vuelta) a la presión de trabajo -----
   // Volumen geométrico × relación de compresión (presión absoluta / atmósfera).
@@ -1209,12 +1285,21 @@ export function elevacion(E) {
     // ---- velocidad, tiempo y aire (cat: 50…400 mm/s, Ek adm 2.71 J) -------
     masaMovilCilindroKg: L.cilMasaMovil,
     masaTotalMovilKg: masaTotalMovil,
-    velocidadMaxMs: r3(uMax),       // impacto máximo que admiten los topes
-    velocidadMaxMmS: r2(uMax * 1000),
-    velocidadAdmisibleMmS: L.cilVelAdm,         // cat
+    // La velocidad de diseño es un DATO (dis), no una consecuencia del límite:
+    velocidadDisenoMmS: L.velEmboloMmS,         // dis — media de émbolo, la que se ajusta
+    velocidadAdmisibleMmS: L.cilVelAdm,         // cat — banda de émbolo del catálogo
+    factorImpacto: L.cilFactorImpacto,          // cat — impacto = 1.4 × media
+    velocidadImpactoMmS: r2(uImpacto * 1000),   // calc — contra el tope de goma
+    velocidadImpactoMs: r3(uImpacto),
+    // …y la energía cinética es la CONSECUENCIA, que se compara con el admisible:
     energiaCineticaJ: r3(ekDiseno),
     energiaAdmisibleJ: L.cilEkAdm,              // cat
-    velocidadMediaMmS: r2(uMedia * 1000),       // u = 1.4 · media (nota del catálogo)
+    // Referencia, ya no criterio: velocidad de impacto a la que se agotan los topes.
+    velocidadMaxImpactoMmS: r2(uMaxTopes * 1000),
+    velocidadDisenoCriterio: `dato de diseño (dis): ${L.velEmboloMmS} mm/s de velocidad media de `
+      + `émbolo → ${r2(uImpacto * 1000)} mm/s de impacto (×${L.cilFactorImpacto} cat) → `
+      + `${r3(ekDiseno)} J de los ${L.cilEkAdm} admisibles. Se elige por la deceleración de frenado, `
+      + `no por la energía: con ${r2(uImpacto * 1000)} mm/s el bulto no despega de los rodillos.`,
     tiempoSubidaMs: r2(tSubida * 1000),
     aireLitrosANRciclo: r3(aireCiclo),
     aireLitrosANRmin20cpm: r2(aireCiclo * 20),
@@ -1229,7 +1314,21 @@ export function elevacion(E) {
       + `toman los 4 pasadores guía. El par por excentricidad del CG es ${parExcentricidad} N·m.`,
     excentricidadCGmm: excCG,
     parExcentricidadNm: parExcentricidad,
-    noGiroGrados: L.cilNoGiro,                  // cat ±0.04°
+    noGiroGrados: L.cilNoGiro,
+
+    // ---- estabilidad del CASSETTE sobre la horquilla (EST-03) -------------
+    // El cassette no está atornillado a la horquilla: se apoya. Lo único que lo
+    // sostiene son las dos huellas de contacto, así que el vuelco se juega en
+    // dónde está su CENTROIDE y en cuánta masa hay encima. Las dos cotas se
+    // publican aquí para que la compuerta las recalcule y no las suponga.
+    apoyoContactoY: [L.contactoY[0], L.brazoY1],
+    yApoyoContactoMm: yContacto,                // 100 — centroide de cada huella
+    anchoContactoMm: anchoContacto,             // 40 — alma completa del brace channel
+    masaMovilDeclaradaKg: L.masaMovilKg,        // 55 — cota SUPERIOR (empuje, Ek, aire)
+    masaMovilVuelcoKg: L.masaMovilVuelcoKg,     // 38 — cota INFERIOR, la del vuelco
+    vuelcoCriterio: 'la masa móvil es lo ÚNICO que estabiliza el cassette, así que el vuelco se '
+      + `comprueba con la cota INFERIOR (${L.masaMovilVuelcoKg} kg), no con la declarada `
+      + `(${L.masaMovilKg} kg), que es conservadora para todo lo demás y anticonservadora aquí.`,                  // cat ±0.04°
 
     // ---- geometría --------------------------------------------------------
     huellaCuerpoMm: [mw, md],                   // 91.5 (X) × 202 (Y)
@@ -1256,6 +1355,13 @@ export function elevacion(E) {
     huecoMotorMm: r2(L.brazoY0 - L.motorY143),   // holgura de la horquilla al motorreductor
     presionContactoMPa: r3(carga / areaContacto),
     canalZ: [canalZ0, canalZ1],
+    // Datos del alma del canal que necesita EST-10 (la compuerta recalcula la
+    // flexión con ellos; si aquí cambia el calibre, allí cambia la tensión).
+    espesorCanalMm: r2(tCanal),                 // 4.76 — 3/16", dis (EST-10)
+    espesorCanalCalibre: '3/16"',
+    vanoAlmaMm: r2(P.canalCilY - tCanal),       // 229.24 — entre fibras de las dos alas
+    pasoVarillaCanalDia: 30,                    // Ø de los 2 taladros de paso de varilla…
+    pasoVarillaCanalY: [-varillaY, varillaY],   // …en X = mesaX, o sea EN el centro del vano
     desarrolloCanalMm: desa.largo,
     plegadosCanal: desa.plegados.length,
     tuberiaMm,

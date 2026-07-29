@@ -34,30 +34,47 @@ para**; si una se arregla, la compuerta obliga a borrar la dispensa.
 hallazgos abiertos**, y sin tocar geometría. Después se cerraron **`DIN-01`**
 (velocidad), **`EST-05`** (borde del taladro) y **`AJ-02`/B6** (ajuste del eje de
 rodillo), esta vez **sí moviendo cotas** en `params.mjs`, `bastidor.mjs` y
-`rodillos.mjs`; §9 pasó a **22 comprobaciones** con la nueva `EST-11`. Los apartados
-cerrados llevan un recuadro al principio que dice cómo se cerraron y qué colgaba de
-ellos; el texto original se conserva debajo, sin retocar, porque es el que explica
-por qué el hallazgo existía.
+`rodillos.mjs`; §9 pasó a **22 comprobaciones** con la nueva `EST-11`.
+
+**Tercera pasada, 2026-07-29 (los tres hallazgos de `elevacion.mjs`).** Se cerraron
+**`DIN-12`** (el bulto despegaba al frenar el pop-up) y **`EST-10`** (el alma del
+canal del cilindro), y con ellos **`E1`**, la comprobación tautológica: §9 pasó a
+**23 comprobaciones** con la nueva `DIN-14`. **`EST-03`** —el vuelco del cassette—
+**sigue abierto**: se mejoró la geometría que se podía mejorar desde este módulo y se
+corrigió la base de masa con la que se juzga, con lo que su utilización pasó de 1.21 a
+**1.35**; cerrarlo exige 4 taladros en una pieza de `bastidor.mjs` (ver A1).
+
+Los apartados cerrados llevan un recuadro al principio que dice cómo se cerraron y qué
+colgaba de ellos; el texto original se conserva debajo, sin retocar, porque es el que
+explica por qué el hallazgo existía.
 
 ---
 
 ## Resumen: el resultado del §9
 
-> **Estado al 2026-07-29 (segunda pasada).** De las cinco que incumplían, **dos están
-> cerradas**: `DIN-01` (velocidad) y `EST-05` (borde del taladro). Sus dispensas se
-> borraron de `HALLAZGOS_ABIERTOS` y el bloque §9 pasó de 21 a 22 comprobaciones —la
-> nueva, `EST-11`, cierra además el ajuste `AJ-02` del eje de rodillo—. Quedan
-> abiertas las **tres de `elevacion.mjs`**. Las filas cerradas van tachadas abajo y
-> el detalle de cómo se cerraron, en A2, A5 y B6.
+> **Estado al 2026-07-29 (segunda pasada).** De las cinco que incumplían, **cuatro
+> están cerradas**: `DIN-01` (velocidad) y `EST-05` (borde del taladro) en
+> `params.mjs`/`bastidor.mjs`/`rodillos.mjs`, y `DIN-12` (el bulto despegaba al
+> frenar) y `EST-10` (el alma del canal del cilindro) en `elevacion.mjs`. Sus cuatro
+> dispensas se borraron de `HALLAZGOS_ABIERTOS`. El bloque §9 pasó de 21 a **23**
+> comprobaciones: `EST-11` cierra el ajuste `AJ-02` del eje de rodillo y `DIN-14`
+> —energía cinética de impacto— cierra el hallazgo `E1`, la comprobación
+> tautológica. **Queda abierta una sola: `EST-03`**, el vuelco del cassette, y su
+> número ha subido de 1.21 a 1.35 a propósito: ya no se comprueba con la masa móvil
+> *declarada* (55 kg, cota superior) sino con la cota inferior de 38 kg, coherente
+> con los 41.5 kg que pesan los sólidos. El diseño mejoró y el número empeoró porque
+> el número anterior era optimista. Las filas cerradas van tachadas abajo y el
+> detalle de cómo se cerraron, en A1, A2, A3, A4, A5, B6 y E1.
 
 | id | comprobación | valor | límite | uso | fuente del límite |
 |---|---|---|---|---|---|
 | ~~DIN-01~~ | ~~velocidad declarada vs. real~~ | **0.27 %** | 5 % | **0.05** | **cerrado 2026-07-29** (ver A2) |
-| **EST-03** | vuelco: no despegar el apoyo de la horquilla | 63.52 N·m | 52.37 N·m | **1.21** | equilibrio + FS 1.5 `dis` |
-| **DIN-12** | el bulto no despega al frenar el pop-up | 14.53 m/s² | 9.81 m/s² | **1.48** | g |
+| **EST-03** | vuelco: no despegar el apoyo de la horquilla | 63.52 N·m | 47.07 N·m | **1.35** | equilibrio + FS 1.5 `dis` |
+| ~~DIN-12~~ | ~~el bulto no despega al frenar el pop-up~~ | **7.06 m/s²** | 9.81 m/s² | **0.72** | **cerrado 2026-07-29** (ver A3) |
 | ~~EST-05~~ | ~~borde del taladro del perno de rodillo~~ | **9.77 mm** | 9.53 mm | **0.97** | **cerrado 2026-07-29** (ver A5) |
-| **EST-10** | flexión del alma del canal bajo el cilindro | 182.8 MPa | 150 MPa | **1.22** | 0.6·Fy A36 (`web` STR-005) |
+| ~~EST-10~~ | ~~flexión del alma del canal bajo el cilindro~~ | **80.1 MPa** | 150 MPa | **0.53** | **cerrado 2026-07-29** (ver A4) |
 | EST-11 | asiento del rodamiento del rodillo (nuevo) | 0 mm | 0 mm | **0** | nominal del barreno (cierra `AJ-02`) |
+| DIN-14 | energía cinética contra los topes (nueva) | 1.32 J | 2.71 J | **0.49** | Ek adm SMC (`web` PNEU-019); cierra `E1` |
 | DIN-02 | velocidad periférica del rodillo | 1.85 m/s | 2.0 m/s | 0.93 | Interroll (`web` ROD-007) |
 | DIN-04 | patinaje del bulto hasta sincronizar | 350.8 mm | 381 mm | 0.92 | campo de rodillos |
 | DIN-07 | deslizamiento de la banda en la rueda | 2.62 | 2.83 | 0.92 | Eytelwein + FS 1.3 `dis` |
@@ -80,6 +97,63 @@ por qué el hallazgo existía.
 # A · NO CUMPLE
 
 ## A1 — El cassette es una mesa apoyada en un solo punto: un bulto excéntrico está a un 24 % de despegar el apoyo `EST-03`
+
+> **Estado al 2026-07-29: SIGUE ABIERTO, y el número ha subido de 1.21 a 1.35.**
+> Las dos cosas hay que leerlas juntas.
+>
+> **Lo que sí se ha hecho** (`elevacion.mjs`, y es lo único que ese módulo podía hacer
+> solo): los brazos de la horquilla pasan de Y 58…100 a **58…120**, con lo que la
+> huella de apoyo cubre los **40 mm completos** del alma del `NOTCHED BRACE CHANNEL`
+> en vez de 20 y su centroide sube de **90 a 100 mm**. A igualdad de base de masa eso
+> baja la utilización de **1.212 a 1.092** y el FS al despegue sube de 1.24 a 1.37.
+> Cuesta 0.5 kg de acero y ninguna cota de nadie más. Peaje declarado: el radio polar
+> de la huella crece de 92.8 a 103.0 mm, así que el par que el rozamiento de los
+> apoyos puede meter en la placa del actuador sube de 16.19 a **17.97 N·m** frente a
+> los 21.9 de catálogo — sigue cumpliendo, con menos margen (0.74 → 0.82).
+>
+> **Por qué el número empeora igualmente.** Porque la comprobación ha dejado de usar
+> la masa móvil **declarada** (55 kg). Como dice el propio apartado, ese 55 es una
+> **cota superior**: conservadora para el empuje del actuador, para la energía
+> cinética y para el aire, y **anticonservadora justo aquí**, donde la masa es lo
+> único que estabiliza. `elevacion.mjs` declara ahora **dos** masas —
+> `masaMovilKg = 55` (superior) y `masaMovilVuelcoKg = 38` (**inferior**, contra los
+> 41.5 kg que pesan los sólidos)— y `EST-03` usa la de abajo. Con la misma geometría
+> de antes y la masa honesta, la utilización habría sido **1.50**. O sea: el diseño
+> mejoró un 10 % y el número subió porque el número anterior era optimista.
+> `tests/test_nbt90.mjs` guarda las dos cotas: 38 ≤ pesada ≤ 55.
+>
+> **Por qué no se cierra, con la evidencia.** Con la huella en 100 mm y 38 kg haría
+> falta llevar el centroide a **134.9 mm** para llegar a FS 1.5, y **el cassette no
+> ofrece ninguna superficie más allá de Y = 120 a esa altura**: entre Y 120 y 195, en
+> toda la banda de X que alcanza el cilindro (185…280) y entre Z 130 y 200, no hay
+> ninguna pieza `MÓVIL` — sólo los `SIDE CHANNEL`, que son fijos. Las tres opciones
+> que proponía este apartado se han comprobado una por una:
+>
+> 1. **separar los apoyos a Y = ±150** — imposible desde `elevacion.mjs`: la horquilla
+>    empujaría contra aire. Exige mover los `notched brace channel`, que son de
+>    `bastidor.mjs`;
+> 2. **topes fijos bajo el cassette a |Y| ≈ 185** — no funciona tal como está escrito.
+>    Un tope FIJO bajo el cassette sólo toca en el estado **retraído**; elevado queda
+>    10 mm por debajo, que es justo cuando hace falta. Y un tope que suba con el
+>    pop-up tendría que colgar de la placa móvil (|Y| ≤ 99) y llegar a las spacer
+>    plate, que están a X 42 y 418: 190 mm de voladizo;
+> 3. **que los pasadores guía tomen carga vertical** — su brazo (|Y| = 221) sería
+>    excelente, pero hoy los 4 pasadores **no están empotrados en nada**: en X = 190 y
+>    273, |Y| 185…195, el cassette no tiene ninguna pieza. Están dibujados al aire
+>    (contrato §5.1). Darles apoyo exige, otra vez, una pieza de `bastidor.mjs`. Y
+>    aunque la tuvieran, un apoyo con juego no arregla el paralelismo: lo que fija el
+>    desnivel del plano de rodillos pasa a ser la holgura del pasador en su colisa.
+>
+> **Lo que sí lo cierra, y a quién le toca.** Que el apoyo pueda trabajar **a
+> tracción**: **4 taladros Ø9 en el alma de los dos `NOTCHED BRACE CHANNEL`**, en
+> X = 205.5 y 257.5 (los mismos X de los pernos NN de la placa) e Y = ±100, para
+> atornillar la horquilla al cassette con 4 M8 desde abajo. Con la unión atornillada
+> el modo de fallo **desaparece**: no hay despegue que comprobar, sino 4 pernos a
+> tracción con FS > 10, sin holgura y sin depender de la masa. Es la solución más
+> barata de las cuatro y la única que además arregla el paralelismo, porque elimina
+> la rotación relativa entre cassette y placa. **Dueño del taladro: `bastidor.mjs`.**
+> El alma es de 12 GA y el brazo tiene 22 mm de canto: la rosca va en el brazo, no en
+> la chapa.
 
 **Qué pasa.** Todo el conjunto móvil —55 kg declarados, 41 kg si se pesan los
 sólidos— se sostiene sobre **dos zonas de contacto** de la horquilla de empuje, a
@@ -209,7 +283,37 @@ desincronizarse. Ver el recuadro del principio de este apartado.**
 
 ---
 
-## A3 — Al frenar el pop-up el bulto se despega de los rodillos `DIN-12`
+## A3 — ~~Al frenar el pop-up el bulto se despega de los rodillos~~ `DIN-12` · **CERRADO 2026-07-29**
+
+> **Cómo se cerró.** `elevacion.mjs` deja de despejar la velocidad de subida del
+> límite de energía del catálogo y la declara como **dato de diseño**:
+> `L.velEmboloMmS = 120 mm/s` de velocidad **media de émbolo** —la que se ajusta en
+> los reguladores de caudal y la que mide el catálogo con su banda 50…400—. De ahí
+> salen, en este orden: impacto = 1.4 × media = **168 mm/s** (`cat`, nota de la hoja
+> MGP), deceleración = u²/2δ = **7.06 m/s² = 0.72 g** y Ek = ½Mu² = **1.32 J** de los
+> 2.71 admisibles.
+>
+> **Por qué 120 y no los 198 del límite justo.** Los 198.06 mm/s que calcula este
+> informe son la velocidad de *impacto* a la que la deceleración vale exactamente g:
+> poner el diseño ahí deja utilización 1.000 y ningún margen para lo que **no se
+> sabe**, que es δ (D2: SMC publica la energía admisible pero no la carrera del
+> tope). Con 168 mm/s de impacto la comprobación sigue cumpliendo mientras el tope
+> real aplaste **≥ 1.44 mm**; con 198 fallaría con cualquier δ por debajo de 2.0. La
+> compuerta imprime esa cota en cada pasada.
+>
+> **Lo que cuesta.** El tiempo de subida pasa de 58 a **83 ms** — el 14 % del ciclo de
+> 600 ms de un sorter a 100 sorts/min (`web` SORT-015), y este divert ve un bulto cada
+> ~5 s, no cada 0.6. **Lo que se gana**, además de que el bulto no despegue: la
+> energía de impacto baja de 2.71 J (el límite) a 1.32, la fuerza sobre la estructura
+> de 2 710 a **1 316 N** (`EST-09` pasa de 0.07 a 0.04) y la aceleración de arranque
+> de la carrera de 2.9 a **1.41 m/s²**, que es la que carga el alma del canal en A4.
+>
+> **Y de paso, `E1`:** al ser la velocidad un dato y la energía una consecuencia,
+> nació **`DIN-14`** —Ek ≤ Ek_adm— que ya es una comprobación con dos lados. El
+> detector de tautología se conserva en la compuerta como **guardián**: si alguien
+> vuelve a derivar la velocidad del límite, lo denuncia por consola.
+
+<details><summary>Texto original del hallazgo (se conserva sin retocar)</summary>
 
 **Qué pasa.** `elevacion.mjs` elige la velocidad de subida por la energía cinética
 admisible del cilindro: **241.06 mm/s** con 2.71 J (`cat`/`web` PNEU-019). Al
@@ -237,9 +341,46 @@ alarga la subida de 58 a 71 ms, irrelevante frente a los 600 ms de ciclo a 100
 sorts/min (`web` SORT-015). Con eso además la energía de impacto baja de 2.71 J a
 1.83 J y aparece el margen que hoy no existe (ver A6).
 
+</details>
+
 ---
 
-## A4 — El alma del canal de montaje del cilindro trabaja a 183 MPa `EST-10`
+## A4 — ~~El alma del canal de montaje del cilindro trabaja a 183 MPa~~ `EST-10` · **CERRADO 2026-07-29**
+
+> **Cómo se cerró.** El `CYLINDER MOUNTING CHANNEL` pasa de **12 GA (2.657) a 3/16"
+> (4.763 = `P.placaT`)**. σ de sección bruta: **56.2 MPa**; con la sección neta de los
+> dos taladros Ø30 —que este informe señalaba como agravante pero no metía en el
+> número— **80.1 MPa**, y **91.6** con la aceleración de la carrera. Frente a 150.
+>
+> **Por qué el calibre y no un refuerzo.** Las tres soluciones «obvias» chocan con la
+> cadena de alturas del §0 de `elevacion.mjs`, que está cerrada por los dos extremos:
+>
+> - **chapa de refuerzo o segunda piel POR ENCIMA del alma** → sube el cilindro y hay
+>   que recuperar esa altura acortando la horquilla, que es lo único que **no** se
+>   puede tocar: con `platoT = 22` la cara superior de la placa móvil ya está a
+>   **2.4 mm** del cárter del motorreductor (Z = 123.9), y la placa de un MGPM no se
+>   rebaja —ahí se atornillan el vástago y las dos varillas guía—;
+> - **chapa de refuerzo POR DEBAJO** → el canal baja lo mismo y las cabezas de los 4
+>   M12 de fijación (7.5 + 2 de golilla) se salen por debajo del bastidor: hoy acaban
+>   en Z = 0.74 con el alma ya engordada;
+> - **nervios en la artesa de 12.34 mm que queda bajo el alma** → sí caben (3 tiras de
+>   4 × 12.34 a Y = 0 y ±112 dan 96 MPa), pero hay que esquivar las 4 cabezas M12
+>   (Y = ±90, con su vaso) y las dos varillas guía, que **retraídas bajan a Z = −3.5**;
+>   y son tres cordones sobre chapa fina, con su alabeo, para ahorrar 3.4 kg.
+>
+> Subir el calibre **no gasta espacio**: el alma crece hacia **abajo** —`canalZ0` de
+> 12.34 a 10.24— y la cara de fijación (`webZ` = 15.0) no se mueve, porque la fija la
+> cadena desde `P.rielInfZ`. Todo lo que hay por encima queda idéntico.
+>
+> **Dos holguras del estado RETRAÍDO mejoran de regalo**, que era justo lo que había
+> que vigilar: el techo del canal baja de 115.34 a **113.24** y por primera vez queda
+> **por debajo** del cárter del motorreductor retraído (113.9) en vez de solaparlo
+> 1.44 mm; y la placa soporte de transmisión libra ese techo por **4.76 mm** en vez de
+> 2.66. 3/16" no es un calibre nuevo: es el de las placas peine, las spacer plate y
+> las propias placas colgantes de este canal. Coste: **+3.4 kg** en una pieza FIJA,
+> que no entra en la masa móvil ni en el vuelco.
+
+<details><summary>Texto original del hallazgo (se conserva sin retocar)</summary>
 
 **Qué pasa.** El MGPM80 se atornilla **encima** del alma del `CYLINDER MOUNTING
 CHANNEL`, que es chapa de **12 GA = 2.657 mm** (`cat` `P.cal12`, `web` HW-004) con
@@ -276,6 +417,8 @@ GA'`), así que A36 es el mínimo defendible.
 o un **nervio transversal** que reduzca el vano de 231 a ~115 mm. Con el vano a la
 mitad la tensión baja a 55 MPa. No hace falta cambiar el canal ni la cadena de
 alturas.
+
+</details>
 
 ---
 
@@ -738,7 +881,13 @@ fijan las colisas de los pasadores: **hasta 2 mm**.
 
 # E · Cosas que no son de resistencia pero aparecieron al mirar
 
-**E1 · La comprobación de energía cinética de §6 no puede fallar nunca.**
+**E1 · ~~La comprobación de energía cinética de §6 no puede fallar nunca.~~ ·
+CERRADO 2026-07-29.** La velocidad de subida es ahora un dato de diseño
+(`L.velEmboloMmS` = 120 mm/s de émbolo, `dis`) y la energía cinética su consecuencia:
+1.32 J de los 2.71 admisibles. Nació **`DIN-14`**, que compara las dos y sí puede
+fallar —verificado subiendo la velocidad a 260 mm/s: la compuerta para—. El detector
+de tautología no se ha quitado: se queda como **guardián**, y si alguien vuelve a
+despejar la velocidad del propio límite lo denuncia por consola. Texto original:
 `elevacion.mjs` calcula `uMax = √(2·Ek_adm/M)` y después
 `ekDiseno = ½·M·uMax²`, que **por construcción es exactamente `Ek_adm`**. La
 comprobación `energiaCineticaJ > energiaAdmisibleJ` de la compuerta es por tanto
@@ -771,6 +920,20 @@ reacción de empujar el bulto (166.7 N en Y) va entera al cilindro, que la aguan
 (`EST-04`, 352 N admisibles) — pero por diseño, no por casualidad, y conviene que
 esté escrito. **Dueño: `elevacion.mjs`.**
 
+> **Ampliación 2026-07-29, al buscarle apoyo vertical al pasador para A1: los cuatro
+> pasadores no están empotrados en nada.** `L.guiaMontY = 195` declara *«cara del
+> bastidor móvil donde va empotrado el pasador»*, pero en X = 190 y 273, con
+> |Y| entre 185 y 195, **el cassette no tiene ninguna pieza**: sus estructuras a esa
+> altura son los `notched brace channel` (|Y| ≤ 120) y, mucho más afuera en X, las
+> spacer plate (X 42…47 y 416…420) y las placas peine (X 38…42 y 421…425). Los
+> pasadores flotan. O sea que hoy **no guían tampoco en X ni en θz**: ni sujetan, ni
+> topan, ni reaccionan nada, y la primera consecuencia práctica es que si el apoyo de
+> la horquilla despega (A1) no hay nada que retenga el cassette — ni siquiera los
+> 2 mm de colisa que este informe daba por buenos. Esto contradice el contrato §5.1
+> («nada flota») y la compuerta no lo ve, porque no comprueba adyacencia. Arreglarlo
+> exige una cara del cassette donde empotrarlos, que es pieza de `bastidor.mjs`: los
+> mismos taladros que pide A1 resolverían las dos cosas si se hacen a la vez.
+
 **E4 · ~~`P.cargaMaxKg` está etiquetado `dis` y es `web`~~ · CORREGIDO 2026-07-29.**
 El comentario decía *«dis: bulto máximo típico de un MRT (75 lb)»*, pero es un dato
 de la ficha del fabricante, ya citado con URL y cita textual en `web_facts.json`
@@ -782,7 +945,8 @@ de la ficha del fabricante, ya citado con URL y cita textual en `web_facts.json`
 # Qué se ha metido en la compuerta
 
 `gen_nbt90.mjs` gana un bloque **§9 · Resistencia y dinámica** con **21
-comprobaciones** —**22** desde que `EST-11` cerró `AJ-02`—, cada una con su umbral y
+comprobaciones** —**22** desde que `EST-11` cerró `AJ-02` y **23** desde que `DIN-14`
+cerró `E1`—, cada una con su umbral y
 la fuente del umbral en el comentario. Lo que hace distinto a este bloque:
 
 - **recalcula, no copia**: la cinemática, las tensiones del serpentín, el reparto
@@ -825,8 +989,18 @@ sobrestime más del 60 %) por lo dicho en A1.
 4. **Tensión de montaje de la banda**, exportada y con método de medida.
 5. **Tolerancia del Ø del rodillo y del vulcanizado**, para poder calcular el
    reparto real de carga en vez de suponer el caso peor.
-6. **Velocidad de diseño del pop-up** como dato independiente de la energía
-   admisible (E1).
+6. ~~**Velocidad de diseño del pop-up** como dato independiente de la energía
+   admisible (E1).~~ **PUESTO 2026-07-29**: `elevacion.mjs` lo declara en
+   `L.velEmboloMmS` (120 mm/s de émbolo, `dis`) y lo publica en sus métricas como
+   `velocidadDisenoMmS`; la compuerta lo comprueba contra la banda 50…400 del
+   catálogo y deriva de él el impacto, la energía (`DIN-14`) y la deceleración
+   (`DIN-12`).
+8. **Cota INFERIOR de la masa del conjunto móvil.** Falta de nacimiento y se ha
+   puesto ahora (`masaMovilVuelcoKg` = 38 kg, `dis`): la declarada de 55 es una cota
+   superior y en el vuelco el lado seguro es el contrario (A1). Lo que sigue
+   faltando es que **cada pieza declare su masa o su material con densidad**, para
+   que la compuerta pueda pesar el cassette en vez de creerse dos números `dis`;
+   hoy sólo lo hace `tests/test_nbt90.mjs`, que construye las 410 mallas.
 7. **Masa de cada pieza** o su material con densidad, para que el gate pueda pesar
    sin construir mallas.
 
@@ -834,20 +1008,28 @@ sobrestime más del 60 %) por lo dicho en A1.
 
 ## Verificación
 
-Estado tras la segunda pasada (2026-07-29, cierre de `DIN-01`, `EST-05` y `AJ-02`):
+Estado tras la tercera pasada (2026-07-29, cierre de `DIN-12`, `EST-10` y `E1`):
 
 ```
 node ensambles/nbt90/gen_nbt90.mjs
-   → 19/22 comprobaciones estructurales cumplen; 3 abiertas (las de elevacion.mjs),
-     listadas por consola, más el aviso de AJ-02 en tolerancias.mjs
+   → 22/23 comprobaciones estructurales cumplen; 1 abierta (EST-03), listada por
+     consola, más el aviso de AJ-02 en tolerancias.mjs
 python3 ensambles/nbt90/interferencias_brep.py --tol 0.05
-   → 4 sobre 1032 pares en elevado y 4 sobre 1037 en retraído (convención declarada:
+   → 4 sobre 1032 pares en elevado y 4 sobre 1036 en retraído (convención declarada:
      tornillería dentro de piezas compradas) — ninguna nueva
 node tests/test_nbt90.mjs
-   → 63 OK, 0 fallas
+   → 64 OK, 0 fallas
 ```
 
-En la primera pasada eran 16/21, 5 abiertas y 53 OK.
+En la primera pasada eran 16/21, 5 abiertas y 53 OK; en la segunda, 19/22, 3 abiertas
+y 63 OK.
+
+Las tres comprobaciones tocadas en esta pasada se verificaron **forzando el fallo**
+desde `elevacion.mjs`, una a una, y comprobando que la compuerta para y nombra la
+comprobación esperada: velocidad de émbolo a 160 mm/s (`DIN-12` a 12.54 m/s²), a 260
+(`DIN-14` a 6.18 J **y** el `e.push` de §6), a 30 (por debajo del mínimo de émbolo del
+catálogo), canal otra vez en 12 GA (`EST-10` a 259 MPa) y horquilla otra vez a Y = 100
+(`EST-03` **ha EMPEORADO**, rama del trinquete).
 
 Que las comprobaciones nuevas **muerden** se verificó forzando fallos en 21 de 21:
 perturbando `P` (velocidad, rpm, carga, Ø de rueda, espesor de vulcanizado, plano
