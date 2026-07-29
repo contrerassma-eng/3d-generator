@@ -185,8 +185,9 @@ def main():
     check("todos los STL cerrados",
           all(v["estanco"] for v in pz["estanqueidad_stl"].values()))
     for f, kb in (("conjunto.glb", 20), ("conjunto.png", 20), ("placas.dxf", 5),
-                  ("catalogo_piezas.pdf", 100), ("test-omni_piezas.zip", 500),
-                  ("LEEME.txt", 0)):
+                  ("catalogo_piezas.pdf", 100), ("corte_AA.dxf", 5),
+                  ("corte_AA.pdf", 20), ("corte_AA.png", 20),
+                  ("test-omni_piezas.zip", 500), ("LEEME.txt", 0)):
         p = proj / "out" / "piezas" / f
         check(f"{f} generado", p.exists() and p.stat().st_size > kb * 1024)
     import zipfile

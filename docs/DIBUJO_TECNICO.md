@@ -227,8 +227,11 @@ Lo que el script resuelve solo, con su justificación en `piezas.json`:
 Salidas en `out/piezas/`: un STL por pieza, `conjunto.glb` + `conjunto.png` con
 todo montado, `placas.dxf` con los contornos a escala real (capa `CORTE` para lo
 pasante; `RANURA` y `AVELLANADO` son mecanizados posteriores, en trazo
-discontinuo), `catalogo_piezas.pdf` y `piezas.json` con cotas, justificaciones,
-lista de piezas y montaje.
+discontinuo), `catalogo_piezas.pdf`, la lámina **`corte_AA`** (DXF/PDF/PNG:
+sección real de la rueda montada por el plano del eje — pasa por un rodillo de
+cada hilera y un tornillo; placas rayadas a 45°/135° alternado, ejes y
+tornillería sin rayar según ISO 128-50, apilado acotado) y `piezas.json` con
+cotas, justificaciones, lista de piezas y montaje.
 
 `catalogo_piezas.pdf` es el cuadernillo de taller: portada con el conjunto
 renderizado, la lista de piezas y el montaje, y después **una página por pieza**

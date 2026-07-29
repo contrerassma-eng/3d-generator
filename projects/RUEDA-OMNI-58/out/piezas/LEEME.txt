@@ -1,5 +1,5 @@
 RUEDA OMNIDIRECCIONAL DOBLE Ø58 — piezas
-proyecto RUEDA-OMNI-58 · generado 2026-07-28T16:47:47Z
+proyecto RUEDA-OMNI-58 · generado 2026-07-29T13:53:01Z
 
 QUÉ ES ESTO
   Diseño (capa `user`), no medición. Las cotas de partida salen de UNA foto
@@ -60,6 +60,9 @@ ARCHIVOS
   conjunto.png                 render del conjunto
   placas.dxf                   contornos de placa a escala real; capa CORTE = pasante, RANURA y AVELLANADO = mecanizado posterior
   catalogo_piezas.pdf          catálogo: una página por pieza con vistas, cotas y mecanizado
+  corte_AA.dxf                 contornos de placa a escala real; capa CORTE = pasante, RANURA y AVELLANADO = mecanizado posterior
+  corte_AA.pdf                 catálogo: una página por pieza con vistas, cotas y mecanizado
+  corte_AA.png                 render del conjunto
   piezas.json                  todas las cotas con su procedencia y justificación
 
 NO DETERMINADO POR LA FOTO

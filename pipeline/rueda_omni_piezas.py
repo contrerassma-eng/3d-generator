@@ -449,6 +449,167 @@ def render(piezas: dict, path: Path) -> None:
     plt.close(fig)
 
 
+def _seccion_poligonos(malla, origen=(0, 0, 9), normal=(0, 1, 0)):
+    """Polígonos shapely (con huecos, por paridad) del corte de una malla por
+    el plano dado, en coordenadas (x, z) de la rueda."""
+    from shapely.geometry import Polygon
+    sec = malla.section(plane_origin=origen, plane_normal=normal)
+    if sec is None:
+        return None
+    lazos = []
+    for tramo in sec.discrete:
+        if len(tramo) >= 3:
+            pol = Polygon([(pt[0], pt[2]) for pt in tramo]).buffer(0)
+            if pol.area > 0.05:
+                lazos.append(pol)
+    if not lazos:
+        return None
+    lazos.sort(key=lambda g: g.area, reverse=True)
+    resultado = lazos[0]
+    for pol in lazos[1:]:
+        resultado = resultado.symmetric_difference(pol)
+    return resultado
+
+
+def _rayado(poly, paso, angulo_deg, xlim=(-40, 40), zlim=(-15, 30)):
+    """Segmentos de rayado a `angulo` dentro del polígono (ISO 128-50)."""
+    from shapely.geometry import LineString
+    import numpy as np
+    a = math.radians(angulo_deg)
+    u = (math.cos(a), math.sin(a))
+    n = (-math.sin(a), math.cos(a))
+    L = 120.0
+    segs = []
+    for k in np.arange(-L, L, paso):
+        p0 = (k * n[0] - L * u[0], k * n[1] - L * u[1])
+        p1 = (k * n[0] + L * u[0], k * n[1] + L * u[1])
+        corte = poly.intersection(LineString([p0, p1]))
+        partes = getattr(corte, "geoms", [corte])
+        for g in partes:
+            if g.geom_type == "LineString" and g.length > 0.1:
+                c = list(g.coords)
+                segs.append((c[0], c[-1]))
+    return segs
+
+
+def lamina_corte(proj, d: dict, piezas: dict, out) -> list:
+    """Lámina CORTE A-A de la rueda montada: el plano pasa por el eje de la
+    rueda, por un rodillo de cada hilera y por un tornillo (ángulos 0/180).
+    DXF a escala real + PDF + PNG, con el mismo marco/cajetín de S6."""
+    import ezdxf
+    from s6_drawings import SHEETS, Sheet, render_pdf, MARGIN, MARGIN_L, TITLE_H
+    from rueda_omni import now_iso as _now
+
+    g, u, h = d["derivado"], d["decidido_por_el_usuario"], d["heredado_de_la_foto"]
+    secciones = []                                # (nombre, tipo, poligono)
+    for nombre, (m, tipo) in piezas.items():
+        if tipo == "placa":
+            pol = _seccion_poligonos(m)
+            if pol is not None:
+                secciones.append((nombre, "placa", pol))
+        elif tipo == "montaje":
+            pol = _seccion_poligonos(m)
+            if pol is not None:
+                secciones.append((nombre, "rodillo" if "rodillo" in nombre
+                                  else "eje", pol))
+
+    formato, num, den = "A4", 2.0, 1.0
+    W, H = SHEETS[formato]
+    docs = {}
+    for clave, K in (("real", den / num), ("papel", 1.0)):
+        doc = ezdxf.new("R2018", setup=True)
+        doc.header["$INSUNITS"] = 4
+        if "EJES" not in doc.layers:
+            doc.layers.add("EJES", color=4, linetype="CENTER", lineweight=18)
+        if "RAYADO" not in doc.layers:
+            doc.layers.add("RAYADO", color=8, linetype="CONTINUOUS", lineweight=13)
+        sh = Sheet(doc, formato, W, H, num, den, K)
+        esc = num / den
+        cx = MARGIN_L + 108.0                     # centro del corte en papel
+        cy = MARGIN + TITLE_H + 12 + 62.0
+
+        def P(p):
+            return (cx + p[0] * esc, cy + p[1] * esc)
+
+        idx_placa = 0
+        for nombre, tipo, pol in secciones:
+            partes = getattr(pol, "geoms", [pol])
+            if tipo == "placa":
+                ang = 45.0 if idx_placa % 2 == 0 else 135.0
+                paso_r, capa = 2.2, "RAYADO"
+                idx_placa += 1
+            elif tipo == "rodillo":
+                ang, paso_r, capa = 45.0, 1.1, "RAYADO"
+            else:                                  # ejes: convenio — sin rayar
+                ang = None
+            for parte in partes:
+                for anillo in [parte.exterior] + list(parte.interiors):
+                    pts = [P(q) for q in anillo.coords]
+                    sh.poly(pts, "VISIBLE", cerrar=False) if False else                         sh.msp.add_lwpolyline([sh._p(q) for q in pts], close=True,
+                                              dxfattribs={"layer": "VISIBLE"})
+                if ang is not None:
+                    for (a0, b0) in _rayado(parte, paso_r, ang):
+                        sh.line(P(a0), P(b0), capa)
+
+        # líneas de eje: eje de rueda (vertical) y ejes de rodillo cortados
+        z_a, z_b = g["z_plano_eje_A"], g["z_plano_eje_B"]
+        a = h["radio_eje_rodillo"]
+        sh.line(P((0, -8)), P((0, 26)), "EJES")
+        for zr in (z_a, z_b):
+            sh.line(P((-33, zr)), P((33, zr)), "EJES")
+
+        # cotas del apilado
+        R = h["diametro_exterior"] / 2
+        sh.dim(P((-R, -4)), P((R, -4)), 8)
+        sh.dim(P((29.5, 0)), P((29.5, g["espesor_paquete_placas"])), -10,
+               vertical=True)
+        sh.dim(P((-29.5, z_a - g["diametro_max_rodillo"] / 2)),
+               P((-29.5, z_b + g["diametro_max_rodillo"] / 2)), 10, vertical=True)
+        sh.dim(P((-u["hexagono_entrecaras"] / 2, 20)),
+               P((u["hexagono_entrecaras"] / 2, 20)), -26)
+        sh.text(f"%%c{g['diametro_max_rodillo']:g} RODILLO — BARRENO "
+                f"%%c{g['barreno_rodillo']:g}", cx + 32, cy + 44, h=2.6)
+        sh.text(f"HEX {u['hexagono_entrecaras']:g} ENTRECARAS", cx - 8,
+                cy + 52, h=2.6)
+        sh.text(f"5x {u['tornillo']} DIN 965 EN %%c"
+                f"{g['circunferencia_tornillos']:g}", cx - 78, cy + 40, h=2.6)
+        sh.text("CORTE A-A  (escala 2:1)", cx, cy - 22, h=4.0, align="CENTER")
+        sh.text("ejes y tornillería sin rayar (ISO 128-50); separación de "
+                "hileras y planos de eje: ver piezas.json", cx, cy - 28, h=2.2,
+                align="CENTER")
+
+        # esquema de situación del corte (vista frontal pequeña con A-A)
+        ex, ey, er = W - MARGIN - 46.0, H - MARGIN - 40.0, 22.0
+        sh.circle((ex, ey), er, "FINA")
+        rc = u["hexagono_entrecaras"] / math.sqrt(3) * (er / R)
+        sh.poly([(ex + rc * math.cos(math.radians(60 * k + 30)),
+                  ey + rc * math.sin(math.radians(60 * k + 30)))
+                 for k in range(6)], "FINA")
+        sh.line((ex - er - 6, ey), (ex + er + 6, ey), "EJES")
+        for sx in (-1, 1):
+            sh.text("A", ex + sx * (er + 9), ey + 3, h=3.5, align="CENTER")
+        sh.text("VISTA DE FRENTE", ex, ey - er - 6, h=2.2, align="CENTER")
+
+        sh.frame_and_title({
+            "designacion": f"RUEDA OMNI %%c{h['diametro_exterior']:g} — CORTE A-A",
+            "proyecto": proj.name, "fuente": "diseño del sándwich (capa user)",
+            "sha": "—", "verificacion": "COTAS DE DISEÑO (ver piezas.json)",
+            "nota": "El plano A-A pasa por el eje, un rodillo por hilera y un "
+                    "tornillo", "escala": "2:1", "formato": formato,
+            "lamina": "1 / 1", "fecha": _now()[:10],
+            "num_plano": "RUEDA-OMNI-CORTE-01"})
+        docs[clave] = doc
+
+    dxf = out / "corte_AA.dxf"
+    pdf = out / "corte_AA.pdf"
+    png = out / "corte_AA.png"
+    docs["real"].saveas(dxf)
+    render_pdf([(docs["papel"], (W, H))], pdf)
+    import rueda_omni as RO
+    RO._png(docs["papel"], (W, H), png)
+    return [dxf, pdf, png]
+
+
 def _bloque(fig, y: float, titulo: str, lineas, vinetas=False) -> float:
     """Escribe un bloque de texto plegando las líneas largas; devuelve la y final
     para que el siguiente bloque no se le monte encima."""
@@ -826,6 +987,7 @@ def main() -> None:
     pdf = out / "catalogo_piezas.pdf"
     catalogo_pdf(piezas, d, pdf)
     escritos.append(pdf)
+    escritos += lamina_corte(proj, d, piezas, out)
     pj = out / "piezas.json"
     pj.write_text(json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8")
 
