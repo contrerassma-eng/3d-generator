@@ -106,7 +106,7 @@ for (const part of doc.parts) {
   if (real) {
     material = mats.para(part);
     const esc = mats.detalleDe(part);
-    if (esc) uvPorEjeLargo(THREE, g, esc);
+    if (esc) uvPorEjeLargo(THREE, g, esc.mm, esc.eje);
   } else {
     material = new THREE.MeshStandardMaterial({
       color: part.color || '#8899aa', metalness: 0.15, roughness: 0.65,

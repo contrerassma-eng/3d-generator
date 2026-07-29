@@ -453,9 +453,17 @@ export function crearMateriales(THREE, { tex = null } = {}, comun = {}) {
       m.userData.familia = f.familia;
       return m;
     },
-    /** Tamaño de baldosa en mm, o null si la familia no lleva textura. */
+    /**
+     * Cómo se proyecta la textura de esta pieza: { mm, eje }, o null si la
+     * familia no lleva. `eje` distingue la dirección de EXTRUSIÓN (estrías,
+     * laminado) de la de REVOLUCIÓN (marcas de torno), que en una pieza
+     * achatada como una polea no son la misma.
+     */
     detalleDe(part) {
-      return tex ? (PRESETS[familiaDe(part).preset].tex?.mm ?? null) : null;
+      if (!tex) return null;
+      const d = PRESETS[familiaDe(part).preset].tex;
+      if (!d) return null;
+      return { mm: d.mm, eje: d.tipo === 'torneado' ? 'revolucion' : 'largo' };
     },
     resumen() {
       return {

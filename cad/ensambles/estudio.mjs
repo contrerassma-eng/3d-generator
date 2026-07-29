@@ -600,9 +600,11 @@ export function crearTexturas(THREE, { tam = 512, semilla = 20250729 } = {}) {
  * cuando la malla no trae `tangent`— apunta en esa misma dirección con
  * `anisotropyRotation = 0`.
  *
- * `escala` va en milímetros de pieza por baldosa. Las mallas de este repo son
- * todas no indexadas, así que los tres vértices de una cara pueden compartir
- * criterio sin pisar a nadie.
+ * `escala` va en milímetros de pieza por baldosa. `eje` elige QUÉ dirección es
+ * la de referencia: `'largo'` (la de extrusión, para estrías y laminados) o
+ * `'revolucion'` (para acabados de torno). Las mallas de este repo son todas no
+ * indexadas, así que los tres vértices de una cara pueden compartir criterio sin
+ * pisar a nadie.
  */
 export function uvPorEjeLargo(THREE, geom, escala = 25, eje = 'largo') {
   const p = geom.attributes.position.array;
