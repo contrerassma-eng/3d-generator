@@ -13,7 +13,12 @@ import * as THREE from 'three';
 import { buildPartGeometry, partMatrix } from '../../js/model.js';
 import { buildSheet, Sheet, chooseSheet, scaleLabel, exportSheetsPDF, exportDrawingDXF } from '../../js/drawing2d.js';
 import { desarrollo } from './lib.mjs';
-import { P, enPulg } from './params.mjs';
+import { P } from './params.mjs';
+// `materialDe` (y con ella `espesorDe` y `desig`) vive en `materiales.mjs`, que
+// es de donde también la leen los visores para pintar cada pieza según de qué
+// está hecha. Estaba aquí; se mudó allí sin tocar una línea para que el material
+// del cajetín y el del render NO PUEDAN divergir: uno solo es el que manda.
+import { desig, materialDe } from './materiales.mjs';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -28,46 +33,7 @@ const FUENTE = 'diseño paramétrico foto3d — capa user (escala 0.6320 mm/px, 
 
 const MARGIN = 10, MARGIN_L = 20, TITLE_H = 42, GAP = 26;
 
-// --- material sugerido por tipo de pieza fabricada ---------------------------
-function espesorDe(n, chapa) {
-  if (chapa?.t) return chapa.t;                      // lo declara la pieza: manda
-  const ga = n.match(/(\d{1,2})\s*GA/i);
-  if (ga) return { 7: 4.554, 10: 3.416, 11: 3.038, 12: 2.657, 14: 1.897, 16: 1.519 }[+ga[1]];
-  const frac = n.match(/(\d+)\/(\d+)"/);            // 3/16", 1/4"…
-  if (frac) {
-    const v = (+frac[1] / +frac[2]) * 25.4;
-    if (v >= 1.5 && v <= 25) return Math.round(v * 1000) / 1000;
-  }
-  const mm = n.match(/×(\d{1,2})(?:\s|$|\))/);       // «170×42×12»
-  if (mm && +mm[1] >= 3 && +mm[1] <= 25) return +mm[1];
-  return null;
-}
-
-function materialDe(n, chapa) {
-  const esp = espesorDe(n, chapa);
-  // El orden importa: primero lo que define la PIEZA (chapa, tubo, goma) y solo
-  // después las palabras que aparecen en nombres compuestos ("ménsula jack bolt"
-  // es chapa, no un eje mecanizado).
-  if (/regleta|UHMW/i.test(n)) return 'UHMW-PE 1000';
-  if (/banda|correa/i.test(n)) return `Banda plana poliéster/uretano ${P.serpEsp} mm (empalme sin fin)`;
-  if (/vulcaniz/i.test(n)) return 'Tubo de acero ST37 + vulcanizado NBR 70 ShA';
-  if (/\btubo\b/i.test(n)) return 'Tubo de acero ST37';
-  if (/guarda|guard|cubierta/i.test(n)) return `Chapa de acero ${enPulg(esp ?? P.cal14)}${esp ? "" : " (14 GA)"}, galvanizada`;
-  if (/\bcanal\b|side channel|cross channel|brace channel|tapa extremo/i.test(n)) {
-    return `Chapa de acero ${enPulg(esp ?? P.cal12)}${esp ? '' : ' (12 GA)'} conformada, galvanizada`;
-  }
-  if (/peine|spacer plate|placa|ménsula|mensula|soporte|escuadra|angular|angle|travesaño|plato|brazo/i.test(n)) {
-    return `Chapa de acero ${enPulg(esp ?? P.cal12)}${esp ? '' : ' (12 GA)'}, galvanizada`;
-  }
-  if (/eje hex/i.test(n)) return 'Barra hexagonal 5/16" acero SAE 1045 estirado en frío';
-  if (/\beje\b|pasador|espárrago|tirante|vástago/i.test(n)) return 'Acero SAE 1045 rectificado';
-  if (/polea|rueda|loca|buje|casquillo/i.test(n)) return 'Aluminio 6061-T6 (o acero mecanizado)';
-  if (/tapa|separador/i.test(n)) return 'Acero al carbono mecanizado';
-  return 'Acero al carbono';
-}
-
 // --- agrupar piezas idénticas ------------------------------------------------
-const desig = (n) => n.replace(/^(FIJO|MÓVIL)\s·\s/, '').replace(/\s*\([^)]*\)\s*$/, '').trim();
 const firma = (p) => `${desig(p.name)}|${p.features.length}|${p.features.map(f =>
   `${f.shape}${JSON.stringify(f.params ?? {})}`).join(';')}`;
 

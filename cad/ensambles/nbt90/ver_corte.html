@@ -6,7 +6,10 @@
 <title>NBT90 — vista de corte</title>
 <style>
   html, body { margin: 0; height: 100%; background: #14171c; overflow: hidden; }
-  #info { position: fixed; top: 8px; left: 10px; color: #cfd6e4; font: 12px system-ui; z-index: 2; }
+  body.real { background:
+      radial-gradient(120% 90% at 50% 25%, #333b46 0%, #23272e 45%, #14171c 100%); }
+  #info { position: fixed; top: 8px; left: 10px; color: #cfd6e4; font: 12px system-ui; z-index: 2;
+          text-shadow: 0 1px 3px #000a; }
   canvas { display: block; }
 </style>
 <script type="importmap">
@@ -27,8 +30,23 @@
 //                 &solo=regex           deja solo las piezas cuyo nombre casa
 //                 &sin=regex            oculta las que casan
 //                 &margen=1.05          holgura de encuadre
+//
+// MATERIAL — al revés que en `ver.html`, aquí manda el modo plano:
+//
+//   &material=plano  (POR DEFECTO)  El `color` de cada pieza con un material
+//       mate. En un corte técnico el color CODIFICA (azul = MÓVIL, gris pizarra
+//       = FIJO, dorado = tornillería, morado = rodamientos) y eso se lee mejor
+//       que cualquier render bonito: es lo que hace legible la sección.
+//
+//   &material=real   Materiales por lo que la pieza ES —los mismos de
+//       `materiales.mjs`, deducidos de `materialDe()`, que es la función con la
+//       que los planos rellenan el despiece— con entorno de estudio y tono
+//       ACES. Útil para enseñar el interior a alguien que no lee el código de
+//       colores. Añade `&sombras=1` si además se quiere sombra proyectada.
 import * as THREE from 'three';
 import { buildPartGeometry, partMatrix } from '../../js/model.js';
+import { entornoEstudio, configurarRenderer, solPrincipal, luzRelleno,
+  crearTexturas, uvPorEjeLargo } from '../estudio.mjs';
 
 const q = new URLSearchParams(location.search);
 const doc = await (await fetch(q.get('doc') || 'narrow_belt_transfer_90.json')).json();
@@ -36,20 +54,21 @@ const eje = (q.get('eje') || 'x').toLowerCase();
 const solo = q.get('solo') ? new RegExp(q.get('solo'), 'i') : null;
 const sin = q.get('sin') ? new RegExp(q.get('sin'), 'i') : null;
 const margen = parseFloat(q.get('margen') || '1.06');
+const real = (q.get('material') || 'plano').toLowerCase() === 'real';
+const ss = Math.max(1, Math.min(3, parseFloat(q.get('ss')) || (real ? 2 : devicePixelRatio)));
+const aa = q.get('aa') !== null ? q.get('aa') === '1' : !real;
+const sombras = real && q.get('sombras') === '1';   // en un corte suele estorbar
+const detalle = real && q.get('detalle') !== '0';
 
+const t0 = performance.now();
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x14171c);
-const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+if (real) document.body.classList.add('real');
+else scene.background = new THREE.Color(0x14171c);
+const renderer = new THREE.WebGLRenderer({ antialias: aa, preserveDrawingBuffer: true, alpha: real });
+renderer.setPixelRatio(ss);            // ANTES de setSize: es setSize quien lo aplica
 renderer.setSize(innerWidth, innerHeight);
-renderer.setPixelRatio(devicePixelRatio);
 renderer.localClippingEnabled = true;
 document.body.appendChild(renderer.domElement);
-
-scene.add(new THREE.HemisphereLight(0xdde4f0, 0x30363f, 1.15));
-const sun = new THREE.DirectionalLight(0xffffff, 1.5);
-sun.position.set(500, -700, 900); scene.add(sun);
-const relleno = new THREE.DirectionalLight(0x8899bb, 0.55);
-relleno.position.set(-600, 500, 300); scene.add(relleno);
 
 // plano de recorte: normal según el eje de visión, en la posición pedida
 const N = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] }[eje];
@@ -57,6 +76,23 @@ const corte = q.get('corte') !== null ? parseFloat(q.get('corte')) : null;
 const signo = (q.get('lado') || 'menos') === 'mas' ? 1 : -1;
 const planos = corte === null ? []
   : [new THREE.Plane(new THREE.Vector3(...N).multiplyScalar(signo), -signo * corte)];
+
+let mats = null;
+if (real) {
+  configurarRenderer(THREE, renderer, { exposicion: parseFloat(q.get('exp') || '0.95'), sombras });
+  scene.environment = entornoEstudio(THREE, renderer, { brillo: parseFloat(q.get('luz') || '0.6') }).textura;
+  const { crearMateriales } = await import('./materiales.mjs');
+  // Las caras del corte se ven por dentro: DoubleSide y el mismo plano de
+  // recorte que en el modo plano.
+  mats = crearMateriales(THREE, { tex: detalle ? crearTexturas(THREE) : null },
+    { clippingPlanes: planos, clipShadows: true, side: THREE.DoubleSide });
+} else {
+  scene.add(new THREE.HemisphereLight(0xdde4f0, 0x30363f, 1.15));
+  const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+  sun.position.set(500, -700, 900); scene.add(sun);
+  const relleno = new THREE.DirectionalLight(0x8899bb, 0.55);
+  relleno.position.set(-600, 500, 300); scene.add(relleno);
+}
 
 const bbox = new THREE.Box3();
 let n = 0;
@@ -66,12 +102,28 @@ for (const part of doc.parts) {
   if (sin && sin.test(part.name)) continue;
   const g = buildPartGeometry(part);
   if (!g.attributes.position?.count) continue;
-  const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({
-    color: part.color || '#8899aa', metalness: 0.15, roughness: 0.65,
-    clippingPlanes: planos, clipShadows: true, side: THREE.DoubleSide,
-  }));
+  let material;
+  if (real) {
+    material = mats.para(part);
+    const esc = mats.detalleDe(part);
+    if (esc) uvPorEjeLargo(THREE, g, esc);
+  } else {
+    material = new THREE.MeshStandardMaterial({
+      color: part.color || '#8899aa', metalness: 0.15, roughness: 0.65,
+      clippingPlanes: planos, clipShadows: true, side: THREE.DoubleSide,
+    });
+  }
+  const mesh = new THREE.Mesh(g, material);
+  mesh.castShadow = mesh.receiveShadow = sombras;
   mesh.applyMatrix4(partMatrix(part));
   scene.add(mesh); bbox.expandByObject(mesh); n++;
+}
+
+if (real) {
+  const sol = solPrincipal(THREE, bbox, { sombras, intensidad: parseFloat(q.get('sol') || '2.4') });
+  scene.add(sol, sol.target);
+  const relleno = luzRelleno(THREE, bbox);
+  scene.add(relleno, relleno.target);
 }
 
 const c = bbox.getCenter(new THREE.Vector3());
@@ -88,10 +140,12 @@ cam.position.copy(c).add(new THREE.Vector3(...N).multiplyScalar(d));
 if (eje === 'z') cam.up.set(0, 1, 0);
 cam.lookAt(c);
 
+renderer.render(scene, cam);
+renderer.getContext().finish();          // el cuadro tiene que estar terminado
 document.getElementById('info').textContent =
   `${doc.meta?.nombre || ''} — ${n} piezas · vista ortográfica según ${eje.toUpperCase()}`
-  + (corte !== null ? ` · corte en ${eje.toUpperCase()} = ${corte}` : '');
-renderer.render(scene, cam);
+  + (corte !== null ? ` · corte en ${eje.toUpperCase()} = ${corte}` : '')
+  + ` · ${real ? 'material real' : 'color de capa'} · ${performance.now() - t0 | 0} ms`;
 window.__listo = true;
 </script>
 </body>

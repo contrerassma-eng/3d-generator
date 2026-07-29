@@ -26,65 +26,65 @@ item,designacion,cantidad,modulo,tipo,material_o_norma,plano
 25,"Transfer cross channel 2"×1-1/2" 12 GA × 378.04",1,MÓVIL,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-25
 26,"Transfer cross channel 2"×1-1/2" 12 GA × 378.04",1,MÓVIL,FABRICADA,"Chapa de acero 0.105" conformada, galvanizada",NBT90-26
 27,"Transfer roller guard 14 GA 370×118",1,MÓVIL,FABRICADA,"Chapa de acero 0.075", galvanizada",NBT90-27
-28,"Eje hexagonal 5/16" × 410",1,MÓVIL,COMPRADA,"SA-036881",—
-29,"Eje hexagonal 5/16" × 410",1,MÓVIL,COMPRADA,"SA-036881",—
-30,"Eje hexagonal 5/16" × 410",1,MÓVIL,COMPRADA,"SA-036881",—
-31,"Eje hexagonal 5/16" × 410",1,MÓVIL,COMPRADA,"SA-036881",—
-32,"Eje hexagonal 5/16" × 410",1,MÓVIL,COMPRADA,"SA-036881",—
-33,"Eje hexagonal 5/16" × 410",1,MÓVIL,COMPRADA,"SA-036881",—
-34,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
-35,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
-36,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
+28,"Casquillo separador Ø17.46 × 18.34",1,FIJO,COMPRADA,"B-20760",—
+29,"Casquillo separador Ø17.46 × 18.35",1,FIJO,COMPRADA,"B-20760",—
+30,"Eje de rodillo de retorno Ø12.7 × 457.14",1,FIJO,COMPRADA,"B-20760",—
+31,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"SA-036881",—
+32,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"SA-036881",—
+33,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"SA-036881",—
+34,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"SA-036881",—
+35,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"SA-036881",—
+36,"Eje de rodillo Ø12.7/Ø7.94 × 378.04",1,MÓVIL,COMPRADA,"SA-036881",—
 37,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
 38,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
-39,"Eje polea Ø5/8" g6 × 73.5",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
-40,"NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil 198×75×22",1,MÓVIL,COMPRADA,"mgpm80_10z",—
-41,"NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø25 × 93",1,MÓVIL,COMPRADA,"mgpm80_10z",—
-42,"NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø25 × 93",1,MÓVIL,COMPRADA,"mgpm80_10z",—
-43,"NEUMÁTICA · Cilindro MGPM80-10Z — vástago del émbolo Ø25",1,MÓVIL,COMPRADA,"mgpm80_10z",—
-44,"Polea de retorno banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
-45,"Polea de retorno banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
-46,"Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
-47,"Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
-48,"Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
-49,"Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5 TAKE-UP IDLER",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
-50,"Rodillo vulcanizado Ø1-3/8" × 375",1,MÓVIL,COMPRADA,"SA-036881",—
-51,"Rodillo vulcanizado Ø1-3/8" × 375",1,MÓVIL,COMPRADA,"SA-036881",—
-52,"Rodillo vulcanizado Ø1-3/8" × 375",1,MÓVIL,COMPRADA,"SA-036881",—
-53,"Rodillo vulcanizado Ø1-3/8" × 375",1,MÓVIL,COMPRADA,"SA-036881",—
-54,"Rodillo vulcanizado Ø1-3/8" × 375",1,MÓVIL,COMPRADA,"SA-036881",—
-55,"Rodillo vulcanizado Ø1-3/8" × 375",1,MÓVIL,COMPRADA,"SA-036881",—
-56,"Rueda motriz banda plana Ø2-1/2"×1.772"",1,MÓVIL,COMPRADA,"rueda_024.15502",—
-57,"Tapa-soporte de extremo Ø25.93/Ø22 × 11",1,MÓVIL,COMPRADA,"SA-036881",—
-58,"Tapa-soporte de extremo Ø25.93/Ø22 × 11",1,MÓVIL,COMPRADA,"SA-036881",—
-59,"Tapa-soporte de extremo Ø25.93/Ø22 × 11",1,MÓVIL,COMPRADA,"SA-036881",—
-60,"Tapa-soporte de extremo Ø25.93/Ø22 × 11",1,MÓVIL,COMPRADA,"SA-036881",—
-61,"Tapa-soporte de extremo Ø25.93/Ø22 × 11",1,MÓVIL,COMPRADA,"SA-036881",—
-62,"Tapa-soporte de extremo Ø25.93/Ø22 × 11",1,MÓVIL,COMPRADA,"SA-036881",—
-63,"Tapa-soporte de extremo Ø25.93/Ø22 × 11",1,MÓVIL,COMPRADA,"SA-036881",—
-64,"Tapa-soporte de extremo Ø25.93/Ø22 × 11",1,MÓVIL,COMPRADA,"SA-036881",—
-65,"Tapa-soporte de extremo Ø25.93/Ø22 × 11",1,MÓVIL,COMPRADA,"SA-036881",—
-66,"Tapa-soporte de extremo Ø25.93/Ø22 × 11",1,MÓVIL,COMPRADA,"SA-036881",—
-67,"Tapa-soporte de extremo Ø25.93/Ø22 × 11",1,MÓVIL,COMPRADA,"SA-036881",—
-68,"Tapa-soporte de extremo Ø25.93/Ø22 × 11",1,MÓVIL,COMPRADA,"SA-036881",—
-69,"Anillo retención eje polea (Y=-144.5) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-70,"Anillo retención eje polea (Y=-152.4) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-71,"Anillo retención eje polea (Y=-76.2) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-72,"Anillo retención eje polea (Y=144.5) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-73,"Anillo retención eje polea (Y=152.4) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-74,"Anillo retención eje polea (Y=76.2) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-75,"Anillo retención eje rodillo (línea 1, Y=-190.5, libre) Ø8",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-76,"Anillo retención eje rodillo (línea 1, Y=-190.5, motriz) Ø8",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-77,"Anillo retención eje rodillo (línea 2, Y=-114.3, libre) Ø8",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-78,"Anillo retención eje rodillo (línea 2, Y=-114.3, motriz) Ø8",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-79,"Anillo retención eje rodillo (línea 3, Y=-38.1, libre) Ø8",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-80,"Anillo retención eje rodillo (línea 3, Y=-38.1, motriz) Ø8",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-81,"Anillo retención eje rodillo (línea 4, Y=38.1, libre) Ø8",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-82,"Anillo retención eje rodillo (línea 4, Y=38.1, motriz) Ø8",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-83,"Anillo retención eje rodillo (línea 5, Y=114.3, libre) Ø8",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-84,"Anillo retención eje rodillo (línea 5, Y=114.3, motriz) Ø8",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-85,"Anillo retención eje rodillo (línea 6, Y=190.5, libre) Ø8",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
-86,"Anillo retención eje rodillo (línea 6, Y=190.5, motriz) Ø8",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
+39,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
+40,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
+41,"Eje polea Ø5/8" g6 × 68.4",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
+42,"Eje polea Ø5/8" g6 × 73.5",1,MÓVIL,COMPRADA,"eje_polea_5_8",—
+43,"NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil 198×75×22",1,MÓVIL,COMPRADA,"mgpm80_10z",—
+44,"NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø25 × 93",1,MÓVIL,COMPRADA,"mgpm80_10z",—
+45,"NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø25 × 93",1,MÓVIL,COMPRADA,"mgpm80_10z",—
+46,"NEUMÁTICA · Cilindro MGPM80-10Z — vástago del émbolo Ø25",1,MÓVIL,COMPRADA,"mgpm80_10z",—
+47,"Polea de retorno banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
+48,"Polea de retorno banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
+49,"Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
+50,"Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
+51,"Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
+52,"Polea loca banda plana Ø2-1/2"×1.4" c/pestañas Ø73.5 TAKE-UP IDLER",1,MÓVIL,COMPRADA,"polea_loca_flanged_2_5",—
+53,"Rodillo de retorno B-20760 Ø1.9" × 425.45",1,FIJO,COMPRADA,"B-20760",—
+54,"Rueda motriz banda plana Ø2-1/2"×1.772"",1,MÓVIL,COMPRADA,"rueda_024.15502",—
+55,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
+56,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
+57,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
+58,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
+59,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
+60,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
+61,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
+62,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
+63,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
+64,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
+65,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
+66,"Tapa-soporte de extremo Ø25.93/Ø22 × 24",1,MÓVIL,COMPRADA,"SA-036881",—
+67,"Tapa-soporte de rodillo de retorno Ø44.96/Ø28.58 × 14",1,FIJO,COMPRADA,"B-20760",—
+68,"Tapa-soporte de rodillo de retorno Ø44.96/Ø28.58 × 14",1,FIJO,COMPRADA,"B-20760",—
+69,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"SA-036881",—
+70,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"SA-036881",—
+71,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"SA-036881",—
+72,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"SA-036881",—
+73,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"SA-036881",—
+74,"Tubo de rodillo Ø28.93 × 375",1,MÓVIL,COMPRADA,"SA-036881",—
+75,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"SA-036881",—
+76,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"SA-036881",—
+77,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"SA-036881",—
+78,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"SA-036881",—
+79,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"SA-036881",—
+80,"Vulcanizado negro e=3 → Ø34.93 × 316.3",1,MÓVIL,COMPRADA,"SA-036881",—
+81,"Anillo retención eje polea (Y=-144.5) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
+82,"Anillo retención eje polea (Y=-152.4) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
+83,"Anillo retención eje polea (Y=-76.2) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
+84,"Anillo retención eje polea (Y=144.5) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
+85,"Anillo retención eje polea (Y=152.4) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
+86,"Anillo retención eje polea (Y=76.2) Ø15.875",1,MÓVIL,COMPRADA,"DIN 471 / ASME B27.7",—
 87,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
 88,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
 89,"Anillo retención interior DIN 472 Ø35",1,MÓVIL,COMPRADA,"DIN 472",—
@@ -129,10 +129,10 @@ item,designacion,cantidad,modulo,tipo,material_o_norma,plano
 128,"Golilla Guarda Y150 Z196 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
 129,"Golilla Guarda Y150 Z284 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
 130,"Golilla Guarda Y150 Z284 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-131,"Golilla M12 cilindro (X=205.5, Y=+90) Ø12",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-132,"Golilla M12 cilindro (X=205.5, Y=−90) Ø12",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-133,"Golilla M12 cilindro (X=257.5, Y=+90) Ø12",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-134,"Golilla M12 cilindro (X=257.5, Y=−90) Ø12",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+131,"Golilla M12 cilindro (X=204.5, Y=+90) Ø12",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+132,"Golilla M12 cilindro (X=204.5, Y=−90) Ø12",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+133,"Golilla M12 cilindro (X=258.5, Y=+90) Ø12",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+134,"Golilla M12 cilindro (X=258.5, Y=−90) Ø12",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
 135,"Golilla Ménsula jack inf -Y X115.75 Z100 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
 136,"Golilla Ménsula jack inf -Y X115.75 Z100 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
 137,"Golilla Ménsula jack inf -Y X115.75 Z118 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
@@ -165,162 +165,182 @@ item,designacion,cantidad,modulo,tipo,material_o_norma,plano
 164,"Golilla Ménsula jack sup +Y X377.25 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
 165,"Golilla Ménsula jack sup +Y X85.75 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
 166,"Golilla Ménsula jack sup +Y X85.75 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-167,"Golilla Side channel -Y X231.5 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-168,"Golilla Side channel -Y X231.5 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-169,"Golilla Side channel -Y X403 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-170,"Golilla Side channel -Y X403 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-171,"Golilla Side channel -Y X60 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-172,"Golilla Side channel -Y X60 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-173,"Golilla Side channel +Y X231.5 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-174,"Golilla Side channel +Y X231.5 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-175,"Golilla Side channel +Y X403 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-176,"Golilla Side channel +Y X403 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-177,"Golilla Side channel +Y X60 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-178,"Golilla Side channel +Y X60 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-179,"Golilla Spacer plate libre Y-170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-180,"Golilla Spacer plate libre Y-170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-181,"Golilla Spacer plate libre Y-55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-182,"Golilla Spacer plate libre Y-55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-183,"Golilla Spacer plate libre Y170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-184,"Golilla Spacer plate libre Y170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-185,"Golilla Spacer plate libre Y55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-186,"Golilla Spacer plate libre Y55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-187,"Golilla Spacer plate motriz Y-170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-188,"Golilla Spacer plate motriz Y-170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-189,"Golilla Spacer plate motriz Y-55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-190,"Golilla Spacer plate motriz Y-55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-191,"Golilla Spacer plate motriz Y170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-192,"Golilla Spacer plate motriz Y170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-193,"Golilla Spacer plate motriz Y55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-194,"Golilla Spacer plate motriz Y55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
-195,"Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm",1,MÓVIL,COMPRADA,"motorreductor_300.0322",—
-196,"NEUMÁTICA · Cilindro compacto con guías SMC MGPM80-10Z Ø80 × 10 — cuerpo 202×91.5×56.5",1,FIJO,COMPRADA,"mgpm80_10z",—
-197,"NEUMÁTICA · Golilla 1/4" válvula↔soporte (X=303) Ø6.35",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-198,"NEUMÁTICA · Golilla 1/4" válvula↔soporte (X=335) Ø6.35",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
-199,"NEUMÁTICA · Perno hex 1/4-20 × 2-1/2" válvula↔soporte",2,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-200,"NEUMÁTICA · Racor codo giratorio 360° 1/4"",2,FIJO,COMPRADA,"componente de catálogo",—
-201,"NEUMÁTICA · Racor codo giratorio 360° Rc3/8–1/4"",2,FIJO,COMPRADA,"componente de catálogo",—
-202,"NEUMÁTICA · Silenciador 1/8" NPT Ø18 (X=307)",1,FIJO,COMPRADA,"componente de catálogo",—
-203,"NEUMÁTICA · Silenciador 1/8" NPT Ø18 (X=331)",1,FIJO,COMPRADA,"componente de catálogo",—
-204,"NEUMÁTICA · Tubería 1/4" OD Ø7.94 — línea A",1,FIJO,COMPRADA,"componente de catálogo",—
-205,"NEUMÁTICA · Tubería 1/4" OD Ø7.94 — línea B",1,FIJO,COMPRADA,"componente de catálogo",—
-206,"NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC 72×46×60",1,FIJO,COMPRADA,"valvula_4v_24vdc",—
-207,"Pasador guía Ø12.7 × 39.91 en colisa",4,MÓVIL,COMPRADA,"perno de hombro 1/2" (042.512)",—
-208,"Perno hex 1/4-20 × 1-1/4" soporte de válvula",2,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-209,"Perno hex 3/8-16 × 1" de colisa",2,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-210,"Perno hex 3/8-16 × 1" de colisa",2,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-211,"Perno hex 3/8-16 × 20.85 · Canal base -Y X32",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-212,"Perno hex 3/8-16 × 20.85 · Canal base -Y X95",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-213,"Perno hex 3/8-16 × 20.85 · Canal base +Y X32",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-214,"Perno hex 3/8-16 × 20.85 · Canal base +Y X95",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-215,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-216,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-217,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-218,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-219,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-220,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-221,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-222,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-223,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-224,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-225,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-226,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-227,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-228,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-229,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-230,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-231,"Perno hex 3/8-16 × 20.85 · Side channel -Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-232,"Perno hex 3/8-16 × 20.85 · Side channel -Y X403",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-233,"Perno hex 3/8-16 × 20.85 · Side channel -Y X60",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-234,"Perno hex 3/8-16 × 20.85 · Side channel +Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-235,"Perno hex 3/8-16 × 20.85 · Side channel +Y X403",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-236,"Perno hex 3/8-16 × 20.85 · Side channel +Y X60",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-237,"Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-238,"Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-239,"Perno hex 3/8-16 × 22.19 · Guarda Y150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-240,"Perno hex 3/8-16 × 22.19 · Guarda Y150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-241,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-242,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-243,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y170",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-244,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y55",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-245,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-246,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-247,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y170",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-248,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y55",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-249,"Perno hex 3/8-16 × 3/4" placa↔cartela del larguero",4,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-250,"Perno hex 3/8-16 × 6" jack bolt",4,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-251,"Perno hex M12 × 25 fijación del cilindro",4,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
-252,"Perno hex M8 × 20 brida motorreductor IEC B14 C120",4,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
-253,"Rodamiento 608-2RS bore hex 5/16" (línea 1, Y=-190.5, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-254,"Rodamiento 608-2RS bore hex 5/16" (línea 1, Y=-190.5, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-255,"Rodamiento 608-2RS bore hex 5/16" (línea 2, Y=-114.3, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-256,"Rodamiento 608-2RS bore hex 5/16" (línea 2, Y=-114.3, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-257,"Rodamiento 608-2RS bore hex 5/16" (línea 3, Y=-38.1, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-258,"Rodamiento 608-2RS bore hex 5/16" (línea 3, Y=-38.1, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-259,"Rodamiento 608-2RS bore hex 5/16" (línea 4, Y=38.1, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-260,"Rodamiento 608-2RS bore hex 5/16" (línea 4, Y=38.1, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-261,"Rodamiento 608-2RS bore hex 5/16" (línea 5, Y=114.3, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-262,"Rodamiento 608-2RS bore hex 5/16" (línea 5, Y=114.3, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-263,"Rodamiento 608-2RS bore hex 5/16" (línea 6, Y=190.5, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-264,"Rodamiento 608-2RS bore hex 5/16" (línea 6, Y=190.5, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
-265,"Rodamiento R10-2RS (Y=-144.5, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-266,"Rodamiento R10-2RS (Y=-144.5, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-267,"Rodamiento R10-2RS (Y=-152.4, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-268,"Rodamiento R10-2RS (Y=-152.4, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-269,"Rodamiento R10-2RS (Y=-76.2, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-270,"Rodamiento R10-2RS (Y=-76.2, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-271,"Rodamiento R10-2RS (Y=144.5, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-272,"Rodamiento R10-2RS (Y=144.5, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-273,"Rodamiento R10-2RS (Y=152.4, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-274,"Rodamiento R10-2RS (Y=152.4, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-275,"Rodamiento R10-2RS (Y=76.2, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-276,"Rodamiento R10-2RS (Y=76.2, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
-277,"Tornillo SHCS M12 × 30 de la horquilla",4,MÓVIL,COMPRADA,"ISO 4762 / DIN 912 M12 × 1.75",—
-278,"Tuerca hex 1/4-20 soporte de válvula",2,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-279,"Tuerca hex 3/8-16 · Canal base -Y X32",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-280,"Tuerca hex 3/8-16 · Canal base -Y X95",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-281,"Tuerca hex 3/8-16 · Canal base +Y X32",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-282,"Tuerca hex 3/8-16 · Canal base +Y X95",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-283,"Tuerca hex 3/8-16 · Guarda Y-150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-284,"Tuerca hex 3/8-16 · Guarda Y-150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-285,"Tuerca hex 3/8-16 · Guarda Y150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-286,"Tuerca hex 3/8-16 · Guarda Y150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-287,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-288,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-289,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-290,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-291,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-292,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-293,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-294,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-295,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-296,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-297,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-298,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-299,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-300,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-301,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-302,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-303,"Tuerca hex 3/8-16 · Side channel -Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-304,"Tuerca hex 3/8-16 · Side channel -Y X403",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-305,"Tuerca hex 3/8-16 · Side channel -Y X60",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-306,"Tuerca hex 3/8-16 · Side channel +Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-307,"Tuerca hex 3/8-16 · Side channel +Y X403",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-308,"Tuerca hex 3/8-16 · Side channel +Y X60",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-309,"Tuerca hex 3/8-16 · Spacer plate libre Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-310,"Tuerca hex 3/8-16 · Spacer plate libre Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-311,"Tuerca hex 3/8-16 · Spacer plate libre Y170",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-312,"Tuerca hex 3/8-16 · Spacer plate libre Y55",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-313,"Tuerca hex 3/8-16 · Spacer plate motriz Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-314,"Tuerca hex 3/8-16 · Spacer plate motriz Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-315,"Tuerca hex 3/8-16 · Spacer plate motriz Y170",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-316,"Tuerca hex 3/8-16 · Spacer plate motriz Y55",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-317,"Tuerca hex 3/8-16 autoblocante eje polea",5,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-318,"Tuerca hex 3/8-16 CONTRATUERCA tensor",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-319,"Tuerca hex 3/8-16 de colisa",2,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-320,"Tuerca hex 3/8-16 de colisa",2,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-321,"Tuerca hex 3/8-16 inferior de jack bolt",4,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-322,"Tuerca hex 3/8-16 SOLDADA bajo la cartela",4,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
-323,"Tuerca hex 3/8-16 superior de jack bolt",4,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
-324,"CONTEXTO · Banda angosta del clasificador 1"×2.5",5,MÓVIL,CONTEXTO (no se fabrica),"069.722xx FLEXPROOF ENDLESS BELT 1 in. WIDE",—
-325,"CONTEXTO · Regleta de desgaste UHMW 1-1/4"×3/8"",5,MÓVIL,CONTEXTO (no se fabrica),"UHMW-PE 1000",—
+167,"Golilla rodillo (línea 1, Y=-190.5, libre) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+168,"Golilla rodillo (línea 1, Y=-190.5, motriz) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+169,"Golilla rodillo (línea 2, Y=-114.3, libre) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+170,"Golilla rodillo (línea 2, Y=-114.3, motriz) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+171,"Golilla rodillo (línea 3, Y=-38.1, libre) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+172,"Golilla rodillo (línea 3, Y=-38.1, motriz) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+173,"Golilla rodillo (línea 4, Y=38.1, libre) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+174,"Golilla rodillo (línea 4, Y=38.1, motriz) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+175,"Golilla rodillo (línea 5, Y=114.3, libre) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+176,"Golilla rodillo (línea 5, Y=114.3, motriz) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+177,"Golilla rodillo (línea 6, Y=190.5, libre) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+178,"Golilla rodillo (línea 6, Y=190.5, motriz) Ø6.35",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+179,"Golilla rodillo de retorno (+Y) Ø7.938",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+180,"Golilla rodillo de retorno (−Y) Ø7.938",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+181,"Golilla Side channel -Y X231.5 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+182,"Golilla Side channel -Y X231.5 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+183,"Golilla Side channel -Y X403 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+184,"Golilla Side channel -Y X403 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+185,"Golilla Side channel -Y X60 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+186,"Golilla Side channel -Y X60 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+187,"Golilla Side channel +Y X231.5 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+188,"Golilla Side channel +Y X231.5 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+189,"Golilla Side channel +Y X403 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+190,"Golilla Side channel +Y X403 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+191,"Golilla Side channel +Y X60 (cabeza) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+192,"Golilla Side channel +Y X60 (tuerca) Ø9.525",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+193,"Golilla Spacer plate libre Y-170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+194,"Golilla Spacer plate libre Y-170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+195,"Golilla Spacer plate libre Y-55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+196,"Golilla Spacer plate libre Y-55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+197,"Golilla Spacer plate libre Y170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+198,"Golilla Spacer plate libre Y170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+199,"Golilla Spacer plate libre Y55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+200,"Golilla Spacer plate libre Y55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+201,"Golilla Spacer plate motriz Y-170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+202,"Golilla Spacer plate motriz Y-170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+203,"Golilla Spacer plate motriz Y-55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+204,"Golilla Spacer plate motriz Y-55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+205,"Golilla Spacer plate motriz Y170 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+206,"Golilla Spacer plate motriz Y170 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+207,"Golilla Spacer plate motriz Y55 (cabeza) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+208,"Golilla Spacer plate motriz Y55 (tuerca) Ø9.525",1,MÓVIL,COMPRADA,"DIN 125 / ASME B18.22.1",—
+209,"Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm",1,MÓVIL,COMPRADA,"motorreductor_300.0322",—
+210,"NEUMÁTICA · Cilindro compacto con guías SMC MGPM80-10Z Ø80 × 10 — cuerpo 202×91.5×56.5",1,FIJO,COMPRADA,"mgpm80_10z",—
+211,"NEUMÁTICA · Golilla 1/4" válvula↔soporte (X=303) Ø6.35",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+212,"NEUMÁTICA · Golilla 1/4" válvula↔soporte (X=335) Ø6.35",1,FIJO,COMPRADA,"DIN 125 / ASME B18.22.1",—
+213,"NEUMÁTICA · Perno hex 1/4-20 × 2-1/2" válvula↔soporte",2,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+214,"NEUMÁTICA · Racor codo giratorio 360° 1/4"",2,FIJO,COMPRADA,"componente de catálogo",—
+215,"NEUMÁTICA · Racor codo giratorio 360° Rc3/8–1/4"",2,FIJO,COMPRADA,"componente de catálogo",—
+216,"NEUMÁTICA · Silenciador 1/8" NPT Ø18 (X=307)",1,FIJO,COMPRADA,"componente de catálogo",—
+217,"NEUMÁTICA · Silenciador 1/8" NPT Ø18 (X=331)",1,FIJO,COMPRADA,"componente de catálogo",—
+218,"NEUMÁTICA · Tubería 1/4" OD Ø7.94 — línea A",1,FIJO,COMPRADA,"componente de catálogo",—
+219,"NEUMÁTICA · Tubería 1/4" OD Ø7.94 — línea B",1,FIJO,COMPRADA,"componente de catálogo",—
+220,"NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC 72×46×60",1,FIJO,COMPRADA,"valvula_4v_24vdc",—
+221,"Pasador guía Ø12.7 × 39.91 en colisa",4,MÓVIL,COMPRADA,"perno de hombro 1/2" (042.512)",—
+222,"Perno hex 1/4-20 × 1-1/4" soporte de válvula",2,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+223,"Perno hex 1/4-20 UNC × 19.05 · rodillo",6,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+224,"Perno hex 1/4-20 UNC × 19.05 · rodillo",6,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+225,"Perno hex 3/8-16 × 1" de colisa",2,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+226,"Perno hex 3/8-16 × 1" de colisa",2,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+227,"Perno hex 3/8-16 × 20.85 · Canal base -Y X32",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+228,"Perno hex 3/8-16 × 20.85 · Canal base -Y X95",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+229,"Perno hex 3/8-16 × 20.85 · Canal base +Y X32",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+230,"Perno hex 3/8-16 × 20.85 · Canal base +Y X95",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+231,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+232,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+233,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+234,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf -Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+235,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+236,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+237,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+238,"Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+239,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+240,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+241,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+242,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+243,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+244,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+245,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+246,"Perno hex 3/8-16 × 20.85 · Ménsula jack sup +Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+247,"Perno hex 3/8-16 × 20.85 · Side channel -Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+248,"Perno hex 3/8-16 × 20.85 · Side channel -Y X403",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+249,"Perno hex 3/8-16 × 20.85 · Side channel -Y X60",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+250,"Perno hex 3/8-16 × 20.85 · Side channel +Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+251,"Perno hex 3/8-16 × 20.85 · Side channel +Y X403",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+252,"Perno hex 3/8-16 × 20.85 · Side channel +Y X60",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+253,"Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+254,"Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+255,"Perno hex 3/8-16 × 22.19 · Guarda Y150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+256,"Perno hex 3/8-16 × 22.19 · Guarda Y150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+257,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+258,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+259,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y170",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+260,"Perno hex 3/8-16 × 25.06 · Spacer plate libre Y55",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+261,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+262,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+263,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y170",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+264,"Perno hex 3/8-16 × 25.06 · Spacer plate motriz Y55",1,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+265,"Perno hex 3/8-16 × 3/4" placa↔cartela del larguero",4,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+266,"Perno hex 3/8-16 × 6" jack bolt",4,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+267,"Perno hex 5/16-18 UNC × 19.05 · rodillo de retorno",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+268,"Perno hex 5/16-18 UNC × 19.05 · rodillo de retorno",1,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+269,"Perno hex M12 × 25 fijación del cilindro",4,FIJO,COMPRADA,"ASME B18.2.1 / DIN 933",—
+270,"Perno hex M8 × 20 brida motorreductor IEC B14 C120",4,MÓVIL,COMPRADA,"ASME B18.2.1 / DIN 933",—
+271,"Rodamiento 608-2RS (línea 1, Y=-190.5, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
+272,"Rodamiento 608-2RS (línea 1, Y=-190.5, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
+273,"Rodamiento 608-2RS (línea 2, Y=-114.3, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
+274,"Rodamiento 608-2RS (línea 2, Y=-114.3, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
+275,"Rodamiento 608-2RS (línea 3, Y=-38.1, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
+276,"Rodamiento 608-2RS (línea 3, Y=-38.1, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
+277,"Rodamiento 608-2RS (línea 4, Y=38.1, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
+278,"Rodamiento 608-2RS (línea 4, Y=38.1, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
+279,"Rodamiento 608-2RS (línea 5, Y=114.3, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
+280,"Rodamiento 608-2RS (línea 5, Y=114.3, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
+281,"Rodamiento 608-2RS (línea 6, Y=190.5, libre)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
+282,"Rodamiento 608-2RS (línea 6, Y=190.5, motriz)",1,MÓVIL,COMPRADA,"rodamiento_8x22x7",—
+283,"Rodamiento R10-2RS (Y=-144.5, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
+284,"Rodamiento R10-2RS (Y=-144.5, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
+285,"Rodamiento R10-2RS (Y=-152.4, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
+286,"Rodamiento R10-2RS (Y=-152.4, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
+287,"Rodamiento R10-2RS (Y=-76.2, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
+288,"Rodamiento R10-2RS (Y=-76.2, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
+289,"Rodamiento R10-2RS (Y=144.5, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
+290,"Rodamiento R10-2RS (Y=144.5, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
+291,"Rodamiento R10-2RS (Y=152.4, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
+292,"Rodamiento R10-2RS (Y=152.4, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
+293,"Rodamiento R10-2RS (Y=76.2, exterior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
+294,"Rodamiento R10-2RS (Y=76.2, interior)",1,MÓVIL,COMPRADA,"rodamiento_15.875x34.92x7.94",—
+295,"Rodamiento R8-2RS ABEC-1 rodillo de retorno (+Y)",1,FIJO,COMPRADA,"rodamiento_12.7x28.58x7.94",—
+296,"Rodamiento R8-2RS ABEC-1 rodillo de retorno (−Y)",1,FIJO,COMPRADA,"rodamiento_12.7x28.58x7.94",—
+297,"Tornillo SHCS M12 × 30 de la horquilla",4,MÓVIL,COMPRADA,"ISO 4762 / DIN 912 M12 × 1.75",—
+298,"Tuerca hex 1/4-20 soporte de válvula",2,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+299,"Tuerca hex 3/8-16 · Canal base -Y X32",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+300,"Tuerca hex 3/8-16 · Canal base -Y X95",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+301,"Tuerca hex 3/8-16 · Canal base +Y X32",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+302,"Tuerca hex 3/8-16 · Canal base +Y X95",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+303,"Tuerca hex 3/8-16 · Guarda Y-150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+304,"Tuerca hex 3/8-16 · Guarda Y-150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+305,"Tuerca hex 3/8-16 · Guarda Y150 Z196",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+306,"Tuerca hex 3/8-16 · Guarda Y150 Z284",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+307,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+308,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+309,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+310,"Tuerca hex 3/8-16 · Ménsula jack inf -Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+311,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+312,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+313,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z100",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+314,"Tuerca hex 3/8-16 · Ménsula jack inf +Y X347.25 Z118",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+315,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+316,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+317,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+318,"Tuerca hex 3/8-16 · Ménsula jack sup -Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+319,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X145.75",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+320,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X317.25",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+321,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X377.25",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+322,"Tuerca hex 3/8-16 · Ménsula jack sup +Y X85.75",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+323,"Tuerca hex 3/8-16 · Side channel -Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+324,"Tuerca hex 3/8-16 · Side channel -Y X403",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+325,"Tuerca hex 3/8-16 · Side channel -Y X60",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+326,"Tuerca hex 3/8-16 · Side channel +Y X231.5",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+327,"Tuerca hex 3/8-16 · Side channel +Y X403",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+328,"Tuerca hex 3/8-16 · Side channel +Y X60",1,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+329,"Tuerca hex 3/8-16 · Spacer plate libre Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+330,"Tuerca hex 3/8-16 · Spacer plate libre Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+331,"Tuerca hex 3/8-16 · Spacer plate libre Y170",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+332,"Tuerca hex 3/8-16 · Spacer plate libre Y55",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+333,"Tuerca hex 3/8-16 · Spacer plate motriz Y-170",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+334,"Tuerca hex 3/8-16 · Spacer plate motriz Y-55",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+335,"Tuerca hex 3/8-16 · Spacer plate motriz Y170",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+336,"Tuerca hex 3/8-16 · Spacer plate motriz Y55",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+337,"Tuerca hex 3/8-16 autoblocante eje polea",5,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+338,"Tuerca hex 3/8-16 CONTRATUERCA tensor",1,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+339,"Tuerca hex 3/8-16 de colisa",2,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+340,"Tuerca hex 3/8-16 de colisa",2,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+341,"Tuerca hex 3/8-16 inferior de jack bolt",4,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+342,"Tuerca hex 3/8-16 SOLDADA bajo la cartela",4,MÓVIL,COMPRADA,"ASME B18.2.2 / DIN 934",—
+343,"Tuerca hex 3/8-16 superior de jack bolt",4,FIJO,COMPRADA,"ASME B18.2.2 / DIN 934",—
+344,"CONTEXTO · Banda angosta del clasificador 1"×2.5",5,MÓVIL,CONTEXTO (no se fabrica),"069.722xx FLEXPROOF ENDLESS BELT 1 in. WIDE",—
+345,"CONTEXTO · Regleta de desgaste UHMW 1-1/4"×3/8"",5,MÓVIL,CONTEXTO (no se fabrica),"UHMW-PE 1000",—

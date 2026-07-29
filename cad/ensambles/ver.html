@@ -6,7 +6,13 @@
 <title>foto3d — visor de ensambles</title>
 <style>
   html, body { margin: 0; height: 100%; background: #14171c; overflow: hidden; }
-  #info { position: fixed; top: 8px; left: 10px; color: #cfd6e4; font: 12px system-ui; z-index: 2; }
+  /* En modo real el lienzo es transparente y el fondo lo pone el CSS: un
+     degradado de estudio cuesta cero en el render y quita el efecto «pieza
+     flotando en el vacío» que da un color plano. */
+  body.real { background:
+      radial-gradient(120% 90% at 50% 22%, #333b46 0%, #23272e 45%, #14171c 100%); }
+  #info { position: fixed; top: 8px; left: 10px; color: #cfd6e4; font: 12px system-ui; z-index: 2;
+          text-shadow: 0 1px 3px #000a; }
   canvas { display: block; }
 </style>
 <script type="importmap">
@@ -17,63 +23,190 @@
 <div id="info">cargando…</div>
 <script type="module">
 // Visor de solo lectura para los JSON de cad/ensambles/ (formato foto3d-cad).
-// Uso: ver.html?doc=transfer_rodillos_90.json&view=iso|frente|planta|lado
 // Para editar el ensamble, abrir el mismo JSON en ../index.html con 📂 Abrir.
+//
+//   ver.html?doc=narrow_belt_transfer_90.json&view=iso|frente|planta|lado
+//
+// DOS MODOS DE MATERIAL — ninguno es "mejor", sirven para cosas distintas:
+//
+//   &material=plano   (POR DEFECTO)  El modo de siempre: el `color` que trae
+//       cada pieza en el documento, con un único material mate. Esos colores
+//       CODIFICAN información (azul = MÓVIL, gris pizarra = FIJO, dorado =
+//       tornillería, morado = rodamientos…) y en un plano o un corte se leen
+//       mejor que cualquier render bonito. Es el modo para ENTENDER el montaje,
+//       y por eso sigue siendo el que sale si no se pide nada.
+//
+//   &material=real    Cada pieza se pinta según de QUÉ ESTÁ HECHA: el material
+//       sale de `nbt90/materiales.mjs`, que reutiliza la misma función
+//       `materialDe()` con la que los planos rellenan el despiece — no hay una
+//       segunda opinión. Texturas procedurales por familia, iluminación de
+//       estudio con mapa de entorno (PMREM), tono ACES y sombras. Es el modo
+//       para MIRAR el equipo: se distingue el aluminio extruido del acero
+//       rectificado, la chapa galvanizada de la pintada y el uretano del
+//       caucho. `render.mjs` captura las cuatro vistas del ensamble con este
+//       modo (`--plano` vuelve al otro).
+//
+// LO QUE CUESTA (swiftshader, sin GPU, 1600×1100, vista iso, ensamble de ~400
+// piezas). Medido con `render.mjs`, dos pasadas, en una máquina compartida —de
+// ahí los rangos—:
+//
+//   modo                      cuadro        captura        total goto→PNG
+//   ver.html de antes           —          9.8-13.8 s        30.9-35.0 s
+//   &material=plano          0.30-0.32 s    2.7-3.5 s        33.8-35.4 s
+//   &material=real           0.86-1.14 s    4.8-9.8 s        25.3-35.5 s
+//
+// El material real cuesta ~0.6 s más de cuadro, pero la captura entera sale
+// IGUAL O MÁS BARATA que antes porque el visor dibuja BAJO DEMANDA: el original
+// tenía `setAnimationLoop` y seguía rasterizando cuadros mientras Playwright
+// tomaba la foto. Lo que domina el total (~20 s) no es pintar, es construir las
+// ~400 geometrías en JS, y eso es común a los dos modos.
+//
+// Otros ajustes (todos opcionales, pensados para medir el coste del render):
+//   &ss=1.5      supersampling: se dibuja a N× y el navegador reduce al
+//                capturar. Medido en este equipo: sin AA 0.8 s de cuadro + 4.3 s
+//                de captura; ss=1.5 → 0.7 + 8.2; MSAA 4× (&aa=1) → 4.1 + 15.5;
+//                ss=2 → 4.8 + 13.0. ss=1.5 da casi la calidad de MSAA 4× por una
+//                cuarta parte del sobrecoste, y por eso es el valor por defecto.
+//                &aa=1 fuerza MSAA en su lugar.
+//   &sombras=0   sin mapa de sombras.   &suelo=0  sin plano receptor.
+//   &exp=1.05    exposición del tono.
+//   &luz=0.8     brillo del entorno de estudio.  &sol=2.4  fuerza de la luz
+//                principal. Suben o bajan el contraste entre entorno y clave.
+//   &detalle=0   sin texturas: mismos colores y rugosidades, superficies lisas.
+//                Con ellas la chapa deja de ser ópticamente plana (spangle del
+//                galvanizado, estrías del extruido, torneado de los ejes, piel
+//                de naranja del esmalte).
 import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
 import { buildPartGeometry, partMatrix } from '../js/model.js';
+import { entornoEstudio, configurarRenderer, solPrincipal, luzRelleno,
+  crearTexturas, uvPorEjeLargo, encuadrar, planoSombra } from './estudio.mjs';
 
 const q = new URLSearchParams(location.search);
 const docUrl = q.get('doc') || 'transfer_rodillos_90.json';
+const real = (q.get('material') || 'plano').toLowerCase() === 'real';
+const ss = Math.max(1, Math.min(3, parseFloat(q.get('ss')) || (real ? 1.5 : devicePixelRatio)));
+const aa = q.get('aa') !== null ? q.get('aa') === '1' : !real;
+const sombras = real && q.get('sombras') !== '0';
+const exposicion = parseFloat(q.get('exp') || '0.95');
+const brilloEntorno = parseFloat(q.get('luz') || '0.6');
+const fuerzaSol = parseFloat(q.get('sol') || '2.4');
+const detalle = real && q.get('detalle') !== '0';
+
+const t0 = performance.now();
 const doc = await (await fetch(docUrl)).json();
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x14171c);
-const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+if (real) document.body.classList.add('real');
+else scene.background = new THREE.Color(0x14171c);
+const renderer = new THREE.WebGLRenderer({ antialias: aa, preserveDrawingBuffer: true, alpha: real });
+renderer.setPixelRatio(ss);            // ANTES de setSize: es setSize quien lo aplica
 renderer.setSize(innerWidth, innerHeight);
-renderer.setPixelRatio(devicePixelRatio);
 document.body.appendChild(renderer.domElement);
 
-scene.add(new THREE.HemisphereLight(0xdde4f0, 0x30363f, 1.0));
-const sun = new THREE.DirectionalLight(0xffffff, 1.6);
-sun.position.set(400, -600, 800);
-scene.add(sun);
-const fill = new THREE.DirectionalLight(0x8899bb, 0.5);
-fill.position.set(-500, 400, 200);
-scene.add(fill);
+let mats = null, entorno = null;
+if (real) {
+  configurarRenderer(THREE, renderer, { exposicion, sombras });
+  entorno = entornoEstudio(THREE, renderer, { brillo: brilloEntorno }); // síncrono
+  scene.environment = entorno.textura;
+  const { crearMateriales } = await import('./nbt90/materiales.mjs');
+  mats = crearMateriales(THREE, { tex: detalle ? crearTexturas(THREE) : null });
+} else {
+  // Modo plano de siempre: hemisférica + dos direccionales, sin entorno.
+  scene.add(new THREE.HemisphereLight(0xdde4f0, 0x30363f, 1.0));
+  const sun = new THREE.DirectionalLight(0xffffff, 1.6);
+  sun.position.set(400, -600, 800);
+  scene.add(sun);
+  const fill = new THREE.DirectionalLight(0x8899bb, 0.5);
+  fill.position.set(-500, 400, 200);
+  scene.add(fill);
+}
 
 const bbox = new THREE.Box3();
 for (const part of doc.parts) {
   if (part.visible === false) continue;
   const g = buildPartGeometry(part);
-  const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({
-    color: part.color || '#8899aa', metalness: 0.15, roughness: 0.7,
-  }));
+  let material;
+  if (real) {
+    material = mats.para(part);
+    const esc = mats.detalleDe(part);
+    if (esc) uvPorEjeLargo(THREE, g, esc);       // UV solo donde hay textura
+  } else {
+    material = new THREE.MeshStandardMaterial({
+      color: part.color || '#8899aa', metalness: 0.15, roughness: 0.7,
+    });
+  }
+  const mesh = new THREE.Mesh(g, material);
+  mesh.castShadow = mesh.receiveShadow = sombras;
   mesh.applyMatrix4(partMatrix(part));
   scene.add(mesh);
   bbox.expandByObject(mesh);
 }
 const c = bbox.getCenter(new THREE.Vector3());
-const size = bbox.getSize(new THREE.Vector3()).length();
+
+if (real) {
+  // El plano receptor y la luz se calculan sobre la envolvente ya medida; el
+  // plano se añade DESPUÉS para no entrar en ella ni mover el encuadre.
+  const suelo = sombras && q.get('suelo') !== '0' ? planoSombra(THREE, bbox) : null;
+  const sol = solPrincipal(THREE, bbox, {
+    sombras, intensidad: fuerzaSol, zSuelo: suelo ? suelo.position.z : null,
+  });
+  scene.add(sol, sol.target);
+  const relleno = luzRelleno(THREE, bbox);
+  scene.add(relleno, relleno.target);
+  if (suelo) scene.add(suelo);
+}
+const tEscena = performance.now() - t0;
 
 const cam = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 1, 20000);
 cam.up.set(0, 0, 1);
+// Direcciones de vista (desde el centro hacia la cámara). La DISTANCIA no se
+// pone a ojo: `encuadrar` la resuelve proyectando la envolvente, así que el
+// ensamble entra entero y sigue entrando aunque el modelo crezca.
 const views = {
-  iso: [c.x + size * 0.62, c.y - size * 0.62, c.z + size * 0.45],
-  frente: [c.x, c.y - size * 1.05, c.z + size * 0.08],
-  lado: [c.x + size * 1.05, c.y, c.z + size * 0.08],
-  planta: [c.x, c.y - 1e-3, c.z + size * 1.1],
+  iso: [0.62, -0.62, 0.45],
+  frente: [0, -1, 0.08],
+  lado: [1, 0, 0.08],
+  planta: [0, -1e-3, 1],
 };
-cam.position.set(...(views[q.get('view')] || views.iso));
-cam.lookAt(c);
+const dirVista = views[q.get('view')] || views.iso;
+encuadrar(THREE, cam, bbox, dirVista);
 const controls = new OrbitControls(cam, renderer.domElement);
 controls.target.copy(c);
 controls.update();
 
+// Dibujo BAJO DEMANDA: con WebGL por software un cuadro cuesta segundos, así
+// que un bucle de animación permanente solo quemaría tiempo mientras la captura
+// espera. Se redibuja al mover la cámara y nada más.
+let pendiente = false;
+const dibujar = () => { pendiente = false; renderer.render(scene, cam); };
+controls.addEventListener('change', () => {
+  if (pendiente) return;
+  pendiente = true; requestAnimationFrame(dibujar);
+});
+addEventListener('resize', () => {
+  renderer.setSize(innerWidth, innerHeight);
+  cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); dibujar();
+});
+window.__encuadrar = () => { encuadrar(THREE, cam, bbox, dirVista); controls.update(); dibujar(); };
+
+const t1 = performance.now();
+renderer.render(scene, cam);
+renderer.getContext().finish();          // que el cuadro esté REALMENTE terminado
+const tCuadro = performance.now() - t1;
+
+const r = real ? mats.resumen() : null;
 document.getElementById('info').textContent =
-  `${doc.meta?.nombre || docUrl} — ${doc.parts.length} piezas`;
-renderer.setAnimationLoop(() => renderer.render(scene, cam));
-window.__listo = true; // señal para capturas automatizadas
+  `${doc.meta?.nombre || docUrl} — ${doc.parts.length} piezas · ${real ? 'material real' : 'color de capa'}`
+  + (r ? ` · ${r.familias.length} familias` : '')
+  + (r?.sinClasificar.length ? ` · ⚠ ${r.sinClasificar.length} sin clasificar` : '')
+  + ` · escena ${tEscena | 0} ms · cuadro ${tCuadro | 0} ms`;
+if (r) {
+  console.log('familias de material:', Object.fromEntries(r.familias),
+    '· instancias de material:', r.presets);
+  if (r.sinClasificar.length) console.warn('sin clasificar (gris neutro):', r.sinClasificar);
+}
+window.__listo = true; // señal para capturas automatizadas: el cuadro ya está
 </script>
 </body>
 </html>

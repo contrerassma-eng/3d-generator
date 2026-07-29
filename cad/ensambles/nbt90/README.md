@@ -16,7 +16,7 @@ se fijó la escala y por qué se corrigió: **[ESCALA.md](ESCALA.md)**.
 | `params.mjs` | **tabla única de cotas**, cada una con su procedencia (`med` medido / `cat` catálogo / `txt` texto del manual / `dis` decisión de diseño) |
 | `lib.mjs` | primitivas: chapa plegada con desarrollo por factor K, bandas por tangentes, poleas y rodamientos por revolución, tornillería |
 | `bastidor.mjs` | estructura de chapa: placas peine, canales, guardas, ménsulas |
-| `rodillos.mjs` | los 6 rodillos vulcanizados con eje hexagonal, rodamientos y las bandas del anfitrión (contexto) |
+| `rodillos.mjs` | los 6 rodillos vulcanizados (goma negra sólo en el tramo de carga) con eje de hilo interior + perno por fuera, rodamientos, el rodillo de retorno B-20760 Ø1.9" y las bandas del anfitrión (contexto) |
 | `transmision.mjs` | serpentín de banda plana, poleas locas, tensor, rueda motriz y motorreductor |
 | `elevacion.mjs` | cilindro compacto con guías SMC MGPM80-10Z, canal de montaje, jack bolts, horquilla de empuje, válvula y tubería |
 | `gen_nbt90.mjs` | integrador + **compuerta de verificación**; emite `narrow_belt_transfer_90.json` |
@@ -45,9 +45,39 @@ Verlo en 3D, sirviendo `cad/` por HTTP:
 
 ```
 ensambles/ver.html?doc=nbt90/narrow_belt_transfer_90.json&view=iso
+ensambles/ver.html?doc=nbt90/narrow_belt_transfer_90.json&view=iso&material=real
 ```
 
 o abrir el JSON en `cad/index.html` con **📂 Abrir** para editarlo.
+
+### Dos modos de material
+
+El visor pinta el mismo ensamble de dos maneras y ninguna sustituye a la otra:
+
+| | `&material=plano` (por defecto) | `&material=real` |
+|---|---|---|
+| De dónde sale el color | el campo `color` de cada pieza | de **qué está hecha** la pieza |
+| Para qué sirve | ENTENDER el montaje: azul = MÓVIL, gris pizarra = FIJO, dorado = tornillería, morado = rodamientos | MIRAR el equipo: se distingue el aluminio extruido del acero rectificado, la chapa galvanizada de la pintada y el uretano del caucho |
+| Coste (cuadro, 1600×1100, swiftshader) | ≈0.3 s | ≈0.9 s |
+
+El material de fabricación NO se decide dos veces: `materiales.mjs` reutiliza la
+misma función `materialDe()` con la que `planos_nbt90.mjs` rellena el despiece y
+el cajetín, y solo la traduce a una familia PBR. Si una pieza comprada declara su
+`material` en el documento, ese dato manda sobre cualquier regla de nombres. Lo
+que no encaja se pinta de un gris neutro y **el visor lo denuncia** en la barra de
+información y por consola (`⚠ N sin clasificar`) en vez de inventarle un acabado.
+
+Las cuatro vistas de `vistas/` se capturan en modo real:
+
+```bash
+node ensambles/nbt90/render.mjs nbt90/narrow_belt_transfer_90.json           # real
+node ensambles/nbt90/render.mjs nbt90/narrow_belt_transfer_90.json --plano   # color de capa
+```
+
+Los **cortes** (`ver_corte.html`) van al revés: por defecto en color de capa,
+porque en una sección el código de color es lo que la hace legible. `&material=real`
+también existe allí. La iluminación de estudio, el mapa de entorno y las texturas
+procedurales viven en `../estudio.mjs` (compartido con `ver.html`).
 
 ## Cómo funciona el equipo
 

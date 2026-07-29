@@ -42,6 +42,65 @@ ok(V.holguraRodilloRegleta > 2,
   `holgura de ${V.holguraRodilloRegleta} mm entre el rodillo y la regleta vecina`);
 ok(Math.abs(V.BR - 457.2) < 0.5, 'BR de 18" entre almas de los canales laterales');
 
+console.log('— Vulcanizado: sólo el tramo de carga, y negro —');
+// El vulcanizado dejó de ser «dos bandas sobre el tubo»: del contacto de la banda
+// del serpentín al borde motriz el tubo va de acero desnudo (corrección del
+// cliente). Los límites tienen que SALIR del contacto real, no de un literal.
+const R = doc.meta.modulos.rodillos;
+ok(R.tramoDesnudoX[0] === P.rodX0 && R.tramoDesnudoX[1] === R.vulcanizadoX[0],
+  `sin vulcanizar de X ${R.tramoDesnudoX[0]} (borde) a X ${R.tramoDesnudoX[1]} (fin del contacto de banda)`);
+ok(R.vulcanizadoX[0] > R.contactoBandaX[1] && R.vulcanizadoX[0] - R.contactoBandaX[1] <= 3,
+  `el vulcanizado arranca ${r2(R.vulcanizadoX[0] - R.contactoBandaX[1])} mm después del contacto real de la banda`);
+ok(R.vulcanizadoX[1] <= P.rodX0 + P.rodCara && R.vulcanizadoX[1] >= P.rodX0 + P.rodCara - 4,
+  `y termina en X ${R.vulcanizadoX[1]}, retirado de la testa libre`);
+const vulc = nombre(/^MÓVIL · Vulcanizado negro/);
+ok(vulc.length === P.nRodillos && vulc.every(p => p.color === '#2b2b2b'),
+  `${vulc.length} cubiertas vulcanizadas, todas declaradas NEGRAS (goma, no acero)`);
+ok(nombre(/^MÓVIL · Tubo de rodillo/).every(p => p.color !== '#2b2b2b'),
+  'el tubo de acero conserva su color: el negro es sólo la goma');
+// La emergencia de 1/4" cuelga del Ø vulcanizado, no de su extensión: cambiar
+// dónde empieza la goma no puede mover la cota verificada.
+ok(Math.abs(R.emergeArriba - P.emerge) < 0.01 && R.emergeTramoDesnudo < R.emergeArriba,
+  `emerge ${R.emergeArriba} mm en la zona vulcanizada y ${R.emergeTramoDesnudo} en el tramo desnudo`);
+
+console.log('— Montaje del rodillo: chapa perforada + hilo interior + perno por fuera —');
+// Sustituye al eje hexagonal pasante con anillos DIN 471: ya no hay anillos ni
+// ranura en U, y lo que hay que comprobar es el atornillado.
+ok(nombre(/Anillo retención eje rodillo/).length === 0,
+  'no quedan anillos de retención de eje de rodillo (los sustituyó el perno)');
+const pernosRod = nombre(/^MÓVIL · Perno hex 1\/4-20 UNC × .* · rodillo \(línea/);
+ok(pernosRod.length === 2 * P.nRodillos,
+  `${pernosRod.length} pernos de rodillo: uno por extremo de cada uno de los ${P.nRodillos}`);
+ok(nombre(/^MÓVIL · Golilla rodillo \(línea/).length === 2 * P.nRodillos,
+  'cada perno lleva su golilla contra la cara exterior de la placa peine');
+ok(R.roscaOK && R.roscaEngranadaEnD >= 1,
+  `rosca engranada ${R.roscaEngranadaMm} mm = ${R.roscaEngranadaEnD}·d (≥1·d) y cabe en los ${R.roscaProf} mm de hilo`);
+ok(R.ejePuntaD > P.M.b14.d + 4,
+  `la punta del eje Ø${R.ejePuntaD} deja ${r2((R.ejePuntaD - P.M.b14.d) / 2)} mm de pared alrededor de la rosca 1/4-20`);
+// Los pernos entran POR FUERA (contrato §5.5): su cabeza queda fuera de la placa.
+const caraExt = [P.placaT / 2, P.placaT / 2];
+ok(pernosRod.every((p) => {
+  const b = bboxPieza(p);
+  return b.lo[0] < R.placaPeineX[0] - caraExt[0] || b.hi[0] > R.placaPeineX[1] + caraExt[1];
+}), 'todas las cabezas quedan por fuera de las placas peine (hay llave)');
+
+console.log('— Rodillo de retorno B-20760: el que limita las bandas del sorter —');
+const ret = nombre(/^FIJO · Rodillo de retorno B-20760/);
+ok(ret.length === 1, 'existe el rodillo transversal de la FIGURE 8A (item 22 del despiece)');
+ok(Math.abs(R.retorno.dia - 1.9 * 25.4) < 0.01, `Ø1.9" = ${R.retorno.dia} mm (cat B-20760)`);
+ok(Math.abs(R.retorno.largo - (P.BR - 1.25 * 25.4)) < 0.01,
+  `largo ${R.retorno.largo} = BR − 1-1/4", la regla de catálogo`);
+ok(Math.abs(R.retorno.tangenciaMm) < 0.1,
+  `su generatriz superior (Z=${R.retorno.generatrizSuperiorZ}) es tangente al ramal de retorno de las bandas`);
+ok(nombre(/^FIJO · Rodamiento R8-2RS/).length === 2 && nombre(/^FIJO · Eje de rodillo de retorno/).length === 1,
+  'gira sobre 2 rodamientos R8-2RS montados en un eje Ø1/2" con hilo interior 5/16-18');
+ok(nombre(/^FIJO · Perno hex 5\/16-18 UNC × .* rodillo de retorno/).length === 2 && R.retorno.roscaEngranadaEnD >= 1,
+  `2 pernos 5/16-18 desde fuera del alma, rosca engranada ${R.retorno.roscaEngranadaEnD}·d`);
+// La regla de catálogo deja el tubo 1-1/4" más corto que el vano: sin los dos
+// casquillos el rodillo caminaría 15.9 mm por lado (contrato §5.3).
+ok(nombre(/^FIJO · Casquillo separador/).length === 2 && R.retorno.juegoAxialTubo === 0,
+  `2 casquillos Ø${R.retorno.separadorD} retienen axialmente el tubo (juego 0)`);
+
 console.log('— Transmisión —');
 ok(V.largoBanda > 500, `banda del serpentín de ${V.largoBanda} mm de desarrollo`);
 ok(V.envolventeRodillo >= 60, `envolvente de ${V.envolventeRodillo}° sobre cada rodillo (arrastre por fricción)`);

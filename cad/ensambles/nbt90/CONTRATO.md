@@ -108,7 +108,7 @@ dato con el que se construyó el sólido.
 | Módulo | Archivo | Contenido |
 |---|---|---|
 | Bastidor | `bastidor.mjs` | ROLLER FRAME WELDMENT (placas peine), SIDE CHANNEL, TRANSFER CROSS CHANNEL, CROSS ANGLE, SPACER PLATE, TRANSFER ROLLER GUARD, NOTCHED BRACE CHANNEL, BASE CHANNEL WELDMENT y su tornillería |
-| Rodillos | `rodillos.mjs` | 6 rodillos vulcanizados Ø1-3/8" con eje hexagonal 5/16", rodamientos, retención en las ranuras del peine, y las 5 bandas angostas + regletas del anfitrión (contexto) |
+| Rodillos | `rodillos.mjs` | 6 rodillos vulcanizados Ø1-3/8" (vulcanizado NEGRO sólo en el tramo de carga) con eje de hilo interior 1/4-20 atornillado desde fuera de las placas peine, rodamientos, el RODILLO DE RETORNO B-20760 Ø1.9" que limita las bandas del clasificador, y las 5 bandas angostas + regletas del anfitrión (contexto) |
 | Transmisión | `transmision.mjs` | serpentín de banda plana de 1", poleas locas Ø2-1/2", tensor con colisa, poleas de retorno, rueda motriz, buje sin chaveta y motorreductor SEW |
 | Elevación y neumática | `elevacion.mjs` | cilindro compacto con guías SMC MGPM80-10Z (componente `mgpm80_10z`; ver `MESA_GUIA.md`), canal de montaje del cilindro con colisas, 4 jack bolts, horquilla de empuje, válvula 4 vías, silenciador, racores y tubería |
 

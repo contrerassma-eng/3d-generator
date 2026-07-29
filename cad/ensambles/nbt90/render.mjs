@@ -3,9 +3,16 @@
 // Chromium sin cabeza. Sirve `cad/` por HTTP en un puerto libre, abre
 // `ensambles/ver.html?doc=…&view=…` y espera a `window.__listo`.
 //
-//   cd cad && node ensambles/nbt90/render.mjs [doc.json] [salida/]
+//   cd cad && node ensambles/nbt90/render.mjs [doc.json] [salida/] [--plano]
 //
-// Por defecto documenta el NBT90 en `ensambles/nbt90/vistas/`.
+// Por defecto documenta el NBT90 en `ensambles/nbt90/vistas/`, con MATERIAL
+// REAL (ver la cabecera de `ensambles/ver.html`): cada pieza según de qué está
+// hecha, entorno de estudio y texturas procedurales. Con `--plano` salen en el
+// color de capa de siempre (azul = MÓVIL, dorado = tornillería…), que es el que
+// se lee mejor para entender el montaje.
+//
+// `--url <ruta?query>` no toca la query: las páginas sueltas —los cortes del
+// paso 8 de `regenerar.sh`, por ejemplo— mandan sobre su propio modo.
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { mkdirSync, existsSync } from 'node:fs';
@@ -15,8 +22,11 @@ import { chromium } from 'playwright';
 
 const aquí = dirname(fileURLToPath(import.meta.url));
 const raízCad = resolve(aquí, '..', '..');
-const doc = process.argv[2] || 'nbt90/narrow_belt_transfer_90.json';
-const outDir = resolve(process.argv[3] || join(aquí, 'vistas'));
+// Posicionales = los que no son banderas ni el valor de `--url`.
+const args = process.argv.slice(2);
+const pos = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--url');
+const doc = pos[0] || 'nbt90/narrow_belt_transfer_90.json';
+const outDir = resolve(pos[1] || join(aquí, 'vistas'));
 mkdirSync(outDir, { recursive: true });
 
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json', '.css': 'text/css', '.glb': 'model/gltf-binary' };
@@ -45,10 +55,11 @@ pág.on('pageerror', e => console.error('  ! error en el visor:', e.message));
 // `--url <ruta?query>` captura UNA página cualquiera del repo (p. ej. el visor
 // de corte); sin él, captura las cuatro vistas estándar del visor normal.
 const iU = process.argv.indexOf('--url');
+const material = process.argv.includes('--plano') ? 'plano' : 'real';
 const vistas = iU > 0 ? [process.argv[iU + 1]] : ['iso', 'frente', 'lado', 'planta'];
 for (const v of vistas) {
   const url = iU > 0 ? `http://127.0.0.1:${puerto}/${v}`
-    : `http://127.0.0.1:${puerto}/ensambles/ver.html?doc=${encodeURIComponent(doc)}&view=${v}`;
+    : `http://127.0.0.1:${puerto}/ensambles/ver.html?doc=${encodeURIComponent(doc)}&view=${v}&material=${material}`;
   await pág.goto(url, { waitUntil: 'load', timeout: 120000 });
   await pág.waitForFunction('window.__listo === true', null, { timeout: 300000 });
   await pág.waitForTimeout(2500);                      // un par de cuadros ya renderizados

@@ -14,7 +14,7 @@
 
 import {
   Ensamble, box, cyl, hole, sketchXZ, sketchYZ, sketchXY, seccionChapa, desarrollo,
-  rectR, colisa, arcoPts, pernoHex, tuercaHex, golilla, COL, r2,
+  rectR, colisa, arcoPts, pernoHex, tuercaHex, golilla, COL, PASO, r2,
 } from './lib.mjs';
 import { P } from './params.mjs';
 
@@ -46,18 +46,18 @@ const L = {
                         //      de retorno del anfitrión, que pasa a Z 328…330.5)
   dienteSemi: 17.1,     // dis: semiancho del diente (hueco = 42 > regleta 31.75)
   huecoR: 6,            // dis: radio del fondo del hueco (desahogo)
-  // ranura en U: el eje hexagonal de 5/16" va con las CARAS VERTICALES
-  //   entrecaras 7.94 en Y, entre vértices 9.17 en Z (interfaz de rodillos.mjs)
-  ranuraW: r2(P.rodHex + P.holgura.deslizante),          // 8.14
-  get ranuraR() { return r2(this.ranuraW / 2); },        // 4.07
-  // ASIENTO EN V: el fondo redondo (radio ranuraR) toca el hexágono en sus DOS
-  // vértices inferiores (a ±AF/2 en Y y AC/4 = P.rodHex/2√3 bajo el eje), de modo
-  // que la ranura posiciona el eje en Y y en Z a la vez. Centro del arco:
-  //   h = AC/4 − √(r² − (AF/2)²) = 2.292 − 0.897 = 1.395 mm bajo P.rodZ
-  get ranuraZc() {
-    const AF2 = P.rodHex / 2, AC4 = P.rodHex / (2 * Math.sqrt(3));
-    return r2(P.rodZ - (AC4 - Math.sqrt(this.ranuraR ** 2 - AF2 ** 2)));
-  },
+  // MONTAJE ATORNILLADO DEL RODILLO (sustituye a la ranura en U + anillos DIN 471).
+  // El cliente describe el montaje real: «sujeciones con perforación y rodillo con
+  // su eje con hilo interior, entonces perno por fuera chapa». Aquí sólo vive el
+  // TALADRO PASANTE del diente; el eje roscado y el perno los pone rodillos.mjs.
+  //   · Ø 7.0 = taladro de paso CERRADO para 1/4-20 (0.65 mm de holgura, no los
+  //     1.6 de `P.holgura.pasante`): así el vástago hace también de pasador y toma
+  //     la carga radial del rodillo en vez de dejarla a la fricción bajo la golilla.
+  //   · Distancia al canto superior de la placa = peineZt − P.rodZ = 9.01 mm =
+  //     1.42·d. El mínimo de AISC para 1/4" en canto cizallado es 3/8" = 9.53, o
+  //     sea queda 0.5 mm corto; se declara. No se sube `peineZt` porque el plano
+  //     de bandas del anfitrión está 2.1 mm más arriba (P.planoBanda = 390.6).
+  rodPasante: PASO['1/4'],          // 7.0 · dis (ver arriba)
 
   // ---- travesaños del cassette móvil --------------------------------------
   cruzY: 214,           // dis: alma del TRANSFER CROSS CHANNEL (±). Tiene que quedar
@@ -115,7 +115,7 @@ const L = {
   // La placa soporte de la transmisión (X 106.5…155, Y ±187, Z 128…278) ya cierra
   // el serpentín por el lado del accionamiento: una guarda ahí sería redundante y
   // además no cabe. La cara que SÍ queda expuesta es la exterior de la placa peine
-  // motriz — puntas de eje, anillos de retención y el pinzamiento contra el canal
+  // motriz — cabezas de los pernos de rodillo y el pinzamiento contra el canal
   // cuando el cassette sube. Ahí va la guarda, y su largo de catálogo (17" = 431.8)
   // coincide con el de la placa peine (432).
   guardaX: 24,          // dis: cara exterior del alma de la guarda
@@ -182,14 +182,62 @@ export const motorEnvX = [121.35, P.largo];   // dis: tras la placa soporte de t
 export const motorPasoD = L.motorPaso;
 /** Huella libre para la mesa guía neumática (bajo el centro, sin estructura fija). */
 export const mesaHuella = { x: [110, 375], y: [-185, 185], z: [P.baseZ + 2, L.braceZ0] };
-/** Los anillos DIN 471 del eje hexagonal deben caer FUERA de las placas peine. */
+
+/** MONTAJE ATORNILLADO DE LOS 6 RODILLOS DE TRANSFERENCIA — interfaz con
+ *  rodillos.mjs. Las placas peine son de este módulo, así que aquí viven sus
+ *  planos y el Ø del taladro; rodillos.mjs deriva de ahí el largo del eje, la
+ *  profundidad de rosca y por dónde entra el perno. Ningún número se duplica. */
+export const rodMontaje = {
+  placaX: [L.placaXa, L.placaXb],                 // planos medios de las dos placas
+  t: T316,                                        // 4.763 — 3/16"
+  get caraInt() { return [r2(this.placaX[0] + this.t / 2), r2(this.placaX[1] - this.t / 2)]; },
+  get caraExt() { return [r2(this.placaX[0] - this.t / 2), r2(this.placaX[1] + this.t / 2)]; },
+  pasante: L.rodPasante,                          // 7.0 — taladro de paso cerrado 1/4"
+  torn: P.M.b14,                                  // 1/4-20 UNC (perno por fuera)
+};
+
+/** RODILLO DE RETORNO B-20760 «1.9 in. OD Galv Return Roller – ABEC-1
+ *  (Specify BR −1-1/4)» — item 22 del despiece de la pág. 13 del manual y item 9
+ *  del de la pág. 12. Es el elemento transversal que se ve cruzando la vista
+ *  izquierda de FIGURE 8A: sostiene y LIMITA los ramales de retorno de las bandas
+ *  angostas del clasificador. Va FIJO, atornillado al ALMA de los dos canales
+ *  laterales del anfitrión (los únicos perfiles fijos que llegan a esa altura:
+ *  Z 218…383.1); este módulo pone los taladros, rodillos.mjs pone el rodillo. */
+export const rodRetorno = {
+  dia: r2(1.9 * 25.4),        // 48.26 · cat B-20760 «1.9 in. OD» (med 48.03, −0.5 %)
+  eje: r2(0.5 * 25.4),        // 12.70 · cat Interroll 1.9": eje 1/2" redondo ED&T
+  pared: r2(0.065 * 25.4),    // 1.65 · cat Interroll: tubo 1.9" C/S galvanizado 0.065"
+  y: P.almaY,                 // 229.9 — alma del canal anfitrión (med)
+  t: T12,
+  pasante: PASO['5/16'],      // 8.7 — taladro de paso del perno 5/16-18
+  torn: P.M.b516,
+  roscaProf: r2(0.625 * 25.4),  // 15.88 = 5/8" · cat «ED&T 5/16-18 x 5/8 deep»
+  // X: el cassette MÓVIL (placas peine X 37.72…425.28 y los dos transfer cross
+  // channel, que a |Y| = 214 barren Z 287…347.8) ocupa toda la franja de altura
+  // de este rodillo. El único hueco en el que un rodillo FIJO de Ø48.26 no toca
+  // nada que suba y baje es POR FUERA de la placa peine libre: de ahí X = 452
+  // (cuerpo X 427.9…476.1, con 2.6 mm a la placa). Es además donde funcionalmente
+  // toca: en el borde de la boca de la transferencia, que es lo que «limita» las
+  // bandas. Alternativa descartada: montarlo entre los cross channel obligaba a
+  // recortarles alma y alas, y el taladro del perno caía en el radio de plegado.
+  x: 452,                     // dis (ver arriba)
+  // Z: TANGENTE por arriba al ramal de retorno de las bandas del anfitrión — que
+  // es su función y lo que se ve en el dibujo (los 5 ramales apoyan en él).
+  // Medido en FIGURE 8A: eje en y = 485.5 px → Z = 303.06 (error 0.5 mm).
+  get z() { return r2(P.planoBanda - P.bandaRetornoDZ - P.bandaEsp - this.dia / 2); },
+  // Largo del tubo: la regla de catálogo es «Specify BR − 1-1/4», y encaja sola
+  // con el montaje sobre las almas del anfitrión (BF = BR = 18" = 457.2), dejando
+  // 5/8" de eje a la vista en cada extremo — justo la profundidad de rosca ED&T.
+  get largo() { return r2(P.BR - 1.25 * 25.4); },      // 425.45 (med 414.9, −2.5 %)
+  get ejeLargo() { return r2(2 * (this.y - this.t / 2)); },   // 457.14 = BR
+};
+
 // Envolvente del SIDE CHANNEL fijo, para que la transmisión verifique contra la
 // geometría REAL y no contra un literal copiado: la punta del ala se movió al
 // acortarla a 1-1/4" y el valor viejo dejó el gate en falso.
 export const canalFijoY = [r2(L.ladoY - L.ladoAla), L.ladoY];
 export const canalFijoZ = [L.ladoZ0, L.ladoZ1];
 
-export const anilloRetX = [r2(L.placaXa - T316 / 2 - 1.7), r2(L.placaXb + T316 / 2 + 1.7)];
 
 // ---------------------------------------------------------------------------
 // Tornillería: perno hexagonal 3/8-16 + 2 golillas + tuerca. `at` es la cara
@@ -217,24 +265,20 @@ function tornilleria(E, { nombre, at, dir, agarre, capa }) {
 // ---------------------------------------------------------------------------
 // Silueta de la placa peine (contorno cerrado en (Y, Z))
 // ---------------------------------------------------------------------------
+// El canto superior de cada diente es ahora RECTO: el eje del rodillo ya no baja
+// desde arriba a una ranura en U, sino que topa contra la cara interior del diente
+// y lo atraviesa sólo el perno (taladro `L.rodPasante`, hecho en la pieza).
 function siluetaPeine() {
   const { peineY: Ye, peineYbajo: Yb, peineZ0: Z0, peineZ1: Z1, peineZ2: Z2,
-    peineZt: Zt, huecoZ: Zh, dienteSemi: ds, huecoR: rc, ranuraR: rr, ranuraZc: zc } = L;
+    peineZt: Zt, huecoZ: Zh, dienteSemi: ds, huecoR: rc } = L;
   const pts = [[-Yb, Z0], [Yb, Z0], [Yb, Z1], [Ye, Z2], [Ye, Zt]];
   const rod = P.rodY;                                  // [-190.5 … +190.5]
-  for (let i = rod.length - 1; i >= 0; i--) {
-    const y = rod[i];
-    // ranura en U de fondo redondo (recibe el eje hexagonal)
-    pts.push([y + rr, Zt], [y + rr, zc]);
-    pts.push(...arcoPts(y, zc, rr, 0, -Math.PI, 12));
-    pts.push([y - rr, zc], [y - rr, Zt]);
-    if (i > 0) {                                       // hueco de paso de la banda
-      const a = y - ds, b = rod[i - 1] + ds;
-      pts.push([a, Zt], [a, Zh + rc]);
-      pts.push(...arcoPts(a - rc, Zh + rc, rc, 0, -Math.PI / 2, 6));
-      pts.push(...arcoPts(b + rc, Zh + rc, rc, -Math.PI / 2, -Math.PI, 6));
-      pts.push([b, Zh + rc], [b, Zt]);
-    }
+  for (let i = rod.length - 1; i > 0; i--) {           // hueco de paso de la banda
+    const a = rod[i] - ds, b = rod[i - 1] + ds;
+    pts.push([a, Zt], [a, Zh + rc]);
+    pts.push(...arcoPts(a - rc, Zh + rc, rc, 0, -Math.PI / 2, 6));
+    pts.push(...arcoPts(b + rc, Zh + rc, rc, -Math.PI / 2, -Math.PI, 6));
+    pts.push([b, Zh + rc], [b, Zt]);
   }
   pts.push([-Ye, Zt], [-Ye, Z2], [-Yb, Z1]);
   return pts.map((q) => [r2(q[0]), r2(q[1])]);
@@ -270,6 +314,9 @@ export function bastidor(E) {
       }
     }
     for (const x of [60, 231.5, 403]) f.push(hole(`Unión SIDE CHANNEL Ø${PAS38}`, [x, s * (P.almaY + 4), 234], [0, -s, 0], PAS38, 10, false));
+    // paso del perno 5/16-18 del RODILLO DE RETORNO B-20760 (entra desde fuera)
+    f.push(hole(`Rodillo de retorno B-20760 Ø${rodRetorno.pasante}`,
+      [rodRetorno.x, s * (P.almaY + 4), rodRetorno.z], [0, -s, 0], rodRetorno.pasante, 10, false));
     // paso de los 2 pernos de la oreja de la placa soporte de transmisión
     for (const z of L.transZ) f.push(hole(`Placa de transmisión Ø${PAS38}`, [L.transX, s * (P.almaY + 4), z], [0, -s, 0], PAS38, 10, false));
     E.addPart(`${FIJO}Canal lateral anfitrión 6-1/2"×1-1/2" 12 GA × ${P.largo} (${s > 0 ? '+Y' : '-Y'})`,
@@ -413,8 +460,8 @@ export function bastidor(E) {
 
   // =========================================================================
   // 5. MÓVIL — ROLLER FRAME WELDMENT: 2 placas peine de 3/16"
-  //    6 ranuras en U a paso P.paso que reciben los ejes hexagonales, huecos de
-  //    paso de las 5 bandas angostas, y (lado motriz) los ejes del serpentín.
+  //    6 taladros pasantes a paso P.paso para los pernos de los rodillos, huecos
+  //    de paso de las 5 bandas angostas, y (lado motriz) los ejes del serpentín.
   // =========================================================================
   const sil = siluetaPeine();
   const idlerY = P.bandaY.filter((y) => Math.abs(y) > 1);      // 4 poleas locas
@@ -432,6 +479,13 @@ export function bastidor(E) {
     }
     for (const y of L.espTornY) {
       f.push(hole(`Spacer plate Ø${PAS38}`, [xc - T316, y, L.espTornZ], [1, 0, 0], PAS38, T316 + 4, false));
+    }
+    // MONTAJE DEL RODILLO: un taladro pasante por diente, coaxial con el rodillo.
+    // Por él entra —desde FUERA de la placa— el perno 1/4-20 que rosca en el hilo
+    // interior de la punta del eje (rodillos.mjs). Sustituye a la ranura en U.
+    for (const y of P.rodY) {
+      f.push(hole(`Perno de rodillo 1/4-20 Ø${L.rodPasante}`, [xc - T316, y, P.rodZ],
+        [1, 0, 0], L.rodPasante, T316 + 4, false));
     }
     if (motriz) {                         // fijación de la TRANSFER ROLLER GUARD
       for (const y of L.guardaTornY) for (const z of L.guardaTornZ) {
@@ -605,13 +659,14 @@ export function bastidor(E) {
   // ------------------------------------------------------------------ métricas
   M.piezas = E.parts.length;
   M.juegoAxialRodillo = r2(P.rodX0 - (L.placaXa + T316 / 2));      // ≥ 1.5 mm por lado
-  M.ranuraU = {
-    ancho: L.ranuraW, radioFondo: L.ranuraR, fondoZ: r2(L.ranuraZc - L.ranuraR), ejeZ: r2(P.rodZ),
-    asiento: 'V: el arco toca los dos vértices inferiores del hexágono (posiciona en Y y en Z)',
-    dienteSobreEje: r2(L.peineZt - (P.rodZ + P.rodHex / Math.sqrt(3))),
+  M.montajeRodillo = {
+    tipo: 'taladro pasante en la placa + hilo interior en la punta del eje + perno por fuera',
+    pasanteD: L.rodPasante, perno: '1/4-20 UNC', ejeZ: r2(P.rodZ),
+    dienteSobreEje: r2(L.peineZt - P.rodZ),         // 9.01 = 1.42·d (AISC pide 9.53)
+    taladros: 2 * P.nRodillos,
   };
-  M.pasoExtraccionEje = { motriz: [0, r2(L.placaXa - T316 / 2)], libre: [r2(L.placaXb + T316 / 2), P.largo] };
-  M.interfaces = { apoyoMesaGuiaZ: padMovilZ, motorEnvX, anilloRetX, mesaHuella };
+  M.pasoRodillo = 'el rodillo se extrae VERTICALMENTE: quitados los 2 pernos nada lo retiene';
+  M.interfaces = { apoyoMesaGuiaZ: padMovilZ, motorEnvX, mesaHuella, rodMontaje, rodRetorno };
   return M;
 }
 

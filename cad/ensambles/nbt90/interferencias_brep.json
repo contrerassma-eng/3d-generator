@@ -1,8 +1,8 @@
 {
  "documento": "narrow_belt_transfer_90.json",
  "tolerancia_cm3": 0.05,
- "piezas": 370,
- "pares_candidatos": 899,
+ "piezas": 400,
+ "pares_candidatos": 1024,
  "interferencias": 4,
  "detalle": [
   {
