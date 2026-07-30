@@ -1,0 +1,459 @@
+{
+ "$comment": "Capa 'web' del clasificador del cliente (STEP sorter_CO.stp). Mismo formato que cad/ensambles/nbt90/analisis/web_facts.json. Cada hecho lleva url + accessed + quote. AVISO DE HONESTIDAD: el campo source.quote_tipo distingue 'texto_de_pagina' de 'resumen_de_busqueda'; en esta pasada NINGUNA cita es verbatim de la pagina, porque los PDF de catalogo (SMC C85, Powerdrive AT10, Statewide T/AT) devolvieron contenido binario ilegible y MISUMI respondio HTTP 403. Las citas reproducen el texto que devolvio el buscador. Todo lo que aparece en 'contraste_con_lo_medido' es capa 'step' (medido sobre el STEP) y NO depende de la web.",
+ "project": "sorter_co",
+ "generated": "2026-07-30T23:04:09Z",
+ "layers": {
+  "step": {
+   "nota": "Capa MEDIDA sobre ref/sorter_CO.stp con OpenCascade. Ver inventario.json, analisis/medidas.json, analisis/secciones.json y analisis/acople.json."
+  },
+  "web": {
+   "nota": "Esta lista."
+  },
+  "user": {
+   "nota": "No hay descripcion escrita del cliente en el repositorio: solo el STEP."
+  }
+ },
+ "facts": [
+  {
+   "id": "PNEU-001",
+   "tema": "neumatica",
+   "claim": "El CD85N25-80-B es un cilindro neumatico ISO 6432 de doble efecto, vastago simple, serie C85 de SMC, calibre 25 mm y carrera 80 mm",
+   "value": "25 x 80",
+   "unit": "mm calibre x carrera",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.smcusa.com/products/c(d)85-iso-standard-cylinder-double-acting-single-rod~53823/",
+    "accessed": "2026-07-30",
+    "quote": "C(D)85, ISO 6432 Standard Cylinder, Double Acting, Single Rod. The C85 series single rod, double acting, conforms to ISO 6432 and CETOP RP52P",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "SMC USA - C(D)85, ISO 6432 Standard Cylinder, Double Acting, Single Rod",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "MEDIDO en el STEP (ocurrencia cal_4_f40___65/cilindro/CILINDRO 25mm/CD85N25-80T-B(0__1_0)/CD85N25-80-B(0)_BODY): cara cilindrica interior Ø25.000 x 85.0 de longitud equivalente y camisa exterior Ø26.600 x 115.0. COINCIDE con el calibre 25 de catalogo (desviacion 0.000 mm). La carrera 80 no se puede medir directamente: el cuerpo mide 187.75 mm en su eje y el modelo esta en UNA sola posicion."
+  },
+  {
+   "id": "PNEU-002",
+   "tema": "neumatica",
+   "claim": "El vastago del C85 calibre 25 mide Ø10 mm y su rosca es M10 x 1.25",
+   "value": "10",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.smcusa.com/products/actuators/linear-actuators/interchange-type/C85~53821",
+    "accessed": "2026-07-30",
+    "quote": "C85 series ... available in bore sizes 8mm through 25mm with standard strokes ranging from 10mm through 300mm",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "SMC USA - serie C85",
+   "confidence": "media",
+   "nota": "La hoja de catalogo no se pudo descargar en texto (el PDF de SMC devolvio contenido binario ilegible y el de MISUMI dio HTTP 403). El Ø10 y el M10x1.25 quedan APOYADOS EN LO MEDIDO, no en cita textual.",
+   "contraste_con_lo_medido": "MEDIDO: C8525-80T_ROD_CPY2 tiene una cara cilindrica Ø10.000 de 139.44 mm de longitud equivalente (el vastago) y un disco Ø25.000 x 5.0 (el embolo, = calibre). KJ10D_CPY2 tiene una rosca hembra cuyo Ø menor mide 8.647 mm: es EXACTAMENTE el diametro menor teorico de una M10 x 1.25 (8.647). Los dos numeros se sostienen entre si."
+  },
+  {
+   "id": "PNEU-003",
+   "tema": "neumatica",
+   "claim": "Fuerza teorica del cilindro, calculada con el calibre y el vastago MEDIDOS",
+   "value": "294.5 / 247.4",
+   "unit": "N a 6 bar (empuje / tiro)",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.smcusa.com/products/c(d)85-iso-standard-cylinder-double-acting-single-rod~53823/",
+    "accessed": "2026-07-30",
+    "quote": "C(D)85, ISO 6432 Standard Cylinder, Double Acting, Single Rod",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "SMC USA - C(D)85 (identificacion del componente)",
+   "confidence": "media",
+   "nota": "La PRESION es una hipotesis (capa 'dis'): 6 bar, presion de red habitual. El STEP no declara presion. Empuje = 0.6 MPa x pi/4 x 25^2 = 294.5 N. Tiro = 0.6 MPa x pi/4 x (25^2 - 10^2) = 247.4 N. Si la red trabaja a otra presion, escalar linealmente."
+  },
+  {
+   "id": "PNEU-004",
+   "tema": "neumatica",
+   "claim": "El AS2201FS-01-06S es un regulador de caudal SMC de la serie AS-FS, tipo codo, con indicador numerico de escala, entrada R1/8 y salida instantanea para tubo de 6 mm",
+   "value": "R1/8 -> tubo 6",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://us.rs-online.com/product/smc-corporation/as2201fs-01-06s/70317740/",
+    "accessed": "2026-07-30",
+    "quote": "SMC Corporation - AS2201FS-01-06S - Speed Control w/Scale, Elbow, Meter Out, R1/8 Port, for 6mm Tube",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "RS Components - SMC AS2201FS-01-06S",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "MEDIDO: caja 26.30 x 43.61 x 22.90 mm, 4 ocurrencias (una por estacion). Compatible con el tamano de cuerpo 2 de la serie AS. Es de tipo METER-OUT (regula el escape): gobierna la velocidad de salida del vastago del tensor."
+  },
+  {
+   "id": "PNEU-005",
+   "tema": "neumatica",
+   "claim": "El AN101-01 es un silenciador SMC de la serie AN con rosca R1/8",
+   "value": "R1/8",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.smcusa.com/products/c(d)85-iso-standard-cylinder-double-acting-single-rod~53823/",
+    "accessed": "2026-07-30",
+    "quote": "(no se obtuvo cita textual del catalogo AN: la identificacion se apoya en la nomenclatura SMC AN1xx-01 = silenciador rosca 1/8 y en la geometria medida)",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "SMC - serie AN (identificacion por nomenclatura)",
+   "confidence": "baja",
+   "nota": "PENDIENTE de cita textual. La designacion AN101-01-01 sigue el patron AN<serie>-<rosca>; el sufijo -01 extra no esta explicado.",
+   "contraste_con_lo_medido": "MEDIDO: pieza de 11.00 x 22.80 x 15.24 mm con caras Ø11.000, Ø9.728 y Ø6.100 coaxiales: cuerpo pequeno con paso interior de 6.1 mm. Tamano coherente con un silenciador de 1/8."
+  },
+  {
+   "id": "PNEU-006",
+   "tema": "neumatica",
+   "claim": "El KJ10D es una rotula/horquilla de vastago (knuckle joint) de SMC para la serie C85, suministrada con bulon y seguro segun ISO 8140",
+   "value": "M10 x 1.25",
+   "unit": "rosca hembra",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://content2.smcetech.com/pdf/C85_C75-A_EU.pdf",
+    "accessed": "2026-07-30",
+    "quote": "The rod clevis is referenced as a component that comes supplied with a bolt and safety device according to ISO 8140. The KJ10D appears to be a double knuckle joint option that can be used with various bore sizes of the C85 cylinder series",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "SMC - C85/C75-A, part numbers set for actuators with mounting brackets",
+   "confidence": "media",
+   "nota": "CORRIGE el encargo: el enunciado listaba KJ10D como 'racor'. NO lo es. Es la horquilla de union del vastago, y por eso vive en el subconjunto llamado 'hoquilla-M10'.",
+   "contraste_con_lo_medido": "MEDIDO: KJ10D_CPY2 tiene rosca hembra de Ø menor 8.647 (= M10 x 1.25 exacta), un taladro de bulon Ø10.000 x 14.0 perpendicular, y DOS casquetes esfericos Ø19.000 mas uno Ø28.000: lleva rotula esferica, no es un simple horquillado plano."
+  },
+  {
+   "id": "BRG-001",
+   "tema": "rodamiento",
+   "claim": "SKF NK 19/20: rodamiento de agujas con aros mecanizados, con pestanas, SIN aro interior. Fw 19 mm, D 27 mm, C 20 mm",
+   "value": "19 x 27 x 20",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.acorn-ind.co.uk/p/skf/needle-roller-bearings-with-machined-rings/nk19/20-skf/",
+    "accessed": "2026-07-30",
+    "quote": "SKF - NK 19/20 - Bearing - Single row needle roller bearing with machined rings, with flanges, without inner ring. Fw (Bore/Inner Diameter): 19 mm, D (Outer Diameter): 27 mm, C (Width): 20 mm",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "Acorn Industrial Services - SKF NK 19/20",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "MEDIDO: exterior Ø27.000 y anchura 20.000 -> COINCIDEN exactamente. PERO el eje sobre el que va montado (uni_003) mide Ø20.000 y el Fw de catalogo es 19: hay 1.0 mm de interferencia diametral contra el catalogo (y 0.4 mm contra la propia pista interior modelada, Ø19.600). O el eje real es Ø19 o el rodamiento real es NK 20/20. A VERIFICAR CON EL CLIENTE."
+  },
+  {
+   "id": "BRG-002",
+   "tema": "rodamiento",
+   "claim": "SKF 1206 ETN9: rodamiento de bolas a rotula, dos hileras, jaula de poliamida. 30 x 62 x 16 mm. C = 15.6 kN, C0 = 4.65 kN",
+   "value": "30 x 62 x 16",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.motion.com/products/sku/00042443",
+    "accessed": "2026-07-30",
+    "quote": "The SKF 1206 ETN9 is a self-aligning ball bearing with a bore diameter of 30 mm, outside diameter of 62 mm, and overall width of 16 mm. Basic Dynamic Load Rating: 15.6 kN; Basic Static Load Rating: 4.65 kN",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "Motion Industries - SKF 1206 ETN9",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "MEDIDO: anchura 16.000 -> COINCIDE. Exterior 61.700 -> catalogo 62.000: el modelo esta 0.300 mm por debajo (defecto del modelo, no del componente). El eje SH-04 lleva munones Ø29.880 para este barreno Ø30."
+  },
+  {
+   "id": "BRG-003",
+   "tema": "rodamiento",
+   "claim": "SKF UCFL 205: soporte de brida ovalada de dos tornillos, con rodamiento UC 205 de aro interior prolongado y prisioneros. Eje 25 mm, anchura 34.10 mm, distancia entre taladros 99 mm",
+   "value": "25",
+   "unit": "mm de eje",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.skf.com/group/products/mounted-bearings/ball-bearing-units/flanged-ball-bearing-units/productid-UCFL%20205",
+    "accessed": "2026-07-30",
+    "quote": "Shaft diameter: 25 mm with a fixing spacing of 99 mm. Width: 34.10 mm, Inner Diameter: 25 mm. Oval flange ball bearing unit with extended inner ring and set screw locking, with a cast iron housing",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "SKF - UCFL 205, unidades de rodamiento de bolas con brida",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "MEDIDO: UC 205+33_7_b tiene barreno Ø25.000 y superficie esferica exterior Ø52.000, anchura 34.0 -> COINCIDE con el catalogo (34.10 nominal, 0.10 de diferencia). Va montado sobre el eje EJE-25mm-PASADOR, medido Ø25.000: el ajuste es correcto."
+  },
+  {
+   "id": "BRG-004",
+   "tema": "rodamiento",
+   "claim": "6203-2RS: rodamiento rigido de bolas con dos obturaciones, 17 x 40 x 12 mm",
+   "value": "17 x 40 x 12",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.skf.com/group/products/rolling-bearings/ball-bearings/deep-groove-ball-bearings",
+    "accessed": "2026-07-30",
+    "quote": "(no se obtuvo cita textual: la designacion 6203 es normalizada -serie 62, d=17- y esta fuera de duda, pero la pagina no se cito verbatim)",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "SKF - rodamientos rigidos de bolas (identificacion por designacion normalizada)",
+   "confidence": "media",
+   "nota": "PENDIENTE de cita textual.",
+   "contraste_con_lo_medido": "MEDIDO en la ocurrencia IDLER-ENS/IDLER PULLEY/Bearing 6203 2RS: Outer Race Ø40.08 exterior y 13.34 de ancho; Inner Race Ø24.40 x 12.83. El exterior Ø40 COINCIDE; el ancho modelado 13.34 excede los 12 de catalogo en 1.34 mm (el modelo incluye las obturaciones sobresalientes)."
+  },
+  {
+   "id": "BRG-005",
+   "tema": "rodamiento",
+   "claim": "SKF W 6004-2Z: rodamiento rigido de bolas de ACERO INOXIDABLE (prefijo W), con dos placas de proteccion, 20 x 42 x 12 mm",
+   "value": "20 x 42 x 12",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.skf.com/group/products/rolling-bearings/ball-bearings/deep-groove-ball-bearings",
+    "accessed": "2026-07-30",
+    "quote": "(no se obtuvo cita textual: la designacion W 6004-2Z se lee como serie 60, d=20, inoxidable, 2Z)",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "SKF - rodamientos rigidos de bolas inoxidables (identificacion por designacion)",
+   "confidence": "media",
+   "nota": "PENDIENTE de cita textual. El prefijo W de SKF designa acero inoxidable; es relevante porque implica ambiente humedo o de lavado.",
+   "contraste_con_lo_medido": "MEDIDO: Ø42.000 exterior, Ø20.000 de barreno, 12.0 de ancho, 9 bolas de Ø6.35 -> COINCIDE en las tres cotas principales."
+  },
+  {
+   "id": "BELT-001",
+   "tema": "transmision",
+   "claim": "Las bandas dentadas T5 tienen paso de 5 mm, dientes trapezoidales y se fabrican en anchuras normalizadas de 6, 8, 10, 16, 25, 32 y 50 mm",
+   "value": "5",
+   "unit": "mm de paso",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://nk-technics.com/t-profile/pu-timing-belt-t5",
+    "accessed": "2026-07-30",
+    "quote": "T5 timing belts have a pitch of 5mm. T5 Timing belts with steel Cord are available in standard widths: 6mm, 8mm, 10mm, 16mm, 25mm, 32mm, 50mm. T5 timing belts have a trapezoidal tooth shape",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "NK Technics - PU timing belt T5",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "MEDIDO: la banda banda_T5_3p4 mide 32.000 mm de anchura -> es una anchura NORMALIZADA de T5. El paso no se puede medir sobre la banda (esta modelada como superficies), pero SI sobre la polea: ver BELT-002."
+  },
+  {
+   "id": "BELT-002",
+   "tema": "transmision",
+   "claim": "Polea T5 de 63 dientes: diametro primitivo = z x p / pi = 63 x 5 / pi = 100.268 mm",
+   "value": "100.268",
+   "unit": "mm de primitivo (calculado)",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.pfeiferindustries.com/timing-belt-pulley-pitch-diameter-outside-diameter-charts",
+    "accessed": "2026-07-30",
+    "quote": "Timing Belt Pulley Pitch Diameter Outside Diameter Charts",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "Pfeifer Industries - tablas de diametros de poleas dentadas",
+   "confidence": "media",
+   "nota": "El valor es una FORMULA normalizada (primitivo = z*p/pi), no una fila de tabla citada.",
+   "contraste_con_lo_medido": "MEDIDO: motriz_63T y conducida_63T tienen pestanas de Ø112.000 y barreno Ø38.000, anchura 40.000. La cara superior de la banda queda a 52.333 y el eje de la polea a 0: 52.333 - 50.134 (radio primitivo) = 2.199 mm de la linea primitiva al dorso de la banda, coherente con el espesor total nominal de una T5."
+  },
+  {
+   "id": "BELT-003",
+   "tema": "transmision",
+   "claim": "Las poleas AT10 tienen paso de 10 mm; una AT10 de 32 dientes tiene primitivo z x p / pi = 101.859 mm",
+   "value": "101.859",
+   "unit": "mm de primitivo (calculado)",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://accu-components.com/us/at10-timing-pulleys/45402-P-AT10-50-32",
+    "accessed": "2026-07-30",
+    "quote": "32 Teeth x 50mm Belt Width, AT10 Type Precision Timing Pulleys",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "Accu Components - poleas AT10 de 32 dientes",
+   "confidence": "media",
+   "nota": "No se pudo extraer la tabla dimensional del catalogo (los PDF de Powerdrive y Statewide devolvieron contenido binario ilegible). El primitivo es la formula normalizada.",
+   "contraste_con_lo_medido": "MEDIDO: Polea_AT10_32T_pestanas presenta 32 caras cilindricas de Ø100.000 (los fondos de diente: CONFIRMAN los 32 dientes), pestanas Ø112.000, barreno Ø65.000 y anchura 42.000. El Ø exterior 100.000 contra el primitivo 101.859 da un PLD de 0.93 mm, coherente con el 1.0 mm nominal del perfil AT10 (desviacion 0.07 mm)."
+  },
+  {
+   "id": "LOCK-001",
+   "tema": "mecanico",
+   "claim": "Los casquillos de apriete sin chaveta (keyless locking devices / locking assemblies) transmiten par por friccion entre eje y cubo al apretar tornillos radiales",
+   "value": "-",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.fenner.com/resources/b-loc-keyless-locking-devices",
+    "accessed": "2026-07-30",
+    "quote": "B-LOC Keyless Locking Devices",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "Fenner - B-LOC keyless locking devices",
+   "confidence": "baja",
+   "nota": "NO se ha localizado el fabricante concreto de la referencia LK30-C65-20H7-D30-R. Queda SIN IDENTIFICAR. La lectura de la designacion es una hipotesis: C65 = Ø exterior 65, D30 = Ø de eje 30.",
+   "contraste_con_lo_medido": "MEDIDO (LK30-C65-20H7-D30-RD): Ø exterior 65.000, un cilindro Ø30.063 (asiento de eje) y otro Ø20.000, 18 taladros de Ø37.05 de circunferencia de tornillos y conos de 7.87 grados (los conos de apriete). El Ø65.000 COINCIDE exactamente con el barreno Ø65.000 medido en la polea AT10: el casquillo cierra sobre esa polea. El '20H7' de la designacion NO se corresponde con ningun Ø20 de asiento de eje que se pueda identificar."
+  },
+  {
+   "id": "TSLOT-001",
+   "tema": "estructura",
+   "claim": "Los perfiles de aluminio de ranura 8 (series 40) llevan una ranura en T de boca 8.2 mm que acepta tuercas correderas M8",
+   "value": "8.2",
+   "unit": "mm de boca de ranura",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://us.misumi-ec.com/vona2/mech/M1000000000/M1010000000/",
+    "accessed": "2026-07-30",
+    "quote": "(no se obtuvo cita textual del catalogo del perfil: la identificacion se apoya en la seccion medida)",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "MISUMI - perfiles de aluminio (identificacion por seccion medida)",
+   "confidence": "media",
+   "nota": "No se ha identificado el FABRICANTE del perfil. La familia (ranura 8, modulo 40) si esta determinada por la geometria medida.",
+   "contraste_con_lo_medido": "MEDIDO por mapa de ocupacion sobre la seccion real del solido TSLOT: perfil de 80 x 40 mm, largo 1497.362; boca de ranura 8.2 mm (paredes a +/-4.1 del eje del modulo) con achaflanado de 1 mm que la abre a 10.2 en la superficie; labios de la ranura en T entre 1.8 y 4.5 mm de profundidad, con mordaza exterior de 14.5 mm; taladro central Ø6.800 por modulo de 40; 6 ranuras en total (2 por cara de 80, 1 por cara de 40); PASO DE RANURAS EN LA CARA DE 80 = 40.0 mm."
+  },
+  {
+   "id": "TSLOT-002",
+   "tema": "tornilleria",
+   "claim": "IFI 532 es la norma del Industrial Fasteners Institute para arandelas dentadas metricas (metric tooth lock washers)",
+   "value": "-",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.globalfastener.com/standards/detail.php?sid=MjI0OA%3D%3D",
+    "accessed": "2026-07-30",
+    "quote": "IFI 532 (T1) - 1982 Metric Internal Tooth Lock Washers",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "Global Fastener - norma IFI 532",
+   "confidence": "alta",
+   "nota": "En el modelo aparecen dos variantes, 'IFI 532 - 4(4) A' (32 uds) e 'IFI 532 - 4(4) B' (32 uds), ambas de tamano 4 (M4).",
+   "contraste_con_lo_medido": "MEDIDO: arandelas de Ø8.75 exterior y 0.60 / 0.90 mm de espesor. Coherente con arandela dentada M4."
+  },
+  {
+   "id": "NUT-001",
+   "tema": "tornilleria",
+   "claim": "DIN 1587 es la norma de las tuercas ciegas (de sombrerete) hexagonales altas",
+   "value": "-",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.globalfastener.com/standards/detail_23408.html",
+    "accessed": "2026-07-30",
+    "quote": "(no se obtuvo cita textual de la norma DIN 1587; la designacion es inequivoca en el ambito de tornilleria)",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "Global Fastener (identificacion por designacion normalizada)",
+   "confidence": "media",
+   "nota": "PENDIENTE de cita textual.",
+   "contraste_con_lo_medido": "MEDIDO: 'DIN 1587 - M4 x 0.7', 64 unidades, 8.00 x 8.08 x 7.00 mm, con casquete cerrado. Coherente con tuerca ciega M4."
+  },
+  {
+   "id": "RING-001",
+   "tema": "mecanico",
+   "claim": "ANSI/ASME B27.7M serie 3AM1 son anillos de retencion EXTERIORES metricos; se designan por la serie y el diametro de eje, p. ej. 3AM1-20 para eje de 20 mm",
+   "value": "20",
+   "unit": "mm de eje",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.globalfastener.com/standards/detail_23408.html",
+    "accessed": "2026-07-30",
+    "quote": "ANSI B 27.7 (3AM1) - 1977 (R2017) Metric external Retaining Rings - 3AM1. 3AM1 rings are designated by series symbol and shaft diameter, such as 3AM1-4 for a 4 mm diameter shaft or 3AM1-20 for a 20 mm diameter shaft",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "Global Fastener - ANSI B 27.7 (3AM1), anillos de retencion exteriores metricos",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "MEDIDO: 'ANSI B 27.7M - 3AMI-20', 8 unidades, 1.10 x 25.55 x 22.23 mm, montados en el eje de la polea tensora, que mide Ø20.000 (SCMRT906VCT-150-111). COINCIDE: anillo de 20 sobre eje de 20."
+  },
+  {
+   "id": "RING-002",
+   "tema": "mecanico",
+   "claim": "DIN 472 es la norma de los anillos de retencion (circlips) INTERIORES, para alojamiento",
+   "value": "-",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.engineersedge.com/hardware/metric-snap-retaining-rings.htm",
+    "accessed": "2026-07-30",
+    "quote": "Metric Tapered Retaining Snap Rings Size Chart",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "Engineers Edge - anillos de retencion metricos",
+   "confidence": "media",
+   "nota": "PENDIENTE de cita textual especifica de DIN 472.",
+   "contraste_con_lo_medido": "MEDIDO: 'DIN 472 - Anillo de Retencion Interno', 8 unidades, 2.60 de espesor y Ø42.38 exterior, montadas a ambos lados de los 6203-2RS dentro de IDLER PULLEY. Retienen axialmente el rodamiento en su alojamiento, que es lo que hace un DIN 472."
+  },
+  {
+   "id": "FAST-001",
+   "tema": "tornilleria",
+   "claim": "Las series AS 1110, AS 1111, AS 1112, AS 1420 y AS 2465 son normas AUSTRALIANAS de tornilleria metrica (tornillos de cabeza hexagonal de grado alto y comercial, tuercas hexagonales y arandelas)",
+   "value": "-",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.scribd.com/document/765986492/Hobson-Product-Catalogue",
+    "accessed": "2026-07-30",
+    "quote": "AS 1112.1 is referenced as a standard for hex nuts in various metric configurations, and AS 2465 is referenced for high-tensile fastener specifications",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "Hobson Engineering - catalogo de producto (normas AS de tornilleria)",
+   "confidence": "media",
+   "nota": "Dato relevante de PROCEDENCIA: que la tornilleria este llamada por normas australianas indica que la biblioteca de contenido del Inventor del cliente esta configurada en AS, no que las piezas sean de compra en Australia. No condiciona el diseno: son metricas normales (M4, M6, M8, M10) salvo AS 2465, que en el modelo aparece en pulgadas (1/4 UNC).",
+   "contraste_con_lo_medido": "MEDIDO: AS 1420-1973 aparece en M4x12 (64 uds), M8x16 (48), M8x65 (8) y M10x50 (24); AS 1112 en M8 (56); AS 1110 en M10x16 (8); AS 1111 en M8x70 (8); AS 2465 en 1/4 UNC (4). Las cajas envolventes concuerdan con esas designaciones."
+  },
+  {
+   "id": "MOT-001",
+   "tema": "motor",
+   "claim": "El conjunto motor del extremo Y = -1490 lleva un motor de eje en D con conector Molex",
+   "value": "-",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.smcusa.com/",
+    "accessed": "2026-07-30",
+    "quote": "(sin fuente: no se ha identificado el fabricante ni el modelo)",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "SIN IDENTIFICAR",
+   "confidence": "baja",
+   "nota": "NO IDENTIFICADO. El nombre XCAF es '300986+Std.+UniDrive+motor+D-Shaft'. El '300986' parece un numero de articulo de un portal de descargas CAD, no una referencia de catalogo legible.",
+   "contraste_con_lo_medido": "MEDIDO: caja 152.69 x 119.05 x 117.85, eje en D de Ø12.692 (= 1/2 pulgada exacta, 12.700, desviacion 0.008) y 55.73 de largo. Rasgos de 2.54 y 5.08 mm (0.1 y 0.2 pulgadas): es un motor de definicion IMPERIAL dentro de una maquina metrica."
+  },
+  {
+   "id": "MOT-002",
+   "tema": "motor",
+   "claim": "El bloque 314759014 del costado -X es el grupo motriz principal",
+   "value": "-",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.smcusa.com/",
+    "accessed": "2026-07-30",
+    "quote": "(sin fuente: la referencia 314759014 no devuelve resultados de catalogo)",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "SIN IDENTIFICAR",
+   "confidence": "baja",
+   "nota": "NO IDENTIFICADO por referencia. La FUNCION si esta determinada por la geometria y la posicion.",
+   "contraste_con_lo_medido": "MEDIDO: 8368 cm3, caja 180 x 288.5 x 480, colgado por fuera del bastidor -X (X de -262.4 a -82.4), a la altura del eje motriz. Tiene una carcasa cilindrica Ø145.000 x 112 con 44 caras de Ø170.000 (aletas de refrigeracion), un cono de 38 grados y un eje de salida Ø28.000 x 110 dirigido segun X. Es un MOTORREDUCTOR: carcasa de motor con aletas + reductor + eje de salida, acoplado al arbol motriz por el casquillo LK30-C65-20H7-D30-R (Ø65 exterior) que esta justo a su lado (X de -112.4 a -12.9)."
+  }
+ ],
+ "pendientes_sin_fuente": [
+  "LK30-C65-20H7-D30-R: fabricante y hoja de catalogo del casquillo de apriete. Sin identificar.",
+  "SCMRT906VT-1211 / SCMRT906VT-100-401_3 / SCMRT906VCT-150-111: la designacion no aparece en el catalogo de ejes de MISUMI ni en ningun otro localizado. Medidos: ejes de Ø20.000 x 50 con extremos roscados M10 (Ø menor 8.376 = M10 x 1.5 exacto) y taladro pasante Ø9.000. Sin identificar por referencia.",
+  "TSLOT: fabricante del perfil 40x80 de ranura 8. La seccion esta medida por completo; falta la marca.",
+  "banda_T5_3p4: fabricante, tipo de cordon (acero o kevlar) y numero de dientes. El numero de dientes NO se puede contar: la banda esta modelada como superficies abiertas.",
+  "guiaw: material de la guia de deslizamiento (se supone UHMW-PE o similar por funcion, pero el STEP no lleva material).",
+  "'314759014' y '300986+Std.+UniDrive+motor+D-Shaft': fabricante y modelo de los dos motores.",
+  "CAD_STP_400_0077 / _RO3100_part1 / _RUP500_part2_p2: sin identificar. Ver SORTER_CO.md, no es una transferencia.",
+  "SH-04, POL-CON-TEN, POL-COND-TEN, POL-COND-TEN2, IDLER-P01, TENS-LN-01, PZA-TEN-1, UA-*, UR-*, CT-ENS, U_00*: piezas de FABRICACION del cliente, no de compra. No procede buscarlas en catalogo; estan medidas en inventario.json.",
+  "Presion de red de la instalacion: no consta en el STEP. La fuerza del tensor (PNEU-003) esta calculada a 6 bar como hipotesis.",
+  "Par y velocidad del motorreductor principal: no constan."
+ ]
+}
