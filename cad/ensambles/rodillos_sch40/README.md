@@ -31,6 +31,8 @@ bastidor sin tocar nada.
 | `regenerar.sh` | rehace todo de una vez |
 | `abastecimiento.mjs` | cantidades, plazos, rutas de compra y costo para un lote con fecha |
 | `ABASTECIMIENTO.md` | **el plan de compra**: qué se trae de China, qué se compra en Chile, qué se fabrica |
+| `manual_taller.mjs` | genera los croquis de operación (los que se pegan a la máquina) |
+| `MANUAL_TALLER.md` | **la hoja de ruta del taller**: ruta de fabricación, utillaje, control |
 | `ver_corte.html` / `render.mjs` | visor de corte y renderizador de vistas |
 | `ESCALA.md` | de qué píxeles del catálogo sale cada cota |
 | `rodillos_sch40.json` | **el modelo** — se abre en la app de diseño del repo |
@@ -86,9 +88,10 @@ la fija la **brida contra la testa del tubo**, no el fondo del contrataladro, as
 que esos 4 mm de sobra sólo son margen por si la tapa real resulta más larga que
 lo medido.
 
-Esto se hace al torno con luneta (la cañería de 522 no pasa por el husillo) o con
-cabezal de mandrinar. Es la operación que más encarece la pieza y es la que hay
-que cotizar primero.
+Se hace al torno **sin luneta**: se amarra la cañería cerca de la testa que se
+mecaniza y el resto queda al aire — la operación es corta y el voladizo no
+trabaja. Dilo al cotizar, porque abarata. Son **5 min por tubo** (7 h las 80
+piezas): la secuencia completa está en `MANUAL_TALLER.md`.
 
 ### 2. El resorte va con EJE PASANTE, no con muñones
 
