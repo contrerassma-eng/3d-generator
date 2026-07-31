@@ -209,12 +209,16 @@ export const CONDUCIDO = {
   tuboDesig: 'Tubo Ø108 × 3.6 EN 10220, acero S275JR',
   get od() { return this.tubo.od; },
   get r() { return r3(this.od / 2); },                       // 54.0
-  cara: 380,                           // dis — la misma que el tambor
+  cara: 360,                           // dis — 10 menos que la cara engomada del
+  //   tambor: sigue cubriendo las 5 bandas (99.456…459.456 sobre 111.056…447.856,
+  //   11.6 de margen por lado) y deja 20 mm de eje libre en cada testa para el
+  //   COLLAR DE APRIETE, que va por dentro de su pletina (ver `collar`)
   get tuboX() { return [r3(Xc - this.cara / 2), r3(Xc + this.cara / 2)]; },   // 89.456…469.456
   // EJE FIJO PASANTE Ø35 (dis): el mismo Ø que el del tambor — una sola barra
   // en el pedido, un solo Ø de asiento. Con Ø35 el rodamiento es 6207-2RS.
   eje: { d: 35, material: 'C45 h9', gira: false },
-  ejeX: [62, 497],                     // dis — entra 12 en cada soporte y sobra
+  ejeX: [62, 497],                     // calc — muere DENTRO de las pletinas
+  //   (67.494…79.494 y 479.418…491.418): no asoma al chapón de descarga
   rodam: { bore: 35, od: 72, w: 17, desig: '6207-2RS', C: 25500, C0: 15300 },  // cat/web BRG-6207
   // Soporte del eje fijo (dis): pletina 117 × 117 × 12 con barreno Ø35 H8 y
   // collar de apriete partido; se atornilla al MISMO patrón 92 × 92 del UCF 207
@@ -258,10 +262,10 @@ export const RETORNOS = {
   tubo: { od: 88.9, e: 3.2, get id() { return r3(this.od - 2 * this.e); } },   // 82.5 cat
   get od() { return this.tubo.od; },
   get r() { return r3(this.od / 2); },                       // 44.45
-  cara: 380,                           // dis — cubre las 5 bandas como el tambor
+  cara: 360,                           // dis — igual que el conducido
   get tuboX() { return [r3(Xc - this.cara / 2), r3(Xc + this.cara / 2)]; },
   eje: { d: 30, material: 'C45 h9', gira: false },           // dis — ver §6 (flecha)
-  ejeX: [62, 497],
+  ejeX: [62, 497],                     // calc — igual que el conducido
   rodam: { bore: 30, od: 62, w: 16, desig: '6206-2RS', C: 20300, C0: 11200 },  // cat/web BRG-6206
   soporte: { e: 12, lado: 100, bore: 30, patron: 76, taladro: 11,
     caraX: [67.494, 491.418], normal: [1, -1] },
@@ -360,6 +364,64 @@ export const CARGA = {
   sigmaAdmMPa: 80,                     // dis — C45 a flexión con seguridad amplia
   flechaLimite: 0.5,                   // dis — ≤ 0.5 mm (~1/1000 del vano)
   fsCapstanMin: 2.0,                   // dis — reserva mínima de arrastre
+};
+
+// ---------------------------------------------------------------------------
+// 7. LO QUE ESTE ACCIONAMIENTO RETIRA (bandera, no borrado)
+// ---------------------------------------------------------------------------
+// Dos accionamientos no pueden convivir: el tambor motriz común y la
+// transmisión T5 por calle ocupan LA MISMA línea de árbol (Y = 0), y la
+// verificación B-rep exacta lo dijo con el número más grande del informe —
+// 341.81 cm³ de solape macizo entre «Eje motriz común Ø30/Ø25» y el eje Ø35 del
+// tambor, más la AT10 y el casquillo LK30 metidos dentro del UCF 207.
+//
+// `params_pg40.FLAGS.desactivaTransmisionT5` ya retira las POLEAS (63T motrices
+// y conducidas) y las 4 poleas de pozo V1…V4. Esta es su HERMANA y cubre el
+// resto de la línea de árbol, que es lo que sustituye el tambor: el eje común,
+// sus bujes y chavetas, la chumacera que lo sujeta y la pareja AT10 + LK30 que
+// colgaba de él. Las piezas NO se borran del repo: las emiten mod_estaciones y
+// mod_calles y se filtran por nombre en el integrador; con `activo: false`
+// vuelven solas.
+//
+// Qué NO entra en la lista, a propósito:
+//   · `Chumacera SKF UCFL 206 (eje pivote tensor…)` y su tornillería «UCFL
+//     pivote»: son del TENSOR NUEVO, no del accionamiento viejo. Por eso la
+//     expresión pide literalmente «UCFL 205 (eje motriz».
+//   · `Chaveta DIN 6885 A 10×8×100`: es la del propio tambor. Por eso la
+//     expresión pide el tamaño de las otras, «8×7×32».
+//   · el `Acople LK30-…-R` y el `Drive kit` del cliente: son contexto medido
+//     (capa CTX), no piezas de este diseño; se quedan como testigo de dónde
+//     estaba el motor.
+export const RETIRA = {
+  activo: true,
+  // una sola expresión, comentada pieza a pieza para que se pueda auditar:
+  rx: new RegExp([
+    'Eje motriz común',                       // el árbol T5 que cruzaba el tambor
+    'Buje 63T',                               // los 5 bujes de las poleas 63T
+    'Chaveta DIN 6885 A 8×7×32',              // sus 5 chavetas (NO la del tambor)
+    'Polea AT10 32T',                         // toma auxiliar del árbol viejo
+    'Casquillo LK30-',                        // su casquillo cónico
+    'Chumacera SKF UCFL 205 \\(eje motriz',   // el apoyo +X del árbol viejo
+    'UCFL↔chapón',                            // pernos, tuercas y golillas de esa chumacera
+    // …y la FERRETERÍA HUÉRFANA de las poleas de pozo V1…V4: la bandera de pg40
+    // se llevó las poleas, sus ejes y sus anillos, pero dejó dentro los 40
+    // rodamientos W 6004-2Z, los 40 pernos de testa y las 40 golillas, flotando
+    // donde ya no hay polea. La verificación B-rep los encontró metidos en los
+    // ejes de mis rodillos de retorno (145 cm³ en 120 pares). Se van con el
+    // resto del pozo, que es a lo que pertenecían.
+    'Rodamiento SKF W 6004',                  // 40 · rodamientos de las V1…V4
+    'testa de eje \\(V[1-4]',                 // 40 · pernos de testa de sus ejes
+    'ancha testa \\(V[1-4]',                  // 40 · sus golillas
+  ].join('|')),
+  // lo que ya retira la bandera de pg40 (se documenta aquí para que la lista
+  // completa de «lo que sustituye el accionamiento» esté en un solo sitio):
+  yaRetiradoPorPG40: ['Polea motriz T5-63T', 'Polea conducida T5-63T',
+    'Volante contraflexión', 'Polea plana Ø117.9', 'Pletina de volante', 'Pletina V2/V3',
+    'Eje Ø20×50 de pozo', 'Espaciador de aros', 'Anillo 3AM1-20', 'Anillo DIN 472-42'],
+  // comprobaciones de la compuerta que dejan de aplicar al retirarlas (se
+  // apagan con esta misma bandera, no se borran): §M1 (existencia y bujes del
+  // eje común) y §M3 (flecha y torsión de ese eje).
+  guarda: ['§M1 eje motriz común', '§M3 rigidez y par del eje común'],
 };
 
 export { STEP, NBT, EJES, Xc, P };

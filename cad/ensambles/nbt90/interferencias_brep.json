@@ -1,36 +1,1415 @@
 {
- "documento": "narrow_belt_transfer_90.json",
+ "documento": "sorter_co_brep.json",
  "tolerancia_cm3": 0.05,
- "piezas": 410,
- "pares_candidatos": 1052,
- "interferencias": 4,
+ "piezas": 880,
+ "pares_candidatos": 2326,
+ "interferencias": 201,
  "detalle": [
   {
+   "cm3": 11.5931,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 1, X=127.056)",
+   "b": "FIJO · Bisagra trasera SMC C85C25 (calle 1, X=127.056)",
+   "pct_de_la_menor": 23.57,
+   "cruce": false
+  },
+  {
+   "cm3": 11.5931,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 2, X=203.256)",
+   "b": "FIJO · Bisagra trasera SMC C85C25 (calle 2, X=203.256)",
+   "pct_de_la_menor": 23.57,
+   "cruce": false
+  },
+  {
+   "cm3": 11.5931,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 3, X=279.456)",
+   "b": "FIJO · Bisagra trasera SMC C85C25 (calle 3, X=279.456)",
+   "pct_de_la_menor": 23.57,
+   "cruce": false
+  },
+  {
+   "cm3": 11.5931,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 4, X=355.656)",
+   "b": "FIJO · Bisagra trasera SMC C85C25 (calle 4, X=355.656)",
+   "pct_de_la_menor": 23.57,
+   "cruce": false
+  },
+  {
+   "cm3": 11.5931,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 5, X=431.856)",
+   "b": "FIJO · Bisagra trasera SMC C85C25 (calle 5, X=431.856)",
+   "pct_de_la_menor": 23.57,
+   "cruce": false
+  },
+  {
+   "cm3": 10.322,
+   "a": "TAMBOR · tubo Ø88.9 × 380 (e=3.2)",
+   "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)",
+   "pct_de_la_menor": 3.15,
+   "cruce": false
+  },
+  {
+   "cm3": 6.2364,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 1, X=127.056)",
+   "b": "FIJO · Regulador de caudal SMC AS2201FS-01-06S (meter-out, calle 1, X=127.056)",
+   "pct_de_la_menor": 23.74,
+   "cruce": false
+  },
+  {
+   "cm3": 6.2364,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 2, X=203.256)",
+   "b": "FIJO · Regulador de caudal SMC AS2201FS-01-06S (meter-out, calle 2, X=203.256)",
+   "pct_de_la_menor": 23.74,
+   "cruce": false
+  },
+  {
+   "cm3": 6.2364,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 3, X=279.456)",
+   "b": "FIJO · Regulador de caudal SMC AS2201FS-01-06S (meter-out, calle 3, X=279.456)",
+   "pct_de_la_menor": 23.74,
+   "cruce": false
+  },
+  {
+   "cm3": 6.2364,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 4, X=355.656)",
+   "b": "FIJO · Regulador de caudal SMC AS2201FS-01-06S (meter-out, calle 4, X=355.656)",
+   "pct_de_la_menor": 23.74,
+   "cruce": false
+  },
+  {
+   "cm3": 6.2364,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 5, X=431.856)",
+   "b": "FIJO · Regulador de caudal SMC AS2201FS-01-06S (meter-out, calle 5, X=431.856)",
+   "pct_de_la_menor": 23.74,
+   "cruce": false
+  },
+  {
+   "cm3": 5.17,
+   "a": "FIJO · Guarda de pozo sur 14GA 552×383 (Y=-1385)",
+   "b": "PG40 · Cartela de rodillos de retorno RR3+RR4 −X",
+   "pct_de_la_menor": 1.25,
+   "cruce": false
+  },
+  {
+   "cm3": 4.639,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 1, X=127.056)",
+   "b": "FIJO · Racor codo SMC KQ2L06-01AS (calle 1, X=127.056)",
+   "pct_de_la_menor": 44.1,
+   "cruce": false
+  },
+  {
+   "cm3": 4.639,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 2, X=203.256)",
+   "b": "FIJO · Racor codo SMC KQ2L06-01AS (calle 2, X=203.256)",
+   "pct_de_la_menor": 44.1,
+   "cruce": false
+  },
+  {
+   "cm3": 4.639,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 3, X=279.456)",
+   "b": "FIJO · Racor codo SMC KQ2L06-01AS (calle 3, X=279.456)",
+   "pct_de_la_menor": 44.1,
+   "cruce": false
+  },
+  {
+   "cm3": 4.639,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 4, X=355.656)",
+   "b": "FIJO · Racor codo SMC KQ2L06-01AS (calle 4, X=355.656)",
+   "pct_de_la_menor": 44.1,
+   "cruce": false
+  },
+  {
+   "cm3": 4.639,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 5, X=431.856)",
+   "b": "FIJO · Racor codo SMC KQ2L06-01AS (calle 5, X=431.856)",
+   "pct_de_la_menor": 44.1,
+   "cruce": false
+  },
+  {
+   "cm3": 3.3506,
+   "a": "FIJO · Guarda de pozo lateral +X 14GA 869.9×82.7 (X=481)",
+   "b": "RETORNO RR2 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "pct_de_la_menor": 3.16,
+   "cruce": false
+  },
+  {
+   "cm3": 3.3506,
+   "a": "FIJO · Guarda de pozo lateral +X 14GA 869.9×82.7 (X=481)",
+   "b": "RETORNO RR3 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "pct_de_la_menor": 3.16,
+   "cruce": false
+  },
+  {
+   "cm3": 3.2668,
+   "a": "FIJO · Banda T5×32 lazo nuevo L=4933.46 (calle 1, X=127.056)",
+   "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)",
+   "pct_de_la_menor": 3.26,
+   "cruce": false
+  },
+  {
+   "cm3": 3.2668,
+   "a": "FIJO · Banda T5×32 lazo nuevo L=4933.46 (calle 2, X=203.256)",
+   "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)",
+   "pct_de_la_menor": 3.26,
+   "cruce": false
+  },
+  {
+   "cm3": 3.2668,
+   "a": "FIJO · Banda T5×32 lazo nuevo L=4933.46 (calle 3, X=279.456)",
+   "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)",
+   "pct_de_la_menor": 3.26,
+   "cruce": false
+  },
+  {
+   "cm3": 3.2668,
+   "a": "FIJO · Banda T5×32 lazo nuevo L=4933.46 (calle 4, X=355.656)",
+   "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)",
+   "pct_de_la_menor": 3.26,
+   "cruce": false
+  },
+  {
+   "cm3": 3.2668,
+   "a": "FIJO · Banda T5×32 lazo nuevo L=4933.46 (calle 5, X=431.856)",
+   "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)",
+   "pct_de_la_menor": 3.26,
+   "cruce": false
+  },
+  {
+   "cm3": 2.3104,
+   "a": "FIJO · Guarda de pozo sur 14GA 552×383 (Y=-1385)",
+   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "pct_de_la_menor": 0.54,
+   "cruce": false
+  },
+  {
+   "cm3": 2.216,
+   "a": "FIJO · Banda T5×32 lazo nuevo L=4933.46 (calle 1, X=127.056)",
+   "b": "CONDUCIDO Ø108 · tubo Ø108 × 360 (e=3.6)",
+   "pct_de_la_menor": 2.21,
+   "cruce": false
+  },
+  {
+   "cm3": 2.216,
+   "a": "FIJO · Banda T5×32 lazo nuevo L=4933.46 (calle 2, X=203.256)",
+   "b": "CONDUCIDO Ø108 · tubo Ø108 × 360 (e=3.6)",
+   "pct_de_la_menor": 2.21,
+   "cruce": false
+  },
+  {
+   "cm3": 2.216,
+   "a": "FIJO · Banda T5×32 lazo nuevo L=4933.46 (calle 3, X=279.456)",
+   "b": "CONDUCIDO Ø108 · tubo Ø108 × 360 (e=3.6)",
+   "pct_de_la_menor": 2.21,
+   "cruce": false
+  },
+  {
+   "cm3": 2.216,
+   "a": "FIJO · Banda T5×32 lazo nuevo L=4933.46 (calle 4, X=355.656)",
+   "b": "CONDUCIDO Ø108 · tubo Ø108 × 360 (e=3.6)",
+   "pct_de_la_menor": 2.21,
+   "cruce": false
+  },
+  {
+   "cm3": 2.216,
+   "a": "FIJO · Banda T5×32 lazo nuevo L=4933.46 (calle 5, X=431.856)",
+   "b": "CONDUCIDO Ø108 · tubo Ø108 × 360 (e=3.6)",
+   "pct_de_la_menor": 2.21,
+   "cruce": false
+  },
+  {
+   "cm3": 2.1541,
+   "a": "FIJO · Tuerca hex M12 UCFL (Z=-49.5)",
+   "b": "TAMBOR · UCF 207 — unidad de brida cuadrada (+X)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.8682,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 1, X=127.056)",
+   "b": "FIJO · Rótula de vástago SMC KJ10D (calle 1, X=127.056)",
+   "pct_de_la_menor": 18.43,
+   "cruce": false
+  },
+  {
+   "cm3": 1.8682,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 2, X=203.256)",
+   "b": "FIJO · Rótula de vástago SMC KJ10D (calle 2, X=203.256)",
+   "pct_de_la_menor": 18.43,
+   "cruce": false
+  },
+  {
+   "cm3": 1.8682,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 3, X=279.456)",
+   "b": "FIJO · Rótula de vástago SMC KJ10D (calle 3, X=279.456)",
+   "pct_de_la_menor": 18.43,
+   "cruce": false
+  },
+  {
+   "cm3": 1.8682,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 4, X=355.656)",
+   "b": "FIJO · Rótula de vástago SMC KJ10D (calle 4, X=355.656)",
+   "pct_de_la_menor": 18.43,
+   "cruce": false
+  },
+  {
+   "cm3": 1.8682,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 5, X=431.856)",
+   "b": "FIJO · Rótula de vástago SMC KJ10D (calle 5, X=431.856)",
+   "pct_de_la_menor": 18.43,
+   "cruce": false
+  },
+  {
+   "cm3": 1.7035,
+   "a": "FIJO · Tuerca hex M12 UCFL (Z=49.5)",
+   "b": "TAMBOR · UCF 207 — unidad de brida cuadrada (+X)",
+   "pct_de_la_menor": 79.08,
+   "cruce": false
+  },
+  {
+   "cm3": 1.6962,
+   "a": "PG40 · Alargue lateral · alma norte +X (pletina Acero A36 (S275JR) e=8, L=549)",
+   "b": "RETORNO RR1 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "pct_de_la_menor": 1.6,
+   "cruce": false
+  },
+  {
+   "cm3": 1.6551,
+   "a": "PG40 · Alargue lateral · alma sur +X (pletina Acero A36 (S275JR) e=8, L=327)",
+   "b": "RETORNO RR3 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "pct_de_la_menor": 1.56,
+   "cruce": false
+  },
+  {
+   "cm3": 1.6551,
+   "a": "PG40 · Alargue lateral · alma norte +X (pletina Acero A36 (S275JR) e=8, L=549)",
+   "b": "RETORNO RR2 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "pct_de_la_menor": 1.56,
+   "cruce": false
+  },
+  {
+   "cm3": 1.6361,
+   "a": "PG40 · Alargue lateral · alma sur +X (pletina Acero A36 (S275JR) e=8, L=327)",
+   "b": "RETORNO RR4 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "pct_de_la_menor": 1.54,
+   "cruce": false
+  },
+  {
+   "cm3": 1.2706,
+   "a": "PG40 · Alargue lateral · cabezal de rodamiento conducido −X (pletina de eje fijo Ø35 + collar de apriete (NO lleva UCF 207: los rodamientos van DENTRO del tubo, eje fijo pasante — instrucción del cliente), eje Y -1607.4 Z -2.3)",
+   "b": "CONDUCIDO · Perno hex M12 soporte CONDUCIDO Ø108 (−X)",
+   "pct_de_la_menor": 18.5,
+   "cruce": false
+  },
+  {
+   "cm3": 1.2706,
+   "a": "PG40 · Alargue lateral · cabezal de rodamiento conducido −X (pletina de eje fijo Ø35 + collar de apriete (NO lleva UCF 207: los rodamientos van DENTRO del tubo, eje fijo pasante — instrucción del cliente), eje Y -1607.4 Z -2.3)",
+   "b": "CONDUCIDO · Perno hex M12 soporte CONDUCIDO Ø108 (−X)",
+   "pct_de_la_menor": 18.5,
+   "cruce": false
+  },
+  {
+   "cm3": 1.2706,
+   "a": "PG40 · Alargue lateral · cabezal de rodamiento conducido −X (pletina de eje fijo Ø35 + collar de apriete (NO lleva UCF 207: los rodamientos van DENTRO del tubo, eje fijo pasante — instrucción del cliente), eje Y -1607.4 Z -2.3)",
+   "b": "CONDUCIDO · Perno hex M12 soporte CONDUCIDO Ø108 (−X)",
+   "pct_de_la_menor": 18.5,
+   "cruce": false
+  },
+  {
+   "cm3": 1.2706,
+   "a": "PG40 · Alargue lateral · cabezal de rodamiento conducido −X (pletina de eje fijo Ø35 + collar de apriete (NO lleva UCF 207: los rodamientos van DENTRO del tubo, eje fijo pasante — instrucción del cliente), eje Y -1607.4 Z -2.3)",
+   "b": "CONDUCIDO · Perno hex M12 soporte CONDUCIDO Ø108 (−X)",
+   "pct_de_la_menor": 18.5,
+   "cruce": false
+  },
+  {
+   "cm3": 1.2706,
+   "a": "CONDUCIDO Ø108 · pletina de soporte 117×117×12 (+X)",
+   "b": "CONDUCIDO · Perno hex M12 soporte CONDUCIDO Ø108 (+X)",
+   "pct_de_la_menor": 18.5,
+   "cruce": false
+  },
+  {
+   "cm3": 1.2706,
+   "a": "CONDUCIDO Ø108 · pletina de soporte 117×117×12 (+X)",
+   "b": "CONDUCIDO · Perno hex M12 soporte CONDUCIDO Ø108 (+X)",
+   "pct_de_la_menor": 18.5,
+   "cruce": false
+  },
+  {
+   "cm3": 1.2706,
+   "a": "CONDUCIDO Ø108 · pletina de soporte 117×117×12 (+X)",
+   "b": "CONDUCIDO · Perno hex M12 soporte CONDUCIDO Ø108 (+X)",
+   "pct_de_la_menor": 18.5,
+   "cruce": false
+  },
+  {
+   "cm3": 1.2706,
+   "a": "CONDUCIDO Ø108 · pletina de soporte 117×117×12 (+X)",
+   "b": "CONDUCIDO · Perno hex M12 soporte CONDUCIDO Ø108 (+X)",
+   "pct_de_la_menor": 18.5,
+   "cruce": false
+  },
+  {
+   "cm3": 1.2174,
+   "a": "PG40 · Tuerca hex M10 · alargue↔chapón Y -1300",
+   "b": "RETORNO RR4 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.1692,
+   "a": "NBT90 · FIJO · Perno hex 3/8-16 × 1\" de colisa (X=141.5, Y=−228.57)",
+   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "pct_de_la_menor": 40.86,
+   "cruce": false
+  },
+  {
+   "cm3": 1.1692,
+   "a": "NBT90 · FIJO · Perno hex 3/8-16 × 1\" de colisa (X=321.5, Y=−228.57)",
+   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "pct_de_la_menor": 40.86,
+   "cruce": false
+  },
+  {
+   "cm3": 1.1458,
+   "a": "PG40 · Cubrejunta alma↔cabezal motriz +X (Acero A36 (S275JR) e=8)",
+   "b": "PG40 · Tuerca hex M10 · alargue↔chapón Y -160",
+   "pct_de_la_menor": 94.12,
+   "cruce": false
+  },
+  {
+   "cm3": 1.1458,
+   "a": "PG40 · Cubrejunta alma↔cabezal conducido +X (Acero A36 (S275JR) e=8)",
+   "b": "PG40 · Tuerca hex M10 · alargue↔chapón Y -1500",
+   "pct_de_la_menor": 94.12,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×169.18 (calle 1, Y -1471.18…-1302)",
+   "b": "PG40 · Tope de guía M6 (calle 1, tramo conducido, Y -1468.18)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×169.18 (calle 1, Y -1471.18…-1302)",
+   "b": "PG40 · Tope de guía M6 (calle 1, tramo conducido, Y -1305)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×200 (calle 1, Y -630…-430)",
+   "b": "PG40 · Tope de guía M6 (calle 1, tramo motriz, Y -627)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×99.218 (calle 1, Y -230…-130.782)",
+   "b": "PG40 · Tope de guía M6 (calle 1, tramo motriz, Y -133.782)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×169.18 (calle 2, Y -1471.18…-1302)",
+   "b": "PG40 · Tope de guía M6 (calle 2, tramo conducido, Y -1468.18)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×169.18 (calle 2, Y -1471.18…-1302)",
+   "b": "PG40 · Tope de guía M6 (calle 2, tramo conducido, Y -1305)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×200 (calle 2, Y -630…-430)",
+   "b": "PG40 · Tope de guía M6 (calle 2, tramo motriz, Y -627)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×99.218 (calle 2, Y -230…-130.782)",
+   "b": "PG40 · Tope de guía M6 (calle 2, tramo motriz, Y -133.782)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×169.18 (calle 3, Y -1471.18…-1302)",
+   "b": "PG40 · Tope de guía M6 (calle 3, tramo conducido, Y -1468.18)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×169.18 (calle 3, Y -1471.18…-1302)",
+   "b": "PG40 · Tope de guía M6 (calle 3, tramo conducido, Y -1305)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×200 (calle 3, Y -630…-430)",
+   "b": "PG40 · Tope de guía M6 (calle 3, tramo motriz, Y -627)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×99.218 (calle 3, Y -230…-130.782)",
+   "b": "PG40 · Tope de guía M6 (calle 3, tramo motriz, Y -133.782)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×169.18 (calle 4, Y -1471.18…-1302)",
+   "b": "PG40 · Tope de guía M6 (calle 4, tramo conducido, Y -1468.18)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×169.18 (calle 4, Y -1471.18…-1302)",
+   "b": "PG40 · Tope de guía M6 (calle 4, tramo conducido, Y -1305)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×200 (calle 4, Y -630…-430)",
+   "b": "PG40 · Tope de guía M6 (calle 4, tramo motriz, Y -627)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×99.218 (calle 4, Y -230…-130.782)",
+   "b": "PG40 · Tope de guía M6 (calle 4, tramo motriz, Y -133.782)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×169.18 (calle 5, Y -1471.18…-1302)",
+   "b": "PG40 · Tope de guía M6 (calle 5, tramo conducido, Y -1468.18)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×169.18 (calle 5, Y -1471.18…-1302)",
+   "b": "PG40 · Tope de guía M6 (calle 5, tramo conducido, Y -1305)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×200 (calle 5, Y -630…-430)",
+   "b": "PG40 · Tope de guía M6 (calle 5, tramo motriz, Y -627)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.053,
+   "a": "PG40 · Guía UHMW 31.75×99.218 (calle 5, Y -230…-130.782)",
+   "b": "PG40 · Tope de guía M6 (calle 5, tramo motriz, Y -133.782)",
+   "pct_de_la_menor": 100.0,
+   "cruce": false
+  },
+  {
+   "cm3": 1.0312,
+   "a": "PG40 · Alargue lateral · alma norte +X (pletina Acero A36 (S275JR) e=8, L=549)",
+   "b": "RETORNO RR1 Ø88.9 · eje FIJO Ø30 × 435",
+   "pct_de_la_menor": 0.34,
+   "cruce": false
+  },
+  {
+   "cm3": 0.96,
+   "a": "PG40 · Alargue lateral · alma sur +X (pletina Acero A36 (S275JR) e=8, L=327)",
+   "b": "PG40 · Cubrejunta alma↔lap +X (Y -1268…-1172)",
+   "pct_de_la_menor": 1.25,
+   "cruce": false
+  },
+  {
+   "cm3": 0.8022,
+   "a": "CONDUCIDO Ø108 · casquillo Ø47/Ø35 × 8 (−X)",
+   "b": "CONDUCIDO Ø108 · collar de apriete partido Ø35 (−X)",
+   "pct_de_la_menor": 12.97,
+   "cruce": false
+  },
+  {
+   "cm3": 0.8022,
+   "a": "CONDUCIDO Ø108 · casquillo Ø47/Ø35 × 8 (+X)",
+   "b": "CONDUCIDO Ø108 · collar de apriete partido Ø35 (+X)",
+   "pct_de_la_menor": 12.98,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR1+RR2 −X",
+   "b": "RETORNO RR1 · Perno hex M10 soporte RETORNO RR1 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR1+RR2 −X",
+   "b": "RETORNO RR1 · Perno hex M10 soporte RETORNO RR1 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR1+RR2 −X",
+   "b": "RETORNO RR1 · Perno hex M10 soporte RETORNO RR1 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR1+RR2 −X",
+   "b": "RETORNO RR1 · Perno hex M10 soporte RETORNO RR1 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR1+RR2 −X",
+   "b": "RETORNO RR2 · Perno hex M10 soporte RETORNO RR2 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR1+RR2 −X",
+   "b": "RETORNO RR2 · Perno hex M10 soporte RETORNO RR2 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR1+RR2 −X",
+   "b": "RETORNO RR2 · Perno hex M10 soporte RETORNO RR2 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR1+RR2 −X",
+   "b": "RETORNO RR2 · Perno hex M10 soporte RETORNO RR2 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR3+RR4 −X",
+   "b": "RETORNO RR3 · Perno hex M10 soporte RETORNO RR3 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR3+RR4 −X",
+   "b": "RETORNO RR3 · Perno hex M10 soporte RETORNO RR3 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR3+RR4 −X",
+   "b": "RETORNO RR3 · Perno hex M10 soporte RETORNO RR3 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR3+RR4 −X",
+   "b": "RETORNO RR3 · Perno hex M10 soporte RETORNO RR3 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR3+RR4 −X",
+   "b": "RETORNO RR4 · Perno hex M10 soporte RETORNO RR4 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR3+RR4 −X",
+   "b": "RETORNO RR4 · Perno hex M10 soporte RETORNO RR4 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR3+RR4 −X",
+   "b": "RETORNO RR4 · Perno hex M10 soporte RETORNO RR4 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "PG40 · Cartela de rodillos de retorno RR3+RR4 −X",
+   "b": "RETORNO RR4 · Perno hex M10 soporte RETORNO RR4 Ø88.9 (−X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR1 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR1 · Perno hex M10 soporte RETORNO RR1 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR1 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR1 · Perno hex M10 soporte RETORNO RR1 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR1 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR1 · Perno hex M10 soporte RETORNO RR1 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR1 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR1 · Perno hex M10 soporte RETORNO RR1 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR2 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR2 · Perno hex M10 soporte RETORNO RR2 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR2 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR2 · Perno hex M10 soporte RETORNO RR2 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR2 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR2 · Perno hex M10 soporte RETORNO RR2 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR2 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR2 · Perno hex M10 soporte RETORNO RR2 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR3 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR3 · Perno hex M10 soporte RETORNO RR3 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR3 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR3 · Perno hex M10 soporte RETORNO RR3 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR3 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR3 · Perno hex M10 soporte RETORNO RR3 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR3 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR3 · Perno hex M10 soporte RETORNO RR3 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR4 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR4 · Perno hex M10 soporte RETORNO RR4 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR4 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR4 · Perno hex M10 soporte RETORNO RR4 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR4 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR4 · Perno hex M10 soporte RETORNO RR4 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7984,
+   "a": "RETORNO RR4 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "b": "RETORNO RR4 · Perno hex M10 soporte RETORNO RR4 Ø88.9 (+X)",
+   "pct_de_la_menor": 17.59,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7296,
+   "a": "FIJO · Guarda de pozo norte 14GA 552×58 (Y=-515.1)",
+   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "pct_de_la_menor": 1.21,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7069,
+   "a": "PG40 · Perno hex M10 × 45 · alargue↔chapón Y -1300",
+   "b": "RETORNO RR4 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "pct_de_la_menor": 14.21,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7044,
+   "a": "RETORNO RR1 Ø88.9 · casquillo Ø42/Ø30 × 8 (−X)",
+   "b": "RETORNO RR1 Ø88.9 · collar de apriete partido Ø30 (−X)",
+   "pct_de_la_menor": 12.97,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7044,
+   "a": "RETORNO RR1 Ø88.9 · casquillo Ø42/Ø30 × 8 (+X)",
+   "b": "RETORNO RR1 Ø88.9 · collar de apriete partido Ø30 (+X)",
+   "pct_de_la_menor": 12.98,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7044,
+   "a": "RETORNO RR2 Ø88.9 · casquillo Ø42/Ø30 × 8 (−X)",
+   "b": "RETORNO RR2 Ø88.9 · collar de apriete partido Ø30 (−X)",
+   "pct_de_la_menor": 12.97,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7044,
+   "a": "RETORNO RR2 Ø88.9 · casquillo Ø42/Ø30 × 8 (+X)",
+   "b": "RETORNO RR2 Ø88.9 · collar de apriete partido Ø30 (+X)",
+   "pct_de_la_menor": 12.98,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7044,
+   "a": "RETORNO RR3 Ø88.9 · casquillo Ø42/Ø30 × 8 (−X)",
+   "b": "RETORNO RR3 Ø88.9 · collar de apriete partido Ø30 (−X)",
+   "pct_de_la_menor": 12.97,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7044,
+   "a": "RETORNO RR3 Ø88.9 · casquillo Ø42/Ø30 × 8 (+X)",
+   "b": "RETORNO RR3 Ø88.9 · collar de apriete partido Ø30 (+X)",
+   "pct_de_la_menor": 12.98,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7044,
+   "a": "RETORNO RR4 Ø88.9 · casquillo Ø42/Ø30 × 8 (−X)",
+   "b": "RETORNO RR4 Ø88.9 · collar de apriete partido Ø30 (−X)",
+   "pct_de_la_menor": 12.97,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7044,
+   "a": "RETORNO RR4 Ø88.9 · casquillo Ø42/Ø30 × 8 (+X)",
+   "b": "RETORNO RR4 Ø88.9 · collar de apriete partido Ø30 (+X)",
+   "pct_de_la_menor": 12.98,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7011,
+   "a": "PG40 · Alargue lateral · tramo de lap +X (Y -1208…-1090, Acero A36 (S275JR) e=5.9)",
+   "b": "PG40 · Tuerca hex 3/8-16 · alargue +X Y -1145",
+   "pct_de_la_menor": 66.67,
+   "cruce": false
+  },
+  {
+   "cm3": 0.7011,
+   "a": "PG40 · Alargue lateral · tramo de lap +X (Y -855…-739, Acero A36 (S275JR) e=5.9)",
+   "b": "PG40 · Tuerca hex 3/8-16 · alargue +X Y -802",
+   "pct_de_la_menor": 66.67,
+   "cruce": false
+  },
+  {
    "cm3": 0.6861,
-   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
-   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (−Y−Z)",
+   "a": "NBT90 · MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+   "b": "NBT90 · MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (−Y−Z)",
    "pct_de_la_menor": 38.52,
    "cruce": false
   },
   {
    "cm3": 0.6861,
-   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
-   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (−Y+Z)",
+   "a": "NBT90 · MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+   "b": "NBT90 · MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (−Y+Z)",
    "pct_de_la_menor": 38.52,
    "cruce": false
   },
   {
    "cm3": 0.6861,
-   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
-   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (+Y−Z)",
+   "a": "NBT90 · MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+   "b": "NBT90 · MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (+Y−Z)",
    "pct_de_la_menor": 38.52,
    "cruce": false
   },
   {
    "cm3": 0.6861,
-   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
-   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (+Y+Z)",
+   "a": "NBT90 · MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+   "b": "NBT90 · MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (+Y+Z)",
    "pct_de_la_menor": 38.52,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6835,
+   "a": "NBT90 · FIJO · Golilla 3/8\" de colisa (X=141.5, Y=−228.57) Ø9.525",
+   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "pct_de_la_menor": 99.76,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6835,
+   "a": "NBT90 · FIJO · Golilla 3/8\" de colisa (X=321.5, Y=−228.57) Ø9.525",
+   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "pct_de_la_menor": 99.76,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6492,
+   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-802)",
+   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "pct_de_la_menor": 22.68,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6492,
+   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-1145)",
+   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "pct_de_la_menor": 22.68,
+   "cruce": false
+  },
+  {
+   "cm3": 0.643,
+   "a": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -802",
+   "pct_de_la_menor": 21.23,
+   "cruce": false
+  },
+  {
+   "cm3": 0.643,
+   "a": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -973.5",
+   "pct_de_la_menor": 21.23,
+   "cruce": false
+  },
+  {
+   "cm3": 0.643,
+   "a": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -1145",
+   "pct_de_la_menor": 21.23,
+   "cruce": false
+  },
+  {
+   "cm3": 0.64,
+   "a": "PG40 · Alargue lateral · alma norte +X (pletina Acero A36 (S275JR) e=8, L=549)",
+   "b": "PG40 · Cubrejunta alma↔lap +X (Y -776…-700)",
+   "pct_de_la_menor": 1.05,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6283,
+   "a": "PG40 · Cubrejunta alma↔cabezal motriz +X (Acero A36 (S275JR) e=8)",
+   "b": "PG40 · Perno hex M10 × 45 · alargue↔chapón Y -160",
+   "pct_de_la_menor": 12.63,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6283,
+   "a": "PG40 · Cubrejunta alma↔cabezal conducido +X (Acero A36 (S275JR) e=8)",
+   "b": "PG40 · Perno hex M10 × 45 · alargue↔chapón Y -1500",
+   "pct_de_la_menor": 12.63,
+   "cruce": false
+  },
+  {
+   "cm3": 0.5729,
+   "a": "PG40 · Cubrejunta alma↔cabezal motriz +X (Acero A36 (S275JR) e=8)",
+   "b": "PG40 · Tuerca hex M10 · alargue↔chapón Y -260",
+   "pct_de_la_menor": 47.06,
+   "cruce": false
+  },
+  {
+   "cm3": 0.5013,
+   "a": "FIJO · Banda T5×32 lazo nuevo L=4933.46 (calle 5, X=431.856)",
+   "b": "CONDUCIDO Ø108 · tapa-soporte Ø100.8/Ø72 × 29 (+X)",
+   "pct_de_la_menor": 0.5,
+   "cruce": false
+  },
+  {
+   "cm3": 0.501,
+   "a": "FIJO · Banda T5×32 lazo nuevo L=4933.46 (calle 1, X=127.056)",
+   "b": "CONDUCIDO Ø108 · tapa-soporte Ø100.8/Ø72 × 29 (−X)",
+   "pct_de_la_menor": 0.5,
+   "cruce": false
+  },
+  {
+   "cm3": 0.423,
+   "a": "CONDUCIDO · Anillo retención CONDUCIDO Ø108 (−X) Ø35",
+   "b": "CONDUCIDO Ø108 · collar de apriete partido Ø35 (−X)",
+   "pct_de_la_menor": 81.3,
+   "cruce": false
+  },
+  {
+   "cm3": 0.423,
+   "a": "CONDUCIDO · Anillo retención CONDUCIDO Ø108 (+X) Ø35",
+   "b": "CONDUCIDO Ø108 · collar de apriete partido Ø35 (+X)",
+   "pct_de_la_menor": 81.3,
+   "cruce": false
+  },
+  {
+   "cm3": 0.4059,
+   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-802)",
+   "b": "PG40 · Alargue lateral · tramo de lap +X (Y -855…-739, Acero A36 (S275JR) e=5.9)",
+   "pct_de_la_menor": 8.68,
+   "cruce": false
+  },
+  {
+   "cm3": 0.4059,
+   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-1145)",
+   "b": "PG40 · Alargue lateral · tramo de lap +X (Y -1208…-1090, Acero A36 (S275JR) e=5.9)",
+   "pct_de_la_menor": 8.68,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3758,
+   "a": "FIJO · Guarda de pozo lateral +X 14GA 869.9×82.7 (X=481)",
+   "b": "RETORNO RR2 · Perno hex M10 soporte RETORNO RR2 Ø88.9 (+X)",
+   "pct_de_la_menor": 8.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3758,
+   "a": "FIJO · Guarda de pozo lateral +X 14GA 869.9×82.7 (X=481)",
+   "b": "RETORNO RR2 · Perno hex M10 soporte RETORNO RR2 Ø88.9 (+X)",
+   "pct_de_la_menor": 8.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3758,
+   "a": "FIJO · Guarda de pozo lateral +X 14GA 869.9×82.7 (X=481)",
+   "b": "RETORNO RR3 · Perno hex M10 soporte RETORNO RR3 Ø88.9 (+X)",
+   "pct_de_la_menor": 8.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3758,
+   "a": "FIJO · Guarda de pozo lateral +X 14GA 869.9×82.7 (X=481)",
+   "b": "RETORNO RR3 · Perno hex M10 soporte RETORNO RR3 Ø88.9 (+X)",
+   "pct_de_la_menor": 8.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3664,
+   "a": "RETORNO RR1 · Anillo retención RETORNO RR1 Ø88.9 (−X) Ø30",
+   "b": "RETORNO RR1 Ø88.9 · collar de apriete partido Ø30 (−X)",
+   "pct_de_la_menor": 81.51,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3664,
+   "a": "RETORNO RR1 · Anillo retención RETORNO RR1 Ø88.9 (+X) Ø30",
+   "b": "RETORNO RR1 Ø88.9 · collar de apriete partido Ø30 (+X)",
+   "pct_de_la_menor": 81.51,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3664,
+   "a": "RETORNO RR2 · Anillo retención RETORNO RR2 Ø88.9 (−X) Ø30",
+   "b": "RETORNO RR2 Ø88.9 · collar de apriete partido Ø30 (−X)",
+   "pct_de_la_menor": 81.51,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3664,
+   "a": "RETORNO RR2 · Anillo retención RETORNO RR2 Ø88.9 (+X) Ø30",
+   "b": "RETORNO RR2 Ø88.9 · collar de apriete partido Ø30 (+X)",
+   "pct_de_la_menor": 81.51,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3664,
+   "a": "RETORNO RR3 · Anillo retención RETORNO RR3 Ø88.9 (−X) Ø30",
+   "b": "RETORNO RR3 Ø88.9 · collar de apriete partido Ø30 (−X)",
+   "pct_de_la_menor": 81.51,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3664,
+   "a": "RETORNO RR3 · Anillo retención RETORNO RR3 Ø88.9 (+X) Ø30",
+   "b": "RETORNO RR3 Ø88.9 · collar de apriete partido Ø30 (+X)",
+   "pct_de_la_menor": 81.51,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3664,
+   "a": "RETORNO RR4 · Anillo retención RETORNO RR4 Ø88.9 (−X) Ø30",
+   "b": "RETORNO RR4 Ø88.9 · collar de apriete partido Ø30 (−X)",
+   "pct_de_la_menor": 81.51,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3664,
+   "a": "RETORNO RR4 · Anillo retención RETORNO RR4 Ø88.9 (+X) Ø30",
+   "b": "RETORNO RR4 Ø88.9 · collar de apriete partido Ø30 (+X)",
+   "pct_de_la_menor": 81.51,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3637,
+   "a": "PG40 · Tuerca hex M10 · alargue↔chapón Y -660",
+   "b": "RETORNO RR1 Ø88.9 · pletina de soporte 100×100×12 (+X)",
+   "pct_de_la_menor": 29.88,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3414,
+   "a": "FIJO · Golilla 3/8 cuelgue (−X, Y=-802) Ø9.6",
+   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "pct_de_la_menor": 79.42,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3414,
+   "a": "FIJO · Golilla 3/8 cuelgue (−X, Y=-1145) Ø9.6",
+   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "pct_de_la_menor": 79.42,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3333,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 1, X=127.056)",
+   "b": "FIJO · Bulón del lóbulo Ø10×64 (calle 1, X=127.056)",
+   "pct_de_la_menor": 6.63,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3333,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 2, X=203.256)",
+   "b": "FIJO · Bulón del lóbulo Ø10×64 (calle 2, X=203.256)",
+   "pct_de_la_menor": 6.63,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3333,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 3, X=279.456)",
+   "b": "FIJO · Bulón del lóbulo Ø10×64 (calle 3, X=279.456)",
+   "pct_de_la_menor": 6.63,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3333,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 4, X=355.656)",
+   "b": "FIJO · Bulón del lóbulo Ø10×64 (calle 4, X=355.656)",
+   "pct_de_la_menor": 6.63,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3333,
+   "a": "FIJO · Cilindro SMC CD85N25-80-B Ø25 carrera 80 (calle 5, X=431.856)",
+   "b": "FIJO · Bulón del lóbulo Ø10×64 (calle 5, X=431.856)",
+   "pct_de_la_menor": 6.63,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3142,
+   "a": "PG40 · Cubrejunta alma↔cabezal motriz +X (Acero A36 (S275JR) e=8)",
+   "b": "PG40 · Perno hex M10 × 45 · alargue↔chapón Y -260",
+   "pct_de_la_menor": 6.31,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3083,
+   "a": "NBT90 · FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "PG40 · Golilla alargue +X Y -1145 Ø9.525",
+   "pct_de_la_menor": 72.87,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3083,
+   "a": "NBT90 · FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "PG40 · Golilla alargue +X Y -802 Ø9.525",
+   "pct_de_la_menor": 72.87,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3075,
+   "a": "NBT90 · FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (-Y)",
+   "b": "PG40 · Golilla alargue −X Y -802 Ø9.525",
+   "pct_de_la_menor": 72.68,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3075,
+   "a": "NBT90 · FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (-Y)",
+   "b": "PG40 · Golilla alargue −X Y -973.5 Ø9.525",
+   "pct_de_la_menor": 72.68,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3075,
+   "a": "NBT90 · FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (-Y)",
+   "b": "PG40 · Golilla alargue −X Y -1145 Ø9.525",
+   "pct_de_la_menor": 72.68,
+   "cruce": false
+  },
+  {
+   "cm3": 0.296,
+   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-802)",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue +X Y -802",
+   "pct_de_la_menor": 9.77,
+   "cruce": false
+  },
+  {
+   "cm3": 0.296,
+   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-1145)",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue +X Y -1145",
+   "pct_de_la_menor": 9.77,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2425,
+   "a": "PG40 · Alargue lateral · tramo de lap +X (Y -1208…-1090, Acero A36 (S275JR) e=5.9)",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue +X Y -1145",
+   "pct_de_la_menor": 8.01,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2425,
+   "a": "PG40 · Alargue lateral · tramo de lap +X (Y -855…-739, Acero A36 (S275JR) e=5.9)",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue +X Y -802",
+   "pct_de_la_menor": 8.01,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2249,
+   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-802)",
+   "b": "PG40 · Tuerca hex 3/8-16 · alargue +X Y -802",
+   "pct_de_la_menor": 21.39,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2249,
+   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-1145)",
+   "b": "PG40 · Tuerca hex 3/8-16 · alargue +X Y -1145",
+   "pct_de_la_menor": 21.39,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1944,
+   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-802)",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -802",
+   "pct_de_la_menor": 6.79,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1944,
+   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-1145)",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -1145",
+   "pct_de_la_menor": 6.79,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1868,
+   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-802)",
+   "b": "PG40 · Tuerca hex 3/8-16 · alargue −X Y -802",
+   "pct_de_la_menor": 17.76,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1868,
+   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-1145)",
+   "b": "PG40 · Tuerca hex 3/8-16 · alargue −X Y -1145",
+   "pct_de_la_menor": 17.76,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1507,
+   "a": "FIJO · Tuerca hex 3/8-16 cuelgue (−X, Y=-802)",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -802",
+   "pct_de_la_menor": 17.63,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1507,
+   "a": "FIJO · Tuerca hex 3/8-16 cuelgue (−X, Y=-1145)",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -1145",
+   "pct_de_la_menor": 17.63,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1089,
+   "a": "FIJO · Golilla 3/8 cuelgue (−X, Y=-802) Ø9.6",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -802",
+   "pct_de_la_menor": 25.34,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1089,
+   "a": "FIJO · Golilla 3/8 cuelgue (−X, Y=-1145) Ø9.6",
+   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -1145",
+   "pct_de_la_menor": 25.34,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0978,
+   "a": "FIJO · Tuerca hex 3/8-16 cuelgue (−X, Y=-802)",
+   "b": "PG40 · Tuerca hex 3/8-16 · alargue −X Y -802",
+   "pct_de_la_menor": 11.45,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0978,
+   "a": "FIJO · Tuerca hex 3/8-16 cuelgue (−X, Y=-1145)",
+   "b": "PG40 · Tuerca hex 3/8-16 · alargue −X Y -1145",
+   "pct_de_la_menor": 11.45,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0966,
+   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 1, X=127.056, Z=-20, −X)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
+   "pct_de_la_menor": 7.0,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0966,
+   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 1, X=127.056, Z=-20, +X)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
+   "pct_de_la_menor": 7.0,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0966,
+   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 2, X=203.256, Z=-20, −X)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
+   "pct_de_la_menor": 7.0,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0966,
+   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 2, X=203.256, Z=-20, +X)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
+   "pct_de_la_menor": 7.0,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0966,
+   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 3, X=279.456, Z=-20, −X)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
+   "pct_de_la_menor": 7.0,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0966,
+   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 3, X=279.456, Z=-20, +X)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
+   "pct_de_la_menor": 7.0,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0966,
+   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 4, X=355.656, Z=-20, −X)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
+   "pct_de_la_menor": 7.0,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0966,
+   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 4, X=355.656, Z=-20, +X)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
+   "pct_de_la_menor": 7.0,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0966,
+   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 5, X=431.856, Z=-20, −X)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
+   "pct_de_la_menor": 7.0,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0966,
+   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 5, X=431.856, Z=-20, +X)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
+   "pct_de_la_menor": 7.0,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0831,
+   "a": "FIJO · Eje pivote común Ø30×580.84 (articulación de los 5 brazos)",
+   "b": "FIJO · Anillo retención eje pivote −X Ø30",
+   "pct_de_la_menor": 18.49,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0831,
+   "a": "FIJO · Eje pivote común Ø30×580.84 (articulación de los 5 brazos)",
+   "b": "FIJO · Anillo retención eje pivote +X Ø30",
+   "pct_de_la_menor": 18.49,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0727,
+   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-802)",
+   "b": "PG40 · Golilla alargue −X Y -802 Ø9.525",
+   "pct_de_la_menor": 17.18,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0727,
+   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-1145)",
+   "b": "PG40 · Golilla alargue −X Y -1145 Ø9.525",
+   "pct_de_la_menor": 17.18,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0727,
+   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-802)",
+   "b": "PG40 · Golilla alargue +X Y -802 Ø9.525",
+   "pct_de_la_menor": 17.18,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0727,
+   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-1145)",
+   "b": "PG40 · Golilla alargue +X Y -1145 Ø9.525",
+   "pct_de_la_menor": 17.18,
    "cruce": false
   }
  ]

@@ -41,7 +41,8 @@ import { FLAGS as PG40F, PUBLICA as PG40PUB, CARGA as CARGA_PG40 } from './adapt
 // ▼▼▼ TAMBOR MOTRIZ · CONDUCIDO · RODILLOS DE RETORNO (bloque propio) ▼▼▼
 import { tambores } from './adapt/mod_tambores.mjs';
 import { TAMBOR as TAMB_P, UCF207 as TAMB_UCF, CONDUCIDO as TAMB_CON,
-  RETORNOS as TAMB_RET, TAMBORES as TAMB_EJES, RETORNO as TAMB_RAMAL } from './adapt/params_tambores.mjs';
+  RETORNOS as TAMB_RET, TAMBORES as TAMB_EJES, RETORNO as TAMB_RAMAL,
+  RETIRA as TAMB_RETIRA } from './adapt/params_tambores.mjs';
 // ▲▲▲ ------------------------------------------------------------- ▲▲▲
 
 const aqui = dirname(fileURLToPath(import.meta.url));
@@ -88,7 +89,7 @@ if (!TENSOR_VIEJO) m.tensor2 = tensor2(E, m.ramal);
 // no se borran, se filtran por bandera (params_pg40.FLAGS).
 {
   const rxFuera = [];
-  if (PG40F.reemplazaPerfil4080) rxFuera.push(/FIJO · Perfil ranurado 40×80/);
+  if (PG40F.reemplazaPerfil4080) rxFuera.push(/FIJO · Perfil ranurado 40×80/, /drive kit↔perfil/);
   if (PG40F.reemplazaGuiaw) rxFuera.push(/FIJO · Guía de deslizamiento/);
   // LA PERCHA ANTERIOR SOBRA, y el cliente autorizó desactivarla por bandera:
   // colgaba el NBT90 de un larguero de perfil 40×80 que este bastidor ya no
@@ -125,6 +126,17 @@ if (!TENSOR_VIEJO) m.tensor2 = tensor2(E, m.ramal);
 // Cotas y justificación de cada Ø: adapt/params_tambores.mjs. Ese archivo es el
 // que leen adapt/params_pg40.mjs (ejes y patrón de taladros) y
 // adapt/mod_tensor2.mjs (cota del ramal y abrazados reales).
+// DOS ACCIONAMIENTOS NO CONVIVEN. `params_pg40.FLAGS.desactivaTransmisionT5` ya
+// retira las poleas 63T y las del pozo; `params_tambores.RETIRA` es su hermana y
+// se lleva el RESTO de la línea de árbol T5 (eje motriz común, bujes, chavetas,
+// AT10, casquillo LK30 y la UCFL 205 que lo sujeta) — lo que la verificación
+// B-rep exacta encontró metido DENTRO del eje del tambor y del UCF 207. Se
+// filtra por nombre, no se borra código: con RETIRA.activo=false vuelve todo.
+if (TAMB_RETIRA.activo) {
+  const antesT = E.parts.length;
+  E.parts = E.parts.filter(p => !TAMB_RETIRA.rx.test(p.name));
+  m.tamboresRetiradas = antesT - E.parts.length;
+}
 m.tambores = tambores(E);
 // ▲▲▲ ----------------------------------------------- ▲▲▲
 
@@ -531,7 +543,7 @@ function verify() {
     [/PG40 · Alargue lateral|PG40 · Ménsula|PG40 · Cartela/, /Guarda de pozo/],
     // (5-ter) el EJE de cada rodillo de retorno ATRAVIESA su cartela: es el
     //     montaje (eje fijo Ø30 pasante, patrón 76×76 publicado por tambores).
-    [/PG40 · Cartela de rodillo de retorno/, /RETORNO RR/],
+    [/PG40 · Cartela de rodillos? de retorno/, /RETORNO RR/],
     // (6) el CABEZAL DE RODAMIENTO MOTRIZ ocupa el sitio del ÁRBOL MOTRIZ
     //     ANTIGUO del cliente (eje común Ø30/Ø25 con chumaceras UCFL 205, polea
     //     AT10 recolocada y su casquillo LK30). Es la sustitución que pide el
@@ -720,9 +732,13 @@ function verify() {
   {
     // M1 · eje motriz común: existe, cubre las 5 calles, entra en el acople y
     //      su muñón vive en la UCFL pegada al chapón de descarga
+    //      GUARDADA por params_tambores.RETIRA, que es lo que la hace aplicable:
+    //      con el accionamiento por TAMBOR MOTRIZ el árbol T5 desaparece y esta
+    //      comprobación se quedaría reclamando piezas que ya no existen. No se
+    //      borra: vuelve sola si alguien pone RETIRA.activo = false.
     const ejeC = partes.find(p => /Eje motriz común/.test(p.name));
-    if (!ejeC) e.push('no hay eje motriz común');
-    else {
+    if (!ejeC && !TAMB_RETIRA.activo) e.push('no hay eje motriz común');
+    else if (ejeC) {
       const b = bb.get(ejeC);
       if (b.lo[0] > EJES[0] - 20 || b.hi[0] < EJES[4] + 20) {
         e.push(`el eje motriz común (X ${r2(b.lo[0])}…${r2(b.hi[0])}) no cubre las 5 calles`);
@@ -770,21 +786,28 @@ function verify() {
     //      calle, PNEU-003 a 6 bar — hipótesis declarada). Flecha AL CENTRO del
     //      vano por SUPERPOSICIÓN de las 5 cargas puntuales en sus posiciones
     //      reales (viga simplemente apoyada: acople −28 / UCFL):
-    const xA = -28, xB = r2(EJEC.ucfl.posX - EJEC.ucfl.housingW / 2);
-    const Lv = r2(xB - xA);
-    const dEje = EJEC.d;
-    const I = Math.PI / 64 * Math.pow(dEje, 4);
-    let sumaFlecha = 0;
-    for (const Bx of EJES) {
-      const a = Math.min(Bx - xA, xB - Bx);                // distancia al apoyo más cercano
-      sumaFlecha += EJEC.flecha.cargaPorCalleN * a * (3 * Lv * Lv - 4 * a * a);
+    //      Guardada por la misma bandera que §M1: sin árbol T5 no hay flecha de
+    //      árbol T5 que comprobar. La del eje del TAMBOR la calcula y la exige
+    //      mod_tambores (§4.8), que es quien tiene ahora esa carga.
+    if (!TAMB_RETIRA.activo) {
+      const xA = -28, xB = r2(EJEC.ucfl.posX - EJEC.ucfl.housingW / 2);
+      const Lv = r2(xB - xA);
+      const dEje = EJEC.d;
+      const I = Math.PI / 64 * Math.pow(dEje, 4);
+      let sumaFlecha = 0;
+      for (const Bx of EJES) {
+        const a = Math.min(Bx - xA, xB - Bx);              // distancia al apoyo más cercano
+        sumaFlecha += EJEC.flecha.cargaPorCalleN * a * (3 * Lv * Lv - 4 * a * a);
+      }
+      const flechaEje = r2(sumaFlecha / (48 * 207000 * I) * 100) / 100;
+      if (flechaEje > EJEC.flecha.limite) e.push(`flecha del eje motriz común ${flechaEje} > ${EJEC.flecha.limite} mm`);
+      const Tnm = 5 * EJEC.parPorCalleNm;
+      const tau = r2(16 * Tnm * 1000 / (Math.PI * Math.pow(dEje, 3)));
+      if (tau > EJEC.tauAdmMPa) e.push(`torsión del eje común ${tau} > ${EJEC.tauAdmMPa} MPa`);
+      m.ejeComunCalc = { vanoMm: Lv, flechaMm: flechaEje, tauMPa: tau, parNm: Tnm, hipotesis: '6 bar (PNEU-003)' };
+    } else {
+      m.ejeComunCalc = { retirado: 'árbol T5 sustituido por el TAMBOR MOTRIZ (params_tambores.RETIRA)' };
     }
-    const flechaEje = r2(sumaFlecha / (48 * 207000 * I) * 100) / 100;
-    if (flechaEje > EJEC.flecha.limite) e.push(`flecha del eje motriz común ${flechaEje} > ${EJEC.flecha.limite} mm`);
-    const Tnm = 5 * EJEC.parPorCalleNm;
-    const tau = r2(16 * Tnm * 1000 / (Math.PI * Math.pow(dEje, 3)));
-    if (tau > EJEC.tauAdmMPa) e.push(`torsión del eje común ${tau} > ${EJEC.tauAdmMPa} MPa`);
-    m.ejeComunCalc = { vanoMm: Lv, flechaMm: flechaEje, tauMPa: tau, parNm: Tnm, hipotesis: '6 bar (PNEU-003)' };
     // M4 · retención axial de V1…V4: cada polea del pozo con sus 2 rodamientos,
     //      2 anillos 3AM1-20 y 2 DIN 472-42 en posición.
     //      Guardada por la misma bandera que las emite: al pasar el sorter al
@@ -953,7 +976,9 @@ function verify() {
     const anillos = partes.filter(p => /Anillo retención eje pivote/.test(p.name));
     if (anillos.length !== 2) e.push(`el eje pivote tiene ${anillos.length} anillos ${PIV.anillo.norma} (deben ser 2) — SIN retención axial de seguridad`);
     const collares = partes.filter(p => /Collar de apriete/.test(p.name));
-    if (collares.length !== 2) e.push(`la pila de brazos tiene ${collares.length} collares de tope (deben ser 2) — los brazos podrían correrse a lo largo del eje`);
+    if (collares.length !== 1) e.push(`la pila de brazos tiene ${collares.length} collares de apriete (debe ser 1, en −X) — los brazos podrían correrse a lo largo del eje`);
+    // el anillo +X hace de tope de la pila: tiene que estar pegado a su cara
+    if (Math.abs(PIV.anilloX[1] - PIV.pilaX[1]) > 0.5) e.push(`el anillo +X (X ${PIV.anilloX[1]}) no topa la cara +X de la pila (${PIV.pilaX[1]}): quedaría juego axial`);
     const seps = partes.filter(p => /Separador Ø38×.*pila del pivote/.test(p.name));
     if (seps.length !== EJES.length - 1) e.push(`la pila de brazos tiene ${seps.length} separadores (deben ser ${EJES.length - 1}) — quedaría juego axial`);
     // el paso de la pila tiene que cerrar EXACTO contra el paso de las calles
@@ -1080,6 +1105,35 @@ function verify() {
       + `(Ø${TAMB_UCF.bore})`);
   }
   if (TAMB_P.engomado !== 10) e.push(`el engomado es ${TAMB_P.engomado} y el cliente pidió 10`);
+  //  (6-bis) UN SOLO ACCIONAMIENTO. Es la comprobación que faltaba y que la
+  //      verificación B-rep exacta destapó: el árbol T5 seguía emitiéndose y
+  //      atravesaba el eje del tambor (341.81 cm³ de solape macizo). Aquí se
+  //      exige a la vez que el accionamiento nuevo esté COMPLETO y que del
+  //      viejo no quede ni una pieza en la línea de árbol.
+  {
+    const restos = nuevas.filter(p => TAMB_RETIRA.rx.test(p.name));
+    if (TAMB_RETIRA.activo && restos.length) {
+      e.push(`DOS ACCIONAMIENTOS a la vez: quedan ${restos.length} piezas de la transmisión T5 `
+        + `que el tambor motriz sustituye (${restos.slice(0, 3).map(p => p.name.slice(0, 40)).join(' · ')}`
+        + `${restos.length > 3 ? ' …' : ''})`);
+    }
+    if (!TAMB_RETIRA.activo && nuevas.some(p => /^TAMBOR · tubo/.test(p.name))) {
+      e.push('DOS ACCIONAMIENTOS a la vez: hay tambor motriz y params_tambores.RETIRA está '
+        + 'desactivado, así que la transmisión T5 sigue montada sobre la misma línea de árbol');
+    }
+    const imprescindibles = [[/^TAMBOR · tubo/, 'el tubo del tambor motriz'],
+      [/^TAMBOR · engomado/, 'el engomado del tambor'],
+      [/^TAMBOR · eje/, 'el eje del tambor'],
+      [/^CONDUCIDO .* tubo/, 'el rodillo conducido'],
+      [/UCF 207 — unidad de brida/, 'las unidades UCF 207']];
+    for (const [rx, nom] of imprescindibles) {
+      if (!nuevas.some(p => rx.test(p.name))) e.push(`falta ${nom}: el accionamiento no está completo`);
+    }
+    const nRet = nuevas.filter(p => /^RETORNO RR\d .* tubo/.test(p.name)).length;
+    if (nRet !== TAMB_EJES.retorno.length) {
+      e.push(`hay ${nRet} rodillos de retorno y el ramal necesita ${TAMB_EJES.retorno.length}`);
+    }
+  }
   //  (7) lo que este módulo tiene que DECIRLE al bastidor (no lo puede arreglar
   //      él solo: la pieza es de PG40). Va a avisos, con la cota exacta.
   {
@@ -1247,7 +1301,12 @@ console.log(`   DESCARGA: extremo de cara de rodillo a ${V.descarga.rodilloABord
 console.log(`   BANDA por calle: L=${V.banda.largoDesarrollado} · envolventes ${JSON.stringify(V.banda.envolventes_deg)} · portante Z=${V.banda.dorsoPortanteZ} · fondo pozo Z=${V.banda.fondoPozoZ}`);
 if (!PG40F.desactivaPercha) console.log(`   PERCHA: ${V.percha.cuelgue.pernos38} pernos 3/8 por colisas del side + ${V.percha.cuelgue.apoyoLenguetas} lengüetas de apoyo · ${r2(V.percha.cuelgue.cortantePorPernoN)} N/perno (adm ${V.percha.cuelgue.cortanteAdmisiblePernoN}) · flecha larguero ${V.percha.flechaLargueroMm} mm · masa NBT90 (cota sup.) ${NBT.masaKg} kg`);
 else console.log(`   PERCHA: DESACTIVADA por bandera (params_pg40.FLAGS.desactivaPercha) — el NBT90 queda tomado por sus 2 canales laterales vía el alargue (6 pernos 3/8), y de ahí al bastidor PG40`);
-console.log(`   ESTACIONES: eje motriz común Ø${EJEC.d}/Ø${EJEC.munonUcfl.d} × ${V.estaciones.ejeComun.L} (vano ${V.estaciones.ejeComun.vanoMm}, flecha ${V.estaciones.ejeComun.flechaMm} mm, τ ${V.estaciones.ejeComun.tauMPa} MPa a ${V.estaciones.ejeComun.parNm} N·m — hipótesis ${V.estaciones.ejeComun.hipotesis}) · AT10 recolocada X ${V.estaciones.at10.x.join('…')} · banda AT10 del kit: ${EJEC.bandaAT10.dientes} dientes (${EJEC.bandaAT10.designacion.split('(')[0].trim()})`);
+console.log(V.estaciones.ejeComun.retirado
+  ? `   ESTACIONES: la línea de árbol T5 (eje común Ø${EJEC.d}/Ø${EJEC.munonUcfl.d}, 5 bujes 63T con `
+    + `sus chavetas, AT10 + casquillo LK30 y la UCFL 205) queda RETIRADA POR BANDERA `
+    + `(params_tambores.RETIRA): ${m.tamboresRetiradas ?? 0} piezas fuera. La sustituye el TAMBOR `
+    + `MOTRIZ; §M1 y §M3 se apagan con ella y vuelven solas con RETIRA.activo=false`
+  : `   ESTACIONES: eje motriz común Ø${EJEC.d}/Ø${EJEC.munonUcfl.d} × ${V.estaciones.ejeComun.L} (vano ${V.estaciones.ejeComun.vanoMm}, flecha ${V.estaciones.ejeComun.flechaMm} mm, τ ${V.estaciones.ejeComun.tauMPa} MPa a ${V.estaciones.ejeComun.parNm} N·m — hipótesis ${V.estaciones.ejeComun.hipotesis}) · AT10 recolocada X ${V.estaciones.at10.x.join('…')} · banda AT10 del kit: ${EJEC.bandaAT10.dientes} dientes (${EJEC.bandaAT10.designacion.split('(')[0].trim()})`);
 console.log(`   IDLER-P01 medida: eje a ${V.estaciones.idler.dxEjeBanda} del eje de banda, Y ${V.estaciones.idler.y} — ${V.estaciones.idler.declarado}`);
 console.log(`   GUARDAS pozo: desarrollos ${JSON.stringify(V.guardas.desarrollos)}`);
 {

@@ -1,132 +1,17 @@
 [
  {
-  "cm3": 309.36,
+  "cm3": 14.19,
   "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "CONDUCIDO Ø108 · tubo Ø108 × 380 (e=3.6)"
+  "b": "CONDUCIDO Ø108 · eje FIJO Ø35 × 463"
  },
  {
-  "cm3": 268.26,
+  "cm3": 9.59,
   "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "CONDUCIDO Ø108 · tapa-soporte Ø100.8/Ø72 × 29 (+X)"
+  "b": "RETORNO RR4 Ø88.9 · eje FIJO Ø30 × 463"
  },
  {
-  "cm3": 142.05,
+  "cm3": 9.28,
   "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "RETORNO RR4 Ø88.9 · tubo Ø88.9 × 380 (e=3.2)"
- },
- {
-  "cm3": 140.36,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Polea conducida T5-63T Ø112/Ø100×40 (calle 5, X=431.856)"
- },
- {
-  "cm3": 139.81,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "RETORNO RR1 Ø88.9 · tubo Ø88.9 × 380 (e=3.2)"
- },
- {
-  "cm3": 134.92,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Puente de calle — pletina 30×28×648 A36 (calle 5, X=431.856)"
- },
- {
-  "cm3": 115.38,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "RETORNO RR4 Ø88.9 · tapa-soporte Ø82.5/Ø62 × 28 (+X)"
- },
- {
-  "cm3": 113.46,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "RETORNO RR1 Ø88.9 · tapa-soporte Ø82.5/Ø62 × 28 (+X)"
- },
- {
-  "cm3": 108.97,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Pletina V2 3/16\"×44×289.15 (+X) (calle 5, X=431.856)"
- },
- {
-  "cm3": 94.25,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Pletina V3 3/16\"×44×289.15 (+X) (calle 5, X=431.856)"
- },
- {
-  "cm3": 88.95,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Volante contraflexión Ø100 con alojamientos Ø42 (V1) (calle 5, X=431.856)"
- },
- {
-  "cm3": 88.95,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Volante contraflexión Ø100 con alojamientos Ø42 (V4) (calle 5, X=431.856)"
- },
- {
-  "cm3": 62.16,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Guarda de pozo sur 14GA 552×383 (Y=-1385)"
- },
- {
-  "cm3": 34.3,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "CONDUCIDO Ø108 · eje FIJO Ø35 × 435"
- },
- {
-  "cm3": 23.2,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "RETORNO RR4 Ø88.9 · eje FIJO Ø30 × 435"
- },
- {
-  "cm3": 22.77,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Pletina de volante 3/16\"×46×130 (V1, +X) (calle 5, X=431.856)"
- },
- {
-  "cm3": 22.77,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Pletina de volante 3/16\"×46×130 (V4, +X) (calle 5, X=431.856)"
- },
- {
-  "cm3": 22.44,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "RETORNO RR1 Ø88.9 · eje FIJO Ø30 × 435"
- },
- {
-  "cm3": 13.73,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Puente de calle — regleta UHMW 30×8.55×648 (calle 5, X=431.856)"
- },
- {
-  "cm3": 7.72,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Escuadra travesaño↔bastidor 3/16\" (sur, +X)"
- },
- {
-  "cm3": 7.72,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Escuadra travesaño↔bastidor 3/16\" (norte, +X)"
- },
- {
-  "cm3": 6.98,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Eje Ø20×50 de pozo (V1) (calle 5, X=431.856)"
- },
- {
-  "cm3": 6.98,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Eje Ø20×50 de pozo (V4) (calle 5, X=431.856)"
- },
- {
-  "cm3": 4.11,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Placa base de puente 64×28×6 (calle 5, X=431.856, travesaño S)"
- },
- {
-  "cm3": 4.11,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Placa base de puente 64×28×6 (calle 5, X=431.856, travesaño N)"
- },
- {
-  "cm3": 2.87,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "FIJO · Guarda de pozo norte 14GA 552×58 (Y=-515.1)"
+  "b": "RETORNO RR1 Ø88.9 · eje FIJO Ø30 × 463"
  }
 ]

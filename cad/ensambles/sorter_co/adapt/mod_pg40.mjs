@@ -130,7 +130,11 @@ export function pg40(E) {
             box(`Tope ${GUIA.topeExtremo.l}×${GUIA.topeExtremo.e}×${GUIA.saliente}`,
               [X, r3(y + dentro * GUIA.topeExtremo.e / 2), Z.perfilTop],
               GUIA.topeExtremo.l, GUIA.topeExtremo.e, GUIA.saliente),
-          ], { capaInfo: 'dis', nota: `escuadra de tope con tuerca martillo ${GUIA.topeExtremo.tornillo} en la ranura lateral` });
+          ], { capaInfo: 'dis', hardware: true,
+            nota: `Retención de extremo de la regleta: tornillo ${GUIA.topeExtremo.tornillo} avellanado `
+              + 'que ROSCA en el testero del UHMW y agarra a tuerca martillo en la ranura lateral del '
+              + 'perfil. Va marcado como `hardware`: por convención del repositorio la tornillería vive '
+              + 'DENTRO de la pieza que atornilla, y así lo distingue el informe de interferencias.' });
         out.piezas++;
       }
     }
@@ -147,15 +151,33 @@ export function pg40(E) {
   const xTrav = [STEP.frameIntNeg, STEP.frameIntPos];
   const luzBastidores = r3(xTrav[1] - xTrav[0]);
   for (const y of TRAVESANOS) {
-    perfilPG40(E, `PG40 · Travesaño 40×40 ranura 10 L=${luzBastidores} (Y ${y})`,
-      'x', y, xTrav, Z.travBot,
+    // Si el travesaño cae dentro de un CABEZAL DE RODAMIENTO, muere en sus caras
+    // de apoyo en vez de atravesarlo: ahí el travesaño se apoya en los cabezales,
+    // que es mejor nudo que llegar hasta los chapones.
+    const enCabezal = [ALARGUE.cabezalMotrizY, ALARGUE.cabezalCondY]
+      .some(r => y > r[0] - 20 && y < r[1] + 20);
+    const xR = enCabezal ? [ALARGUE.xCabNegInt, ALARGUE.xInt] : xTrav;
+    perfilPG40(E, `PG40 · Travesaño 40×40 ranura 10 L=${r3(xR[1] - xR[0])} (Y ${y})`,
+      'x', y, xR, Z.travBot,
       { nota: 'cruza la luz entre bastidores 580.84 (cota congelada); los 5 largueros apoyan encima' });
     out.travesanos++;
     // escuadras larguero ↔ travesaño (una por calle)
     for (let k = 0; k < EJES.length; k++) {
-      escuadra(E, `PG40 · Escuadra larguero↔travesaño (calle ${k + 1}, Y ${y})`,
-        [EJES[k], r3(y - PERFIL.b / 2 - 3), Z.travTop], [PERFIL.b, 35],
-        { nota: 'tuercas martillo M8 ranura 10 en larguero y travesaño' });
+      // Escuadra de rincón: un ala contra la cara +X del LARGUERO (que corre en Y)
+      // y otra contra la cara −Y del TRAVESAÑO (que corre en X). Las dos quedan
+      // POR FUERA de sus perfiles — el ala no se mete en la ranura, se atornilla
+      // a ella con tuerca martillo M8, que es como se monta de verdad.
+      // El rincón se elige por el lado LIBRE: en el travesaño de −1520 el lado
+      // −Y lo ocupa el rodillo conducido Ø108 (Y −1661…−1553), así que va al +Y.
+      const sgn = y < -1450 ? 1 : -1;
+      const xe = r3(EJES[k] + PERFIL.b / 2 + 3), ye = r3(y + sgn * (PERFIL.b / 2 + 3));
+      E.addPart(`PG40 · Escuadra larguero↔travesaño (calle ${k + 1}, Y ${y})`, COL.chapaOsc,
+        [xe, ye, r3(Z.travTop + 4)], [
+          box('Ala al larguero 6×30×32', [xe, ye, r3(Z.travTop + 4)], 6, 30, 32),
+          box('Ala al travesaño 30×6×32', [r3(xe + 12), ye, r3(Z.travBot + 4)], 30, 6, 32),
+        ], { capaInfo: 'dis',
+          nota: `tuercas martillo M8 ranura 10: 2 en la ranura +X del larguero (calle ${k + 1}) `
+            + 'y 2 en la ranura −Y del travesaño; ninguna ala invade la sección de los perfiles' });
       out.piezas++;
     }
   }
@@ -181,7 +203,11 @@ export function pg40(E) {
     const xApoyo = s < 0 ? A.xCabNegInt : A.xInt; // cara de apoyo del soporte de rodamiento
     const dirIn = [s > 0 ? -1 : 1, 0, 0];          // hacia el interior del sorter
     const fuera = r3(xExt + s * 2);                // arranque de los taladros
-    const xCubre = s < 0 ? A.xCabNegExt : r3(A.xInt - A.e);  // cubrejunta, en el plano del cabezal
+    // Cubrejuntas y ménsulas van SIEMPRE en el plano de al lado (hacia el
+    // interior), nunca en el del alma o el cabezal: si son coplanarias no
+    // empalman nada, se interpenetran.
+    const xCubre = s < 0 ? A.xCabNegInt : r3(A.xInt - A.e);   // −X 67.494 · +X 483.418
+    const xMens = s < 0 ? A.xNegInt : r3(A.xInt - A.e);       // −X 50.886 · +X 483.418
     const almaExt = r3(Xc + s * NBT.sideAlmaExtY);           // 50.886 / 508.026
     const almaInt = r3(almaExt + (s > 0 ? -1 : 1) * 2.657);  // 53.543 / 505.369
 
@@ -195,6 +221,25 @@ export function pg40(E) {
     for (const [suf, yR] of tramosAlma) {
       const fa = [sketchYZ(`Pletina ${A.material} e=${A.e} · ${r3(yR[1] - yR[0])} × ${r3(zAlma[1] - zAlma[0])}`,
         xFace, rect(yR, zAlma), A.e)];
+      // CARTELAS DE RODILLO DE RETORNO del lado +X: van en el MISMO plano que el
+      // alma (X 491.418…499.418, que es la cara de apoyo que publica
+      // adapt/params_tambores.mjs para el soporte INBOARD). Coplanarias ⇒ no
+      // pueden ser piezas sueltas: se resuelven como LÓBULOS DEL PROPIO CORTE
+      // LÁSER del alma. Una sola pieza, sin solape y sin mover la cara de apoyo.
+      const rrAqui = s > 0 ? RETORNOS.filter(rr => rr.y > yR[0] && rr.y < yR[1]) : [];
+      for (const rr of rrAqui) {
+        const zLo = r3(Math.min(rr.z - 60, zAlma[0])), zHi = r3(Math.max(rr.z + 60, zAlma[1]));
+        fa.push(sketchYZ(`Lóbulo de cartela ${rr.id} (Y ${rr.y}, Z ${rr.z})`,
+          xFace, rect([r3(rr.y - 60), r3(rr.y + 60)], [zLo, zHi]), A.e));
+        for (const dy of [-RSOP.patron / 2, RSOP.patron / 2]) {
+          for (const dz of [-RSOP.patron / 2, RSOP.patron / 2]) {
+            fa.push(hole(`Soporte de retorno ${rr.id} Ø${RSOP.taladro}`,
+              [fuera, r3(rr.y + dy), r3(rr.z + dz)], dirIn, RSOP.taladro));
+          }
+        }
+        fa.push(hole(`Paso del eje de retorno ${rr.id} Ø${r3((RSOP.bore ?? 30) + 10)}`,
+          [fuera, rr.y, rr.z], dirIn, r3((RSOP.bore ?? 30) + 10)));
+      }
       // pernos a las colisas del side channel (solo el lado −X los lleva en el
       // alma: en +X los lleva el tramo de lap, que es el que toca el alma del side)
       if (s < 0) {
@@ -262,8 +307,10 @@ export function pg40(E) {
             [fueraCab, r3(eje.y + dy), r3(eje.z + dz)], dirIn, UCF207.pasante));
         }
       }
-      const dPaso = eje.pasoEje ?? UCF207.pasoEje;
-      if (dPaso > 0) fc.push(hole(`Paso de eje Ø${dPaso}`, [fueraCab, eje.y, eje.z], dirIn, dPaso));
+      // El eje del conducido es FIJO Y PASANTE (params_tambores lo declara así),
+      // así que el cabezal lleva su paso aunque el patrón publique pasoEje 0.
+      const dPaso = eje.pasoEje > 0 ? eje.pasoEje : r3((eje.eje ?? 35) + 10);
+      fc.push(hole(`Paso de eje Ø${dPaso}`, [fueraCab, eje.y, eje.z], dirIn, dPaso));
       E.addPart(`PG40 · Alargue lateral · cabezal de rodamiento ${nom} ${lado} `
         + `(${eje.soporte ?? UCF207.desig}, eje Y ${eje.y} Z ${eje.z})`, COL.chapa, [xCab, 0, 0], fc, {
           capaInfo: 'dis',
@@ -290,32 +337,47 @@ export function pg40(E) {
     // (retornoSoporte: cuadrado 76×76 de Ø11, cara 67.494 / 491.418, INBOARD).
     // Van en el plano de los cabezales, corridas 8.608 respecto del alma en −X:
     // el escalón se salva con casquillos separadores en los pernos de empalme.
-    for (const rr of RETORNOS) {
-      const zLo = r3(Math.min(rr.z - 60, -200)), zHi = r3(Math.max(rr.z + 60, -190));
-      const yR = [r3(rr.y - 60), r3(rr.y + 60)];
-      const fr = [sketchYZ(`Cartela ${r3(yR[1] - yR[0])}×${r3(zHi - zLo)}×${A.e}`,
-        xCab, rect(yR, [zLo, zHi]), A.e)];
-      for (const dy of [-RSOP.patron / 2, RSOP.patron / 2]) {
-        for (const dz of [-RSOP.patron / 2, RSOP.patron / 2]) {
-          fr.push(hole(`Soporte de retorno Ø${RSOP.taladro}`,
-            [s < 0 ? r3(xCab - 2) : fuera, r3(rr.y + dy), r3(rr.z + dz)], dirIn, RSOP.taladro));
-        }
+    if (s < 0) {
+      // RR1/RR2 y RR3/RR4 están a 66 y 45 mm: sus cartelas se pisarían. Se
+      // agrupan las que se solapan y sale UNA cartela por grupo.
+      const grupos = [];
+      for (const rr of [...RETORNOS].sort((a, b) => b.y - a.y)) {
+        const g = grupos.find(gr => gr.some(q => Math.abs(q.y - rr.y) < 120));
+        if (g) g.push(rr); else grupos.push([rr]);
       }
-      E.addPart(`PG40 · Cartela de rodillo de retorno ${rr.id} ${lado} (Y ${rr.y}, Z ${rr.z})`,
-        COL.chapaOsc, [xCab, 0, 0], fr, {
-          capaInfo: 'dis',
-          nota: `Lleva el cuadro ${RSOP.patron}×${RSOP.patron} de Ø${RSOP.taladro} del soporte de `
-            + `${rr.id} (${rr.papel}) en la cara de apoyo X ${xApoyo} que publica `
-            + `adapt/params_tambores.mjs; se atornilla al alma del alargue.`,
-        });
-      out.piezas++;
+      for (const g of grupos) {
+        const ys = g.map(q => q.y), zs = g.map(q => q.z);
+        const yR = [r3(Math.min(...ys) - 60), r3(Math.max(...ys) + 60)];
+        const zLo = r3(Math.min(...zs, -200) - 60), zHi = r3(Math.max(...zs, -190) + 60);
+        const fr = [sketchYZ(`Cartela ${r3(yR[1] - yR[0])}×${r3(zHi - zLo)}×${A.e}`,
+          xCab, rect(yR, [zLo, zHi]), A.e)];
+        for (const rr of g) {
+          for (const dy of [-RSOP.patron / 2, RSOP.patron / 2]) {
+            for (const dz of [-RSOP.patron / 2, RSOP.patron / 2]) {
+              fr.push(hole(`Soporte de retorno ${rr.id} Ø${RSOP.taladro}`,
+                [r3(xCab - 2), r3(rr.y + dy), r3(rr.z + dz)], dirIn, RSOP.taladro));
+            }
+          }
+          fr.push(hole(`Paso del eje de retorno ${rr.id} Ø${r3((RSOP.bore ?? 30) + 10)}`,
+            [r3(xCab - 2), rr.y, rr.z], dirIn, r3((RSOP.bore ?? 30) + 10)));
+        }
+        E.addPart(`PG40 · Cartela de rodillos de retorno ${g.map(q => q.id).join('+')} ${lado}`,
+          COL.chapaOsc, [xCab, 0, 0], fr, {
+            capaInfo: 'dis',
+            nota: `Lleva el cuadro ${RSOP.patron}×${RSOP.patron} de Ø${RSOP.taladro} de `
+              + `${g.map(q => q.id).join(' y ')} en la cara de apoyo X ${xApoyo} que publica `
+              + 'adapt/params_tambores.mjs, más el paso de cada eje fijo. Una sola cartela por grupo: '
+              + 'a 66 y 45 mm de separación, dos placas independientes se pisarían.',
+          });
+        out.piezas++;
+      }
     }
 
     // --- (d) MÉNSULAS alma → travesaño PG40 (el amarre del bastidor) -------
     for (const y of A.mensulaY) {
-      E.addPart(`PG40 · Ménsula alma↔travesaño ${lado} (Y ${y})`, COL.chapaOsc, [xFace, 0, 0], [
-        sketchYZ(`Ménsula ${PERFIL.b}×${r3(A.mensulaZ[1] - A.mensulaZ[0])}×${A.e}`,
-          xFace, rect([r3(y - PERFIL.b / 2), r3(y + PERFIL.b / 2)], A.mensulaZ), A.e),
+      E.addPart(`PG40 · Ménsula alma↔travesaño ${lado} (Y ${y})`, COL.chapaOsc, [xMens, 0, 0], [
+        sketchYZ(`Ménsula 24×${r3(A.mensulaZ[1] - A.mensulaZ[0])}×${A.e}`,
+          xMens, rect([r3(y - 12), r3(y + 12)], A.mensulaZ), A.e),
       ], { capaInfo: 'dis',
         nota: 'sube del alma del alargue al travesaño PG40: es el amarre del bastidor a los canales laterales del NBT90' });
       out.piezas++;

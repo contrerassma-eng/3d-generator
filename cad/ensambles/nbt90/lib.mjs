@@ -65,7 +65,13 @@ export const hole = (name, at, dir, dia, depth = 0, through = true) =>
 export const sketchXZ = (name, yFace, pts, h, op = 'union') =>
   ({ id: nid(), name, shape: 'sketch', op, at: [0, yFace, 0], dir: [0, -1, 0], params: { pts: pts.map(p => [r2(p[0]), r2(p[1])]), h: r2(h), u: [1, 0, 0] } });
 
-/** Boceto en plano YZ (normal +X): pts en (y, z), extruido `h` hacia −X desde xFace. */
+/** Boceto en plano YZ (normal +X): pts en (y, z), extruido `h` hacia **+X** desde
+ *  xFace — igual que `sketchXY` crece hacia +Z. Cuidado: durante meses esta línea
+ *  decía «hacia −X» y era FALSO; `dir` es [1,0,0] y así lo leen `bboxPieza`,
+ *  `a_step.py` y el visor. Un módulo que se fió del comentario colocó una pletina
+ *  8 mm corrida y la metió 7 mm dentro de una polea, y sus taladros, puestos con
+ *  `dir [-1,0,0]`, cortaban hacia FUERA de la pieza y no taladraban nada.
+ *  Comprobado midiendo la malla: xFace=100, h=20 → la pieza ocupa X 100…120. */
 export const sketchYZ = (name, xFace, pts, h, op = 'union') =>
   ({ id: nid(), name, shape: 'sketch', op, at: [xFace, 0, 0], dir: [1, 0, 0], params: { pts: pts.map(p => [r2(p[0]), r2(p[1])]), h: r2(h), u: [0, 1, 0] } });
 

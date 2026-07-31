@@ -41,9 +41,12 @@ const L = {
                            //   interior (separa el anillo de la pista)
   collarL: 15.0,           // cat — collar de apriete partido DIN 705 A
   bridaR: 12.0,            // dis — radio de esquina de la brida UCF (fundición)
-  pernoUcf: { d: 12, af: 19, hh: 7.5, largo: 60 },   // cat M12 ISO 4017 (−X: 8 de
-                           //   alargue + tuerca; +X: 8 + 28 de chapón)
-  pernoUcfLargo: { neg: 45, pos: 75 },               // calc por espesor de apoyo
+  pernoUcf: { d: 12, af: 19, hh: 7.5 },              // cat M12 ISO 4017
+  tuercaH: 10.0,                                     // cat M12 ISO 4032/7040
+  apoyoUcf: { neg: 8.0, pos: 36.0 },   // calc — lo que hay DETRÁS de la brida:
+                           //   −X sólo el alma del alargue (pg40 ALARGUE.e = 8);
+                           //   +X el alargue (8) más el chapón de descarga (28,
+                           //   step frameEsp), que es mejor apoyo que los 8 solos
   pernoSop: { d: 12, af: 19, hh: 7.5 },              // cat M12 del soporte de eje fijo
   pernoRet: { d: 10, af: 16, hh: 6.3 },              // cat M10 del soporte de retorno
 };
@@ -121,6 +124,7 @@ function rodilloEjeFijo(E, S, { nombre, y, z, spec, sop, marca }) {
   const ro = spec.od / 2, ri = spec.tubo.id / 2, rb = spec.rodam.od / 2;
   const [x0, x1] = spec.tuboX, len = r3(x1 - x0);
   const conj = { conjunto: `${marca} · rodillo de descansos interiores`, capa: 'user' };
+  const gargantas = [];          // X de las gargantas de los anillos DIN 471
 
   // 1. tubo
   add(`${nombre} · tubo Ø${spec.od} × ${len} (e=${spec.tubo.e})`, COL.rodillo, [x0, y, z], [
@@ -154,13 +158,20 @@ function rodilloEjeFijo(E, S, { nombre, y, z, spec, sop, marca }) {
     const xA = s === 0 ? r3(xC - 1.75) : r3(xC + L.casquillo);
     anilloRet(E, { nombre: `${nombre} (${lado})`, at: [xA, y, z], dir: DIR, eje: spec.eje.d,
       capa: `${marca} · ` });
+    gargantas.push(xA);
     n.piezas++;
   }
 
-  // 5. EJE FIJO pasante
+  // 5. EJE FIJO pasante, CON la garganta torneada de cada anillo DIN 471
+  //    (el anillo se mete 0.6 mm en el eje: si no se tornea la garganta, la
+  //    verificación B-rep lo canta como interferencia — y con razón)
   const [ex0, ex1] = spec.ejeX;
   add(`${nombre} · eje FIJO Ø${spec.eje.d} × ${r3(ex1 - ex0)}`, COL.acero, [ex0, y, z], [
     cyl(`Eje Ø${spec.eje.d} × ${r3(ex1 - ex0)}`, [ex0, y, z], DIR, spec.eje.d, r3(ex1 - ex0)),
+    ...gargantas.map((xg) => revolve(`Garganta DIN 471 Ø${r3(spec.eje.d - 1.4)} × 1.4`,
+      [r3(xg - 0.2), y, z], 'x',
+      [[0, spec.eje.d / 2 - 0.7], [0, spec.eje.d / 2 + 2], [1.4, spec.eje.d / 2 + 2],
+        [1.4, spec.eje.d / 2 - 0.7]], 'cut')),
   ], { ...conj, material: spec.eje.material, gira: false,
     nota: 'no gira: es el asiento de los aros interiores y el que transmite la '
       + 'carga de la banda a las pletinas de soporte' });
@@ -181,6 +192,11 @@ function rodilloEjeFijo(E, S, { nombre, y, z, spec, sop, marca }) {
       ], { ...conj, material: 'Acero S275JR cortado por láser',
         nota: `se atornilla al patrón ${sop.patron}×${sop.patron} del alargue PG40` });
 
+    // El collar va pegado a la cara INTERIOR de su pletina, en el hueco de 20
+    // que deja la testa del tubo (por eso la cara es 360 y no 380). Los dos
+    // collares capturan el eje: si corre hacia −X topa el de −X contra su
+    // pletina, y si corre hacia +X topa el de +X contra la suya. Por fuera no
+    // caben — ahí está el alma del alargue y, en +X, el chapón de descarga.
     const xCol = nrm > 0 ? r3(xF + sop.e) : r3(xF - L.collarL);
     add(`${nombre} · collar de apriete partido Ø${spec.eje.d} (${lado})`, COL.inox, [xCol, y, z], [
       revolve('Collar DIN 705 A', [xCol, y, z], 'x', [[0, spec.eje.d / 2], [0, spec.eje.d / 2 + 10],
@@ -294,17 +310,20 @@ export function tambores(E) {
       bore: UCF207.bore, od: UCF207.insertoOd, w: UCF207.Bi, capa: 'TAMBOR · ' });
     n.hardware++;
 
-    // 4 pernos M12 pasantes
+    // 4 pernos M12 pasantes: la cabeza apoya en la cara EXTERIOR de la brida y
+    // el vástago atraviesa brida + lo que haya detrás (−X: 8 de alargue; +X: 8
+    // de alargue + 28 de chapón de descarga), con la tuerca por dentro.
+    const xExt = nrm > 0 ? r3(xF + UCF207.bridaE) : xF;    // cara exterior de la brida
+    const espApoyo = s === 0 ? L.apoyoUcf.neg : L.apoyoUcf.pos;
+    const largo = r3(UCF207.bridaE + espApoyo + L.tuercaH);
     for (const [sy, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
-      const largo = s === 0 ? L.pernoUcfLargo.neg : L.pernoUcfLargo.pos;
-      const at = [nrm > 0 ? r3(xF + UCF207.bridaE + largo) : r3(xF - largo),
-        r3(sy * semi), r3(zT + sz * semi)];
-      pernoHex(E, { nombre: `M12×${largo} ${UCF207.desig} (${lado})`, at,
+      const yz = [r3(sy * semi), r3(zT + sz * semi)];
+      pernoHex(E, { nombre: `M12×${largo} ${UCF207.desig} (${lado})`, at: [xExt, ...yz],
         dir: [-nrm, 0, 0], dia: L.pernoUcf.d, largo, af: L.pernoUcf.af, altoCab: L.pernoUcf.hh,
         capa: 'TAMBOR · ' });
       tuercaHex(E, { nombre: `M12 ${UCF207.desig} (${lado})`,
-        at: [nrm > 0 ? r3(xF - 10) : r3(xF + UCF207.bridaE), r3(sy * semi), r3(zT + sz * semi)],
-        dir: [nrm, 0, 0], dia: 12, af: 19, alto: 10, capa: 'TAMBOR · ' });
+        at: [r3(xExt - nrm * (UCF207.bridaE + espApoyo)), ...yz],
+        dir: [-nrm, 0, 0], dia: 12, af: L.pernoUcf.af, alto: L.tuercaH, capa: 'TAMBOR · ' });
       n.hardware += 2;
     }
   }

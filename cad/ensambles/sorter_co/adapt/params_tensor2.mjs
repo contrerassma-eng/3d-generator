@@ -182,8 +182,15 @@ export const PIV = {
   // La pila brazo–separador–brazo–…–brazo se captura entre DOS collares de
   // apriete apretados al eje. Ningún brazo puede correrse a lo largo porque no
   // hay hueco: el paso lo fijan los separadores y los topes son los collares.
+  // UN solo collar, en el lado −X (dis, forzado por el espacio): el reparto de
+  // calles está corrido hacia +X, así que entre la cara +X de la pila (463.86) y
+  // la chumacera +X (468.418) sólo quedan 4.56 mm — no caben ni un collar de 15
+  // ni nada más. Toda la holgura del eje (145.5 mm) está en el lado −X.
+  // El paquete queda igualmente capturado: el collar −X aprieta la pila contra
+  // el anillo +X, que hace de TOPE además de retener el eje (ver anilloX).
   collar: { de: 50, di: 30, largo: 15 },   // dis — collar de apriete partido
   collarDesignacion: 'PENDIENTE — collar de apriete partido Ø30, tipo DIN 705 A / abrazadera',
+  get collarX() { return [r2(this.pilaX[0] - this.collar.largo), this.pilaX[0]]; },  // [80.06, 95.06]
   // caras exteriores de la pila, BRIDAS INCLUIDAS (calc): ahí topan los collares
   get pilaX() {
     const s = this.cubo.largo / 2 + this.casquillo.brida;   // 32
@@ -217,11 +224,16 @@ export const PIV = {
   get x0() { return this.ucflX[0]; },                             // −81.423
   get x1() { return this.ucflX[1]; },                             // 499.418
   get largo() { return r2(this.x1 - this.x0); },                  // 580.84
-  // posición de las gargantas (calc): justo por dentro de cada housing
+  // Posición de las gargantas (calc). El anillo −X va justo por dentro de su
+  // housing. El anillo +X va pegado a la cara +X de la pila: en ese lado sólo
+  // hay 4.56 mm libres hasta la chumacera, así que el anillo cumple DOS papeles
+  // a la vez — retiene el eje contra el desplazamiento +X y hace de TOPE de la
+  // pila de brazos contra el que aprieta el collar −X. Admisible porque la
+  // carga de los brazos sobre el eje es RADIAL (398 N); lo axial es incidental.
   get anilloX() {
     return [r2(this.ucflX[0] + this.ucfl.housingW + this.holguraAnillo),
-      r2(this.ucflX[1] - this.ucfl.housingW - this.holguraAnillo - 1.5)];
-  },   // [−47.42, 466.92]
+      r2(this.pilaX[1] + 0.05)];
+  },   // [−47.42, 463.91] — el +X deja 3.0 mm libres hasta la chumacera
   giraElEje: false,
 };
 

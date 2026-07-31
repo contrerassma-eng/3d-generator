@@ -250,14 +250,19 @@ export const ALARGUE = {
                                  //   por Z −70…−45, fuera del alcance de la chumacera
   cubreLapY: [[-1268, -1172], [-776, -700]],  // dis: empalmes alma↔lap, esquivando
                                  //   las placas peine (Y −1167.3 y −784.5)
-  cubreLapX: 483.418,            // calc: xInt − 8, por dentro; 4.04 al peine (495.46)
+  cubreLapX: 482.918,            // calc: xInt − 8.5, por dentro (0.5 de holgura de
+                                 //   montaje al alma: a hueso el booleano deja sliver)
   transicion: 35,                // dis: longitud de la diagonal de cambio de canto
   cabezalMotrizY: [-125, 90],    // calc — fuera de la ventana Y del deck
   cabezalCondY: [-1697.4, -1535],// calc — ídem, por el otro extremo
-  cabezalZ: [-70, 70],           // calc: ±(46 semicuadro UCF + 24 de canto)
+  cabezalZ: [-120, 70],          // calc: +70 = 46 semicuadro UCF + 24 de canto; el
+                                 //   faldón hasta −120 es el que recibe el cubrejunta
+                                 //   POR DEBAJO de la pletina de soporte del conducido
+                                 //   (117×117 centrada en Z −2.3, o sea hasta −60.8)
   cubrejuntaE: 8,                // dis: mismo espesor, por dentro del alma
-  cubrejuntaZ: [-70, -45],       // calc: bajo el plano de transporte en todo caso
-  mensulaY: [-1440, -555],       // dis: 2 ménsulas por lado que suben del alma al
+  cubrejuntaZ: [-110, -75],      // calc: bajo el faldón del cabezal y 14.2 por debajo
+                                 //   de la pletina de soporte del conducido (params_tambores)
+  mensulaY: [-1440, -540],       // dis: 2 ménsulas por lado que suben del alma al
   mensulaZ: [-70, -40],          //   travesaño PG40 y amarran el bastidor al canal
 
   // Amarre al SIDE CHANNEL del NBT90 (nbt90): sus 3 colisas de reglaje por lado.
