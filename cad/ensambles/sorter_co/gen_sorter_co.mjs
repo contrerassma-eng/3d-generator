@@ -29,6 +29,10 @@ import { calles } from './adapt/mod_calles.mjs';
 import { percha } from './adapt/mod_percha.mjs';
 import { estaciones } from './adapt/mod_estaciones.mjs';
 import { guardas } from './adapt/mod_guardas.mjs';
+// ▼▼▼ TENSOR NEUMÁTICO DE BRAZOS POR BANDA (bloque propio) ▼▼▼
+import { tensor2, leerRamal } from './adapt/mod_tensor2.mjs';
+import { TENSOR_VIEJO, PIV, TENSION, RESORTE, YUGO, NEUM, PALANCA, EJE_CALC } from './adapt/params_tensor2.mjs';
+// ▲▲▲ ------------------------------------------------------ ▲▲▲
 
 const aqui = dirname(fileURLToPath(import.meta.url));
 
@@ -43,6 +47,20 @@ m.calles = calles(E);
 m.percha = percha(E);
 m.estaciones = estaciones(E);   // detalle fabricable: anclaje C85, retención V1…V4,
 m.guardas = guardas(E);         //   IDLER-P01 medida, eje motriz común, guardas y guías
+
+// ▼▼▼ TENSOR NEUMÁTICO DE BRAZOS POR BANDA ▼▼▼
+// «TERMINA EL TENSOR NEUMÁTICO QUE TIENE BRAZOS POR CADA BANDA. ASEGURA SU EJE
+// PIVOTE.» (instrucción literal del cliente, 31-07-2026).
+// 5 brazos basculantes libres sobre casquillos en un eje pivote común Ø25
+// asegurado, un cilindro CD85N25-80 común que tira de un yugo y precarga 5
+// resortes. Cotas y fuerzas: adapt/params_tensor2.mjs. Los tensores viejos
+// (mod_calles §7 y mod_estaciones §4-bis/§1) quedan desactivados por la bandera
+// TENSOR_VIEJO, no borrados.
+// La posición del ramal y los abrazados se leen de adapt/params_tambores.mjs
+// (otro agente) si ya existe; si no, se usan los valores por defecto declarados.
+m.ramal = await leerRamal();
+m.tensor2 = tensor2(E, m.ramal);
+// ▲▲▲ --------------------------------------- ▲▲▲
 
 // ---------------------------------------------------------------------------
 // Banco de la compuerta: inyección de UN defecto controlado (TEST_ROMPE)
@@ -110,6 +128,14 @@ if (ROMPE === 'paso') {
 // ---------------------------------------------------------------------------
 // Compuerta
 // ---------------------------------------------------------------------------
+// Todas las piezas del tensor de brazos, para las reglas de solape tolerado.
+const TEN2 = new RegExp('Eje pivote común|Chumacera SKF UCFL 205 \\(eje pivote tensor'
+  + '|Collar de apriete|Separador Ø30|Yugo de reparto|Columna guía del yugo|Ménsula de columna guía'
+  + '|Cilindro SMC CD85N25-80|Bisagra trasera SMC C85C25|Rótula de vástago SMC KJ10D'
+  + '|Regulador de caudal SMC AS2201FS|Silenciador SMC AN101|Racor codo SMC KQ2L06'
+  + '|Brazo tensor e=|Cubo del brazo|Casquillo de fricción|Polea tensora POL-CON-TEN'
+  + '|Eje de polea tensora|Bulón del lóbulo|Resorte de compensación|Vástago guía del resorte');
+
 function verify() {
   const e = [];
   const partes = E.parts;
@@ -378,6 +404,23 @@ function verify() {
     [/Guarda de pozo lateral/, /Ménsula percha|Escuadra ménsula/],
     // guías del corredor: base sobre el canto del chapón; guía sobre su alma
     [/Base de guía|Guía de descarga/, /Bastidor FRAME_MIR_MIR_MIR|Base de guía|Guía de descarga/],
+    // ▼▼▼ TENSOR NEUMÁTICO DE BRAZOS POR BANDA ▼▼▼
+    // (1) el tensor consigo mismo: es UN MECANISMO. El eje pasa por los cubos,
+    //     los casquillos van dentro de los cubos, las pletinas abrazan la polea,
+    //     los separadores topan contra las bridas y los resortes se apoyan en el
+    //     yugo y en los bulones. Todo eso es CONTACTO de montaje, no choque.
+    [TEN2, TEN2],
+    // (2) contra las CAJAS ENVOLVENTES medidas del cliente. La bahía del tensor
+    //     vive dentro de la envolvente de LAT TOP y de la cabecera FRONT TOP2,
+    //     pero NO son sólidos: son cajas de `analisis/medidas.json`. La prueba
+    //     de que el volumen está libre es que el tensor ORIGINAL del cliente
+    //     ocupaba exactamente esta bahía (poses medidas: pivote Y −101.72
+    //     Z −164.7, tensora Y −175.72 Z −371.89, cilindro Y 34.5). El tensor
+    //     nuevo reutiliza esas mismas poses; de ahí que se declare tolerado.
+    //     AVISO DECLARADO: hay que verificar en obra la viga real de LAT TOP
+    //     bajo las ménsulas de las columnas guía (va en avisosDeclarados).
+    [TEN2, /CTX · LAT TOP|CTX · FRONT TOP2|CTX · TER1|CTX · Bastidor FRAME_MIR_MIR/],
+    // ▲▲▲ ------------------------------------ ▲▲▲
   ];
   const esBanda = (p) => /Banda T5/.test(p.name);
   const esHw = (p) => p.hardware;
@@ -600,9 +643,11 @@ function verify() {
     }
     // M5 · anclaje del cilindro: bisagra C85C25 + repisa sobre su taladro
     //      vertical Ø12 medido (B−5, 80.18), sin tocar la tapa del cilindro
+    //      SOLO aplica al tensor VIEJO (un cilindro por calle). Con el tensor
+    //      de brazos hay UN cilindro común y su anclaje lo verifica la §T.
     const gapRepisaTapa = r2((CLEVIS.repisa.z - CLEVIS.repisa.t) - (-76.76));
-    if (gapRepisaTapa < 2) e.push(`la repisa del clevis queda a ${gapRepisaTapa} de la tapa del cilindro (mín 2)`);
-    for (let k = 0; k < EJES.length; k++) {
+    if (TENSOR_VIEJO && gapRepisaTapa < 2) e.push(`la repisa del clevis queda a ${gapRepisaTapa} de la tapa del cilindro (mín 2)`);
+    for (let k = 0; TENSOR_VIEJO && k < EJES.length; k++) {
       const bis = partes.find(p => /Bisagra trasera SMC C85C25/.test(p.name) && p.name.includes(`calle ${k + 1},`));
       const rep = partes.find(p => /Ménsula de clevis — escuadra con repisa/.test(p.name) && p.name.includes(`calle ${k + 1},`));
       const m12 = partes.find(p => /M12×30 clevis/.test(p.name) && p.name.includes(`calle ${k + 1},`));

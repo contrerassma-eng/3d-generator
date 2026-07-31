@@ -20,6 +20,9 @@ import {
   box, cyl, hole, sketchYZ, bandaFaces, largoBanda, envolventes, COL, r2, pernoHex,
 } from '../../nbt90/lib.mjs';
 import { STEP, NBT, FRANJA, EJES, T, y0, y1, PERCHA, POZO, TENSOR, CALLE } from './params_adapt.mjs';
+import { TENSOR_VIEJO } from './params_tensor2.mjs';   // bandera: el tensor
+//   original diagonal del cliente queda DESACTIVADO (no borrado) desde que el
+//   sorter pasa a banda plana angosta con el tensor de brazos (mod_tensor2).
 
 const T_BANDA = STEP.bandaDorso;          // 0.633 — la banda se modela POR SU DORSO
 // (cota step: dorso 52.333 − cara de guía 51.7). Los dientes (espesor total T5
@@ -270,6 +273,13 @@ export function calles(E) {
     }
 
     // 7. TENSOR ORIGINAL en su pose diagonal (conservado; re-pitcheado en X)
+    // DESACTIVADO por bandera (31-07): el cliente rediseña a banda plana
+    // angosta y el tensor pasa a adapt/mod_tensor2.mjs (5 brazos sobre eje
+    // pivote común asegurado, un cilindro común). Este bloque montaba el brazo
+    // diagonal PZA-TEN-1, su tensora, su cilindro por calle y su neumática en
+    // la MISMA bahía, así que no pueden convivir. No se borra: poner
+    // TENSOR_VIEJO=true en params_tensor2.mjs lo restituye.
+    if (TENSOR_VIEJO) {
     const TN = TENSOR;
     poleaX(E, `CTX · Tensora POL-CON-TEN Ø117.9×40 (pose original) (${c})`, B, TN.tensora.y, TN.tensora.z,
       STEP.polTensora.dia, STEP.polTensora.ancho, STEP.polTensora.dia, 0, 20, COL.polea,
@@ -328,6 +338,7 @@ export function calles(E) {
         box(`AN101 11×22.8×15.2`, [r2(B - 14), -10.6, -232], 11, 22.8, 15.2)],
       { contexto: true, capaInfo: 'step/web PNEU-004/005', nota: 'pose original' });
     cuenta(M.reuso, 'tensor original completo conservado (brazo, cilindro, horquilla, neumática)', 1);
+    }   // fin del bloque 7 desactivado por TENSOR_VIEJO
 
     // 8. EXTREMOS DE ESTACIÓN FIELES (inventario.json, cajas por ocurrencia
     //    RELATIVAS al eje de banda viejo 1.0; solo piezas > 4 cm³ y poleas)

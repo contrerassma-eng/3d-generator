@@ -26,6 +26,9 @@ import {
 } from '../../nbt90/lib.mjs';
 import { STEP, EJES, POZO, TENSOR, bordeExtDescarga } from './params_adapt.mjs';
 import { CLEVIS, RETEN, IDLER, EJEC, PIVOTE, EXTREMOS } from './params_estaciones.mjs';
+import { TENSOR_VIEJO } from './params_tensor2.mjs';   // bandera: el tensor del
+//   cliente y su cilindro por calle quedan DESACTIVADOS (no borrados) desde que
+//   el sorter pasa a banda plana angosta con el tensor de brazos (mod_tensor2).
 
 // ---------------------------------------------------------------------------
 /** Paquete de giro sobre eje Ø20 (punto 2): eje (con taladros de testa) +
@@ -224,7 +227,12 @@ export function estaciones(E) {
   // =========================================================================
   // 4-bis. EJE PIVOTE COMÚN Ø25 con su segunda UCFL 205 (defecto §5.3 cerrado)
   // =========================================================================
-  {
+  // DESACTIVADO por bandera (31-07): el cliente rediseña a banda plana angosta
+  // y el tensor pasa a adapt/mod_tensor2.mjs, que monta SU PROPIO eje pivote
+  // Ø25 en esta misma pose (con casquillos, separadores, collares y anillos).
+  // Si los dos estuvieran activos se solaparían. No se borra: poner
+  // TENSOR_VIEJO=true en params_tensor2.mjs restituye este bloque.
+  if (TENSOR_VIEJO) {
     E.addPart(`FIJO · Eje pivote común Ø25×${r2(PIVOTE.x1 - PIVOTE.x0)} (sustituye las 4 copias del STEP)`, COL.acero,
       [PIVOTE.x0, TENSOR.pivote.y, TENSOR.pivote.z],
       [cyl(`Eje Ø25×${r2(PIVOTE.x1 - PIVOTE.x0)}`, [PIVOTE.x0, TENSOR.pivote.y, TENSOR.pivote.z], [1, 0, 0], PIVOTE.d, r2(PIVOTE.x1 - PIVOTE.x0))],
@@ -261,6 +269,11 @@ export function estaciones(E) {
     const c = `calle ${k + 1}, X=${B}`;
 
     // --- 1. ANCLAJE SUPERIOR DEL CILINDRO + RACORDAJE ----------------------
+    // DESACTIVADO por bandera (31-07): era UN cilindro POR CALLE (5 bisagras,
+    // 5 rótulas, 5 reguladores). El tensor nuevo (mod_tensor2) lleva UN SOLO
+    // cilindro común para los 5 brazos, justificado con la fuerza. No se borra:
+    // TENSOR_VIEJO=true en params_tensor2.mjs restituye este bloque.
+    if (TENSOR_VIEJO) {
     const CV = CLEVIS;
     E.addPart(`CTX · Bisagra trasera SMC C85C25 (pose medida) (${c})`, COL.neumatica,
       [r2(B + CV.caja.dx[0]), CV.caja.y[0], CV.caja.z[0]],
@@ -323,6 +336,7 @@ export function estaciones(E) {
           nota: 'centran el brazo sobre el bulón del KJ10D (luz de pletinas ↔ horquilla de 17)' });
       cuentaR('separador de bulón KJ10D (step)', 1);
     }
+    }   // fin del bloque 1 desactivado por TENSOR_VIEJO
 
     // --- 2. RETENCIÓN AXIAL DE V1…V4 (reemplaza los esbozos de mod_calles) --
     // V1/V4: volantes Ø100 con alojamientos mecanizados; V2/V3: poleas Ø117.9
