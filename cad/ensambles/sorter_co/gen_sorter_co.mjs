@@ -96,6 +96,13 @@ if (!TENSOR_VIEJO) m.tensor2 = tensor2(E, m.ramal);
   // channel por las que ahora se atornilla el alargue. Con el alargue, el NBT90
   // queda tomado por sus dos canales laterales (6 pernos 3/8) y de ahí al
   // bastidor. No se borra: basta poner desactivaPercha=false para recuperarla.
+  // El ACCIONAMIENTO DE BANDA PLANA (mod_tambores) sustituye la transmisión T5
+  // por calle y las 4 poleas de pozo V1…V4: el tambor motriz arrastra las 5
+  // bandas y los 4 rodillos de retorno gobiernan el ramal. Se retiran por
+  // bandera, no borrando código (params_pg40.FLAGS.desactivaTransmisionT5).
+  if (PG40F.desactivaTransmisionT5) {
+    rxFuera.push(/Polea motriz T5-63T|Polea conducida T5|Volante contraflexión|Polea plana Ø117\.9|Pletina de volante|Pletina V[23]|Eje Ø20×50 de pozo|Espaciador de aros|Anillo 3AM1-20|Anillo DIN 472-42/);
+  }
   if (PG40F.desactivaPercha) rxFuera.push(/percha|Placa de cuelgue NBT90|Lengüeta de apoyo|Escuadra larguero|Escuadra ménsula|Ménsula percha|Placa frontal ménsula|Placa de escote|Casquillo separador/i);
   const antes = E.parts.length;
   if (rxFuera.length) E.parts = E.parts.filter(p => !rxFuera.some(rx => rx.test(p.name)));
@@ -521,7 +528,10 @@ function verify() {
     // (5-bis) las GUARDAS DEL POZO son chapa de 14 GA (1.9): se recortan para el
     //     paso del alargue, que es estructura. Ajuste de chapa, no interferencia
     //     de diseño — queda declarado en los avisos.
-    [/PG40 · Alargue lateral|PG40 · Ménsula/, /Guarda de pozo/],
+    [/PG40 · Alargue lateral|PG40 · Ménsula|PG40 · Cartela/, /Guarda de pozo/],
+    // (5-ter) el EJE de cada rodillo de retorno ATRAVIESA su cartela: es el
+    //     montaje (eje fijo Ø30 pasante, patrón 76×76 publicado por tambores).
+    [/PG40 · Cartela de rodillo de retorno/, /RETORNO RR/],
     // (6) el CABEZAL DE RODAMIENTO MOTRIZ ocupa el sitio del ÁRBOL MOTRIZ
     //     ANTIGUO del cliente (eje común Ø30/Ø25 con chumaceras UCFL 205, polea
     //     AT10 recolocada y su casquillo LK30). Es la sustitución que pide el
@@ -1230,7 +1240,8 @@ console.log(`   puente↔cross channel: ${V.holguras.puenteCrossElevado} elevado
 console.log(`   LUZ bastidores ${V.luzBastidores.luz}: NBT90 embebido ${V.luzBastidores.anchoNbt90Embebido} de ancho → ${V.luzBastidores.holgIzq} en −X; el side +X entra ${V.luzBastidores.dentroMuescaMm} en la MUESCA del chapón (canto restante ${V.percha.muesca.cantoRestanteChapon})`);
 console.log(`   DESCARGA: extremo de cara de rodillo a ${V.descarga.rodilloABordeMm} mm del borde exterior (${V.descarga.bordeExterior}) — requisito ≤ 40`);
 console.log(`   BANDA por calle: L=${V.banda.largoDesarrollado} · envolventes ${JSON.stringify(V.banda.envolventes_deg)} · portante Z=${V.banda.dorsoPortanteZ} · fondo pozo Z=${V.banda.fondoPozoZ}`);
-console.log(`   PERCHA: ${V.percha.cuelgue.pernos38} pernos 3/8 por colisas del side + ${V.percha.cuelgue.apoyoLenguetas} lengüetas de apoyo · ${r2(V.percha.cuelgue.cortantePorPernoN)} N/perno (adm ${V.percha.cuelgue.cortanteAdmisiblePernoN}) · flecha larguero ${V.percha.flechaLargueroMm} mm · masa NBT90 (cota sup.) ${NBT.masaKg} kg`);
+if (!PG40F.desactivaPercha) console.log(`   PERCHA: ${V.percha.cuelgue.pernos38} pernos 3/8 por colisas del side + ${V.percha.cuelgue.apoyoLenguetas} lengüetas de apoyo · ${r2(V.percha.cuelgue.cortantePorPernoN)} N/perno (adm ${V.percha.cuelgue.cortanteAdmisiblePernoN}) · flecha larguero ${V.percha.flechaLargueroMm} mm · masa NBT90 (cota sup.) ${NBT.masaKg} kg`);
+else console.log(`   PERCHA: DESACTIVADA por bandera (params_pg40.FLAGS.desactivaPercha) — el NBT90 queda tomado por sus 2 canales laterales vía el alargue (6 pernos 3/8), y de ahí al bastidor PG40`);
 console.log(`   ESTACIONES: eje motriz común Ø${EJEC.d}/Ø${EJEC.munonUcfl.d} × ${V.estaciones.ejeComun.L} (vano ${V.estaciones.ejeComun.vanoMm}, flecha ${V.estaciones.ejeComun.flechaMm} mm, τ ${V.estaciones.ejeComun.tauMPa} MPa a ${V.estaciones.ejeComun.parNm} N·m — hipótesis ${V.estaciones.ejeComun.hipotesis}) · AT10 recolocada X ${V.estaciones.at10.x.join('…')} · banda AT10 del kit: ${EJEC.bandaAT10.dientes} dientes (${EJEC.bandaAT10.designacion.split('(')[0].trim()})`);
 console.log(`   IDLER-P01 medida: eje a ${V.estaciones.idler.dxEjeBanda} del eje de banda, Y ${V.estaciones.idler.y} — ${V.estaciones.idler.declarado}`);
 console.log(`   GUARDAS pozo: desarrollos ${JSON.stringify(V.guardas.desarrollos)}`);
@@ -1239,10 +1250,10 @@ console.log(`   GUARDAS pozo: desarrollos ${JSON.stringify(V.guardas.desarrollos
   console.log(`   BASTIDOR PG40: ${G.largueros} largueros ${G.perfil}`);
   console.log(`      GUÍAS: ${G.guias} × ${G.guia}`);
   console.log(`      FLECHA: larguero ${FL.flechaLarguero} mm en el vano de ${FL.vanoMax} (límite ${FL.limite}) · travesaño ${FL.flechaTravesano} mm · σ ${FL.sigmaLarguero} MPa — ${FL.hipotesis}`);
-  console.log(`      ALARGUE: 2 × pletina ${AL.material} e=${AL.e} × ${AL.largo} · ${AL.pernosSide} pernos 3/8 a las colisas del side (casquillo ${AL.separador}) + ${AL.pernosChapon} M10 al chapón`);
+  console.log(`      ALARGUE: alma + 2 cabezales + lap por lado, ${AL.material} e=${AL.e} · ${AL.pernosSide} pernos 3/8 a las colisas del side + ${AL.pernosChapon} M10 al chapón (+X)`);
   console.log(`         holgura a las alas del side: ${AL.holguraAlaInf} inferior / ${AL.holguraAlaSup} superior (mín 2) · perno a ${AL.cantoPerno} del canto`);
-  console.log(`         CARAS DE APOYO UCF 207: X ${AL.caraApoyo.xNeg} y ${AL.caraApoyo.xPos} (luz ${AL.luzEntreCaras}, rodamientos hacia dentro) · cuadro 92×92 Ø13.5 en motriz Y ${G.publica.ejes.motriz.y} y conducido Y ${G.publica.ejes.conducido.y}`);
-  console.log(`         cara de tambor que piden las 5 bandas: ${G.publica.caraTamborMin} → ${G.publica.holguraPorLado} por lado para el UCF 207 · ejes según ${G.publica.ejes.fuente}`);
+  console.log(`         CARAS DE APOYO (según ${G.publica.ejes.fuente}): motriz OUTBOARD en X ${AL.caraApoyo.xNegOutboard} (−X) · conducido INBOARD en X ${AL.caraApoyo.xNeg} y ${AL.caraApoyo.xPos} · cuadro 92×92 Ø13.5`);
+  console.log(`         cartelas de rodillo de retorno: 4 por lado con cuadro 76×76 Ø11 en RR1…RR4 · el +X motriz lo lleva el chapón (X 527.418), no el alargue`);
 }
 // ▼▼▼ TENSOR NEUMÁTICO DE BRAZOS POR BANDA ▼▼▼
 if (!TENSOR_VIEJO) {

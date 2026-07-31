@@ -19,7 +19,7 @@ import { box, cyl, hole, sketchYZ, pernoHex, tuercaHex, golilla, COL, r2 }
   from '../../nbt90/lib.mjs';
 import {
   FLAGS, PERFIL, Z, GUIA, TRAMOS, TRAVESANOS, ALARGUE, UCF207, EJES_ARBOL,
-  PUBLICA, CARGA, STEP, NBT, Xc, EJES, T,
+  PUBLICA, CARGA, RETORNOS, RSOP, STEP, NBT, Xc, EJES, T,
 } from './params_pg40.mjs';
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
@@ -282,6 +282,32 @@ export function pg40(E) {
           sketchYZ(`Cubrejunta ${r3(yR[1] - yR[0])}×${r3(A.cubrejuntaZ[1] - A.cubrejuntaZ[0])}×${A.e}`,
             xCubre, rect(yR, A.cubrejuntaZ), A.e),
         ], { capaInfo: 'dis', nota: '4 pernos M10 al alma y 4 al cabezal; queda bajo el plano de transporte' });
+      out.piezas++;
+    }
+
+    // --- (c-bis) CARTELAS DE LOS RODILLOS DE RETORNO -----------------------
+    // Patrón y cara de apoyo los publica adapt/params_tambores.mjs
+    // (retornoSoporte: cuadrado 76×76 de Ø11, cara 67.494 / 491.418, INBOARD).
+    // Van en el plano de los cabezales, corridas 8.608 respecto del alma en −X:
+    // el escalón se salva con casquillos separadores en los pernos de empalme.
+    for (const rr of RETORNOS) {
+      const zLo = r3(Math.min(rr.z - 60, -200)), zHi = r3(Math.max(rr.z + 60, -190));
+      const yR = [r3(rr.y - 60), r3(rr.y + 60)];
+      const fr = [sketchYZ(`Cartela ${r3(yR[1] - yR[0])}×${r3(zHi - zLo)}×${A.e}`,
+        xCab, rect(yR, [zLo, zHi]), A.e)];
+      for (const dy of [-RSOP.patron / 2, RSOP.patron / 2]) {
+        for (const dz of [-RSOP.patron / 2, RSOP.patron / 2]) {
+          fr.push(hole(`Soporte de retorno Ø${RSOP.taladro}`,
+            [s < 0 ? r3(xCab - 2) : fuera, r3(rr.y + dy), r3(rr.z + dz)], dirIn, RSOP.taladro));
+        }
+      }
+      E.addPart(`PG40 · Cartela de rodillo de retorno ${rr.id} ${lado} (Y ${rr.y}, Z ${rr.z})`,
+        COL.chapaOsc, [xCab, 0, 0], fr, {
+          capaInfo: 'dis',
+          nota: `Lleva el cuadro ${RSOP.patron}×${RSOP.patron} de Ø${RSOP.taladro} del soporte de `
+            + `${rr.id} (${rr.papel}) en la cara de apoyo X ${xApoyo} que publica `
+            + `adapt/params_tambores.mjs; se atornilla al alma del alargue.`,
+        });
       out.piezas++;
     }
 

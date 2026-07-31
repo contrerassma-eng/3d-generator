@@ -626,6 +626,96 @@
    "confidence": "alta",
    "usado_en": "adapt/params_tambores.mjs UCF207.bridaE (16) y UCF207.aOffset (34); confirma brida 117 y entre centros 92 de BRG-UCF207-01",
    "contraste_con_lo_medido": "Las dos fuentes (NTN y AMI) coinciden en brida 117, entre centros 92, saliente 44.4 y aro interior 42.9. Discrepan en el Ø del taladro: NTN da N = 14.0 y AMI da s = 13.5. Se adopta 14 (el mayor) para el taladro de la brida y 13.5 para el que se taladra en el alargue, que es la holgura media ISO 273 de un M12: la pieza pasa con los dos. La cota axial de 34 (NTN A, AMI x) es la unica cuya DEFINICION no aparece literal en ninguna de las dos fuentes; se interpreta como separacion cara de montaje -> plano medio del rodamiento y queda declarado en params_tambores.mjs. No afecta al taladrado."
+  },
+  {
+   "id": "PG40-001",
+   "tema": "perfil_estructural",
+   "claim": "El perfil de aluminio modular 40x40 de ranura 10 (CS10 / tipo PG40) tiene Ix = Iy = 9.1 cm4, Wx = Wy = 4.5 cm3, seccion 5.6 cm2 y 1.5 kg/m, con 4 ranuras abiertas de 10",
+   "value": "9.1",
+   "unit": "cm4 (Ix = Iy)",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://mundoperfil.com/productos/perfil-aluminio-ranurado-40x40/",
+    "accessed": "2026-07-31",
+    "quote": "Momento de inercia de la superficie en direccion X [Ix] [cm4] 9.1 | Momento de inercia de la superficie en direccion Y [Iy] [cm4] 9.1 | Momento de resistencia en direccion X [Wx] [cm3] 4.5 | Superficie del perfil [A] [cm2] 5.6 | Masa [m] [kg] 1.5 | Dimensiones de reticula [mm] 40 | Ranura del perfil 10 | Ranuras abiertas 4",
+    "quote_tipo": "literal_de_la_ficha"
+   },
+   "fuente_titulo": "Mundoperfil - Perfil de aluminio modular 40x40 CS10 ranura 10 mm (ficha tecnica)",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "El bastidor que sustituye es el perfil TSLOT 40x80 ranura 8 del STEP del cliente (step 4.2). El cliente pide 40x40 y ranura 10; PG40 es su designacion. Se usa esta ficha porque publica la seccion completa; cualquier 40x40 ranura 10 de la misma familia (BLOCAN PG, CS10, tipo B) es intercambiable: comparte reticula 40 y ranura 10. La flecha del larguero se calcula con este Ix."
+  },
+  {
+   "id": "PG40-002",
+   "tema": "perfil_estructural",
+   "claim": "La ranura del perfil 40x40 tipo B ranura 10 tiene 10 mm de ancho de boca y 12 mm de profundidad, y su nucleo de 10 mm admite rosca M12",
+   "value": "10 x 12",
+   "unit": "mm boca x profundidad",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.motedis.es/es/Perfil-40x40-Tipo-B-ranura-10mm",
+    "accessed": "2026-07-31",
+    "quote": "Dimensiones : 40x40 | Ancho de la ranura: 10 mm | Profundidad de la ranura: 12 mm | Ranuras abiertas: 4 | Material: Aluminio anodizado | Nucleo de 10 mm es adecuado para una rosca M12",
+    "quote_tipo": "literal_de_la_ficha"
+   },
+   "fuente_titulo": "Motedis - Perfil Alu 40x40 Tipo-B Ranura 10",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "De aqui salen la boca (10) y la profundidad (12) con que se modelan las 4 ranuras del larguero y del travesano, y el pie de clip de la guia UHMW (9.6 de ancho, 0.4 de holgura de montaje, 6.85 de entrada de los 12 disponibles)."
+  },
+  {
+   "id": "ALU-001",
+   "tema": "material",
+   "claim": "El modulo de elasticidad de la aleacion de extrusion EN AW-6063 es 69500 N/mm2",
+   "value": "69500",
+   "unit": "N/mm2",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.elvial.gr/sites/default/files/2022-02/6063.pdf",
+    "accessed": "2026-07-31",
+    "quote": "The modulus of elasticity for EN AW-6063 is 69500 N/mm2 (ALUMINIUM ALLOY DATASHEET EN AW-6063)",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "ELVIAL - Aluminium alloy datasheet EN AW-6063",
+   "confidence": "media",
+   "contraste_con_lo_medido": "NO MEDIBLE en el STEP. Es la aleacion estandar de extrusion de los perfiles modulares; la ficha PG40-001 no declara aleacion. Se usa solo para la flecha del larguero, que sale 0.103 mm frente a un limite de 0.91: aunque el modulo real fuese 68900 (valor 6063-T6 de otras fuentes), la flecha subiria a 0.104 y la conclusion no cambia."
+  },
+  {
+   "id": "UHMW-001",
+   "tema": "guias",
+   "claim": "El polietileno de altisimo peso molecular (UHMW-PE 1000) es el material estandar de las regletas de deslizamiento de transportadores, y se fabrica en perfiles de clip para ranura de perfil modular",
+   "value": "UHMW-PE 1000",
+   "unit": "material",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://mundoperfil.com/productos/perfil-aluminio-ranurado-40x40/",
+    "accessed": "2026-07-31",
+    "quote": "Ranura del perfil 10 | Ranuras abiertas 4 (la ranura de 10 x 12 es la interfaz de montaje de los perfiles de deslizamiento de clip de la serie)",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "Mundoperfil - Perfil de aluminio modular 40x40 CS10 ranura 10 mm",
+   "confidence": "baja",
+   "contraste_con_lo_medido": "PENDIENTE DE REFERENCIA DE CATALOGO. El material y el sistema de clip a ranura son practica estandar, pero NO se ha localizado una ficha con designacion y seccion exacta de la regleta 31.75 x 18.55. La cota que manda es MEDIDA, no de catalogo: la guia del cliente mide 39.9 x 18.55 con cara de rodadura en Z 51.7 (step 4.3); la nueva conserva esa altura y esa cara, y estrecha el ancho a la ventana util 31.75. El cliente debe cerrar el proveedor."
+  },
+  {
+   "id": "BRG-UCF207",
+   "tema": "rodamientos",
+   "claim": "La unidad de rodamiento de brida cuadrada de 4 tornillos UCF 207 tiene eje de 35 mm, brida de 117 mm y separacion entre agujeros de perno de 92 mm",
+   "value": "35 / 117 / 92",
+   "unit": "mm eje / brida / entre agujeros",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://bearingsdirect.com/ucf207-four-bolt-flange-unit-bore-size-35mm/",
+    "accessed": "2026-07-31",
+    "quote": "UCF207 Four-Bolt Flange Unit Bore Size 35mm | Overall Length: 117mm | Bolt Hole to Bolt Hole: 92mm",
+    "quote_tipo": "literal_de_la_ficha"
+   },
+   "fuente_titulo": "Bearings Direct - UCF207 Four-Bolt Flange Unit Bore Size 35mm",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "NO MEDIBLE en el STEP (el sorter del cliente monta UCFL 205/206, no UCF 207). De aqui sale el cuadro de taladros del cabezal de rodamiento del alargue: 92 x 92 de Ø13.5 (M12 con holgura media ISO 273) centrado en el eje. El soporte y el eje los define adapt/params_tambores.mjs; este alargue solo aporta la cara de apoyo y los taladros."
   }
  ],
  "pendientes_sin_fuente": [

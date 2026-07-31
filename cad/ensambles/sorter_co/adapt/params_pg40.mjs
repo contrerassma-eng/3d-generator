@@ -50,6 +50,15 @@ export const FLAGS = {
   desactivaPercha: true,   // ← ACTIVADA: ver nota en el integrador
   desactivaPuentes: false,
   desactivaPozo: false,
+  // El ACCIONAMIENTO DE BANDA PLANA (adapt/mod_tambores.mjs) sustituye la
+  // transmisión T5 por calle y las 4 poleas de pozo V1…V4 del diseño anterior.
+  // Como dueño del bastidor las retiro por bandera, no borrando código.
+  // ⚠ EN false A PROPÓSITO: el cableado está hecho y probado (ver el bloque PG40
+  // del integrador), pero al retirar V1…V4 la compuerta §M reclama sus anillos
+  // de retención (40 incumplimientos) porque esa comprobación vive en
+  // mod_estaciones y no lleva bandera. Ponerlo en true exige guardar §M con la
+  // misma bandera — es del dueño de mod_estaciones, no de este módulo.
+  desactivaTransmisionT5: false,
 };
 
 // ---------------------------------------------------------------------------
@@ -313,6 +322,11 @@ try {
   console.error(`[pg40] adapt/params_tambores.mjs existe pero no se pudo leer (${err.message}); se usa la PROPUESTA de params_pg40.mjs`);
 }
 
+// Rodillos de retorno y su soporte — los publica el módulo de tambores; aquí
+// solo se consumen para taladrar las cartelas del alargue (no se duplican).
+export const RETORNOS = TAMB?.retorno ?? [];
+export const RSOP = TAMB?.retornoSoporte ?? { e: 12, lado: 100, patron: 76, taladro: 11 };
+
 export const EJES_ARBOL = {
   motriz: TAMB?.motriz ?? PROPUESTA_EJES.motriz,
   conducido: TAMB?.conducido ?? PROPUESTA_EJES.conducido,
@@ -327,8 +341,9 @@ export const PUBLICA = {
   // rodamientos van POR DENTRO: el chapón del cliente (cara interior 499.418,
   // cara exterior 527.418) no deja hueco por fuera en el lado +X.
   caraApoyo: {
-    xNeg: ALARGUE.xNegInt,                        // 50.886 — cara interior del alargue −X
-    xPos: ALARGUE.xInt,                           // 491.418 — cara interior del alargue +X
+    xNeg: ALARGUE.xCabNegInt,                     // 67.494 — cara INTERIOR del cabezal −X
+    xNegOutboard: ALARGUE.xCabNegExt,             // 59.494 — cara EXTERIOR del cabezal −X
+    xPos: ALARGUE.xInt,                           // 491.418 — cara interior del cabezal +X
     normal: 'X', rodamientos: 'hacia el interior (inboard)',
     nota: 'ASIMÉTRICO respecto de Xc (279.456): −X a 228.57 y +X a 211.962. Lo impone el '
       + 'hueco real de cada lado (peine y canal del cilindro del NBT90 por dentro, chapón '
