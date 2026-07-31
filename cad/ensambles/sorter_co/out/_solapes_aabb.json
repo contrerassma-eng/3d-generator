@@ -1,0 +1,177 @@
+[
+ {
+  "cm3": 1.9,
+  "a": "FIJO · Eje tensor Ø20×62 del carro (V2) (calle 1, X=56.598)",
+  "b": "FIJO · Tirante del yugo 3/16\"×20×114 (−X) (calle 1, X=56.598)"
+ },
+ {
+  "cm3": 1.9,
+  "a": "FIJO · Eje tensor Ø20×62 del carro (V2) (calle 1, X=56.598)",
+  "b": "FIJO · Tirante del yugo 3/16\"×20×114 (+X) (calle 1, X=56.598)"
+ },
+ {
+  "cm3": 1.9,
+  "a": "FIJO · Eje tensor Ø20×62 del carro (V2) (calle 2, X=132.798)",
+  "b": "FIJO · Tirante del yugo 3/16\"×20×114 (−X) (calle 2, X=132.798)"
+ },
+ {
+  "cm3": 1.9,
+  "a": "FIJO · Eje tensor Ø20×62 del carro (V2) (calle 2, X=132.798)",
+  "b": "FIJO · Tirante del yugo 3/16\"×20×114 (+X) (calle 2, X=132.798)"
+ },
+ {
+  "cm3": 1.9,
+  "a": "FIJO · Eje tensor Ø20×62 del carro (V2) (calle 3, X=208.998)",
+  "b": "FIJO · Tirante del yugo 3/16\"×20×114 (−X) (calle 3, X=208.998)"
+ },
+ {
+  "cm3": 1.9,
+  "a": "FIJO · Eje tensor Ø20×62 del carro (V2) (calle 3, X=208.998)",
+  "b": "FIJO · Tirante del yugo 3/16\"×20×114 (+X) (calle 3, X=208.998)"
+ },
+ {
+  "cm3": 1.9,
+  "a": "FIJO · Eje tensor Ø20×62 del carro (V2) (calle 4, X=285.198)",
+  "b": "FIJO · Tirante del yugo 3/16\"×20×114 (−X) (calle 4, X=285.198)"
+ },
+ {
+  "cm3": 1.9,
+  "a": "FIJO · Eje tensor Ø20×62 del carro (V2) (calle 4, X=285.198)",
+  "b": "FIJO · Tirante del yugo 3/16\"×20×114 (+X) (calle 4, X=285.198)"
+ },
+ {
+  "cm3": 1.9,
+  "a": "FIJO · Eje tensor Ø20×62 del carro (V2) (calle 5, X=361.398)",
+  "b": "FIJO · Tirante del yugo 3/16\"×20×114 (−X) (calle 5, X=361.398)"
+ },
+ {
+  "cm3": 1.9,
+  "a": "FIJO · Eje tensor Ø20×62 del carro (V2) (calle 5, X=361.398)",
+  "b": "FIJO · Tirante del yugo 3/16\"×20×114 (+X) (calle 5, X=361.398)"
+ },
+ {
+  "cm3": 1.12,
+  "a": "FIJO · Pletina carro tensor 3/16\"×140×309.15 (V1+V2, −X) (calle 1, X=56.598)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 1, X=56.598)"
+ },
+ {
+  "cm3": 1.12,
+  "a": "FIJO · Pletina carro tensor 3/16\"×140×309.15 (V1+V2, +X) (calle 1, X=56.598)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 1, X=56.598)"
+ },
+ {
+  "cm3": 1.12,
+  "a": "FIJO · Pletina carro tensor 3/16\"×140×309.15 (V1+V2, −X) (calle 2, X=132.798)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 2, X=132.798)"
+ },
+ {
+  "cm3": 1.12,
+  "a": "FIJO · Pletina carro tensor 3/16\"×140×309.15 (V1+V2, +X) (calle 2, X=132.798)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 2, X=132.798)"
+ },
+ {
+  "cm3": 1.12,
+  "a": "FIJO · Pletina carro tensor 3/16\"×140×309.15 (V1+V2, −X) (calle 3, X=208.998)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 3, X=208.998)"
+ },
+ {
+  "cm3": 1.12,
+  "a": "FIJO · Pletina carro tensor 3/16\"×140×309.15 (V1+V2, +X) (calle 3, X=208.998)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 3, X=208.998)"
+ },
+ {
+  "cm3": 1.12,
+  "a": "FIJO · Pletina carro tensor 3/16\"×140×309.15 (V1+V2, −X) (calle 4, X=285.198)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 4, X=285.198)"
+ },
+ {
+  "cm3": 1.12,
+  "a": "FIJO · Pletina carro tensor 3/16\"×140×309.15 (V1+V2, +X) (calle 4, X=285.198)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 4, X=285.198)"
+ },
+ {
+  "cm3": 1.12,
+  "a": "FIJO · Pletina carro tensor 3/16\"×140×309.15 (V1+V2, −X) (calle 5, X=361.398)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 5, X=361.398)"
+ },
+ {
+  "cm3": 1.12,
+  "a": "FIJO · Pletina carro tensor 3/16\"×140×309.15 (V1+V2, +X) (calle 5, X=361.398)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 5, X=361.398)"
+ },
+ {
+  "cm3": 0.93,
+  "a": "FIJO · Tirante del yugo 3/16\"×20×114 (−X) (calle 1, X=56.598)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 1, X=56.598)"
+ },
+ {
+  "cm3": 0.93,
+  "a": "FIJO · Tirante del yugo 3/16\"×20×114 (+X) (calle 1, X=56.598)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 1, X=56.598)"
+ },
+ {
+  "cm3": 0.93,
+  "a": "FIJO · Tirante del yugo 3/16\"×20×114 (−X) (calle 2, X=132.798)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 2, X=132.798)"
+ },
+ {
+  "cm3": 0.93,
+  "a": "FIJO · Tirante del yugo 3/16\"×20×114 (+X) (calle 2, X=132.798)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 2, X=132.798)"
+ },
+ {
+  "cm3": 0.93,
+  "a": "FIJO · Tirante del yugo 3/16\"×20×114 (−X) (calle 3, X=208.998)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 3, X=208.998)"
+ },
+ {
+  "cm3": 0.93,
+  "a": "FIJO · Tirante del yugo 3/16\"×20×114 (+X) (calle 3, X=208.998)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 3, X=208.998)"
+ },
+ {
+  "cm3": 0.93,
+  "a": "FIJO · Tirante del yugo 3/16\"×20×114 (−X) (calle 4, X=285.198)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 4, X=285.198)"
+ },
+ {
+  "cm3": 0.93,
+  "a": "FIJO · Tirante del yugo 3/16\"×20×114 (+X) (calle 4, X=285.198)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 4, X=285.198)"
+ },
+ {
+  "cm3": 0.93,
+  "a": "FIJO · Tirante del yugo 3/16\"×20×114 (−X) (calle 5, X=361.398)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 5, X=361.398)"
+ },
+ {
+  "cm3": 0.93,
+  "a": "FIJO · Tirante del yugo 3/16\"×20×114 (+X) (calle 5, X=361.398)",
+  "b": "FIJO · Traviesa del yugo 63.3×8×70 (calle 5, X=361.398)"
+ },
+ {
+  "cm3": 0.56,
+  "a": "FIJO · Traviesa del yugo 63.3×8×70 (calle 1, X=56.598)",
+  "b": "CTX · Cilindro SMC CD85N25-80 horizontal del carro (calle 1, X=56.598)"
+ },
+ {
+  "cm3": 0.56,
+  "a": "FIJO · Traviesa del yugo 63.3×8×70 (calle 2, X=132.798)",
+  "b": "CTX · Cilindro SMC CD85N25-80 horizontal del carro (calle 2, X=132.798)"
+ },
+ {
+  "cm3": 0.56,
+  "a": "FIJO · Traviesa del yugo 63.3×8×70 (calle 3, X=208.998)",
+  "b": "CTX · Cilindro SMC CD85N25-80 horizontal del carro (calle 3, X=208.998)"
+ },
+ {
+  "cm3": 0.56,
+  "a": "FIJO · Traviesa del yugo 63.3×8×70 (calle 4, X=285.198)",
+  "b": "CTX · Cilindro SMC CD85N25-80 horizontal del carro (calle 4, X=285.198)"
+ },
+ {
+  "cm3": 0.56,
+  "a": "FIJO · Traviesa del yugo 63.3×8×70 (calle 5, X=361.398)",
+  "b": "CTX · Cilindro SMC CD85N25-80 horizontal del carro (calle 5, X=361.398)"
+ }
+]
