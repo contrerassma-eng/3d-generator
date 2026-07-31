@@ -4,8 +4,11 @@
 // espacio entre bandas.
 //
 //   node ensambles/sorter_co/gen_sorter_co.mjs            (desde cad/)
-//   TEST_ROMPE=paso|ventana|roller|profundidad|luz node … (banco de la compuerta:
-//       inyecta UN defecto y demuestra que verify() lo para SIN emitir JSON)
+//   TEST_ROMPE=paso|ventana|roller|profundidad|luz|pasillo|borde|at10|retencion
+//              |guia|guarda|pivote|pila|cilindro node …  (banco de la compuerta:
+//       inyecta UN defecto y demuestra que verify() lo para SIN emitir JSON.
+//       Los tres últimos son del TENSOR: pivote = le roba los anillos DIN 471
+//       del eje; pila = le roba un separador; cilindro = deja una banda sin él)
 //
 // Emite (solo si la compuerta pasa):
 //   sorter_co_adaptado.json          — documento foto3d-cad (NBT90 como contexto)
@@ -31,7 +34,7 @@ import { estaciones } from './adapt/mod_estaciones.mjs';
 import { guardas } from './adapt/mod_guardas.mjs';
 // ▼▼▼ TENSOR NEUMÁTICO DE BRAZOS POR BANDA (bloque propio) ▼▼▼
 import { tensor2, leerRamal } from './adapt/mod_tensor2.mjs';
-import { TENSOR_VIEJO, PIV, TENSION, RESORTE, YUGO, NEUM, PALANCA, EJE_CALC } from './adapt/params_tensor2.mjs';
+import { TENSOR_VIEJO, PIV, TENSION, NEUM, PALANCA, EJE_CALC } from './adapt/params_tensor2.mjs';
 // ▲▲▲ ------------------------------------------------------ ▲▲▲
 
 const aqui = dirname(fileURLToPath(import.meta.url));
@@ -58,8 +61,10 @@ m.guardas = guardas(E);         //   IDLER-P01 medida, eje motriz común, guarda
 // TENSOR_VIEJO, no borrados.
 // La posición del ramal y los abrazados se leen de adapt/params_tambores.mjs
 // (otro agente) si ya existe; si no, se usan los valores por defecto declarados.
+// La bandera es un INTERRUPTOR: los dos tensores ocupan la misma bahía, así que
+// o va el nuevo (TENSOR_VIEJO=false, por defecto) o va el del cliente.
 m.ramal = await leerRamal();
-m.tensor2 = tensor2(E, m.ramal);
+if (!TENSOR_VIEJO) m.tensor2 = tensor2(E, m.ramal);
 // ▲▲▲ --------------------------------------- ▲▲▲
 
 // ---------------------------------------------------------------------------
@@ -117,6 +122,17 @@ if (ROMPE === 'paso') {
   for (const p of E.parts) {
     if (/Guía de descarga sur/.test(p.name)) p.pos = [p.pos[0], -1100, p.pos[2]];
   }
+} else if (ROMPE === 'pivote') {
+  // roba los 2 anillos DIN 471-30 del eje pivote del tensor: el eje se queda
+  // sin retención axial de seguridad y la compuerta §T2 lo denuncia
+  E.parts = E.parts.filter(p => !/Anillo retención eje pivote/.test(p.name));
+} else if (ROMPE === 'pila') {
+  // roba un separador de la pila de brazos: quedaría juego axial y un brazo
+  // podría correrse a lo largo del eje (§T2)
+  E.parts = E.parts.filter(p => !/Separador Ø38×.*calles 2–3/.test(p.name));
+} else if (ROMPE === 'cilindro') {
+  // deja la calle 4 sin su cilindro: esa banda no se tensaría (§T1)
+  E.parts = E.parts.filter(p => !(/Cilindro SMC CD85N25-80/.test(p.name) && p.name.includes('calle 4,')));
 } else if (ROMPE === 'guarda') {
   // corre la guarda sur del pozo hasta pisar el IDLER-ENS (deja además la
   // bajada de banda al descubierto)
@@ -129,12 +145,12 @@ if (ROMPE === 'paso') {
 // Compuerta
 // ---------------------------------------------------------------------------
 // Todas las piezas del tensor de brazos, para las reglas de solape tolerado.
-const TEN2 = new RegExp('Eje pivote común|Chumacera SKF UCFL 205 \\(eje pivote tensor'
-  + '|Collar de apriete|Separador Ø30|Yugo de reparto|Columna guía del yugo|Ménsula de columna guía'
+const TEN2 = new RegExp('Eje pivote común|Chumacera SKF UCFL 206'
+  + '|Collar de apriete|Separador Ø38×|Regulador de PRESIÓN'
   + '|Cilindro SMC CD85N25-80|Bisagra trasera SMC C85C25|Rótula de vástago SMC KJ10D'
   + '|Regulador de caudal SMC AS2201FS|Silenciador SMC AN101|Racor codo SMC KQ2L06'
   + '|Brazo tensor e=|Cubo del brazo|Casquillo de fricción|Polea tensora POL-CON-TEN'
-  + '|Eje de polea tensora|Bulón del lóbulo|Resorte de compensación|Vástago guía del resorte');
+  + '|Eje de polea tensora|Bulón del lóbulo');
 
 function verify() {
   const e = [];
@@ -755,6 +771,77 @@ function verify() {
     }
   }
 
+  // ▼▼▼ T. TENSOR NEUMÁTICO DE BRAZOS POR BANDA ▼▼▼
+  if (!TENSOR_VIEJO) {
+    const X = m.tensor2, T2 = X.tension, ram = m.ramal.usado;
+    // T1 · un brazo, un cilindro y una polea por banda
+    for (let k = 0; k < EJES.length; k++) {
+      const eti = `calle ${k + 1},`;
+      const brazos = partes.filter(p => /Brazo tensor e=/.test(p.name) && p.name.includes(eti));
+      const cil = partes.filter(p => /Cilindro SMC CD85N25-80/.test(p.name) && p.name.includes(eti));
+      const pol = partes.filter(p => /Polea tensora POL-CON-TEN/.test(p.name) && p.name.includes(eti));
+      const cas = partes.filter(p => /Casquillo de fricción/.test(p.name) && p.name.includes(eti));
+      if (brazos.length !== 2) e.push(`tensor calle ${k + 1}: ${brazos.length} pletinas de brazo (deben ser 2)`);
+      if (cil.length !== 1) e.push(`tensor calle ${k + 1}: ${cil.length} cilindros (debe ser 1 por banda)`);
+      if (pol.length !== 1) e.push(`tensor calle ${k + 1}: ${pol.length} poleas tensoras (debe ser 1)`);
+      if (cas.length !== 2) e.push(`tensor calle ${k + 1}: ${cas.length} casquillos (deben ser 2) — el brazo cabecearía`);
+      // los 4 accesorios que el cliente pidió por cilindro
+      for (const [rx, nom] of [[/Bisagra trasera SMC C85C25/, 'bisagra C85C25'],
+        [/Rótula de vástago SMC KJ10D/, 'rótula KJ10D'],
+        [/Regulador de caudal SMC AS2201FS/, 'regulador AS2201FS'],
+        [/Silenciador SMC AN101/, 'silenciador AN101']]) {
+        if (!partes.some(p => rx.test(p.name) && p.name.includes(eti))) {
+          e.push(`tensor calle ${k + 1}: falta el/la ${nom} de su cilindro`);
+        }
+      }
+    }
+    // T2 · EL EJE PIVOTE ASEGURADO (instrucción explícita del cliente)
+    const ejes = partes.filter(p => /Eje pivote común/.test(p.name));
+    if (ejes.length !== 1) e.push(`el tensor tiene ${ejes.length} ejes pivote (debe ser 1 común a los 5 brazos)`);
+    const chum = partes.filter(p => /Chumacera SKF UCFL 206/.test(p.name));
+    if (chum.length !== 2) e.push(`el eje pivote tiene ${chum.length} apoyos al bastidor (deben ser 2)`);
+    const anillos = partes.filter(p => /Anillo retención eje pivote/.test(p.name));
+    if (anillos.length !== 2) e.push(`el eje pivote tiene ${anillos.length} anillos ${PIV.anillo.norma} (deben ser 2) — SIN retención axial de seguridad`);
+    const collares = partes.filter(p => /Collar de apriete/.test(p.name));
+    if (collares.length !== 2) e.push(`la pila de brazos tiene ${collares.length} collares de tope (deben ser 2) — los brazos podrían correrse a lo largo del eje`);
+    const seps = partes.filter(p => /Separador Ø38×.*pila del pivote/.test(p.name));
+    if (seps.length !== EJES.length - 1) e.push(`la pila de brazos tiene ${seps.length} separadores (deben ser ${EJES.length - 1}) — quedaría juego axial`);
+    // el paso de la pila tiene que cerrar EXACTO contra el paso de las calles
+    if (Math.abs(X.ejePivote.pasoCerrado - NBT.paso) > 0.01) {
+      e.push(`la pila del pivote cierra ${X.ejePivote.pasoCerrado} y el paso es ${NBT.paso}: los brazos no caerían sobre sus bandas`);
+    }
+    // el eje tiene que llegar a sus dos apoyos y sobresalir para las gargantas
+    if (PIV.x0 > PIV.ucflX[0] || PIV.x1 < PIV.ucflX[1]) e.push('el eje pivote no alcanza sus dos chumaceras');
+    // resistencia y rigidez del eje
+    if (EJE_CALC.fs < 3) e.push(`el eje pivote no lleva FS 3 a flexión: ${EJE_CALC.fs} (σ ${EJE_CALC.sigmaMPa} MPa)`);
+    if (EJE_CALC.presionCasquilloMPa > 5) e.push(`los casquillos del pivote trabajan a ${EJE_CALC.presionCasquilloMPa} MPa (máx 5)`);
+    // T3 · LA TENSIÓN CONSEGUIDA — el número que pidió el cliente
+    if (T2.tPorMmAncho < TENSION.rangoSanoNmm[0] || T2.tPorMmAncho > TENSION.rangoSanoNmm[1]) {
+      e.push(`la tensión de banda queda en ${T2.tPorMmAncho} N/mm, fuera del rango sano de banda plana `
+        + `${TENSION.rangoSanoNmm.join('…')} N/mm (abrazado ${ram.abrazadoDeg}°, ${NEUM.presionTrabajoBar} bar). `
+        + `Reajustar la presión con el ${NEUM.reguladorPresion}: ver tablaPresion.`);
+    }
+    // que arrastre sin patinar, con FS 2 sobre la demanda del bulto
+    if (T2.feMaxPorBandaN < T2.arrastrePorBandaN * 2) {
+      e.push(`sin margen contra el patinaje: Fe ${T2.feMaxPorBandaN} N < 2 × ${T2.arrastrePorBandaN} N de arrastre`);
+    }
+    // el regulador que FIJA la tensión tiene que estar (el de caudal no vale)
+    if (!partes.some(p => /Regulador de PRESIÓN/.test(p.name))) {
+      e.push('falta el regulador de PRESIÓN de la rama del tensor: sin él la tensión no queda fijada '
+        + '(el AS2201FS es de caudal y sólo gobierna la velocidad)');
+    }
+    // T4 · trazabilidad de la hipótesis de presión: NO se esconde
+    avisosDeclarados.push(`TENSOR: presión de trabajo ${NEUM.presionTrabajoBar} bar fijada con el `
+      + `${NEUM.reguladorPresion} (web PNEU-009) → T = ${T2.tPorBandaN} N = ${T2.tPorMmAncho} N/mm por banda. `
+      + `La presión de RED (${NEUM.presionRedBar} bar) es HIPÓTESIS declarada (web_facts PNEU-003): el STEP no la declara.`);
+    if (!m.ramal.origen.tambores) {
+      avisosDeclarados.push(`TENSOR: adapt/params_tambores.mjs aún no existe — ramal Z ${ram.z} y abrazado `
+        + `${ram.abrazadoDeg}° son valores POR DEFECTO declarados (dis). Cuando el módulo de tambores publique, `
+        + `se recalcula solo; la tensión se mueve a la fila que toque de la tabla (en rango para abrazado ≥ 60°).`);
+    }
+  }
+  // ▲▲▲ ---------------------------------------- ▲▲▲
+
   // --- métricas ------------------------------------------------------------
   return {
     errores: e,
@@ -789,6 +876,14 @@ function verify() {
       retirados: m.estaciones.retirados,
     },
     guardas: { desarrollos: m.guardas.desarrollos },
+    // ▼▼▼ TENSOR NEUMÁTICO DE BRAZOS POR BANDA ▼▼▼
+    tensor: TENSOR_VIEJO ? { desactivado: 'TENSOR_VIEJO=true: va el tensor original del cliente' } : {
+      arquitectura: m.tensor2.arquitectura,
+      ejePivote: m.tensor2.ejePivote,
+      tension: m.tensor2.tension,
+      ramal: m.ramal,
+    },
+    // ▲▲▲ ---------------------------------------- ▲▲▲
   };
 }
 
@@ -831,6 +926,8 @@ const doc = {
       cliente: m.cliente, calles: { piezas: m.calles.piezas, banda: m.calles.banda, reuso: m.calles.reuso, nuevas: m.calles.nuevas },
       percha: m.percha,
       estaciones: { piezas: m.estaciones.piezas, reuso: m.estaciones.reuso, nuevas: m.estaciones.nuevas, retirados: m.estaciones.retirados },
+      ...(TENSOR_VIEJO ? {} : { tensor2: { piezas: m.tensor2.piezas, reuso: m.tensor2.reuso, nuevas: m.tensor2.nuevas,
+        arquitectura: m.tensor2.arquitectura, ejePivote: m.tensor2.ejePivote, tension: m.tensor2.tension } }),
       guardas: { piezas: m.guardas.piezas, nuevas: m.guardas.nuevas, desarrollos: m.guardas.desarrollos },
     },
     piezasExcluidasDelNbt90: m.nbt90.listaExcluidas,
@@ -866,5 +963,18 @@ console.log(`   PERCHA: ${V.percha.cuelgue.pernos38} pernos 3/8 por colisas del 
 console.log(`   ESTACIONES: eje motriz común Ø${EJEC.d}/Ø${EJEC.munonUcfl.d} × ${V.estaciones.ejeComun.L} (vano ${V.estaciones.ejeComun.vanoMm}, flecha ${V.estaciones.ejeComun.flechaMm} mm, τ ${V.estaciones.ejeComun.tauMPa} MPa a ${V.estaciones.ejeComun.parNm} N·m — hipótesis ${V.estaciones.ejeComun.hipotesis}) · AT10 recolocada X ${V.estaciones.at10.x.join('…')} · banda AT10 del kit: ${EJEC.bandaAT10.dientes} dientes (${EJEC.bandaAT10.designacion.split('(')[0].trim()})`);
 console.log(`   IDLER-P01 medida: eje a ${V.estaciones.idler.dxEjeBanda} del eje de banda, Y ${V.estaciones.idler.y} — ${V.estaciones.idler.declarado}`);
 console.log(`   GUARDAS pozo: desarrollos ${JSON.stringify(V.guardas.desarrollos)}`);
+// ▼▼▼ TENSOR NEUMÁTICO DE BRAZOS POR BANDA ▼▼▼
+if (!TENSOR_VIEJO) {
+  const A = V.tensor.arquitectura, P = V.tensor.ejePivote, T2 = V.tensor.tension;
+  console.log(`   TENSOR: ${A.brazos} brazos independientes · ${A.cilindros} cilindros (${NEUM.designacion}, en ${A.modo}) · ${A.ejeComun}`);
+  console.log(`      EJE PIVOTE ASEGURADO: ${P.designacion}, vano ${P.vano} · apoyos ${P.apoyos} · flecha ${P.flechaMm} mm, σ ${P.sigmaMPa} MPa (FS ${P.fs})`);
+  console.log(`         axial del EJE:    ${P.retencionEje}`);
+  console.log(`         axial de BRAZOS:  ${P.retencionBrazos} → paso cerrado ${P.pasoCerrado} = ${NBT.paso}`);
+  console.log(`         giro:             ${P.giro} a ${P.presionCasquilloMPa} MPa`);
+  console.log(`      TENSIÓN por banda: ${NEUM.presionTrabajoBar} bar → F ${T2.fCilindroEfN} N × palanca ${T2.palancaRatio} = N ${T2.nPoleaN} N → abrazado ${T2.abrazadoDeg}° → T = ${T2.tPorBandaN} N = ${T2.tPorMmAncho} N/mm (rango sano ${TENSION.rangoSanoNmm.join('…')})`);
+  console.log(`      ARRASTRE: Fe máx ${T2.feMaxPorBandaN} N/banda vs ${T2.arrastrePorBandaN} N que pide el bulto → margen ×${T2.margen} sin patinar`);
+  console.log(`      presión para otra tensión: ${T2.tablaPresion.map(r => `${r.nMm} N/mm→${r.barNecesarios} bar`).join(' · ')}`);
+}
+// ▲▲▲ ---------------------------------------- ▲▲▲
 if (V.avisosDeclarados?.length) for (const a of V.avisosDeclarados) console.log(`   ⚠ DECLARADO: ${a}`);
 console.log(`   → ${outBrep} (para ../nbt90/interferencias_brep.py --doc)`);

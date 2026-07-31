@@ -534,6 +534,25 @@
    "uso_en_diseno": "racordaje del puerto trasero del C85 Ø25 de cada calle (el puerto de trabajo lleva el regulador AS2201FS-01-06S del cliente, PNEU-004, cuya salida es tambien tubo de Ø6): un codo por calle, 5 en total (mod_estaciones)."
   },
   {
+   "id": "PNEU-009",
+   "tema": "neumatica",
+   "claim": "El SMC AR20-02-B es un regulador de PRESION modular de la serie AR, cuerpo tamano 20, roscas R1/4. Es el sucesor del AR2000-02, descatalogado.",
+   "value": "R1/4",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://befr.rs-online.com/web/p/pneumatic-regulators/0395297",
+    "accessed": "2026-07-31",
+    "quote": "SMC 1/4 in Pneumatic Regulator - 1 Mpa, AR20-02-B 20 L/min AR",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "RS Components - SMC AR20-02-B / SMC 'Modular Type Regulators Series AR' (content2.smcetech.com/pdf/ar.pdf)",
+   "confidence": "media",
+   "nota": "PIEZA NUEVA (no esta en el STEP del cliente). Se incorpora porque el AS2201FS-01-06S (PNEU-004) es un regulador de CAUDAL (meter-out), NO de presion: no puede fijar la fuerza del cilindro. El rango de reglaje exacto del modelo elegido debe confirmarse contra el catalogo AR de SMC antes de comprar; la presion de trabajo que pide este diseno es 0.40 MPa (4.0 bar), holgada dentro del rango de cualquier variante AR20. El AR2000-02 que aparece en muchos distribuidores esta DESCATALOGADO: su sucesor es la serie AR20.",
+   "uso_en_diseno": "UNO solo para toda la rama del tensor: alimenta los 5 cilindros CD85N25-80 en paralelo, de modo que las 5 bandas reciben EXACTAMENTE la misma tension. Fija la presion de trabajo en 4.0 bar (ver params_tensor2.NEUM.presionTrabajoBar)."
+  },
+  {
    "id": "RING-003",
    "tema": "mecanico",
    "claim": "Anillo de retencion interior DIN 472 para alojamiento de Ø42: ranura Ø44.5 H12 x 1.85 H13, espesor del anillo 1.75 (+0/-0.06), profundidad de ranura 1.25",

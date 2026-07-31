@@ -64,14 +64,14 @@ export const PALANCA = {
 };
 
 // ===========================================================================
-// 2. EL CILINDRO — uno COMÚN a los 5 brazos, trabajando en TIRO
+// 2. LOS CILINDROS — CINCO, uno por brazo (corrección del cliente 31-07)
 // ===========================================================================
-// PRESIÓN: 6 bar. Es una HIPÓTESIS DECLARADA (web_facts PNEU-003: «La PRESION
-// es una hipotesis (capa 'dis'): 6 bar, presion de red habitual. El STEP no
-// declara presion»). Si la red del cliente trabaja a otra presión, TODA la
-// cadena de fuerza escala linealmente — ver TENSION.escalaConPresion.
+// Arquitectura FIJADA por el cliente: lo único común es el eje del pivote.
+// Cada banda lleva su cilindro y se tensa SOLA, sin que las demás la afecten.
+// Desaparecen el yugo de reparto y los resortes de compensación de la versión
+// anterior: ya no hacen falta, porque la independencia la da el propio cilindro.
 export const NEUM = {
-  presionBar: 6.0,                  // dis/web PNEU-003 — HIPÓTESIS, no medida
+  nCilindros: 5,                    // uno por brazo (instrucción del cliente)
   designacion: 'SMC CD85N25-80-B',  // web PNEU-001 — ISO 6432 Ø25, carrera 80
   calibre: 25.0,                    // web PNEU-001 (contrastado: Ø25.000 medido)
   vastago: 10.0,                    // web PNEU-002 (contrastado: Ø10.000 medido)
@@ -79,272 +79,279 @@ export const NEUM = {
   cuerpoDia: STEP.cilC85.cuerpoDia,     // 26.6 step — camisa exterior medida
   cuerpoLargo: STEP.cilC85.cuerpoLargo, // 187.75 step
   cuerpoZ0: -264.51,                // step — cara inferior de la camisa medida
-  // MODO DE TRABAJO (dis): el cilindro trabaja en TIRO (retracción). Motivo
-  // geométrico, no de gusto: el brazo es un BALANCÍN (los dos lóbulos caen a
-  // lados opuestos del pivote en Y). Empujar hacia abajo en el lóbulo del yugo
-  // (Y = +136.22 del pivote) SUBIRÍA la polea (Y = −74) y AFLOJARÍA la banda.
-  // Tirando hacia arriba, la polea BAJA contra el ramal y tensa.  (calc)
+  y: 34.5,                          // step — eje del C85 vertical medido
+
+  // --- LA DECISIÓN DE DIÁMETRO / PRESIÓN (lo único que quedaba por resolver) --
+  // El Ø25 a 6 bar da 210 N efectivos en tiro → T = 193 N = 6.0 N/mm. Está en
+  // rango, pero en su parte alta y sin margen de reglaje hacia arriba. El
+  // objetivo es caer en la mitad del rango sano de banda plana (3…10 N/mm).
+  //
+  // Camino A (ELEGIDO): mantener el Ø25 y REGULAR LA PRESIÓN a 4.0 bar.
+  // Camino B (descartado): bajar a un C85 Ø20, que a 6 bar daría 3.9 N/mm.
+  //
+  // Por qué A y no B, con números y con procedencia:
+  //   1. El CD85N25-80 ya está IDENTIFICADO con cita verificada (PNEU-001) y
+  //      MEDIDO en el STEP (Ø25.000 exacto): el cliente ya los tiene. El Ø20
+  //      obliga a comprar cilindros nuevos.
+  //   2. La rótula KJ10D es M10×1.25 (PNEU-006, contrastada con el Ø menor
+  //      8.647 medido) = la rosca de vástago del Ø25. Un C85 Ø20 lleva vástago
+  //      M8 → haría falta otra horquilla (KJ8D), que NO está identificada ni
+  //      citada. Cambiar el calibre arrastra la rótula y el soporte.
+  //   3. Reserva de tensado: con el Ø25 a 4 bar se trabaja a 4.03 N/mm y basta
+  //      subir el regulador a 6 bar para llegar a 6.0 N/mm si alguna banda
+  //      pidiera más agarre. Un Ø20 a 6 bar ya está en su techo.
+  //   4. Regular es reversible y no cuesta pieza nueva salvo el regulador de
+  //      presión, que de todas formas hacía falta (ver reguladorPresion).
+  presionRedBar: 6.0,        // dis/web PNEU-003 — HIPÓTESIS de presión de red
+                             //   (el STEP no la declara). NO es la de trabajo.
+  presionTrabajoBar: 4.0,    // dis — LA DECISIÓN: presión de trabajo del tensor,
+                             //   fijada para que T caiga en 4.03 N/mm (calc).
+                             //   Se ajusta con el regulador de presión de abajo.
+
+  // MODO DE TRABAJO (dis): TIRO (retracción). Motivo geométrico, no de gusto:
+  // el brazo es un BALANCÍN (los dos lóbulos caen a lados opuestos del pivote
+  // en Y). Empujar hacia abajo en el lóbulo (Y = +136.22 del pivote) SUBIRÍA la
+  // polea (Y = −74) y AFLOJARÍA la banda. Tirando hacia arriba, la polea BAJA
+  // contra el ramal y tensa. (calc)
   modo: 'tiro',
-  // Consecuencia declarada y deseada: al perder aire el tensor SUELTA la banda
-  // (no la deja mordida). Es el comportamiento de seguridad normal en un
-  // tensor neumático.
   falloSeguro: 'al perder presión el tensor afloja la banda (no la muerde)',
   rendimiento: 0.85,   // dis — rendimiento del cilindro por fricción de juntas
-                       //   (valor de práctica para ISO 6432 de pequeño calibre).
-                       //   Conservador: si el cilindro rinde más, sobra tensión.
+                       //   (práctica para ISO 6432 de pequeño calibre).
+                       //   Conservador: si rinde más, sobra tensión.
+
+  // --- accesorios: los 4 que pidió el cliente, UNO POR CILINDRO -------------
   accesorios: {
-    bisagra: 'SMC C85C25',          // web PNEU-007 — bisagra trasera (clevis) C85 Ø20/25
-    rotula: 'SMC KJ10D',            // web PNEU-006 — horquilla de vástago, rosca M10×1.25
-    regulador: 'SMC AS2201FS-01-06S',  // web PNEU-004 — regulador de caudal meter-out
-    silenciador: 'SMC AN101-01',    // web PNEU-005 — silenciador R1/8 (confianza BAJA:
-                                    //   PENDIENTE de cita textual, ver web_facts)
-    racor: 'SMC KQ2L06-01AS',       // web PNEU-008 — codo instantáneo R1/8 ↔ tubo Ø6
+    bisagra: 'SMC C85C25',             // web PNEU-007 — bisagra trasera (clevis) C85 Ø20/25
+    rotula: 'SMC KJ10D',               // web PNEU-006 — horquilla de vástago M10×1.25
+    regulador: 'SMC AS2201FS-01-06S',  // web PNEU-004 — regulador de CAUDAL meter-out
+    silenciador: 'SMC AN101-01',       // web PNEU-005 — silenciador R1/8 (confianza BAJA)
+    racor: 'SMC KQ2L06-01AS',          // web PNEU-008 — codo instantáneo R1/8 ↔ tubo Ø6
   },
-  // Un solo cilindro y no cinco (dis, justificado con la fuerza en §5):
-  // 250 N efectivos en empuje / 210 en tiro alcanzan de sobra para los 5 brazos
-  // (42 N por brazo bastan, ver TENSION). Cinco cilindros Ø25 darían 210 N a
-  // CADA brazo: 5× sobredimensionado, 5× la neumática y 5× el mantenimiento.
-  // El calibre 25 es además el que el cliente ya tiene y ya está identificado.
-  nCilindros: 1,
-  // Va en el HUECO ENTRE CALLES más próximo al centro del yugo (dis): los ejes
-  // de calle están ocupados por los 5 resortes (mismo Y = 34.5 que el cilindro),
-  // así que el cilindro no cabe sobre ninguno. El hueco entre las calles 3 y 4
-  // queda a medio paso (38.1) del centro del yugo (279.456): es el punto libre
-  // más centrado, y las 2 columnas guía absorben ese pequeño momento.
-  x: r2(EJES[2] + 76.2 / 2),   // 317.556
-  get excentricidadYugoMm() { return r2(this.x - (EJES[0] + EJES[4]) / 2); },  // 38.1
+  // --- el regulador que fija la PRESIÓN (pieza nueva, citada) ---------------
+  // OJO, y hay que decirlo: el AS2201FS-01-06S es un regulador de CAUDAL
+  // (meter-out). Gobierna la VELOCIDAD del vástago, no la fuerza. NO puede
+  // fijar la tensión. Para eso hace falta un regulador de PRESIÓN, que el STEP
+  // del cliente no trae:
+  reguladorPresion: 'SMC AR20-02-B',   // web PNEU-009 — regulador de presión modular R1/4
+  // UNO SOLO para toda la rama del tensor (dis): alimentando los 5 cilindros en
+  // paralelo desde el mismo regulador, las 5 bandas reciben EXACTAMENTE la
+  // misma presión y por tanto la misma tensión. Con cinco reguladores separados
+  // habría cinco tensiones distintas y cinco cosas que desajustar.
+  reguladorPresionX: 20,     // dis — fuera del reparto de calles, junto al
+  reguladorPresionY: 34.5,   //   bastidor −X, accesible para el ajuste
+  reguladorPresionZ: -200,
 };
 
 // ===========================================================================
-// 3. EL REPARTO: yugo + 5 resortes = precarga global, compensación individual
+// 3. EL EJE PIVOTE ASEGURADO — el corazón de la instrucción del cliente
 // ===========================================================================
-// Por qué no atacar los 5 brazos rígidamente desde un eje de torsión: con un
-// único grado de libertad, el eje se posiciona según la banda MÁS tensa y las
-// otras cuatro quedan flojas en cuanto las longitudes difieran (desgaste
-// dispar, tolerancia de fabricación de la banda). En un sorter de 5 bandas eso
-// pasa siempre.
-// Solución (dis, decisión del cliente 31-07): los brazos giran LIBRES sobre
-// casquillos en un eje pivote que es sólo ARTICULACIÓN FIJA al bastidor; el
-// cilindro tira de un YUGO (barra de reparto) que precarga 5 RESORTES, uno por
-// brazo. Cada banda recibe su fuerza casi independiente de la posición del
-// resto: si una se estira, su brazo baja, su resorte se comprime un poco más y
-// la fuerza sube sólo lo que diga la constante k (muy blanda a propósito).
-export const RESORTE = {
-  k: 2.0,              // dis — N/mm. BLANDA a propósito: ver toleranciaMm.
-  largoLibre: 75,      // dis
-  largoMontado: 54,    // dis — precarga 21 mm × 2.0 N/mm = 42.0 N (calc)
-  get precargaN() { return r2(this.k * (this.largoLibre - this.largoMontado)); },  // 42.0
-  diaExt: 20,          // dis — cabe holgado en el paso 76.2
-  diaHilo: 2.5,        // dis
-  guia: 10,            // dis — vástago guía Ø10 solidario al yugo, evita pandeo
-  // Cuánta diferencia de longitud entre bandas tolera sin descompensar (calc):
-  // la banda abraza la tensora ~180°, luego 1 mm de recorrido de polea = 2 mm
-  // de longitud de banda. Recorrido de polea → recorrido en el resorte × ratio.
-  //   Δlongitud 10 mm → Δpolea 5 mm → Δresorte 5 × 1.841 = 9.2 mm → ΔF 18.4 N
-  get toleranciaMm() { return 10; },
-  get deltaFpor10mm() { return r2(this.k * 10 / 2 * PALANCA.ratio); },   // 18.4 N (44 %)
-  // PENDIENTE: designación de catálogo del resorte. Se especifica por
-  // características (k, largos, Ø) porque NO se ha verificado una referencia
-  // comercial concreta — la regla del repo prohíbe inventar procedencia `web`.
-  designacion: 'PENDIENTE — resorte de compresión k=2.0 N/mm, L0=75, Øe=20, Ød=2.5',
-};
-
-export const YUGO = {
-  // barra de reparto: cruza las 5 calles a la altura del cilindro
-  y: GEO.yugoY,                                   // 34.5 step
-  topZ: r2(GEO.lobuloZ - RESORTE.largoMontado),   // −346.5 calc: asiento inferior
-                                                  //   del resorte, 54 bajo el lóbulo
-  secY: 40, secZ: 30,                             // dis — sección de la barra
-  get z() { return r2(this.topZ - this.secZ / 2); },   // −361.5 — eje de la barra
-  x: [r2(EJES[0] - 30), r2(EJES[4] + 30)],        // dis — [97.06, 461.86]: sobresale
-                                                  //   30 de las calles extremas para
-                                                  //   alojar las 2 guías verticales
-  get largo() { return r2(this.x[1] - this.x[0]); },   // 364.8
-  guiaDia: 12,                                    // dis — 2 columnas guía Ø12 que
-                                                  //   impiden que el yugo bascule
-  guiaX: [r2(EJES[0] - 30), r2(EJES[4] + 30)],    // en los extremos de la barra
-  // Flexión del yugo (calc): carga 5 × 42 N repartida, apoyo en las 2 guías.
-  // I = 40 × 30³/12 = 90 000 mm⁴ (barra 40 ancho en Y × 30 alto en Z)
-  //   δ = 5 W L³ /(384 E I) con W = 210 N, L = 364.8, E = 210 000 MPa
-  get flechaMm() {
-    const W = 5 * RESORTE.precargaN, L = this.largo, I = this.secY * this.secZ ** 3 / 12;
-    return r3(5 * W * L ** 3 / (384 * 210000 * I));
-  },
-};
-
-// ===========================================================================
-// 4. EL EJE PIVOTE ASEGURADO — el corazón de la instrucción del cliente
-// ===========================================================================
-// «ASEGURA SU EJE PIVOTE»: hay que resolver TRES cosas distintas y aquí van las
-// tres, cada una con su pieza.
+// «ASEGURA SU EJE PIVOTE», y la precisión del 31-07: «lo único común es el eje
+// del pivote. Nada más». Es una LÍNEA DE ARTICULACIÓN: atraviesa los 5 brazos,
+// se amarra al bastidor, y NO transmite par (ningún brazo es solidario a él).
+// Hay que resolver TRES cosas distintas y aquí van las tres, cada una con su
+// pieza:
 //   (a) que el eje no se salga ni se desplace a lo largo → retención axial DEL EJE;
 //   (b) que los brazos no se muevan a lo largo del eje  → retención axial DE LOS BRAZOS;
-//   (c) que los brazos giren suave y el eje no trabaje a torsión → casquillos.
+//   (c) que los brazos giren suaves y libres            → casquillos.
 export const PIV = {
-  d: 25.0,                 // step — el Ø25 del EJE-25mm-PASADOR del cliente
+  // Ø30 y no el Ø25 del cliente (dis, forzado por el número): con 5 cilindros
+  // independientes la reacción por brazo sube a 398 N (antes, con el reparto
+  // por resortes, era 35 N). A Ø25 el eje daría σ = 94.3 MPa y una flecha de
+  // 1.26 mm; a Ø30 baja a σ = 54.5 MPa y 0.61 mm (calc, ver EJE_CALC).
+  // Cambio declarado sobre la pieza medida del cliente (EJE-25mm-PASADOR Ø25).
+  d: 30.0,
   material: 'C45 rectificado h7',   // dis — asiento de casquillos de fricción
   y: GEO.pivoteY, z: GEO.pivoteZ,
 
-  // --- (c) GIRO: cada brazo sobre 2 casquillos de fricción -----------------
-  casquillo: { di: 25, de: 32, largo: 25, brida: 3, bridaDe: 42 },  // dis
-  // 2 por brazo, uno en cada boca del cubo → base ancha, el brazo no cabecea.
-  // PENDIENTE: designación de catálogo (bronce sinterizado autolubricado o
-  // polímero tipo iglidur). Se especifica por cotas; no se inventa referencia.
-  casquilloDesignacion: 'PENDIENTE — casquillo de fricción con brida Ø25 int × Ø32 ext × 25',
-  // Presión de apoyo (calc, ver TENSION.reaccionPivoteN):
-  //   p = R /(di × largo × 2 casquillos) = 42.1/(25 × 25 × 2) = 0.034 MPa
-  //   Dos órdenes de magnitud por debajo de lo admisible de cualquier casquillo
-  //   de fricción (≥ 5 MPa). Sobra material.
+  // --- (c) GIRO: cada brazo LIBRE sobre 2 casquillos de fricción -----------
+  // Los brazos NO son solidarios al eje: si lo fueran quedarían rígidamente
+  // acoplados entre sí y se perdería la independencia que los 5 cilindros
+  // compran. El eje es articulación, no transmisión.
+  casquillo: { di: 30, de: 38, largo: 25, brida: 3, bridaDe: 48 },  // dis
+  casquilloDesignacion: 'PENDIENTE — casquillo de fricción con brida Ø30 int × Ø38 ext × 25',
 
   // --- cubo del brazo -------------------------------------------------------
-  cubo: { de: 45, largo: 58, bore: 32 },   // dis — Ø45 exterior, 58 de largo
+  cubo: { de: 50, largo: 58, bore: 38 },   // dis
   //   El paso se cierra EXACTO (calc):
   //     58 de cubo + 2 × 3 de brida de casquillo + 12.2 de separador = 76.2
   //   El paquete queda sin juego axial acumulado: los separadores fijan el paso
   //   y las BRIDAS de los casquillos son las caras de empuje axial del brazo.
-  separador: { de: 30, di: 25.5, largo: r2(76.2 - 58 - 2 * 3) },   // 12.2 calc
+  separador: { de: 38, di: 30.5, largo: 12.2 },   // calc
 
   // --- (b) RETENCIÓN AXIAL DE LOS BRAZOS -----------------------------------
   // La pila brazo–separador–brazo–…–brazo se captura entre DOS collares de
-  // apriete apretados al eje. Los brazos no pueden correrse a lo largo porque
-  // no hay hueco: el paso lo fijan los separadores y los topes son los collares.
-  collar: { de: 45, di: 25, largo: 15 },   // dis — collar de apriete partido
-  collarDesignacion: 'PENDIENTE — collar de apriete partido Ø25, tipo DIN 705 A / abrazadera',
-  // caras exteriores de la pila, BRIDAS INCLUIDAS (calc): es donde topan los
-  // collares de apriete que capturan todo el paquete
+  // apriete apretados al eje. Ningún brazo puede correrse a lo largo porque no
+  // hay hueco: el paso lo fijan los separadores y los topes son los collares.
+  collar: { de: 50, di: 30, largo: 15 },   // dis — collar de apriete partido
+  collarDesignacion: 'PENDIENTE — collar de apriete partido Ø30, tipo DIN 705 A / abrazadera',
+  // caras exteriores de la pila, BRIDAS INCLUIDAS (calc): ahí topan los collares
   get pilaX() {
     const s = this.cubo.largo / 2 + this.casquillo.brida;   // 32
     return [r2(EJES[0] - s), r2(EJES[4] + s)];
-  },   // [95.06, 463.86] — 368.8 de pila
+  },   // [95.06, 463.86]
 
   // --- apoyos del eje al bastidor ------------------------------------------
-  // 2 chumaceras de brida ovalada UCFL 205 (Ø25), una contra la cara interior
-  // de cada chapón del bastidor. Es la misma chumacera que el cliente ya tiene
-  // montada en este eje (step: una UCFL medida en X 504.09…539.79) — se
-  // conserva el tipo y se completa la pareja.
-  ucfl: { designacion: 'SKF UCFL 205', bore: 25, housingW: 27, entreTaladros: 99, alto: 130 },
-  ucflX: [STEP.frameIntNeg, STEP.frameIntPos],   // [−81.423, 499.418] step — caras
-                                                  //   interiores de los dos chapones
+  // 2 chumaceras de brida ovalada, una contra la cara interior de cada chapón.
+  // UCFL 206 (eje 30) y no la 205 del cliente, por el cambio de Ø del eje.
+  ucfl: { designacion: 'SKF UCFL 206', bore: 30, housingW: 31, entreTaladros: 108, alto: 140 },
+  ucflNota: 'misma serie SKF UC/UCFL citada en web_facts BRG-003 (allí, tamaño 205 para eje 25); '
+    + 'el tamaño 206 (eje 30) se deduce del cambio de Ø del eje. Cita específica del 206: PENDIENTE.',
+  ucflX: [STEP.frameIntNeg, STEP.frameIntPos],   // [−81.423, 499.418] step
+
   // --- (a) RETENCIÓN AXIAL DEL EJE -----------------------------------------
   // DOBLE, a propósito (el cliente pidió expresamente que no se salga):
-  //   1. los prisioneros del aro interior de cada UC 205 aprietan sobre el eje
-  //      (es la retención de servicio, y además impide que el eje gire);
-  //   2. 2 anillos DIN 471-25 en gargantas, POR FUERA de cada chumacera: si un
+  //   1. los prisioneros del aro interior de cada UC 206 aprietan sobre el eje
+  //      (retención de servicio; además impiden que el eje gire);
+  //   2. 2 anillos DIN 471-30 en gargantas, POR FUERA de cada chumacera: si un
   //      prisionero se afloja, el anillo topa contra la cara del UC y el eje
-  //      sigue sin poder salirse. Es la retención de seguridad.
-  anillo: { norma: 'DIN 471-25', eje: 25 },
-  // el eje sobresale 12 de cada chumacera para alojar la garganta (dis):
-  voladizoAnillo: 12,
-  get x0() { return r2(this.ucflX[0] - this.voladizoAnillo); },   // −93.42
-  get x1() { return r2(this.ucflX[1] + this.voladizoAnillo); },   // 511.42
-  get largo() { return r2(this.x1 - this.x0); },                  // 604.84
-  // El eje NO gira (los brazos giran sobre sus casquillos): es una articulación
-  // fija. Por eso los prisioneros del UC son admisibles como anclaje — no hay
-  // par que los afloje.
+  //      sigue sin poder salirse. Retención de seguridad.
+  anillo: { norma: 'DIN 471-30', eje: 30 },
+  // Los 2 anillos van POR DENTRO de sus chumaceras, no por fuera (dis, forzado
+  // por el espacio): hacia −X el eje no puede sobresalir, porque la caja del
+  // motorreductor principal del cliente llega hasta X −82.423 (step) y el
+  // chapón −X está en −81.423 — no hay sitio para voladizo. Montados hacia
+  // dentro funcionan igual, en pareja espejada: el anillo −X impide que el eje
+  // corra hacia −X (topa contra la cara interior de su UC) y el +X impide que
+  // corra hacia +X. Entre los dos lo dejan sin recorrido axial en ningún sentido.
+  holguraAnillo: 3,        // dis — separación anillo ↔ cara interior del housing
+  get x0() { return this.ucflX[0]; },                             // −81.423
+  get x1() { return this.ucflX[1]; },                             // 499.418
+  get largo() { return r2(this.x1 - this.x0); },                  // 580.84
+  // posición de las gargantas (calc): justo por dentro de cada housing
+  get anilloX() {
+    return [r2(this.ucflX[0] + this.ucfl.housingW + this.holguraAnillo),
+      r2(this.ucflX[1] - this.ucfl.housingW - this.holguraAnillo - 1.5)];
+  },   // [−47.42, 466.92]
   giraElEje: false,
 };
 
-// Flexión y tensión del eje pivote (calc — se comprueban en la compuerta):
-//   5 cargas de R por brazo, vano entre chumaceras L = 580.84
-//   I = π·25⁴/64 = 19 175 mm⁴ ; E = 210 000 MPa
-export const EJE_CALC = {
-  vano: r2(PIV.ucflX[1] - PIV.ucflX[0]),        // 580.84
-  get I() { return r3(Math.PI * PIV.d ** 4 / 64); },       // 19 174.76
-  W: 5,                                          // nº de cargas
-};
-
 // ===========================================================================
-// 5. LA POLEA TENSORA y el ramal donde apoya
+// 4. LA POLEA TENSORA y el ramal donde apoya
 // ===========================================================================
 export const POL = {
   dia: STEP.polTensora.dia,      // 117.9 step — POL-CON-TEN del cliente reutilizada
   ancho: STEP.polTensora.ancho,  // 40 step
-  eje: { d: 20, largo: 70 },     // dis — patrón del eje SCMRT906VCT del cliente (Ø20)
-  rodamiento: { bore: 20, od: 42, w: 12, designacion: 'SKF W 6004-2Z' },  // igual que
-                                 //   la retención de V1…V4 de mod_estaciones (RETEN)
-  anillo: '3AM1-20',             // igual criterio que RETEN
+  eje: { d: 20, largo: 70 },     // dis — patrón del eje SCMRT906VCT del cliente
+  rodamiento: { bore: 20, od: 42, w: 12, designacion: 'SKF W 6004-2Z' },  // web BRG-005
+  anillo: '3AM1-20',
 };
 
 // El RAMAL sobre el que se tensa. La posición del tambor motriz y del rodillo
 // conducido las publica adapt/params_tambores.mjs (otro agente, en curso).
-// Mientras no exista, se trabaja con los valores por defecto DECLARADOS de
+// Mientras no exista se trabaja con los valores por defecto DECLARADOS de
 // abajo; mod_tensor2.mjs los lee de allí en cuanto el archivo aparezca.
 export const RAMAL = {
   z: -52.33,          // dis — cota del ramal de retorno del cliente hoy (step §4.4,
                       //   citada en params_adapt §6). SE RELEE de params_tambores.
   motrizY: STEP.motrizY,        // 0.0 step
   conducidaY: STEP.conducidaY,  // −1607.4 step
-  // ABRAZADO de la banda sobre la polea tensora. Por defecto 180° (dis):
-  // es la arquitectura del propio tensor que el cliente tenía, cuya envolvente
-  // MEDIDA sobre la tensora era 186.25° (verificaciones del run anterior:
-  // envolventes.tensoraOriginal). El ramal baja al tensor, lo rodea y vuelve.
-  // SE RELEE de params_tambores si publica la geometría real de los rodillos
-  // de retorno; si cambia, cambia la fila de la tabla de TENSION.tabla.
+  // ABRAZADO sobre la polea tensora. Por defecto 180° (dis): es la arquitectura
+  // del propio tensor que el cliente tenía, cuya envolvente MEDIDA sobre la
+  // tensora era 186.25°. El ramal baja al tensor, lo rodea y vuelve.
   abrazadoDeg: 180,
   origenAbrazado: 'dis (por defecto) — medida del tensor original: 186.25°',
 };
 
 // ===========================================================================
-// 6. LA TENSIÓN QUE SE CONSIGUE  (calc — el número que pidió el cliente)
+// 5. LA TENSIÓN QUE SE CONSIGUE  (calc — el número que pidió el cliente)
 // ===========================================================================
 export const TENSION = {
-  // (1) fuerza del cilindro. Áreas con el calibre y el vástago MEDIDOS.
+  // (1) fuerza del cilindro, con el calibre y el vástago MEDIDOS
   get areaEmpuje() { return r2(Math.PI / 4 * NEUM.calibre ** 2); },              // 490.87
   get areaTiro() { return r2(Math.PI / 4 * (NEUM.calibre ** 2 - NEUM.vastago ** 2)); },  // 412.33
-  get fEmpujeTeorN() { return r2(NEUM.presionBar / 10 * this.areaEmpuje); },     // 294.5  ← PNEU-003
-  get fTiroTeorN() { return r2(NEUM.presionBar / 10 * this.areaTiro); },         // 247.4  ← PNEU-003
-  get fTiroEfN() { return r2(this.fTiroTeorN * NEUM.rendimiento); },             // 210.3
-  // (2) reparto: 1 cilindro → yugo → 5 resortes
-  get fPorBrazoN() { return r2(this.fTiroEfN / EJES.length); },                  // 42.06
-  // El resorte se precarga EXACTAMENTE a esa fuerza (RESORTE.precargaN = 42.0):
-  // el cilindro sólo tiene que vencer la suma de las 5 precargas.
-  // (3) palanca: el brazo multiplica ×1.841
-  get nPoleaN() { return r2(this.fPorBrazoN * PALANCA.ratio); },                 // 77.43
+  // a la PRESIÓN DE TRABAJO elegida (4.0 bar), no a la de red
+  get fTiroTeorN() { return r2(NEUM.presionTrabajoBar / 10 * this.areaTiro); },  // 164.93
+  get fTiroEfN() { return r2(this.fTiroTeorN * NEUM.rendimiento); },             // 140.19
+  // (2) un cilindro por brazo: NO hay reparto
+  get fPorBrazoN() { return this.fTiroEfN; },                                    // 140.19
+  // (3) palanca del balancín: ×1.841
+  get nPoleaN() { return r2(this.fPorBrazoN * PALANCA.ratio); },                 // 258.09
   // (4) tensión de la banda. Una polea que desvía la banda un ángulo θ recibe
   //     N = 2·T·sin(θ/2)  →  T = N /(2·sin(θ/2)).
   tDe(abrazadoDeg) {
-    const b = abrazadoDeg * Math.PI / 360;      // θ/2 en radianes
+    const b = abrazadoDeg * Math.PI / 360;
     return r2(this.nPoleaN / (2 * Math.sin(b)));
   },
-  get tPorBandaN() { return this.tDe(RAMAL.abrazadoDeg); },                      // 38.72 a 180°
-  get tPorMmAncho() { return r3(this.tPorBandaN / STEP.bandaAncho); },           // 1.21 N/mm
-  // (5) ¿arrastra sin patinar? Criterio de capstan (Euler–Eytelwein) sobre el
-  //     tambor motriz engomado: T1/T2 = e^(μθ). El tensor pone T2 (ramal flojo).
-  mu: 0.35,             // dis — goma/uretano seco sobre banda. Conservador:
-                        //   los engomados de tambor motriz dan 0.35…0.45 en seco.
+  get tPorBandaN() { return this.tDe(RAMAL.abrazadoDeg); },                      // 129.05 a 180°
+  get tPorMmAncho() { return r3(this.tPorBandaN / STEP.bandaAncho); },           // 4.03 N/mm
+  rangoSanoNmm: [3, 10],   // dis — banda plana de poliéster/uretano sobre cama
+                           //   de deslizamiento. 4.03 cae en la mitad baja: bien.
+  // (5) ¿arrastra sin patinar? Capstan (Euler–Eytelwein) sobre el tambor motriz
+  //     engomado: T1/T2 = e^(μθ). El tensor pone T2 (ramal flojo).
+  mu: 0.35,                 // dis — goma/uretano seco. Conservador (0.35…0.45).
   abrazadoMotrizDeg: 180,   // dis — tambor motriz común; SE RELEE de params_tambores
   get capstan() { return r3(Math.exp(this.mu * this.abrazadoMotrizDeg * Math.PI / 180)); },  // 3.003
-  get feMaxPorBandaN() { return r2(this.tPorBandaN * (this.capstan - 1)); },     // 77.55
-  get feMaxTotalN() { return r2(this.feMaxPorBandaN * EJES.length); },           // 387.8
+  get feMaxPorBandaN() { return r2(this.tPorBandaN * (this.capstan - 1)); },     // 258.5
+  get feMaxTotalN() { return r2(this.feMaxPorBandaN * EJES.length); },           // 1292.5
   // (6) la demanda: arrastre del bulto sobre la cama de deslizamiento UHMW
   bultoKg: 34,          // dis — el mismo bulto con que se dimensionó el puente de
-                        //   calle (params_adapt CALLE.puente: «medio bulto de 34 kg»)
+                        //   calle (params_adapt CALLE.puente)
   muUhmw: 0.25,         // dis — banda sobre regleta UHMW, en seco
   get arrastreTotalN() { return r2(this.bultoKg * 9.81 * this.muUhmw); },        // 83.4
   get arrastrePorBandaN() { return r2(this.arrastreTotalN / EJES.length); },     // 16.68
-  get margen() { return r3(this.feMaxPorBandaN / this.arrastrePorBandaN); },     // 4.65
-  // (7) tabla T(abrazado) — si al integrar con params_tambores cambia el
-  //     abrazado, se lee la fila que toque y se decide si hay que reajustar
-  //     la presión con el regulador AS2201FS.
+  get margen() { return r3(this.feMaxPorBandaN / this.arrastrePorBandaN); },     // 15.5
+  // (7) tabla T(abrazado): si al integrar con params_tambores cambia el
+  //     abrazado, se lee la fila que toque y se decide si hay que reajustar la
+  //     presión con el AR20-02-B.
   get tabla() {
     return [30, 45, 60, 90, 120, 150, 180].map(a => ({
       abrazadoDeg: a,
       tPorBandaN: this.tDe(a),
       tPorMmAncho: r3(this.tDe(a) / STEP.bandaAncho),
+      enRango: this.tDe(a) / STEP.bandaAncho >= 3 && this.tDe(a) / STEP.bandaAncho <= 10,
       feMaxPorBandaN: r2(this.tDe(a) * (this.capstan - 1)),
       margen: r3(this.tDe(a) * (this.capstan - 1) / this.arrastrePorBandaN),
     }));
   },
-  // (8) reacción en el pivote (para el eje y los casquillos): el brazo está en
-  //     equilibrio bajo N (arriba, en la polea) y F del resorte (arriba, en el
-  //     lóbulo del yugo). La reacción del eje sobre el brazo cierra el sistema.
-  get reaccionPivoteN() { return r2(this.nPoleaN - this.fPorBrazoN); },          // 35.37
-  // (9) escalado con la presión real de la red
+  // (8) qué presión haría falta para una tensión unitaria dada (para el
+  //     ajustador en obra: se lee aquí y se pone en el AR20-02-B)
+  presionParaNmm(nmm) {
+    const T = nmm * STEP.bandaAncho;
+    const N = T * 2 * Math.sin(RAMAL.abrazadoDeg * Math.PI / 360);
+    const F = N / PALANCA.ratio;
+    return r3(F / (NEUM.rendimiento * this.areaTiro) * 10);
+  },
+  get tablaPresion() {
+    return [3, 4, 5, 6].map(n => ({ nMm: n, barNecesarios: this.presionParaNmm(n) }));
+  },
+  // (9) reacción en el pivote (dimensiona el eje y los casquillos): el brazo
+  //     está en equilibrio bajo N (arriba, en la polea) y F del cilindro
+  //     (arriba, en el lóbulo). Ambas hacia arriba, a lados opuestos del
+  //     pivote: sus PARES se oponen, pero sus FUERZAS se suman en el apoyo.
+  get reaccionPivoteN() { return r2(this.nPoleaN + this.fPorBrazoN); },          // 398.28
   escalaConPresion: 'todas las fuerzas escalan LINEALMENTE con la presión: a P bar, '
-    + 'multiplicar por P/6. La tensión T y la fuerza de arrastre Fe escalan igual.',
-  hipotesis: `${NEUM.presionBar} bar (HIPÓTESIS declarada — web_facts PNEU-003; el STEP no declara presión)`,
+    + 'multiplicar por P/4.0 (la presión de trabajo elegida).',
+  hipotesis: `presión de trabajo ${NEUM.presionTrabajoBar} bar fijada con el ${NEUM.reguladorPresion} `
+    + `(web PNEU-009); la presión de RED (${NEUM.presionRedBar} bar) es HIPÓTESIS declarada — web_facts PNEU-003`,
+};
+
+// Flexión y tensión del eje pivote (calc — se comprueban en la compuerta):
+//   5 cargas de reaccionPivoteN, vano entre chumaceras L = 580.84
+//   I = π·d⁴/64 ; E = 210 000 MPa ; se trata como carga repartida equivalente
+export const EJE_CALC = {
+  get vano() { return r2(PIV.ucflX[1] - PIV.ucflX[0]); },        // 580.84
+  get I() { return r3(Math.PI * PIV.d ** 4 / 64); },             // 39 760.78
+  get Wsec() { return r3(Math.PI * PIV.d ** 3 / 32); },          // 2 650.72
+  get cargaTotalN() { return r2(TENSION.reaccionPivoteN * EJES.length); },   // 1991.4
+  get flechaMm() {
+    return r3(5 * this.cargaTotalN * this.vano ** 3 / (384 * 210000 * this.I));
+  },                                                              // 0.609
+  get momentoNmm() { return r2(this.cargaTotalN * this.vano / 8); },         // 144 578
+  get sigmaMPa() { return r2(this.momentoNmm / this.Wsec); },                // 54.54
+  fyMPa: 430,           // C45 — límite elástico de referencia
+  get fs() { return r3(this.fyMPa / this.sigmaMPa); },                       // 7.88
+  // La flecha NO es un problema funcional: un tensor neumático es un
+  // dispositivo de FUERZA CONSTANTE, no de posición. Si el eje cede 0.6 mm, el
+  // cilindro simplemente recorre 0.6 mm más de sus 80 de carrera y la tensión
+  // no cambia. La flecha importa sólo por el canteo de los casquillos, y
+  // 0.6 mm en 580.84 de vano son 0.06° de giro: despreciable.
+  notaFlecha: 'el tensor es de fuerza constante: la flecha del eje la absorbe la carrera '
+    + 'del cilindro sin alterar la tensión',
+  get presionCasquilloMPa() {
+    return r3(TENSION.reaccionPivoteN / (PIV.casquillo.di * PIV.casquillo.largo * 2));
+  },                                                              // 0.266
 };
 
 export default {
-  TENSOR_VIEJO, GEO, PALANCA, NEUM, RESORTE, YUGO, PIV, EJE_CALC, POL, RAMAL, TENSION,
+  TENSOR_VIEJO, GEO, PALANCA, NEUM, PIV, EJE_CALC, POL, RAMAL, TENSION,
 };

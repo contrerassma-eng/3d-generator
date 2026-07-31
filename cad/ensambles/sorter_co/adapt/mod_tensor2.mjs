@@ -1,28 +1,30 @@
-// mod_tensor2.mjs — TENSOR NEUMÁTICO DE BRAZOS POR BANDA (5 brazos, eje pivote
-// común asegurado, un cilindro común con reparto por resortes).
+// mod_tensor2.mjs — TENSOR NEUMÁTICO DE BRAZOS POR BANDA.
 //
-// Instrucción literal del cliente (31-07-2026):
+// Instrucción del cliente (31-07-2026), ya cerrada tras sus dos precisiones:
 //   «TERMINA EL TENSOR NEUMÁTICO QUE TIENE BRAZOS POR CADA BANDA.
 //    ASEGURA SU EJE PIVOTE.»
+//   «Lo único común es el eje del pivote. Nada más.»
 //
-// Lo que monta este módulo:
-//   POR CALLE (×5): brazo basculante de horquilla (2 pletinas + cubo), 2
-//     casquillos de fricción con brida, polea tensora Ø117.9 con su eje, sus
-//     2 rodamientos y sus anillos, bulón del lóbulo del yugo y su resorte.
-//   COMÚN (×1): eje pivote Ø25 asegurado (2 chumaceras UCFL 205, 4 separadores,
-//     2 collares de apriete, 2 anillos DIN 471-25), yugo de reparto con sus 2
-//     columnas guía, y el cilindro SMC CD85N25-80 con su bisagra C85C25, su
-//     rótula KJ10D, su regulador AS2201FS-01-06S, su silenciador AN101-01 y su
-//     racor KQ2L06-01AS.
+// ARQUITECTURA:
+//   · UN eje pivote común, que atraviesa los 5 brazos y se amarra al bastidor.
+//     Es sólo la LÍNEA DE ARTICULACIÓN: no transmite par, no lleva brazos
+//     solidarios. Y queda ASEGURADO (§A).
+//   · CINCO brazos independientes, cada uno girando libre sobre ese eje con 2
+//     casquillos de fricción.
+//   · CINCO cilindros, uno por brazo, cada uno con su bisagra trasera, su
+//     rótula, su regulador de caudal y su silenciador. Cada banda se tensa
+//     SOLA, sin que las demás la afecten.
+//   · UN regulador de PRESIÓN común a la rama: fija los 4.0 bar de trabajo y
+//     con ello garantiza que las 5 bandas queden a la misma tensión.
 //
 // Cotas, fuerzas y procedencias: params_tensor2.mjs. Capas: FIJO = pieza nueva
 // o reubicada funcional; CTX (contexto) = pieza del cliente en pose medida.
 
 import {
-  box, cyl, hole, sketchYZ, COL, r2, pernoHex, tuercaHex, golilla, rodamiento, anilloRet,
+  box, cyl, hole, sketchYZ, COL, r2, pernoHex, tuercaHex, rodamiento, anilloRet,
 } from '../../nbt90/lib.mjs';
-import { EJES, STEP } from './params_adapt.mjs';
-import { GEO, PALANCA, NEUM, RESORTE, YUGO, PIV, EJE_CALC, POL, RAMAL, TENSION } from './params_tensor2.mjs';
+import { EJES } from './params_adapt.mjs';
+import { GEO, PALANCA, NEUM, PIV, EJE_CALC, POL, RAMAL, TENSION } from './params_tensor2.mjs';
 
 // ---------------------------------------------------------------------------
 // Envolvente convexa de discos en el plano YZ (silueta de chapa recortada).
@@ -52,8 +54,7 @@ function hullDiscos(discos, n = 36) {
 }
 
 /** Lee la geometría del ramal de params_tambores.mjs si el otro agente ya lo
- *  publicó; si no, se queda con los valores por defecto DECLARADOS de RAMAL.
- *  Devuelve además de dónde salió cada número, para que quede en el informe. */
+ *  publicó; si no, se queda con los valores por defecto DECLARADOS de RAMAL. */
 export async function leerRamal() {
   const usado = { z: RAMAL.z, abrazadoDeg: RAMAL.abrazadoDeg, abrazadoMotrizDeg: TENSION.abrazadoMotrizDeg };
   const origen = { fuente: 'params_tensor2.RAMAL (dis, por defecto)', tambores: false };
@@ -86,52 +87,51 @@ export function tensor2(E, ramal) {
                                                        //   (luz interior 42 > 40 de la polea)
 
   // =========================================================================
-  // A. EL EJE PIVOTE ASEGURADO  (la instrucción explícita del cliente)
+  // A. EL EJE PIVOTE COMÚN, ASEGURADO  (instrucción explícita del cliente)
   // =========================================================================
-  // (a) el eje
-  E.addPart(`FIJO · Eje pivote común Ø${PIV.d}×${PIV.largo} (5 brazos del tensor)`, COL.acero,
+  E.addPart(`FIJO · Eje pivote común Ø${PIV.d}×${PIV.largo} (articulación de los 5 brazos)`, COL.acero,
     [PIV.x0, PIV.y, PIV.z],
     [cyl(`Eje Ø${PIV.d}×${PIV.largo}`, [PIV.x0, PIV.y, PIV.z], [1, 0, 0], PIV.d, PIV.largo),
-      // gargantas de los 2 anillos DIN 471-25, por FUERA de cada chumacera
-      ...PIV.ucflX.map((x, i) => {
-        const xg = i === 0 ? r2(x - PIV.voladizoAnillo / 2) : r2(x + PIV.voladizoAnillo / 2 - 1.35);
-        return { id: `gar${i}`, name: `Garganta DIN 471-25`, shape: 'cylinder', op: 'cut',
-          at: [xg, PIV.y, PIV.z], dir: [1, 0, 0], params: { dia: PIV.d - 2.2, h: 1.35 } };
-      })],
-    { fabricada: true, capaInfo: 'dis (Ø25 y pose: step §2.4)',
-      nota: `${PIV.material}. ARTICULACIÓN FIJA: el eje NO gira (los 5 brazos giran sobre sus `
-        + `casquillos), por eso los prisioneros de los UC 205 valen como anclaje — no hay par que los afloje. `
-        + `Vano entre chumaceras ${EJE_CALC.vano}; sobresale ${PIV.voladizoAnillo} de cada una para la garganta del anillo.` });
+      ...PIV.anilloX.map((xg, i) => ({ id: `gar${i}`, name: 'Garganta DIN 471-30', shape: 'cylinder', op: 'cut',
+        at: [xg, PIV.y, PIV.z], dir: [1, 0, 0], params: { dia: PIV.d - 2.5, h: 1.5 } }))],
+    { fabricada: true, capaInfo: 'dis (pose: step §2.4; Ø: calc)',
+      nota: `${PIV.material}. LÍNEA DE ARTICULACIÓN: el eje NO gira y NO transmite par — los 5 brazos giran `
+        + `libres sobre sus casquillos. Ø${PIV.d} y no el Ø25 medido del cliente (cambio declarado): con 5 `
+        + `cilindros independientes la reacción por brazo sube a ${TENSION.reaccionPivoteN} N, y a Ø25 el eje `
+        + `daría σ = 94.3 MPa y 1.26 mm de flecha; a Ø${PIV.d} queda en σ = ${EJE_CALC.sigmaMPa} MPa (FS `
+        + `${EJE_CALC.fs} sobre C45) y ${EJE_CALC.flechaMm} mm. Vano entre chumaceras ${EJE_CALC.vano}.` });
   cN(`eje pivote Ø${PIV.d}×${PIV.largo} (fabricado)`, 1);
 
-  // (a) retención axial DEL EJE — doble: prisioneros del UC + anillos DIN 471
+  // --- (a) retención axial DEL EJE: prisioneros del UC + anillos DIN 471 ----
   for (const [i, x] of PIV.ucflX.entries()) {
     const lado = i === 0 ? '−X' : '+X';
-    const xa = i === 0 ? r2(x - PIV.voladizoAnillo / 2) : r2(x + PIV.voladizoAnillo / 2 - 1.35);
-    anilloRet(E, { nombre: `eje pivote ${lado}`, at: [xa, PIV.y, PIV.z], dir: [1, 0, 0], eje: PIV.d, capa: 'FIJO · ' });
+    anilloRet(E, { nombre: `eje pivote ${lado}`, at: [PIV.anilloX[i], PIV.y, PIV.z], dir: [1, 0, 0], eje: PIV.d, capa: 'FIJO · ' });
     cN(`anillo ${PIV.anillo.norma} (retención de seguridad del eje)`, 1);
-    // chumacera de brida ovalada
+
     const xh = i === 0 ? x : r2(x - PIV.ucfl.housingW);
     E.addPart(`FIJO · Chumacera ${PIV.ucfl.designacion} (eje pivote tensor, ${lado})`, COL.rodamiento,
       [xh, PIV.y, r2(PIV.z - 20)],
-      [box(`Housing FL 205 ${PIV.ucfl.housingW}×${PIV.ucfl.alto}×40`,
-        [r2(xh + PIV.ucfl.housingW / 2), PIV.y, r2(PIV.z - 20)], PIV.ucfl.housingW, PIV.ucfl.alto, 40),
+      [box(`Housing FL 206 ${PIV.ucfl.housingW}×${PIV.ucfl.alto}×44`,
+        [r2(xh + PIV.ucfl.housingW / 2), PIV.y, r2(PIV.z - 20)], PIV.ucfl.housingW, PIV.ucfl.alto, 44),
       hole(`Bore UC Ø${PIV.d}`, [r2(xh - 5), PIV.y, PIV.z], [1, 0, 0], PIV.d),
-      ...[-1, 1].map(s => hole(`Ø16 perno`, [r2(xh - 1), r2(PIV.y + s * PIV.ucfl.entreTaladros / 2), PIV.z], [1, 0, 0], 16))],
-      { componente: 'UCFL205', norma: `${PIV.ucfl.designacion} — soporte de brida oval, eje ${PIV.d}, entre taladros ${PIV.ucfl.entreTaladros} · web BRG-003`,
-        nota: `apoyo ${lado} del eje pivote contra la cara interior del chapón (X ${x} step). Brida ovalada `
-          + `HORIZONTAL (según Y), como la chumacera medida del cliente en este mismo eje. Sus 2 prisioneros `
-          + `sobre el aro interior son la RETENCIÓN DE SERVICIO del eje (axial y antigiro); el anillo ${PIV.anillo.norma} `
-          + `de fuera es la de SEGURIDAD: si un prisionero se afloja, el anillo topa contra la cara del UC y el eje no sale.` });
-    cN(`chumacera ${PIV.ucfl.designacion} (web BRG-003)`, 1);
+      ...[-1, 1].map(s => hole('Ø16 perno', [r2(xh - 1), r2(PIV.y + s * PIV.ucfl.entreTaladros / 2), PIV.z], [1, 0, 0], 16))],
+      { componente: 'UCFL206', norma: `${PIV.ucfl.designacion} — soporte de brida oval, eje ${PIV.d}, entre taladros ${PIV.ucfl.entreTaladros}`,
+        nota: `APOYO ${lado} del eje contra la cara interior del chapón (X ${x} step). Brida ovalada HORIZONTAL `
+          + `(según Y), como la chumacera medida del cliente en este mismo eje. Sus 2 prisioneros sobre el aro `
+          + `interior son la RETENCIÓN DE SERVICIO (axial y antigiro); el anillo ${PIV.anillo.norma} montado POR `
+          + `DENTRO (X ${PIV.anilloX[i]}) es la de SEGURIDAD: si un prisionero se afloja, el anillo topa contra la `
+          + `cara interior del UC y el eje no corre. Van hacia dentro y no hacia fuera porque a −X no hay sitio `
+          + `(la caja del motorreductor del cliente llega a X −82.423, step); en pareja espejada bloquean los dos `
+          + `sentidos igual. ${PIV.ucflNota}` });
+    cN(`chumacera ${PIV.ucfl.designacion}`, 1);
     for (const s of [-1, 1]) {
       const yb = r2(PIV.y + s * PIV.ucfl.entreTaladros / 2);
-      pernoHex(E, { nombre: `M12×45 UCFL pivote tensor ${lado} (Y=${yb})`, at: [r2(xh + PIV.ucfl.housingW), yb, PIV.z], dir: [-1, 0, 0], dia: 12, largo: 45, af: 19, altoCab: 7.5, capa: 'FIJO · ' });
-      tuercaHex(E, { nombre: `M12 UCFL pivote tensor ${lado} (Y=${yb})`, at: [r2(xh - 28), yb, PIV.z], dir: [-1, 0, 0], dia: 12, af: 19, alto: 10.8, capa: 'FIJO · ' });
+      pernoHex(E, { nombre: `M12×45 UCFL pivote ${lado} (Y=${yb})`, at: [r2(xh + PIV.ucfl.housingW), yb, PIV.z], dir: [-1, 0, 0], dia: 12, largo: 45, af: 19, altoCab: 7.5, capa: 'FIJO · ' });
+      tuercaHex(E, { nombre: `M12 UCFL pivote ${lado} (Y=${yb})`, at: [r2(xh - 28), yb, PIV.z], dir: [-1, 0, 0], dia: 12, af: 19, alto: 10.8, capa: 'FIJO · ' });
     }
   }
 
-  // (b) retención axial DE LOS BRAZOS: 2 collares de apriete que capturan la pila
+  // --- (b) retención axial DE LOS BRAZOS: 2 collares capturan la pila -------
   for (const [i, x] of PIV.pilaX.entries()) {
     const lado = i === 0 ? '−X' : '+X';
     const xc = i === 0 ? r2(x - PIV.collar.largo) : x;
@@ -139,13 +139,12 @@ export function tensor2(E, ramal) {
       [xc, PIV.y, PIV.z],
       [cyl(`Collar Ø${PIV.collar.de}×${PIV.collar.largo}`, [xc, PIV.y, PIV.z], [1, 0, 0], PIV.collar.de, PIV.collar.largo),
         hole(`Ø${PIV.collar.di}`, [r2(xc - 1), PIV.y, PIV.z], [1, 0, 0], PIV.collar.di)],
-      { componente: 'collar_apriete_25', norma: PIV.collarDesignacion,
+      { componente: 'collar_apriete_30', norma: PIV.collarDesignacion,
         nota: `TOPE de la pila brazo–separador–…–brazo (cara ${lado} en X ${x}). Con los 4 separadores fija el `
-          + `paso 76.2 y deja el paquete SIN juego axial: ningún brazo puede correrse a lo largo del eje. `
-          + `Partido y con tornillo de apriete para poder montarlo sin desmontar las chumaceras.` });
-    cN('collar de apriete Ø25 (tope de pila)', 1);
+          + 'paso 76.2 y deja el paquete SIN juego axial: ningún brazo puede correrse a lo largo del eje. '
+          + 'Partido y con tornillo de apriete, para montarlo sin desmontar las chumaceras.' });
+    cN('collar de apriete Ø30 (tope de pila)', 1);
   }
-  // 4 separadores entre brazos consecutivos
   for (let k = 0; k < EJES.length - 1; k++) {
     const xs = r2(EJES[k] + semiPila);
     E.addPart(`FIJO · Separador Ø${PIV.separador.de}×${PIV.separador.largo} (pila del pivote, calles ${k + 1}–${k + 2})`, COL.acero,
@@ -153,108 +152,30 @@ export function tensor2(E, ramal) {
       [cyl(`Separador Ø${PIV.separador.de}×${PIV.separador.largo}`, [xs, PIV.y, PIV.z], [1, 0, 0], PIV.separador.de, PIV.separador.largo),
         hole(`Ø${PIV.separador.di}`, [r2(xs - 1), PIV.y, PIV.z], [1, 0, 0], PIV.separador.di)],
       { fabricada: true,
-        nota: `casquillo separador: ${PIV.cubo.largo} de cubo + 2×${PIV.casquillo.brida} de brida de casquillo `
-          + `+ ${PIV.separador.largo} de separador = 76.2 = paso EXACTO (calc). Topa contra las BRIDAS de los `
-          + `casquillos de fricción, que son las caras de empuje axial del brazo.` });
-    cN('separador de pila Ø30 (fabricado)', 1);
+        nota: `${PIV.cubo.largo} de cubo + 2×${PIV.casquillo.brida} de brida de casquillo + ${PIV.separador.largo} `
+          + 'de separador = 76.2 = paso EXACTO (calc). Topa contra las BRIDAS de los casquillos, que son las '
+          + 'caras de empuje axial del brazo.' });
+    cN('separador de pila Ø38 (fabricado)', 1);
   }
 
   // =========================================================================
-  // B. EL YUGO DE REPARTO + sus columnas guía
+  // B. EL REGULADOR DE PRESIÓN — uno solo para toda la rama del tensor
   // =========================================================================
-  const yugoXc = r2((YUGO.x[0] + YUGO.x[1]) / 2);
-  E.addPart(`FIJO · Yugo de reparto ${YUGO.largo}×${YUGO.secY}×${YUGO.secZ} (barra de los 5 resortes)`, COL.fijo,
-    [yugoXc, YUGO.y, r2(YUGO.z - YUGO.secZ / 2)],
-    [box(`Barra ${YUGO.largo}×${YUGO.secY}×${YUGO.secZ}`, [yugoXc, YUGO.y, r2(YUGO.z - YUGO.secZ / 2)], YUGO.largo, YUGO.secY, YUGO.secZ),
-      ...EJES.map((B, k) => hole(`Ø${RESORTE.guia} guía resorte calle ${k + 1}`, [B, YUGO.y, r2(YUGO.z - YUGO.secZ / 2 - 1)], [0, 0, 1], RESORTE.guia)),
-      ...YUGO.guiaX.map((gx, i) => hole(`Ø${YUGO.guiaDia + 0.2} columna guía ${i + 1}`, [gx, YUGO.y, r2(YUGO.z - YUGO.secZ / 2 - 1)], [0, 0, 1], YUGO.guiaDia + 0.2))],
-    { fabricada: true,
-      nota: `barra de reparto: el cilindro tira de ELLA y ella precarga los 5 resortes. Cara superior en Z `
-        + `${YUGO.topZ} = asiento inferior de los resortes. Flecha con las 5 cargas de ${RESORTE.precargaN} N: `
-        + `${YUGO.flechaMm} mm (calc, apoyo en las 2 columnas). Excentricidad del cilindro respecto del centro: `
-        + `${NEUM.excentricidadYugoMm} mm — la absorben las columnas.` });
-  cN('yugo de reparto (fabricado)', 1);
-
-  for (const [i, gx] of YUGO.guiaX.entries()) {
-    E.addPart(`FIJO · Columna guía del yugo Ø${YUGO.guiaDia}×170 (${i === 0 ? '−X' : '+X'})`, COL.acero,
-      [gx, YUGO.y, -430],
-      [cyl(`Columna Ø${YUGO.guiaDia}×170`, [gx, YUGO.y, -430], [0, 0, 1], YUGO.guiaDia, 170)],
-      { fabricada: true,
-        nota: 'impide que el yugo bascule o gire: sólo le deja el grado de libertad vertical que el cilindro '
-          + 'gobierna. Empotrada en su ménsula al bastidor; casquillo de deslizamiento en el yugo.' });
-    cN('columna guía del yugo (fabricada)', 1);
-    E.addPart(`FIJO · Ménsula de columna guía ${i === 0 ? '−X' : '+X'} (60×40×8)`, COL.chapa,
-      [gx, YUGO.y, -438],
-      [box('Ménsula 60×40×8', [gx, YUGO.y, -438], 60, 40, 8),
-        hole(`Ø${YUGO.guiaDia}`, [gx, YUGO.y, -439], [0, 0, 1], YUGO.guiaDia)],
-      { fabricada: true, nota: 'pletina de anclaje de la columna al bastidor inferior (LAT TOP). AVISO: LAT TOP '
-        + 'está modelado como caja envolvente medida — verificar en obra la viga real bajo la ménsula.' });
-    cN('ménsula de columna guía', 1);
-  }
+  E.addPart(`FIJO · Regulador de PRESIÓN ${NEUM.reguladorPresion} (rama del tensor, ${NEUM.presionTrabajoBar} bar)`, COL.neumatica,
+    [NEUM.reguladorPresionX, NEUM.reguladorPresionY, NEUM.reguladorPresionZ],
+    [box('AR20 40×40×90', [NEUM.reguladorPresionX, NEUM.reguladorPresionY, NEUM.reguladorPresionZ], 40, 40, 90),
+      cyl('Manómetro Ø40', [NEUM.reguladorPresionX, r2(NEUM.reguladorPresionY - 20), r2(NEUM.reguladorPresionZ + 70)], [0, -1, 0], 40, 12)],
+    { componente: 'AR20-02-B', norma: `${NEUM.reguladorPresion} — regulador de presión modular serie AR, R1/4 · web PNEU-009`,
+      capaInfo: 'web (designación) — PIEZA NUEVA, no está en el STEP del cliente',
+      nota: `ES LO QUE FIJA LA TENSIÓN. Hay que decirlo claro: el ${NEUM.accesorios.regulador} que el cliente ya `
+        + `tiene es un regulador de CAUDAL (meter-out) y gobierna la VELOCIDAD del vástago, no la fuerza — no `
+        + `puede fijar la tensión. Este AR20 pone la rama a ${NEUM.presionTrabajoBar} bar, que es lo que da los `
+        + `${TENSION.tPorMmAncho} N/mm de banda. UNO SOLO para los 5 cilindros en paralelo: así las 5 bandas `
+        + `reciben la misma presión y por tanto la misma tensión. Con manómetro, para ajustarlo en obra.` });
+  cN(`regulador de presión ${NEUM.reguladorPresion} (web PNEU-009)`, 1);
 
   // =========================================================================
-  // C. EL CILINDRO COMÚN y su neumática (todo con designación citada)
-  // =========================================================================
-  const CX = NEUM.x;
-  E.addPart(`FIJO · Cilindro ${NEUM.designacion} Ø${NEUM.calibre} carrera ${NEUM.carrera} (común a los 5 brazos)`, COL.neumatica,
-    [CX, NEUM.y ?? GEO.yugoY, NEUM.cuerpoZ0],
-    [cyl(`Camisa Ø${NEUM.cuerpoDia}×${NEUM.cuerpoLargo}`, [CX, GEO.yugoY, NEUM.cuerpoZ0], [0, 0, 1], NEUM.cuerpoDia, NEUM.cuerpoLargo),
-      cyl(`Vástago Ø${NEUM.vastago}×${r2(NEUM.cuerpoZ0 - YUGO.z)}`, [CX, GEO.yugoY, YUGO.z], [0, 0, 1], NEUM.vastago, r2(NEUM.cuerpoZ0 - YUGO.z))],
-    { componente: 'CD85N25-80', norma: `${NEUM.designacion} — ISO 6432, doble efecto, vástago simple · web PNEU-001/002`,
-      capaInfo: 'web (designación) + step (pose y camisa medidas)',
-      nota: `UNO para las 5 calles y no cinco (dis): en TIRO da ${TENSION.fTiroEfN} N efectivos y sólo hacen falta `
-        + `${TENSION.fPorBrazoN} N por brazo — cinco cilindros Ø25 darían ${TENSION.fTiroEfN} N a CADA brazo, `
-        + `5× sobredimensionado y 5× la neumática. TRABAJA EN TIRO (retracción): el brazo es un balancín y `
-        + `empujar hacia abajo AFLOJARÍA (calc). ${NEUM.falloSeguro}. PRESIÓN ${NEUM.hipotesis}.` });
-  cN(`cilindro ${NEUM.designacion} (web PNEU-001)`, 1);
-
-  E.addPart(`FIJO · Bisagra trasera ${NEUM.accesorios.bisagra} (anclaje del cilindro común)`, COL.neumatica,
-    [CX, GEO.yugoY, -100],
-    [box('Clevis C85C25 40×40×32', [CX, GEO.yugoY, -100], 40, 40, 32),
-      hole('Ø8 articulación', [r2(CX - 21), GEO.yugoY, -90], [1, 0, 0], 8)],
-    { componente: 'C85C25', norma: `${NEUM.accesorios.bisagra} — bisagra trasera (clevis) para C85 Ø20/25 · web PNEU-007`,
-      capaInfo: 'web (designación) + step (pose medida en la calle 1)',
-      nota: 'el kit del cliente, replicado UNA sola vez (antes iba uno por calle): con un cilindro común sólo hay '
-        + 'un anclaje. Cuelga de la cabecera FRONT TOP2; el cuerpo del cilindro queda por debajo y el vástago baja al yugo.' });
-  cR(`bisagra ${NEUM.accesorios.bisagra} (1 del STEP)`, 1);
-
-  E.addPart(`FIJO · Rótula de vástago ${NEUM.accesorios.rotula} (vástago ↔ yugo)`, COL.neumatica,
-    [CX, GEO.yugoY, r2(YUGO.z - 8)],
-    [box('Horquilla KJ10D 19×17×36', [CX, GEO.yugoY, r2(YUGO.z - 8)], 19, 17, 36),
-      hole('Ø10 bulón', [r2(CX - 12), GEO.yugoY, YUGO.z], [1, 0, 0], 10)],
-    { componente: 'KJ10D', norma: `${NEUM.accesorios.rotula} — horquilla de vástago con rótula, rosca M10×1.25, bulón y seguro ISO 8140 · web PNEU-006`,
-      capaInfo: 'web (designación) + step (Ø10 y M10×1.25 contrastados)',
-      nota: 'toma el yugo por su bulón Ø10. Es RÓTULA (casquetes esféricos medidos): admite el pequeño desalineado '
-        + 'que introduce la excentricidad del cilindro respecto del centro del yugo.' });
-  cR(`rótula ${NEUM.accesorios.rotula} (1 del STEP)`, 1);
-
-  E.addPart(`FIJO · Regulador de caudal ${NEUM.accesorios.regulador} (meter-out, puerto de tiro)`, COL.neumatica,
-    [CX, r2(GEO.yugoY + 20), r2(NEUM.cuerpoZ0 + NEUM.cuerpoLargo - 25)],
-    [box('AS2201FS 26.3×43.6×22.9', [CX, r2(GEO.yugoY + 20), r2(NEUM.cuerpoZ0 + NEUM.cuerpoLargo - 25)], 26.3, 43.61, 22.9)],
-    { componente: 'AS2201FS-01-06S', norma: `${NEUM.accesorios.regulador} — regulador de caudal codo, meter-out, R1/8, tubo Ø6 · web PNEU-004`,
-      capaInfo: 'web (designación) + step (caja medida)',
-      nota: 'meter-out en el puerto de TIRO: gobierna la velocidad con que el tensor toma la banda, para que no '
-        + 'la golpee al arrancar. De las 4 unidades del cliente sólo hace falta 1 (un solo cilindro).' });
-  cR(`regulador ${NEUM.accesorios.regulador} (1 de 4 del STEP)`, 1);
-
-  E.addPart(`FIJO · Silenciador ${NEUM.accesorios.silenciador} (escape del puerto de empuje)`, COL.neumatica,
-    [CX, r2(GEO.yugoY - 20), r2(NEUM.cuerpoZ0 + 12)],
-    [cyl('Silenciador Ø11×22.8', [CX, r2(GEO.yugoY - 20), r2(NEUM.cuerpoZ0 + 12)], [0, -1, 0], 11, 22.8)],
-    { componente: 'AN101-01', norma: `${NEUM.accesorios.silenciador} — silenciador serie AN, R1/8 · web PNEU-005`,
-      capaInfo: 'web (designación, CONFIANZA BAJA) + step (caja medida)',
-      nota: 'DECLARADO: la cita textual de catálogo de la serie AN no se obtuvo (web_facts PNEU-005 lo marca '
-        + 'PENDIENTE); la identificación se apoya en la nomenclatura SMC AN1xx-01 y en la geometría medida.' });
-  cR(`silenciador ${NEUM.accesorios.silenciador} (1 del STEP)`, 1);
-
-  E.addPart(`FIJO · Racor codo ${NEUM.accesorios.racor} (puerto de empuje)`, COL.neumatica,
-    [CX, r2(GEO.yugoY - 14), r2(NEUM.cuerpoZ0 + 12)],
-    [box('KQ2L06 16×26.3×25', [CX, r2(GEO.yugoY - 14), r2(NEUM.cuerpoZ0 + 12)], 16, 26.3, 25)],
-    { componente: 'KQ2L06-01AS', norma: `${NEUM.accesorios.racor} — codo instantáneo macho R1/8 ↔ tubo Ø6 · web PNEU-008`,
-      nota: 'tubo PU Ø6 a la válvula del cliente' });
-  cR(`racor ${NEUM.accesorios.racor} (web PNEU-008)`, 1);
-
-  // =========================================================================
-  // D. POR CALLE (×5): brazo, casquillos, polea tensora, bulón y resorte
+  // C. POR CALLE (×5): brazo, casquillos, polea tensora y SU PROPIO CILINDRO
   // =========================================================================
   const silueta = hullDiscos([
     [GEO.pivoteY, GEO.pivoteZ, PIV.cubo.de / 2],
@@ -273,12 +194,12 @@ export function tensor2(E, ramal) {
         [sketchYZ('Silueta del brazo (hull pivote–polea–lóbulo)', xFace, silueta, platE),
           hole(`Ø${PIV.cubo.de} paso del cubo`, [r2(xFace + 1), GEO.pivoteY, GEO.pivoteZ], [-1, 0, 0], PIV.cubo.de),
           hole(`Ø${POL.eje.d} eje de la polea`, [r2(xFace + 1), GEO.poleaY, GEO.poleaZ], [-1, 0, 0], POL.eje.d),
-          hole('Ø10 bulón del lóbulo', [r2(xFace + 1), GEO.yugoY, GEO.lobuloZ], [-1, 0, 0], 10)],
+          hole('Ø10 bulón de la rótula', [r2(xFace + 1), GEO.yugoY, GEO.lobuloZ], [-1, 0, 0], 10)],
         { fabricada: true, capaInfo: 'dis (poses de las 3 zonas: step)',
-          nota: `pletina A36 e=${platE}, corte láser. BALANCÍN: el lóbulo del yugo cae a +Y del pivote `
+          nota: `pletina A36 e=${platE}, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote `
             + `(palanca ${PALANCA.yugo}) y la polea a −Y (palanca ${PALANCA.polea}) → ventaja mecánica `
-            + `×${PALANCA.ratio} (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que `
-            + `abraza la polea de ${POL.ancho} de ancho.` });
+            + `×${PALANCA.ratio} (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza `
+            + `la polea de ${POL.ancho} y, más arriba, la rótula del cilindro.` });
       cN('brazo tensor (pletina fabricada)', 1);
     }
 
@@ -288,8 +209,9 @@ export function tensor2(E, ramal) {
       [cyl(`Cubo Ø${PIV.cubo.de}×${PIV.cubo.largo}`, [r2(B - semiCubo), GEO.pivoteY, GEO.pivoteZ], [1, 0, 0], PIV.cubo.de, PIV.cubo.largo),
         hole(`Ø${PIV.cubo.bore} H7 (asiento de casquillos)`, [r2(B - semiCubo - 1), GEO.pivoteY, GEO.pivoteZ], [1, 0, 0], PIV.cubo.bore)],
       { fabricada: true,
-        nota: `tubo mecanizado Ø${PIV.cubo.de}, bore Ø${PIV.cubo.bore} H7 para los 2 casquillos. Largo ${PIV.cubo.largo}: `
-          + `con las 2 bridas y el separador cierra el paso 76.2 EXACTO (calc). Soldado a las 2 pletinas del brazo.` });
+        nota: `tubo mecanizado Ø${PIV.cubo.de}, bore Ø${PIV.cubo.bore} H7 para los 2 casquillos. Largo `
+          + `${PIV.cubo.largo}: con las 2 bridas y el separador cierra el paso 76.2 EXACTO (calc). Soldado a las `
+          + '2 pletinas del brazo.' });
     cN('cubo del brazo (fabricado)', 1);
 
     // --- (c) los 2 casquillos de fricción con brida ------------------------
@@ -301,11 +223,12 @@ export function tensor2(E, ramal) {
         [cyl(`Casquillo Ø${PIV.casquillo.de}×${PIV.casquillo.largo}`, [xb, GEO.pivoteY, GEO.pivoteZ], [1, 0, 0], PIV.casquillo.de, PIV.casquillo.largo),
           cyl(`Brida Ø${PIV.casquillo.bridaDe}×${PIV.casquillo.brida}`, [xf, GEO.pivoteY, GEO.pivoteZ], [1, 0, 0], PIV.casquillo.bridaDe, PIV.casquillo.brida),
           hole(`Ø${PIV.casquillo.di}`, [r2(xb - 4), GEO.pivoteY, GEO.pivoteZ], [1, 0, 0], PIV.casquillo.di)],
-        { componente: 'casquillo_friccion_25x32x25', norma: PIV.casquilloDesignacion,
-          nota: `los brazos giran LIBRES sobre el eje (no son solidarios a él): así cada banda compensa su propio `
-            + `desgaste. Dos casquillos por brazo, uno en cada boca del cubo → base ancha, el brazo no cabecea. `
-            + `Presión de apoyo con R = ${TENSION.reaccionPivoteN} N: ${r2(TENSION.reaccionPivoteN / (PIV.casquillo.di * PIV.casquillo.largo * 2) * 100) / 100} MPa `
-            + `(calc) — dos órdenes por debajo de lo admisible (≥ 5 MPa). La BRIDA es la cara de empuje axial.` });
+        { componente: 'casquillo_friccion_30x38x25', norma: PIV.casquilloDesignacion,
+          nota: 'el brazo gira LIBRE sobre el eje: no es solidario a él. Si lo fuera, los 5 brazos quedarían '
+            + 'rígidamente acoplados entre sí y se perdería la independencia que los 5 cilindros compran. '
+            + `Dos casquillos por brazo, uno en cada boca del cubo → base ancha, el brazo no cabecea. Presión `
+            + `de apoyo con R = ${TENSION.reaccionPivoteN} N: ${EJE_CALC.presionCasquilloMPa} MPa (calc), muy por `
+            + 'debajo de lo admisible (≥ 5 MPa). La BRIDA es la cara de empuje axial.' });
       cN('casquillo de fricción con brida', 1);
     }
 
@@ -337,30 +260,74 @@ export function tensor2(E, ramal) {
         eje: POL.eje.d, capa: 'FIJO · ' });
     }
 
-    // --- bulón del lóbulo + resorte de compensación ------------------------
+    // --- EL CILINDRO DE ESTA BANDA y sus 4 accesorios ----------------------
+    const largoVastago = r2(NEUM.cuerpoZ0 - GEO.lobuloZ);
+    E.addPart(`FIJO · Cilindro ${NEUM.designacion} Ø${NEUM.calibre} carrera ${NEUM.carrera} (${c})`, COL.neumatica,
+      [B, NEUM.y, NEUM.cuerpoZ0],
+      [cyl(`Camisa Ø${NEUM.cuerpoDia}×${NEUM.cuerpoLargo}`, [B, NEUM.y, NEUM.cuerpoZ0], [0, 0, 1], NEUM.cuerpoDia, NEUM.cuerpoLargo),
+        cyl(`Vástago Ø${NEUM.vastago}×${largoVastago}`, [B, NEUM.y, GEO.lobuloZ], [0, 0, 1], NEUM.vastago, largoVastago)],
+      { componente: 'CD85N25-80', norma: `${NEUM.designacion} — ISO 6432, doble efecto, vástago simple · web PNEU-001/002`,
+        capaInfo: 'web (designación) + step (pose y camisa medidas)',
+        nota: `UNO POR BANDA: esta banda se tensa SOLA, sin que las otras cuatro la afecten. TRABAJA EN TIRO `
+          + `(retracción): el brazo es un balancín y empujar hacia abajo AFLOJARÍA (calc). Da `
+          + `${TENSION.fTiroEfN} N efectivos a ${NEUM.presionTrabajoBar} bar → N = ${TENSION.nPoleaN} N en la `
+          + `polea → T = ${TENSION.tPorBandaN} N = ${TENSION.tPorMmAncho} N/mm de banda. Se MANTIENE el Ø25 (ya `
+          + `identificado y en poder del cliente) y se REGULA LA PRESIÓN a ${NEUM.presionTrabajoBar} bar en vez `
+          + `de bajar el calibre: justificación en params_tensor2 §2. ${NEUM.falloSeguro}.` });
+    cR(`cilindro ${NEUM.designacion} (web PNEU-001)`, 1);
+
+    E.addPart(`FIJO · Bisagra trasera ${NEUM.accesorios.bisagra} (${c})`, COL.neumatica,
+      [B, NEUM.y, -100],
+      [box('Clevis C85C25 40×40×32', [B, NEUM.y, -100], 40, 40, 32),
+        hole('Ø8 articulación', [r2(B - 21), NEUM.y, -90], [1, 0, 0], 8)],
+      { componente: 'C85C25', norma: `${NEUM.accesorios.bisagra} — bisagra trasera (clevis) para C85 Ø20/25 · web PNEU-007`,
+        capaInfo: 'web (designación) + step (pose medida en la calle 1)',
+        nota: 'el kit del cliente replicado a las 5 calles (el STEP trae UNA). Cuelga de la cabecera FRONT TOP2; '
+          + 'el cuerpo del cilindro queda por debajo y el vástago baja al lóbulo del brazo. La articulación Ø8 '
+          + 'deja que el cilindro siga el arco del brazo.' });
+    cR(`bisagra ${NEUM.accesorios.bisagra} (1 del STEP + 4 nuevas)`, 1);
+
+    E.addPart(`FIJO · Rótula de vástago ${NEUM.accesorios.rotula} (${c})`, COL.neumatica,
+      [B, NEUM.y, r2(GEO.lobuloZ - 8)],
+      [box('Horquilla KJ10D 19×17×36', [B, NEUM.y, r2(GEO.lobuloZ - 8)], 19, 17, 36),
+        hole('Ø10 bulón', [r2(B - 12), NEUM.y, GEO.lobuloZ], [1, 0, 0], 10)],
+      { componente: 'KJ10D', norma: `${NEUM.accesorios.rotula} — horquilla de vástago con rótula, M10×1.25, bulón y seguro ISO 8140 · web PNEU-006`,
+        capaInfo: 'web (designación) + step (Ø10 y M10×1.25 contrastados)',
+        nota: 'toma el lóbulo del brazo por su bulón Ø10. Es RÓTULA (casquetes esféricos medidos): absorbe el '
+          + 'pequeño desalineado que el arco del brazo introduce a lo largo de la carrera.' });
+    cR(`rótula ${NEUM.accesorios.rotula} (1 del STEP + 4 nuevas)`, 1);
+
     E.addPart(`FIJO · Bulón del lóbulo Ø10×${r2(2 * platX + platE + 6)} (${c})`, COL.acero,
-      [r2(B - platX - platE / 2 - 3), GEO.yugoY, GEO.lobuloZ],
-      [cyl(`Bulón Ø10×${r2(2 * platX + platE + 6)}`, [r2(B - platX - platE / 2 - 3), GEO.yugoY, GEO.lobuloZ], [1, 0, 0], 10, r2(2 * platX + platE + 6))],
-      { fabricada: true, nota: 'asiento SUPERIOR del resorte: el resorte empuja este bulón hacia arriba y el brazo gira.' });
-    cN('bulón del lóbulo del yugo', 1);
+      [r2(B - platX - platE / 2 - 3), NEUM.y, GEO.lobuloZ],
+      [cyl(`Bulón Ø10×${r2(2 * platX + platE + 6)}`, [r2(B - platX - platE / 2 - 3), NEUM.y, GEO.lobuloZ], [1, 0, 0], 10, r2(2 * platX + platE + 6))],
+      { fabricada: true, nota: 'une la rótula KJ10D a las 2 pletinas del brazo; los 2 separadores Ø19×18 del '
+        + 'cliente (step) centran la horquilla de 17 entre las pletinas.' });
+    cN('bulón del lóbulo', 1);
 
-    E.addPart(`FIJO · Resorte de compensación k=${RESORTE.k} N/mm (${c})`, COL.inox,
-      [B, GEO.yugoY, YUGO.topZ],
-      [cyl(`Resorte Ø${RESORTE.diaExt}×${RESORTE.largoMontado}`, [B, GEO.yugoY, YUGO.topZ], [0, 0, 1], RESORTE.diaExt, RESORTE.largoMontado),
-        hole(`Ø${RESORTE.guia + 1} vástago guía`, [B, GEO.yugoY, r2(YUGO.topZ - 1)], [0, 0, 1], RESORTE.guia + 1)],
-      { componente: 'resorte_compresion_2Nmm', norma: RESORTE.designacion,
-        nota: `LA COMPENSACIÓN INDIVIDUAL: comprimido de ${RESORTE.largoLibre} a ${RESORTE.largoMontado} da `
-          + `${RESORTE.precargaN} N, justo la fuerza que le toca a este brazo. Blando a propósito (k=${RESORTE.k}): `
-          + `${RESORTE.toleranciaMm} mm de diferencia de longitud entre bandas sólo mueve la fuerza `
-          + `±${RESORTE.deltaFpor10mm} N (calc). Con un eje de torsión rígido, en cambio, la banda más tensa `
-          + `mandaría y las otras cuatro quedarían flojas.` });
-    cN('resorte de compensación', 1);
+    E.addPart(`FIJO · Regulador de caudal ${NEUM.accesorios.regulador} (meter-out, ${c})`, COL.neumatica,
+      [B, r2(NEUM.y + 22), r2(NEUM.cuerpoZ0 + NEUM.cuerpoLargo - 25)],
+      [box('AS2201FS 26.3×43.6×22.9', [B, r2(NEUM.y + 22), r2(NEUM.cuerpoZ0 + NEUM.cuerpoLargo - 25)], 26.3, 43.61, 22.9)],
+      { componente: 'AS2201FS-01-06S', norma: `${NEUM.accesorios.regulador} — regulador de caudal codo, meter-out, R1/8, tubo Ø6 · web PNEU-004`,
+        capaInfo: 'web (designación) + step (caja medida)',
+        nota: 'meter-out en el puerto de TIRO: gobierna la VELOCIDAD con que este brazo toma la banda, para que '
+          + 'no la golpee al arrancar. NO fija la fuerza — eso lo hace el regulador de presión AR20 de la rama.' });
+    cR(`regulador de caudal ${NEUM.accesorios.regulador} (4 del STEP + 1 nuevo)`, 1);
 
-    E.addPart(`FIJO · Vástago guía del resorte Ø${RESORTE.guia}×${r2(RESORTE.largoMontado + 10)} (${c})`, COL.acero,
-      [B, GEO.yugoY, r2(YUGO.topZ - 5)],
-      [cyl(`Vástago Ø${RESORTE.guia}×${r2(RESORTE.largoMontado + 10)}`, [B, GEO.yugoY, r2(YUGO.topZ - 5)], [0, 0, 1], RESORTE.guia, r2(RESORTE.largoMontado + 10))],
-      { fabricada: true, nota: 'solidario al yugo; impide que el resorte pandee.' });
-    cN('vástago guía de resorte', 1);
+    E.addPart(`FIJO · Silenciador ${NEUM.accesorios.silenciador} (${c})`, COL.neumatica,
+      [B, r2(NEUM.y - 22), r2(NEUM.cuerpoZ0 + 12)],
+      [cyl('Silenciador Ø11×22.8', [B, r2(NEUM.y - 22), r2(NEUM.cuerpoZ0 + 12)], [0, -1, 0], 11, 22.8)],
+      { componente: 'AN101-01', norma: `${NEUM.accesorios.silenciador} — silenciador serie AN, R1/8 · web PNEU-005`,
+        capaInfo: 'web (designación, CONFIANZA BAJA) + step (caja medida)',
+        nota: 'DECLARADO: la cita textual de catálogo de la serie AN no se obtuvo (web_facts PNEU-005 lo marca '
+          + 'PENDIENTE); la identificación se apoya en la nomenclatura SMC AN1xx-01 y en la geometría medida.' });
+    cR(`silenciador ${NEUM.accesorios.silenciador}`, 1);
+
+    E.addPart(`FIJO · Racor codo ${NEUM.accesorios.racor} (${c})`, COL.neumatica,
+      [B, r2(NEUM.y - 14), r2(NEUM.cuerpoZ0 + 12)],
+      [box('KQ2L06 16×26.3×25', [B, r2(NEUM.y - 14), r2(NEUM.cuerpoZ0 + 12)], 16, 26.3, 25)],
+      { componente: 'KQ2L06-01AS', norma: `${NEUM.accesorios.racor} — codo instantáneo macho R1/8 ↔ tubo Ø6 · web PNEU-008`,
+        nota: `tubo PU Ø6 desde el colector del ${NEUM.reguladorPresion}` });
+    cR(`racor ${NEUM.accesorios.racor} (web PNEU-008)`, 1);
   });
 
   M.piezas = E.parts.length - p0;
@@ -368,18 +335,40 @@ export function tensor2(E, ramal) {
     brazos: EJES.length,
     cilindros: NEUM.nCilindros,
     modo: NEUM.modo,
-    reparto: 'yugo + 5 resortes (precarga global, compensación individual)',
+    ejeComun: 'sólo el eje pivote (línea de articulación); nada más es común',
     brazosSolidariosAlEje: false,
     ejeGira: PIV.giraElEje,
+    cadaBandaIndependiente: true,
+    reguladorPresion: NEUM.reguladorPresion,
+    presionTrabajoBar: NEUM.presionTrabajoBar,
   };
   M.ejePivote = {
     designacion: `Ø${PIV.d}×${PIV.largo} ${PIV.material}`,
     vano: EJE_CALC.vano,
+    flechaMm: EJE_CALC.flechaMm,
+    sigmaMPa: EJE_CALC.sigmaMPa,
+    fs: EJE_CALC.fs,
     apoyos: `2 × ${PIV.ucfl.designacion}`,
-    retencionEje: `prisioneros de los 2 UC 205 (servicio) + 2 anillos ${PIV.anillo.norma} por fuera (seguridad)`,
+    retencionEje: `prisioneros de los 2 UC 206 (servicio) + 2 anillos ${PIV.anillo.norma} por dentro, en pareja espejada (seguridad)`,
     retencionBrazos: `2 collares de apriete + ${EJES.length - 1} separadores Ø${PIV.separador.de}×${PIV.separador.largo}`,
     giro: `2 casquillos de fricción Ø${PIV.casquillo.di}/Ø${PIV.casquillo.de}×${PIV.casquillo.largo} por brazo`,
+    presionCasquilloMPa: EJE_CALC.presionCasquilloMPa,
     pasoCerrado: r2(PIV.cubo.largo + 2 * PIV.casquillo.brida + PIV.separador.largo),
+  };
+  M.tension = {
+    presionTrabajoBar: NEUM.presionTrabajoBar,
+    fCilindroEfN: TENSION.fTiroEfN,
+    palancaRatio: PALANCA.ratio,
+    nPoleaN: TENSION.nPoleaN,
+    abrazadoDeg: ramal.usado.abrazadoDeg,
+    tPorBandaN: TENSION.tDe(ramal.usado.abrazadoDeg),
+    tPorMmAncho: Math.round(TENSION.tDe(ramal.usado.abrazadoDeg) / 32 * 1000) / 1000,
+    feMaxPorBandaN: TENSION.feMaxPorBandaN,
+    arrastrePorBandaN: TENSION.arrastrePorBandaN,
+    margen: TENSION.margen,
+    tabla: TENSION.tabla,
+    tablaPresion: TENSION.tablaPresion,
+    hipotesis: TENSION.hipotesis,
   };
   M.ramal = ramal;
   return M;
