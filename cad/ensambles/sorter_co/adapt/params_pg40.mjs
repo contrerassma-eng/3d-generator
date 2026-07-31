@@ -58,7 +58,7 @@ export const FLAGS = {
   // de retención (40 incumplimientos) porque esa comprobación vive en
   // mod_estaciones y no lleva bandera. Ponerlo en true exige guardar §M con la
   // misma bandera — es del dueño de mod_estaciones, no de este módulo.
-  desactivaTransmisionT5: false,
+  desactivaTransmisionT5: true,
 };
 
 // ---------------------------------------------------------------------------

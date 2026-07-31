@@ -786,8 +786,13 @@ function verify() {
     if (tau > EJEC.tauAdmMPa) e.push(`torsión del eje común ${tau} > ${EJEC.tauAdmMPa} MPa`);
     m.ejeComunCalc = { vanoMm: Lv, flechaMm: flechaEje, tauMPa: tau, parNm: Tnm, hipotesis: '6 bar (PNEU-003)' };
     // M4 · retención axial de V1…V4: cada polea del pozo con sus 2 rodamientos,
-    //      2 anillos 3AM1-20 y 2 DIN 472-42 en posición
-    for (let k = 0; k < EJES.length; k++) {
+    //      2 anillos 3AM1-20 y 2 DIN 472-42 en posición.
+    //      Guardada por la misma bandera que las emite: al pasar el sorter al
+    //      accionamiento por TAMBOR MOTRIZ, las poleas del pozo desaparecen y
+    //      esta comprobación se quedaría reclamando la retención de piezas que
+    //      ya no existen. La comprobación NO se borra: se apaga con lo que la
+    //      hace aplicable, para que vuelva sola si alguien reactiva el pozo.
+    for (let k = 0; !PG40F.desactivaTransmisionT5 && k < EJES.length; k++) {
       for (const [V, nomV] of [[POZO.v1, 'V1'], [POZO.v2, 'V2'], [POZO.v3, 'V3'], [POZO.v4, 'V4']]) {
         const cerca = (p, dx) => {
           const b2 = bb.get(p);
