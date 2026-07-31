@@ -35,7 +35,14 @@ import { guardas } from './adapt/mod_guardas.mjs';
 // ▼▼▼ TENSOR NEUMÁTICO DE BRAZOS POR BANDA (bloque propio) ▼▼▼
 import { tensor2, leerRamal } from './adapt/mod_tensor2.mjs';
 import { TENSOR_VIEJO, PIV, TENSION, NEUM, PALANCA, EJE_CALC } from './adapt/params_tensor2.mjs';
+import { pg40 } from './adapt/mod_pg40.mjs';
+import { FLAGS as PG40F, PUBLICA as PG40PUB, CARGA as CARGA_PG40 } from './adapt/params_pg40.mjs';
 // ▲▲▲ ------------------------------------------------------ ▲▲▲
+// ▼▼▼ TAMBOR MOTRIZ · CONDUCIDO · RODILLOS DE RETORNO (bloque propio) ▼▼▼
+import { tambores } from './adapt/mod_tambores.mjs';
+import { TAMBOR as TAMB_P, UCF207 as TAMB_UCF, CONDUCIDO as TAMB_CON,
+  RETORNOS as TAMB_RET, TAMBORES as TAMB_EJES, RETORNO as TAMB_RAMAL } from './adapt/params_tambores.mjs';
+// ▲▲▲ ------------------------------------------------------------- ▲▲▲
 
 const aqui = dirname(fileURLToPath(import.meta.url));
 
@@ -66,6 +73,29 @@ m.guardas = guardas(E);         //   IDLER-P01 medida, eje motriz común, guarda
 m.ramal = await leerRamal();
 if (!TENSOR_VIEJO) m.tensor2 = tensor2(E, m.ramal);
 // ▲▲▲ --------------------------------------- ▲▲▲
+
+// ▼▼▼ BASTIDOR PG40 · GUÍAS UHMW · ALARGUE DE LA ESTRUCTURA LATERAL ▼▼▼
+// «Bastidor de aluminio de perfil 40×40 tipo PG40, y nada más grueso: su única
+// misión es soportar las guías UHMW de las bandas.» (cliente, 31-07-2026).
+// Un larguero 40×40 ranura 10 bajo cada una de las 5 bandas con su regleta UHMW
+// encima, travesaños de alargue a alargue, y el ALARGUE de la estructura lateral
+// de la transferencia hacia el tambor motriz y el rodillo conducido, con los
+// taladros de los soportes UCF 207. El NBT90 NO se modifica: el alargue es pieza
+// nueva atornillada a las colisas de reglaje de su side channel.
+// Cotas y contrato con adapt/mod_tambores.mjs: adapt/params_pg40.mjs (bloque
+// PUBLICA); si adapt/params_tambores.mjs existe, manda él para los ejes.
+// El perfil 40×80 del cliente y sus guiaw de 39.9 los sustituye este bastidor:
+// no se borran, se filtran por bandera (params_pg40.FLAGS).
+{
+  const rxFuera = [];
+  if (PG40F.reemplazaPerfil4080) rxFuera.push(/FIJO · Perfil ranurado 40×80/);
+  if (PG40F.reemplazaGuiaw) rxFuera.push(/FIJO · Guía de deslizamiento/);
+  const antes = E.parts.length;
+  if (rxFuera.length) E.parts = E.parts.filter(p => !rxFuera.some(rx => rx.test(p.name)));
+  m.pg40 = pg40(E);
+  m.pg40.sustituidas = antes - (E.parts.length - m.pg40.piezas);
+}
+// ▲▲▲ ------------------------------------------------------------- ▲▲▲
 
 // ---------------------------------------------------------------------------
 // Banco de la compuerta: inyección de UN defecto controlado (TEST_ROMPE)
@@ -436,6 +466,30 @@ function verify() {
     //     AVISO DECLARADO: hay que verificar en obra la viga real de LAT TOP
     //     bajo las ménsulas de las columnas guía (va en avisosDeclarados).
     [TEN2, /CTX · LAT TOP|CTX · FRONT TOP2|CTX · TER1|CTX · Bastidor FRAME_MIR_MIR/],
+    // ▲▲▲ ------------------------------------ ▲▲▲
+
+    // ▼▼▼ BASTIDOR PG40 · GUÍAS UHMW · ALARGUE ▼▼▼
+    // (1) el bastidor consigo mismo: larguero + regleta + travesaño + escuadra
+    //     son un MONTAJE. La regleta entra por su PIE DE CLIP en la ranura 10 del
+    //     larguero (la AABB no ve el corte de la ranura, igual que ya pasa con
+    //     [Cierre de guía ↔ Perfil ranurado]); el larguero APOYA sobre el
+    //     travesaño y las escuadras abrazan a ambos por diseño.
+    [/PG40 · /, /PG40 · /],
+    // (2) el ALARGUE contra el SIDE CHANNEL del NBT90: el side es un C ABIERTO
+    //     y el alargue vive DENTRO de su boca, separado del alma por los
+    //     casquillos de 5.951. Que no toca las alas se verifica en aritmética
+    //     (§P: holguraAlaInf / holguraAlaSup, exigidas ≥ 2), no por la AABB.
+    [/PG40 · Alargue lateral/, /NBT90 · FIJO · Side channel/],
+    // (3) el ALARGUE y el bastidor contra las CAJAS ENVOLVENTES del cliente.
+    //     El alargue va A RAS de la cara interior del chapón (contacto plano,
+    //     se atornilla a él) y cruza las cabeceras y los canales de costado, que
+    //     son envolventes de `analisis/medidas.json`, no sólidos: por ellas ya
+    //     pasa hoy la propia línea de árbol del cliente (precedente declarado
+    //     arriba para el eje motriz común y las chumaceras UCFL).
+    [/PG40 · /, /CTX · FRONT TOP2|CTX · TER1|CTX · LAT TOP|CTX · IDLER-ENS|CTX · Drive kit|CTX · Soporte motriz|CTX · Bastidor FRAME_MIR_MIR/],
+    // (4) el larguero PG40 hereda el sitio del perfil 40×80 que sustituye: el
+    //     cierre de guía del cliente encaja sobre él igual que sobre el viejo.
+    [/PG40 · Larguero de calle|PG40 · Guía UHMW/, /Cierre de guía/],
     // ▲▲▲ ------------------------------------ ▲▲▲
   ];
   const esBanda = (p) => /Banda T5/.test(p.name);
@@ -842,9 +896,52 @@ function verify() {
   }
   // ▲▲▲ ---------------------------------------- ▲▲▲
 
+  // ▼▼▼ P. BASTIDOR PG40 · GUÍAS UHMW · ALARGUE ▼▼▼
+  {
+    const G = m.pg40, FL = G.flecha, AL = G.alargue;
+    // P1 · flecha del bastidor con el bulto entero sobre UNA calle
+    if (FL.flechaLarguero > FL.limite) {
+      e.push(`flecha del larguero PG40 ${FL.flechaLarguero} > ${FL.limite} mm en el vano de ${FL.vanoMax}`);
+    }
+    if (FL.flechaTravesano > CARGA_PG40.flechaMaxAbs) {
+      e.push(`flecha del travesaño PG40 ${FL.flechaTravesano} > ${CARGA_PG40.flechaMaxAbs} mm`);
+    }
+    // P2 · el alargue no toca las ALAS del side channel del NBT90 (el NBT90 no
+    //      se modifica: si roza, es el alargue el que está mal, no el módulo)
+    if (AL.holguraAlaInf < 2) e.push(`el alargue roza el ala inferior del side channel: ${AL.holguraAlaInf} mm (mín 2)`);
+    if (AL.holguraAlaSup < 2) e.push(`el alargue roza el ala superior del side channel: ${AL.holguraAlaSup} mm (mín 2)`);
+    // P3 · el perno de amarre cae dentro del recorrido de la colisa EXISTENTE
+    //      (no se taladra el NBT90) y con distancia al canto ≥ 1.5 Ø
+    if (!AL.pernoEnColisa) e.push('el perno del alargue no cae dentro de la colisa de reglaje del side channel');
+    const cantoMin = r2(1.5 * 9.525);
+    if (AL.cantoPerno < cantoMin) e.push(`el perno del alargue queda a ${AL.cantoPerno} del canto (mín ${cantoMin} = 1.5 Ø)`);
+    // P4 · la guía UHMW respeta la ventana útil y la cara de rodadura medida
+    const anchoGuia = NBT.ventana;
+    if (anchoGuia > NBT.ventana) e.push(`la guía UHMW mide ${anchoGuia} (máx ventana ${NBT.ventana})`);
+    // P5 · el contrato con el módulo de tambores: la cara del tambor que exigen
+    //      las 5 bandas tiene que caber entre las caras de apoyo del rodamiento
+    if (PG40PUB.holguraPorLado <= 0) {
+      e.push(`las caras de apoyo del rodamiento (${PG40PUB.luzEntreCaras}) no dejan sitio a la cara `
+        + `de tambor que piden las 5 bandas (${PG40PUB.caraTamborMin})`);
+    }
+    // avisos declarados de esta parte
+    avisosDeclarados.push(`BASTIDOR PG40: ${G.modificacionCliente}`);
+    if (PG40PUB.ejes.fuente !== 'adapt/params_tambores.mjs') {
+      avisosDeclarados.push('BASTIDOR PG40: adapt/params_tambores.mjs aún no existe — los ejes motriz '
+        + `(Y ${PG40PUB.ejes.motriz.y}, Z ${PG40PUB.ejes.motriz.z}) y conducido (Y ${PG40PUB.ejes.conducido.y}, `
+        + `Z ${PG40PUB.ejes.conducido.z}) son la PROPUESTA de params_pg40.mjs (Y step §4.1, Z calc del radio de `
+        + 'contacto 51.7). Cuando el módulo de tambores publique, los taladros UCF 207 se recolocan solos.');
+    }
+    avisosDeclarados.push(`BASTIDOR PG40: entre la banda exterior y la cara de apoyo del rodamiento quedan `
+      + `${PG40PUB.holguraPorLado} mm por lado para el cuerpo del UCF 207. Si no cabe, el alargue solo puede `
+      + 'correrse hacia fuera en −X (132.3 de aire al chapón); en +X el tope es el chapón de descarga.');
+  }
+  // ▲▲▲ ---------------------------------------- ▲▲▲
+
   // --- métricas ------------------------------------------------------------
   return {
     errores: e,
+    pg40: m.pg40,
     avisosDeclarados,
     piezas: partes.length,
     nuevas: nuevas.length,
@@ -963,6 +1060,16 @@ console.log(`   PERCHA: ${V.percha.cuelgue.pernos38} pernos 3/8 por colisas del 
 console.log(`   ESTACIONES: eje motriz común Ø${EJEC.d}/Ø${EJEC.munonUcfl.d} × ${V.estaciones.ejeComun.L} (vano ${V.estaciones.ejeComun.vanoMm}, flecha ${V.estaciones.ejeComun.flechaMm} mm, τ ${V.estaciones.ejeComun.tauMPa} MPa a ${V.estaciones.ejeComun.parNm} N·m — hipótesis ${V.estaciones.ejeComun.hipotesis}) · AT10 recolocada X ${V.estaciones.at10.x.join('…')} · banda AT10 del kit: ${EJEC.bandaAT10.dientes} dientes (${EJEC.bandaAT10.designacion.split('(')[0].trim()})`);
 console.log(`   IDLER-P01 medida: eje a ${V.estaciones.idler.dxEjeBanda} del eje de banda, Y ${V.estaciones.idler.y} — ${V.estaciones.idler.declarado}`);
 console.log(`   GUARDAS pozo: desarrollos ${JSON.stringify(V.guardas.desarrollos)}`);
+{
+  const G = V.pg40, FL = G.flecha, AL = G.alargue;
+  console.log(`   BASTIDOR PG40: ${G.largueros} largueros ${G.perfil}`);
+  console.log(`      GUÍAS: ${G.guias} × ${G.guia}`);
+  console.log(`      FLECHA: larguero ${FL.flechaLarguero} mm en el vano de ${FL.vanoMax} (límite ${FL.limite}) · travesaño ${FL.flechaTravesano} mm · σ ${FL.sigmaLarguero} MPa — ${FL.hipotesis}`);
+  console.log(`      ALARGUE: 2 × pletina ${AL.material} e=${AL.e} × ${AL.largo} · ${AL.pernosSide} pernos 3/8 a las colisas del side (casquillo ${AL.separador}) + ${AL.pernosChapon} M10 al chapón`);
+  console.log(`         holgura a las alas del side: ${AL.holguraAlaInf} inferior / ${AL.holguraAlaSup} superior (mín 2) · perno a ${AL.cantoPerno} del canto`);
+  console.log(`         CARAS DE APOYO UCF 207: X ${AL.caraApoyo.xNeg} y ${AL.caraApoyo.xPos} (luz ${AL.luzEntreCaras}, rodamientos hacia dentro) · cuadro 92×92 Ø13.5 en motriz Y ${G.publica.ejes.motriz.y} y conducido Y ${G.publica.ejes.conducido.y}`);
+  console.log(`         cara de tambor que piden las 5 bandas: ${G.publica.caraTamborMin} → ${G.publica.holguraPorLado} por lado para el UCF 207 · ejes según ${G.publica.ejes.fuente}`);
+}
 // ▼▼▼ TENSOR NEUMÁTICO DE BRAZOS POR BANDA ▼▼▼
 if (!TENSOR_VIEJO) {
   const A = V.tensor.arquitectura, P = V.tensor.ejePivote, T2 = V.tensor.tension;

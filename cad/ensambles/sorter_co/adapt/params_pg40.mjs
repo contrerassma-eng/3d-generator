@@ -179,18 +179,32 @@ export const ALARGUE = {
   get separador() { return r3(ALMA_INT - CHAPON_INT); },   // 5.951
   casquillo: { od: 16 },         // dis: Ø16 sobre perno 3/8 (como PERCHA.casquilloEscote)
 
-  // Silueta (dis) — el alargue esquiva las ALAS del side channel: dentro del
-  // tramo del módulo su canto queda entre las dos alas (que viven en
-  // Z −253.37…−250.71 y −90.93…−88.27, cajas del JSON del NBT90 transformado),
-  // y fuera sube a ±70 para alojar el cuadro de taladros del UCF 207.
-  yIni: -1697.4,                 // calc: eje conducido − 90 (borde tras el taladro)
-  yFin: 90,                      // calc: eje motriz + 90
-  zAlto: 70,                     // calc: 46 (semicuadro UCF) + 24 de canto
-  zBajo: -70,                    // calc, simétrico
-  lapZTop: -93,                   // dis: 2.07 bajo el ala superior del side (−90.93)
-  lapZBot: -248,                  // dis: 2.71 sobre el ala inferior del side (−250.71)
+  // ARQUITECTURA EN TRES PIEZAS POR LADO (dis, y la razón es geométrica):
+  // el DECK del sorter prohíbe cualquier cosa sobre el plano de transporte
+  // dentro de X −81.423…499.418 y de Y −1530.782…−130.782 (compuerta §L). El
+  // cuadro de taladros del UCF 207 mide 92 y pide canto hasta Z ±70 — por
+  // encima del plano. Por eso el alargue se parte:
+  //   · ALMA: corre por la banda libre (Z −248…−70), por debajo de todo el
+  //     mecanismo del sorter, y hace el lap con el side channel del NBT90;
+  //   · dos CABEZALES DE RODAMIENTO: sólo en los ejes, que caen FUERA de la
+  //     ventana Y del deck (motriz Y 0 > −130.782 · conducido Y −1607.4 <
+  //     −1530.782). Ahí sí puede subir a +70 sin invadir el paso del bulto.
+  //   · dos CUBREJUNTAS por lado que empalman cabezal y alma (Z ≤ −45).
+  // Alma y cabezales son COPLANARIOS: la cara de apoyo del UCF 207 no cambia.
+  almaY: [-1535, -125],          // calc: hasta el borde de la ventana del deck
+                                 //   (−1530.782 y −130.782) con 4.2 / 5.8 de margen
+  almaZTop: -70,                 // dis: bajo el eje pivote del tensor y el árbol motriz
+  almaZBot: -248,                // dis: 2.71 sobre el ala inferior del side (−250.71)
+  lapZTop: -93,                  // dis: 2.07 bajo el ala superior del side (−90.93)
   lapY: [-1215, -732],           // dis: cubre el side (Y −1202.1…−744.9) con 13 de margen
   transicion: 35,                // dis: longitud de la diagonal de cambio de canto
+  cabezalMotrizY: [-125, 90],    // calc — fuera de la ventana Y del deck
+  cabezalCondY: [-1697.4, -1535],// calc — ídem, por el otro extremo
+  cabezalZ: [-70, 70],           // calc: ±(46 semicuadro UCF + 24 de canto)
+  cubrejuntaE: 8,                // dis: mismo espesor, por dentro del alma
+  cubrejuntaZ: [-70, -45],       // calc: bajo el plano de transporte en todo caso
+  mensulaY: [-1390, -600],       // dis: 2 ménsulas por lado que suben del alma al
+  mensulaZ: [-70, -40],          //   travesaño PG40 y amarran el bastidor al canal
 
   // Amarre al SIDE CHANNEL del NBT90 (nbt90): sus 3 colisas de reglaje por lado.
   //   Y = T.y − sideTornX  ·  colisa Ø10.3 × 26.3 VERTICAL centrada en Z −104.267
@@ -207,8 +221,10 @@ export const ALARGUE = {
   // Amarre al CHAPÓN del cliente (dis) — MODIFICACIÓN DECLARADA: 8 taladros
   // Ø11 M10 por lado en el chapón de 28. Es contacto plano cara con cara (el
   // alargue está a ras de su cara interior), sin separadores.
-  pernosChaponY: [-1580, -1440, -1300, -660, -520, -380, -240, -100],
-  pernosChaponZ: -40,
+  pernosChaponY: [-1500, -1400, -1300, -660, -520, -380, -260, -160],
+  pernosChaponZ: -92,            // calc: el chapón vive en Z −114…46 y el alma en
+                                 //   −248…−70 → sólo comparten −114…−70; el perno
+                                 //   va al medio, a 22 del canto del alma.
   pernoChapon: { d: 10, pasante: 11.0, rosca: 'M10' },
 };
 
