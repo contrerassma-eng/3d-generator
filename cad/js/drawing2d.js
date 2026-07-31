@@ -82,14 +82,77 @@ function chooseSheet(w, h) {
 // de líneas falsas. Las aristas compartidas se filtran por ángulo diedro; las
 // huérfanas se sondean contra los triángulos de su MISMO plano: si al otro
 // lado de la arista hay material coplanario, es una grieta y se descarta.
+// Un ensamble entero llega a los dos millones de triángulos, así que aquí no se
+// guarda ni un objeto por triángulo ni una clave de texto por arista: todo vive
+// en arreglos planos de números, indexados por entero. Con objetos `Vector3` y
+// claves `"x,y,z|x,y,z"` el conjunto de 375 piezas pedía más de 8 GB de heap.
+// Cada triángulo ocupa 12 huecos en TRI: p0(3) p1(3) p2(3) n(3).
+const TRI_SZ = 12;
+// Cada arista ocupa 9 huecos en ARI: a(3) b(3) tercero(3), tomados del PRIMER
+// triángulo que la creó (igual que antes: define las coordenadas que se dibujan).
+const ARI_SZ = 9;
+// Techo de vértices distintos que admite la clave numérica de arista
+// (id_a · 2^23 + id_b cabe exacto en un double mientras id < 2^23).
+const MAX_VERT = 1 << 23;
+
+// Índice espacial de los triángulos de un mismo plano: rejilla uniforme sobre
+// sus cajas envolventes. El sondeo de grieta solo puede acertar en triángulos
+// cuya caja contiene al punto, así que consultar la celda del punto da el MISMO
+// resultado que barrer el grupo entero. Sin esto, cada arista huérfana del
+// ensamble recorría los cientos de miles de triángulos que comparten normal
+// (el conjunto de 375 piezas no terminaba en media hora).
+// producto cruz 2D (o→a) × (o→b); fuera de la ruta caliente para no reasignarlo
+const cruz = (oi, oj, ai, aj, bi, bj) => (ai - oi) * (bj - oj) - (aj - oj) * (bi - oi);
+// Tope de triángulos para sombrear la isométrica (ver buildSheet). Por encima,
+// la lámina sale con aristas y sin caras rellenas, avisándolo.
+const MAX_TRIS_SOMBRA = 200000;
+const CELDA = 25;        // mm de arista de celda
+const MAX_CELDAS = 400;  // un triángulo que ocupe más celdas va a la lista común
+class PlanoIndex {
+  constructor(tri) { this.tri = tri; this.celdas = new Map(); this.grandes = []; }
+  add(t) {
+    const T = this.tri, o = t * TRI_SZ;
+    const e = 0.06;      // holgura ≥ la tolerancia de coplanaridad de inTriangle
+    const c = (v) => Math.floor(v / CELDA);
+    const i0 = c(Math.min(T[o], T[o + 3], T[o + 6]) - e);
+    const i1 = c(Math.max(T[o], T[o + 3], T[o + 6]) + e);
+    const j0 = c(Math.min(T[o + 1], T[o + 4], T[o + 7]) - e);
+    const j1 = c(Math.max(T[o + 1], T[o + 4], T[o + 7]) + e);
+    const k0 = c(Math.min(T[o + 2], T[o + 5], T[o + 8]) - e);
+    const k1 = c(Math.max(T[o + 2], T[o + 5], T[o + 8]) + e);
+    if ((i1 - i0 + 1) * (j1 - j0 + 1) * (k1 - k0 + 1) > MAX_CELDAS) { this.grandes.push(t); return; }
+    for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) for (let k = k0; k <= k1; k++) {
+      const key = `${i},${j},${k}`;
+      let l = this.celdas.get(key);
+      if (!l) this.celdas.set(key, l = []);
+      l.push(t);
+    }
+  }
+  alguno(px, py, pz, pred) {
+    const l = this.celdas.get(`${Math.floor(px / CELDA)},${Math.floor(py / CELDA)},${Math.floor(pz / CELDA)}`);
+    if (l) for (const t of l) if (pred(t)) return true;
+    for (const t of this.grandes) if (pred(t)) return true;
+    return false;
+  }
+}
+
 export function collectEdgeSegments(parts, angleDeg = 25) {
   const cosT = Math.cos((angleDeg * Math.PI) / 180);
   const v = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
   const q4 = (x) => Math.round(x * 1e4);
   const pkey = (p) => `${q4(p.x)},${q4(p.y)},${q4(p.z)}`;
-  const nkey = (n) => `${Math.round(n.x * 1e2)},${Math.round(n.y * 1e2)},${Math.round(n.z * 1e2)}`;
-  const edges = new Map();
-  const planes = new Map();   // normal cuantizada -> [{p0,p1,p2,n}]
+  const nkey = (x, y, z) => `${Math.round(x * 1e2)},${Math.round(y * 1e2)},${Math.round(z * 1e2)}`;
+
+  const TRI = [];             // triángulos, 12 números cada uno
+  const planes = new Map();   // normal cuantizada -> PlanoIndex de índices de TRI
+  const vId = new Map();      // vértice cuantizado -> id entero (para la clave de arista)
+  const aId = new Map();      // clave numérica de arista -> índice de arista
+  const ARI = [];             // aristas, 9 números cada una
+  // Vecinos de cada arista, por índice de triángulo. Casi todas tienen dos, así
+  // que los dos primeros van en arreglos planos y solo el resto paga un arreglo.
+  const N0 = [], N1 = [], NX = new Map();
+  let desborde = false;
+
   for (const part of parts) {
     const pos = part.geometry.attributes.position;
     if (!pos) continue;
@@ -102,31 +165,62 @@ export function collectEdgeSegments(parts, angleDeg = 25) {
         .cross(new THREE.Vector3().subVectors(v[2], v[0]));
       if (n.lengthSq() < 1e-12) continue;
       n.normalize();
-      const tri = { p0: v[0].clone(), p1: v[1].clone(), p2: v[2].clone(), n: n.clone() };
-      let pg = planes.get(nkey(n));
-      if (!pg) planes.set(nkey(n), pg = []);
-      pg.push(tri);
+      const iT = TRI.length / TRI_SZ;
+      TRI.push(v[0].x, v[0].y, v[0].z, v[1].x, v[1].y, v[1].z,
+        v[2].x, v[2].y, v[2].z, n.x, n.y, n.z);
+      const kn = nkey(n.x, n.y, n.z);
+      let pg = planes.get(kn);
+      if (!pg) planes.set(kn, pg = new PlanoIndex(TRI));
+      pg.add(iT);
       for (let i = 0; i < 3; i++) {
         const a = v[i], b = v[(i + 1) % 3], c = v[(i + 2) % 3];
         const ka = pkey(a), kb = pkey(b);
         if (ka === kb) continue;
-        const key = ka < kb ? `${ka}|${kb}` : `${kb}|${ka}`;
-        let e = edges.get(key);
-        if (!e) edges.set(key, e = { a: a.toArray(), b: b.toArray(), ns: [], third: c.toArray() });
-        e.ns.push(n.clone());
+        let ia = vId.get(ka); if (ia === undefined) vId.set(ka, ia = vId.size);
+        let ib = vId.get(kb); if (ib === undefined) vId.set(kb, ib = vId.size);
+        if (vId.size > MAX_VERT) desborde = true;
+        const key = ia < ib ? ia * MAX_VERT + ib : ib * MAX_VERT + ia;
+        let e = aId.get(key);
+        if (e === undefined) {
+          aId.set(key, e = ARI.length / ARI_SZ);
+          ARI.push(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z);
+          N0.push(iT); N1.push(-1);
+          continue;                       // el creador ya quedó anotado en N0
+        }
+        if (N1[e] === -1) N1[e] = iT;
+        else { let x = NX.get(e); if (!x) NX.set(e, x = []); x.push(iT); }
       }
     }
   }
+  if (desborde) throw new Error(`collectEdgeSegments: más de ${MAX_VERT} vértices distintos`);
+
+  // vecinos de una arista, en el orden en que se encontraron
+  const vecinos = (e) => {
+    const l = [N0[e]];
+    if (N1[e] !== -1) l.push(N1[e]);
+    const x = NX.get(e);
+    if (x) l.push(...x);
+    return l;
+  };
 
   // punto dentro de un triángulo del mismo plano (proyectado en 2D)
-  const inTriangle = (tri, p) => {
-    if (Math.abs(tri.n.dot(p) - tri.n.dot(tri.p0)) > 0.02) return false;
-    const ax = Math.abs(tri.n.x), ay = Math.abs(tri.n.y), az = Math.abs(tri.n.z);
-    const [i, j] = az >= ax && az >= ay ? [0, 1] : (ax >= ay ? [1, 2] : [0, 2]);
-    const g = (q) => [q.getComponent(i), q.getComponent(j)];
-    const [p0, p1, p2, pp] = [g(tri.p0), g(tri.p1), g(tri.p2), g(p)];
-    const cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
-    const d0 = cr(p0, p1, pp), d1 = cr(p1, p2, pp), d2 = cr(p2, p0, pp);
+  const inTriangle = (t, px, py, pz) => {
+    const o = t * TRI_SZ;
+    const nx = TRI[o + 9], ny = TRI[o + 10], nz = TRI[o + 11];
+    const dp = nx * px + ny * py + nz * pz;
+    const d0p = nx * TRI[o] + ny * TRI[o + 1] + nz * TRI[o + 2];
+    if (Math.abs(dp - d0p) > 0.02) return false;
+    const ax = Math.abs(nx), ay = Math.abs(ny), az = Math.abs(nz);
+    let i, j;
+    if (az >= ax && az >= ay) { i = 0; j = 1; } else if (ax >= ay) { i = 1; j = 2; } else { i = 0; j = 2; }
+    const p0i = TRI[o + i], p0j = TRI[o + j];
+    const p1i = TRI[o + 3 + i], p1j = TRI[o + 3 + j];
+    const p2i = TRI[o + 6 + i], p2j = TRI[o + 6 + j];
+    const ppi = i === 0 ? px : i === 1 ? py : pz;
+    const ppj = j === 1 ? py : pz;
+    const d0 = cruz(p0i, p0j, p1i, p1j, ppi, ppj);
+    const d1 = cruz(p1i, p1j, p2i, p2j, ppi, ppj);
+    const d2 = cruz(p2i, p2j, p0i, p0j, ppi, ppj);
     return (d0 >= -1e-9 && d1 >= -1e-9 && d2 >= -1e-9) ||
            (d0 <= 1e-9 && d1 <= 1e-9 && d2 <= 1e-9);
   };
@@ -134,37 +228,50 @@ export function collectEdgeSegments(parts, angleDeg = 25) {
   // ¿hay material coplanario al OTRO lado de una arista huérfana?
   const A = new THREE.Vector3(), B = new THREE.Vector3(), C = new THREE.Vector3();
   const d = new THREE.Vector3(), s = new THREE.Vector3(), probe = new THREE.Vector3();
+  const nv = new THREE.Vector3();
   const isCrack = (e) => {
-    const pg = planes.get(nkey(e.ns[0]));
+    const o = e * ARI_SZ, t0 = N0[e] * TRI_SZ;
+    nv.set(TRI[t0 + 9], TRI[t0 + 10], TRI[t0 + 11]);
+    const pg = planes.get(nkey(nv.x, nv.y, nv.z));
     if (!pg) return false;
-    A.set(...e.a); B.set(...e.b); C.set(...e.third);
+    A.set(ARI[o], ARI[o + 1], ARI[o + 2]);
+    B.set(ARI[o + 3], ARI[o + 4], ARI[o + 5]);
+    C.set(ARI[o + 6], ARI[o + 7], ARI[o + 8]);
     d.subVectors(B, A).normalize();
-    s.crossVectors(e.ns[0], d);
-    const side = Math.sign(s.dot(C.clone().sub(A))) || 1;
+    s.crossVectors(nv, d);
+    const side = Math.sign(s.dot(C.sub(A))) || 1;
     let hits = 0;
     for (const f of [0.3, 0.5, 0.7]) {
       probe.lerpVectors(A, B, f).addScaledVector(s, -side * 0.05);
-      if (pg.some((tri) => inTriangle(tri, probe))) hits++;
+      const { x, y, z } = probe;
+      if (pg.alguno(x, y, z, (t) => inTriangle(t, x, y, z))) hits++;
     }
     return hits >= 2;
   };
 
-  const feature = [];
-  for (const e of edges.values()) {
-    if (e.ns.length >= 2) {
-      let keep = false;
-      for (let i = 0; i < e.ns.length && !keep; i++) {
-        for (let j = i + 1; j < e.ns.length; j++) {
-          if (e.ns[i].dot(e.ns[j]) < cosT) { keep = true; break; }
+  const pts = [];
+  const nAristas = ARI.length / ARI_SZ;
+  for (let e = 0; e < nAristas; e++) {
+    let keep;
+    if (N1[e] !== -1) {                   // arista compartida: ángulo diedro
+      const ns = vecinos(e);
+      keep = false;
+      for (let i = 0; i < ns.length && !keep; i++) {
+        const a = ns[i] * TRI_SZ;
+        for (let j = i + 1; j < ns.length; j++) {
+          const b = ns[j] * TRI_SZ;
+          const dot = TRI[a + 9] * TRI[b + 9] + TRI[a + 10] * TRI[b + 10] + TRI[a + 11] * TRI[b + 11];
+          if (dot < cosT) { keep = true; break; }
         }
       }
-      if (keep) feature.push(e);
-    } else if (!isCrack(e)) {
-      feature.push(e);   // borde abierto o silueta genuina
+    } else {
+      keep = !isCrack(e);                 // borde abierto o silueta genuina
+    }
+    if (keep) {
+      const o = e * ARI_SZ;
+      pts.push([ARI[o], ARI[o + 1], ARI[o + 2]], [ARI[o + 3], ARI[o + 4], ARI[o + 5]]);
     }
   }
-  const pts = [];
-  for (const e of feature) pts.push(e.a, e.b);
   return pts; // puntos de a pares (cada par = un segmento)
 }
 
@@ -421,8 +528,18 @@ function buildSheet(parts, K, meta) {
   const layout = layoutViews(views);
   const [name, W, H, num, den] = chooseSheet(layout.tw, layout.th);
   const sheet = new Sheet(name, W, H, num, den, K === 'real' ? den / num : 1);
-  const shadeTris = isoShadedTris(parts);
-  drawViews(sheet, views, layout, shadeTris);
+  // El sombreado de la isométrica cuesta un objeto —y en el DXF una entidad
+  // SOLID— por triángulo. En una lámina de pieza suelta eso ilustra; en un
+  // ensamble de dos millones de triángulos no cabe en memoria y produce un
+  // archivo que ningún visor abre. Se declara el tope y se avisa al saltarlo.
+  let nTri = 0;
+  for (const p of parts) nTri += (p.geometry.attributes.position?.count ?? 0) / 3;
+  const sombrear = meta.sombra ?? (nTri <= MAX_TRIS_SOMBRA);
+  if (meta.sombra === undefined && !sombrear) {   // solo si lo decidió el tope
+    console.warn(`  ! isométrica sin sombreado: ${Math.round(nTri)} triángulos superan el tope `
+      + `de ${MAX_TRIS_SOMBRA} (se dibujan las aristas características, no las caras)`);
+  }
+  drawViews(sheet, views, layout, sombrear ? isoShadedTris(parts) : []);
   if (meta.espesor) {   // pieza de chapa: la cota de espesor se indica SIEMPRE
     sheet.text(`ESPESOR DE CHAPA e = ${meta.espesor} mm`,
       MARGIN_L + 5, MARGIN + TITLE_H + 9, 4.0, 'L');

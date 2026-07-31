@@ -10,7 +10,8 @@
 
 import * as THREE from 'three';
 import { buildPartGeometry, partMatrix } from '../../js/model.js';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
 
 const [docPath, outPath] = process.argv.slice(2);
 if (!docPath || !outPath) {
@@ -98,6 +99,8 @@ header.writeUInt32LE(0x46546C67, 0); header.writeUInt32LE(2, 4);
 header.writeUInt32LE(12 + 8 + jsonBuf.length + 8 + binBuf.length, 8);
 const cJ = Buffer.alloc(8); cJ.writeUInt32LE(jsonBuf.length, 0); cJ.writeUInt32LE(0x4E4F534A, 4);
 const cB = Buffer.alloc(8); cB.writeUInt32LE(binBuf.length, 0); cB.writeUInt32LE(0x004E4942, 4);
+// `out/` es derivado y no está versionado: en un clon nuevo hay que crearlo.
+mkdirSync(dirname(outPath), { recursive: true });
 writeFileSync(outPath, Buffer.concat([header, cJ, jsonBuf, cB, binBuf]));
 
 console.log(`OK: ${hijos.length} piezas, ${Math.round(nTri)} triángulos, ${(byteLen / 1e6).toFixed(1)} MB → ${outPath}${nErr ? `  (${nErr} piezas sin malla)` : ''}`);

@@ -53,6 +53,13 @@ cajetín), `TEXTO`.
 Opciones: `--vistas alzado,planta,perfil,isometrica` · `--angulo 25` (umbral
 de arista característica) · `--formato A4..A0` · `--chapa auto|<id de cara>`.
 
+La isométrica se sombrea cara por cara (una entidad rellena por triángulo). En
+un ensamble grande eso no cabe en un DXF utilizable, así que por encima de
+**200 000 triángulos** la lámina sale con las aristas características y sin
+relleno, y el generador lo avisa por consola. El tope vive en `MAX_TRIS_SOMBRA`
+(`cad/js/drawing2d.js`) y se puede forzar en cualquier sentido con `sombra` en
+el `meta` de la lámina.
+
 ### Gate G6
 
 - `PASA`: DXF + PDF generados y escala certificada (hay `factor_escala`, G4).

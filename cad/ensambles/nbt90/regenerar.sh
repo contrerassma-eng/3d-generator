@@ -45,4 +45,5 @@ node $N/render.mjs d $N/vistas/corte --url \
 printf '\n\033[1mListo.\033[0m  ensamble → %s\n' "$N/narrow_belt_transfer_90.json"
 printf '  3D:      %s/out/nbt90.glb   ·   CAD: %s/step/nbt90_ensamble.step\n' "$N" "$N"
 printf '  planos:  %s/planos/planos_fabricacion_nbt90.pdf  (+ despiece.csv)\n' "$N"
+printf '           %s/planos/conjunto_nbt90.dxf  (~100 MB, no versionado)\n' "$N"
 printf '  vistas:  %s/vistas/  y  %s/vistas/corte/\n' "$N" "$N"

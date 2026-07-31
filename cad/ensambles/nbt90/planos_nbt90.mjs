@@ -14,7 +14,7 @@ import { buildPartGeometry, partMatrix } from '../../js/model.js';
 import { buildSheet, Sheet, chooseSheet, scaleLabel, exportSheetsPDF, exportDrawingDXF } from '../../js/drawing2d.js';
 import { desarrollo } from './lib.mjs';
 import { P, enPulg } from './params.mjs';
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -269,7 +269,11 @@ try {
     piezas: String(partes.length), fecha, numPlano: 'NBT90-CJ',
     nota: 'vistas del primer diedro a escala real (mm)',
   });
-  writeFileSync(join(outDir, dxf.name || 'conjunto_nbt90.dxf'), dxf.data ?? dxf);
+  // `dxf.name` es el nombre genérico de la biblioteca ('plano-cad.dxf'); aquí
+  // el archivo se llama por lo que es, que es además lo que documenta la cabecera.
+  const destino = join(outDir, 'conjunto_nbt90.dxf');
+  writeFileSync(destino, dxf.data ?? dxf);
+  console.log(`    conjunto: ${(statSync(destino).size / 1e6).toFixed(0)} MB → ${destino}`);
 } catch (err) {
   console.warn(`  ! DXF de conjunto no emitido: ${err.message}`);
 }
