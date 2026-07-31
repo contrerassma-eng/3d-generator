@@ -189,10 +189,14 @@ export const UCF207 = {
 //       engomado es lo que deja el ramal PORTANTE y el de RETORNO horizontales
 //       de punta a punta (los dos ejes quedan a la misma cota, ±0.45): ni cuñas
 //       de reglaje ni banda trabajando en rampa.
-//   (2) Ø MÍNIMO DE POLEA de la banda: una banda plana angosta de 2 telas admite
-//       Ø ≥ 40 (web BELT-FLAT-01, familia de la del NBT90). Ø108 va 2.7 veces
-//       por encima: la flexión no es el criterio, y por eso el criterio real
-//       pasa a ser (3).
+//   (2) Ø MÍNIMO DE POLEA de la banda: NO se ha encontrado ficha citable del
+//       Ø mínimo de una banda plana angosta de 2 telas (queda anotado en
+//       ../web_facts.json → pendientes_sin_fuente, y el cliente lo cierra con
+//       su proveedor). Lo que SÍ es dato firme del repo: la misma familia de
+//       banda plana de 1" corre en el NBT90 sobre rueda motriz Ø63.5 y poleas
+//       locas Ø63.5 (nbt90 P.ruedaDia / P.idlerDia, cat+med). Ø108 es 1.7 veces
+//       ese diámetro ya probado en la máquina, así que la flexión no es el
+//       criterio que manda aquí: manda (3).
 //   (3) FLECHA CON LA TENSIÓN: con el eje FIJO Ø35 y el vano de 411.9 entre
 //       soportes, la carga de 1290.5 N (5 bandas × 2 ramales × 129.05 N,
 //       tensor2 TENSION) deja σ = 18.7 MPa y δ = 0.076 mm (calc en mod_tambores,
@@ -244,7 +248,8 @@ export const CONDUCIDO = {
 // (params_adapt POZO v4/v3/v2/v1): libran el IDLER-ENS (Y −1391.979), el
 // LAT TOP (que arranca en −513.116) y los travesaños PG40 (−1520/−1390/−600/−100).
 // Ø ELEGIDO: Ø88.9 (tubo Ø88.9 × 3.2 — el MISMO tubo que el núcleo del tambor):
-//   · no manda la flexión de la banda (Ø88.9 ≫ Ø40 mínimo, web BELT-FLAT-01);
+//   · no manda la flexión de la banda (Ø88.9 > los Ø63.5 sobre los que ya corre
+//     esta familia de banda plana en el NBT90 — nbt90 P.idlerDia);
 //   · manda la FLECHA del eje fijo y el hueco para el rodamiento: con eje Ø30 y
 //     6206-2RS (Ø62 exterior) la corona de la tapa queda en 10.25 mm de pared;
 //   · y manda el bolsillo: RR2/RR3 están a 25.6 y 30.6 mm de la cara del módulo

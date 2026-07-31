@@ -47,7 +47,7 @@ export const FLAGS = {
   // sección que cabe en la ventana de 31.75 dentro del módulo, y el pozo es el
   // que resuelve la profundidad. Si el cliente los retira, estas banderas lo
   // hacen sin borrar código.
-  desactivaPercha: false,
+  desactivaPercha: true,   // ← ACTIVADA: ver nota en el integrador
   desactivaPuentes: false,
   desactivaPozo: false,
 };
@@ -139,7 +139,7 @@ export const TRAMOS = {
 
 // Travesaños (dis): posiciones elegidas por los huecos libres del conjunto y
 // por la flecha (§7). Cada uno es un 40×40 que cruza de alargue a alargue.
-export const TRAVESANOS = [-1520, -1390, -600, -100];
+export const TRAVESANOS = [-1520, -1440, -555, -100];
 //   −1520: entre la cabecera conducida (−1560.2) y el volante V1 (−1345)
 //   −1390: sobre el IDLER-ENS (que vive en Z −273…−155, no compite)
 //   −600 : entre el travesaño de percha norte (−632) y el volante V4 (−586)
@@ -163,20 +163,49 @@ export const TRAVESANOS = [-1520, -1390, -600, -100];
 const CHAPON_INT = STEP.frameIntPos;                       // 499.418 step
 const ALMA_EXT = r3(Xc + NBT.sideAlmaExtY);                // 508.026 nbt90
 const ALMA_INT = r3(ALMA_EXT - P.cal12);                   // 505.369 calc (12 GA)
+const ALMA_EXT_NEG = r3(Xc - NBT.sideAlmaExtY);            // 50.886 nbt90 (lado −X)
 
 export const ALARGUE = {
   material: 'Acero A36 (S275JR)',
   e: 8.0,                        // dis: 8 mm — el UCF 207 lleva M12 y el alma de
                                  //   12 GA (2.657) del side no es asiento de
                                  //   rodamiento; 8 mm da 1.5 Ø de aplastamiento.
-  // Plano del alma, simétrico respecto de Xc (calc):
-  get xExt() { return CHAPON_INT; },                       // 499.418 (+X)
+  // DÓNDE CABE EL ALMA. La transferencia NO SE TOCA, así que el alargue va POR
+  // FUERA de su envolvente. El hueco es distinto en cada lado — el alargue es
+  // asimétrico, y no por capricho: son las cajas medidas del conjunto.
+  //   · PLACA PEINE del NBT90 (MÓVIL): barre X 63.46…495.46 en Z −242.27…50.99
+  //     dentro del módulo → por DENTRO del alma del side channel no cabe nada
+  //     longitudinal a esa altura.
+  //   · CANAL DE MONTAJE DEL CILINDRO del NBT90: X 58.31…500.61, techo Z −225.03.
+  //   · ENSAMBLE MOTOR UniDrive del cliente (contexto medido, manda él):
+  //     X desde 63.098, Y −1551.26…−1432.21, Z −273.02…−155.17.
+  //   · Chapón de descarga del cliente: X 499.418…527.418 (en +X no hay salida
+  //     hacia fuera); en −X el bastidor está a 132.3 y sobra sitio.
+  // Solución: el alma se apoya en la cara EXTERIOR del alma del side channel en
+  // −X (lap directo, sin casquillos) y en la cara INTERIOR del chapón en +X.
+  get xExt() { return CHAPON_INT; },                       // 499.418 (+X, contra el chapón)
   get xInt() { return r3(CHAPON_INT - this.e); },          // 491.418 (+X)
-  get dXc() { return r3(CHAPON_INT - Xc); },               // 219.962 calc
-  get xNegExt() { return r3(Xc - this.dXc); },             // 59.494 (−X)
-  get xNegInt() { return r3(this.xNegExt + this.e); },     // 67.494 (−X)
-  // Separador alargue ↔ alma del side channel (calc, uno por perno):
-  get separador() { return r3(ALMA_INT - CHAPON_INT); },   // 5.951
+  get xNegInt() { return ALMA_EXT_NEG; },                  // 50.886 (−X, cara ext. del alma del side)
+  get xNegExt() { return r3(ALMA_EXT_NEG - this.e); },     // 42.886 (−X)
+  // CABEZALES del lado −X: van en el plano que pide adapt/params_tambores.mjs
+  // (caraApoyoX 59.494 para el motriz OUTBOARD y 67.494 para el conducido
+  // INBOARD) — o sea la misma pletina de 8, corrida 8.608 hacia dentro respecto
+  // del alma. El escalón se salva con casquillos separadores en el empalme.
+  xCabNegExt: 59.494,
+  get xCabNegInt() { return r3(this.xCabNegExt + this.e); },        // 67.494
+  get escalonNeg() { return r3(this.xCabNegExt - ALMA_EXT_NEG); },  // 8.608
+  // Holguras que deja esa colocación (calc, las verifica la compuerta §P):
+  get holguraPeineNeg() { return r3(63.46 - this.xNegInt); },      // 12.574
+  get holguraMotorNeg() { return r3(63.098 - this.xNegInt); },     // 12.212
+  get holguraPeinePos() { return r3(this.xInt - 495.46); },        // −4.04 → el tramo
+  //   del módulo del lado +X NO puede ir a 491.418: se mete en el hueco de
+  //   5.951 que queda entre el chapón (499.418) y el alma del side (505.369),
+  //   que es justo el que ya libera la MUESCA declarada del chapón. Ahí la
+  //   holgura al peine es 499.418 − 495.46 = 3.958 (calc).
+  lapE: 5.9,                     // dis: pletina de 6 nominal, 0.05 de holgura de montaje
+  get lapXPos() { return CHAPON_INT; },                    // 499.418 → 505.318
+  get holguraLapPeine() { return r3(CHAPON_INT - 495.46); },       // 3.958
+  get separador() { return r3(ALMA_INT - CHAPON_INT); },   // 5.951 — el hueco que rellena
   casquillo: { od: 16 },         // dis: Ø16 sobre perno 3/8 (como PERCHA.casquilloEscote)
 
   // ARQUITECTURA EN TRES PIEZAS POR LADO (dis, y la razón es geométrica):
@@ -194,16 +223,32 @@ export const ALARGUE = {
   almaY: [-1535, -125],          // calc: hasta el borde de la ventana del deck
                                  //   (−1530.782 y −130.782) con 4.2 / 5.8 de margen
   almaZTop: -70,                 // dis: bajo el eje pivote del tensor y el árbol motriz
-  almaZBot: -248,                // dis: 2.71 sobre el ala inferior del side (−250.71)
+  almaZBot: -222,                // dis: 3.03 sobre el techo del canal de montaje del
+                                 //   cilindro del NBT90 (Z −225.03) — la transferencia
+                                 //   no se toca, se aparta el alargue
   lapZTop: -93,                  // dis: 2.07 bajo el ala superior del side (−90.93)
-  lapY: [-1215, -732],           // dis: cubre el side (Y −1202.1…−744.9) con 13 de margen
+  // El lado +X va PARTIDO en dos tramos de lap: la PLACA COLGANTE DEL CANAL del
+  // NBT90 ocupa X 500.61…505.37 en Y −1081.5…−865.5, justo el hueco del chapón.
+  // Se la rodea, y con ello sólo quedan utilizables las colisas de −1145 y −802
+  // en ese lado (la de −973.5 cae detrás de la placa colgante).
+  lapY: [[-1208, -1090], [-855, -739]],
+  lapPernosY: [-1145, -802],     // calc: las colisas que sí quedan libres en +X
+  almaPosSur: [-1535, -1208],    // calc: +X, fuera del módulo (side desde −1202.1)
+  almaPosNorte: [-739, -190],    // calc: +X, fuera del módulo (side hasta −744.9) y
+                                 //   parando 19 antes de la chumacera UCFL 206 del eje
+                                 //   pivote del tensor (cuerpo hasta Y −141): el hueco
+                                 //   hasta el cabezal lo cose el cubrejunta, que corre
+                                 //   por Z −70…−45, fuera del alcance de la chumacera
+  cubreLapY: [[-1268, -1172], [-776, -700]],  // dis: empalmes alma↔lap, esquivando
+                                 //   las placas peine (Y −1167.3 y −784.5)
+  cubreLapX: 483.418,            // calc: xInt − 8, por dentro; 4.04 al peine (495.46)
   transicion: 35,                // dis: longitud de la diagonal de cambio de canto
   cabezalMotrizY: [-125, 90],    // calc — fuera de la ventana Y del deck
   cabezalCondY: [-1697.4, -1535],// calc — ídem, por el otro extremo
   cabezalZ: [-70, 70],           // calc: ±(46 semicuadro UCF + 24 de canto)
   cubrejuntaE: 8,                // dis: mismo espesor, por dentro del alma
   cubrejuntaZ: [-70, -45],       // calc: bajo el plano de transporte en todo caso
-  mensulaY: [-1390, -600],       // dis: 2 ménsulas por lado que suben del alma al
+  mensulaY: [-1440, -555],       // dis: 2 ménsulas por lado que suben del alma al
   mensulaZ: [-70, -40],          //   travesaño PG40 y amarran el bastidor al canal
 
   // Amarre al SIDE CHANNEL del NBT90 (nbt90): sus 3 colisas de reglaje por lado.
@@ -282,9 +327,13 @@ export const PUBLICA = {
   // rodamientos van POR DENTRO: el chapón del cliente (cara interior 499.418,
   // cara exterior 527.418) no deja hueco por fuera en el lado +X.
   caraApoyo: {
-    xNeg: r3(Xc - (ALARGUE.dXc - ALARGUE.e)),     // 67.494 — cara interior del alargue −X
-    xPos: r3(Xc + (ALARGUE.dXc - ALARGUE.e)),     // 491.418 — cara interior del alargue +X
+    xNeg: ALARGUE.xNegInt,                        // 50.886 — cara interior del alargue −X
+    xPos: ALARGUE.xInt,                           // 491.418 — cara interior del alargue +X
     normal: 'X', rodamientos: 'hacia el interior (inboard)',
+    nota: 'ASIMÉTRICO respecto de Xc (279.456): −X a 228.57 y +X a 211.962. Lo impone el '
+      + 'hueco real de cada lado (peine y canal del cilindro del NBT90 por dentro, chapón '
+      + 'del cliente por fuera en +X). Los dos planos están publicados: el tambor sólo '
+      + 'necesita estas dos cotas.',
   },
   get luzEntreCaras() { return r3(this.caraApoyo.xPos - this.caraApoyo.xNeg); },   // 423.924
   // Ancho que las 5 bandas exigen a la cara del tambor (calc):

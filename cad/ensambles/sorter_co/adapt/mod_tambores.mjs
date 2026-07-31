@@ -464,7 +464,17 @@ export function tambores(E) {
   const capInboard = PG?.PUBLICA?.caraApoyo
     ? r3((PG.PUBLICA.caraApoyo.xPos - UCF207.saliente) - (PG.PUBLICA.caraApoyo.xNeg + UCF207.saliente))
     : r3((491.418 - UCF207.saliente) - (67.494 + UCF207.saliente));
-  const faltaInboard = r3(FIJO.caraMin - capInboard);              // 1.676
+  // lo que tiene que caber entre apoyos NO es el ancho de las bandas: es el
+  // TUBO del tambor (que sobresale de la goma) más 2 mm de aire por lado.
+  const necesita = r3(TAMBOR.caraTubo + 4);
+  const faltaInboard = r3(necesita - capInboard);
+  if (faltaInboard <= 0 && capInboard >= FIJO.caraMin) {
+    // si pg40 ensancha el alargue hasta que el montaje interior quepa, este
+    // módulo NO se entera solo: lo dice, para que se revise la decisión.
+    err.push(`AVISO-INTERFAZ: con la luz actual entre caras de apoyo (${capInboard} en montaje `
+      + `interior) el UCF 207 ya cabría INBOARD; la decisión OUTBOARD de params_tambores §2 `
+      + `debería revisarse con pg40`);
+  }
   // …y la que hay de verdad con la unidad OUTBOARD:
   const capOutboard = PG?.PUBLICA?.caraApoyo
     ? r3(PG.PUBLICA.caraApoyo.xPos - PG.PUBLICA.caraApoyo.xNeg)

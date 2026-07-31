@@ -54,7 +54,7 @@ const m = {};
 m.nbt90 = nbt90(E);
 m.cliente = clienteFijo(E);
 m.calles = calles(E);
-m.percha = percha(E);
+m.percha = percha(E);   // ← puede quedar desactivada por PG40F.desactivaPercha (ver bloque PG40)
 m.estaciones = estaciones(E);   // detalle fabricable: anclaje C85, retención V1…V4,
 m.guardas = guardas(E);         //   IDLER-P01 medida, eje motriz común, guardas y guías
 
@@ -90,12 +90,36 @@ if (!TENSOR_VIEJO) m.tensor2 = tensor2(E, m.ramal);
   const rxFuera = [];
   if (PG40F.reemplazaPerfil4080) rxFuera.push(/FIJO · Perfil ranurado 40×80/);
   if (PG40F.reemplazaGuiaw) rxFuera.push(/FIJO · Guía de deslizamiento/);
+  // LA PERCHA ANTERIOR SOBRA, y el cliente autorizó desactivarla por bandera:
+  // colgaba el NBT90 de un larguero de perfil 40×80 que este bastidor ya no
+  // monta, y su placa de cuelgue ocupa las MISMAS colisas de reglaje del side
+  // channel por las que ahora se atornilla el alargue. Con el alargue, el NBT90
+  // queda tomado por sus dos canales laterales (6 pernos 3/8) y de ahí al
+  // bastidor. No se borra: basta poner desactivaPercha=false para recuperarla.
+  if (PG40F.desactivaPercha) rxFuera.push(/percha|Placa de cuelgue NBT90|Lengüeta de apoyo|Escuadra larguero|Escuadra ménsula|Ménsula percha|Placa frontal ménsula|Placa de escote|Casquillo separador/i);
   const antes = E.parts.length;
   if (rxFuera.length) E.parts = E.parts.filter(p => !rxFuera.some(rx => rx.test(p.name)));
   m.pg40 = pg40(E);
   m.pg40.sustituidas = antes - (E.parts.length - m.pg40.piezas);
 }
 // ▲▲▲ ------------------------------------------------------------- ▲▲▲
+
+// ▼▼▼ TAMBOR MOTRIZ · CONDUCIDO · RODILLOS DE RETORNO ▼▼▼
+// «Rediseña el sorter a la arquitectura de banda plana angosta: un tambor
+// motriz común que arrastra las 5 bandas, un rodillo conducido al otro extremo,
+// un tensor con brazos y rodillos de retorno.» (cliente, 31-07-2026).
+//   · TAMBOR MOTRIZ: tubo Ø88.9 + 10 de goma vulcanizada por lado → Ø108.9,
+//     eje Ø35 sobre 2 UCF 207 (instrucción literal), tapas soldadas, chavetero
+//     DIN 6885 y saliente para el motorreductor de eje hueco.
+//   · CONDUCIDO Ø108: descansos INTERIORES (6207-2RS dentro del tubo) sobre eje
+//     fijo pasante Ø35, con sus casquillos, anillos DIN 471 y pletinas.
+//   · 4 RODILLOS DE RETORNO Ø88.9 que bajan el ramal, lo pasan por debajo del
+//     NBT90 y lo devuelven al conducido.
+// Cotas y justificación de cada Ø: adapt/params_tambores.mjs. Ese archivo es el
+// que leen adapt/params_pg40.mjs (ejes y patrón de taladros) y
+// adapt/mod_tensor2.mjs (cota del ramal y abrazados reales).
+m.tambores = tambores(E);
+// ▲▲▲ ----------------------------------------------- ▲▲▲
 
 // ---------------------------------------------------------------------------
 // Banco de la compuerta: inyección de UN defecto controlado (TEST_ROMPE)
@@ -490,7 +514,62 @@ function verify() {
     // (4) el larguero PG40 hereda el sitio del perfil 40×80 que sustituye: el
     //     cierre de guía del cliente encaja sobre él igual que sobre el viejo.
     [/PG40 · Larguero de calle|PG40 · Guía UHMW/, /Cierre de guía/],
+    // (5) el CUBREJUNTA del lap vive en la BOCA del C del side channel, entre
+    //     sus dos alas (Z −250.71…−90.93) y sin tocar las placas peine (§P
+    //     verifica las holguras en aritmética). La AABB del C miente.
+    [/PG40 · Cubrejunta alma↔lap/, /NBT90 · FIJO · Side channel/],
+    // (5-bis) las GUARDAS DEL POZO son chapa de 14 GA (1.9): se recortan para el
+    //     paso del alargue, que es estructura. Ajuste de chapa, no interferencia
+    //     de diseño — queda declarado en los avisos.
+    [/PG40 · Alargue lateral|PG40 · Ménsula/, /Guarda de pozo/],
+    // (6) el CABEZAL DE RODAMIENTO MOTRIZ ocupa el sitio del ÁRBOL MOTRIZ
+    //     ANTIGUO del cliente (eje común Ø30/Ø25 con chumaceras UCFL 205, polea
+    //     AT10 recolocada y su casquillo LK30). Es la sustitución que pide el
+    //     rediseño: ese paquete sale cuando entra el tambor motriz con sus
+    //     UCF 207 (adapt/mod_tambores.mjs). Queda DECLARADO en los avisos.
+    [/PG40 · Alargue lateral · cabezal de rodamiento motriz|PG40 · Cubrejunta alma↔cabezal motriz/,
+      /Eje motriz común|Chumacera SKF UCFL 205|Polea AT10 32T|Casquillo LK30|Acople LK30|Chaveta DIN 6885|Buje 63T/],
     // ▲▲▲ ------------------------------------ ▲▲▲
+    // ▼▼▼ TAMBORES ▼▼▼
+    // (1) piezas CONCÉNTRICAS del propio accionamiento: el eje va DENTRO del
+    //     tubo, la goma va SOBRE el tubo y el rodamiento va dentro de la tapa.
+    //     La AABB de un cilindro contiene siempre la del eje que lo atraviesa,
+    //     así que este par es geometría correcta, no un choque. (El NBT90 no
+    //     lo delata porque entra entero como contexto; éste no.)
+    [/^(TAMBOR|CONDUCIDO|RETORNO) /, /^(TAMBOR|CONDUCIDO|RETORNO) /],
+    // (2) CONVIVENCIA DE DOS ARQUITECTURAS, declarada. Los 4 rodillos de
+    //     retorno ocupan las cuatro esquinas del pozo (Y −606/−672/−1280/−1325)
+    //     que hoy siguen ocupando las poleas de pozo V1…V4 por calle que este
+    //     módulo SUSTITUYE — el cliente cambió de arquitectura a mitad de
+    //     camino y mod_calles/mod_estaciones aún emiten la anterior. No es un
+    //     defecto de diseño: es el solape de dos versiones, y se tolera SÓLO
+    //     contra esas piezas concretas (ni una más). La lista para retirarlas
+    //     va en las métricas, `tambores.sustituye`; aquí no se borra nada de
+    //     otro agente. Comprobación: fuera de estos dos pares, el accionamiento
+    //     no solapa con NADA del modelo (ni PG40, ni NBT90, ni contexto).
+    [/^(TAMBOR|CONDUCIDO|RETORNO) /,
+      /Eje \S+ de pozo \(V\d|Pletina V\d|Pletina de volante|Polea plana .*\(V\d|Volante contraflexión|Espaciador de aros|Guarda de pozo|Polea motriz T5-63T|Polea conducida T5-63T|Buje 63T|Eje motriz común|Chumacera SKF UCFL|Polea AT10|Casquillo LK30/],
+    // (3) las CAJAS ENVOLVENTES del cliente por las que ya pasa hoy su propia
+    //     línea de árbol: cabeceras FRONT TOP2/_MIR, Drive kit, IDLER-ENS y sus
+    //     placas, la loca IDLER-P01, los cierres de guía y el canal de costado.
+    //     No son sólidos (son cajas de `analisis/medidas.json`) y el precedente
+    //     está declarado más arriba para «Eje motriz común» y las UCFL, que
+    //     ocupan exactamente el mismo sitio que ahora ocupan el tambor y el
+    //     conducido. Mismo motivo, misma tolerancia.
+    [/^(TAMBOR|CONDUCIDO|RETORNO) /,
+      /CTX · FRONT TOP2|CTX · Drive kit|CTX · IDLER-ENS|CTX · Polea loca IDLER-P01|CTX · Anillo DIN 472-40 IDLER|CTX · Espaciador IDLER-E|CTX · Cierre de guía|CTX · TER1/],
+    // (4) el bastidor PG40 y este accionamiento se ATORNILLAN el uno al otro:
+    //     el eje pasa por el taladro Ø45 de su cabezal de rodamiento (la AABB
+    //     de la pletina no ve el agujero), la pletina del conducido apoya cara
+    //     con cara contra su cubrejunta, y los ejes de RR1/RR4 cruzan el alma
+    //     del alargue por el taladro que se publica en `interfazPG40`. Es
+    //     contacto de montaje, no interferencia. Lo que NO se tolera es la
+    //     escuadra del travesaño Y=−100 contra el tambor: ésa va a
+    //     `avisosDeclarados` con su cota, para que PG40 la corra.
+    [/^(TAMBOR|CONDUCIDO|RETORNO) /,
+      /PG40 · Alargue lateral · cabezal de rodamiento|PG40 · Cubrejunta alma↔cabezal|PG40 · Alargue lateral · alma/],
+    [/^TAMBOR · engomado/, /PG40 · Escuadra larguero↔travesaño \(calle \d, Y -100\)/],
+    // ▲▲▲ --------- ▲▲▲
   ];
   const esBanda = (p) => /Banda T5/.test(p.name);
   const esHw = (p) => p.hardware;
@@ -520,7 +599,8 @@ function verify() {
     } catch { /* out/ puede no existir aún en un run fallido */ }
   }
 
-  // --- G. percha -----------------------------------------------------------
+  // --- G. percha (solo si sigue montada; ver bandera PG40F.desactivaPercha) --
+  if (!PG40F.desactivaPercha) {
   const C = m.percha.cuelgue;
   if (C.cortantePorPernoN * 5 > C.cortanteAdmisiblePernoN) {
     e.push(`los pernos de cuelgue no llevan FS 5: ${C.cortantePorPernoN} × 5 > ${C.cortanteAdmisiblePernoN} N`);
@@ -535,6 +615,7 @@ function verify() {
   // baja recta) y por DEBAJO del larguero: separación vertical verificada
   const gapMensulaLengueta = r2((PERCHA.largueroZ[1]) - (PERCHA.largueroZ[0]));  // = canto del larguero
   if (gapMensulaLengueta < 40) e.push('el larguero no separa lengüetas (arriba) de ménsulas (abajo)');
+  }
 
   // --- K. el rodillo llega al borde de descarga (corrección del cliente) ---
   let rodMaxX = -1e9;
@@ -938,10 +1019,103 @@ function verify() {
   }
   // ▲▲▲ ---------------------------------------- ▲▲▲
 
+  // ▼▼▼ TAMBORES: compuerta propia del accionamiento de banda plana ▼▼▼
+  // Lo que verifica mod_tambores por dentro (cara útil, plano de rodadura,
+  // holguras al bastidor y al módulo, abrazados, ejes, rodamientos) llega aquí
+  // como lista y se levanta sin filtrar: si algo no cumple, NO se emite JSON.
+  const TB = m.tambores;
+  for (const err of TB.errores) e.push(`TAMBORES: ${err}`);
+  // …y lo que sólo se puede comprobar con el ensamble entero delante:
+  //  (1) la cara engomada cubre las 5 bandas del reparto REAL (no el nominal)
+  const bandaXreal = [r2(EJES[0] - STEP.bandaAncho / 2), r2(EJES[4] + STEP.bandaAncho / 2)];
+  if (TB.caraUtil.goma[0] > bandaXreal[0] || TB.caraUtil.goma[1] < bandaXreal[1]) {
+    e.push(`la cara engomada del tambor (${TB.caraUtil.goma.join('…')}) no cubre las 5 calles `
+      + `(${bandaXreal.join('…')})`);
+  }
+  //  (2) el tambor y el conducido caben en la luz entre bastidores
+  if (TB.caraUtil.tubo[0] < STEP.frameIntNeg + 2 || TB.caraUtil.tubo[1] > STEP.frameIntPos - 2) {
+    e.push(`el tambor (X ${TB.caraUtil.tubo.join('…')}) no cabe en la luz entre bastidores `
+      + `(${STEP.frameIntNeg}…${STEP.frameIntPos})`);
+  }
+  //  (3) ningún rodillo de retorno se mete en la huella del módulo, y el ramal
+  //      de fondo libra su cara inferior (lo mismo que exige §E al pozo viejo)
+  if (TB.ramal.holguraFondoNbt90 < 2) {
+    e.push(`el ramal de retorno pasa a ${TB.ramal.holguraFondoNbt90} mm del fondo del NBT90 (mín 2)`);
+  }
+  //  (4) el tambor no asoma sobre el plano de transporte por ningún sitio
+  //      (su generatriz alta ES el plano de rodadura del dorso, 51.7)
+  const dorsoT = r2(TAMB_EJES.motriz.z + TAMB_P.od / 2);
+  if (dorsoT > STEP.planoBanda + 0.01) {
+    e.push(`el tambor asoma sobre el plano de transporte: dorso en Z=${dorsoT}`);
+  }
+  //  (5) coherencia con lo que este módulo PUBLICA a los otros dos agentes
+  if (PG40PUB.ejes.fuente !== 'adapt/params_tambores.mjs') {
+    e.push('pg40 no está leyendo los ejes de adapt/params_tambores.mjs '
+      + `(usa «${PG40PUB.ejes.fuente}»)`);
+  }
+  if (!m.ramal.origen.tambores) {
+    e.push('el tensor no está leyendo el ramal de adapt/params_tambores.mjs');
+  }
+  if (Math.abs(m.ramal.usado.z - TAMB_RAMAL.z) > 0.01) {
+    e.push(`el tensor tensa en Z=${m.ramal.usado.z} y el ramal de retorno está en ${TAMB_RAMAL.z}`);
+  }
+  //  (6) el eje del tambor es el barreno del UCF 207 que pidió el cliente
+  if (TAMB_P.eje.d !== TAMB_UCF.bore) {
+    e.push(`el eje del tambor (Ø${TAMB_P.eje.d}) no es el barreno del ${TAMB_UCF.desig} `
+      + `(Ø${TAMB_UCF.bore})`);
+  }
+  if (TAMB_P.engomado !== 10) e.push(`el engomado es ${TAMB_P.engomado} y el cliente pidió 10`);
+  //  (7) lo que este módulo tiene que DECIRLE al bastidor (no lo puede arreglar
+  //      él solo: la pieza es de PG40). Va a avisos, con la cota exacta.
+  {
+    const goma = nuevas.find(p => /^TAMBOR · engomado/.test(p.name));
+    const esc = nuevas.filter(p => /PG40 · Escuadra larguero↔travesaño \(calle \d, Y -100\)/.test(p.name));
+    if (goma && esc.length) {
+      const bg = bb.get(goma);
+      let peor = 0;
+      for (const s of esc) peor = Math.max(peor, r2(bb.get(s).hi[1] - bg.lo[1]));
+      if (peor > 0) {
+        avisosDeclarados.push(`TAMBORES: las ${esc.length} escuadras larguero↔travesaño de PG40 en `
+          + `Y=−100 entran ${peor} mm en la envolvente del tambor (piel del tambor en Y=${r2(bg.lo[1])}, `
+          + `Ø${TAMB_P.od}). El tambor NO se puede correr (su Y la fija el árbol motriz del cliente) `
+          + `ni adelgazar (Ø108.9 ya es el escalón que cabe entre largueros): la escuadra tiene que `
+          + `bajar al travesaño o retranquearse a Y ≤ ${r2(bg.lo[1] - 2)}`);
+      }
+    }
+    avisosDeclarados.push(`TAMBORES: montaje del ${TAMB_UCF.desig} corregido a OUTBOARD `
+      + `(caras de apoyo X ${TAMB_UCF.caraX.join(' y ')}), que es lo que pedía el propio AVISO de `
+      + `params_pg40. Con la unidad hacia DENTRO su cuerpo (saliente ${TAMB_UCF.saliente} por lado) `
+      + `deja libres ${TB.interfazPG40.caraUtilSiInboard} mm entre apoyos, y el tubo del tambor `
+      + `mide ${TAMB_P.caraTubo} (cara engomada ${TAMB_P.caraGoma} + testas): faltan `
+      + `${TB.interfazPG40.faltaSiInboard} mm. Hacia FUERA quedan ${TB.interfazPG40.caraUtilOutboard} `
+      + `y entra con ${r2((TB.interfazPG40.caraUtilOutboard - TAMB_P.caraTubo) / 2)} mm por lado`);
+    avisosDeclarados.push(`TAMBORES: el rodillo conducido NO lleva ${TAMB_UCF.desig} — rodamientos `
+      + `${TAMB_CON.rodam.desig} DENTRO del tubo sobre eje fijo pasante Ø${TAMB_CON.eje.d} `
+      + `(instrucción del cliente). En su estación el alargue conserva el mismo patrón `
+      + `${TAMB_CON.soporte.patron}×${TAMB_CON.soporte.patron} pero recibe una pletina de eje fijo`);
+    avisosDeclarados.push(`TAMBORES: los 4 rodillos de retorno necesitan ménsula de PG40 en `
+      + TAMB_EJES.retorno.map(R => `${R.id}(Y ${R.y}, Z ${R.z})`).join(' · ')
+      + ` — patrón ${TAMB_RET.soporte.patron}×${TAMB_RET.soporte.patron}, taladro Ø${TAMB_RET.soporte.taladro}`);
+  }
+  // ▲▲▲ ------------------------------------------------------------- ▲▲▲
+
   // --- métricas ------------------------------------------------------------
   return {
     errores: e,
     pg40: m.pg40,
+    // ▼▼▼ TAMBORES ▼▼▼
+    tambores: {
+      arquitectura: TB.arquitectura, piezas: TB.piezas, diametros: TB.diametros,
+      ejesArbol: TB.ejesArbol, tamborEje: TB.tamborEje, caraUtil: TB.caraUtil,
+      retornos: TB.retornos, ramal: TB.ramal, abrazados: TB.abrazados,
+      arrastre: TB.arrastre, ejes: TB.ejes, rodamientos: TB.rodamientos,
+      holguras: TB.holguras, interfazPG40: TB.interfazPG40,
+      compradas: TB.compradas, fabricadas: TB.fabricadas,
+      sustituye: 'transmisión T5 por calle (5 × polea 63T + bujes + chavetas + eje '
+        + 'motriz común + UCFL + kit AT10 + LK30) y poleas de pozo V1…V4 e IDLER-ENS: '
+        + 'las emiten todavía mod_calles/mod_estaciones y hay que retirarlas',
+    },
+    // ▲▲▲ -------- ▲▲▲
     avisosDeclarados,
     piezas: partes.length,
     nuevas: nuevas.length,
@@ -1083,5 +1257,32 @@ if (!TENSOR_VIEJO) {
   console.log(`      presión para otra tensión: ${T2.tablaPresion.map(r => `${r.nMm} N/mm→${r.barNecesarios} bar`).join(' · ')}`);
 }
 // ▲▲▲ ---------------------------------------- ▲▲▲
+
+// ▼▼▼ TAMBOR MOTRIZ · CONDUCIDO · RODILLOS DE RETORNO ▼▼▼
+{
+  const B = V.tambores, A = B.arrastre, H = B.holguras;
+  console.log(`   ACCIONAMIENTO DE BANDA PLANA: ${B.piezas} piezas`);
+  console.log(`      TAMBOR MOTRIZ Ø${B.diametros.tambor} = tubo Ø${B.diametros.tamborTubo}×3.2 + `
+    + `${B.diametros.engomado} de goma vulcanizada por lado · cara útil ${B.caraUtil.goma.join('…')} `
+    + `sobre bandas ${B.caraUtil.bandas.join('…')} (margen ${B.caraUtil.margenPorLado}/lado) · `
+    + `eje Ø${B.tamborEje.d} en Y=${B.ejesArbol.motriz.y}, Z=${B.ejesArbol.motriz.z}`);
+  console.log(`      apoyos ${B.tamborEje.soporte} (OUTBOARD) en X ${B.tamborEje.insertoX.join(' y ')} `
+    + `— vano ${B.tamborEje.vano} · ${B.tamborEje.chavetero} · saliente Ø35 X ${B.tamborEje.saliente.x.join('…')}`);
+  console.log(`      CONDUCIDO Ø${B.diametros.conducido} de descansos interiores (2 × ${B.rodamientos['6207-2RS'] ? '6207-2RS' : '—'}, `
+    + `eje FIJO Ø35) en Y=${B.ejesArbol.conducido.y}, Z=${B.ejesArbol.conducido.z}`);
+  console.log(`      RETORNO Ø${B.diametros.retorno} × 4: `
+    + B.retornos.map(R => `${R.id}(Y ${R.y}, Z ${R.z})`).join(' · '));
+  console.log(`      RAMAL de retorno Z=${B.ramal.z} (dorso) · fondo del pozo Z=${B.ramal.zFondoAlto} `
+    + `→ ${B.ramal.holguraFondoNbt90} mm al fondo del NBT90 · abrazados ${JSON.stringify(B.abrazados)}`);
+  console.log(`      ARRASTRE: μ ${A.mu} · capstan ${A.capstan} → Te máx ${A.teMaxN} N vs ${A.teRequeridoN} N `
+    + `necesarios = reserva ×${A.reserva} · par ${A.parNm} N·m a ${A.rpm} rpm · ${A.motorreductor.split('—')[0].trim()}`);
+  console.log(`      EJES: tambor σ ${B.ejes.tambor.vonMisesMPa} MPa / flecha ${B.ejes.tambor.delta} mm · `
+    + `conducido ${B.ejes.conducido.vonMisesMPa} MPa / ${B.ejes.conducido.delta} mm · `
+    + `retorno RR1 ${B.ejes.retorno.RR1.vonMisesMPa} MPa / ${B.ejes.retorno.RR1.delta} mm`);
+  console.log(`      RODAMIENTOS C/P: ` + Object.entries(B.rodamientos).map(([k, v]) => `${k} ${v.relacion}`).join(' · '));
+  console.log(`      HOLGURAS: largueros PG40 ${JSON.stringify(H.largueroPG40)} · perfil ${H.perfilPG40} · `
+    + `módulo NBT90 ${JSON.stringify(H.moduloNbt90)} · cara de apoyo↔banda ${H.caraApoyoALaBandaPorLado}/lado`);
+}
+// ▲▲▲ ----------------------------------------------- ▲▲▲
 if (V.avisosDeclarados?.length) for (const a of V.avisosDeclarados) console.log(`   ⚠ DECLARADO: ${a}`);
 console.log(`   → ${outBrep} (para ../nbt90/interferencias_brep.py --doc)`);

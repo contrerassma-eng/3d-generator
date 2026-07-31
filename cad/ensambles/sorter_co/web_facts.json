@@ -588,6 +588,44 @@
    "confidence": "alta",
    "nota": "El dimensionado del kit del cliente (EJEC.bandaAT10, params_estaciones) da L=554.96 -> banda de 56 dientes (25AT10/560). El tamano 560 es multiplo entero del paso 10 y de la serie AT10; la cita cubre la FAMILIA y el /600 - la disponibilidad exacta del /560 (o el ajuste de centros a L=600 con la colisa del P1-2) queda a confirmar en compra. NO se monta banda en el modelo: la UA-DRIVE PULLEY del cliente no existe en su STEP (SORTER_CO.md 2.5/5.7).",
    "uso_en_diseno": "dimensionado documental de la banda del 'drive kit w timming' del cliente, condicionado a que restaure su kit con una UA-DRIVE de 24T (la unica que cabe: el perfil llega a Z +/-40, params_estaciones)."
+  },
+  {
+   "id": "BRG-UCF207-01",
+   "tema": "rodamientos",
+   "claim": "La UCF 207 es una unidad de rodamiento de brida CUADRADA de 4 tornillos con barreno de 35 mm; brida de 117 mm de lado, taladros a 92 mm entre centros, taladro de Ø14 (perno M12), 44.4 mm de saliente total del conjunto y 42.9 mm de ancho de aro interior",
+   "value": "35 | 117 | 92 | 14 | 44.4 | 42.9",
+   "unit": "mm: barreno d | brida L | entre centros J | taladro N | saliente A0 | aro interior B",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://bearingfinder.ntnamericas.com/item/four-bolt-flange-unit-square-style/quare-flanged-unit-cast-housing-set-screw-ucf-type/ucf207",
+    "accessed": "2026-07-31",
+    "quote": "d = 1.3780 in / 35.000 mm ; L = 4.5937 in / 117.0 mm ; J = 3.6250 in / 92.0 mm ; N = 0.5469 in / 14.0 mm ; A0 = 1.7500 in / 44.400 mm ; A = 1.3437 in / 34.0 mm ; A1 = 0.5937 in / 15.0 mm ; A2 = 0.7500 in / 19.0 mm ; B = 1.6890 in / 42.900 mm ; S = 0.6890 in / 17.500 mm ; Dynamic Load Rating = 25700 N ; Static Load Rating = 15300 N",
+    "quote_tipo": "tabla_de_dimensiones_del_fabricante"
+   },
+   "fuente_titulo": "NTN Bearing Corp. of America - Item # UCF207, Four-Bolt Flange Unit, Square Style",
+   "confidence": "alta",
+   "usado_en": "adapt/params_tambores.mjs UCF207 (bore 35 -> eje del tambor motriz; J 92 y N 14 -> patron de taladros que taladra adapt/mod_pg40.mjs en el alargue; saliente 44.4 -> por que la unidad va montada OUTBOARD)",
+   "contraste_con_lo_medido": "No hay medida del STEP con que contrastar: la UCF 207 es pieza NUEVA, entra por instruccion literal del cliente (31-07-2026). Lo que si se contrasta es la coherencia interna de la fuente: A1 + A2 = 15 + 19 = 34 = A, y B (42.9) > A0 (44.4) - A (34) = 10.4, o sea que el aro interior prolongado sobresale del cuerpo, que es lo propio de un inserto UC."
+  },
+  {
+   "id": "BRG-UCF207-02",
+   "tema": "rodamientos",
+   "claim": "Segunda fuente independiente para la UCF 207: brida 117, entre centros de taladros 92, espesor de brida 16, saliente total 44.4, aro interior 42.9 y cota axial de 34 mm entre la cara de montaje y el plano medio del rodamiento",
+   "value": "117 | 92 | 16 | 34 | 13.5 | 44.4 | 42.9",
+   "unit": "mm: a | e | g | x | s | Z | Bi",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://catalog.amibearings.com/item/set-screw-locking-5/ocking-four-bolt-flange-unit-uclf200-ucf200-series/ucf207",
+    "accessed": "2026-07-31",
+    "quote": "a = 117 mm ; e = 92 mm ; g = 16 mm ; x = 34 mm ; s = 13.5 mm ; Z = 44.4 mm ; Bi = 42.9 mm",
+    "quote_tipo": "tabla_de_dimensiones_del_fabricante"
+   },
+   "fuente_titulo": "AMI Bearings Inc. - Item # UCF207, Set Screw Locking Four-Bolt Flange Unit, UCLF200/UCF200 Series",
+   "confidence": "alta",
+   "usado_en": "adapt/params_tambores.mjs UCF207.bridaE (16) y UCF207.aOffset (34); confirma brida 117 y entre centros 92 de BRG-UCF207-01",
+   "contraste_con_lo_medido": "Las dos fuentes (NTN y AMI) coinciden en brida 117, entre centros 92, saliente 44.4 y aro interior 42.9. Discrepan en el Ø del taladro: NTN da N = 14.0 y AMI da s = 13.5. Se adopta 14 (el mayor) para el taladro de la brida y 13.5 para el que se taladra en el alargue, que es la holgura media ISO 273 de un M12: la pieza pasa con los dos. La cota axial de 34 (NTN A, AMI x) es la unica cuya DEFINICION no aparece literal en ninguna de las dos fuentes; se interpreta como separacion cara de montaje -> plano medio del rodamiento y queda declarado en params_tambores.mjs. No afecta al taladrado."
   }
  ],
  "pendientes_sin_fuente": [
@@ -600,6 +638,7 @@
   "CAD_STP_400_0077 / _RO3100_part1 / _RUP500_part2_p2: sin identificar. Ver SORTER_CO.md, no es una transferencia.",
   "SH-04, POL-CON-TEN, POL-COND-TEN, POL-COND-TEN2, IDLER-P01, TENS-LN-01, PZA-TEN-1, UA-*, UR-*, CT-ENS, U_00*: piezas de FABRICACION del cliente, no de compra. No procede buscarlas en catalogo; estan medidas en inventario.json.",
   "Presion de red de la instalacion: no consta en el STEP. La fuerza del tensor (PNEU-003) esta calculada a 6 bar como hipotesis.",
-  "Par y velocidad del motorreductor principal: no constan."
+  "Par y velocidad del motorreductor principal: no constan.",
+  "Diametro minimo de polea de una banda plana angosta de 2 telas de 32 mm de ancho: no se ha encontrado ficha citable. El criterio queda apoyado en dato del propio repo (la misma familia de banda plana corre en el NBT90 sobre rueda motriz y locas de Ø63.5 - nbt90 P.ruedaDia / P.idlerDia) y NO en un hecho web. Lo cierra el cliente con su proveedor de banda. Afecta a: adapt/params_tambores.mjs TAMBOR (Ø108.9), CONDUCIDO (Ø108.0) y RETORNOS (Ø88.9) - los tres van muy por encima de Ø63.5, asi que el riesgo de que la cifra real los invalide es bajo."
  ]
 }

@@ -116,10 +116,15 @@ export function pg40(E) {
         });
       out.guias++;
     }
-    // topes de extremo (retención axial sin tornillo en la cara de rodadura)
-    for (const [rango, nom] of [[TRAMOS.sur, 'conducido'], [TRAMOS.norte, 'motriz']]) {
-      for (const y of rango) {
-        const dentro = y === rango[0] ? 1 : -1;
+    // topes de extremo (retención axial sin tornillo en la cara de rodadura).
+    // Van en los extremos de la CAMA DE GUÍAS, metidos 3 mm hacia dentro: así no
+    // pisan los «cierre guía» del cliente, que hay orden expresa de conservar.
+    const camaSur = [TRAMOS.guiasSur[0][0], TRAMOS.guiasSur.at(-1)[1]];
+    const camaNorte = [TRAMOS.guiasNorte[0][0], TRAMOS.guiasNorte.at(-1)[1]];
+    for (const [rango, nom] of [[camaSur, 'conducido'], [camaNorte, 'motriz']]) {
+      for (const y0t of rango) {
+        const dentro = y0t === rango[0] ? 1 : -1;
+        const y = r3(y0t + dentro * 3);
         E.addPart(`PG40 · Tope de guía M6 (${c}, tramo ${nom}, Y ${y})`, COL.chapaOsc,
           [X, r3(y + dentro * GUIA.topeExtremo.e / 2), Z.perfilTop], [
             box(`Tope ${GUIA.topeExtremo.l}×${GUIA.topeExtremo.e}×${GUIA.saliente}`,
@@ -149,7 +154,7 @@ export function pg40(E) {
     // escuadras larguero ↔ travesaño (una por calle)
     for (let k = 0; k < EJES.length; k++) {
       escuadra(E, `PG40 · Escuadra larguero↔travesaño (calle ${k + 1}, Y ${y})`,
-        [EJES[k], r3(y + PERFIL.b / 2 + 3), Z.travTop], [PERFIL.b, 35],
+        [EJES[k], r3(y - PERFIL.b / 2 - 3), Z.travTop], [PERFIL.b, 35],
         { nota: 'tuercas martillo M8 ranura 10 en larguero y travesaño' });
       out.piezas++;
     }
@@ -161,88 +166,121 @@ export function pg40(E) {
   // Pletina de acero de 8 cortada por láser. Su silueta esquiva las ALAS del
   // side channel del NBT90 dentro del tramo del módulo (canto entre −248 y −93)
   // y sube a ±70 fuera de él para alojar el cuadro de taladros del UCF 207.
-  const A = ALARGUE, tr = A.transicion;
-  // Silueta del ALMA: rectángulo por la banda libre con el ESCOTE que esquiva
-  // el ala superior del side channel del NBT90 dentro del tramo del módulo.
-  const siluetaAlma = [
-    [A.almaY[0], A.almaZBot], [A.almaY[1], A.almaZBot],
-    [A.almaY[1], A.almaZTop], [A.lapY[1] + tr, A.almaZTop], [A.lapY[1], A.lapZTop],
-    [A.lapY[0], A.lapZTop], [A.lapY[0] - tr, A.almaZTop], [A.almaY[0], A.almaZTop],
-  ];
+  const A = ALARGUE;
   const rect = (y, z) => [[y[0], z[0]], [y[1], z[0]], [y[1], z[1]], [y[0], z[1]]];
   const ejesArbol = [['motriz', EJES_ARBOL.motriz, A.cabezalMotrizY],
     ['conducido', EJES_ARBOL.conducido, A.cabezalCondY]];
+  const zAlma = [A.almaZBot, A.almaZTop];
 
   for (const s of [-1, 1]) {                       // −1 = lado −X, +1 = lado +X
     const lado = s < 0 ? '−X' : '+X';
-    const xFace = s < 0 ? A.xNegExt : A.xInt;      // cara desde la que se extruye (+X)
-    const xExt = s < 0 ? A.xNegExt : A.xExt;       // cara EXTERIOR (hacia el bastidor)
-    const xApoyo = s < 0 ? PUBLICA.caraApoyo.xNeg : PUBLICA.caraApoyo.xPos;
+    // Cara desde la que se extruye el boceto YZ (crece en +X):
+    const xFace = s < 0 ? A.xNegExt : A.xInt;      // alma: −X 42.886 · +X 491.418
+    const xCab = s < 0 ? A.xCabNegExt : A.xInt;    // cabezal: el plano que pide tambores
+    const xExt = s < 0 ? A.xNegExt : A.xExt;       // cara exterior (hacia el bastidor)
+    const xApoyo = s < 0 ? A.xCabNegInt : A.xInt; // cara de apoyo del soporte de rodamiento
     const dirIn = [s > 0 ? -1 : 1, 0, 0];          // hacia el interior del sorter
     const fuera = r3(xExt + s * 2);                // arranque de los taladros
-    const xCubre = s < 0 ? r3(A.xNegInt) : r3(A.xInt - A.cubrejuntaE);   // por dentro
+    const xCubre = s < 0 ? A.xCabNegExt : r3(A.xInt - A.e);  // cubrejunta, en el plano del cabezal
+    const almaExt = r3(Xc + s * NBT.sideAlmaExtY);           // 50.886 / 508.026
+    const almaInt = r3(almaExt + (s > 0 ? -1 : 1) * 2.657);  // 53.543 / 505.369
 
-    // --- (a) ALMA: lap con el side channel + amarre al chapón -------------
-    const fa = [sketchYZ(`Pletina ${A.material} e=${A.e} · ${r3(A.almaY[1] - A.almaY[0])} × ${r3(A.almaZTop - A.almaZBot)}`,
-      xFace, siluetaAlma, A.e)];
-    for (const y of A.pernosSideY) {
-      fa.push(hole(`Amarre side channel Ø${A.pernoSide.pasante} (Y ${y})`,
-        [fuera, y, A.pernoSideZ], dirIn, A.pernoSide.pasante));
+    // --- (a) ALMA -----------------------------------------------------------
+    // −X: una sola pletina POR FUERA del alma del side channel (lap directo).
+    // +X: dos tramos por dentro del chapón, fuera del módulo, más el tramo de
+    //     LAP que se mete en el hueco de 5.951 del chapón (la muesca declarada).
+    const tramosAlma = s < 0
+      ? [['', A.almaY]]
+      : [['sur ', A.almaPosSur], ['norte ', A.almaPosNorte]];
+    for (const [suf, yR] of tramosAlma) {
+      const fa = [sketchYZ(`Pletina ${A.material} e=${A.e} · ${r3(yR[1] - yR[0])} × ${r3(zAlma[1] - zAlma[0])}`,
+        xFace, rect(yR, zAlma), A.e)];
+      // pernos a las colisas del side channel (solo el lado −X los lleva en el
+      // alma: en +X los lleva el tramo de lap, que es el que toca el alma del side)
+      if (s < 0) {
+        for (const y of A.pernosSideY) {
+          fa.push(hole(`Amarre side channel Ø${A.pernoSide.pasante} (Y ${y})`,
+            [fuera, y, A.pernoSideZ], dirIn, A.pernoSide.pasante));
+        }
+      } else {
+        for (const y of A.pernosChaponY.filter(y => y > yR[0] && y < yR[1])) {
+          fa.push(hole(`Amarre chapón Ø${A.pernoChapon.pasante} (Y ${y})`,
+            [fuera, y, A.pernosChaponZ], dirIn, A.pernoChapon.pasante));
+        }
+      }
+      E.addPart(`PG40 · Alargue lateral · alma ${suf}${lado} (pletina ${A.material} e=${A.e}, L=${r3(yR[1] - yR[0])})`,
+        COL.chapa, [xFace, 0, 0], fa, {
+          capaInfo: 'dis',
+          nota: s < 0
+            ? `Corre POR FUERA del alma del side channel (cara exterior X ${almaExt}) y se atornilla `
+              + `a ella por sus 3 colisas de reglaje. Deja ${A.holguraPeineNeg} a la placa peine del `
+              + `NBT90 y ${A.holguraMotorNeg} al ensamble motor del cliente: la transferencia no se toca.`
+            : `Corre a ras de la cara interior del chapón (X ${A.xExt}) FUERA del tramo del módulo; `
+              + `dentro del módulo el relevo lo toma el tramo de lap. Techo Z ${A.almaZTop}, suelo `
+              + `Z ${A.almaZBot} — 3.03 sobre el canal de montaje del cilindro del NBT90.`,
+        });
+      out.alargues++;
     }
-    if (s > 0) {                                   // en −X el chapón queda a 132.3
-      for (const y of A.pernosChaponY) {
-        fa.push(hole(`Amarre chapón Ø${A.pernoChapon.pasante} (Y ${y})`,
-          [fuera, y, A.pernosChaponZ], dirIn, A.pernoChapon.pasante));
+
+    // --- (a-bis) TRAMO DE LAP del lado +X ----------------------------------
+    if (s > 0) {
+      for (const yR of A.lapY) {
+        const pernos = A.lapPernosY.filter(y => y > yR[0] && y < yR[1]);
+        const fl = [sketchYZ(`Pletina ${A.material} e=${A.lapE} · ${r3(yR[1] - yR[0])} × ${r3(A.lapZTop - A.almaZBot)}`,
+          A.lapXPos, rect(yR, [A.almaZBot, A.lapZTop]), A.lapE)];
+        for (const y of pernos) {
+          fl.push(hole(`Amarre side channel Ø${A.pernoSide.pasante} (Y ${y})`,
+            [fuera, y, A.pernoSideZ], dirIn, A.pernoSide.pasante));
+        }
+        E.addPart(`PG40 · Alargue lateral · tramo de lap +X (Y ${yR.join('…')}, ${A.material} e=${A.lapE})`,
+          COL.chapa, [A.lapXPos, 0, 0], fl, {
+            capaInfo: 'dis',
+            nota: `Rellena el hueco de ${A.separador} entre la cara interior del chapón (${A.xExt}) y la `
+              + `del alma del side channel (${almaInt}); ahí van los pernos 3/8 a las colisas SIN casquillos. `
+              + `Vive dentro de la MUESCA ya declarada del chapón (techo Z ${A.lapZTop} < −83) y deja `
+              + `${A.holguraLapPeine} a la placa peine. Partido en dos para rodear la PLACA COLGANTE DEL `
+              + `CANAL del NBT90 (X 500.61…505.37, Y −1081.5…−865.5), que es intocable.`,
+          });
+        out.alargues++;
+      }
+      for (const yR of A.cubreLapY) {
+        E.addPart(`PG40 · Cubrejunta alma↔lap +X (Y ${yR.join('…')})`, COL.chapaOsc, [A.cubreLapX, 0, 0], [
+          sketchYZ(`Cubrejunta ${r3(yR[1] - yR[0])}×100×${A.e}`, A.cubreLapX, rect(yR, [-200, -100]), A.e),
+        ], { capaInfo: 'dis', nota: 'empalma alma y lap por dentro; esquiva las placas peine del NBT90' });
+        out.piezas++;
       }
     }
-    for (const [nom, y] of [['conducido', A.almaY[0]], ['motriz', A.almaY[1]]]) {
-      for (const dz of [-60, -30]) {               // empalme con el cubrejunta
-        fa.push(hole(`Empalme cabezal ${nom} Ø11 (Z ${dz})`,
-          [fuera, r3(y + (nom === 'motriz' ? -40 : 40)), dz], dirIn, 11));
-      }
-    }
-    E.addPart(`PG40 · Alargue lateral · alma ${lado} (pletina ${A.material} e=${A.e}, L=${r3(A.almaY[1] - A.almaY[0])})`,
-      COL.chapa, [xFace, 0, 0], fa, {
-        capaInfo: 'dis',
-        nota: `Prolonga el canal lateral del NBT90 por la banda libre Z ${A.almaZBot}…${A.almaZTop}. `
-          + `Se atornilla al ALMA del side channel por sus 3 colisas de reglaje con casquillos `
-          + `separadores de ${A.separador} — el NBT90 no se modifica: todos los taladros son de esta pieza. `
-          + `Escote en Y ${A.lapY.join('…')} para esquivar el ala superior del side (holgura 2.07).`,
-      });
-    out.alargues++;
 
     // --- (b) CABEZALES DE RODAMIENTO: el cuadro UCF 207 ---------------------
     for (const [nom, eje, yR] of ejesArbol) {
+      const fueraCab = s < 0 ? r3(xCab - 2) : fuera;
       const fc = [sketchYZ(`Cabezal ${A.material} e=${A.e} · ${r3(yR[1] - yR[0])} × ${r3(A.cabezalZ[1] - A.cabezalZ[0])}`,
-        xFace, rect(yR, A.cabezalZ), A.e)];
+        xCab, rect(yR, A.cabezalZ), A.e)];
       for (const dy of [-UCF207.semi, UCF207.semi]) {
         for (const dz of [-UCF207.semi, UCF207.semi]) {
-          fc.push(hole(`UCF 207 Ø${UCF207.pasante} (${dy > 0 ? '+' : '−'}Y${dz > 0 ? '+' : '−'}Z)`,
-            [fuera, r3(eje.y + dy), r3(eje.z + dz)], dirIn, UCF207.pasante));
+          fc.push(hole(`Soporte Ø${UCF207.pasante} (${dy > 0 ? '+' : '−'}Y${dz > 0 ? '+' : '−'}Z)`,
+            [fueraCab, r3(eje.y + dy), r3(eje.z + dz)], dirIn, UCF207.pasante));
         }
       }
-      fc.push(hole(`Paso de eje Ø${UCF207.pasoEje}`, [fuera, eje.y, eje.z], dirIn, UCF207.pasoEje));
-      for (const dz of [-60, -30]) {
-        fc.push(hole(`Empalme alma Ø11 (Z ${dz})`,
-          [fuera, r3(nom === 'motriz' ? yR[0] + 40 : yR[1] - 40), dz], dirIn, 11));
-      }
+      const dPaso = eje.pasoEje ?? UCF207.pasoEje;
+      if (dPaso > 0) fc.push(hole(`Paso de eje Ø${dPaso}`, [fueraCab, eje.y, eje.z], dirIn, dPaso));
       E.addPart(`PG40 · Alargue lateral · cabezal de rodamiento ${nom} ${lado} `
-        + `(${UCF207.desig}, eje Y ${eje.y} Z ${eje.z})`, COL.chapa, [xFace, 0, 0], fc, {
+        + `(${eje.soporte ?? UCF207.desig}, eje Y ${eje.y} Z ${eje.z})`, COL.chapa, [xCab, 0, 0], fc, {
           capaInfo: 'dis',
           nota: `Cara de apoyo del ${UCF207.desig} en X ${xApoyo} (rodamientos hacia dentro): cuadro `
             + `${UCF207.J}×${UCF207.J} de Ø${UCF207.pasante} centrado en el eje, más paso de eje `
-            + `Ø${UCF207.pasoEje}. Coplanario con el alma y empalmado a ella por cubrejunta. `
-            + `Vive fuera de la ventana Y del deck, por eso puede subir sobre el plano de transporte.`,
+            + `Ø${UCF207.pasoEje}. Coplanario con el alma y empalmado a ella por cubrejunta. Vive fuera `
+            + `de la ventana Y del deck, por eso puede subir sobre el plano de transporte.`,
         });
       out.alargues++;
     }
 
     // --- (c) CUBREJUNTAS alma ↔ cabezal ------------------------------------
     for (const [nom, yR] of [['motriz', [-260, 10]], ['conducido', [-1600, -1470]]]) {
-      E.addPart(`PG40 · Cubrejunta alma↔cabezal ${nom} ${lado} (${A.material} e=${A.cubrejuntaE})`,
+      E.addPart(`PG40 · Cubrejunta alma↔cabezal ${nom} ${lado} (${A.material} e=${A.e})`,
         COL.chapaOsc, [xCubre, 0, 0], [
-          sketchYZ(`Cubrejunta ${r3(yR[1] - yR[0])}×${r3(A.cubrejuntaZ[1] - A.cubrejuntaZ[0])}×${A.cubrejuntaE}`,
-            xCubre, rect(yR, A.cubrejuntaZ), A.cubrejuntaE),
+          sketchYZ(`Cubrejunta ${r3(yR[1] - yR[0])}×${r3(A.cubrejuntaZ[1] - A.cubrejuntaZ[0])}×${A.e}`,
+            xCubre, rect(yR, A.cubrejuntaZ), A.e),
         ], { capaInfo: 'dis', nota: '4 pernos M10 al alma y 4 al cabezal; queda bajo el plano de transporte' });
       out.piezas++;
     }
@@ -257,30 +295,19 @@ export function pg40(E) {
       out.piezas++;
     }
 
-    // (e) casquillos separadores + tornillería 3/8 del amarre al side channel
-    const almaExt = r3(Xc + s * NBT.sideAlmaExtY);
-    const almaInt = r3(almaExt - s * 2.657);
-    for (const y of A.pernosSideY) {
-      E.addPart(`PG40 · Casquillo separador alargue↔side channel Ø${A.casquillo.od}×${A.separador} (${lado}, Y ${y})`,
-        COL.acero, [almaInt, y, A.pernoSideZ], [
-          cyl(`Casquillo Ø${A.casquillo.od}×${A.separador}`, [almaInt, y, A.pernoSideZ], dirIn, A.casquillo.od, A.separador),
-          hole(`Paso Ø${A.pernoSide.pasante}`, [almaInt, y, A.pernoSideZ], dirIn, A.pernoSide.pasante),
-        ], { capaInfo: 'dis', hardware: true });
-      pernoHex(E, {
-        nombre: `3/8-16 × 32 · alargue ${lado} Y ${y}`, at: [almaExt, y, A.pernoSideZ],
-        dir: dirIn, dia: A.pernoSide.d, largo: 32, capa: 'PG40 · ',
-      });
+    // --- (e) TORNILLERÍA del amarre a las colisas del side channel ---------
+    for (const y of (s > 0 ? A.lapPernosY : A.pernosSideY)) {
+      pernoHex(E, { nombre: `3/8-16 × 25 · alargue ${lado} Y ${y}`, at: [almaExt, y, A.pernoSideZ],
+        dir: dirIn, dia: A.pernoSide.d, largo: 25, capa: 'PG40 · ' });
       golilla(E, { nombre: `alargue ${lado} Y ${y}`, at: [almaExt, y, A.pernoSideZ], dir: dirIn, dia: A.pernoSide.d, capa: 'PG40 · ' });
-      tuercaHex(E, { nombre: `3/8-16 · alargue ${lado} Y ${y}`, at: [xApoyo, y, A.pernoSideZ], dir: dirIn, dia: A.pernoSide.d, capa: 'PG40 · ' });
+      tuercaHex(E, { nombre: `3/8-16 · alargue ${lado} Y ${y}`, at: [almaInt, y, A.pernoSideZ], dir: dirIn, dia: A.pernoSide.d, capa: 'PG40 · ' });
       out.tornilleria += 3;
     }
-    // (f) tornillería M10 al chapón (solo +X)
+    // --- (f) TORNILLERÍA M10 al chapón (solo +X) ---------------------------
     if (s > 0) {
       for (const y of A.pernosChaponY) {
-        pernoHex(E, {
-          nombre: `M10 × 45 · alargue↔chapón Y ${y}`, at: [STEP.frameIntPos + 28, y, A.pernosChaponZ],
-          dir: [-1, 0, 0], dia: A.pernoChapon.d, largo: 45, capa: 'PG40 · ',
-        });
+        pernoHex(E, { nombre: `M10 × 45 · alargue↔chapón Y ${y}`, at: [r3(STEP.frameIntPos + 28), y, A.pernosChaponZ],
+          dir: [-1, 0, 0], dia: A.pernoChapon.d, largo: 45, capa: 'PG40 · ' });
         tuercaHex(E, { nombre: `M10 · alargue↔chapón Y ${y}`, at: [xApoyo, y, A.pernosChaponZ], dir: [-1, 0, 0], dia: A.pernoChapon.d, capa: 'PG40 · ' });
         out.tornilleria += 2;
       }
