@@ -99,14 +99,24 @@ export const FRANJA = {
 // 5 estaciones a paso 76.2 y no 4: la transferencia tiene 5 huecos de banda;
 // con 4 el hueco central queda sin banda portante y el bulto corto se hunde
 // (SORTER_CO.md §1.5). El span 344.8 cabe en la luz 580.841 sobrando 236.
-// Centro del reparto = punto medio entre caras interiores de los bastidores,
-// que COINCIDE (step §1.1/§1.3) con el centro del reparto actual de bandas.
-export const Xc = r3((STEP.frameIntNeg + STEP.frameIntPos) / 2);      // 208.998
+//
+// CENTRO DEL REPARTO (corrección del cliente, 31-07): el reparto NO va centrado
+// entre bastidores: se corre hacia el lado de descarga (+X) hasta que el
+// EXTREMO de la cara del último rodillo de la transferencia queda a 40.0 mm
+// del BORDE EXTERIOR del sorter (cara exterior del bastidor de descarga,
+// X = 527.418 step), para que la caja no pierda apoyo antes de salir:
+//   Xc = 527.418 − 40 − (2.5·paso + rodDia/2) = 279.456   (calc)
+export const bordeExtDescarga = 527.418;   // step — cara exterior FRAME_MIR_MIR_MIR
+export const Xc = r3(bordeExtDescarga - 40 - (2.5 * NBT.paso + NBT.rodDia / 2));  // 279.456
 export const EJES = [-2, -1, 0, 1, 2].map(k => r3(Xc + k * NBT.paso));
-// [56.598, 132.798, 208.998, 285.198, 361.398] — ejes de banda = ejes de ventana.
+// [127.056, 203.256, 279.456, 355.656, 431.856] — ejes de banda = ejes de ventana.
 // El perfil de cada calle va CENTRADO bajo su banda (dis): se corrige el
-// descentrado de 1.000 mm banda↔perfil del modelo del cliente (step §1.1,
-// «o es intencionado o es un descuido»; al re-pitchear se elimina).
+// descentrado de 1.000 mm banda↔perfil del modelo del cliente (step §1.1).
+// Consecuencia del corrimiento (declarada): el side channel +X del NBT90
+// (alma exterior a Xc + 228.57 = 508.03) penetra 8.61 mm en el plano del
+// chapón del bastidor de descarga (cara interior 499.418) en la franja
+// Z −114…−88.3 → MUESCA en el canto inferior del chapón (ver PERCHA.muesca);
+// el lado −X gana toda la holgura (alma −X a 50.89, a 132.3 del bastidor).
 
 // ---------------------------------------------------------------------------
 // 4. LA COLOCACIÓN del NBT90 (dis, verificada por la compuerta)
@@ -141,27 +151,38 @@ export const y1 = T.y;                     // −742
 // M8 — el sistema del propio sorter, step §4.2/§7.2):
 export const PERCHA = {
   perfil: { b: 40, h: 80 },      // web PERF-001 — perfil 40×80 ranura 8 serie 40
-  // largueros longitudinales (según Y), uno por costado del NBT90, cara 80
-  // vertical, con UNA ranura coincidiendo con las colisas de reglaje del side
-  // channel (Z_s = 234 + T.z = −104.267):
+  // PERCHA ASIMÉTRICA (consecuencia del corrimiento del reparto):
+  //  · lado −X (holgado): LARGUERO 40×80 según Y con la ranura superior en la
+  //    cota de las colisas del side (−104.27), sostenido por 3 ménsulas de
+  //    perfil 40×40 al bastidor −X; el NBT90 cuelga por la placa de 3 lengüetas.
+  //  · lado +X (el side entra en la muesca del chapón): PLACA DE ESCOTE
+  //    atornillada al chapón por fuera; los pernos 3/8 del side llegan a ella
+  //    con casquillos separadores a través de la muesca.
   largueroZ: [r3(NBT.sideTornZ + T.z - 60), r3(NBT.sideTornZ + T.z + 20)],  // [−164.27, −84.27]
-  //   dis: ranuras de la cara 80 a centro ±20 → la ranura superior queda en
-  //   −104.27 (los pernos de cuelgue) y el cuerpo del perfil por DEBAJO de las
-  //   cabezas de los pernos. Ver mod_percha para las holguras verificadas.
-  largueroXNeg: [-75, -35],      // dis: 15.4 mm del alma del side (hueco para las
-                                 //   cabezas de los pernos de cuelgue, que asoman
-                                 //   hasta −32) y 6.3 mm a la cara del bastidor
-                                 //   (−81.42): ahí entra el ala de 3/16" de la
-                                 //   escuadra sobre la que apoya el larguero
+  get largueroXNeg() {           // calc: [alma −X − 55.5, alma −X − 15.5]
+    const alma = r3(Xc - NBT.sideAlmaExtY);            // 50.89
+    return [r3(alma - 55.5), r3(alma - 15.5)];         // [−4.61, 35.39]
+  },
   largueroY: [-1190, -757],      // dis: cubre los 3 pernos por lado con margen
+  mensulasY: [-1145, -973.5, -802],  // dis: ménsulas 40×40 al bastidor −X, bajo
+                                 //   los puntos de cuelgue (la carga baja recta)
   travS: [-1300, -1220],         // dis: travesaño sur (sección 80 en Y × 40 en Z);
   travN: [-712, -632],           //   cara superior en Z = base de placa del puente
   travTopZ: 9.15,                // calc: 51.7 − 8.55 − 28 − 6 (cadena del puente)
   escuadraT: 4.763,              // nbt90 P.placaT — chapa 3/16" de escuadras y placas
-  nEscLarg: 3,                   // dis: escuadras larguero↔bastidor por lado
-  pernoCuelgue: { d: 9.525, rosca: '3/8-16 UNC × 1-1/4"' },  // dis: mismo Ø que la
-                                 //   unión original side↔anfitrión del NBT90
+  pernoCuelgue: { d: 9.525, rosca: '3/8-16 UNC' },     // dis: mismo Ø que la unión
+                                 //   original side↔anfitrión del NBT90
   M8: { d: 8, pasante: 9.0 },
+  muesca: {                      // dis — muesca en el canto INFERIOR del chapón de
+    y: [-1210, -737],            //   descarga (FRAME_MIR_MIR_MIR): el side +X del
+    zTop: -83,                   //   NBT90 (Z −253.4…−88.3) solo solapa el chapón
+                                 //   (Z −114…46) en la franja −114…−88.3; la
+                                 //   muesca llega a −83 (5.3 de holgura) y deja
+                                 //   129 de los 160 de canto. Revisión estructural
+                                 //   del bastidor: para el cliente (declarada).
+  },
+  casquilloEscote: { od: 16, largo: 19.39 },  // calc: alma side (508.03) → placa
+                                 //   de escote (527.52), sobre el perno 3/8
 };
 
 // ---------------------------------------------------------------------------
@@ -191,23 +212,51 @@ export const POZO = {
                                  //   norte y el volante libra el travesaño (−632)
   // V2/V3: poleas planas nuevas Ø117.9×40 (la misma que la tensora POL-CON-TEN
   // del cliente; tocan la cara dentada, como la tensora de hoy — step §4.4).
-  v2: { y: -1280, z: -300 },     // dis: V2 es la TENSORA nueva, en CARRO HORIZONTAL
-                                 //   (colisa según Y, cilindro C85 del cliente
-                                 //   HORIZONTAL tirando del eje hacia −Y = alejar
-                                 //   del módulo = tensar). Posición modelada =
-                                 //   nominal (media carrera). El cilindro vertical
-                                 //   no cabía: cruzaba la bajada de la banda.
-  v3: { y: -672, z: -300 },      // dis: fija, colgada del travesaño norte (centro)
-  v2rango: 20,                   // dis: ±viaje del carro en Y (recorrido útil 40 de
-                                 //   los 80 del C85; una T5 se tensa al ~0.5 % del
-                                 //   largo ≈ 21 mm de toma, y el carro toma 1.3
-                                 //   mm/mm → 52 disponibles. El resto de carrera
-                                 //   queda de reserva de montaje)
-  cilTensor: { culataY: -1412, z: -340 },  // dis: cuerpo horizontal BAJO el reenvío
-                                 //   POL-COND-TEN2 del cliente (Z −313.9) y fuera
-                                 //   del arco de banda de V2 (que llega a −1341)
+  v2: { y: -1280, z: -300 },     // dis: polea plana FIJA (Ø117.9), esquina sur del
+                                 //   pozo; sus pletinas cuelgan del travesaño sur
+  v3: { y: -672, z: -300 },      // dis: polea plana FIJA, colgada del travesaño norte
   // Cota que gobierna (calc): la banda pasa bajo el módulo con su cara alta a
   //   v2.z − (117.9/2) = −358.95 → holgura al fondo del NBT90 (−338.27) = 20.7
+};
+
+// ---------------------------------------------------------------------------
+// 6-bis. EL TENSOR ORIGINAL, EN SU POSE DIAGONAL (corrección del cliente 31-07)
+// ---------------------------------------------------------------------------
+// El tensor del cliente NO se rediseña: se CONSERVA COMPLETO en su pose medida
+// (brazo PZA-TEN-1 en diagonal, cilindro C85 vertical, tensora POL-CON-TEN en
+// el fondo de su horquilla), re-pitcheado en X con su calle. El pozo original
+// de la horquilla se mantiene en el lazo: mi pozo del módulo queda con 4 poleas
+// FIJAS (V1…V4) y la toma de tensión la sigue dando el brazo original.
+//   · Por qué no podía tensarse bajo el módulo: la tensora Ø117.9 sube a
+//     eje −380 + 59 = −321 y el fondo del NBT90 está en −338.27 → −17.2 de
+//     interferencia (calc). Por qué el brazo diagonal no alcanza la bajada del
+//     pozo nuevo: con su Δ fijo (74, 207.2) el pivote caería dentro del
+//     travesaño sur y la polea del brazo quedaría a 93.5 de V2 < 118 (suma de
+//     radios) — chocan (calc). Conservarlo en su sitio no choca con nada.
+export const TENSOR = {        // cotas step de analisis/medidas.json e inventario
+  pivote: { y: -101.72, z: -164.7 },      // eje Ø25 común (EJE-25mm-PASADOR)
+  tensora: { y: -175.72, z: -371.89 },    // POL-CON-TEN Ø117.9×40 (entra al lazo)
+  volEntrada: { y: -404.4, z: -97 },      // guia_entrada_liso: pose original Z=−90
+  volSalida: { y: -195.5, z: -97 },       //   BAJADOS 7 (dis): la pestaña Ø110 del
+                                          //   modelo del cliente INTERPENETRA el
+                                          //   perfil (cima −35 vs fondo −40, step);
+                                          //   a eje −97 la cima queda en −42 y
+                                          //   libra el perfil por 2.0 (corrección
+                                          //   de colocación declarada, §5-bis)
+  oreja: { y: 0.9, z: -292.5 },           // donde la KJ10D toma el brazo (step)
+  cilindro: { y: 34.5, z0: -264.51, largo: 187.75 },   // C85 vertical (step)
+  brazoSemiX: 26.5,                       // pletinas PZA-TEN-1 a ±26.5 del eje
+  // El pivote a paso 76.2 (dis, con números): el paquete de cubo del brazo mide
+  // 111 sobre el eje común (BUJE-TECH-01 Ø50×56 + casquillo PTFE Ø45×55, step)
+  // y el paso nuevo solo deja 76.2 → el PTFE se RECORTA de 55 a 15. Apoyo
+  // restante 71 sobre Ø25.3: con ~150 N por ramal del tensor (PNEU-003) la
+  // presión de apoyo queda en 0.08 MPa — dos órdenes por debajo de lo admisible
+  // de un PTFE (≥ 5 MPa). Se declara; el cliente valida.
+  ptfeLargo: 15,
+  ejeComunX: [-65.6, 537.4],              // step (defecto §5.3 del cliente: las 4
+                                          //   copias solapadas son UN eje físico;
+                                          //   aquí se modela UNO, en la pose de la
+                                          //   copia que cubre las 5 calles nuevas)
 };
 
 // ---------------------------------------------------------------------------
