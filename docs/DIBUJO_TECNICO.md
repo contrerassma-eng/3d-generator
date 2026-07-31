@@ -247,18 +247,21 @@ Dos verificaciones que se ejecutan siempre y se imprimen:
 - **Estanqueidad**: cada STL se relee del disco y se comprueba que cierra. Una
   malla estanca en memoria puede abrirse al exportarla, y eso rompe el laminado.
 
-### Módulo de transferencia omni + correas (`modulo_transfer.py`)
+### Módulo de transferencia omni bidireccional (`modulo_transfer.py`)
 
 Diseño paramétrico completo (capa `user`) de un módulo insertable en un
-roller conveyor: avance por hileras de omnis Ø58 en ejes hex 1/2" y desvío por
-correas planas transversales con eje común inferior (tracción de cabeza baja:
-motriz Ø60 + snub Ø50 en colisa, envolvente ≈170°). Dos UniDrive del catálogo
-ZP2026 en una bahía de cola; tren de spools Ø36 + o-rings 3/16" para las
-omnis. Reglas heredadas del repo y citadas en las justificaciones: cara de
-polea = banda + 4, Ø mínimo 50 en contraflexión (Habasit), envolvente motriz
-≥ 120° (gate NBT90) con objetivo Movex 140±10°, take-up 1–2 % del lazo,
-banda 35×3 del transfer90. Hechos externos (rodamiento FR8ZZ hex, o-ring PU,
-BF) en `input/web_facts.json` con URL y cita.
+roller conveyor: avance por hileras de omnis Ø58 en ejes hex 1/2" y desvío
+por las MISMAS omnis giradas 90° sobre ejes hex cortos en los huecos (4 por
+hueco, en las columnas del tresbolillo de la hilera superior), soportadas en
+bloques de doble FR8ZZ sobre travesaños y movidas por o-rings desde el eje
+común inferior (spool de 2 gargantas por hueco → 2 risers a los stubs
+adyacentes + 2 cadenas hacia afuera con gargantas alternadas). Al ser omnis
+cruzadas, ambos sentidos comparten la tangente sin arrastres. Dos UniDrive
+del catálogo ZP2026 en una bahía de cola; tren de spools Ø36 + o-rings 3/16"
+para el avance. Reglas heredadas del repo y citadas en las justificaciones:
+envolvente ≥ 120° en toda polea (gate NBT90), o-rings tensados por
+estiramiento 10–12 %. Hechos externos (rodamiento FR8ZZ hex, o-ring PU, BF)
+en `input/web_facts.json` con URL y cita.
 
 ```powershell
 python pipeline/modulo_transfer.py projects/<X> [--bf 533.4] [--paso 110] …
@@ -269,10 +272,12 @@ Salidas en `out/modulo/`: STL por pieza fabricada (estanqueidad releída),
 desarrollo del canal con líneas de pliegue y BA declarado), `catalogo_modulo.pdf`
 (portada + una página por pieza), `LEEME.txt`, `modulo.json` (cada cota con su
 justificación y la verificación) y zip de entrega. La verificación es parte
-del generador: encaje en BF, coplanaridad de tangentes, reglas del lazo,
-apoyo de la caja mínima 250×250 barrido por posiciones, holguras críticas
-analíticas e interferencias AABB entre grupos con lista blanca justificada.
-El trazado de correas usa un constructor de tangentes por PISTAS: el diseño
+del generador: encaje en BF, coplanaridad de tangentes de ambas familias,
+envolvente de los 12 anillos del desvío, apoyo de la caja mínima 250×250
+barrido por posiciones (avance Y desvío), holguras críticas analíticas
+(incluida la del riser bajo la cadena coplanar, con tangentes exactas) e
+interferencias AABB de todas las parejas con lista blanca justificada. El
+trazado de lazos usa un constructor de tangentes por PISTAS: el diseño
 declara el lado de contacto de cada tramo y el arco de cada polea — sin
 convenciones de signo que adivinar. Lecturas del pedido y alternativas
 descartadas: `projects/<X>/DECISIONES.md`.

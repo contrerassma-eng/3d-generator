@@ -1,16 +1,20 @@
-"""Módulo de transferencia omni + correas, insertable en roller conveyor (BF).
+"""Módulo de transferencia omni bidireccional, insertable en roller conveyor (BF).
 
 DISEÑO (capa `user`) parametrizado. Lecturas del pedido y esquema de alturas:
-`projects/<X>/DECISIONES.md`. Sentido de avance: hileras de ruedas omni Ø58
-sobre ejes hexagonales de 1/2" (RUEDA-OMNI-58). Sentido de desvío: correas
-transversales en los huecos entre ejes, movidas por un eje común inferior con
-tracción en cabeza con snub. Dos motores Unidrive (ZP2026): uno por sentido.
+`projects/<X>/DECISIONES.md`. Sentido de AVANCE: hileras de ruedas omni Ø58
+sobre ejes hexagonales de 1/2" (RUEDA-OMNI-58). Sentido de DESVÍO: en los
+huecos entre ejes van las MISMAS omnis GIRADAS 90° sobre ejes hex cortos; el
+"sistema de correas movido desde abajo por el eje común" es su TRANSMISIÓN
+(o-rings: 2 risers por hueco desde un spool del eje común + 2 cadenas
+stub-a-stub), no una superficie de transporte. Dos motores Unidrive (ZP2026):
+uno por sentido. Al ser omnis cruzadas, ambos sentidos comparten la tangente
+sin pelearse: los barriles de la familia parada ruedan libres.
 
 Produce en `projects/<X>/out/modulo/`:
   - STL por pieza fabricada + desarrollo de chapa DXF de los canales
   - conjunto.glb (instanciado), renders PNG, catálogo PDF, BOM, LEEME y zip
   - verificaciones: encaje en BF, coplanaridad de tangentes, apoyo de la caja
-    mínima, interferencias entre trenes, y estanqueidad de STL releídos
+    mínima, envolventes de anillos, interferencias y estanqueidad de STL
 
 uso: python pipeline/modulo_transfer.py projects/<X> [opciones]
   --bf <mm>            luz entre bastidores del transportador (def: 533.4 = 21")
@@ -21,12 +25,8 @@ uso: python pipeline/modulo_transfer.py projects/<X> [opciones]
   --pestana-inf <mm>   pestaña inferior, hacia afuera (def: 38.1 = 1.5")
   --resalte <mm>       tangente sobre la cara sup. de la pestaña (def: 0 = rasante)
   --hex <mm>           entrecaras del eje hexagonal (def: 12.7 = 1/2")
-  --ejes <n>           número de ejes omni (def: 4)
+  --ejes <n>           número de ejes omni de avance (def: 4)
   --paso <mm>          paso entre ejes omni (def: 110)
-  --banda <mm>         ancho de la correa (def: 35, la del transfer90)
-  --desnivel-correas <mm>  lomo de correa BAJO la tangente omni (def: 0 =
-                       coplanar; con 1-1.5 el avance no arrastra las correas
-                       paradas, a costa de exigir caja rígida al desviar)
 """
 from __future__ import annotations
 
@@ -247,37 +247,6 @@ def envolturas_lazo(circulos, segs_hints):
     return env
 
 
-def correa_solido(circulos, segs_hints, ancho, espesor, y_centro):
-    """Sólido de la correa: eje de trayectoria bufferizado ± espesor/2 y
-    extruido `ancho` en Y, colocado con el plano de la correa en y_centro."""
-    import trimesh
-    from shapely.geometry import LinearRing
-    eje = trayectoria_correa(circulos, segs_hints)
-    banda2d = LinearRing(eje).buffer(espesor / 2, quad_segs=8,
-                                     join_style=1, cap_style=1)
-    m = trimesh.creation.extrude_polygon(banda2d, ancho)
-    # extruido en (x, z) con espesor en +Z -> plano XZ con el ancho en Y
-    m.apply_transform(np.array([[1, 0, 0, 0], [0, 0, -1, 0],
-                                [0, 1, 0, 0], [0, 0, 0, 1.0]], float))
-    m.apply_translation((0, y_centro + ancho, 0))
-    m.visual.face_colors = COL["correa"]
-    return m
-
-
-def polea(dia, ancho, bore, crown=0.3, color="polea"):
-    """Polea plana de eje Y centrada, con bombeo (crown) de autocentrado:
-    la banda plana deriva sin él (REVISION_INGENIERIA §2)."""
-    import trimesh
-    r, h = dia / 2, ancho
-    perfil = [[bore / 2, -h / 2], [r, -h / 2], [r + crown, 0.0],
-              [r, h / 2], [bore / 2, h / 2], [bore / 2, -h / 2]]
-    ext = trimesh.creation.revolve(np.array(perfil[::-1]), sections=64)
-    ext.apply_transform(trimesh.transformations.rotation_matrix(
-        -math.pi / 2, [1, 0, 0]))
-    ext.visual.face_colors = COL[color]
-    return ext
-
-
 def oring_solido(c1, c2, r_polea1, r_polea2, cuerda, plano_x, eje="x"):
     """O-ring entre dos poleas: trayectoria por tangentes en el plano YZ
     (centros (y, z)), sección `cuerda`, colocado en x = plano_x."""
@@ -298,15 +267,17 @@ def oring_solido(c1, c2, r_polea1, r_polea2, cuerda, plano_x, eje="x"):
     return m
 
 
-def spool_2g(dia, ancho, bore, prof_gar=3.0, ancho_gar=5.5, hex_bore=None):
+def spool_2g(dia, ancho, bore, prof_gar=3.0, ancho_gar=5.5, hex_bore=None,
+             gargantas=None):
     """Spool de dos gargantas para o-ring (eje Y, centrado). Con `hex_bore` el
     barreno es HEXAGONAL (entrecaras) — lo que el STL diga es lo que se
-    mecaniza, no la nota de la BOM."""
+    mecaniza, no la nota de la BOM. `gargantas` fija las posiciones (y1, y2)
+    de las gargantas respecto al centro (def: ±20% del ancho)."""
     import trimesh
     from shapely.geometry import box as sbox
     r, h = dia / 2, ancho
     perfil = sbox(0.0, -h / 2, r, h / 2)
-    for yg in (-h * 0.20, h * 0.20):
+    for yg in (gargantas if gargantas else (-h * 0.20, h * 0.20)):
         perfil = perfil.difference(sbox(r - prof_gar, yg - ancho_gar / 2,
                                         r + 1, yg + ancho_gar / 2))
     m = trimesh.creation.revolve(np.array(list(perfil.exterior.coords))[::-1],
@@ -399,10 +370,10 @@ def disenar_modulo(p: dict) -> dict:
 
     n_ejes, paso = p["ejes"], p["paso"]
     bahia = 146.0                               # bahía de motores (cola):
-    # el patrón UniDrive (152.7) + holguras a casete 3 y mampara mandan
+    # el patrón UniDrive (152.7) + holguras a la mampara mandan
     L = n_ejes * paso + bahia
     ejes_y = [paso / 2 + i * paso for i in range(n_ejes)]
-    correas_y = [paso * (i + 1) for i in range(n_ejes - 1)]
+    huecos_y = [paso * (i + 1) for i in range(n_ejes - 1)]
 
     # --- planta de ruedas: tresbolillo, tren de o-rings junto al alma B -----
     ruedas = []
@@ -411,25 +382,38 @@ def disenar_modulo(p: dict) -> dict:
              [73 + k * 74 for k in range(4)]
         ruedas += [(x, ye) for x in xs]
 
-    # --- correas -------------------------------------------------------------
-    banda, esp_banda = p["banda"], 3.0
-    r_term, r_snub, r_motriz = 30.0, 25.0, 30.0      # Ø60 / Ø50 / Ø60
+    # --- desvío: omnis giradas 90° en los huecos --------------------------
+    # Corrección del usuario sobre la foto de referencia: en el sentido
+    # cruzado NO hay correas de transporte — son omnis giradas 90°; las
+    # correas desde el eje común inferior son su transmisión. Cada hueco
+    # lleva 4 ruedas sobre ejes hex cortos (eje en Y) EN LAS COLUMNAS DEL
+    # TRESBOLILLO DE LA HILERA SUPERIOR: así el bloque soporte (lado de la
+    # hilera inferior) cae en la ventana libre de 50 entre coronas de la
+    # misma paridad, y las ruedas quedan alternadas hueco a hueco.
     x_ls, z_ls = 160.0, 58.0                     # eje común (corre en Y)
-    term_a, term_b = 35.0, 314.0
-    z_term = tangente - esp_banda - r_term - p.get("desnivel_correas", 0.0)
-    snub = (x_ls + 58.0, 92.0)
-    circulos = [
-        (term_a, z_term, r_term + esp_banda / 2, 185.0),   # envuelve su izquierda
-        (term_b, z_term, r_term + esp_banda / 2, 355.0),   # envuelve su derecha
-        (snub[0], snub[1], r_snub + esp_banda / 2, 275.0),   # snub por el lomo
-        (x_ls, z_ls, r_motriz + esp_banda / 2, 300.0),       # motriz por abajo
-    ]
-    segs_hints = [(90.0, 90.0),      # ramal superior A->B
-                  (265.0, 300.0),    # bajada de B al lomo del snub
-                  (250.0, 35.0),     # del snub al costado derecho de la motriz
-                  (230.0, 272.0)]    # retorno de la motriz al terminal A
-    pantalla_x = 350.0                          # guarda entre correas y tren
-    casete_fin = 348.0
+    pantalla_x = 350.0                          # guarda entre desvío y tren
+    pol = {"dia": 30.0, "raiz": 24.0, "ancho": 12.8, "dy_centro": 18.5,
+           "dy_gargantas": (15.5, 21.5)}         # respecto al centro del hueco
+    sp_ls = {"dia": 36.0, "raiz": 30.0, "ancho": 15.0}
+    huecos = []
+    for k, g in enumerate(huecos_y):
+        fila_sup = k + 1                         # índice de la hilera superior
+        xs = ([36 + j * 74 for j in range(4)] if fila_sup % 2 == 0
+              else [73 + j * 74 for j in range(4)])
+        # la 5ª columna par (332) invadiría la pantalla (332+29 > 350)
+        g1, g2 = (g + pol["dy_gargantas"][0], g + pol["dy_gargantas"][1])
+        huecos.append({
+            "y": g, "stubs_x": xs,
+            "spool_y": g + pol["dy_centro"],
+            # 2 risers desde el spool del eje común a los DOS stubs
+            # ADYACENTES (a izquierda y derecha de x=160: un riser a un stub
+            # lejano cruzaría el disco de la polea intermedia) + 2 cadenas
+            # hacia afuera; las gargantas se alternan para que los lazos del
+            # mismo plano no compartan rango de x (holguras medidas)
+            "risers": [(xs[2], g2), (xs[1], g1)],
+            "cadenas": [(xs[2], xs[3], g1), (xs[1], xs[0], g2)],
+        })
+    ruedas_desvio = [(x, h["y"]) for h in huecos for x in h["stubs_x"]]
 
     # --- tren de o-rings de las omnis (esquema ZP2026) -----------------------
     # gargantas a ±12 (más juntas que las ±16.87 del ZP2026: son spools
@@ -459,46 +443,62 @@ def disenar_modulo(p: dict) -> dict:
                   "hex": p["hex"], "eje_x": (2.0, luz - 2.0),
                   "ruedas_xy": ruedas, "n_ruedas": len(ruedas),
                   "rodamiento": FR8},
-        "correas": {"n": len(correas_y), "ys": correas_y, "banda": banda,
-                    "espesor_banda": esp_banda, "circulos": circulos,
-                    "segs_hints": segs_hints,
-                    "z_eje_terminales": z_term, "x_terminales": (term_a, term_b),
-                    "eje_comun": {"x": x_ls, "z": z_ls, "dia": 20.0,
-                                  "y": (4.0, mamp_y + 25.0), "y_spool": y_spool_ls},
-                    "snub": {"xz": snub, "dia": 2 * r_snub, "colisa": 16.0},
-                    "casete": {"placa_z": (80.0, 158.0),
-                               "sep_placas": banda + 6.0,
-                               "x_ini": 6.0, "x_fin": casete_fin}},
+        "desvio": {"n_ruedas": len(ruedas_desvio), "huecos_y": huecos_y,
+                   "huecos": huecos, "ruedas_xy": ruedas_desvio,
+                   "z_eje": z_eje, "hex": p["hex"],
+                   # el eje muere al ras de la polea: a +27 la punta entraba
+                   # 1 mm en la banda de la corona superior (y = hueco+26)
+                   "eje_y_rel": (-46.0, 24.9),
+                   "bloque": {"ancho_x": 40.0, "espesor_y": 30.0,
+                              "z": (85.0, 160.0), "y_rel": (-46.0, -16.0)},
+                   "travesano": {"z": (78.0, 105.0), "x": (3.0, pantalla_x),
+                                 "y_rel": (-49.0, -46.0)},
+                   "polea": pol, "spool": sp_ls,
+                   "eje_comun": {"x": x_ls, "z": z_ls, "dia": 20.0,
+                                 "y": (4.0, mamp_y + 25.0), "y_spool": y_spool_ls},
+                   "rodamiento": FR8},
         "tren_omni": {"x_spool": x_spool, "planos_gargantas": planos_g,
                       "spool": spool, "motor": motor_a, "oring": ORING},
-        "tren_correas": {"motor": motor_b, "spool_dia": 36.0},
+        "tren_desvio": {"motor": motor_b, "spool_dia": 36.0},
         "soportes": {"bloque": (12.0, 54.0, 54.0), "z_top": 159.8,
                      "rodamiento": "FR8ZZ-HexHD (web_facts wf01-wf05)"},
         "tapa": {"z": (160.0, 163.0), "ranura_rueda": (30.0, 44.0),
-                 "ranura_correa": banda + 8.0},
+                 "ranura_desvio": (44.0, 30.0)},
         "justificacion": {
             "ancho": f"BF {bf:g} - 2x{holg:g} de holgura = {ancho_total:g}; "
                      f"pestañas {pi:g} afuera => luz entre almas {luz:.1f}",
             "tangente": "rasante con la cara superior de la pestaña (lectura "
                         "fijada en DECISIONES.md); labio de transición del desvío",
             "paso_ejes": f"paso {paso:g} => hueco entre coronas Ø58 = "
-                         f"{paso - 2 * RUEDA['R']:g} >= banda {banda:g} + 5/lado "
-                         "(regla del catálogo, rodillo_traccion_50x40)",
-            "banda_35": "ancho 35x3 como el transfer90 del repo (gen_transfer90 "
-                        "bandW 35, poleas de cara 39): entre casete y rueda "
-                        "vecina quedan 2.5 mm — con banda de 40 quedaría cero",
-            "ruedas": "tresbolillo a paso 76 con desfase 38: una caja de 250 "
-                      "apoya siempre en >=2 hileras y >=3 ruedas por hilera",
-            "lazo": "tracción en cabeza baja, el precedente del repo "
-                    "(MEMORIA_EJES LBP530): terminales Ø60 con lomo = tangente "
-                    "(la aritmética de polea_plana_60x44: 132.1+30+3=165.1), "
-                    "UN snub Ø50 por correa (contraflexión = mínimo Habasit, "
-                    "REVISION_INGENIERIA §2) que aprieta la banda contra la "
-                    "motriz Ø60 del eje común Ø20 (envolvente ~170°, sobre el "
-                    "objetivo Movex 140±10 y el gate NBT90 >=120)",
-            "take_up": "colisa vertical de 20 en el snub (1-2% del lazo, "
-                       "REVISION_INGENIERIA §8); los o-rings tensan por "
-                       "estiramiento 10-12% (web_facts wf07-wf08)",
+                         f"{paso - 2 * RUEDA['R']:g}: caben la rueda girada "
+                         "(24.1), su polea (12.8) y el bloque soporte (30) "
+                         "entre los ejes vecinos",
+            "ruedas": "tresbolillo a paso 74 con desfase 37: una caja de 250 "
+                      "apoya siempre en >=2 hileras y >=4 ruedas de avance",
+            "desvio_omnis": "lo que la foto de referencia muestra en el "
+                            "sentido cruzado son omnis giradas 90° (corrección "
+                            "del usuario): misma RUEDA-OMNI-58 sobre ejes hex "
+                            "cortos en Y, tangentes al MISMO plano de "
+                            "transporte — las omnis no necesitan pop-up porque "
+                            "sus barriles ruedan libres en el sentido pasivo",
+            "stubs_en_columnas": "los ejes cortos van en las columnas del "
+                                 "tresbolillo de la hilera SUPERIOR del hueco: "
+                                 "el bloque (40 de ancho) cae centrado en la "
+                                 "ventana libre de 50 entre coronas de la "
+                                 "hilera inferior, y hueco a hueco las ruedas "
+                                 "de desvío quedan alternadas 37 en x",
+            "transmision_desvio": "por hueco: spool de 2 gargantas en el eje "
+                                  "común (planos a hueco+15.5/+21.5, la banda "
+                                  "libre entre la rueda girada y la corona "
+                                  "vecina) lanza 2 risers de o-ring a los DOS "
+                                  "stubs adyacentes a x=160 — a un stub "
+                                  "lejano el ramal cruzaría el disco de la "
+                                  "polea intermedia — y 2 cadenas stub-a-stub "
+                                  "salen hacia afuera con gargantas "
+                                  "alternadas para que los lazos coplanares "
+                                  "no compartan rango de x (holgura medida)",
+            "take_up": "los o-rings tensan por estiramiento 10-12% "
+                       "(web_facts wf07-wf08): sin colisas ni tensores",
             "tren_omni": "esquema ZP2026: UniDrive + spools con gargantas a "
                          "±16.87 del centro (paso medido en el GLB del "
                          "catálogo) y anillos encadenados eje a eje en planos "
@@ -510,17 +510,19 @@ def disenar_modulo(p: dict) -> dict:
                         "hexagonal 1/2 pulg (OD 28.575, brida 31.12 - "
                         "web_facts): el eje hex gira directo, sin adaptadores",
             "bahia_motores": "los UniDrive (cuerpo Ø118x62.7, ficha "
-                             "S-UD23062200R01) no caben entre casetes ni bajo "
-                             "ellos: bahía de 90 en la cola; la caja de 250 la "
-                             "puentea (última hilera -> primer rodillo vecino)",
+                             "S-UD23062200R01) no caben en la zona de "
+                             "rodadura: bahía de 146 en la cola; la caja de "
+                             "250 la puentea (última hilera -> primer rodillo "
+                             "vecino)",
             "motor_a": "sobre soporte plegado en la bahía, cuerpo hacia -X y eje "
                        "hacia +X: su anillo baja del spool del último eje omni "
                        "en el plano de garganta x=406.9",
             "motor_b": "sobre la mampara, eje en Y: anillo al spool del eje "
                        "común por detrás de la mampara (plano y=463)",
-            "desvio": "las correas cubren x 35..316: desvío preferente hacia "
-                      "el alma A (la caja sale sobre la pestaña rasante); "
-                      "hacia B la caja puentea la franja del tren de o-rings",
+            "desvio_lado": "las ruedas giradas cubren x 36..295 (coronas "
+                           "7..324): desvío preferente hacia el alma A (la "
+                           "caja sale sobre la pestaña rasante); hacia B la "
+                           "caja puentea la franja del tren de o-rings",
         },
     }
     return d
@@ -528,8 +530,7 @@ def disenar_modulo(p: dict) -> dict:
 
 PARAMS_DEF = {"bf": 21 * IN, "holgura_bf": 3.0, "alto": 6.5 * IN, "espesor": 3.0,
               "pestana_sup": 1.4 * IN, "pestana_inf": 1.5 * IN, "resalte": 0.0,
-              "hex": 12.7, "ejes": 4, "paso": 110.0, "banda": 35.0,
-              "desnivel_correas": 0.0}
+              "hex": 12.7, "ejes": 4, "paso": 110.0}
 
 
 # ---------------------------------------------------------------------------
@@ -610,8 +611,8 @@ def construir_modulo(d: dict):
     from shapely.geometry import Point, box as sbox
     from shapely.ops import unary_union
 
-    f, om, co = d["frame"], d["omnis"], d["correas"]
-    to, tc = d["tren_omni"], d["tren_correas"]
+    f, om, dv = d["frame"], d["omnis"], d["desvio"]
+    to, tc = d["tren_omni"], d["tren_desvio"]
     t = f["espesor"]
     luz, L, alto = f["luz"], f["largo"], f["alto"]
     piezas, unicos, planos2d = [], {}, {}
@@ -626,9 +627,8 @@ def construir_modulo(d: dict):
         ag_bloques += [(ye - 15, 122, 5.5), (ye + 15, 122, 5.5),
                        (ye - 15, 146, 5.5), (ye + 15, 146, 5.5)]
     ag_A = list(ag_bloques)
-    for yb in co["ys"]:                          # escuadras de casete al alma A
-        ag_A += [(yb - co["casete"]["sep_placas"] / 2 - t - 8, 96, 5.5),
-                 (yb + co["casete"]["sep_placas"] / 2 + t + 8, 96, 5.5)]
+    for g in dv["huecos_y"]:                     # pestañas de travesaño al alma A
+        ag_A += [(g - 43, 91.5, 5.5), (g - 30, 91.5, 5.5)]
     ag_B = list(ag_bloques)
     ag_B += [(ma_y - 70, 16, 5.5), (ma_y - 70, 144, 5.5),   # soporte motor A
              (ma_y + 74, 16, 5.5), (ma_y + 74, 144, 5.5)]
@@ -652,7 +652,7 @@ def construir_modulo(d: dict):
     d["frame"]["desarrollo_canal_B"] = des_B
 
     # --- placas extremas, mampara y pantalla ---------------------------------
-    x_ls, z_ls = co["eje_comun"]["x"], co["eje_comun"]["z"]
+    x_ls, z_ls = dv["eje_comun"]["x"], dv["eje_comun"]["z"]
     pl_ext = sbox(0, 12, luz, 158).difference(
         Point(x_ls, z_ls).buffer(13, quad_segs=24))
     extremoA = _plate_xz(pl_ext, t, 0.0, "canal")
@@ -688,7 +688,7 @@ def construir_modulo(d: dict):
     inst("pantalla_tren", pantalla, "frame")
     planos2d["pantalla_tren"] = pant
     unicos["pantalla_tren"] = (pantalla.copy(), 1,
-                               "chapa 3 mm: separa correas del tren de o-rings")
+                               "chapa 3 mm: separa el desvío del tren de o-rings")
 
     # --- soporte del motor A (canal plegado en la bahía) ---------------------
     sop = sbox(ma_y - 85, 4, f["mampara_y"] - t, 156)
@@ -718,8 +718,10 @@ def construir_modulo(d: dict):
                       RUEDA["n_rodillos"], RUEDA["desfase_deg"],
                       RUEDA["ancho_paquete"], RUEDA["hex_barreno"])
     _rot(rueda, [0, 0, 1], -90)                  # eje de giro a X
-    unicos["rueda_omni"] = (rueda.copy(), om["n_ruedas"],
-                            "RUEDA-OMNI-58 (Ø58, barreno hex 12.85) — LOD")
+    unicos["rueda_omni"] = (rueda.copy(), om["n_ruedas"] + dv["n_ruedas"],
+                            "RUEDA-OMNI-58 (Ø58, barreno hex 12.85) — LOD; "
+                            f"{om['n_ruedas']} de avance + {dv['n_ruedas']} "
+                            "giradas 90° en el desvío")
     for i, ye in enumerate(om["ejes_y"]):
         e = eje_hex.copy()
         e.apply_translation((ex0, ye, om["z_eje"]))
@@ -744,111 +746,94 @@ def construir_modulo(d: dict):
             b.apply_translation((x0, ye, 0))
             inst(f"soporte_{lado}{i+1}", b, "soportes")
 
-    # --- casetes de correa ---------------------------------------------------
-    ca = co["casete"]
-    x0c, x1c = ca["x_ini"], ca["x_fin"]
-    z0c, z1c = ca["placa_z"]
-    ta, tb = co["x_terminales"]
-    sn = co["snub"]
-    placa2d = sbox(x0c, z0c, x1c, z1c)
-    for (cx, cz) in ((ta, co["z_eje_terminales"]), (tb, co["z_eje_terminales"])):
-        placa2d = placa2d.difference(Point(cx, cz).buffer(6.1, quad_segs=16))
-    sxc, szc = sn["xz"]                           # colisa vertical del snub
-    colisa = sbox(sxc - 6.1, szc - sn["colisa"] / 2,
-                  sxc + 6.1, szc + sn["colisa"] / 2)
-    placa2d = placa2d.difference(unary_union(
-        [colisa, Point(sxc, szc - sn["colisa"] / 2).buffer(6.1, 16),
-         Point(sxc, szc + sn["colisa"] / 2).buffer(6.1, 16)]))
-    placa2d = placa2d.difference(Point(x_ls, z_ls).buffer(15, quad_segs=24))
-    sepc = ca["sep_placas"]
-    placa_cas = _plate_xz(placa2d, t, 0, "tapa")
-    planos2d["placa_casete"] = placa2d
-    unicos["placa_casete"] = (placa_cas.copy(), 2 * co["n"],
-                              "chapa 3 mm: terminales, colisas take-up y paso "
-                              "del eje común")
-    slider = trimesh.creation.box((tb - ta - 70, co["banda"] + 4.0, t))
-    slider.visual.face_colors = COL["tapa"]
-    unicos["cama_deslizante"] = (slider.copy(), co["n"],
-                                 "apoyo del ramal superior (REVISION_ING. §8)")
-    escuadra = trimesh.creation.box((16, 3, 40))
-    escuadra_b = trimesh.creation.box((3, 16, 40))
-    tensor = trimesh.creation.box((10, sepc + 2 * t, 12))
-    unicos["escuadra_casete"] = (
-        trimesh.util.concatenate([escuadra.copy(), escuadra_b.copy()]), 4 * co["n"],
-        "L 40x16x3: fija cada placa de casete al alma A y a la pantalla (M5)")
-    unicos["tensor_snub"] = (tensor.copy(), co["n"],
-                             "puente M6 bajo la colisa: empuja el eje del snub "
-                             "hacia abajo y fija el take-up (contratuerca)")
-    for k, yb in enumerate(co["ys"]):
-        for lado, dy in (("i", -sepc / 2 - t), ("d", sepc / 2)):
-            pl = placa_cas.copy()
-            pl.apply_translation((0, yb + dy, 0))
-            inst(f"casete{k+1}_placa_{lado}", pl, "correas")
-            for ori, ex in (("A", 8.0), ("P", f["pantalla_x"] - 0.5)):
-                esc = (escuadra if ori == "A" else escuadra_b).copy()
-                esc.apply_translation((ex, yb + dy + t / 2, 118))
-                inst(f"casete{k+1}_esc_{ori}{lado}", esc, "correas")
-        for lado2, dy2 in (("i", -sepc / 2 - t - 4), ("d", sepc / 2 + t + 4)):
-            tn = tensor.copy()
-            tn.apply_translation((sn["xz"][0], yb + dy2, sn["xz"][1] + 12))
-            inst(f"casete{k+1}_tensor_{lado2}", tn, "correas")
-        sl = slider.copy()
-        sl.apply_translation(((ta + tb) / 2, yb, z1c + 2.6))
-        inst(f"casete{k+1}_cama", sl, "correas")
+    # --- desvío: travesaños, ejes cortos, omnis giradas y su transmisión -----
+    z_dv = dv["z_eje"]
+    y0r, y1r = dv["eje_y_rel"]
+    blq_d, tw, pol, spl = dv["bloque"], dv["travesano"], dv["polea"], dv["spool"]
 
-    # poleas terminales, idlers omega, correa
-    pol_term = polea(2 * 30.0, co["banda"] + 4.0, 12.2)
-    _rot(pol_term, [0, 0, 1], 0)
-    unicos["polea_terminal_60"] = (pol_term.copy(), 2 * co["n"],
-                                   f"Ø60x{co['banda'] + 4:g} bore 12.2, crown "
-                                   "0.3, sobre buje de bronce (catálogo: "
-                                   "'loca sobre buje')")
-    idler = polea(sn["dia"], co["banda"] + 4.0, 12.2)
-    unicos["snub_50"] = (idler.copy(), co["n"],
-                         f"Ø50x{co['banda'] + 4:g} (mínimo Habasit "
-                         "contraflexión) en colisa take-up")
-    pol_ls = polea(2 * 30.0, co["banda"] + 4.0, 20.2)
-    unicos["polea_motriz_60"] = (pol_ls.copy(), co["n"],
-                                 f"Ø60x{co['banda'] + 4:g} bore 20.2 + "
-                                 "prisionero, en el eje común")
-    eje12 = trimesh.creation.cylinder(radius=6, height=sepc + 2 * t, sections=24)
-    _rot(eje12, [1, 0, 0], 90)
-    eje12.visual.face_colors = COL["eje"]
-    unicos["eje_polea_12"] = (eje12.copy(), 3 * co["n"],
-                              "Ø12 h9 al ras de placas (ajuste 12.2 H11; "
-                              "retención: M5 axial + arandela por fuera)")
-    for k, yb in enumerate(co["ys"]):
-        for nombre, (cx, cz, rr, ss) in zip(
-                ("term_A", "term_B", "snub", "motriz"),
-                co["circulos"]):
-            if nombre == "motriz":
-                po = pol_ls.copy()
-            elif nombre.startswith("term"):
-                po = pol_term.copy()
-            else:
-                po = idler.copy()
-            po.apply_translation((cx, yb, cz))
-            inst(f"casete{k+1}_{nombre}", po, "correas")
-            if nombre != "motriz":
-                ej = eje12.copy()
-                ej.apply_translation((cx, yb, cz))
-                inst(f"casete{k+1}_eje_{nombre}", ej, "correas")
-        banda = correa_solido(co["circulos"], co["segs_hints"], co["banda"],
-                              co["espesor_banda"], yb - co["banda"] / 2)
-        inst(f"correa_{k+1}", banda, "correas")
-    unicos["correa_plana"] = (correa_solido(co["circulos"], co["segs_hints"],
-                                            co["banda"], co["espesor_banda"],
-                                            -co["banda"] / 2),
-                              co["n"], f"banda {co['banda']:g}x3 poliéster/NBR, lazo cerrado")
+    # travesaño: chapa 3 plegada, cuerpo perpendicular a Y (z 78..105, pasa
+    # 2.1 bajo las coronas) con pestañas al alma A y a la pantalla
+    x0w, x1w = tw["x"]
+    z0w, z1w = tw["z"]
+    cuerpo_w = trimesh.creation.box((x1w - 4.0, t, z1w - z0w))
+    cuerpo_w.apply_translation((2.0 + (x1w - 4.0) / 2, t / 2, (z0w + z1w) / 2))
+    tab_a = trimesh.creation.box((t, 25.0, z1w - z0w))
+    tab_a.apply_translation((t / 2, 12.5, (z0w + z1w) / 2))
+    tab_p = trimesh.creation.box((t, 25.0, z1w - z0w))
+    tab_p.apply_translation((x1w - t / 2, 12.5, (z0w + z1w) / 2))
+    trav = trimesh.boolean.union([cuerpo_w, tab_a, tab_p])
+    trav.visual.face_colors = COL["canal"]
+    unicos["travesano_desvio"] = (trav.copy(), len(dv["huecos"]),
+                                  "chapa 3 mm plegada bajo cada hueco: "
+                                  "pestañas al alma A y a la pantalla (M5); "
+                                  "los bloques del desvío atornillan a su cara")
+
+    # bloque soporte en voladizo: DOBLE FR8ZZ (los dos asientos en línea),
+    # atornillado al travesaño; la tapa remata arriba
+    perfil_bd = sbox(-blq_d["ancho_x"] / 2, blq_d["z"][0],
+                     blq_d["ancho_x"] / 2, blq_d["z"][1]).difference(
+        Point(0, z_dv).buffer(FR8["od"] / 2, quad_segs=32))
+    bloque_dm = _plate_xz(perfil_bd, blq_d["espesor_y"], 0.0, "soporte")
+    planos2d["soporte_desvio"] = perfil_bd
+    unicos["soporte_desvio"] = (bloque_dm.copy(), dv["n_ruedas"],
+                                "bloque 30 con DOS FR8ZZ-HexHD en línea "
+                                "(voladizo de rueda+polea), 2x M5 al travesaño")
+
+    eje_dm = hex_prisma(dv["hex"], y1r - y0r)
+    unicos["eje_desvio_hex"] = (eje_dm.copy(), dv["n_ruedas"],
+                                f"hex {dv['hex']:g} x {y1r - y0r:g} mm; "
+                                "collarín en el lado del bloque, el "
+                                "prisionero de la polea retiene el otro")
+    rueda_d = rueda_lod(RUEDA["R"], RUEDA["a"], RUEDA["largo_rodillo"],
+                        RUEDA["n_rodillos"], RUEDA["desfase_deg"],
+                        RUEDA["ancho_paquete"], RUEDA["hex_barreno"])
+    polea_dm = spool_2g(pol["dia"], pol["ancho"], None, prof_gar=3.0,
+                        ancho_gar=5.5, hex_bore=dv["hex"] + 0.15,
+                        gargantas=(-3.0, 3.0))
+    unicos["polea_desvio_2g"] = (polea_dm.copy(), dv["n_ruedas"],
+                                 f"Ø{pol['dia']:g} dos gargantas (±3), "
+                                 "barreno hex: recibe riser o cadena")
+    spool_dm = spool_2g(spl["dia"], spl["ancho"], 20.2, gargantas=(-3.0, 3.0))
+    unicos["spool_desvio_2g"] = (spool_dm.copy(), len(dv["huecos"]),
+                                 f"Ø{spl['dia']:g} dos gargantas (±3) bore "
+                                 "20.2 + prisionero, en el eje común")
+    r_sp, r_pd = spl["raiz"] / 2, pol["raiz"] / 2
+    for k, h in enumerate(dv["huecos"]):
+        g = h["y"]
+        tv = trav.copy()
+        tv.apply_translation((0, g + tw["y_rel"][0], 0))
+        inst(f"trav_h{k+1}", tv, "desvio")
+        for j, x in enumerate(h["stubs_x"]):
+            b = bloque_dm.copy()
+            b.apply_translation((x, g + blq_d["y_rel"][0], 0))
+            inst(f"soporte_desvio_h{k+1}_{j+1}", b, "desvio")
+            e = eje_dm.copy()
+            e.apply_translation((x, g + y0r, z_dv))
+            inst(f"eje_desvio_h{k+1}_{j+1}", e, "desvio")
+            r = rueda_d.copy()
+            r.apply_translation((x, g, z_dv))
+            inst(f"rueda_desvio_h{k+1}_{j+1}", r, "desvio")
+            po = polea_dm.copy()
+            po.apply_translation((x, g + pol["dy_centro"], z_dv))
+            inst(f"polea_desvio_h{k+1}_{j+1}", po, "desvio")
+        s = spool_dm.copy()
+        s.apply_translation((x_ls, h["spool_y"], z_ls))
+        inst(f"spool_desvio_h{k+1}", s, "desvio")
+        for tag, (xr, gy) in zip(("a", "b"), h["risers"]):
+            ring = oring_xz((x_ls, z_ls), (xr, z_dv), r_sp, r_pd, ORING, gy)
+            inst(f"oring_riser_h{k+1}_{tag}", ring, "desvio")
+        for tag, (xa, xb, gy) in zip(("a", "b"), h["cadenas"]):
+            ring = oring_xz((xa, z_dv), (xb, z_dv), r_pd, r_pd, ORING, gy)
+            inst(f"oring_cadena_h{k+1}_{tag}", ring, "desvio")
 
     # --- eje común + chumaceras + spool --------------------------------------
-    y0l, y1l = co["eje_comun"]["y"]
-    eje_ls = trimesh.creation.cylinder(radius=co["eje_comun"]["dia"] / 2,
+    y0l, y1l = dv["eje_comun"]["y"]
+    eje_ls = trimesh.creation.cylinder(radius=dv["eje_comun"]["dia"] / 2,
                                        height=y1l - y0l, sections=32)
     _rot(eje_ls, [1, 0, 0], 90)
     eje_ls.apply_translation((x_ls, (y0l + y1l) / 2, z_ls))
     eje_ls.visual.face_colors = COL["linea"]
-    inst("eje_comun", eje_ls, "correas")
+    inst("eje_comun", eje_ls, "desvio")
     unicos["eje_comun_20"] = (eje_ls.copy(), 1,
                               f"Ø20 h6 x {y1l - y0l:g}; chumaceras UCFL204")
     cat = None
@@ -863,11 +848,11 @@ def construir_modulo(d: dict):
     u1 = ucfl.copy()
     _rot(u1, [1, 0, 0], -90)
     u1.apply_translation((x_ls, t, z_ls))
-    inst("ucfl204_extremoA", u1, "correas")
+    inst("ucfl204_extremoA", u1, "desvio")
     u2 = ucfl.copy()
     _rot(u2, [1, 0, 0], 90)
     u2.apply_translation((x_ls, f["mampara_y"] - t, z_ls))
-    inst("ucfl204_mampara", u2, "correas")
+    inst("ucfl204_mampara", u2, "desvio")
 
     # --- tren de o-rings de omnis --------------------------------------------
     sp = to["spool"]
@@ -917,7 +902,7 @@ def construir_modulo(d: dict):
     _rot(mB, [1, 0, 0], -90)                      # eje del motor a +Y
     mB.apply_translation((bx, tc["motor"]["cara_y"], bz))
     inst("motor_B", mB, "tren")
-    y_sp = co["eje_comun"]["y_spool"]
+    y_sp = dv["eje_comun"]["y_spool"]
     sp_ls = spool_2g(36.0, 20.0, 20.2)
     unicos["spool_eje_comun"] = (sp_ls.copy(), 1,
                                  "Ø36 una garganta útil, bore 20.2 + prisionero")
@@ -947,10 +932,14 @@ def construir_modulo(d: dict):
         pr = trimesh.creation.extrude_polygon(est, 9.0)
         pr.apply_translation((0, 0, z0t - 3))
         cortes_t.append(pr)
-    rc = d["tapa"]["ranura_correa"]
-    for yb in co["ys"]:
-        pr = trimesh.creation.box((tb - ta + 68, rc, 9.0))
-        pr.apply_translation(((ta + tb) / 2, yb, z0t + 1.5))
+    la, lb = d["tapa"]["ranura_desvio"]           # 44 a lo largo de X, 30 en Y
+    def est_desvio(x, y):
+        return sbox(x - la / 2, y - lb / 2, x + la / 2, y + lb / 2).union(
+            Point(x - la / 2 + 0.1, y).buffer(lb / 2, quad_segs=12)).union(
+            Point(x + la / 2 - 0.1, y).buffer(lb / 2, quad_segs=12))
+    for (x, y) in dv["ruedas_xy"]:
+        pr = trimesh.creation.extrude_polygon(est_desvio(x, y), 9.0)
+        pr.apply_translation((0, 0, z0t - 3))
         cortes_t.append(pr)
     tapa = trimesh.boolean.difference([base] + cortes_t)
     tapa.visual.face_colors = COL["tapa"]
@@ -960,8 +949,8 @@ def construir_modulo(d: dict):
             sbox(x - lw / 2, y - lh / 2, x + lw / 2, y + lh / 2).union(
                 Point(x - lw / 2 + 0.1, y).buffer(lh / 2, quad_segs=12)).union(
                 Point(x + lw / 2 - 0.1, y).buffer(lh / 2, quad_segs=12)))
-    for yb in co["ys"]:
-        tapa2d = tapa2d.difference(sbox(ta - 34, yb - rc / 2, tb + 34, yb + rc / 2))
+    for (x, y) in dv["ruedas_xy"]:
+        tapa2d = tapa2d.difference(est_desvio(x, y))
     planos2d["tapa_superior"] = tapa2d
     inst("tapa_superior", tapa, "frame")
     unicos["tapa_superior"] = (tapa.copy(), 1,
@@ -994,7 +983,7 @@ def oring_xz(c1, c2, r1, r2, cuerda, y_plano):
 
 def verificar_modulo(d: dict, piezas, unicos) -> dict:
     import numpy as np
-    f, om, co = d["frame"], d["omnis"], d["correas"]
+    f, om, dv = d["frame"], d["omnis"], d["desvio"]
     v = {}
 
     # 1 — encaje en BF
@@ -1004,39 +993,61 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
                       "margen_por_lado": round(margen, 2),
                       "verdicto": "PASA" if margen >= 2 else "FALLA"}
 
-    # 2 — tangencias en el plano de transporte
+    # 2 — tangencias en el plano de transporte (avance y desvío coplanares:
+    # las omnis cruzadas no se pelean — el sentido parado rueda libre)
     tang = f["tangente"]
-    z_ruedas = [round(m.bounds[1][2], 3) for n, m, g in piezas
-                if n.startswith("rueda_")]
-    z_correas = [round(m.bounds[1][2], 3) for n, m, g in piezas
-                 if n.startswith("correa_")]
-    desn = d["parametros"].get("desnivel_correas", 0.0)
-    err = max([abs(z - tang) for z in z_ruedas] +
-              [abs(z - (tang - desn)) for z in z_correas])
-    v["tangencia"] = {"plano": tang, "ruedas_max": max(z_ruedas),
-                      "correas_max": max(z_correas),
-                      "desnivel_correas": desn,
+    z_av = [round(m.bounds[1][2], 3) for n, m, g in piezas
+            if n.startswith("rueda_") and not n.startswith("rueda_desvio")]
+    z_de = [round(m.bounds[1][2], 3) for n, m, g in piezas
+            if n.startswith("rueda_desvio")]
+    err = max(abs(z - tang) for z in z_av + z_de)
+    v["tangencia"] = {"plano": tang, "avance_max": max(z_av),
+                      "desvio_max": max(z_de),
                       "error_max": round(err, 3),
                       "verdicto": "PASA" if err <= 0.1 else "FALLA"}
 
-    # 3 — reglas del lazo de correa (envolvente motriz, contraflexión)
-    env = envolturas_lazo(co["circulos"], co["segs_hints"])
-    idl = [2 * (r - co["espesor_banda"] / 2)
-           for i, (_, _, r, s) in enumerate(co["circulos"]) if i == 2]
-    v["lazo_correa"] = {"envolvente_grados": dict(zip(
-        ("term_A", "term_B", "snub", "motriz"), env)),
-        "envolvente_motriz": env[3],
-        "sentido_contacto": "motriz por dentro del lazo; snub por el lomo",
-        "min_contraflexion": min(idl) if idl else None,
-        "verdicto": "PASA" if env[3] >= 120 and (not idl or min(idl) >= 50)
-        else "FALLA",
-        "regla": "motriz >=120 (gate NBT90; objetivo Movex 140±10); "
-                 "contraflexión >=Ø50 (Habasit)"}
+    # 3 — anillos del desvío: envolvente en cada lazo de 2 poleas y longitud
+    x_ls, z_ls = dv["eje_comun"]["x"], dv["eje_comun"]["z"]
+    z_dv = dv["z_eje"]
+    r_sp, r_pd = dv["spool"]["raiz"] / 2, dv["polea"]["raiz"] / 2
+
+    def lazo_2p(c1, c2, r1, r2):
+        a12 = math.degrees(math.atan2(c2[1] - c1[1], c2[0] - c1[0]))
+        circ = [(c1[0], c1[1], r1 + ORING / 2, a12 + 180.0),
+                (c2[0], c2[1], r2 + ORING / 2, a12)]
+        hints = [(a12 - 90.0, a12 - 90.0), (a12 + 90.0, a12 + 90.0)]
+        env = envolturas_lazo(circ, hints)
+        pts = trayectoria_correa(circ, hints, n_arc=40)
+        largo = sum(math.hypot(pts[i + 1][0] - pts[i][0],
+                               pts[i + 1][1] - pts[i][1])
+                    for i in range(len(pts) - 1))
+        largo += math.hypot(pts[0][0] - pts[-1][0], pts[0][1] - pts[-1][1])
+        return env, round(largo, 1)
+
+    anillos = []
+    for k, h in enumerate(dv["huecos"]):
+        for tag, (xr, gy) in zip(("riser_a", "riser_b"), h["risers"]):
+            env, largo = lazo_2p((x_ls, z_ls), (xr, z_dv), r_sp, r_pd)
+            anillos.append({"anillo": f"h{k+1}_{tag}", "envolventes": env,
+                            "largo_mm": largo})
+        for tag, (xa, xb, gy) in zip(("cadena_a", "cadena_b"), h["cadenas"]):
+            env, largo = lazo_2p((xa, z_dv), (xb, z_dv), r_pd, r_pd)
+            anillos.append({"anillo": f"h{k+1}_{tag}", "envolventes": env,
+                            "largo_mm": largo})
+    env_min = min(min(a["envolventes"]) for a in anillos)
+    d["desvio"]["lazos_mm"] = {a["anillo"]: a["largo_mm"] for a in anillos}
+    v["anillos_desvio"] = {
+        "n_anillos": len(anillos), "envolvente_min": env_min,
+        "anillos": anillos,
+        "verdicto": "PASA" if env_min >= 120 else "FALLA",
+        "regla": "envolvente >=120 en toda polea (gate NBT90; lazos de 2 "
+                 "poleas ~180); tensado por estiramiento 10-12% (wf07-08)"}
 
     # 4 — apoyo de la caja mínima 250x250 en cualquier posición
     caja = 250.0
     zona_y = (0.0, d["parametros"]["ejes"] * d["parametros"]["paso"])
-    peor_r, peor_b, peor_filas = 99, 99, 99
+    peor_r, peor_filas = 99, 99
+    peor_d, peor_hd = 99, 99
     for cy in np.linspace(zona_y[0], zona_y[1] - caja, 24):
         for cx in np.linspace(5, f["luz"] - caja - 5, 24):
             dentro = [(x, y) for (x, y) in om["ruedas_xy"]
@@ -1044,32 +1055,97 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
             filas = len({y for _, y in dentro})
             peor_r = min(peor_r, len(dentro))
             peor_filas = min(peor_filas, filas)
-            nb = sum(1 for yb in co["ys"] if cy <= yb <= cy + caja)
-            peor_b = min(peor_b, nb)
-    v["apoyo_caja_250"] = {"min_ruedas": peor_r, "min_hileras": peor_filas,
-                           "min_correas": peor_b,
+            de = [(x, y) for (x, y) in dv["ruedas_xy"]
+                  if cx <= x <= cx + caja and cy <= y <= cy + caja]
+            peor_d = min(peor_d, len(de))
+            peor_hd = min(peor_hd, len({y for _, y in de}))
+    v["apoyo_caja_250"] = {"min_ruedas_avance": peor_r,
+                           "min_hileras": peor_filas,
+                           "min_ruedas_desvio": peor_d,
+                           "min_huecos_desvio": peor_hd,
                            "verdicto": "PASA" if peor_r >= 4 and
-                           peor_filas >= 2 and peor_b >= 2 else "FALLA"}
+                           peor_filas >= 2 and peor_d >= 3 and peor_hd >= 2
+                           else "FALLA"}
 
     # 5 — holguras críticas (analíticas, mm)
     sp, to = d["tren_omni"]["spool"], d["tren_omni"]
+    p_ = d["parametros"]
+    pol, blq_d, tw = dv["polea"], dv["bloque"], dv["travesano"]
     z_anillo = om["z_eje"] + sp["raiz"] / 2 + ORING
+    semi_h = p_["paso"] / 2                        # centro de hueco a eje vecino
     hol = {
         "anillo_oring_a_tapa": round(d["tapa"]["z"][0] - z_anillo, 2),
         "spool_a_pantalla": round((to["x_spool"] - sp["ancho"] / 2)
                                   - (f["pantalla_x"] + f["espesor"]), 2),
-        "correa_a_pantalla": round(f["pantalla_x"] -
-                                   (co["x_terminales"][1] + 30 + 1.5), 2),
-        "lazo_a_fondo": round(co["circulos"][3][1] - co["circulos"][3][2], 2),
         "rueda_a_ranura_tapa": round((d["tapa"]["ranura_rueda"][1] -
                                       RUEDA["ancho_total"]) / 2, 2),
-        "correa_a_ranura_tapa": round((d["tapa"]["ranura_correa"] -
-                                       co["banda"]) / 2, 2),
-        "casete_a_rueda_vecina": round((co["ys"][0] - co["casete"]["sep_placas"] / 2
-                                        - f["espesor"])
-                                       - (om["ejes_y"][0] + RUEDA["R"]), 2),
+        "rueda_desvio_a_ranura_tapa": round((d["tapa"]["ranura_desvio"][1] -
+                                             RUEDA["ancho_total"]) / 2, 2),
+        # desvío: todo vive en la banda libre entre la rueda girada (±12.04)
+        # y las coronas vecinas (paso/2 - 29 = ±26)
+        "polea_desvio_a_corona_vecina": round(
+            (semi_h - RUEDA["R"]) - (pol["dy_centro"] + pol["ancho"] / 2), 2),
+        "anillo_sup_a_corona_vecina": round(
+            (semi_h - RUEDA["R"]) - (pol["dy_gargantas"][1] + ORING / 2), 2),
+        "cadena_inf_a_rueda_desvio": round(
+            (pol["dy_gargantas"][0] - ORING / 2) - RUEDA["ancho_total"] / 2, 2),
+        "bloque_desvio_a_eje_inferior": round(
+            (semi_h - p_["hex"] / math.sqrt(3)) + blq_d["y_rel"][0], 2),
+        "stub_a_eje_superior": round(
+            (semi_h - p_["hex"] / math.sqrt(3)) - dv["eje_y_rel"][1], 2),
+        "stub_a_corona_superior": round(
+            (semi_h - RUEDA["R"]) - dv["eje_y_rel"][1], 2),
+        "travesano_a_vuelo_ruedas": round(
+            (om["z_eje"] - RUEDA["R"]) - tw["z"][1], 2),
+        "travesano_a_eje_inferior_z": round(
+            (om["z_eje"] - p_["hex"] / math.sqrt(3)) - tw["z"][1], 2),
+        "polea_desvio_a_tapa": round(
+            d["tapa"]["z"][0] - (z_dv + pol["dia"] / 2), 2),
+        "anillo_riser_a_tapa": round(
+            d["tapa"]["z"][0] - (z_dv + r_pd + ORING), 2),
+        "rueda_desvio_a_pantalla": round(
+            f["pantalla_x"] - (max(x for x, _ in dv["ruedas_xy"])
+                               + RUEDA["R"]), 2),
     }
-    tc_motor_y0 = d["tren_correas"]["motor"]["cara_y"]
+
+    # el riser y la cadena coplanar (misma garganta) comparten rango de x
+    # solo en el arrollado bajo del spool: medir el paso más apretado
+    def z_riser_en(x, c1, r1, c2, r2):
+        """Cota z superior del lazo riser en x (arrollados + ramal superior)."""
+        zs = []
+        for (cx, cz, rr) in ((c1[0], c1[1], r1 + ORING),
+                             (c2[0], c2[1], r2 + ORING)):
+            if abs(x - cx) <= rr:
+                zs.append(cz + math.sqrt(rr * rr - (x - cx) ** 2))
+        dx, dz2 = c2[0] - c1[0], c2[1] - c1[1]
+        dd = math.hypot(dx, dz2)
+        ph = math.asin((r1 - r2) / dd)
+        th = math.atan2(dz2, dx)
+        lado = 1.0 if dx >= 0 else -1.0
+        nx, nz = -lado * math.sin(th - lado * ph), lado * math.cos(th - lado * ph)
+        p1 = (c1[0] + (r1 + ORING) * nx, c1[1] + (r1 + ORING) * nz)
+        p2 = (c2[0] + (r2 + ORING) * nx, c2[1] + (r2 + ORING) * nz)
+        x0s, x1s = min(p1[0], p2[0]), max(p1[0], p2[0])
+        if x0s <= x <= x1s and abs(p2[0] - p1[0]) > 1e-9:
+            zs.append(p1[1] + (p2[1] - p1[1]) * (x - p1[0]) / (p2[0] - p1[0]))
+        return max(zs) if zs else None
+
+    margen_riser = 99.0
+    fondo_cadena = z_dv - r_pd - ORING
+    rw = r_pd + ORING
+    for h in dv["huecos"]:
+        parejas = ((h["risers"][0], h["cadenas"][1]),   # garganta alta
+                   (h["risers"][1], h["cadenas"][0]))   # garganta baja
+        for (xr, _), (xa, xb, _) in parejas:
+            c_lo = min(xa, xb) - rw
+            c_hi = max(xa, xb) + rw
+            for x in np.linspace(c_lo, c_hi, 41):
+                z = z_riser_en(x, (x_ls, z_ls), r_sp, (xr, z_dv), r_pd)
+                if z is not None:
+                    margen_riser = min(margen_riser, fondo_cadena - z)
+    hol["riser_bajo_cadena_coplanar"] = round(margen_riser, 2)
+
+    tc_motor_y0 = d["tren_desvio"]["motor"]["cara_y"]
     ma_y, ma_z = to["motor"]["eje_yz"]
     d_eje4 = math.hypot(ma_y - om["ejes_y"][-1], ma_z - om["z_eje"])
     hol["motorA_a_eje4"] = round(d_eje4 - UNIDRIVE["cuerpo_dia"] / 2
@@ -1081,12 +1157,6 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
     hol["soporte_a_spool_eje4"] = round(
         (to["x_spool"] - to["spool"]["ancho"] / 2)
         - (to["motor"]["cara_x"] + f["espesor"]), 2)
-    sn = co["snub"]
-    dy_tensor = (co["ys"][0] - co["casete"]["sep_placas"] / 2 - f["espesor"]
-                 - 4.0) - om["ejes_y"][0]
-    hol["tensor_bajo_vuelo_rueda"] = round(
-        (om["z_eje"] - math.sqrt(max(RUEDA["R"]**2 - dy_tensor**2, 0.0)))
-        - (sn["xz"][1] + 24.0), 2)
     hol["esparragoA_sobre_eje4_z"] = round(
         (ma_z + UNIDRIVE["patron"][1] / 2 - UNIDRIVE["perno"] / 2)
         - (om["z_eje"] + om["hex"] / math.sqrt(3)), 2)
@@ -1096,30 +1166,27 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
     hol["spool_a_bloque_B"] = round(
         (f["luz"] - d["soportes"]["bloque"][0])
         - (to["x_spool"] + to["spool"]["ancho"] / 2), 2)
-    hol["motorA_cuerpo_a_casete3"] = round(
+    hol["motorA_a_stub_h3"] = round(
         (ma_y - UNIDRIVE["cuerpo_dia"] / 2)
-        - (co["ys"][-1] + co["casete"]["sep_placas"] / 2 + f["espesor"]), 2)
+        - (dv["huecos_y"][-1] + dv["eje_y_rel"][1]), 2)
     y_esparragos_A = ma_y - UNIDRIVE["patron"][0] / 2 - UNIDRIVE["perno"] / 2
     hol["pantalla_a_motores"] = round(
         min(y_esparragos_A, tc_motor_y0) - 372.0, 2)
     hol["paso_eje_en_pantalla"] = round(9.0 - om["hex"] / math.sqrt(3), 2)
     hol["eje_motorB_a_placa_B"] = round(
         (f["largo"] - f["espesor"]) -
-        (d["tren_correas"]["motor"]["cara_y"] + 62.7 + 8 + 22), 2)
-    bx, bz = d["tren_correas"]["motor"]["eje_xz"]
-    d_ls = math.hypot(bx - co["eje_comun"]["x"], bz - co["eje_comun"]["z"])
+        (d["tren_desvio"]["motor"]["cara_y"] + 62.7 + 8 + 22), 2)
+    bx, bz = d["tren_desvio"]["motor"]["eje_xz"]
+    d_ls = math.hypot(bx - x_ls, bz - z_ls)
     hol["motorB_a_eje_comun"] = round(d_ls - UNIDRIVE["cuerpo_dia"] / 2
-                                      - co["eje_comun"]["dia"] / 2, 2)
+                                      - dv["eje_comun"]["dia"] / 2, 2)
     hol["motorB_cuerpo_a_cubo_ucfl"] = round(
-        math.hypot(bx - co["eje_comun"]["x"], bz - co["eje_comun"]["z"])
-        - UNIDRIVE["cuerpo_dia"] / 2 - 21.0, 2)
-    hol["motorA_a_motorB_x"] = round(
-        (bx + UNIDRIVE["cuerpo_dia"] / 2), 2)
+        d_ls - UNIDRIVE["cuerpo_dia"] / 2 - 21.0, 2)
     hol["motorA_a_motorB_x"] = round(
         (to["motor"]["cara_x"] - UNIDRIVE["cuerpo_largo"])
         - (bx + UNIDRIVE["cuerpo_dia"] / 2), 2)
     hol["esparragoB_z_a_brida_ucfl"] = round(
-        (co["eje_comun"]["z"] - 15.0)
+        (z_ls - 15.0)
         - (bz - UNIDRIVE["patron"][1] / 2 + UNIDRIVE["perno"] / 2), 2)
     v["holguras"] = {"mm": hol,
                      "verdicto": "PASA" if all(h >= 1.0 for h in hol.values())
@@ -1137,7 +1204,7 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
         if nombre in ("soporte_motor_A", "spool_eje_comun"):
             return nombre
         n = re.sub(r"oring_e\d+_e\d+", "oring_e_e", nombre)
-        n = re.sub(r"casete\d+", "casete", n)
+        n = re.sub(r"_h\d+(_\d+|_[ab])?$", "", n)
         n = re.sub(r"soporte_[AB]\d+", "soporte", n)
         n = re.sub(r"_?\d+$", "", n)
         return n
@@ -1160,22 +1227,6 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
         ("oring_motorA", "soporte_motor_A"): "el anillo baja por la muesca",
         ("motor_A", "pantalla_tren"): "AABB de espárragos; cuerpos separados",
         ("motor_A", "eje_omni"): "espárrago 2.5 sobre el hex (holgura medida)",
-        ("casete_tensor_i", "casete_placa_i"): "puente atornillado a la placa",
-        ("casete_tensor_d", "casete_placa_d"): "puente atornillado a la placa",
-        ("casete_tensor_i", "casete_eje_snub"): "M6 pisa el eje en la colisa",
-        ("casete_tensor_d", "casete_eje_snub"): "M6 pisa el eje en la colisa",
-        ("casete_tensor_i", "casete_snub"): "AABB del puente junto a la polea",
-        ("casete_tensor_d", "casete_snub"): "AABB del puente junto a la polea",
-        ("casete_tensor_i", "correa"): "puente fuera de las placas; banda dentro",
-        ("casete_tensor_d", "correa"): "puente fuera de las placas; banda dentro",
-        ("casete_tensor_i", "rueda"): "bajo el vuelo de la rueda (6.9 medido)",
-        ("casete_tensor_d", "rueda"): "bajo el vuelo de la rueda (6.9 medido)",
-        ("casete_cama", "tapa_superior"): "la cama asoma por la ranura de correa",
-        ("casete_term_A", "tapa_superior"): "polea asoma por la ranura de correa",
-        ("casete_term_B", "tapa_superior"): "polea asoma por la ranura de correa",
-        ("casete_eje_term_A", "correa"): "el eje vive dentro del lazo (r 30)",
-        ("casete_eje_term_B", "correa"): "el eje vive dentro del lazo (r 30)",
-        ("casete_eje_snub", "correa"): "el eje vive dentro del lazo del snub",
         ("motor_A", "oring_motorA"): "anillo en la polea del eje D",
         ("spool_eje", "motor_A"): "polea del motor coplanar al spool (r 92)",
         ("motor_B", "ucfl204_mampara"): "espárragos junto a la chumacera "
@@ -1184,8 +1235,6 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
         ("eje_comun", "motor_B"): "espárrago inferior a 34 en z del eje",
         ("motor_B", "spool_eje_comun"): "espárrago a 26 en z del spool",
         ("motor_B", "oring_motorB"): "anillo en la polea del eje D",
-        ("casete_esc_Pi", "pantalla_tren"): "escuadra a la pantalla (M5)",
-        ("casete_esc_Pd", "pantalla_tren"): "escuadra a la pantalla (M5)",
         ("motor_B", "polea_motor_B"): "polea en el eje D del motor",
         ("motor_B", "mampara_motores"): "espárragos del patrón en la mampara",
         ("oring_motorB", "polea_motor_B"): "anillo en su garganta",
@@ -1194,47 +1243,29 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
         ("eje_comun", "spool_eje_comun"): "spool en el eje (prisionero)",
         ("eje_comun", "mampara_motores"): "paso Ø26 en la mampara",
         ("eje_comun", "placa_extremo_A"): "paso Ø26 en la placa A",
-        ("eje_comun", "casete_placa_i"): "paso Ø30 en la placa",
-        ("eje_comun", "casete_placa_d"): "paso Ø30 en la placa",
-        ("eje_comun", "casete_motriz"): "polea motriz en el eje",
-        ("eje_comun", "correa"): "la correa envuelve la motriz",
         ("eje_comun", "ucfl204_extremoA"): "eje en la chumacera",
         ("eje_comun", "ucfl204_mampara"): "eje en la chumacera",
-        ("correa", "casete_term_A"): "la correa envuelve la polea",
-        ("correa", "casete_term_B"): "la correa envuelve la polea",
-        ("correa", "casete_snub"): "la correa pasa por el snub",
-        ("correa", "casete_motriz"): "la correa envuelve la motriz",
-        ("correa", "casete_cama"): "el ramal superior apoya en la cama",
-        ("correa", "casete_placa_i"): "correa entre placas (holgura por cara)",
-        ("correa", "casete_placa_d"): "correa entre placas (holgura por cara)",
-        ("correa", "tapa_superior"): "ranura de correa en la tapa",
         ("rueda", "tapa_superior"): "ranura de rueda en la tapa",
-        ("casete_term_A", "casete_placa_i"): "eje de polea entre placas",
-        ("casete_term_A", "casete_placa_d"): "eje de polea entre placas",
-        ("casete_term_B", "casete_placa_i"): "eje de polea entre placas",
-        ("casete_term_B", "casete_placa_d"): "eje de polea entre placas",
-        ("casete_snub", "casete_placa_i"): "eje del snub en la colisa",
-        ("casete_snub", "casete_placa_d"): "eje del snub en la colisa",
-        ("casete_eje_term_A", "casete_placa_i"): "eje en su taladro 12.2",
-        ("casete_eje_term_A", "casete_placa_d"): "eje en su taladro 12.2",
-        ("casete_eje_term_A", "casete_term_A"): "polea sobre su eje",
-        ("casete_eje_term_B", "casete_placa_i"): "eje en su taladro 12.2",
-        ("casete_eje_term_B", "casete_placa_d"): "eje en su taladro 12.2",
-        ("casete_eje_term_B", "casete_term_B"): "polea sobre su eje",
-        ("casete_eje_snub", "casete_placa_i"): "eje en la colisa",
-        ("casete_eje_snub", "casete_placa_d"): "eje en la colisa",
-        ("casete_eje_snub", "casete_snub"): "polea sobre su eje",
-        ("casete_eje_snub", "casete_tensor"): "tensor M6 empuja el eje",
-        ("casete_tensor", "casete_placa_i"): "tensor atornillado a las placas",
-        ("casete_tensor", "casete_placa_d"): "tensor atornillado a las placas",
-        ("casete_esc_Ai", "canal_A"): "escuadra al alma A (M5)",
-        ("casete_esc_Ad", "canal_A"): "escuadra al alma A (M5)",
-        ("casete_esc_Pi", "pantalla_tren"): "escuadra a la pantalla (M5)",
-        ("casete_esc_Pd", "pantalla_tren"): "escuadra a la pantalla (M5)",
-        ("casete_esc_Ai", "casete_placa_i"): "escuadra en su placa",
-        ("casete_esc_Ad", "casete_placa_d"): "escuadra en su placa",
-        ("casete_esc_Pi", "casete_placa_i"): "escuadra en su placa",
-        ("casete_esc_Pd", "casete_placa_d"): "escuadra en su placa",
+        # desvío: omnis giradas 90° y su transmisión
+        ("eje_desvio", "soporte_desvio"): "hex en los DOS FR8ZZ del bloque",
+        ("eje_desvio", "rueda_desvio"): "rueda montada en el eje corto",
+        ("eje_desvio", "polea_desvio"): "polea de 2 gargantas en el hex",
+        ("rueda_desvio", "polea_desvio"): "polea a tope contra la rueda",
+        ("rueda_desvio", "tapa_superior"): "ranura de desvío en la tapa",
+        ("soporte_desvio", "trav"): "bloque atornillado al travesaño (2x M5)",
+        ("soporte_desvio", "tapa_superior"): "la tapa remata en el bloque (M4)",
+        ("trav", "canal_A"): "pestaña del travesaño al alma A (M5)",
+        ("trav", "pantalla_tren"): "pestaña del travesaño a la pantalla (M5)",
+        ("oring_riser", "spool_desvio"): "anillo en su garganta",
+        ("oring_riser", "polea_desvio"): "anillo en su garganta",
+        ("oring_riser", "eje_comun"): "anillo en la garganta del spool",
+        ("oring_riser", "eje_desvio"): "anillo en la garganta de la polea",
+        ("oring_cadena", "polea_desvio"): "anillo en su garganta",
+        ("oring_cadena", "eje_desvio"): "anillo en la garganta de la polea",
+        ("oring_riser", "oring_cadena"): "coplanares solo sobre el arrollado "
+                                         "bajo del spool (holgura "
+                                         "riser_bajo_cadena_coplanar)",
+        ("spool_desvio", "eje_comun"): "spool en el eje (prisionero)",
         ("soporte", "canal_A"): "bloque atornillado al alma (M5)",
         ("soporte", "canal_B"): "bloque atornillado al alma (M5)",
         ("soporte", "tapa_superior"): "la tapa apoya y atornilla en el bloque",
@@ -1270,27 +1301,25 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
         "verdicto": "PASA" if not sospechas else "REVISAR"}
     # 7 — estimación de cargas (supuestos DECLARADOS; no sustituye cálculo)
     masa = 30.0                                   # kg, caja de diseño
-    mu_b = 0.4                                    # caja sobre banda NBR parada
+    mu_o = 0.6                                    # caja sobre barril PU (estático)
+    crr = 0.03                                    # rodadura declarada barril/caja
     g = 9.81
-    lazo_pts = trayectoria_correa(co["circulos"], co["segs_hints"], n_arc=60)
-    L_lazo = sum(math.hypot(lazo_pts[i + 1][0] - lazo_pts[i][0],
-                            lazo_pts[i + 1][1] - lazo_pts[i][1])
-                 for i in range(len(lazo_pts) - 1))
-    F_avance_friccion = mu_b * masa * g * 0.5     # mitad del peso sobre bandas
-    T_ring = 45.0                                 # N útiles por o-ring 3/16 al 11%
-    F_desvio = mu_b * masa * g                    # las correas arrastran la caja
     v["cargas_estimadas"] = {
-        "supuestos": {"masa_caja_kg": masa, "mu_caja_banda": mu_b,
+        "supuestos": {"masa_caja_kg": masa, "mu_caja_rueda": mu_o,
+                      "coef_rodadura": crr,
                       "o_ring": "3/16 PU 83A al 10-12% (wf06-08); ~45 N útiles "
-                                "por anillo (dato de fabricante a validar)",
-                      "reparto": "mitad del peso sobre bandas en el peor caso"},
-        "lazo_correa_mm": round(L_lazo, 1),
-        "avance_friccion_sobre_bandas_N": round(F_avance_friccion, 1),
-        "desvio_arrastre_necesario_N": round(F_desvio, 1),
-        "anillos_en_serie": d["parametros"]["ejes"],
-        "advertencia": "el tren de o-rings va EN SERIE (motor->e4->e3->e2->e1): "
-                       "el par se acumula hacia el eje 1; validar deslizamiento "
-                       "con la carga real o duplicar anillos por tramo",
+                                "por anillo (dato de fabricante a validar)"},
+        "desvio_traccion_disponible_N": round(mu_o * masa * g, 1),
+        "desvio_resistencia_rodadura_N": round(2 * crr * masa * g, 1),
+        "ventaja_omnis_cruzadas": "al avanzar, los barriles de las ruedas de "
+                                  "desvío ruedan libres (y viceversa): no hay "
+                                  "arrastre de superficie parada",
+        "anillos_en_serie_avance": d["parametros"]["ejes"],
+        "anillos_en_serie_desvio": 2,
+        "advertencia": "ambos trenes van EN SERIE por o-rings (avance: motor->"
+                       "e4->e3->e2->e1; desvío: eje común->riser->stub->cadena"
+                       "->stub): validar deslizamiento con la carga real o "
+                       "duplicar anillos por tramo",
     }
     v["verdicto_global"] = "PASA" if all(
         vv.get("verdicto") == "PASA" for k, vv in v.items()
@@ -1304,16 +1333,15 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
 
 FABRICADAS = ("canal_lateral", "placa_extremo", "mampara_motores",
               "pantalla_tren", "soporte_motor_A", "soporte_eje",
-              "tapa_superior", "placa_casete", "cama_deslizante",
-              "eje_hexagonal", "spool_eje_omni", "spool_eje_comun",
-              "polea_terminal_60", "snub_50", "polea_motriz_60",
-              "polea_motor_2g", "eje_polea_12", "eje_comun_20")
+              "tapa_superior", "travesano_desvio", "soporte_desvio",
+              "eje_hexagonal", "eje_desvio_hex", "polea_desvio_2g",
+              "spool_desvio_2g", "spool_eje_omni", "spool_eje_comun",
+              "polea_motor_2g", "eje_comun_20")
 COMPRADAS = {"motor_unidrive": "UniDrive ONE (S-UD23062200R01)",
              "chumacera_ucfl204": "UCFL204 bore Ø20",
-             "rueda_omni": "fabricada en el proyecto RUEDA-OMNI-58 (18 uds)",
-             "correa_plana": "banda plana poliéster/NBR, lazo a medida",
-             "rodamiento_fr8zz_hex": "FR8ZZ-HexHD 1/2\" hex (web_facts wf01-05), 8 uds",
-             "oring_316": "o-ring PU 3/16\" 83A, estirado 10-12% (wf06-08), 5 uds"}
+             "rueda_omni": "fabricada en el proyecto RUEDA-OMNI-58 (30 uds)",
+             "rodamiento_fr8zz_hex": "FR8ZZ-HexHD 1/2\" hex (web_facts wf01-05)",
+             "oring_316": "o-ring PU 3/16\" 83A, estirado 10-12% (wf06-08)"}
 
 
 def exportar_modulo(proj: Path, d, piezas, unicos, verif) -> list:
@@ -1432,55 +1460,62 @@ def bom_modulo(d, unicos) -> list:
         filas.append({"pieza": nombre, "cant": cant, "origen": "fabricar",
                       "nota": nota})
     n_ejes = d["parametros"]["ejes"]
+    dv = d["desvio"]
+    lazos = dv.get("lazos_mm", {})
+    n_anillos = n_ejes + 1 + len(lazos)
+    largos = sorted(set(round(x) for x in lazos.values()))
     filas += [
         {"pieza": "motor_unidrive", "cant": 2, "origen": "comprar",
          "nota": COMPRADAS["motor_unidrive"]},
         {"pieza": "chumacera_ucfl204", "cant": 2, "origen": "comprar",
          "nota": COMPRADAS["chumacera_ucfl204"]},
-        {"pieza": "rodamiento_fr8zz_hex", "cant": 2 * n_ejes, "origen": "comprar",
-         "nota": "FR8ZZ-HexHD 1/2 pulg hex (web_facts wf01-wf05)"},
-        {"pieza": "rueda_omni_58", "cant": d["omnis"]["n_ruedas"],
+        {"pieza": "rodamiento_fr8zz_hex",
+         "cant": 2 * n_ejes + 2 * dv["n_ruedas"], "origen": "comprar",
+         "nota": "FR8ZZ-HexHD 1/2 pulg hex (web_facts wf01-wf05): 2 por eje "
+                 "de avance y 2 por bloque de desvío"},
+        {"pieza": "rueda_omni_58",
+         "cant": d["omnis"]["n_ruedas"] + dv["n_ruedas"],
          "origen": "proyecto RUEDA-OMNI-58",
-         "nota": "Ø58, barreno hex 12.85, sándwich de placas"},
-        {"pieza": "correa_plana", "cant": d["correas"]["n"], "origen": "comprar",
-         "nota": f"banda {d['correas']['banda']:g}x3 poliéster/NBR, lazo "
-                 f"cerrado de {d['verificacion']['cargas_estimadas']['lazo_correa_mm']:g} mm"},
-        {"pieza": "oring_pu_316", "cant": n_ejes + 1, "origen": "comprar",
-         "nota": f"PU 3/16 pulg 83A; lazos instalados ~"
-                 f"{2 * d['parametros']['paso'] + 100:.0f} (eje-eje) — pedir al "
-                 "88-90% del instalado (estirado 10-12%, wf06-08)"},
-        {"pieza": "tensor_snub_M6", "cant": 2 * d["correas"]["n"],
-         "origen": "comprar", "nota": "tornillo M6x30 + contratuerca por puente"},
-        {"pieza": "buje_bronce_12", "cant": 3 * d["correas"]["n"],
-         "origen": "comprar", "nota": "Ø12/Ø14x39 para poleas locas (catálogo: "
-                                      "'loca sobre buje')"},
-        {"pieza": "collarin_hex_12.7", "cant": 2 * n_ejes, "origen": "comprar",
-         "nota": "retención axial de cada eje hex contra el FR8ZZ"},
+         "nota": "Ø58, barreno hex 12.85, sándwich de placas "
+                 f"({d['omnis']['n_ruedas']} avance + {dv['n_ruedas']} desvío)"},
+        {"pieza": "oring_pu_316", "cant": n_anillos, "origen": "comprar",
+         "nota": "PU 3/16 pulg 83A; lazos instalados del desvío "
+                 f"~{largos} mm (ver desvio.lazos_mm) — pedir al 88-90% "
+                 "del instalado (estirado 10-12%, wf06-08)"},
+        {"pieza": "collarin_hex_12.7",
+         "cant": 2 * n_ejes + dv["n_ruedas"], "origen": "comprar",
+         "nota": "retención axial contra el FR8ZZ (2 por eje de avance, 1 "
+                 "por stub de desvío: la polea retiene el otro extremo)"},
         {"pieza": "separador_tubo_18x13.5", "cant": 1, "origen": "comprar",
          "nota": "barra de 2 m: cortar a medida entre ruedas (retención axial)"},
         {"pieza": "tornillería M5/M4 avellanada", "cant": 1, "origen": "comprar",
-         "nota": "bloques y tapa al alma; casetes a alma A y pantalla"},
+         "nota": "bloques y tapa al alma; travesaños a alma A y pantalla; "
+                 "bloques de desvío al travesaño"},
     ]
     return filas
 
 
 def leeme_modulo(d, bom, verif) -> str:
     import textwrap
-    f, om, co = d["frame"], d["omnis"], d["correas"]
+    f, om, dv = d["frame"], d["omnis"], d["desvio"]
     parrafo = lambda t: textwrap.fill(t, 76, initial_indent="  ",
                                       subsequent_indent="  ")
-    L = [f"MÓDULO DE TRANSFERENCIA OMNI + CORREAS — BF {d['parametros']['bf']/IN:.0f}\"",
+    L = [f"MÓDULO DE TRANSFERENCIA OMNI BIDIRECCIONAL — BF {d['parametros']['bf']/IN:.0f}\"",
          f"proyecto TRANSFER-BF21 · generado {d['generado'][:19]}Z · capa `user` (diseño)",
          "",
          "QUÉ ES",
          parrafo("Módulo insertable entre bastidores de un transportador de "
                  "rodillos BF 21 pulg. AVANCE: 4 ejes hexagonales de 1/2 pulg "
                  f"con {om['n_ruedas']} ruedas omni Ø58 (proyecto RUEDA-OMNI-58) "
-                 "en tresbolillo. DESVÍO: 3 correas planas transversales en los "
-                 "huecos entre ejes, movidas por un eje común inferior Ø20 con "
-                 "tracción de cabeza baja (motriz Ø60 + snub Ø50 en colisa). "
-                 "Dos motores UniDrive ONE: A para las omnis (spool + o-rings, "
-                 "esquema ZP2026), B para el eje común."),
+                 f"en tresbolillo. DESVÍO: {dv['n_ruedas']} ruedas omni "
+                 "IGUALES, GIRADAS 90°, sobre ejes hex cortos en los huecos "
+                 "entre ejes (4 por hueco, en las columnas del tresbolillo de "
+                 "la hilera superior), movidas desde el eje común inferior Ø20 "
+                 "por o-rings (2 risers por hueco a un spool de 2 gargantas + "
+                 "2 cadenas stub-a-stub). Dos motores UniDrive ONE: A para el "
+                 "avance (spool + o-rings, esquema ZP2026), B para el eje "
+                 "común del desvío. Ambos sentidos comparten la tangente: la "
+                 "familia parada rueda libre sobre sus barriles."),
          "",
          "GEOMETRÍA CLAVE (mm)",
          f"  ancho total {f['ancho_total']:g} (BF 533.4 − 2×3) · largo {f['largo']:g} "
@@ -1488,44 +1523,44 @@ def leeme_modulo(d, bom, verif) -> str:
          f"  plano de transporte z={f['tangente']:g} — rasante con la pestaña "
          "superior (labio de desvío)",
          f"  ejes omni z={om['z_eje']:g} · paso {d['parametros']['paso']:g} · "
-         f"correas y={co['ys']}",
-         f"  eje común ({co['eje_comun']['x']:g}, z={co['eje_comun']['z']:g}) · "
-         f"envolvente motriz {verif['lazo_correa']['envolvente_motriz']:g}°",
+         f"huecos de desvío y={dv['huecos_y']}",
+         f"  eje común ({dv['eje_comun']['x']:g}, z={dv['eje_comun']['z']:g}) · "
+         f"envolvente mínima de anillo "
+         f"{verif['anillos_desvio']['envolvente_min']:g}°",
          "",
          "VERIFICADO POR EL GENERADOR",
          f"  encaje en BF: margen {verif['encaje_bf']['margen_por_lado']:g} por lado",
-         f"  tangencias omnis/correas/pestaña: error máx "
+         f"  tangencias avance/desvío/pestaña: error máx "
          f"{verif['tangencia']['error_max']:g}",
-         f"  lazo: motriz {verif['lazo_correa']['envolvente_motriz']:g}° (gate "
-         f">=120; Movex 140±10) · contraflexión mínima "
-         f"Ø{verif['lazo_correa']['min_contraflexion']:g} (Habasit >=50)",
-         f"  caja 250x250: mínimo {verif['apoyo_caja_250']['min_ruedas']} ruedas / "
-         f"{verif['apoyo_caja_250']['min_hileras']} hileras / "
-         f"{verif['apoyo_caja_250']['min_correas']} correas bajo la caja",
+         f"  anillos del desvío: {verif['anillos_desvio']['n_anillos']} lazos, "
+         f"envolvente mínima {verif['anillos_desvio']['envolvente_min']:g}° "
+         "(gate >=120)",
+         f"  caja 250x250: mínimo {verif['apoyo_caja_250']['min_ruedas_avance']} "
+         f"ruedas de avance / {verif['apoyo_caja_250']['min_hileras']} hileras "
+         f"/ {verif['apoyo_caja_250']['min_ruedas_desvio']} ruedas de desvío "
+         f"en {verif['apoyo_caja_250']['min_huecos_desvio']} huecos",
          "  holguras críticas (mm): " + ", ".join(
              f"{k} {v:g}" for k, v in verif["holguras"]["mm"].items()),
          "",
-         "COMPROMISO DE TANGENTES FIJAS (sin pop-up)",
-         parrafo("Avanzando, las correas están paradas y la caja desliza "
-                 "sobre 3 franjas de 35: si el arrastre omni no puede con esa "
-                 "fricción, regenerar con --desnivel-correas 1 a 1.5 (lomo de "
-                 "correa bajo la tangente; exige caja rígida al desviar). "
-                 "Desviando, los barriles de las omnis ruedan libres: no "
-                 "pelean. La solución definitiva sería un pop-up como el "
-                 "transfer90 del repo — fuera del alcance pedido."),
+         "POR QUÉ OMNIS GIRADAS Y NO CORREAS",
+         parrafo("Corrección del usuario sobre la foto de referencia: lo que "
+                 "se ve como banda en el sentido cruzado son omnis giradas "
+                 "90°; las correas desde abajo son su transmisión. Ventaja "
+                 "mecánica: al avanzar no se arrastra ninguna superficie "
+                 "parada (los barriles del desvío ruedan libres) y no hace "
+                 "falta pop-up ni desnivel."),
          "",
-         "SECUENCIA DE MONTAJE (el orden importa: las correas son lazos SIN FIN)",
+         "SECUENCIA DE MONTAJE",
          "  1. Frame: canales + placas extremas + pantalla + mampara (sin apretar).",
-         "  2. Bloques soporte al alma con sus FR8ZZ; tapa aún NO.",
-         "  3. Eje común: enhebrar las 3 correas y el spool ANTES de montar las",
-         "     chumaceras — las poleas motrices Ø60 entran por el extremo del eje",
-         "     y se fijan con prisionero en su plano y.",
-         "  4. Casetes: cada casete se arma alrededor de su correa (placas +",
-         "     terminales + snub en colisa baja + cama) y se atornilla al alma A",
-         "     y a la pantalla. Tensar con la colisa del snub (take-up 1-2%).",
-         "  5. Ejes omni con sus ruedas y spool (prisionero), a los bloques.",
-         "  6. O-rings estirados 10-12% en sus gargantas; motores A y B con sus",
-         "     poleas; anillo motor-eje en su plano.",
+         "  2. Travesaños de desvío al alma A y a la pantalla (M5).",
+         "  3. Bloques de avance al alma con sus FR8ZZ; bloques de desvío (2x",
+         "     FR8ZZ cada uno) a los travesaños; tapa aún NO.",
+         "  4. Eje común con sus 3 spools de 2 gargantas y el spool del motor B",
+         "     (prisioneros), a las chumaceras UCFL204.",
+         "  5. Ejes cortos del desvío: rueda + polea 2G (prisionero) + collarines,",
+         "     en sus bloques. Ejes omni de avance con ruedas y spool, a los suyos.",
+         "  6. O-rings estirados 10-12% en sus gargantas (risers, cadenas, tren",
+         "     de avance); motores A y B con sus poleas; anillos de motor.",
          "  7. Tapa arriba (M4 a los bloques). Girar a mano ambos trenes antes",
          "     de conectar.",
          "",
@@ -1536,14 +1571,12 @@ def leeme_modulo(d, bom, verif) -> str:
     L += ["", "LO QUE ESTE DISEÑO NO RESUELVE AÚN",
           parrafo("Selección eléctrica de los UniDrive (par/velocidad según "
                   "carga real); par transmisible de los o-rings 3/16 con la "
-                  "carga real (el esquema lineshaft mueve un rodillo por "
-                  "anillo — aquí cada anillo arrastra un eje con 4-5 ruedas: "
-                  "validar deslizamiento o subir a 2 anillos por tramo); "
-                  "fijación del módulo al bastidor anfitrión (pestañas con "
-                  "agujeros a definir sobre el transportador real); y el "
-                  "desvío hacia el lado B pierde apoyo de correa en los "
-                  "últimos 100 mm (franja del tren): preferir desviar hacia "
-                  "el lado A."),
+                  "carga real (ambos trenes van en serie: avance 4 anillos, "
+                  "desvío riser+cadena — validar deslizamiento o duplicar "
+                  "anillos); fijación del módulo al bastidor anfitrión "
+                  "(pestañas con agujeros a definir sobre el transportador "
+                  "real); y el desvío hacia el lado B pierde apoyo en la "
+                  "franja del tren (x>324): preferir desviar hacia el lado A."),
           "",
           "Todas las cotas heredan la incertidumbre declarada de sus fuentes "
           "(ver DECISIONES.md y web_facts.json).", ""]
@@ -1561,12 +1594,13 @@ def catalogo_modulo_pdf(piezas, unicos, d, bom, verif, out: Path) -> Path:
     path = out / "catalogo_modulo.pdf"
     with PdfPages(path) as pp:
         fig = plt.figure(figsize=A4)
-        fig.text(0.08, 0.955, "Módulo transfer omni + correas — BF 21\"",
+        fig.text(0.08, 0.955, "Módulo transfer omni bidireccional — BF 21\"",
                  size=15, weight="bold")
         fig.text(0.08, 0.935, f"{d['frame']['ancho_total']:g} x "
                  f"{d['frame']['largo']:g} x {d['frame']['alto']:g} mm · "
-                 f"{d['omnis']['n_ruedas']} omnis Ø58 · {d['correas']['n']} "
-                 f"correas · 2 UniDrive · {d['generado'][:10]}", size=9)
+                 f"{d['omnis']['n_ruedas']} omnis Ø58 de avance · "
+                 f"{d['desvio']['n_ruedas']} giradas 90° en desvío · "
+                 f"2 UniDrive · {d['generado'][:10]}", size=9)
         try:
             img = mpimg.imread(out / "vista_iso.png")
             ax = fig.add_axes([0.08, 0.52, 0.84, 0.40])
@@ -1627,7 +1661,7 @@ def zip_modulo(out: Path, archivos, texto_leeme) -> Path:
     with zipfile.ZipFile(destino, "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("LEEME.txt", texto_leeme)
         for f in archivos:
-            if f.suffix != ".zip":
+            if f.suffix != ".zip" and f.name != "LEEME.txt":
                 z.write(f, f.name)
     return destino
 
@@ -1637,9 +1671,7 @@ def opciones(args):
     mapa = {"--bf": "bf", "--holgura-bf": "holgura_bf", "--alto": "alto",
             "--espesor": "espesor", "--pestana-sup": "pestana_sup",
             "--pestana-inf": "pestana_inf", "--resalte": "resalte",
-            "--desnivel-correas": "desnivel_correas",
-            "--hex": "hex", "--ejes": "ejes", "--paso": "paso",
-            "--banda": "banda"}
+            "--hex": "hex", "--ejes": "ejes", "--paso": "paso"}
     for flag, clave in mapa.items():
         val = opt(args, flag)
         if val is not None:
@@ -1677,7 +1709,8 @@ def main() -> None:
     f = d["frame"]
     print(f"Módulo transfer BF{p['bf']/IN:.0f}: {f['ancho_total']:g} x "
           f"{f['largo']:g} x {f['alto']:g} mm — {d['omnis']['n_ruedas']} omnis "
-          f"en {p['ejes']} ejes hex Ø{p['hex']:g} + {d['correas']['n']} correas")
+          f"en {p['ejes']} ejes hex Ø{p['hex']:g} + {d['desvio']['n_ruedas']} "
+          "giradas 90° en el desvío")
     for k, vv in verif.items():
         if isinstance(vv, dict) and "verdicto" in vv:
             print(f"  {k:22} {vv['verdicto']}")
@@ -1688,7 +1721,7 @@ def main() -> None:
           + (f"  ABIERTOS: {', '.join(abiertos)}" if abiertos else ""))
     for x in escritos + [pj]:
         print(f"  → {x.relative_to(proj)}")
-    audit(proj, "MODULO", "módulo transfer omni+correas (diseño capa user)",
+    audit(proj, "MODULO", "módulo transfer omni bidireccional (diseño capa user)",
           verif["verdicto_global"],
           metrics={"verificacion": {k: vv.get("verdicto") for k, vv in verif.items()
                                     if isinstance(vv, dict) and "verdicto" in vv},

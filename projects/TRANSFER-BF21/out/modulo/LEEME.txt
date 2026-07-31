@@ -1,48 +1,49 @@
-MÓDULO DE TRANSFERENCIA OMNI + CORREAS — BF 21"
-proyecto TRANSFER-BF21 · generado 2026-07-29T04:36:44Z · capa `user` (diseño)
+MÓDULO DE TRANSFERENCIA OMNI BIDIRECCIONAL — BF 21"
+proyecto TRANSFER-BF21 · generado 2026-07-31T00:40:09Z · capa `user` (diseño)
 
 QUÉ ES
   Módulo insertable entre bastidores de un transportador de rodillos BF 21
   pulg. AVANCE: 4 ejes hexagonales de 1/2 pulg con 18 ruedas omni Ø58
-  (proyecto RUEDA-OMNI-58) en tresbolillo. DESVÍO: 3 correas planas
-  transversales en los huecos entre ejes, movidas por un eje común inferior
-  Ø20 con tracción de cabeza baja (motriz Ø60 + snub Ø50 en colisa). Dos
-  motores UniDrive ONE: A para las omnis (spool + o-rings, esquema ZP2026),
-  B para el eje común.
+  (proyecto RUEDA-OMNI-58) en tresbolillo. DESVÍO: 12 ruedas omni IGUALES,
+  GIRADAS 90°, sobre ejes hex cortos en los huecos entre ejes (4 por hueco,
+  en las columnas del tresbolillo de la hilera superior), movidas desde el
+  eje común inferior Ø20 por o-rings (2 risers por hueco a un spool de 2
+  gargantas + 2 cadenas stub-a-stub). Dos motores UniDrive ONE: A para el
+  avance (spool + o-rings, esquema ZP2026), B para el eje común del desvío.
+  Ambos sentidos comparten la tangente: la familia parada rueda libre sobre
+  sus barriles.
 
 GEOMETRÍA CLAVE (mm)
   ancho total 527.4 (BF 533.4 − 2×3) · largo 586 · alto 165.1
   plano de transporte z=165.1 — rasante con la pestaña superior (labio de desvío)
-  ejes omni z=136.1 · paso 110 · correas y=[110.0, 220.0, 330.0]
-  eje común (160, z=58) · envolvente motriz 181.4°
+  ejes omni z=136.1 · paso 110 · huecos de desvío y=[110.0, 220.0, 330.0]
+  eje común (160, z=58) · envolvente mínima de anillo 175.7°
 
 VERIFICADO POR EL GENERADOR
   encaje en BF: margen 3 por lado
-  tangencias omnis/correas/pestaña: error máx 0.015
-  lazo: motriz 181.4° (gate >=120; Movex 140±10) · contraflexión mínima Ø50 (Habasit >=50)
-  caja 250x250: mínimo 4 ruedas / 2 hileras / 2 correas bajo la caja
-  holguras críticas (mm): anillo_oring_a_tapa 3.14, spool_a_pantalla 44, correa_a_pantalla 4.5, lazo_a_fondo 26.5, rueda_a_ranura_tapa 9.96, correa_a_ranura_tapa 4, casete_a_rueda_vecina 2.5, motorA_a_eje4 25.73, motorA_a_vuelo_ruedas_eje4 4.07, motorA_cuerpo_a_mampara 26, soporte_a_spool_eje4 20, tensor_bajo_vuelo_rueda 10.89, esparragoA_sobre_eje4_z 2.45, esparragoA_a_spool_eje4 5, spool_a_bloque_B 2.2, motorA_cuerpo_a_casete3 45.5, pantalla_a_motores 5.68, paso_eje_en_pantalla 1.67, eje_motorB_a_placa_B 10, motorB_a_eje_comun 19.77, motorB_cuerpo_a_cubo_ucfl 8.77, motorA_a_motorB_x 6.3, esparragoB_z_a_brida_ucfl 28.88
+  tangencias avance/desvío/pestaña: error máx 0.015
+  anillos del desvío: 12 lazos, envolvente mínima 175.7° (gate >=120)
+  caja 250x250: mínimo 4 ruedas de avance / 2 hileras / 3 ruedas de desvío en 2 huecos
+  holguras críticas (mm): anillo_oring_a_tapa 3.14, spool_a_pantalla 44, rueda_a_ranura_tapa 9.96, rueda_desvio_a_ranura_tapa 2.96, polea_desvio_a_corona_vecina 1.1, anillo_sup_a_corona_vecina 2.12, cadena_inf_a_rueda_desvio 1.08, bloque_desvio_a_eje_inferior 1.67, stub_a_eje_superior 22.77, stub_a_corona_superior 1.1, travesano_a_vuelo_ruedas 2.1, travesano_a_eje_inferior_z 23.77, polea_desvio_a_tapa 8.9, anillo_riser_a_tapa 7.14, rueda_desvio_a_pantalla 26, riser_bajo_cadena_coplanar 25.9, motorA_a_eje4 25.73, motorA_a_vuelo_ruedas_eje4 4.07, motorA_cuerpo_a_mampara 26, soporte_a_spool_eje4 20, esparragoA_sobre_eje4_z 2.45, esparragoA_a_spool_eje4 5, spool_a_bloque_B 2.2, motorA_a_stub_h3 44.1, pantalla_a_motores 5.68, paso_eje_en_pantalla 1.67, eje_motorB_a_placa_B 10, motorB_a_eje_comun 19.77, motorB_cuerpo_a_cubo_ucfl 8.77, motorA_a_motorB_x 6.3, esparragoB_z_a_brida_ucfl 28.88
 
-COMPROMISO DE TANGENTES FIJAS (sin pop-up)
-  Avanzando, las correas están paradas y la caja desliza sobre 3 franjas de
-  35: si el arrastre omni no puede con esa fricción, regenerar con
-  --desnivel-correas 1 a 1.5 (lomo de correa bajo la tangente; exige caja
-  rígida al desviar). Desviando, los barriles de las omnis ruedan libres: no
-  pelean. La solución definitiva sería un pop-up como el transfer90 del repo
-  — fuera del alcance pedido.
+POR QUÉ OMNIS GIRADAS Y NO CORREAS
+  Corrección del usuario sobre la foto de referencia: lo que se ve como
+  banda en el sentido cruzado son omnis giradas 90°; las correas desde abajo
+  son su transmisión. Ventaja mecánica: al avanzar no se arrastra ninguna
+  superficie parada (los barriles del desvío ruedan libres) y no hace falta
+  pop-up ni desnivel.
 
-SECUENCIA DE MONTAJE (el orden importa: las correas son lazos SIN FIN)
+SECUENCIA DE MONTAJE
   1. Frame: canales + placas extremas + pantalla + mampara (sin apretar).
-  2. Bloques soporte al alma con sus FR8ZZ; tapa aún NO.
-  3. Eje común: enhebrar las 3 correas y el spool ANTES de montar las
-     chumaceras — las poleas motrices Ø60 entran por el extremo del eje
-     y se fijan con prisionero en su plano y.
-  4. Casetes: cada casete se arma alrededor de su correa (placas +
-     terminales + snub en colisa baja + cama) y se atornilla al alma A
-     y a la pantalla. Tensar con la colisa del snub (take-up 1-2%).
-  5. Ejes omni con sus ruedas y spool (prisionero), a los bloques.
-  6. O-rings estirados 10-12% en sus gargantas; motores A y B con sus
-     poleas; anillo motor-eje en su plano.
+  2. Travesaños de desvío al alma A y a la pantalla (M5).
+  3. Bloques de avance al alma con sus FR8ZZ; bloques de desvío (2x
+     FR8ZZ cada uno) a los travesaños; tapa aún NO.
+  4. Eje común con sus 3 spools de 2 gargantas y el spool del motor B
+     (prisioneros), a las chumaceras UCFL204.
+  5. Ejes cortos del desvío: rueda + polea 2G (prisionero) + collarines,
+     en sus bloques. Ejes omni de avance con ruedas y spool, a los suyos.
+  6. O-rings estirados 10-12% en sus gargantas (risers, cadenas, tren
+     de avance); motores A y B con sus poleas; anillos de motor.
   7. Tapa arriba (M4 a los bloques). Girar a mano ambos trenes antes
      de conectar.
 
@@ -50,40 +51,36 @@ LISTA DE MATERIALES
    2 x canal_lateral            [fabricar] chapa plegada 3 mm; taladrar según su DXF (A y B difieren)
    2 x placa_extremo            [fabricar] chapa 3 mm; la A lleva el paso del eje común
    1 x mampara_motores          [fabricar] chapa 3 mm: patrón UniDrive B + paso eje común
-   1 x pantalla_tren            [fabricar] chapa 3 mm: separa correas del tren de o-rings
+   1 x pantalla_tren            [fabricar] chapa 3 mm: separa el desvío del tren de o-rings
    1 x soporte_motor_A          [fabricar] chapa 3 mm con patrón UniDrive; pestañas al alma B y a la mampara (plegado en obra)
    8 x soporte_eje              [fabricar] bloque 20 mm, alojamiento FR8ZZ-HexHD Ø28.6
    1 x tapa_superior            [fabricar] chapa 3 mm ranurada, 2.1 bajo la tangente, atornillada a los soportes de eje
-   6 x placa_casete             [fabricar] chapa 3 mm: terminales, colisas take-up y paso del eje común
-   3 x cama_deslizante          [fabricar] apoyo del ramal superior (REVISION_ING. §8)
+   3 x travesano_desvio         [fabricar] chapa 3 mm plegada bajo cada hueco: pestañas al alma A y a la pantalla (M5); los bloques del desvío atornillan a su cara
+  12 x soporte_desvio           [fabricar] bloque 30 con DOS FR8ZZ-HexHD en línea (voladizo de rueda+polea), 2x M5 al travesaño
    4 x eje_hexagonal            [fabricar] hex 12.7 x 441.2 mm
+  12 x eje_desvio_hex           [fabricar] hex 12.7 x 70.9 mm; collarín en el lado del bloque, el prisionero de la polea retiene el otro
+  12 x polea_desvio_2g          [fabricar] Ø30 dos gargantas (±3), barreno hex: recibe riser o cadena
+   3 x spool_desvio_2g          [fabricar] Ø36 dos gargantas (±3) bore 20.2 + prisionero, en el eje común
    4 x spool_eje_omni           [fabricar] Ø36 dos gargantas (±16.87, esquema ZP2026), barreno hex + prisionero
    1 x spool_eje_comun          [fabricar] Ø36 una garganta útil, bore 20.2 + prisionero
-   6 x polea_terminal_60        [fabricar] Ø60x39 bore 12.2, crown 0.3, sobre buje de bronce (catálogo: 'loca sobre buje')
-   3 x snub_50                  [fabricar] Ø50x39 (mínimo Habasit contraflexión) en colisa take-up
-   3 x polea_motriz_60          [fabricar] Ø60x39 bore 20.2 + prisionero, en el eje común
    2 x polea_motor_2g           [fabricar] Ø44, garganta a plano de anillo, bore D 12.7
-   9 x eje_polea_12             [fabricar] Ø12 h9 al ras de placas (ajuste 12.2 H11; retención: M5 axial + arandela por fuera)
    1 x eje_comun_20             [fabricar] Ø20 h6 x 567; chumaceras UCFL204
    2 x motor_unidrive           [comprar] UniDrive ONE (S-UD23062200R01)
    2 x chumacera_ucfl204        [comprar] UCFL204 bore Ø20
-   8 x rodamiento_fr8zz_hex     [comprar] FR8ZZ-HexHD 1/2 pulg hex (web_facts wf01-wf05)
-  18 x rueda_omni_58            [proyecto RUEDA-OMNI-58] Ø58, barreno hex 12.85, sándwich de placas
-   3 x correa_plana             [comprar] banda 35x3 poliéster/NBR, lazo cerrado de 709.5 mm
-   5 x oring_pu_316             [comprar] PU 3/16 pulg 83A; lazos instalados ~320 (eje-eje) — pedir al 88-90% del instalado (estirado 10-12%, wf06-08)
-   6 x tensor_snub_M6           [comprar] tornillo M6x30 + contratuerca por puente
-   9 x buje_bronce_12           [comprar] Ø12/Ø14x39 para poleas locas (catálogo: 'loca sobre buje')
-   8 x collarin_hex_12.7        [comprar] retención axial de cada eje hex contra el FR8ZZ
+  32 x rodamiento_fr8zz_hex     [comprar] FR8ZZ-HexHD 1/2 pulg hex (web_facts wf01-wf05): 2 por eje de avance y 2 por bloque de desvío
+  30 x rueda_omni_58            [proyecto RUEDA-OMNI-58] Ø58, barreno hex 12.85, sándwich de placas (18 avance + 12 desvío)
+  17 x oring_pu_316             [comprar] PU 3/16 pulg 83A; lazos instalados del desvío ~[238, 258, 263, 285, 298] mm (ver desvio.lazos_mm) — pedir al 88-90% del instalado (estirado 10-12%, wf06-08)
+  20 x collarin_hex_12.7        [comprar] retención axial contra el FR8ZZ (2 por eje de avance, 1 por stub de desvío: la polea retiene el otro extremo)
    1 x separador_tubo_18x13.5   [comprar] barra de 2 m: cortar a medida entre ruedas (retención axial)
-   1 x tornillería M5/M4 avellanada [comprar] bloques y tapa al alma; casetes a alma A y pantalla
+   1 x tornillería M5/M4 avellanada [comprar] bloques y tapa al alma; travesaños a alma A y pantalla; bloques de desvío al travesaño
 
 LO QUE ESTE DISEÑO NO RESUELVE AÚN
   Selección eléctrica de los UniDrive (par/velocidad según carga real); par
-  transmisible de los o-rings 3/16 con la carga real (el esquema lineshaft
-  mueve un rodillo por anillo — aquí cada anillo arrastra un eje con 4-5
-  ruedas: validar deslizamiento o subir a 2 anillos por tramo); fijación del
-  módulo al bastidor anfitrión (pestañas con agujeros a definir sobre el
-  transportador real); y el desvío hacia el lado B pierde apoyo de correa en
-  los últimos 100 mm (franja del tren): preferir desviar hacia el lado A.
+  transmisible de los o-rings 3/16 con la carga real (ambos trenes van en
+  serie: avance 4 anillos, desvío riser+cadena — validar deslizamiento o
+  duplicar anillos); fijación del módulo al bastidor anfitrión (pestañas con
+  agujeros a definir sobre el transportador real); y el desvío hacia el lado
+  B pierde apoyo en la franja del tren (x>324): preferir desviar hacia el
+  lado A.
 
 Todas las cotas heredan la incertidumbre declarada de sus fuentes (ver DECISIONES.md y web_facts.json).
