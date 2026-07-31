@@ -1,7 +1,7 @@
 {
   "formato": "foto3d-modulo-transfer",
   "version": 1,
-  "generado": "2026-07-31T00:40:09+00:00",
+  "generado": "2026-07-31T01:43:19+00:00",
   "capa": "user",
   "parametros": {
     "bf": 533.4,
@@ -18,15 +18,12 @@
   "frame": {
     "ancho_total": 527.4,
     "luz": 445.2,
-    "largo": 586.0,
+    "largo": 440.0,
     "alto": 165.1,
     "espesor": 3.0,
     "pestana_sup": 35.559999999999995,
     "pestana_inf": 38.099999999999994,
     "tangente": 165.1,
-    "pantalla_x": 350.0,
-    "mampara_y": 546.0,
-    "bahia_motores": 146.0,
     "desarrollo_canal": {
       "contorno": [
         [
@@ -34,11 +31,11 @@
           0
         ],
         [
-          586.0,
+          440.0,
           0
         ],
         [
-          586.0,
+          440.0,
           228.3316802635079
         ],
         [
@@ -53,7 +50,7 @@
             35.49292006587697
           ],
           [
-            586.0,
+            440.0,
             35.49292006587697
           ]
         ],
@@ -63,7 +60,7 @@
             195.37876019763092
           ],
           [
-            586.0,
+            440.0,
             195.37876019763092
           ]
         ]
@@ -147,6 +144,26 @@
         [
           400.0,
           178.88584013175395,
+          5.5
+        ],
+        [
+          270.0,
+          44.88584013175395,
+          5.5
+        ],
+        [
+          410.0,
+          44.88584013175395,
+          5.5
+        ],
+        [
+          19.0,
+          44.88584013175395,
+          5.5
+        ],
+        [
+          145.0,
+          44.88584013175395,
           5.5
         ],
         [
@@ -192,11 +209,11 @@
           0
         ],
         [
-          586.0,
+          440.0,
           0
         ],
         [
-          586.0,
+          440.0,
           228.3316802635079
         ],
         [
@@ -211,7 +228,7 @@
             35.49292006587697
           ],
           [
-            586.0,
+            440.0,
             35.49292006587697
           ]
         ],
@@ -221,7 +238,7 @@
             195.37876019763092
           ],
           [
-            586.0,
+            440.0,
             195.37876019763092
           ]
         ]
@@ -308,23 +325,53 @@
           5.5
         ],
         [
-          388.0,
-          48.88584013175395,
+          270.0,
+          44.88584013175395,
           5.5
         ],
         [
-          388.0,
-          176.88584013175395,
+          410.0,
+          44.88584013175395,
           5.5
         ],
         [
-          532.0,
-          48.88584013175395,
+          19.0,
+          44.88584013175395,
           5.5
         ],
         [
-          532.0,
-          176.88584013175395,
+          145.0,
+          44.88584013175395,
+          5.5
+        ],
+        [
+          67.0,
+          124.38584013175395,
+          5.5
+        ],
+        [
+          80.0,
+          124.38584013175395,
+          5.5
+        ],
+        [
+          177.0,
+          124.38584013175395,
+          5.5
+        ],
+        [
+          190.0,
+          124.38584013175395,
+          5.5
+        ],
+        [
+          287.0,
+          124.38584013175395,
+          5.5
+        ],
+        [
+          300.0,
+          124.38584013175395,
           5.5
         ]
       ],
@@ -379,6 +426,10 @@
         55.0
       ],
       [
+        406,
+        55.0
+      ],
+      [
         73,
         165.0
       ],
@@ -392,6 +443,10 @@
       ],
       [
         295,
+        165.0
+      ],
+      [
+        369,
         165.0
       ],
       [
@@ -415,6 +470,10 @@
         275.0
       ],
       [
+        406,
+        275.0
+      ],
+      [
         73,
         385.0
       ],
@@ -429,9 +488,13 @@
       [
         295,
         385.0
+      ],
+      [
+        369,
+        385.0
       ]
     ],
-    "n_ruedas": 18,
+    "n_ruedas": 22,
     "rodamiento": {
       "od": 28.575,
       "brida_od": 31.12,
@@ -440,7 +503,7 @@
     }
   },
   "desvio": {
-    "n_ruedas": 12,
+    "n_ruedas": 14,
     "huecos_y": [
       110.0,
       220.0,
@@ -453,7 +516,8 @@
           73,
           147,
           221,
-          295
+          295,
+          369
         ],
         "spool_y": 128.5,
         "risers": [
@@ -473,6 +537,11 @@
             125.5
           ],
           [
+            295,
+            369,
+            131.5
+          ],
+          [
             147,
             73,
             131.5
@@ -482,10 +551,10 @@
       {
         "y": 220.0,
         "stubs_x": [
-          36,
           110,
           184,
-          258
+          258,
+          332
         ],
         "spool_y": 238.5,
         "risers": [
@@ -505,8 +574,8 @@
             235.5
           ],
           [
-            110,
-            36,
+            258,
+            332,
             241.5
           ]
         ]
@@ -517,7 +586,8 @@
           73,
           147,
           221,
-          295
+          295,
+          369
         ],
         "spool_y": 348.5,
         "risers": [
@@ -535,6 +605,11 @@
             221,
             295,
             345.5
+          ],
+          [
+            295,
+            369,
+            351.5
           ],
           [
             147,
@@ -562,8 +637,8 @@
         110.0
       ],
       [
-        36,
-        220.0
+        369,
+        110.0
       ],
       [
         110,
@@ -575,6 +650,10 @@
       ],
       [
         258,
+        220.0
+      ],
+      [
+        332,
         220.0
       ],
       [
@@ -591,6 +670,10 @@
       ],
       [
         295,
+        330.0
+      ],
+      [
+        369,
         330.0
       ]
     ],
@@ -619,7 +702,7 @@
       ],
       "x": [
         3.0,
-        350.0
+        442.2
       ],
       "y_rel": [
         -49.0,
@@ -647,9 +730,8 @@
       "dia": 20.0,
       "y": [
         4.0,
-        571.0
-      ],
-      "y_spool": 559.0
+        433.0
+      ]
     },
     "rodamiento": {
       "od": 28.575,
@@ -658,58 +740,111 @@
       "brida_esp": 1.57
     },
     "lazos_mm": {
+      "link_e1_e2": 329.2,
+      "link_e2_e3": 329.2,
+      "link_e3_e4": 329.2,
+      "motor_A": 567.2,
+      "motor_B": 404.9,
       "h1_riser_a": 298.0,
       "h1_riser_b": 258.2,
-      "h1_cadena_a": 238.3,
-      "h1_cadena_b": 238.3,
+      "h1_cadena_1": 238.3,
+      "h1_cadena_2": 238.3,
+      "h1_cadena_3": 238.3,
       "h2_riser_a": 263.3,
       "h2_riser_b": 285.3,
-      "h2_cadena_a": 238.3,
-      "h2_cadena_b": 238.3,
+      "h2_cadena_1": 238.3,
+      "h2_cadena_2": 238.3,
       "h3_riser_a": 298.0,
       "h3_riser_b": 258.2,
-      "h3_cadena_a": 238.3,
-      "h3_cadena_b": 238.3
+      "h3_cadena_1": 238.3,
+      "h3_cadena_2": 238.3,
+      "h3_cadena_3": 238.3
     }
   },
-  "tren_omni": {
-    "x_spool": 414.0,
-    "planos_gargantas": [
-      397.13,
-      430.87
-    ],
-    "spool": {
-      "dia": 36.0,
-      "raiz": 32.0,
-      "ancho": 34.0,
-      "gargantas": [
-        -12.0,
-        12.0
-      ]
+  "tren_avance": {
+    "planos": {
+      "wA": 18.0,
+      "wB": 427.0,
+      "motor": 100.0
     },
-    "motor": {
-      "eje_yz": [
-        458.0,
-        80.0
+    "collar": {
+      "dia": 36.0,
+      "raiz": 30.0,
+      "ancho": 9.0
+    },
+    "links": [
+      [
+        0,
+        1,
+        18.0
       ],
-      "cara_x": 374.0,
+      [
+        1,
+        2,
+        427.0
+      ],
+      [
+        2,
+        3,
+        18.0
+      ]
+    ],
+    "motor": {
+      "y": 340.0,
+      "z": -82.0,
+      "cara_x": 110.0,
       "polea_dia": 44.0,
-      "plano_anillo": 397.13,
+      "polea_centro": 96.0,
+      "plano_anillo": 100.0,
       "conduce": "eje4"
     },
     "oring": 4.76
   },
   "tren_desvio": {
     "motor": {
-      "eje_xz": [
-        246.0,
-        80.0
-      ],
-      "cara_y": 480.3,
+      "x": 160.0,
+      "z": -82.0,
+      "cara_y": 80.0,
       "polea_dia": 44.0,
-      "plano_anillo": 559.0
+      "polea_centro": 66.0,
+      "plano_anillo": 70.0
     },
     "spool_dia": 36.0
+  },
+  "bancadas": {
+    "z": [
+      -3.0,
+      0.0
+    ],
+    "tab_alto": 25.0,
+    "A": {
+      "y": [
+        255.0,
+        425.0
+      ],
+      "slot": [
+        93.0,
+        107.0,
+        328.0,
+        384.0
+      ]
+    },
+    "B": {
+      "y": [
+        4.0,
+        160.0
+      ],
+      "slot": [
+        135.0,
+        185.0,
+        64.0,
+        76.0
+      ]
+    }
+  },
+  "placa_motor": {
+    "x_span": 20.0,
+    "z0": -160.0
   },
   "soportes": {
     "bloque": [
@@ -726,30 +861,30 @@
       163.0
     ],
     "ranura_rueda": [
-      30.0,
-      44.0
+      32.0,
+      46.0
     ],
     "ranura_desvio": [
-      44.0,
-      30.0
+      46.0,
+      32.0
     ]
   },
   "justificacion": {
     "ancho": "BF 533.4 - 2x3 de holgura = 527.4; pestañas 38.1 afuera => luz entre almas 445.2",
     "tangente": "rasante con la cara superior de la pestaña (lectura fijada en DECISIONES.md); labio de transición del desvío",
     "paso_ejes": "paso 110 => hueco entre coronas Ø58 = 52: caben la rueda girada (24.1), su polea (12.8) y el bloque soporte (30) entre los ejes vecinos",
-    "ruedas": "tresbolillo a paso 74 con desfase 37: una caja de 250 apoya siempre en >=2 hileras y >=4 ruedas de avance",
+    "ruedas": "tresbolillo a paso 74 con desfase 37 EXTENDIDO hasta ambas almas (v3: la caja no debe pisar planta sin omnis): una caja de 250 apoya siempre en >=2 hileras y >=4 ruedas de avance",
     "desvio_omnis": "lo que la foto de referencia muestra en el sentido cruzado son omnis giradas 90° (corrección del usuario): misma RUEDA-OMNI-58 sobre ejes hex cortos en Y, tangentes al MISMO plano de transporte — las omnis no necesitan pop-up porque sus barriles ruedan libres en el sentido pasivo",
     "stubs_en_columnas": "los ejes cortos van en las columnas del tresbolillo de la hilera SUPERIOR del hueco: el bloque (40 de ancho) cae centrado en la ventana libre de 50 entre coronas de la hilera inferior, y hueco a hueco las ruedas de desvío quedan alternadas 37 en x",
     "transmision_desvio": "por hueco: spool de 2 gargantas en el eje común (planos a hueco+15.5/+21.5, la banda libre entre la rueda girada y la corona vecina) lanza 2 risers de o-ring a los DOS stubs adyacentes a x=160 — a un stub lejano el ramal cruzaría el disco de la polea intermedia — y 2 cadenas stub-a-stub salen hacia afuera con gargantas alternadas para que los lazos coplanares no compartan rango de x (holgura medida)",
     "take_up": "los o-rings tensan por estiramiento 10-12% (web_facts wf07-wf08): sin colisas ni tensores",
-    "tren_omni": "esquema ZP2026: UniDrive + spools con gargantas a ±16.87 del centro (paso medido en el GLB del catálogo) y anillos encadenados eje a eje en planos alternados",
-    "spools": "Ø36 macizos (no el speed-up spool Ø68 del catálogo): con el eje a z=136.1 el anillo debe pasar bajo la tapa (z=160); con Ø68 la cruzaría",
+    "tren_avance": "v3: anillos eje-a-eje DENTRO del campo, en planos junto a las almas (x=18 y x=427, alternando) que caen en la ventana de 13 entre columnas; collares estrechos Ø36x9 de una garganta en vez del spool ancho ZP2026 (un spool de 34 pisaría las coronas vecinas). Los anillos cruzan los huecos a z>=116: sobre los travesaños (105) y lejos de las coronas giradas (los stubs que pisarían esos planos se filtran del desvío)",
+    "collares": "Ø36 raíz 30: el anillo pasa bajo la tapa (z=160) con 4 de aire y sobre el travesaño con 11",
     "soportes": "bloques al alma con rodamiento FR8ZZ de barreno hexagonal 1/2 pulg (OD 28.575, brida 31.12 - web_facts): el eje hex gira directo, sin adaptadores",
-    "bahia_motores": "los UniDrive (cuerpo Ø118x62.7, ficha S-UD23062200R01) no caben en la zona de rodadura: bahía de 146 en la cola; la caja de 250 la puentea (última hilera -> primer rodillo vecino)",
-    "motor_a": "sobre soporte plegado en la bahía, cuerpo hacia -X y eje hacia +X: su anillo baja del spool del último eje omni en el plano de garganta x=406.9",
-    "motor_b": "sobre la mampara, eje en Y: anillo al spool del eje común por detrás de la mampara (plano y=463)",
-    "desvio_lado": "las ruedas giradas cubren x 36..295 (coronas 7..324): desvío preferente hacia el alma A (la caja sale sobre la pestaña rasante); hacia B la caja puentea la franja del tren de o-rings"
+    "motores_debajo": "v3 (\"compacta hacia abajo\"): los UniDrive (Ø118x62.7) cuelgan BAJO el fondo del canal en placas verticales con el patrón 152.7x139.7, atornilladas a bancadas de chapa que cruzan entre almas — la planta completa queda cubierta por omnis y el módulo se compacta a L=440",
+    "motor_a": "bajo el eje 4 (y=340, z=-75), eje hacia -X: su anillo sube por el plano x=126.5 (ventana entre columnas 110/147 del eje 4) hasta un collar propio; el patrón cabe en y 264..416 < largo del módulo",
+    "motor_b": "bajo el eje común (x=160, z=-75), eje hacia -Y: anillo vertical en el plano y=49 al spool del eje común (tras el cubo de la chumacera A, que llega a y=34)",
+    "desvio_lado": "las ruedas giradas cubren coronas x 7..398: desvío preferente hacia el alma A; junto a las almas quedan solo los planos de anillo del tren (franjas de ~25)"
   },
   "verificacion": {
     "encaje_bf": {
@@ -765,10 +900,50 @@
       "error_max": 0.015,
       "verdicto": "PASA"
     },
-    "anillos_desvio": {
-      "n_anillos": 12,
+    "anillos": {
+      "n_anillos": 19,
       "envolvente_min": 175.7,
       "anillos": [
+        {
+          "anillo": "link_e1_e2",
+          "envolventes": [
+            180.0,
+            180.0
+          ],
+          "largo_mm": 329.2
+        },
+        {
+          "anillo": "link_e2_e3",
+          "envolventes": [
+            180.0,
+            180.0
+          ],
+          "largo_mm": 329.2
+        },
+        {
+          "anillo": "link_e3_e4",
+          "envolventes": [
+            180.0,
+            180.0
+          ],
+          "largo_mm": 329.2
+        },
+        {
+          "anillo": "motor_A",
+          "envolventes": [
+            182.1,
+            177.9
+          ],
+          "largo_mm": 567.2
+        },
+        {
+          "anillo": "motor_B",
+          "envolventes": [
+            182.5,
+            177.5
+          ],
+          "largo_mm": 404.9
+        },
         {
           "anillo": "h1_riser_a",
           "envolventes": [
@@ -786,7 +961,7 @@
           "largo_mm": 258.2
         },
         {
-          "anillo": "h1_cadena_a",
+          "anillo": "h1_cadena_1",
           "envolventes": [
             180.0,
             180.0
@@ -794,7 +969,15 @@
           "largo_mm": 238.3
         },
         {
-          "anillo": "h1_cadena_b",
+          "anillo": "h1_cadena_2",
+          "envolventes": [
+            180.0,
+            180.0
+          ],
+          "largo_mm": 238.3
+        },
+        {
+          "anillo": "h1_cadena_3",
           "envolventes": [
             180.0,
             180.0
@@ -818,7 +1001,7 @@
           "largo_mm": 285.3
         },
         {
-          "anillo": "h2_cadena_a",
+          "anillo": "h2_cadena_1",
           "envolventes": [
             180.0,
             180.0
@@ -826,7 +1009,7 @@
           "largo_mm": 238.3
         },
         {
-          "anillo": "h2_cadena_b",
+          "anillo": "h2_cadena_2",
           "envolventes": [
             180.0,
             180.0
@@ -850,7 +1033,7 @@
           "largo_mm": 258.2
         },
         {
-          "anillo": "h3_cadena_a",
+          "anillo": "h3_cadena_1",
           "envolventes": [
             180.0,
             180.0
@@ -858,7 +1041,15 @@
           "largo_mm": 238.3
         },
         {
-          "anillo": "h3_cadena_b",
+          "anillo": "h3_cadena_2",
+          "envolventes": [
+            180.0,
+            180.0
+          ],
+          "largo_mm": 238.3
+        },
+        {
+          "anillo": "h3_cadena_3",
           "envolventes": [
             180.0,
             180.0
@@ -870,18 +1061,24 @@
       "regla": "envolvente >=120 en toda polea (gate NBT90; lazos de 2 poleas ~180); tensado por estiramiento 10-12% (wf07-08)"
     },
     "apoyo_caja_250": {
-      "min_ruedas_avance": 4,
+      "min_ruedas_avance": 6,
       "min_hileras": 2,
-      "min_ruedas_desvio": 3,
+      "min_ruedas_desvio": 5,
       "min_huecos_desvio": 2,
       "verdicto": "PASA"
     },
     "holguras": {
       "mm": {
-        "anillo_oring_a_tapa": 3.14,
-        "spool_a_pantalla": 44.0,
-        "rueda_a_ranura_tapa": 9.96,
-        "rueda_desvio_a_ranura_tapa": 2.96,
+        "anillo_avance_a_tapa": 4.14,
+        "anillo_avance_a_travesano": 11.34,
+        "collar_wA_a_rueda_vecina": 1.46,
+        "collar_wA_a_soporte_pared": 1.5,
+        "collar_wB_a_rueda_vecina": 4.46,
+        "collar_wB_a_soporte_pared": 1.7,
+        "collar_motorA_a_rueda": 10.46,
+        "anillo_avance_a_corona_girada": 23.62,
+        "rueda_a_ranura_tapa": 3.96,
+        "rueda_desvio_a_ranura_tapa": 3.96,
         "polea_desvio_a_corona_vecina": 1.1,
         "anillo_sup_a_corona_vecina": 2.12,
         "cadena_inf_a_rueda_desvio": 1.08,
@@ -892,28 +1089,25 @@
         "travesano_a_eje_inferior_z": 23.77,
         "polea_desvio_a_tapa": 8.9,
         "anillo_riser_a_tapa": 7.14,
-        "rueda_desvio_a_pantalla": 26.0,
         "riser_bajo_cadena_coplanar": 25.9,
-        "motorA_a_eje4": 25.73,
-        "motorA_a_vuelo_ruedas_eje4": 4.07,
-        "motorA_cuerpo_a_mampara": 26.0,
-        "soporte_a_spool_eje4": 20.0,
-        "esparragoA_sobre_eje4_z": 2.45,
-        "esparragoA_a_spool_eje4": 5.0,
-        "spool_a_bloque_B": 2.2,
-        "motorA_a_stub_h3": 44.1,
-        "pantalla_a_motores": 5.68,
-        "paso_eje_en_pantalla": 1.67,
-        "eje_motorB_a_placa_B": 10.0,
-        "motorB_a_eje_comun": 19.77,
-        "motorB_cuerpo_a_cubo_ucfl": 8.77,
-        "motorA_a_motorB_x": 6.3,
-        "esparragoB_z_a_brida_ucfl": 28.88
+        "cadenas_coplanares_gap_x": 99.0,
+        "anillo_motorA_bajo_cadenas_h3": 31.5,
+        "motorA_cuerpo_bajo_fondo": 23.0,
+        "motorB_cuerpo_bajo_fondo": 23.0,
+        "motorA_a_motorB_y": 138.3,
+        "polea_motorA_a_placa": 1.0,
+        "polea_motorB_a_placa": 1.0,
+        "patron_A_dentro_del_largo": 19.68,
+        "spool_comun_a_cubo_ucfl_A": 6.0,
+        "anillo_motorA_a_ucfl_B_x": 14.62,
+        "anillo_motorB_a_trav_h1_y": 3.62,
+        "anillo_motorA_a_polea_desvio": 9.62,
+        "anillo_motorA_a_bloque_h3": 2.24
       },
       "verdicto": "PASA"
     },
     "interferencias_aabb": {
-      "parejas_nominales_en_contacto": 203,
+      "parejas_nominales_en_contacto": 229,
       "parejas_sospechosas": [],
       "verdicto": "PASA"
     },
@@ -928,31 +1122,35 @@
       "desvio_resistencia_rodadura_N": 17.7,
       "ventaja_omnis_cruzadas": "al avanzar, los barriles de las ruedas de desvío ruedan libres (y viceversa): no hay arrastre de superficie parada",
       "anillos_en_serie_avance": 4,
-      "anillos_en_serie_desvio": 2,
-      "advertencia": "ambos trenes van EN SERIE por o-rings (avance: motor->e4->e3->e2->e1; desvío: eje común->riser->stub->cadena->stub): validar deslizamiento con la carga real o duplicar anillos por tramo"
+      "anillos_en_serie_desvio": 3,
+      "advertencia": "ambos trenes van EN SERIE por o-rings (avance: motor->e4->e3->e2->e1; desvío: eje común->riser->stub->cadenas): validar deslizamiento con la carga real o duplicar anillos por tramo"
     },
     "verdicto_global": "PASA"
   },
   "estanqueidad_stl": {
     "canal_lateral": {
       "estanco": true,
-      "volumen_mm3": 418173.2
+      "volumen_mm3": 313311.4
     },
     "placa_extremo": {
       "estanco": true,
       "volumen_mm3": 193406.0
     },
-    "mampara_motores": {
+    "bancada_motor_A": {
       "estanco": true,
-      "volumen_mm3": 196679.1
+      "volumen_mm3": 247228.0
     },
-    "pantalla_tren": {
+    "bancada_motor_B": {
       "estanco": true,
-      "volumen_mm3": 94865.5
+      "volumen_mm3": 227177.6
     },
-    "soporte_motor_A": {
+    "placa_motor_A": {
       "estanco": true,
-      "volumen_mm3": 72779.5
+      "volumen_mm3": 93281.5
+    },
+    "placa_motor_B": {
+      "estanco": true,
+      "volumen_mm3": 93281.5
     },
     "soporte_eje": {
       "estanco": true,
@@ -960,11 +1158,11 @@
     },
     "tapa_superior": {
       "estanco": true,
-      "volumen_mm3": 533521.7
+      "volumen_mm3": 432199.0
     },
     "travesano_desvio": {
       "estanco": true,
-      "volumen_mm3": 31914.0
+      "volumen_mm3": 39382.2
     },
     "soporte_desvio": {
       "estanco": true,
@@ -986,9 +1184,9 @@
       "estanco": true,
       "volumen_mm3": 7036.9
     },
-    "spool_eje_omni": {
+    "collar_anillo": {
       "estanco": true,
-      "volumen_mm3": 26235.6
+      "volumen_mm3": 6142.0
     },
     "spool_eje_comun": {
       "estanco": true,
@@ -1000,7 +1198,7 @@
     },
     "eje_comun_20": {
       "estanco": true,
-      "volumen_mm3": 176986.0
+      "volumen_mm3": 133910.0
     }
   },
   "lista_de_materiales": [
@@ -1014,25 +1212,31 @@
       "pieza": "placa_extremo",
       "cant": 2,
       "origen": "fabricar",
-      "nota": "chapa 3 mm; la A lleva el paso del eje común"
+      "nota": "chapa 3 mm; la A lleva el paso del eje común, la B recibe la chumacera interior"
     },
     {
-      "pieza": "mampara_motores",
+      "pieza": "bancada_motor_A",
       "cant": 1,
       "origen": "fabricar",
-      "nota": "chapa 3 mm: patrón UniDrive B + paso eje común"
+      "nota": "chapa 3 al ras del fondo con pestañas a ambas almas y ranura del anillo del motor A"
     },
     {
-      "pieza": "pantalla_tren",
+      "pieza": "bancada_motor_B",
       "cant": 1,
       "origen": "fabricar",
-      "nota": "chapa 3 mm: separa el desvío del tren de o-rings"
+      "nota": "chapa 3 al ras del fondo con pestañas a ambas almas y ranura del anillo del motor B"
     },
     {
-      "pieza": "soporte_motor_A",
+      "pieza": "placa_motor_A",
       "cant": 1,
       "origen": "fabricar",
-      "nota": "chapa 3 mm con patrón UniDrive; pestañas al alma B y a la mampara (plegado en obra)"
+      "nota": "chapa 3 colgada: patrón UniDrive 152.7x139.7 + boss Ø41.5; pestaña M6 bajo la bancada A"
+    },
+    {
+      "pieza": "placa_motor_B",
+      "cant": 1,
+      "origen": "fabricar",
+      "nota": "chapa 3 colgada: patrón UniDrive 152.7x139.7 + boss Ø41.5; pestaña M6 bajo la bancada B"
     },
     {
       "pieza": "soporte_eje",
@@ -1050,11 +1254,11 @@
       "pieza": "travesano_desvio",
       "cant": 3,
       "origen": "fabricar",
-      "nota": "chapa 3 mm plegada bajo cada hueco: pestañas al alma A y a la pantalla (M5); los bloques del desvío atornillan a su cara"
+      "nota": "chapa 3 mm plegada bajo cada hueco: pestañas a ambas almas (M5); los bloques del desvío atornillan a su cara"
     },
     {
       "pieza": "soporte_desvio",
-      "cant": 12,
+      "cant": 14,
       "origen": "fabricar",
       "nota": "bloque 30 con DOS FR8ZZ-HexHD en línea (voladizo de rueda+polea), 2x M5 al travesaño"
     },
@@ -1066,13 +1270,13 @@
     },
     {
       "pieza": "eje_desvio_hex",
-      "cant": 12,
+      "cant": 14,
       "origen": "fabricar",
       "nota": "hex 12.7 x 70.9 mm; collarín en el lado del bloque, el prisionero de la polea retiene el otro"
     },
     {
       "pieza": "polea_desvio_2g",
-      "cant": 12,
+      "cant": 14,
       "origen": "fabricar",
       "nota": "Ø30 dos gargantas (±3), barreno hex: recibe riser o cadena"
     },
@@ -1083,10 +1287,10 @@
       "nota": "Ø36 dos gargantas (±3) bore 20.2 + prisionero, en el eje común"
     },
     {
-      "pieza": "spool_eje_omni",
-      "cant": 4,
+      "pieza": "collar_anillo",
+      "cant": 7,
       "origen": "fabricar",
-      "nota": "Ø36 dos gargantas (±16.87, esquema ZP2026), barreno hex + prisionero"
+      "nota": "Ø36x9 una garganta, barreno hex + prisionero: cabe en la ventana de 13 entre columnas"
     },
     {
       "pieza": "spool_eje_comun",
@@ -1104,7 +1308,7 @@
       "pieza": "eje_comun_20",
       "cant": 1,
       "origen": "fabricar",
-      "nota": "Ø20 h6 x 567; chumaceras UCFL204"
+      "nota": "Ø20 h6 x 429; chumaceras UCFL204"
     },
     {
       "pieza": "motor_unidrive",
@@ -1120,25 +1324,25 @@
     },
     {
       "pieza": "rodamiento_fr8zz_hex",
-      "cant": 32,
+      "cant": 36,
       "origen": "comprar",
       "nota": "FR8ZZ-HexHD 1/2 pulg hex (web_facts wf01-wf05): 2 por eje de avance y 2 por bloque de desvío"
     },
     {
       "pieza": "rueda_omni_58",
-      "cant": 30,
+      "cant": 36,
       "origen": "proyecto RUEDA-OMNI-58",
-      "nota": "Ø58, barreno hex 12.85, sándwich de placas (18 avance + 12 desvío)"
+      "nota": "Ø58, barreno hex 12.85, sándwich de placas (22 avance + 14 desvío)"
     },
     {
       "pieza": "oring_pu_316",
-      "cant": 17,
+      "cant": 19,
       "origen": "comprar",
-      "nota": "PU 3/16 pulg 83A; lazos instalados del desvío ~[238, 258, 263, 285, 298] mm (ver desvio.lazos_mm) — pedir al 88-90% del instalado (estirado 10-12%, wf06-08)"
+      "nota": "PU 3/16 pulg 83A; lazos instalados ~[238, 258, 263, 285, 298, 329, 405, 567] mm (ver desvio.lazos_mm) — pedir al 88-90% del instalado (estirado 10-12%, wf06-08)"
     },
     {
       "pieza": "collarin_hex_12.7",
-      "cant": 20,
+      "cant": 22,
       "origen": "comprar",
       "nota": "retención axial contra el FR8ZZ (2 por eje de avance, 1 por stub de desvío: la polea retiene el otro extremo)"
     },
@@ -1152,7 +1356,7 @@
       "pieza": "tornillería M5/M4 avellanada",
       "cant": 1,
       "origen": "comprar",
-      "nota": "bloques y tapa al alma; travesaños a alma A y pantalla; bloques de desvío al travesaño"
+      "nota": "bloques y tapa al alma; travesaños y bancadas a ambas almas; bloques de desvío al travesaño"
     }
   ]
 }

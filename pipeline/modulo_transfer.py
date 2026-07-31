@@ -369,17 +369,17 @@ def disenar_modulo(p: dict) -> dict:
     z_eje = tangente - RUEDA["R"]
 
     n_ejes, paso = p["ejes"], p["paso"]
-    bahia = 146.0                               # bahía de motores (cola):
-    # el patrón UniDrive (152.7) + holguras a la mampara mandan
-    L = n_ejes * paso + bahia
+    # v3 ("compacta hacia abajo"): SIN bahía de motores — los UniDrive cuelgan
+    # bajo el fondo del canal sobre bancadas y toda la planta queda cubierta
+    L = n_ejes * paso
     ejes_y = [paso / 2 + i * paso for i in range(n_ejes)]
     huecos_y = [paso * (i + 1) for i in range(n_ejes - 1)]
 
-    # --- planta de ruedas: tresbolillo, tren de o-rings junto al alma B -----
+    # --- planta de ruedas: tresbolillo extendido hasta ambas almas ----------
     ruedas = []
     for i, ye in enumerate(ejes_y):
-        xs = [36 + k * 74 for k in range(5)] if i % 2 == 0 else \
-             [73 + k * 74 for k in range(4)]
+        x0 = 36 if i % 2 == 0 else 73
+        xs = [x0 + 74 * k for k in range(7) if x0 + 74 * k < luz - 38]
         ruedas += [(x, ye) for x in xs]
 
     # --- desvío: omnis giradas 90° en los huecos --------------------------
@@ -391,44 +391,64 @@ def disenar_modulo(p: dict) -> dict:
     # hilera inferior) cae en la ventana libre de 50 entre coronas de la
     # misma paridad, y las ruedas quedan alternadas hueco a hueco.
     x_ls, z_ls = 160.0, 58.0                     # eje común (corre en Y)
-    pantalla_x = 350.0                          # guarda entre desvío y tren
     pol = {"dia": 30.0, "raiz": 24.0, "ancho": 12.8, "dy_centro": 18.5,
            "dy_gargantas": (15.5, 21.5)}         # respecto al centro del hueco
     sp_ls = {"dia": 36.0, "raiz": 30.0, "ancho": 15.0}
+    # planos de anillo del tren de AVANCE, junto a cada alma (collares
+    # estrechos dentro del campo de ruedas) y el del motor A
+    w_A, w_B, w_motorA = 18.0, 427.0, 100.0
     huecos = []
     for k, g in enumerate(huecos_y):
         fila_sup = k + 1                         # índice de la hilera superior
-        xs = ([36 + j * 74 for j in range(4)] if fila_sup % 2 == 0
-              else [73 + j * 74 for j in range(4)])
-        # la 5ª columna par (332) invadiría la pantalla (332+29 > 350)
+        x0 = 36 if fila_sup % 2 == 0 else 73
+        xs = [x0 + 74 * j for j in range(7)
+              if x0 + 74 * j < luz - 38
+              # la corona girada (±29) no debe pisar los planos de anillo
+              # del tren de avance junto a las almas
+              and abs(x0 + 74 * j - w_A) > RUEDA["R"] + ORING / 2 + 1
+              and abs(x0 + 74 * j - w_B) > RUEDA["R"] + ORING / 2 + 1]
         g1, g2 = (g + pol["dy_gargantas"][0], g + pol["dy_gargantas"][1])
+        # 2 risers desde el spool del eje común a los DOS stubs ADYACENTES a
+        # x=160 (a un stub lejano el ramal cruzaría el disco de la polea
+        # intermedia) + cadenas en serie hacia afuera con gargantas
+        # alternadas para que los lazos coplanares no compartan rango de x
+        iL = max(i for i, x in enumerate(xs) if x < x_ls)
+        iR = iL + 1
+        cadenas = []
+        for i in range(iR, len(xs) - 1):         # rama derecha
+            cadenas.append((xs[i], xs[i + 1], g1 if (i - iR) % 2 == 0 else g2))
+        for i in range(iL, 0, -1):               # rama izquierda
+            cadenas.append((xs[i], xs[i - 1], g2 if (iL - i) % 2 == 0 else g1))
         huecos.append({
             "y": g, "stubs_x": xs,
             "spool_y": g + pol["dy_centro"],
-            # 2 risers desde el spool del eje común a los DOS stubs
-            # ADYACENTES (a izquierda y derecha de x=160: un riser a un stub
-            # lejano cruzaría el disco de la polea intermedia) + 2 cadenas
-            # hacia afuera; las gargantas se alternan para que los lazos del
-            # mismo plano no compartan rango de x (holguras medidas)
-            "risers": [(xs[2], g2), (xs[1], g1)],
-            "cadenas": [(xs[2], xs[3], g1), (xs[1], xs[0], g2)],
+            "risers": [(xs[iR], g2), (xs[iL], g1)],
+            "cadenas": cadenas,
         })
     ruedas_desvio = [(x, h["y"]) for h in huecos for x in h["stubs_x"]]
 
-    # --- tren de o-rings de las omnis (esquema ZP2026) -----------------------
-    # gargantas a ±12 (más juntas que las ±16.87 del ZP2026: son spools
-    # propios) para que el tren quepa entre el soporte del motor A y el bloque
-    spool = {"dia": 36.0, "raiz": 32.0, "ancho": 34.0, "gargantas": (-12.0, 12.0)}
-    x_spool = 414.0                              # centro de spools (ejes omni)
-    planos_g = (x_spool - 16.87, x_spool + 16.87)
-    mamp_y = L - 40.0
-    # motor A: cuerpo Ø118 a >=2 del vuelo Ø58+2 de las ruedas del eje 4
-    # (dist((y,z)-(385,136.1)) >= 90) y patrón 152.7 dentro del soporte
-    motor_a = {"eje_yz": (458.0, 80.0), "cara_x": 374.0, "polea_dia": 44.0,
-               "plano_anillo": planos_g[0], "conduce": f"eje{n_ejes}"}
-    motor_b = {"eje_xz": (246.0, 80.0), "cara_y": mamp_y - t - 62.7,
-               "polea_dia": 44.0, "plano_anillo": mamp_y + 13.0}
-    y_spool_ls = mamp_y + 13.0
+    # --- tren de AVANCE dentro del campo (v3) --------------------------------
+    # Collares estrechos Ø36x9 de una garganta en planos que caben en la
+    # ventana de 13 entre columnas junto a cada alma; los anillos eje-a-eje
+    # alternan de alma (A, B, A) y cruzan los huecos POR ENCIMA de los
+    # travesaños (z>=116) y lejos de las coronas giradas (filtro de stubs).
+    collar = {"dia": 36.0, "raiz": 30.0, "ancho": 9.0}
+    links = [(i, i + 1, w_A if i % 2 == 0 else w_B)
+             for i in range(n_ejes - 1)]
+    # motores COLGADOS bajo el fondo del canal sobre bancadas: placa vertical
+    # con el patrón 152.7x139.7 + pestaña superior atornillada a la bancada
+    motor_a = {"y": 340.0, "z": -82.0, "cara_x": 110.0, "polea_dia": 44.0,
+               "polea_centro": 96.0, "plano_anillo": w_motorA,
+               "conduce": f"eje{n_ejes}"}
+    # la chumacera del catálogo ocupa 55 a lo largo del eje (x 117..203):
+    # el anillo del motor B libra su cubo por y (plano 70 > 58) y el del
+    # motor A lo libra por x (banda 97.6..102.4 < 117)
+    motor_b = {"x": x_ls, "z": -82.0, "cara_y": 80.0, "polea_dia": 44.0,
+               "polea_centro": 66.0, "plano_anillo": 70.0}
+    bancadas = {"z": (-3.0, 0.0), "tab_alto": 25.0,
+                "A": {"y": (255.0, 425.0), "slot": (93.0, 107.0, 328.0, 384.0)},
+                "B": {"y": (4.0, 160.0), "slot": (135.0, 185.0, 64.0, 76.0)}}
+    placa_motor = {"x_span": 20.0, "z0": -160.0}
 
     d = {
         "formato": "foto3d-modulo-transfer", "version": 1, "generado": now_iso(),
@@ -436,9 +456,7 @@ def disenar_modulo(p: dict) -> dict:
         "parametros": p,
         "frame": {"ancho_total": ancho_total, "luz": round(luz, 2), "largo": L,
                   "alto": alto, "espesor": t, "pestana_sup": ps,
-                  "pestana_inf": pi, "tangente": tangente,
-                  "pantalla_x": pantalla_x, "mampara_y": mamp_y,
-                  "bahia_motores": bahia},
+                  "pestana_inf": pi, "tangente": tangente},
         "omnis": {"rueda": RUEDA, "z_eje": z_eje, "ejes_y": ejes_y,
                   "hex": p["hex"], "eje_x": (2.0, luz - 2.0),
                   "ruedas_xy": ruedas, "n_ruedas": len(ruedas),
@@ -451,19 +469,22 @@ def disenar_modulo(p: dict) -> dict:
                    "eje_y_rel": (-46.0, 24.9),
                    "bloque": {"ancho_x": 40.0, "espesor_y": 30.0,
                               "z": (85.0, 160.0), "y_rel": (-46.0, -16.0)},
-                   "travesano": {"z": (78.0, 105.0), "x": (3.0, pantalla_x),
+                   "travesano": {"z": (78.0, 105.0), "x": (3.0, luz - 3.0),
                                  "y_rel": (-49.0, -46.0)},
                    "polea": pol, "spool": sp_ls,
                    "eje_comun": {"x": x_ls, "z": z_ls, "dia": 20.0,
-                                 "y": (4.0, mamp_y + 25.0), "y_spool": y_spool_ls},
+                                 "y": (4.0, L - 7.0)},
                    "rodamiento": FR8},
-        "tren_omni": {"x_spool": x_spool, "planos_gargantas": planos_g,
-                      "spool": spool, "motor": motor_a, "oring": ORING},
+        "tren_avance": {"planos": {"wA": w_A, "wB": w_B, "motor": w_motorA},
+                        "collar": collar, "links": links, "motor": motor_a,
+                        "oring": ORING},
         "tren_desvio": {"motor": motor_b, "spool_dia": 36.0},
+        "bancadas": bancadas,
+        "placa_motor": placa_motor,
         "soportes": {"bloque": (12.0, 54.0, 54.0), "z_top": 159.8,
                      "rodamiento": "FR8ZZ-HexHD (web_facts wf01-wf05)"},
-        "tapa": {"z": (160.0, 163.0), "ranura_rueda": (30.0, 44.0),
-                 "ranura_desvio": (44.0, 30.0)},
+        "tapa": {"z": (160.0, 163.0), "ranura_rueda": (32.0, 46.0),
+                 "ranura_desvio": (46.0, 32.0)},
         "justificacion": {
             "ancho": f"BF {bf:g} - 2x{holg:g} de holgura = {ancho_total:g}; "
                      f"pestañas {pi:g} afuera => luz entre almas {luz:.1f}",
@@ -473,8 +494,10 @@ def disenar_modulo(p: dict) -> dict:
                          f"{paso - 2 * RUEDA['R']:g}: caben la rueda girada "
                          "(24.1), su polea (12.8) y el bloque soporte (30) "
                          "entre los ejes vecinos",
-            "ruedas": "tresbolillo a paso 74 con desfase 37: una caja de 250 "
-                      "apoya siempre en >=2 hileras y >=4 ruedas de avance",
+            "ruedas": "tresbolillo a paso 74 con desfase 37 EXTENDIDO hasta "
+                      "ambas almas (v3: la caja no debe pisar planta sin "
+                      "omnis): una caja de 250 apoya siempre en >=2 hileras "
+                      "y >=4 ruedas de avance",
             "desvio_omnis": "lo que la foto de referencia muestra en el "
                             "sentido cruzado son omnis giradas 90° (corrección "
                             "del usuario): misma RUEDA-OMNI-58 sobre ejes hex "
@@ -499,30 +522,39 @@ def disenar_modulo(p: dict) -> dict:
                                   "no compartan rango de x (holgura medida)",
             "take_up": "los o-rings tensan por estiramiento 10-12% "
                        "(web_facts wf07-wf08): sin colisas ni tensores",
-            "tren_omni": "esquema ZP2026: UniDrive + spools con gargantas a "
-                         "±16.87 del centro (paso medido en el GLB del "
-                         "catálogo) y anillos encadenados eje a eje en planos "
-                         "alternados",
-            "spools": "Ø36 macizos (no el speed-up spool Ø68 del catálogo): "
-                      "con el eje a z=136.1 el anillo debe pasar bajo la tapa "
-                      "(z=160); con Ø68 la cruzaría",
+            "tren_avance": "v3: anillos eje-a-eje DENTRO del campo, en planos "
+                           "junto a las almas (x=18 y x=427, alternando) que "
+                           "caen en la ventana de 13 entre columnas; collares "
+                           "estrechos Ø36x9 de una garganta en vez del spool "
+                           "ancho ZP2026 (un spool de 34 pisaría las coronas "
+                           "vecinas). Los anillos cruzan los huecos a z>=116: "
+                           "sobre los travesaños (105) y lejos de las coronas "
+                           "giradas (los stubs que pisarían esos planos se "
+                           "filtran del desvío)",
+            "collares": "Ø36 raíz 30: el anillo pasa bajo la tapa (z=160) "
+                        "con 4 de aire y sobre el travesaño con 11",
             "soportes": "bloques al alma con rodamiento FR8ZZ de barreno "
                         "hexagonal 1/2 pulg (OD 28.575, brida 31.12 - "
                         "web_facts): el eje hex gira directo, sin adaptadores",
-            "bahia_motores": "los UniDrive (cuerpo Ø118x62.7, ficha "
-                             "S-UD23062200R01) no caben en la zona de "
-                             "rodadura: bahía de 146 en la cola; la caja de "
-                             "250 la puentea (última hilera -> primer rodillo "
-                             "vecino)",
-            "motor_a": "sobre soporte plegado en la bahía, cuerpo hacia -X y eje "
-                       "hacia +X: su anillo baja del spool del último eje omni "
-                       "en el plano de garganta x=406.9",
-            "motor_b": "sobre la mampara, eje en Y: anillo al spool del eje "
-                       "común por detrás de la mampara (plano y=463)",
-            "desvio_lado": "las ruedas giradas cubren x 36..295 (coronas "
-                           "7..324): desvío preferente hacia el alma A (la "
-                           "caja sale sobre la pestaña rasante); hacia B la "
-                           "caja puentea la franja del tren de o-rings",
+            "motores_debajo": "v3 (\"compacta hacia abajo\"): los UniDrive "
+                              "(Ø118x62.7) cuelgan BAJO el fondo del canal en "
+                              "placas verticales con el patrón 152.7x139.7, "
+                              "atornilladas a bancadas de chapa que cruzan "
+                              "entre almas — la planta completa queda "
+                              "cubierta por omnis y el módulo se compacta a "
+                              f"L={n_ejes * paso:g}",
+            "motor_a": "bajo el eje 4 (y=340, z=-75), eje hacia -X: su "
+                       "anillo sube por el plano x=126.5 (ventana entre "
+                       "columnas 110/147 del eje 4) hasta un collar propio; "
+                       "el patrón cabe en y 264..416 < largo del módulo",
+            "motor_b": "bajo el eje común (x=160, z=-75), eje hacia -Y: "
+                       "anillo vertical en el plano y=49 al spool del eje "
+                       "común (tras el cubo de la chumacera A, que llega a "
+                       "y=34)",
+            "desvio_lado": "las ruedas giradas cubren coronas x 7..398: "
+                           "desvío preferente hacia el alma A; junto a las "
+                           "almas quedan solo los planos de anillo del tren "
+                           "(franjas de ~25)",
         },
     }
     return d
@@ -612,7 +644,8 @@ def construir_modulo(d: dict):
     from shapely.ops import unary_union
 
     f, om, dv = d["frame"], d["omnis"], d["desvio"]
-    to, tc = d["tren_omni"], d["tren_desvio"]
+    to, tc = d["tren_avance"], d["tren_desvio"]
+    bc, pm = d["bancadas"], d["placa_motor"]
     t = f["espesor"]
     luz, L, alto = f["luz"], f["largo"], f["alto"]
     piezas, unicos, planos2d = [], {}, {}
@@ -621,17 +654,17 @@ def construir_modulo(d: dict):
         piezas.append((nombre, malla, grupo))
 
     # --- canales laterales (taladrados por lado) -----------------------------
-    ma_y, ma_z = to["motor"]["eje_yz"]
     ag_bloques = []
     for ye in om["ejes_y"]:
         ag_bloques += [(ye - 15, 122, 5.5), (ye + 15, 122, 5.5),
                        (ye - 15, 146, 5.5), (ye + 15, 146, 5.5)]
+    for (y0b, y1b) in (bc["A"]["y"], bc["B"]["y"]):   # pestañas de bancada
+        ag_bloques += [(y0b + 15, 12, 5.5), (y1b - 15, 12, 5.5)]
     ag_A = list(ag_bloques)
-    for g in dv["huecos_y"]:                     # pestañas de travesaño al alma A
-        ag_A += [(g - 43, 91.5, 5.5), (g - 30, 91.5, 5.5)]
     ag_B = list(ag_bloques)
-    ag_B += [(ma_y - 70, 16, 5.5), (ma_y - 70, 144, 5.5),   # soporte motor A
-             (ma_y + 74, 16, 5.5), (ma_y + 74, 144, 5.5)]
+    for g in dv["huecos_y"]:                     # pestañas de travesaño (ambas)
+        ag_A += [(g - 43, 91.5, 5.5), (g - 30, 91.5, 5.5)]
+        ag_B += [(g - 43, 91.5, 5.5), (g - 30, 91.5, 5.5)]
     canal_A_m, des_A = canal_c(L, alto, f["pestana_sup"], f["pestana_inf"], t,
                                agujeros_alma=ag_A)
     canal_B_m, des_B = canal_c(L, alto, f["pestana_sup"], f["pestana_inf"], t,
@@ -651,7 +684,7 @@ def construir_modulo(d: dict):
     d["frame"]["desarrollo_canal"] = des_A
     d["frame"]["desarrollo_canal_B"] = des_B
 
-    # --- placas extremas, mampara y pantalla ---------------------------------
+    # --- placas extremas -----------------------------------------------------
     x_ls, z_ls = dv["eje_comun"]["x"], dv["eje_comun"]["z"]
     pl_ext = sbox(0, 12, luz, 158).difference(
         Point(x_ls, z_ls).buffer(13, quad_segs=24))
@@ -662,51 +695,50 @@ def construir_modulo(d: dict):
     inst("placa_extremo_B", extremoB, "frame")
     planos2d["placa_extremo"] = pl_ext
     unicos["placa_extremo"] = (_plate_xz(pl_ext, t, 0, "canal"), 2,
-                               "chapa 3 mm; la A lleva el paso del eje común")
-    mamp = sbox(0, 4, luz, 156).difference(
-        Point(x_ls, z_ls).buffer(13, quad_segs=24))
-    u = UNIDRIVE
-    bx, bz = tc["motor"]["eje_xz"]
-    mamp = mamp.difference(Point(bx, bz).buffer(u["boss_dia"] / 2 + 1, quad_segs=24))
-    for sx in (-1, 1):
-        for sz in (-1, 1):
-            centro = Point(bx + sx * u["patron"][0] / 2,
-                           bz + sz * u["patron"][1] / 2)
-            if not mamp.contains(centro.buffer(u["perno"] / 2 + 2)):
-                raise ValueError(f"taladro del motor B fuera de la mampara: "
-                                 f"{centro.wkt}")
-            mamp = mamp.difference(centro.buffer(u["perno"] / 2 + 0.3, quad_segs=12))
-    mampara = _plate_xz(mamp, t, f["mampara_y"] - t, "canal")
-    inst("mampara_motores", mampara, "frame")
-    planos2d["mampara_motores"] = mamp
-    unicos["mampara_motores"] = (mampara.copy(), 1,
-                                 "chapa 3 mm: patrón UniDrive B + paso eje común")
-    pant = sbox(4, 70, 372.0, 158)   # termina antes de los espárragos del motor A
-    for ye in om["ejes_y"]:                      # pasos de los ejes hex Ø18
-        pant = pant.difference(Point(ye, om["z_eje"]).buffer(9, quad_segs=16))
-    pantalla = _plate_yz(pant, t, f["pantalla_x"], "tapa")
-    inst("pantalla_tren", pantalla, "frame")
-    planos2d["pantalla_tren"] = pant
-    unicos["pantalla_tren"] = (pantalla.copy(), 1,
-                               "chapa 3 mm: separa el desvío del tren de o-rings")
+                               "chapa 3 mm; la A lleva el paso del eje común, "
+                               "la B recibe la chumacera interior")
 
-    # --- soporte del motor A (canal plegado en la bahía) ---------------------
-    sop = sbox(ma_y - 85, 4, f["mampara_y"] - t, 156)
-    sop = sop.difference(Point(ma_y, ma_z).buffer(u["boss_dia"] / 2 + 1, quad_segs=24))
-    for sy in (-1, 1):
-        for sz in (-1, 1):
-            centro = Point(ma_y + sy * u["patron"][0] / 2,
-                           ma_z + sz * u["patron"][1] / 2)
-            if not sop.contains(centro.buffer(u["perno"] / 2 + 2)):
-                raise ValueError(f"taladro del motor A fuera del soporte: "
-                                 f"{centro.wkt}")
-            sop = sop.difference(centro.buffer(u["perno"] / 2 + 0.3, quad_segs=12))
-    sop_m = _plate_yz(sop, t, to["motor"]["cara_x"], "canal")
-    inst("soporte_motor_A", sop_m, "frame")
-    planos2d["soporte_motor_A"] = sop
-    unicos["soporte_motor_A"] = (sop_m.copy(), 1,
-                                 "chapa 3 mm con patrón UniDrive; pestañas al "
-                                 "alma B y a la mampara (plegado en obra)")
+    # --- bancadas y placas de motor COLGADAS (v3) ----------------------------
+    # bancada: chapa 3 horizontal al ras del fondo (z -3..0) con pestañas
+    # dobladas hacia arriba atornilladas a ambas almas y ranura para el
+    # anillo del motor; la placa de motor cuelga vertical de su cara inferior
+    u = UNIDRIVE
+    z0bc, z1bc = bc["z"]
+
+    def bancada(nombre, y0b, y1b, slot):
+        plan = sbox(2.0, y0b, luz - 2.0, y1b).difference(
+            sbox(slot[0], slot[2], slot[1], slot[3]))
+        base = trimesh.creation.extrude_polygon(plan, z1bc - z0bc)
+        base.apply_translation((0, 0, z0bc))
+        tabs = []
+        for x0t in (0.0, luz - t):
+            tb = trimesh.creation.box((t, y1b - y0b - 4, bc["tab_alto"]))
+            tb.apply_translation((x0t + t / 2, (y0b + y1b) / 2,
+                                  bc["tab_alto"] / 2 - 1.0))
+            tabs.append(tb)
+        m = trimesh.boolean.union([base] + tabs)
+        m.visual.face_colors = COL["canal"]
+        planos2d[nombre] = plan
+        return m
+
+    def perfil_placa_motor(nombre, boss_uv):
+        """Polígono (u, z) de una placa de motor colgada: boss + patrón del
+        UniDrive con verificación de que cada taladro cae dentro."""
+        u0, u1 = boss_uv[0] - 95.0, boss_uv[0] + 95.0
+        pl = sbox(u0, pm["z0"], u1, z0bc - 2.0)
+        pl = pl.difference(Point(*boss_uv).buffer(u["boss_dia"] / 2 + 1,
+                                                  quad_segs=24))
+        for su in (-1, 1):
+            for sz in (-1, 1):
+                centro = Point(boss_uv[0] + su * u["patron"][0] / 2,
+                               boss_uv[1] + sz * u["patron"][1] / 2)
+                if not pl.contains(centro.buffer(u["perno"] / 2 + 2)):
+                    raise ValueError(f"taladro de {nombre} fuera de la placa: "
+                                     f"{centro.wkt}")
+                pl = pl.difference(centro.buffer(u["perno"] / 2 + 0.3,
+                                                 quad_segs=12))
+        planos2d[nombre] = pl
+        return pl, (u0, u1)
 
     # --- ejes omni + ruedas + soportes ---------------------------------------
     ex0, ex1 = om["eje_x"]
@@ -752,7 +784,7 @@ def construir_modulo(d: dict):
     blq_d, tw, pol, spl = dv["bloque"], dv["travesano"], dv["polea"], dv["spool"]
 
     # travesaño: chapa 3 plegada, cuerpo perpendicular a Y (z 78..105, pasa
-    # 2.1 bajo las coronas) con pestañas al alma A y a la pantalla
+    # 2.1 bajo las coronas) con pestañas a ambas almas
     x0w, x1w = tw["x"]
     z0w, z1w = tw["z"]
     cuerpo_w = trimesh.creation.box((x1w - 4.0, t, z1w - z0w))
@@ -765,8 +797,8 @@ def construir_modulo(d: dict):
     trav.visual.face_colors = COL["canal"]
     unicos["travesano_desvio"] = (trav.copy(), len(dv["huecos"]),
                                   "chapa 3 mm plegada bajo cada hueco: "
-                                  "pestañas al alma A y a la pantalla (M5); "
-                                  "los bloques del desvío atornillan a su cara")
+                                  "pestañas a ambas almas (M5); los bloques "
+                                  "del desvío atornillan a su cara")
 
     # bloque soporte en voladizo: DOBLE FR8ZZ (los dos asientos en línea),
     # atornillado al travesaño; la tapa remata arriba
@@ -822,9 +854,9 @@ def construir_modulo(d: dict):
         for tag, (xr, gy) in zip(("a", "b"), h["risers"]):
             ring = oring_xz((x_ls, z_ls), (xr, z_dv), r_sp, r_pd, ORING, gy)
             inst(f"oring_riser_h{k+1}_{tag}", ring, "desvio")
-        for tag, (xa, xb, gy) in zip(("a", "b"), h["cadenas"]):
+        for j, (xa, xb, gy) in enumerate(h["cadenas"]):
             ring = oring_xz((xa, z_dv), (xb, z_dv), r_pd, r_pd, ORING, gy)
-            inst(f"oring_cadena_h{k+1}_{tag}", ring, "desvio")
+            inst(f"oring_cadena_h{k+1}_{j+1}", ring, "desvio")
 
     # --- eje común + chumaceras + spool --------------------------------------
     y0l, y1l = dv["eje_comun"]["y"]
@@ -851,106 +883,151 @@ def construir_modulo(d: dict):
     inst("ucfl204_extremoA", u1, "desvio")
     u2 = ucfl.copy()
     _rot(u2, [1, 0, 0], 90)
-    u2.apply_translation((x_ls, f["mampara_y"] - t, z_ls))
-    inst("ucfl204_mampara", u2, "desvio")
+    u2.apply_translation((x_ls, L - t, z_ls))
+    inst("ucfl204_extremoB", u2, "desvio")
 
-    # --- tren de o-rings de omnis --------------------------------------------
-    sp = to["spool"]
-    spool_m = spool_2g(sp["dia"], sp["ancho"], None, hex_bore=om["hex"] + 0.15)
-    _rot(spool_m, [0, 0, 1], -90)                 # eje a X
-    unicos["spool_eje_omni"] = (spool_m.copy(), len(om["ejes_y"]),
-                                "Ø36 dos gargantas (±16.87, esquema ZP2026), "
-                                "barreno hex + prisionero")
-    for i, ye in enumerate(om["ejes_y"]):
-        s2 = spool_m.copy()
-        s2.apply_translation((to["x_spool"], ye, om["z_eje"]))
-        inst(f"spool_eje{i+1}", s2, "tren")
-    gA, gB = to["planos_gargantas"]
-    r_g = sp["raiz"] / 2
+    # --- tren de AVANCE: collares junto a las almas + anillos eje a eje ------
+    co_ = to["collar"]
+    collar_m = spool_2g(co_["dia"], co_["ancho"], None,
+                        hex_bore=om["hex"] + 0.15, gargantas=(0.0,))
+    _rot(collar_m, [0, 0, 1], -90)                # eje a X
+    n_collares = 0
     ys = om["ejes_y"]
-    for i in range(len(ys) - 1):                  # anillos eje a eje
-        plano = gB if i % 2 == 0 else gA           # el motor entra por gA al último
-        ring = oring_solido((ys[i], om["z_eje"]), (ys[i + 1], om["z_eje"]),
-                            r_g, r_g, ORING, plano - ORING / 2)
-        inst(f"oring_e{i+1}_e{i+2}", ring, "tren")
-    # motor A y su anillo al último eje
+    r_g = co_["raiz"] / 2
+    for (i, j, w) in to["links"]:
+        for eje_idx in (i, j):
+            c2 = collar_m.copy()
+            c2.apply_translation((w, ys[eje_idx], om["z_eje"]))
+            inst(f"collar_e{eje_idx+1}_w{int(w)}", c2, "tren")
+            n_collares += 1
+        ring = oring_solido((ys[i], om["z_eje"]), (ys[j], om["z_eje"]),
+                            r_g, r_g, ORING, w)
+        inst(f"oring_link_{i+1}", ring, "tren")
+    unicos["collar_anillo"] = (collar_m.copy(), n_collares + 1,
+                               f"Ø{co_['dia']:g}x{co_['ancho']:g} una "
+                               "garganta, barreno hex + prisionero: cabe en "
+                               "la ventana de 13 entre columnas")
+
+    # --- motores COLGADOS bajo el fondo, sobre bancadas ----------------------
+    ma = to["motor"]
+    mb = tc["motor"]
+    banc_A = bancada("bancada_A", *bc["A"]["y"], bc["A"]["slot"])
+    inst("bancada_A", banc_A, "motores")
+    unicos["bancada_motor_A"] = (banc_A.copy(), 1,
+                                 "chapa 3 al ras del fondo con pestañas a "
+                                 "ambas almas y ranura del anillo del motor A")
+    banc_B = bancada("bancada_B", *bc["B"]["y"], bc["B"]["slot"])
+    inst("bancada_B", banc_B, "motores")
+    unicos["bancada_motor_B"] = (banc_B.copy(), 1,
+                                 "chapa 3 al ras del fondo con pestañas a "
+                                 "ambas almas y ranura del anillo del motor B")
+
     motor = motor_unidrive(largo_eje=34.0)
-    motor_corto = motor_unidrive(largo_eje=26.0)
     unicos["motor_unidrive"] = (motor.copy(), 2,
                                 "UniDrive ONE (ficha S-UD23062200R01) — COMPRADO")
+    pol_m = spool_2g(ma["polea_dia"], 20.0, UNIDRIVE["eje_d"] + 0.2,
+                     prof_gar=3.0, ancho_gar=5.5)
+    _rot(pol_m, [0, 0, 1], -90)                   # eje a X
+
+    # motor A: eje hacia -X en (y=340, z=-75); placa vertical perpendicular
+    # a X con pestaña superior doblada bajo la bancada A
+    pl_A, (uA0, uA1) = perfil_placa_motor("placa_motor_A", (ma["y"], ma["z"]))
+    plA = _plate_yz(pl_A, t, ma["cara_x"] - t, "canal")
+    flA = trimesh.creation.box((18.0, uA1 - uA0 - 4, t))
+    flA.apply_translation((ma["cara_x"] - t + 1.0 + 9.0, (uA0 + uA1) / 2,
+                           z0bc - 3.0 + t / 2))
+    placa_A = trimesh.boolean.union([plA, flA])
+    placa_A.visual.face_colors = COL["canal"]
+    inst("placa_motor_A", placa_A, "motores")
+    unicos["placa_motor_A"] = (placa_A.copy(), 1,
+                               "chapa 3 colgada: patrón UniDrive 152.7x139.7 "
+                               "+ boss Ø41.5; pestaña M6 bajo la bancada A")
     mA = motor.copy()
     _rot(mA, [0, 0, 1], 90)                       # patrón largo al eje Y local
-    _rot(mA, [0, 1, 0], 90)                       # eje del motor a +X
-    mA.apply_translation((to["motor"]["cara_x"] - UNIDRIVE["cuerpo_largo"],
-                          ma_y, ma_z))
-    inst("motor_A", mA, "tren")
-    pol_m = spool_2g(to["motor"]["polea_dia"], 20.0, UNIDRIVE["eje_d"] + 0.2,
-                     prof_gar=3.0, ancho_gar=5.5)
-    _rot(pol_m, [0, 0, 1], -90)
+    _rot(mA, [0, 1, 0], -90)                      # eje del motor a -X
+    mA.apply_translation((ma["cara_x"] + UNIDRIVE["cuerpo_largo"],
+                          ma["y"], ma["z"]))
+    inst("motor_A", mA, "motores")
+    pmA = pol_m.copy()
+    pmA.apply_translation((ma["polea_centro"], ma["y"], ma["z"]))
+    inst("polea_motor_A", pmA, "motores")
     unicos["polea_motor_2g"] = (pol_m.copy(), 2,
                                 "Ø44, garganta a plano de anillo, bore D 12.7")
-    pmA = pol_m.copy()
-    pmA.apply_translation((gA, ma_y, ma_z))
-    inst("polea_motor_A", pmA, "tren")
-    ringA = oring_solido((ma_y, ma_z), (ys[-1], om["z_eje"]),
-                         to["motor"]["polea_dia"] / 2 - 3,
-                         r_g, ORING, gA - ORING / 2)
+    ringA = oring_solido((ma["y"], ma["z"]), (ys[-1], om["z_eje"]),
+                         ma["polea_dia"] / 2 - 3, r_g, ORING,
+                         to["planos"]["motor"])
     inst("oring_motorA", ringA, "tren")
+    cmot = collar_m.copy()
+    cmot.apply_translation((to["planos"]["motor"], ys[-1], om["z_eje"]))
+    inst(f"collar_e{len(ys)}_w{int(to['planos']['motor'])}", cmot, "tren")
 
-    # --- motor B + spool del eje común ---------------------------------------
-    mB = motor_corto.copy()
-    _rot(mB, [1, 0, 0], -90)                      # eje del motor a +Y
-    mB.apply_translation((bx, tc["motor"]["cara_y"], bz))
-    inst("motor_B", mB, "tren")
-    y_sp = dv["eje_comun"]["y_spool"]
+    # motor B: eje hacia -Y en (x=160, z=-75) bajo el eje común; placa
+    # vertical perpendicular a Y con pestaña bajo la bancada B
+    pl_B, (uB0, uB1) = perfil_placa_motor("placa_motor_B", (mb["x"], mb["z"]))
+    plB = _plate_xz(pl_B, t, mb["cara_y"] - t, "canal")
+    flB = trimesh.creation.box((uB1 - uB0 - 4, 18.0, t))
+    flB.apply_translation(((uB0 + uB1) / 2, mb["cara_y"] - t + 1.0 + 9.0,
+                           z0bc - 3.0 + t / 2))
+    placa_B = trimesh.boolean.union([plB, flB])
+    placa_B.visual.face_colors = COL["canal"]
+    inst("placa_motor_B", placa_B, "motores")
+    unicos["placa_motor_B"] = (placa_B.copy(), 1,
+                               "chapa 3 colgada: patrón UniDrive 152.7x139.7 "
+                               "+ boss Ø41.5; pestaña M6 bajo la bancada B")
+    mB = motor.copy()
+    _rot(mB, [1, 0, 0], 90)                       # eje del motor a -Y
+    mB.apply_translation((mb["x"], mb["cara_y"] + UNIDRIVE["cuerpo_largo"],
+                          mb["z"]))
+    inst("motor_B", mB, "motores")
     sp_ls = spool_2g(36.0, 20.0, 20.2)
     unicos["spool_eje_comun"] = (sp_ls.copy(), 1,
                                  "Ø36 una garganta útil, bore 20.2 + prisionero")
     s3 = sp_ls.copy()
-    s3.apply_translation((x_ls, y_sp, z_ls))
-    inst("spool_eje_comun", s3, "tren")
+    s3.apply_translation((x_ls, mb["plano_anillo"] + 4.0, z_ls))
+    inst("spool_eje_comun", s3, "desvio")
     pmB = pol_m.copy()
     _rot(pmB, [0, 0, 1], 90)                      # eje a Y
-    pmB.apply_translation((bx, y_sp, bz))
-    inst("polea_motor_B", pmB, "tren")
-    ringB = oring_xz((bx, bz), (x_ls, z_ls), to["motor"]["polea_dia"] / 2 - 3,
-                     16.0, ORING, y_sp)
-    inst("oring_motorB", ringB, "tren")
+    pmB.apply_translation((mb["x"], mb["polea_centro"], mb["z"]))
+    inst("polea_motor_B", pmB, "motores")
+    ringB = oring_xz((mb["x"], mb["z"]), (x_ls, z_ls),
+                     mb["polea_dia"] / 2 - 3, 16.0, ORING, mb["plano_anillo"])
+    inst("oring_motorB", ringB, "motores")
 
     # --- tapa ranurada (booleana: sólido - prismas de ranura, estanca) -------
+    # v3: ranuras ESTADIO uniformes (mismo 46x32 con extremos r16) para ambas
+    # familias, con el eje largo en el sentido de rodadura de cada rueda
     z0t, z1t = d["tapa"]["z"]
-    lw, lh = d["tapa"]["ranura_rueda"]
+    an_r, lg_r = d["tapa"]["ranura_rueda"]        # (ancho 32, largo 46)
     base = trimesh.creation.box((luz - 8, L - 8, z1t - z0t))
     base.apply_translation((luz / 2, L / 2, (z0t + z1t) / 2))
+
+    def ranura(x, y, largo, ancho, rodadura_y):
+        """Estadio limpio de `largo` total con extremos semicirculares
+        r=ancho/2 (los semicírculos entran 0.1: la tangencia exacta deja
+        aristas no-manifold en el STL)."""
+        semi = (largo - ancho) / 2
+        if rodadura_y:
+            est = sbox(x - ancho / 2, y - semi, x + ancho / 2, y + semi)
+            caps = (Point(x, y - semi + 0.1), Point(x, y + semi - 0.1))
+        else:
+            est = sbox(x - semi, y - ancho / 2, x + semi, y + ancho / 2)
+            caps = (Point(x - semi + 0.1, y), Point(x + semi - 0.1, y))
+        for c in caps:
+            est = est.union(c.buffer(ancho / 2, quad_segs=16))
+        return est
+
+    ranuras2d = [ranura(x, y, lg_r, an_r, True) for (x, y) in om["ruedas_xy"]]
+    ranuras2d += [ranura(x, y, lg_r, an_r, False) for (x, y) in dv["ruedas_xy"]]
     cortes_t = []
-    for (x, y) in om["ruedas_xy"]:
-        # los semicírculos entran 0.1 en la caja: la tangencia exacta deja
-        # aristas no-manifold en el STL
-        est = sbox(x - lw / 2, y - lh / 2, x + lw / 2, y + lh / 2).union(
-            Point(x - lw / 2 + 0.1, y).buffer(lh / 2, quad_segs=12)).union(
-            Point(x + lw / 2 - 0.1, y).buffer(lh / 2, quad_segs=12))
+    for est in ranuras2d:
         pr = trimesh.creation.extrude_polygon(est, 9.0)
-        pr.apply_translation((0, 0, z0t - 3))
-        cortes_t.append(pr)
-    la, lb = d["tapa"]["ranura_desvio"]           # 44 a lo largo de X, 30 en Y
-    def est_desvio(x, y):
-        return sbox(x - la / 2, y - lb / 2, x + la / 2, y + lb / 2).union(
-            Point(x - la / 2 + 0.1, y).buffer(lb / 2, quad_segs=12)).union(
-            Point(x + la / 2 - 0.1, y).buffer(lb / 2, quad_segs=12))
-    for (x, y) in dv["ruedas_xy"]:
-        pr = trimesh.creation.extrude_polygon(est_desvio(x, y), 9.0)
         pr.apply_translation((0, 0, z0t - 3))
         cortes_t.append(pr)
     tapa = trimesh.boolean.difference([base] + cortes_t)
     tapa.visual.face_colors = COL["tapa"]
     tapa2d = sbox(4, 4, luz - 4, L - 4)
-    for (x, y) in om["ruedas_xy"]:
-        tapa2d = tapa2d.difference(
-            sbox(x - lw / 2, y - lh / 2, x + lw / 2, y + lh / 2).union(
-                Point(x - lw / 2 + 0.1, y).buffer(lh / 2, quad_segs=12)).union(
-                Point(x + lw / 2 - 0.1, y).buffer(lh / 2, quad_segs=12)))
-    for (x, y) in dv["ruedas_xy"]:
-        tapa2d = tapa2d.difference(est_desvio(x, y))
+    for est in ranuras2d:
+        tapa2d = tapa2d.difference(est)
     planos2d["tapa_superior"] = tapa2d
     inst("tapa_superior", tapa, "frame")
     unicos["tapa_superior"] = (tapa.copy(), 1,
@@ -1006,10 +1083,12 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
                       "error_max": round(err, 3),
                       "verdicto": "PASA" if err <= 0.1 else "FALLA"}
 
-    # 3 — anillos del desvío: envolvente en cada lazo de 2 poleas y longitud
+    # 3 — TODOS los anillos (avance, motores y desvío): envolvente y longitud
     x_ls, z_ls = dv["eje_comun"]["x"], dv["eje_comun"]["z"]
     z_dv = dv["z_eje"]
+    to_, tc_ = d["tren_avance"], d["tren_desvio"]
     r_sp, r_pd = dv["spool"]["raiz"] / 2, dv["polea"]["raiz"] / 2
+    r_co = to_["collar"]["raiz"] / 2
 
     def lazo_2p(c1, c2, r1, r2):
         a12 = math.degrees(math.atan2(c2[1] - c1[1], c2[0] - c1[0]))
@@ -1025,18 +1104,31 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
         return env, round(largo, 1)
 
     anillos = []
+    ys_e = om["ejes_y"]
+    for (i, j, w) in to_["links"]:
+        env, largo = lazo_2p((ys_e[i], om["z_eje"]), (ys_e[j], om["z_eje"]),
+                             r_co, r_co)
+        anillos.append({"anillo": f"link_e{i+1}_e{j+1}", "envolventes": env,
+                        "largo_mm": largo})
+    ma_, mb_ = to_["motor"], tc_["motor"]
+    env, largo = lazo_2p((ma_["y"], ma_["z"]), (ys_e[-1], om["z_eje"]),
+                         ma_["polea_dia"] / 2 - 3, r_co)
+    anillos.append({"anillo": "motor_A", "envolventes": env, "largo_mm": largo})
+    env, largo = lazo_2p((mb_["x"], mb_["z"]), (x_ls, z_ls),
+                         mb_["polea_dia"] / 2 - 3, 16.0)
+    anillos.append({"anillo": "motor_B", "envolventes": env, "largo_mm": largo})
     for k, h in enumerate(dv["huecos"]):
         for tag, (xr, gy) in zip(("riser_a", "riser_b"), h["risers"]):
             env, largo = lazo_2p((x_ls, z_ls), (xr, z_dv), r_sp, r_pd)
             anillos.append({"anillo": f"h{k+1}_{tag}", "envolventes": env,
                             "largo_mm": largo})
-        for tag, (xa, xb, gy) in zip(("cadena_a", "cadena_b"), h["cadenas"]):
+        for j, (xa, xb, gy) in enumerate(h["cadenas"]):
             env, largo = lazo_2p((xa, z_dv), (xb, z_dv), r_pd, r_pd)
-            anillos.append({"anillo": f"h{k+1}_{tag}", "envolventes": env,
-                            "largo_mm": largo})
+            anillos.append({"anillo": f"h{k+1}_cadena_{j+1}",
+                            "envolventes": env, "largo_mm": largo})
     env_min = min(min(a["envolventes"]) for a in anillos)
     d["desvio"]["lazos_mm"] = {a["anillo"]: a["largo_mm"] for a in anillos}
-    v["anillos_desvio"] = {
+    v["anillos"] = {
         "n_anillos": len(anillos), "envolvente_min": env_min,
         "anillos": anillos,
         "verdicto": "PASA" if env_min >= 120 else "FALLA",
@@ -1068,16 +1160,37 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
                            else "FALLA"}
 
     # 5 — holguras críticas (analíticas, mm)
-    sp, to = d["tren_omni"]["spool"], d["tren_omni"]
     p_ = d["parametros"]
     pol, blq_d, tw = dv["polea"], dv["bloque"], dv["travesano"]
-    z_anillo = om["z_eje"] + sp["raiz"] / 2 + ORING
+    co_ = to_["collar"]
+    w_A, w_B = to_["planos"]["wA"], to_["planos"]["wB"]
+    w_M = to_["planos"]["motor"]
+    z_anillo = om["z_eje"] + co_["raiz"] / 2 + ORING
     semi_h = p_["paso"] / 2                        # centro de hueco a eje vecino
+    col_par = [36 + 74 * k for k in range(7) if 36 + 74 * k < f["luz"] - 38]
+    col_impar = [73 + 74 * k for k in range(7) if 73 + 74 * k < f["luz"] - 38]
     hol = {
-        "anillo_oring_a_tapa": round(d["tapa"]["z"][0] - z_anillo, 2),
-        "spool_a_pantalla": round((to["x_spool"] - sp["ancho"] / 2)
-                                  - (f["pantalla_x"] + f["espesor"]), 2),
-        "rueda_a_ranura_tapa": round((d["tapa"]["ranura_rueda"][1] -
+        "anillo_avance_a_tapa": round(d["tapa"]["z"][0] - z_anillo, 2),
+        "anillo_avance_a_travesano": round(
+            (om["z_eje"] - co_["raiz"] / 2 - ORING) - tw["z"][1], 2),
+        "collar_wA_a_rueda_vecina": round(
+            (min(col_par) - RUEDA["ancho_total"] / 2)
+            - (w_A + co_["ancho"] / 2), 2),
+        "collar_wA_a_soporte_pared": round(
+            (w_A - co_["ancho"] / 2) - d["soportes"]["bloque"][0], 2),
+        "collar_wB_a_rueda_vecina": round(
+            (w_B - co_["ancho"] / 2)
+            - (max(col_par) + RUEDA["ancho_total"] / 2), 2),
+        "collar_wB_a_soporte_pared": round(
+            (f["luz"] - d["soportes"]["bloque"][0])
+            - (w_B + co_["ancho"] / 2), 2),
+        "collar_motorA_a_rueda": round(
+            min(abs(c - w_M) for c in col_impar)
+            - RUEDA["ancho_total"] / 2 - co_["ancho"] / 2, 2),
+        "anillo_avance_a_corona_girada": round(
+            min(abs(x - w) for h in dv["huecos"] for x in h["stubs_x"]
+                for w in (w_A, w_B)) - RUEDA["R"] - ORING / 2, 2),
+        "rueda_a_ranura_tapa": round((d["tapa"]["ranura_rueda"][0] -
                                       RUEDA["ancho_total"]) / 2, 2),
         "rueda_desvio_a_ranura_tapa": round((d["tapa"]["ranura_desvio"][1] -
                                              RUEDA["ancho_total"]) / 2, 2),
@@ -1103,9 +1216,6 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
             d["tapa"]["z"][0] - (z_dv + pol["dia"] / 2), 2),
         "anillo_riser_a_tapa": round(
             d["tapa"]["z"][0] - (z_dv + r_pd + ORING), 2),
-        "rueda_desvio_a_pantalla": round(
-            f["pantalla_x"] - (max(x for x, _ in dv["ruedas_xy"])
-                               + RUEDA["R"]), 2),
     }
 
     # el riser y la cadena coplanar (misma garganta) comparten rango de x
@@ -1131,63 +1241,75 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
         return max(zs) if zs else None
 
     margen_riser = 99.0
+    gap_cadenas = 99.0
     fondo_cadena = z_dv - r_pd - ORING
     rw = r_pd + ORING
     for h in dv["huecos"]:
-        parejas = ((h["risers"][0], h["cadenas"][1]),   # garganta alta
-                   (h["risers"][1], h["cadenas"][0]))   # garganta baja
-        for (xr, _), (xa, xb, _) in parejas:
-            c_lo = min(xa, xb) - rw
-            c_hi = max(xa, xb) + rw
-            for x in np.linspace(c_lo, c_hi, 41):
-                z = z_riser_en(x, (x_ls, z_ls), r_sp, (xr, z_dv), r_pd)
-                if z is not None:
-                    margen_riser = min(margen_riser, fondo_cadena - z)
+        for (xr, gr) in h["risers"]:
+            for (xa, xb, gc) in h["cadenas"]:
+                if abs(gc - gr) > 1e-6:
+                    continue
+                c_lo = min(xa, xb) - rw
+                c_hi = max(xa, xb) + rw
+                for x in np.linspace(c_lo, c_hi, 41):
+                    z = z_riser_en(x, (x_ls, z_ls), r_sp, (xr, z_dv), r_pd)
+                    if z is not None:
+                        margen_riser = min(margen_riser, fondo_cadena - z)
+        for i1 in range(len(h["cadenas"])):
+            for i2 in range(i1 + 1, len(h["cadenas"])):
+                (xa1, xb1, g1c) = h["cadenas"][i1]
+                (xa2, xb2, g2c) = h["cadenas"][i2]
+                if abs(g1c - g2c) > 1e-6:
+                    continue
+                lo1, hi1 = min(xa1, xb1) - rw, max(xa1, xb1) + rw
+                lo2, hi2 = min(xa2, xb2) - rw, max(xa2, xb2) + rw
+                gap_cadenas = min(gap_cadenas,
+                                  max(lo2 - hi1, lo1 - hi2))
     hol["riser_bajo_cadena_coplanar"] = round(margen_riser, 2)
+    hol["cadenas_coplanares_gap_x"] = round(gap_cadenas, 2)
 
-    tc_motor_y0 = d["tren_desvio"]["motor"]["cara_y"]
-    ma_y, ma_z = to["motor"]["eje_yz"]
-    d_eje4 = math.hypot(ma_y - om["ejes_y"][-1], ma_z - om["z_eje"])
-    hol["motorA_a_eje4"] = round(d_eje4 - UNIDRIVE["cuerpo_dia"] / 2
-                                 - om["hex"] / math.sqrt(3), 2)
-    hol["motorA_a_vuelo_ruedas_eje4"] = round(
-        d_eje4 - UNIDRIVE["cuerpo_dia"] / 2 - RUEDA["R"], 2)
-    hol["motorA_cuerpo_a_mampara"] = round(
-        (f["mampara_y"] - f["espesor"]) - (ma_y + UNIDRIVE["cuerpo_dia"] / 2), 2)
-    hol["soporte_a_spool_eje4"] = round(
-        (to["x_spool"] - to["spool"]["ancho"] / 2)
-        - (to["motor"]["cara_x"] + f["espesor"]), 2)
-    hol["esparragoA_sobre_eje4_z"] = round(
-        (ma_z + UNIDRIVE["patron"][1] / 2 - UNIDRIVE["perno"] / 2)
-        - (om["z_eje"] + om["hex"] / math.sqrt(3)), 2)
-    hol["esparragoA_a_spool_eje4"] = round(
-        (to["x_spool"] - to["spool"]["ancho"] / 2)
-        - (to["motor"]["cara_x"] + 18.0), 2)
-    hol["spool_a_bloque_B"] = round(
-        (f["luz"] - d["soportes"]["bloque"][0])
-        - (to["x_spool"] + to["spool"]["ancho"] / 2), 2)
-    hol["motorA_a_stub_h3"] = round(
-        (ma_y - UNIDRIVE["cuerpo_dia"] / 2)
-        - (dv["huecos_y"][-1] + dv["eje_y_rel"][1]), 2)
-    y_esparragos_A = ma_y - UNIDRIVE["patron"][0] / 2 - UNIDRIVE["perno"] / 2
-    hol["pantalla_a_motores"] = round(
-        min(y_esparragos_A, tc_motor_y0) - 372.0, 2)
-    hol["paso_eje_en_pantalla"] = round(9.0 - om["hex"] / math.sqrt(3), 2)
-    hol["eje_motorB_a_placa_B"] = round(
-        (f["largo"] - f["espesor"]) -
-        (d["tren_desvio"]["motor"]["cara_y"] + 62.7 + 8 + 22), 2)
-    bx, bz = d["tren_desvio"]["motor"]["eje_xz"]
-    d_ls = math.hypot(bx - x_ls, bz - z_ls)
-    hol["motorB_a_eje_comun"] = round(d_ls - UNIDRIVE["cuerpo_dia"] / 2
-                                      - dv["eje_comun"]["dia"] / 2, 2)
-    hol["motorB_cuerpo_a_cubo_ucfl"] = round(
-        d_ls - UNIDRIVE["cuerpo_dia"] / 2 - 21.0, 2)
-    hol["motorA_a_motorB_x"] = round(
-        (to["motor"]["cara_x"] - UNIDRIVE["cuerpo_largo"])
-        - (bx + UNIDRIVE["cuerpo_dia"] / 2), 2)
-    hol["esparragoB_z_a_brida_ucfl"] = round(
-        (z_ls - 15.0)
-        - (bz - UNIDRIVE["patron"][1] / 2 + UNIDRIVE["perno"] / 2), 2)
+    # el anillo del motor A cruza en x alguna cadena del último hueco: a esa
+    # y el lazo va muy abajo — medirlo con la misma construcción de tangentes
+    margen_mA = 99.0
+    for (xa, xb, gy) in dv["huecos"][-1]["cadenas"]:
+        if not (min(xa, xb) - rw <= w_M <= max(xa, xb) + rw):
+            continue
+        for yq in np.linspace(gy - ORING / 2, gy + ORING / 2, 9):
+            z = z_riser_en(yq, (ma_["y"], ma_["z"]),
+                           ma_["polea_dia"] / 2 - 3,
+                           (om["ejes_y"][-1], om["z_eje"]), r_co)
+            if z is not None:
+                margen_mA = min(margen_mA, fondo_cadena - z)
+    hol["anillo_motorA_bajo_cadenas_h3"] = round(margen_mA, 2)
+
+    # motores colgados: todo su volumen vive bajo el fondo (z<0)
+    hol["motorA_cuerpo_bajo_fondo"] = round(
+        0.0 - (ma_["z"] + UNIDRIVE["cuerpo_dia"] / 2), 2)
+    hol["motorB_cuerpo_bajo_fondo"] = round(
+        0.0 - (mb_["z"] + UNIDRIVE["cuerpo_dia"] / 2), 2)
+    hol["motorA_a_motorB_y"] = round(
+        (ma_["y"] - UNIDRIVE["cuerpo_dia"] / 2)
+        - (mb_["cara_y"] + UNIDRIVE["cuerpo_largo"]), 2)
+    hol["polea_motorA_a_placa"] = round(
+        (ma_["cara_x"] - f["espesor"]) - (ma_["polea_centro"] + 10.0), 2)
+    hol["polea_motorB_a_placa"] = round(
+        (mb_["cara_y"] - f["espesor"]) - (mb_["polea_centro"] + 10.0), 2)
+    hol["patron_A_dentro_del_largo"] = round(
+        f["largo"] - (ma_["y"] + UNIDRIVE["patron"][0] / 2
+                      + UNIDRIVE["perno"] / 2), 2)
+    hol["spool_comun_a_cubo_ucfl_A"] = round(
+        (mb_["plano_anillo"] + 4.0 - 10.0) - 58.0, 2)
+    hol["anillo_motorA_a_ucfl_B_x"] = round(
+        117.0 - (to_["planos"]["motor"] + ORING / 2), 2)
+    hol["anillo_motorB_a_trav_h1_y"] = round(
+        (mb_["plano_anillo"] - ORING / 2)
+        - (dv["huecos_y"][0] + tw["y_rel"][1] + 25.0 - 3.0 - 22.0), 2)
+    hol["anillo_motorA_a_polea_desvio"] = round(
+        min(abs(x - w_M) for x in dv["huecos"][-1]["stubs_x"])
+        - pol["dia"] / 2 - ORING / 2, 2)
+    hol["anillo_motorA_a_bloque_h3"] = round(
+        (ma_["y"] - (ma_["polea_dia"] / 2 - 3 + ORING))
+        - (dv["huecos_y"][-1] + blq_d["y_rel"][1]), 2)
     v["holguras"] = {"mm": hol,
                      "verdicto": "PASA" if all(h >= 1.0 for h in hol.values())
                      else "FALLA"}
@@ -1201,9 +1323,9 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
     cajas = [(n, m.bounds, g) for n, m, g in piezas]
 
     def familia(nombre):
-        if nombre in ("soporte_motor_A", "spool_eje_comun"):
+        if nombre == "spool_eje_comun":
             return nombre
-        n = re.sub(r"oring_e\d+_e\d+", "oring_e_e", nombre)
+        n = re.sub(r"collar_e\d+_w\d+", "collar", nombre)
         n = re.sub(r"_h\d+(_\d+|_[ab])?$", "", n)
         n = re.sub(r"soporte_[AB]\d+", "soporte", n)
         n = re.sub(r"_?\d+$", "", n)
@@ -1212,39 +1334,39 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
     NOMINALES = {
         # (familia_a, familia_b): por qué se tocan y dónde está la holgura real
         ("eje_omni", "soporte"): "eje dentro del FR8ZZ (barreno hex nominal)",
-        ("eje_omni", "spool_eje"): "spool montado en el eje (barreno hex)",
+        ("eje_omni", "collar"): "collar montado en el eje (barreno hex)",
         ("eje_omni", "rueda"): "ruedas montadas en el eje",
-        ("eje_omni", "pantalla_tren"): "paso Ø16 en la pantalla",
-        ("eje_omni", "oring_e_e"): "anillo en su garganta",
-        ("oring_e_e", "spool_eje"): "anillo en su garganta",
-        ("oring_motorA", "spool_eje"): "anillo en su garganta",
+        ("eje_omni", "oring_link"): "anillo en la garganta del collar",
+        ("oring_link", "collar"): "anillo en su garganta",
+        ("oring_motorA", "collar"): "anillo en la garganta del collar",
         ("oring_motorA", "polea_motor_A"): "anillo en su garganta",
-        ("oring_motorA", "eje_omni"): "anillo en la garganta del spool del eje",
+        ("oring_motorA", "eje_omni"): "anillo en la garganta del collar",
+        ("oring_motorA", "motor_A"): "anillo en la polea del eje D",
+        ("oring_motorA", "bancada_A"): "el ramal sube por la ranura de la "
+                                       "bancada",
+        ("oring_motorA", "rueda_desvio"): "AABB grueso del lazo: a la y de la "
+                                          "corona (y<=342) el ramal va a "
+                                          "z<-60 (holgura analítica)",
         ("motor_A", "polea_motor_A"): "polea en el eje D del motor",
-        ("motor_A", "soporte_motor_A"): "espárragos del patrón en la placa",
-        ("spool_eje", "soporte_motor_A"): "muesca Ø48 en el soporte",
-        ("eje_omni", "soporte_motor_A"): "pasa por la muesca del soporte",
-        ("oring_motorA", "soporte_motor_A"): "el anillo baja por la muesca",
-        ("motor_A", "pantalla_tren"): "AABB de espárragos; cuerpos separados",
-        ("motor_A", "eje_omni"): "espárrago 2.5 sobre el hex (holgura medida)",
-        ("motor_A", "oring_motorA"): "anillo en la polea del eje D",
-        ("spool_eje", "motor_A"): "polea del motor coplanar al spool (r 92)",
-        ("motor_B", "ucfl204_mampara"): "espárragos junto a la chumacera "
-                                        "(z disjunto, holgura medida)",
-        ("motor_A", "motor_B"): "espárragos B (y>543) tras el cuerpo A (y<=517)",
-        ("eje_comun", "motor_B"): "espárrago inferior a 34 en z del eje",
-        ("motor_B", "spool_eje_comun"): "espárrago a 26 en z del spool",
+        ("motor_A", "placa_motor_A"): "espárragos del patrón en la placa",
+        ("placa_motor_A", "bancada_A"): "pestaña M6 bajo la bancada",
+        ("placa_motor_B", "bancada_B"): "pestaña M6 bajo la bancada",
+        ("bancada_A", "canal_A"): "pestaña de bancada al alma (M5)",
+        ("bancada_A", "canal_B"): "pestaña de bancada al alma (M5)",
+        ("bancada_B", "canal_A"): "pestaña de bancada al alma (M5)",
+        ("bancada_B", "canal_B"): "pestaña de bancada al alma (M5)",
+        ("motor_B", "placa_motor_B"): "espárragos del patrón en la placa",
         ("motor_B", "oring_motorB"): "anillo en la polea del eje D",
         ("motor_B", "polea_motor_B"): "polea en el eje D del motor",
-        ("motor_B", "mampara_motores"): "espárragos del patrón en la mampara",
         ("oring_motorB", "polea_motor_B"): "anillo en su garganta",
         ("oring_motorB", "spool_eje_comun"): "anillo en su garganta",
         ("oring_motorB", "eje_comun"): "anillo en la garganta del spool",
+        ("oring_motorB", "bancada_B"): "el ramal sube por la ranura de la "
+                                       "bancada",
         ("eje_comun", "spool_eje_comun"): "spool en el eje (prisionero)",
-        ("eje_comun", "mampara_motores"): "paso Ø26 en la mampara",
         ("eje_comun", "placa_extremo_A"): "paso Ø26 en la placa A",
         ("eje_comun", "ucfl204_extremoA"): "eje en la chumacera",
-        ("eje_comun", "ucfl204_mampara"): "eje en la chumacera",
+        ("eje_comun", "ucfl204_extremoB"): "eje en la chumacera",
         ("rueda", "tapa_superior"): "ranura de rueda en la tapa",
         # desvío: omnis giradas 90° y su transmisión
         ("eje_desvio", "soporte_desvio"): "hex en los DOS FR8ZZ del bloque",
@@ -1255,7 +1377,7 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
         ("soporte_desvio", "trav"): "bloque atornillado al travesaño (2x M5)",
         ("soporte_desvio", "tapa_superior"): "la tapa remata en el bloque (M4)",
         ("trav", "canal_A"): "pestaña del travesaño al alma A (M5)",
-        ("trav", "pantalla_tren"): "pestaña del travesaño a la pantalla (M5)",
+        ("trav", "canal_B"): "pestaña del travesaño al alma B (M5)",
         ("oring_riser", "spool_desvio"): "anillo en su garganta",
         ("oring_riser", "polea_desvio"): "anillo en su garganta",
         ("oring_riser", "eje_comun"): "anillo en la garganta del spool",
@@ -1265,24 +1387,26 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
         ("oring_riser", "oring_cadena"): "coplanares solo sobre el arrollado "
                                          "bajo del spool (holgura "
                                          "riser_bajo_cadena_coplanar)",
+        ("oring_cadena", "oring_motorA"): "el lazo del motor cruza esa y a "
+                                          "z<=88 y la cadena vive a z>=119 "
+                                          "(holgura anillo_motorA_bajo_"
+                                          "cadenas_h3)",
+        ("trav", "oring_motorB"): "AABB compuesta: el lazo (y 67.6..72.4) "
+                                  "libra el cuerpo del travesaño 1 (y<=64, "
+                                  "holgura anillo_motorB_a_trav_h1_y) y las "
+                                  "pestañas viven en x 0..3 / 439..442",
         ("spool_desvio", "eje_comun"): "spool en el eje (prisionero)",
         ("soporte", "canal_A"): "bloque atornillado al alma (M5)",
         ("soporte", "canal_B"): "bloque atornillado al alma (M5)",
         ("soporte", "tapa_superior"): "la tapa apoya y atornilla en el bloque",
-        ("soporte_motor_A", "canal_B"): "pestañas del soporte al alma B",
-        ("soporte_motor_A", "mampara_motores"): "pestaña a la mampara",
         ("canal_A", "placa_extremo_A"): "placa atornillada entre almas",
         ("canal_A", "placa_extremo_B"): "placa atornillada entre almas",
-        ("canal_A", "mampara_motores"): "mampara atornillada entre almas",
-        ("canal_A", "pantalla_tren"): "pantalla atornillada",
         ("canal_A", "tapa_superior"): "borde de tapa junto al alma",
         ("canal_B", "placa_extremo_A"): "placa atornillada entre almas",
         ("canal_B", "placa_extremo_B"): "placa atornillada entre almas",
-        ("canal_B", "mampara_motores"): "mampara atornillada entre almas",
         ("canal_B", "tapa_superior"): "borde de tapa junto al alma",
-        ("mampara_motores", "tapa_superior"): "pestañas de la mampara a la tapa",
         ("ucfl204_extremoA", "placa_extremo_A"): "chumacera atornillada M10",
-        ("ucfl204_mampara", "mampara_motores"): "chumacera atornillada M10",
+        ("ucfl204_extremoB", "placa_extremo_B"): "chumacera atornillada M10",
     }
     sospechas, nominales_ok = [], 0
     for (n1, b1, g1), (n2, b2, g2) in itertools.combinations(cajas, 2):
@@ -1315,10 +1439,11 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
                                   "desvío ruedan libres (y viceversa): no hay "
                                   "arrastre de superficie parada",
         "anillos_en_serie_avance": d["parametros"]["ejes"],
-        "anillos_en_serie_desvio": 2,
+        "anillos_en_serie_desvio": 1 + max(
+            len(h["cadenas"]) - 1 for h in dv["huecos"]) if dv["huecos"] else 0,
         "advertencia": "ambos trenes van EN SERIE por o-rings (avance: motor->"
-                       "e4->e3->e2->e1; desvío: eje común->riser->stub->cadena"
-                       "->stub): validar deslizamiento con la carga real o "
+                       "e4->e3->e2->e1; desvío: eje común->riser->stub->"
+                       "cadenas): validar deslizamiento con la carga real o "
                        "duplicar anillos por tramo",
     }
     v["verdicto_global"] = "PASA" if all(
@@ -1331,12 +1456,12 @@ def verificar_modulo(d: dict, piezas, unicos) -> dict:
 # Salidas
 # ---------------------------------------------------------------------------
 
-FABRICADAS = ("canal_lateral", "placa_extremo", "mampara_motores",
-              "pantalla_tren", "soporte_motor_A", "soporte_eje",
-              "tapa_superior", "travesano_desvio", "soporte_desvio",
-              "eje_hexagonal", "eje_desvio_hex", "polea_desvio_2g",
-              "spool_desvio_2g", "spool_eje_omni", "spool_eje_comun",
-              "polea_motor_2g", "eje_comun_20")
+FABRICADAS = ("canal_lateral", "placa_extremo", "bancada_motor_A",
+              "bancada_motor_B", "placa_motor_A", "placa_motor_B",
+              "soporte_eje", "tapa_superior", "travesano_desvio",
+              "soporte_desvio", "eje_hexagonal", "eje_desvio_hex",
+              "polea_desvio_2g", "spool_desvio_2g", "collar_anillo",
+              "spool_eje_comun", "polea_motor_2g", "eje_comun_20")
 COMPRADAS = {"motor_unidrive": "UniDrive ONE (S-UD23062200R01)",
              "chumacera_ucfl204": "UCFL204 bore Ø20",
              "rueda_omni": "fabricada en el proyecto RUEDA-OMNI-58 (30 uds)",
@@ -1462,7 +1587,6 @@ def bom_modulo(d, unicos) -> list:
     n_ejes = d["parametros"]["ejes"]
     dv = d["desvio"]
     lazos = dv.get("lazos_mm", {})
-    n_anillos = n_ejes + 1 + len(lazos)
     largos = sorted(set(round(x) for x in lazos.values()))
     filas += [
         {"pieza": "motor_unidrive", "cant": 2, "origen": "comprar",
@@ -1478,8 +1602,8 @@ def bom_modulo(d, unicos) -> list:
          "origen": "proyecto RUEDA-OMNI-58",
          "nota": "Ø58, barreno hex 12.85, sándwich de placas "
                  f"({d['omnis']['n_ruedas']} avance + {dv['n_ruedas']} desvío)"},
-        {"pieza": "oring_pu_316", "cant": n_anillos, "origen": "comprar",
-         "nota": "PU 3/16 pulg 83A; lazos instalados del desvío "
+        {"pieza": "oring_pu_316", "cant": len(lazos), "origen": "comprar",
+         "nota": "PU 3/16 pulg 83A; lazos instalados "
                  f"~{largos} mm (ver desvio.lazos_mm) — pedir al 88-90% "
                  "del instalado (estirado 10-12%, wf06-08)"},
         {"pieza": "collarin_hex_12.7",
@@ -1489,8 +1613,8 @@ def bom_modulo(d, unicos) -> list:
         {"pieza": "separador_tubo_18x13.5", "cant": 1, "origen": "comprar",
          "nota": "barra de 2 m: cortar a medida entre ruedas (retención axial)"},
         {"pieza": "tornillería M5/M4 avellanada", "cant": 1, "origen": "comprar",
-         "nota": "bloques y tapa al alma; travesaños a alma A y pantalla; "
-                 "bloques de desvío al travesaño"},
+         "nota": "bloques y tapa al alma; travesaños y bancadas a ambas "
+                 "almas; bloques de desvío al travesaño"},
     ]
     return filas
 
@@ -1505,36 +1629,38 @@ def leeme_modulo(d, bom, verif) -> str:
          "",
          "QUÉ ES",
          parrafo("Módulo insertable entre bastidores de un transportador de "
-                 "rodillos BF 21 pulg. AVANCE: 4 ejes hexagonales de 1/2 pulg "
-                 f"con {om['n_ruedas']} ruedas omni Ø58 (proyecto RUEDA-OMNI-58) "
-                 f"en tresbolillo. DESVÍO: {dv['n_ruedas']} ruedas omni "
-                 "IGUALES, GIRADAS 90°, sobre ejes hex cortos en los huecos "
-                 "entre ejes (4 por hueco, en las columnas del tresbolillo de "
-                 "la hilera superior), movidas desde el eje común inferior Ø20 "
-                 "por o-rings (2 risers por hueco a un spool de 2 gargantas + "
-                 "2 cadenas stub-a-stub). Dos motores UniDrive ONE: A para el "
-                 "avance (spool + o-rings, esquema ZP2026), B para el eje "
-                 "común del desvío. Ambos sentidos comparten la tangente: la "
-                 "familia parada rueda libre sobre sus barriles."),
+                 "rodillos BF 21 pulg, con la PLANTA COMPLETA cubierta por "
+                 "omnis (v3). AVANCE: 4 ejes hexagonales de 1/2 pulg con "
+                 f"{om['n_ruedas']} ruedas omni Ø58 (proyecto RUEDA-OMNI-58) "
+                 "en tresbolillo hasta ambas almas, encadenados por anillos "
+                 f"en planos junto a las almas. DESVÍO: {dv['n_ruedas']} "
+                 "ruedas omni IGUALES, GIRADAS 90°, sobre ejes hex cortos en "
+                 "los huecos entre ejes, movidas desde el eje común inferior "
+                 "Ø20 por o-rings (2 risers por hueco a un spool de 2 "
+                 "gargantas + cadenas stub-a-stub). Dos motores UniDrive ONE "
+                 "COLGADOS BAJO EL FONDO en bancadas (\"compacta hacia "
+                 "abajo\"): A para el avance, B para el eje común del "
+                 "desvío. Ambos sentidos comparten la tangente: la familia "
+                 "parada rueda libre sobre sus barriles."),
          "",
          "GEOMETRÍA CLAVE (mm)",
          f"  ancho total {f['ancho_total']:g} (BF 533.4 − 2×3) · largo {f['largo']:g} "
-         f"· alto {f['alto']:g}",
+         f"· alto {f['alto']:g} + motores colgados hasta z=-150",
          f"  plano de transporte z={f['tangente']:g} — rasante con la pestaña "
          "superior (labio de desvío)",
          f"  ejes omni z={om['z_eje']:g} · paso {d['parametros']['paso']:g} · "
          f"huecos de desvío y={dv['huecos_y']}",
          f"  eje común ({dv['eje_comun']['x']:g}, z={dv['eje_comun']['z']:g}) · "
          f"envolvente mínima de anillo "
-         f"{verif['anillos_desvio']['envolvente_min']:g}°",
+         f"{verif['anillos']['envolvente_min']:g}°",
          "",
          "VERIFICADO POR EL GENERADOR",
          f"  encaje en BF: margen {verif['encaje_bf']['margen_por_lado']:g} por lado",
          f"  tangencias avance/desvío/pestaña: error máx "
          f"{verif['tangencia']['error_max']:g}",
-         f"  anillos del desvío: {verif['anillos_desvio']['n_anillos']} lazos, "
-         f"envolvente mínima {verif['anillos_desvio']['envolvente_min']:g}° "
-         "(gate >=120)",
+         f"  anillos (avance + motores + desvío): "
+         f"{verif['anillos']['n_anillos']} lazos, envolvente mínima "
+         f"{verif['anillos']['envolvente_min']:g}° (gate >=120)",
          f"  caja 250x250: mínimo {verif['apoyo_caja_250']['min_ruedas_avance']} "
          f"ruedas de avance / {verif['apoyo_caja_250']['min_hileras']} hileras "
          f"/ {verif['apoyo_caja_250']['min_ruedas_desvio']} ruedas de desvío "
@@ -1551,17 +1677,20 @@ def leeme_modulo(d, bom, verif) -> str:
                  "falta pop-up ni desnivel."),
          "",
          "SECUENCIA DE MONTAJE",
-         "  1. Frame: canales + placas extremas + pantalla + mampara (sin apretar).",
-         "  2. Travesaños de desvío al alma A y a la pantalla (M5).",
+         "  1. Frame: canales + placas extremas (sin apretar); bancadas A y B",
+         "     abajo con sus pestañas a ambas almas (M5).",
+         "  2. Travesaños de desvío entre almas (M5).",
          "  3. Bloques de avance al alma con sus FR8ZZ; bloques de desvío (2x",
          "     FR8ZZ cada uno) a los travesaños; tapa aún NO.",
          "  4. Eje común con sus 3 spools de 2 gargantas y el spool del motor B",
-         "     (prisioneros), a las chumaceras UCFL204.",
-         "  5. Ejes cortos del desvío: rueda + polea 2G (prisionero) + collarines,",
-         "     en sus bloques. Ejes omni de avance con ruedas y spool, a los suyos.",
-         "  6. O-rings estirados 10-12% en sus gargantas (risers, cadenas, tren",
-         "     de avance); motores A y B con sus poleas; anillos de motor.",
-         "  7. Tapa arriba (M4 a los bloques). Girar a mano ambos trenes antes",
+         "     (prisioneros), a las chumaceras UCFL204 de ambas placas extremas.",
+         "  5. Ejes cortos del desvío: rueda + polea 2G (prisionero) + collarín,",
+         "     en sus bloques. Ejes de avance con ruedas y collares, a los suyos.",
+         "  6. Placas de motor con su UniDrive colgadas bajo las bancadas (M6);",
+         "     poleas 2G en los ejes D.",
+         "  7. O-rings estirados 10-12% en sus gargantas (links de avance,",
+         "     risers, cadenas y anillos de motor por las ranuras de bancada).",
+         "  8. Tapa arriba (M4 a los bloques). Girar a mano ambos trenes antes",
          "     de conectar.",
          "",
          "LISTA DE MATERIALES"]
@@ -1575,8 +1704,9 @@ def leeme_modulo(d, bom, verif) -> str:
                   "desvío riser+cadena — validar deslizamiento o duplicar "
                   "anillos); fijación del módulo al bastidor anfitrión "
                   "(pestañas con agujeros a definir sobre el transportador "
-                  "real); y el desvío hacia el lado B pierde apoyo en la "
-                  "franja del tren (x>324): preferir desviar hacia el lado A."),
+                  "real); y el espacio bajo el módulo que ocupan los motores "
+                  "colgados (hasta z=-160) debe estar libre en el bastidor "
+                  "anfitrión."),
           "",
           "Todas las cotas heredan la incertidumbre declarada de sus fuentes "
           "(ver DECISIONES.md y web_facts.json).", ""]
