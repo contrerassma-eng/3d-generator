@@ -276,7 +276,11 @@ export const GUARDAS = {
   norte: {
     y: -515.1,                    // dis — chapa PLANA pegada a la cara sur del
     //   LAT TOP (−513.12 step, 0.08 de holgura): se atornilla de frente
-    z: [-118.0, -60.0],           // dis — solapa 5 la bancada y deja 7.95 al retorno
+    z: [-118.0, -63.0],           // calc — el techo lo fija el RAMAL DE RETORNO, y
+    //   con el accionamiento por tambor motriz ese ramal BAJÓ: su cara pasa de
+    //   Z −52.05 (poleas 63T) a −57.833 (params_tambores RETORNO.zCara). Techo =
+    //   ramal − 5 → −62.83, redondeado a −63; sigue solapando 5 la bancada LAT
+    //   TOP por abajo (−113 step) y ahora deja 5.17 a la banda en vez de 2.17.
     x: [-73.0, 479.0],            // dis — hasta 2 de las guardas laterales
   },
   //  · laterales: cierran los costados del pozo entre las dos testas, del canto

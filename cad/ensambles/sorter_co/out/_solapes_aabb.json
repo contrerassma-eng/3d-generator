@@ -1,17 +1,7 @@
 [
  {
-  "cm3": 14.19,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "CONDUCIDO Ø108 · eje FIJO Ø35 × 463"
- },
- {
-  "cm3": 9.59,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "RETORNO RR4 Ø88.9 · eje FIJO Ø30 × 463"
- },
- {
-  "cm3": 9.28,
-  "a": "CTX · Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)",
-  "b": "RETORNO RR1 Ø88.9 · eje FIJO Ø30 × 463"
+  "cm3": 607.41,
+  "a": "CTX · Ensamble motor UniDrive (extremo conducido)",
+  "b": "FIJO · Guarda de pozo sur 14GA 552×383 (Y=-1385)"
  }
 ]

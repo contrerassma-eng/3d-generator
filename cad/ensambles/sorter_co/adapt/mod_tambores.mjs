@@ -206,11 +206,22 @@ function rodilloEjeFijo(E, S, { nombre, y, z, spec, sop, marca }) {
         [L.collarL, spec.eje.d / 2 + 10], [L.collarL, spec.eje.d / 2]]),
     ], { ...conj, hardware: true, norma: 'DIN 705 A', componente: spec.collar });
 
+    // TORNILLERÍA: el vástago tiene que ATRAVESAR lo que aprieta —la pletina de
+    // `sop.e` más el alma de 8 del alargue PG40— y la cabeza queda hacia el
+    // interior de la máquina. Estaba al revés: la cabeza dentro de la pletina y
+    // los 40 mm de vástago saliendo AL AIRE hacia dentro, sin coser nada. En el
+    // lado +X esos 40 mm llegaban a X 439.418 y le entraban a la banda plana de
+    // la calle 5 (X 415.856…447.856) — 0.053 cm³ en el informe B-rep, con el
+    // lazo ya retrazado. Largo = pletina + alma + 5 de rosca sobrante.
     const pd = sop.taladro > 12 ? L.pernoSop : L.pernoRet;
+    const eAlma = 8;                      // pg40 ALARGUE.e (alma/cabezal de 8)
+    const largoP = r3(sop.e + eAlma + 5);
+    const xCab = nrm > 0 ? r3(xF + sop.e) : xF;     // cara de la pletina que da
+    //   al INTERIOR de la máquina: de ahí arranca el vástago hacia la chapa
     for (const [sy, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
       pernoHex(E, { nombre: `${pd.d === 12 ? 'M12' : 'M10'} soporte ${nombre} (${lado})`,
-        at: [r3(xF - (nrm > 0 ? 0 : 0)), r3(y + sy * sop.patron / 2), r3(z + sz * sop.patron / 2)],
-        dir: [nrm, 0, 0], dia: pd.d, largo: 40, af: pd.af, altoCab: pd.hh, capa: `${marca} · ` });
+        at: [xCab, r3(y + sy * sop.patron / 2), r3(z + sz * sop.patron / 2)],
+        dir: [-nrm, 0, 0], dia: pd.d, largo: largoP, af: pd.af, altoCab: pd.hh, capa: `${marca} · ` });
       n.piezas++;
     }
   }

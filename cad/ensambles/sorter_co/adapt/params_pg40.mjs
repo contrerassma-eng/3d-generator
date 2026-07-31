@@ -280,7 +280,18 @@ export const ALARGUE = {
   // Amarre al CHAPÓN del cliente (dis) — MODIFICACIÓN DECLARADA: 8 taladros
   // Ø11 M10 por lado en el chapón de 28. Es contacto plano cara con cara (el
   // alargue está a ras de su cara interior), sin separadores.
-  pernosChaponY: [-1500, -1400, -1300, -660, -520, -380, -260, -160],
+  // Los 8 SE REPARTEN ESQUIVANDO LAS PLETINAS DE SOPORTE de los rodillos de
+  // retorno (calc, params_tambores RETORNOS.soporte): esas pletinas 100×100
+  // apoyan contra ESTA MISMA cara del alma (X 479.418…491.418) y su huella en Y
+  // es RR1 −656…−556 · RR2 −722…−622 · RR3 −1330…−1230 · RR4 −1375…−1275 — a la
+  // cota Z −92 la cubren entera. La tuerca M10 sale 8 mm hacia dentro desde la
+  // cara de apoyo, así que un perno ahí no es un solape de modelo: es que no se
+  // puede montar. Los dos que caían dentro (Y −1300 en RR4 y Y −660 a 4 mm de
+  // RR1, que su tuerca af16 ya invadía) se corren al hueco libre más próximo:
+  //   −1300 → −1450 (el tramo sur sólo tiene libre −1535…−1375 y −1230…−1208)
+  //   −660  → −540  (deja 6.76 a la pletina de RR1 y 20 al perno de −520)
+  // MODIFICACIÓN DECLARADA sobre los taladros nuevos del chapón (siguen siendo 8).
+  pernosChaponY: [-1500, -1450, -1400, -540, -450, -360, -260, -160],
   pernosChaponZ: -92,            // calc: el chapón vive en Z −114…46 y el alma en
                                  //   −248…−70 → sólo comparten −114…−70; el perno
                                  //   va al medio, a 22 del canto del alma.

@@ -219,8 +219,24 @@ export function pg40(E) {
       ? [['', A.almaY]]
       : [['sur ', A.almaPosSur], ['norte ', A.almaPosNorte]];
     for (const [suf, yR] of tramosAlma) {
-      const fa = [sketchYZ(`Pletina ${A.material} e=${A.e} · ${r3(yR[1] - yR[0])} × ${r3(zAlma[1] - zAlma[0])}`,
+      // La chapa se emite en DOS TANDAS: primero TODAS las uniones (el rectángulo
+      // del alma y los lóbulos), después TODOS los cortes. No es estilo: es la
+      // única forma correcta de modelar UNA pieza de corte láser.
+      //   · si un lóbulo se añade DESPUÉS del taladro de paso de su vecino, le
+      //     vuelve a tapar el agujero — y ahí es donde el eje fijo Ø30 de RR1 se
+      //     encontraba 1.031 cm³ de acero macizo del lóbulo de RR2, que llega
+      //     hasta Y −612 y le pisa 9 mm del muñón (verificación B-rep);
+      //   · y el lóbulo, al no ser el PRIMER feature, se extruye con los 0.2 mm
+      //     de solape de fusión del traductor (a_step.solido_sketch): sobresalía
+      //     0.2 por la CARA DE APOYO y se metía en las 4 pletinas de soporte de
+      //     los rodillos de retorno (1.696 + 1.655 + 1.655 + 1.636 cm³). Se
+      //     arranca 0.2 más adentro y con 0.2 menos de canto: el sólido queda
+      //     EXACTAMENTE en el plano de la chapa (de xFace a xFace + e) y la
+      //     fusión ocurre DENTRO del material, que es donde debe ocurrir.
+      const FUS = 0.2;                                   // a_step.solido_sketch
+      const fUnion = [sketchYZ(`Pletina ${A.material} e=${A.e} · ${r3(yR[1] - yR[0])} × ${r3(zAlma[1] - zAlma[0])}`,
         xFace, rect(yR, zAlma), A.e)];
+      const fCut = [];
       // CARTELAS DE RODILLO DE RETORNO del lado +X: van en el MISMO plano que el
       // alma (X 491.418…499.418, que es la cara de apoyo que publica
       // adapt/params_tambores.mjs para el soporte INBOARD). Coplanarias ⇒ no
@@ -229,30 +245,35 @@ export function pg40(E) {
       const rrAqui = s > 0 ? RETORNOS.filter(rr => rr.y > yR[0] && rr.y < yR[1]) : [];
       for (const rr of rrAqui) {
         const zLo = r3(Math.min(rr.z - 60, zAlma[0])), zHi = r3(Math.max(rr.z + 60, zAlma[1]));
-        fa.push(sketchYZ(`Lóbulo de cartela ${rr.id} (Y ${rr.y}, Z ${rr.z})`,
-          xFace, rect([r3(rr.y - 60), r3(rr.y + 60)], [zLo, zHi]), A.e));
+        fUnion.push(sketchYZ(`Lóbulo de cartela ${rr.id} (Y ${rr.y}, Z ${rr.z})`,
+          r3(xFace + FUS), rect([r3(rr.y - 60), r3(rr.y + 60)], [zLo, zHi]), r3(A.e - FUS)));
         for (const dy of [-RSOP.patron / 2, RSOP.patron / 2]) {
           for (const dz of [-RSOP.patron / 2, RSOP.patron / 2]) {
-            fa.push(hole(`Soporte de retorno ${rr.id} Ø${RSOP.taladro}`,
+            fCut.push(hole(`Soporte de retorno ${rr.id} Ø${RSOP.taladro}`,
               [fuera, r3(rr.y + dy), r3(rr.z + dz)], dirIn, RSOP.taladro));
           }
         }
-        fa.push(hole(`Paso del eje de retorno ${rr.id} Ø${r3((RSOP.bore ?? 30) + 10)}`,
+        // PASO DEL EJE FIJO: Ø30 h9 del rodillo de retorno (params_tambores
+        // RETORNOS.eje) con 10 de holgura de montaje → Ø40. Es el «taladro de
+        // paso» que reclamaba el AVISO del módulo de tambores; se corta DESPUÉS
+        // de todos los lóbulos para que ninguno lo vuelva a tapar.
+        fCut.push(hole(`Paso del eje de retorno ${rr.id} Ø${r3((RSOP.bore ?? 30) + 10)}`,
           [fuera, rr.y, rr.z], dirIn, r3((RSOP.bore ?? 30) + 10)));
       }
       // pernos a las colisas del side channel (solo el lado −X los lleva en el
       // alma: en +X los lleva el tramo de lap, que es el que toca el alma del side)
       if (s < 0) {
         for (const y of A.pernosSideY) {
-          fa.push(hole(`Amarre side channel Ø${A.pernoSide.pasante} (Y ${y})`,
+          fCut.push(hole(`Amarre side channel Ø${A.pernoSide.pasante} (Y ${y})`,
             [fuera, y, A.pernoSideZ], dirIn, A.pernoSide.pasante));
         }
       } else {
         for (const y of A.pernosChaponY.filter(y => y > yR[0] && y < yR[1])) {
-          fa.push(hole(`Amarre chapón Ø${A.pernoChapon.pasante} (Y ${y})`,
+          fCut.push(hole(`Amarre chapón Ø${A.pernoChapon.pasante} (Y ${y})`,
             [fuera, y, A.pernosChaponZ], dirIn, A.pernoChapon.pasante));
         }
       }
+      const fa = [...fUnion, ...fCut];
       E.addPart(`PG40 · Alargue lateral · alma ${suf}${lado} (pletina ${A.material} e=${A.e}, L=${r3(yR[1] - yR[0])})`,
         COL.chapa, [xFace, 0, 0], fa, {
           capaInfo: 'dis',

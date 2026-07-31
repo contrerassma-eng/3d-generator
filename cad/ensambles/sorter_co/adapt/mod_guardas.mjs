@@ -19,11 +19,50 @@
 import { box, cyl, hole, COL, r2, pernoHex, tuercaHex, desarrollo } from '../../nbt90/lib.mjs';
 import { STEP, EJES, PERCHA, bordeExtDescarga } from './params_adapt.mjs';
 import { GUARDAS, GUIAS } from './params_estaciones.mjs';
+// ▼ EL POZO CAMBIÓ DE CONTENIDO (rediseño del cliente 31-07): dentro ya no hay
+// las 4 poleas de pozo V1…V4 con sus pletinas, sino los 4 RODILLOS DE RETORNO
+// del accionamiento por tambor motriz, con sus pletinas de soporte de 12, y el
+// ramal de retorno corre 5.5 mm más abajo. La guarda NO se retira —sigue
+// habiendo pozo y sigue habiendo puntos de atrapamiento banda↔rodillo, y ahora
+// además el ramal de fondo pasa a Z −358.9 bajo el módulo— pero se REHACE:
+// recortes de paso donde la atraviesa la estructura, escotes donde apoyan los
+// soportes de los rodillos, y rendijas por donde entra y sale la banda.
+import { TAMBORES, RETORNOS, RETORNO as RAMAL } from './params_tambores.mjs';
+import { ALARGUE } from './params_pg40.mjs';
+
+/** Los grupos de cartela de rodillo de retorno del lado −X, con la MISMA regla
+ *  de agrupación que usa adapt/mod_pg40.mjs (si dos cartelas se pisarían, sale
+ *  una sola por grupo). Se replica aquí para saber DÓNDE hay que recortar. */
+function cartelasNegX() {
+  const grupos = [];
+  for (const rr of [...TAMBORES.retorno].sort((a, b) => b.y - a.y)) {
+    const g = grupos.find(gr => gr.some(q => Math.abs(q.y - rr.y) < 120));
+    if (g) g.push(rr); else grupos.push([rr]);
+  }
+  return grupos.map((g) => {
+    const ys = g.map(q => q.y), zs = g.map(q => q.z);
+    return { ids: g.map(q => q.id).join('+'),
+      y: [r2(Math.min(...ys) - 60), r2(Math.max(...ys) + 60)],
+      z: [r2(Math.min(...zs, -200) - 60), r2(Math.max(...zs, -190) + 60)] };
+  });
+}
 
 export function guardas(E) {
-  const M = { piezas0: E.parts.length, nuevas: {}, desarrollos: {} };
+  const M = { piezas0: E.parts.length, nuevas: {}, desarrollos: {}, recortes: {} };
   const cuenta = (k, n = 1) => { M.nuevas[k] = (M.nuevas[k] || 0) + n; };
   const t = GUARDAS.t;
+  const HOLG = 2.0;                     // dis — holgura de recorte de chapa a la
+  //   estructura que lo atraviesa (corte láser + plegado de 14 GA)
+  const A = ALARGUE;
+  const CART = cartelasNegX();
+  /** Recorte de paso en una guarda de TESTA (plano YZ constante): caja pasante
+   *  en Y que atraviesa la chapa entera. */
+  const recorteTesta = (f, yPlano, [x0, x1], [z0, z1], nom, reg) => {
+    f.push(box(`Recorte de paso ${nom} ${r2(x1 - x0 + 2 * HOLG)}×${r2(z1 - z0 + 2 * HOLG)}`,
+      [r2((x0 + x1) / 2), yPlano, r2(z0 - HOLG)],
+      r2(x1 - x0 + 2 * HOLG), 200, r2(z1 - z0 + 2 * HOLG), 'cut'));
+    reg[nom] = `X ${r2(x0 - HOLG)}…${r2(x1 + HOLG)} · Z ${r2(z0 - HOLG)}…${r2(z1 + HOLG)}`;
+  };
 
   // =========================================================================
   // GUARDA DE TESTA SUR: cara vertical + ala superior de cuelgue a los perfiles
@@ -43,6 +82,31 @@ export function guardas(E) {
         [r2((x0 + x1) / 2), r2(G.y + t + (G.alaSup - t) / 2), r2(z1 - t)], L, r2(G.alaSup - t), t),
     ];
     for (const B of EJES) f.push(hole(`Ø9 M8`, [B, r2(G.y + G.alaSup - 14), r2(z1 - t - 1)], [0, 0, 1], 9.0));
+    // --- RECORTES DE PASO del ALARGUE −X (bastidor PG40) -------------------
+    // El alma del alargue y la cartela de los rodillos de retorno RR3+RR4
+    // ATRAVIESAN este plano: son estructura y no se mueven, así que la chapa
+    // se recorta a su alrededor. Antes no estaba modelado y el B-rep lo cantaba
+    // como 5.17 + 2.31 cm³ de acero macizo compartido.
+    recorteTesta(f, G.y, [A.xNegExt, r2(A.xNegExt + A.e)], [A.almaZBot, A.almaZTop],
+      'alma del alargue −X', M.recortes);
+    for (const ct of CART) {
+      // la chapa ocupa Y [G.y, G.y + t]: basta que la cartela la ROCE (la de
+      // RR3+RR4 arranca justo en Y −1385, que es el plano de esta guarda)
+      if (ct.y[0] >= r2(G.y + t) || ct.y[1] <= G.y) continue;
+      recorteTesta(f, G.y, [A.xCabNegExt, A.xCabNegInt], ct.z,
+        `cartela de retorno ${ct.ids} −X`, M.recortes);
+    }
+    // --- RENDIJAS DE PASO DE LA BANDA (5) ---------------------------------
+    // el ramal de retorno entra al pozo POR AQUÍ: el tramo llano que va del
+    // rodillo conducido (dorso a la cota que publica params_tambores) a RR4.
+    // Sin rendija la chapa cortaba la banda — 0.039 cm³ por calle: por debajo
+    // de la tolerancia del informe, pero imposible de fabricar.
+    const zRend = [r2(RAMAL.zConducido - STEP.bandaDorso - 7), r2(RAMAL.zConducido + 7)];
+    for (const B of EJES) {
+      f.push(box(`Rendija de banda ${r2(STEP.bandaAncho + 8)}×${r2(zRend[1] - zRend[0])}`,
+        [B, G.y, zRend[0]], r2(STEP.bandaAncho + 8), 200, r2(zRend[1] - zRend[0]), 'cut'));
+    }
+    M.recortes['rendijas de banda (5)'] = `${r2(STEP.bandaAncho + 8)} de ancho · Z ${zRend[0]}…${zRend[1]}`;
     const des = desarrollo(fibra, t, t);
     M.desarrollos['guarda sur'] = des.largo;
     E.addPart(`FIJO · Guarda de pozo sur 14GA ${L}×${r2(z1 - z0)} (Y=${G.y})`, COL.guarda,
@@ -78,6 +142,9 @@ export function guardas(E) {
     ];
     const pestX = [-20, 120, 300, 440];
     for (const px of pestX) f.push(hole(`Ø9 M8`, [px, r2(G.y - 1), r2((z0 + z1) / 2)], [0, 1, 0], 9.0));
+    // RECORTE DE PASO del alma del alargue −X (misma razón que en la sur)
+    recorteTesta(f, G.y, [A.xNegExt, r2(A.xNegExt + A.e)], [A.almaZBot, A.almaZTop],
+      'alma del alargue −X (norte)', M.recortes);
     const fibra = [[G.y, z1], [G.y, z0]];
     const des = desarrollo(fibra, t, t);
     M.desarrollos['guarda norte'] = des.largo;
@@ -127,6 +194,29 @@ export function guardas(E) {
         f.push(box(`Escote ménsula ${GUARDAS.escoteMensula.w}×${r2(GUARDAS.escoteMensula.z[1] - GUARDAS.escoteMensula.z[0])}`,
           [r2(G.x + s * t / 2), ym, GUARDAS.escoteMensula.z[0]],
           t + 32, GUARDAS.escoteMensula.w, r2(GUARDAS.escoteMensula.z[1] - GUARDAS.escoteMensula.z[0]), 'cut'));
+      }
+    } else {
+      // ESCOTES DE LOS SOPORTES DE RODILLO DE RETORNO (pozo nuevo). En el pozo
+      // viejo, a esta cota (Z −423…−340.3) sólo había aire: las poleas V2/V3 se
+      // colgaban de pletinas altas. Ahora los rodillos de retorno RR2 y RR3
+      // apoyan aquí sobre PLETINAS 100×100×12 atornilladas a la cara interior
+      // del alargue (X 479.418…491.418, params_tambores RETORNOS.soporte), y la
+      // chapa de la guarda (X 479.1…481.0) les pasa por encima: 8.21 cm³ en 6
+      // pares del informe B-rep contra las pletinas y sus M10. No es un solape
+      // de modelo — es que la chapa no se puede montar.
+      // Se escota alrededor de cada soporte, ABIERTO POR ARRIBA: el hueco lo
+      // tapa la propia pletina de 12, que es más gruesa que la guarda y cubre
+      // de Z −363.82 a −263.82 (la guarda muere en −340.3). El dobladillo
+      // superior (X 464.1…479.1) no se toca: pasa por dentro y hace de puente.
+      const RS = RETORNOS.soporte, semi = r2(RS.lado / 2 + HOLG + 3);
+      for (const rr of TAMBORES.retorno) {
+        if (rr.y < y0 || rr.y > y1) continue;
+        const zLo = r2(rr.z - RS.lado / 2 - HOLG - 2);       // bajo la pletina Y bajo
+        //   la fila baja de M10 (que va a rr.z − patrón/2, Ø10)
+        if (zLo >= z1) continue;                              // no llega a la guarda
+        f.push(box(`Escote soporte ${rr.id} ${r2(2 * semi)}×${r2(z1 - zLo + 5)}`,
+          [r2(G.x + s * t / 2), rr.y, zLo], t + 40, r2(2 * semi), r2(z1 - zLo + 5), 'cut'));
+        M.recortes[`escote soporte ${rr.id} (lateral +X)`] = `Y ${r2(rr.y - semi)}…${r2(rr.y + semi)} · Z ${zLo}…${z1} (abierto por arriba; lo tapa la pletina de ${RS.e})`;
       }
     }
     const fibra = [[r2(G.x + s * (t + 15)), z1], [G.x, z1], [G.x, z0], [r2(G.x + s * (t + 15)), z0]];

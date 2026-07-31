@@ -5,9 +5,10 @@
 //   · cama de guías UHMW re-repartida (piezas guiaw del cliente reubicadas);
 //   · el PUENTE: la calle portante dentro del módulo, 30 mm de ancho en la
 //     franja que barre el rodillo, apoyado en los travesaños de la percha;
-//   · la banda T5 con el lazo NUEVO: retorno llano → pozo del módulo (pasa POR
-//     DEBAJO del NBT90, 4 poleas fijas V1…V4) → retorno llano → POZO ORIGINAL
-//     DEL TENSOR del cliente (volantes + tensora en diagonal, conservados);
+//   · la BANDA PLANA con el lazo del ACCIONAMIENTO POR TAMBOR MOTRIZ (31-07):
+//     tambor motriz → portante sobre las guías UHMW → conducido → retorno por
+//     los 4 rodillos de retorno RR4…RR1 → HORQUILLA del tensor (volante de
+//     entrada, polea tensora, volante de salida) → tambor motriz;
 //   · el TENSOR ORIGINAL COMPLETO en su pose diagonal medida (corrección del
 //     cliente 31-07): brazo, tensora, cilindro vertical, eje común Ø25;
 //   · extremos de estación FIELES: las piezas del grupo motriz, drive kit e
@@ -20,9 +21,13 @@ import {
   box, cyl, hole, sketchYZ, bandaFaces, largoBanda, envolventes, COL, r2, pernoHex,
 } from '../../nbt90/lib.mjs';
 import { STEP, NBT, FRANJA, EJES, T, y0, y1, PERCHA, POZO, TENSOR, CALLE } from './params_adapt.mjs';
-import { TENSOR_VIEJO } from './params_tensor2.mjs';   // bandera: el tensor
-//   original diagonal del cliente queda DESACTIVADO (no borrado) desde que el
-//   sorter pasa a banda plana angosta con el tensor de brazos (mod_tensor2).
+import { TENSOR_VIEJO, GEO as TEN_GEO, POL as TEN_POL } from './params_tensor2.mjs';   // bandera: el
+//   tensor original diagonal del cliente queda DESACTIVADO (no borrado) desde que
+//   el sorter pasa a banda plana angosta con el tensor de brazos (mod_tensor2);
+//   de ahí salen además la POSE PUBLICADA de la polea tensora (GEO/POL).
+import { TAMBORES, TAMBOR, CONDUCIDO, RETORNOS, RETORNO as RAMAL } from './params_tambores.mjs';
+//   ↑ las ESTACIONES del accionamiento de banda plana: tambor motriz, rodillo
+//   conducido y los 4 rodillos de retorno, con su geometría de ramal.
 
 const T_BANDA = STEP.bandaDorso;          // 0.633 — la banda se modela POR SU DORSO
 // (cota step: dorso 52.333 − cara de guía 51.7). Los dientes (espesor total T5
@@ -106,20 +111,55 @@ export function calles(E) {
   const cuenta = (obj, k, n = 1) => { obj[k] = (obj[k] || 0) + n; };
 
   // --- el LAZO de banda (idéntico en las 5 calles; plano YZ) ---------------
-  // Recorrido: motriz → portante → conducida → retorno llano → POZO DEL MÓDULO
-  // (V1 dorso, V2/V3 dientes, V4 dorso) → retorno llano → POZO ORIGINAL DEL
-  // TENSOR (volante entrada dorso, tensora dientes, volante salida dorso) → motriz.
+  // LAZO DEL ACCIONAMIENTO POR TAMBOR MOTRIZ (rediseño del cliente 31-07). Las
+  // poleas dentadas 63T y las 4 poleas de pozo V1…V4 ya no existen (bandera
+  // params_pg40.FLAGS.desactivaTransmisionT5): la banda es PLANA y rueda por su
+  // DORSO sobre el tambor engomado. Ninguna estación se escribe a mano — todas
+  // se leen de donde las publica su dueño:
+  //   · tambor motriz, conducido y RR1…RR4 → adapt/params_tambores.mjs
+  //   · polea tensora                      → adapt/params_tensor2.mjs (GEO/POL)
+  //
+  // Recorrido (en el sentido de avance de la banda):
+  //   TAMBOR (180°) → PORTANTE llano sobre las guías UHMW del PG40 (Z 51.7) →
+  //   CONDUCIDO (180°) → retorno llano → RR4 baja el ramal → RR3 fondo del pozo
+  //   → [POR DEBAJO del NBT90] → RR2 → RR1 lo devuelve a llano →
+  //   HORQUILLA DEL TENSOR: volante de entrada → POLEA TENSORA (fondo) →
+  //   volante de salida → TAMBOR.
+  //
+  // LA HORQUILLA, y por qué los dos volantes (dis, con el número delante):
+  // la polea tensora está PUBLICADA en el fondo de la bahía medida del cliente
+  // (Y −175.72, Z −371.89, step §4.5) y su cálculo de fuerza exige que la banda
+  // la RODEE (N = 2·T·sen(abrazado/2) con abrazado ≈ 180°, params_tensor2). Sin
+  // los dos volantes de contraflexión, el ramal bajaría a ella EN DIAGONAL desde
+  // RR1 y volvería EN DIAGONAL al tambor: el abrazado en la tensora se queda en
+  // 109.07° y —lo grave— el del TAMBOR MOTRIZ cae de 180° a 114.82°, por debajo
+  // del mínimo de 150° de la compuerta §J y con el capstan hundido de 3.00 a 2.02.
+  // Los volantes son PIEZA DEL CLIENTE, medida y ya montada en esta misma bahía
+  // (`guia_entrada_liso` / `guia_salida_liso`, Ø100 cara / Ø110 pestañas × 34,
+  // barreno Ø38 — SORTER_CO.md §4.5): son los que formaban la horquilla vertical
+  // original. Quedaron libres al sustituir V1/V4 por los rodillos de retorno
+  // nuevos, así que VUELVEN A SU SITIO. Sus Y son las MEDIDAS; su Z se recalcula
+  // por tangencia al ramal nuevo (calc), que ahora corre a Z −57.833 y no a la
+  // cota vieja. Con ellos el lazo reproduce EXACTAMENTE los abrazados publicados:
+  // tambor 180°, conducido 180°, RR 96.5/102.39° y tensora 186.12° (el cliente
+  // midió 186.25° en la suya).
+  const R_VOL_H = STEP.volante.cara / 2;              // 50.0 step — rueda por el dorso
+  const zVol = r2(RAMAL.zCara - R_VOL_H);             // −107.83 calc (tangencia al ramal)
+  const RR = TAMBORES.retorno;                        // RR1…RR4, publicados
+  const R_TENSORA = TEN_POL.dia / 2;                  // 58.95 step — cara LISA (sin dientes)
   const seq = [
-    { c: [STEP.motrizY, 0], r: R_63T, s: +1 },
-    { c: [STEP.conducidaY, 0], r: R_63T, s: +1 },
-    { c: [POZO.v1.y, POZO.v1.z], r: R_VOL, s: -1 },
-    { c: [POZO.v2.y, POZO.v2.z], r: R_TEN, s: +1 },
-    { c: [POZO.v3.y, POZO.v3.z], r: R_TEN, s: +1 },
-    { c: [POZO.v4.y, POZO.v4.z], r: R_VOL, s: -1 },
-    { c: [TENSOR.volEntrada.y, TENSOR.volEntrada.z], r: R_VOL, s: -1 },
-    { c: [TENSOR.tensora.y, TENSOR.tensora.z], r: R_TEN, s: +1 },
-    { c: [TENSOR.volSalida.y, TENSOR.volSalida.z], r: R_VOL, s: -1 },
+    { c: [TAMBORES.motriz.y, TAMBORES.motriz.z], r: TAMBOR.r, s: +1 },
+    { c: [TAMBORES.conducido.y, TAMBORES.conducido.z], r: CONDUCIDO.r, s: +1 },
+    { c: [RR[3].y, RR[3].z], r: RETORNOS.r, s: -1 },          // RR4 · baja el ramal
+    { c: [RR[2].y, RR[2].z], r: RETORNOS.r, s: +1 },          // RR3 · fondo del pozo, sur
+    { c: [RR[1].y, RR[1].z], r: RETORNOS.r, s: +1 },          // RR2 · fondo del pozo, norte
+    { c: [RR[0].y, RR[0].z], r: RETORNOS.r, s: -1 },          // RR1 · vuelve a llano
+    { c: [TENSOR.volEntrada.y, zVol], r: R_VOL_H, s: -1 },    // horquilla, entrada
+    { c: [TEN_GEO.poleaY, TEN_GEO.poleaZ], r: R_TENSORA, s: +1 },   // POLEA TENSORA
+    { c: [TENSOR.volSalida.y, zVol], r: R_VOL_H, s: -1 },     // horquilla, salida
   ];
+  const NOMBRE_EST = ['tambor', 'conducido', 'RR4', 'RR3', 'RR2', 'RR1',
+    'volEntrada', 'tensora', 'volSalida'];
   const largo = largoBanda(seq, T_BANDA);
   const env = envolventes(seq, T_BANDA);
   // Poligonal CIRCUNSCRITA (como el serpentín del NBT90): +flecha por elemento.
@@ -213,13 +253,41 @@ export function calles(E) {
       cuenta(M.nuevas, 'placa base de puente', 1);
     }
 
-    // 4. banda T5 (lazo nuevo; el cut sigue el convenio del motor)
-    E.addPart(`FIJO · Banda T5×32 lazo nuevo L=${largo} (${c})`,
+    // 4. BANDA PLANA (lazo del tambor motriz; el cut sigue el convenio del motor)
+    E.addPart(`FIJO · Banda plana 32 × ${T_BANDA} — lazo del tambor motriz L=${largo} (${c})`,
       COL.banda, [r2(B - STEP.bandaAncho / 2), 0, 0],
       [sketchYZ(`Lazo (dorso ${T_BANDA})`, r2(B - STEP.bandaAncho / 2), caras.outer, STEP.bandaAncho),
         sketchYZ(`Hueco del lazo`, r2(B + STEP.bandaAncho / 2 + 0.5), caras.inner, r2(STEP.bandaAncho + 1), 'cut')],
-      { nota: `modelada por su dorso (0.633, step); largo de fibra ${largo}; incluye el pozo del módulo Y el pozo original del tensor; reempalme o banda nueva: decide el cliente` });
-    cuenta(M.nuevas, `banda T5×32 (largo ${largo})`, 1);
+      { nota: `banda PLANA (ya no es la T5 dentada: el tambor motriz arrastra por fricción). Modelada `
+          + `por su DORSO ${T_BANDA} — convenio del modelo del cliente que params_tambores conserva; una `
+          + `banda plana real de 2 telas mide ~2.5 y sólo cambiaría la cara de la guía UHMW. Largo de fibra `
+          + `${largo}; recorre el pozo del módulo (RR4→RR3→RR2→RR1) y la horquilla del tensor. Banda NUEVA: `
+          + `la T5 del cliente no sirve para este accionamiento` });
+    cuenta(M.nuevas, `banda plana 32 (largo ${largo})`, 1);
+
+    // 4-bis. los dos VOLANTES DE CONTRAFLEXIÓN que forman la horquilla del
+    //        tensor: pieza medida del cliente, Y original, Z por tangencia.
+    // El 34.0 medido es la CARA ÚTIL entre pestañas (SORTER_CO.md §4.5); las dos
+    // pestañas de 3 van por fuera, así que el ancho total del volante es 40 —
+    // igual que lo modelaba el bloque del tensor original. Con 34 de cara libre
+    // la banda de 32 entra con 1 mm por lado, que es la guía lateral para la que
+    // están las pestañas; si se toma el 34 como ancho TOTAL la cara libre baja a
+    // 28 y la banda monta sobre las pestañas (0.38 cm³ por calle, comprobado).
+    const anchoVol = r2(STEP.volante.ancho + 2 * 3);
+    for (const [V, nom] of [[TENSOR.volEntrada, 'entrada'], [TENSOR.volSalida, 'salida']]) {
+      poleaX(E, `FIJO · Volante de horquilla guia_${nom}_liso Ø${STEP.volante.cara}/Ø${STEP.volante.pest}×${anchoVol} (${c})`,
+        B, V.y, zVol, STEP.volante.cara, anchoVol, STEP.volante.pest, 3, STEP.volante.bore,
+        COL.polea,
+        { capaInfo: 'step (Ø y cara útil medidos; Y medida) + calc (Z por tangencia al ramal)',
+          nota: `pieza del cliente REUBICADA: es el volante liso que ya formaba la horquilla vertical `
+            + `del tensor (SORTER_CO.md §4.5). Rueda sobre el DORSO de la banda. Y ${V.y} es la MEDIDA; `
+            + `Z ${zVol} sale de la tangencia al ramal de retorno nuevo (cara de la banda ${RAMAL.zCara}, `
+            + `params_tambores) − radio ${R_VOL_H} — la pose vieja (Z −97) era la del ramal a −52.33. `
+            + `Sin estos dos volantes el abrazado del TAMBOR MOTRIZ cae a 114.82° (< 150° de la compuerta) `
+            + `y el de la tensora a 109.07°, y el tensor deja de poder poner su tensión.` });
+      cuenta(M.reuso, 'volante de contraflexión del cliente devuelto a la horquilla', 1);
+    }
+    // el eje y el soporte de estos volantes: ver AVISO DECLARADO del integrador.
 
     // 5. poleas motriz y conducida (63T, cotas step §4.5)
     poleaX(E, `FIJO · Polea motriz T5-63T Ø112/Ø100×40 (${c})`, B, STEP.motrizY, 0,
@@ -389,16 +457,20 @@ export function calles(E) {
   // --- métricas del lazo ---------------------------------------------------
   M.banda = {
     largoDesarrollado: largo,
-    envolventes_deg: {
-      motriz: env[0], conducida: env[1], V1: env[2], V2: env[3], V3: env[4], V4: env[5],
-      volEntrada: env[6], tensoraOriginal: env[7], volSalida: env[8],
-    },
+    envolventes_deg: Object.fromEntries(NOMBRE_EST.map((n, i) => [n, env[i]])),
     dorsoPortanteZ: r2(zTop), fondoPozoZ: r2(zFondo),
     flechaFacetaMotriz: r2(flecha[0] * 100) / 100,
     dorsoTeoricoZ: r2(STEP.planoBanda),
-    carasupBajoModuloZ: r2(POZO.v3.z - STEP.polTensora.dia / 2),   // −358.95
+    ramalRetornoZ: r2(RAMAL.z),                                    // −57.2 (dorso)
+    carasupBajoModuloZ: r2(RR[1].z - RETORNOS.r),                  // −358.27 → CARA ALTA del
+    //   ramal de fondo: RR2/RR3 muerden ese ramal por ARRIBA, así que su dorso
+    //   está a centro − radio. Es la cota que se juega la holgura al NBT90.
     holguraBandaCilindroTensor: isFinite(holguraBandaCil) ? r2(holguraBandaCil) : 999,
-    fondoPozoTensorOriginalZ: r2(TENSOR.tensora.z - R_TEN - T_BANDA),
+    fondoHorquillaTensorZ: r2(TEN_GEO.poleaZ - R_TENSORA - T_BANDA),
+    volanteHorquillaZ: zVol,
+    // el abrazado que la geometría da a la TENSORA, frente al que declara
+    // params_tensor2 (RAMAL.abrazadoDeg = 180 dis, medida original 186.25°):
+    abrazadoTensoraGeometrico: env[7],
   };
   M.piezas = E.parts.length - M.piezas0;
   return M;

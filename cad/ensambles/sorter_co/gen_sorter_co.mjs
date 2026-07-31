@@ -102,7 +102,11 @@ if (!TENSOR_VIEJO) m.tensor2 = tensor2(E, m.ramal);
   // bandas y los 4 rodillos de retorno gobiernan el ramal. Se retiran por
   // bandera, no borrando código (params_pg40.FLAGS.desactivaTransmisionT5).
   if (PG40F.desactivaTransmisionT5) {
-    rxFuera.push(/Polea motriz T5-63T|Polea conducida T5|Volante contraflexión|Polea plana Ø117\.9|Pletina de volante|Pletina V[23]|Eje Ø20×50 de pozo|Espaciador de aros|Anillo 3AM1-20|Anillo DIN 472-42/);
+    // …y la TORNILLERÍA HUÉRFANA de esas pletinas de pozo: la bandera se llevaba
+    // las placas y dejaba dentro los 60 M8 que las cosían al perfil, flotando
+    // donde ya no hay placa (el mismo defecto que params_tambores.RETIRA corrigió
+    // con los rodamientos de las V1…V4). Se van con la placa a la que servían.
+    rxFuera.push(/Polea motriz T5-63T|Polea conducida T5|Volante contraflexión|Polea plana Ø117\.9|Pletina de volante|Pletina V[23]|M8×1[26] pletina V[1-4]|Eje Ø20×50 de pozo|Espaciador de aros|Anillo 3AM1-20|Anillo DIN 472-42/);
   }
   if (PG40F.desactivaPercha) rxFuera.push(/percha|Placa de cuelgue NBT90|Lengüeta de apoyo|Escuadra larguero|Escuadra ménsula|Ménsula percha|Placa frontal ménsula|Placa de escote|Casquillo separador/i);
   const antes = E.parts.length;
@@ -223,6 +227,11 @@ const TEN2 = new RegExp('Eje pivote común|Chumacera SKF UCFL 206'
   + '|Cilindro SMC CD85N25-80|Bisagra trasera SMC C85C25|Rótula de vástago SMC KJ10D'
   + '|Regulador de caudal SMC AS2201FS|Silenciador SMC AN101|Racor codo SMC KQ2L06'
   + '|Brazo tensor e=|Cubo del brazo|Casquillo de fricción|Polea tensora POL-CON-TEN'
+  // los dos VOLANTES DE CONTRAFLEXIÓN son la HORQUILLA del tensor: sin ellos la
+  // banda no rodea la tensora y el tambor motriz pierde 65° de abrazado (ver
+  // adapt/mod_calles.mjs §4-bis). Son pieza medida del cliente, en su Y original
+  // y dentro de la MISMA bahía que el tensor: les vale su mismo precedente.
+  + '|Volante de horquilla guia_'
   + '|Eje de polea tensora|Bulón del lóbulo');
 
 function verify() {
@@ -265,7 +274,7 @@ function verify() {
     const w = r2(b.hi[0] - b.lo[0]);
     const cx = (b.lo[0] + b.hi[0]) / 2;
     const eje = EJES.reduce((a, b2) => Math.abs(b2 - cx) < Math.abs(a - cx) ? b2 : a);
-    if (/Banda T5/.test(p.name)) {
+    if (/Banda plana 32/.test(p.name)) {
       // la BANDA (32.0) es la excepción medida del reconocimiento (§1.5): lo
       // que la compuerta del NBT90 exige a la banda del anfitrión es holgura
       // ≥ 2 al rodillo, y 32 la cumple con 4.64 por lado. La VENTANA de 31.75
@@ -394,8 +403,8 @@ function verify() {
     // pares con CONTACTO INTENCIONAL (apoyos y uniones) o cuya AABB miente por
     // perfil hueco; en todos decide el B-rep (interferencias_brep.py sobre
     // out/sorter_co_brep.json)
-    [/Puente de calle — regleta/, /Banda T5/],               // apoyo banda↔regleta
-    [/Guía de deslizamiento/, /Banda T5/],                   // apoyo banda↔guía
+    [/Puente de calle — regleta/, /Banda plana 32/],               // apoyo banda↔regleta
+    [/Guía de deslizamiento/, /Banda plana 32/],                   // apoyo banda↔guía
     [/Placa base de puente/, /Travesaño percha/],            // apoyo placa↔travesaño
     [/Puente de calle — pletina/, /Placa base de puente/],   // soldadas
     [/Puente de calle — pletina/, /Puente de calle — regleta/],
@@ -418,7 +427,7 @@ function verify() {
     // IDLER-ENS y drive kit: subconjuntos-caja del cliente que HOY YA abrazan
     // el perfil, la cama de guías y las poleas de su calle (así están medidos:
     // el idler envuelve la conducida, el drive kit abraza el árbol motriz)
-    [/CTX · IDLER-ENS/, /Perfil ranurado|Guía de deslizamiento|Polea conducida|Banda T5|Cierre de guía/],
+    [/CTX · IDLER-ENS/, /Perfil ranurado|Guía de deslizamiento|Polea conducida|Banda plana 32|Cierre de guía/],
     [/CTX · Drive kit/, /Perfil ranurado|Polea motriz/],
     [/CTX · Soporte motriz/, /Polea motriz|Perfil ranurado/],
     // los AABB no ven cortes: el casquillo/perno del cuelgue +X pasan por la
@@ -593,7 +602,7 @@ function verify() {
     [/^TAMBOR · engomado/, /PG40 · Escuadra larguero↔travesaño \(calle \d, Y -100\)/],
     // ▲▲▲ --------- ▲▲▲
   ];
-  const esBanda = (p) => /Banda T5/.test(p.name);
+  const esBanda = (p) => /Banda plana 32/.test(p.name);
   const esHw = (p) => p.hardware;
   const candidatos = partes.filter(p => !esBanda(p));
   let choques = 0;
@@ -652,7 +661,7 @@ function verify() {
   const PASILLO_OK = [
     /Vulcanizado negro|Tubo de rodillo/,     // el rodillo emergido (la función)
     /Banda plana FLEXPROOF/,                 // su banda de arrastre en el rebaje
-    /Banda T5/,                              // el plano de transporte mismo
+    /Banda plana 32/,                              // el plano de transporte mismo
     /Tapa-soporte de extremo/,               // tapas del eje del rodillo NBT90: suben
                                              //   a Z 54.17 EN LA LÍNEA DEL RODILLO,
                                              //   4.5 bajo la cresta elevada (58.68)
@@ -715,8 +724,19 @@ function verify() {
   const B = m.calles.banda;
   if (!B || !B.largoDesarrollado) e.push('el lazo de banda no se pudo trazar');
   else {
-    if (B.envolventes_deg.motriz < 150) e.push(`envolvente en la motriz ${B.envolventes_deg.motriz}° < 150°`);
-    if (B.envolventes_deg.conducida < 150) e.push(`envolvente en la conducida ${B.envolventes_deg.conducida}° < 150°`);
+    // el lazo lo mandan ahora el TAMBOR MOTRIZ y el rodillo CONDUCIDO (las 63T
+    // se retiraron): mismos 150° de envolvente mínima, sobre las estaciones que
+    // sí existen. En banda plana ese mínimo es además el que sostiene el capstan
+    // que mod_tambores verifica (§4.7): con 180° da 3.00 y con 150° aún 2.51.
+    if (B.envolventes_deg.tambor < 150) e.push(`envolvente en el tambor motriz ${B.envolventes_deg.tambor}° < 150°`);
+    if (B.envolventes_deg.conducido < 150) e.push(`envolvente en el conducido ${B.envolventes_deg.conducido}° < 150°`);
+    // el abrazado real sobre el TAMBOR es el que params_tambores publica y con
+    // el que calcula el arrastre: si el lazo no lo reproduce, el número de
+    // arrastre de ese módulo estaría calculado sobre una geometría que no es.
+    if (Math.abs(B.envolventes_deg.tambor - TAMB_RAMAL.abrazadoMotrizDeg) > 1) {
+      e.push(`el lazo abraza el tambor ${B.envolventes_deg.tambor}° y params_tambores publica `
+        + `${TAMB_RAMAL.abrazadoMotrizDeg}°: el arrastre está calculado sobre otra geometría`);
+    }
     // el contorno emitido va circunscrito (+flecha de faceta, como el serpentín
     // del NBT90): el dorso real del modelo queda planoBanda + flecha
     if (Math.abs(B.dorsoPortanteZ - (STEP.planoBanda + B.flechaFacetaMotriz)) > 0.05) {
@@ -887,17 +907,27 @@ function verify() {
       // SUR: entre el IDLER-ENS (−1391.98 step) y el flanco de la bajada de V1
       // (−1377.5 calc); la cara es el borde −Y de la caja (el ala va hacia +Y
       // a Z −42…−40, con el retorno 10 más abajo)
-      const flancoS = r2(POZO.v1.y - (STEP.volante.cara / 2 + 2.5));
+      // Los flancos y la cota del retorno los manda ahora el ACCIONAMIENTO POR
+      // TAMBOR (adapt/params_tambores.mjs): en el pozo ya no hay poleas V1…V4,
+      // hay rodillos de retorno RR1…RR4, y el ramal bajó de Z −52.05 a −57.833.
+      // Las dos reglas siguen siendo las mismas —5 mm de aire al flanco de la
+      // bajada y 5 mm entre el techo de la guarda norte y la banda—; lo que
+      // cambia es la geometría de la que se leen.
+      const rrSur = TAMB_EJES.retorno.reduce((a, b) => (b.y < a.y ? b : a));   // RR4
+      const rrNorte = TAMB_EJES.retorno.reduce((a, b) => (b.y > a.y ? b : a)); // RR1
+      const flancoS = r2(rrSur.y - (TAMB_RET.r + STEP.bandaDorso));
       if (bS.lo[1] < STEP.idlerEnsY[1] + 2) e.push(`la guarda sur (Y ${r2(bS.lo[1])}) pisa el IDLER-ENS (${STEP.idlerEnsY[1]})`);
       if (r2(bS.lo[1] + tCh) > flancoS - 5) e.push(`la cara de la guarda sur (Y ${r2(bS.lo[1] + tCh)}) no deja 5 al flanco de la bajada (${flancoS})`);
       if (bS.lo[2] > -420 || bS.hi[2] < -42) e.push(`la guarda sur no cubre de Z −420 a −42 (Z ${r2(bS.lo[2])}…${r2(bS.hi[2])})`);
       // NORTE: franja pegada a la cara sur de la bancada LAT TOP (−513.12 step),
-      // al norte del flanco de V4 (−553.5 calc) y 5 bajo el retorno (−52.05)
-      const flancoN = r2(POZO.v4.y - (STEP.volante.cara / 2 + 2.5));   // −658.5 (bajada V4↔V3)
+      // al norte del flanco de RR1 y 5 bajo la cara de la banda del retorno
+      const flancoN = r2(rrNorte.y - (TAMB_RET.r + STEP.bandaDorso));
+      const zRamalCara = r2(TAMB_RAMAL.zCara);
       if (bN.lo[1] < -520 || bN.lo[1] > -514) e.push(`la guarda norte (cara Y ${r2(bN.lo[1])}) no queda contra la bancada LAT TOP (−513.12)`);
-      if (bN.lo[2] > -116 || bN.hi[2] < -62) e.push(`la guarda norte no cubre la franja Z −116…−62 (Z ${r2(bN.lo[2])}…${r2(bN.hi[2])})`);
-      if (bN.hi[2] > -57) e.push(`la guarda norte (Z hasta ${r2(bN.hi[2])}) no deja 5 al retorno (−52.05)`);
-      m.flancosGuardas = { flancoS, flancoN, retornoZ: -52.05 };
+      if (bN.lo[2] > -116) e.push(`la guarda norte no baja a solapar la bancada (Z ${r2(bN.lo[2])} > −116)`);
+      if (bN.hi[2] < r2(zRamalCara - 10)) e.push(`la guarda norte (Z hasta ${r2(bN.hi[2])}) no cubre hasta 10 bajo el ramal (${zRamalCara})`);
+      if (bN.hi[2] > r2(zRamalCara - 5)) e.push(`la guarda norte (Z hasta ${r2(bN.hi[2])}) no deja 5 al ramal de retorno (${zRamalCara})`);
+      m.flancosGuardas = { flancoS, flancoN, retornoZ: zRamalCara };
       // LATERALES: la +X solo bajo el fondo del NBT90; ninguna pieza del módulo
       // las toca; las ménsulas de la percha pasan por los escotes de la −X
       const gPX = gL.find(p => /\+X/.test(p.name));
@@ -1162,24 +1192,56 @@ function verify() {
       + `${TAMB_CON.rodam.desig} DENTRO del tubo sobre eje fijo pasante Ø${TAMB_CON.eje.d} `
       + `(instrucción del cliente). En su estación el alargue conserva el mismo patrón `
       + `${TAMB_CON.soporte.patron}×${TAMB_CON.soporte.patron} pero recibe una pletina de eje fijo`);
-    // LO QUE LA VERIFICACIÓN B-REP EXACTA DEJA ABIERTO Y NO ES DE ESTE MÓDULO.
-    // Se declara con su cota en vez de taparlo, porque son piezas de otros
-    // módulos y el que coordine tiene que verlo:
-    avisosDeclarados.push('TAMBORES · PENDIENTE DE mod_calles: el lazo de banda T5 sigue trazado '
-      + 'sobre la trayectoria de las poleas 63T que ya no existen, y por eso ATRAVIESA el tambor '
-      + 'motriz (27.4 cm³ en 10 pares del informe B-rep). El lazo hay que rehacerlo plano sobre '
-      + `las estaciones que publica params_tambores: tambor Ø${TAMB_P.od} en Y=${TAMB_EJES.motriz.y}, `
-      + `conducido Ø${TAMB_CON.od} en Y=${TAMB_EJES.conducido.y}, retornos `
-      + TAMB_EJES.retorno.map(R => `${R.id}(${R.y}, ${R.z})`).join(' ')
-      + `, ramal a Z ${TAMB_RAMAL.z} y abrazado de ${TAMB_RAMAL.abrazadoMotrizDeg}° en el tambor`);
-    avisosDeclarados.push('TAMBORES · PENDIENTE DE mod_guardas: la guarda de pozo lateral +X está '
-      + 'trazada para el pozo de las poleas V1…V4 y pisa las pletinas de soporte de los rodillos '
-      + 'de retorno (8.2 cm³ en 6 pares). El pozo cambió de contenido: la guarda tiene que seguir '
-      + 'a los rodillos nuevos.');
-    avisosDeclarados.push('TAMBORES · PENDIENTE DE mod_pg40: las pletinas de soporte de eje fijo '
-      + '(+X) montan contra el alma del alargue y su cubrejunta y ahí hay 8.9 cm³ de solape macizo '
-      + `en 7 pares: el alargue necesita el rebaje o el taladro Ø${TAMB_CON.soporte.bore} H8 de paso `
-      + 'en esa cara. Las cartelas de retorno que ya ha puesto tampoco lo llevan.');
+    // LO QUE LA VERIFICACIÓN B-REP EXACTA DEJABA ABIERTO ENTRE MÓDULOS — los
+    // tres avisos «PENDIENTE DE …» de este bloque están CERRADOS (177 → 108
+    // interferencias, y las 108 que quedan son las convenciones declaradas:
+    // tornillería dentro de la pieza que atornilla, rodamiento sobre su eje,
+    // casquillo prensado en su cubo y la línea de vulcanizado). Se deja el
+    // rastro de qué era cada uno y con qué se cerró:
+    //   · mod_calles  — el lazo T5 sobre las 63T atravesaba el tambor motriz y
+    //     el conducido (27.4 cm³ / 10 pares). RETRAZADO a banda plana sobre las
+    //     estaciones publicadas, con los dos volantes de contraflexión del
+    //     cliente devueltos a la horquilla del tensor. Abrazados resultantes,
+    //     idénticos a los publicados: tambor 180°, conducido 180°, RR 96.5 /
+    //     102.39°, tensora 186.12° (el cliente midió 186.25° en la suya).
+    //   · mod_guardas — la guarda seguía trazada para el pozo de las V1…V4
+    //     (8.21 cm³ / 6 pares contra los soportes de RR2 y RR3, más 8.21 cm³
+    //     contra el alargue). REHECHA: sigue habiendo pozo y sigue habiendo
+    //     atrapamientos, así que NO se retira — se le abren los escotes de los
+    //     soportes de retorno, los recortes de paso del alargue y las rendijas
+    //     de la banda, y su techo baja de −60 a −63 porque el ramal bajó.
+    //   · mod_pg40    — el alma no tenía el paso del eje ni quedaba a ras: sus
+    //     lóbulos de cartela sobresalían 0.2 por la cara de apoyo (6.64 cm³ en
+    //     4 pares contra las pletinas), el lóbulo de RR2 tapaba el taladro de
+    //     paso de RR1 y le comía 9 mm del eje (1.03 cm³), y dos M10 al chapón
+    //     caían dentro de las pletinas de RR1 y RR4 (2.29 cm³ en 3 pares).
+    //     Uniones antes que cortes, lóbulos a ras y los dos pernos reubicados.
+    // Lo que SÍ queda abierto se declara aquí abajo, con su cota:
+    const LZ = m.calles.banda;
+    avisosDeclarados.push('TAMBORES · CERRADO por mod_calles: el lazo de banda es ahora PLANO sobre '
+      + `tambor Ø${TAMB_P.od} (Y ${TAMB_EJES.motriz.y}) → guías UHMW → conducido Ø${TAMB_CON.od} `
+      + `(Y ${TAMB_EJES.conducido.y}) → ` + TAMB_EJES.retorno.map(R => R.id).reverse().join('→')
+      + ` → horquilla del tensor. Abrazado en el tambor ${LZ.envolventes_deg.tambor}° = el `
+      + `${TAMB_RAMAL.abrazadoMotrizDeg}° publicado; largo de fibra ${LZ.largoDesarrollado} mm por calle`);
+    avisosDeclarados.push('CALLES: la HORQUILLA del tensor la forman los 2 volantes de contraflexión '
+      + `del cliente (guia_entrada_liso / guia_salida_liso, Ø${STEP.volante.cara}/Ø${STEP.volante.pest}, `
+      + `step) devueltos a su bahía, en su Y medida y con Z ${LZ.volanteHorquillaZ} recalculada por `
+      + 'tangencia al ramal nuevo. QUEDA PENDIENTE su eje y su ménsula: el barreno medido es Ø'
+      + `${STEP.volante.bore} y la bahía la ocupan los 5 brazos del tensor, así que el soporte hay `
+      + 'que definirlo con la envolvente de barrido del brazo delante — es del módulo del tensor, '
+      + 'no de éste. Sin volantes el abrazado del tambor cae a 114.82° (< 150° de la compuerta §J) '
+      + 'y el de la tensora a 109.07°: el tensor dejaría de poder poner su tensión.');
+    avisosDeclarados.push(`TENSOR: el lazo abraza la polea tensora ${LZ.abrazadoTensoraGeometrico}° `
+      + `(geometría) y params_tensor2 declara ${m.ramal.usado.abrazadoDeg}° (dis; la medida del `
+      + `tensor original era 186.25°). La diferencia mueve la tensión de `
+      + `${TENSION.tDe(m.ramal.usado.abrazadoDeg)} N a ${TENSION.tDe(LZ.abrazadoTensoraGeometrico)} N `
+      + 'por banda (+0.15 %): se declara y NO se reajusta el parámetro, que es de otro módulo y va '
+      + 'del lado conservador.');
+    avisosDeclarados.push('GUARDAS: la guarda de pozo lateral +X lleva ahora 2 ESCOTES abiertos por '
+      + 'arriba (uno por soporte de RR2 y RR3) porque esas pletinas de 12 apoyan justo en su plano; '
+      + 'el hueco lo tapa la propia pletina, que es más gruesa que la chapa 14 GA. Las guardas de '
+      + 'testa llevan los recortes de paso del alargue −X y 5 rendijas de banda: '
+      + JSON.stringify(m.guardas.recortes));
     avisosDeclarados.push(`TAMBORES: el solape engomado↔tubo (10.32 cm³) es la LÍNEA DE VULCANIZADO `
       + '(0.1 mm de interpenetración deliberada, misma convención que nbt90/rodillos.mjs): la goma '
       + 'y el tubo comparten superficie porque están vulcanizados, no montados.');
