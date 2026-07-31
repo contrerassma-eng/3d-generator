@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { box, COL } from '../../nbt90/lib.mjs';
 import { rotarPieza, r2 } from './util_adapt.mjs';
-import { STEP, T } from './params_adapt.mjs';
+import { STEP, T, PERCHA } from './params_adapt.mjs';
 
 const aqui = dirname(fileURLToPath(import.meta.url));
 
@@ -69,7 +69,9 @@ export function nbt90(E) {
 // ---------------------------------------------------------------------------
 const CAJAS_CLIENTE = [
   ['Bastidor FRAME_MIR_MIR (chapón 28)', -109.423, -81.423, -1662.023, -79.741, -114.0, 46.0],
-  ['Bastidor FRAME_MIR_MIR_MIR (chapón 28)', 499.418, 527.418, -1662.023, -79.741, -114.0, 46.0],
+  // El chapón de descarga lleva la MUESCA declarada en su canto inferior (el
+  // side +X del NBT90 entra 8.61 en su plano tras el corrimiento del reparto):
+  ['Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)', 499.418, 527.418, -1662.023, -79.741, -114.0, 46.0],
   ['LAT TOP (bancada inferior, intacta)', -109.422, 527.418, -513.116, 90.183, -433.103, -113.049],
   ['FRONT TOP2 (cabecera motriz)', -115.423, 531.418, -70.881, 90.183, -154.641, 50.708],
   ['FRONT TOP2_MIR (cabecera conducida)', -109.423, 537.418, -1666.023, -1560.21, -148.641, 56.708],
@@ -81,11 +83,21 @@ const CAJAS_CLIENTE = [
 
 export function clienteFijo(E) {
   for (const [nom, x0, x1, yA, yB, z0, z1] of CAJAS_CLIENTE) {
+    const f = [box(`Caja medida ${r2(x1 - x0)}×${r2(yB - yA)}×${r2(z1 - z0)}`,
+      [r2((x0 + x1) / 2), r2((yA + yB) / 2), r2(z0)], x1 - x0, yB - yA, z1 - z0)];
+    let nota = 'envolvente exacta de analisis/medidas.json; la pieza del cliente no se mueve';
+    if (/CON MUESCA/.test(nom)) {
+      const m = PERCHA.muesca;
+      f.push({ id: 'muesca_chapon', name: `Muesca ${r2(m.y[1] - m.y[0])}×${r2(m.zTop - z0)} (canto inferior)`,
+        shape: 'box', op: 'cut', at: [r2((x0 + x1) / 2), r2((m.y[0] + m.y[1]) / 2), r2(z0 - 2)],
+        dir: [0, 0, 1], params: { w: r2(x1 - x0 + 4), d: r2(m.y[1] - m.y[0]), h: r2(m.zTop - z0 + 2) } });
+      nota = `MODIFICACIÓN AL CLIENTE (declarada): muesca de ${r2(m.y[1] - m.y[0])}×${r2(m.zTop - z0)} en el canto inferior `
+        + `para el paso del side channel +X del NBT90 (entra 8.61 en el plano del chapón); quedan ${r2(46 - m.zTop)} de canto. `
+        + 'Revisión estructural del bastidor: pendiente de validación del cliente.';
+    }
     E.addPart(`CTX · ${nom}`, COL.chapaOsc,
-      [r2((x0 + x1) / 2), r2((yA + yB) / 2), r2(z0)],
-      [box(`Caja medida ${r2(x1 - x0)}×${r2(yB - yA)}×${r2(z1 - z0)}`,
-        [r2((x0 + x1) / 2), r2((yA + yB) / 2), r2(z0)], x1 - x0, yB - yA, z1 - z0)],
-      { contexto: true, capaInfo: 'step', nota: 'envolvente exacta de analisis/medidas.json; la pieza del cliente no se mueve' });
+      [r2((x0 + x1) / 2), r2((yA + yB) / 2), r2(z0)], f,
+      { contexto: true, capaInfo: 'step', nota });
   }
   return { piezas: CAJAS_CLIENTE.length };
 }

@@ -287,9 +287,17 @@ export const CALLE = {
     topZ: STEP.guiaSec.topZ,     // 51.7 step — misma cara de apoyo que guiaw
     baseT: 6.0, baseAncho: 60, baseLargo: 28,  // dis: placas de apoyo en extremos
   },
-  // reparto nuevo de guías (las 28 guiaw del cliente, reubicadas)
-  guiasSur: [[-1502, -1302]],                          // 1 × 200
+  // reparto nuevo de guías (las 28 guiaw del cliente, reubicadas). La guía sur
+  // se acorta a 169.2 para que el CIERRE de guía (la protección del espacio de
+  // la conducida) quede en su pose ORIGINAL pegado al arranque del perfil.
+  guiasSur: [[-1471.18, -1302]],                       // 1 × 169.2 (cortada)
   guiasNorte: [[-630, -430], [-430, -230], [-230, -130.782]],  // 2 × 200 + 1 × 99.2 (cortada)
+  // protecciones de los espacios de poleas (corrección del cliente 31-07):
+  // los 8 «cierre guia» del STEP (39.9×80×15.1, Z 36.6…51.7) se CONSERVAN en su
+  // pose medida — junto a la conducida arrancan donde arranca el perfil
+  // (Y −1551.18) y junto a la motriz acaban donde acababa la cama (−50.78);
+  // las cabeceras FRONT TOP2/_MIR (tapas de los extremos) ya van en contexto.
+  cierres: [[-1551.181, -1471.181, 'conducida'], [-130.782, -50.782, 'motriz']],
   pletinaT: 4.763,               // 3/16" — pletinas de V1…V4 y tensor
 };
 

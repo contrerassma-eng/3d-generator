@@ -21,7 +21,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 import { Ensamble, r2 } from '../nbt90/lib.mjs';
-import { STEP, NBT, FRANJA, Xc, EJES, T, y0, y1, PERCHA, POZO, CALLE } from './adapt/params_adapt.mjs';
+import { STEP, NBT, FRANJA, Xc, EJES, T, y0, y1, PERCHA, POZO, CALLE, TENSOR, bordeExtDescarga } from './adapt/params_adapt.mjs';
 import { bboxU, solapeAABB } from './adapt/util_adapt.mjs';
 import { nbt90, clienteFijo } from './adapt/mod_ctx.mjs';
 import { calles } from './adapt/mod_calles.mjs';
@@ -71,6 +71,14 @@ if (ROMPE === 'paso') {
   for (const p of E.parts) {
     if (/FRAME_MIR_MIR_MIR/.test(p.name)) p.pos = [r2(p.pos[0] - 60), p.pos[1], p.pos[2]];
   }
+} else if (ROMPE === 'pasillo') {
+  // una tapa fantasma sobre el plano de transporte, en el corredor de descarga
+  E.addPart('CTX · Tapa fantasma sobre el corredor (banco)', '#888',
+    [470, -980, 60], [{ id: 'tstp', name: 'tapa', shape: 'box', op: 'union', at: [470, -980, 60], dir: [0, 0, 1], params: { w: 80, d: 200, h: 90 } }],
+    { contexto: true });
+} else if (ROMPE === 'borde') {
+  // descentra el reparto de vuelta al centro: el rodillo queda a >40 del borde
+  for (const p of E.parts) p.pos = [r2(p.pos[0] - 70.46), p.pos[1], p.pos[2]];
 }
 
 // ---------------------------------------------------------------------------
@@ -173,20 +181,33 @@ function verify() {
     }
   }
 
-  // --- C. luz entre bastidores ---------------------------------------------
+  // --- C. luz entre bastidores (asimétrica: el side +X vive en la muesca) ---
   const frames = ctx.filter(p => /FRAME_MIR_MIR/.test(p.name));
   if (frames.length !== 2) e.push('faltan los dos bastidores en el contexto');
   else {
     const caras = frames.map(p => bb.get(p)).sort((a, b) => a.lo[0] - b.lo[0]);
     const luz = r2(caras[1].lo[0] - caras[0].hi[0]);
-    // envolvente del NBT90 embebido (sin el paquete de interfaz excluido)
     let loX = 1e9, hiX = -1e9;
-    for (const p of nbt) { const b = bb.get(p); loX = Math.min(loX, b.lo[0]); hiX = Math.max(hiX, b.hi[0]); }
-    const holgIzq = r2(loX - caras[0].hi[0]), holgDer = r2(caras[1].lo[0] - hiX);
-    if (holgIzq < 2 || holgDer < 2) {
-      e.push(`el NBT90 no libra los bastidores: ${holgIzq} / ${holgDer} mm (mín 2) — luz ${luz}`);
+    const mu = PERCHA.muesca;
+    const enMuesca = (b) => b.lo[1] >= mu.y[0] - 0.5 && b.hi[1] <= mu.y[1] + 0.5
+      && b.hi[2] <= mu.zTop - 2 && b.lo[2] >= -420;    // dentro de la ventana, con 2 de holgura al techo
+    let fueraDeMuesca = 0;
+    for (const p of nbt) {
+      const b = bb.get(p);
+      loX = Math.min(loX, b.lo[0]);
+      hiX = Math.max(hiX, b.hi[0]);
+      // lo que pasa de la cara interior del chapón de descarga tiene que caber
+      // ÍNTEGRO en la muesca declarada
+      if (b.hi[0] > caras[1].lo[0] - 2 && !enMuesca(b)) {
+        fueraDeMuesca++;
+        if (fueraDeMuesca <= 4) e.push(`«${p.name.slice(0, 60)}» pasa del chapón de descarga (X hasta ${r2(b.hi[0])}) SIN caber en la muesca`);
+      }
     }
-    m.luzBastidores = { luz, holgIzq, holgDer, anchoNbt90Embebido: r2(hiX - loX) };
+    const holgIzq = r2(loX - caras[0].hi[0]);
+    const dentroMuescaMm = r2(hiX - caras[1].lo[0]);
+    if (holgIzq < 2) e.push(`el NBT90 no libra el bastidor −X: ${holgIzq} mm (mín 2)`);
+    if (hiX > bordeExtDescarga - 2) e.push(`el NBT90 asoma del borde exterior del sorter (X ${r2(hiX)} vs ${bordeExtDescarga})`);
+    m.luzBastidores = { luz, holgIzq, dentroMuescaMm, anchoNbt90Embebido: r2(hiX - loX) };
   }
 
   // --- D. la transferencia incompleta NO está ------------------------------
@@ -201,8 +222,11 @@ function verify() {
   }
 
   // --- E. profundidad: la huella del módulo está limpia y el pozo libra ----
-  const huella = { lo: [Xc - NBT.anchoExt / 2, y0, T.z], hi: [Xc + NBT.anchoExt / 2, y1, STEP.planoBanda] };
+  // (la huella usa el ancho EMBEBIDO real — sin canales anfitrión — y exceptúa
+  //  al chapón de descarga, cuya convivencia con el side la valida §C/muesca)
+  const huella = { lo: [Xc - 236.2, y0, T.z], hi: [Xc + 236.2, y1, STEP.planoBanda] };
   for (const p of ctx) {
+    if (/FRAME_MIR_MIR_MIR/.test(p.name)) continue;
     const b = bb.get(p);
     const v = solapeAABB(b, huella);
     if (v > 1000) e.push(`«${p.name}» invade la huella del NBT90 (${r2(v / 1000)} cm³): la profundidad no está resuelta ahí`);
@@ -232,8 +256,11 @@ function verify() {
     [/Puente de calle — pletina/, /Placa base de puente/],   // soldadas
     [/Puente de calle — pletina/, /Puente de calle — regleta/],
     [/Pletina/, /Perfil ranurado|Travesaño percha/],         // pletinas contra perfiles
-    [/Pletina|Placa culata/, /Eje de volante|Eje tensor|Volante|Polea tensora|Polea plana/], // ejes/bores
-    [/Eje de volante|Eje tensor/, /Volante|Polea/],          // ejes en sus bores
+    [/Pletina/, /Eje de volante|Eje Ø20|Volante|Polea plana/],   // ejes en sus taladros
+    [/Eje de volante|Eje Ø20/, /Volante|Polea/],             // ejes en sus bores
+    // AABB de disco vs esquina: la esquina del cierre (−50.78, 36.6) queda a
+    // 62.6 del eje de la polea Ø112 (R 56): libran por 6.6 — como el original
+    [/Cierre de guía/, /Polea motriz|Polea conducida/],
     [/Lengüeta|Placa de cuelgue/, /Larguero percha/],        // apoyo de cuelgue
     [/Escuadra/, /Larguero percha|Travesaño percha/],        // apoyo escuadra
     [/Cilindro SMC CD85|Horquilla KJ10D/, /Polea tensora|Eje tensor|Placa culata|Pletina carro/],
@@ -247,18 +274,30 @@ function verify() {
     // IDLER-ENS y drive kit: subconjuntos-caja del cliente que HOY YA abrazan
     // el perfil, la cama de guías y las poleas de su calle (así están medidos:
     // el idler envuelve la conducida, el drive kit abraza el árbol motriz)
-    [/CTX · IDLER-ENS/, /Perfil ranurado|Guía de deslizamiento|Polea conducida|Banda T5/],
-    [/CTX · Drive kit UA/, /Perfil ranurado|Polea motriz/],
+    [/CTX · IDLER-ENS/, /Perfil ranurado|Guía de deslizamiento|Polea conducida|Banda T5|Cierre de guía/],
+    [/CTX · Drive kit/, /Perfil ranurado|Polea motriz/],
     [/CTX · Soporte motriz/, /Polea motriz|Perfil ranurado/],
+    // los AABB no ven cortes: el casquillo/perno del cuelgue +X pasan por la
+    // MUESCA real del chapón (verificada aritméticamente en §C)
+    [/Bastidor FRAME_MIR_MIR_MIR/, /Casquillo separador|Placa de escote/],
+    // el tensor original vive DENTRO del marco hueco de la bancada LAT TOP,
+    // como en el STEP del cliente (caja envolvente, no sólido)
+    [/CTX · LAT TOP/, /Casquillo PTFE/],
     // caja multiparte: la placa de cuelgue es brazo (X −24…−20) + lengüetas
     // (X −70…−20 SOLO en 3 tramos de Y); las escuadras viven en los tramos
     // intermedios. La intercalación se verifica aritméticamente en §G.
     [/Placa de cuelgue/, /Escuadra larguero/],
-    // el yugo del carro tensor: uniones intencionales (ojo en el eje, traviesa
-    // atornillada a los tirantes, KJ10D al bulón de la traviesa)
-    [/Tirante del yugo/, /Eje tensor|Traviesa del yugo|Pletina carro/],
-    [/Traviesa del yugo/, /Cilindro SMC CD85|Horquilla KJ10D/],
-    [/Larguero percha/, /Escuadra larguero/],                // el larguero apoya en el ala
+    [/Larguero percha/, /Escuadra ménsula|Ménsula percha/],  // apoyo/nudos del larguero
+    [/Ménsula percha/, /Escuadra ménsula|Placa frontal ménsula/],
+    // el TENSOR ORIGINAL conservado: el brazo (silueta hull, aproximada por
+    // fuera) abraza tensora, pivote, horquilla y compañía — como en el STEP
+    [/Brazo tensor PZA/, /Tensora POL-CON-TEN|Eje tensora|Buje pivote|Eje pivote común|Cilindro SMC|Horquilla KJ10D|Casquillo PTFE|Volante guia_/],
+    [/Eje pivote común/, /Buje pivote|Casquillo PTFE/],
+    [/Tensora POL-CON-TEN/, /Eje tensora/],
+    [/Horquilla KJ10D/, /Cilindro SMC/],
+    // el cierre de guía del cliente encaja sobre el perfil (como la guiaw)
+    [/Cierre de guía/, /Perfil ranurado/],
+    [/Casquillo separador/, /Placa de escote/],              // el casquillo apoya en la placa
   ];
   const esBanda = (p) => /Banda T5/.test(p.name);
   const esHw = (p) => p.hardware;
@@ -299,13 +338,44 @@ function verify() {
     const ok = NBT.sideTornX.some(x => Math.abs(r2(T.y - x) - yb) < 0.01);
     if (!ok) e.push(`perno de cuelgue en Y=${yb} sin colisa del side channel enfrente`);
   }
-  // intercalación lengüetas de cuelgue ↔ escuadras al bastidor (comparten la
-  // cara superior del larguero; el AABB del par está tolerado por esto)
-  const lenguetasY = [r2(T.y - 60), r2(T.y - 231.5), r2(T.y - 403)];
-  for (const yl of lenguetasY) {
-    for (const ye of [-1075, -905]) {
-      const gap = Math.abs(yl - ye) - 30 - 30;         // ambas de 60 de ancho
-      if (gap < 5) e.push(`lengüeta de cuelgue (Y=${yl}) a ${r2(gap)} de la escuadra (Y=${ye}); mín 5`);
+  // las ménsulas −X van en las MISMAS Y que los puntos de cuelgue (la carga
+  // baja recta) y por DEBAJO del larguero: separación vertical verificada
+  const gapMensulaLengueta = r2((PERCHA.largueroZ[1]) - (PERCHA.largueroZ[0]));  // = canto del larguero
+  if (gapMensulaLengueta < 40) e.push('el larguero no separa lengüetas (arriba) de ménsulas (abajo)');
+
+  // --- K. el rodillo llega al borde de descarga (corrección del cliente) ---
+  let rodMaxX = -1e9;
+  for (const r of rodillos) rodMaxX = Math.max(rodMaxX, bb.get(r).hi[0]);
+  const rodilloABordeMm = r2(bordeExtDescarga - rodMaxX);
+  if (rodilloABordeMm > 40) e.push(`el extremo de la cara del rodillo queda a ${rodilloABordeMm} del borde exterior (máx 40)`);
+  if (rodilloABordeMm < 2) e.push(`el rodillo asoma del borde exterior (${rodilloABordeMm})`);
+
+  // --- L. PASILLO DE CAJA LIBRE (corrección del cliente) -------------------
+  // Ninguna pieza sobre el plano de transporte dentro del deck NI en el
+  // corredor de descarga, salvo la lista blanca declarada.
+  const PASILLO_OK = [
+    /Vulcanizado negro|Tubo de rodillo/,     // el rodillo emergido (la función)
+    /Banda plana FLEXPROOF/,                 // su banda de arrastre en el rebaje
+    /Banda T5/,                              // el plano de transporte mismo
+    /Tapa-soporte de extremo/,               // tapas del eje del rodillo NBT90: suben
+                                             //   a Z 54.17 EN LA LÍNEA DEL RODILLO,
+                                             //   4.5 bajo la cresta elevada (58.68)
+                                             //   que las rodea — parte del sistema
+    /CTX · TER1/,                            // canal-guía lateral del cliente en el
+                                             //   extremo motriz (pose original;
+                                             //   fuera del corredor del módulo)
+  ];
+  const deck = { lo: [STEP.frameIntNeg, STEP.guiaY[0], STEP.planoBanda + 0.5], hi: [STEP.frameIntPos, STEP.guiaY[1], 400] };
+  const corredor = { lo: [r2(EJES[4] + STEP.bandaAncho / 2), y0, STEP.planoBanda + 0.5], hi: [560, y1, 400] };
+  for (const p of partes) {
+    if (PASILLO_OK.some(rx => rx.test(p.name))) continue;
+    const b = bb.get(p);
+    for (const [zona, nom] of [[deck, 'deck'], [corredor, 'corredor de descarga']]) {
+      const v = solapeAABB(b, zona);
+      if (v > 100) {
+        e.push(`PASILLO: «${p.name.slice(0, 58)}» asoma ${r2(v / 1000)} cm³ sobre el plano de transporte en el ${nom}`);
+        break;
+      }
     }
   }
 
@@ -372,8 +442,14 @@ function verify() {
       bandaBajadaACilindroTensor: m.calles.banda?.holguraBandaCilindroTensor,
     },
     luzBastidores: m.luzBastidores,
+    descarga: {
+      rodilloABordeMm,
+      bordeExterior: bordeExtDescarga,
+      muescaChapon: PERCHA.muesca,
+      sideEnMuescaMm: m.luzBastidores?.dentroMuescaMm,
+    },
     banda: m.calles.banda,
-    percha: { cuelgue: m.percha.cuelgue, flechaLargueroMm: m.percha.flechaLargueroMm, tuercasT: m.percha.tuercasT },
+    percha: { cuelgue: m.percha.cuelgue, flechaLargueroMm: m.percha.flechaLargueroMm, tuercasT: m.percha.tuercasT, muesca: m.percha.muesca },
   };
 }
 
@@ -442,7 +518,8 @@ console.log(`   REPARTO: ${V.reparto.calles} calles a ${V.reparto.paso} centrada
 console.log(`   NBT90 en el sorter: Rz(−90°) + T(${V.transformadaNbt90.t.join(', ')}); módulo Y ${y0}…${y1}; ${m.nbt90.excluidas} piezas de interfaz ProSort sustituidas por la percha`);
 console.log(`   HOLGURAS: puente↔rodillo ${V.holguras.puenteRodillo} (cajas ${V.holguras.puenteRodilloCajas}) · banda↔rodillo ${V.holguras.bandaRodillo} · pozo↔fondo NBT90 ${V.holguras.pozoAFondoNbt90} · pozo↔canal cilindro ${V.holguras.pozoACanalCilindro}`);
 console.log(`   puente↔cross channel: ${V.holguras.puenteCrossElevado} elevado / ${V.holguras.puenteCrossRetraido} retraído · bajada↔cilindro tensor ${V.holguras.bandaBajadaACilindroTensor}`);
-console.log(`   LUZ bastidores ${V.luzBastidores.luz}: NBT90 embebido ${V.luzBastidores.anchoNbt90Embebido} de ancho → ${V.luzBastidores.holgIzq}/${V.luzBastidores.holgDer} por lado`);
+console.log(`   LUZ bastidores ${V.luzBastidores.luz}: NBT90 embebido ${V.luzBastidores.anchoNbt90Embebido} de ancho → ${V.luzBastidores.holgIzq} en −X; el side +X entra ${V.luzBastidores.dentroMuescaMm} en la MUESCA del chapón (canto restante ${V.percha.muesca.cantoRestanteChapon})`);
+console.log(`   DESCARGA: extremo de cara de rodillo a ${V.descarga.rodilloABordeMm} mm del borde exterior (${V.descarga.bordeExterior}) — requisito ≤ 40`);
 console.log(`   BANDA por calle: L=${V.banda.largoDesarrollado} · envolventes ${JSON.stringify(V.banda.envolventes_deg)} · portante Z=${V.banda.dorsoPortanteZ} · fondo pozo Z=${V.banda.fondoPozoZ}`);
 console.log(`   PERCHA: ${V.percha.cuelgue.pernos38} pernos 3/8 por colisas del side + ${V.percha.cuelgue.apoyoLenguetas} lengüetas de apoyo · ${r2(V.percha.cuelgue.cortantePorPernoN)} N/perno (adm ${V.percha.cuelgue.cortanteAdmisiblePernoN}) · flecha larguero ${V.percha.flechaLargueroMm} mm · masa NBT90 (cota sup.) ${NBT.masaKg} kg`);
 console.log(`   → ${outBrep} (para ../nbt90/interferencias_brep.py --doc)`);

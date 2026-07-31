@@ -1,5 +1,5 @@
 {
- "$comment": "Capa 'web' del clasificador del cliente (STEP sorter_CO.stp). Mismo formato que cad/ensambles/nbt90/analisis/web_facts.json. Cada hecho lleva url + accessed + quote. AVISO DE HONESTIDAD: el campo source.quote_tipo distingue 'texto_de_pagina' de 'resumen_de_busqueda'; en esta pasada NINGUNA cita es verbatim de la pagina, porque los PDF de catalogo (SMC C85, Powerdrive AT10, Statewide T/AT) devolvieron contenido binario ilegible y MISUMI respondio HTTP 403. Las citas reproducen el texto que devolvio el buscador. Todo lo que aparece en 'contraste_con_lo_medido' es capa 'step' (medido sobre el STEP) y NO depende de la web.",
+ "$comment": "Capa 'web' del clasificador del cliente (STEP sorter_CO.stp). Mismo formato que cad/ensambles/nbt90/analisis/web_facts.json. Cada hecho lleva url + accessed + quote. AVISO DE HONESTIDAD: el campo source.quote_tipo distingue 'texto_de_pagina' de 'resumen_de_busqueda'; en esta pasada NINGUNA cita es verbatim de la pagina, porque los PDF de catalogo (SMC C85, Powerdrive AT10, Statewide T/AT) devolvieron contenido binario ilegible y MISUMI respondio HTTP 403. Las citas reproducen el texto que devolvio el buscador. Todo lo que aparece en 'contraste_con_lo_medido' es capa 'step' (medido sobre el STEP) y NO depende de la web. | 2026-07-31: anadidos PERF-001/PERF-002/BRKT-001 (percha del NBT90) con cita textual de pagina.",
  "project": "sorter_co",
  "generated": "2026-07-30T23:04:09Z",
  "layers": {
@@ -442,6 +442,60 @@
    "confidence": "baja",
    "nota": "NO IDENTIFICADO por referencia. La FUNCION si esta determinada por la geometria y la posicion.",
    "contraste_con_lo_medido": "MEDIDO: 8368 cm3, caja 180 x 288.5 x 480, colgado por fuera del bastidor -X (X de -262.4 a -82.4), a la altura del eje motriz. Tiene una carcasa cilindrica Ø145.000 x 112 con 44 caras de Ø170.000 (aletas de refrigeracion), un cono de 38 grados y un eje de salida Ø28.000 x 110 dirigido segun X. Es un MOTORREDUCTOR: carcasa de motor con aletas + reductor + eje de salida, acoplado al arbol motriz por el casquillo LK30-C65-20H7-D30-R (Ø65 exterior) que esta justo a su lado (X de -112.4 a -12.9)."
+  },
+  {
+   "id": "PERF-001",
+   "tema": "estructura",
+   "claim": "Perfil item Profile 8 80x40 natural, art. 0.0.026.04: Ix 26.87 cm4, Iy 101.19 cm4, 4.53 kg/m, aluminio anodizado, linea 8 (ranura 8)",
+   "value": "26.87 / 101.19",
+   "unit": "cm4 (Ix / Iy)",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.item24.com/en-us/profile-8-80x40-natural-2604",
+    "accessed": "2026-07-31",
+    "quote": "Moment of Inertia, x-axis Ix = 26.87 cm4 ... Moment of Inertia, y-axis Iy = 101.19 cm4 ... Weight m = 4.53 kg/m ... Line line 8 ... Material Al, anodized",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "item24 - Profile 8 80x40 natural (0.0.026.04)",
+   "confidence": "alta",
+   "uso_en_diseno": "largueros y travesanos de la percha del NBT90 (gen_sorter_co.mjs); la flecha del larguero se calcula con Iy=101.19 cm4. Compatible con la familia medida del TSLOT del cliente (ranura 8 serie 40, TSLOT-001)."
+  },
+  {
+   "id": "PERF-002",
+   "tema": "estructura",
+   "claim": "Perfil item Profile 8 40x40 natural, art. 0.0.026.03: Ix = Iy = 13.96 cm4, 2.47 kg/m, aluminio anodizado, 4 ranuras linea 8",
+   "value": "13.96",
+   "unit": "cm4",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.item24.com/en-us/profile-8-40x40-natural-2603",
+    "accessed": "2026-07-31",
+    "quote": "Profile 8 40x40, natural ... 0.0.026.03 ... Ix = 13.96 cm4 ... Iy = 13.96 cm4 ... 2.47 kg/m ... Al, anodized ... four open Line 8 profile grooves",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "item24 - Profile 8 40x40 natural (0.0.026.03)",
+   "confidence": "alta",
+   "uso_en_diseno": "las 3 mensulas del larguero -X de la percha."
+  },
+  {
+   "id": "BRKT-001",
+   "tema": "estructura",
+   "claim": "item Angle Bracket Set 8 40x40, art. 0.0.670.11: escuadra de zinc inyectado con tapa, 2 tornillos ISO 7380-M8x18, 2 arandelas 13.9x13.9x2 y 2 tuercas T 8 St M8, cincadas",
+   "value": "0.0.670.11",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.item24.com/en-us/angle-bracket-set-8-40x40-67011",
+    "accessed": "2026-07-31",
+    "quote": "Angle Bracket Set 8 40x40 with grey cap ... Angle Bracket 8 40x40, die-cast zinc, white aluminium, similar to RAL 9006 ... 2 Button-Head Screws ISO 7380-M8x18, St, bright zinc-pl. ... 2 T-Slot Nuts 8 St M8, bright zinc-plated",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "item24 - Angle Bracket Set 8 40x40 (0.0.670.11)",
+   "confidence": "alta",
+   "uso_en_diseno": "referencia de catalogo de la union estandar perfil-perfil del sistema; las escuadras a los bastidores del sorter son de chapa 3/16 fabricadas (llevan taladros M8 roscados al chapon), y las tuercas T M8 de todas las uniones nuevas son las de este sistema (las mismas que las 112 del STEP del cliente)."
   }
  ],
  "pendientes_sin_fuente": [
