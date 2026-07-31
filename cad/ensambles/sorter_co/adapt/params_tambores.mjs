@@ -402,7 +402,9 @@ export const RETIRA = {
     'Polea AT10 32T',                         // toma auxiliar del árbol viejo
     'Casquillo LK30-',                        // su casquillo cónico
     'Chumacera SKF UCFL 205 \\(eje motriz',   // el apoyo +X del árbol viejo
-    'UCFL↔chapón',                            // pernos, tuercas y golillas de esa chumacera
+    'UCFL↔chapón',                            // sus pernos
+    'hex M12 UCFL \\(Z=',                      // sus tuercas
+    'Golilla M12 UCFL \\(Z=',                 // sus golillas
     // …y la FERRETERÍA HUÉRFANA de las poleas de pozo V1…V4: la bandera de pg40
     // se llevó las poleas, sus ejes y sus anillos, pero dejó dentro los 40
     // rodamientos W 6004-2Z, los 40 pernos de testa y las 40 golillas, flotando

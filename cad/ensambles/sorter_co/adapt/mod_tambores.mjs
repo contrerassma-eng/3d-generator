@@ -149,13 +149,16 @@ function rodilloEjeFijo(E, S, { nombre, y, z, spec, sop, marca }) {
     n.piezas++;
 
     // casquillo de apoyo del aro interior + anillo DIN 471 que lo retiene
-    const xC = s === 0 ? r3(xR - L.casquillo) : r3(xR + spec.rodam.w);
+    // casquillo y anillo van SIEMPRE hacia el centro del tubo (el lado de fuera
+    // lo ocupa la tapa-soporte): puestos al revés asomaban por la testa y se
+    // comían el collar de apriete.
+    const xC = s === 0 ? r3(xR + spec.rodam.w) : r3(xR - L.casquillo);
     add(`${nombre} · casquillo Ø${spec.eje.d + 12}/Ø${spec.eje.d} × ${L.casquillo} (${lado})`,
       COL.acero, [xC, y, z], [
         revolve('Casquillo', [xC, y, z], 'x', [[0, spec.eje.d / 2], [0, spec.eje.d / 2 + 6],
           [L.casquillo, spec.eje.d / 2 + 6], [L.casquillo, spec.eje.d / 2]]),
       ], { ...conj, hardware: false });
-    const xA = s === 0 ? r3(xC - 1.75) : r3(xC + L.casquillo);
+    const xA = s === 0 ? r3(xC + L.casquillo) : r3(xC - 1.75);
     anilloRet(E, { nombre: `${nombre} (${lado})`, at: [xA, y, z], dir: DIR, eje: spec.eje.d,
       capa: `${marca} · ` });
     gargantas.push(xA);

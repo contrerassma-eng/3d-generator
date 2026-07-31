@@ -60,7 +60,10 @@ def main() -> int:
                     help="cm³ por debajo de los cuales se considera contacto, no interferencia")
     ap.add_argument("--solo-cruce", action="store_true",
                     help="comparar solo MÓVIL contra FIJO (por defecto: todos los pares)")
-    ap.add_argument("--informe", default="interferencias_brep.json",
+    # Por defecto el informe se llama como el documento, no siempre igual: pasar
+    # `--doc` de OTRO ensamble y que el informe pisara el del NBT90 ya rompió sus
+    # pruebas una vez (leen ese archivo y vieron 201 choques ajenos como propios).
+    ap.add_argument("--informe", default=None,
                     help="nombre del informe JSON (se escribe junto al script); usar uno propio "
                          "al analizar el estado retraído para no pisar el del elevado")
     a = ap.parse_args()
@@ -116,7 +119,10 @@ def main() -> int:
     detalle.sort(key=lambda d: -d["cm3"])
     informe = {"documento": Path(a.doc).name, "tolerancia_cm3": a.tol, "piezas": len(solidos),
                "pares_candidatos": len(pares), "interferencias": reales, "detalle": detalle}
-    salida = AQUI / a.informe
+    nombre = a.informe or (
+        "interferencias_brep.json" if Path(a.doc).name == "narrow_belt_transfer_90.json"
+        else f"interferencias_brep_{Path(a.doc).stem}.json")
+    salida = AQUI / nombre
     salida.write_text(json.dumps(informe, indent=1, ensure_ascii=False), encoding="utf-8")
     print(f"\n{reales} interferencia(s) por encima de {a.tol} cm³ sobre {len(pares)} pares "
           f"({time.time() - t0:.0f} s en total)")

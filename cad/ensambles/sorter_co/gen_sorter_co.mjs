@@ -1162,6 +1162,27 @@ function verify() {
       + `${TAMB_CON.rodam.desig} DENTRO del tubo sobre eje fijo pasante Ø${TAMB_CON.eje.d} `
       + `(instrucción del cliente). En su estación el alargue conserva el mismo patrón `
       + `${TAMB_CON.soporte.patron}×${TAMB_CON.soporte.patron} pero recibe una pletina de eje fijo`);
+    // LO QUE LA VERIFICACIÓN B-REP EXACTA DEJA ABIERTO Y NO ES DE ESTE MÓDULO.
+    // Se declara con su cota en vez de taparlo, porque son piezas de otros
+    // módulos y el que coordine tiene que verlo:
+    avisosDeclarados.push('TAMBORES · PENDIENTE DE mod_calles: el lazo de banda T5 sigue trazado '
+      + 'sobre la trayectoria de las poleas 63T que ya no existen, y por eso ATRAVIESA el tambor '
+      + 'motriz (27.4 cm³ en 10 pares del informe B-rep). El lazo hay que rehacerlo plano sobre '
+      + `las estaciones que publica params_tambores: tambor Ø${TAMB_P.od} en Y=${TAMB_EJES.motriz.y}, `
+      + `conducido Ø${TAMB_CON.od} en Y=${TAMB_EJES.conducido.y}, retornos `
+      + TAMB_EJES.retorno.map(R => `${R.id}(${R.y}, ${R.z})`).join(' ')
+      + `, ramal a Z ${TAMB_RAMAL.z} y abrazado de ${TAMB_RAMAL.abrazadoMotrizDeg}° en el tambor`);
+    avisosDeclarados.push('TAMBORES · PENDIENTE DE mod_guardas: la guarda de pozo lateral +X está '
+      + 'trazada para el pozo de las poleas V1…V4 y pisa las pletinas de soporte de los rodillos '
+      + 'de retorno (8.2 cm³ en 6 pares). El pozo cambió de contenido: la guarda tiene que seguir '
+      + 'a los rodillos nuevos.');
+    avisosDeclarados.push('TAMBORES · PENDIENTE DE mod_pg40: las pletinas de soporte de eje fijo '
+      + '(+X) montan contra el alma del alargue y su cubrejunta y ahí hay 8.9 cm³ de solape macizo '
+      + `en 7 pares: el alargue necesita el rebaje o el taladro Ø${TAMB_CON.soporte.bore} H8 de paso `
+      + 'en esa cara. Las cartelas de retorno que ya ha puesto tampoco lo llevan.');
+    avisosDeclarados.push(`TAMBORES: el solape engomado↔tubo (10.32 cm³) es la LÍNEA DE VULCANIZADO `
+      + '(0.1 mm de interpenetración deliberada, misma convención que nbt90/rodillos.mjs): la goma '
+      + 'y el tubo comparten superficie porque están vulcanizados, no montados.');
     avisosDeclarados.push(`TAMBORES: los 4 rodillos de retorno necesitan ménsula de PG40 en `
       + TAMB_EJES.retorno.map(R => `${R.id}(Y ${R.y}, Z ${R.z})`).join(' · ')
       + ` — patrón ${TAMB_RET.soporte.patron}×${TAMB_RET.soporte.patron}, taladro Ø${TAMB_RET.soporte.taladro}`);

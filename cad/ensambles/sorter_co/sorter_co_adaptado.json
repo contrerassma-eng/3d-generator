@@ -549,10 +549,14 @@
     "BASTIDOR PG40: entre la banda exterior y la cara de apoyo del rodamiento quedan 43.562 mm por lado para el cuerpo del UCF 207. Si no cabe, el alargue solo puede correrse hacia fuera en −X (132.3 de aire al chapón); en +X el tope es el chapón de descarga.",
     "TAMBORES: montaje del UCF 207 corregido a OUTBOARD (caras de apoyo X 59.494 y 527.418), que es lo que pedía el propio AVISO de params_pg40. Con la unidad hacia DENTRO su cuerpo (saliente 44.4 por lado) deja libres 335.124 mm entre apoyos, y el tubo del tambor mide 380 (cara engomada 370 + testas): faltan 48.876 mm. Hacia FUERA quedan 423.924 y entra con 21.96 mm por lado",
     "TAMBORES: el rodillo conducido NO lleva UCF 207 — rodamientos 6207-2RS DENTRO del tubo sobre eje fijo pasante Ø35 (instrucción del cliente). En su estación el alargue conserva el mismo patrón 92×92 pero recibe una pletina de eje fijo",
+    "TAMBORES · PENDIENTE DE mod_calles: el lazo de banda T5 sigue trazado sobre la trayectoria de las poleas 63T que ya no existen, y por eso ATRAVIESA el tambor motriz (27.4 cm³ en 10 pares del informe B-rep). El lazo hay que rehacerlo plano sobre las estaciones que publica params_tambores: tambor Ø108.9 en Y=0, conducido Ø108 en Y=-1607.4, retornos RR1(-606, -102.283) RR2(-672, -313.817) RR3(-1280, -313.817) RR4(-1325, -101.383), ramal a Z -57.2 y abrazado de 180° en el tambor",
+    "TAMBORES · PENDIENTE DE mod_guardas: la guarda de pozo lateral +X está trazada para el pozo de las poleas V1…V4 y pisa las pletinas de soporte de los rodillos de retorno (8.2 cm³ en 6 pares). El pozo cambió de contenido: la guarda tiene que seguir a los rodillos nuevos.",
+    "TAMBORES · PENDIENTE DE mod_pg40: las pletinas de soporte de eje fijo (+X) montan contra el alma del alargue y su cubrejunta y ahí hay 8.9 cm³ de solape macizo en 7 pares: el alargue necesita el rebaje o el taladro Ø35 H8 de paso en esa cara. Las cartelas de retorno que ya ha puesto tampoco lo llevan.",
+    "TAMBORES: el solape engomado↔tubo (10.32 cm³) es la LÍNEA DE VULCANIZADO (0.1 mm de interpenetración deliberada, misma convención que nbt90/rodillos.mjs): la goma y el tubo comparten superficie porque están vulcanizados, no montados.",
     "TAMBORES: los 4 rodillos de retorno necesitan ménsula de PG40 en RR1(Y -606, Z -102.283) · RR2(Y -672, Z -313.817) · RR3(Y -1280, Z -313.817) · RR4(Y -1325, Z -101.383) — patrón 76×76, taladro Ø11"
    ],
-   "piezas": 1031,
-   "nuevas": 596,
+   "piezas": 1027,
+   "nuevas": 592,
    "contextoCliente": 151,
    "nbt90": 284,
    "reparto": {
@@ -83832,318 +83836,6 @@
    ]
   },
   {
-   "id": "p386_fijo_golilla_m12_ucfl_z_49_5_13",
-   "name": "FIJO · Golilla M12 UCFL (Z=-49.5) Ø13",
-   "color": "#9aa4b2",
-   "pos": [
-    469.87,
-    0,
-    -49.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "hardware": true,
-   "norma": "DIN 125 / ASME B18.22.1",
-   "features": [
-    {
-     "id": "f816",
-     "name": "Arandela Ø28.6×2.5",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 28.6,
-      "h": 2.5
-     }
-    },
-    {
-     "id": "f817",
-     "name": "Ø13.6",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 13.6,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p388_fijo_tuerca_hex_m12_ucfl_z_49_5",
-   "name": "FIJO · Tuerca hex M12 UCFL (Z=-49.5)",
-   "color": "#d5b46a",
-   "pos": [
-    527.52,
-    0,
-    -49.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "hardware": true,
-   "norma": "ASME B18.2.2 / DIN 934",
-   "features": [
-    {
-     "id": "f820",
-     "name": "Tuerca e/c 19",
-     "shape": "sketch",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "pts": [
-       [
-        10.97,
-        0
-       ],
-       [
-        5.48,
-        9.5
-       ],
-       [
-        -5.48,
-        9.5
-       ],
-       [
-        -10.97,
-        0
-       ],
-       [
-        -5.48,
-        -9.5
-       ],
-       [
-        5.48,
-        -9.5
-       ]
-      ],
-      "h": 10.8,
-      "u": [
-       0,
-       1,
-       0
-      ]
-     }
-    },
-    {
-     "id": "f821",
-     "name": "Rosca Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p389_fijo_golilla_m12_ucfl_z_49_5_13",
-   "name": "FIJO · Golilla M12 UCFL (Z=49.5) Ø13",
-   "color": "#9aa4b2",
-   "pos": [
-    469.87,
-    0,
-    49.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "hardware": true,
-   "norma": "DIN 125 / ASME B18.22.1",
-   "features": [
-    {
-     "id": "f822",
-     "name": "Arandela Ø28.6×2.5",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 28.6,
-      "h": 2.5
-     }
-    },
-    {
-     "id": "f823",
-     "name": "Ø13.6",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 13.6,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
-   "id": "p391_fijo_tuerca_hex_m12_ucfl_z_49_5",
-   "name": "FIJO · Tuerca hex M12 UCFL (Z=49.5)",
-   "color": "#d5b46a",
-   "pos": [
-    527.52,
-    0,
-    49.5
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "hardware": true,
-   "norma": "ASME B18.2.2 / DIN 934",
-   "features": [
-    {
-     "id": "f826",
-     "name": "Tuerca e/c 19",
-     "shape": "sketch",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "pts": [
-       [
-        10.97,
-        0
-       ],
-       [
-        5.48,
-        9.5
-       ],
-       [
-        -5.48,
-        9.5
-       ],
-       [
-        -10.97,
-        0
-       ],
-       [
-        -5.48,
-        -9.5
-       ],
-       [
-        5.48,
-        -9.5
-       ]
-      ],
-      "h": 10.8,
-      "u": [
-       0,
-       1,
-       0
-      ]
-     }
-    },
-    {
-     "id": "f827",
-     "name": "Rosca Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    }
-   ]
-  },
-  {
    "id": "p446_ctx_polea_loca_idler_p01_92_4_40_bombeada_posicion_interior_",
    "name": "CTX · Polea loca IDLER-P01 Ø92.4×40 bombeada (posición interior medida) (calle 1, X=127.056)",
    "color": "#c9752e",
@@ -119933,7 +119625,7 @@
    "name": "CONDUCIDO Ø108 · casquillo Ø47/Ø35 × 8 (−X)",
    "color": "#9aa4b2",
    "pos": [
-    93.456,
+    118.456,
     -1607.4,
     -2.3
    ],
@@ -120040,7 +119732,7 @@
    "name": "CONDUCIDO · Anillo retención CONDUCIDO Ø108 (−X) Ø35",
    "color": "#c3ccd6",
    "pos": [
-    91.706,
+    126.456,
     -1607.4,
     -2.3
    ],
@@ -120576,7 +120268,7 @@
    "name": "CONDUCIDO Ø108 · casquillo Ø47/Ø35 × 8 (+X)",
    "color": "#9aa4b2",
    "pos": [
-    457.456,
+    432.456,
     -1607.4,
     -2.3
    ],
@@ -120683,7 +120375,7 @@
    "name": "CONDUCIDO · Anillo retención CONDUCIDO Ø108 (+X) Ø35",
    "color": "#c3ccd6",
    "pos": [
-    465.456,
+    430.706,
     -1607.4,
     -2.3
    ],
@@ -120833,7 +120525,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      29.506,
+      64.256,
       0,
       0
      ],
@@ -120917,7 +120609,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      403.256,
+      368.506,
       0,
       0
      ],
@@ -123116,7 +122808,7 @@
    "name": "RETORNO RR1 Ø88.9 · casquillo Ø42/Ø30 × 8 (−X)",
    "color": "#9aa4b2",
    "pos": [
-    93.456,
+    117.456,
     -606,
     -102.283
    ],
@@ -123223,7 +122915,7 @@
    "name": "RETORNO RR1 · Anillo retención RETORNO RR1 Ø88.9 (−X) Ø30",
    "color": "#c3ccd6",
    "pos": [
-    91.706,
+    125.456,
     -606,
     -102.283
    ],
@@ -123759,7 +123451,7 @@
    "name": "RETORNO RR1 Ø88.9 · casquillo Ø42/Ø30 × 8 (+X)",
    "color": "#9aa4b2",
    "pos": [
-    457.456,
+    433.456,
     -606,
     -102.283
    ],
@@ -123866,7 +123558,7 @@
    "name": "RETORNO RR1 · Anillo retención RETORNO RR1 Ø88.9 (+X) Ø30",
    "color": "#c3ccd6",
    "pos": [
-    465.456,
+    431.706,
     -606,
     -102.283
    ],
@@ -124016,7 +123708,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      29.506,
+      63.256,
       0,
       0
      ],
@@ -124100,7 +123792,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      403.256,
+      369.506,
       0,
       0
      ],
@@ -126299,7 +125991,7 @@
    "name": "RETORNO RR2 Ø88.9 · casquillo Ø42/Ø30 × 8 (−X)",
    "color": "#9aa4b2",
    "pos": [
-    93.456,
+    117.456,
     -672,
     -313.817
    ],
@@ -126406,7 +126098,7 @@
    "name": "RETORNO RR2 · Anillo retención RETORNO RR2 Ø88.9 (−X) Ø30",
    "color": "#c3ccd6",
    "pos": [
-    91.706,
+    125.456,
     -672,
     -313.817
    ],
@@ -126942,7 +126634,7 @@
    "name": "RETORNO RR2 Ø88.9 · casquillo Ø42/Ø30 × 8 (+X)",
    "color": "#9aa4b2",
    "pos": [
-    457.456,
+    433.456,
     -672,
     -313.817
    ],
@@ -127049,7 +126741,7 @@
    "name": "RETORNO RR2 · Anillo retención RETORNO RR2 Ø88.9 (+X) Ø30",
    "color": "#c3ccd6",
    "pos": [
-    465.456,
+    431.706,
     -672,
     -313.817
    ],
@@ -127199,7 +126891,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      29.506,
+      63.256,
       0,
       0
      ],
@@ -127283,7 +126975,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      403.256,
+      369.506,
       0,
       0
      ],
@@ -129482,7 +129174,7 @@
    "name": "RETORNO RR3 Ø88.9 · casquillo Ø42/Ø30 × 8 (−X)",
    "color": "#9aa4b2",
    "pos": [
-    93.456,
+    117.456,
     -1280,
     -313.817
    ],
@@ -129589,7 +129281,7 @@
    "name": "RETORNO RR3 · Anillo retención RETORNO RR3 Ø88.9 (−X) Ø30",
    "color": "#c3ccd6",
    "pos": [
-    91.706,
+    125.456,
     -1280,
     -313.817
    ],
@@ -130125,7 +129817,7 @@
    "name": "RETORNO RR3 Ø88.9 · casquillo Ø42/Ø30 × 8 (+X)",
    "color": "#9aa4b2",
    "pos": [
-    457.456,
+    433.456,
     -1280,
     -313.817
    ],
@@ -130232,7 +129924,7 @@
    "name": "RETORNO RR3 · Anillo retención RETORNO RR3 Ø88.9 (+X) Ø30",
    "color": "#c3ccd6",
    "pos": [
-    465.456,
+    431.706,
     -1280,
     -313.817
    ],
@@ -130382,7 +130074,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      29.506,
+      63.256,
       0,
       0
      ],
@@ -130466,7 +130158,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      403.256,
+      369.506,
       0,
       0
      ],
@@ -132665,7 +132357,7 @@
    "name": "RETORNO RR4 Ø88.9 · casquillo Ø42/Ø30 × 8 (−X)",
    "color": "#9aa4b2",
    "pos": [
-    93.456,
+    117.456,
     -1325,
     -101.383
    ],
@@ -132772,7 +132464,7 @@
    "name": "RETORNO RR4 · Anillo retención RETORNO RR4 Ø88.9 (−X) Ø30",
    "color": "#c3ccd6",
    "pos": [
-    91.706,
+    125.456,
     -1325,
     -101.383
    ],
@@ -133308,7 +133000,7 @@
    "name": "RETORNO RR4 Ø88.9 · casquillo Ø42/Ø30 × 8 (+X)",
    "color": "#9aa4b2",
    "pos": [
-    457.456,
+    433.456,
     -1325,
     -101.383
    ],
@@ -133415,7 +133107,7 @@
    "name": "RETORNO RR4 · Anillo retención RETORNO RR4 Ø88.9 (+X) Ø30",
    "color": "#c3ccd6",
    "pos": [
-    465.456,
+    431.706,
     -1325,
     -101.383
    ],
@@ -133565,7 +133257,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      29.506,
+      63.256,
       0,
       0
      ],
@@ -133649,7 +133341,7 @@
      "shape": "revolve",
      "op": "cut",
      "at": [
-      403.256,
+      369.506,
       0,
       0
      ],
