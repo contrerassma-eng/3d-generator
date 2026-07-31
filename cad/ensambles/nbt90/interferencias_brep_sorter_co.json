@@ -1,8 +1,8 @@
 {
  "documento": "sorter_co_brep.json",
  "tolerancia_cm3": 0.05,
- "piezas": 511,
- "pares_candidatos": 1377,
+ "piezas": 963,
+ "pares_candidatos": 2780,
  "interferencias": 4,
  "detalle": [
   {

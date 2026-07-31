@@ -1,5 +1,5 @@
 {
- "$comment": "Capa 'web' del clasificador del cliente (STEP sorter_CO.stp). Mismo formato que cad/ensambles/nbt90/analisis/web_facts.json. Cada hecho lleva url + accessed + quote. AVISO DE HONESTIDAD: el campo source.quote_tipo distingue 'texto_de_pagina' de 'resumen_de_busqueda'; en esta pasada NINGUNA cita es verbatim de la pagina, porque los PDF de catalogo (SMC C85, Powerdrive AT10, Statewide T/AT) devolvieron contenido binario ilegible y MISUMI respondio HTTP 403. Las citas reproducen el texto que devolvio el buscador. Todo lo que aparece en 'contraste_con_lo_medido' es capa 'step' (medido sobre el STEP) y NO depende de la web. | 2026-07-31: anadidos PERF-001/PERF-002/BRKT-001 (percha del NBT90) con cita textual de pagina.",
+ "$comment": "Capa 'web' del clasificador del cliente (STEP sorter_CO.stp). Mismo formato que cad/ensambles/nbt90/analisis/web_facts.json. Cada hecho lleva url + accessed + quote. AVISO DE HONESTIDAD: el campo source.quote_tipo distingue 'texto_de_pagina' de 'resumen_de_busqueda'; en esta pasada NINGUNA cita es verbatim de la pagina, porque los PDF de catalogo (SMC C85, Powerdrive AT10, Statewide T/AT) devolvieron contenido binario ilegible y MISUMI respondio HTTP 403. Las citas reproducen el texto que devolvio el buscador. Todo lo que aparece en 'contraste_con_lo_medido' es capa 'step' (medido sobre el STEP) y NO depende de la web. | 2026-07-31: anadidos PERF-001/PERF-002/BRKT-001 (percha del NBT90) con cita textual de pagina. | 2026-07-31 (detalle de estaciones): anadidos PNEU-007 (C85C25), PNEU-008 (KQ2L06-01AS), RING-003 (DIN 472-42) y BELT-004 (Optibelt 25AT10); citas de resumen_de_busqueda salvo RING-003 (ficha de producto).",
  "project": "sorter_co",
  "generated": "2026-07-30T23:04:09Z",
  "layers": {
@@ -496,6 +496,79 @@
    "fuente_titulo": "item24 - Angle Bracket Set 8 40x40 (0.0.670.11)",
    "confidence": "alta",
    "uso_en_diseno": "referencia de catalogo de la union estandar perfil-perfil del sistema; las escuadras a los bastidores del sorter son de chapa 3/16 fabricadas (llevan taladros M8 roscados al chapon), y las tuercas T M8 de todas las uniones nuevas son las de este sistema (las mismas que las 112 del STEP del cliente)."
+  },
+  {
+   "id": "PNEU-007",
+   "tema": "neumatica",
+   "claim": "El C85C25 es el soporte de montaje tipo clevis (bisagra trasera) de SMC para los cilindros C85 de calibre 20 y 25 mm",
+   "value": "C85C25",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://us.rs-online.com/product/smc-corporation/c85c25/70401784/",
+    "accessed": "2026-07-31",
+    "quote": "SMC Corporation - C85C25 - Mounting Bracket, Clevis, Single Rod, 25mm, For C85 Series",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "RS Components - SMC C85C25 mounting bracket / Klium: 'SMC C85C25 rear hinge C85 20-25'",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "MEDIDO en el STEP (ocurrencia cal_4_f40___65/C85C25_25, analisis/estaciones.json): el cliente trae UNA (solo la calle 1) en (X eje de banda, Y 46.2...86.2, Z -100...-68). Dos orejas de 4.0 con luz 16.1 centrada en el eje de banda, articulacion Ø8 segun X en (Y 56.18, Z -90), y taladro VERTICAL Ø12 en (X eje-5.0, Y 80.18) por el que ancla el kit. La mensula-repisa nueva del detalle de estaciones toma ese Ø12 con un perno M12 (mod_estaciones)."
+  },
+  {
+   "id": "PNEU-008",
+   "tema": "neumatica",
+   "claim": "El KQ2L06-01AS es un racor SMC de conexion instantanea, codo macho R1/8 para tubo de Ø6, con sellante en la rosca",
+   "value": "R1/8 -> tubo 6",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.smcpneumatics.com/KQ2L06-01AS.html",
+    "accessed": "2026-07-31",
+    "quote": "SMC KQ2L06-01AS fitting, male elbow, KQ2 FITTING ... male elbow shape featuring a round release button and thread sealant, with R 1/8 (male) pneumatic threaded connection and 6mm one-touch push-in connector",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "SMC Pneumatics / Motion - KQ2L06-01AS",
+   "confidence": "alta",
+   "uso_en_diseno": "racordaje del puerto trasero del C85 Ø25 de cada calle (el puerto de trabajo lleva el regulador AS2201FS-01-06S del cliente, PNEU-004, cuya salida es tambien tubo de Ø6): un codo por calle, 5 en total (mod_estaciones)."
+  },
+  {
+   "id": "RING-003",
+   "tema": "mecanico",
+   "claim": "Anillo de retencion interior DIN 472 para alojamiento de Ø42: ranura Ø44.5 H12 x 1.85 H13, espesor del anillo 1.75 (+0/-0.06), profundidad de ranura 1.25",
+   "value": "44.5 x 1.85",
+   "unit": "mm (ranura)",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://accu-components.com/us/internal-circlips/73198-HIC-42-A2",
+    "accessed": "2026-07-31",
+    "quote": "42mm bore size internal circlip with a groove diameter (G) of 44.5 mm and groove width (W) of 1.85 mm, conforming to DIN 472 ... Clip thickness of 1.75 mm with a tolerance of +0/-0.06 mm ... Groove depth of 1.25 mm",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "Accu - 42mm Internal Circlips (DIN 472)",
+   "confidence": "alta",
+   "uso_en_diseno": "retencion de los aros exteriores de los W 6004-2Z (Ø42) en los alojamientos de las poleas V1...V4 del pozo (RETEN.alojamiento.din472, mod_estaciones). El patron DIN 472 es el del propio cliente (RING-002: DIN 472-40 en su IDLER PULLEY, medido)."
+  },
+  {
+   "id": "BELT-004",
+   "tema": "transmision",
+   "claim": "La familia Optibelt ALPHA 25AT10 son bandas dentadas AT10 de poliuretano con cordon de acero, 25 mm de ancho; el tamano 600 (60 dientes) esta catalogado",
+   "value": "25AT10",
+   "unit": "-",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://twen.rs-online.com/web/p/timing-belts/0179635",
+    "accessed": "2026-07-31",
+    "quote": "OPTIBELT 25 AT10 / 600 AP Timing Belt 60 Teeth, 600 mm Length, 25 mm Width ... polyurethane material with steel reinforcing cord",
+    "quote_tipo": "resumen_de_busqueda"
+   },
+   "fuente_titulo": "RS Components / Motion - Optibelt 25AT10/600 (familia 25AT10)",
+   "confidence": "alta",
+   "nota": "El dimensionado del kit del cliente (EJEC.bandaAT10, params_estaciones) da L=554.96 -> banda de 56 dientes (25AT10/560). El tamano 560 es multiplo entero del paso 10 y de la serie AT10; la cita cubre la FAMILIA y el /600 - la disponibilidad exacta del /560 (o el ajuste de centros a L=600 con la colisa del P1-2) queda a confirmar en compra. NO se monta banda en el modelo: la UA-DRIVE PULLEY del cliente no existe en su STEP (SORTER_CO.md 2.5/5.7).",
+   "uso_en_diseno": "dimensionado documental de la banda del 'drive kit w timming' del cliente, condicionado a que restaure su kit con una UA-DRIVE de 24T (la unica que cabe: el perfil llega a Z +/-40, params_estaciones)."
   }
  ],
  "pendientes_sin_fuente": [

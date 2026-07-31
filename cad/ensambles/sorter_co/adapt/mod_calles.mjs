@@ -151,9 +151,11 @@ export function calles(E) {
   EJES.forEach((B, k) => {
     const c = `calle ${k + 1}, X=${B}`;
 
-    // 1. perfil en dos tramos
+    // 1. perfil en dos tramos (el sur también con ranuras laterales: las usan
+    //    las pletinas de V1 y la tornillería del CT-ENS — el perfil real tiene
+    //    6 ranuras, step §4.2)
     perfilRanurado(E, `FIJO · Perfil ranurado 40×80 tramo conducido L=${r2(CALLE.tslotSurY[1] - CALLE.tslotSurY[0])} (${c})`,
-      B, CALLE.tslotSurY, [-40, 40], ['+z', '-z'],
+      B, CALLE.tslotSurY, [-40, 40], ['+z', '-z', '+x', '-x'],
       { nota: 'reutiliza el TSLOT del cliente cortado (1497.4 da los dos tramos); queda CENTRADO bajo la banda (se corrige el descentrado de 1.0 mm, step §1.1)' });
     perfilRanurado(E, `FIJO · Perfil ranurado 40×80 tramo motriz L=${r2(CALLE.tslotNorteY[1] - CALLE.tslotNorteY[0])} (${c})`,
       B, CALLE.tslotNorteY, [-40, 40], ['+z', '-z', '+x', '-x'], {});
@@ -223,57 +225,47 @@ export function calles(E) {
       100, 40, 112, 2.5, 38, COL.polea, {});
     cuenta(M.reuso, 'poleas 63T del cliente re-pitcheadas', 2);
 
-    // 6. pozo del módulo: V1…V4 FIJAS
-    //    V1/V4: volantes Ø100 (2 reubicados del cliente + los que falten nuevos)
-    for (const [V, nom, lado] of [[POZO.v1, 'V1 entrada pozo módulo', 'S'], [POZO.v4, 'V4 salida pozo módulo', 'N']]) {
-      poleaX(E, `FIJO · Volante contraflexión Ø100 cara 34 / total 40 (${nom}) (${c})`, B, V.y, V.z,
-        STEP.volante.cara, 40, STEP.volante.pest, 3, STEP.volante.bore, COL.polea,
-        { nota: 'geometría del guia_*_liso del cliente (step §4.5); toca el dorso' });
-      cuenta(M.nuevas, 'volante Ø100 (2 de 20 se reutilizan de los 8 del cliente… ver BOM)', 1);
-      E.addPart(`FIJO · Eje de volante Ø38×52 (${nom}) (${c})`, COL.acero,
-        [r2(B - 26), V.y, V.z],
-        [cyl(`Eje Ø38×52`, [r2(B - 26), V.y, V.z], [1, 0, 0], 38, 52)],
-        { fabricada: true, nota: 'dis: el STEP no declara el eje del volante (solo barreno Ø38); verificar con el despiece del cliente' });
-      cuenta(M.nuevas, 'eje de volante Ø38×52', 1);
-      if (lado === 'N') {
-        // pletinas laterales al perfil norte (V4)
-        for (const s of [-1, 1]) {
-          const xp = s > 0 ? r2(B + 20 + 0.1) : r2(B - 20 - 0.1 - CALLE.pletinaT);
-          E.addPart(`FIJO · Pletina de volante 3/16"×46×${r2(-10 - (V.z - 36))} (${nom}, ${s > 0 ? '+X' : '−X'}) (${c})`,
-            COL.chapaOsc, [xp, V.y, r2(V.z - 36)],
-            [box(`Pletina`, [r2(xp + CALLE.pletinaT / 2), V.y, r2(V.z - 36)], CALLE.pletinaT, 46, r2(-10 - (V.z - 36))),
-              hole(`Ø38 eje`, [r2(xp - 1), V.y, V.z], [1, 0, 0], 38),
-              hole(`Ø9 M8`, [r2(xp - 1), r2(V.y - 15), -20], [1, 0, 0], 9.0),
-              hole(`Ø9 M8`, [r2(xp - 1), r2(V.y + 15), -20], [1, 0, 0], 9.0)],
-            { fabricada: true, nota: '2 M8×16 a tuercas T de la ranura lateral baja del perfil (Z=−20)' });
-          cuenta(M.nuevas, 'pletina de volante', 1);
-          cuenta(M.nuevas, 'tuerca T M8 (ranura 8)', 2);
-        }
+    // 6. pozo del módulo: V1…V4 — las POLEAS con su retención axial completa
+    //    (ejes Ø20×50, W 6004-2Z, anillos 3AM1-20, DIN 472-42) las pone
+    //    mod_estaciones (punto 2 del detalle de estaciones); aquí quedan las
+    //    PLETINAS-soporte, ya con el taladro Ø20.2 del eje definitivo.
+    //    V1: pletinas laterales al perfil SUR (Y −1325 cae en su tramo);
+    //    V4: pletinas laterales al perfil NORTE; V2/V3: a los travesaños.
+    for (const [V, nom, tramo] of [[POZO.v1, 'V1', 'sur'], [POZO.v4, 'V4', 'norte']]) {
+      for (const s of [-1, 1]) {
+        const xp = s > 0 ? r2(B + 20 + 0.1) : r2(B - 20 - 0.1 - CALLE.pletinaT);
+        E.addPart(`FIJO · Pletina de volante 3/16"×46×${r2(-10 - (V.z - 36))} (${nom}, ${s > 0 ? '+X' : '−X'}) (${c})`,
+          COL.chapaOsc, [xp, V.y, r2(V.z - 36)],
+          [box(`Pletina`, [r2(xp + CALLE.pletinaT / 2), V.y, r2(V.z - 36)], CALLE.pletinaT, 46, r2(-10 - (V.z - 36))),
+            hole(`Ø20.2 eje`, [r2(xp - 1), V.y, V.z], [1, 0, 0], 20.2),
+            hole(`Ø9 M8`, [r2(xp - 1), r2(V.y - 15), -20], [1, 0, 0], 9.0),
+            hole(`Ø9 M8`, [r2(xp - 1), r2(V.y + 15), -20], [1, 0, 0], 9.0)],
+          { fabricada: true, nota: `2 M8×16 a tuercas T de la ranura lateral baja del perfil ${tramo} (Z=−20); el eje Ø20×50 del paquete de retención (mod_estaciones) se fija con M10×1.5 a la testa` });
+        cuenta(M.nuevas, 'pletina de volante', 1);
+        cuenta(M.nuevas, 'tuerca T M8 (ranura 8)', 2);
+        pernoHex(E, { nombre: `M8×16 pletina ${nom} (${c}, ${s > 0 ? '+X' : '−X'}, S)`, at: [r2(xp + (s > 0 ? CALLE.pletinaT : 0)), r2(V.y - 15), -20], dir: [s > 0 ? -1 : 1, 0, 0], dia: 8, largo: 16, af: 13, altoCab: 5.3, capa: 'FIJO · ' });
+        pernoHex(E, { nombre: `M8×16 pletina ${nom} (${c}, ${s > 0 ? '+X' : '−X'}, N)`, at: [r2(xp + (s > 0 ? CALLE.pletinaT : 0)), r2(V.y + 15), -20], dir: [s > 0 ? -1 : 1, 0, 0], dia: 8, largo: 16, af: 13, altoCab: 5.3, capa: 'FIJO · ' });
       }
     }
-    //    V2/V3: poleas planas Ø117.9 fijas (tipo POL-CON-TEN del cliente)
     for (const [V, nom, trav, ranuras] of [[POZO.v2, 'V2', 'sur', [-1280, -1240]], [POZO.v3, 'V3', 'norte', [-692, -652]]]) {
-      poleaX(E, `FIJO · Polea plana Ø117.9×40 fija (${nom}) (${c})`, B, V.y, V.z,
-        STEP.polTensora.dia, STEP.polTensora.ancho, STEP.polTensora.dia, 0, 20, COL.polea,
-        { fabricada: true, nota: 'igual a POL-CON-TEN del cliente (Ø117.9×40, 2×SKF W 6004-2Z, eje Ø20); toca la cara dentada como la tensora (step §4.4)' });
-      cuenta(M.nuevas, 'polea plana Ø117.9×40 (tipo POL-CON-TEN)', 1);
-      E.addPart(`FIJO · Eje Ø20×46 (${nom}) (${c})`, COL.acero, [r2(B - 23), V.y, V.z],
-        [cyl(`Eje Ø20×46`, [r2(B - 23), V.y, V.z], [1, 0, 0], 20, 46)],
-        { nota: 'como SCMRT906VCT-150-111 del cliente (Ø20, roscas M10×1.5 en las puntas)' });
-      cuenta(M.nuevas, 'eje Ø20×46 tipo SCMRT906VCT', 1);
       const zTopP = r2(PERCHA.travTopZ - 40);
+      const ycAla = r2((ranuras[0] + ranuras[1]) / 2);   // el ala centrada entre las
+      //   DOS ranuras inferiores REALES del travesaño (a yc±20 del travesaño)
       for (const s of [-1, 1]) {
         const xp = r2(B + s * 22.9 - CALLE.pletinaT / 2);
         E.addPart(`FIJO · Pletina ${nom} 3/16"×44×${r2(zTopP - (V.z - 20))} (${s > 0 ? '+X' : '−X'}) (${c})`,
           COL.chapaOsc, [xp, V.y, r2(V.z - 20)],
           [box(`Alma`, [r2(xp + CALLE.pletinaT / 2), V.y, r2(V.z - 20)], CALLE.pletinaT, 44, r2(zTopP - (V.z - 20))),
-            box(`Ala 16×44×${CALLE.pletinaT}`, [r2(B + s * 12.52), V.y, r2(zTopP - CALLE.pletinaT)], 16, 44, CALLE.pletinaT),
-            hole(`Ø20 eje`, [r2(xp - 1), V.y, V.z], [1, 0, 0], 20),
-            hole(`Ø9 M8`, [r2(B + s * 12.52), ranuras[0] === -1280 ? r2(V.y - 20) : ranuras[0], r2(zTopP - CALLE.pletinaT - 1)], [0, 0, 1], 9.0),
-            hole(`Ø9 M8`, [r2(B + s * 12.52), ranuras[0] === -1280 ? r2(V.y + 20) : ranuras[1], r2(zTopP - CALLE.pletinaT - 1)], [0, 0, 1], 9.0)],
-          { fabricada: true, nota: `chapa plegada en L; 2 M8×16 hacia arriba a tuercas T de las ranuras inferiores del travesaño ${trav}` });
+            box(`Ala 16×64×${CALLE.pletinaT}`, [r2(B + s * 12.52), ycAla, r2(zTopP - CALLE.pletinaT)], 16, 64, CALLE.pletinaT),
+            hole(`Ø20.2 eje`, [r2(xp - 1), V.y, V.z], [1, 0, 0], 20.2),
+            hole(`Ø9 M8`, [r2(B + s * 12.52), ranuras[0], r2(zTopP - CALLE.pletinaT - 1)], [0, 0, 1], 9.0),
+            hole(`Ø9 M8`, [r2(B + s * 12.52), ranuras[1], r2(zTopP - CALLE.pletinaT - 1)], [0, 0, 1], 9.0)],
+          { fabricada: true, nota: `chapa plegada en L; 2 M8×12 hacia arriba a tuercas T de las ranuras inferiores REALES del travesaño ${trav} (Y ${ranuras[0]}/${ranuras[1]}); taladro Ø20.2 del eje del paquete de retención (mod_estaciones)` });
         cuenta(M.nuevas, `pletina ${nom} plegada`, 1);
         cuenta(M.nuevas, 'tuerca T M8 (ranura 8)', 2);
+        for (const dyr of ranuras) {
+          pernoHex(E, { nombre: `M8×12 pletina ${nom} (${c}, ${s > 0 ? '+X' : '−X'}, Y=${dyr})`, at: [r2(B + s * 12.52), dyr, r2(zTopP - CALLE.pletinaT)], dir: [0, 0, 1], dia: 8, largo: 12, af: 13, altoCab: 5.3, capa: 'FIJO · ' });
+        }
       }
     }
 
@@ -344,9 +336,9 @@ export function calles(E) {
         [r2(B + (x0 + x1) / 2 - 1), r2((ya + yb) / 2), r2(z0)],
         [box(`Caja ${r2(x1 - x0)}×${r2(yb - ya)}×${r2(z1 - z0)}`, [r2(B + (x0 + x1) / 2 - 1), r2((ya + yb) / 2), r2(z0)], x1 - x0, yb - ya, z1 - z0)],
         { contexto: true, capaInfo: 'step (inventario.json)', ...(nota ? { nota } : {}) });
-    // grupo motriz
-    rel('Soporte motriz 2T (placa)', -44.61, -24.25, -57.28, 57.28, -57.28, 57.28);
-    rel('Soporte motriz 2T_MIR (placa)', 24.25, 44.61, -57.28, 57.28, -57.28, 57.28);
+    // grupo motriz: los soportes 2T y el árbol SH-04 NO se re-pitchean — a paso
+    // 76.2 no caben (soportes env. 89.22 y árbol 93.22 > 76.2, step): los
+    // sustituye el EJE MOTRIZ COMÚN de mod_estaciones (punto 4 del detalle).
     // drive kit UA (soportes P1 y perfiles UA-T; poleas UA sin geometría en el
     // STEP del cliente — §2.5 del reconocimiento)
     rel('Drive kit — soporte P1-1 (−X)', -28, -22, -117.03, 53.42, -53.31, 53.31);
@@ -355,7 +347,7 @@ export function calles(E) {
     rel('Drive kit — soporte P1-2 (+X)', 10, 28, -117.1, -40.89, -40, 40);
     rel('Drive kit — perfil UA-T02 (−X)', -26, -20, -149.91, -123.91, -40, 40);
     rel('Drive kit — perfil UA-T02 (+X)', 20, 26, -149.91, -123.91, -40, 40,
-      'transmisión común AT10 del cliente INCOMPLETA (sin banda, poleas UA vacías, AT10 superpuesta a la 63T — step §2.5/§5.2): sus poleas quedan fuera de este modelo, pendiente del cliente');
+      'la transmisión común AT10 del cliente estaba INCOMPLETA (sin banda, poleas UA vacías, AT10 superpuesta a la 63T — step §2.5/§5.2): RESUELTA en mod_estaciones con el eje motriz común; el kit se conserva como soporte y su banda queda dimensionada (params_estaciones EJEC.bandaAT10) por si el cliente lo restaura');
     // IDLER-ENS (tensor de punta conducida): horquilla y polea loca
     rel('IDLER-ENS — placa UR-P01 (−X)', -37.3, -2.67, -1650.78, -1564.22, -42.42, 44.38);
     rel('IDLER-ENS — placa UR-P01 (+X)', -1.35, 33.27, -1650.78, -1564.22, -44.38, 42.42);
@@ -365,7 +357,7 @@ export function calles(E) {
     rel('IDLER-ENS — placa UR-P03 (+X)', 6.62, 26.88, -1582.44, -1441.7, -40.67, 39.27);
     rel('IDLER-ENS — perfil UA-T02 (−X)', -29.39, -20.61, -1434.89, -1408.89, -39.28, 40.88);
     rel('IDLER-ENS — perfil UA-T02 (+X)', 16.58, 25.37, -1434.89, -1408.89, -40.88, 39.28,
-      'la polea loca IDLER-P01 (Ø40.02×30, bombeo 0.62°) queda DENTRO de la horquilla UR; su posición interior exacta no se extrajo del subárbol — detalle del agente de estaciones');
+      'la polea loca IDLER-P01 está MEDIDA y modelada en su posición interior (mod_estaciones §3, analisis/estaciones.json): disco Ø92.4×40 bombeado 0.62°, eje a −3.013 del eje de banda, Y −1607.5 — COAXIAL con la conducida_63T (defecto del STEP declarado)');
     // reenvíos del extremo del motor común
     rel('POL-COND-TEN2 (reenvío alto)', -36.79, 34.79, -1536.23, -1493.15, -159.79, -88.21);
     rel('POL-COND-TEN2 (reenvío bajo)', -68.62, 2.96, -1536.23, -1493.15, -313.88, -242.3);
@@ -375,14 +367,13 @@ export function calles(E) {
   });
 
   // --- piezas comunes del tensor (una, no por calle) -----------------------
-  E.addPart('CTX · Eje pivote común EJE-25mm-PASADOR Ø25×603', COL.acero,
-    [TENSOR.ejeComunX[0], TENSOR.pivote.y, TENSOR.pivote.z],
-    [cyl(`Eje Ø25×603`, [TENSOR.ejeComunX[0], TENSOR.pivote.y, TENSOR.pivote.z], [1, 0, 0], 25, r2(TENSOR.ejeComunX[1] - TENSOR.ejeComunX[0]))],
-    { contexto: true, capaInfo: 'step', nota: 'las 4 copias colineales del STEP (defecto §5.3) son UN eje físico: aquí va uno, en la pose de la copia que cubre las 5 calles nuevas; sus chumaceras UCFL 205 se conservan en su posición (contexto)' });
-  E.addPart('CTX · Chumaceras SKF UCFL 205 del eje pivote (2, extremo +X)', COL.rodamiento,
+  // El eje pivote común Ø25 ÚNICO (defecto §5.3 del STEP) lo pone ahora
+  // mod_estaciones (FIJO fabricado, 622 de largo: alcanza su chumacera −X
+  // nueva). Aquí queda solo la chumacera +X MEDIDA del cliente:
+  E.addPart('CTX · Chumacera SKF UCFL 205 del eje pivote (medida, extremo +X)', COL.rodamiento,
     [504.1, -166.7, -198.7],
-    [box('Caja UCFL 205 ×2', [r2((504.1 + 539.8) / 2), r2((-166.7 - 36.7) / 2), -198.7], 35.7, 130, 68.2)],
-    { contexto: true, capaInfo: 'step/web BRG-003', nota: 'pose original medida (X 504.1…539.8): quedan dentro del hueco del chapón de descarga, como hoy' });
+    [box('Caja UCFL 205', [r2((504.1 + 539.8) / 2), r2((-166.7 - 36.7) / 2), -198.7], 35.7, 130, 68.2)],
+    { contexto: true, capaInfo: 'step/web BRG-003', nota: 'pose original medida (X 504.1…539.8), dentro del hueco del chapón de descarga; el STEP solo trae ÉSTA — la chumacera −X que faltaba la añade mod_estaciones (§5.3 cerrado)' });
 
   // --- métricas del lazo ---------------------------------------------------
   M.banda = {

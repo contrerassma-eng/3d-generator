@@ -22,10 +22,13 @@ import { dirname, join } from 'node:path';
 
 import { Ensamble, r2 } from '../nbt90/lib.mjs';
 import { STEP, NBT, FRANJA, Xc, EJES, T, y0, y1, PERCHA, POZO, CALLE, TENSOR, bordeExtDescarga } from './adapt/params_adapt.mjs';
+import { CLEVIS, RETEN, IDLER, EJEC, PIVOTE, GUARDAS, GUIAS } from './adapt/params_estaciones.mjs';
 import { bboxU, solapeAABB } from './adapt/util_adapt.mjs';
 import { nbt90, clienteFijo } from './adapt/mod_ctx.mjs';
 import { calles } from './adapt/mod_calles.mjs';
 import { percha } from './adapt/mod_percha.mjs';
+import { estaciones } from './adapt/mod_estaciones.mjs';
+import { guardas } from './adapt/mod_guardas.mjs';
 
 const aqui = dirname(fileURLToPath(import.meta.url));
 
@@ -38,6 +41,8 @@ m.nbt90 = nbt90(E);
 m.cliente = clienteFijo(E);
 m.calles = calles(E);
 m.percha = percha(E);
+m.estaciones = estaciones(E);   // detalle fabricable: anclaje C85, retención V1…V4,
+m.guardas = guardas(E);         //   IDLER-P01 medida, eje motriz común, guardas y guías
 
 // ---------------------------------------------------------------------------
 // Banco de la compuerta: inyección de UN defecto controlado (TEST_ROMPE)
@@ -79,6 +84,27 @@ if (ROMPE === 'paso') {
 } else if (ROMPE === 'borde') {
   // descentra el reparto de vuelta al centro: el rodillo queda a >40 del borde
   for (const p of E.parts) p.pos = [r2(p.pos[0] - 70.46), p.pos[1], p.pos[2]];
+} else if (ROMPE === 'at10') {
+  // reintroduce la superposición AT10↔63T del STEP (defecto §5.2): corre la
+  // AT10 recolocada hasta pisar la 63T de la calle 1
+  for (const p of E.parts) {
+    if (/Polea AT10 32T .*recolocada/.test(p.name)) p.pos = [r2(EJES[0] - 21), p.pos[1], p.pos[2]];
+  }
+} else if (ROMPE === 'retencion') {
+  // roba los dos anillos 3AM1-20 de V2 de la calle 3: el paquete queda sin
+  // retención axial y la compuerta §M4 lo denuncia
+  E.parts = E.parts.filter(p => !(/Anillo 3AM1-20 \(V2/.test(p.name) && p.name.includes('calle 3')));
+} else if (ROMPE === 'guia') {
+  // mete la guía de descarga sur DENTRO del camino del bulto (Y −1161…−786)
+  for (const p of E.parts) {
+    if (/Guía de descarga sur/.test(p.name)) p.pos = [p.pos[0], -1100, p.pos[2]];
+  }
+} else if (ROMPE === 'guarda') {
+  // corre la guarda sur del pozo hasta pisar el IDLER-ENS (deja además la
+  // bajada de banda al descubierto)
+  for (const p of E.parts) {
+    if (/Guarda de pozo sur/.test(p.name)) p.pos = [p.pos[0], -1450, p.pos[2]];
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -118,6 +144,9 @@ function verify() {
     const b = bb.get(p);
     if (b.hi[1] <= y0 || b.lo[1] >= y1) continue;          // fuera del módulo en Y
     if (b.hi[2] <= FRANJA.z0 || b.lo[2] >= FRANJA.z1) continue;  // fuera de la franja
+    if (b.lo[0] > 489.4) continue;                         // zona del canto del chapón
+    //   de descarga: la cara del último rodillo muere en X 487.4 (compuerta §K)
+    //   — ahí viven las bases de las guías del corredor, no la calle
     const w = r2(b.hi[0] - b.lo[0]);
     const cx = (b.lo[0] + b.hi[0]) / 2;
     const eje = EJES.reduce((a, b2) => Math.abs(b2 - cx) < Math.abs(a - cx) ? b2 : a);
@@ -278,8 +307,9 @@ function verify() {
     [/CTX · Drive kit/, /Perfil ranurado|Polea motriz/],
     [/CTX · Soporte motriz/, /Polea motriz|Perfil ranurado/],
     // los AABB no ven cortes: el casquillo/perno del cuelgue +X pasan por la
-    // MUESCA real del chapón (verificada aritméticamente en §C)
-    [/Bastidor FRAME_MIR_MIR_MIR/, /Casquillo separador|Placa de escote/],
+    // MUESCA real del chapón (verificada aritméticamente en §C); los casquillos
+    // de las guardas laterales apoyan contra ambos chapones
+    [/Bastidor FRAME_MIR_MIR/, /Casquillo separador|Placa de escote/],
     // el tensor original vive DENTRO del marco hueco de la bancada LAT TOP,
     // como en el STEP del cliente (caja envolvente, no sólido)
     [/CTX · LAT TOP/, /Casquillo PTFE/],
@@ -298,6 +328,56 @@ function verify() {
     // el cierre de guía del cliente encaja sobre el perfil (como la guiaw)
     [/Cierre de guía/, /Perfil ranurado/],
     [/Casquillo separador/, /Placa de escote/],              // el casquillo apoya en la placa
+    // ---- detalle de estaciones (mod_estaciones / mod_guardas) ----
+    // el paquete de retención V1…V4: encajes intencionales eje↔polea↔rodamiento
+    [/Eje Ø20×50 de pozo|Espaciador de aros|Anillo 3AM1-20|Anillo DIN 472-42/,
+      /Volante contraflexión|Polea plana Ø117\.9|Eje Ø20×50 de pozo|Espaciador de aros/],
+    [/Pletina/, /Anillo 3AM1-20|Golilla/],                   // el anillo/golilla pegan a la pletina
+    // caja multiparte: el ALA de la pletina V2/V3 (Z −35) y el espaciador
+    // (Z −300) no comparten Z — la AABB de la pieza completa miente; B-rep decide
+    [/Pletina V[23]/, /Espaciador de aros/],
+    // eje motriz común: bujes (Ø30 H7), chavetas (en sus cajeros), acople (CTX,
+    // asiento Ø30.06), UCFL (bore 25), AT10 recolocada (bore 65 sobre LK30-RD)
+    // y las 63T (el eje pasa por su bore Ø38 dentro del buje)
+    [/Eje motriz común/, /Buje 63T|Chaveta DIN 6885|Acople LK30|Chumacera SKF UCFL|Casquillo LK30|Polea AT10 32T|Polea motriz/],
+    [/Buje 63T/, /Polea motriz|Chaveta DIN 6885/],
+    [/Casquillo LK30/, /Polea AT10 32T/],
+    [/Chumacera SKF UCFL/, /Bastidor FRAME|Eje pivote común/],
+    [/Eje pivote común/, /Buje pivote|Casquillo PTFE|Brazo tensor PZA/],   // el eje único cruza los cubos (como el CTX que sustituye)
+    // la bancada LAT TOP es un MARCO HUECO (caja envolvente): el tensor CTX ya
+    // vive dentro; el eje pivote, su chumacera −X y la franja de guarda norte
+    // ocupan ese hueco (aviso de obra en las notas de las piezas)
+    [/CTX · LAT TOP/, /Eje pivote común|Chumacera SKF UCFL 205 \(eje pivote|Guarda de pozo norte|Ménsula de clevis/],
+    //   (la ménsula de clevis es caja multiparte: su ala vertical vive a
+    //    Y > 90.18 —fuera de la bancada— y su repisa a Z > −71; decide el B-rep)
+    // los canales TER1 del costado son cajas huecas que la línea del árbol del
+    // cliente ya atravesaba (sus LK30-RD medidos llegan a X 541.7, step §0)
+    [/CTX · TER1/, /Eje motriz común|Chumacera SKF UCFL 205 \(eje motriz/],
+    // el drive kit del cliente ABRAZA el árbol de su calle (así está medido):
+    // el eje común y sus bujes ocupan la misma línea que el árbol que sustituyen
+    [/CTX · Drive kit/, /Eje motriz común|Buje 63T|Chaveta DIN 6885|Polea AT10 32T/],
+    // anclaje del cilindro: bisagra (CTX) ↔ ménsula nueva; la ménsula vive
+    // pegada a la cabecera del cliente (caja envolvente)
+    [/Bisagra trasera SMC C85C25/, /Ménsula de clevis|Golilla/],
+    [/CTX · FRONT TOP2/, /Ménsula de clevis|Racor codo|Bisagra trasera SMC C85C25|Chumacera SKF UCFL|Eje motriz común|Buje 63T|Polea AT10 32T|Casquillo LK30|Acople LK30|Chaveta DIN 6885/],
+    //   (la cabecera FRONT TOP2 es caja envolvente del cliente: el árbol motriz
+    //    del cliente ya vivía dentro de ella — el eje común ocupa el mismo sitio)
+    [/Racor codo SMC/, /Cilindro SMC CD85/],                 // roscado al puerto
+    [/Separador Ø19×18/, /Brazo tensor PZA|Horquilla KJ10D/],// centran el bulón (step)
+    // IDLER medida (CTX): su paquete interior y los M8×65 de la horquilla
+    [/Polea loca IDLER-P01|Espaciador IDLER-E|Anillo DIN 472-40|Rodamiento 6203-2RS IDLER|M8×65 horquilla|M8 ISO 8673/,
+      /Polea loca IDLER-P01|Espaciador IDLER-E|Anillo DIN 472-40|Rodamiento 6203-2RS IDLER|CTX · IDLER-ENS|Polea conducida/],
+    //   (la coaxialidad IDLER-P01↔conducida es DEFECTO DECLARADO del STEP del
+    //    cliente — medido en analisis/estaciones.json; decide el cliente)
+    // guardas del pozo: alas contra perfiles/travesaño, marco entre sí, y las
+    // ménsulas de la percha que pasan por las ESCOTADURAS de la lateral −X
+    // (la AABB no ve el escote; la §N verifica la alineación aritméticamente)
+    [/Guarda de pozo/, /Perfil ranurado|Travesaño percha|Guarda de pozo|Casquillo separador|Volante contraflexión/],
+    //   (guarda sur ↔ volante V1: multiparte — la cara vive en Y ≤ −1383 y el
+    //    ala en Z ≥ −42; el volante ocupa la esquina opuesta: aire 3.1 y 7.1)
+    [/Guarda de pozo lateral/, /Ménsula percha|Escuadra ménsula/],
+    // guías del corredor: base sobre el canto del chapón; guía sobre su alma
+    [/Base de guía|Guía de descarga/, /Bastidor FRAME_MIR_MIR_MIR|Base de guía|Guía de descarga/],
   ];
   const esBanda = (p) => /Banda T5/.test(p.name);
   const esHw = (p) => p.hardware;
@@ -364,6 +444,13 @@ function verify() {
     /CTX · TER1/,                            // canal-guía lateral del cliente en el
                                              //   extremo motriz (pose original;
                                              //   fuera del corredor del módulo)
+    /Guía de descarga|Base de guía|base guía|guía sur|guía norte/,
+                                             // EXCEPCIÓN JUSTIFICADA (punto 6 del
+                                             //   detalle de estaciones): guías
+                                             //   laterales del bulto — SOBRE el
+                                             //   plano pero FUERA de su camino
+                                             //   (campo de rodillos Y −1161…−786);
+                                             //   la §O verifica esa condición
   ];
   const deck = { lo: [STEP.frameIntNeg, STEP.guiaY[0], STEP.planoBanda + 0.5], hi: [STEP.frameIntPos, STEP.guiaY[1], 400] };
   const corredor = { lo: [r2(EJES[4] + STEP.bandaAncho / 2), y0, STEP.planoBanda + 0.5], hi: [560, y1, 400] };
@@ -424,9 +511,209 @@ function verify() {
     }
   }
 
+  // --- M. DETALLE DE ESTACIONES --------------------------------------------
+  const avisosDeclarados = [];
+  {
+    // M1 · eje motriz común: existe, cubre las 5 calles, entra en el acople y
+    //      su muñón vive en la UCFL pegada al chapón de descarga
+    const ejeC = partes.find(p => /Eje motriz común/.test(p.name));
+    if (!ejeC) e.push('no hay eje motriz común');
+    else {
+      const b = bb.get(ejeC);
+      if (b.lo[0] > EJES[0] - 20 || b.hi[0] < EJES[4] + 20) {
+        e.push(`el eje motriz común (X ${r2(b.lo[0])}…${r2(b.hi[0])}) no cubre las 5 calles`);
+      }
+      const acople = partes.find(p => /Acople LK30-C65-20H7-D30-R /.test(p.name));
+      if (!acople) e.push('falta el acople LK30-R del motor (pose medida)');
+      else {
+        const ba = bb.get(acople);
+        const dentro = Math.min(ba.hi[0], b.hi[0]) - Math.max(ba.lo[0], b.lo[0]);
+        if (dentro < 25) e.push(`el eje común solo entra ${r2(dentro)} mm en el acople del motor (mín 25)`);
+      }
+      const ucflM = partes.find(p => /Chumacera SKF UCFL 205 \(eje motriz/.test(p.name));
+      if (!ucflM) e.push('falta la UCFL 205 del eje motriz');
+      else {
+        const bu = bb.get(ucflM);
+        if (Math.abs(bu.hi[0] - STEP.frameIntPos) > 0.5) {
+          e.push(`la UCFL del eje motriz no apoya en el chapón de descarga (X ${r2(bu.hi[0])} vs ${STEP.frameIntPos})`);
+        }
+        if (b.hi[0] < bu.lo[0] + 15) e.push('el muñón Ø25 no llega a la UCFL del eje motriz');
+      }
+      for (let k = 0; k < EJES.length; k++) {
+        const buje = partes.find(p => /Buje 63T/.test(p.name) && p.name.includes(`X=${EJES[k]}`));
+        const chav = partes.find(p => /Chaveta DIN 6885/.test(p.name) && p.name.includes(`X=${EJES[k]}`));
+        if (!buje) e.push(`la 63T de la calle ${k + 1} no tiene buje al eje común`);
+        if (!chav) e.push(`falta la chaveta del buje de la calle ${k + 1}`);
+      }
+    }
+    // M2 · el defecto §5.2 del STEP no vuelve: ninguna AT10 solapa una 63T, y
+    //      la pareja recolocada vive en el tramo libre del eje
+    for (const p of partes) {
+      if (!/AT10 32T/.test(p.name)) continue;
+      const bp = bb.get(p);
+      for (const q of partes) {
+        if (!/Polea motriz|Polea conducida/.test(q.name)) continue;
+        const v = solapeAABB(bp, bb.get(q));
+        if (v > 1000) e.push(`AT10 superpuesta a una 63T otra vez (${r2(v / 1000)} cm³): «${p.name.slice(0, 40)}» ↔ «${q.name.slice(0, 40)}»`);
+      }
+      if (!p.contexto && /recolocada/.test(p.name)) {
+        if (bp.lo[0] < -13 || bp.hi[0] > EJES[0] - 20) {
+          e.push(`la AT10 recolocada (X ${r2(bp.lo[0])}…${r2(bp.hi[0])}) sale del tramo libre X −13…${r2(EJES[0] - 20)}`);
+        }
+      }
+    }
+    // M3 · rigidez y par del eje común (fórmulas; carga = tensión de banda por
+    //      calle, PNEU-003 a 6 bar — hipótesis declarada). Flecha AL CENTRO del
+    //      vano por SUPERPOSICIÓN de las 5 cargas puntuales en sus posiciones
+    //      reales (viga simplemente apoyada: acople −28 / UCFL):
+    const xA = -28, xB = r2(EJEC.ucfl.posX - EJEC.ucfl.housingW / 2);
+    const Lv = r2(xB - xA);
+    const dEje = EJEC.d;
+    const I = Math.PI / 64 * Math.pow(dEje, 4);
+    let sumaFlecha = 0;
+    for (const Bx of EJES) {
+      const a = Math.min(Bx - xA, xB - Bx);                // distancia al apoyo más cercano
+      sumaFlecha += EJEC.flecha.cargaPorCalleN * a * (3 * Lv * Lv - 4 * a * a);
+    }
+    const flechaEje = r2(sumaFlecha / (48 * 207000 * I) * 100) / 100;
+    if (flechaEje > EJEC.flecha.limite) e.push(`flecha del eje motriz común ${flechaEje} > ${EJEC.flecha.limite} mm`);
+    const Tnm = 5 * EJEC.parPorCalleNm;
+    const tau = r2(16 * Tnm * 1000 / (Math.PI * Math.pow(dEje, 3)));
+    if (tau > EJEC.tauAdmMPa) e.push(`torsión del eje común ${tau} > ${EJEC.tauAdmMPa} MPa`);
+    m.ejeComunCalc = { vanoMm: Lv, flechaMm: flechaEje, tauMPa: tau, parNm: Tnm, hipotesis: '6 bar (PNEU-003)' };
+    // M4 · retención axial de V1…V4: cada polea del pozo con sus 2 rodamientos,
+    //      2 anillos 3AM1-20 y 2 DIN 472-42 en posición
+    for (let k = 0; k < EJES.length; k++) {
+      for (const [V, nomV] of [[POZO.v1, 'V1'], [POZO.v2, 'V2'], [POZO.v3, 'V3'], [POZO.v4, 'V4']]) {
+        const cerca = (p, dx) => {
+          const b2 = bb.get(p);
+          const cx = (b2.lo[0] + b2.hi[0]) / 2, cy = (b2.lo[1] + b2.hi[1]) / 2, cz = (b2.lo[2] + b2.hi[2]) / 2;
+          return Math.abs(cx - EJES[k]) < dx && Math.abs(cy - V.y) < 5 && Math.abs(cz - V.z) < 5;
+        };
+        const rod = partes.filter(p => /Rodamiento SKF W 6004-2Z/.test(p.name) && p.name.includes(`(${nomV},`) && p.name.includes(`calle ${k + 1},`) && cerca(p, 30));
+        const ani = partes.filter(p => /Anillo 3AM1-20/.test(p.name) && p.name.includes(`(${nomV},`) && p.name.includes(`calle ${k + 1},`) && cerca(p, 30));
+        const d472 = partes.filter(p => /Anillo DIN 472-42/.test(p.name) && p.name.includes(`(${nomV})`) && p.name.includes(`calle ${k + 1},`) && cerca(p, 30));
+        if (rod.length !== 2) e.push(`${nomV} de la calle ${k + 1}: ${rod.length} rodamientos W 6004-2Z (deben ser 2)`);
+        if (ani.length !== 2) e.push(`${nomV} de la calle ${k + 1}: ${ani.length} anillos 3AM1-20 (deben ser 2) — SIN retención axial`);
+        if (d472.length !== 2) e.push(`${nomV} de la calle ${k + 1}: ${d472.length} anillos DIN 472-42 (deben ser 2)`);
+      }
+    }
+    // M5 · anclaje del cilindro: bisagra C85C25 + repisa sobre su taladro
+    //      vertical Ø12 medido (B−5, 80.18), sin tocar la tapa del cilindro
+    const gapRepisaTapa = r2((CLEVIS.repisa.z - CLEVIS.repisa.t) - (-76.76));
+    if (gapRepisaTapa < 2) e.push(`la repisa del clevis queda a ${gapRepisaTapa} de la tapa del cilindro (mín 2)`);
+    for (let k = 0; k < EJES.length; k++) {
+      const bis = partes.find(p => /Bisagra trasera SMC C85C25/.test(p.name) && p.name.includes(`calle ${k + 1},`));
+      const rep = partes.find(p => /Ménsula de clevis — escuadra con repisa/.test(p.name) && p.name.includes(`calle ${k + 1},`));
+      const m12 = partes.find(p => /M12×30 clevis/.test(p.name) && p.name.includes(`calle ${k + 1},`));
+      if (!bis || !rep || !m12) { e.push(`calle ${k + 1}: anclaje del cilindro incompleto (bisagra ${!!bis}, repisa ${!!rep}, M12 ${!!m12})`); continue; }
+      const bl = bb.get(rep);
+      const px = r2(EJES[k] + CLEVIS.taladroVert.dx), py = CLEVIS.taladroVert.y;
+      if (px < bl.lo[0] || px > bl.hi[0] || py < bl.lo[1] || py > bl.hi[1]) {
+        e.push(`calle ${k + 1}: la repisa no cubre el taladro vertical medido del kit (${px}, ${py})`);
+      }
+      const bbis = bb.get(bis);
+      if (Math.abs((bbis.lo[0] + bbis.hi[0]) / 2 - EJES[k]) > 0.5) e.push(`calle ${k + 1}: bisagra C85C25 descentrada del eje de banda`);
+      const motriz = partes.find(p => /Polea motriz/.test(p.name) && p.name.includes(`calle ${k + 1},`));
+      if (motriz && solapeAABB(bl, bb.get(motriz)) > 100) e.push(`calle ${k + 1}: la repisa del clevis invade la polea motriz`);
+    }
+    // M6 · IDLER-P01: reproducida en su posición interior MEDIDA; el conflicto
+    //      con la conducida queda DECLARADO (aviso motivado, no error: es un
+    //      defecto del STEP del cliente y la pieza va en capa contexto)
+    for (let k = 0; k < EJES.length; k++) {
+      const loca = partes.find(p => /Polea loca IDLER-P01/.test(p.name) && p.name.includes(`calle ${k + 1},`));
+      if (!loca) { e.push(`calle ${k + 1}: falta la polea loca IDLER-P01 (posición interior medida)`); continue; }
+      const b2 = bb.get(loca);
+      const cx = r2((b2.lo[0] + b2.hi[0]) / 2), cy = r2((b2.lo[1] + b2.hi[1]) / 2);
+      if (Math.abs(cx - (EJES[k] + IDLER.dxEjeBanda)) > 0.1 || Math.abs(cy - IDLER.y) > 0.1) {
+        e.push(`calle ${k + 1}: IDLER-P01 en (${cx}, ${cy}) y no en la posición medida (${r2(EJES[k] + IDLER.dxEjeBanda)}, ${IDLER.y})`);
+      }
+      const cond = partes.find(p => /Polea conducida/.test(p.name) && p.name.includes(`calle ${k + 1},`));
+      if (cond) {
+        const v = solapeAABB(b2, bb.get(cond));
+        if (v > 1000 && k === 0) {
+          avisosDeclarados.push(`IDLER-P01 ↔ conducida_63T: coaxiales con ${IDLER.solapeConducidaX} mm de solape en X `
+            + `(defecto del STEP medido en analisis/estaciones.json; la banda respalda a la 63T — decide el cliente)`);
+        }
+        if (v < 1000) e.push(`calle ${k + 1}: la IDLER-P01 ya no solapa la conducida — si se corrigió, retirar la declaración del defecto`);
+      }
+    }
+  }
+
+  // --- N. GUARDAS DEL POZO -------------------------------------------------
+  {
+    const gS = partes.find(p => /Guarda de pozo sur/.test(p.name));
+    const gN = partes.find(p => /Guarda de pozo norte/.test(p.name));
+    const gL = partes.filter(p => /Guarda de pozo lateral/.test(p.name));
+    if (!gS || !gN || gL.length !== 2) {
+      e.push(`el pozo no queda cerrado: testas ${!!gS}/${!!gN}, laterales ${gL.length}/2`);
+    } else {
+      const tCh = 1.9;
+      const bS = bb.get(gS), bN = bb.get(gN);
+      // SUR: entre el IDLER-ENS (−1391.98 step) y el flanco de la bajada de V1
+      // (−1377.5 calc); la cara es el borde −Y de la caja (el ala va hacia +Y
+      // a Z −42…−40, con el retorno 10 más abajo)
+      const flancoS = r2(POZO.v1.y - (STEP.volante.cara / 2 + 2.5));
+      if (bS.lo[1] < STEP.idlerEnsY[1] + 2) e.push(`la guarda sur (Y ${r2(bS.lo[1])}) pisa el IDLER-ENS (${STEP.idlerEnsY[1]})`);
+      if (r2(bS.lo[1] + tCh) > flancoS - 5) e.push(`la cara de la guarda sur (Y ${r2(bS.lo[1] + tCh)}) no deja 5 al flanco de la bajada (${flancoS})`);
+      if (bS.lo[2] > -420 || bS.hi[2] < -42) e.push(`la guarda sur no cubre de Z −420 a −42 (Z ${r2(bS.lo[2])}…${r2(bS.hi[2])})`);
+      // NORTE: franja pegada a la cara sur de la bancada LAT TOP (−513.12 step),
+      // al norte del flanco de V4 (−553.5 calc) y 5 bajo el retorno (−52.05)
+      const flancoN = r2(POZO.v4.y - (STEP.volante.cara / 2 + 2.5));   // −658.5 (bajada V4↔V3)
+      if (bN.lo[1] < -520 || bN.lo[1] > -514) e.push(`la guarda norte (cara Y ${r2(bN.lo[1])}) no queda contra la bancada LAT TOP (−513.12)`);
+      if (bN.lo[2] > -116 || bN.hi[2] < -62) e.push(`la guarda norte no cubre la franja Z −116…−62 (Z ${r2(bN.lo[2])}…${r2(bN.hi[2])})`);
+      if (bN.hi[2] > -57) e.push(`la guarda norte (Z hasta ${r2(bN.hi[2])}) no deja 5 al retorno (−52.05)`);
+      m.flancosGuardas = { flancoS, flancoN, retornoZ: -52.05 };
+      // LATERALES: la +X solo bajo el fondo del NBT90; ninguna pieza del módulo
+      // las toca; las ménsulas de la percha pasan por los escotes de la −X
+      const gPX = gL.find(p => /\+X/.test(p.name));
+      const gNX = gL.find(p => /−X/.test(p.name));
+      if (gPX) {
+        const b2 = bb.get(gPX);
+        if (b2.hi[2] > r2(T.z) - 2) e.push(`la guarda lateral +X (Z hasta ${r2(b2.hi[2])}) no deja 2 al fondo del NBT90 (${r2(T.z)})`);
+        for (const p of nbt) {
+          if (solapeAABB(bb.get(p), b2) > 0) { e.push(`«${p.name.slice(0, 50)}» toca la guarda lateral +X`); break; }
+        }
+      }
+      if (gNX) {
+        const b2 = bb.get(gNX);
+        for (const p of nuevas.filter(q => /Ménsula percha/.test(q.name))) {
+          const bm = bb.get(p);
+          if (solapeAABB(bm, b2) === 0) continue;
+          const cyM = (bm.lo[1] + bm.hi[1]) / 2;
+          const escote = gNX.features.find(f => f.op === 'cut' && /Escote/.test(f.name)
+            && Math.abs(f.at[1] + gNX.pos[1] - cyM) < 2);
+          if (!escote) e.push(`la ménsula de la percha en Y=${r2(cyM)} no tiene escote en la guarda lateral −X`);
+        }
+      }
+    }
+    m.guardasChk = { desarrollos: m.guardas.desarrollos };
+  }
+
+  // --- O. GUÍAS DEL CORREDOR (la excepción del pasillo, verificada) --------
+  {
+    const gS = partes.find(p => /Guía de descarga sur/.test(p.name));
+    const gN = partes.find(p => /Guía de descarga norte/.test(p.name));
+    if (!gS || !gN) e.push('faltan las guías laterales del corredor de descarga');
+    for (const [g, lado] of [[gS, 'sur'], [gN, 'norte']]) {
+      if (!g) continue;
+      const b2 = bb.get(g);
+      // FUERA del camino del bulto (campo de rodillos) con 5 de margen:
+      if (lado === 'sur' && b2.hi[1] > GUIAS.caminoBultoY[0] - 5) {
+        e.push(`la guía ${lado} (Y hasta ${r2(b2.hi[1])}) invade el camino del bulto (${GUIAS.caminoBultoY[0]} − 5)`);
+      }
+      if (lado === 'norte' && b2.lo[1] < GUIAS.caminoBultoY[1] + 5) {
+        e.push(`la guía ${lado} (Y desde ${r2(b2.lo[1])}) invade el camino del bulto (${GUIAS.caminoBultoY[1]} + 5)`);
+      }
+      if (b2.hi[0] > bordeExtDescarga + 0.5) e.push(`la guía ${lado} asoma del borde exterior (X ${r2(b2.hi[0])})`);
+      if (b2.hi[2] < STEP.planoBanda + 40) e.push(`la guía ${lado} no sube 40 sobre el plano de transporte`);
+    }
+  }
+
   // --- métricas ------------------------------------------------------------
   return {
     errores: e,
+    avisosDeclarados,
     piezas: partes.length,
     nuevas: nuevas.length,
     contextoCliente: ctx.length,
@@ -450,6 +737,13 @@ function verify() {
     },
     banda: m.calles.banda,
     percha: { cuelgue: m.percha.cuelgue, flechaLargueroMm: m.percha.flechaLargueroMm, tuercasT: m.percha.tuercasT, muesca: m.percha.muesca },
+    estaciones: {
+      ejeComun: { ...m.estaciones.ejeComun, ...m.ejeComunCalc },
+      at10: m.estaciones.at10,
+      idler: m.estaciones.idler,
+      retirados: m.estaciones.retirados,
+    },
+    guardas: { desarrollos: m.guardas.desarrollos },
   };
 }
 
@@ -491,6 +785,8 @@ const doc = {
       nbt90: { piezas: m.nbt90.piezas, excluidas: m.nbt90.excluidas, movil: m.nbt90.movilNbt90 },
       cliente: m.cliente, calles: { piezas: m.calles.piezas, banda: m.calles.banda, reuso: m.calles.reuso, nuevas: m.calles.nuevas },
       percha: m.percha,
+      estaciones: { piezas: m.estaciones.piezas, reuso: m.estaciones.reuso, nuevas: m.estaciones.nuevas, retirados: m.estaciones.retirados },
+      guardas: { piezas: m.guardas.piezas, nuevas: m.guardas.nuevas, desarrollos: m.guardas.desarrollos },
     },
     piezasExcluidasDelNbt90: m.nbt90.listaExcluidas,
   },
@@ -522,4 +818,8 @@ console.log(`   LUZ bastidores ${V.luzBastidores.luz}: NBT90 embebido ${V.luzBas
 console.log(`   DESCARGA: extremo de cara de rodillo a ${V.descarga.rodilloABordeMm} mm del borde exterior (${V.descarga.bordeExterior}) — requisito ≤ 40`);
 console.log(`   BANDA por calle: L=${V.banda.largoDesarrollado} · envolventes ${JSON.stringify(V.banda.envolventes_deg)} · portante Z=${V.banda.dorsoPortanteZ} · fondo pozo Z=${V.banda.fondoPozoZ}`);
 console.log(`   PERCHA: ${V.percha.cuelgue.pernos38} pernos 3/8 por colisas del side + ${V.percha.cuelgue.apoyoLenguetas} lengüetas de apoyo · ${r2(V.percha.cuelgue.cortantePorPernoN)} N/perno (adm ${V.percha.cuelgue.cortanteAdmisiblePernoN}) · flecha larguero ${V.percha.flechaLargueroMm} mm · masa NBT90 (cota sup.) ${NBT.masaKg} kg`);
+console.log(`   ESTACIONES: eje motriz común Ø${EJEC.d}/Ø${EJEC.munonUcfl.d} × ${V.estaciones.ejeComun.L} (vano ${V.estaciones.ejeComun.vanoMm}, flecha ${V.estaciones.ejeComun.flechaMm} mm, τ ${V.estaciones.ejeComun.tauMPa} MPa a ${V.estaciones.ejeComun.parNm} N·m — hipótesis ${V.estaciones.ejeComun.hipotesis}) · AT10 recolocada X ${V.estaciones.at10.x.join('…')} · banda AT10 del kit: ${EJEC.bandaAT10.dientes} dientes (${EJEC.bandaAT10.designacion.split('(')[0].trim()})`);
+console.log(`   IDLER-P01 medida: eje a ${V.estaciones.idler.dxEjeBanda} del eje de banda, Y ${V.estaciones.idler.y} — ${V.estaciones.idler.declarado}`);
+console.log(`   GUARDAS pozo: desarrollos ${JSON.stringify(V.guardas.desarrollos)}`);
+if (V.avisosDeclarados?.length) for (const a of V.avisosDeclarados) console.log(`   ⚠ DECLARADO: ${a}`);
 console.log(`   → ${outBrep} (para ../nbt90/interferencias_brep.py --doc)`);
