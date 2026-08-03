@@ -1,5 +1,5 @@
 {
- "$comment": "Capa 'web' del clasificador del cliente (STEP sorter_CO.stp). Mismo formato que cad/ensambles/nbt90/analisis/web_facts.json. Cada hecho lleva url + accessed + quote. AVISO DE HONESTIDAD: el campo source.quote_tipo distingue 'texto_de_pagina' de 'resumen_de_busqueda'; en esta pasada NINGUNA cita es verbatim de la pagina, porque los PDF de catalogo (SMC C85, Powerdrive AT10, Statewide T/AT) devolvieron contenido binario ilegible y MISUMI respondio HTTP 403. Las citas reproducen el texto que devolvio el buscador. Todo lo que aparece en 'contraste_con_lo_medido' es capa 'step' (medido sobre el STEP) y NO depende de la web. | 2026-07-31: anadidos PERF-001/PERF-002/BRKT-001 (percha del NBT90) con cita textual de pagina. | 2026-07-31 (detalle de estaciones): anadidos PNEU-007 (C85C25), PNEU-008 (KQ2L06-01AS), RING-003 (DIN 472-42) y BELT-004 (Optibelt 25AT10); citas de resumen_de_busqueda salvo RING-003 (ficha de producto). | 2026-08-03 (revision estructural del sorter, REVISION_ESTRUCTURAL_SC.md): anadidos MAT-C45-01, MAT-6063-01, TNUT-10-M8-01, BRG-6207-01, BRG-6206-01 y BRG-L10-01, TODOS con cita verbatim de la pagina o del PDF (quote_tipo = texto_de_pagina). Cierran los dos ids huerfanos BRG-6206/BRG-6207 que adapt/params_tambores.mjs citaba y que no existian en ningun web_facts.",
+ "$comment": "Capa 'web' del clasificador del cliente (STEP sorter_CO.stp). Mismo formato que cad/ensambles/nbt90/analisis/web_facts.json. Cada hecho lleva url + accessed + quote. AVISO DE HONESTIDAD: el campo source.quote_tipo distingue 'texto_de_pagina' de 'resumen_de_busqueda'; en esta pasada NINGUNA cita es verbatim de la pagina, porque los PDF de catalogo (SMC C85, Powerdrive AT10, Statewide T/AT) devolvieron contenido binario ilegible y MISUMI respondio HTTP 403. Las citas reproducen el texto que devolvio el buscador. Todo lo que aparece en 'contraste_con_lo_medido' es capa 'step' (medido sobre el STEP) y NO depende de la web. | 2026-07-31: anadidos PERF-001/PERF-002/BRKT-001 (percha del NBT90) con cita textual de pagina. | 2026-07-31 (detalle de estaciones): anadidos PNEU-007 (C85C25), PNEU-008 (KQ2L06-01AS), RING-003 (DIN 472-42) y BELT-004 (Optibelt 25AT10); citas de resumen_de_busqueda salvo RING-003 (ficha de producto). | 2026-08-03 (revision estructural del sorter, REVISION_ESTRUCTURAL_SC.md): anadidos MAT-C45-01, MAT-6063-01, TNUT-10-M8-01, BRG-6207-01, BRG-6206-01 y BRG-L10-01, TODOS con cita verbatim de la pagina o del PDF (quote_tipo = texto_de_pagina). Cierran los dos ids huerfanos BRG-6206/BRG-6207 que adapt/params_tambores.mjs citaba y que no existian en ningun web_facts. | 2026-08-03 (revision de FABRICACION, REVISION_TALLER_PIEZAS.md): anadidos RING-471-01 y RING-471-02 (tabla DIN 471 de gargantas, hallazgo A2) y TUBE-A513-01 (tolerancias de tubo comercial, hallazgo A7). Los tres con cita verbatim de la tabla del PDF (quote_tipo = texto_de_pagina).",
  "project": "sorter_co",
  "generated": "2026-07-30T23:04:09Z",
  "layers": {
@@ -831,6 +831,60 @@
    "fuente_titulo": "PIB Sales - Radial Ball Bearings: life ratings (ISO 281)",
    "confidence": "alta",
    "usado_en": "§S (SC-08) de gen_sorter_co.mjs: vida de las UC207 del tambor, de las 6207-2RS del conducido y de las 6206-2RS de los 4 rodillos de retorno."
+  },
+  {
+   "id": "RING-471-01",
+   "tema": "normalizado",
+   "claim": "DIN 471, anillo de retençion para eje: para d1 = 30 la garganta es d2 = 28.6 y m = 1.6 con anillo de espesor s = 1.50; para d1 = 35, d2 = 33.0 y m = 1.6 con el MISMO espesor s = 1.50. Profundidad de garganta t = 0.7 (d1 30) y t = 1.0 (d1 35)",
+   "value": "30: d2 28.6 / m 1.6 / t 0.7 / s 1.5  |  35: d2 33.0 / m 1.6 / t 1.0 / s 1.5",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.aspenfasteners.com/content/pdf/Metric_DIN_471_spec.pdf",
+    "accessed": "2026-08-03",
+    "quote": "30 1.5   27.9   5 3.5 2 3.31 28.6   1.6 0.7 2.1 40.5 | 35 1.5   32.2 -0.5 5.6 3.9 2.5 4 33 (h12) 1.6 1 3 46.8",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "Aspen Fasteners — Metric DIN 471 External Retaining Rings for Shafts (Product Dimensions and Weights)",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "Columnas de la tabla, en orden: d1 · s · d3 · a · b · d5 · peso · d2 · m · t · n · d4. La cabecera declara la tolerancia de m como H13 (para m = 1.6, IT13 = +0.14/0) y la de d2 como h12 (0/-0.21 en la banda 24-30 y 0/-0.25 en la 32-35). LO QUE HABÍA EN EL MODELO antes de 2026-08-03: mod_tambores generaba la garganta con la fórmula d-1.4 y ancho fijo 1.4, y mod_tensor2 con d-2.5 y ancho 1.5. Un anillo de s = 1.50 NO ENTRA en una garganta de 1.40: es el hallazgo A2 de REVISION_TALLER_PIEZAS.md."
+  },
+  {
+   "id": "RING-471-02",
+   "tema": "normalizado",
+   "claim": "En DIN 471 el espesor del anillo s salta de 1.5 a 1.75 en el eje nominal d1 = 36, no en d1 = 35: los ejes Ø30 y Ø35 de este proyecto llevan los dos anillo de 1.5",
+   "value": "d1 28..35 -> s = 1.5 ; d1 36..45 -> s = 1.75",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.ametric.com/Images/document/RetainingRings-Metric.pdf",
+    "accessed": "2026-08-03",
+    "quote": "External Retaining Rings (A) DIN 471 — ... 28 1.5 / 29 1.5 / 30 1.5 / 31 1.5 / 32 1.5 / 33 1.5 / 34 1.5 / 35 1.5 / 36 1.75 / 37 1.75 / 38 1.75",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "American Metric Corporation — External Retaining Rings (A) DIN 471, GROUP 062",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "SEGUNDA FUENTE, a propósito: REVISION_TALLER_PIEZAS.md §A2 pedía para d = 35 «m = 1,85 y anillo s = 1,75», que es la fila de d1 = 40 de la norma. Las dos fuentes citadas coinciden en que para d1 = 35 el anillo es de 1.50 y la garganta de 1.60. Se aplica la TABLA y la discrepancia con el informe queda escrita en adapt/util_adapt.mjs (DIN471)."
+  },
+  {
+   "id": "TUBE-A513-01",
+   "tema": "materiales",
+   "claim": "El Ø INTERIOR de un tubo mecánico comercial ASTM A513 Tipo 1 no es una cota controlada: sale de restar dos veces la pared al Ø exterior, y las dos llevan tolerancia. Para Ø88.9 (3-1/2\") con pared 3.2 (0.126\") el exterior es ±0.0090\" y la pared +0.004/-0.012\"; para Ø108 (4-1/4\") con pared 3.6 (0.142\") el exterior es ±0.0200\" y la pared +0.004/-0.014\"",
+   "value": "88.9x3.2: OD ±0.229 mm, pared +0.102/-0.305 mm  |  108x3.6: OD ±0.508 mm, pared +0.102/-0.356 mm",
+   "unit": "mm",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://cdn2.hubspot.net/hubfs/6004047/Tolerances/Carbon%20Mechanical%20Tubing%20TOLERANCECH8-13.pdf",
+    "accessed": "2026-08-03",
+    "quote": "HOT ROLLED ELECTRIC RESISTANCE WELDED (HREW) ROUND TUBING - ASTM A513 TYPE 1 / Diameter Tolerances (inches): Over 3 to 3-1/2, incl. 13 to 5 0.095 to 0.220 0.0090 ... Over 4 to 5, incl. 13 to 5 0.095 to 0.220 0.0200 ... Wall Thickness Tolerances (inches): 0.120 11 ... Over 1-15/16 to 3-3/4, incl. Plus 0.004 Minus 0.012 ... 0.148 9 ... Over 3-3/4 to 4-1/2, incl. Plus 0.004 Minus 0.014",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "Wisconsin Steel & Tube Corporation — Carbon Mechanical Tubing Tolerances (ASTM A513 Type 1, round)",
+   "confidence": "alta",
+   "contraste_con_lo_medido": "CALCULADO con esa tabla (calc, en adapt/params_tambores.mjs): el interior real de un Ø88.9x3.2 cae entre 82.068 y 83.338 (banda 1.270 mm sobre un nominal de 82.5) y el de un Ø108x3.6 entre 100.089 y 102.019 (banda 1.930 sobre 100.8). El campo de un H7 en esos diámetros es 0.035 mm (IT7, banda 80-120): la incertidumbre del tubo es 36 y 55 veces el ajuste. Por eso el prensado H7/r6 de las tapas-soporte EXIGE MANDRINAR el tubo (hallazgo A7)."
   }
  ],
  "pendientes_sin_fuente": [

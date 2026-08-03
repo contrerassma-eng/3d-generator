@@ -9,6 +9,13 @@
 //     tambor motriz → portante sobre las guías UHMW → conducido → retorno por
 //     los 4 rodillos de retorno RR4…RR1 → HORQUILLA del tensor (volante de
 //     entrada, polea tensora, volante de salida) → tambor motriz;
+//     El RAMAL PORTANTE ATRAVIESA LA TRANSFERENCIA EN RECTO, a la cota del plano
+//     de transporte, por el corredor de 42 mm que dejan los dientes de las placas
+//     PEINE — que para eso se llaman peine (corrección del cliente, 03-08-2026).
+//     Ni baja al pozo ni la esquiva: sólo el ramal de RETORNO pasa por debajo del
+//     módulo, y por qué no puede pasar recto él también está medido y escrito en
+//     params_tambores §4. La compuerta §R de gen_sorter_co.mjs lo comprueba calle
+//     a calle sobre el contorno emitido y sobre el boceto real del peine;
 //   · el TENSOR ORIGINAL COMPLETO en su pose diagonal medida (corrección del
 //     cliente 31-07): brazo, tensora, cilindro vertical, eje común Ø25;
 //   · extremos de estación FIELES: las piezas del grupo motriz, drive kit e

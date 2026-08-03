@@ -332,7 +332,7 @@
       ]
      },
      "trazabilidad": {
-      "citados": 32,
+      "citados": 33,
       "huerfanos": []
      }
     },
@@ -79605,6 +79605,14 @@
    "visible": true,
    "fabricada": true,
    "capaInfo": "dis (pose: step §2.4; Ø: calc)",
+   "gargantas": {
+    "norma": "DIN 471 - 30",
+    "cota": "Ø28.6 h12 × 1.6 H13",
+    "t": 0.7,
+    "anilloS": 1.5,
+    "juegoAxial": 0.1,
+    "fuente": "web RING-471-01 (Aspen Fasteners, tabla DIN 471) + RING-471-02 (Ametric)"
+   },
    "ajusteMontaje": "atraviesa los 10 casquillos de fricción, los 4 separadores, el collar y los 2 anillos DIN 471 alojados en sus gargantas: todos esos solapes son ENCAJE DE MONTAJE, no interferencia",
    "nota": "C45 rectificado h7. LÍNEA DE ARTICULACIÓN: el eje NO gira y NO transmite par — los 5 brazos giran libres sobre sus casquillos. Ø30 y no el Ø25 medido del cliente (cambio declarado): con 5 cilindros independientes la reacción por brazo sube a 398.28 N, y a Ø25 el eje daría σ = 94.3 MPa y 1.26 mm de flecha; a Ø30 queda en σ = 54.55 MPa (FS 7.883 sobre C45) y 0.609 mm. Vano entre chumaceras 580.84.",
    "features": [
@@ -79630,11 +79638,11 @@
     },
     {
      "id": "gar0",
-     "name": "Garganta DIN 471-30",
+     "name": "Garganta DIN 471 - 30 Ø28.6 h12 × 1.6 H13",
      "shape": "cylinder",
      "op": "cut",
      "at": [
-      34.003,
+      33.953,
       0,
       0
      ],
@@ -79644,17 +79652,17 @@
       0
      ],
      "params": {
-      "dia": 27.5,
-      "h": 1.5
+      "dia": 28.6,
+      "h": 1.6
      }
     },
     {
      "id": "gar1",
-     "name": "Garganta DIN 471-30",
+     "name": "Garganta DIN 471 - 30 Ø28.6 h12 × 1.6 H13",
      "shape": "cylinder",
      "op": "cut",
      "at": [
-      545.3330000000001,
+      545.283,
       0,
       0
      ],
@@ -79664,8 +79672,8 @@
       0
      ],
      "params": {
-      "dia": 27.5,
-      "h": 1.5
+      "dia": 28.6,
+      "h": 1.6
      }
     }
    ],
@@ -112499,7 +112507,15 @@
    "capa": "user",
    "material": "C45 h9",
    "gira": false,
-   "nota": "no gira: es el asiento de los aros interiores y el que transmite la carga de la banda a las pletinas de soporte",
+   "gargantas": {
+    "norma": "DIN 471 - 35",
+    "cota": "Ø33 h12 × 1.6 H13",
+    "t": 1,
+    "anilloS": 1.5,
+    "juegoAxial": 0.1,
+    "fuente": "web RING-471-01 (Aspen Fasteners, tabla DIN 471) + RING-471-02 (Ametric)"
+   },
+   "nota": "no gira: es el asiento de los aros interiores y el que transmite la carga de la banda a las pletinas de soporte. Gargantas Ø33 h12 × 1.6 H13 de tabla DIN 471 - 35 (fondo 1 por lado); el anillo mide 1.5 y queda 0.1 mm de juego axial de montaje.",
    "features": [
     {
      "id": "f2665",
@@ -112523,11 +112539,11 @@
     },
     {
      "id": "f2666",
-     "name": "Garganta DIN 471 Ø33.6 × 1.4",
+     "name": "Garganta DIN 471 - 35 Ø33 h12 × 1.6 H13",
      "shape": "revolve",
      "op": "cut",
      "at": [
-      64.256,
+      64.406,
       0,
       0
      ],
@@ -112543,7 +112559,7 @@
         "type": "line",
         "a": [
          0,
-         16.8
+         16.5
         ],
         "b": [
          0,
@@ -112558,7 +112574,7 @@
          19.5
         ],
         "b": [
-         1.4,
+         1.6,
          19.5
         ]
        },
@@ -112566,24 +112582,24 @@
         "id": "e2665_2",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          19.5
         ],
         "b": [
-         1.4,
-         16.8
+         1.6,
+         16.5
         ]
        },
        {
         "id": "e2665_3",
         "type": "line",
         "a": [
-         1.4,
-         16.8
+         1.6,
+         16.5
         ],
         "b": [
          0,
-         16.8
+         16.5
         ]
        }
       ],
@@ -112607,11 +112623,11 @@
     },
     {
      "id": "f2667",
-     "name": "Garganta DIN 471 Ø33.6 × 1.4",
+     "name": "Garganta DIN 471 - 35 Ø33 h12 × 1.6 H13",
      "shape": "revolve",
      "op": "cut",
      "at": [
-      368.506,
+      368.656,
       0,
       0
      ],
@@ -112627,7 +112643,7 @@
         "type": "line",
         "a": [
          0,
-         16.8
+         16.5
         ],
         "b": [
          0,
@@ -112642,7 +112658,7 @@
          19.5
         ],
         "b": [
-         1.4,
+         1.6,
          19.5
         ]
        },
@@ -112650,24 +112666,24 @@
         "id": "e2666_2",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          19.5
         ],
         "b": [
-         1.4,
-         16.8
+         1.6,
+         16.5
         ]
        },
        {
         "id": "e2666_3",
         "type": "line",
         "a": [
-         1.4,
-         16.8
+         1.6,
+         16.5
         ],
         "b": [
          0,
-         16.8
+         16.5
         ]
        }
       ],
@@ -115704,7 +115720,15 @@
    "capa": "user",
    "material": "C45 h9",
    "gira": false,
-   "nota": "no gira: es el asiento de los aros interiores y el que transmite la carga de la banda a las pletinas de soporte",
+   "gargantas": {
+    "norma": "DIN 471 - 30",
+    "cota": "Ø28.6 h12 × 1.6 H13",
+    "t": 0.7,
+    "anilloS": 1.5,
+    "juegoAxial": 0.1,
+    "fuente": "web RING-471-01 (Aspen Fasteners, tabla DIN 471) + RING-471-02 (Ametric)"
+   },
+   "nota": "no gira: es el asiento de los aros interiores y el que transmite la carga de la banda a las pletinas de soporte. Gargantas Ø28.6 h12 × 1.6 H13 de tabla DIN 471 - 30 (fondo 0.7 por lado); el anillo mide 1.5 y queda 0.1 mm de juego axial de montaje.",
    "features": [
     {
      "id": "f2711",
@@ -115728,11 +115752,11 @@
     },
     {
      "id": "f2712",
-     "name": "Garganta DIN 471 Ø28.6 × 1.4",
+     "name": "Garganta DIN 471 - 30 Ø28.6 h12 × 1.6 H13",
      "shape": "revolve",
      "op": "cut",
      "at": [
-      63.256,
+      63.406000000000006,
       0,
       0
      ],
@@ -115763,7 +115787,7 @@
          17
         ],
         "b": [
-         1.4,
+         1.6,
          17
         ]
        },
@@ -115771,11 +115795,11 @@
         "id": "e2711_2",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          17
         ],
         "b": [
-         1.4,
+         1.6,
          14.3
         ]
        },
@@ -115783,7 +115807,7 @@
         "id": "e2711_3",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          14.3
         ],
         "b": [
@@ -115812,11 +115836,11 @@
     },
     {
      "id": "f2713",
-     "name": "Garganta DIN 471 Ø28.6 × 1.4",
+     "name": "Garganta DIN 471 - 30 Ø28.6 h12 × 1.6 H13",
      "shape": "revolve",
      "op": "cut",
      "at": [
-      369.506,
+      369.656,
       0,
       0
      ],
@@ -115847,7 +115871,7 @@
          17
         ],
         "b": [
-         1.4,
+         1.6,
          17
         ]
        },
@@ -115855,11 +115879,11 @@
         "id": "e2712_2",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          17
         ],
         "b": [
-         1.4,
+         1.6,
          14.3
         ]
        },
@@ -115867,7 +115891,7 @@
         "id": "e2712_3",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          14.3
         ],
         "b": [
@@ -118909,7 +118933,15 @@
    "capa": "user",
    "material": "C45 h9",
    "gira": false,
-   "nota": "no gira: es el asiento de los aros interiores y el que transmite la carga de la banda a las pletinas de soporte",
+   "gargantas": {
+    "norma": "DIN 471 - 30",
+    "cota": "Ø28.6 h12 × 1.6 H13",
+    "t": 0.7,
+    "anilloS": 1.5,
+    "juegoAxial": 0.1,
+    "fuente": "web RING-471-01 (Aspen Fasteners, tabla DIN 471) + RING-471-02 (Ametric)"
+   },
+   "nota": "no gira: es el asiento de los aros interiores y el que transmite la carga de la banda a las pletinas de soporte. Gargantas Ø28.6 h12 × 1.6 H13 de tabla DIN 471 - 30 (fondo 0.7 por lado); el anillo mide 1.5 y queda 0.1 mm de juego axial de montaje.",
    "features": [
     {
      "id": "f2757",
@@ -118933,11 +118965,11 @@
     },
     {
      "id": "f2758",
-     "name": "Garganta DIN 471 Ø28.6 × 1.4",
+     "name": "Garganta DIN 471 - 30 Ø28.6 h12 × 1.6 H13",
      "shape": "revolve",
      "op": "cut",
      "at": [
-      63.256,
+      63.406000000000006,
       0,
       0
      ],
@@ -118968,7 +119000,7 @@
          17
         ],
         "b": [
-         1.4,
+         1.6,
          17
         ]
        },
@@ -118976,11 +119008,11 @@
         "id": "e2757_2",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          17
         ],
         "b": [
-         1.4,
+         1.6,
          14.3
         ]
        },
@@ -118988,7 +119020,7 @@
         "id": "e2757_3",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          14.3
         ],
         "b": [
@@ -119017,11 +119049,11 @@
     },
     {
      "id": "f2759",
-     "name": "Garganta DIN 471 Ø28.6 × 1.4",
+     "name": "Garganta DIN 471 - 30 Ø28.6 h12 × 1.6 H13",
      "shape": "revolve",
      "op": "cut",
      "at": [
-      369.506,
+      369.656,
       0,
       0
      ],
@@ -119052,7 +119084,7 @@
          17
         ],
         "b": [
-         1.4,
+         1.6,
          17
         ]
        },
@@ -119060,11 +119092,11 @@
         "id": "e2758_2",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          17
         ],
         "b": [
-         1.4,
+         1.6,
          14.3
         ]
        },
@@ -119072,7 +119104,7 @@
         "id": "e2758_3",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          14.3
         ],
         "b": [
@@ -122114,7 +122146,15 @@
    "capa": "user",
    "material": "C45 h9",
    "gira": false,
-   "nota": "no gira: es el asiento de los aros interiores y el que transmite la carga de la banda a las pletinas de soporte",
+   "gargantas": {
+    "norma": "DIN 471 - 30",
+    "cota": "Ø28.6 h12 × 1.6 H13",
+    "t": 0.7,
+    "anilloS": 1.5,
+    "juegoAxial": 0.1,
+    "fuente": "web RING-471-01 (Aspen Fasteners, tabla DIN 471) + RING-471-02 (Ametric)"
+   },
+   "nota": "no gira: es el asiento de los aros interiores y el que transmite la carga de la banda a las pletinas de soporte. Gargantas Ø28.6 h12 × 1.6 H13 de tabla DIN 471 - 30 (fondo 0.7 por lado); el anillo mide 1.5 y queda 0.1 mm de juego axial de montaje.",
    "features": [
     {
      "id": "f2803",
@@ -122138,11 +122178,11 @@
     },
     {
      "id": "f2804",
-     "name": "Garganta DIN 471 Ø28.6 × 1.4",
+     "name": "Garganta DIN 471 - 30 Ø28.6 h12 × 1.6 H13",
      "shape": "revolve",
      "op": "cut",
      "at": [
-      63.256,
+      63.406000000000006,
       0,
       0
      ],
@@ -122173,7 +122213,7 @@
          17
         ],
         "b": [
-         1.4,
+         1.6,
          17
         ]
        },
@@ -122181,11 +122221,11 @@
         "id": "e2803_2",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          17
         ],
         "b": [
-         1.4,
+         1.6,
          14.3
         ]
        },
@@ -122193,7 +122233,7 @@
         "id": "e2803_3",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          14.3
         ],
         "b": [
@@ -122222,11 +122262,11 @@
     },
     {
      "id": "f2805",
-     "name": "Garganta DIN 471 Ø28.6 × 1.4",
+     "name": "Garganta DIN 471 - 30 Ø28.6 h12 × 1.6 H13",
      "shape": "revolve",
      "op": "cut",
      "at": [
-      369.506,
+      369.656,
       0,
       0
      ],
@@ -122257,7 +122297,7 @@
          17
         ],
         "b": [
-         1.4,
+         1.6,
          17
         ]
        },
@@ -122265,11 +122305,11 @@
         "id": "e2804_2",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          17
         ],
         "b": [
-         1.4,
+         1.6,
          14.3
         ]
        },
@@ -122277,7 +122317,7 @@
         "id": "e2804_3",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          14.3
         ],
         "b": [
@@ -125319,7 +125359,15 @@
    "capa": "user",
    "material": "C45 h9",
    "gira": false,
-   "nota": "no gira: es el asiento de los aros interiores y el que transmite la carga de la banda a las pletinas de soporte",
+   "gargantas": {
+    "norma": "DIN 471 - 30",
+    "cota": "Ø28.6 h12 × 1.6 H13",
+    "t": 0.7,
+    "anilloS": 1.5,
+    "juegoAxial": 0.1,
+    "fuente": "web RING-471-01 (Aspen Fasteners, tabla DIN 471) + RING-471-02 (Ametric)"
+   },
+   "nota": "no gira: es el asiento de los aros interiores y el que transmite la carga de la banda a las pletinas de soporte. Gargantas Ø28.6 h12 × 1.6 H13 de tabla DIN 471 - 30 (fondo 0.7 por lado); el anillo mide 1.5 y queda 0.1 mm de juego axial de montaje.",
    "features": [
     {
      "id": "f2849",
@@ -125343,11 +125391,11 @@
     },
     {
      "id": "f2850",
-     "name": "Garganta DIN 471 Ø28.6 × 1.4",
+     "name": "Garganta DIN 471 - 30 Ø28.6 h12 × 1.6 H13",
      "shape": "revolve",
      "op": "cut",
      "at": [
-      63.256,
+      63.406000000000006,
       0,
       0
      ],
@@ -125378,7 +125426,7 @@
          17
         ],
         "b": [
-         1.4,
+         1.6,
          17
         ]
        },
@@ -125386,11 +125434,11 @@
         "id": "e2849_2",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          17
         ],
         "b": [
-         1.4,
+         1.6,
          14.3
         ]
        },
@@ -125398,7 +125446,7 @@
         "id": "e2849_3",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          14.3
         ],
         "b": [
@@ -125427,11 +125475,11 @@
     },
     {
      "id": "f2851",
-     "name": "Garganta DIN 471 Ø28.6 × 1.4",
+     "name": "Garganta DIN 471 - 30 Ø28.6 h12 × 1.6 H13",
      "shape": "revolve",
      "op": "cut",
      "at": [
-      369.506,
+      369.656,
       0,
       0
      ],
@@ -125462,7 +125510,7 @@
          17
         ],
         "b": [
-         1.4,
+         1.6,
          17
         ]
        },
@@ -125470,11 +125518,11 @@
         "id": "e2850_2",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          17
         ],
         "b": [
-         1.4,
+         1.6,
          14.3
         ]
        },
@@ -125482,7 +125530,7 @@
         "id": "e2850_3",
         "type": "line",
         "a": [
-         1.4,
+         1.6,
          14.3
         ],
         "b": [

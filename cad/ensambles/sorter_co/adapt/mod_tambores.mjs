@@ -17,6 +17,10 @@ import {
 import {
   FIJO, TAMBOR, UCF207, CONDUCIDO, RETORNOS, TAMBORES, RETORNO, CARGA, Xc, EJES,
 } from './params_tambores.mjs';
+// A2 (revisión de fabricación 2026-08-03): la garganta de anillo elástico ya no
+// sale de una fórmula, sale de la TABLA DIN 471 con su cita (web RING-471-01 /
+// RING-471-02). Ver adapt/util_adapt.mjs.
+import { gargantaDIN471 } from './util_adapt.mjs';
 
 // Se relee el bastidor del otro agente SÓLO para verificar holguras (no define
 // nada aquí). No hay ciclo: params_pg40 lee params_tambores, no este módulo.
@@ -168,16 +172,29 @@ function rodilloEjeFijo(E, S, { nombre, y, z, spec, sop, marca }) {
   // 5. EJE FIJO pasante, CON la garganta torneada de cada anillo DIN 471
   //    (el anillo se mete 0.6 mm en el eje: si no se tornea la garganta, la
   //    verificación B-rep lo canta como interferencia — y con razón)
+  //
+  //    A2 · LA GARGANTA SALE DE LA TABLA, NO DE UNA FÓRMULA. Hasta 2026-08-03
+  //    aquí ponía `Ø = d − 1.4` con ancho fijo 1.4. El ancho es el defecto que
+  //    llega al taller: un DIN 471-30 mide s = 1.50 de espesor y NO ENTRA en
+  //    una garganta de 1.40. Y en el Ø35 el fondo se quedaba en Ø33.6 cuando la
+  //    norma pide Ø33.0 (t = 1.0 por lado, no 0.7). Ahora se leen d2, m y t de
+  //    `gargantaDIN471` (web RING-471-01/02) y la garganta se CENTRA sobre el
+  //    anillo, dejando (m − s)/2 de juego de montaje por cara.
+  const G = gargantaDIN471(spec.eje.d);
   const [ex0, ex1] = spec.ejeX;
   add(`${nombre} · eje FIJO Ø${spec.eje.d} × ${r3(ex1 - ex0)}`, COL.acero, [ex0, y, z], [
     cyl(`Eje Ø${spec.eje.d} × ${r3(ex1 - ex0)}`, [ex0, y, z], DIR, spec.eje.d, r3(ex1 - ex0)),
-    ...gargantas.map((xg) => revolve(`Garganta DIN 471 Ø${r3(spec.eje.d - 1.4)} × 1.4`,
-      [r3(xg - 0.2), y, z], 'x',
-      [[0, spec.eje.d / 2 - 0.7], [0, spec.eje.d / 2 + 2], [1.4, spec.eje.d / 2 + 2],
-        [1.4, spec.eje.d / 2 - 0.7]], 'cut')),
+    ...gargantas.map((xg) => revolve(`Garganta ${G.desig} ${G.cota}`,
+      [r3(xg - G.juegoAxial / 2), y, z], 'x',
+      [[0, r3(spec.eje.d / 2 - G.t)], [0, spec.eje.d / 2 + 2], [G.m, spec.eje.d / 2 + 2],
+        [G.m, r3(spec.eje.d / 2 - G.t)]], 'cut')),
   ], { ...conj, material: spec.eje.material, gira: false,
+    gargantas: { norma: G.desig, cota: G.cota, t: G.t, anilloS: G.s, juegoAxial: G.juegoAxial,
+      fuente: 'web RING-471-01 (Aspen Fasteners, tabla DIN 471) + RING-471-02 (Ametric)' },
     nota: 'no gira: es el asiento de los aros interiores y el que transmite la '
-      + 'carga de la banda a las pletinas de soporte' });
+      + `carga de la banda a las pletinas de soporte. Gargantas ${G.cota} de tabla `
+      + `${G.desig} (fondo ${G.t} por lado); el anillo mide ${G.s} y queda `
+      + `${G.juegoAxial} mm de juego axial de montaje.` });
 
   // 6. pletinas de soporte del eje fijo + collar de apriete + tornillería
   for (const s of [0, 1]) {

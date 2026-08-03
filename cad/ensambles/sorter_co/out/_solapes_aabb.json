@@ -1,12 +1,12 @@
 [
  {
-  "cm3": 46.24,
-  "a": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -555)",
-  "b": "CTX · roller/uni_002 Ø34×850 (resucitado para el banco)"
+  "cm3": 41.71,
+  "a": "FIJO · Escuadra travesaño↔bastidor 3/16\" (sur, +X)",
+  "b": "PG40 · Travesaño de banco 40×40 (Y -1280)"
  },
  {
-  "cm3": 15.56,
-  "a": "PG40 · Escuadra larguero↔travesaño (calle 2, Y -555)",
-  "b": "CTX · roller/uni_002 Ø34×850 (resucitado para el banco)"
+  "cm3": 41.71,
+  "a": "FIJO · Escuadra travesaño↔bastidor 3/16\" (norte, +X)",
+  "b": "PG40 · Travesaño de banco 40×40 (Y -692)"
  }
 ]

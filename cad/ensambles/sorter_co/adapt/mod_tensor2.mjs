@@ -25,6 +25,9 @@ import {
 } from '../../nbt90/lib.mjs';
 import { EJES } from './params_adapt.mjs';
 import { GEO, PALANCA, NEUM, PIV, EJE_CALC, POL, RAMAL, TENSION, SOPORTE, SOPORTE_CALC } from './params_tensor2.mjs';
+// A2 (revisión de fabricación 2026-08-03): la garganta del anillo sale de la
+// TABLA DIN 471 citada (web RING-471-01/02), no de `PIV.d − 2.5`.
+import { gargantaDIN471 } from './util_adapt.mjs';
 
 // ---------------------------------------------------------------------------
 // Envolvente convexa de discos en el plano YZ (silueta de chapa recortada).
@@ -89,12 +92,21 @@ export function tensor2(E, ramal) {
   // =========================================================================
   // A. EL EJE PIVOTE COMÚN, ASEGURADO  (instrucción explícita del cliente)
   // =========================================================================
+  // A2 · GARGANTA DE TABLA. Aquí ponía `dia: PIV.d − 2.5, h: 1.5`: fondo Ø27.5
+  // (1.10 mm de más en Ø sobre el Ø28.6 de norma, o sea 0.55 por lado de
+  // sobreprofundidad — el anillo trabajaba descentrado) y ancho 1.50 exacto
+  // contra un anillo de 1.50, o sea CERO juego de montaje. Ahora sale de
+  // `gargantaDIN471(30)` = Ø28.6 h12 × 1.60 H13, t = 0.7, y se centra sobre el
+  // anillo dejando 0.05 por cara.
+  const GP = gargantaDIN471(PIV.d);
   E.addPart(`FIJO · Eje pivote común Ø${PIV.d}×${PIV.largo} (articulación de los 5 brazos)`, COL.acero,
     [PIV.x0, PIV.y, PIV.z],
     [cyl(`Eje Ø${PIV.d}×${PIV.largo}`, [PIV.x0, PIV.y, PIV.z], [1, 0, 0], PIV.d, PIV.largo),
-      ...PIV.anilloX.map((xg, i) => ({ id: `gar${i}`, name: 'Garganta DIN 471-30', shape: 'cylinder', op: 'cut',
-        at: [xg, PIV.y, PIV.z], dir: [1, 0, 0], params: { dia: PIV.d - 2.5, h: 1.5 } }))],
+      ...PIV.anilloX.map((xg, i) => ({ id: `gar${i}`, name: `Garganta ${GP.desig} ${GP.cota}`, shape: 'cylinder', op: 'cut',
+        at: [r2(xg - GP.juegoAxial / 2), PIV.y, PIV.z], dir: [1, 0, 0], params: { dia: GP.d2, h: GP.m } }))],
     { fabricada: true, capaInfo: 'dis (pose: step §2.4; Ø: calc)',
+      gargantas: { norma: GP.desig, cota: GP.cota, t: GP.t, anilloS: GP.s, juegoAxial: GP.juegoAxial,
+        fuente: 'web RING-471-01 (Aspen Fasteners, tabla DIN 471) + RING-471-02 (Ametric)' },
       ajusteMontaje: 'atraviesa los 10 casquillos de fricción, los 4 separadores, el collar y los 2 anillos '
         + 'DIN 471 alojados en sus gargantas: todos esos solapes son ENCAJE DE MONTAJE, no interferencia',
       nota: `${PIV.material}. LÍNEA DE ARTICULACIÓN: el eje NO gira y NO transmite par — los 5 brazos giran `
