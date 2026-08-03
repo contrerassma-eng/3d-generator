@@ -46,8 +46,39 @@ export function espesorDe(n, chapa) {
   }
   const mm = n.match(/×(\d{1,2})(?:\s|$|\))/);       // «170×42×12»
   if (mm && +mm[1] >= 3 && +mm[1] <= 25) return +mm[1];
+  // «e=8», «e = 12»: es como el sorter CO nombra el espesor de sus pletinas, y
+  // sin esta línea un «Brazo tensor e=8» caía al calibre por defecto y salía
+  // acotado a 2.657 mm en su propio plano — pletina de 8 pedida como chapa de
+  // 12 GA. Va la ÚLTIMA de las lecturas de nombre a propósito: si la pieza
+  // declara `chapa.t`, o lleva calibre GA, o fracción en pulgadas, esos mandan.
+  // En el NBT90 no cambia nada: sus 6 nombres con «e=» son los vulcanizados, y
+  // `materialDe` sale por `/vulcaniz/` antes de mirar el espesor.
+  const eN = n.match(/\be\s*=\s*(\d{1,2}(?:\.\d+)?)/i);
+  if (eN && +eN[1] >= 0.5 && +eN[1] <= 40) return +eN[1];
   return null;
 }
+
+/** El material de una pieza FABRICADA, con la regla de siempre: lo que la pieza
+ *  DECLARA manda sobre lo que se lee de su nombre. Es la misma disciplina que
+ *  `familiaDe` ya aplicaba a las compradas (§1 de su cuerpo), traída al lado
+ *  fabricado, que es donde hacía falta.
+ *
+ *  Por qué: `materialDe` es un lector de nombres escrito con el vocabulario del
+ *  NBT90, y sobre el sorter CO se equivoca en las piezas que ese vocabulario no
+ *  conoce — un «Larguero PG40 40×40» es perfil de ALUMINIO extruido y la regla
+ *  de `travesaño|soporte|escuadra` lo mandaría a «chapa de acero 12 GA»; un
+ *  «Brazo tensor e=8» es pletina de 8 y saldría acotado a 2.657. Un plano que
+ *  dice mal el material y el espesor es peor que no tener plano.
+ *
+ *  Sobre el NBT90 esto NO cambia nada y se ha comprobado: sus 36 piezas
+ *  fabricadas declaran `material` CERO veces, así que todas siguen por
+ *  `materialDe`. Las de contexto quedan también en el camino de antes a
+ *  propósito — 5 de las 10 del NBT90 sí declaran material y no es este el
+ *  momento de mover el render de piezas que ni se fabrican ni se compran. */
+export const materialDePieza = (part) =>
+  (typeof part.material === 'string' && part.material.trim())
+    ? part.material.trim()
+    : materialDe(desig(part.name), part.chapa);
 
 export function materialDe(n, chapa) {
   const esp = espesorDe(n, chapa);

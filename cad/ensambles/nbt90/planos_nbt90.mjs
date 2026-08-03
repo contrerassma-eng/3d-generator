@@ -18,7 +18,7 @@ import { P } from './params.mjs';
 // es de donde también la leen los visores para pintar cada pieza según de qué
 // está hecha. Estaba aquí; se mudó allí sin tocar una línea para que el material
 // del cajetín y el del render NO PUEDAN divergir: uno solo es el que manda.
-import { desig, materialDe } from './materiales.mjs';
+import { desig, materialDe, materialDePieza } from './materiales.mjs';
 // Esquema de tolerancias: las clases y las tablas de norma con las que se
 // rellenan el cajetín, la lámina de tolerancias y las columnas del despiece.
 // Una tolerancia que no sale en el plano no existe.
@@ -28,12 +28,36 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const aquí = dirname(fileURLToPath(import.meta.url));
-const doc = JSON.parse(readFileSync(join(aquí, 'narrow_belt_transfer_90.json'), 'utf8'));
-const outDir = join(aquí, 'planos');
+
+// --- QUÉ ENSAMBLE SE DIBUJA --------------------------------------------------
+// Estaba cableado al `narrow_belt_transfer_90.json` de este directorio, y por eso
+// el sorter CO —1030 piezas, el ensamble que se manda a fabricar— no tenía planos:
+// no había forma de pedirlos sin duplicar las 420 líneas de este fichero. El
+// acoplamiento resultó ser fino: el documento, el directorio de salida, el título
+// del cajetín y el prefijo de numeración de láminas. Se sacan a la línea de
+// órdenes con los valores del NBT90 por defecto, así que la invocación de siempre
+//     node ensambles/nbt90/planos_nbt90.mjs [fecha]
+// sigue dando exactamente lo mismo. Para otro ensamble:
+//     node ensambles/nbt90/planos_nbt90.mjs 2026-08-03 \
+//          --doc ../sorter_co/sorter_co_adaptado.json \
+//          --out ../sorter_co/planos --proy 'SORTER CO …' --pref SCO
+// `--doc` y `--out` se resuelven relativos a ESTE directorio si son relativos.
+const arg = (nombre, porDefecto) => {
+  const i = process.argv.indexOf(`--${nombre}`);
+  return i > 0 && process.argv[i + 1] ? process.argv[i + 1] : porDefecto;
+};
+const docRel = arg('doc', 'narrow_belt_transfer_90.json');
+const docPath = join(aquí, docRel);
+const doc = JSON.parse(readFileSync(docPath, 'utf8'));
+const outDir = join(aquí, arg('out', 'planos'));
 mkdirSync(outDir, { recursive: true });
-const fecha = process.argv[2] || '—';
-const PROY = 'TRANSFERENCIA 90° — RODILLOS EMERGENTES (NBT90)';
-const FUENTE = 'diseño paramétrico foto3d — capa user (escala 0.6320 mm/px, ver ESCALA.md)';
+// Sin `--fecha`, el primer argumento suelto (compatibilidad con `… [fecha]`).
+const fecha = arg('fecha', (process.argv[2] && !process.argv[2].startsWith('--')) ? process.argv[2] : '—');
+const PROY = arg('proy', 'TRANSFERENCIA 90° — RODILLOS EMERGENTES (NBT90)');
+const FUENTE = arg('fuente', 'diseño paramétrico foto3d — capa user (escala 0.6320 mm/px, ver ESCALA.md)');
+// Prefijo de numeración de láminas y de nombre de fichero. Va con el proyecto:
+// dos ensambles distintos no pueden tener los dos una lámina «NBT90-01».
+const PREF = arg('pref', 'NBT90');
 
 const MARGIN = 10, MARGIN_L = 20, TITLE_H = 42, GAP = 26;
 
@@ -139,12 +163,12 @@ for (const g of lista) {
   const contexto = !!g.part.contexto;
   const fabricada = !comprada && !contexto;
   const material = comprada ? (g.part.norma || g.part.componente || 'componente de catálogo')
-      : materialDe(g.desig, g.part.chapa);
+      : materialDePieza(g.part);
   const tolTxt = fabricada ? notaTolerancia(g.part) : (g.part.clase_material || '');
   let plano = '';
   if (fabricada) {
     planoN++;
-    plano = `NBT90-${String(planoN).padStart(2, '0')}`;
+    plano = `${PREF}-${String(planoN).padStart(2, '0')}`;
     const meta = {
       designacion: g.desig, piezas: String(g.cant), proyecto: PROY, fuente: FUENTE,
       numPlano: plano, fecha,
@@ -202,7 +226,7 @@ function portada() {
   sh.titleBlock({
     designacion: 'PORTADA Y VERIFICACIONES', proyecto: PROY, fuente: FUENTE,
     verificacion: 'GATE SUPERADO', piezas: String(doc.parts.length), nota: doc.meta.origen.slice(0, 180),
-    escala: '—', fecha, numPlano: 'NBT90-00',
+    escala: '—', fecha, numPlano: `${PREF}-00`,
   });
   return sh;
 }
@@ -257,7 +281,7 @@ function toleranciaSheets() {
   sh.frame();
   sh.titleBlock({
     designacion: 'TOLERANCIAS GENERALES Y ENCAJES', proyecto: PROY, fuente: FUENTE,
-    verificacion: 'NORMA CITADA, NO INVENTADA', piezas: '—', escala: '—', fecha, numPlano: 'NBT90-TOL1',
+    verificacion: 'NORMA CITADA, NO INVENTADA', piezas: '—', escala: '—', fecha, numPlano: `${PREF}-TOL1`,
     nota: 'La clase que aplica a cada pieza está en su propio cajetín y en la lista de materiales',
   });
   hs.push(sh);
@@ -280,7 +304,7 @@ function toleranciaSheets() {
   sh2.frame();
   sh2.titleBlock({
     designacion: 'AJUSTES ISO 286', proyecto: PROY, fuente: FUENTE,
-    verificacion: 'CRITERIO CITADO EN CADA FILA', piezas: '—', escala: '—', fecha, numPlano: 'NBT90-TOL2',
+    verificacion: 'CRITERIO CITADO EN CADA FILA', piezas: '—', escala: '—', fecha, numPlano: `${PREF}-TOL2`,
     nota: 'Cada cota de ajuste sale además rotulada en el cajetín de su propia pieza',
   });
   hs.push(sh2);
@@ -322,7 +346,7 @@ function toleranciaSheets() {
       designacion: `ENCAJES (${i + 1}–${Math.min(i + 40, unicas.length)} de ${unicas.length})`,
       proyecto: PROY, fuente: FUENTE,
       verificacion: 'CADA G.D.L. LO FIJA UN SOLO RASGO', piezas: '—', escala: '—', fecha,
-      numPlano: `NBT90-ENC${i / 40 + 1}`,
+      numPlano: `${PREF}-ENC${i / 40 + 1}`,
       nota: 'PAPEL: posición = ranura ajustada, sitúa · paso = holgada 1 mm/lado, NO sitúa · tope = cara contra cara',
     });
     hs.push(sh3);
@@ -351,7 +375,7 @@ function despieceSheets() {
       designacion: `LISTA DE MATERIALES (${i + 1}–${Math.min(i + filas, despiece.length)} de ${despiece.length})`,
       proyecto: PROY, fuente: FUENTE, verificacion: 'DESPIECE COMPLETO',
       piezas: String(doc.parts.length), nota: 'FABRICADA = lleva plano · COMPRADA = componente de catálogo',
-      escala: '—', fecha, numPlano: `NBT90-LM${i / filas + 1}`,
+      escala: '—', fecha, numPlano: `${PREF}-LM${i / filas + 1}`,
     });
     hs.push(sh);
   }
@@ -359,11 +383,11 @@ function despieceSheets() {
 }
 
 const todas = [portada(), ...toleranciaSheets(), ...despieceSheets(), ...hojas];
-const pdf = exportSheetsPDF(todas, 'planos_fabricacion_nbt90.pdf');
+const pdf = exportSheetsPDF(todas, `planos_fabricacion_${PREF.toLowerCase()}.pdf`);
 writeFileSync(join(outDir, pdf.name), Buffer.from(pdf.data));
 
 writeFileSync(join(outDir, 'despiece.json'), JSON.stringify({
-  proyecto: PROY, archivo: 'narrow_belt_transfer_90.json', fecha,
+  proyecto: PROY, archivo: docRel, fecha,
   piezas_totales: doc.parts.length, items: despiece.length,
   fabricadas: despiece.filter(d => d.tipo === 'FABRICADA').length,
   compradas: despiece.filter(d => d.tipo === 'COMPRADA').length,
@@ -406,11 +430,11 @@ if (quiereDXF) try {
     return { geometry, matrixWorld };
   });
   const dxf = exportDrawingDXF(partes, {
-    designacion: 'CONJUNTO — TRANSFERENCIA 90°', proyecto: PROY, fuente: FUENTE,
-    piezas: String(partes.length), fecha, numPlano: 'NBT90-CJ',
+    designacion: `CONJUNTO — ${PROY}`, proyecto: PROY, fuente: FUENTE,
+    piezas: String(partes.length), fecha, numPlano: `${PREF}-CJ`,
     nota: 'vistas del primer diedro a escala real (mm)',
   });
-  writeFileSync(join(outDir, dxf.name || 'conjunto_nbt90.dxf'), dxf.data ?? dxf);
+  writeFileSync(join(outDir, dxf.name || `conjunto_${PREF.toLowerCase()}.dxf`), dxf.data ?? dxf);
 } catch (err) {
   console.warn(`  ! DXF de conjunto no emitido: ${err.message}`);
 }

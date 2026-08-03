@@ -1,7 +1,7 @@
 {
  "proyecto": "TRANSFERENCIA 90° — RODILLOS EMERGENTES (NBT90)",
  "archivo": "narrow_belt_transfer_90.json",
- "fecha": "2026-07-29",
+ "fecha": "2026-08-03",
  "piezas_totales": 420,
  "items": 352,
  "fabricadas": 40,
@@ -4927,7 +4927,7 @@
    "cant": 5,
    "capa": "MÓVIL",
    "tipo": "CONTEXTO (no se fabrica)",
-   "material_norma": "UHMW-PE 1000",
+   "material_norma": "UHMW-PE",
    "plano": "—",
    "tolerancia": "—",
    "ajustes": "—",
