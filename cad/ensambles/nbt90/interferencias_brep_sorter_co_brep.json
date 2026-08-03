@@ -1,15 +1,29 @@
 {
  "documento": "sorter_co_brep.json",
  "tolerancia_cm3": 0.05,
- "piezas": 859,
- "pares_candidatos": 2287,
- "interferencias": 142,
+ "piezas": 896,
+ "pares_candidatos": 2453,
+ "interferencias": 144,
  "detalle": [
   {
-   "cm3": 22.12,
+   "cm3": 30.652,
+   "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
+   "b": "FIJO · Filtro de aire SMC AF20-02-B (grupo de aire del tensor)",
+   "pct_de_la_menor": 19.75,
+   "cruce": false
+  },
+  {
+   "cm3": 27.9311,
    "a": "FIJO · Regulador de PRESIÓN SMC AR20-02-B (rama del tensor, 4 bar)",
-   "b": "FIJO · Pletina soporte del regulador de presión AR20 (8×90×120)",
-   "pct_de_la_menor": 25.91,
+   "b": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
+   "pct_de_la_menor": 19.4,
+   "cruce": false
+  },
+  {
+   "cm3": 20.9824,
+   "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
+   "b": "FIJO · Válvula de corte y purga SMC VHS20-02 (grupo de aire del tensor)",
+   "pct_de_la_menor": 19.75,
    "cruce": false
   },
   {
@@ -50,7 +64,7 @@
   {
    "cm3": 10.322,
    "a": "TAMBOR · tubo Ø88.9 × 380 (e=3.2)",
-   "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)",
+   "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil, 5 coronas de 0.25)",
    "pct_de_la_menor": 3.15,
    "cruce": false
   },
@@ -127,15 +141,43 @@
   {
    "cm3": 3.552,
    "a": "FIJO · Travesaño frontal del tensor 40×40×3 (L=423.92) — «placa frontal»",
-   "b": "FIJO · Placa de extremo del travesaño frontal (+X) 8×80×65",
-   "pct_de_la_menor": 8.75,
+   "b": "FIJO · Placa de extremo del travesaño frontal (+X) 8×90×65",
+   "pct_de_la_menor": 7.76,
    "cruce": false
   },
   {
    "cm3": 3.5476,
    "a": "FIJO · Travesaño frontal del tensor 40×40×3 (L=423.92) — «placa frontal»",
-   "b": "FIJO · Placa de extremo del travesaño frontal (−X) 8×80×65",
-   "pct_de_la_menor": 8.74,
+   "b": "FIJO · Placa de extremo del travesaño frontal (−X) 8×90×65",
+   "pct_de_la_menor": 7.75,
+   "cruce": false
+  },
+  {
+   "cm3": 2.408,
+   "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
+   "b": "FIJO · Te de reparto SMC KQ2T06-00 1/4 (grupo de aire del tensor)",
+   "pct_de_la_menor": 50.0,
+   "cruce": false
+  },
+  {
+   "cm3": 2.408,
+   "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
+   "b": "FIJO · Te de reparto SMC KQ2T06-00 2/4 (grupo de aire del tensor)",
+   "pct_de_la_menor": 50.0,
+   "cruce": false
+  },
+  {
+   "cm3": 2.408,
+   "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
+   "b": "FIJO · Te de reparto SMC KQ2T06-00 3/4 (grupo de aire del tensor)",
+   "pct_de_la_menor": 50.0,
+   "cruce": false
+  },
+  {
+   "cm3": 2.408,
+   "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
+   "b": "FIJO · Te de reparto SMC KQ2T06-00 4/4 (grupo de aire del tensor)",
+   "pct_de_la_menor": 50.0,
    "cruce": false
   },
   {
@@ -191,151 +233,151 @@
    "cm3": 1.1458,
    "a": "PG40 · Cubrejunta alma↔cabezal motriz +X (Acero A36 (S275JR) e=8)",
    "b": "PG40 · Tuerca hex M10 · alargue↔chapón Y -160",
-   "pct_de_la_menor": 94.12,
+   "pct_de_la_menor": 95.24,
    "cruce": false
   },
   {
    "cm3": 1.1458,
    "a": "PG40 · Cubrejunta alma↔cabezal conducido +X (Acero A36 (S275JR) e=8)",
    "b": "PG40 · Tuerca hex M10 · alargue↔chapón Y -1500",
-   "pct_de_la_menor": 94.12,
+   "pct_de_la_menor": 95.24,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×169.18 (calle 1, Y -1471.18…-1302)",
    "b": "PG40 · Tope de guía M6 (calle 1, tramo conducido, Y -1468.18)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×169.18 (calle 1, Y -1471.18…-1302)",
    "b": "PG40 · Tope de guía M6 (calle 1, tramo conducido, Y -1305)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×200 (calle 1, Y -630…-430)",
    "b": "PG40 · Tope de guía M6 (calle 1, tramo motriz, Y -627)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×99.218 (calle 1, Y -230…-130.782)",
    "b": "PG40 · Tope de guía M6 (calle 1, tramo motriz, Y -133.782)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×169.18 (calle 2, Y -1471.18…-1302)",
    "b": "PG40 · Tope de guía M6 (calle 2, tramo conducido, Y -1468.18)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×169.18 (calle 2, Y -1471.18…-1302)",
    "b": "PG40 · Tope de guía M6 (calle 2, tramo conducido, Y -1305)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×200 (calle 2, Y -630…-430)",
    "b": "PG40 · Tope de guía M6 (calle 2, tramo motriz, Y -627)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×99.218 (calle 2, Y -230…-130.782)",
    "b": "PG40 · Tope de guía M6 (calle 2, tramo motriz, Y -133.782)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×169.18 (calle 3, Y -1471.18…-1302)",
    "b": "PG40 · Tope de guía M6 (calle 3, tramo conducido, Y -1468.18)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×169.18 (calle 3, Y -1471.18…-1302)",
    "b": "PG40 · Tope de guía M6 (calle 3, tramo conducido, Y -1305)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×200 (calle 3, Y -630…-430)",
    "b": "PG40 · Tope de guía M6 (calle 3, tramo motriz, Y -627)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×99.218 (calle 3, Y -230…-130.782)",
    "b": "PG40 · Tope de guía M6 (calle 3, tramo motriz, Y -133.782)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×169.18 (calle 4, Y -1471.18…-1302)",
    "b": "PG40 · Tope de guía M6 (calle 4, tramo conducido, Y -1468.18)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×169.18 (calle 4, Y -1471.18…-1302)",
    "b": "PG40 · Tope de guía M6 (calle 4, tramo conducido, Y -1305)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×200 (calle 4, Y -630…-430)",
    "b": "PG40 · Tope de guía M6 (calle 4, tramo motriz, Y -627)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×99.218 (calle 4, Y -230…-130.782)",
    "b": "PG40 · Tope de guía M6 (calle 4, tramo motriz, Y -133.782)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×169.18 (calle 5, Y -1471.18…-1302)",
    "b": "PG40 · Tope de guía M6 (calle 5, tramo conducido, Y -1468.18)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×169.18 (calle 5, Y -1471.18…-1302)",
    "b": "PG40 · Tope de guía M6 (calle 5, tramo conducido, Y -1305)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×200 (calle 5, Y -630…-430)",
    "b": "PG40 · Tope de guía M6 (calle 5, tramo motriz, Y -627)",
    "pct_de_la_menor": 100.0,
    "cruce": false
   },
   {
-   "cm3": 1.053,
+   "cm3": 0.8847,
    "a": "PG40 · Guía UHMW 31.75×99.218 (calle 5, Y -230…-130.782)",
    "b": "PG40 · Tope de guía M6 (calle 5, tramo motriz, Y -133.782)",
    "pct_de_la_menor": 100.0,
@@ -398,20 +440,6 @@
    "cruce": false
   },
   {
-   "cm3": 0.6492,
-   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-802)",
-   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
-   "pct_de_la_menor": 22.68,
-   "cruce": false
-  },
-  {
-   "cm3": 0.6492,
-   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-1145)",
-   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
-   "pct_de_la_menor": 22.68,
-   "cruce": false
-  },
-  {
    "cm3": 0.643,
    "a": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
    "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -802",
@@ -433,94 +461,59 @@
    "cruce": false
   },
   {
-   "cm3": 0.6294,
-   "a": "FIJO · Placa de extremo del travesaño frontal (−X) 8×80×65",
-   "b": "FIJO · Perno hex M8×25 travesaño↔cabezal PG40 −X (Y=50)",
-   "pct_de_la_menor": 30.97,
-   "cruce": false
-  },
-  {
-   "cm3": 0.6294,
-   "a": "FIJO · Placa de extremo del travesaño frontal (−X) 8×80×65",
-   "b": "FIJO · Perno hex M8×25 travesaño↔cabezal PG40 −X (Y=106)",
-   "pct_de_la_menor": 30.97,
-   "cruce": false
-  },
-  {
-   "cm3": 0.6294,
-   "a": "FIJO · Placa de extremo del travesaño frontal (+X) 8×80×65",
-   "b": "FIJO · Perno hex M8×25 travesaño↔cabezal PG40 +X (Y=50)",
-   "pct_de_la_menor": 30.97,
-   "cruce": false
-  },
-  {
-   "cm3": 0.6294,
-   "a": "FIJO · Placa de extremo del travesaño frontal (+X) 8×80×65",
-   "b": "FIJO · Perno hex M8×25 travesaño↔cabezal PG40 +X (Y=106)",
-   "pct_de_la_menor": 30.97,
-   "cruce": false
-  },
-  {
    "cm3": 0.6283,
    "a": "PG40 · Cubrejunta alma↔cabezal motriz +X (Acero A36 (S275JR) e=8)",
-   "b": "PG40 · Perno hex M10 × 45 · alargue↔chapón Y -160",
-   "pct_de_la_menor": 12.63,
+   "b": "PG40 · Perno hex M10 × 50 · alargue↔chapón Y -160",
+   "pct_de_la_menor": 11.7,
    "cruce": false
   },
   {
    "cm3": 0.6283,
    "a": "PG40 · Cubrejunta alma↔cabezal conducido +X (Acero A36 (S275JR) e=8)",
-   "b": "PG40 · Perno hex M10 × 45 · alargue↔chapón Y -1500",
-   "pct_de_la_menor": 12.63,
+   "b": "PG40 · Perno hex M10 × 50 · alargue↔chapón Y -1500",
+   "pct_de_la_menor": 11.7,
    "cruce": false
   },
   {
    "cm3": 0.5729,
    "a": "PG40 · Cubrejunta alma↔cabezal motriz +X (Acero A36 (S275JR) e=8)",
    "b": "PG40 · Tuerca hex M10 · alargue↔chapón Y -260",
-   "pct_de_la_menor": 47.06,
+   "pct_de_la_menor": 47.62,
    "cruce": false
   },
   {
-   "cm3": 0.4986,
-   "a": "FIJO · Perno hex M8×25 travesaño↔cabezal PG40 −X (Y=50)",
-   "b": "PG40 · Alargue lateral · cabezal de rodamiento motriz −X (UCF 207, eje Y 0 Z -2.75)",
-   "pct_de_la_menor": 24.53,
+   "cm3": 0.5729,
+   "a": "PG40 · Cubrejunta alma↔cabezal conducido +X (Acero A36 (S275JR) e=8)",
+   "b": "PG40 · Tuerca hex M10 · alargue↔chapón Y -1470",
+   "pct_de_la_menor": 47.62,
    "cruce": false
   },
   {
-   "cm3": 0.4984,
-   "a": "FIJO · Perno hex M8×25 travesaño↔cabezal PG40 +X (Y=50)",
-   "b": "PG40 · Alargue lateral · cabezal de rodamiento motriz +X (UCF 207, eje Y 0 Z -2.75)",
-   "pct_de_la_menor": 24.52,
+   "cm3": 0.394,
+   "a": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (sur, −X)",
+   "b": "PG40 · Perno hex M8×25 escuadra puente↔chapón (sur, −X, -)",
+   "pct_de_la_menor": 19.38,
    "cruce": false
   },
   {
-   "cm3": 0.4059,
-   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-802)",
-   "b": "PG40 · Alargue lateral · tramo de lap +X (Y -855…-739, Acero A36 (S275JR) e=5.9)",
-   "pct_de_la_menor": 8.68,
+   "cm3": 0.394,
+   "a": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (sur, −X)",
+   "b": "PG40 · Perno hex M8×25 escuadra puente↔chapón (sur, −X, +)",
+   "pct_de_la_menor": 19.38,
    "cruce": false
   },
   {
-   "cm3": 0.4059,
-   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-1145)",
-   "b": "PG40 · Alargue lateral · tramo de lap +X (Y -1208…-1090, Acero A36 (S275JR) e=5.9)",
-   "pct_de_la_menor": 8.68,
+   "cm3": 0.394,
+   "a": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (norte, −X)",
+   "b": "PG40 · Perno hex M8×25 escuadra puente↔chapón (norte, −X, -)",
+   "pct_de_la_menor": 19.38,
    "cruce": false
   },
   {
-   "cm3": 0.3414,
-   "a": "FIJO · Golilla 3/8 cuelgue (−X, Y=-802) Ø9.6",
-   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
-   "pct_de_la_menor": 79.42,
-   "cruce": false
-  },
-  {
-   "cm3": 0.3414,
-   "a": "FIJO · Golilla 3/8 cuelgue (−X, Y=-1145) Ø9.6",
-   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
-   "pct_de_la_menor": 79.42,
+   "cm3": 0.394,
+   "a": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (norte, −X)",
+   "b": "PG40 · Perno hex M8×25 escuadra puente↔chapón (norte, −X, +)",
+   "pct_de_la_menor": 19.38,
    "cruce": false
   },
   {
@@ -561,8 +554,15 @@
   {
    "cm3": 0.3142,
    "a": "PG40 · Cubrejunta alma↔cabezal motriz +X (Acero A36 (S275JR) e=8)",
-   "b": "PG40 · Perno hex M10 × 45 · alargue↔chapón Y -260",
-   "pct_de_la_menor": 6.31,
+   "b": "PG40 · Perno hex M10 × 50 · alargue↔chapón Y -260",
+   "pct_de_la_menor": 5.85,
+   "cruce": false
+  },
+  {
+   "cm3": 0.3142,
+   "a": "PG40 · Cubrejunta alma↔cabezal conducido +X (Acero A36 (S275JR) e=8)",
+   "b": "PG40 · Perno hex M10 × 50 · alargue↔chapón Y -1470",
+   "pct_de_la_menor": 5.85,
    "cruce": false
   },
   {
@@ -601,17 +601,59 @@
    "cruce": false
   },
   {
-   "cm3": 0.296,
-   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-802)",
-   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue +X Y -802",
-   "pct_de_la_menor": 9.77,
+   "cm3": 0.2824,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (sur, −X, -)",
+   "pct_de_la_menor": 17.87,
    "cruce": false
   },
   {
-   "cm3": 0.296,
-   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-1145)",
-   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue +X Y -1145",
-   "pct_de_la_menor": 9.77,
+   "cm3": 0.2824,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (sur, −X, +)",
+   "pct_de_la_menor": 17.87,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2824,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (sur, +X, -)",
+   "pct_de_la_menor": 17.87,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2824,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (sur, +X, +)",
+   "pct_de_la_menor": 17.87,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2824,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (norte, −X, -)",
+   "pct_de_la_menor": 17.87,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2824,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (norte, −X, +)",
+   "pct_de_la_menor": 17.87,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2824,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (norte, +X, -)",
+   "pct_de_la_menor": 17.87,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2824,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (norte, +X, +)",
+   "pct_de_la_menor": 17.87,
    "cruce": false
   },
   {
@@ -734,59 +776,31 @@
    "cruce": false
   },
   {
-   "cm3": 0.2249,
-   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-802)",
-   "b": "PG40 · Tuerca hex 3/8-16 · alargue +X Y -802",
-   "pct_de_la_menor": 21.39,
+   "cm3": 0.19,
+   "a": "FIJO · Base de guía sur 3/16\" (canto del chapón)",
+   "b": "FIJO · Perno hex M8×16 guía sur↔alma (dz=32)",
+   "pct_de_la_menor": 12.03,
    "cruce": false
   },
   {
-   "cm3": 0.2249,
-   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-1145)",
-   "b": "PG40 · Tuerca hex 3/8-16 · alargue +X Y -1145",
-   "pct_de_la_menor": 21.39,
+   "cm3": 0.19,
+   "a": "FIJO · Base de guía norte 3/16\" (canto del chapón)",
+   "b": "FIJO · Perno hex M8×16 guía norte↔alma (dz=32)",
+   "pct_de_la_menor": 12.03,
    "cruce": false
   },
   {
-   "cm3": 0.1944,
-   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-802)",
-   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -802",
-   "pct_de_la_menor": 6.79,
+   "cm3": 0.1594,
+   "a": "FIJO · Base de guía sur 3/16\" (canto del chapón)",
+   "b": "FIJO · Perno hex M8×16 guía sur↔alma (dz=15)",
+   "pct_de_la_menor": 10.09,
    "cruce": false
   },
   {
-   "cm3": 0.1944,
-   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-1145)",
-   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -1145",
-   "pct_de_la_menor": 6.79,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1868,
-   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-802)",
-   "b": "PG40 · Tuerca hex 3/8-16 · alargue −X Y -802",
-   "pct_de_la_menor": 17.76,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1868,
-   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-1145)",
-   "b": "PG40 · Tuerca hex 3/8-16 · alargue −X Y -1145",
-   "pct_de_la_menor": 17.76,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1507,
-   "a": "FIJO · Tuerca hex 3/8-16 cuelgue (−X, Y=-802)",
-   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -802",
-   "pct_de_la_menor": 17.63,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1507,
-   "a": "FIJO · Tuerca hex 3/8-16 cuelgue (−X, Y=-1145)",
-   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -1145",
-   "pct_de_la_menor": 17.63,
+   "cm3": 0.1594,
+   "a": "FIJO · Base de guía norte 3/16\" (canto del chapón)",
+   "b": "FIJO · Perno hex M8×16 guía norte↔alma (dz=15)",
+   "pct_de_la_menor": 10.09,
    "cruce": false
   },
   {
@@ -860,31 +874,17 @@
    "cruce": false
   },
   {
-   "cm3": 0.1089,
-   "a": "FIJO · Golilla 3/8 cuelgue (−X, Y=-802) Ø9.6",
-   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -802",
-   "pct_de_la_menor": 25.34,
+   "cm3": 0.1062,
+   "a": "FIJO · Guía de descarga sur 12GA 70.4×52 (Y=-1180)",
+   "b": "FIJO · Perno hex M8×16 guía sur↔alma (dz=32)",
+   "pct_de_la_menor": 6.72,
    "cruce": false
   },
   {
-   "cm3": 0.1089,
-   "a": "FIJO · Golilla 3/8 cuelgue (−X, Y=-1145) Ø9.6",
-   "b": "PG40 · Perno hex 3/8-16 × 25 · alargue −X Y -1145",
-   "pct_de_la_menor": 25.34,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0978,
-   "a": "FIJO · Tuerca hex 3/8-16 cuelgue (−X, Y=-802)",
-   "b": "PG40 · Tuerca hex 3/8-16 · alargue −X Y -802",
-   "pct_de_la_menor": 11.45,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0978,
-   "a": "FIJO · Tuerca hex 3/8-16 cuelgue (−X, Y=-1145)",
-   "b": "PG40 · Tuerca hex 3/8-16 · alargue −X Y -1145",
-   "pct_de_la_menor": 11.45,
+   "cm3": 0.1062,
+   "a": "FIJO · Guía de descarga norte 12GA 70.4×52 (Y=-767)",
+   "b": "FIJO · Perno hex M8×16 guía norte↔alma (dz=32)",
+   "pct_de_la_menor": 6.72,
    "cruce": false
   },
   {
@@ -958,6 +958,48 @@
    "cruce": false
   },
   {
+   "cm3": 0.089,
+   "a": "FIJO · Guía de descarga sur 12GA 70.4×52 (Y=-1180)",
+   "b": "FIJO · Perno hex M8×16 guía sur↔alma (dz=15)",
+   "pct_de_la_menor": 5.64,
+   "cruce": false
+  },
+  {
+   "cm3": 0.089,
+   "a": "FIJO · Guía de descarga norte 12GA 70.4×52 (Y=-767)",
+   "b": "FIJO · Perno hex M8×16 guía norte↔alma (dz=15)",
+   "pct_de_la_menor": 5.64,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0883,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "b": "PG40 · Perno hex M8×25 escuadra puente↔chapón (sur, +X, -)",
+   "pct_de_la_menor": 4.35,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0883,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "b": "PG40 · Perno hex M8×25 escuadra puente↔chapón (sur, +X, +)",
+   "pct_de_la_menor": 4.35,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0883,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "b": "PG40 · Perno hex M8×25 escuadra puente↔chapón (norte, +X, -)",
+   "pct_de_la_menor": 4.35,
+   "cruce": false
+  },
+  {
+   "cm3": 0.0883,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "b": "PG40 · Perno hex M8×25 escuadra puente↔chapón (norte, +X, +)",
+   "pct_de_la_menor": 4.35,
+   "cruce": false
+  },
+  {
    "cm3": 0.0831,
    "a": "FIJO · Eje pivote común Ø30×580.84 (articulación de los 5 brazos)",
    "b": "FIJO · Anillo retención eje pivote −X Ø30",
@@ -969,34 +1011,6 @@
    "a": "FIJO · Eje pivote común Ø30×580.84 (articulación de los 5 brazos)",
    "b": "FIJO · Anillo retención eje pivote +X Ø30",
    "pct_de_la_menor": 18.49,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0727,
-   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-802)",
-   "b": "PG40 · Golilla alargue −X Y -802 Ø9.525",
-   "pct_de_la_menor": 17.18,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0727,
-   "a": "FIJO · Perno hex 3/8-16×1\" cuelgue NBT90 (−X, Y=-1145)",
-   "b": "PG40 · Golilla alargue −X Y -1145 Ø9.525",
-   "pct_de_la_menor": 17.18,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0727,
-   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-802)",
-   "b": "PG40 · Golilla alargue +X Y -802 Ø9.525",
-   "pct_de_la_menor": 17.18,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0727,
-   "a": "FIJO · Perno hex 3/8-16×2\" cuelgue NBT90 (+X, Y=-1145)",
-   "b": "PG40 · Golilla alargue +X Y -1145 Ø9.525",
-   "pct_de_la_menor": 17.18,
    "cruce": false
   }
  ]
