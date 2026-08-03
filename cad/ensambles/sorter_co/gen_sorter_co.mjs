@@ -767,14 +767,14 @@ const SIN_MATERIAL_SC = [
       + 'Son piezas de torno con asiento de rodamiento y prensado H7/r6: el plano no sale sin '
       + 'material. Falta declararlo en params_tambores (CONDUCIDO.tapa y RETORNOS.tapa).',
   },
-  {
-    id: 'MAT-04', rx: /^FIJO · (Eje de polea tensora|Bulón del lóbulo|Separador Ø38×)/, esperadas: 14,
-    dueño: 'adapt/params_tensor2.mjs',
-    motivo: 'PIV.separador, POL.eje y SOPORTE.bulonRotula declaran cotas pero no material, y a '
-      + 'diferencia del eje pivote (PIV.material = «C45 rectificado h7») o del bulón trasero '
-      + '(«C45 (1.0503) rectificado h9 · web MAT-C45-01») aquí no hay nada que leer. Los tres van '
-      + 'rectificados y con gargantas de anillo: el grado importa.',
-  },
+  // MAT-04 (Eje de polea tensora · Bulón del lóbulo · Separador Ø38×) BORRADA el
+  // 2026-08-03: su dueño, adapt/params_tensor2.mjs, ya declara el material de
+  // las tres familias — POL.eje.material y SOPORTE.bulonRotula.material a
+  // «C45 (1.0503) rectificado h9 · web MAT-C45-01», y PIV.separador.material a
+  // C45 torneado, éste por consolidación de existencias con el eje pivote sobre
+  // el que se enfila y no por requisito de resistencia (así lo dice el propio
+  // parámetro). Una dispensa que ya no cubre a nadie es tan mala como una que
+  // falta, y la propia §F3b lo estaba pidiendo.
   {
     id: 'MAT-05', rx: /^FIJO · Casquillo separador Ø\d+×[\d.]+ guarda /, esperadas: 6,
     dueño: 'adapt/mod_guardas.mjs',
@@ -1055,7 +1055,22 @@ const TEN2 = new RegExp('Eje pivote común|Chumacera SKF UCFL 206'
   + '|Volante de horquilla guia_'
   + '|Eje de polea tensora|Bulón del lóbulo'
   + '|Travesaño frontal del tensor|Placa de extremo del travesaño|Ménsula de bisagra'
-  + '|Bulón trasero|Pletina soporte del regulador|Línea de aire PU|Separador Ø19');
+  + '|Bulón trasero|Pletina soporte del regulador|Línea de aire PU|Separador Ø19'
+  // EL GRUPO DE ACONDICIONAMIENTO DE AIRE (A12 de REVISION_TALLER_COMPRAS_MONTAJE.md).
+  // Estas cuatro referencias faltaban en la lista de compra y ahora existen como
+  // pieza: válvula de corte y purga, filtro, manómetro y las 4 tes de reparto.
+  //
+  // POR QUÉ HEREDAN EL MISMO PRECEDENTE, y en este orden: primero se modelaron
+  // con su envolvente de catálogo y su pose, y DESPUÉS se comprobó pieza a pieza
+  // sobre el ensamble emitido qué tocan. Resultado (out/_solapes_aabb.json):
+  // sólo cruzan (a) las CAJAS ENVOLVENTES medidas LAT TOP y FRONT TOP2, que no
+  // son sólidos, y (b) la propia pletina de la que cuelgan. Ni un sólido real.
+  // Y cuelgan de la PROLONGACIÓN de la pletina del AR20 —que ya estaba en esta
+  // lista por este mismo motivo—, en columna bajo él, dentro de la bahía que el
+  // tensor ORIGINAL del cliente ocupaba con poses medidas. No es una exención
+  // nueva: es la misma, aplicada a piezas que están en el mismo volumen.
+  + '|Válvula de corte y purga SMC VHS20|Filtro de aire SMC AF20'
+  + '|Manómetro SMC G36|Te de reparto SMC KQ2T06');
 
 function verify() {
   const e = [];
@@ -2972,14 +2987,15 @@ function verify() {
     // geometría. Se dejan escritas con dueño y motivo, como las de §S, y la
     // compuerta exige que la cuenta sea EXACTAMENTE ésta: si aparece una más,
     // falla; si el dueño la arregla, falla pidiendo borrar la línea.
-    const PROMESAS_ABIERTAS = [
-      { id: 'TOR-01', rx: /^FIJO · Eje de polea tensora Ø20×70/, esperadas: 5,
-        dueño: 'adapt/mod_tensor2.mjs + adapt/params_tensor2.mjs',
-        motivo: 'hallazgo C4 de REVISION_TALLER_PIEZAS.md: la nota dice «se retiene con tornillos '
-          + 'de testa» y el sólido no tiene ni el taladro roscado en la testa ni la garganta '
-          + 'DIN 471-20 alternativa. Cerrarlo es decidir la retención axial del eje de la polea '
-          + 'tensora y modelarla — es del módulo del tensor, no de la revisión de fabricación.' },
-    ];
+    // TOR-01 (Eje de polea tensora Ø20×70) BORRADA el 2026-08-03: su dueño, el
+    // módulo del tensor, ha CERRADO la promesa con geometría. La retención ya no
+    // es «tornillos de testa» —se descartó con el número: la testa del eje queda
+    // 6 mm por fuera de la pletina y un tornillo con arandela no llegaría a
+    // pinzarla— sino 2 gargantas Ø18×1.3 por fuera de las pletinas con sus 2
+    // anillos 3AM1-20, el mismo anillo que el eje ya lleva por dentro para los
+    // aros de los rodamientos. Ver POL.retencionEje en adapt/params_tensor2.mjs.
+    // La pieza declara además `sinTaladro`, porque de verdad no lleva ninguno.
+    const PROMESAS_ABIERTAS = [];
     const mudasTodas = nuevas.filter(p => !p.hardware && !p.uniones && !p.sinTaladro
       && DICE_TORNILLO.test([p.name, p.nota].filter(Boolean).join(' § '))
       && !p.features.some(f => f.shape === 'hole'))

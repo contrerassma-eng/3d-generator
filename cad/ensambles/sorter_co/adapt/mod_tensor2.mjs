@@ -429,7 +429,7 @@ export function tensor2(E, ramal) {
       const [w, d, h] = k.env;
       E.addPart(`FIJO · ${nom} (grupo de aire del tensor)`, COL.neumatica, k.pose,
         [box(`${comp} ${w}×${d}×${h}`, k.pose, w, d, h)],
-        { componente: comp, hardware: true, norma: k.desig, capaInfo: 'web (designación y envolvente)',
+        { componente: comp, norma: k.desig, capaInfo: 'web (designación y envolvente)',
           ...extra });
       cN(`${k.ref} (web ${k.web})`, 1);
     }
@@ -438,7 +438,7 @@ export function tensor2(E, ramal) {
     const MG = ACOND.manometro;
     E.addPart(`FIJO · Manómetro ${MG.ref} (lectura de la presión del tensor)`, COL.neumatica, MG.pose,
       [cyl(`${MG.ref} Ø${MG.env[0]}×${MG.env[1]}`, MG.pose, [0, -1, 0], MG.env[0], MG.env[1])],
-      { componente: 'G36-10-01', hardware: true, norma: MG.desig,
+      { componente: 'G36-10-01', norma: MG.desig,
         capaInfo: `web (designación) + dis (Ø${MG.env[0]}: ${MG.envNota})`,
         ajusteMontaje: 'roscado al puerto de manómetro R1/8 del propio AR20-02-B',
         nota: `sin él los ${NEUM.presionTrabajoBar} bar de trabajo no son medibles ni repetibles, y de esa `
@@ -453,7 +453,7 @@ export function tensor2(E, ramal) {
       const at = [RT.pose0[0], RT.pose0[1], r2(RT.pose0[2] - i * RT.pasoZ)];
       E.addPart(`FIJO · Te de reparto ${RT.ref} ${i + 1}/${RT.cant} (grupo de aire del tensor)`, COL.neumatica, at,
         [box(`${RT.ref} ${tw}×${td}×${th}`, at, tw, td, th)],
-        { componente: 'KQ2T06-00', hardware: true, norma: RT.desig, capaInfo: 'web (designación y alto 21.5)',
+        { componente: 'KQ2T06-00', norma: RT.desig, capaInfo: 'web (designación y alto 21.5)',
           ajusteMontaje: 'conexión instantánea Ø6; se clipa a la pletina con brida de tubo',
           nota: `el ${NEUM.reguladorPresion} tiene UNA salida R1/4 y hay que alimentar CINCO cilindros en `
             + `paralelo: ${RT.cant} tes en cascada dan las 5 derivaciones (1→2, 2→3, 3→4, 4→5). `
@@ -557,6 +557,11 @@ export function tensor2(E, ramal) {
       { fabricada: true, material: POL.eje.material,
         gargantas: { norma: POL.anilloNorma, cota: `Ø${RE.gargantaDia} × ${RE.gargantaAncho}`,
           x: gargX, fuente: 'step — patrón medido del eje SCMRT906VCT del cliente' },
+        // §U: esta pieza NO lleva tornillería, y por eso no tiene taladros. La
+        // retención es garganta + anillo. La nota nombra el tornillo de testa
+        // sólo para explicar por qué se DESCARTÓ, con el número que lo descarta.
+        sinTaladro: `retención por garganta + anillo ${POL.anillo}, no por tornillo: la testa del eje queda `
+          + `${RE.salienteUtil} mm por fuera de la pletina y un tornillo con arandela no llegaría a pinzarla`,
         ajusteMontaje: 'pasa por las 2 pletinas del brazo y por los 2 rodamientos W 6004-2Z (encaje de montaje)',
         nota: `patrón del eje SCMRT906VCT del cliente (Ø${POL.eje.d}, step §2.4). RETENCIÓN AXIAL, que era `
           + `el hallazgo §U/TOR-01: la nota anterior prometía «se retiene con tornillos de testa» y el sólido `
