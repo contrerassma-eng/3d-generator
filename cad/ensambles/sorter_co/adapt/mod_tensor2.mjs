@@ -359,17 +359,107 @@ export function tensor2(E, ramal) {
       }
     }
 
-    // soporte del regulador de PRESIÓN
+    // soporte del GRUPO DE AIRE completo (antes sólo del AR20)
     const RP = SOPORTE.regPresion;
-    E.addPart('FIJO · Pletina soporte del regulador de presión AR20 (8×90×120)', COL.chapa,
+    E.addPart(`FIJO · Pletina soporte del grupo de aire (${RP.placa[1]}×${RP.placa[0]}×${RP.placa[2]})`, COL.chapa,
       [RP.x, RP.y, RP.z],
-      [box('Pletina 8×90×120', [RP.x, RP.y, RP.z], RP.placa[1], RP.placa[0], RP.placa[2]),
-        ...[-30, 30].map(dy => hole(`Ø9 M8 al canal (Y${dy > 0 ? '+' : ''}${dy})`, [r2(RP.x - 5), r2(RP.y + dy), r2(RP.z + 100)], [1, 0, 0], 9))],
+      [box(`Pletina ${RP.placa[1]}×${RP.placa[0]}×${RP.placa[2]}`, [RP.x, RP.y, RP.z], RP.placa[1], RP.placa[0], RP.placa[2]),
+        ...RP.taladrosZ.flatMap(dz => RP.taladrosY.map(dy =>
+          hole(`Ø${RP.taladroDia} M8 de amarre (Y${dy > 0 ? '+' : ''}${dy}, Z${dz})`,
+            [r2(RP.x - 5), r2(RP.y + dy), dz], [1, 0, 0], RP.taladroDia)))],
       { fabricada: true,
-        nota: 'el AR20-02-B tenía designación y presión de trabajo pero no dónde ir montado. Va aquí: atornillada '
-          + 'al canal de costado −X del cliente, fuera del reparto de calles y a la altura de la mano — el '
-          + 'manómetro se lee y el mando se gira sin desmontar nada.' });
-    cN('pletina soporte del regulador de presión', 1);
+        uniones: [{ rosca: 'M8', n: RP.taladrosZ.length * RP.taladrosY.length, pasante: RP.taladroDia,
+          a: RP.amarre }],
+        nota: `PROLONGADA de 120 a ${RP.placa[2]} mm: ya no sostiene sólo el AR20, sino la columna entera del `
+          + `grupo de aire —${ACOND.corte.ref} abajo, ${ACOND.filtro.ref} en medio, ${NEUM.reguladorPresion} `
+          + `arriba con su ${ACOND.manometro.ref}— y la cascada de ${ACOND.reparto.cant} `
+          + `${ACOND.reparto.ref}. Sigue arriba en Z ${r2(RP.z + RP.placa[2])} (libra por 12.2 el cuerpo del `
+          + `UCF 207 del tambor motriz, fondo −47.8) y baja a Z ${RP.z}. `
+          + `Pasa de 2 a ${RP.taladrosZ.length * RP.taladrosY.length} amarres: con ${RP.placa[2]} mm de faldón, `
+          + `dos a 60 mm no lo sujetan contra la vibración. `
+          + `⚠ CORREGIDA UNA NOTA FALSA: decía «atornillada al canal de costado −X» y NO LLEGA — el canal medido `
+          + `vive en X −115.4…−75.4 y esta pletina está en X ${r2(RP.x - RP.placa[1] / 2)}…`
+          + `${r2(RP.x + RP.placa[1] / 2)}, a 91 mm. Lo que tiene detrás es la CABECERA MOTRIZ (FRONT TOP2) y `
+          + `la BANCADA (LAT TOP), que son CAJAS ENVOLVENTES medidas y no sólidos: la viga real y la cota del `
+          + `taladro hay que verificarlas en obra, mismo aviso que ya está declarado para las ménsulas de las `
+          + `columnas guía sobre LAT TOP.` });
+    cN('pletina soporte del grupo de aire', 1);
+  }
+
+  // =========================================================================
+  // B-ter. EL GRUPO DE ACONDICIONAMIENTO DE AIRE  (hallazgo A12)
+  // =========================================================================
+  // Las cuatro piezas que faltaban, MODELADAS con su envolvente de catálogo y
+  // su pose. Cuelgan de la prolongación de la pletina de arriba, en columna
+  // bajo el AR20 y en el orden del fluido:
+  //     red → VHS20-02 (corte y purga) → AF20-02-B (filtro) → AR20-02-B
+  //     (regulador) + G36-10-01 (manómetro) → 4 × KQ2T06-00 → 5 líneas
+  //
+  // POR QUÉ AQUÍ Y NO EN OTRO SITIO. Es la MISMA BAHÍA del tensor, la que el
+  // tensor original del cliente ocupaba con poses medidas (pivote Y −101.72
+  // Z −164.7, tensora Y −175.72 Z −371.89, cilindro Y 34.5): todo lo que se
+  // añade cae dentro de ese volumen y por debajo del AR20, que ya estaba ahí.
+  // Se comprobó pieza a pieza sobre el ensamble emitido que las tres cajas
+  // están LIBRES —sólo las cruzan las envolventes medidas del cliente, que no
+  // son sólidos—; los volúmenes verificados van escritos en el `pose` de cada
+  // referencia en params_tensor2.
+  {
+    const cajas = [
+      { k: ACOND.corte, nom: `Válvula de corte y purga ${ACOND.corte.ref}`, comp: 'VHS20-02',
+        extra: { funcion: 'corte + escape de presión residual, con agujeros de candado (OSHA)',
+          ajusteMontaje: 'entrada de la red por su puerto SUP; se canda en posición de escape',
+          nota: `PUNTO DE CONSIGNACIÓN (LOTO) del tensor. Al girar la maneta corta la alimentación Y PURGA `
+            + `los 5 cilindros; como el fallo seguro del tensor es aflojar («${NEUM.falloSeguro}»), los 5 `
+            + `brazos sueltan la banda y se puede cambiar sin desmontar nada. Sin ella había que cortar el `
+            + `aire de la máquina entera (hallazgo A12 y B10). Va la más baja de la columna porque es la que `
+            + `recibe la acometida y la que se canda: se llega a ella sin meter la mano entre los brazos.` } },
+      { k: ACOND.filtro, nom: `Filtro de aire ${ACOND.filtro.ref}`, comp: 'AF20-02-B',
+        extra: { funcion: 'filtración nominal 5 µm, vaso con purga',
+          ajusteMontaje: 'modula con el AR20 (misma serie de cuerpo 20) por su cara superior',
+          nota: 'el AR20 es SÓLO regulador: el circuito no tenía filtro y un ISO 6432 de Ø25 alimentado con '
+            + 'aire sin filtrar se raya la camisa. Va DELANTE del regulador. Deja libre por debajo el vaso '
+            + 'para la purga y el cambio de cartucho.' } },
+    ];
+    for (const { k, nom, comp, extra } of cajas) {
+      const [w, d, h] = k.env;
+      E.addPart(`FIJO · ${nom} (grupo de aire del tensor)`, COL.neumatica, k.pose,
+        [box(`${comp} ${w}×${d}×${h}`, k.pose, w, d, h)],
+        { componente: comp, hardware: true, norma: k.desig, capaInfo: 'web (designación y envolvente)',
+          ...extra });
+      cN(`${k.ref} (web ${k.web})`, 1);
+    }
+
+    // el MANÓMETRO: era un rasgo dentro del cuerpo del AR20 y ahora es pieza
+    const MG = ACOND.manometro;
+    E.addPart(`FIJO · Manómetro ${MG.ref} (lectura de la presión del tensor)`, COL.neumatica, MG.pose,
+      [cyl(`${MG.ref} Ø${MG.env[0]}×${MG.env[1]}`, MG.pose, [0, -1, 0], MG.env[0], MG.env[1])],
+      { componente: 'G36-10-01', hardware: true, norma: MG.desig,
+        capaInfo: `web (designación) + dis (Ø${MG.env[0]}: ${MG.envNota})`,
+        ajusteMontaje: 'roscado al puerto de manómetro R1/8 del propio AR20-02-B',
+        nota: `sin él los ${NEUM.presionTrabajoBar} bar de trabajo no son medibles ni repetibles, y de esa `
+          + `presión cuelga TODA la tensión de las 5 bandas (tabla presión↔tensión: `
+          + `${TENSION.tablaPresion.map(t => `${t.nMm} N/mm→${t.barNecesarios} bar`).join(' · ')}). `
+          + 'Estaba dibujado como un disco dentro del cuerpo del AR20, y un rasgo de otra pieza no se pide.' });
+    cN(`${MG.ref} (web ${MG.web})`, 1);
+
+    // la CASCADA DE TES que parte la única salida R1/4 en las 5 líneas
+    const RT = ACOND.reparto, [tw, td, th] = RT.env;
+    for (let i = 0; i < RT.cant; i++) {
+      const at = [RT.pose0[0], RT.pose0[1], r2(RT.pose0[2] - i * RT.pasoZ)];
+      E.addPart(`FIJO · Te de reparto ${RT.ref} ${i + 1}/${RT.cant} (grupo de aire del tensor)`, COL.neumatica, at,
+        [box(`${RT.ref} ${tw}×${td}×${th}`, at, tw, td, th)],
+        { componente: 'KQ2T06-00', hardware: true, norma: RT.desig, capaInfo: 'web (designación y alto 21.5)',
+          ajusteMontaje: 'conexión instantánea Ø6; se clipa a la pletina con brida de tubo',
+          nota: `el ${NEUM.reguladorPresion} tiene UNA salida R1/4 y hay que alimentar CINCO cilindros en `
+            + `paralelo: ${RT.cant} tes en cascada dan las 5 derivaciones (1→2, 2→3, 3→4, 4→5). `
+            + `LA CASCADA NO CABE EN EL ABANICO DE LAS LÍNEAS, y ése es el número que la coloca aquí: el `
+            + `abanico tiene ${SOPORTE.tuboPasoZ} mm de paso en Z y una te mide ${th} de alto, así que cuatro `
+            + `en línea piden ${RT.pasoZ} mm de paso — más del triple. Por eso la cascada va en columna sobre `
+            + `la pletina, al lado del filtro, y de cada te sube su tubo Ø6 hasta la línea que le toca; esas 5 `
+            + `subidas se tienden en obra, igual que las bajadas al racor de cada cilindro. Si se prefiere una `
+            + `sola pieza, un colector de 5 salidas Ø6 sustituye a las ${RT.cant}.` });
+      cN(`${RT.ref} (web ${RT.web})`, 1);
+    }
   }
 
   // =========================================================================
@@ -448,14 +538,40 @@ export function tensor2(E, ramal) {
           + `N = ${TENSION.nPoleaN} N y pone T = ${TENSION.tDe(ramal.usado.abrazadoDeg)} N en la banda (calc).` });
     cR('polea tensora POL-CON-TEN (del cliente)', 1);
 
+    // §U · RETENCIÓN AXIAL DEL EJE, que era una promesa en prosa y ahora es
+    // geometría: 2 gargantas Ø18×1.3 por FUERA de las pletinas + sus anillos.
+    const RE = POL.retencionEje;
+    const gargX = [-1, 1].map(s => r2(B + s * (RE.caraPletina + RE.holguraPletina)
+      + (s < 0 ? -RE.gargantaAncho : 0)));
     E.addPart(`FIJO · Eje de polea tensora Ø${POL.eje.d}×${POL.eje.largo} (${c})`, COL.acero,
       [r2(B - POL.eje.largo / 2), GEO.poleaY, GEO.poleaZ],
-      [cyl(`Eje Ø${POL.eje.d}×${POL.eje.largo}`, [r2(B - POL.eje.largo / 2), GEO.poleaY, GEO.poleaZ], [1, 0, 0], POL.eje.d, POL.eje.largo)],
-      { fabricada: true,
+      [cyl(`Eje Ø${POL.eje.d}×${POL.eje.largo}`, [r2(B - POL.eje.largo / 2), GEO.poleaY, GEO.poleaZ], [1, 0, 0], POL.eje.d, POL.eje.largo),
+        ...gargX.map((xg, i) => ({ id: `garTen${k}_${i}`, name: `Garganta ${POL.anillo} Ø${RE.gargantaDia}×${RE.gargantaAncho}`,
+          shape: 'cylinder', op: 'cut', at: [xg, GEO.poleaY, GEO.poleaZ], dir: [1, 0, 0],
+          params: { dia: RE.gargantaDia, h: RE.gargantaAncho } }))],
+      { fabricada: true, material: 'C45 (1.0503) rectificado h9 · web MAT-C45-01',
+        gargantas: { norma: POL.anilloNorma, cota: `Ø${RE.gargantaDia} × ${RE.gargantaAncho}`,
+          x: gargX, fuente: 'step — patrón medido del eje SCMRT906VCT del cliente' },
         ajusteMontaje: 'pasa por las 2 pletinas del brazo y por los 2 rodamientos W 6004-2Z (encaje de montaje)',
-        nota: `patrón del eje SCMRT906VCT del cliente (Ø${POL.eje.d}, step §2.4): pasa por las 2 `
-        + 'pletinas del brazo y se retiene con tornillos de testa.' });
-    cN('eje de polea tensora (fabricado)', 1);
+        nota: `patrón del eje SCMRT906VCT del cliente (Ø${POL.eje.d}, step §2.4). RETENCIÓN AXIAL, que era `
+          + `el hallazgo §U/TOR-01: la nota anterior prometía «se retiene con tornillos de testa» y el sólido `
+          + `no traía ni el taladro roscado ni la garganta. NO puede ser tornillo de testa, y lo dice la `
+          + `geometría: las caras exteriores de las 2 pletinas están a ±${RE.caraPletina} y el eje llega a `
+          + `±${r2(POL.eje.largo / 2)}, o sea asoma ${RE.salienteUtil} mm — un tornillo con arandela apretaría `
+          + `contra la testa, que queda ${RE.salienteUtil} mm POR FUERA de la pletina, y no pinzaría nada. `
+          + `Lleva 2 gargantas Ø${RE.gargantaDia}×${RE.gargantaAncho} por fuera de las pletinas y 2 anillos `
+          + `${POL.anillo}, el MISMO que ya llevan los aros de los rodamientos por dentro: un solo Ø de eje, `
+          + `una sola referencia de anillo (20 uds por máquina en vez de 10 y 10). La garganta es la MEDIDA `
+          + `en el eje del cliente. Quedan ${r2(RE.salienteUtil - RE.holguraPletina - RE.anilloEsp)} mm de `
+          + `saliente libre para sacar el anillo con el alicate.` });
+    cN('eje de polea tensora (fabricado, 2 gargantas + 2 dentro)', 1);
+
+    // los 2 anillos que capturan las pletinas contra los cubos de la polea
+    for (const [i, s] of [-1, 1].entries()) {
+      anilloB27_7M(anilloRet(E, { nombre: `${POL.anillo} retención del eje tensor ${s < 0 ? '−X' : '+X'} (${c})`,
+        at: [gargX[i], GEO.poleaY, GEO.poleaZ], dir: [1, 0, 0], eje: POL.eje.d, capa: 'FIJO · ' }));
+      cN(`anillo ${POL.anillo} (retención axial del eje de la tensora)`, 1);
+    }
 
     for (const s of [-1, 1]) {
       const xr = s < 0 ? r2(B - POL.ancho / 2) : r2(B + POL.ancho / 2 - POL.rodamiento.w);
