@@ -316,6 +316,27 @@ m.tambores = tambores(E);
 // Banco de la compuerta: inyección de UN defecto controlado (TEST_ROMPE)
 // ---------------------------------------------------------------------------
 const ROMPE = process.env.TEST_ROMPE || '';
+// Huella del ensamble ANTES de inyectar. Sirve para una comprobación del banco
+// sobre sí mismo, que hace falta y no había:
+//
+//   Un caso de banco cuya inyección NO ENCUENTRA A NADIE sale con exit 0 y
+//   parece que la compuerta está vigilando algo. No vigila nada: no había
+//   defecto que cazar. Es la peor clase de test — verde porque no comprueba.
+//
+// Pasó de verdad y por partida doble. La revisión estructural avisó de que
+// `at10` y `retencion` devolvían exit 0; se comprobó a mano y era cierto.
+// Los dos inyectan sobre piezas que el cambio de arquitectura ya retiró:
+// `at10` mueve la «Polea AT10 32T … recolocada», que se lleva
+// `params_tambores.RETIRA`, y `retencion` roba los «Anillo 3AM1-20 (V2…» de
+// las poleas de pozo, que se lleva `params_pg40.FLAGS.desactivaTransmisionT5`.
+// Los bucles recorrían el ensamble sin tocar nada y el generador emitía el
+// JSON tan tranquilo.
+//
+// Con esto, un caso que no inyecta ya no puede salir verde: aborta diciendo
+// que el banco está muerto. La corrección de FONDO —o se re-apunta el caso a
+// la pieza viva equivalente, o se retira junto con la comprobación que
+// guardaba— sigue pendiente, pero deja de estar escondida.
+const ROMPE_ANTES = ROMPE ? JSON.stringify(E.parts) : '';
 if (ROMPE === 'paso') {
   // desplaza la calle 2 +0.5 mm: rompe el paso y el centrado en las ventanas
   for (const p of E.parts) {
@@ -452,6 +473,36 @@ if (ROMPE === 'apoyo') {
   LIMS.brg.C6206 = 2600;                        // un 6206 de baja capacidad
 } else if (ROMPE === 'banda') {
   STEP.bandaDorso = 2.5;                        // banda plana real (SC-10 cumple)
+}
+
+// EL BANCO SE COMPRUEBA A SÍ MISMO. Va aquí, detrás de las DOS cadenas, porque
+// las dos inyectan y cualquiera de ellas vale como inyección.
+//
+// Un caso cuya inyección no encuentra a nadie sale con exit 0 y parece que la
+// compuerta vigila algo. No vigila nada: no había defecto que cazar. Es la peor
+// clase de test — verde porque no comprueba.
+//
+// Pasó de verdad y por partida doble. La revisión estructural avisó de que
+// `at10` y `retencion` devolvían exit 0; se comprobó a mano y era cierto. Los
+// dos inyectan sobre piezas que el cambio de arquitectura ya retiró: `at10`
+// mueve la «Polea AT10 32T … recolocada», que se lleva `params_tambores.RETIRA`,
+// y `retencion` roba los «Anillo 3AM1-20 (V2…» de las poleas de pozo, que se
+// lleva `params_pg40.FLAGS.desactivaTransmisionT5`. Los bucles recorrían el
+// ensamble sin tocar nada y el generador emitía el JSON tan tranquilo.
+//
+// Los casos de §S que tocan DATOS DECLARADOS y no la lista de piezas —presión
+// de trabajo, rampa, par de apriete, Ø del eje, C de catálogo, dorso de banda,
+// id de hecho— quedan exentos por construcción: su defecto vive en un
+// parámetro que `verify()` relee, no en `E.parts`. Están enumerados uno a uno
+// a propósito; una exención por descarte volvería a tapar lo que esto destapa.
+const ROMPE_SOLO_DATOS = new Set(['presion', 'rampa', 'apriete', 'eje', 'rodamiento', 'banda', 'fuente']);
+if (ROMPE && !ROMPE_SOLO_DATOS.has(ROMPE) && JSON.stringify(E.parts) === ROMPE_ANTES) {
+  console.error(`BANCO MUERTO: TEST_ROMPE=${ROMPE} no ha tocado NINGUNA pieza.`);
+  console.error('  El caso inyecta sobre geometría que ya no existe en este ensamble, así que la');
+  console.error('  compuerta pasaría por no tener nada que cazar. Un banco que no inyecta no');
+  console.error('  demuestra que la comprobación muerda: re-apúntalo a la pieza viva equivalente,');
+  console.error('  o retíralo junto con la comprobación que guardaba.');
+  process.exit(1);
 }
 
 // ---------------------------------------------------------------------------
@@ -1183,8 +1234,10 @@ function verify() {
       rodillos: TAMB_EJES.retorno.length,
     };
     if (RECTO.retornoRecto.posible && TAMB_EJES.retorno.length) {
-      e.push(`§R: el ramal de retorno cabe RECTO por el corredor del peine (Z ${zRamal} ≥ ${r2(fondoBandaMin)}) `
-        + `y sin embargo se mantienen ${TAMB_EJES.retorno.length} rodillos de retorno y el pozo: sobran`);
+      e.push(`§R: el ramal de retorno cabe RECTO por el corredor del peine (Z ${zRamal} ≥ suelo ${sueloCorredor}) `
+        + `y sin embargo se mantienen ${TAMB_EJES.retorno.length} rodillos de retorno y el pozo: sobran. `
+        + 'Retíralos por bandera en adapt/params_tambores.mjs (TAMBORES.retorno) — el lazo de mod_calles '
+        + 'se retraza solo desde esa tabla');
     }
   }
   // ▲▲▲ ------------------------------------------------------------- ▲▲▲
