@@ -35,18 +35,65 @@ import { TENSOR_VIEJO, GEO as TEN_GEO, POL as TEN_POL } from './params_tensor2.m
 import { TAMBORES, TAMBOR, CONDUCIDO, RETORNOS, RETORNO as RAMAL } from './params_tambores.mjs';
 //   ↑ las ESTACIONES del accionamiento de banda plana: tambor motriz, rodillo
 //   conducido y los 4 rodillos de retorno, con su geometría de ramal.
+import { P as NBT90 } from '../../nbt90/params.mjs';
+//   ↑ especificación CONGELADA de la transferencia. De aquí sale el ESPESOR REAL
+//   de la banda plana (ver T_BANDA): no se copia el número, se cita el dato.
 
-const T_BANDA = STEP.bandaDorso;          // 0.633 — la banda se modela POR SU DORSO
-// (cota step: dorso 52.333 − cara de guía 51.7). Los dientes (espesor total T5
-// ≈ 2.2) corren entre los rieles de la guía y no se modelan: así el contacto
-// banda↔guía queda EXACTO a lo medido y sin interferencias fantasma.
-const DIENTE_EXTRA = 2.2 - T_BANDA;       // 1.567 — resalto real del diente (T5 cat)
+// ---------------------------------------------------------------------------
+// EL ESPESOR DE LA BANDA — de este número cuelga TODO el lazo
+// ---------------------------------------------------------------------------
+// La máquina de hoy lleva BANDA PLANA (rediseño del cliente 31-07: tambor motriz
+// engomado que arrastra por fricción). Su espesor es un dato MEDIDO del propio
+// repositorio: `nbt90 P.bandaEsp = 2.5` («med 2.53», ensambles/nbt90/params.mjs
+// §«bandas angostas del anfitrión»). Y no es la banda de otra máquina: el
+// ANFITRIÓN del NBT90 es este mismo sorter, así que esa es la banda angosta de
+// 1" que ya corre por estas cinco calles.
+//
+// El documento emitido de la transferencia lo declara además en GEOMETRÍA, y
+// mod_ctx lo lee y lo publica (`anfitrion.espesorPortanteMm`): el ramal portante
+// del anfitrión ocupa Z 49.83…52.33 en los MISMOS cinco ejes de calle (127.06 ·
+// 203.26 · 279.46 · 355.66 · 431.86) — 2.5 de canto, con el DORSO exactamente en
+// el plano de transporte congelado (52.333) y la cara de rodadura 2.5 por debajo.
+//
+// Lo que había aquí era `STEP.bandaDorso = 0.633`. Ese número es correcto pero es
+// de OTRA banda: es la cota del STEP del cliente para su banda **T5 DENTADA**
+// (step §4.3 — plano de transporte 52.333 menos cara de guía 51.7; los 1.567 que
+// faltan hasta los 2.2 del catálogo T5 eran el DIENTE, que corría dentro de la
+// ranura de la guía y no se modelaba). Sobrevivió al cambio de arquitectura.
+// Hallazgo SC-10 de REVISION_ESTRUCTURAL_SC.md.
+const T_BANDA = NBT90.bandaEsp;           // 2.5 med — banda PLANA real (nbt90 P.bandaEsp)
+const T_BANDA_T5 = STEP.bandaDorso;       // 0.633 step — dorso de la T5 del cliente; se
+//   conserva SÓLO para publicar la deriva que introduce el cambio (no traza nada).
 
-// Radios de contacto del lazo:
-const R_63T = STEP.polea63.rContacto;     // 51.7 → dorso a ±52.333 en motriz/conducida
-const R_VOL = STEP.volante.cara / 2;      // 50.0 — volante toca el DORSO
-const R_TEN = STEP.polTensora.dia / 2 + DIENTE_EXTRA;  // 60.517 — polea plana sobre
-// la cara DENTADA (como la tensora del cliente hoy, step §4.4).
+// --- MUNDO T5 · RETIRADO POR BANDERA (no borrado) --------------------------
+// `BANDA_T5 = false` desde que el sorter pasa a banda plana con tambor motriz
+// (misma bandera de fondo que `params_pg40.FLAGS.desactivaTransmisionT5` y que
+// `TENSOR_VIEJO`: se desactiva, no se borra). Las tres constantes de abajo sólo
+// tienen sentido con banda DENTADA y eran resto del mismo cambio de arquitectura
+// que dejó el dorso de 0.633:
+//   · `dienteExtra` = 2.2 − 0.633 = 1.567, el resalto del diente T5 sobre el
+//     dorso. Una banda PLANA no tiene diente: su canto entero (2.5) es dorso, así
+//     que el resalto no existe y el número no significa nada.
+//   · `r63T` = radio de contacto de las poleas dentadas 63T (51.7). Esas poleas
+//     ya NO son estación del lazo — las sustituyó el tambor motriz Ø108.9; se
+//     siguen emitiendo como pieza del cliente re-pitcheada (punto 5), pero la
+//     banda no las toca. El radio de contacto de cada estación lo publica hoy su
+//     dueño (params_tambores / params_tensor2) y el lazo lo lee de ahí.
+//   · `rTensoraDentada` = radio de la tensora MÁS el diente, o sea la tensora
+//     rodando sobre la cara DENTADA (así estaba montada la del cliente, step
+//     §4.4). Con banda plana rueda sobre la cara lisa y el radio de contacto es
+//     el suyo pelado: `TEN_POL.dia / 2` = 58.95 (R_TENSORA, más abajo).
+// Comprobado antes de retirarlas: NINGUNA se usaba ya en el trazado — el lazo
+// sólo usa T_BANDA, R_VOL_H y R_TENSORA (`grep -n "R_63T\|DIENTE_EXTRA\|R_TEN\b"`
+// no daba ningún uso fuera de estas líneas). Quedan escritas para que quien
+// restituya la T5 sepa de dónde salían y con qué convenio.
+export const BANDA_T5 = false;
+export const T5_RETIRADO = BANDA_T5 ? {
+  dienteExtra: r2(2.2 - T_BANDA_T5),                      // 1.567 (T5 cat)
+  r63T: STEP.polea63.rContacto,                           // 51.7
+  rTensoraDentada: r2(STEP.polTensora.dia / 2 + 2.2 - T_BANDA_T5),   // 60.517
+} : null;   // ← null mientras la bandera esté abajo: se ve desde fuera que el
+//   mundo T5 está retirado, y con qué convenio volvería si alguien la sube.
 
 // ---------------------------------------------------------------------------
 /** Perfil ranurado 40×80 (o 40×40) como box + ranuras de boca 8.2 (step §4.2)
@@ -151,7 +198,23 @@ export function calles(E) {
   // tambor 180°, conducido 180°, RR 96.5/102.39° y tensora 186.12° (el cliente
   // midió 186.25° en la suya).
   const R_VOL_H = STEP.volante.cara / 2;              // 50.0 step — rueda por el dorso
-  const zVol = r2(RAMAL.zCara - R_VOL_H);             // −107.83 calc (tangencia al ramal)
+  //   Es el único radio de contacto del bloque T5 de arriba que SIGUE VIVO: con banda
+  //   plana el volante sigue rodando sobre el dorso, sobre su cara Ø100 medida, y no
+  //   le afecta el diente. El módulo lo tenía además duplicado a nivel de fichero
+  //   (`R_VOL`, mismo valor, sin usar): esa copia se retira y queda ésta, la que
+  //   entra en el lazo. Los otros dos radios de aquel bloque (63T y tensora dentada)
+  //   sí eran del mundo T5 y están retirados por bandera (T5_RETIRADO).
+  // CARA EXTERIOR DEL RAMAL DE RETORNO y, por tangencia a ella, la cota de los dos
+  // volantes de contraflexión. `RAMAL.z` (−57.2) es la generatriz inferior del
+  // tambor, o sea la cara de la banda que APOYA en él; la cara de FUERA del ramal
+  // queda UN ESPESOR por debajo. params_tambores publica esa cota
+  // (`RETORNO.zCara` = −57.833) calculada con el dorso T5 de 0.633, y con ella
+  // coloca RR1 y RR4; aquí se rehace con el espesor REAL, y la diferencia —los
+  // mismos 1.867 mm de todo este hallazgo— es exactamente lo que ese módulo tiene
+  // que bajar `RETORNO.zCara`, RR1 y RR4. Mientras no lo haga, el ramal llano
+  // tambor→RR1 deja de ser llano (ver `desalineoRodillosHombroMm` en las métricas).
+  const zCaraRamal = r2(RAMAL.z - T_BANDA);           // −59.7 calc (params_tambores: −57.833)
+  const zVol = r2(zCaraRamal - R_VOL_H);              // −109.7 calc (tangencia al ramal)
   const RR = TAMBORES.retorno;                        // RR1…RR4, publicados
   const R_TENSORA = TEN_POL.dia / 2;                  // 58.95 step — cara LISA (sin dientes)
   // Los rodillos de retorno se recorren EN EL ORDEN DEL RAMAL (del conducido
@@ -271,11 +334,18 @@ export function calles(E) {
       COL.banda, [r2(B - STEP.bandaAncho / 2), 0, 0],
       [sketchYZ(`Lazo (dorso ${T_BANDA})`, r2(B - STEP.bandaAncho / 2), caras.outer, STEP.bandaAncho),
         sketchYZ(`Hueco del lazo`, r2(B + STEP.bandaAncho / 2 + 0.5), caras.inner, r2(STEP.bandaAncho + 1), 'cut')],
-      { nota: `banda PLANA (ya no es la T5 dentada: el tambor motriz arrastra por fricción). Modelada `
-          + `por su DORSO ${T_BANDA} — convenio del modelo del cliente que params_tambores conserva; una `
-          + `banda plana real de 2 telas mide ~2.5 y sólo cambiaría la cara de la guía UHMW. Largo de fibra `
-          + `${largo}; recorre el pozo del módulo (RR4→RR3→RR2→RR1) y la horquilla del tensor. Banda NUEVA: `
-          + `la T5 del cliente no sirve para este accionamiento` });
+      { nota: `banda PLANA (ya no es la T5 dentada: el tambor motriz arrastra por fricción), de canto `
+          + `ENTERO ${T_BANDA} mm — dato MEDIDO del repositorio (nbt90 P.bandaEsp, «med 2.53»): es la misma `
+          + `banda angosta de 1" que ya corre por estas 5 calles, la que el NBT90 declara como banda de su `
+          + `anfitrión ocupando Z 49.83…52.33. Hasta el 03-08-2026 el lazo se trazaba con 0.633, que es el `
+          + `DORSO de la T5 DENTADA del cliente (step §4.3: 52.333 − 51.7; el 1.567 que falta hasta los 2.2 `
+          + `del catálogo T5 era el diente, que corría en la ranura de la guía) — hallazgo SC-10. Con el `
+          + `espesor real el dorso queda ${r2(zTop)} y NO en el plano congelado ${STEP.planoBanda}: la cara de `
+          + `rodadura (tambor, conducido, RR1…RR4 y las 20 regletas UHMW, todas colgadas de `
+          + `params_tambores.planoDorso = 51.7) tiene que BAJAR ${r2(T_BANDA - T_BANDA_T5)} mm hasta `
+          + `${r2(STEP.planoBanda - T_BANDA)}, que es justo la cota a la que el NBT90 declara la regleta de su `
+          + `anfitrión (49.84). Largo de fibra ${largo}; recorre el pozo del módulo (RR4→RR3→RR2→RR1) y la `
+          + `horquilla del tensor. Banda NUEVA: la T5 del cliente no sirve para este accionamiento` });
     cuenta(M.nuevas, `banda plana 32 (largo ${largo})`, 1);
 
     // 4-bis. los dos VOLANTES DE CONTRAFLEXIÓN que forman la horquilla del
@@ -294,8 +364,11 @@ export function calles(E) {
         { capaInfo: 'step (Ø y cara útil medidos; Y medida) + calc (Z por tangencia al ramal)',
           nota: `pieza del cliente REUBICADA: es el volante liso que ya formaba la horquilla vertical `
             + `del tensor (SORTER_CO.md §4.5). Rueda sobre el DORSO de la banda. Y ${V.y} es la MEDIDA; `
-            + `Z ${zVol} sale de la tangencia al ramal de retorno nuevo (cara de la banda ${RAMAL.zCara}, `
-            + `params_tambores) − radio ${R_VOL_H} — la pose vieja (Z −97) era la del ramal a −52.33. `
+            + `Z ${zVol} sale de la tangencia al ramal de retorno nuevo (cara de la banda ${zCaraRamal} = `
+            + `generatriz baja del tambor ${RAMAL.z} − espesor real ${T_BANDA}) − radio ${R_VOL_H}. `
+            + `params_tambores publica esa cara en ${RAMAL.zCara} porque la calcula con el dorso T5 de `
+            + `${T_BANDA_T5}: los ${r2(T_BANDA - T_BANDA_T5)} mm de diferencia son los que ese módulo tiene `
+            + `que bajar RR1 y RR4. La pose vieja (Z −97) era la del ramal a −52.33. `
             + `Sin estos dos volantes el abrazado del TAMBOR MOTRIZ cae a 114.82° (< 150° de la compuerta) `
             + `y el de la tensora a 109.07°, y el tensor deja de poder poner su tensión.` });
       cuenta(M.reuso, 'volante de contraflexión del cliente devuelto a la horquilla', 1);
@@ -468,13 +541,53 @@ export function calles(E) {
     { contexto: true, capaInfo: 'step/web BRG-003', nota: 'pose original medida (X 504.1…539.8), dentro del hueco del chapón de descarga; el STEP solo trae ÉSTA — la chumacera −X que faltaba la añade mod_estaciones (§5.3 cerrado)' });
 
   // --- métricas del lazo ---------------------------------------------------
+  // El plano de RODADURA (la cara sobre la que apoya la banda) no se escribe: se
+  // MIDE sobre la estación que lo define, el tambor motriz. Así, el día que
+  // params_tambores lo baje, el plano de transporte de aquí lo sigue solo.
+  const planoRodadura = r2(TAMBORES.motriz.z + TAMBOR.r);          // 51.7 hoy
+  const planoTransporte = r2(planoRodadura + T_BANDA);             // 54.2 con la banda real
+  // Rodillos de HOMBRO (los que muerden el ramal por debajo, s < 0): cada uno se
+  // mide contra SU tramo de retorno — RR1 contra el que sale del tambor y RR4
+  // contra el que sale del conducido, que no están a la misma cota (los radios
+  // difieren 0.45). El desalineo sale igual en los dos porque el error es común:
+  // params_tambores los coloca con el dorso T5.
+  const rrHombro = RR.filter(R => R.s < 0).map(R => {
+    const delTambor = Math.abs(R.y - TAMBORES.motriz.y) < Math.abs(R.y - TAMBORES.conducido.y);
+    const caraRef = r2((delTambor ? RAMAL.z : RAMAL.zConducido) - T_BANDA);
+    return [R.id, r2(R.z + RETORNOS.r - caraRef)];
+  });
   M.banda = {
     largoDesarrollado: largo,
     envolventes_deg: Object.fromEntries(NOMBRE_EST.map((n, i) => [n, env[i]])),
     dorsoPortanteZ: r2(zTop), fondoPozoZ: r2(zFondo),
     flechaFacetaMotriz: r2(flecha[0] * 100) / 100,
     dorsoTeoricoZ: r2(STEP.planoBanda),
+    // ---- ESPESOR DE LA BANDA y lo que arrastra (hallazgo SC-10) ------------
+    espesorMm: T_BANDA,
+    espesorProcedencia: 'med — nbt90 P.bandaEsp = 2.5 («med 2.53»), la banda plana '
+      + 'angosta de 1" del anfitrión; el documento emitido del NBT90 la declara además '
+      + 'en geometría (portante del anfitrión Z 49.83…52.33, los mismos 5 ejes de calle)',
+    espesorDorsoT5Anterior: T_BANDA_T5,     // 0.633 step — dorso de la T5 DENTADA
+    espesorDerivaMm: r2(T_BANDA - T_BANDA_T5),                     // 1.867
+    largoConDorsoT5_soloComparacion: largoBanda(seq, T_BANDA_T5),  // 4877.64
+    // la holgura que la banda COME sobre cualquier cota medida al tubo de una
+    // estación (largueros, guardas, ménsulas): es el espesor entero.
+    holguraQueComeLaBandaMm: T_BANDA,
+    // ---- planos ------------------------------------------------------------
+    planoRodaduraZ: planoRodadura,          // medido sobre el tambor (motriz.z + r)
+    planoTransporteZ: planoTransporte,      // = rodadura + espesor real
+    planoTransporteCongeladoZ: r2(STEP.planoBanda),                // 52.333 step §0
+    derivaPlanoTransporteMm: r2(planoTransporte - STEP.planoBanda),
+    planoRodaduraQueExigeLaBandaZ: r2(STEP.planoBanda - T_BANDA),  // 49.833 → lo que
+    //   params_tambores.planoDorso (hoy 51.7 = STEP.guiaSec.topZ, cara de guía de la
+    //   T5) tiene que valer para que el dorso vuelva al plano congelado. Es la misma
+    //   cota a la que el NBT90 declara la regleta de su anfitrión (49.84).
     ramalRetornoZ: r2(RAMAL.z),                                    // −57.2 (dorso)
+    caraRamalRetornoZ: zCaraRamal,                                 // −59.7 calc
+    caraRamalRetornoPublicadaZ: r2(RAMAL.zCara),                   // −57.833 (con dorso T5)
+    // cuánto se sale cada rodillo de HOMBRO del ramal llano por estar colocado con
+    // el dorso T5: +1.867 = está ALTO y le mete un codo al ramal.
+    desalineoRodillosHombroMm: Object.fromEntries(rrHombro),
     carasupBajoModuloZ: r2(RR[1].z - RETORNOS.r),                  // −358.27 → CARA ALTA del
     //   ramal de fondo: RR2/RR3 muerden ese ramal por ARRIBA, así que su dorso
     //   está a centro − radio. Es la cota que se juega la holgura al NBT90.

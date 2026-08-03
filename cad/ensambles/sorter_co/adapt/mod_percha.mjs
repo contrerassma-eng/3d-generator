@@ -190,8 +190,24 @@ export function percha(E) {
           hole(`Ø9 M8 travesaño`, [r2((alaH[0] + alaH[1]) / 2), r2(yc + 20), r2(z1 + t + 1)], [0, 0, -1], 9.0)],
         {
           fabricada: true,
-          chapa: { t: r2(t), material: 'acero A36', fibra: [[0, r2(z1 - 45)], [0, z1], [lado < 0 ? 50 : -50, z1]], radio: r2(t) },
-          nota: '2 M8 roscados al bastidor + 2 M8 a tuercas T de las ranuras superiores del travesaño',
+          // A9 (revisión de fabricación 2026-08-03): la fibra declaraba un ala
+          // horizontal de 50 y el sólido dibuja 30 — el ala se bajó de 60 a 30
+          // (ver el comentario de arriba) y la fibra se quedó atrás. El taller
+          // corta el DESARROLLO, no el sólido: salían cuatro escuadras 20 mm
+          // más largas de lo que monta el modelo. Comprobado con el propio
+          // `desarrollo()` del repositorio (t = 4.763, r = t, K = 0.44, pliegue
+          // de 90°): pasa de 91.49 a 71.49 mm, exactamente los 20 de más.
+          chapa: { t: r2(t), material: 'acero A36', fibra: [[0, r2(z1 - 45)], [0, z1], [lado < 0 ? 30 : -30, z1]], radio: r2(t) },
+          uniones: [
+            { rosca: 'M8', n: 2, pasante: 9.0, a: 'chapón del cliente (roscados, e = 28 step)' },
+            { rosca: 'M8', n: 2, pasante: 9.0, a: 'ranura 8 superior del travesaño percha — tuerca T' },
+          ],
+          nota: '2 M8 roscados al bastidor + 2 M8 a tuercas T de las ranuras superiores del travesaño. '
+            + 'A9: fibra corregida a ala horizontal de 30 (era 50), desarrollo 71.49 y no 91.49. '
+            + 'AVISO: esta pieza pertenece a la PERCHA y hoy NO SE EMITE — FLAGS.desactivaPercha la '
+            + 'retira junto con el travesaño del que colgaba (hallazgo A6). El apoyo del puente lo dan '
+            + 'ahora los «PG40 · Travesaño de puente» con su propia escuadra al chapón. La corrección '
+            + 'se aplica igual para que la pieza vuelva SANA si el cliente reactiva la percha.',
         });
       for (const dy of [-20, 20]) {
         pernoHex(E, { nombre: `M8×16 travesaño (${nom}, ${lado < 0 ? '−X' : '+X'}, ${dy > 0 ? '+' : '-'})`, at: [r2((alaH[0] + alaH[1]) / 2), r2(yc + dy), r2(z1 + t)], dir: [0, 0, -1], dia: 8, largo: 12, af: 13, altoCab: 5.3, capa: 'FIJO · ' });

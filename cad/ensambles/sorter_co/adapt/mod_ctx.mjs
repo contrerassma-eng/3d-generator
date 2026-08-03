@@ -83,6 +83,24 @@ export function nbt90(E) {
   anfitrion.bandasX = [...new Set(anfitrion.bandasX)].sort((a, b) => a - b);
   anfitrion.separacionRamalesMm = anfitrion.portante && anfitrion.retorno
     ? r2(anfitrion.portante.z[0] - anfitrion.retorno.z[0]) : null;
+  // EL ESPESOR DE LA BANDA DEL SORTER, LEÍDO DE LA TRANSFERENCIA (med).
+  // El anfitrión del NBT90 es este mismo sorter, así que las bandas que declara
+  // son las de estas cinco calles. Su canto sale del contorno emitido, no de un
+  // número copiado: es la contraprueba geométrica de `nbt90 P.bandaEsp = 2.5`
+  // («med 2.53»), que es el espesor con el que mod_calles traza el lazo desde
+  // que se corrigió el hallazgo SC-10 (el lazo venía trazado con 0.633, que es
+  // el DORSO de la banda T5 DENTADA del cliente, step §4.3).
+  // Y de paso deja escrita la cota de RODADURA que exige esa banda: la cara
+  // superior de la regleta del anfitrión, 2.5 por debajo del plano de transporte.
+  anfitrion.espesorPortanteMm = anfitrion.portante ? r2(anfitrion.portante.z[1] - anfitrion.portante.z[0]) : null;
+  anfitrion.espesorRetornoMm = anfitrion.retorno ? r2(anfitrion.retorno.z[1] - anfitrion.retorno.z[0]) : null;
+  anfitrion.dorsoPortanteZ = anfitrion.portante ? r2(anfitrion.portante.z[1]) : null;      // 52.33
+  anfitrion.caraRodaduraPortanteZ = anfitrion.portante ? r2(anfitrion.portante.z[0]) : null; // 49.83
+  anfitrion.caraRegletaZ = anfitrion.regleta ? r2(anfitrion.regleta.z[1]) : null;          // 49.84
+  anfitrion.notaEspesor = 'el NBT90 declara sus bandas de anfitrión —los mismos 5 ejes de '
+    + 'calle del sorter— con el DORSO en el plano de transporte y la cara de rodadura un '
+    + 'espesor por debajo. Es la referencia con la que se contrasta el espesor de banda de '
+    + 'mod_calles y la cota de rodadura que tiene que dar params_tambores (planoDorso).';
   anfitrion.holguraRodilloRegleta = doc.meta?.verificaciones?.holguraRodilloRegleta ?? null;
   anfitrion.fuente = 'ensambles/nbt90/narrow_belt_transfer_90.json (piezas CONTEXTO del '
     + 'anfitrión, transformadas Rz(−90°)+T; no se montan)';

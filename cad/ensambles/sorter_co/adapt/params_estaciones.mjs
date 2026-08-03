@@ -75,7 +75,10 @@ export const RETEN = {
     //   carga ESTACIONARIA sobre el aro interior (el eje no gira) ⇒ juego
   },
   rodamiento: { ref: 'SKF W 6004-2Z', b: 20, D: 42, w: 12 },   // web BRG-005
-  anillo: { ref: 'ANSI B27.7M 3AM1-20', paraEje: 20 },         // web RING-001
+  // A2 (revisión de COMPRAS 2026-08-03): designación completa y de UNA sola
+  // serie. La métrica es B27.7M; «ASME B27.7» a secas es la de PULGADAS.
+  anillo: { ref: 'ANSI/ASME B27.7M — 3AM1-20', paraEje: 20,    // web RING-001
+    norma: 'ANSI/ASME B27.7M — anillo de retención exterior 3AM1-20 (eje 20 mm) · web RING-001' },
   // alojamiento del aro exterior en la polea (V1/V4 volantes Ø100 reutilizados
   // → se MECANIZAN los extremos del bore Ø38 a Ø42; V2/V3 poleas nuevas):
   alojamiento: {

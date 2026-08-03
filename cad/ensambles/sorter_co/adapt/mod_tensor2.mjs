@@ -23,11 +23,16 @@
 import {
   box, cyl, hole, sketchYZ, COL, r2, pernoHex, tuercaHex, rodamiento, anilloRet,
 } from '../../nbt90/lib.mjs';
-import { EJES } from './params_adapt.mjs';
+import { EJES, STEP } from './params_adapt.mjs';
 import { GEO, PALANCA, NEUM, PIV, EJE_CALC, POL, RAMAL, TENSION, SOPORTE, SOPORTE_CALC } from './params_tensor2.mjs';
 // A2 (revisión de fabricación 2026-08-03): la garganta del anillo sale de la
 // TABLA DIN 471 citada (web RING-471-01/02), no de `PIV.d − 2.5`.
 import { gargantaDIN471 } from './util_adapt.mjs';
+// A5 (revisión de fabricación 2026-08-03): la interfaz de la placa de extremo
+// con el cabezal de rodamiento del PG40 deja de ser una PETICIÓN en una nota y
+// pasa a ser una cota publicada por el dueño del cabezal. No hay ciclo:
+// params_pg40 sólo importa params_adapt (y params_tambores por carga perezosa).
+import { ALARGUE as PG40_ALARGUE } from './params_pg40.mjs';
 
 // ---------------------------------------------------------------------------
 // Envolvente convexa de discos en el plano YZ (silueta de chapa recortada).
@@ -54,6 +59,61 @@ function hullDiscos(discos, n = 36) {
     hi.push(p);
   }
   return lo.slice(0, -1).concat(hi.slice(0, -1));
+}
+
+// ---------------------------------------------------------------------------
+// A2 (revisión de COMPRAS 2026-08-03) — UNA norma por anillo, no dos.
+//
+// `lib.mjs anilloRet()` estampa a TODOS los anillos la cadena
+// «DIN 471 / ASME B27.7». Son dos normas incompatibles a la vez: DIN 471 es
+// métrica y «ASME B27.7» A SECAS es la serie de PULGADAS (la métrica es
+// B27.7M). Un proveedor no puede servir esa línea. `lib.mjs` es contrato y no
+// se toca, así que se PISA la cadena en la pieza que devuelve `anilloRet`, que
+// es lo mismo que hace `nbt90/normalizado.mjs` con el 5/8" de su máquina.
+//
+// Se usa la tabla DIN 471 ya citada (web RING-471-01/02) para que la
+// designación lleve la cota, y la métrica ANSI B27.7M sólo donde el anillo es
+// realmente de esa serie: el 3AM1-20 del eje de la polea tensora, que es el que
+// el cliente ya tiene medido en su máquina (web RING-001).
+// ---------------------------------------------------------------------------
+const anilloDIN471 = (p, eje) => {
+  const g = gargantaDIN471(eje);
+  p.norma = `${g.desig} — anillo de retención exterior para eje Ø${eje}, s = ${g.s} `
+    + `(garganta ${g.cota}) · web RING-471-01/02`;
+  return p;
+};
+const anilloB27_7M = (p) => { p.norma = POL.anilloNorma; return p; };
+
+// A12 — el grupo de acondicionamiento de aire que faltaba, en una sola tabla.
+const ACOND = NEUM.acondicionamiento;
+
+// ---------------------------------------------------------------------------
+// B2/B3 (revisión de COMPRAS 2026-08-03) — LARGO DE PERNO CON SALIDA DE HILO.
+//
+// Los 4 M12×45 de las chumaceras del pivote NO LLEGABAN A SU TUERCA: el vástago
+// muere en 45 y la tuerca acaba en 69.8 → faltaban 24.8 mm. El largo estaba
+// escrito a mano en el nombre de la pieza, sin cuenta detrás. Aquí se calcula:
+//
+//     L ≥ apriete + altura de tuerca + 2 pasos de rosca de SALIDA
+//
+// Los 2 pasos son la regla de taller (y de inspección): el último hilo de un
+// tornillo está incompleto por el biselado, así que una tuerca que acaba a ras
+// del extremo no se puede apretar al par. Después se sube al ESCALÓN
+// NORMALIZADO de la serie de largos (ISO 888), que es lo único que se puede
+// pedir: no existe un M12×73.3.
+// ---------------------------------------------------------------------------
+const PASO_ISO = { 6: 1.0, 8: 1.25, 10: 1.5, 12: 1.75 };          // cat — rosca gruesa ISO 261
+const LARGOS_ISO888 = [10, 12, 16, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 90, 100, 110, 120];
+
+function pernoConSalida(dia, apriete, tuercaH, pasosMin = 2) {
+  const paso = PASO_ISO[dia];
+  if (!paso) throw new Error(`pernoConSalida: falta el paso tabulado de M${dia}`);
+  const min = apriete + tuercaH + pasosMin * paso;
+  const largo = LARGOS_ISO888.find(v => v >= min);
+  if (!largo) throw new Error(`pernoConSalida: ningún largo normalizado ≥ ${r2(min)} para M${dia}`);
+  const salida = r2(largo - apriete - tuercaH);
+  return { largo, paso, apriete: r2(apriete), tuercaH, minTeorico: r2(min),
+    salidaMm: salida, salidaPasos: Math.round(salida / paso * 100) / 100 };
 }
 
 /** Lee la geometría del ramal de params_tambores.mjs si el otro agente ya lo
@@ -119,7 +179,7 @@ export function tensor2(E, ramal) {
   // --- (a) retención axial DEL EJE: prisioneros del UC + anillos DIN 471 ----
   for (const [i, x] of PIV.ucflX.entries()) {
     const lado = i === 0 ? '−X' : '+X';
-    anilloRet(E, { nombre: `eje pivote ${lado}`, at: [PIV.anilloX[i], PIV.y, PIV.z], dir: [1, 0, 0], eje: PIV.d, capa: 'FIJO · ' });
+    anilloDIN471(anilloRet(E, { nombre: `eje pivote ${lado}`, at: [PIV.anilloX[i], PIV.y, PIV.z], dir: [1, 0, 0], eje: PIV.d, capa: 'FIJO · ' }), PIV.d);
     cN(`anillo ${PIV.anillo.norma} (retención de seguridad del eje)`, 1);
 
     const xh = i === 0 ? x : r2(x - PIV.ucfl.housingW);
@@ -138,28 +198,46 @@ export function tensor2(E, ramal) {
           + `(la caja del motorreductor del cliente llega a X −82.423, step); en pareja espejada bloquean los dos `
           + `sentidos igual. ${PIV.ucflNota}` });
     cN(`chumacera ${PIV.ucfl.designacion}`, 1);
+    // B2: el vástago tiene que atravesar el CUERPO de la chumacera (housingW) y
+    // el CHAPÓN del cliente (STEP.frameEsp) y todavía sobresalir de la tuerca.
+    const TU_H = 10.8;                                   // cat — tuerca M12 ISO 4032
+    const P12 = pernoConSalida(12, PIV.ucfl.housingW + STEP.frameEsp, TU_H);
+    M.pernoUcflPivote = P12;
     for (const s of [-1, 1]) {
       const yb = r2(PIV.y + s * PIV.ucfl.entreTaladros / 2);
-      pernoHex(E, { nombre: `M12×45 UCFL pivote ${lado} (Y=${yb})`, at: [r2(xh + PIV.ucfl.housingW), yb, PIV.z], dir: [-1, 0, 0], dia: 12, largo: 45, af: 19, altoCab: 7.5, capa: 'FIJO · ' });
-      tuercaHex(E, { nombre: `M12 UCFL pivote ${lado} (Y=${yb})`, at: [r2(xh - 28), yb, PIV.z], dir: [-1, 0, 0], dia: 12, af: 19, alto: 10.8, capa: 'FIJO · ' });
+      pernoHex(E, { nombre: `M12×${P12.largo} UCFL pivote ${lado} (Y=${yb})`, at: [r2(xh + PIV.ucfl.housingW), yb, PIV.z], dir: [-1, 0, 0], dia: 12, largo: P12.largo, af: 19, altoCab: 7.5, capa: 'FIJO · ' })
+        .nota = `apriete real ${P12.apriete} mm = cuerpo de la chumacera ${PIV.ucfl.housingW} + chapón `
+          + `${STEP.frameEsp} (step). Con la tuerca de ${TU_H} y 2 pasos de salida el mínimo es `
+          + `${P12.minTeorico}; el escalón normalizado que lo cubre es M12×${P12.largo} (ISO 888). `
+          + `Sobresale ${P12.salidaMm} mm = ${P12.salidaPasos} pasos de rosca. ESTABA EN M12×45: no `
+          + `llegaba a su tuerca por 24.8 mm (hallazgo B2 de la revisión de compras).`;
+      tuercaHex(E, { nombre: `M12 UCFL pivote ${lado} (Y=${yb})`, at: [r2(xh - STEP.frameEsp), yb, PIV.z], dir: [-1, 0, 0], dia: 12, af: 19, alto: TU_H, capa: 'FIJO · ' })
+        .nota = `tuerca ISO 4032 M12 en la cara exterior del chapón. El perno la rebasa ${P12.salidaMm} mm `
+          + `(${P12.salidaPasos} pasos): SALIDA DE HILO mínima 2 pasos, porque el último hilo del tornillo `
+          + 'está incompleto por el biselado y una tuerca a ras no se puede apretar al par ni pasa inspección.';
     }
   }
 
   // --- (b) retención axial DE LOS BRAZOS: 2 collares capturan la pila -------
   {
     const xc = PIV.collarX[0];
-    E.addPart(`FIJO · Collar de apriete Ø${PIV.collar.de}×${PIV.collar.largo} (aprieta la pila de brazos, −X)`, COL.inox,
+    E.addPart(`FIJO · Collar de apriete PARTIDO Ø${PIV.collar.di} int × Ø${PIV.collar.de} × ${PIV.collar.largo} (aprieta la pila de brazos, −X)`, COL.inox,
       [xc, PIV.y, PIV.z],
       [cyl(`Collar Ø${PIV.collar.de}×${PIV.collar.largo}`, [xc, PIV.y, PIV.z], [1, 0, 0], PIV.collar.de, PIV.collar.largo),
         hole(`Ø${PIV.collar.di}`, [r2(xc - 1), PIV.y, PIV.z], [1, 0, 0], PIV.collar.di)],
       { componente: 'collar_apriete_30', norma: PIV.collarDesignacion,
-        ajusteMontaje: 'apriete sobre el eje pivote (unión por fricción)',
+        ajusteMontaje: 'apriete sobre el eje pivote (unión por fricción); se cierra con sus 2 tornillos M6×18 '
+          + 'DIN 912 12.9 una vez colocadas las dos mitades a caballo del eje',
         nota: `APRIETA la pila brazo–separador–…–brazo contra el anillo ${PIV.anillo.norma} del lado +X, que hace `
           + `de tope. Va sólo en −X porque en +X, entre la cara de la pila (${PIV.pilaX[1]}) y la chumacera `
           + `(${r2(PIV.ucflX[1] - PIV.ucfl.housingW)}), sólo quedan 4.56 mm: el reparto de calles está corrido `
           + 'hacia +X y toda la holgura del eje cae en −X. Con los 4 separadores el paquete queda SIN juego '
-          + 'axial: ningún brazo puede correrse. Partido, para montarlo sin desmontar las chumaceras.' });
-    cN('collar de apriete Ø30 (aprieta la pila)', 1);
+          + `axial: ningún brazo puede correrse. TIENE QUE SER PARTIDO, y el número lo obliga: su Ø exterior `
+          + `(${PIV.collar.de}) NO pasa por el barreno Ø${PIV.d} del UC 206, así que con las dos chumaceras `
+          + `montadas un collar macizo ya no se puede enfilar por ningún extremo del eje. Se designaba `
+          + '«DIN 705 A», que es precisamente el anillo MACIZO con prisionero: designación corregida a una '
+          + 'referencia de collar partido real (hallazgo A3 de la revisión de compras).' });
+    cN('collar de apriete PARTIDO Ø30 (aprieta la pila)', 1);
   }
   for (let k = 0; k < EJES.length - 1; k++) {
     const xs = r2(EJES[k] + semiPila);
@@ -181,13 +259,32 @@ export function tensor2(E, ramal) {
     [NEUM.reguladorPresionX, NEUM.reguladorPresionY, NEUM.reguladorPresionZ],
     [box('AR20 40×40×90', [NEUM.reguladorPresionX, NEUM.reguladorPresionY, NEUM.reguladorPresionZ], 40, 40, 90),
       cyl('Manómetro Ø40', [NEUM.reguladorPresionX, r2(NEUM.reguladorPresionY - 20), r2(NEUM.reguladorPresionZ + 70)], [0, -1, 0], 40, 12)],
-    { componente: 'AR20-02-B', norma: `${NEUM.reguladorPresion} — regulador de presión modular serie AR, R1/4 · web PNEU-009`,
+    { componente: 'AR20-02-B', norma: `${NEUM.reguladorPresion} — regulador de presión modular serie AR, R1/4, `
+      + 'con brida de montaje (el sufijo «-B» ES la brida: no hay que comprarla aparte) · web PNEU-009',
       capaInfo: 'web (designación) — PIEZA NUEVA, no está en el STEP del cliente',
+      // A12 · EL RESTO DEL GRUPO DE AIRE. Declarado con referencia, NO dibujado:
+      // ver `grupoDeAireNoModelado` para el motivo, que es de honestidad.
+      grupoDeAire: ACOND,
+      grupoDeAireNoModelado: 'las 4 referencias de arriba NO se dibujan como sólidos y hay que decir por qué: '
+        + 'el único sitio libre para el grupo modular es la prolongación de esta misma pletina hacia −Z, y '
+        + 'ahí las cajas envolventes del bastidor del cliente (CTX LAT TOP / FRONT TOP2 / canal de costado) '
+        + 'cubren todo el volumen. Las piezas del tensor tienen ese solape TOLERADO por una lista de nombres '
+        + 'que vive en gen_sorter_co.mjs (regex TEN2), fichero que este módulo no puede tocar; meter las 4 '
+        + 'piezas con otro nombre haría saltar la compuerta, y renombrarlas para colarlas por esa regex sería '
+        + 'trampa. Quedan DECLARADAS con referencia y cita, y la petición de añadirlas a TEN2 va en el informe.',
+      manometro: `el disco Ø40 dibujado es el manómetro ${ACOND.manometro.ref}, accesorio de catálogo del `
+        + `cuerpo tamaño 20, roscado al puerto R1/8 del propio AR20 · web PNEU-011`,
+      tuboLineas: { porLinea: NEUM.tuboLineasMm, totalM: NEUM.tuboTotalM,
+        nota: 'metraje del tubo PU Ø6×4, que estaba sin declarar: 5 líneas + acometida + 10 % de merma' },
       nota: `ES LO QUE FIJA LA TENSIÓN. Hay que decirlo claro: el ${NEUM.accesorios.regulador} que el cliente ya `
         + `tiene es un regulador de CAUDAL (meter-out) y gobierna la VELOCIDAD del vástago, no la fuerza — no `
         + `puede fijar la tensión. Este AR20 pone la rama a ${NEUM.presionTrabajoBar} bar, que es lo que da los `
         + `${TENSION.tPorMmAncho} N/mm de banda. UNO SOLO para los 5 cilindros en paralelo: así las 5 bandas `
-        + `reciben la misma presión y por tanto la misma tensión. Con manómetro, para ajustarlo en obra.` });
+        + `reciben la misma presión y por tanto la misma tensión. PERO ÉL SOLO NO ES EL CIRCUITO (hallazgo `
+        + `A12): delante hace falta ${ACOND.corte.ref} (corte y purga con candado) y ${ACOND.filtro.ref} `
+        + `(filtro 5 µm), encima ${ACOND.manometro.ref} (sin manómetro los 4 bar no son medibles) y detrás `
+        + `4 × ${ACOND.reparto.ref} para partir su ÚNICA salida R1/4 en las 5 líneas. Total de tubo PU Ø6×4: `
+        + `${NEUM.tuboTotalM} m.` });
   cN(`regulador de presión ${NEUM.reguladorPresion} (web PNEU-009)`, 1);
 
   // =========================================================================
@@ -217,23 +314,55 @@ export function tensor2(E, ramal) {
           + `hacia abajo) → flecha ${SOPORTE_CALC.flechaMm} mm, σ ${SOPORTE_CALC.sigmaMPa} MPa (FS ${SOPORTE_CALC.fs} sobre A36).` });
     cN('travesaño frontal del tensor (fabricado)', 1);
 
-    // placas de extremo + tornillería a los canales de costado del cliente
+    // placas de extremo + tornillería a los CABEZALES DE RODAMIENTO del PG40
+    //
+    // A5 (revisión de FABRICACIÓN 2026-08-03) — LOS PERNOS CAÍAN AL AIRE.
+    // Los dos Ø9 estaban en Y 50 y 106 y el cabezal acababa en Y 90: el segundo
+    // perno tenía 16 mm de nada detrás. El cabezal, además, NO TENÍA NINGÚN Ø9:
+    // la nota de esta placa los PEDÍA («INTERFAZ CON EL AGENTE DE PG40») y nadie
+    // los ejecutaba. Y el perno modelado ni siquiera atravesaba las dos chapas:
+    // cabeza dentro de la placa y vástago hacia el lado contrario.
+    // Ahora la cota la publica params_pg40.ALARGUE.taladrosTensor, la ejecutan
+    // LAS DOS piezas, y el cabezal se ha alargado hasta Y 122 para darle chapa.
+    // La placa pasa de 80 a 90 de ancho para que los dos taladros tengan 13 de
+    // distancia al canto; los dos pernos siguen a los lados del tubo 40×40
+    // (Y 58…98) porque ahí es por donde entra la llave.
+    const TT = PG40_ALARGUE.taladrosTensor;
+    const anchoPlaca = 90;
     for (const [i, x] of TR.x.entries()) {
       const lado = i === 0 ? '−X' : '+X';
-      const xp = i === 0 ? x : r2(x - 8);
-      E.addPart(`FIJO · Placa de extremo del travesaño frontal (${lado}) 8×80×65`, COL.chapa,
+      const xp = i === 0 ? x : r2(x - 8);                 // cara de la placa contra el cabezal
+      const xLibre = i === 0 ? r2(xp + 8) : xp;           // cara libre de la placa
+      E.addPart(`FIJO · Placa de extremo del travesaño frontal (${lado}) 8×${anchoPlaca}×65`, COL.chapa,
         [r2(xp + 4), yc, r2(TR.z[0] - 20)],
-        [box('Placa 8×80×65', [r2(xp + 4), yc, r2(TR.z[0] - 20)], 8, 80, 65),
-          ...[-28, 28].map(dy => hole(`Ø9 M8 al cabezal (Y${dy > 0 ? '+' : ''}${dy})`, [r2(xp - 1), r2(yc + dy), r2(TR.z[0] + 20)], [1, 0, 0], 9))],
+        [box(`Placa 8×${anchoPlaca}×65`, [r2(xp + 4), yc, r2(TR.z[0] - 20)], 8, anchoPlaca, 65),
+          ...TT.y.map(yt => hole(`Ø${TT.pasante} ${TT.rosca} al cabezal (Y ${yt})`,
+            [r2(xp - 1), yt, TT.z], [1, 0, 0], TT.pasante))],
         { fabricada: true,
-          nota: `suelda al travesaño y atornilla con 2 M8 al cabezal de rodamiento ${lado} del alargue PG40 `
-            + `(X ${x}, adapt/params_pg40 PUBLICA.caraApoyo) — la misma placa que sostiene el tambor motriz. `
-            + `INTERFAZ CON EL AGENTE DE PG40: 2 taladros Ø9 por cabezal, en Y ${r2(yc - 28)} y ${r2(yc + 28)}, `
-            + `Z ${r2(TR.z[0] + 20)}. Corona en Z ${r2(TR.z[0] - 20 + 65)} para librar por 5.2 las tuercas M12 del `
-            + `UCF 207 del tambor motriz, que ocupan Z −54.8…−42.8 en ese mismo cabezal (params_tambores).` });
+          uniones: [{ rosca: TT.rosca, n: TT.y.length, pasante: TT.pasante,
+            a: 'PG40 · Alargue lateral · cabezal de rodamiento motriz' }],
+          nota: `A5 CERRADO. Suelda al travesaño y atornilla con ${TT.y.length} ${TT.rosca} al cabezal de `
+            + `rodamiento ${lado} del alargue PG40 (X ${x}, adapt/params_pg40 PUBLICA.caraApoyo) — la misma `
+            + `placa que sostiene el tambor motriz. LOS TALADROS EXISTEN EN LAS DOS PIEZAS: Ø${TT.pasante} `
+            + `en Y ${TT.y.join(' y ')}, Z ${TT.z}, cota publicada por params_pg40 ALARGUE.taladrosTensor. `
+            + `Antes estaban en Y 50 y 106 con el cabezal muriendo en Y 90 — 16 mm al aire — y el cabezal `
+            + `no llevaba ninguno. Ahora el cabezal llega a Y ${PG40_ALARGUE.cabezalMotrizY[1]} (12 de `
+            + `distancia al canto sobre el taladro de Y ${TT.y[1]}) y la placa mide ${anchoPlaca} de ancho `
+            + `(13 de canto a cada taladro; el mínimo es 1.2·d₀ = 10.8). Los dos pernos van a los lados del `
+            + `tubo 40×40 (Y 58…98) para que quepa la llave. Corona en Z ${r2(TR.z[0] - 20 + 65)} para `
+            + `librar por 5.2 las tuercas M12 del UCF 207 del tambor motriz, que ocupan Z −54.8…−42.8 en `
+            + `ese mismo cabezal (params_tambores).` });
       cN('placa de extremo del travesaño', 1);
-      for (const dy of [-28, 28]) {
-        pernoHex(E, { nombre: `M8×25 travesaño↔cabezal PG40 ${lado} (Y=${r2(yc + dy)})`, at: [r2(xp + (i === 0 ? -1 : 9)), r2(yc + dy), TR.z[0]], dir: [i === 0 ? -1 : 1, 0, 0], dia: 8, largo: 25, af: 13, altoCab: 5.3, capa: 'FIJO · ' });
+      // el perno CRUZA placa (8) + cabezal (8): cabeza en la cara libre de la
+      // placa y tuerca al otro lado del cabezal. Antes la cabeza quedaba DENTRO
+      // de la placa y el vástago salía hacia el lado contrario, sin coser nada.
+      for (const yt of TT.y) {
+        const dir = i === 0 ? [-1, 0, 0] : [1, 0, 0];
+        pernoHex(E, { nombre: `M8×25 travesaño↔cabezal PG40 ${lado} (Y=${yt})`,
+          at: [xLibre, yt, TT.z], dir, dia: 8, largo: 25, af: 13, altoCab: 5.3, capa: 'FIJO · ' });
+        tuercaHex(E, { nombre: `M8 travesaño↔cabezal PG40 ${lado} (Y=${yt})`,
+          at: [i === 0 ? PG40_ALARGUE.xCabNegExt : r2(PG40_ALARGUE.xInt + 8), yt, TT.z],
+          dir, dia: 8, capa: 'FIJO · ' });
       }
     }
 
@@ -342,9 +471,9 @@ export function tensor2(E, ramal) {
         bore: POL.rodamiento.bore, od: POL.rodamiento.od, w: POL.rodamiento.w, capa: 'FIJO · ' });
       // los anillos van HACIA DENTRO del bore de la polea (antes caían sobre la
       // cara interior de la pletina del brazo y la mordían 0.5 mm)
-      anilloRet(E, { nombre: `${POL.anillo} tensora ${s < 0 ? '−X' : '+X'} (${c})`,
+      anilloB27_7M(anilloRet(E, { nombre: `${POL.anillo} tensora ${s < 0 ? '−X' : '+X'} (${c})`,
         at: [r2(s < 0 ? xr + POL.rodamiento.w : xr - 1.5), GEO.poleaY, GEO.poleaZ], dir: [1, 0, 0],
-        eje: POL.eje.d, capa: 'FIJO · ' });
+        eje: POL.eje.d, capa: 'FIJO · ' }));
     }
 
     // --- EL CILINDRO DE ESTA BANDA y sus 4 accesorios ----------------------
@@ -399,40 +528,57 @@ export function tensor2(E, ramal) {
       pernoHex(E, { nombre: `M8×25 ménsula↔travesaño (${c}, ${sx < 0 ? '−X' : '+X'})`, at: [r2(B + sx * MS.semiX), r2(MS.yFrente + 16), r2(pinZ - 8)], dir: [0, -1, 0], dia: 8, largo: 25, af: 13, altoCab: 5.3, capa: 'FIJO · ' });
     }
     // el BULÓN trasero y sus dos retenciones — sin esto la bisagra no ata nada
-    E.addPart(`FIJO · Bulón trasero Ø${SOPORTE.bulonTrasero.d}×44 (${c})`, COL.acero,
+    const GBT = gargantaDIN471(SOPORTE.bulonTrasero.d);
+    E.addPart(`FIJO · Bulón trasero Ø${SOPORTE.bulonTrasero.d}×${SOPORTE.bulonTrasero.largo} (${c})`, COL.acero,
       [r2(B - 22), NEUM.y, pinZ],
-      [cyl(`Bulón Ø${SOPORTE.bulonTrasero.d}×44`, [r2(B - 22), NEUM.y, pinZ], [1, 0, 0], SOPORTE.bulonTrasero.d, 44)],
-      { hardware: true, norma: SOPORTE.bulonTrasero.norma,
+      [cyl(`Bulón Ø${SOPORTE.bulonTrasero.d}×${SOPORTE.bulonTrasero.largo}`, [r2(B - 22), NEUM.y, pinZ], [1, 0, 0], SOPORTE.bulonTrasero.d, SOPORTE.bulonTrasero.largo)],
+      { fabricada: true, norma: SOPORTE.bulonTrasero.norma,
+        material: 'C45 (1.0503) rectificado h9 · web MAT-C45-01',
+        gargantas: { norma: GBT.desig, cota: GBT.cota, anilloS: GBT.s },
         ajusteMontaje: 'atraviesa las dos orejas de la horquilla C85C25 y la lengüeta de la ménsula',
-        nota: 'la articulación trasera del cilindro. Retenido por 2 anillos, uno a cada lado.' });
-    cN('bulón trasero Ø8', 1);
+        nota: 'la articulación trasera del cilindro. Retenido por 2 anillos DIN 471-8, uno a cada lado. '
+          + 'PIEZA DE PLANO: llevaba a la vez «ISO 2341 B» (bulón de catálogo con TALADRO DE PASADOR DE '
+          + 'ALETAS) y «DIN 471-8» (circlip en garganta). Son incompatibles — un ISO 2341-B no tiene '
+          + 'garganta — y se ha elegido la vía del circlip, la misma del bulón delantero, para que el '
+          + 'tensor lleve UN solo tipo de retención y ninguna aleta que doblar con la guarda puesta '
+          + '(hallazgo A6 de la revisión de compras).' });
+    cN(`bulón trasero Ø${SOPORTE.bulonTrasero.d} (FABRICADO, 2 gargantas ${GBT.desig})`, 1);
     for (const sx of [-1, 1]) {
-      anilloRet(E, { nombre: `bulón trasero ${sx < 0 ? '−X' : '+X'} (${c})`,
-        at: [r2(B + sx * 20.5 - (sx < 0 ? 0 : 1)), NEUM.y, pinZ], dir: [1, 0, 0], eje: SOPORTE.bulonTrasero.d, capa: 'FIJO · ' });
+      anilloDIN471(anilloRet(E, { nombre: `bulón trasero ${sx < 0 ? '−X' : '+X'} (${c})`,
+        at: [r2(B + sx * 20.5 - (sx < 0 ? 0 : 1)), NEUM.y, pinZ], dir: [1, 0, 0], eje: SOPORTE.bulonTrasero.d, capa: 'FIJO · ' }), SOPORTE.bulonTrasero.d);
       cN(`anillo ${SOPORTE.bulonTrasero.anillo} (retención del bulón trasero)`, 1);
     }
 
     E.addPart(`FIJO · Rótula de vástago ${NEUM.accesorios.rotula} (${c})`, COL.neumatica,
       [B, NEUM.y, r2(GEO.lobuloZ - 8)],
-      [box('Horquilla KJ10D 19×17×36', [B, NEUM.y, r2(GEO.lobuloZ - 8)], 19, 17, 36),
-        hole('Ø10 bulón', [r2(B - 12), NEUM.y, GEO.lobuloZ], [1, 0, 0], 10)],
+      [box('Cuerpo KJ10D 19×17×36', [B, NEUM.y, r2(GEO.lobuloZ - 8)], 19, 17, 36),
+        hole('Ø10 H7 rótula', [r2(B - 12), NEUM.y, GEO.lobuloZ], [1, 0, 0], 10)],
       { componente: 'KJ10D',
-        ajusteMontaje: 'roscada M10×1.25 al vástago; su bulón Ø10 atraviesa las pletinas del brazo', norma: `${NEUM.accesorios.rotula} — horquilla de vástago con rótula, M10×1.25, bulón y seguro ISO 8140 · web PNEU-006`,
+        ajusteMontaje: 'roscada M10×1.25 al vástago; el bulón FABRICADO Ø10 (pieza aparte) la atraviesa y '
+          + 'toma las 2 pletinas del brazo', norma: NEUM.accesorios.rotulaNorma,
         capaInfo: 'web (designación) + step (Ø10 y M10×1.25 contrastados)',
-        nota: 'toma el lóbulo del brazo por su bulón Ø10. Es RÓTULA (casquetes esféricos medidos): absorbe el '
-          + 'pequeño desalineado que el arco del brazo introduce a lo largo de la carrera.' });
+        nota: 'toma el lóbulo del brazo por el bulón Ø10. Es RÓTULA (rod end, casquetes esféricos medidos): '
+          + 'absorbe el pequeño desalineado que el arco del brazo introduce a lo largo de la carrera. '
+          + 'SE RETIRA la cita a ISO 8140 que llevaba: esa es la norma de las HORQUILLAS de vástago '
+          + '(rod clevis, serie I-/Y-), que son otro accesorio y sí se sirven con bulón y clip '
+          + '(web PIN-ISO8140-01). La KJ10D NO trae bulón — su despiece de catálogo son tres piezas, '
+          + '«Body · Bearing · Liner» (web PNEU-006) — así que el bulón lo pone el plano y NO se compra '
+          + 'dos veces (hallazgo A5 de la revisión de compras).' });
     cR(`rótula ${NEUM.accesorios.rotula} (1 del STEP + 4 nuevas)`, 1);
 
     E.addPart(`FIJO · Bulón del lóbulo Ø10×${r2(2 * platX + platE + 6)} (${c})`, COL.acero,
       [r2(B - platX - platE / 2 - 3), NEUM.y, GEO.lobuloZ],
       [cyl(`Bulón Ø10×${r2(2 * platX + platE + 6)}`, [r2(B - platX - platE / 2 - 3), NEUM.y, GEO.lobuloZ], [1, 0, 0], 10, r2(2 * platX + platE + 6))],
-      { fabricada: true, nota: 'une la rótula KJ10D a las 2 pletinas del brazo; los 2 separadores Ø19×18 del '
-        + 'cliente (step) centran la horquilla de 17 entre las pletinas.' });
-    cN('bulón del lóbulo', 1);
+      { fabricada: true, norma: SOPORTE.bulonRotula.norma,
+        gargantas: { norma: gargantaDIN471(10).desig, cota: gargantaDIN471(10).cota },
+        nota: 'une la rótula KJ10D a las 2 pletinas del brazo; los 2 separadores Ø19×18 del '
+        + 'cliente (step) centran el cuerpo de 17 entre las pletinas. ES LA ÚNICA PROCEDENCIA DEL BULÓN: '
+        + 'la KJ10D no lo incluye (web PNEU-006), así que no hay doble suministro.' });
+    cN('bulón del lóbulo (FABRICADO, 2 gargantas DIN 471-10)', 1);
     // retenciones del bulón de la rótula + los 2 separadores medidos del cliente
     for (const sx of [-1, 1]) {
-      anilloRet(E, { nombre: `bulón rótula ${sx < 0 ? '−X' : '+X'} (${c})`,
-        at: [r2(B + sx * 30 - (sx < 0 ? 0 : 1.2)), NEUM.y, GEO.lobuloZ], dir: [1, 0, 0], eje: 10, capa: 'FIJO · ' });
+      anilloDIN471(anilloRet(E, { nombre: `bulón rótula ${sx < 0 ? '−X' : '+X'} (${c})`,
+        at: [r2(B + sx * 30 - (sx < 0 ? 0 : 1.2)), NEUM.y, GEO.lobuloZ], dir: [1, 0, 0], eje: 10, capa: 'FIJO · ' }), 10);
       cN(`anillo ${SOPORTE.bulonRotula.anillo} (retención del bulón de la rótula)`, 1);
       const SP = SOPORTE.separadorRotula;
       E.addPart(`CTX · Separador Ø${SP.de}×${SP.largo} del bulón KJ10D (${sx < 0 ? '−X' : '+X'}) (${c})`, COL.acero,
@@ -496,7 +642,42 @@ export function tensor2(E, ramal) {
     cadaBandaIndependiente: true,
     reguladorPresion: NEUM.reguladorPresion,
     presionTrabajoBar: NEUM.presionTrabajoBar,
+    // A12 · EL CIRCUITO COMPLETO, con referencia citada para cada pieza que
+    // faltaba. Va aquí porque `arquitectura` es lo que gen_sorter_co publica del
+    // tensor; la lista de compra suelta (M.compradas) todavía no se emite.
+    acondicionamiento: {
+      cadena: `red → ${ACOND.corte.ref} (corte + purga con candado) → ${ACOND.filtro.ref} (filtro 5 µm) `
+        + `→ ${NEUM.reguladorPresion} (${NEUM.presionTrabajoBar} bar) + ${ACOND.manometro.ref} (manómetro) `
+        + `→ 4 × ${ACOND.reparto.ref} → 5 líneas PU Ø6×4 → AS2201FS + AN101 + KQ2L06 de cada cilindro`,
+      piezas: [ACOND.corte, ACOND.filtro, ACOND.manometro, ACOND.reparto]
+        .map(p => ({ ref: p.ref, cant: p.cant, desig: p.desig, porQue: p.porQue })),
+      bridaAR20: ACOND.bridaAR20,
+      tuboPU: { porLinea: NEUM.tuboLineasMm, totalM: NEUM.tuboTotalM, ref: 'tubo PU Ø6×4' },
+      consignacion: `el ${ACOND.corte.ref} es el punto de bloqueo (LOTO) del tensor: al girar la maneta `
+        + `corta y purga los 5 cilindros, y como el fallo seguro del tensor es aflojar `
+        + `(«${NEUM.falloSeguro}»), los 5 brazos sueltan la banda y se puede cambiar sin desmontar nada`,
+    },
   };
+  M.compradas = [
+    { desig: `${NEUM.designacion} — cilindro ISO 6432 Ø${NEUM.calibre} carrera ${NEUM.carrera}`, cant: 5, ref: 'web PNEU-001/002' },
+    { desig: `${NEUM.accesorios.bisagra} — bisagra trasera (clevis) C85 Ø20/25`, cant: 5, ref: 'web PNEU-007' },
+    { desig: NEUM.accesorios.rotulaNorma, cant: 5, ref: 'web PNEU-006' },
+    { desig: `${NEUM.accesorios.regulador} — regulador de CAUDAL meter-out R1/8 ↔ tubo Ø6`, cant: 5, ref: 'web PNEU-004' },
+    { desig: `${NEUM.accesorios.silenciador} — silenciador de bronce sinterizado R1/8`, cant: 5, ref: 'web PNEU-005' },
+    { desig: `${NEUM.accesorios.racor} — codo instantáneo macho R1/8 ↔ tubo Ø6`, cant: 5, ref: 'web PNEU-008' },
+    { desig: `${NEUM.reguladorPresion} — regulador de presión R1/4 CON brida (sufijo -B)`, cant: 1, ref: 'web PNEU-009' },
+    ...[ACOND.corte, ACOND.filtro, ACOND.manometro, ACOND.reparto]
+      .map(p => ({ desig: p.desig, cant: p.cant, ref: `web ${p.web}` })),
+    { desig: `Tubo PU Ø6×4 — ${NEUM.tuboTotalM} m (5 líneas + acometida + 10 % de merma)`, cant: 1, ref: 'calc' },
+    { desig: PIV.collarDesignacion, cant: 1, ref: 'web COLL-SPLIT-01' },
+    { desig: `${PIV.ucfl.designacion} — brida oval eje 30, entre taladros ${PIV.ucfl.entreTaladros} (¡no 108!)`, cant: 2, ref: 'web BRG-UCFL206-01/02' },
+    { desig: `Perno M12×${M.pernoUcflPivote?.largo ?? 75} ISO 4017 8.8 + tuerca ISO 4032 (chumaceras del pivote; `
+      + `apriete ${M.pernoUcflPivote?.apriete ?? 59}, salida ${M.pernoUcflPivote?.salidaMm ?? 5.2} mm)`, cant: 4, ref: 'cat + calc (ISO 888)' },
+    { desig: `Anillo ${POL.anilloNorma}`, cant: 10, ref: 'web RING-001' },
+    { desig: 'Anillo DIN 471-30 (eje pivote)', cant: 2, ref: 'web RING-471-01/02' },
+    { desig: 'Anillo DIN 471-10 (bulón de la rótula)', cant: 10, ref: 'web RING-471-01/02' },
+    { desig: 'Anillo DIN 471-8 (bulón trasero)', cant: 10, ref: 'web RING-471-01/02' },
+  ];
   M.ejePivote = {
     designacion: `Ø${PIV.d}×${PIV.largo} ${PIV.material}`,
     vano: EJE_CALC.vano,
@@ -504,6 +685,21 @@ export function tensor2(E, ramal) {
     sigmaMPa: EJE_CALC.sigmaMPa,
     fs: EJE_CALC.fs,
     apoyos: `2 × ${PIV.ucfl.designacion}`,
+    // A4 · MODIFICACIÓN AL CHAPÓN DEL CLIENTE, con la cota CORREGIDA. Antes iba
+    // a 108 y la chumacera no entraba en sus propios taladros: 4.5 mm de error
+    // por lado, en agujeros nuevos e irreversibles sobre pieza del cliente.
+    modificacionAlChapon: {
+      que: `4 taladros Ø14 (paso de M12) por chumacera, 8 en total, en los dos chapones `
+        + `(FRAME_MIR_MIR en X ${PIV.ucflX[0]} y FRAME_MIR_MIR_MIR en X ${PIV.ucflX[1]})`,
+      entreTaladros: PIV.ucfl.entreTaladros,
+      posicionesY: [-1, 1].map(s => r2(PIV.y + s * PIV.ucfl.entreTaladros / 2)),
+      z: PIV.z,
+      antes: 'estaban a 108 mm entre centros (Y −47.72 y −155.72), cota SIN FUENTE',
+      ahora: `${PIV.ucfl.entreTaladros} mm entre centros — catálogo, dos fuentes (web BRG-UCFL206-01/02)`,
+      aviso: 'MODIFICACIÓN DECLARADA sobre pieza del cliente, pendiente de su validación estructural, '
+        + 'igual que la muesca y los 8 taladros Ø11 que ya declara pg40. Con 108 había que volver a '
+        + 'taladrar: por eso esta corrección es previa al pedido y al taller.',
+    },
     retencionEje: `prisioneros de los 2 UC 206 (servicio) + 2 anillos ${PIV.anillo.norma} por dentro, en pareja espejada (seguridad)`,
     retencionBrazos: `collar de apriete en −X + ${EJES.length - 1} separadores Ø${PIV.separador.de}×${PIV.separador.largo} `
       + `apretados contra el anillo ${PIV.anillo.norma} de +X, que hace de tope`,

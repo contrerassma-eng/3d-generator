@@ -261,8 +261,14 @@ export function guardas(E) {
     const f = [
       box(`Cara ${tg}×${L}×${r2(zTop - z0)}`, [r2((x0 + x1) / 2), r2(yg + hacia * -1 * 0), z0], L, tg, r2(zTop - z0)),
       box(`Labio 15 a 30°`, [r2((x0 + x1) / 2), r2(yg + hacia * GUIAS.labio / 4), r2(zTop - tg)], L, r2(GUIAS.labio * 0.87), tg),
-      hole(`Ø9 M8 alma`, [r2(x1 - 18), r2(yg - 1 * hacia), r2(z0 + 15)], [0, hacia, 0], 9.0),
-      hole(`Ø9 M8 alma`, [r2(x1 - 6), r2(yg - 1 * hacia), r2(zTop - 20)], [0, hacia, 0], 9.0),
+      // A8 (revisión de fabricación 2026-08-03): estaban en x1−18 y x1−6. El de
+      // x1−6 dejaba 6.00 mm de centro a canto → 1.50 mm de material en chapa de
+      // 2.66, y una golilla M8 de Ø16 volaba 2 mm fuera de la pieza. Ahora en
+      // x1−23 y x1−12: 12.0 mm de canto en el borde libre (≥ 1.2·d₀ = 10.8,
+      // EN 1993-1-8) → 7.5 mm de material. La separación entre ejes es la
+      // diagonal √(11² + 17²) = 20.25 ≥ 2.2·d₀ = 19.8.
+      hole(`Ø9 M8 alma`, [r2(x1 - 23), r2(yg - 1 * hacia), r2(z0 + 15)], [0, hacia, 0], 9.0),
+      hole(`Ø9 M8 alma`, [r2(x1 - 12), r2(yg - 1 * hacia), r2(zTop - 20)], [0, hacia, 0], 9.0),
     ];
     const fibra = [[r2(yg + hacia * GUIAS.labio * 0.5), zTop], [yg, r2(zTop - GUIAS.labio * 0.87)], [yg, z0]];
     const des = desarrollo(fibra, tg, tg);
@@ -271,6 +277,7 @@ export function guardas(E) {
       [r2((x0 + x1) / 2), yg, z0], f, {
         fabricada: true,
         chapa: { t: r2(tg), material: 'acero 12 GA (web CHAPA-TOL-001)', fibra, radio: r2(tg) },
+        uniones: [{ rosca: 'M8', n: 2, pasante: 9.0, a: `FIJO · Base de guía ${nom} 3/16"` }],
         nota: `guía lateral del bulto en el corredor de descarga: cara útil de Z ${z0} a ${zTop} (${GUIAS.alturaSobrePlano} `
           + `sobre el plano de transporte — bajo el CG de un bulto ≥150 de alto: VALIDA CLIENTE, el STEP no declara `
           + `el bulto), labio superior abierto. FUERA del camino del bulto (campo de rodillos Y ${GUIAS.caminoBultoY[0]}…`
@@ -286,17 +293,29 @@ export function guardas(E) {
       [xbc, yg, GUIAS.base.zCanto],
       [box(`Placa ${GUIAS.base.w}×${GUIAS.base.d}×${GUIAS.base.t}`,
         [xbc, yg, GUIAS.base.zCanto], GUIAS.base.w, GUIAS.base.d, GUIAS.base.t),
-        box(`Alma 24×${GUIAS.base.t}×${r2(zTop - GUIAS.base.zCanto - GUIAS.base.t - tg - 3.7)}`,
-          [xbc, r2(yg + (nom === 'sur' ? 1 : -1) * (GUIAS.base.t / 2 + tg / 2 + 0.05)), r2(GUIAS.base.zCanto + GUIAS.base.t)],
-          24, GUIAS.base.t, r2(zTop - GUIAS.base.zCanto - GUIAS.base.t - tg - 3.7)),
-        hole(`Ø9 M8 alma inf`, [r2(x1 - 18), r2(yg - 8), r2(z0 + 15)], [0, 1, 0], 9.0),
-        hole(`Ø9 M8 alma sup`, [r2(x1 - 6), r2(yg - 8), r2(zTop - 20)], [0, 1, 0], 9.0),
+        // A8: el alma pasa de 24 a 34 de ancho (centro X 508.4, canto exterior
+        // en 525.4 como antes). Con 24 los dos taladros — que están en la MISMA
+        // coordenada X que los de la guía — quedaban a 5.98 y 6.02 del canto, o
+        // sea 1.48 y 1.52 mm de material. Con 34 quedan a 11.0 y 12.0 (≥ 1.2·d₀
+        // = 10.8, EN 1993-1-8) → 6.5 y 7.5 mm de material. El canto interior del
+        // alma se para en X 491.4: 4 mm LIBRES de la línea del rodillo (487.4).
+        box(`Alma 34×${GUIAS.base.t}×${r2(zTop - GUIAS.base.zCanto - GUIAS.base.t - tg - 3.7)}`,
+          [r2(x1 - 17), r2(yg + (nom === 'sur' ? 1 : -1) * (GUIAS.base.t / 2 + tg / 2 + 0.05)), r2(GUIAS.base.zCanto + GUIAS.base.t)],
+          34, GUIAS.base.t, r2(zTop - GUIAS.base.zCanto - GUIAS.base.t - tg - 3.7)),
+        hole(`Ø9 M8 alma inf`, [r2(x1 - 23), r2(yg - 8), r2(z0 + 15)], [0, 1, 0], 9.0),
+        hole(`Ø9 M8 alma sup`, [r2(x1 - 12), r2(yg - 8), r2(zTop - 20)], [0, 1, 0], 9.0),
         hole(`Ø9 M8 canto`, [xbc, r2(yg - 18), r2(GUIAS.base.zCanto + GUIAS.base.t + 1)], [0, 0, -1], 9.0),
         hole(`Ø9 M8 canto`, [xbc, r2(yg + 18), r2(GUIAS.base.zCanto + GUIAS.base.t + 1)], [0, 0, -1], 9.0)],
       { fabricada: true,
+        uniones: [
+          { rosca: 'M8', n: 2, pasante: 9.0, a: 'canto del chapón de descarga (roscados, e = 28 step)' },
+          { rosca: 'M8', n: 2, pasante: 9.0, a: `FIJO · Guía de descarga ${nom}` },
+        ],
         nota: 'base sobre el CANTO superior del chapón de descarga (Z 46.0, 28 de espesor — step): 2 M8×20 ROSCADOS '
           + 'al canto (taladros nuevos, modificación declarada); el alma vertical soldada porta la guía (2 M8×16 '
-          + 'con tuercas). La guía vuela hacia −X desde el alma; el pliegue del labio la rigidiza.' });
+          + 'con tuercas). La guía vuela hacia −X desde el alma; el pliegue del labio la rigidiza. '
+          + 'A8: alma de 34 (era 24) y taladros en x1−23 / x1−12 — 11.0 y 12.0 mm de centro a canto en las CUATRO '
+          + 'piezas (guía y base van a la vez, comparten coordenada), contra los 6.0 de antes.' });
     cuenta(`base de guía 3/16"`, 1);
     for (const dy of [-18, 18]) {
       pernoHex(E, { nombre: `M8×20 base guía ${nom}↔canto (dy=${dy})`, at: [xbc, r2(yg + dy), r2(GUIAS.base.zCanto + GUIAS.base.t)], dir: [0, 0, -1], dia: 8, largo: 20, af: 13, altoCab: 5.3, capa: 'FIJO · ' });

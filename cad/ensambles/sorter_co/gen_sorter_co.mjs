@@ -5,12 +5,17 @@
 //
 //   node ensambles/sorter_co/gen_sorter_co.mjs            (desde cad/)
 //   TEST_ROMPE=paso|ventana|roller|profundidad|luz|pasillo|borde|at10|retencion
+//              |sintaladro|huerfana  (revisión de FABRICACIÓN: §U y §V)
 //              |guia|guarda|pivote|pila|cilindro|soporte|bulon|portante
-//              |apoyo|presion|rampa|apriete|eje|rodamiento|banda|fuente node …
+//              |apoyo|presion|rampa|apriete|eje|rodamiento|banda|fuente
+//              |tolerancia|cordon|material|designacion|generica|ferreteria node …
 //       (banco: inyecta UN defecto y demuestra que verify() lo para SIN emitir
 //       JSON. pivote = le roba los anillos DIN 471 del eje del tensor; pila =
 //       le roba un separador; cilindro = deja una banda sin él. Los OCHO
-//       últimos son de la REVISIÓN ESTRUCTURAL §S — ver el bloque de banco.)
+//       de `apoyo` a `fuente` son de la REVISIÓN ESTRUCTURAL §S y los SEIS
+//       últimos, del bloque de FABRICACIÓN §F — ver los bloques de banco.
+//       Ojo: `huerfana` (§V, travesaños de puente) y `ferreteria` (§F7, los
+//       27 tornillos de la percha) son casos DISTINTOS.)
 //
 // Emite (solo si la compuerta pasa):
 //   sorter_co_adaptado.json          — documento foto3d-cad (NBT90 como contexto)
@@ -38,13 +43,24 @@ import { guardas } from './adapt/mod_guardas.mjs';
 import { tensor2, leerRamal } from './adapt/mod_tensor2.mjs';
 import { TENSOR_VIEJO, PIV, TENSION, NEUM, PALANCA, EJE_CALC, SOPORTE, SOPORTE_CALC } from './adapt/params_tensor2.mjs';
 import { pg40 } from './adapt/mod_pg40.mjs';
-import { FLAGS as PG40F, PUBLICA as PG40PUB, CARGA as CARGA_PG40 } from './adapt/params_pg40.mjs';
+import { FLAGS as PG40F, PUBLICA as PG40PUB, CARGA as CARGA_PG40, PERFIL as PG40_PERFIL, GUIA as PG40_GUIA, ALARGUE as PG40_ALARGUE } from './adapt/params_pg40.mjs';
 // ▲▲▲ ------------------------------------------------------ ▲▲▲
 // ▼▼▼ TAMBOR MOTRIZ · CONDUCIDO · RODILLOS DE RETORNO (bloque propio) ▼▼▼
 import { tambores } from './adapt/mod_tambores.mjs';
 import { TAMBOR as TAMB_P, UCF207 as TAMB_UCF, CONDUCIDO as TAMB_CON,
   RETORNOS as TAMB_RET, TAMBORES as TAMB_EJES, RETORNO as TAMB_RAMAL,
   RETIRA as TAMB_RETIRA } from './adapt/params_tambores.mjs';
+// ▲▲▲ ------------------------------------------------------------- ▲▲▲
+// ▼▼▼ FABRICACIÓN — el MISMO esquema que usa la transferencia, sin copiarlo ▼▼▼
+// El estándar de fabricación del NBT90 vivía en dos módulos suyos y el sorter
+// no los importaba: por eso salía con 0 de 210 piezas propias con clase de
+// tolerancia, ninguna soldada con cordón y 265 con las cadenas genéricas que
+// `normalizado.mjs` existe justo para eliminar (REVISION_TALLER §A1/§A2, y
+// REVISION_TALLER_PIEZAS §B3/§B4/§B5). Se importan los módulos del NBT90 tal
+// cual —extendidos, no duplicados— para que el sorter y la transferencia no
+// puedan divergir: si mañana cambia la clase de soldadura, cambia en los dos.
+import { NORMA, claseGeneralDe, cordonDe, ajustesDe, tol2768, tol13920, tolForma13920 } from '../nbt90/tolerancias.mjs';
+import { normalizar, esGenerica } from '../nbt90/normalizado.mjs';
 // ▲▲▲ ------------------------------------------------------------- ▲▲▲
 
 const aqui = dirname(fileURLToPath(import.meta.url));
@@ -152,10 +168,12 @@ const LIMS = {
 // `uso` = utilización = valor/límite (>1 incumple). `dueño` = quién lo arregla.
 // ---------------------------------------------------------------------------
 const HALLAZGOS_SC = {
-  'SC-01': { uso: 11, dueño: 'adapt/params_pg40.mjs + adapt/mod_calles.mjs',
-    nota: 'los 10 apoyos del puente de calle se quedaron sin travesaño al poner '
-      + 'FLAGS.desactivaPercha = true: hacen falta 2 travesaños en Y −1280 y −692 '
-      + 'con la cara superior en Z 9.15' },
+  // SC-01 CERRADO el 2026-08-03 por la revisión de FABRICACIÓN (hallazgo A6):
+  // adapt/params_pg40.TRAVESANOS_PUENTE + adapt/mod_pg40 §3-bis devuelven los
+  // dos travesaños en Y −1280 y −692 coronando en Z 9.15, y el filtro de
+  // `desactivaPercha` se lleva ahora el racimo huérfano que quedaba (4
+  // escuadras + 20 pernos). Su dispensa se borra: la compuerta exige que no
+  // queden dispensas caducadas y ella misma lo denunció al arreglarlo.
   'SC-02': { uso: 1.57, dueño: 'adapt/params_tensor2.mjs',
     nota: 'la tensión que da la geometría real del balancín es 1.91 N/mm, no los '
       + '4.03 declarados; ni a 6 bar de red se llega al mínimo de 3 N/mm' },
@@ -214,6 +232,56 @@ function tangenteS(q1, q2, esp) {
 
 /** Vida nominal ISO 281 (web BRG-L10-01): L10 = (C/P)^3 Mrev · L10h = L10·1e6/(60n). */
 const L10hS = (C, P, rpm) => (P <= 0 || rpm <= 0 ? Infinity : (C / P) ** LIMS.brg.p * 1e6 / (60 * rpm));
+
+// ---------------------------------------------------------------------------
+// §B9 · FERRETERÍA HUÉRFANA DE LA PERCHA DESACTIVADA
+// ---------------------------------------------------------------------------
+// `params_pg40.FLAGS.desactivaPercha` retira las PLACAS de la percha; estos 27
+// elementos son la tornillería que las cosía y que se quedaba dentro sujetando
+// piezas que ya no existen. No es una molestia de lista: 3 de ellos son las
+// ÚNICAS tres piezas del ensamble sin un solo vecino a 1 mm —flotan en el aire—
+// y 12 son un DUPLICADO en las mismas colisas de reglaje del side channel que
+// ya usan los pernos del alargue, 8.73 mm más arriba, contra un alma que sólo
+// tiene taladro a Z −113: anulan el reglaje vertical del NBT90 y atraviesan
+// chapa maciza. (REVISION_TALLER_COMPRAS_MONTAJE §B9.)
+//
+// CADA expresión va anclada con `^` al nombre COMPLETO de su familia y con el
+// paréntesis de instancia detrás, para que no pueda alcanzar a un vecino de
+// nombre parecido. Los vecinos que hay, y que NO se tocan:
+//   · `FIJO · Ménsula de bisagra — lengüeta e=8` (5)  ← «lengüeta»
+//   · `FIJO · Perno hex M8×25 ménsula↔travesaño` (10) ← «ménsula↔»
+//   · `PG40 · Perno hex 3/8-16 × 25 · alargue …` + su tuerca y su golilla ←
+//     son los pernos BUENOS de las mismas colisas; los huérfanos son los
+//     `FIJO · … cuelgue …`, que es lo que los distingue.
+// `esperadas` es la cuenta de la revisión: la compuerta §F exige que lo que se
+// lleva cada expresión sea EXACTAMENTE eso, ni una más ni una menos.
+const PERCHA_HUERFANA = [
+  {
+    id: 'B9-a', esperadas: 3, retiradas: null,
+    rx: /^FIJO · Perno hex M8×16 lengüeta \(/,
+    motivo: 'sujetaban la «Placa de cuelgue NBT90 con 3 lengüetas», que la bandera ya retira. '
+      + 'Son las 3 únicas piezas del ensamble sin ningún vecino a menos de 1 mm: flotan.',
+  },
+  {
+    id: 'B9-b', esperadas: 12, retiradas: null,
+    rx: /^FIJO · Perno hex M8×20 ménsula↔bastidor \(/,
+    motivo: 'cosían la «Ménsula percha» y la «Placa frontal ménsula↔bastidor» al chapón; las dos '
+      + 'están filtradas. Su único vecino que queda es la guarda de pozo −X, que ATRAVIESAN.',
+  },
+  {
+    id: 'B9-c', esperadas: 12, retiradas: null,
+    // Los 4 pernos + 4 tuercas + 4 golillas del cuelgue. Anclado a «FIJO · » y a
+    // la palabra «cuelgue»: los del alargue son «PG40 · … · alargue …» y no casan.
+    rx: /^FIJO · (Perno hex 3\/8-16×[12]" cuelgue NBT90|Tuerca hex 3\/8-16 cuelgue|Golilla 3\/8 cuelgue) \(/,
+    motivo: 'DUPLICADOS: van a las MISMAS colisas de reglaje del side channel (Y −802 y −1145) '
+      + 'que los «PG40 · Perno hex 3/8-16 × 25 · alargue», 8.73 mm por encima (Z −104.27 contra '
+      + '−113), y el alma del alargue sólo tiene taladro a Z −113: atraviesan chapa maciza. Dos '
+      + 'filas de pernos a 8.73 mm en una colisa de ±8 anulan el reglaje vertical del NBT90.',
+  },
+  // Los 4 «Perno hex M8×20 placa escote↔chapón» que la revisión contaba aquí ya
+  // los retira el filtro A6 de arriba (los añadió el bloque de la percha en el
+  // mismo sitio); no se repiten para que no haya dos dueños de la misma pieza.
+];
 
 // ---------------------------------------------------------------------------
 // Construcción
@@ -276,7 +344,42 @@ if (!TENSOR_VIEJO) m.tensor2 = tensor2(E, m.ramal);
     // con los rodamientos de las V1…V4). Se van con la placa a la que servían.
     rxFuera.push(/Polea motriz T5-63T|Polea conducida T5|Volante contraflexión|Polea plana Ø117\.9|Pletina de volante|Pletina V[23]|M8×1[26] pletina V[1-4]|Eje Ø20×50 de pozo|Espaciador de aros|Anillo 3AM1-20|Anillo DIN 472-42/);
   }
-  if (PG40F.desactivaPercha) rxFuera.push(/percha|Placa de cuelgue NBT90|Lengüeta de apoyo|Escuadra larguero|Escuadra ménsula|Ménsula percha|Placa frontal ménsula|Placa de escote|Casquillo separador/i);
+  // A6 · EL FILTRO SE LLEVABA EL TRAVESAÑO Y DEJABA SU RACIMO. `desactivaPercha`
+  // retiraba el «Travesaño percha 40×80» y la «Placa de escote», pero NO las
+  // piezas cuyo nombre no dice «percha» y que colgaban de ellos: las 4
+  // «Escuadra travesaño↔bastidor 3/16"» (que unían travesaño de percha ↔ chapón)
+  // y 20 pernos (8 M8×16 travesaño + 8 M8×20 travesaño↔bastidor + 4 M8×20 placa
+  // escote↔chapón). Se van con la pieza a la que servían, que es la regla que
+  // este mismo bloque ya aplica a la tornillería de las pletinas de pozo.
+  // Las 10 «Placa base de puente», los 5 puentes y las 5 regletas NO se van:
+  // ahora los sostienen los «PG40 · Travesaño de puente» (adapt/mod_pg40 §3-bis).
+  // `Casquillo separador` iba SUELTO en esta lista y era demasiado ancho: se
+  // llevaba también los 6 «Casquillo separador Ø16×… guarda ±X (Y=…)» que crea
+  // adapt/mod_guardas.mjs —que corre ANTES de este filtro— y dejaba dentro sus 6
+  // «Perno hex M8×25/×35 guarda ±X↔chapón» atravesando el gap guarda↔chapón sin
+  // nada que lo salvara: exactamente el defecto de B9, pero al revés. Se ancla al
+  // casquillo DE LA PERCHA, que es el único que lleva «(+X,» detrás de la cota
+  // (mod_percha: `Casquillo separador Ø16×<largo> (+X, Y=…)`). Contado antes y
+  // después: la expresión pasa de llevarse 7 piezas a llevarse 1, y las 6
+  // recuperadas son las de la guarda. Es el mismo error de regex ancha que se
+  // acaba de pagar con los rodamientos del tensor (commit 94f7271).
+  if (PG40F.desactivaPercha) rxFuera.push(/percha|Placa de cuelgue NBT90|Lengüeta de apoyo|Escuadra larguero|Escuadra ménsula|Ménsula percha|Placa frontal ménsula|Placa de escote|Casquillo separador Ø16×[\d.]+ \(\+X,|Escuadra travesaño↔bastidor|Perno hex M8×16 travesaño |Perno hex M8×20 travesaño↔bastidor|Perno hex M8×20 placa escote↔chapón/i);
+  // B9 · LA FERRETERÍA HUÉRFANA QUE QUEDABA. Con la percha desactivada seguían
+  // dentro 27 elementos que no sujetan ya nada, y que se comprarían y no se
+  // podrían montar (REVISION_TALLER_COMPRAS_MONTAJE §B9). Se retiran por el
+  // mismo mecanismo de bandera que el resto —filtro por nombre, sin borrar el
+  // código que los crea: con desactivaPercha=false vuelven todos—, pero cada
+  // expresión va ANCLADA al principio del nombre y con su cantidad esperada
+  // delante, y la compuerta (§F) comprueba las dos cosas. El ancla no es
+  // manía: una regex ancha se acaba de llevar por delante 10 rodamientos que
+  // no tocaba (commit 94f7271), y `Casquillo separador`, aquí arriba, se
+  // llevaba 6 casquillos de guarda.
+  if (PG40F.desactivaPercha) {
+    for (const h of PERCHA_HUERFANA) {
+      h.retiradas = E.parts.filter((p) => h.rx.test(p.name)).length;
+      rxFuera.push(h.rx);
+    }
+  }
   const antes = E.parts.length;
   if (rxFuera.length) E.parts = E.parts.filter(p => !rxFuera.some(rx => rx.test(p.name)));
   m.pg40 = pg40(E);
@@ -475,6 +578,29 @@ if (ROMPE === 'apoyo') {
   STEP.bandaDorso = 2.5;                        // banda plana real (SC-10 cumple)
 }
 
+// ── banco de la REVISIÓN DE FABRICACIÓN (2026-08-03) ───────────────────────
+// Los dos defectos que YA se colaron hasta el taller, inyectados a propósito
+// para demostrar que las compuertas nuevas los paran:
+//   sintaladro → §U: una pieza declara tornillería y no tiene el taladro
+//                (defecto A1/A3/A4/A5: 112 tornillos declarados, 0 agujeros)
+//   huerfana   → §V: un racimo cuelga de una pieza que ya no está en el
+//                ensamble (defecto A6: 19 piezas y 40 tornillos en el aire)
+if (ROMPE === 'sintaladro') {
+  // le quita al cubrejunta del alargue los 8 taladros Ø11 que su propia nota
+  // declara. La geometría sigue siendo una chapa perfectamente cortable: por eso
+  // este defecto pasó cuatro revisiones sin que nadie lo viera.
+  for (const p of E.parts) {
+    if (!/^PG40 · Cubrejunta alma↔cabezal/.test(p.name)) continue;
+    p.features = p.features.filter(f => f.shape !== 'hole');
+  }
+} else if (ROMPE === 'huerfana') {
+  // retira los dos travesaños de puente, que es exactamente lo que hizo la
+  // bandera `desactivaPercha` con el travesaño de la percha: las 10 placas base,
+  // los 5 puentes, las 5 regletas, las 4 escuadras y sus 20 pernos se quedan
+  // colgando de nada, y el ensamble los seguiría emitiendo.
+  E.parts = E.parts.filter(p => !/^PG40 · Travesaño de puente/.test(p.name));
+}
+
 // EL BANCO SE COMPRUEBA A SÍ MISMO. Va aquí, detrás de las DOS cadenas, porque
 // las dos inyectan y cualquiera de ellas vale como inyección.
 //
@@ -496,12 +622,404 @@ if (ROMPE === 'apoyo') {
 // parámetro que `verify()` relee, no en `E.parts`. Están enumerados uno a uno
 // a propósito; una exención por descarte volvería a tapar lo que esto destapa.
 const ROMPE_SOLO_DATOS = new Set(['presion', 'rampa', 'apriete', 'eje', 'rodamiento', 'banda', 'fuente']);
-if (ROMPE && !ROMPE_SOLO_DATOS.has(ROMPE) && JSON.stringify(E.parts) === ROMPE_ANTES) {
+// Los SEIS de FABRICACIÓN inyectan más abajo, sobre lo que escribe la pasada §F
+// —tolerancia, cordón, material, designación—, que todavía no ha corrido cuando
+// se llega aquí: en este punto no han tocado nada y no pueden. No quedan sin
+// vigilar por eso: el bloque §F lleva su PROPIA instantánea y su propio «banco
+// muerto», tomados justo donde inyectan. Se enumeran uno a uno, igual que
+// ROMPE_SOLO_DATOS y por el mismo motivo: una exención por descarte volvería a
+// tapar lo que esta comprobación destapó.
+const ROMPE_FAB = new Set(['tolerancia', 'cordon', 'material', 'designacion', 'generica', 'ferreteria']);
+if (ROMPE && !ROMPE_SOLO_DATOS.has(ROMPE) && !ROMPE_FAB.has(ROMPE)
+  && JSON.stringify(E.parts) === ROMPE_ANTES) {
   console.error(`BANCO MUERTO: TEST_ROMPE=${ROMPE} no ha tocado NINGUNA pieza.`);
   console.error('  El caso inyecta sobre geometría que ya no existe en este ensamble, así que la');
   console.error('  compuerta pasaría por no tener nada que cazar. Un banco que no inyecta no');
   console.error('  demuestra que la comprobación muerda: re-apúntalo a la pieza viva equivalente,');
   console.error('  o retíralo junto con la comprobación que guardaba.');
+  process.exit(1);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// §F · FABRICACIÓN — tolerancia, material, cordón y designación
+//
+// Va DESPUÉS de construir y ANTES de la compuerta, que es donde lo pone
+// ../nbt90/gen_nbt90.mjs y por la misma razón: la compuerta lo verifica. Hace
+// UNA pasada sobre `E.parts` y de ahí sale lo que hasta ahora no salía de
+// ningún sitio (REVISION_TALLER §A1/§A2 y REVISION_TALLER_PIEZAS §B3/§B4/§B5):
+//
+//   1) cada pieza COMPRADA recibe su designación normalizada (`normalizado.mjs`),
+//      que es lo que borra las 4 cadenas genéricas del tipo «ASME B18.2.1 /
+//      DIN 933» — dos normas incompatibles a la vez, ninguna aplicable;
+//   2) cada pieza FABRICADA recibe su clase de tolerancia general y, si tiene
+//      cota de ajuste, la lista ISO 286 que le toca (`tolerancias.mjs`);
+//   3) cada pieza SOLDADA recibe su cordón: tipo, cateto, garganta, disposición,
+//      proceso y norma. Un plano sin cordón no es fabricable;
+//   4) cada pieza FABRICADA recibe su MATERIAL, leído de donde ya está
+//      declarado —el campo, la chapa, el catálogo, el parámetro del módulo o el
+//      propio nombre—. Lo que NINGÚN módulo declara NO se inventa: se queda
+//      fuera, en una lista con dueño, y la compuerta cuenta que no crezca.
+//
+// Las piezas de CONTEXTO DEL CLIENTE se saltan (son cajas medidas, no se
+// fabrican ni se compran aquí). Las del NBT90 embebido llegan YA con sus
+// metadatos porque su propio integrador se los pone — pero eso se COMPRUEBA
+// pieza a pieza, no se supone: si alguna llegara sin ellos, esta misma pasada
+// se los pone, y el recuento de las que venían completas se publica.
+// ═══════════════════════════════════════════════════════════════════════════
+
+// --- quién se compra y quién se fabrica -------------------------------------
+// El criterio es el mismo del NBT90 —`(hardware || componente) && !fabricada`—
+// con DOS correcciones anotadas, porque dos módulos ajenos marcan mal su pieza
+// y sin corregirlo el eje del tambor pediría una norma de catálogo (no existe:
+// se fabrica según plano) y la banda pediría un material de taller (no se
+// fabrica: se compra sin fin). Las dos correcciones están ancladas al nombre
+// completo y su cuenta la verifica §F.
+const FABRICADA_PESE_A_COMPONENTE = /^TAMBOR · eje Ø\d+(?:\.\d+)? × \d+ con saliente y chavetero$/;
+const COMPRADA_PESE_A_SIN_BANDERA = /^FIJO · Banda plana [\d.]+ × [\d.]+ — lazo del tambor motriz/;
+const compradaSC = (p) => {
+  if (FABRICADA_PESE_A_COMPONENTE.test(p.name)) return false;   // eje C45 con chavetero: PLANO
+  if (COMPRADA_PESE_A_SIN_BANDERA.test(p.name)) return true;    // banda sin fin: CATÁLOGO
+  return !!(p.hardware || p.componente) && !p.fabricada;
+};
+
+// --- MATERIAL: de dónde sale el de cada familia ------------------------------
+// Cada línea cita SU FUENTE, y la fuente es siempre algo que ya está escrito en
+// el repositorio: un parámetro del módulo, el campo `chapa` de la propia pieza,
+// su `catalogo`, su `nota` o su nombre. Ninguna línea elige un acero «porque
+// suele ser ése»: donde el módulo no lo dice, no hay línea (ver SIN_MATERIAL_SC).
+const MATERIAL_SC = [
+  // --- calles (adapt/mod_calles.mjs · params_adapt.CALLE.puente) ------------
+  [/^FIJO · Puente de calle — pletina/, 'Pletina de acero A36 (S275JR) 30×28, cortada por láser',
+    'params_adapt CALLE.puente.aceroH («dis: pletina A36») + el propio nombre, que ya dice A36'],
+  [/^FIJO · Puente de calle — regleta UHMW/, 'UHMW-PE 1000',
+    'params_pg40 GUIA.material (web UHMW-001) — es la misma regleta de deslizamiento'],
+  [/^FIJO · Placa base de puente/, 'Pletina de acero A36 (S275JR) e=6, cortada por láser',
+    'params_adapt CALLE.puente («dis: pletina A36») + el espesor del propio nombre'],
+  // --- guías de descarga (adapt/mod_estaciones.mjs · GUIAS.base) ------------
+  [/^FIJO · Base de guía (norte|sur) 3\/16"/, 'Chapa de acero A36 (S275JR) e=4.763 (3/16"), plegada',
+    'params_estaciones GUIAS.base.t = 4.763'],
+  // --- tensor de brazos (adapt/params_tensor2.mjs) --------------------------
+  [/^FIJO · Eje pivote común/, 'C45 rectificado h7',
+    'params_tensor2 PIV.material'],
+  [/^FIJO · Brazo tensor e=/, 'Pletina de acero A36 (S275JR) e=8, corte láser',
+    'la nota que el propio módulo escribe en la pieza: «pletina A36 e=8, corte láser»'],
+  [/^FIJO · Cubo del brazo/, 'Tubo de acero Ø50 mecanizado, bore Ø38 H7',
+    'la nota del propio módulo: «tubo mecanizado Ø50, bore Ø38 H7». El GRADO del acero no lo '
+    + 'declara nadie — queda dicho en el informe'],
+  [/^FIJO · Ménsula de bisagra — lengüeta/, 'Pletina de acero A36 (S275JR) e=8',
+    'la nota del propio módulo («pletina A36 en L») + params_tensor2 SOPORTE.mensula.e'],
+  [/^FIJO · Pletina soporte del regulador/, 'Pletina de acero A36 (S275JR) e=8',
+    'params_tensor2 SOPORTE.regPresion.placa («dis — pletina») + SOPORTE_CALC.fyMPa 250 = A36'],
+  [/^FIJO · Placa de extremo del travesaño frontal/, 'Pletina de acero A36 (S275JR) e=8',
+    'params_tensor2 SOPORTE.mensula.e = 8 («dis — pletina A36»)'],
+  [/^FIJO · Travesaño frontal del tensor/, 'Tubo estructural 40×40×3 de acero A36 (S275JR)',
+    'params_tensor2 SOPORTE.trav («tubo estructural 40×40×3») + SOPORTE_CALC.fyMPa 250 = A36'],
+  // --- bastidor PG40 (adapt/params_pg40.mjs) --------------------------------
+  [/40×40 ranura 10/, `Perfil extruido de aluminio ${PG40_PERFIL.aleacion} 40×40 ranura 10`
+    + ' — TEMPLE NO DECLARADO (T5 y T6 no tienen el mismo Rp0,2: 130 vs 170 MPa)',
+    'params_pg40 PERFIL.aleacion (web ALU-001 / MAT-6063-01)'],
+  [/^PG40 · Guía UHMW/, PG40_GUIA.material, 'params_pg40 GUIA.material (web UHMW-001)'],
+  [/^PG40 · (Alargue lateral|Cubrejunta|Cartela|Ménsula alma|Escuadra )/,
+    'Acero A36 (S275JR) cortado por láser', 'params_pg40 ALARGUE.material'],
+];
+
+// --- LO QUE NINGÚN MÓDULO DECLARA -------------------------------------------
+// Regla de oro nº 1: no se inventa. Estas familias se quedan SIN material y con
+// dueño, igual que las dispensas de §S. La compuerta exige que la cuenta sea
+// EXACTAMENTE ésta: si aparece una pieza nueva sin material, no cabe en ninguna
+// línea y §F para el generador. Y si un módulo declara por fin el suyo, la
+// cuenta baja y §F también para, pidiendo borrar la línea que sobra — una
+// dispensa caducada es tan mala como una que falta.
+const SIN_MATERIAL_SC = [
+  {
+    id: 'MAT-01', rx: /^FIJO · Volante de horquilla guia_/, esperadas: 10,
+    dueño: 'adapt/mod_calles.mjs (pieza medida del cliente)',
+    motivo: 'volante del cliente REUBICADO: del STEP salen el Ø y la cara útil, no el material. '
+      + 'Hay que preguntárselo al cliente o medirlo en planta; escribir un acero aquí sería '
+      + 'inventar la procedencia de una pieza que no hemos fabricado.',
+  },
+  {
+    id: 'MAT-02', rx: /^FIJO · Polea tensora POL-CON-TEN/, esperadas: 5,
+    dueño: 'adapt/mod_tensor2.mjs (pieza medida del cliente)',
+    motivo: 'misma razón que MAT-01: es la tensora del cliente reutilizada (step §4.5).',
+  },
+  {
+    id: 'MAT-03', rx: /· (tapa-soporte|casquillo) Ø/, esperadas: 20,
+    dueño: 'adapt/params_tambores.mjs · adapt/mod_tambores.mjs',
+    motivo: 'el módulo SÍ declara el material del tubo, del eje y de la pletina de soporte de '
+      + 'estos mismos rodillos, pero no el de sus 10 tapas-soporte ni el de sus 10 casquillos. '
+      + 'Son piezas de torno con asiento de rodamiento y prensado H7/r6: el plano no sale sin '
+      + 'material. Falta declararlo en params_tambores (CONDUCIDO.tapa y RETORNOS.tapa).',
+  },
+  {
+    id: 'MAT-04', rx: /^FIJO · (Eje de polea tensora|Bulón del lóbulo|Separador Ø38×)/, esperadas: 14,
+    dueño: 'adapt/params_tensor2.mjs',
+    motivo: 'PIV.separador, POL.eje y SOPORTE.bulonRotula declaran cotas pero no material, y a '
+      + 'diferencia del eje pivote (PIV.material = «C45 rectificado h7») o del bulón trasero '
+      + '(«C45 (1.0503) rectificado h9 · web MAT-C45-01») aquí no hay nada que leer. Los tres van '
+      + 'rectificados y con gargantas de anillo: el grado importa.',
+  },
+  {
+    id: 'MAT-05', rx: /^FIJO · Casquillo separador Ø\d+×[\d.]+ guarda /, esperadas: 6,
+    dueño: 'adapt/mod_guardas.mjs',
+    motivo: 'los 6 casquillos que salvan el gap guarda↔chapón. Estaban DESAPARECIENDO del '
+      + 'ensamble —se los llevaba la expresión ancha `Casquillo separador` del filtro de la '
+      + 'percha— mientras sus 6 pernos M8×25/M8×35 seguían dentro atravesando el hueco vacío. '
+      + 'Recuperados; ahora falta su material: ni mod_guardas ni el casquillo de escote de la '
+      + 'percha del que copia el patrón declaran ninguno.',
+  },
+];
+
+// --- JUNTAS SOLDADAS: cuál es el espesor que manda ---------------------------
+// El cateto del filete lo limita la chapa MÁS FINA de la junta, y en el sorter
+// ésa casi nunca es la de la propia pieza: una tapa torneada de 12 mm soldada a
+// un tubo de 3.2 se suelda con el cateto del TUBO. `tolerancias.cordonDe` ya
+// tiene el mecanismo para decirlo (`soldaduraEspesorMin`); lo que falta es la
+// cota, y cada una sale del módulo que construye la otra mitad de la junta.
+// Ninguna es un número elegido aquí.
+const SOLDADAS_SC = [
+  {
+    id: 'SLD-01', rx: /^FIJO · Placa base de puente/, esperadas: 10, e: 6,
+    junta: 'placa base 6 mm ↔ pletina del puente 30×28 — la fina es la placa',
+    fuente: 'espesor de la propia placa (nombre 64×28×6)',
+  },
+  {
+    id: 'SLD-02', rx: /^FIJO · Base de guía (norte|sur) 3\/16"/, esperadas: 2, e: null,
+    junta: 'alma vertical ↔ base, las dos de 3/16"',
+    fuente: 'params_estaciones GUIAS.base.t — el propio `espesorLocal` lo lee del «3/16"» del nombre',
+  },
+  {
+    id: 'SLD-03', rx: /^FIJO · (Brazo tensor e=|Cubo del brazo)/, esperadas: 15, e: 6,
+    junta: 'las 2 pletinas del brazo (e=8) ↔ cubo Ø50/Ø38 — la fina es la PARED DEL CUBO, '
+      + '(50−38)/2 = 6, no la pletina',
+    fuente: 'params_tensor2 PIV.cubo {de:50, bore:38} — calc de la pared',
+  },
+  {
+    id: 'SLD-04', rx: /^FIJO · Placa de extremo del travesaño frontal/, esperadas: 2, e: 3,
+    junta: 'placa de extremo (e=8) ↔ travesaño 40×40×3 — la fina es la pared del tubo',
+    fuente: 'params_tensor2 SOPORTE.trav.esp = 3',
+  },
+  {
+    id: 'SLD-05', rx: /^TAMBOR · tapa soldada/, esperadas: 2, e: null,
+    junta: 'tapa torneada e=12 ↔ tubo Ø88.9×3.2 y ↔ eje Ø35 — la fina es la PARED DEL TUBO',
+    fuente: 'params_tambores TAMBOR.tubo.e (pared del tubo)',
+    // La cota se lee del módulo en tiempo de ejecución (abajo): así, si el tubo
+    // cambia de pared, el cordón cambia con él y no se queda un 3.2 escrito.
+    // Si el módulo dejara de publicarla, `eDe` devuelve null y `espesorLocal`
+    // leería el «e=12» del NOMBRE, que es el de la TAPA y no el de la junta:
+    // por eso la compuerta comprueba abajo que la cota siga saliendo del módulo.
+    eDe: () => TAMB_P?.tubo?.e ?? null,
+    declara: 'params_tambores describe además, en el texto de `material` de la tapa, «cordón de '
+      + 'rincón 4 mm» al tubo y «2 cordones de 5 mm» al eje. Se conserva esa declaración: el '
+      + 'cateto de 4 sobre una pared de 3.2 es mayor que el espesor y hay que revisarlo con el '
+      + 'proceso (riesgo de perforar el tubo), pero es lo que el módulo dice y no se borra.',
+  },
+  {
+    id: 'SLD-06', rx: /^PG40 · Ménsula alma↔travesaño/, esperadas: 4, e: PG40_ALARGUE.e,
+    junta: 'ménsula ↔ alma del alargue, solape de dos pletinas del mismo espesor',
+    fuente: 'params_pg40 ALARGUE.e',
+    // Aquí el módulo NO se limita a decir que va soldada: declara el cordón
+    // entero. Manda él, no el criterio por defecto — un amarre que lleva el peso
+    // del NBT90 al bastidor se suelda continuo, y el 25/50 de `cordonDe` es la
+    // regla de la chapa fina que no tiene que aguantar nada.
+    disposicion: PG40_ALARGUE.mensulaCordon,
+    declara: 'params_pg40 ALARGUE.mensulaCordon declara el cordón COMPLETO y prevalece sobre el '
+      + 'discontinuo 25/50 por defecto: es el amarre que lleva la carga del NBT90 al bastidor.',
+  },
+];
+/** Toda pieza propia que DIGA que va soldada, la diga donde la diga. La usa la
+ *  compuerta para comprobar que la tabla de arriba no se ha dejado ninguna. */
+const DICE_SOLDADA = (p) => /soldad|suelda|suelde|soldar|cord[óo]n|weld/i
+  .test([p.name, p.nota, p.material, p.ajusteMontaje, p.catalogo].filter(Boolean).join(' § '));
+
+// --- LA PASADA ---------------------------------------------------------------
+const FAB = (() => {
+  const nbtEmbebido = E.parts.filter((p) => /^NBT90 · /.test(p.name));
+  // COMPROBACIÓN, no suposición: ¿el NBT90 embebido trae ya sus metadatos?
+  const nbtConTol = nbtEmbebido.filter((p) => p.tol).length;
+  const nbtSoldadas = nbtEmbebido.filter((p) => p.union || p.weldment || /SOLDADA/.test(p.name));
+  const nbtConCordon = nbtSoldadas.filter((p) => p.soldadura).length;
+  const nbtCompradas = nbtEmbebido.filter((p) => !!(p.hardware || p.componente) && !p.fabricada);
+  const nbtConNorma = nbtCompradas.filter((p) => !esGenerica(p.norma)).length;
+  const nbtCompleto = nbtConTol === nbtEmbebido.length
+    && nbtConCordon === nbtSoldadas.length && nbtConNorma === nbtCompradas.length;
+
+  // 1) designación de las compradas. `normalizar` respeta la designación
+  //    específica que ya traiga el módulo (un SMC CD85N25-80-B no se pisa) y
+  //    sólo denuncia las que llegan con cadena de relleno o sin nada.
+  const norm = normalizar(E.parts, { comprada: compradaSC });
+
+  const propias = E.parts.filter((p) => !p.contexto);
+  const fabricadas = [], compradas = [], sinMaterial = [], soldadas = [], juntasSinCota = [];
+  const materialFuentes = new Map();
+
+  for (const p of E.parts) {
+    // contexto del CLIENTE: cajas medidas, ni se fabrican ni se compran aquí
+    if (p.contexto && !/^NBT90 · /.test(p.name)) continue;
+    const delNbt = /^NBT90 · /.test(p.name);
+    // El NBT90 embebido llega hecho. Sólo se le RELLENA lo que falte —nunca se
+    // le pisa nada—, para que un NBT90 futuro sin metadatos no deje al sorter
+    // con un agujero en el despiece.
+    const comprada = compradaSC(p);
+    if (!p.tol) {
+      const cl = claseGeneralDe(p.name, {});   // el `{}` es el del NBT90 y por lo mismo:
+      // la tolerancia de la pieza SUELTA no es la del conjunto soldado, y las dos hacen falta
+      // en el plano; pasando la pieza, `union`/`weldment` se llevarían la primera por delante.
+      p.tol = { pieza: comprada ? null : cl.clase, norma: comprada ? null : cl.titulo };
+      if (p.union || p.weldment) p.tol.conjunto = NORMA.soldadura.clase;
+      // LOS AJUSTES ISO 286 DE `tolerancias.AJUSTES` SON DEL NBT90 Y SÓLO DEL
+      // NBT90. Se aplican por nombre, y aplicados a otro ensamble aciertan por
+      // casualidad o mienten: se probó, y en el sorter pegaban el AJ-12
+      // («taladro de paso de la tornillería de 3/8-16») a las 219 piezas
+      // fabricadas —su patrón de pieza es `/./`, porque en la transferencia
+      // TODAS las uniones atornilladas son de 3/8-16 y aquí son M6, M8, M10 y
+      // M12— y el AJ-07 («casquillo separador Ø13,0 H11 sobre eje Ø12,70») a los
+      // 6 casquillos de guarda, que son Ø16 con taladro de 8,6. Un ajuste falso
+      // en un plano es peor que ninguno: se mecaniza.
+      // Los ajustes propios del sorter son hallazgo APARTE y siguen abiertos
+      // (REVISION_TALLER_PIEZAS §B5): sus módulos declaran hoy `ajuste` y
+      // `ajusteMontaje` en texto libre, y ponerles designación ISO 286 es
+      // trabajo de esos módulos, no de esta pasada.
+      const aj = comprada || !delNbt ? [] : ajustesDe(p.name, p);
+      if (aj.length) {
+        p.tol.ajustes = aj.map((a) => ({
+          id: a.id, cota: a.cota, ajuste: a.ajuste, criterio: a.criterio, fuente: a.fuente,
+          ...(a.juegoDiametralMm ? { juegoDiametralMm: a.juegoDiametralMm } : {}),
+          ...(a.aviso ? { aviso: a.aviso } : {}),
+        }));
+      }
+    }
+    // Cordón de las piezas del NBT90 que se declaren soldadas y llegaran sin él.
+    // Hoy no ocurre —llegan las 23 con el suyo, y se cuenta arriba—, pero es la
+    // otra mitad de «compruébalo, no lo supongas»: si un día llegan sin cordón,
+    // el sorter no emite un despiece con la junta a medias.
+    if (delNbt) {
+      if (!p.soldadura && (p.weldment || /soldad/i.test(p.union || '') || /SOLDADA/.test(p.name))) {
+        const c = cordonDe(p);
+        if (c) p.soldadura = { ...c, rellenadoPor: 'gen_sorter_co §F (el NBT90 llegó sin él)' };
+      }
+      continue;                                 // lo suyo ya está; lo de abajo es del sorter
+    }
+
+    // 2) cordón de las soldadas del sorter
+    const sld = SOLDADAS_SC.find((s) => s.rx.test(p.name));
+    if (sld) {
+      // Las entradas con `eDe` leen la cota del módulo dueño en cada pasada. Si
+      // el módulo deja de publicarla y devuelve null, NO se cae al espesor que
+      // haya en el nombre —que es el de la pieza, no el de la junta—: se anota y
+      // la compuerta §F2c lo denuncia. Perder la cota en silencio soldaría una
+      // tapa de 12 con el cateto de 12 sobre una pared de 3.2.
+      const eJunta = sld.eDe ? sld.eDe() : sld.e;
+      if (sld.eDe && !eJunta) juntasSinCota.push(`${p.name} — ${sld.fuente}`);
+      if (eJunta) p.soldaduraEspesorMin = eJunta;
+      const c = cordonDe(p);
+      if (c) {
+        p.soldadura = { ...c, junta: sld.junta, fuenteDelEspesor: sld.fuente,
+          // Si el módulo dueño declara la disposición del cordón, MANDA ÉL: el
+          // 25/50 de `cordonDe` es el criterio de la chapa fina que sólo tiene
+          // que no alabearse, y no todas las juntas del sorter son ésa.
+          ...(sld.disposicion ? { disposicion: sld.disposicion, disposicionFuente: sld.fuente } : {}),
+          ...(sld.declara ? { declaraElModulo: sld.declara } : {}) };
+        if (!p.tol.conjunto) p.tol.conjunto = NORMA.soldadura.clase;
+      }
+      soldadas.push(p);
+    }
+
+    // 3) material de las fabricadas
+    if (!comprada) {
+      fabricadas.push(p);
+      if (!p.material) {
+        if (p.chapa?.material) {
+          p.material = `Chapa de ${p.chapa.material}, e=${p.chapa.t} mm`;
+          p.material_fuente = 'campo `chapa` de la propia pieza';
+        } else {
+          const h = MATERIAL_SC.find(([rx]) => rx.test(p.name));
+          if (h) { p.material = h[1]; p.material_fuente = h[2]; }
+        }
+      }
+      if (p.material) {
+        materialFuentes.set(p.material_fuente ?? 'declarado por su módulo en el campo `material`',
+          (materialFuentes.get(p.material_fuente ?? 'declarado por su módulo en el campo `material`') ?? 0) + 1);
+      } else sinMaterial.push(p);
+    } else compradas.push(p);
+  }
+
+  // Dispensas de material: cuántas caen en cada línea declarada. Se serializa la
+  // expresión como TEXTO —un RegExp se convierte en `{}` al pasar por JSON y el
+  // documento perdería justo el dato que hace auditable la dispensa: a quién
+  // alcanza.
+  const dispensas = SIN_MATERIAL_SC.map((d) => ({
+    id: d.id, esperadas: d.esperadas, dueño: d.dueño, motivo: d.motivo,
+    expresion: String(d.rx),
+    reales: sinMaterial.filter((p) => d.rx.test(p.name)).length,
+  }));
+  const sinMaterialNiDispensa = sinMaterial.filter((p) => !SIN_MATERIAL_SC.some((d) => d.rx.test(p.name)));
+
+  return {
+    propias: propias.length, fabricadas: fabricadas.length, compradas: compradas.length,
+    conTolerancia: fabricadas.filter((p) => p.tol?.pieza).length,
+    conMaterial: fabricadas.filter((p) => p.material).length,
+    soldadas: soldadas.length, conCordon: soldadas.filter((p) => p.soldadura).length,
+    designadas: norm.designadas, deModulo: norm.deModulo.length,
+    sinDesignar: norm.sinDesignar, avisosDesignacion: norm.avisos.length,
+    genericas: compradas.filter((p) => p.norma && esGenerica(p.norma)).map((p) => p.name),
+    sinNorma: compradas.filter((p) => !p.norma).map((p) => p.name),
+    diceSoldadaSinTabla: propias.filter((p) => DICE_SOLDADA(p) && !SOLDADAS_SC.some((s) => s.rx.test(p.name)))
+      .map((p) => p.name),
+    juntasSinCota,
+    dispensas, sinMaterialNiDispensa: sinMaterialNiDispensa.map((p) => p.name),
+    materialFuentes: Object.fromEntries(materialFuentes),
+    nbt90: { piezas: nbtEmbebido.length, conTol: nbtConTol, soldadas: nbtSoldadas.length,
+      conCordon: nbtConCordon, compradas: nbtCompradas.length, designadas: nbtConNorma,
+      llegaCompleto: nbtCompleto },
+    huerfanas: PERCHA_HUERFANA.map((h) => ({ id: h.id, esperadas: h.esperadas, retiradas: h.retiradas,
+      supervivientes: E.parts.filter((p) => h.rx.test(p.name)).length,
+      expresion: String(h.rx), motivo: h.motivo })),
+    juntas: SOLDADAS_SC.map((s) => ({ id: s.id, esperadas: s.esperadas, expresion: String(s.rx),
+      espesorJuntaMm: s.eDe ? s.eDe() : s.e, junta: s.junta, fuente: s.fuente,
+      reales: propias.filter((p) => s.rx.test(p.name)).length })),
+  };
+})();
+
+// ── banco de FABRICACIÓN §F ────────────────────────────────────────────────
+// Seis casos, uno por comprobación, aplicados DESPUÉS de la pasada porque es lo
+// que la pasada escribe lo que hay que romper. Cada uno lleva su propia
+// comprobación de banco vivo al final del bloque, igual que la cadena de arriba:
+// un caso que no inyecta nada no demuestra nada.
+//   tolerancia  → §F1 · una pieza fabricada se queda sin clase de tolerancia
+//   cordon      → §F2 · una pieza soldada se queda sin cordón
+//   material    → §F3 · una pieza fabricada se queda sin material
+//   designacion → §F4 · una comprada se queda sin designación de ningún tipo
+//   generica    → §F5 · a una comprada le vuelve la cadena «ASME B18.2.1 / DIN 933»
+//   ferreteria  → §F7 · vuelve uno de los 3 M8×16 que flotaban en el aire
+const FAB_ANTES = JSON.stringify(E.parts);
+if (ROMPE === 'tolerancia') {
+  for (const p of E.parts) if (/^FIJO · Brazo tensor e=/.test(p.name)) delete p.tol;
+} else if (ROMPE === 'cordon') {
+  for (const p of E.parts) if (/^TAMBOR · tapa soldada/.test(p.name)) delete p.soldadura;
+} else if (ROMPE === 'material') {
+  for (const p of E.parts) if (/^PG40 · Guía UHMW/.test(p.name)) delete p.material;
+} else if (ROMPE === 'designacion') {
+  for (const p of E.parts) if (/^FIJO · Cilindro SMC CD85N25-80/.test(p.name)) delete p.norma;
+} else if (ROMPE === 'generica') {
+  for (const p of E.parts) {
+    if (/^PG40 · Perno hex 3\/8-16 × 25 · alargue/.test(p.name)) p.norma = 'ASME B18.2.1 / DIN 933';
+  }
+} else if (ROMPE === 'ferreteria') {
+  // clon exacto de uno de los 3 pernos «lengüeta» que retira §B9, con su
+  // designación ya puesta para que lo ÚNICO que pueda cazarlo sea §F7
+  E.addPart('FIJO · Perno hex M8×16 lengüeta (−X, Y=-802)', '#d5b46a', [15.39, -802, -74.2], [
+    { id: 'fh1', name: 'Cabeza hex e/c 13', shape: 'sketch', op: 'union', at: [0, 0, 0], dir: [0, 0, -1],
+      params: { pts: [[7.51, 0], [3.75, 6.5], [-3.75, 6.5], [-7.51, 0], [-3.75, -6.5], [3.75, -6.5]], h: 5.3, u: [0, 1, 0] } },
+    { id: 'fh2', name: 'Vástago Ø8×12', shape: 'cylinder', op: 'union', at: [0, 0, -5.3], dir: [0, 0, -1],
+      params: { dia: 8, h: 12 } },
+  ], { hardware: true, tol: { pieza: null, norma: null },
+    norma: 'ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M8, rosca total' });
+}
+if (ROMPE_FAB.has(ROMPE) && JSON.stringify(E.parts) === FAB_ANTES) {
+  console.error(`BANCO MUERTO: TEST_ROMPE=${ROMPE} no ha tocado NINGUNA pieza tras la pasada §F.`);
+  console.error('  La pieza sobre la que inyecta ya no existe o ya no lleva el campo que borra:');
+  console.error('  re-apúntalo a la pieza viva equivalente, o retíralo con su comprobación.');
   process.exit(1);
 }
 
@@ -2210,10 +2728,347 @@ function verify() {
   m.estructural = { comprobaciones: R_S, abiertos: abiertosSC, datos: SC, limites: LIMS };
   // ▲▲▲ ---------------------------------------- ▲▲▲
 
+  // ▼▼▼ F · FABRICACIÓN — que el plano se pueda fabricar ▼▼▼
+  // Siete comprobaciones, y las siete MUERDEN: cada una tiene su caso de banco
+  // (TEST_ROMPE=tolerancia|cordon|material|designacion|generica|ferreteria). Es la
+  // compuerta que faltaba, y su ausencia es exactamente lo que dejó salir 210
+  // piezas sin clase de tolerancia, 156 sin material, ninguna soldada con cordón
+  // y 265 con dos normas incompatibles estampadas a la vez.
+  //
+  // TODO se recuenta AQUÍ sobre `E.parts` tal y como están AHORA, no se lee del
+  // recuento que dejó la pasada. No es duplicar trabajo: si la compuerta mirase
+  // la foto que sacó la pasada, cualquier cosa que tocara las piezas después
+  // —empezando por el propio banco de defectos— pasaría invisible, y una
+  // compuerta que no ve el defecto que le inyectan no vigila nada. Se descubrió
+  // así: cuatro de los seis casos de banco salían verdes.
+  {
+    const muestra = (l, n = 6) => l.slice(0, n).map((s) => `«${s}»`).join(', ')
+      + (l.length > n ? ` … y ${l.length - n} más` : '');
+    const fabricadasP = nuevas.filter((p) => !compradaSC(p));
+    const compradasP = nuevas.filter((p) => compradaSC(p));
+
+    // §F1 · ninguna pieza propia FABRICADA sin clase de tolerancia general.
+    const sinTol = fabricadasP.filter((p) => !p.tol?.pieza).map((p) => p.name);
+    if (sinTol.length) {
+      e.push(`FABRICACIÓN §F1 · ${sinTol.length} pieza(s) propia(s) FABRICADA(s) sin clase de `
+        + `tolerancia general: ${muestra(sinTol)}. Un plano sin tolerancia no se fabrica — el `
+        + `taller no sabe si una cota de 648 admite ±0.8 o ±3. La clase la da `
+        + `tolerancias.claseGeneralDe() por lo que la pieza ES; si una familia nueva no la `
+        + `reconoce, se AÑADE allí (y no cambia lo que el NBT90 ya lee).`);
+    }
+
+    // §F2 · ninguna pieza SOLDADA sin cordón declarado.
+    const soldadasP = nuevas.filter((p) => SOLDADAS_SC.some((s) => s.rx.test(p.name)));
+    const sinCordon = soldadasP.filter((p) => !p.soldadura).map((p) => p.name);
+    if (sinCordon.length) {
+      e.push(`FABRICACIÓN §F2 · ${sinCordon.length} pieza(s) soldada(s) sin cordón: `
+        + `${muestra(sinCordon)}. Falta \`soldadura: { garganta, disposición, proceso, norma }\`, `
+        + `que calcula tolerancias.cordonDe() con el espesor de la chapa MÁS FINA de la junta. `
+        + `El encaje sitúa la pieza; el cordón la une, y sin él la junta queda a medias.`);
+    }
+    // …y la tabla de juntas no puede dejarse ninguna fuera: si un módulo dice
+    // que una pieza va soldada y SOLDADAS_SC no la conoce, saldría sin cordón y
+    // sin que nadie lo notara. Ésta es la comprobación que impide ese silencio.
+    const diceSinTabla = nuevas
+      .filter((p) => DICE_SOLDADA(p) && !SOLDADAS_SC.some((s) => s.rx.test(p.name)))
+      .map((p) => p.name);
+    if (diceSinTabla.length) {
+      e.push(`FABRICACIÓN §F2b · ${diceSinTabla.length} pieza(s) DICEN que van `
+        + `soldadas (en su nombre, su nota o su material) y no están en SOLDADAS_SC, así que no `
+        + `reciben cordón: ${muestra(diceSinTabla)}. Añádelas a la tabla con el `
+        + `espesor de la junta y su fuente, o corrige la nota que dice que van soldadas.`);
+    }
+    // …y cada expresión de la tabla tiene que alcanzar EXACTAMENTE a las suyas.
+    // Una expresión ancha aquí no deja un hueco: pone un cordón donde no hay
+    // junta, y eso llega al taller como una instrucción de soldar algo que va
+    // atornillado. Se cuenta, igual que en §F7b y por el mismo motivo.
+    for (const s of SOLDADAS_SC) {
+      const reales = nuevas.filter((p) => s.rx.test(p.name)).length;
+      if (reales !== s.esperadas) {
+        e.push(`FABRICACIÓN §F2d · la junta ${s.id} declara ${s.esperadas} pieza(s) y su expresión `
+          + `alcanza a ${reales}. ${reales > s.esperadas
+            ? 'Está poniendo cordón a piezas que no son de esa junta — ancla más la expresión.'
+            : 'Han desaparecido piezas de la junta, o cambiaron de nombre y ya no las alcanza: '
+              + 'entonces se quedarían sin cordón sin que nadie lo notara.'} `
+          + `Junta: ${s.junta}.`);
+      }
+    }
+    // …y la cota de la junta tiene que seguir saliendo del módulo dueño. Si el
+    // parámetro desaparece o se renombra, el cordón se calcularía con el espesor
+    // que haya en el NOMBRE de la pieza —el de la pieza, no el de la junta— y
+    // saldría una garganta mayor que la chapa a la que se suelda, sin ruido.
+    if (FAB.juntasSinCota.length) {
+      e.push(`FABRICACIÓN §F2c · ${FAB.juntasSinCota.length} junta(s) soldada(s) han perdido la `
+        + `cota de espesor que publicaba su módulo: ${muestra(FAB.juntasSinCota)}. El parámetro `
+        + `citado ya no existe o cambió de nombre. Reapunta la fuente en SOLDADAS_SC: sin ella el `
+        + `cateto saldría del nombre de la pieza, que es el espesor equivocado.`);
+    }
+
+    // §F3 · ninguna pieza propia FABRICADA sin material.
+    const sinMat = fabricadasP.filter((p) => !p.material);
+    const sinMatNiDispensa = sinMat.filter((p) => !SIN_MATERIAL_SC.some((d) => d.rx.test(p.name)));
+    if (sinMatNiDispensa.length) {
+      e.push(`FABRICACIÓN §F3 · ${sinMatNiDispensa.length} pieza(s) propia(s) `
+        + `FABRICADA(s) sin material y sin dispensa: ${muestra(sinMatNiDispensa.map((p) => p.name))}. `
+        + `El material se LEE de donde ya esté declarado (campo, chapa, catálogo, parámetro del `
+        + `módulo o nombre) y se añade su línea a MATERIAL_SC citando la fuente; si de verdad no `
+        + `lo declara nadie, va a SIN_MATERIAL_SC con dueño y motivo. Lo que no se puede es `
+        + `inventarlo ni dejarlo en blanco.`);
+    }
+    // Las dispensas se cuentan EXACTAS en los dos sentidos: si crecen, hay una
+    // pieza nueva sin material escondida detrás de una línea vieja; si menguan,
+    // el módulo ya declaró el material y la dispensa está caducada. Las dos
+    // cosas se corrigen, y ninguna se descubre sola.
+    for (const d of SIN_MATERIAL_SC) {
+      const reales = sinMat.filter((p) => d.rx.test(p.name)).length;
+      if (reales !== d.esperadas) {
+        e.push(`FABRICACIÓN §F3b · la dispensa de material ${d.id} declara ${d.esperadas} `
+          + `pieza(s) y hay ${reales}. ${reales > d.esperadas
+            ? 'Han aparecido piezas nuevas sin material que se están colando por una línea vieja: '
+              + 'declara la cantidad real o dales su material.'
+            : `Sobran ${d.esperadas - reales}: el módulo dueño (${d.dueño}) ya declaró el `
+              + 'material, así que la dispensa está caducada y hay que ajustarla o borrarla.'}`);
+      }
+    }
+
+    // §F4 · ninguna pieza COMPRADA sin designación de ningún tipo, y §F5 ninguna
+    // con designación GENÉRICA (el defecto de §A1: dos normas incompatibles a la
+    // vez). Se recuentan sobre la `norma` que las piezas llevan AHORA, que es lo
+    // que va a ir al documento y a la lista de compra; `FAB.sinDesignar` queda
+    // como diagnóstico de cuáles no supo designar `normalizado.designar()`.
+    const sinNorma = compradasP.filter((p) => !p.norma).map((p) => p.name);
+    if (sinNorma.length) {
+      e.push(`FABRICACIÓN §F4 · ${sinNorma.length} pieza(s) comprada(s) sin designar: `
+        + `${muestra(sinNorma)}. No se puede pedir a un proveedor una descripción: hay que `
+        + `añadir su caso a normalizado.designar() con la norma o la referencia de catálogo.`);
+    }
+    const genericasP = compradasP.filter((p) => p.norma && esGenerica(p.norma)).map((p) => p.name);
+    if (genericasP.length) {
+      e.push(`FABRICACIÓN §F5 · ${genericasP.length} pieza(s) comprada(s) con designación `
+        + `genérica o de relleno: ${muestra(genericasP)}. Cadenas como «ASME B18.2.1 / DIN 933» `
+        + `llevan una norma de PULGADAS y otra MÉTRICA a la vez y no designan nada: el mismo `
+        + `estampado le sale a un M8 que a un 3/8-16. «PENDIENTE» tampoco es una designación.`);
+    }
+
+    // §F6 · el NBT90 embebido tiene que llegar con sus metadatos puestos. No se
+    // supone: se cuenta. Si un día llega sin ellos, la pasada §F se los pone —y
+    // esto lo deja DICHO, para que no pase inadvertido que el sorter está
+    // supliendo a la transferencia.
+    if (!FAB.nbt90.llegaCompleto) {
+      avisosDeclarados.push(`FABRICACIÓN: el NBT90 embebido NO llega completo `
+        + `(${FAB.nbt90.conTol}/${FAB.nbt90.piezas} con tolerancia, `
+        + `${FAB.nbt90.conCordon}/${FAB.nbt90.soldadas} soldadas con cordón, `
+        + `${FAB.nbt90.designadas}/${FAB.nbt90.compradas} compradas designadas). La pasada §F le `
+        + `pone la TOLERANCIA y el CORDÓN que le falten, pero NO le toca la designación: `
+        + `redesignar aquí las compras de la transferencia sería crear una segunda verdad. `
+        + `El sitio donde arreglarlo es ../nbt90/gen_nbt90.mjs; aquí sólo se está tapando lo que `
+        + `se puede tapar sin mentir.`);
+    }
+
+    // §F7 · la ferretería huérfana de la percha tiene que estar FUERA, y cada
+    // expresión tiene que llevarse exactamente lo suyo. Las dos mitades importan:
+    // que no quede ninguna, y que ninguna expresión se lleve de más (que es como
+    // se perdieron 10 rodamientos del tensor en el commit 94f7271).
+    if (PG40F.desactivaPercha) {
+      for (const h of PERCHA_HUERFANA) {
+        const supervivientes = partes.filter((p) => h.rx.test(p.name)).length;
+        if (supervivientes) {
+          e.push(`FABRICACIÓN §F7 · ${supervivientes} elemento(s) huérfano(s) ${h.id} siguen `
+            + `en el ensamble con la percha desactivada. ${h.motivo} Se compran y no se pueden `
+            + `montar: retíralos con la percha, por bandera y no borrando código.`);
+        } else if (h.retiradas !== h.esperadas) {
+          e.push(`FABRICACIÓN §F7b · la expresión ${h.id} se ha llevado ${h.retiradas} pieza(s) y `
+            + `la revisión contaba ${h.esperadas}. ${h.retiradas > h.esperadas
+              ? 'Está mordiendo piezas que no son suyas — ancla más la expresión y vuelve a contar.'
+              : 'Se está dejando huérfanos dentro, o alguien ya los retiró por otro sitio.'} `
+            + `Contar antes y después no es ceremonia: una regex ancha ya se llevó 10 rodamientos `
+            + `que no tocaba (commit 94f7271).`);
+        }
+      }
+    }
+  }
+  // ▲▲▲ ---------------------------------------- ▲▲▲
+
+  // ▼▼▼ §U · TORNILLERÍA DECLARADA ⇒ TALADRO EMITIDO, EN LAS DOS PIEZAS ▼▼▼
+  // ---------------------------------------------------------------------------
+  // POR QUÉ EXISTE. La revisión de fabricación del 2026-08-03 encontró CUATRO
+  // uniones estructurales cuya tornillería sólo existía en la prosa de una nota:
+  //   · 20 escuadras larguero↔travesaño: «4 M8 por escuadra» = 80 tornillos, 0 taladros;
+  //   · 6 cubrejuntas del alargue: «4 M10 al alma y 4 al cabezal» = 32, 0 taladros
+  //     (ni en el cubrejunta, ni en el alma, ni en el cabezal);
+  //   · 4 ménsulas alma↔travesaño: 0 taladros y 0 cordones;
+  //   · 2 placas de extremo del travesaño frontal: sus 2 M8 pedían al cabezal
+  //     unos Ø9 que el cabezal no tenía.
+  // Por ahí pasa la reacción del tambor motriz y el tiro de los 5 cilindros. La
+  // prosa no se puede comprobar, así que ahora la unión se DECLARA en un campo
+  // (`uniones: [{ rosca, n, pasante, a }]`) y esta compuerta exige que:
+  //   (1) la pieza que la declara tenga al menos `n` taladros de ese Ø;
+  //   (2) si `a` nombra a otra pieza FABRICADA del modelo, esa pieza exista y
+  //       tenga entre todas sus ocurrencias al menos `n` taladros del mismo Ø.
+  //       Cuando `a` es una ranura de perfil, una tuerca martillo o una pieza
+  //       del cliente, no hay contrapieza taladrada y (2) no aplica.
+  // Y como red de seguridad, (3): ninguna pieza propia puede DECIR en su nota
+  // que lleva tornillos y no traer ni `uniones` ni un solo taladro.
+  {
+    const TOL_D = 0.2;                       // mm de tolerancia al comparar Ø
+    const taladros = (p, d) => p.features.filter(f => f.shape === 'hole'
+      && Math.abs((f.params?.dia ?? -1) - d) <= TOL_D).length;
+    // `a` apunta a una pieza del modelo sólo si empieza por un prefijo de nombre
+    // de pieza propia («PG40 · …» / «FIJO · …»). Lo demás es ranura o cliente.
+    const esPieza = (a) => typeof a === 'string' && /^(PG40|FIJO|TAMBOR|RETORNO|CONDUCIDO) · /.test(a);
+    const conUniones = nuevas.filter(p => Array.isArray(p.uniones) && p.uniones.length);
+    const faltanPropios = [], faltanContra = [], sinContraparte = [];
+    for (const p of conUniones) {
+      for (const u of p.uniones) {
+        const n = u.n ?? 0, d = u.pasante;
+        if (!(n > 0) || !(d > 0)) continue;
+        const mios = taladros(p, d);
+        if (mios < n) {
+          faltanPropios.push(`«${p.name}» declara ${n} ${u.rosca} y tiene ${mios} taladro(s) Ø${d}`);
+        }
+        if (!esPieza(u.a)) continue;
+        // El Ø que hay que buscar en la CONTRAPIEZA no siempre es el pasante: si
+        // el tornillo va ROSCADO a la otra chapa (porque su cara exterior no
+        // tiene acceso para la tuerca), allí lo que hay es el fondo de rosca.
+        // Se declara con `enContra`.
+        const dC = u.enContra ?? d;
+        const contras = nuevas.filter(q => q !== p && q.name.startsWith(u.a));
+        if (!contras.length) {
+          sinContraparte.push(`«${p.name}» se atornilla a «${u.a}», que NO EXISTE en el ensamble`);
+          continue;
+        }
+        const enContra = contras.reduce((a2, q) => a2 + taladros(q, dC), 0);
+        if (enContra < n) {
+          faltanContra.push(`«${p.name}» declara ${n} ${u.rosca} a «${u.a}» y esa(s) `
+            + `${contras.length} pieza(s) sólo tienen ${enContra} taladro(s) Ø${dC}`);
+        }
+      }
+    }
+    // (3) red de seguridad sobre la PROSA: quien dice que lleva tornillos, los tiene
+    const DICE_TORNILLO = /\b(\d+)\s*(?:×\s*)?M(6|8|10|12)\b|\b(pernos?|tornillos?|tuercas? martillo|tuercas? T)\b/i;
+    // DISPENSAS DECLARADAS: promesas de tornillería que NO se pueden cerrar en
+    // esta pasada porque la pieza es de otro módulo y arreglarla es mover su
+    // geometría. Se dejan escritas con dueño y motivo, como las de §S, y la
+    // compuerta exige que la cuenta sea EXACTAMENTE ésta: si aparece una más,
+    // falla; si el dueño la arregla, falla pidiendo borrar la línea.
+    const PROMESAS_ABIERTAS = [
+      { id: 'TOR-01', rx: /^FIJO · Eje de polea tensora Ø20×70/, esperadas: 5,
+        dueño: 'adapt/mod_tensor2.mjs + adapt/params_tensor2.mjs',
+        motivo: 'hallazgo C4 de REVISION_TALLER_PIEZAS.md: la nota dice «se retiene con tornillos '
+          + 'de testa» y el sólido no tiene ni el taladro roscado en la testa ni la garganta '
+          + 'DIN 471-20 alternativa. Cerrarlo es decidir la retención axial del eje de la polea '
+          + 'tensora y modelarla — es del módulo del tensor, no de la revisión de fabricación.' },
+    ];
+    const mudasTodas = nuevas.filter(p => !p.hardware && !p.uniones && !p.sinTaladro
+      && DICE_TORNILLO.test([p.name, p.nota].filter(Boolean).join(' § '))
+      && !p.features.some(f => f.shape === 'hole'))
+      .map(p => p.name);
+    for (const pr of PROMESAS_ABIERTAS) {
+      const n = mudasTodas.filter(nm => pr.rx.test(nm)).length;
+      if (n === 0) {
+        e.push(`§U · la dispensa ${pr.id} ya no aplica: ninguna pieza la incumple. Bórrala de `
+          + 'PROMESAS_ABIERTAS — no se dejan dispensas caducadas.');
+      } else if (n !== pr.esperadas) {
+        e.push(`§U · la dispensa ${pr.id} cubría ${pr.esperadas} pieza(s) y ahora son ${n} `
+          + `(dueño: ${pr.dueño}). ${pr.motivo}`);
+      }
+    }
+    const mudas = mudasTodas.filter(nm => !PROMESAS_ABIERTAS.some(pr => pr.rx.test(nm)));
+    const U = { conUniones: conUniones.length,
+      dispensas: PROMESAS_ABIERTAS.map(pr => ({ id: pr.id, uds: pr.esperadas, dueño: pr.dueño, motivo: pr.motivo })),
+      sinTaladroDeclarado: nuevas.filter(p => p.sinTaladro).length,
+      declarados: conUniones.reduce((a2, p) => a2 + p.uniones.reduce((b2, u) => b2 + (u.n ?? 0), 0), 0),
+      faltanPropios, faltanContra, sinContraparte, mudas };
+    m.tornilleria = U;
+    if (faltanPropios.length) {
+      e.push(`§U · ${faltanPropios.length} unión(es) DECLARAN tornillería que la propia pieza no `
+        + `tiene taladrada: ${faltanPropios.slice(0, 4).join(' · ')}`
+        + `${faltanPropios.length > 4 ? ` … y ${faltanPropios.length - 4} más` : ''}. `
+        + 'Una nota que promete pernos y una chapa sin agujeros no es una unión: es un dibujo.');
+    }
+    if (sinContraparte.length) {
+      e.push(`§U · ${sinContraparte.length} unión(es) apuntan a una pieza que no está en el `
+        + `ensamble: ${sinContraparte.slice(0, 4).join(' · ')}. Corrige el nombre de \`a\` o emite la pieza.`);
+    }
+    if (faltanContra.length) {
+      e.push(`§U · ${faltanContra.length} unión(es) declaran taladros en la CONTRAPIEZA que la `
+        + `contrapieza no tiene: ${faltanContra.slice(0, 4).join(' · ')}`
+        + `${faltanContra.length > 4 ? ` … y ${faltanContra.length - 4} más` : ''}. `
+        + 'Un taladro sólo en una de las dos chapas no se puede montar (defecto A3/A5).');
+    }
+    if (mudas.length) {
+      e.push(`§U · ${mudas.length} pieza(s) propia(s) DICEN en su nombre o su nota que llevan `
+        + `tornillería y no traen ni el campo \`uniones\` ni un solo taladro: `
+        + `${mudas.slice(0, 6).map(s2 => `«${s2}»`).join(', ')}${mudas.length > 6 ? ` … y ${mudas.length - 6} más` : ''}. `
+        + 'Declara la unión (rosca, nº, Ø pasante y a qué va) o quita la promesa de la nota.');
+    }
+  }
+  // ▲▲▲ ------------------------------------------------------------------ ▲▲▲
+
+  // ▼▼▼ §V · NADA CUELGA DE UNA PIEZA QUE NO ESTÁ ▼▼▼
+  // ---------------------------------------------------------------------------
+  // POR QUÉ EXISTE. La bandera `desactivaPercha` retiró el «Travesaño percha
+  // 40×80» por nombre y dejó dentro TODO lo que se apoyaba encima: 10 placas
+  // base de puente, 5 puentes de calle, 5 regletas UHMW, 4 escuadras y 40
+  // tornillos — 19 piezas fabricadas flotando en el aire, y entre ellas la única
+  // calle portante que cruza la transferencia. El filtro por nombre no vio el
+  // racimo porque los nombres no decían «percha».
+  // Aquí el apoyo se DECLARA en dos formas y las dos se comprueban sobre la
+  // geometría emitida, no sobre la intención:
+  //   (1) campo `apoyaEn: '<prefijo de nombre>'` en la pieza que se apoya;
+  //   (2) tabla RACIMOS_SC, para las familias que ya se cayeron una vez.
+  // En ambos casos: el padre tiene que EXISTIR y tiene que TOCAR (holgura ≤ 3).
+  {
+    const RACIMOS_SC = [
+      { hijo: /^FIJO · Placa base de puente/, padre: 'PG40 · Travesaño de puente' },
+      { hijo: /^FIJO · Puente de calle — pletina/, padre: 'FIJO · Placa base de puente' },
+      { hijo: /^FIJO · Puente de calle — regleta/, padre: 'FIJO · Puente de calle — pletina' },
+      { hijo: /^PG40 · Escuadra travesaño de puente↔chapón/, padre: 'PG40 · Travesaño de puente' },
+      { hijo: /^FIJO · Perno hex M8×16 puente/, padre: 'FIJO · Placa base de puente' },
+    ];
+    const TOCA = 3;      // mm — holgura máxima para considerar que se apoya
+    const holgura = (a, b) => {
+      let peor = -Infinity;
+      for (let i = 0; i < 3; i++) peor = Math.max(peor, Math.max(a.lo[i] - b.hi[i], b.lo[i] - a.hi[i]));
+      return peor;
+    };
+    const paresDeclarados = [
+      ...nuevas.filter(p => typeof p.apoyaEn === 'string').map(p => ({ p, padre: p.apoyaEn, via: 'apoyaEn' })),
+      ...RACIMOS_SC.flatMap(r => partes.filter(p => !p.contexto && r.hijo.test(p.name))
+        .map(p => ({ p, padre: r.padre, via: 'RACIMOS_SC' }))),
+    ];
+    const huerfanas = [], despegadas = [];
+    for (const { p, padre, via } of paresDeclarados) {
+      const cands = partes.filter(q => q !== p && q.name.startsWith(padre));
+      if (!cands.length) {
+        huerfanas.push(`«${p.name}» se apoya en «${padre}» (${via}) y esa pieza NO EXISTE`);
+        continue;
+      }
+      const g = Math.min(...cands.map(q => holgura(bb.get(p), bb.get(q))));
+      if (g > TOCA) despegadas.push(`«${p.name}» ↔ «${padre}»: ${r2(g)} mm de aire (máx ${TOCA})`);
+    }
+    m.apoyos = { declarados: paresDeclarados.length, huerfanas, despegadas };
+    if (huerfanas.length) {
+      const fam = [...new Set(huerfanas.map(s => s.split('»')[0] + '»'))];
+      e.push(`§V · ${huerfanas.length} pieza(s) cuelgan de otra que NO ESTÁ EN EL ENSAMBLE: `
+        + `${huerfanas.slice(0, 3).join(' · ')}${huerfanas.length > 3 ? ` … y ${huerfanas.length - 3} más (${fam.length} familias)` : ''}. `
+        + 'O se devuelve el apoyo, o el racimo entero se retira con él: una bandera que borra una '
+        + 'pieza y deja lo que se apoyaba encima manda al taller piezas sin destino (defecto A6).');
+    }
+    if (despegadas.length) {
+      e.push(`§V · ${despegadas.length} pieza(s) declaran apoyarse en otra que EXISTE pero no la `
+        + `tocan: ${despegadas.slice(0, 4).join(' · ')}. Publica la cota de coronación del apoyo.`);
+    }
+  }
+  // ▲▲▲ ------------------------------------ ▲▲▲
+
   // --- métricas ------------------------------------------------------------
   return {
     errores: e,
+    tornilleria: m.tornilleria,
+    apoyos: m.apoyos,
     estructural: m.estructural,
+    fabricacion: FAB,
     pg40: m.pg40,
     // ▼▼▼ TAMBORES ▼▼▼
     tambores: {
@@ -2223,6 +3078,12 @@ function verify() {
       arrastre: TB.arrastre, ejes: TB.ejes, rodamientos: TB.rodamientos,
       holguras: TB.holguras, interfazPG40: TB.interfazPG40,
       compradas: TB.compradas, fabricadas: TB.fabricadas,
+      // Este objeto es un WHITELIST: lo que no se nombra aquí no llega al JSON
+      // ni, por tanto, al taller. `tracking` (corona del engomado + carrera de
+      // las colisas del conducido) y `pernosUcf` (salida de hilo perno a perno)
+      // se calculaban y se tiraban aquí mismo — el montador no veía con qué
+      // alinear la banda ni qué largo de perno pedir.
+      tracking: TB.tracking, pernosUcf: TB.pernosUcf,
       sustituye: 'transmisión T5 por calle (5 × polea 63T + bujes + chavetas + eje '
         + 'motriz común + UCFL + kit AT10 + LK30) y poleas de pozo V1…V4 e IDLER-ENS: '
         + 'las emiten todavía mod_calles/mod_estaciones y hay que retirarlas',
@@ -2268,6 +3129,7 @@ function verify() {
       ejePivote: m.tensor2.ejePivote,
       tension: m.tensor2.tension,
       soporte: m.tensor2.soporte,
+      compradas: m.tensor2.compradas,   // idem: se calculaba y no se publicaba
       ramal: m.ramal,
     },
     // ▲▲▲ ---------------------------------------- ▲▲▲
@@ -2288,6 +3150,40 @@ if (V.estructural?.comprobaciones?.length) {
     console.error(`      ${f.ok ? '·' : '✘'} ${f.id} ${f.titulo.slice(0, 62).padEnd(62)} `
       + `${String(f.valor).padStart(10)} ${f.unidad.padEnd(8)} lím ${String(f.limite).padStart(9)} `
       + `uso ${f.uso}${f.abierto ? `  ← ABIERTO (${f.dueño})` : ''}`);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// §F · el recuento de fabricación. Por la misma razón que la tabla de §S: se
+// imprime SIEMPRE y ANTES del veredicto. Si la compuerta para por otra cosa,
+// estos números tienen que poder leerse igual.
+// ---------------------------------------------------------------------------
+{
+  const F = V.fabricacion;
+  const pc = (a, b) => (b ? ` (${r2(100 * a / b)} %)` : '');
+  console.error(`   §F FABRICACIÓN: ${F.propias} piezas propias = ${F.fabricadas} fabricadas + `
+    + `${F.compradas} compradas`);
+  console.error(`      TOLERANCIA: ${F.conTolerancia}/${F.fabricadas}${pc(F.conTolerancia, F.fabricadas)}`
+    + ` con clase general (ISO 2768 / ISO 13920 / EN 755-9 / EN 10219-2 / ISO 3302-1)`);
+  console.error(`      MATERIAL:   ${F.conMaterial}/${F.fabricadas}${pc(F.conMaterial, F.fabricadas)}`
+    + ` — ${F.dispensas.reduce((a, d) => a + d.reales, 0)} sin declarar en ${F.dispensas.length} `
+    + `hallazgo(s) con dueño`);
+  console.error(`      CORDÓN:     ${F.conCordon}/${F.soldadas}${pc(F.conCordon, F.soldadas)}`
+    + ` de las piezas soldadas`);
+  console.error(`      DESIGNACIÓN:${String(F.designadas).padStart(4)}/${F.compradas}`
+    + `${pc(F.designadas, F.compradas)} compradas designadas (${F.designadas - F.deModulo} por `
+    + `normalizado.designar + ${F.deModulo} que ya traía su módulo) · ${F.genericas.length} `
+    + `genéricas · ${F.sinDesignar.length} sin designar · ${F.avisosDesignacion} aviso(s)`);
+  for (const d of F.dispensas) {
+    console.error(`      ⚠ ${d.id} SIN MATERIAL: ${d.reales} pieza(s) — ${d.dueño}`);
+  }
+  console.error(`      NBT90 embebido: ${F.nbt90.conTol}/${F.nbt90.piezas} con tolerancia · `
+    + `${F.nbt90.conCordon}/${F.nbt90.soldadas} soldadas con cordón · `
+    + `${F.nbt90.designadas}/${F.nbt90.compradas} compradas designadas — `
+    + `${F.nbt90.llegaCompleto ? 'llega COMPLETO, no se le toca nada' : 'INCOMPLETO: lo rellena esta pasada'}`);
+  if (PG40F.desactivaPercha) {
+    console.error(`      HUÉRFANAS de la percha: `
+      + F.huerfanas.map((h) => `${h.id} ${h.retiradas}/${h.esperadas} fuera, ${h.supervivientes} dentro`).join(' · '));
   }
 }
 

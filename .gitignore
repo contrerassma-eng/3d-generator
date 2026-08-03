@@ -43,3 +43,8 @@ cad/_tmp_*.mjs
 cad/ensambles/nbt90/step/
 cad/ensambles/sorter_co/out/*.step
 cad/ensambles/sorter_co/out/*.step.zip
+
+# Copias de sondeo que hacen los agentes para aislar un cambio del árbol vivo
+# (`_probe_*`): son el ensamble entero duplicado, 50 MB cada una, y se borran
+# solas cuando el agente termina. Nunca son entregable.
+cad/ensambles/_probe_*/

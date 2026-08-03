@@ -16,6 +16,7 @@ import {
 } from '../../nbt90/lib.mjs';
 import {
   FIJO, TAMBOR, UCF207, CONDUCIDO, RETORNOS, TAMBORES, RETORNO, CARGA, Xc, EJES,
+  MANDRINADO, BANDA, ACCIONAMIENTO,
 } from './params_tambores.mjs';
 // A2 (revisión de fabricación 2026-08-03): la garganta de anillo elástico ya no
 // sale de una fórmula, sale de la TABLA DIN 471 con su cita (web RING-471-01 /
@@ -43,7 +44,7 @@ const L = {
   tapaChaflan: 0.8,        // dis — introducción a presión
   casquillo: 8.0,          // dis — casquillo entre el anillo DIN 471 y el aro
                            //   interior (separa el anillo de la pista)
-  collarL: 15.0,           // cat — collar de apriete partido DIN 705 A
+  collarL: 15.0,           // cat COLL-SPLIT-01 — ancho b del collar PARTIDO (Mädler 62343000/500)
   bridaR: 12.0,            // dis — radio de esquina de la brida UCF (fundición)
   pernoUcf: { d: 12, af: 19, hh: 7.5 },              // cat M12 ISO 4017
   tuercaH: 10.0,                                     // cat M12 ISO 4032/7040
@@ -53,6 +54,40 @@ const L = {
                            //   step frameEsp), que es mejor apoyo que los 8 solos
   pernoSop: { d: 12, af: 19, hh: 7.5 },              // cat M12 del soporte de eje fijo
   pernoRet: { d: 10, af: 16, hh: 6.3 },              // cat M10 del soporte de retorno
+};
+
+// ---------------------------------------------------------------------------
+// B3 (revisión de COMPRAS 2026-08-03) — SALIDA DE HILO.
+// Los 8 M12 de las UCF 207 salían con la tuerca acabando EXACTAMENTE en el
+// extremo del vástago (0.00 mm de salida). Un tornillo así no se aprieta al
+// par: el último hilo está incompleto por el biselado. Regla: ≥ 2 pasos
+// sobresaliendo, y después al escalón normalizado de la serie ISO 888, que es
+// lo único que se puede pedir (no existe un M12×65.5).
+// ---------------------------------------------------------------------------
+const PASO_ISO = { 6: 1.0, 8: 1.25, 10: 1.5, 12: 1.75 };          // cat — rosca gruesa ISO 261
+const LARGOS_ISO888 = [10, 12, 16, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 90, 100, 110, 120];
+
+function pernoConSalida(dia, apriete, tuercaH, pasosMin = 2) {
+  const paso = PASO_ISO[dia];
+  if (!paso) throw new Error(`pernoConSalida: falta el paso tabulado de M${dia}`);
+  const min = apriete + tuercaH + pasosMin * paso;
+  const largo = LARGOS_ISO888.find(v => v >= min);
+  if (!largo) throw new Error(`pernoConSalida: ningún largo normalizado ≥ ${r3(min)} para M${dia}`);
+  const salida = r3(largo - apriete - tuercaH);
+  return { largo, paso, apriete: r3(apriete), tuercaH, minTeorico: r3(min),
+    salidaMm: salida, salidaPasos: r3(salida / paso) };
+}
+
+// A2 (revisión de COMPRAS) — UNA norma por anillo. `lib.mjs anilloRet()` estampa
+// «DIN 471 / ASME B27.7»: dos normas incompatibles a la vez (DIN 471 es métrica,
+// «ASME B27.7» a secas es la serie de PULGADAS). Se pisa con la designación real
+// de la tabla ya citada (web RING-471-01/02), igual que hace normalizado.mjs en
+// el NBT90. `lib.mjs` es contrato y no se toca.
+const anilloDIN471 = (p, eje) => {
+  const g = gargantaDIN471(eje);
+  p.norma = `${g.desig} — anillo de retención exterior para eje Ø${eje}, s = ${g.s} `
+    + `(garganta ${g.cota}) · web RING-471-01/02`;
+  return p;
 };
 
 // ---------------------------------------------------------------------------
@@ -66,10 +101,26 @@ const perfilTubo = (len, ro, ri) => {
   return [[0, ri + c], [c, ri], [len - c, ri], [len, ri + c], [len, ro], [0, ro]];
 };
 
-/** Cubierta engomada de espesor constante, cantos a 45°. */
-const perfilGoma = (len, ro, rv) => {
-  const c = L.gomaChaflan;
-  return [[0, ro - L.bond], [0, rv - c], [c, rv], [len - c, rv], [len, rv - c], [len, ro - L.bond]];
+/** Cubierta engomada CON 5 CORONAS, una por calle (hallazgo B5: no había ningún
+ *  medio de centrado de banda). Torneada sobre el vulcanizado:
+ *    · cima Ø108.9 EXACTO en el eje de cada calle → el lazo no se mueve;
+ *    · cada corona es trapezoidal: `cilindrica` recta + 2 conos de `cono` que
+ *      bajan `h` (web CROWN-HAB-01);
+ *    · entre coronas, valle plano al Ø de rebaje (108.9 − 2h).
+ *  `x0` es la X global del origen del perfil (para situar los ejes de calle). */
+const perfilGoma = (len, ro, rv, x0) => {
+  const c = L.gomaChaflan, K = TAMBOR.corona;
+  const rValle = r3(rv - K.h);
+  const pts = [[0, ro - L.bond], [0, rValle - c], [c, rValle]];
+  for (const ex of EJES) {
+    const h0 = r3(ex - x0);                      // eje de calle en coordenada de perfil
+    pts.push([r3(h0 - K.ancho / 2), rValle]);            // pie del cono de entrada
+    pts.push([r3(h0 - K.cilindrica / 2), rv]);           // cima (inicio del cilindro)
+    pts.push([r3(h0 + K.cilindrica / 2), rv]);           // cima (fin del cilindro)
+    pts.push([r3(h0 + K.ancho / 2), rValle]);            // pie del cono de salida
+  }
+  pts.push([len - c, rValle], [len, rValle - c], [len, ro - L.bond]);
+  return pts;
 };
 
 /** Disco-tapa SOLDADO del tambor: entra en el tubo y abraza el eje por un cubo.
@@ -131,9 +182,18 @@ function rodilloEjeFijo(E, S, { nombre, y, z, spec, sop, marca }) {
   const gargantas = [];          // X de las gargantas de los anillos DIN 471
 
   // 1. tubo
+  const MD = MANDRINADO[marca === 'CONDUCIDO' ? 'conducido' : 'retorno'] ?? MANDRINADO.retorno;
   add(`${nombre} · tubo Ø${spec.od} × ${len} (e=${spec.tubo.e})`, COL.rodillo, [x0, y, z], [
     revolve(`Tubo Ø${spec.od} e=${spec.tubo.e}`, [x0, y, z], 'x', perfilTubo(len, ro, ri)),
-  ], { ...conj, material: spec.tuboDesig ?? `Tubo Ø${spec.od} × ${spec.tubo.e}`, gira: true });
+  ], { ...conj, material: spec.tuboDesig ?? `Tubo Ø${spec.od} × ${spec.tubo.e}`, gira: true,
+    // A7 · EL INTERIOR DEL TUBO ES UNA COTA DE PLANO, NO UN DATO DE CATÁLOGO
+    mandrinado: { cota: MD.cota, largo: MD.largo, donde: 'las dos testas',
+      idNominal: MD.nominal, idComercial: [MD.idMin, MD.idMax], fuente: MD.fuente },
+    nota: `MANDRINAR ${MD.cota} en las dos testas, en ${MD.largo} mm de longitud (asiento de la `
+      + `tapa-soporte + 2 de sobrerrecorrido). NO es opcional: el interior de este tubo tal como se `
+      + `compra cae entre ${MD.idMin} y ${MD.idMax} mm (banda ${MD.banda}) según las tolerancias de `
+      + `${MD.fuente}, y el campo de un H7 en ese diámetro es ${MD.campoH7} mm — la incertidumbre del `
+      + `tubo es ${MD.veces} veces el ajuste. Sin mandrinar, unas tapas entran sueltas y otras no entran.` });
 
   // 2. tapas-soporte prensadas + 3. rodamientos + 4. casquillos y anillos
   const Lt = spec.tapa.e + L.tapaLabio + spec.rodam.w;   // largo útil de la tapa
@@ -145,7 +205,12 @@ function rodilloEjeFijo(E, S, { nombre, y, z, spec, sop, marca }) {
         revolve(`Alojamiento Ø${spec.rodam.od} con hombro`, [xT, y, z], 'x',
           s === 0 ? perfilTapaSoporte(Lt, ri, rb, spec.rodam.bore + 12)
             : espejo(perfilTapaSoporte(Lt, ri, rb, spec.rodam.bore + 12), Lt)),
-      ], { ...conj, ajuste: `prensado H7/r6 en el tubo Ø${spec.tubo.id}`, gira: true });
+      ], { ...conj, gira: true,
+        ajuste: `prensado H7/r6 contra el tubo MANDRINADO a ${MD.cota} (A7: el H7 es del `
+          + `mandrinado, no del interior de catálogo del tubo — ver el campo \`mandrinado\` de `
+          + `«${nombre} · tubo»). Interferencia máxima 0.073 mm → tensión de aro `
+          + `≈ ${MANDRINADO.tensionAroMPa} MPa en la pared de ${spec.tubo.e}. Alternativa declarada y `
+          + `NO tomada: ${MANDRINADO.alternativaDeclarada}` });
 
     const xR = s === 0 ? r3(x0 + L.tapaLabio) : r3(x1 - L.tapaLabio - spec.rodam.w);
     rodamiento(E, { nombre: `${spec.rodam.desig} (${nombre}, ${lado})`, at: [xR, y, z], dir: DIR,
@@ -163,8 +228,8 @@ function rodilloEjeFijo(E, S, { nombre, y, z, spec, sop, marca }) {
           [L.casquillo, spec.eje.d / 2 + 6], [L.casquillo, spec.eje.d / 2]]),
       ], { ...conj, hardware: false });
     const xA = s === 0 ? r3(xC + L.casquillo) : r3(xC - 1.75);
-    anilloRet(E, { nombre: `${nombre} (${lado})`, at: [xA, y, z], dir: DIR, eje: spec.eje.d,
-      capa: `${marca} · ` });
+    anilloDIN471(anilloRet(E, { nombre: `${nombre} (${lado})`, at: [xA, y, z], dir: DIR, eje: spec.eje.d,
+      capa: `${marca} · ` }), spec.eje.d);
     gargantas.push(xA);
     n.piezas++;
   }
@@ -201,16 +266,39 @@ function rodilloEjeFijo(E, S, { nombre, y, z, spec, sop, marca }) {
     const lado = s === 0 ? '−X' : '+X';
     const xCara = sop.caraX[s], nrm = sop.normal[s];
     const xF = nrm > 0 ? xCara : r3(xCara - sop.e);       // cara desde la que crece
+    // B5 · COLISAS DE REGLAJE (sólo el CONDUCIDO, que es el rodillo de cola).
+    // El taladro redondo pasa a colisa en Y: la banda se corrige oblicuando el
+    // rodillo. El patrón 92×92 del alargue NO cambia — la colisa está en ESTA
+    // pletina, así que pg40 no toca un solo taladro. Los rodillos de retorno
+    // siguen con taladro redondo: Ammeraal prohíbe expresamente encadenar
+    // dispositivos de centrado en rodillos vecinos (web CROWN-AMM-01).
+    const CS = sop.colisa;
+    const taladroPletina = ([sy, sz]) => {
+      const yc = r3(y + sy * sop.patron / 2), zc = r3(z + sz * sop.patron / 2);
+      if (!CS) return [hole(`Ø${sop.taladro}`, [r3(xF - 1), yc, zc], DIR, sop.taladro)];
+      return [
+        hole(`Colisa Ø${sop.taladro} (extremo −Y)`, [r3(xF - 1), r3(yc - CS.carrera), zc], DIR, sop.taladro),
+        hole(`Colisa Ø${sop.taladro} (extremo +Y)`, [r3(xF - 1), r3(yc + CS.carrera), zc], DIR, sop.taladro),
+        box(`Colisa ${CS.largo}×${sop.taladro} (alma)`, [r3(xF + sop.e / 2), yc, r3(zc - sop.taladro / 2)],
+          r3(sop.e + 2), r3(2 * CS.carrera), sop.taladro, 'cut'),
+      ];
+    };
     add(`${nombre} · pletina de soporte ${sop.lado}×${sop.lado}×${sop.e} (${lado})`,
       COL.chapa, [xF, y, z], [
         sketchYZ(`Pletina ${sop.lado}×${sop.lado}`, xF,
           rectR(y - sop.lado / 2, z - sop.lado / 2, y + sop.lado / 2, z + sop.lado / 2, 10), sop.e),
         hole(`Barreno Ø${sop.bore} H8`, [r3(xF - 1), y, z], DIR, sop.bore),
-        ...[[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([sy, sz]) =>
-          hole(`Ø${sop.taladro}`, [r3(xF - 1), r3(y + sy * sop.patron / 2), r3(z + sz * sop.patron / 2)],
-            DIR, sop.taladro)),
+        ...[[-1, -1], [1, -1], [-1, 1], [1, 1]].flatMap(taladroPletina),
       ], { ...conj, material: 'Acero S275JR cortado por láser',
-        nota: `se atornilla al patrón ${sop.patron}×${sop.patron} del alargue PG40` });
+        ...(CS ? { reglaje: { tipo: 'colisa en Y (dirección de la banda)', carreraMm: CS.carrera,
+          largoColisa: CS.largo, oblicuidadMaxDeg: CS.oblicuidadMaxDeg, vanoEntrePletinas: CS.vano } } : {}),
+        nota: `se atornilla al patrón ${sop.patron}×${sop.patron} del alargue PG40`
+          + (CS ? `. LOS 4 TALADROS SON COLISAS de ${CS.largo}×${sop.taladro} en Y: ±${CS.carrera} mm `
+            + `de carrera por pletina. Moviendo las dos a la vez se hace take-up; moviéndolas en `
+            + `sentidos opuestos se oblicua el rodillo hasta ${CS.oblicuidadMaxDeg}° sobre el vano de `
+            + `${CS.vano} mm entre pletinas, que es EL REGLAJE DE ALINEACIÓN DE BANDA que no existía `
+            + `(hallazgo B5). El centrado grueso lo da la corona del tambor motriz; esto es el retoque `
+            + `y sale de fábrica a cero. ${CS.nota}` : '') });
 
     // El collar va pegado a la cara INTERIOR de su pletina, en el hueco de 20
     // que deja la testa del tubo (por eso la cara es 360 y no 380). Los dos
@@ -218,10 +306,21 @@ function rodilloEjeFijo(E, S, { nombre, y, z, spec, sop, marca }) {
     // pletina, y si corre hacia +X topa el de +X contra la suya. Por fuera no
     // caben — ahí está el alma del alargue y, en +X, el chapón de descarga.
     const xCol = nrm > 0 ? r3(xF + sop.e) : r3(xF - L.collarL);
-    add(`${nombre} · collar de apriete partido Ø${spec.eje.d} (${lado})`, COL.inox, [xCol, y, z], [
-      revolve('Collar DIN 705 A', [xCol, y, z], 'x', [[0, spec.eje.d / 2], [0, spec.eje.d / 2 + 10],
-        [L.collarL, spec.eje.d / 2 + 10], [L.collarL, spec.eje.d / 2]]),
-    ], { ...conj, hardware: true, norma: 'DIN 705 A', componente: spec.collar });
+    const rCol = spec.collarDe / 2;      // cat COLL-SPLIT-01 (antes: eje/2 + 10, sin fuente)
+    add(`${nombre} · collar de apriete PARTIDO Ø${spec.eje.d} int × Ø${spec.collarDe} × ${L.collarL} (${lado})`,
+      COL.inox, [xCol, y, z], [
+        revolve('Collar partido (2 mitades)', [xCol, y, z], 'x',
+          [[0, spec.eje.d / 2], [0, rCol], [L.collarL, rCol], [L.collarL, spec.eje.d / 2]]),
+      ], { ...conj, hardware: true, norma: spec.collar, componente: spec.collar,
+        ajusteMontaje: 'las 2 mitades se colocan a caballo del eje y se cierran con sus 2 tornillos '
+          + 'M6×18 DIN 912 12.9; unión por fricción, no marca el eje',
+        nota: `retiene axialmente el eje fijo contra la cara interior de su pletina. TIENE QUE SER `
+          + `PARTIDO: el hueco donde vive son los 20 mm entre la testa `
+          + `del tubo y la pletina, con el eje ya pasado por los dos soportes — un collar macizo `
+          + `habría que enfilarlo desde una testa del eje y ahí topan el alma del alargue y, en +X, `
+          + `el chapón de descarga. Se designaba «DIN 705 A», que es justo el anillo MACIZO con `
+          + `prisionero, y por eso la línea no se podía pedir (hallazgo A3). Envolvente real sobre la `
+          + `cabeza del tornillo: Ø${spec.collarR} (declarado; el modelo lleva el cuerpo Ø${spec.collarDe}).` });
 
     // TORNILLERÍA: el vástago tiene que ATRAVESAR lo que aprieta —la pletina de
     // `sop.e` más el alma de 8 del alargue PG40— y la cabeza queda hacia el
@@ -252,6 +351,7 @@ export function tambores(E) {
   const n = { tambor: 0, conducido: 0, retorno: 0, hardware: 0 };
   const add = (...a) => { E.addPart(...a); };
   const zT = TAMBORES.motriz.z, zC = TAMBORES.conducido.z;
+  const pernosUcf = [];                // B3 — cuenta de salida de hilo, se publica
 
   // =========================================================================
   // 1. EL TAMBOR MOTRIZ
@@ -265,16 +365,45 @@ export function tambores(E) {
     [tx0, 0, zT], [
       revolve(`Tubo Ø${TAMBOR.tubo.od} e=${TAMBOR.tubo.e}`, [tx0, 0, zT], 'x',
         perfilTubo(tLen, RO, RI)),
-    ], { ...conjT, material: TAMBOR.tuboDesig, gira: true });
+    ], { ...conjT, material: TAMBOR.tuboDesig, gira: true,
+      // A7 · igual que en los rodillos de eje fijo: el asiento de las dos tapas
+      // soldadas se MANDRINA. Aquí la tapa va soldada, no prensada, pero la
+      // cota sigue mandando: es la que centra el disco antes de soldar y de la
+      // que sale la excentricidad del tambor con la banda encima.
+      mandrinado: { cota: MANDRINADO.tambor.cota, largo: MANDRINADO.tambor.largo,
+        donde: 'las dos testas', idNominal: MANDRINADO.tambor.nominal,
+        idComercial: [MANDRINADO.tambor.idMin, MANDRINADO.tambor.idMax],
+        fuente: MANDRINADO.tambor.fuente },
+      nota: `MANDRINAR ${MANDRINADO.tambor.cota} en las dos testas, ${MANDRINADO.tambor.largo} mm de `
+        + `longitud, y ANTES de que entren las dos tapas (la secuencia va en la tapa). El interior de `
+        + `catálogo de este tubo cae entre `
+        + `${MANDRINADO.tambor.idMin} y ${MANDRINADO.tambor.idMax} (banda ${MANDRINADO.tambor.banda} mm, `
+        + `${MANDRINADO.tambor.fuente}) y el campo de un H7 en ese Ø es ${MANDRINADO.tambor.campoH7}: `
+        + `${MANDRINADO.tambor.veces} veces mayor. Sin esa cota el disco de tapa no se centra.` });
   n.tambor++;
 
-  add(`TAMBOR · engomado ${TAMBOR.engomado} → Ø${TAMBOR.od} × ${gLen} (cara útil)`, COLGOMA,
+  const K = TAMBOR.corona;
+  add(`TAMBOR · engomado ${TAMBOR.engomado} → Ø${TAMBOR.od} × ${gLen} (cara útil, ${EJES.length} coronas de ${K.h})`, COLGOMA,
     [gx0, 0, zT], [
-      revolve(`Vulcanizado e=${TAMBOR.engomado} → Ø${TAMBOR.od}`, [gx0, 0, zT], 'x',
-        perfilGoma(gLen, RO, RV)),
+      revolve(`Vulcanizado e=${TAMBOR.engomado} → Ø${TAMBOR.od} con ${EJES.length} coronas`, [gx0, 0, zT], 'x',
+        perfilGoma(gLen, RO, RV, gx0)),
     ], { ...conjT, material: TAMBOR.gomaDesig, gira: true,
+      mecanizado: `torneado del vulcanizado a ${EJES.length} CORONAS TRAPEZOIDALES, una por eje de calle `
+        + `(X ${EJES.join(' · ')}): cima Ø${TAMBOR.od} en ${K.cilindrica} mm de cilindro, dos conos de `
+        + `${K.cono} que bajan ${K.h} (pendiente 1:${Math.round(1 / K.pendiente)}), ancho total de corona `
+        + `${K.ancho} y valle plano de ${K.separacionEntreCoronas} a Ø${K.rebajeOd}. Radio equivalente si `
+        + `se prefiere tornear radial: R = ${K.radioEquivalente}.`,
+      corona: { hMm: K.h, anchoMm: K.ancho, cilindricaMm: K.cilindrica, conoMm: K.cono,
+        rebajeOd: K.rebajeOd, radioEquivalente: K.radioEquivalente,
+        fuente: 'web CROWN-HAB-01 (Habasit) + CROWN-AMM-01 (Ammeraal)' },
       nota: `cubre las 5 bandas (X ${FIJO.bandasX[0]}…${FIJO.bandasX[1]}) con `
-        + `${TAMBOR.margenBanda} mm de margen de deriva por lado` });
+        + `${TAMBOR.margenBanda} mm de margen de deriva por lado. ES EL MEDIO DE CENTRADO de la máquina: `
+        + `hasta ahora el tambor era CILÍNDRICO y una polea cilíndrica no ejerce ningún efecto de `
+        + `centrado (web CROWN-HAB-01), así que las 5 bandas derivaban sin nada con que corregirlas `
+        + `(hallazgo B5). La corona va POR CALLE y no una sola sobre los ${TAMBOR.caraGoma}: con una `
+        + `corona única las 5 bandas migrarían hacia el centro del tambor —las de fuera están a ±152.4— `
+        + `y se montarían unas sobre otras. La cima queda en Ø${TAMBOR.od} exacto, así que el lazo, los `
+        + `abrazados y el plano de transporte no se mueven ni una décima.` });
   n.tambor++;
 
   // tapas soldadas: entran en el tubo y abrazan el eje por su cubo
@@ -287,8 +416,12 @@ export function tambores(E) {
       COL.chapa, [xT, 0, zT], [
         revolve('Disco de tapa con cubo', [xT, 0, zT], 'x', s === 0 ? perf : perf.map(([h, r]) => [-h, r])),
       ], { ...conjT, material: TAMBOR.tapaDesig, gira: true,
+        ajuste: `torneado Ø${TAMBOR.tubo.id} h8 contra el tubo MANDRINADO a ${MANDRINADO.tambor.cota} `
+          + `(A7). El h8 se acota contra la cota del mandrinado, no contra el interior de catálogo del `
+          + `tubo, que tiene ${MANDRINADO.tambor.banda} mm de banda (${MANDRINADO.tambor.fuente}).`,
         nota: 'soldada al tubo y al eje: el tambor y su eje son un solo cuerpo, '
-          + 'que es lo que permite meter el par por el saliente' });
+          + 'que es lo que permite meter el par por el saliente. El asiento del disco en el tubo va '
+          + `MANDRINADO ${MANDRINADO.tambor.cota} (ver el campo \`mandrinado\` del tubo).` });
     n.tambor++;
   }
 
@@ -346,15 +479,29 @@ export function tambores(E) {
     // de alargue + 28 de chapón de descarga), con la tuerca por dentro.
     const xExt = nrm > 0 ? r3(xF + UCF207.bridaE) : xF;    // cara exterior de la brida
     const espApoyo = s === 0 ? L.apoyoUcf.neg : L.apoyoUcf.pos;
-    const largo = r3(UCF207.bridaE + espApoyo + L.tuercaH);
+    // B3 (revisión de compras): el largo era EXACTAMENTE brida + apoyo + tuerca,
+    // así que la tuerca acababa a 0.00 mm del último hilo y el perno no se podía
+    // apretar al par (el último hilo va incompleto por el biselado). Ahora sale
+    // de la cuenta, con 2 pasos de salida, y sube al escalón normalizado.
+    const PU = pernoConSalida(L.pernoUcf.d, UCF207.bridaE + espApoyo, L.tuercaH);
+    const largo = PU.largo;
+    pernosUcf.push({ lado, ...PU });
     for (const [sy, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
       const yz = [r3(sy * semi), r3(zT + sz * semi)];
       pernoHex(E, { nombre: `M12×${largo} ${UCF207.desig} (${lado})`, at: [xExt, ...yz],
         dir: [-nrm, 0, 0], dia: L.pernoUcf.d, largo, af: L.pernoUcf.af, altoCab: L.pernoUcf.hh,
-        capa: 'TAMBOR · ' });
+        capa: 'TAMBOR · ' })
+        .nota = `apriete real ${PU.apriete} = brida UCF ${UCF207.bridaE} + ${espApoyo} de apoyo `
+          + `(${s === 0 ? 'alma del alargue' : 'alma del alargue 8 + chapón de descarga 28'}). Con la `
+          + `tuerca de ${L.tuercaH} y 2 pasos de salida el mínimo es ${PU.minTeorico} → escalón `
+          + `normalizado M12×${largo} (ISO 888), que sobresale ${PU.salidaMm} mm = ${PU.salidaPasos} `
+          + `pasos. ANTES era M12×${r3(UCF207.bridaE + espApoyo + L.tuercaH)}: la tuerca acababa a `
+          + `0.00 mm del último hilo (hallazgo B3 de la revisión de compras).`;
       tuercaHex(E, { nombre: `M12 ${UCF207.desig} (${lado})`,
         at: [r3(xExt - nrm * (UCF207.bridaE + espApoyo)), ...yz],
-        dir: [-nrm, 0, 0], dia: 12, af: L.pernoUcf.af, alto: L.tuercaH, capa: 'TAMBOR · ' });
+        dir: [-nrm, 0, 0], dia: 12, af: L.pernoUcf.af, alto: L.tuercaH, capa: 'TAMBOR · ' })
+        .nota = `el perno la rebasa ${PU.salidaMm} mm (${PU.salidaPasos} pasos de rosca). SALIDA DE `
+          + 'HILO mínima 2 pasos: es lo que exige el apriete al par y lo que mira la inspección.';
       n.hardware += 2;
     }
   }
@@ -576,18 +723,62 @@ export function tambores(E) {
         patron: RETORNOS.soporte.patron, taladro: RETORNOS.soporte.taladro,
         caraX: RETORNOS.soporte.caraX })),
     },
+    // B3 · cuenta publicada de la salida de hilo de los 8 M12 de las UCF 207
+    pernosUcf,
+    // B5 · el reglaje de alineación de banda, con sus números
+    tracking: {
+      centrado: `corona TRAPEZOIDAL de ${TAMBOR.corona.h} mm en el engomado del tambor motriz, UNA POR `
+        + `CALLE (${EJES.length} coronas de ${TAMBOR.corona.ancho} mm con ${TAMBOR.corona.cilindrica} de `
+        + `cilindro y conos de ${TAMBOR.corona.cono}); cima en Ø${TAMBOR.od} exacto, valle Ø${TAMBOR.corona.rebajeOd}`,
+      coronaFuente: 'web CROWN-HAB-01 (Habasit: h = 2…3×(0.001·d+0.075), ×50 % por polea engomada) '
+        + '+ CROWN-AMM-01 (Ammeraal: reglas de uso)',
+      coronaRadioEquivalente: TAMBOR.corona.radioEquivalente,
+      reglaje: `colisas en Y en las 2 pletinas del conducido: ±${CONDUCIDO.soporte.colisa.carrera} mm `
+        + `por pletina (colisa de ${CONDUCIDO.soporte.colisa.largo}×${CONDUCIDO.soporte.taladro}); `
+        + `oblicuidad máxima ${CONDUCIDO.soporte.colisa.oblicuidadMaxDeg}° sobre el vano de `
+        + `${CONDUCIDO.soporte.colisa.vano} mm entre pletinas`,
+      carreraDeAjusteMm: { porPletina: CONDUCIDO.soporte.colisa.carrera,
+        diferencialTotal: r3(2 * CONDUCIDO.soporte.colisa.carrera),
+        oblicuidadMaxDeg: CONDUCIDO.soporte.colisa.oblicuidadMaxDeg },
+      cilindricosAProposito: TAMBOR.corona.porQueSoloElMotriz,
+      tramoLibreQuePideLaFuente: [TAMBOR.corona.tramoLibreMin, TAMBOR.corona.tramoLibreMax],
+      tramoLibreReal: `del tambor a RR1 hay ${Math.abs(TAMBORES.retorno[0].y)} mm de ramal libre, muy por `
+        + 'encima de los 64…160 que pide Ammeraal (web CROWN-AMM-01) para que la corona tenga efecto',
+    },
     compradas: [
       { desig: UCF207.desig, cant: 2, norma: UCF207.norma, ref: 'web BRG-UCF207-01/02' },
       { desig: CONDUCIDO.rodam.desig, cant: 2, norma: 'ISO 15 · rodamiento rígido de bolas 35×72×17', ref: 'cat' },
       { desig: RETORNOS.rodam.desig, cant: 8, norma: 'ISO 15 · rodamiento rígido de bolas 30×62×16', ref: 'cat' },
       { desig: 'Chaveta DIN 6885 A 10×8×100', cant: 1, norma: 'DIN 6885-1', ref: 'cat' },
-      { desig: 'Anillo elástico DIN 471 Ø35', cant: 2, norma: 'DIN 471', ref: 'cat' },
-      { desig: 'Anillo elástico DIN 471 Ø30', cant: 8, norma: 'DIN 471', ref: 'cat' },
-      { desig: 'Collar de apriete partido DIN 705 A Ø35', cant: 2, norma: 'DIN 705', ref: 'cat' },
-      { desig: 'Collar de apriete partido DIN 705 A Ø30', cant: 8, norma: 'DIN 705', ref: 'cat' },
-      { desig: 'Perno M12×45 / M12×75 ISO 4017 8.8 + tuerca ISO 7040', cant: 8, norma: 'ISO 4017', ref: 'cat' },
+      { desig: `Anillo elástico ${gargantaDIN471(35).desig} (eje Ø35, s = ${gargantaDIN471(35).s})`,
+        cant: 2, norma: gargantaDIN471(35).desig, ref: 'web RING-471-01/02' },
+      { desig: `Anillo elástico ${gargantaDIN471(30).desig} (eje Ø30, s = ${gargantaDIN471(30).s})`,
+        cant: 8, norma: gargantaDIN471(30).desig, ref: 'web RING-471-01/02' },
+      // A3 · collar PARTIDO con referencia real: DIN 705 A es el MACIZO
+      { desig: CONDUCIDO.collar, cant: 2, norma: 'referencia de fabricante (el collar partido no tiene norma DIN/ISO)', ref: 'web COLL-SPLIT-01' },
+      { desig: RETORNOS.collar, cant: 8, norma: 'referencia de fabricante (el collar partido no tiene norma DIN/ISO)', ref: 'web COLL-SPLIT-01' },
+      // B3 · los largos salen de la cuenta de salida de hilo, no escritos a mano
+      ...pernosUcf.map(P => ({ desig: `Perno M12×${P.largo} ISO 4017 8.8 + tuerca ISO 4032 + arandela `
+        + `ISO 7089 (UCF 207 ${P.lado}; apriete ${P.apriete}, salida ${P.salidaMm} mm = ${P.salidaPasos} pasos)`,
+      cant: 4, norma: 'ISO 4017 / ISO 4032 / ISO 7089', ref: 'cat + calc (2 pasos de salida, ISO 888)' })),
       { desig: 'Perno M12×40 ISO 4017 8.8 (soportes del conducido)', cant: 8, norma: 'ISO 4017', ref: 'cat' },
       { desig: 'Perno M10×40 ISO 4017 8.8 (soportes de retorno)', cant: 32, norma: 'ISO 4017', ref: 'cat' },
+      { desig: 'Tornillo M6×18 DIN 912 12.9 (cierre de los 10 collares partidos; suele venir con el collar)',
+        cant: 20, norma: 'DIN 912 / ISO 4762 clase 12.9', ref: 'web COLL-SPLIT-01' },
+      // ================== A8 · LA BANDA (no estaba en la lista) ==============
+      { desig: `${BANDA.desig}; L = ${BANDA.largoPedidoMm} mm ± ${BANDA.toleranciaMm} (±${BANDA.toleranciaPct} %) `
+        + `de fibra neutra; unión ${BANDA.empalme}`,
+      cant: BANDA.cant, norma: `banda plana de ${BANDA.telas} telas, e = ${BANDA.espesorMm} mm, `
+        + `k_adm = ${BANDA.kAdmNmm} N/mm, Ø mínimo de polea ${BANDA.poleaMinimaMm} mm`,
+      ref: BANDA.fuente },
+      // ============ A11 · EL ACCIONAMIENTO (tampoco estaba) =================
+      { desig: `Motorreductor de ${ACCIONAMIENTO.interfaz}; ≥ ${Math.ceil(potW / 50) * 50} W a ${rpm} rpm `
+        + `de salida, par ≥ ${ACCIONAMIENTO.parMinNm} N·m. Candidato de catálogo: ${ACCIONAMIENTO.candidato}`,
+      cant: 1, norma: `interfaz Ø35 H7 + chavetero DIN 6885; ${ACCIONAMIENTO.relacionAbierta}`,
+      ref: 'web MOT-003 (candidato) + calc (potencia, par y rpm de este módulo)' },
+      { desig: 'Anclaje del brazo de reacción del motorreductor (pletina + 2 tornillos al bastidor del cliente) '
+        + '— PENDIENTE de la ficha del reductor elegido: la posición del brazo depende del modelo',
+      cant: 1, norma: 'PENDIENTE', ref: 'se cierra con el reductor' },
     ],
     fabricadas: [
       { pieza: 'Tubo de tambor', desig: TAMBOR.tuboDesig, cant: 1, largo: tLen },

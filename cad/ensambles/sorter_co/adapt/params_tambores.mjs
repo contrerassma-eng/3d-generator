@@ -108,6 +108,67 @@ export const TAMBOR = {
   get gomaX() { return [r3(Xc - this.caraGoma / 2), r3(Xc + this.caraGoma / 2)]; },   // 94.456…464.456
   get tuboX() { return [r3(Xc - this.caraTubo / 2), r3(Xc + this.caraTubo / 2)]; },   // 89.456…469.456
   get margenBanda() { return r3(FIJO.bandasX[0] - this.gomaX[0]); },           // 16.6 calc
+
+  // -------------------------------------------------------------------------
+  // ABOMBADO (corona) DEL ENGOMADO — el ajuste de alineación que faltaba
+  // -------------------------------------------------------------------------
+  // Hallazgo B5 de la revisión de compras: el tambor era CILÍNDRICO, la UCF 207
+  // va en taladros redondos y el conducido tenía eje fijo en agujeros redondos.
+  // Cinco bandas planas de 4877 mm sin ningún medio de centrado se salen, y la
+  // nota que había («16.6 mm de margen de deriva por lado») ACEPTA la deriva en
+  // vez de controlarla. Habasit lo dice con todas las letras (web CROWN-HAB-01):
+  // «Pulleys with cylindrical shape exert no centering effect to the belt. It is,
+  // therefore, of high importance that the conveyor system features at least one
+  // measure to keep the belt on center».
+  //
+  // POR QUÉ UNA CORONA POR CALLE Y NO UNA SOLA SOBRE LOS 370 (calc, y es lo que
+  // decide el diseño): una banda se va hacia el punto de MAYOR diámetro. Con una
+  // corona única centrada en el tambor, las CINCO bandas migrarían hacia el
+  // centro del tambor —las de fuera están a ±152.4 mm— y acabarían montándose
+  // unas sobre otras. Cada banda tiene que ver SU PROPIA cima. Por eso el
+  // engomado se tornea con 5 coronas, una por eje de calle, y entre ellas un
+  // rebaje plano. La cima queda en Ø108.9 EXACTO, que es el diámetro con el que
+  // está trazado todo el lazo: el abombado no mueve ni una cota del recorrido.
+  //
+  // ALTURA (web CROWN-HAB-01): h = 2…3 × (0.001·d + 0.075) para banda de 2 telas
+  // contra polea de ACERO → con d = 108.9: 0.368…0.552 mm. Y la misma fuente:
+  // «for … applications with lagged pulleys, it is advisable to reduce the height
+  // of crown, h, to approximately 50% of the afore-listed values» → 0.184…0.276.
+  // Se adopta h = 0.25 mm. Contraste: la única polea abombada que la máquina del
+  // cliente ya tiene es la rueda motriz Hytrol 024.15502, «llanta abombada
+  // 0,4 mm» (nbt90/normalizado.mjs) — mismo orden de magnitud, y la nuestra va
+  // engomada y ella no.
+  //
+  // ANCHO DE CADA CORONA (web CROWN-HAB-01): «Belt width bo ≤ 100 mm: b = bo +
+  // 20 mm» → 32 + 20 = 52. Parte cilíndrica: «bc = bo / 2» → 16 mm.
+  // Forma: TRAPEZOIDAL (cilindro central + dos conos). Vale, porque Ammeraal
+  // limita la trapezoidal a poleas de ≤ 8" de ancho (web CROWN-AMM-01) y aquí
+  // cada corona mide 52 mm = 2.05". Habasit añade que a efectos de tracking la
+  // radial y la trapezoidal son equivalentes; se elige la trapezoidal porque se
+  // tornea con dos pasadas rectas sobre la goma vulcanizada.
+  corona: {
+    h: 0.25,                 // cat/calc — web CROWN-HAB-01 (2..3×(0.001·d+0.075), ×50 % por engomado)
+    ancho: 52,               // cat — web CROWN-HAB-01: b = bo + 20 con bo = 32
+    cilindrica: 16,          // cat — web CROWN-HAB-01: bc = bo / 2
+    get cono() { return r3((this.ancho - this.cilindrica) / 2); },     // 18.0 por lado
+    get pendiente() { return r3(this.h / this.cono * 1000) / 1000; },  // 0.0139 = 1:72
+    // radio de corona equivalente si se prefiere tornear RADIAL en vez de
+    // trapezoidal (web CROWN-HAB-01: R = h/2 + b²/(8h))
+    get radioEquivalente() { return r3(this.h / 2 + this.ancho ** 2 / (8 * this.h)); },   // 1352.1
+    get rebajeOd() { return r3(TAMBOR.od - 2 * this.h); },   // 108.4 — Ø del valle entre coronas
+    get paso() { return r3(FIJO.ejes[1] - FIJO.ejes[0]); },            // 76.2 — paso de calle
+    get separacionEntreCoronas() { return r3(this.paso - this.ancho); },   // 24.2 de rebaje
+    // La fuente que fija cuándo un abombado SIRVE (web CROWN-AMM-01): «This span
+    // should be maximized and in the range of 2 to 5 belt widths».
+    get tramoLibreMin() { return r3(2 * FIJO.bandaAncho); },   // 64
+    get tramoLibreMax() { return r3(5 * FIJO.bandaAncho); },   // 160
+    porQueSoloElMotriz: 'sólo se abomba el TAMBOR MOTRIZ. El conducido y los 4 rodillos de retorno '
+      + 'quedan cilíndricos: Habasit dice que «tail, deflection, snub, guide and tension pulleys are '
+      + 'usually made with cylindrical shape» y Ammeraal que «do not crown adjacent rollers … the '
+      + 'different arrangements can counteract each other» (web CROWN-HAB-01 / CROWN-AMM-01). El '
+      + 'reglaje fino se hace con las colisas del conducido (CONDUCIDO.soporte.colisa), que NO es un '
+      + 'segundo dispositivo de centrado sino el retoque de oblicuidad, y se deja a cero de fábrica.',
+  },
   // EJE (cat: barreno del UCF 207) — pasante, soldado a las dos tapas
   eje: { d: 35, material: 'C45 (1045) rectificado h9; asientos de rodamiento k6' },
   ejeX: [-10, 700],                    // calc — ver `rodamientos` y `saliente`
@@ -127,6 +188,114 @@ export const TAMBOR = {
   // apoyo está en 561.418, ya fuera del chapón de descarga, y el saliente sale
   // al aire libre con 117 de voladizo. En Y = 0 el lado +X NO es corredor de
   // descarga (el corredor vive en Y −1205…−742, a 742 de aquí).
+};
+
+// ---------------------------------------------------------------------------
+// 1-bis. LA BANDA — sin esto no se puede emitir el pedido (hallazgo A8)
+// ---------------------------------------------------------------------------
+// Estaban las 5 bandas en el modelo como «Banda plana 32 × 0.633 … L=4877.64»:
+// sin fabricante, sin número de telas, sin cubierta, sin tipo de empalme y con
+// una longitud dada a 0.01 mm en una pieza que se fabrica con tolerancia de
+// fábrica. Aquí queda la REFERENCIA con la que se pide, y las tres cotas que
+// mandan sobre ella. La geometría del lazo la sigue trazando mod_calles: esto
+// no la toca (ver `discrepanciaEspesor`).
+export const BANDA = {
+  ref: 'Habasit SAB-8E 07',            // web BELT-SAB8E-01
+  desig: 'Habasit SAB-8E 07 — banda plana de 2 TELAS, capa de tracción de poliéster (PET), cubierta '
+    + 'de transporte PVC lisa antracita y cara de polea en tejido PET; 32 mm de ancho',
+  telas: 2,                            // web BELT-SAB8E-01
+  espesorMm: 2.03,                     // web BELT-SAB8E-01 — 0.08 in
+  poleaMinimaMm: 40.6,                 // web BELT-SAB8E-01 — 1.6 in
+  kAdmNmm: 12.08,                      // web BELT-SAB8E-01 — 69 lbs/in
+  k1pctNmm: 9.98,                      // web BELT-SAB8E-01 — 57 lbs/in
+  muDorsoAcero: 0.20,                  // web BELT-SAB8E-01 — dorso sobre polea motriz de ACERO
+  muDorsoCama: 0.15,                   // web BELT-SAB8E-01 — dorso sobre cama de inoxidable
+  empalme: 'LACED con grapa Clipper 36SP (empalmable EN OBRA) — alternativa: Flexproof sin fin de '
+    + 'fábrica. Se PIDE CON GRAPA: es lo que resuelve el hallazgo B4, porque el lazo es cerrado y '
+    + 'la única forma de meterlo sin grapa sería desmontar un rodillo de retorno y la polea tensora, '
+    + 'o montar las 5 bandas antes de cerrar el bastidor',
+  cant: 5,
+  // POR QUÉ ÉSTA Y NO LA QUE PONE HYTROL EN LA MÁQUINA HERMANA (calc, y decide):
+  // el ProSort MRT 30 lleva «APH 150 HTS x 15/16 in. wide with alligator 125
+  // staple lacing» (nbt90 web SORT-006). La APH-150 HTS exige polea mínima de
+  // 4.0 in = 101.6 mm (web BELT-SAB8E-01, misma tabla): pasaría por el tambor
+  // (108.9) y por el conducido (108.0), pero NO por los CUATRO RODILLOS DE
+  // RETORNO, que son Ø88.9. La SAB-8E 07 pide 40.6 mm y pasa por todos con
+  // holgura ×2.2 sobre el más pequeño.
+  get poleaMinimaCumple() {
+    return { tambor: TAMBOR.od, conducido: 108.0, retorno: 88.9, minimoBanda: this.poleaMinimaMm,
+      cumpleTodas: 88.9 >= this.poleaMinimaMm };
+  },
+  // LONGITUD DE PEDIDO — y aquí hay que ser exacto sobre lo que NO se sabe.
+  // El lazo lo traza mod_calles y lo publica como `banda.largoDesarrollado`. Ese
+  // número está medido sobre la superficie que el módulo use como referencia (el
+  // DORSO), no sobre la FIBRA NEUTRA, que es por donde se pide una banda. La
+  // corrección es la misma para todos los arcos: Δr = e/2 − dorsoDeTrazado,
+  // multiplicado por la suma de abrazados del lazo (943.9° = 16.47 rad).
+  //
+  // Se deja como FUNCIÓN a propósito: el dorso de trazado está en manos de
+  // mod_calles/FIJO.bandaEsp y ahora mismo hay otro trabajo en vuelo sobre él
+  // (SC-10). Congelar aquí un 4885 sería volver a poner una longitud falsa en un
+  // plano, que es justamente el hallazgo A8. El pedido se emite con el número
+  // que devuelva esta función alimentada con el `largoDesarrollado` del día.
+  sumaAbrazadosRad: 16.47,             // calc — 180+180+96.5+96.5+102.39+102.39+186.12 grados
+  pedidoDesde(largoTrazadoMm, dorsoDeTrazadoMm = FIJO.bandaEsp) {
+    const correccion = r3(((this.espesorMm / 2) - dorsoDeTrazadoMm) * this.sumaAbrazadosRad);
+    const bruto = largoTrazadoMm + correccion;
+    const pedido = Math.round(bruto / 5) * 5;          // al escalón de 5 mm
+    return { largoTrazadoMm, dorsoDeTrazadoMm, correccionEspesorMm: correccion,
+      largoPedidoMm: pedido, toleranciaMm: r3(pedido * this.toleranciaPct / 100) };
+  },
+  // Valor de referencia con el trazado que este archivo declara HOY (dorso
+  // 0.633, largo 4877.64): 4877.64 + 6.29 → 4885 ± 24.4.
+  largoTrazadoMm: 4877.64,             // calc — mod_calles con el dorso declarado en FIJO.bandaEsp
+  get correccionEspesorMm() { return this.pedidoDesde(this.largoTrazadoMm, 0.633).correccionEspesorMm; },
+  get largoPedidoMm() { return this.pedidoDesde(this.largoTrazadoMm, 0.633).largoPedidoMm; },
+  toleranciaPct: 0.5,                  // dis — tolerancia de fabricación habitual de banda plana
+  get toleranciaMm() { return r3(this.largoPedidoMm * this.toleranciaPct / 100); },   // ±24.4
+  // …y por qué esa tolerancia no es un problema: el tensor tiene recorrido de
+  // sobra (mod_tensor2 publica 43.5 mm de carrera de polea × 2 ramales ≈ 87 mm
+  // de longitud absorbida, params_tensor2 §B4 de la revisión).
+  absorbeElTensorMm: 87,
+  discrepanciaEspesor: 'DECLARADA, no corregida aquí: FIJO.bandaEsp = 0.633 (convenio del cliente) '
+    + 'contra los 2.03 reales de catálogo. Es exactamente lo que canta la comprobación SC-10 del '
+    + 'generador; corregirlo mueve tambor, conducido, RR1…RR4 y las 20 regletas UHMW, o sea es otro '
+    + 'encargo. La REFERENCIA de compra sí queda cerrada.',
+  fuente: 'web BELT-SAB8E-01 (Habasit, Fabric and Round Belts Product Range 4080)',
+};
+
+// ---------------------------------------------------------------------------
+// 1-ter. EL ACCIONAMIENTO — tampoco estaba en la lista (hallazgo A11)
+// ---------------------------------------------------------------------------
+// El interfaz estaba escrito (TAMBOR.motorreductor) y la potencia publicada por
+// la compuerta, pero el motorreductor NO EXISTÍA como línea de compra. Aquí
+// queda, con su especificación y con el conflicto DECLARADO, no maquillado.
+export const ACCIONAMIENTO = {
+  interfaz: 'eje HUECO Ø35 H7 con chavetero para chaveta DIN 6885 A 10×8×100 y brazo de reacción; '
+    + 'montaje directo sobre el saliente del tambor (X 582.868…700), sin acoplamiento ni alineación',
+  potenciaMinW: 450,                   // calc — lo publica mod_tambores (arrastre)
+  rpmSalida: 325.325,                  // calc — ídem
+  parMinNm: 11,                        // calc — 10.17 redondeado al alza
+  candidato: 'Motovario NMRV-P090 (barreno hueco de salida Ø35, brida IEC 80–112) con motor IEC 80 '
+    + 'de 0.55 kW · web MOT-003 — CANDIDATO, no elección: demuestra que el interfaz existe en '
+    + 'catálogo. La relación no se cierra aquí (ver `relacionAbierta`)',
+  relacionAbierta: '325 rpm de salida con un motor de 4 polos son i = 4.3, que un sinfín no da: hay '
+    + 'que elegir entre reductor coaxial/ortogonal de i ≈ 4 o sinfín de i ≈ 15 con variador. Lo cierra '
+    + 'el cliente al fijar la velocidad de banda, que su propia ficha declara «determined by '
+    + 'application requirements» (nbt90 web SORT-018)',
+  // ⚠ CONFLICTO CON LO QUE EL CLIENTE YA TIENE — se dice, no se tapa:
+  conflictoConElMotorDelCliente: 'el motorreductor principal del cliente (CTX 314759014, web MOT-002) '
+    + 'NO SIRVE para este tambor, por DOS motivos independientes: (1) está en X = −172, el lado '
+    + 'CONTRARIO al saliente, que sale en X 582.868…700 — y el saliente no se puede pasar a −X porque '
+    + 'ahí el apoyo cae dentro de la máquina y quedaría un voladizo de 270 mm; (2) tiene eje MACIZO '
+    + 'Ø28 (web MOT-002) frente al hueco Ø35 H7 que pide este interfaz. Ni desplazándolo vale. Es '
+    + 'COMPRA NUEVA, y el motor viejo queda libre o se retira.',
+  espacioPendiente: 'SIN CERRAR: entre el cuerpo del UCF 207 (+X, llega a X ≈ 572) y el final del eje '
+    + '(700) hay 128 mm de saliente útil. Una campana IEC 80–112 mide 150–250 mm de DIÁMETRO, así que '
+    + 'cabe en X pero hay que comprobar que su envolvente no muerde el chapón de descarga ni la guarda. '
+    + 'Requiere la ficha del reductor elegido: no se puede cerrar con lo que hay.',
+  masaPendiente: 'la MASA del reductor sigue en web_facts.pendientes_sin_fuente: en el rango 15–30 kg '
+    + 'la reacción del apoyo +X sube de 700 N a 869–1037 N (+24 a +48 %).',
 };
 
 // ---------------------------------------------------------------------------
@@ -230,9 +399,37 @@ export const CONDUCIDO = {
   // collar de apriete partido; se atornilla al MISMO patrón 92 × 92 del UCF 207
   // que pg40 ya taladra, en la cara INTERIOR del alargue. Así pg40 no cambia el
   // taladrado entre una estación y otra: cambia la pieza que se le atornilla.
+  //
+  // ⚠ AÑADIDO 03-08-2026 (revisión de compras B5) — REGLAJE DE ALINEACIÓN.
+  // Los 4 taladros de cada pletina pasan de REDONDOS a COLISAS en Y (dirección
+  // de la banda). El patrón 92×92 del alargue NO se toca: la colisa está en MI
+  // pletina, así que pg40 no cambia ni un taladro. Moviendo las dos pletinas a
+  // la vez se hace TAKE-UP; moviéndolas en sentidos opuestos se OBLICUA el
+  // rodillo, que es el reglaje de tracking que faltaba (ver TAMBOR.corona: el
+  // centrado lo da la corona del tambor motriz; esto es el retoque fino).
   soporte: { e: 12, lado: 117, bore: 35, patron: 92, taladro: 13.5,
-    caraX: [67.494, 491.418], normal: [1, -1] },
-  collar: 'Collar de apriete partido Ø35 DIN 705 A (retención axial del eje fijo)',
+    caraX: [67.494, 491.418], normal: [1, -1],
+    colisa: {
+      carrera: 6.0,                    // dis — ±6 mm por pletina sobre el nominal
+      get largo() { return r3(13.5 + 2 * this.carrera); },   // 25.5 de colisa
+      // separación entre las DOS pletinas = luz entre caras de montaje (calc)
+      vano: 423.924,                   // = caraX[1] − caraX[0]
+      get oblicuidadMaxDeg() {         // reglaje diferencial máximo (+6 / −6)
+        return r3(Math.atan(2 * this.carrera / this.vano) * 180 / Math.PI);
+      },                               // 1.622°
+      nota: 'reglaje DIFERENCIAL (una pletina hacia +Y, la otra hacia −Y). La banda deriva hacia el '
+        + 'lado donde el rodillo va ADELANTADO; con 1 mm de diferencia entre pletinas la oblicuidad es '
+        + '0.135°, que es el orden del retoque real. La carrera completa (±6) está para el montaje, no '
+        + 'para el uso diario. Se bloquea con los propios 4 pernos M12 de cada pletina.',
+    },
+  },
+  collar: 'Mädler 62343500 — collar de apriete PARTIDO en dos mitades (double-split), acero C45 '
+    + 'pavonado, Ø35 int × Ø57 ext × 15, 2 tornillos M6×18 DIN 912 12.9 · web COLL-SPLIT-01 '
+    + '(equiv. Ruland MSP-35-SS / Misumi SSCS35). Retención axial del eje fijo. NO es DIN 705 A: '
+    + 'esa norma es el anillo MACIZO con prisionero y aquí el collar TIENE que ser partido, porque '
+    + 'entra en el hueco de 20 mm entre la testa del tubo y su pletina con el eje ya pasado',
+  collarDe: 57,                        // cat COLL-SPLIT-01 — d2 (antes 55, sin fuente)
+  collarR: 61.6,                       // cat COLL-SPLIT-01 — envolvente sobre la cabeza del tornillo
   tapa: { e: 10, inset: 8 },           // tapa-soporte prensada en el tubo, con
   //   hombro de tope axial del aro exterior — mismo esquema que nbt90/rodillos
   anillo: 'DIN 471 Ø35 (retención del aro interior contra el casquillo)',
@@ -316,7 +513,14 @@ export const RETORNOS = {
   //   cambia; el dato sí hay que corregirlo.
   soporte: { e: 12, lado: 100, bore: 30, patron: 76, taladro: 11,
     caraX: [67.494, 491.418], normal: [1, -1] },
-  collar: 'Collar de apriete partido Ø30 DIN 705 A',
+  // ⚠ CORREGIDO 03-08-2026 (revisión de compras A3): decía «DIN 705 A», que es
+  // el anillo MACIZO con prisionero. No existe DIN 705 partido, así que la
+  // línea no se podía pedir. Referencia real de collar PARTIDO, citada:
+  collar: 'Mädler 62343000 — collar de apriete PARTIDO en dos mitades (double-split), acero C45 '
+    + 'pavonado, Ø30 int × Ø54 ext × 15, 2 tornillos M6×18 DIN 912 12.9 · web COLL-SPLIT-01 '
+    + '(equiv. Ruland MSP-30-SS / Misumi SSCS30)',
+  collarDe: 54,                        // cat COLL-SPLIT-01 — d2 (antes 50, sin fuente)
+  collarR: 58.6,                       // cat COLL-SPLIT-01 — envolvente sobre la cabeza del tornillo
   tapa: { e: 10, inset: 8 },
   anillo: 'DIN 471 Ø30',
   holguraFondo: 20.0,                  // dis — aire entre el dorso del ramal de
@@ -490,3 +694,71 @@ export const RETIRA = {
 
 export { STEP, NBT, EJES, Xc, P };
 export default { FIJO, TAMBOR, UCF207, CONDUCIDO, RETORNOS, TAMBORES, RETORNO, CARGA };
+
+// ═══════════════════════════════════════════════════════════════════════════
+// A7 · MANDRINADO DE LAS TESTAS DEL TUBO (revisión de fabricación 2026-08-03)
+//
+// EL DEFECTO. Las diez tapas-soporte de los rodillos declaraban, en su campo
+// `ajuste`, «prensado H7/r6 en el tubo Ø82.5» (retorno) y «… Ø100.8»
+// (conducido). Esos Ø NO son cotas mecanizadas: salen de `id = od − 2·e`, o sea
+// del INTERIOR NOMINAL DE CATÁLOGO de un tubo comercial. Y el interior de un
+// tubo comercial no es una cota: es el resultado de restar dos veces una pared
+// con tolerancia a un exterior con tolerancia.
+//
+// EL NÚMERO (web TUBE-A513-01, tabla verbatim de tolerancias ASTM A513 Tipo 1):
+//   · Ø88.9 × 3.2  (3-1/2" × 0.126"): exterior ±0.0090" = ±0.229 mm · pared
+//     +0.004/−0.012" = +0.102/−0.305 mm  →  interior real 82.068 … 83.338
+//   · Ø108 × 3.6   (4-1/4" × 0.142"): exterior ±0.0200" = ±0.508 mm · pared
+//     +0.004/−0.014" = +0.102/−0.356 mm  →  interior real 100.089 … 102.019
+// El campo de tolerancia de un H7 en esos diámetros es IT7 = 0.035 mm (banda
+// 80-120 de ISO 286). La incertidumbre del tubo es 36 y 55 VECES el ajuste que
+// se pide: unas tapas entrarían sueltas y otras no entrarían.
+//
+// LA CORRECCIÓN. El tubo SE MANDRINA en las dos testas, en la longitud del
+// asiento de la tapa, al Ø H7 nominal. Eso convierte el interior en una cota de
+// plano, con su tolerancia, y hace posible el H7/r6. La longitud de mandrinado
+// es la de la tapa más 2 mm de sobrerrecorrido de la herramienta.
+// ═══════════════════════════════════════════════════════════════════════════
+const L_TAPA_LABIO = 2.0;        // dis — el mismo labio de tope axial que usa
+                                 //   adapt/mod_tambores.mjs (bloque L.tapaLabio)
+const IT7_80_120 = 0.035;        // web/cat ISO 286-2, IT7 en la banda 80-120 mm
+const A513 = {                   // web TUBE-A513-01 (pulgadas → mm)
+  'Ø88.9×3.2': { od: 0.0090 * 25.4, eMas: 0.004 * 25.4, eMenos: 0.012 * 25.4 },
+  'Ø108×3.6': { od: 0.0200 * 25.4, eMas: 0.004 * 25.4, eMenos: 0.014 * 25.4 },
+};
+/** Interior REAL de un tubo comercial y el veredicto sobre un H7 en él. */
+function interiorTubo(od, e, clave) {
+  const t = A513[clave];
+  const idMax = r3(od + t.od - 2 * (e - t.eMenos));
+  const idMin = r3(od - t.od - 2 * (e + t.eMas));
+  return { nominal: r3(od - 2 * e), idMin, idMax, banda: r3(idMax - idMin),
+    campoH7: IT7_80_120, veces: r3((idMax - idMin) / IT7_80_120), fuente: 'web TUBE-A513-01' };
+}
+export const MANDRINADO = {
+  tambor: {
+    ...interiorTubo(TAMBOR.tubo.od, TAMBOR.tubo.e, 'Ø88.9×3.2'),
+    cota: `Ø${r3(TAMBOR.tubo.id)} H7`,
+    largo: r3(TAMBOR.tapa.e + 2),
+    nota: 'las DOS testas, en la longitud del asiento de la tapa + 2 de sobrerrecorrido',
+  },
+  conducido: {
+    ...interiorTubo(CONDUCIDO.tubo.od, CONDUCIDO.tubo.e, 'Ø108×3.6'),
+    cota: `Ø${r3(CONDUCIDO.tubo.id)} H7`,
+    largo: r3(CONDUCIDO.tapa.e + L_TAPA_LABIO + CONDUCIDO.rodam.w + 2),
+  },
+  retorno: {
+    ...interiorTubo(RETORNOS.tubo.od, RETORNOS.tubo.e, 'Ø88.9×3.2'),
+    cota: `Ø${r3(RETORNOS.tubo.id)} H7`,
+    largo: r3(RETORNOS.tapa.e + L_TAPA_LABIO + RETORNOS.rodam.w + 2),
+  },
+  // La alternativa que NO se toma, y por qué se declara: dejar la tapa en H7/j6
+  // o H7/k6 y retenerla con un cordón perimetral. Es más barata, pero exige
+  // declarar ESE cordón y mete calor en la testa de un tubo que después tiene
+  // que girar redondo. Si el cliente la prefiere, se cambia aquí y se añade el
+  // cordón a la tapa — no se deja el H7/r6 contra un Ø sin controlar.
+  alternativaDeclarada: 'H7/j6 o H7/k6 + cordón perimetral en la testa (exige declarar el cordón)',
+  // Y el aro de tensión que el prensado mete en la pared, que es la otra razón
+  // para mandrinar: con r6 sobre Ø82.5 la interferencia máxima es 0.073 mm →
+  // ε = 8.8e-4 → σ ≈ 186 MPa en S275, justo donde rueda la banda.
+  tensionAroMPa: 186,
+};

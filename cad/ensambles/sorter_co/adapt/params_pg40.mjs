@@ -149,6 +149,90 @@ export const TRAMOS = {
 // Travesaños (dis): posiciones elegidas por los huecos libres del conjunto y
 // por la flecha (§7). Cada uno es un 40×40 que cruza de alargue a alargue.
 export const TRAVESANOS = [-1520, -1440, -555, -100];
+
+// ---------------------------------------------------------------------------
+// A1 · ESCUADRA LARGUERO ↔ TRAVESAÑO — la que no era una pieza
+// ---------------------------------------------------------------------------
+// Lo que había: dos cajas independientes, «Ala al larguero 6×30×32» en
+// Z [travTop+4, travTop+36] y «Ala al travesaño 30×6×32» en
+// Z [travBot+4, travBot+36]. Como el perfil mide 40 de canto, entre las dos
+// quedaban 8.00 mm de AIRE en Z: el sólido eran dos pletinas sueltas, no una
+// escuadra. Y la nota declaraba 4 M8 por escuadra (80 en el bastidor) con CERO
+// taladros modelados.
+//
+// Lo que es ahora: UNA escuadra de RINCÓN VERTICAL. El rincón no está en Z
+// (como si fuese una escuadra de repisa) sino en la arista vertical donde se
+// cortan la cara +X del larguero (X = eje + 20) y la cara ±Y del travesaño
+// (Y = y ± 20). Las dos alas nacen de esa arista y las dos suben y bajan el
+// MISMO canto, Z −32…+32: por eso ahora se tocan, y por eso la de arriba
+// alcanza la ranura del larguero (Z 15…25) y la de abajo la del travesaño
+// (Z −25…−15) siendo una sola chapa.
+//
+// UN M8 POR ALA, y el motivo es de espacio, no de gusto: entre dos largueros
+// contiguos quedan 76.2 − 40 = 36.2 mm, y entre los travesaños de −1520 y
+// −1440 quedan 40. Dos Ø9 en fila piden 2.2·d₀ + 2 × 1.2·d₀ = 19.8 + 21.6 =
+// 41.4 mm (EN 1993-1-8) y no caben en ninguna de las dos direcciones. Con ala
+// de 34 el taladro queda centrado, a 17 de cada canto. Es además el patrón de
+// catálogo de una escuadra de perfil 40×40: un tornillo por ala.
+export const ESCUADRA_LT = {
+  e: 6.0,                        // dis — pletina A36; se deducía de la sección
+  material: 'Pletina Acero A36 (S275JR) e=6',   // dis — antes no había campo
+  ala: 34,                       // calc — 1 Ø9 centrado, 17 de canto (≥ 1.2·d₀)
+  canto: 64,                     // calc — Z −32…+32: cubre la ranura del larguero
+                                 //   (Z 15…25) y la del travesaño (Z −25…−15)
+  get zBot() { return -this.canto / 2; },        // −32
+  holgura: 3,                    // dis — el ala no invade la sección del perfil:
+                                 //   arranca 3 mm fuera de su cara (montaje)
+  pasante: 9.0, rosca: 'M8', n: 2,               // 1 por ala → 2 por escuadra
+  zLarguero: 20,                 // calc — eje de la ranura +X del larguero
+                                 //   (Z.perfilBot + 40/2 = 20)
+  zTravesano: -20,               // calc — eje de la ranura ±Y del travesaño
+                                 //   (Z.travBot + 40/2 = −20)
+  plegada: true, get radio() { return this.e; }, // r = t, como el resto de la chapa
+};
+
+// ---------------------------------------------------------------------------
+// A6 · TRAVESAÑOS DE PUENTE — los dos apoyos que se llevó `desactivaPercha`
+// ---------------------------------------------------------------------------
+// El PUENTE DE CALLE (la única calle portante dentro de la huella del NBT90:
+// el bulto lo cruza apoyado en él) descansa en 10 «Placa base de puente» que
+// mod_calles pone en Y −1280 y −692 con su cara inferior en Z 9.15. Esa cota
+// era la CORONACIÓN de los travesaños de la percha (params_adapt PERCHA.travS
+// = [−1300,−1220] y travN = [−712,−632], travTopZ = 9.15). Al poner
+// FLAGS.desactivaPercha = true esos travesaños salieron del ensamble por
+// nombre y las 10 placas, los 5 puentes, las 5 regletas UHMW y 20 pernos se
+// quedaron EN EL AIRE — es el hallazgo A6 de la revisión de fabricación y el
+// SC-01 de la revisión estructural.
+//
+// LA DECISIÓN, entre las dos que planteaba el informe: se devuelve el apoyo en
+// su sitio, NO se lleva el puente a los travesaños PG40 que ya existen. Motivo,
+// con el número delante: los PG40 más próximos están en Y −1440 y −555, y
+// apoyar ahí lleva el vano libre del puente de 588 a 885 mm — un ×1.51 en luz,
+// que en flecha (∝ L³) es ×3.44 sobre una pletina 30×28 que ya estaba
+// dimensionada al límite de 0.1 mm. Devolver el apoyo cuesta dos perfiles y no
+// obliga a recalcular nada aguas abajo.
+//
+// Son PG40 40×40 ranura 10 como el resto del bastidor (no el 40×80 ranura 8 de
+// la percha, que era perfil del cliente): coronan en Z 9.15 exactos, o sea
+// zBot = −30.85, y su ranura superior queda bajo la placa base, que es donde
+// muerden sus dos tuercas martillo M8. Y NO llevan escuadra larguero↔travesaño:
+// a esas Y no hay larguero (los tramos mueren en −1302 y arrancan en −630),
+// están precisamente en el hueco por el que el puente cruza la transferencia.
+export const TRAVESANOS_PUENTE = [
+  { y: -1280, nom: 'sur' },      // = centro de la ranura de la placa base sur
+  { y: -692, nom: 'norte' },     // = ídem norte
+];
+export const PUENTE_APOYO = {
+  topZ: 9.15,                    // params_adapt PERCHA.travTopZ (calc: 51.7 − 8.55
+                                 //   − 28 − 6, la cadena de alturas del puente)
+  get botZ() { return r3(this.topZ - PERFIL.h); },                 // −30.85 calc
+  // Escuadra de extremo al chapón del cliente, 3/16" (la misma chapa y el mismo
+  // papel que la «Escuadra travesaño↔bastidor» que la percha llevaba): sin ella
+  // el travesaño topa a hueso contra el chapón y la compuerta §S SC-11 lo cuenta.
+  escuadra: { t: 4.763, alaV: 45, alaH: 30, ancho: 60,             // nbt90 P.placaT
+    pasante: 9.0, rosca: 'M8', n: 2,   // 2 al chapón + 2 a la ranura del travesaño
+    radio: 4.763 },                    // r = t (mismo criterio que el resto de chapa)
+};
 //   −1520: entre la cabecera conducida (−1560.2) y el volante V1 (−1345)
 //   −1390: sobre el IDLER-ENS (que vive en Z −273…−155, no compite)
 //   −600 : entre el travesaño de percha norte (−632) y el volante V4 (−586)
@@ -253,17 +337,88 @@ export const ALARGUE = {
   cubreLapX: 482.918,            // calc: xInt − 8.5, por dentro (0.5 de holgura de
                                  //   montaje al alma: a hueso el booleano deja sliver)
   transicion: 35,                // dis: longitud de la diagonal de cambio de canto
-  cabezalMotrizY: [-125, 90],    // calc — fuera de la ventana Y del deck
+  cabezalMotrizY: [-125, 122],   // calc — fuera de la ventana Y del deck.
+                                 //   A5 (revisión de fabricación 2026-08-03): el
+                                 //   borde estaba en +90 y el SEGUNDO taladro de la
+                                 //   placa de extremo del travesaño frontal del
+                                 //   tensor cae en Y 110 — 20 mm al aire. El
+                                 //   cabezal se alarga a +122 (12 de distancia al
+                                 //   canto sobre el taladro) porque ES ÉL el que
+                                 //   tiene que dar chapa: la placa no se puede
+                                 //   estrechar sin dejar los dos pernos a un lado
+                                 //   del tubo 40×40, que va de Y 58 a 98 y tapa la
+                                 //   llave. Zona verificada libre: los dos únicos
+                                 //   sólidos del cliente por ahí (LAT TOP y FRONT
+                                 //   TOP2) mueren en Y 90.18.
   cabezalCondY: [-1697.4, -1535],// calc — ídem, por el otro extremo
-  cabezalZ: [-120, 70],          // calc: +70 = 46 semicuadro UCF + 24 de canto; el
-                                 //   faldón hasta −120 es el que recibe el cubrejunta
+  cabezalZ: [-125, 70],          // calc: +70 = 46 semicuadro UCF + 24 de canto; el
+                                 //   faldón hasta −125 es el que recibe el cubrejunta
                                  //   POR DEBAJO de la pletina de soporte del conducido
-                                 //   (117×117 centrada en Z −2.3, o sea hasta −60.8)
+                                 //   (117×117 centrada en Z −2.3, o sea hasta −60.8).
+                                 //   A3: bajado de −120 a −125 para que la fila
+                                 //   inferior de pernos del cubrejunta (Z −110)
+                                 //   tenga 15 mm de distancia al canto. Más abajo
+                                 //   no se puede ir sin acercarse al ENSAMBLE MOTOR
+                                 //   UniDrive del cliente (techo Z −155.17).
   cubrejuntaE: 8,                // dis: mismo espesor, por dentro del alma
-  cubrejuntaZ: [-110, -75],      // calc: bajo el faldón del cabezal y 14.2 por debajo
-                                 //   de la pletina de soporte del conducido (params_tambores)
-  mensulaY: [-1440, -540],       // dis: 2 ménsulas por lado que suben del alma al
-  mensulaZ: [-70, -40],          //   travesaño PG40 y amarran el bastidor al canal
+  // A3 · EL CUBREJUNTA ES LA JUNTA POR LA QUE PASA LA REACCIÓN DEL TAMBOR.
+  // Declaraba «4 pernos M10 al alma y 4 al cabezal» y no tenía ni un taladro —
+  // ni él ni sus dos piezas. Y con 35 de canto sólo cabía UNA fila de pernos:
+  // una junta de una sola alineación no cose nada a flexión. Ahora:
+  //   · canto 55 (Z −125…−70), que es lo que deja el faldón del cabezal por
+  //     abajo (−125) y el canto del alma por arriba (−70);
+  //   · DOS filas de pernos en Z −85 y −110 (paso 25 ≥ 2.2·d₀ = 24.2 de
+  //     EN 1993-1-8) con 15 de distancia al canto arriba y abajo (≥ 1.2·d₀ =
+  //     13.2), 2 pernos por fila y por pieza → 4 al alma + 4 al cabezal = los 8
+  //     que la nota ya declaraba;
+  //   · y los mismos Ø11 taladrados EN EL ALMA Y EN EL CABEZAL.
+  cubrejuntaZ: [-125, -70],      // calc (A3): de faldón de cabezal a canto de alma
+  cubrejuntaPernoZ: [-85, -110], // calc (A3): 2 filas, paso 25, canto 15
+  cubrejuntaPernoDY: 16,         // calc (A3): ±16 → paso 32 en Y (≥ 24.2) sobre los
+                                 //   65 mm de solape más corto (conducido), con
+                                 //   16.5 de distancia al canto
+  // A4 · LA MÉNSULA ERA UNA PLETINA PLANA. Vivía en el plano del alma (normal X)
+  // y «subía al travesaño PG40», que es un 40×40 que corre en X con sus ranuras
+  // mirando a ±Y y ±Z: una pletina contenida en el plano YZ no se puede
+  // atornillar a ninguna de ellas — no había taladro ni cordón, y esta es la
+  // pieza que amarra el bastidor PG40 al NBT90. Ahora es ESCUADRA en dos alas:
+  //   · ALA VERTICAL 30 (Y) × 60 (Z) en el plano de solape del alma. NO lleva
+  //     tornillo: va SOLDADA al alma con cordón de rincón por las dos caras del
+  //     solape. Y no por gusto — por acceso: en +X la cara exterior del alma
+  //     (X 499.418) es la cara interior del chapón del cliente, así que no hay
+  //     sitio para tuerca ni cabeza, y una M10 roscada en 8 mm de chapa da 0.8·d
+  //     de empotramiento. Se lapa 30 mm sobre el alma (Z −100…−70), que es lo
+  //     que pide un cordón de garganta 5.6 en chapa de 8.
+  //   · PESTAÑA 45 (X) × 36 (Z) contra la cara +Y del travesaño, con 2 Ø9 para
+  //     tuerca martillo M8 en su ranura 10. Esa ranura corre en X: por eso los
+  //     dos taladros se separan en X y no en Z.
+  mensulaTravY: [-1440, -555],   // calc: el travesaño que amarra cada ménsula
+  // La ménsula se centra 35 mm DETRÁS de la cara +Y del travesaño, y esa cota no
+  // es libre: en +X la pletina de soporte del rodillo de retorno RR1 ocupa
+  // Y −656…−556 en el MISMO plano de chapa (X 479.418…491.418, params_tambores),
+  // así que la ménsula norte no puede bajar de Y −556 — y la ranura −Z del
+  // travesaño, que está en Y −555, queda dentro de esa zona prohibida. Por eso
+  // el amarre se hace por la ranura +Y y no por la de abajo.
+  get mensulaY() { return this.mensulaTravY.map(y => r3(y + 20 + this.mensulaAncho / 2)); },
+  mensulaZ: [-100, -4],          // calc (A4): de Z −100 (30 de solape con el alma,
+                                 //   que corona en −70, para su cordón) a Z −4, que
+                                 //   cubre la ranura +Y del travesaño (Z −25…−15).
+                                 //   Antes era [−70, −40]: ni tocaba el alma
+  mensulaE: 8,                   // dis — pletina A36, la misma chapa del alargue
+  mensulaAncho: 30,              // dis — ala vertical; 15 de canto a cada lado
+  mensulaTab: { largo: 45, alto: 36, e: 8, z: -20,   // calc — pestaña contra la cara
+                                 //   +Y del travesaño; Z −38…−2 con el taladro en el
+                                 //   eje de la ranura (Z −20): 18 y 18 de canto
+    pernoX: [12, 33],            // calc: paso 21 (≥ 2.2·d₀ = 19.8) y 12 de canto
+    pasante: 9.0, rosca: 'M8' },
+  mensulaCordon: 'cordón de rincón continuo a=5.6 por las dos caras del solape '
+    + '(AWS D1.1, chapa de 8 mm), símbolo ISO 2553',   // dis
+  // A5 · INTERFAZ CERRADA CON EL TENSOR (mod_tensor2 «Placa de extremo del
+  // travesaño frontal»). Antes era una PETICIÓN escrita en la nota de la placa
+  // («2 taladros Ø9 por cabezal, en Y 50 y 106, Z −85») que nadie ejecutaba: el
+  // cabezal no tenía ningún Ø9. Ahora la cota vive aquí, la publica params_pg40
+  // y la leen las DOS piezas.
+  taladrosTensor: { y: [46, 110], z: -85, pasante: 9.0, rosca: 'M8', n: 2 },
 
   // Amarre al SIDE CHANNEL del NBT90 (nbt90): sus 3 colisas de reglaje por lado.
   //   Y = T.y − sideTornX  ·  colisa Ø10.3 × 26.3 VERTICAL centrada en Z −104.267
@@ -291,7 +446,17 @@ export const ALARGUE = {
   //   −1300 → −1450 (el tramo sur sólo tiene libre −1535…−1375 y −1230…−1208)
   //   −660  → −540  (deja 6.76 a la pletina de RR1 y 20 al perno de −520)
   // MODIFICACIÓN DECLARADA sobre los taladros nuevos del chapón (siguen siendo 8).
-  pernosChaponY: [-1500, -1450, -1400, -540, -450, -360, -260, -160],
+  // A4 (2026-08-03): dos de los ocho se corren OTRA VEZ, ahora porque la ménsula
+  // alma↔travesaño deja de ser una pletina de 30 de canto y baja a Z −100 para
+  // solapar 30 mm con el alma (que es lo que pide su cordón). Sus tuercas M10,
+  // que salen 8.5 mm hacia dentro desde la cara del alma, caían dentro de la
+  // nueva ménsula: −1450 (tuerca Y −1458…−1442) contra la ménsula de −1440
+  // (Y −1455…−1425) y −540 (tuerca Y −548…−532) contra la de −540 (Y −555…−525).
+  // Cuadro nuevo del tramo sur −1500 · −1470 · −1440 (paso 30 ≥ 2.2·d₀ = 24.2,
+  // todos dentro del hueco libre −1535…−1375) y del norte −480 · −450 · −360 ·
+  // −260 (−480 sustituye a −540, que caía bajo la ménsula, y deja 76 mm a la
+  // pletina de RR1 en vez de los 16 de antes).
+  pernosChaponY: [-1500, -1470, -1440, -480, -450, -360, -260, -160],
   pernosChaponZ: -92,            // calc: el chapón vive en Z −114…46 y el alma en
                                  //   −248…−70 → sólo comparten −114…−70; el perno
                                  //   va al medio, a 22 del canto del alma.

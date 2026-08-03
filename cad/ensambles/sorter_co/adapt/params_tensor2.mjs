@@ -136,7 +136,11 @@ export const NEUM = {
   // --- accesorios: los 4 que pidió el cliente, UNO POR CILINDRO -------------
   accesorios: {
     bisagra: 'SMC C85C25',             // web PNEU-007 — bisagra trasera (clevis) C85 Ø20/25
-    rotula: 'SMC KJ10D',               // web PNEU-006 — horquilla de vástago M10×1.25
+    rotula: 'SMC KJ10D',               // web PNEU-006 — RÓTULA de vástago (rod end), M10×1.25,
+                                       //   rótula esférica Ø10 H7. NO es horquilla y NO trae bulón.
+    rotulaNorma: 'SMC KJ10D — rótula de vástago (rod end / piston rod end bracket), rosca hembra '
+      + 'M10×1.25, rótula esférica de casquillo deslizante Ø10 H7, inclinación admisible 13°; '
+      + 'SIN bulón (despiece de catálogo: cuerpo + rodamiento + liner) · web PNEU-006',
     regulador: 'SMC AS2201FS-01-06S',  // web PNEU-004 — regulador de CAUDAL meter-out
     silenciador: 'SMC AN101-01',       // web PNEU-005 — silenciador R1/8 (confianza BAJA)
     racor: 'SMC KQ2L06-01AS',          // web PNEU-008 — codo instantáneo R1/8 ↔ tubo Ø6
@@ -154,6 +158,70 @@ export const NEUM = {
   reguladorPresionX: 20,     // dis — fuera del reparto de calles, junto al
   reguladorPresionY: 34.5,   //   bastidor −X, accesible para el ajuste
   reguladorPresionZ: -200,
+
+  // --- ACONDICIONAMIENTO Y REPARTO DEL AIRE (hallazgo A12) ------------------
+  // Faltaba MEDIO CIRCUITO: el AR20 es SÓLO un regulador de presión con una
+  // salida R1/4, y de él colgaban 5 líneas sin filtro, sin manómetro, sin
+  // derivación y sin corte. Se cierran las cuatro cosas con referencia citada.
+  // Son piezas de COMPRA sin geometría fina (viven en el cuadro de aire, fuera
+  // del volumen que este ensamble dibuja): se declaran aquí y salen en la lista
+  // de compra del módulo, que es donde el taller las lee.
+  acondicionamiento: {
+    corte: {
+      ref: 'SMC VHS20-02',   // web PNEU-012
+      web: 'PNEU-012',
+      desig: 'SMC VHS20-02 — válvula manual de corte y ESCAPE de presión residual, 3 vías, R1/4, '
+        + 'con agujeros de candado (conforme a OSHA) · web PNEU-012',
+      cant: 1,
+      porQue: 'sin ella no se puede aflojar el tensor para cambiar una banda ni para intervenir: hoy '
+        + 'habría que cortar el aire de la máquina entera. Es ADEMÁS el elemento de bloqueo y '
+        + 'consignación (LOTO) del tensor: al girar la maneta corta la alimentación Y purga los 5 '
+        + 'cilindros, con lo que los 5 brazos aflojan la banda (falloSeguro) y se pueden candar.',
+    },
+    filtro: {
+      ref: 'SMC AF20-02-B',  // web PNEU-010
+      web: 'PNEU-010',
+      desig: 'SMC AF20-02-B — filtro de aire modular, R1/4, grado de filtración 5 µm, con brida de '
+        + 'montaje (sufijo B) · web PNEU-010',
+      cant: 1,
+      porQue: 'el AR20 es SÓLO regulador. Un ISO 6432 de Ø25 alimentado con aire sin filtrar se raya '
+        + 'la camisa. Va DELANTE del AR20 y modula con él (misma serie 20, mismo cuerpo).',
+    },
+    manometro: {
+      ref: 'SMC G36-10-01',  // web PNEU-011
+      web: 'PNEU-011',
+      desig: 'SMC G36-10-01 — manómetro redondo Ø37, 0…1.0 MPa, rosca R1/8, accesorio de catálogo del '
+        + 'cuerpo tamaño 20 (AR20/AW20) · web PNEU-011',
+      cant: 1,
+      porQue: 'los 4.0 bar de trabajo son EL parámetro del que cuelga toda la tensión de las 5 bandas '
+        + '(tabla presión↔tensión de TENSION.tablaPresion). Sin manómetro el ajuste no es medible ni '
+        + 'repetible. Va en el puerto de manómetro R1/8 del propio AR20.',
+    },
+    reparto: {
+      ref: 'SMC KQ2T06-00',  // web PNEU-013
+      web: 'PNEU-013',
+      desig: 'SMC KQ2T06-00 — te de unión instantánea Ø6 (tubo a tubo), PBT/NBR, −100 kPa…1 MPa · '
+        + 'web PNEU-013',
+      cant: 4,
+      porQue: 'el AR20-02-B tiene UNA salida R1/4 y hay que alimentar CINCO cilindros en paralelo. '
+        + '4 tes en cascada dan las 5 derivaciones (1→2, 2→3, 3→4, 4→5). Es la alternativa barata al '
+        + 'colector de 5 salidas; si se prefiere colector, una sola pieza lo sustituye.',
+    },
+    bridaAR20: 'NO hace falta pieza aparte: el sufijo «-B» del AR20-02-B ES la brida de montaje con '
+      + 'sus tuercas (misma nomenclatura de accesorio que el AF20-02-B) · web PNEU-010',
+  },
+  // Metraje del tubo (calc, sobre el trazado declarado abajo): 5 líneas que
+  // arrancan en X 24 (tuboX0), corren a Z −135 / Y 78 hasta el eje de su calle
+  // y suben al racor del cilindro (Z −96.76). Longitud por línea = tramo en X
+  // (|Xcalle − 24|) + subida (135 − 96.76 = 38.24) + 300 de curvas y holgura.
+  get tuboLineasMm() {
+    return EJES.map((x, i) => ({ calle: i + 1, mm: r2(Math.abs(x - 24) + 38.24 + 300) }));
+  },
+  get tuboTotalM() {
+    const s = this.tuboLineasMm.reduce((a, l) => a + l.mm, 0);
+    // + acometida red→VHS20→AF20→AR20 (1.5 m declarado) y 10 % de merma
+    return r2((s * 1.1 / 1000) + 1.5);
+  },
 };
 
 // ===========================================================================
@@ -202,8 +270,21 @@ export const PIV = {
   // ni nada más. Toda la holgura del eje (145.5 mm) está en el lado −X.
   // El paquete queda igualmente capturado: el collar −X aprieta la pila contra
   // el anillo +X, que hace de TOPE además de retener el eje (ver anilloX).
-  collar: { de: 50, di: 30, largo: 15 },   // dis — collar de apriete partido
-  collarDesignacion: 'PENDIENTE — collar de apriete partido Ø30, tipo DIN 705 A / abrazadera',
+  // COTAS DE CATÁLOGO, no inventadas (web COLL-SPLIT-01): Mädler 62343000,
+  // «Clamp collar double-split steel C45 … bore 30mm» → d1 30 · d2 54 · b 15,
+  // 2 tornillos M6×18 DIN 912 12.9. El Ø50 que había aquí no era de ninguna
+  // ficha; se sube a los 54 de catálogo. Envolvente real sobre la cabeza del
+  // tornillo: R = 58.6 (declarado, no modelado: el modelo lleva el cuerpo).
+  collar: { de: 54, di: 30, largo: 15, rSobreTornillo: 58.6 },   // cat COLL-SPLIT-01
+  // POR QUÉ NO DIN 705 A: DIN 705 forma A es un Stellring MACIZO con prisionero
+  // — no existe versión partida en esa norma. Y aquí el collar TIENE que ser
+  // partido: su Ø exterior (54) no pasa por el barreno Ø30 del UC 206, así que
+  // una vez montadas las dos chumaceras un collar macizo YA NO SE PUEDE ENFILAR
+  // por ningún extremo del eje. La pieza partida no tiene norma DIN/ISO: se
+  // designa por fabricante, que es lo que se hace aquí.
+  collarDesignacion: 'Mädler 62343000 — collar de apriete PARTIDO en dos mitades (double-split), '
+    + 'acero C45 pavonado, Ø30 int × Ø54 ext × 15, 2 tornillos M6×18 DIN 912 12.9 · web COLL-SPLIT-01 '
+    + '(equivalente: Ruland MSP-30-SS). NO es DIN 705 A: esa norma es el anillo MACIZO con prisionero',
   get collarX() { return [r2(this.pilaX[0] - this.collar.largo), this.pilaX[0]]; },  // [80.06, 95.06]
   // caras exteriores de la pila, BRIDAS INCLUIDAS (calc): ahí topan los collares
   get pilaX() {
@@ -214,9 +295,28 @@ export const PIV = {
   // --- apoyos del eje al bastidor ------------------------------------------
   // 2 chumaceras de brida ovalada, una contra la cara interior de cada chapón.
   // UCFL 206 (eje 30) y no la 205 del cliente, por el cambio de Ø del eje.
-  ucfl: { designacion: 'SKF UCFL 206', bore: 30, housingW: 31, entreTaladros: 108, alto: 140 },
-  ucflNota: 'misma serie SKF UC/UCFL citada en web_facts BRG-003 (allí, tamaño 205 para eje 25); '
-    + 'el tamaño 206 (eje 30) se deduce del cambio de Ø del eje. Cita específica del 206: PENDIENTE.',
+  // ⚠ CORREGIDO 03-08-2026 (revisión de compras A4): estaba `entreTaladros: 108`
+  // y `alto: 140`, cotas SIN FUENTE. Catálogo, dos fuentes independientes
+  // (web BRG-UCFL206-01 NTN y BRG-UCFL206-02 AMI): J = 117.0 · A (ancho de
+  // cuerpo) = 31.0 · H (largo del óvalo) = 148.0 · L (ancho de brida) = 80.0 ·
+  // N (Ø del taladro) = 16.0. Con 108 el chapón del cliente se taladraba 4.5 mm
+  // fuera POR LADO y la chumacera no entraba en sus propios taladros — y son
+  // taladros NUEVOS en pieza del cliente, o sea irreversibles.
+  ucfl: { designacion: 'SKF UCFL 206', bore: 30, housingW: 31, entreTaladros: 117, alto: 148,
+    taladro: 16, bridaAncho: 80 },   // cat — web BRG-UCFL206-01/02
+  ucflNota: 'cotas de catálogo verificadas contra DOS fuentes independientes (web BRG-UCFL206-01 NTN '
+    + '«J 117.0 · A 31.0 · H 148.0 · N 16.0» y BRG-UCFL206-02 AMI «e 117 · a 148 · x 31 · s 16»), y '
+    + 'coherentes con la serie: UCFL205 → J 99 (= lo medido del cliente, web BRG-003), UCFL206 → 117, '
+    + 'UCFL207 → 130. El taladro es Ø16: catálogo AMI declara perno M14; aquí se monta M12 con arandela '
+    + '(mismo M12 que el resto de la máquina) y queda 2 mm de juego radial por lado — DECLARADO, es la '
+    + 'holgura de montaje de la brida, no un reglaje. La MARCA queda abierta: la 206 la fabrican NTN, '
+    + 'AMI, FYH, ASAHI y SKF con la misma cota JIS y calidades distintas; elegir una antes de pedir.',
+  // ancho del óvalo (Z en este montaje): el modelo dibuja el cuerpo como un
+  // prisma de 44 y NO los 80 de brida de catálogo, porque la brida real es una
+  // oreja delgada y modelarla llena chocaría en falso con el brazo de la calle 5
+  // (ver hallazgo B11). Queda DECLARADO para que la comprobación sólida lo mire.
+  ucflBridaDeclarada: 'brida oval real 148 × 80 × ~16 de espesor; el modelo la simplifica a un prisma '
+    + '31 × 148 × 44. Pendiente de comprobar con sólidos el cruce con el brazo de la calle 5 barrido.',
   ucflX: [STEP.frameIntNeg, STEP.frameIntPos],   // [−81.423, 499.418] step
 
   // --- (a) RETENCIÓN AXIAL DEL EJE -----------------------------------------
@@ -317,8 +417,40 @@ export const SOPORTE = {
   // --- los bulones y sus retenciones ---------------------------------------
   // Los DOS extremos del cilindro pinzan con bulón + anillo a cada lado. Es lo
   // que faltaba: sin bulón la bisagra no transmite nada.
-  bulonTrasero: { d: 8, norma: 'ISO 2341 B — bulón Ø8 con taladro de pasador', anillo: 'DIN 471-8' },
-  bulonRotula: { d: 10, norma: 'bulón Ø10 del kit KJ10D (ISO 8140, suministrado con la rótula)', anillo: 'DIN 471-10' },
+  //
+  // ⚠ CORREGIDO 03-08-2026 (revisión de compras A5 y A6). Los dos bulones son
+  // ahora PIEZA DE PLANO, la misma familia, y con UNA sola retención cada uno:
+  //
+  //   · A6 — el trasero decía a la vez «ISO 2341 B» y «DIN 471-8». No pueden ir
+  //     juntos: la FORMA B de ISO 2341 lleva TALADRO DE PASADOR DE ALETAS
+  //     (ISO 1234) y no tiene garganta donde alojar un circlip. Se elige la vía
+  //     del CIRCLIP —no la del pasador de aletas— por tres razones de montaje:
+  //     (1) el bulón delantero ya es fabricado con gargantas DIN 471-10, así que
+  //     el taller monta un solo tipo de retención en todo el tensor;
+  //     (2) el bulón de circlip es simétrico y reversible, y aquí se monta a
+  //     ciegas entre el tambor motriz y el travesaño;
+  //     (3) un pasador de aletas asoma 10–12 mm en el plano de la banda 1 o 5 y
+  //     hay que doblarlo con la guarda puesta.
+  //     Coste: deja de ser pieza de catálogo y necesita plano (Ø8 h9 × 44 con
+  //     2 gargantas 7.6−0.09 × 0.9, según DIN 471-8). Se declara como tal.
+  //
+  //   · A5 — el delantero decía «bulón Ø10 del kit KJ10D (ISO 8140)». Dos
+  //     errores: ISO 8140 es la norma de las HORQUILLAS de vástago (rod clevis,
+  //     serie I-/Y-), no de las rótulas (web PIN-ISO8140-01); y la KJ10D NO
+  //     LLEVA BULÓN — su despiece de catálogo tiene exactamente tres piezas:
+  //     «q Body · w Bearing · e Liner» (web PNEU-006). El modelo ya fabrica el
+  //     bulón Ø10×64; con la cita a ISO 8140 fuera, el suministro es UNO SOLO.
+  bulonTrasero: { d: 8, largo: 44, fabricado: true,
+    norma: 'FABRICADO — bulón Ø8 h9 × 44, acero C45, con 2 gargantas para anillo DIN 471-8 (pieza de '
+      + 'plano). NO es ISO 2341: la forma B de esa norma lleva taladro de pasador de aletas ISO 1234 y '
+      + 'NO admite circlip; llevaba las dos designaciones a la vez',
+    anillo: 'DIN 471-8' },
+  bulonRotula: { d: 10, fabricado: true,
+    norma: 'FABRICADO — bulón Ø10 h9 con 2 gargantas para anillo DIN 471-10 (pieza de plano). La KJ10D '
+      + 'NO lo incluye: su despiece de catálogo es «Body · Bearing · Liner», tres piezas (web PNEU-006). '
+      + 'Se retira la cita a ISO 8140, que es la norma de las HORQUILLAS de vástago, no de las rótulas '
+      + '(web PIN-ISO8140-01). UNA sola procedencia del bulón: éste',
+    anillo: 'DIN 471-10' },
   // separadores Ø19×18 medidos del cliente, que centran la horquilla de 17 de
   // la KJ10D entre las 2 pletinas del brazo (step, inventario)
   separadorRotula: { de: 19, di: 10.2, largo: 18 },
@@ -373,6 +505,16 @@ export const POL = {
   eje: { d: 20, largo: 70 },     // dis — patrón del eje SCMRT906VCT del cliente
   rodamiento: { bore: 20, od: 42, w: 12, designacion: 'SKF W 6004-2Z' },  // web BRG-005
   anillo: '3AM1-20',
+  // ⚠ CORREGIDO 03-08-2026 (revisión de compras A2). `lib.mjs anilloRet()`
+  // estampa a TODOS los anillos la cadena «DIN 471 / ASME B27.7», que a este
+  // anillo no le vale por partida doble: DIN 471 es otra norma con otra ranura,
+  // y «ASME B27.7» A SECAS es la serie de PULGADAS. La serie métrica es
+  // B27.7M — lo dice la propia fuente que ya está citada (web RING-001):
+  // «ANSI B 27.7 (3AM1) … Metric external Retaining Rings … 3AM1-20 for a 20 mm
+  // diameter shaft». Es el mismo anillo que el cliente ya tiene medido en su
+  // eje Ø20 (contraste_con_lo_medido de RING-001: «ANSI B 27.7M - 3AMI-20»).
+  // mod_tensor2 pisa la cadena de lib.mjs con ésta, que es UNA sola norma.
+  anilloNorma: 'ANSI/ASME B27.7M — anillo de retención exterior 3AM1-20 (eje 20 mm) · web RING-001',
 };
 
 // El RAMAL sobre el que se tensa. La posición del tambor motriz y del rodillo

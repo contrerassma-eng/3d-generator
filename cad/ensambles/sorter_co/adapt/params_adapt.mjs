@@ -30,7 +30,27 @@ export const STEP = {
   tslotY: [-1551.181, -53.819],  // step medidas.json — extremos del perfil TSLOT actual
   tslotSec: [40.0, 80.0],        // step §4.2 — sección del perfil (ranura 8, serie 40)
   guiaY: [-1530.782, -130.782],  // step medidas.json — cama de guías actual (7×200)
-  guiaSec: { ancho: 39.9, alto: 18.55, topZ: 51.7 },   // step §4.3
+  // CARA DE RODADURA DE LA BANDA (`topZ`). Es la cota que leen como plano de
+  // apoyo params_pg40 (`Z.guiaTop` → las 20 regletas UHMW), params_tambores
+  // (`FIJO.planoDorso` → tambor, conducido y RR1…RR4), `CALLE.puente.topZ` y las
+  // guías guiaw que reubica mod_calles. De ella cuelga TODO el lazo, así que la
+  // define la banda:
+  //   · con la T5 DENTADA del cliente valía 51.7 —la cara MEDIDA de su guía, step
+  //     §4.3—, porque los dientes corrían dentro de la ranura de la guía y sólo el
+  //     dorso (0.633) subía hasta el plano de transporte;
+  //   · con BANDA PLANA la cara portante es la de ARRIBA y el espesor cuelga hacia
+  //     ABAJO desde el plano de transporte, que es la cota que NO se puede mover
+  //     (la fija la transferencia: el NBT90 declara su portante de anfitrión en
+  //     Z 49.83…52.33, su regleta a 49.84 y su rodillo asomando +6.35 sobre
+  //     52.333). Así que la rodadura baja a 52.333 − 2.5 = 49.833.
+  // El 51.7 medido NO se pierde: queda en `topZmedidoT5`, y la diferencia es lo
+  // que hay que rebajar/calzar en obra (`bajadaRequeridaMm`). Hallazgo SC-10.
+  guiaSec: {
+    ancho: 39.9, alto: 18.55,
+    topZ: r3(52.333 - P.bandaEsp),        // 49.833 calc = planoBanda − nbt90 P.bandaEsp (med 2.5)
+    topZmedidoT5: 51.7,                   // step §4.3 — la guía del cliente TAL COMO ESTÁ
+    get bajadaRequeridaMm() { return r3(this.topZmedidoT5 - this.topZ); },   // 1.867
+  },
   guiaLargo: 200.0,              // step §4.3 — módulo de guía individual
   bandaAncho: 32.0,              // step §1.1 — banda T5
   bandaDorso: 0.633,             // step §4.3 — dorso 52.333 − cara de guía 51.7
@@ -168,7 +188,13 @@ export const PERCHA = {
                                  //   los puntos de cuelgue (la carga baja recta)
   travS: [-1300, -1220],         // dis: travesaño sur (sección 80 en Y × 40 en Z);
   travN: [-712, -632],           //   cara superior en Z = base de placa del puente
-  travTopZ: 9.15,                // calc: 51.7 − 8.55 − 28 − 6 (cadena del puente)
+  get travTopZ() {               // calc: rodadura − 8.55 (regleta) − 28 (pletina) − 6
+    return r3(STEP.guiaSec.topZ - CALLE.puente.uhmwH - CALLE.puente.aceroH - CALLE.puente.baseT);
+  },                             //   7.283 con banda plana (era 9.15 con la cadena
+  //   del dorso T5: 51.7 − 8.55 − 28 − 6). No se escribe a mano: cuelga de la cara
+  //   de rodadura, que es quien manda desde que la banda es plana (ver guiaSec).
+  //   AVISO: `params_pg40` repite este 9.15 A MANO en el travesaño de puente
+  //   (SC-01) — hay que bajarlo a 7.283 o el travesaño se come la placa base.
   escuadraT: 4.763,              // nbt90 P.placaT — chapa 3/16" de escuadras y placas
   pernoCuelgue: { d: 9.525, rosca: '3/8-16 UNC' },     // dis: mismo Ø que la unión
                                  //   original side↔anfitrión del NBT90
