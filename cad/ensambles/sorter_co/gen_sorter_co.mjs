@@ -47,6 +47,169 @@ import { TAMBOR as TAMB_P, UCF207 as TAMB_UCF, CONDUCIDO as TAMB_CON,
 
 const aqui = dirname(fileURLToPath(import.meta.url));
 
+// ═══════════════════════════════════════════════════════════════════════════
+// §S · REVISIÓN ESTRUCTURAL DEL SORTER (2026-08-03) — LÍMITES Y DISPENSAS
+//
+// Hasta aquí la compuerta comprobaba que el sorter ENCAJA con la transferencia
+// y que se puede armar. Este bloque comprueba que AGUANTA y que FUNCIONA: la
+// cadena de tensión de banda, el arrastre en arranque, los ejes y rodamientos
+// del accionamiento, el bastidor de aluminio y el apoyo del puente de calle.
+//
+// REGLA (la misma que ../nbt90/gen_nbt90.mjs §9): ningún límite se ajusta para
+// que algo pase. Cada uno lleva el id del hecho de `web_facts.json` con su URL,
+// su fecha de acceso y su cita textual. Los que NO son de catálogo van marcados
+// `dis` y explican por qué se eligen — son decisiones NUEVAS de esta revisión y
+// hay que discutirlas, no heredarlas en silencio.
+// El detalle de cada hallazgo está en REVISION_ESTRUCTURAL_SC.md.
+// ═══════════════════════════════════════════════════════════════════════════
+const LIMS = {
+  // --- materiales -----------------------------------------------------------
+  C45: {
+    // web MAT-C45-01 · EN 10083-2. El estado de suministro de los ejes NO está
+    // declarado en params (dice sólo «C45 rectificado h7» / «C45 h9»), así que
+    // se juzga con el estado MÁS DÉBIL de los dos, el normalizado. Si el
+    // cliente los pide +QT hay que cambiar esto aquí y decirlo en params.
+    fyN: 305,        // MPa · +N, 16-100 mm
+    fyQT: 430,       // MPa · +QT, Ø16-40 mm (el que params_tensor2 ya usa)
+    fsFlexion: 3,    // dis — el mismo FS 3 que params_tensor2 exige en §T2
+  },
+  alu6063: {
+    // web MAT-6063-01 · EN 755-2:2016, t ≤ 10 mm. params_pg40.PERFIL declara la
+    // aleación pero NO el temple: se juzga con el más débil de la familia.
+    rp02T5: 130, rp02T6: 170,   // MPa
+  },
+  // --- tuerca martillo / ranura del perfil ----------------------------------
+  tuercaT: {
+    parMaxNm: 25,    // web TNUT-10-M8-01 · M8 en ranura 10
+    K: 0.20,         // dis — factor par/precarga de una rosca métrica seca sin
+                     //   lubricar (el mismo 0.20 que usa nbt90 LIM.perno38.K)
+    // Huella del ala de la tuerca sobre los DOS labios de la ranura. La tuerca
+    // real no está en el modelo (no hay pieza ni designación): se toma la del
+    // catálogo citado — ala de 19.5 mm de largo y 2.25 mm de vuelo por labio.
+    // Es `dis` y es la cota que hay que confirmar con la tuerca que se compre.
+    huellaMm2: 2 * 19.5 * 2.25,   // 87.75
+  },
+  // --- rodamientos ----------------------------------------------------------
+  brg: {
+    // web BRG-6207-01 / BRG-6206-01 (Timken) · web BRG-UCF207-01 (UC207)
+    C6207: 25700, C6206: 19500,
+    L10objetivoH: 20000,   // dis — 5 años a dos turnos. Es el MISMO objetivo que
+                           //   declaró la revisión estructural del NBT90
+                           //   (nbt90 LIM.L10objetivoH): no se inventa otro.
+    p: 3,                  // web BRG-L10-01 · ISO 281, rodamientos de bolas
+  },
+  // --- banda plana ----------------------------------------------------------
+  banda: {
+    // El modelo construye el lazo con un DORSO de 0.633 mm, que es el convenio
+    // con el que el CLIENTE modeló su banda T5 DENTADA (step §4.3), no el
+    // espesor de una banda plana. El propio params_tambores lo dice y cita el
+    // dato del repo: nbt90 P.bandaEsp = 2.5 mm, MEDIDO sobre la banda plana de
+    // 1" que ya corre en la transferencia.
+    espMinMm: 2.0,          // nbt90 P.bandaEsp = 2.5 (med) — mínimo exigible
+    nMmMin: TENSION?.rangoSanoNmm?.[0] ?? 3,   // el rango sano que declara el
+                            //   propio params_tensor2 (dis de ese módulo)
+    coherenciaPct: 5,       // dis — tolerancia entre la tensión que DECLARA
+                            //   params_tensor2 y la que da la GEOMETRÍA que
+                            //   construye mod_calles. Por encima de eso los dos
+                            //   módulos están calculando cosas distintas.
+  },
+  // --- arranque -------------------------------------------------------------
+  arranque: {
+    // NO hay rampa declarada en ningún parámetro (queda en
+    // `pendientes_sin_fuente`). Esta revisión FIJA una, porque sin ella el
+    // arrastre en arranque no se puede juzgar: 1.0 s es el ajuste corriente de
+    // un arrancador suave o un variador en una banda transportadora. Es `dis`:
+    // si el cliente pone otra, se cambia aquí y la comprobación se rehace.
+    rampaS: 1.0,
+    fsMin: 1.5,   // dis — reserva mínima contra el patinaje EN ARRANQUE. El
+                  //   módulo ya exige 2.0 en RÉGIMEN (params_tambores
+                  //   CARGA.fsCapstanMin); en el transitorio se admite menos
+                  //   porque dura menos de un segundo y no se repite con carga.
+    bultos: 2,    // = params_tambores CARGA.bultosSimultaneos
+  },
+  // --- estructura -----------------------------------------------------------
+  puenteApoyosMin: 2,     // dis — una viga necesita DOS apoyos. No es una norma:
+                          //   es la definición de viga.
+  amarreBastidorMin: 2,   // dis — nº mínimo de piezas de unión entre cada
+                          //   travesaño extremo del PG40 y la estructura del
+                          //   cliente. El propio mod_pg40 dice «se amarran a
+                          //   ellos por escuadra»: la comprobación es que existan.
+};
+
+// ---------------------------------------------------------------------------
+// HALLAZGOS ABIERTOS de la revisión estructural del sorter (2026-08-03).
+//
+// Son comprobaciones de §S que el diseño NO cumple y que no se pueden arreglar
+// sin MOVER GEOMETRÍA — cosa que esta revisión tiene prohibida (hay otros
+// agentes trabajando el trazado de banda y los soportes de cilindro). Se dejan
+// escritas con su número, no en un documento:
+//   · si una EMPEORA respecto del `uso` registrado aquí, la compuerta FALLA;
+//   · si una DESAPARECE (el módulo dueño la arregló), FALLA pidiendo que se
+//     borre la entrada, para que no queden dispensas caducadas;
+//   · si aparece una violación que NO está en esta lista, FALLA sin más.
+// `uso` = utilización = valor/límite (>1 incumple). `dueño` = quién lo arregla.
+// ---------------------------------------------------------------------------
+const HALLAZGOS_SC = {
+  'SC-01': { uso: 11, dueño: 'adapt/params_pg40.mjs + adapt/mod_calles.mjs',
+    nota: 'los 10 apoyos del puente de calle se quedaron sin travesaño al poner '
+      + 'FLAGS.desactivaPercha = true' },
+  'SC-02': { uso: 1.57, dueño: 'adapt/params_tensor2.mjs',
+    nota: 'la tensión que da la geometría real del balancín es 1.91 N/mm, no 4.03' },
+  'SC-03': { uso: 22.2, dueño: 'adapt/params_tensor2.mjs',
+    nota: 'PALANCA.ratio supone la reacción de la banda VERTICAL y la geometría '
+      + 'de mod_calles la deja a 25.67° de la vertical' },
+  'SC-05': { uso: 2.28, dueño: 'adapt/params_pg40.mjs',
+    nota: 'ni el temple del perfil ni el par de apriete están declarados' },
+  'SC-10': { uso: 1.67, dueño: 'adapt/params_tambores.mjs',
+    nota: 'el modelo cuelga de un dorso de banda de 0.633 mm, que es el convenio '
+      + 'de la T5 dentada del cliente, no una banda plana' },
+  'SC-11': { uso: 3, dueño: 'adapt/mod_pg40.mjs',
+    nota: 'los travesaños del bastidor topan contra los chapones sin ninguna '
+      + 'pieza de unión modelada' },
+};
+
+// ---------------------------------------------------------------------------
+// Utilidades de cálculo de §S. Se escriben AQUÍ, en la compuerta, y no se
+// importan de ningún módulo: el sentido de §S es recalcular por su cuenta lo
+// que los módulos declaran. (`viga` repite a propósito la de mod_tambores.)
+// ---------------------------------------------------------------------------
+/** Viga biapoyada con cargas puntuales. Devuelve M, σ, flecha MÁXIMA y reacciones. */
+function vigaS(xa, xb, cargas, dEje, E = 210000) {
+  const Lv = xb - xa, W = Math.PI * dEje ** 3 / 32, I = Math.PI * dEje ** 4 / 64;
+  const tot = cargas.reduce((a, c) => a + c.p, 0);
+  const Rb = cargas.reduce((a, c) => a + c.p * (c.x - xa), 0) / Lv, Ra = tot - Rb;
+  const M = (x) => { let mm = Ra * (x - xa); for (const c of cargas) if (c.x < x) mm -= c.p * (x - c.x); return mm; };
+  const Mmax = Math.max(...cargas.map(c => Math.abs(M(c.x))), 0);
+  // flecha máxima real (no la del centro): trabajo virtual en 41 estaciones
+  let dmax = 0, xmax = 0;
+  const N = 400, h = Lv / N;
+  for (let k = 1; k < 40; k++) {
+    const xq = xa + Lv * k / 40, RaV = 1 - (xq - xa) / Lv;
+    const mv = (x) => (x < xq ? RaV * (x - xa) : RaV * (x - xa) - (x - xq));
+    let itg = 0;
+    for (let i = 0; i <= N; i++) { const x = xa + i * h, w = (i === 0 || i === N) ? 0.5 : 1; itg += w * M(x) * mv(x) * h; }
+    const dd = itg / (E * I);
+    if (Math.abs(dd) > Math.abs(dmax)) { dmax = dd; xmax = xq; }
+  }
+  return { M: r2(Mmax), sigma: r2(Mmax / W), delta: r2(dmax), xDelta: r2(xmax), Ra: r2(Ra), Rb: r2(Rb), vano: r2(Lv) };
+}
+
+/** Normal de tangencia entre dos círculos dirigidos (misma fórmula que lib.mjs
+ *  `bandaFaces`). q = {c:[y,z], r, s}. Devuelve el vector unitario del TRAMO
+ *  RECTO que va de q1 a q2 (es la normal girada 90°). */
+function tangenteS(q1, q2, esp) {
+  const r1 = q1.r + esp / 2, r2c = q2.r + esp / 2;
+  const du = q2.c[0] - q1.c[0], dv = q2.c[1] - q1.c[1], d = Math.hypot(du, dv);
+  const a = (q1.s * r1 - q2.s * r2c) / d;
+  if (!(Math.abs(a) < 1)) return null;
+  const b = -Math.sqrt(1 - a * a), u = [du / d, dv / d], w = [-u[1], u[0]];
+  const n = [a * u[0] + b * w[0], a * u[1] + b * w[1]];
+  return [-n[1], n[0]];
+}
+
+/** Vida nominal ISO 281 (web BRG-L10-01): L10 = (C/P)^3 Mrev · L10h = L10·1e6/(60n). */
+const L10hS = (C, P, rpm) => (P <= 0 || rpm <= 0 ? Infinity : (C / P) ** LIMS.brg.p * 1e6 / (60 * rpm));
+
 // ---------------------------------------------------------------------------
 // Construcción
 // ---------------------------------------------------------------------------
@@ -222,6 +385,28 @@ if (ROMPE === 'paso') {
   // bajada de banda al descubierto)
   for (const p of E.parts) {
     if (/Guarda de pozo sur/.test(p.name)) p.pos = [p.pos[0], -1450, p.pos[2]];
+  }
+} else if (ROMPE === 'portante') {
+  // HUNDE EL RAMAL PORTANTE de la calle 3 dentro de la transferencia: le mete un
+  // seno de 80 mm en el tramo del módulo, que es exactamente el defecto que el
+  // cliente denuncia (la banda esquivando el módulo en vez de atravesarlo recta
+  // por el corredor del peine). La §R tiene que pararlo.
+  for (const p of E.parts) {
+    if (!/Banda plana 32/.test(p.name) || !p.name.includes('(calle 3,')) continue;
+    for (const f of p.features) {
+      if (f.shape !== 'sketch') continue;
+      const pts = f.params.pts, out = [];
+      for (let i = 0; i < pts.length; i++) {
+        const a = pts[i], b = pts[(i + 1) % pts.length];
+        out.push(a);
+        const yLo = Math.min(a[0], b[0]), yHi = Math.max(a[0], b[0]);
+        if (a[1] > 0 && b[1] > 0 && yLo < y0 - 20 && yHi > y1 + 20) {
+          const z = a[1], seno = [[y1 + 20, z], [y1 - 30, z - 80], [y0 + 30, z - 80], [y0 - 20, z]];
+          out.push(...(a[0] > b[0] ? seno : [...seno].reverse()));
+        }
+      }
+      f.params.pts = out;
+    }
   }
 }
 
@@ -756,6 +941,193 @@ function verify() {
     }
   }
 
+  // ▼▼▼ R. EL RAMAL PORTANTE ATRAVIESA LA TRANSFERENCIA EN RECTO ▼▼▼
+  // Corrección del cliente (03-08-2026): «la banda tiene que ir RECTA a través de
+  // la ESTRUCTURA de la transferencia, no por debajo. Es el principio del
+  // clasificador de bandas angostas con transferencia emergente: las bandas pasan
+  // rectas y continuas y los rodillos emergen ENTRE ellas — por eso las placas del
+  // bastidor móvil se llaman PEINE: el peine existe para dejar pasar las bandas».
+  //
+  // La PRUEBA de que el paso recto existe y está acotado la da el propio NBT90:
+  // declara las bandas de su anfitrión como piezas CONTEXTO (aquí no se montan —
+  // las sustituyen las 5 calles del sorter, mod_ctx EXCLUIR — pero su geometría
+  // se lee antes de descartarlas y llega en `m.nbt90.anfitrion`). Sus X son
+  // EXACTAMENTE los 5 ejes de calle: no es coincidencia, es la misma máquina.
+  //
+  // Esta compuerta no se fía de ninguna declaración: mide sobre el CONTORNO REAL
+  // de la banda emitida y sobre el BOCETO REAL de la placa peine.
+  const RECTO = { calles: [], corredor: {}, anfitrion: m.nbt90.anfitrion, retornoRecto: {} };
+  {
+    const PB = STEP.planoBanda;
+    const fondoModulo = r2(T.z);                       // −338.27 · cara inferior del módulo
+    const zPortante = m.calles.banda?.dorsoPortanteZ;
+
+    /** Contorno (X, Z) de una placa peine, ya transformada al sorter. */
+    const contornoPeine = (p) => {
+      const sk = p.features.find(f => f.shape === 'sketch' && f.op !== 'cut');
+      if (!sk) return null;
+      return sk.params.pts.map(pt => [pt[0] + p.pos[0] + sk.at[0], pt[1] + p.pos[2] + sk.at[2]]);
+    };
+    /** Hueco libre (intervalo en X) que el contorno deja alrededor de `x0` a la
+     *  cota `z`. null si `x0` cae DENTRO del material de la placa. */
+    const huecoPeine = (pts, z, x0) => {
+      const xs = [];
+      for (let i = 0; i < pts.length; i++) {
+        const a = pts[i], b = pts[(i + 1) % pts.length];
+        if ((a[1] > z) === (b[1] > z)) continue;
+        xs.push(a[0] + (b[0] - a[0]) * (z - a[1]) / (b[1] - a[1]));
+      }
+      xs.sort((p, q) => p - q);
+      if (xs.length < 2) return [-1e9, 1e9];                  // la placa no llega a esa Z
+      if (x0 < xs[0] || x0 > xs[xs.length - 1]) return [-1e9, 1e9];
+      for (let i = 0; i + 1 < xs.length; i += 2) if (x0 >= xs[i] && x0 <= xs[i + 1]) return null;
+      for (let i = 1; i + 1 < xs.length; i += 2) if (x0 >= xs[i] && x0 <= xs[i + 1]) return [xs[i], xs[i + 1]];
+      return [-1e9, 1e9];
+    };
+    /** Cota más BAJA a la que la ranura del peine sigue teniendo ≥ `ancho`. */
+    const fondoRanura = (pts, x0, ancho) => {
+      let z = PB, ultima = null;
+      for (; z > -80; z -= 0.01) {
+        const h = huecoPeine(pts, z, x0);
+        if (!h) break;
+        if (h[1] - h[0] + 1e-9 < ancho) break;
+        ultima = z;
+      }
+      return ultima === null ? PB : r2(ultima);
+    };
+
+    const peines = nbt.filter(p => /Placa peine/.test(p.name)).map(contornoPeine).filter(Boolean);
+    if (!peines.length) e.push('§R: no hay placas peine del NBT90 en el modelo: el corredor recto no se puede verificar');
+
+    // (1) EL CORREDOR, calle a calle, leído del boceto real de las DOS placas.
+    //     Estado ELEVADO (el que emite el modelo) = caso pésimo: al retraerse el
+    //     cassette la ranura baja 10 mm y el corredor sólo crece.
+    let anchoRanuraMin = 1e9, fondoBandaMin = 1e9, fondoPuenteMin = 1e9;
+    for (let k = 0; k < EJES.length; k++) {
+      const B = EJES[k];
+      let ancho = 1e9, hueco = null, fB = -1e9, fP = -1e9;
+      for (const pts of peines) {
+        const h = huecoPeine(pts, r2(PB - 3), B);            // justo bajo la cresta del diente
+        if (!h) { e.push(`§R: el eje de la calle ${k + 1} (X=${B}) cae en MATERIAL de una placa peine`); continue; }
+        if (h[1] - h[0] < ancho) { ancho = h[1] - h[0]; hueco = [r2(h[0]), r2(h[1])]; }
+        fB = Math.max(fB, fondoRanura(pts, B, STEP.bandaAncho));
+        fP = Math.max(fP, fondoRanura(pts, B, CALLE.puente.ancho));
+      }
+      const holgBanda = r2((ancho - STEP.bandaAncho) / 2);
+      const holgPuente = r2((ancho - CALLE.puente.ancho) / 2);
+      if (holgBanda < 2) e.push(`§R: la banda de la calle ${k + 1} deja ${holgBanda} mm al diente del peine (mín 2)`);
+      anchoRanuraMin = Math.min(anchoRanuraMin, ancho);
+      fondoBandaMin = Math.min(fondoBandaMin, fB);
+      fondoPuenteMin = Math.min(fondoPuenteMin, fP);
+      RECTO.calles.push({ calle: k + 1, eje: B, ranuraX: hueco, ranuraAncho: r2(ancho),
+        holguraBandaDiente: holgBanda, holguraPuenteDiente: holgPuente,
+        fondoRanuraBanda: r2(fB), fondoRanuraPuente: r2(fP) });
+    }
+
+    // (2) LA BANDA de cada calle, sobre su CONTORNO REAL emitido.
+    for (let k = 0; k < EJES.length; k++) {
+      const banda = nuevas.find(p => /Banda plana 32/.test(p.name) && p.name.includes(`(calle ${k + 1},`));
+      if (!banda) { e.push(`§R: la calle ${k + 1} no tiene banda`); continue; }
+      // pts del boceto = (Y, Z) en mundo (sketchYZ con at=[x,0,0] y pieza en pos Y=Z=0)
+      const contornos = banda.features.filter(f => f.shape === 'sketch').map(f => f.params.pts);
+      const externo = contornos[0];
+
+      // R1 · el ramal portante cruza el módulo ENTERO, recto y a la cota del
+      //      plano de transporte. Se recorre Y de y0 a y1 y se exige la MISMA Z.
+      let peorY = null, peorZ = null, sinBanda = 0;
+      for (let Y = y0; Y <= y1 + 1e-9; Y += 5) {
+        let zTop = -1e9;
+        for (let i = 0; i < externo.length; i++) {
+          const a = externo[i], b = externo[(i + 1) % externo.length];
+          if ((a[0] > Y) === (b[0] > Y)) continue;
+          zTop = Math.max(zTop, a[1] + (b[1] - a[1]) * (Y - a[0]) / (b[0] - a[0]));
+        }
+        if (zTop < -1e8) { sinBanda++; continue; }
+        const d = Math.abs(zTop - zPortante);
+        if (d > 0.05 && (peorZ === null || d > Math.abs(peorZ - zPortante))) { peorY = r2(Y); peorZ = r2(zTop); }
+      }
+      if (sinBanda) e.push(`§R: la banda de la calle ${k + 1} NO es continua dentro de la transferencia `
+        + `(${sinBanda} cotas de Y sin banda): las bandas del clasificador pasan rectas y continuas`);
+      if (peorZ !== null) e.push(`§R: el ramal portante de la calle ${k + 1} está en Z=${peorZ} en Y=${peorY} `
+        + `y no en el plano de transporte (${zPortante}): NO atraviesa la transferencia en recto`);
+
+      // R2 · dentro de la huella del módulo, el lazo o va por el CORREDOR del
+      //      peine (Z ≥ fondo de ranura) o va por DEBAJO del módulo (Z ≤ su cara
+      //      inferior). Entre las dos cotas está el macizo de la transferencia:
+      //      ni el portante puede bajar ahí ni el retorno puede cortarlo.
+      let dentro = 0, zAlta = null;
+      for (const pts of contornos) {
+        for (let i = 0; i < pts.length; i++) {
+          const a = pts[i], b = pts[(i + 1) % pts.length];
+          const L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+          const n = Math.max(1, Math.ceil(L / 2));
+          for (let j = 0; j < n; j++) {
+            const Y = a[0] + (b[0] - a[0]) * j / n, Z = a[1] + (b[1] - a[1]) * j / n;
+            if (Y < y0 || Y > y1) continue;
+            if (Z >= fondoBandaMin || Z <= fondoModulo) continue;
+            dentro++;
+            if (zAlta === null || Z > zAlta) zAlta = r2(Z);
+          }
+        }
+      }
+      if (dentro) {
+        e.push(`§R: la banda de la calle ${k + 1} mete ${dentro} puntos en el MACIZO de la transferencia `
+          + `(el más alto en Z=${zAlta}): el corredor del peine baja hasta ${r2(fondoBandaMin)} y la cara `
+          + `inferior del módulo está en ${fondoModulo} — o pasa recta por el corredor, o pasa por debajo`);
+      }
+    }
+
+    // (3) el corredor recto que se acaba de medir tiene que ser EL MISMO que el
+    //     NBT90 declara para las bandas de su anfitrión (X y cota del portante)
+    const A = m.nbt90.anfitrion;
+    if (A?.bandasX?.length === EJES.length) {
+      for (let k = 0; k < EJES.length; k++) {
+        if (Math.abs(A.bandasX[k] - EJES[k]) > 0.02) {
+          e.push(`§R: la calle ${k + 1} (X=${EJES[k]}) no cae en la banda que el NBT90 declara `
+            + `para su anfitrión (X=${A.bandasX[k]})`);
+        }
+      }
+    } else e.push('§R: el NBT90 no declara las 5 bandas de su anfitrión: falta la referencia del paso recto');
+    if (A?.portante && Math.abs(A.portante.z[1] - PB) > 0.02) {
+      e.push(`§R: el NBT90 declara el portante del anfitrión a Z=${A.portante.z[1]} y el plano de transporte es ${PB}`);
+    }
+
+    // (4) ¿y el RETORNO? — se decide con la geometría delante, no por costumbre.
+    //     El NBT90 declara TAMBIÉN el ramal de retorno del anfitrión, recto por
+    //     el mismo corredor, a 61.4 del portante. Que el del sorter no pueda
+    //     usarlo es aritmética del Ø del tambor, y aquí queda escrita.
+    const zRamal = r2(TAMB_RAMAL.z);                                  // −57.2 (dorso)
+    const puenteBaseZ = r2(CALLE.puente.topZ - CALLE.puente.uhmwH - CALLE.puente.aceroH);  // 15.15
+    const diaMaxRectoTeorico = r2(STEP.guiaSec.topZ - fondoBandaMin);  // Ø que dejaría el retorno EN el corredor
+    RECTO.corredor = {
+      ranuraAnchoMin: r2(anchoRanuraMin),
+      fondoRanuraBanda: r2(fondoBandaMin), fondoRanuraPuente: r2(fondoPuenteMin),
+      holguraBandaDiente: r2((anchoRanuraMin - STEP.bandaAncho) / 2),
+      holguraPuenteDiente: r2((anchoRanuraMin - CALLE.puente.ancho) / 2),
+      holguraBandaRodillo: r2((NBT.paso - NBT.rodDia - STEP.bandaAncho) / 2),
+      holguraPuenteRodillo: r2((NBT.paso - NBT.rodDia - CALLE.puente.ancho) / 2),
+      holguraRodilloRegletaNbt90: A?.holguraRodilloRegleta,
+      portanteZ: zPortante, planoTransporte: PB, caraInferiorModulo: fondoModulo,
+      estado: 'medido con el cassette ELEVADO (caso pésimo: al retraerse 10 mm la ranura baja y el corredor crece)',
+    };
+    RECTO.retornoRecto = {
+      posible: zRamal >= fondoBandaMin,
+      ramalZ: zRamal,
+      ventanaZ: [r2(fondoBandaMin), puenteBaseZ],
+      faltaMm: r2(fondoBandaMin - zRamal),
+      diaTamborActual: TAMB_P.od,
+      diaTamborMaxParaPasarRecto: diaMaxRectoTeorico,
+      separacionRamalesAnfitrion: A?.separacionRamalesMm,
+      retornoAnfitrionZ: A?.retorno?.z,
+      rodillos: TAMB_EJES.retorno.length,
+    };
+    if (RECTO.retornoRecto.posible && TAMB_EJES.retorno.length) {
+      e.push(`§R: el ramal de retorno cabe RECTO por el corredor del peine (Z ${zRamal} ≥ ${r2(fondoBandaMin)}) `
+        + `y sin embargo se mantienen ${TAMB_EJES.retorno.length} rodillos de retorno y el pozo: sobran`);
+    }
+  }
+  // ▲▲▲ ------------------------------------------------------------- ▲▲▲
+
   // --- M. DETALLE DE ESTACIONES --------------------------------------------
   const avisosDeclarados = [];
   {
@@ -1289,6 +1661,38 @@ function verify() {
     avisosDeclarados.push(`TAMBORES: el solape engomado↔tubo (10.32 cm³) es la LÍNEA DE VULCANIZADO `
       + '(0.1 mm de interpenetración deliberada, misma convención que nbt90/rodillos.mjs): la goma '
       + 'y el tubo comparten superficie porque están vulcanizados, no montados.');
+    // ▼▼▼ R · POR QUÉ EL PORTANTE VA RECTO Y EL RETORNO NO PUEDE ▼▼▼
+    {
+      const C = RECTO.corredor, RT = RECTO.retornoRecto, A = RECTO.anfitrion;
+      avisosDeclarados.push('PASO RECTO (corrección del cliente 03-08): el ramal PORTANTE de las 5 '
+        + `calles atraviesa la transferencia EN RECTO, a la cota del plano de transporte (Z ${C.portanteZ} `
+        + `= ${C.planoTransporte} + faceta), por el corredor de ${C.ranuraAnchoMin} mm que dejan los dientes `
+        + `de las placas peine — medido sobre el BOCETO REAL de las dos placas. Holguras: banda `
+        + `${C.holguraBandaDiente}/lado al diente y ${C.holguraBandaRodillo} al rodillo · puente `
+        + `${C.holguraPuenteDiente}/lado al diente y ${C.holguraPuenteRodillo} al rodillo · el propio NBT90 `
+        + `declara ${C.holguraRodilloRegletaNbt90} mm entre rodillo y regleta vecina. La ranura mantiene el `
+        + `ancho pleno hasta Z ${C.fondoRanuraBanda} y admite los ${CALLE.puente.ancho} del puente hasta `
+        + `${C.fondoRanuraPuente}. ${C.estado}.`);
+      avisosDeclarados.push('PASO RECTO · la referencia es del propio NBT90: declara las bandas de su '
+        + `anfitrión (piezas CONTEXTO, ${A.fuente.split('(')[0].trim()}) en X ${A.bandasX.join(' · ')} — los `
+        + `MISMOS 5 ejes de calle del sorter — con el portante en Z ${A.portante.z.join('…')} y la regleta en `
+        + `${A.regleta.z.join('…')}. Aquí no se montan: las sustituyen las 5 calles.`);
+      avisosDeclarados.push('RETORNO · decidido con la geometría delante, NO por costumbre: el NBT90 '
+        + `declara que el ramal de retorno de su anfitrión también pasa RECTO por el mismo corredor, a `
+        + `Z ${A.retorno.z.join('…')} (${A.separacionRamalesMm} mm bajo el portante). El del sorter NO cabe ahí: `
+        + `el tambor motriz es Ø${RT.diaTamborActual} (tubo Ø88.9 + 10 de goma sobre eje Ø35 = barreno del `
+        + `UCF 207, las tres cotas son instrucción del cliente), así que su ramal de retorno sale a `
+        + `Z ${RT.ramalZ} — ${Math.abs(RT.faltaMm)} mm POR DEBAJO del fondo de la ranura del peine `
+        + `(${RT.ventanaZ[0]}). Para entrar en el corredor el tambor tendría que bajar a Ø ≤ `
+        + `${RT.diaTamborMaxParaPasarRecto} (el del anfitrión mide ${A.separacionRamalesMm}), y con eje Ø35 y `
+        + `10 de goma eso deja el tubo en Ø${r2(RT.diaTamborMaxParaPasarRecto - 20)}: sin corona de tapa. Por eso `
+        + `el retorno pasa POR DEBAJO del módulo, con ${RT.rodillos} rodillos. Que son el mínimo: sin RR4 el `
+        + 'abrazado del conducido cae a 137.63° (< 150° §J) y con sólo los dos del fondo, también; sin RR1 '
+        + 'desaparece el tramo llano de Z −57.2 del que cuelga el tensor (params_tambores.RETORNO.tramoLibreY) '
+        + 'y del que sale por tangencia la cota de los volantes de contraflexión. El PORTANTE, en cambio, va '
+        + 'recto: eso es lo que la §R comprueba calle a calle sobre el contorno emitido.');
+    }
+    // ▲▲▲ ------------------------------------------------------- ▲▲▲
     avisosDeclarados.push(`TAMBORES: los 4 rodillos de retorno necesitan ménsula de PG40 en `
       + TAMB_EJES.retorno.map(R => `${R.id}(Y ${R.y}, Z ${R.z})`).join(' · ')
       + ` — patrón ${TAMB_RET.soporte.patron}×${TAMB_RET.soporte.patron}, taladro Ø${TAMB_RET.soporte.taladro}`);
@@ -1335,6 +1739,9 @@ function verify() {
       sideEnMuescaMm: m.luzBastidores?.dentroMuescaMm,
     },
     banda: m.calles.banda,
+    // ▼▼▼ R · el paso RECTO por el corredor del peine ▼▼▼
+    recto: RECTO,
+    // ▲▲▲ ------------------------------------------- ▲▲▲
     percha: { cuelgue: m.percha.cuelgue, flechaLargueroMm: m.percha.flechaLargueroMm, tuercasT: m.percha.tuercasT, muesca: m.percha.muesca },
     estaciones: {
       ejeComun: { ...m.estaciones.ejeComun, ...m.ejeComunCalc },
@@ -1427,6 +1834,22 @@ console.log(`   puente↔cross channel: ${V.holguras.puenteCrossElevado} elevado
 console.log(`   LUZ bastidores ${V.luzBastidores.luz}: NBT90 embebido ${V.luzBastidores.anchoNbt90Embebido} de ancho → ${V.luzBastidores.holgIzq} en −X; el side +X entra ${V.luzBastidores.dentroMuescaMm} en la MUESCA del chapón (canto restante ${V.percha.muesca.cantoRestanteChapon})`);
 console.log(`   DESCARGA: extremo de cara de rodillo a ${V.descarga.rodilloABordeMm} mm del borde exterior (${V.descarga.bordeExterior}) — requisito ≤ 40`);
 console.log(`   BANDA por calle: L=${V.banda.largoDesarrollado} · envolventes ${JSON.stringify(V.banda.envolventes_deg)} · portante Z=${V.banda.dorsoPortanteZ} · fondo pozo Z=${V.banda.fondoPozoZ}`);
+// ▼▼▼ R · PASO RECTO POR EL CORREDOR DEL PEINE ▼▼▼
+{
+  const C = V.recto.corredor, RT = V.recto.retornoRecto, A = V.recto.anfitrion;
+  console.log(`   PASO RECTO: el ramal PORTANTE de las 5 calles atraviesa la transferencia EN RECTO a `
+    + `Z=${C.portanteZ} (plano ${C.planoTransporte}) por el corredor de ${C.ranuraAnchoMin} de las placas peine`);
+  console.log(`      ranura del peine (boceto real): ancho ${C.ranuraAnchoMin} · pleno hasta Z ${C.fondoRanuraBanda} `
+    + `· admite el puente de ${CALLE.puente.ancho} hasta ${C.fondoRanuraPuente} · ${C.estado}`);
+  console.log(`      holguras: banda ${C.holguraBandaDiente}/lado al diente y ${C.holguraBandaRodillo} al rodillo · `
+    + `puente ${C.holguraPuenteDiente}/lado y ${C.holguraPuenteRodillo} · rodillo↔regleta del NBT90 ${C.holguraRodilloRegletaNbt90}`);
+  console.log(`      lo que declara el NBT90 de su anfitrión: bandas en X ${A.bandasX.join(' · ')} (= los 5 ejes de calle) `
+    + `· portante Z ${A.portante.z.join('…')} · retorno Z ${A.retorno.z.join('…')} (${A.separacionRamalesMm} bajo el portante)`);
+  console.log(`      RETORNO recto: ${RT.posible ? 'SÍ' : 'NO'} — ramal a Z ${RT.ramalZ} y la ventana del peine `
+    + `empieza en ${RT.ventanaZ[0]}: faltan ${r2(Math.abs(RT.faltaMm))} mm. Tambor Ø${RT.diaTamborActual}; para pasar `
+    + `recto haría falta Ø ≤ ${RT.diaTamborMaxParaPasarRecto}. Va por debajo, con ${RT.rodillos} rodillos (el mínimo: ver avisos)`);
+}
+// ▲▲▲ -------------------------------------- ▲▲▲
 if (!PG40F.desactivaPercha) console.log(`   PERCHA: ${V.percha.cuelgue.pernos38} pernos 3/8 por colisas del side + ${V.percha.cuelgue.apoyoLenguetas} lengüetas de apoyo · ${r2(V.percha.cuelgue.cortantePorPernoN)} N/perno (adm ${V.percha.cuelgue.cortanteAdmisiblePernoN}) · flecha larguero ${V.percha.flechaLargueroMm} mm · masa NBT90 (cota sup.) ${NBT.masaKg} kg`);
 else console.log(`   PERCHA: DESACTIVADA por bandera (params_pg40.FLAGS.desactivaPercha) — el NBT90 queda tomado por sus 2 canales laterales vía el alargue (6 pernos 3/8), y de ahí al bastidor PG40`);
 console.log(V.estaciones.ejeComun.retirado

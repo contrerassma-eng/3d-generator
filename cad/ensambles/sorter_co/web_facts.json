@@ -1,5 +1,5 @@
 {
- "$comment": "Capa 'web' del clasificador del cliente (STEP sorter_CO.stp). Mismo formato que cad/ensambles/nbt90/analisis/web_facts.json. Cada hecho lleva url + accessed + quote. AVISO DE HONESTIDAD: el campo source.quote_tipo distingue 'texto_de_pagina' de 'resumen_de_busqueda'; en esta pasada NINGUNA cita es verbatim de la pagina, porque los PDF de catalogo (SMC C85, Powerdrive AT10, Statewide T/AT) devolvieron contenido binario ilegible y MISUMI respondio HTTP 403. Las citas reproducen el texto que devolvio el buscador. Todo lo que aparece en 'contraste_con_lo_medido' es capa 'step' (medido sobre el STEP) y NO depende de la web. | 2026-07-31: anadidos PERF-001/PERF-002/BRKT-001 (percha del NBT90) con cita textual de pagina. | 2026-07-31 (detalle de estaciones): anadidos PNEU-007 (C85C25), PNEU-008 (KQ2L06-01AS), RING-003 (DIN 472-42) y BELT-004 (Optibelt 25AT10); citas de resumen_de_busqueda salvo RING-003 (ficha de producto).",
+ "$comment": "Capa 'web' del clasificador del cliente (STEP sorter_CO.stp). Mismo formato que cad/ensambles/nbt90/analisis/web_facts.json. Cada hecho lleva url + accessed + quote. AVISO DE HONESTIDAD: el campo source.quote_tipo distingue 'texto_de_pagina' de 'resumen_de_busqueda'; en esta pasada NINGUNA cita es verbatim de la pagina, porque los PDF de catalogo (SMC C85, Powerdrive AT10, Statewide T/AT) devolvieron contenido binario ilegible y MISUMI respondio HTTP 403. Las citas reproducen el texto que devolvio el buscador. Todo lo que aparece en 'contraste_con_lo_medido' es capa 'step' (medido sobre el STEP) y NO depende de la web. | 2026-07-31: anadidos PERF-001/PERF-002/BRKT-001 (percha del NBT90) con cita textual de pagina. | 2026-07-31 (detalle de estaciones): anadidos PNEU-007 (C85C25), PNEU-008 (KQ2L06-01AS), RING-003 (DIN 472-42) y BELT-004 (Optibelt 25AT10); citas de resumen_de_busqueda salvo RING-003 (ficha de producto). | 2026-08-03 (revision estructural del sorter, REVISION_ESTRUCTURAL_SC.md): anadidos MAT-C45-01, MAT-6063-01, TNUT-10-M8-01, BRG-6207-01, BRG-6206-01 y BRG-L10-01, TODOS con cita verbatim de la pagina o del PDF (quote_tipo = texto_de_pagina). Cierran los dos ids huerfanos BRG-6206/BRG-6207 que adapt/params_tambores.mjs citaba y que no existian en ningun web_facts.",
  "project": "sorter_co",
  "generated": "2026-07-30T23:04:09Z",
  "layers": {
@@ -716,6 +716,121 @@
    "fuente_titulo": "Bearings Direct - UCF207 Four-Bolt Flange Unit Bore Size 35mm",
    "confidence": "alta",
    "contraste_con_lo_medido": "NO MEDIBLE en el STEP (el sorter del cliente monta UCFL 205/206, no UCF 207). De aqui sale el cuadro de taladros del cabezal de rodamiento del alargue: 92 x 92 de Ø13.5 (M12 con holgura media ISO 273) centrado en el eje. El soporte y el eje los define adapt/params_tambores.mjs; este alargue solo aporta la cara de apoyo y los taladros."
+  },
+  {
+   "id": "MAT-C45-01",
+   "tema": "material",
+   "claim": "C45 (1.0503) segun EN 10083-2: en estado NORMALIZADO (+N) y espesor 16-100 mm el limite elastico minimo es 305 MPa (Rm > 580); en estado BONIFICADO (+QT) y diametro 16-40 mm es 430 MPa (Rm 650-800)",
+   "value": "305 (+N, 16-100) / 430 (+QT, 16-40)",
+   "unit": "MPa",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.metaldata.info/reports/C45.pdf",
+    "accessed": "2026-08-03",
+    "quote": "By EN 10083-2 | +N | Thickness: 16 - 100 mm ; Yield Strength: > 305 MPa Tensile Strength: > 580 MPa Elongation: > 16 % | +QT | Diameter: 16 - 40 mm ; Yield Strength: > 430 MPa Tensile Strength: 650 - 800 MPa Elongation: > 16 %",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "C45 EN 10083-2 (Euronorm) - ficha WinSteel / metaldata.info",
+   "confidence": "alta",
+   "segunda_fuente": {
+    "url": "https://en.saarstahl.com/app/uploads/2024/03/20160401102929-0503_C45.pdf",
+    "accessed": "2026-08-03",
+    "quote": "Quenched and tempered, +QT: Diameter d [mm] >16 - 40 ; 0,2% proof stress Rp0,2 [N/mm2] min. 430 ; Tensile strength Rm [N/mm2] 650 - 800",
+    "quote_tipo": "texto_de_pagina",
+    "fuente_titulo": "Saarstahl - Material specification sheet C45, Material No. 1.0503"
+   },
+   "usado_en": "eje pivote del tensor (Ø30 C45), eje del tambor (Ø35 C45), ejes fijos del conducido y de los rodillos de retorno. params_tensor2.EJE_CALC.fyMPa = 430 SOLO es valido si el eje se pide BONIFICADO (+QT); si se pide normalizado o 'C45 h9' de almacen, el limite baja a 305 MPa (-29 %)."
+  },
+  {
+   "id": "MAT-6063-01",
+   "tema": "material",
+   "claim": "EN AW-6063 en perfil extruido segun EN 755-2:2016, espesor de pared t <= 10 mm: Rp0,2 = 130 MPa en temple T5 y 170 MPa en temple T6 (valores minimos)",
+   "value": "130 (T5) / 170 (T6) / 200 (T66)",
+   "unit": "MPa",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.hydro.com/globalassets/08-about-hydro/hydro-worldwide/austria/nenzing/alloy-data-sheets/hydro-en-aw-6063.pdf",
+    "accessed": "2026-08-03",
+    "quote": "Temper | Wall thickness t [mm] | Rp0,2 [MPa] | Rm [MPa] | A [%] ... T5 t <= 10 130 175 8 ... T6a t <= 10 170 215 8 ... T66a t <= 10 200 245 8",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "Hydro - Technical datasheet Extruded products Alloy EN AW-6063 [AlMg0.7Si], Rev.4 03/2023",
+   "confidence": "alta",
+   "usado_en": "perfil PG40 40x40 del bastidor (params_pg40.PERFIL.aleacion = 'EN AW-6063', SIN temple declarado). El aplastamiento del labio de la ranura bajo tuerca martillo se juzga contra este Rp0,2: sin temple declarado hay que tomar el mas bajo de la familia, 130 MPa (T5)."
+  },
+  {
+   "id": "TNUT-10-M8-01",
+   "tema": "tornilleria",
+   "claim": "Par de apriete maximo de una tuerca martillo (T-Nut) M8 para ranura de 10 mm del sistema de perfil de aluminio: 25 N.m",
+   "value": "25",
+   "unit": "N.m",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://cmafh.com/WebsiteCatalog/Data%20Sheets/BRL-MT%20MGE%20F/Rexroth%20Fasteners.pdf",
+    "accessed": "2026-08-03",
+    "quote": "Tightening Lot | Description Torque (+/- 5%) Size Part Number | 10mm T-Nuts | M4 2.5 Nm 1 3 842 530 281 | M5 5 Nm 1 3 842 530 283 | M6 10 Nm 1 3 842 530 285 | M8 25 Nm 1 3 842 530 287",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "Bosch Rexroth - Aluminum Framing, Section 4: Fasteners, T-Nuts (8981 500 201 08/11)",
+   "confidence": "alta",
+   "nota": "El par es el del sistema de perfil de Bosch Rexroth, cuyo labio de ranura 10 esta dimensionado para el. El perfil del sorter NO tiene fabricante identificado (web_facts PG40-001/002 y pendientes_sin_fuente): se usa como COTA SUPERIOR del apriete que puede aparecer en el taller, no como dato del perfil real."
+  },
+  {
+   "id": "BRG-6207-01",
+   "tema": "rodamientos",
+   "claim": "Rodamiento rigido de bolas 6207-2RS, 35 x 72 x 17 mm: capacidad de carga dinamica basica C = 25700 N y estatica C0 = 15300 N",
+   "value": "25700 / 15300",
+   "unit": "N",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://cad.timken.com/item/deep-groove-ball-bearings/deep-groove-ball-bearings--6000--6200--6300--64/6207-2rs",
+    "accessed": "2026-08-03",
+    "quote": "Bore (d): 35 mm | O.D. (D): 72 mm | Width (B): 17 mm | Dynamic Radial Load Rating (C1): 25700 N | Static Radial Load Rating (C0): 15300 N | Limiting Speed - Grease: 6300 rpm",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "The Timken Company - catalogo CAD, 6207-2RS",
+   "confidence": "alta",
+   "contraste_con_lo_declarado": "params_tambores.CONDUCIDO.rodam declara C = 25500 y C0 = 15300 citando 'cat/web BRG-6207', un id que NO EXISTIA en web_facts.json. El C de catalogo es 25700 (+0,8 %); la diferencia no cambia ninguna conclusion, pero el dato estaba sin procedencia."
+  },
+  {
+   "id": "BRG-6206-01",
+   "tema": "rodamientos",
+   "claim": "Rodamiento rigido de bolas 6206-2RS, 30 x 62 x 16 mm: capacidad de carga dinamica basica C = 19500 N y estatica C0 = 11300 N",
+   "value": "19500 / 11300",
+   "unit": "N",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://cad.timken.com/item/deep-groove-ball-bearings/deep-groove-ball-bearings--6000--6200--6300--64/6206-2rs",
+    "accessed": "2026-08-03",
+    "quote": "Bore (d): 30 mm | O.D. (D): 62 mm | Width (B): 16 mm | Dynamic Radial Load Rating - 1M Revs (C1): 19500 N | Static Radial Load Rating (C0): 11300 N | Limiting Speed - Grease: 7300 rpm",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "The Timken Company - catalogo CAD, 6206-2RS",
+   "confidence": "alta",
+   "contraste_con_lo_declarado": "params_tambores.RETORNOS.rodam declara C = 20300 y C0 = 11200 citando 'cat/web BRG-6206', id que NO EXISTIA. El C de catalogo es 19500: el declarado esta un 4,1 % POR ENCIMA del catalogo, o sea del lado inseguro. Con C/P ~ 30 no cambia la conclusion, pero el numero era inventado."
+  },
+  {
+   "id": "BRG-L10-01",
+   "tema": "rodamientos",
+   "claim": "Vida nominal basica L10 segun ISO 281: L10 = (C/P)^p millones de revoluciones, con p = 3 para rodamientos de bolas; en horas, L10h = L10 x 10^6 / (60 n)",
+   "value": "L10 = (C/P)^3",
+   "unit": "millones de revoluciones",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://pibsales.com/bearings/radial-ball-bearings-life-ratings/",
+    "accessed": "2026-08-03",
+    "quote": "The basic rating life in millions of revolutions, that is reached or exceeded by 90% of a sufficiently large number of apparently identical bearings before the first indications of material fatigue appear. L10 = (C/P)^3 ... L10h = (L10 x 10^6) / (60 x n)",
+    "quote_tipo": "texto_de_pagina"
+   },
+   "fuente_titulo": "PIB Sales - Radial Ball Bearings: life ratings (ISO 281)",
+   "confidence": "alta",
+   "usado_en": "§S (SC-08) de gen_sorter_co.mjs: vida de las UC207 del tambor, de las 6207-2RS del conducido y de las 6206-2RS de los 4 rodillos de retorno."
   }
  ],
  "pendientes_sin_fuente": [
@@ -729,6 +844,13 @@
   "SH-04, POL-CON-TEN, POL-COND-TEN, POL-COND-TEN2, IDLER-P01, TENS-LN-01, PZA-TEN-1, UA-*, UR-*, CT-ENS, U_00*: piezas de FABRICACION del cliente, no de compra. No procede buscarlas en catalogo; estan medidas en inventario.json.",
   "Presion de red de la instalacion: no consta en el STEP. La fuerza del tensor (PNEU-003) esta calculada a 6 bar como hipotesis.",
   "Par y velocidad del motorreductor principal: no constan.",
-  "Diametro minimo de polea de una banda plana angosta de 2 telas de 32 mm de ancho: no se ha encontrado ficha citable. El criterio queda apoyado en dato del propio repo (la misma familia de banda plana corre en el NBT90 sobre rueda motriz y locas de Ø63.5 - nbt90 P.ruedaDia / P.idlerDia) y NO en un hecho web. Lo cierra el cliente con su proveedor de banda. Afecta a: adapt/params_tambores.mjs TAMBOR (Ø108.9), CONDUCIDO (Ø108.0) y RETORNOS (Ø88.9) - los tres van muy por encima de Ø63.5, asi que el riesgo de que la cifra real los invalide es bajo."
+  "Diametro minimo de polea de una banda plana angosta de 2 telas de 32 mm de ancho: no se ha encontrado ficha citable. El criterio queda apoyado en dato del propio repo (la misma familia de banda plana corre en el NBT90 sobre rueda motriz y locas de Ø63.5 - nbt90 P.ruedaDia / P.idlerDia) y NO en un hecho web. Lo cierra el cliente con su proveedor de banda. Afecta a: adapt/params_tambores.mjs TAMBOR (Ø108.9), CONDUCIDO (Ø108.0) y RETORNOS (Ø88.9) - los tres van muy por encima de Ø63.5, asi que el riesgo de que la cifra real los invalide es bajo.",
+  "Masa del motorreductor de eje hueco O35 que cuelga del saliente del tambor motriz: NO esta declarada en ningun parametro ni medida en el STEP. Sin ella la carga en voladizo sobre el apoyo +X del tambor (UCF 207) no se puede cerrar; en el rango 15-30 kg la reaccion del apoyo +X sube de 700 N a 869-1037 N (+24 a +48 %). Lo cierra el cliente eligiendo el reductor. Afecta a: adapt/params_tambores.mjs TAMBOR.saliente / TAMBOR.motorreductor.",
+  "Presion de contacto admisible del engomado de caucho natural/SBR 60 Sh A del tambor motriz: no se ha encontrado ficha citable. La presion calculada (0,035-0,074 MPa) esta dos ordenes de magnitud por debajo de cualquier valor razonable, asi que el hallazgo se declara CUMPLE POR MARGEN, no por cita.",
+  "Resistencia del vulcanizado goma-tubo a cortante: no se ha encontrado ficha citable. El cortante calculado es 0,0018 MPa, tres ordenes por debajo de la adherencia tipica de un vulcanizado en caliente.",
+  "Temple del perfil de aluminio del bastidor PG40: params_pg40.PERFIL declara la aleacion (EN AW-6063) pero NO el temple. T5 y T6 se llevan un 31 % de limite elastico (130 vs 170 MPa) y de eso depende el aplastamiento del labio de la ranura bajo tuerca martillo (SC-06).",
+  "Estado de suministro de los ejes de C45 (tambor O35, pivote O30, ejes fijos): params declara 'C45 rectificado h7/h9' sin decir si es +N o +QT. El limite elastico se mueve de 305 a 430 MPa (+41 %) segun cual sea, y params_tensor2.EJE_CALC.fyMPa ya usa el 430 del +QT.",
+  "Designacion de la banda plana angosta de 32 mm (fabricante, numero de telas, k_adm, diametro minimo de polea y espesor real). El modelo la construye con un DORSO de 0,633 mm, que es el convenio con el que el cliente modelo su banda T5 dentada, no el espesor de una banda plana (nbt90 P.bandaEsp = 2,5 mm medido). Todo el trazado del lazo cuelga de ese 0,633.",
+  "Rampa de arranque del motorreductor del tambor (soft-start o variador): no esta declarada. De ella depende que las 5 bandas no patinen al arrancar con carga (SC-04)."
  ]
 }

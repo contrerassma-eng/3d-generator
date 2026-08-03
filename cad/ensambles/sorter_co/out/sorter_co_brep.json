@@ -554,6 +554,9 @@
     "TENSOR: el lazo abraza la polea tensora 186.12° (geometría) y params_tensor2 declara 180° (dis; la medida del tensor original era 186.25°). La diferencia mueve la tensión de 129.04 N a 129.23 N por banda (+0.15 %): se declara y NO se reajusta el parámetro, que es de otro módulo y va del lado conservador.",
     "GUARDAS: la guarda de pozo lateral +X lleva ahora 2 ESCOTES abiertos por arriba (uno por soporte de RR2 y RR3) porque esas pletinas de 12 apoyan justo en su plano; el hueco lo tapa la propia pletina, que es más gruesa que la chapa 14 GA. Las guardas de testa llevan los recortes de paso del alargue −X y 5 rendijas de banda: {\"alma del alargue −X\":\"X 40.89…52.89 · Z -224…-68\",\"cartela de retorno RR3+RR4 −X\":\"X 57.49…69.49 · Z -375.82…-39.38\",\"rendijas de banda (5)\":\"40 de ancho · Z -63.93…-49.3\",\"alma del alargue −X (norte)\":\"X 40.89…52.89 · Z -224…-68\",\"escote soporte RR2 (lateral +X)\":\"Y -727…-617 · Z -367.82…-340.3 (abierto por arriba; lo tapa la pletina de 12)\",\"escote soporte RR3 (lateral +X)\":\"Y -1335…-1225 · Z -367.82…-340.3 (abierto por arriba; lo tapa la pletina de 12)\"}",
     "TAMBORES: el solape engomado↔tubo (10.32 cm³) es la LÍNEA DE VULCANIZADO (0.1 mm de interpenetración deliberada, misma convención que nbt90/rodillos.mjs): la goma y el tubo comparten superficie porque están vulcanizados, no montados.",
+    "PASO RECTO (corrección del cliente 03-08): el ramal PORTANTE de las 5 calles atraviesa la transferencia EN RECTO, a la cota del plano de transporte (Z 52.43 = 52.333 + faceta), por el corredor de 42 mm que dejan los dientes de las placas peine — medido sobre el BOCETO REAL de las dos placas. Holguras: banda 5/lado al diente y 4.64 al rodillo · puente 6/lado al diente y 5.64 al rodillo · el propio NBT90 declara 4.76 mm entre rodillo y regleta vecina. La ranura mantiene el ancho pleno hasta Z -18.14 y admite los 30 del puente hasta -18.27. medido con el cassette ELEVADO (caso pésimo: al retraerse 10 mm la ranura baja y el corredor crece).",
+    "PASO RECTO · la referencia es del propio NBT90: declara las bandas de su anfitrión (piezas CONTEXTO, ensambles/nbt90/narrow_belt_transfer_90.json) en X 127.06 · 203.26 · 279.46 · 355.66 · 431.86 — los MISMOS 5 ejes de calle del sorter — con el portante en Z 49.83…52.33 y la regleta en 40.31…49.84. Aquí no se montan: las sustituyen las 5 calles.",
+    "RETORNO · decidido con la geometría delante, NO por costumbre: el NBT90 declara que el ramal de retorno de su anfitrión también pasa RECTO por el mismo corredor, a Z -11.57…-9.07 (61.4 mm bajo el portante). El del sorter NO cabe ahí: el tambor motriz es Ø108.9 (tubo Ø88.9 + 10 de goma sobre eje Ø35 = barreno del UCF 207, las tres cotas son instrucción del cliente), así que su ramal de retorno sale a Z -57.2 — 39.06 mm POR DEBAJO del fondo de la ranura del peine (-18.14). Para entrar en el corredor el tambor tendría que bajar a Ø ≤ 69.84 (el del anfitrión mide 61.4), y con eje Ø35 y 10 de goma eso deja el tubo en Ø49.84: sin corona de tapa. Por eso el retorno pasa POR DEBAJO del módulo, con 4 rodillos. Que son el mínimo: sin RR4 el abrazado del conducido cae a 137.63° (< 150° §J) y con sólo los dos del fondo, también; sin RR1 desaparece el tramo llano de Z −57.2 del que cuelga el tensor (params_tambores.RETORNO.tramoLibreY) y del que sale por tangencia la cota de los volantes de contraflexión. El PORTANTE, en cambio, va recto: eso es lo que la §R comprueba calle a calle sobre el contorno emitido.",
     "TAMBORES: los 4 rodillos de retorno necesitan ménsula de PG40 en RR1(Y -606, Z -102.283) · RR2(Y -672, Z -313.817) · RR3(Y -1280, Z -313.817) · RR4(Y -1325, Z -101.383) — patrón 76×76, taladro Ø11"
    ],
    "piezas": 1020,
@@ -635,6 +638,148 @@
     "fondoHorquillaTensorZ": -431.47,
     "volanteHorquillaZ": -107.83,
     "abrazadoTensoraGeometrico": 186.12
+   },
+   "recto": {
+    "calles": [
+     {
+      "calle": 1,
+      "eje": 127.056,
+      "ranuraX": [
+       106.06,
+       148.06
+      ],
+      "ranuraAncho": 42,
+      "holguraBandaDiente": 5,
+      "holguraPuenteDiente": 6,
+      "fondoRanuraBanda": -18.14,
+      "fondoRanuraPuente": -18.27
+     },
+     {
+      "calle": 2,
+      "eje": 203.256,
+      "ranuraX": [
+       182.26,
+       224.26
+      ],
+      "ranuraAncho": 42,
+      "holguraBandaDiente": 5,
+      "holguraPuenteDiente": 6,
+      "fondoRanuraBanda": -18.14,
+      "fondoRanuraPuente": -18.27
+     },
+     {
+      "calle": 3,
+      "eje": 279.456,
+      "ranuraX": [
+       258.46,
+       300.46
+      ],
+      "ranuraAncho": 42,
+      "holguraBandaDiente": 5,
+      "holguraPuenteDiente": 6,
+      "fondoRanuraBanda": -18.14,
+      "fondoRanuraPuente": -18.27
+     },
+     {
+      "calle": 4,
+      "eje": 355.656,
+      "ranuraX": [
+       334.66,
+       376.66
+      ],
+      "ranuraAncho": 42,
+      "holguraBandaDiente": 5,
+      "holguraPuenteDiente": 6,
+      "fondoRanuraBanda": -18.14,
+      "fondoRanuraPuente": -18.27
+     },
+     {
+      "calle": 5,
+      "eje": 431.856,
+      "ranuraX": [
+       410.86,
+       452.86
+      ],
+      "ranuraAncho": 42,
+      "holguraBandaDiente": 5,
+      "holguraPuenteDiente": 6,
+      "fondoRanuraBanda": -18.14,
+      "fondoRanuraPuente": -18.27
+     }
+    ],
+    "corredor": {
+     "ranuraAnchoMin": 42,
+     "fondoRanuraBanda": -18.14,
+     "fondoRanuraPuente": -18.27,
+     "holguraBandaDiente": 5,
+     "holguraPuenteDiente": 6,
+     "holguraBandaRodillo": 4.64,
+     "holguraPuenteRodillo": 5.64,
+     "holguraRodilloRegletaNbt90": 4.76,
+     "portanteZ": 52.43,
+     "planoTransporte": 52.333,
+     "caraInferiorModulo": -338.27,
+     "estado": "medido con el cassette ELEVADO (caso pésimo: al retraerse 10 mm la ranura baja y el corredor crece)"
+    },
+    "anfitrion": {
+     "portante": {
+      "x": [
+       114.36,
+       444.56
+      ],
+      "z": [
+       49.83,
+       52.33
+      ]
+     },
+     "retorno": {
+      "x": [
+       114.36,
+       444.56
+      ],
+      "z": [
+       -11.57,
+       -9.07
+      ]
+     },
+     "regleta": {
+      "x": [
+       111.19,
+       447.74
+      ],
+      "z": [
+       40.31,
+       49.84
+      ]
+     },
+     "bandasX": [
+      127.06,
+      203.26,
+      279.46,
+      355.66,
+      431.86
+     ],
+     "separacionRamalesMm": 61.4,
+     "holguraRodilloRegleta": 4.76,
+     "fuente": "ensambles/nbt90/narrow_belt_transfer_90.json (piezas CONTEXTO del anfitrión, transformadas Rz(−90°)+T; no se montan)"
+    },
+    "retornoRecto": {
+     "posible": false,
+     "ramalZ": -57.2,
+     "ventanaZ": [
+      -18.14,
+      15.15
+     ],
+     "faltaMm": 39.06,
+     "diaTamborActual": 108.9,
+     "diaTamborMaxParaPasarRecto": 69.84,
+     "separacionRamalesAnfitrion": 61.4,
+     "retornoAnfitrionZ": [
+      -11.57,
+      -9.07
+     ],
+     "rodillos": 4
+    }
    },
    "percha": {
     "cuelgue": {

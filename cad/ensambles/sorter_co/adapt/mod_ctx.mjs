@@ -11,7 +11,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { box, COL } from '../../nbt90/lib.mjs';
-import { rotarPieza, r2 } from './util_adapt.mjs';
+import { rotarPieza, r2, bboxU } from './util_adapt.mjs';
 import { STEP, T, PERCHA } from './params_adapt.mjs';
 
 const aqui = dirname(fileURLToPath(import.meta.url));
@@ -40,10 +40,35 @@ export function nbt90(E) {
   const doc = JSON.parse(readFileSync(join(aqui, '..', '..', 'nbt90', 'narrow_belt_transfer_90.json'), 'utf8'));
   let dentro = 0, fuera = 0, movil = 0;
   const excluidas = [];
+  // Las 10 piezas CONTEXTO del anfitrión no se montan (las sustituyen las 5
+  // calles del sorter), pero ANTES de descartarlas se LEE su geometría: son la
+  // declaración del propio NBT90 de POR DÓNDE PASAN LAS BANDAS que lo atraviesan
+  // —los dos ramales y la regleta— y en qué X. Es la prueba, en el documento
+  // emitido de la transferencia, de que el paso recto existe y está acotado.
+  const anfitrion = { portante: null, retorno: null, regleta: null, bandasX: [] };
+  const acota = (dest, b) => {
+    if (!dest) return { x: [r2(b.lo[0]), r2(b.hi[0])], z: [r2(b.lo[2]), r2(b.hi[2])] };
+    return { x: [r2(Math.min(dest.x[0], b.lo[0])), r2(Math.max(dest.x[1], b.hi[0]))],
+      z: [r2(Math.min(dest.z[0], b.lo[2])), r2(Math.max(dest.z[1], b.hi[2]))] };
+  };
   for (const p of doc.parts) {
     if (p.contexto || EXCLUIR_NBT90.some(rx => rx.test(p.name))) {
       fuera++;
       excluidas.push(p.name);
+      if (/CONTEXTO · Banda angosta|CONTEXTO · Regleta de desgaste/.test(p.name)) {
+        const q = rotarPieza(p, [T.x, T.y, T.z]);
+        for (const f of q.features) {
+          const b = bboxU({ pos: q.pos, features: [f] });
+          if (/Ramal portante/.test(f.name)) {
+            anfitrion.portante = acota(anfitrion.portante, b);
+            anfitrion.bandasX.push(r2((b.lo[0] + b.hi[0]) / 2));
+          } else if (/Ramal de retorno/.test(f.name)) {
+            anfitrion.retorno = acota(anfitrion.retorno, b);
+          } else if (/Regleta/.test(f.name)) {
+            anfitrion.regleta = acota(anfitrion.regleta, b);
+          }
+        }
+      }
       continue;
     }
     const q = rotarPieza(p, [T.x, T.y, T.z]);
@@ -55,9 +80,16 @@ export function nbt90(E) {
     E.parts.push(q);
     dentro++;
   }
+  anfitrion.bandasX = [...new Set(anfitrion.bandasX)].sort((a, b) => a - b);
+  anfitrion.separacionRamalesMm = anfitrion.portante && anfitrion.retorno
+    ? r2(anfitrion.portante.z[0] - anfitrion.retorno.z[0]) : null;
+  anfitrion.holguraRodilloRegleta = doc.meta?.verificaciones?.holguraRodilloRegleta ?? null;
+  anfitrion.fuente = 'ensambles/nbt90/narrow_belt_transfer_90.json (piezas CONTEXTO del '
+    + 'anfitrión, transformadas Rz(−90°)+T; no se montan)';
   return {
     piezas: dentro, movilNbt90: movil, excluidas: fuera,
     listaExcluidas: excluidas,
+    anfitrion,
     transformada: { rotacionZdeg: -90, t: [T.x, T.y, T.z] },
   };
 }
