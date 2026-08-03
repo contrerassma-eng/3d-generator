@@ -147,18 +147,24 @@ export function calles(E) {
   const zVol = r2(RAMAL.zCara - R_VOL_H);             // −107.83 calc (tangencia al ramal)
   const RR = TAMBORES.retorno;                        // RR1…RR4, publicados
   const R_TENSORA = TEN_POL.dia / 2;                  // 58.95 step — cara LISA (sin dientes)
+  // Los rodillos de retorno se recorren EN EL ORDEN DEL RAMAL (del conducido
+  // hacia el tambor, o sea de Y más negativa a Y menos negativa) y con el
+  // sentido de envolvente que publica su propia tabla. Ni el número ni el orden
+  // están cableados aquí: si el accionamiento retira un rodillo de retorno —o
+  // los cuatro, el día que el tambor baje de Ø y el retorno pueda pasar RECTO
+  // por el corredor del peine— el lazo se retraza solo. Ver params_tambores §4
+  // y la compuerta §R, que EXIGE retirarlos en cuanto el paso recto sea posible.
+  const RAMAL_RETORNO = [...RR].sort((a, b) => a.y - b.y)
+    .map(R => ({ c: [R.y, R.z], r: RETORNOS.r, s: R.s, id: R.id }));
   const seq = [
     { c: [TAMBORES.motriz.y, TAMBORES.motriz.z], r: TAMBOR.r, s: +1 },
     { c: [TAMBORES.conducido.y, TAMBORES.conducido.z], r: CONDUCIDO.r, s: +1 },
-    { c: [RR[3].y, RR[3].z], r: RETORNOS.r, s: -1 },          // RR4 · baja el ramal
-    { c: [RR[2].y, RR[2].z], r: RETORNOS.r, s: +1 },          // RR3 · fondo del pozo, sur
-    { c: [RR[1].y, RR[1].z], r: RETORNOS.r, s: +1 },          // RR2 · fondo del pozo, norte
-    { c: [RR[0].y, RR[0].z], r: RETORNOS.r, s: -1 },          // RR1 · vuelve a llano
+    ...RAMAL_RETORNO.map(({ c, r, s }) => ({ c, r, s })),
     { c: [TENSOR.volEntrada.y, zVol], r: R_VOL_H, s: -1 },    // horquilla, entrada
     { c: [TEN_GEO.poleaY, TEN_GEO.poleaZ], r: R_TENSORA, s: +1 },   // POLEA TENSORA
     { c: [TENSOR.volSalida.y, zVol], r: R_VOL_H, s: -1 },     // horquilla, salida
   ];
-  const NOMBRE_EST = ['tambor', 'conducido', 'RR4', 'RR3', 'RR2', 'RR1',
+  const NOMBRE_EST = ['tambor', 'conducido', ...RAMAL_RETORNO.map(R => R.id),
     'volEntrada', 'tensora', 'volSalida'];
   const largo = largoBanda(seq, T_BANDA);
   const env = envolventes(seq, T_BANDA);

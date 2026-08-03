@@ -654,7 +654,7 @@ Estado: ✅ se puede pedir hoy · ⚠️ falta dato para pedir · ❌ no se pued
 | 49 | 4 | ISO 4017 **M12×60–75** UCFL pivote (hoy M12×45, no llega) | ❌ B2 |
 | 50 | 5 | ASME B18.2.1 **3/8-16 UNC × 1"** grado 5 zn (alargue↔side channel) | ❌ designación (A1) |
 | 51 | 5+8+12+4 | Tuercas: 3/8-16 UNC (5), ISO 4032 M10 (8), M12 (12), M8 (4) | ❌ designación; y faltan las 40 de B8 |
-| 52 | ~240 | Arandelas ISO 7089 M6/M8/M10/M12 + 3/8" | ❌ sólo hay 9 en el modelo (A9) |
+| 52 | ~200 | Arandelas ISO 7089 M6/M8/M10/M12 + 3/8" | ❌ sólo hay 9 en el modelo (A9) |
 
 **Lo que sobra y hay que quitar de la lista:** 3 M8×16 «lengüeta», 12 M8×20
 «ménsula↔bastidor», 4 M8×20 «placa escote», 4 pernos 3/8 + 4 tuercas + 4

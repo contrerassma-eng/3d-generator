@@ -14,6 +14,363 @@
   },
   "verificaciones": {
    "errores": [],
+   "estructural": {
+    "comprobaciones": [
+     {
+      "id": "SC-01",
+      "titulo": "apoyos reales bajo las placas base del puente de calle",
+      "valor": 10,
+      "limite": 0,
+      "unidad": "placas",
+      "uso": 11,
+      "ok": false,
+      "abierto": true,
+      "dueño": "adapt/params_pg40.mjs + adapt/mod_calles.mjs"
+     },
+     {
+      "id": "SC-02",
+      "titulo": "tensión de banda que da la GEOMETRÍA del balancín",
+      "valor": 1.91,
+      "limite": 3,
+      "unidad": "N/mm",
+      "uso": 1.57,
+      "ok": false,
+      "abierto": true,
+      "dueño": "adapt/params_tensor2.mjs"
+     },
+     {
+      "id": "SC-03",
+      "titulo": "coherencia tensión declarada ↔ geometría construida",
+      "valor": 111.13,
+      "limite": 5,
+      "unidad": "%",
+      "uso": 22.23,
+      "ok": false,
+      "abierto": true,
+      "dueño": "adapt/params_tensor2.mjs"
+     },
+     {
+      "id": "SC-04",
+      "titulo": "reserva de arrastre en ARRANQUE (Euler–Eytelwein)",
+      "valor": 1.62,
+      "limite": 1.5,
+      "unidad": "",
+      "uso": 0.93,
+      "ok": true
+     },
+     {
+      "id": "SC-05",
+      "titulo": "aplastamiento del labio de la ranura bajo tuerca martillo M8",
+      "valor": 178.06,
+      "limite": 130,
+      "unidad": "MPa",
+      "uso": 1.37,
+      "ok": false,
+      "abierto": true,
+      "dueño": "adapt/params_pg40.mjs"
+     },
+     {
+      "id": "SC-06",
+      "titulo": "eje del tambor motriz con la carga real T1+T2",
+      "valor": 30.95,
+      "limite": 101.67,
+      "unidad": "MPa",
+      "uso": 0.3,
+      "ok": true
+     },
+     {
+      "id": "SC-07",
+      "titulo": "vida L10 del rodamiento más cargado del accionamiento",
+      "valor": 1137889.21,
+      "limite": 20000,
+      "unidad": "h",
+      "uso": 0.02,
+      "ok": true
+     },
+     {
+      "id": "SC-08",
+      "titulo": "flecha del travesaño PG40 con la luz REAL y el NBT90 colgado",
+      "valor": 0.34,
+      "limite": 1,
+      "unidad": "mm",
+      "uso": 0.34,
+      "ok": true
+     },
+     {
+      "id": "SC-09",
+      "titulo": "eje pivote Ø30 del tensor con las 5 cargas PUNTUALES",
+      "valor": 69.54,
+      "limite": 101.67,
+      "unidad": "MPa",
+      "uso": 0.68,
+      "ok": true
+     },
+     {
+      "id": "SC-10",
+      "titulo": "espesor de la banda plana con que se traza el lazo",
+      "valor": 0.63,
+      "limite": 2,
+      "unidad": "mm",
+      "uso": 3.16,
+      "ok": false,
+      "abierto": true,
+      "dueño": "adapt/params_tambores.mjs"
+     },
+     {
+      "id": "SC-11",
+      "titulo": "extremos de travesaño PG40 sin pieza de unión a la máquina",
+      "valor": 4,
+      "limite": 0,
+      "unidad": "extremos",
+      "uso": 5,
+      "ok": false,
+      "abierto": true,
+      "dueño": "adapt/mod_pg40.mjs"
+     },
+     {
+      "id": "SC-12",
+      "titulo": "ids `web` citados en adapt/ que no existen en ningún web_facts",
+      "valor": 0,
+      "limite": 0,
+      "unidad": "ids",
+      "uso": 0,
+      "ok": true
+     }
+    ],
+    "abiertos": [
+     {
+      "id": "SC-01",
+      "titulo": "apoyos reales bajo las placas base del puente de calle",
+      "valor": 10,
+      "limite": 0,
+      "unidad": "placas",
+      "uso": 11,
+      "ok": false,
+      "abierto": true,
+      "dueño": "adapt/params_pg40.mjs + adapt/mod_calles.mjs"
+     },
+     {
+      "id": "SC-02",
+      "titulo": "tensión de banda que da la GEOMETRÍA del balancín",
+      "valor": 1.91,
+      "limite": 3,
+      "unidad": "N/mm",
+      "uso": 1.57,
+      "ok": false,
+      "abierto": true,
+      "dueño": "adapt/params_tensor2.mjs"
+     },
+     {
+      "id": "SC-03",
+      "titulo": "coherencia tensión declarada ↔ geometría construida",
+      "valor": 111.13,
+      "limite": 5,
+      "unidad": "%",
+      "uso": 22.23,
+      "ok": false,
+      "abierto": true,
+      "dueño": "adapt/params_tensor2.mjs"
+     },
+     {
+      "id": "SC-05",
+      "titulo": "aplastamiento del labio de la ranura bajo tuerca martillo M8",
+      "valor": 178.06,
+      "limite": 130,
+      "unidad": "MPa",
+      "uso": 1.37,
+      "ok": false,
+      "abierto": true,
+      "dueño": "adapt/params_pg40.mjs"
+     },
+     {
+      "id": "SC-10",
+      "titulo": "espesor de la banda plana con que se traza el lazo",
+      "valor": 0.63,
+      "limite": 2,
+      "unidad": "mm",
+      "uso": 3.16,
+      "ok": false,
+      "abierto": true,
+      "dueño": "adapt/params_tambores.mjs"
+     },
+     {
+      "id": "SC-11",
+      "titulo": "extremos de travesaño PG40 sin pieza de unión a la máquina",
+      "valor": 4,
+      "limite": 0,
+      "unidad": "extremos",
+      "uso": 5,
+      "ok": false,
+      "abierto": true,
+      "dueño": "adapt/mod_pg40.mjs"
+     }
+    ],
+    "datos": {
+     "puente": {
+      "placasSinApoyo": 10,
+      "placas": 10,
+      "huecoAlTravesanoMasProximoMm": 71,
+      "vanoDeDisenoMm": 588,
+      "largoMm": 648
+     },
+     "tensor": {
+      "anguloResultanteConVerticalDeg": 25.67,
+      "palancaDeclarada": 1.841,
+      "momentoPorNdeT": 312.45,
+      "momentoPorNdeCilindro": 136.22,
+      "fCilindroEfN": 140.19,
+      "tGeometricaN": 61.12,
+      "tGeometricaNmm": 1.91,
+      "tDeclaradaN": 129.04,
+      "tDeclaradaNmm": 4.032,
+      "reaccionPivoteGeoN": 255.73,
+      "reaccionPivoteDeclaradaN": 398.28,
+      "presionParaLlegarAlRangoBar": 6.28
+     },
+     "arranque": {
+      "rampaS": 1,
+      "JeqKgm2": 0.11,
+      "alphaRadS2": 34.07,
+      "teArranqueN": 378.56,
+      "teRegimenN": 186.77,
+      "teMaxN": 612.12,
+      "tUsadaN": 61.12,
+      "reserva": 1.62,
+      "rampaMinimaS": 0.87,
+      "parArranqueNm": 10.75
+     },
+     "tuercaT": {
+      "parMaxNm": 25,
+      "precargaN": 15625,
+      "huellaMm2": 87.75,
+      "presionLabioMPa": 178.06,
+      "rp02UsadoMPa": 130,
+      "templeDeclarado": "NO DECLARADO",
+      "parAdmisibleConEsteTempleNm": 18.25
+     },
+     "ejeTambor": {
+      "cargaPorBandaN": 295.43,
+      "cargaDelModuloN": 258.08,
+      "sigmaMPa": 30.85,
+      "tauMPa": 1.42,
+      "vonMisesMPa": 30.95,
+      "flechaMm": 0.24,
+      "RaN": 777.17,
+      "RbN": 700,
+      "vanoMm": 535.92,
+      "sinDeclarar": "la masa del motorreductor que cuelga del saliente Ø35 no está en ningún parámetro"
+     },
+     "rodamientos": {
+      "UC207": {
+       "P": 777.17,
+       "rpm": 325.33,
+       "h": 1852604
+      },
+      "6207-2RS": {
+       "P": 738.58,
+       "rpm": 328.04,
+       "h": 2140548.8
+      },
+      "6206-2RS RR1": {
+       "P": 620.7,
+       "abrazadoDeg": 96.5,
+       "h": 1296789.16
+      },
+      "6206-2RS RR2": {
+       "P": 620.7,
+       "abrazadoDeg": 96.5,
+       "h": 1296789.16
+      },
+      "6206-2RS RR3": {
+       "P": 648.34,
+       "abrazadoDeg": 102.39,
+       "h": 1137889.21
+      },
+      "6206-2RS RR4": {
+       "P": 648.34,
+       "abrazadoDeg": 102.39,
+       "h": 1137889.21
+      },
+      "peorH": 1137889.21,
+      "objetivoH": 20000
+     },
+     "travesano": {
+      "luzDelModulo": 423.924,
+      "luzRealMm": 580.84,
+      "flechaDelModulo": 0.084,
+      "flechaRealMm": 0.34,
+      "cargaMensulaN": 279.24,
+      "sigmaMPa": 18.07,
+      "nota": "incluye el NBT90 colgado del alargue"
+     },
+     "ejePivote": {
+      "reaccionPorBrazoN": 398.28,
+      "sigmaDelModuloMPa": 54.55,
+      "sigmaPuntualesMPa": 69.54,
+      "flechaDelModuloMm": 0.609,
+      "flechaPuntualesMm": 0.75,
+      "xFlechaMaxMm": 223.52,
+      "RaN": 754.13,
+      "RbN": 1237.27,
+      "fyUsadoMPa": 305,
+      "fyDelModuloMPa": 430
+     },
+     "banda": {
+      "espesorModeloMm": 0.633,
+      "espesorExigidoMm": 2,
+      "derivaPlanoTransporteMm": 1.87,
+      "holguraConducidoLargueroMm": 2.22,
+      "holguraConducidoConBandaRealMm": 0.35
+     },
+     "amarre": {
+      "extremosSinPiezaDeUnion": 4,
+      "detalle": [
+       "41 (Y -1440) −X",
+       "41 (Y -1440) +X",
+       "841 (Y -555) −X",
+       "841 (Y -555) +X"
+      ]
+     },
+     "trazabilidad": {
+      "citados": 32,
+      "huerfanos": []
+     }
+    },
+    "limites": {
+     "C45": {
+      "fyN": 305,
+      "fyQT": 430,
+      "fsFlexion": 3
+     },
+     "alu6063": {
+      "rp02T5": 130,
+      "rp02T6": 170
+     },
+     "tuercaT": {
+      "parMaxNm": 25,
+      "K": 0.2,
+      "huellaMm2": 87.75
+     },
+     "brg": {
+      "C6207": 25700,
+      "C6206": 19500,
+      "L10objetivoH": 20000,
+      "p": 3
+     },
+     "banda": {
+      "espMinMm": 2,
+      "nMmMin": 3,
+      "coherenciaPct": 5
+     },
+     "arranque": {
+      "rampaS": 1,
+      "fsMin": 1.5,
+      "bultos": 2
+     },
+     "puenteApoyosMin": 2,
+     "amarreBastidorMin": 2
+    }
+   },
    "pg40": {
     "piezas": 126,
     "largueros": 10,
@@ -207,6 +564,7 @@
       "id": "RR1",
       "y": -606,
       "z": -102.283,
+      "s": -1,
       "papel": "baja el ramal",
       "d": 88.9
      },
@@ -214,6 +572,7 @@
       "id": "RR2",
       "y": -672,
       "z": -313.817,
+      "s": 1,
       "papel": "fondo del pozo, norte",
       "d": 88.9
      },
@@ -221,6 +580,7 @@
       "id": "RR3",
       "y": -1280,
       "z": -313.817,
+      "s": 1,
       "papel": "fondo del pozo, sur",
       "d": 88.9
      },
@@ -228,6 +588,7 @@
       "id": "RR4",
       "y": -1325,
       "z": -101.383,
+      "s": -1,
       "papel": "sube el ramal",
       "d": 88.9
      }
@@ -556,11 +917,11 @@
     "TAMBORES: el solape engomado↔tubo (10.32 cm³) es la LÍNEA DE VULCANIZADO (0.1 mm de interpenetración deliberada, misma convención que nbt90/rodillos.mjs): la goma y el tubo comparten superficie porque están vulcanizados, no montados.",
     "PASO RECTO (corrección del cliente 03-08): el ramal PORTANTE de las 5 calles atraviesa la transferencia EN RECTO, a la cota del plano de transporte (Z 52.43 = 52.333 + faceta), por el corredor de 42 mm que dejan los dientes de las placas peine — medido sobre el BOCETO REAL de las dos placas. Holguras: banda 5/lado al diente y 4.64 al rodillo · puente 6/lado al diente y 5.64 al rodillo · el propio NBT90 declara 4.76 mm entre rodillo y regleta vecina. La ranura mantiene el ancho pleno hasta Z -18.14 y admite los 30 del puente hasta -18.27. medido con el cassette ELEVADO (caso pésimo: al retraerse 10 mm la ranura baja y el corredor crece).",
     "PASO RECTO · la referencia es del propio NBT90: declara las bandas de su anfitrión (piezas CONTEXTO, ensambles/nbt90/narrow_belt_transfer_90.json) en X 127.06 · 203.26 · 279.46 · 355.66 · 431.86 — los MISMOS 5 ejes de calle del sorter — con el portante en Z 49.83…52.33 y la regleta en 40.31…49.84. Aquí no se montan: las sustituyen las 5 calles.",
-    "RETORNO · decidido con la geometría delante, NO por costumbre: el NBT90 declara que el ramal de retorno de su anfitrión también pasa RECTO por el mismo corredor, a Z -11.57…-9.07 (61.4 mm bajo el portante). El del sorter NO cabe ahí: el tambor motriz es Ø108.9 (tubo Ø88.9 + 10 de goma sobre eje Ø35 = barreno del UCF 207, las tres cotas son instrucción del cliente), así que su ramal de retorno sale a Z -57.2 — 39.06 mm POR DEBAJO del fondo de la ranura del peine (-18.14). Para entrar en el corredor el tambor tendría que bajar a Ø ≤ 69.84 (el del anfitrión mide 61.4), y con eje Ø35 y 10 de goma eso deja el tubo en Ø49.84: sin corona de tapa. Por eso el retorno pasa POR DEBAJO del módulo, con 4 rodillos. Que son el mínimo: sin RR4 el abrazado del conducido cae a 137.63° (< 150° §J) y con sólo los dos del fondo, también; sin RR1 desaparece el tramo llano de Z −57.2 del que cuelga el tensor (params_tambores.RETORNO.tramoLibreY) y del que sale por tangencia la cota de los volantes de contraflexión. El PORTANTE, en cambio, va recto: eso es lo que la §R comprueba calle a calle sobre el contorno emitido.",
+    "RETORNO · decidido con la geometría delante, NO por costumbre: el NBT90 declara que el ramal de retorno de su anfitrión también pasa RECTO por el mismo corredor, a Z -11.57…-9.07 (61.4 mm bajo el portante). El del sorter NO cabe ahí: el tambor motriz es Ø108.9 (tubo Ø88.9 + 10 de goma sobre eje Ø35 = barreno del UCF 207, las tres cotas son instrucción del cliente), así que su ramal de retorno sale a Z -57.2 — 47.33 mm POR DEBAJO del fondo de la ranura del peine (-9.87). Para entrar en el corredor el tambor tendría que bajar a Ø ≤ 61.57 (el del anfitrión mide 61.4), y con eje Ø35 y 10 de goma eso deja el tubo en Ø41.57: sin corona de tapa. Por eso el retorno pasa POR DEBAJO del módulo, con 4 rodillos. Que son el mínimo: sin RR4 el abrazado del conducido cae a 137.63° (< 150° §J) y con sólo los dos del fondo, también; sin RR1 desaparece el tramo llano de Z −57.2 del que cuelga el tensor (params_tambores.RETORNO.tramoLibreY) y del que sale por tangencia la cota de los volantes de contraflexión. El PORTANTE, en cambio, va recto: eso es lo que la §R comprueba calle a calle sobre el contorno emitido.",
     "TAMBORES: los 4 rodillos de retorno necesitan ménsula de PG40 en RR1(Y -606, Z -102.283) · RR2(Y -672, Z -313.817) · RR3(Y -1280, Z -313.817) · RR4(Y -1325, Z -101.383) — patrón 76×76, taladro Ø11"
    ],
-   "piezas": 1020,
-   "nuevas": 575,
+   "piezas": 1030,
+   "nuevas": 585,
    "contextoCliente": 161,
    "nbt90": 284,
    "reparto": {
@@ -719,6 +1080,9 @@
      "portanteZ": 52.43,
      "planoTransporte": 52.333,
      "caraInferiorModulo": -338.27,
+     "techoMovilBajoCorredor": -11.87,
+     "techoMovilPieza": "NBT90 · MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+     "sueloCorredorRecto": -9.87,
      "estado": "medido con el cassette ELEVADO (caso pésimo: al retraerse 10 mm la ranura baja y el corredor crece)"
     },
     "anfitrion": {
@@ -767,12 +1131,12 @@
      "posible": false,
      "ramalZ": -57.2,
      "ventanaZ": [
-      -18.14,
+      -9.87,
       15.15
      ],
-     "faltaMm": 39.06,
+     "faltaMm": 47.33,
      "diaTamborActual": 108.9,
-     "diaTamborMaxParaPasarRecto": 69.84,
+     "diaTamborMaxParaPasarRecto": 61.57,
      "separacionRamalesAnfitrion": 61.4,
      "retornoAnfitrionZ": [
       -11.57,
@@ -82664,6 +83028,281 @@
    "contexto": false
   },
   {
+   "id": "p829_fijo_rodamiento_skf_w_6004_2z_tensora_x_calle_1_x_127_056_20",
+   "name": "FIJO · Rodamiento SKF W 6004-2Z tensora −X (calle 1, X=127.056) (20×42×12)",
+   "color": "#7e57c2",
+   "pos": [
+    107.06,
+    -175.72,
+    -371.89
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_20x42x12",
+   "features": [
+    {
+     "id": "f2054",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2053_0",
+        "type": "line",
+        "a": [
+         0,
+         17.92
+        ],
+        "b": [
+         0,
+         21
+        ]
+       },
+       {
+        "id": "e2053_1",
+        "type": "line",
+        "a": [
+         0,
+         21
+        ],
+        "b": [
+         12,
+         21
+        ]
+       },
+       {
+        "id": "e2053_2",
+        "type": "line",
+        "a": [
+         12,
+         21
+        ],
+        "b": [
+         12,
+         17.92
+        ]
+       },
+       {
+        "id": "e2053_3",
+        "type": "line",
+        "a": [
+         12,
+         17.92
+        ],
+        "b": [
+         0,
+         17.92
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2055",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2054_0",
+        "type": "line",
+        "a": [
+         0,
+         10
+        ],
+        "b": [
+         0,
+         13.08
+        ]
+       },
+       {
+        "id": "e2054_1",
+        "type": "line",
+        "a": [
+         0,
+         13.08
+        ],
+        "b": [
+         12,
+         13.08
+        ]
+       },
+       {
+        "id": "e2054_2",
+        "type": "line",
+        "a": [
+         12,
+         13.08
+        ],
+        "b": [
+         12,
+         10
+        ]
+       },
+       {
+        "id": "e2054_3",
+        "type": "line",
+        "a": [
+         12,
+         10
+        ],
+        "b": [
+         0,
+         10
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2056",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2055_0",
+        "type": "line",
+        "a": [
+         1.44,
+         13.08
+        ],
+        "b": [
+         1.44,
+         17.92
+        ]
+       },
+       {
+        "id": "e2055_1",
+        "type": "line",
+        "a": [
+         1.44,
+         17.92
+        ],
+        "b": [
+         10.56,
+         17.92
+        ]
+       },
+       {
+        "id": "e2055_2",
+        "type": "line",
+        "a": [
+         10.56,
+         17.92
+        ],
+        "b": [
+         10.56,
+         13.08
+        ]
+       },
+       {
+        "id": "e2055_3",
+        "type": "line",
+        "a": [
+         10.56,
+         13.08
+        ],
+        "b": [
+         1.44,
+         13.08
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ],
+   "contexto": false
+  },
+  {
    "id": "p830_fijo_anillo_retencion_3am1_20_tensora_x_calle_1_x_127_056_20",
    "name": "FIJO · Anillo retención 3AM1-20 tensora −X (calle 1, X=127.056) Ø20",
    "color": "#c3ccd6",
@@ -82746,6 +83385,281 @@
         "b": [
          0,
          9.4
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ],
+   "contexto": false
+  },
+  {
+   "id": "p831_fijo_rodamiento_skf_w_6004_2z_tensora_x_calle_1_x_127_056_20",
+   "name": "FIJO · Rodamiento SKF W 6004-2Z tensora +X (calle 1, X=127.056) (20×42×12)",
+   "color": "#7e57c2",
+   "pos": [
+    135.06,
+    -175.72,
+    -371.89
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_20x42x12",
+   "features": [
+    {
+     "id": "f2058",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2057_0",
+        "type": "line",
+        "a": [
+         0,
+         17.92
+        ],
+        "b": [
+         0,
+         21
+        ]
+       },
+       {
+        "id": "e2057_1",
+        "type": "line",
+        "a": [
+         0,
+         21
+        ],
+        "b": [
+         12,
+         21
+        ]
+       },
+       {
+        "id": "e2057_2",
+        "type": "line",
+        "a": [
+         12,
+         21
+        ],
+        "b": [
+         12,
+         17.92
+        ]
+       },
+       {
+        "id": "e2057_3",
+        "type": "line",
+        "a": [
+         12,
+         17.92
+        ],
+        "b": [
+         0,
+         17.92
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2059",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2058_0",
+        "type": "line",
+        "a": [
+         0,
+         10
+        ],
+        "b": [
+         0,
+         13.08
+        ]
+       },
+       {
+        "id": "e2058_1",
+        "type": "line",
+        "a": [
+         0,
+         13.08
+        ],
+        "b": [
+         12,
+         13.08
+        ]
+       },
+       {
+        "id": "e2058_2",
+        "type": "line",
+        "a": [
+         12,
+         13.08
+        ],
+        "b": [
+         12,
+         10
+        ]
+       },
+       {
+        "id": "e2058_3",
+        "type": "line",
+        "a": [
+         12,
+         10
+        ],
+        "b": [
+         0,
+         10
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2060",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2059_0",
+        "type": "line",
+        "a": [
+         1.44,
+         13.08
+        ],
+        "b": [
+         1.44,
+         17.92
+        ]
+       },
+       {
+        "id": "e2059_1",
+        "type": "line",
+        "a": [
+         1.44,
+         17.92
+        ],
+        "b": [
+         10.56,
+         17.92
+        ]
+       },
+       {
+        "id": "e2059_2",
+        "type": "line",
+        "a": [
+         10.56,
+         17.92
+        ],
+        "b": [
+         10.56,
+         13.08
+        ]
+       },
+       {
+        "id": "e2059_3",
+        "type": "line",
+        "a": [
+         10.56,
+         13.08
+        ],
+        "b": [
+         1.44,
+         13.08
         ]
        }
       ],
@@ -84999,6 +85913,281 @@
    "contexto": false
   },
   {
+   "id": "p858_fijo_rodamiento_skf_w_6004_2z_tensora_x_calle_2_x_203_256_20",
+   "name": "FIJO · Rodamiento SKF W 6004-2Z tensora −X (calle 2, X=203.256) (20×42×12)",
+   "color": "#7e57c2",
+   "pos": [
+    183.26,
+    -175.72,
+    -371.89
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_20x42x12",
+   "features": [
+    {
+     "id": "f2111",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2110_0",
+        "type": "line",
+        "a": [
+         0,
+         17.92
+        ],
+        "b": [
+         0,
+         21
+        ]
+       },
+       {
+        "id": "e2110_1",
+        "type": "line",
+        "a": [
+         0,
+         21
+        ],
+        "b": [
+         12,
+         21
+        ]
+       },
+       {
+        "id": "e2110_2",
+        "type": "line",
+        "a": [
+         12,
+         21
+        ],
+        "b": [
+         12,
+         17.92
+        ]
+       },
+       {
+        "id": "e2110_3",
+        "type": "line",
+        "a": [
+         12,
+         17.92
+        ],
+        "b": [
+         0,
+         17.92
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2112",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2111_0",
+        "type": "line",
+        "a": [
+         0,
+         10
+        ],
+        "b": [
+         0,
+         13.08
+        ]
+       },
+       {
+        "id": "e2111_1",
+        "type": "line",
+        "a": [
+         0,
+         13.08
+        ],
+        "b": [
+         12,
+         13.08
+        ]
+       },
+       {
+        "id": "e2111_2",
+        "type": "line",
+        "a": [
+         12,
+         13.08
+        ],
+        "b": [
+         12,
+         10
+        ]
+       },
+       {
+        "id": "e2111_3",
+        "type": "line",
+        "a": [
+         12,
+         10
+        ],
+        "b": [
+         0,
+         10
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2113",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2112_0",
+        "type": "line",
+        "a": [
+         1.44,
+         13.08
+        ],
+        "b": [
+         1.44,
+         17.92
+        ]
+       },
+       {
+        "id": "e2112_1",
+        "type": "line",
+        "a": [
+         1.44,
+         17.92
+        ],
+        "b": [
+         10.56,
+         17.92
+        ]
+       },
+       {
+        "id": "e2112_2",
+        "type": "line",
+        "a": [
+         10.56,
+         17.92
+        ],
+        "b": [
+         10.56,
+         13.08
+        ]
+       },
+       {
+        "id": "e2112_3",
+        "type": "line",
+        "a": [
+         10.56,
+         13.08
+        ],
+        "b": [
+         1.44,
+         13.08
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ],
+   "contexto": false
+  },
+  {
    "id": "p859_fijo_anillo_retencion_3am1_20_tensora_x_calle_2_x_203_256_20",
    "name": "FIJO · Anillo retención 3AM1-20 tensora −X (calle 2, X=203.256) Ø20",
    "color": "#c3ccd6",
@@ -85081,6 +86270,281 @@
         "b": [
          0,
          9.4
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ],
+   "contexto": false
+  },
+  {
+   "id": "p860_fijo_rodamiento_skf_w_6004_2z_tensora_x_calle_2_x_203_256_20",
+   "name": "FIJO · Rodamiento SKF W 6004-2Z tensora +X (calle 2, X=203.256) (20×42×12)",
+   "color": "#7e57c2",
+   "pos": [
+    211.26,
+    -175.72,
+    -371.89
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_20x42x12",
+   "features": [
+    {
+     "id": "f2115",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2114_0",
+        "type": "line",
+        "a": [
+         0,
+         17.92
+        ],
+        "b": [
+         0,
+         21
+        ]
+       },
+       {
+        "id": "e2114_1",
+        "type": "line",
+        "a": [
+         0,
+         21
+        ],
+        "b": [
+         12,
+         21
+        ]
+       },
+       {
+        "id": "e2114_2",
+        "type": "line",
+        "a": [
+         12,
+         21
+        ],
+        "b": [
+         12,
+         17.92
+        ]
+       },
+       {
+        "id": "e2114_3",
+        "type": "line",
+        "a": [
+         12,
+         17.92
+        ],
+        "b": [
+         0,
+         17.92
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2116",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2115_0",
+        "type": "line",
+        "a": [
+         0,
+         10
+        ],
+        "b": [
+         0,
+         13.08
+        ]
+       },
+       {
+        "id": "e2115_1",
+        "type": "line",
+        "a": [
+         0,
+         13.08
+        ],
+        "b": [
+         12,
+         13.08
+        ]
+       },
+       {
+        "id": "e2115_2",
+        "type": "line",
+        "a": [
+         12,
+         13.08
+        ],
+        "b": [
+         12,
+         10
+        ]
+       },
+       {
+        "id": "e2115_3",
+        "type": "line",
+        "a": [
+         12,
+         10
+        ],
+        "b": [
+         0,
+         10
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2117",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2116_0",
+        "type": "line",
+        "a": [
+         1.44,
+         13.08
+        ],
+        "b": [
+         1.44,
+         17.92
+        ]
+       },
+       {
+        "id": "e2116_1",
+        "type": "line",
+        "a": [
+         1.44,
+         17.92
+        ],
+        "b": [
+         10.56,
+         17.92
+        ]
+       },
+       {
+        "id": "e2116_2",
+        "type": "line",
+        "a": [
+         10.56,
+         17.92
+        ],
+        "b": [
+         10.56,
+         13.08
+        ]
+       },
+       {
+        "id": "e2116_3",
+        "type": "line",
+        "a": [
+         10.56,
+         13.08
+        ],
+        "b": [
+         1.44,
+         13.08
         ]
        }
       ],
@@ -87334,6 +88798,281 @@
    "contexto": false
   },
   {
+   "id": "p887_fijo_rodamiento_skf_w_6004_2z_tensora_x_calle_3_x_279_456_20",
+   "name": "FIJO · Rodamiento SKF W 6004-2Z tensora −X (calle 3, X=279.456) (20×42×12)",
+   "color": "#7e57c2",
+   "pos": [
+    259.46,
+    -175.72,
+    -371.89
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_20x42x12",
+   "features": [
+    {
+     "id": "f2168",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2167_0",
+        "type": "line",
+        "a": [
+         0,
+         17.92
+        ],
+        "b": [
+         0,
+         21
+        ]
+       },
+       {
+        "id": "e2167_1",
+        "type": "line",
+        "a": [
+         0,
+         21
+        ],
+        "b": [
+         12,
+         21
+        ]
+       },
+       {
+        "id": "e2167_2",
+        "type": "line",
+        "a": [
+         12,
+         21
+        ],
+        "b": [
+         12,
+         17.92
+        ]
+       },
+       {
+        "id": "e2167_3",
+        "type": "line",
+        "a": [
+         12,
+         17.92
+        ],
+        "b": [
+         0,
+         17.92
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2169",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2168_0",
+        "type": "line",
+        "a": [
+         0,
+         10
+        ],
+        "b": [
+         0,
+         13.08
+        ]
+       },
+       {
+        "id": "e2168_1",
+        "type": "line",
+        "a": [
+         0,
+         13.08
+        ],
+        "b": [
+         12,
+         13.08
+        ]
+       },
+       {
+        "id": "e2168_2",
+        "type": "line",
+        "a": [
+         12,
+         13.08
+        ],
+        "b": [
+         12,
+         10
+        ]
+       },
+       {
+        "id": "e2168_3",
+        "type": "line",
+        "a": [
+         12,
+         10
+        ],
+        "b": [
+         0,
+         10
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2170",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2169_0",
+        "type": "line",
+        "a": [
+         1.44,
+         13.08
+        ],
+        "b": [
+         1.44,
+         17.92
+        ]
+       },
+       {
+        "id": "e2169_1",
+        "type": "line",
+        "a": [
+         1.44,
+         17.92
+        ],
+        "b": [
+         10.56,
+         17.92
+        ]
+       },
+       {
+        "id": "e2169_2",
+        "type": "line",
+        "a": [
+         10.56,
+         17.92
+        ],
+        "b": [
+         10.56,
+         13.08
+        ]
+       },
+       {
+        "id": "e2169_3",
+        "type": "line",
+        "a": [
+         10.56,
+         13.08
+        ],
+        "b": [
+         1.44,
+         13.08
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ],
+   "contexto": false
+  },
+  {
    "id": "p888_fijo_anillo_retencion_3am1_20_tensora_x_calle_3_x_279_456_20",
    "name": "FIJO · Anillo retención 3AM1-20 tensora −X (calle 3, X=279.456) Ø20",
    "color": "#c3ccd6",
@@ -87416,6 +89155,281 @@
         "b": [
          0,
          9.4
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ],
+   "contexto": false
+  },
+  {
+   "id": "p889_fijo_rodamiento_skf_w_6004_2z_tensora_x_calle_3_x_279_456_20",
+   "name": "FIJO · Rodamiento SKF W 6004-2Z tensora +X (calle 3, X=279.456) (20×42×12)",
+   "color": "#7e57c2",
+   "pos": [
+    287.46,
+    -175.72,
+    -371.89
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_20x42x12",
+   "features": [
+    {
+     "id": "f2172",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2171_0",
+        "type": "line",
+        "a": [
+         0,
+         17.92
+        ],
+        "b": [
+         0,
+         21
+        ]
+       },
+       {
+        "id": "e2171_1",
+        "type": "line",
+        "a": [
+         0,
+         21
+        ],
+        "b": [
+         12,
+         21
+        ]
+       },
+       {
+        "id": "e2171_2",
+        "type": "line",
+        "a": [
+         12,
+         21
+        ],
+        "b": [
+         12,
+         17.92
+        ]
+       },
+       {
+        "id": "e2171_3",
+        "type": "line",
+        "a": [
+         12,
+         17.92
+        ],
+        "b": [
+         0,
+         17.92
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2173",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2172_0",
+        "type": "line",
+        "a": [
+         0,
+         10
+        ],
+        "b": [
+         0,
+         13.08
+        ]
+       },
+       {
+        "id": "e2172_1",
+        "type": "line",
+        "a": [
+         0,
+         13.08
+        ],
+        "b": [
+         12,
+         13.08
+        ]
+       },
+       {
+        "id": "e2172_2",
+        "type": "line",
+        "a": [
+         12,
+         13.08
+        ],
+        "b": [
+         12,
+         10
+        ]
+       },
+       {
+        "id": "e2172_3",
+        "type": "line",
+        "a": [
+         12,
+         10
+        ],
+        "b": [
+         0,
+         10
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2174",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2173_0",
+        "type": "line",
+        "a": [
+         1.44,
+         13.08
+        ],
+        "b": [
+         1.44,
+         17.92
+        ]
+       },
+       {
+        "id": "e2173_1",
+        "type": "line",
+        "a": [
+         1.44,
+         17.92
+        ],
+        "b": [
+         10.56,
+         17.92
+        ]
+       },
+       {
+        "id": "e2173_2",
+        "type": "line",
+        "a": [
+         10.56,
+         17.92
+        ],
+        "b": [
+         10.56,
+         13.08
+        ]
+       },
+       {
+        "id": "e2173_3",
+        "type": "line",
+        "a": [
+         10.56,
+         13.08
+        ],
+        "b": [
+         1.44,
+         13.08
         ]
        }
       ],
@@ -89669,6 +91683,281 @@
    "contexto": false
   },
   {
+   "id": "p916_fijo_rodamiento_skf_w_6004_2z_tensora_x_calle_4_x_355_656_20",
+   "name": "FIJO · Rodamiento SKF W 6004-2Z tensora −X (calle 4, X=355.656) (20×42×12)",
+   "color": "#7e57c2",
+   "pos": [
+    335.66,
+    -175.72,
+    -371.89
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_20x42x12",
+   "features": [
+    {
+     "id": "f2225",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2224_0",
+        "type": "line",
+        "a": [
+         0,
+         17.92
+        ],
+        "b": [
+         0,
+         21
+        ]
+       },
+       {
+        "id": "e2224_1",
+        "type": "line",
+        "a": [
+         0,
+         21
+        ],
+        "b": [
+         12,
+         21
+        ]
+       },
+       {
+        "id": "e2224_2",
+        "type": "line",
+        "a": [
+         12,
+         21
+        ],
+        "b": [
+         12,
+         17.92
+        ]
+       },
+       {
+        "id": "e2224_3",
+        "type": "line",
+        "a": [
+         12,
+         17.92
+        ],
+        "b": [
+         0,
+         17.92
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2226",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2225_0",
+        "type": "line",
+        "a": [
+         0,
+         10
+        ],
+        "b": [
+         0,
+         13.08
+        ]
+       },
+       {
+        "id": "e2225_1",
+        "type": "line",
+        "a": [
+         0,
+         13.08
+        ],
+        "b": [
+         12,
+         13.08
+        ]
+       },
+       {
+        "id": "e2225_2",
+        "type": "line",
+        "a": [
+         12,
+         13.08
+        ],
+        "b": [
+         12,
+         10
+        ]
+       },
+       {
+        "id": "e2225_3",
+        "type": "line",
+        "a": [
+         12,
+         10
+        ],
+        "b": [
+         0,
+         10
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2227",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2226_0",
+        "type": "line",
+        "a": [
+         1.44,
+         13.08
+        ],
+        "b": [
+         1.44,
+         17.92
+        ]
+       },
+       {
+        "id": "e2226_1",
+        "type": "line",
+        "a": [
+         1.44,
+         17.92
+        ],
+        "b": [
+         10.56,
+         17.92
+        ]
+       },
+       {
+        "id": "e2226_2",
+        "type": "line",
+        "a": [
+         10.56,
+         17.92
+        ],
+        "b": [
+         10.56,
+         13.08
+        ]
+       },
+       {
+        "id": "e2226_3",
+        "type": "line",
+        "a": [
+         10.56,
+         13.08
+        ],
+        "b": [
+         1.44,
+         13.08
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ],
+   "contexto": false
+  },
+  {
    "id": "p917_fijo_anillo_retencion_3am1_20_tensora_x_calle_4_x_355_656_20",
    "name": "FIJO · Anillo retención 3AM1-20 tensora −X (calle 4, X=355.656) Ø20",
    "color": "#c3ccd6",
@@ -89751,6 +92040,281 @@
         "b": [
          0,
          9.4
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ],
+   "contexto": false
+  },
+  {
+   "id": "p918_fijo_rodamiento_skf_w_6004_2z_tensora_x_calle_4_x_355_656_20",
+   "name": "FIJO · Rodamiento SKF W 6004-2Z tensora +X (calle 4, X=355.656) (20×42×12)",
+   "color": "#7e57c2",
+   "pos": [
+    363.66,
+    -175.72,
+    -371.89
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_20x42x12",
+   "features": [
+    {
+     "id": "f2229",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2228_0",
+        "type": "line",
+        "a": [
+         0,
+         17.92
+        ],
+        "b": [
+         0,
+         21
+        ]
+       },
+       {
+        "id": "e2228_1",
+        "type": "line",
+        "a": [
+         0,
+         21
+        ],
+        "b": [
+         12,
+         21
+        ]
+       },
+       {
+        "id": "e2228_2",
+        "type": "line",
+        "a": [
+         12,
+         21
+        ],
+        "b": [
+         12,
+         17.92
+        ]
+       },
+       {
+        "id": "e2228_3",
+        "type": "line",
+        "a": [
+         12,
+         17.92
+        ],
+        "b": [
+         0,
+         17.92
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2230",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2229_0",
+        "type": "line",
+        "a": [
+         0,
+         10
+        ],
+        "b": [
+         0,
+         13.08
+        ]
+       },
+       {
+        "id": "e2229_1",
+        "type": "line",
+        "a": [
+         0,
+         13.08
+        ],
+        "b": [
+         12,
+         13.08
+        ]
+       },
+       {
+        "id": "e2229_2",
+        "type": "line",
+        "a": [
+         12,
+         13.08
+        ],
+        "b": [
+         12,
+         10
+        ]
+       },
+       {
+        "id": "e2229_3",
+        "type": "line",
+        "a": [
+         12,
+         10
+        ],
+        "b": [
+         0,
+         10
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2231",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2230_0",
+        "type": "line",
+        "a": [
+         1.44,
+         13.08
+        ],
+        "b": [
+         1.44,
+         17.92
+        ]
+       },
+       {
+        "id": "e2230_1",
+        "type": "line",
+        "a": [
+         1.44,
+         17.92
+        ],
+        "b": [
+         10.56,
+         17.92
+        ]
+       },
+       {
+        "id": "e2230_2",
+        "type": "line",
+        "a": [
+         10.56,
+         17.92
+        ],
+        "b": [
+         10.56,
+         13.08
+        ]
+       },
+       {
+        "id": "e2230_3",
+        "type": "line",
+        "a": [
+         10.56,
+         13.08
+        ],
+        "b": [
+         1.44,
+         13.08
         ]
        }
       ],
@@ -92004,6 +94568,281 @@
    "contexto": false
   },
   {
+   "id": "p945_fijo_rodamiento_skf_w_6004_2z_tensora_x_calle_5_x_431_856_20",
+   "name": "FIJO · Rodamiento SKF W 6004-2Z tensora −X (calle 5, X=431.856) (20×42×12)",
+   "color": "#7e57c2",
+   "pos": [
+    411.86,
+    -175.72,
+    -371.89
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_20x42x12",
+   "features": [
+    {
+     "id": "f2282",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2281_0",
+        "type": "line",
+        "a": [
+         0,
+         17.92
+        ],
+        "b": [
+         0,
+         21
+        ]
+       },
+       {
+        "id": "e2281_1",
+        "type": "line",
+        "a": [
+         0,
+         21
+        ],
+        "b": [
+         12,
+         21
+        ]
+       },
+       {
+        "id": "e2281_2",
+        "type": "line",
+        "a": [
+         12,
+         21
+        ],
+        "b": [
+         12,
+         17.92
+        ]
+       },
+       {
+        "id": "e2281_3",
+        "type": "line",
+        "a": [
+         12,
+         17.92
+        ],
+        "b": [
+         0,
+         17.92
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2283",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2282_0",
+        "type": "line",
+        "a": [
+         0,
+         10
+        ],
+        "b": [
+         0,
+         13.08
+        ]
+       },
+       {
+        "id": "e2282_1",
+        "type": "line",
+        "a": [
+         0,
+         13.08
+        ],
+        "b": [
+         12,
+         13.08
+        ]
+       },
+       {
+        "id": "e2282_2",
+        "type": "line",
+        "a": [
+         12,
+         13.08
+        ],
+        "b": [
+         12,
+         10
+        ]
+       },
+       {
+        "id": "e2282_3",
+        "type": "line",
+        "a": [
+         12,
+         10
+        ],
+        "b": [
+         0,
+         10
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2284",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2283_0",
+        "type": "line",
+        "a": [
+         1.44,
+         13.08
+        ],
+        "b": [
+         1.44,
+         17.92
+        ]
+       },
+       {
+        "id": "e2283_1",
+        "type": "line",
+        "a": [
+         1.44,
+         17.92
+        ],
+        "b": [
+         10.56,
+         17.92
+        ]
+       },
+       {
+        "id": "e2283_2",
+        "type": "line",
+        "a": [
+         10.56,
+         17.92
+        ],
+        "b": [
+         10.56,
+         13.08
+        ]
+       },
+       {
+        "id": "e2283_3",
+        "type": "line",
+        "a": [
+         10.56,
+         13.08
+        ],
+        "b": [
+         1.44,
+         13.08
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ],
+   "contexto": false
+  },
+  {
    "id": "p946_fijo_anillo_retencion_3am1_20_tensora_x_calle_5_x_431_856_20",
    "name": "FIJO · Anillo retención 3AM1-20 tensora −X (calle 5, X=431.856) Ø20",
    "color": "#c3ccd6",
@@ -92086,6 +94925,281 @@
         "b": [
          0,
          9.4
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ],
+   "contexto": false
+  },
+  {
+   "id": "p947_fijo_rodamiento_skf_w_6004_2z_tensora_x_calle_5_x_431_856_20",
+   "name": "FIJO · Rodamiento SKF W 6004-2Z tensora +X (calle 5, X=431.856) (20×42×12)",
+   "color": "#7e57c2",
+   "pos": [
+    439.86,
+    -175.72,
+    -371.89
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_20x42x12",
+   "features": [
+    {
+     "id": "f2286",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2285_0",
+        "type": "line",
+        "a": [
+         0,
+         17.92
+        ],
+        "b": [
+         0,
+         21
+        ]
+       },
+       {
+        "id": "e2285_1",
+        "type": "line",
+        "a": [
+         0,
+         21
+        ],
+        "b": [
+         12,
+         21
+        ]
+       },
+       {
+        "id": "e2285_2",
+        "type": "line",
+        "a": [
+         12,
+         21
+        ],
+        "b": [
+         12,
+         17.92
+        ]
+       },
+       {
+        "id": "e2285_3",
+        "type": "line",
+        "a": [
+         12,
+         17.92
+        ],
+        "b": [
+         0,
+         17.92
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2287",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2286_0",
+        "type": "line",
+        "a": [
+         0,
+         10
+        ],
+        "b": [
+         0,
+         13.08
+        ]
+       },
+       {
+        "id": "e2286_1",
+        "type": "line",
+        "a": [
+         0,
+         13.08
+        ],
+        "b": [
+         12,
+         13.08
+        ]
+       },
+       {
+        "id": "e2286_2",
+        "type": "line",
+        "a": [
+         12,
+         13.08
+        ],
+        "b": [
+         12,
+         10
+        ]
+       },
+       {
+        "id": "e2286_3",
+        "type": "line",
+        "a": [
+         12,
+         10
+        ],
+        "b": [
+         0,
+         10
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2288",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2287_0",
+        "type": "line",
+        "a": [
+         1.44,
+         13.08
+        ],
+        "b": [
+         1.44,
+         17.92
+        ]
+       },
+       {
+        "id": "e2287_1",
+        "type": "line",
+        "a": [
+         1.44,
+         17.92
+        ],
+        "b": [
+         10.56,
+         17.92
+        ]
+       },
+       {
+        "id": "e2287_2",
+        "type": "line",
+        "a": [
+         10.56,
+         17.92
+        ],
+        "b": [
+         10.56,
+         13.08
+        ]
+       },
+       {
+        "id": "e2287_3",
+        "type": "line",
+        "a": [
+         10.56,
+         13.08
+        ],
+        "b": [
+         1.44,
+         13.08
         ]
        }
       ],

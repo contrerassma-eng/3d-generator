@@ -1,52 +1,12 @@
 [
  {
-  "cm3": 12.75,
-  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 1, X=127.056)",
-  "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)"
+  "cm3": 46.24,
+  "a": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -555)",
+  "b": "CTX · roller/uni_002 Ø34×850 (resucitado para el banco)"
  },
  {
-  "cm3": 12.75,
-  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 2, X=203.256)",
-  "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)"
- },
- {
-  "cm3": 12.75,
-  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 3, X=279.456)",
-  "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)"
- },
- {
-  "cm3": 12.75,
-  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 4, X=355.656)",
-  "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)"
- },
- {
-  "cm3": 12.75,
-  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 5, X=431.856)",
-  "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)"
- },
- {
-  "cm3": 0.89,
-  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 1, X=127.056)",
-  "b": "TAMBOR · tubo Ø88.9 × 380 (e=3.2)"
- },
- {
-  "cm3": 0.89,
-  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 2, X=203.256)",
-  "b": "TAMBOR · tubo Ø88.9 × 380 (e=3.2)"
- },
- {
-  "cm3": 0.89,
-  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 3, X=279.456)",
-  "b": "TAMBOR · tubo Ø88.9 × 380 (e=3.2)"
- },
- {
-  "cm3": 0.89,
-  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 4, X=355.656)",
-  "b": "TAMBOR · tubo Ø88.9 × 380 (e=3.2)"
- },
- {
-  "cm3": 0.89,
-  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 5, X=431.856)",
-  "b": "TAMBOR · tubo Ø88.9 × 380 (e=3.2)"
+  "cm3": 15.56,
+  "a": "PG40 · Escuadra larguero↔travesaño (calle 2, Y -555)",
+  "b": "CTX · roller/uni_002 Ø34×850 (resucitado para el banco)"
  }
 ]

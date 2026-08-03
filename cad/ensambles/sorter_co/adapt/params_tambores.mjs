@@ -219,7 +219,13 @@ export const CONDUCIDO = {
   eje: { d: 35, material: 'C45 h9', gira: false },
   ejeX: [62, 497],                     // calc — muere DENTRO de las pletinas
   //   (67.494…79.494 y 479.418…491.418): no asoma al chapón de descarga
-  rodam: { bore: 35, od: 72, w: 17, desig: '6207-2RS', C: 25500, C0: 15300 },  // cat/web BRG-6207
+  rodam: { bore: 35, od: 72, w: 17, desig: '6207-2RS', C: 25500, C0: 15300 },  // cat/web BRG-6207-01
+  //   ⚠ REVISIÓN ESTRUCTURAL 2026-08-03: el id `BRG-6207` que había aquí NO
+  //   EXISTÍA en ningún web_facts.json — el C y el C0 estaban sin procedencia.
+  //   Se ha añadido el hecho BRG-6207-01 (Timken, cita verbatim): C = 25 700 N,
+  //   C0 = 15 300 N. El C declarado arriba (25 500) queda 0.8 % POR DEBAJO del
+  //   de catálogo, o sea del lado seguro: no se toca. La compuerta §S (SC-07)
+  //   calcula la vida con el 25 700 citado.
   // Soporte del eje fijo (dis): pletina 117 × 117 × 12 con barreno Ø35 H8 y
   // collar de apriete partido; se atornilla al MISMO patrón 92 × 92 del UCF 207
   // que pg40 ya taladra, en la cara INTERIOR del alargue. Así pg40 no cambia el
@@ -236,6 +242,27 @@ export const CONDUCIDO = {
 // 4. LOS RODILLOS DE RETORNO
 // ---------------------------------------------------------------------------
 // CUÁNTOS Y DÓNDE (dis, con el motivo de cada uno):
+//
+// ⚠ CORRECCIÓN DEL CLIENTE (03-08-2026) — «la banda tiene que ir RECTA a través
+// de la estructura de la transferencia, no por debajo». Se ha medido, y esto es
+// lo que hay (la compuerta §R de gen_sorter_co.mjs lo reproduce y lo exige):
+//   · El RAMAL PORTANTE ya va recto: atraviesa el módulo a la cota del plano de
+//     transporte por el corredor de 42 mm que dejan los dientes de las placas
+//     PEINE (holgura 5.0/lado a la banda, 6.0 al puente, 4.64 al rodillo).
+//   · El corredor SIRVE TAMBIÉN para el retorno, y el propio NBT90 lo declara:
+//     sus piezas CONTEXTO ponen el ramal de retorno del anfitrión recto por el
+//     mismo hueco, a Z −11.57…−9.07 del sorter, 61.4 mm bajo el portante.
+//   · El del sorter NO cabe ahí, y el número es éste: el suelo útil del corredor
+//     está en Z −9.87 (techo del motorreductor SEW del cassette, −11.87, más 2
+//     de holgura), y el ramal de retorno de este accionamiento sale a Z −57.2
+//     porque el TAMBOR es Ø108.9. Faltan 47.33 mm. Para entrar en el corredor el
+//     tambor tendría que bajar a Ø ≤ 61.57 — que es justo el Ø del anfitrión
+//     (P.bandaRetornoDZ = 61.4 med) — y con eje Ø35 (barreno del UCF 207) más los
+//     10 de goma que pidió el cliente, el tubo se quedaría en Ø41.6: sin corona
+//     de tapa. Las tres cotas (Ø35, goma 10, UCF 207) son instrucción del
+//     cliente, así que el retorno pasa POR DEBAJO. Si el cliente cambia el
+//     tambor, la §R lo detecta y EXIGE retirar estos rodillos y el pozo.
+//
 // El ramal de retorno sale del tambor a Z −57.2, tiene que llegar al conducido
 // a −56.3 y, ENTRE MEDIAS, no puede atravesar el módulo de transferencia, que
 // ocupa Y −1205…−742 en TODA la profundidad hasta Z −338.267. O sea que el
@@ -248,6 +275,19 @@ export const CONDUCIDO = {
 // NO HACEN FALTA MÁS (calc, y se verifica): el vano libre más largo es el
 // tambor→RR1, 606 mm; con 129.05 N de tensión y 0.38 N/m de peso de banda la
 // FLECHA del ramal es 0.12 mm. Un rodillo intermedio no sostendría nada.
+// Y NO HACEN FALTA MENOS (calc sobre el lazo, con `envolventes` de lib.mjs —
+// éstas son las cuatro variantes que se probaron al revisar el retorno):
+//   · sin RR4 (3 rodillos): el abrazado del CONDUCIDO cae a 137.63°, bajo el
+//     mínimo de 150° de la compuerta §J. Igual con sólo los dos del fondo.
+//   · sin RR1 (3 rodillos): los abrazados cumplen (tambor 180°, conducido 180°),
+//     pero desaparece el TRAMO LLANO de Z −57.2 del que cuelga el tensor
+//     (`RETORNO.tramoLibreY`, contrato con adapt/mod_tensor2.mjs) y del que sale
+//     POR TANGENCIA la cota de los dos volantes de contraflexión: la banda
+//     llegaría a la horquilla en diagonal a 37.6° y ni el abrazado de la tensora
+//     ni la palanca del brazo serían los publicados. Se descarta.
+//   · sin ninguno (retorno recto): 464 puntos del contorno de la banda caen
+//     DENTRO del macizo del módulo, en Z −57.60…−56.66. Es el cálculo de arriba.
+// O sea: 4 es el mínimo mientras el tambor sea Ø108.9.
 // Las cuatro Y son las que ya tenía verificadas la versión de pozo anterior
 // (params_adapt POZO v4/v3/v2/v1): libran el IDLER-ENS (Y −1391.979), el
 // LAT TOP (que arranca en −513.116) y los travesaños PG40 (−1520/−1390/−600/−100).
@@ -266,7 +306,14 @@ export const RETORNOS = {
   get tuboX() { return [r3(Xc - this.cara / 2), r3(Xc + this.cara / 2)]; },
   eje: { d: 30, material: 'C45 h9', gira: false },           // dis — ver §6 (flecha)
   ejeX: [62, 497],                     // calc — igual que el conducido
-  rodam: { bore: 30, od: 62, w: 16, desig: '6206-2RS', C: 20300, C0: 11200 },  // cat/web BRG-6206
+  rodam: { bore: 30, od: 62, w: 16, desig: '6206-2RS', C: 20300, C0: 11200 },  // cat/web BRG-6206-01
+  //   ⚠ REVISIÓN ESTRUCTURAL 2026-08-03: igual que en el conducido, el id
+  //   `BRG-6206` no existía. El hecho citable es BRG-6206-01 (Timken): C =
+  //   19 500 N, C0 = 11 300 N. Aquí el C declarado (20 300) está 4.1 % POR
+  //   ENCIMA del de catálogo, es decir del lado INSEGURO. No se corrige desde
+  //   la revisión (el número es de este módulo), pero la compuerta §S (SC-07)
+  //   calcula la vida con el 19 500 citado. Con C/P ≈ 30 la conclusión no
+  //   cambia; el dato sí hay que corregirlo.
   soporte: { e: 12, lado: 100, bore: 30, patron: 76, taladro: 11,
     caraX: [67.494, 491.418], normal: [1, -1] },
   collar: 'Collar de apriete partido Ø30 DIN 705 A',
@@ -309,11 +356,17 @@ export const TAMBORES = {
       semi: r3(CONDUCIDO.soporte.patron / 2) },
     pasoEje: 0 },   // no hay paso de eje: el eje MUERE en la pletina
   // ↓↓↓ los cuatro rodillos de retorno, para que pg40 les cuelgue ménsulas ↓↓↓
+  // `s` = sentido de envolvente de la banda sobre el rodillo, en el convenio de
+  // lib.mjs `bandaFaces` (+1 la banda lo envuelve CCW, −1 CW). Va AQUÍ, con la
+  // cota, y no cableado en mod_calles: así el lazo de la banda es CONSECUENCIA
+  // de esta tabla — quitar o añadir un rodillo de retorno es cambiar esta lista
+  // y nada más. Los del FONDO del pozo muerden el ramal por arriba (+1); los de
+  // HOMBRO, que lo doblan hacia abajo y hacia arriba, lo muerden por debajo (−1).
   retorno: [
-    { id: 'RR1', y: -606, z: r3(zCaraRetTambor - RETORNOS.r), papel: 'baja el ramal' },
-    { id: 'RR2', y: -672, z: r3(zFondoAlto + RETORNOS.r), papel: 'fondo del pozo, norte' },
-    { id: 'RR3', y: -1280, z: r3(zFondoAlto + RETORNOS.r), papel: 'fondo del pozo, sur' },
-    { id: 'RR4', y: -1325, z: r3(zCaraRetConducido - RETORNOS.r), papel: 'sube el ramal' },
+    { id: 'RR1', y: -606, z: r3(zCaraRetTambor - RETORNOS.r), s: -1, papel: 'baja el ramal' },
+    { id: 'RR2', y: -672, z: r3(zFondoAlto + RETORNOS.r), s: +1, papel: 'fondo del pozo, norte' },
+    { id: 'RR3', y: -1280, z: r3(zFondoAlto + RETORNOS.r), s: +1, papel: 'fondo del pozo, sur' },
+    { id: 'RR4', y: -1325, z: r3(zCaraRetConducido - RETORNOS.r), s: -1, papel: 'sube el ramal' },
   ],
   retornoD: RETORNOS.od, retornoEje: RETORNOS.eje.d,
   retornoSoporte: RETORNOS.soporte,
@@ -411,7 +464,16 @@ export const RETIRA = {
     // donde ya no hay polea. La verificación B-rep los encontró metidos en los
     // ejes de mis rodillos de retorno (145 cm³ en 120 pares). Se van con el
     // resto del pozo, que es a lo que pertenecían.
-    'Rodamiento SKF W 6004',                  // 40 · rodamientos de las V1…V4
+    // ⚠ ANCLADA A `(V1…V4,` A PROPÓSITO. Aquí decía `'Rodamiento SKF W 6004'`
+    //   a secas, y esa subcadena NO distingue de quién es el rodamiento: la
+    //   polea tensora del tensor NUEVO usa el MISMO W 6004-2Z (params_tensor2
+    //   §POL.rodamiento, web BRG-005) y se llama `Rodamiento SKF W 6004-2Z
+    //   tensora ±X (calle n…)`. La regex se los llevaba también: las 5 poleas
+    //   tensoras Ø117.9 quedaban girando METAL SOBRE METAL en su eje Ø20 con
+    //   258 N encima. Lo encontró la revisión de compras y montaje (B1).
+    //   El nombre de las del pozo lleva `(V1,`…`(V4,` (mod_estaciones §pozo);
+    //   el del tensor, `tensora −X`. Discriminar por eso, no por el rodamiento.
+    'Rodamiento SKF W 6004-2Z \\(V[1-4],',    // 40 · rodamientos de las V1…V4
     'testa de eje \\(V[1-4]',                 // 40 · pernos de testa de sus ejes
     'ancha testa \\(V[1-4]',                  // 40 · sus golillas
   ].join('|')),

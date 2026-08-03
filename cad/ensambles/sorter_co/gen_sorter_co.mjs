@@ -5,10 +5,12 @@
 //
 //   node ensambles/sorter_co/gen_sorter_co.mjs            (desde cad/)
 //   TEST_ROMPE=paso|ventana|roller|profundidad|luz|pasillo|borde|at10|retencion
-//              |guia|guarda|pivote|pila|cilindro|soporte|bulon node … (banco:
-//       inyecta UN defecto y demuestra que verify() lo para SIN emitir JSON.
-//       Los tres últimos son del TENSOR: pivote = le roba los anillos DIN 471
-//       del eje; pila = le roba un separador; cilindro = deja una banda sin él)
+//              |guia|guarda|pivote|pila|cilindro|soporte|bulon|portante
+//              |apoyo|presion|rampa|apriete|eje|rodamiento|banda|fuente node …
+//       (banco: inyecta UN defecto y demuestra que verify() lo para SIN emitir
+//       JSON. pivote = le roba los anillos DIN 471 del eje del tensor; pila =
+//       le roba un separador; cilindro = deja una banda sin él. Los OCHO
+//       últimos son de la REVISIÓN ESTRUCTURAL §S — ver el bloque de banco.)
 //
 // Emite (solo si la compuerta pasa):
 //   sorter_co_adaptado.json          — documento foto3d-cad (NBT90 como contexto)
@@ -19,7 +21,7 @@
 // Ejes: los del STEP del cliente (X ancho / Y flujo / Z arriba, plano de
 // transporte Z=+52.333). El NBT90 entra rotado Rz(−90°) y trasladado T.
 
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -152,20 +154,23 @@ const LIMS = {
 const HALLAZGOS_SC = {
   'SC-01': { uso: 11, dueño: 'adapt/params_pg40.mjs + adapt/mod_calles.mjs',
     nota: 'los 10 apoyos del puente de calle se quedaron sin travesaño al poner '
-      + 'FLAGS.desactivaPercha = true' },
+      + 'FLAGS.desactivaPercha = true: hacen falta 2 travesaños en Y −1280 y −692 '
+      + 'con la cara superior en Z 9.15' },
   'SC-02': { uso: 1.57, dueño: 'adapt/params_tensor2.mjs',
-    nota: 'la tensión que da la geometría real del balancín es 1.91 N/mm, no 4.03' },
-  'SC-03': { uso: 22.2, dueño: 'adapt/params_tensor2.mjs',
-    nota: 'PALANCA.ratio supone la reacción de la banda VERTICAL y la geometría '
-      + 'de mod_calles la deja a 25.67° de la vertical' },
-  'SC-05': { uso: 2.28, dueño: 'adapt/params_pg40.mjs',
-    nota: 'ni el temple del perfil ni el par de apriete están declarados' },
-  'SC-10': { uso: 1.67, dueño: 'adapt/params_tambores.mjs',
-    nota: 'el modelo cuelga de un dorso de banda de 0.633 mm, que es el convenio '
-      + 'de la T5 dentada del cliente, no una banda plana' },
-  'SC-11': { uso: 3, dueño: 'adapt/mod_pg40.mjs',
-    nota: 'los travesaños del bastidor topan contra los chapones sin ninguna '
-      + 'pieza de unión modelada' },
+    nota: 'la tensión que da la geometría real del balancín es 1.91 N/mm, no los '
+      + '4.03 declarados; ni a 6 bar de red se llega al mínimo de 3 N/mm' },
+  'SC-03': { uso: 22.23, dueño: 'adapt/params_tensor2.mjs',
+    nota: 'PALANCA.ratio supone la reacción de la banda VERTICAL y la horquilla '
+      + 'que construye mod_calles la deja a 25.67° de la vertical' },
+  'SC-05': { uso: 1.37, dueño: 'adapt/params_pg40.mjs',
+    nota: 'ni el temple del perfil (T5 o T6) ni el par de apriete de las tuercas '
+      + 'martillo están declarados' },
+  'SC-10': { uso: 3.16, dueño: 'adapt/params_tambores.mjs',
+    nota: 'el lazo entero cuelga de un dorso de banda de 0.633 mm, que es el '
+      + 'convenio de la T5 DENTADA del cliente, no el de una banda plana' },
+  'SC-11': { uso: 5, dueño: 'adapt/mod_pg40.mjs',
+    nota: 'los 4 extremos de los travesaños largos topan contra los chapones sin '
+      + 'ninguna pieza de unión modelada' },
 };
 
 // ---------------------------------------------------------------------------
@@ -408,6 +413,45 @@ if (ROMPE === 'paso') {
       f.params.pts = out;
     }
   }
+}
+
+// ── banco de la REVISIÓN ESTRUCTURAL §S (2026-08-03) ───────────────────────
+// Los ocho casos de abajo NO son alternativas de la cadena de arriba: se
+// aplican DESPUÉS, porque unos tocan la geometría emitida y otros tocan datos
+// declarados (presión, par de apriete, C de catálogo, límites de LIMS), y §S
+// los relee en `verify()`. Cada uno demuestra que UNA comprobación muerde, en
+// una dirección o en la otra:
+//   apoyo      → SC-01 pasa a cumplir  ⇒ falla pidiendo borrar la dispensa
+//                (y de paso SC-11 empeora: el travesaño de banco tampoco lleva
+//                 amarre a los chapones — las dos cosas son ciertas)
+//   presion    → SC-02 empeora ⇒ falla; y arrastra SC-04, que se queda en 1.01
+//   rampa      → SC-04 cae bajo su FS  ⇒ falla (no tiene dispensa)
+//   apriete    → SC-05 empeora
+//   eje        → SC-06 se dispara (y con él la §(6) del bloque TAMBORES, que
+//                 exige que el eje sea el barreno del UCF 207)
+//   rodamiento → SC-07 cae bajo las 20 000 h
+//   banda      → SC-10 pasa a cumplir  ⇒ falla pidiendo borrar la dispensa
+//   fuente     → SC-12 encuentra un id sin hecho (se inyecta dentro de §S)
+if (ROMPE === 'apoyo') {
+  // devuelve un travesaño bajo cada placa base del puente: SC-01 tiene que
+  // notarlo LEYENDO la geometría, no un parámetro
+  for (const y of [-1280, -692]) {
+    E.addPart(`PG40 · Travesaño de banco 40×40 (Y ${y})`, '#b9c4cc',
+      [Xc, y, -30.85], [{ id: `tb${y}`, name: 'perfil', shape: 'box', op: 'union',
+        at: [Xc, y, -30.85], dir: [0, 0, 1], params: { w: 580, d: 40, h: 40 } }], {});
+  }
+} else if (ROMPE === 'presion') {
+  NEUM.presionTrabajoBar = 2.5;                 // el tensor aflojado
+} else if (ROMPE === 'rampa') {
+  LIMS.arranque.rampaS = 0.25;                  // arranque brusco
+} else if (ROMPE === 'apriete') {
+  LIMS.tuercaT.parMaxNm = 60;                   // se aprieta con llave larga
+} else if (ROMPE === 'eje') {
+  TAMB_P.eje.d = 22;                            // eje del tambor adelgazado
+} else if (ROMPE === 'rodamiento') {
+  LIMS.brg.C6206 = 2600;                        // un 6206 de baja capacidad
+} else if (ROMPE === 'banda') {
+  STEP.bandaDorso = 2.5;                        // banda plana real (SC-10 cumple)
 }
 
 // ---------------------------------------------------------------------------
@@ -1098,7 +1142,22 @@ function verify() {
     //     usarlo es aritmética del Ø del tambor, y aquí queda escrita.
     const zRamal = r2(TAMB_RAMAL.z);                                  // −57.2 (dorso)
     const puenteBaseZ = r2(CALLE.puente.topZ - CALLE.puente.uhmwH - CALLE.puente.aceroH);  // 15.15
-    const diaMaxRectoTeorico = r2(STEP.guiaSec.topZ - fondoBandaMin);  // Ø que dejaría el retorno EN el corredor
+    // El otro techo del corredor: lo que el cassette del NBT90 lleva debajo. El
+    // motorreductor SEW es lo más alto que hay bajo la ranura en las calles 2-4 —
+    // y es justo la pieza que el ramal de retorno del anfitrión libra por 0.3 mm
+    // en la declaración del propio NBT90. Se mide sobre su caja real.
+    let techoMovil = -1e9, quienTecho = null;
+    for (const p of nbt) {
+      if (/Placa peine|serpentín|Banda plana FLEXPROOF/.test(p.name)) continue;   // su AABB miente (ranura / lazo)
+      const b = bb.get(p);
+      if (b.hi[1] <= y0 || b.lo[1] >= y1) continue;
+      if (b.hi[2] >= puenteBaseZ) continue;                          // no está bajo el corredor
+      if (!EJES.some(B => b.hi[0] > B - STEP.bandaAncho / 2 && b.lo[0] < B + STEP.bandaAncho / 2)) continue;
+      if (b.hi[2] > techoMovil) { techoMovil = b.hi[2]; quienTecho = p.name; }
+    }
+    // suelo REAL del corredor recto: manda el más alto de los dos topes
+    const sueloCorredor = r2(Math.max(fondoBandaMin, techoMovil + 2));
+    const diaMaxRectoTeorico = r2(STEP.guiaSec.topZ - sueloCorredor);  // Ø que dejaría el retorno EN el corredor
     RECTO.corredor = {
       ranuraAnchoMin: r2(anchoRanuraMin),
       fondoRanuraBanda: r2(fondoBandaMin), fondoRanuraPuente: r2(fondoPuenteMin),
@@ -1108,13 +1167,15 @@ function verify() {
       holguraPuenteRodillo: r2((NBT.paso - NBT.rodDia - CALLE.puente.ancho) / 2),
       holguraRodilloRegletaNbt90: A?.holguraRodilloRegleta,
       portanteZ: zPortante, planoTransporte: PB, caraInferiorModulo: fondoModulo,
+      techoMovilBajoCorredor: r2(techoMovil), techoMovilPieza: quienTecho,
+      sueloCorredorRecto: sueloCorredor,
       estado: 'medido con el cassette ELEVADO (caso pésimo: al retraerse 10 mm la ranura baja y el corredor crece)',
     };
     RECTO.retornoRecto = {
-      posible: zRamal >= fondoBandaMin,
+      posible: zRamal >= sueloCorredor,
       ramalZ: zRamal,
-      ventanaZ: [r2(fondoBandaMin), puenteBaseZ],
-      faltaMm: r2(fondoBandaMin - zRamal),
+      ventanaZ: [sueloCorredor, puenteBaseZ],
+      faltaMm: r2(sueloCorredor - zRamal),
       diaTamborActual: TAMB_P.od,
       diaTamborMaxParaPasarRecto: diaMaxRectoTeorico,
       separacionRamalesAnfitrion: A?.separacionRamalesMm,
@@ -1699,9 +1760,407 @@ function verify() {
   }
   // ▲▲▲ ------------------------------------------------------------- ▲▲▲
 
+  // ▼▼▼ S. REVISIÓN ESTRUCTURAL DEL SORTER (2026-08-03) ▼▼▼
+  // Aquí no se comprueba que el sorter encaje: se comprueba que AGUANTE. Cada
+  // número se RECALCULA de la geometría emitida y de los parámetros — nunca se
+  // copia de lo que un módulo declara — y se compara con un límite de `LIMS`
+  // que lleva su fuente. Lo que no cumple y no se puede arreglar sin mover
+  // geometría vive en `HALLAZGOS_SC` con su utilización registrada.
+  const R_S = [];        // registro de las comprobaciones (va al documento)
+  const abiertosSC = []; // las que incumplen y están dispensadas
+  /** Registra una comprobación de §S. `uso` = utilización (>1 incumple). */
+  function chkS(id, titulo, valor, limite, sentido, detalle, unidad = '') {
+    let uso;
+    if (limite === 0) uso = valor > 0 ? 1 + valor : 0;                 // «no debe haber ninguno»
+    else uso = sentido === '<=' ? valor / limite : limite / valor;
+    const fila = { id, titulo, valor: r2(valor), limite: r2(limite), unidad, uso: r2(uso), ok: uso <= 1 };
+    R_S.push(fila);
+    const ab = HALLAZGOS_SC[id];
+    if (uso <= 1 + 1e-9) {
+      if (ab) {
+        e.push(`${id} · «${titulo}» YA CUMPLE (utilización ${r2(uso)}): borra su entrada de `
+          + 'HALLAZGOS_SC y actualiza REVISION_ESTRUCTURAL_SC.md. No se dejan dispensas caducadas.');
+      }
+      return fila;
+    }
+    if (!ab) {
+      e.push(`${id} · ${titulo}: ${r2(valor)} ${unidad} ${sentido === '<=' ? '>' : '<'} `
+        + `${r2(limite)} ${unidad} (utilización ${r2(uso)}). ${detalle}`);
+      return fila;
+    }
+    if (uso > ab.uso * 1.02 + 1e-9) {
+      e.push(`${id} · ${titulo} ha EMPEORADO: utilización ${r2(uso)} > ${ab.uso} registrada en `
+        + `HALLAZGOS_SC (dueño: ${ab.dueño}). ${detalle}`);
+      return fila;
+    }
+    fila.abierto = true; fila.dueño = ab.dueño;
+    abiertosSC.push(fila);
+    return fila;
+  }
+
+  const gAc = 9.80665;
+  const anchoBanda = STEP.bandaAncho;
+  const SC = {};   // los números, para el documento
+
+  // --- SC-01 · EL PUENTE DE CALLE NO TIENE APOYOS --------------------------
+  // El puente es la ÚNICA calle portante dentro de la huella del NBT90 (Y
+  // −1205…−742): el bulto lo cruza apoyado en él. Sus dos placas base se
+  // diseñaron para atornillarse a los travesaños de la percha (params_adapt
+  // PERCHA.travS/travN); con FLAGS.desactivaPercha esos travesaños se filtran
+  // por nombre y las placas se quedan en el aire. Se comprueba sobre la
+  // GEOMETRÍA EMITIDA: qué hay bajo cada placa base, con 3 mm de tolerancia.
+  {
+    const bases = nuevas.filter(p => /Placa base de puente/.test(p.name));
+    const sinApoyo = [];
+    for (const p of bases) {
+      const b = bb.get(p);
+      const bajo = { lo: [b.lo[0], b.lo[1], b.lo[2] - 12], hi: [b.hi[0], b.hi[1], b.lo[2] + 0.5] };
+      const apoyo = partes.some(q => q !== p && !/Puente de calle|Perno hex M8×16 puente|Banda plana 32/.test(q.name)
+        && solapeAABB(bajo, bb.get(q)) > 0);
+      if (!apoyo) sinApoyo.push(p.name);
+    }
+    // …y la distancia a la que se quedó el travesaño PG40 más próximo
+    let hueco = Infinity;
+    const puentes = nuevas.filter(p => /Puente de calle — pletina/.test(p.name));
+    const travs = nuevas.filter(p => /PG40 · Travesaño/.test(p.name));
+    for (const p of puentes) {
+      const b = bb.get(p);
+      for (const t of travs) {
+        const bt = bb.get(t);
+        hueco = Math.min(hueco, Math.max(bt.lo[1] - b.hi[1], b.lo[1] - bt.hi[1]));
+      }
+    }
+    SC.puente = { placasSinApoyo: sinApoyo.length, placas: bases.length,
+      huecoAlTravesanoMasProximoMm: r2(hueco),
+      vanoDeDisenoMm: r2(-692 - (-1280)), largoMm: r2(CALLE.puente.y[1] - CALLE.puente.y[0]) };
+    chkS('SC-01', 'apoyos reales bajo las placas base del puente de calle',
+      sinApoyo.length, 0, '<=',
+      `Los ${bases.length} apoyos de los 5 puentes (pletina ${CALLE.puente.ancho}×${CALLE.puente.aceroH} A36 `
+      + `de ${SC.puente.largoMm} mm que cruza la transferencia) no tocan nada: los travesaños de la percha a `
+      + 'los que se atornillan se retiraron con FLAGS.desactivaPercha. El travesaño PG40 más próximo queda a '
+      + `${SC.puente.huecoAlTravesanoMasProximoMm} mm en Y y 9.15 mm por debajo en Z. Corrección: `
+      + 'dos travesaños 40×40 en Y = −1280 y Y = −692 con su cara superior en Z = 9.15 '
+      + '(la cota PERCHA.travTopZ que ya estaba calculada), o bajar la placa base 9.15 y '
+      + 'llevar los travesaños PG40 a esas dos Y.', 'placas');
+  }
+
+  // --- SC-02/03 · LA TENSIÓN QUE DA LA GEOMETRÍA DEL BALANCÍN --------------
+  // params_tensor2 calcula T = F·(ratio)/(2·sen(β/2)) con ratio = 136.22/74.00,
+  // que son distancias HORIZONTALES: la fórmula sólo vale si la resultante de
+  // la banda sobre la polea tensora es VERTICAL. En el lazo que construye
+  // mod_calles no lo es — la horquilla es asimétrica (volante de entrada en
+  // Y −404.4 y de salida en −195.5, los dos a Z −107.83) —, así que la
+  // resultante lleva componente en Y y esa componente hace momento sobre el
+  // pivote con un brazo de 207.19 mm (la altura pivote↔polea). Se rehace el
+  // equilibrio de momentos completo, con las tangentes reales.
+  if (!TENSOR_VIEJO) {
+    const espB = STEP.bandaDorso;
+    const zVol = m.calles.banda?.volanteHorquillaZ ?? -107.83;
+    const qEnt = { c: [TENSOR.volEntrada.y, zVol], r: STEP.volante.cara / 2, s: -1 };
+    const qTen = { c: [PIV.y === undefined ? -175.72 : TENSION.__y ?? -175.72, 0], r: 0, s: 1 };
+    // la tensora: su centro y su radio los publican params_tensor2 (GEO/POL)
+    const cTen = [m.tensor2?.geo?.poleaY ?? -175.72, m.tensor2?.geo?.poleaZ ?? -371.89];
+    const rTen = (m.tensor2?.geo?.poleaDia ?? 117.9) / 2;
+    const qT = { c: cTen, r: rTen, s: 1 };
+    const qSal = { c: [TENSOR.volSalida.y, zVol], r: STEP.volante.cara / 2, s: -1 };
+    const dIn = tangenteS(qEnt, qT, espB);      // volante de entrada → tensora
+    const dOut = tangenteS(qT, qSal, espB);     // tensora → volante de salida
+    if (!dIn || !dOut) {
+      e.push('SC-02: no hay tangente entre la horquilla y la polea tensora: la tensión no se puede recalcular');
+    } else {
+      // los dos ramales TIRAN de la polea alejándose de ella
+      const Fu = [-dIn[0] + dOut[0], -dIn[1] + dOut[1]];
+      const modFu = Math.hypot(...Fu);
+      const angVert = Math.atan2(Math.abs(Fu[0]), Math.abs(Fu[1])) * 180 / Math.PI;
+      // momentos respecto del pivote (z de r×F, con Y a la derecha y Z arriba)
+      const rPol = [cTen[0] - PIV.y, cTen[1] - PIV.z];
+      const mzPorT = Math.abs(rPol[0] * Fu[1] - rPol[1] * Fu[0]);            // por N de T
+      const rYug = [NEUM.y - PIV.y, (m.tensor2?.geo?.lobuloZ ?? -292.5) - PIV.z];
+      const mzPorF = Math.abs(rYug[0]);                                       // cilindro vertical
+      const Fcil = TENSION.fTiroEfN;
+      const Tgeo = Fcil * mzPorF / mzPorT;
+      const nMmGeo = Tgeo / anchoBanda;
+      const desvPct = Math.abs(TENSION.tPorBandaN / Tgeo - 1) * 100;
+      SC.tensor = { anguloResultanteConVerticalDeg: r2(angVert), palancaDeclarada: PALANCA.ratio,
+        momentoPorNdeT: r2(mzPorT), momentoPorNdeCilindro: r2(mzPorF),
+        fCilindroEfN: r2(Fcil), tGeometricaN: r2(Tgeo), tGeometricaNmm: r2(nMmGeo),
+        tDeclaradaN: TENSION.tPorBandaN, tDeclaradaNmm: TENSION.tPorMmAncho,
+        reaccionPivoteGeoN: r2(Math.hypot(Fu[0] * Tgeo, Fu[1] * Tgeo + Fcil)),
+        reaccionPivoteDeclaradaN: TENSION.reaccionPivoteN,
+        presionParaLlegarAlRangoBar: r2(LIMS.banda.nMmMin * anchoBanda * mzPorT
+          / (mzPorF * NEUM.rendimiento * TENSION.areaTiro) * 10) };
+      chkS('SC-02', 'tensión de banda que da la GEOMETRÍA del balancín',
+        nMmGeo, LIMS.banda.nMmMin, '>=',
+        `El equilibrio de momentos con las tangentes reales da T = ${r2(Tgeo)} N = ${r2(nMmGeo)} N/mm a `
+        + `${NEUM.presionTrabajoBar} bar, no los ${TENSION.tPorBandaN} N que declara params_tensor2. Para llegar `
+        + `al mínimo del rango sano harían falta ${SC.tensor.presionParaLlegarAlRangoBar} bar en el `
+        + `${NEUM.reguladorPresion} — por encima de la presión de red declarada (${NEUM.presionRedBar} bar). `
+        + 'Corrección: subir el Ø del cilindro, o alargar el lóbulo del yugo, o bajar la polea de entrada '
+        + 'de la horquilla hasta que la resultante quede vertical.', 'N/mm');
+      chkS('SC-03', 'coherencia tensión declarada ↔ geometría construida',
+        desvPct, LIMS.banda.coherenciaPct, '<=',
+        `params_tensor2.PALANCA.ratio = ${PALANCA.ratio} usa distancias HORIZONTALES pivote↔yugo (136.22) y `
+        + `pivote↔polea (74.00), que sólo valen si la reacción de la banda es vertical; la geometría de `
+        + `mod_calles la deja a ${r2(angVert)}° de la vertical y su componente en Y hace momento con un brazo `
+        + `de ${r2(Math.abs(rPol[1]))} mm. Los dos módulos están calculando geometrías distintas.`, '%');
+    }
+  }
+
+  // --- SC-04 · ARRASTRE EN ARRANQUE ----------------------------------------
+  // params_tambores §4.7 comprueba el capstan sólo en RÉGIMEN. El caso que
+  // manda es el ARRANQUE: hay que acelerar el tambor, el conducido, los 4
+  // rodillos de retorno, las 5 tensoras, los 10 volantes de la horquilla, las 5
+  // bandas y los bultos que estén encima, y todo eso pasa por la misma
+  // fricción goma↔banda. Las inercias se calculan de los Ø publicados.
+  {
+    const rho = 7.85e-6;                       // kg/mm³ acero
+    const mTubo = (od, id, len) => Math.PI / 4 * (od ** 2 - id ** 2) * len * rho;
+    const Jc = (mm, ro, ri = 0) => 0.5 * mm * (ro ** 2 + ri ** 2);    // ro,ri en m
+    const Rd = TAMB_P.r / 1000;
+    const mT = mTubo(TAMB_P.tubo.od, TAMB_P.tubo.id, TAMB_P.caraTubo);
+    const mG = Math.PI / 4 * (TAMB_P.od ** 2 - TAMB_P.tubo.od ** 2) * TAMB_P.caraGoma * 1.15e-6;
+    const mEjeT = Math.PI / 4 * TAMB_P.eje.d ** 2 * (TAMB_P.ejeX[1] - TAMB_P.ejeX[0]) * rho;
+    const Jtambor = Jc(mT, TAMB_P.tubo.od / 2000, TAMB_P.tubo.id / 2000)
+      + Jc(mG, TAMB_P.od / 2000, TAMB_P.tubo.od / 2000) + Jc(mEjeT, TAMB_P.eje.d / 2000);
+    const Jcond = Jc(mTubo(TAMB_CON.od, TAMB_CON.tubo.id, TAMB_CON.cara), TAMB_CON.od / 2000, TAMB_CON.tubo.id / 2000);
+    const Jret = Jc(mTubo(TAMB_RET.od, TAMB_RET.tubo.id, TAMB_RET.cara), TAMB_RET.od / 2000, TAMB_RET.tubo.id / 2000);
+    const dTen = (m.tensor2?.geo?.poleaDia ?? 117.9), anchoTen = 40;
+    const Jten = Jc(Math.PI / 4 * dTen ** 2 * anchoTen * rho, dTen / 2000);
+    const dVol = STEP.volante.pest, anchoVol = STEP.volante.ancho;
+    const Jvol = Jc(Math.PI / 4 * dVol ** 2 * anchoVol * rho, STEP.volante.cara / 2000);
+    // banda: con el espesor REAL de una banda plana (SC-10), no con el dorso 0.633
+    const espReal = Math.max(STEP.bandaDorso, LIMS.banda.espMinMm);
+    const mBanda = (m.calles.banda?.largoDesarrollado ?? 4877.64) * anchoBanda * espReal * 1.25e-6;
+    const nRet = TAMB_EJES.retorno.length, nCalles = EJES.length;
+    const Jeq = Jtambor
+      + Jcond * (Rd / (TAMB_CON.od / 2000)) ** 2
+      + nRet * Jret * (Rd / (TAMB_RET.od / 2000)) ** 2
+      + nCalles * Jten * (Rd / (dTen / 2000)) ** 2
+      + 2 * nCalles * Jvol * (Rd / (STEP.volante.cara / 2000)) ** 2
+      + nCalles * mBanda * Rd ** 2;
+    const mBultos = LIMS.arranque.bultos * TAMB_P.cargaMaxKg ?? 0;
+    const mB = LIMS.arranque.bultos * (CARGA_PG40.bultoKg);
+    const w = TB.arrastre.rpm * 2 * Math.PI / 60, alpha = w / LIMS.arranque.rampaS;
+    // lo que pasa POR LA BANDA es todo menos la inercia del propio tambor
+    const teArranque = ((Jeq - Jtambor) + mB * Rd ** 2) * alpha / Rd + TB.arrastre.teRequeridoN;
+    // capstan con la tensión que de verdad pone el tensor (SC-02)
+    const Treal = SC.tensor?.tGeometricaN ?? TAMB_P.__t ?? TENSION.tPorBandaN;
+    const teMax = nCalles * Treal * (TB.arrastre.capstan - 1);
+    const fs = teMax / teArranque;
+    SC.arranque = { rampaS: LIMS.arranque.rampaS, JeqKgm2: r2(Jeq), alphaRadS2: r2(alpha),
+      teArranqueN: r2(teArranque), teRegimenN: TB.arrastre.teRequeridoN,
+      teMaxN: r2(teMax), tUsadaN: r2(Treal), reserva: r2(fs),
+      rampaMinimaS: r2(w * ((Jeq - Jtambor) + mB * Rd ** 2) / Rd
+        / Math.max(1e-9, teMax / LIMS.arranque.fsMin - TB.arrastre.teRequeridoN)),
+      parArranqueNm: r2((Jeq + mB * Rd ** 2) * alpha * Rd + TB.arrastre.parNm) };
+    chkS('SC-04', 'reserva de arrastre en ARRANQUE (Euler–Eytelwein)',
+      fs, LIMS.arranque.fsMin, '>=',
+      `Con la rampa de ${LIMS.arranque.rampaS} s declarada en LIMS el esfuerzo tangencial de arranque es `
+      + `${r2(teArranque)} N (régimen ${TB.arrastre.teRequeridoN} N) y el capstan sólo da ${r2(teMax)} N con `
+      + `T = ${r2(Treal)} N/banda. Rampa mínima admisible: ${SC.arranque.rampaMinimaS} s. `
+      + 'Corrección: declarar la rampa del arrancador en params_tambores y no bajarla de ese valor.', '');
+  }
+
+  // --- SC-05 · APLASTAMIENTO DE LA RANURA BAJO TUERCA MARTILLO -------------
+  // Es el modo de fallo típico del perfil ranurado y no lo mira nadie: la
+  // tuerca martillo apoya sobre los dos LABIOS de la ranura y el apriete del
+  // tornillo se descarga entero sobre ellos. El servicio no es el problema
+  // (las cargas son de decenas de N); el problema es el APRIETE.
+  {
+    const Fpre = LIMS.tuercaT.parMaxNm * 1000 / (LIMS.tuercaT.K * 8);      // M8
+    const pLabio = Fpre / LIMS.tuercaT.huellaMm2;
+    // temple del perfil: params_pg40 declara la aleación pero NO el temple ⇒ el
+    // más débil de la familia
+    const temple = /T6|T66|T5/.exec(String(PG40PUB?.__temple ?? '')) || null;
+    const rp02 = temple ? LIMS.alu6063.rp02T6 : LIMS.alu6063.rp02T5;
+    SC.tuercaT = { parMaxNm: LIMS.tuercaT.parMaxNm, precargaN: r2(Fpre),
+      huellaMm2: LIMS.tuercaT.huellaMm2, presionLabioMPa: r2(pLabio),
+      rp02UsadoMPa: rp02, templeDeclarado: temple ? temple[0] : 'NO DECLARADO',
+      parAdmisibleConEsteTempleNm: r2(rp02 * LIMS.tuercaT.huellaMm2 * LIMS.tuercaT.K * 8 / 1000) };
+    chkS('SC-05', 'aplastamiento del labio de la ranura bajo tuerca martillo M8',
+      pLabio, rp02, '<=',
+      `Al par máximo de catálogo (${LIMS.tuercaT.parMaxNm} N·m, web TNUT-10-M8-01) la precarga es `
+      + `${r2(Fpre)} N y sobre la huella de ${LIMS.tuercaT.huellaMm2} mm² de los dos labios da ${r2(pLabio)} MPa, `
+      + `por encima del Rp0,2 del temple más débil de la familia EN AW-6063 (${rp02} MPa, web MAT-6063-01). `
+      + `params_pg40.PERFIL NO declara el temple ni ningún par de apriete. Corrección: declarar temple ≥ T6 `
+      + `Y limitar el par a ${SC.tuercaT.parAdmisibleConEsteTempleNm} N·m con este temple, o interponer `
+      + 'arandela de reparto bajo cada tuerca.', 'MPa');
+  }
+
+  // --- SC-06 · EL EJE DEL TAMBOR CON LA CARGA REAL (T1 + T2) ---------------
+  // mod_tambores carga los ejes con 2·T2 (la tensión que pone el tensor). En
+  // marcha el ramal tenso vale T1 = T2 + Te/nBandas, así que el tambor recibe
+  // T1 + T2 y no 2·T2. Se rehace con la carga real y con el par que puede dar
+  // el motorreductor, no sólo el de régimen.
+  {
+    const T2decl = TENSION.tPorBandaN;
+    const Te1 = TB.arrastre.teRequeridoN / EJES.length;
+    const cargas = EJES.map(x => ({ x, p: 2 * T2decl + Te1 }));
+    const v = vigaS(TAMB_UCF.insertoX[0], TAMB_UCF.insertoX[1], cargas, TAMB_P.eje.d);
+    const parNom = TB.arrastre.potenciaW / (TB.arrastre.rpm * 2 * Math.PI / 60);
+    const tau = 16 * parNom * 1000 / (Math.PI * TAMB_P.eje.d ** 3);
+    const vm = Math.sqrt(v.sigma ** 2 + 3 * tau ** 2);
+    SC.ejeTambor = { cargaPorBandaN: r2(2 * T2decl + Te1), cargaDelModuloN: r2(2 * T2decl),
+      sigmaMPa: v.sigma, tauMPa: r2(tau), vonMisesMPa: r2(vm), flechaMm: v.delta,
+      RaN: v.Ra, RbN: v.Rb, vanoMm: v.vano,
+      sinDeclarar: 'la masa del motorreductor que cuelga del saliente Ø35 no está en ningún parámetro' };
+    chkS('SC-06', 'eje del tambor motriz con la carga real T1+T2',
+      vm, LIMS.C45.fyN / LIMS.C45.fsFlexion, '<=',
+      `El módulo lo calcula con 2·T2 = ${r2(2 * T2decl)} N/banda; en marcha son T1+T2 = ${r2(2 * T2decl + Te1)} N. `
+      + `Con C45 en estado NORMALIZADO (${LIMS.C45.fyN} MPa, web MAT-C45-01 — el estado no está declarado en `
+      + 'params) y FS 3. AVISO: no incluye el voladizo del motorreductor, que no está declarado.', 'MPa');
+  }
+
+  // --- SC-07 · VIDA L10 DE LOS RODAMIENTOS (ISO 281) -----------------------
+  {
+    const T2decl = TENSION.tPorBandaN, Te1 = TB.arrastre.teRequeridoN / EJES.length;
+    const rpmDe = (dia) => TAMB_P.__v ?? (1.855 * 60000 / (Math.PI * dia));
+    const vidas = {};
+    // UC207 del tambor: la reacción mayor de la viga de SC-06
+    vidas.UC207 = { P: SC.ejeTambor.RaN, rpm: r2(TB.arrastre.rpm),
+      h: r2(L10hS(TAMB_UCF.C, SC.ejeTambor.RaN, TB.arrastre.rpm)) };
+    // conducido: 2 × 6207 dentro del tubo, se reparten la resultante de 5 bandas
+    const Pc = EJES.length * (2 * T2decl + Te1) / 2;
+    vidas['6207-2RS'] = { P: r2(Pc), rpm: r2(rpmDe(TAMB_CON.od)), h: r2(L10hS(LIMS.brg.C6207, Pc, rpmDe(TAMB_CON.od))) };
+    // retornos: la resultante es 2·T·sen(abrazado/2) por banda
+    let peor = Infinity, peorId = '';
+    for (const R of TAMB_EJES.retorno) {
+      const a = TB.abrazados?.[R.id] ?? 96.5;
+      const f = 2 * Math.sin(a * Math.PI / 360);
+      const Pr = EJES.length * (T2decl + Te1) * f / 2;
+      const h = L10hS(LIMS.brg.C6206, Pr, rpmDe(TAMB_RET.od));
+      if (h < peor) { peor = h; peorId = R.id; }
+      vidas[`6206-2RS ${R.id}`] = { P: r2(Pr), abrazadoDeg: r2(a), h: r2(h) };
+    }
+    const peorGlobal = Math.min(vidas.UC207.h, vidas['6207-2RS'].h, peor);
+    SC.rodamientos = { ...vidas, peorH: r2(peorGlobal), objetivoH: LIMS.brg.L10objetivoH };
+    chkS('SC-07', 'vida L10 del rodamiento más cargado del accionamiento',
+      peorGlobal, LIMS.brg.L10objetivoH, '>=',
+      `ISO 281 (web BRG-L10-01) con las C de catálogo citadas (web BRG-6207-01 / BRG-6206-01 / BRG-UCF207-01) `
+      + `y la carga T1+T2. El peor es ${peorId || 'UC207'}.`, 'h');
+  }
+
+  // --- SC-08 · FLECHA DEL TRAVESAÑO CON LA LUZ REAL Y CON EL NBT90 ---------
+  // mod_pg40 calcula la flecha del travesaño sobre `PUBLICA.luzEntreCaras`
+  // (423.924, que es la luz entre las CARAS DE APOYO de los rodamientos), pero
+  // el travesaño que emite cruza de chapón a chapón: 580.841. Y al desactivar
+  // la percha, el NBT90 pasó a colgar del alargue, que se apoya en las 4
+  // ménsulas que suben a estos mismos travesaños: ese peso tampoco está.
+  {
+    const travs = nuevas.filter(p => /PG40 · Travesaño/.test(p.name));
+    let luzReal = 0;
+    for (const t of travs) { const b = bb.get(t); luzReal = Math.max(luzReal, b.hi[0] - b.lo[0]); }
+    const EI = PG40PUB ? 69500 * 91000 : 6.3245e9;      // web PG40-001 + ALU-001
+    const Pb = CARGA_PG40.N;
+    const nMens = nuevas.filter(p => /PG40 · Ménsula alma↔travesaño/.test(p.name)).length || 4;
+    const Pmen = PG40F.desactivaPercha ? NBT.masaKg * gAc / nMens : 0;
+    const a1 = 132.3, a2 = 16;                          // X de las ménsulas a los apoyos
+    const dMen = Pmen * a1 * (3 * luzReal ** 2 - 4 * a1 ** 2) / (48 * EI)
+      + Pmen * a2 * (3 * luzReal ** 2 - 4 * a2 ** 2) / (48 * EI);
+    const dTot = Pb * luzReal ** 3 / (48 * EI) + dMen;
+    const Mtot = Pb * luzReal / 4 + Pmen * a1 * (luzReal - a1) / luzReal + Pmen * a2 * (luzReal - a2) / luzReal;
+    SC.travesano = { luzDelModulo: PG40PUB?.luzEntreCaras, luzRealMm: r2(luzReal),
+      flechaDelModulo: m.pg40.flecha.flechaTravesano, flechaRealMm: r2(dTot),
+      cargaMensulaN: r2(Pmen), sigmaMPa: r2(Mtot / 4500),
+      nota: PG40F.desactivaPercha ? 'incluye el NBT90 colgado del alargue' : 'percha activa' };
+    chkS('SC-08', 'flecha del travesaño PG40 con la luz REAL y el NBT90 colgado',
+      dTot, CARGA_PG40.flechaMaxAbs, '<=',
+      `mod_pg40 la calcula sobre ${PG40PUB?.luzEntreCaras} mm y el travesaño que emite mide ${r2(luzReal)}; `
+      + `y con la percha desactivada le cuelgan ${r2(Pmen)} N por ménsula del peso del NBT90.`, 'mm');
+  }
+
+  // --- SC-09 · EJE PIVOTE DEL TENSOR CON 5 CARGAS PUNTUALES ---------------
+  // params_tensor2.EJE_CALC usa la fórmula de carga REPARTIDA (5wL³/384EI y
+  // M = WL/8) para 5 cargas concentradas en los ejes de las calles, que además
+  // NO están centradas en el vano (los ejes van de 127.06 a 431.86 y el vano de
+  // −81.42 a 499.42). Se rehace con las 5 puntuales en su sitio.
+  if (!TENSOR_VIEJO) {
+    const Rbrazo = TENSION.reaccionPivoteN;
+    const v = vigaS(PIV.ucflX[0], PIV.ucflX[1], EJES.map(x => ({ x, p: Rbrazo })), PIV.d);
+    SC.ejePivote = { reaccionPorBrazoN: Rbrazo, sigmaDelModuloMPa: EJE_CALC.sigmaMPa,
+      sigmaPuntualesMPa: v.sigma, flechaDelModuloMm: EJE_CALC.flechaMm, flechaPuntualesMm: v.delta,
+      xFlechaMaxMm: v.xDelta, RaN: v.Ra, RbN: v.Rb,
+      fyUsadoMPa: LIMS.C45.fyN, fyDelModuloMPa: EJE_CALC.fyMPa };
+    chkS('SC-09', 'eje pivote Ø30 del tensor con las 5 cargas PUNTUALES',
+      v.sigma, LIMS.C45.fyN / LIMS.C45.fsFlexion, '<=',
+      `params_tensor2 declara ${EJE_CALC.sigmaMPa} MPa y ${EJE_CALC.flechaMm} mm con carga REPARTIDA; con las `
+      + `5 puntuales en sus X reales son ${v.sigma} MPa y ${v.delta} mm (+${r2((v.sigma / EJE_CALC.sigmaMPa - 1) * 100)} % `
+      + `y +${r2((Math.abs(v.delta) / EJE_CALC.flechaMm - 1) * 100)} %). Además EJE_CALC.fyMPa = ${EJE_CALC.fyMPa} es el `
+      + 'C45 BONIFICADO (+QT) y params no declara el estado de suministro: aquí se juzga con el normalizado '
+      + `(${LIMS.C45.fyN} MPa, web MAT-C45-01).`, 'MPa');
+  }
+
+  // --- SC-10 · ESPESOR DE LA BANDA DEL MODELO ------------------------------
+  {
+    const esp = STEP.bandaDorso;
+    const deriva = LIMS.banda.espMinMm + 0.5 - esp;       // 2.5 medido en el NBT90
+    SC.banda = { espesorModeloMm: esp, espesorExigidoMm: LIMS.banda.espMinMm,
+      derivaPlanoTransporteMm: r2(deriva),
+      holguraConducidoLargueroMm: r2(TB.holguras.largueroPG40?.sur ?? 2.219),
+      holguraConducidoConBandaRealMm: r2((TB.holguras.largueroPG40?.sur ?? 2.219) - deriva) };
+    chkS('SC-10', 'espesor de la banda plana con que se traza el lazo',
+      esp, LIMS.banda.espMinMm, '>=',
+      `Todo el lazo (tangencias, abrazados y cotas en Z de tambor, conducido, RR1…RR4 y guías UHMW) está `
+      + `trazado sobre un DORSO de ${esp} mm, que es el convenio con el que el cliente modeló su banda T5 `
+      + `DENTADA. La banda plana medida del propio repositorio mide 2.5 (nbt90 P.bandaEsp). Al montar la banda `
+      + `real el plano de transporte sube ${r2(deriva)} mm sobre los ${STEP.planoBanda} congelados y la holgura `
+      + `conducido↔larguero sur cae de ${SC.banda.holguraConducidoLargueroMm} a `
+      + `${SC.banda.holguraConducidoConBandaRealMm} mm. Corrección: fijar el espesor real con el proveedor y `
+      + 'bajar tambor, conducido y las 20 regletas UHMW esa misma cantidad.', 'mm');
+  }
+
+  // --- SC-11 · AMARRE DEL BASTIDOR PG40 A LA MÁQUINA -----------------------
+  // El propio mod_pg40 dice «los travesaños cruzan la luz entre bastidores y se
+  // amarran a ellos por escuadra». La comprobación es que esa escuadra exista.
+  {
+    let sinAmarre = 0; const detalle = [];
+    for (const t of nuevas.filter(p => /PG40 · Travesaño/.test(p.name))) {
+      const b = bb.get(t);
+      for (const [nom, zona] of [['−X', { lo: [b.lo[0] - 8, b.lo[1], b.lo[2]], hi: [b.lo[0] + 8, b.hi[1], b.hi[2]] }],
+        ['+X', { lo: [b.hi[0] - 8, b.lo[1], b.lo[2]], hi: [b.hi[0] + 8, b.hi[1], b.hi[2]] }]]) {
+        const une = partes.filter(q => q !== t && !q.contexto && !/PG40 · Travesaño|Larguero de calle/.test(q.name)
+          && solapeAABB(zona, bb.get(q)) > 0).length;
+        if (une < 1) { sinAmarre++; detalle.push(`${t.name.slice(-12)} ${nom}`); }
+      }
+    }
+    SC.amarre = { extremosSinPiezaDeUnion: sinAmarre, detalle };
+    chkS('SC-11', 'extremos de travesaño PG40 sin pieza de unión a la máquina',
+      sinAmarre, 0, '<=',
+      `Los travesaños topan a hueso contra la cara interior de los chapones del cliente (X ${STEP.frameIntNeg} y `
+      + `${STEP.frameIntPos}) sin escuadra ni tornillo. Además las 4 «Ménsula alma↔travesaño» que llevan el peso `
+      + 'del NBT90 al bastidor sólo TOPAN contra la cara inferior del perfil: no llevan tornillería emitida. '
+      + 'Corrección: escuadra de 4 tornillos por extremo al chapón, y 2 M8 con tuerca martillo por ménsula.', 'extremos');
+  }
+
+  // --- SC-12 · TRAZABILIDAD DE LOS HECHOS `web` CITADOS EN adapt/ ----------
+  // Regla de oro nº 1 del repositorio: un dato `web` sin URL, fecha y cita no
+  // existe. Se comprueba que TODOS los ids citados en adapt/*.mjs estén en un
+  // web_facts.json (el del sorter o el del NBT90, que es cita legítima).
+  {
+    const ids = new Set();
+    for (const f of ['web_facts.json', '../nbt90/analisis/web_facts.json']) {
+      try { for (const h of JSON.parse(readFileSync(join(aqui, f), 'utf8')).facts) ids.add(h.id); } catch { /* … */ }
+    }
+    const citados = new Set(ROMPE === 'fuente' ? ['BRG-INVENTADA-99'] : []);
+    for (const f of readdirSync(join(aqui, 'adapt')).filter(n => n.endsWith('.mjs'))) {
+      const src = readFileSync(join(aqui, 'adapt', f), 'utf8');
+      for (const mm of src.matchAll(/\bweb\s+([A-Z][A-Z0-9]+(?:-[A-Z0-9]+)+)/g)) citados.add(mm[1]);
+    }
+    const huerfanos = [...citados].filter(i => !ids.has(i)).sort();
+    SC.trazabilidad = { citados: citados.size, huerfanos };
+    chkS('SC-12', 'ids `web` citados en adapt/ que no existen en ningún web_facts',
+      huerfanos.length, 0, '<=',
+      `Sin fuente: ${huerfanos.join(', ') || '—'}. Cada uno lleva un número (C, C0, cota) que nadie puede `
+      + 'contrastar. Corrección: añadir el hecho con URL, fecha y cita, o borrar la cita.', 'ids');
+  }
+
+  m.estructural = { comprobaciones: R_S, abiertos: abiertosSC, datos: SC, limites: LIMS };
+  // ▲▲▲ ---------------------------------------- ▲▲▲
+
   // --- métricas ------------------------------------------------------------
   return {
     errores: e,
+    estructural: m.estructural,
     pg40: m.pg40,
     // ▼▼▼ TAMBORES ▼▼▼
     tambores: {
@@ -1763,6 +2222,21 @@ function verify() {
 }
 
 const V = verify();
+
+// ---------------------------------------------------------------------------
+// §S · la tabla de la revisión estructural. Se imprime SIEMPRE, cumpla o no,
+// y ANTES del veredicto: si la compuerta para, hay que poder ver por qué.
+// ---------------------------------------------------------------------------
+if (V.estructural?.comprobaciones?.length) {
+  const S = V.estructural;
+  console.error(`   §S REVISIÓN ESTRUCTURAL: ${S.comprobaciones.length} comprobaciones · `
+    + `${S.abiertos.length} hallazgo(s) abierto(s) dispensado(s) (REVISION_ESTRUCTURAL_SC.md)`);
+  for (const f of [...S.comprobaciones].sort((a, b) => b.uso - a.uso)) {
+    console.error(`      ${f.ok ? '·' : '✘'} ${f.id} ${f.titulo.slice(0, 62).padEnd(62)} `
+      + `${String(f.valor).padStart(10)} ${f.unidad.padEnd(8)} lím ${String(f.limite).padStart(9)} `
+      + `uso ${f.uso}${f.abierto ? `  ← ABIERTO (${f.dueño})` : ''}`);
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Veredicto
