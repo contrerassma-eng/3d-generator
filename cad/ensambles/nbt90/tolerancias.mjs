@@ -126,6 +126,66 @@ export const NORMA = {
     aplica: 'conjuntos soldados (weldments) y toda cota tomada entre dos piezas soldadas entre sí',
     ejemplo: (l) => `±${tol13920(l, 'B')} sobre ${l} mm; forma ${tolForma13920(l, 'F')} mm`,
   },
+
+  // ═════ familias añadidas para el SORTER CO (2026-08-03) ═════════════════
+  // El NBT90 es chapa, mecanizado y soldadura y con esas tres se agota. El
+  // sorter mete TRES MATERIAS PRIMAS MÁS —perfil extruido de aluminio, tubo
+  // estructural y engomado vulcanizado— y una cuarta que no es metal, el
+  // UHMW. A ninguna de las cuatro le aplica ISO 2768 tal cual: su SECCIÓN la
+  // fija el proveedor y lo único nuestro es el corte a medida y el mecanizado
+  // posterior. Estampar «ISO 2768-mK» en un perfil extruido sería exigirle al
+  // taller una clase que ni puede verificar ni el extrusor cumple.
+  //
+  // Estas cuatro entradas NO cambian nada del NBT90: se comprobó regenerándolo
+  // (ninguno de sus nombres casa con los patrones que las eligen — ver
+  // `claseGeneralDe`), y sigue en 284/284 con la misma clase que antes.
+  perfilAlu: {
+    id: 'perfilAlu',
+    clase: 'EN 755-9 + ISO 2768-m (largo de corte)',
+    titulo: 'EN 755-9 (perfiles extruidos de aluminio: tolerancias de sección, rectitud y '
+      + 'alabeo) para la SECCIÓN + ISO 2768-1 clase m para el LARGO, que es la única cota nuestra',
+    aplica: 'perfil PG40 40×40 ranura 10 del bastidor: largueros de calle y travesaños',
+    nota: 'la aleación es EN AW-6063 (web ALU-001 / MAT-6063-01); params_pg40.PERFIL declara la '
+      + 'aleación pero NO el temple, y T5 y T6 no tienen el mismo Rp0,2 (130 vs 170 MPa): el '
+      + 'plano tiene que pedir el temple, no sólo la aleación',
+    ejemplo: (l) => `±${tol2768(l, 'm')} sobre ${l} mm de largo; sección y rectitud, EN 755-9`,
+  },
+  tuboEstructural: {
+    id: 'tuboEstructural',
+    clase: 'EN 10219-2 + ISO 2768-m (largo de corte)',
+    titulo: 'EN 10219-2 (perfiles huecos estructurales conformados en frío: tolerancias de '
+      + 'diámetro/lado, espesor y rectitud) + ISO 2768-1 clase m para el largo de corte',
+    aplica: 'tubos del tambor motriz, del rodillo conducido y de los rodillos de retorno, y el '
+      + 'tubo estructural 40×40×3 del travesaño frontal del tensor',
+    nota: 'los tubos redondos comprados por Ø exterior citan además su serie dimensional '
+      + '(EN 10220 / ASTM A513, que es lo que declara adapt/params_tambores.mjs). Las cotas que '
+      + 'se TORNEAN después —asiento de tapa, Ø engomado— salen de la clase de mecanizado, no '
+      + 'de ésta: son dos operaciones y dos tolerancias.',
+    ejemplo: (l) => `±${tol2768(l, 'm')} sobre ${l} mm de largo; sección y espesor, EN 10219-2`,
+  },
+  elastomero: {
+    id: 'elastomero',
+    clase: 'ISO 3302-1 clase M3',
+    titulo: 'ISO 3302-1 (tolerancias dimensionales de productos de caucho vulcanizado), clase M3',
+    aplica: 'engomado vulcanizado del tambor motriz',
+    nota: 'la cota que MANDA en un tambor engomado no es la del vulcanizado sino el Ø final, que '
+      + 'se RECTIFICA después de vulcanizar (lo pide la propia revisión de taller): esa cota va '
+      + 'en el plano con tolerancia de mecanizado y con su exigencia de excentricidad, y ésta '
+      + 'rige sólo el espesor de aporte antes de rectificar',
+    ejemplo: (l) => `ISO 3302-1 M3 sobre ${l} mm de cota vulcanizada, antes de rectificar`,
+  },
+  plastico: {
+    id: 'plastico',
+    clase: 'ISO 2768-mK a 20 °C',
+    titulo: 'ISO 2768-1 clase m + ISO 2768-2 clase K aplicadas a la cota MECANIZADA y referidas '
+      + 'a 20 °C',
+    aplica: 'regletas y guías de deslizamiento de UHMW-PE (web UHMW-001)',
+    nota: 'dis — la clase sola NO basta en un termoplástico: el UHMW dilata más de un orden de '
+      + 'magnitud por encima del acero, así que en una regleta larga el salto térmico se come la '
+      + 'tolerancia entera. El plano tiene que dar la temperatura de la cota y el montaje, junta '
+      + 'de dilatación en los topes de extremo.',
+    ejemplo: (l) => `±${tol2768(l, 'm')} sobre ${l} mm a 20 °C`,
+  },
 };
 
 /** Clase de tolerancia general que le toca a una pieza, por lo que ES.
@@ -133,7 +193,31 @@ export const NORMA = {
  *  que define la pieza, después las palabras que sólo dicen dónde va montada. */
 export function claseGeneralDe(nombre, part = {}) {
   if (part.weldment || part.union || /weldment/i.test(nombre)) return NORMA.soldadura;
+  // --- MATERIA PRIMA cuya sección la garantiza el proveedor (SORTER CO) ----
+  // Va ANTES que mecanizado/chapa a propósito: un larguero PG40 lleva «ranura»
+  // y un tubo de tambor lleva «tapa», y con el orden al revés acabarían los dos
+  // en una clase de chapa que nadie puede verificar sobre un extruido.
+  // Cada patrón está anclado a algo que SÓLO tienen las piezas del sorter:
+  //   · «40×40 ranura 10» — la designación literal del perfil PG40 (y no
+  //     `\bPG40\b`, que se llevaría por delante el alargue, las cartelas y los
+  //     cubrejuntas, que son pletina de acero cortada por láser);
+  //   · «tubo … (e=…)» — el tubo declara su pared entre paréntesis. El NBT90
+  //     tiene «Tubo de rodillo Ø28.93 × 375», sin pared declarada, y NO casa;
+  //   · «engomado» — y no `vulcaniz`, que sí casaría con el «Vulcanizado negro»
+  //     del NBT90 y le cambiaría la clase.
+  if (/40×40 ranura 10/i.test(nombre)) return NORMA.perfilAlu;
+  if (/\btubo\b[^·]*\(e\s*=/i.test(nombre)
+    || /travesaño frontal del tensor \d+×\d+×\d+/i.test(nombre)) return NORMA.tuboEstructural;
+  if (/engomad/i.test(nombre)) return NORMA.elastomero;
+  if (/UHMW/i.test(nombre)) return NORMA.plastico;
   if (/\beje\b|tapa-soporte|casquillo|separador|polea|rueda motriz|\bloca\b|buje|pasador|v[áa]stago|varilla/i.test(nombre)) {
+    return NORMA.mecanizado;
+  }
+  // Piezas de torno y fresa que el sorter tiene y el NBT90 no: el cubo del
+  // brazo tensor (tubo Ø50 con bore H7), los bulones, los collares de apriete,
+  // los volantes de la horquilla y las tapas torneadas del tambor. Sin esto se
+  // iban todas a la clase de CHAPA, que es la que no lleva un bore H7.
+  if (/\bcubo\b|bul[óo]n|\bcollar\b|volante|tapa soldada|\bchumacera\b/i.test(nombre)) {
     return NORMA.mecanizado;
   }
   return NORMA.chapa;
@@ -277,7 +361,20 @@ export const AJUSTES = [
   {
     id: 'AJ-12',
     donde: 'Taladro de PASO de la tornillería de 3/8-16 (uniones atornilladas del bastidor)',
+    // `pieza: /./` — a propósito: este ajuste no es de UNA pieza, es del taladro,
+    // y el taladro aparece en muchas. Pero el nombre no sabe si la pieza lo lleva,
+    // así que la condición de verdad la pone `aplica`: que el sólido TENGA de
+    // verdad un taladro de esa cota.
+    //
+    // Sin ella, AJ-12 caía sobre las 36 piezas fabricadas del NBT90 y **11 no
+    // tienen ningún Ø11.13** — el canal base en U, los dos notched brace channel,
+    // las dos ménsulas de anclaje, el canal de montaje del cilindro, las dos
+    // placas colgantes, los dos brazos de empuje y el soporte de válvula. Su
+    // lámina declaraba «Ø11,13 H13 · holgura 1,60» de un taladro que no existe,
+    // y el taller lo buscaría. Un ajuste declarado de más miente igual que uno
+    // declarado de menos.
     pieza: /./,
+    aplica: (p) => tieneTaladro(p, 11.13),
     cota: 'Ø11,13 H13', ajuste: 'holgura 1,60 mm sobre el vástago Ø9,525',
     criterio: 'taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura '
       + 'del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.',
@@ -285,8 +382,21 @@ export const AJUSTES = [
   },
 ];
 
-/** Ajustes que le tocan a una pieza por su nombre. */
-export const ajustesDe = (nombre) => AJUSTES.filter((a) => a.pieza.test(nombre));
+/** ¿La pieza tiene un taladro de este diámetro? Mira la geometría emitida, que
+ *  es lo único que el taller va a encontrar cuando abra el plano. */
+export function tieneTaladro(part, dia, tol = 0.3) {
+  return !!part?.features?.some((f) => f.shape === 'hole'
+    && Math.abs((f.params?.dia ?? 0) - dia) <= tol);
+}
+
+/** Ajustes que le tocan a una pieza.
+ *
+ *  `part` es opcional por compatibilidad, pero los ajustes que declaran `aplica`
+ *  —los que no se pueden decidir por el nombre— sólo se conceden si se pasa la
+ *  pieza Y su predicado dice que sí. Llamar sin pieza NO los concede: preferimos
+ *  perder un ajuste real y que se note a colocar uno inventado en una lámina. */
+export const ajustesDe = (nombre, part = null) => AJUSTES.filter(
+  (a) => a.pieza.test(nombre) && (!a.aplica || (part ? a.aplica(part) : false)));
 
 // ===========================================================================
 // 3. ENCAJES — cadena de cotas de la holgura lengüeta ↔ ranura
@@ -397,6 +507,14 @@ const espesorLocal = (nombre, part) => {
   if (ga) return { 7: 4.554, 10: 3.416, 11: 3.038, 12: 2.657, 14: 1.897, 16: 1.519 }[+ga[1]] ?? null;
   const fr = nombre.match(/(\d+)\/(\d+)"/);
   if (fr) { const v = r2((+fr[1] / +fr[2]) * 25.4); if (v >= 1.5 && v <= 25) return v; }
+  // SORTER CO: sus piezas no van en calibre ni en pulgadas, declaran el espesor
+  // en el nombre — «Brazo tensor e=8», «tapa soldada … e=12». Se lee AL FINAL, a
+  // propósito: así ninguna pieza del NBT90 cambia de rama (la única suya con
+  // «e=» es el «Vulcanizado negro e=3», que no es una junta soldada y por tanto
+  // nunca llega hasta aquí). Sólo se acepta el rango de espesores soldables a
+  // filete de este equipo; fuera de él se devuelve null y la compuerta lo canta.
+  const ee = nombre.match(/\be\s*=\s*(\d+(?:\.\d+)?)/i);
+  if (ee) { const v = +ee[1]; if (v >= 1 && v <= 25) return v; }
   return null;
 };
 

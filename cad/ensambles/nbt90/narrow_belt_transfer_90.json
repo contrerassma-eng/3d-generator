@@ -424,7 +424,7 @@
     "mecanizado": "ISO 2768-fH",
     "soldadura": "ISO 13920-BF",
     "soldaduraSobreElLargo": "±3 mm sobre 463 mm; forma 3 mm",
-    "piezasConAjusteISO286": 48,
+    "piezasConAjusteISO286": 39,
     "ajustesDeclarados": 13
    },
    "encajes": {
@@ -5723,16 +5723,7 @@
    "tol": {
     "pieza": "ISO 2768-mK",
     "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)",
-    "conjunto": "ISO 13920-BF",
-    "ajustes": [
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
-     }
-    ]
+    "conjunto": "ISO 13920-BF"
    },
    "soldadura": {
     "tipo": "cordón en ángulo (filete)",
@@ -17753,16 +17744,7 @@
    "tol": {
     "pieza": "ISO 2768-mK",
     "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)",
-    "conjunto": "ISO 13920-BF",
-    "ajustes": [
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
-     }
-    ]
+    "conjunto": "ISO 13920-BF"
    },
    "soldadura": {
     "tipo": "cordón en ángulo (filete)",
@@ -18345,16 +18327,7 @@
    "tol": {
     "pieza": "ISO 2768-mK",
     "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)",
-    "conjunto": "ISO 13920-BF",
-    "ajustes": [
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
-     }
-    ]
+    "conjunto": "ISO 13920-BF"
    },
    "soldadura": {
     "tipo": "cordón en ángulo (filete)",
@@ -18816,13 +18789,6 @@
       "ajuste": "holgura 0,65 mm en X · ±2,0 mm en Z",
       "criterio": "las dos direcciones NO son iguales, y ahí está el ajuste: en X el taladro es CERRADO (0,65 mm, el mismo criterio de AJ-11) y sitúa; en Z es colisa, porque quien fija Z es el APOYO PLANO del brazo contra el alma del canal y el perno no puede competir con él. Los ±2 mm de recorrido son ISO 13920-B sobre los 368,5 mm del canal soldado al que va la ménsula. La unión trabaja por rozamiento bajo la golilla (2 819 N por perno).",
       "fuente": "ISO 286-2 + ISO 13920-B · bastidor.mjs (ménsula) y elevacion.mjs (patrón de taladros)"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    },
@@ -19286,13 +19252,6 @@
       "ajuste": "holgura 0,65 mm en X · ±2,0 mm en Z",
       "criterio": "las dos direcciones NO son iguales, y ahí está el ajuste: en X el taladro es CERRADO (0,65 mm, el mismo criterio de AJ-11) y sitúa; en Z es colisa, porque quien fija Z es el APOYO PLANO del brazo contra el alma del canal y el perno no puede competir con él. Los ±2 mm de recorrido son ISO 13920-B sobre los 368,5 mm del canal soldado al que va la ménsula. La unión trabaja por rozamiento bajo la golilla (2 819 N por perno).",
       "fuente": "ISO 286-2 + ISO 13920-B · bastidor.mjs (ménsula) y elevacion.mjs (patrón de taladros)"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    },
@@ -44364,13 +44323,6 @@
       "ajuste": "N7",
       "criterio": "carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)",
       "fuente": "NTN 7.4 tabla 7.2(1) · criterio preexistente del repositorio (transmision.mjs)"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    }
@@ -45341,13 +45293,6 @@
       "ajuste": "g6",
       "criterio": "carga ESTACIONARIA sobre el aro interior ⇒ deslizante",
       "fuente": "criterio preexistente del repositorio (transmision.mjs) · ISO 286-2"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    }
@@ -46116,13 +46061,6 @@
       "ajuste": "N7",
       "criterio": "carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)",
       "fuente": "NTN 7.4 tabla 7.2(1) · criterio preexistente del repositorio (transmision.mjs)"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    }
@@ -47093,13 +47031,6 @@
       "ajuste": "g6",
       "criterio": "carga ESTACIONARIA sobre el aro interior ⇒ deslizante",
       "fuente": "criterio preexistente del repositorio (transmision.mjs) · ISO 286-2"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    }
@@ -47868,13 +47799,6 @@
       "ajuste": "N7",
       "criterio": "carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)",
       "fuente": "NTN 7.4 tabla 7.2(1) · criterio preexistente del repositorio (transmision.mjs)"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    }
@@ -48845,13 +48769,6 @@
       "ajuste": "g6",
       "criterio": "carga ESTACIONARIA sobre el aro interior ⇒ deslizante",
       "fuente": "criterio preexistente del repositorio (transmision.mjs) · ISO 286-2"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    }
@@ -49844,13 +49761,6 @@
       "ajuste": "N7",
       "criterio": "carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)",
       "fuente": "NTN 7.4 tabla 7.2(1) · criterio preexistente del repositorio (transmision.mjs)"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    }
@@ -50821,13 +50731,6 @@
       "ajuste": "g6",
       "criterio": "carga ESTACIONARIA sobre el aro interior ⇒ deslizante",
       "fuente": "criterio preexistente del repositorio (transmision.mjs) · ISO 286-2"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    }
@@ -51596,13 +51499,6 @@
       "ajuste": "N7",
       "criterio": "carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)",
       "fuente": "NTN 7.4 tabla 7.2(1) · criterio preexistente del repositorio (transmision.mjs)"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    }
@@ -52573,13 +52469,6 @@
       "ajuste": "g6",
       "criterio": "carga ESTACIONARIA sobre el aro interior ⇒ deslizante",
       "fuente": "criterio preexistente del repositorio (transmision.mjs) · ISO 286-2"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    }
@@ -53348,13 +53237,6 @@
       "ajuste": "N7",
       "criterio": "carga ROTANTE sobre el aro exterior (gira la llanta, el espárrago está quieto)",
       "fuente": "NTN 7.4 tabla 7.2(1) · criterio preexistente del repositorio (transmision.mjs)"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    }
@@ -54325,13 +54207,6 @@
       "ajuste": "g6",
       "criterio": "carga ESTACIONARIA sobre el aro interior ⇒ deslizante",
       "fuente": "criterio preexistente del repositorio (transmision.mjs) · ISO 286-2"
-     },
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
      }
     ]
    }
@@ -57381,16 +57256,7 @@
    "tol": {
     "pieza": "ISO 2768-mK",
     "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)",
-    "conjunto": "ISO 13920-BF",
-    "ajustes": [
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
-     }
-    ]
+    "conjunto": "ISO 13920-BF"
    },
    "soldadura": {
     "tipo": "cordón en ángulo (filete)",
@@ -57970,16 +57836,7 @@
    "tol": {
     "pieza": "ISO 2768-mK",
     "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)",
-    "conjunto": "ISO 13920-BF",
-    "ajustes": [
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
-     }
-    ]
+    "conjunto": "ISO 13920-BF"
    },
    "soldadura": {
     "tipo": "cordón en ángulo (filete)",
@@ -58559,16 +58416,7 @@
    "tol": {
     "pieza": "ISO 2768-mK",
     "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)",
-    "conjunto": "ISO 13920-BF",
-    "ajustes": [
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
-     }
-    ]
+    "conjunto": "ISO 13920-BF"
    },
    "soldadura": {
     "tipo": "cordón en ángulo (filete)",
@@ -63669,16 +63517,7 @@
    ],
    "tol": {
     "pieza": "ISO 2768-mK",
-    "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)",
-    "ajustes": [
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
-     }
-    ]
+    "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)"
    }
   },
   {
@@ -64326,16 +64165,7 @@
    ],
    "tol": {
     "pieza": "ISO 2768-mK",
-    "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)",
-    "ajustes": [
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
-     }
-    ]
+    "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)"
    }
   },
   {
@@ -65217,16 +65047,7 @@
    ],
    "tol": {
     "pieza": "ISO 2768-mK",
-    "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)",
-    "ajustes": [
-     {
-      "id": "AJ-12",
-      "cota": "Ø11,13 H13",
-      "ajuste": "holgura 1,60 mm sobre el vástago Ø9,525",
-      "criterio": "taladro de paso: la unión trabaja por rozamiento bajo la golilla, no por cortadura del vástago. Es la contrapartida de AJ-11 y por eso se declaran juntos.",
-      "fuente": "P.holgura.pasante · ASME B18.2.1 (vástago 3/8-16)"
-     }
-    ]
+    "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)"
    }
   },
   {

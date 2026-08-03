@@ -53,7 +53,7 @@ BT /F1 9.07 Tf 68.03 73.13 Td (· cargaLateralN: 166.71) Tj ET
 BT /F1 9.07 Tf 68.03 55.90 Td (· salidaVarillasMm: 18.5) Tj ET
 BT /F1 9.07 Tf 68.03 38.66 Td (· holguraPlacaMotorMm: 2.4) Tj ET
 BT /F1 9.07 Tf 68.03 21.43 Td (· estructural: {"comprobaciones":[{"id":"DIN-01","titulo":"coherencia de la velocidad de transferencia \(declarada · compuerta · transmisión\)","valor":0.28,"limite":5,"unidad":"% de desviación","uso":0.06,"ok":true},{"id":"DIN-02","titulo":"velocidad periférica del rodillo","valor":1.85,"limite":2,"unidad":"m/s","uso":0.93,"ok":true},{"id":"DIN-03","titulo":"empuje disponible en la cara del rodillo","valor":201.03,"limite":166.71,"unidad":"N","uso":0.83,"ok":true},{"id":"DIN-04","titulo":"patinaje del bulto hasta sincronizar","valor":350.78,"limite":381,"unidad":"mm","uso":0.92,"ok":true},{"id":"DIN-05","titulo":"tensión del ramal tenso","valor":392.73,"limite":533.8,"unidad":"N","uso":0.74,"ok":true},{"id":"DIN-06","titulo":"Ø mínimo de envoltura de la banda","valor":28.92,"limite":25.4,"unidad":"mm","uso":0.88,"ok":true},{"id":"DIN-07","titulo":"deslizamiento de la banda en la rueda motriz","valor":2.62,"limite":2.83,"unidad":"","uso":0.92,"ok":true},{"id":"DIN-08","titulo":"coeficiente estático del rodamiento del rodillo","valor":2.39,"limite":1.5,"unidad":"","uso":0.63,"ok":true},{"id":"DIN-09","titulo":"vida L10 del rodamiento del rodillo","valor":26479.87,"limite":20000,"unidad":"h","uso":0.76,"ok":true},{"id":"DIN-13","titulo":"vida L10 del rodamiento de las poleas locas","valor":51286.3,"limite":20000,"unidad":"h","uso":0.39,"ok":true},{"id":"EST-01","titulo":"la corona del eje de rodillo no despega de la placa peine","valor":8764.12,"limite":11302.08,"unidad":"N·mm","uso":0.78,"ok":true},{"id":"EST-02","titulo":"tensión de flexión del eje de rodillo \(Ø7.94, junta cerrada\)","valor":71.28,"limite":150,"unidad":"MPa","uso":0.48,"ok":true},{"id":"EST-03","titulo":"despegue del cassette: apoyo + retención de la horquilla","valor":105.77,"limite":498.16,"unidad":"N·m","uso":0.21,"ok":true},{"id":"EST-04","titulo":"carga lateral en Y sobre la placa del actuador","valor":166.71,"limite":352,"unidad":"N","uso":0.47,"ok":true},{"id":"EST-12","titulo":"par de giro alrededor de Z sobre la placa del actuador","valor":14.32,"limite":21.9,"unidad":"N·m","uso":0.65,"ok":true},{"id":"EST-05","titulo":"distancia del taladro del perno de rodillo al canto del diente","valor":9.77,"limite":9.52,"unidad":"mm","uso":0.97,"ok":true},{"id":"EST-06","titulo":"desgarro de la placa peine detrás del perno de rodillo","valor":1117.22,"limite":14331.72,"unidad":"N","uso":0.08,"ok":true},{"id":"EST-11","titulo":"el asiento del rodamiento del rodillo comparte nominal con el barreno","valor":0,"limite":0,"unidad":"mm","uso":0,"ok":true},{"id":"EST-07","titulo":"carga radial en el eje de salida del motorreductor","valor":541.97,"limite":695,"unidad":"N","uso":0.78,"ok":true},{"id":"DIN-12","titulo":"el bulto no despega de los rodillos al frenar el pop-up","valor":7.06,"limite":9.81,"unidad":"m/s²","uso":0.72,"ok":true},{"id":"DIN-14","titulo":"energía cinética de impacto contra los topes de goma del cilindro","valor":1.32,"limite":2.71,"unidad":"J","uso":0.49,"ok":true},{"id":"EST-09","titulo":"impacto del pop-up contra los 8 pernos 3/8\\" de las spacer plate","valor":1316,"limite":37555.91,"unidad":"N","uso":0.04,"ok":true},{"id":"EST-10","titulo":"flexión del alma del canal de montaje bajo el cilindro","valor":80.11,"limite":150,"unidad":"MPa","uso":0.53,"ok":true},{"id":"EST-08","titulo":"conjuntos soldados sin cordón declarado","valor":0,"limite":0,"unidad":"piezas","uso":0,"ok":true}],"incumplen":0,"abiertos":[],"avisos":[],"cinematica":{"rpmMotor":462,"diaRuedaMm":63.5,"vBandaMs":1.54,"diaArrastreMm":28.925,"multiplicacion":2.195,"rpmRodillo":1014.24,"diaVulcanizadoMm":34.925,"vRodilloMs":1.85,"vRodilloFpm":365.1,"vDeclaradaMs":1.85,"vTransmisionMs":1.86,"fabricanteFpm":350,"fabricanteFuente":"web SORT-016 / SORT-018 · Hytrol Bulletin 711","desviacionSobreFabricantePct":4.31,"parSalidaNm":7.71,"tiroBandaN":242.73,"empujeSuperficieN":201.03},"bulto":{"masaKg":34,"muSupuesto":0.5,"muSaturacionAccionamiento":0.6,"aceleracionMs2":4.9,"patinajeMm":350.78,"campoRodillosMm":381,"tiempoSincronizacionMs":378.26},"banda":{"T1N":392.73,"T2N":150,"kadmN":533.8,"capstanRueda":3.68,"relacionTensiones":2.62,"diaEnvolturaMinMm":28.92,"diaMinCatalogoMm":25.4},"rodillo":{"fuerzaRadialBandaN":783.79,"fuerzaRadialConBultoN":1117.22,"cargaPorRodamientoN":558.61,"s0":2.39,"L10h":26479.87,"L10hConBultoPermanente":3109.42,"gradoEmpotramiento":0.76,"sigmaEjeMPa":71.28,"sigmaEjeSiDespegaMPa":245.63,"momentoCoronaNmm":8764.12,"momentoDespegueCoronaNmm":16953.12,"precargaPerno14N":8543.31,"pernoDeclarado":"SAE J429 Gr5","asientoRodamiento":{"ejeNominalMm":8,"ajuste":"g6","barrenoNominalMm":8,"juegoDiametralMm":[-0.003,0.014],"juegoAntesMm":[0.055,0.072]}},"cassette":{"masaMovilDeclaradaKg":55,"masaMovilVuelcoKg":38,"yApoyoMm":100,"anchoApoyoMm":40,"xApoyoSemiMm":37.5,"momentoVuelcoXNm":105.77,"momentoResistenteXNm":747.24,"usoX":0.21,"momentoVuelcoYNm":28.64,"momentoResistenteYNm":306.15,"usoY":0.14,"reaccionArrastreN":166.71,"brazoArrastreMm":253.45,"momentoArrastreNm":42.25,"excentricidadBultoXmm":85.9,"FSdespegueSinAnclajeX":0.67,"FSdespegueSinAnclajeY":0.92,"yApoyoNecesarioSinAnclajeFS15mm":224.7,"anclaje":{"torn":"1/4-20 UNC","nPorBrazo":2,"n":4,"xMm":[206.7,256.3],"zMm":132.5,"yBrazoMm":120,"roscaProfMm":16,"agarreMm":6.41,"engraneMm":12.64,"engraneEnD":1.99,"paredZmm":11,"paredZenD":1.73,"paredXmm":12.7,"paredXenD":2,"montaje":"la ménsula \(bastidor.mjs\) lleva COLISA VERTICAL: el apoyo plano sigue fijando Z y el perno no compite con él. Se aprietan desde el corredor libre |Y| 120…195, que está despejado en los dos estados; para desmontar el cassette se sacan estos 4 y se levanta.","precargaPernoN":8543.31,"deslizamientoPernoN":2819.29,"grado":"SAE J429 Gr5","parNm":10.85,"muUnion":0.33,"cortantePernoN":10172.1,"demandaDespegueN":175.82},"cargaLateralYN":166.71,"parZNm":14.32,"parZadmisibleNm":21.9,"parZrozamientoAntesNm":17.97},"impacto":{"velocidadDisenoMmS":120,"velocidadImpactoMmS":168,"aplastamientoSupuestoMm":2,"deceleracionMs2":7.06,"enG":0.72,"despegaElBulto":false,"saltoBultoMm":0,"energiaReasienteJ":0,"fuerzaEnEstructuraN":1316,"velocidadImpactoSinDespegueMmS":198.06,"aplastamientoMinimoDelTopeMm":1.44,"chequeoEkTautologico":false},"almaCanal":{"espesorMm":4.76,"calibre":"3/16\\"","vanoLibreMm":229.24,"huellaMm":[91.5,202],"cargaN":936.44,"momentoNmmPorMm":212.66,"factorSeccionNeta":1.42,"sigmaMPa":80.11,"sigmaConAceleracionMPa":91.64},"soldadura":{"conjuntosSoldados":23,"sinCordonDeclarado":0}}) Tj ET
-BT /F1 9.07 Tf 68.03 4.20 Td (· tolerancias: {"chapa":"ISO 2768-mK","mecanizado":"ISO 2768-fH","soldadura":"ISO 13920-BF","soldaduraSobreElLargo":"±3 mm sobre 463 mm; forma 3 mm","piezasConAjusteISO286":48,"ajustesDeclarados":13}) Tj ET
+BT /F1 9.07 Tf 68.03 4.20 Td (· tolerancias: {"chapa":"ISO 2768-mK","mecanizado":"ISO 2768-fH","soldadura":"ISO 13920-BF","soldaduraSobreElLargo":"±3 mm sobre 463 mm; forma 3 mm","piezasConAjusteISO286":39,"ajustesDeclarados":13}) Tj ET
 BT /F1 9.07 Tf 68.03 -13.04 Td (· encajes: {"total":53,"juntas":31,"deposicion":26,"depaso":16,"aTope":11,"holguraMaxDePosicionMm":0.6,"ranura12GA":3.11,"margenSobreISO13920B":2.4}) Tj ET
 BT /F1 9.07 Tf 68.03 -30.27 Td (· componentes: {"designados":362,"sinDesignar":0,"avisosDeDesignacion":19}) Tj ET
 BT /F1 8.50 Tf 68.03 -47.51 Td () Tj ET
@@ -41238,7 +41238,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 1190.55 841.89] /Resources << /Font << /F1 149 0 R >> >> /Contents 72 0 R >>
 endobj
 72 0 obj
-<< /Length 542794 >>
+<< /Length 542771 >>
 stream
 0.71 w 1 J 1 j [] 0 d
 0.57 g 851.98 743.24 m 849.65 744.59 l 851.98 743.37 l h f 0 g
@@ -51969,7 +51969,7 @@ BT /F1 6.80 Tf 769.89 61.61 Td (CAD EN MM \(CAPA USER\)) Tj ET
 BT /F1 3.97 Tf 927.78 75.40 Td (PIEZAS) Tj ET
 BT /F1 7.37 Tf 928.63 61.41 Td (1) Tj ET
 BT /F1 3.97 Tf 769.04 47.06 Td (NOTA) Tj ET
-BT /F1 5.67 Tf 769.89 35.09 Td (FIJO · Material: Chapa de acero 0.187", galvanizada · tol. gral. ISO 2768-mK · Ø11,13 H13 holgura …) Tj ET
+BT /F1 6.24 Tf 769.89 34.89 Td (FIJO · Material: Chapa de acero 0.187", galvanizada · tol. gral. ISO 2768-mK) Tj ET
 BT /F1 3.97 Tf 1035.50 140.60 Td (ESCALA) Tj ET
 BT /F1 14.17 Tf 1087.16 119.91 Td (1:1) Tj ET
 BT /F1 3.97 Tf 1035.50 103.75 Td (FORMATO) Tj ET
@@ -64343,7 +64343,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 841.89 595.28] /Resources << /Font << /F1 149 0 R >> >> /Contents 82 0 R >>
 endobj
 82 0 obj
-<< /Length 5379 >>
+<< /Length 5358 >>
 stream
 1.42 w 1 J 1 j [] 0 d
 204.09 457.80 m 416.69 457.80 l 416.69 520.16 l 204.09 520.16 l h S
@@ -64391,7 +64391,7 @@ BT /F1 6.80 Tf 421.23 61.61 Td (ENVOLVENTE \(MALLA COMPLEJA\)) Tj ET
 BT /F1 3.97 Tf 579.12 75.40 Td (PIEZAS) Tj ET
 BT /F1 7.37 Tf 579.97 61.41 Td (2) Tj ET
 BT /F1 3.97 Tf 420.38 47.06 Td (NOTA) Tj ET
-BT /F1 5.67 Tf 421.23 35.09 Td (MÓVIL · Material: Chapa de acero 0.866", galvanizada · tol. gral. ISO 2768-mK · Ø11,13 H13 holgur…) Tj ET
+BT /F1 6.24 Tf 421.23 34.89 Td (MÓVIL · Material: Chapa de acero 0.866", galvanizada · tol. gral. ISO 2768-mK) Tj ET
 BT /F1 3.97 Tf 686.83 140.60 Td (ESCALA) Tj ET
 BT /F1 14.17 Tf 738.50 119.91 Td (1:1) Tj ET
 BT /F1 3.97 Tf 686.83 103.75 Td (FORMATO) Tj ET
@@ -141666,7 +141666,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 841.89 595.28] /Resources << /Font << /F1 149 0 R >> >> /Contents 126 0 R >>
 endobj
 126 0 obj
-<< /Length 566826 >>
+<< /Length 566814 >>
 stream
 0.71 w 1 J 1 j [] 0 d
 0.57 g 691.97 459.81 m 691.06 461.26 l 692.09 461.86 l h f 0 g
@@ -152717,7 +152717,7 @@ BT /F1 6.80 Tf 421.23 61.61 Td (CAD EN MM \(CAPA USER\)) Tj ET
 BT /F1 3.97 Tf 579.12 75.40 Td (PIEZAS) Tj ET
 BT /F1 7.37 Tf 579.97 61.41 Td (1) Tj ET
 BT /F1 3.97 Tf 420.38 47.06 Td (NOTA) Tj ET
-BT /F1 5.67 Tf 421.23 35.09 Td (MÓVIL · Material: Acero SAE 1045 rectificado · tol. gral. ISO 2768-fH · Ø15,875 \(5/8"\) g6 · Ø11,13 H…) Tj ET
+BT /F1 6.24 Tf 421.23 34.89 Td (MÓVIL · Material: Acero SAE 1045 rectificado · tol. gral. ISO 2768-fH · Ø15,875 \(5/8"\) g6) Tj ET
 BT /F1 3.97 Tf 686.83 140.60 Td (ESCALA) Tj ET
 BT /F1 14.17 Tf 738.50 119.91 Td (1:1) Tj ET
 BT /F1 3.97 Tf 686.83 103.75 Td (FORMATO) Tj ET
@@ -152795,7 +152795,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 841.89 595.28] /Resources << /Font << /F1 149 0 R >> >> /Contents 128 0 R >>
 endobj
 128 0 obj
-<< /Length 566826 >>
+<< /Length 566814 >>
 stream
 0.71 w 1 J 1 j [] 0 d
 0.57 g 691.97 459.81 m 691.06 461.26 l 692.09 461.86 l h f 0 g
@@ -163846,7 +163846,7 @@ BT /F1 6.80 Tf 421.23 61.61 Td (CAD EN MM \(CAPA USER\)) Tj ET
 BT /F1 3.97 Tf 579.12 75.40 Td (PIEZAS) Tj ET
 BT /F1 7.37 Tf 579.97 61.41 Td (1) Tj ET
 BT /F1 3.97 Tf 420.38 47.06 Td (NOTA) Tj ET
-BT /F1 5.67 Tf 421.23 35.09 Td (MÓVIL · Material: Acero SAE 1045 rectificado · tol. gral. ISO 2768-fH · Ø15,875 \(5/8"\) g6 · Ø11,13 H…) Tj ET
+BT /F1 6.24 Tf 421.23 34.89 Td (MÓVIL · Material: Acero SAE 1045 rectificado · tol. gral. ISO 2768-fH · Ø15,875 \(5/8"\) g6) Tj ET
 BT /F1 3.97 Tf 686.83 140.60 Td (ESCALA) Tj ET
 BT /F1 14.17 Tf 738.50 119.91 Td (1:1) Tj ET
 BT /F1 3.97 Tf 686.83 103.75 Td (FORMATO) Tj ET
@@ -163924,7 +163924,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 841.89 595.28] /Resources << /Font << /F1 149 0 R >> >> /Contents 130 0 R >>
 endobj
 130 0 obj
-<< /Length 566826 >>
+<< /Length 566814 >>
 stream
 0.71 w 1 J 1 j [] 0 d
 0.57 g 691.97 459.81 m 691.06 461.26 l 692.09 461.86 l h f 0 g
@@ -174975,7 +174975,7 @@ BT /F1 6.80 Tf 421.23 61.61 Td (CAD EN MM \(CAPA USER\)) Tj ET
 BT /F1 3.97 Tf 579.12 75.40 Td (PIEZAS) Tj ET
 BT /F1 7.37 Tf 579.97 61.41 Td (1) Tj ET
 BT /F1 3.97 Tf 420.38 47.06 Td (NOTA) Tj ET
-BT /F1 5.67 Tf 421.23 35.09 Td (MÓVIL · Material: Acero SAE 1045 rectificado · tol. gral. ISO 2768-fH · Ø15,875 \(5/8"\) g6 · Ø11,13 H…) Tj ET
+BT /F1 6.24 Tf 421.23 34.89 Td (MÓVIL · Material: Acero SAE 1045 rectificado · tol. gral. ISO 2768-fH · Ø15,875 \(5/8"\) g6) Tj ET
 BT /F1 3.97 Tf 686.83 140.60 Td (ESCALA) Tj ET
 BT /F1 14.17 Tf 738.50 119.91 Td (1:1) Tj ET
 BT /F1 3.97 Tf 686.83 103.75 Td (FORMATO) Tj ET
@@ -175053,7 +175053,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 841.89 595.28] /Resources << /Font << /F1 149 0 R >> >> /Contents 132 0 R >>
 endobj
 132 0 obj
-<< /Length 566826 >>
+<< /Length 566814 >>
 stream
 0.71 w 1 J 1 j [] 0 d
 0.57 g 691.97 459.81 m 691.06 461.26 l 692.09 461.86 l h f 0 g
@@ -186104,7 +186104,7 @@ BT /F1 6.80 Tf 421.23 61.61 Td (CAD EN MM \(CAPA USER\)) Tj ET
 BT /F1 3.97 Tf 579.12 75.40 Td (PIEZAS) Tj ET
 BT /F1 7.37 Tf 579.97 61.41 Td (1) Tj ET
 BT /F1 3.97 Tf 420.38 47.06 Td (NOTA) Tj ET
-BT /F1 5.67 Tf 421.23 35.09 Td (MÓVIL · Material: Acero SAE 1045 rectificado · tol. gral. ISO 2768-fH · Ø15,875 \(5/8"\) g6 · Ø11,13 H…) Tj ET
+BT /F1 6.24 Tf 421.23 34.89 Td (MÓVIL · Material: Acero SAE 1045 rectificado · tol. gral. ISO 2768-fH · Ø15,875 \(5/8"\) g6) Tj ET
 BT /F1 3.97 Tf 686.83 140.60 Td (ESCALA) Tj ET
 BT /F1 14.17 Tf 738.50 119.91 Td (1:1) Tj ET
 BT /F1 3.97 Tf 686.83 103.75 Td (FORMATO) Tj ET
@@ -186182,7 +186182,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 841.89 595.28] /Resources << /Font << /F1 149 0 R >> >> /Contents 134 0 R >>
 endobj
 134 0 obj
-<< /Length 566826 >>
+<< /Length 566814 >>
 stream
 0.71 w 1 J 1 j [] 0 d
 0.57 g 691.97 459.81 m 691.06 461.26 l 692.09 461.86 l h f 0 g
@@ -197233,7 +197233,7 @@ BT /F1 6.80 Tf 421.23 61.61 Td (CAD EN MM \(CAPA USER\)) Tj ET
 BT /F1 3.97 Tf 579.12 75.40 Td (PIEZAS) Tj ET
 BT /F1 7.37 Tf 579.97 61.41 Td (1) Tj ET
 BT /F1 3.97 Tf 420.38 47.06 Td (NOTA) Tj ET
-BT /F1 5.67 Tf 421.23 35.09 Td (MÓVIL · Material: Acero SAE 1045 rectificado · tol. gral. ISO 2768-fH · Ø15,875 \(5/8"\) g6 · Ø11,13 H…) Tj ET
+BT /F1 6.24 Tf 421.23 34.89 Td (MÓVIL · Material: Acero SAE 1045 rectificado · tol. gral. ISO 2768-fH · Ø15,875 \(5/8"\) g6) Tj ET
 BT /F1 3.97 Tf 686.83 140.60 Td (ESCALA) Tj ET
 BT /F1 14.17 Tf 738.50 119.91 Td (1:1) Tj ET
 BT /F1 3.97 Tf 686.83 103.75 Td (FORMATO) Tj ET
@@ -197311,7 +197311,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 841.89 595.28] /Resources << /Font << /F1 149 0 R >> >> /Contents 136 0 R >>
 endobj
 136 0 obj
-<< /Length 566826 >>
+<< /Length 566814 >>
 stream
 0.71 w 1 J 1 j [] 0 d
 0.57 g 704.31 462.76 m 703.40 464.21 l 704.43 464.81 l h f 0 g
@@ -208362,7 +208362,7 @@ BT /F1 6.80 Tf 421.23 61.61 Td (CAD EN MM \(CAPA USER\)) Tj ET
 BT /F1 3.97 Tf 579.12 75.40 Td (PIEZAS) Tj ET
 BT /F1 7.37 Tf 579.97 61.41 Td (1) Tj ET
 BT /F1 3.97 Tf 420.38 47.06 Td (NOTA) Tj ET
-BT /F1 5.67 Tf 421.23 35.09 Td (MÓVIL · Material: Acero SAE 1045 rectificado · tol. gral. ISO 2768-fH · Ø15,875 \(5/8"\) g6 · Ø11,13 H…) Tj ET
+BT /F1 6.24 Tf 421.23 34.89 Td (MÓVIL · Material: Acero SAE 1045 rectificado · tol. gral. ISO 2768-fH · Ø15,875 \(5/8"\) g6) Tj ET
 BT /F1 3.97 Tf 686.83 140.60 Td (ESCALA) Tj ET
 BT /F1 14.17 Tf 738.50 119.91 Td (1:1) Tj ET
 BT /F1 3.97 Tf 686.83 103.75 Td (FORMATO) Tj ET
@@ -209366,85 +209366,85 @@ xref
 0002067406 00000 n 
 0002074908 00000 n 
 0002075045 00000 n 
-0002617894 00000 n 
-0002618031 00000 n 
-0002971924 00000 n 
-0002972062 00000 n 
-0002979162 00000 n 
-0002979298 00000 n 
-0003216224 00000 n 
-0003216362 00000 n 
-0003223462 00000 n 
-0003223598 00000 n 
-0003229030 00000 n 
-0003229168 00000 n 
-0004069859 00000 n 
-0004069997 00000 n 
-0004077088 00000 n 
-0004077226 00000 n 
-0004721897 00000 n 
-0004722035 00000 n 
-0004729126 00000 n 
-0004729262 00000 n 
-0004843413 00000 n 
-0004843551 00000 n 
-0004850710 00000 n 
-0004850848 00000 n 
-0004858342 00000 n 
-0004858480 00000 n 
-0004865639 00000 n 
-0004865778 00000 n 
-0004873273 00000 n 
-0004873411 00000 n 
-0004990780 00000 n 
-0004990920 00000 n 
-0005001297 00000 n 
-0005001437 00000 n 
-0005011814 00000 n 
-0005011954 00000 n 
-0005022357 00000 n 
-0005022497 00000 n 
-0005557833 00000 n 
-0005557973 00000 n 
-0006306411 00000 n 
-0006306551 00000 n 
-0007001513 00000 n 
-0007001653 00000 n 
-0007009152 00000 n 
-0007009292 00000 n 
-0007283859 00000 n 
-0007283999 00000 n 
-0007291498 00000 n 
-0007291638 00000 n 
-0007300064 00000 n 
-0007300204 00000 n 
-0007308468 00000 n 
-0007308606 00000 n 
-0007875488 00000 n 
-0007875626 00000 n 
-0008442508 00000 n 
-0008442646 00000 n 
-0009009528 00000 n 
-0009009666 00000 n 
-0009576548 00000 n 
-0009576686 00000 n 
-0010143568 00000 n 
-0010143706 00000 n 
-0010710588 00000 n 
-0010710727 00000 n 
-0010716837 00000 n 
-0010716976 00000 n 
-0010723086 00000 n 
-0010723225 00000 n 
-0010729330 00000 n 
-0010729469 00000 n 
-0010735574 00000 n 
-0010735713 00000 n 
-0010741818 00000 n 
-0010741957 00000 n 
-0010748075 00000 n 
+0002617871 00000 n 
+0002618008 00000 n 
+0002971901 00000 n 
+0002972039 00000 n 
+0002979139 00000 n 
+0002979275 00000 n 
+0003216201 00000 n 
+0003216339 00000 n 
+0003223439 00000 n 
+0003223575 00000 n 
+0003228986 00000 n 
+0003229124 00000 n 
+0004069815 00000 n 
+0004069953 00000 n 
+0004077044 00000 n 
+0004077182 00000 n 
+0004721853 00000 n 
+0004721991 00000 n 
+0004729082 00000 n 
+0004729218 00000 n 
+0004843369 00000 n 
+0004843507 00000 n 
+0004850666 00000 n 
+0004850804 00000 n 
+0004858298 00000 n 
+0004858436 00000 n 
+0004865595 00000 n 
+0004865734 00000 n 
+0004873229 00000 n 
+0004873367 00000 n 
+0004990736 00000 n 
+0004990876 00000 n 
+0005001253 00000 n 
+0005001393 00000 n 
+0005011770 00000 n 
+0005011910 00000 n 
+0005022313 00000 n 
+0005022453 00000 n 
+0005557789 00000 n 
+0005557929 00000 n 
+0006306367 00000 n 
+0006306507 00000 n 
+0007001469 00000 n 
+0007001609 00000 n 
+0007009108 00000 n 
+0007009248 00000 n 
+0007283815 00000 n 
+0007283955 00000 n 
+0007291454 00000 n 
+0007291594 00000 n 
+0007300020 00000 n 
+0007300160 00000 n 
+0007308424 00000 n 
+0007308562 00000 n 
+0007875432 00000 n 
+0007875570 00000 n 
+0008442440 00000 n 
+0008442578 00000 n 
+0009009448 00000 n 
+0009009586 00000 n 
+0009576456 00000 n 
+0009576594 00000 n 
+0010143464 00000 n 
+0010143602 00000 n 
+0010710472 00000 n 
+0010710611 00000 n 
+0010716721 00000 n 
+0010716860 00000 n 
+0010722970 00000 n 
+0010723109 00000 n 
+0010729214 00000 n 
+0010729353 00000 n 
+0010735458 00000 n 
+0010735597 00000 n 
+0010741702 00000 n 
+0010741841 00000 n 
+0010747959 00000 n 
 trailer
 << /Size 150 /Root 1 0 R >>
 startxref
-10748174
+10748058
 %%EOF

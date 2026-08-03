@@ -251,7 +251,9 @@ for (const p of E.parts) {
     const c = cordonDe(p);
     if (c) p.soldadura = c;
   }
-  const aj = comprada ? [] : ajustesDe(p.name);
+  // Se pasa la PIEZA, no sólo el nombre: AJ-12 (taladro de paso 3/8-16) sólo
+  // se concede si el sólido tiene de verdad ese taladro. Ver tolerancias.mjs.
+  const aj = comprada ? [] : ajustesDe(p.name, p);
   if (aj.length) {
     p.tol.ajustes = aj.map((a) => ({
       id: a.id, cota: a.cota, ajuste: a.ajuste, criterio: a.criterio, fuente: a.fuente,
