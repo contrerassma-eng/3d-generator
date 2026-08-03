@@ -5,7 +5,7 @@
 //
 //   node ensambles/sorter_co/gen_sorter_co.mjs            (desde cad/)
 //   TEST_ROMPE=paso|ventana|roller|profundidad|luz|pasillo|borde|at10|retencion
-//              |guia|guarda|pivote|pila|cilindro node …  (banco de la compuerta:
+//              |guia|guarda|pivote|pila|cilindro|soporte|bulon node … (banco:
 //       inyecta UN defecto y demuestra que verify() lo para SIN emitir JSON.
 //       Los tres últimos son del TENSOR: pivote = le roba los anillos DIN 471
 //       del eje; pila = le roba un separador; cilindro = deja una banda sin él)
@@ -34,7 +34,7 @@ import { estaciones } from './adapt/mod_estaciones.mjs';
 import { guardas } from './adapt/mod_guardas.mjs';
 // ▼▼▼ TENSOR NEUMÁTICO DE BRAZOS POR BANDA (bloque propio) ▼▼▼
 import { tensor2, leerRamal } from './adapt/mod_tensor2.mjs';
-import { TENSOR_VIEJO, PIV, TENSION, NEUM, PALANCA, EJE_CALC } from './adapt/params_tensor2.mjs';
+import { TENSOR_VIEJO, PIV, TENSION, NEUM, PALANCA, EJE_CALC, SOPORTE, SOPORTE_CALC } from './adapt/params_tensor2.mjs';
 import { pg40 } from './adapt/mod_pg40.mjs';
 import { FLAGS as PG40F, PUBLICA as PG40PUB, CARGA as CARGA_PG40 } from './adapt/params_pg40.mjs';
 // ▲▲▲ ------------------------------------------------------ ▲▲▲
@@ -199,6 +199,13 @@ if (ROMPE === 'paso') {
   for (const p of E.parts) {
     if (/Guía de descarga sur/.test(p.name)) p.pos = [p.pos[0], -1100, p.pos[2]];
   }
+} else if (ROMPE === 'soporte') {
+  // roba el travesaño frontal: los 5 cilindros quedan EN EL AIRE (§T1-bis).
+  // Es el defecto exacto que se coló hasta el cliente.
+  E.parts = E.parts.filter(p => !/Travesaño frontal del tensor|Placa de extremo del travesaño/.test(p.name));
+} else if (ROMPE === 'bulon') {
+  // roba el bulón trasero de la calle 2: la bisagra no transmite nada
+  E.parts = E.parts.filter(p => !(/Bulón trasero/.test(p.name) && p.name.includes('calle 2,')));
 } else if (ROMPE === 'pivote') {
   // roba los 2 anillos DIN 471-30 del eje pivote del tensor: el eje se queda
   // sin retención axial de seguridad y la compuerta §T2 lo denuncia
@@ -232,7 +239,9 @@ const TEN2 = new RegExp('Eje pivote común|Chumacera SKF UCFL 206'
   // adapt/mod_calles.mjs §4-bis). Son pieza medida del cliente, en su Y original
   // y dentro de la MISMA bahía que el tensor: les vale su mismo precedente.
   + '|Volante de horquilla guia_'
-  + '|Eje de polea tensora|Bulón del lóbulo');
+  + '|Eje de polea tensora|Bulón del lóbulo'
+  + '|Travesaño frontal del tensor|Placa de extremo del travesaño|Ménsula de bisagra'
+  + '|Bulón trasero|Pletina soporte del regulador|Línea de aire PU|Separador Ø19');
 
 function verify() {
   const e = [];
@@ -998,6 +1007,41 @@ function verify() {
         }
       }
     }
+    // T1-bis · CADA CILINDRO, ESTÁTICAMENTE DETERMINADO — nada en el aire.
+    //   Éste es exactamente el fallo que se coló hasta el cliente: salían 5
+    //   bisagras y 5 rótulas sin soporte y sin bulón. Ahora se comprueba que
+    //   CADA extremo de CADA cilindro tiene articulación, soporte y retención.
+    for (let k = 0; k < EJES.length; k++) {
+      const eti = `calle ${k + 1},`;
+      const men = partes.filter(p => /Ménsula de bisagra/.test(p.name) && p.name.includes(eti));
+      const bul = partes.filter(p => /Bulón trasero/.test(p.name) && p.name.includes(eti));
+      const anT = partes.filter(p => /Anillo retención bulón trasero/.test(p.name) && p.name.includes(eti));
+      const bulR = partes.filter(p => /Bulón del lóbulo/.test(p.name) && p.name.includes(eti));
+      const anR = partes.filter(p => /Anillo retención bulón rótula/.test(p.name) && p.name.includes(eti));
+      if (men.length !== 1) e.push(`tensor calle ${k + 1}: la bisagra trasera no tiene ménsula de soporte (${men.length}) — el cilindro quedaría EN EL AIRE`);
+      if (bul.length !== 1) e.push(`tensor calle ${k + 1}: la bisagra trasera no tiene bulón (${bul.length}) — no transmitiría nada`);
+      if (anT.length !== 2) e.push(`tensor calle ${k + 1}: el bulón trasero tiene ${anT.length} anillos (deben ser 2) — se saldría`);
+      if (bulR.length !== 1) e.push(`tensor calle ${k + 1}: la rótula KJ10D no tiene bulón al brazo (${bulR.length})`);
+      if (anR.length !== 2) e.push(`tensor calle ${k + 1}: el bulón de la rótula tiene ${anR.length} anillos (deben ser 2) — se saldría`);
+      if (!partes.some(p => /Línea de aire PU/.test(p.name) && p.name.includes(`calle ${k + 1}`))) {
+        e.push(`tensor calle ${k + 1}: su cilindro no tiene línea de aire`);
+      }
+    }
+    // el travesaño frontal («la placa frontal») y sus dos anclajes
+    if (!partes.some(p => /Travesaño frontal del tensor/.test(p.name))) {
+      e.push('falta el travesaño frontal del tensor: las 5 bisagras no tendrían a qué amarrarse');
+    }
+    const pex = partes.filter(p => /Placa de extremo del travesaño/.test(p.name));
+    if (pex.length !== 2) e.push(`el travesaño frontal tiene ${pex.length} placas de extremo (deben ser 2, una por cabezal)`);
+    if (SOPORTE_CALC.fs < 3) e.push(`el travesaño frontal no lleva FS 3: ${SOPORTE_CALC.fs} (σ ${SOPORTE_CALC.sigmaMPa} MPa)`);
+    if (SOPORTE_CALC.flechaMm > 1.0) e.push(`flecha del travesaño frontal ${SOPORTE_CALC.flechaMm} > 1.0 mm`);
+    if (!partes.some(p => /Pletina soporte del regulador/.test(p.name))) {
+      e.push('el regulador de presión AR20 no tiene soporte: quedaría colgando de los tubos');
+    }
+    // el cilindro BASCULA: prohibido empotrarlo por delante
+    if (SOPORTE_CALC.basculacionDeg > 2 && partes.some(p => /brida de nariz|placa frontal del cilindro/i.test(p.name))) {
+      e.push(`el cilindro bascula ${SOPORTE_CALC.basculacionDeg}° y lleva un empotramiento frontal: rompería el vástago`);
+    }
     // T2 · EL EJE PIVOTE ASEGURADO (instrucción explícita del cliente)
     const ejes = partes.filter(p => /Eje pivote común/.test(p.name));
     if (ejes.length !== 1) e.push(`el tensor tiene ${ejes.length} ejes pivote (debe ser 1 común a los 5 brazos)`);
@@ -1304,6 +1348,7 @@ function verify() {
       arquitectura: m.tensor2.arquitectura,
       ejePivote: m.tensor2.ejePivote,
       tension: m.tensor2.tension,
+      soporte: m.tensor2.soporte,
       ramal: m.ramal,
     },
     // ▲▲▲ ---------------------------------------- ▲▲▲

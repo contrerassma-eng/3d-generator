@@ -45,7 +45,13 @@ export const GEO = {
   poleaZ: -371.89,        // step §4.5
   yugoY: 34.5,            // step §2.4 — eje del C85 vertical medido (la línea de
                           //   acción del cilindro pasa por aquí)
-  lobuloZ: -292.5,        // step §2.4 — Z de la oreja medida del brazo original
+  lobuloZ: -312.5,        // step §2.4 (−292.5) BAJADO 20 (dis, 01-08): ver
+                          //   NEUM.cuerpoZ0 — al bajar el cilindro para que su
+                          //   bisagra libre el tambor motriz, el vástago tiene
+                          //   que seguir teniendo sitio para la rótula KJ10D
+                          //   (36 de alto). NO altera el cálculo de tensión: la
+                          //   palanca del cilindro es la distancia HORIZONTAL
+                          //   pivote↔eje del cilindro (136.22), que no depende de Z.
                           //   (donde la KJ10D tomaba el brazo); se conserva como
                           //   Z del asiento superior del resorte
 };
@@ -78,7 +84,15 @@ export const NEUM = {
   carrera: 80,                      // web PNEU-001
   cuerpoDia: STEP.cilC85.cuerpoDia,     // 26.6 step — camisa exterior medida
   cuerpoLargo: STEP.cilC85.cuerpoLargo, // 187.75 step
-  cuerpoZ0: -264.51,                // step — cara inferior de la camisa medida
+  cuerpoZ0: -284.51,      // step (−264.51) BAJADO 20 (dis, 01-08). Obligado por
+                          //   la geometría: la bisagra C85C25 se monta SOBRE la
+                          //   tapa trasera y sube 32; con la tapa en −76.76 el
+                          //   pin y la bisagra quedaban en Z −44.8, y el tambor
+                          //   motriz ocupa Z −57.2…51.7 (params_tambores) — la
+                          //   bisagra habría chocado de lleno contra el tambor.
+                          //   Bajando 20 la bisagra corona en −64.76 y libra el
+                          //   tambor por 7.56 mm. La camisa medida (187.75) y el
+                          //   eje Y 34.5 no cambian, luego la tensión tampoco.
   y: 34.5,                          // step — eje del C85 vertical medido
 
   // --- LA DECISIÓN DE DIÁMETRO / PRESIÓN (lo único que quedaba por resolver) --
@@ -238,6 +252,119 @@ export const PIV = {
 };
 
 // ===========================================================================
+// 3-bis. EL SOPORTE DE LOS CILINDROS — «la placa frontal» que faltaba
+// ===========================================================================
+// Corrección del cliente (01-08): «No veo el soporte de los cilindros
+// neumáticos en ninguno de los dos extremos. Falta la placa frontal.» Tenía
+// razón: salían 5 bisagras y 5 rótulas sin nada que las amarrase.
+//
+// ¿LLEVA EL CILINDRO PLACA FRONTAL (brida de nariz)?  NO, y hay que explicarlo
+// con la geometría delante, porque es la pregunta que hizo el cliente:
+//   El cilindro BASCULA. El lóbulo del brazo describe un arco de radio 186.79
+//   alrededor del pivote; para una carrera útil de ±20 mm de polea el brazo
+//   gira 15.5° (calc: dφ = 20 / |Y_polea−Y_pivote| = 20/74) y el extremo del
+//   vástago se desplaza 34.5 mm en Y. Con el pin trasero a Z −90 y la rótula a
+//   Z −292.5 (202.5 de brazo), eso obliga al cilindro a bascular
+//   atan(34.5/202.5) = 9.7°.
+//   Un empotramiento frontal rígido (brida o tuerca de nariz) sería una
+//   ligadura redundante sobre un cilindro que bascula: doblaría el vástago y lo
+//   partiría por la rosca. Por eso el montaje correcto —y el que el propio
+//   cliente compró— es ARTICULADO EN LOS DOS EXTREMOS: bisagra trasera C85C25
+//   (PNEU-007) + rótula de vástago KJ10D (PNEU-006). Esas dos piezas juntas SON
+//   la firma de un montaje bi-articulado; si fuese de brida frontal no habría
+//   bisagra trasera.
+//   ⇒ El cilindro queda ISOSTÁTICO: 2 articulaciones, ninguna ligadura sobrante.
+//
+// LO QUE EL CLIENTE ECHA EN FALTA, entonces, no es una brida en el cilindro:
+// es la ESTRUCTURA QUE SOSTIENE LAS 5 BISAGRAS. Y esa sí es una placa frontal:
+// un travesaño que cruza el cabezal motriz de lado a lado por delante de la
+// máquina, apoyado en los dos canales de costado del cliente.
+export const SOPORTE = {
+  // --- el travesaño frontal (la «placa frontal») ---------------------------
+  // Perfil rectangular 40×40×3 (dis). Va DETRÁS del tambor motriz en Y y por
+  // DEBAJO de él en Z, con doble holgura, porque entre el fondo del tambor
+  // (Z −57.2, params_tambores) y la cara alta de la bisagra (Z −68) sólo hay
+  // 10.8 mm: no cabe ahí ningún travesaño, y por eso se lleva atrás.
+  trav: {
+    y: [58, 98],            // dis — arranca 3.55 detrás del tambor (Y 54.45)
+    z: [-105, -65],         // dis — techo 7.8 bajo el fondo del tambor (−57.2)
+    perfil: 40, esp: 3,     // dis — tubo estructural 40×40×3
+    // Se atornilla a los DOS cabezales de rodamiento del alargue PG40
+    // (adapt/params_pg40 PUBLICA.caraApoyo): son las dos placas estructurales
+    // que ya sujetan el tambor motriz, presentes en ambos extremos y a la
+    // altura justa (Y −125…90, Z −120…70). Se descartó anclarlo a los canales
+    // de costado del cliente porque el cabezal +X ocupa X 491.4…499.4 y la
+    // placa de extremo chocaba con él (10.24 cm³), y la del lado −X mordía la
+    // caja del motorreductor principal (X hasta −82.4).
+    x: [67.494, 491.418],   // pg40 PUBLICA.caraApoyo.xNeg / .xPos
+    get luz() { return r2(this.x[1] - this.x[0]); },   // 566.84
+  },
+  // --- la ménsula de cada bisagra ------------------------------------------
+  mensula: {
+    semiX: 12,              // dis — 2 M8 a ±12 del eje de calle
+    baseAncho: 40,          // dis — ±20: los soportes del drive kit del cliente
+                            //   arrancan en ±21.04 (step), así que la base no puede
+                            //   pasar de ±20 sin morderlos
+    e: 8,                   // dis — pletina A36
+    yFrente: 58,            // = trav.y[0]: la base atornilla a la cara frontal
+    yPunta: 26,             // dis — la oreja sobrepasa el pin 8.5
+    alto: 35,               // dis — la base ocupa el canto del travesaño (Z −100…−65)
+                            //   y NO puede subir de −57.2, que es el fondo del tambor motriz
+    altoLenguar: 23,        // dis — lengüeta Z −85…−62: cubre el pin (−72) y libra
+                            //   el tambor por 4.8
+    perno: { d: 8, n: 2 },  // dis — 2 M8 por ménsula a la cara del travesaño
+  },
+  // --- los bulones y sus retenciones ---------------------------------------
+  // Los DOS extremos del cilindro pinzan con bulón + anillo a cada lado. Es lo
+  // que faltaba: sin bulón la bisagra no transmite nada.
+  bulonTrasero: { d: 8, norma: 'ISO 2341 B — bulón Ø8 con taladro de pasador', anillo: 'DIN 471-8' },
+  bulonRotula: { d: 10, norma: 'bulón Ø10 del kit KJ10D (ISO 8140, suministrado con la rótula)', anillo: 'DIN 471-10' },
+  // separadores Ø19×18 medidos del cliente, que centran la horquilla de 17 de
+  // la KJ10D entre las 2 pletinas del brazo (step, inventario)
+  separadorRotula: { de: 19, di: 10.2, largo: 18 },
+  // --- soporte del regulador de presión y las 5 líneas ---------------------
+  regPresion: { x: 20, y: 60, z: -180, placa: [90, 8, 120] },   // dis — pletina
+                          //   a Z −180…−60: libra por 12.2 el cuerpo del UCF 207 del
+                          //   tambor motriz (fondo −47.8, params_tambores)
+                          //   atornillada al canal de costado −X, accesible
+  tubo: { d: 6, norma: 'tubo PU Ø6×4 (el que piden los KQ2L06 y el AS2201FS)' },
+  tuboZ: -135,            // dis — las 5 líneas corren POR DEBAJO de todo el
+                          //   conjunto frontal: bajo el travesaño (fondo −105),
+                          //   bajo las placas de extremo (−125) y bajo el
+                          //   cabezal PG40 (−120). Es el único corredor libre.
+  tuboY: 78,              // dis — detrás de las bisagras (acaban en Y 54.5) y
+                          //   de las ménsulas (68), en la sombra del travesaño
+  tuboPasoZ: 8,           // dis — 8 mm de separación entre líneas: van en
+                          //   abanico vertical para no montarse unas sobre otras
+  tuboX0: 24,             // dis — arrancan en la cara interior de la pletina
+                          //   del AR20 (X 16…24)
+};
+
+// Carga que baja al travesaño (calc): el cilindro trabaja en TIRO, así que tira
+// de su bisagra HACIA ABAJO con la misma fuerza que hace en el vástago.
+export const SOPORTE_CALC = {
+  get porBisagraN() { return TENSION.fTiroEfN; },                    // 140.19
+  get totalN() { return r2(this.porBisagraN * EJES.length); },       // 700.95
+  // tubo 40×40×3: I = (40⁴ − 34⁴)/12
+  get I() { return r3((40 ** 4 - 34 ** 4) / 12); },                  // 101 972
+  get Wsec() { return r3(2 * this.I / 40); },                        // 5 098.6
+  get flechaMm() {
+    return r3(5 * this.totalN * SOPORTE.trav.luz ** 3 / (384 * 210000 * this.I));
+  },
+  get momentoNmm() { return r2(this.totalN * SOPORTE.trav.luz / 8); },
+  get sigmaMPa() { return r2(this.momentoNmm / this.Wsec); },
+  fyMPa: 250,             // A36
+  get fs() { return r3(this.fyMPa / this.sigmaMPa); },
+  // basculación del cilindro (calc) — la que prohíbe el empotramiento frontal
+  recorridoPoleaMm: 20,
+  get giroBrazoDeg() { return r3(this.recorridoPoleaMm / PALANCA.polea * 180 / Math.PI); },
+  get desplLobuloMm() { return r2(Math.abs(GEO.pivoteZ - GEO.lobuloZ) * this.recorridoPoleaMm / PALANCA.polea); },
+  get basculacionDeg() {
+    return r3(Math.atan(this.desplLobuloMm / Math.abs(GEO.lobuloZ - (-90))) * 180 / Math.PI);
+  },
+};
+
+// ===========================================================================
 // 4. LA POLEA TENSORA y el ramal donde apoya
 // ===========================================================================
 export const POL = {
@@ -365,5 +492,5 @@ export const EJE_CALC = {
 };
 
 export default {
-  TENSOR_VIEJO, GEO, PALANCA, NEUM, PIV, EJE_CALC, POL, RAMAL, TENSION,
+  TENSOR_VIEJO, GEO, PALANCA, NEUM, PIV, EJE_CALC, POL, RAMAL, TENSION, SOPORTE, SOPORTE_CALC,
 };

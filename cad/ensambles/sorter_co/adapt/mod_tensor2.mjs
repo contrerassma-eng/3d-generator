@@ -24,7 +24,7 @@ import {
   box, cyl, hole, sketchYZ, COL, r2, pernoHex, tuercaHex, rodamiento, anilloRet,
 } from '../../nbt90/lib.mjs';
 import { EJES } from './params_adapt.mjs';
-import { GEO, PALANCA, NEUM, PIV, EJE_CALC, POL, RAMAL, TENSION } from './params_tensor2.mjs';
+import { GEO, PALANCA, NEUM, PIV, EJE_CALC, POL, RAMAL, TENSION, SOPORTE, SOPORTE_CALC } from './params_tensor2.mjs';
 
 // ---------------------------------------------------------------------------
 // Envolvente convexa de discos en el plano YZ (silueta de chapa recortada).
@@ -179,6 +179,66 @@ export function tensor2(E, ramal) {
   cN(`regulador de presión ${NEUM.reguladorPresion} (web PNEU-009)`, 1);
 
   // =========================================================================
+  // B-bis. EL SOPORTE DE LOS CILINDROS — «la placa frontal»
+  // =========================================================================
+  // Lo que faltaba y el cliente vio: las 5 bisagras traseras no tenían a qué
+  // amarrarse. El cilindro NO lleva brida de nariz (bascula 10.2°, ver la
+  // justificación en params_tensor2 §3-bis): va articulado por los dos
+  // extremos, y lo que sostiene esas articulaciones es este travesaño.
+  {
+    const TR = SOPORTE.trav;
+    const xc = r2((TR.x[0] + TR.x[1]) / 2), yc = r2((TR.y[0] + TR.y[1]) / 2);
+    E.addPart(`FIJO · Travesaño frontal del tensor 40×40×${TR.esp} (L=${TR.luz}) — «placa frontal»`, COL.fijo,
+      [xc, yc, TR.z[0]],
+      [box(`Tubo 40×40 L=${TR.luz}`, [xc, yc, TR.z[0]], TR.luz, TR.perfil, TR.perfil),
+        box(`Hueco del tubo (e=${TR.esp})`, [xc, yc, r2(TR.z[0] + TR.esp)],
+          r2(TR.luz + 2), r2(TR.perfil - 2 * TR.esp), r2(TR.perfil - 2 * TR.esp), 'cut'),
+        ...EJES.map((B, k) => hole(`Ø9 M8 ménsula calle ${k + 1} (−X)`, [r2(B - SOPORTE.mensula.semiX), r2(TR.y[0] - 1), -72], [0, 1, 0], 9)),
+        ...EJES.map((B, k) => hole(`Ø9 M8 ménsula calle ${k + 1} (+X)`, [r2(B + SOPORTE.mensula.semiX), r2(TR.y[0] - 1), -72], [0, 1, 0], 9))],
+      { fabricada: true,
+        nota: `ESTO es la «placa frontal» que faltaba: cruza el cabezal de lado a lado y recibe las 5 bisagras `
+          + `traseras. Se atornilla a las caras interiores de los DOS canales de costado del cliente `
+          + `(X ${TR.x[0]} y ${TR.x[1]}, step), luz ${TR.luz}. Va DETRÁS del tambor motriz en Y (arranca en `
+          + `${TR.y[0]}, el tambor acaba en 54.45) y por DEBAJO en Z (corona en ${TR.z[1]}, el tambor empieza en `
+          + `−57.2): doble holgura, porque entre el fondo del tambor y la bisagra sólo hay 10.8 mm y ahí no cabe. `
+          + `Carga ${SOPORTE_CALC.totalN} N (5 × ${SOPORTE_CALC.porBisagraN} N, el cilindro tira de su bisagra `
+          + `hacia abajo) → flecha ${SOPORTE_CALC.flechaMm} mm, σ ${SOPORTE_CALC.sigmaMPa} MPa (FS ${SOPORTE_CALC.fs} sobre A36).` });
+    cN('travesaño frontal del tensor (fabricado)', 1);
+
+    // placas de extremo + tornillería a los canales de costado del cliente
+    for (const [i, x] of TR.x.entries()) {
+      const lado = i === 0 ? '−X' : '+X';
+      const xp = i === 0 ? x : r2(x - 8);
+      E.addPart(`FIJO · Placa de extremo del travesaño frontal (${lado}) 8×80×65`, COL.chapa,
+        [r2(xp + 4), yc, r2(TR.z[0] - 20)],
+        [box('Placa 8×80×65', [r2(xp + 4), yc, r2(TR.z[0] - 20)], 8, 80, 65),
+          ...[-28, 28].map(dy => hole(`Ø9 M8 al cabezal (Y${dy > 0 ? '+' : ''}${dy})`, [r2(xp - 1), r2(yc + dy), r2(TR.z[0] + 20)], [1, 0, 0], 9))],
+        { fabricada: true,
+          nota: `suelda al travesaño y atornilla con 2 M8 al cabezal de rodamiento ${lado} del alargue PG40 `
+            + `(X ${x}, adapt/params_pg40 PUBLICA.caraApoyo) — la misma placa que sostiene el tambor motriz. `
+            + `INTERFAZ CON EL AGENTE DE PG40: 2 taladros Ø9 por cabezal, en Y ${r2(yc - 28)} y ${r2(yc + 28)}, `
+            + `Z ${r2(TR.z[0] + 20)}. Corona en Z ${r2(TR.z[0] - 20 + 65)} para librar por 5.2 las tuercas M12 del `
+            + `UCF 207 del tambor motriz, que ocupan Z −54.8…−42.8 en ese mismo cabezal (params_tambores).` });
+      cN('placa de extremo del travesaño', 1);
+      for (const dy of [-28, 28]) {
+        pernoHex(E, { nombre: `M8×25 travesaño↔cabezal PG40 ${lado} (Y=${r2(yc + dy)})`, at: [r2(xp + (i === 0 ? -1 : 9)), r2(yc + dy), TR.z[0]], dir: [i === 0 ? -1 : 1, 0, 0], dia: 8, largo: 25, af: 13, altoCab: 5.3, capa: 'FIJO · ' });
+      }
+    }
+
+    // soporte del regulador de PRESIÓN
+    const RP = SOPORTE.regPresion;
+    E.addPart('FIJO · Pletina soporte del regulador de presión AR20 (8×90×120)', COL.chapa,
+      [RP.x, RP.y, RP.z],
+      [box('Pletina 8×90×120', [RP.x, RP.y, RP.z], RP.placa[1], RP.placa[0], RP.placa[2]),
+        ...[-30, 30].map(dy => hole(`Ø9 M8 al canal (Y${dy > 0 ? '+' : ''}${dy})`, [r2(RP.x - 5), r2(RP.y + dy), r2(RP.z + 100)], [1, 0, 0], 9))],
+      { fabricada: true,
+        nota: 'el AR20-02-B tenía designación y presión de trabajo pero no dónde ir montado. Va aquí: atornillada '
+          + 'al canal de costado −X del cliente, fuera del reparto de calles y a la altura de la mano — el '
+          + 'manómetro se lee y el mando se gira sin desmontar nada.' });
+    cN('pletina soporte del regulador de presión', 1);
+  }
+
+  // =========================================================================
   // C. POR CALLE (×5): brazo, casquillos, polea tensora y SU PROPIO CILINDRO
   // =========================================================================
   const silueta = hullDiscos([
@@ -292,17 +352,53 @@ export function tensor2(E, ramal) {
           + `de bajar el calibre: justificación en params_tensor2 §2. ${NEUM.falloSeguro}.` });
     cR(`cilindro ${NEUM.designacion} (web PNEU-001)`, 1);
 
+    const tapaZ = r2(NEUM.cuerpoZ0 + NEUM.cuerpoLargo);       // −96.76 cara de la tapa
+    const pinZ = r2(tapaZ + 24.76);                            // −72 eje del bulón trasero
     E.addPart(`FIJO · Bisagra trasera ${NEUM.accesorios.bisagra} (${c})`, COL.neumatica,
-      [B, NEUM.y, -100],
-      [box('Clevis C85C25 40×40×32', [B, NEUM.y, -100], 40, 40, 32),
-        hole('Ø8 articulación', [r2(B - 21), NEUM.y, -90], [1, 0, 0], 8)],
-      { componente: 'C85C25',
-        ajusteMontaje: 'recibe el fondo de la camisa del cilindro (es su alojamiento)', norma: `${NEUM.accesorios.bisagra} — bisagra trasera (clevis) para C85 Ø20/25 · web PNEU-007`,
+      [B, NEUM.y, tapaZ],
+      [box('Clevis C85C25 40×40×32', [B, NEUM.y, tapaZ], 40, 40, 32),
+        box(`Luz de horquilla ${SOPORTE.mensula.e + 1.1}`, [B, NEUM.y, r2(pinZ - 12)],
+          r2(SOPORTE.mensula.e + 1.1), 44, 24, 'cut'),
+        hole(`Ø${SOPORTE.bulonTrasero.d} articulación`, [r2(B - 21), NEUM.y, pinZ], [1, 0, 0], SOPORTE.bulonTrasero.d)],
+      { componente: 'C85C25', norma: `${NEUM.accesorios.bisagra} — bisagra trasera (clevis) para C85 Ø20/25 · web PNEU-007`,
         capaInfo: 'web (designación) + step (pose medida en la calle 1)',
-        nota: 'el kit del cliente replicado a las 5 calles (el STEP trae UNA). Cuelga de la cabecera FRONT TOP2; '
-          + 'el cuerpo del cilindro queda por debajo y el vástago baja al lóbulo del brazo. La articulación Ø8 '
-          + 'deja que el cilindro siga el arco del brazo.' });
+        ajusteMontaje: 'roscada sobre la tapa trasera del cilindro; su horquilla recibe la lengüeta de la ménsula',
+        nota: `el kit del cliente replicado a las 5 calles (el STEP trae UNA). Se monta SOBRE la tapa trasera `
+          + `(Z ${tapaZ}) y corona en ${r2(tapaZ + 32)}, librando el tambor motriz (fondo −57.2) por `
+          + `${r2(-57.2 - (tapaZ + 32))} mm. Su luz de horquilla recibe la lengüeta de la ménsula y el bulón `
+          + `Ø${SOPORTE.bulonTrasero.d} pasa por ambas: ES la articulación trasera del cilindro.` });
     cR(`bisagra ${NEUM.accesorios.bisagra} (1 del STEP + 4 nuevas)`, 1);
+
+    // --- LA MÉNSULA que ata esa bisagra al travesaño frontal ---------------
+    const MS = SOPORTE.mensula;
+    E.addPart(`FIJO · Ménsula de bisagra — lengüeta e=${MS.e} (${c})`, COL.chapa,
+      [B, r2((MS.yPunta + MS.yFrente) / 2), r2(pinZ - 13)],
+      [box(`Lengüeta ${MS.e}×${r2(MS.yFrente - MS.yPunta)}×${MS.altoLenguar}`, [B, r2((MS.yPunta + MS.yFrente) / 2), r2(pinZ - 13)], MS.e, r2(MS.yFrente - MS.yPunta), MS.altoLenguar),
+        box(`Base ${MS.baseAncho}×10×${MS.alto}`, [B, r2(MS.yFrente + 5), -100], MS.baseAncho, 10, MS.alto),
+        hole(`Ø${SOPORTE.bulonTrasero.d} bulón`, [r2(B - MS.e), NEUM.y, pinZ], [1, 0, 0], SOPORTE.bulonTrasero.d),
+        ...[-1, 1].map(sx => hole(`Ø9 M8 (${sx < 0 ? '−X' : '+X'})`, [r2(B + sx * MS.semiX), r2(MS.yFrente + 11), r2(pinZ - 8)], [0, -1, 0], 9))],
+      { fabricada: true,
+        nota: `pletina A36 en L: la LENGÜETA entra en la luz de la horquilla de la C85C25 y el bulón la pinza; `
+          + `la BASE atornilla con 2 M8 a la cara frontal del travesaño. Es la pieza que faltaba entre la `
+          + `bisagra y el bastidor. Voladizo ${r2(MS.yFrente - NEUM.y)} mm desde la cara del travesaño: `
+          + `M = ${r2(TENSION.fTiroEfN * (MS.yFrente - NEUM.y))} N·mm sobre 2 secciones de ${MS.e}×${MS.alto} → σ despreciable.` });
+    cN('ménsula de bisagra (fabricada)', 1);
+    for (const sx of [-1, 1]) {
+      pernoHex(E, { nombre: `M8×25 ménsula↔travesaño (${c}, ${sx < 0 ? '−X' : '+X'})`, at: [r2(B + sx * MS.semiX), r2(MS.yFrente + 16), r2(pinZ - 8)], dir: [0, -1, 0], dia: 8, largo: 25, af: 13, altoCab: 5.3, capa: 'FIJO · ' });
+    }
+    // el BULÓN trasero y sus dos retenciones — sin esto la bisagra no ata nada
+    E.addPart(`FIJO · Bulón trasero Ø${SOPORTE.bulonTrasero.d}×44 (${c})`, COL.acero,
+      [r2(B - 22), NEUM.y, pinZ],
+      [cyl(`Bulón Ø${SOPORTE.bulonTrasero.d}×44`, [r2(B - 22), NEUM.y, pinZ], [1, 0, 0], SOPORTE.bulonTrasero.d, 44)],
+      { hardware: true, norma: SOPORTE.bulonTrasero.norma,
+        ajusteMontaje: 'atraviesa las dos orejas de la horquilla C85C25 y la lengüeta de la ménsula',
+        nota: 'la articulación trasera del cilindro. Retenido por 2 anillos, uno a cada lado.' });
+    cN('bulón trasero Ø8', 1);
+    for (const sx of [-1, 1]) {
+      anilloRet(E, { nombre: `bulón trasero ${sx < 0 ? '−X' : '+X'} (${c})`,
+        at: [r2(B + sx * 20.5 - (sx < 0 ? 0 : 1)), NEUM.y, pinZ], dir: [1, 0, 0], eje: SOPORTE.bulonTrasero.d, capa: 'FIJO · ' });
+      cN(`anillo ${SOPORTE.bulonTrasero.anillo} (retención del bulón trasero)`, 1);
+    }
 
     E.addPart(`FIJO · Rótula de vástago ${NEUM.accesorios.rotula} (${c})`, COL.neumatica,
       [B, NEUM.y, r2(GEO.lobuloZ - 8)],
@@ -321,10 +417,37 @@ export function tensor2(E, ramal) {
       { fabricada: true, nota: 'une la rótula KJ10D a las 2 pletinas del brazo; los 2 separadores Ø19×18 del '
         + 'cliente (step) centran la horquilla de 17 entre las pletinas.' });
     cN('bulón del lóbulo', 1);
+    // retenciones del bulón de la rótula + los 2 separadores medidos del cliente
+    for (const sx of [-1, 1]) {
+      anilloRet(E, { nombre: `bulón rótula ${sx < 0 ? '−X' : '+X'} (${c})`,
+        at: [r2(B + sx * 30 - (sx < 0 ? 0 : 1.2)), NEUM.y, GEO.lobuloZ], dir: [1, 0, 0], eje: 10, capa: 'FIJO · ' });
+      cN(`anillo ${SOPORTE.bulonRotula.anillo} (retención del bulón de la rótula)`, 1);
+      const SP = SOPORTE.separadorRotula;
+      E.addPart(`CTX · Separador Ø${SP.de}×${SP.largo} del bulón KJ10D (${sx < 0 ? '−X' : '+X'}) (${c})`, COL.acero,
+        [r2(B + sx * 8.5 - (sx < 0 ? SP.largo : 0)), NEUM.y, GEO.lobuloZ],
+        [cyl(`Separador Ø${SP.de}×${SP.largo}`, [r2(B + sx * 8.5 - (sx < 0 ? SP.largo : 0)), NEUM.y, GEO.lobuloZ], [1, 0, 0], SP.de, SP.largo),
+          hole(`Ø${SP.di}`, [r2(B + sx * 8.5 - (sx < 0 ? SP.largo + 1 : -1)), NEUM.y, GEO.lobuloZ], [1, 0, 0], SP.di)],
+        { contexto: true, capaInfo: 'step (inventario: SEPARADOR ×2 por calle)',
+          ajusteMontaje: 'ensartado en el bulón de la rótula',
+          nota: 'centran la horquilla de 17 de la KJ10D entre las 2 pletinas del brazo (pieza medida del cliente)' });
+      cR('separador de bulón KJ10D (step)', 1);
+    }
+    // línea de aire de esta calle
+    E.addPart(`FIJO · Línea de aire PU Ø${SOPORTE.tubo.d} — AR20 → calle ${k + 1}`, COL.neumatica,
+      [SOPORTE.tuboX0, SOPORTE.tuboY, r2(SOPORTE.tuboZ - k * SOPORTE.tuboPasoZ)],
+      [cyl(`Tubo Ø${SOPORTE.tubo.d} L=${r2(B - SOPORTE.tuboX0)}`, [SOPORTE.tuboX0, SOPORTE.tuboY, r2(SOPORTE.tuboZ - k * SOPORTE.tuboPasoZ)], [1, 0, 0], SOPORTE.tubo.d, r2(B - SOPORTE.tuboX0))],
+      { componente: 'tubo_PU_6', norma: SOPORTE.tubo.norma,
+        ajusteMontaje: 'la bajada final de cada línea hasta el racor KQ2L06 de su cilindro se tiende en obra',
+        nota: `las 5 líneas salen del colector del ${NEUM.reguladorPresion} y corren POR DEBAJO de todo el `
+          + `conjunto frontal (Z ${r2(SOPORTE.tuboZ - k * SOPORTE.tuboPasoZ)}), que es el único corredor libre: `
+          + `por debajo del travesaño (−105), de las placas de extremo (−125) y del cabezal PG40 (−120). Van en `
+          + `abanico vertical, ${SOPORTE.tuboPasoZ} mm entre líneas, para no montarse. Recorrido `
+          + `${r2(B - SOPORTE.tuboX0)} mm. Mismo regulador para las 5 = misma presión = misma tensión.` });
+    cN('línea de aire PU Ø6', 1);
 
     E.addPart(`FIJO · Regulador de caudal ${NEUM.accesorios.regulador} (meter-out, ${c})`, COL.neumatica,
-      [B, r2(NEUM.y + 22), -130],
-      [box('AS2201FS 26.3×43.6×22.9', [B, r2(NEUM.y + 22), -130], 26.3, 43.61, 22.9)],
+      [B, r2(NEUM.y + 10), -130],
+      [box('AS2201FS 26.3×43.6×22.9', [B, r2(NEUM.y + 10), -130], 26.3, 43.61, 22.9)],
       { componente: 'AS2201FS-01-06S',
         ajusteMontaje: 'roscado R1/8 al puerto trasero del cilindro', norma: `${NEUM.accesorios.regulador} — regulador de caudal codo, meter-out, R1/8, tubo Ø6 · web PNEU-004`,
         capaInfo: 'web (designación) + step (caja medida)',
@@ -390,6 +513,19 @@ export function tensor2(E, ramal) {
     tabla: TENSION.tabla,
     tablaPresion: TENSION.tablaPresion,
     hipotesis: TENSION.hipotesis,
+  };
+  M.soporte = {
+    placaFrontal: `travesaño 40×40×${SOPORTE.trav.esp} de ${SOPORTE.trav.luz} entre los 2 cabezales del alargue PG40`,
+    cargaN: SOPORTE_CALC.totalN,
+    flechaMm: SOPORTE_CALC.flechaMm,
+    sigmaMPa: SOPORTE_CALC.sigmaMPa,
+    fs: SOPORTE_CALC.fs,
+    bridaFrontalEnElCilindro: false,
+    basculacionDeg: SOPORTE_CALC.basculacionDeg,
+    porQueNoLlevaBrida: `el cilindro bascula ${SOPORTE_CALC.basculacionDeg}° al seguir el arco del brazo; un `
+      + 'empotramiento frontal sería ligadura redundante y partiría el vástago. Va bi-articulado: C85C25 detrás '
+      + '+ KJ10D delante, que es isostático.',
+    interfazPg40: `2 taladros Ø9 en cada cabezal de rodamiento motriz (X ${SOPORTE.trav.x[0]} y ${SOPORTE.trav.x[1]})`,
   };
   M.ramal = ramal;
   return M;

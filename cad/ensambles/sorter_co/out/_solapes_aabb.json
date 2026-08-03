@@ -1,7 +1,52 @@
 [
  {
-  "cm3": 607.41,
-  "a": "CTX · Ensamble motor UniDrive (extremo conducido)",
-  "b": "FIJO · Guarda de pozo sur 14GA 552×383 (Y=-1385)"
+  "cm3": 12.75,
+  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 1, X=127.056)",
+  "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)"
+ },
+ {
+  "cm3": 12.75,
+  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 2, X=203.256)",
+  "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)"
+ },
+ {
+  "cm3": 12.75,
+  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 3, X=279.456)",
+  "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)"
+ },
+ {
+  "cm3": 12.75,
+  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 4, X=355.656)",
+  "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)"
+ },
+ {
+  "cm3": 12.75,
+  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 5, X=431.856)",
+  "b": "TAMBOR · engomado 10 → Ø108.9 × 370 (cara útil)"
+ },
+ {
+  "cm3": 0.89,
+  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 1, X=127.056)",
+  "b": "TAMBOR · tubo Ø88.9 × 380 (e=3.2)"
+ },
+ {
+  "cm3": 0.89,
+  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 2, X=203.256)",
+  "b": "TAMBOR · tubo Ø88.9 × 380 (e=3.2)"
+ },
+ {
+  "cm3": 0.89,
+  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 3, X=279.456)",
+  "b": "TAMBOR · tubo Ø88.9 × 380 (e=3.2)"
+ },
+ {
+  "cm3": 0.89,
+  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 4, X=355.656)",
+  "b": "TAMBOR · tubo Ø88.9 × 380 (e=3.2)"
+ },
+ {
+  "cm3": 0.89,
+  "a": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 5, X=431.856)",
+  "b": "TAMBOR · tubo Ø88.9 × 380 (e=3.2)"
  }
 ]
