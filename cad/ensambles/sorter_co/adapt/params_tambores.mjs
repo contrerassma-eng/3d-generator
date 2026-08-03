@@ -55,11 +55,24 @@ export const FIJO = {
   Xc,                                  // 279.456 calc
   planoTransporte: STEP.planoBanda,    // 52.333 step — cara SUPERIOR de la banda
   planoDorso: STEP.guiaSec.topZ,       // 51.7 step — cara de rodadura (= pg40 Z.guiaTop)
-  bandaEsp: STEP.bandaDorso,           // 0.633 step — convenio del modelo del
-  //   cliente (la banda se modela por su dorso). Se respeta para no romper la
-  //   cadena; una banda plana real de 2 telas mide ~2.5 (nbt90 P.bandaEsp) y si
-  //   el cliente la adopta lo único que cambia es la cara de la guía UHMW, no
-  //   la geometría de este archivo (que cuelga toda del DORSO).
+  bandaEsp: P.bandaEsp,                // 2.5 med (nbt90 params.mjs, «med 2.53»)
+  //   Aquí decía `STEP.bandaDorso` = 0.633, y el comentario que lo acompañaba
+  //   se equivocaba en la parte que importa. 0.633 es correcto pero es de OTRA
+  //   banda: es el dorso medido de la **T5 DENTADA** del cliente (dorso 52.333
+  //   − cara de guía 51.7), donde el diente corre en la ranura y sólo asoman
+  //   0.633 por encima. Esta máquina lleva banda PLANA de 2 telas: 2.5 mm.
+  //
+  //   Y no cambiaba «sólo la cara de la guía UHMW»: 0.633 → 2.5 baja el eje del
+  //   tambor a −4.617, el del conducido a −4.167, RR1/RR4 a −106.017/−105.117,
+  //   la cara del ramal de retorno a −61.567 y los volantes a −111.567; el largo
+  //   de fibra sube a 4882.02. Lo que NO se mueve —y es la comprobación de que
+  //   esto está bien puesto— es el PLANO DE TRANSPORTE: sigue en 52.333, porque
+  //   con banda plana la cara portante es la de arriba y el espesor cuelga hacia
+  //   abajo. La cara de rodadura baja a 52.333 − 2.5 = 49.833, que es justo donde
+  //   el NBT90 declara la regleta de su anfitrión (49.84). Si en vez de eso
+  //   hubiéramos subido el plano 1.867, la emergencia útil del rodillo caería de
+  //   6.35 a 4.483 (−29 %) y el bulto quedaría 1.87 sobre el datum del cliente.
+  //   Hallazgo SC-10 de la revisión estructural.
   bandaAncho: STEP.bandaAncho,         // 32.0 step
   frameIntNeg: STEP.frameIntNeg,       // −81.423 step
   frameIntPos: STEP.frameIntPos,       // 499.418 step

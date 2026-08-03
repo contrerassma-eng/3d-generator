@@ -176,7 +176,7 @@ export function pg40(E) {
       // Z.travTop+4 y la otra en Z.travBot+4, con 32 de canto cada una: como el
       // perfil mide 40, entre las dos quedaban 8.00 mm de aire y no había pieza.
       const S = ESCUADRA_LT;
-      const sgn = y < -1450 ? 1 : -1;
+      const sgn = ESCUADRA_LT.ladoRincon(y);
       const xCara = r3(EJES[k] + PERFIL.b / 2);          // cara +X del larguero
       const yCara = r3(y + sgn * PERFIL.b / 2);          // cara ±Y del travesaño
       const xe = r3(xCara + S.holgura + S.e / 2);        // eje de la chapa del ala A
@@ -232,9 +232,11 @@ export function pg40(E) {
   // llevó por nombre dejando 19 piezas y 40 tornillos en el aire (hallazgo A6 /
   // SC-01). Se devuelven aquí, en el módulo que sí existe, con perfil PG40 y su
   // coronación en la cota que la cadena del puente exige.
+  const xTravP = [r3(xTrav[0] + PUENTE_APOYO.inset), r3(xTrav[1] - PUENTE_APOYO.inset)];
+  const luzTravP = r3(xTravP[1] - xTravP[0]);
   for (const TP of TRAVESANOS_PUENTE) {
-    perfilPG40(E, `PG40 · Travesaño de puente 40×40 ranura 10 L=${luzBastidores} (${TP.nom}, Y ${TP.y})`,
-      'x', TP.y, xTrav, PUENTE_APOYO.botZ, {
+    perfilPG40(E, `PG40 · Travesaño de puente 40×40 ranura 10 L=${luzTravP} (${TP.nom}, Y ${TP.y})`,
+      'x', TP.y, xTravP, PUENTE_APOYO.botZ, {
         sostiene: 'Placa base de puente',
         sinTaladro: 'perfil ranurado: la fijación de las placas base del puente y de las escuadras de '
           + 'extremo es por TUERCA MARTILLO en la ranura 10 superior, que no lleva taladro. La unión se '
@@ -245,7 +247,8 @@ export function pg40(E) {
           + `Sustituye al travesaño 40×80 de la percha que retiró FLAGS.desactivaPercha. NO lleva `
           + `escuadra larguero↔travesaño: a esta Y no hay larguero (los tramos mueren en −1302 y `
           + `arrancan en −630) — está justo en el hueco por el que el puente cruza la transferencia. `
-          + `Vano libre del puente entre los dos apoyos: 588 mm, el de diseño.` });
+          + `Vano libre del puente entre los dos apoyos: 588 mm, el de diseño. Muere en la cara `
+          + `interior de su escuadra de extremo (X ${xTravP[0]}…${xTravP[1]}), no a hueso contra el chapón.` });
     out.travesanos++;
     // escuadra de extremo a cada chapón: sin ella el travesaño topa a hueso
     const EA = PUENTE_APOYO.escuadra;
@@ -742,10 +745,30 @@ export function pg40(E) {
     }
     // --- (f) TORNILLERÍA M10 al chapón (solo +X) ---------------------------
     if (s > 0) {
+      // SALIDA DE HILO. Aquí ponía M10×45 escrito a mano: con 36 de apriete
+      // (chapón 28 + alma 8) y una tuerca ISO 4032 de 8.4, el vástago moría
+      // 0.50 mm detrás de la tuerca — ni un paso de salida, o sea una unión que
+      // no se puede apretar al par ni comprobar por inspección. El largo lo
+      // calcula ahora params_pg40 ALARGUE.pernoChaponCalc con el criterio
+      // escrito: L ≥ apriete + tuerca + 2 pasos, subido al escalón ISO 888.
+      const PC = A.pernoChaponCalc;
       for (const y of A.pernosChaponY) {
-        pernoHex(E, { nombre: `M10 × 45 · alargue↔chapón Y ${y}`, at: [r3(STEP.frameIntPos + 28), y, A.pernosChaponZ],
-          dir: [-1, 0, 0], dia: A.pernoChapon.d, largo: 45, capa: 'PG40 · ' });
-        tuercaHex(E, { nombre: `M10 · alargue↔chapón Y ${y}`, at: [xApoyo, y, A.pernosChaponZ], dir: [-1, 0, 0], dia: A.pernoChapon.d, capa: 'PG40 · ' });
+        const pb = pernoHex(E, { nombre: `M10 × ${PC.largo} · alargue↔chapón Y ${y}`,
+          at: [r3(STEP.frameIntPos + STEP.frameEsp), y, A.pernosChaponZ],
+          dir: [-1, 0, 0], dia: A.pernoChapon.d, largo: PC.largo, capa: 'PG40 · ' });
+        pb.salidaHilo = { apriete: PC.apriete, tuercaH: PC.tuercaH, paso: PC.paso,
+          minTeorico: PC.minTeorico, largo: PC.largo, salidaMm: PC.salidaMm, salidaPasos: PC.salidaPasos };
+        pb.nota = `M10 × ${PC.largo} (ISO 888) y no ×45: apriete ${PC.apriete} = chapón `
+          + `${STEP.frameEsp} (step) + alma ${A.e}, tuerca ISO 4032 de ${PC.tuercaH}, más 2 pasos de `
+          + `${PC.paso} de SALIDA DE HILO → mínimo ${PC.minTeorico}, escalón normalizado ${PC.largo}. `
+          + `Quedan ${PC.salidaMm} mm (${PC.salidaPasos} pasos) sobresaliendo de la tuerca; con el ×45 `
+          + `quedaban 0.50 mm, que en obra es no tener salida: el último hilo va biselado y una tuerca `
+          + `a ras del extremo no se puede apretar al par.`;
+        const tu = tuercaHex(E, { nombre: `M10 · alargue↔chapón Y ${y}`, at: [xApoyo, y, A.pernosChaponZ],
+          dir: [-1, 0, 0], dia: A.pernoChapon.d, alto: PC.tuercaH, capa: 'PG40 · ' });
+        tu.nota = `Tuerca ISO 4032 M10 (m = ${PC.tuercaH}). Su perno es el M10 × ${PC.largo} de esta `
+          + `misma Y: cierra sobre la cara interior del alma (X ${xApoyo}) y deja ${PC.salidaMm} mm de `
+          + `vástago por detrás — ${PC.salidaPasos} pasos de salida de hilo, sobre el mínimo de 2.`;
         out.tornilleria += 2;
       }
     }

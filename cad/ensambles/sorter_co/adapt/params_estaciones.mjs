@@ -279,11 +279,17 @@ export const GUARDAS = {
   norte: {
     y: -515.1,                    // dis — chapa PLANA pegada a la cara sur del
     //   LAT TOP (−513.12 step, 0.08 de holgura): se atornilla de frente
-    z: [-118.0, -63.0],           // calc — el techo lo fija el RAMAL DE RETORNO, y
+    z: [-118.0, -66.6],           // calc — el techo lo fija el RAMAL DE RETORNO, y
     //   con el accionamiento por tambor motriz ese ramal BAJÓ: su cara pasa de
     //   Z −52.05 (poleas 63T) a −57.833 (params_tambores RETORNO.zCara). Techo =
     //   ramal − 5 → −62.83, redondeado a −63; sigue solapando 5 la bancada LAT
-    //   TOP por abajo (−113 step) y ahora deja 5.17 a la banda en vez de 2.17.
+    //   TOP por abajo (−113 step).
+    //   SEGUNDA BAJADA (SC-10, 2026-08-03): al trazar el lazo con el espesor
+    //   REAL de la banda plana (0.633 → 2.5) la cara exterior del ramal baja de
+    //   −57.833 a −61.567, y este techo, que estaba clavado a mano, dejaba sólo
+    //   1.43 mm a la banda en vez de los 5 que declara. Techo = −61.567 − 5 =
+    //   −66.567 → −66.6. Es el mismo defecto que el travesaño de puente: una
+    //   cota derivada escrita como número y que no bajó con su cadena.
     x: [-73.0, 479.0],            // dis — hasta 2 de las guardas laterales
   },
   //  · laterales: cierran los costados del pozo entre las dos testas, del canto

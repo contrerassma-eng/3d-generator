@@ -2,51 +2,51 @@
  {
   "cm3": 3.35,
   "a": "FIJO · Placa base de puente 64×28×6 (calle 1, X=127.056, travesaño S)",
-  "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=580.841 (sur, Y -1280)"
+  "b": "PG40 · Travesaño de banco 40×40 (Y -1280)"
  },
  {
   "cm3": 3.35,
   "a": "FIJO · Placa base de puente 64×28×6 (calle 1, X=127.056, travesaño N)",
-  "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=580.841 (norte, Y -692)"
+  "b": "PG40 · Travesaño de banco 40×40 (Y -692)"
  },
  {
   "cm3": 3.35,
   "a": "FIJO · Placa base de puente 64×28×6 (calle 2, X=203.256, travesaño S)",
-  "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=580.841 (sur, Y -1280)"
+  "b": "PG40 · Travesaño de banco 40×40 (Y -1280)"
  },
  {
   "cm3": 3.35,
   "a": "FIJO · Placa base de puente 64×28×6 (calle 2, X=203.256, travesaño N)",
-  "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=580.841 (norte, Y -692)"
+  "b": "PG40 · Travesaño de banco 40×40 (Y -692)"
  },
  {
   "cm3": 3.35,
   "a": "FIJO · Placa base de puente 64×28×6 (calle 3, X=279.456, travesaño S)",
-  "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=580.841 (sur, Y -1280)"
+  "b": "PG40 · Travesaño de banco 40×40 (Y -1280)"
  },
  {
   "cm3": 3.35,
   "a": "FIJO · Placa base de puente 64×28×6 (calle 3, X=279.456, travesaño N)",
-  "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=580.841 (norte, Y -692)"
+  "b": "PG40 · Travesaño de banco 40×40 (Y -692)"
  },
  {
   "cm3": 3.35,
   "a": "FIJO · Placa base de puente 64×28×6 (calle 4, X=355.656, travesaño S)",
-  "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=580.841 (sur, Y -1280)"
+  "b": "PG40 · Travesaño de banco 40×40 (Y -1280)"
  },
  {
   "cm3": 3.35,
   "a": "FIJO · Placa base de puente 64×28×6 (calle 4, X=355.656, travesaño N)",
-  "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=580.841 (norte, Y -692)"
+  "b": "PG40 · Travesaño de banco 40×40 (Y -692)"
  },
  {
   "cm3": 3.35,
   "a": "FIJO · Placa base de puente 64×28×6 (calle 5, X=431.856, travesaño S)",
-  "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=580.841 (sur, Y -1280)"
+  "b": "PG40 · Travesaño de banco 40×40 (Y -1280)"
  },
  {
   "cm3": 3.35,
   "a": "FIJO · Placa base de puente 64×28×6 (calle 5, X=431.856, travesaño N)",
-  "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=580.841 (norte, Y -692)"
+  "b": "PG40 · Travesaño de banco 40×40 (Y -692)"
  }
 ]

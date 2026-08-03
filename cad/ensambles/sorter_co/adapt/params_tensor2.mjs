@@ -162,10 +162,9 @@ export const NEUM = {
   // --- ACONDICIONAMIENTO Y REPARTO DEL AIRE (hallazgo A12) ------------------
   // Faltaba MEDIO CIRCUITO: el AR20 es SÓLO un regulador de presión con una
   // salida R1/4, y de él colgaban 5 líneas sin filtro, sin manómetro, sin
-  // derivación y sin corte. Se cierran las cuatro cosas con referencia citada.
-  // Son piezas de COMPRA sin geometría fina (viven en el cuadro de aire, fuera
-  // del volumen que este ensamble dibuja): se declaran aquí y salen en la lista
-  // de compra del módulo, que es donde el taller las lee.
+  // derivación y sin corte. Se cierran las cuatro cosas con referencia citada
+  // Y CON POSE: las cuatro se MODELAN colgando de la prolongación de la pletina
+  // del AR20, en la misma bahía del tensor (ver `pose` de cada una y §3-bis).
   acondicionamiento: {
     corte: {
       ref: 'SMC VHS20-02',   // web PNEU-012
@@ -177,6 +176,13 @@ export const NEUM = {
         + 'habría que cortar el aire de la máquina entera. Es ADEMÁS el elemento de bloqueo y '
         + 'consignación (LOTO) del tensor: al girar la maneta corta la alimentación Y purga los 5 '
         + 'cilindros, con lo que los 5 brazos aflojan la banda (falloSeguro) y se pueden candar.',
+      // ENVOLVENTE DE CATÁLOGO (web PNEU-012, tabla de dimensiones VHS20):
+      //   A = 66.4 (alto total con maneta) · C = 40 (ancho de cuerpo) · T = 40
+      //   (ancho de la brida). Se dibuja 40 × 40 × 66.4.
+      env: [40, 40, 66.4],
+      pose: [20, 34.5, -373.4],   // calc — la más baja de la columna: es la que
+      //   recibe la acometida de la red y la que se canda, así que va abajo y a
+      //   mano. Volumen comprobado LIBRE (X −1…41 · Y 13…56 · Z −375…−306).
     },
     filtro: {
       ref: 'SMC AF20-02-B',  // web PNEU-010
@@ -186,6 +192,13 @@ export const NEUM = {
       cant: 1,
       porQue: 'el AR20 es SÓLO regulador. Un ISO 6432 de Ø25 alimentado con aire sin filtrar se raya '
         + 'la camisa. Va DELANTE del AR20 y modula con él (misma serie 20, mismo cuerpo).',
+      // ENVOLVENTE DE CATÁLOGO (web PNEU-010, tabla «Dimensions» AF10 a AF60,
+      // fila AF20): A = 40 (ancho) · B = 97 (alto con vaso estándar; 115 en la
+      // variante de brida) · T = 40. Se dibuja 40 × 40 × 97.
+      env: [40, 40, 97],
+      pose: [20, 34.5, -302],     // calc — entre la válvula de corte y el AR20,
+      //   que es el orden del fluido. Volumen comprobado LIBRE
+      //   (X −1…41 · Y 13…56 · Z −303…−204).
     },
     manometro: {
       ref: 'SMC G36-10-01',  // web PNEU-011
@@ -196,6 +209,14 @@ export const NEUM = {
       porQue: 'los 4.0 bar de trabajo son EL parámetro del que cuelga toda la tensión de las 5 bandas '
         + '(tabla presión↔tensión de TENSION.tablaPresion). Sin manómetro el ajuste no es medible ni '
         + 'repetible. Va en el puerto de manómetro R1/8 del propio AR20.',
+      // El disco Ø40×12 que ya estaba dibujado DENTRO del cuerpo del AR20 pasa a
+      // ser esta pieza, en su misma pose. El Ø40 es `dis` (el que ya tenía el
+      // modelo); la esfera del G36 es Ø37 nominal según su designación, pero de
+      // eso no hay cita textual, así que se conserva el 40 y se declara.
+      env: [40, 12],              // dis — Ø × espesor (cilindro según −Y)
+      pose: [20, 14.5, -130],     // = la pose que ya ocupaba como rasgo del AR20
+      envNota: 'Ø40 es `dis`, heredado del rasgo que el modelo ya dibujaba. La designación G36 apunta '
+        + 'a esfera de 37 mm, pero no hay cita textual de esa cota: no se cambia por no inventarla.',
     },
     reparto: {
       ref: 'SMC KQ2T06-00',  // web PNEU-013
@@ -206,6 +227,19 @@ export const NEUM = {
       porQue: 'el AR20-02-B tiene UNA salida R1/4 y hay que alimentar CINCO cilindros en paralelo. '
         + '4 tes en cascada dan las 5 derivaciones (1→2, 2→3, 3→4, 4→5). Es la alternativa barata al '
         + 'colector de 5 salidas; si se prefiere colector, una sola pieza lo sustituye.',
+      // ENVOLVENTE: alto 21.5 de catálogo (web PNEU-013); el ancho y el fondo
+      // del cuerpo son `dis` (16 × 14), del orden de una te instantánea de Ø6.
+      env: [16, 14, 21.5],
+      // POSE — y aquí hay un número que decide, y que además es un hallazgo:
+      // las 4 tes NO CABEN en el abanico de las 5 líneas. El abanico tiene
+      // `tuboPasoZ` = 8 mm de paso y una te mide 21.5 de alto: cuatro en línea
+      // piden 26 mm de paso, más del triple. Así que la CASCADA no vive en el
+      // abanico: va en columna sobre la pletina, al lado del filtro, y de cada
+      // te sube su tubo hasta la línea que le toca. Esas 5 subidas se tienden en
+      // obra, igual que las bajadas al racor de cada cilindro.
+      pasoZ: 26,                  // calc — 21.5 de te + 4.5 de tubo entre ellas
+      pose0: [20, 65, -205.75],   // calc — la más alta de la cascada. Volumen
+      //   comprobado LIBRE (X 12…30 · Y 56…74 · Z −290…−180).
     },
     bridaAR20: 'NO hace falta pieza aparte: el sufijo «-B» del AR20-02-B ES la brida de montaje con '
       + 'sus tuercas (misma nomenclatura de accesorio que el AF20-02-B) · web PNEU-010',
@@ -454,11 +488,30 @@ export const SOPORTE = {
   // separadores Ø19×18 medidos del cliente, que centran la horquilla de 17 de
   // la KJ10D entre las 2 pletinas del brazo (step, inventario)
   separadorRotula: { de: 19, di: 10.2, largo: 18 },
-  // --- soporte del regulador de presión y las 5 líneas ---------------------
-  regPresion: { x: 20, y: 60, z: -180, placa: [90, 8, 120] },   // dis — pletina
-                          //   a Z −180…−60: libra por 12.2 el cuerpo del UCF 207 del
-                          //   tambor motriz (fondo −47.8, params_tambores)
-                          //   atornillada al canal de costado −X, accesible
+  // --- soporte del GRUPO DE AIRE y las 5 líneas -----------------------------
+  // PROLONGADA de 120 a 320 mm (A12): ya no sostiene sólo el AR20, sino la
+  // columna entera —válvula de corte, filtro, regulador, manómetro— más la
+  // cascada de tes. Sigue arrancando en Z −60 por arriba (libra por 12.2 el
+  // cuerpo del UCF 207 del tambor motriz, fondo −47.8) y ahora baja a −380.
+  // El volumen que ocupa se comprobó LIBRE pieza a pieza sobre el emitido
+  // (X 15…25 · Y 14…106 · Z −380…−180): sólo la envolvente medida del cliente.
+  regPresion: { x: 20, y: 60, z: -380, placa: [90, 8, 320],     // dis
+    // 4 taladros Ø9 (2 arriba + 2 abajo). Antes eran 2 y la pletina medía 120;
+    // con 320 mm de faldón, dos tornillos a 60 mm no la sujetan contra la
+    // vibración. Las dos cotas en Z caen dentro de la envolvente medida de la
+    // cabecera (FRONT TOP2, Z −154.6…50.7) y de la bancada (LAT TOP, Z hasta
+    // −113): son las dos únicas alturas donde hay estructura del cliente.
+    taladrosZ: [-80, -140], taladrosY: [-30, 30], taladroDia: 9,
+    // ⚠ CORRECCIÓN DE UNA NOTA FALSA que traía esta pieza: decía «atornillada al
+    // canal de costado −X». NO LLEGA: el canal medido (CTX TER1_MIR/CAN0_MIR)
+    // vive en X −115.4…−75.4 y la pletina está en X 16…24 — 91 mm de distancia.
+    // Lo que sí tiene detrás es la CABECERA MOTRIZ (FRONT TOP2) y la BANCADA
+    // (LAT TOP). Las dos son CAJAS ENVOLVENTES de analisis/medidas.json, no
+    // sólidos, así que la viga real y la cota exacta del taladro hay que
+    // verificarlas en obra — el mismo aviso que ya está declarado para las
+    // ménsulas de las columnas guía sobre LAT TOP.
+    amarre: 'cabecera motriz FRONT TOP2 / bancada LAT TOP (envolventes medidas) — VERIFICAR EN OBRA',
+  },
   tubo: { d: 6, norma: 'tubo PU Ø6×4 (el que piden los KQ2L06 y el AS2201FS)' },
   tuboZ: -135,            // dis — las 5 líneas corren POR DEBAJO de todo el
                           //   conjunto frontal: bajo el travesaño (fondo −105),
@@ -515,6 +568,39 @@ export const POL = {
   // eje Ø20 (contraste_con_lo_medido de RING-001: «ANSI B 27.7M - 3AMI-20»).
   // mod_tensor2 pisa la cadena de lib.mjs con ésta, que es UNA sola norma.
   anilloNorma: 'ANSI/ASME B27.7M — anillo de retención exterior 3AM1-20 (eje 20 mm) · web RING-001',
+
+  // -------------------------------------------------------------------------
+  // RETENCIÓN AXIAL DEL EJE EN LAS PLETINAS DEL BRAZO  (§U · dispensa TOR-01)
+  // -------------------------------------------------------------------------
+  // La nota de esta pieza prometía «se retiene con tornillos de testa» y el
+  // sólido no tenía ni el taladro roscado ni la garganta: promesa en prosa,
+  // cero geometría. La compuerta §U lo tenía anotado como dispensa abierta.
+  //
+  // POR QUÉ ANILLO Y NO TORNILLO DE TESTA, con la geometría delante: el eje
+  // mide 70 y las caras EXTERIORES de las dos pletinas están a ±29 del eje de
+  // calle, o sea el eje asoma 6 mm por cada lado. Un tornillo de testa con
+  // arandela apretaría contra la testa del eje, que está 6 mm POR FUERA de la
+  // pletina: no pinzaría nada. Habría que rebajar el eje a 58 (y perder el
+  // saliente que centra el montaje) o meter una arandela-casquillo de 6 mm de
+  // espesor. La solución limpia es la que el propio cliente usa en su eje
+  // medido: GARGANTA + ANILLO contra la cara exterior de cada pletina.
+  //
+  // Y se usa EL MISMO 3AM1-20 que ya lleva el eje por dentro para los aros de
+  // los rodamientos: un solo Ø de eje, una sola referencia de anillo, 20 uds
+  // por máquina en vez de 10 de una serie y 10 de otra. La garganta es la
+  // MEDIDA en el patrón del cliente (params_estaciones EJE_POZO: Ø18 × 1.3).
+  retencionEje: {
+    tipo: 'garganta + anillo 3AM1-20 contra la cara exterior de cada pletina del brazo',
+    gargantaDia: 18.0,        // step — patrón medido del eje del cliente
+    gargantaAncho: 1.3,       // step — ídem (el STEP la modela de 1.0: discrepancia ya declarada)
+    holguraPletina: 0.3,      // dis — aire entre la cara de la pletina y el anillo
+    anilloEsp: 1.2,           // step/cat — espesor medido del 3AM1-20 (1.10 medido, 1.2 dis)
+    caraPletina: 29,          // calc — |X| de la cara EXTERIOR de la pletina (platX + platE/2)
+    get salienteUtil() { return r2(70 / 2 - this.caraPletina); },   // 6.0 — lo que asoma
+    porQueNoTornillo: 'la testa del eje queda 6 mm por fuera de la pletina: un tornillo de testa con '
+      + 'arandela no llega a pinzarla. Con anillo se pinza la propia cara de la pletina y sobran '
+      + '4.4 mm de saliente para el desmontaje.',
+  },
 };
 
 // El RAMAL sobre el que se tensa. La posición del tambor motriz y del rodillo

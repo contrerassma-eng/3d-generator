@@ -257,23 +257,16 @@ export function tensor2(E, ramal) {
   // =========================================================================
   E.addPart(`FIJO · Regulador de PRESIÓN ${NEUM.reguladorPresion} (rama del tensor, ${NEUM.presionTrabajoBar} bar)`, COL.neumatica,
     [NEUM.reguladorPresionX, NEUM.reguladorPresionY, NEUM.reguladorPresionZ],
-    [box('AR20 40×40×90', [NEUM.reguladorPresionX, NEUM.reguladorPresionY, NEUM.reguladorPresionZ], 40, 40, 90),
-      cyl('Manómetro Ø40', [NEUM.reguladorPresionX, r2(NEUM.reguladorPresionY - 20), r2(NEUM.reguladorPresionZ + 70)], [0, -1, 0], 40, 12)],
+    [box('AR20 40×40×90', [NEUM.reguladorPresionX, NEUM.reguladorPresionY, NEUM.reguladorPresionZ], 40, 40, 90)],
     { componente: 'AR20-02-B', norma: `${NEUM.reguladorPresion} — regulador de presión modular serie AR, R1/4, `
       + 'con brida de montaje (el sufijo «-B» ES la brida: no hay que comprarla aparte) · web PNEU-009',
       capaInfo: 'web (designación) — PIEZA NUEVA, no está en el STEP del cliente',
-      // A12 · EL RESTO DEL GRUPO DE AIRE. Declarado con referencia, NO dibujado:
-      // ver `grupoDeAireNoModelado` para el motivo, que es de honestidad.
+      // A12 · el grupo de aire completo, ahora MODELADO pieza a pieza (§C-bis).
       grupoDeAire: ACOND,
-      grupoDeAireNoModelado: 'las 4 referencias de arriba NO se dibujan como sólidos y hay que decir por qué: '
-        + 'el único sitio libre para el grupo modular es la prolongación de esta misma pletina hacia −Z, y '
-        + 'ahí las cajas envolventes del bastidor del cliente (CTX LAT TOP / FRONT TOP2 / canal de costado) '
-        + 'cubren todo el volumen. Las piezas del tensor tienen ese solape TOLERADO por una lista de nombres '
-        + 'que vive en gen_sorter_co.mjs (regex TEN2), fichero que este módulo no puede tocar; meter las 4 '
-        + 'piezas con otro nombre haría saltar la compuerta, y renombrarlas para colarlas por esa regex sería '
-        + 'trampa. Quedan DECLARADAS con referencia y cita, y la petición de añadirlas a TEN2 va en el informe.',
-      manometro: `el disco Ø40 dibujado es el manómetro ${ACOND.manometro.ref}, accesorio de catálogo del `
-        + `cuerpo tamaño 20, roscado al puerto R1/8 del propio AR20 · web PNEU-011`,
+      manometro: `el disco Ø40 que este cuerpo llevaba dentro como rasgo es EL MANÓMETRO y ahora es pieza `
+        + `propia: ${ACOND.manometro.ref}, accesorio de catálogo del cuerpo tamaño 20, roscado al puerto `
+        + 'R1/8 del propio AR20 · web PNEU-011. Se saca del AR20 porque es una línea de compra distinta '
+        + 'y porque un rasgo dentro de otra pieza no se pide.',
       tuboLineas: { porLinea: NEUM.tuboLineasMm, totalM: NEUM.tuboTotalM,
         nota: 'metraje del tubo PU Ø6×4, que estaba sin declarar: 5 líneas + acometida + 10 % de merma' },
       nota: `ES LO QUE FIJA LA TENSIÓN. Hay que decirlo claro: el ${NEUM.accesorios.regulador} que el cliente ya `

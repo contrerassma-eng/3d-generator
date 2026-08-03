@@ -183,9 +183,14 @@ const HALLAZGOS_SC = {
   'SC-05': { uso: 1.37, dueño: 'adapt/params_pg40.mjs',
     nota: 'ni el temple del perfil (T5 o T6) ni el par de apriete de las tuercas '
       + 'martillo están declarados' },
-  'SC-10': { uso: 3.16, dueño: 'adapt/params_tambores.mjs',
-    nota: 'el lazo entero cuelga de un dorso de banda de 0.633 mm, que es el '
-      + 'convenio de la T5 DENTADA del cliente, no el de una banda plana' },
+  // SC-10 CERRADO el 03-08-2026: `params_tambores.bandaEsp` pasó de
+  // `STEP.bandaDorso` (0.633, el dorso de la T5 DENTADA) a `P.bandaEsp` (2.5
+  // med), y el lazo entero se retrazó con él. La dispensa se BORRA, no se deja
+  // caducada: el ratchet de §S exige que un hallazgo que pasa a cumplir haga
+  // fallar la compuerta hasta que alguien quite su dispensa, precisamente para
+  // que no se quede una excepción viva cubriendo un defecto que ya no existe.
+  // Lo que se movió está en `verificaciones.calles.banda` y en el comentario de
+  // `params_tambores.bandaEsp`; el plano de transporte NO se movió (52.333).
   'SC-11': { uso: 5, dueño: 'adapt/mod_pg40.mjs',
     nota: 'los 4 extremos de los travesaños largos topan contra los chapones sin '
       + 'ninguna pieza de unión modelada' },
@@ -575,7 +580,18 @@ if (ROMPE === 'apoyo') {
 } else if (ROMPE === 'rodamiento') {
   LIMS.brg.C6206 = 2600;                        // un 6206 de baja capacidad
 } else if (ROMPE === 'banda') {
-  STEP.bandaDorso = 2.5;                        // banda plana real (SC-10 cumple)
+  // Este caso INYECTABA `STEP.bandaDorso = 2.5` para demostrar que SC-10 fallaba
+  // pidiendo borrar su dispensa. Se quedó SIN SUJETO en cuanto SC-10 pasó a leer
+  // `m.calles.banda.espesorMm` —lo que traza el lazo de verdad— en vez de esa
+  // constante: seguía inyectando, pero sobre una variable que ya no lee nadie, y
+  // devolvía exit 0. Es EXACTAMENTE el defecto de `at10` y `retencion`, y aquí
+  // la guarda «BANCO MUERTO» no lo cazaba porque `banda` está en la lista de
+  // casos que inyectan sobre datos y no sobre piezas.
+  //
+  // Re-apuntado: ahora devuelve el trazado al dorso de la T5 DENTADA, que es el
+  // defecto que SC-10 existe para cazar. Si el lazo vuelve a colgar de 0.633, la
+  // comprobación tiene que morder.
+  if (m.calles?.banda) m.calles.banda.espesorMm = STEP.bandaDorso;   // 0.633
 }
 
 // ── banco de la REVISIÓN DE FABRICACIÓN (2026-08-03) ───────────────────────
@@ -2663,21 +2679,26 @@ function verify() {
 
   // --- SC-10 · ESPESOR DE LA BANDA DEL MODELO ------------------------------
   {
-    const esp = STEP.bandaDorso;
-    const deriva = LIMS.banda.espMinMm + 0.5 - esp;       // 2.5 medido en el NBT90
+    // El espesor se lee de LO QUE TRAZA EL LAZO —`banda.espesorMm`, que publica
+    // mod_calles— y no de `STEP.bandaDorso`. Esa constante era la que el lazo
+    // usaba cuando se escribió la comprobación; desde que el trazado pasó a la
+    // banda plana real, `STEP.bandaDorso` sigue valiendo 0.633 y ya no traza
+    // nada, así que la comprobación denunciaba un defecto CORREGIDO y se habría
+    // quedado en rojo para siempre mirando una constante muerta. Una compuerta
+    // tiene que leer lo que se construye, no la variable que se construía antes.
+    const esp = m.calles.banda?.espesorMm ?? STEP.bandaDorso;
+    const derivaReal = m.calles.banda?.derivaPlanoTransporteMm;
     SC.banda = { espesorModeloMm: esp, espesorExigidoMm: LIMS.banda.espMinMm,
-      derivaPlanoTransporteMm: r2(deriva),
-      holguraConducidoLargueroMm: r2(TB.holguras.largueroPG40?.sur ?? 2.219),
-      holguraConducidoConBandaRealMm: r2((TB.holguras.largueroPG40?.sur ?? 2.219) - deriva) };
+      espesorFuente: m.calles.banda?.espesorProcedencia ?? 'STEP.bandaDorso (constante T5)',
+      derivaPlanoTransporteMm: derivaReal ?? null,
+      holguraConducidoLargueroMm: r2(TB.holguras.largueroPG40?.sur ?? 2.219) };
     chkS('SC-10', 'espesor de la banda plana con que se traza el lazo',
       esp, LIMS.banda.espMinMm, '>=',
-      `Todo el lazo (tangencias, abrazados y cotas en Z de tambor, conducido, RR1…RR4 y guías UHMW) está `
-      + `trazado sobre un DORSO de ${esp} mm, que es el convenio con el que el cliente modeló su banda T5 `
-      + `DENTADA. La banda plana medida del propio repositorio mide 2.5 (nbt90 P.bandaEsp). Al montar la banda `
-      + `real el plano de transporte sube ${r2(deriva)} mm sobre los ${STEP.planoBanda} congelados y la holgura `
-      + `conducido↔larguero sur cae de ${SC.banda.holguraConducidoLargueroMm} a `
-      + `${SC.banda.holguraConducidoConBandaRealMm} mm. Corrección: fijar el espesor real con el proveedor y `
-      + 'bajar tambor, conducido y las 20 regletas UHMW esa misma cantidad.', 'mm');
+      `El lazo (tangencias, abrazados y cotas en Z de tambor, conducido, RR1…RR4 y guías UHMW) tiene que `
+      + `trazarse con el espesor de la banda PLANA que lleva la máquina —2.5 med, nbt90 P.bandaEsp— y no con `
+      + `el dorso de 0.633 de la T5 DENTADA con la que el cliente modeló su equipo anterior. Espesor con el `
+      + `que se traza ahora: ${esp} mm (${SC.banda.espesorFuente}). Si vuelve a bajar de ${LIMS.banda.espMinMm}, `
+      + `el plano de transporte se desplaza y con él la emergencia útil del rodillo del NBT90.`, 'mm');
   }
 
   // --- SC-11 · AMARRE DEL BASTIDOR PG40 A LA MÁQUINA -----------------------

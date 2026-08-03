@@ -27,7 +27,7 @@
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { STEP, NBT, Xc, EJES, T, y0, y1, P } from './params_adapt.mjs';
+import { STEP, NBT, Xc, EJES, T, y0, y1, P, CALLE } from './params_adapt.mjs';
 
 const aqui = dirname(fileURLToPath(import.meta.url));
 const r3 = (v) => Math.round(v * 1000) / 1000;
@@ -189,6 +189,13 @@ export const ESCUADRA_LT = {
   zTravesano: -20,               // calc — eje de la ranura ±Y del travesaño
                                  //   (Z.travBot + 40/2 = −20)
   plegada: true, get radio() { return this.e; }, // r = t, como el resto de la chapa
+  // A QUÉ LADO DEL TRAVESAÑO VA EL RINCÓN. Verificado con el chequeo B-rep: con
+  // el criterio anterior (`y < −1450`) los de −1520 y −1440 apuntaban el uno
+  // contra el otro y se interpenetraban 10.07 cm³ por calle — los travesaños
+  // sólo distan 80 mm y cada ala mide 34. Ahora los dos del extremo conducido
+  // apuntan hacia +Y (alejándose entre sí y del rodillo conducido, que ocupa
+  // Y −1661…−1553) y los dos del extremo motriz hacia −Y.
+  ladoRincon: (y) => (y < -1400 ? 1 : -1),
 };
 
 // ---------------------------------------------------------------------------
@@ -223,8 +230,19 @@ export const TRAVESANOS_PUENTE = [
   { y: -692, nom: 'norte' },     // = ídem norte
 ];
 export const PUENTE_APOYO = {
-  topZ: 9.15,                    // params_adapt PERCHA.travTopZ (calc: 51.7 − 8.55
-                                 //   − 28 − 6, la cadena de alturas del puente)
+  // El travesaño NO llega a hueso hasta el chapón: muere en la cara interior de
+  // su escuadra de extremo (inset = espesor de la chapa 3/16"). Verificado con el
+  // chequeo B-rep: a hueso, el ala vertical de la escuadra se metía 5.30 cm³
+  // dentro del perfil.
+  get inset() { return this.escuadra.t; },        // 4.763
+  // COTA DE CORONACIÓN. No se copia el 9.15 de params_adapt PERCHA.travTopZ: se
+  // RECALCULA de la cadena del puente, que es de quien depende
+  //     cara de rodadura − regleta UHMW − pletina del puente − placa base.
+  // Si el dueño de la banda cambia el espesor del dorso (y con él la cara de
+  // rodadura), este apoyo baja con el puente en vez de quedarse clavado en una
+  // cota vieja y meterse 1.87 mm dentro de la placa base — que es exactamente
+  // lo que pasó al pasar la banda a su espesor real de 2.5 mm.
+  get topZ() { return r3(CALLE.puente.topZ - CALLE.puente.uhmwH - CALLE.puente.aceroH - CALLE.puente.baseT); },
   get botZ() { return r3(this.topZ - PERFIL.h); },                 // −30.85 calc
   // Escuadra de extremo al chapón del cliente, 3/16" (la misma chapa y el mismo
   // papel que la «Escuadra travesaño↔bastidor» que la percha llevaba): sin ella
@@ -405,11 +423,22 @@ export const ALARGUE = {
                                  //   cubre la ranura +Y del travesaño (Z −25…−15).
                                  //   Antes era [−70, −40]: ni tocaba el alma
   mensulaE: 8,                   // dis — pletina A36, la misma chapa del alargue
-  mensulaAncho: 30,              // dis — ala vertical; 15 de canto a cada lado
-  mensulaTab: { largo: 45, alto: 36, e: 8, z: -20,   // calc — pestaña contra la cara
+  mensulaAncho: 16,              // calc — NO es libre: la «Guarda de pozo norte
+                                 //   14GA» del cliente corre en Y −515.1…−513.2
+                                 //   por X −73…479 y Z −118…−63, justo por donde
+                                 //   pasa el ala vertical de la ménsula norte.
+                                 //   Con 16 el ala llega a Y −519 y libra por 3.9
+  mensulaTab: { largo: 24, alto: 36, e: 8, z: -20,   // calc — pestaña contra la cara
                                  //   +Y del travesaño; Z −38…−2 con el taladro en el
-                                 //   eje de la ranura (Z −20): 18 y 18 de canto
-    pernoX: [12, 33],            // calc: paso 21 (≥ 2.2·d₀ = 19.8) y 12 de canto
+                                 //   eje de la ranura (Z −20): 18 y 18 de canto.
+                                 //   El LARGO tampoco es libre: los pernos M8 del
+                                 //   CT-ENS del cliente ocupan X 101.76…119.06 (−X,
+                                 //   calle 1) y 439.86…457.16 (+X, calle 5) a esa
+                                 //   misma Y y Z. Con 24 la pestaña muere en X 82.89
+                                 //   y 459.42 y libra por 18.9 y 2.3
+    pernoX: [12],                // calc: UN M8 centrado, 12 de canto (≥ 1.2·d₀ =
+                                 //   10.8). Dos pedirían 41.4 mm de pestaña y ahí
+                                 //   sólo caben 24: se declara y no se fuerza
     pasante: 9.0, rosca: 'M8' },
   mensulaCordon: 'cordón de rincón continuo a=5.6 por las dos caras del solape '
     + '(AWS D1.1, chapa de 8 mm), símbolo ISO 2553',   // dis
@@ -461,6 +490,26 @@ export const ALARGUE = {
                                  //   −248…−70 → sólo comparten −114…−70; el perno
                                  //   va al medio, a 22 del canto del alma.
   pernoChapon: { d: 10, pasante: 11.0, rosca: 'M10' },
+  // LARGO DEL M10 AL CHAPÓN — con SALIDA DE HILO, no a ojo.
+  // Lo encontró la revisión de compras y montaje: el M10×45 que había aquí
+  // dejaba 0.50 mm de vástago detrás de la tuerca, o sea NI UN PASO de salida.
+  // En obra eso es lo mismo que no tener rosca de salida: el último hilo de un
+  // tornillo está incompleto por el biselado, así que una tuerca que muere a ras
+  // del extremo no se puede apretar al par ni comprobar por inspección.
+  //     L ≥ apriete + altura de tuerca + 2 pasos
+  // y después se sube al ESCALÓN NORMALIZADO de la serie ISO 888, que es lo
+  // único que se puede pedir: no existe un M10×47.4.
+  get pernoChaponCalc() {
+    const apriete = r3(STEP.frameEsp + this.e);      // 28 (chapón, step) + 8 (alma)
+    const tuercaH = 8.4;                             // cat ISO 4032 — tuerca M10, m = 8.4
+    const paso = 1.5;                                // cat ISO 261 — M10 rosca gruesa
+    const min = r3(apriete + tuercaH + 2 * paso);    // 47.4
+    const serie = [10, 12, 16, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
+    const largo = serie.find(v => v >= min);
+    const salida = r3(largo - apriete - tuercaH);
+    return { apriete, tuercaH, paso, minTeorico: min, largo,
+      salidaMm: salida, salidaPasos: r3(salida / paso) };
+  },
 };
 
 // ---------------------------------------------------------------------------
