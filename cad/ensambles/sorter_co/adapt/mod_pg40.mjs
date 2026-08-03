@@ -163,7 +163,7 @@ export function pg40(E) {
       { nota: 'cruza la luz entre bastidores 580.84 (cota congelada); los 5 largueros apoyan encima' });
     out.travesanos++;
     // escuadras larguero ↔ travesaño (una por calle) — A1
-    for (let k = 0; k < EJES.length; k++) {
+    for (let k = 0; ESCUADRA_LT.enTravesano(y) && k < EJES.length; k++) {
       // Escuadra de RINCÓN VERTICAL: un ala contra la cara +X del LARGUERO (que
       // corre en Y) y otra contra la cara ±Y del TRAVESAÑO (que corre en X). Las
       // dos quedan POR FUERA de sus perfiles — el ala no se mete en la ranura, se

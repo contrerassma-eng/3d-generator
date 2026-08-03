@@ -245,7 +245,7 @@ export function tensor2(E, ramal) {
       [xs, PIV.y, PIV.z],
       [cyl(`Separador Ø${PIV.separador.de}×${PIV.separador.largo}`, [xs, PIV.y, PIV.z], [1, 0, 0], PIV.separador.de, PIV.separador.largo),
         hole(`Ø${PIV.separador.di}`, [r2(xs - 1), PIV.y, PIV.z], [1, 0, 0], PIV.separador.di)],
-      { fabricada: true,
+      { fabricada: true, material: PIV.separador.material,
         nota: `${PIV.cubo.largo} de cubo + 2×${PIV.casquillo.brida} de brida de casquillo + ${PIV.separador.largo} `
           + 'de separador = 76.2 = paso EXACTO (calc). Topa contra las BRIDAS de los casquillos, que son las '
           + 'caras de empuje axial del brazo.' });
@@ -361,7 +361,12 @@ export function tensor2(E, ramal) {
 
     // soporte del GRUPO DE AIRE completo (antes sólo del AR20)
     const RP = SOPORTE.regPresion;
-    E.addPart(`FIJO · Pletina soporte del grupo de aire (${RP.placa[1]}×${RP.placa[0]}×${RP.placa[2]})`, COL.chapa,
+    // El NOMBRE conserva «Pletina soporte del regulador» a propósito: es la
+    // pieza de siempre, prolongada, y con ese nombre la reconocen tanto la
+    // tolerancia de solape del tensor (TEN2) como la comprobación que exige que
+    // el AR20 tenga soporte y la línea de material de §F3. Cambiarlo habría
+    // roto tres cosas para no ganar ninguna.
+    E.addPart(`FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (${RP.placa[1]}×${RP.placa[0]}×${RP.placa[2]})`, COL.chapa,
       [RP.x, RP.y, RP.z],
       [box(`Pletina ${RP.placa[1]}×${RP.placa[0]}×${RP.placa[2]}`, [RP.x, RP.y, RP.z], RP.placa[1], RP.placa[0], RP.placa[2]),
         ...RP.taladrosZ.flatMap(dz => RP.taladrosY.map(dy =>
@@ -549,7 +554,7 @@ export function tensor2(E, ramal) {
         ...gargX.map((xg, i) => ({ id: `garTen${k}_${i}`, name: `Garganta ${POL.anillo} Ø${RE.gargantaDia}×${RE.gargantaAncho}`,
           shape: 'cylinder', op: 'cut', at: [xg, GEO.poleaY, GEO.poleaZ], dir: [1, 0, 0],
           params: { dia: RE.gargantaDia, h: RE.gargantaAncho } }))],
-      { fabricada: true, material: 'C45 (1.0503) rectificado h9 · web MAT-C45-01',
+      { fabricada: true, material: POL.eje.material,
         gargantas: { norma: POL.anilloNorma, cota: `Ø${RE.gargantaDia} × ${RE.gargantaAncho}`,
           x: gargX, fuente: 'step — patrón medido del eje SCMRT906VCT del cliente' },
         ajusteMontaje: 'pasa por las 2 pletinas del brazo y por los 2 rodamientos W 6004-2Z (encaje de montaje)',
@@ -679,6 +684,7 @@ export function tensor2(E, ramal) {
       [r2(B - platX - platE / 2 - 3), NEUM.y, GEO.lobuloZ],
       [cyl(`Bulón Ø10×${r2(2 * platX + platE + 6)}`, [r2(B - platX - platE / 2 - 3), NEUM.y, GEO.lobuloZ], [1, 0, 0], 10, r2(2 * platX + platE + 6))],
       { fabricada: true, norma: SOPORTE.bulonRotula.norma,
+        material: SOPORTE.bulonRotula.material,
         gargantas: { norma: gargantaDIN471(10).desig, cota: gargantaDIN471(10).cota },
         nota: 'une la rótula KJ10D a las 2 pletinas del brazo; los 2 separadores Ø19×18 del '
         + 'cliente (step) centran el cuerpo de 17 entre las pletinas. ES LA ÚNICA PROCEDENCIA DEL BULÓN: '

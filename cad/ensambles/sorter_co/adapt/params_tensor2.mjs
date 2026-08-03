@@ -292,7 +292,13 @@ export const PIV = {
   //     58 de cubo + 2 × 3 de brida de casquillo + 12.2 de separador = 76.2
   //   El paquete queda sin juego axial acumulado: los separadores fijan el paso
   //   y las BRIDAS de los casquillos son las caras de empuje axial del brazo.
-  separador: { de: 38, di: 30.5, largo: 12.2 },   // calc
+  // MATERIAL declarado (§F3b MAT-04). C45 no por resistencia —un separador de
+  // 12.2 mm que sólo transmite el apriete del collar no la necesita— sino por
+  // CONSOLIDAR EXISTENCIAS: sale de la misma barra que el eje pivote sobre el
+  // que se enfila. Se dice así para que nadie lo lea como un requisito.
+  separador: { de: 38, di: 30.5, largo: 12.2,   // calc
+    material: 'C45 (1.0503) torneado · web MAT-C45-01 — mismo material que el eje pivote por '
+      + 'consolidación de existencias, no por requisito de resistencia' },
 
   // --- (b) RETENCIÓN AXIAL DE LOS BRAZOS -----------------------------------
   // La pila brazo–separador–brazo–…–brazo se captura entre DOS collares de
@@ -480,6 +486,7 @@ export const SOPORTE = {
       + 'NO admite circlip; llevaba las dos designaciones a la vez',
     anillo: 'DIN 471-8' },
   bulonRotula: { d: 10, fabricado: true,
+    material: 'C45 (1.0503) rectificado h9 · web MAT-C45-01',   // §F3b MAT-04: mismo que el trasero
     norma: 'FABRICADO — bulón Ø10 h9 con 2 gargantas para anillo DIN 471-10 (pieza de plano). La KJ10D '
       + 'NO lo incluye: su despiece de catálogo es «Body · Bearing · Liner», tres piezas (web PNEU-006). '
       + 'Se retira la cita a ISO 8140, que es la norma de las HORQUILLAS de vástago, no de las rótulas '
@@ -555,7 +562,10 @@ export const SOPORTE_CALC = {
 export const POL = {
   dia: STEP.polTensora.dia,      // 117.9 step — POL-CON-TEN del cliente reutilizada
   ancho: STEP.polTensora.ancho,  // 40 step
-  eje: { d: 20, largo: 70 },     // dis — patrón del eje SCMRT906VCT del cliente
+  // MATERIAL declarado (cierra la dispensa §F3b MAT-04, cuyo dueño era este
+  // archivo): el mismo C45 de los demás ejes de la máquina. Lleva 4 gargantas
+  // de anillo y 2 asientos de rodamiento, así que el grado sí importa.
+  eje: { d: 20, largo: 70, material: 'C45 (1.0503) rectificado h9 · web MAT-C45-01' },   // dis — patrón del eje SCMRT906VCT del cliente
   rodamiento: { bore: 20, od: 42, w: 12, designacion: 'SKF W 6004-2Z' },  // web BRG-005
   anillo: '3AM1-20',
   // ⚠ CORREGIDO 03-08-2026 (revisión de compras A2). `lib.mjs anilloRet()`

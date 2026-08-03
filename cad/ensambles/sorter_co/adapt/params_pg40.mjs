@@ -189,13 +189,22 @@ export const ESCUADRA_LT = {
   zTravesano: -20,               // calc — eje de la ranura ±Y del travesaño
                                  //   (Z.travBot + 40/2 = −20)
   plegada: true, get radio() { return this.e; }, // r = t, como el resto de la chapa
-  // A QUÉ LADO DEL TRAVESAÑO VA EL RINCÓN. Verificado con el chequeo B-rep: con
-  // el criterio anterior (`y < −1450`) los de −1520 y −1440 apuntaban el uno
-  // contra el otro y se interpenetraban 10.07 cm³ por calle — los travesaños
-  // sólo distan 80 mm y cada ala mide 34. Ahora los dos del extremo conducido
-  // apuntan hacia +Y (alejándose entre sí y del rodillo conducido, que ocupa
-  // Y −1661…−1553) y los dos del extremo motriz hacia −Y.
-  ladoRincon: (y) => (y < -1400 ? 1 : -1),
+  // A QUÉ LADO DEL TRAVESAÑO VA EL RINCÓN. El lado LIBRE: en el travesaño de
+  // −1520 el lado −Y lo ocupa el rodillo conducido Ø108 (Y −1661…−1553).
+  ladoRincon: (y) => (y < -1450 ? 1 : -1),
+  // EN QUÉ TRAVESAÑOS VA. NO en el de −1520, y el motivo es geométrico, medido
+  // con el chequeo B-rep: ese travesaño está a 80 mm del de −1440 y entre los
+  // dos quedan 40 mm libres, mientras que cada ala mide 34 y el rincón se pone
+  // 3 mm fuera de la cara del perfil. Con escuadra en los dos, las dos alas del
+  // MISMO larguero se interpenetraban 10.07 cm³ por calle (50 en total), y si
+  // se les daba la vuelta chocaban con los pernos M8 del CT-ENS del cliente
+  // (X 135.06…152.36 y 439.86…457.16, Y −1429.4…−1414.4, Z −26.5…−13.5).
+  // No pasa nada por dejarlo sin escuadra: el larguero APOYA encima de los dos
+  // travesaños, la escuadra sólo impide que corra, y con la de −1440 a 80 mm ya
+  // está impedido. Además el travesaño de −1520 muere DENTRO de los cabezales
+  // de rodamiento (mod_pg40 §3, `enCabezal`), o sea que él sí está tomado por
+  // sus dos extremos. Quedan 15 escuadras en vez de 20.
+  enTravesano: (y) => y !== -1520,
 };
 
 // ---------------------------------------------------------------------------
