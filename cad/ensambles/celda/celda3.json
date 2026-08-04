@@ -1,0 +1,3368 @@
+{
+ "format": "foto3d-cad",
+ "version": 1,
+ "capa": "user",
+ "origen": "celda triple omnidireccional — R = 71 mm, motor al centro",
+ "proyecto": "CELDA3",
+ "params": {
+  "R": 71,
+  "dentro": true,
+  "ruedaDia": 48,
+  "ruedaAncho": 24.5,
+  "ruedaCubo": 18.7,
+  "ruedaCuboDia": 22,
+  "ruedaBore": 4,
+  "ruedaRodilloR": 5,
+  "ruedaCargaKg": 3,
+  "ruedaMasaG": 40,
+  "ttLargo": 70,
+  "ttAncho": 22,
+  "ttAlto": 18,
+  "ttEjeD": 5.5,
+  "ttEjeSale": 9,
+  "ttEjeDesdeExtremo": 10,
+  "ttRelacion": 48,
+  "ttRpm6V": 200,
+  "ttParBloqueoKgcm": 0.8,
+  "ttMasaG": 30.6,
+  "rodBore": 4,
+  "rodOD": 13,
+  "rodW": 5,
+  "ejeDia": 4,
+  "holguraRuedaRod": 4,
+  "bloqueEsp": 10,
+  "bloqueAncho": 26,
+  "bloqueAlto": 26,
+  "acopleLargo": 16,
+  "acopleDia": 14,
+  "acopleEncaje": 7,
+  "holguraEntreEjes": 2,
+  "holguraAcople": 2,
+  "nRuedas": 3,
+  "motorDentro": true,
+  "motorTilt": 0,
+  "placaEsp": 5,
+  "placaHolgura": 8,
+  "ruedaSobresale": 5,
+  "ranuraHolgura": 3,
+  "nCeldas": 9
+ },
+ "metricas": {
+  "hexagonoEntreCaras": 195.29,
+  "radioVertice": 112.75,
+  "radioInterno": 6.25,
+  "velocidadMs": 0.5026548245743669,
+  "traccionPorRuedaN": 0.9806649999999999,
+  "moduloAncho": 683.515,
+  "moduloAlto": 563.7536703502101,
+  "piezasPorCelda": 31
+ },
+ "parts": [
+  {
+   "id": "p1_u1_rueda_omni_48_24_5_envolvente",
+   "name": "U1 · Rueda omni Ø48 × 24.5 (envolvente)",
+   "color": "#e0b040",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": true,
+   "visible": true,
+   "comprada": true,
+   "componente": "rueda_omni_48",
+   "masaG": 40,
+   "features": [
+    {
+     "id": "f1",
+     "name": "Envolvente de rodillos",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      83.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 48,
+      "h": 24.5
+     }
+    },
+    {
+     "id": "f2",
+     "name": "Ø4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      83.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 4,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p2_u1_eje_4_58_5",
+   "name": "U1 · Eje Ø4 × 58.5",
+   "color": "#c3ccd6",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "fabricada": true,
+   "material": "Acero plata Ø4 h6",
+   "features": [
+    {
+     "id": "f3",
+     "name": "Barra Ø4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      97.75,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 4,
+      "h": 58.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "p3_u1_rodamiento_624zz_libre_4_13_5",
+   "name": "U1 · Rodamiento 624ZZ (libre) (4×13×5)",
+   "color": "#7e57c2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_4x13x5",
+   "features": [
+    {
+     "id": "f4",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      87.25,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e3_0",
+        "type": "line",
+        "a": [
+         0,
+         5.24
+        ],
+        "b": [
+         0,
+         6.5
+        ]
+       },
+       {
+        "id": "e3_1",
+        "type": "line",
+        "a": [
+         0,
+         6.5
+        ],
+        "b": [
+         5,
+         6.5
+        ]
+       },
+       {
+        "id": "e3_2",
+        "type": "line",
+        "a": [
+         5,
+         6.5
+        ],
+        "b": [
+         5,
+         5.24
+        ]
+       },
+       {
+        "id": "e3_3",
+        "type": "line",
+        "a": [
+         5,
+         5.24
+        ],
+        "b": [
+         0,
+         5.24
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f5",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      87.25,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e4_0",
+        "type": "line",
+        "a": [
+         0,
+         2
+        ],
+        "b": [
+         0,
+         3.26
+        ]
+       },
+       {
+        "id": "e4_1",
+        "type": "line",
+        "a": [
+         0,
+         3.26
+        ],
+        "b": [
+         5,
+         3.26
+        ]
+       },
+       {
+        "id": "e4_2",
+        "type": "line",
+        "a": [
+         5,
+         3.26
+        ],
+        "b": [
+         5,
+         2
+        ]
+       },
+       {
+        "id": "e4_3",
+        "type": "line",
+        "a": [
+         5,
+         2
+        ],
+        "b": [
+         0,
+         2
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f6",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      87.25,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e5_0",
+        "type": "line",
+        "a": [
+         0.6,
+         3.26
+        ],
+        "b": [
+         0.6,
+         5.24
+        ]
+       },
+       {
+        "id": "e5_1",
+        "type": "line",
+        "a": [
+         0.6,
+         5.24
+        ],
+        "b": [
+         4.4,
+         5.24
+        ]
+       },
+       {
+        "id": "e5_2",
+        "type": "line",
+        "a": [
+         4.4,
+         5.24
+        ],
+        "b": [
+         4.4,
+         3.26
+        ]
+       },
+       {
+        "id": "e5_3",
+        "type": "line",
+        "a": [
+         4.4,
+         3.26
+        ],
+        "b": [
+         0.6,
+         3.26
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p4_u1_rodamiento_624zz_motor_4_13_5",
+   "name": "U1 · Rodamiento 624ZZ (motor) (4×13×5)",
+   "color": "#7e57c2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_4x13x5",
+   "features": [
+    {
+     "id": "f7",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      49.75,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e6_0",
+        "type": "line",
+        "a": [
+         0,
+         5.24
+        ],
+        "b": [
+         0,
+         6.5
+        ]
+       },
+       {
+        "id": "e6_1",
+        "type": "line",
+        "a": [
+         0,
+         6.5
+        ],
+        "b": [
+         5,
+         6.5
+        ]
+       },
+       {
+        "id": "e6_2",
+        "type": "line",
+        "a": [
+         5,
+         6.5
+        ],
+        "b": [
+         5,
+         5.24
+        ]
+       },
+       {
+        "id": "e6_3",
+        "type": "line",
+        "a": [
+         5,
+         5.24
+        ],
+        "b": [
+         0,
+         5.24
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f8",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      49.75,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e7_0",
+        "type": "line",
+        "a": [
+         0,
+         2
+        ],
+        "b": [
+         0,
+         3.26
+        ]
+       },
+       {
+        "id": "e7_1",
+        "type": "line",
+        "a": [
+         0,
+         3.26
+        ],
+        "b": [
+         5,
+         3.26
+        ]
+       },
+       {
+        "id": "e7_2",
+        "type": "line",
+        "a": [
+         5,
+         3.26
+        ],
+        "b": [
+         5,
+         2
+        ]
+       },
+       {
+        "id": "e7_3",
+        "type": "line",
+        "a": [
+         5,
+         2
+        ],
+        "b": [
+         0,
+         2
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f9",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      49.75,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e8_0",
+        "type": "line",
+        "a": [
+         0.6,
+         3.26
+        ],
+        "b": [
+         0.6,
+         5.24
+        ]
+       },
+       {
+        "id": "e8_1",
+        "type": "line",
+        "a": [
+         0.6,
+         5.24
+        ],
+        "b": [
+         4.4,
+         5.24
+        ]
+       },
+       {
+        "id": "e8_2",
+        "type": "line",
+        "a": [
+         4.4,
+         5.24
+        ],
+        "b": [
+         4.4,
+         3.26
+        ]
+       },
+       {
+        "id": "e8_3",
+        "type": "line",
+        "a": [
+         4.4,
+         3.26
+        ],
+        "b": [
+         0.6,
+         3.26
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p5_u1_bloque_porta_rodamiento_26_10_26_libre",
+   "name": "U1 · Bloque porta-rodamiento 26×10×26 (libre)",
+   "color": "#8fa3b8",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "impresa": true,
+   "material": "PETG",
+   "features": [
+    {
+     "id": "f10",
+     "name": "Cuerpo",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      89.75,
+      0,
+      -37
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 10,
+      "d": 26,
+      "h": 26
+     }
+    },
+    {
+     "id": "f11",
+     "name": "Alojamiento Ø13",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      94.75,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 13,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p6_u1_bloque_porta_rodamiento_26_10_26_motor",
+   "name": "U1 · Bloque porta-rodamiento 26×10×26 (motor)",
+   "color": "#8fa3b8",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "impresa": true,
+   "material": "PETG",
+   "features": [
+    {
+     "id": "f12",
+     "name": "Cuerpo",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      52.25,
+      0,
+      -37
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 10,
+      "d": 26,
+      "h": 26
+     }
+    },
+    {
+     "id": "f13",
+     "name": "Alojamiento Ø13",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      57.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 13,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p7_u1_acople_tt_5_5_plano_4",
+   "name": "U1 · Acople TT 5.5 plano → Ø4",
+   "color": "#c9752e",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "impresa": true,
+   "material": "PETG",
+   "features": [
+    {
+     "id": "f14",
+     "name": "Cuerpo Ø14 × 16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      46.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 14,
+      "h": 16
+     }
+    },
+    {
+     "id": "f15",
+     "name": "Alojamiento eje Ø4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      46.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 4,
+      "depth": 7,
+      "through": false
+     }
+    },
+    {
+     "id": "f16",
+     "name": "Alojamiento eje TT 5.5 plano",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30.25,
+      0,
+      -24
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 8,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p8_u1_motor_tt_1_48_70_22_18_200_rpm_6_v",
+   "name": "U1 · Motor TT 1:48 70×22×18 — 200 rpm @6 V",
+   "color": "#37474f",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "comprada": true,
+   "componente": "motor_tt_48",
+   "masaG": 30.6,
+   "features": [
+    {
+     "id": "f17",
+     "name": "Cuerpo + reductora",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      17.25,
+      0,
+      -84
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 18,
+      "h": 70
+     }
+    },
+    {
+     "id": "f18",
+     "name": "Eje salida 5.5 plano",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28.25,
+      0,
+      -24
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "h": 9
+     }
+    }
+   ]
+  },
+  {
+   "id": "p9_u1_disco_encoder_36_ranuras_30",
+   "name": "U1 · Disco encoder 36 ranuras Ø30",
+   "color": "#6b7f94",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "impresa": true,
+   "material": "PETG",
+   "features": [
+    {
+     "id": "f19",
+     "name": "Disco Ø30 × 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      101.75,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 2
+     }
+    }
+   ]
+  },
+  {
+   "id": "p10_u1_sensor_ranurado_ir_lm393",
+   "name": "U1 · Sensor ranurado IR LM393",
+   "color": "#7e57c2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "comprada": true,
+   "componente": "lm393_ranurado",
+   "features": [
+    {
+     "id": "f20",
+     "name": "PCB 32×14×10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      99.75,
+      0,
+      -48
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 10,
+      "d": 32,
+      "h": 14
+     }
+    },
+    {
+     "id": "f21",
+     "name": "Ranura de la horquilla",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      99.75,
+      0,
+      -40
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 5,
+      "d": 34,
+      "h": 7
+     }
+    }
+   ]
+  },
+  {
+   "id": "p11_u2_rueda_omni_48_24_5_envolvente",
+   "name": "U2 · Rueda omni Ø48 × 24.5 (envolvente)",
+   "color": "#e0b040",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "comprada": true,
+   "componente": "rueda_omni_48",
+   "masaG": 40,
+   "features": [
+    {
+     "id": "f22",
+     "name": "Envolvente de rodillos",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      83.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 48,
+      "h": 24.5
+     }
+    },
+    {
+     "id": "f23",
+     "name": "Ø4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      83.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 4,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p12_u2_eje_4_58_5",
+   "name": "U2 · Eje Ø4 × 58.5",
+   "color": "#c3ccd6",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "fabricada": true,
+   "material": "Acero plata Ø4 h6",
+   "features": [
+    {
+     "id": "f24",
+     "name": "Barra Ø4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      97.75,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 4,
+      "h": 58.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "p13_u2_rodamiento_624zz_libre_4_13_5",
+   "name": "U2 · Rodamiento 624ZZ (libre) (4×13×5)",
+   "color": "#7e57c2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_4x13x5",
+   "features": [
+    {
+     "id": "f25",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      87.25,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e24_0",
+        "type": "line",
+        "a": [
+         0,
+         5.24
+        ],
+        "b": [
+         0,
+         6.5
+        ]
+       },
+       {
+        "id": "e24_1",
+        "type": "line",
+        "a": [
+         0,
+         6.5
+        ],
+        "b": [
+         5,
+         6.5
+        ]
+       },
+       {
+        "id": "e24_2",
+        "type": "line",
+        "a": [
+         5,
+         6.5
+        ],
+        "b": [
+         5,
+         5.24
+        ]
+       },
+       {
+        "id": "e24_3",
+        "type": "line",
+        "a": [
+         5,
+         5.24
+        ],
+        "b": [
+         0,
+         5.24
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f26",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      87.25,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e25_0",
+        "type": "line",
+        "a": [
+         0,
+         2
+        ],
+        "b": [
+         0,
+         3.26
+        ]
+       },
+       {
+        "id": "e25_1",
+        "type": "line",
+        "a": [
+         0,
+         3.26
+        ],
+        "b": [
+         5,
+         3.26
+        ]
+       },
+       {
+        "id": "e25_2",
+        "type": "line",
+        "a": [
+         5,
+         3.26
+        ],
+        "b": [
+         5,
+         2
+        ]
+       },
+       {
+        "id": "e25_3",
+        "type": "line",
+        "a": [
+         5,
+         2
+        ],
+        "b": [
+         0,
+         2
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f27",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      87.25,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e26_0",
+        "type": "line",
+        "a": [
+         0.6,
+         3.26
+        ],
+        "b": [
+         0.6,
+         5.24
+        ]
+       },
+       {
+        "id": "e26_1",
+        "type": "line",
+        "a": [
+         0.6,
+         5.24
+        ],
+        "b": [
+         4.4,
+         5.24
+        ]
+       },
+       {
+        "id": "e26_2",
+        "type": "line",
+        "a": [
+         4.4,
+         5.24
+        ],
+        "b": [
+         4.4,
+         3.26
+        ]
+       },
+       {
+        "id": "e26_3",
+        "type": "line",
+        "a": [
+         4.4,
+         3.26
+        ],
+        "b": [
+         0.6,
+         3.26
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p14_u2_rodamiento_624zz_motor_4_13_5",
+   "name": "U2 · Rodamiento 624ZZ (motor) (4×13×5)",
+   "color": "#7e57c2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_4x13x5",
+   "features": [
+    {
+     "id": "f28",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      49.75,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e27_0",
+        "type": "line",
+        "a": [
+         0,
+         5.24
+        ],
+        "b": [
+         0,
+         6.5
+        ]
+       },
+       {
+        "id": "e27_1",
+        "type": "line",
+        "a": [
+         0,
+         6.5
+        ],
+        "b": [
+         5,
+         6.5
+        ]
+       },
+       {
+        "id": "e27_2",
+        "type": "line",
+        "a": [
+         5,
+         6.5
+        ],
+        "b": [
+         5,
+         5.24
+        ]
+       },
+       {
+        "id": "e27_3",
+        "type": "line",
+        "a": [
+         5,
+         5.24
+        ],
+        "b": [
+         0,
+         5.24
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f29",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      49.75,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e28_0",
+        "type": "line",
+        "a": [
+         0,
+         2
+        ],
+        "b": [
+         0,
+         3.26
+        ]
+       },
+       {
+        "id": "e28_1",
+        "type": "line",
+        "a": [
+         0,
+         3.26
+        ],
+        "b": [
+         5,
+         3.26
+        ]
+       },
+       {
+        "id": "e28_2",
+        "type": "line",
+        "a": [
+         5,
+         3.26
+        ],
+        "b": [
+         5,
+         2
+        ]
+       },
+       {
+        "id": "e28_3",
+        "type": "line",
+        "a": [
+         5,
+         2
+        ],
+        "b": [
+         0,
+         2
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f30",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      49.75,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e29_0",
+        "type": "line",
+        "a": [
+         0.6,
+         3.26
+        ],
+        "b": [
+         0.6,
+         5.24
+        ]
+       },
+       {
+        "id": "e29_1",
+        "type": "line",
+        "a": [
+         0.6,
+         5.24
+        ],
+        "b": [
+         4.4,
+         5.24
+        ]
+       },
+       {
+        "id": "e29_2",
+        "type": "line",
+        "a": [
+         4.4,
+         5.24
+        ],
+        "b": [
+         4.4,
+         3.26
+        ]
+       },
+       {
+        "id": "e29_3",
+        "type": "line",
+        "a": [
+         4.4,
+         3.26
+        ],
+        "b": [
+         0.6,
+         3.26
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p15_u2_bloque_porta_rodamiento_26_10_26_libre",
+   "name": "U2 · Bloque porta-rodamiento 26×10×26 (libre)",
+   "color": "#8fa3b8",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "impresa": true,
+   "material": "PETG",
+   "features": [
+    {
+     "id": "f31",
+     "name": "Cuerpo",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      89.75,
+      0,
+      -37
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 10,
+      "d": 26,
+      "h": 26
+     }
+    },
+    {
+     "id": "f32",
+     "name": "Alojamiento Ø13",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      94.75,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 13,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p16_u2_bloque_porta_rodamiento_26_10_26_motor",
+   "name": "U2 · Bloque porta-rodamiento 26×10×26 (motor)",
+   "color": "#8fa3b8",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "impresa": true,
+   "material": "PETG",
+   "features": [
+    {
+     "id": "f33",
+     "name": "Cuerpo",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      52.25,
+      0,
+      -37
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 10,
+      "d": 26,
+      "h": 26
+     }
+    },
+    {
+     "id": "f34",
+     "name": "Alojamiento Ø13",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      57.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 13,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p17_u2_acople_tt_5_5_plano_4",
+   "name": "U2 · Acople TT 5.5 plano → Ø4",
+   "color": "#c9752e",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "impresa": true,
+   "material": "PETG",
+   "features": [
+    {
+     "id": "f35",
+     "name": "Cuerpo Ø14 × 16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      46.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 14,
+      "h": 16
+     }
+    },
+    {
+     "id": "f36",
+     "name": "Alojamiento eje Ø4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      46.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 4,
+      "depth": 7,
+      "through": false
+     }
+    },
+    {
+     "id": "f37",
+     "name": "Alojamiento eje TT 5.5 plano",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30.25,
+      0,
+      -24
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 8,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p18_u2_motor_tt_1_48_70_22_18_200_rpm_6_v",
+   "name": "U2 · Motor TT 1:48 70×22×18 — 200 rpm @6 V",
+   "color": "#37474f",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "comprada": true,
+   "componente": "motor_tt_48",
+   "masaG": 30.6,
+   "features": [
+    {
+     "id": "f38",
+     "name": "Cuerpo + reductora",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      17.25,
+      0,
+      -84
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 18,
+      "h": 70
+     }
+    },
+    {
+     "id": "f39",
+     "name": "Eje salida 5.5 plano",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28.25,
+      0,
+      -24
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "h": 9
+     }
+    }
+   ]
+  },
+  {
+   "id": "p19_u2_disco_encoder_36_ranuras_30",
+   "name": "U2 · Disco encoder 36 ranuras Ø30",
+   "color": "#6b7f94",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "impresa": true,
+   "material": "PETG",
+   "features": [
+    {
+     "id": "f40",
+     "name": "Disco Ø30 × 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      101.75,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 2
+     }
+    }
+   ]
+  },
+  {
+   "id": "p20_u2_sensor_ranurado_ir_lm393",
+   "name": "U2 · Sensor ranurado IR LM393",
+   "color": "#7e57c2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "comprada": true,
+   "componente": "lm393_ranurado",
+   "features": [
+    {
+     "id": "f41",
+     "name": "PCB 32×14×10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      99.75,
+      0,
+      -48
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 10,
+      "d": 32,
+      "h": 14
+     }
+    },
+    {
+     "id": "f42",
+     "name": "Ranura de la horquilla",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      99.75,
+      0,
+      -40
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 5,
+      "d": 34,
+      "h": 7
+     }
+    }
+   ]
+  },
+  {
+   "id": "p21_u3_rueda_omni_48_24_5_envolvente",
+   "name": "U3 · Rueda omni Ø48 × 24.5 (envolvente)",
+   "color": "#e0b040",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "comprada": true,
+   "componente": "rueda_omni_48",
+   "masaG": 40,
+   "features": [
+    {
+     "id": "f43",
+     "name": "Envolvente de rodillos",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      83.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 48,
+      "h": 24.5
+     }
+    },
+    {
+     "id": "f44",
+     "name": "Ø4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      83.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 4,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p22_u3_eje_4_58_5",
+   "name": "U3 · Eje Ø4 × 58.5",
+   "color": "#c3ccd6",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "fabricada": true,
+   "material": "Acero plata Ø4 h6",
+   "features": [
+    {
+     "id": "f45",
+     "name": "Barra Ø4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      97.75,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 4,
+      "h": 58.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "p23_u3_rodamiento_624zz_libre_4_13_5",
+   "name": "U3 · Rodamiento 624ZZ (libre) (4×13×5)",
+   "color": "#7e57c2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_4x13x5",
+   "features": [
+    {
+     "id": "f46",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      87.25,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e45_0",
+        "type": "line",
+        "a": [
+         0,
+         5.24
+        ],
+        "b": [
+         0,
+         6.5
+        ]
+       },
+       {
+        "id": "e45_1",
+        "type": "line",
+        "a": [
+         0,
+         6.5
+        ],
+        "b": [
+         5,
+         6.5
+        ]
+       },
+       {
+        "id": "e45_2",
+        "type": "line",
+        "a": [
+         5,
+         6.5
+        ],
+        "b": [
+         5,
+         5.24
+        ]
+       },
+       {
+        "id": "e45_3",
+        "type": "line",
+        "a": [
+         5,
+         5.24
+        ],
+        "b": [
+         0,
+         5.24
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f47",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      87.25,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e46_0",
+        "type": "line",
+        "a": [
+         0,
+         2
+        ],
+        "b": [
+         0,
+         3.26
+        ]
+       },
+       {
+        "id": "e46_1",
+        "type": "line",
+        "a": [
+         0,
+         3.26
+        ],
+        "b": [
+         5,
+         3.26
+        ]
+       },
+       {
+        "id": "e46_2",
+        "type": "line",
+        "a": [
+         5,
+         3.26
+        ],
+        "b": [
+         5,
+         2
+        ]
+       },
+       {
+        "id": "e46_3",
+        "type": "line",
+        "a": [
+         5,
+         2
+        ],
+        "b": [
+         0,
+         2
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f48",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      87.25,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e47_0",
+        "type": "line",
+        "a": [
+         0.6,
+         3.26
+        ],
+        "b": [
+         0.6,
+         5.24
+        ]
+       },
+       {
+        "id": "e47_1",
+        "type": "line",
+        "a": [
+         0.6,
+         5.24
+        ],
+        "b": [
+         4.4,
+         5.24
+        ]
+       },
+       {
+        "id": "e47_2",
+        "type": "line",
+        "a": [
+         4.4,
+         5.24
+        ],
+        "b": [
+         4.4,
+         3.26
+        ]
+       },
+       {
+        "id": "e47_3",
+        "type": "line",
+        "a": [
+         4.4,
+         3.26
+        ],
+        "b": [
+         0.6,
+         3.26
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p24_u3_rodamiento_624zz_motor_4_13_5",
+   "name": "U3 · Rodamiento 624ZZ (motor) (4×13×5)",
+   "color": "#7e57c2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_4x13x5",
+   "features": [
+    {
+     "id": "f49",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      49.75,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e48_0",
+        "type": "line",
+        "a": [
+         0,
+         5.24
+        ],
+        "b": [
+         0,
+         6.5
+        ]
+       },
+       {
+        "id": "e48_1",
+        "type": "line",
+        "a": [
+         0,
+         6.5
+        ],
+        "b": [
+         5,
+         6.5
+        ]
+       },
+       {
+        "id": "e48_2",
+        "type": "line",
+        "a": [
+         5,
+         6.5
+        ],
+        "b": [
+         5,
+         5.24
+        ]
+       },
+       {
+        "id": "e48_3",
+        "type": "line",
+        "a": [
+         5,
+         5.24
+        ],
+        "b": [
+         0,
+         5.24
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f50",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      49.75,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e49_0",
+        "type": "line",
+        "a": [
+         0,
+         2
+        ],
+        "b": [
+         0,
+         3.26
+        ]
+       },
+       {
+        "id": "e49_1",
+        "type": "line",
+        "a": [
+         0,
+         3.26
+        ],
+        "b": [
+         5,
+         3.26
+        ]
+       },
+       {
+        "id": "e49_2",
+        "type": "line",
+        "a": [
+         5,
+         3.26
+        ],
+        "b": [
+         5,
+         2
+        ]
+       },
+       {
+        "id": "e49_3",
+        "type": "line",
+        "a": [
+         5,
+         2
+        ],
+        "b": [
+         0,
+         2
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f51",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      49.75,
+      0,
+      -24
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e50_0",
+        "type": "line",
+        "a": [
+         0.6,
+         3.26
+        ],
+        "b": [
+         0.6,
+         5.24
+        ]
+       },
+       {
+        "id": "e50_1",
+        "type": "line",
+        "a": [
+         0.6,
+         5.24
+        ],
+        "b": [
+         4.4,
+         5.24
+        ]
+       },
+       {
+        "id": "e50_2",
+        "type": "line",
+        "a": [
+         4.4,
+         5.24
+        ],
+        "b": [
+         4.4,
+         3.26
+        ]
+       },
+       {
+        "id": "e50_3",
+        "type": "line",
+        "a": [
+         4.4,
+         3.26
+        ],
+        "b": [
+         0.6,
+         3.26
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p25_u3_bloque_porta_rodamiento_26_10_26_libre",
+   "name": "U3 · Bloque porta-rodamiento 26×10×26 (libre)",
+   "color": "#8fa3b8",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "impresa": true,
+   "material": "PETG",
+   "features": [
+    {
+     "id": "f52",
+     "name": "Cuerpo",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      89.75,
+      0,
+      -37
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 10,
+      "d": 26,
+      "h": 26
+     }
+    },
+    {
+     "id": "f53",
+     "name": "Alojamiento Ø13",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      94.75,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 13,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p26_u3_bloque_porta_rodamiento_26_10_26_motor",
+   "name": "U3 · Bloque porta-rodamiento 26×10×26 (motor)",
+   "color": "#8fa3b8",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "impresa": true,
+   "material": "PETG",
+   "features": [
+    {
+     "id": "f54",
+     "name": "Cuerpo",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      52.25,
+      0,
+      -37
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 10,
+      "d": 26,
+      "h": 26
+     }
+    },
+    {
+     "id": "f55",
+     "name": "Alojamiento Ø13",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      57.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 13,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p27_u3_acople_tt_5_5_plano_4",
+   "name": "U3 · Acople TT 5.5 plano → Ø4",
+   "color": "#c9752e",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "impresa": true,
+   "material": "PETG",
+   "features": [
+    {
+     "id": "f56",
+     "name": "Cuerpo Ø14 × 16",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      46.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 14,
+      "h": 16
+     }
+    },
+    {
+     "id": "f57",
+     "name": "Alojamiento eje Ø4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      46.25,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 4,
+      "depth": 7,
+      "through": false
+     }
+    },
+    {
+     "id": "f58",
+     "name": "Alojamiento eje TT 5.5 plano",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30.25,
+      0,
+      -24
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "depth": 8,
+      "through": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "p28_u3_motor_tt_1_48_70_22_18_200_rpm_6_v",
+   "name": "U3 · Motor TT 1:48 70×22×18 — 200 rpm @6 V",
+   "color": "#37474f",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "comprada": true,
+   "componente": "motor_tt_48",
+   "masaG": 30.6,
+   "features": [
+    {
+     "id": "f59",
+     "name": "Cuerpo + reductora",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      17.25,
+      0,
+      -84
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 22,
+      "d": 18,
+      "h": 70
+     }
+    },
+    {
+     "id": "f60",
+     "name": "Eje salida 5.5 plano",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28.25,
+      0,
+      -24
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 5.5,
+      "h": 9
+     }
+    }
+   ]
+  },
+  {
+   "id": "p29_u3_disco_encoder_36_ranuras_30",
+   "name": "U3 · Disco encoder 36 ranuras Ø30",
+   "color": "#6b7f94",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "impresa": true,
+   "material": "PETG",
+   "features": [
+    {
+     "id": "f61",
+     "name": "Disco Ø30 × 2",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      101.75,
+      0,
+      -24
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 2
+     }
+    }
+   ]
+  },
+  {
+   "id": "p30_u3_sensor_ranurado_ir_lm393",
+   "name": "U3 · Sensor ranurado IR LM393",
+   "color": "#7e57c2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "comprada": true,
+   "componente": "lm393_ranurado",
+   "features": [
+    {
+     "id": "f62",
+     "name": "PCB 32×14×10",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      99.75,
+      0,
+      -48
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 10,
+      "d": 32,
+      "h": 14
+     }
+    },
+    {
+     "id": "f63",
+     "name": "Ranura de la horquilla",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      99.75,
+      0,
+      -40
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 5,
+      "d": 34,
+      "h": 7
+     }
+    }
+   ]
+  },
+  {
+   "id": "p31_placa_hexagonal_e_c_195_29_5",
+   "name": "Placa hexagonal e/c 195.29 × 5",
+   "color": "#8fa3b8",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "fabricada": true,
+   "material": "Acrílico 5 mm (corte láser)",
+   "features": [
+    {
+     "id": "f64",
+     "name": "Hexágono e/c 195.29",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -10
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        0,
+        112.75
+       ],
+       [
+        -97.64,
+        56.38
+       ],
+       [
+        -97.65,
+        -56.38
+       ],
+       [
+        0,
+        -112.75
+       ],
+       [
+        97.64,
+        -56.38
+       ],
+       [
+        97.65,
+        56.38
+       ]
+      ],
+      "h": 5,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "rn0",
+     "name": "Ranura rueda 1",
+     "shape": "sketch",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        22.5,
+        55.75
+       ],
+       [
+        22.5,
+        86.25
+       ],
+       [
+        -22.49,
+        86.25
+       ],
+       [
+        -22.49,
+        55.75
+       ]
+      ],
+      "h": 7,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "rn1",
+     "name": "Ranura rueda 2",
+     "shape": "sketch",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        -59.53,
+        -8.39
+       ],
+       [
+        -85.94,
+        -23.64
+       ],
+       [
+        -63.45,
+        -62.61
+       ],
+       [
+        -37.03,
+        -47.36
+       ]
+      ],
+      "h": 7,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "rn2",
+     "name": "Ranura rueda 3",
+     "shape": "sketch",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        37.03,
+        -47.36
+       ],
+       [
+        63.45,
+        -62.61
+       ],
+       [
+        85.94,
+        -23.64
+       ],
+       [
+        59.53,
+        -8.39
+       ]
+      ],
+      "h": 7,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

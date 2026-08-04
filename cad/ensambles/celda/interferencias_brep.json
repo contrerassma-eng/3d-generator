@@ -1,0 +1,8 @@
+{
+ "tolerancia_cm3": 0.05,
+ "doc": "celda3.json",
+ "piezas": 31,
+ "pares_candidatos": 65,
+ "interferencias": 0,
+ "detalle": []
+}

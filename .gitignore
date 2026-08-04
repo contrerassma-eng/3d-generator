@@ -45,3 +45,6 @@ cad/ensambles/nbt90/step/
 # DXF del conjunto: ~100 MB (una LINE por arista característica de las 375 piezas).
 # Lo regenera planos_nbt90.mjs; el PDF de fabricación sí queda versionado.
 cad/ensambles/nbt90/planos/conjunto_nbt90.dxf
+
+# Derivados de la celda triple: los regeneran gen_celda.mjs / planos_celda.mjs
+cad/ensambles/celda/out/
