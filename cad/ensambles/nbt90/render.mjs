@@ -56,6 +56,10 @@ pág.on('pageerror', e => console.error('  ! error en el visor:', e.message));
 // de corte); sin él, captura las cuatro vistas estándar del visor normal.
 const iU = process.argv.indexOf('--url');
 const material = process.argv.includes('--plano') ? 'plano' : 'real';
+const iP = process.argv.indexOf('--pref');
+const PREF = iP > 0 && process.argv[iP + 1] ? process.argv[iP + 1]
+  : (/narrow_belt_transfer_90/.test(doc) ? 'nbt90'
+     : (doc.split('/').pop().replace(/\.json$/, '') || 'ensamble'));
 const vistas = iU > 0 ? [process.argv[iU + 1]] : ['iso', 'frente', 'lado', 'planta'];
 for (const v of vistas) {
   const url = iU > 0 ? `http://127.0.0.1:${puerto}/${v}`
@@ -63,7 +67,11 @@ for (const v of vistas) {
   await pág.goto(url, { waitUntil: 'load', timeout: 120000 });
   await pág.waitForFunction('window.__listo === true', null, { timeout: 300000 });
   await pág.waitForTimeout(2500);                      // un par de cuadros ya renderizados
-  const salida = join(outDir, `nbt90_${(iU > 0 ? (new URL(url).searchParams.get('nombre') || 'corte') : v)}.png`);
+  // El prefijo sale del DOCUMENTO, no cableado a «nbt90»: con `--url` sobre el
+  // sorter salían ficheros `nbt90_tensor.png` con el tensor del sorter dentro,
+  // la misma trampa que tenía `a_step.py` al escribir `nbt90_ensamble.step`.
+  // `--pref` lo fuerza; si no, se deduce del nombre del documento.
+  const salida = join(outDir, `${PREF}_${(iU > 0 ? (new URL(url).searchParams.get('nombre') || 'corte') : v)}.png`);
   // con 300+ piezas y WebGL por software, un cuadro tarda decenas de segundos
   await pág.screenshot({ path: salida, timeout: 600000 });
   const info = await pág.textContent('#info');
