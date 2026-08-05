@@ -12,7 +12,7 @@
 
 import {
   revolve, cyl, box, hole, sketchYZ, rectR, rodamiento, anilloRet, pernoHex,
-  tuercaHex, COL, r2, envolventes,
+  tuercaHex, golilla, COL, r2, envolventes,
 } from '../../nbt90/lib.mjs';
 import {
   FIJO, TAMBOR, UCF207, CONDUCIDO, RETORNOS, ELEVADORES, CORREDOR, RETIRA_POZO,
@@ -417,53 +417,46 @@ function rodilloElevador(E, { id, y, z }) {
   add(`ELEVADOR ${id} · Eje de rodillo de retorno Ø${S.eje.d} × ${r3(ex1 - ex0)} (hilo interior 1/4-20)`,
     COL.acero, [ex0, y, z], [
       cyl(`Barra Ø${S.eje.d} × ${r3(ex1 - ex0)}`, [ex0, y, z], DIR, S.eje.d, r3(ex1 - ex0)),
+      // el HILO INTERIOR de las dos testas — es la unión, así que existe como
+      // geometría y no sólo como nota (§U: «una nota que promete pernos y una
+      // chapa sin agujeros no es una unión, es un dibujo»)
+      hole(`Hilo interior 1/4-20 UNC × ${S.tornilloEje.roscaProf} (−X)`, [r3(ex0 - 0.5), y, z],
+        DIR, S.tornilloEje.pasante, r3(S.tornilloEje.roscaProf + 0.5), false),
+      hole(`Hilo interior 1/4-20 UNC × ${S.tornilloEje.roscaProf} (+X)`, [r3(ex1 + 0.5), y, z],
+        [-1, 0, 0], S.tornilloEje.pasante, r3(S.tornilloEje.roscaProf + 0.5), false),
     ], { ...conj, componente: 'B-20760', material: S.eje.material, gira: false, rosca: S.rosca,
-      nota: 'no gira: es el asiento de los aros interiores y el que pasa la carga del ramal a las '
-        + 'pletinas. Las dos puntas llevan el hilo interior del catálogo ED&T' });
+      uniones: [{ rosca: '1/4-20 UNC', n: 2, pasante: S.tornilloEje.pasante,
+        a: `la chapa del alargue PG40 por sus dos caras interiores (X ${S.soporte.caraX.join(' y ')}): `
+          + `el perno entra DESDE FUERA por un Ø${S.tornilloEje.pasante} y rosca en el hilo interior `
+          + `del propio eje (agarre ${S.tornilloEje.agarre} mm de los ${S.tornilloEje.roscaProf} de hilo)` }],
+      nota: 'no gira: es el asiento de los aros interiores y el que pasa la carga del ramal a la '
+        + `chapa del alargue. TOPA por sus dos testas contra las caras interiores X ${S.soporte.caraX.join(' y ')} `
+        + `y lo retiene un ${S.tornilloEje.desig} por cada punta, entrando desde FUERA a su hilo `
+        + `interior 1/4-20 × ${S.tornilloEje.roscaProf}: agarre ${S.tornilloEje.agarre} mm `
+        + `(${r3(S.tornilloEje.agarre / S.tornilloEje.d)} × d) con ${S.tornilloEje.sobraHilo} mm de hilo `
+        + 'sin usar. Ni pletina, ni collar de apriete, ni ajuste deslizante — es el montaje de '
+        + 'catálogo del conjunto y la convención que pidió el cliente' });
 
-  // 6. pletinas de soporte + collar partido + tornillería (PIEZA PROPIA)
-  const sop = S.soporte;
+  // 6. MONTAJE DIRECTO A LA CHAPA — sin pletina, sin collar, sin barreno H8.
+  //    El eje topa contra la cara interior del alargue y un 1/4-20 × 3/4" con
+  //    golilla lo aprieta DESDE FUERA contra su hilo interior de catálogo. Es la
+  //    convención del cliente («perno por fuera chapa») y la del propio B-20760
+  //    en el NBT90. El taladro Ø7 y el refuerzo de chapa los hace pg40, que lee
+  //    `TAMBORES.retornoSoporte`.
+  const T = S.tornilloEje, sop = S.soporte;
   for (const s of [0, 1]) {
     const lado = s === 0 ? '−X' : '+X';
-    const xCara = sop.caraX[s], nrm = sop.normal[s];
-    const xF = nrm > 0 ? xCara : r3(xCara - sop.e);
-    add(`ELEVADOR ${id} · pletina de soporte ${sop.ladoY}×${sop.ladoZ}×${sop.e} (${lado})`,
-      COL.chapa, [xF, y, z], [
-        sketchYZ(`Pletina ${sop.ladoY}×${sop.ladoZ}`, xF,
-          rectR(y - sop.ladoY / 2, z - sop.ladoZ / 2, y + sop.ladoY / 2, z + sop.ladoZ / 2, 10), sop.e),
-        hole(`Barreno Ø${sop.bore} H8`, [r3(xF - 1), y, z], DIR, sop.bore),
-        ...[[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([sy, sz]) =>
-          hole(`Ø${sop.taladro}`, [r3(xF - 1), r3(y + sy * sop.patronY / 2), r3(z + sz * sop.patronZ / 2)],
-            DIR, sop.taladro)),
-      ], { conjunto: `${id} · rodillo elevador`, capa: 'user', fabricada: true,
-        material: 'Acero S275JR cortado por láser',
-        nota: `se atornilla a un cuadro de ${sop.patronY}×${sop.patronZ} de Ø${sop.taladro} en el `
-          + `alargue PG40 — el mismo taladro y la misma cara de apoyo que llevaban los rodillos de `
-          + `retorno de pozo, estrechado en Y a ${sop.patronY} porque el bolsillo sur mide 94 mm `
-          + `limpios entre la ménsula alma↔travesaño y la escuadra del travesaño de puente. Barreno `
-          + `Ø${sop.bore} H8 (antes Ø30: el conjunto B-20760 lleva eje de 1/2")` });
-
-    const xCol = nrm > 0 ? r3(xF + sop.e) : r3(xF - 11);
-    add(`ELEVADOR ${id} · collar de apriete PARTIDO Ø${S.eje.d} int × Ø${S.collarDe} × 11 (${lado})`,
-      COL.inox, [xCol, y, z], [
-        revolve('Collar partido (2 mitades)', [xCol, y, z], 'x',
-          [[0, S.eje.d / 2], [0, S.collarDe / 2], [11, S.collarDe / 2], [11, S.eje.d / 2]]),
-      ], { conjunto: `${id} · rodillo elevador`, capa: 'user', hardware: true,
-        norma: S.collar, componente: S.collar,
-        nota: `retención axial del eje fijo contra la cara interior de su pletina. PARTIDO por la `
-          + `misma razón que los del conducido y los retornos: entra con el eje ya pasado. `
-          + `Envolvente sobre la cabeza del tornillo Ø${S.collarR}` });
-
-    const eAlma = 8;                                   // pg40 ALARGUE.e
-    const largoP = r3(sop.e + eAlma + 5);
-    const xCab = nrm > 0 ? r3(xF + sop.e) : xF;
-    for (const [sy, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
-      pernoHex(E, { nombre: `M10 soporte ELEVADOR ${id} (${lado})`,
-        at: [xCab, r3(y + sy * sop.patronY / 2), r3(z + sz * sop.patronZ / 2)],
-        dir: [-nrm, 0, 0], dia: L.pernoRet.d, largo: largoP, af: L.pernoRet.af,
-        altoCab: L.pernoRet.hh, capa: marca });
-      n.piezas++;
-    }
+    const nrm = sop.normal[s];                      // +1 hacia +X, −1 hacia −X
+    const xCaraInt = sop.caraX[s];                  // donde TOPA la testa del eje
+    const xFuera = r3(xCaraInt - nrm * sop.e);       // cara exterior de la chapa
+    golilla(E, { nombre: `1/4-20 eje ELEVADOR ${id} (${lado})`,
+      at: [r3(xFuera - nrm * T.golillaE), y, z], dir: [nrm, 0, 0],
+      dia: T.d, ext: T.golillaD, esp: T.golillaE, capa: marca });
+    n.piezas++;
+    pernoHex(E, { nombre: `1/4-20 UNC × ${T.largo} eje ELEVADOR ${id} (${lado})`,
+      at: [r3(xFuera - nrm * T.golillaE), y, z], dir: [nrm, 0, 0], dia: T.d,
+      largo: T.largo, af: T.af, altoCab: T.altoCab, capa: marca });
+    n.piezas++;
   }
   return n;
 }

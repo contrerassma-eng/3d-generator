@@ -190,7 +190,7 @@ export const TRAMOS = {
 // cantonera de 64 y pasa a ser una pletina de 109 de canto (ESCUADRA_LT.canto se
 // calcula, no se escribe). Se declara.
 // ═══════════════════════════════════════════════════════════════════════════
-export const TRAVESANOS = [-1440, -450, -100];
+export const TRAVESANOS = [-1520, -1440, -450, -100];
 
 /** Travesaños que CUELGAN más abajo de lo normal para dejar pasar la rampa del
  *  ramal de retorno recto. Clave = Y del travesaño, valor = cota de coronación.
@@ -198,37 +198,22 @@ export const TRAVESANOS = [-1440, -450, -100];
 export const TRAVESANO_TOP = { '-1440': -45 };
 
 // ═══════════════════════════════════════════════════════════════════════════
-// A10-ter · EL TRAVESAÑO DE Y −1520 SE RETIRA, y esto es lo que costó saberlo.
+// A10-ter · EL TRAVESAÑO DE Y −1520 SE QUEDA — y estuvo retirado unas horas.
 //
-// Se probaron las TRES salidas y ninguna cierra, con el número de cada una
-// (cotas medidas sobre el contorno de banda EMITIDO, calle 3):
-//   (a) DEJARLO DONDE ESTÁ, a Z −40…0. La rampa del retorno cruza su huella
-//       (Y −1540…−1500) bajando de Z −36.87 a −47.84: le entra 3.13 mm por el
-//       canto norte. La banda pasaría por dentro del perfil.
-//   (b) BAJARLO, como se hace con el de −1440. No hay cota que valga: la rampa
-//       CRUZA el plano Z −40 justo dentro de su huella, así que cualquier
-//       travesaño de 40 de canto puesto ahí queda medio por encima y medio por
-//       debajo de la banda. Y por abajo tampoco hay sitio: el CUBREJUNTA
-//       alma↔cabezal conducido ocupa Z −125…−70 en X 67.49…75.49 y 483.42…491.42,
-//       o sea justo donde tendría que ir el fondo del perfil.
-//   (c) MOVERLO. Hacia el sur topa con el tubo del rodillo conducido, que
-//       arranca en Y −1553.4; hacia el norte se junta con el de −1440.
-// SE RETIRA. Lo que sujetaba sigue sujeto: el larguero sur (Y −1551.18…−1302)
-// APOYA por su testa sur dentro del cabezal de rodamiento conducido (que llega
-// a Y −1535) y por el travesaño de −1440; el voladizo libre que queda al norte
-// es de 138 mm de perfil 40×40, que con la carga de una calle da una flecha de
-// centésimas. Era además el ÚNICO travesaño sin escuadra larguero↔travesaño
-// (ESCUADRA_LT.enTravesano lo excluía por falta de sitio), así que no arrastra
-// ninguna pieza al retirarse.
+// Cuando los rodillos elevadores estaban en Y −606 y −1357 (que es donde cabía
+// una MÉNSULA de 88×100), la rampa sur del ramal de retorno cruzaba el plano
+// Z −40 DENTRO de la huella de este travesaño: le entraba 3.13 mm por el canto
+// norte y no había cota que lo salvara —bajarlo topa con el cubrejunta
+// alma↔cabezal (Z −125…−70) y moverlo, con el tubo del conducido (Y −1553.4)—,
+// así que se retiró.
+// Al pedir el cliente el rodillo SIN MÉNSULA y PEGADO a la transferencia
+// (05-08), RE-S se fue de −1357 a −1206: la rampa arranca 151 mm más al sur, es
+// más tendida y llega a este travesaño ya por debajo. Medido sobre el contorno
+// emitido: la banda pasa a Z −52.58…−44.92 en su huella (Y −1540…−1500), o sea
+// 4.92 mm por debajo de su fondo. VUELVE a su sitio y a su cota de siempre.
+// Se deja escrito porque es el ejemplo de por qué las cotas de este bloque se
+// RECALCULAN y no se copian: mover un rodillo 151 mm devolvió un travesaño.
 // ═══════════════════════════════════════════════════════════════════════════
-export const TRAVESANO_RETIRADO = {
-  y: -1520,
-  motivo: 'la rampa del ramal de retorno recto cruza el plano Z −40 dentro de su huella; ni '
-    + 'bajándolo (el cubrejunta alma↔cabezal ocupa Z −125…−70) ni moviéndolo (el tubo del conducido '
-    + 'arranca en Y −1553.4) queda sitio',
-  loQueSujetaba: 'el larguero sur, que sigue apoyado en su testa dentro del cabezal conducido y en '
-    + 'el travesaño de −1440 (voladizo libre 138 mm)',
-};
 /** Coronación de un travesaño (calc). */
 export const travTopDe = (y) => TRAVESANO_TOP[String(y)] ?? Z.travTop;
 export const travBotDe = (y) => r3(travTopDe(y) - PERFIL.h);
@@ -372,9 +357,19 @@ export const PUENTE_APOYO = {
   // = −9.87) menos la holgura; no se escribe un −14 a mano.
   ramalZ: -9.87,                 // params_tambores CORREDOR.zCara (se re-verifica
                                  //   en la compuerta contra el contorno emitido)
-  holguraRamal: 4.13,            // dis — 4 mm largos de aire entre el travesaño y
-                                 //   la cara de la banda; el resto del módulo pide 2
-  get topZ() { return r3(this.ramalZ - this.holguraRamal); },      // −14.0 calc
+  // ⚠ LA HOLGURA NO SE MIDE CONTRA EL TRAMO RECTO, sino contra la RAMPA. Al
+  // acercar los rodillos elevadores al módulo (05-08, tercera corrección del
+  // cliente) el tramo recto del retorno se acortó a Y −1206…−739 y estos dos
+  // travesaños quedaron FUERA de él: por su huella ya no pasa la banda plana a
+  // −9.87, pasa la rampa BAJANDO. Medido sobre el contorno emitido, la cara
+  // portante llega a Z −20.22 en el canto norte del travesaño de −692 y a
+  // −23.62 en el canto sur del de −1280. Con la holgura vieja (4.13, o sea
+  // coronar en −14) la banda se les metía 6.2 y 9.6 mm — 20.3 cm³ en la
+  // verificación B-rep. La holgura pasa a 18.13 para coronar en −28, que deja
+  // 7.78 y 4.38 mm a la rampa. Si el elevador se mueve otra vez, ESTE número hay
+  // que rehacerlo: la §R lo canta sobre el contorno, no sobre esta línea.
+  holguraRamal: 18.13,           // calc — ver arriba (antes 4.13, contra el tramo recto)
+  get topZ() { return r3(this.ramalZ - this.holguraRamal); },      // −28.0 calc
   get botZ() { return r3(this.topZ - PERFIL.h); },                 // −54.0 calc
   // altura del CABALLETE: de la coronación del travesaño a la cara inferior de
   // la placa base (que no se mueve)

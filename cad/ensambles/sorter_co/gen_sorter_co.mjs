@@ -595,8 +595,11 @@ if (ROMPE === 'paso') {
         const a = pts[i], b = pts[(i + 1) % pts.length];
         out.push(a);
         const yLo = Math.min(a[0], b[0]), yHi = Math.max(a[0], b[0]);
-        if (a[1] < 0 && b[1] < 0 && yLo < y0 - 20 && yHi > y1 + 20) {
-          const z = a[1], seno = [[y1 + 20, z], [y1 - 30, z - 60], [y0 + 30, z - 60], [y0 - 20, z]];
+        // el tramo RECTO del retorno cubre la huella con muy poco margen (los
+        // elevadores están pegados al módulo), así que la condición NO puede
+        // pedir 20 mm de sobra a cada lado: pide que el tramo cubra la huella.
+        if (a[1] < 0 && b[1] < 0 && yLo <= y0 && yHi >= y1) {
+          const z = a[1], seno = [[y1, z], [y1 - 30, z - 60], [y0 + 30, z - 60], [y0, z]];
           out.push(...(a[0] > b[0] ? seno : [...seno].reverse()));
         }
       }
@@ -2566,6 +2569,28 @@ function verify() {
           + `El NBT90 declara el de su anfitrión en Z ${A.retorno.z.join('…')}: vamos `
           + `${r2((RM[0]?.caraZ ?? 0) - A.retorno.z[0])} mm más altos porque le exigimos 2 mm al `
           + 'motorreductor donde el anfitrión se conforma con 0.3.');
+        avisosDeclarados.push('RETORNO RECTO · EL RODILLO ELEVADOR, tal como lo pidió el cliente el '
+          + '05-08 («más [sencillo] con rodamientos al interior y apernado a su eje por fuera y más '
+          + 'cerca de la transferencia»), y las tres cosas resueltas con su número: '
+          + '(1) RODAMIENTOS AL INTERIOR — ya estaba: 2 × R8-2RS ABEC-1 dentro de las tapas-soporte, '
+          + 'alojadas en el tubo Ø48.26, sobre eje FIJO Ø12.7 que no gira. No se ha tocado. '
+          + `(2) APERNADO A SU EJE POR FUERA — hecho, y de paso desaparece la ménsula: el conjunto se `
+          + `monta ATORNILLADO A LA CHAPA como el catálogo manda y como el NBT90 monta el suyo. El eje `
+          + `topa contra las caras interiores del alargue (X ${TAMB_ELEV.soporte.caraX.join(' y ')}) y un `
+          + `${TAMB_ELEV.tornilloEje.desig} entra por un Ø${TAMB_ELEV.tornilloEje.pasante} desde fuera a `
+          + `su hilo interior 1/4-20 × ${TAMB_ELEV.tornilloEje.roscaProf}: agarre `
+          + `${TAMB_ELEV.tornilloEje.agarre} mm = ${r2(TAMB_ELEV.tornilloEje.agarre / TAMB_ELEV.tornilloEje.d)} × d, `
+          + `con ${TAMB_ELEV.tornilloEje.sobraHilo} mm de hilo sin usar (no toca fondo). FUERA: 4 pletinas `
+          + `88×100×12, 16 pernos M10 y 4 collares de apriete partidos — 24 piezas y DOS referencias de `
+          + `compra menos, y el montaje deja de exigir meter un collar en un hueco ciego. El barreno H8 `
+          + `también se va: el eje ya no entra deslizando, topa. `
+          + `(3) MÁS CERCA — hecho y hasta el tope: de 136 y 152 mm del canto de la huella a `
+          + `${TAMB_ELEV.huecoLibre.distanciaAlCantoDeLaHuella.norte} y `
+          + `${TAMB_ELEV.huecoLibre.distanciaAlCantoDeLaHuella.sur} mm. Lo que los tenía lejos era la `
+          + `PLETINA, no el rodillo: sin ella el único límite es la envolvente Ø48.26. Al norte la fija `
+          + `el TRANSFER ROLLER GUARD del cassette (cara −766) y al sur el MOTORREDUCTOR SEW (cara `
+          + `−1175.35); quedan ${TAMB_ELEV.huecoLibre.norte.holguraPorLado[0]} y `
+          + `${TAMB_ELEV.huecoLibre.sur.holguraPorLado[1]} mm. No se puede más.`);
         avisosDeclarados.push(`RETORNO RECTO · lo sostienen DOS RODILLOS ELEVADORES —los dos círculos `
           + `verdes del croquis del cliente— en ${TAMB_EJES.retorno.map(R => `${R.id}(Y ${R.y})`).join(' y ')}, `
           + `uno a cada lado de la huella del módulo (${y0}…${y1}). Son conjunto ${TAMB_ELEV.ref}: la `
@@ -2586,24 +2611,25 @@ function verify() {
           + `proveedor da un mínimo mayor que ${TAMB_ELEV.dia}, el hueco del lado norte no admite un `
           + `rodillo más grande sin mover el travesaño de puente: preguntar ANTES de comprar la banda.`);
         avisosDeclarados.push('RETORNO RECTO · LO QUE LE CUESTA AL BASTIDOR PG40, travesaño a '
-          + 'travesaño y con su número: el ramal de retorno pasa a ocupar la franja Z −40…0, que hasta '
-          + 'ahora era SÓLO del bastidor (el retorno le pasaba 19.07 mm por debajo). '
-          + '(1) Y −555 → SE MUEVE a −450: la rampa lo cogía a Z −16.9…−27.0, o sea 13.0 mm dentro del '
-          + 'perfil; a −450 la banda le pasa 3.4 mm por debajo y no hay que bajarlo. '
-          + `(2) Y −1440 → SE BAJA 45 mm (corona en ${PG40_TRAVTOP['-1440']} y no en ${'0'}) y pasa a morir `
-          + 'en las caras interiores del alargue (L 580.84 → 423.92), porque su fondo entraría en la '
-          + 'franja del alma; la banda le pasa 14.0 mm por encima. '
-          + '(3) Y −1520 → SE RETIRA: la rampa CRUZA el plano Z −40 dentro de su propia huella, así que '
-          + 'ni dejándolo (la banda le entra 3.13 mm) ni bajándolo (el cubrejunta alma↔cabezal ocupa '
-          + 'Z −125…−70) ni moviéndolo (el tubo del conducido arranca en Y −1553.4) queda sitio. Lo que '
-          + 'sujetaba sigue sujeto: el larguero sur apoya en su testa dentro del cabezal conducido y en '
-          + 'el travesaño de −1440. '
+          + 'travesaño y con su número (cotas medidas sobre el contorno de banda EMITIDO, no '
+          + 'declaradas): el ramal de retorno pasa a ocupar la franja Z −40…0, que hasta ahora era '
+          + 'SÓLO del bastidor — el retorno le pasaba 19.07 mm por debajo. '
+          + '(1) Y −555 → SE MUEVE a −450. La rampa lo cogía a Z −16.9…−27.0, o sea 13.0 mm dentro '
+          + 'del perfil; a −450 la banda le pasa 8.37 mm por debajo y no hay que bajarlo. '
+          + `(2) Y −1440 → SE BAJA 45 mm (corona en ${PG40_TRAVTOP['-1440']} y no en 0) y muere en las `
+          + 'caras interiores del alargue (L 580.84 → 423.92), porque su fondo entraría en la franja '
+          + 'del alma. La banda le pasa 2.7 mm por encima. '
+          + '(3) Y −1520 → SE QUEDA como estaba. Estuvo retirado mientras los elevadores vivían lejos '
+          + 'del módulo (la rampa cruzaba el plano Z −40 dentro de su huella); al pegarlos a la '
+          + 'transferencia la rampa arranca 151 mm más al sur, es más tendida y le pasa 4.92 mm por '
+          + 'debajo. Vuelve a su cota de siempre. '
           + `(4) los DOS TRAVESAÑOS DE PUENTE (−692 y −1280) bajan de coronar en 7.28 a `
-          + `${PG40_APOYO.topZ} —el ramal recto les pasaba 17.15 mm por dentro— y sus 10 placas base `
-          + `pasan a ser CABALLETES de ${PG40_APOYO.caballeteH} mm sobre 2 casquillos `
-          + `${PG40_APOYO.caballeteCasquillo}×${PG40_APOYO.caballeteCasquillo} a X = eje ± `
-          + `${PG40_APOYO.caballeteCasquilloX}, que dejan pasar la banda con 3 mm por lado. `
-          + 'El vano libre del puente NO cambia (588 mm): la alternativa cara —llevar el puente a los '
+          + `${PG40_APOYO.topZ}: por su huella NO pasa el tramo recto sino la RAMPA, que llega a `
+          + `Z −19.88 y −21.75. Sus 10 placas base pasan a ser CABALLETES de `
+          + `${PG40_APOYO.caballeteH} mm sobre 2 casquillos ${PG40_APOYO.caballeteCasquillo}×`
+          + `${PG40_APOYO.caballeteCasquillo} a X = eje ± ${PG40_APOYO.caballeteCasquilloX}, que dejan `
+          + `pasar la banda con 3 mm por lado. Quedan 6.25 y 8.12 mm de la rampa al travesaño. '
+          + 'El vano libre del puente NO cambia (588 mm): la alternativa cara —llevar el puente a los `
           + 'travesaños vecinos, ×3.44 en flecha— no hace falta.');
         // ⚠ EL EJE DEL ELEVADOR, RECALCULADO CON EL ABRAZADO REAL. mod_tambores
         // comprueba sus ejes sobre un lazo SIN la horquilla del tensor (no la
@@ -2644,20 +2670,59 @@ function verify() {
               + 'Se DECLARA y no se ajusta el límite: el umbral es del dueño del módulo.');
           }
         }
-        // ⚠ LO QUE NO CIERRA, con su número y su dueño — no se maquilla:
-        avisosDeclarados.push('RETORNO RECTO · NO CUMPLE (1 hallazgo, 10 pares, 1.42 cm³ en la '
-          + 'verificación B-rep exacta): la rampa SUR del ramal de retorno roza los 10 pernos '
-          + '«M8×12 CT-ENS↔perfil» del cliente. Esos pernos entran en X desde la cara del larguero '
-          + '(eje ± 20) a Z = −20 y Z = +20, y la rampa pasa por Y −1429…−1414 a Z −18.9…−24.6: el '
-          + 'vástago de los de Z = −20 cruza el ancho de la banda. Penetración 0.14 cm³ por perno. '
-          + 'DOS COSAS, y las dos son de otro módulo: (a) el perno de Z = −20 YA ESTABA HUÉRFANO '
-          + 'antes de este cambio —viene de cuando el perfil era 40×80 (Z −40…40) y con el larguero '
-          + 'PG40 40×40 (Z 0…40) no hay ranura a esa cota en la que morder—, y (b) aunque la '
-          + 'hubiera, ahí pasa ahora la banda. La cota vive en adapt/params_estaciones.mjs '
-          + '(EXTREMOS.ctens.m8z = [−20, 20]) pero quien la emite es adapt/mod_estaciones.mjs, que '
-          + 'la lleva cableada: el arreglo es de su dueño. Mientras tanto queda DECLARADO, no '
-          + 'corregido en silencio.');
-      } else {
+        // ⚠ LA RAMPA SUR CONTRA LA TORNILLERÍA DEL CT-ENS DEL CLIENTE. Se MIDE,
+        // no se supone: los 10 pernos «M8×12 CT-ENS↔perfil» entran en X desde la
+        // cara del larguero a Z = ±20 y viven en Y −1429.4…−1414.4, que es por
+        // donde baja la rampa del retorno. Con los elevadores en su primera
+        // posición (RE-S en −1357) la rampa les pasaba POR DENTRO: 10 pares y
+        // 1.42 cm³ en la verificación B-rep. Al pegar RE-S a la transferencia
+        // (−1206) la rampa arranca 151 mm más al sur, va más tendida y les pasa
+        // por debajo. Se comprueba aquí cada vez, contra el contorno emitido.
+        {
+          const pernosCT = partes.filter(p => /^FIJO · Perno hex M8×12 CT-ENS↔perfil/.test(p.name));
+          if (pernosCT.length) {
+            const yLo = Math.min(...pernosCT.map(q => bb.get(q).lo[1]));
+            const yHi = Math.max(...pernosCT.map(q => bb.get(q).hi[1]));
+            const zHiP = Math.max(...pernosCT.map(q => bb.get(q).hi[2]));
+            const zLoP = Math.min(...pernosCT.map(q => bb.get(q).lo[2]));
+            let bandaHi = -1e9, bandaLo = 1e9;
+            for (let k = 0; k < EJES.length; k++) {
+              const banda = nuevas.find(p => /Banda plana 32/.test(p.name) && p.name.includes(`(calle ${k + 1},`));
+              if (!banda) continue;
+              for (const f of banda.features.filter(f2 => f2.shape === 'sketch')) {
+                const pts = f.params.pts;
+                for (let Y = yLo; Y <= yHi; Y += 0.5) {
+                  for (let q = 0; q < pts.length; q++) {
+                    const a = pts[q], b2 = pts[(q + 1) % pts.length];
+                    if ((a[0] > Y) === (b2[0] > Y)) continue;
+                    const z = a[1] + (b2[1] - a[1]) * (Y - a[0]) / (b2[0] - a[0]);
+                    if (z > 20) continue;                       // eso es el portante
+                    if (z > bandaHi) bandaHi = z;
+                    if (z < bandaLo) bandaLo = z;
+                  }
+                }
+              }
+            }
+            const holgCT = r2(zLoP - bandaHi);
+            m.rampaVsCtens = { pernos: pernosCT.length, pernoZ: [r2(zLoP), r2(zHiP)],
+              bandaZ: [r2(bandaLo), r2(bandaHi)], holgura: holgCT };
+            if (holgCT < 2) {
+              e.push(`§R: la RAMPA del ramal de retorno pasa a ${holgCT} mm de los ${pernosCT.length} `
+                + `pernos «M8×12 CT-ENS↔perfil» del cliente (Y ${r2(yLo)}…${r2(yHi)}, Z ${r2(zLoP)}…`
+                + `${r2(zHiP)}) y la banda va a Z ${r2(bandaLo)}…${r2(bandaHi)}: mínimo 2 mm`);
+            } else {
+              avisosDeclarados.push(`RETORNO RECTO · la rampa sur libra por ${holgCT} mm los `
+                + `${pernosCT.length} pernos «M8×12 CT-ENS↔perfil» del cliente (banda a Z `
+                + `${r2(bandaLo)}…${r2(bandaHi)}, perno a ${r2(zLoP)}…${r2(zHiP)}). Con los elevadores `
+                + 'en su primera posición NO libraba: se los comía por 1.42 cm³ en 10 pares, y lo '
+                + 'arregló pegarlos a la transferencia, que es lo que pidió el cliente. Queda dicho '
+                + 'porque el perno de Z = −20 sigue HUÉRFANO por otra razón: viene de cuando el perfil '
+                + 'era 40×80 (Z −40…40) y con el larguero PG40 40×40 (Z 0…40) no hay ranura a esa cota '
+                + 'en la que morder. Su cota está en adapt/params_estaciones.mjs (EXTREMOS.ctens.m8z) '
+                + 'y quien la emite es adapt/mod_estaciones.mjs, que la lleva cableada: es de su dueño.');
+            }
+          }
+        }
         avisosDeclarados.push('RETORNO · el pozo sigue montado (params_tambores.RETIRA_POZO.activo = '
           + `false): el ramal cruza POR DEBAJO del módulo con ${RT.rodillos} rodillos, a Z ${RT.ramalZ}, `
           + `${Math.abs(RT.faltaMm)} mm por debajo del suelo del corredor (${RT.ventanaZ[0]}).`);
@@ -2666,11 +2731,17 @@ function verify() {
     // ▲▲▲ ------------------------------------------------------- ▲▲▲
     {
       const SR = TAMB_EJES.retornoSoporte;
-      avisosDeclarados.push(`TAMBORES: los ${TAMB_EJES.retorno.length} rodillos del ramal de retorno `
-        + 'necesitan ménsula de PG40 en '
+      const cuadro = (SR.patronY ?? SR.patron) || (SR.patronZ ?? SR.patron);
+      avisosDeclarados.push(`TAMBORES: lo que los ${TAMB_EJES.retorno.length} rodillos del ramal de `
+        + 'retorno le piden al alargue PG40, en '
         + TAMB_EJES.retorno.map(R => `${R.id}(Y ${R.y}, Z ${R.z})`).join(' · ')
-        + ` — cuadro ${SR.patronY ?? SR.patron}×${SR.patronZ ?? SR.patron}, taladro Ø${SR.taladro}, `
-        + `caras de apoyo X ${SR.caraX.join(' y ')}`);
+        + (cuadro
+          ? ` — cuadro ${SR.patronY ?? SR.patron}×${SR.patronZ ?? SR.patron} de Ø${SR.taladro} para su ménsula`
+          : ` — MONTAJE DIRECTO, sin ménsula: UN taladro Ø${SR.taladro} por lado en el eje del rodillo, `
+            + `con ${SR.lobulo} mm de chapa alrededor, y NINGÚN taladro de paso (el eje TOPA contra `
+            + 'esta chapa y el perno entra por ese Ø7 desde fuera; un paso aquí dejaría al eje sin '
+            + 'cara donde apoyar)')
+        + `. Caras de apoyo X ${SR.caraX.join(' y ')}`);
     }
   }
   // ▲▲▲ ------------------------------------------------------------- ▲▲▲

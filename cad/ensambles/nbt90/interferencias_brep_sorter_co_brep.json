@@ -1,9 +1,9 @@
 {
  "documento": "sorter_co_brep.json",
  "tolerancia_cm3": 0.05,
- "piezas": 822,
- "pares_candidatos": 2209,
- "interferencias": 144,
+ "piezas": 807,
+ "pares_candidatos": 2152,
+ "interferencias": 134,
  "detalle": [
   {
    "cm3": 30.652,
@@ -871,76 +871,6 @@
    "a": "FIJO · Travesaño frontal del tensor 40×40×3 (L=423.92) — «placa frontal»",
    "b": "FIJO · Perno hex M8×25 ménsula↔travesaño (calle 5, X=431.856, +X)",
    "pct_de_la_menor": 7.28,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1417,
-   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 1, X=127.056)",
-   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 1, X=127.056, Z=-20, −X)",
-   "pct_de_la_menor": 10.28,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1417,
-   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 1, X=127.056)",
-   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 1, X=127.056, Z=-20, +X)",
-   "pct_de_la_menor": 10.28,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1417,
-   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 2, X=203.256)",
-   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 2, X=203.256, Z=-20, −X)",
-   "pct_de_la_menor": 10.28,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1417,
-   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 2, X=203.256)",
-   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 2, X=203.256, Z=-20, +X)",
-   "pct_de_la_menor": 10.28,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1417,
-   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 3, X=279.456)",
-   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 3, X=279.456, Z=-20, −X)",
-   "pct_de_la_menor": 10.28,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1417,
-   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 3, X=279.456)",
-   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 3, X=279.456, Z=-20, +X)",
-   "pct_de_la_menor": 10.28,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1417,
-   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 4, X=355.656)",
-   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 4, X=355.656, Z=-20, −X)",
-   "pct_de_la_menor": 10.28,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1417,
-   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 4, X=355.656)",
-   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 4, X=355.656, Z=-20, +X)",
-   "pct_de_la_menor": 10.28,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1417,
-   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 5, X=431.856)",
-   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 5, X=431.856, Z=-20, −X)",
-   "pct_de_la_menor": 10.28,
-   "cruce": false
-  },
-  {
-   "cm3": 0.1417,
-   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 5, X=431.856)",
-   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 5, X=431.856, Z=-20, +X)",
-   "pct_de_la_menor": 10.28,
    "cruce": false
   },
   {

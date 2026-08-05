@@ -555,10 +555,56 @@ export const ELEVADORES = {
   // sino a las pletinas del alargue PG40, que es otro vano.
   cara: 360,                           // dis
   get tuboX() { return [r3(Xc - this.cara / 2), r3(Xc + this.cara / 2)]; },
-  ejeX: [62, 497],                     // calc — igual que el conducido y los retornos
-  // MÉNSULA: la que YA existe para los rodillos de retorno (patrón 76×76,
-  // taladro Ø11) — no se inventa un amarre nuevo. Cambia el barreno, que pasa de
-  // Ø30 a Ø12.7.
+  // El eje MUERE contra la cara INTERIOR de la chapa del alargue (ya no la
+  // atraviesa: lo aprieta el perno desde fuera). Es la regla del propio catálogo
+  // — «ejeLargo = BR», el vano entre caras de montaje.
+  get ejeX() { return [this.soporte.caraX[0], this.soporte.caraX[1]]; },   // 67.494 … 491.418
+  // ═════════════════════════════════════════════════════════════════════════
+  // RETENCIÓN AXIAL — PERNO POR FUERA AL HILO INTERIOR DEL EJE (cliente 05-08)
+  //
+  // «Ese rodillo debe ser [más sencillo] con rodamientos al interior y apernado
+  // a su eje por fuera». Es la misma convención que el cliente dio para los
+  // rodillos del NBT90: «sujeciones con perforación y rodillo con su eje con
+  // hilo interior entonces supongo perno por fuera chapa».
+  //
+  // LO QUE HABÍA: un COLLAR DE APRIETE PARTIDO Ø12.7/Ø30×11 contra la cara
+  // interior de cada pletina — 4 collares en total, una referencia de compra más
+  // y un montaje que obliga a meter el collar en el hueco ciego entre la testa
+  // del tubo y la pletina.
+  // LO QUE HAY AHORA: el eje del conjunto B-20760 YA TRAE hilo interior 1/4-20
+  // UNC × 15.88 (5/8") en las dos puntas — es cota de catálogo ED&T, la misma
+  // que cita nbt90/bastidor.mjs `rodRetorno.roscaProf`. El eje TOPA contra la
+  // cara interior de la pletina y un perno con golilla entra DESDE FUERA y lo
+  // aprieta. Dos piezas menos por elevador y una referencia menos que comprar.
+  //
+  // LAS TRES COMPROBACIONES QUE PIDE EL ENCARGO, con su número:
+  //  (a) AGARRE DE ROSCA: perno 1/4-20 × 25.4 (1"), golilla 1.6, pletina 12 →
+  //      entra 11.8 mm en el hilo, que son 1.86 × d. El hilo de catálogo tiene
+  //      15.88, así que el perno NO toca fondo (4.08 mm de sobra). No se supone
+  //      la profundidad: se cita.
+  //  (b) ACCESO DE LLAVE: la cabeza queda dentro del taladro de paso de eje que
+  //      la cartela/alma del alargue ya lleva, Ø22.7 (= Ø del eje + 10). Una
+  //      cabeza 1/4-20 mide 11.11 e/c y la golilla Ø13.97: entran con 4.4 mm de
+  //      aire al borde del taladro. Se aprieta con llave de vaso desde fuera.
+  //  (c) EL BARRENO H8 SE RETIRA. Ya no hace falta que el eje ENTRE deslizando
+  //      por la pletina: ahora topa contra ella. La pletina pasa a llevar un
+  //      taladro de paso Ø7 para el perno y una CAJA Ø13 × 4 que centra la testa
+  //      del eje — el centrado deja de ser un ajuste H8 en 12 mm de chapa y pasa
+  //      a ser un rebaje de 4, que es más barato y más tolerante. Es además lo
+  //      que hace el propio B-20760 en el NBT90, donde el eje topa contra el alma
+  //      del canal y el perno de 1/4 lo centra por su taladro Ø7.
+  tornilloEje: {
+    desig: '1/4-20 UNC × 3/4" + golilla plana 1/4" — el MISMO perno con el que el '
+      + 'NBT90 monta su B-20760 (nbt90/rodillos.mjs, L.retPernoLargo)',   // cat
+    d: 6.35, pasante: 7.0, largo: 19.05, af: 11.11, altoCab: 4.14,   // cat
+    golillaE: 1.6, golillaD: 13.97,                                  // cat (2.2 × d)
+    chapaE: 8,                    // pg40 ALARGUE.e — lo que atraviesa
+    roscaProf: 15.88,             // cat ED&T (nbt90 bastidor.mjs `rodRetorno.roscaProf`)
+    get agarre() { return r3(this.largo - this.chapaE - this.golillaE); },   // 9.45 = 1.49 × d
+    get sobraHilo() { return r3(this.roscaProf - this.agarre); },            // 6.43
+  },
+  // MÉNSULA: la misma cara de apoyo y el mismo tipo de pletina que los rodillos
+  // de retorno de pozo. Cambian tres cosas y las tres tienen su motivo:
   // ⚠ EL CUADRADO DE 100 NO ENTRA, y el número es éste: el bolsillo del lado sur
   // mide 94 mm limpios —de la «Ménsula alma↔travesaño Y −1412» (cara −1404) a la
   // «Escuadra travesaño de puente↔chapón sur» (cara −1310)— y las dos piezas
@@ -571,38 +617,80 @@ export const ELEVADORES = {
   // (`interfazPG40.retornosNecesitanMensula`). Y no cuesta nada mecánicamente: la
   // resultante sobre un elevador es 2·T·sen(abrazado/2) = 16 N por banda, contra
   // los 192 N que llevaba un rodillo de hombro del pozo.
-  soporte: { e: 12, ladoY: 88, ladoZ: 100, bore: 12.7,
-    patronY: 64, patronZ: 76, taladro: 11,
-    get lado() { return this.ladoZ; }, get patron() { return this.patronZ; },
-    caraX: [67.494, 491.418], normal: [1, -1] },
-  collar: 'Mädler 62341270 — collar de apriete PARTIDO en dos mitades (double-split), acero C45 '
-    + 'pavonado, Ø12.7 int × Ø30 ext × 11, 2 tornillos M4×12 DIN 912 12.9 · web COLL-SPLIT-01 '
-    + '(misma familia y mismo fabricante que los Ø30 y Ø35 del resto del lazo; el Ø y el largo son '
-    + 'los de la talla 1/2" de esa familia). Retención axial del eje fijo',
-  collarDe: 30,                        // cat COLL-SPLIT-01 (talla 1/2")
-  collarR: 34,                         // cat — envolvente sobre la cabeza del tornillo
+  // ═════════════════════════════════════════════════════════════════════════
+  // MONTAJE DIRECTO — SIN PLETINA. La pieza que pedía el cliente.
+  //
+  // «Ese rodillo debe ser [más sencillo] con rodamientos al interior y apernado
+  // a su eje por fuera y más cerca de la transferencia». Las tres cosas son la
+  // MISMA: el conjunto B-20760 no se monta con ménsula, se monta ATORNILLADO A
+  // LA CHAPA. Así va en el NBT90 (nbt90/rodillos.mjs §2): el eje topa contra el
+  // alma del canal y un 1/4-20 entra desde fuera al hilo interior del eje. Ni
+  // pletina, ni barreno H8, ni collar.
+  //
+  // LO QUE SE VA, por elevador: 2 pletinas 88×100×12 + 8 pernos M10 + 2 collares
+  // partidos = 12 piezas. LO QUE ENTRA: 2 pernos 1/4-20 × 3/4" + 2 golillas = 4.
+  // Y con ellas se va la razón por la que los elevadores estaban LEJOS de la
+  // transferencia: lo que no cabía en el bolsillo era la PLETINA, no el rodillo.
+  //
+  //   agarre de rosca: perno 19.05 (3/4") − chapa 8 − golilla 1.6 = 9.45 mm =
+  //     1.49 × d, contra los 15.88 de hilo que el catálogo ED&T da al eje de 1/2"
+  //     (nbt90 `rodRetorno.roscaProf`): 6.43 mm de hilo sin usar, no toca fondo.
+  //     Es EXACTAMENTE el mismo perno que el NBT90 pone en su B-20760.
+  //   acceso de llave: la cabeza queda por FUERA de la cartela (X 59.494 en −X)
+  //     con el alma del alargue a 8.6 mm — cabe llave de vaso.
+  //   centrado del eje: el taladro Ø7 de la chapa y el propio perno, que es como
+  //     lo centra el catálogo. Sin ajuste H8 en 12 mm de chapa.
+  montajeDirecto: true,
+  soporte: { e: 8, taladro: 7.0, bore: 7.0, patron: 0,
+    lobulo: 22,                    // dis — semi-lado del refuerzo de chapa que
+    //   pg40 tiene que dejar alrededor del taladro (Ø7 con 18.5 de material)
+    caraX: [67.494, 491.418], normal: [1, -1],
+    get lado() { return 2 * this.lobulo; }, get ladoY() { return 2 * this.lobulo; },
+    get ladoZ() { return 2 * this.lobulo; },
+    get patronY() { return 0; }, get patronZ() { return 0; } },
+  // COLLAR DE APRIETE: RETIRADO el 05-08 (instrucción del cliente). Lo sustituye
+  // `tornilloEje`. Se anota aquí lo que era para que quede el rastro: «Mädler
+  // 62341270, collar partido Ø12.7/Ø30×11». Dos por elevador, cuatro en total.
+  collarRetirado: 'Mädler 62341270 (collar de apriete PARTIDO Ø12.7 int × Ø30 × 11) — 4 unidades '
+    + 'fuera: el cliente pide apernar el eje por fuera contra su hilo interior, que el conjunto '
+    + 'B-20760 ya trae de catálogo',
   tapa: { e: 8, inset: 6 },
   anillo: 'DIN 471 Ø12',
   // POSICIONES (dis — el hueco libre a cada lado, medido sobre el ensamble
   // emitido; ver el bloque de arriba). `s` = −1 en el convenio de bandaFaces:
   // la banda los envuelve POR ARRIBA y los toca con su CARA PORTANTE.
-  // ⚠ RE-S NO ESTÁ EN EL CENTRO DE SU HUECO, y el motivo es una pieza concreta:
-  // la «Ménsula alma↔travesaño (Y −1412)» del PG40 —la escuadra soldada que
-  // amarra el alargue al travesaño de −1440— ocupa Y −1420…−1404 en el MISMO
-  // plano de chapa que la pletina del elevador. Con RE-S en −1360 la pletina
-  // (−1410…−1310) se le metía 6 mm. El hueco real es (−1404, −1300) = 104 mm
-  // para una pletina de 100, así que RE-S sólo puede estar entre −1354 y −1350.
-  y: { norte: -606, sur: -1357 },
-  // Hueco libre en Y para la PLETINA de 100 (que es lo que manda, no el rodillo)
+  // ═════════════════════════════════════════════════════════════════════════
+  // POSICIÓN EN Y — LO MÁS PEGADOS A LA TRANSFERENCIA QUE PERMITE LA GEOMETRÍA
+  // (tercera corrección del cliente, 05-08: «…y más cerca de la transferencia»)
+  //
+  // Estaban en −606 y −1357, o sea a 136 y 152 mm del canto de la huella del
+  // módulo (Y −1205…−742), porque era donde cabía una pletina de 88. Con la
+  // pletina estrechada a 60 (ver `soporte`) entran en el bolsillo bueno:
+  // Sin pletina, el que manda es el RODILLO: su envolvente es Ø48.26 con el eje
+  // en Z −34, o sea Z −58.13…−9.87, y tiene que pasar entre lo que hay:
+  //   NORTE  bolsillo Y (−766 … −712) = 54 mm, entre el TRANSFER ROLLER GUARD
+  //          del cassette (14 GA 370×118, Y −779.72…−766, Z −157.27…−39.27, en
+  //          la banda X de las calles) y el TRAVESAÑO DE PUENTE norte del PG40
+  //          (Y −712…−672, Z −54…−14). Con Ø48.26 y 2 mm de holgura sólo queda
+  //          la ventana Y (−739.87 … −738.13).
+  //          → RE-N en −739: rodillo −763.13…−714.87 (2.87 al guard, 2.87 al
+  //            travesaño). Es el ÚNICO sitio.
+  //   SUR    manda el MOTORREDUCTOR SEW del cassette, que llega a Y −1175.35 y
+  //          ocupa Z −214.37…−11.87: el rodillo tiene que morir 2 mm antes.
+  //          → RE-S en −1206: rodillo −1230.13…−1181.87 (6.52 al SEW, 29.87 al
+  //            travesaño de puente sur).
+  // RESULTADO: de 136 y 152 mm a **3 y 1 mm** del canto de la huella del módulo
+  // (−1205…−742). Los dos quedan pegados al canto, que es donde el NBT90 pone su
+  // propio B-20760 (Y −1194, 11 mm DENTRO de la huella).
+  // NO SE PUEDE MÁS, y con nombre: al norte lo impide el transfer roller guard —
+  // pieza MÓVIL del cassette, que sube y baja— y al sur el motorreductor.
+  y: { norte: -739, sur: -1206 },
   huecoLibre: {
-    norte: { entre: ['PG40 Travesaño de puente norte (cara −672)', 'PG40 Travesaño Y −450 (cara −470)'],
-      mm: 202, pletinaY: [-650, -562], holguraPorLado: [22, 92] },
-    sur: { entre: ['PG40 Ménsula alma↔travesaño Y −1412 (cara −1404)', 'PG40 Travesaño de puente sur (cara −1300)'],
-      mm: 94, pletinaY: [-1401, -1313], holguraPorLado: [3, 3] },
-    descartado: 'los bolsillos pegados a la huella (−739 y −1218, donde el NBT90 pone su B-20760): '
-      + 'la banda cabe, la pletina de 100 no — al norte sólo quedan 67.7 mm entre la placa peine '
-      + '(−779.72) y el travesaño de puente (−712), y exigiría un patrón menor que el 76×76 que el '
-      + 'alargue PG40 ya taladra para los rodillos de retorno',
+    norte: { entre: ['NBT90 Transfer roller guard 14 GA (cara −766)', 'PG40 Travesaño de puente norte (cara −712)'],
+      mm: 54, rodilloY: [-763.13, -714.87], holguraPorLado: [2.87, 2.87] },
+    sur: { entre: ['PG40 Travesaño de puente sur (cara −1260)', 'NBT90 Motorreductor SEW (cara −1175.35)'],
+      mm: 84.65, rodilloY: [-1230.13, -1181.87], holguraPorLado: [29.87, 6.52] },
+    distanciaAlCantoDeLaHuella: { norte: 3, sur: 1 },
   },
   // FLEXIÓN INVERSA — el número que hay que declarar (calc + web BELT-SAB8E-01)
   get flexionInversa() {

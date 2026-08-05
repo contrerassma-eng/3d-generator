@@ -24,6 +24,40 @@ import {
 } from './params_pg40.mjs';
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
+
+/** Taladros que pide UN rodillo del ramal de retorno en la chapa del alargue.
+ *  Dos montajes, y la tabla de params_tambores decide cuál:
+ *   · con PLETINA (rodillos de pozo): cuadro de 4 Ø11 + taladro de PASO del eje,
+ *     porque el eje ATRAVIESA la chapa y muere en la pletina de fuera;
+ *   · MONTAJE DIRECTO (rodillos elevadores B-20760, `patron === 0`): UN solo Ø7
+ *     en el eje del rodillo y NINGÚN paso — el eje TOPA contra esta chapa y el
+ *     perno entra por ese Ø7 desde fuera. Un taladro de paso aquí sería el error
+ *     de bulto: dejaría al eje sin cara donde apoyar.
+ *  Devuelve además el SEMI-LADO del refuerzo de chapa que hace falta alrededor. */
+function taladrosDeRetorno(rr, xRef, dirIn) {
+  const patY = RSOP.patronY ?? RSOP.patron, patZ = RSOP.patronZ ?? RSOP.patron;
+  if (!patY && !patZ) {
+    return [hole(`Perno de eje ${rr.id} Ø${RSOP.taladro} (montaje directo B-20760)`,
+      [xRef, rr.y, rr.z], dirIn, RSOP.taladro)];
+  }
+  const f = [];
+  for (const dy of [-patY / 2, patY / 2]) {
+    for (const dz of [-patZ / 2, patZ / 2]) {
+      f.push(hole(`Soporte de retorno ${rr.id} Ø${RSOP.taladro}`,
+        [xRef, r3(rr.y + dy), r3(rr.z + dz)], dirIn, RSOP.taladro));
+    }
+  }
+  f.push(hole(`Paso del eje de retorno ${rr.id} Ø${r3((RSOP.bore ?? 30) + 10)}`,
+    [xRef, rr.y, rr.z], dirIn, r3((RSOP.bore ?? 30) + 10)));
+  return f;
+}
+/** Semi-lado del refuerzo de chapa alrededor del amarre de un rodillo (calc). */
+function semiRefuerzo() {
+  const patY = RSOP.patronY ?? RSOP.patron, patZ = RSOP.patronZ ?? RSOP.patron;
+  const L = RSOP.lobulo ?? 22;
+  return [patY ? r3(patY / 2 + 12) : L, patZ ? r3(patZ / 2 + 12) : L];
+}
+
 const COL_ALU = '#b9c4cc';        // aluminio anodizado natural
 const COL_UHMW = '#e6e2d2';       // UHMW-PE 1000 natural
 
@@ -395,25 +429,12 @@ export function pg40(E) {
       // en la escuadra del travesaño de puente y en la ménsula alma↔travesaño.
       // La cota que manda es el patrón + 12 de distancia al canto (la misma que
       // llevan las pletinas), no un número redondo.
-      const cantoLob = 12;
       for (const rr of rrAqui) {
-        const semiY = r3((RSOP.patronY ?? RSOP.patron) / 2 + cantoLob);
-        const semiZ = r3((RSOP.patronZ ?? RSOP.patron) / 2 + cantoLob);
+        const [semiY, semiZ] = semiRefuerzo();
         const zLo = r3(Math.min(rr.z - semiZ, zAlma[0])), zHi = r3(Math.max(rr.z + semiZ, zAlma[1]));
         fUnion.push(sketchYZ(`Lóbulo de cartela ${rr.id} (Y ${rr.y}, Z ${rr.z})`,
           r3(xFace + FUS), rect([r3(rr.y - semiY), r3(rr.y + semiY)], [zLo, zHi]), r3(A.e - FUS)));
-        for (const dy of [-(RSOP.patronY ?? RSOP.patron) / 2, (RSOP.patronY ?? RSOP.patron) / 2]) {
-          for (const dz of [-(RSOP.patronZ ?? RSOP.patron) / 2, (RSOP.patronZ ?? RSOP.patron) / 2]) {
-            fCut.push(hole(`Soporte de retorno ${rr.id} Ø${RSOP.taladro}`,
-              [fuera, r3(rr.y + dy), r3(rr.z + dz)], dirIn, RSOP.taladro));
-          }
-        }
-        // PASO DEL EJE FIJO: Ø30 h9 del rodillo de retorno (params_tambores
-        // RETORNOS.eje) con 10 de holgura de montaje → Ø40. Es el «taladro de
-        // paso» que reclamaba el AVISO del módulo de tambores; se corta DESPUÉS
-        // de todos los lóbulos para que ninguno lo vuelva a tapar.
-        fCut.push(hole(`Paso del eje de retorno ${rr.id} Ø${r3((RSOP.bore ?? 30) + 10)}`,
-          [fuera, rr.y, rr.z], dirIn, r3((RSOP.bore ?? 30) + 10)));
+        fCut.push(...taladrosDeRetorno(rr, fuera, dirIn));
       }
       // pernos a las colisas del side channel (solo el lado −X los lleva en el
       // alma: en +X los lleva el tramo de lap, que es el que toca el alma del side)
@@ -679,26 +700,16 @@ export function pg40(E) {
         const g = grupos.find(gr => gr.some(q => Math.abs(q.y - rr.y) < 120));
         if (g) g.push(rr); else grupos.push([rr]);
       }
-      const semiYc = r3((RSOP.patronY ?? RSOP.patron) / 2 + 12);
-      const semiZc = r3((RSOP.patronZ ?? RSOP.patron) / 2 + 12);
+      const [semiYc, semiZc] = semiRefuerzo();
       for (const g of grupos) {
         const ys = g.map(q => q.y), zs = g.map(q => q.z);
         const yR = [r3(Math.min(...ys) - semiYc), r3(Math.max(...ys) + semiYc)];
-        // la cartela LAPA sobre el alma (que corona en −70 en −X): se estira
-        // hacia abajo hasta solaparla 30 mm, que es lo que pide su cordón.
-        const zLo = r3(Math.min(...zs) - semiZc - 30), zHi = r3(Math.max(...zs) + semiZc);
+        // la cartela LAPA sobre el alma (que corona en −70 en −X) sin meterse en
+        // el side channel del NBT90, que ocupa Z −253.37…−88.27: baja a −84.
+        const zLo = r3(Math.min(Math.min(...zs) - semiZc, -84)), zHi = r3(Math.max(...zs) + semiZc);
         const fr = [sketchYZ(`Cartela ${r3(yR[1] - yR[0])}×${r3(zHi - zLo)}×${A.e}`,
           xCab, rect(yR, [zLo, zHi]), A.e)];
-        for (const rr of g) {
-          for (const dy of [-(RSOP.patronY ?? RSOP.patron) / 2, (RSOP.patronY ?? RSOP.patron) / 2]) {
-            for (const dz of [-(RSOP.patronZ ?? RSOP.patron) / 2, (RSOP.patronZ ?? RSOP.patron) / 2]) {
-              fr.push(hole(`Soporte de retorno ${rr.id} Ø${RSOP.taladro}`,
-                [r3(xCab - 2), r3(rr.y + dy), r3(rr.z + dz)], dirIn, RSOP.taladro));
-            }
-          }
-          fr.push(hole(`Paso del eje de retorno ${rr.id} Ø${r3((RSOP.bore ?? 30) + 10)}`,
-            [r3(xCab - 2), rr.y, rr.z], dirIn, r3((RSOP.bore ?? 30) + 10)));
-        }
+        for (const rr of g) fr.push(...taladrosDeRetorno(rr, r3(xCab - 2), dirIn));
         E.addPart(`PG40 · Cartela de rodillos de retorno ${g.map(q => q.id).join('+')} ${lado}`,
           COL.chapaOsc, [xCab, 0, 0], fr, {
             capaInfo: 'dis',

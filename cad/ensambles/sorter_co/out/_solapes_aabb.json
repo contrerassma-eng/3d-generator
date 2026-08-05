@@ -1,52 +1,32 @@
 [
  {
-  "cm3": 8.02,
-  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 1, X=127.056, travesaño S)",
-  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 2, X=203.256, travesaño S)"
+  "cm3": 28.04,
+  "a": "NBT90 · MÓVIL · Transfer roller guard 14 GA 370×118",
+  "b": "ELEVADOR RE-N · Rodillo de retorno B-20760 Ø1.9\" × 360 (eleva el ramal al corredor)"
  },
  {
-  "cm3": 8.02,
-  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 1, X=127.056, travesaño N)",
-  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 2, X=203.256, travesaño N)"
+  "cm3": 6.4,
+  "a": "NBT90 · FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (-Y)",
+  "b": "PG40 · Cartela de rodillos de retorno RE-N −X"
  },
  {
-  "cm3": 8.02,
-  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 2, X=203.256, travesaño S)",
-  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 3, X=279.456, travesaño S)"
+  "cm3": 5.37,
+  "a": "NBT90 · FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (-Y)",
+  "b": "PG40 · Cartela de rodillos de retorno RE-S −X"
  },
  {
-  "cm3": 8.02,
-  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 2, X=203.256, travesaño N)",
-  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 3, X=279.456, travesaño N)"
+  "cm3": 2.16,
+  "a": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (norte, +X)",
+  "b": "ELEVADOR RE-N · pletina de soporte 60×100×12 (+X)"
  },
  {
-  "cm3": 8.02,
-  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 3, X=279.456, travesaño S)",
-  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 4, X=355.656, travesaño S)"
+  "cm3": 0.77,
+  "a": "NBT90 · MÓVIL · Transfer roller guard 14 GA 370×118",
+  "b": "ELEVADOR RE-N · Tapa-soporte Ø44.96/Ø28.575 × 17.938 (−X)"
  },
  {
-  "cm3": 8.02,
-  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 3, X=279.456, travesaño N)",
-  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 4, X=355.656, travesaño N)"
- },
- {
-  "cm3": 8.02,
-  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 4, X=355.656, travesaño S)",
-  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 5, X=431.856, travesaño S)"
- },
- {
-  "cm3": 8.02,
-  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 4, X=355.656, travesaño N)",
-  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 5, X=431.856, travesaño N)"
- },
- {
-  "cm3": 1.46,
-  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 5, X=431.856, travesaño S)",
-  "b": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (sur, +X)"
- },
- {
-  "cm3": 1.46,
-  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 5, X=431.856, travesaño N)",
-  "b": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (norte, +X)"
+  "cm3": 0.77,
+  "a": "NBT90 · MÓVIL · Transfer roller guard 14 GA 370×118",
+  "b": "ELEVADOR RE-N · Tapa-soporte Ø44.96/Ø28.575 × 17.938 (+X)"
  }
 ]
