@@ -114,7 +114,9 @@ def cmd_lineas(a) -> None:
                            minLineLength=a.minlen, maxLineGap=a.maxgap)
     out = []
     if segs is not None:
-        for x1, y1, x2, y2 in segs[:, 0]:
+        # OpenCV <5 devuelve (N,1,4); OpenCV >=5 devuelve (N,4).
+        segs = np.asarray(segs).reshape(-1, 4)
+        for x1, y1, x2, y2 in segs:
             ang = float(np.degrees(np.arctan2(float(y2 - y1), float(x2 - x1))))
             out.append({"a": [int(x1 + ox), int(y1 + oy)], "b": [int(x2 + ox), int(y2 + oy)],
                         "largo": round(float(np.hypot(x2 - x1, y2 - y1)), 1),

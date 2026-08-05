@@ -95,6 +95,54 @@ const dch = latin1(exportDrawingPDF([{ geometry: gch, name: ch.name }],
   { designacion: ch.name, piezas: 1, espesor: 2 }).data);
 check('plano plegado: cota de espesor', dch.includes('ESPESOR DE CHAPA e = 2 mm'));
 
+// El sondeo de grietas consulta un índice espacial (rejilla de 25 mm sobre las
+// cajas de los triángulos) en vez de barrer todos los triángulos del plano. Si
+// la rejilla perdiera candidatos cerca del borde de una celda, el resultado
+// dependería de DÓNDE está la pieza. Así que debe ser invariante a traslación,
+// incluso justo sobre los límites de celda.
+console.log('— aristas: invariantes del índice espacial —');
+const trasladar = (dx, dy, dz) => {
+  const g2 = geometry.clone();
+  g2.translate(dx, dy, dz);
+  return collectEdgeSegments([{ geometry: g2, name: part.name }]);
+};
+const base = collectEdgeSegments([{ geometry, name: part.name }]);
+const clave = (arr, dx = 0, dy = 0, dz = 0) => {
+  const s = new Set();
+  for (let i = 0; i < arr.length; i += 2) {
+    const k = (p, ...d) => p.map((v, j) => (v - d[j]).toFixed(3)).join(',');
+    const a = k(arr[i], dx, dy, dz), b = k(arr[i + 1], dx, dy, dz);
+    s.add(a < b ? `${a}|${b}` : `${b}|${a}`);
+  }
+  return s;
+};
+const mismos = (a, b) => a.size === b.size && [...a].every((k) => b.has(k));
+const kBase = clave(base);
+for (const [dx, dy, dz] of [[12.5, -37.3, 8.1], [25, 50, 75], [-25, 0, 0], [0.001, 0.001, 0.001]]) {
+  const t = trasladar(dx, dy, dz);
+  check(`mismas aristas trasladando (${dx}, ${dy}, ${dz})`,
+    t.length === base.length && mismos(kBase, clave(t, dx, dy, dz)),
+    `base=${base.length / 2} trasladada=${t.length / 2}`);
+}
+
+// El sombreado de la isométrica cuesta una entidad rellena por triángulo: por
+// encima de MAX_TRIS_SOMBRA la lámina sale sin relleno y se avisa. Una pieza
+// suelta está muy por debajo del tope, así que debe seguir sombreada.
+console.log('— tope de sombreado de la isométrica —');
+const conSombra = latin1(exportDrawingDXF(parts, meta).data);
+const sinSombra = latin1(exportDrawingDXF(parts, { ...meta, sombra: false }).data);
+// Ojo: la capa SOMBRA se DECLARA siempre en la tabla LAYER; lo que hay que
+// contar son las entidades que la usan (código 8).
+const enSombra = (t) => t.split('\r\n8\r\nSOMBRA').length - 1;
+check('por defecto una pieza suelta va sombreada', enSombra(conSombra) > 0,
+  `entidades=${enSombra(conSombra)}`);
+check('sombra:false quita el relleno', enSombra(sinSombra) === 0,
+  `entidades=${enSombra(sinSombra)}`);
+check('sin sombra siguen estando las aristas', sinSombra.includes('VISIBLE')
+  && sinSombra.trimEnd().endsWith('EOF'));
+check('sin sombra el archivo es menor', sinSombra.length < conSombra.length,
+  `con=${conSombra.length} sin=${sinSombra.length}`);
+
 console.log('— sin geometría —');
 let threw = false;
 try { exportDrawingDXF([{ geometry, matrixWorld: null }].slice(0, 0), meta); } catch { threw = true; }

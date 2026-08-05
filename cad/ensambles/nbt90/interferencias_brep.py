@@ -102,13 +102,16 @@ def main() -> int:
             print(f"    … {k}/{len(pares)} ({time.time() - t1:.0f} s)", flush=True)
 
     detalle.sort(key=lambda d: -d["cm3"])
-    informe = {"tolerancia_cm3": a.tol, "piezas": len(solidos),
+    informe = {"tolerancia_cm3": a.tol, "doc": str(Path(a.doc).name), "piezas": len(solidos),
                "pares_candidatos": len(pares), "interferencias": reales, "detalle": detalle}
-    (AQUI / "interferencias_brep.json").write_text(json.dumps(informe, indent=1, ensure_ascii=False),
-                                                   encoding="utf-8")
+    # El informe acompaña al DOCUMENTO verificado, no a esta carpeta: si no,
+    # verificar otro ensamble pisaba el informe del NBT90 —que es justo el que
+    # leen sus pruebas— y dejaba el repositorio afirmando algo que no comprobó.
+    destino = Path(a.doc).resolve().parent / "interferencias_brep.json"
+    destino.write_text(json.dumps(informe, indent=1, ensure_ascii=False), encoding="utf-8")
     print(f"\n{reales} interferencia(s) por encima de {a.tol} cm³ sobre {len(pares)} pares "
           f"({time.time() - t0:.0f} s en total)")
-    print(f"informe → {AQUI / 'interferencias_brep.json'}")
+    print(f"informe → {destino}")
     return 1 if reales else 0
 
 

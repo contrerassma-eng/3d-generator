@@ -1,0 +1,30 @@
+{
+ "tolerancia_cm3": 0.05,
+ "doc": "celda3.json",
+ "piezas": 76,
+ "pares_candidatos": 215,
+ "interferencias": 3,
+ "detalle": [
+  {
+   "cm3": 0.08,
+   "a": "U1 · Soporte en C 2 mm (Träger 32)",
+   "b": "U1 · Sensor ranurado IR LM393",
+   "pct_de_la_menor": 2.98,
+   "cruce": false
+  },
+  {
+   "cm3": 0.08,
+   "a": "U2 · Soporte en C 2 mm (Träger 32)",
+   "b": "U2 · Sensor ranurado IR LM393",
+   "pct_de_la_menor": 2.98,
+   "cruce": false
+  },
+  {
+   "cm3": 0.08,
+   "a": "U3 · Soporte en C 2 mm (Träger 32)",
+   "b": "U3 · Sensor ranurado IR LM393",
+   "pct_de_la_menor": 2.98,
+   "cruce": false
+  }
+ ]
+}

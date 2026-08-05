@@ -191,10 +191,32 @@ def construir(part):
     if acc is None:
         return None
     acc = acc.clean()
+    # Colocación de la pieza: PRIMERO el giro sobre su propio origen y DESPUÉS la
+    # traslación, que es el orden de `partMatrix` en js/model.js. Ignorar `quat`
+    # —como se hacía antes— deja todas las piezas giradas superpuestas en el
+    # origen y el informe de interferencias sale falso sin avisar.
+    acc = _girar(acc, part.get("quat"))
     pos = part.get("pos", [0, 0, 0])
     if any(abs(c) > 1e-12 for c in pos):
         acc = acc.translate(cq.Vector(*pos))
     return acc
+
+
+def _girar(solido, quat):
+    """Aplica el cuaternión [x, y, z, w] de la pieza sobre su propio origen."""
+    if not quat or len(quat) != 4:
+        return solido
+    x, y, z, w = (float(c) for c in quat)
+    n = math.sqrt(x * x + y * y + z * z + w * w)
+    if n < 1e-12 or abs(n - 1.0) > 0.5:
+        return solido
+    x, y, z, w = x / n, y / n, z / n, w / n
+    sen = math.sqrt(max(0.0, 1.0 - w * w))
+    if sen < 1e-9:                                   # giro nulo
+        return solido
+    ang = math.degrees(2.0 * math.acos(max(-1.0, min(1.0, w))))
+    eje = cq.Vector(x / sen, y / sen, z / sen)
+    return solido.rotate(cq.Vector(0, 0, 0), eje, ang)
 
 
 # ---------------------------------------------------------------------------

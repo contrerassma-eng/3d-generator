@@ -1,0 +1,77 @@
+{
+  "proyecto": "CELDA3 — celda triple omnidireccional",
+  "nota": "Capa `web`: cada dato con URL, fecha de acceso y cita textual. Ningún valor de aquí se funde al modelo sin esta procedencia. Los que el usuario afirma sin verificar van marcados como capa `user`.",
+  "acceso": "2026-08-04",
+  "facts": [
+    {
+      "id": "mecanismo",
+      "capa": "web",
+      "afirmacion": "El mecanismo de referencia es el celluveyor: celdas hexagonales con ruedas omnidireccionales accionadas individualmente.",
+      "cita": "The Celluveyor is a modular conveyor system made up of small, hexagonal cells fitted with omnidirectional wheels. Each hexagonal module has three sets of wheels.",
+      "url": "https://cellumation.com/products/celluveyor/",
+      "acceso": "2026-08-04"
+    },
+    {
+      "id": "tt_dimensiones",
+      "capa": "web",
+      "afirmacion": "El motor TT mide 70 × 22 × 18 mm y pesa 30.6 g.",
+      "cita": "Body Dimensions: 70 x 22 x 18mm · Weight: 30.6g",
+      "url": "https://www.adafruit.com/product/3777",
+      "acceso": "2026-08-04",
+      "usado_en": "params.mjs: ttLargo, ttAncho, ttAlto, ttMasaG"
+    },
+    {
+      "id": "tt_prestaciones",
+      "capa": "web",
+      "afirmacion": "El motor TT 1:48 da 200 rpm a 6 V con 0.8 kg·cm de par de bloqueo.",
+      "cita": "Gear Ratio: 1:48 · Min. Operating Speed (6V): 200+/- 10% RPM · Stall Torque (6V): 0.8kg.cm · Continuous No-Load Current: 150mA +/- 10%",
+      "url": "https://www.adafruit.com/product/3777",
+      "acceso": "2026-08-04",
+      "usado_en": "params.mjs: ttRpm6V, ttParBloqueoKgcm — de aquí salen la velocidad de 0.50 m/s y la tracción de 0.98 N/rueda"
+    },
+    {
+      "id": "tt_eje",
+      "capa": "web",
+      "afirmacion": "El eje de salida del TT es plano de 5.5 mm y sale por las dos caras.",
+      "cita": "TT motor gearboxes have a 5.5mm flatted output shaft on each side.",
+      "url": "https://bc-robotics.com/shop/tt-motor-gearbox-with-wires/",
+      "acceso": "2026-08-04",
+      "usado_en": "params.mjs: ttEjeD — obliga al acople impreso, porque la rueda es de Ø4"
+    },
+    {
+      "id": "rueda_carga",
+      "capa": "web",
+      "afirmacion": "Una rueda omni de aluminio doble de 48 mm admite 3 kg y pesa 40 g.",
+      "cita": "Diameter: 48mm · Load capacity: 3kg · Net weight: 40g · Number of roller: 8 · Body material: Aluminum alloy · Roller material: Nylon+PE",
+      "url": "https://www.nexusrobot.com/product/48mm-aluminum-double-omni-wheel-basic-14148.html",
+      "acceso": "2026-08-04",
+      "usado_en": "params.mjs: ruedaCargaKg, ruedaMasaG. OJO: es una rueda del mismo tipo y diámetro, no necesariamente la del usuario."
+    },
+    {
+      "id": "rueda_cotas",
+      "capa": "user",
+      "afirmacion": "La rueda del usuario mide Ø48.00 × 24.50 mm con rodillos de R5.00 y cubo de 18.70.",
+      "fuente": "dibujo técnico aportado por el usuario (cotas acotadas en el propio dibujo, no medidas por píxeles)",
+      "acceso": "2026-08-04",
+      "usado_en": "params.mjs: ruedaDia, ruedaAncho, ruedaCubo, ruedaRodilloR"
+    },
+    {
+      "id": "rueda_bore",
+      "capa": "user",
+      "afirmacion": "El agujero de la rueda es de 4 mm.",
+      "fuente": "afirmación del usuario: «creo agujero 4mm»",
+      "acceso": "2026-08-04",
+      "estado": "SIN VERIFICAR CON CALIBRE",
+      "consecuencia": "De este valor dependen los 54 rodamientos 624ZZ y los 27 ejes Ø4. Si resultara ser 6 mm, la lista cambia a 626ZZ (6×19×6) y barra Ø6, y el tren crece ~6 mm por lado.",
+      "usado_en": "params.mjs: ruedaBore, ejeDia, rodBore"
+    },
+    {
+      "id": "inventario",
+      "capa": "user",
+      "afirmacion": "El usuario tiene 28 ruedas omni y 30 motores TT.",
+      "fuente": "afirmación del usuario",
+      "acceso": "2026-08-04",
+      "consecuencia": "El módulo de 9 celdas consume 27 de cada uno: sobra 1 rueda y sobran 3 motores."
+    }
+  ]
+}
