@@ -48,8 +48,9 @@ import { FLAGS as PG40F, PUBLICA as PG40PUB, CARGA as CARGA_PG40, PERFIL as PG40
 // ▼▼▼ TAMBOR MOTRIZ · CONDUCIDO · RODILLOS DE RETORNO (bloque propio) ▼▼▼
 import { tambores } from './adapt/mod_tambores.mjs';
 import { TAMBOR as TAMB_P, UCF207 as TAMB_UCF, CONDUCIDO as TAMB_CON,
-  RETORNOS as TAMB_RET, TAMBORES as TAMB_EJES, RETORNO as TAMB_RAMAL,
-  RETIRA as TAMB_RETIRA } from './adapt/params_tambores.mjs';
+  RETORNOS as TAMB_RET, ELEVADORES as TAMB_ELEV, CORREDOR as TAMB_CORR,
+  TAMBORES as TAMB_EJES, RETORNO as TAMB_RAMAL,
+  RETIRA as TAMB_RETIRA, RETIRA_POZO as TAMB_POZO } from './adapt/params_tambores.mjs';
 // ▲▲▲ ------------------------------------------------------------- ▲▲▲
 // ▼▼▼ FABRICACIÓN — el MISMO esquema que usa la transferencia, sin copiarlo ▼▼▼
 // El estándar de fabricación del NBT90 vivía en dos módulos suyos y el sorter
@@ -417,6 +418,34 @@ if (TAMB_RETIRA.activo) {
   E.parts = E.parts.filter(p => !TAMB_RETIRA.rx.test(p.name));
   m.tamboresRetiradas = antesT - E.parts.length;
 }
+// ▼▼▼ EL POZO DE RETORNO — RETIRADO POR BANDERA (corrección del cliente 03-08) ▼▼▼
+// «la banda debe seguir linea roja asi fue concebido, eliminar poleas "x" …
+//  existen los rodillos (verdes) que tenias uno en modelo anterior esa era
+//  funcion». El ramal de RETORNO deja de bajar al pozo y cruza la transferencia
+// RECTO por el corredor del peine, sostenido por los DOS RODILLOS ELEVADORES.
+// Con el pozo se van sus 4 rodillos Y SUS GUARDAS: sin pozo no hay punto de
+// atrapamiento que guardar, y una guarda que cierra un hueco que ya no existe es
+// una pieza huérfana (§V la caza).
+//
+// SE FILTRA POR NOMBRE, y el recuento por expresión se PUBLICA: `retiraPozo` va
+// al informe y la compuerta lo compara contra `RETIRA_POZO.esperadas`. Es la
+// lección de los tres fallos de regex ancha de esta misma noche (94f7271,
+// 6b4e780 y los casquillos de guarda): una bandera que no cuenta lo que se lleva
+// no es auditable.
+if (TAMB_POZO.activo) {
+  const antesP = E.parts.length;
+  const porExpresion = TAMB_POZO.patrones.map((P) => {
+    const rx = new RegExp(P.rx);
+    const cazadas = E.parts.filter(p => rx.test(p.name)).map(p => p.name);
+    return { rx: P.rx, que: P.que, esperadas: P.esperadas, reales: cazadas.length,
+      ejemplo: cazadas[0] ?? null };
+  });
+  const rxTodo = TAMB_POZO.rx;
+  E.parts = E.parts.filter(p => !rxTodo.test(p.name));
+  m.retiraPozo = { total: antesP - E.parts.length, esperadasTotal: TAMB_POZO.esperadasTotal,
+    porExpresion, motivo: TAMB_POZO.motivo };
+}
+// ▲▲▲ ---------------------------------------------------------------- ▲▲▲
 m.tambores = tambores(E);
 // ▲▲▲ ----------------------------------------------- ▲▲▲
 

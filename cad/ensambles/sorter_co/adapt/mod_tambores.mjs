@@ -15,7 +15,8 @@ import {
   tuercaHex, COL, r2, envolventes,
 } from '../../nbt90/lib.mjs';
 import {
-  FIJO, TAMBOR, UCF207, CONDUCIDO, RETORNOS, TAMBORES, RETORNO, CARGA, Xc, EJES,
+  FIJO, TAMBOR, UCF207, CONDUCIDO, RETORNOS, ELEVADORES, CORREDOR, RETIRA_POZO,
+  TAMBORES, RETORNO, CARGA, Xc, EJES,
   MANDRINADO, BANDA, ACCIONAMIENTO,
 } from './params_tambores.mjs';
 // A2 (revisión de fabricación 2026-08-03): la garganta de anillo elástico ya no
@@ -345,6 +346,127 @@ function rodilloEjeFijo(E, S, { nombre, y, z, spec, sop, marca }) {
 }
 
 // ---------------------------------------------------------------------------
+// RODILLO ELEVADOR DEL RAMAL DE RETORNO — conjunto Hytrol B-20760
+// ---------------------------------------------------------------------------
+// NO se reutiliza `rodilloEjeFijo`: ése fabrica el rodillo (tubo mandrinado H7,
+// tapas prensadas r6, eje C45 con gargantas DIN 471 torneadas) y esto NO se
+// fabrica — se COMPRA. Es la misma referencia que la transferencia ya lleva
+// montada (nbt90/rodillos.mjs §2), la que el cliente señala en su croquis, y su
+// función declarada en el propio despiece de Hytrol es exactamente ésta:
+// «limita los ramales de retorno de las bandas del anfitrión».
+//
+// Lo ÚNICO propio del sorter es cómo se cuelga: las dos pletinas 100×100×12 del
+// patrón 76×76 / Ø11 que el alargue PG40 ya taladra para los rodillos de retorno
+// —el mismo amarre, cambiando el barreno de Ø30 a Ø12.7—, más su collar partido.
+function rodilloElevador(E, { id, y, z }) {
+  const n = { piezas: 0 };
+  const add = (...a) => { E.addPart(...a); n.piezas++; };
+  const S = ELEVADORES;
+  const ro = S.r, ri = r3(S.r - S.pared);        // 24.13 / 22.48
+  const [x0, x1] = S.tuboX, len = r3(x1 - x0);   // 99.456…459.456 · 360
+  const conj = { conjunto: `${id} · rodillo elevador ${S.ref}`, capa: 'web' };
+  const marca = `${id} · `;
+
+  // 1. tubo galvanizado (COMPRADO — componente del conjunto B-20760)
+  add(`ELEVADOR ${id} · Rodillo de retorno B-20760 Ø1.9" × ${len} (eleva el ramal al corredor)`,
+    COL.rodillo, [x0, y, z], [
+      revolve(`Tubo galvanizado Ø${S.dia} × ${len} (pared ${S.pared})`, [x0, y, z], 'x',
+        perfilTubo(len, ro, ri)),
+    ], { ...conj, componente: 'B-20760', gira: true,
+      material: 'tubo de acero galvanizado 0.065"',
+      nota: `TANGENTE POR ARRIBA al ramal de retorno en Z ${r3(z + ro)} = suelo del corredor del `
+        + `peine. Es la MISMA referencia que el NBT90 monta contra los ramales de retorno de su `
+        + `anfitrión y la que el cliente señala («tenías uno en el modelo anterior, esa era `
+        + `función»). Rueda sobre la CARA PORTANTE de la banda y le hace flexión INVERSA: `
+        + `Ø ${S.dia} contra el mínimo de polea ${BANDA.poleaMinimaMm} de la banda `
+        + `(web BELT-SAB8E-01), margen ×${S.flexionInversa.margen}. La fuente NO publica mínimo de `
+        + `CONTRAFLEXIÓN: queda declarado, no supuesto` });
+
+  // 2. tapas-soporte + 3. rodamientos ABEC-1 + 4. casquillos separadores
+  const Lt = r3(S.tapa.e + L.tapaLabio + S.rodam.w);
+  for (const s of [0, 1]) {
+    const lado = s === 0 ? '−X' : '+X';
+    const xT = s === 0 ? x0 : r3(x1 - Lt);
+    add(`ELEVADOR ${id} · Tapa-soporte Ø${r3(2 * ri)}/Ø${S.rodam.od} × ${Lt} (${lado})`,
+      COL.rodillo, [xT, y, z], [
+        revolve(`Alojamiento Ø${S.rodam.od} con hombro`, [xT, y, z], 'x',
+          s === 0 ? perfilTapaSoporte(Lt, ri, r3(S.rodam.od / 2), r3(S.rodam.bore + 6))
+            : espejo(perfilTapaSoporte(Lt, ri, r3(S.rodam.od / 2), r3(S.rodam.bore + 6)), Lt)),
+      ], { ...conj, componente: 'B-20760', gira: true,
+        ajuste: `prensado en el tubo Ø${r3(2 * ri)} (conjunto de catálogo: el ajuste lo da el `
+          + 'fabricante del rodillo, aquí no se especifica un H7/r6 de plano)' });
+
+    const xR = s === 0 ? r3(x0 + L.tapaLabio) : r3(x1 - L.tapaLabio - S.rodam.w);
+    rodamiento(E, { nombre: `${S.rodam.desig} ABEC-1 (ELEVADOR ${id}, ${lado})`, at: [xR, y, z],
+      dir: DIR, bore: S.rodam.bore, od: S.rodam.od, w: S.rodam.w, capa: marca });
+    n.piezas++;
+
+    // casquillo separador sobre el eje FIJO: topa contra el aro interior (que
+    // tampoco gira) y contra la pletina. Es el que impide que el tubo camine.
+    const xC = s === 0 ? r3(xR + S.rodam.w) : r3(xR - L.casquillo);
+    add(`ELEVADOR ${id} · Casquillo separador Ø${r3(S.eje.d + 5)}/Ø${S.eje.d} × ${L.casquillo} (${lado})`,
+      COL.acero, [xC, y, z], [
+        revolve('Casquillo', [xC, y, z], 'x', [[0, S.eje.d / 2], [0, r3(S.eje.d / 2 + 2.5)],
+          [L.casquillo, r3(S.eje.d / 2 + 2.5)], [L.casquillo, S.eje.d / 2]]),
+      ], { ...conj, componente: 'B-20760', hardware: false,
+        funcion: 'retención axial del tubo entre el aro interior del rodamiento y la pletina' });
+  }
+
+  // 5. EJE FIJO Ø12.7 con hilo interior 1/4-20 en las dos puntas (catálogo)
+  const [ex0, ex1] = S.ejeX;
+  add(`ELEVADOR ${id} · Eje de rodillo de retorno Ø${S.eje.d} × ${r3(ex1 - ex0)} (hilo interior 1/4-20)`,
+    COL.acero, [ex0, y, z], [
+      cyl(`Barra Ø${S.eje.d} × ${r3(ex1 - ex0)}`, [ex0, y, z], DIR, S.eje.d, r3(ex1 - ex0)),
+    ], { ...conj, componente: 'B-20760', material: S.eje.material, gira: false, rosca: S.rosca,
+      nota: 'no gira: es el asiento de los aros interiores y el que pasa la carga del ramal a las '
+        + 'pletinas. Las dos puntas llevan el hilo interior del catálogo ED&T' });
+
+  // 6. pletinas de soporte + collar partido + tornillería (PIEZA PROPIA)
+  const sop = S.soporte;
+  for (const s of [0, 1]) {
+    const lado = s === 0 ? '−X' : '+X';
+    const xCara = sop.caraX[s], nrm = sop.normal[s];
+    const xF = nrm > 0 ? xCara : r3(xCara - sop.e);
+    add(`ELEVADOR ${id} · pletina de soporte ${sop.lado}×${sop.lado}×${sop.e} (${lado})`,
+      COL.chapa, [xF, y, z], [
+        sketchYZ(`Pletina ${sop.lado}×${sop.lado}`, xF,
+          rectR(y - sop.lado / 2, z - sop.lado / 2, y + sop.lado / 2, z + sop.lado / 2, 10), sop.e),
+        hole(`Barreno Ø${sop.bore} H8`, [r3(xF - 1), y, z], DIR, sop.bore),
+        ...[[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([sy, sz]) =>
+          hole(`Ø${sop.taladro}`, [r3(xF - 1), r3(y + sy * sop.patron / 2), r3(z + sz * sop.patron / 2)],
+            DIR, sop.taladro)),
+      ], { conjunto: `${id} · rodillo elevador`, capa: 'user', fabricada: true,
+        material: 'Acero S275JR cortado por láser',
+        nota: `se atornilla al patrón ${sop.patron}×${sop.patron} del alargue PG40 — EL MISMO que el `
+          + `bastidor ya taladra para los rodillos de retorno, sólo que en la Y del elevador. Barreno `
+          + `Ø${sop.bore} H8 (antes Ø30: el conjunto B-20760 lleva eje de 1/2")` });
+
+    const xCol = nrm > 0 ? r3(xF + sop.e) : r3(xF - 11);
+    add(`ELEVADOR ${id} · collar de apriete PARTIDO Ø${S.eje.d} int × Ø${S.collarDe} × 11 (${lado})`,
+      COL.inox, [xCol, y, z], [
+        revolve('Collar partido (2 mitades)', [xCol, y, z], 'x',
+          [[0, S.eje.d / 2], [0, S.collarDe / 2], [11, S.collarDe / 2], [11, S.eje.d / 2]]),
+      ], { conjunto: `${id} · rodillo elevador`, capa: 'user', hardware: true,
+        norma: S.collar, componente: S.collar,
+        nota: `retención axial del eje fijo contra la cara interior de su pletina. PARTIDO por la `
+          + `misma razón que los del conducido y los retornos: entra con el eje ya pasado. `
+          + `Envolvente sobre la cabeza del tornillo Ø${S.collarR}` });
+
+    const eAlma = 8;                                   // pg40 ALARGUE.e
+    const largoP = r3(sop.e + eAlma + 5);
+    const xCab = nrm > 0 ? r3(xF + sop.e) : xF;
+    for (const [sy, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+      pernoHex(E, { nombre: `M10 soporte ELEVADOR ${id} (${lado})`,
+        at: [xCab, r3(y + sy * sop.patron / 2), r3(z + sz * sop.patron / 2)],
+        dir: [-nrm, 0, 0], dia: L.pernoRet.d, largo: largoP, af: L.pernoRet.af,
+        altoCab: L.pernoRet.hh, capa: marca });
+      n.piezas++;
+    }
+  }
+  return n;
+}
+
+// ---------------------------------------------------------------------------
 // Módulo
 // ---------------------------------------------------------------------------
 export function tambores(E) {
@@ -516,13 +638,18 @@ export function tambores(E) {
   n.conducido += nc.piezas;
 
   // =========================================================================
-  // 3. LOS CUATRO RODILLOS DE RETORNO
+  // 3. LOS RODILLOS DEL RAMAL DE RETORNO
+  //    · con RETIRA_POZO.activo  → los DOS ELEVADORES B-20760 del corredor;
+  //    · con la bandera a false  → los CUATRO rodillos de pozo Ø88.9.
+  //    La lista y su geometría las publica params_tambores; aquí sólo se emite.
   // =========================================================================
   for (const R of TAMBORES.retorno) {
-    const nr = rodilloEjeFijo(E, null, {
-      nombre: `RETORNO ${R.id} Ø${RETORNOS.od}`, y: R.y, z: R.z,
-      spec: RETORNOS, sop: RETORNOS.soporte, marca: `RETORNO ${R.id}`,
-    });
+    const nr = RETIRA_POZO.activo
+      ? rodilloElevador(E, { id: R.id, y: R.y, z: R.z })
+      : rodilloEjeFijo(E, null, {
+        nombre: `RETORNO ${R.id} Ø${RETORNOS.od}`, y: R.y, z: R.z,
+        spec: RETORNOS, sop: RETORNOS.soporte, marca: `RETORNO ${R.id}`,
+      });
     n.retorno += nr.piezas;
   }
 
@@ -557,51 +684,111 @@ export function tambores(E) {
     if (holgLarguero.sur < 2) err.push(`el conducido roza el larguero sur: ${holgLarguero.sur} mm`);
   }
 
-  // 4.4 el ramal de retorno pasa por DEBAJO de los perfiles del bastidor
-  const holgPerfil = PG?.Z ? r3(PG.Z.travBot - RETORNO.z) : null;   // −40 − (−57.2)
+  // 4.4 el TRAMO LLANO del ramal de retorno (el que sale del tambor y del que
+  //     cuelga el tensor) pasa por DEBAJO de los perfiles del bastidor. Con el
+  //     retorno recto sigue existiendo y sigue siendo el que se juega esta
+  //     holgura: la RAMPA que sube al corredor arranca pasado el volante de
+  //     salida de la horquilla, y su holgura al bastidor la mide la §R sobre el
+  //     contorno emitido, que es la única forma honesta de comprobar una rampa.
+  const holgPerfil = PG?.Z ? r3(PG.Z.travBot - RETORNO.z) : null;
   if (holgPerfil !== null && holgPerfil < 2) {
-    err.push(`el ramal de retorno (Z ${RETORNO.z}) no libra el fondo del perfil `
+    err.push(`el tramo llano del ramal de retorno (Z ${RETORNO.z}) no libra el fondo del perfil `
       + `(${PG.Z.travBot}): ${holgPerfil} mm`);
   }
 
-  // 4.5 el ramal de fondo libra la cara inferior del NBT90, y los rodillos de
-  //     retorno del fondo quedan FUERA de la huella del módulo
-  const zFondoAlto = r3(TAMBORES.retorno[1].z - RETORNOS.r);
-  const holgFondo = r3(FIJO.fondoNbt90 - zFondoAlto);
-  if (holgFondo < 2) err.push(`el ramal de fondo pasa a ${holgFondo} mm del fondo del NBT90 (mín 2)`);
+  // 4.5 SEGÚN LA ARQUITECTURA DEL RETORNO:
+  const rRet = RETIRA_POZO.activo ? ELEVADORES.r : RETORNOS.r;
   const holgModulo = {};
-  for (const R of TAMBORES.retorno) {
-    const yLo = r3(R.y - RETORNOS.r), yHi = r3(R.y + RETORNOS.r);
-    if (yHi > FIJO.moduloY[0] && yLo < FIJO.moduloY[1]) {
-      err.push(`${R.id} (Y ${yLo}…${yHi}) invade la huella del NBT90 (${FIJO.moduloY.join('…')})`);
+  let holgFondo = null;
+  if (RETIRA_POZO.activo) {
+    // (a) RETORNO RECTO — los dos elevadores dejan la banda TANGENTE al suelo
+    //     del corredor, y ese suelo lo fija el techo del motorreductor SEW.
+    for (const R of TAMBORES.retorno) {
+      const tang = r3(R.z + rRet);
+      if (Math.abs(tang - CORREDOR.zCara) > 0.01) {
+        err.push(`${R.id} pone la cara portante del ramal en Z=${tang} y el suelo del corredor `
+          + `es ${CORREDOR.zCara}`);
+      }
+      // el elevador NO puede subir por encima del suelo del corredor (chocaría
+      // con el propio ramal recto) ni bajar tanto que deje de tocarlo
+      holgModulo[R.id] = r3(Math.min(
+        Math.abs(r3(R.y - rRet) - FIJO.moduloY[0]), Math.abs(r3(R.y + rRet) - FIJO.moduloY[1])));
     }
-    holgModulo[R.id] = r3(Math.min(Math.abs(yLo - FIJO.moduloY[1]), Math.abs(yHi - FIJO.moduloY[0])));
+    // (b) el ramal recto cabe entre el techo del SEW y la pletina del puente
+    if (CORREDOR.holguraRanura < 2) {
+      err.push(`el ramal recto deja ${CORREDOR.holguraRanura} mm al fondo de la ranura del peine (mín 2)`);
+    }
+    if (CORREDOR.holguraPuente < 2) {
+      err.push(`el ramal recto deja ${CORREDOR.holguraPuente} mm a la pletina del puente (mín 2)`);
+    }
+    // (c) FLEXIÓN INVERSA: el Ø del elevador contra el mínimo de polea de la banda
+    if (!ELEVADORES.flexionInversa.cumple) {
+      err.push(`el rodillo elevador Ø${ELEVADORES.dia} baja del Ø mínimo de polea de la banda `
+        + `(${BANDA.poleaMinimaMm}, web BELT-SAB8E-01) — y encima en flexión INVERSA`);
+    }
+  } else {
+    // pozo: el ramal de fondo libra la cara inferior del NBT90 y los rodillos
+    // quedan FUERA de la huella del módulo
+    const zFondoAlto = r3(TAMBORES.retorno[1].z - RETORNOS.r);
+    holgFondo = r3(FIJO.fondoNbt90 - zFondoAlto);
+    if (holgFondo < 2) err.push(`el ramal de fondo pasa a ${holgFondo} mm del fondo del NBT90 (mín 2)`);
+    for (const R of TAMBORES.retorno) {
+      const yLo = r3(R.y - rRet), yHi = r3(R.y + rRet);
+      if (yHi > FIJO.moduloY[0] && yLo < FIJO.moduloY[1]) {
+        err.push(`${R.id} (Y ${yLo}…${yHi}) invade la huella del NBT90 (${FIJO.moduloY.join('…')})`);
+      }
+      holgModulo[R.id] = r3(Math.min(Math.abs(yLo - FIJO.moduloY[1]), Math.abs(yHi - FIJO.moduloY[0])));
+    }
   }
 
   // 4.6 ABRAZADOS reales del lazo (calc por tangencia, con la misma matemática
-  //     que usa lib.mjs para las bandas de la transferencia)
+  //     que usa lib.mjs para las bandas de la transferencia). El SENTIDO de
+  //     envolvente ya no se deduce del índice (era `i === 0 || i === 3`, o sea
+  //     «RR1 y RR4»): se LEE de la tabla, que es quien lo publica. Así el día
+  //     que la tabla cambie —como acaba de cambiar— esto no miente.
   const seq = [
     { c: [FIJO.motrizY, zT], r: TAMBOR.r, s: -1 },
-    ...TAMBORES.retorno.map((R, i) => ({ c: [R.y, R.z], r: RETORNOS.r, s: (i === 0 || i === 3) ? 1 : -1 })),
+    ...TAMBORES.retorno.map(R => ({ c: [R.y, R.z], r: rRet, s: -R.s })),
     { c: [FIJO.conducidaY, zC], r: CONDUCIDO.r, s: -1 },
   ];
   let env = null;
   try { env = envolventes(seq, FIJO.bandaEsp); } catch (e2) { err.push(`lazo sin tangente: ${e2.message}`); }
-  const abrazados = env ? {
-    tambor: env[0], RR1: env[1], RR2: env[2], RR3: env[3], RR4: env[4], conducido: env[5],
-  } : null;
-  if (abrazados && Math.abs(abrazados.tambor - RETORNO.abrazadoMotrizDeg) > 1) {
+  const abrazados = env ? Object.fromEntries([
+    ['tambor', env[0]],
+    ...TAMBORES.retorno.map((R, i) => [R.id, env[i + 1]]),
+    ['conducido', env[env.length - 1]],
+  ]) : null;
+  // ⚠ ESTE LAZO NO LLEVA LA HORQUILLA DEL TENSOR, y desde el 05-08-2026 eso
+  // importa. Mientras el retorno bajaba al pozo, el ramal salía HORIZONTAL del
+  // tambor hacia RR1 y este lazo simplificado daba el mismo 180° que el real.
+  // Con el retorno recto, quien mantiene horizontal el ramal a la salida del
+  // tambor son los DOS VOLANTES DE LA HORQUILLA (mod_calles), que aquí no están:
+  // sin ellos el ramal subiría directo del tambor al elevador y este cálculo
+  // daría un abrazado que NO es el de la máquina. Así que la comprobación del
+  // abrazado del tambor se hace donde se puede hacer de verdad —la §J del
+  // integrador, sobre `mod_calles.banda.envolventes_deg`, que es el lazo COMPLETO
+  // y emitido— y aquí queda el valor como DIAGNÓSTICO, marcado como tal.
+  const abrazadosNota = 'lazo SIN la horquilla del tensor (diagnóstico). El abrazado que manda es el '
+    + 'del lazo completo que publica mod_calles y verifica la §J del integrador';
+  if (!RETIRA_POZO.activo && abrazados
+      && Math.abs(abrazados.tambor - RETORNO.abrazadoMotrizDeg) > 1) {
     err.push(`el abrazado publicado sobre el tambor (${RETORNO.abrazadoMotrizDeg}°) no es el `
       + `de la geometría (${abrazados.tambor}°)`);
   }
 
-  // 4.7 ¿arrastra sin patinar? Euler–Eytelwein sobre el tambor engomado
+  // 4.7 ¿arrastra sin patinar? Euler–Eytelwein sobre el tambor engomado.
+  //     El abrazado que entra aquí es el PUBLICADO (180°), no el del lazo
+  //     simplificado de 4.6 — ver la nota de arriba. Que el publicado sea el real
+  //     lo comprueba la §J contra el contorno emitido, y si no lo fuera, PARA.
   const T2 = CARGA.tRamalN * CARGA.nBandas;                       // tensión del ramal flojo
-  const capstan = Math.exp(CARGA.mu * (abrazados?.tambor ?? 180) * Math.PI / 180);
+  const abrazadoArrastre = RETORNO.abrazadoMotrizDeg;
+  const capstan = Math.exp(CARGA.mu * abrazadoArrastre * Math.PI / 180);
   const teMax = r3(T2 * (capstan - 1));
   // esfuerzo tangencial de régimen: rozamiento del bulto sobre la guía UHMW
+  // + 5 N de arrastre por cada rodillo del ramal de retorno (2 con retorno
+  //   recto, 4 con pozo: se cuenta la lista, no un literal)
   const teReq = r3(CARGA.cargaMaxKg * CARGA.bultosSimultaneos * 9.81 * CARGA.muGuia
-    + 4 * 5);                                                     // + 5 N de arrastre por rodillo
+    + TAMBORES.retorno.length * 5);
   const fsArrastre = r3(teMax / teReq);
   if (fsArrastre < CARGA.fsCapstanMin) {
     err.push(`reserva de arrastre ${fsArrastre} < ${CARGA.fsCapstanMin} (Te máx ${teMax} N, `
@@ -617,14 +804,17 @@ export function tambores(E) {
   const supC = [r3(CONDUCIDO.soporte.caraX[0] + CONDUCIDO.soporte.e / 2),
     r3(CONDUCIDO.soporte.caraX[1] - CONDUCIDO.soporte.e / 2)];
   const vC = viga(supC[0], supC[1], cargasBanda(1), CONDUCIDO.eje.d);
-  const supR = [r3(RETORNOS.soporte.caraX[0] + RETORNOS.soporte.e / 2),
-    r3(RETORNOS.soporte.caraX[1] - RETORNOS.soporte.e / 2)];
-  // en cada rodillo de retorno la resultante es 2·T·sen(abrazado/2) por banda
+  const SOPR = TAMBORES.retornoSoporte, EJER = TAMBORES.retornoEje;
+  const supR = [r3(SOPR.caraX[0] + SOPR.e / 2), r3(SOPR.caraX[1] - SOPR.e / 2)];
+  // en cada rodillo del ramal de retorno la resultante es 2·T·sen(abrazado/2)
+  // por banda. Con el retorno RECTO los abrazados son pequeños (7.5° y 8.7°: el
+  // elevador sólo dobla la rampa) y la carga baja mucho — que es la razón de que
+  // un Ø48.26 sobre eje de 1/2" aguante donde el pozo pedía Ø88.9 sobre Ø30.
   const vR = {};
-  for (const [i, R] of TAMBORES.retorno.entries()) {
-    const a = (abrazados ? [abrazados.RR1, abrazados.RR2, abrazados.RR3, abrazados.RR4][i] : 90);
+  for (const R of TAMBORES.retorno) {
+    const a = abrazados?.[R.id] ?? 90;
     const f = 2 * Math.sin(a * Math.PI / 360);
-    vR[R.id] = { ...viga(supR[0], supR[1], EJES.map(x => ({ x, p: CARGA.tRamalN * f })), RETORNOS.eje.d),
+    vR[R.id] = { ...viga(supR[0], supR[1], EJES.map(x => ({ x, p: CARGA.tRamalN * f })), EJER),
       abrazadoDeg: r3(a), cargaPorBandaN: r3(CARGA.tRamalN * f) };
   }
   const revisa = (nom, v, d) => {
@@ -637,7 +827,7 @@ export function tambores(E) {
   };
   const ejeT = revisa('tambor', vT, TAMBOR.eje.d);
   const ejeC = revisa('conducido', vC, CONDUCIDO.eje.d);
-  for (const [k, v] of Object.entries(vR)) vR[k] = revisa(`retorno ${k}`, v, RETORNOS.eje.d);
+  for (const [k, v] of Object.entries(vR)) vR[k] = revisa(`retorno ${k}`, v, EJER);
 
   // 4.9 los rodamientos, con su carga real
   const cargaRodam = {
@@ -645,12 +835,28 @@ export function tambores(E) {
       relacion: r3(UCF207.C / Math.max(vT.Ra, vT.Rb)) },
     '6207-2RS': { N: r3(Math.max(vC.Ra, vC.Rb)), C: CONDUCIDO.rodam.C,
       relacion: r3(CONDUCIDO.rodam.C / Math.max(vC.Ra, vC.Rb)) },
-    '6206-2RS': { N: r3(Math.max(...Object.values(vR).map(v => Math.max(v.Ra, v.Rb)))),
-      C: RETORNOS.rodam.C },
   };
-  cargaRodam['6206-2RS'].relacion = r3(RETORNOS.rodam.C / cargaRodam['6206-2RS'].N);
+  // el rodamiento del ramal de retorno depende de la arquitectura: 6206-2RS en
+  // los rodillos de pozo, R8-2RS (ABEC-1) en los elevadores B-20760.
+  const nRet = r3(Math.max(...Object.values(vR).map(v => Math.max(v.Ra, v.Rb))));
+  if (RETIRA_POZO.activo) {
+    // ⚠ SIN C DE CATÁLOGO CITABLE. El R8-2RS del conjunto B-20760 lo especifica
+    // Hytrol por su clase ABEC-1, y ni el manual ni el repositorio publican su
+    // capacidad dinámica. NO se inventa un C: se publica la carga real y se deja
+    // la relación C/P como PENDIENTE con dueño, igual que se hace en §S con
+    // cualquier dato sin fuente. Lo que sí se puede afirmar es el orden: la carga
+    // por rodamiento cae de 466 N (pozo) a 61 N (elevador), ×7.6 menos.
+    cargaRodam['R8-2RS'] = { N: nRet, C: null, relacion: null,
+      pendiente: 'capacidad dinámica del R8-2RS ABEC-1 del conjunto B-20760: sin fuente citable. '
+        + 'Se publica la carga (N) y no se calcula la vida — el número que falta es del proveedor' };
+  } else {
+    cargaRodam['6206-2RS'] = { N: nRet, C: RETORNOS.rodam.C,
+      relacion: r3(RETORNOS.rodam.C / nRet) };
+  }
   for (const [k, v] of Object.entries(cargaRodam)) {
-    if (v.relacion < 8) err.push(`el rodamiento ${k} va a C/P = ${v.relacion} (< 8: vida corta)`);
+    if (v.relacion !== null && v.relacion < 8) {
+      err.push(`el rodamiento ${k} va a C/P = ${v.relacion} (< 8: vida corta)`);
+    }
   }
 
   // 4.10 la cuenta que obligó a montar el UCF 207 por FUERA (se deja escrita
@@ -687,21 +893,34 @@ export function tambores(E) {
     tambor: n.tambor, conducido: n.conducido, retorno: n.retorno, hardware: n.hardware,
     errores: err,
 
-    arquitectura: 'banda plana angosta: tambor motriz común engomado + rodillo '
-      + 'conducido de descansos interiores + 4 rodillos de retorno',
+    arquitectura: 'banda plana angosta: tambor motriz común engomado + rodillo conducido de '
+      + `descansos interiores + ${TAMBORES.retorno.length} rodillo(s) en el ramal de retorno `
+      + (RETIRA_POZO.activo
+        ? '(ELEVADORES B-20760: el retorno cruza la transferencia RECTO por el corredor del peine)'
+        : '(rodillos de POZO: el retorno cruza por debajo del módulo)'),
+    retornoRecto: RETIRA_POZO.activo,
+    corredor: RETIRA_POZO.activo ? {
+      caraPortanteZ: CORREDOR.zCara, dorsoZ: CORREDOR.zDorso,
+      techoMovilZ: CORREDOR.techoMovilZ, holguraAlMotorreductor: CORREDOR.holguraAlTecho,
+      holguraAlFondoDeRanura: CORREDOR.holguraRanura,
+      holguraALaPletinaDelPuente: CORREDOR.holguraPuente,
+      precedenteAnfitrionZ: CORREDOR.anfitrionZ, nota: CORREDOR.nota,
+    } : null,
+    flexionInversa: RETIRA_POZO.activo ? ELEVADORES.flexionInversa : null,
     diametros: {
       tambor: TAMBOR.od, tamborTubo: TAMBOR.tubo.od, engomado: TAMBOR.engomado,
-      conducido: CONDUCIDO.od, retorno: RETORNOS.od,
+      conducido: CONDUCIDO.od, retorno: TAMBORES.retornoD,
     },
     tamborEje: { d: TAMBOR.eje.d, soporte: UCF207.desig, vano: UCF207.vano,
       insertoX: UCF207.insertoX, saliente: TAMBOR.saliente, chavetero: TAMBOR.chavetero },
     caraUtil: { goma: TAMBOR.gomaX, tubo: TAMBOR.tuboX, bandas: FIJO.bandasX,
       margenPorLado: TAMBOR.margenBanda },
     ejesArbol: { motriz: { y: FIJO.motrizY, z: zT }, conducido: { y: FIJO.conducidaY, z: zC } },
-    retornos: TAMBORES.retorno.map(R => ({ ...R, d: RETORNOS.od })),
-    ramal: { z: RETORNO.z, zCara: RETORNO.zCara, zFondoAlto,
+    retornos: TAMBORES.retorno.map(R => ({ ...R, d: TAMBORES.retornoD })),
+    ramal: { z: RETORNO.z, zCara: RETORNO.zCara,
+      zFondoAlto: RETIRA_POZO.activo ? null : zFondoAlto,
       tramoLibreY: RETORNO.tramoLibreY, holguraFondoNbt90: holgFondo },
-    abrazados,
+    abrazados, abrazadosNota,
     arrastre: { mu: CARGA.mu, capstan: r3(capstan), teMaxN: teMax, teRequeridoN: teReq,
       reserva: fsArrastre, parNm, rpm, potenciaW: potW,
       motorreductor: `≥ ${Math.ceil(potW / 50) * 50} W a ${rpm} rpm de salida — ${TAMBOR.motorreductor}` },
@@ -720,8 +939,7 @@ export function tambores(E) {
         + 'tubo y eje fijo pasante; en su estación el alargue lleva el mismo patrón '
         + '92×92 pero recibe una pletina de eje fijo Ø35 (instrucción del cliente)',
       retornosNecesitanMensula: TAMBORES.retorno.map(R => ({ id: R.id, y: R.y, z: R.z,
-        patron: RETORNOS.soporte.patron, taladro: RETORNOS.soporte.taladro,
-        caraX: RETORNOS.soporte.caraX })),
+        patron: SOPR.patron, taladro: SOPR.taladro, caraX: SOPR.caraX })),
     },
     // B3 · cuenta publicada de la salida de hilo de los 8 M12 de las UCF 207
     pernosUcf,

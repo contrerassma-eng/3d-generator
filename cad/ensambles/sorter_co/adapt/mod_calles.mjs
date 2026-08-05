@@ -32,9 +32,12 @@ import { TENSOR_VIEJO, GEO as TEN_GEO, POL as TEN_POL } from './params_tensor2.m
 //   tensor original diagonal del cliente queda DESACTIVADO (no borrado) desde que
 //   el sorter pasa a banda plana angosta con el tensor de brazos (mod_tensor2);
 //   de ahí salen además la POSE PUBLICADA de la polea tensora (GEO/POL).
-import { TAMBORES, TAMBOR, CONDUCIDO, RETORNOS, RETORNO as RAMAL } from './params_tambores.mjs';
+import { TAMBORES, TAMBOR, CONDUCIDO, RETORNOS, ELEVADORES, CORREDOR, RETIRA_POZO,
+  RETORNO as RAMAL } from './params_tambores.mjs';
 //   ↑ las ESTACIONES del accionamiento de banda plana: tambor motriz, rodillo
-//   conducido y los 4 rodillos de retorno, con su geometría de ramal.
+//   conducido y los rodillos del ramal de retorno, con su geometría de ramal.
+//   Desde el 05-08-2026 esos rodillos son los DOS ELEVADORES del corredor y no
+//   los cuatro del pozo (bandera RETIRA_POZO); este módulo lee la tabla y traza.
 import { P as NBT90 } from '../../nbt90/params.mjs';
 //   ↑ especificación CONGELADA de la transferencia. De aquí sale el ESPESOR REAL
 //   de la banda plana (ver T_BANDA): no se copia el número, se cita el dato.
@@ -173,12 +176,18 @@ export function calles(E) {
   //   · tambor motriz, conducido y RR1…RR4 → adapt/params_tambores.mjs
   //   · polea tensora                      → adapt/params_tensor2.mjs (GEO/POL)
   //
-  // Recorrido (en el sentido de avance de la banda):
-  //   TAMBOR (180°) → PORTANTE llano sobre las guías UHMW del PG40 (Z 51.7) →
-  //   CONDUCIDO (180°) → retorno llano → RR4 baja el ramal → RR3 fondo del pozo
-  //   → [POR DEBAJO del NBT90] → RR2 → RR1 lo devuelve a llano →
+  // Recorrido (en el sentido de avance de la banda) — RETORNO RECTO, corrección
+  // del cliente del 03-08-2026 («la banda debe seguir linea roja asi fue
+  // concebido»):
+  //   TAMBOR (180°) → PORTANTE llano sobre las guías UHMW del PG40 →
+  //   CONDUCIDO (187.5°) → RAMPA de subida → RE-S eleva el ramal al corredor →
+  //   [RECTO POR EL CORREDOR DEL PEINE, la misma ranura de 42 por la que pasa el
+  //    portante, a Z −9.87 de cara portante] → RE-N → RAMPA de bajada →
   //   HORQUILLA DEL TENSOR: volante de entrada → POLEA TENSORA (fondo) →
   //   volante de salida → TAMBOR.
+  // El POZO (RR1…RR4 y las 4 guardas) lo retira params_tambores.RETIRA_POZO; con
+  // esa bandera a false vuelve el recorrido anterior por debajo del módulo y este
+  // mismo código lo traza sin tocar una línea, porque el lazo se LEE de la tabla.
   //
   // LA HORQUILLA, y por qué los dos volantes (dis, con el número delante):
   // la polea tensora está PUBLICADA en el fondo de la bahía medida del cliente
@@ -217,13 +226,13 @@ export function calles(E) {
   const zVol = r2(zCaraRamal - R_VOL_H);              // −109.7 calc (tangencia al ramal)
   const RR = TAMBORES.retorno;                        // RR1…RR4, publicados
   const R_TENSORA = TEN_POL.dia / 2;                  // 58.95 step — cara LISA (sin dientes)
-  // Los rodillos de retorno se recorren EN EL ORDEN DEL RAMAL (del conducido
-  // hacia el tambor, o sea de Y más negativa a Y menos negativa) y con el
-  // sentido de envolvente que publica su propia tabla. Ni el número ni el orden
-  // están cableados aquí: si el accionamiento retira un rodillo de retorno —o
-  // los cuatro, el día que el tambor baje de Ø y el retorno pueda pasar RECTO
-  // por el corredor del peine— el lazo se retraza solo. Ver params_tambores §4
-  // y la compuerta §R, que EXIGE retirarlos en cuanto el paso recto sea posible.
+  // Los rodillos del ramal de retorno se recorren EN EL ORDEN DEL RAMAL (del
+  // conducido hacia el tambor, o sea de Y más negativa a Y menos negativa) y con
+  // el sentido de envolvente que publica su propia tabla. Ni el número ni el
+  // orden están cableados aquí: el 05-08-2026 esa tabla pasó de CUATRO rodillos
+  // de pozo a DOS elevadores y este bloque no cambió ni una línea — el lazo se
+  // retrazó solo. Ver params_tambores §4 y la compuerta §R, que EXIGE el paso
+  // recto de los DOS ramales y que no quede ni un rodillo de pozo.
   const RAMAL_RETORNO = [...RR].sort((a, b) => a.y - b.y)
     .map(R => ({ c: [R.y, R.z], r: RETORNOS.r, s: R.s, id: R.id }));
   const seq = [
@@ -344,8 +353,9 @@ export function calles(E) {
           + `rodadura (tambor, conducido, RR1…RR4 y las 20 regletas UHMW, todas colgadas de `
           + `params_tambores.planoDorso = 51.7) tiene que BAJAR ${r2(T_BANDA - T_BANDA_T5)} mm hasta `
           + `${r2(STEP.planoBanda - T_BANDA)}, que es justo la cota a la que el NBT90 declara la regleta de su `
-          + `anfitrión (49.84). Largo de fibra ${largo}; recorre el pozo del módulo (RR4→RR3→RR2→RR1) y la `
-          + `horquilla del tensor. Banda NUEVA: la T5 del cliente no sirve para este accionamiento` });
+          + `anfitrión (49.84). Largo de fibra ${largo}; recorre ${NOMBRE_EST.join('→')}. `
+          + `El RAMAL DE RETORNO atraviesa la transferencia RECTO por el corredor del peine, `
+          + `no por debajo (corrección del cliente 03-08-2026). Banda NUEVA: la T5 del cliente no sirve` });
     cuenta(M.nuevas, `banda plana 32 (largo ${largo})`, 1);
 
     // 4-bis. los dos VOLANTES DE CONTRAFLEXIÓN que forman la horquilla del
@@ -546,15 +556,19 @@ export function calles(E) {
   // params_tambores lo baje, el plano de transporte de aquí lo sigue solo.
   const planoRodadura = r2(TAMBORES.motriz.z + TAMBOR.r);          // 51.7 hoy
   const planoTransporte = r2(planoRodadura + T_BANDA);             // 54.2 con la banda real
-  // Rodillos de HOMBRO (los que muerden el ramal por debajo, s < 0): cada uno se
-  // mide contra SU tramo de retorno — RR1 contra el que sale del tambor y RR4
-  // contra el que sale del conducido, que no están a la misma cota (los radios
-  // difieren 0.45). El desalineo sale igual en los dos porque el error es común:
-  // params_tambores los coloca con el dorso T5.
+  // COTA DE TANGENCIA de cada rodillo del ramal de retorno: la generatriz por la
+  // que toca la banda. Con s < 0 el rodillo va POR DEBAJO y toca la CARA
+  // PORTANTE, así que la tangencia es `z + r`; con s > 0 va por arriba y toca el
+  // dorso, y la tangencia es `z − r`. Se publica la cota y contra qué se mide:
+  //   · con retorno RECTO (elevadores) la referencia es el suelo del corredor;
+  //   · con pozo (RR1/RR4) era la cara del ramal llano que sale del tambor.
+  const rTorn = RETIRA_POZO.activo ? ELEVADORES.r : RETORNOS.r;
+  const rrTangencia = RR.map(R => [R.id, r2(R.s < 0 ? R.z + rTorn : R.z - rTorn)]);
   const rrHombro = RR.filter(R => R.s < 0).map(R => {
-    const delTambor = Math.abs(R.y - TAMBORES.motriz.y) < Math.abs(R.y - TAMBORES.conducido.y);
-    const caraRef = r2((delTambor ? RAMAL.z : RAMAL.zConducido) - T_BANDA);
-    return [R.id, r2(R.z + RETORNOS.r - caraRef)];
+    const caraRef = RETIRA_POZO.activo ? CORREDOR.zCara
+      : r2((Math.abs(R.y - TAMBORES.motriz.y) < Math.abs(R.y - TAMBORES.conducido.y)
+        ? RAMAL.z : RAMAL.zConducido) - T_BANDA);
+    return [R.id, r2(R.z + rTorn - caraRef)];
   });
   M.banda = {
     largoDesarrollado: largo,
@@ -585,12 +599,23 @@ export function calles(E) {
     ramalRetornoZ: r2(RAMAL.z),                                    // −57.2 (dorso)
     caraRamalRetornoZ: zCaraRamal,                                 // −59.7 calc
     caraRamalRetornoPublicadaZ: r2(RAMAL.zCara),                   // −57.833 (con dorso T5)
-    // cuánto se sale cada rodillo de HOMBRO del ramal llano por estar colocado con
-    // el dorso T5: +1.867 = está ALTO y le mete un codo al ramal.
+    // desviación de cada rodillo que muerde por debajo respecto de la cota de
+    // referencia de SU ramal (0.0 = tangente exacta, que es lo que debe salir).
     desalineoRodillosHombroMm: Object.fromEntries(rrHombro),
-    carasupBajoModuloZ: r2(RR[1].z - RETORNOS.r),                  // −358.27 → CARA ALTA del
-    //   ramal de fondo: RR2/RR3 muerden ese ramal por ARRIBA, así que su dorso
-    //   está a centro − radio. Es la cota que se juega la holgura al NBT90.
+    tangenciaRodillosRetornoZ: Object.fromEntries(rrTangencia),
+    // ---- RAMAL DE RETORNO RECTO (corrección del cliente 03-08-2026) ---------
+    retornoRecto: RETIRA_POZO.activo,
+    retornoCorredorCaraZ: RETIRA_POZO.activo ? CORREDOR.zCara : null,
+    retornoCorredorDorsoZ: RETIRA_POZO.activo ? CORREDOR.zDorso : null,
+    retornoCorredorY: RETIRA_POZO.activo
+      ? [r2(TAMBORES.retorno[1].y), r2(TAMBORES.retorno[0].y)] : null,
+    // holguras del ramal recto, medidas sobre el contorno EMITIDO (no declaradas)
+    holguraRetornoTechoMovil: RETIRA_POZO.activo
+      ? r2(CORREDOR.zCara - CORREDOR.techoMovilZ) : null,          // 2.00 al SEW
+    holguraRetornoFondoRanura: RETIRA_POZO.activo ? CORREDOR.holguraRanura : null,   // 8.27
+    holguraRetornoPuente: RETIRA_POZO.activo ? CORREDOR.holguraPuente : null,        // 20.65
+    carasupBajoModuloZ: RETIRA_POZO.activo ? null : r2(RR[1].z - RETORNOS.r),   // −358.27 → CARA
+    //   ALTA del ramal de fondo cuando había pozo. Sin pozo no existe.
     holguraBandaCilindroTensor: isFinite(holguraBandaCil) ? r2(holguraBandaCil) : 999,
     fondoHorquillaTensorZ: r2(TEN_GEO.poleaZ - R_TENSORA - T_BANDA),
     volanteHorquillaZ: zVol,

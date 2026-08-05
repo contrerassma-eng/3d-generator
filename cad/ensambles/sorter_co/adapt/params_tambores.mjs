@@ -235,9 +235,17 @@ export const BANDA = {
   // (108.9) y por el conducido (108.0), pero NO por los CUATRO RODILLOS DE
   // RETORNO, que son Ø88.9. La SAB-8E 07 pide 40.6 mm y pasa por todos con
   // holgura ×2.2 sobre el más pequeño.
+  // ⚠ ACTUALIZADO 05-08: el rodillo más pequeño del lazo YA NO es el de retorno
+  // de pozo Ø88.9 — con el retorno recto son los dos ELEVADORES Ø48.26 (el
+  // B-20760). Sigue cumpliendo (48.26 ≥ 40.6) pero el margen baja de ×2.19 a
+  // ×1.19, y encima es flexión INVERSA: ver `ELEVADORES.flexionInversa`, donde
+  // queda declarado que la fuente no publica mínimo de contraflexión.
   get poleaMinimaCumple() {
-    return { tambor: TAMBOR.od, conducido: 108.0, retorno: 88.9, minimoBanda: this.poleaMinimaMm,
-      cumpleTodas: 88.9 >= this.poleaMinimaMm };
+    const menor = RETIRA_POZO.activo ? ELEVADORES.dia : RETORNOS.od;
+    return { tambor: TAMBOR.od, conducido: 108.0, retorno: menor, minimoBanda: this.poleaMinimaMm,
+      margen: r3(menor / this.poleaMinimaMm), cumpleTodas: menor >= this.poleaMinimaMm,
+      flexionInversa: 'los rodillos que cierran el mínimo muerden la CARA PORTANTE (s = −1): '
+        + 'la flexión es inversa a la del tambor. La fuente citada no distingue sentido' };
   },
   // LONGITUD DE PEDIDO — y aquí hay que ser exacto sobre lo que NO se sabe.
   // El lazo lo traza mod_calles y lo publica como `banda.largoDesarrollado`. Ese
@@ -449,65 +457,150 @@ export const CONDUCIDO = {
 };
 
 // ---------------------------------------------------------------------------
-// 4. LOS RODILLOS DE RETORNO
+// 4. EL RAMAL DE RETORNO — POR EL CORREDOR, RECTO (corrección del cliente 03-08)
 // ---------------------------------------------------------------------------
-// CUÁNTOS Y DÓNDE (dis, con el motivo de cada uno):
+// ⚠ ESTE BLOQUE SE REESCRIBIÓ EL 05-08-2026. Lo que decía antes —«el retorno NO
+// cabe recto porque el tambor es Ø108.9: su ramal sale a Z −59.07 y el suelo del
+// corredor está en −9.87, faltan 49.2 mm; para entrar, el tambor tendría que
+// bajar a Ø ≤ 59.7»— es ARITMÉTICA CORRECTA SOBRE UNA HIPÓTESIS FALSA. Daba por
+// supuesto que el ramal de retorno tiene que ir RECTO DESDE LA TANGENTE DEL
+// TAMBOR hasta el módulo, y por eso concluía que el Ø del tambor gobierna la
+// cota del corredor. No la gobierna: entre el tambor y el módulo hay 742 mm de
+// Y libre, y subir 49.2 mm en 742 mm es una RAMPA DE 3.8°. El Ø del tambor fija
+// dónde ARRANCA el ramal, no por dónde CRUZA la transferencia.
 //
-// ⚠ CORRECCIÓN DEL CLIENTE (03-08-2026) — «la banda tiene que ir RECTA a través
-// de la estructura de la transferencia, no por debajo». Se ha medido, y esto es
-// lo que hay (la compuerta §R de gen_sorter_co.mjs lo reproduce y lo exige):
-//   · El RAMAL PORTANTE ya va recto: atraviesa el módulo a la cota del plano de
-//     transporte por el corredor de 42 mm que dejan los dientes de las placas
-//     PEINE (holgura 5.0/lado a la banda, 6.0 al puente, 4.64 al rodillo).
-//   · El corredor SIRVE TAMBIÉN para el retorno, y el propio NBT90 lo declara:
-//     sus piezas CONTEXTO ponen el ramal de retorno del anfitrión recto por el
-//     mismo hueco, a Z −11.57…−9.07 del sorter, 61.4 mm bajo el portante.
-//   · El del sorter NO cabe ahí, y el número es éste: el suelo útil del corredor
-//     está en Z −9.87 (techo del motorreductor SEW del cassette, −11.87, más 2
-//     de holgura), y el ramal de retorno de este accionamiento sale a Z −57.2
-//     porque el TAMBOR es Ø108.9. Faltan 47.33 mm. Para entrar en el corredor el
-//     tambor tendría que bajar a Ø ≤ 61.57 — que es justo el Ø del anfitrión
-//     (P.bandaRetornoDZ = 61.4 med) — y con eje Ø35 (barreno del UCF 207) más los
-//     10 de goma que pidió el cliente, el tubo se quedaría en Ø41.6: sin corona
-//     de tapa. Las tres cotas (Ø35, goma 10, UCF 207) son instrucción del
-//     cliente, así que el retorno pasa POR DEBAJO. Si el cliente cambia el
-//     tambor, la §R lo detecta y EXIGE retirar estos rodillos y el pozo.
+// LO QUE PIDE EL CLIENTE (instrucción literal del 03-08, sobre el croquis de
+// vistas/sco_corte_calle3.png): «la banda debe seguir linea roja asi fue
+// concebido, eliminar poleas "x" incluso para asegurar no interferencias existen
+// los rodillos (verdes) que tenias uno en modelo anterior esa era funcion».
+//   · LÍNEA ROJA  = el ramal de RETORNO cruza la transferencia RECTO, a la cota
+//                   alta, por el mismo corredor del peine que ya usa el portante.
+//   · 4 ASPAS     = RR1…RR4 y el pozo: FUERA (bandera `RETIRA_POZO`).
+//   · 2 CÍRCULOS  = dos RODILLOS ELEVADORES, uno a cada lado de la huella del
+//                   módulo, que suben el ramal a la cota del corredor. El
+//                   cliente señala que «tenías uno en el modelo anterior»: es el
+//                   RODILLO DE RETORNO B-20760 del NBT90, cuya función declarada
+//                   en su propio despiece es «limita los ramales de retorno de
+//                   las bandas del anfitrión» (nbt90/rodillos.mjs §2). Estaba en
+//                   el ensamble y lo sacó mod_ctx.EXCLUIR_NBT90 con el motivo
+//                   «aquí no limita ningún ramal (el retorno pasa a −358.95)».
+//                   Con el retorno recto vuelve a limitarlo: por eso vuelve.
 //
-// El ramal de retorno sale del tambor a Z −57.2, tiene que llegar al conducido
-// a −56.3 y, ENTRE MEDIAS, no puede atravesar el módulo de transferencia, que
-// ocupa Y −1205…−742 en TODA la profundidad hasta Z −338.267. O sea que el
-// retorno BAJA, cruza por debajo del módulo y vuelve a subir. Eso son cuatro
-// cambios de dirección, y cada cambio de dirección es un rodillo:
-//   RR1  Y −606   baja el ramal (queda 136 al norte del módulo)
-//   RR2  Y −672   lo pone horizontal en el fondo del pozo
-//   RR3  Y −1280  lo levanta al otro lado (75 al sur del módulo)
-//   RR4  Y −1325  lo devuelve a horizontal hacia el conducido
-// NO HACEN FALTA MÁS (calc, y se verifica): el vano libre más largo es el
-// tambor→RR1, 606 mm; con 129.05 N de tensión y 0.38 N/m de peso de banda la
-// FLECHA del ramal es 0.12 mm. Un rodillo intermedio no sostendría nada.
-// Y NO HACEN FALTA MENOS (calc sobre el lazo, con `envolventes` de lib.mjs —
-// éstas son las cuatro variantes que se probaron al revisar el retorno):
-//   · sin RR4 (3 rodillos): el abrazado del CONDUCIDO cae a 137.63°, bajo el
-//     mínimo de 150° de la compuerta §J. Igual con sólo los dos del fondo.
-//   · sin RR1 (3 rodillos): los abrazados cumplen (tambor 180°, conducido 180°),
-//     pero desaparece el TRAMO LLANO de Z −57.2 del que cuelga el tensor
-//     (`RETORNO.tramoLibreY`, contrato con adapt/mod_tensor2.mjs) y del que sale
-//     POR TANGENCIA la cota de los dos volantes de contraflexión: la banda
-//     llegaría a la horquilla en diagonal a 37.6° y ni el abrazado de la tensora
-//     ni la palanca del brazo serían los publicados. Se descarta.
-//   · sin ninguno (retorno recto): 464 puntos del contorno de la banda caen
-//     DENTRO del macizo del módulo, en Z −57.60…−56.66. Es el cálculo de arriba.
-// O sea: 4 es el mínimo mientras el tambor sea Ø108.9.
-// Las cuatro Y son las que ya tenía verificadas la versión de pozo anterior
-// (params_adapt POZO v4/v3/v2/v1): libran el IDLER-ENS (Y −1391.979), el
-// LAT TOP (que arranca en −513.116) y los travesaños PG40 (−1520/−1390/−600/−100).
-// Ø ELEGIDO: Ø88.9 (tubo Ø88.9 × 3.2 — el MISMO tubo que el núcleo del tambor):
-//   · no manda la flexión de la banda (Ø88.9 > los Ø63.5 sobre los que ya corre
-//     esta familia de banda plana en el NBT90 — nbt90 P.idlerDia);
-//   · manda la FLECHA del eje fijo y el hueco para el rodamiento: con eje Ø30 y
-//     6206-2RS (Ø62 exterior) la corona de la tapa queda en 10.25 mm de pared;
-//   · y manda el bolsillo: RR2/RR3 están a 25.6 y 30.6 mm de la cara del módulo
-//     (Y −742 / −1205) — con Ø114 se lo comerían.
+// LA COTA DEL CORREDOR (calc, y es la que manda sobre todo lo demás):
+//   suelo útil  Z −9.87 = techo del motorreductor SEW del cassette (−11.87,
+//               medido sobre su caja real por la §R) + 2 de holgura.
+//   la ranura del peine mantiene el ancho pleno (42) para la banda de 32 hasta
+//               Z −18.14, o sea 8.27 mm POR DEBAJO de donde va el ramal: la
+//               limitación no es la ranura, es el motorreductor.
+//   techo       Z 13.28 = cara inferior de la pletina del puente de calle.
+//   El NBT90 declara el retorno de su anfitrión en Z −11.57…−9.07 por este mismo
+//   hueco. El nuestro va 1.7 mm más alto porque exigimos 2 mm al SEW donde el
+//   anfitrión se conforma con 0.3. Es el PRECEDENTE, y nos parecemos a él.
+//
+// LOS DOS RODILLOS ELEVADORES (dis, con el porqué de cada cota):
+//   · Y: el hueco libre a cada lado de la huella. Al norte, entre la pieza del
+//     NBT90 que más al norte llega (Transfer roller guard, Y −766) y el travesaño
+//     de puente (Y −712) hay 54 mm → RE-N centrado en −739. Al sur, entre el
+//     motorreductor SEW (Y −1175.35, que es techo del corredor y no se puede
+//     invadir) y el travesaño de puente sur (−1260) hay 84.65 mm → RE-S centrado
+//     en −1218. Los dos quedan FUERA de la huella declarada del módulo
+//     (−1205…−742) salvo RE-N, que la pisa 21 mm en una zona donde el NBT90 no
+//     tiene material (su pieza más al norte muere en −766).
+//   · Ø: 48.26 (1.9"). NO es una elección libre: el hueco norte son 54 mm, así
+//     que el Ø máximo que cabe con holgura es 48. Y 48.26 es EXACTAMENTE el
+//     B-20760 que el cliente señala. Coincidencia útil, no buscada.
+//   · Z: eje en −34.0 = suelo del corredor (−9.87) − radio (24.13). El rodillo
+//     TANGENTE POR ARRIBA al ramal, igual que el B-20760 en el NBT90.
+//
+// ⚠ EL ELEVADOR TOCA LA CARA PORTANTE Y HACE FLEXIÓN INVERSA — declarado, no
+// escondido. En el convenio de `bandaFaces` (lib.mjs) los elementos con s = −1
+// muerden el contorno EXTERIOR del lazo, que en el ramal de retorno es la cara
+// de transporte (la sucia, la que lleva el bulto). Los dos elevadores son s = −1,
+// así que la banda los envuelve por su cara portante y se dobla al REVÉS que
+// sobre el tambor. Es inevitable en esta arquitectura —el ramal tiene que subir
+// y sólo se sube empujando desde abajo— y es lo mismo que hace el B-20760 con
+// los ramales del anfitrión. No es nuevo en este lazo: RR1 y RR4 (Ø88.9) y los
+// dos volantes de horquilla (Ø100) ya lo hacían. Radio mínimo de flexión y
+// margen frente al catálogo: `ELEVADORES.flexionInversa`.
+export const ELEVADORES = {
+  ref: 'Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1 (Specify BR −1-1/4)»',
+  fuente: 'nbt90/bastidor.mjs `rodRetorno` + nbt90/rodillos.mjs §2 (item 22 del despiece de la '
+    + 'pág. 13 del manual; item 9 del de la pág. 12). Es la MISMA referencia que la transferencia '
+    + 'ya lleva y la que el cliente señala en su croquis',
+  dia: 48.26,                          // cat B-20760 «1.9 in. OD» (nbt90 med 48.03, −0.5 %)
+  get r() { return r3(this.dia / 2); },                      // 24.13
+  pared: 1.65,                         // cat Interroll 1.9" C/S galvanizado 0.065" (nbt90)
+  eje: { d: 12.7, material: 'acero estirado en frío 1/2"', gira: false },   // cat 1/2" ED&T
+  rodam: { bore: 12.7, od: 28.575, w: 7.938, desig: 'R8-2RS' },   // cat ABEC-1 (nbt90 L.retRodam)
+  rosca: '1/4-20 UNC-2B ED&T × 15.88 (5/8") en las dos puntas del eje',   // cat (nbt90)
+  // CARA: la misma que el conducido y que los retornos que se retiran — cubre las
+  // 5 bandas (111.056…447.856) con 11.6 de margen por lado y deja 20 mm de eje
+  // libre en cada testa para el collar. No se usa la regla «BR − 1-1/4"» del
+  // catálogo porque aquí el rodillo NO se atornilla al alma de un canal Hytrol
+  // sino a las pletinas del alargue PG40, que es otro vano.
+  cara: 360,                           // dis
+  get tuboX() { return [r3(Xc - this.cara / 2), r3(Xc + this.cara / 2)]; },
+  ejeX: [62, 497],                     // calc — igual que el conducido y los retornos
+  // MÉNSULA: la que YA existe para los rodillos de retorno (patrón 76×76,
+  // taladro Ø11) — no se inventa un amarre nuevo. Cambia el barreno, que pasa de
+  // Ø30 a Ø12.7.
+  soporte: { e: 12, lado: 100, bore: 12.7, patron: 76, taladro: 11,
+    caraX: [67.494, 491.418], normal: [1, -1] },
+  collar: 'Mädler 62341270 — collar de apriete PARTIDO en dos mitades (double-split), acero C45 '
+    + 'pavonado, Ø12.7 int × Ø30 ext × 11, 2 tornillos M4×12 DIN 912 12.9 · web COLL-SPLIT-01 '
+    + '(misma familia y mismo fabricante que los Ø30 y Ø35 del resto del lazo; el Ø y el largo son '
+    + 'los de la talla 1/2" de esa familia). Retención axial del eje fijo',
+  collarDe: 30,                        // cat COLL-SPLIT-01 (talla 1/2")
+  collarR: 34,                         // cat — envolvente sobre la cabeza del tornillo
+  tapa: { e: 8, inset: 6 },
+  anillo: 'DIN 471 Ø12',
+  // POSICIONES (dis — el hueco libre a cada lado, medido sobre el ensamble
+  // emitido; ver el bloque de arriba). `s` = −1 en el convenio de bandaFaces:
+  // la banda los envuelve POR ARRIBA y los toca con su CARA PORTANTE.
+  y: { norte: -739, sur: -1218 },
+  huecoLibre: {
+    norte: { entre: ['NBT90 Transfer roller guard 14 GA (Y −766)', 'PG40 Travesaño de puente norte (Y −712)'],
+      mm: 54, holguraPorLado: 2.87 },
+    sur: { entre: ['PG40 Travesaño de puente sur (Y −1260)', 'NBT90 Motorreductor SEW (Y −1175.35)'],
+      mm: 84.65, holguraPorLado: [17.87, 18.52] },
+  },
+  // FLEXIÓN INVERSA — el número que hay que declarar (calc + web BELT-SAB8E-01)
+  get flexionInversa() {
+    return {
+      cara: 'PORTANTE (la de transporte, la que lleva el bulto)',
+      sentido: 'INVERSO al del tambor motriz y al del conducido',
+      diaFlexionMm: this.dia,                       // 48.26
+      diaMinimoCatalogoMm: BANDA.poleaMinimaMm,     // 40.6 web BELT-SAB8E-01
+      margen: r3(this.dia / BANDA.poleaMinimaMm),   // 1.189
+      cumple: this.dia >= BANDA.poleaMinimaMm,
+      // LO QUE LA FUENTE NO DICE, y se dice: la tabla de Habasit publica UN
+      // «Pulley diameter, minimum» (1.6 in) y NO distingue flexión directa de
+      // inversa. Ninguna fuente citable del repositorio da un Ø mínimo de
+      // CONTRAFLEXIÓN para esta banda. Queda declarado como pendiente con dueño
+      // (../web_facts.json → pendientes_sin_fuente) y NO se sustituye por una
+      // regla de pulgar del tipo «×1.5 en contraflexión».
+      pendiente: 'web BELT-SAB8E-01 no publica Ø mínimo de CONTRAFLEXIÓN; el 40.6 citado es el '
+        + 'mínimo de polea sin distinguir sentido. Con 48.26 se cumple el único número citable, con '
+        + 'un margen de 1.19. Si el proveedor da un mínimo de contraflexión mayor que 48.26, el hueco '
+        + 'libre del lado norte (54 mm) NO admite un rodillo más grande: habría que mover el travesaño '
+        + 'de puente norte, y eso está dicho aquí para que se pregunte antes de comprar la banda',
+      precedenteEnEsteLazo: 'no es nuevo: los volantes de horquilla Ø100 del cliente y los RR1/RR4 '
+        + 'Ø88.9 que se retiran ya mordían la cara portante con s = −1. El elevador es el más pequeño '
+        + 'de los tres, y es el que fija el radio mínimo de flexión inversa del lazo',
+      precedenteEnLaMaquina: 'el B-20760 del NBT90 hace exactamente esto mismo, con el mismo Ø, '
+        + 'contra los ramales de retorno del anfitrión',
+    };
+  },
+};
+
+// ---------------------------------------------------------------------------
+// 4-bis. LOS CUATRO RODILLOS DE RETORNO DE POZO — RETIRADOS POR BANDERA
+// ---------------------------------------------------------------------------
+// Se conservan la tabla y el código: `RETIRA_POZO.activo = false` devuelve el
+// pozo entero (rodillos, guardas y ramal por debajo) tal como estaba. Lo que ya
+// NO vuelve es la justificación de arriba, que era falsa.
+//   RR1  Y −606   bajaba el ramal        RR2  Y −672   fondo del pozo, norte
+//   RR3  Y −1280  fondo del pozo, sur    RR4  Y −1325  lo subía al conducido
 export const RETORNOS = {
   tubo: { od: 88.9, e: 3.2, get id() { return r3(this.od - 2 * this.e); } },   // 82.5 cat
   get od() { return this.tubo.od; },
@@ -557,6 +650,90 @@ const zCaraRetConducido = r3(zRetConducido - FIJO.bandaEsp);  // −56.933
 // ramal de fondo: cara ALTA del lazo bajo el módulo (la que se juega la holgura)
 const zFondoAlto = r3(FIJO.fondoNbt90 - RETORNOS.holguraFondo);   // −358.267
 
+// ---------------------------------------------------------------------------
+// 5-bis. EL CORREDOR RECTO — la cota que gobierna el retorno nuevo
+// ---------------------------------------------------------------------------
+// Las tres cotas son MEDIDAS sobre el ensamble emitido (la §R las vuelve a medir
+// por su cuenta sobre el boceto real de las placas peine y sobre la caja real
+// del motorreductor: aquí NO se declara nada que la compuerta no compruebe).
+export const CORREDOR = {
+  techoMovilZ: -11.87,     // med — techo del motorreductor SEW RF07DRS71S4 del
+  //   cassette (NBT90 MÓVIL, Y −1175.35…−793.35, X 206.96…351.96). Es la pieza
+  //   más alta bajo la ranura en las calles 2-4 y la que fija el suelo.
+  holguraAlTecho: 2.0,     // dis — la misma holgura mínima que el resto del módulo
+  get sueloZ() { return r3(this.techoMovilZ + this.holguraAlTecho); },       // −9.87
+  fondoRanuraBandaZ: -18.14,   // med — cota más baja a la que la ranura del peine
+  //   sigue teniendo los 42 mm de ancho pleno para la banda de 32
+  techoZ: 13.28,           // calc — cara inferior de la pletina del puente de calle
+  // CARA PORTANTE (exterior) del ramal recto = suelo del corredor. El dorso queda
+  // un espesor por ENCIMA, porque en el retorno la banda va del revés.
+  get zCara() { return this.sueloZ; },                                       // −9.87
+  get zDorso() { return r3(this.zCara + FIJO.bandaEsp); },                   // −7.37
+  get holguraRanura() { return r3(this.zCara - this.fondoRanuraBandaZ); },   // 8.27
+  get holguraPuente() { return r3(this.techoZ - this.zDorso); },             // 20.65
+  anfitrionZ: [-11.57, -9.07],   // nbt90 — donde la transferencia declara el ramal
+  //   de retorno de SU anfitrión, por este mismo hueco. Es el precedente.
+  nota: 'el ramal de retorno del sorter va 1.7 mm más alto que el que el NBT90 declara para su '
+    + 'anfitrión porque exigimos 2 mm al motorreductor donde el anfitrión se conforma con 0.3',
+};
+
+// ---------------------------------------------------------------------------
+// 5-ter. LO QUE RETIRA EL RETORNO RECTO (bandera, no borrado)
+// ---------------------------------------------------------------------------
+// El pozo entero: los 4 rodillos RR1…RR4 con todo su conjunto (tubos, tapas,
+// rodamientos, casquillos, anillos, ejes, pletinas, collares y tornillería) y
+// las 4 guardas de pozo con su ferretería. Con `activo: false` vuelve todo.
+//
+// ⚠ ANCLAJE DE LAS EXPRESIONES. Esta misma noche han salido TRES fallos por
+// regex demasiado ancha (94f7271, 6b4e780 y el de los casquillos de guarda), así
+// que aquí cada expresión va anclada a algo que SÓLO case con lo que se quiere,
+// y `esperadas` fija el recuento: si una expresión se lleva una pieza de más o
+// de menos, la compuerta §F7b para el generador.
+//   · `RETORNO RR[1-4] Ø` — el prefijo que mod_tambores pone a TODAS las piezas
+//     del conjunto de cada rodillo de pozo (`RETORNO RR1 Ø88.9 · tubo …`). No
+//     vale `RETORNO` a secas: cazaría los rodillos elevadores nuevos, que se
+//     llaman `ELEVADOR RE-N/RE-S`, y la palabra sale en decenas de notas.
+//   · `\(RETORNO RR[1-4] Ø` — los rodamientos y anillos, que mod_tambores nombra
+//     al revés (`6206-2RS (RETORNO RR1 Ø88.9, −X)`).
+//   · `soporte RETORNO RR[1-4] Ø` — los 32 pernos M10 de las pletinas.
+//   · `Guarda de pozo` / `guarda (sur|norte|lateral)` — las 4 guardas y su
+//     ferretería. ANCLADAS a «pozo»: las «Guía de descarga» del mismo módulo NO
+//     llevan esa palabra y se quedan, que es lo correcto (no son del pozo).
+export const RETIRA_POZO = {
+  activo: true,
+  // Cada expresión con su cuenta ESPERADA y qué se lleva. El integrador aplica
+  // la unión y publica el recuento REAL por expresión; la compuerta lo compara
+  // contra `esperadas` y PARA si no coincide — en los dos sentidos, porque una
+  // expresión que se lleva de menos deja piezas huérfanas y una que se lleva de
+  // más borra piezas vivas (que es exactamente lo que pasó con
+  // `Rodamiento SKF W 6004` en la bandera hermana).
+  patrones: [
+    { rx: 'RETORNO RR[1-4] Ø', esperadas: 44,
+      que: 'los 4 conjuntos de rodillo de pozo: tubo, 2 tapas-soporte, 2 casquillos, eje, '
+        + '2 pletinas y 2 collares por rodillo' },
+    { rx: '\\(RETORNO RR[1-4] Ø', esperadas: 16,
+      que: 'sus 8 rodamientos 6206-2RS y sus 8 anillos DIN 471, que mod_tambores nombra al revés '
+        + '(«6206-2RS (RETORNO RR1 Ø88.9, −X)»)' },
+    { rx: 'soporte RETORNO RR[1-4] Ø', esperadas: 32,
+      que: 'los 32 pernos M10 de las 8 pletinas de soporte' },
+    { rx: 'Guarda de pozo', esperadas: 4,
+      que: 'las 4 chapas 14 GA de cierre del pozo (2 testas + 2 laterales)' },
+    { rx: 'guarda (sur|norte|lateral) \\(', esperadas: 12,
+      que: 'sus pernos M8 de testa y los casquillos separadores de las laterales' },
+    { rx: 'guarda norte↔bancada', esperadas: 3,
+      que: 'los 3 M8×16 de la franja de la guarda norte a la bancada' },
+    { rx: 'guarda (−X|\\+X)↔chapón', esperadas: 6,
+      que: 'los 6 M8 que cosen las dos guardas laterales al chapón' },
+  ],
+  get rx() { return new RegExp(this.patrones.map(p => p.rx).join('|')); },
+  get esperadasTotal() { return this.patrones.reduce((a, p) => a + p.esperadas, 0); },
+  motivo: 'corrección del cliente 03-08-2026: el ramal de retorno cruza la transferencia RECTO por '
+    + 'el corredor del peine, sostenido por los dos rodillos elevadores. Sin pozo no hay rodillos de '
+    + 'pozo ni guardas de pozo',
+  // comprobaciones que dejan de aplicar (se apagan con esta misma bandera):
+  guarda: ['§E holgura del ramal de fondo al NBT90', '§4.5 de mod_tambores (fondo del pozo)'],
+};
+
 export const TAMBORES = {
   // ↓↓↓ lo que lee adapt/params_pg40.mjs (EJES_ARBOL) ↓↓↓
   motriz: { y: FIJO.motrizY, z: zEjeTambor, d: TAMBOR.od, eje: TAMBOR.eje.d,
@@ -572,46 +749,77 @@ export const TAMBORES = {
     patron: { tipo: 'cuadrado', j: CONDUCIDO.soporte.patron, dia: CONDUCIDO.soporte.taladro,
       semi: r3(CONDUCIDO.soporte.patron / 2) },
     pasoEje: 0 },   // no hay paso de eje: el eje MUERE en la pletina
-  // ↓↓↓ los cuatro rodillos de retorno, para que pg40 les cuelgue ménsulas ↓↓↓
+  // ↓↓↓ los rodillos del RAMAL DE RETORNO, para que pg40 les cuelgue ménsulas ↓↓↓
   // `s` = sentido de envolvente de la banda sobre el rodillo, en el convenio de
   // lib.mjs `bandaFaces` (+1 la banda lo envuelve CCW, −1 CW). Va AQUÍ, con la
   // cota, y no cableado en mod_calles: así el lazo de la banda es CONSECUENCIA
-  // de esta tabla — quitar o añadir un rodillo de retorno es cambiar esta lista
-  // y nada más. Los del FONDO del pozo muerden el ramal por arriba (+1); los de
-  // HOMBRO, que lo doblan hacia abajo y hacia arriba, lo muerden por debajo (−1).
-  retorno: [
+  // de esta tabla — quitar o añadir un rodillo es cambiar esta lista y nada más.
+  // Los que muerden el ramal por ARRIBA van con +1; los que lo muerden por
+  // DEBAJO (y por tanto tocan la cara PORTANTE), con −1.
+  //
+  // CON EL RETORNO RECTO (RETIRA_POZO.activo) la lista son los DOS ELEVADORES,
+  // tangentes por arriba al ramal del corredor. Con la bandera a false vuelven
+  // los cuatro rodillos de pozo y su geometría antigua, intacta.
+  retorno: RETIRA_POZO.activo ? [
+    { id: 'RE-N', y: ELEVADORES.y.norte, z: r3(CORREDOR.zCara - ELEVADORES.r), s: -1,
+      papel: 'eleva el ramal al corredor (lado del tambor motriz)' },
+    { id: 'RE-S', y: ELEVADORES.y.sur, z: r3(CORREDOR.zCara - ELEVADORES.r), s: -1,
+      papel: 'eleva el ramal al corredor (lado del conducido)' },
+  ] : [
     { id: 'RR1', y: -606, z: r3(zCaraRetTambor - RETORNOS.r), s: -1, papel: 'baja el ramal' },
     { id: 'RR2', y: -672, z: r3(zFondoAlto + RETORNOS.r), s: +1, papel: 'fondo del pozo, norte' },
     { id: 'RR3', y: -1280, z: r3(zFondoAlto + RETORNOS.r), s: +1, papel: 'fondo del pozo, sur' },
     { id: 'RR4', y: -1325, z: r3(zCaraRetConducido - RETORNOS.r), s: -1, papel: 'sube el ramal' },
   ],
-  retornoD: RETORNOS.od, retornoEje: RETORNOS.eje.d,
-  retornoSoporte: RETORNOS.soporte,
+  get retornoD() { return RETIRA_POZO.activo ? ELEVADORES.dia : RETORNOS.od; },
+  get retornoEje() { return RETIRA_POZO.activo ? ELEVADORES.eje.d : RETORNOS.eje.d; },
+  get retornoSoporte() { return RETIRA_POZO.activo ? ELEVADORES.soporte : RETORNOS.soporte; },
   fuente: 'adapt/params_tambores.mjs',
 };
 
 // ↓↓↓ lo que lee adapt/mod_tensor2.mjs (leerRamal) ↓↓↓
+// EL TRAMO LLANO DEL TENSOR SOBREVIVE AL RETORNO RECTO, y es lo primero que hubo
+// que comprobar. La horquilla del tensor (volante de entrada → polea tensora →
+// volante de salida) muerde el ramal ENTRE el tambor y el primer rodillo del
+// retorno, o sea FUERA de la huella del módulo. Con el pozo, ese primer rodillo
+// era RR1 (Y −606) y el tramo medía 507.1 mm. Con el retorno recto el primer
+// rodillo es RE-N (Y −739), así que el tramo llano CRECE a 660.4 mm: el brazo
+// tiene más sitio, no menos. La cota del ramal donde el tensor lo muerde NO
+// cambia —sigue siendo la generatriz baja del tambor— porque los dos volantes
+// siguen tangentes a ella; lo que cambia es que, pasado el volante de entrada, el
+// ramal SUBE en rampa hacia el corredor en vez de bajar al pozo.
 export const RETORNO = {
-  // Cota del RAMAL DE RETORNO donde el tensor puede morderlo: el tramo llano
-  // que va del tambor a RR1 (Y 0 … −606). Es el dorso; la cara de la banda
-  // queda `bandaEsp` por debajo.
-  z: zRetTambor,                       // −57.2 calc (antes el tensor suponía −52.33)
-  zCara: zCaraRetTambor,               // −57.833 calc
-  tramoLibreY: [-561.55, -54.45],      // calc — entre la piel del tambor y la de
-  //   RR1: 507.1 mm de ramal llano y despejado para el brazo del tensor
-  zConducido: zRetConducido,           // −56.3 calc — el tramo RR4 → conducido
-  tramoLibreConducidoY: [-1553.4, -1280.55],
+  // Cota del RAMAL DE RETORNO donde el tensor puede morderlo: el tramo llano que
+  // sale del tambor. Es el dorso; la cara de la banda queda `bandaEsp` por debajo.
+  z: zRetTambor,                       // −59.067 calc
+  zCara: zCaraRetTambor,               // −61.567 calc
+  // calc — entre la piel del tambor (−54.45) y la del primer rodillo de retorno:
+  // con elevadores, RE-N a Y −739 menos su radio 24.13 → −714.87 (660.4 mm).
+  get tramoLibreY() {
+    const R0 = TAMBORES.retorno[0];
+    const rr = RETIRA_POZO.activo ? ELEVADORES.r : RETORNOS.r;
+    return [r3(R0.y + rr), r3(FIJO.motrizY - TAMBOR.r)];
+  },
+  zConducido: zRetConducido,           // −58.167 calc — el tramo del lado conducido
+  get tramoLibreConducidoY() {
+    const R = TAMBORES.retorno[TAMBORES.retorno.length - 1];
+    const rr = RETIRA_POZO.activo ? ELEVADORES.r : RETORNOS.r;
+    return [r3(FIJO.conducidaY + CONDUCIDO.r), r3(R.y - rr)];
+  },
   // ABRAZADO REAL SOBRE EL TAMBOR MOTRIZ (calc): el ramal portante llega
   // horizontal por arriba y el de retorno sale horizontal por abajo, los dos
-  // tangentes al mismo cilindro ⇒ 180° exactos. El 180° que el tensor traía por
-  // defecto QUEDA CONFIRMADO por la geometría, ya no es una suposición.
+  // tangentes al mismo cilindro ⇒ 180° exactos. NO lo toca el retorno recto: el
+  // ramal sale del tambor HORIZONTAL igual que antes y no empieza a subir hasta
+  // pasado el volante de salida de la horquilla. Es la comprobación que decide
+  // que este rediseño no le cuesta arrastre al accionamiento (§J pide ≥ 150°).
   abrazadoMotrizDeg: 180,
-  // El abrazado sobre la POLEA DEL TENSOR no lo fija este archivo: depende de
-  // cuánto meta el brazo. Se deja sin publicar a propósito para que mande
-  // params_tensor2 (mod_tensor2 sólo lo lee si es número).
+  // EL DEL CONDUCIDO SÍ CAMBIA, Y AL ALZA: el ramal de retorno ya no sale
+  // horizontal de él sino SUBIENDO hacia RE-S, así que el arco envuelto crece de
+  // 180° a 187.5° (calc por tangencia; lo verifica mod_tambores §4.6 y lo publica
+  // mod_calles). Más abrazado es más margen contra §J, no menos.
   abrazadoConducidoDeg: 180,
-  nota: 'ramal de retorno de banda plana; el tensor muerde el tramo llano '
-    + 'tambor→RR1, que es el único con 507 mm libres y acceso desde abajo',
+  nota: 'ramal de retorno de banda plana; el tensor muerde el tramo llano que sale del tambor, '
+    + 'el único con acceso desde abajo. Con el retorno recto ese tramo mide 660.4 mm (antes 507.1)',
 };
 
 // ---------------------------------------------------------------------------
@@ -706,7 +914,8 @@ export const RETIRA = {
 };
 
 export { STEP, NBT, EJES, Xc, P };
-export default { FIJO, TAMBOR, UCF207, CONDUCIDO, RETORNOS, TAMBORES, RETORNO, CARGA };
+export default { FIJO, TAMBOR, UCF207, CONDUCIDO, RETORNOS, ELEVADORES, CORREDOR,
+  TAMBORES, RETORNO, CARGA, RETIRA_POZO };
 
 // ═══════════════════════════════════════════════════════════════════════════
 // A7 · MANDRINADO DE LAS TESTAS DEL TUBO (revisión de fabricación 2026-08-03)
