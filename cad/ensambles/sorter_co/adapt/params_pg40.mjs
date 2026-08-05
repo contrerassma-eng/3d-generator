@@ -148,7 +148,90 @@ export const TRAMOS = {
 
 // Travesaños (dis): posiciones elegidas por los huecos libres del conjunto y
 // por la flecha (§7). Cada uno es un 40×40 que cruza de alargue a alargue.
-export const TRAVESANOS = [-1520, -1440, -555, -100];
+//
+// ═══════════════════════════════════════════════════════════════════════════
+// A10 · EL RAMAL DE RETORNO ENTRA EN LA FRANJA DEL BASTIDOR (05-08-2026)
+//
+// EL CAMBIO QUE LO CAUSA. Hasta hoy el ramal de retorno de las 5 bandas corría
+// LLANO a Z −59.07 de punta a punta y le pasaba 19.07 mm por debajo al fondo de
+// los travesaños (Z.travBot = −40). Por eso los cuatro travesaños podían estar
+// donde convenía a la flecha del larguero, sin mirar a la banda.
+// Con la corrección del cliente del 03-08 el ramal de retorno CRUZA LA
+// TRANSFERENCIA RECTO por el corredor del peine, a Z −9.87 de cara portante
+// (params_tambores CORREDOR), sostenido por dos rodillos elevadores en Y −606 y
+// −1360. Entre el tambor y el elevador norte, y entre el elevador sur y el
+// conducido, hay dos RAMPAS — y las rampas suben por dentro de la franja
+// Z −40…0, que es justo donde viven los travesaños.
+//
+// LOS CUATRO NÚMEROS (cara PORTANTE de la banda, medida sobre el contorno
+// emitido del lazo; el travesaño ocupa Z −40…0 y se exigen 2 mm de holgura):
+//   Y −555  · la banda pasa a Z −16.94…−27.03  → METIDA 13.0 mm en el perfil
+//   Y −1440 · la banda pasa a Z −22.11…−30.64  → METIDA  9.4 mm
+//   Y −1520 · la banda pasa a Z −39.16…−47.69  → METIDA  0.8 mm (roza)
+//   Y −100  · la banda pasa a Z −61.59         → LIBRE por 21.6 mm (no se toca)
+//
+// LA CORRECCIÓN, distinta en cada uno porque el sitio es distinto:
+//   · −555 → −450: SE MUEVE EN Y, sin bajarlo. A −450 el travesaño (−470…−430)
+//     coge la rampa ya a Z −43.44, o sea 3.44 por debajo de su fondo. Es la
+//     solución barata y es posible AQUÍ porque al norte hay hueco: el siguiente
+//     travesaño está en −100 y en medio sólo vive la horquilla del tensor, que
+//     ocupa Z −166.57…−56.57 y no se cruza con un perfil que muere en −40.
+//     Efectos: el vano libre del larguero norte baja de 455 a 350 mm (mejora la
+//     flecha) y su voladizo sur sube de 75 a 180 mm; la ménsula alma↔travesaño
+//     norte viaja con él (`mensulaTravY`).
+//   · −1440 y −1520 → SE BAJAN EN Z 45 mm (top −45, fondo −85). Al sur NO hay
+//     hueco en Y: para librar la rampa, el de −1440 tendría que irse a −1528 o
+//     más al sur y ahí ya está el de −1520; y el de −1520 no puede correrse
+//     porque a −1553.4 empieza el tubo del rodillo conducido. Se comprobó y se
+//     descarta, con el número. Bajándolos, la rampa les pasa POR ENCIMA con
+//     14.4 y 5.8 mm y el bastidor conserva sus dos nudos donde estaban: no se
+//     mueve ni la ménsula sur ni el cuadro de taladros del chapón.
+// El precio de bajarlos es que su ESCUADRA larguero↔travesaño deja de ser un
+// cantonera de 64 y pasa a ser una pletina de 109 de canto (ESCUADRA_LT.canto se
+// calcula, no se escribe). Se declara.
+// ═══════════════════════════════════════════════════════════════════════════
+export const TRAVESANOS = [-1440, -450, -100];
+
+/** Travesaños que CUELGAN más abajo de lo normal para dejar pasar la rampa del
+ *  ramal de retorno recto. Clave = Y del travesaño, valor = cota de coronación.
+ *  Vacío ⇒ todos a `Z.travTop` (que es lo que había antes del 05-08-2026). */
+export const TRAVESANO_TOP = { '-1440': -45 };
+
+// ═══════════════════════════════════════════════════════════════════════════
+// A10-ter · EL TRAVESAÑO DE Y −1520 SE RETIRA, y esto es lo que costó saberlo.
+//
+// Se probaron las TRES salidas y ninguna cierra, con el número de cada una
+// (cotas medidas sobre el contorno de banda EMITIDO, calle 3):
+//   (a) DEJARLO DONDE ESTÁ, a Z −40…0. La rampa del retorno cruza su huella
+//       (Y −1540…−1500) bajando de Z −36.87 a −47.84: le entra 3.13 mm por el
+//       canto norte. La banda pasaría por dentro del perfil.
+//   (b) BAJARLO, como se hace con el de −1440. No hay cota que valga: la rampa
+//       CRUZA el plano Z −40 justo dentro de su huella, así que cualquier
+//       travesaño de 40 de canto puesto ahí queda medio por encima y medio por
+//       debajo de la banda. Y por abajo tampoco hay sitio: el CUBREJUNTA
+//       alma↔cabezal conducido ocupa Z −125…−70 en X 67.49…75.49 y 483.42…491.42,
+//       o sea justo donde tendría que ir el fondo del perfil.
+//   (c) MOVERLO. Hacia el sur topa con el tubo del rodillo conducido, que
+//       arranca en Y −1553.4; hacia el norte se junta con el de −1440.
+// SE RETIRA. Lo que sujetaba sigue sujeto: el larguero sur (Y −1551.18…−1302)
+// APOYA por su testa sur dentro del cabezal de rodamiento conducido (que llega
+// a Y −1535) y por el travesaño de −1440; el voladizo libre que queda al norte
+// es de 138 mm de perfil 40×40, que con la carga de una calle da una flecha de
+// centésimas. Era además el ÚNICO travesaño sin escuadra larguero↔travesaño
+// (ESCUADRA_LT.enTravesano lo excluía por falta de sitio), así que no arrastra
+// ninguna pieza al retirarse.
+// ═══════════════════════════════════════════════════════════════════════════
+export const TRAVESANO_RETIRADO = {
+  y: -1520,
+  motivo: 'la rampa del ramal de retorno recto cruza el plano Z −40 dentro de su huella; ni '
+    + 'bajándolo (el cubrejunta alma↔cabezal ocupa Z −125…−70) ni moviéndolo (el tubo del conducido '
+    + 'arranca en Y −1553.4) queda sitio',
+  loQueSujetaba: 'el larguero sur, que sigue apoyado en su testa dentro del cabezal conducido y en '
+    + 'el travesaño de −1440 (voladizo libre 138 mm)',
+};
+/** Coronación de un travesaño (calc). */
+export const travTopDe = (y) => TRAVESANO_TOP[String(y)] ?? Z.travTop;
+export const travBotDe = (y) => r3(travTopDe(y) - PERFIL.h);
 
 // ---------------------------------------------------------------------------
 // A1 · ESCUADRA LARGUERO ↔ TRAVESAÑO — la que no era una pieza
@@ -178,16 +261,25 @@ export const ESCUADRA_LT = {
   e: 6.0,                        // dis — pletina A36; se deducía de la sección
   material: 'Pletina Acero A36 (S275JR) e=6',   // dis — antes no había campo
   ala: 34,                       // calc — 1 Ø9 centrado, 17 de canto (≥ 1.2·d₀)
-  canto: 64,                     // calc — Z −32…+32: cubre la ranura del larguero
-                                 //   (Z 15…25) y la del travesaño (Z −25…−15)
-  get zBot() { return -this.canto / 2; },        // −32
   holgura: 3,                    // dis — el ala no invade la sección del perfil:
                                  //   arranca 3 mm fuera de su cara (montaje)
   pasante: 9.0, rosca: 'M8', n: 2,               // 1 por ala → 2 por escuadra
   zLarguero: 20,                 // calc — eje de la ranura +X del larguero
                                  //   (Z.perfilBot + 40/2 = 20)
-  zTravesano: -20,               // calc — eje de la ranura ±Y del travesaño
-                                 //   (Z.travBot + 40/2 = −20)
+  // A10 · EL CANTO YA NO ES UN LITERAL. Mientras todos los travesaños coronaban
+  // en Z 0 el canto era 64 (Z −32…+32: cubría la ranura del larguero, Z 15…25, y
+  // la del travesaño, Z −25…−15). Ahora hay travesaños BAJADOS para dejar pasar
+  // la rampa del ramal de retorno recto, y la escuadra tiene que seguir llegando
+  // a las dos ranuras: se CALCULA de las dos cotas, no se escribe.
+  //   canto = (12 sobre la ranura del larguero) − (12 bajo la del travesaño)
+  zTravesanoDe: (y) => r3(travTopDe(y) - PERFIL.h / 2),   // eje de la ranura ±Y
+  zTopDe() { return this.zLarguero + 12; },               // 32 — 12 sobre su ranura
+  zBotDe(y) { return r3(this.zTravesanoDe(y) - 12); },    // 12 bajo la del travesaño
+  cantoDe(y) { return r3(this.zTopDe() - this.zBotDe(y)); },   // 64 · 109 si baja 45
+  // compatibilidad con el código que aún lee las cotas planas (travesaño a Z 0):
+  get canto() { return this.cantoDe(-100); },    // 64
+  get zBot() { return this.zBotDe(-100); },      // −32
+  get zTravesano() { return this.zTravesanoDe(-100); },   // −20
   plegada: true, get radio() { return this.e; }, // r = t, como el resto de la chapa
   // A QUÉ LADO DEL TRAVESAÑO VA EL RINCÓN. El lado LIBRE: en el travesaño de
   // −1520 el lado −Y lo ocupa el rodillo conducido Ø108 (Y −1661…−1553).
@@ -234,6 +326,26 @@ export const ESCUADRA_LT = {
 // muerden sus dos tuercas martillo M8. Y NO llevan escuadra larguero↔travesaño:
 // a esas Y no hay larguero (los tramos mueren en −1302 y arrancan en −630),
 // están precisamente en el hueco por el que el puente cruza la transferencia.
+//
+// ═══════════════════════════════════════════════════════════════════════════
+// A10-bis · ESTOS DOS TRAVESAÑOS ESTÁN AHORA BAJO EL RAMAL DE RETORNO
+//
+// Con el retorno recto (corrección del cliente 03-08) el ramal de las 5 bandas
+// cruza la transferencia por el corredor del peine a Z −9.87 de cara portante, y
+// ese ramal pasa POR ENCIMA de estos dos travesaños, que coronaban en Z 7.28.
+// La banda se los comía por 17.15 mm.
+// LA CORRECCIÓN: el travesaño BAJA a coronar en Z −14 (fondo −54), o sea 21.28
+// mm, y la «Placa base de puente» deja de ser una pletina plana de 6 y pasa a ser
+// un CABALLETE que salva el ramal: dos patas de 8 mm a X = eje ± 23 (la banda
+// mide 32, o sea eje ± 16 → 3 mm de aire por lado) y un ala superior de 64 × 6
+// en la MISMA cota de antes, para que el puente no se entere.
+// POR QUÉ NO SE MUEVEN EN Y, que era la otra salida: el puente los necesita
+// donde están. Llevarlos a los travesaños PG40 vecinos dispara el vano libre del
+// puente de 588 a 885 mm (×1.51 en luz, ×3.44 en flecha sobre una pletina 30×28
+// ya dimensionada al límite de 0.1 mm) — es el mismo cálculo que ya cerró §A6.
+// Y hacia fuera no pueden ir: la rampa del retorno sólo baja de −40 pasado
+// Y −470 al norte y Y −1508 al sur, y ahí el puente no llega.
+// ═══════════════════════════════════════════════════════════════════════════
 export const TRAVESANOS_PUENTE = [
   { y: -1280, nom: 'sur' },      // = centro de la ranura de la placa base sur
   { y: -692, nom: 'norte' },     // = ídem norte
@@ -251,8 +363,45 @@ export const PUENTE_APOYO = {
   // rodadura), este apoyo baja con el puente en vez de quedarse clavado en una
   // cota vieja y meterse 1.87 mm dentro de la placa base — que es exactamente
   // lo que pasó al pasar la banda a su espesor real de 2.5 mm.
-  get topZ() { return r3(CALLE.puente.topZ - CALLE.puente.uhmwH - CALLE.puente.aceroH - CALLE.puente.baseT); },
-  get botZ() { return r3(this.topZ - PERFIL.h); },                 // −30.85 calc
+  // Cara inferior de la PLACA BASE (la cota que el puente exige y que no cambia)
+  get baseZ() { return r3(CALLE.puente.topZ - CALLE.puente.uhmwH - CALLE.puente.aceroH - CALLE.puente.baseT); },
+  // A10-bis · CORONACIÓN DEL TRAVESAÑO. Ya no es la cara inferior de la placa
+  // base: entre las dos pasa ahora el ramal de retorno recto, así que el
+  // travesaño baja hasta librarlo y el caballete cubre la diferencia.
+  // El límite lo pone la CARA PORTANTE del ramal (params_tambores CORREDOR.zCara
+  // = −9.87) menos la holgura; no se escribe un −14 a mano.
+  ramalZ: -9.87,                 // params_tambores CORREDOR.zCara (se re-verifica
+                                 //   en la compuerta contra el contorno emitido)
+  holguraRamal: 4.13,            // dis — 4 mm largos de aire entre el travesaño y
+                                 //   la cara de la banda; el resto del módulo pide 2
+  get topZ() { return r3(this.ramalZ - this.holguraRamal); },      // −14.0 calc
+  get botZ() { return r3(this.topZ - PERFIL.h); },                 // −54.0 calc
+  // altura del CABALLETE: de la coronación del travesaño a la cara inferior de
+  // la placa base (que no se mueve)
+  get caballeteH() { return r3(this.baseZ - this.topZ); },         // 21.28 calc
+  caballetePataE: 8,             // dis — pletina A36 e=8, la misma del alargue
+  caballetePataX: 23,            // dis — eje ± 23: la banda mide 32 (eje ± 16),
+                                 //   así que la cara interior de la pata queda a
+                                 //   3 mm de la banda
+  // PIE de cada pata: el ala horizontal por la que entra el M8 a la tuerca
+  // martillo de la ranura superior del travesaño. Va HACIA FUERA (a ±X desde su
+  // pata) porque el tornillo tiene que poder apretarse: con el taladro en el eje
+  // de la pata, la cabeza del M8 quedaría dentro de la propia chapa.
+  caballetePieAncho: 16,         // dis — X
+  caballetePieE: 6,              // dis — el mismo espesor que la placa base
+  get caballetePieX() { return r3(this.caballetePataX + this.caballetePataE / 2
+    + this.caballetePieAncho / 2); },   // 35 — centro del pie
+  // ⚠ LOS PIES DE DOS CALLES CONTIGUAS SE CRUZAN EN X, y hay que resolverlo:
+  // el pie llega a X = eje ± 43 y el paso de calle es 76.2, así que dos pies
+  // enfrentados se solaparían 9.8 mm (lo cazó la compuerta AABB con 7.49 cm³ por
+  // par). Se resuelve ESCALONÁNDOLOS EN Y, que es la dirección libre: el
+  // travesaño mide 40 de ancho y el pie sólo 14, así que caben dos filas.
+  //   pie −X de cada calle → Y = yr − 8   ·   pie +X → Y = yr + 8
+  // Con eso los pies que se cruzan en X quedan en filas distintas (16 mm de
+  // separación entre ejes, 2 mm de aire entre chapas) y cada tuerca martillo
+  // tiene su tramo de ranura.
+  caballetePieLargo: 14,         // dis — Y
+  caballetePieDY: 8,             // dis — escalonado ±Y respecto del eje del travesaño
   // Escuadra de extremo al chapón del cliente, 3/16" (la misma chapa y el mismo
   // papel que la «Escuadra travesaño↔bastidor» que la percha llevaba): sin ella
   // el travesaño topa a hueso contra el chapón y la compuerta §S SC-11 lo cuenta.
@@ -260,7 +409,13 @@ export const PUENTE_APOYO = {
     pasante: 9.0, rosca: 'M8', n: 2,   // 2 al chapón + 2 a la ranura del travesaño
     radio: 4.763 },                    // r = t (mismo criterio que el resto de chapa)
 };
-//   −1520: entre la cabecera conducida (−1560.2) y el volante V1 (−1345)
+// A10-quater · UN TRAVESAÑO BAJADO NO PUEDE LLEGAR AL CHAPÓN. Al colgar 45 mm
+// más abajo, su fondo (Z −85) entra en la franja del ALMA del alargue, que ocupa
+// Z −222…−70 en X 42.89…50.89 (−X) y −222…+26 en 491.42…499.42 (+X). Así que el
+// travesaño bajado MUERE EN LAS CARAS INTERIORES DEL ALARGUE, igual que los que
+// caen dentro de un cabezal de rodamiento: pasa de L=580.841 a L=423.924 y se
+// amarra al alma en vez de al chapón.
+//   −1520: RETIRADO (ver A10-ter)
 //   −1390: sobre el IDLER-ENS (que vive en Z −273…−155, no compite)
 //   −600 : entre el travesaño de percha norte (−632) y el volante V4 (−586)
 //   −100 : antes de la cabecera motriz (−70.9) y de la polea motriz (−56)

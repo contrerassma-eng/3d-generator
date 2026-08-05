@@ -427,18 +427,20 @@ function rodilloElevador(E, { id, y, z }) {
     const lado = s === 0 ? '−X' : '+X';
     const xCara = sop.caraX[s], nrm = sop.normal[s];
     const xF = nrm > 0 ? xCara : r3(xCara - sop.e);
-    add(`ELEVADOR ${id} · pletina de soporte ${sop.lado}×${sop.lado}×${sop.e} (${lado})`,
+    add(`ELEVADOR ${id} · pletina de soporte ${sop.ladoY}×${sop.ladoZ}×${sop.e} (${lado})`,
       COL.chapa, [xF, y, z], [
-        sketchYZ(`Pletina ${sop.lado}×${sop.lado}`, xF,
-          rectR(y - sop.lado / 2, z - sop.lado / 2, y + sop.lado / 2, z + sop.lado / 2, 10), sop.e),
+        sketchYZ(`Pletina ${sop.ladoY}×${sop.ladoZ}`, xF,
+          rectR(y - sop.ladoY / 2, z - sop.ladoZ / 2, y + sop.ladoY / 2, z + sop.ladoZ / 2, 10), sop.e),
         hole(`Barreno Ø${sop.bore} H8`, [r3(xF - 1), y, z], DIR, sop.bore),
         ...[[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([sy, sz]) =>
-          hole(`Ø${sop.taladro}`, [r3(xF - 1), r3(y + sy * sop.patron / 2), r3(z + sz * sop.patron / 2)],
+          hole(`Ø${sop.taladro}`, [r3(xF - 1), r3(y + sy * sop.patronY / 2), r3(z + sz * sop.patronZ / 2)],
             DIR, sop.taladro)),
       ], { conjunto: `${id} · rodillo elevador`, capa: 'user', fabricada: true,
         material: 'Acero S275JR cortado por láser',
-        nota: `se atornilla al patrón ${sop.patron}×${sop.patron} del alargue PG40 — EL MISMO que el `
-          + `bastidor ya taladra para los rodillos de retorno, sólo que en la Y del elevador. Barreno `
+        nota: `se atornilla a un cuadro de ${sop.patronY}×${sop.patronZ} de Ø${sop.taladro} en el `
+          + `alargue PG40 — el mismo taladro y la misma cara de apoyo que llevaban los rodillos de `
+          + `retorno de pozo, estrechado en Y a ${sop.patronY} porque el bolsillo sur mide 94 mm `
+          + `limpios entre la ménsula alma↔travesaño y la escuadra del travesaño de puente. Barreno `
           + `Ø${sop.bore} H8 (antes Ø30: el conjunto B-20760 lleva eje de 1/2")` });
 
     const xCol = nrm > 0 ? r3(xF + sop.e) : r3(xF - 11);
@@ -457,7 +459,7 @@ function rodilloElevador(E, { id, y, z }) {
     const xCab = nrm > 0 ? r3(xF + sop.e) : xF;
     for (const [sy, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
       pernoHex(E, { nombre: `M10 soporte ELEVADOR ${id} (${lado})`,
-        at: [xCab, r3(y + sy * sop.patron / 2), r3(z + sz * sop.patron / 2)],
+        at: [xCab, r3(y + sy * sop.patronY / 2), r3(z + sz * sop.patronZ / 2)],
         dir: [-nrm, 0, 0], dia: L.pernoRet.d, largo: largoP, af: L.pernoRet.af,
         altoCab: L.pernoRet.hh, capa: marca });
       n.piezas++;

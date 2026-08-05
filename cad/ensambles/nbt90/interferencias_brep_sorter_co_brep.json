@@ -1,9 +1,9 @@
 {
  "documento": "sorter_co_brep.json",
  "tolerancia_cm3": 0.05,
- "piezas": 896,
- "pares_candidatos": 2453,
- "interferencias": 144,
+ "piezas": 823,
+ "pares_candidatos": 2224,
+ "interferencias": 200,
  "detalle": [
   {
    "cm3": 30.652,
@@ -139,6 +139,34 @@
    "cruce": false
   },
   {
+   "cm3": 3.84,
+   "a": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
+   "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
+   "pct_de_la_menor": 0.59,
+   "cruce": false
+  },
+  {
+   "cm3": 3.84,
+   "a": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
+   "b": "PG40 · Alargue lateral · alma sur +X (pletina Acero A36 (S275JR) e=8, L=327)",
+   "pct_de_la_menor": 0.8,
+   "cruce": false
+  },
+  {
+   "cm3": 3.7918,
+   "a": "PG40 · Travesaño 40×40 ranura 10 L=423.924 (Y -1520)",
+   "b": "PG40 · Cubrejunta alma↔cabezal conducido −X (Acero A36 (S275JR) e=8)",
+   "pct_de_la_menor": 7.42,
+   "cruce": false
+  },
+  {
+   "cm3": 3.7918,
+   "a": "PG40 · Travesaño 40×40 ranura 10 L=423.924 (Y -1520)",
+   "b": "PG40 · Cubrejunta alma↔cabezal conducido +X (Acero A36 (S275JR) e=8)",
+   "pct_de_la_menor": 7.42,
+   "cruce": false
+  },
+  {
    "cm3": 3.552,
    "a": "FIJO · Travesaño frontal del tensor 40×40×3 (L=423.92) — «placa frontal»",
    "b": "FIJO · Placa de extremo del travesaño frontal (+X) 8×90×65",
@@ -150,6 +178,13 @@
    "a": "FIJO · Travesaño frontal del tensor 40×40×3 (L=423.92) — «placa frontal»",
    "b": "FIJO · Placa de extremo del travesaño frontal (−X) 8×90×65",
    "pct_de_la_menor": 7.75,
+   "cruce": false
+  },
+  {
+   "cm3": 2.7153,
+   "a": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (sur, +X)",
+   "b": "PG40 · Alargue lateral · alma sur +X (pletina Acero A36 (S275JR) e=8, L=327)",
+   "pct_de_la_menor": 13.44,
    "cruce": false
   },
   {
@@ -216,6 +251,13 @@
    "cruce": false
   },
   {
+   "cm3": 1.4176,
+   "a": "PG40 · Cartela de rodillos de retorno RE-S −X",
+   "b": "PG40 · Ménsula alma↔travesaño −X (Y -1412)",
+   "pct_de_la_menor": 7.58,
+   "cruce": false
+  },
+  {
    "cm3": 1.1692,
    "a": "NBT90 · FIJO · Perno hex 3/8-16 × 1\" de colisa (X=141.5, Y=−228.57)",
    "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)",
@@ -241,6 +283,13 @@
    "a": "PG40 · Cubrejunta alma↔cabezal conducido +X (Acero A36 (S275JR) e=8)",
    "b": "PG40 · Tuerca hex M10 · alargue↔chapón Y -1500",
    "pct_de_la_menor": 95.24,
+   "cruce": false
+  },
+  {
+   "cm3": 0.9184,
+   "a": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (norte, +X)",
+   "b": "PG40 · Alargue lateral · alma norte +X (pletina Acero A36 (S275JR) e=8, L=549)",
+   "pct_de_la_menor": 4.54,
    "cruce": false
   },
   {
@@ -384,6 +433,13 @@
    "cruce": false
   },
   {
+   "cm3": 0.72,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "b": "PG40 · Cartela de rodillos de retorno RE-S −X",
+   "pct_de_la_menor": 0.27,
+   "cruce": false
+  },
+  {
    "cm3": 0.7011,
    "a": "PG40 · Alargue lateral · tramo de lap +X (Y -1208…-1090, Acero A36 (S275JR) e=5.9)",
    "b": "PG40 · Tuerca hex 3/8-16 · alargue +X Y -1145",
@@ -472,6 +528,48 @@
    "a": "PG40 · Cubrejunta alma↔cabezal conducido +X (Acero A36 (S275JR) e=8)",
    "b": "PG40 · Perno hex M10 × 50 · alargue↔chapón Y -1500",
    "pct_de_la_menor": 11.7,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6081,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 1, X=127.056)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=423.924 (Y -1520)",
+   "pct_de_la_menor": 0.18,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6081,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 2, X=203.256)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=423.924 (Y -1520)",
+   "pct_de_la_menor": 0.18,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6081,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 3, X=279.456)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=423.924 (Y -1520)",
+   "pct_de_la_menor": 0.18,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6081,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 4, X=355.656)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=423.924 (Y -1520)",
+   "pct_de_la_menor": 0.18,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6081,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 5, X=431.856)",
+   "b": "PG40 · Travesaño 40×40 ranura 10 L=423.924 (Y -1520)",
+   "pct_de_la_menor": 0.18,
+   "cruce": false
+  },
+  {
+   "cm3": 0.5853,
+   "a": "PG40 · Perno hex M8×25 escuadra puente↔chapón (sur, +X, -)",
+   "b": "PG40 · Alargue lateral · alma sur +X (pletina Acero A36 (S275JR) e=8, L=327)",
+   "pct_de_la_menor": 28.8,
    "cruce": false
   },
   {
@@ -598,6 +696,13 @@
    "a": "NBT90 · FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (-Y)",
    "b": "PG40 · Golilla alargue −X Y -1145 Ø9.525",
    "pct_de_la_menor": 72.68,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2916,
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "b": "PG40 · Alargue lateral · alma sur +X (pletina Acero A36 (S275JR) e=8, L=327)",
+   "pct_de_la_menor": 0.06,
    "cruce": false
   },
   {
@@ -776,6 +881,286 @@
    "cruce": false
   },
   {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 1, X=127.056, travesaño S)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 1, X=127.056, S-)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 1, X=127.056, travesaño S)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 1, X=127.056, S+)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 1, X=127.056, travesaño N)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 1, X=127.056, N-)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 1, X=127.056, travesaño N)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 1, X=127.056, N+)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 2, X=203.256, travesaño S)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 2, X=203.256, S-)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 2, X=203.256, travesaño S)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 2, X=203.256, S+)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 2, X=203.256, travesaño N)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 2, X=203.256, N-)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 2, X=203.256, travesaño N)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 2, X=203.256, N+)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 3, X=279.456, travesaño S)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 3, X=279.456, S-)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 3, X=279.456, travesaño S)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 3, X=279.456, S+)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 3, X=279.456, travesaño N)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 3, X=279.456, N-)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 3, X=279.456, travesaño N)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 3, X=279.456, N+)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 4, X=355.656, travesaño S)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 4, X=355.656, S-)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 4, X=355.656, travesaño S)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 4, X=355.656, S+)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 4, X=355.656, travesaño N)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 4, X=355.656, N-)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 4, X=355.656, travesaño N)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 4, X=355.656, N+)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 5, X=431.856, travesaño S)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 5, X=431.856, S-)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 5, X=431.856, travesaño S)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 5, X=431.856, S+)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 5, X=431.856, travesaño N)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 5, X=431.856, N-)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2163,
+   "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 5, X=431.856, travesaño N)",
+   "b": "FIJO · Perno hex M8×16 puente (calle 5, X=431.856, N+)",
+   "pct_de_la_menor": 13.69,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 1, X=127.056, S-)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 1, X=127.056, S+)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 1, X=127.056, N-)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 1, X=127.056, N+)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 2, X=203.256, S-)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 2, X=203.256, S+)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 2, X=203.256, N-)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 2, X=203.256, N+)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 3, X=279.456, S-)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 3, X=279.456, S+)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 3, X=279.456, N-)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 3, X=279.456, N+)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 4, X=355.656, S-)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 4, X=355.656, S+)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 4, X=355.656, N-)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 4, X=355.656, N+)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 5, X=431.856, S-)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 5, X=431.856, S+)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 5, X=431.856, N-)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
+   "cm3": 0.2011,
+   "a": "FIJO · Perno hex M8×16 puente (calle 5, X=431.856, N+)",
+   "b": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "pct_de_la_menor": 12.72,
+   "cruce": false
+  },
+  {
    "cm3": 0.19,
    "a": "FIJO · Base de guía sur 3/16\" (canto del chapón)",
    "b": "FIJO · Perno hex M8×16 guía sur↔alma (dz=32)",
@@ -787,6 +1172,13 @@
    "a": "FIJO · Base de guía norte 3/16\" (canto del chapón)",
    "b": "FIJO · Perno hex M8×16 guía norte↔alma (dz=32)",
    "pct_de_la_menor": 12.03,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1629,
+   "a": "PG40 · Cartela de rodillos de retorno RE-S −X",
+   "b": "PG40 · Perno hex M8×20 ménsula↔travesaño −X (Y -1440, X +12)",
+   "pct_de_la_menor": 9.15,
    "cruce": false
   },
   {
@@ -874,6 +1266,76 @@
    "cruce": false
   },
   {
+   "cm3": 0.1417,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 1, X=127.056)",
+   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 1, X=127.056, Z=-20, −X)",
+   "pct_de_la_menor": 10.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1417,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 1, X=127.056)",
+   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 1, X=127.056, Z=-20, +X)",
+   "pct_de_la_menor": 10.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1417,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 2, X=203.256)",
+   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 2, X=203.256, Z=-20, −X)",
+   "pct_de_la_menor": 10.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1417,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 2, X=203.256)",
+   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 2, X=203.256, Z=-20, +X)",
+   "pct_de_la_menor": 10.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1417,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 3, X=279.456)",
+   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 3, X=279.456, Z=-20, −X)",
+   "pct_de_la_menor": 10.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1417,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 3, X=279.456)",
+   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 3, X=279.456, Z=-20, +X)",
+   "pct_de_la_menor": 10.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1417,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 4, X=355.656)",
+   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 4, X=355.656, Z=-20, −X)",
+   "pct_de_la_menor": 10.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1417,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 4, X=355.656)",
+   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 4, X=355.656, Z=-20, +X)",
+   "pct_de_la_menor": 10.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1417,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 5, X=431.856)",
+   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 5, X=431.856, Z=-20, −X)",
+   "pct_de_la_menor": 10.28,
+   "cruce": false
+  },
+  {
+   "cm3": 0.1417,
+   "a": "FIJO · Banda plana 32 × 2.5 — lazo del tambor motriz L=4294.21 (calle 5, X=431.856)",
+   "b": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 5, X=431.856, Z=-20, +X)",
+   "pct_de_la_menor": 10.28,
+   "cruce": false
+  },
+  {
    "cm3": 0.1062,
    "a": "FIJO · Guía de descarga sur 12GA 70.4×52 (Y=-1180)",
    "b": "FIJO · Perno hex M8×16 guía sur↔alma (dz=32)",
@@ -885,76 +1347,6 @@
    "a": "FIJO · Guía de descarga norte 12GA 70.4×52 (Y=-767)",
    "b": "FIJO · Perno hex M8×16 guía norte↔alma (dz=32)",
    "pct_de_la_menor": 6.72,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0966,
-   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 1, X=127.056, Z=-20, −X)",
-   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
-   "pct_de_la_menor": 7.0,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0966,
-   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 1, X=127.056, Z=-20, +X)",
-   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
-   "pct_de_la_menor": 7.0,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0966,
-   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 2, X=203.256, Z=-20, −X)",
-   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
-   "pct_de_la_menor": 7.0,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0966,
-   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 2, X=203.256, Z=-20, +X)",
-   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
-   "pct_de_la_menor": 7.0,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0966,
-   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 3, X=279.456, Z=-20, −X)",
-   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
-   "pct_de_la_menor": 7.0,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0966,
-   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 3, X=279.456, Z=-20, +X)",
-   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
-   "pct_de_la_menor": 7.0,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0966,
-   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 4, X=355.656, Z=-20, −X)",
-   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
-   "pct_de_la_menor": 7.0,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0966,
-   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 4, X=355.656, Z=-20, +X)",
-   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
-   "pct_de_la_menor": 7.0,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0966,
-   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 5, X=431.856, Z=-20, −X)",
-   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
-   "pct_de_la_menor": 7.0,
-   "cruce": false
-  },
-  {
-   "cm3": 0.0966,
-   "a": "FIJO · Perno hex M8×12 CT-ENS↔perfil (calle 5, X=431.856, Z=-20, +X)",
-   "b": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -1440)",
-   "pct_de_la_menor": 7.0,
    "cruce": false
   },
   {

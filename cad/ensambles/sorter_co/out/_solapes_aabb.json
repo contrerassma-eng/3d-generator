@@ -1,72 +1,52 @@
 [
  {
-  "cm3": 155.2,
-  "a": "CTX · LAT TOP (bancada inferior, intacta)",
-  "b": "FIJO · Filtro de aire SMC AF20-02-B (grupo de aire del tensor)"
+  "cm3": 8.02,
+  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 1, X=127.056, travesaño S)",
+  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 2, X=203.256, travesaño S)"
  },
  {
-  "cm3": 106.24,
-  "a": "CTX · LAT TOP (bancada inferior, intacta)",
-  "b": "FIJO · Válvula de corte y purga SMC VHS20-02 (grupo de aire del tensor)"
+  "cm3": 8.02,
+  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 1, X=127.056, travesaño N)",
+  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 2, X=203.256, travesaño N)"
  },
  {
-  "cm3": 30.65,
-  "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
-  "b": "FIJO · Filtro de aire SMC AF20-02-B (grupo de aire del tensor)"
+  "cm3": 8.02,
+  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 2, X=203.256, travesaño S)",
+  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 3, X=279.456, travesaño S)"
  },
  {
-  "cm3": 20.98,
-  "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
-  "b": "FIJO · Válvula de corte y purga SMC VHS20-02 (grupo de aire del tensor)"
+  "cm3": 8.02,
+  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 2, X=203.256, travesaño N)",
+  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 3, X=279.456, travesaño N)"
  },
  {
-  "cm3": 19.2,
-  "a": "CTX · FRONT TOP2 (cabecera motriz)",
-  "b": "FIJO · Manómetro SMC G36-10-01 (lectura de la presión del tensor)"
+  "cm3": 8.02,
+  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 3, X=279.456, travesaño S)",
+  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 4, X=355.656, travesaño S)"
  },
  {
-  "cm3": 17.74,
-  "a": "CTX · LAT TOP (bancada inferior, intacta)",
-  "b": "FIJO · Manómetro SMC G36-10-01 (lectura de la presión del tensor)"
+  "cm3": 8.02,
+  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 3, X=279.456, travesaño N)",
+  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 4, X=355.656, travesaño N)"
  },
  {
-  "cm3": 4.82,
-  "a": "CTX · LAT TOP (bancada inferior, intacta)",
-  "b": "FIJO · Te de reparto SMC KQ2T06-00 1/4 (grupo de aire del tensor)"
+  "cm3": 8.02,
+  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 4, X=355.656, travesaño S)",
+  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 5, X=431.856, travesaño S)"
  },
  {
-  "cm3": 4.82,
-  "a": "CTX · LAT TOP (bancada inferior, intacta)",
-  "b": "FIJO · Te de reparto SMC KQ2T06-00 2/4 (grupo de aire del tensor)"
+  "cm3": 8.02,
+  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 4, X=355.656, travesaño N)",
+  "b": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 5, X=431.856, travesaño N)"
  },
  {
-  "cm3": 4.82,
-  "a": "CTX · LAT TOP (bancada inferior, intacta)",
-  "b": "FIJO · Te de reparto SMC KQ2T06-00 3/4 (grupo de aire del tensor)"
+  "cm3": 1.46,
+  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 5, X=431.856, travesaño S)",
+  "b": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (sur, +X)"
  },
  {
-  "cm3": 4.82,
-  "a": "CTX · LAT TOP (bancada inferior, intacta)",
-  "b": "FIJO · Te de reparto SMC KQ2T06-00 4/4 (grupo de aire del tensor)"
- },
- {
-  "cm3": 2.41,
-  "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
-  "b": "FIJO · Te de reparto SMC KQ2T06-00 1/4 (grupo de aire del tensor)"
- },
- {
-  "cm3": 2.41,
-  "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
-  "b": "FIJO · Te de reparto SMC KQ2T06-00 2/4 (grupo de aire del tensor)"
- },
- {
-  "cm3": 2.41,
-  "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
-  "b": "FIJO · Te de reparto SMC KQ2T06-00 3/4 (grupo de aire del tensor)"
- },
- {
-  "cm3": 2.41,
-  "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
-  "b": "FIJO · Te de reparto SMC KQ2T06-00 4/4 (grupo de aire del tensor)"
+  "cm3": 1.46,
+  "a": "FIJO · Placa base de puente 64×28×6 c/caballete 21.28 (calle 5, X=431.856, travesaño N)",
+  "b": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (norte, +X)"
  }
 ]

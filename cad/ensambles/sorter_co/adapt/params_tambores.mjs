@@ -498,19 +498,34 @@ export const CONDUCIDO = {
 //   anfitrión se conforma con 0.3. Es el PRECEDENTE, y nos parecemos a él.
 //
 // LOS DOS RODILLOS ELEVADORES (dis, con el porqué de cada cota):
-//   · Y: el hueco libre a cada lado de la huella. Al norte, entre la pieza del
-//     NBT90 que más al norte llega (Transfer roller guard, Y −766) y el travesaño
-//     de puente (Y −712) hay 54 mm → RE-N centrado en −739. Al sur, entre el
-//     motorreductor SEW (Y −1175.35, que es techo del corredor y no se puede
-//     invadir) y el travesaño de puente sur (−1260) hay 84.65 mm → RE-S centrado
-//     en −1218. Los dos quedan FUERA de la huella declarada del módulo
-//     (−1205…−742) salvo RE-N, que la pisa 21 mm en una zona donde el NBT90 no
-//     tiene material (su pieza más al norte muere en −766).
-//   · Ø: 48.26 (1.9"). NO es una elección libre: el hueco norte son 54 mm, así
-//     que el Ø máximo que cabe con holgura es 48. Y 48.26 es EXACTAMENTE el
-//     B-20760 que el cliente señala. Coincidencia útil, no buscada.
+//   · Y: **LOS MISMOS SITIOS QUE OCUPABAN RR1 Y RR4**, que son los dos rodillos
+//     de hombro del pozo — uno a cada lado de la huella del módulo, que es
+//     exactamente donde el cliente dibuja sus dos círculos verdes. RE-N hereda
+//     el bolsillo de RR1 (Y −606) y RE-S el de RR4, corrido a −1360.
+//     Y NO es una elección estética: es el ÚNICO hueco donde caben. La ménsula
+//     es una pletina de 100×100 (patrón 76×76) y tiene que vivir entre los
+//     travesaños del PG40, que la atraviesan de lado a lado:
+//       norte  hueco libre Y (−672 … −470) tras correr el travesaño de −555 a
+//              −450 (ver más abajo): 202 mm → la pletina (−656…−556) entra con
+//              16 mm al travesaño de puente y 86 al de −450.
+//       sur    hueco libre Y (−1420 … −1300): 120 mm → la pletina (−1410…−1310)
+//              entra con 10 mm por cada lado. Ese hueco fija RE-S entre −1370 y
+//              −1350; se toma −1360, el centro.
+//     Se probaron los bolsillos pegados al módulo (−739 y −1218, que es donde
+//     está el B-20760 del NBT90): la BANDA cabe, pero la PLETINA no —al norte
+//     sólo hay 67.7 mm entre la placa peine (−779.72) y el travesaño de puente
+//     (−712)— y habría que inventar un patrón de taladros más pequeño que el
+//     76×76 que el alargue ya lleva. Se descarta y queda dicho.
+//   · Ø: 48.26 (1.9") = el B-20760 que el cliente señala. Es además el Ø máximo
+//     que admite el hueco norte más estrecho que se estudió (54 mm).
 //   · Z: eje en −34.0 = suelo del corredor (−9.87) − radio (24.13). El rodillo
 //     TANGENTE POR ARRIBA al ramal, igual que el B-20760 en el NBT90.
+//
+// ⚠ LO QUE ESTO LE CUESTA AL BASTIDOR PG40, dicho aquí y no escondido: el ramal
+// de retorno pasa a ocupar la franja Z −40…0 que hasta ahora era SÓLO del
+// bastidor (los travesaños cuelgan bajo los largueros y el retorno les pasaba 19
+// mm por debajo). Cuatro travesaños se cruzan con el ramal nuevo y hay que
+// moverlos — está en adapt/params_pg40.mjs §4 y §A6, con el número de cada uno.
 //
 // ⚠ EL ELEVADOR TOCA LA CARA PORTANTE Y HACE FLEXIÓN INVERSA — declarado, no
 // escondido. En el convenio de `bandaFaces` (lib.mjs) los elementos con s = −1
@@ -544,7 +559,21 @@ export const ELEVADORES = {
   // MÉNSULA: la que YA existe para los rodillos de retorno (patrón 76×76,
   // taladro Ø11) — no se inventa un amarre nuevo. Cambia el barreno, que pasa de
   // Ø30 a Ø12.7.
-  soporte: { e: 12, lado: 100, bore: 12.7, patron: 76, taladro: 11,
+  // ⚠ EL CUADRADO DE 100 NO ENTRA, y el número es éste: el bolsillo del lado sur
+  // mide 94 mm limpios —de la «Ménsula alma↔travesaño Y −1412» (cara −1404) a la
+  // «Escuadra travesaño de puente↔chapón sur» (cara −1310)— y las dos piezas
+  // viven en el MISMO plano de chapa que esta pletina. Así que la pletina se
+  // estrecha en Y a 88 (3 mm de aire a cada vecina) y CONSERVA los 100 en Z, que
+  // es la dirección donde no estorba nadie: patrón 64 (Y) × 76 (Z), distancia al
+  // canto 12 en las dos direcciones (la misma que tenían las pletinas de los
+  // rodillos de pozo). No cuesta nada aguas abajo porque el alargue PG40 todavía
+  // NO ha taladrado este cuadro: es una interfaz DECLARADA PENDIENTE
+  // (`interfazPG40.retornosNecesitanMensula`). Y no cuesta nada mecánicamente: la
+  // resultante sobre un elevador es 2·T·sen(abrazado/2) = 16 N por banda, contra
+  // los 192 N que llevaba un rodillo de hombro del pozo.
+  soporte: { e: 12, ladoY: 88, ladoZ: 100, bore: 12.7,
+    patronY: 64, patronZ: 76, taladro: 11,
+    get lado() { return this.ladoZ; }, get patron() { return this.patronZ; },
     caraX: [67.494, 491.418], normal: [1, -1] },
   collar: 'Mädler 62341270 — collar de apriete PARTIDO en dos mitades (double-split), acero C45 '
     + 'pavonado, Ø12.7 int × Ø30 ext × 11, 2 tornillos M4×12 DIN 912 12.9 · web COLL-SPLIT-01 '
@@ -557,12 +586,23 @@ export const ELEVADORES = {
   // POSICIONES (dis — el hueco libre a cada lado, medido sobre el ensamble
   // emitido; ver el bloque de arriba). `s` = −1 en el convenio de bandaFaces:
   // la banda los envuelve POR ARRIBA y los toca con su CARA PORTANTE.
-  y: { norte: -739, sur: -1218 },
+  // ⚠ RE-S NO ESTÁ EN EL CENTRO DE SU HUECO, y el motivo es una pieza concreta:
+  // la «Ménsula alma↔travesaño (Y −1412)» del PG40 —la escuadra soldada que
+  // amarra el alargue al travesaño de −1440— ocupa Y −1420…−1404 en el MISMO
+  // plano de chapa que la pletina del elevador. Con RE-S en −1360 la pletina
+  // (−1410…−1310) se le metía 6 mm. El hueco real es (−1404, −1300) = 104 mm
+  // para una pletina de 100, así que RE-S sólo puede estar entre −1354 y −1350.
+  y: { norte: -606, sur: -1357 },
+  // Hueco libre en Y para la PLETINA de 100 (que es lo que manda, no el rodillo)
   huecoLibre: {
-    norte: { entre: ['NBT90 Transfer roller guard 14 GA (Y −766)', 'PG40 Travesaño de puente norte (Y −712)'],
-      mm: 54, holguraPorLado: 2.87 },
-    sur: { entre: ['PG40 Travesaño de puente sur (Y −1260)', 'NBT90 Motorreductor SEW (Y −1175.35)'],
-      mm: 84.65, holguraPorLado: [17.87, 18.52] },
+    norte: { entre: ['PG40 Travesaño de puente norte (cara −672)', 'PG40 Travesaño Y −450 (cara −470)'],
+      mm: 202, pletinaY: [-650, -562], holguraPorLado: [22, 92] },
+    sur: { entre: ['PG40 Ménsula alma↔travesaño Y −1412 (cara −1404)', 'PG40 Travesaño de puente sur (cara −1300)'],
+      mm: 94, pletinaY: [-1401, -1313], holguraPorLado: [3, 3] },
+    descartado: 'los bolsillos pegados a la huella (−739 y −1218, donde el NBT90 pone su B-20760): '
+      + 'la banda cabe, la pletina de 100 no — al norte sólo quedan 67.7 mm entre la placa peine '
+      + '(−779.72) y el travesaño de puente (−712), y exigiría un patrón menor que el 76×76 que el '
+      + 'alargue PG40 ya taladra para los rodillos de retorno',
   },
   // FLEXIÓN INVERSA — el número que hay que declarar (calc + web BELT-SAB8E-01)
   get flexionInversa() {
@@ -708,22 +748,40 @@ export const RETIRA_POZO = {
   // más borra piezas vivas (que es exactamente lo que pasó con
   // `Rodamiento SKF W 6004` en la bandera hermana).
   patrones: [
-    { rx: 'RETORNO RR[1-4] Ø', esperadas: 44,
-      que: 'los 4 conjuntos de rodillo de pozo: tubo, 2 tapas-soporte, 2 casquillos, eje, '
-        + '2 pletinas y 2 collares por rodillo' },
-    { rx: '\\(RETORNO RR[1-4] Ø', esperadas: 16,
-      que: 'sus 8 rodamientos 6206-2RS y sus 8 anillos DIN 471, que mod_tambores nombra al revés '
-        + '(«6206-2RS (RETORNO RR1 Ø88.9, −X)»)' },
-    { rx: 'soporte RETORNO RR[1-4] Ø', esperadas: 32,
-      que: 'los 32 pernos M10 de las 8 pletinas de soporte' },
+    // Las TRES primeras esperan 0 A PROPÓSITO y hay que decir por qué, porque un
+    // filtro que no caza nada es sospechoso por definición: los 4 rodillos de
+    // pozo ya NO SE EMITEN. La misma bandera conmuta `TAMBORES.retorno`, que es
+    // de donde mod_tambores saca qué rodillos construir y mod_calles qué lazo
+    // trazar, así que a la lista de piezas no llegan. Las expresiones se quedan
+    // como RED DE SEGURIDAD: si cualquier otro módulo volviera a emitir un
+    // rodillo de pozo con el pozo retirado, se lo lleva esto — y si alguna
+    // llegara a cazar algo, la compuerta §R para y lo dice, porque el recuento
+    // no cuadraría con este 0.
+    { rx: 'RETORNO RR[1-4] Ø', esperadas: 0,
+      que: 'red de seguridad: los 4 conjuntos de rodillo de pozo (tubo, tapas, casquillos, eje, '
+        + 'pletinas y collares). Hoy no se emiten — los conmuta TAMBORES.retorno' },
+    { rx: '\\(RETORNO RR[1-4] Ø', esperadas: 0,
+      que: 'red de seguridad: sus rodamientos 6206-2RS y sus anillos DIN 471, que mod_tambores '
+        + 'nombra al revés («6206-2RS (RETORNO RR1 Ø88.9, −X)»)' },
+    { rx: 'soporte RETORNO RR[1-4] Ø', esperadas: 0,
+      que: 'red de seguridad: los pernos M10 de sus pletinas de soporte' },
     { rx: 'Guarda de pozo', esperadas: 4,
       que: 'las 4 chapas 14 GA de cierre del pozo (2 testas + 2 laterales)' },
-    { rx: 'guarda (sur|norte|lateral) \\(', esperadas: 12,
-      que: 'sus pernos M8 de testa y los casquillos separadores de las laterales' },
-    { rx: 'guarda norte↔bancada', esperadas: 3,
-      que: 'los 3 M8×16 de la franja de la guarda norte a la bancada' },
+    { rx: 'guarda (sur|norte|lateral) \\(', esperadas: 5,
+      que: 'los 5 M8×12 que cuelgan la guarda de testa SUR de las tuercas T (uno por calle)' },
+    { rx: 'guarda norte↔bancada', esperadas: 4,
+      que: 'los 4 M8×16 de la franja de la guarda norte a la bancada' },
     { rx: 'guarda (−X|\\+X)↔chapón', esperadas: 6,
-      que: 'los 6 M8 que cosen las dos guardas laterales al chapón' },
+      que: 'los 6 M8 que cosen las dos guardas laterales al chapón (3 por lado)' },
+    // ⚠ ESTA FALTABA y la habría dejado huérfana: los casquillos que salvan el
+    // gap guarda↔chapón. No los caza ninguna de las de arriba porque su nombre
+    // es «Casquillo separador Ø16×4.43 guarda −X (Y=…)» — la palabra «guarda» va
+    // DESPUÉS del Ø y antes del lado, no delante. Es el mismo tipo de despiste
+    // que dejó 40 rodamientos flotando cuando se retiraron las poleas de pozo.
+    // ANCLADA al formato «Ø<n>×<n> guarda »: el casquillo del rodillo elevador
+    // se llama «Casquillo separador Ø17.7/Ø12.7 × 8» y NO cae aquí.
+    { rx: 'Casquillo separador Ø\\d+×[\\d.]+ guarda ', esperadas: 6,
+      que: 'los 6 casquillos separadores que salvan el gap de las guardas laterales al chapón' },
   ],
   get rx() { return new RegExp(this.patrones.map(p => p.rx).join('|')); },
   get esperadasTotal() { return this.patrones.reduce((a, p) => a + p.esperadas, 0); },

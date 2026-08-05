@@ -6,7 +6,7 @@
 //   node ensambles/sorter_co/gen_sorter_co.mjs            (desde cad/)
 //   TEST_ROMPE=paso|ventana|roller|profundidad|luz|pasillo|borde|at10|retencion
 //              |sintaladro|huerfana  (revisión de FABRICACIÓN: §U y §V)
-//              |guia|guarda|pivote|pila|cilindro|soporte|bulon|portante
+//              |guia|pozo|pivote|pila|cilindro|soporte|bulon|portante|retorno
 //              |apoyo|presion|rampa|apriete|eje|rodamiento|banda|fuente
 //              |tolerancia|cordon|material|designacion|generica|ferreteria node …
 //       (banco: inyecta UN defecto y demuestra que verify() lo para SIN emitir
@@ -43,7 +43,7 @@ import { guardas } from './adapt/mod_guardas.mjs';
 import { tensor2, leerRamal } from './adapt/mod_tensor2.mjs';
 import { TENSOR_VIEJO, PIV, TENSION, NEUM, PALANCA, EJE_CALC, SOPORTE, SOPORTE_CALC } from './adapt/params_tensor2.mjs';
 import { pg40 } from './adapt/mod_pg40.mjs';
-import { FLAGS as PG40F, PUBLICA as PG40PUB, CARGA as CARGA_PG40, PERFIL as PG40_PERFIL, GUIA as PG40_GUIA, ALARGUE as PG40_ALARGUE } from './adapt/params_pg40.mjs';
+import { FLAGS as PG40F, PUBLICA as PG40PUB, CARGA as CARGA_PG40, PERFIL as PG40_PERFIL, GUIA as PG40_GUIA, ALARGUE as PG40_ALARGUE, PUENTE_APOYO as PG40_APOYO, TRAVESANOS as PG40_TRAV, TRAVESANO_TOP as PG40_TRAVTOP } from './adapt/params_pg40.mjs';
 // ▲▲▲ ------------------------------------------------------ ▲▲▲
 // ▼▼▼ TAMBOR MOTRIZ · CONDUCIDO · RODILLOS DE RETORNO (bloque propio) ▼▼▼
 import { tambores } from './adapt/mod_tambores.mjs';
@@ -543,12 +543,14 @@ if (ROMPE === 'paso') {
 } else if (ROMPE === 'cilindro') {
   // deja la calle 4 sin su cilindro: esa banda no se tensaría (§T1)
   E.parts = E.parts.filter(p => !(/Cilindro SMC CD85N25-80/.test(p.name) && p.name.includes('calle 4,')));
-} else if (ROMPE === 'guarda') {
-  // corre la guarda sur del pozo hasta pisar el IDLER-ENS (deja además la
-  // bajada de banda al descubierto)
-  for (const p of E.parts) {
-    if (/Guarda de pozo sur/.test(p.name)) p.pos = [p.pos[0], -1450, p.pos[2]];
-  }
+// ⚠ EL CASO `guarda` SE RETIRA EL 05-08-2026, y no en silencio. Corría la guarda
+// sur del pozo hasta pisar el IDLER-ENS para demostrar que la §N mordía. Con el
+// retorno recto NO HAY POZO: la §N cambió de sentido —ahora exige que no quede
+// NI UNA guarda de pozo— y el caso se quedaba sin pieza que mover. El propio
+// banco lo cazó («BANCO MUERTO: TEST_ROMPE=guarda no ha tocado NINGUNA pieza»),
+// que es exactamente para lo que está esa comprobación. Lo sustituye `pozo`,
+// que inyecta la guarda huérfana y demuestra que la §N nueva y la §R (5e)
+// muerden las dos. No se deja un caso verde-porque-no-comprueba.
 } else if (ROMPE === 'portante') {
   // HUNDE EL RAMAL PORTANTE de la calle 3 dentro de la transferencia: le mete un
   // seno de 80 mm en el tramo del módulo, que es exactamente el defecto que el
@@ -571,6 +573,48 @@ if (ROMPE === 'paso') {
       f.params.pts = out;
     }
   }
+} else if (ROMPE === 'retorno') {
+  // HUNDE EL RAMAL DE RETORNO de la calle 3 dentro de la transferencia: le mete
+  // un seno de 60 mm HACIA ABAJO en el tramo del módulo, que es el defecto que el
+  // cliente denuncia en su segunda corrección («la banda debe seguir linea roja
+  // asi fue concebido»: el retorno bajando al pozo en vez de cruzar recto por el
+  // corredor del peine). Es el hermano de `portante` y muerde por la §R (5).
+  //
+  // 60 mm bastan y no es un número al azar: el suelo del corredor está en −9.87
+  // y el fondo de la ranura del peine en −18.14, así que con 60 el ramal se sale
+  // del corredor y entra en el MACIZO de las placas peine — que es exactamente
+  // lo que la compuerta tiene que ver. Los puntos del seno se meten SÓLO en el
+  // ramal de abajo (z < 0), para no tocar el portante y que la comprobación que
+  // muerda sea la del retorno y no la de al lado.
+  for (const p of E.parts) {
+    if (!/Banda plana 32/.test(p.name) || !p.name.includes('(calle 3,')) continue;
+    for (const f of p.features) {
+      if (f.shape !== 'sketch') continue;
+      const pts = f.params.pts, out = [];
+      for (let i = 0; i < pts.length; i++) {
+        const a = pts[i], b = pts[(i + 1) % pts.length];
+        out.push(a);
+        const yLo = Math.min(a[0], b[0]), yHi = Math.max(a[0], b[0]);
+        if (a[1] < 0 && b[1] < 0 && yLo < y0 - 20 && yHi > y1 + 20) {
+          const z = a[1], seno = [[y1 + 20, z], [y1 - 30, z - 60], [y0 + 30, z - 60], [y0 - 20, z]];
+          out.push(...(a[0] > b[0] ? seno : [...seno].reverse()));
+        }
+      }
+      f.params.pts = out;
+    }
+  }
+} else if (ROMPE === 'pozo') {
+  // DEVUELVE UNA GUARDA DE POZO al ensamble con el pozo ya retirado: es el
+  // huérfano clásico —una chapa que cierra un hueco que no existe— y el mismo
+  // defecto que dejó 19 piezas en el aire cuando `desactivaPercha` se llevó los
+  // travesaños (hallazgo A6). Lo caza la §R (5e) y también la §N.
+  // La caja va a un hueco LIBRE (Z −620…−600, bajo todo el conjunto) a propósito:
+  // así el único incumplimiento que aparece es el suyo y no una lluvia de solapes
+  // AABB colaterales que taparían lo que el caso quiere demostrar.
+  E.addPart('FIJO · Guarda de pozo sur 14GA 552×383 (Y=-1385)', '#8fa3b8',
+    [200, -1385, -620], [{ id: 'rompe1', name: 'Guarda', shape: 'box', op: 'union',
+      at: [200, -1385, -620], dir: [0, 0, 1], params: { w: 552, d: 1.9, h: 20 } }],
+    { fabricada: true, material: 'Chapa de acero A36 (S275JR) 14 GA' });
 }
 
 // ── banco de la REVISIÓN ESTRUCTURAL §S (2026-08-03) ───────────────────────
@@ -789,12 +833,16 @@ const SIN_MATERIAL_SC = [
     motivo: 'misma razón que MAT-01: es la tensora del cliente reutilizada (step §4.5).',
   },
   {
-    id: 'MAT-03', rx: /· (tapa-soporte|casquillo) Ø/, esperadas: 20,
+    id: 'MAT-03', rx: /· (tapa-soporte|casquillo) Ø/, esperadas: 4,
     dueño: 'adapt/params_tambores.mjs · adapt/mod_tambores.mjs',
-    motivo: 'el módulo SÍ declara el material del tubo, del eje y de la pletina de soporte de '
-      + 'estos mismos rodillos, pero no el de sus 10 tapas-soporte ni el de sus 10 casquillos. '
-      + 'Son piezas de torno con asiento de rodamiento y prensado H7/r6: el plano no sale sin '
-      + 'material. Falta declararlo en params_tambores (CONDUCIDO.tapa y RETORNOS.tapa).',
+    motivo: 'el módulo SÍ declara el material del tubo, del eje y de la pletina de soporte del '
+      + 'RODILLO CONDUCIDO, pero no el de sus 2 tapas-soporte ni el de sus 2 casquillos. Son '
+      + 'piezas de torno con asiento de rodamiento y prensado H7/r6: el plano no sale sin '
+      + 'material. Falta declararlo en params_tambores (CONDUCIDO.tapa).\n'
+      + '      Eran 20 hasta el 05-08-2026: las otras 16 eran las de los 4 rodillos de retorno de '
+      + 'POZO, que retira RETIRA_POZO. Sus sustitutos —los 2 rodillos elevadores— son conjunto '
+      + 'Hytrol B-20760 COMPRADO, o sea que no piden material de taller sino designación de '
+      + 'catálogo, y la tienen.',
   },
   // MAT-04 (Eje de polea tensora · Bulón del lóbulo · Separador Ø38×) BORRADA el
   // 2026-08-03: su dueño, adapt/params_tensor2.mjs, ya declara el material de
@@ -804,15 +852,11 @@ const SIN_MATERIAL_SC = [
   // el que se enfila y no por requisito de resistencia (así lo dice el propio
   // parámetro). Una dispensa que ya no cubre a nadie es tan mala como una que
   // falta, y la propia §F3b lo estaba pidiendo.
-  {
-    id: 'MAT-05', rx: /^FIJO · Casquillo separador Ø\d+×[\d.]+ guarda /, esperadas: 6,
-    dueño: 'adapt/mod_guardas.mjs',
-    motivo: 'los 6 casquillos que salvan el gap guarda↔chapón. Estaban DESAPARECIENDO del '
-      + 'ensamble —se los llevaba la expresión ancha `Casquillo separador` del filtro de la '
-      + 'percha— mientras sus 6 pernos M8×25/M8×35 seguían dentro atravesando el hueco vacío. '
-      + 'Recuperados; ahora falta su material: ni mod_guardas ni el casquillo de escote de la '
-      + 'percha del que copia el patrón declaran ninguno.',
-  },
+  // MAT-05 (Casquillo separador Ø… guarda −X/+X) BORRADA el 05-08-2026: sus 6
+  // piezas eran de las GUARDAS DE POZO, y con el retorno recto no hay pozo que
+  // guardar — se van con él por params_tambores.RETIRA_POZO. Una dispensa que ya
+  // no cubre a nadie es tan mala como una que falta (§F3b), así que se borra en
+  // vez de dejarla en 0.
 ];
 
 // --- JUNTAS SOLDADAS: cuál es el espesor que manda ---------------------------
@@ -1257,11 +1301,15 @@ function verify() {
   const bandaAltaBajoModulo = r2(POZO.v3.z - 117.9 / 2);    // −358.95 cara dentada
   const fondoNbt90 = r2(T.z);                                // −338.27
   const holguraPozo = r2(fondoNbt90 - bandaAltaBajoModulo);
-  if (holguraPozo < 2) e.push(`la banda del pozo pasa a ${holguraPozo} mm del fondo del NBT90 (mín 2)`);
+  // ⚠ GUARDADA por params_tambores.RETIRA_POZO: sin pozo no hay ramal de fondo
+  // que librar. Lo que SUSTITUYE a esta comprobación no es nada — es la §R, que
+  // ahora exige que el retorno atraviese RECTO por el corredor y mide sobre el
+  // contorno emitido. No se borra: vuelve sola con la bandera a false.
+  if (!TAMB_POZO.activo && holguraPozo < 2) e.push(`la banda del pozo pasa a ${holguraPozo} mm del fondo del NBT90 (mín 2)`);
   // canal de montaje del cilindro del NBT90 (lo más bajo del módulo en la zona)
   const canalCilZ0 = r2(NBT.canalCilZ[0] + T.z);             // −328.03
   const holguraPozoCanal = r2(canalCilZ0 - bandaAltaBajoModulo);
-  if (holguraPozoCanal < 2) e.push(`la banda del pozo pasa a ${holguraPozoCanal} mm del canal del cilindro (mín 2)`);
+  if (!TAMB_POZO.activo && holguraPozoCanal < 2) e.push(`la banda del pozo pasa a ${holguraPozoCanal} mm del canal del cilindro (mín 2)`);
 
   // --- F. choques AABB dirigidos -------------------------------------------
   // (la banda queda fuera del barrido genérico: es un lazo que convive con toda
@@ -1434,7 +1482,7 @@ function verify() {
     //     La AABB de un cilindro contiene siempre la del eje que lo atraviesa,
     //     así que este par es geometría correcta, no un choque. (El NBT90 no
     //     lo delata porque entra entero como contexto; éste no.)
-    [/^(TAMBOR|CONDUCIDO|RETORNO) /, /^(TAMBOR|CONDUCIDO|RETORNO) /],
+    [/^(TAMBOR|CONDUCIDO|RETORNO|ELEVADOR) /, /^(TAMBOR|CONDUCIDO|RETORNO|ELEVADOR) /],
     // (2) CONVIVENCIA DE DOS ARQUITECTURAS, declarada. Los 4 rodillos de
     //     retorno ocupan las cuatro esquinas del pozo (Y −606/−672/−1280/−1325)
     //     que hoy siguen ocupando las poleas de pozo V1…V4 por calle que este
@@ -1445,7 +1493,7 @@ function verify() {
     //     va en las métricas, `tambores.sustituye`; aquí no se borra nada de
     //     otro agente. Comprobación: fuera de estos dos pares, el accionamiento
     //     no solapa con NADA del modelo (ni PG40, ni NBT90, ni contexto).
-    [/^(TAMBOR|CONDUCIDO|RETORNO) /,
+    [/^(TAMBOR|CONDUCIDO|RETORNO|ELEVADOR) /,
       /Eje \S+ de pozo \(V\d|Pletina V\d|Pletina de volante|Polea plana .*\(V\d|Volante contraflexión|Espaciador de aros|Guarda de pozo|Polea motriz T5-63T|Polea conducida T5-63T|Buje 63T|Eje motriz común|Chumacera SKF UCFL|Polea AT10|Casquillo LK30/],
     // (3) las CAJAS ENVOLVENTES del cliente por las que ya pasa hoy su propia
     //     línea de árbol: cabeceras FRONT TOP2/_MIR, Drive kit, IDLER-ENS y sus
@@ -1454,7 +1502,7 @@ function verify() {
     //     está declarado más arriba para «Eje motriz común» y las UCFL, que
     //     ocupan exactamente el mismo sitio que ahora ocupan el tambor y el
     //     conducido. Mismo motivo, misma tolerancia.
-    [/^(TAMBOR|CONDUCIDO|RETORNO) /,
+    [/^(TAMBOR|CONDUCIDO|RETORNO|ELEVADOR) /,
       /CTX · FRONT TOP2|CTX · Drive kit|CTX · IDLER-ENS|CTX · Polea loca IDLER-P01|CTX · Anillo DIN 472-40 IDLER|CTX · Espaciador IDLER-E|CTX · Cierre de guía|CTX · TER1/],
     // (4) el bastidor PG40 y este accionamiento se ATORNILLAN el uno al otro:
     //     el eje pasa por el taladro Ø45 de su cabezal de rodamiento (la AABB
@@ -1464,8 +1512,8 @@ function verify() {
     //     contacto de montaje, no interferencia. Lo que NO se tolera es la
     //     escuadra del travesaño Y=−100 contra el tambor: ésa va a
     //     `avisosDeclarados` con su cota, para que PG40 la corra.
-    [/^(TAMBOR|CONDUCIDO|RETORNO) /,
-      /PG40 · Alargue lateral · cabezal de rodamiento|PG40 · Cubrejunta alma↔cabezal|PG40 · Alargue lateral · alma/],
+    [/^(TAMBOR|CONDUCIDO|RETORNO|ELEVADOR) /,
+      /PG40 · Alargue lateral · cabezal de rodamiento|PG40 · Cubrejunta alma↔cabezal|PG40 · Alargue lateral · alma|PG40 · Cartela de rodillos de retorno/],
     [/^TAMBOR · engomado/, /PG40 · Escuadra larguero↔travesaño \(calle \d, Y -100\)/],
     // ▲▲▲ --------- ▲▲▲
   ];
@@ -1810,12 +1858,106 @@ function verify() {
       separacionRamalesAnfitrion: A?.separacionRamalesMm,
       retornoAnfitrionZ: A?.retorno?.z,
       rodillos: TAMB_EJES.retorno.length,
+      pozoRetirado: !!TAMB_POZO.activo,
     };
-    if (RECTO.retornoRecto.posible && TAMB_EJES.retorno.length) {
+    if (RECTO.retornoRecto.posible && !TAMB_POZO.activo) {
       e.push(`§R: el ramal de retorno cabe RECTO por el corredor del peine (Z ${zRamal} ≥ suelo ${sueloCorredor}) `
-        + `y sin embargo se mantienen ${TAMB_EJES.retorno.length} rodillos de retorno y el pozo: sobran. `
-        + 'Retíralos por bandera en adapt/params_tambores.mjs (TAMBORES.retorno) — el lazo de mod_calles '
-        + 'se retraza solo desde esa tabla');
+        + `y sin embargo se mantienen ${TAMB_EJES.retorno.length} rodillos de pozo: sobran. `
+        + 'Retíralos con params_tambores.RETIRA_POZO — el lazo de mod_calles se retraza solo desde '
+        + 'TAMBORES.retorno');
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // (5) EL RAMAL DE RETORNO TAMBIÉN VA RECTO — corrección del cliente 03-08
+    //
+    // Hasta el 05-08-2026 esta compuerta sólo exigía el paso recto del ramal
+    // PORTANTE, y para el de retorno se conformaba con la aritmética de (4):
+    // «no cabe porque el tambor es Ø108.9». Esa aritmética daba por supuesto que
+    // el retorno tiene que ir recto DESDE LA TANGENTE DEL TAMBOR, y era falsa —
+    // con dos rodillos elevadores el Ø del tambor deja de gobernar la cota del
+    // corredor. Aquí ya no se acepta ninguna declaración: se mide sobre el
+    // CONTORNO REAL de la banda emitida, igual que el portante.
+    //
+    // Lo que se exige, calle a calle, dentro de la huella del módulo:
+    //   R5a · hay DOS ramales (el portante arriba y el de retorno abajo) en
+    //         TODA la huella: la banda no puede desaparecer por debajo;
+    //   R5b · el de retorno está a cota CONSTANTE (recto, no en rampa);
+    //   R5c · su cara más baja no baja del suelo del corredor, que es el techo
+    //         del cassette + 2 (o el fondo de la ranura del peine, el que mande);
+    //   R5d · su cara más alta no toca la pletina del puente;
+    //   R5e · no queda NI UN rodillo de pozo ni NI UNA guarda de pozo.
+    // ═══════════════════════════════════════════════════════════════════════
+    if (TAMB_POZO.activo) {
+      const retorno = { calles: [] };
+      for (let k = 0; k < EJES.length; k++) {
+        const banda = nuevas.find(p => /Banda plana 32/.test(p.name) && p.name.includes(`(calle ${k + 1},`));
+        if (!banda) continue;                       // (2) ya lo denunció
+        const contornos = banda.features.filter(f => f.shape === 'sketch').map(f => f.params.pts);
+        let zMin = 1e9, zMax = -1e9, yMin = null, sinRetorno = 0, n = 0;
+        for (let Y = y0; Y <= y1 + 1e-9; Y += 5) {
+          let lo = 1e9, hi = -1e9;
+          for (const pts of contornos) {
+            for (let i = 0; i < pts.length; i++) {
+              const a = pts[i], b = pts[(i + 1) % pts.length];
+              if ((a[0] > Y) === (b[0] > Y)) continue;
+              const z = a[1] + (b[1] - a[1]) * (Y - a[0]) / (b[0] - a[0]);
+              if (z > zPortante - 10) continue;     // eso es el ramal PORTANTE
+              if (z < lo) lo = z;
+              if (z > hi) hi = z;
+            }
+          }
+          if (lo > 1e8) { sinRetorno++; continue; }
+          n++;
+          if (lo < zMin) { zMin = lo; yMin = r2(Y); }
+          if (hi > zMax) zMax = hi;
+        }
+        if (sinRetorno) {
+          e.push(`§R: la calle ${k + 1} NO tiene ramal de RETORNO dentro de la transferencia en `
+            + `${sinRetorno} cotas de Y: el retorno tiene que atravesarla, no rodearla `
+            + '(corrección del cliente 03-08: «la banda debe seguir linea roja asi fue concebido»)');
+          continue;
+        }
+        const espesor = r2(zMax - zMin);
+        // R5b · RECTO: en toda la huella el canto del ramal es el espesor de la
+        //       banda. Si estuviera en rampa, zMax − zMin crecería con la pendiente.
+        if (espesor > STEP.bandaAncho * 0 + r2(TAMB_RAMAL.z * 0 + 2.5) + 0.6) {
+          e.push(`§R: el ramal de RETORNO de la calle ${k + 1} NO es recto dentro de la transferencia: `
+            + `barre Z ${r2(zMin)}…${r2(zMax)} (${espesor} mm) cuando la banda mide 2.5. Está en rampa`);
+        }
+        // R5c · no baja del suelo del corredor
+        if (zMin < sueloCorredor - 0.01) {
+          e.push(`§R: el ramal de RETORNO de la calle ${k + 1} baja a Z=${r2(zMin)} en Y=${yMin} y el `
+            + `suelo del corredor está en ${sueloCorredor} (${quienTecho ?? 'ranura del peine'} + `
+            + `${TAMB_CORR.holguraAlTecho} de holgura): faltan ${r2(sueloCorredor - zMin)} mm`);
+        }
+        // R5d · no toca la pletina del puente por arriba
+        if (zMax > puenteBaseZ - 2) {
+          e.push(`§R: el ramal de RETORNO de la calle ${k + 1} sube a Z=${r2(zMax)} y la cara inferior `
+            + `del puente está en ${puenteBaseZ}: no deja los 2 mm`);
+        }
+        retorno.calles.push({ calle: k + 1, caraZ: r2(zMin), dorsoZ: r2(zMax),
+          holguraAlSuelo: r2(zMin - sueloCorredor), holguraAlPuente: r2(puenteBaseZ - zMax),
+          estaciones: n });
+      }
+      // R5e · ni un rodillo de pozo, ni una guarda de pozo
+      const restosPozo = partes.filter(p => /^RETORNO RR[1-4] |\(RETORNO RR[1-4] |Guarda de pozo/.test(p.name));
+      if (restosPozo.length) {
+        e.push(`§R: el retorno ya pasa RECTO por el corredor y quedan ${restosPozo.length} pieza(s) del `
+          + `POZO en el ensamble: «${restosPozo[0].name}». O se retiran con params_tambores.RETIRA_POZO, `
+          + 'o el modelo dice dos cosas a la vez');
+      }
+      // …y la cuenta de lo que se llevó cada expresión de la bandera, que es lo
+      // que hace auditable el filtro por nombre (tres fallos de regex ancha en
+      // una sola noche: 94f7271, 6b4e780 y los casquillos de guarda).
+      for (const P of (m.retiraPozo?.porExpresion ?? [])) {
+        if (P.reales !== P.esperadas) {
+          e.push(`§R: la expresión «${P.rx}» de RETIRA_POZO se ha llevado ${P.reales} pieza(s) y la `
+            + `bandera declara ${P.esperadas} (${P.que}). ${P.reales > P.esperadas
+              ? 'Se lleva piezas que NO son del pozo: aprieta el ancla.'
+              : 'Deja piezas del pozo dentro: el racimo queda huérfano.'}`);
+        }
+      }
+      RECTO.retornoMedido = retorno;
     }
   }
   // ▲▲▲ ------------------------------------------------------------- ▲▲▲
@@ -1968,11 +2110,23 @@ function verify() {
   }
 
   // --- N. GUARDAS DEL POZO -------------------------------------------------
+  // ⚠ TODA LA SECCIÓN VA GUARDADA por params_tambores.RETIRA_POZO. Sin pozo no
+  // hay punto de atrapamiento banda↔rodillo que cerrar, y la guarda que lo
+  // cerraba sería una pieza sin destino — que es justo lo que caza la §V. Lo que
+  // esta compuerta exigía (que el pozo esté cerrado) se sustituye por lo
+  // contrario y con la misma dureza: que NO quede ni una guarda de pozo. Las dos
+  // comprobaciones viven aquí, y la bandera decide cuál manda.
   {
     const gS = partes.find(p => /Guarda de pozo sur/.test(p.name));
     const gN = partes.find(p => /Guarda de pozo norte/.test(p.name));
     const gL = partes.filter(p => /Guarda de pozo lateral/.test(p.name));
-    if (!gS || !gN || gL.length !== 2) {
+    if (TAMB_POZO.activo) {
+      const restos = partes.filter(p => /Guarda de pozo/.test(p.name));
+      if (restos.length) {
+        e.push(`el pozo está retirado (params_tambores.RETIRA_POZO) y quedan ${restos.length} guarda(s) `
+          + `de pozo en el ensamble: «${restos[0].name}». Cierran un hueco que ya no existe`);
+      }
+    } else if (!gS || !gN || gL.length !== 2) {
       e.push(`el pozo no queda cerrado: testas ${!!gS}/${!!gN}, laterales ${gL.length}/2`);
     } else {
       const tCh = 1.9;
@@ -2217,7 +2371,16 @@ function verify() {
   }
   //  (3) ningún rodillo de retorno se mete en la huella del módulo, y el ramal
   //      de fondo libra su cara inferior (lo mismo que exige §E al pozo viejo)
-  if (TB.ramal.holguraFondoNbt90 < 2) {
+  if (TAMB_POZO.activo) {
+    // RETORNO RECTO: lo que hay que comprobar ya no es la holgura al FONDO del
+    // módulo (no hay ramal de fondo) sino la del ramal recto al TECHO de lo que
+    // el cassette lleva debajo. Se mide en la §R sobre la caja real de esa pieza
+    // y aquí se contrasta contra lo que el módulo publica.
+    if (TB.corredor && TB.corredor.holguraAlMotorreductor < 2) {
+      e.push(`el ramal de retorno recto pasa a ${TB.corredor.holguraAlMotorreductor} mm del techo `
+        + `móvil del cassette (mín 2)`);
+    }
+  } else if (TB.ramal.holguraFondoNbt90 < 2) {
     e.push(`el ramal de retorno pasa a ${TB.ramal.holguraFondoNbt90} mm del fondo del NBT90 (mín 2)`);
   }
   //  (4) el tambor no asoma sobre el plano de transporte por ningún sitio
@@ -2267,9 +2430,12 @@ function verify() {
     for (const [rx, nom] of imprescindibles) {
       if (!nuevas.some(p => rx.test(p.name))) e.push(`falta ${nom}: el accionamiento no está completo`);
     }
-    const nRet = nuevas.filter(p => /^RETORNO RR\d .* tubo/.test(p.name)).length;
+    // el TUBO de cada rodillo del ramal de retorno, se llame como se llame: con
+    // pozo son «RETORNO RRn · tubo», con retorno recto «ELEVADOR RE-x · Rodillo
+    // de retorno B-20760». La cuenta la manda la TABLA, no el nombre.
+    const nRet = nuevas.filter(p => /^RETORNO RR\d .* tubo|^ELEVADOR RE-[NS] · Rodillo de retorno/.test(p.name)).length;
     if (nRet !== TAMB_EJES.retorno.length) {
-      e.push(`hay ${nRet} rodillos de retorno y el ramal necesita ${TAMB_EJES.retorno.length}`);
+      e.push(`hay ${nRet} rodillos en el ramal de retorno y la tabla declara ${TAMB_EJES.retorno.length}`);
     }
   }
   //  (7) lo que este módulo tiene que DECIRLE al bastidor (no lo puede arreglar
@@ -2345,11 +2511,20 @@ function verify() {
       + `${TENSION.tDe(m.ramal.usado.abrazadoDeg)} N a ${TENSION.tDe(LZ.abrazadoTensoraGeometrico)} N `
       + 'por banda (+0.15 %): se declara y NO se reajusta el parámetro, que es de otro módulo y va '
       + 'del lado conservador.');
-    avisosDeclarados.push('GUARDAS: la guarda de pozo lateral +X lleva ahora 2 ESCOTES abiertos por '
-      + 'arriba (uno por soporte de RR2 y RR3) porque esas pletinas de 12 apoyan justo en su plano; '
-      + 'el hueco lo tapa la propia pletina, que es más gruesa que la chapa 14 GA. Las guardas de '
-      + 'testa llevan los recortes de paso del alargue −X y 5 rendijas de banda: '
-      + JSON.stringify(m.guardas.recortes));
+    if (!TAMB_POZO.activo) {
+      avisosDeclarados.push('GUARDAS: la guarda de pozo lateral +X lleva 2 ESCOTES abiertos por '
+        + 'arriba (uno por soporte de rodillo de retorno) porque esas pletinas de 12 apoyan justo en '
+        + 'su plano; el hueco lo tapa la propia pletina, que es más gruesa que la chapa 14 GA. Las '
+        + 'guardas de testa llevan los recortes de paso del alargue −X y 5 rendijas de banda: '
+        + JSON.stringify(m.guardas.recortes));
+    } else {
+      avisosDeclarados.push('GUARDAS: las 4 guardas de POZO y sus 21 piezas de ferretería quedan '
+        + 'RETIRADAS con el pozo (params_tambores.RETIRA_POZO). Sin pozo no hay punto de atrapamiento '
+        + 'banda↔rodillo que cerrar: el ramal de retorno corre ahora dentro del bastidor, entre los '
+        + 'largueros y por el corredor del peine. Lo que SÍ queda pendiente de decidir con el cliente '
+        + 'es si los DOS RODILLOS ELEVADORES piden guarda propia: son accesibles desde el costado del '
+        + 'bastidor y forman punto de entrada banda↔rodillo. No se inventa aquí una chapa: se declara.');
+    }
     avisosDeclarados.push(`TAMBORES: el solape engomado↔tubo (10.32 cm³) es la LÍNEA DE VULCANIZADO `
       + '(0.1 mm de interpenetración deliberada, misma convención que nbt90/rodillos.mjs): la goma '
       + 'y el tubo comparten superficie porque están vulcanizados, no montados.');
@@ -2369,25 +2544,72 @@ function verify() {
         + `anfitrión (piezas CONTEXTO, ${A.fuente.split('(')[0].trim()}) en X ${A.bandasX.join(' · ')} — los `
         + `MISMOS 5 ejes de calle del sorter — con el portante en Z ${A.portante.z.join('…')} y la regleta en `
         + `${A.regleta.z.join('…')}. Aquí no se montan: las sustituyen las 5 calles.`);
-      avisosDeclarados.push('RETORNO · decidido con la geometría delante, NO por costumbre: el NBT90 '
-        + `declara que el ramal de retorno de su anfitrión también pasa RECTO por el mismo corredor, a `
-        + `Z ${A.retorno.z.join('…')} (${A.separacionRamalesMm} mm bajo el portante). El del sorter NO cabe ahí: `
-        + `el tambor motriz es Ø${RT.diaTamborActual} (tubo Ø88.9 + 10 de goma sobre eje Ø35 = barreno del `
-        + `UCF 207, las tres cotas son instrucción del cliente), así que su ramal de retorno sale a `
-        + `Z ${RT.ramalZ} — ${Math.abs(RT.faltaMm)} mm POR DEBAJO del fondo de la ranura del peine `
-        + `(${RT.ventanaZ[0]}). Para entrar en el corredor el tambor tendría que bajar a Ø ≤ `
-        + `${RT.diaTamborMaxParaPasarRecto} (el del anfitrión mide ${A.separacionRamalesMm}), y con eje Ø35 y `
-        + `10 de goma eso deja el tubo en Ø${r2(RT.diaTamborMaxParaPasarRecto - 20)}: sin corona de tapa. Por eso `
-        + `el retorno pasa POR DEBAJO del módulo, con ${RT.rodillos} rodillos. Que son el mínimo: sin RR4 el `
-        + 'abrazado del conducido cae a 137.63° (< 150° §J) y con sólo los dos del fondo, también; sin RR1 '
-        + 'desaparece el tramo llano de Z −57.2 del que cuelga el tensor (params_tambores.RETORNO.tramoLibreY) '
-        + 'y del que sale por tangencia la cota de los volantes de contraflexión. El PORTANTE, en cambio, va '
-        + 'recto: eso es lo que la §R comprueba calle a calle sobre el contorno emitido.');
+      // ▼▼▼ EL RETORNO, REESCRITO EL 05-08-2026 ▼▼▼
+      // Lo que este aviso decía hasta hoy («el retorno NO cabe recto porque el
+      // tambor es Ø108.9: faltan 49.2 mm») era aritmética correcta sobre una
+      // hipótesis falsa — daba por supuesto que el ramal tiene que ir recto DESDE
+      // LA TANGENTE DEL TAMBOR. Entre el tambor y el módulo hay 742 mm de Y libre
+      // y subir esos 49.2 mm en ese recorrido es una rampa de 3.8°. El Ø del
+      // tambor fija dónde ARRANCA el ramal, no por dónde CRUZA la transferencia.
+      if (RT.pozoRetirado) {
+        const RM = RECTO.retornoMedido?.calles ?? [];
+        const peorSuelo = RM.length ? Math.min(...RM.map(c => c.holguraAlSuelo)) : null;
+        const peorPuente = RM.length ? Math.min(...RM.map(c => c.holguraAlPuente)) : null;
+        avisosDeclarados.push('RETORNO RECTO (corrección del cliente 03-08, «la banda debe seguir '
+          + 'linea roja asi fue concebido»): el ramal de RETORNO de las 5 calles atraviesa también la '
+          + `transferencia EN RECTO, por el MISMO corredor del peine que el portante y `
+          + `${r2(C.portanteZ - (RM[0]?.caraZ ?? 0))} mm por debajo de él. Medido sobre el contorno `
+          + `emitido, calle a calle: cara portante Z ${RM[0]?.caraZ}, dorso ${RM[0]?.dorsoZ} · `
+          + `${peorSuelo} mm al suelo del corredor (que lo fija ${C.techoMovilPieza}, techo `
+          + `${C.techoMovilBajoCorredor}, + 2 de holgura) · ${peorPuente} mm a la pletina del puente · `
+          + `${r2((RM[0]?.caraZ ?? 0) - C.fondoRanuraBanda)} mm al fondo de la ranura del peine. `
+          + `El NBT90 declara el de su anfitrión en Z ${A.retorno.z.join('…')}: vamos `
+          + `${r2((RM[0]?.caraZ ?? 0) - A.retorno.z[0])} mm más altos porque le exigimos 2 mm al `
+          + 'motorreductor donde el anfitrión se conforma con 0.3.');
+        avisosDeclarados.push(`RETORNO RECTO · lo sostienen DOS RODILLOS ELEVADORES —los dos círculos `
+          + `verdes del croquis del cliente— en ${TAMB_EJES.retorno.map(R => `${R.id}(Y ${R.y})`).join(' y ')}, `
+          + `uno a cada lado de la huella del módulo (${y0}…${y1}). Son conjunto ${TAMB_ELEV.ref}: la `
+          + 'MISMA referencia que el NBT90 lleva montada contra los ramales de retorno de su anfitrión '
+          + '(«tenías uno en modelo anterior, esa era funcion»), y que mod_ctx.EXCLUIR_NBT90 había '
+          + 'sacado del ensamble precisamente porque el retorno del sorter bajaba al pozo. '
+          + `Se retiran RR1…RR4 y las 4 guardas de pozo: ${m.retiraPozo?.total ?? 0} piezas fuera por `
+          + 'bandera (params_tambores.RETIRA_POZO), con el recuento por expresión en las métricas.');
+        avisosDeclarados.push(`RETORNO RECTO · FLEXIÓN INVERSA DECLARADA: los dos elevadores muerden la `
+          + `CARA PORTANTE de la banda (la que lleva el bulto) y la doblan al REVÉS que el tambor. Es `
+          + `inevitable —un ramal sólo se sube empujándolo desde abajo— y no es nuevo en este lazo: los `
+          + `volantes de horquilla Ø100 y los RR1/RR4 Ø88.9 que se retiran ya lo hacían. El elevador es `
+          + `ahora el radio MÍNIMO de flexión inversa del lazo: Ø${TAMB_ELEV.dia} contra el Ø mínimo de `
+          + `polea ${TAMB_ELEV.flexionInversa.diaMinimoCatalogoMm} que la Habasit SAB-8E 07 exige `
+          + `(web BELT-SAB8E-01) = margen ×${TAMB_ELEV.flexionInversa.margen}. LO QUE LA FUENTE NO DICE: `
+          + `no publica un mínimo de CONTRAFLEXIÓN, sólo «Pulley diameter, minimum» sin distinguir `
+          + `sentido. Queda como PENDIENTE con dueño y no se sustituye por una regla de pulgar. Si el `
+          + `proveedor da un mínimo mayor que ${TAMB_ELEV.dia}, el hueco del lado norte no admite un `
+          + `rodillo más grande sin mover el travesaño de puente: preguntar ANTES de comprar la banda.`);
+        avisosDeclarados.push(`RETORNO RECTO · LO QUE LE CUESTA AL BASTIDOR PG40, con el número de cada `
+          + `travesaño: el ramal entra ahora en la franja Z −40…0, que era sólo del bastidor. `
+          + `Y −555 → SE MUEVE a −450 (la rampa lo cogía a Z −16.9…−27.0, o sea 13.0 mm dentro del `
+          + `perfil; a −450 pasa 3.4 mm por debajo). Y −1440 e Y −1520 → SE BAJAN 45 mm (coronan en `
+          + `−45 y no en 0): al sur no hay hueco en Y para correrlos —a −1553.4 empieza el tubo del `
+          + `conducido— y la rampa les pasa ahora 14.4 y 5.8 mm por encima. Los DOS TRAVESAÑOS DE `
+          + `PUENTE (−692 y −1280) bajan de coronar en 7.28 a ${PG40_APOYO.topZ}, porque el ramal recto `
+          + `les pasaba 17.2 mm por dentro, y sus 10 placas base pasan a ser CABALLETES de `
+          + `${PG40_APOYO.caballeteH} mm con dos patas a X = eje ± 23 que salvan la banda con 3 mm por lado. `
+          + `El vano libre del puente NO cambia (588 mm): esa era la alternativa cara y no hace falta.`);
+      } else {
+        avisosDeclarados.push('RETORNO · el pozo sigue montado (params_tambores.RETIRA_POZO.activo = '
+          + `false): el ramal cruza POR DEBAJO del módulo con ${RT.rodillos} rodillos, a Z ${RT.ramalZ}, `
+          + `${Math.abs(RT.faltaMm)} mm por debajo del suelo del corredor (${RT.ventanaZ[0]}).`);
+      }
     }
     // ▲▲▲ ------------------------------------------------------- ▲▲▲
-    avisosDeclarados.push(`TAMBORES: los 4 rodillos de retorno necesitan ménsula de PG40 en `
-      + TAMB_EJES.retorno.map(R => `${R.id}(Y ${R.y}, Z ${R.z})`).join(' · ')
-      + ` — patrón ${TAMB_RET.soporte.patron}×${TAMB_RET.soporte.patron}, taladro Ø${TAMB_RET.soporte.taladro}`);
+    {
+      const SR = TAMB_EJES.retornoSoporte;
+      avisosDeclarados.push(`TAMBORES: los ${TAMB_EJES.retorno.length} rodillos del ramal de retorno `
+        + 'necesitan ménsula de PG40 en '
+        + TAMB_EJES.retorno.map(R => `${R.id}(Y ${R.y}, Z ${R.z})`).join(' · ')
+        + ` — cuadro ${SR.patronY ?? SR.patron}×${SR.patronZ ?? SR.patron}, taladro Ø${SR.taladro}, `
+        + `caras de apoyo X ${SR.caraX.join(' y ')}`);
+    }
   }
   // ▲▲▲ ------------------------------------------------------------- ▲▲▲
 
@@ -3385,16 +3607,32 @@ if (!TENSOR_VIEJO) {
     + `— vano ${B.tamborEje.vano} · ${B.tamborEje.chavetero} · saliente Ø35 X ${B.tamborEje.saliente.x.join('…')}`);
   console.log(`      CONDUCIDO Ø${B.diametros.conducido} de descansos interiores (2 × ${B.rodamientos['6207-2RS'] ? '6207-2RS' : '—'}, `
     + `eje FIJO Ø35) en Y=${B.ejesArbol.conducido.y}, Z=${B.ejesArbol.conducido.z}`);
-  console.log(`      RETORNO Ø${B.diametros.retorno} × 4: `
+  console.log(`      RAMAL DE RETORNO Ø${B.diametros.retorno} × ${B.retornos.length}: `
     + B.retornos.map(R => `${R.id}(Y ${R.y}, Z ${R.z})`).join(' · '));
-  console.log(`      RAMAL de retorno Z=${B.ramal.z} (dorso) · fondo del pozo Z=${B.ramal.zFondoAlto} `
-    + `→ ${B.ramal.holguraFondoNbt90} mm al fondo del NBT90 · abrazados ${JSON.stringify(B.abrazados)}`);
+  if (B.retornoRecto) {
+    const C = B.corredor, FX = B.flexionInversa;
+    console.log(`      RECTO POR EL CORREDOR DEL PEINE (corrección del cliente 03-08): cara portante `
+      + `Z=${C.caraPortanteZ} · dorso ${C.dorsoZ} · ${C.holguraAlMotorreductor} al techo del cassette `
+      + `(${C.techoMovilZ}) · ${C.holguraAlFondoDeRanura} al fondo de la ranura · `
+      + `${C.holguraALaPletinaDelPuente} a la pletina del puente. El NBT90 declara el de su anfitrión `
+      + `en Z ${C.precedenteAnfitrionZ.join('…')}`);
+    console.log(`      FLEXIÓN INVERSA declarada: los ${B.retornos.length} elevadores muerden la CARA `
+      + `${FX.cara} · Ø ${FX.diaFlexionMm} contra el mínimo de polea ${FX.diaMinimoCatalogoMm} de la `
+      + `banda (web BELT-SAB8E-01) = margen ×${FX.margen}. La fuente NO publica mínimo de contraflexión`);
+    console.log(`      TRAMO LLANO del tensor: Y ${B.ramal.tramoLibreY.join('…')} `
+      + `(${r2(Math.abs(B.ramal.tramoLibreY[1] - B.ramal.tramoLibreY[0]))} mm) a Z=${B.ramal.z}`);
+  } else {
+    console.log(`      RAMAL de retorno Z=${B.ramal.z} (dorso) · fondo del pozo Z=${B.ramal.zFondoAlto} `
+      + `→ ${B.ramal.holguraFondoNbt90} mm al fondo del NBT90`);
+  }
+  console.log(`      ABRAZADOS (lazo sin horquilla, diagnóstico): ${JSON.stringify(B.abrazados)}`);
   console.log(`      ARRASTRE: μ ${A.mu} · capstan ${A.capstan} → Te máx ${A.teMaxN} N vs ${A.teRequeridoN} N `
     + `necesarios = reserva ×${A.reserva} · par ${A.parNm} N·m a ${A.rpm} rpm · ${A.motorreductor.split('—')[0].trim()}`);
   console.log(`      EJES: tambor σ ${B.ejes.tambor.vonMisesMPa} MPa / flecha ${B.ejes.tambor.delta} mm · `
     + `conducido ${B.ejes.conducido.vonMisesMPa} MPa / ${B.ejes.conducido.delta} mm · `
-    + `retorno RR1 ${B.ejes.retorno.RR1.vonMisesMPa} MPa / ${B.ejes.retorno.RR1.delta} mm`);
-  console.log(`      RODAMIENTOS C/P: ` + Object.entries(B.rodamientos).map(([k, v]) => `${k} ${v.relacion}`).join(' · '));
+    + Object.entries(B.ejes.retorno).map(([k, v]) => `${k} ${v.vonMisesMPa} MPa / ${v.delta} mm`).join(' · '));
+  console.log(`      RODAMIENTOS C/P: ` + Object.entries(B.rodamientos)
+    .map(([k, v]) => `${k} ${v.relacion ?? 'SIN C DE CATÁLOGO (' + v.N + ' N reales)'}`).join(' · '));
   console.log(`      HOLGURAS: largueros PG40 ${JSON.stringify(H.largueroPG40)} · perfil ${H.perfilPG40} · `
     + `módulo NBT90 ${JSON.stringify(H.moduloNbt90)} · cara de apoyo↔banda ${H.caraApoyoALaBandaPorLado}/lado`);
 }

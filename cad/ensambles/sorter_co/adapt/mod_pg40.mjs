@@ -19,7 +19,7 @@ import { box, cyl, hole, sketchYZ, sketchXY, pernoHex, tuercaHex, golilla, desar
   from '../../nbt90/lib.mjs';
 import {
   FLAGS, PERFIL, Z, GUIA, TRAMOS, TRAVESANOS, TRAVESANOS_PUENTE, PUENTE_APOYO,
-  ESCUADRA_LT, ALARGUE, UCF207, EJES_ARBOL,
+  ESCUADRA_LT, ALARGUE, UCF207, EJES_ARBOL, travTopDe, travBotDe,
   PUBLICA, CARGA, RETORNOS, RSOP, STEP, NBT, Xc, EJES, T,
 } from './params_pg40.mjs';
 
@@ -157,10 +157,23 @@ export function pg40(E) {
     // que es mejor nudo que llegar hasta los chapones.
     const enCabezal = [ALARGUE.cabezalMotrizY, ALARGUE.cabezalCondY]
       .some(r => y > r[0] - 20 && y < r[1] + 20);
-    const xR = enCabezal ? [ALARGUE.xCabNegInt, ALARGUE.xInt] : xTrav;
+    // A10-quater · un travesaño BAJADO tampoco llega al chapón: su fondo entraría
+    // en la franja del alma del alargue (Z −222…+26). Muere en sus caras interiores.
+    const bajadoAqui = travBotDe(y) !== Z.travBot;
+    const xR = (enCabezal || bajadoAqui) ? [ALARGUE.xCabNegInt, ALARGUE.xInt] : xTrav;
+    // A10 · la coronación ya no es común: los travesaños que se cruzan con la
+    // RAMPA del ramal de retorno recto cuelgan más abajo para dejarla pasar.
+    const zBotY = travBotDe(y), bajado = zBotY !== Z.travBot;
     perfilPG40(E, `PG40 · Travesaño 40×40 ranura 10 L=${r3(xR[1] - xR[0])} (Y ${y})`,
-      'x', y, xR, Z.travBot,
-      { nota: 'cruza la luz entre bastidores 580.84 (cota congelada); los 5 largueros apoyan encima' });
+      'x', y, xR, zBotY,
+      { nota: 'cruza la luz entre bastidores 580.84 (cota congelada); los 5 largueros apoyan encima'
+          + (bajado
+            ? `. A10 · BAJADO ${r3(Z.travBot - zBotY)} mm respecto de los demás (corona en `
+              + `Z ${travTopDe(y)} y no en ${Z.travTop}): por aquí sube la RAMPA del ramal de retorno `
+              + 'recto hacia el corredor del peine, y con el travesaño en su cota de siempre la banda '
+              + 'se le metía dentro. Su escuadra al larguero crece en consecuencia (no es una '
+              + 'cantonera de 64, es una pletina de ' + ESCUADRA_LT.cantoDe(y) + ' de canto)'
+            : '') });
     out.travesanos++;
     // escuadras larguero ↔ travesaño (una por calle) — A1
     for (let k = 0; ESCUADRA_LT.enTravesano(y) && k < EJES.length; k++) {
@@ -177,6 +190,7 @@ export function pg40(E) {
       // perfil mide 40, entre las dos quedaban 8.00 mm de aire y no había pieza.
       const S = ESCUADRA_LT;
       const sgn = ESCUADRA_LT.ladoRincon(y);
+      const sCanto = S.cantoDe(y), sZBot = S.zBotDe(y), sZTrav = S.zTravesanoDe(y);
       const xCara = r3(EJES[k] + PERFIL.b / 2);          // cara +X del larguero
       const yCara = r3(y + sgn * PERFIL.b / 2);          // cara ±Y del travesaño
       const xe = r3(xCara + S.holgura + S.e / 2);        // eje de la chapa del ala A
@@ -189,13 +203,13 @@ export function pg40(E) {
       const fibra = [[xe, r3(yCara + sgn * S.ala)], [xe, ye], [r3(xCara + S.ala), ye]];
       const des = desarrollo(fibra, S.e, S.radio);
       E.addPart(`PG40 · Escuadra larguero↔travesaño (calle ${k + 1}, Y ${y})`, COL.chapaOsc,
-        [xe, ye, S.zBot], [
-          box(`Ala al larguero ${S.e}×${S.ala}×${S.canto}`, [xe, yA, S.zBot], S.e, S.ala, S.canto),
-          box(`Ala al travesaño ${S.ala}×${S.e}×${S.canto}`, [xB, ye, S.zBot], S.ala, S.e, S.canto),
+        [xe, ye, sZBot], [
+          box(`Ala al larguero ${S.e}×${S.ala}×${sCanto}`, [xe, yA, sZBot], S.e, S.ala, sCanto),
+          box(`Ala al travesaño ${S.ala}×${S.e}×${sCanto}`, [xB, ye, sZBot], S.ala, S.e, sCanto),
           hole(`Ø${S.pasante} ${S.rosca} a la ranura +X del larguero`,
             [r3(xe + S.e / 2 + 1), yA, S.zLarguero], [-1, 0, 0], S.pasante),
           hole(`Ø${S.pasante} ${S.rosca} a la ranura ${sgn > 0 ? '+' : '−'}Y del travesaño`,
-            [xB, r3(ye + sgn * (S.e / 2 + 1)), S.zTravesano], [0, -sgn, 0], S.pasante),
+            [xB, r3(ye + sgn * (S.e / 2 + 1)), sZTrav], [0, -sgn, 0], S.pasante),
         ], { capaInfo: 'dis', fabricada: true, material: S.material,
           chapa: { t: S.e, material: S.material, fibra, radio: S.radio },
           desarrolloMm: des.largo,
@@ -206,7 +220,7 @@ export function pg40(E) {
               a: `ranura 10 (${sgn > 0 ? '+' : '−'}Y) del travesaño Y ${y} — tuerca martillo` },
           ],
           nota: `A1 CERRADO. Escuadra de rincón VERTICAL: las dos alas comparten la arista `
-            + `(X ${xCara}, Y ${yCara}) y el mismo canto Z ${S.zBot}…${r3(S.zBot + S.canto)}, así que `
+            + `(X ${xCara}, Y ${yCara}) y el mismo canto Z ${sZBot}…${r3(sZBot + sCanto)}, así que `
             + `es UNA pieza. Plegada de ${S.material.toLowerCase()}, radio interior ${S.radio} (= t), `
             + `desarrollo ${des.largo} mm; alas de ${S.ala}, por encima del mínimo de matriz normal para `
             + `e = ${S.e} (≈34). UNA tuerca martillo M8 ranura 10 por ala (2 por escuadra, 40 en el `
@@ -218,7 +232,7 @@ export function pg40(E) {
       pernoHex(E, { nombre: `M8×20 escuadra↔larguero (calle ${k + 1}, Y ${y})`,
         at: [r3(xe + S.e / 2), yA, S.zLarguero], dir: [-1, 0, 0], dia: 8, largo: 20, af: 13, altoCab: 5.3, capa: 'PG40 · ' });
       pernoHex(E, { nombre: `M8×20 escuadra↔travesaño (calle ${k + 1}, Y ${y})`,
-        at: [xB, r3(ye + sgn * S.e / 2), S.zTravesano], dir: [0, -sgn, 0], dia: 8, largo: 20, af: 13, altoCab: 5.3, capa: 'PG40 · ' });
+        at: [xB, r3(ye + sgn * S.e / 2), sZTrav], dir: [0, -sgn, 0], dia: 8, largo: 20, af: 13, altoCab: 5.3, capa: 'PG40 · ' });
       out.tornilleria += 2;
     }
   }
@@ -379,8 +393,8 @@ export function pg40(E) {
         const zLo = r3(Math.min(rr.z - 60, zAlma[0])), zHi = r3(Math.max(rr.z + 60, zAlma[1]));
         fUnion.push(sketchYZ(`Lóbulo de cartela ${rr.id} (Y ${rr.y}, Z ${rr.z})`,
           r3(xFace + FUS), rect([r3(rr.y - 60), r3(rr.y + 60)], [zLo, zHi]), r3(A.e - FUS)));
-        for (const dy of [-RSOP.patron / 2, RSOP.patron / 2]) {
-          for (const dz of [-RSOP.patron / 2, RSOP.patron / 2]) {
+        for (const dy of [-(RSOP.patronY ?? RSOP.patron) / 2, (RSOP.patronY ?? RSOP.patron) / 2]) {
+          for (const dz of [-(RSOP.patronZ ?? RSOP.patron) / 2, (RSOP.patronZ ?? RSOP.patron) / 2]) {
             fCut.push(hole(`Soporte de retorno ${rr.id} Ø${RSOP.taladro}`,
               [fuera, r3(rr.y + dy), r3(rr.z + dz)], dirIn, RSOP.taladro));
           }
@@ -663,8 +677,8 @@ export function pg40(E) {
         const fr = [sketchYZ(`Cartela ${r3(yR[1] - yR[0])}×${r3(zHi - zLo)}×${A.e}`,
           xCab, rect(yR, [zLo, zHi]), A.e)];
         for (const rr of g) {
-          for (const dy of [-RSOP.patron / 2, RSOP.patron / 2]) {
-            for (const dz of [-RSOP.patron / 2, RSOP.patron / 2]) {
+          for (const dy of [-(RSOP.patronY ?? RSOP.patron) / 2, (RSOP.patronY ?? RSOP.patron) / 2]) {
+            for (const dz of [-(RSOP.patronZ ?? RSOP.patron) / 2, (RSOP.patronZ ?? RSOP.patron) / 2]) {
               fr.push(hole(`Soporte de retorno ${rr.id} Ø${RSOP.taladro}`,
                 [r3(xCab - 2), r3(rr.y + dy), r3(rr.z + dz)], dirIn, RSOP.taladro));
             }
@@ -675,7 +689,7 @@ export function pg40(E) {
         E.addPart(`PG40 · Cartela de rodillos de retorno ${g.map(q => q.id).join('+')} ${lado}`,
           COL.chapaOsc, [xCab, 0, 0], fr, {
             capaInfo: 'dis',
-            nota: `Lleva el cuadro ${RSOP.patron}×${RSOP.patron} de Ø${RSOP.taladro} de `
+            nota: `Lleva el cuadro ${RSOP.patronY ?? RSOP.patron}×${RSOP.patronZ ?? RSOP.patron} de Ø${RSOP.taladro} de `
               + `${g.map(q => q.id).join(' y ')} en la cara de apoyo X ${xApoyo} que publica `
               + 'adapt/params_tambores.mjs, más el paso de cada eje fijo. Una sola cartela por grupo: '
               + 'a 66 y 45 mm de separación, dos placas independientes se pisarían.',

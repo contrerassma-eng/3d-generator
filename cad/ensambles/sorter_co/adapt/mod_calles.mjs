@@ -39,6 +39,9 @@ import { TAMBORES, TAMBOR, CONDUCIDO, RETORNOS, ELEVADORES, CORREDOR, RETIRA_POZ
 //   Desde el 05-08-2026 esos rodillos son los DOS ELEVADORES del corredor y no
 //   los cuatro del pozo (bandera RETIRA_POZO); este módulo lee la tabla y traza.
 import { P as NBT90 } from '../../nbt90/params.mjs';
+// A10-bis · la cota de coronación del travesaño de puente y la geometría del
+// CABALLETE viven en el módulo del bastidor, que es su dueño. Aquí sólo se leen.
+import { PUENTE_APOYO as PG40_APOYO } from './params_pg40.mjs';
 //   ↑ especificación CONGELADA de la transferencia. De aquí sale el ESPESOR REAL
 //   de la banda plana (ver T_BANDA): no se copia el número, se cita el dato.
 
@@ -234,7 +237,14 @@ export function calles(E) {
   // retrazó solo. Ver params_tambores §4 y la compuerta §R, que EXIGE el paso
   // recto de los DOS ramales y que no quede ni un rodillo de pozo.
   const RAMAL_RETORNO = [...RR].sort((a, b) => a.y - b.y)
-    .map(R => ({ c: [R.y, R.z], r: RETORNOS.r, s: R.s, id: R.id }));
+    // ⚠ EL RADIO SE LEE DE LA TABLA, NO DE `RETORNOS`. Aquí ponía `RETORNOS.r`
+    // (44.45, el rodillo de pozo Ø88.9) cableado. Al pasar el ramal de retorno a
+    // los elevadores Ø48.26 la tabla cambió de Ø y esta línea no: el lazo se
+    // trazaba con rodillos de 44.45 de radio en la Z de unos de 24.13 y el ramal
+    // «recto» salía a Z +10.45 en vez de −9.87 — 20.32 mm dentro del puente. Lo
+    // cazó la §R nueva sobre el contorno emitido, que es exactamente para lo que
+    // está. El Ø lo publica `TAMBORES.retornoD`, igual que el eje y el soporte.
+    .map(R => ({ c: [R.y, R.z], r: r2(TAMBORES.retornoD / 2), s: R.s, id: R.id }));
   const seq = [
     { c: [TAMBORES.motriz.y, TAMBORES.motriz.z], r: TAMBOR.r, s: +1 },
     { c: [TAMBORES.conducido.y, TAMBORES.conducido.z], r: CONDUCIDO.r, s: +1 },
@@ -324,18 +334,56 @@ export function calles(E) {
       { fabricada: true, nota: `cara de apoyo a Z=${P0.topZ}, la misma interfaz medida que la guía del cliente` });
     cuenta(M.nuevas, 'pletina de puente 30×28', 1);
     cuenta(M.nuevas, 'regleta UHMW de puente 30×8.55', 1);
+    // A10-bis · LA PLACA BASE DEL PUENTE ES AHORA UN CABALLETE.
+    // Con el retorno recto el ramal de las 5 bandas cruza la transferencia POR
+    // ENCIMA de los dos travesaños de puente, así que esos travesaños bajan
+    // (params_pg40 PUENTE_APOYO.topZ) y entre su coronación y la cara inferior
+    // del puente queda un hueco por el que pasa la banda. La placa plana de 6 se
+    // convierte en un caballete de dos patas que SALVA el ramal: las patas van a
+    // X = eje ± 23, o sea a 3 mm de la banda de 32, y el ala superior se queda
+    // exactamente en la cota de siempre para que el puente no se entere.
+    const CAB = r2(PG40_APOYO.caballeteH);            // 21.28 — 0 si no hay que salvar nada
+    const patE = PG40_APOYO.caballetePataE, patX = PG40_APOYO.caballetePataX;
     for (const [yr, lado] of [[-1280, 'S'], [-692, 'N']]) {
-      E.addPart(`FIJO · Placa base de puente 64×${P0.baseLargo}×${P0.baseT} (${c}, travesaño ${lado})`,
-        COL.chapa, [B, yr, r2(zBase - P0.baseT)],
-        [box(`Placa 64×${P0.baseLargo}×${P0.baseT}`, [B, yr, r2(zBase - P0.baseT)], 64, P0.baseLargo, P0.baseT),
-          hole(`Ø9 M8`, [r2(B - 23), yr, r2(zBase + 1)], [0, 0, -1], 9.0),
-          hole(`Ø9 M8`, [r2(B + 23), yr, r2(zBase + 1)], [0, 0, -1], 9.0)],
-        { fabricada: true, nota: 'soldada bajo la pletina del puente; 2 M8×16 a tuercas T de la ranura superior del travesaño' });
-      for (const dx of [-23, 23]) {
-        pernoHex(E, { nombre: `M8×16 puente (${c}, ${lado}${dx > 0 ? '+' : '-'})`, at: [r2(B + dx), yr, zBase], dir: [0, 0, -1], dia: 8, largo: 16, af: 13, altoCab: 5.3, capa: 'FIJO · ' });
+      const zAla = r2(zBase - P0.baseT);              // cara inferior del ala (no se mueve)
+      const feats = [box(`Ala superior 64×${P0.baseLargo}×${P0.baseT}`, [B, yr, zAla],
+        64, P0.baseLargo, P0.baseT)];
+      const pieA = PG40_APOYO.caballetePieAncho, pieE = PG40_APOYO.caballetePieE;
+      const pieX = PG40_APOYO.caballetePieX;
+      if (CAB > 0.01) {
+        for (const sx of [-1, 1]) {
+          // pata vertical …
+          feats.push(box(`Pata ${patE}×${P0.baseLargo}×${CAB}`, [r2(B + sx * patX), yr, r2(zAla - CAB)],
+            patE, P0.baseLargo, CAB));
+          // …y su PIE hacia fuera, con el Ø9 por el que entra el M8
+          const yPie = r2(yr + sx * PG40_APOYO.caballetePieDY);
+          feats.push(box(`Pie ${pieA}×${PG40_APOYO.caballetePieLargo}×${pieE}`,
+            [r2(B + sx * pieX), yPie, r2(zAla - CAB)], pieA, PG40_APOYO.caballetePieLargo, pieE));
+          feats.push(hole(`Ø9 M8`, [r2(B + sx * pieX), yPie, r2(zAla - CAB + pieE + 1)], [0, 0, -1], 9.0));
+        }
+      } else {
+        feats.push(hole(`Ø9 M8`, [r2(B - patX), yr, r2(zBase + 1)], [0, 0, -1], 9.0));
+        feats.push(hole(`Ø9 M8`, [r2(B + patX), yr, r2(zBase + 1)], [0, 0, -1], 9.0));
+      }
+      E.addPart(`FIJO · Placa base de puente 64×${P0.baseLargo}×${P0.baseT}${CAB > 0.01 ? ` c/caballete ${CAB}` : ''} (${c}, travesaño ${lado})`,
+        COL.chapa, [B, yr, zAla], feats,
+        { fabricada: true, apoyaEn: 'PG40 · Travesaño de puente',
+          nota: CAB > 0.01
+            ? `CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z ${zAla}, `
+              + `la de siempre) sobre 2 patas de ${patE} a X = eje ± ${patX} que bajan ${CAB} mm hasta `
+              + `la coronación del travesaño (Z ${PG40_APOYO.topZ}). Entre las patas pasa el RAMAL DE `
+              + `RETORNO RECTO: la banda mide ${STEP.bandaAncho} (eje ± ${STEP.bandaAncho / 2}) y la `
+              + `cara interior de cada pata queda a ${r2(patX - patE / 2 - STEP.bandaAncho / 2)} mm de `
+              + `ella. 2 M8×16 a tuercas T de la ranura superior del travesaño, uno por pata`
+            : 'soldada bajo la pletina del puente; 2 M8×16 a tuercas T de la ranura superior del travesaño' });
+      for (const sx of [-1, 1]) {
+        const bx = CAB > 0.01 ? r2(B + sx * pieX) : r2(B + sx * patX);
+        const bz = CAB > 0.01 ? r2(zAla - CAB + pieE) : zBase;
+        const by = CAB > 0.01 ? r2(yr + sx * PG40_APOYO.caballetePieDY) : yr;
+        pernoHex(E, { nombre: `M8×16 puente (${c}, ${lado}${sx > 0 ? '+' : '-'})`, at: [bx, by, bz], dir: [0, 0, -1], dia: 8, largo: 16, af: 13, altoCab: 5.3, capa: 'FIJO · ' });
         cuenta(M.nuevas, 'tuerca T M8 (ranura 8)', 1);
       }
-      cuenta(M.nuevas, 'placa base de puente', 1);
+      cuenta(M.nuevas, CAB > 0.01 ? 'caballete de apoyo de puente' : 'placa base de puente', 1);
     }
 
     // 4. BANDA PLANA (lazo del tambor motriz; el cut sigue el convenio del motor)
@@ -621,7 +669,11 @@ export function calles(E) {
     volanteHorquillaZ: zVol,
     // el abrazado que la geometría da a la TENSORA, frente al que declara
     // params_tensor2 (RAMAL.abrazadoDeg = 180 dis, medida original 186.25°):
-    abrazadoTensoraGeometrico: env[7],
+    // ⚠ POR NOMBRE, NO POR ÍNDICE. Aquí ponía `env[7]`, que era la tensora
+    // mientras el lazo tuvo 9 estaciones (tambor, conducido, 4 rodillos de pozo y
+    // los 3 de la horquilla). Al pasar el retorno a RECTO el lazo se quedó en 7 y
+    // ese 7 se salió de la lista: la tensión salía `NaN` en el aviso declarado.
+    abrazadoTensoraGeometrico: env[NOMBRE_EST.indexOf('tensora')],
   };
   M.piezas = E.parts.length - M.piezas0;
   return M;
