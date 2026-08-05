@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { box, COL } from '../../nbt90/lib.mjs';
 import { rotarPieza, r2, bboxU } from './util_adapt.mjs';
-import { STEP, T, PERCHA } from './params_adapt.mjs';
+import { STEP, T, PERCHA, RECORTE_ANCHO } from './params_adapt.mjs';
 
 const aqui = dirname(fileURLToPath(import.meta.url));
 
@@ -118,7 +118,14 @@ export function nbt90(E) {
 // y para ver el conjunto, no reproducen el detalle interior.
 // ---------------------------------------------------------------------------
 const CAJAS_CLIENTE = [
-  ['Bastidor FRAME_MIR_MIR (chapón 28)', -109.423, -81.423, -1662.023, -79.741, -114.0, 46.0],
+  // ⚠ EL CHAPÓN −X SE MUEVE. Sus X ya no son las medidas: las da
+  // `params_adapt.RECORTE_ANCHO` (recorte de ancho, corrección del cliente
+  // 05-08). Es MODIFICACIÓN AL CLIENTE declarada — el chapón se desmonta y se
+  // remonta 140.917 mm hacia dentro. Las Y y las Z son las MEDIDAS y no cambian.
+  ['Bastidor FRAME_MIR_MIR (chapón 28, RECOLOCADO — recorte de ancho)',
+    RECORTE_ANCHO.activo ? RECORTE_ANCHO.frameExtNeg : -109.423,
+    RECORTE_ANCHO.activo ? RECORTE_ANCHO.frameIntNeg : -81.423,
+    -1662.023, -79.741, -114.0, 46.0],
   // El chapón de descarga lleva la MUESCA declarada en su canto inferior (el
   // side +X del NBT90 entra 8.61 en su plano tras el corrimiento del reparto):
   ['Bastidor FRAME_MIR_MIR_MIR (chapón 28, CON MUESCA)', 499.418, 527.418, -1662.023, -79.741, -114.0, 46.0],

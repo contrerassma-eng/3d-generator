@@ -1,32 +1,7 @@
 [
  {
-  "cm3": 28.04,
-  "a": "NBT90 · MÓVIL · Transfer roller guard 14 GA 370×118",
-  "b": "ELEVADOR RE-N · Rodillo de retorno B-20760 Ø1.9\" × 360 (eleva el ramal al corredor)"
- },
- {
-  "cm3": 6.4,
-  "a": "NBT90 · FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (-Y)",
-  "b": "PG40 · Cartela de rodillos de retorno RE-N −X"
- },
- {
-  "cm3": 5.37,
-  "a": "NBT90 · FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (-Y)",
-  "b": "PG40 · Cartela de rodillos de retorno RE-S −X"
- },
- {
-  "cm3": 2.16,
-  "a": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (norte, +X)",
-  "b": "ELEVADOR RE-N · pletina de soporte 60×100×12 (+X)"
- },
- {
-  "cm3": 0.77,
-  "a": "NBT90 · MÓVIL · Transfer roller guard 14 GA 370×118",
-  "b": "ELEVADOR RE-N · Tapa-soporte Ø44.96/Ø28.575 × 17.938 (−X)"
- },
- {
-  "cm3": 0.77,
-  "a": "NBT90 · MÓVIL · Transfer roller guard 14 GA 370×118",
-  "b": "ELEVADOR RE-N · Tapa-soporte Ø44.96/Ø28.575 × 17.938 (+X)"
+  "cm3": 17.85,
+  "a": "FIJO · Chumacera SKF UCFL 206 (eje pivote tensor, −X)",
+  "b": "PG40 · Alargue lateral · alma −X (pletina Acero A36 (S275JR) e=8, L=1410)"
  }
 ]

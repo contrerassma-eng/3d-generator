@@ -23,7 +23,12 @@ const r3 = (v) => Math.round(v * 1000) / 1000;
 // ---------------------------------------------------------------------------
 export const STEP = {
   planoBanda: 52.333,            // step §0 — cara superior de bandas y rodillos
-  frameIntNeg: -81.423,          // step §1.3 — cara interior bastidor FRAME_MIR_MIR
+  // ⚠ LA CARA INTERIOR −X YA NO ES LA MEDIDA: la mueve el RECORTE DE ANCHO
+  // (corrección del cliente 05-08, ver `RECORTE_ANCHO` al final de este archivo).
+  // El valor MEDIDO no se pierde — vive en `frameIntNegMedido` y es de donde
+  // sale el recorrido que hay que darle al chapón en obra.
+  frameIntNegMedido: -81.423,    // step §1.3 — cara interior bastidor FRAME_MIR_MIR
+  get frameIntNeg() { return RECORTE_ANCHO.activo ? RECORTE_ANCHO.frameIntNeg : this.frameIntNegMedido; },
   frameIntPos: 499.418,          // step §1.3 — cara interior FRAME_MIR_MIR_MIR
   frameZ: [-114.0, 46.0],        // step medidas.json — canto de los bastidores
   frameEsp: 28.0,                // step §5.1 — espesor del chapón del bastidor
@@ -129,6 +134,122 @@ export const FRANJA = {
 export const bordeExtDescarga = 527.418;   // step — cara exterior FRAME_MIR_MIR_MIR
 export const Xc = r3(bordeExtDescarga - 40 - (2.5 * NBT.paso + NBT.rodDia / 2));  // 279.456
 export const EJES = [-2, -1, 0, 1, 2].map(k => r3(Xc + k * NBT.paso));
+
+// ---------------------------------------------------------------------------
+// 1-bis. RECORTE DE ANCHO DE LA PLATAFORMA (corrección del cliente 05-08-2026)
+// ---------------------------------------------------------------------------
+// INSTRUCCIÓN LITERAL: «vista superior muestra un ancho innecesario y zona sin
+// bandas, reduce zona de transporte es simetrica».
+//
+// LO QUE MIDE EL DEFECTO (calc sobre la geometría emitida): la plataforma tiene
+// zona SIN BANDA a los dos lados, pero muy distinta:
+//   −X   de la cara interior del chapón (−81.423) al canto de la banda 1
+//        (127.056 − 16 = 111.056)  →  192.479 mm
+//   +X   del canto de la banda 5 (431.856 + 16 = 447.856) a la cara interior
+//        del chapón de descarga (499.418)  →  51.562 mm
+// O sea 140.917 mm de más en −X, y por eso la vista superior lo canta.
+//
+// POR QUÉ NO SE CENTRA EL REPARTO EN VEZ DE RECORTAR: porque `Xc` NO SE TOCA. Lo
+// fija la transferencia — el extremo de la cara del último rodillo del NBT90
+// tiene que quedar a 40 mm del borde exterior de descarga para que la caja no
+// pierda apoyo antes de salir (§ CENTRO DEL REPARTO, corrección del cliente del
+// 31-07). Mover Xc desharía esa corrección y sacaría las 5 calles de las 5
+// ventanas del peine. Así que lo que se mueve es el LADO −X del bastidor.
+//
+// LA COTA IDEAL, aritmética de una línea: simétrico respecto de Xc quiere decir
+//   frameIntNeg = 2·Xc − frameIntPos = 2 × 279.456 − 499.418 = 59.494
+// con lo que la zona sin banda quedaría en 51.562 a los DOS lados y la luz entre
+// bastidores bajaría de 580.841 a 439.924 (−140.917, un 24.3 % menos).
+//
+// ⚠ Y LA COTA IDEAL NO SE PUEDE PONER. Se midió sobre el ensamble emitido, pieza
+// a pieza, qué cruza el plano que ocuparía el chapón (X 31.494…59.494) dentro de
+// su franja de altura (Z −114…46), y son 34 piezas — no una esquina, la
+// estructura entera del lado −X:
+//   · `PG40 · Alargue lateral · alma −X`, la pletina de 8 que lleva los cabezales
+//     de rodamiento y amarra al NBT90: X 42.886…50.886 a lo largo de 1410 mm
+//     (Y −1535…−125), cruzando la franja del chapón por sus 44 mm de abajo;
+//   · el propio `NBT90 · FIJO · Side channel (−Y)`, X 50.89…83.97 en Y −1202…−745;
+//   · las 2 ménsulas alma↔travesaño (X 50.89…82.89, Z −100…−2), los 3 pernos
+//     3/8-16 del amarre al side y sus tuercas, los M12 del soporte del conducido
+//     y los pernos de eje de los dos elevadores.
+// Y no vale «hacerle una muesca» como al chapón de descarga: aquella son 8.61 mm
+// en 25.7 de canto; ésta sería recortar 44 mm de los 160 de altura a lo largo de
+// 1410 de los 1582 de longitud, y justo por el canto donde el chapón se apoya en
+// la bancada LAT TOP (que corona en Z −113.049). Eso no es una muesca, es partir
+// el chapón por la mitad.
+//
+// LO QUE SÍ ENTRA. El tope real es la cara exterior del alma del alargue,
+// X = 42.886, y esa cota NO es libre: la fija el ALMA DEL SIDE CHANNEL del NBT90
+// (cara exterior 50.886) menos los 8 de la pletina. Con 2 mm de holgura de
+// montaje, la cara interior del chapón se va a **40.886**. O sea:
+//   · se recuperan 122.309 de los 140.917 posibles — el 86.8 % del recorte;
+//   · la zona sin banda baja de 192.479 a 70.170 en −X (contra 51.562 en +X);
+//   · queda un RESIDUO DE ASIMETRÍA de 18.608 mm, que en el centro de la luz son
+//     9.304 mm de descentrado respecto de Xc. No es una holgura que se pueda
+//     apretar: es el ancho que la propia transferencia ocupa a ese lado.
+// El residuo va DECLARADO en `SIMETRIA.residuoDeclaradoMm` y la compuerta §W lo
+// vigila con trinquete: puede bajar, no puede crecer.
+//
+// ⚠ ES MODIFICACIÓN AL CLIENTE, declarada — de la misma clase que la MUESCA del
+// chapón de descarga y que los 8 taladros Ø11 del alargue, y por el mismo
+// motivo: se toca una pieza suya. El chapón FRAME_MIR_MIR (28 mm) se DESMONTA y
+// se vuelve a montar 140.917 mm hacia dentro; su cara exterior pasa de −109.423
+// a 31.494. Lo que cuelga de él y viaja con él está en `arrastra`.
+export const RECORTE_ANCHO = {
+  activo: true,
+  motivo: 'cliente 05-08-2026: «vista superior muestra un ancho innecesario y zona sin bandas, '
+    + 'reduce zona de transporte es simetrica»',
+  ladoQueSeMueve: '−X (FRAME_MIR_MIR). El +X NO se mueve: es el borde de descarga y de él cuelga Xc',
+  // el IDEAL simétrico y lo que de verdad entra (ver el bloque de arriba)
+  get frameIntNegIdeal() { return r3(2 * Xc - 499.418); },         // 59.494 calc
+  almaAlargueExtNeg: 42.886,     // pg40 ALARGUE.xNegExt — la fija el alma del
+                                 //   side channel del NBT90 (50.886) menos 8
+  holguraAlAlargue: 2.0,         // dis — la misma holgura de montaje que el resto
+  get frameIntNeg() { return r3(this.almaAlargueExtNeg - this.holguraAlAlargue); },   // 40.886
+  get frameExtNeg() { return r3(this.frameIntNeg - 28.0); },       // 12.886 calc
+  get recorridoMm() { return r3(this.frameIntNeg - (-81.423)); },  // 122.309 calc
+  get recorridoIdealMm() { return r3(this.frameIntNegIdeal - (-81.423)); },   // 140.917
+  get luzNueva() { return r3(499.418 - this.frameIntNeg); },       // 458.532 calc
+  luzVieja: 580.841,
+  get reduccionPct() { return r3((1 - this.luzNueva / this.luzVieja) * 100); },   // 21.06
+  // residuo de asimetría: lo que la transferencia impide recuperar
+  get residuoAsimetriaMm() { return r3(this.frameIntNegIdeal - this.frameIntNeg); },  // 18.608
+  get descentradoDelCentroMm() { return r3(Math.abs((this.frameIntNeg + 499.418) / 2 - Xc)); },   // 9.304
+  loQueImpideLaSimetria: 'la cara exterior del alma del alargue lateral −X (X 42.886), que a su vez '
+    + 'la fija el alma del side channel del NBT90 (50.886) menos los 8 mm de la pletina. Detrás de '
+    + 'ella están el propio side channel, las 2 ménsulas alma↔travesaño y la tornillería de amarre '
+    + 'al NBT90: 34 piezas cruzan el plano donde iría el chapón simétrico',
+  // zona sin banda a cada lado ANTES y DESPUÉS (calc; el canto de banda sale de
+  // EJES y del ancho 32, que no se tocan)
+  get sinBandaAntes() { return { neg: r3(111.056 - (-81.423)), pos: r3(499.418 - 447.856) } },
+  get sinBandaDespues() { return { neg: r3(111.056 - this.frameIntNeg), pos: r3(499.418 - 447.856) } },
+  get sinBandaIdeal() { return { neg: r3(111.056 - this.frameIntNegIdeal), pos: r3(499.418 - 447.856) } },
+  modificacionAlCliente: 'el chapón FRAME_MIR_MIR (28 mm) se desmonta y se remonta 122.309 mm hacia '
+    + 'dentro (cara exterior de −109.423 a 12.886). MISMA CLASE que la muesca del chapón de descarga '
+    + 'y que los 8 Ø11 del alargue: se declara, no se aplica en silencio',
+  pendienteConElCliente: 'la BANCADA «LAT TOP» sigue llegando a X −109.422 y ahora asoma 122.3 mm por '
+    + 'fuera del chapón. Recortarla es OTRA modificación —es la estructura que sostiene todo— y no se '
+    + 'toca sin decidirlo: el cliente pidió el ancho de la ZONA DE TRANSPORTE, que es lo que se ha '
+    + 'recortado. Queda dicho porque en la vista superior se ve',
+  arrastra: [
+    'PG40 · los 4 travesaños que cruzan de bastidor a bastidor: L 580.841 → 439.924, y con ellos sus '
+      + 'escuadras de extremo al chapón',
+    'TAMBOR · la unidad UCF 207 de −X, que pasa a apoyar en la cara EXTERIOR del chapón nuevo '
+      + '(X 31.494) igual que la de +X apoya en la del de descarga (527.418) — el montaje se vuelve '
+      + 'simétrico; con ella se alarga el eje del tambor por su punta −X',
+    'TENSOR · el eje pivote común y sus 2 UCFL 206: siguen SOLOS porque params_tensor2 los ancla a '
+      + '`STEP.frameIntNeg` (PIV.ucflX). No hay que tocar ese archivo',
+  ],
+  // lo que NO se mueve, y por qué (para que no se busque):
+  noSeMueve: [
+    'el ALARGUE lateral y sus cabezales: sus caras −X (42.886 / 50.886 / 59.494 / 67.494) están '
+      + 'ancladas al ALMA DEL SIDE CHANNEL del NBT90, no al chapón del cliente',
+    'las caras de apoyo del conducido y de los rodillos elevadores (67.494 y 491.418): ya eran '
+      + 'simétricas respecto de Xc y no dependen del chapón',
+    'Xc, los 5 ejes de calle, el plano de transporte y todo el lazo de banda',
+  ],
+};
+
 // [127.056, 203.256, 279.456, 355.656, 431.856] — ejes de banda = ejes de ventana.
 // El perfil de cada calle va CENTRADO bajo su banda (dis): se corrige el
 // descentrado de 1.000 mm banda↔perfil del modelo del cliente (step §1.1).
