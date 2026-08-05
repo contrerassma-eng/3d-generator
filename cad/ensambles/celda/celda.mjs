@@ -13,6 +13,8 @@
 
 import { Ensamble, box, cyl, hole, rodamiento, hexPts, sketchXY, COL, r2, normal3 } from '../nbt90/lib.mjs';
 import { P } from './params.mjs';
+import { ruedaOmni, motorTT, bloqueRodamiento, acopleTT, soporteMotor, discoEncoder, sensorLM393 }
+  from './piezas.mjs';
 
 /** Cuaternión de giro `a` radianes sobre Z. */
 const qz = (a) => [0, 0, Math.sin(a / 2), Math.cos(a / 2)];
@@ -59,7 +61,7 @@ export function tren() {
     hw, tRodM, tRodL, tBloqueM1, tBloqueL0, tAcople0, tAcople1,
     tEjeTTpunta, tCaraRed, tRedFin, tEje0, tEje1, tDisco, tSensorFin,
     // extremos del tren (los que definen el hexágono)
-    tMax: tRedFin,          // hacia el motor
+    tMax: tRedFin + P.soporteEsp,   // hacia el motor, incluido su soporte
     tMin: tSensorFin,       // hacia el lado libre
   };
 }
@@ -100,13 +102,14 @@ function unidadMotriz(E, i, R, dentro) {
   const put = (nombre, color, features, extra = {}) =>
     E.addPart(cap + nombre, color, [0, 0, 0], features, { pos: [0, 0, 0], quat: q, ...extra });
 
-  // --- rueda omni (COMPRADA) ------------------------------------------------
-  // Se modela su ENVOLVENTE Ø48 × 24.5: para verificar interferencias y la
-  // ranura de la placa, la envolvente es la cota que manda (y es conservadora).
-  put(`Rueda omni Ø${P.ruedaDia} × ${P.ruedaAncho} (envolvente)`, COL.uretano, [
-    cyl('Envolvente de rodillos', pos(-T.hw), ejeX, P.ruedaDia, P.ruedaAncho),
-    hole(`Ø${P.ruedaBore}`, pos(-T.hw), ejeX, P.ruedaBore),
-  ], { comprada: true, componente: 'rueda_omni_48', masaG: P.ruedaMasaG });
+  const zPlaca = -P.ruedaSobresale - P.placaEsp;   // cara inferior de la placa
+
+  // --- rueda omni Ø48 (COMPRADA) --------------------------------------------
+  // Geometría real: cubo, dos platos y 16 rodillos abarrilados. El perfil del
+  // rodillo apoya sobre el círculo de Ø48, no es un cilindro.
+  const rue = ruedaOmni(`Rueda omni Ø${P.ruedaDia} × ${P.ruedaAncho}`, pos(0), ejeX);
+  put(rue.nombre, rue.color, rue.features,
+    { comprada: true, componente: 'rueda_omni_48', masaG: P.ruedaMasaG });
 
   // --- eje Ø4 (FABRICADO: corte de barra) -----------------------------------
   put(`Eje Ø${P.ejeDia} × ${r2(T.tEje1 - T.tEje0)}`, COL.inox, [
@@ -123,9 +126,6 @@ function unidadMotriz(E, i, R, dentro) {
       nombre: `624ZZ (${lado})`, at, dir: [1, 0, 0],
       bore: P.rodBore, od: P.rodOD, w: P.rodW, capa: cap,
     });
-    // `rodamiento` ancla la pieza en `at`; aquí la queremos en el marco LOCAL de
-    // la unidad, girada con ella: se devuelven las features a coordenadas locales
-    // y la pieza pasa a girar con el cuaternión de la unidad.
     const p = E.parts[E.parts.length - 1];
     for (const f of p.features) f.at = [f.at[0] + at[0], f.at[1] + at[1], f.at[2] + at[2]];
     p.pos = [0, 0, 0]; p.quat = q;
@@ -133,48 +133,37 @@ function unidadMotriz(E, i, R, dentro) {
 
   // --- bloques porta-rodamiento (IMPRESOS) ----------------------------------
   for (const [lado, t0] of [['libre', T.tBloqueL0], ['motor', T.tBloqueM1 - P.bloqueEsp]]) {
-    put(`Bloque porta-rodamiento ${P.bloqueAncho}×${P.bloqueEsp}×${P.bloqueAlto} (${lado})`, COL.chapa, [
-      // caja en el marco local: w a lo largo del eje, d tangencial, h vertical
-      box('Cuerpo', [x(t0 + P.bloqueEsp / 2), 0, zEje - P.bloqueAlto / 2],
-        P.bloqueEsp, P.bloqueAncho, P.bloqueAlto),
-      hole(`Alojamiento Ø${P.rodOD}`, pos(t0), ejeX, P.rodOD),
-    ], { impresa: true, material: 'PETG' });
+    const tRod = lado === 'libre' ? T.tRodL : T.tRodM;
+    const b = bloqueRodamiento(
+      `Bloque porta-rodamiento ${P.bloqueAncho}×${P.bloqueEsp} (${lado})`,
+      x(t0 + P.bloqueEsp / 2), Math.min(x(tRod), x(tRod + P.rodW)), zEje, zPlaca);
+    put(b.nombre, b.color, b.features, { impresa: true, material: 'PETG' });
   }
 
   // --- acople TT → eje (IMPRESO) --------------------------------------------
-  put(`Acople TT 5.5 plano → Ø${P.ejeDia}`, COL.polea, [
-    cyl(`Cuerpo Ø${P.acopleDia} × ${P.acopleLargo}`, pos(T.tAcople0), ejeX, P.acopleDia, P.acopleLargo),
-    // los dos alojamientos: el eje de la rueda entra por un lado y el del TT por el otro
-    hole(`Alojamiento eje Ø${P.ejeDia}`, pos(T.tAcople0), ejeX, P.ejeDia,
-      P.acopleEncaje, false),
-    hole(`Alojamiento eje TT ${P.ttEjeD} plano`, pos(T.tAcople1), [-s, 0, 0], P.ttEjeD,
-      P.acopleLargo - P.acopleEncaje - 1, false),
-  ], { impresa: true, material: 'PETG' });
+  const ac = acopleTT(`Acople TT ${P.ttEjeD} plano → Ø${P.ejeDia}`, x(T.tAcople0), s, zEje);
+  put(ac.nombre, ac.color, ac.features, { impresa: true, material: 'PETG' });
 
   // --- motor TT (COMPRADO) --------------------------------------------------
   // El eje de salida es PERPENDICULAR al eje largo del cuerpo, así que el cuerpo
   // cuelga hacia abajo: su huella radial son 22 mm, no 70. Es lo que permite que
   // la celda no crezca con el largo del motor.
-  const tRedMed = (T.tCaraRed + T.tRedFin) / 2;
-  put(`Motor TT 1:48 ${P.ttLargo}×${P.ttAncho}×${P.ttAlto} — 200 rpm @6 V`, COL.motor, [
-    box('Cuerpo + reductora', [x(tRedMed), 0, zEje + P.ttEjeDesdeExtremo - P.ttLargo],
-      P.ttAncho, P.ttAlto, P.ttLargo),
-    cyl(`Eje salida ${P.ttEjeD} plano`, pos(T.tCaraRed), [-s, 0, 0], P.ttEjeD, P.ttEjeSale),
-  ], { comprada: true, componente: 'motor_tt_48', masaG: P.ttMasaG });
+  const mt = motorTT(`Motor TT 1:48 ${P.ttLargo}×${P.ttAncho}×${P.ttAlto} — 200 rpm @6 V`,
+    x(T.tCaraRed), s, zEje);
+  put(mt.nombre, mt.color, mt.features,
+    { comprada: true, componente: 'motor_tt_48', masaG: P.ttMasaG });
 
-  // --- encoder sobre el eje de la rueda (COMPRADO + IMPRESO) ----------------
-  put('Disco encoder 36 ranuras Ø30', COL.chapaOsc, [
-    cyl('Disco Ø30 × 2', pos(T.tDisco - 2), ejeX, 30, 2),
-  ], { impresa: true, material: 'PETG' });
+  // --- soporte del motor (IMPRESO) ------------------------------------------
+  const sm = soporteMotor('Soporte motor TT', x(T.tCaraRed), s, zEje, zPlaca);
+  put(sm.nombre, sm.color, sm.features, { impresa: true, material: 'PETG' });
 
-  // El sensor es de HORQUILLA: no se pone al lado del disco, lo abraza. Va colgado
-  // bajo el eje, con la ranura tomando el borde inferior del disco. Modelarlo al
-  // lado —como estaba— alargaba el tren 12 mm y con eso crecía toda la celda.
-  const zRanura = zEje - 15;                 // borde inferior del disco Ø30
-  put('Sensor ranurado IR LM393', COL.rodamiento, [
-    box('PCB 32×14×10', [x(T.tDisco), 0, zRanura - 9], 10, 32, 14),
-    box('Ranura de la horquilla', [x(T.tDisco), 0, zRanura - 1], 5, 34, 7, 'cut'),
-  ], { comprada: true, componente: 'lm393_ranurado' });
+  // --- encoder sobre el eje de la RUEDA (IMPRESO + COMPRADO) ----------------
+  const dz = discoEncoder(`Disco encoder ${P.discoNRanuras} ranuras Ø${P.discoDia}`,
+    x(T.tDisco), -s, zEje);
+  put(dz.nombre, dz.color, dz.features, { impresa: true, material: 'PETG' });
+
+  const lm = sensorLM393('Sensor ranurado IR LM393', x(T.tDisco), zEje);
+  put(lm.nombre, lm.color, lm.features, { comprada: true, componente: 'lm393_ranurado' });
 
   return { angulo: th, radioRueda: R };
 }
