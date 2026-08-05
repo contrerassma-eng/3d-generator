@@ -14,7 +14,7 @@
 import { Ensamble, box, cyl, hole, rodamiento, hexPts, sketchXY, COL, r2, normal3,
   pernoHex, tuercaHex, golilla } from '../nbt90/lib.mjs';
 import { P } from './params.mjs';
-import { ruedaOmni, motorTT, bloqueRodamiento, acopleTT, soporteMotor, discoEncoder, sensorLM393 }
+import { ruedaOmni, motorTT, acopleTT, discoEncoder, sensorLM393, soporteC, ruedaBola }
   from './piezas.mjs';
 
 /** Cuaternión de giro `a` radianes sobre Z. */
@@ -50,13 +50,14 @@ export function tren() {
   const tCaraRed = tEjeTTpunta + P.ttEjeSale;           // cara de la reductora
   const tRedFin = tCaraRed + P.ttAncho;
 
-  // eje Ø4 de la rueda: desde pasado el rodamiento libre hasta dentro del acople
-  const tEje0 = tBloqueL0 - 3;
-
-  // encoder sobre el eje de la RUEDA, en el extremo libre: mide la salida real,
-  // no la del motor, así que es inmune a que el acople patine.
-  const tDisco = tEje0 - 2;
-  const tSensorFin = tDisco - 5;             // el PCB del sensor abraza el disco
+  // El eje y el encoder se sitúan contra el ALMA EXTERIOR del soporte en C, que es
+  // la pieza que de verdad está ahí. Antes se referían a un bloque impreso que ya
+  // no existe, y eso empujaba el encoder 7 mm más afuera de lo necesario: como el
+  // encoder es el extremo del tren, esos 7 mm los pagaba el hexágono entero.
+  const tAlmaExt = tRodL + P.rodW / 2 - P.chapaEsp / 2;   // cara exterior del alma
+  const tEje0 = tAlmaExt - 2;
+  const tDisco = tEje0 - 1;
+  const tSensorFin = tDisco - (P.lmEsp - P.lmRanura / 2);   // el PCB va desplazado hacia afuera
 
   return {
     hw, tRodM, tRodL, tBloqueM1, tBloqueL0, tAcople0, tAcople1,
@@ -156,14 +157,17 @@ function unidadMotriz(E, i, R, dentro) {
     p.pos = [0, 0, 0]; p.quat = q;
   }
 
-  // --- bloques porta-rodamiento (IMPRESOS) ----------------------------------
-  for (const [lado, t0] of [['libre', T.tBloqueL0], ['motor', T.tBloqueM1 - P.bloqueEsp]]) {
-    const tRod = lado === 'libre' ? T.tRodL : T.tRodM;
-    const b = bloqueRodamiento(
-      `Bloque porta-rodamiento ${P.bloqueAncho}×${P.bloqueEsp} (${lado})`,
-      x(t0 + P.bloqueEsp / 2), Math.min(x(tRod), x(tRod + P.rodW)), zEje, zPlaca);
-    put(b.nombre, b.color, b.features, { impresa: true, material: 'PETG' });
-  }
+  // --- soporte en C de CHAPA PLEGADA (patente [0054], elemento 32) -----------
+  // Una sola pieza plegada sustituye a los dos bloques impresos y al soporte del
+  // motor: sus dos almas alojan los rodamientos, sus pestañas se atornillan bajo
+  // la placa y el alma interior recibe los dos M3 del motor.
+  const xAlmaA = Math.min(x(T.tRodM + P.rodW / 2), x(T.tRodL + P.rodW / 2));
+  const xAlmaB = Math.max(x(T.tRodM + P.rodW / 2), x(T.tRodL + P.rodW / 2));
+  const sc = soporteC('Soporte en C 2 mm (Träger 32)', xAlmaA, xAlmaB, zEje, zPlaca, xAlmaA, xAlmaB);
+  put(sc.nombre, sc.color, sc.features, {
+    fabricada: true, chapa: sc.chapa,
+    material: `Chapa de acero ${P.chapaEsp} mm · desarrollo ${sc.chapa.desarrollo} mm · ${sc.chapa.plegados} pliegues`,
+  });
 
   // --- acople TT → eje (IMPRESO) --------------------------------------------
   const ac = acopleTT(`Acople TT ${P.ttEjeD} plano → Ø${P.ejeDia}`, x(T.tAcople0), s, zEje);
@@ -171,44 +175,56 @@ function unidadMotriz(E, i, R, dentro) {
 
   // --- motor TT (COMPRADO) --------------------------------------------------
   // El eje de salida es PERPENDICULAR al eje largo del cuerpo, así que el cuerpo
-  // cuelga hacia abajo: su huella radial son 22 mm, no 70. Es lo que permite que
-  // la celda no crezca con el largo del motor.
+  // cuelga hacia abajo: su huella radial son 22 mm, no 70.
   const mt = motorTT(`Motor TT 1:48 ${P.ttLargo}×${P.ttAncho}×${P.ttAlto} — 200 rpm @6 V`,
     x(T.tCaraRed), s, zEje);
   put(mt.nombre, mt.color, mt.features,
     { comprada: true, componente: 'motor_tt_48', masaG: P.ttMasaG });
-
-  // --- soporte del motor (IMPRESO) ------------------------------------------
-  const sm = soporteMotor('Soporte motor TT', x(T.tCaraRed), s, zEje, zPlaca);
-  put(sm.nombre, sm.color, sm.features, { impresa: true, material: 'PETG' });
 
   // --- encoder sobre el eje de la RUEDA (IMPRESO + COMPRADO) ----------------
   const dz = discoEncoder(`Disco encoder ${P.discoNRanuras} ranuras Ø${P.discoDia}`,
     x(T.tDisco), -s, zEje);
   put(dz.nombre, dz.color, dz.features, { impresa: true, material: 'PETG' });
 
-  const lm = sensorLM393('Sensor ranurado IR LM393', x(T.tDisco), zEje);
+  const lm = sensorLM393('Sensor ranurado IR LM393', x(T.tDisco), -s, zEje);
   put(lm.nombre, lm.color, lm.features, { comprada: true, componente: 'lm393_ranurado' });
 
   // --- PERNERÍA (M3, DIN 933 / DIN 934 / DIN 125) ---------------------------
-  // Cada bloque y el soporte del motor se atornillan a la placa desde ARRIBA,
-  // que es lo que permite desmontar una unidad sin tocar las vecinas.
-  for (const [lado, t0] of [['libre', T.tBloqueL0], ['motor', T.tBloqueM1 - P.bloqueEsp]]) {
+  // Las dos pestañas del soporte en C se atornillan a la placa desde ARRIBA:
+  // cuatro tornillos por unidad y la unidad entera sale sin tocar las vecinas.
+  for (const [xp, lado] of [[xAlmaA - P.soporteCPestana / 2, 'int'], [xAlmaB + P.soporteCPestana / 2, 'ext']]) {
     for (const c of [-1, 1]) {
-      unionM3(`bloque ${lado} (${c > 0 ? '+' : '−'})`,
-        x(t0 + P.bloqueEsp / 2), c * P.bloqueTaladroSep / 2, P.placaEsp + 10);
+      unionM3(`pestaña ${lado} (${c > 0 ? '+' : '−'})`, xp, c * P.soporteCTaladroSep / 2,
+        P.placaEsp + P.chapaEsp + 4, true);
     }
   }
+  // los dos M3 que sujetan el motor al alma interior del soporte
   for (const c of [-1, 1]) {
-    unionM3(`soporte motor (${c > 0 ? '+' : '−'})`,
-      x(T.tCaraRed) + s * (P.ttAncho + P.soporteEsp / 2) - s * P.soporteAla / 2,
-      c * P.soporteAncho / 3, P.placaEsp + P.soportePieEsp + 2, true);
+    local(pernoHex, {
+      nombre: `M3 × 10 motor (${c > 0 ? '+' : '−'})`,
+      at: [xAlmaA - s * P.chapaEsp, c * P.ttFijacionC, zEje + P.ttFijacionB],
+      dir: [s, 0, 0], dia: 3, largo: 10, af: 5.5, altoCab: 2.1,
+    });
   }
 
   return { angulo: th, radioRueda: R };
 }
 
 /** Placa hexagonal superior con las tres ranuras por donde asoman las ruedas. */
+/** Ruedas de bola en el punto medio de cada cara del hexágono: quedan en la
+ *  JUNTA entre dos celdas vecinas, que es donde el bulto se engancharía. Cada
+ *  chapa aporta media cazoleta (patente [0057]: «1/2, 1/3 o 1/4 de círculo»). */
+export function bolasDe(R = P.R, dentro = P.motorDentro) {
+  const af = r2(radioVertice(R, dentro) * Math.sqrt(3));
+  const out = [];
+  for (let i = 0; i < 6; i++) {
+    const a = (i * 60) * Math.PI / 180;
+    out.push({ x: r2((af / 2) * Math.cos(a)), y: r2((af / 2) * Math.sin(a)),
+      que: `cara ${i + 1}` });
+  }
+  return out;
+}
+
 export function geometriaPlaca(R = P.R, dentro = P.motorDentro) {
   const Rv = radioVertice(R, dentro);
   const af = r2(Rv * Math.sqrt(3));           // entre caras del hexágono
@@ -247,23 +263,23 @@ export function geometriaPlaca(R = P.R, dentro = P.motorDentro) {
         y: r2(dCara * Math.sin(a) + t * Math.cos(a)), d: 3.4, que: `unión celda cara ${i + 1}` });
     }
   }
+  // Taladros de las pestañas del soporte en C: DOS por pestaña, DOS pestañas por
+  // unidad. Salen del mismo cálculo que usa `unidadMotriz`, no de una copia.
+  const xAlmaA0 = Math.min(xr(T.tRodM + P.rodW / 2), xr(T.tRodL + P.rodW / 2));
+  const xAlmaB0 = Math.max(xr(T.tRodM + P.rodW / 2), xr(T.tRodL + P.rodW / 2));
   for (let i = 0; i < 3; i++) {
     const th = anguloUnidad(i), c = Math.cos(th), sn = Math.sin(th);
-    const puntos = [
-      [xr(T.tBloqueL0 + P.bloqueEsp / 2), P.bloqueTaladroSep / 2, 'bloque libre'],
-      [xr(T.tBloqueM1 - P.bloqueEsp / 2), P.bloqueTaladroSep / 2, 'bloque motor'],
-      [xr(T.tCaraRed) + sM * (P.ttAncho + P.soporteEsp / 2) - sM * P.soporteAla / 2,
-        P.soporteAncho / 3, 'soporte motor'],
-    ];
-    for (const [rad, sep, que] of puntos) {
+    for (const [rad, lado] of [[xAlmaA0 - P.soporteCPestana / 2, 'pestaña int'],
+      [xAlmaB0 + P.soporteCPestana / 2, 'pestaña ext']]) {
       for (const cc of [-1, 1]) {
-        const t = cc * sep;
+        const t = cc * P.soporteCTaladroSep / 2;
         taladros.push({ x: r2(rad * c - t * sn), y: r2(rad * sn + t * c), d: 3.4,
-          que: `U${i + 1} ${que}` });
+          que: `U${i + 1} ${lado}` });
       }
     }
   }
-  return { af, Rv, hexagono, ranuras, largoRanura, anchoRanura, zTop, zBot, taladros };
+  const bolas = bolasDe(R, dentro);
+  return { af, Rv, hexagono, ranuras, largoRanura, anchoRanura, zTop, zBot, taladros, bolas };
 }
 
 function placaHex(E, R, dentro) {
@@ -282,6 +298,11 @@ function placaHex(E, R, dentro) {
   for (const t of G.taladros) {
     features.push(hole(`M3 ${t.que}`, [t.x, t.y, zTop + 1], [0, 0, -1], t.d));
   }
+  // vaciados `38` para las ruedas de bola: en el borde, así que cada chapa aporta
+  // media cazoleta y la bola queda compartida con la celda vecina
+  for (const b of G.bolas) {
+    features.push(hole(`Vaciado rueda de bola ${b.que}`, [b.x, b.y, zTop + 1], [0, 0, -1], P.bolaAlojDia));
+  }
   E.addPart(`Placa hexagonal e/c ${af} × ${P.placaEsp}`, COL.chapa, [0, 0, 0], features,
     { pos: [0, 0, 0], fabricada: true, material: `Acrílico ${P.placaEsp} mm (corte láser)` });
   return { af, Rv, largoRanura, anchoRanura };
@@ -292,5 +313,15 @@ export function celda(E, { R = P.R, dentro = P.motorDentro } = {}) {
   const unidades = [];
   for (let i = 0; i < P.nRuedas; i++) unidades.push(unidadMotriz(E, i, R, dentro));
   const placa = placaHex(E, R, dentro);
+
+  // --- RUEDAS DE BOLA (patente [0050], elemento 26) --------------------------
+  // Pasivas, a la MISMA altura que las ruedas motrices, en los huecos: impiden
+  // que el bulto se enganche en los cantos al cruzar de una celda a la vecina.
+  const zPl = -P.ruedaSobresale - P.placaEsp;
+  for (const b of bolasDe(R, dentro)) {
+    const rb = ruedaBola(`Rueda de bola Ø${P.bolaDia} (${b.que})`, b.x, b.y, zPl);
+    E.addPart(rb.nombre, rb.color, [0, 0, 0], rb.features,
+      { pos: [0, 0, 0], comprada: true, componente: 'rueda_bola_media_pulgada' });
+  }
   return { unidades, placa, R, dentro, piezas: E.parts.length };
 }

@@ -86,9 +86,19 @@ check('las tres unidades están a 120°',
 check('toda pieza declara procedencia de fabricación',
   E.parts.every(p => p.comprada || p.impresa || p.fabricada || p.hardware),
   `${E.parts.length} piezas`);
-const compradas = E.parts.filter(p => p.comprada).length;
-check('9 componentes comprados por celda ⇒ 27 en el módulo', compradas === 9,
-  `${compradas} × ${P.nCeldas} celdas`);
+// Composición de la celda por tecnología: es lo que hay que comprar, cortar,
+// plegar, imprimir y atornillar, y tiene que cuadrar con el despiece.
+const cuenta = (k) => E.parts.filter(p => p[k]).length;
+check('3 componentes comprados por unidad motriz (rueda, motor, sensor)',
+  cuenta('comprada') === 3 * P.nRuedas + 6, `${cuenta('comprada')} con las 6 ruedas de bola`);
+check('una pieza de chapa plegada por unidad, más la placa',
+  E.parts.filter(p => p.chapa).length === P.nRuedas, `${E.parts.filter(p => p.chapa).length} soportes en C`);
+check('el soporte en C declara su desarrollo y sus pliegues',
+  E.parts.filter(p => p.chapa).every(p => p.chapa.desarrollo > 0 && p.chapa.plegados === 4));
+check('2 piezas impresas por unidad (acople y disco)', cuenta('impresa') === 2 * P.nRuedas,
+  `${cuenta('impresa')}`);
+check('toda la tornillería va declarada como hardware normalizado', cuenta('hardware') > 0,
+  `${cuenta('hardware')} piezas por celda`);
 
 console.log(`\n${pass} OK, ${fail} fallas`);
 if (fail) process.exit(1);

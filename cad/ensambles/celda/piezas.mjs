@@ -9,7 +9,7 @@
 // Todo se escribe en el marco LOCAL de la unidad motriz:
 //   X = radial hacia afuera (eje de la rueda) · Y = tangencial · Z = arriba.
 
-import { box, cyl, hole, r2, normal3, baseOrtogonal, arcoPts, COL }
+import { box, cyl, hole, r2, normal3, baseOrtogonal, arcoPts, seccionChapa, desarrollo, COL }
   from '../nbt90/lib.mjs';
 import { P } from './params.mjs';
 
@@ -226,10 +226,14 @@ export function discoEncoder(nombre, xDisco, s, zEje) {
 // ---------------------------------------------------------------------------
 // SENSOR RANURADO LM393 — comprado. PCB con la horquilla que abraza el disco.
 // ---------------------------------------------------------------------------
-export function sensorLM393(nombre, xDisco, zEje) {
+export function sensorLM393(nombre, xDisco, sFuera, zEje) {
   const zRanura = zEje - P.discoDia / 2;               // borde inferior del disco
+  // El PCB no va centrado en el disco sino desplazado HACIA AFUERA: la horquilla
+  // abraza el disco por un lado y el resto de la placa queda libre. Centrarlo
+  // metía el PCB dentro del alma del soporte en C.
+  const xPCB = xDisco + sFuera * (P.lmEsp / 2 - P.lmRanura / 2);
   const f = [];
-  f.push(box(`PCB ${P.lmLargo}×${P.lmAlto}×${P.lmEsp}`, [xDisco, 0, zRanura - P.lmBajoDisco],
+  f.push(box(`PCB ${P.lmLargo}×${P.lmAlto}×${P.lmEsp}`, [xPCB, 0, zRanura - P.lmBajoDisco],
     P.lmEsp, P.lmLargo, P.lmAlto));
   f.push(box('Ranura de la horquilla', [xDisco, 0, zRanura - P.lmRanuraProf],
     P.lmRanura, P.lmLargo + 2, P.lmRanuraProf + P.lmAlto, 'cut'));
@@ -239,4 +243,86 @@ export function sensorLM393(nombre, xDisco, zEje) {
       P.lmBrazo, P.lmBrazo * 2, P.lmRanuraProf + 3));
   }
   return { nombre, color: COL.rodamiento, features: f };
+}
+
+// ---------------------------------------------------------------------------
+// SOPORTE EN C — CHAPA PLEGADA. Es la pieza que la patente describe en [0054]:
+//   «ein im wesentlichen C-förmiger, nach oben offener Träger 32 mit oben
+//    beiderseits nach außen gewandten Abkantungen 34 mit Bohrungen, der an der
+//    Unterseite des Trägerbleches mittels Schrauben befestigt ist»
+// Una C de chapa abierta hacia arriba, con pestañas dobladas hacia fuera arriba
+// y taladradas, atornillada bajo la chapa portante. Sus dos almas verticales son
+// las que alojan los rodamientos de la rueda: sustituye a los dos bloques
+// impresos y al soporte del motor en una sola pieza plegada.
+//
+// Perfil de la FIBRA MEDIA en el plano radial-vertical (x, z):
+//
+//     pestaña ┐                                     ┌ pestaña
+//             └──┐                               ┌──┘
+//                │  alma            alma         │
+//                │   ●  rodamiento   ●           │
+//                └───────── fondo ───────────────┘
+//
+export function soporteC(nombre, xAlmaInt, xAlmaExt, zEje, zPlaca, xRodInt, xRodExt) {
+  const t = P.chapaEsp, r = P.chapaRadio;
+  const zFondo = zEje - P.soporteCBajoEje;
+  // fibra media: pestaña interior → alma → fondo → alma → pestaña exterior
+  const fibra = [
+    [xAlmaInt - P.soporteCPestana, zPlaca - t / 2],
+    [xAlmaInt, zPlaca - t / 2],
+    [xAlmaInt, zFondo],
+    [xAlmaExt, zFondo],
+    [xAlmaExt, zPlaca - t / 2],
+    [xAlmaExt + P.soporteCPestana, zPlaca - t / 2],
+  ];
+  const seccion = seccionChapa(fibra, t, r);
+  const dev = desarrollo(fibra, t, r, P.chapaK);
+  const ancho = P.soporteCAncho;
+  const f = [{
+    id: nid(), name: `Perfil en C ${P.chapaEsp} mm (desarrollo ${dev.largo} mm)`,
+    shape: 'sketch', op: 'union', at: [0, -ancho / 2, 0], dir: [0, 1, 0],
+    // la base del boceto es (u, dir×u) = (+X, −Z): por eso la z va cambiada de signo
+    params: { pts: seccion.map(([x, z]) => [r2(x), r2(-z)]), h: ancho, u: [1, 0, 0] },
+  }];
+  // Alojamientos de los rodamientos: UN solo pasante arrancado por fuera del
+  // perfil, que atraviesa las DOS almas. Un agujero anclado en el plano medio de
+  // cada alma solo taladraba su mitad delantera y el rodamiento mordía la otra.
+  // 0.2 mm de holgura de modelo: en la pieza real es un ajuste con apriete.
+  f.push(hole(`Alojamiento de los rodamientos Ø${P.rodOD}`,
+    [xRodInt - 10, 0, zEje], [1, 0, 0], P.rodOD + 0.2));
+  // taladros de las pestañas, a la placa
+  for (const [xp, lado] of [[xAlmaInt - P.soporteCPestana / 2, 'int'], [xAlmaExt + P.soporteCPestana / 2, 'ext']]) {
+    for (const c of [-1, 1]) {
+      f.push(hole(`M3 pestaña ${lado} (${c > 0 ? '+' : '−'})`,
+        [xp, c * P.soporteCTaladroSep / 2, zPlaca + 1], [0, 0, -1], 3.4));
+    }
+  }
+  // taladros del motor en el alma interior
+  for (const c of [-1, 1]) {
+    f.push(hole(`M3 motor (${c > 0 ? '+' : '−'})`,
+      [xAlmaInt - t, c * P.ttFijacionC, zEje + P.ttFijacionB], [1, 0, 0], 3.4));
+  }
+  return {
+    nombre, color: COL.chapa, features: f,
+    chapa: { t, r, desarrollo: dev.largo, plegados: dev.plegados.length, tramos: dev.tramos },
+  };
+}
+
+// ---------------------------------------------------------------------------
+// RUEDA DE BOLA — comprada. Es el elemento 26 de la patente [0050]: pasiva, a la
+// MISMA altura que las ruedas motrices, en los huecos, para que el bulto no se
+// enganche en los cantos al cruzar de celda a celda.
+// ---------------------------------------------------------------------------
+export function ruedaBola(nombre, x, y, zPlaca) {
+  const f = [];
+  const rB = P.bolaDia / 2;
+  // la bola asoma hasta Z = 0, el plano de transporte
+  f.push(revolverEje('Bola', [x, y, -rB], [0, 0, 1], [
+    ...arcoPts(0, 0, rB, -Math.PI / 2, Math.PI / 2, 12).map(([h, rr]) => [r2(h), r2(Math.abs(rr))]),
+  ]));
+  // cazoleta que la aloja, embutida en la chapa
+  f.push(revolverEje('Cazoleta', [x, y, zPlaca - P.bolaCazoletaAlto], [0, 0, 1], [
+    [0, P.bolaCazoletaDia / 2], [P.bolaCazoletaAlto, P.bolaCazoletaDia / 2],
+    [P.bolaCazoletaAlto, P.bolaAlojDia / 2], [0, P.bolaAlojDia / 2]]));
+  return { nombre, color: COL.inox, features: f };
 }

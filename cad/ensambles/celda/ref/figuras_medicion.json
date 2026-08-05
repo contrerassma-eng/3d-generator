@@ -1,0 +1,234 @@
+{
+  "escala": "sin cota métrica en la patente; todo en proporciones y ángulos",
+  "fuente": {
+    "documento": "DE 10 2012 014 181 A1 (BIBA Bremen, 'celluveyor'), publicada 2014-01-23",
+    "imagenes": "cad/ensambles/celda/ref/patente_p01.png … patente_p40.png (300 dpi, 2481 x 3508 px)",
+    "laminas_de_figuras": "p11 … p40 (30 láminas)",
+    "herramienta": "tools/med_px.py (subcomandos perfil / circulos / lineas / rejilla). Todas las coordenadas en píxeles de la imagen ORIGINAL.",
+    "nota_herramienta": "Se corrigió un fallo de compatibilidad en tools/med_px.py: cv2.HoughLinesP devuelve (N,4) en OpenCV>=5 y (N,1,4) en OpenCV<5; el subcomando `lineas` fallaba con TypeError. Se normaliza con reshape(-1,4)."
+  },
+  "convencion_angular": "ángulos en grados, medidos como atan2(dy,dx) en coordenadas de imagen (y hacia abajo), igual que la salida de med_px.py lineas. 0° = hacia la derecha; los ángulos negativos apuntan hacia arriba.",
+  "parametro_maestro": {
+    "simbolo": "a",
+    "definicion": "circunradio del hexágono del módulo = longitud del lado del hexágono. TODAS las proporciones del diseño se expresan respecto a 'a'.",
+    "valores_medidos_px": {"Fig_1_p11": 590, "Fig_8_p21": 790, "Fig_2_p12": 1340, "Fig_19a_p39": 205}
+  },
+
+  "figuras": [
+    {
+      "id": "Fig. 1",
+      "pagina_png": 11,
+      "que_muestra": "Vista en planta del módulo transportador omnidireccional 10: chapa portante hexagonal 12, TRES unidades 14 (rueda omni doble 16 + motor propio 18), tres recortes cuadrados 20, bolas locas 26, y el triángulo equilátero de construcción D (lados a,b,c) con sus mediatrices r,s,t = ejes de giro H de las ruedas, concurrentes en el centro M. Es LA figura de referencia geométrica.",
+      "mediciones": [
+        {"que": "centro M del módulo (concurrencia de los tres ejes H)", "metodo": "med_px.py rejilla --roi 1180 1580 1780 1920 --escala 2.2 + perfil col x=1000 y fila y=1750", "px": "M = (1310, 1747)", "valor": null, "unidad": "px", "confianza": "alta", "nota": "los seis rayos discontinuos de r,s,t convergen exactamente en ese punto; además allí hay una bola loca."},
+        {"que": "vértices del hexágono (arista izquierda vertical)", "metodo": "med_px.py circulos --roi 550 950 2150 2600 --rmin 20 --rmax 70 --param2 42", "px": "(800,1450) r=52 y (800,2042) r=51", "valor": 590, "unidad": "px (circunradio a = lado del hexágono)", "confianza": "alta", "nota": "|M->vértice| = 590.1 y 588.6. Vértices a 150°,90°,30°,-30°,-90°,-150°; apotema = 510.5 px; entrecaras √3·a = 1022 px; entrevértices 2a = 1180 px."},
+        {"que": "ángulo entre los ejes de giro H de ruedas vecinas (= ángulo γ entre unidades)", "metodo": "med_px.py lineas --roi 1300 1050 1900 1750 y --roi 1300 1750 1900 2450 --maxgap 30", "px": "rayos: 0.0° / -59.7°,-60.0° / +60.0°", "valor": 120, "unidad": "grados", "confianza": "alta", "nota": "medido 119.7°–120.3°. Coincide con el texto ([0049]: γ = 120°)."},
+        {"que": "lados del triángulo equilátero D (a,b,c)", "metodo": "med_px.py lineas --roi 700 1100 2200 2450 --minlen 400", "px": "a: (1011,1883)-(1011,1104) ang -90.0° ; b: (841,1123)-(2063,1835) ang +30.2° ; c: (827,2374)-(2055,1672) ang -29.8°", "valor": 60, "unidad": "grados entre lados", "confianza": "alta", "nota": "mutuamente a 60°; triángulo equilátero confirmado."},
+        {"que": "ángulo β entre el eje H de una rueda y el lado del triángulo que la contiene", "metodo": "comparación de las direcciones de lineas anteriores", "px": "|(-90.0)-(0.0)|=90.0 ; |(30.2)-(-60.0)|=90.2 ; |(-29.8)-(60.0)|=89.8", "valor": 90, "unidad": "grados", "confianza": "alta", "nota": "β = 90° exacto dentro de ±0.2°. Los ejes H son las MEDIATRICES r,s,t del triángulo."},
+        {"que": "radio R del 'círculo de disposición' (centro del módulo -> centro de rueda)", "metodo": "distancia de M(1310,1747) a cada lado del triángulo D (rectas medidas arriba)", "px": "299 / 303 / 304 → media 302", "valor": 0.512, "unidad": "× a (circunradio del hexágono)", "confianza": "alta", "nota": "R = a/2 dentro del 2 %. Las ruedas están a 180°, +60° y -60° respecto de M, es decir hacia los puntos medios de tres aristas ALTERNAS del hexágono."},
+        {"que": "recorte cuadrado 20 (ventana de la rueda en la chapa) — unidad izquierda", "metodo": "med_px.py perfil col x=900/950/1060/1100 y fila y=1610/1750 + rejilla --roi 780 1560 1300 1940 --escala 2.0", "px": "x 880..1140, y 1618..1878 → 260 × 260, centro (1010,1748)", "valor": 0.441, "unidad": "× a (lado del recorte)", "confianza": "alta", "nota": "es CUADRADO (260×260 px, <1 % de diferencia). Su centro cae exactamente sobre el lado 'a' del triángulo (x=1011) y sobre el eje r (y=1747) → el centro de rueda coincide con el centro del recorte."},
+        {"que": "distancia entre centros de dos ruedas del mismo módulo", "metodo": "cálculo con R=302 y separación angular 120° → √3·R", "px": "523 (verificación directa entre (1011,1747) y (1461,1486) = 520)", "valor": 0.886, "unidad": "× a", "confianza": "alta", "nota": "≈ 1.70 × diámetro de rueda."},
+        {"que": "bolas locas 26 — anillo interior", "metodo": "med_px.py circulos --roi 550 950 2150 2600", "px": "(1152,1474) r=53 ; (1154,2022) r=54 ; (1628,1752) r=38", "valor": 0.536, "unidad": "× a (radio de colocación)", "confianza": "alta", "nota": "r = 316,315,318 px, a 0°, +120° y -120° respecto de M: exactamente en los HUECOS entre ruedas (60° desfasadas de éstas), como dice [0050]."},
+        {"que": "bola loca 26 en el centro M", "metodo": "med_px.py circulos + rejilla zoom", "px": "(1310,1748), Ø ≈ 110", "valor": 0.0, "unidad": "× a (radio)", "confianza": "alta", "nota": "hay una bola loca justo en el centro del módulo."},
+        {"que": "bolas locas en los vértices del hexágono", "metodo": "circulos (800,1450) y (800,2042); en los otros 4 vértices sólo se dibuja la escotadura semicircular", "px": "Ø 102–104", "valor": 1.0, "unidad": "× a (radio = circunradio)", "confianza": "media", "nota": "compartidas entre los 3 módulos que concurren en cada vértice → 6 × 1/3 = 2 por módulo."},
+        {"que": "diámetro exterior de la bola loca 26", "metodo": "med_px.py circulos", "px": "104–110", "valor": 0.180, "unidad": "× a", "confianza": "alta", "nota": "≈ 0.35 × diámetro de la rueda motriz."},
+        {"que": "motor 18 (unidad izquierda) — brida y longitud visible", "metodo": "med_px.py perfil fila y=1700 x0=500 x1=900 y col x=700 + rejilla --roi 560 1520 1250 1990", "px": "cuerpo x 645..802, y 1636.5..1856 → 157 (largo visible) × 219.5 (brida)", "valor": 0.372, "unidad": "× a (brida)", "confianza": "alta", "nota": "brida ≈ 0.72 × Ø rueda. El eje del motor está sobre y=1747 (colineal con H)."},
+        {"que": "posición radial del motor respecto del hexágono", "metodo": "misma medición, referida a M(1310,1747) y a la apotema (510.5)", "px": "el cuerpo del motor ocupa r = 508 … 665 px", "valor": "0.86a … 1.13a", "unidad": "× a", "confianza": "alta", "nota": "CLAVE: el motor arranca justo en la arista del hexágono (apotema 0.866a) y SOBRESALE ~0.27·apotema hacia fuera del propio módulo. Como va bajo la chapa (Fig. 7), queda alojado DEBAJO de la chapa del módulo vecino."}
+      ]
+    },
+
+    {
+      "id": "Fig. 2",
+      "pagina_png": 12,
+      "que_muestra": "Vista en planta de UNA sola unidad transportadora 14 con su chapa portante 12 'esencialmente pentagonal' (la CELDA elemental): un recorte cuadrado 20, la rueda omni doble 16, el motor 18 saliendo hacia fuera y cinco escotaduras 38 (una por vértice) para bolas locas.",
+      "mediciones": [
+        {"que": "vértices del pentágono de la celda", "metodo": "med_px.py lineas --roi 500 650 1650 2800 --minlen 180 (+ ROIs parciales) e intersección analítica de las rectas", "px": "C(514,1723) ; M2(1089,737) ; V(1667,1059) ; V(1667,2399) ; M4(1081,2717)", "valor": 5, "unidad": "vértices", "confianza": "alta", "nota": "el vértice C es el centro del módulo; la arista larga vertical es la arista exterior del hexágono."},
+        {"que": "longitudes de los cinco lados del pentágono", "metodo": "distancias entre los vértices anteriores", "px": "1141 / 662 / 1340 / 667 / 1144", "valor": [0.851, 0.494, 1.0, 0.498, 0.854], "unidad": "normalizado al lado largo", "confianza": "alta", "nota": "coincide con la partición exacta del hexágono regular en 3 partes iguales: 0.866 : 0.5 : 1 : 0.5 : 0.866. Error < 2 %. La celda ES un tercio del hexágono."},
+        {"que": "ángulos interiores del pentágono (modelo verificado)", "metodo": "geometría deducida y contrastada con las direcciones medidas (60.0°, 29.1°, -28.5°, -59.7°)", "px": "aristas a 60° y 30° respecto de la horizontal", "valor": [120, 150, 120, 120, 150], "unidad": "grados (en C, M2, V, V, M4)", "confianza": "alta", "nota": "suma 660° ✓."},
+        {"que": "recorte cuadrado 20", "metodo": "med_px.py perfil filas 1470/1600/1900 y col 1200/1420 + rejilla --roi 700 1350 1550 2100", "px": "x 890..1480, y 1435..2030 → 590 × 595", "valor": 0.442, "unidad": "× a", "confianza": "alta", "nota": "cuadrado (0.8 % de diferencia). Idéntica proporción que en Fig. 1 (0.441a)."},
+        {"que": "distancia centro del módulo (C) -> centro de la rueda", "metodo": "centro del recorte (1185,1732) menos C(514,1723)", "px": "671", "valor": 0.501, "unidad": "× a", "confianza": "alta", "nota": "CONFIRMACIÓN INDEPENDIENTE de R = a/2."},
+        {"que": "escotaduras 38 para bolas locas", "metodo": "inspección visual sobre rejilla --roi 480 620 1700 1780 --escala 0.85", "px": "una escotadura en cada uno de los 5 vértices", "valor": 5, "unidad": "escotaduras", "confianza": "alta", "nota": "el texto [0057] dice que según la posición son 1/2, 1/3 o 1/4 de círculo: 1/3 en C (3 celdas del mismo módulo), 1/4 en los vértices V y en M2/M4 (concurren celdas de 2 módulos)."},
+        {"que": "motor 18 (brida y largo)", "metodo": "lectura sobre rejilla --roi 500 650 2250 2800 y perfil fila y=1727", "px": "≈ 476 (largo) × 572 (brida), x 1667..2143", "valor": 0.427, "unidad": "× a (brida)", "confianza": "media", "nota": "L/brida ≈ 0.83. El motor arranca justo en la arista exterior de la celda y sale hacia fuera."}
+      ]
+    },
+
+    {"id": "Fig. 3", "pagina_png": 13, "que_muestra": "Perspectiva de la misma unidad/celda vista desde arriba: se ve la chapa 12, las pestañas dobladas hacia abajo 28 con taladros 30 para atornillar celdas vecinas, el soporte en C 32 y el motor 18 colgando por debajo.", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "figura cualitativa: confirma que la unidad va colgada BAJO la chapa y que la unión entre celdas es atornillada por pestañas dobladas. No se mide (perspectiva sin escala)."}]},
+
+    {
+      "id": "Fig. 4",
+      "pagina_png": 14,
+      "que_muestra": "Vista lateral de la unidad de Fig. 2 (mirando a lo largo del eje del motor): chapa 12, punto más alto de la rueda 24 sobresaliendo por encima, motor 18 colgando bajo la chapa entre las pestañas 28.",
+      "mediciones": [
+        {"que": "cara superior de la chapa 12 y ápice de la rueda 24", "metodo": "med_px.py perfil col x=1240", "px": "chapa 1438..1441 (cara sup.) y 1456..1461 (cara inf.) ; ápice de rueda 1381..1384", "valor": 57, "unidad": "px de sobresaliente", "confianza": "media", "nota": "espesor de chapa dibujado ≈ 19 px."},
+        {"que": "conjunto por debajo de la chapa", "metodo": "med_px.py perfil col x=1000/1240 y fila y=1700", "px": "fondo del motor en y ≈ 1973 ; ancho del soporte en C 951..1556 (605)", "valor": 0.107, "unidad": "sobresaliente / profundidad bajo chapa", "confianza": "media", "nota": "el sobresaliente de la rueda es una fracción pequeña de la altura total del conjunto."}
+      ]
+    },
+
+    {"id": "Fig. 5a", "pagina_png": 15, "que_muestra": "Perspectiva de la unidad SIN chapa: soporte en C 32 abierto hacia arriba con pestañas 34 y taladros 36; rueda omni doble 16; motor 18 atornillado a una pata del soporte, ACOPLADO DIRECTAMENTE al eje de la rueda.", "mediciones": [{"que": "existencia de transmisión intermedia", "metodo": "inspección visual (no hay correa, polea ni engranaje en ninguna vista)", "px": "-", "valor": 0, "unidad": "elementos de transmisión", "confianza": "alta", "nota": "ACCIONAMIENTO DIRECTO: el eje del motor es colineal con el eje principal H de la rueda."}]},
+
+    {
+      "id": "Fig. 5b",
+      "pagina_png": 16,
+      "que_muestra": "Planta de la unidad sin chapa: motor 18 a la izquierda, en línea con la rueda 16; soporte en C 32 con cuatro pestañas 34 y taladros 36.",
+      "mediciones": [
+        {"que": "motor: brida (transversal) y longitud (axial)", "metodo": "med_px.py perfil col x=800 y fila y=1700", "px": "brida 1496..1888 = 392 ; cuerpo x 668..1000 ≈ 332 (+ eje trasero hasta x≈567)", "valor": 0.85, "unidad": "L/brida", "confianza": "media", "nota": "motor de brida cuadrada tipo NEMA."},
+        {"que": "anchura axial de la rueda doble", "metodo": "med_px.py perfil fila y=1700", "px": "≈ 1091..1521 = 430", "valor": 1.10, "unidad": "× brida del motor", "confianza": "media", "nota": "en escala de Fig. 1 equivaldría a ≈ 241 px, es decir cabe holgado en el recorte de 260 px."},
+        {"que": "diámetro de la rueda (extensión perpendicular al eje)", "metodo": "med_px.py perfil col x=1200 y x=1450", "px": "563 y 587", "valor": 1.44, "unidad": "× brida del motor", "confianza": "media", "nota": "los dos discos están desfasados 60°, por eso las siluetas difieren según la columna."}
+      ]
+    },
+
+    {
+      "id": "Fig. 5c",
+      "pagina_png": 17,
+      "que_muestra": "Vista de la unidad a lo largo del eje: cara cuadrada del motor con 4 tornillos en cuadrado y buje central; detrás asoma el arco de la rueda 16; soporte en C 32.",
+      "mediciones": [
+        {"que": "brida cuadrada del motor", "metodo": "med_px.py perfil fila y=1465/1300 y col x=1100", "px": "909..1359 (450) × 1237..1685 (448)", "valor": 449, "unidad": "px (lado)", "confianza": "alta", "nota": "cuadrada dentro del 0.5 % → motor tipo NEMA."},
+        {"que": "cuadrado de taladros de fijación del motor", "metodo": "med_px.py circulos --roi 850 1200 1400 1750 --rmin 12 --rmax 45", "px": "(946,1270) (1324,1272) (948,1650) (1322,1648) → lado 377", "valor": 0.84, "unidad": "× brida", "confianza": "alta", "nota": "patrón cuadrado clásico de motor paso a paso."},
+        {"que": "diámetro de la rueda / brida del motor", "metodo": "arco exterior de la rueda en fila y=1465 (x≈1453) respecto del eje x=1135", "px": "radio 318 → Ø 636 ; brida 449", "valor": 1.42, "unidad": "× brida", "confianza": "media", "nota": "el arco medido es el contorno exterior de la rueda etiquetado 16."}
+      ]
+    },
+
+    {
+      "id": "Fig. 5d",
+      "pagina_png": 18,
+      "que_muestra": "Vista frontal de la unidad sin chapa: se ven los rodillos abarrilados 31 de la rueda omni DOBLE (3 rodillos por disco, discos desfasados 60°), el soporte en C 32 y el motor 18 en línea.",
+      "mediciones": [
+        {"que": "motor: brida y longitud", "metodo": "med_px.py perfil col x=900 y fila y=1570", "px": "brida 1344..1780 = 436 ; cuerpo 745..1075 = 330", "valor": 0.76, "unidad": "L/brida", "confianza": "media", "nota": "-"},
+        {"que": "diámetro de la rueda", "metodo": "med_px.py perfil col x=1300 y x=1400", "px": "1263..1860 = 597 y 1302..1860 = 558", "valor": 1.32, "unidad": "× brida del motor", "confianza": "media", "nota": "coherente con Fig. 5b y 5c (1.3–1.5)."},
+        {"que": "número de rodillos por disco", "metodo": "recuento visual sobre rejilla --roi 500 1100 2000 2000", "px": "-", "valor": 3, "unidad": "rodillos por disco", "confianza": "alta", "nota": "coincide con el texto [0052]: 3 rodillos abarrilados equidistantes por disco, el segundo disco girado 60°."}
+      ]
+    },
+
+    {"id": "Fig. 6", "pagina_png": 19, "que_muestra": "Perspectiva del módulo 10 de Fig. 1 desde arriba: chapa hexagonal 12 con los tres recortes 20 y las bolas 26 arriba; las tres unidades 14 (soporte C 32 + motor 18) colgando por debajo, apuntando radialmente hacia fuera.", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "confirma cualitativamente: motores POR DEBAJO de la chapa, ejes radiales, cuerpos hacia fuera. No se mide (perspectiva)."}]},
+
+    {
+      "id": "Fig. 7",
+      "pagina_png": 20,
+      "que_muestra": "Vista lateral del módulo 10 (mirando a lo largo de uno de los ejes H): chapa 12 horizontal, ruedas 16 asomando por encima con sus puntos más altos 24 en un mismo plano, motores 18 y soportes 32 colgando por debajo, pestañas 28 con taladros 30.",
+      "mediciones": [
+        {"que": "diámetro exterior de la rueda", "metodo": "med_px.py rejilla --roi 600 1520 1150 2150 --escala 1.5 + perfil col x=820", "px": "ápice 1585, fondo ≈ 2010 → 425", "valor": 0.51, "unidad": "× a", "confianza": "media", "nota": "escala de la figura fijada por la brida del motor central (311 px = 0.372a)."},
+        {"que": "brida del motor visto de frente (central)", "metodo": "med_px.py perfil fila y=1880 y col x=1230", "px": "1102..1412 (309) × 1645..1958 (313)", "valor": 311, "unidad": "px (lado)", "confianza": "alta", "nota": "cuadrada; el rectángulo exterior 1026..1491 (465) es el soporte en C, no el motor."},
+        {"que": "sobresaliente de la rueda por encima de la chapa", "metodo": "cara superior de la chapa (y≈1655) menos ápice 24 (y≈1585)", "px": "70", "valor": 0.165, "unidad": "× diámetro de rueda", "confianza": "media", "nota": "≈ 0.084·a. La cuerda de la rueda al nivel de la chapa resulta 0.73·Ø, menor que el recorte (0.85·Ø) → hay holgura, coherente."},
+        {"que": "relación Ø rueda / brida del motor", "metodo": "425 / 311", "px": "-", "valor": 1.37, "unidad": "adimensional", "confianza": "media", "nota": "coherente con Fig. 5b/5c/5d (1.3–1.45)."}
+      ]
+    },
+
+    {
+      "id": "Fig. 8",
+      "pagina_png": 21,
+      "que_muestra": "Planta del módulo 200: idéntica arquitectura que Fig. 1 pero con ruedas MECANUM 16 (rodillos a 45°) y por tanto recortes 20 rectangulares en vez de cuadrados. Es la lámina con el hexágono más limpio.",
+      "mediciones": [
+        {"que": "hexágono: vértices y circunradio", "metodo": "med_px.py circulos --roi 400 850 2150 2650 --rmin 25 --rmax 75 --param2 45 + rejilla", "px": "vértices izquierdos (690,1328) y (692,2118); centro (1374,1723)", "valor": 790, "unidad": "px (a)", "confianza": "alta", "nota": "arista izquierda vertical, misma orientación que Fig. 1."},
+        {"que": "bola loca en el centro del módulo", "metodo": "circulos", "px": "(1382,1724) r=71", "valor": 0.0, "unidad": "× a", "confianza": "alta", "nota": "-"},
+        {"que": "bolas locas del anillo interior", "metodo": "circulos", "px": "(1166,1352) r=425.3∠119.3° ; (1168,2088) r=419.1∠-119.4° ; (1808,1722) r=434.0∠0.1°", "valor": 0.539, "unidad": "× a (radio)", "confianza": "alta", "nota": "misma proporción que Fig. 1 (0.536a) y mismas direcciones (0°, ±120°)."},
+        {"que": "radio de disposición de la rueda", "metodo": "centro del recorte izquierdo (≈980,1722) respecto del centro (1374,1723)", "px": "394", "valor": 0.499, "unidad": "× a", "confianza": "media", "nota": "TERCERA confirmación de R = a/2."},
+        {"que": "recorte 20 para rueda Mecanum", "metodo": "lectura sobre rejilla --roi 400 850 2150 2650 --escala 0.6", "px": "≈ 250 × 485", "valor": [0.32, 0.61], "unidad": "× a", "confianza": "baja", "nota": "RECTANGULAR, no cuadrado: la rueda Mecanum es más ancha y de otra silueta. Medida a ojo sobre rejilla; no se pudo delimitar con `perfil` por el rayado interior."},
+        {"que": "diámetro de las bolas locas", "metodo": "circulos", "px": "142–148", "valor": 0.183, "unidad": "× a", "confianza": "alta", "nota": "idéntico a Fig. 1 (0.180a)."}
+      ]
+    },
+
+    {"id": "Fig. 9", "pagina_png": 22, "que_muestra": "Perspectiva del módulo 200 (Mecanum) desde arriba. Equivalente a Fig. 6.", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "cualitativa; no se mide (perspectiva)."}]},
+    {"id": "Fig. 10", "pagina_png": 23, "que_muestra": "Vista lateral del módulo 200 (Mecanum). Equivalente a Fig. 7: ruedas asomando, motores colgando.", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "media", "nota": "no se mide: los rodillos a 45° hacen ambigua la silueta de la rueda."}]},
+
+    {
+      "id": "Fig. 11",
+      "pagina_png": 24,
+      "que_muestra": "ESQUEMA CINEMÁTICO del módulo de Fig. 1: 'círculo de disposición' con las tres ruedas 16 sobre él, los ejes principales H colineales con los radios R y los vectores de velocidad v tangentes al círculo. Es la figura que define la cinemática.",
+      "mediciones": [
+        {"que": "centro y radio del círculo de disposición", "metodo": "med_px.py perfil col x=1244 (y=1302.5 y 2024) y fila y=1560 (x=901.5 y 1599)", "px": "centro ≈ (1250,1663); R = 360.8 (vertical) y 363.6 (horizontal)", "valor": 362, "unidad": "px", "confianza": "alta", "nota": "-"},
+        {"que": "ángulo entre ejes H (radios) consecutivos", "metodo": "med_px.py lineas --roi 1240 1280 1560 1700 y --roi 1240 1660 1560 2060, --maxgap 25", "px": "rayos a 180.0°, -60.1/-60.4°, +60.0/+61.2°", "valor": 120, "unidad": "grados", "confianza": "alta", "nota": "medido 119.9°–120.1° entre los rayos limpios."},
+        {"que": "ángulo entre las DIRECCIONES EFICACES (v) de ruedas vecinas", "metodo": "mismas lineas: el eje largo de cada rueda (⟂ H) da la dirección eficaz", "px": "90.0° (vertical), +30.5°, -30.2°", "valor": 60, "unidad": "grados (como rectas) / 120 grados (como vectores tangenciales)", "confianza": "alta", "nota": "diferencias medidas 59.5°, 59.8°, 60.7°. NO son ortogonales y NO hay dos paralelas (reivindicaciones 2 y 3)."},
+        {"que": "perpendicularidad entre H y v", "metodo": "comparación de las direcciones anteriores", "px": "|30.5-(-60.1)| = 90.6 ; |(-30.2)-(60.0)| = 90.2", "valor": 90, "unidad": "grados", "confianza": "alta", "nota": "confirma que la rueda es tipo Omniwheel (dirección eficaz = dirección de rotación), no Mecanum ([0053])."},
+        {"que": "el centro de rueda está SOBRE el círculo de disposición", "metodo": "med_px.py perfil col x=860/920 y fila y=1560 (rueda izquierda del esquema)", "px": "rueda izq.: x 842..932.5 (ancho 90.5), y 1509..1811.5 (largo 302.5); centro (887,1660) → |M-centro| = 363", "valor": 1.0, "unidad": "× R", "confianza": "alta", "nota": "R medido 362 → coincidencia exacta."},
+        {"que": "proporción esquemática largo/ancho de la rueda", "metodo": "302.5 / 90.5", "px": "-", "valor": 3.34, "unidad": "adimensional", "confianza": "baja", "nota": "es un esquema; la proporción REAL (Ø / anchura axial) medida en Fig. 5b es ≈ 1.3, no 3.3. NO usar esta cifra para el diseño."}
+      ]
+    },
+
+    {"id": "Fig. 12a", "pagina_png": 25, "que_muestra": "Planta del módulo 260: mismo hexágono y mismas tres unidades, pero con las ruedas dispuestas y orientadas de forma NO uniforme (variante de la invención).", "mediciones": [{"que": "orientación de las ruedas", "metodo": "inspección visual sobre rejilla --roi 500 650 2250 2800", "px": "-", "valor": null, "unidad": "-", "confianza": "media", "nota": "se aprecia que los tres recortes NO están a 120° con la misma orientación; no se acota porque la figura es de baja calidad y su valor es cualitativo."}]},
+
+    {
+      "id": "Fig. 12b",
+      "pagina_png": 26,
+      "que_muestra": "Esquema cinemático de la variante no uniforme: TRES círculos concéntricos R1, R2, R3 de radios distintos; dos de los tres ejes H no son colineales con su radio, y por tanto los vectores v no son tangentes.",
+      "mediciones": [
+        {"que": "radios de los tres círculos de disposición", "metodo": "med_px.py perfil fila y=1500 con centro en (1280,1690)", "px": "cortes en x = 937/993/1068 y 1494.5/1570/1624.5 → R = 286, 345, 392", "valor": [1.0, 1.21, 1.37], "unidad": "relación R1:R2:R3", "confianza": "media", "nota": "confirma que la patente contempla radios distintos ([0063])."},
+        {"que": "desviación de H respecto del radio", "metodo": "med_px.py lineas --roi 1250 1150 1900 1750 --maxgap 25", "px": "eje H de la rueda superior derecha ≈ 54.3° ; radio a esa rueda ≈ -37…-41°", "valor": null, "unidad": "grados", "confianza": "baja", "nota": "NO SE PUEDE MEDIR con fiabilidad: la lámina es de baja calidad y las líneas discontinuas se confunden con las flechas. Sólo se afirma el hecho cualitativo: dos ejes H no son radiales."}
+      ]
+    },
+
+    {"id": "Fig. 13a", "pagina_png": 27, "que_muestra": "Perspectiva del módulo PASIVO 270: misma celda pentagonal con rueda omni 16 en su recorte 20 y soporte 32, pero SIN motor. Va en los bordes de la plataforma.", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "cualitativa."}]},
+
+    {
+      "id": "Fig. 13b",
+      "pagina_png": 28,
+      "que_muestra": "Planta de la celda pasiva 270: la chapa pentagonal con el recorte 20 de la rueda y DOS bolas locas 26 alineadas con la arista larga.",
+      "mediciones": [
+        {"que": "envolvente de la chapa", "metodo": "med_px.py rejilla --roi 800 950 1750 2550 --escala 0.7", "px": "x ≈ 1105..1520 (415) ; y ≈ 1100..2470 (1370)", "valor": null, "unidad": "px", "confianza": "baja", "nota": "NO SE PUEDE ajustar bien el pentágono en esta lámina: el contorno está dibujado a mano alzada con marcas de rotura y la parte izquierda queda muy comprimida. Para la geometría de la celda usar Fig. 2, que sí es medible."},
+        {"que": "posición de las 2 bolas locas respecto de la rueda", "metodo": "lectura sobre rejilla", "px": "bolas en ≈ (1400,1340) y (1400,2120); centro del recorte ≈ (1280,1780)", "valor": null, "unidad": "-", "confianza": "media", "nota": "las bolas están del lado de la arista larga (exterior), simétricas respecto del eje de la rueda."}
+      ]
+    },
+
+    {"id": "Fig. 13c", "pagina_png": 29, "que_muestra": "Vista lateral de la celda pasiva 270: chapa 12, dos bolas locas 26, soporte en C 32 con la rueda libre; pestañas 28 y taladros 30. Sin motor.", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "cualitativa: confirma que la celda pasiva conserva rueda + soporte y suprime el motor."}]},
+    {"id": "Fig. 13d", "pagina_png": 30, "que_muestra": "Vista lateral ortogonal a 13c de la celda pasiva: se ve el ápice de la rueda 24 y la bola loca 26 al mismo nivel por encima de la chapa 12.", "mediciones": [{"que": "coplanariedad bola loca / ápice de rueda", "metodo": "inspección visual sobre la lámina", "px": "-", "valor": null, "unidad": "-", "confianza": "media", "nota": "la corona de la bola loca y el punto más alto de la rueda quedan a la MISMA altura ([0050]: 'in der Höhe der Förderräder'). Dato de diseño importante."}]},
+
+    {"id": "Fig. 14a", "pagina_png": 31, "que_muestra": "Planta del módulo 10 con tres vectores v (uno por rueda) y el vector resultante F del objeto: traslación rectilínea oblicua.", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "diagrama de control, no de geometría."}]},
+    {"id": "Fig. 14b", "pagina_png": 32, "que_muestra": "Igual que 14a con otra combinación de v: trayectoria curva.", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "diagrama de control."}]},
+    {"id": "Fig. 14c", "pagina_png": 33, "que_muestra": "Igual con los tres v en sentido tangencial coherente: ROTACIÓN pura del objeto sobre el módulo.", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "confirma que con 3 ruedas a 120° el módulo genera vx, vy y ω (3 GDL en el plano)."}]},
+    {"id": "Fig. 14d", "pagina_png": 34, "que_muestra": "Igual con dos v activos: traslación recta.", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "diagrama de control."}]},
+
+    {"id": "Fig. 15", "pagina_png": 35, "que_muestra": "Perspectiva del sistema 300: plataforma de módulos activos 10 y pasivos 270 montada sobre un bastidor de mesa 39, con paquetes 40 encima.", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "confirma el TESELADO EN PANAL de módulos hexagonales; los módulos pasivos 270 (celdas) rellenan los bordes para dejar el contorno recto."}]},
+    {"id": "Fig. 16", "pagina_png": 36, "que_muestra": "El mismo sistema en otra fase de transporte (paquetes ya paletizados).", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "cualitativa."}]},
+    {"id": "Fig. 17", "pagina_png": 37, "que_muestra": "Planta del sistema 300 con flechas de trayectoria: recta longitudinal, diagonal, curva con rotación, recta transversal y rotación pura.", "mediciones": [{"que": "teselado", "metodo": "inspección visual sobre la lámina completa", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "panal edge-to-edge, hexágonos con arista izquierda/derecha vertical y vértice arriba/abajo; los bordes del bastidor se rellenan con celdas pasivas 270."}]},
+    {"id": "Fig. 18", "pagina_png": 38, "que_muestra": "Planta del sistema 300 formando una capa de paquetes para paletizar (movimientos simultáneos e independientes).", "mediciones": [{"que": "-", "metodo": "inspección visual", "px": "-", "valor": null, "unidad": "-", "confianza": "alta", "nota": "cualitativa."}]},
+
+    {
+      "id": "Fig. 19a",
+      "pagina_png": 39,
+      "que_muestra": "AMPLIACIÓN en planta de un trozo del sistema 300: 12 módulos hexagonales teselando en panal, todos con IDÉNTICA orientación. Es la lámina para medir el paso de teselado.",
+      "mediciones": [
+        {"que": "hexágono unitario (circunradio)", "metodo": "med_px.py rejilla --roi 550 950 1350 1750 --escala 1.35 y ajuste de los nodos de vértice", "px": "vértices ≈ (598,1103),(795,993),(952,1105),(952,1300),(795,1443),(598,1305) → centro (775,1218), a ≈ 205", "valor": 205, "unidad": "px (a)", "confianza": "media", "nota": "misma orientación que Fig. 1: aristas izquierda y derecha verticales, vértices arriba y abajo."},
+        {"que": "paso de teselado (distancia entre centros de módulos vecinos)", "metodo": "diferencia entre los centros de dos módulos contiguos y entre motores homólogos", "px": "355", "valor": 1.732, "unidad": "× a (= entrecaras = √3·a)", "confianza": "alta", "nota": "red triangular de centros con paso √3·a en las 6 direcciones a 60°. Equivale a ≈ 3.3 × diámetro de rueda."},
+        {"que": "orientación relativa entre módulos vecinos", "metodo": "comparación visual de las tres unidades de cada hexágono", "px": "-", "valor": 0, "unidad": "grados de giro entre vecinos", "confianza": "alta", "nota": "TODOS los módulos están orientados igual (traslación pura, sin rotación de 60° alternada)."},
+        {"que": "alojamiento del motor bajo el módulo vecino", "metodo": "extensión radial visible del motor izquierdo respecto del centro del módulo", "px": "r ≈ 155 … 225 px con apotema 178", "valor": [0.76, 1.10], "unidad": "× a", "confianza": "media", "nota": "coincide con Fig. 1 (0.86a…1.13a): el motor cruza la arista y queda BAJO la chapa del vecino, a ≈0.63a del centro del vecino."}
+      ]
+    },
+
+    {
+      "id": "Fig. 19b",
+      "pagina_png": 40,
+      "que_muestra": "La misma ampliación VISTA POR DEBAJO: se ven los soportes en C 32 y los motores 18 de todos los módulos. Confirma la disposición de los accionamientos.",
+      "mediciones": [
+        {"que": "disposición de los motores", "metodo": "inspección visual sobre la lámina", "px": "-", "valor": 3, "unidad": "motores por módulo", "confianza": "alta", "nota": "tres motores por módulo, a 120°, con el eje radial y el cuerpo hacia fuera; los motores de módulos vecinos se entrelazan sin tocarse, cada uno bajo la chapa del vecino. No hay ninguna correa, cadena ni caja reductora entre motor y rueda."}
+      ]
+    }
+  ],
+
+  "conclusiones_geometricas": [
+    "Celda/módulo activo = HEXÁGONO REGULAR con TRES ruedas omnidireccionales, cada una con su propio motor. Confirmado en Fig. 1, Fig. 8 y Fig. 12a; el teselado en panal edge-to-edge se ve en Fig. 15, 17, 19a y 19b.",
+    "Los tres ejes principales de giro H son RADIALES y están a 120° exactos entre sí (medido 119.7°–120.3° en Fig. 1 y Fig. 11).",
+    "Las direcciones EFICACES (vectores v) son tangenciales: perpendiculares a H (medido 89.8°–90.6°). Como rectas están a 60° entre sí; como vectores tangenciales, a 120°. Ni ortogonales ni paralelas entre sí (reivindicaciones 2 y 3).",
+    "Los centros de rueda están en un 'círculo de disposición' de radio R = a/2, donde a = circunradio = lado del hexágono. Tres medidas independientes: 0.512·a (Fig. 1), 0.501·a (Fig. 2), 0.499·a (Fig. 8).",
+    "Las ruedas apuntan a los puntos medios de TRES ARISTAS ALTERNAS del hexágono; las tres bolas locas interiores ocupan las otras tres direcciones (a 60° de las ruedas), a r ≈ 0.537·a.",
+    "Construcción equivalente: triángulo equilátero D con las ruedas en los puntos medios de sus lados y los ejes H sobre sus mediatrices (β = 90° respecto a cada lado). Lado del triángulo = 2√3·R = √3·a = exactamente el paso de teselado (entrecaras del hexágono).",
+    "La CELDA elemental (Fig. 2/13) es un PENTÁGONO que es exactamente 1/3 del hexágono: lados 0.866a : 0.5a : 1.0a : 0.5a : 0.866a (medido 0.851 : 0.494 : 1.000 : 0.498 : 0.854) y ángulos 120°,150°,120°,120°,150°. Tres celdas forman un módulo.",
+    "Proporciones rueda/celda: recorte cuadrado 0.44·a (0.441 en Fig. 1, 0.442 en Fig. 2); diámetro real de rueda ≈ 0.52·a; anchura axial ≈ 0.41·a (Ø/anchura ≈ 1.3). Es decir: entrecaras del módulo ≈ 3.3 × Ø de rueda; R ≈ 0.96 × Ø de rueda; separación entre centros de rueda vecinos = √3·R = 0.886·a ≈ 1.7 × Ø de rueda.",
+    "Rueda = ALLSEITENRAD DOBLE: dos discos con 3 rodillos abarrilados cada uno, desfasados 60° (texto [0052], visible en Fig. 5b y 5d). La variante 200 (Fig. 8–10) usa ruedas MECANUM, con recorte rectangular ≈0.32a × 0.61a en vez de cuadrado.",
+    "MOTORES: uno por rueda, de brida cuadrada tipo NEMA (brida ≈ 0.37–0.43·a ≈ 0.7 × Ø de rueda, longitud ≈ 0.8 × brida, taladros en cuadrado de 0.84 × brida). Van EN LÍNEA con la rueda (eje del motor colineal con H) y por DEBAJO de la chapa, colgados del mismo soporte en C 32.",
+    "ACCIONAMIENTO DIRECTO: en ninguna de las 30 láminas aparece correa, polea, cadena ni engranaje. El eje del motor se acopla directamente al de la rueda (Fig. 5a, 5b, 5d, 19b).",
+    "El cuerpo del motor ocupa el rango radial ≈0.86·a … 1.13·a: arranca en la arista del hexágono (apotema 0.866·a) y SOBRESALE del propio módulo, quedando alojado bajo la chapa del módulo vecino (a ≈0.63·a de su centro). Es lo que permite empaquetar los módulos sin holgura entre ellos.",
+    "Las prolongaciones de los ejes de los tres motores se cortan en el centro M del módulo, donde además hay una bola loca.",
+    "Bolas locas por módulo: 1 en el centro (r=0), 3 a r ≈ 0.537·a en las direcciones intermedias, y 1 en cada vértice del hexágono compartida por los 3 módulos concurrentes (6 × 1/3 = 2) → ≈ 6 efectivas. Diámetro exterior ≈ 0.18·a ≈ 0.35 × Ø de rueda. Su corona queda a la misma altura que el punto más alto de la rueda (Fig. 13d).",
+    "La rueda sobresale poco por encima de la chapa: ≈0.165 × su diámetro ≈ 0.084·a (Fig. 7). La cuerda resultante al nivel de la chapa (0.73·Ø) es menor que el recorte (0.85·Ø) → hay holgura por diseño.",
+    "El teselado es una RED TRIANGULAR de centros de paso √3·a en las 6 direcciones a 60°, con TODOS los módulos con la misma orientación (sin giro alternado). Los bordes rectos de la plataforma se completan con módulos PASIVOS 270 (misma celda, sin motor).",
+    "La patente también protege configuraciones NO uniformes (Fig. 12a/12b): radios distintos R1:R2:R3 ≈ 1 : 1.21 : 1.37 y ejes H no colineales con el radio. La geometría uniforme de Fig. 1/11 es la que 'simplifica las matemáticas del control' ([0062]) y es la que conviene replicar."
+  ],
+
+  "no_medible": [
+    "Ninguna cota métrica: la patente no acota en mm en ninguna lámina. Cualquier milímetro sería inventado.",
+    "Fig. 12b: la desviación angular exacta entre H y R no es medible con fiabilidad (lámina de baja calidad, líneas discontinuas confundidas con las flechas).",
+    "Fig. 13b: el pentágono de la celda pasiva no se puede ajustar (contorno a mano alzada con marcas de rotura); usar Fig. 2 para la geometría de la celda.",
+    "Fig. 8: los bordes del recorte Mecanum sólo se leyeron sobre rejilla (confianza baja) porque el rayado interior impide usar `perfil`.",
+    "Espesor de la chapa portante: sólo se dibuja engrosado (≈19 px en Fig. 4); no es una proporción fiable.",
+    "Figuras en perspectiva (3, 5a, 6, 9, 13a, 15, 16, 19b): no se miden por no tener escala uniforme."
+  ]
+}

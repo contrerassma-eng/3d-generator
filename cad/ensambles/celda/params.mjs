@@ -85,6 +85,22 @@ export const P = {
   bloqueTaladroSep: 18.0, // dis: separación de los dos M3 verticales
   bloqueTaladroProf: 12.0, // dis: profundidad roscada de esos M3
 
+  // ---------------------------------------- soporte en C de chapa plegada (patente [0054])
+  chapaEsp: 2.0,          // dis: chapa de acero 2 mm — 2 mm de apoyo para el 624ZZ
+  chapaRadio: 2.0,        // dis: radio de plegado = espesor (mínimo sano en acero)
+  chapaK: 0.44,           // dis: factor K para el desarrollo (mismo que el NBT90)
+  soporteCBajoEje: 28.0,  // dis: el fondo tiene que librar la rueda (radio 24) + aire
+  soporteCPestana: 14.0,  // dis: vuelo de las pestañas (Abkantungen 34)
+  soporteCAncho: 30.0,    // dis: ancho tangencial del perfil
+  soporteCTaladroSep: 20.0, // dis: separación de los M3 de cada pestaña
+
+  // --------------------------------------------- ruedas de bola (patente [0050])
+  bolaDia: 12.7,          // dis: rueda de bola de 1/2" (comprada, muy común)
+  bolaAlojDia: 16.0,      // dis: agujero de la chapa que la aloja
+  bolaCazoletaDia: 25.0,  // dis: brida de la cazoleta
+  bolaCazoletaAlto: 8.0,  // dis
+  bolaPorCara: 1,         // dis: una rueda de bola por cara del hexágono, en la junta
+
   // ------------------------------------------------ soporte del motor (impreso)
   soporteEsp: 4.0,       // dis: espesor del alma contra la reductora
   soporteAncho: 20.0,    // dis: ancho tangencial
@@ -93,10 +109,10 @@ export const P = {
   soporteBrida: 6.0,     // dis: brida que abraza la reductora por debajo
 
   // ------------------------------------------------------- encoder (impreso + comprado)
-  discoDia: 30.0,        // dis
+  discoDia: 26.0,        // dis: su borde superior debe quedar BAJO la cara inferior de la placa
   discoEsp: 2.0,         // dis
   discoNRanuras: 36,     // dis: 10° de resolución en el eje de la RUEDA
-  discoRanuraR: 12.0,    // dis: radio medio de las ranuras
+  discoRanuraR: 10.0,    // dis: radio medio de las ranuras
   discoRanuraAlto: 5.0,  // dis: alto radial de la ranura
   lmLargo: 32.0,         // dis: PCB del módulo LM393
   lmAlto: 14.0,          // dis
