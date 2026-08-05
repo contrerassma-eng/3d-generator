@@ -642,8 +642,14 @@ export const ELEVADORES = {
   //     lo centra el catálogo. Sin ajuste H8 en 12 mm de chapa.
   montajeDirecto: true,
   soporte: { e: 8, taladro: 7.0, bore: 7.0, patron: 0,
-    lobulo: 22,                    // dis — semi-lado del refuerzo de chapa que
-    //   pg40 tiene que dejar alrededor del taladro (Ø7 con 18.5 de material)
+    // ⚠ 18 Y NO 22 (05-08, con el recorte de ancho): al meter el chapón −X a
+    //   40.886, el travesaño de puente y su escuadra de extremo viajan con él y
+    //   la escuadra norte llega a Y −722; con lóbulo 22 la cartela de RE-N
+    //   arrancaba en −761…−717 y se pisaban 5 mm (0.19 cm³ en la B-rep). Con 18
+    //   la cartela muere en −721 y libran por 1. Alrededor del Ø7 quedan 14.5 mm
+    //   de material, muy por encima del 1.2·d₀ = 8.4 que pide un taladro de 7.
+    lobulo: 18,                    // dis — semi-lado del refuerzo de chapa que
+    //   pg40 tiene que dejar alrededor del taladro del perno de eje
     caraX: [67.494, 491.418], normal: [1, -1],
     get lado() { return 2 * this.lobulo; }, get ladoY() { return 2 * this.lobulo; },
     get ladoZ() { return 2 * this.lobulo; },

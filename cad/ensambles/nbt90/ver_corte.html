@@ -42,9 +42,16 @@
 //       `materiales.mjs`, deducidos de `materialDe()`, que es la función con la
 //       que los planos rellenan el despiece— con entorno de estudio y tono
 //       ACES. Útil para enseñar el interior a alguien que no lee el código de
-//       colores. Añade `&sombras=1` si además se quiere sombra proyectada.
+//       colores. Añade `&sombras=1` si además se quiere sombra proyectada
+//       (apagada por defecto: en un corte suele estorbar).
+//
+//   &malla=normal    vuelve al teselado de siempre (48 segmentos). Por defecto
+//       este visor pide `malla=fina`: segmentos adaptativos por radio (48…144)
+//       — igual que ver.html, y con la misma advertencia: es un modo de VISOR,
+//       los planos siguen en el normal.
+//   &textam=512      lado de las texturas procedurales (por defecto 1024).
 import * as THREE from 'three';
-import { buildPartGeometry, partMatrix } from '../../js/model.js';
+import { buildPartGeometry, partMatrix, setTeseladoFino } from '../../js/model.js';
 import { entornoEstudio, configurarRenderer, solPrincipal, luzRelleno,
   crearTexturas, uvPorEjeLargo } from '../estudio.mjs';
 
@@ -59,6 +66,9 @@ const ss = Math.max(1, Math.min(3, parseFloat(q.get('ss')) || (real ? 2 : device
 const aa = q.get('aa') !== null ? q.get('aa') === '1' : !real;
 const sombras = real && q.get('sombras') === '1';   // en un corte suele estorbar
 const detalle = real && q.get('detalle') !== '0';
+// Teselado fino por defecto (solo visores; los planos siguen en modo normal).
+setTeseladoFino((q.get('malla') || 'fina').toLowerCase() !== 'normal');
+const tamTex = Math.max(256, Math.min(2048, parseInt(q.get('textam') || '1024', 10) || 1024));
 
 const t0 = performance.now();
 const scene = new THREE.Scene();
@@ -84,7 +94,7 @@ if (real) {
   const { crearMateriales } = await import('./materiales.mjs');
   // Las caras del corte se ven por dentro: DoubleSide y el mismo plano de
   // recorte que en el modo plano.
-  mats = crearMateriales(THREE, { tex: detalle ? crearTexturas(THREE) : null },
+  mats = crearMateriales(THREE, { tex: detalle ? crearTexturas(THREE, { tam: tamTex }) : null },
     { clippingPlanes: planos, clipShadows: true, side: THREE.DoubleSide });
 } else {
   scene.add(new THREE.HemisphereLight(0xdde4f0, 0x30363f, 1.15));

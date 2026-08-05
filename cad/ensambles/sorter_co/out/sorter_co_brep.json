@@ -14,6 +14,106 @@
   },
   "verificaciones": {
    "errores": [],
+   "simetria": {
+    "eje": 279.456,
+    "tolMm": 0.05,
+    "residuoDeclaradoMm": 9.304,
+    "residuoMedidoMm": 9.31,
+    "pares": [
+     {
+      "que": "caras de apoyo del rodillo conducido",
+      "x": [
+       67.49,
+       491.42
+      ],
+      "centro": 279.46,
+      "desviacion": 0,
+      "dueño": "adapt/params_tambores.mjs"
+     },
+     {
+      "que": "caras de apoyo de los rodillos elevadores",
+      "x": [
+       67.49,
+       491.42
+      ],
+      "centro": 279.46,
+      "desviacion": 0,
+      "dueño": "adapt/params_tambores.mjs"
+     },
+     {
+      "que": "cara engomada del tambor motriz",
+      "x": [
+       94.46,
+       464.46
+      ],
+      "centro": 279.46,
+      "desviacion": 0,
+      "dueño": "adapt/params_tambores.mjs"
+     },
+     {
+      "que": "tubo del tambor motriz",
+      "x": [
+       89.46,
+       469.46
+      ],
+      "centro": 279.46,
+      "desviacion": 0,
+      "dueño": "adapt/params_tambores.mjs"
+     },
+     {
+      "que": "tubo del rodillo conducido",
+      "x": [
+       99.46,
+       459.46
+      ],
+      "centro": 279.46,
+      "desviacion": 0,
+      "dueño": "adapt/params_tambores.mjs"
+     },
+     {
+      "que": "ejes de las 5 calles",
+      "x": [
+       127.06,
+       431.86
+      ],
+      "centro": 279.46,
+      "desviacion": 0,
+      "dueño": "adapt/params_adapt.mjs"
+     },
+     {
+      "que": "envolvente EMITIDA de las 5 bandas",
+      "x": [
+       111.06,
+       447.86
+      ],
+      "centro": 279.46,
+      "desviacion": 0,
+      "dueño": "adapt/mod_calles.mjs"
+     },
+     {
+      "que": "caras interiores de los dos chapones",
+      "x": [
+       40.89,
+       499.42
+      ],
+      "centro": 270.15,
+      "desviacion": 9.31,
+      "dueño": "adapt/params_adapt.mjs · RECORTE_ANCHO"
+     }
+    ],
+    "sinBanda": {
+     "neg": 70.17,
+     "pos": 51.56
+    },
+    "recorte": {
+     "recorridoMm": 122.309,
+     "recorridoIdealMm": 140.917,
+     "luz": 458.532,
+     "luzVieja": 580.841,
+     "reduccionPct": 21.057,
+     "impide": "la cara exterior del alma del alargue lateral −X (X 42.886), que a su vez la fija el alma del side channel del NBT90 (50.886) menos los 8 mm de la pletina. Detrás de ella están el propio side channel, las 2 ménsulas alma↔travesaño y la tornillería de amarre al NBT90: 34 piezas cruzan el plano donde iría el chapón simétrico"
+    }
+   },
    "tornilleria": {
     "conUniones": 44,
     "dispensas": [],
@@ -103,19 +203,19 @@
      {
       "id": "SC-08",
       "titulo": "flecha del travesaño PG40 con la luz REAL y el NBT90 colgado",
-      "valor": 0.34,
+      "valor": 0.18,
       "limite": 1,
       "unidad": "mm",
-      "uso": 0.34,
+      "uso": 0.18,
       "ok": true
      },
      {
       "id": "SC-09",
       "titulo": "eje pivote Ø30 del tensor con las 5 cargas PUNTUALES",
-      "valor": 69.54,
+      "valor": 51.63,
       "limite": 101.67,
       "unidad": "MPa",
-      "uso": 0.68,
+      "uso": 0.51,
       "ok": true
      },
      {
@@ -275,22 +375,22 @@
      },
      "travesano": {
       "luzDelModulo": 423.924,
-      "luzRealMm": 580.84,
+      "luzRealMm": 458.53,
       "flechaDelModulo": 0.084,
-      "flechaRealMm": 0.34,
+      "flechaRealMm": 0.18,
       "cargaMensulaN": 279.24,
-      "sigmaMPa": 18.07,
+      "sigmaMPa": 15.3,
       "nota": "incluye el NBT90 colgado del alargue"
      },
      "ejePivote": {
       "reaccionPorBrazoN": 398.28,
-      "sigmaDelModuloMPa": 54.55,
-      "sigmaPuntualesMPa": 69.54,
-      "flechaDelModuloMm": 0.609,
-      "flechaPuntualesMm": 0.75,
-      "xFlechaMaxMm": 223.52,
-      "RaN": 754.13,
-      "RbN": 1237.27,
+      "sigmaDelModuloMPa": 43.06,
+      "sigmaPuntualesMPa": 51.63,
+      "flechaDelModuloMm": 0.299,
+      "flechaPuntualesMm": 0.35,
+      "xFlechaMaxMm": 270.15,
+      "RaN": 955.29,
+      "RbN": 1036.11,
       "fyUsadoMPa": 305,
       "fyDelModuloMPa": 430
      },
@@ -305,8 +405,8 @@
       "extremosSinPiezaDeUnion": 3,
       "detalle": [
        "24 (Y -1440) −X",
-       "841 (Y -450) −X",
-       "841 (Y -450) +X"
+       "532 (Y -450) −X",
+       "532 (Y -450) +X"
       ]
      },
      "trazabilidad": {
@@ -1042,6 +1142,10 @@
     "TENSOR: presión de trabajo 4 bar fijada con el SMC AR20-02-B (web PNEU-009) → T = 129.04 N = 4.032 N/mm por banda. La presión de RED (6 bar) es HIPÓTESIS declarada (web_facts PNEU-003): el STEP no la declara.",
     "BASTIDOR PG40: 8 taladros Ø11 (M10) en el chapón de descarga FRAME_MIR_MIR_MIR, en Z -92. MODIFICACIÓN AL CLIENTE declarada, como la muesca: revisión estructural pendiente de su validación.",
     "BASTIDOR PG40: entre la banda exterior y la cara de apoyo del rodamiento quedan 43.562 mm por lado para el cuerpo del UCF 207. Si no cabe, el alargue solo puede correrse hacia fuera en −X (132.3 de aire al chapón); en +X el tope es el chapón de descarga.",
+    "RECORTE DE ANCHO · MODIFICACIÓN AL CLIENTE (cliente 05-08: «vista superior muestra un ancho innecesario y zona sin bandas, reduce zona de transporte es simetrica»): el chapón FRAME_MIR_MIR (28 mm) se DESMONTA y se remonta 122.309 mm hacia dentro — cara exterior de −109.423 a 12.886, cara interior de −81.423 a 40.886. La luz entre bastidores baja de 580.841 a 458.532 (−21.057 %) y la zona SIN BANDA pasa de 192.479 a 70.17 mm en −X, contra 51.562 en +X. Es de la MISMA clase que la muesca del chapón de descarga y que los 8 Ø11 del alargue: se declara, no se aplica en silencio.",
+    "RECORTE DE ANCHO · LO QUE NO SE HA PODIDO RECUPERAR, con su número: la simetría perfecta pediría llevar la cara interior a 59.494 (140.917 mm de recorrido) y NO CABE. El tope es la cara exterior del alma del alargue lateral −X (X 42.886), que a su vez la fija el alma del side channel del NBT90 (50.886) menos los 8 mm de la pletina. Detrás de ella están el propio side channel, las 2 ménsulas alma↔travesaño y la tornillería de amarre al NBT90: 34 piezas cruzan el plano donde iría el chapón simétrico. Se recuperan 122.309 de 140.917 mm (el 86.8 %) y queda un RESIDUO de asimetría de 18.608 mm, o sea 9.304 mm de descentrado del centro de la luz respecto de Xc. NO es una holgura que se pueda apretar: es el ancho que la propia transferencia ocupa a ese lado. Va con trinquete en la compuerta §W.",
+    "RECORTE DE ANCHO · lo que arrastra y lo que NO. ARRASTRA: los travesaños que cruzan de bastidor a bastidor (L 580.841 → 458.532) con sus escuadras de extremo, y el eje pivote del tensor con sus 2 UCFL 206, que params_tensor2 ancla a `STEP.frameIntNeg` y por eso siguen SOLOS (no se ha tocado ese archivo). NO ARRASTRA, y conviene decirlo porque se esperaba que sí: (a) el alargue lateral y sus cabezales, cuyas caras −X están ancladas al ALMA DEL SIDE CHANNEL del NBT90 y no al chapón; (b) por lo mismo, las caras de apoyo del conducido y de los dos rodillos elevadores (67.494 / 491.418), que ya eran simétricas — el eje Ø12.7 de los elevadores sigue midiendo 423.924; (c) el UCF 207 de −X, que apoya en el cabezal del alargue (X 59.494) y NO en el chapón: su cuerpo vive en Y −58.5…58.5 y el chapón muere en Y −79.741, así que no se cruzan. Sigue en X 25.494 con vano 535.924, y el chavetero y el saliente del eje del tambor no se mueven (son del lado +X, que no cambia).",
+    "RECORTE DE ANCHO · PENDIENTE CON EL CLIENTE: la BANCADA «LAT TOP» sigue llegando a X −109.422 y ahora asoma 122.3 mm por fuera del chapón. Recortarla es OTRA modificación —es la estructura que sostiene todo— y no se toca sin decidirlo: el cliente pidió el ancho de la ZONA DE TRANSPORTE, que es lo que se ha recortado. Queda dicho porque en la vista superior se ve",
     "TAMBORES: montaje del UCF 207 corregido a OUTBOARD (caras de apoyo X 59.494 y 527.418), que es lo que pedía el propio AVISO de params_pg40. Con la unidad hacia DENTRO su cuerpo (saliente 44.4 por lado) deja libres 335.124 mm entre apoyos, y el tubo del tambor mide 380 (cara engomada 370 + testas): faltan 48.876 mm. Hacia FUERA quedan 423.924 y entra con 21.96 mm por lado",
     "TAMBORES: el rodillo conducido NO lleva UCF 207 — rodamientos 6207-2RS DENTRO del tubo sobre eje fijo pasante Ø35 (instrucción del cliente). En su estación el alargue conserva el mismo patrón 92×92 pero recibe una pletina de eje fijo",
     "TAMBORES · CERRADO por mod_calles: el lazo de banda es ahora PLANO sobre tambor Ø108.9 (Y 0) → guías UHMW → conducido Ø108 (Y -1607.4) → RE-S→RE-N → horquilla del tensor. Abrazado en el tambor 180° = el 180° publicado; largo de fibra 4289.72 mm por calle",
@@ -1058,7 +1162,7 @@
     "RETORNO RECTO · LO QUE LE CUESTA AL BASTIDOR PG40, travesaño a travesaño y con su número (cotas medidas sobre el contorno de banda EMITIDO, no declaradas): el ramal de retorno pasa a ocupar la franja Z −40…0, que hasta ahora era SÓLO del bastidor — el retorno le pasaba 19.07 mm por debajo. (1) Y −555 → SE MUEVE a −450. La rampa lo cogía a Z −16.9…−27.0, o sea 13.0 mm dentro del perfil; a −450 la banda le pasa 8.37 mm por debajo y no hay que bajarlo. (2) Y −1440 → SE BAJA 45 mm (corona en -45 y no en 0) y muere en las caras interiores del alargue (L 580.84 → 423.92), porque su fondo entraría en la franja del alma. La banda le pasa 2.7 mm por encima. (3) Y −1520 → SE QUEDA como estaba. Estuvo retirado mientras los elevadores vivían lejos del módulo (la rampa cruzaba el plano Z −40 dentro de su huella); al pegarlos a la transferencia la rampa arranca 151 mm más al sur, es más tendida y le pasa 4.92 mm por debajo. Vuelve a su cota de siempre. (4) los DOS TRAVESAÑOS DE PUENTE (−692 y −1280) bajan de coronar en 7.28 a -28: por su huella NO pasa el tramo recto sino la RAMPA, que llega a Z −19.88 y −21.75. Sus 10 placas base pasan a ser CABALLETES de 35.283 mm sobre 2 casquillos 16×16 a X = eje ± 27, que dejan pasar la banda con 3 mm por lado. Quedan 6.25 y 8.12 mm de la rampa al travesaño. '\n          + 'El vano libre del puente NO cambia (588 mm): la alternativa cara —llevar el puente a los travesaños vecinos, ×3.44 en flecha— no hace falta.",
     "RETORNO RECTO · la rampa sur libra por 7.42 mm los 20 pernos «M8×12 CT-ENS↔perfil» del cliente (banda a Z -38.37…-33.92, perno a -26.5…26.5). Con los elevadores en su primera posición NO libraba: se los comía por 1.42 cm³ en 10 pares, y lo arregló pegarlos a la transferencia, que es lo que pidió el cliente. Queda dicho porque el perno de Z = −20 sigue HUÉRFANO por otra razón: viene de cuando el perfil era 40×80 (Z −40…40) y con el larguero PG40 40×40 (Z 0…40) no hay ranura a esa cota en la que morder. Su cota está en adapt/params_estaciones.mjs (EXTREMOS.ctens.m8z) y quien la emite es adapt/mod_estaciones.mjs, que la lleva cableada: es de su dueño.",
     "RETORNO · el pozo sigue montado (params_tambores.RETIRA_POZO.activo = false): el ramal cruza POR DEBAJO del módulo con 2 rodillos, a Z -59.07, 49.2 mm por debajo del suelo del corredor (-9.87).",
-    "TAMBORES: lo que los 2 rodillos del ramal de retorno le piden al alargue PG40, en RE-N(Y -739, Z -34) · RE-S(Y -1206, Z -34) — MONTAJE DIRECTO, sin ménsula: UN taladro Ø7 por lado en el eje del rodillo, con 22 mm de chapa alrededor, y NINGÚN taladro de paso (el eje TOPA contra esta chapa y el perno entra por ese Ø7 desde fuera; un paso aquí dejaría al eje sin cara donde apoyar). Caras de apoyo X 67.494 y 491.418"
+    "TAMBORES: lo que los 2 rodillos del ramal de retorno le piden al alargue PG40, en RE-N(Y -739, Z -34) · RE-S(Y -1206, Z -34) — MONTAJE DIRECTO, sin ménsula: UN taladro Ø7 por lado en el eje del rodillo, con 18 mm de chapa alrededor, y NINGÚN taladro de paso (el eje TOPA contra esta chapa y el perno entra por ese Ø7 desde fuera; un paso aquí dejaría al eje sin cara donde apoyar). Caras de apoyo X 67.494 y 491.418"
    ],
    "piezas": 968,
    "nuevas": 523,
@@ -1099,8 +1203,8 @@
     "bandaBajadaACilindroTensor": 184.77
    },
    "luzBastidores": {
-    "luz": 580.84,
-    "holgIzq": 124.69,
+    "luz": 458.53,
+    "holgIzq": 2.38,
     "dentroMuescaMm": 16.22,
     "anchoNbt90Embebido": 472.37
    },
@@ -1514,14 +1618,14 @@
      }
     },
     "ejePivote": {
-     "designacion": "Ø30×580.84 C45 rectificado h7",
-     "vano": 580.84,
-     "flechaMm": 0.609,
-     "sigmaMPa": 54.55,
-     "fs": 7.883,
+     "designacion": "Ø30×458.53 C45 rectificado h7",
+     "vano": 458.53,
+     "flechaMm": 0.299,
+     "sigmaMPa": 43.06,
+     "fs": 9.986,
      "apoyos": "2 × SKF UCFL 206",
      "modificacionAlChapon": {
-      "que": "4 taladros Ø14 (paso de M12) por chumacera, 8 en total, en los dos chapones (FRAME_MIR_MIR en X -81.423 y FRAME_MIR_MIR_MIR en X 499.418)",
+      "que": "4 taladros Ø14 (paso de M12) por chumacera, 8 en total, en los dos chapones (FRAME_MIR_MIR en X 40.886 y FRAME_MIR_MIR_MIR en X 499.418)",
       "entreTaladros": 117,
       "posicionesY": [
        -160.22,
@@ -1899,7 +2003,7 @@
      "racor SMC KQ2L06-01AS (web PNEU-008)": 5
     },
     "nuevas": {
-     "eje pivote Ø30×580.84 (fabricado)": 1,
+     "eje pivote Ø30×458.53 (fabricado)": 1,
      "anillo DIN 471-30 (retención de seguridad del eje)": 2,
      "chumacera SKF UCFL 206": 2,
      "collar de apriete PARTIDO Ø30 (aprieta la pila)": 1,
@@ -1993,14 +2097,14 @@
      }
     },
     "ejePivote": {
-     "designacion": "Ø30×580.84 C45 rectificado h7",
-     "vano": 580.84,
-     "flechaMm": 0.609,
-     "sigmaMPa": 54.55,
-     "fs": 7.883,
+     "designacion": "Ø30×458.53 C45 rectificado h7",
+     "vano": 458.53,
+     "flechaMm": 0.299,
+     "sigmaMPa": 43.06,
+     "fs": 9.986,
      "apoyos": "2 × SKF UCFL 206",
      "modificacionAlChapon": {
-      "que": "4 taladros Ø14 (paso de M12) por chumacera, 8 en total, en los dos chapones (FRAME_MIR_MIR en X -81.423 y FRAME_MIR_MIR_MIR en X 499.418)",
+      "que": "4 taladros Ø14 (paso de M12) por chumacera, 8 en total, en los dos chapones (FRAME_MIR_MIR en X 40.886 y FRAME_MIR_MIR_MIR en X 499.418)",
       "entreTaladros": 117,
       "posicionesY": [
        -160.22,
@@ -71678,11 +71782,11 @@
    "contexto": false
   },
   {
-   "id": "p795_fijo_eje_pivote_comun_30_580_84_articulacion_de_los_5_brazos",
-   "name": "FIJO · Eje pivote común Ø30×580.84 (articulación de los 5 brazos)",
+   "id": "p795_fijo_eje_pivote_comun_30_458_53_articulacion_de_los_5_brazos",
+   "name": "FIJO · Eje pivote común Ø30×458.53 (articulación de los 5 brazos)",
    "color": "#9aa4b2",
    "pos": [
-    -81.423,
+    40.886,
     -101.72,
     -164.7
    ],
@@ -71705,11 +71809,11 @@
     "fuente": "web RING-471-01 (Aspen Fasteners, tabla DIN 471) + RING-471-02 (Ametric)"
    },
    "ajusteMontaje": "atraviesa los 10 casquillos de fricción, los 4 separadores, el collar y los 2 anillos DIN 471 alojados en sus gargantas: todos esos solapes son ENCAJE DE MONTAJE, no interferencia",
-   "nota": "C45 rectificado h7. LÍNEA DE ARTICULACIÓN: el eje NO gira y NO transmite par — los 5 brazos giran libres sobre sus casquillos. Ø30 y no el Ø25 medido del cliente (cambio declarado): con 5 cilindros independientes la reacción por brazo sube a 398.28 N, y a Ø25 el eje daría σ = 94.3 MPa y 1.26 mm de flecha; a Ø30 queda en σ = 54.55 MPa (FS 7.883 sobre C45) y 0.609 mm. Vano entre chumaceras 580.84.",
+   "nota": "C45 rectificado h7. LÍNEA DE ARTICULACIÓN: el eje NO gira y NO transmite par — los 5 brazos giran libres sobre sus casquillos. Ø30 y no el Ø25 medido del cliente (cambio declarado): con 5 cilindros independientes la reacción por brazo sube a 398.28 N, y a Ø25 el eje daría σ = 94.3 MPa y 1.26 mm de flecha; a Ø30 queda en σ = 43.06 MPa (FS 9.986 sobre C45) y 0.299 mm. Vano entre chumaceras 458.53.",
    "features": [
     {
      "id": "f1984",
-     "name": "Eje Ø30×580.84",
+     "name": "Eje Ø30×458.53",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -71724,7 +71828,7 @@
      ],
      "params": {
       "dia": 30,
-      "h": 580.84
+      "h": 458.53
      }
     },
     {
@@ -71733,7 +71837,7 @@
      "shape": "cylinder",
      "op": "cut",
      "at": [
-      33.953,
+      33.954,
       0,
       0
      ],
@@ -71753,7 +71857,7 @@
      "shape": "cylinder",
      "op": "cut",
      "at": [
-      545.283,
+      422.974,
       0,
       0
      ],
@@ -71781,7 +71885,7 @@
    "name": "FIJO · Anillo retención eje pivote −X Ø30",
    "color": "#c3ccd6",
    "pos": [
-    -47.42,
+    74.89,
     -101.72,
     -164.7
    ],
@@ -71896,7 +72000,7 @@
    "name": "FIJO · Chumacera SKF UCFL 206 (eje pivote tensor, −X)",
    "color": "#7e57c2",
    "pos": [
-    -81.423,
+    40.886,
     -101.72,
     -184.7
    ],
@@ -71910,7 +72014,7 @@
    "visible": true,
    "componente": "UCFL206",
    "norma": "SKF UCFL 206 — soporte de brida oval, eje 30, entre taladros 117",
-   "nota": "APOYO −X del eje contra la cara interior del chapón (X -81.423 step). Brida ovalada HORIZONTAL (según Y), como la chumacera medida del cliente en este mismo eje. Sus 2 prisioneros sobre el aro interior son la RETENCIÓN DE SERVICIO (axial y antigiro); el anillo DIN 471-30 montado POR DENTRO (X -47.42) es la de SEGURIDAD: si un prisionero se afloja, el anillo topa contra la cara interior del UC y el eje no corre. Van hacia dentro y no hacia fuera porque a −X no hay sitio (la caja del motorreductor del cliente llega a X −82.423, step); en pareja espejada bloquean los dos sentidos igual. cotas de catálogo verificadas contra DOS fuentes independientes (web BRG-UCFL206-01 NTN «J 117.0 · A 31.0 · H 148.0 · N 16.0» y BRG-UCFL206-02 AMI «e 117 · a 148 · x 31 · s 16»), y coherentes con la serie: UCFL205 → J 99 (= lo medido del cliente, web BRG-003), UCFL206 → 117, UCFL207 → 130. El taladro es Ø16: catálogo AMI declara perno M14; aquí se monta M12 con arandela (mismo M12 que el resto de la máquina) y queda 2 mm de juego radial por lado — DECLARADO, es la holgura de montaje de la brida, no un reglaje. La MARCA queda abierta: la 206 la fabrican NTN, AMI, FYH, ASAHI y SKF con la misma cota JIS y calidades distintas; elegir una antes de pedir.",
+   "nota": "APOYO −X del eje contra la cara interior del chapón (X 40.886 step). Brida ovalada HORIZONTAL (según Y), como la chumacera medida del cliente en este mismo eje. Sus 2 prisioneros sobre el aro interior son la RETENCIÓN DE SERVICIO (axial y antigiro); el anillo DIN 471-30 montado POR DENTRO (X 74.89) es la de SEGURIDAD: si un prisionero se afloja, el anillo topa contra la cara interior del UC y el eje no corre. Van hacia dentro y no hacia fuera porque a −X no hay sitio (la caja del motorreductor del cliente llega a X −82.423, step); en pareja espejada bloquean los dos sentidos igual. cotas de catálogo verificadas contra DOS fuentes independientes (web BRG-UCFL206-01 NTN «J 117.0 · A 31.0 · H 148.0 · N 16.0» y BRG-UCFL206-02 AMI «e 117 · a 148 · x 31 · s 16»), y coherentes con la serie: UCFL205 → J 99 (= lo medido del cliente, web BRG-003), UCFL206 → 117, UCFL207 → 130. El taladro es Ø16: catálogo AMI declara perno M14; aquí se monta M12 con arandela (mismo M12 que el resto de la máquina) y queda 2 mm de juego radial por lado — DECLARADO, es la holgura de montaje de la brida, no un reglaje. La MARCA queda abierta: la 206 la fabrican NTN, AMI, FYH, ASAHI y SKF con la misma cota JIS y calidades distintas; elegir una antes de pedir.",
    "features": [
     {
      "id": "f1986",
@@ -71918,7 +72022,7 @@
      "shape": "box",
      "op": "union",
      "at": [
-      15.503,
+      15.503999999999998,
       0,
       0
      ],
@@ -71939,7 +72043,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -4.997,
+      -4.996000000000002,
       0,
       20
      ],
@@ -71960,7 +72064,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -0.9969999999999999,
+      -0.9960000000000022,
       -58.5,
       20
      ],
@@ -71981,7 +72085,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -0.9969999999999999,
+      -0.9960000000000022,
       58.5,
       20
      ],
@@ -72008,7 +72112,7 @@
    "name": "FIJO · Perno hex M12×75 UCFL pivote −X (Y=-160.22)",
    "color": "#d5b46a",
    "pos": [
-    -42.92,
+    79.39,
     -160.22,
     -164.7
    ],
@@ -72109,7 +72213,7 @@
    "name": "FIJO · Tuerca hex M12 UCFL pivote −X (Y=-160.22)",
    "color": "#d5b46a",
    "pos": [
-    -109.42,
+    12.89,
     -160.22,
     -164.7
    ],
@@ -72211,7 +72315,7 @@
    "name": "FIJO · Perno hex M12×75 UCFL pivote −X (Y=-43.22)",
    "color": "#d5b46a",
    "pos": [
-    -42.92,
+    79.39,
     -43.22,
     -164.7
    ],
@@ -72312,7 +72416,7 @@
    "name": "FIJO · Tuerca hex M12 UCFL pivote −X (Y=-43.22)",
    "color": "#d5b46a",
    "pos": [
-    -109.42,
+    12.89,
     -43.22,
     -164.7
    ],
@@ -98075,11 +98179,11 @@
    "contexto": false
   },
   {
-   "id": "p1055_pg40_travesano_40_40_ranura_10_l_580_841_y_450",
-   "name": "PG40 · Travesaño 40×40 ranura 10 L=580.841 (Y -450)",
+   "id": "p1055_pg40_travesano_40_40_ranura_10_l_458_532_y_450",
+   "name": "PG40 · Travesaño 40×40 ranura 10 L=458.532 (Y -450)",
    "color": "#b9c4cc",
    "pos": [
-    208.998,
+    270.152,
     -450,
     -40
    ],
@@ -98093,12 +98197,12 @@
    "visible": true,
    "catalogo": "perfil de aluminio 40×40 ranura 10 tipo PG40 · EN AW-6063 · Ix=Iy=9.1 cm⁴ · 1.5 kg/m (web PG40-001/PG40-002)",
    "capaInfo": "web+dis",
-   "masaKg": 0.871,
+   "masaKg": 0.688,
    "nota": "cruza la luz entre bastidores 580.84 (cota congelada); los 5 largueros apoyan encima",
    "features": [
     {
      "id": "f2475",
-     "name": "Perfil 40×40×580.841",
+     "name": "Perfil 40×40×458.532",
      "shape": "box",
      "op": "union",
      "at": [
@@ -98112,13 +98216,13 @@
       1
      ],
      "params": {
-      "w": 580.84,
+      "w": 458.53,
       "d": 40,
       "h": 40
      }
     },
     {
-     "id": "PG40_Travesa_o_40_40_ranura_10_L_580_841_r1",
+     "id": "PG40_Travesa_o_40_40_ranura_10_L_458_532_r1",
      "name": "Ranura 10 (+z)",
      "shape": "box",
      "op": "cut",
@@ -98133,13 +98237,13 @@
       1
      ],
      "params": {
-      "w": 580.84,
+      "w": 458.53,
       "d": 10,
       "h": 12
      }
     },
     {
-     "id": "PG40_Travesa_o_40_40_ranura_10_L_580_841_r2",
+     "id": "PG40_Travesa_o_40_40_ranura_10_L_458_532_r2",
      "name": "Ranura 10 (−z)",
      "shape": "box",
      "op": "cut",
@@ -98154,13 +98258,13 @@
       1
      ],
      "params": {
-      "w": 580.84,
+      "w": 458.53,
       "d": 10,
       "h": 12
      }
     },
     {
-     "id": "PG40_Travesa_o_40_40_ranura_10_L_580_841_r3",
+     "id": "PG40_Travesa_o_40_40_ranura_10_L_458_532_r3",
      "name": "Ranura 10 (+y)",
      "shape": "box",
      "op": "cut",
@@ -98175,13 +98279,13 @@
       1
      ],
      "params": {
-      "w": 580.84,
+      "w": 458.53,
       "d": 12,
       "h": 10
      }
     },
     {
-     "id": "PG40_Travesa_o_40_40_ranura_10_L_580_841_r4",
+     "id": "PG40_Travesa_o_40_40_ranura_10_L_458_532_r4",
      "name": "Ranura 10 (−y)",
      "shape": "box",
      "op": "cut",
@@ -98196,7 +98300,7 @@
       1
      ],
      "params": {
-      "w": 580.84,
+      "w": 458.53,
       "d": 12,
       "h": 10
      }
@@ -101817,11 +101921,11 @@
    "contexto": false
   },
   {
-   "id": "p1087_pg40_travesano_de_puente_40_40_ranura_10_l_571_315_sur_y_128",
-   "name": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "id": "p1087_pg40_travesano_de_puente_40_40_ranura_10_l_449_006_sur_y_128",
+   "name": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (sur, Y -1280)",
    "color": "#b9c4cc",
    "pos": [
-    208.998,
+    270.152,
     -1280,
     -68
    ],
@@ -101835,14 +101939,14 @@
    "visible": true,
    "catalogo": "perfil de aluminio 40×40 ranura 10 tipo PG40 · EN AW-6063 · Ix=Iy=9.1 cm⁴ · 1.5 kg/m (web PG40-001/PG40-002)",
    "capaInfo": "web+dis",
-   "masaKg": 0.857,
+   "masaKg": 0.674,
    "sostiene": "Placa base de puente",
    "sinTaladro": "perfil ranurado: la fijación de las placas base del puente y de las escuadras de extremo es por TUERCA MARTILLO en la ranura 10 superior, que no lleva taladro. La unión se declara (y se comprueba) en la pieza que sí se taladra: la placa base y la escuadra.",
-   "nota": "A6 · APOYO DEL PUENTE DE CALLE. Corona en Z -28 (= params_adapt PERCHA.travTopZ, la cadena 51.7 − 8.55 − 28 − 6), que es la cara inferior de las 5 placas base de esta fila; sus 2 tuercas martillo M8 por placa muerden la ranura 10 superior. Sustituye al travesaño 40×80 de la percha que retiró FLAGS.desactivaPercha. NO lleva escuadra larguero↔travesaño: a esta Y no hay larguero (los tramos mueren en −1302 y arrancan en −630) — está justo en el hueco por el que el puente cruza la transferencia. Vano libre del puente entre los dos apoyos: 588 mm, el de diseño. Muere en la cara interior de su escuadra de extremo (X -76.66…494.655), no a hueso contra el chapón.",
+   "nota": "A6 · APOYO DEL PUENTE DE CALLE. Corona en Z -28 (= params_adapt PERCHA.travTopZ, la cadena 51.7 − 8.55 − 28 − 6), que es la cara inferior de las 5 placas base de esta fila; sus 2 tuercas martillo M8 por placa muerden la ranura 10 superior. Sustituye al travesaño 40×80 de la percha que retiró FLAGS.desactivaPercha. NO lleva escuadra larguero↔travesaño: a esta Y no hay larguero (los tramos mueren en −1302 y arrancan en −630) — está justo en el hueco por el que el puente cruza la transferencia. Vano libre del puente entre los dos apoyos: 588 mm, el de diseño. Muere en la cara interior de su escuadra de extremo (X 45.649…494.655), no a hueso contra el chapón.",
    "features": [
     {
      "id": "f2557",
-     "name": "Perfil 40×40×571.315",
+     "name": "Perfil 40×40×449.006",
      "shape": "box",
      "op": "union",
      "at": [
@@ -101856,7 +101960,7 @@
       1
      ],
      "params": {
-      "w": 571.32,
+      "w": 449.01,
       "d": 40,
       "h": 40
      }
@@ -101877,7 +101981,7 @@
       1
      ],
      "params": {
-      "w": 571.32,
+      "w": 449.01,
       "d": 10,
       "h": 12
      }
@@ -101898,7 +102002,7 @@
       1
      ],
      "params": {
-      "w": 571.32,
+      "w": 449.01,
       "d": 10,
       "h": 12
      }
@@ -101919,7 +102023,7 @@
       1
      ],
      "params": {
-      "w": 571.32,
+      "w": 449.01,
       "d": 12,
       "h": 10
      }
@@ -101940,7 +102044,7 @@
       1
      ],
      "params": {
-      "w": 571.32,
+      "w": 449.01,
       "d": 12,
       "h": 10
      }
@@ -101959,7 +102063,7 @@
    "name": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (sur, −X)",
    "color": "#6b7f94",
    "pos": [
-    -79.041,
+    43.268,
     -1280,
     -28
    ],
@@ -102058,7 +102162,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -8.14500000000001,
+      -8.145000000000003,
       -20,
       -18
      ],
@@ -102079,7 +102183,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -8.14500000000001,
+      -8.145000000000003,
       20,
       -18
      ],
@@ -102150,7 +102254,7 @@
    "name": "PG40 · Perno hex M8×25 escuadra puente↔chapón (sur, −X, -)",
    "color": "#d5b46a",
    "pos": [
-    -76.123,
+    46.186,
     -1300,
     -46
    ],
@@ -102250,7 +102354,7 @@
    "name": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (sur, −X, -)",
    "color": "#d5b46a",
    "pos": [
-    -64.66,
+    57.649,
     -1300,
     -17.936999999999998
    ],
@@ -102350,7 +102454,7 @@
    "name": "PG40 · Perno hex M8×25 escuadra puente↔chapón (sur, −X, +)",
    "color": "#d5b46a",
    "pos": [
-    -76.123,
+    46.186,
     -1260,
     -46
    ],
@@ -102450,7 +102554,7 @@
    "name": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (sur, −X, +)",
    "color": "#d5b46a",
    "pos": [
-    -64.66,
+    57.649,
     -1260,
     -17.936999999999998
    ],
@@ -103137,11 +103241,11 @@
    "contexto": false
   },
   {
-   "id": "p1098_pg40_travesano_de_puente_40_40_ranura_10_l_571_315_norte_y_6",
-   "name": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "id": "p1098_pg40_travesano_de_puente_40_40_ranura_10_l_449_006_norte_y_6",
+   "name": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (norte, Y -692)",
    "color": "#b9c4cc",
    "pos": [
-    208.998,
+    270.152,
     -692,
     -68
    ],
@@ -103155,14 +103259,14 @@
    "visible": true,
    "catalogo": "perfil de aluminio 40×40 ranura 10 tipo PG40 · EN AW-6063 · Ix=Iy=9.1 cm⁴ · 1.5 kg/m (web PG40-001/PG40-002)",
    "capaInfo": "web+dis",
-   "masaKg": 0.857,
+   "masaKg": 0.674,
    "sostiene": "Placa base de puente",
    "sinTaladro": "perfil ranurado: la fijación de las placas base del puente y de las escuadras de extremo es por TUERCA MARTILLO en la ranura 10 superior, que no lleva taladro. La unión se declara (y se comprueba) en la pieza que sí se taladra: la placa base y la escuadra.",
-   "nota": "A6 · APOYO DEL PUENTE DE CALLE. Corona en Z -28 (= params_adapt PERCHA.travTopZ, la cadena 51.7 − 8.55 − 28 − 6), que es la cara inferior de las 5 placas base de esta fila; sus 2 tuercas martillo M8 por placa muerden la ranura 10 superior. Sustituye al travesaño 40×80 de la percha que retiró FLAGS.desactivaPercha. NO lleva escuadra larguero↔travesaño: a esta Y no hay larguero (los tramos mueren en −1302 y arrancan en −630) — está justo en el hueco por el que el puente cruza la transferencia. Vano libre del puente entre los dos apoyos: 588 mm, el de diseño. Muere en la cara interior de su escuadra de extremo (X -76.66…494.655), no a hueso contra el chapón.",
+   "nota": "A6 · APOYO DEL PUENTE DE CALLE. Corona en Z -28 (= params_adapt PERCHA.travTopZ, la cadena 51.7 − 8.55 − 28 − 6), que es la cara inferior de las 5 placas base de esta fila; sus 2 tuercas martillo M8 por placa muerden la ranura 10 superior. Sustituye al travesaño 40×80 de la percha que retiró FLAGS.desactivaPercha. NO lleva escuadra larguero↔travesaño: a esta Y no hay larguero (los tramos mueren en −1302 y arrancan en −630) — está justo en el hueco por el que el puente cruza la transferencia. Vano libre del puente entre los dos apoyos: 588 mm, el de diseño. Muere en la cara interior de su escuadra de extremo (X 45.649…494.655), no a hueso contra el chapón.",
    "features": [
     {
      "id": "f2586",
-     "name": "Perfil 40×40×571.315",
+     "name": "Perfil 40×40×449.006",
      "shape": "box",
      "op": "union",
      "at": [
@@ -103176,7 +103280,7 @@
       1
      ],
      "params": {
-      "w": 571.32,
+      "w": 449.01,
       "d": 40,
       "h": 40
      }
@@ -103197,7 +103301,7 @@
       1
      ],
      "params": {
-      "w": 571.32,
+      "w": 449.01,
       "d": 10,
       "h": 12
      }
@@ -103218,7 +103322,7 @@
       1
      ],
      "params": {
-      "w": 571.32,
+      "w": 449.01,
       "d": 10,
       "h": 12
      }
@@ -103239,7 +103343,7 @@
       1
      ],
      "params": {
-      "w": 571.32,
+      "w": 449.01,
       "d": 12,
       "h": 10
      }
@@ -103260,7 +103364,7 @@
       1
      ],
      "params": {
-      "w": 571.32,
+      "w": 449.01,
       "d": 12,
       "h": 10
      }
@@ -103279,7 +103383,7 @@
    "name": "PG40 · Escuadra travesaño de puente↔chapón 3/16\" (norte, −X)",
    "color": "#6b7f94",
    "pos": [
-    -79.041,
+    43.268,
     -692,
     -28
    ],
@@ -103378,7 +103482,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -8.14500000000001,
+      -8.145000000000003,
       -20,
       -18
      ],
@@ -103399,7 +103503,7 @@
      "shape": "hole",
      "op": "cut",
      "at": [
-      -8.14500000000001,
+      -8.145000000000003,
       20,
       -18
      ],
@@ -103470,7 +103574,7 @@
    "name": "PG40 · Perno hex M8×25 escuadra puente↔chapón (norte, −X, -)",
    "color": "#d5b46a",
    "pos": [
-    -76.123,
+    46.186,
     -712,
     -46
    ],
@@ -103570,7 +103674,7 @@
    "name": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (norte, −X, -)",
    "color": "#d5b46a",
    "pos": [
-    -64.66,
+    57.649,
     -712,
     -17.936999999999998
    ],
@@ -103670,7 +103774,7 @@
    "name": "PG40 · Perno hex M8×25 escuadra puente↔chapón (norte, −X, +)",
    "color": "#d5b46a",
    "pos": [
-    -76.123,
+    46.186,
     -672,
     -46
    ],
@@ -103770,7 +103874,7 @@
    "name": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (norte, −X, +)",
    "color": "#d5b46a",
    "pos": [
-    -64.66,
+    57.649,
     -672,
     -17.936999999999998
    ],
@@ -104528,6 +104632,48 @@
     },
     {
      "id": "f2616",
+     "name": "Ventana chumacera UCFL 206 del eje pivote (156 × 52)",
+     "shape": "sketch",
+     "op": "cut",
+     "at": [
+      9,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "pts": [
+       [
+        -179.72,
+        -188.7
+       ],
+       [
+        -23.72,
+        -188.7
+       ],
+       [
+        -23.72,
+        -136.7
+       ],
+       [
+        -179.72,
+        -136.7
+       ]
+      ],
+      "h": 12,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f2617",
      "name": "Amarre side channel Ø11.125 (Y -802)",
      "shape": "hole",
      "op": "cut",
@@ -104548,7 +104694,7 @@
      }
     },
     {
-     "id": "f2617",
+     "id": "f2618",
      "name": "Amarre side channel Ø11.125 (Y -973.5)",
      "shape": "hole",
      "op": "cut",
@@ -104569,7 +104715,7 @@
      }
     },
     {
-     "id": "f2618",
+     "id": "f2619",
      "name": "Amarre side channel Ø11.125 (Y -1145)",
      "shape": "hole",
      "op": "cut",
@@ -104590,7 +104736,7 @@
      }
     },
     {
-     "id": "f2619",
+     "id": "f2620",
      "name": "Cubrejunta motriz Ø11 (Y -208.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -104611,7 +104757,7 @@
      }
     },
     {
-     "id": "f2620",
+     "id": "f2621",
      "name": "Cubrejunta motriz Ø11 (Y -208.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -104632,7 +104778,7 @@
      }
     },
     {
-     "id": "f2621",
+     "id": "f2622",
      "name": "Cubrejunta motriz Ø11 (Y -176.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -104653,7 +104799,7 @@
      }
     },
     {
-     "id": "f2622",
+     "id": "f2623",
      "name": "Cubrejunta motriz Ø11 (Y -176.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -104674,7 +104820,7 @@
      }
     },
     {
-     "id": "f2623",
+     "id": "f2624",
      "name": "Cubrejunta conducido Ø11 (Y -1518.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -104695,7 +104841,7 @@
      }
     },
     {
-     "id": "f2624",
+     "id": "f2625",
      "name": "Cubrejunta conducido Ø11 (Y -1518.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -104716,7 +104862,7 @@
      }
     },
     {
-     "id": "f2625",
+     "id": "f2626",
      "name": "Cubrejunta conducido Ø11 (Y -1486.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -104737,7 +104883,7 @@
      }
     },
     {
-     "id": "f2626",
+     "id": "f2627",
      "name": "Cubrejunta conducido Ø11 (Y -1486.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -104801,7 +104947,7 @@
    "nota": "Cara de apoyo del UCF 207 en X 67.494 (rodamientos hacia dentro): cuadro 92×92 de Ø13.5 centrado en el eje, más paso de eje Ø45. Coplanario con el alma y empalmado a ella por cubrejunta — con 4 Ø11 en Z -85 y -110 (A3). Vive fuera de la ventana Y del deck, por eso puede subir sobre el plano de transporte. A5: lleva además los 2 Ø9 (Y 46 y 110, Z -85) de la placa de extremo del travesaño frontal del tensor; por eso el canto llega a Y 122 y no a 90, que dejaba el segundo perno 20 mm al aire.",
    "features": [
     {
-     "id": "f2627",
+     "id": "f2628",
      "name": "Cabezal Acero A36 (S275JR) e=8 · 247 × 195",
      "shape": "sketch",
      "op": "union",
@@ -104843,7 +104989,7 @@
      }
     },
     {
-     "id": "f2628",
+     "id": "f2629",
      "name": "Soporte Ø13.5 (−Y−Z)",
      "shape": "hole",
      "op": "cut",
@@ -104864,7 +105010,7 @@
      }
     },
     {
-     "id": "f2629",
+     "id": "f2630",
      "name": "Soporte Ø13.5 (−Y+Z)",
      "shape": "hole",
      "op": "cut",
@@ -104885,7 +105031,7 @@
      }
     },
     {
-     "id": "f2630",
+     "id": "f2631",
      "name": "Soporte Ø13.5 (+Y−Z)",
      "shape": "hole",
      "op": "cut",
@@ -104906,7 +105052,7 @@
      }
     },
     {
-     "id": "f2631",
+     "id": "f2632",
      "name": "Soporte Ø13.5 (+Y+Z)",
      "shape": "hole",
      "op": "cut",
@@ -104927,7 +105073,7 @@
      }
     },
     {
-     "id": "f2632",
+     "id": "f2633",
      "name": "Paso de eje Ø45",
      "shape": "hole",
      "op": "cut",
@@ -104948,7 +105094,7 @@
      }
     },
     {
-     "id": "f2633",
+     "id": "f2634",
      "name": "Cubrejunta motriz Ø11 (Y -73.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -104969,7 +105115,7 @@
      }
     },
     {
-     "id": "f2634",
+     "id": "f2635",
      "name": "Cubrejunta motriz Ø11 (Y -73.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -104990,7 +105136,7 @@
      }
     },
     {
-     "id": "f2635",
+     "id": "f2636",
      "name": "Cubrejunta motriz Ø11 (Y -41.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -105011,7 +105157,7 @@
      }
     },
     {
-     "id": "f2636",
+     "id": "f2637",
      "name": "Cubrejunta motriz Ø11 (Y -41.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -105032,7 +105178,7 @@
      }
     },
     {
-     "id": "f2637",
+     "id": "f2638",
      "name": "Placa de extremo del travesaño frontal del tensor Ø9 (Y 46)",
      "shape": "hole",
      "op": "cut",
@@ -105053,7 +105199,7 @@
      }
     },
     {
-     "id": "f2638",
+     "id": "f2639",
      "name": "Placa de extremo del travesaño frontal del tensor Ø9 (Y 110)",
      "shape": "hole",
      "op": "cut",
@@ -105111,7 +105257,7 @@
    "nota": "Cara de apoyo del UCF 207 en X 67.494 (rodamientos hacia dentro): cuadro 92×92 de Ø13.5 centrado en el eje, más paso de eje Ø45. Coplanario con el alma y empalmado a ella por cubrejunta — con 4 Ø11 en Z -85 y -110 (A3). Vive fuera de la ventana Y del deck, por eso puede subir sobre el plano de transporte.",
    "features": [
     {
-     "id": "f2639",
+     "id": "f2640",
      "name": "Cabezal Acero A36 (S275JR) e=8 · 162.4 × 195",
      "shape": "sketch",
      "op": "union",
@@ -105153,7 +105299,7 @@
      }
     },
     {
-     "id": "f2640",
+     "id": "f2641",
      "name": "Soporte Ø13.5 (−Y−Z)",
      "shape": "hole",
      "op": "cut",
@@ -105174,7 +105320,7 @@
      }
     },
     {
-     "id": "f2641",
+     "id": "f2642",
      "name": "Soporte Ø13.5 (−Y+Z)",
      "shape": "hole",
      "op": "cut",
@@ -105195,7 +105341,7 @@
      }
     },
     {
-     "id": "f2642",
+     "id": "f2643",
      "name": "Soporte Ø13.5 (+Y−Z)",
      "shape": "hole",
      "op": "cut",
@@ -105216,7 +105362,7 @@
      }
     },
     {
-     "id": "f2643",
+     "id": "f2644",
      "name": "Soporte Ø13.5 (+Y+Z)",
      "shape": "hole",
      "op": "cut",
@@ -105237,7 +105383,7 @@
      }
     },
     {
-     "id": "f2644",
+     "id": "f2645",
      "name": "Paso de eje Ø45",
      "shape": "hole",
      "op": "cut",
@@ -105258,7 +105404,7 @@
      }
     },
     {
-     "id": "f2645",
+     "id": "f2646",
      "name": "Cubrejunta conducido Ø11 (Y -1583.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -105279,7 +105425,7 @@
      }
     },
     {
-     "id": "f2646",
+     "id": "f2647",
      "name": "Cubrejunta conducido Ø11 (Y -1583.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -105300,7 +105446,7 @@
      }
     },
     {
-     "id": "f2647",
+     "id": "f2648",
      "name": "Cubrejunta conducido Ø11 (Y -1551.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -105321,7 +105467,7 @@
      }
     },
     {
-     "id": "f2648",
+     "id": "f2649",
      "name": "Cubrejunta conducido Ø11 (Y -1551.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -105387,7 +105533,7 @@
    "nota": "A3 CERRADO. 4 pernos M10 al alma y 4 al cabezal, EMITIDOS en las tres piezas: dos filas en Z -85 y -110 (paso 25 ≥ 2.2·d₀ = 24.2) y dos columnas a ±16 del centro del solape (paso 32), con ≥ 15 mm de distancia al canto en las tres chapas (mínimo 1.2·d₀ = 13.2, EN 1993-1-8). El canto del cubrejunta sube de 35 a 55 (Z -125…-70): con 35 sólo cabía UNA fila y la junta no cosía nada. No sube a 80 porque el faldón del cabezal muere en Z -125 y por abajo está el ensamble motor UniDrive del cliente (techo Z −155.17). Queda bajo el plano de transporte. Lado −X: entre el plano del cubrejunta (X 67.494) y el del alma (X 50.886) hay el escalón de 16.608 mm del alargue → los 4 pernos al alma llevan CASQUILLO SEPARADOR Ø16/Ø11 × 16.608. Los del cabezal son contacto plano.",
    "features": [
     {
-     "id": "f2649",
+     "id": "f2650",
      "name": "Cubrejunta 270×55×8",
      "shape": "sketch",
      "op": "union",
@@ -105429,7 +105575,7 @@
      }
     },
     {
-     "id": "f2650",
+     "id": "f2651",
      "name": "Al alma Ø11 (Y -208.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -105450,7 +105596,7 @@
      }
     },
     {
-     "id": "f2651",
+     "id": "f2652",
      "name": "Al alma Ø11 (Y -208.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -105471,7 +105617,7 @@
      }
     },
     {
-     "id": "f2652",
+     "id": "f2653",
      "name": "Al alma Ø11 (Y -176.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -105492,7 +105638,7 @@
      }
     },
     {
-     "id": "f2653",
+     "id": "f2654",
      "name": "Al alma Ø11 (Y -176.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -105513,7 +105659,7 @@
      }
     },
     {
-     "id": "f2654",
+     "id": "f2655",
      "name": "Al cabezal Ø11 (Y -73.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -105534,7 +105680,7 @@
      }
     },
     {
-     "id": "f2655",
+     "id": "f2656",
      "name": "Al cabezal Ø11 (Y -73.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -105555,7 +105701,7 @@
      }
     },
     {
-     "id": "f2656",
+     "id": "f2657",
      "name": "Al cabezal Ø11 (Y -41.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -105576,7 +105722,7 @@
      }
     },
     {
-     "id": "f2657",
+     "id": "f2658",
      "name": "Al cabezal Ø11 (Y -41.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -105640,7 +105786,7 @@
    "nota": "A3 CERRADO. 4 pernos M10 al alma y 4 al cabezal, EMITIDOS en las tres piezas: dos filas en Z -85 y -110 (paso 25 ≥ 2.2·d₀ = 24.2) y dos columnas a ±16 del centro del solape (paso 32), con ≥ 15 mm de distancia al canto en las tres chapas (mínimo 1.2·d₀ = 13.2, EN 1993-1-8). El canto del cubrejunta sube de 35 a 55 (Z -125…-70): con 35 sólo cabía UNA fila y la junta no cosía nada. No sube a 80 porque el faldón del cabezal muere en Z -125 y por abajo está el ensamble motor UniDrive del cliente (techo Z −155.17). Queda bajo el plano de transporte. Lado −X: entre el plano del cubrejunta (X 67.494) y el del alma (X 50.886) hay el escalón de 16.608 mm del alargue → los 4 pernos al alma llevan CASQUILLO SEPARADOR Ø16/Ø11 × 16.608. Los del cabezal son contacto plano.",
    "features": [
     {
-     "id": "f2658",
+     "id": "f2659",
      "name": "Cubrejunta 130×55×8",
      "shape": "sketch",
      "op": "union",
@@ -105682,7 +105828,7 @@
      }
     },
     {
-     "id": "f2659",
+     "id": "f2660",
      "name": "Al alma Ø11 (Y -1518.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -105703,7 +105849,7 @@
      }
     },
     {
-     "id": "f2660",
+     "id": "f2661",
      "name": "Al alma Ø11 (Y -1518.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -105724,7 +105870,7 @@
      }
     },
     {
-     "id": "f2661",
+     "id": "f2662",
      "name": "Al alma Ø11 (Y -1486.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -105745,7 +105891,7 @@
      }
     },
     {
-     "id": "f2662",
+     "id": "f2663",
      "name": "Al alma Ø11 (Y -1486.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -105766,7 +105912,7 @@
      }
     },
     {
-     "id": "f2663",
+     "id": "f2664",
      "name": "Al cabezal Ø11 (Y -1583.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -105787,7 +105933,7 @@
      }
     },
     {
-     "id": "f2664",
+     "id": "f2665",
      "name": "Al cabezal Ø11 (Y -1583.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -105808,7 +105954,7 @@
      }
     },
     {
-     "id": "f2665",
+     "id": "f2666",
      "name": "Al cabezal Ø11 (Y -1551.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -105829,7 +105975,7 @@
      }
     },
     {
-     "id": "f2666",
+     "id": "f2667",
      "name": "Al cabezal Ø11 (Y -1551.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -105877,8 +106023,8 @@
    "nota": "Lleva el cuadro 0×0 de Ø7 de RE-N en la cara de apoyo X 67.494 que publica adapt/params_tambores.mjs, más el paso de cada eje fijo. Una sola cartela por grupo: a 66 y 45 mm de separación, dos placas independientes se pisarían.",
    "features": [
     {
-     "id": "f2667",
-     "name": "Cartela 44×72×8",
+     "id": "f2668",
+     "name": "Cartela 36×68×8",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -105894,20 +106040,20 @@
      "params": {
       "pts": [
        [
-        -761,
+        -757,
         -84
        ],
        [
-        -717,
+        -721,
         -84
        ],
        [
-        -717,
-        -12
+        -721,
+        -16
        ],
        [
-        -761,
-        -12
+        -757,
+        -16
        ]
       ],
       "h": 8,
@@ -105919,7 +106065,7 @@
      }
     },
     {
-     "id": "f2668",
+     "id": "f2669",
      "name": "Perno de eje RE-N Ø7 (montaje directo B-20760)",
      "shape": "hole",
      "op": "cut",
@@ -105969,8 +106115,8 @@
    "nota": "Lleva el cuadro 0×0 de Ø7 de RE-S en la cara de apoyo X 67.494 que publica adapt/params_tambores.mjs, más el paso de cada eje fijo. Una sola cartela por grupo: a 66 y 45 mm de separación, dos placas independientes se pisarían.",
    "features": [
     {
-     "id": "f2669",
-     "name": "Cartela 44×72×8",
+     "id": "f2670",
+     "name": "Cartela 36×68×8",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -105986,20 +106132,20 @@
      "params": {
       "pts": [
        [
-        -1228,
+        -1224,
         -84
        ],
        [
-        -1184,
+        -1188,
         -84
        ],
        [
-        -1184,
-        -12
+        -1188,
+        -16
        ],
        [
-        -1228,
-        -12
+        -1224,
+        -16
        ]
       ],
       "h": 8,
@@ -106011,7 +106157,7 @@
      }
     },
     {
-     "id": "f2670",
+     "id": "f2671",
      "name": "Perno de eje RE-S Ø7 (montaje directo B-20760)",
      "shape": "hole",
      "op": "cut",
@@ -106072,7 +106218,7 @@
    "nota": "A4 CERRADO. Sube del alma del alargue al travesaño PG40: es EL AMARRE del bastidor a los canales laterales del NBT90, y hasta ahora era una PLETINA PLANA, contenida en el plano YZ, sin un solo taladro ni cordón — y una pletina en ese plano no se puede atornillar a un perfil cuyas ranuras miran a ±Y y ±Z. Ahora son dos alas: la VERTICAL (16 × 96 × 8) solapa 30 mm sobre el alma (Z -100…-70) y va SOLDADA — cordón de rincón continuo a=5.6 por las dos caras del solape (AWS D1.1, chapa de 8 mm), símbolo ISO 2553. Soldada y no atornillada por acceso: en +X la cara exterior del alma ES la cara interior del chapón del cliente y no hay sitio para tuerca, y una M10 roscada en 8 mm de chapa daría 0.8·d de empotramiento. La PESTAÑA (24 × 36 × 8) apoya contra la cara +Y del travesaño (Y -1420) con 2 Ø9 para tuerca martillo M8 en su ranura 10, separados NaN en X (≥ 2.2·d₀ = 19.8) y a 12 del rincón (≥ 1.2·d₀ = 10.8). Va a la ranura +Y y no a la de abajo porque en +X la pletina de soporte de RR1 ocupa Y −656…−556 en este mismo plano de chapa: la ranura −Z del travesaño norte (Y -1440) cae dentro de esa zona y la pieza no se podría montar.",
    "features": [
     {
-     "id": "f2671",
+     "id": "f2672",
      "name": "Ala vertical 16×96×8",
      "shape": "sketch",
      "op": "union",
@@ -106114,7 +106260,7 @@
      }
     },
     {
-     "id": "f2672",
+     "id": "f2673",
      "name": "Pestaña al travesaño 24×8×36",
      "shape": "box",
      "op": "union",
@@ -106135,7 +106281,7 @@
      }
     },
     {
-     "id": "f2673",
+     "id": "f2674",
      "name": "Ø9 M8 a la ranura +Y del travesaño (X +12)",
      "shape": "hole",
      "op": "cut",
@@ -106198,7 +106344,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M8, rosca total",
    "features": [
     {
-     "id": "f2674",
+     "id": "f2675",
      "name": "Cabeza hex e/c 13",
      "shape": "sketch",
      "op": "union",
@@ -106248,7 +106394,7 @@
      }
     },
     {
-     "id": "f2675",
+     "id": "f2676",
      "name": "Vástago Ø8×20",
      "shape": "cylinder",
      "op": "union",
@@ -106309,7 +106455,7 @@
    "nota": "A4 CERRADO. Sube del alma del alargue al travesaño PG40: es EL AMARRE del bastidor a los canales laterales del NBT90, y hasta ahora era una PLETINA PLANA, contenida en el plano YZ, sin un solo taladro ni cordón — y una pletina en ese plano no se puede atornillar a un perfil cuyas ranuras miran a ±Y y ±Z. Ahora son dos alas: la VERTICAL (16 × 96 × 8) solapa 30 mm sobre el alma (Z -100…-70) y va SOLDADA — cordón de rincón continuo a=5.6 por las dos caras del solape (AWS D1.1, chapa de 8 mm), símbolo ISO 2553. Soldada y no atornillada por acceso: en +X la cara exterior del alma ES la cara interior del chapón del cliente y no hay sitio para tuerca, y una M10 roscada en 8 mm de chapa daría 0.8·d de empotramiento. La PESTAÑA (24 × 36 × 8) apoya contra la cara +Y del travesaño (Y -535) con 2 Ø9 para tuerca martillo M8 en su ranura 10, separados NaN en X (≥ 2.2·d₀ = 19.8) y a 12 del rincón (≥ 1.2·d₀ = 10.8). Va a la ranura +Y y no a la de abajo porque en +X la pletina de soporte de RR1 ocupa Y −656…−556 en este mismo plano de chapa: la ranura −Z del travesaño norte (Y -555) cae dentro de esa zona y la pieza no se podría montar.",
    "features": [
     {
-     "id": "f2676",
+     "id": "f2677",
      "name": "Ala vertical 16×96×8",
      "shape": "sketch",
      "op": "union",
@@ -106351,7 +106497,7 @@
      }
     },
     {
-     "id": "f2677",
+     "id": "f2678",
      "name": "Pestaña al travesaño 24×8×36",
      "shape": "box",
      "op": "union",
@@ -106372,7 +106518,7 @@
      }
     },
     {
-     "id": "f2678",
+     "id": "f2679",
      "name": "Ø9 M8 a la ranura +Y del travesaño (X +12)",
      "shape": "hole",
      "op": "cut",
@@ -106435,7 +106581,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M8, rosca total",
    "features": [
     {
-     "id": "f2679",
+     "id": "f2680",
      "name": "Cabeza hex e/c 13",
      "shape": "sketch",
      "op": "union",
@@ -106485,7 +106631,7 @@
      }
     },
     {
-     "id": "f2680",
+     "id": "f2681",
      "name": "Vástago Ø8×20",
      "shape": "cylinder",
      "op": "union",
@@ -106535,7 +106681,7 @@
    "norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
    "features": [
     {
-     "id": "f2681",
+     "id": "f2682",
      "name": "Cabeza hex e/c 15.24",
      "shape": "sketch",
      "op": "union",
@@ -106585,7 +106731,7 @@
      }
     },
     {
-     "id": "f2682",
+     "id": "f2683",
      "name": "Vástago Ø9.525×25",
      "shape": "cylinder",
      "op": "union",
@@ -106635,7 +106781,7 @@
    "norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
    "features": [
     {
-     "id": "f2683",
+     "id": "f2684",
      "name": "Arandela Ø20.96×1.6",
      "shape": "cylinder",
      "op": "union",
@@ -106655,7 +106801,7 @@
      }
     },
     {
-     "id": "f2684",
+     "id": "f2685",
      "name": "Ø10.13",
      "shape": "hole",
      "op": "cut",
@@ -106706,7 +106852,7 @@
    "norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
    "features": [
     {
-     "id": "f2685",
+     "id": "f2686",
      "name": "Tuerca e/c 15.24",
      "shape": "sketch",
      "op": "union",
@@ -106756,7 +106902,7 @@
      }
     },
     {
-     "id": "f2686",
+     "id": "f2687",
      "name": "Rosca Ø9.525",
      "shape": "hole",
      "op": "cut",
@@ -106807,7 +106953,7 @@
    "norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
    "features": [
     {
-     "id": "f2687",
+     "id": "f2688",
      "name": "Cabeza hex e/c 15.24",
      "shape": "sketch",
      "op": "union",
@@ -106857,7 +107003,7 @@
      }
     },
     {
-     "id": "f2688",
+     "id": "f2689",
      "name": "Vástago Ø9.525×25",
      "shape": "cylinder",
      "op": "union",
@@ -106907,7 +107053,7 @@
    "norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
    "features": [
     {
-     "id": "f2689",
+     "id": "f2690",
      "name": "Arandela Ø20.96×1.6",
      "shape": "cylinder",
      "op": "union",
@@ -106927,7 +107073,7 @@
      }
     },
     {
-     "id": "f2690",
+     "id": "f2691",
      "name": "Ø10.13",
      "shape": "hole",
      "op": "cut",
@@ -106978,7 +107124,7 @@
    "norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
    "features": [
     {
-     "id": "f2691",
+     "id": "f2692",
      "name": "Tuerca e/c 15.24",
      "shape": "sketch",
      "op": "union",
@@ -107028,7 +107174,7 @@
      }
     },
     {
-     "id": "f2692",
+     "id": "f2693",
      "name": "Rosca Ø9.525",
      "shape": "hole",
      "op": "cut",
@@ -107079,7 +107225,7 @@
    "norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
    "features": [
     {
-     "id": "f2693",
+     "id": "f2694",
      "name": "Cabeza hex e/c 15.24",
      "shape": "sketch",
      "op": "union",
@@ -107129,7 +107275,7 @@
      }
     },
     {
-     "id": "f2694",
+     "id": "f2695",
      "name": "Vástago Ø9.525×25",
      "shape": "cylinder",
      "op": "union",
@@ -107179,7 +107325,7 @@
    "norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
    "features": [
     {
-     "id": "f2695",
+     "id": "f2696",
      "name": "Arandela Ø20.96×1.6",
      "shape": "cylinder",
      "op": "union",
@@ -107199,7 +107345,7 @@
      }
     },
     {
-     "id": "f2696",
+     "id": "f2697",
      "name": "Ø10.13",
      "shape": "hole",
      "op": "cut",
@@ -107250,7 +107396,7 @@
    "norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
    "features": [
     {
-     "id": "f2697",
+     "id": "f2698",
      "name": "Tuerca e/c 15.24",
      "shape": "sketch",
      "op": "union",
@@ -107300,7 +107446,7 @@
      }
     },
     {
-     "id": "f2698",
+     "id": "f2699",
      "name": "Rosca Ø9.525",
      "shape": "hole",
      "op": "cut",
@@ -107366,7 +107512,7 @@
    "nota": "Corre a ras de la cara interior del chapón (X 499.418) FUERA del tramo del módulo; dentro del módulo el relevo lo toma el tramo de lap. Techo Z -70, suelo Z -222 — 3.03 sobre el canal de montaje del cilindro del NBT90.",
    "features": [
     {
-     "id": "f2699",
+     "id": "f2700",
      "name": "Pletina Acero A36 (S275JR) e=8 · 327 × 152",
      "shape": "sketch",
      "op": "union",
@@ -107408,7 +107554,7 @@
      }
     },
     {
-     "id": "f2700",
+     "id": "f2701",
      "name": "Amarre chapón Ø11 (Y -1500)",
      "shape": "hole",
      "op": "cut",
@@ -107429,7 +107575,7 @@
      }
     },
     {
-     "id": "f2701",
+     "id": "f2702",
      "name": "Amarre chapón Ø11 (Y -1470)",
      "shape": "hole",
      "op": "cut",
@@ -107450,7 +107596,7 @@
      }
     },
     {
-     "id": "f2702",
+     "id": "f2703",
      "name": "Amarre chapón Ø11 (Y -1440)",
      "shape": "hole",
      "op": "cut",
@@ -107471,7 +107617,7 @@
      }
     },
     {
-     "id": "f2703",
+     "id": "f2704",
      "name": "Cubrejunta conducido Ø11 (Y -1518.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -107492,7 +107638,7 @@
      }
     },
     {
-     "id": "f2704",
+     "id": "f2705",
      "name": "Cubrejunta conducido Ø11 (Y -1518.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -107513,7 +107659,7 @@
      }
     },
     {
-     "id": "f2705",
+     "id": "f2706",
      "name": "Cubrejunta conducido Ø11 (Y -1486.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -107534,7 +107680,7 @@
      }
     },
     {
-     "id": "f2706",
+     "id": "f2707",
      "name": "Cubrejunta conducido Ø11 (Y -1486.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -107555,7 +107701,7 @@
      }
     },
     {
-     "id": "f2707",
+     "id": "f2708",
      "name": "Cubrejunta alma↔lap M8 (fondo de rosca Ø6.8, Y -1254)",
      "shape": "hole",
      "op": "cut",
@@ -107576,7 +107722,7 @@
      }
     },
     {
-     "id": "f2708",
+     "id": "f2709",
      "name": "Cubrejunta alma↔lap M8 (fondo de rosca Ø6.8, Y -1222)",
      "shape": "hole",
      "op": "cut",
@@ -107634,7 +107780,7 @@
    "nota": "Corre a ras de la cara interior del chapón (X 499.418) FUERA del tramo del módulo; dentro del módulo el relevo lo toma el tramo de lap. Techo Z -70, suelo Z -222 — 3.03 sobre el canal de montaje del cilindro del NBT90.",
    "features": [
     {
-     "id": "f2709",
+     "id": "f2710",
      "name": "Pletina Acero A36 (S275JR) e=8 · 549 × 152",
      "shape": "sketch",
      "op": "union",
@@ -107676,7 +107822,7 @@
      }
     },
     {
-     "id": "f2710",
+     "id": "f2711",
      "name": "Amarre chapón Ø11 (Y -480)",
      "shape": "hole",
      "op": "cut",
@@ -107697,7 +107843,7 @@
      }
     },
     {
-     "id": "f2711",
+     "id": "f2712",
      "name": "Amarre chapón Ø11 (Y -450)",
      "shape": "hole",
      "op": "cut",
@@ -107718,7 +107864,7 @@
      }
     },
     {
-     "id": "f2712",
+     "id": "f2713",
      "name": "Amarre chapón Ø11 (Y -360)",
      "shape": "hole",
      "op": "cut",
@@ -107739,7 +107885,7 @@
      }
     },
     {
-     "id": "f2713",
+     "id": "f2714",
      "name": "Amarre chapón Ø11 (Y -260)",
      "shape": "hole",
      "op": "cut",
@@ -107760,7 +107906,7 @@
      }
     },
     {
-     "id": "f2714",
+     "id": "f2715",
      "name": "Cubrejunta motriz Ø11 (Y -241, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -107781,7 +107927,7 @@
      }
     },
     {
-     "id": "f2715",
+     "id": "f2716",
      "name": "Cubrejunta motriz Ø11 (Y -241, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -107802,7 +107948,7 @@
      }
     },
     {
-     "id": "f2716",
+     "id": "f2717",
      "name": "Cubrejunta motriz Ø11 (Y -209, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -107823,7 +107969,7 @@
      }
     },
     {
-     "id": "f2717",
+     "id": "f2718",
      "name": "Cubrejunta motriz Ø11 (Y -209, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -107873,7 +108019,7 @@
    "nota": "Rellena el hueco de 5.951 entre la cara interior del chapón (499.418) y la del alma del side channel (505.369); ahí van los pernos 3/8 a las colisas SIN casquillos. Vive dentro de la MUESCA ya declarada del chapón (techo Z -93 < −83) y deja 3.958 a la placa peine. Partido en dos para rodear la PLACA COLGANTE DEL CANAL del NBT90 (X 500.61…505.37, Y −1081.5…−865.5), que es intocable.",
    "features": [
     {
-     "id": "f2718",
+     "id": "f2719",
      "name": "Pletina Acero A36 (S275JR) e=5.9 · 118 × 129",
      "shape": "sketch",
      "op": "union",
@@ -107915,7 +108061,7 @@
      }
     },
     {
-     "id": "f2719",
+     "id": "f2720",
      "name": "Amarre side channel Ø11.125 (Y -1145)",
      "shape": "hole",
      "op": "cut",
@@ -107965,7 +108111,7 @@
    "nota": "Rellena el hueco de 5.951 entre la cara interior del chapón (499.418) y la del alma del side channel (505.369); ahí van los pernos 3/8 a las colisas SIN casquillos. Vive dentro de la MUESCA ya declarada del chapón (techo Z -93 < −83) y deja 3.958 a la placa peine. Partido en dos para rodear la PLACA COLGANTE DEL CANAL del NBT90 (X 500.61…505.37, Y −1081.5…−865.5), que es intocable.",
    "features": [
     {
-     "id": "f2720",
+     "id": "f2721",
      "name": "Pletina Acero A36 (S275JR) e=5.9 · 116 × 129",
      "shape": "sketch",
      "op": "union",
@@ -108007,7 +108153,7 @@
      }
     },
     {
-     "id": "f2721",
+     "id": "f2722",
      "name": "Amarre side channel Ø11.125 (Y -802)",
      "shape": "hole",
      "op": "cut",
@@ -108068,7 +108214,7 @@
    "nota": "Empalma alma y lap por dentro; esquiva las placas peine del NBT90. CÓMO SE FIJA (lo que faltaba): 2 tornillos M8 avellanados DIN 7991 ROSCADOS AL ALMA (e = 8, empotramiento 1.0·d) y 0 M6 avellanados ROSCADOS AL LAP a través de un casquillo separador Ø14/Ø6.6 × 8.5 (el lap vive un plano más afuera). Los dos avellanados van en la cara INTERIOR del cubrejunta, que es la única accesible: por fuera del lap quedan 0.05 mm hasta el alma del side channel del NBT90 (X 505.318 contra 505.369) — no cabe cabeza ni tuerca, y por eso NO son pernos pasantes. M6 y no M8 en el lap porque su espesor es 5.9: con M8 el empotramiento bajaría a 0.74·d. Los 0.5 mm entre cubrejunta y alma son holgura de MODELO (evita el sliver booleano): en montaje es contacto plano.",
    "features": [
     {
-     "id": "f2722",
+     "id": "f2723",
      "name": "Cubrejunta 96×100×8",
      "shape": "sketch",
      "op": "union",
@@ -108110,7 +108256,7 @@
      }
     },
     {
-     "id": "f2723",
+     "id": "f2724",
      "name": "Al alma Ø9 M8 avellanado (Y -1254)",
      "shape": "hole",
      "op": "cut",
@@ -108131,7 +108277,7 @@
      }
     },
     {
-     "id": "f2724",
+     "id": "f2725",
      "name": "Al alma Ø9 M8 avellanado (Y -1222)",
      "shape": "hole",
      "op": "cut",
@@ -108182,7 +108328,7 @@
    "nota": "Empalma alma y lap por dentro; esquiva las placas peine del NBT90. CÓMO SE FIJA (lo que faltaba): 0 tornillos M8 avellanados DIN 7991 ROSCADOS AL ALMA (e = 8, empotramiento 1.0·d) y 0 M6 avellanados ROSCADOS AL LAP a través de un casquillo separador Ø14/Ø6.6 × 8.5 (el lap vive un plano más afuera). Los dos avellanados van en la cara INTERIOR del cubrejunta, que es la única accesible: por fuera del lap quedan 0.05 mm hasta el alma del side channel del NBT90 (X 505.318 contra 505.369) — no cabe cabeza ni tuerca, y por eso NO son pernos pasantes. M6 y no M8 en el lap porque su espesor es 5.9: con M8 el empotramiento bajaría a 0.74·d. Los 0.5 mm entre cubrejunta y alma son holgura de MODELO (evita el sliver booleano): en montaje es contacto plano.",
    "features": [
     {
-     "id": "f2725",
+     "id": "f2726",
      "name": "Cubrejunta 76×100×8",
      "shape": "sketch",
      "op": "union",
@@ -108265,7 +108411,7 @@
    "nota": "Cara de apoyo del UCF 207 en X 491.418 (rodamientos hacia dentro): cuadro 92×92 de Ø13.5 centrado en el eje, más paso de eje Ø45. Coplanario con el alma y empalmado a ella por cubrejunta — con 4 Ø11 en Z -85 y -110 (A3). Vive fuera de la ventana Y del deck, por eso puede subir sobre el plano de transporte. A5: lleva además los 2 Ø9 (Y 46 y 110, Z -85) de la placa de extremo del travesaño frontal del tensor; por eso el canto llega a Y 122 y no a 90, que dejaba el segundo perno 20 mm al aire.",
    "features": [
     {
-     "id": "f2726",
+     "id": "f2727",
      "name": "Cabezal Acero A36 (S275JR) e=8 · 247 × 195",
      "shape": "sketch",
      "op": "union",
@@ -108307,7 +108453,7 @@
      }
     },
     {
-     "id": "f2727",
+     "id": "f2728",
      "name": "Soporte Ø13.5 (−Y−Z)",
      "shape": "hole",
      "op": "cut",
@@ -108328,7 +108474,7 @@
      }
     },
     {
-     "id": "f2728",
+     "id": "f2729",
      "name": "Soporte Ø13.5 (−Y+Z)",
      "shape": "hole",
      "op": "cut",
@@ -108349,7 +108495,7 @@
      }
     },
     {
-     "id": "f2729",
+     "id": "f2730",
      "name": "Soporte Ø13.5 (+Y−Z)",
      "shape": "hole",
      "op": "cut",
@@ -108370,7 +108516,7 @@
      }
     },
     {
-     "id": "f2730",
+     "id": "f2731",
      "name": "Soporte Ø13.5 (+Y+Z)",
      "shape": "hole",
      "op": "cut",
@@ -108391,7 +108537,7 @@
      }
     },
     {
-     "id": "f2731",
+     "id": "f2732",
      "name": "Paso de eje Ø45",
      "shape": "hole",
      "op": "cut",
@@ -108412,7 +108558,7 @@
      }
     },
     {
-     "id": "f2732",
+     "id": "f2733",
      "name": "Cubrejunta motriz Ø11 (Y -73.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -108433,7 +108579,7 @@
      }
     },
     {
-     "id": "f2733",
+     "id": "f2734",
      "name": "Cubrejunta motriz Ø11 (Y -73.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -108454,7 +108600,7 @@
      }
     },
     {
-     "id": "f2734",
+     "id": "f2735",
      "name": "Cubrejunta motriz Ø11 (Y -41.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -108475,7 +108621,7 @@
      }
     },
     {
-     "id": "f2735",
+     "id": "f2736",
      "name": "Cubrejunta motriz Ø11 (Y -41.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -108496,7 +108642,7 @@
      }
     },
     {
-     "id": "f2736",
+     "id": "f2737",
      "name": "Placa de extremo del travesaño frontal del tensor Ø9 (Y 46)",
      "shape": "hole",
      "op": "cut",
@@ -108517,7 +108663,7 @@
      }
     },
     {
-     "id": "f2737",
+     "id": "f2738",
      "name": "Placa de extremo del travesaño frontal del tensor Ø9 (Y 110)",
      "shape": "hole",
      "op": "cut",
@@ -108575,7 +108721,7 @@
    "nota": "Cara de apoyo del UCF 207 en X 491.418 (rodamientos hacia dentro): cuadro 92×92 de Ø13.5 centrado en el eje, más paso de eje Ø45. Coplanario con el alma y empalmado a ella por cubrejunta — con 4 Ø11 en Z -85 y -110 (A3). Vive fuera de la ventana Y del deck, por eso puede subir sobre el plano de transporte.",
    "features": [
     {
-     "id": "f2738",
+     "id": "f2739",
      "name": "Cabezal Acero A36 (S275JR) e=8 · 162.4 × 195",
      "shape": "sketch",
      "op": "union",
@@ -108617,7 +108763,7 @@
      }
     },
     {
-     "id": "f2739",
+     "id": "f2740",
      "name": "Soporte Ø13.5 (−Y−Z)",
      "shape": "hole",
      "op": "cut",
@@ -108638,7 +108784,7 @@
      }
     },
     {
-     "id": "f2740",
+     "id": "f2741",
      "name": "Soporte Ø13.5 (−Y+Z)",
      "shape": "hole",
      "op": "cut",
@@ -108659,7 +108805,7 @@
      }
     },
     {
-     "id": "f2741",
+     "id": "f2742",
      "name": "Soporte Ø13.5 (+Y−Z)",
      "shape": "hole",
      "op": "cut",
@@ -108680,7 +108826,7 @@
      }
     },
     {
-     "id": "f2742",
+     "id": "f2743",
      "name": "Soporte Ø13.5 (+Y+Z)",
      "shape": "hole",
      "op": "cut",
@@ -108701,7 +108847,7 @@
      }
     },
     {
-     "id": "f2743",
+     "id": "f2744",
      "name": "Paso de eje Ø45",
      "shape": "hole",
      "op": "cut",
@@ -108722,7 +108868,7 @@
      }
     },
     {
-     "id": "f2744",
+     "id": "f2745",
      "name": "Cubrejunta conducido Ø11 (Y -1583.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -108743,7 +108889,7 @@
      }
     },
     {
-     "id": "f2745",
+     "id": "f2746",
      "name": "Cubrejunta conducido Ø11 (Y -1583.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -108764,7 +108910,7 @@
      }
     },
     {
-     "id": "f2746",
+     "id": "f2747",
      "name": "Cubrejunta conducido Ø11 (Y -1551.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -108785,7 +108931,7 @@
      }
     },
     {
-     "id": "f2747",
+     "id": "f2748",
      "name": "Cubrejunta conducido Ø11 (Y -1551.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -108851,7 +108997,7 @@
    "nota": "A3 CERRADO. 4 pernos M10 al alma y 4 al cabezal, EMITIDOS en las tres piezas: dos filas en Z -85 y -110 (paso 25 ≥ 2.2·d₀ = 24.2) y dos columnas a ±16 del centro del solape (paso 32), con ≥ 15 mm de distancia al canto en las tres chapas (mínimo 1.2·d₀ = 13.2, EN 1993-1-8). El canto del cubrejunta sube de 35 a 55 (Z -125…-70): con 35 sólo cabía UNA fila y la junta no cosía nada. No sube a 80 porque el faldón del cabezal muere en Z -125 y por abajo está el ensamble motor UniDrive del cliente (techo Z −155.17). Queda bajo el plano de transporte. Lado +X: contacto plano cara con cara contra alma y cabezal (los tres en X 483.418…491.418 / 491.418).",
    "features": [
     {
-     "id": "f2748",
+     "id": "f2749",
      "name": "Cubrejunta 270×55×8",
      "shape": "sketch",
      "op": "union",
@@ -108893,7 +109039,7 @@
      }
     },
     {
-     "id": "f2749",
+     "id": "f2750",
      "name": "Al alma Ø11 (Y -241, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -108914,7 +109060,7 @@
      }
     },
     {
-     "id": "f2750",
+     "id": "f2751",
      "name": "Al alma Ø11 (Y -241, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -108935,7 +109081,7 @@
      }
     },
     {
-     "id": "f2751",
+     "id": "f2752",
      "name": "Al alma Ø11 (Y -209, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -108956,7 +109102,7 @@
      }
     },
     {
-     "id": "f2752",
+     "id": "f2753",
      "name": "Al alma Ø11 (Y -209, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -108977,7 +109123,7 @@
      }
     },
     {
-     "id": "f2753",
+     "id": "f2754",
      "name": "Al cabezal Ø11 (Y -73.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -108998,7 +109144,7 @@
      }
     },
     {
-     "id": "f2754",
+     "id": "f2755",
      "name": "Al cabezal Ø11 (Y -73.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -109019,7 +109165,7 @@
      }
     },
     {
-     "id": "f2755",
+     "id": "f2756",
      "name": "Al cabezal Ø11 (Y -41.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -109040,7 +109186,7 @@
      }
     },
     {
-     "id": "f2756",
+     "id": "f2757",
      "name": "Al cabezal Ø11 (Y -41.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -109104,7 +109250,7 @@
    "nota": "A3 CERRADO. 4 pernos M10 al alma y 4 al cabezal, EMITIDOS en las tres piezas: dos filas en Z -85 y -110 (paso 25 ≥ 2.2·d₀ = 24.2) y dos columnas a ±16 del centro del solape (paso 32), con ≥ 15 mm de distancia al canto en las tres chapas (mínimo 1.2·d₀ = 13.2, EN 1993-1-8). El canto del cubrejunta sube de 35 a 55 (Z -125…-70): con 35 sólo cabía UNA fila y la junta no cosía nada. No sube a 80 porque el faldón del cabezal muere en Z -125 y por abajo está el ensamble motor UniDrive del cliente (techo Z −155.17). Queda bajo el plano de transporte. Lado +X: contacto plano cara con cara contra alma y cabezal (los tres en X 483.418…491.418 / 491.418).",
    "features": [
     {
-     "id": "f2757",
+     "id": "f2758",
      "name": "Cubrejunta 130×55×8",
      "shape": "sketch",
      "op": "union",
@@ -109146,7 +109292,7 @@
      }
     },
     {
-     "id": "f2758",
+     "id": "f2759",
      "name": "Al alma Ø11 (Y -1518.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -109167,7 +109313,7 @@
      }
     },
     {
-     "id": "f2759",
+     "id": "f2760",
      "name": "Al alma Ø11 (Y -1518.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -109188,7 +109334,7 @@
      }
     },
     {
-     "id": "f2760",
+     "id": "f2761",
      "name": "Al alma Ø11 (Y -1486.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -109209,7 +109355,7 @@
      }
     },
     {
-     "id": "f2761",
+     "id": "f2762",
      "name": "Al alma Ø11 (Y -1486.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -109230,7 +109376,7 @@
      }
     },
     {
-     "id": "f2762",
+     "id": "f2763",
      "name": "Al cabezal Ø11 (Y -1583.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -109251,7 +109397,7 @@
      }
     },
     {
-     "id": "f2763",
+     "id": "f2764",
      "name": "Al cabezal Ø11 (Y -1583.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -109272,7 +109418,7 @@
      }
     },
     {
-     "id": "f2764",
+     "id": "f2765",
      "name": "Al cabezal Ø11 (Y -1551.5, Z -85)",
      "shape": "hole",
      "op": "cut",
@@ -109293,7 +109439,7 @@
      }
     },
     {
-     "id": "f2765",
+     "id": "f2766",
      "name": "Al cabezal Ø11 (Y -1551.5, Z -110)",
      "shape": "hole",
      "op": "cut",
@@ -109352,7 +109498,7 @@
    "nota": "A4 CERRADO. Sube del alma del alargue al travesaño PG40: es EL AMARRE del bastidor a los canales laterales del NBT90, y hasta ahora era una PLETINA PLANA, contenida en el plano YZ, sin un solo taladro ni cordón — y una pletina en ese plano no se puede atornillar a un perfil cuyas ranuras miran a ±Y y ±Z. Ahora son dos alas: la VERTICAL (16 × 96 × 8) solapa 30 mm sobre el alma (Z -100…-70) y va SOLDADA — cordón de rincón continuo a=5.6 por las dos caras del solape (AWS D1.1, chapa de 8 mm), símbolo ISO 2553. Soldada y no atornillada por acceso: en +X la cara exterior del alma ES la cara interior del chapón del cliente y no hay sitio para tuerca, y una M10 roscada en 8 mm de chapa daría 0.8·d de empotramiento. La PESTAÑA (24 × 36 × 8) apoya contra la cara +Y del travesaño (Y -1420) con 2 Ø9 para tuerca martillo M8 en su ranura 10, separados NaN en X (≥ 2.2·d₀ = 19.8) y a 12 del rincón (≥ 1.2·d₀ = 10.8). Va a la ranura +Y y no a la de abajo porque en +X la pletina de soporte de RR1 ocupa Y −656…−556 en este mismo plano de chapa: la ranura −Z del travesaño norte (Y -1440) cae dentro de esa zona y la pieza no se podría montar.",
    "features": [
     {
-     "id": "f2766",
+     "id": "f2767",
      "name": "Ala vertical 16×96×8",
      "shape": "sketch",
      "op": "union",
@@ -109394,7 +109540,7 @@
      }
     },
     {
-     "id": "f2767",
+     "id": "f2768",
      "name": "Pestaña al travesaño 24×8×36",
      "shape": "box",
      "op": "union",
@@ -109415,7 +109561,7 @@
      }
     },
     {
-     "id": "f2768",
+     "id": "f2769",
      "name": "Ø9 M8 a la ranura +Y del travesaño (X +12)",
      "shape": "hole",
      "op": "cut",
@@ -109478,7 +109624,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M8, rosca total",
    "features": [
     {
-     "id": "f2769",
+     "id": "f2770",
      "name": "Cabeza hex e/c 13",
      "shape": "sketch",
      "op": "union",
@@ -109528,7 +109674,7 @@
      }
     },
     {
-     "id": "f2770",
+     "id": "f2771",
      "name": "Vástago Ø8×20",
      "shape": "cylinder",
      "op": "union",
@@ -109589,7 +109735,7 @@
    "nota": "A4 CERRADO. Sube del alma del alargue al travesaño PG40: es EL AMARRE del bastidor a los canales laterales del NBT90, y hasta ahora era una PLETINA PLANA, contenida en el plano YZ, sin un solo taladro ni cordón — y una pletina en ese plano no se puede atornillar a un perfil cuyas ranuras miran a ±Y y ±Z. Ahora son dos alas: la VERTICAL (16 × 96 × 8) solapa 30 mm sobre el alma (Z -100…-70) y va SOLDADA — cordón de rincón continuo a=5.6 por las dos caras del solape (AWS D1.1, chapa de 8 mm), símbolo ISO 2553. Soldada y no atornillada por acceso: en +X la cara exterior del alma ES la cara interior del chapón del cliente y no hay sitio para tuerca, y una M10 roscada en 8 mm de chapa daría 0.8·d de empotramiento. La PESTAÑA (24 × 36 × 8) apoya contra la cara +Y del travesaño (Y -535) con 2 Ø9 para tuerca martillo M8 en su ranura 10, separados NaN en X (≥ 2.2·d₀ = 19.8) y a 12 del rincón (≥ 1.2·d₀ = 10.8). Va a la ranura +Y y no a la de abajo porque en +X la pletina de soporte de RR1 ocupa Y −656…−556 en este mismo plano de chapa: la ranura −Z del travesaño norte (Y -555) cae dentro de esa zona y la pieza no se podría montar.",
    "features": [
     {
-     "id": "f2771",
+     "id": "f2772",
      "name": "Ala vertical 16×96×8",
      "shape": "sketch",
      "op": "union",
@@ -109631,7 +109777,7 @@
      }
     },
     {
-     "id": "f2772",
+     "id": "f2773",
      "name": "Pestaña al travesaño 24×8×36",
      "shape": "box",
      "op": "union",
@@ -109652,7 +109798,7 @@
      }
     },
     {
-     "id": "f2773",
+     "id": "f2774",
      "name": "Ø9 M8 a la ranura +Y del travesaño (X +12)",
      "shape": "hole",
      "op": "cut",
@@ -109715,7 +109861,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M8, rosca total",
    "features": [
     {
-     "id": "f2774",
+     "id": "f2775",
      "name": "Cabeza hex e/c 13",
      "shape": "sketch",
      "op": "union",
@@ -109765,7 +109911,7 @@
      }
     },
     {
-     "id": "f2775",
+     "id": "f2776",
      "name": "Vástago Ø8×20",
      "shape": "cylinder",
      "op": "union",
@@ -109815,7 +109961,7 @@
    "norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
    "features": [
     {
-     "id": "f2776",
+     "id": "f2777",
      "name": "Cabeza hex e/c 15.24",
      "shape": "sketch",
      "op": "union",
@@ -109865,7 +110011,7 @@
      }
     },
     {
-     "id": "f2777",
+     "id": "f2778",
      "name": "Vástago Ø9.525×25",
      "shape": "cylinder",
      "op": "union",
@@ -109915,7 +110061,7 @@
    "norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
    "features": [
     {
-     "id": "f2778",
+     "id": "f2779",
      "name": "Arandela Ø20.96×1.6",
      "shape": "cylinder",
      "op": "union",
@@ -109935,7 +110081,7 @@
      }
     },
     {
-     "id": "f2779",
+     "id": "f2780",
      "name": "Ø10.13",
      "shape": "hole",
      "op": "cut",
@@ -109986,7 +110132,7 @@
    "norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
    "features": [
     {
-     "id": "f2780",
+     "id": "f2781",
      "name": "Tuerca e/c 15.24",
      "shape": "sketch",
      "op": "union",
@@ -110036,7 +110182,7 @@
      }
     },
     {
-     "id": "f2781",
+     "id": "f2782",
      "name": "Rosca Ø9.525",
      "shape": "hole",
      "op": "cut",
@@ -110087,7 +110233,7 @@
    "norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 3/8-16 UNC-2A",
    "features": [
     {
-     "id": "f2782",
+     "id": "f2783",
      "name": "Cabeza hex e/c 15.24",
      "shape": "sketch",
      "op": "union",
@@ -110137,7 +110283,7 @@
      }
     },
     {
-     "id": "f2783",
+     "id": "f2784",
      "name": "Vástago Ø9.525×25",
      "shape": "cylinder",
      "op": "union",
@@ -110187,7 +110333,7 @@
    "norma": "ASME B18.22.1 — arandela plana tipo A, 3/8\", serie estrecha (N, Ø ext. 20.62)",
    "features": [
     {
-     "id": "f2784",
+     "id": "f2785",
      "name": "Arandela Ø20.96×1.6",
      "shape": "cylinder",
      "op": "union",
@@ -110207,7 +110353,7 @@
      }
     },
     {
-     "id": "f2785",
+     "id": "f2786",
      "name": "Ø10.13",
      "shape": "hole",
      "op": "cut",
@@ -110258,7 +110404,7 @@
    "norma": "ASME B18.2.2 — tuerca hexagonal 3/8-16 UNC-2B",
    "features": [
     {
-     "id": "f2786",
+     "id": "f2787",
      "name": "Tuerca e/c 15.24",
      "shape": "sketch",
      "op": "union",
@@ -110308,7 +110454,7 @@
      }
     },
     {
-     "id": "f2787",
+     "id": "f2788",
      "name": "Rosca Ø9.525",
      "shape": "hole",
      "op": "cut",
@@ -110359,7 +110505,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M10, rosca total",
    "features": [
     {
-     "id": "f2788",
+     "id": "f2789",
      "name": "Cabeza hex e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -110409,7 +110555,7 @@
      }
     },
     {
-     "id": "f2789",
+     "id": "f2790",
      "name": "Vástago Ø10×50",
      "shape": "cylinder",
      "op": "union",
@@ -110469,7 +110615,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M10",
    "features": [
     {
-     "id": "f2790",
+     "id": "f2791",
      "name": "Tuerca e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -110519,7 +110665,7 @@
      }
     },
     {
-     "id": "f2791",
+     "id": "f2792",
      "name": "Rosca Ø10",
      "shape": "hole",
      "op": "cut",
@@ -110571,7 +110717,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M10, rosca total",
    "features": [
     {
-     "id": "f2792",
+     "id": "f2793",
      "name": "Cabeza hex e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -110621,7 +110767,7 @@
      }
     },
     {
-     "id": "f2793",
+     "id": "f2794",
      "name": "Vástago Ø10×50",
      "shape": "cylinder",
      "op": "union",
@@ -110681,7 +110827,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M10",
    "features": [
     {
-     "id": "f2794",
+     "id": "f2795",
      "name": "Tuerca e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -110731,7 +110877,7 @@
      }
     },
     {
-     "id": "f2795",
+     "id": "f2796",
      "name": "Rosca Ø10",
      "shape": "hole",
      "op": "cut",
@@ -110783,7 +110929,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M10, rosca total",
    "features": [
     {
-     "id": "f2796",
+     "id": "f2797",
      "name": "Cabeza hex e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -110833,7 +110979,7 @@
      }
     },
     {
-     "id": "f2797",
+     "id": "f2798",
      "name": "Vástago Ø10×50",
      "shape": "cylinder",
      "op": "union",
@@ -110893,7 +111039,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M10",
    "features": [
     {
-     "id": "f2798",
+     "id": "f2799",
      "name": "Tuerca e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -110943,7 +111089,7 @@
      }
     },
     {
-     "id": "f2799",
+     "id": "f2800",
      "name": "Rosca Ø10",
      "shape": "hole",
      "op": "cut",
@@ -110995,7 +111141,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M10, rosca total",
    "features": [
     {
-     "id": "f2800",
+     "id": "f2801",
      "name": "Cabeza hex e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -111045,7 +111191,7 @@
      }
     },
     {
-     "id": "f2801",
+     "id": "f2802",
      "name": "Vástago Ø10×50",
      "shape": "cylinder",
      "op": "union",
@@ -111105,7 +111251,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M10",
    "features": [
     {
-     "id": "f2802",
+     "id": "f2803",
      "name": "Tuerca e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -111155,7 +111301,7 @@
      }
     },
     {
-     "id": "f2803",
+     "id": "f2804",
      "name": "Rosca Ø10",
      "shape": "hole",
      "op": "cut",
@@ -111207,7 +111353,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M10, rosca total",
    "features": [
     {
-     "id": "f2804",
+     "id": "f2805",
      "name": "Cabeza hex e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -111257,7 +111403,7 @@
      }
     },
     {
-     "id": "f2805",
+     "id": "f2806",
      "name": "Vástago Ø10×50",
      "shape": "cylinder",
      "op": "union",
@@ -111317,7 +111463,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M10",
    "features": [
     {
-     "id": "f2806",
+     "id": "f2807",
      "name": "Tuerca e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -111367,7 +111513,7 @@
      }
     },
     {
-     "id": "f2807",
+     "id": "f2808",
      "name": "Rosca Ø10",
      "shape": "hole",
      "op": "cut",
@@ -111419,7 +111565,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M10, rosca total",
    "features": [
     {
-     "id": "f2808",
+     "id": "f2809",
      "name": "Cabeza hex e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -111469,7 +111615,7 @@
      }
     },
     {
-     "id": "f2809",
+     "id": "f2810",
      "name": "Vástago Ø10×50",
      "shape": "cylinder",
      "op": "union",
@@ -111529,7 +111675,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M10",
    "features": [
     {
-     "id": "f2810",
+     "id": "f2811",
      "name": "Tuerca e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -111579,7 +111725,7 @@
      }
     },
     {
-     "id": "f2811",
+     "id": "f2812",
      "name": "Rosca Ø10",
      "shape": "hole",
      "op": "cut",
@@ -111631,7 +111777,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M10, rosca total",
    "features": [
     {
-     "id": "f2812",
+     "id": "f2813",
      "name": "Cabeza hex e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -111681,7 +111827,7 @@
      }
     },
     {
-     "id": "f2813",
+     "id": "f2814",
      "name": "Vástago Ø10×50",
      "shape": "cylinder",
      "op": "union",
@@ -111741,7 +111887,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M10",
    "features": [
     {
-     "id": "f2814",
+     "id": "f2815",
      "name": "Tuerca e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -111791,7 +111937,7 @@
      }
     },
     {
-     "id": "f2815",
+     "id": "f2816",
      "name": "Rosca Ø10",
      "shape": "hole",
      "op": "cut",
@@ -111843,7 +111989,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M10, rosca total",
    "features": [
     {
-     "id": "f2816",
+     "id": "f2817",
      "name": "Cabeza hex e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -111893,7 +112039,7 @@
      }
     },
     {
-     "id": "f2817",
+     "id": "f2818",
      "name": "Vástago Ø10×50",
      "shape": "cylinder",
      "op": "union",
@@ -111953,7 +112099,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M10",
    "features": [
     {
-     "id": "f2818",
+     "id": "f2819",
      "name": "Tuerca e/c 16",
      "shape": "sketch",
      "op": "union",
@@ -112003,7 +112149,7 @@
      }
     },
     {
-     "id": "f2819",
+     "id": "f2820",
      "name": "Rosca Ø10",
      "shape": "hole",
      "op": "cut",
@@ -112069,7 +112215,7 @@
    "nota": "MANDRINAR Ø82.5 H7 en las dos testas, 14 mm de longitud, y ANTES de que entren las dos tapas (la secuencia va en la tapa). El interior de catálogo de este tubo cae entre 82.068 y 83.338 (banda 1.27 mm, web TUBE-A513-01) y el campo de un H7 en ese Ø es 0.035: 36.286 veces mayor. Sin esa cota el disco de tapa no se centra.",
    "features": [
     {
-     "id": "f2820",
+     "id": "f2821",
      "name": "Tubo Ø88.9 e=3.2",
      "shape": "revolve",
      "op": "union",
@@ -112086,7 +112232,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2819_0",
+        "id": "e2820_0",
         "type": "line",
         "a": [
          0,
@@ -112098,7 +112244,7 @@
         ]
        },
        {
-        "id": "e2819_1",
+        "id": "e2820_1",
         "type": "line",
         "a": [
          0.5,
@@ -112110,7 +112256,7 @@
         ]
        },
        {
-        "id": "e2819_2",
+        "id": "e2820_2",
         "type": "line",
         "a": [
          379.5,
@@ -112122,7 +112268,7 @@
         ]
        },
        {
-        "id": "e2819_3",
+        "id": "e2820_3",
         "type": "line",
         "a": [
          380,
@@ -112134,7 +112280,7 @@
         ]
        },
        {
-        "id": "e2819_4",
+        "id": "e2820_4",
         "type": "line",
         "a": [
          380,
@@ -112146,7 +112292,7 @@
         ]
        },
        {
-        "id": "e2819_5",
+        "id": "e2820_5",
         "type": "line",
         "a": [
          0,
@@ -112217,7 +112363,7 @@
    "nota": "cubre las 5 bandas (X 111.056…447.856) con 16.6 mm de margen de deriva por lado. ES EL MEDIO DE CENTRADO de la máquina: hasta ahora el tambor era CILÍNDRICO y una polea cilíndrica no ejerce ningún efecto de centrado (web CROWN-HAB-01), así que las 5 bandas derivaban sin nada con que corregirlas (hallazgo B5). La corona va POR CALLE y no una sola sobre los 370: con una corona única las 5 bandas migrarían hacia el centro del tambor —las de fuera están a ±152.4— y se montarían unas sobre otras. La cima queda en Ø108.9 exacto, así que el lazo, los abrazados y el plano de transporte no se mueven ni una décima.",
    "features": [
     {
-     "id": "f2821",
+     "id": "f2822",
      "name": "Vulcanizado e=10 → Ø108.9 con 5 coronas",
      "shape": "revolve",
      "op": "union",
@@ -112234,7 +112380,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2820_0",
+        "id": "e2821_0",
         "type": "line",
         "a": [
          0,
@@ -112246,7 +112392,7 @@
         ]
        },
        {
-        "id": "e2820_1",
+        "id": "e2821_1",
         "type": "line",
         "a": [
          0,
@@ -112258,7 +112404,7 @@
         ]
        },
        {
-        "id": "e2820_2",
+        "id": "e2821_2",
         "type": "line",
         "a": [
          1.5,
@@ -112270,7 +112416,7 @@
         ]
        },
        {
-        "id": "e2820_3",
+        "id": "e2821_3",
         "type": "line",
         "a": [
          6.6,
@@ -112282,7 +112428,7 @@
         ]
        },
        {
-        "id": "e2820_4",
+        "id": "e2821_4",
         "type": "line",
         "a": [
          24.6,
@@ -112294,7 +112440,7 @@
         ]
        },
        {
-        "id": "e2820_5",
+        "id": "e2821_5",
         "type": "line",
         "a": [
          40.6,
@@ -112306,7 +112452,7 @@
         ]
        },
        {
-        "id": "e2820_6",
+        "id": "e2821_6",
         "type": "line",
         "a": [
          58.6,
@@ -112318,7 +112464,7 @@
         ]
        },
        {
-        "id": "e2820_7",
+        "id": "e2821_7",
         "type": "line",
         "a": [
          82.8,
@@ -112330,7 +112476,7 @@
         ]
        },
        {
-        "id": "e2820_8",
+        "id": "e2821_8",
         "type": "line",
         "a": [
          100.8,
@@ -112342,7 +112488,7 @@
         ]
        },
        {
-        "id": "e2820_9",
+        "id": "e2821_9",
         "type": "line",
         "a": [
          116.8,
@@ -112354,7 +112500,7 @@
         ]
        },
        {
-        "id": "e2820_10",
+        "id": "e2821_10",
         "type": "line",
         "a": [
          134.8,
@@ -112366,7 +112512,7 @@
         ]
        },
        {
-        "id": "e2820_11",
+        "id": "e2821_11",
         "type": "line",
         "a": [
          159,
@@ -112378,7 +112524,7 @@
         ]
        },
        {
-        "id": "e2820_12",
+        "id": "e2821_12",
         "type": "line",
         "a": [
          177,
@@ -112390,7 +112536,7 @@
         ]
        },
        {
-        "id": "e2820_13",
+        "id": "e2821_13",
         "type": "line",
         "a": [
          193,
@@ -112402,7 +112548,7 @@
         ]
        },
        {
-        "id": "e2820_14",
+        "id": "e2821_14",
         "type": "line",
         "a": [
          211,
@@ -112414,7 +112560,7 @@
         ]
        },
        {
-        "id": "e2820_15",
+        "id": "e2821_15",
         "type": "line",
         "a": [
          235.2,
@@ -112426,7 +112572,7 @@
         ]
        },
        {
-        "id": "e2820_16",
+        "id": "e2821_16",
         "type": "line",
         "a": [
          253.2,
@@ -112438,7 +112584,7 @@
         ]
        },
        {
-        "id": "e2820_17",
+        "id": "e2821_17",
         "type": "line",
         "a": [
          269.2,
@@ -112450,7 +112596,7 @@
         ]
        },
        {
-        "id": "e2820_18",
+        "id": "e2821_18",
         "type": "line",
         "a": [
          287.2,
@@ -112462,7 +112608,7 @@
         ]
        },
        {
-        "id": "e2820_19",
+        "id": "e2821_19",
         "type": "line",
         "a": [
          311.4,
@@ -112474,7 +112620,7 @@
         ]
        },
        {
-        "id": "e2820_20",
+        "id": "e2821_20",
         "type": "line",
         "a": [
          329.4,
@@ -112486,7 +112632,7 @@
         ]
        },
        {
-        "id": "e2820_21",
+        "id": "e2821_21",
         "type": "line",
         "a": [
          345.4,
@@ -112498,7 +112644,7 @@
         ]
        },
        {
-        "id": "e2820_22",
+        "id": "e2821_22",
         "type": "line",
         "a": [
          363.4,
@@ -112510,7 +112656,7 @@
         ]
        },
        {
-        "id": "e2820_23",
+        "id": "e2821_23",
         "type": "line",
         "a": [
          368.5,
@@ -112522,7 +112668,7 @@
         ]
        },
        {
-        "id": "e2820_24",
+        "id": "e2821_24",
         "type": "line",
         "a": [
          370,
@@ -112534,7 +112680,7 @@
         ]
        },
        {
-        "id": "e2820_25",
+        "id": "e2821_25",
         "type": "line",
         "a": [
          370,
@@ -112596,7 +112742,7 @@
    "nota": "soldada al tubo y al eje: el tambor y su eje son un solo cuerpo, que es lo que permite meter el par por el saliente. El asiento del disco en el tubo va MANDRINADO Ø82.5 H7 (ver el campo `mandrinado` del tubo).",
    "features": [
     {
-     "id": "f2822",
+     "id": "f2823",
      "name": "Disco de tapa con cubo",
      "shape": "revolve",
      "op": "union",
@@ -112613,7 +112759,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2821_0",
+        "id": "e2822_0",
         "type": "line",
         "a": [
          -13,
@@ -112625,7 +112771,7 @@
         ]
        },
        {
-        "id": "e2821_1",
+        "id": "e2822_1",
         "type": "line",
         "a": [
          -13,
@@ -112637,7 +112783,7 @@
         ]
        },
        {
-        "id": "e2821_2",
+        "id": "e2822_2",
         "type": "line",
         "a": [
          0,
@@ -112649,7 +112795,7 @@
         ]
        },
        {
-        "id": "e2821_3",
+        "id": "e2822_3",
         "type": "line",
         "a": [
          0,
@@ -112661,7 +112807,7 @@
         ]
        },
        {
-        "id": "e2821_4",
+        "id": "e2822_4",
         "type": "line",
         "a": [
          12,
@@ -112673,7 +112819,7 @@
         ]
        },
        {
-        "id": "e2821_5",
+        "id": "e2822_5",
         "type": "line",
         "a": [
          12,
@@ -112749,7 +112895,7 @@
    "nota": "soldada al tubo y al eje: el tambor y su eje son un solo cuerpo, que es lo que permite meter el par por el saliente. El asiento del disco en el tubo va MANDRINADO Ø82.5 H7 (ver el campo `mandrinado` del tubo).",
    "features": [
     {
-     "id": "f2823",
+     "id": "f2824",
      "name": "Disco de tapa con cubo",
      "shape": "revolve",
      "op": "union",
@@ -112766,7 +112912,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2822_0",
+        "id": "e2823_0",
         "type": "line",
         "a": [
          13,
@@ -112778,7 +112924,7 @@
         ]
        },
        {
-        "id": "e2822_1",
+        "id": "e2823_1",
         "type": "line",
         "a": [
          13,
@@ -112790,7 +112936,7 @@
         ]
        },
        {
-        "id": "e2822_2",
+        "id": "e2823_2",
         "type": "line",
         "a": [
          0,
@@ -112802,7 +112948,7 @@
         ]
        },
        {
-        "id": "e2822_3",
+        "id": "e2823_3",
         "type": "line",
         "a": [
          0,
@@ -112814,7 +112960,7 @@
         ]
        },
        {
-        "id": "e2822_4",
+        "id": "e2823_4",
         "type": "line",
         "a": [
          -12,
@@ -112826,7 +112972,7 @@
         ]
        },
        {
-        "id": "e2822_5",
+        "id": "e2823_5",
         "type": "line",
         "a": [
          -12,
@@ -112902,7 +113048,7 @@
    "nota": "saliente Ø35 k6 en X 582.868…700 para reductor de EJE HUECO Ø35 H7 con chaveta y brazo de reacción (montaje directo sobre el saliente; sin acoplamiento ni alineación)",
    "features": [
     {
-     "id": "f2824",
+     "id": "f2825",
      "name": "Eje Ø35",
      "shape": "cylinder",
      "op": "union",
@@ -112922,7 +113068,7 @@
      }
     },
     {
-     "id": "f2825",
+     "id": "f2826",
      "name": "Chavetero DIN 6885 A 10 × 8 × 100 (t1 = 5.0 en el eje)",
      "shape": "box",
      "op": "cut",
@@ -112971,7 +113117,7 @@
    "capa": "user",
    "features": [
     {
-     "id": "f2826",
+     "id": "f2827",
      "name": "Chaveta 10×8",
      "shape": "box",
      "op": "union",
@@ -113025,7 +113171,7 @@
    "nota": "cara de apoyo X=59.494, cuerpo hacia −X (montaje OUTBOARD: hacia dentro el cuerpo se comería 1.68 mm de la cara útil del tambor)",
    "features": [
     {
-     "id": "f2827",
+     "id": "f2828",
      "name": "Brida 117×117×16",
      "shape": "sketch",
      "op": "union",
@@ -113195,7 +113341,7 @@
      }
     },
     {
-     "id": "f2828",
+     "id": "f2829",
      "name": "Cuerpo Ø90 × 28.4",
      "shape": "cylinder",
      "op": "union",
@@ -113215,7 +113361,7 @@
      }
     },
     {
-     "id": "f2829",
+     "id": "f2830",
      "name": "Alojamiento Ø72",
      "shape": "hole",
      "op": "cut",
@@ -113236,34 +113382,13 @@
      }
     },
     {
-     "id": "f2830",
-     "name": "Taladro Ø14",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -1,
-      -46,
-      -46
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 14,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
      "id": "f2831",
      "name": "Taladro Ø14",
      "shape": "hole",
      "op": "cut",
      "at": [
       -1,
-      46,
+      -46,
       -46
      ],
      "dir": [
@@ -113284,6 +113409,27 @@
      "op": "cut",
      "at": [
       -1,
+      46,
+      -46
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 14,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f2833",
+     "name": "Taladro Ø14",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -1,
       -46,
       46
      ],
@@ -113299,7 +113445,7 @@
      }
     },
     {
-     "id": "f2833",
+     "id": "f2834",
      "name": "Taladro Ø14",
      "shape": "hole",
      "op": "cut",
@@ -113347,92 +113493,8 @@
    "componente": "rodamiento_35x72x42.9",
    "features": [
     {
-     "id": "f2834",
-     "name": "Aro exterior",
-     "shape": "revolve",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "entities": [
-       {
-        "id": "e2833_0",
-        "type": "line",
-        "a": [
-         0,
-         30.82
-        ],
-        "b": [
-         0,
-         36
-        ]
-       },
-       {
-        "id": "e2833_1",
-        "type": "line",
-        "a": [
-         0,
-         36
-        ],
-        "b": [
-         42.9,
-         36
-        ]
-       },
-       {
-        "id": "e2833_2",
-        "type": "line",
-        "a": [
-         42.9,
-         36
-        ],
-        "b": [
-         42.9,
-         30.82
-        ]
-       },
-       {
-        "id": "e2833_3",
-        "type": "line",
-        "a": [
-         42.9,
-         30.82
-        ],
-        "b": [
-         0,
-         30.82
-        ]
-       }
-      ],
-      "axis": {
-       "a": [
-        0,
-        0
-       ],
-       "b": [
-        1,
-        0
-       ]
-      },
-      "u": [
-       1,
-       0,
-       0
-      ],
-      "angle": 360
-     }
-    },
-    {
      "id": "f2835",
-     "name": "Aro interior",
+     "name": "Aro exterior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -113452,11 +113514,11 @@
         "type": "line",
         "a": [
          0,
-         17.5
+         30.82
         ],
         "b": [
          0,
-         22.68
+         36
         ]
        },
        {
@@ -113464,11 +113526,11 @@
         "type": "line",
         "a": [
          0,
-         22.68
+         36
         ],
         "b": [
          42.9,
-         22.68
+         36
         ]
        },
        {
@@ -113476,11 +113538,11 @@
         "type": "line",
         "a": [
          42.9,
-         22.68
+         36
         ],
         "b": [
          42.9,
-         17.5
+         30.82
         ]
        },
        {
@@ -113488,11 +113550,11 @@
         "type": "line",
         "a": [
          42.9,
-         17.5
+         30.82
         ],
         "b": [
          0,
-         17.5
+         30.82
         ]
        }
       ],
@@ -113516,7 +113578,7 @@
     },
     {
      "id": "f2836",
-     "name": "Sello 2RS",
+     "name": "Aro interior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -113535,18 +113597,102 @@
         "id": "e2835_0",
         "type": "line",
         "a": [
-         5.15,
-         22.68
+         0,
+         17.5
         ],
         "b": [
-         5.15,
-         30.82
+         0,
+         22.68
         ]
        },
        {
         "id": "e2835_1",
         "type": "line",
         "a": [
+         0,
+         22.68
+        ],
+        "b": [
+         42.9,
+         22.68
+        ]
+       },
+       {
+        "id": "e2835_2",
+        "type": "line",
+        "a": [
+         42.9,
+         22.68
+        ],
+        "b": [
+         42.9,
+         17.5
+        ]
+       },
+       {
+        "id": "e2835_3",
+        "type": "line",
+        "a": [
+         42.9,
+         17.5
+        ],
+        "b": [
+         0,
+         17.5
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2837",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2836_0",
+        "type": "line",
+        "a": [
+         5.15,
+         22.68
+        ],
+        "b": [
+         5.15,
+         30.82
+        ]
+       },
+       {
+        "id": "e2836_1",
+        "type": "line",
+        "a": [
          5.15,
          30.82
         ],
@@ -113556,7 +113702,7 @@
         ]
        },
        {
-        "id": "e2835_2",
+        "id": "e2836_2",
         "type": "line",
         "a": [
          37.75,
@@ -113568,7 +113714,7 @@
         ]
        },
        {
-        "id": "e2835_3",
+        "id": "e2836_3",
         "type": "line",
         "a": [
          37.75,
@@ -113629,7 +113775,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2837",
+     "id": "f2838",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -113679,7 +113825,7 @@
      }
     },
     {
-     "id": "f2838",
+     "id": "f2839",
      "name": "Vástago Ø12×40",
      "shape": "cylinder",
      "op": "union",
@@ -113730,7 +113876,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M12",
    "features": [
     {
-     "id": "f2839",
+     "id": "f2840",
      "name": "Tuerca e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -113780,7 +113926,7 @@
      }
     },
     {
-     "id": "f2840",
+     "id": "f2841",
      "name": "Rosca Ø12",
      "shape": "hole",
      "op": "cut",
@@ -113832,7 +113978,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2841",
+     "id": "f2842",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -113882,7 +114028,7 @@
      }
     },
     {
-     "id": "f2842",
+     "id": "f2843",
      "name": "Vástago Ø12×40",
      "shape": "cylinder",
      "op": "union",
@@ -113933,7 +114079,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M12",
    "features": [
     {
-     "id": "f2843",
+     "id": "f2844",
      "name": "Tuerca e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -113983,7 +114129,7 @@
      }
     },
     {
-     "id": "f2844",
+     "id": "f2845",
      "name": "Rosca Ø12",
      "shape": "hole",
      "op": "cut",
@@ -114035,7 +114181,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2845",
+     "id": "f2846",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -114085,7 +114231,7 @@
      }
     },
     {
-     "id": "f2846",
+     "id": "f2847",
      "name": "Vástago Ø12×40",
      "shape": "cylinder",
      "op": "union",
@@ -114136,7 +114282,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M12",
    "features": [
     {
-     "id": "f2847",
+     "id": "f2848",
      "name": "Tuerca e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -114186,7 +114332,7 @@
      }
     },
     {
-     "id": "f2848",
+     "id": "f2849",
      "name": "Rosca Ø12",
      "shape": "hole",
      "op": "cut",
@@ -114238,7 +114384,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2849",
+     "id": "f2850",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -114288,7 +114434,7 @@
      }
     },
     {
-     "id": "f2850",
+     "id": "f2851",
      "name": "Vástago Ø12×40",
      "shape": "cylinder",
      "op": "union",
@@ -114339,7 +114485,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M12",
    "features": [
     {
-     "id": "f2851",
+     "id": "f2852",
      "name": "Tuerca e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -114389,7 +114535,7 @@
      }
     },
     {
-     "id": "f2852",
+     "id": "f2853",
      "name": "Rosca Ø12",
      "shape": "hole",
      "op": "cut",
@@ -114445,7 +114591,7 @@
    "nota": "cara de apoyo X=527.418, cuerpo hacia +X (montaje OUTBOARD: hacia dentro el cuerpo se comería 1.68 mm de la cara útil del tambor)",
    "features": [
     {
-     "id": "f2853",
+     "id": "f2854",
      "name": "Brida 117×117×16",
      "shape": "sketch",
      "op": "union",
@@ -114615,7 +114761,7 @@
      }
     },
     {
-     "id": "f2854",
+     "id": "f2855",
      "name": "Cuerpo Ø90 × 28.4",
      "shape": "cylinder",
      "op": "union",
@@ -114635,7 +114781,7 @@
      }
     },
     {
-     "id": "f2855",
+     "id": "f2856",
      "name": "Alojamiento Ø72",
      "shape": "hole",
      "op": "cut",
@@ -114656,34 +114802,13 @@
      }
     },
     {
-     "id": "f2856",
-     "name": "Taladro Ø14",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -1,
-      -46,
-      -46
-     ],
-     "dir": [
-      1,
-      0,
-      0
-     ],
-     "params": {
-      "dia": 14,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
      "id": "f2857",
      "name": "Taladro Ø14",
      "shape": "hole",
      "op": "cut",
      "at": [
       -1,
-      46,
+      -46,
       -46
      ],
      "dir": [
@@ -114704,6 +114829,27 @@
      "op": "cut",
      "at": [
       -1,
+      46,
+      -46
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 14,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f2859",
+     "name": "Taladro Ø14",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -1,
       -46,
       46
      ],
@@ -114719,7 +114865,7 @@
      }
     },
     {
-     "id": "f2859",
+     "id": "f2860",
      "name": "Taladro Ø14",
      "shape": "hole",
      "op": "cut",
@@ -114767,92 +114913,8 @@
    "componente": "rodamiento_35x72x42.9",
    "features": [
     {
-     "id": "f2860",
-     "name": "Aro exterior",
-     "shape": "revolve",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "entities": [
-       {
-        "id": "e2859_0",
-        "type": "line",
-        "a": [
-         0,
-         30.82
-        ],
-        "b": [
-         0,
-         36
-        ]
-       },
-       {
-        "id": "e2859_1",
-        "type": "line",
-        "a": [
-         0,
-         36
-        ],
-        "b": [
-         42.9,
-         36
-        ]
-       },
-       {
-        "id": "e2859_2",
-        "type": "line",
-        "a": [
-         42.9,
-         36
-        ],
-        "b": [
-         42.9,
-         30.82
-        ]
-       },
-       {
-        "id": "e2859_3",
-        "type": "line",
-        "a": [
-         42.9,
-         30.82
-        ],
-        "b": [
-         0,
-         30.82
-        ]
-       }
-      ],
-      "axis": {
-       "a": [
-        0,
-        0
-       ],
-       "b": [
-        1,
-        0
-       ]
-      },
-      "u": [
-       1,
-       0,
-       0
-      ],
-      "angle": 360
-     }
-    },
-    {
      "id": "f2861",
-     "name": "Aro interior",
+     "name": "Aro exterior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -114872,11 +114934,11 @@
         "type": "line",
         "a": [
          0,
-         17.5
+         30.82
         ],
         "b": [
          0,
-         22.68
+         36
         ]
        },
        {
@@ -114884,11 +114946,11 @@
         "type": "line",
         "a": [
          0,
-         22.68
+         36
         ],
         "b": [
          42.9,
-         22.68
+         36
         ]
        },
        {
@@ -114896,11 +114958,11 @@
         "type": "line",
         "a": [
          42.9,
-         22.68
+         36
         ],
         "b": [
          42.9,
-         17.5
+         30.82
         ]
        },
        {
@@ -114908,11 +114970,11 @@
         "type": "line",
         "a": [
          42.9,
-         17.5
+         30.82
         ],
         "b": [
          0,
-         17.5
+         30.82
         ]
        }
       ],
@@ -114936,7 +114998,7 @@
     },
     {
      "id": "f2862",
-     "name": "Sello 2RS",
+     "name": "Aro interior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -114955,18 +115017,102 @@
         "id": "e2861_0",
         "type": "line",
         "a": [
-         5.15,
-         22.68
+         0,
+         17.5
         ],
         "b": [
-         5.15,
-         30.82
+         0,
+         22.68
         ]
        },
        {
         "id": "e2861_1",
         "type": "line",
         "a": [
+         0,
+         22.68
+        ],
+        "b": [
+         42.9,
+         22.68
+        ]
+       },
+       {
+        "id": "e2861_2",
+        "type": "line",
+        "a": [
+         42.9,
+         22.68
+        ],
+        "b": [
+         42.9,
+         17.5
+        ]
+       },
+       {
+        "id": "e2861_3",
+        "type": "line",
+        "a": [
+         42.9,
+         17.5
+        ],
+        "b": [
+         0,
+         17.5
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2863",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2862_0",
+        "type": "line",
+        "a": [
+         5.15,
+         22.68
+        ],
+        "b": [
+         5.15,
+         30.82
+        ]
+       },
+       {
+        "id": "e2862_1",
+        "type": "line",
+        "a": [
          5.15,
          30.82
         ],
@@ -114976,7 +115122,7 @@
         ]
        },
        {
-        "id": "e2861_2",
+        "id": "e2862_2",
         "type": "line",
         "a": [
          37.75,
@@ -114988,7 +115134,7 @@
         ]
        },
        {
-        "id": "e2861_3",
+        "id": "e2862_3",
         "type": "line",
         "a": [
          37.75,
@@ -115049,7 +115195,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2863",
+     "id": "f2864",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -115099,7 +115245,7 @@
      }
     },
     {
-     "id": "f2864",
+     "id": "f2865",
      "name": "Vástago Ø12×70",
      "shape": "cylinder",
      "op": "union",
@@ -115150,7 +115296,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M12",
    "features": [
     {
-     "id": "f2865",
+     "id": "f2866",
      "name": "Tuerca e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -115200,7 +115346,7 @@
      }
     },
     {
-     "id": "f2866",
+     "id": "f2867",
      "name": "Rosca Ø12",
      "shape": "hole",
      "op": "cut",
@@ -115252,7 +115398,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2867",
+     "id": "f2868",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -115302,7 +115448,7 @@
      }
     },
     {
-     "id": "f2868",
+     "id": "f2869",
      "name": "Vástago Ø12×70",
      "shape": "cylinder",
      "op": "union",
@@ -115353,7 +115499,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M12",
    "features": [
     {
-     "id": "f2869",
+     "id": "f2870",
      "name": "Tuerca e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -115403,7 +115549,7 @@
      }
     },
     {
-     "id": "f2870",
+     "id": "f2871",
      "name": "Rosca Ø12",
      "shape": "hole",
      "op": "cut",
@@ -115455,7 +115601,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2871",
+     "id": "f2872",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -115505,7 +115651,7 @@
      }
     },
     {
-     "id": "f2872",
+     "id": "f2873",
      "name": "Vástago Ø12×70",
      "shape": "cylinder",
      "op": "union",
@@ -115556,7 +115702,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M12",
    "features": [
     {
-     "id": "f2873",
+     "id": "f2874",
      "name": "Tuerca e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -115606,7 +115752,7 @@
      }
     },
     {
-     "id": "f2874",
+     "id": "f2875",
      "name": "Rosca Ø12",
      "shape": "hole",
      "op": "cut",
@@ -115658,7 +115804,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2875",
+     "id": "f2876",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -115708,7 +115854,7 @@
      }
     },
     {
-     "id": "f2876",
+     "id": "f2877",
      "name": "Vástago Ø12×70",
      "shape": "cylinder",
      "op": "union",
@@ -115759,7 +115905,7 @@
    "norma": "ISO 4032 (DIN 934) — tuerca hexagonal M12",
    "features": [
     {
-     "id": "f2877",
+     "id": "f2878",
      "name": "Tuerca e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -115809,7 +115955,7 @@
      }
     },
     {
-     "id": "f2878",
+     "id": "f2879",
      "name": "Rosca Ø12",
      "shape": "hole",
      "op": "cut",
@@ -115875,7 +116021,7 @@
    "nota": "MANDRINAR Ø100.8 H7 en las dos testas, en 31 mm de longitud (asiento de la tapa-soporte + 2 de sobrerrecorrido). NO es opcional: el interior de este tubo tal como se compra cae entre 100.089 y 102.019 mm (banda 1.93) según las tolerancias de web TUBE-A513-01, y el campo de un H7 en ese diámetro es 0.035 mm — la incertidumbre del tubo es 55.143 veces el ajuste. Sin mandrinar, unas tapas entran sueltas y otras no entran.",
    "features": [
     {
-     "id": "f2879",
+     "id": "f2880",
      "name": "Tubo Ø108 e=3.6",
      "shape": "revolve",
      "op": "union",
@@ -115892,7 +116038,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2878_0",
+        "id": "e2879_0",
         "type": "line",
         "a": [
          0,
@@ -115904,7 +116050,7 @@
         ]
        },
        {
-        "id": "e2878_1",
+        "id": "e2879_1",
         "type": "line",
         "a": [
          0.5,
@@ -115916,7 +116062,7 @@
         ]
        },
        {
-        "id": "e2878_2",
+        "id": "e2879_2",
         "type": "line",
         "a": [
          359.5,
@@ -115928,7 +116074,7 @@
         ]
        },
        {
-        "id": "e2878_3",
+        "id": "e2879_3",
         "type": "line",
         "a": [
          360,
@@ -115940,7 +116086,7 @@
         ]
        },
        {
-        "id": "e2878_4",
+        "id": "e2879_4",
         "type": "line",
         "a": [
          360,
@@ -115952,7 +116098,7 @@
         ]
        },
        {
-        "id": "e2878_5",
+        "id": "e2879_5",
         "type": "line",
         "a": [
          0,
@@ -116012,7 +116158,7 @@
    "ajuste": "prensado H7/r6 contra el tubo MANDRINADO a Ø100.8 H7 (A7: el H7 es del mandrinado, no del interior de catálogo del tubo — ver el campo `mandrinado` de «CONDUCIDO Ø108 · tubo»). Interferencia máxima 0.073 mm → tensión de aro ≈ 186 MPa en la pared de 3.6. Alternativa declarada y NO tomada: H7/j6 o H7/k6 + cordón perimetral en la testa (exige declarar el cordón)",
    "features": [
     {
-     "id": "f2880",
+     "id": "f2881",
      "name": "Alojamiento Ø72 con hombro",
      "shape": "revolve",
      "op": "union",
@@ -116029,7 +116175,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2879_0",
+        "id": "e2880_0",
         "type": "line",
         "a": [
          0,
@@ -116041,7 +116187,7 @@
         ]
        },
        {
-        "id": "e2879_1",
+        "id": "e2880_1",
         "type": "line",
         "a": [
          0,
@@ -116053,7 +116199,7 @@
         ]
        },
        {
-        "id": "e2879_2",
+        "id": "e2880_2",
         "type": "line",
         "a": [
          28.2,
@@ -116065,7 +116211,7 @@
         ]
        },
        {
-        "id": "e2879_3",
+        "id": "e2880_3",
         "type": "line",
         "a": [
          29,
@@ -116077,7 +116223,7 @@
         ]
        },
        {
-        "id": "e2879_4",
+        "id": "e2880_4",
         "type": "line",
         "a": [
          29,
@@ -116089,7 +116235,7 @@
         ]
        },
        {
-        "id": "e2879_5",
+        "id": "e2880_5",
         "type": "line",
         "a": [
          28.5,
@@ -116101,7 +116247,7 @@
         ]
        },
        {
-        "id": "e2879_6",
+        "id": "e2880_6",
         "type": "line",
         "a": [
          2,
@@ -116113,7 +116259,7 @@
         ]
        },
        {
-        "id": "e2879_7",
+        "id": "e2880_7",
         "type": "line",
         "a": [
          2,
@@ -116171,92 +116317,8 @@
    "componente": "rodamiento_35x72x17",
    "features": [
     {
-     "id": "f2881",
-     "name": "Aro exterior",
-     "shape": "revolve",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "entities": [
-       {
-        "id": "e2880_0",
-        "type": "line",
-        "a": [
-         0,
-         30.82
-        ],
-        "b": [
-         0,
-         36
-        ]
-       },
-       {
-        "id": "e2880_1",
-        "type": "line",
-        "a": [
-         0,
-         36
-        ],
-        "b": [
-         17,
-         36
-        ]
-       },
-       {
-        "id": "e2880_2",
-        "type": "line",
-        "a": [
-         17,
-         36
-        ],
-        "b": [
-         17,
-         30.82
-        ]
-       },
-       {
-        "id": "e2880_3",
-        "type": "line",
-        "a": [
-         17,
-         30.82
-        ],
-        "b": [
-         0,
-         30.82
-        ]
-       }
-      ],
-      "axis": {
-       "a": [
-        0,
-        0
-       ],
-       "b": [
-        1,
-        0
-       ]
-      },
-      "u": [
-       1,
-       0,
-       0
-      ],
-      "angle": 360
-     }
-    },
-    {
      "id": "f2882",
-     "name": "Aro interior",
+     "name": "Aro exterior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -116276,11 +116338,11 @@
         "type": "line",
         "a": [
          0,
-         17.5
+         30.82
         ],
         "b": [
          0,
-         22.68
+         36
         ]
        },
        {
@@ -116288,11 +116350,11 @@
         "type": "line",
         "a": [
          0,
-         22.68
+         36
         ],
         "b": [
          17,
-         22.68
+         36
         ]
        },
        {
@@ -116300,11 +116362,11 @@
         "type": "line",
         "a": [
          17,
-         22.68
+         36
         ],
         "b": [
          17,
-         17.5
+         30.82
         ]
        },
        {
@@ -116312,11 +116374,11 @@
         "type": "line",
         "a": [
          17,
-         17.5
+         30.82
         ],
         "b": [
          0,
-         17.5
+         30.82
         ]
        }
       ],
@@ -116340,7 +116402,7 @@
     },
     {
      "id": "f2883",
-     "name": "Sello 2RS",
+     "name": "Aro interior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -116359,18 +116421,102 @@
         "id": "e2882_0",
         "type": "line",
         "a": [
-         2.04,
-         22.68
+         0,
+         17.5
         ],
         "b": [
-         2.04,
-         30.82
+         0,
+         22.68
         ]
        },
        {
         "id": "e2882_1",
         "type": "line",
         "a": [
+         0,
+         22.68
+        ],
+        "b": [
+         17,
+         22.68
+        ]
+       },
+       {
+        "id": "e2882_2",
+        "type": "line",
+        "a": [
+         17,
+         22.68
+        ],
+        "b": [
+         17,
+         17.5
+        ]
+       },
+       {
+        "id": "e2882_3",
+        "type": "line",
+        "a": [
+         17,
+         17.5
+        ],
+        "b": [
+         0,
+         17.5
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2884",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2883_0",
+        "type": "line",
+        "a": [
+         2.04,
+         22.68
+        ],
+        "b": [
+         2.04,
+         30.82
+        ]
+       },
+       {
+        "id": "e2883_1",
+        "type": "line",
+        "a": [
          2.04,
          30.82
         ],
@@ -116380,7 +116526,7 @@
         ]
        },
        {
-        "id": "e2882_2",
+        "id": "e2883_2",
         "type": "line",
         "a": [
          14.96,
@@ -116392,7 +116538,7 @@
         ]
        },
        {
-        "id": "e2882_3",
+        "id": "e2883_3",
         "type": "line",
         "a": [
          14.96,
@@ -116454,7 +116600,7 @@
    "hardware": false,
    "features": [
     {
-     "id": "f2884",
+     "id": "f2885",
      "name": "Casquillo",
      "shape": "revolve",
      "op": "union",
@@ -116471,7 +116617,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2883_0",
+        "id": "e2884_0",
         "type": "line",
         "a": [
          0,
@@ -116483,7 +116629,7 @@
         ]
        },
        {
-        "id": "e2883_1",
+        "id": "e2884_1",
         "type": "line",
         "a": [
          0,
@@ -116495,7 +116641,7 @@
         ]
        },
        {
-        "id": "e2883_2",
+        "id": "e2884_2",
         "type": "line",
         "a": [
          8,
@@ -116507,7 +116653,7 @@
         ]
        },
        {
-        "id": "e2883_3",
+        "id": "e2884_3",
         "type": "line",
         "a": [
          8,
@@ -116565,7 +116711,7 @@
    "norma": "DIN 471 — anillo de retención exterior para eje Ø35",
    "features": [
     {
-     "id": "f2885",
+     "id": "f2886",
      "name": "Anillo DIN 471 Ø35",
      "shape": "revolve",
      "op": "union",
@@ -116582,7 +116728,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2884_0",
+        "id": "e2885_0",
         "type": "line",
         "a": [
          0,
@@ -116594,7 +116740,7 @@
         ]
        },
        {
-        "id": "e2884_1",
+        "id": "e2885_1",
         "type": "line",
         "a": [
          0,
@@ -116606,7 +116752,7 @@
         ]
        },
        {
-        "id": "e2884_2",
+        "id": "e2885_2",
         "type": "line",
         "a": [
          1.5,
@@ -116618,7 +116764,7 @@
         ]
        },
        {
-        "id": "e2884_3",
+        "id": "e2885_3",
         "type": "line",
         "a": [
          1.5,
@@ -116682,7 +116828,7 @@
    "ajuste": "prensado H7/r6 contra el tubo MANDRINADO a Ø100.8 H7 (A7: el H7 es del mandrinado, no del interior de catálogo del tubo — ver el campo `mandrinado` de «CONDUCIDO Ø108 · tubo»). Interferencia máxima 0.073 mm → tensión de aro ≈ 186 MPa en la pared de 3.6. Alternativa declarada y NO tomada: H7/j6 o H7/k6 + cordón perimetral en la testa (exige declarar el cordón)",
    "features": [
     {
-     "id": "f2886",
+     "id": "f2887",
      "name": "Alojamiento Ø72 con hombro",
      "shape": "revolve",
      "op": "union",
@@ -116699,7 +116845,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2885_0",
+        "id": "e2886_0",
         "type": "line",
         "a": [
          29,
@@ -116711,7 +116857,7 @@
         ]
        },
        {
-        "id": "e2885_1",
+        "id": "e2886_1",
         "type": "line",
         "a": [
          29,
@@ -116723,7 +116869,7 @@
         ]
        },
        {
-        "id": "e2885_2",
+        "id": "e2886_2",
         "type": "line",
         "a": [
          0.8,
@@ -116735,7 +116881,7 @@
         ]
        },
        {
-        "id": "e2885_3",
+        "id": "e2886_3",
         "type": "line",
         "a": [
          0,
@@ -116747,7 +116893,7 @@
         ]
        },
        {
-        "id": "e2885_4",
+        "id": "e2886_4",
         "type": "line",
         "a": [
          0,
@@ -116759,7 +116905,7 @@
         ]
        },
        {
-        "id": "e2885_5",
+        "id": "e2886_5",
         "type": "line",
         "a": [
          0.5,
@@ -116771,7 +116917,7 @@
         ]
        },
        {
-        "id": "e2885_6",
+        "id": "e2886_6",
         "type": "line",
         "a": [
          27,
@@ -116783,7 +116929,7 @@
         ]
        },
        {
-        "id": "e2885_7",
+        "id": "e2886_7",
         "type": "line",
         "a": [
          27,
@@ -116841,92 +116987,8 @@
    "componente": "rodamiento_35x72x17",
    "features": [
     {
-     "id": "f2887",
-     "name": "Aro exterior",
-     "shape": "revolve",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "entities": [
-       {
-        "id": "e2886_0",
-        "type": "line",
-        "a": [
-         0,
-         30.82
-        ],
-        "b": [
-         0,
-         36
-        ]
-       },
-       {
-        "id": "e2886_1",
-        "type": "line",
-        "a": [
-         0,
-         36
-        ],
-        "b": [
-         17,
-         36
-        ]
-       },
-       {
-        "id": "e2886_2",
-        "type": "line",
-        "a": [
-         17,
-         36
-        ],
-        "b": [
-         17,
-         30.82
-        ]
-       },
-       {
-        "id": "e2886_3",
-        "type": "line",
-        "a": [
-         17,
-         30.82
-        ],
-        "b": [
-         0,
-         30.82
-        ]
-       }
-      ],
-      "axis": {
-       "a": [
-        0,
-        0
-       ],
-       "b": [
-        1,
-        0
-       ]
-      },
-      "u": [
-       1,
-       0,
-       0
-      ],
-      "angle": 360
-     }
-    },
-    {
      "id": "f2888",
-     "name": "Aro interior",
+     "name": "Aro exterior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -116946,11 +117008,11 @@
         "type": "line",
         "a": [
          0,
-         17.5
+         30.82
         ],
         "b": [
          0,
-         22.68
+         36
         ]
        },
        {
@@ -116958,11 +117020,11 @@
         "type": "line",
         "a": [
          0,
-         22.68
+         36
         ],
         "b": [
          17,
-         22.68
+         36
         ]
        },
        {
@@ -116970,11 +117032,11 @@
         "type": "line",
         "a": [
          17,
-         22.68
+         36
         ],
         "b": [
          17,
-         17.5
+         30.82
         ]
        },
        {
@@ -116982,11 +117044,11 @@
         "type": "line",
         "a": [
          17,
-         17.5
+         30.82
         ],
         "b": [
          0,
-         17.5
+         30.82
         ]
        }
       ],
@@ -117010,7 +117072,7 @@
     },
     {
      "id": "f2889",
-     "name": "Sello 2RS",
+     "name": "Aro interior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -117029,18 +117091,102 @@
         "id": "e2888_0",
         "type": "line",
         "a": [
-         2.04,
-         22.68
+         0,
+         17.5
         ],
         "b": [
-         2.04,
-         30.82
+         0,
+         22.68
         ]
        },
        {
         "id": "e2888_1",
         "type": "line",
         "a": [
+         0,
+         22.68
+        ],
+        "b": [
+         17,
+         22.68
+        ]
+       },
+       {
+        "id": "e2888_2",
+        "type": "line",
+        "a": [
+         17,
+         22.68
+        ],
+        "b": [
+         17,
+         17.5
+        ]
+       },
+       {
+        "id": "e2888_3",
+        "type": "line",
+        "a": [
+         17,
+         17.5
+        ],
+        "b": [
+         0,
+         17.5
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2890",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2889_0",
+        "type": "line",
+        "a": [
+         2.04,
+         22.68
+        ],
+        "b": [
+         2.04,
+         30.82
+        ]
+       },
+       {
+        "id": "e2889_1",
+        "type": "line",
+        "a": [
          2.04,
          30.82
         ],
@@ -117050,7 +117196,7 @@
         ]
        },
        {
-        "id": "e2888_2",
+        "id": "e2889_2",
         "type": "line",
         "a": [
          14.96,
@@ -117062,7 +117208,7 @@
         ]
        },
        {
-        "id": "e2888_3",
+        "id": "e2889_3",
         "type": "line",
         "a": [
          14.96,
@@ -117124,7 +117270,7 @@
    "hardware": false,
    "features": [
     {
-     "id": "f2890",
+     "id": "f2891",
      "name": "Casquillo",
      "shape": "revolve",
      "op": "union",
@@ -117141,7 +117287,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2889_0",
+        "id": "e2890_0",
         "type": "line",
         "a": [
          0,
@@ -117153,7 +117299,7 @@
         ]
        },
        {
-        "id": "e2889_1",
+        "id": "e2890_1",
         "type": "line",
         "a": [
          0,
@@ -117165,7 +117311,7 @@
         ]
        },
        {
-        "id": "e2889_2",
+        "id": "e2890_2",
         "type": "line",
         "a": [
          8,
@@ -117177,7 +117323,7 @@
         ]
        },
        {
-        "id": "e2889_3",
+        "id": "e2890_3",
         "type": "line",
         "a": [
          8,
@@ -117235,7 +117381,7 @@
    "norma": "DIN 471 — anillo de retención exterior para eje Ø35",
    "features": [
     {
-     "id": "f2891",
+     "id": "f2892",
      "name": "Anillo DIN 471 Ø35",
      "shape": "revolve",
      "op": "union",
@@ -117252,7 +117398,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2890_0",
+        "id": "e2891_0",
         "type": "line",
         "a": [
          0,
@@ -117264,7 +117410,7 @@
         ]
        },
        {
-        "id": "e2890_1",
+        "id": "e2891_1",
         "type": "line",
         "a": [
          0,
@@ -117276,7 +117422,7 @@
         ]
        },
        {
-        "id": "e2890_2",
+        "id": "e2891_2",
         "type": "line",
         "a": [
          1.5,
@@ -117288,7 +117434,7 @@
         ]
        },
        {
-        "id": "e2890_3",
+        "id": "e2891_3",
         "type": "line",
         "a": [
          1.5,
@@ -117361,7 +117507,7 @@
    "nota": "no gira: es el asiento de los aros interiores y el que transmite la carga de la banda a las pletinas de soporte. Gargantas Ø33 h12 × 1.6 H13 de tabla DIN 471 - 35 (fondo 1 por lado); el anillo mide 1.5 y queda 0.1 mm de juego axial de montaje.",
    "features": [
     {
-     "id": "f2892",
+     "id": "f2893",
      "name": "Eje Ø35 × 435",
      "shape": "cylinder",
      "op": "union",
@@ -117381,96 +117527,12 @@
      }
     },
     {
-     "id": "f2893",
-     "name": "Garganta DIN 471 - 35 Ø33 h12 × 1.6 H13",
-     "shape": "revolve",
-     "op": "cut",
-     "at": [
-      64.406,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "entities": [
-       {
-        "id": "e2892_0",
-        "type": "line",
-        "a": [
-         0,
-         16.5
-        ],
-        "b": [
-         0,
-         19.5
-        ]
-       },
-       {
-        "id": "e2892_1",
-        "type": "line",
-        "a": [
-         0,
-         19.5
-        ],
-        "b": [
-         1.6,
-         19.5
-        ]
-       },
-       {
-        "id": "e2892_2",
-        "type": "line",
-        "a": [
-         1.6,
-         19.5
-        ],
-        "b": [
-         1.6,
-         16.5
-        ]
-       },
-       {
-        "id": "e2892_3",
-        "type": "line",
-        "a": [
-         1.6,
-         16.5
-        ],
-        "b": [
-         0,
-         16.5
-        ]
-       }
-      ],
-      "axis": {
-       "a": [
-        0,
-        0
-       ],
-       "b": [
-        1,
-        0
-       ]
-      },
-      "u": [
-       1,
-       0,
-       0
-      ],
-      "angle": 360
-     }
-    },
-    {
      "id": "f2894",
      "name": "Garganta DIN 471 - 35 Ø33 h12 × 1.6 H13",
      "shape": "revolve",
      "op": "cut",
      "at": [
-      368.656,
+      64.406,
       0,
       0
      ],
@@ -117547,6 +117609,90 @@
       ],
       "angle": 360
      }
+    },
+    {
+     "id": "f2895",
+     "name": "Garganta DIN 471 - 35 Ø33 h12 × 1.6 H13",
+     "shape": "revolve",
+     "op": "cut",
+     "at": [
+      368.656,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2894_0",
+        "type": "line",
+        "a": [
+         0,
+         16.5
+        ],
+        "b": [
+         0,
+         19.5
+        ]
+       },
+       {
+        "id": "e2894_1",
+        "type": "line",
+        "a": [
+         0,
+         19.5
+        ],
+        "b": [
+         1.6,
+         19.5
+        ]
+       },
+       {
+        "id": "e2894_2",
+        "type": "line",
+        "a": [
+         1.6,
+         19.5
+        ],
+        "b": [
+         1.6,
+         16.5
+        ]
+       },
+       {
+        "id": "e2894_3",
+        "type": "line",
+        "a": [
+         1.6,
+         16.5
+        ],
+        "b": [
+         0,
+         16.5
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
     }
    ],
    "tol": {
@@ -117585,7 +117731,7 @@
    "nota": "se atornilla al patrón 92×92 del alargue PG40. LOS 4 TALADROS SON COLISAS de 25.5×13.5 en Y: ±6 mm de carrera por pletina. Moviendo las dos a la vez se hace take-up; moviéndolas en sentidos opuestos se oblicua el rodillo hasta 1.621° sobre el vano de 423.924 mm entre pletinas, que es EL REGLAJE DE ALINEACIÓN DE BANDA que no existía (hallazgo B5). El centrado grueso lo da la corona del tambor motriz; esto es el retoque y sale de fábrica a cero. reglaje DIFERENCIAL (una pletina hacia +Y, la otra hacia −Y). La banda deriva hacia el lado donde el rodillo va ADELANTADO; con 1 mm de diferencia entre pletinas la oblicuidad es 0.135°, que es el orden del retoque real. La carrera completa (±6) está para el montaje, no para el uso diario. Se bloquea con los propios 4 pernos M12 de cada pletina.",
    "features": [
     {
-     "id": "f2895",
+     "id": "f2896",
      "name": "Pletina 117×117",
      "shape": "sketch",
      "op": "union",
@@ -117755,7 +117901,7 @@
      }
     },
     {
-     "id": "f2896",
+     "id": "f2897",
      "name": "Barreno Ø35 H8",
      "shape": "hole",
      "op": "cut",
@@ -117776,7 +117922,7 @@
      }
     },
     {
-     "id": "f2897",
+     "id": "f2898",
      "name": "Colisa Ø13.5 (extremo −Y)",
      "shape": "hole",
      "op": "cut",
@@ -117797,7 +117943,7 @@
      }
     },
     {
-     "id": "f2898",
+     "id": "f2899",
      "name": "Colisa Ø13.5 (extremo +Y)",
      "shape": "hole",
      "op": "cut",
@@ -117818,7 +117964,7 @@
      }
     },
     {
-     "id": "f2899",
+     "id": "f2900",
      "name": "Colisa 25.5×13.5 (alma)",
      "shape": "box",
      "op": "cut",
@@ -117839,7 +117985,7 @@
      }
     },
     {
-     "id": "f2900",
+     "id": "f2901",
      "name": "Colisa Ø13.5 (extremo −Y)",
      "shape": "hole",
      "op": "cut",
@@ -117860,7 +118006,7 @@
      }
     },
     {
-     "id": "f2901",
+     "id": "f2902",
      "name": "Colisa Ø13.5 (extremo +Y)",
      "shape": "hole",
      "op": "cut",
@@ -117881,7 +118027,7 @@
      }
     },
     {
-     "id": "f2902",
+     "id": "f2903",
      "name": "Colisa 25.5×13.5 (alma)",
      "shape": "box",
      "op": "cut",
@@ -117902,7 +118048,7 @@
      }
     },
     {
-     "id": "f2903",
+     "id": "f2904",
      "name": "Colisa Ø13.5 (extremo −Y)",
      "shape": "hole",
      "op": "cut",
@@ -117923,7 +118069,7 @@
      }
     },
     {
-     "id": "f2904",
+     "id": "f2905",
      "name": "Colisa Ø13.5 (extremo +Y)",
      "shape": "hole",
      "op": "cut",
@@ -117944,7 +118090,7 @@
      }
     },
     {
-     "id": "f2905",
+     "id": "f2906",
      "name": "Colisa 25.5×13.5 (alma)",
      "shape": "box",
      "op": "cut",
@@ -117965,7 +118111,7 @@
      }
     },
     {
-     "id": "f2906",
+     "id": "f2907",
      "name": "Colisa Ø13.5 (extremo −Y)",
      "shape": "hole",
      "op": "cut",
@@ -117986,7 +118132,7 @@
      }
     },
     {
-     "id": "f2907",
+     "id": "f2908",
      "name": "Colisa Ø13.5 (extremo +Y)",
      "shape": "hole",
      "op": "cut",
@@ -118007,7 +118153,7 @@
      }
     },
     {
-     "id": "f2908",
+     "id": "f2909",
      "name": "Colisa 25.5×13.5 (alma)",
      "shape": "box",
      "op": "cut",
@@ -118060,7 +118206,7 @@
    "nota": "retiene axialmente el eje fijo contra la cara interior de su pletina. TIENE QUE SER PARTIDO: el hueco donde vive son los 20 mm entre la testa del tubo y la pletina, con el eje ya pasado por los dos soportes — un collar macizo habría que enfilarlo desde una testa del eje y ahí topan el alma del alargue y, en +X, el chapón de descarga. Se designaba «DIN 705 A», que es justo el anillo MACIZO con prisionero, y por eso la línea no se podía pedir (hallazgo A3). Envolvente real sobre la cabeza del tornillo: Ø61.6 (declarado; el modelo lleva el cuerpo Ø57).",
    "features": [
     {
-     "id": "f2909",
+     "id": "f2910",
      "name": "Collar partido (2 mitades)",
      "shape": "revolve",
      "op": "union",
@@ -118077,7 +118223,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2908_0",
+        "id": "e2909_0",
         "type": "line",
         "a": [
          0,
@@ -118089,7 +118235,7 @@
         ]
        },
        {
-        "id": "e2908_1",
+        "id": "e2909_1",
         "type": "line",
         "a": [
          0,
@@ -118101,7 +118247,7 @@
         ]
        },
        {
-        "id": "e2908_2",
+        "id": "e2909_2",
         "type": "line",
         "a": [
          15,
@@ -118113,7 +118259,7 @@
         ]
        },
        {
-        "id": "e2908_3",
+        "id": "e2909_3",
         "type": "line",
         "a": [
          15,
@@ -118175,7 +118321,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2910",
+     "id": "f2911",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -118225,7 +118371,7 @@
      }
     },
     {
-     "id": "f2911",
+     "id": "f2912",
      "name": "Vástago Ø12×25",
      "shape": "cylinder",
      "op": "union",
@@ -118275,7 +118421,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2912",
+     "id": "f2913",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -118325,7 +118471,7 @@
      }
     },
     {
-     "id": "f2913",
+     "id": "f2914",
      "name": "Vástago Ø12×25",
      "shape": "cylinder",
      "op": "union",
@@ -118375,7 +118521,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2914",
+     "id": "f2915",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -118425,7 +118571,7 @@
      }
     },
     {
-     "id": "f2915",
+     "id": "f2916",
      "name": "Vástago Ø12×25",
      "shape": "cylinder",
      "op": "union",
@@ -118475,7 +118621,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2916",
+     "id": "f2917",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -118525,7 +118671,7 @@
      }
     },
     {
-     "id": "f2917",
+     "id": "f2918",
      "name": "Vástago Ø12×25",
      "shape": "cylinder",
      "op": "union",
@@ -118584,7 +118730,7 @@
    "nota": "se atornilla al patrón 92×92 del alargue PG40. LOS 4 TALADROS SON COLISAS de 25.5×13.5 en Y: ±6 mm de carrera por pletina. Moviendo las dos a la vez se hace take-up; moviéndolas en sentidos opuestos se oblicua el rodillo hasta 1.621° sobre el vano de 423.924 mm entre pletinas, que es EL REGLAJE DE ALINEACIÓN DE BANDA que no existía (hallazgo B5). El centrado grueso lo da la corona del tambor motriz; esto es el retoque y sale de fábrica a cero. reglaje DIFERENCIAL (una pletina hacia +Y, la otra hacia −Y). La banda deriva hacia el lado donde el rodillo va ADELANTADO; con 1 mm de diferencia entre pletinas la oblicuidad es 0.135°, que es el orden del retoque real. La carrera completa (±6) está para el montaje, no para el uso diario. Se bloquea con los propios 4 pernos M12 de cada pletina.",
    "features": [
     {
-     "id": "f2918",
+     "id": "f2919",
      "name": "Pletina 117×117",
      "shape": "sketch",
      "op": "union",
@@ -118754,7 +118900,7 @@
      }
     },
     {
-     "id": "f2919",
+     "id": "f2920",
      "name": "Barreno Ø35 H8",
      "shape": "hole",
      "op": "cut",
@@ -118775,7 +118921,7 @@
      }
     },
     {
-     "id": "f2920",
+     "id": "f2921",
      "name": "Colisa Ø13.5 (extremo −Y)",
      "shape": "hole",
      "op": "cut",
@@ -118796,7 +118942,7 @@
      }
     },
     {
-     "id": "f2921",
+     "id": "f2922",
      "name": "Colisa Ø13.5 (extremo +Y)",
      "shape": "hole",
      "op": "cut",
@@ -118817,7 +118963,7 @@
      }
     },
     {
-     "id": "f2922",
+     "id": "f2923",
      "name": "Colisa 25.5×13.5 (alma)",
      "shape": "box",
      "op": "cut",
@@ -118838,7 +118984,7 @@
      }
     },
     {
-     "id": "f2923",
+     "id": "f2924",
      "name": "Colisa Ø13.5 (extremo −Y)",
      "shape": "hole",
      "op": "cut",
@@ -118859,7 +119005,7 @@
      }
     },
     {
-     "id": "f2924",
+     "id": "f2925",
      "name": "Colisa Ø13.5 (extremo +Y)",
      "shape": "hole",
      "op": "cut",
@@ -118880,7 +119026,7 @@
      }
     },
     {
-     "id": "f2925",
+     "id": "f2926",
      "name": "Colisa 25.5×13.5 (alma)",
      "shape": "box",
      "op": "cut",
@@ -118901,7 +119047,7 @@
      }
     },
     {
-     "id": "f2926",
+     "id": "f2927",
      "name": "Colisa Ø13.5 (extremo −Y)",
      "shape": "hole",
      "op": "cut",
@@ -118922,7 +119068,7 @@
      }
     },
     {
-     "id": "f2927",
+     "id": "f2928",
      "name": "Colisa Ø13.5 (extremo +Y)",
      "shape": "hole",
      "op": "cut",
@@ -118943,7 +119089,7 @@
      }
     },
     {
-     "id": "f2928",
+     "id": "f2929",
      "name": "Colisa 25.5×13.5 (alma)",
      "shape": "box",
      "op": "cut",
@@ -118964,7 +119110,7 @@
      }
     },
     {
-     "id": "f2929",
+     "id": "f2930",
      "name": "Colisa Ø13.5 (extremo −Y)",
      "shape": "hole",
      "op": "cut",
@@ -118985,7 +119131,7 @@
      }
     },
     {
-     "id": "f2930",
+     "id": "f2931",
      "name": "Colisa Ø13.5 (extremo +Y)",
      "shape": "hole",
      "op": "cut",
@@ -119006,7 +119152,7 @@
      }
     },
     {
-     "id": "f2931",
+     "id": "f2932",
      "name": "Colisa 25.5×13.5 (alma)",
      "shape": "box",
      "op": "cut",
@@ -119059,7 +119205,7 @@
    "nota": "retiene axialmente el eje fijo contra la cara interior de su pletina. TIENE QUE SER PARTIDO: el hueco donde vive son los 20 mm entre la testa del tubo y la pletina, con el eje ya pasado por los dos soportes — un collar macizo habría que enfilarlo desde una testa del eje y ahí topan el alma del alargue y, en +X, el chapón de descarga. Se designaba «DIN 705 A», que es justo el anillo MACIZO con prisionero, y por eso la línea no se podía pedir (hallazgo A3). Envolvente real sobre la cabeza del tornillo: Ø61.6 (declarado; el modelo lleva el cuerpo Ø57).",
    "features": [
     {
-     "id": "f2932",
+     "id": "f2933",
      "name": "Collar partido (2 mitades)",
      "shape": "revolve",
      "op": "union",
@@ -119076,7 +119222,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2931_0",
+        "id": "e2932_0",
         "type": "line",
         "a": [
          0,
@@ -119088,7 +119234,7 @@
         ]
        },
        {
-        "id": "e2931_1",
+        "id": "e2932_1",
         "type": "line",
         "a": [
          0,
@@ -119100,7 +119246,7 @@
         ]
        },
        {
-        "id": "e2931_2",
+        "id": "e2932_2",
         "type": "line",
         "a": [
          15,
@@ -119112,7 +119258,7 @@
         ]
        },
        {
-        "id": "e2931_3",
+        "id": "e2932_3",
         "type": "line",
         "a": [
          15,
@@ -119174,7 +119320,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2933",
+     "id": "f2934",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -119224,7 +119370,7 @@
      }
     },
     {
-     "id": "f2934",
+     "id": "f2935",
      "name": "Vástago Ø12×25",
      "shape": "cylinder",
      "op": "union",
@@ -119274,7 +119420,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2935",
+     "id": "f2936",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -119324,7 +119470,7 @@
      }
     },
     {
-     "id": "f2936",
+     "id": "f2937",
      "name": "Vástago Ø12×25",
      "shape": "cylinder",
      "op": "union",
@@ -119374,7 +119520,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2937",
+     "id": "f2938",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -119424,7 +119570,7 @@
      }
     },
     {
-     "id": "f2938",
+     "id": "f2939",
      "name": "Vástago Ø12×25",
      "shape": "cylinder",
      "op": "union",
@@ -119474,7 +119620,7 @@
    "norma": "ISO 4017 (DIN 933) — tornillo de cabeza hexagonal M12, rosca total",
    "features": [
     {
-     "id": "f2939",
+     "id": "f2940",
      "name": "Cabeza hex e/c 19",
      "shape": "sketch",
      "op": "union",
@@ -119524,7 +119670,7 @@
      }
     },
     {
-     "id": "f2940",
+     "id": "f2941",
      "name": "Vástago Ø12×25",
      "shape": "cylinder",
      "op": "union",
@@ -119578,7 +119724,7 @@
    "nota": "TANGENTE POR ARRIBA al ramal de retorno en Z -9.87 = suelo del corredor del peine. Es la MISMA referencia que el NBT90 monta contra los ramales de retorno de su anfitrión y la que el cliente señala («tenías uno en el modelo anterior, esa era función»). Rueda sobre la CARA PORTANTE de la banda y le hace flexión INVERSA: Ø 48.26 contra el mínimo de polea 40.6 de la banda (web BELT-SAB8E-01), margen ×1.189. La fuente NO publica mínimo de CONTRAFLEXIÓN: queda declarado, no supuesto",
    "features": [
     {
-     "id": "f2941",
+     "id": "f2942",
      "name": "Tubo galvanizado Ø48.26 × 360 (pared 1.65)",
      "shape": "revolve",
      "op": "union",
@@ -119595,7 +119741,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2940_0",
+        "id": "e2941_0",
         "type": "line",
         "a": [
          0,
@@ -119607,7 +119753,7 @@
         ]
        },
        {
-        "id": "e2940_1",
+        "id": "e2941_1",
         "type": "line",
         "a": [
          0.5,
@@ -119619,7 +119765,7 @@
         ]
        },
        {
-        "id": "e2940_2",
+        "id": "e2941_2",
         "type": "line",
         "a": [
          359.5,
@@ -119631,7 +119777,7 @@
         ]
        },
        {
-        "id": "e2940_3",
+        "id": "e2941_3",
         "type": "line",
         "a": [
          360,
@@ -119643,7 +119789,7 @@
         ]
        },
        {
-        "id": "e2940_4",
+        "id": "e2941_4",
         "type": "line",
         "a": [
          360,
@@ -119655,7 +119801,7 @@
         ]
        },
        {
-        "id": "e2940_5",
+        "id": "e2941_5",
         "type": "line",
         "a": [
          0,
@@ -119719,7 +119865,7 @@
    "ajuste": "prensado en el tubo Ø44.96 (conjunto de catálogo: el ajuste lo da el fabricante del rodillo, aquí no se especifica un H7/r6 de plano)",
    "features": [
     {
-     "id": "f2942",
+     "id": "f2943",
      "name": "Alojamiento Ø28.575 con hombro",
      "shape": "revolve",
      "op": "union",
@@ -119736,7 +119882,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2941_0",
+        "id": "e2942_0",
         "type": "line",
         "a": [
          0,
@@ -119748,7 +119894,7 @@
         ]
        },
        {
-        "id": "e2941_1",
+        "id": "e2942_1",
         "type": "line",
         "a": [
          0,
@@ -119760,7 +119906,7 @@
         ]
        },
        {
-        "id": "e2941_2",
+        "id": "e2942_2",
         "type": "line",
         "a": [
          17.14,
@@ -119772,7 +119918,7 @@
         ]
        },
        {
-        "id": "e2941_3",
+        "id": "e2942_3",
         "type": "line",
         "a": [
          17.94,
@@ -119784,7 +119930,7 @@
         ]
        },
        {
-        "id": "e2941_4",
+        "id": "e2942_4",
         "type": "line",
         "a": [
          17.94,
@@ -119796,7 +119942,7 @@
         ]
        },
        {
-        "id": "e2941_5",
+        "id": "e2942_5",
         "type": "line",
         "a": [
          17.44,
@@ -119808,7 +119954,7 @@
         ]
        },
        {
-        "id": "e2941_6",
+        "id": "e2942_6",
         "type": "line",
         "a": [
          2,
@@ -119820,7 +119966,7 @@
         ]
        },
        {
-        "id": "e2941_7",
+        "id": "e2942_7",
         "type": "line",
         "a": [
          2,
@@ -119881,92 +120027,8 @@
    "componente": "rodamiento_12.7x28.575x7.938",
    "features": [
     {
-     "id": "f2943",
-     "name": "Aro exterior",
-     "shape": "revolve",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "entities": [
-       {
-        "id": "e2942_0",
-        "type": "line",
-        "a": [
-         0,
-         12.07
-        ],
-        "b": [
-         0,
-         14.29
-        ]
-       },
-       {
-        "id": "e2942_1",
-        "type": "line",
-        "a": [
-         0,
-         14.29
-        ],
-        "b": [
-         7.94,
-         14.29
-        ]
-       },
-       {
-        "id": "e2942_2",
-        "type": "line",
-        "a": [
-         7.94,
-         14.29
-        ],
-        "b": [
-         7.94,
-         12.07
-        ]
-       },
-       {
-        "id": "e2942_3",
-        "type": "line",
-        "a": [
-         7.94,
-         12.07
-        ],
-        "b": [
-         0,
-         12.07
-        ]
-       }
-      ],
-      "axis": {
-       "a": [
-        0,
-        0
-       ],
-       "b": [
-        1,
-        0
-       ]
-      },
-      "u": [
-       1,
-       0,
-       0
-      ],
-      "angle": 360
-     }
-    },
-    {
      "id": "f2944",
-     "name": "Aro interior",
+     "name": "Aro exterior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -119986,11 +120048,11 @@
         "type": "line",
         "a": [
          0,
-         6.35
+         12.07
         ],
         "b": [
          0,
-         8.57
+         14.29
         ]
        },
        {
@@ -119998,11 +120060,11 @@
         "type": "line",
         "a": [
          0,
-         8.57
+         14.29
         ],
         "b": [
          7.94,
-         8.57
+         14.29
         ]
        },
        {
@@ -120010,11 +120072,11 @@
         "type": "line",
         "a": [
          7.94,
-         8.57
+         14.29
         ],
         "b": [
          7.94,
-         6.35
+         12.07
         ]
        },
        {
@@ -120022,11 +120084,11 @@
         "type": "line",
         "a": [
          7.94,
-         6.35
+         12.07
         ],
         "b": [
          0,
-         6.35
+         12.07
         ]
        }
       ],
@@ -120050,7 +120112,7 @@
     },
     {
      "id": "f2945",
-     "name": "Sello 2RS",
+     "name": "Aro interior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -120069,18 +120131,102 @@
         "id": "e2944_0",
         "type": "line",
         "a": [
-         0.95,
-         8.57
+         0,
+         6.35
         ],
         "b": [
-         0.95,
-         12.07
+         0,
+         8.57
         ]
        },
        {
         "id": "e2944_1",
         "type": "line",
         "a": [
+         0,
+         8.57
+        ],
+        "b": [
+         7.94,
+         8.57
+        ]
+       },
+       {
+        "id": "e2944_2",
+        "type": "line",
+        "a": [
+         7.94,
+         8.57
+        ],
+        "b": [
+         7.94,
+         6.35
+        ]
+       },
+       {
+        "id": "e2944_3",
+        "type": "line",
+        "a": [
+         7.94,
+         6.35
+        ],
+        "b": [
+         0,
+         6.35
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2946",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2945_0",
+        "type": "line",
+        "a": [
+         0.95,
+         8.57
+        ],
+        "b": [
+         0.95,
+         12.07
+        ]
+       },
+       {
+        "id": "e2945_1",
+        "type": "line",
+        "a": [
          0.95,
          12.07
         ],
@@ -120090,7 +120236,7 @@
         ]
        },
        {
-        "id": "e2944_2",
+        "id": "e2945_2",
         "type": "line",
         "a": [
          6.99,
@@ -120102,7 +120248,7 @@
         ]
        },
        {
-        "id": "e2944_3",
+        "id": "e2945_3",
         "type": "line",
         "a": [
          6.99,
@@ -120166,7 +120312,7 @@
    "funcion": "retención axial del tubo entre el aro interior del rodamiento y la pletina",
    "features": [
     {
-     "id": "f2946",
+     "id": "f2947",
      "name": "Casquillo",
      "shape": "revolve",
      "op": "union",
@@ -120183,7 +120329,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2945_0",
+        "id": "e2946_0",
         "type": "line",
         "a": [
          0,
@@ -120195,7 +120341,7 @@
         ]
        },
        {
-        "id": "e2945_1",
+        "id": "e2946_1",
         "type": "line",
         "a": [
          0,
@@ -120207,7 +120353,7 @@
         ]
        },
        {
-        "id": "e2945_2",
+        "id": "e2946_2",
         "type": "line",
         "a": [
          8,
@@ -120219,7 +120365,7 @@
         ]
        },
        {
-        "id": "e2945_3",
+        "id": "e2946_3",
         "type": "line",
         "a": [
          8,
@@ -120283,7 +120429,7 @@
    "ajuste": "prensado en el tubo Ø44.96 (conjunto de catálogo: el ajuste lo da el fabricante del rodillo, aquí no se especifica un H7/r6 de plano)",
    "features": [
     {
-     "id": "f2947",
+     "id": "f2948",
      "name": "Alojamiento Ø28.575 con hombro",
      "shape": "revolve",
      "op": "union",
@@ -120300,7 +120446,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2946_0",
+        "id": "e2947_0",
         "type": "line",
         "a": [
          17.94,
@@ -120312,7 +120458,7 @@
         ]
        },
        {
-        "id": "e2946_1",
+        "id": "e2947_1",
         "type": "line",
         "a": [
          17.94,
@@ -120324,7 +120470,7 @@
         ]
        },
        {
-        "id": "e2946_2",
+        "id": "e2947_2",
         "type": "line",
         "a": [
          0.8,
@@ -120336,7 +120482,7 @@
         ]
        },
        {
-        "id": "e2946_3",
+        "id": "e2947_3",
         "type": "line",
         "a": [
          0,
@@ -120348,7 +120494,7 @@
         ]
        },
        {
-        "id": "e2946_4",
+        "id": "e2947_4",
         "type": "line",
         "a": [
          0,
@@ -120360,7 +120506,7 @@
         ]
        },
        {
-        "id": "e2946_5",
+        "id": "e2947_5",
         "type": "line",
         "a": [
          0.5,
@@ -120372,7 +120518,7 @@
         ]
        },
        {
-        "id": "e2946_6",
+        "id": "e2947_6",
         "type": "line",
         "a": [
          15.94,
@@ -120384,7 +120530,7 @@
         ]
        },
        {
-        "id": "e2946_7",
+        "id": "e2947_7",
         "type": "line",
         "a": [
          15.94,
@@ -120445,92 +120591,8 @@
    "componente": "rodamiento_12.7x28.575x7.938",
    "features": [
     {
-     "id": "f2948",
-     "name": "Aro exterior",
-     "shape": "revolve",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "entities": [
-       {
-        "id": "e2947_0",
-        "type": "line",
-        "a": [
-         0,
-         12.07
-        ],
-        "b": [
-         0,
-         14.29
-        ]
-       },
-       {
-        "id": "e2947_1",
-        "type": "line",
-        "a": [
-         0,
-         14.29
-        ],
-        "b": [
-         7.94,
-         14.29
-        ]
-       },
-       {
-        "id": "e2947_2",
-        "type": "line",
-        "a": [
-         7.94,
-         14.29
-        ],
-        "b": [
-         7.94,
-         12.07
-        ]
-       },
-       {
-        "id": "e2947_3",
-        "type": "line",
-        "a": [
-         7.94,
-         12.07
-        ],
-        "b": [
-         0,
-         12.07
-        ]
-       }
-      ],
-      "axis": {
-       "a": [
-        0,
-        0
-       ],
-       "b": [
-        1,
-        0
-       ]
-      },
-      "u": [
-       1,
-       0,
-       0
-      ],
-      "angle": 360
-     }
-    },
-    {
      "id": "f2949",
-     "name": "Aro interior",
+     "name": "Aro exterior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -120550,11 +120612,11 @@
         "type": "line",
         "a": [
          0,
-         6.35
+         12.07
         ],
         "b": [
          0,
-         8.57
+         14.29
         ]
        },
        {
@@ -120562,11 +120624,11 @@
         "type": "line",
         "a": [
          0,
-         8.57
+         14.29
         ],
         "b": [
          7.94,
-         8.57
+         14.29
         ]
        },
        {
@@ -120574,11 +120636,11 @@
         "type": "line",
         "a": [
          7.94,
-         8.57
+         14.29
         ],
         "b": [
          7.94,
-         6.35
+         12.07
         ]
        },
        {
@@ -120586,11 +120648,11 @@
         "type": "line",
         "a": [
          7.94,
-         6.35
+         12.07
         ],
         "b": [
          0,
-         6.35
+         12.07
         ]
        }
       ],
@@ -120614,7 +120676,7 @@
     },
     {
      "id": "f2950",
-     "name": "Sello 2RS",
+     "name": "Aro interior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -120633,18 +120695,102 @@
         "id": "e2949_0",
         "type": "line",
         "a": [
-         0.95,
-         8.57
+         0,
+         6.35
         ],
         "b": [
-         0.95,
-         12.07
+         0,
+         8.57
         ]
        },
        {
         "id": "e2949_1",
         "type": "line",
         "a": [
+         0,
+         8.57
+        ],
+        "b": [
+         7.94,
+         8.57
+        ]
+       },
+       {
+        "id": "e2949_2",
+        "type": "line",
+        "a": [
+         7.94,
+         8.57
+        ],
+        "b": [
+         7.94,
+         6.35
+        ]
+       },
+       {
+        "id": "e2949_3",
+        "type": "line",
+        "a": [
+         7.94,
+         6.35
+        ],
+        "b": [
+         0,
+         6.35
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2951",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2950_0",
+        "type": "line",
+        "a": [
+         0.95,
+         8.57
+        ],
+        "b": [
+         0.95,
+         12.07
+        ]
+       },
+       {
+        "id": "e2950_1",
+        "type": "line",
+        "a": [
          0.95,
          12.07
         ],
@@ -120654,7 +120800,7 @@
         ]
        },
        {
-        "id": "e2949_2",
+        "id": "e2950_2",
         "type": "line",
         "a": [
          6.99,
@@ -120666,7 +120812,7 @@
         ]
        },
        {
-        "id": "e2949_3",
+        "id": "e2950_3",
         "type": "line",
         "a": [
          6.99,
@@ -120730,7 +120876,7 @@
    "funcion": "retención axial del tubo entre el aro interior del rodamiento y la pletina",
    "features": [
     {
-     "id": "f2951",
+     "id": "f2952",
      "name": "Casquillo",
      "shape": "revolve",
      "op": "union",
@@ -120747,7 +120893,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2950_0",
+        "id": "e2951_0",
         "type": "line",
         "a": [
          0,
@@ -120759,7 +120905,7 @@
         ]
        },
        {
-        "id": "e2950_1",
+        "id": "e2951_1",
         "type": "line",
         "a": [
          0,
@@ -120771,7 +120917,7 @@
         ]
        },
        {
-        "id": "e2950_2",
+        "id": "e2951_2",
         "type": "line",
         "a": [
          8,
@@ -120783,7 +120929,7 @@
         ]
        },
        {
-        "id": "e2950_3",
+        "id": "e2951_3",
         "type": "line",
         "a": [
          8,
@@ -120857,7 +121003,7 @@
    "nota": "no gira: es el asiento de los aros interiores y el que pasa la carga del ramal a la chapa del alargue. TOPA por sus dos testas contra las caras interiores X 67.494 y 491.418 y lo retiene un 1/4-20 UNC × 3/4\" + golilla plana 1/4\" — el MISMO perno con el que el NBT90 monta su B-20760 (nbt90/rodillos.mjs, L.retPernoLargo) por cada punta, entrando desde FUERA a su hilo interior 1/4-20 × 15.88: agarre 9.45 mm (1.488 × d) con 6.43 mm de hilo sin usar. Ni pletina, ni collar de apriete, ni ajuste deslizante — es el montaje de catálogo del conjunto y la convención que pidió el cliente",
    "features": [
     {
-     "id": "f2952",
+     "id": "f2953",
      "name": "Barra Ø12.7 × 423.924",
      "shape": "cylinder",
      "op": "union",
@@ -120877,7 +121023,7 @@
      }
     },
     {
-     "id": "f2953",
+     "id": "f2954",
      "name": "Hilo interior 1/4-20 UNC × 15.88 (−X)",
      "shape": "hole",
      "op": "cut",
@@ -120898,7 +121044,7 @@
      }
     },
     {
-     "id": "f2954",
+     "id": "f2955",
      "name": "Hilo interior 1/4-20 UNC × 15.88 (+X)",
      "shape": "hole",
      "op": "cut",
@@ -120949,7 +121095,7 @@
    "norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
    "features": [
     {
-     "id": "f2955",
+     "id": "f2956",
      "name": "Arandela Ø13.97×1.6",
      "shape": "cylinder",
      "op": "union",
@@ -120969,7 +121115,7 @@
      }
     },
     {
-     "id": "f2956",
+     "id": "f2957",
      "name": "Ø6.95",
      "shape": "hole",
      "op": "cut",
@@ -121020,7 +121166,7 @@
    "norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
    "features": [
     {
-     "id": "f2957",
+     "id": "f2958",
      "name": "Cabeza hex e/c 11.11",
      "shape": "sketch",
      "op": "union",
@@ -121070,7 +121216,7 @@
      }
     },
     {
-     "id": "f2958",
+     "id": "f2959",
      "name": "Vástago Ø6.35×19.05",
      "shape": "cylinder",
      "op": "union",
@@ -121120,7 +121266,7 @@
    "norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
    "features": [
     {
-     "id": "f2959",
+     "id": "f2960",
      "name": "Arandela Ø13.97×1.6",
      "shape": "cylinder",
      "op": "union",
@@ -121140,7 +121286,7 @@
      }
     },
     {
-     "id": "f2960",
+     "id": "f2961",
      "name": "Ø6.95",
      "shape": "hole",
      "op": "cut",
@@ -121191,7 +121337,7 @@
    "norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
    "features": [
     {
-     "id": "f2961",
+     "id": "f2962",
      "name": "Cabeza hex e/c 11.11",
      "shape": "sketch",
      "op": "union",
@@ -121241,7 +121387,7 @@
      }
     },
     {
-     "id": "f2962",
+     "id": "f2963",
      "name": "Vástago Ø6.35×19.05",
      "shape": "cylinder",
      "op": "union",
@@ -121295,7 +121441,7 @@
    "nota": "TANGENTE POR ARRIBA al ramal de retorno en Z -9.87 = suelo del corredor del peine. Es la MISMA referencia que el NBT90 monta contra los ramales de retorno de su anfitrión y la que el cliente señala («tenías uno en el modelo anterior, esa era función»). Rueda sobre la CARA PORTANTE de la banda y le hace flexión INVERSA: Ø 48.26 contra el mínimo de polea 40.6 de la banda (web BELT-SAB8E-01), margen ×1.189. La fuente NO publica mínimo de CONTRAFLEXIÓN: queda declarado, no supuesto",
    "features": [
     {
-     "id": "f2963",
+     "id": "f2964",
      "name": "Tubo galvanizado Ø48.26 × 360 (pared 1.65)",
      "shape": "revolve",
      "op": "union",
@@ -121312,7 +121458,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2962_0",
+        "id": "e2963_0",
         "type": "line",
         "a": [
          0,
@@ -121324,7 +121470,7 @@
         ]
        },
        {
-        "id": "e2962_1",
+        "id": "e2963_1",
         "type": "line",
         "a": [
          0.5,
@@ -121336,7 +121482,7 @@
         ]
        },
        {
-        "id": "e2962_2",
+        "id": "e2963_2",
         "type": "line",
         "a": [
          359.5,
@@ -121348,7 +121494,7 @@
         ]
        },
        {
-        "id": "e2962_3",
+        "id": "e2963_3",
         "type": "line",
         "a": [
          360,
@@ -121360,7 +121506,7 @@
         ]
        },
        {
-        "id": "e2962_4",
+        "id": "e2963_4",
         "type": "line",
         "a": [
          360,
@@ -121372,7 +121518,7 @@
         ]
        },
        {
-        "id": "e2962_5",
+        "id": "e2963_5",
         "type": "line",
         "a": [
          0,
@@ -121436,7 +121582,7 @@
    "ajuste": "prensado en el tubo Ø44.96 (conjunto de catálogo: el ajuste lo da el fabricante del rodillo, aquí no se especifica un H7/r6 de plano)",
    "features": [
     {
-     "id": "f2964",
+     "id": "f2965",
      "name": "Alojamiento Ø28.575 con hombro",
      "shape": "revolve",
      "op": "union",
@@ -121453,7 +121599,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2963_0",
+        "id": "e2964_0",
         "type": "line",
         "a": [
          0,
@@ -121465,7 +121611,7 @@
         ]
        },
        {
-        "id": "e2963_1",
+        "id": "e2964_1",
         "type": "line",
         "a": [
          0,
@@ -121477,7 +121623,7 @@
         ]
        },
        {
-        "id": "e2963_2",
+        "id": "e2964_2",
         "type": "line",
         "a": [
          17.14,
@@ -121489,7 +121635,7 @@
         ]
        },
        {
-        "id": "e2963_3",
+        "id": "e2964_3",
         "type": "line",
         "a": [
          17.94,
@@ -121501,7 +121647,7 @@
         ]
        },
        {
-        "id": "e2963_4",
+        "id": "e2964_4",
         "type": "line",
         "a": [
          17.94,
@@ -121513,7 +121659,7 @@
         ]
        },
        {
-        "id": "e2963_5",
+        "id": "e2964_5",
         "type": "line",
         "a": [
          17.44,
@@ -121525,7 +121671,7 @@
         ]
        },
        {
-        "id": "e2963_6",
+        "id": "e2964_6",
         "type": "line",
         "a": [
          2,
@@ -121537,7 +121683,7 @@
         ]
        },
        {
-        "id": "e2963_7",
+        "id": "e2964_7",
         "type": "line",
         "a": [
          2,
@@ -121598,92 +121744,8 @@
    "componente": "rodamiento_12.7x28.575x7.938",
    "features": [
     {
-     "id": "f2965",
-     "name": "Aro exterior",
-     "shape": "revolve",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "entities": [
-       {
-        "id": "e2964_0",
-        "type": "line",
-        "a": [
-         0,
-         12.07
-        ],
-        "b": [
-         0,
-         14.29
-        ]
-       },
-       {
-        "id": "e2964_1",
-        "type": "line",
-        "a": [
-         0,
-         14.29
-        ],
-        "b": [
-         7.94,
-         14.29
-        ]
-       },
-       {
-        "id": "e2964_2",
-        "type": "line",
-        "a": [
-         7.94,
-         14.29
-        ],
-        "b": [
-         7.94,
-         12.07
-        ]
-       },
-       {
-        "id": "e2964_3",
-        "type": "line",
-        "a": [
-         7.94,
-         12.07
-        ],
-        "b": [
-         0,
-         12.07
-        ]
-       }
-      ],
-      "axis": {
-       "a": [
-        0,
-        0
-       ],
-       "b": [
-        1,
-        0
-       ]
-      },
-      "u": [
-       1,
-       0,
-       0
-      ],
-      "angle": 360
-     }
-    },
-    {
      "id": "f2966",
-     "name": "Aro interior",
+     "name": "Aro exterior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -121703,11 +121765,11 @@
         "type": "line",
         "a": [
          0,
-         6.35
+         12.07
         ],
         "b": [
          0,
-         8.57
+         14.29
         ]
        },
        {
@@ -121715,11 +121777,11 @@
         "type": "line",
         "a": [
          0,
-         8.57
+         14.29
         ],
         "b": [
          7.94,
-         8.57
+         14.29
         ]
        },
        {
@@ -121727,11 +121789,11 @@
         "type": "line",
         "a": [
          7.94,
-         8.57
+         14.29
         ],
         "b": [
          7.94,
-         6.35
+         12.07
         ]
        },
        {
@@ -121739,11 +121801,11 @@
         "type": "line",
         "a": [
          7.94,
-         6.35
+         12.07
         ],
         "b": [
          0,
-         6.35
+         12.07
         ]
        }
       ],
@@ -121767,7 +121829,7 @@
     },
     {
      "id": "f2967",
-     "name": "Sello 2RS",
+     "name": "Aro interior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -121786,18 +121848,102 @@
         "id": "e2966_0",
         "type": "line",
         "a": [
-         0.95,
-         8.57
+         0,
+         6.35
         ],
         "b": [
-         0.95,
-         12.07
+         0,
+         8.57
         ]
        },
        {
         "id": "e2966_1",
         "type": "line",
         "a": [
+         0,
+         8.57
+        ],
+        "b": [
+         7.94,
+         8.57
+        ]
+       },
+       {
+        "id": "e2966_2",
+        "type": "line",
+        "a": [
+         7.94,
+         8.57
+        ],
+        "b": [
+         7.94,
+         6.35
+        ]
+       },
+       {
+        "id": "e2966_3",
+        "type": "line",
+        "a": [
+         7.94,
+         6.35
+        ],
+        "b": [
+         0,
+         6.35
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2968",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2967_0",
+        "type": "line",
+        "a": [
+         0.95,
+         8.57
+        ],
+        "b": [
+         0.95,
+         12.07
+        ]
+       },
+       {
+        "id": "e2967_1",
+        "type": "line",
+        "a": [
          0.95,
          12.07
         ],
@@ -121807,7 +121953,7 @@
         ]
        },
        {
-        "id": "e2966_2",
+        "id": "e2967_2",
         "type": "line",
         "a": [
          6.99,
@@ -121819,7 +121965,7 @@
         ]
        },
        {
-        "id": "e2966_3",
+        "id": "e2967_3",
         "type": "line",
         "a": [
          6.99,
@@ -121883,7 +122029,7 @@
    "funcion": "retención axial del tubo entre el aro interior del rodamiento y la pletina",
    "features": [
     {
-     "id": "f2968",
+     "id": "f2969",
      "name": "Casquillo",
      "shape": "revolve",
      "op": "union",
@@ -121900,7 +122046,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2967_0",
+        "id": "e2968_0",
         "type": "line",
         "a": [
          0,
@@ -121912,7 +122058,7 @@
         ]
        },
        {
-        "id": "e2967_1",
+        "id": "e2968_1",
         "type": "line",
         "a": [
          0,
@@ -121924,7 +122070,7 @@
         ]
        },
        {
-        "id": "e2967_2",
+        "id": "e2968_2",
         "type": "line",
         "a": [
          8,
@@ -121936,7 +122082,7 @@
         ]
        },
        {
-        "id": "e2967_3",
+        "id": "e2968_3",
         "type": "line",
         "a": [
          8,
@@ -122000,7 +122146,7 @@
    "ajuste": "prensado en el tubo Ø44.96 (conjunto de catálogo: el ajuste lo da el fabricante del rodillo, aquí no se especifica un H7/r6 de plano)",
    "features": [
     {
-     "id": "f2969",
+     "id": "f2970",
      "name": "Alojamiento Ø28.575 con hombro",
      "shape": "revolve",
      "op": "union",
@@ -122017,7 +122163,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2968_0",
+        "id": "e2969_0",
         "type": "line",
         "a": [
          17.94,
@@ -122029,7 +122175,7 @@
         ]
        },
        {
-        "id": "e2968_1",
+        "id": "e2969_1",
         "type": "line",
         "a": [
          17.94,
@@ -122041,7 +122187,7 @@
         ]
        },
        {
-        "id": "e2968_2",
+        "id": "e2969_2",
         "type": "line",
         "a": [
          0.8,
@@ -122053,7 +122199,7 @@
         ]
        },
        {
-        "id": "e2968_3",
+        "id": "e2969_3",
         "type": "line",
         "a": [
          0,
@@ -122065,7 +122211,7 @@
         ]
        },
        {
-        "id": "e2968_4",
+        "id": "e2969_4",
         "type": "line",
         "a": [
          0,
@@ -122077,7 +122223,7 @@
         ]
        },
        {
-        "id": "e2968_5",
+        "id": "e2969_5",
         "type": "line",
         "a": [
          0.5,
@@ -122089,7 +122235,7 @@
         ]
        },
        {
-        "id": "e2968_6",
+        "id": "e2969_6",
         "type": "line",
         "a": [
          15.94,
@@ -122101,7 +122247,7 @@
         ]
        },
        {
-        "id": "e2968_7",
+        "id": "e2969_7",
         "type": "line",
         "a": [
          15.94,
@@ -122162,92 +122308,8 @@
    "componente": "rodamiento_12.7x28.575x7.938",
    "features": [
     {
-     "id": "f2970",
-     "name": "Aro exterior",
-     "shape": "revolve",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      0
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "entities": [
-       {
-        "id": "e2969_0",
-        "type": "line",
-        "a": [
-         0,
-         12.07
-        ],
-        "b": [
-         0,
-         14.29
-        ]
-       },
-       {
-        "id": "e2969_1",
-        "type": "line",
-        "a": [
-         0,
-         14.29
-        ],
-        "b": [
-         7.94,
-         14.29
-        ]
-       },
-       {
-        "id": "e2969_2",
-        "type": "line",
-        "a": [
-         7.94,
-         14.29
-        ],
-        "b": [
-         7.94,
-         12.07
-        ]
-       },
-       {
-        "id": "e2969_3",
-        "type": "line",
-        "a": [
-         7.94,
-         12.07
-        ],
-        "b": [
-         0,
-         12.07
-        ]
-       }
-      ],
-      "axis": {
-       "a": [
-        0,
-        0
-       ],
-       "b": [
-        1,
-        0
-       ]
-      },
-      "u": [
-       1,
-       0,
-       0
-      ],
-      "angle": 360
-     }
-    },
-    {
      "id": "f2971",
-     "name": "Aro interior",
+     "name": "Aro exterior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -122267,11 +122329,11 @@
         "type": "line",
         "a": [
          0,
-         6.35
+         12.07
         ],
         "b": [
          0,
-         8.57
+         14.29
         ]
        },
        {
@@ -122279,11 +122341,11 @@
         "type": "line",
         "a": [
          0,
-         8.57
+         14.29
         ],
         "b": [
          7.94,
-         8.57
+         14.29
         ]
        },
        {
@@ -122291,11 +122353,11 @@
         "type": "line",
         "a": [
          7.94,
-         8.57
+         14.29
         ],
         "b": [
          7.94,
-         6.35
+         12.07
         ]
        },
        {
@@ -122303,11 +122365,11 @@
         "type": "line",
         "a": [
          7.94,
-         6.35
+         12.07
         ],
         "b": [
          0,
-         6.35
+         12.07
         ]
        }
       ],
@@ -122331,7 +122393,7 @@
     },
     {
      "id": "f2972",
-     "name": "Sello 2RS",
+     "name": "Aro interior",
      "shape": "revolve",
      "op": "union",
      "at": [
@@ -122350,18 +122412,102 @@
         "id": "e2971_0",
         "type": "line",
         "a": [
-         0.95,
-         8.57
+         0,
+         6.35
         ],
         "b": [
-         0.95,
-         12.07
+         0,
+         8.57
         ]
        },
        {
         "id": "e2971_1",
         "type": "line",
         "a": [
+         0,
+         8.57
+        ],
+        "b": [
+         7.94,
+         8.57
+        ]
+       },
+       {
+        "id": "e2971_2",
+        "type": "line",
+        "a": [
+         7.94,
+         8.57
+        ],
+        "b": [
+         7.94,
+         6.35
+        ]
+       },
+       {
+        "id": "e2971_3",
+        "type": "line",
+        "a": [
+         7.94,
+         6.35
+        ],
+        "b": [
+         0,
+         6.35
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f2973",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e2972_0",
+        "type": "line",
+        "a": [
+         0.95,
+         8.57
+        ],
+        "b": [
+         0.95,
+         12.07
+        ]
+       },
+       {
+        "id": "e2972_1",
+        "type": "line",
+        "a": [
          0.95,
          12.07
         ],
@@ -122371,7 +122517,7 @@
         ]
        },
        {
-        "id": "e2971_2",
+        "id": "e2972_2",
         "type": "line",
         "a": [
          6.99,
@@ -122383,7 +122529,7 @@
         ]
        },
        {
-        "id": "e2971_3",
+        "id": "e2972_3",
         "type": "line",
         "a": [
          6.99,
@@ -122447,7 +122593,7 @@
    "funcion": "retención axial del tubo entre el aro interior del rodamiento y la pletina",
    "features": [
     {
-     "id": "f2973",
+     "id": "f2974",
      "name": "Casquillo",
      "shape": "revolve",
      "op": "union",
@@ -122464,7 +122610,7 @@
      "params": {
       "entities": [
        {
-        "id": "e2972_0",
+        "id": "e2973_0",
         "type": "line",
         "a": [
          0,
@@ -122476,7 +122622,7 @@
         ]
        },
        {
-        "id": "e2972_1",
+        "id": "e2973_1",
         "type": "line",
         "a": [
          0,
@@ -122488,7 +122634,7 @@
         ]
        },
        {
-        "id": "e2972_2",
+        "id": "e2973_2",
         "type": "line",
         "a": [
          8,
@@ -122500,7 +122646,7 @@
         ]
        },
        {
-        "id": "e2972_3",
+        "id": "e2973_3",
         "type": "line",
         "a": [
          8,
@@ -122574,7 +122720,7 @@
    "nota": "no gira: es el asiento de los aros interiores y el que pasa la carga del ramal a la chapa del alargue. TOPA por sus dos testas contra las caras interiores X 67.494 y 491.418 y lo retiene un 1/4-20 UNC × 3/4\" + golilla plana 1/4\" — el MISMO perno con el que el NBT90 monta su B-20760 (nbt90/rodillos.mjs, L.retPernoLargo) por cada punta, entrando desde FUERA a su hilo interior 1/4-20 × 15.88: agarre 9.45 mm (1.488 × d) con 6.43 mm de hilo sin usar. Ni pletina, ni collar de apriete, ni ajuste deslizante — es el montaje de catálogo del conjunto y la convención que pidió el cliente",
    "features": [
     {
-     "id": "f2974",
+     "id": "f2975",
      "name": "Barra Ø12.7 × 423.924",
      "shape": "cylinder",
      "op": "union",
@@ -122594,7 +122740,7 @@
      }
     },
     {
-     "id": "f2975",
+     "id": "f2976",
      "name": "Hilo interior 1/4-20 UNC × 15.88 (−X)",
      "shape": "hole",
      "op": "cut",
@@ -122615,7 +122761,7 @@
      }
     },
     {
-     "id": "f2976",
+     "id": "f2977",
      "name": "Hilo interior 1/4-20 UNC × 15.88 (+X)",
      "shape": "hole",
      "op": "cut",
@@ -122666,7 +122812,7 @@
    "norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
    "features": [
     {
-     "id": "f2977",
+     "id": "f2978",
      "name": "Arandela Ø13.97×1.6",
      "shape": "cylinder",
      "op": "union",
@@ -122686,7 +122832,7 @@
      }
     },
     {
-     "id": "f2978",
+     "id": "f2979",
      "name": "Ø6.95",
      "shape": "hole",
      "op": "cut",
@@ -122737,7 +122883,7 @@
    "norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
    "features": [
     {
-     "id": "f2979",
+     "id": "f2980",
      "name": "Cabeza hex e/c 11.11",
      "shape": "sketch",
      "op": "union",
@@ -122787,7 +122933,7 @@
      }
     },
     {
-     "id": "f2980",
+     "id": "f2981",
      "name": "Vástago Ø6.35×19.05",
      "shape": "cylinder",
      "op": "union",
@@ -122837,7 +122983,7 @@
    "norma": "ASME B18.22.1 — arandela plana tipo A, 1/4\", serie estrecha (N, Ø ext. 14.27)",
    "features": [
     {
-     "id": "f2981",
+     "id": "f2982",
      "name": "Arandela Ø13.97×1.6",
      "shape": "cylinder",
      "op": "union",
@@ -122857,7 +123003,7 @@
      }
     },
     {
-     "id": "f2982",
+     "id": "f2983",
      "name": "Ø6.95",
      "shape": "hole",
      "op": "cut",
@@ -122908,7 +123054,7 @@
    "norma": "ASME B18.2.1 — tornillo de cabeza hexagonal 1/4-20 UNC-2A",
    "features": [
     {
-     "id": "f2983",
+     "id": "f2984",
      "name": "Cabeza hex e/c 11.11",
      "shape": "sketch",
      "op": "union",
@@ -122958,7 +123104,7 @@
      }
     },
     {
-     "id": "f2984",
+     "id": "f2985",
      "name": "Vástago Ø6.35×19.05",
      "shape": "cylinder",
      "op": "union",

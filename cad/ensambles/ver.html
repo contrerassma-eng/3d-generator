@@ -62,12 +62,12 @@
 // ~400 geometrías en JS, y eso es común a los dos modos.
 //
 // Otros ajustes (todos opcionales, pensados para medir el coste del render):
-//   &ss=1.5      supersampling: se dibuja a N× y el navegador reduce al
-//                capturar. Medido en este equipo: sin AA 0.8 s de cuadro + 4.3 s
-//                de captura; ss=1.5 → 0.7 + 8.2; MSAA 4× (&aa=1) → 4.1 + 15.5;
-//                ss=2 → 4.8 + 13.0. ss=1.5 da casi la calidad de MSAA 4× por una
-//                cuarta parte del sobrecoste, y por eso es el valor por defecto.
-//                &aa=1 fuerza MSAA en su lugar.
+//   &ss=2        supersampling: se dibuja a N× y el navegador reduce al
+//                capturar. Medido en este equipo (a 1600 px): sin AA 0.8 s de
+//                cuadro + 4.3 s de captura; ss=1.5 → 0.7 + 8.2; MSAA 4× (&aa=1)
+//                → 4.1 + 15.5; ss=2 → 4.8 + 13.0. El modo real usa ss=2 por
+//                defecto (con el visor a 2560 px la captura sale a 5120 px
+//                internos, bordes limpios sin MSAA). &aa=1 fuerza MSAA.
 //   &sombras=0   sin mapa de sombras.   &suelo=0  sin plano receptor.
 //   &exp=1.05    exposición del tono.
 //   &luz=0.8     brillo del entorno de estudio.  &sol=2.4  fuerza de la luz
@@ -76,22 +76,34 @@
 //                Con ellas la chapa deja de ser ópticamente plana (spangle del
 //                galvanizado, estrías del extruido, torneado de los ejes, piel
 //                de naranja del esmalte).
+//   &malla=normal  vuelve al teselado de siempre (48 segmentos fijos). Por
+//                defecto este visor pide `malla=fina`: segmentos ADAPTATIVOS
+//                por radio (48…144, flecha ≤0.02 mm) para que un tambor Ø108.9
+//                no se vea facetado. SOLO afecta a los visores: los planos
+//                (`planos_nbt90.mjs`/`drawing2d.js`) siguen en el modo normal,
+//                su extracción de aristas es cuadrática y degrada >12000 tris.
+//   &textam=512  lado en px de las texturas procedurales (por defecto 1024;
+//                a 512 el texel del spangle ya se ve a 2560 px de visor).
 import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
-import { buildPartGeometry, partMatrix } from '../js/model.js';
+import { buildPartGeometry, partMatrix, setTeseladoFino } from '../js/model.js';
 import { entornoEstudio, configurarRenderer, solPrincipal, luzRelleno,
   crearTexturas, uvPorEjeLargo, encuadrar, planoSombra } from './estudio.mjs';
 
 const q = new URLSearchParams(location.search);
 const docUrl = q.get('doc') || 'transfer_rodillos_90.json';
 const real = (q.get('material') || 'plano').toLowerCase() === 'real';
-const ss = Math.max(1, Math.min(3, parseFloat(q.get('ss')) || (real ? 1.5 : devicePixelRatio)));
+const ss = Math.max(1, Math.min(3, parseFloat(q.get('ss')) || (real ? 2 : devicePixelRatio)));
 const aa = q.get('aa') !== null ? q.get('aa') === '1' : !real;
 const sombras = real && q.get('sombras') !== '0';
 const exposicion = parseFloat(q.get('exp') || '0.95');
 const brilloEntorno = parseFloat(q.get('luz') || '0.6');
 const fuerzaSol = parseFloat(q.get('sol') || '2.4');
 const detalle = real && q.get('detalle') !== '0';
+// Teselado fino por defecto EN ESTE VISOR (y solo aquí y en ver_corte.html):
+// se activa ANTES de construir ninguna geometría. `&malla=normal` lo apaga.
+setTeseladoFino((q.get('malla') || 'fina').toLowerCase() !== 'normal');
+const tamTex = Math.max(256, Math.min(2048, parseInt(q.get('textam') || '1024', 10) || 1024));
 
 const t0 = performance.now();
 const doc = await (await fetch(docUrl)).json();
@@ -110,7 +122,7 @@ if (real) {
   entorno = entornoEstudio(THREE, renderer, { brillo: brilloEntorno }); // síncrono
   scene.environment = entorno.textura;
   const { crearMateriales } = await import('./nbt90/materiales.mjs');
-  mats = crearMateriales(THREE, { tex: detalle ? crearTexturas(THREE) : null });
+  mats = crearMateriales(THREE, { tex: detalle ? crearTexturas(THREE, { tam: tamTex }) : null });
 } else {
   // Modo plano de siempre: hemisférica + dos direccionales, sin entorno.
   scene.add(new THREE.HemisphereLight(0xdde4f0, 0x30363f, 1.0));

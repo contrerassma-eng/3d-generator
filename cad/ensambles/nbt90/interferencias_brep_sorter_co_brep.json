@@ -2,7 +2,7 @@
  "documento": "sorter_co_brep.json",
  "tolerancia_cm3": 0.05,
  "piezas": 807,
- "pares_candidatos": 2152,
+ "pares_candidatos": 2155,
  "interferencias": 134,
  "detalle": [
   {
@@ -602,56 +602,56 @@
   },
   {
    "cm3": 0.2824,
-   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (sur, Y -1280)",
    "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (sur, −X, -)",
    "pct_de_la_menor": 17.87,
    "cruce": false
   },
   {
    "cm3": 0.2824,
-   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (sur, Y -1280)",
    "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (sur, −X, +)",
    "pct_de_la_menor": 17.87,
    "cruce": false
   },
   {
    "cm3": 0.2824,
-   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (sur, Y -1280)",
    "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (sur, +X, -)",
    "pct_de_la_menor": 17.87,
    "cruce": false
   },
   {
    "cm3": 0.2824,
-   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (sur, Y -1280)",
    "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (sur, +X, +)",
    "pct_de_la_menor": 17.87,
    "cruce": false
   },
   {
    "cm3": 0.2824,
-   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (norte, Y -692)",
    "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (norte, −X, -)",
    "pct_de_la_menor": 17.87,
    "cruce": false
   },
   {
    "cm3": 0.2824,
-   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (norte, Y -692)",
    "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (norte, −X, +)",
    "pct_de_la_menor": 17.87,
    "cruce": false
   },
   {
    "cm3": 0.2824,
-   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (norte, Y -692)",
    "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (norte, +X, -)",
    "pct_de_la_menor": 17.87,
    "cruce": false
   },
   {
    "cm3": 0.2824,
-   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (norte, Y -692)",
    "b": "PG40 · Perno hex M8×16 escuadra puente↔travesaño (norte, +X, +)",
    "pct_de_la_menor": 17.87,
    "cruce": false
@@ -903,42 +903,42 @@
   },
   {
    "cm3": 0.0883,
-   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (sur, Y -1280)",
    "b": "PG40 · Perno hex M8×25 escuadra puente↔chapón (sur, +X, -)",
    "pct_de_la_menor": 4.35,
    "cruce": false
   },
   {
    "cm3": 0.0883,
-   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (sur, Y -1280)",
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (sur, Y -1280)",
    "b": "PG40 · Perno hex M8×25 escuadra puente↔chapón (sur, +X, +)",
    "pct_de_la_menor": 4.35,
    "cruce": false
   },
   {
    "cm3": 0.0883,
-   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (norte, Y -692)",
    "b": "PG40 · Perno hex M8×25 escuadra puente↔chapón (norte, +X, -)",
    "pct_de_la_menor": 4.35,
    "cruce": false
   },
   {
    "cm3": 0.0883,
-   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=571.315 (norte, Y -692)",
+   "a": "PG40 · Travesaño de puente 40×40 ranura 10 L=449.006 (norte, Y -692)",
    "b": "PG40 · Perno hex M8×25 escuadra puente↔chapón (norte, +X, +)",
    "pct_de_la_menor": 4.35,
    "cruce": false
   },
   {
    "cm3": 0.0831,
-   "a": "FIJO · Eje pivote común Ø30×580.84 (articulación de los 5 brazos)",
+   "a": "FIJO · Eje pivote común Ø30×458.53 (articulación de los 5 brazos)",
    "b": "FIJO · Anillo retención eje pivote −X Ø30",
    "pct_de_la_menor": 18.49,
    "cruce": false
   },
   {
    "cm3": 0.0831,
-   "a": "FIJO · Eje pivote común Ø30×580.84 (articulación de los 5 brazos)",
+   "a": "FIJO · Eje pivote común Ø30×458.53 (articulación de los 5 brazos)",
    "b": "FIJO · Anillo retención eje pivote +X Ø30",
    "pct_de_la_menor": 18.49,
    "cruce": false

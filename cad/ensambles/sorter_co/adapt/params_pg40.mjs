@@ -27,7 +27,7 @@
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { STEP, NBT, Xc, EJES, T, y0, y1, P, CALLE } from './params_adapt.mjs';
+import { STEP, NBT, Xc, EJES, T, y0, y1, P, CALLE, RECORTE_ANCHO } from './params_adapt.mjs';
 
 const aqui = dirname(fileURLToPath(import.meta.url));
 const r3 = (v) => Math.round(v * 1000) / 1000;
@@ -445,6 +445,46 @@ const ALMA_EXT = r3(Xc + NBT.sideAlmaExtY);                // 508.026 nbt90
 const ALMA_INT = r3(ALMA_EXT - P.cal12);                   // 505.369 calc (12 GA)
 const ALMA_EXT_NEG = r3(Xc - NBT.sideAlmaExtY);            // 50.886 nbt90 (lado −X)
 
+// ═══════════════════════════════════════════════════════════════════════════
+// A11 · VENTANA EN EL ALMA −X PARA LA CHUMACERA DEL EJE PIVOTE (05-08-2026)
+//
+// LA CAUSA. El RECORTE DE ANCHO mete la cara interior del chapón −X de −81.423 a
+// 40.886, y `params_tensor2.PIV.ucflX` ancla las dos chumaceras del eje pivote
+// del tensor a `STEP.frameIntNeg` — o sea que la de −X viaja con el chapón y
+// aterriza sobre el ALMA de este alargue, que corre por X 42.886…50.886. Solape
+// medido con la verificación B-rep: 17.85 cm³.
+//
+// POR QUÉ LO ARREGLA ESTE MÓDULO Y NO EL DEL TENSOR. La chumacera está donde
+// tiene que estar: apoyada en la cara interior del bastidor, que es donde va una
+// UCFL 206 de eje pivote. Quien invade su sitio es MI alma, que es una pletina
+// de 8 mm que aquí no lleva ninguna carga —su cometido es amarrar al side
+// channel del NBT90 (Y −1145…−802) y sostener los cabezales de rodamiento
+// (Y ≥ −125)—: entre Y −180 y su testa norte no hay ni un taladro. Se le abre
+// una VENTANA y no se toca `params_tensor2`.
+//
+// LAS COTAS SE CITAN, NO SE IMPORTAN. `mod_pg40` no importa `params_tensor2` a
+// propósito: ese archivo está en manos de otro agente ahora mismo y una
+// dependencia en vuelo haría que mi geometría cambiara sin que yo lo sepa. Se
+// copian sus valores publicados con su procedencia, igual que hace
+// `params_tambores` con las cotas de pg40 para no cerrar un ciclo. Si el tensor
+// mueve su chumacera, esta ventana deja de casar y la compuerta §W lo dice.
+export const VENTANA_UCFL_PIVOTE = {
+  activa: true,
+  fuente: 'adapt/params_tensor2.mjs · PIV (chumacera SKF UCFL 206 del eje pivote, lado −X). '
+    + 'Envolvente medida sobre el ensamble emitido: Y −175.72…−27.72 · Z −184.70…−140.70',
+  y: [-175.72, -27.72],          // tensor2 (citado)
+  z: [-184.70, -140.70],         // tensor2 (citado)
+  holgura: 4.0,                  // dis — aire de corte láser alrededor de la brida
+  // La ventana se abre SÓLO en el trozo que se solapa con el alma; hacia el
+  // norte muere en la testa del alma, así que es un ESCOTE de esquina, no un
+  // agujero cerrado.
+  get yCorte() { return [r3(this.y[0] - this.holgura), r3(this.y[1] + this.holgura)]; },
+  get zCorte() { return [r3(this.z[0] - this.holgura), r3(this.z[1] + this.holgura)]; },
+  nota: 'escote de esquina en la testa norte del alma −X. No cruza ningún taladro: los 3 amarres al '
+    + 'side channel están en Y −1145, −973.5 y −802, y el canto del alma sigue entero por arriba '
+    + '(hasta Z −136.7) y por abajo (desde −188.7)',
+};
+
 export const ALARGUE = {
   material: 'Acero A36 (S275JR)',
   e: 8.0,                        // dis: 8 mm — el UCF 207 lleva M12 y el alma de
@@ -787,5 +827,5 @@ export const CARGA = {
   flechaMaxAbs: 1.0,
 };
 
-export { STEP, NBT, Xc, EJES, T, y0, y1, P };
+export { STEP, NBT, Xc, EJES, T, y0, y1, P, RECORTE_ANCHO };
 export default { FLAGS, PERFIL, Z, GUIA, TRAMOS, TRAVESANOS, ALARGUE, UCF207, EJES_ARBOL, PUBLICA, CARGA };

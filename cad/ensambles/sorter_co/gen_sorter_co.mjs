@@ -6,7 +6,7 @@
 //   node ensambles/sorter_co/gen_sorter_co.mjs            (desde cad/)
 //   TEST_ROMPE=paso|ventana|roller|profundidad|luz|pasillo|borde|at10|retencion
 //              |sintaladro|huerfana  (revisión de FABRICACIÓN: §U y §V)
-//              |guia|pozo|pivote|pila|cilindro|soporte|bulon|portante|retorno
+//              |guia|pozo|pivote|pila|cilindro|soporte|bulon|portante|retorno|simetria
 //              |apoyo|presion|rampa|apriete|eje|rodamiento|banda|fuente
 //              |tolerancia|cordon|material|designacion|generica|ferreteria node …
 //       (banco: inyecta UN defecto y demuestra que verify() lo para SIN emitir
@@ -31,8 +31,9 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 import { Ensamble, r2 } from '../nbt90/lib.mjs';
-import { STEP, NBT, FRANJA, Xc, EJES, T, y0, y1, PERCHA, POZO, CALLE, TENSOR, bordeExtDescarga } from './adapt/params_adapt.mjs';
+import { STEP, NBT, FRANJA, Xc, EJES, T, y0, y1, PERCHA, POZO, CALLE, TENSOR, bordeExtDescarga, RECORTE_ANCHO } from './adapt/params_adapt.mjs';
 import { CLEVIS, RETEN, IDLER, EJEC, PIVOTE, GUARDAS, GUIAS } from './adapt/params_estaciones.mjs';
+import { SIMETRIA } from './adapt/params_adapt.mjs';
 import { bboxU, solapeAABB } from './adapt/util_adapt.mjs';
 import { nbt90, clienteFijo } from './adapt/mod_ctx.mjs';
 import { calles } from './adapt/mod_calles.mjs';
@@ -605,6 +606,23 @@ if (ROMPE === 'paso') {
       }
       f.params.pts = out;
     }
+  }
+} else if (ROMPE === 'simetria') {
+  // DESCENTRA LA PLATAFORMA: corre las 5 bandas 3 mm hacia −X sin tocar el
+  // bastidor. Es exactamente el defecto que el cliente denunció el 05-08 («vista
+  // superior muestra un ancho innecesario y zona sin bandas, reduce zona de
+  // transporte es simetrica») y que hasta hoy no vigilaba nadie: `Xc` lo fija la
+  // transferencia, las caras de apoyo el alargue y el chapón el cliente, así que
+  // el conjunto se podía torcer sin que ninguna compuerta se enterara.
+  // 3 mm son 60 veces la tolerancia de §W (0.05) y siguen siendo invisibles a
+  // ojo en un render: justo la clase de desvío que tiene que cazar una compuerta
+  // y no una revisión visual.
+  // Se mueve el BOCETO (que es de donde sale el sólido y la envolvente que §W
+  // mide) y NO `pos`: así el defecto es geométrico de verdad y no un descuadre
+  // entre origen y geometría, que ya lo caza otra comprobación.
+  for (const p of E.parts) {
+    if (p.contexto || !/^FIJO · Banda plana 32/.test(p.name)) continue;
+    for (const f of p.features) if (f.at) f.at = [r2(f.at[0] - 3), f.at[1], f.at[2]];
   }
 } else if (ROMPE === 'pozo') {
   // DEVUELVE UNA GUARDA DE POZO al ensamble con el pozo ya retirado: es el
@@ -1518,6 +1536,17 @@ function verify() {
     [/^(TAMBOR|CONDUCIDO|RETORNO|ELEVADOR) /,
       /PG40 · Alargue lateral · cabezal de rodamiento|PG40 · Cubrejunta alma↔cabezal|PG40 · Alargue lateral · alma|PG40 · Cartela de rodillos de retorno/],
     [/^TAMBOR · engomado/, /PG40 · Escuadra larguero↔travesaño \(calle \d, Y -100\)/],
+    // (5) RECORTE DE ANCHO: al meter el chapón −X a 40.886, la chumacera del eje
+    //     pivote del tensor —que params_tensor2 ancla a `STEP.frameIntNeg`— cae
+    //     sobre el alma del alargue. El alma lleva desde entonces una VENTANA
+    //     declarada para ella (params_pg40 A11 · VENTANA_UCFL_PIVOTE), y la AABB
+    //     de una pletina no ve sus recortes — igual que no ve los taladros. Quien
+    //     lo comprueba de verdad es la verificación B-rep exacta, que con la
+    //     ventana abierta da 0.00 cm³ en este par. Se tolera SÓLO este par y sólo
+    //     con el recorte activo.
+    ...(RECORTE_ANCHO.activo
+      ? [[/^FIJO · Chumacera SKF UCFL 206 \(eje pivote tensor, −X/, /^PG40 · Alargue lateral · alma −X/]]
+      : []),
     // ▲▲▲ --------- ▲▲▲
   ];
   const esBanda = (p) => /Banda plana 32/.test(p.name);
@@ -2457,6 +2486,38 @@ function verify() {
           + `ni adelgazar (Ø108.9 ya es el escalón que cabe entre largueros): la escuadra tiene que `
           + `bajar al travesaño o retranquearse a Y ≤ ${r2(bg.lo[1] - 2)}`);
       }
+    }
+    if (RECORTE_ANCHO.activo) {
+      const RA = RECORTE_ANCHO;
+      avisosDeclarados.push('RECORTE DE ANCHO · MODIFICACIÓN AL CLIENTE (cliente 05-08: «vista superior '
+        + 'muestra un ancho innecesario y zona sin bandas, reduce zona de transporte es simetrica»): el '
+        + `chapón FRAME_MIR_MIR (28 mm) se DESMONTA y se remonta ${RA.recorridoMm} mm hacia dentro — cara `
+        + `exterior de −109.423 a ${RA.frameExtNeg}, cara interior de −81.423 a ${RA.frameIntNeg}. `
+        + `La luz entre bastidores baja de ${RA.luzVieja} a ${RA.luzNueva} `
+        + `(−${RA.reduccionPct} %) y la zona SIN BANDA pasa de ${RA.sinBandaAntes.neg} a `
+        + `${RA.sinBandaDespues.neg} mm en −X, contra ${RA.sinBandaDespues.pos} en +X. Es de la MISMA `
+        + 'clase que la muesca del chapón de descarga y que los 8 Ø11 del alargue: se declara, no se '
+        + 'aplica en silencio.');
+      avisosDeclarados.push(`RECORTE DE ANCHO · LO QUE NO SE HA PODIDO RECUPERAR, con su número: la `
+        + `simetría perfecta pediría llevar la cara interior a ${RA.frameIntNegIdeal} `
+        + `(${RA.recorridoIdealMm} mm de recorrido) y NO CABE. El tope es ${RA.loQueImpideLaSimetria}. `
+        + `Se recuperan ${RA.recorridoMm} de ${RA.recorridoIdealMm} mm (el `
+        + `${r2(100 * RA.recorridoMm / RA.recorridoIdealMm)} %) y queda un RESIDUO de asimetría de `
+        + `${RA.residuoAsimetriaMm} mm, o sea ${RA.descentradoDelCentroMm} mm de descentrado del centro `
+        + `de la luz respecto de Xc. NO es una holgura que se pueda apretar: es el ancho que la propia `
+        + `transferencia ocupa a ese lado. Va con trinquete en la compuerta §W.`);
+      avisosDeclarados.push('RECORTE DE ANCHO · lo que arrastra y lo que NO. ARRASTRA: los travesaños '
+        + 'que cruzan de bastidor a bastidor (L 580.841 → 458.532) con sus escuadras de extremo, y el '
+        + 'eje pivote del tensor con sus 2 UCFL 206, que params_tensor2 ancla a `STEP.frameIntNeg` y '
+        + 'por eso siguen SOLOS (no se ha tocado ese archivo). NO ARRASTRA, y conviene decirlo porque '
+        + 'se esperaba que sí: (a) el alargue lateral y sus cabezales, cuyas caras −X están ancladas al '
+        + 'ALMA DEL SIDE CHANNEL del NBT90 y no al chapón; (b) por lo mismo, las caras de apoyo del '
+        + 'conducido y de los dos rodillos elevadores (67.494 / 491.418), que ya eran simétricas — el '
+        + `eje Ø12.7 de los elevadores sigue midiendo 423.924; (c) el UCF 207 de −X, que apoya en el `
+        + 'cabezal del alargue (X 59.494) y NO en el chapón: su cuerpo vive en Y −58.5…58.5 y el chapón '
+        + 'muere en Y −79.741, así que no se cruzan. Sigue en X 25.494 con vano 535.924, y el chavetero '
+        + 'y el saliente del eje del tambor no se mueven (son del lado +X, que no cambia).');
+      avisosDeclarados.push(`RECORTE DE ANCHO · PENDIENTE CON EL CLIENTE: ${RA.pendienteConElCliente}`);
     }
     avisosDeclarados.push(`TAMBORES: montaje del ${TAMB_UCF.desig} corregido a OUTBOARD `
       + `(caras de apoyo X ${TAMB_UCF.caraX.join(' y ')}), que es lo que pedía el propio AVISO de `
@@ -3426,6 +3487,87 @@ function verify() {
   }
   // ▲▲▲ ------------------------------------------------------------------ ▲▲▲
 
+  // ▼▼▼ §W · LA PLATAFORMA ES SIMÉTRICA RESPECTO DE Xc ▼▼▼
+  // ---------------------------------------------------------------------------
+  // POR QUÉ EXISTE. El cliente pidió el RECORTE DE ANCHO porque la vista superior
+  // enseñaba la plataforma descentrada: 192.479 mm sin banda en −X contra 51.562
+  // en +X. Se ha corregido, pero hasta hoy NADA lo vigilaba — `Xc` lo fija la
+  // transferencia, las caras de apoyo el alargue y el chapón el cliente, tres
+  // dueños distintos y ninguna comprobación de que el conjunto quede centrado.
+  // Aquí se mide sobre la GEOMETRÍA EMITIDA, no sobre lo que declara nadie.
+  //
+  // DOS COSAS DISTINTAS, con dos varas de medir (params_adapt SIMETRIA):
+  //   (a) las parejas que TIENEN que ser simétricas → `tolMm` = 0.05, que es
+  //       ruido de redondeo a 3 decimales y no una holgura de montaje;
+  //   (b) el BASTIDOR, que arrastra un residuo que la propia transferencia
+  //       impone (el alma del alargue −X no deja meter el chapón más adentro) →
+  //       `residuoDeclaradoMm`, CON TRINQUETE: puede bajar, no puede crecer.
+  {
+    const SIM = [];
+    const chk = (nombre, x0, x1, dueño) => {
+      const centro = r2((x0 + x1) / 2);
+      const desv = r2(Math.abs(centro - Xc));
+      SIM.push({ que: nombre, x: [r2(x0), r2(x1)], centro, desviacion: desv, dueño });
+      return desv;
+    };
+    // (a) las parejas que deben ser simétricas al micrón
+    const pares = [
+      ['caras de apoyo del rodillo conducido', TAMB_CON.soporte.caraX, 'adapt/params_tambores.mjs'],
+      ['caras de apoyo de los rodillos elevadores', TAMB_ELEV.soporte.caraX, 'adapt/params_tambores.mjs'],
+      ['cara engomada del tambor motriz', TAMB_P.gomaX, 'adapt/params_tambores.mjs'],
+      ['tubo del tambor motriz', TAMB_P.tuboX, 'adapt/params_tambores.mjs'],
+      ['tubo del rodillo conducido', TAMB_CON.tuboX, 'adapt/params_tambores.mjs'],
+      ['ejes de las 5 calles', [EJES[0], EJES[EJES.length - 1]], 'adapt/params_adapt.mjs'],
+    ];
+    for (const [nom, x, dueño] of pares) {
+      const d = chk(nom, x[0], x[1], dueño);
+      if (d > SIMETRIA.tolMm) {
+        e.push(`§W · «${nom}» NO es simétrico respecto de Xc: caras en X ${r2(x[0])} y ${r2(x[1])}, `
+          + `centro ${r2((x[0] + x[1]) / 2)}, desviación ${d} mm (máx ${SIMETRIA.tolMm}). `
+          + `Lo pone ${dueño}. El cliente pidió el 05-08 que la zona de transporte fuera simétrica; `
+          + 'esto la descentra otra vez');
+      }
+    }
+    // …y la MISMA comprobación sobre la geometría EMITIDA de las 5 bandas, que es
+    // lo que el cliente mira en la vista superior. No se fía de la tabla de ejes:
+    // mide el contorno que sale.
+    {
+      const bandas = nuevas.filter(p => /^FIJO · Banda plana 32/.test(p.name)).map(p => bb.get(p));
+      if (bandas.length === EJES.length) {
+        const lo = Math.min(...bandas.map(b => b.lo[0])), hi = Math.max(...bandas.map(b => b.hi[0]));
+        const d = chk('envolvente EMITIDA de las 5 bandas', lo, hi, 'adapt/mod_calles.mjs');
+        if (d > SIMETRIA.tolMm) {
+          e.push(`§W · las 5 bandas emitidas no quedan centradas en Xc: envolvente X ${r2(lo)}…${r2(hi)}, `
+            + `desviación ${d} mm (máx ${SIMETRIA.tolMm})`);
+        }
+      }
+    }
+    // (b) el BASTIDOR, con su residuo declarado y su trinquete
+    const fr = chk('caras interiores de los dos chapones', STEP.frameIntNeg, STEP.frameIntPos,
+      'adapt/params_adapt.mjs · RECORTE_ANCHO');
+    const decl = SIMETRIA.residuoDeclaradoMm;
+    if (fr > decl + 0.01) {
+      e.push(`§W · el BASTIDOR está ${fr} mm descentrado respecto de Xc y el residuo declarado es `
+        + `${decl} (params_adapt SIMETRIA.residuoDeclaradoMm). Ha CRECIDO: o se corrige la geometría, `
+        + 'o se explica por qué el residuo es mayor — pero no se sube el número sin más');
+    } else if (fr < decl - 0.01) {
+      e.push(`§W · el BASTIDOR está ${fr} mm descentrado y el residuo declarado sigue en ${decl}: `
+        + 'ha MEJORADO y la declaración se ha quedado vieja. Baja `SIMETRIA.residuoDeclaradoMm` a '
+        + `${fr} — un residuo declarado más grande que el real es una dispensa caducada`);
+    }
+    // zona sin banda a cada lado, que es LO QUE SE VE en la vista superior
+    const sinBanda = { neg: r2(EJES[0] - STEP.bandaAncho / 2 - STEP.frameIntNeg),
+      pos: r2(STEP.frameIntPos - (EJES[EJES.length - 1] + STEP.bandaAncho / 2)) };
+    m.simetria = { eje: Xc, tolMm: SIMETRIA.tolMm, residuoDeclaradoMm: decl,
+      residuoMedidoMm: fr, pares: SIM, sinBanda,
+      recorte: RECORTE_ANCHO.activo ? {
+        recorridoMm: RECORTE_ANCHO.recorridoMm, recorridoIdealMm: RECORTE_ANCHO.recorridoIdealMm,
+        luz: RECORTE_ANCHO.luzNueva, luzVieja: RECORTE_ANCHO.luzVieja,
+        reduccionPct: RECORTE_ANCHO.reduccionPct, impide: RECORTE_ANCHO.loQueImpideLaSimetria,
+      } : null };
+  }
+  // ▲▲▲ ------------------------------------ ▲▲▲
+
   // ▼▼▼ §V · NADA CUELGA DE UNA PIEZA QUE NO ESTÁ ▼▼▼
   // ---------------------------------------------------------------------------
   // POR QUÉ EXISTE. La bandera `desactivaPercha` retiró el «Travesaño percha
@@ -3486,6 +3628,7 @@ function verify() {
   // --- métricas ------------------------------------------------------------
   return {
     errores: e,
+    simetria: m.simetria,
     tornilleria: m.tornilleria,
     apoyos: m.apoyos,
     estructural: m.estructural,
@@ -3770,5 +3913,19 @@ if (!TENSOR_VIEJO) {
     + `módulo NBT90 ${JSON.stringify(H.moduloNbt90)} · cara de apoyo↔banda ${H.caraApoyoALaBandaPorLado}/lado`);
 }
 // ▲▲▲ ----------------------------------------------- ▲▲▲
+if (V.simetria) {
+  const S = V.simetria;
+  console.log(`   §W SIMETRÍA respecto de Xc = ${S.eje} (tolerancia ${S.tolMm} mm): `
+    + `${S.pares.filter(q => q.desviacion <= S.tolMm).length}/${S.pares.length} parejas centradas`);
+  console.log(`      zona SIN BANDA: ${S.sinBanda.neg} mm en −X · ${S.sinBanda.pos} en +X`
+    + (S.recorte ? ` (antes 192.479 / 51.562)` : ''));
+  if (S.recorte) {
+    console.log(`      RECORTE DE ANCHO: luz ${S.recorte.luzVieja} → ${S.recorte.luz} `
+      + `(−${S.recorte.recorridoMm} mm, ${S.recorte.reduccionPct} %) de los ${S.recorte.recorridoIdealMm} `
+      + `que pediría la simetría perfecta`);
+    console.log(`      RESIDUO de descentrado ${S.residuoMedidoMm} mm (declarado ${S.residuoDeclaradoMm}) `
+      + `— lo impide ${S.recorte.impide}`);
+  }
+}
 if (V.avisosDeclarados?.length) for (const a of V.avisosDeclarados) console.log(`   ⚠ DECLARADO: ${a}`);
 console.log(`   → ${outBrep} (para ../nbt90/interferencias_brep.py --doc)`);

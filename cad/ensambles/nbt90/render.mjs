@@ -49,7 +49,11 @@ const navegador = await chromium.launch({
   ...(existsSync(chromePre) ? { executablePath: chromePre } : {}),
   args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--no-sandbox'],
 });
-const pág = await navegador.newPage({ viewport: { width: 1600, height: 1100 }, deviceScaleFactor: 1 });
+// 2560×1760 (misma proporción que los 1600×1100 de antes). Con el ss=2 por
+// defecto del modo real, el cuadro interno sale a 5120×3520; en swiftshader eso
+// vale ~15-30 s de cuadro+captura por vista, que sigue dominado por construir
+// las geometrías. Si una máquina se queda sin memoria, bajar aquí a 1920×1320.
+const pág = await navegador.newPage({ viewport: { width: 2560, height: 1760 }, deviceScaleFactor: 1 });
 pág.on('pageerror', e => console.error('  ! error en el visor:', e.message));
 
 // `--url <ruta?query>` captura UNA página cualquiera del repo (p. ej. el visor

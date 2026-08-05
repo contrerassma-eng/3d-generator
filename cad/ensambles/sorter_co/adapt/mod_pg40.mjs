@@ -19,7 +19,8 @@ import { box, cyl, hole, sketchYZ, sketchXY, pernoHex, tuercaHex, golilla, desar
   from '../../nbt90/lib.mjs';
 import {
   FLAGS, PERFIL, Z, GUIA, TRAMOS, TRAVESANOS, TRAVESANOS_PUENTE, PUENTE_APOYO,
-  ESCUADRA_LT, ALARGUE, UCF207, EJES_ARBOL, travTopDe, travBotDe,
+  ESCUADRA_LT, ALARGUE, UCF207, EJES_ARBOL, travTopDe, travBotDe, VENTANA_UCFL_PIVOTE,
+  RECORTE_ANCHO,
   PUBLICA, CARGA, RETORNOS, RSOP, STEP, NBT, Xc, EJES, T,
 } from './params_pg40.mjs';
 
@@ -435,6 +436,21 @@ export function pg40(E) {
         fUnion.push(sketchYZ(`Lóbulo de cartela ${rr.id} (Y ${rr.y}, Z ${rr.z})`,
           r3(xFace + FUS), rect([r3(rr.y - semiY), r3(rr.y + semiY)], [zLo, zHi]), r3(A.e - FUS)));
         fCut.push(...taladrosDeRetorno(rr, fuera, dirIn));
+      }
+      // A11 · VENTANA para la chumacera del eje pivote del tensor, que con el
+      // RECORTE DE ANCHO viaja con el chapón y aterriza sobre esta alma. Sólo
+      // en −X: la del lado +X sigue apoyada en el chapón de descarga, que no se
+      // mueve. Cotas citadas de params_tensor2 (ver el bloque A11 de params_pg40).
+      if (s < 0 && VENTANA_UCFL_PIVOTE.activa && RECORTE_ANCHO.activo) {
+        const V = VENTANA_UCFL_PIVOTE;
+        // ⚠ EL BOCETO DE CORTE EXTRUYE HACIA ATRÁS. `a_step.solido_sketch` da a un
+        // `sketch` con op `cut` el rango [at − h, at + 0.5] (el mismo convenio que
+        // model.js y que usa el «Hueco del lazo» de la banda). Así que el plano va
+        // en la cara LEJANA y la altura cubre el espesor con holgura: puesto en la
+        // cara cercana, el corte cae fuera de la chapa y no quita nada — pasó, y
+        // la verificación B-rep lo cantó con 16.2 cm³ intactos.
+        fCut.push(sketchYZ(`Ventana chumacera UCFL 206 del eje pivote (${r3(V.yCorte[1] - V.yCorte[0])} × ${r3(V.zCorte[1] - V.zCorte[0])})`,
+          r3(xFace + A.e + 1), rect(V.yCorte, V.zCorte), r3(A.e + 4), 'cut'));
       }
       // pernos a las colisas del side channel (solo el lado −X los lleva en el
       // alma: en +X los lleva el tramo de lap, que es el que toca el alma del side)

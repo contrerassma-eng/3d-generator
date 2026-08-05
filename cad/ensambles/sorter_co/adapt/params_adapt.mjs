@@ -250,6 +250,48 @@ export const RECORTE_ANCHO = {
   ],
 };
 
+// ---------------------------------------------------------------------------
+// 1-ter. SIMETRÍA DE LA PLATAFORMA — el contrato que faltaba
+// ---------------------------------------------------------------------------
+// POR QUÉ EXISTE. El cliente pidió el recorte de ancho porque la vista superior
+// enseñaba una plataforma descentrada. Se ha corregido, pero NADA impedía que
+// volviera a torcerse: `Xc` lo fija la transferencia, las caras de apoyo las fija
+// el alargue y el chapón lo fija el cliente — tres dueños distintos, y ninguna
+// comprobación que dijera «esto tiene que quedar simétrico». La compuerta §W
+// mide, sobre la GEOMETRÍA EMITIDA, la simetría de cada pareja de caras respecto
+// de Xc y para si alguna se sale.
+//
+// DOS TOLERANCIAS Y NO UNA, porque hay dos cosas distintas:
+//   · `tolMm` — para las parejas que TIENEN que ser simétricas y hoy lo son al
+//     micrón: caras de apoyo del conducido y de los elevadores, cara engomada y
+//     tubo del tambor, cara del conducido. Media 0.05 mm, que es ruido de
+//     redondeo a 3 decimales, no una holgura.
+//   · `residuoDeclaradoMm` — el descentrado que la TRANSFERENCIA impone al
+//     bastidor y que no se puede quitar (ver RECORTE_ANCHO). Va con TRINQUETE:
+//     la compuerta exige que no CREZCA. Si alguien lo baja, hay que bajar también
+//     esta cifra — un residuo declarado más grande que el real es una dispensa
+//     caducada, y aquí se tratan como en §S.
+export const SIMETRIA = {
+  eje: Xc,
+  tolMm: 0.05,                   // dis — ruido de redondeo, no holgura de montaje
+  get residuoDeclaradoMm() { return RECORTE_ANCHO.activo ? RECORTE_ANCHO.descentradoDelCentroMm : 190.221; },
+  causaDelResiduo: 'el alma del alargue lateral −X (X 42.886), que la fija el alma del side channel '
+    + 'del NBT90. Ver params_adapt RECORTE_ANCHO.loQueImpideLaSimetria',
+  // Las parejas que la compuerta comprueba con `tolMm`. Cada una es [x−X, x+X] y
+  // su dueño; la §W las relee de los módulos, no de esta lista (esto es el
+  // catálogo de QUÉ se mira, no de CUÁNTO vale).
+  pares: [
+    'caras de apoyo del rodillo conducido (params_tambores CONDUCIDO.soporte.caraX)',
+    'caras de apoyo de los rodillos elevadores (params_tambores ELEVADORES.soporte.caraX)',
+    'cara engomada del tambor motriz (params_tambores TAMBOR.gomaX)',
+    'tubo del tambor motriz (params_tambores TAMBOR.tuboX)',
+    'tubo del rodillo conducido (params_tambores CONDUCIDO.tuboX)',
+    'ejes de las 5 calles respecto de Xc (params_adapt EJES)',
+  ],
+  // …y la del BASTIDOR, que se mide aparte porque lleva el residuo:
+  bastidor: 'caras interiores de los dos chapones (STEP.frameIntNeg / frameIntPos)',
+};
+
 // [127.056, 203.256, 279.456, 355.656, 431.856] — ejes de banda = ejes de ventana.
 // El perfil de cada calle va CENTRADO bajo su banda (dis): se corrige el
 // descentrado de 1.000 mm banda↔perfil del modelo del cliente (step §1.1).
