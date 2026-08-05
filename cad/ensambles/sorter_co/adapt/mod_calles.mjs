@@ -343,44 +343,41 @@ export function calles(E) {
     // X = eje ± 23, o sea a 3 mm de la banda de 32, y el ala superior se queda
     // exactamente en la cota de siempre para que el puente no se entere.
     const CAB = r2(PG40_APOYO.caballeteH);            // 21.28 — 0 si no hay que salvar nada
-    const patE = PG40_APOYO.caballetePataE, patX = PG40_APOYO.caballetePataX;
+    const casq = PG40_APOYO.caballeteCasquillo, casqX = PG40_APOYO.caballeteCasquilloX;
+    const anchoCab = CAB > 0.01 ? PG40_APOYO.caballeteAncho : 64;
+    const tornCab = PG40_APOYO.caballeteTornillo;
     for (const [yr, lado] of [[-1280, 'S'], [-692, 'N']]) {
       const zAla = r2(zBase - P0.baseT);              // cara inferior del ala (no se mueve)
-      const feats = [box(`Ala superior 64×${P0.baseLargo}×${P0.baseT}`, [B, yr, zAla],
-        64, P0.baseLargo, P0.baseT)];
-      const pieA = PG40_APOYO.caballetePieAncho, pieE = PG40_APOYO.caballetePieE;
-      const pieX = PG40_APOYO.caballetePieX;
+      const feats = [box(`Ala superior ${anchoCab}×${P0.baseLargo}×${P0.baseT}`, [B, yr, zAla],
+        anchoCab, P0.baseLargo, P0.baseT)];
+      const bx = CAB > 0.01 ? casqX : 23;
       if (CAB > 0.01) {
         for (const sx of [-1, 1]) {
-          // pata vertical …
-          feats.push(box(`Pata ${patE}×${P0.baseLargo}×${CAB}`, [r2(B + sx * patX), yr, r2(zAla - CAB)],
-            patE, P0.baseLargo, CAB));
-          // …y su PIE hacia fuera, con el Ø9 por el que entra el M8
-          const yPie = r2(yr + sx * PG40_APOYO.caballetePieDY);
-          feats.push(box(`Pie ${pieA}×${PG40_APOYO.caballetePieLargo}×${pieE}`,
-            [r2(B + sx * pieX), yPie, r2(zAla - CAB)], pieA, PG40_APOYO.caballetePieLargo, pieE));
-          feats.push(hole(`Ø9 M8`, [r2(B + sx * pieX), yPie, r2(zAla - CAB + pieE + 1)], [0, 0, -1], 9.0));
+          feats.push(box(`Casquillo ${casq}×${casq}×${CAB}`, [r2(B + sx * casqX), yr, r2(zAla - CAB)],
+            casq, casq, CAB));
         }
-      } else {
-        feats.push(hole(`Ø9 M8`, [r2(B - patX), yr, r2(zBase + 1)], [0, 0, -1], 9.0));
-        feats.push(hole(`Ø9 M8`, [r2(B + patX), yr, r2(zBase + 1)], [0, 0, -1], 9.0));
       }
-      E.addPart(`FIJO · Placa base de puente 64×${P0.baseLargo}×${P0.baseT}${CAB > 0.01 ? ` c/caballete ${CAB}` : ''} (${c}, travesaño ${lado})`,
+      for (const sx of [-1, 1]) {
+        feats.push(hole(`Ø${tornCab.pasante} ${tornCab.rosca}`,
+          [r2(B + sx * bx), yr, r2(zBase + 1)], [0, 0, -1], tornCab.pasante));
+      }
+      E.addPart(`FIJO · Placa base de puente ${anchoCab}×${P0.baseLargo}×${P0.baseT}${CAB > 0.01 ? ` c/caballete ${CAB}` : ''} (${c}, travesaño ${lado})`,
         COL.chapa, [B, yr, zAla], feats,
         { fabricada: true, apoyaEn: 'PG40 · Travesaño de puente',
           nota: CAB > 0.01
-            ? `CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z ${zAla}, `
-              + `la de siempre) sobre 2 patas de ${patE} a X = eje ± ${patX} que bajan ${CAB} mm hasta `
-              + `la coronación del travesaño (Z ${PG40_APOYO.topZ}). Entre las patas pasa el RAMAL DE `
-              + `RETORNO RECTO: la banda mide ${STEP.bandaAncho} (eje ± ${STEP.bandaAncho / 2}) y la `
-              + `cara interior de cada pata queda a ${r2(patX - patE / 2 - STEP.bandaAncho / 2)} mm de `
-              + `ella. 2 M8×16 a tuercas T de la ranura superior del travesaño, uno por pata`
+            ? `CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z ${zAla}, la `
+              + `de siempre) sobre 2 casquillos ${casq}×${casq} a X = eje ± ${casqX} que bajan ${CAB} mm `
+              + `hasta la coronación del travesaño (Z ${PG40_APOYO.topZ}). Entre los casquillos pasa el `
+              + `RAMAL DE RETORNO RECTO: la banda mide ${STEP.bandaAncho} (eje ± ${STEP.bandaAncho / 2}) y `
+              + `la cara interior de cada casquillo queda a ${r2(casqX - casq / 2 - STEP.bandaAncho / 2)} mm `
+              + `de ella. 2 ${tornCab.rosca}×${tornCab.largo} desde arriba a tuercas martillo de la ranura `
+              + `superior del travesaño; el caballete mide ${anchoCab} de ancho contra los 76.2 de paso `
+              + `de calle (${r2(76.2 - anchoCab)} mm entre caballetes contiguos)`
             : 'soldada bajo la pletina del puente; 2 M8×16 a tuercas T de la ranura superior del travesaño' });
       for (const sx of [-1, 1]) {
-        const bx = CAB > 0.01 ? r2(B + sx * pieX) : r2(B + sx * patX);
-        const bz = CAB > 0.01 ? r2(zAla - CAB + pieE) : zBase;
-        const by = CAB > 0.01 ? r2(yr + sx * PG40_APOYO.caballetePieDY) : yr;
-        pernoHex(E, { nombre: `M8×16 puente (${c}, ${lado}${sx > 0 ? '+' : '-'})`, at: [bx, by, bz], dir: [0, 0, -1], dia: 8, largo: 16, af: 13, altoCab: 5.3, capa: 'FIJO · ' });
+        pernoHex(E, { nombre: `M8×${CAB > 0.01 ? tornCab.largo : 16} puente (${c}, ${lado}${sx > 0 ? '+' : '-'})`,
+          at: [r2(B + sx * bx), yr, zBase], dir: [0, 0, -1], dia: 8,
+          largo: CAB > 0.01 ? tornCab.largo : 16, af: 13, altoCab: 5.3, capa: 'FIJO · ' });
         cuenta(M.nuevas, 'tuerca T M8 (ranura 8)', 1);
       }
       cuenta(M.nuevas, CAB > 0.01 ? 'caballete de apoyo de puente' : 'placa base de puente', 1);

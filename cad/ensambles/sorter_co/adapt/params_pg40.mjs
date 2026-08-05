@@ -379,33 +379,43 @@ export const PUENTE_APOYO = {
   // altura del CABALLETE: de la coronación del travesaño a la cara inferior de
   // la placa base (que no se mueve)
   get caballeteH() { return r3(this.baseZ - this.topZ); },         // 21.28 calc
-  caballetePataE: 8,             // dis — pletina A36 e=8, la misma del alargue
-  caballetePataX: 23,            // dis — eje ± 23: la banda mide 32 (eje ± 16),
-                                 //   así que la cara interior de la pata queda a
-                                 //   3 mm de la banda
-  // PIE de cada pata: el ala horizontal por la que entra el M8 a la tuerca
-  // martillo de la ranura superior del travesaño. Va HACIA FUERA (a ±X desde su
-  // pata) porque el tornillo tiene que poder apretarse: con el taladro en el eje
-  // de la pata, la cabeza del M8 quedaría dentro de la propia chapa.
-  caballetePieAncho: 16,         // dis — X
-  caballetePieE: 6,              // dis — el mismo espesor que la placa base
-  get caballetePieX() { return r3(this.caballetePataX + this.caballetePataE / 2
-    + this.caballetePieAncho / 2); },   // 35 — centro del pie
-  // ⚠ LOS PIES DE DOS CALLES CONTIGUAS SE CRUZAN EN X, y hay que resolverlo:
-  // el pie llega a X = eje ± 43 y el paso de calle es 76.2, así que dos pies
-  // enfrentados se solaparían 9.8 mm (lo cazó la compuerta AABB con 7.49 cm³ por
-  // par). Se resuelve ESCALONÁNDOLOS EN Y, que es la dirección libre: el
-  // travesaño mide 40 de ancho y el pie sólo 14, así que caben dos filas.
-  //   pie −X de cada calle → Y = yr − 8   ·   pie +X → Y = yr + 8
-  // Con eso los pies que se cruzan en X quedan en filas distintas (16 mm de
-  // separación entre ejes, 2 mm de aire entre chapas) y cada tuerca martillo
-  // tiene su tramo de ranura.
-  caballetePieLargo: 14,         // dis — Y
-  caballetePieDY: 8,             // dis — escalonado ±Y respecto del eje del travesaño
+  // ═════════════════════════════════════════════════════════════════════════
+  // GEOMETRÍA DEL CABALLETE — dos CASQUILLOS, no dos patas de chapa.
+  //
+  // Se probó primero con patas de chapa de 8 y un PIE hacia fuera para el M8, y
+  // NO CABE: el pie necesita 9 + 2×12 = 33 mm de ancho para un Ø9 con distancia
+  // al canto, el paso de calle son 76.2 y las patas ya están a ± 23 del eje. Dos
+  // caballetes contiguos se solapaban 9.8 mm (7.5 cm³ por par, lo cazó la
+  // compuerta AABB). Escalonarlos en Y no vale: la AABB de la pieza sigue
+  // midiendo 86 de ancho.
+  // LA FORMA QUE SÍ ENTRA: el ala superior se apoya en dos CASQUILLOS cuadrados
+  // que bajan hasta la coronación del travesaño, y el M8 los atraviesa de arriba
+  // abajo hasta la tuerca martillo. Sin pies, sin voladizos y con el tornillo
+  // accesible desde arriba, que es por donde se monta el puente.
+  //   · casquillo 16×16 a X = eje ± 27  → cara interior a eje ± 19, o sea 3 mm
+  //     de aire a la banda (32 de ancho, eje ± 16), y cara exterior a eje ± 35;
+  //   · el caballete completo mide 72 de ancho (eje ± 36) contra los 76.2 de
+  //     paso: 4.2 mm entre caballetes contiguos;
+  //   · M8 × 32 desde la cara superior del ala: atraviesa ala (6) + casquillo
+  //     (21.28) y entra 4.72 en la ranura del travesaño.
+  // ═════════════════════════════════════════════════════════════════════════
+  caballeteCasquillo: 16,        // dis — lado del casquillo (X e Y)
+  caballeteCasquilloX: 27,       // dis — eje ± 27 (3 mm de aire a la banda)
+  caballeteAncho: 72,            // dis — ala superior (eje ± 36, cabe en el paso 76.2)
+  caballeteTornillo: { rosca: 'M8', pasante: 9.0, largo: 32 },
   // Escuadra de extremo al chapón del cliente, 3/16" (la misma chapa y el mismo
   // papel que la «Escuadra travesaño↔bastidor» que la percha llevaba): sin ella
   // el travesaño topa a hueso contra el chapón y la compuerta §S SC-11 lo cuenta.
-  escuadra: { t: 4.763, alaV: 45, alaH: 30, ancho: 60,             // nbt90 P.placaT
+  // ⚠ ALA VERTICAL 30 Y NO 45 (A10-bis): al bajar el travesaño 21.28 mm, un ala
+  // de 45 llegaría a Z −59 y el ALMA del alargue corona en −45.12 en el lado +X
+  // — la escuadra se le metía 13.9 mm. Con 30 el ala muere en −44 y libra por
+  // 1.1 mm; su taladro sigue a 12 mm del canto inferior, que es lo que pide un
+  // Ø9 (1.2·d₀ = 10.8).
+  // …y ALA HORIZONTAL 24 y no 30 (A10-bis): el ala entra hacia dentro desde el
+  // chapón y el CABALLETE de la calle 5 llega a X 467.9 (72 de ancho sobre el eje
+  // 431.856). Con 30 el ala moría en 464.66 y se solapaban 3.24 mm; con 24 muere
+  // en 470.66 y libran por 2.76. Sus 2 Ø9 siguen sobre la ranura del travesaño.
+  escuadra: { t: 4.763, alaV: 30, alaH: 24, ancho: 60,             // nbt90 P.placaT
     pasante: 9.0, rosca: 'M8', n: 2,   // 2 al chapón + 2 a la ranura del travesaño
     radio: 4.763 },                    // r = t (mismo criterio que el resto de chapa)
 };

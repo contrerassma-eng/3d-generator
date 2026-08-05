@@ -389,10 +389,19 @@ export function pg40(E) {
       // pueden ser piezas sueltas: se resuelven como LÓBULOS DEL PROPIO CORTE
       // LÁSER del alma. Una sola pieza, sin solape y sin mover la cara de apoyo.
       const rrAqui = s > 0 ? RETORNOS.filter(rr => rr.y > yR[0] && rr.y < yR[1]) : [];
+      // ⚠ EL LÓBULO SE CIÑE AL CUADRO DE TALADROS, no a un ±60 de cortesía. Con
+      // los rodillos de POZO (Z −106…−314) sobraba sitio y el ±60 no molestaba a
+      // nadie. Con los ELEVADORES (Z −34) el lóbulo subía hasta Z +26 y se metía
+      // en la escuadra del travesaño de puente y en la ménsula alma↔travesaño.
+      // La cota que manda es el patrón + 12 de distancia al canto (la misma que
+      // llevan las pletinas), no un número redondo.
+      const cantoLob = 12;
       for (const rr of rrAqui) {
-        const zLo = r3(Math.min(rr.z - 60, zAlma[0])), zHi = r3(Math.max(rr.z + 60, zAlma[1]));
+        const semiY = r3((RSOP.patronY ?? RSOP.patron) / 2 + cantoLob);
+        const semiZ = r3((RSOP.patronZ ?? RSOP.patron) / 2 + cantoLob);
+        const zLo = r3(Math.min(rr.z - semiZ, zAlma[0])), zHi = r3(Math.max(rr.z + semiZ, zAlma[1]));
         fUnion.push(sketchYZ(`Lóbulo de cartela ${rr.id} (Y ${rr.y}, Z ${rr.z})`,
-          r3(xFace + FUS), rect([r3(rr.y - 60), r3(rr.y + 60)], [zLo, zHi]), r3(A.e - FUS)));
+          r3(xFace + FUS), rect([r3(rr.y - semiY), r3(rr.y + semiY)], [zLo, zHi]), r3(A.e - FUS)));
         for (const dy of [-(RSOP.patronY ?? RSOP.patron) / 2, (RSOP.patronY ?? RSOP.patron) / 2]) {
           for (const dz of [-(RSOP.patronZ ?? RSOP.patron) / 2, (RSOP.patronZ ?? RSOP.patron) / 2]) {
             fCut.push(hole(`Soporte de retorno ${rr.id} Ø${RSOP.taladro}`,
@@ -670,10 +679,14 @@ export function pg40(E) {
         const g = grupos.find(gr => gr.some(q => Math.abs(q.y - rr.y) < 120));
         if (g) g.push(rr); else grupos.push([rr]);
       }
+      const semiYc = r3((RSOP.patronY ?? RSOP.patron) / 2 + 12);
+      const semiZc = r3((RSOP.patronZ ?? RSOP.patron) / 2 + 12);
       for (const g of grupos) {
         const ys = g.map(q => q.y), zs = g.map(q => q.z);
-        const yR = [r3(Math.min(...ys) - 60), r3(Math.max(...ys) + 60)];
-        const zLo = r3(Math.min(...zs, -200) - 60), zHi = r3(Math.max(...zs, -190) + 60);
+        const yR = [r3(Math.min(...ys) - semiYc), r3(Math.max(...ys) + semiYc)];
+        // la cartela LAPA sobre el alma (que corona en −70 en −X): se estira
+        // hacia abajo hasta solaparla 30 mm, que es lo que pide su cordón.
+        const zLo = r3(Math.min(...zs) - semiZc - 30), zHi = r3(Math.max(...zs) + semiZc);
         const fr = [sketchYZ(`Cartela ${r3(yR[1] - yR[0])}×${r3(zHi - zLo)}×${A.e}`,
           xCab, rect(yR, [zLo, zHi]), A.e)];
         for (const rr of g) {

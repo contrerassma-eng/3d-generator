@@ -2585,16 +2585,78 @@ function verify() {
           + `sentido. Queda como PENDIENTE con dueño y no se sustituye por una regla de pulgar. Si el `
           + `proveedor da un mínimo mayor que ${TAMB_ELEV.dia}, el hueco del lado norte no admite un `
           + `rodillo más grande sin mover el travesaño de puente: preguntar ANTES de comprar la banda.`);
-        avisosDeclarados.push(`RETORNO RECTO · LO QUE LE CUESTA AL BASTIDOR PG40, con el número de cada `
-          + `travesaño: el ramal entra ahora en la franja Z −40…0, que era sólo del bastidor. `
-          + `Y −555 → SE MUEVE a −450 (la rampa lo cogía a Z −16.9…−27.0, o sea 13.0 mm dentro del `
-          + `perfil; a −450 pasa 3.4 mm por debajo). Y −1440 e Y −1520 → SE BAJAN 45 mm (coronan en `
-          + `−45 y no en 0): al sur no hay hueco en Y para correrlos —a −1553.4 empieza el tubo del `
-          + `conducido— y la rampa les pasa ahora 14.4 y 5.8 mm por encima. Los DOS TRAVESAÑOS DE `
-          + `PUENTE (−692 y −1280) bajan de coronar en 7.28 a ${PG40_APOYO.topZ}, porque el ramal recto `
-          + `les pasaba 17.2 mm por dentro, y sus 10 placas base pasan a ser CABALLETES de `
-          + `${PG40_APOYO.caballeteH} mm con dos patas a X = eje ± 23 que salvan la banda con 3 mm por lado. `
-          + `El vano libre del puente NO cambia (588 mm): esa era la alternativa cara y no hace falta.`);
+        avisosDeclarados.push('RETORNO RECTO · LO QUE LE CUESTA AL BASTIDOR PG40, travesaño a '
+          + 'travesaño y con su número: el ramal de retorno pasa a ocupar la franja Z −40…0, que hasta '
+          + 'ahora era SÓLO del bastidor (el retorno le pasaba 19.07 mm por debajo). '
+          + '(1) Y −555 → SE MUEVE a −450: la rampa lo cogía a Z −16.9…−27.0, o sea 13.0 mm dentro del '
+          + 'perfil; a −450 la banda le pasa 3.4 mm por debajo y no hay que bajarlo. '
+          + `(2) Y −1440 → SE BAJA 45 mm (corona en ${PG40_TRAVTOP['-1440']} y no en ${'0'}) y pasa a morir `
+          + 'en las caras interiores del alargue (L 580.84 → 423.92), porque su fondo entraría en la '
+          + 'franja del alma; la banda le pasa 14.0 mm por encima. '
+          + '(3) Y −1520 → SE RETIRA: la rampa CRUZA el plano Z −40 dentro de su propia huella, así que '
+          + 'ni dejándolo (la banda le entra 3.13 mm) ni bajándolo (el cubrejunta alma↔cabezal ocupa '
+          + 'Z −125…−70) ni moviéndolo (el tubo del conducido arranca en Y −1553.4) queda sitio. Lo que '
+          + 'sujetaba sigue sujeto: el larguero sur apoya en su testa dentro del cabezal conducido y en '
+          + 'el travesaño de −1440. '
+          + `(4) los DOS TRAVESAÑOS DE PUENTE (−692 y −1280) bajan de coronar en 7.28 a `
+          + `${PG40_APOYO.topZ} —el ramal recto les pasaba 17.15 mm por dentro— y sus 10 placas base `
+          + `pasan a ser CABALLETES de ${PG40_APOYO.caballeteH} mm sobre 2 casquillos `
+          + `${PG40_APOYO.caballeteCasquillo}×${PG40_APOYO.caballeteCasquillo} a X = eje ± `
+          + `${PG40_APOYO.caballeteCasquilloX}, que dejan pasar la banda con 3 mm por lado. `
+          + 'El vano libre del puente NO cambia (588 mm): la alternativa cara —llevar el puente a los '
+          + 'travesaños vecinos, ×3.44 en flecha— no hace falta.');
+        // ⚠ EL EJE DEL ELEVADOR, RECALCULADO CON EL ABRAZADO REAL. mod_tambores
+        // comprueba sus ejes sobre un lazo SIN la horquilla del tensor (no la
+        // conoce), y ese lazo le da a RE-N 4.9° cuando el lazo COMPLETO que emite
+        // mod_calles le da 14.17°. Con 4.9° la flecha sale 0.204 mm y parece que
+        // sobra margen; con el abrazado de verdad NO SOBRA. Se rehace aquí, que
+        // es donde están los dos números, y se publica aunque incumpla.
+        {
+          const envR = m.calles.banda.envolventes_deg;
+          const lim = 0.5;                         // params_tambores CARGA.flechaLimite (dis)
+          const peor = [];
+          for (const R of TAMB_EJES.retorno) {
+            const v = TB.ejes.retorno[R.id];
+            if (!v || !envR[R.id]) continue;
+            const fDiag = 2 * Math.sin(v.abrazadoDeg * Math.PI / 360);
+            const fReal = 2 * Math.sin(envR[R.id] * Math.PI / 360);
+            const k = fReal / fDiag;
+            peor.push({ id: R.id, abrazadoDiag: v.abrazadoDeg, abrazadoReal: envR[R.id],
+              flechaDiag: v.delta, flechaReal: r2(v.delta * k), sigmaReal: r2(v.vonMisesMPa * k),
+              cargaPorBandaN: r2(v.cargaPorBandaN * k) });
+          }
+          const malos = peor.filter(x => x.flechaReal > lim);
+          if (malos.length) {
+            avisosDeclarados.push(`RETORNO RECTO · NO CUMPLE (2): el EJE Ø${TAMB_ELEV.eje.d} del conjunto `
+              + `B-20760 se pasa de la flecha admisible con el abrazado REAL. `
+              + peor.map(x => `${x.id}: abrazado ${x.abrazadoReal}° (el lazo sin horquilla daba `
+                + `${x.abrazadoDiag}°) → ${x.cargaPorBandaN} N por banda → flecha ${x.flechaReal} mm y `
+                + `σ ${x.sigmaReal} MPa`).join(' · ')
+              + `. El límite de params_tambores es ${lim} mm (dis, ≈ 1/1000 del vano de 411.9): `
+              + `${malos.map(x => x.id).join(' y ')} lo pasa${malos.length > 1 ? 'n' : ''}. `
+              + 'La TENSIÓN aguanta de sobra (σ contra 80 MPa admisibles); lo que no cumple es la '
+              + 'rigidez. TRES SALIDAS, ninguna se toma sin el cliente: (a) aceptar la flecha —el '
+              + 'B-20760 es la respuesta del PROPIO FABRICANTE a esta misma carga: en el NBT90 sostiene '
+              + 'los cinco ramales de retorno de este mismo sorter, con esta misma tensión de 129 N por '
+              + 'banda, y ahí nadie ha pedido 0.5 mm—; (b) subir el eje a Ø16, que baja la flecha un '
+              + '61 % pero deja de ser conjunto de catálogo (el R8-2RS es de barreno 1/2"); (c) apoyar '
+              + 'el eje en el centro, que exige una tercera pletina donde no hay cara de apoyo. '
+              + 'Se DECLARA y no se ajusta el límite: el umbral es del dueño del módulo.');
+          }
+        }
+        // ⚠ LO QUE NO CIERRA, con su número y su dueño — no se maquilla:
+        avisosDeclarados.push('RETORNO RECTO · NO CUMPLE (1 hallazgo, 10 pares, 1.42 cm³ en la '
+          + 'verificación B-rep exacta): la rampa SUR del ramal de retorno roza los 10 pernos '
+          + '«M8×12 CT-ENS↔perfil» del cliente. Esos pernos entran en X desde la cara del larguero '
+          + '(eje ± 20) a Z = −20 y Z = +20, y la rampa pasa por Y −1429…−1414 a Z −18.9…−24.6: el '
+          + 'vástago de los de Z = −20 cruza el ancho de la banda. Penetración 0.14 cm³ por perno. '
+          + 'DOS COSAS, y las dos son de otro módulo: (a) el perno de Z = −20 YA ESTABA HUÉRFANO '
+          + 'antes de este cambio —viene de cuando el perfil era 40×80 (Z −40…40) y con el larguero '
+          + 'PG40 40×40 (Z 0…40) no hay ranura a esa cota en la que morder—, y (b) aunque la '
+          + 'hubiera, ahí pasa ahora la banda. La cota vive en adapt/params_estaciones.mjs '
+          + '(EXTREMOS.ctens.m8z = [−20, 20]) pero quien la emite es adapt/mod_estaciones.mjs, que '
+          + 'la lleva cableada: el arreglo es de su dueño. Mientras tanto queda DECLARADO, no '
+          + 'corregido en silencio.');
       } else {
         avisosDeclarados.push('RETORNO · el pozo sigue montado (params_tambores.RETIRA_POZO.activo = '
           + `false): el ramal cruza POR DEBAJO del módulo con ${RT.rodillos} rodillos, a Z ${RT.ramalZ}, `
