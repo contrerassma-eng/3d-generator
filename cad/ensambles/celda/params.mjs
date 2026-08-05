@@ -126,6 +126,8 @@ export const P = {
   placaHolgura: 8.0,     // dis: margen del hexágono sobre la pieza más externa
   ruedaSobresale: 5.0,   // dis: cuánto asoma la rueda sobre la placa
   ranuraHolgura: 3.0,    // dis: aire de la ranura de la placa alrededor de la rueda
+  placaTaladroBorde: 6.0, // dis: distancia del taladro de unión al borde del hexágono
+  placaTaladroSep: 0.18,  // dis: separación de la pareja de taladros, en fracción de af
 
   // ------------------------------------------------------------- módulo 3×3
   nCeldas: 9,            // usr: módulo de 9 celdas (3×3)

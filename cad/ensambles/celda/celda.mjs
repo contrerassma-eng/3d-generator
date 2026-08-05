@@ -11,7 +11,8 @@
 // (rodadura radial) la columna de ω del sistema se anula y la celda pierde la
 // capacidad de girar el bulto. Demostración en el gate (`gen_celda.mjs`).
 
-import { Ensamble, box, cyl, hole, rodamiento, hexPts, sketchXY, COL, r2, normal3 } from '../nbt90/lib.mjs';
+import { Ensamble, box, cyl, hole, rodamiento, hexPts, sketchXY, COL, r2, normal3,
+  pernoHex, tuercaHex, golilla } from '../nbt90/lib.mjs';
 import { P } from './params.mjs';
 import { ruedaOmni, motorTT, bloqueRodamiento, acopleTT, soporteMotor, discoEncoder, sensorLM393 }
   from './piezas.mjs';
@@ -102,6 +103,30 @@ function unidadMotriz(E, i, R, dentro) {
   const put = (nombre, color, features, extra = {}) =>
     E.addPart(cap + nombre, color, [0, 0, 0], features, { pos: [0, 0, 0], quat: q, ...extra });
 
+  // Los helpers de tornillería anclan la pieza en `at` y relativizan sus features;
+  // aquí las queremos en el marco LOCAL de la unidad y girando con ella, así que
+  // se deshace el anclaje y se les pone el cuaternión de la unidad.
+  const local = (fn, args) => {
+    fn(E, { ...args, capa: cap });
+    const p = E.parts[E.parts.length - 1];
+    const at = args.at;
+    for (const f of p.features) f.at = [f.at[0] + at[0], f.at[1] + at[1], f.at[2] + at[2]];
+    p.pos = [0, 0, 0]; p.quat = q;
+    return p;
+  };
+
+  /** Unión atornillada vertical a través de la placa: perno + golilla + (tuerca). */
+  const unionM3 = (nombre, xTal, yTal, largo, conTuerca = false) => {
+    const zCab = -P.ruedaSobresale;                       // cara superior de la placa
+    local(golilla, { nombre, at: [xTal, yTal, zCab], dir: [0, 0, -1], dia: 3, ext: 7, esp: 0.5 });
+    local(pernoHex, { nombre: `M3 × ${largo} ${nombre}`, at: [xTal, yTal, zCab - 0.5], dir: [0, 0, -1],
+      dia: 3, largo, af: 5.5, altoCab: 2.1 });
+    if (conTuerca) {
+      local(tuercaHex, { nombre, at: [xTal, yTal, zCab - 0.5 - largo], dir: [0, 0, -1],
+        dia: 3, af: 5.5, alto: 2.4 });
+    }
+  };
+
   const zPlaca = -P.ruedaSobresale - P.placaEsp;   // cara inferior de la placa
 
   // --- rueda omni Ø48 (COMPRADA) --------------------------------------------
@@ -165,6 +190,21 @@ function unidadMotriz(E, i, R, dentro) {
   const lm = sensorLM393('Sensor ranurado IR LM393', x(T.tDisco), zEje);
   put(lm.nombre, lm.color, lm.features, { comprada: true, componente: 'lm393_ranurado' });
 
+  // --- PERNERÍA (M3, DIN 933 / DIN 934 / DIN 125) ---------------------------
+  // Cada bloque y el soporte del motor se atornillan a la placa desde ARRIBA,
+  // que es lo que permite desmontar una unidad sin tocar las vecinas.
+  for (const [lado, t0] of [['libre', T.tBloqueL0], ['motor', T.tBloqueM1 - P.bloqueEsp]]) {
+    for (const c of [-1, 1]) {
+      unionM3(`bloque ${lado} (${c > 0 ? '+' : '−'})`,
+        x(t0 + P.bloqueEsp / 2), c * P.bloqueTaladroSep / 2, P.placaEsp + 10);
+    }
+  }
+  for (const c of [-1, 1]) {
+    unionM3(`soporte motor (${c > 0 ? '+' : '−'})`,
+      x(T.tCaraRed) + s * (P.ttAncho + P.soporteEsp / 2) - s * P.soporteAla / 2,
+      c * P.soporteAncho / 3, P.placaEsp + P.soportePieEsp + 2, true);
+  }
+
   return { angulo: th, radioRueda: R };
 }
 
@@ -193,7 +233,37 @@ export function geometriaPlaca(R = P.R, dentro = P.motorDentro) {
       [anchoRanura / 2, largoRanura / 2], [-anchoRanura / 2, largoRanura / 2]]
       .map(([a, b]) => [r2(R * c + a * c - b * sn), r2(R * sn + a * sn + b * c)]));
   }
-  return { af, Rv, hexagono, ranuras, largoRanura, anchoRanura, zTop, zBot };
+  // Taladros M3: los de unión entre celdas vecinas (2 por cara del hexágono) y
+  // los que sujetan los bloques y el soporte del motor de cada unidad. Se calculan
+  // AQUÍ y de aquí los toman tanto el modelo 3D como el DXF de corte: si vivieran
+  // en dos sitios, la placa cortada y la placa modelada acabarían distintas.
+  const T = tren(), sM = dentro ? -1 : 1, xr = (t) => R + sM * t;
+  const taladros = [];
+  for (let i = 0; i < 6; i++) {
+    const a = (i * 60) * Math.PI / 180, dCara = af / 2 - P.placaTaladroBorde;
+    for (const c of [-1, 1]) {
+      const t = c * af * P.placaTaladroSep;
+      taladros.push({ x: r2(dCara * Math.cos(a) - t * Math.sin(a)),
+        y: r2(dCara * Math.sin(a) + t * Math.cos(a)), d: 3.4, que: `unión celda cara ${i + 1}` });
+    }
+  }
+  for (let i = 0; i < 3; i++) {
+    const th = anguloUnidad(i), c = Math.cos(th), sn = Math.sin(th);
+    const puntos = [
+      [xr(T.tBloqueL0 + P.bloqueEsp / 2), P.bloqueTaladroSep / 2, 'bloque libre'],
+      [xr(T.tBloqueM1 - P.bloqueEsp / 2), P.bloqueTaladroSep / 2, 'bloque motor'],
+      [xr(T.tCaraRed) + sM * (P.ttAncho + P.soporteEsp / 2) - sM * P.soporteAla / 2,
+        P.soporteAncho / 3, 'soporte motor'],
+    ];
+    for (const [rad, sep, que] of puntos) {
+      for (const cc of [-1, 1]) {
+        const t = cc * sep;
+        taladros.push({ x: r2(rad * c - t * sn), y: r2(rad * sn + t * c), d: 3.4,
+          que: `U${i + 1} ${que}` });
+      }
+    }
+  }
+  return { af, Rv, hexagono, ranuras, largoRanura, anchoRanura, zTop, zBot, taladros };
 }
 
 function placaHex(E, R, dentro) {
@@ -208,6 +278,9 @@ function placaHex(E, R, dentro) {
       id: `rn${i}`, name: `Ranura rueda ${i + 1}`, shape: 'sketch', op: 'cut',
       at: [0, 0, zTop + 1], dir: [0, 0, 1], params: { pts, h: P.placaEsp + 2, u: [1, 0, 0] },
     });
+  }
+  for (const t of G.taladros) {
+    features.push(hole(`M3 ${t.que}`, [t.x, t.y, zTop + 1], [0, 0, -1], t.d));
   }
   E.addPart(`Placa hexagonal e/c ${af} × ${P.placaEsp}`, COL.chapa, [0, 0, 0], features,
     { pos: [0, 0, 0], fabricada: true, material: `Acrílico ${P.placaEsp} mm (corte láser)` });

@@ -1,0 +1,1026 @@
+=== p1 ===
+(19)
+*DE102012014181A120140123*
+(10) DE 10 2012 014 181 A1 2014.01.23
+(12)
+Offenlegungsschrift
+(21) Aktenzeichen: 10 2012 014 181.5
+(22) Anmeldetag: 18.07.2012
+(43) Offenlegungstag: 23.01.2014
+(51) Int Cl.:
+B65G 13/06 (2012.01)
+(71) Anmelder:
+BIBA - Bremer Institut für Produktion und
+Logistik GmbH, 28359, Bremen, DE
+(74) Vertreter:
+BOEHMERT & BOEHMERT, 28209, Bremen, DE
+(72) Erfinder:
+Uriarte, Claudio, 28205, Bremen, DE; Kunaschk,
+Stefan, 28203, Bremen, DE
+(56) Ermittelter Stand der Technik:
+DE
+40 13 194
+C2
+DE
+25 15 009
+B2
+DE
+36 08 630
+A1
+DE
+10 2010 008 970
+A1
+DE
+19 31 701
+A
+FR
+2 798 122
+A1
+GB
+2 213 908
+A
+US
+5 396 977
+A
+JP
+H07- 291 433
+A
+JP
+H05- 201 527
+A
+Prüfungsantrag gemäß § 44 PatG ist gestellt.
+Die folgenden Angaben sind den vom Anmelder eingereichten Unterlagen entnommen
+(54) Bezeichnung: Omnidirektionales Fördersystemmodul, modulares omnidirektionales Fördersystem und
+omnidirektionales Fördersystem
+(57) Zusammenfassung: Omnidirektionales Fördersystem-
+modul, umfassend mindestens zwei nebeneinander ange-
+ordnete omnidirektionale Fördereinheiten jeweils aus min-
+destens einem omnidirektionalen Förderrad und einem ein-
+zeln zugeordneten Antriebsmotor zum individuellen Antrei-
+ben des mindestens einen Förderrades, wobei die Wirk-
+richtungen der Förderräder der Fördereinheiten unter einem
+Winkel ungleich Null zueinander verlaufen.
+
+
+=== p2 ===
+DE 10 2012 014 181 A1    2014.01.23
+2/40
+Beschreibung
+[0001] Die vorliegende Erfindung betrifft ein omni-
+direktionales Fördersystemmodul, modulare omnidi-
+rektionale Fördersysteme und omnidirektionale För-
+dersysteme.
+[0002] Omnidirektionale Fördersysteme sind grund-
+sätzlich bekannt. Sie werden benutzt, wenn Objekte
+gleichzeitig bewegt und rotiert werden müssen bzw.
+wenn die Richtung der Objekte während der Bewe-
+gung geändert werden muss. So können die Objekte,
+wie zum Beispiel Paketstücke, in unterschiedlichen
+Richtungen transportiert und um die Mittelachse des
+Fördersystems rotiert werden. Es gibt unterschiedli-
+che Fördersysteme, die in mehreren Richtungen för-
+dern können. Darunter gibt es Fördersysteme mit All-
+seitenrädern. Ein derartiges System ist beispielswei-
+se in dem US-Patent 5,396,977 beschrieben. Das be-
+kannte Fördersystem weist mehrere parallele trans-
+versale und longitudinale Wellen auf, auf denen meh-
+rere Allseitenräder in Abständen zueinander befes-
+tigt sind. Jede der Wellen wird von einem jeweiligen
+Antriebsmotor angetrieben. Zudem sind die Wellen in
+geeignete Zonen und Unterzonen unterteilt, um für
+eine longitudinale, transversale und Drehbewegung
+in zwei Zonen des Fördersystems zu sorgen. Mit-
+tels des Fördersystems können jedoch Objekte, wie
+zum Beispiel Pakete, nicht gezielt in jeder Richtung
+in zwei Dimensionen (2D) unabhängig voneinander
+gefördert werden.
+[0003] Der Erfindung liegt somit die Aufgabe zugrun-
+de, ein gezieltes Fördern von Objekten, wie zum Bei-
+spiel Paketen, in jeder Richtung in 2D unabhängig
+voneinander zu ermöglichen.
+[0004] Erfindungsgemäß wird diese Aufgabe gelöst
+durch ein omnidirektionales Fördersystemmodul, um-
+fassend mindestens zwei nebeneinander angeordne-
+te omnidirektionale Fördereinheiten jeweils aus min-
+destens einem omnidirektionalen Förderrad und ei-
+nem einzeln zugeordneten Antriebsmotor zum indi-
+viduellen Antreiben des mindestens einen Förderra-
+des, wobei die Wirkrichtungen der Förderräder der
+Fördereinheiten unter einem Winkel ungleich Null zu-
+einander verlaufen. Es handelt sich dabei um ein
+sogenanntes kraftgetriebenes oder aktives omnidi-
+rektionales Fördersystemmodul. Das Förderrad kann
+auch als Förderrolle bezeichnet werden. Weiterhin
+ist darauf hinzuweisen, dass je nach Förderradtyp
+die Wirkrichtung orthogonal zur Hauptdrehachse des
+Förderrades, aber auch unter einem anderen Winkel
+verlaufen kann.
+[0005] Weiterhin liefert die vorliegende Erfindung
+modulare omnidirektionale Fördersysteme gemäß ei-
+nem der Ansprüche 11 bis 13.
+[0006] Darüber hinaus liefert die vorliegende Erfin-
+dung omnidirektionale Fördersysteme gemäß den
+Ansprüchen 17 und 18. Dabei können die Förderein-
+heiten zum Beispiel auf einem Trägerblech montiert
+sein, das eine gewünschte Form aufweist. In diesem
+Fall wäre eine Modularität nicht notwendig. Sowohl
+die modularen omnidirektionalen Fördersysteme als
+auch die omnidirektionalen Fördersysteme können
+eine durch die Förderräder definierte Förderfläche mit
+beliebiger Gestalt, wie zum Beispiel eben, aber auch
+zum Beispiel gekrümmt, aufweisen.
+[0007] Gemäß einer besonderen Ausführungsform
+des Fördersystemmoduls sind genau zwei omnidirek-
+tionale Fördereinheiten nebeneinander vorgesehen.
+Dadurch wird ein gezieltes Fördern in jeder Richtung
+in 2D unabhängig voneinander ermöglicht. Genauer
+gesagt wird dadurch ein gleichzeitiges Fördern von
+Objekten, wie zum Beispiel Paketen, mit individuel-
+len Bahnen ermöglicht. Wenn die Wirkrichtungen der
+beiden Förderachsen parallel verlaufen würden, wä-
+re keine 2D-Bewegung, sondern nur eine Förderung
+in lediglich einer Richtung möglich.
+[0008] Gemäß einer alternativen Ausführungsform
+können genau drei omnidirektionale Fördereinheiten
+nebeneinander vorgesehen und die Wirkrichtungen
+der Förderräder der drei Fördereinheiten so zuein-
+ander verlaufen, dass keine parallelen Wirkrichtun-
+gen vorliegen. Auf diese Weise wird ein gezieltes För-
+dern von Objekten in jeder Richtung in 2D unabhän-
+gig voneinander sowie zusätzlich eine Rotation er-
+möglicht. Selbstverständlich können aber auch mehr
+als drei, wie zum Beispiel vier oder fünf omnidirektio-
+nale Fördereinheiten vorgesehen sein.
+[0009] Bevorzugt verlaufen die Wirkrichtungen der
+Förderräder nicht orthogonal zueinander.
+[0010] Günstigerweise sind die Förderräder in den
+Seitenmitten eines gleichseitigen Dreiecks angeord-
+net. Die Entfernungen der Förderräder vom Mittel-
+punkt und deren Winkel zueinander können aber
+auch unterschiedlich sein.
+[0011] Insbesondere kann dabei vorgesehen sein,
+dass die Wirkrichtungen der Förderräder unter ei-
+nem Winkel von 0° zu den Seiten des Dreiecks ver-
+laufen oder mindestens eine der Wirkrichtungen der
+Förderräder unter einem Winkel ungleich 0° zur zu-
+gehörigen Seite des Dreiecks verläuft. Die erstge-
+nannte Alternative vereinfacht die Mathematik hinter
+der Steuerung/Ansteuerung. Alternativ oder zusätz-
+lich können die Entfernungen der Förderräder vom
+Mittelpunkt unterschiedlich sein.
+[0012] Weiterhin kann vorgesehen sein, dass jedes
+omnidirektionale Förderrad aus einem Einzel-Allsei-
+tenrad oder einem Mehrfach-Allseitenrad, insbeson-
+dere Doppel-Allseitenrad, besteht. Ein Beispiel für
+
+
+=== p3 ===
+DE 10 2012 014 181 A1    2014.01.23
+3/40
+Allseitenräder stellen die von der Firma Interroll her-
+gestellten OmniwheelTM dar. Bei beispielsweise Dop-
+pel-Allseitenrädern befinden sich zwei Allseitenrä-
+der auf derselben Antriebswelle. Die Anzahl der All-
+seitenräder je Fördereinheit kann davon abhängen,
+wie das Allseitenrad gestaltet ist. Es kann ein Ein-
+zel-Allseitenrad ausreichen, insbesondere wenn es
+eine ausreichende Anzahl von Rollen aufweist, so
+dass sich ein omnidirektionales Profil, d. h. ein zu-
+mindest im Wesentlichen kreisbogenförmiges Profil
+des gesamten Allseitenrades ergibt. Selbst wenn zwi-
+schen den Rollen des Einzel-Allseitenrades eine Lü-
+cke vorhanden ist, kann es ausreichen. Ein Objekt,
+wie zum Beispiel ein Paket, wird dann aber nicht ru-
+ckelfrei gefördert werden. Zur genauen Positionie-
+rung wäre dann wahrscheinlich eine Positionsüber-
+wachung zum Beispiel mittels Bildverarbeitung not-
+wendig. Vorteilhafterweise sind die Rollen der Allsei-
+tenräder kreisbogenförmig gestaltet, um ein vorzugs-
+weise kreisbogenförmiges Profil des gesamten All-
+seitenrades zu erzielen. Zylindrische Rollen können
+aber auch ausreichen.
+[0013] Insbesondere kann vorgesehen sein, dass
+das Allseitenrad ein Mecanum-Rad ist.
+[0014] In einer bevorzugten Ausführungsform um-
+fasst das Fördersystemmodul ein Trägerblech, an
+dessen Unterseite die omnidirektionale(n) Förderein-
+heit(en) so gelagert ist/sind, dass das Förderrad bzw.
+die Förderräder durch einen bzw. einen jeweiligen
+Ausschnitt im Trägerblech nach oben vorragt/vorra-
+gen. Bei dem Ausschnitt kann es sich beispielsweise
+um eine Aussparung oder um ein Loch handeln. Die
+Fördereinheiten können aber statt an einem Träger-
+blech auch anderweitig, zum Beispiel an sich vertikal
+erstreckenden Profilen, befestigt sein.
+[0015] Zweckmäßigerweise umfasst das Fördersys-
+temmodul mindestens eine in dem Trägerblech gela-
+gerte Kugelrolle und vorzugsweise mehrere vorzugs-
+weise gleichmäßig verteilte derartige Kugelrollen.
+[0016] Zweckmäßigerweise ist das Fördersystem-
+modul steckbar.
+[0017] Bei den modularen omnidirektionalen Förder-
+systemen gemäß einem der Ansprüche 11 bis 13 ver-
+laufen vorteilhafter weise die Wirkrichtungen der För-
+derräder der Zweier- oder Dreiergruppen nicht ortho-
+gonal zueinander vorteilhafterweise.
+[0018] Insbesondere kann dabei vorgesehen sein,
+dass das mindestens eine passive Fördersystemmo-
+dul mindestens eine Kugelrolle aufweist. Anstelle der
+Kugelrolle könnte aber auch irgendein passiv gela-
+gertes omnidirektionales Element verwendet werden.
+[0019] Bei den omnidirektionalen Fördersystemen
+gemäß den Ansprüchen 17 und 18 verlaufen die der
+Förderräder vorteilhafterweise nicht orthogonal zu-
+einander.
+[0020] Der Erfindung liegt die überraschende Er-
+kenntnis zugrunde, dass durch die separate Antreib-
+und Ansteuerbarkeit der omnidirektionalen Förder-
+einheiten Objekte, wie zum Beispiel Pakete, gezielt in
+jeder Richtung in 2D und 3D (Transaktion in Längs-
+und Querrichtung sowie Rotation) unabhängig von-
+einander gefördert werden können. Mit anderen Wor-
+ten lassen sich Objekte, wie zum Beispiel Pakete,
+gleichzeitig mit individuellen Bahnen fördern. Wenn
+mindestens drei bzw. genau drei omnidirektionale
+Fördereinheiten vorgesehen sind, ist zusätzlich auch
+noch eine Rotation der Objekte möglich, und zwar
+nicht nur um ganz bestimmte ortsfeste Punkte, son-
+dern – technisch gesehen – an beliebigen Stellen
+oder zumindest nahezu an beliebigen Stellen. Zudem
+kann durch geeignete Ausrichtung von direkt benach-
+barten Förderrädern zueinander die Hauptforderrich-
+tung beeinflusst, eine effizientere Kraftübertragung
+bewirkt und eine optimale Verteilung der Kräfte an die
+jeweilige Anwendung realisiert werden.
+[0021] Jeder Antriebsmotor kann ein beliebiges Ge-
+schwindigkeitsprofil fahren.
+[0022] Durch die separate Antreib- und Ansteuerbar-
+keit wird ein gezielter Antrieb und eine Energieein-
+sparung möglich. Dies ergibt sich daraus, dass pro
+Objekt (z. B. Paket) eine Bahn berechenbar ist und
+danach nur diejenigen Antriebsmotoren eingeschal-
+tet werden, die zum Abfahren der Bahn erforderlich
+sind.
+[0023] Zumindest besondere Ausführungsformen
+der Erfindung bieten folgende (weitere) Vorteile:
+– Durch die modulare Bauweise kann die Förder-
+fläche/Arbeitsfläche beliebig erweitert werden.
+– Aufgrund der einfachen Anordnung der Förder-
+elemente/Rollelemente ist das resultierende För-
+dersystem kostengünstiger als herkömmliche om-
+nidirektionale Positionier- bzw. Fördersysteme.
+– Bewegungen sind in allen Richtungen möglich.
+Diese können Geraden, Kurven oder Rotationen
+oder eine beliebige Kombination derselben sein.
+– Durch die Einzelsteuerung der Antriebsmotoren
+können mehrere Objekte (zum Beispiel Paketstü-
+cke) gleichzeitig bewegt werden. Die Bewegung
+kann in beliebigen Bahnen und Rotationen erfol-
+gen.
+– Sehr kleines Footprint verglichen mit Lagenvor-
+bereitungsanlagen (Roboter oder Schieber).
+– Energieeinsparung durch gezieltes Ein- und
+Ausschalten von Motoren.
+[0024] Grundsätzlich kann die Erfindung überall dort
+eingesetzt werden, wo Objekte auf einer Ebene frei
+positioniert werden müssen. Insbesondere kann sie
+in intralogistischen Anwendungen, wie zum Beispiel
+
+
+=== p4 ===
+DE 10 2012 014 181 A1    2014.01.23
+4/40
+– Erstellung von Paketlagen für Palettierautoma-
+ten,
+– Vereinzeln von Paketströmen (Singulieren)
+– Aus- und Einschleusen von Paketen in vorhan-
+dene Fördertechnik,
+– Sortierung von Paketen und
+– Rotieren von Paketen
+eingesetzt werden.
+[0025] Eine nicht-orthogonale Anordnung hat ge-
+genüber einer orthogonalen Anordnung in einem om-
+nidirektionalen Fördersystemmodul beziehungswei-
+se Fördersystem folgende Vorteile:
+Über die omnidirektionalen Förderräder werden Kräf-
+te in die Rotationsrichtung auf ein zu bewegendes
+Objekt übertragen. In allen anderen Richtungen wer-
+den die Kräfte von den frei rotierenden Rollen, wie
+zum Beispiel Hilfsräder, aufgenommen und nicht auf
+das Objekt übertragen. Durch die Anordnung der om-
+nidirektionalen Förderräder können die Eigenschaf-
+ten des Fördersystemmoduls beziehungsweise För-
+dersystems beeinflusst werden. Unter anderem kann
+die Verteilung der übertragbaren Kräfte geändert
+werden, welche als ein Vektor mit Richtung und Grö-
+ße dargestellt werden können. Die Richtung, die den
+Vektor mit der größten Amplitude aufweist, wird als
+Hauptförderrichtung bezeichnet. So können je nach
+Anordnung der Förderräder beziehungsweise För-
+dereinheiten Fördersystemmodule beziehungsweise
+Fördersysteme zum Fördern oder zum Positionieren
+von Objekten konstruiert werden. Wenn zum Beispiel
+drei Fördereinheiten in einer nicht-orthogonalen An-
+ordnung, wobei die Fördereinheiten unter einem Win-
+kel von 120° zueinander stehen, vorliegen, so lässt
+sich damit eine gleichmäßigere Verteilung der über-
+tragbaren Kräfte erzielen, sodass Objekte sehr ef-
+fektiv in alle Richtungen bewegt werden können. Ei-
+ne derartige Anordnung eignet sich sehr gut für Auf-
+gaben, bei denen Objekte in allen Richtung bewegt
+oder gedreht werden müssen (Positionierung). Als
+Beispiel für eine solche Aufgabe sei auf Palettieran-
+lagen verwiesen, bei denen Paketlagen für die auto-
+matische Palettierung erstellt werden.
+[0026] Bei einer beispielhaften nicht-orthogonalen
+Anordnung von drei Förderrädern beziehungswei-
+se Fördereinheiten mit 60°–90°–120° Orientierungen
+zeigt die Verteilung der übertragbaren Kräfte eine
+ausgeprägte Hauptförderrichtung, welche in die 90°-
+Richtung zeigt. Im Bereich –30°–+30° ist die Kraft-
+übertragung sehr schlecht, sodass eine Bewegung
+quer zur Hauptförderrichtung sehr ineffizient, aber
+dennoch möglich ist. Eine derartige Anordnung eig-
+net sich sehr gut für Förderaufgaben, bei denen ein
+Objekt hauptsächlich in einer Richtung bewegt wird,
+ohne diese großartig ändern zu müssen. Als Beispiel
+einer solchen Anwendung dient eine Förderstrecke
+mit Ausschleusung. Hier werden die Objekte in einer
+90°-Richtung bewegt und zu abzweigenden Förder-
+elementen hingelenkt.
+[0027] Generell ist mit einer Anordnung aus drei An-
+trieben eine viel größere Momentübertragung auf ein
+Objekt möglich.
+[0028] Durch eine beliebige Einstellung der Anord-
+nung der Förderräder beziehungsweise Förderein-
+heiten kann die Kraftverteilung optimal an die jewei-
+lige Anwendung angepasst werden. Dadurch lässt
+sich Energie sparen. Schließlich lässt sich durch ei-
+ne nicht-orthogonale Anordnung von drei oder mehr
+Förderrädern beziehungsweise Fördereinheiten eine
+symmetrische Kraftverteilung realisieren.
+[0029] Weitere Merkmale und Vorteile der Erfin-
+dung ergeben sich aus den beigefügten Ansprüchen
+und der nachfolgenden Beschreibung, in der mehre-
+re Ausführungsbeispiele anhand der schematischen
+Zeichnungen im Einzelnen erläutert werden. Dabei
+zeigt/zeigen:
+[0030] Fig. 1 eine Draufsicht auf ein omnidirektio-
+nales Fördersystemmodul gemäß einer besonderen
+Ausführungsform der Erfindung von oben;
+[0031] Fig. 2 eine Draufsicht auf ein omnidirektio-
+nales Fördersystemmodul gemäß einer weiteren be-
+sonderen Ausführungsform der vorliegenden Erfin-
+dung von oben;
+[0032] Fig. 3 eine perspektivische Ansicht von dem
+Fördersystemmodul von Fig. 2 schräg von oben;
+[0033] Fig. 4 eine Seitenansicht von dem Fördersys-
+temmodul von Fig. 2;
+[0034] Fig. 5a–Fig. 5d verschiedene Ansichten von
+dem Fördersystemmodul von Fig. 2 ohne Träger-
+blech;
+[0035] Fig. 6 eine perspektivische Ansicht von dem
+Fördersystemmodul von Fig. 1 schräg von oben;
+[0036] Fig. 7 eine Seitenansicht von dem Fördersys-
+temmodul von Fig. 1;
+[0037] Fig. 8 eine Draufsicht auf ein omnidirektio-
+nales Fördersystemmodul gemäß einer weiteren be-
+sonderen Ausführungsform der Erfindung von oben;
+[0038] Fig. 9 eine perspektivische Ansicht von dem
+Fördersystemmodul von Fig. 8 schräg von oben;
+[0039] Fig. 10 eine Seitenansicht von dem Förder-
+systemmodul von Fig. 8;
+[0040] Fig. 11 die Anordnung und Orientierung der
+Förderräder bei dem Fördersystemmodul von Fig. 1;
+
+
+=== p5 ===
+DE 10 2012 014 181 A1    2014.01.23
+5/40
+[0041] Fig. 12a und Fig. 12b ein omnidirektionales
+Fördersystemmodul gemäß einer weiteren besonde-
+ren Ausführungsform der Erfindung in Draufsicht von
+oben sowie die zugehörige Anordnung und Orientie-
+rung der Förderräder;
+[0042] Fig. 13a bis Fig. 13d verschiedene Ansichten
+von einem omnidirektionalen Fördersystemmodul für
+ein Fördersystem gemäß einer weiteren besonderen
+Ausführungsform der Erfindung;
+[0043] Fig. 14a bis Fig. 14d Draufsichten von dem
+Fördersystemmodul von Fig. 1 mit unterschiedlichen
+Geschwindigkeitsvektoren der Antriebsmotoren und
+den jeweils resultierenden Bewegungen eines Ob-
+jekts (Förderguts (Pakets));
+[0044] Fig. 15 eine perspektivische Ansicht von ei-
+nem modularen omnidirektionalen Fördersystem ge-
+mäß einer weiteren besonderen Ausführungsform
+der Erfindung, das auf einem Tischgestell montiert ist,
+mit Paketen;
+[0045] Fig. 16 das Fördersystem von Fig. 15 in einer
+anderen Förderphase;
+[0046] Fig. 17 eine Draufsicht auf das in Fig. 15 ge-
+zeigte Fördersystem mit Förderrichtungspfeilen;
+[0047] Fig. 18 das Fördersystem von Fig. 15 mit (an-
+deren) Förderrichtungspfeilen; und
+[0048] Fig. 19a und Fig. 19b ausschnittweise An-
+sichten von dem Fördersystem von Fig. 15 von oben
+und von unten.
+[0049] In den Fig. 1, Fig. 6 und Fig. 7 ist ein omni-
+direktionales Fördersystemmodul 10 gezeigt. Es um-
+fasst ein sechseckiges Trägerblech 12 und drei omni-
+direktionale Fördereinheiten 14. Jede der drei Förder-
+einheiten 14 umfasst ein omnidirektionales Förderrad
+16 und einen einzeln zugeordneten Antriebsmotor 18
+zum individuellen Antreiben des jeweiligen Förderra-
+des 16. Das Trägerblech 12 weist drei im wesentli-
+chen quadratische Ausschnitte 20 auf und die Förde-
+reinheiten 14 sind an der Unterseite 22 des Träger-
+bleches 12 so befestigt bzw. gelagert, dass die För-
+derräder 16 durch die Ausschnitte 20 im Trägerblech
+12 nach oben vorragen. Wie sich insbesondere an-
+hand der Fig. 7 ergibt, liegen die höchsten Punkte 24
+der Förderräder 16 in einer, vorzugsweise horizonta-
+len, Ebene. Anhand der Fig. 1 ergibt sich ferner, dass
+die Ausschnitte 20 und damit auch die Förderräder
+16 in den Seitenmitten eines gleichseitigen Dreiecks
+D angeordnet sind. Die Fördereinheiten 14 sind al-
+so um einen Winkel γ = 120° sternförmig zueinander
+angeordnet. Die Hauptdrehachsen H der Förderräder
+16 verlaufen unter einem Winkel β = 90° zu den Sei-
+ten a, b und c des Dreiecks D. Mit anderen Worten
+verlaufen die Hauptdrehachsen H kollinear mit den
+Mittelsenkrechten r, s und t. Dies bedeutet wieder-
+um, dass die Antriebsmotoren 18 so angeordnet sind,
+dass sich die Verlängerungen der Antriebsmotorwel-
+len (nicht gezeigt) im Mittelpunkt M des Fördersys-
+temmoduls 10 treffen.
+[0050] In den Lücken zwischen den Förderrädern
+16 sind Kugelrollen 26 in der Höhe der Förderräder
+16 auf bzw. in dem Trägerblech 12 angeordnet. Die-
+se passiven Kugelrollen stützen von unten Objekte
+(nicht gezeigt), wie zum Beispiel Pakete, die auf den
+Förderrädern 16 aufliegen, und verhindern, dass die-
+se sich bei der Bewegung an den Kanten des Förder-
+systemmoduls einhaken.
+[0051] Das Trägerblech 12 weist seitliche, nach un-
+ten verlaufende Abkantungen (Laschen) 28 mit Boh-
+rungen 30 zum Verschrauben mit benachbarten För-
+dersystemmodulen zur Bildung eines Fördersystems
+bzw. einer Plattform auf.
+[0052] In dem hier dargestellten Ausführungsbei-
+spiel besteht jedes der Förderräder 16 aus einem
+Doppel-Allseitenrad. In bekannter Weise sind bei je-
+dem Allseitenrad des Doppel-Allseitenrades auf der
+Umlauffläche drei tonnenförmige (ballige) Hilfsräder
+(Rollen 31, von denen nur einige gekennzeichnet
+sind) äquidistant angebracht, deren Drehachsen im
+rechten Winkel zur Drehachse (Hauptdrehachse H)
+des Hauptrades liegen und die nahezu breitförmiges
+Profil bauen. Das andere Allseitenrad des Doppel-
+Allseitenrades ist genauso gestaltet, außer dass die
+Hilfsräder (Rollen) um 60° zu den Rollen des benach-
+barten Allseitenrades versetzt sind. Die omnidirektio-
+nalen Förderräder 16 können aber auch anders ge-
+staltet sein.
+[0053] Bei OmniwheelsTM stehen die Rotationsach-
+sen der Rollen in einem Winkel von 90° zur Haupt-
+drehachse und parallel zur Hauptdrehrichtung. Somit
+werden Kräfte in Rotationsrichtung übertragen. Die
+restlichen Kräfte werden von den Rollen aufgenom-
+men. Das heißt, dass die Wirkrichtung des Rades die-
+selbe wie die Rotationsrichtung des Rades ist. Bei
+Mecanum-Rädern sind dagegen die Rollen nicht un-
+ter einem Winkel von 90° zur Hauptdrehrichtung an-
+gebracht, sondern (üblicherweise) unter einem Win-
+kel von 45°. Somit ist die Wirkrichtung des Rades un-
+gleich der Hauptdrehrichtung.
+[0054] Jede der Fördereinheiten 14 ist in bzw. an ei-
+nem im wesentlichen C-förmigen, nach oben offenen
+Träger 32 mit oben beiderseits nach außen gewand-
+ten Abkantungen 34 mit Bohrungen angebracht, der
+an der Unterseite 20 des Trägerbleches 12 mittels
+Schrauben (nicht gezeigt) befestigt ist. Die Befesti-
+gung kann aber auch anders erfolgen.
+[0055] Die Fig. 2 bis Fig. 4 zeigen eine besondere
+Ausführungsform einer Fördereinheit 14 mit Träger-
+
+
+=== p6 ===
+DE 10 2012 014 181 A1    2014.01.23
+6/40
+blech 12 für ein Fördersystemmodul und die Fig. 5a
+bis Fig. 5d zeigen dieselbe Fördereinheit 14 ohne
+Trägerblech. Das in den Fig. 1, Fig. 6 und Fig. 7 ge-
+zeigte Fördersystemmodul 10 könnte zum Beispiel
+aus drei Fördereinheiten 14 mit Trägerblech 12 zu-
+sammengesetzt sein. Sie bildet sozusagen die kleins-
+te Einheit.
+[0056] Die omnidirektionale Fördereinheit 14 um-
+fasst genau wie die in den Fig. 1, Fig. 6 und Fig. 7
+gezeigte Ausführungsform ein omnidirektionales För-
+derrad 16 und einen einzeln zugeordneten Antriebs-
+motor 18 zum individuellen Antreiben des Förderra-
+des 16. Des Weiteren umfasst sie ein im Wesentli-
+chen fünfeckiges Trägerblech 12 mit einem im We-
+sentlichen quadratischen Ausschnitt 20 auf. Die För-
+dereinheit 14 ist an der Unterseite 22 des Trägerble-
+ches 12 so befestigt bzw. gelagert, dass das Förder-
+rad 16 durch den Ausschnitt 20 im Trägerblech 12
+nach oben vorragt.
+[0057] An den Rändern des Trägerbleches 12 sind
+im Wesentlichen halbkreisförmige Aussparungen 38
+zur Aufnahme von Kugelrollen (nicht gezeigt) ausge-
+bildet. Je nach Position des Trägerbleches können
+sie aber zum Beispiel auch 1/2, 1/3, oder 1/4 eines
+Kreises sein.
+[0058] Ferner weist das Trägerblech 12 seitliche,
+nach unten verlaufende Abkantungen (Laschen) 28
+(siehe Fig. 6) mit Bohrungen 30 zum Verschrauben
+mit benachbarten Fördersystemmodulen zur Bildung
+des Fördersystemmoduls 10 gemäß Fig. 1 bzw. zur
+Bildung eines Fördersystems bzw. einer Plattform
+auf.
+[0059] Genau wie in dem in den Fig. 1, Fig. 6 und
+Fig. 7 dargestellten Ausführungsbeispiel besteht das
+Förderrad 16 aus einem Doppel-Allseitenrad.
+[0060] Die Fördereinheit 14 ist in bzw. an einem im
+Wesentlichen C-förmigen, nach oben offenen Trä-
+ger 32 mit oberen beiderseits nach außen gewand-
+ten Abkantungen 34 Bohrungen 36 angebracht, der
+an der Unterseite 20 des Trägerbleches 12 mittels
+Schrauben (nicht gezeigt) befestigt ist. Die Befesti-
+gung könnte aber auch anders realisiert sein.
+[0061] In den Fig. 8 bis Fig. 10 ist eine weitere
+besondere Ausführungsform eines omnidirektionalen
+Fördersystemmoduls 200 gemäß der vorliegenden
+Erfindung gezeigt. Diese unterscheidet sich von der
+in den Fig. 1, Fig. 6 und Fig. 7 gezeigten Ausfüh-
+rungsform im Wesentlichen in der Art der Förderräder
+16 und dadurch bedingt auch in der Gestaltung der
+Ausschnitte 20. Es handelt sich bei den Förderrädern
+16 um ein spezielles Allseitenrad, nämlich ein Meca-
+num-Rad.
+[0062] In der Fig. 11 sind für das in den Fig. 1, Fig. 6
+und Fig. 7 gezeigte Ausführungsbeispiel die gleich-
+mäßige Anordnung und Orientierung der Förderrä-
+der 16 gezeigt. Die Hauptdrehachsen H der Förder-
+räder 16 verlaufen kollinear mit den Radien R, so
+dass die Geschwindigkeitsvektoren v immer tangen-
+tial zum „Anordnungskreis” verlaufen. Diese Konfigu-
+ration vereinfacht die Mathematik hinter der Steue-
+rung.
+[0063] In der Fig. 12b ist entsprechendes für eine
+andere Ausführungsform (mit ungleichmäßiger An-
+ordnung und Orientierung der Förderräder) gezeigt,
+die in der Fig. 12a dargestellt ist. Zwei der Hauptdreh-
+achsen H der Förderräder 14 verlaufen nicht kolline-
+ar mit den Radien R. Dementsprechend verlaufen die
+zugehörigen Geschwindigkeitsvektoren 
+ auch nicht
+tangential zum „Anordnungskreis”. Alternativ oder zu-
+sätzlich können auch die Radien unterschiedlich groß
+sein. Es gibt dann nicht nur einen Anordnungskreis,
+sondern mehrere konzentrische Anordnungskreise.
+[0064] In den Fig. 13a bis Fig. 13d ist eine weite-
+re besondere Ausführungsform eines omnidirektiona-
+len Fördersystemmoduls 270 für ein Fördersystem
+gezeigt. Dies unterscheidet sich von dem vorange-
+hend gezeigten Ausführungsformen darin, dass es
+keine Antriebsmotoren aufweist. Somit ist es nicht
+kraftbetrieben bzw. aktiv, sondern passiv. Ansons-
+ten entspricht es im Wesentlichen der in den Fig. 2
+bis Fig. 5d gezeigten Ausführungsform. Ein derarti-
+ges passives Fördersystemmodul ist in erster Linie
+für Außenbereiche/Außenkanten eines flächigen om-
+nidirektionalen Fördersystems bzw. einer Plattform
+vorgesehen. Es sorgt dafür, dass das Fördersystem
+gerade Kanten hat und Objekte, wie zum Beispiel Pa-
+kete, stets gestützt werden.
+[0065] Anhand der Fig. 14a bis Fig. 14d soll für das
+Fördersystemmodul 10 von Fig. 1 gezeigt werden,
+wie sich aus der Kombination von unterschiedlichen
+Geschwindigkeitsvektoren 
+ (unterschiedliche Rich-
+tungen und/oder Beträge) der Antriebsmotoren sich
+unterschiedliche Förderrichtungen 
+ für ein Objekt
+ergeben können. Es lassen sich damit sehr komplexe
+Bewegungsabläufe erzeugen. Diese umfassen ge-
+radlinige, krummlinige und Drehbewegungen.
+[0066] In den Fig. 15 bis Fig. 18 ist ein modula-
+res omnidirektionales Fördersystem 300 aus aktiven
+10 und passiven 270 Fördersystemmodulen gezeigt,
+von denen nur einige gekennzeichnet sind. Besagte
+Fördersystemmodule sind in einem Tischgestell 39
+zu einem flächigen Fördersystem 300 bzw. zu einer
+Plattform zusammengesteckt. Die Fläche bzw. Platt-
+form muss nicht eben sein, sondern kann auch bei-
+spielsweise nach oben oder unten gekrümmt sein.
+Wie sich anhand der Fig. 15 und Fig. 16 ergibt,
+können mittels der omnidirektionalen Fördereinheiten
+Kartons bzw. Pakete 40 einzeln bewegt und gedreht
+
+
+=== p7 ===
+DE 10 2012 014 181 A1    2014.01.23
+7/40
+werden, ohne die Nachbarpakete zu beeinflussen. In
+der Fig. 16 sind die Pakete bereits in einer palettier-
+baren Lage angeordnet.
+[0067] Fig. 17 zeigt beispielhaft, wie ein Paket 40
+mittels des Fördersystems 300 bewegt werden kann,
+nämlich gradlinig in Längsrichtung, diagonal, in einer
+Kurve mit Rotation, geradlinig in Querrichtung und
+reine Rotation.
+[0068] Fig. 18 zeigt, wie mit dem Fördersystem 300
+eine Lage von Paketen, zum Beispiel für das Palet-
+tieren, erzeugt wird. Die Pakete 40 können gleichzei-
+tig bewegt und rotiert werden, und zwar unabhängig
+voneinander.
+[0069] Schließlich zeigen die Fig. 19a und Fig. 19b
+noch einen vergrößerten Ausschnitt aus dem Förder-
+system 300 in Draufsicht und in Ansicht von unten.
+[0070] Auch wenn dies in der gesamten Beschrei-
+bung der Figuren nicht erwähnt wurde, so weist das
+omnidirektionale Fördersystem auch eine Steuerein-
+richtung (nicht gezeigt) auf, die mit den Antriebsmo-
+toren zum individuellen Ansteuern derselben verbun-
+den ist.
+[0071] Die in der vorstehenden Beschreibung, in
+den Zeichnungen sowie in den Ansprüchen offen-
+barten Merkmale der Erfindung können sowohl ein-
+zeln als auch in den beliebigen Kombinationen für die
+Verwirklichung der Erfindung in ihren verschiedenen
+Ausführungsformen wesentlich sein.
+Bezugszeichenliste
+10
+Fördersystemmodul
+12
+Trägerblech
+14
+Fördereinheiten
+16
+Förderräder
+18
+Antriebsmotoren
+20
+Ausschnitte
+22
+Unterseite
+24
+höchste Punkte
+26
+Kugelrollen
+28
+Abkantungen
+30
+Bohrungen
+31
+Rollen
+32
+Träger
+34
+Abkantungen
+36
+Bohrungen
+38
+Aussparungen
+39
+Tischgestell
+40
+Pakete
+200
+Fördersystemmodul
+260
+Fördersystemmodul
+270
+Fördersystemmodul
+300
+Fördersystem
+a, b, c
+Seiten eines Dreiecks
+D
+gleichseitiges Dreieck
+s, t, r
+Mittelsenkrechten
+H
+Hauptdrehachsen
+M
+Mittelpunkt
+R
+Radien
+γ
+Winkel
+Geschwindigkeitsvektoren
+Förderrichtungen
+
+
+=== p8 ===
+DE 10 2012 014 181 A1    2014.01.23
+8/40
+ZITATE ENTHALTEN IN DER BESCHREIBUNG
+Diese Liste der vom Anmelder aufgeführten Dokumente wurde automatisiert erzeugt und ist ausschließlich
+zur besseren Information des Lesers aufgenommen. Die Liste ist nicht Bestandteil der deutschen Patent- bzw.
+Gebrauchsmusteranmeldung. Das DPMA übernimmt keinerlei Haftung für etwaige Fehler oder Auslassungen.
+Zitierte Patentliteratur
+-
+US 5396977 [0002]
+
+
+=== p9 ===
+DE 10 2012 014 181 A1    2014.01.23
+9/40
+Patentansprüche
+1.  Omnidirektionales Fördersystemmodul (10, 200,
+260), umfassend mindestens zwei nebeneinander
+angeordnete omnidirektionale Fördereinheiten (14,
+14) jeweils aus mindestens einem omnidirektionalen
+Förderrad (16) und einem einzeln zugeordneten An-
+triebsmotor (18) zum individuellen Antreiben des min-
+destens einen Förderrades (16), wobei die Wirkrich-
+tungen der Förderräder der Fördereinheiten unter ei-
+nem Winkel ungleich Null zueinander verlaufen.
+2.    Fördersystemmodul (10, 200, 260) nach An-
+spruch 1, dadurch gekennzeichnet, dass genau
+drei omnidirektionale Fördereinheiten (14, 14, 14) ne-
+beneinander vorgesehen und die Wirkrichtungen der
+Förderräder der drei Fördereinheiten so zueinander
+verlaufen, dass keine parallelen Wirkrichtungen vor-
+liegen.
+3.    Fördersystemmodul (10, 200, 260) nach An-
+spruch 1 oder 2, dadurch gekennzeichnet, dass die
+Wirkrichtungen der Förderräder nicht orthogonal zu-
+einander verlaufen.
+4.  Fördersystemmodul (10, 200) nach Anspruch 3,
+dadurch gekennzeichnet, dass die Förderräder (16,
+16, 16) in den Seitenmitten eines gleichseitigen Drei-
+ecks (D) angeordnet sind.
+5.  Fördersystemmodul (10, 200) nach Anspruch 4,
+dadurch gekennzeichnet, dass die Wirkrichtungen
+der Förderräder unter einem Winkel von 90° zu den
+Seiten des Dreiecks verlaufen oder mindestens eine
+der Wirkrichtungen der Förderräder unter einem Win-
+kel ungleich 0° zur zugehörigen Seite des Dreiecks
+verläuft.
+6.  Fördersystemmodul (10, 200, 260) nach einem
+der vorangehenden Ansprüche, dadurch gekenn-
+zeichnet, dass jedes omnidirektionale Förderrad (16)
+aus einem Einzel-Allseitenrad oder einem Mehrfach-
+Allseitenrad, insbesondere Doppel-Allseitenrad, be-
+steht.
+7.  Fördersystemmodul (200) nach Anspruch 6, da-
+durch gekennzeichnet, dass das Allseitenrad ein
+Mecanum-Rad ist.
+8.  Fördersystemmodul (10, 200, 260) nach einem
+der vorangehenden Ansprüche, dadurch gekenn-
+zeichnet, dass es ein Trägerblech (12) umfasst, an
+dessen Unterseite (22) die omnidirektionalen Förde-
+reinheiten (14) so gelagert sind, dass das Förderrad
+(16) bzw. die Förderräder (16) durch einen bzw. ei-
+nen jeweiligen Ausschnitt im Trägerblech nach oben
+vorragt/vorragen.
+9.    Fördersystemmodul (10, 200, 260) nach An-
+spruch 8, dadurch gekennzeichnet, dass es min-
+destens eine in dem Trägerblech (12) gelagerte Ku-
+gelrolle (26) und vorzugsweise mehrere vorzugswei-
+se gleichmäßig verteilte derartige Kugelrollen um-
+fasst.
+10.  Fördersystemmodul nach einem der vorange-
+henden Ansprüche, dadurch gekennzeichnet, dass
+es steckbar ist.
+11.    Modulares omnidirektionales Fördersystem,
+umfassend eine Vielzahl von nebeneinander an-
+geordneten omnidirektionalen Fördersystemmodu-
+len nach einem der Ansprüche 1 bis 10 und eine Steu-
+ereinrichtung, die mit den Antriebsmotoren zum indi-
+viduellen Ansteuern derselben verbunden ist.
+12.    Modulares omnidirektionales Fördersystem,
+umfassend eine Vielzahl von nebeneinander ange-
+ordneten omnidirektionalen Fördersystemmodulen,
+wobei jedes Fördersystemmodul eine omnidirektio-
+nale Fördereinheit (14) aus mindestens einem om-
+nidirektionalen Förderrad (16) und aus einem ein-
+zeln zugeordneten Antriebsmotor (18) zum individu-
+ellen Antreiben des mindestens einen Förderrades
+(16) umfasst und die Fördersystemmodule in Zweier-
+gruppen so angeordnet sind, dass die Wirkrichtungen
+der Förderräder der jeweiligen beiden Fördereinhei-
+ten unter einem Winkel ungleich Null zueinander ver-
+laufen, und eine Steuereinrichtung, die mit den An-
+triebsmotoren zum individuellen Ansteuern derselben
+verbunden ist.
+13.    Modulares omnidirektionales Fördersystem,
+umfassend eine Vielzahl von nebeneinander ange-
+ordneten omnidirektionalen Fördersystemmodulen,
+wobei jedes Fördersystemmodul eine omnidirektio-
+nale Fördereinheit (14) aus mindestens einem om-
+nidirektionalen Förderrad (16) und aus einem ein-
+zeln zugeordneten Antriebsmotor (18) zum individu-
+ellen Antreiben des mindestens einen Förderrades
+(16) umfasst und die Fördersystemmodule in Dreier-
+gruppen so angeordnet sind, dass die Wirkrichtungen
+der Förderräder der jeweiligen drei Fördereinheiten
+so zueinander verlaufen, dass keine parallelen Wirk-
+richtungen vorliegen, und eine Steuereinrichtung, die
+mit den Antriebsmotoren zum individuellen Ansteu-
+ern derselben verbunden ist.
+14.    Modulares omnidirektionales Fördersystem
+nach Anspruch 12 oder 13, dadurch gekennzeich-
+net, dass die Wirkrichtungen der Förderräder der
+Zweier- oder Dreiergruppen nicht orthogonal zuein-
+ander verlaufen.
+15.    Modulares omnidirektionales Fördersystem
+(300) nach einem der Ansprüche 11 bis 14, dadurch
+gekennzeichnet, dass es mindestens ein passi-
+ves omnidirektionales Fördersystemmodul (270) um-
+fasst, das mindestens ein nicht von einem An-
+
+
+=== p10 ===
+DE 10 2012 014 181 A1    2014.01.23
+10/40
+triebsmotor angetriebenes omnidirektionales Förder-
+rad (16) aufweist.
+16.    Fördersystem (300) nach Anspruch 15, da-
+durch gekennzeichnet, dass das mindestens eine
+passive Fördersystemmodul (270) mindestens eine
+Kugelrolle (26) aufweist.
+17.  Omnidirektionales Fördersystem, umfassend
+eine Vielzahl von nebeneinander angeordneten om-
+nidirektionalen Fördereinheiten jeweils aus mindes-
+tens einem omnidirektionalen Förderrad und aus min-
+destens einem einzeln zugeordneten Antriebsmotor,
+wobei die Fördereinheiten in Zweiergruppen so ange-
+ordnet sind, dass die Wirkrichtungen der Förderräder
+der jeweiligen beiden Fördereinheiten unter einem
+Winkel ungleich Null zueinander verlaufen, und eine
+Steuereinrichtung, die mit den Antriebsmotoren zum
+individuellen Ansteuern derselben verbunden ist.
+18.  Omnidirektionales Fördersystem, umfassend
+eine Vielzahl von nebeneinander angeordneten om-
+nidirektionalen Fördereinheiten jeweils aus mindes-
+tens einem omnidirektionalen Förderrad und aus min-
+destens einem einzeln zugeordneten Antriebsmotor,
+wobei die Fördereinheiten in Dreiergruppen so ange-
+ordnet sind, dass die Wirkrichtungen der Förderrä-
+der der jeweiligen drei Fördereinheiten so zueinander
+verlaufen, dass keine parallelen Wirkrichtungen vor-
+liegen, und eine Steuereinrichtung, die mit den An-
+triebsmotoren zum individuellen Ansteuern derselben
+verbunden ist.
+19.    Omnidirektionales Fördersystem nach An-
+spruch 17 oder 18, dadurch gekennzeichnet, dass
+die Wirkrichtungen der Förderräder nicht orthogonal
+zueinander verlaufen.
+Es folgen 30 Seiten Zeichnungen
+
+
+=== p11 ===
+DE 10 2012 014 181 A1    2014.01.23
+11/40
+Anhängende Zeichnungen
+
+
+=== p12 ===
+DE 10 2012 014 181 A1    2014.01.23
+12/40
+
+
+=== p13 ===
+DE 10 2012 014 181 A1    2014.01.23
+13/40
+
+
+=== p14 ===
+DE 10 2012 014 181 A1    2014.01.23
+14/40
+
+
+=== p15 ===
+DE 10 2012 014 181 A1    2014.01.23
+15/40
+
+
+=== p16 ===
+DE 10 2012 014 181 A1    2014.01.23
+16/40
+
+
+=== p17 ===
+DE 10 2012 014 181 A1    2014.01.23
+17/40
+
+
+=== p18 ===
+DE 10 2012 014 181 A1    2014.01.23
+18/40
+
+
+=== p19 ===
+DE 10 2012 014 181 A1    2014.01.23
+19/40
+
+
+=== p20 ===
+DE 10 2012 014 181 A1    2014.01.23
+20/40
+
+
+=== p21 ===
+DE 10 2012 014 181 A1    2014.01.23
+21/40
+
+
+=== p22 ===
+DE 10 2012 014 181 A1    2014.01.23
+22/40
+
+
+=== p23 ===
+DE 10 2012 014 181 A1    2014.01.23
+23/40
+
+
+=== p24 ===
+DE 10 2012 014 181 A1    2014.01.23
+24/40
+
+
+=== p25 ===
+DE 10 2012 014 181 A1    2014.01.23
+25/40
+
+
+=== p26 ===
+DE 10 2012 014 181 A1    2014.01.23
+26/40
+
+
+=== p27 ===
+DE 10 2012 014 181 A1    2014.01.23
+27/40
+
+
+=== p28 ===
+DE 10 2012 014 181 A1    2014.01.23
+28/40
+
+
+=== p29 ===
+DE 10 2012 014 181 A1    2014.01.23
+29/40
+
+
+=== p30 ===
+DE 10 2012 014 181 A1    2014.01.23
+30/40
+
+
+=== p31 ===
+DE 10 2012 014 181 A1    2014.01.23
+31/40
+
+
+=== p32 ===
+DE 10 2012 014 181 A1    2014.01.23
+32/40
+
+
+=== p33 ===
+DE 10 2012 014 181 A1    2014.01.23
+33/40
+
+
+=== p34 ===
+DE 10 2012 014 181 A1    2014.01.23
+34/40
+
+
+=== p35 ===
+DE 10 2012 014 181 A1    2014.01.23
+35/40
+
+
+=== p36 ===
+DE 10 2012 014 181 A1    2014.01.23
+36/40
+
+
+=== p37 ===
+DE 10 2012 014 181 A1    2014.01.23
+37/40
+
+
+=== p38 ===
+DE 10 2012 014 181 A1    2014.01.23
+38/40
+
+
+=== p39 ===
+DE 10 2012 014 181 A1    2014.01.23
+39/40
+
+
+=== p40 ===
+DE 10 2012 014 181 A1    2014.01.23
+40/40

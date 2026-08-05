@@ -1,0 +1,571 @@
+{
+  "_meta": {
+    "patente": "DE 10 2012 014 181 A1",
+    "titulo_de": "Omnidirektionales Fördersystemmodul, modulares omnidirektionales Fördersystem und omnidirektionales Fördersystem",
+    "titulo_es": "Módulo de sistema transportador omnidireccional, sistema transportador omnidireccional modular y sistema transportador omnidireccional",
+    "solicitante": "BIBA - Bremer Institut für Produktion und Logistik GmbH, Bremen, DE",
+    "inventores": ["Uriarte, Claudio", "Kunaschk, Stefan"],
+    "fecha_solicitud": "2012-07-18",
+    "fecha_publicacion": "2014-01-23",
+    "fuente_texto": "patente_texto.txt",
+    "fuente_laminas": "patente_p11.png .. patente_p40.png",
+    "convencion_paginas": "Los números de 'paginas' son las páginas del PDF/OCR (1..40), iguales a los marcadores '=== pN ===' de patente_texto.txt. p1 portada+resumen, p2-p7 descripción, p8 citas, p9-p10 reivindicaciones, p11-p40 dibujos (una figura por página).",
+    "lista_oficial_bezugszeichen": "p7 (Bezugszeichenliste al final de la descripción)",
+    "notas_globales": [
+      "El numeral 100 NO aparece en la Bezugszeichenliste ni en el texto: solo está rotulado en las láminas de las Fig. 2, 3 y 4. El texto describe ese módulo en [0055]-[0060] sin asignarle numeral.",
+      "El numeral 260 NO se describe en el texto: aparece solo en las reivindicaciones 1,2,3,6,8,9 y rotulado en la lámina de la Fig. 12a.",
+      "Los símbolos vectoriales v (Geschwindigkeitsvektor) y F (Förderrichtung) aparecen en la Bezugszeichenliste sin su glifo (el OCR perdió las flechas); verificados visualmente en las láminas.",
+      "El símbolo beta (β) se usa en [0049] pero NO figura en la Bezugszeichenliste.",
+      "Contradicción documentada: [0011] p2 dice que las Wirkrichtungen forman 0° con los lados del triángulo; la reivindicación 5 (p9) dice 90°. Verificado en las imágenes originales p02 y p09: no es error de OCR."
+    ]
+  },
+
+  "numerales": [
+    {
+      "n": "10",
+      "alemán": "Fördersystemmodul (aktives, sechseckiges Modul mit drei Fördereinheiten)",
+      "español": "Módulo de sistema transportador — módulo ACTIVO hexagonal con tres unidades de transporte (realización principal). Chapa portante hexagonal + 3 ruedas omni dobles + 3 motores + ruedas de bola.",
+      "figuras": ["Fig. 1", "Fig. 6", "Fig. 7", "Fig. 14a", "Fig. 14b", "Fig. 14c", "Fig. 14d", "Fig. 15", "Fig. 16", "Fig. 17", "Fig. 18", "Fig. 19a", "Fig. 19b"],
+      "paginas": [5, 6, 7, 9],
+      "notas": "Descrito en [0049]-[0054]. En las reivindicaciones aparece como '(10, 200, 260)'."
+    },
+    {
+      "n": "12",
+      "alemán": "Trägerblech",
+      "español": "Chapa portante. Hexagonal en el módulo 10 (con 3 recortes esencialmente cuadrados); esencialmente pentagonal en el módulo 100 (con 1 recorte). Las unidades se montan en su CARA INFERIOR y las ruedas asoman por los recortes.",
+      "figuras": ["Fig. 1", "Fig. 2", "Fig. 3", "Fig. 4", "Fig. 6", "Fig. 7", "Fig. 8", "Fig. 13a", "Fig. 13b", "Fig. 13c", "Fig. 13d"],
+      "paginas": [5, 6, 9],
+      "notas": "[0014] admite alternativa: fijación a perfiles verticales en vez de chapa. Material y espesor NO especificados."
+    },
+    {
+      "n": "14",
+      "alemán": "Fördereinheit(en) / omnidirektionale Fördereinheit",
+      "español": "Unidad de transporte omnidireccional = 1 rueda omni (16) + 1 motor propio (18). Es el ladrillo elemental del invento.",
+      "figuras": ["Fig. 1", "Fig. 2", "Fig. 6", "Fig. 8", "Fig. 9", "Fig. 12a"],
+      "paginas": [2, 5, 6, 7, 9, 10],
+      "notas": "En [0055] se dice de la unidad con su chapa: 'Sie bildet sozusagen die kleinste Einheit' (constituye por así decirlo la unidad más pequeña)."
+    },
+    {
+      "n": "16",
+      "alemán": "Förderrad / omnidirektionales Förderrad (Allseitenrad, auch Förderrolle)",
+      "español": "Rueda de transporte omnidireccional (rueda omni / 'Allseitenrad'; el texto admite también llamarla 'Förderrolle', rodillo transportador). Puede ser simple, múltiple o DOBLE (dos ruedas omni sobre el mismo eje), o rueda MECANUM.",
+      "figuras": ["Fig. 1", "Fig. 2", "Fig. 4", "Fig. 5a", "Fig. 5b", "Fig. 5c", "Fig. 6", "Fig. 7", "Fig. 8", "Fig. 9", "Fig. 10", "Fig. 11", "Fig. 12a", "Fig. 12b", "Fig. 13a", "Fig. 13b", "Fig. 19a"],
+      "paginas": [2, 3, 5, 6, 9, 10],
+      "notas": "[0012] cita las Omniwheel™ de Interroll como ejemplo. En Fig. 11 y 12b se dibuja esquemáticamente como un rectángulo redondeado (planta de la rueda). Diámetro NO especificado."
+    },
+    {
+      "n": "18",
+      "alemán": "Antriebsmotor(en)",
+      "español": "Motor de accionamiento, uno asignado individualmente a cada rueda. Montado radialmente: las prolongaciones de los ejes de los tres motores concurren en el centro M del módulo.",
+      "figuras": ["Fig. 1", "Fig. 2", "Fig. 3", "Fig. 4", "Fig. 5b", "Fig. 5c", "Fig. 5d", "Fig. 6", "Fig. 7", "Fig. 8", "Fig. 9", "Fig. 10", "Fig. 12a", "Fig. 19a", "Fig. 19b"],
+      "paginas": [2, 5, 6, 9, 10],
+      "notas": "Tipo, par, potencia y tensión NO especificados. Los ejes de motor ('Antriebsmotorwellen') se declaran expresamente 'nicht gezeigt' en [0049]. NO se menciona ninguna transmisión (ni correa, ni engranaje, ni reductor, ni acoplamiento)."
+    },
+    {
+      "n": "20",
+      "alemán": "Ausschnitt(e) (Aussparung oder Loch) im Trägerblech",
+      "español": "Recorte en la chapa portante por el que la rueda sobresale hacia arriba. 'Im wesentlichen quadratisch' (esencialmente cuadrado) en el módulo 10; de forma distinta en el módulo Mecanum 200. Puede ser un vaciado o un agujero.",
+      "figuras": ["Fig. 1", "Fig. 2", "Fig. 6", "Fig. 8", "Fig. 9", "Fig. 12a", "Fig. 13a", "Fig. 13b"],
+      "paginas": [2, 5, 6, 9],
+      "notas": "[0061]: en el módulo 200 (Mecanum) cambia el diseño del recorte por el tipo de rueda. Dimensiones NO especificadas."
+    },
+    {
+      "n": "22",
+      "alemán": "Unterseite (des Trägerbleches)",
+      "español": "Cara inferior de la chapa portante — superficie a la que se atornillan los soportes 32 de las unidades.",
+      "figuras": ["Fig. 3", "Fig. 4", "Fig. 6", "Fig. 9", "Fig. 13a"],
+      "paginas": [5, 6, 9],
+      "notas": "En [0054] y [0060] el texto escribe por error 'Unterseite 20' en lugar de 'Unterseite 22'."
+    },
+    {
+      "n": "24",
+      "alemán": "höchste Punkte (der Förderräder)",
+      "español": "Puntos más altos de las ruedas de transporte. Definen el PLANO DE TRANSPORTE: '[…] liegen die höchsten Punkte 24 der Förderräder 16 in einer, vorzugsweise horizontalen, Ebene' — cota funcional crítica del ensamble.",
+      "figuras": ["Fig. 4", "Fig. 7", "Fig. 10", "Fig. 13d"],
+      "paginas": [5, 7],
+      "notas": "Las ruedas de bola 26 se montan 'in der Höhe der Förderräder', es decir enrasadas con este plano."
+    },
+    {
+      "n": "26",
+      "alemán": "Kugelrolle(n)",
+      "español": "Rueda de bola (bola loca / ball transfer unit), PASIVA. Se disponen en los huecos entre las ruedas motrices y a su misma altura; apoyan los objetos por debajo e impiden que se enganchen en los cantos del módulo.",
+      "figuras": ["Fig. 1", "Fig. 6", "Fig. 7", "Fig. 8", "Fig. 9", "Fig. 12a", "Fig. 13a", "Fig. 13b", "Fig. 13c", "Fig. 13d", "Fig. 19a"],
+      "paginas": [3, 5, 6, 9, 10],
+      "notas": "Reiv. 9 y [0015]: 'al menos una y preferentemente varias, preferentemente repartidas uniformemente'. Cantidad exacta NO especificada. Se alojan en los vaciados 38 del borde, repartidos entre chapas contiguas (1/2, 1/3 o 1/4 de círculo por chapa). En Fig. 19a se ven en los vértices donde concurren tres módulos."
+    },
+    {
+      "n": "28",
+      "alemán": "Abkantungen (Laschen) des Trägerbleches — seitlich, nach unten verlaufend",
+      "español": "Pestañas / pliegues laterales de la chapa portante, doblados HACIA ABAJO, con taladros 30, para atornillar el módulo a los módulos vecinos y formar el sistema/plataforma.",
+      "figuras": ["Fig. 3", "Fig. 4", "Fig. 6", "Fig. 7", "Fig. 9", "Fig. 10", "Fig. 13a", "Fig. 13c", "Fig. 13d"],
+      "paginas": [5, 6],
+      "notas": "OJO: el numeral 28 designa las pestañas de la CHAPA 12; el 34 designa las pestañas del SOPORTE 32. La Bezugszeichenliste da a ambos la misma palabra 'Abkantungen'."
+    },
+    {
+      "n": "30",
+      "alemán": "Bohrungen (in den Abkantungen 28 des Trägerbleches)",
+      "español": "Taladros en las pestañas 28 de la chapa portante, para el atornillado entre módulos vecinos.",
+      "figuras": ["Fig. 3", "Fig. 4", "Fig. 6", "Fig. 7", "Fig. 9", "Fig. 10", "Fig. 13a", "Fig. 13c", "Fig. 13d"],
+      "paginas": [5, 6],
+      "notas": "Diámetro, métrica y posición NO especificados."
+    },
+    {
+      "n": "31",
+      "alemán": "Rollen (tonnenförmige/ballige Hilfsräder auf der Umlauffläche des Allseitenrades)",
+      "español": "Rodillos (ruedas auxiliares toneliformes/abombadas) montados sobre la superficie de rodadura de la rueda omni. TRES por cada rueda omni, equidistantes, con sus ejes de giro en ángulo recto respecto del eje principal H. En el omniwheel doble, los rodillos de la segunda rueda van desfasados 60° respecto de los de la primera.",
+      "figuras": ["Fig. 1", "Fig. 5d"],
+      "paginas": [5],
+      "notas": "[0012]: se prefieren rodillos de perfil en arco de círculo; 'zylindrische Rollen können aber auch ausreichen'. Son los que absorben las fuerzas fuera de la dirección eficaz."
+    },
+    {
+      "n": "32",
+      "alemán": "Träger (im Wesentlichen C-förmig, nach oben offen)",
+      "español": "Soporte de la unidad de transporte: perfil esencialmente en forma de C, ABIERTO HACIA ARRIBA, que aloja rueda y motor y se atornilla a la cara inferior de la chapa portante.",
+      "figuras": ["Fig. 3", "Fig. 5a", "Fig. 5c", "Fig. 5d", "Fig. 6", "Fig. 7", "Fig. 9", "Fig. 13a", "Fig. 13c", "Fig. 13d", "Fig. 19b"],
+      "paginas": [5, 6],
+      "notas": "[0054]: 'Die Befestigung kann aber auch anders erfolgen' — la fijación puede ser distinta."
+    },
+    {
+      "n": "34",
+      "alemán": "Abkantungen (des Trägers 32) — oben beiderseits nach außen gewandt",
+      "español": "Pestañas del soporte 32, dobladas hacia FUERA a ambos lados en su parte superior, con taladros 36; es la brida con la que el soporte se atornilla a la chapa portante.",
+      "figuras": ["Fig. 5a", "Fig. 5b", "Fig. 5c", "Fig. 5d", "Fig. 7", "Fig. 13c"],
+      "paginas": [5, 6],
+      "notas": "No confundir con 28 (pestañas de la chapa 12)."
+    },
+    {
+      "n": "36",
+      "alemán": "Bohrungen (in den Abkantungen 34 des Trägers)",
+      "español": "Taladros en las pestañas 34 del soporte C, para atornillarlo a la cara inferior de la chapa portante.",
+      "figuras": ["Fig. 5a", "Fig. 5b"],
+      "paginas": [5, 6],
+      "notas": "En [0054] se citan como 'Bohrungen' sin numeral; en [0060] aparecen con el numeral 36."
+    },
+    {
+      "n": "38",
+      "alemán": "Aussparungen (im Wesentlichen halbkreisförmig, an den Rändern des Trägerbleches)",
+      "español": "Vaciados esencialmente SEMICIRCULARES en los BORDES de la chapa portante, para alojar las ruedas de bola. Según la posición de la chapa pueden ser 1/2, 1/3 o 1/4 de círculo — es decir, cada rueda de bola se reparte entre las chapas contiguas de la junta.",
+      "figuras": ["Fig. 2", "Fig. 3"],
+      "paginas": [6],
+      "notas": "REGLA CLAVE PARA EL TESELADO ([0057], p6). En la Fig. 2 (módulo 100) hay cuatro vaciados 38 rotulados."
+    },
+    {
+      "n": "39",
+      "alemán": "Tischgestell",
+      "español": "Bastidor de mesa en el que se encastran los módulos para formar el sistema plano 300 / la plataforma.",
+      "figuras": ["Fig. 15", "Fig. 16", "Fig. 17", "Fig. 18"],
+      "paginas": [6, 7],
+      "notas": "[0066]: la superficie de la plataforma no tiene por qué ser plana; puede estar curvada hacia arriba o hacia abajo."
+    },
+    {
+      "n": "40",
+      "alemán": "Pakete (Kartons)",
+      "español": "Paquetes / cajas de cartón — el objeto transportado (carga). No es una pieza del mecanismo.",
+      "figuras": ["Fig. 15", "Fig. 16", "Fig. 17", "Fig. 18"],
+      "paginas": [6, 7],
+      "notas": "En Fig. 16 y 18 aparecen ya ordenados en una capa paletizable."
+    },
+    {
+      "n": "100",
+      "alemán": "Fördersystemmodul (Modul mit genau EINER Fördereinheit, fünfeckiges Trägerblech)",
+      "español": "Módulo de sistema transportador con UNA SOLA unidad de transporte y chapa portante esencialmente PENTAGONAL con un recorte. Es la 'unidad más pequeña': tres de estos módulos pueden componer el módulo 10.",
+      "figuras": ["Fig. 2", "Fig. 3", "Fig. 4"],
+      "paginas": [],
+      "notas": "ATENCIÓN: numeral presente SOLO en las láminas (p12, p13, p14). No figura ni en el texto de la descripción ni en la Bezugszeichenliste ni en las reivindicaciones. El texto lo describe en [0055]-[0060] (p6) sin numerarlo. Es el tipo de módulo al que se refieren las reivindicaciones 12 y 13 (agrupación en Zweiergruppen / Dreiergruppen)."
+    },
+    {
+      "n": "200",
+      "alemán": "Fördersystemmodul (mit Mecanum-Rädern)",
+      "español": "Módulo de sistema transportador hexagonal de tres unidades cuyas ruedas son MECANUM (caso particular de rueda omni). Se diferencia del 10 esencialmente en el tipo de rueda y, en consecuencia, en el diseño de los recortes 20.",
+      "figuras": ["Fig. 8", "Fig. 9"],
+      "paginas": [6, 9],
+      "notas": "Descrito en [0061] (p6). Reivindicación 7: 'dass das Allseitenrad ein Mecanum-Rad ist'. En Mecanum los rodillos van habitualmente a 45°, por lo que la dirección eficaz NO coincide con la de rodadura."
+    },
+    {
+      "n": "260",
+      "alemán": "Fördersystemmodul (ungleichmäßige Anordnung/Orientierung der Förderräder)",
+      "español": "Módulo de sistema transportador con disposición y orientación NO UNIFORMES de las ruedas: radios distintos (R1, R2, R3) y dos de los ejes H no colineales con su radio, por lo que los vectores de velocidad no son tangenciales al círculo de disposición.",
+      "figuras": ["Fig. 12a"],
+      "paginas": [9],
+      "notas": "Numeral citado en las reivindicaciones 1, 2, 3, 6, 8 y 9 (p9) y rotulado en la lámina p25, pero NO descrito en el texto de la descripción. Su esquema cinemático es la Fig. 12b, comentada en [0063] (p6)."
+    },
+    {
+      "n": "270",
+      "alemán": "Fördersystemmodul (passiv, ohne Antriebsmotoren)",
+      "español": "Módulo de sistema transportador PASIVO: sin motores. Previsto en primer lugar para las zonas y cantos exteriores del sistema; consigue que la plataforma tenga cantos rectos y que los objetos estén siempre apoyados. Por lo demás corresponde esencialmente al módulo de las Fig. 2-5d.",
+      "figuras": ["Fig. 13a", "Fig. 13b", "Fig. 13c", "Fig. 13d", "Fig. 15", "Fig. 16", "Fig. 17", "Fig. 18"],
+      "paginas": [6, 7, 9, 10],
+      "notas": "Reiv. 15: tiene al menos una rueda omni NO accionada por motor. Reiv. 16: tiene al menos una rueda de bola 26. [0018]: en lugar de la rueda de bola podría usarse cualquier elemento omnidireccional montado pasivamente."
+    },
+    {
+      "n": "300",
+      "alemán": "Fördersystem (modulares omnidirektionales Fördersystem)",
+      "español": "Sistema transportador omnidireccional modular completo: muchos módulos activos 10 y pasivos 270 encastrados en un bastidor 39, formando una plataforma plana, más la unidad de control conectada a todos los motores.",
+      "figuras": ["Fig. 15", "Fig. 16", "Fig. 17", "Fig. 18", "Fig. 19a", "Fig. 19b"],
+      "paginas": [6, 7, 9, 10],
+      "notas": "Descrito en [0066]-[0069] (p6-p7). La unidad de control ('Steuereinrichtung') es obligatoria en las reivindicaciones de sistema pero se declara 'nicht gezeigt' en [0070]."
+    },
+
+    {
+      "n": "a, b, c",
+      "alemán": "Seiten eines Dreiecks",
+      "español": "Lados del triángulo equilátero D. Las tres ruedas se sitúan en los PUNTOS MEDIOS de estos lados ('Seitenmitten').",
+      "figuras": ["Fig. 1"],
+      "paginas": [5, 7],
+      "notas": "Símbolo geométrico auxiliar, no una pieza."
+    },
+    {
+      "n": "D",
+      "alemán": "gleichseitiges Dreieck",
+      "español": "Triángulo EQUILÁTERO de referencia sobre cuyos puntos medios de lado se disponen las tres ruedas. Es la construcción geométrica base del módulo.",
+      "figuras": [],
+      "paginas": [5, 7, 9],
+      "notas": "Se cita en [0049] (p5), en la Bezugszeichenliste (p7) y en la reivindicación 4 (p9), pero NO aparece rotulado en la lámina de la Fig. 1 (allí solo se ven sus lados a, b, c). Símbolo geométrico, no una pieza."
+    },
+    {
+      "n": "r, s, t",
+      "alemán": "Mittelsenkrechten (des Dreiecks D)",
+      "español": "Mediatrices de los lados del triángulo D. Los ejes principales de giro H de las ruedas son COLINEALES con ellas.",
+      "figuras": ["Fig. 1"],
+      "paginas": [5, 7],
+      "notas": "En la Bezugszeichenliste aparecen en el orden 's, t, r'. Símbolo geométrico, no una pieza."
+    },
+    {
+      "n": "H",
+      "alemán": "Hauptdrehachse(n) (der Förderräder)",
+      "español": "Eje principal de giro de la rueda de transporte. Forma β = 90° con el lado del triángulo y es colineal con la mediatriz correspondiente y con el radio R. NO confundir con la 'Wirkrichtung' (dirección eficaz), que en una rueda omni clásica es perpendicular a H.",
+      "figuras": ["Fig. 1", "Fig. 11", "Fig. 12b"],
+      "paginas": [5, 6, 7],
+      "notas": "Eje de referencia, no una pieza. En Fig. 12b se muestra el caso en que H NO es colineal con el radio."
+    },
+    {
+      "n": "M",
+      "alemán": "Mittelpunkt (des Fördersystemmoduls)",
+      "español": "Centro del módulo. Punto en el que se cortan las prolongaciones de los ejes de los tres motores (y, por tanto, los tres ejes H y las tres mediatrices).",
+      "figuras": ["Fig. 1"],
+      "paginas": [5, 7],
+      "notas": "En la lámina de la Fig. 1 se marca con un pequeño círculo en la intersección de los tres ejes H; NO está rotulado como rueda de bola 26. Símbolo geométrico, no una pieza."
+    },
+    {
+      "n": "R",
+      "alemán": "Radien (Radius zum \"Anordnungskreis\")",
+      "español": "Radios del 'círculo de disposición' (Anordnungskreis) sobre el que se sitúan las ruedas. Si H es colineal con R, los vectores de velocidad v son siempre tangenciales al círculo — 'esta configuración simplifica la matemática del control'.",
+      "figuras": ["Fig. 11", "Fig. 12b"],
+      "paginas": [6, 7],
+      "notas": "En la Fig. 12b se rotulan tres radios DISTINTOS: R1, R2 y R3 (varios círculos de disposición concéntricos). Símbolo geométrico, no una pieza."
+    },
+    {
+      "n": "R1, R2, R3",
+      "alemán": "unterschiedlich große Radien / mehrere konzentrische Anordnungskreise",
+      "español": "Radios de distinto tamaño en la variante asimétrica (módulo 260): existen varios círculos de disposición concéntricos en lugar de uno solo.",
+      "figuras": ["Fig. 12b"],
+      "paginas": [6],
+      "notas": "Rotulados solo en la lámina p26; el texto los describe genéricamente en [0063] sin darles esos nombres. Símbolo geométrico, no una pieza."
+    },
+    {
+      "n": "γ",
+      "alemán": "Winkel (sternförmige Anordnung der Fördereinheiten)",
+      "español": "Ángulo de la disposición en estrella de las unidades de transporte: γ = 120° en el módulo 10.",
+      "figuras": [],
+      "paginas": [5, 7],
+      "notas": "Citado en [0049] (p5) y en la Bezugszeichenliste (p7), pero NO rotulado en la lámina de la Fig. 1. Símbolo, no una pieza."
+    },
+    {
+      "n": "β",
+      "alemán": "Winkel zwischen Hauptdrehachse H und Dreiecksseite",
+      "español": "Ángulo entre el eje principal de giro H y el lado correspondiente del triángulo: β = 90°.",
+      "figuras": [],
+      "paginas": [5],
+      "notas": "Usado en [0049] (p5) pero AUSENTE de la Bezugszeichenliste y no rotulado en las láminas. Símbolo, no una pieza."
+    },
+    {
+      "n": "v (vector)",
+      "alemán": "Geschwindigkeitsvektoren",
+      "español": "Vectores de velocidad (periférica) de cada rueda, impuestos por su motor. Tangenciales al círculo de disposición cuando H es colineal con R. Su combinación (distintas direcciones y/o magnitudes) genera la dirección de transporte resultante.",
+      "figuras": ["Fig. 11", "Fig. 12b", "Fig. 14a", "Fig. 14b", "Fig. 14c", "Fig. 14d"],
+      "paginas": [5, 6, 7],
+      "notas": "En la Bezugszeichenliste (p7) figura sin glifo por pérdida de la flecha en el OCR; en las láminas se dibuja como 'v' con flecha superior. No es una pieza."
+    },
+    {
+      "n": "F (vector)",
+      "alemán": "Förderrichtungen",
+      "español": "Direcciones de transporte resultantes sobre el objeto, obtenidas por composición de los vectores v de las ruedas. Pueden ser rectilíneas, curvilíneas o de rotación.",
+      "figuras": ["Fig. 14a", "Fig. 14b", "Fig. 14c", "Fig. 14d"],
+      "paginas": [6, 7],
+      "notas": "En la Bezugszeichenliste (p7) figura sin glifo por pérdida de la flecha en el OCR; en las láminas se dibuja como 'F' con flecha superior. No es una pieza."
+    }
+  ],
+
+  "figuras": [
+    {
+      "id": "Fig. 1",
+      "descripcion_es": "Planta (vista superior) del módulo omnidireccional 10 según una realización particular. Es la LÁMINA GEOMÉTRICA CLAVE: muestra la chapa hexagonal 12, las tres unidades 14 a 120°, los lados a/b/c del triángulo equilátero, las mediatrices r/s/t colineales con los ejes H, el centro M y las ruedas de bola 26.",
+      "pagina_texto": 4,
+      "parrafo": "[0030]",
+      "pagina_lamina": 11,
+      "archivo": "patente_p11.png",
+      "numerales_rotulados": ["10", "12", "14", "16", "18", "20", "26", "31", "a", "b", "c", "r", "s", "t", "H", "M"]
+    },
+    {
+      "id": "Fig. 2",
+      "descripcion_es": "Planta del módulo de UNA sola unidad (numeral 100 en la lámina): chapa portante esencialmente pentagonal 12 con un recorte cuadrado 20, la rueda 16, el motor 18 y cuatro vaciados semicirculares 38 en los bordes.",
+      "pagina_texto": 4,
+      "parrafo": "[0031]",
+      "pagina_lamina": 12,
+      "archivo": "patente_p12.png",
+      "numerales_rotulados": ["100", "12", "14", "16", "18", "20", "38"]
+    },
+    {
+      "id": "Fig. 3",
+      "descripcion_es": "Perspectiva oblicua del módulo 100 de la Fig. 2, vista que deja ver la cara inferior 22, el soporte en C 32, el motor 18 y las pestañas 28 con taladros 30.",
+      "pagina_texto": 4,
+      "parrafo": "[0032]",
+      "pagina_lamina": 13,
+      "archivo": "patente_p13.png",
+      "numerales_rotulados": ["100", "12", "18", "22", "28", "30", "32", "38"]
+    },
+    {
+      "id": "Fig. 4",
+      "descripcion_es": "Vista lateral (alzado) del módulo 100: se aprecia la rueda 16 asomando por encima de la chapa 12, su punto más alto 24, el motor 18 bajo la chapa y las pestañas 28 con taladros 30.",
+      "pagina_texto": 4,
+      "parrafo": "[0033]",
+      "pagina_lamina": 14,
+      "archivo": "patente_p14.png",
+      "numerales_rotulados": ["100", "12", "16", "18", "22", "24", "28", "30"]
+    },
+    {
+      "id": "Fig. 5a",
+      "descripcion_es": "Perspectiva de la unidad de transporte 14 SIN chapa portante: soporte en C 32 abierto hacia arriba, con pestañas 34 y taladros 36, rueda omni doble 16 y motor.",
+      "pagina_texto": 4,
+      "parrafo": "[0034]",
+      "pagina_lamina": 15,
+      "archivo": "patente_p15.png",
+      "numerales_rotulados": ["16", "32", "34", "36"]
+    },
+    {
+      "id": "Fig. 5b",
+      "descripcion_es": "Planta de la unidad 14 sin chapa: motor 18 alineado con la rueda 16, cuatro pestañas 34 con sus taladros 36.",
+      "pagina_texto": 4,
+      "parrafo": "[0034]",
+      "pagina_lamina": 16,
+      "archivo": "patente_p16.png",
+      "numerales_rotulados": ["16", "18", "34", "36"]
+    },
+    {
+      "id": "Fig. 5c",
+      "descripcion_es": "Vista frontal de la unidad 14 sin chapa, desde el lado del motor 18: se ve la brida cuadrada del motor dentro del soporte 32 y la rueda 16 detrás.",
+      "pagina_texto": 4,
+      "parrafo": "[0034]",
+      "pagina_lamina": 17,
+      "archivo": "patente_p17.png",
+      "numerales_rotulados": ["16", "18", "32", "34"]
+    },
+    {
+      "id": "Fig. 5d",
+      "descripcion_es": "Vista lateral de la unidad 14 sin chapa: se distinguen los rodillos toneliformes 31 de las dos ruedas del omniwheel doble, desfasados entre sí, y el motor 18 adosado al soporte 32.",
+      "pagina_texto": 4,
+      "parrafo": "[0034]",
+      "pagina_lamina": 18,
+      "archivo": "patente_p18.png",
+      "numerales_rotulados": ["18", "31", "32", "34"]
+    },
+    {
+      "id": "Fig. 6",
+      "descripcion_es": "Perspectiva oblicua superior del módulo 10 completo: chapa hexagonal 12 con tres recortes 20 y las ruedas de bola 26; debajo, los tres soportes 32 con sus motores 18 dispuestos en estrella.",
+      "pagina_texto": 4,
+      "parrafo": "[0035]",
+      "pagina_lamina": 19,
+      "archivo": "patente_p19.png",
+      "numerales_rotulados": ["10", "12", "14", "16", "18", "20", "22", "26", "28", "30", "32"]
+    },
+    {
+      "id": "Fig. 7",
+      "descripcion_es": "Vista lateral (alzado) del módulo 10. Muestra que los puntos más altos 24 de las tres ruedas quedan en un mismo plano (preferentemente horizontal), con las ruedas de bola 26 a esa misma altura.",
+      "pagina_texto": 4,
+      "parrafo": "[0036]",
+      "pagina_lamina": 20,
+      "archivo": "patente_p20.png",
+      "numerales_rotulados": ["10", "12", "16", "18", "24", "26", "28", "30", "32", "34"]
+    },
+    {
+      "id": "Fig. 8",
+      "descripcion_es": "Planta del módulo 200: igual arquitectura hexagonal de tres unidades, pero con ruedas MECANUM 16 y recortes 20 rectangulares adaptados a ellas.",
+      "pagina_texto": 4,
+      "parrafo": "[0037]",
+      "pagina_lamina": 21,
+      "archivo": "patente_p21.png",
+      "numerales_rotulados": ["200", "12", "14", "16", "18", "20", "26"]
+    },
+    {
+      "id": "Fig. 9",
+      "descripcion_es": "Perspectiva oblicua superior del módulo Mecanum 200.",
+      "pagina_texto": 4,
+      "parrafo": "[0038]",
+      "pagina_lamina": 22,
+      "archivo": "patente_p22.png",
+      "numerales_rotulados": ["200", "14", "16", "18", "20", "22", "26", "28", "30", "32"]
+    },
+    {
+      "id": "Fig. 10",
+      "descripcion_es": "Vista lateral (alzado) del módulo Mecanum 200; se aprecian los rodillos inclinados de las ruedas Mecanum y el punto más alto 24.",
+      "pagina_texto": 4,
+      "parrafo": "[0039]",
+      "pagina_lamina": 23,
+      "archivo": "patente_p23.png",
+      "numerales_rotulados": ["16", "18", "24", "28", "30"]
+    },
+    {
+      "id": "Fig. 11",
+      "descripcion_es": "ESQUEMA CINEMÁTICO del módulo 10: disposición y orientación UNIFORMES. Los ejes H de las tres ruedas son colineales con los radios R del círculo de disposición, por lo que los vectores de velocidad v son siempre TANGENCIALES a dicho círculo. Se marcan los ángulos rectos entre H y v y una flecha de rotación en el centro.",
+      "pagina_texto": 4,
+      "parrafo": "[0040]",
+      "pagina_lamina": 24,
+      "archivo": "patente_p24.png",
+      "numerales_rotulados": ["16", "H", "R", "v (vector)"]
+    },
+    {
+      "id": "Fig. 12a",
+      "descripcion_es": "Planta del módulo 260, con disposición y orientación NO uniformes de las tres ruedas (variante asimétrica).",
+      "pagina_texto": 5,
+      "parrafo": "[0041]",
+      "pagina_lamina": 25,
+      "archivo": "patente_p25.png",
+      "numerales_rotulados": ["260", "14", "16", "18", "20", "26"]
+    },
+    {
+      "id": "Fig. 12b",
+      "descripcion_es": "ESQUEMA CINEMÁTICO del módulo 260: tres radios distintos R1, R2 y R3 (círculos de disposición concéntricos) y dos de los ejes H NO colineales con su radio, por lo que los vectores v correspondientes no son tangenciales.",
+      "pagina_texto": 5,
+      "parrafo": "[0041]",
+      "pagina_lamina": 26,
+      "archivo": "patente_p26.png",
+      "numerales_rotulados": ["16", "H", "R1, R2, R3", "v (vector)"]
+    },
+    {
+      "id": "Fig. 13a",
+      "descripcion_es": "Perspectiva del módulo PASIVO 270: chapa 12 con recorte 20 y rueda 16 alojada en el soporte 32, PERO SIN MOTOR; dos ruedas de bola 26 y pestañas 28 con taladros 30.",
+      "pagina_texto": 5,
+      "parrafo": "[0042]",
+      "pagina_lamina": 27,
+      "archivo": "patente_p27.png",
+      "numerales_rotulados": ["270", "12", "16", "20", "22", "26", "28", "30", "32"]
+    },
+    {
+      "id": "Fig. 13b",
+      "descripcion_es": "Planta del módulo pasivo 270: chapa 12 con la rueda 16 en su recorte 20 y dos ruedas de bola 26.",
+      "pagina_texto": 5,
+      "parrafo": "[0042]",
+      "pagina_lamina": 28,
+      "archivo": "patente_p28.png",
+      "numerales_rotulados": ["270", "12", "16", "20", "26"]
+    },
+    {
+      "id": "Fig. 13c",
+      "descripcion_es": "Alzado del módulo pasivo 270: soporte 32 colgando bajo la chapa 12 sin motor; ruedas de bola 26 a la altura de la superficie.",
+      "pagina_texto": 5,
+      "parrafo": "[0042]",
+      "pagina_lamina": 29,
+      "archivo": "patente_p29.png",
+      "numerales_rotulados": ["270", "12", "26", "28", "30", "32", "34"]
+    },
+    {
+      "id": "Fig. 13d",
+      "descripcion_es": "Vista lateral (perpendicular a la anterior) del módulo pasivo 270; se ve el punto más alto 24 de la rueda y la rueda de bola 26 enrasada con él.",
+      "pagina_texto": 5,
+      "parrafo": "[0042]",
+      "pagina_lamina": 30,
+      "archivo": "patente_p30.png",
+      "numerales_rotulados": ["270", "12", "24", "26", "28", "30", "32"]
+    },
+    {
+      "id": "Fig. 14a",
+      "descripcion_es": "Planta del módulo 10 con un juego de vectores de velocidad v de los motores y la dirección de transporte F resultante sobre el objeto (traslación oblicua).",
+      "pagina_texto": 5,
+      "parrafo": "[0043]",
+      "pagina_lamina": 31,
+      "archivo": "patente_p31.png",
+      "numerales_rotulados": ["10", "v (vector)", "F (vector)"]
+    },
+    {
+      "id": "Fig. 14b",
+      "descripcion_es": "Ídem con otro juego de vectores v: la dirección de transporte F resultante es CURVILÍNEA.",
+      "pagina_texto": 5,
+      "parrafo": "[0043]",
+      "pagina_lamina": 32,
+      "archivo": "patente_p32.png",
+      "numerales_rotulados": ["10", "v (vector)", "F (vector)"]
+    },
+    {
+      "id": "Fig. 14c",
+      "descripcion_es": "Ídem con los tres vectores v en sentido concordante: el resultado F incluye una ROTACIÓN del objeto (se dibuja el lazo circular).",
+      "pagina_texto": 5,
+      "parrafo": "[0043]",
+      "pagina_lamina": 33,
+      "archivo": "patente_p33.png",
+      "numerales_rotulados": ["10", "v (vector)", "F (vector)"]
+    },
+    {
+      "id": "Fig. 14d",
+      "descripcion_es": "Ídem con solo dos ruedas activas: traslación rectilínea pura en la dirección F.",
+      "pagina_texto": 5,
+      "parrafo": "[0043]",
+      "pagina_lamina": 34,
+      "archivo": "patente_p34.png",
+      "numerales_rotulados": ["10", "v (vector)", "F (vector)"]
+    },
+    {
+      "id": "Fig. 15",
+      "descripcion_es": "Perspectiva del sistema modular 300 montado sobre el bastidor de mesa 39, teselado de módulos activos 10 con módulos pasivos 270 en los bordes, con paquetes 40 encima.",
+      "pagina_texto": 5,
+      "parrafo": "[0044]",
+      "pagina_lamina": 35,
+      "archivo": "patente_p35.png",
+      "numerales_rotulados": ["300", "10", "39", "40", "270"]
+    },
+    {
+      "id": "Fig. 16",
+      "descripcion_es": "El mismo sistema 300 en otra fase de transporte: los paquetes 40 ya están ordenados en una capa paletizable.",
+      "pagina_texto": 5,
+      "parrafo": "[0045]",
+      "pagina_lamina": 36,
+      "archivo": "patente_p36.png",
+      "numerales_rotulados": ["300", "10", "39", "40", "270"]
+    },
+    {
+      "id": "Fig. 17",
+      "descripcion_es": "Planta del sistema 300 con flechas de trayectoria: movimiento rectilíneo longitudinal, diagonal, en curva con rotación, rectilíneo transversal y rotación pura. Excelente vista del TESELADO HEXAGONAL completo.",
+      "pagina_texto": 5,
+      "parrafo": "[0046]",
+      "pagina_lamina": 37,
+      "archivo": "patente_p37.png",
+      "numerales_rotulados": ["300", "10", "39", "40", "270"]
+    },
+    {
+      "id": "Fig. 18",
+      "descripcion_es": "Planta del sistema 300 mostrando cómo se genera una capa de paquetes para paletizar: varios paquetes 40 se mueven y giran simultáneamente e independientemente.",
+      "pagina_texto": 5,
+      "parrafo": "[0047]",
+      "pagina_lamina": 38,
+      "archivo": "patente_p38.png",
+      "numerales_rotulados": ["300", "10", "39", "40", "270"]
+    },
+    {
+      "id": "Fig. 19a",
+      "descripcion_es": "DETALLE AMPLIADO del sistema 300 visto DESDE ARRIBA: panal de módulos hexagonales 10 yuxtapuestos, cada uno con sus tres ruedas 16 a 120° y las ruedas de bola; en los vértices donde concurren tres módulos se ve el elemento circular compartido de la junta. Lámina más útil para deducir el paso del teselado.",
+      "pagina_texto": 5,
+      "parrafo": "[0048]",
+      "pagina_lamina": 39,
+      "archivo": "patente_p39.png",
+      "numerales_rotulados": ["300", "10", "16", "18"]
+    },
+    {
+      "id": "Fig. 19b",
+      "descripcion_es": "DETALLE AMPLIADO del sistema 300 visto DESDE ABAJO: los tres motores 18 y los tres soportes en C 32 de cada módulo, dispuestos radialmente hacia el centro del hexágono. Lámina más útil para el empaquetado de los motores bajo la chapa.",
+      "pagina_texto": 5,
+      "parrafo": "[0048]",
+      "pagina_lamina": 40,
+      "archivo": "patente_p40.png",
+      "numerales_rotulados": ["300", "10", "18", "32"]
+    }
+  ]
+}

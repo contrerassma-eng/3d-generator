@@ -77,6 +77,8 @@
   "placaHolgura": 8,
   "ruedaSobresale": 5,
   "ranuraHolgura": 3,
+  "placaTaladroBorde": 6,
+  "placaTaladroSep": 0.18,
   "nCeldas": 9
  },
  "metricas": {
@@ -87,7 +89,7 @@
   "traccionPorRuedaN": 0.9806649999999999,
   "moduloAncho": 713.825,
   "moduloAlto": 588.7529370061209,
-  "piezasPorCelda": 34
+  "piezasPorCelda": 76
  },
  "parts": [
   {
@@ -7050,7 +7052,1123 @@
    ]
   },
   {
-   "id": "p12_u2_rueda_omni_48_24_5",
+   "id": "p12_u1_golilla_bloque_libre_3",
+   "name": "U1 · Golilla bloque libre (−) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f50",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      94.75,
+      -9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f51",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      94.75,
+      -9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p13_u1_perno_hex_m3_15_bloque_libre",
+   "name": "U1 · Perno hex M3 × 15 bloque libre (−)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f52",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      94.75,
+      -9,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f53",
+     "name": "Vástago Ø3×15",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      94.75,
+      -9,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p14_u1_golilla_bloque_libre_3",
+   "name": "U1 · Golilla bloque libre (+) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f54",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      94.75,
+      9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f55",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      94.75,
+      9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p15_u1_perno_hex_m3_15_bloque_libre",
+   "name": "U1 · Perno hex M3 × 15 bloque libre (+)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f56",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      94.75,
+      9,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f57",
+     "name": "Vástago Ø3×15",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      94.75,
+      9,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p16_u1_golilla_bloque_motor_3",
+   "name": "U1 · Golilla bloque motor (−) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f58",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      57.25,
+      -9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f59",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      57.25,
+      -9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p17_u1_perno_hex_m3_15_bloque_motor",
+   "name": "U1 · Perno hex M3 × 15 bloque motor (−)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f60",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      57.25,
+      -9,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f61",
+     "name": "Vástago Ø3×15",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      57.25,
+      -9,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p18_u1_golilla_bloque_motor_3",
+   "name": "U1 · Golilla bloque motor (+) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f62",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      57.25,
+      9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f63",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      57.25,
+      9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p19_u1_perno_hex_m3_15_bloque_motor",
+   "name": "U1 · Perno hex M3 × 15 bloque motor (+)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f64",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      57.25,
+      9,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f65",
+     "name": "Vástago Ø3×15",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      57.25,
+      9,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p20_u1_golilla_soporte_motor_3",
+   "name": "U1 · Golilla soporte motor (−) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f66",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f67",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p21_u1_perno_hex_m3_11_soporte_motor",
+   "name": "U1 · Perno hex M3 × 11 soporte motor (−)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f68",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f69",
+     "name": "Vástago Ø3×11",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 11
+     }
+    }
+   ]
+  },
+  {
+   "id": "p22_u1_tuerca_hex_soporte_motor",
+   "name": "U1 · Tuerca hex soporte motor (−)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.2 / DIN 934",
+   "features": [
+    {
+     "id": "f70",
+     "name": "Tuerca e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -16.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f71",
+     "name": "Rosca Ø3",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -16.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p23_u1_golilla_soporte_motor_3",
+   "name": "U1 · Golilla soporte motor (+) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f72",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f73",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p24_u1_perno_hex_m3_11_soporte_motor",
+   "name": "U1 · Perno hex M3 × 11 soporte motor (+)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f74",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f75",
+     "name": "Vástago Ø3×11",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 11
+     }
+    }
+   ]
+  },
+  {
+   "id": "p25_u1_tuerca_hex_soporte_motor",
+   "name": "U1 · Tuerca hex soporte motor (+)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.7071067811865475,
+    0.7071067811865476
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.2 / DIN 934",
+   "features": [
+    {
+     "id": "f76",
+     "name": "Tuerca e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -16.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f77",
+     "name": "Rosca Ø3",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -16.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p26_u2_rueda_omni_48_24_5",
    "name": "U2 · Rueda omni Ø48 × 24.5",
    "color": "#e0b040",
    "pos": [
@@ -10011,7 +11129,7 @@
      }
     },
     {
-     "id": "f50",
+     "id": "f78",
      "name": "Ø2.2 (1)",
      "shape": "hole",
      "op": "cut",
@@ -10032,7 +11150,7 @@
      }
     },
     {
-     "id": "f51",
+     "id": "f79",
      "name": "Ø2.2 (2)",
      "shape": "hole",
      "op": "cut",
@@ -10053,7 +11171,7 @@
      }
     },
     {
-     "id": "f52",
+     "id": "f80",
      "name": "Ø2.2 (3)",
      "shape": "hole",
      "op": "cut",
@@ -10074,7 +11192,7 @@
      }
     },
     {
-     "id": "f53",
+     "id": "f81",
      "name": "Ø2.2 (4)",
      "shape": "hole",
      "op": "cut",
@@ -10095,7 +11213,7 @@
      }
     },
     {
-     "id": "f54",
+     "id": "f82",
      "name": "Eje Ø4",
      "shape": "hole",
      "op": "cut",
@@ -10118,7 +11236,7 @@
    ]
   },
   {
-   "id": "p13_u2_eje_4_58_5",
+   "id": "p27_u2_eje_4_58_5",
    "name": "U2 · Eje Ø4 × 58.5",
    "color": "#c3ccd6",
    "pos": [
@@ -10138,7 +11256,7 @@
    "material": "Acero plata Ø4 h6",
    "features": [
     {
-     "id": "f55",
+     "id": "f83",
      "name": "Barra Ø4",
      "shape": "cylinder",
      "op": "union",
@@ -10160,7 +11278,7 @@
    ]
   },
   {
-   "id": "p14_u2_rodamiento_624zz_libre_4_13_5",
+   "id": "p28_u2_rodamiento_624zz_libre_4_13_5",
    "name": "U2 · Rodamiento 624ZZ (libre) (4×13×5)",
    "color": "#7e57c2",
    "pos": [
@@ -10180,7 +11298,7 @@
    "componente": "rodamiento_4x13x5",
    "features": [
     {
-     "id": "f56",
+     "id": "f84",
      "name": "Aro exterior",
      "shape": "revolve",
      "op": "union",
@@ -10197,7 +11315,7 @@
      "params": {
       "entities": [
        {
-        "id": "e55_0",
+        "id": "e83_0",
         "type": "line",
         "a": [
          0,
@@ -10209,7 +11327,7 @@
         ]
        },
        {
-        "id": "e55_1",
+        "id": "e83_1",
         "type": "line",
         "a": [
          0,
@@ -10221,7 +11339,7 @@
         ]
        },
        {
-        "id": "e55_2",
+        "id": "e83_2",
         "type": "line",
         "a": [
          5,
@@ -10233,7 +11351,7 @@
         ]
        },
        {
-        "id": "e55_3",
+        "id": "e83_3",
         "type": "line",
         "a": [
          5,
@@ -10264,7 +11382,7 @@
      }
     },
     {
-     "id": "f57",
+     "id": "f85",
      "name": "Aro interior",
      "shape": "revolve",
      "op": "union",
@@ -10281,7 +11399,7 @@
      "params": {
       "entities": [
        {
-        "id": "e56_0",
+        "id": "e84_0",
         "type": "line",
         "a": [
          0,
@@ -10293,7 +11411,7 @@
         ]
        },
        {
-        "id": "e56_1",
+        "id": "e84_1",
         "type": "line",
         "a": [
          0,
@@ -10305,7 +11423,7 @@
         ]
        },
        {
-        "id": "e56_2",
+        "id": "e84_2",
         "type": "line",
         "a": [
          5,
@@ -10317,7 +11435,7 @@
         ]
        },
        {
-        "id": "e56_3",
+        "id": "e84_3",
         "type": "line",
         "a": [
          5,
@@ -10348,7 +11466,7 @@
      }
     },
     {
-     "id": "f58",
+     "id": "f86",
      "name": "Sello 2RS",
      "shape": "revolve",
      "op": "union",
@@ -10365,7 +11483,7 @@
      "params": {
       "entities": [
        {
-        "id": "e57_0",
+        "id": "e85_0",
         "type": "line",
         "a": [
          0.6,
@@ -10377,7 +11495,7 @@
         ]
        },
        {
-        "id": "e57_1",
+        "id": "e85_1",
         "type": "line",
         "a": [
          0.6,
@@ -10389,7 +11507,7 @@
         ]
        },
        {
-        "id": "e57_2",
+        "id": "e85_2",
         "type": "line",
         "a": [
          4.4,
@@ -10401,7 +11519,7 @@
         ]
        },
        {
-        "id": "e57_3",
+        "id": "e85_3",
         "type": "line",
         "a": [
          4.4,
@@ -10434,7 +11552,7 @@
    ]
   },
   {
-   "id": "p15_u2_rodamiento_624zz_motor_4_13_5",
+   "id": "p29_u2_rodamiento_624zz_motor_4_13_5",
    "name": "U2 · Rodamiento 624ZZ (motor) (4×13×5)",
    "color": "#7e57c2",
    "pos": [
@@ -10454,7 +11572,7 @@
    "componente": "rodamiento_4x13x5",
    "features": [
     {
-     "id": "f59",
+     "id": "f87",
      "name": "Aro exterior",
      "shape": "revolve",
      "op": "union",
@@ -10471,7 +11589,7 @@
      "params": {
       "entities": [
        {
-        "id": "e58_0",
+        "id": "e86_0",
         "type": "line",
         "a": [
          0,
@@ -10483,7 +11601,7 @@
         ]
        },
        {
-        "id": "e58_1",
+        "id": "e86_1",
         "type": "line",
         "a": [
          0,
@@ -10495,7 +11613,7 @@
         ]
        },
        {
-        "id": "e58_2",
+        "id": "e86_2",
         "type": "line",
         "a": [
          5,
@@ -10507,7 +11625,7 @@
         ]
        },
        {
-        "id": "e58_3",
+        "id": "e86_3",
         "type": "line",
         "a": [
          5,
@@ -10538,7 +11656,7 @@
      }
     },
     {
-     "id": "f60",
+     "id": "f88",
      "name": "Aro interior",
      "shape": "revolve",
      "op": "union",
@@ -10555,7 +11673,7 @@
      "params": {
       "entities": [
        {
-        "id": "e59_0",
+        "id": "e87_0",
         "type": "line",
         "a": [
          0,
@@ -10567,7 +11685,7 @@
         ]
        },
        {
-        "id": "e59_1",
+        "id": "e87_1",
         "type": "line",
         "a": [
          0,
@@ -10579,7 +11697,7 @@
         ]
        },
        {
-        "id": "e59_2",
+        "id": "e87_2",
         "type": "line",
         "a": [
          5,
@@ -10591,7 +11709,7 @@
         ]
        },
        {
-        "id": "e59_3",
+        "id": "e87_3",
         "type": "line",
         "a": [
          5,
@@ -10622,7 +11740,7 @@
      }
     },
     {
-     "id": "f61",
+     "id": "f89",
      "name": "Sello 2RS",
      "shape": "revolve",
      "op": "union",
@@ -10639,7 +11757,7 @@
      "params": {
       "entities": [
        {
-        "id": "e60_0",
+        "id": "e88_0",
         "type": "line",
         "a": [
          0.6,
@@ -10651,7 +11769,7 @@
         ]
        },
        {
-        "id": "e60_1",
+        "id": "e88_1",
         "type": "line",
         "a": [
          0.6,
@@ -10663,7 +11781,7 @@
         ]
        },
        {
-        "id": "e60_2",
+        "id": "e88_2",
         "type": "line",
         "a": [
          4.4,
@@ -10675,7 +11793,7 @@
         ]
        },
        {
-        "id": "e60_3",
+        "id": "e88_3",
         "type": "line",
         "a": [
          4.4,
@@ -10708,7 +11826,7 @@
    ]
   },
   {
-   "id": "p16_u2_bloque_porta_rodamiento_26_10_libre",
+   "id": "p30_u2_bloque_porta_rodamiento_26_10_libre",
    "name": "U2 · Bloque porta-rodamiento 26×10 (libre)",
    "color": "#8fa3b8",
    "pos": [
@@ -10728,7 +11846,7 @@
    "material": "PETG",
    "features": [
     {
-     "id": "f62",
+     "id": "f90",
      "name": "Alma",
      "shape": "box",
      "op": "union",
@@ -10749,7 +11867,7 @@
      }
     },
     {
-     "id": "f63",
+     "id": "f91",
      "name": "Asiento Ø13 × 5",
      "shape": "cylinder",
      "op": "cut",
@@ -10769,7 +11887,7 @@
      }
     },
     {
-     "id": "f64",
+     "id": "f92",
      "name": "Reborde Ø10",
      "shape": "hole",
      "op": "cut",
@@ -10790,7 +11908,7 @@
      }
     },
     {
-     "id": "f65",
+     "id": "f93",
      "name": "M3 (−)",
      "shape": "hole",
      "op": "cut",
@@ -10811,7 +11929,7 @@
      }
     },
     {
-     "id": "f66",
+     "id": "f94",
      "name": "M3 (+)",
      "shape": "hole",
      "op": "cut",
@@ -10834,7 +11952,7 @@
    ]
   },
   {
-   "id": "p17_u2_bloque_porta_rodamiento_26_10_motor",
+   "id": "p31_u2_bloque_porta_rodamiento_26_10_motor",
    "name": "U2 · Bloque porta-rodamiento 26×10 (motor)",
    "color": "#8fa3b8",
    "pos": [
@@ -10854,7 +11972,7 @@
    "material": "PETG",
    "features": [
     {
-     "id": "f67",
+     "id": "f95",
      "name": "Alma",
      "shape": "box",
      "op": "union",
@@ -10875,7 +11993,7 @@
      }
     },
     {
-     "id": "f68",
+     "id": "f96",
      "name": "Asiento Ø13 × 5",
      "shape": "cylinder",
      "op": "cut",
@@ -10895,7 +12013,7 @@
      }
     },
     {
-     "id": "f69",
+     "id": "f97",
      "name": "Reborde Ø10",
      "shape": "hole",
      "op": "cut",
@@ -10916,7 +12034,7 @@
      }
     },
     {
-     "id": "f70",
+     "id": "f98",
      "name": "M3 (−)",
      "shape": "hole",
      "op": "cut",
@@ -10937,7 +12055,7 @@
      }
     },
     {
-     "id": "f71",
+     "id": "f99",
      "name": "M3 (+)",
      "shape": "hole",
      "op": "cut",
@@ -10960,7 +12078,7 @@
    ]
   },
   {
-   "id": "p18_u2_acople_tt_5_5_plano_4",
+   "id": "p32_u2_acople_tt_5_5_plano_4",
    "name": "U2 · Acople TT 5.5 plano → Ø4",
    "color": "#c9752e",
    "pos": [
@@ -10980,7 +12098,7 @@
    "material": "PETG",
    "features": [
     {
-     "id": "f72",
+     "id": "f100",
      "name": "Cuerpo Ø14 × 16",
      "shape": "cylinder",
      "op": "union",
@@ -11000,7 +12118,7 @@
      }
     },
     {
-     "id": "f73",
+     "id": "f101",
      "name": "Alojamiento eje Ø4",
      "shape": "hole",
      "op": "cut",
@@ -11021,7 +12139,7 @@
      }
     },
     {
-     "id": "f74",
+     "id": "f102",
      "name": "Alojamiento eje TT Ø5.5",
      "shape": "hole",
      "op": "cut",
@@ -11042,7 +12160,7 @@
      }
     },
     {
-     "id": "f75",
+     "id": "f103",
      "name": "Prisionero M3",
      "shape": "hole",
      "op": "cut",
@@ -11065,7 +12183,7 @@
    ]
   },
   {
-   "id": "p19_u2_motor_tt_1_48_70_22_18_200_rpm_6_v",
+   "id": "p33_u2_motor_tt_1_48_70_22_18_200_rpm_6_v",
    "name": "U2 · Motor TT 1:48 70×22×18 — 200 rpm @6 V",
    "color": "#37474f",
    "pos": [
@@ -11086,7 +12204,7 @@
    "masaG": 30.6,
    "features": [
     {
-     "id": "f76",
+     "id": "f104",
      "name": "Reductora 37×22×18",
      "shape": "box",
      "op": "union",
@@ -11107,7 +12225,7 @@
      }
     },
     {
-     "id": "f77",
+     "id": "f105",
      "name": "Campana del motor Ø20.5",
      "shape": "cylinder",
      "op": "union",
@@ -11127,7 +12245,7 @@
      }
     },
     {
-     "id": "f78",
+     "id": "f106",
      "name": "Eje salida Ø5.5",
      "shape": "cylinder",
      "op": "union",
@@ -11147,7 +12265,7 @@
      }
     },
     {
-     "id": "f79",
+     "id": "f107",
      "name": "Plano del eje salida −",
      "shape": "box",
      "op": "cut",
@@ -11168,7 +12286,7 @@
      }
     },
     {
-     "id": "f80",
+     "id": "f108",
      "name": "Plano del eje salida +",
      "shape": "box",
      "op": "cut",
@@ -11189,7 +12307,7 @@
      }
     },
     {
-     "id": "f81",
+     "id": "f109",
      "name": "Eje libre Ø5.5",
      "shape": "cylinder",
      "op": "union",
@@ -11209,7 +12327,7 @@
      }
     },
     {
-     "id": "f82",
+     "id": "f110",
      "name": "Plano del eje libre −",
      "shape": "box",
      "op": "cut",
@@ -11230,7 +12348,7 @@
      }
     },
     {
-     "id": "f83",
+     "id": "f111",
      "name": "Plano del eje libre +",
      "shape": "box",
      "op": "cut",
@@ -11251,7 +12369,7 @@
      }
     },
     {
-     "id": "f84",
+     "id": "f112",
      "name": "Fijación M3 (−)",
      "shape": "hole",
      "op": "cut",
@@ -11272,7 +12390,7 @@
      }
     },
     {
-     "id": "f85",
+     "id": "f113",
      "name": "Fijación M3 (+)",
      "shape": "hole",
      "op": "cut",
@@ -11295,7 +12413,7 @@
    ]
   },
   {
-   "id": "p20_u2_soporte_motor_tt",
+   "id": "p34_u2_soporte_motor_tt",
    "name": "U2 · Soporte motor TT",
    "color": "#6b7f94",
    "pos": [
@@ -11315,7 +12433,7 @@
    "material": "PETG",
    "features": [
     {
-     "id": "f86",
+     "id": "f114",
      "name": "Alma",
      "shape": "box",
      "op": "union",
@@ -11336,7 +12454,7 @@
      }
     },
     {
-     "id": "f87",
+     "id": "f115",
      "name": "Ala",
      "shape": "box",
      "op": "union",
@@ -11357,7 +12475,7 @@
      }
     },
     {
-     "id": "f88",
+     "id": "f116",
      "name": "Paso del eje libre Ø8.5",
      "shape": "hole",
      "op": "cut",
@@ -11378,7 +12496,7 @@
      }
     },
     {
-     "id": "f89",
+     "id": "f117",
      "name": "M3 reductora (−)",
      "shape": "hole",
      "op": "cut",
@@ -11399,7 +12517,7 @@
      }
     },
     {
-     "id": "f90",
+     "id": "f118",
      "name": "M3 placa (−)",
      "shape": "hole",
      "op": "cut",
@@ -11420,7 +12538,7 @@
      }
     },
     {
-     "id": "f91",
+     "id": "f119",
      "name": "M3 reductora (+)",
      "shape": "hole",
      "op": "cut",
@@ -11441,7 +12559,7 @@
      }
     },
     {
-     "id": "f92",
+     "id": "f120",
      "name": "M3 placa (+)",
      "shape": "hole",
      "op": "cut",
@@ -11464,7 +12582,7 @@
    ]
   },
   {
-   "id": "p21_u2_disco_encoder_36_ranuras_30",
+   "id": "p35_u2_disco_encoder_36_ranuras_30",
    "name": "U2 · Disco encoder 36 ranuras Ø30",
    "color": "#6b7f94",
    "pos": [
@@ -11484,7 +12602,7 @@
    "material": "PETG",
    "features": [
     {
-     "id": "f93",
+     "id": "f121",
      "name": "Disco Ø30 × 2",
      "shape": "cylinder",
      "op": "union",
@@ -11504,7 +12622,7 @@
      }
     },
     {
-     "id": "f94",
+     "id": "f122",
      "name": "Eje Ø4",
      "shape": "hole",
      "op": "cut",
@@ -13903,7 +15021,7 @@
    ]
   },
   {
-   "id": "p22_u2_sensor_ranurado_ir_lm393",
+   "id": "p36_u2_sensor_ranurado_ir_lm393",
    "name": "U2 · Sensor ranurado IR LM393",
    "color": "#7e57c2",
    "pos": [
@@ -13923,7 +15041,7 @@
    "componente": "lm393_ranurado",
    "features": [
     {
-     "id": "f95",
+     "id": "f123",
      "name": "PCB 32×14×10",
      "shape": "box",
      "op": "union",
@@ -13944,7 +15062,7 @@
      }
     },
     {
-     "id": "f96",
+     "id": "f124",
      "name": "Ranura de la horquilla",
      "shape": "box",
      "op": "cut",
@@ -13965,7 +15083,7 @@
      }
     },
     {
-     "id": "f97",
+     "id": "f125",
      "name": "Brazo −",
      "shape": "box",
      "op": "union",
@@ -13986,7 +15104,7 @@
      }
     },
     {
-     "id": "f98",
+     "id": "f126",
      "name": "Brazo +",
      "shape": "box",
      "op": "union",
@@ -14009,7 +15127,1123 @@
    ]
   },
   {
-   "id": "p23_u3_rueda_omni_48_24_5",
+   "id": "p37_u2_golilla_bloque_libre_3",
+   "name": "U2 · Golilla bloque libre (−) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f127",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      94.75,
+      -9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f128",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      94.75,
+      -9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p38_u2_perno_hex_m3_15_bloque_libre",
+   "name": "U2 · Perno hex M3 × 15 bloque libre (−)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f129",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      94.75,
+      -9,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f130",
+     "name": "Vástago Ø3×15",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      94.75,
+      -9,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p39_u2_golilla_bloque_libre_3",
+   "name": "U2 · Golilla bloque libre (+) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f131",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      94.75,
+      9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f132",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      94.75,
+      9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p40_u2_perno_hex_m3_15_bloque_libre",
+   "name": "U2 · Perno hex M3 × 15 bloque libre (+)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f133",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      94.75,
+      9,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f134",
+     "name": "Vástago Ø3×15",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      94.75,
+      9,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p41_u2_golilla_bloque_motor_3",
+   "name": "U2 · Golilla bloque motor (−) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f135",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      57.25,
+      -9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f136",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      57.25,
+      -9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p42_u2_perno_hex_m3_15_bloque_motor",
+   "name": "U2 · Perno hex M3 × 15 bloque motor (−)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f137",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      57.25,
+      -9,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f138",
+     "name": "Vástago Ø3×15",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      57.25,
+      -9,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p43_u2_golilla_bloque_motor_3",
+   "name": "U2 · Golilla bloque motor (+) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f139",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      57.25,
+      9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f140",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      57.25,
+      9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p44_u2_perno_hex_m3_15_bloque_motor",
+   "name": "U2 · Perno hex M3 × 15 bloque motor (+)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f141",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      57.25,
+      9,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f142",
+     "name": "Vástago Ø3×15",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      57.25,
+      9,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p45_u2_golilla_soporte_motor_3",
+   "name": "U2 · Golilla soporte motor (−) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f143",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f144",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p46_u2_perno_hex_m3_11_soporte_motor",
+   "name": "U2 · Perno hex M3 × 11 soporte motor (−)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f145",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f146",
+     "name": "Vástago Ø3×11",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 11
+     }
+    }
+   ]
+  },
+  {
+   "id": "p47_u2_tuerca_hex_soporte_motor",
+   "name": "U2 · Tuerca hex soporte motor (−)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.2 / DIN 934",
+   "features": [
+    {
+     "id": "f147",
+     "name": "Tuerca e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -16.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f148",
+     "name": "Rosca Ø3",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -16.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p48_u2_golilla_soporte_motor_3",
+   "name": "U2 · Golilla soporte motor (+) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f149",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f150",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p49_u2_perno_hex_m3_11_soporte_motor",
+   "name": "U2 · Perno hex M3 × 11 soporte motor (+)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f151",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f152",
+     "name": "Vástago Ø3×11",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 11
+     }
+    }
+   ]
+  },
+  {
+   "id": "p50_u2_tuerca_hex_soporte_motor",
+   "name": "U2 · Tuerca hex soporte motor (+)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.9659258262890683,
+    -0.25881904510252063
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.2 / DIN 934",
+   "features": [
+    {
+     "id": "f153",
+     "name": "Tuerca e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -16.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f154",
+     "name": "Rosca Ø3",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -16.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p51_u3_rueda_omni_48_24_5",
    "name": "U3 · Rueda omni Ø48 × 24.5",
    "color": "#e0b040",
    "pos": [
@@ -16970,7 +19204,7 @@
      }
     },
     {
-     "id": "f99",
+     "id": "f155",
      "name": "Ø2.2 (1)",
      "shape": "hole",
      "op": "cut",
@@ -16991,7 +19225,7 @@
      }
     },
     {
-     "id": "f100",
+     "id": "f156",
      "name": "Ø2.2 (2)",
      "shape": "hole",
      "op": "cut",
@@ -17012,7 +19246,7 @@
      }
     },
     {
-     "id": "f101",
+     "id": "f157",
      "name": "Ø2.2 (3)",
      "shape": "hole",
      "op": "cut",
@@ -17033,7 +19267,7 @@
      }
     },
     {
-     "id": "f102",
+     "id": "f158",
      "name": "Ø2.2 (4)",
      "shape": "hole",
      "op": "cut",
@@ -17054,7 +19288,7 @@
      }
     },
     {
-     "id": "f103",
+     "id": "f159",
      "name": "Eje Ø4",
      "shape": "hole",
      "op": "cut",
@@ -17077,7 +19311,7 @@
    ]
   },
   {
-   "id": "p24_u3_eje_4_58_5",
+   "id": "p52_u3_eje_4_58_5",
    "name": "U3 · Eje Ø4 × 58.5",
    "color": "#c3ccd6",
    "pos": [
@@ -17097,7 +19331,7 @@
    "material": "Acero plata Ø4 h6",
    "features": [
     {
-     "id": "f104",
+     "id": "f160",
      "name": "Barra Ø4",
      "shape": "cylinder",
      "op": "union",
@@ -17119,7 +19353,7 @@
    ]
   },
   {
-   "id": "p25_u3_rodamiento_624zz_libre_4_13_5",
+   "id": "p53_u3_rodamiento_624zz_libre_4_13_5",
    "name": "U3 · Rodamiento 624ZZ (libre) (4×13×5)",
    "color": "#7e57c2",
    "pos": [
@@ -17139,7 +19373,7 @@
    "componente": "rodamiento_4x13x5",
    "features": [
     {
-     "id": "f105",
+     "id": "f161",
      "name": "Aro exterior",
      "shape": "revolve",
      "op": "union",
@@ -17156,7 +19390,7 @@
      "params": {
       "entities": [
        {
-        "id": "e104_0",
+        "id": "e160_0",
         "type": "line",
         "a": [
          0,
@@ -17168,7 +19402,7 @@
         ]
        },
        {
-        "id": "e104_1",
+        "id": "e160_1",
         "type": "line",
         "a": [
          0,
@@ -17180,7 +19414,7 @@
         ]
        },
        {
-        "id": "e104_2",
+        "id": "e160_2",
         "type": "line",
         "a": [
          5,
@@ -17192,7 +19426,7 @@
         ]
        },
        {
-        "id": "e104_3",
+        "id": "e160_3",
         "type": "line",
         "a": [
          5,
@@ -17223,7 +19457,7 @@
      }
     },
     {
-     "id": "f106",
+     "id": "f162",
      "name": "Aro interior",
      "shape": "revolve",
      "op": "union",
@@ -17240,7 +19474,7 @@
      "params": {
       "entities": [
        {
-        "id": "e105_0",
+        "id": "e161_0",
         "type": "line",
         "a": [
          0,
@@ -17252,7 +19486,7 @@
         ]
        },
        {
-        "id": "e105_1",
+        "id": "e161_1",
         "type": "line",
         "a": [
          0,
@@ -17264,7 +19498,7 @@
         ]
        },
        {
-        "id": "e105_2",
+        "id": "e161_2",
         "type": "line",
         "a": [
          5,
@@ -17276,7 +19510,7 @@
         ]
        },
        {
-        "id": "e105_3",
+        "id": "e161_3",
         "type": "line",
         "a": [
          5,
@@ -17307,7 +19541,7 @@
      }
     },
     {
-     "id": "f107",
+     "id": "f163",
      "name": "Sello 2RS",
      "shape": "revolve",
      "op": "union",
@@ -17324,7 +19558,7 @@
      "params": {
       "entities": [
        {
-        "id": "e106_0",
+        "id": "e162_0",
         "type": "line",
         "a": [
          0.6,
@@ -17336,7 +19570,7 @@
         ]
        },
        {
-        "id": "e106_1",
+        "id": "e162_1",
         "type": "line",
         "a": [
          0.6,
@@ -17348,7 +19582,7 @@
         ]
        },
        {
-        "id": "e106_2",
+        "id": "e162_2",
         "type": "line",
         "a": [
          4.4,
@@ -17360,7 +19594,7 @@
         ]
        },
        {
-        "id": "e106_3",
+        "id": "e162_3",
         "type": "line",
         "a": [
          4.4,
@@ -17393,7 +19627,7 @@
    ]
   },
   {
-   "id": "p26_u3_rodamiento_624zz_motor_4_13_5",
+   "id": "p54_u3_rodamiento_624zz_motor_4_13_5",
    "name": "U3 · Rodamiento 624ZZ (motor) (4×13×5)",
    "color": "#7e57c2",
    "pos": [
@@ -17413,7 +19647,7 @@
    "componente": "rodamiento_4x13x5",
    "features": [
     {
-     "id": "f108",
+     "id": "f164",
      "name": "Aro exterior",
      "shape": "revolve",
      "op": "union",
@@ -17430,7 +19664,7 @@
      "params": {
       "entities": [
        {
-        "id": "e107_0",
+        "id": "e163_0",
         "type": "line",
         "a": [
          0,
@@ -17442,7 +19676,7 @@
         ]
        },
        {
-        "id": "e107_1",
+        "id": "e163_1",
         "type": "line",
         "a": [
          0,
@@ -17454,7 +19688,7 @@
         ]
        },
        {
-        "id": "e107_2",
+        "id": "e163_2",
         "type": "line",
         "a": [
          5,
@@ -17466,7 +19700,7 @@
         ]
        },
        {
-        "id": "e107_3",
+        "id": "e163_3",
         "type": "line",
         "a": [
          5,
@@ -17497,7 +19731,7 @@
      }
     },
     {
-     "id": "f109",
+     "id": "f165",
      "name": "Aro interior",
      "shape": "revolve",
      "op": "union",
@@ -17514,7 +19748,7 @@
      "params": {
       "entities": [
        {
-        "id": "e108_0",
+        "id": "e164_0",
         "type": "line",
         "a": [
          0,
@@ -17526,7 +19760,7 @@
         ]
        },
        {
-        "id": "e108_1",
+        "id": "e164_1",
         "type": "line",
         "a": [
          0,
@@ -17538,7 +19772,7 @@
         ]
        },
        {
-        "id": "e108_2",
+        "id": "e164_2",
         "type": "line",
         "a": [
          5,
@@ -17550,7 +19784,7 @@
         ]
        },
        {
-        "id": "e108_3",
+        "id": "e164_3",
         "type": "line",
         "a": [
          5,
@@ -17581,7 +19815,7 @@
      }
     },
     {
-     "id": "f110",
+     "id": "f166",
      "name": "Sello 2RS",
      "shape": "revolve",
      "op": "union",
@@ -17598,7 +19832,7 @@
      "params": {
       "entities": [
        {
-        "id": "e109_0",
+        "id": "e165_0",
         "type": "line",
         "a": [
          0.6,
@@ -17610,7 +19844,7 @@
         ]
        },
        {
-        "id": "e109_1",
+        "id": "e165_1",
         "type": "line",
         "a": [
          0.6,
@@ -17622,7 +19856,7 @@
         ]
        },
        {
-        "id": "e109_2",
+        "id": "e165_2",
         "type": "line",
         "a": [
          4.4,
@@ -17634,7 +19868,7 @@
         ]
        },
        {
-        "id": "e109_3",
+        "id": "e165_3",
         "type": "line",
         "a": [
          4.4,
@@ -17667,7 +19901,7 @@
    ]
   },
   {
-   "id": "p27_u3_bloque_porta_rodamiento_26_10_libre",
+   "id": "p55_u3_bloque_porta_rodamiento_26_10_libre",
    "name": "U3 · Bloque porta-rodamiento 26×10 (libre)",
    "color": "#8fa3b8",
    "pos": [
@@ -17687,7 +19921,7 @@
    "material": "PETG",
    "features": [
     {
-     "id": "f111",
+     "id": "f167",
      "name": "Alma",
      "shape": "box",
      "op": "union",
@@ -17708,7 +19942,7 @@
      }
     },
     {
-     "id": "f112",
+     "id": "f168",
      "name": "Asiento Ø13 × 5",
      "shape": "cylinder",
      "op": "cut",
@@ -17728,7 +19962,7 @@
      }
     },
     {
-     "id": "f113",
+     "id": "f169",
      "name": "Reborde Ø10",
      "shape": "hole",
      "op": "cut",
@@ -17749,7 +19983,7 @@
      }
     },
     {
-     "id": "f114",
+     "id": "f170",
      "name": "M3 (−)",
      "shape": "hole",
      "op": "cut",
@@ -17770,7 +20004,7 @@
      }
     },
     {
-     "id": "f115",
+     "id": "f171",
      "name": "M3 (+)",
      "shape": "hole",
      "op": "cut",
@@ -17793,7 +20027,7 @@
    ]
   },
   {
-   "id": "p28_u3_bloque_porta_rodamiento_26_10_motor",
+   "id": "p56_u3_bloque_porta_rodamiento_26_10_motor",
    "name": "U3 · Bloque porta-rodamiento 26×10 (motor)",
    "color": "#8fa3b8",
    "pos": [
@@ -17813,7 +20047,7 @@
    "material": "PETG",
    "features": [
     {
-     "id": "f116",
+     "id": "f172",
      "name": "Alma",
      "shape": "box",
      "op": "union",
@@ -17834,7 +20068,7 @@
      }
     },
     {
-     "id": "f117",
+     "id": "f173",
      "name": "Asiento Ø13 × 5",
      "shape": "cylinder",
      "op": "cut",
@@ -17854,7 +20088,7 @@
      }
     },
     {
-     "id": "f118",
+     "id": "f174",
      "name": "Reborde Ø10",
      "shape": "hole",
      "op": "cut",
@@ -17875,7 +20109,7 @@
      }
     },
     {
-     "id": "f119",
+     "id": "f175",
      "name": "M3 (−)",
      "shape": "hole",
      "op": "cut",
@@ -17896,7 +20130,7 @@
      }
     },
     {
-     "id": "f120",
+     "id": "f176",
      "name": "M3 (+)",
      "shape": "hole",
      "op": "cut",
@@ -17919,7 +20153,7 @@
    ]
   },
   {
-   "id": "p29_u3_acople_tt_5_5_plano_4",
+   "id": "p57_u3_acople_tt_5_5_plano_4",
    "name": "U3 · Acople TT 5.5 plano → Ø4",
    "color": "#c9752e",
    "pos": [
@@ -17939,7 +20173,7 @@
    "material": "PETG",
    "features": [
     {
-     "id": "f121",
+     "id": "f177",
      "name": "Cuerpo Ø14 × 16",
      "shape": "cylinder",
      "op": "union",
@@ -17959,7 +20193,7 @@
      }
     },
     {
-     "id": "f122",
+     "id": "f178",
      "name": "Alojamiento eje Ø4",
      "shape": "hole",
      "op": "cut",
@@ -17980,7 +20214,7 @@
      }
     },
     {
-     "id": "f123",
+     "id": "f179",
      "name": "Alojamiento eje TT Ø5.5",
      "shape": "hole",
      "op": "cut",
@@ -18001,7 +20235,7 @@
      }
     },
     {
-     "id": "f124",
+     "id": "f180",
      "name": "Prisionero M3",
      "shape": "hole",
      "op": "cut",
@@ -18024,7 +20258,7 @@
    ]
   },
   {
-   "id": "p30_u3_motor_tt_1_48_70_22_18_200_rpm_6_v",
+   "id": "p58_u3_motor_tt_1_48_70_22_18_200_rpm_6_v",
    "name": "U3 · Motor TT 1:48 70×22×18 — 200 rpm @6 V",
    "color": "#37474f",
    "pos": [
@@ -18045,7 +20279,7 @@
    "masaG": 30.6,
    "features": [
     {
-     "id": "f125",
+     "id": "f181",
      "name": "Reductora 37×22×18",
      "shape": "box",
      "op": "union",
@@ -18066,7 +20300,7 @@
      }
     },
     {
-     "id": "f126",
+     "id": "f182",
      "name": "Campana del motor Ø20.5",
      "shape": "cylinder",
      "op": "union",
@@ -18086,7 +20320,7 @@
      }
     },
     {
-     "id": "f127",
+     "id": "f183",
      "name": "Eje salida Ø5.5",
      "shape": "cylinder",
      "op": "union",
@@ -18106,7 +20340,7 @@
      }
     },
     {
-     "id": "f128",
+     "id": "f184",
      "name": "Plano del eje salida −",
      "shape": "box",
      "op": "cut",
@@ -18127,7 +20361,7 @@
      }
     },
     {
-     "id": "f129",
+     "id": "f185",
      "name": "Plano del eje salida +",
      "shape": "box",
      "op": "cut",
@@ -18148,7 +20382,7 @@
      }
     },
     {
-     "id": "f130",
+     "id": "f186",
      "name": "Eje libre Ø5.5",
      "shape": "cylinder",
      "op": "union",
@@ -18168,7 +20402,7 @@
      }
     },
     {
-     "id": "f131",
+     "id": "f187",
      "name": "Plano del eje libre −",
      "shape": "box",
      "op": "cut",
@@ -18189,7 +20423,7 @@
      }
     },
     {
-     "id": "f132",
+     "id": "f188",
      "name": "Plano del eje libre +",
      "shape": "box",
      "op": "cut",
@@ -18210,7 +20444,7 @@
      }
     },
     {
-     "id": "f133",
+     "id": "f189",
      "name": "Fijación M3 (−)",
      "shape": "hole",
      "op": "cut",
@@ -18231,7 +20465,7 @@
      }
     },
     {
-     "id": "f134",
+     "id": "f190",
      "name": "Fijación M3 (+)",
      "shape": "hole",
      "op": "cut",
@@ -18254,7 +20488,7 @@
    ]
   },
   {
-   "id": "p31_u3_soporte_motor_tt",
+   "id": "p59_u3_soporte_motor_tt",
    "name": "U3 · Soporte motor TT",
    "color": "#6b7f94",
    "pos": [
@@ -18274,7 +20508,7 @@
    "material": "PETG",
    "features": [
     {
-     "id": "f135",
+     "id": "f191",
      "name": "Alma",
      "shape": "box",
      "op": "union",
@@ -18295,7 +20529,7 @@
      }
     },
     {
-     "id": "f136",
+     "id": "f192",
      "name": "Ala",
      "shape": "box",
      "op": "union",
@@ -18316,7 +20550,7 @@
      }
     },
     {
-     "id": "f137",
+     "id": "f193",
      "name": "Paso del eje libre Ø8.5",
      "shape": "hole",
      "op": "cut",
@@ -18337,7 +20571,7 @@
      }
     },
     {
-     "id": "f138",
+     "id": "f194",
      "name": "M3 reductora (−)",
      "shape": "hole",
      "op": "cut",
@@ -18358,7 +20592,7 @@
      }
     },
     {
-     "id": "f139",
+     "id": "f195",
      "name": "M3 placa (−)",
      "shape": "hole",
      "op": "cut",
@@ -18379,7 +20613,7 @@
      }
     },
     {
-     "id": "f140",
+     "id": "f196",
      "name": "M3 reductora (+)",
      "shape": "hole",
      "op": "cut",
@@ -18400,7 +20634,7 @@
      }
     },
     {
-     "id": "f141",
+     "id": "f197",
      "name": "M3 placa (+)",
      "shape": "hole",
      "op": "cut",
@@ -18423,7 +20657,7 @@
    ]
   },
   {
-   "id": "p32_u3_disco_encoder_36_ranuras_30",
+   "id": "p60_u3_disco_encoder_36_ranuras_30",
    "name": "U3 · Disco encoder 36 ranuras Ø30",
    "color": "#6b7f94",
    "pos": [
@@ -18443,7 +20677,7 @@
    "material": "PETG",
    "features": [
     {
-     "id": "f142",
+     "id": "f198",
      "name": "Disco Ø30 × 2",
      "shape": "cylinder",
      "op": "union",
@@ -18463,7 +20697,7 @@
      }
     },
     {
-     "id": "f143",
+     "id": "f199",
      "name": "Eje Ø4",
      "shape": "hole",
      "op": "cut",
@@ -20862,7 +23096,7 @@
    ]
   },
   {
-   "id": "p33_u3_sensor_ranurado_ir_lm393",
+   "id": "p61_u3_sensor_ranurado_ir_lm393",
    "name": "U3 · Sensor ranurado IR LM393",
    "color": "#7e57c2",
    "pos": [
@@ -20882,7 +23116,7 @@
    "componente": "lm393_ranurado",
    "features": [
     {
-     "id": "f144",
+     "id": "f200",
      "name": "PCB 32×14×10",
      "shape": "box",
      "op": "union",
@@ -20903,7 +23137,7 @@
      }
     },
     {
-     "id": "f145",
+     "id": "f201",
      "name": "Ranura de la horquilla",
      "shape": "box",
      "op": "cut",
@@ -20924,7 +23158,7 @@
      }
     },
     {
-     "id": "f146",
+     "id": "f202",
      "name": "Brazo −",
      "shape": "box",
      "op": "union",
@@ -20945,7 +23179,7 @@
      }
     },
     {
-     "id": "f147",
+     "id": "f203",
      "name": "Brazo +",
      "shape": "box",
      "op": "union",
@@ -20968,7 +23202,1123 @@
    ]
   },
   {
-   "id": "p34_placa_hexagonal_e_c_203_95_5",
+   "id": "p62_u3_golilla_bloque_libre_3",
+   "name": "U3 · Golilla bloque libre (−) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f204",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      94.75,
+      -9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f205",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      94.75,
+      -9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p63_u3_perno_hex_m3_15_bloque_libre",
+   "name": "U3 · Perno hex M3 × 15 bloque libre (−)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f206",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      94.75,
+      -9,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f207",
+     "name": "Vástago Ø3×15",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      94.75,
+      -9,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p64_u3_golilla_bloque_libre_3",
+   "name": "U3 · Golilla bloque libre (+) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f208",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      94.75,
+      9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f209",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      94.75,
+      9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p65_u3_perno_hex_m3_15_bloque_libre",
+   "name": "U3 · Perno hex M3 × 15 bloque libre (+)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f210",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      94.75,
+      9,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f211",
+     "name": "Vástago Ø3×15",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      94.75,
+      9,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p66_u3_golilla_bloque_motor_3",
+   "name": "U3 · Golilla bloque motor (−) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f212",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      57.25,
+      -9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f213",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      57.25,
+      -9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p67_u3_perno_hex_m3_15_bloque_motor",
+   "name": "U3 · Perno hex M3 × 15 bloque motor (−)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f214",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      57.25,
+      -9,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f215",
+     "name": "Vástago Ø3×15",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      57.25,
+      -9,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p68_u3_golilla_bloque_motor_3",
+   "name": "U3 · Golilla bloque motor (+) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f216",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      57.25,
+      9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f217",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      57.25,
+      9,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p69_u3_perno_hex_m3_15_bloque_motor",
+   "name": "U3 · Perno hex M3 × 15 bloque motor (+)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f218",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      57.25,
+      9,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f219",
+     "name": "Vástago Ø3×15",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      57.25,
+      9,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 15
+     }
+    }
+   ]
+  },
+  {
+   "id": "p70_u3_golilla_soporte_motor_3",
+   "name": "U3 · Golilla soporte motor (−) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f220",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f221",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p71_u3_perno_hex_m3_11_soporte_motor",
+   "name": "U3 · Perno hex M3 × 11 soporte motor (−)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f222",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f223",
+     "name": "Vástago Ø3×11",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 11
+     }
+    }
+   ]
+  },
+  {
+   "id": "p72_u3_tuerca_hex_soporte_motor",
+   "name": "U3 · Tuerca hex soporte motor (−)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.2 / DIN 934",
+   "features": [
+    {
+     "id": "f224",
+     "name": "Tuerca e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -16.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f225",
+     "name": "Rosca Ø3",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18.25,
+      -6.666666666666667,
+      -16.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p73_u3_golilla_soporte_motor_3",
+   "name": "U3 · Golilla soporte motor (+) Ø3",
+   "color": "#9aa4b2",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 125 / ASME B18.22.1",
+   "features": [
+    {
+     "id": "f226",
+     "name": "Arandela Ø7×0.5",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 7,
+      "h": 0.5
+     }
+    },
+    {
+     "id": "f227",
+     "name": "Ø3.6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.6,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p74_u3_perno_hex_m3_11_soporte_motor",
+   "name": "U3 · Perno hex M3 × 11 soporte motor (+)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.1 / DIN 933",
+   "features": [
+    {
+     "id": "f228",
+     "name": "Cabeza hex e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -5.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.1,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f229",
+     "name": "Vástago Ø3×11",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -7.6
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "h": 11
+     }
+    }
+   ]
+  },
+  {
+   "id": "p75_u3_tuerca_hex_soporte_motor",
+   "name": "U3 · Tuerca hex soporte motor (+)",
+   "color": "#d5b46a",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0.258819045102521,
+    -0.9659258262890682
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "ASME B18.2.2 / DIN 934",
+   "features": [
+    {
+     "id": "f230",
+     "name": "Tuerca e/c 5.5",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -16.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "pts": [
+       [
+        3.18,
+        0
+       ],
+       [
+        1.59,
+        2.75
+       ],
+       [
+        -1.59,
+        2.75
+       ],
+       [
+        -3.18,
+        0
+       ],
+       [
+        -1.59,
+        -2.75
+       ],
+       [
+        1.59,
+        -2.75
+       ]
+      ],
+      "h": 2.4,
+      "u": [
+       0,
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f231",
+     "name": "Rosca Ø3",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      18.25,
+      6.666666666666667,
+      -16.5
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p76_placa_hexagonal_e_c_203_95_5",
    "name": "Placa hexagonal e/c 203.95 × 5",
    "color": "#8fa3b8",
    "pos": [
@@ -20988,7 +24338,7 @@
    "material": "Acrílico 5 mm (corte láser)",
    "features": [
     {
-     "id": "f148",
+     "id": "f232",
      "name": "Hexágono e/c 203.95",
      "shape": "sketch",
      "op": "union",
@@ -21161,6 +24511,636 @@
        0,
        0
       ]
+     }
+    },
+    {
+     "id": "f233",
+     "name": "M3 unión celda cara 1",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      95.98,
+      -36.71,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f234",
+     "name": "M3 unión celda cara 1",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      95.98,
+      36.71,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f235",
+     "name": "M3 unión celda cara 2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      79.78,
+      64.76,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f236",
+     "name": "M3 unión celda cara 2",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      16.19,
+      101.47,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f237",
+     "name": "M3 unión celda cara 3",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -16.19,
+      101.47,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f238",
+     "name": "M3 unión celda cara 3",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -79.78,
+      64.76,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f239",
+     "name": "M3 unión celda cara 4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -95.97,
+      36.71,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f240",
+     "name": "M3 unión celda cara 4",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -95.97,
+      -36.71,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f241",
+     "name": "M3 unión celda cara 5",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -79.78,
+      -64.76,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f242",
+     "name": "M3 unión celda cara 5",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -16.19,
+      -101.47,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f243",
+     "name": "M3 unión celda cara 6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      16.19,
+      -101.47,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f244",
+     "name": "M3 unión celda cara 6",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      79.78,
+      -64.76,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f245",
+     "name": "M3 U1 bloque libre",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      9,
+      94.75,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f246",
+     "name": "M3 U1 bloque libre",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -9,
+      94.75,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f247",
+     "name": "M3 U1 bloque motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      9,
+      57.25,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f248",
+     "name": "M3 U1 bloque motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -9,
+      57.25,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f249",
+     "name": "M3 U1 soporte motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      6.67,
+      18.25,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f250",
+     "name": "M3 U1 soporte motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -6.67,
+      18.25,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f251",
+     "name": "M3 U2 bloque libre",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -86.56,
+      -39.58,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f252",
+     "name": "M3 U2 bloque libre",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -77.56,
+      -55.17,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f253",
+     "name": "M3 U2 bloque motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -54.08,
+      -20.83,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f254",
+     "name": "M3 U2 bloque motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -45.08,
+      -36.42,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f255",
+     "name": "M3 U2 soporte motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -19.14,
+      -3.35,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f256",
+     "name": "M3 U2 soporte motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -12.47,
+      -14.9,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f257",
+     "name": "M3 U3 bloque libre",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      77.56,
+      -55.17,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f258",
+     "name": "M3 U3 bloque libre",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      86.56,
+      -39.58,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f259",
+     "name": "M3 U3 bloque motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      45.08,
+      -36.42,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f260",
+     "name": "M3 U3 bloque motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      54.08,
+      -20.83,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f261",
+     "name": "M3 U3 soporte motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      12.47,
+      -14.9,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f262",
+     "name": "M3 U3 soporte motor",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      19.14,
+      -3.35,
+      -4
+     ],
+     "dir": [
+      0,
+      0,
+      -1
+     ],
+     "params": {
+      "dia": 3.4,
+      "depth": 0,
+      "through": true
      }
     }
    ]

@@ -41,31 +41,9 @@ const G = geometriaPlaca();
 const contornos = [{ pts: G.hexagono, capa: 'CORTE_EXTERIOR' }];
 for (const r of G.ranuras) contornos.push({ pts: r, capa: 'RANURA_RUEDA' });
 
-// Taladros de unión entre celdas vecinas: 2 por cara del hexágono, M3.
+// Los taladros salen de `geometriaPlaca`, la MISMA fuente que usa el modelo 3D.
 const circulos = [];
-for (let i = 0; i < 6; i++) {
-  const a = (i * 60) * Math.PI / 180;                 // las caras miran a 0°, 60°, …
-  const dCara = G.af / 2 - 6;                          // 6 mm desde el borde
-  for (const s of [-1, 1]) {
-    const t = s * G.af * 0.18;
-    circulos.push({
-      x: dCara * Math.cos(a) - t * Math.sin(a),
-      y: dCara * Math.sin(a) + t * Math.cos(a),
-      d: 3.4, capa: 'TALADRO_M3',
-    });
-  }
-}
-// Taladros de los bloques porta-rodamiento: 2 por bloque, 2 bloques por unidad.
-for (let i = 0; i < 3; i++) {
-  const th = anguloUnidad(i), c = Math.cos(th), sn = Math.sin(th);
-  for (const dr of [-1, 1]) {
-    const rad = P.R + dr * (P.ruedaAncho / 2 + P.holguraRuedaRod + P.rodW / 2);
-    for (const dt of [-1, 1]) {
-      const t = dt * (P.bloqueAncho / 2 - 4);
-      circulos.push({ x: rad * c - t * sn, y: rad * sn + t * c, d: 3.4, capa: 'TALADRO_M3' });
-    }
-  }
-}
+for (const t of G.taladros) circulos.push({ x: t.x, y: t.y, d: t.d, capa: 'TALADRO_M3' });
 
 writeFileSync(join(out, 'placa_hexagonal.dxf'), dxf(contornos, circulos), 'latin1');
 

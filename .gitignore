@@ -48,3 +48,6 @@ cad/ensambles/nbt90/planos/conjunto_nbt90.dxf
 
 # Derivados de la celda triple: los regeneran gen_celda.mjs / planos_celda.mjs
 cad/ensambles/celda/out/
+
+# Rasterizado de la patente de referencia (se regenera con pymupdf desde el PDF)
+cad/ensambles/celda/ref/patente_p*.png
