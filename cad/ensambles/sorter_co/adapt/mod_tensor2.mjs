@@ -21,10 +21,11 @@
 // o reubicada funcional; CTX (contexto) = pieza del cliente en pose medida.
 
 import {
-  box, cyl, hole, sketchYZ, COL, r2, pernoHex, tuercaHex, rodamiento, anilloRet,
+  box, cyl, hole, sketchYZ, sketchXZ, COL, r2, pernoHex, tuercaHex, rodamiento, anilloRet,
+  arcoPts, rectR,
 } from '../../nbt90/lib.mjs';
 import { EJES, STEP } from './params_adapt.mjs';
-import { GEO, PALANCA, NEUM, PIV, EJE_CALC, POL, RAMAL, TENSION, SOPORTE, SOPORTE_CALC } from './params_tensor2.mjs';
+import { GEO, PALANCA, NEUM, PIV, EJE_CALC, POL, RAMAL, TENSION, SOPORTE, SOPORTE_CALC, ESTETICA } from './params_tensor2.mjs';
 // A2 (revisión de fabricación 2026-08-03): la garganta del anillo sale de la
 // TABLA DIN 471 citada (web RING-471-01/02), no de `PIV.d − 2.5`.
 import { gargantaDIN471 } from './util_adapt.mjs';
@@ -35,30 +36,104 @@ import { gargantaDIN471 } from './util_adapt.mjs';
 import { ALARGUE as PG40_ALARGUE } from './params_pg40.mjs';
 
 // ---------------------------------------------------------------------------
-// Envolvente convexa de discos en el plano YZ (silueta de chapa recortada).
-// Mismo criterio que mod_calles: la pieza real se define por sus zonas
-// funcionales (pivote, polea, lóbulo) y el contorno es su envolvente.
+// SILUETA DEL BRAZO — balancín con ojo (iteración ESTÉTICA 06-08-2026, capa dis).
+//
+// Sustituye a la envolvente convexa de discos (hull) con la que nació la
+// pieza: aquel contorno rodeaba el cubo en R25 = el radio del PROPIO paso Ø50,
+// o sea ligamento CERO — el filo de la chapa coincidía con el corte del
+// agujero justo sobre el cordón al cubo, el único concentrador real de la
+// pieza — y el alma triangular unía las dos puntas donde el momento es nulo.
+// El balancín:
+//   · ojo del cubo R48 (ESTETICA.ojoCubo) concéntrico al paso: anillo continuo
+//     de 23, repisa real para el cordón, y el canto en la sección de M máximo
+//     SUBE de 50 a 96 (W del par de pletinas 21 104 mm³ → σ 2.7 MPa);
+//   · dos ramas de flancos RECTOS tangentes (48→30 hacia la polea, 48→20
+//     hacia el lóbulo): taper lineal = momento lineal;
+//   · garganta CÓNCAVA R60 (ESTETICA.gargantaR = 7.5·e → Kt ≈ 1.06) tangente
+//     a ambos flancos, en el vano que NO es camino de carga.
+// TODO se CALCULA desde GEO/ESTETICA — tangente común exterior
+// t = atan2(Δz,Δy) ± acos((r1−r2)/d) y fillet estándar de dos rectas — nada
+// de números pegados. Los 3 taladros, las 3 poses y las palancas: intactos.
 // ---------------------------------------------------------------------------
-function hullDiscos(discos, n = 36) {
-  const pts = [];
-  for (const [cy, cz, r] of discos) {
-    for (let i = 0; i < n; i++) {
-      const a = 2 * Math.PI * i / n;
-      pts.push([cy + r * Math.cos(a), cz + r * Math.sin(a)]);
-    }
+const PASO_ARCO = 2 * Math.PI / ESTETICA.nArcos;   // ≤5° por segmento en silueta vista
+const nArco = (sweep) => Math.max(2, Math.ceil(Math.abs(sweep) / PASO_ARCO));
+const unit2 = (v) => { const l = Math.hypot(v[0], v[1]) || 1; return [v[0] / l, v[1] / l]; };
+const inter2 = (p1, d1, p2, d2) => {
+  const den = d1[0] * d2[1] - d1[1] * d2[0];
+  const t = ((p2[0] - p1[0]) * d2[1] - (p2[1] - p1[1]) * d2[0]) / den;
+  return [p1[0] + t * d1[0], p1[1] + t * d1[1]];
+};
+
+/** Fillet ESTÁNDAR de dos rectas que se cruzan en `v` (rayos v→a y v→b):
+ *  centro en la bisectriz, LADO AIRE, a r/sin(θ/2) del cruce; tangencias a
+ *  r/tan(θ/2). Es la misma construcción de lib.mjs `redondear()`, suelta aquí
+ *  para poder dar un radio POR VÉRTICE y para la garganta del balancín. */
+function filete(v, a, b, r) {
+  const u = unit2([a[0] - v[0], a[1] - v[1]]), w = unit2([b[0] - v[0], b[1] - v[1]]);
+  const th = Math.acos(Math.max(-1, Math.min(1, u[0] * w[0] + u[1] * w[1])));
+  const d = r / Math.tan(th / 2);
+  const bis = unit2([u[0] + w[0], u[1] + w[1]]);
+  const c = [v[0] + bis[0] * r / Math.sin(th / 2), v[1] + bis[1] * r / Math.sin(th / 2)];
+  const pa = [v[0] + u[0] * d, v[1] + u[1] * d], pb = [v[0] + w[0] * d, v[1] + w[1] * d];
+  const a0 = Math.atan2(pa[1] - c[1], pa[0] - c[0]);
+  let dA = Math.atan2(pb[1] - c[1], pb[0] - c[0]) - a0;
+  while (dA > Math.PI) dA -= 2 * Math.PI;
+  while (dA < -Math.PI) dA += 2 * Math.PI;
+  return arcoPts(c[0], c[1], r, a0, a0 + dA, nArco(dA));
+}
+
+/** Contorno cerrado con esquina a radio POR VÉRTICE: vs = [[y, z, r], …],
+ *  r = 0 deja el vértice vivo. Para las chapas cuya esquina pide R distinto
+ *  según lo que tenga al lado (ESTETICA.esquina / ESTETICA.esquinaMenor). */
+function contornoFileteado(vs) {
+  const out = [];
+  for (let i = 0; i < vs.length; i++) {
+    const [y, z, r] = vs[i];
+    if (!r) { out.push([y, z]); continue; }
+    out.push(...filete([y, z], vs[(i + vs.length - 1) % vs.length], vs[(i + 1) % vs.length], r));
   }
-  pts.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
-  const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
-  const lo = [], hi = [];
-  for (const p of pts) {
-    while (lo.length >= 2 && cross(lo[lo.length - 2], lo[lo.length - 1], p) <= 0) lo.pop();
-    lo.push(p);
-  }
-  for (const p of [...pts].reverse()) {
-    while (hi.length >= 2 && cross(hi[hi.length - 2], hi[hi.length - 1], p) <= 0) hi.pop();
-    hi.push(p);
-  }
-  return lo.slice(0, -1).concat(hi.slice(0, -1));
+  return out;
+}
+
+function siluetaBalancin() {
+  const C = [GEO.pivoteY, GEO.pivoteZ], P = [GEO.poleaY, GEO.poleaZ], L = [GEO.yugoY, GEO.lobuloZ];
+  const rC = ESTETICA.ojoCubo, rP = 30, rL = 20;   // R30/R20: los ojos de siempre, SIN cambio
+  // Tangente común EXTERIOR cubo↔ojo: normal a t = th ± acos((r1−r2)/d). De
+  // las dos, el FLANCO del contorno es la del lado LEJANO al tercer ojo y la
+  // de GARGANTA la del lado cercano — se decide por el signo de n̂·(otro−C)−rC,
+  // no con signos pegados: vale para cualquier GEO.
+  const flancos = (rOjo, cOjo, otro) => {
+    const th = Math.atan2(cOjo[1] - C[1], cOjo[0] - C[0]);
+    const beta = Math.acos((rC - rOjo) / Math.hypot(cOjo[0] - C[0], cOjo[1] - C[1]));
+    if (!Number.isFinite(beta)) throw new Error('siluetaBalancin: sin tangente común (ojo dentro del cubo)');
+    const lado = (a) => Math.cos(a) * (otro[0] - C[0]) + Math.sin(a) * (otro[1] - C[1]) - rC;
+    const [aExt, aGar] = lado(th + beta) < 0 ? [th + beta, th - beta] : [th - beta, th + beta];
+    return { aExt, aGar };
+  };
+  const FP = flancos(rP, P, L), FL = flancos(rL, L, P);
+  const en = (c, r, a) => [c[0] + r * Math.cos(a), c[1] + r * Math.sin(a)];
+  // Garganta: los dos flancos interiores se cruzan en V (cuña ~75°) — la unión
+  // ingenua de dos cápsulas dejaría ahí una esquina viva RE-ENTRANTE,
+  // prohibida; se sustituye por el fillet R60 tangente a ambos flancos.
+  const TgP = en(P, rP, FP.aGar), TgL = en(L, rL, FL.aGar);
+  const V = inter2(TgP, [-Math.sin(FP.aGar), Math.cos(FP.aGar)],
+    TgL, [-Math.sin(FL.aGar), Math.cos(FL.aGar)]);
+  // Contorno: arcos lejanos de los 3 ojos + garganta; los 4 flancos rectos son
+  // los segmentos implícitos entre arcos consecutivos. Se emite CCW, como el
+  // hull de antes.
+  const haciaAtras = (a0, a1) => { let a = a1; while (a > a0) a -= 2 * Math.PI; return a; };
+  const arcoLejano = (c, r, a0, a1) => {
+    const af = haciaAtras(a0, a1);
+    return arcoPts(c[0], c[1], r, a0, af, nArco(a0 - af));
+  };
+  const pts = [
+    ...arcoLejano(P, rP, FP.aGar, FP.aExt),        // (1) ojo de la polea, por el lado lejano
+    ...arcoLejano(C, rC, FP.aExt, FL.aExt),        // (3) ojo del cubo, pasando por 90°
+    ...arcoLejano(L, rL, FL.aExt, FL.aGar),        // (5) ojo del lóbulo, por el lado lejano
+    ...filete(V, TgL, TgP, ESTETICA.gargantaR),    // (7) garganta cóncava R60
+  ];
+  const dosArea = pts.reduce((a, p, i) => { const q = pts[(i + 1) % pts.length]; return a + p[0] * q[1] - q[0] * p[1]; }, 0);
+  return dosArea < 0 ? pts.reverse() : pts;
 }
 
 // ---------------------------------------------------------------------------
@@ -304,7 +379,13 @@ export function tensor2(E, ramal) {
           + `${TR.y[0]}, el tambor acaba en 54.45) y por DEBAJO en Z (corona en ${TR.z[1]}, el tambor empieza en `
           + `−57.2): doble holgura, porque entre el fondo del tambor y la bisagra sólo hay 10.8 mm y ahí no cabe. `
           + `Carga ${SOPORTE_CALC.totalN} N (5 × ${SOPORTE_CALC.porBisagraN} N, el cilindro tira de su bisagra `
-          + `hacia abajo) → flecha ${SOPORTE_CALC.flechaMm} mm, σ ${SOPORTE_CALC.sigmaMPa} MPa (FS ${SOPORTE_CALC.fs} sobre A36).` });
+          + `hacia abajo) → flecha ${SOPORTE_CALC.flechaMm} mm, σ ${SOPORTE_CALC.sigmaMPa} MPa (FS ${SOPORTE_CALC.fs} sobre A36). `
+          + `ESTÉTICA (06-08): contorno del perfil comercial SIN CAMBIO — decisión declarada, no olvido: la `
+          + `cara frontal entera es interfaz (los 10 Ø9 de las 5 ménsulas), las testas las tapan las placas `
+          + `de extremo (esa unión, con su junta, la declara cada placa) y contornearlo pediría láser de tubo `
+          + `(operación nueva). Su estética la ponen las piezas que lo visten. Costura del tubo orientada a +Y `
+          + `(cara oculta contra la máquina); aristas de sierra de ambos extremos matadas. Neutro por `
+          + `identidad: la sección es simétrica y la orientación de la costura no cambia I ni W.` });
     cN('travesaño frontal del tensor (fabricado)', 1);
 
     // placas de extremo + tornillería a los CABEZALES DE RODAMIENTO del PG40
@@ -326,12 +407,19 @@ export function tensor2(E, ramal) {
       const lado = i === 0 ? '−X' : '+X';
       const xp = i === 0 ? x : r2(x - 8);                 // cara de la placa contra el cabezal
       const xLibre = i === 0 ? r2(xp + 8) : xp;           // cara libre de la placa
-      E.addPart(`FIJO · Placa de extremo del travesaño frontal (${lado}) 8×${anchoPlaca}×65`, COL.chapa,
+      E.addPart(`FIJO · Placa de extremo del travesaño frontal (${lado}) 8×${anchoPlaca}×65`, COL.fijo,
         [r2(xp + 4), yc, r2(TR.z[0] - 20)],
-        [box(`Placa 8×${anchoPlaca}×65`, [r2(xp + 4), yc, r2(TR.z[0] - 20)], 8, anchoPlaca, 65),
+        // ESTÉTICA (06-08, dis): esquinas R12 en los 4 vértices (antes vivos);
+        // misma envolvente 90×65 (Z −125…−60: la corona NO sube) y los 2 Ø9 en
+        // su sitio. rectR de lib.mjs, cotas derivadas de yc/TR.z, nada pegado.
+        [sketchYZ(`Placa 8×${anchoPlaca}×65 esquinas R${ESTETICA.esquina}`, xp,
+          rectR(r2(yc - anchoPlaca / 2), r2(TR.z[0] - 20), r2(yc + anchoPlaca / 2), r2(TR.z[0] + 45),
+            ESTETICA.esquina, 12), 8),
           ...TT.y.map(yt => hole(`Ø${TT.pasante} ${TT.rosca} al cabezal (Y ${yt})`,
             [r2(xp - 1), yt, TT.z], [1, 0, 0], TT.pasante))],
         { fabricada: true,
+          grabado: { texto: 'TEN-PLX', alto: 8, fuente: 'single-stroke',
+            cara: `X ${xLibre} (cara libre)`, nota: 'se corta en la misma pasada del láser' },
           uniones: [{ rosca: TT.rosca, n: TT.y.length, pasante: TT.pasante,
             a: 'PG40 · Alargue lateral · cabezal de rodamiento motriz' }],
           nota: `A5 CERRADO. Suelda al travesaño y atornilla con ${TT.y.length} ${TT.rosca} al cabezal de `
@@ -344,7 +432,12 @@ export function tensor2(E, ramal) {
             + `(13 de canto a cada taladro; el mínimo es 1.2·d₀ = 10.8). Los dos pernos van a los lados del `
             + `tubo 40×40 (Y 58…98) para que quepa la llave. Corona en Z ${r2(TR.z[0] - 20 + 65)} para `
             + `librar por 5.2 las tuercas M12 del UCF 207 del tambor motriz, que ocupan Z −54.8…−42.8 en `
-            + `ese mismo cabezal (params_tambores).` });
+            + `ese mismo cabezal (params_tambores). ESTÉTICA (06-08, dis): esquinas R${ESTETICA.esquina} — `
+            + `neutro: el camino de carga es perno → placa → cordón al tubo; los arcos arrancan a `
+            + `${ESTETICA.esquina} de cada vértice y el taladro más próximo queda a 25 del suyo, así que los `
+            + `13 de distancia al canto se CONSERVAN; el cordón placa↔tubo (huella Y 58…98 × Z −105…−65) `
+            + `queda a 13.5 del arco más cercano, y en la esquina alta el radio sólo ALEJA material de las `
+            + `tuercas M12 del UCF 207 (la holgura declarada 5.2 crece).` });
       cN('placa de extremo del travesaño', 1);
       // el perno CRUZA placa (8) + cabezal (8): cabeza en la cara libre de la
       // placa y tuerca al otro lado del cabezal. Antes la cabeza quedaba DENTRO
@@ -366,13 +459,48 @@ export function tensor2(E, ramal) {
     // tolerancia de solape del tensor (TEN2) como la comprobación que exige que
     // el AR20 tenga soporte y la línea de material de §F3. Cambiarlo habría
     // roto tres cosas para no ganar ninguna.
-    E.addPart(`FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (${RP.placa[1]}×${RP.placa[0]}×${RP.placa[2]})`, COL.chapa,
+    // ESTÉTICA (06-08, dis): faldón con TAPER siguiendo el momento. Es una
+    // ménsula colgada de los amarres Z −80/−140 y bajo −160 sólo lleva clips de
+    // la columna neumática: ancho 90 pleno de Z −60 a −160 (las DOS filas de
+    // amarres con su margen de siempre), flanco −Y recto en Y15 en toda la
+    // altura (columna del grupo de aire) y flanco +Y recto hasta la punta.
+    // RP.placa = [90, 8, 320] SE CONSERVA como envolvente → el nombre emitido
+    // «8×90×320» NO cambia (TEN2, la comprobación del soporte del AR20 y §F3
+    // identifican por NOMBRE — el aviso de arriba sigue vigente).
+    const yLoRP = r2(RP.y - RP.placa[0] / 2), yHiRP = r2(RP.y + RP.placa[0] / 2);   // 15 / 105
+    const zTopRP = r2(RP.z + RP.placa[2]), zBotRP = RP.z;                           // −60 / −380
+    const zCodoRP = r2(Math.min(...RP.taladrosZ) - 20);   // −160 — ancho pleno hasta 20 bajo
+    //   la fila baja de amarres (el mismo margen al canto que ya tenían)
+    const yPuntaRP = r2(yLoRP + 50);   // 65 — dis: la punta del faldón queda de 50 de ancho;
+    //   el borde taperado pasa por Y ≈ 82.5 a Z −284 (la cascada de tes muere en Y 72 →
+    //   ≥10 de respaldo) y remata en (65, −380) con la VHS20 respaldada entera
+    E.addPart(`FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (${RP.placa[1]}×${RP.placa[0]}×${RP.placa[2]})`, COL.fijo,
       [RP.x, RP.y, RP.z],
-      [box(`Pletina ${RP.placa[1]}×${RP.placa[0]}×${RP.placa[2]}`, [RP.x, RP.y, RP.z], RP.placa[1], RP.placa[0], RP.placa[2]),
+      [sketchYZ(`Pletina ${RP.placa[1]}×${RP.placa[0]}×${RP.placa[2]} — faldón taperado, esquinas R${ESTETICA.esquina}/R${ESTETICA.esquinaMenor}`,
+        r2(RP.x - RP.placa[1] / 2),
+        contornoFileteado([
+          [yLoRP, zBotRP, ESTETICA.esquinaMenor],   // R8 y NO R12: la huella de la VHS20
+          //   (Y 14.5…54.5 × Z −373.4…−307) exige el canto en Y15 a esa cota — con R8 el
+          //   canto a Z −373.4 queda en Y 15.12 (nada); con R16 se descalzaría a ~Y18
+          [yPuntaRP, zBotRP, ESTETICA.esquina],
+          [yHiRP, zCodoRP, ESTETICA.esquina],       // codo del taper
+          [yHiRP, zTopRP, ESTETICA.esquina],
+          [yLoRP, zTopRP, ESTETICA.esquina],
+        ]), RP.placa[1]),
         ...RP.taladrosZ.flatMap(dz => RP.taladrosY.map(dy =>
           hole(`Ø${RP.taladroDia} M8 de amarre (Y${dy > 0 ? '+' : ''}${dy}, Z${dz})`,
             [r2(RP.x - 5), r2(RP.y + dy), dz], [1, 0, 0], RP.taladroDia)))],
       { fabricada: true,
+        grabado: [
+          { texto: `TENSOR · ${NEUM.presionTrabajoBar.toFixed(1).replace('.', ',')} bar`, alto: 8,
+            fuente: 'single-stroke', cara: '+X (la cara vista)',
+            origen: 'GENERADO de NEUM.presionTrabajoBar (nunca pegado). NO CORTAR hasta cerrar SC-02/SC-03 '
+              + '(la revisión ya exige cerrarlos antes del taller): si el cierre cambia presión o calibre, '
+              + 'este texto se regenera solo.' },
+          { texto: 'LOTO ↓', alto: 8, fuente: 'single-stroke', cara: '+X (la cara vista)',
+            pos: 'sobre la VHS20 — la válvula de corte y purga con candado es el punto de consignación '
+              + 'del tensor (papel declarado web PNEU-012)' },
+        ],
         uniones: [{ rosca: 'M8', n: RP.taladrosZ.length * RP.taladrosY.length, pasante: RP.taladroDia,
           a: RP.amarre }],
         nota: `PROLONGADA de 120 a ${RP.placa[2]} mm: ya no sostiene sólo el AR20, sino la columna entera del `
@@ -387,7 +515,15 @@ export function tensor2(E, ramal) {
           + `${r2(RP.x + RP.placa[1] / 2)}, a 91 mm. Lo que tiene detrás es la CABECERA MOTRIZ (FRONT TOP2) y `
           + `la BANCADA (LAT TOP), que son CAJAS ENVOLVENTES medidas y no sólidos: la viga real y la cota del `
           + `taladro hay que verificarlas en obra, mismo aviso que ya está declarado para las ménsulas de las `
-          + `columnas guía sobre LAT TOP.` });
+          + `columnas guía sobre LAT TOP. `
+          + `ESTÉTICA (06-08, dis): faldón con taper — MEJORA contra el modo de fallo que esta misma nota `
+          + `declara (vibración del faldón de ${RP.placa[2]}): quitar ~4 400 mm² ≈ 0.28 kg EN LA PUNTA del `
+          + `voladizo sube la frecuencia propia sin tocar la sección en los amarres (los 4 Ø${RP.taladroDia} `
+          + `idénticos, 15 de canto como estaban); todo el grupo de aire queda respaldado (VHS20/AF20/AR20 `
+          + `centrados en Y 34.5 con canto 54.5; la cascada de tes muere en Y 72 y el borde taperado pasa por `
+          + `Y ≈ 82.5 a Z −284 → ≥10 de respaldo; en la esquina −Y baja el R${ESTETICA.esquinaMenor} deja el `
+          + `canto de la VHS20 en Y 15.12: nada). REGLA DE MONTAJE: las bridas de tubo de la columna (no `
+          + `modeladas) van siempre a ≤20 del eje Y ${NEUM.y} para caer sobre chapa con el taper.` });
     cN('pletina soporte del grupo de aire', 1);
   }
 
@@ -470,11 +606,9 @@ export function tensor2(E, ramal) {
   // =========================================================================
   // C. POR CALLE (×5): brazo, casquillos, polea tensora y SU PROPIO CILINDRO
   // =========================================================================
-  const silueta = hullDiscos([
-    [GEO.pivoteY, GEO.pivoteZ, PIV.cubo.de / 2],
-    [GEO.poleaY, GEO.poleaZ, 30],
-    [GEO.yugoY, GEO.lobuloZ, 20],
-  ]);
+  // Balancín con ojo (ESTÉTICA, ver cabecera): antes hull de discos con el
+  // cubo en R25 = PIV.cubo.de/2 = el radio del propio taladro (ligamento cero).
+  const silueta = siluetaBalancin();
 
   EJES.forEach((B, k) => {
     const c = `calle ${k + 1}, X=${B}`;
@@ -487,17 +621,27 @@ export function tensor2(E, ramal) {
       //   −X → [B−29, B−21]   ·   +X → [B+21, B+29]
       // La polea ocupa [B−20, B+20]: 1 mm de aire a cada ala de la horquilla.
       const xFace = s > 0 ? r2(B + platX - platE / 2) : r2(B - platX - platE / 2);
-      E.addPart(`FIJO · Brazo tensor e=${platE} (${s > 0 ? '+X' : '−X'}) (${c})`, COL.chapa,
+      E.addPart(`FIJO · Brazo tensor e=${platE} (${s > 0 ? '+X' : '−X'}) (${c})`, COL.movil,
         [xFace, GEO.pivoteY, GEO.pivoteZ],
-        [sketchYZ('Silueta del brazo (hull pivote–polea–lóbulo)', xFace, silueta, platE),
+        [sketchYZ(`Silueta de balancín (ojo del cubo R${ESTETICA.ojoCubo} · garganta R${ESTETICA.gargantaR})`, xFace, silueta, platE),
           hole(`Ø${PIV.cubo.de} paso del cubo`, [r2(xFace - 1), GEO.pivoteY, GEO.pivoteZ], [1, 0, 0], PIV.cubo.de),
           hole(`Ø${POL.eje.d} eje de la polea`, [r2(xFace - 1), GEO.poleaY, GEO.poleaZ], [1, 0, 0], POL.eje.d),
           hole('Ø10 bulón de la rótula', [r2(xFace - 1), GEO.yugoY, GEO.lobuloZ], [1, 0, 0], 10)],
-        { fabricada: true, capaInfo: 'dis (poses de las 3 zonas: step)',
+        { fabricada: true, capaInfo: 'dis (poses de las 3 zonas: step; silueta: ESTETICA de params_tensor2, dis)',
+          grabado: { texto: `TEN-BR · A36 e${platE}`, alto: 8, fuente: 'single-stroke',
+            cara: `${s > 0 ? '+X' : '−X'} (exterior)`, pos: 'junto al flanco frontal',
+            nota: 'las 10 pletinas son idénticas: NO se numeran por calle. Se corta en la misma pasada del láser.' },
           nota: `pletina A36 e=${platE}, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote `
             + `(palanca ${PALANCA.yugo}) y la polea a −Y (palanca ${PALANCA.polea}) → ventaja mecánica `
             + `×${PALANCA.ratio} (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza `
-            + `la polea de ${POL.ancho} y, más arriba, la rótula del cilindro.` });
+            + `la polea de ${POL.ancho} y, más arriba, la rótula del cilindro. `
+            + `ESTÉTICA (06-08, dis): silueta de balancín con ojo — cubo redondo R${ESTETICA.ojoCubo} concéntrico `
+            + `al paso Ø${PIV.cubo.de} (el hull anterior cortaba el contorno en R25 = el propio taladro: ligamento `
+            + `CERO sobre el cordón al cubo, el único concentrador real; ahora anillo continuo de `
+            + `${r2(ESTETICA.ojoCubo - PIV.cubo.de / 2)}), flancos rectos tangentes que siguen el diagrama de `
+            + `momentos y garganta cóncava R${ESTETICA.gargantaR} = ${r2(ESTETICA.gargantaR / platE)}·e (Kt ≈ 1.06) `
+            + `donde el alma retirada no era camino de carga. Ojos R30/R20, los 3 taladros, las 3 poses y las `
+            + `palancas: SIN CAMBIO. Matar aristas de corte R2 / 1×45° (es la chapa más accesible del frente).` });
       cN('brazo tensor (pletina fabricada)', 1);
     }
 
@@ -631,17 +775,49 @@ export function tensor2(E, ramal) {
 
     // --- LA MÉNSULA que ata esa bisagra al travesaño frontal ---------------
     const MS = SOPORTE.mensula;
-    E.addPart(`FIJO · Ménsula de bisagra — lengüeta e=${MS.e} (${c})`, COL.chapa,
-      [B, r2((MS.yPunta + MS.yFrente) / 2), r2(pinZ - 13)],
-      [box(`Lengüeta ${MS.e}×${r2(MS.yFrente - MS.yPunta)}×${MS.altoLenguar}`, [B, r2((MS.yPunta + MS.yFrente) / 2), r2(pinZ - 13)], MS.e, r2(MS.yFrente - MS.yPunta), MS.altoLenguar),
-        box(`Base ${MS.baseAncho}×10×${MS.alto}`, [B, r2(MS.yFrente + 5), -100], MS.baseAncho, 10, MS.alto),
+    // ESTÉTICA (06-08, dis): lengüeta con OJO — alto 20 CENTRADO en el bulón y
+    // nariz a radio pleno R10 CONCÉNTRICO con el Ø8 — y base con esquinas R8.
+    const zLen0 = r2(pinZ - MS.altoLenguar / 2), zLen1 = r2(pinZ + MS.altoLenguar / 2);   // −82 / −62
+    const zBase1 = SOPORTE.trav.z[1], zBase0 = r2(zBase1 - MS.alto);                      // −65 / −100
+    const yFaceBase = r2(MS.yFrente + 10);   // OJO: sketchXZ EXTRUYE HACIA −Y — su
+    //   docstring dice «+Y» y es FALSO (dir = [0,−1,0]; el mismo vicio que tuvo
+    //   sketchYZ durante meses), MEDIDO con bboxPieza sobre pieza de prueba.
+    //   Desde Y 68, los 10 de espesor dejan la base en Y 58…68 con la cara de
+    //   apoyo contra el travesaño en y = 58 EXACTA, la de siempre.
+    E.addPart(`FIJO · Ménsula de bisagra — lengüeta e=${MS.e} (${c})`, COL.fijo,
+      [B, r2((MS.yPunta + MS.yFrente) / 2), zLen0],
+      [sketchYZ(`Lengüeta e=${MS.e} alto ${MS.altoLenguar} — nariz R${ESTETICA.narizLengueta} concéntrica al bulón`,
+        r2(B - MS.e / 2),
+        [[MS.yFrente, zLen0],
+          ...arcoPts(NEUM.y, pinZ, ESTETICA.narizLengueta, -Math.PI / 2, -3 * Math.PI / 2, 24),
+          [MS.yFrente, zLen1]], MS.e),
+        sketchXZ(`Base ${MS.baseAncho}×10×${MS.alto} esquinas R${ESTETICA.esquinaMenor}`, yFaceBase,
+          rectR(r2(B - MS.baseAncho / 2), zBase0, r2(B + MS.baseAncho / 2), zBase1,
+            ESTETICA.esquinaMenor, 12), 10),
         hole(`Ø${SOPORTE.bulonTrasero.d} bulón`, [r2(B - MS.e), NEUM.y, pinZ], [1, 0, 0], SOPORTE.bulonTrasero.d),
         ...[-1, 1].map(sx => hole(`Ø9 M8 (${sx < 0 ? '−X' : '+X'})`, [r2(B + sx * MS.semiX), r2(MS.yFrente + 11), r2(pinZ - 8)], [0, -1, 0], 9))],
       { fabricada: true,
+        grabado: { texto: 'TEN-MEN', alto: 8, fuente: 'single-stroke',
+          cara: '−Y (la que ve el operador entre los cilindros)',
+          nota: 'se corta en la misma pasada del láser' },
         nota: `pletina A36 en L: la LENGÜETA entra en la luz de la horquilla de la C85C25 y el bulón la pinza; `
           + `la BASE atornilla con 2 M8 a la cara frontal del travesaño. Es la pieza que faltaba entre la `
           + `bisagra y el bastidor. Voladizo ${r2(MS.yFrente - NEUM.y)} mm desde la cara del travesaño: `
-          + `M = ${r2(TENSION.fTiroEfN * (MS.yFrente - NEUM.y))} N·mm sobre 2 secciones de ${MS.e}×${MS.alto} → σ despreciable.` });
+          + `M = ${r2(TENSION.fTiroEfN * (MS.yFrente - NEUM.y))} N·mm sobre 2 secciones de ${MS.e}×${MS.alto} → σ despreciable. `
+          + `ESTÉTICA (06-08, dis): lengüeta de ${MS.altoLenguar} CENTRADA en el bulón (Z ${zLen0}…${zLen1}) y `
+          + `nariz a RADIO PLENO R${ESTETICA.narizLengueta} concéntrico al Ø${SOPORTE.bulonTrasero.d} — la `
+          + `lengüeta señala su bulón; el ligamento alrededor del ojo sube de 4.5 (esquinas vivas de la punta `
+          + `recta) a ${r2(ESTETICA.narizLengueta - SOPORTE.bulonTrasero.d / 2)} uniformes = 0.75·d₀, la `
+          + `práctica de la propia horquilla C85C25 en este mismo bulón. Sección al empotramiento `
+          + `${MS.e}×${MS.altoLenguar} → σ = ${r2(TENSION.fTiroEfN * (MS.yFrente - NEUM.y) / (MS.e * MS.altoLenguar ** 2 / 6))} MPa `
+          + `con F = ${TENSION.fTiroEfN} N: FS > 40, neutro. HALLAZGO COLATERAL CERRADO: la lengüeta de 23 `
+          + `bajaba a Z −85 contra el fondo de la luz de la C85C25 en −84 (solape de 1 mm no declarado); `
+          + `centrada queda con 2 mm de aire por cara dentro de la luz (−84…−60), el techo sigue en ${zLen1} `
+          + `(holgura 4.8 al tambor motriz intacta) y la nariz muere en Y ${r2(NEUM.y - ESTETICA.narizLengueta)} `
+          + `contra fondo de luz en Y 12.5 → 12 libres. Base con esquinas R${ESTETICA.esquinaMenor} FUERA de la `
+          + `línea de pernos (arcos a ≥10.6 del centro de los Ø9, cantos rectos adyacentes conservados); el `
+          + `apriete pierde 55 mm² de 1400 (−3.9 %) en puntas donde la presión es nula y las cabezas M8 quedan `
+          + `con ≥2 de material alrededor.` });
     cN('ménsula de bisagra (fabricada)', 1);
     for (const sx of [-1, 1]) {
       pernoHex(E, { nombre: `M8×25 ménsula↔travesaño (${c}, ${sx < 0 ? '−X' : '+X'})`, at: [r2(B + sx * MS.semiX), r2(MS.yFrente + 16), r2(pinZ - 8)], dir: [0, -1, 0], dia: 8, largo: 25, af: 13, altoCab: 5.3, capa: 'FIJO · ' });

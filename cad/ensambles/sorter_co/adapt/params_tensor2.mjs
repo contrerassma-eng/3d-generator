@@ -66,7 +66,80 @@ export const PALANCA = {
   get ratio() { return r3(this.yugo / this.polea); },  // 1.841 — VENTAJA MECÁNICA
   // Radios reales de los dos lóbulos (para dibujar el brazo):
   rPolea: r2(Math.hypot(GEO.poleaY - GEO.pivoteY, GEO.poleaZ - GEO.pivoteZ)),   // 220.00
-  rYugo: r2(Math.hypot(GEO.yugoY - GEO.pivoteY, GEO.lobuloZ - GEO.pivoteZ)),    // 186.79
+  rYugo: r2(Math.hypot(GEO.yugoY - GEO.pivoteY, GEO.lobuloZ - GEO.pivoteZ)),    // 201.00 — comentario
+  //   CORREGIDO (estética 06-08): decía 186.79, el valor de cuando lobuloZ era
+  //   −292.5; con el −312.5 vigente la cuenta da 201.00. El código siempre
+  //   calculó bien — sólo el número anotado estaba viejo.
+};
+
+// ===========================================================================
+// 1-bis. ESTÉTICA DE LAS CHAPAS VISIBLES DEL TENSOR  (dis — 06-08-2026)
+// ===========================================================================
+// Instrucción literal del cliente: «Respecto q cada elemento de chapa
+// especialmente tensor y estructuras visibles dale una iteración estética con
+// diseñador industrial sin afectar elementos funcionales ni esteucturales para
+// mal estructural para bien de hecho».
+//
+// Estos valores son TODO lo nuevo que la iteración introduce (capa dis, cada
+// uno con su porqué). mod_tensor2.mjs los consume; taladros, bulones, caras de
+// apoyo, encajes, cordones, espesores y poses NO se tocan — y GEO/PALANCA/PIV/
+// POL/NEUM quedan como están (SC-02/SC-03 abiertos con dueño en este archivo:
+// ni una décima). Lenguaje completo y lo rechazado: ../ESTETICA.md.
+export const ESTETICA = {
+  ojoCubo: 40,       // dis — R del ojo del cubo, concéntrico al paso Ø50. El
+                     //   contorno anterior (hull de discos R25 = radio del propio
+                     //   taladro) dejaba ligamento CERO: filo de chapa coincidente
+                     //   con el corte del agujero, sobre el cordón al cubo — el
+                     //   único concentrador real de la pieza.
+                     //
+                     //   ⚠ FUE 48 DURANTE UNA TARDE y la verificación adversaria
+                     //   lo tumbó con la booleana B-rep exacta: con R48 el flanco
+                     //   dorsal del balancín de la CALLE 5 CORTABA el perno
+                     //   M12×75 de la UCFL del pivote +X (0.441 cm³) y al perno
+                     //   gemelo (Y=−160.22) le dejaba 2.52 mm de aire EN UNA
+                     //   PIEZA QUE GIRA (~2.5° de carrera lo consumían, y la
+                     //   carrera de instalación es ±7.7°). Los dos pernos cruzan
+                     //   la banda X del brazo de la calle 5 con sus ejes a
+                     //   ~58.5 mm del pivote en YZ: el radio máximo del contorno
+                     //   en esa dirección es 58.5 − (6 del Ø12 + ~8 de barrido a
+                     //   ese radio + 2 de holgura) ≈ 42.5. R40 deja el flanco a
+                     //   ~16.5 del eje del perno: 10.5 mm de aire estático, que
+                     //   el barrido de INSTALACIÓN completo (~10.5°) no agota y
+                     //   el de operación (unos pocos grados) ni se acerca. Se
+                     //   declara en la nota de la pieza; la B-rep vigila el
+                     //   estático.
+                     //
+                     //   R40 conserva TODO lo que compraba el 48: anillo de 15
+                     //   sobre el paso Ø50 (≥ e, repisa real para el cordón,
+                     //   contra el CERO anterior), W anular Ø80/Ø50 = 13 730 mm³
+                     //   del par de pletinas (σ = 4.1 MPa con el M máximo, vs
+                     //   8.52 certificado con canto 50), y la proporción con los
+                     //   ojos R30/Ø20 y R20/Ø10.
+  gargantaR: 60,     // dis — R de la garganta cóncava entre las dos ramas del
+                     //   balancín, en lugar del alma triangular. Único
+                     //   re-entrante portante de la familia → el radio más
+                     //   generoso que cabe: 60 = 7.5·e da Kt ≈ 1.06 (ningún
+                     //   concentrador nuevo) y queda a 92 del borde del Ø50,
+                     //   69 del ojo del cubo y 54/42 de los anillos de polea y
+                     //   lóbulo (calc, verificado). Coste de láser idéntico.
+  esquina: 12,       // dis — R exterior de esquina LIBRE de chapa vista
+                     //   (= 1.5·e). Placas de extremo del travesaño y esquinas
+                     //   altas y codo de la pletina del grupo de aire.
+  esquinaMenor: 8,   // dis — R exterior cuando una huella de componente, un
+                     //   cordón o una cara de apoyo queda a <12 del vértice
+                     //   (= e, suelo único de la familia: nunca < e). Base de
+                     //   la ménsula y esquina −Y baja de la pletina del aire
+                     //   (la huella de la VHS20 exige el canto en Y15: con R8
+                     //   pasa a Y 15.12 — nada; con R16 se descalzaría a ~Y18).
+  narizLengueta: 10, // dis — la lengüeta de la ménsula termina en radio pleno
+                     //   concéntrico a su bulón Ø8: ligamento uniforme de
+                     //   6 = 0.75·d₀ alrededor del ojo (la práctica de la
+                     //   propia horquilla C85C25 en el mismo bulón), en vez de
+                     //   las esquinas vivas con 4.5 de ligamento mínimo.
+  nArcos: 72,        // dis — puntos por círculo completo en las siluetas
+                     //   vistas (paso 5°; hoy 36 = facetas de 10° visibles en
+                     //   sco_corte_calle3.png) y paso ≤5° en gargantas y
+                     //   acuerdos. El DXF del láser no cambia de coste.
 };
 
 // ===========================================================================
@@ -450,8 +523,14 @@ export const SOPORTE = {
     yPunta: 26,             // dis — la oreja sobrepasa el pin 8.5
     alto: 35,               // dis — la base ocupa el canto del travesaño (Z −100…−65)
                             //   y NO puede subir de −57.2, que es el fondo del tambor motriz
-    altoLenguar: 23,        // dis — lengüeta Z −85…−62: cubre el pin (−72) y libra
-                            //   el tambor por 4.8
+    altoLenguar: 20,        // dis — lengüeta Z −82…−62, CENTRADA en el bulón (−72).
+                            //   ESTÉTICA 06-08 (era 23, Z −85…−62): el techo se queda
+                            //   en −62 → la holgura 4.8 al tambor motriz, intacta; el
+                            //   fondo sube de −85 a −82 → ELIMINA un solape de 1 mm no
+                            //   declarado con el fondo de la luz de la C85C25 (−84) y
+                            //   la lengüeta queda con 2 de aire por cara en la luz
+                            //   (−84…−60). Con la nariz R10 el alto 20 = 2·R cierra
+                            //   la punta en radio pleno tangente a las dos caras.
     perno: { d: 8, n: 2 },  // dis — 2 M8 por ménsula a la cara del travesaño
   },
   // --- los bulones y sus retenciones ---------------------------------------

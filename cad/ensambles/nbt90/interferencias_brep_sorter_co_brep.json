@@ -3,7 +3,7 @@
  "tolerancia_cm3": 0.05,
  "piezas": 807,
  "pares_candidatos": 2155,
- "interferencias": 134,
+ "interferencias": 129,
  "detalle": [
   {
    "cm3": 30.652,
@@ -20,7 +20,7 @@
    "cruce": false
   },
   {
-   "cm3": 20.9824,
+   "cm3": 20.9819,
    "a": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
    "b": "FIJO · Válvula de corte y purga SMC VHS20-02 (grupo de aire del tensor)",
    "pct_de_la_menor": 19.75,
@@ -104,52 +104,52 @@
    "cruce": false
   },
   {
-   "cm3": 4.2738,
+   "cm3": 3.9721,
    "a": "FIJO · Travesaño frontal del tensor 40×40×3 (L=423.92) — «placa frontal»",
    "b": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 1, X=127.056)",
-   "pct_de_la_menor": 23.47,
+   "pct_de_la_menor": 23.33,
    "cruce": false
   },
   {
-   "cm3": 4.2738,
+   "cm3": 3.9721,
    "a": "FIJO · Travesaño frontal del tensor 40×40×3 (L=423.92) — «placa frontal»",
    "b": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 2, X=203.256)",
-   "pct_de_la_menor": 23.47,
+   "pct_de_la_menor": 23.33,
    "cruce": false
   },
   {
-   "cm3": 4.2738,
+   "cm3": 3.9721,
    "a": "FIJO · Travesaño frontal del tensor 40×40×3 (L=423.92) — «placa frontal»",
    "b": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 3, X=279.456)",
-   "pct_de_la_menor": 23.47,
+   "pct_de_la_menor": 23.33,
    "cruce": false
   },
   {
-   "cm3": 4.2738,
+   "cm3": 3.9721,
    "a": "FIJO · Travesaño frontal del tensor 40×40×3 (L=423.92) — «placa frontal»",
    "b": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 4, X=355.656)",
-   "pct_de_la_menor": 23.47,
+   "pct_de_la_menor": 23.33,
    "cruce": false
   },
   {
-   "cm3": 4.2738,
+   "cm3": 3.9721,
    "a": "FIJO · Travesaño frontal del tensor 40×40×3 (L=423.92) — «placa frontal»",
    "b": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 5, X=431.856)",
-   "pct_de_la_menor": 23.47,
+   "pct_de_la_menor": 23.33,
    "cruce": false
   },
   {
    "cm3": 3.552,
    "a": "FIJO · Travesaño frontal del tensor 40×40×3 (L=423.92) — «placa frontal»",
    "b": "FIJO · Placa de extremo del travesaño frontal (+X) 8×90×65",
-   "pct_de_la_menor": 7.76,
+   "pct_de_la_menor": 7.93,
    "cruce": false
   },
   {
-   "cm3": 3.5476,
+   "cm3": 3.5493,
    "a": "FIJO · Travesaño frontal del tensor 40×40×3 (L=423.92) — «placa frontal»",
    "b": "FIJO · Placa de extremo del travesaño frontal (−X) 8×90×65",
-   "pct_de_la_menor": 7.75,
+   "pct_de_la_menor": 7.93,
    "cruce": false
   },
   {
@@ -738,41 +738,6 @@
    "a": "PG40 · Alargue lateral · tramo de lap +X (Y -855…-739, Acero A36 (S275JR) e=5.9)",
    "b": "PG40 · Perno hex 3/8-16 × 25 · alargue +X Y -802",
    "pct_de_la_menor": 8.01,
-   "cruce": false
-  },
-  {
-   "cm3": 0.228,
-   "a": "FIJO · Bisagra trasera SMC C85C25 (calle 1, X=127.056)",
-   "b": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 1, X=127.056)",
-   "pct_de_la_menor": 1.25,
-   "cruce": false
-  },
-  {
-   "cm3": 0.228,
-   "a": "FIJO · Bisagra trasera SMC C85C25 (calle 2, X=203.256)",
-   "b": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 2, X=203.256)",
-   "pct_de_la_menor": 1.25,
-   "cruce": false
-  },
-  {
-   "cm3": 0.228,
-   "a": "FIJO · Bisagra trasera SMC C85C25 (calle 3, X=279.456)",
-   "b": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 3, X=279.456)",
-   "pct_de_la_menor": 1.25,
-   "cruce": false
-  },
-  {
-   "cm3": 0.228,
-   "a": "FIJO · Bisagra trasera SMC C85C25 (calle 4, X=355.656)",
-   "b": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 4, X=355.656)",
-   "pct_de_la_menor": 1.25,
-   "cruce": false
-  },
-  {
-   "cm3": 0.228,
-   "a": "FIJO · Bisagra trasera SMC C85C25 (calle 5, X=431.856)",
-   "b": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 5, X=431.856)",
-   "pct_de_la_menor": 1.25,
    "cruce": false
   },
   {

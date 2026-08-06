@@ -73705,7 +73705,7 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "ESTO es la «placa frontal» que faltaba: cruza el cabezal de lado a lado y recibe las 5 bisagras traseras. Se atornilla a las caras interiores de los DOS canales de costado del cliente (X 67.494 y 491.418, step), luz 423.92. Va DETRÁS del tambor motriz en Y (arranca en 58, el tambor acaba en 54.45) y por DEBAJO en Z (corona en -65, el tambor empieza en −57.2): doble holgura, porque entre el fondo del tambor y la bisagra sólo hay 10.8 mm y ahí no cabe. Carga 700.95 N (5 × 140.19 N, el cilindro tira de su bisagra hacia abajo) → flecha 0.032 mm, σ 7.29 MPa (FS 34.294 sobre A36).",
+   "nota": "ESTO es la «placa frontal» que faltaba: cruza el cabezal de lado a lado y recibe las 5 bisagras traseras. Se atornilla a las caras interiores de los DOS canales de costado del cliente (X 67.494 y 491.418, step), luz 423.92. Va DETRÁS del tambor motriz en Y (arranca en 58, el tambor acaba en 54.45) y por DEBAJO en Z (corona en -65, el tambor empieza en −57.2): doble holgura, porque entre el fondo del tambor y la bisagra sólo hay 10.8 mm y ahí no cabe. Carga 700.95 N (5 × 140.19 N, el cilindro tira de su bisagra hacia abajo) → flecha 0.032 mm, σ 7.29 MPa (FS 34.294 sobre A36). ESTÉTICA (06-08): contorno del perfil comercial SIN CAMBIO — decisión declarada, no olvido: la cara frontal entera es interfaz (los 10 Ø9 de las 5 ménsulas), las testas las tapan las placas de extremo (esa unión, con su junta, la declara cada placa) y contornearlo pediría láser de tubo (operación nueva). Su estética la ponen las piezas que lo visten. Costura del tubo orientada a +Y (cara oculta contra la máquina); aristas de sierra de ambos extremos matadas. Neutro por identidad: la sección es simétrica y la orientación de la costura no cambia I ni W.",
    "features": [
     {
      "id": "f2022",
@@ -73971,7 +73971,7 @@
   {
    "id": "p815_fijo_placa_de_extremo_del_travesano_frontal_x_8_90_65",
    "name": "FIJO · Placa de extremo del travesaño frontal (−X) 8×90×65",
-   "color": "#8fa3b8",
+   "color": "#455a64",
    "pos": [
     71.49,
     78,
@@ -73986,6 +73986,13 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
+   "grabado": {
+    "texto": "TEN-PLX",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "X 75.49 (cara libre)",
+    "nota": "se corta en la misma pasada del láser"
+   },
    "uniones": [
     {
      "rosca": "M8",
@@ -73994,27 +74001,240 @@
      "a": "PG40 · Alargue lateral · cabezal de rodamiento motriz"
     }
    ],
-   "nota": "A5 CERRADO. Suelda al travesaño y atornilla con 2 M8 al cabezal de rodamiento −X del alargue PG40 (X 67.494, adapt/params_pg40 PUBLICA.caraApoyo) — la misma placa que sostiene el tambor motriz. LOS TALADROS EXISTEN EN LAS DOS PIEZAS: Ø9 en Y 46 y 110, Z -85, cota publicada por params_pg40 ALARGUE.taladrosTensor. Antes estaban en Y 50 y 106 con el cabezal muriendo en Y 90 — 16 mm al aire — y el cabezal no llevaba ninguno. Ahora el cabezal llega a Y 122 (12 de distancia al canto sobre el taladro de Y 110) y la placa mide 90 de ancho (13 de canto a cada taladro; el mínimo es 1.2·d₀ = 10.8). Los dos pernos van a los lados del tubo 40×40 (Y 58…98) para que quepa la llave. Corona en Z -60 para librar por 5.2 las tuercas M12 del UCF 207 del tambor motriz, que ocupan Z −54.8…−42.8 en ese mismo cabezal (params_tambores).",
+   "nota": "A5 CERRADO. Suelda al travesaño y atornilla con 2 M8 al cabezal de rodamiento −X del alargue PG40 (X 67.494, adapt/params_pg40 PUBLICA.caraApoyo) — la misma placa que sostiene el tambor motriz. LOS TALADROS EXISTEN EN LAS DOS PIEZAS: Ø9 en Y 46 y 110, Z -85, cota publicada por params_pg40 ALARGUE.taladrosTensor. Antes estaban en Y 50 y 106 con el cabezal muriendo en Y 90 — 16 mm al aire — y el cabezal no llevaba ninguno. Ahora el cabezal llega a Y 122 (12 de distancia al canto sobre el taladro de Y 110) y la placa mide 90 de ancho (13 de canto a cada taladro; el mínimo es 1.2·d₀ = 10.8). Los dos pernos van a los lados del tubo 40×40 (Y 58…98) para que quepa la llave. Corona en Z -60 para librar por 5.2 las tuercas M12 del UCF 207 del tambor motriz, que ocupan Z −54.8…−42.8 en ese mismo cabezal (params_tambores). ESTÉTICA (06-08, dis): esquinas R12 — neutro: el camino de carga es perno → placa → cordón al tubo; los arcos arrancan a 12 de cada vértice y el taladro más próximo queda a 25 del suyo, así que los 13 de distancia al canto se CONSERVAN; el cordón placa↔tubo (huella Y 58…98 × Z −105…−65) queda a 13.5 del arco más cercano, y en la esquina alta el radio sólo ALEJA material de las tuercas M12 del UCF 207 (la holgura declarada 5.2 crece).",
    "features": [
     {
      "id": "f2034",
-     "name": "Placa 8×90×65",
-     "shape": "box",
+     "name": "Placa 8×90×65 esquinas R12",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
+      -3.995999999999995,
+      -78,
+      125
+     ],
+     "dir": [
+      1,
       0,
       0
      ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
      "params": {
-      "w": 8,
-      "d": 90,
-      "h": 65
+      "pts": [
+       [
+        111,
+        -125
+       ],
+       [
+        112.57,
+        -124.9
+       ],
+       [
+        114.11,
+        -124.59
+       ],
+       [
+        115.59,
+        -124.09
+       ],
+       [
+        117,
+        -123.39
+       ],
+       [
+        118.31,
+        -122.52
+       ],
+       [
+        119.49,
+        -121.49
+       ],
+       [
+        120.52,
+        -120.31
+       ],
+       [
+        121.39,
+        -119
+       ],
+       [
+        122.09,
+        -117.59
+       ],
+       [
+        122.59,
+        -116.11
+       ],
+       [
+        122.9,
+        -114.57
+       ],
+       [
+        123,
+        -113
+       ],
+       [
+        123,
+        -72
+       ],
+       [
+        122.9,
+        -70.43
+       ],
+       [
+        122.59,
+        -68.89
+       ],
+       [
+        122.09,
+        -67.41
+       ],
+       [
+        121.39,
+        -66
+       ],
+       [
+        120.52,
+        -64.69
+       ],
+       [
+        119.49,
+        -63.51
+       ],
+       [
+        118.31,
+        -62.48
+       ],
+       [
+        117,
+        -61.61
+       ],
+       [
+        115.59,
+        -60.91
+       ],
+       [
+        114.11,
+        -60.41
+       ],
+       [
+        112.57,
+        -60.1
+       ],
+       [
+        111,
+        -60
+       ],
+       [
+        45,
+        -60
+       ],
+       [
+        43.43,
+        -60.1
+       ],
+       [
+        41.89,
+        -60.41
+       ],
+       [
+        40.41,
+        -60.91
+       ],
+       [
+        39,
+        -61.61
+       ],
+       [
+        37.69,
+        -62.48
+       ],
+       [
+        36.51,
+        -63.51
+       ],
+       [
+        35.48,
+        -64.69
+       ],
+       [
+        34.61,
+        -66
+       ],
+       [
+        33.91,
+        -67.41
+       ],
+       [
+        33.41,
+        -68.89
+       ],
+       [
+        33.1,
+        -70.43
+       ],
+       [
+        33,
+        -72
+       ],
+       [
+        33,
+        -113
+       ],
+       [
+        33.1,
+        -114.57
+       ],
+       [
+        33.41,
+        -116.11
+       ],
+       [
+        33.91,
+        -117.59
+       ],
+       [
+        34.61,
+        -119
+       ],
+       [
+        35.48,
+        -120.31
+       ],
+       [
+        36.51,
+        -121.49
+       ],
+       [
+        37.69,
+        -122.52
+       ],
+       [
+        39,
+        -123.39
+       ],
+       [
+        40.41,
+        -124.09
+       ],
+       [
+        41.89,
+        -124.59
+       ],
+       [
+        43.43,
+        -124.9
+       ],
+       [
+        45,
+        -125
+       ]
+      ],
+      "h": 8,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
@@ -74486,7 +74706,7 @@
   {
    "id": "p820_fijo_placa_de_extremo_del_travesano_frontal_x_8_90_65",
    "name": "FIJO · Placa de extremo del travesaño frontal (+X) 8×90×65",
-   "color": "#8fa3b8",
+   "color": "#455a64",
    "pos": [
     487.42,
     78,
@@ -74501,6 +74721,13 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
+   "grabado": {
+    "texto": "TEN-PLX",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "X 483.42 (cara libre)",
+    "nota": "se corta en la misma pasada del láser"
+   },
    "uniones": [
     {
      "rosca": "M8",
@@ -74509,27 +74736,240 @@
      "a": "PG40 · Alargue lateral · cabezal de rodamiento motriz"
     }
    ],
-   "nota": "A5 CERRADO. Suelda al travesaño y atornilla con 2 M8 al cabezal de rodamiento +X del alargue PG40 (X 491.418, adapt/params_pg40 PUBLICA.caraApoyo) — la misma placa que sostiene el tambor motriz. LOS TALADROS EXISTEN EN LAS DOS PIEZAS: Ø9 en Y 46 y 110, Z -85, cota publicada por params_pg40 ALARGUE.taladrosTensor. Antes estaban en Y 50 y 106 con el cabezal muriendo en Y 90 — 16 mm al aire — y el cabezal no llevaba ninguno. Ahora el cabezal llega a Y 122 (12 de distancia al canto sobre el taladro de Y 110) y la placa mide 90 de ancho (13 de canto a cada taladro; el mínimo es 1.2·d₀ = 10.8). Los dos pernos van a los lados del tubo 40×40 (Y 58…98) para que quepa la llave. Corona en Z -60 para librar por 5.2 las tuercas M12 del UCF 207 del tambor motriz, que ocupan Z −54.8…−42.8 en ese mismo cabezal (params_tambores).",
+   "nota": "A5 CERRADO. Suelda al travesaño y atornilla con 2 M8 al cabezal de rodamiento +X del alargue PG40 (X 491.418, adapt/params_pg40 PUBLICA.caraApoyo) — la misma placa que sostiene el tambor motriz. LOS TALADROS EXISTEN EN LAS DOS PIEZAS: Ø9 en Y 46 y 110, Z -85, cota publicada por params_pg40 ALARGUE.taladrosTensor. Antes estaban en Y 50 y 106 con el cabezal muriendo en Y 90 — 16 mm al aire — y el cabezal no llevaba ninguno. Ahora el cabezal llega a Y 122 (12 de distancia al canto sobre el taladro de Y 110) y la placa mide 90 de ancho (13 de canto a cada taladro; el mínimo es 1.2·d₀ = 10.8). Los dos pernos van a los lados del tubo 40×40 (Y 58…98) para que quepa la llave. Corona en Z -60 para librar por 5.2 las tuercas M12 del UCF 207 del tambor motriz, que ocupan Z −54.8…−42.8 en ese mismo cabezal (params_tambores). ESTÉTICA (06-08, dis): esquinas R12 — neutro: el camino de carga es perno → placa → cordón al tubo; los arcos arrancan a 12 de cada vértice y el taladro más próximo queda a 25 del suyo, así que los 13 de distancia al canto se CONSERVAN; el cordón placa↔tubo (huella Y 58…98 × Z −105…−65) queda a 13.5 del arco más cercano, y en la esquina alta el radio sólo ALEJA material de las tuercas M12 del UCF 207 (la holgura declarada 5.2 crece).",
    "features": [
     {
      "id": "f2045",
-     "name": "Placa 8×90×65",
-     "shape": "box",
+     "name": "Placa 8×90×65 esquinas R12",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
+      -4,
+      -78,
+      125
+     ],
+     "dir": [
+      1,
       0,
       0
      ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
      "params": {
-      "w": 8,
-      "d": 90,
-      "h": 65
+      "pts": [
+       [
+        111,
+        -125
+       ],
+       [
+        112.57,
+        -124.9
+       ],
+       [
+        114.11,
+        -124.59
+       ],
+       [
+        115.59,
+        -124.09
+       ],
+       [
+        117,
+        -123.39
+       ],
+       [
+        118.31,
+        -122.52
+       ],
+       [
+        119.49,
+        -121.49
+       ],
+       [
+        120.52,
+        -120.31
+       ],
+       [
+        121.39,
+        -119
+       ],
+       [
+        122.09,
+        -117.59
+       ],
+       [
+        122.59,
+        -116.11
+       ],
+       [
+        122.9,
+        -114.57
+       ],
+       [
+        123,
+        -113
+       ],
+       [
+        123,
+        -72
+       ],
+       [
+        122.9,
+        -70.43
+       ],
+       [
+        122.59,
+        -68.89
+       ],
+       [
+        122.09,
+        -67.41
+       ],
+       [
+        121.39,
+        -66
+       ],
+       [
+        120.52,
+        -64.69
+       ],
+       [
+        119.49,
+        -63.51
+       ],
+       [
+        118.31,
+        -62.48
+       ],
+       [
+        117,
+        -61.61
+       ],
+       [
+        115.59,
+        -60.91
+       ],
+       [
+        114.11,
+        -60.41
+       ],
+       [
+        112.57,
+        -60.1
+       ],
+       [
+        111,
+        -60
+       ],
+       [
+        45,
+        -60
+       ],
+       [
+        43.43,
+        -60.1
+       ],
+       [
+        41.89,
+        -60.41
+       ],
+       [
+        40.41,
+        -60.91
+       ],
+       [
+        39,
+        -61.61
+       ],
+       [
+        37.69,
+        -62.48
+       ],
+       [
+        36.51,
+        -63.51
+       ],
+       [
+        35.48,
+        -64.69
+       ],
+       [
+        34.61,
+        -66
+       ],
+       [
+        33.91,
+        -67.41
+       ],
+       [
+        33.41,
+        -68.89
+       ],
+       [
+        33.1,
+        -70.43
+       ],
+       [
+        33,
+        -72
+       ],
+       [
+        33,
+        -113
+       ],
+       [
+        33.1,
+        -114.57
+       ],
+       [
+        33.41,
+        -116.11
+       ],
+       [
+        33.91,
+        -117.59
+       ],
+       [
+        34.61,
+        -119
+       ],
+       [
+        35.48,
+        -120.31
+       ],
+       [
+        36.51,
+        -121.49
+       ],
+       [
+        37.69,
+        -122.52
+       ],
+       [
+        39,
+        -123.39
+       ],
+       [
+        40.41,
+        -124.09
+       ],
+       [
+        41.89,
+        -124.59
+       ],
+       [
+        43.43,
+        -124.9
+       ],
+       [
+        45,
+        -125
+       ]
+      ],
+      "h": 8,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
@@ -75001,7 +75441,7 @@
   {
    "id": "p825_fijo_pletina_soporte_del_regulador_de_presion_ar20_y_del_gru",
    "name": "FIJO · Pletina soporte del regulador de presión AR20 y del grupo de aire (8×90×320)",
-   "color": "#8fa3b8",
+   "color": "#455a64",
    "pos": [
     20,
     60,
@@ -75016,6 +75456,22 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
+   "grabado": [
+    {
+     "texto": "TENSOR · 4,0 bar",
+     "alto": 8,
+     "fuente": "single-stroke",
+     "cara": "+X (la cara vista)",
+     "origen": "GENERADO de NEUM.presionTrabajoBar (nunca pegado). NO CORTAR hasta cerrar SC-02/SC-03 (la revisión ya exige cerrarlos antes del taller): si el cierre cambia presión o calibre, este texto se regenera solo."
+    },
+    {
+     "texto": "LOTO ↓",
+     "alto": 8,
+     "fuente": "single-stroke",
+     "cara": "+X (la cara vista)",
+     "pos": "sobre la VHS20 — la válvula de corte y purga con candado es el punto de consignación del tensor (papel declarado web PNEU-012)"
+    }
+   ],
    "uniones": [
     {
      "rosca": "M8",
@@ -75024,27 +75480,344 @@
      "a": "cabecera motriz FRONT TOP2 / bancada LAT TOP (envolventes medidas) — VERIFICAR EN OBRA"
     }
    ],
-   "nota": "PROLONGADA de 120 a 320 mm: ya no sostiene sólo el AR20, sino la columna entera del grupo de aire —SMC VHS20-02 abajo, SMC AF20-02-B en medio, SMC AR20-02-B arriba con su SMC G36-10-01— y la cascada de 4 SMC KQ2T06-00. Sigue arriba en Z -60 (libra por 12.2 el cuerpo del UCF 207 del tambor motriz, fondo −47.8) y baja a Z -380. Pasa de 2 a 4 amarres: con 320 mm de faldón, dos a 60 mm no lo sujetan contra la vibración. ⚠ CORREGIDA UNA NOTA FALSA: decía «atornillada al canal de costado −X» y NO LLEGA — el canal medido vive en X −115.4…−75.4 y esta pletina está en X 16…24, a 91 mm. Lo que tiene detrás es la CABECERA MOTRIZ (FRONT TOP2) y la BANCADA (LAT TOP), que son CAJAS ENVOLVENTES medidas y no sólidos: la viga real y la cota del taladro hay que verificarlas en obra, mismo aviso que ya está declarado para las ménsulas de las columnas guía sobre LAT TOP.",
+   "nota": "PROLONGADA de 120 a 320 mm: ya no sostiene sólo el AR20, sino la columna entera del grupo de aire —SMC VHS20-02 abajo, SMC AF20-02-B en medio, SMC AR20-02-B arriba con su SMC G36-10-01— y la cascada de 4 SMC KQ2T06-00. Sigue arriba en Z -60 (libra por 12.2 el cuerpo del UCF 207 del tambor motriz, fondo −47.8) y baja a Z -380. Pasa de 2 a 4 amarres: con 320 mm de faldón, dos a 60 mm no lo sujetan contra la vibración. ⚠ CORREGIDA UNA NOTA FALSA: decía «atornillada al canal de costado −X» y NO LLEGA — el canal medido vive en X −115.4…−75.4 y esta pletina está en X 16…24, a 91 mm. Lo que tiene detrás es la CABECERA MOTRIZ (FRONT TOP2) y la BANCADA (LAT TOP), que son CAJAS ENVOLVENTES medidas y no sólidos: la viga real y la cota del taladro hay que verificarlas en obra, mismo aviso que ya está declarado para las ménsulas de las columnas guía sobre LAT TOP. ESTÉTICA (06-08, dis): faldón con taper — MEJORA contra el modo de fallo que esta misma nota declara (vibración del faldón de 320): quitar ~4 400 mm² ≈ 0.28 kg EN LA PUNTA del voladizo sube la frecuencia propia sin tocar la sección en los amarres (los 4 Ø9 idénticos, 15 de canto como estaban); todo el grupo de aire queda respaldado (VHS20/AF20/AR20 centrados en Y 34.5 con canto 54.5; la cascada de tes muere en Y 72 y el borde taperado pasa por Y ≈ 82.5 a Z −284 → ≥10 de respaldo; en la esquina −Y baja el R8 deja el canto de la VHS20 en Y 15.12: nada). REGLA DE MONTAJE: las bridas de tubo de la columna (no modeladas) van siempre a ≤20 del eje Y 34.5 para caer sobre chapa con el taper.",
    "features": [
     {
      "id": "f2056",
-     "name": "Pletina 8×90×320",
-     "shape": "box",
+     "name": "Pletina 8×90×320 — faldón taperado, esquinas R12/R8",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
+      -4,
+      -60,
+      380
+     ],
+     "dir": [
+      1,
       0,
       0
      ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
      "params": {
-      "w": 8,
-      "d": 90,
-      "h": 320
+      "pts": [
+       [
+        15,
+        -372
+       ],
+       [
+        15.03,
+        -372.7
+       ],
+       [
+        15.12,
+        -373.39
+       ],
+       [
+        15.27,
+        -374.07
+       ],
+       [
+        15.48,
+        -374.74
+       ],
+       [
+        15.75,
+        -375.38
+       ],
+       [
+        16.07,
+        -376
+       ],
+       [
+        16.45,
+        -376.59
+       ],
+       [
+        16.87,
+        -377.14
+       ],
+       [
+        17.34,
+        -377.66
+       ],
+       [
+        17.86,
+        -378.13
+       ],
+       [
+        18.41,
+        -378.55
+       ],
+       [
+        19,
+        -378.93
+       ],
+       [
+        19.62,
+        -379.25
+       ],
+       [
+        20.26,
+        -379.52
+       ],
+       [
+        20.93,
+        -379.73
+       ],
+       [
+        21.61,
+        -379.88
+       ],
+       [
+        22.3,
+        -379.97
+       ],
+       [
+        23,
+        -380
+       ],
+       [
+        54.99,
+        -380
+       ],
+       [
+        56.03,
+        -379.95
+       ],
+       [
+        57.06,
+        -379.82
+       ],
+       [
+        58.08,
+        -379.59
+       ],
+       [
+        59.07,
+        -379.28
+       ],
+       [
+        60.04,
+        -378.88
+       ],
+       [
+        60.96,
+        -378.4
+       ],
+       [
+        61.85,
+        -377.85
+       ],
+       [
+        62.67,
+        -377.21
+       ],
+       [
+        63.44,
+        -376.51
+       ],
+       [
+        64.15,
+        -375.74
+       ],
+       [
+        64.79,
+        -374.92
+       ],
+       [
+        65.35,
+        -374.04
+       ],
+       [
+        65.84,
+        -373.12
+       ],
+       [
+        66.24,
+        -372.16
+       ],
+       [
+        66.56,
+        -371.16
+       ],
+       [
+        66.79,
+        -370.15
+       ],
+       [
+        104.81,
+        -161.06
+       ],
+       [
+        104.91,
+        -160.35
+       ],
+       [
+        104.98,
+        -159.64
+       ],
+       [
+        105,
+        -158.92
+       ],
+       [
+        105,
+        -72
+       ],
+       [
+        104.95,
+        -70.95
+       ],
+       [
+        104.82,
+        -69.92
+       ],
+       [
+        104.59,
+        -68.89
+       ],
+       [
+        104.28,
+        -67.9
+       ],
+       [
+        103.88,
+        -66.93
+       ],
+       [
+        103.39,
+        -66
+       ],
+       [
+        102.83,
+        -65.12
+       ],
+       [
+        102.19,
+        -64.29
+       ],
+       [
+        101.49,
+        -63.51
+       ],
+       [
+        100.71,
+        -62.81
+       ],
+       [
+        99.88,
+        -62.17
+       ],
+       [
+        99,
+        -61.61
+       ],
+       [
+        98.07,
+        -61.12
+       ],
+       [
+        97.1,
+        -60.72
+       ],
+       [
+        96.11,
+        -60.41
+       ],
+       [
+        95.08,
+        -60.18
+       ],
+       [
+        94.05,
+        -60.05
+       ],
+       [
+        93,
+        -60
+       ],
+       [
+        27,
+        -60
+       ],
+       [
+        25.95,
+        -60.05
+       ],
+       [
+        24.92,
+        -60.18
+       ],
+       [
+        23.89,
+        -60.41
+       ],
+       [
+        22.9,
+        -60.72
+       ],
+       [
+        21.93,
+        -61.12
+       ],
+       [
+        21,
+        -61.61
+       ],
+       [
+        20.12,
+        -62.17
+       ],
+       [
+        19.29,
+        -62.81
+       ],
+       [
+        18.51,
+        -63.51
+       ],
+       [
+        17.81,
+        -64.29
+       ],
+       [
+        17.17,
+        -65.12
+       ],
+       [
+        16.61,
+        -66
+       ],
+       [
+        16.12,
+        -66.93
+       ],
+       [
+        15.72,
+        -67.9
+       ],
+       [
+        15.41,
+        -68.89
+       ],
+       [
+        15.18,
+        -69.92
+       ],
+       [
+        15.05,
+        -70.95
+       ],
+       [
+        15,
+        -72
+       ]
+      ],
+      "h": 8,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
@@ -75501,7 +76274,7 @@
   {
    "id": "p833_fijo_brazo_tensor_e_8_x_calle_1_x_127_056",
    "name": "FIJO · Brazo tensor e=8 (−X) (calle 1, X=127.056)",
-   "color": "#8fa3b8",
+   "color": "#2a4fd7",
    "pos": [
     98.06,
     -101.72,
@@ -75516,12 +76289,20 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "capaInfo": "dis (poses de las 3 zonas: step)",
-   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro.",
+   "capaInfo": "dis (poses de las 3 zonas: step; silueta: ESTETICA de params_tensor2, dis)",
+   "grabado": {
+    "texto": "TEN-BR · A36 e8",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "−X (exterior)",
+    "pos": "junto al flanco frontal",
+    "nota": "las 10 pletinas son idénticas: NO se numeran por calle. Se corta en la misma pasada del láser."
+   },
+   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro. ESTÉTICA (06-08, dis): silueta de balancín con ojo — cubo redondo R40 concéntrico al paso Ø50 (el hull anterior cortaba el contorno en R25 = el propio taladro: ligamento CERO sobre el cordón al cubo, el único concentrador real; ahora anillo continuo de 15), flancos rectos tangentes que siguen el diagrama de momentos y garganta cóncava R60 = 7.5·e (Kt ≈ 1.06) donde el alma retirada no era camino de carga. Ojos R30/R20, los 3 taladros, las 3 poses y las palancas: SIN CAMBIO. Matar aristas de corte R2 / 1×45° (es la chapa más accesible del frente).",
    "features": [
     {
      "id": "f2068",
-     "name": "Silueta del brazo (hull pivote–polea–lóbulo)",
+     "name": "Silueta de balancín (ojo del cubo R40 · garganta R60)",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -75537,160 +76318,488 @@
      "params": {
       "pts": [
        [
-        -205.72,
-        -371.89
+        -118.17,
+        -310.48
        ],
        [
-        -205.26,
-        -377.1
+        -115.99,
+        -305.75
        ],
        [
-        -203.91,
-        -382.15
+        -113.41,
+        -301.23
        ],
        [
-        -201.7,
-        -386.89
+        -110.45,
+        -296.95
        ],
        [
-        -198.7,
-        -391.17
+        -107.13,
+        -292.94
        ],
        [
-        -195,
-        -394.87
+        -103.47,
+        -289.24
        ],
        [
-        -190.72,
-        -397.87
+        -99.51,
+        -285.87
        ],
        [
-        -185.98,
-        -400.08
+        -95.27,
+        -282.85
        ],
        [
-        -180.93,
-        -401.43
+        -90.78,
+        -280.21
        ],
        [
-        -175.72,
-        -401.89
+        -86.08,
+        -277.97
        ],
        [
-        -170.51,
-        -401.43
+        -81.21,
+        -276.15
        ],
        [
-        -165.46,
-        -400.08
+        -76.19,
+        -274.76
        ],
        [
-        41.34,
-        -331.29
+        -71.08,
+        -273.8
        ],
        [
-        44.5,
-        -329.82
+        -65.9,
+        -273.29
        ],
        [
-        47.36,
-        -327.82
+        -60.7,
+        -273.24
        ],
        [
-        49.82,
-        -325.36
+        -55.51,
+        -273.63
        ],
        [
-        51.82,
-        -322.5
+        -50.37,
+        -274.47
        ],
        [
-        53.29,
-        -319.34
+        -45.33,
+        -275.76
        ],
        [
-        54.2,
-        -315.97
+        -40.41,
+        -277.47
        ],
        [
-        54.5,
-        -312.5
+        -35.67,
+        -279.61
        ],
        [
-        54.2,
-        -309.03
+        -31.13,
+        -282.15
        ],
        [
-        53.29,
-        -305.66
+        -26.82,
+        -285.07
        ],
        [
-        51.82,
-        -302.5
+        -22.78,
+        -288.35
        ],
        [
-        49.82,
-        -299.64
+        21.22,
+        -327.45
        ],
        [
-        -82.57,
-        -148.63
+        22.56,
+        -328.54
        ],
        [
-        -85.65,
-        -145.55
+        23.99,
+        -329.51
        ],
        [
-        -89.22,
-        -143.05
+        25.5,
+        -330.36
        ],
        [
-        -93.17,
-        -141.21
+        27.08,
+        -331.07
        ],
        [
-        -97.38,
-        -140.08
+        28.71,
+        -331.64
        ],
        [
-        -101.72,
-        -139.7
+        30.38,
+        -332.07
        ],
        [
-        -106.06,
-        -140.08
+        32.09,
+        -332.35
        ],
        [
-        -110.27,
-        -141.21
+        33.82,
+        -332.49
        ],
        [
-        -114.22,
-        -143.05
+        35.55,
+        -332.47
        ],
        [
-        -117.79,
-        -145.55
+        37.27,
+        -332.31
        ],
        [
-        -120.87,
-        -148.63
+        38.97,
+        -331.99
        ],
        [
-        -123.37,
-        -152.2
+        40.64,
+        -331.53
        ],
        [
-        -125.21,
-        -156.15
+        42.26,
+        -330.93
        ],
        [
-        -203.91,
-        -361.63
+        43.82,
+        -330.19
        ],
        [
-        -205.26,
-        -366.68
+        45.32,
+        -329.32
+       ],
+       [
+        46.73,
+        -328.32
+       ],
+       [
+        48.05,
+        -327.21
+       ],
+       [
+        49.27,
+        -325.98
+       ],
+       [
+        50.38,
+        -324.65
+       ],
+       [
+        51.38,
+        -323.23
+       ],
+       [
+        52.24,
+        -321.74
+       ],
+       [
+        52.97,
+        -320.17
+       ],
+       [
+        53.57,
+        -318.54
+       ],
+       [
+        54.02,
+        -316.87
+       ],
+       [
+        54.32,
+        -315.17
+       ],
+       [
+        54.48,
+        -313.45
+       ],
+       [
+        54.48,
+        -311.72
+       ],
+       [
+        54.34,
+        -309.99
+       ],
+       [
+        54.05,
+        -308.29
+       ],
+       [
+        53.61,
+        -306.61
+       ],
+       [
+        53.03,
+        -304.98
+       ],
+       [
+        52.31,
+        -303.41
+       ],
+       [
+        51.46,
+        -301.9
+       ],
+       [
+        50.48,
+        -300.48
+       ],
+       [
+        -69.76,
+        -140.65
+       ],
+       [
+        -71.9,
+        -138.04
+       ],
+       [
+        -74.26,
+        -135.61
+       ],
+       [
+        -76.82,
+        -133.4
+       ],
+       [
+        -79.55,
+        -131.41
+       ],
+       [
+        -82.44,
+        -129.65
+       ],
+       [
+        -85.47,
+        -128.15
+       ],
+       [
+        -88.62,
+        -126.91
+       ],
+       [
+        -91.86,
+        -125.94
+       ],
+       [
+        -95.17,
+        -125.24
+       ],
+       [
+        -98.52,
+        -124.83
+       ],
+       [
+        -101.9,
+        -124.7
+       ],
+       [
+        -105.28,
+        -124.86
+       ],
+       [
+        -108.63,
+        -125.3
+       ],
+       [
+        -111.94,
+        -126.03
+       ],
+       [
+        -115.17,
+        -127.03
+       ],
+       [
+        -118.3,
+        -128.3
+       ],
+       [
+        -121.32,
+        -129.83
+       ],
+       [
+        -124.19,
+        -131.61
+       ],
+       [
+        -126.91,
+        -133.63
+       ],
+       [
+        -129.44,
+        -135.87
+       ],
+       [
+        -131.78,
+        -138.31
+       ],
+       [
+        -133.9,
+        -140.94
+       ],
+       [
+        -135.79,
+        -143.75
+       ],
+       [
+        -137.44,
+        -146.7
+       ],
+       [
+        -138.83,
+        -149.78
+       ],
+       [
+        -139.96,
+        -152.97
+       ],
+       [
+        -204.4,
+        -363.09
+       ],
+       [
+        -205.06,
+        -365.62
+       ],
+       [
+        -205.49,
+        -368.2
+       ],
+       [
+        -205.7,
+        -370.81
+       ],
+       [
+        -205.68,
+        -373.42
+       ],
+       [
+        -205.43,
+        -376.02
+       ],
+       [
+        -204.96,
+        -378.59
+       ],
+       [
+        -204.27,
+        -381.11
+       ],
+       [
+        -203.36,
+        -383.56
+       ],
+       [
+        -202.23,
+        -385.93
+       ],
+       [
+        -200.91,
+        -388.18
+       ],
+       [
+        -199.4,
+        -390.31
+       ],
+       [
+        -197.7,
+        -392.3
+       ],
+       [
+        -195.84,
+        -394.14
+       ],
+       [
+        -193.83,
+        -395.81
+       ],
+       [
+        -191.68,
+        -397.29
+       ],
+       [
+        -189.41,
+        -398.59
+       ],
+       [
+        -187.03,
+        -399.68
+       ],
+       [
+        -184.57,
+        -400.55
+       ],
+       [
+        -182.04,
+        -401.22
+       ],
+       [
+        -179.46,
+        -401.66
+       ],
+       [
+        -176.86,
+        -401.87
+       ],
+       [
+        -174.24,
+        -401.85
+       ],
+       [
+        -171.64,
+        -401.61
+       ],
+       [
+        -169.07,
+        -401.14
+       ],
+       [
+        -166.55,
+        -400.45
+       ],
+       [
+        -164.1,
+        -399.55
+       ],
+       [
+        -161.73,
+        -398.43
+       ],
+       [
+        -159.48,
+        -397.11
+       ],
+       [
+        -157.34,
+        -395.6
+       ],
+       [
+        -155.35,
+        -393.91
+       ],
+       [
+        -153.51,
+        -392.06
+       ],
+       [
+        -151.84,
+        -390.05
+       ],
+       [
+        -150.35,
+        -387.9
+       ],
+       [
+        -149.05,
+        -385.63
+       ],
+       [
+        -147.96,
+        -383.25
        ]
       ],
       "h": 8,
@@ -75789,7 +76898,7 @@
   {
    "id": "p834_fijo_brazo_tensor_e_8_x_calle_1_x_127_056",
    "name": "FIJO · Brazo tensor e=8 (+X) (calle 1, X=127.056)",
-   "color": "#8fa3b8",
+   "color": "#2a4fd7",
    "pos": [
     148.06,
     -101.72,
@@ -75804,12 +76913,20 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "capaInfo": "dis (poses de las 3 zonas: step)",
-   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro.",
+   "capaInfo": "dis (poses de las 3 zonas: step; silueta: ESTETICA de params_tensor2, dis)",
+   "grabado": {
+    "texto": "TEN-BR · A36 e8",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "+X (exterior)",
+    "pos": "junto al flanco frontal",
+    "nota": "las 10 pletinas son idénticas: NO se numeran por calle. Se corta en la misma pasada del láser."
+   },
+   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro. ESTÉTICA (06-08, dis): silueta de balancín con ojo — cubo redondo R40 concéntrico al paso Ø50 (el hull anterior cortaba el contorno en R25 = el propio taladro: ligamento CERO sobre el cordón al cubo, el único concentrador real; ahora anillo continuo de 15), flancos rectos tangentes que siguen el diagrama de momentos y garganta cóncava R60 = 7.5·e (Kt ≈ 1.06) donde el alma retirada no era camino de carga. Ojos R30/R20, los 3 taladros, las 3 poses y las palancas: SIN CAMBIO. Matar aristas de corte R2 / 1×45° (es la chapa más accesible del frente).",
    "features": [
     {
      "id": "f2072",
-     "name": "Silueta del brazo (hull pivote–polea–lóbulo)",
+     "name": "Silueta de balancín (ojo del cubo R40 · garganta R60)",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -75825,160 +76942,488 @@
      "params": {
       "pts": [
        [
-        -205.72,
-        -371.89
+        -118.17,
+        -310.48
        ],
        [
-        -205.26,
-        -377.1
+        -115.99,
+        -305.75
        ],
        [
-        -203.91,
-        -382.15
+        -113.41,
+        -301.23
        ],
        [
-        -201.7,
-        -386.89
+        -110.45,
+        -296.95
        ],
        [
-        -198.7,
-        -391.17
+        -107.13,
+        -292.94
        ],
        [
-        -195,
-        -394.87
+        -103.47,
+        -289.24
        ],
        [
-        -190.72,
-        -397.87
+        -99.51,
+        -285.87
        ],
        [
-        -185.98,
-        -400.08
+        -95.27,
+        -282.85
        ],
        [
-        -180.93,
-        -401.43
+        -90.78,
+        -280.21
        ],
        [
-        -175.72,
-        -401.89
+        -86.08,
+        -277.97
        ],
        [
-        -170.51,
-        -401.43
+        -81.21,
+        -276.15
        ],
        [
-        -165.46,
-        -400.08
+        -76.19,
+        -274.76
        ],
        [
-        41.34,
-        -331.29
+        -71.08,
+        -273.8
        ],
        [
-        44.5,
-        -329.82
+        -65.9,
+        -273.29
        ],
        [
-        47.36,
-        -327.82
+        -60.7,
+        -273.24
        ],
        [
-        49.82,
-        -325.36
+        -55.51,
+        -273.63
        ],
        [
-        51.82,
-        -322.5
+        -50.37,
+        -274.47
        ],
        [
-        53.29,
-        -319.34
+        -45.33,
+        -275.76
        ],
        [
-        54.2,
-        -315.97
+        -40.41,
+        -277.47
        ],
        [
-        54.5,
-        -312.5
+        -35.67,
+        -279.61
        ],
        [
-        54.2,
-        -309.03
+        -31.13,
+        -282.15
        ],
        [
-        53.29,
-        -305.66
+        -26.82,
+        -285.07
        ],
        [
-        51.82,
-        -302.5
+        -22.78,
+        -288.35
        ],
        [
-        49.82,
-        -299.64
+        21.22,
+        -327.45
        ],
        [
-        -82.57,
-        -148.63
+        22.56,
+        -328.54
        ],
        [
-        -85.65,
-        -145.55
+        23.99,
+        -329.51
        ],
        [
-        -89.22,
-        -143.05
+        25.5,
+        -330.36
        ],
        [
-        -93.17,
-        -141.21
+        27.08,
+        -331.07
        ],
        [
-        -97.38,
-        -140.08
+        28.71,
+        -331.64
        ],
        [
-        -101.72,
-        -139.7
+        30.38,
+        -332.07
        ],
        [
-        -106.06,
-        -140.08
+        32.09,
+        -332.35
        ],
        [
-        -110.27,
-        -141.21
+        33.82,
+        -332.49
        ],
        [
-        -114.22,
-        -143.05
+        35.55,
+        -332.47
        ],
        [
-        -117.79,
-        -145.55
+        37.27,
+        -332.31
        ],
        [
-        -120.87,
-        -148.63
+        38.97,
+        -331.99
        ],
        [
-        -123.37,
-        -152.2
+        40.64,
+        -331.53
        ],
        [
-        -125.21,
-        -156.15
+        42.26,
+        -330.93
        ],
        [
-        -203.91,
-        -361.63
+        43.82,
+        -330.19
        ],
        [
-        -205.26,
-        -366.68
+        45.32,
+        -329.32
+       ],
+       [
+        46.73,
+        -328.32
+       ],
+       [
+        48.05,
+        -327.21
+       ],
+       [
+        49.27,
+        -325.98
+       ],
+       [
+        50.38,
+        -324.65
+       ],
+       [
+        51.38,
+        -323.23
+       ],
+       [
+        52.24,
+        -321.74
+       ],
+       [
+        52.97,
+        -320.17
+       ],
+       [
+        53.57,
+        -318.54
+       ],
+       [
+        54.02,
+        -316.87
+       ],
+       [
+        54.32,
+        -315.17
+       ],
+       [
+        54.48,
+        -313.45
+       ],
+       [
+        54.48,
+        -311.72
+       ],
+       [
+        54.34,
+        -309.99
+       ],
+       [
+        54.05,
+        -308.29
+       ],
+       [
+        53.61,
+        -306.61
+       ],
+       [
+        53.03,
+        -304.98
+       ],
+       [
+        52.31,
+        -303.41
+       ],
+       [
+        51.46,
+        -301.9
+       ],
+       [
+        50.48,
+        -300.48
+       ],
+       [
+        -69.76,
+        -140.65
+       ],
+       [
+        -71.9,
+        -138.04
+       ],
+       [
+        -74.26,
+        -135.61
+       ],
+       [
+        -76.82,
+        -133.4
+       ],
+       [
+        -79.55,
+        -131.41
+       ],
+       [
+        -82.44,
+        -129.65
+       ],
+       [
+        -85.47,
+        -128.15
+       ],
+       [
+        -88.62,
+        -126.91
+       ],
+       [
+        -91.86,
+        -125.94
+       ],
+       [
+        -95.17,
+        -125.24
+       ],
+       [
+        -98.52,
+        -124.83
+       ],
+       [
+        -101.9,
+        -124.7
+       ],
+       [
+        -105.28,
+        -124.86
+       ],
+       [
+        -108.63,
+        -125.3
+       ],
+       [
+        -111.94,
+        -126.03
+       ],
+       [
+        -115.17,
+        -127.03
+       ],
+       [
+        -118.3,
+        -128.3
+       ],
+       [
+        -121.32,
+        -129.83
+       ],
+       [
+        -124.19,
+        -131.61
+       ],
+       [
+        -126.91,
+        -133.63
+       ],
+       [
+        -129.44,
+        -135.87
+       ],
+       [
+        -131.78,
+        -138.31
+       ],
+       [
+        -133.9,
+        -140.94
+       ],
+       [
+        -135.79,
+        -143.75
+       ],
+       [
+        -137.44,
+        -146.7
+       ],
+       [
+        -138.83,
+        -149.78
+       ],
+       [
+        -139.96,
+        -152.97
+       ],
+       [
+        -204.4,
+        -363.09
+       ],
+       [
+        -205.06,
+        -365.62
+       ],
+       [
+        -205.49,
+        -368.2
+       ],
+       [
+        -205.7,
+        -370.81
+       ],
+       [
+        -205.68,
+        -373.42
+       ],
+       [
+        -205.43,
+        -376.02
+       ],
+       [
+        -204.96,
+        -378.59
+       ],
+       [
+        -204.27,
+        -381.11
+       ],
+       [
+        -203.36,
+        -383.56
+       ],
+       [
+        -202.23,
+        -385.93
+       ],
+       [
+        -200.91,
+        -388.18
+       ],
+       [
+        -199.4,
+        -390.31
+       ],
+       [
+        -197.7,
+        -392.3
+       ],
+       [
+        -195.84,
+        -394.14
+       ],
+       [
+        -193.83,
+        -395.81
+       ],
+       [
+        -191.68,
+        -397.29
+       ],
+       [
+        -189.41,
+        -398.59
+       ],
+       [
+        -187.03,
+        -399.68
+       ],
+       [
+        -184.57,
+        -400.55
+       ],
+       [
+        -182.04,
+        -401.22
+       ],
+       [
+        -179.46,
+        -401.66
+       ],
+       [
+        -176.86,
+        -401.87
+       ],
+       [
+        -174.24,
+        -401.85
+       ],
+       [
+        -171.64,
+        -401.61
+       ],
+       [
+        -169.07,
+        -401.14
+       ],
+       [
+        -166.55,
+        -400.45
+       ],
+       [
+        -164.1,
+        -399.55
+       ],
+       [
+        -161.73,
+        -398.43
+       ],
+       [
+        -159.48,
+        -397.11
+       ],
+       [
+        -157.34,
+        -395.6
+       ],
+       [
+        -155.35,
+        -393.91
+       ],
+       [
+        -153.51,
+        -392.06
+       ],
+       [
+        -151.84,
+        -390.05
+       ],
+       [
+        -150.35,
+        -387.9
+       ],
+       [
+        -149.05,
+        -385.63
+       ],
+       [
+        -147.96,
+        -383.25
        ]
       ],
       "h": 8,
@@ -77703,11 +79148,11 @@
   {
    "id": "p848_fijo_mensula_de_bisagra_lengueta_e_8_calle_1_x_127_056",
    "name": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 1, X=127.056)",
-   "color": "#8fa3b8",
+   "color": "#455a64",
    "pos": [
     127.056,
     42,
-    -85
+    -82
    ],
    "quat": [
     0,
@@ -77718,48 +79163,381 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "pletina A36 en L: la LENGÜETA entra en la luz de la horquilla de la C85C25 y el bulón la pinza; la BASE atornilla con 2 M8 a la cara frontal del travesaño. Es la pieza que faltaba entre la bisagra y el bastidor. Voladizo 23.5 mm desde la cara del travesaño: M = 3294.47 N·mm sobre 2 secciones de 8×35 → σ despreciable.",
+   "grabado": {
+    "texto": "TEN-MEN",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "−Y (la que ve el operador entre los cilindros)",
+    "nota": "se corta en la misma pasada del láser"
+   },
+   "nota": "pletina A36 en L: la LENGÜETA entra en la luz de la horquilla de la C85C25 y el bulón la pinza; la BASE atornilla con 2 M8 a la cara frontal del travesaño. Es la pieza que faltaba entre la bisagra y el bastidor. Voladizo 23.5 mm desde la cara del travesaño: M = 3294.47 N·mm sobre 2 secciones de 8×35 → σ despreciable. ESTÉTICA (06-08, dis): lengüeta de 20 CENTRADA en el bulón (Z -82…-62) y nariz a RADIO PLENO R10 concéntrico al Ø8 — la lengüeta señala su bulón; el ligamento alrededor del ojo sube de 4.5 (esquinas vivas de la punta recta) a 6 uniformes = 0.75·d₀, la práctica de la propia horquilla C85C25 en este mismo bulón. Sección al empotramiento 8×20 → σ = 6.18 MPa con F = 140.19 N: FS > 40, neutro. HALLAZGO COLATERAL CERRADO: la lengüeta de 23 bajaba a Z −85 contra el fondo de la luz de la C85C25 en −84 (solape de 1 mm no declarado); centrada queda con 2 mm de aire por cara dentro de la luz (−84…−60), el techo sigue en -62 (holgura 4.8 al tambor motriz intacta) y la nariz muere en Y 24.5 contra fondo de luz en Y 12.5 → 12 libres. Base con esquinas R8 FUERA de la línea de pernos (arcos a ≥10.6 del centro de los Ø9, cantos rectos adyacentes conservados); el apriete pierde 55 mm² de 1400 (−3.9 %) en puntas donde la presión es nula y las cabezas M8 quedan con ≥2 de material alrededor.",
    "features": [
     {
      "id": "f2102",
-     "name": "Lengüeta 8×32×23",
-     "shape": "box",
+     "name": "Lengüeta e=8 alto 20 — nariz R10 concéntrica al bulón",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
+      -3.995999999999995,
+      -42,
+      82
+     ],
+     "dir": [
+      1,
       0,
       0
      ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
      "params": {
-      "w": 8,
-      "d": 32,
-      "h": 23
+      "pts": [
+       [
+        58,
+        -82
+       ],
+       [
+        34.5,
+        -82
+       ],
+       [
+        33.19,
+        -81.91
+       ],
+       [
+        31.91,
+        -81.66
+       ],
+       [
+        30.67,
+        -81.24
+       ],
+       [
+        29.5,
+        -80.66
+       ],
+       [
+        28.41,
+        -79.93
+       ],
+       [
+        27.43,
+        -79.07
+       ],
+       [
+        26.57,
+        -78.09
+       ],
+       [
+        25.84,
+        -77
+       ],
+       [
+        25.26,
+        -75.83
+       ],
+       [
+        24.84,
+        -74.59
+       ],
+       [
+        24.59,
+        -73.31
+       ],
+       [
+        24.5,
+        -72
+       ],
+       [
+        24.59,
+        -70.69
+       ],
+       [
+        24.84,
+        -69.41
+       ],
+       [
+        25.26,
+        -68.17
+       ],
+       [
+        25.84,
+        -67
+       ],
+       [
+        26.57,
+        -65.91
+       ],
+       [
+        27.43,
+        -64.93
+       ],
+       [
+        28.41,
+        -64.07
+       ],
+       [
+        29.5,
+        -63.34
+       ],
+       [
+        30.67,
+        -62.76
+       ],
+       [
+        31.91,
+        -62.34
+       ],
+       [
+        33.19,
+        -62.09
+       ],
+       [
+        34.5,
+        -62
+       ],
+       [
+        58,
+        -62
+       ]
+      ],
+      "h": 8,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
      "id": "f2103",
-     "name": "Base 40×10×35",
-     "shape": "box",
+     "name": "Base 40×10×35 esquinas R8",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
-      21,
-      -15
+      -127.056,
+      26,
+      82
      ],
      "dir": [
       0,
-      0,
-      1
+      -1,
+      0
      ],
      "params": {
-      "w": 40,
-      "d": 10,
-      "h": 35
+      "pts": [
+       [
+        139.06,
+        -100
+       ],
+       [
+        140.1,
+        -99.93
+       ],
+       [
+        141.13,
+        -99.73
+       ],
+       [
+        142.12,
+        -99.39
+       ],
+       [
+        143.06,
+        -98.93
+       ],
+       [
+        143.93,
+        -98.35
+       ],
+       [
+        144.72,
+        -97.66
+       ],
+       [
+        145.41,
+        -96.87
+       ],
+       [
+        145.99,
+        -96
+       ],
+       [
+        146.45,
+        -95.06
+       ],
+       [
+        146.79,
+        -94.07
+       ],
+       [
+        146.99,
+        -93.04
+       ],
+       [
+        147.06,
+        -92
+       ],
+       [
+        147.06,
+        -73
+       ],
+       [
+        146.99,
+        -71.96
+       ],
+       [
+        146.79,
+        -70.93
+       ],
+       [
+        146.45,
+        -69.94
+       ],
+       [
+        145.99,
+        -69
+       ],
+       [
+        145.41,
+        -68.13
+       ],
+       [
+        144.72,
+        -67.34
+       ],
+       [
+        143.93,
+        -66.65
+       ],
+       [
+        143.06,
+        -66.07
+       ],
+       [
+        142.12,
+        -65.61
+       ],
+       [
+        141.13,
+        -65.27
+       ],
+       [
+        140.1,
+        -65.07
+       ],
+       [
+        139.06,
+        -65
+       ],
+       [
+        115.06,
+        -65
+       ],
+       [
+        114.02,
+        -65.07
+       ],
+       [
+        112.99,
+        -65.27
+       ],
+       [
+        112,
+        -65.61
+       ],
+       [
+        111.06,
+        -66.07
+       ],
+       [
+        110.19,
+        -66.65
+       ],
+       [
+        109.4,
+        -67.34
+       ],
+       [
+        108.71,
+        -68.13
+       ],
+       [
+        108.13,
+        -69
+       ],
+       [
+        107.67,
+        -69.94
+       ],
+       [
+        107.33,
+        -70.93
+       ],
+       [
+        107.13,
+        -71.96
+       ],
+       [
+        107.06,
+        -73
+       ],
+       [
+        107.06,
+        -92
+       ],
+       [
+        107.13,
+        -93.04
+       ],
+       [
+        107.33,
+        -94.07
+       ],
+       [
+        107.67,
+        -95.06
+       ],
+       [
+        108.13,
+        -96
+       ],
+       [
+        108.71,
+        -96.87
+       ],
+       [
+        109.4,
+        -97.66
+       ],
+       [
+        110.19,
+        -98.35
+       ],
+       [
+        111.06,
+        -98.93
+       ],
+       [
+        112,
+        -99.39
+       ],
+       [
+        112.99,
+        -99.73
+       ],
+       [
+        114.02,
+        -99.93
+       ],
+       [
+        115.06,
+        -100
+       ]
+      ],
+      "h": 10,
+      "u": [
+       1,
+       0,
+       0
+      ]
      }
     },
     {
@@ -77770,7 +79548,7 @@
      "at": [
       -7.995999999999995,
       -7.5,
-      13
+      10
      ],
      "dir": [
       1,
@@ -77791,7 +79569,7 @@
      "at": [
       -11.995999999999995,
       27,
-      5
+      2
      ],
      "dir": [
       0,
@@ -77812,7 +79590,7 @@
      "at": [
       12.004000000000005,
       27,
-      5
+      2
      ],
      "dir": [
       0,
@@ -78878,7 +80656,7 @@
   {
    "id": "p864_fijo_brazo_tensor_e_8_x_calle_2_x_203_256",
    "name": "FIJO · Brazo tensor e=8 (−X) (calle 2, X=203.256)",
-   "color": "#8fa3b8",
+   "color": "#2a4fd7",
    "pos": [
     174.26,
     -101.72,
@@ -78893,12 +80671,20 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "capaInfo": "dis (poses de las 3 zonas: step)",
-   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro.",
+   "capaInfo": "dis (poses de las 3 zonas: step; silueta: ESTETICA de params_tensor2, dis)",
+   "grabado": {
+    "texto": "TEN-BR · A36 e8",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "−X (exterior)",
+    "pos": "junto al flanco frontal",
+    "nota": "las 10 pletinas son idénticas: NO se numeran por calle. Se corta en la misma pasada del láser."
+   },
+   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro. ESTÉTICA (06-08, dis): silueta de balancín con ojo — cubo redondo R40 concéntrico al paso Ø50 (el hull anterior cortaba el contorno en R25 = el propio taladro: ligamento CERO sobre el cordón al cubo, el único concentrador real; ahora anillo continuo de 15), flancos rectos tangentes que siguen el diagrama de momentos y garganta cóncava R60 = 7.5·e (Kt ≈ 1.06) donde el alma retirada no era camino de carga. Ojos R30/R20, los 3 taladros, las 3 poses y las palancas: SIN CAMBIO. Matar aristas de corte R2 / 1×45° (es la chapa más accesible del frente).",
    "features": [
     {
      "id": "f2127",
-     "name": "Silueta del brazo (hull pivote–polea–lóbulo)",
+     "name": "Silueta de balancín (ojo del cubo R40 · garganta R60)",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -78914,160 +80700,488 @@
      "params": {
       "pts": [
        [
-        -205.72,
-        -371.89
+        -118.17,
+        -310.48
        ],
        [
-        -205.26,
-        -377.1
+        -115.99,
+        -305.75
        ],
        [
-        -203.91,
-        -382.15
+        -113.41,
+        -301.23
        ],
        [
-        -201.7,
-        -386.89
+        -110.45,
+        -296.95
        ],
        [
-        -198.7,
-        -391.17
+        -107.13,
+        -292.94
        ],
        [
-        -195,
-        -394.87
+        -103.47,
+        -289.24
        ],
        [
-        -190.72,
-        -397.87
+        -99.51,
+        -285.87
        ],
        [
-        -185.98,
-        -400.08
+        -95.27,
+        -282.85
        ],
        [
-        -180.93,
-        -401.43
+        -90.78,
+        -280.21
        ],
        [
-        -175.72,
-        -401.89
+        -86.08,
+        -277.97
        ],
        [
-        -170.51,
-        -401.43
+        -81.21,
+        -276.15
        ],
        [
-        -165.46,
-        -400.08
+        -76.19,
+        -274.76
        ],
        [
-        41.34,
-        -331.29
+        -71.08,
+        -273.8
        ],
        [
-        44.5,
-        -329.82
+        -65.9,
+        -273.29
        ],
        [
-        47.36,
-        -327.82
+        -60.7,
+        -273.24
        ],
        [
-        49.82,
-        -325.36
+        -55.51,
+        -273.63
        ],
        [
-        51.82,
-        -322.5
+        -50.37,
+        -274.47
        ],
        [
-        53.29,
-        -319.34
+        -45.33,
+        -275.76
        ],
        [
-        54.2,
-        -315.97
+        -40.41,
+        -277.47
        ],
        [
-        54.5,
-        -312.5
+        -35.67,
+        -279.61
        ],
        [
-        54.2,
-        -309.03
+        -31.13,
+        -282.15
        ],
        [
-        53.29,
-        -305.66
+        -26.82,
+        -285.07
        ],
        [
-        51.82,
-        -302.5
+        -22.78,
+        -288.35
        ],
        [
-        49.82,
-        -299.64
+        21.22,
+        -327.45
        ],
        [
-        -82.57,
-        -148.63
+        22.56,
+        -328.54
        ],
        [
-        -85.65,
-        -145.55
+        23.99,
+        -329.51
        ],
        [
-        -89.22,
-        -143.05
+        25.5,
+        -330.36
        ],
        [
-        -93.17,
-        -141.21
+        27.08,
+        -331.07
        ],
        [
-        -97.38,
-        -140.08
+        28.71,
+        -331.64
        ],
        [
-        -101.72,
-        -139.7
+        30.38,
+        -332.07
        ],
        [
-        -106.06,
-        -140.08
+        32.09,
+        -332.35
        ],
        [
-        -110.27,
-        -141.21
+        33.82,
+        -332.49
        ],
        [
-        -114.22,
-        -143.05
+        35.55,
+        -332.47
        ],
        [
-        -117.79,
-        -145.55
+        37.27,
+        -332.31
        ],
        [
-        -120.87,
-        -148.63
+        38.97,
+        -331.99
        ],
        [
-        -123.37,
-        -152.2
+        40.64,
+        -331.53
        ],
        [
-        -125.21,
-        -156.15
+        42.26,
+        -330.93
        ],
        [
-        -203.91,
-        -361.63
+        43.82,
+        -330.19
        ],
        [
-        -205.26,
-        -366.68
+        45.32,
+        -329.32
+       ],
+       [
+        46.73,
+        -328.32
+       ],
+       [
+        48.05,
+        -327.21
+       ],
+       [
+        49.27,
+        -325.98
+       ],
+       [
+        50.38,
+        -324.65
+       ],
+       [
+        51.38,
+        -323.23
+       ],
+       [
+        52.24,
+        -321.74
+       ],
+       [
+        52.97,
+        -320.17
+       ],
+       [
+        53.57,
+        -318.54
+       ],
+       [
+        54.02,
+        -316.87
+       ],
+       [
+        54.32,
+        -315.17
+       ],
+       [
+        54.48,
+        -313.45
+       ],
+       [
+        54.48,
+        -311.72
+       ],
+       [
+        54.34,
+        -309.99
+       ],
+       [
+        54.05,
+        -308.29
+       ],
+       [
+        53.61,
+        -306.61
+       ],
+       [
+        53.03,
+        -304.98
+       ],
+       [
+        52.31,
+        -303.41
+       ],
+       [
+        51.46,
+        -301.9
+       ],
+       [
+        50.48,
+        -300.48
+       ],
+       [
+        -69.76,
+        -140.65
+       ],
+       [
+        -71.9,
+        -138.04
+       ],
+       [
+        -74.26,
+        -135.61
+       ],
+       [
+        -76.82,
+        -133.4
+       ],
+       [
+        -79.55,
+        -131.41
+       ],
+       [
+        -82.44,
+        -129.65
+       ],
+       [
+        -85.47,
+        -128.15
+       ],
+       [
+        -88.62,
+        -126.91
+       ],
+       [
+        -91.86,
+        -125.94
+       ],
+       [
+        -95.17,
+        -125.24
+       ],
+       [
+        -98.52,
+        -124.83
+       ],
+       [
+        -101.9,
+        -124.7
+       ],
+       [
+        -105.28,
+        -124.86
+       ],
+       [
+        -108.63,
+        -125.3
+       ],
+       [
+        -111.94,
+        -126.03
+       ],
+       [
+        -115.17,
+        -127.03
+       ],
+       [
+        -118.3,
+        -128.3
+       ],
+       [
+        -121.32,
+        -129.83
+       ],
+       [
+        -124.19,
+        -131.61
+       ],
+       [
+        -126.91,
+        -133.63
+       ],
+       [
+        -129.44,
+        -135.87
+       ],
+       [
+        -131.78,
+        -138.31
+       ],
+       [
+        -133.9,
+        -140.94
+       ],
+       [
+        -135.79,
+        -143.75
+       ],
+       [
+        -137.44,
+        -146.7
+       ],
+       [
+        -138.83,
+        -149.78
+       ],
+       [
+        -139.96,
+        -152.97
+       ],
+       [
+        -204.4,
+        -363.09
+       ],
+       [
+        -205.06,
+        -365.62
+       ],
+       [
+        -205.49,
+        -368.2
+       ],
+       [
+        -205.7,
+        -370.81
+       ],
+       [
+        -205.68,
+        -373.42
+       ],
+       [
+        -205.43,
+        -376.02
+       ],
+       [
+        -204.96,
+        -378.59
+       ],
+       [
+        -204.27,
+        -381.11
+       ],
+       [
+        -203.36,
+        -383.56
+       ],
+       [
+        -202.23,
+        -385.93
+       ],
+       [
+        -200.91,
+        -388.18
+       ],
+       [
+        -199.4,
+        -390.31
+       ],
+       [
+        -197.7,
+        -392.3
+       ],
+       [
+        -195.84,
+        -394.14
+       ],
+       [
+        -193.83,
+        -395.81
+       ],
+       [
+        -191.68,
+        -397.29
+       ],
+       [
+        -189.41,
+        -398.59
+       ],
+       [
+        -187.03,
+        -399.68
+       ],
+       [
+        -184.57,
+        -400.55
+       ],
+       [
+        -182.04,
+        -401.22
+       ],
+       [
+        -179.46,
+        -401.66
+       ],
+       [
+        -176.86,
+        -401.87
+       ],
+       [
+        -174.24,
+        -401.85
+       ],
+       [
+        -171.64,
+        -401.61
+       ],
+       [
+        -169.07,
+        -401.14
+       ],
+       [
+        -166.55,
+        -400.45
+       ],
+       [
+        -164.1,
+        -399.55
+       ],
+       [
+        -161.73,
+        -398.43
+       ],
+       [
+        -159.48,
+        -397.11
+       ],
+       [
+        -157.34,
+        -395.6
+       ],
+       [
+        -155.35,
+        -393.91
+       ],
+       [
+        -153.51,
+        -392.06
+       ],
+       [
+        -151.84,
+        -390.05
+       ],
+       [
+        -150.35,
+        -387.9
+       ],
+       [
+        -149.05,
+        -385.63
+       ],
+       [
+        -147.96,
+        -383.25
        ]
       ],
       "h": 8,
@@ -79166,7 +81280,7 @@
   {
    "id": "p865_fijo_brazo_tensor_e_8_x_calle_2_x_203_256",
    "name": "FIJO · Brazo tensor e=8 (+X) (calle 2, X=203.256)",
-   "color": "#8fa3b8",
+   "color": "#2a4fd7",
    "pos": [
     224.26,
     -101.72,
@@ -79181,12 +81295,20 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "capaInfo": "dis (poses de las 3 zonas: step)",
-   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro.",
+   "capaInfo": "dis (poses de las 3 zonas: step; silueta: ESTETICA de params_tensor2, dis)",
+   "grabado": {
+    "texto": "TEN-BR · A36 e8",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "+X (exterior)",
+    "pos": "junto al flanco frontal",
+    "nota": "las 10 pletinas son idénticas: NO se numeran por calle. Se corta en la misma pasada del láser."
+   },
+   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro. ESTÉTICA (06-08, dis): silueta de balancín con ojo — cubo redondo R40 concéntrico al paso Ø50 (el hull anterior cortaba el contorno en R25 = el propio taladro: ligamento CERO sobre el cordón al cubo, el único concentrador real; ahora anillo continuo de 15), flancos rectos tangentes que siguen el diagrama de momentos y garganta cóncava R60 = 7.5·e (Kt ≈ 1.06) donde el alma retirada no era camino de carga. Ojos R30/R20, los 3 taladros, las 3 poses y las palancas: SIN CAMBIO. Matar aristas de corte R2 / 1×45° (es la chapa más accesible del frente).",
    "features": [
     {
      "id": "f2131",
-     "name": "Silueta del brazo (hull pivote–polea–lóbulo)",
+     "name": "Silueta de balancín (ojo del cubo R40 · garganta R60)",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -79202,160 +81324,488 @@
      "params": {
       "pts": [
        [
-        -205.72,
-        -371.89
+        -118.17,
+        -310.48
        ],
        [
-        -205.26,
-        -377.1
+        -115.99,
+        -305.75
        ],
        [
-        -203.91,
-        -382.15
+        -113.41,
+        -301.23
        ],
        [
-        -201.7,
-        -386.89
+        -110.45,
+        -296.95
        ],
        [
-        -198.7,
-        -391.17
+        -107.13,
+        -292.94
        ],
        [
-        -195,
-        -394.87
+        -103.47,
+        -289.24
        ],
        [
-        -190.72,
-        -397.87
+        -99.51,
+        -285.87
        ],
        [
-        -185.98,
-        -400.08
+        -95.27,
+        -282.85
        ],
        [
-        -180.93,
-        -401.43
+        -90.78,
+        -280.21
        ],
        [
-        -175.72,
-        -401.89
+        -86.08,
+        -277.97
        ],
        [
-        -170.51,
-        -401.43
+        -81.21,
+        -276.15
        ],
        [
-        -165.46,
-        -400.08
+        -76.19,
+        -274.76
        ],
        [
-        41.34,
-        -331.29
+        -71.08,
+        -273.8
        ],
        [
-        44.5,
-        -329.82
+        -65.9,
+        -273.29
        ],
        [
-        47.36,
-        -327.82
+        -60.7,
+        -273.24
        ],
        [
-        49.82,
-        -325.36
+        -55.51,
+        -273.63
        ],
        [
-        51.82,
-        -322.5
+        -50.37,
+        -274.47
        ],
        [
-        53.29,
-        -319.34
+        -45.33,
+        -275.76
        ],
        [
-        54.2,
-        -315.97
+        -40.41,
+        -277.47
        ],
        [
-        54.5,
-        -312.5
+        -35.67,
+        -279.61
        ],
        [
-        54.2,
-        -309.03
+        -31.13,
+        -282.15
        ],
        [
-        53.29,
-        -305.66
+        -26.82,
+        -285.07
        ],
        [
-        51.82,
-        -302.5
+        -22.78,
+        -288.35
        ],
        [
-        49.82,
-        -299.64
+        21.22,
+        -327.45
        ],
        [
-        -82.57,
-        -148.63
+        22.56,
+        -328.54
        ],
        [
-        -85.65,
-        -145.55
+        23.99,
+        -329.51
        ],
        [
-        -89.22,
-        -143.05
+        25.5,
+        -330.36
        ],
        [
-        -93.17,
-        -141.21
+        27.08,
+        -331.07
        ],
        [
-        -97.38,
-        -140.08
+        28.71,
+        -331.64
        ],
        [
-        -101.72,
-        -139.7
+        30.38,
+        -332.07
        ],
        [
-        -106.06,
-        -140.08
+        32.09,
+        -332.35
        ],
        [
-        -110.27,
-        -141.21
+        33.82,
+        -332.49
        ],
        [
-        -114.22,
-        -143.05
+        35.55,
+        -332.47
        ],
        [
-        -117.79,
-        -145.55
+        37.27,
+        -332.31
        ],
        [
-        -120.87,
-        -148.63
+        38.97,
+        -331.99
        ],
        [
-        -123.37,
-        -152.2
+        40.64,
+        -331.53
        ],
        [
-        -125.21,
-        -156.15
+        42.26,
+        -330.93
        ],
        [
-        -203.91,
-        -361.63
+        43.82,
+        -330.19
        ],
        [
-        -205.26,
-        -366.68
+        45.32,
+        -329.32
+       ],
+       [
+        46.73,
+        -328.32
+       ],
+       [
+        48.05,
+        -327.21
+       ],
+       [
+        49.27,
+        -325.98
+       ],
+       [
+        50.38,
+        -324.65
+       ],
+       [
+        51.38,
+        -323.23
+       ],
+       [
+        52.24,
+        -321.74
+       ],
+       [
+        52.97,
+        -320.17
+       ],
+       [
+        53.57,
+        -318.54
+       ],
+       [
+        54.02,
+        -316.87
+       ],
+       [
+        54.32,
+        -315.17
+       ],
+       [
+        54.48,
+        -313.45
+       ],
+       [
+        54.48,
+        -311.72
+       ],
+       [
+        54.34,
+        -309.99
+       ],
+       [
+        54.05,
+        -308.29
+       ],
+       [
+        53.61,
+        -306.61
+       ],
+       [
+        53.03,
+        -304.98
+       ],
+       [
+        52.31,
+        -303.41
+       ],
+       [
+        51.46,
+        -301.9
+       ],
+       [
+        50.48,
+        -300.48
+       ],
+       [
+        -69.76,
+        -140.65
+       ],
+       [
+        -71.9,
+        -138.04
+       ],
+       [
+        -74.26,
+        -135.61
+       ],
+       [
+        -76.82,
+        -133.4
+       ],
+       [
+        -79.55,
+        -131.41
+       ],
+       [
+        -82.44,
+        -129.65
+       ],
+       [
+        -85.47,
+        -128.15
+       ],
+       [
+        -88.62,
+        -126.91
+       ],
+       [
+        -91.86,
+        -125.94
+       ],
+       [
+        -95.17,
+        -125.24
+       ],
+       [
+        -98.52,
+        -124.83
+       ],
+       [
+        -101.9,
+        -124.7
+       ],
+       [
+        -105.28,
+        -124.86
+       ],
+       [
+        -108.63,
+        -125.3
+       ],
+       [
+        -111.94,
+        -126.03
+       ],
+       [
+        -115.17,
+        -127.03
+       ],
+       [
+        -118.3,
+        -128.3
+       ],
+       [
+        -121.32,
+        -129.83
+       ],
+       [
+        -124.19,
+        -131.61
+       ],
+       [
+        -126.91,
+        -133.63
+       ],
+       [
+        -129.44,
+        -135.87
+       ],
+       [
+        -131.78,
+        -138.31
+       ],
+       [
+        -133.9,
+        -140.94
+       ],
+       [
+        -135.79,
+        -143.75
+       ],
+       [
+        -137.44,
+        -146.7
+       ],
+       [
+        -138.83,
+        -149.78
+       ],
+       [
+        -139.96,
+        -152.97
+       ],
+       [
+        -204.4,
+        -363.09
+       ],
+       [
+        -205.06,
+        -365.62
+       ],
+       [
+        -205.49,
+        -368.2
+       ],
+       [
+        -205.7,
+        -370.81
+       ],
+       [
+        -205.68,
+        -373.42
+       ],
+       [
+        -205.43,
+        -376.02
+       ],
+       [
+        -204.96,
+        -378.59
+       ],
+       [
+        -204.27,
+        -381.11
+       ],
+       [
+        -203.36,
+        -383.56
+       ],
+       [
+        -202.23,
+        -385.93
+       ],
+       [
+        -200.91,
+        -388.18
+       ],
+       [
+        -199.4,
+        -390.31
+       ],
+       [
+        -197.7,
+        -392.3
+       ],
+       [
+        -195.84,
+        -394.14
+       ],
+       [
+        -193.83,
+        -395.81
+       ],
+       [
+        -191.68,
+        -397.29
+       ],
+       [
+        -189.41,
+        -398.59
+       ],
+       [
+        -187.03,
+        -399.68
+       ],
+       [
+        -184.57,
+        -400.55
+       ],
+       [
+        -182.04,
+        -401.22
+       ],
+       [
+        -179.46,
+        -401.66
+       ],
+       [
+        -176.86,
+        -401.87
+       ],
+       [
+        -174.24,
+        -401.85
+       ],
+       [
+        -171.64,
+        -401.61
+       ],
+       [
+        -169.07,
+        -401.14
+       ],
+       [
+        -166.55,
+        -400.45
+       ],
+       [
+        -164.1,
+        -399.55
+       ],
+       [
+        -161.73,
+        -398.43
+       ],
+       [
+        -159.48,
+        -397.11
+       ],
+       [
+        -157.34,
+        -395.6
+       ],
+       [
+        -155.35,
+        -393.91
+       ],
+       [
+        -153.51,
+        -392.06
+       ],
+       [
+        -151.84,
+        -390.05
+       ],
+       [
+        -150.35,
+        -387.9
+       ],
+       [
+        -149.05,
+        -385.63
+       ],
+       [
+        -147.96,
+        -383.25
        ]
       ],
       "h": 8,
@@ -81080,11 +83530,11 @@
   {
    "id": "p879_fijo_mensula_de_bisagra_lengueta_e_8_calle_2_x_203_256",
    "name": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 2, X=203.256)",
-   "color": "#8fa3b8",
+   "color": "#455a64",
    "pos": [
     203.256,
     42,
-    -85
+    -82
    ],
    "quat": [
     0,
@@ -81095,48 +83545,381 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "pletina A36 en L: la LENGÜETA entra en la luz de la horquilla de la C85C25 y el bulón la pinza; la BASE atornilla con 2 M8 a la cara frontal del travesaño. Es la pieza que faltaba entre la bisagra y el bastidor. Voladizo 23.5 mm desde la cara del travesaño: M = 3294.47 N·mm sobre 2 secciones de 8×35 → σ despreciable.",
+   "grabado": {
+    "texto": "TEN-MEN",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "−Y (la que ve el operador entre los cilindros)",
+    "nota": "se corta en la misma pasada del láser"
+   },
+   "nota": "pletina A36 en L: la LENGÜETA entra en la luz de la horquilla de la C85C25 y el bulón la pinza; la BASE atornilla con 2 M8 a la cara frontal del travesaño. Es la pieza que faltaba entre la bisagra y el bastidor. Voladizo 23.5 mm desde la cara del travesaño: M = 3294.47 N·mm sobre 2 secciones de 8×35 → σ despreciable. ESTÉTICA (06-08, dis): lengüeta de 20 CENTRADA en el bulón (Z -82…-62) y nariz a RADIO PLENO R10 concéntrico al Ø8 — la lengüeta señala su bulón; el ligamento alrededor del ojo sube de 4.5 (esquinas vivas de la punta recta) a 6 uniformes = 0.75·d₀, la práctica de la propia horquilla C85C25 en este mismo bulón. Sección al empotramiento 8×20 → σ = 6.18 MPa con F = 140.19 N: FS > 40, neutro. HALLAZGO COLATERAL CERRADO: la lengüeta de 23 bajaba a Z −85 contra el fondo de la luz de la C85C25 en −84 (solape de 1 mm no declarado); centrada queda con 2 mm de aire por cara dentro de la luz (−84…−60), el techo sigue en -62 (holgura 4.8 al tambor motriz intacta) y la nariz muere en Y 24.5 contra fondo de luz en Y 12.5 → 12 libres. Base con esquinas R8 FUERA de la línea de pernos (arcos a ≥10.6 del centro de los Ø9, cantos rectos adyacentes conservados); el apriete pierde 55 mm² de 1400 (−3.9 %) en puntas donde la presión es nula y las cabezas M8 quedan con ≥2 de material alrededor.",
    "features": [
     {
      "id": "f2161",
-     "name": "Lengüeta 8×32×23",
-     "shape": "box",
+     "name": "Lengüeta e=8 alto 20 — nariz R10 concéntrica al bulón",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
+      -3.9960000000000093,
+      -42,
+      82
+     ],
+     "dir": [
+      1,
       0,
       0
      ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
      "params": {
-      "w": 8,
-      "d": 32,
-      "h": 23
+      "pts": [
+       [
+        58,
+        -82
+       ],
+       [
+        34.5,
+        -82
+       ],
+       [
+        33.19,
+        -81.91
+       ],
+       [
+        31.91,
+        -81.66
+       ],
+       [
+        30.67,
+        -81.24
+       ],
+       [
+        29.5,
+        -80.66
+       ],
+       [
+        28.41,
+        -79.93
+       ],
+       [
+        27.43,
+        -79.07
+       ],
+       [
+        26.57,
+        -78.09
+       ],
+       [
+        25.84,
+        -77
+       ],
+       [
+        25.26,
+        -75.83
+       ],
+       [
+        24.84,
+        -74.59
+       ],
+       [
+        24.59,
+        -73.31
+       ],
+       [
+        24.5,
+        -72
+       ],
+       [
+        24.59,
+        -70.69
+       ],
+       [
+        24.84,
+        -69.41
+       ],
+       [
+        25.26,
+        -68.17
+       ],
+       [
+        25.84,
+        -67
+       ],
+       [
+        26.57,
+        -65.91
+       ],
+       [
+        27.43,
+        -64.93
+       ],
+       [
+        28.41,
+        -64.07
+       ],
+       [
+        29.5,
+        -63.34
+       ],
+       [
+        30.67,
+        -62.76
+       ],
+       [
+        31.91,
+        -62.34
+       ],
+       [
+        33.19,
+        -62.09
+       ],
+       [
+        34.5,
+        -62
+       ],
+       [
+        58,
+        -62
+       ]
+      ],
+      "h": 8,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
      "id": "f2162",
-     "name": "Base 40×10×35",
-     "shape": "box",
+     "name": "Base 40×10×35 esquinas R8",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
-      21,
-      -15
+      -203.256,
+      26,
+      82
      ],
      "dir": [
       0,
-      0,
-      1
+      -1,
+      0
      ],
      "params": {
-      "w": 40,
-      "d": 10,
-      "h": 35
+      "pts": [
+       [
+        215.26,
+        -100
+       ],
+       [
+        216.3,
+        -99.93
+       ],
+       [
+        217.33,
+        -99.73
+       ],
+       [
+        218.32,
+        -99.39
+       ],
+       [
+        219.26,
+        -98.93
+       ],
+       [
+        220.13,
+        -98.35
+       ],
+       [
+        220.92,
+        -97.66
+       ],
+       [
+        221.61,
+        -96.87
+       ],
+       [
+        222.19,
+        -96
+       ],
+       [
+        222.65,
+        -95.06
+       ],
+       [
+        222.99,
+        -94.07
+       ],
+       [
+        223.19,
+        -93.04
+       ],
+       [
+        223.26,
+        -92
+       ],
+       [
+        223.26,
+        -73
+       ],
+       [
+        223.19,
+        -71.96
+       ],
+       [
+        222.99,
+        -70.93
+       ],
+       [
+        222.65,
+        -69.94
+       ],
+       [
+        222.19,
+        -69
+       ],
+       [
+        221.61,
+        -68.13
+       ],
+       [
+        220.92,
+        -67.34
+       ],
+       [
+        220.13,
+        -66.65
+       ],
+       [
+        219.26,
+        -66.07
+       ],
+       [
+        218.32,
+        -65.61
+       ],
+       [
+        217.33,
+        -65.27
+       ],
+       [
+        216.3,
+        -65.07
+       ],
+       [
+        215.26,
+        -65
+       ],
+       [
+        191.26,
+        -65
+       ],
+       [
+        190.22,
+        -65.07
+       ],
+       [
+        189.19,
+        -65.27
+       ],
+       [
+        188.2,
+        -65.61
+       ],
+       [
+        187.26,
+        -66.07
+       ],
+       [
+        186.39,
+        -66.65
+       ],
+       [
+        185.6,
+        -67.34
+       ],
+       [
+        184.91,
+        -68.13
+       ],
+       [
+        184.33,
+        -69
+       ],
+       [
+        183.87,
+        -69.94
+       ],
+       [
+        183.53,
+        -70.93
+       ],
+       [
+        183.33,
+        -71.96
+       ],
+       [
+        183.26,
+        -73
+       ],
+       [
+        183.26,
+        -92
+       ],
+       [
+        183.33,
+        -93.04
+       ],
+       [
+        183.53,
+        -94.07
+       ],
+       [
+        183.87,
+        -95.06
+       ],
+       [
+        184.33,
+        -96
+       ],
+       [
+        184.91,
+        -96.87
+       ],
+       [
+        185.6,
+        -97.66
+       ],
+       [
+        186.39,
+        -98.35
+       ],
+       [
+        187.26,
+        -98.93
+       ],
+       [
+        188.2,
+        -99.39
+       ],
+       [
+        189.19,
+        -99.73
+       ],
+       [
+        190.22,
+        -99.93
+       ],
+       [
+        191.26,
+        -100
+       ]
+      ],
+      "h": 10,
+      "u": [
+       1,
+       0,
+       0
+      ]
      }
     },
     {
@@ -81147,7 +83930,7 @@
      "at": [
       -7.996000000000009,
       -7.5,
-      13
+      10
      ],
      "dir": [
       1,
@@ -81168,7 +83951,7 @@
      "at": [
       -11.99600000000001,
       27,
-      5
+      2
      ],
      "dir": [
       0,
@@ -81189,7 +83972,7 @@
      "at": [
       12.00399999999999,
       27,
-      5
+      2
      ],
      "dir": [
       0,
@@ -82255,7 +85038,7 @@
   {
    "id": "p895_fijo_brazo_tensor_e_8_x_calle_3_x_279_456",
    "name": "FIJO · Brazo tensor e=8 (−X) (calle 3, X=279.456)",
-   "color": "#8fa3b8",
+   "color": "#2a4fd7",
    "pos": [
     250.46,
     -101.72,
@@ -82270,12 +85053,20 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "capaInfo": "dis (poses de las 3 zonas: step)",
-   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro.",
+   "capaInfo": "dis (poses de las 3 zonas: step; silueta: ESTETICA de params_tensor2, dis)",
+   "grabado": {
+    "texto": "TEN-BR · A36 e8",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "−X (exterior)",
+    "pos": "junto al flanco frontal",
+    "nota": "las 10 pletinas son idénticas: NO se numeran por calle. Se corta en la misma pasada del láser."
+   },
+   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro. ESTÉTICA (06-08, dis): silueta de balancín con ojo — cubo redondo R40 concéntrico al paso Ø50 (el hull anterior cortaba el contorno en R25 = el propio taladro: ligamento CERO sobre el cordón al cubo, el único concentrador real; ahora anillo continuo de 15), flancos rectos tangentes que siguen el diagrama de momentos y garganta cóncava R60 = 7.5·e (Kt ≈ 1.06) donde el alma retirada no era camino de carga. Ojos R30/R20, los 3 taladros, las 3 poses y las palancas: SIN CAMBIO. Matar aristas de corte R2 / 1×45° (es la chapa más accesible del frente).",
    "features": [
     {
      "id": "f2186",
-     "name": "Silueta del brazo (hull pivote–polea–lóbulo)",
+     "name": "Silueta de balancín (ojo del cubo R40 · garganta R60)",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -82291,160 +85082,488 @@
      "params": {
       "pts": [
        [
-        -205.72,
-        -371.89
+        -118.17,
+        -310.48
        ],
        [
-        -205.26,
-        -377.1
+        -115.99,
+        -305.75
        ],
        [
-        -203.91,
-        -382.15
+        -113.41,
+        -301.23
        ],
        [
-        -201.7,
-        -386.89
+        -110.45,
+        -296.95
        ],
        [
-        -198.7,
-        -391.17
+        -107.13,
+        -292.94
        ],
        [
-        -195,
-        -394.87
+        -103.47,
+        -289.24
        ],
        [
-        -190.72,
-        -397.87
+        -99.51,
+        -285.87
        ],
        [
-        -185.98,
-        -400.08
+        -95.27,
+        -282.85
        ],
        [
-        -180.93,
-        -401.43
+        -90.78,
+        -280.21
        ],
        [
-        -175.72,
-        -401.89
+        -86.08,
+        -277.97
        ],
        [
-        -170.51,
-        -401.43
+        -81.21,
+        -276.15
        ],
        [
-        -165.46,
-        -400.08
+        -76.19,
+        -274.76
        ],
        [
-        41.34,
-        -331.29
+        -71.08,
+        -273.8
        ],
        [
-        44.5,
-        -329.82
+        -65.9,
+        -273.29
        ],
        [
-        47.36,
-        -327.82
+        -60.7,
+        -273.24
        ],
        [
-        49.82,
-        -325.36
+        -55.51,
+        -273.63
        ],
        [
-        51.82,
-        -322.5
+        -50.37,
+        -274.47
        ],
        [
-        53.29,
-        -319.34
+        -45.33,
+        -275.76
        ],
        [
-        54.2,
-        -315.97
+        -40.41,
+        -277.47
        ],
        [
-        54.5,
-        -312.5
+        -35.67,
+        -279.61
        ],
        [
-        54.2,
-        -309.03
+        -31.13,
+        -282.15
        ],
        [
-        53.29,
-        -305.66
+        -26.82,
+        -285.07
        ],
        [
-        51.82,
-        -302.5
+        -22.78,
+        -288.35
        ],
        [
-        49.82,
-        -299.64
+        21.22,
+        -327.45
        ],
        [
-        -82.57,
-        -148.63
+        22.56,
+        -328.54
        ],
        [
-        -85.65,
-        -145.55
+        23.99,
+        -329.51
        ],
        [
-        -89.22,
-        -143.05
+        25.5,
+        -330.36
        ],
        [
-        -93.17,
-        -141.21
+        27.08,
+        -331.07
        ],
        [
-        -97.38,
-        -140.08
+        28.71,
+        -331.64
        ],
        [
-        -101.72,
-        -139.7
+        30.38,
+        -332.07
        ],
        [
-        -106.06,
-        -140.08
+        32.09,
+        -332.35
        ],
        [
-        -110.27,
-        -141.21
+        33.82,
+        -332.49
        ],
        [
-        -114.22,
-        -143.05
+        35.55,
+        -332.47
        ],
        [
-        -117.79,
-        -145.55
+        37.27,
+        -332.31
        ],
        [
-        -120.87,
-        -148.63
+        38.97,
+        -331.99
        ],
        [
-        -123.37,
-        -152.2
+        40.64,
+        -331.53
        ],
        [
-        -125.21,
-        -156.15
+        42.26,
+        -330.93
        ],
        [
-        -203.91,
-        -361.63
+        43.82,
+        -330.19
        ],
        [
-        -205.26,
-        -366.68
+        45.32,
+        -329.32
+       ],
+       [
+        46.73,
+        -328.32
+       ],
+       [
+        48.05,
+        -327.21
+       ],
+       [
+        49.27,
+        -325.98
+       ],
+       [
+        50.38,
+        -324.65
+       ],
+       [
+        51.38,
+        -323.23
+       ],
+       [
+        52.24,
+        -321.74
+       ],
+       [
+        52.97,
+        -320.17
+       ],
+       [
+        53.57,
+        -318.54
+       ],
+       [
+        54.02,
+        -316.87
+       ],
+       [
+        54.32,
+        -315.17
+       ],
+       [
+        54.48,
+        -313.45
+       ],
+       [
+        54.48,
+        -311.72
+       ],
+       [
+        54.34,
+        -309.99
+       ],
+       [
+        54.05,
+        -308.29
+       ],
+       [
+        53.61,
+        -306.61
+       ],
+       [
+        53.03,
+        -304.98
+       ],
+       [
+        52.31,
+        -303.41
+       ],
+       [
+        51.46,
+        -301.9
+       ],
+       [
+        50.48,
+        -300.48
+       ],
+       [
+        -69.76,
+        -140.65
+       ],
+       [
+        -71.9,
+        -138.04
+       ],
+       [
+        -74.26,
+        -135.61
+       ],
+       [
+        -76.82,
+        -133.4
+       ],
+       [
+        -79.55,
+        -131.41
+       ],
+       [
+        -82.44,
+        -129.65
+       ],
+       [
+        -85.47,
+        -128.15
+       ],
+       [
+        -88.62,
+        -126.91
+       ],
+       [
+        -91.86,
+        -125.94
+       ],
+       [
+        -95.17,
+        -125.24
+       ],
+       [
+        -98.52,
+        -124.83
+       ],
+       [
+        -101.9,
+        -124.7
+       ],
+       [
+        -105.28,
+        -124.86
+       ],
+       [
+        -108.63,
+        -125.3
+       ],
+       [
+        -111.94,
+        -126.03
+       ],
+       [
+        -115.17,
+        -127.03
+       ],
+       [
+        -118.3,
+        -128.3
+       ],
+       [
+        -121.32,
+        -129.83
+       ],
+       [
+        -124.19,
+        -131.61
+       ],
+       [
+        -126.91,
+        -133.63
+       ],
+       [
+        -129.44,
+        -135.87
+       ],
+       [
+        -131.78,
+        -138.31
+       ],
+       [
+        -133.9,
+        -140.94
+       ],
+       [
+        -135.79,
+        -143.75
+       ],
+       [
+        -137.44,
+        -146.7
+       ],
+       [
+        -138.83,
+        -149.78
+       ],
+       [
+        -139.96,
+        -152.97
+       ],
+       [
+        -204.4,
+        -363.09
+       ],
+       [
+        -205.06,
+        -365.62
+       ],
+       [
+        -205.49,
+        -368.2
+       ],
+       [
+        -205.7,
+        -370.81
+       ],
+       [
+        -205.68,
+        -373.42
+       ],
+       [
+        -205.43,
+        -376.02
+       ],
+       [
+        -204.96,
+        -378.59
+       ],
+       [
+        -204.27,
+        -381.11
+       ],
+       [
+        -203.36,
+        -383.56
+       ],
+       [
+        -202.23,
+        -385.93
+       ],
+       [
+        -200.91,
+        -388.18
+       ],
+       [
+        -199.4,
+        -390.31
+       ],
+       [
+        -197.7,
+        -392.3
+       ],
+       [
+        -195.84,
+        -394.14
+       ],
+       [
+        -193.83,
+        -395.81
+       ],
+       [
+        -191.68,
+        -397.29
+       ],
+       [
+        -189.41,
+        -398.59
+       ],
+       [
+        -187.03,
+        -399.68
+       ],
+       [
+        -184.57,
+        -400.55
+       ],
+       [
+        -182.04,
+        -401.22
+       ],
+       [
+        -179.46,
+        -401.66
+       ],
+       [
+        -176.86,
+        -401.87
+       ],
+       [
+        -174.24,
+        -401.85
+       ],
+       [
+        -171.64,
+        -401.61
+       ],
+       [
+        -169.07,
+        -401.14
+       ],
+       [
+        -166.55,
+        -400.45
+       ],
+       [
+        -164.1,
+        -399.55
+       ],
+       [
+        -161.73,
+        -398.43
+       ],
+       [
+        -159.48,
+        -397.11
+       ],
+       [
+        -157.34,
+        -395.6
+       ],
+       [
+        -155.35,
+        -393.91
+       ],
+       [
+        -153.51,
+        -392.06
+       ],
+       [
+        -151.84,
+        -390.05
+       ],
+       [
+        -150.35,
+        -387.9
+       ],
+       [
+        -149.05,
+        -385.63
+       ],
+       [
+        -147.96,
+        -383.25
        ]
       ],
       "h": 8,
@@ -82543,7 +85662,7 @@
   {
    "id": "p896_fijo_brazo_tensor_e_8_x_calle_3_x_279_456",
    "name": "FIJO · Brazo tensor e=8 (+X) (calle 3, X=279.456)",
-   "color": "#8fa3b8",
+   "color": "#2a4fd7",
    "pos": [
     300.46,
     -101.72,
@@ -82558,12 +85677,20 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "capaInfo": "dis (poses de las 3 zonas: step)",
-   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro.",
+   "capaInfo": "dis (poses de las 3 zonas: step; silueta: ESTETICA de params_tensor2, dis)",
+   "grabado": {
+    "texto": "TEN-BR · A36 e8",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "+X (exterior)",
+    "pos": "junto al flanco frontal",
+    "nota": "las 10 pletinas son idénticas: NO se numeran por calle. Se corta en la misma pasada del láser."
+   },
+   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro. ESTÉTICA (06-08, dis): silueta de balancín con ojo — cubo redondo R40 concéntrico al paso Ø50 (el hull anterior cortaba el contorno en R25 = el propio taladro: ligamento CERO sobre el cordón al cubo, el único concentrador real; ahora anillo continuo de 15), flancos rectos tangentes que siguen el diagrama de momentos y garganta cóncava R60 = 7.5·e (Kt ≈ 1.06) donde el alma retirada no era camino de carga. Ojos R30/R20, los 3 taladros, las 3 poses y las palancas: SIN CAMBIO. Matar aristas de corte R2 / 1×45° (es la chapa más accesible del frente).",
    "features": [
     {
      "id": "f2190",
-     "name": "Silueta del brazo (hull pivote–polea–lóbulo)",
+     "name": "Silueta de balancín (ojo del cubo R40 · garganta R60)",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -82579,160 +85706,488 @@
      "params": {
       "pts": [
        [
-        -205.72,
-        -371.89
+        -118.17,
+        -310.48
        ],
        [
-        -205.26,
-        -377.1
+        -115.99,
+        -305.75
        ],
        [
-        -203.91,
-        -382.15
+        -113.41,
+        -301.23
        ],
        [
-        -201.7,
-        -386.89
+        -110.45,
+        -296.95
        ],
        [
-        -198.7,
-        -391.17
+        -107.13,
+        -292.94
        ],
        [
-        -195,
-        -394.87
+        -103.47,
+        -289.24
        ],
        [
-        -190.72,
-        -397.87
+        -99.51,
+        -285.87
        ],
        [
-        -185.98,
-        -400.08
+        -95.27,
+        -282.85
        ],
        [
-        -180.93,
-        -401.43
+        -90.78,
+        -280.21
        ],
        [
-        -175.72,
-        -401.89
+        -86.08,
+        -277.97
        ],
        [
-        -170.51,
-        -401.43
+        -81.21,
+        -276.15
        ],
        [
-        -165.46,
-        -400.08
+        -76.19,
+        -274.76
        ],
        [
-        41.34,
-        -331.29
+        -71.08,
+        -273.8
        ],
        [
-        44.5,
-        -329.82
+        -65.9,
+        -273.29
        ],
        [
-        47.36,
-        -327.82
+        -60.7,
+        -273.24
        ],
        [
-        49.82,
-        -325.36
+        -55.51,
+        -273.63
        ],
        [
-        51.82,
-        -322.5
+        -50.37,
+        -274.47
        ],
        [
-        53.29,
-        -319.34
+        -45.33,
+        -275.76
        ],
        [
-        54.2,
-        -315.97
+        -40.41,
+        -277.47
        ],
        [
-        54.5,
-        -312.5
+        -35.67,
+        -279.61
        ],
        [
-        54.2,
-        -309.03
+        -31.13,
+        -282.15
        ],
        [
-        53.29,
-        -305.66
+        -26.82,
+        -285.07
        ],
        [
-        51.82,
-        -302.5
+        -22.78,
+        -288.35
        ],
        [
-        49.82,
-        -299.64
+        21.22,
+        -327.45
        ],
        [
-        -82.57,
-        -148.63
+        22.56,
+        -328.54
        ],
        [
-        -85.65,
-        -145.55
+        23.99,
+        -329.51
        ],
        [
-        -89.22,
-        -143.05
+        25.5,
+        -330.36
        ],
        [
-        -93.17,
-        -141.21
+        27.08,
+        -331.07
        ],
        [
-        -97.38,
-        -140.08
+        28.71,
+        -331.64
        ],
        [
-        -101.72,
-        -139.7
+        30.38,
+        -332.07
        ],
        [
-        -106.06,
-        -140.08
+        32.09,
+        -332.35
        ],
        [
-        -110.27,
-        -141.21
+        33.82,
+        -332.49
        ],
        [
-        -114.22,
-        -143.05
+        35.55,
+        -332.47
        ],
        [
-        -117.79,
-        -145.55
+        37.27,
+        -332.31
        ],
        [
-        -120.87,
-        -148.63
+        38.97,
+        -331.99
        ],
        [
-        -123.37,
-        -152.2
+        40.64,
+        -331.53
        ],
        [
-        -125.21,
-        -156.15
+        42.26,
+        -330.93
        ],
        [
-        -203.91,
-        -361.63
+        43.82,
+        -330.19
        ],
        [
-        -205.26,
-        -366.68
+        45.32,
+        -329.32
+       ],
+       [
+        46.73,
+        -328.32
+       ],
+       [
+        48.05,
+        -327.21
+       ],
+       [
+        49.27,
+        -325.98
+       ],
+       [
+        50.38,
+        -324.65
+       ],
+       [
+        51.38,
+        -323.23
+       ],
+       [
+        52.24,
+        -321.74
+       ],
+       [
+        52.97,
+        -320.17
+       ],
+       [
+        53.57,
+        -318.54
+       ],
+       [
+        54.02,
+        -316.87
+       ],
+       [
+        54.32,
+        -315.17
+       ],
+       [
+        54.48,
+        -313.45
+       ],
+       [
+        54.48,
+        -311.72
+       ],
+       [
+        54.34,
+        -309.99
+       ],
+       [
+        54.05,
+        -308.29
+       ],
+       [
+        53.61,
+        -306.61
+       ],
+       [
+        53.03,
+        -304.98
+       ],
+       [
+        52.31,
+        -303.41
+       ],
+       [
+        51.46,
+        -301.9
+       ],
+       [
+        50.48,
+        -300.48
+       ],
+       [
+        -69.76,
+        -140.65
+       ],
+       [
+        -71.9,
+        -138.04
+       ],
+       [
+        -74.26,
+        -135.61
+       ],
+       [
+        -76.82,
+        -133.4
+       ],
+       [
+        -79.55,
+        -131.41
+       ],
+       [
+        -82.44,
+        -129.65
+       ],
+       [
+        -85.47,
+        -128.15
+       ],
+       [
+        -88.62,
+        -126.91
+       ],
+       [
+        -91.86,
+        -125.94
+       ],
+       [
+        -95.17,
+        -125.24
+       ],
+       [
+        -98.52,
+        -124.83
+       ],
+       [
+        -101.9,
+        -124.7
+       ],
+       [
+        -105.28,
+        -124.86
+       ],
+       [
+        -108.63,
+        -125.3
+       ],
+       [
+        -111.94,
+        -126.03
+       ],
+       [
+        -115.17,
+        -127.03
+       ],
+       [
+        -118.3,
+        -128.3
+       ],
+       [
+        -121.32,
+        -129.83
+       ],
+       [
+        -124.19,
+        -131.61
+       ],
+       [
+        -126.91,
+        -133.63
+       ],
+       [
+        -129.44,
+        -135.87
+       ],
+       [
+        -131.78,
+        -138.31
+       ],
+       [
+        -133.9,
+        -140.94
+       ],
+       [
+        -135.79,
+        -143.75
+       ],
+       [
+        -137.44,
+        -146.7
+       ],
+       [
+        -138.83,
+        -149.78
+       ],
+       [
+        -139.96,
+        -152.97
+       ],
+       [
+        -204.4,
+        -363.09
+       ],
+       [
+        -205.06,
+        -365.62
+       ],
+       [
+        -205.49,
+        -368.2
+       ],
+       [
+        -205.7,
+        -370.81
+       ],
+       [
+        -205.68,
+        -373.42
+       ],
+       [
+        -205.43,
+        -376.02
+       ],
+       [
+        -204.96,
+        -378.59
+       ],
+       [
+        -204.27,
+        -381.11
+       ],
+       [
+        -203.36,
+        -383.56
+       ],
+       [
+        -202.23,
+        -385.93
+       ],
+       [
+        -200.91,
+        -388.18
+       ],
+       [
+        -199.4,
+        -390.31
+       ],
+       [
+        -197.7,
+        -392.3
+       ],
+       [
+        -195.84,
+        -394.14
+       ],
+       [
+        -193.83,
+        -395.81
+       ],
+       [
+        -191.68,
+        -397.29
+       ],
+       [
+        -189.41,
+        -398.59
+       ],
+       [
+        -187.03,
+        -399.68
+       ],
+       [
+        -184.57,
+        -400.55
+       ],
+       [
+        -182.04,
+        -401.22
+       ],
+       [
+        -179.46,
+        -401.66
+       ],
+       [
+        -176.86,
+        -401.87
+       ],
+       [
+        -174.24,
+        -401.85
+       ],
+       [
+        -171.64,
+        -401.61
+       ],
+       [
+        -169.07,
+        -401.14
+       ],
+       [
+        -166.55,
+        -400.45
+       ],
+       [
+        -164.1,
+        -399.55
+       ],
+       [
+        -161.73,
+        -398.43
+       ],
+       [
+        -159.48,
+        -397.11
+       ],
+       [
+        -157.34,
+        -395.6
+       ],
+       [
+        -155.35,
+        -393.91
+       ],
+       [
+        -153.51,
+        -392.06
+       ],
+       [
+        -151.84,
+        -390.05
+       ],
+       [
+        -150.35,
+        -387.9
+       ],
+       [
+        -149.05,
+        -385.63
+       ],
+       [
+        -147.96,
+        -383.25
        ]
       ],
       "h": 8,
@@ -84457,11 +87912,11 @@
   {
    "id": "p910_fijo_mensula_de_bisagra_lengueta_e_8_calle_3_x_279_456",
    "name": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 3, X=279.456)",
-   "color": "#8fa3b8",
+   "color": "#455a64",
    "pos": [
     279.456,
     42,
-    -85
+    -82
    ],
    "quat": [
     0,
@@ -84472,48 +87927,381 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "pletina A36 en L: la LENGÜETA entra en la luz de la horquilla de la C85C25 y el bulón la pinza; la BASE atornilla con 2 M8 a la cara frontal del travesaño. Es la pieza que faltaba entre la bisagra y el bastidor. Voladizo 23.5 mm desde la cara del travesaño: M = 3294.47 N·mm sobre 2 secciones de 8×35 → σ despreciable.",
+   "grabado": {
+    "texto": "TEN-MEN",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "−Y (la que ve el operador entre los cilindros)",
+    "nota": "se corta en la misma pasada del láser"
+   },
+   "nota": "pletina A36 en L: la LENGÜETA entra en la luz de la horquilla de la C85C25 y el bulón la pinza; la BASE atornilla con 2 M8 a la cara frontal del travesaño. Es la pieza que faltaba entre la bisagra y el bastidor. Voladizo 23.5 mm desde la cara del travesaño: M = 3294.47 N·mm sobre 2 secciones de 8×35 → σ despreciable. ESTÉTICA (06-08, dis): lengüeta de 20 CENTRADA en el bulón (Z -82…-62) y nariz a RADIO PLENO R10 concéntrico al Ø8 — la lengüeta señala su bulón; el ligamento alrededor del ojo sube de 4.5 (esquinas vivas de la punta recta) a 6 uniformes = 0.75·d₀, la práctica de la propia horquilla C85C25 en este mismo bulón. Sección al empotramiento 8×20 → σ = 6.18 MPa con F = 140.19 N: FS > 40, neutro. HALLAZGO COLATERAL CERRADO: la lengüeta de 23 bajaba a Z −85 contra el fondo de la luz de la C85C25 en −84 (solape de 1 mm no declarado); centrada queda con 2 mm de aire por cara dentro de la luz (−84…−60), el techo sigue en -62 (holgura 4.8 al tambor motriz intacta) y la nariz muere en Y 24.5 contra fondo de luz en Y 12.5 → 12 libres. Base con esquinas R8 FUERA de la línea de pernos (arcos a ≥10.6 del centro de los Ø9, cantos rectos adyacentes conservados); el apriete pierde 55 mm² de 1400 (−3.9 %) en puntas donde la presión es nula y las cabezas M8 quedan con ≥2 de material alrededor.",
    "features": [
     {
      "id": "f2220",
-     "name": "Lengüeta 8×32×23",
-     "shape": "box",
+     "name": "Lengüeta e=8 alto 20 — nariz R10 concéntrica al bulón",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
+      -3.9960000000000377,
+      -42,
+      82
+     ],
+     "dir": [
+      1,
       0,
       0
      ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
      "params": {
-      "w": 8,
-      "d": 32,
-      "h": 23
+      "pts": [
+       [
+        58,
+        -82
+       ],
+       [
+        34.5,
+        -82
+       ],
+       [
+        33.19,
+        -81.91
+       ],
+       [
+        31.91,
+        -81.66
+       ],
+       [
+        30.67,
+        -81.24
+       ],
+       [
+        29.5,
+        -80.66
+       ],
+       [
+        28.41,
+        -79.93
+       ],
+       [
+        27.43,
+        -79.07
+       ],
+       [
+        26.57,
+        -78.09
+       ],
+       [
+        25.84,
+        -77
+       ],
+       [
+        25.26,
+        -75.83
+       ],
+       [
+        24.84,
+        -74.59
+       ],
+       [
+        24.59,
+        -73.31
+       ],
+       [
+        24.5,
+        -72
+       ],
+       [
+        24.59,
+        -70.69
+       ],
+       [
+        24.84,
+        -69.41
+       ],
+       [
+        25.26,
+        -68.17
+       ],
+       [
+        25.84,
+        -67
+       ],
+       [
+        26.57,
+        -65.91
+       ],
+       [
+        27.43,
+        -64.93
+       ],
+       [
+        28.41,
+        -64.07
+       ],
+       [
+        29.5,
+        -63.34
+       ],
+       [
+        30.67,
+        -62.76
+       ],
+       [
+        31.91,
+        -62.34
+       ],
+       [
+        33.19,
+        -62.09
+       ],
+       [
+        34.5,
+        -62
+       ],
+       [
+        58,
+        -62
+       ]
+      ],
+      "h": 8,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
      "id": "f2221",
-     "name": "Base 40×10×35",
-     "shape": "box",
+     "name": "Base 40×10×35 esquinas R8",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
-      21,
-      -15
+      -279.456,
+      26,
+      82
      ],
      "dir": [
       0,
-      0,
-      1
+      -1,
+      0
      ],
      "params": {
-      "w": 40,
-      "d": 10,
-      "h": 35
+      "pts": [
+       [
+        291.46,
+        -100
+       ],
+       [
+        292.5,
+        -99.93
+       ],
+       [
+        293.53,
+        -99.73
+       ],
+       [
+        294.52,
+        -99.39
+       ],
+       [
+        295.46,
+        -98.93
+       ],
+       [
+        296.33,
+        -98.35
+       ],
+       [
+        297.12,
+        -97.66
+       ],
+       [
+        297.81,
+        -96.87
+       ],
+       [
+        298.39,
+        -96
+       ],
+       [
+        298.85,
+        -95.06
+       ],
+       [
+        299.19,
+        -94.07
+       ],
+       [
+        299.39,
+        -93.04
+       ],
+       [
+        299.46,
+        -92
+       ],
+       [
+        299.46,
+        -73
+       ],
+       [
+        299.39,
+        -71.96
+       ],
+       [
+        299.19,
+        -70.93
+       ],
+       [
+        298.85,
+        -69.94
+       ],
+       [
+        298.39,
+        -69
+       ],
+       [
+        297.81,
+        -68.13
+       ],
+       [
+        297.12,
+        -67.34
+       ],
+       [
+        296.33,
+        -66.65
+       ],
+       [
+        295.46,
+        -66.07
+       ],
+       [
+        294.52,
+        -65.61
+       ],
+       [
+        293.53,
+        -65.27
+       ],
+       [
+        292.5,
+        -65.07
+       ],
+       [
+        291.46,
+        -65
+       ],
+       [
+        267.46,
+        -65
+       ],
+       [
+        266.42,
+        -65.07
+       ],
+       [
+        265.39,
+        -65.27
+       ],
+       [
+        264.4,
+        -65.61
+       ],
+       [
+        263.46,
+        -66.07
+       ],
+       [
+        262.59,
+        -66.65
+       ],
+       [
+        261.8,
+        -67.34
+       ],
+       [
+        261.11,
+        -68.13
+       ],
+       [
+        260.53,
+        -69
+       ],
+       [
+        260.07,
+        -69.94
+       ],
+       [
+        259.73,
+        -70.93
+       ],
+       [
+        259.53,
+        -71.96
+       ],
+       [
+        259.46,
+        -73
+       ],
+       [
+        259.46,
+        -92
+       ],
+       [
+        259.53,
+        -93.04
+       ],
+       [
+        259.73,
+        -94.07
+       ],
+       [
+        260.07,
+        -95.06
+       ],
+       [
+        260.53,
+        -96
+       ],
+       [
+        261.11,
+        -96.87
+       ],
+       [
+        261.8,
+        -97.66
+       ],
+       [
+        262.59,
+        -98.35
+       ],
+       [
+        263.46,
+        -98.93
+       ],
+       [
+        264.4,
+        -99.39
+       ],
+       [
+        265.39,
+        -99.73
+       ],
+       [
+        266.42,
+        -99.93
+       ],
+       [
+        267.46,
+        -100
+       ]
+      ],
+      "h": 10,
+      "u": [
+       1,
+       0,
+       0
+      ]
      }
     },
     {
@@ -84524,7 +88312,7 @@
      "at": [
       -7.996000000000038,
       -7.5,
-      13
+      10
      ],
      "dir": [
       1,
@@ -84545,7 +88333,7 @@
      "at": [
       -11.996000000000038,
       27,
-      5
+      2
      ],
      "dir": [
       0,
@@ -84566,7 +88354,7 @@
      "at": [
       12.003999999999962,
       27,
-      5
+      2
      ],
      "dir": [
       0,
@@ -85632,7 +89420,7 @@
   {
    "id": "p926_fijo_brazo_tensor_e_8_x_calle_4_x_355_656",
    "name": "FIJO · Brazo tensor e=8 (−X) (calle 4, X=355.656)",
-   "color": "#8fa3b8",
+   "color": "#2a4fd7",
    "pos": [
     326.66,
     -101.72,
@@ -85647,12 +89435,20 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "capaInfo": "dis (poses de las 3 zonas: step)",
-   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro.",
+   "capaInfo": "dis (poses de las 3 zonas: step; silueta: ESTETICA de params_tensor2, dis)",
+   "grabado": {
+    "texto": "TEN-BR · A36 e8",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "−X (exterior)",
+    "pos": "junto al flanco frontal",
+    "nota": "las 10 pletinas son idénticas: NO se numeran por calle. Se corta en la misma pasada del láser."
+   },
+   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro. ESTÉTICA (06-08, dis): silueta de balancín con ojo — cubo redondo R40 concéntrico al paso Ø50 (el hull anterior cortaba el contorno en R25 = el propio taladro: ligamento CERO sobre el cordón al cubo, el único concentrador real; ahora anillo continuo de 15), flancos rectos tangentes que siguen el diagrama de momentos y garganta cóncava R60 = 7.5·e (Kt ≈ 1.06) donde el alma retirada no era camino de carga. Ojos R30/R20, los 3 taladros, las 3 poses y las palancas: SIN CAMBIO. Matar aristas de corte R2 / 1×45° (es la chapa más accesible del frente).",
    "features": [
     {
      "id": "f2245",
-     "name": "Silueta del brazo (hull pivote–polea–lóbulo)",
+     "name": "Silueta de balancín (ojo del cubo R40 · garganta R60)",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -85668,160 +89464,488 @@
      "params": {
       "pts": [
        [
-        -205.72,
-        -371.89
+        -118.17,
+        -310.48
        ],
        [
-        -205.26,
-        -377.1
+        -115.99,
+        -305.75
        ],
        [
-        -203.91,
-        -382.15
+        -113.41,
+        -301.23
        ],
        [
-        -201.7,
-        -386.89
+        -110.45,
+        -296.95
        ],
        [
-        -198.7,
-        -391.17
+        -107.13,
+        -292.94
        ],
        [
-        -195,
-        -394.87
+        -103.47,
+        -289.24
        ],
        [
-        -190.72,
-        -397.87
+        -99.51,
+        -285.87
        ],
        [
-        -185.98,
-        -400.08
+        -95.27,
+        -282.85
        ],
        [
-        -180.93,
-        -401.43
+        -90.78,
+        -280.21
        ],
        [
-        -175.72,
-        -401.89
+        -86.08,
+        -277.97
        ],
        [
-        -170.51,
-        -401.43
+        -81.21,
+        -276.15
        ],
        [
-        -165.46,
-        -400.08
+        -76.19,
+        -274.76
        ],
        [
-        41.34,
-        -331.29
+        -71.08,
+        -273.8
        ],
        [
-        44.5,
-        -329.82
+        -65.9,
+        -273.29
        ],
        [
-        47.36,
-        -327.82
+        -60.7,
+        -273.24
        ],
        [
-        49.82,
-        -325.36
+        -55.51,
+        -273.63
        ],
        [
-        51.82,
-        -322.5
+        -50.37,
+        -274.47
        ],
        [
-        53.29,
-        -319.34
+        -45.33,
+        -275.76
        ],
        [
-        54.2,
-        -315.97
+        -40.41,
+        -277.47
        ],
        [
-        54.5,
-        -312.5
+        -35.67,
+        -279.61
        ],
        [
-        54.2,
-        -309.03
+        -31.13,
+        -282.15
        ],
        [
-        53.29,
-        -305.66
+        -26.82,
+        -285.07
        ],
        [
-        51.82,
-        -302.5
+        -22.78,
+        -288.35
        ],
        [
-        49.82,
-        -299.64
+        21.22,
+        -327.45
        ],
        [
-        -82.57,
-        -148.63
+        22.56,
+        -328.54
        ],
        [
-        -85.65,
-        -145.55
+        23.99,
+        -329.51
        ],
        [
-        -89.22,
-        -143.05
+        25.5,
+        -330.36
        ],
        [
-        -93.17,
-        -141.21
+        27.08,
+        -331.07
        ],
        [
-        -97.38,
-        -140.08
+        28.71,
+        -331.64
        ],
        [
-        -101.72,
-        -139.7
+        30.38,
+        -332.07
        ],
        [
-        -106.06,
-        -140.08
+        32.09,
+        -332.35
        ],
        [
-        -110.27,
-        -141.21
+        33.82,
+        -332.49
        ],
        [
-        -114.22,
-        -143.05
+        35.55,
+        -332.47
        ],
        [
-        -117.79,
-        -145.55
+        37.27,
+        -332.31
        ],
        [
-        -120.87,
-        -148.63
+        38.97,
+        -331.99
        ],
        [
-        -123.37,
-        -152.2
+        40.64,
+        -331.53
        ],
        [
-        -125.21,
-        -156.15
+        42.26,
+        -330.93
        ],
        [
-        -203.91,
-        -361.63
+        43.82,
+        -330.19
        ],
        [
-        -205.26,
-        -366.68
+        45.32,
+        -329.32
+       ],
+       [
+        46.73,
+        -328.32
+       ],
+       [
+        48.05,
+        -327.21
+       ],
+       [
+        49.27,
+        -325.98
+       ],
+       [
+        50.38,
+        -324.65
+       ],
+       [
+        51.38,
+        -323.23
+       ],
+       [
+        52.24,
+        -321.74
+       ],
+       [
+        52.97,
+        -320.17
+       ],
+       [
+        53.57,
+        -318.54
+       ],
+       [
+        54.02,
+        -316.87
+       ],
+       [
+        54.32,
+        -315.17
+       ],
+       [
+        54.48,
+        -313.45
+       ],
+       [
+        54.48,
+        -311.72
+       ],
+       [
+        54.34,
+        -309.99
+       ],
+       [
+        54.05,
+        -308.29
+       ],
+       [
+        53.61,
+        -306.61
+       ],
+       [
+        53.03,
+        -304.98
+       ],
+       [
+        52.31,
+        -303.41
+       ],
+       [
+        51.46,
+        -301.9
+       ],
+       [
+        50.48,
+        -300.48
+       ],
+       [
+        -69.76,
+        -140.65
+       ],
+       [
+        -71.9,
+        -138.04
+       ],
+       [
+        -74.26,
+        -135.61
+       ],
+       [
+        -76.82,
+        -133.4
+       ],
+       [
+        -79.55,
+        -131.41
+       ],
+       [
+        -82.44,
+        -129.65
+       ],
+       [
+        -85.47,
+        -128.15
+       ],
+       [
+        -88.62,
+        -126.91
+       ],
+       [
+        -91.86,
+        -125.94
+       ],
+       [
+        -95.17,
+        -125.24
+       ],
+       [
+        -98.52,
+        -124.83
+       ],
+       [
+        -101.9,
+        -124.7
+       ],
+       [
+        -105.28,
+        -124.86
+       ],
+       [
+        -108.63,
+        -125.3
+       ],
+       [
+        -111.94,
+        -126.03
+       ],
+       [
+        -115.17,
+        -127.03
+       ],
+       [
+        -118.3,
+        -128.3
+       ],
+       [
+        -121.32,
+        -129.83
+       ],
+       [
+        -124.19,
+        -131.61
+       ],
+       [
+        -126.91,
+        -133.63
+       ],
+       [
+        -129.44,
+        -135.87
+       ],
+       [
+        -131.78,
+        -138.31
+       ],
+       [
+        -133.9,
+        -140.94
+       ],
+       [
+        -135.79,
+        -143.75
+       ],
+       [
+        -137.44,
+        -146.7
+       ],
+       [
+        -138.83,
+        -149.78
+       ],
+       [
+        -139.96,
+        -152.97
+       ],
+       [
+        -204.4,
+        -363.09
+       ],
+       [
+        -205.06,
+        -365.62
+       ],
+       [
+        -205.49,
+        -368.2
+       ],
+       [
+        -205.7,
+        -370.81
+       ],
+       [
+        -205.68,
+        -373.42
+       ],
+       [
+        -205.43,
+        -376.02
+       ],
+       [
+        -204.96,
+        -378.59
+       ],
+       [
+        -204.27,
+        -381.11
+       ],
+       [
+        -203.36,
+        -383.56
+       ],
+       [
+        -202.23,
+        -385.93
+       ],
+       [
+        -200.91,
+        -388.18
+       ],
+       [
+        -199.4,
+        -390.31
+       ],
+       [
+        -197.7,
+        -392.3
+       ],
+       [
+        -195.84,
+        -394.14
+       ],
+       [
+        -193.83,
+        -395.81
+       ],
+       [
+        -191.68,
+        -397.29
+       ],
+       [
+        -189.41,
+        -398.59
+       ],
+       [
+        -187.03,
+        -399.68
+       ],
+       [
+        -184.57,
+        -400.55
+       ],
+       [
+        -182.04,
+        -401.22
+       ],
+       [
+        -179.46,
+        -401.66
+       ],
+       [
+        -176.86,
+        -401.87
+       ],
+       [
+        -174.24,
+        -401.85
+       ],
+       [
+        -171.64,
+        -401.61
+       ],
+       [
+        -169.07,
+        -401.14
+       ],
+       [
+        -166.55,
+        -400.45
+       ],
+       [
+        -164.1,
+        -399.55
+       ],
+       [
+        -161.73,
+        -398.43
+       ],
+       [
+        -159.48,
+        -397.11
+       ],
+       [
+        -157.34,
+        -395.6
+       ],
+       [
+        -155.35,
+        -393.91
+       ],
+       [
+        -153.51,
+        -392.06
+       ],
+       [
+        -151.84,
+        -390.05
+       ],
+       [
+        -150.35,
+        -387.9
+       ],
+       [
+        -149.05,
+        -385.63
+       ],
+       [
+        -147.96,
+        -383.25
        ]
       ],
       "h": 8,
@@ -85920,7 +90044,7 @@
   {
    "id": "p927_fijo_brazo_tensor_e_8_x_calle_4_x_355_656",
    "name": "FIJO · Brazo tensor e=8 (+X) (calle 4, X=355.656)",
-   "color": "#8fa3b8",
+   "color": "#2a4fd7",
    "pos": [
     376.66,
     -101.72,
@@ -85935,12 +90059,20 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "capaInfo": "dis (poses de las 3 zonas: step)",
-   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro.",
+   "capaInfo": "dis (poses de las 3 zonas: step; silueta: ESTETICA de params_tensor2, dis)",
+   "grabado": {
+    "texto": "TEN-BR · A36 e8",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "+X (exterior)",
+    "pos": "junto al flanco frontal",
+    "nota": "las 10 pletinas son idénticas: NO se numeran por calle. Se corta en la misma pasada del láser."
+   },
+   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro. ESTÉTICA (06-08, dis): silueta de balancín con ojo — cubo redondo R40 concéntrico al paso Ø50 (el hull anterior cortaba el contorno en R25 = el propio taladro: ligamento CERO sobre el cordón al cubo, el único concentrador real; ahora anillo continuo de 15), flancos rectos tangentes que siguen el diagrama de momentos y garganta cóncava R60 = 7.5·e (Kt ≈ 1.06) donde el alma retirada no era camino de carga. Ojos R30/R20, los 3 taladros, las 3 poses y las palancas: SIN CAMBIO. Matar aristas de corte R2 / 1×45° (es la chapa más accesible del frente).",
    "features": [
     {
      "id": "f2249",
-     "name": "Silueta del brazo (hull pivote–polea–lóbulo)",
+     "name": "Silueta de balancín (ojo del cubo R40 · garganta R60)",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -85956,160 +90088,488 @@
      "params": {
       "pts": [
        [
-        -205.72,
-        -371.89
+        -118.17,
+        -310.48
        ],
        [
-        -205.26,
-        -377.1
+        -115.99,
+        -305.75
        ],
        [
-        -203.91,
-        -382.15
+        -113.41,
+        -301.23
        ],
        [
-        -201.7,
-        -386.89
+        -110.45,
+        -296.95
        ],
        [
-        -198.7,
-        -391.17
+        -107.13,
+        -292.94
        ],
        [
-        -195,
-        -394.87
+        -103.47,
+        -289.24
        ],
        [
-        -190.72,
-        -397.87
+        -99.51,
+        -285.87
        ],
        [
-        -185.98,
-        -400.08
+        -95.27,
+        -282.85
        ],
        [
-        -180.93,
-        -401.43
+        -90.78,
+        -280.21
        ],
        [
-        -175.72,
-        -401.89
+        -86.08,
+        -277.97
        ],
        [
-        -170.51,
-        -401.43
+        -81.21,
+        -276.15
        ],
        [
-        -165.46,
-        -400.08
+        -76.19,
+        -274.76
        ],
        [
-        41.34,
-        -331.29
+        -71.08,
+        -273.8
        ],
        [
-        44.5,
-        -329.82
+        -65.9,
+        -273.29
        ],
        [
-        47.36,
-        -327.82
+        -60.7,
+        -273.24
        ],
        [
-        49.82,
-        -325.36
+        -55.51,
+        -273.63
        ],
        [
-        51.82,
-        -322.5
+        -50.37,
+        -274.47
        ],
        [
-        53.29,
-        -319.34
+        -45.33,
+        -275.76
        ],
        [
-        54.2,
-        -315.97
+        -40.41,
+        -277.47
        ],
        [
-        54.5,
-        -312.5
+        -35.67,
+        -279.61
        ],
        [
-        54.2,
-        -309.03
+        -31.13,
+        -282.15
        ],
        [
-        53.29,
-        -305.66
+        -26.82,
+        -285.07
        ],
        [
-        51.82,
-        -302.5
+        -22.78,
+        -288.35
        ],
        [
-        49.82,
-        -299.64
+        21.22,
+        -327.45
        ],
        [
-        -82.57,
-        -148.63
+        22.56,
+        -328.54
        ],
        [
-        -85.65,
-        -145.55
+        23.99,
+        -329.51
        ],
        [
-        -89.22,
-        -143.05
+        25.5,
+        -330.36
        ],
        [
-        -93.17,
-        -141.21
+        27.08,
+        -331.07
        ],
        [
-        -97.38,
-        -140.08
+        28.71,
+        -331.64
        ],
        [
-        -101.72,
-        -139.7
+        30.38,
+        -332.07
        ],
        [
-        -106.06,
-        -140.08
+        32.09,
+        -332.35
        ],
        [
-        -110.27,
-        -141.21
+        33.82,
+        -332.49
        ],
        [
-        -114.22,
-        -143.05
+        35.55,
+        -332.47
        ],
        [
-        -117.79,
-        -145.55
+        37.27,
+        -332.31
        ],
        [
-        -120.87,
-        -148.63
+        38.97,
+        -331.99
        ],
        [
-        -123.37,
-        -152.2
+        40.64,
+        -331.53
        ],
        [
-        -125.21,
-        -156.15
+        42.26,
+        -330.93
        ],
        [
-        -203.91,
-        -361.63
+        43.82,
+        -330.19
        ],
        [
-        -205.26,
-        -366.68
+        45.32,
+        -329.32
+       ],
+       [
+        46.73,
+        -328.32
+       ],
+       [
+        48.05,
+        -327.21
+       ],
+       [
+        49.27,
+        -325.98
+       ],
+       [
+        50.38,
+        -324.65
+       ],
+       [
+        51.38,
+        -323.23
+       ],
+       [
+        52.24,
+        -321.74
+       ],
+       [
+        52.97,
+        -320.17
+       ],
+       [
+        53.57,
+        -318.54
+       ],
+       [
+        54.02,
+        -316.87
+       ],
+       [
+        54.32,
+        -315.17
+       ],
+       [
+        54.48,
+        -313.45
+       ],
+       [
+        54.48,
+        -311.72
+       ],
+       [
+        54.34,
+        -309.99
+       ],
+       [
+        54.05,
+        -308.29
+       ],
+       [
+        53.61,
+        -306.61
+       ],
+       [
+        53.03,
+        -304.98
+       ],
+       [
+        52.31,
+        -303.41
+       ],
+       [
+        51.46,
+        -301.9
+       ],
+       [
+        50.48,
+        -300.48
+       ],
+       [
+        -69.76,
+        -140.65
+       ],
+       [
+        -71.9,
+        -138.04
+       ],
+       [
+        -74.26,
+        -135.61
+       ],
+       [
+        -76.82,
+        -133.4
+       ],
+       [
+        -79.55,
+        -131.41
+       ],
+       [
+        -82.44,
+        -129.65
+       ],
+       [
+        -85.47,
+        -128.15
+       ],
+       [
+        -88.62,
+        -126.91
+       ],
+       [
+        -91.86,
+        -125.94
+       ],
+       [
+        -95.17,
+        -125.24
+       ],
+       [
+        -98.52,
+        -124.83
+       ],
+       [
+        -101.9,
+        -124.7
+       ],
+       [
+        -105.28,
+        -124.86
+       ],
+       [
+        -108.63,
+        -125.3
+       ],
+       [
+        -111.94,
+        -126.03
+       ],
+       [
+        -115.17,
+        -127.03
+       ],
+       [
+        -118.3,
+        -128.3
+       ],
+       [
+        -121.32,
+        -129.83
+       ],
+       [
+        -124.19,
+        -131.61
+       ],
+       [
+        -126.91,
+        -133.63
+       ],
+       [
+        -129.44,
+        -135.87
+       ],
+       [
+        -131.78,
+        -138.31
+       ],
+       [
+        -133.9,
+        -140.94
+       ],
+       [
+        -135.79,
+        -143.75
+       ],
+       [
+        -137.44,
+        -146.7
+       ],
+       [
+        -138.83,
+        -149.78
+       ],
+       [
+        -139.96,
+        -152.97
+       ],
+       [
+        -204.4,
+        -363.09
+       ],
+       [
+        -205.06,
+        -365.62
+       ],
+       [
+        -205.49,
+        -368.2
+       ],
+       [
+        -205.7,
+        -370.81
+       ],
+       [
+        -205.68,
+        -373.42
+       ],
+       [
+        -205.43,
+        -376.02
+       ],
+       [
+        -204.96,
+        -378.59
+       ],
+       [
+        -204.27,
+        -381.11
+       ],
+       [
+        -203.36,
+        -383.56
+       ],
+       [
+        -202.23,
+        -385.93
+       ],
+       [
+        -200.91,
+        -388.18
+       ],
+       [
+        -199.4,
+        -390.31
+       ],
+       [
+        -197.7,
+        -392.3
+       ],
+       [
+        -195.84,
+        -394.14
+       ],
+       [
+        -193.83,
+        -395.81
+       ],
+       [
+        -191.68,
+        -397.29
+       ],
+       [
+        -189.41,
+        -398.59
+       ],
+       [
+        -187.03,
+        -399.68
+       ],
+       [
+        -184.57,
+        -400.55
+       ],
+       [
+        -182.04,
+        -401.22
+       ],
+       [
+        -179.46,
+        -401.66
+       ],
+       [
+        -176.86,
+        -401.87
+       ],
+       [
+        -174.24,
+        -401.85
+       ],
+       [
+        -171.64,
+        -401.61
+       ],
+       [
+        -169.07,
+        -401.14
+       ],
+       [
+        -166.55,
+        -400.45
+       ],
+       [
+        -164.1,
+        -399.55
+       ],
+       [
+        -161.73,
+        -398.43
+       ],
+       [
+        -159.48,
+        -397.11
+       ],
+       [
+        -157.34,
+        -395.6
+       ],
+       [
+        -155.35,
+        -393.91
+       ],
+       [
+        -153.51,
+        -392.06
+       ],
+       [
+        -151.84,
+        -390.05
+       ],
+       [
+        -150.35,
+        -387.9
+       ],
+       [
+        -149.05,
+        -385.63
+       ],
+       [
+        -147.96,
+        -383.25
        ]
       ],
       "h": 8,
@@ -87834,11 +92294,11 @@
   {
    "id": "p941_fijo_mensula_de_bisagra_lengueta_e_8_calle_4_x_355_656",
    "name": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 4, X=355.656)",
-   "color": "#8fa3b8",
+   "color": "#455a64",
    "pos": [
     355.656,
     42,
-    -85
+    -82
    ],
    "quat": [
     0,
@@ -87849,48 +92309,381 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "pletina A36 en L: la LENGÜETA entra en la luz de la horquilla de la C85C25 y el bulón la pinza; la BASE atornilla con 2 M8 a la cara frontal del travesaño. Es la pieza que faltaba entre la bisagra y el bastidor. Voladizo 23.5 mm desde la cara del travesaño: M = 3294.47 N·mm sobre 2 secciones de 8×35 → σ despreciable.",
+   "grabado": {
+    "texto": "TEN-MEN",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "−Y (la que ve el operador entre los cilindros)",
+    "nota": "se corta en la misma pasada del láser"
+   },
+   "nota": "pletina A36 en L: la LENGÜETA entra en la luz de la horquilla de la C85C25 y el bulón la pinza; la BASE atornilla con 2 M8 a la cara frontal del travesaño. Es la pieza que faltaba entre la bisagra y el bastidor. Voladizo 23.5 mm desde la cara del travesaño: M = 3294.47 N·mm sobre 2 secciones de 8×35 → σ despreciable. ESTÉTICA (06-08, dis): lengüeta de 20 CENTRADA en el bulón (Z -82…-62) y nariz a RADIO PLENO R10 concéntrico al Ø8 — la lengüeta señala su bulón; el ligamento alrededor del ojo sube de 4.5 (esquinas vivas de la punta recta) a 6 uniformes = 0.75·d₀, la práctica de la propia horquilla C85C25 en este mismo bulón. Sección al empotramiento 8×20 → σ = 6.18 MPa con F = 140.19 N: FS > 40, neutro. HALLAZGO COLATERAL CERRADO: la lengüeta de 23 bajaba a Z −85 contra el fondo de la luz de la C85C25 en −84 (solape de 1 mm no declarado); centrada queda con 2 mm de aire por cara dentro de la luz (−84…−60), el techo sigue en -62 (holgura 4.8 al tambor motriz intacta) y la nariz muere en Y 24.5 contra fondo de luz en Y 12.5 → 12 libres. Base con esquinas R8 FUERA de la línea de pernos (arcos a ≥10.6 del centro de los Ø9, cantos rectos adyacentes conservados); el apriete pierde 55 mm² de 1400 (−3.9 %) en puntas donde la presión es nula y las cabezas M8 quedan con ≥2 de material alrededor.",
    "features": [
     {
      "id": "f2279",
-     "name": "Lengüeta 8×32×23",
-     "shape": "box",
+     "name": "Lengüeta e=8 alto 20 — nariz R10 concéntrica al bulón",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
+      -3.995999999999981,
+      -42,
+      82
+     ],
+     "dir": [
+      1,
       0,
       0
      ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
      "params": {
-      "w": 8,
-      "d": 32,
-      "h": 23
+      "pts": [
+       [
+        58,
+        -82
+       ],
+       [
+        34.5,
+        -82
+       ],
+       [
+        33.19,
+        -81.91
+       ],
+       [
+        31.91,
+        -81.66
+       ],
+       [
+        30.67,
+        -81.24
+       ],
+       [
+        29.5,
+        -80.66
+       ],
+       [
+        28.41,
+        -79.93
+       ],
+       [
+        27.43,
+        -79.07
+       ],
+       [
+        26.57,
+        -78.09
+       ],
+       [
+        25.84,
+        -77
+       ],
+       [
+        25.26,
+        -75.83
+       ],
+       [
+        24.84,
+        -74.59
+       ],
+       [
+        24.59,
+        -73.31
+       ],
+       [
+        24.5,
+        -72
+       ],
+       [
+        24.59,
+        -70.69
+       ],
+       [
+        24.84,
+        -69.41
+       ],
+       [
+        25.26,
+        -68.17
+       ],
+       [
+        25.84,
+        -67
+       ],
+       [
+        26.57,
+        -65.91
+       ],
+       [
+        27.43,
+        -64.93
+       ],
+       [
+        28.41,
+        -64.07
+       ],
+       [
+        29.5,
+        -63.34
+       ],
+       [
+        30.67,
+        -62.76
+       ],
+       [
+        31.91,
+        -62.34
+       ],
+       [
+        33.19,
+        -62.09
+       ],
+       [
+        34.5,
+        -62
+       ],
+       [
+        58,
+        -62
+       ]
+      ],
+      "h": 8,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
      "id": "f2280",
-     "name": "Base 40×10×35",
-     "shape": "box",
+     "name": "Base 40×10×35 esquinas R8",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
-      21,
-      -15
+      -355.656,
+      26,
+      82
      ],
      "dir": [
       0,
-      0,
-      1
+      -1,
+      0
      ],
      "params": {
-      "w": 40,
-      "d": 10,
-      "h": 35
+      "pts": [
+       [
+        367.66,
+        -100
+       ],
+       [
+        368.7,
+        -99.93
+       ],
+       [
+        369.73,
+        -99.73
+       ],
+       [
+        370.72,
+        -99.39
+       ],
+       [
+        371.66,
+        -98.93
+       ],
+       [
+        372.53,
+        -98.35
+       ],
+       [
+        373.32,
+        -97.66
+       ],
+       [
+        374.01,
+        -96.87
+       ],
+       [
+        374.59,
+        -96
+       ],
+       [
+        375.05,
+        -95.06
+       ],
+       [
+        375.39,
+        -94.07
+       ],
+       [
+        375.59,
+        -93.04
+       ],
+       [
+        375.66,
+        -92
+       ],
+       [
+        375.66,
+        -73
+       ],
+       [
+        375.59,
+        -71.96
+       ],
+       [
+        375.39,
+        -70.93
+       ],
+       [
+        375.05,
+        -69.94
+       ],
+       [
+        374.59,
+        -69
+       ],
+       [
+        374.01,
+        -68.13
+       ],
+       [
+        373.32,
+        -67.34
+       ],
+       [
+        372.53,
+        -66.65
+       ],
+       [
+        371.66,
+        -66.07
+       ],
+       [
+        370.72,
+        -65.61
+       ],
+       [
+        369.73,
+        -65.27
+       ],
+       [
+        368.7,
+        -65.07
+       ],
+       [
+        367.66,
+        -65
+       ],
+       [
+        343.66,
+        -65
+       ],
+       [
+        342.62,
+        -65.07
+       ],
+       [
+        341.59,
+        -65.27
+       ],
+       [
+        340.6,
+        -65.61
+       ],
+       [
+        339.66,
+        -66.07
+       ],
+       [
+        338.79,
+        -66.65
+       ],
+       [
+        338,
+        -67.34
+       ],
+       [
+        337.31,
+        -68.13
+       ],
+       [
+        336.73,
+        -69
+       ],
+       [
+        336.27,
+        -69.94
+       ],
+       [
+        335.93,
+        -70.93
+       ],
+       [
+        335.73,
+        -71.96
+       ],
+       [
+        335.66,
+        -73
+       ],
+       [
+        335.66,
+        -92
+       ],
+       [
+        335.73,
+        -93.04
+       ],
+       [
+        335.93,
+        -94.07
+       ],
+       [
+        336.27,
+        -95.06
+       ],
+       [
+        336.73,
+        -96
+       ],
+       [
+        337.31,
+        -96.87
+       ],
+       [
+        338,
+        -97.66
+       ],
+       [
+        338.79,
+        -98.35
+       ],
+       [
+        339.66,
+        -98.93
+       ],
+       [
+        340.6,
+        -99.39
+       ],
+       [
+        341.59,
+        -99.73
+       ],
+       [
+        342.62,
+        -99.93
+       ],
+       [
+        343.66,
+        -100
+       ]
+      ],
+      "h": 10,
+      "u": [
+       1,
+       0,
+       0
+      ]
      }
     },
     {
@@ -87901,7 +92694,7 @@
      "at": [
       -7.995999999999981,
       -7.5,
-      13
+      10
      ],
      "dir": [
       1,
@@ -87922,7 +92715,7 @@
      "at": [
       -11.995999999999981,
       27,
-      5
+      2
      ],
      "dir": [
       0,
@@ -87943,7 +92736,7 @@
      "at": [
       12.004000000000019,
       27,
-      5
+      2
      ],
      "dir": [
       0,
@@ -89009,7 +93802,7 @@
   {
    "id": "p957_fijo_brazo_tensor_e_8_x_calle_5_x_431_856",
    "name": "FIJO · Brazo tensor e=8 (−X) (calle 5, X=431.856)",
-   "color": "#8fa3b8",
+   "color": "#2a4fd7",
    "pos": [
     402.86,
     -101.72,
@@ -89024,12 +93817,20 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "capaInfo": "dis (poses de las 3 zonas: step)",
-   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro.",
+   "capaInfo": "dis (poses de las 3 zonas: step; silueta: ESTETICA de params_tensor2, dis)",
+   "grabado": {
+    "texto": "TEN-BR · A36 e8",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "−X (exterior)",
+    "pos": "junto al flanco frontal",
+    "nota": "las 10 pletinas son idénticas: NO se numeran por calle. Se corta en la misma pasada del láser."
+   },
+   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro. ESTÉTICA (06-08, dis): silueta de balancín con ojo — cubo redondo R40 concéntrico al paso Ø50 (el hull anterior cortaba el contorno en R25 = el propio taladro: ligamento CERO sobre el cordón al cubo, el único concentrador real; ahora anillo continuo de 15), flancos rectos tangentes que siguen el diagrama de momentos y garganta cóncava R60 = 7.5·e (Kt ≈ 1.06) donde el alma retirada no era camino de carga. Ojos R30/R20, los 3 taladros, las 3 poses y las palancas: SIN CAMBIO. Matar aristas de corte R2 / 1×45° (es la chapa más accesible del frente).",
    "features": [
     {
      "id": "f2304",
-     "name": "Silueta del brazo (hull pivote–polea–lóbulo)",
+     "name": "Silueta de balancín (ojo del cubo R40 · garganta R60)",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -89045,160 +93846,488 @@
      "params": {
       "pts": [
        [
-        -205.72,
-        -371.89
+        -118.17,
+        -310.48
        ],
        [
-        -205.26,
-        -377.1
+        -115.99,
+        -305.75
        ],
        [
-        -203.91,
-        -382.15
+        -113.41,
+        -301.23
        ],
        [
-        -201.7,
-        -386.89
+        -110.45,
+        -296.95
        ],
        [
-        -198.7,
-        -391.17
+        -107.13,
+        -292.94
        ],
        [
-        -195,
-        -394.87
+        -103.47,
+        -289.24
        ],
        [
-        -190.72,
-        -397.87
+        -99.51,
+        -285.87
        ],
        [
-        -185.98,
-        -400.08
+        -95.27,
+        -282.85
        ],
        [
-        -180.93,
-        -401.43
+        -90.78,
+        -280.21
        ],
        [
-        -175.72,
-        -401.89
+        -86.08,
+        -277.97
        ],
        [
-        -170.51,
-        -401.43
+        -81.21,
+        -276.15
        ],
        [
-        -165.46,
-        -400.08
+        -76.19,
+        -274.76
        ],
        [
-        41.34,
-        -331.29
+        -71.08,
+        -273.8
        ],
        [
-        44.5,
-        -329.82
+        -65.9,
+        -273.29
        ],
        [
-        47.36,
-        -327.82
+        -60.7,
+        -273.24
        ],
        [
-        49.82,
-        -325.36
+        -55.51,
+        -273.63
        ],
        [
-        51.82,
-        -322.5
+        -50.37,
+        -274.47
        ],
        [
-        53.29,
-        -319.34
+        -45.33,
+        -275.76
        ],
        [
-        54.2,
-        -315.97
+        -40.41,
+        -277.47
        ],
        [
-        54.5,
-        -312.5
+        -35.67,
+        -279.61
        ],
        [
-        54.2,
-        -309.03
+        -31.13,
+        -282.15
        ],
        [
-        53.29,
-        -305.66
+        -26.82,
+        -285.07
        ],
        [
-        51.82,
-        -302.5
+        -22.78,
+        -288.35
        ],
        [
-        49.82,
-        -299.64
+        21.22,
+        -327.45
        ],
        [
-        -82.57,
-        -148.63
+        22.56,
+        -328.54
        ],
        [
-        -85.65,
-        -145.55
+        23.99,
+        -329.51
        ],
        [
-        -89.22,
-        -143.05
+        25.5,
+        -330.36
        ],
        [
-        -93.17,
-        -141.21
+        27.08,
+        -331.07
        ],
        [
-        -97.38,
-        -140.08
+        28.71,
+        -331.64
        ],
        [
-        -101.72,
-        -139.7
+        30.38,
+        -332.07
        ],
        [
-        -106.06,
-        -140.08
+        32.09,
+        -332.35
        ],
        [
-        -110.27,
-        -141.21
+        33.82,
+        -332.49
        ],
        [
-        -114.22,
-        -143.05
+        35.55,
+        -332.47
        ],
        [
-        -117.79,
-        -145.55
+        37.27,
+        -332.31
        ],
        [
-        -120.87,
-        -148.63
+        38.97,
+        -331.99
        ],
        [
-        -123.37,
-        -152.2
+        40.64,
+        -331.53
        ],
        [
-        -125.21,
-        -156.15
+        42.26,
+        -330.93
        ],
        [
-        -203.91,
-        -361.63
+        43.82,
+        -330.19
        ],
        [
-        -205.26,
-        -366.68
+        45.32,
+        -329.32
+       ],
+       [
+        46.73,
+        -328.32
+       ],
+       [
+        48.05,
+        -327.21
+       ],
+       [
+        49.27,
+        -325.98
+       ],
+       [
+        50.38,
+        -324.65
+       ],
+       [
+        51.38,
+        -323.23
+       ],
+       [
+        52.24,
+        -321.74
+       ],
+       [
+        52.97,
+        -320.17
+       ],
+       [
+        53.57,
+        -318.54
+       ],
+       [
+        54.02,
+        -316.87
+       ],
+       [
+        54.32,
+        -315.17
+       ],
+       [
+        54.48,
+        -313.45
+       ],
+       [
+        54.48,
+        -311.72
+       ],
+       [
+        54.34,
+        -309.99
+       ],
+       [
+        54.05,
+        -308.29
+       ],
+       [
+        53.61,
+        -306.61
+       ],
+       [
+        53.03,
+        -304.98
+       ],
+       [
+        52.31,
+        -303.41
+       ],
+       [
+        51.46,
+        -301.9
+       ],
+       [
+        50.48,
+        -300.48
+       ],
+       [
+        -69.76,
+        -140.65
+       ],
+       [
+        -71.9,
+        -138.04
+       ],
+       [
+        -74.26,
+        -135.61
+       ],
+       [
+        -76.82,
+        -133.4
+       ],
+       [
+        -79.55,
+        -131.41
+       ],
+       [
+        -82.44,
+        -129.65
+       ],
+       [
+        -85.47,
+        -128.15
+       ],
+       [
+        -88.62,
+        -126.91
+       ],
+       [
+        -91.86,
+        -125.94
+       ],
+       [
+        -95.17,
+        -125.24
+       ],
+       [
+        -98.52,
+        -124.83
+       ],
+       [
+        -101.9,
+        -124.7
+       ],
+       [
+        -105.28,
+        -124.86
+       ],
+       [
+        -108.63,
+        -125.3
+       ],
+       [
+        -111.94,
+        -126.03
+       ],
+       [
+        -115.17,
+        -127.03
+       ],
+       [
+        -118.3,
+        -128.3
+       ],
+       [
+        -121.32,
+        -129.83
+       ],
+       [
+        -124.19,
+        -131.61
+       ],
+       [
+        -126.91,
+        -133.63
+       ],
+       [
+        -129.44,
+        -135.87
+       ],
+       [
+        -131.78,
+        -138.31
+       ],
+       [
+        -133.9,
+        -140.94
+       ],
+       [
+        -135.79,
+        -143.75
+       ],
+       [
+        -137.44,
+        -146.7
+       ],
+       [
+        -138.83,
+        -149.78
+       ],
+       [
+        -139.96,
+        -152.97
+       ],
+       [
+        -204.4,
+        -363.09
+       ],
+       [
+        -205.06,
+        -365.62
+       ],
+       [
+        -205.49,
+        -368.2
+       ],
+       [
+        -205.7,
+        -370.81
+       ],
+       [
+        -205.68,
+        -373.42
+       ],
+       [
+        -205.43,
+        -376.02
+       ],
+       [
+        -204.96,
+        -378.59
+       ],
+       [
+        -204.27,
+        -381.11
+       ],
+       [
+        -203.36,
+        -383.56
+       ],
+       [
+        -202.23,
+        -385.93
+       ],
+       [
+        -200.91,
+        -388.18
+       ],
+       [
+        -199.4,
+        -390.31
+       ],
+       [
+        -197.7,
+        -392.3
+       ],
+       [
+        -195.84,
+        -394.14
+       ],
+       [
+        -193.83,
+        -395.81
+       ],
+       [
+        -191.68,
+        -397.29
+       ],
+       [
+        -189.41,
+        -398.59
+       ],
+       [
+        -187.03,
+        -399.68
+       ],
+       [
+        -184.57,
+        -400.55
+       ],
+       [
+        -182.04,
+        -401.22
+       ],
+       [
+        -179.46,
+        -401.66
+       ],
+       [
+        -176.86,
+        -401.87
+       ],
+       [
+        -174.24,
+        -401.85
+       ],
+       [
+        -171.64,
+        -401.61
+       ],
+       [
+        -169.07,
+        -401.14
+       ],
+       [
+        -166.55,
+        -400.45
+       ],
+       [
+        -164.1,
+        -399.55
+       ],
+       [
+        -161.73,
+        -398.43
+       ],
+       [
+        -159.48,
+        -397.11
+       ],
+       [
+        -157.34,
+        -395.6
+       ],
+       [
+        -155.35,
+        -393.91
+       ],
+       [
+        -153.51,
+        -392.06
+       ],
+       [
+        -151.84,
+        -390.05
+       ],
+       [
+        -150.35,
+        -387.9
+       ],
+       [
+        -149.05,
+        -385.63
+       ],
+       [
+        -147.96,
+        -383.25
        ]
       ],
       "h": 8,
@@ -89297,7 +94426,7 @@
   {
    "id": "p958_fijo_brazo_tensor_e_8_x_calle_5_x_431_856",
    "name": "FIJO · Brazo tensor e=8 (+X) (calle 5, X=431.856)",
-   "color": "#8fa3b8",
+   "color": "#2a4fd7",
    "pos": [
     452.86,
     -101.72,
@@ -89312,12 +94441,20 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "capaInfo": "dis (poses de las 3 zonas: step)",
-   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro.",
+   "capaInfo": "dis (poses de las 3 zonas: step; silueta: ESTETICA de params_tensor2, dis)",
+   "grabado": {
+    "texto": "TEN-BR · A36 e8",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "+X (exterior)",
+    "pos": "junto al flanco frontal",
+    "nota": "las 10 pletinas son idénticas: NO se numeran por calle. Se corta en la misma pasada del láser."
+   },
+   "nota": "pletina A36 e=8, corte láser. BALANCÍN: el lóbulo del cilindro cae a +Y del pivote (palanca 136.22) y la polea a −Y (palanca 74) → ventaja mecánica ×1.841 (calc). Las dos pletinas van soldadas al cubo y forman la horquilla que abraza la polea de 40 y, más arriba, la rótula del cilindro. ESTÉTICA (06-08, dis): silueta de balancín con ojo — cubo redondo R40 concéntrico al paso Ø50 (el hull anterior cortaba el contorno en R25 = el propio taladro: ligamento CERO sobre el cordón al cubo, el único concentrador real; ahora anillo continuo de 15), flancos rectos tangentes que siguen el diagrama de momentos y garganta cóncava R60 = 7.5·e (Kt ≈ 1.06) donde el alma retirada no era camino de carga. Ojos R30/R20, los 3 taladros, las 3 poses y las palancas: SIN CAMBIO. Matar aristas de corte R2 / 1×45° (es la chapa más accesible del frente).",
    "features": [
     {
      "id": "f2308",
-     "name": "Silueta del brazo (hull pivote–polea–lóbulo)",
+     "name": "Silueta de balancín (ojo del cubo R40 · garganta R60)",
      "shape": "sketch",
      "op": "union",
      "at": [
@@ -89333,160 +94470,488 @@
      "params": {
       "pts": [
        [
-        -205.72,
-        -371.89
+        -118.17,
+        -310.48
        ],
        [
-        -205.26,
-        -377.1
+        -115.99,
+        -305.75
        ],
        [
-        -203.91,
-        -382.15
+        -113.41,
+        -301.23
        ],
        [
-        -201.7,
-        -386.89
+        -110.45,
+        -296.95
        ],
        [
-        -198.7,
-        -391.17
+        -107.13,
+        -292.94
        ],
        [
-        -195,
-        -394.87
+        -103.47,
+        -289.24
        ],
        [
-        -190.72,
-        -397.87
+        -99.51,
+        -285.87
        ],
        [
-        -185.98,
-        -400.08
+        -95.27,
+        -282.85
        ],
        [
-        -180.93,
-        -401.43
+        -90.78,
+        -280.21
        ],
        [
-        -175.72,
-        -401.89
+        -86.08,
+        -277.97
        ],
        [
-        -170.51,
-        -401.43
+        -81.21,
+        -276.15
        ],
        [
-        -165.46,
-        -400.08
+        -76.19,
+        -274.76
        ],
        [
-        41.34,
-        -331.29
+        -71.08,
+        -273.8
        ],
        [
-        44.5,
-        -329.82
+        -65.9,
+        -273.29
        ],
        [
-        47.36,
-        -327.82
+        -60.7,
+        -273.24
        ],
        [
-        49.82,
-        -325.36
+        -55.51,
+        -273.63
        ],
        [
-        51.82,
-        -322.5
+        -50.37,
+        -274.47
        ],
        [
-        53.29,
-        -319.34
+        -45.33,
+        -275.76
        ],
        [
-        54.2,
-        -315.97
+        -40.41,
+        -277.47
        ],
        [
-        54.5,
-        -312.5
+        -35.67,
+        -279.61
        ],
        [
-        54.2,
-        -309.03
+        -31.13,
+        -282.15
        ],
        [
-        53.29,
-        -305.66
+        -26.82,
+        -285.07
        ],
        [
-        51.82,
-        -302.5
+        -22.78,
+        -288.35
        ],
        [
-        49.82,
-        -299.64
+        21.22,
+        -327.45
        ],
        [
-        -82.57,
-        -148.63
+        22.56,
+        -328.54
        ],
        [
-        -85.65,
-        -145.55
+        23.99,
+        -329.51
        ],
        [
-        -89.22,
-        -143.05
+        25.5,
+        -330.36
        ],
        [
-        -93.17,
-        -141.21
+        27.08,
+        -331.07
        ],
        [
-        -97.38,
-        -140.08
+        28.71,
+        -331.64
        ],
        [
-        -101.72,
-        -139.7
+        30.38,
+        -332.07
        ],
        [
-        -106.06,
-        -140.08
+        32.09,
+        -332.35
        ],
        [
-        -110.27,
-        -141.21
+        33.82,
+        -332.49
        ],
        [
-        -114.22,
-        -143.05
+        35.55,
+        -332.47
        ],
        [
-        -117.79,
-        -145.55
+        37.27,
+        -332.31
        ],
        [
-        -120.87,
-        -148.63
+        38.97,
+        -331.99
        ],
        [
-        -123.37,
-        -152.2
+        40.64,
+        -331.53
        ],
        [
-        -125.21,
-        -156.15
+        42.26,
+        -330.93
        ],
        [
-        -203.91,
-        -361.63
+        43.82,
+        -330.19
        ],
        [
-        -205.26,
-        -366.68
+        45.32,
+        -329.32
+       ],
+       [
+        46.73,
+        -328.32
+       ],
+       [
+        48.05,
+        -327.21
+       ],
+       [
+        49.27,
+        -325.98
+       ],
+       [
+        50.38,
+        -324.65
+       ],
+       [
+        51.38,
+        -323.23
+       ],
+       [
+        52.24,
+        -321.74
+       ],
+       [
+        52.97,
+        -320.17
+       ],
+       [
+        53.57,
+        -318.54
+       ],
+       [
+        54.02,
+        -316.87
+       ],
+       [
+        54.32,
+        -315.17
+       ],
+       [
+        54.48,
+        -313.45
+       ],
+       [
+        54.48,
+        -311.72
+       ],
+       [
+        54.34,
+        -309.99
+       ],
+       [
+        54.05,
+        -308.29
+       ],
+       [
+        53.61,
+        -306.61
+       ],
+       [
+        53.03,
+        -304.98
+       ],
+       [
+        52.31,
+        -303.41
+       ],
+       [
+        51.46,
+        -301.9
+       ],
+       [
+        50.48,
+        -300.48
+       ],
+       [
+        -69.76,
+        -140.65
+       ],
+       [
+        -71.9,
+        -138.04
+       ],
+       [
+        -74.26,
+        -135.61
+       ],
+       [
+        -76.82,
+        -133.4
+       ],
+       [
+        -79.55,
+        -131.41
+       ],
+       [
+        -82.44,
+        -129.65
+       ],
+       [
+        -85.47,
+        -128.15
+       ],
+       [
+        -88.62,
+        -126.91
+       ],
+       [
+        -91.86,
+        -125.94
+       ],
+       [
+        -95.17,
+        -125.24
+       ],
+       [
+        -98.52,
+        -124.83
+       ],
+       [
+        -101.9,
+        -124.7
+       ],
+       [
+        -105.28,
+        -124.86
+       ],
+       [
+        -108.63,
+        -125.3
+       ],
+       [
+        -111.94,
+        -126.03
+       ],
+       [
+        -115.17,
+        -127.03
+       ],
+       [
+        -118.3,
+        -128.3
+       ],
+       [
+        -121.32,
+        -129.83
+       ],
+       [
+        -124.19,
+        -131.61
+       ],
+       [
+        -126.91,
+        -133.63
+       ],
+       [
+        -129.44,
+        -135.87
+       ],
+       [
+        -131.78,
+        -138.31
+       ],
+       [
+        -133.9,
+        -140.94
+       ],
+       [
+        -135.79,
+        -143.75
+       ],
+       [
+        -137.44,
+        -146.7
+       ],
+       [
+        -138.83,
+        -149.78
+       ],
+       [
+        -139.96,
+        -152.97
+       ],
+       [
+        -204.4,
+        -363.09
+       ],
+       [
+        -205.06,
+        -365.62
+       ],
+       [
+        -205.49,
+        -368.2
+       ],
+       [
+        -205.7,
+        -370.81
+       ],
+       [
+        -205.68,
+        -373.42
+       ],
+       [
+        -205.43,
+        -376.02
+       ],
+       [
+        -204.96,
+        -378.59
+       ],
+       [
+        -204.27,
+        -381.11
+       ],
+       [
+        -203.36,
+        -383.56
+       ],
+       [
+        -202.23,
+        -385.93
+       ],
+       [
+        -200.91,
+        -388.18
+       ],
+       [
+        -199.4,
+        -390.31
+       ],
+       [
+        -197.7,
+        -392.3
+       ],
+       [
+        -195.84,
+        -394.14
+       ],
+       [
+        -193.83,
+        -395.81
+       ],
+       [
+        -191.68,
+        -397.29
+       ],
+       [
+        -189.41,
+        -398.59
+       ],
+       [
+        -187.03,
+        -399.68
+       ],
+       [
+        -184.57,
+        -400.55
+       ],
+       [
+        -182.04,
+        -401.22
+       ],
+       [
+        -179.46,
+        -401.66
+       ],
+       [
+        -176.86,
+        -401.87
+       ],
+       [
+        -174.24,
+        -401.85
+       ],
+       [
+        -171.64,
+        -401.61
+       ],
+       [
+        -169.07,
+        -401.14
+       ],
+       [
+        -166.55,
+        -400.45
+       ],
+       [
+        -164.1,
+        -399.55
+       ],
+       [
+        -161.73,
+        -398.43
+       ],
+       [
+        -159.48,
+        -397.11
+       ],
+       [
+        -157.34,
+        -395.6
+       ],
+       [
+        -155.35,
+        -393.91
+       ],
+       [
+        -153.51,
+        -392.06
+       ],
+       [
+        -151.84,
+        -390.05
+       ],
+       [
+        -150.35,
+        -387.9
+       ],
+       [
+        -149.05,
+        -385.63
+       ],
+       [
+        -147.96,
+        -383.25
        ]
       ],
       "h": 8,
@@ -91211,11 +96676,11 @@
   {
    "id": "p972_fijo_mensula_de_bisagra_lengueta_e_8_calle_5_x_431_856",
    "name": "FIJO · Ménsula de bisagra — lengüeta e=8 (calle 5, X=431.856)",
-   "color": "#8fa3b8",
+   "color": "#455a64",
    "pos": [
     431.856,
     42,
-    -85
+    -82
    ],
    "quat": [
     0,
@@ -91226,48 +96691,381 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "pletina A36 en L: la LENGÜETA entra en la luz de la horquilla de la C85C25 y el bulón la pinza; la BASE atornilla con 2 M8 a la cara frontal del travesaño. Es la pieza que faltaba entre la bisagra y el bastidor. Voladizo 23.5 mm desde la cara del travesaño: M = 3294.47 N·mm sobre 2 secciones de 8×35 → σ despreciable.",
+   "grabado": {
+    "texto": "TEN-MEN",
+    "alto": 8,
+    "fuente": "single-stroke",
+    "cara": "−Y (la que ve el operador entre los cilindros)",
+    "nota": "se corta en la misma pasada del láser"
+   },
+   "nota": "pletina A36 en L: la LENGÜETA entra en la luz de la horquilla de la C85C25 y el bulón la pinza; la BASE atornilla con 2 M8 a la cara frontal del travesaño. Es la pieza que faltaba entre la bisagra y el bastidor. Voladizo 23.5 mm desde la cara del travesaño: M = 3294.47 N·mm sobre 2 secciones de 8×35 → σ despreciable. ESTÉTICA (06-08, dis): lengüeta de 20 CENTRADA en el bulón (Z -82…-62) y nariz a RADIO PLENO R10 concéntrico al Ø8 — la lengüeta señala su bulón; el ligamento alrededor del ojo sube de 4.5 (esquinas vivas de la punta recta) a 6 uniformes = 0.75·d₀, la práctica de la propia horquilla C85C25 en este mismo bulón. Sección al empotramiento 8×20 → σ = 6.18 MPa con F = 140.19 N: FS > 40, neutro. HALLAZGO COLATERAL CERRADO: la lengüeta de 23 bajaba a Z −85 contra el fondo de la luz de la C85C25 en −84 (solape de 1 mm no declarado); centrada queda con 2 mm de aire por cara dentro de la luz (−84…−60), el techo sigue en -62 (holgura 4.8 al tambor motriz intacta) y la nariz muere en Y 24.5 contra fondo de luz en Y 12.5 → 12 libres. Base con esquinas R8 FUERA de la línea de pernos (arcos a ≥10.6 del centro de los Ø9, cantos rectos adyacentes conservados); el apriete pierde 55 mm² de 1400 (−3.9 %) en puntas donde la presión es nula y las cabezas M8 quedan con ≥2 de material alrededor.",
    "features": [
     {
      "id": "f2338",
-     "name": "Lengüeta 8×32×23",
-     "shape": "box",
+     "name": "Lengüeta e=8 alto 20 — nariz R10 concéntrica al bulón",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
+      -3.995999999999981,
+      -42,
+      82
+     ],
+     "dir": [
+      1,
       0,
       0
      ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
      "params": {
-      "w": 8,
-      "d": 32,
-      "h": 23
+      "pts": [
+       [
+        58,
+        -82
+       ],
+       [
+        34.5,
+        -82
+       ],
+       [
+        33.19,
+        -81.91
+       ],
+       [
+        31.91,
+        -81.66
+       ],
+       [
+        30.67,
+        -81.24
+       ],
+       [
+        29.5,
+        -80.66
+       ],
+       [
+        28.41,
+        -79.93
+       ],
+       [
+        27.43,
+        -79.07
+       ],
+       [
+        26.57,
+        -78.09
+       ],
+       [
+        25.84,
+        -77
+       ],
+       [
+        25.26,
+        -75.83
+       ],
+       [
+        24.84,
+        -74.59
+       ],
+       [
+        24.59,
+        -73.31
+       ],
+       [
+        24.5,
+        -72
+       ],
+       [
+        24.59,
+        -70.69
+       ],
+       [
+        24.84,
+        -69.41
+       ],
+       [
+        25.26,
+        -68.17
+       ],
+       [
+        25.84,
+        -67
+       ],
+       [
+        26.57,
+        -65.91
+       ],
+       [
+        27.43,
+        -64.93
+       ],
+       [
+        28.41,
+        -64.07
+       ],
+       [
+        29.5,
+        -63.34
+       ],
+       [
+        30.67,
+        -62.76
+       ],
+       [
+        31.91,
+        -62.34
+       ],
+       [
+        33.19,
+        -62.09
+       ],
+       [
+        34.5,
+        -62
+       ],
+       [
+        58,
+        -62
+       ]
+      ],
+      "h": 8,
+      "u": [
+       0,
+       1,
+       0
+      ]
      }
     },
     {
      "id": "f2339",
-     "name": "Base 40×10×35",
-     "shape": "box",
+     "name": "Base 40×10×35 esquinas R8",
+     "shape": "sketch",
      "op": "union",
      "at": [
-      0,
-      21,
-      -15
+      -431.856,
+      26,
+      82
      ],
      "dir": [
       0,
-      0,
-      1
+      -1,
+      0
      ],
      "params": {
-      "w": 40,
-      "d": 10,
-      "h": 35
+      "pts": [
+       [
+        443.86,
+        -100
+       ],
+       [
+        444.9,
+        -99.93
+       ],
+       [
+        445.93,
+        -99.73
+       ],
+       [
+        446.92,
+        -99.39
+       ],
+       [
+        447.86,
+        -98.93
+       ],
+       [
+        448.73,
+        -98.35
+       ],
+       [
+        449.52,
+        -97.66
+       ],
+       [
+        450.21,
+        -96.87
+       ],
+       [
+        450.79,
+        -96
+       ],
+       [
+        451.25,
+        -95.06
+       ],
+       [
+        451.59,
+        -94.07
+       ],
+       [
+        451.79,
+        -93.04
+       ],
+       [
+        451.86,
+        -92
+       ],
+       [
+        451.86,
+        -73
+       ],
+       [
+        451.79,
+        -71.96
+       ],
+       [
+        451.59,
+        -70.93
+       ],
+       [
+        451.25,
+        -69.94
+       ],
+       [
+        450.79,
+        -69
+       ],
+       [
+        450.21,
+        -68.13
+       ],
+       [
+        449.52,
+        -67.34
+       ],
+       [
+        448.73,
+        -66.65
+       ],
+       [
+        447.86,
+        -66.07
+       ],
+       [
+        446.92,
+        -65.61
+       ],
+       [
+        445.93,
+        -65.27
+       ],
+       [
+        444.9,
+        -65.07
+       ],
+       [
+        443.86,
+        -65
+       ],
+       [
+        419.86,
+        -65
+       ],
+       [
+        418.82,
+        -65.07
+       ],
+       [
+        417.79,
+        -65.27
+       ],
+       [
+        416.8,
+        -65.61
+       ],
+       [
+        415.86,
+        -66.07
+       ],
+       [
+        414.99,
+        -66.65
+       ],
+       [
+        414.2,
+        -67.34
+       ],
+       [
+        413.51,
+        -68.13
+       ],
+       [
+        412.93,
+        -69
+       ],
+       [
+        412.47,
+        -69.94
+       ],
+       [
+        412.13,
+        -70.93
+       ],
+       [
+        411.93,
+        -71.96
+       ],
+       [
+        411.86,
+        -73
+       ],
+       [
+        411.86,
+        -92
+       ],
+       [
+        411.93,
+        -93.04
+       ],
+       [
+        412.13,
+        -94.07
+       ],
+       [
+        412.47,
+        -95.06
+       ],
+       [
+        412.93,
+        -96
+       ],
+       [
+        413.51,
+        -96.87
+       ],
+       [
+        414.2,
+        -97.66
+       ],
+       [
+        414.99,
+        -98.35
+       ],
+       [
+        415.86,
+        -98.93
+       ],
+       [
+        416.8,
+        -99.39
+       ],
+       [
+        417.79,
+        -99.73
+       ],
+       [
+        418.82,
+        -99.93
+       ],
+       [
+        419.86,
+        -100
+       ]
+      ],
+      "h": 10,
+      "u": [
+       1,
+       0,
+       0
+      ]
      }
     },
     {
@@ -91278,7 +97076,7 @@
      "at": [
       -7.995999999999981,
       -7.5,
-      13
+      10
      ],
      "dir": [
       1,
@@ -91299,7 +97097,7 @@
      "at": [
       -11.995999999999981,
       27,
-      5
+      2
      ],
      "dir": [
       0,
@@ -91320,7 +97118,7 @@
      "at": [
       12.004000000000019,
       27,
-      5
+      2
      ],
      "dir": [
       0,
