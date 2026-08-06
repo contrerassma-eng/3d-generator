@@ -1110,6 +1110,21 @@
    "confidence": "media",
    "nota": "ABRE, NO CIERRA, el hallazgo A11. Sirve para demostrar que el interfaz que params_tambores.TAMBOR.motorreductor exige (eje hueco Oe35 H7 con chaveta y brazo de reaccion) EXISTE en catalogo y por tanto la linea de compra es real; NO fija el modelo. La relacion no se puede cerrar aqui: el diseno pide ~325 rpm de salida, que con un motor de 4 polos son i = 4.3, fuera del rango de un sinfin, asi que hay que elegir entre reductor coaxial/ortogonal de i ~ 4 o sinfin con variador. Eso lo decide el cliente al fijar la velocidad de banda. QUEDA ADEMAS EL CONFLICTO CON SU MOTOR ACTUAL, que se declara y no se maquilla: el 314759014 (web MOT-002) esta en X = -172, o sea en el lado CONTRARIO al saliente del tambor (X 582.9...700), y tiene eje MACIZO Oe28 frente al hueco Oe35 que pide este interfaz: NO sirve ni desplazandolo. Y falta comprobar que la campana del reductor cabe: entre el cuerpo del UCF 207 (+X, hasta X ~ 572) y el final del eje (700) hay 128 mm, y una campana IEC 80-112 mide 150-250 mm de diametro.",
    "uso_en_diseno": "adapt/params_tambores.TAMBOR.motorreductor y la lista `compradas` de adapt/mod_tambores.mjs."
+  },
+  {
+   "id": "PERFIL-3030-01",
+   "tema": "perfil_estructural",
+   "claim": "El perfil item Profile 6 30x30 light natural (art. 0.0.451.07, Linea 6, aluminio anodizado) tiene Ix = Iy = 2.9 cm4, Wx = Wy = 1.94 cm3, seccion 3.43 cm2 y 0.93 kg/m",
+   "value": "2.9",
+   "unit": "cm4 (Ix = Iy)",
+   "layer": "web",
+   "source": {
+    "type": "web",
+    "url": "https://www.item24.com/en-us/profile-6-30x30-light-natural-45107",
+    "accessed": "2026-08-06",
+    "quote": "Profile 6 30x30 light, natural (0.0.451.07) | m = 0.93 kg/m | Ix = 2.9 cm4 | Iy = 2.9 cm4 | Wx = 1.94 cm3 | Wy = 1.94 cm3 | A = 3.43 cm2 | Al, anodized"
+   },
+   "uso": "perfil de aluminio CONTINUO bajo la regleta UHMW del puente de calle dentro de la huella del NBT90 (correccion del cliente 06-08: el perfil de aluminio va siempre al fondo de la guia que porta la banda). 30 de ancho porque la ventana entre rodillos es 31.75; familia item porque el sorter del cliente ya usa sistema tipo item24"
   }
  ],
  "pendientes_sin_fuente": [

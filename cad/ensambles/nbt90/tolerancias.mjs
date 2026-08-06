@@ -205,7 +205,7 @@ export function claseGeneralDe(nombre, part = {}) {
   //     tiene «Tubo de rodillo Ø28.93 × 375», sin pared declarada, y NO casa;
   //   · «engomado» — y no `vulcaniz`, que sí casaría con el «Vulcanizado negro»
   //     del NBT90 y le cambiaría la clase.
-  if (/40×40 ranura 10/i.test(nombre)) return NORMA.perfilAlu;
+  if (/40×40 ranura 10|30×30 Línea 6/i.test(nombre)) return NORMA.perfilAlu;
   if (/\btubo\b[^·]*\(e\s*=/i.test(nombre)
     || /travesaño frontal del tensor \d+×\d+×\d+/i.test(nombre)) return NORMA.tuboEstructural;
   if (/engomad/i.test(nombre)) return NORMA.elastomero;

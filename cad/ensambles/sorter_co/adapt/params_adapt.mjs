@@ -352,7 +352,7 @@ export const PERCHA = {
   travS: [-1300, -1220],         // dis: travesaño sur (sección 80 en Y × 40 en Z);
   travN: [-712, -632],           //   cara superior en Z = base de placa del puente
   get travTopZ() {               // calc: rodadura − 8.55 (regleta) − 28 (pletina) − 6
-    return r3(STEP.guiaSec.topZ - CALLE.puente.uhmwH - CALLE.puente.aceroH - CALLE.puente.baseT);
+    return r3(STEP.guiaSec.topZ - CALLE.puente.uhmwH - CALLE.puente.perfilH - CALLE.puente.baseT);
   },                             //   7.283 con banda plana (era 9.15 con la cadena
   //   del dorso T5: 51.7 − 8.55 − 28 − 6). No se escribe a mano: cuelga de la cara
   //   de rodadura, que es quien manda desde que la banda es plana (ver guiaSec).
@@ -469,10 +469,40 @@ export const CALLE = {
                                  //   norte hasta 16 de la cama de guías
     ancho: 30.0,                 // dis: ≤ ventana 31.75; holgura al rodillo
                                  //   (76.2 − 34.925 − 30)/2 = 5.64 por lado (calc)
-    aceroH: 28.0,                // dis: pletina A36; flecha < 0.1 mm con medio
-                                 //   bulto de 34 kg al centro del vano (calc)
-    uhmwH: 8.55,                 // dis: regleta de deslizamiento UHMW; conserva
-                                 //   la interfaz medida de la guía del cliente
+    // EL SOPORTE BAJO LA REGLETA ES PERFIL DE ALUMINIO, no pletina de acero.
+    // Corrección del cliente 06-08-2026, literal: «the aluminum profile …
+    // should be always in a stretch part that support the belts … in transfer
+    // section, you are not putting the aluminum profile at the bottom of the
+    // guide … That's a mistake». Es coherente con su encargo original («ME
+    // RINDO»): la estructura de aluminio existe PARA soportar la guía UHMW —
+    // en todo el recorrido, no sólo fuera de la transferencia. Aquí había una
+    // pletina A36 30×28 porque el 40×40 no cabe en la ventana de 31.75 entre
+    // rodillos; la respuesta correcta no era cambiar de material sino de
+    // TAMAÑO de perfil: item Profile 6 30×30 (art. 0.0.451.07, web
+    // PERFIL-3030-01), 30 de ancho como la pletina a la que sustituye, familia
+    // item que es la del propio sorter del cliente (soportes «tipo item24»,
+    // tuercas T de su STEP).
+    //
+    // COSTE ESTRUCTURAL, medido y no escondido: EI baja 5.6× (acero 30×28:
+    // 207e3 × 5.49 cm⁴ = 1.14e10 N·mm² → aluminio Ix 2.9 cm⁴ × 70e3 = 2.03e9).
+    // La flecha con MEDIO bulto de 34 kg centrado en el vano de 588 sube de
+    // ~0.06 a ~0.35 mm = L/1680, dentro de L/500. El número lo comprueba la
+    // compuerta §R6 con el Ix CITADO, no este comentario.
+    perfilH: 30.0,               // web PERFIL-3030-01 — item Profile 6 30×30
+    perfil: { ref: 'item Profile 6 30×30 light natural, art. 0.0.451.07',
+      ranura: 6, IxCm4: 2.9, WxCm3: 1.94, kgm: 0.93, factId: 'PERFIL-3030-01' },
+    uhmwH: 8.25,                 // dis: regleta de deslizamiento UHMW sobre el
+                                 //   perfil, por PIE DE CLIP a su ranura 6 —
+                                 //   el mismo montaje sin herramienta que la
+                                 //   guía de los largueros en su ranura 10.
+                                 //   Era 8.55 con la pletina de 28; al crecer
+                                 //   el soporte a 30 la base del puente bajaba
+                                 //   2 mm y quedaba a 1.75 del cross channel
+                                 //   ELEVADO del cassette (mín 2). El espesor
+                                 //   de la regleta es NUESTRO (la interfaz del
+                                 //   cliente es la CARA superior, que no se
+                                 //   mueve): 8.25 devuelve la base a 11.583 y
+                                 //   la holgura a 2.05. La compuerta lo vigila.
     topZ: STEP.guiaSec.topZ,     // 51.7 step — misma cara de apoyo que guiaw
     baseT: 6.0, baseAncho: 60, baseLargo: 28,  // dis: placas de apoyo en extremos
   },

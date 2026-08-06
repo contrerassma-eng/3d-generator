@@ -125,7 +125,7 @@
     "mudas": []
    },
    "apoyos": {
-    "declarados": 38,
+    "declarados": 43,
     "huerfanas": [],
     "despegadas": []
    },
@@ -410,7 +410,7 @@
       ]
      },
      "trazabilidad": {
-      "citados": 49,
+      "citados": 50,
       "huerfanos": []
      }
     },
@@ -493,13 +493,12 @@
     ],
     "sinMaterialNiDispensa": [],
     "materialFuentes": {
-     "params_adapt CALLE.puente.aceroH («dis: pletina A36») + el propio nombre, que ya dice A36": 5,
+     "declarado por su módulo en el campo `material`": 78,
      "params_pg40 GUIA.material (web UHMW-001) — es la misma regleta de deslizamiento": 5,
      "params_adapt CALLE.puente («dis: pletina A36») + el espesor del propio nombre": 10,
      "campo `chapa` de la propia pieza": 6,
      "params_estaciones GUIAS.base.t = 4.763": 2,
      "params_tensor2 PIV.material": 1,
-     "declarado por su módulo en el campo `material`": 73,
      "params_tensor2 SOPORTE.trav («tubo estructural 40×40×3») + SOPORTE_CALC.fyMPa 250 = A36": 1,
      "params_tensor2 SOPORTE.mensula.e = 8 («dis — pletina A36»)": 2,
      "params_tensor2 SOPORTE.regPresion.placa («dis — pletina») + SOPORTE_CALC.fyMPa 250 = A36": 1,
@@ -1155,11 +1154,11 @@
     "TAMBORES: el solape engomado↔tubo (10.32 cm³) es la LÍNEA DE VULCANIZADO (0.1 mm de interpenetración deliberada, misma convención que nbt90/rodillos.mjs): la goma y el tubo comparten superficie porque están vulcanizados, no montados.",
     "PASO RECTO (corrección del cliente 03-08): el ramal PORTANTE de las 5 calles atraviesa la transferencia EN RECTO, a la cota del plano de transporte (Z 52.44 = 52.333 + faceta), por el corredor de 42 mm que dejan los dientes de las placas peine — medido sobre el BOCETO REAL de las dos placas. Holguras: banda 5/lado al diente y 4.64 al rodillo · puente 6/lado al diente y 5.64 al rodillo · el propio NBT90 declara 4.76 mm entre rodillo y regleta vecina. La ranura mantiene el ancho pleno hasta Z -18.14 y admite los 30 del puente hasta -18.27. medido con el cassette ELEVADO (caso pésimo: al retraerse 10 mm la ranura baja y el corredor crece).",
     "PASO RECTO · la referencia es del propio NBT90: declara las bandas de su anfitrión (piezas CONTEXTO, ensambles/nbt90/narrow_belt_transfer_90.json) en X 127.06 · 203.26 · 279.46 · 355.66 · 431.86 — los MISMOS 5 ejes de calle del sorter — con el portante en Z 49.83…52.33 y la regleta en 40.31…49.84. Aquí no se montan: las sustituyen las 5 calles.",
-    "RETORNO RECTO (corrección del cliente 03-08, «la banda debe seguir linea roja asi fue concebido»): el ramal de RETORNO de las 5 calles atraviesa también la transferencia EN RECTO, por el MISMO corredor del peine que el portante y 62.31 mm por debajo de él. Medido sobre el contorno emitido, calle a calle: cara portante Z -9.87, dorso -7.37 · 0 mm al suelo del corredor (que lo fija NBT90 · MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322), techo -11.87, + 2 de holgura) · 20.65 mm a la pletina del puente · 8.27 mm al fondo de la ranura del peine. El NBT90 declara el de su anfitrión en Z -11.57…-9.07: vamos 1.7 mm más altos porque le exigimos 2 mm al motorreductor donde el anfitrión se conforma con 0.3.",
+    "RETORNO RECTO (corrección del cliente 03-08, «la banda debe seguir linea roja asi fue concebido»): el ramal de RETORNO de las 5 calles atraviesa también la transferencia EN RECTO, por el MISMO corredor del peine que el portante y 62.31 mm por debajo de él. Medido sobre el contorno emitido, calle a calle: cara portante Z -9.87, dorso -7.37 · 0 mm al suelo del corredor (que lo fija NBT90 · MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322), techo -11.87, + 2 de holgura) · 18.95 mm a la pletina del puente · 8.27 mm al fondo de la ranura del peine. El NBT90 declara el de su anfitrión en Z -11.57…-9.07: vamos 1.7 mm más altos porque le exigimos 2 mm al motorreductor donde el anfitrión se conforma con 0.3.",
     "RETORNO RECTO · EL RODILLO ELEVADOR, tal como lo pidió el cliente el 05-08 («más [sencillo] con rodamientos al interior y apernado a su eje por fuera y más cerca de la transferencia»), y las tres cosas resueltas con su número: (1) RODAMIENTOS AL INTERIOR — ya estaba: 2 × R8-2RS ABEC-1 dentro de las tapas-soporte, alojadas en el tubo Ø48.26, sobre eje FIJO Ø12.7 que no gira. No se ha tocado. (2) APERNADO A SU EJE POR FUERA — hecho, y de paso desaparece la ménsula: el conjunto se monta ATORNILLADO A LA CHAPA como el catálogo manda y como el NBT90 monta el suyo. El eje topa contra las caras interiores del alargue (X 67.494 y 491.418) y un 1/4-20 UNC × 3/4\" + golilla plana 1/4\" — el MISMO perno con el que el NBT90 monta su B-20760 (nbt90/rodillos.mjs, L.retPernoLargo) entra por un Ø7 desde fuera a su hilo interior 1/4-20 × 15.88: agarre 9.45 mm = 1.49 × d, con 6.43 mm de hilo sin usar (no toca fondo). FUERA: 4 pletinas 88×100×12, 16 pernos M10 y 4 collares de apriete partidos — 24 piezas y DOS referencias de compra menos, y el montaje deja de exigir meter un collar en un hueco ciego. El barreno H8 también se va: el eje ya no entra deslizando, topa. (3) MÁS CERCA — hecho y hasta el tope: de 136 y 152 mm del canto de la huella a 3 y 1 mm. Lo que los tenía lejos era la PLETINA, no el rodillo: sin ella el único límite es la envolvente Ø48.26. Al norte la fija el TRANSFER ROLLER GUARD del cassette (cara −766) y al sur el MOTORREDUCTOR SEW (cara −1175.35); quedan 2.87 y 6.52 mm. No se puede más.",
     "RETORNO RECTO · lo sostienen DOS RODILLOS ELEVADORES —los dos círculos verdes del croquis del cliente— en RE-N(Y -739) y RE-S(Y -1206), uno a cada lado de la huella del módulo (-1205…-742). Son conjunto Hytrol B-20760 «1.9 in. OD Galv Return Roller — ABEC-1 (Specify BR −1-1/4)»: la MISMA referencia que el NBT90 lleva montada contra los ramales de retorno de su anfitrión («tenías uno en modelo anterior, esa era funcion»), y que mod_ctx.EXCLUIR_NBT90 había sacado del ensamble precisamente porque el retorno del sorter bajaba al pozo. Se retiran RR1…RR4 y las 4 guardas de pozo: 25 piezas fuera por bandera (params_tambores.RETIRA_POZO), con el recuento por expresión en las métricas.",
     "RETORNO RECTO · FLEXIÓN INVERSA DECLARADA: los dos elevadores muerden la CARA PORTANTE de la banda (la que lleva el bulto) y la doblan al REVÉS que el tambor. Es inevitable —un ramal sólo se sube empujándolo desde abajo— y no es nuevo en este lazo: los volantes de horquilla Ø100 y los RR1/RR4 Ø88.9 que se retiran ya lo hacían. El elevador es ahora el radio MÍNIMO de flexión inversa del lazo: Ø48.26 contra el Ø mínimo de polea 40.6 que la Habasit SAB-8E 07 exige (web BELT-SAB8E-01) = margen ×1.189. LO QUE LA FUENTE NO DICE: no publica un mínimo de CONTRAFLEXIÓN, sólo «Pulley diameter, minimum» sin distinguir sentido. Queda como PENDIENTE con dueño y no se sustituye por una regla de pulgar. Si el proveedor da un mínimo mayor que 48.26, el hueco del lado norte no admite un rodillo más grande sin mover el travesaño de puente: preguntar ANTES de comprar la banda.",
-    "RETORNO RECTO · LO QUE LE CUESTA AL BASTIDOR PG40, travesaño a travesaño y con su número (cotas medidas sobre el contorno de banda EMITIDO, no declaradas): el ramal de retorno pasa a ocupar la franja Z −40…0, que hasta ahora era SÓLO del bastidor — el retorno le pasaba 19.07 mm por debajo. (1) Y −555 → SE MUEVE a −450. La rampa lo cogía a Z −16.9…−27.0, o sea 13.0 mm dentro del perfil; a −450 la banda le pasa 8.37 mm por debajo y no hay que bajarlo. (2) Y −1440 → SE BAJA 45 mm (corona en -45 y no en 0) y muere en las caras interiores del alargue (L 580.84 → 423.92), porque su fondo entraría en la franja del alma. La banda le pasa 2.7 mm por encima. (3) Y −1520 → SE QUEDA como estaba. Estuvo retirado mientras los elevadores vivían lejos del módulo (la rampa cruzaba el plano Z −40 dentro de su huella); al pegarlos a la transferencia la rampa arranca 151 mm más al sur, es más tendida y le pasa 4.92 mm por debajo. Vuelve a su cota de siempre. (4) los DOS TRAVESAÑOS DE PUENTE (−692 y −1280) bajan de coronar en 7.28 a -28: por su huella NO pasa el tramo recto sino la RAMPA, que llega a Z −19.88 y −21.75. Sus 10 placas base pasan a ser CABALLETES de 35.283 mm sobre 2 casquillos 16×16 a X = eje ± 27, que dejan pasar la banda con 3 mm por lado. Quedan 6.25 y 8.12 mm de la rampa al travesaño. '\n          + 'El vano libre del puente NO cambia (588 mm): la alternativa cara —llevar el puente a los travesaños vecinos, ×3.44 en flecha— no hace falta.",
+    "RETORNO RECTO · LO QUE LE CUESTA AL BASTIDOR PG40, travesaño a travesaño y con su número (cotas medidas sobre el contorno de banda EMITIDO, no declaradas): el ramal de retorno pasa a ocupar la franja Z −40…0, que hasta ahora era SÓLO del bastidor — el retorno le pasaba 19.07 mm por debajo. (1) Y −555 → SE MUEVE a −450. La rampa lo cogía a Z −16.9…−27.0, o sea 13.0 mm dentro del perfil; a −450 la banda le pasa 8.37 mm por debajo y no hay que bajarlo. (2) Y −1440 → SE BAJA 45 mm (corona en -45 y no en 0) y muere en las caras interiores del alargue (L 580.84 → 423.92), porque su fondo entraría en la franja del alma. La banda le pasa 2.7 mm por encima. (3) Y −1520 → SE QUEDA como estaba. Estuvo retirado mientras los elevadores vivían lejos del módulo (la rampa cruzaba el plano Z −40 dentro de su huella); al pegarlos a la transferencia la rampa arranca 151 mm más al sur, es más tendida y le pasa 4.92 mm por debajo. Vuelve a su cota de siempre. (4) los DOS TRAVESAÑOS DE PUENTE (−692 y −1280) bajan de coronar en 7.28 a -28: por su huella NO pasa el tramo recto sino la RAMPA, que llega a Z −19.88 y −21.75. Sus 10 placas base pasan a ser CABALLETES de 33.583 mm sobre 2 casquillos 16×16 a X = eje ± 27, que dejan pasar la banda con 3 mm por lado. Quedan 6.25 y 8.12 mm de la rampa al travesaño. '\n          + 'El vano libre del puente NO cambia (588 mm): la alternativa cara —llevar el puente a los travesaños vecinos, ×3.44 en flecha— no hace falta.",
     "RETORNO RECTO · la rampa sur libra por 7.42 mm los 20 pernos «M8×12 CT-ENS↔perfil» del cliente (banda a Z -38.37…-33.92, perno a -26.5…26.5). Con los elevadores en su primera posición NO libraba: se los comía por 1.42 cm³ en 10 pares, y lo arregló pegarlos a la transferencia, que es lo que pidió el cliente. Queda dicho porque el perno de Z = −20 sigue HUÉRFANO por otra razón: viene de cuando el perfil era 40×80 (Z −40…40) y con el larguero PG40 40×40 (Z 0…40) no hay ranura a esa cota en la que morder. Su cota está en adapt/params_estaciones.mjs (EXTREMOS.ctens.m8z) y quien la emite es adapt/mod_estaciones.mjs, que la lleva cableada: es de su dueño.",
     "RETORNO · el pozo sigue montado (params_tambores.RETIRA_POZO.activo = false): el ramal cruza POR DEBAJO del módulo con 2 rodillos, a Z -59.07, 49.2 mm por debajo del suelo del corredor (-9.87).",
     "TAMBORES: lo que los 2 rodillos del ramal de retorno le piden al alargue PG40, en RE-N(Y -739, Z -34) · RE-S(Y -1206, Z -34) — MONTAJE DIRECTO, sin ménsula: UN taladro Ø7 por lado en el eje del rodillo, con 18 mm de chapa alrededor, y NINGÚN taladro de paso (el eje TOPA contra esta chapa y el perno entra por ese Ø7 desde fuera; un paso aquí dejaría al eje sin cara donde apoyar). Caras de apoyo X 67.494 y 491.418"
@@ -1198,8 +1197,8 @@
     "puenteRodilloCajas": 5.64,
     "pozoAFondoNbt90": 20.68,
     "pozoACanalCilindro": 30.92,
-    "puenteCrossElevado": 3.75,
-    "puenteCrossRetraido": 13.75,
+    "puenteCrossElevado": 2.05,
+    "puenteCrossRetraido": 12.05,
     "bandaBajadaACilindroTensor": 184.77
    },
    "luzBastidores": {
@@ -1411,7 +1410,7 @@
      "ramalZ": -59.07,
      "ventanaZ": [
       -9.87,
-      13.28
+      11.58
      ],
      "faltaMm": 49.2,
      "diaTamborActual": 108.9,
@@ -1431,7 +1430,7 @@
        "caraZ": -9.87,
        "dorsoZ": -7.37,
        "holguraAlSuelo": 0,
-       "holguraAlPuente": 20.65,
+       "holguraAlPuente": 18.95,
        "estaciones": 93
       },
       {
@@ -1439,7 +1438,7 @@
        "caraZ": -9.87,
        "dorsoZ": -7.37,
        "holguraAlSuelo": 0,
-       "holguraAlPuente": 20.65,
+       "holguraAlPuente": 18.95,
        "estaciones": 93
       },
       {
@@ -1447,7 +1446,7 @@
        "caraZ": -9.87,
        "dorsoZ": -7.37,
        "holguraAlSuelo": 0,
-       "holguraAlPuente": 20.65,
+       "holguraAlPuente": 18.95,
        "estaciones": 93
       },
       {
@@ -1455,7 +1454,7 @@
        "caraZ": -9.87,
        "dorsoZ": -7.37,
        "holguraAlSuelo": 0,
-       "holguraAlPuente": 20.65,
+       "holguraAlPuente": 18.95,
        "estaciones": 93
       },
       {
@@ -1463,10 +1462,48 @@
        "caraZ": -9.87,
        "dorsoZ": -7.37,
        "holguraAlSuelo": 0,
-       "holguraAlPuente": 20.65,
+       "holguraAlPuente": 18.95,
        "estaciones": 93
       }
      ]
+    }
+   },
+   "perfilPuente": {
+    "calles": [
+     {
+      "calle": 1,
+      "contactoMm": 0,
+      "largo": 648
+     },
+     {
+      "calle": 2,
+      "contactoMm": 0,
+      "largo": 648
+     },
+     {
+      "calle": 3,
+      "contactoMm": 0,
+      "largo": 648
+     },
+     {
+      "calle": 4,
+      "contactoMm": 0,
+      "largo": 648
+     },
+     {
+      "calle": 5,
+      "contactoMm": 0,
+      "largo": 648
+     }
+    ],
+    "flecha": {
+     "vano": 588,
+     "cargaN": 333.54,
+     "IxCm4": 2.9,
+     "flechaMm": 0.6959000000000001,
+     "limite": 1.18,
+     "criterio": "L/500, misma hipótesis que pg40.flecha (bulto 34 kg centrado)",
+     "fuente": "web PERFIL-3030-01"
     }
    },
    "percha": {
@@ -1926,8 +1963,8 @@
     },
     "nuevas": {
      "guiaw cortada a medida": 10,
-     "pletina de puente 30×28": 5,
-     "regleta UHMW de puente 30×8.55": 5,
+     "perfil de puente item 30×30 Línea 6 (web PERFIL-3030-01)": 5,
+     "regleta UHMW de puente 30×8.55 c/pie de clip ranura 6": 5,
      "tuerca T M8 (ranura 8)": 100,
      "caballete de apoyo de puente": 10,
      "banda plana 32 (largo 4289.72)": 5,
@@ -55411,13 +55448,13 @@
    ]
   },
   {
-   "id": "p18_fijo_puente_de_calle_pletina_30_28_648_a36_calle_1_x_127_056",
-   "name": "FIJO · Puente de calle — pletina 30×28×648 A36 (calle 1, X=127.056)",
-   "color": "#8fa3b8",
+   "id": "p18_fijo_puente_de_calle_perfil_de_aluminio_30_30_linea_6_l_648_",
+   "name": "FIJO · Puente de calle — perfil de aluminio 30×30 Línea 6 L=648 (calle 1, X=127.056)",
+   "color": "#6b7f94",
    "pos": [
     127.056,
     -970,
-    13.28
+    11.58
    ],
    "quat": [
     0,
@@ -55428,11 +55465,13 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "sección ≤ 31.75 en la franja del rodillo Z [13.758, 58.683]; pasa por los huecos de 42 de las placas peine del NBT90",
+   "material": "Perfil extruido de aluminio anodizado 30×30 Línea 6 — item Profile 6 30×30 light natural, art. 0.0.451.07 (web PERFIL-3030-01), corte a medida L=648",
+   "norma": "item Profile 6 30×30 light natural, art. 0.0.451.07",
+   "nota": "item Profile 6 30×30 light natural, art. 0.0.451.07 · Ix 2.9 cm⁴ · 0.93 kg/m (web PERFIL-3030-01). Sección ≤ 31.75 en la franja del rodillo Z [13.758, 58.683]; pasa por los huecos de 42 de las placas peine del NBT90 con las MISMAS holguras que la pletina a la que sustituye (5.64/lado al rodillo, 6/lado al diente). Apoya en los dos caballetes por su cara inferior; la ranura 6 inferior recibe las tuercas correderas del ala del caballete y la superior el pie de clip de la regleta.",
    "features": [
     {
      "id": "f18",
-     "name": "Pletina 30×648×28",
+     "name": "Perfil 30×30×648",
      "shape": "box",
      "op": "union",
      "at": [
@@ -55448,25 +55487,23 @@
      "params": {
       "w": 30,
       "d": 648,
-      "h": 28
+      "h": 30
      }
     }
    ],
    "tol": {
-    "pieza": "ISO 2768-mK",
-    "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)"
-   },
-   "material": "Pletina de acero A36 (S275JR) 30×28, cortada por láser",
-   "material_fuente": "params_adapt CALLE.puente.aceroH («dis: pletina A36») + el propio nombre, que ya dice A36"
+    "pieza": "EN 755-9 + ISO 2768-m (largo de corte)",
+    "norma": "EN 755-9 (perfiles extruidos de aluminio: tolerancias de sección, rectitud y alabeo) para la SECCIÓN + ISO 2768-1 clase m para el LARGO, que es la única cota nuestra"
+   }
   },
   {
-   "id": "p19_fijo_puente_de_calle_regleta_uhmw_30_8_55_648_calle_1_x_127_",
-   "name": "FIJO · Puente de calle — regleta UHMW 30×8.55×648 (calle 1, X=127.056)",
+   "id": "p19_fijo_puente_de_calle_regleta_uhmw_30_8_25_648_calle_1_x_127_",
+   "name": "FIJO · Puente de calle — regleta UHMW 30×8.25×648 (calle 1, X=127.056)",
    "color": "#e0b040",
    "pos": [
     127.056,
     -970,
-    41.28
+    41.58
    ],
    "quat": [
     0,
@@ -55477,11 +55514,12 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "cara de apoyo a Z=49.833, la misma interfaz medida que la guía del cliente",
+   "apoyaEn": "FIJO · Puente de calle — perfil de aluminio 30×30 Línea 6 L=648 (calle 1, X=127.056)",
+   "nota": "cara de apoyo a Z=49.833, la misma interfaz medida que la guía del cliente. Monta sobre el perfil por PIE DE CLIP a su ranura 6 superior — el mismo montaje sin herramienta que la regleta de los largueros en la ranura 10 (el pie no se modela, igual que allí).",
    "features": [
     {
      "id": "f19",
-     "name": "Regleta 30×648×8.55",
+     "name": "Regleta 30×648×8.25",
      "shape": "box",
      "op": "union",
      "at": [
@@ -55497,7 +55535,7 @@
      "params": {
       "w": 30,
       "d": 648,
-      "h": 8.55
+      "h": 8.25
      }
     }
    ],
@@ -55509,13 +55547,13 @@
    "material_fuente": "params_pg40 GUIA.material (web UHMW-001) — es la misma regleta de deslizamiento"
   },
   {
-   "id": "p20_fijo_placa_base_de_puente_72_28_6_c_caballete_35_28_calle_1_",
-   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 35.28 (calle 1, X=127.056, travesaño S)",
+   "id": "p20_fijo_placa_base_de_puente_72_28_6_c_caballete_33_58_calle_1_",
+   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 33.58 (calle 1, X=127.056, travesaño S)",
    "color": "#8fa3b8",
    "pos": [
     127.056,
     -1280,
-    7.28
+    5.58
    ],
    "quat": [
     0,
@@ -55527,7 +55565,7 @@
    "visible": true,
    "fabricada": true,
    "apoyaEn": "PG40 · Travesaño de puente",
-   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 7.28, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 35.28 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
+   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 5.58, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 33.58 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
    "features": [
     {
      "id": "f20",
@@ -55552,13 +55590,13 @@
     },
     {
      "id": "f21",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       -26.995999999999995,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -55568,18 +55606,18 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
      "id": "f22",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       27.004000000000005,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -55589,7 +55627,7 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
@@ -55600,7 +55638,7 @@
      "at": [
       -26.995999999999995,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -55621,7 +55659,7 @@
      "at": [
       27.004000000000005,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -55662,7 +55700,7 @@
    "pos": [
     100.06,
     -1280,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -55761,7 +55799,7 @@
    "pos": [
     154.06,
     -1280,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -55854,13 +55892,13 @@
    }
   },
   {
-   "id": "p23_fijo_placa_base_de_puente_72_28_6_c_caballete_35_28_calle_1_",
-   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 35.28 (calle 1, X=127.056, travesaño N)",
+   "id": "p23_fijo_placa_base_de_puente_72_28_6_c_caballete_33_58_calle_1_",
+   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 33.58 (calle 1, X=127.056, travesaño N)",
    "color": "#8fa3b8",
    "pos": [
     127.056,
     -692,
-    7.28
+    5.58
    ],
    "quat": [
     0,
@@ -55872,7 +55910,7 @@
    "visible": true,
    "fabricada": true,
    "apoyaEn": "PG40 · Travesaño de puente",
-   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 7.28, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 35.28 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
+   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 5.58, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 33.58 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
    "features": [
     {
      "id": "f29",
@@ -55897,13 +55935,13 @@
     },
     {
      "id": "f30",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       -26.995999999999995,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -55913,18 +55951,18 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
      "id": "f31",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       27.004000000000005,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -55934,7 +55972,7 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
@@ -55945,7 +55983,7 @@
      "at": [
       -26.995999999999995,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -55966,7 +56004,7 @@
      "at": [
       27.004000000000005,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -56007,7 +56045,7 @@
    "pos": [
     100.06,
     -692,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -56106,7 +56144,7 @@
    "pos": [
     154.06,
     -692,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -58784,13 +58822,13 @@
    ]
   },
   {
-   "id": "p79_fijo_puente_de_calle_pletina_30_28_648_a36_calle_2_x_203_256",
-   "name": "FIJO · Puente de calle — pletina 30×28×648 A36 (calle 2, X=203.256)",
-   "color": "#8fa3b8",
+   "id": "p79_fijo_puente_de_calle_perfil_de_aluminio_30_30_linea_6_l_648_",
+   "name": "FIJO · Puente de calle — perfil de aluminio 30×30 Línea 6 L=648 (calle 2, X=203.256)",
+   "color": "#6b7f94",
    "pos": [
     203.256,
     -970,
-    13.28
+    11.58
    ],
    "quat": [
     0,
@@ -58801,11 +58839,13 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "sección ≤ 31.75 en la franja del rodillo Z [13.758, 58.683]; pasa por los huecos de 42 de las placas peine del NBT90",
+   "material": "Perfil extruido de aluminio anodizado 30×30 Línea 6 — item Profile 6 30×30 light natural, art. 0.0.451.07 (web PERFIL-3030-01), corte a medida L=648",
+   "norma": "item Profile 6 30×30 light natural, art. 0.0.451.07",
+   "nota": "item Profile 6 30×30 light natural, art. 0.0.451.07 · Ix 2.9 cm⁴ · 0.93 kg/m (web PERFIL-3030-01). Sección ≤ 31.75 en la franja del rodillo Z [13.758, 58.683]; pasa por los huecos de 42 de las placas peine del NBT90 con las MISMAS holguras que la pletina a la que sustituye (5.64/lado al rodillo, 6/lado al diente). Apoya en los dos caballetes por su cara inferior; la ranura 6 inferior recibe las tuercas correderas del ala del caballete y la superior el pie de clip de la regleta.",
    "features": [
     {
      "id": "f148",
-     "name": "Pletina 30×648×28",
+     "name": "Perfil 30×30×648",
      "shape": "box",
      "op": "union",
      "at": [
@@ -58821,25 +58861,23 @@
      "params": {
       "w": 30,
       "d": 648,
-      "h": 28
+      "h": 30
      }
     }
    ],
    "tol": {
-    "pieza": "ISO 2768-mK",
-    "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)"
-   },
-   "material": "Pletina de acero A36 (S275JR) 30×28, cortada por láser",
-   "material_fuente": "params_adapt CALLE.puente.aceroH («dis: pletina A36») + el propio nombre, que ya dice A36"
+    "pieza": "EN 755-9 + ISO 2768-m (largo de corte)",
+    "norma": "EN 755-9 (perfiles extruidos de aluminio: tolerancias de sección, rectitud y alabeo) para la SECCIÓN + ISO 2768-1 clase m para el LARGO, que es la única cota nuestra"
+   }
   },
   {
-   "id": "p80_fijo_puente_de_calle_regleta_uhmw_30_8_55_648_calle_2_x_203_",
-   "name": "FIJO · Puente de calle — regleta UHMW 30×8.55×648 (calle 2, X=203.256)",
+   "id": "p80_fijo_puente_de_calle_regleta_uhmw_30_8_25_648_calle_2_x_203_",
+   "name": "FIJO · Puente de calle — regleta UHMW 30×8.25×648 (calle 2, X=203.256)",
    "color": "#e0b040",
    "pos": [
     203.256,
     -970,
-    41.28
+    41.58
    ],
    "quat": [
     0,
@@ -58850,11 +58888,12 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "cara de apoyo a Z=49.833, la misma interfaz medida que la guía del cliente",
+   "apoyaEn": "FIJO · Puente de calle — perfil de aluminio 30×30 Línea 6 L=648 (calle 2, X=203.256)",
+   "nota": "cara de apoyo a Z=49.833, la misma interfaz medida que la guía del cliente. Monta sobre el perfil por PIE DE CLIP a su ranura 6 superior — el mismo montaje sin herramienta que la regleta de los largueros en la ranura 10 (el pie no se modela, igual que allí).",
    "features": [
     {
      "id": "f149",
-     "name": "Regleta 30×648×8.55",
+     "name": "Regleta 30×648×8.25",
      "shape": "box",
      "op": "union",
      "at": [
@@ -58870,7 +58909,7 @@
      "params": {
       "w": 30,
       "d": 648,
-      "h": 8.55
+      "h": 8.25
      }
     }
    ],
@@ -58882,13 +58921,13 @@
    "material_fuente": "params_pg40 GUIA.material (web UHMW-001) — es la misma regleta de deslizamiento"
   },
   {
-   "id": "p81_fijo_placa_base_de_puente_72_28_6_c_caballete_35_28_calle_2_",
-   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 35.28 (calle 2, X=203.256, travesaño S)",
+   "id": "p81_fijo_placa_base_de_puente_72_28_6_c_caballete_33_58_calle_2_",
+   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 33.58 (calle 2, X=203.256, travesaño S)",
    "color": "#8fa3b8",
    "pos": [
     203.256,
     -1280,
-    7.28
+    5.58
    ],
    "quat": [
     0,
@@ -58900,7 +58939,7 @@
    "visible": true,
    "fabricada": true,
    "apoyaEn": "PG40 · Travesaño de puente",
-   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 7.28, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 35.28 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
+   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 5.58, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 33.58 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
    "features": [
     {
      "id": "f150",
@@ -58925,13 +58964,13 @@
     },
     {
      "id": "f151",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       -26.99600000000001,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -58941,18 +58980,18 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
      "id": "f152",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       27.00399999999999,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -58962,7 +59001,7 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
@@ -58973,7 +59012,7 @@
      "at": [
       -26.99600000000001,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -58994,7 +59033,7 @@
      "at": [
       27.00399999999999,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -59035,7 +59074,7 @@
    "pos": [
     176.26,
     -1280,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -59134,7 +59173,7 @@
    "pos": [
     230.26,
     -1280,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -59227,13 +59266,13 @@
    }
   },
   {
-   "id": "p84_fijo_placa_base_de_puente_72_28_6_c_caballete_35_28_calle_2_",
-   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 35.28 (calle 2, X=203.256, travesaño N)",
+   "id": "p84_fijo_placa_base_de_puente_72_28_6_c_caballete_33_58_calle_2_",
+   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 33.58 (calle 2, X=203.256, travesaño N)",
    "color": "#8fa3b8",
    "pos": [
     203.256,
     -692,
-    7.28
+    5.58
    ],
    "quat": [
     0,
@@ -59245,7 +59284,7 @@
    "visible": true,
    "fabricada": true,
    "apoyaEn": "PG40 · Travesaño de puente",
-   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 7.28, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 35.28 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
+   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 5.58, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 33.58 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
    "features": [
     {
      "id": "f159",
@@ -59270,13 +59309,13 @@
     },
     {
      "id": "f160",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       -26.99600000000001,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -59286,18 +59325,18 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
      "id": "f161",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       27.00399999999999,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -59307,7 +59346,7 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
@@ -59318,7 +59357,7 @@
      "at": [
       -26.99600000000001,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -59339,7 +59378,7 @@
      "at": [
       27.00399999999999,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -59380,7 +59419,7 @@
    "pos": [
     176.26,
     -692,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -59479,7 +59518,7 @@
    "pos": [
     230.26,
     -692,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -62157,13 +62196,13 @@
    ]
   },
   {
-   "id": "p140_fijo_puente_de_calle_pletina_30_28_648_a36_calle_3_x_279_456",
-   "name": "FIJO · Puente de calle — pletina 30×28×648 A36 (calle 3, X=279.456)",
-   "color": "#8fa3b8",
+   "id": "p140_fijo_puente_de_calle_perfil_de_aluminio_30_30_linea_6_l_648_",
+   "name": "FIJO · Puente de calle — perfil de aluminio 30×30 Línea 6 L=648 (calle 3, X=279.456)",
+   "color": "#6b7f94",
    "pos": [
     279.456,
     -970,
-    13.28
+    11.58
    ],
    "quat": [
     0,
@@ -62174,11 +62213,13 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "sección ≤ 31.75 en la franja del rodillo Z [13.758, 58.683]; pasa por los huecos de 42 de las placas peine del NBT90",
+   "material": "Perfil extruido de aluminio anodizado 30×30 Línea 6 — item Profile 6 30×30 light natural, art. 0.0.451.07 (web PERFIL-3030-01), corte a medida L=648",
+   "norma": "item Profile 6 30×30 light natural, art. 0.0.451.07",
+   "nota": "item Profile 6 30×30 light natural, art. 0.0.451.07 · Ix 2.9 cm⁴ · 0.93 kg/m (web PERFIL-3030-01). Sección ≤ 31.75 en la franja del rodillo Z [13.758, 58.683]; pasa por los huecos de 42 de las placas peine del NBT90 con las MISMAS holguras que la pletina a la que sustituye (5.64/lado al rodillo, 6/lado al diente). Apoya en los dos caballetes por su cara inferior; la ranura 6 inferior recibe las tuercas correderas del ala del caballete y la superior el pie de clip de la regleta.",
    "features": [
     {
      "id": "f278",
-     "name": "Pletina 30×648×28",
+     "name": "Perfil 30×30×648",
      "shape": "box",
      "op": "union",
      "at": [
@@ -62194,25 +62235,23 @@
      "params": {
       "w": 30,
       "d": 648,
-      "h": 28
+      "h": 30
      }
     }
    ],
    "tol": {
-    "pieza": "ISO 2768-mK",
-    "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)"
-   },
-   "material": "Pletina de acero A36 (S275JR) 30×28, cortada por láser",
-   "material_fuente": "params_adapt CALLE.puente.aceroH («dis: pletina A36») + el propio nombre, que ya dice A36"
+    "pieza": "EN 755-9 + ISO 2768-m (largo de corte)",
+    "norma": "EN 755-9 (perfiles extruidos de aluminio: tolerancias de sección, rectitud y alabeo) para la SECCIÓN + ISO 2768-1 clase m para el LARGO, que es la única cota nuestra"
+   }
   },
   {
-   "id": "p141_fijo_puente_de_calle_regleta_uhmw_30_8_55_648_calle_3_x_279_",
-   "name": "FIJO · Puente de calle — regleta UHMW 30×8.55×648 (calle 3, X=279.456)",
+   "id": "p141_fijo_puente_de_calle_regleta_uhmw_30_8_25_648_calle_3_x_279_",
+   "name": "FIJO · Puente de calle — regleta UHMW 30×8.25×648 (calle 3, X=279.456)",
    "color": "#e0b040",
    "pos": [
     279.456,
     -970,
-    41.28
+    41.58
    ],
    "quat": [
     0,
@@ -62223,11 +62262,12 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "cara de apoyo a Z=49.833, la misma interfaz medida que la guía del cliente",
+   "apoyaEn": "FIJO · Puente de calle — perfil de aluminio 30×30 Línea 6 L=648 (calle 3, X=279.456)",
+   "nota": "cara de apoyo a Z=49.833, la misma interfaz medida que la guía del cliente. Monta sobre el perfil por PIE DE CLIP a su ranura 6 superior — el mismo montaje sin herramienta que la regleta de los largueros en la ranura 10 (el pie no se modela, igual que allí).",
    "features": [
     {
      "id": "f279",
-     "name": "Regleta 30×648×8.55",
+     "name": "Regleta 30×648×8.25",
      "shape": "box",
      "op": "union",
      "at": [
@@ -62243,7 +62283,7 @@
      "params": {
       "w": 30,
       "d": 648,
-      "h": 8.55
+      "h": 8.25
      }
     }
    ],
@@ -62255,13 +62295,13 @@
    "material_fuente": "params_pg40 GUIA.material (web UHMW-001) — es la misma regleta de deslizamiento"
   },
   {
-   "id": "p142_fijo_placa_base_de_puente_72_28_6_c_caballete_35_28_calle_3_",
-   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 35.28 (calle 3, X=279.456, travesaño S)",
+   "id": "p142_fijo_placa_base_de_puente_72_28_6_c_caballete_33_58_calle_3_",
+   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 33.58 (calle 3, X=279.456, travesaño S)",
    "color": "#8fa3b8",
    "pos": [
     279.456,
     -1280,
-    7.28
+    5.58
    ],
    "quat": [
     0,
@@ -62273,7 +62313,7 @@
    "visible": true,
    "fabricada": true,
    "apoyaEn": "PG40 · Travesaño de puente",
-   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 7.28, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 35.28 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
+   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 5.58, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 33.58 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
    "features": [
     {
      "id": "f280",
@@ -62298,13 +62338,13 @@
     },
     {
      "id": "f281",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       -26.99600000000001,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -62314,18 +62354,18 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
      "id": "f282",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       27.003999999999962,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -62335,7 +62375,7 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
@@ -62346,7 +62386,7 @@
      "at": [
       -26.99600000000001,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -62367,7 +62407,7 @@
      "at": [
       27.003999999999962,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -62408,7 +62448,7 @@
    "pos": [
     252.46,
     -1280,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -62507,7 +62547,7 @@
    "pos": [
     306.46,
     -1280,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -62600,13 +62640,13 @@
    }
   },
   {
-   "id": "p145_fijo_placa_base_de_puente_72_28_6_c_caballete_35_28_calle_3_",
-   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 35.28 (calle 3, X=279.456, travesaño N)",
+   "id": "p145_fijo_placa_base_de_puente_72_28_6_c_caballete_33_58_calle_3_",
+   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 33.58 (calle 3, X=279.456, travesaño N)",
    "color": "#8fa3b8",
    "pos": [
     279.456,
     -692,
-    7.28
+    5.58
    ],
    "quat": [
     0,
@@ -62618,7 +62658,7 @@
    "visible": true,
    "fabricada": true,
    "apoyaEn": "PG40 · Travesaño de puente",
-   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 7.28, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 35.28 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
+   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 5.58, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 33.58 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
    "features": [
     {
      "id": "f289",
@@ -62643,13 +62683,13 @@
     },
     {
      "id": "f290",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       -26.99600000000001,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -62659,18 +62699,18 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
      "id": "f291",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       27.003999999999962,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -62680,7 +62720,7 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
@@ -62691,7 +62731,7 @@
      "at": [
       -26.99600000000001,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -62712,7 +62752,7 @@
      "at": [
       27.003999999999962,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -62753,7 +62793,7 @@
    "pos": [
     252.46,
     -692,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -62852,7 +62892,7 @@
    "pos": [
     306.46,
     -692,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -65530,13 +65570,13 @@
    ]
   },
   {
-   "id": "p201_fijo_puente_de_calle_pletina_30_28_648_a36_calle_4_x_355_656",
-   "name": "FIJO · Puente de calle — pletina 30×28×648 A36 (calle 4, X=355.656)",
-   "color": "#8fa3b8",
+   "id": "p201_fijo_puente_de_calle_perfil_de_aluminio_30_30_linea_6_l_648_",
+   "name": "FIJO · Puente de calle — perfil de aluminio 30×30 Línea 6 L=648 (calle 4, X=355.656)",
+   "color": "#6b7f94",
    "pos": [
     355.656,
     -970,
-    13.28
+    11.58
    ],
    "quat": [
     0,
@@ -65547,11 +65587,13 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "sección ≤ 31.75 en la franja del rodillo Z [13.758, 58.683]; pasa por los huecos de 42 de las placas peine del NBT90",
+   "material": "Perfil extruido de aluminio anodizado 30×30 Línea 6 — item Profile 6 30×30 light natural, art. 0.0.451.07 (web PERFIL-3030-01), corte a medida L=648",
+   "norma": "item Profile 6 30×30 light natural, art. 0.0.451.07",
+   "nota": "item Profile 6 30×30 light natural, art. 0.0.451.07 · Ix 2.9 cm⁴ · 0.93 kg/m (web PERFIL-3030-01). Sección ≤ 31.75 en la franja del rodillo Z [13.758, 58.683]; pasa por los huecos de 42 de las placas peine del NBT90 con las MISMAS holguras que la pletina a la que sustituye (5.64/lado al rodillo, 6/lado al diente). Apoya en los dos caballetes por su cara inferior; la ranura 6 inferior recibe las tuercas correderas del ala del caballete y la superior el pie de clip de la regleta.",
    "features": [
     {
      "id": "f408",
-     "name": "Pletina 30×648×28",
+     "name": "Perfil 30×30×648",
      "shape": "box",
      "op": "union",
      "at": [
@@ -65567,25 +65609,23 @@
      "params": {
       "w": 30,
       "d": 648,
-      "h": 28
+      "h": 30
      }
     }
    ],
    "tol": {
-    "pieza": "ISO 2768-mK",
-    "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)"
-   },
-   "material": "Pletina de acero A36 (S275JR) 30×28, cortada por láser",
-   "material_fuente": "params_adapt CALLE.puente.aceroH («dis: pletina A36») + el propio nombre, que ya dice A36"
+    "pieza": "EN 755-9 + ISO 2768-m (largo de corte)",
+    "norma": "EN 755-9 (perfiles extruidos de aluminio: tolerancias de sección, rectitud y alabeo) para la SECCIÓN + ISO 2768-1 clase m para el LARGO, que es la única cota nuestra"
+   }
   },
   {
-   "id": "p202_fijo_puente_de_calle_regleta_uhmw_30_8_55_648_calle_4_x_355_",
-   "name": "FIJO · Puente de calle — regleta UHMW 30×8.55×648 (calle 4, X=355.656)",
+   "id": "p202_fijo_puente_de_calle_regleta_uhmw_30_8_25_648_calle_4_x_355_",
+   "name": "FIJO · Puente de calle — regleta UHMW 30×8.25×648 (calle 4, X=355.656)",
    "color": "#e0b040",
    "pos": [
     355.656,
     -970,
-    41.28
+    41.58
    ],
    "quat": [
     0,
@@ -65596,11 +65636,12 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "cara de apoyo a Z=49.833, la misma interfaz medida que la guía del cliente",
+   "apoyaEn": "FIJO · Puente de calle — perfil de aluminio 30×30 Línea 6 L=648 (calle 4, X=355.656)",
+   "nota": "cara de apoyo a Z=49.833, la misma interfaz medida que la guía del cliente. Monta sobre el perfil por PIE DE CLIP a su ranura 6 superior — el mismo montaje sin herramienta que la regleta de los largueros en la ranura 10 (el pie no se modela, igual que allí).",
    "features": [
     {
      "id": "f409",
-     "name": "Regleta 30×648×8.55",
+     "name": "Regleta 30×648×8.25",
      "shape": "box",
      "op": "union",
      "at": [
@@ -65616,7 +65657,7 @@
      "params": {
       "w": 30,
       "d": 648,
-      "h": 8.55
+      "h": 8.25
      }
     }
    ],
@@ -65628,13 +65669,13 @@
    "material_fuente": "params_pg40 GUIA.material (web UHMW-001) — es la misma regleta de deslizamiento"
   },
   {
-   "id": "p203_fijo_placa_base_de_puente_72_28_6_c_caballete_35_28_calle_4_",
-   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 35.28 (calle 4, X=355.656, travesaño S)",
+   "id": "p203_fijo_placa_base_de_puente_72_28_6_c_caballete_33_58_calle_4_",
+   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 33.58 (calle 4, X=355.656, travesaño S)",
    "color": "#8fa3b8",
    "pos": [
     355.656,
     -1280,
-    7.28
+    5.58
    ],
    "quat": [
     0,
@@ -65646,7 +65687,7 @@
    "visible": true,
    "fabricada": true,
    "apoyaEn": "PG40 · Travesaño de puente",
-   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 7.28, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 35.28 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
+   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 5.58, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 33.58 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
    "features": [
     {
      "id": "f410",
@@ -65671,13 +65712,13 @@
     },
     {
      "id": "f411",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       -26.99599999999998,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -65687,18 +65728,18 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
      "id": "f412",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       27.00400000000002,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -65708,7 +65749,7 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
@@ -65719,7 +65760,7 @@
      "at": [
       -26.99599999999998,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -65740,7 +65781,7 @@
      "at": [
       27.00400000000002,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -65781,7 +65822,7 @@
    "pos": [
     328.66,
     -1280,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -65880,7 +65921,7 @@
    "pos": [
     382.66,
     -1280,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -65973,13 +66014,13 @@
    }
   },
   {
-   "id": "p206_fijo_placa_base_de_puente_72_28_6_c_caballete_35_28_calle_4_",
-   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 35.28 (calle 4, X=355.656, travesaño N)",
+   "id": "p206_fijo_placa_base_de_puente_72_28_6_c_caballete_33_58_calle_4_",
+   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 33.58 (calle 4, X=355.656, travesaño N)",
    "color": "#8fa3b8",
    "pos": [
     355.656,
     -692,
-    7.28
+    5.58
    ],
    "quat": [
     0,
@@ -65991,7 +66032,7 @@
    "visible": true,
    "fabricada": true,
    "apoyaEn": "PG40 · Travesaño de puente",
-   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 7.28, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 35.28 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
+   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 5.58, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 33.58 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
    "features": [
     {
      "id": "f419",
@@ -66016,13 +66057,13 @@
     },
     {
      "id": "f420",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       -26.99599999999998,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -66032,18 +66073,18 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
      "id": "f421",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       27.00400000000002,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -66053,7 +66094,7 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
@@ -66064,7 +66105,7 @@
      "at": [
       -26.99599999999998,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -66085,7 +66126,7 @@
      "at": [
       27.00400000000002,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -66126,7 +66167,7 @@
    "pos": [
     328.66,
     -692,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -66225,7 +66266,7 @@
    "pos": [
     382.66,
     -692,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -68903,13 +68944,13 @@
    ]
   },
   {
-   "id": "p262_fijo_puente_de_calle_pletina_30_28_648_a36_calle_5_x_431_856",
-   "name": "FIJO · Puente de calle — pletina 30×28×648 A36 (calle 5, X=431.856)",
-   "color": "#8fa3b8",
+   "id": "p262_fijo_puente_de_calle_perfil_de_aluminio_30_30_linea_6_l_648_",
+   "name": "FIJO · Puente de calle — perfil de aluminio 30×30 Línea 6 L=648 (calle 5, X=431.856)",
+   "color": "#6b7f94",
    "pos": [
     431.856,
     -970,
-    13.28
+    11.58
    ],
    "quat": [
     0,
@@ -68920,11 +68961,13 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "sección ≤ 31.75 en la franja del rodillo Z [13.758, 58.683]; pasa por los huecos de 42 de las placas peine del NBT90",
+   "material": "Perfil extruido de aluminio anodizado 30×30 Línea 6 — item Profile 6 30×30 light natural, art. 0.0.451.07 (web PERFIL-3030-01), corte a medida L=648",
+   "norma": "item Profile 6 30×30 light natural, art. 0.0.451.07",
+   "nota": "item Profile 6 30×30 light natural, art. 0.0.451.07 · Ix 2.9 cm⁴ · 0.93 kg/m (web PERFIL-3030-01). Sección ≤ 31.75 en la franja del rodillo Z [13.758, 58.683]; pasa por los huecos de 42 de las placas peine del NBT90 con las MISMAS holguras que la pletina a la que sustituye (5.64/lado al rodillo, 6/lado al diente). Apoya en los dos caballetes por su cara inferior; la ranura 6 inferior recibe las tuercas correderas del ala del caballete y la superior el pie de clip de la regleta.",
    "features": [
     {
      "id": "f538",
-     "name": "Pletina 30×648×28",
+     "name": "Perfil 30×30×648",
      "shape": "box",
      "op": "union",
      "at": [
@@ -68940,25 +68983,23 @@
      "params": {
       "w": 30,
       "d": 648,
-      "h": 28
+      "h": 30
      }
     }
    ],
    "tol": {
-    "pieza": "ISO 2768-mK",
-    "norma": "ISO 2768-1 clase m (longitudes y ángulos) + ISO 2768-2 clase K (forma y posición)"
-   },
-   "material": "Pletina de acero A36 (S275JR) 30×28, cortada por láser",
-   "material_fuente": "params_adapt CALLE.puente.aceroH («dis: pletina A36») + el propio nombre, que ya dice A36"
+    "pieza": "EN 755-9 + ISO 2768-m (largo de corte)",
+    "norma": "EN 755-9 (perfiles extruidos de aluminio: tolerancias de sección, rectitud y alabeo) para la SECCIÓN + ISO 2768-1 clase m para el LARGO, que es la única cota nuestra"
+   }
   },
   {
-   "id": "p263_fijo_puente_de_calle_regleta_uhmw_30_8_55_648_calle_5_x_431_",
-   "name": "FIJO · Puente de calle — regleta UHMW 30×8.55×648 (calle 5, X=431.856)",
+   "id": "p263_fijo_puente_de_calle_regleta_uhmw_30_8_25_648_calle_5_x_431_",
+   "name": "FIJO · Puente de calle — regleta UHMW 30×8.25×648 (calle 5, X=431.856)",
    "color": "#e0b040",
    "pos": [
     431.856,
     -970,
-    41.28
+    41.58
    ],
    "quat": [
     0,
@@ -68969,11 +69010,12 @@
    "fixed": false,
    "visible": true,
    "fabricada": true,
-   "nota": "cara de apoyo a Z=49.833, la misma interfaz medida que la guía del cliente",
+   "apoyaEn": "FIJO · Puente de calle — perfil de aluminio 30×30 Línea 6 L=648 (calle 5, X=431.856)",
+   "nota": "cara de apoyo a Z=49.833, la misma interfaz medida que la guía del cliente. Monta sobre el perfil por PIE DE CLIP a su ranura 6 superior — el mismo montaje sin herramienta que la regleta de los largueros en la ranura 10 (el pie no se modela, igual que allí).",
    "features": [
     {
      "id": "f539",
-     "name": "Regleta 30×648×8.55",
+     "name": "Regleta 30×648×8.25",
      "shape": "box",
      "op": "union",
      "at": [
@@ -68989,7 +69031,7 @@
      "params": {
       "w": 30,
       "d": 648,
-      "h": 8.55
+      "h": 8.25
      }
     }
    ],
@@ -69001,13 +69043,13 @@
    "material_fuente": "params_pg40 GUIA.material (web UHMW-001) — es la misma regleta de deslizamiento"
   },
   {
-   "id": "p264_fijo_placa_base_de_puente_72_28_6_c_caballete_35_28_calle_5_",
-   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 35.28 (calle 5, X=431.856, travesaño S)",
+   "id": "p264_fijo_placa_base_de_puente_72_28_6_c_caballete_33_58_calle_5_",
+   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 33.58 (calle 5, X=431.856, travesaño S)",
    "color": "#8fa3b8",
    "pos": [
     431.856,
     -1280,
-    7.28
+    5.58
    ],
    "quat": [
     0,
@@ -69019,7 +69061,7 @@
    "visible": true,
    "fabricada": true,
    "apoyaEn": "PG40 · Travesaño de puente",
-   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 7.28, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 35.28 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
+   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 5.58, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 33.58 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
    "features": [
     {
      "id": "f540",
@@ -69044,13 +69086,13 @@
     },
     {
      "id": "f541",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       -26.99599999999998,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -69060,18 +69102,18 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
      "id": "f542",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       27.00400000000002,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -69081,7 +69123,7 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
@@ -69092,7 +69134,7 @@
      "at": [
       -26.99599999999998,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -69113,7 +69155,7 @@
      "at": [
       27.00400000000002,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -69154,7 +69196,7 @@
    "pos": [
     404.86,
     -1280,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -69253,7 +69295,7 @@
    "pos": [
     458.86,
     -1280,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -69346,13 +69388,13 @@
    }
   },
   {
-   "id": "p267_fijo_placa_base_de_puente_72_28_6_c_caballete_35_28_calle_5_",
-   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 35.28 (calle 5, X=431.856, travesaño N)",
+   "id": "p267_fijo_placa_base_de_puente_72_28_6_c_caballete_33_58_calle_5_",
+   "name": "FIJO · Placa base de puente 72×28×6 c/caballete 33.58 (calle 5, X=431.856, travesaño N)",
    "color": "#8fa3b8",
    "pos": [
     431.856,
     -692,
-    7.28
+    5.58
    ],
    "quat": [
     0,
@@ -69364,7 +69406,7 @@
    "visible": true,
    "fabricada": true,
    "apoyaEn": "PG40 · Travesaño de puente",
-   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 7.28, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 35.28 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
+   "nota": "CABALLETE: ala superior soldada bajo la pletina del puente (cara inferior Z 5.58, la de siempre) sobre 2 casquillos 16×16 a X = eje ± 27 que bajan 33.58 mm hasta la coronación del travesaño (Z -28). Entre los casquillos pasa el RAMAL DE RETORNO RECTO: la banda mide 32 (eje ± 16) y la cara interior de cada casquillo queda a 3 mm de ella. 2 M8×32 desde arriba a tuercas martillo de la ranura superior del travesaño; el caballete mide 72 de ancho contra los 76.2 de paso de calle (4.2 mm entre caballetes contiguos)",
    "features": [
     {
      "id": "f549",
@@ -69389,13 +69431,13 @@
     },
     {
      "id": "f550",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       -26.99599999999998,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -69405,18 +69447,18 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
      "id": "f551",
-     "name": "Casquillo 16×16×35.28",
+     "name": "Casquillo 16×16×33.58",
      "shape": "box",
      "op": "union",
      "at": [
       27.00400000000002,
       0,
-      -35.28
+      -33.58
      ],
      "dir": [
       0,
@@ -69426,7 +69468,7 @@
      "params": {
       "w": 16,
       "d": 16,
-      "h": 35.28
+      "h": 33.58
      }
     },
     {
@@ -69437,7 +69479,7 @@
      "at": [
       -26.99599999999998,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -69458,7 +69500,7 @@
      "at": [
       27.00400000000002,
       0,
-      6.999999999999999
+      7
      ],
      "dir": [
       0,
@@ -69499,7 +69541,7 @@
    "pos": [
     404.86,
     -692,
-    18.58
+    16.88
    ],
    "quat": [
     0,
@@ -69598,7 +69640,7 @@
    "pos": [
     458.86,
     -692,
-    18.58
+    16.88
    ],
    "quat": [
     0,

@@ -349,7 +349,7 @@ export const PUENTE_APOYO = {
   // cota vieja y meterse 1.87 mm dentro de la placa base — que es exactamente
   // lo que pasó al pasar la banda a su espesor real de 2.5 mm.
   // Cara inferior de la PLACA BASE (la cota que el puente exige y que no cambia)
-  get baseZ() { return r3(CALLE.puente.topZ - CALLE.puente.uhmwH - CALLE.puente.aceroH - CALLE.puente.baseT); },
+  get baseZ() { return r3(CALLE.puente.topZ - CALLE.puente.uhmwH - CALLE.puente.perfilH - CALLE.puente.baseT); },
   // A10-bis · CORONACIÓN DEL TRAVESAÑO. Ya no es la cara inferior de la placa
   // base: entre las dos pasa ahora el ramal de retorno recto, así que el
   // travesaño baja hasta librarlo y el caballete cubre la diferencia.

@@ -4,7 +4,7 @@
 // espacio entre bandas.
 //
 //   node ensambles/sorter_co/gen_sorter_co.mjs            (desde cad/)
-//   TEST_ROMPE=paso|ventana|roller|profundidad|luz|pasillo|borde|at10|retencion
+//   TEST_ROMPE=paso|ventana|roller|profundidad|luz|pasillo|borde|at10|retencion|perfilpuente
 //              |sintaladro|huerfana  (revisión de FABRICACIÓN: §U y §V)
 //              |guia|pozo|pivote|pila|cilindro|soporte|bulon|portante|retorno|simetria
 //              |apoyo|presion|rampa|apriete|eje|rodamiento|banda|fuente
@@ -484,7 +484,7 @@ if (ROMPE === 'paso') {
 } else if (ROMPE === 'ventana') {
   // engorda el puente de la calle 3 a 40 de ancho (como el perfil viejo)
   for (const p of E.parts) {
-    if (/Puente de calle — pletina/.test(p.name) && p.name.includes('(calle 3,')) {
+    if (/Puente de calle — perfil/.test(p.name) && p.name.includes('(calle 3,')) {
       for (const f of p.features) if (f.shape === 'box') f.params.w = 40;
     }
   }
@@ -552,6 +552,14 @@ if (ROMPE === 'paso') {
 // que es exactamente para lo que está esa comprobación. Lo sustituye `pozo`,
 // que inyecta la guarda huérfana y demuestra que la §N nueva y la §R (5e)
 // muerden las dos. No se deja un caso verde-porque-no-comprueba.
+} else if (ROMPE === 'perfilpuente') {
+  // ROBA EL PERFIL DE ALUMINIO de debajo de la regleta de la calle 3: la guía
+  // queda flotando, que es EXACTAMENTE el defecto que el cliente señaló el
+  // 06-08 («you are not putting the aluminum profile at the bottom of the
+  // guide. That's a mistake»). La §R6 tiene que pararlo con dos incumplimientos
+  // (no hay perfil bajo la regleta + la regleta pierde su apoyo declarado §V).
+  E.parts = E.parts.filter(p => !(/Puente de calle — perfil de aluminio/.test(p.name)
+    && p.name.includes('(calle 3,')));
 } else if (ROMPE === 'portante') {
   // HUNDE EL RAMAL PORTANTE de la calle 3 dentro de la transferencia: le mete un
   // seno de 80 mm en el tramo del módulo, que es exactamente el defecto que el
@@ -799,8 +807,10 @@ const compradaSC = (p) => {
 // suele ser ése»: donde el módulo no lo dice, no hay línea (ver SIN_MATERIAL_SC).
 const MATERIAL_SC = [
   // --- calles (adapt/mod_calles.mjs · params_adapt.CALLE.puente) ------------
-  [/^FIJO · Puente de calle — pletina/, 'Pletina de acero A36 (S275JR) 30×28, cortada por láser',
-    'params_adapt CALLE.puente.aceroH («dis: pletina A36») + el propio nombre, que ya dice A36'],
+  // 06-08 · el puente pasó de pletina A36 a PERFIL DE ALUMINIO item 30×30
+  // (corrección del cliente: «the aluminum profile … at the bottom of the
+  // guide»; web PERFIL-3030-01). Su material lo declara la PROPIA pieza en su
+  // campo `material`, que tiene prioridad sobre esta tabla — no necesita línea.
   [/^FIJO · Puente de calle — regleta UHMW/, 'UHMW-PE 1000',
     'params_pg40 GUIA.material (web UHMW-001) — es la misma regleta de deslizamiento'],
   [/^FIJO · Placa base de puente/, 'Pletina de acero A36 (S275JR) e=6, cortada por láser',
@@ -1186,7 +1196,7 @@ function verify() {
     if (Math.abs(EJES[k] - esperado) > 0.01) {
       e.push(`eje de calle ${k + 1} (${EJES[k]}) ≠ hueco de banda del NBT90 transformado (${esperado})`);
     }
-    const puente = nuevas.find(p => /Puente de calle — pletina/.test(p.name) && p.name.includes(`(calle ${k + 1},`));
+    const puente = nuevas.find(p => /Puente de calle — perfil/.test(p.name) && p.name.includes(`(calle ${k + 1},`));
     if (!puente) { e.push(`no hay puente en la calle ${k + 1}`); continue; }
     const b = bb.get(puente);
     const cx = r2((b.lo[0] + b.hi[0]) / 2);
@@ -1231,7 +1241,7 @@ function verify() {
   const rodillos = nbt.filter(p => /Vulcanizado negro/.test(p.name) || /Tubo de rodillo/.test(p.name));
   let holguraRodCajas = Infinity;
   for (const k of [0, 1, 2, 3, 4]) {
-    const puente = nuevas.find(p => /Puente de calle — pletina/.test(p.name) && p.name.includes(`(calle ${k + 1},`));
+    const puente = nuevas.find(p => /Puente de calle — perfil/.test(p.name) && p.name.includes(`(calle ${k + 1},`));
     if (!puente) continue;
     const bp = bb.get(puente);
     for (const r of rodillos) {
@@ -1342,8 +1352,8 @@ function verify() {
     [/Puente de calle — regleta/, /Banda plana 32/],               // apoyo banda↔regleta
     [/Guía de deslizamiento/, /Banda plana 32/],                   // apoyo banda↔guía
     [/Placa base de puente/, /Travesaño percha/],            // apoyo placa↔travesaño
-    [/Puente de calle — pletina/, /Placa base de puente/],   // soldadas
-    [/Puente de calle — pletina/, /Puente de calle — regleta/],
+    [/Puente de calle — perfil/, /Placa base de puente/],   // apoyo caballete↔perfil
+    [/Puente de calle — perfil/, /Puente de calle — regleta/],
     [/Pletina/, /Perfil ranurado|Travesaño percha/],         // pletinas contra perfiles
     [/Pletina/, /Eje de volante|Eje Ø20|Volante|Polea plana/],   // ejes en sus taladros
     [/Eje de volante|Eje Ø20/, /Volante|Polea/],             // ejes en sus bores
@@ -1640,7 +1650,7 @@ function verify() {
 
   // --- H. estado retraído (el cassette del NBT90 baja 10) ------------------
   const crossTopElev = r2(NBT.crossZ[1] + T.z);              // 9.53
-  const puenteBase = r2(CALLE.puente.topZ - CALLE.puente.uhmwH - CALLE.puente.aceroH); // 15.15
+  const puenteBase = r2(CALLE.puente.topZ - CALLE.puente.uhmwH - CALLE.puente.perfilH);
   const holguraCrossElev = r2(puenteBase - crossTopElev);
   const holguraCrossRetr = r2(puenteBase - (crossTopElev - NBT.carrera));
   if (holguraCrossElev < 2) e.push(`puente a ${holguraCrossElev} mm del cross channel ELEVADO (mín 2)`);
@@ -1650,7 +1660,7 @@ function verify() {
   for (const p of crosses) {
     const b = bb.get(p);
     for (const k of [0, 1, 2, 3, 4]) {
-      const puente = nuevas.find(q => /Puente de calle — pletina/.test(q.name) && q.name.includes(`(calle ${k + 1},`));
+      const puente = nuevas.find(q => /Puente de calle — perfil/.test(q.name) && q.name.includes(`(calle ${k + 1},`));
       if (!puente) continue;
       const bp = bb.get(puente);
       if (b.hi[0] < bp.lo[0] || b.lo[0] > bp.hi[0] || b.hi[1] < bp.lo[1] || b.lo[1] > bp.hi[1]) continue;
@@ -1850,7 +1860,7 @@ function verify() {
     //     el mismo corredor, a 61.4 del portante. Que el del sorter no pueda
     //     usarlo es aritmética del Ø del tambor, y aquí queda escrita.
     const zRamal = r2(TAMB_RAMAL.z);                                  // −57.2 (dorso)
-    const puenteBaseZ = r2(CALLE.puente.topZ - CALLE.puente.uhmwH - CALLE.puente.aceroH);  // 15.15
+    const puenteBaseZ = r2(CALLE.puente.topZ - CALLE.puente.uhmwH - CALLE.puente.perfilH);
     // El otro techo del corredor: lo que el cassette del NBT90 lleva debajo. El
     // motorreductor SEW es lo más alto que hay bajo la ranura en las calles 2-4 —
     // y es justo la pieza que el ramal de retorno del anfitrión libra por 0.3 mm
@@ -1990,6 +2000,72 @@ function verify() {
         }
       }
       RECTO.retornoMedido = retorno;
+    }
+
+    // R6 · PERFIL DE ALUMINIO CONTINUO BAJO LA GUÍA — corrección del cliente
+    //      06-08-2026, literal: «the aluminum profile … should be always in a
+    //      stretch part that support the belts … in transfer section, you are
+    //      not putting the aluminum profile at the bottom of the guide …
+    //      That's a mistake». La regla que esto congela: dentro de la huella
+    //      del NBT90, TODA regleta portante apoya sobre perfil de aluminio —
+    //      continuo, en contacto y con la flecha comprobada con el Ix CITADO
+    //      del catálogo (web PERFIL-3030-01), no con el de la pletina de acero
+    //      que había antes (EI baja 5.6×: eso es exactamente lo que hay que
+    //      vigilar, no lo que hay que suponer).
+    {
+      const PF = CALLE.puente;
+      const R6 = { calles: [], flecha: null };
+      for (let k = 0; k < EJES.length; k++) {
+        const perfil = partes.find(p => /Puente de calle — perfil de aluminio/.test(p.name)
+          && p.name.includes(`(calle ${k + 1},`));
+        const regleta = partes.find(p => /Puente de calle — regleta UHMW/.test(p.name)
+          && p.name.includes(`(calle ${k + 1},`));
+        if (!perfil) { e.push(`§R6: la calle ${k + 1} NO tiene perfil de aluminio bajo la regleta del puente`); continue; }
+        if (!regleta) { e.push(`§R6: la calle ${k + 1} tiene perfil pero NO regleta encima`); continue; }
+        const fP = perfil.features.find(f => f.shape === 'box');
+        const fR = regleta.features.find(f => f.shape === 'box');
+        // las features viven en coordenadas LOCALES de la pieza (el integrador
+        // las rebasa al origen): la cota absoluta es pos + at. Se mide la CAJA
+        // EMITIDA (params.h), no el parámetro — si un día divergen, que cante.
+        const topPerfil = r2(perfil.pos[2] + fP.at[2] + fP.params.h);
+        const botRegleta = r2(regleta.pos[2] + fR.at[2]);
+        const holgura = r2(botRegleta - topPerfil);
+        if (Math.abs(holgura) > 0.01) {
+          e.push(`§R6: en la calle ${k + 1} la regleta NO apoya en el perfil — ${holgura} mm entre `
+            + 'la cara superior del perfil y la inferior de la regleta. «At the bottom of the guide» '
+            + 'quiere decir EN CONTACTO, no cerca.');
+        }
+        const Lreal = r2(fP.params.d);
+        const Lesp = r2(PF.y[1] - PF.y[0]);
+        if (Math.abs(Lreal - Lesp) > 0.01) {
+          e.push(`§R6: el perfil de la calle ${k + 1} mide ${Lreal} y el vano del puente ${Lesp}: `
+            + 'el soporte tiene que ser CONTINUO en todo el puente («in a stretch part»)');
+        }
+        R6.calles.push({ calle: k + 1, contactoMm: holgura, largo: Lreal });
+      }
+      // …y que no haya vuelto la pletina: la regla es aluminio bajo la guía,
+      // no «aluminio además del acero».
+      const pletinas = partes.filter(p => /Puente de calle — pletina/.test(p.name));
+      if (pletinas.length) {
+        e.push(`§R6: quedan ${pletinas.length} pletina(s) de acero de puente en el ensamble — la `
+          + 'corrección del cliente las sustituye por perfil de aluminio, no las duplica');
+      }
+      // Flecha del perfil con el Ix del catálogo (web PERFIL-3030-01) y la
+      // MISMA hipótesis que pg40.flecha (bulto entero de 34 kg centrado):
+      const Lv = 588;                                  // vano entre caballetes (Y −1280…−692)
+      const Ix = PF.perfil.IxCm4 * 1e4;                // 2.9 cm⁴ → mm⁴, web PERFIL-3030-01
+      const F = 34 * 9.81;                             // el bulto entero sobre UNA calle
+      const flecha = r2(F * Math.pow(Lv, 3) / (48 * 70000 * Ix) * 100) / 100;
+      const lim = r2(Lv / 500);
+      R6.flecha = { vano: Lv, cargaN: r2(F), IxCm4: PF.perfil.IxCm4, flechaMm: flecha,
+        limite: lim, criterio: 'L/500, misma hipótesis que pg40.flecha (bulto 34 kg centrado)',
+        fuente: `web ${PF.perfil.factId}` };
+      if (flecha > lim) {
+        e.push(`§R6: la flecha del perfil de puente (${flecha} mm con el bulto de 34 kg al centro `
+          + `del vano de ${Lv}) supera L/500 = ${lim}. El Ix es el del catálogo (${PF.perfil.IxCm4} `
+          + 'cm⁴): si no llega, el perfil necesita más canto o un tercer caballete, no otro Ix.');
+      }
+      m.perfilPuente = R6;
     }
   }
   // ▲▲▲ ------------------------------------------------------------- ▲▲▲
@@ -2868,7 +2944,7 @@ function verify() {
     }
     // …y la distancia a la que se quedó el travesaño PG40 más próximo
     let hueco = Infinity;
-    const puentes = nuevas.filter(p => /Puente de calle — pletina/.test(p.name));
+    const puentes = nuevas.filter(p => /Puente de calle — perfil/.test(p.name));
     const travs = nuevas.filter(p => /PG40 · Travesaño/.test(p.name));
     for (const p of puentes) {
       const b = bb.get(p);
@@ -2882,7 +2958,7 @@ function verify() {
       vanoDeDisenoMm: r2(-692 - (-1280)), largoMm: r2(CALLE.puente.y[1] - CALLE.puente.y[0]) };
     chkS('SC-01', 'apoyos reales bajo las placas base del puente de calle',
       sinApoyo.length, 0, '<=',
-      `Los ${bases.length} apoyos de los 5 puentes (pletina ${CALLE.puente.ancho}×${CALLE.puente.aceroH} A36 `
+      `Los ${bases.length} apoyos de los 5 puentes (perfil ${CALLE.puente.ancho}×${CALLE.puente.perfilH} de aluminio `
       + `de ${SC.puente.largoMm} mm que cruza la transferencia) no tocan nada: los travesaños de la percha a `
       + 'los que se atornillan se retiraron con FLAGS.desactivaPercha. El travesaño PG40 más próximo queda a '
       + `${SC.puente.huecoAlTravesanoMasProximoMm} mm en Y y 9.15 mm por debajo en Z. Corrección: `
@@ -3584,8 +3660,8 @@ function verify() {
   {
     const RACIMOS_SC = [
       { hijo: /^FIJO · Placa base de puente/, padre: 'PG40 · Travesaño de puente' },
-      { hijo: /^FIJO · Puente de calle — pletina/, padre: 'FIJO · Placa base de puente' },
-      { hijo: /^FIJO · Puente de calle — regleta/, padre: 'FIJO · Puente de calle — pletina' },
+      { hijo: /^FIJO · Puente de calle — perfil/, padre: 'FIJO · Placa base de puente' },
+      { hijo: /^FIJO · Puente de calle — regleta/, padre: 'FIJO · Puente de calle — perfil' },
       { hijo: /^PG40 · Escuadra travesaño de puente↔chapón/, padre: 'PG40 · Travesaño de puente' },
       { hijo: /^FIJO · Perno hex M8×16 puente/, padre: 'FIJO · Placa base de puente' },
     ];
@@ -3678,6 +3754,7 @@ function verify() {
     banda: m.calles.banda,
     // ▼▼▼ R · el paso RECTO por el corredor del peine ▼▼▼
     recto: RECTO,
+    perfilPuente: m.perfilPuente,   // §R6 — perfil de aluminio bajo la guía (cliente 06-08)
     // ▲▲▲ ------------------------------------------- ▲▲▲
     percha: { cuelgue: m.percha.cuelgue, flechaLargueroMm: m.percha.flechaLargueroMm, tuercasT: m.percha.tuercasT, muesca: m.percha.muesca },
     estaciones: {

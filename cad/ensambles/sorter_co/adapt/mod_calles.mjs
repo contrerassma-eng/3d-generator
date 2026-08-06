@@ -320,20 +320,44 @@ export function calles(E) {
       cuenta(M.reuso, 'cierre guia conservado (protección)', 1);
     }
 
-    // 3. el PUENTE
+    // 3. el PUENTE — PERFIL DE ALUMINIO bajo la regleta, no pletina de acero.
+    //    Corrección del cliente 06-08 («the aluminum profile … should be always
+    //    in a stretch part that support the belts … you are not putting the
+    //    aluminum profile at the bottom of the guide. That's a mistake»): la
+    //    guía UHMW lleva SIEMPRE perfil de aluminio al fondo, también dentro de
+    //    la transferencia. Aquí iba una pletina A36 30×28 porque el 40×40 no
+    //    cabe en la ventana de 31.75; la respuesta era cambiar de TAMAÑO, no de
+    //    material: item Profile 6 30×30 (web PERFIL-3030-01), mismo ancho 30
+    //    que la pletina a la que sustituye — las holguras al rodillo y al peine
+    //    no se mueven. La §R6 verifica continuidad, contacto y flecha con el Ix
+    //    CITADO del catálogo, no con este comentario.
     const P0 = CALLE.puente;
-    const zBase = r2(P0.topZ - P0.uhmwH - P0.aceroH);            // 15.15
+    const zBase = r2(P0.topZ - P0.uhmwH - P0.perfilH);           // 11.283
     const yc = r2((P0.y[0] + P0.y[1]) / 2), Lp = r2(P0.y[1] - P0.y[0]);
-    E.addPart(`FIJO · Puente de calle — pletina ${P0.ancho}×${P0.aceroH}×${Lp} A36 (${c})`,
-      COL.chapa, [B, yc, zBase],
-      [box(`Pletina ${P0.ancho}×${Lp}×${P0.aceroH}`, [B, yc, zBase], P0.ancho, Lp, P0.aceroH)],
-      { fabricada: true, nota: `sección ≤ ${NBT.ventana} en la franja del rodillo Z [${FRANJA.z0}, ${FRANJA.z1}]; pasa por los huecos de 42 de las placas peine del NBT90` });
+    E.addPart(`FIJO · Puente de calle — perfil de aluminio 30×30 Línea 6 L=${Lp} (${c})`,
+      COL.chapaOsc, [B, yc, zBase],       // el color de los perfiles PG40 (no hay COL.aluminio)
+      [box(`Perfil 30×30×${Lp}`, [B, yc, zBase], P0.ancho, Lp, P0.perfilH)],
+      { fabricada: true,
+        material: `Perfil extruido de aluminio anodizado 30×30 Línea 6 — ${P0.perfil.ref} `
+          + `(web ${P0.perfil.factId}), corte a medida L=${Lp}`,
+        norma: P0.perfil.ref,
+        nota: `${P0.perfil.ref} · Ix ${P0.perfil.IxCm4} cm⁴ · ${P0.perfil.kgm} kg/m (web `
+          + `${P0.perfil.factId}). Sección ≤ ${NBT.ventana} en la franja del rodillo Z [${FRANJA.z0}, `
+          + `${FRANJA.z1}]; pasa por los huecos de 42 de las placas peine del NBT90 con las MISMAS `
+          + 'holguras que la pletina a la que sustituye (5.64/lado al rodillo, 6/lado al diente). '
+          + 'Apoya en los dos caballetes por su cara inferior; la ranura 6 inferior recibe las '
+          + 'tuercas correderas del ala del caballete y la superior el pie de clip de la regleta.' });
     E.addPart(`FIJO · Puente de calle — regleta UHMW ${P0.ancho}×${P0.uhmwH}×${Lp} (${c})`,
-      COL.uretano, [B, yc, r2(zBase + P0.aceroH)],
-      [box(`Regleta ${P0.ancho}×${Lp}×${P0.uhmwH}`, [B, yc, r2(zBase + P0.aceroH)], P0.ancho, Lp, P0.uhmwH)],
-      { fabricada: true, nota: `cara de apoyo a Z=${P0.topZ}, la misma interfaz medida que la guía del cliente` });
-    cuenta(M.nuevas, 'pletina de puente 30×28', 1);
-    cuenta(M.nuevas, 'regleta UHMW de puente 30×8.55', 1);
+      COL.uretano, [B, yc, r2(zBase + P0.perfilH)],
+      [box(`Regleta ${P0.ancho}×${Lp}×${P0.uhmwH}`, [B, yc, r2(zBase + P0.perfilH)], P0.ancho, Lp, P0.uhmwH)],
+      { fabricada: true,
+        apoyaEn: `FIJO · Puente de calle — perfil de aluminio 30×30 Línea 6 L=${Lp} (${c})`,
+        nota: `cara de apoyo a Z=${P0.topZ}, la misma interfaz medida que la guía del cliente. `
+          + 'Monta sobre el perfil por PIE DE CLIP a su ranura 6 superior — el mismo montaje sin '
+          + 'herramienta que la regleta de los largueros en la ranura 10 (el pie no se modela, '
+          + 'igual que allí).' });
+    cuenta(M.nuevas, 'perfil de puente item 30×30 Línea 6 (web PERFIL-3030-01)', 1);
+    cuenta(M.nuevas, 'regleta UHMW de puente 30×8.55 c/pie de clip ranura 6', 1);
     // A10-bis · LA PLACA BASE DEL PUENTE ES AHORA UN CABALLETE.
     // Con el retorno recto el ramal de las 5 bandas cruza la transferencia POR
     // ENCIMA de los dos travesaños de puente, así que esos travesaños bajan
