@@ -203,8 +203,15 @@ item 18), todas coherentes con la tabla de referencias del mismo dibujo.
 | Brazos de par | `PT-083789-R/-L` | «TORQUE ARM - LH/RH, 2" × 8-35/64", EURODRIVE» | montaje eje hueco + torque arm |
 | Encoder de seguimiento | `032.2915` | «ENCODER KIT - 10 PPR» sobre la polea snub | 10 pulsos/rev |
 
-> Comprobación de coherencia: 462 rpm sobre la rueda motriz Ø2-1/2 in ⇒ 302 FPM de banda motriz
-> (cálculo propio), coherente con los 275 FPM @60 Hz publicados para el MRT 30.
+> **Comprobación de coherencia** *(corregida el 2026-07-29, hallazgo DIN-01)*: 462 rpm sobre la
+> rueda motriz Ø2-1/2 in dan **302 FPM de BANDA MOTRIZ**, que **no** es la velocidad de
+> transferencia. La banda plana arrastra el **tubo desnudo** del rodillo (Ø28.93), no su cara
+> vulcanizada (Ø34.93), así que **multiplica ×2.195**: el rodillo gira a **1 014 rpm** y su cara va a
+> **1.855 m/s = 365 FPM**. Es esa cifra la que hay que contrastar con el fabricante, y cuadra:
+> Hytrol declara *«Capable of 350 FPM»* para el ProSort MRT (`web` SORT-016/SORT-018), un 4.3 % por
+> debajo. La nota anterior comparaba los 302 FPM de banda motriz con los 275 FPM @60 Hz del MRT 30
+> como si fueran magnitudes homólogas; no lo son (los 275 del MRT 30 son velocidad de
+> transferencia, `web` TR-009, y su homólogo aquí son los 365).
 
 #### El motorreductor, caracterizado: SEW-EURODRIVE RF07
 
@@ -254,6 +261,12 @@ item 18), todas coherentes con la tabla de referencias del mismo dibujo.
 > está publicado (§7).
 
 #### El actuador pop-up, identificado: SMC serie MGF «Guide Table»
+
+> **Nota de integración (28-07-2026).** Lo que sigue es lo que dice el catálogo Hytrol y lo que
+> se dedujo de él sobre el actuador ORIGINAL. El modelo ya **no** monta un MGF100: monta un
+> **SMC MGPM80-10Z** real y comprable, con carrera de catálogo igual a los 10 mm del equipo.
+> Motivo, cotas, comparativa de calibres y trazabilidad en `MESA_GUIA.md`; hechos con URL y cita
+> en `analisis/web_facts.json` (PNEU-016, PNEU-017, PNEU-018).
 
 Es la única familia de catálogo cuya denominación coincide literalmente con el
 «guided table cylinder» de Hytrol. **Hallazgo importante para la lista de materiales:**

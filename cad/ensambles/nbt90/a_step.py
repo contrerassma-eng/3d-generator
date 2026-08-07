@@ -16,7 +16,8 @@ MISMAS funciones paramétricas del JSON y las reconstruye con OpenCascade
   revolve   perfil (h, r) revolucionado 360° alrededor del eje `u` del plano
 
 Salidas (en `step/`):
-  nbt90_ensamble.step   — un solo STEP con todas las piezas nombradas
+  <nombre>_ensamble.step — un solo STEP con todas las piezas nombradas
+                          (<nombre> = --nombre, o el del --doc; «nbt90» por defecto)
   piezas/<n>.step       — un STEP por pieza fabricada (con --piezas)
 
 En Inventor: Abrir el .step → queda un ensamble con sus componentes; «Guardar
@@ -205,6 +206,12 @@ def main():
     ap.add_argument("--solo", help="expresión regular sobre el nombre de la pieza")
     ap.add_argument("--piezas", action="store_true", help="además, un STEP por pieza")
     ap.add_argument("--sin-contexto", action="store_true", default=True)
+    # El nombre del fichero y el del ensamble iban cableados a «nbt90». Con
+    # `--doc` apuntando a otro ensamble —el sorter CO— salía un STEP llamado
+    # `nbt90_ensamble.step` con el sorter dentro, que es una trampa esperando
+    # a que alguien lo abra en Inventor creyendo que es la transferencia.
+    ap.add_argument("--nombre", default=None,
+                    help="nombre del ensamble y del fichero (por defecto, el del --doc)")
     a = ap.parse_args()
 
     doc = json.loads(Path(a.doc).read_text(encoding="utf-8"))
@@ -216,7 +223,9 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     t0 = time.time()
-    ens = cq.Assembly(name="NBT90")
+    nombre = a.nombre or ("NBT90" if Path(a.doc).name == "narrow_belt_transfer_90.json"
+                          else Path(a.doc).stem)
+    ens = cq.Assembly(name=nombre)
     hechas, fallidas, vol_total = 0, [], 0.0
     for i, part in enumerate(partes, 1):
         try:
@@ -244,7 +253,7 @@ def main():
         if i % 25 == 0:
             print(f"  {i}/{len(partes)} piezas… ({time.time() - t0:.0f} s)", flush=True)
 
-    destino = out / "nbt90_ensamble.step"
+    destino = out / f"{nombre.lower()}_ensamble.step"
     ens.save(str(destino), "STEP")
     print(f"\nOK: {hechas}/{len(partes)} piezas como sólidos B-rep → {destino}")
     print(f"    volumen total {vol_total / 1000:.0f} cm³ · {time.time() - t0:.0f} s")

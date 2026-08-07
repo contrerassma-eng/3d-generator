@@ -16,6 +16,14 @@ mandar a fabricar.
   python3 cad/ensambles/nbt90/interferencias_brep.py [--tol 0.05] [--todas]
 
 Salida: informe por pantalla y `interferencias_brep.json`.
+
+El ensamble se modela ELEVADO, pero el estado que hay que verificar son LOS DOS:
+`gen_nbt90.mjs` emite además `out/nbt90_retraido.json` (las piezas MÓVIL bajadas
+la carrera) y se le pasa esta misma herramienta a su propio informe:
+
+  python3 cad/ensambles/nbt90/interferencias_brep.py \
+      --doc cad/ensambles/nbt90/out/nbt90_retraido.json \
+      --informe interferencias_brep_retraido.json
 """
 from __future__ import annotations
 
@@ -52,10 +60,17 @@ def main() -> int:
                     help="cm³ por debajo de los cuales se considera contacto, no interferencia")
     ap.add_argument("--solo-cruce", action="store_true",
                     help="comparar solo MÓVIL contra FIJO (por defecto: todos los pares)")
+    # Por defecto el informe se llama como el documento, no siempre igual: pasar
+    # `--doc` de OTRO ensamble y que el informe pisara el del NBT90 ya rompió sus
+    # pruebas una vez (leen ese archivo y vieron 201 choques ajenos como propios).
+    ap.add_argument("--informe", default=None,
+                    help="nombre del informe JSON (se escribe junto al script); usar uno propio "
+                         "al analizar el estado retraído para no pisar el del elevado")
     a = ap.parse_args()
 
     doc = json.loads(Path(a.doc).read_text(encoding="utf-8"))
     partes = [p for p in doc["parts"] if not p.get("contexto")]
+    print(f"documento: {Path(a.doc).name} — {doc.get('meta', {}).get('estado_modelado', '')[:70]}")
 
     t0 = time.time()
     solidos = []
@@ -102,13 +117,16 @@ def main() -> int:
             print(f"    … {k}/{len(pares)} ({time.time() - t1:.0f} s)", flush=True)
 
     detalle.sort(key=lambda d: -d["cm3"])
-    informe = {"tolerancia_cm3": a.tol, "piezas": len(solidos),
+    informe = {"documento": Path(a.doc).name, "tolerancia_cm3": a.tol, "piezas": len(solidos),
                "pares_candidatos": len(pares), "interferencias": reales, "detalle": detalle}
-    (AQUI / "interferencias_brep.json").write_text(json.dumps(informe, indent=1, ensure_ascii=False),
-                                                   encoding="utf-8")
+    nombre = a.informe or (
+        "interferencias_brep.json" if Path(a.doc).name == "narrow_belt_transfer_90.json"
+        else f"interferencias_brep_{Path(a.doc).stem}.json")
+    salida = AQUI / nombre
+    salida.write_text(json.dumps(informe, indent=1, ensure_ascii=False), encoding="utf-8")
     print(f"\n{reales} interferencia(s) por encima de {a.tol} cm³ sobre {len(pares)} pares "
           f"({time.time() - t0:.0f} s en total)")
-    print(f"informe → {AQUI / 'interferencias_brep.json'}")
+    print(f"informe → {salida}")
     return 1 if reales else 0
 
 

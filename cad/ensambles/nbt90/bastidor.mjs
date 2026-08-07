@@ -14,9 +14,16 @@
 
 import {
   Ensamble, box, cyl, hole, sketchXZ, sketchYZ, sketchXY, seccionChapa, desarrollo,
-  rectR, colisa, arcoPts, pernoHex, tuercaHex, golilla, COL, r2,
+  rectR, colisa, arcoPts, pernoHex, tuercaHex, golilla, COL, PASO, r2,
 } from './lib.mjs';
 import { P } from './params.mjs';
+// Esquema de tolerancias y encajes (archivo nuevo; no toca params.mjs ni lib.mjs).
+import { ranuraPara, largoRanura, encaje, juntaATope, NORMA, tol13920 } from './tolerancias.mjs';
+// Patrón de taladros del ANCLAJE de la horquilla (EST-03). Vive en `elevacion.mjs`,
+// que es quien fabrica el brazo: aquí sólo se cuelga de él la ménsula del cassette,
+// para que el patrón exista en UN solo sitio. Misma vía por la que rodillos.mjs toma
+// `rodMontaje` de este archivo. No hay ciclo: elevacion.mjs no importa bastidor.mjs.
+import { anclajeHorquilla } from './elevacion.mjs';
 
 // ---------------------------------------------------------------------------
 // Cotas locales de ESTE módulo (nadie más las usa)
@@ -41,23 +48,49 @@ const L = {
   peineZ0: 96,          // dis: encierra las poleas de retorno (fondo en Z=144.85)
   peineZ1: 285,         // dis: fin del tramo estrecho
   peineZ2: 294,         // dis: arranque del tramo ancho (bajo el cross channel)
-  peineZt: 388.5,       // dis: 2.1 mm bajo el plano de banda (P.planoBanda)
+  // Canto superior del diente. Ya NO es un literal: lo fija la DISTANCIA AL BORDE
+  // que la norma pide para el taladro del perno de rodillo (ver `rodPasante`), que
+  // es la cota crítica de esta chapa. Crece hacia arriba desde el eje del rodillo:
+  //     peineZt = P.rodZ + 1.5·d + margen = 379.49 + 9.525 + 0.25 = 389.26
+  // El techo es el plano de bandas del anfitrión (P.planoBanda = 390.6): el diente
+  // no puede asomar por encima de la cara de transporte. Quedan 1.34 mm.
+  bordeEnD: 1.5,        // web STR-001 · AISI S100-16 J3.2: e ≥ 1.5·d
+  bordeMargen: 0.25,    // dis: la cota no se deja EN el mínimo de norma. Cubre la
+                        //      tolerancia general de la chapa cortada (ISO 2768-m
+                        //      da ±0.2 sobre 6…30 mm, ver tolerancias.mjs) sin
+                        //      comerse la holgura al plano de bandas.
+  get peineZt() { return r2(P.rodZ + this.bordeEnD * P.M.b14.d + this.bordeMargen); },
   huecoZ: 320,          // dis: fondo del hueco de cada banda (8 mm bajo el ramal
                         //      de retorno del anfitrión, que pasa a Z 328…330.5)
   dienteSemi: 17.1,     // dis: semiancho del diente (hueco = 42 > regleta 31.75)
   huecoR: 6,            // dis: radio del fondo del hueco (desahogo)
-  // ranura en U: el eje hexagonal de 5/16" va con las CARAS VERTICALES
-  //   entrecaras 7.94 en Y, entre vértices 9.17 en Z (interfaz de rodillos.mjs)
-  ranuraW: r2(P.rodHex + P.holgura.deslizante),          // 8.14
-  get ranuraR() { return r2(this.ranuraW / 2); },        // 4.07
-  // ASIENTO EN V: el fondo redondo (radio ranuraR) toca el hexágono en sus DOS
-  // vértices inferiores (a ±AF/2 en Y y AC/4 = P.rodHex/2√3 bajo el eje), de modo
-  // que la ranura posiciona el eje en Y y en Z a la vez. Centro del arco:
-  //   h = AC/4 − √(r² − (AF/2)²) = 2.292 − 0.897 = 1.395 mm bajo P.rodZ
-  get ranuraZc() {
-    const AF2 = P.rodHex / 2, AC4 = P.rodHex / (2 * Math.sqrt(3));
-    return r2(P.rodZ - (AC4 - Math.sqrt(this.ranuraR ** 2 - AF2 ** 2)));
-  },
+  // MONTAJE ATORNILLADO DEL RODILLO (sustituye a la ranura en U + anillos DIN 471).
+  // El cliente describe el montaje real: «sujeciones con perforación y rodillo con
+  // su eje con hilo interior, entonces perno por fuera chapa». Aquí sólo vive el
+  // TALADRO PASANTE del diente; el eje roscado y el perno los pone rodillos.mjs.
+  //   · Ø 7.0 = taladro de paso CERRADO para 1/4-20 (0.65 mm de holgura, no los
+  //     1.6 de `P.holgura.pasante`): así el vástago hace también de pasador y toma
+  //     la carga radial del rodillo en vez de dejarla a la fricción bajo la golilla.
+  //   · Distancia al canto superior de la placa = peineZt − P.rodZ = 9.78 mm =
+  //     1.54·d, contra el mínimo de 1.5·d = 9.525.
+  //
+  //     LA FUENTE DE ESE MÍNIMO NO ES AISC, y el comentario que había aquí lo
+  //     atribuía mal: la tabla J3.4 de AISC **no tabula tornillos menores de
+  //     1/2"** (su primera fila es 7/8" para 1/2" en canto cizallado, web STR-004),
+  //     así que a una placa de 3/16" con un tornillo de 1/4" quien le aplica es
+  //     **AISI S100-16 J3.2** (web STR-001): «The distance from the center of a
+  //     fastener to the edge or end of any part shall not be less than 1.5d». El
+  //     número, 9.525, es el mismo; la fuente, no.
+  //
+  //     Y NO ES CIERTO que no se pudiera subir `peineZt`: lo que había escrito
+  //     («el plano de bandas está 2.1 mm más arriba») era la razón para dejar la
+  //     cota 0.51 mm corta, y sobraban 2.1 mm de los que solo hacían falta 0.775.
+  //     Se sube (EST-05 de la revisión estructural) y quedan 1.34 mm al plano de
+  //     bandas. Lo que se juega en esos 0.5 mm no es resistencia —el desgarro de
+  //     AISC J3.10 da FS 22.6 y además la carga del rodillo empuja hacia ABAJO,
+  //     alejándose de este canto— sino PUNZONADO: 5.5 mm de ligamento en chapa de
+  //     3/16" abomba o agrieta el canto. Con 1.5·d el taladro se puede punzonar.
+  rodPasante: PASO['1/4'],          // 7.0 · dis (ver arriba)
 
   // ---- travesaños del cassette móvil --------------------------------------
   cruzY: 214,           // dis: alma del TRANSFER CROSS CHANNEL (±). Tiene que quedar
@@ -112,10 +145,10 @@ const L = {
                         //      desde la brida y su cola cae en X=433.4, o sea ATRAVIESA la
                         //      placa peine libre (X 420.5…425.3). Es como se monta de veras.
   // ---- guarda del rodillo (TRANSFER ROLLER GUARD) -------------------------
-  // La placa soporte de la transmisión (X 106.5…155, Y ±187, Z 124…278) ya cierra
+  // La placa soporte de la transmisión (X 106.5…155, Y ±187, Z 128…278) ya cierra
   // el serpentín por el lado del accionamiento: una guarda ahí sería redundante y
   // además no cabe. La cara que SÍ queda expuesta es la exterior de la placa peine
-  // motriz — puntas de eje, anillos de retención y el pinzamiento contra el canal
+  // motriz — cabezas de los pernos de rodillo y el pinzamiento contra el canal
   // cuando el cassette sube. Ahí va la guarda, y su largo de catálogo (17" = 431.8)
   // coincide con el de la placa peine (432).
   guardaX: 24,          // dis: cara exterior del alma de la guarda
@@ -152,7 +185,11 @@ const L = {
   baseX0: 26, baseX1: 102.2,                  // dis: canal base de 3" de ancho, corrido al
                                               //      extremo motriz para dejar libre la
                                               //      huella de la mesa guía (X 146.5…316.5)
-  baseTapaX: [22, 105], baseTornX: [32, 95],  // dis: tapas de extremo y su tornillería
+  baseTapaX: [20, 108], baseTornX: [32, 95],  // dis: tapas de extremo y su tornillería.
+                                              //   Antes 22…105: se ensancha 2 mm por lado para
+                                              //   que las ranuras del encaje U4 queden a ≥1.5·e
+                                              //   (4.0 mm) del canto de la chapa de 12 GA; con
+                                              //   105 la ranura de la derecha quedaba a 3.78.
   baseZ1: 56.1,                               // dis: P.baseZ + 1-1/2"
   jackX: [115.75, 347.25],                    // dis: 1/4 y 3/4 del largo (4 jack bolts)
   transX: 127, transZ: [232, 264],            // interfaz transmision.mjs: pernos 3/8-16
@@ -166,9 +203,74 @@ const L = {
   jackY0: 232, jackY1: 262,                   // dis: la oreja abraza P.jackY = 247.4
 };
 
+// ---------------------------------------------------------------------------
+// ENCAJES DE POSICIONAMIENTO de los conjuntos soldados de este módulo
+// ---------------------------------------------------------------------------
+// Qué problema resuelven: los conjuntos soldados se apoyaban «donde toca» según
+// la cota, así que cada uno pedía un utillaje propio o un soldador midiendo. Con
+// estos rasgos el conjunto se sitúa solo y el utillaje pasa a ser una mesa plana.
+//
+// REGLA (la verifica la compuerta, §9 de gen_nbt90.mjs): en cada junta, cada
+// grado de libertad lo fija UN SOLO rasgo. Por eso hay dos papeles distintos:
+//   · `posicion` — ranura ajustada: sitúa. Como mucho una por junta y dirección.
+//   · `paso`     — ranura 1 mm más grande por lado en LAS DOS direcciones: no
+//                  sitúa nada. Sujeta mientras se puntea y deja ventana de
+//                  soldadura. Que sea holgada es lo que impide que el conjunto
+//                  no entre por competir con la de posición.
+//   · `tope`     — cara contra cara: fija la dirección normal a esa cara.
+//
+// La holgura no se elige: sale de `ranuraPara()` (espesor nominal + tolerancia
+// de laminación ASTM/AISI + tolerancia de corte ISO 2768-m + montaje).
+const RAN12 = ranuraPara('12GA');           // 3.11 · holgura por lado 0.10…0.35
+
+const ENC = {
+  // -- U1: TRANSFER CROSS CHANNEL → PLACA PEINE ----------------------------
+  // La lengüeta NO puede ir en el alma del canal: el alma está en |Y| = 214 y el
+  // canto de la placa peine en 216, o sea 0.67 mm de distancia al borde — una
+  // ranura ahí revienta el canto. Va en el ALA SUPERIOR, que a |Y| = 195 tiene
+  // 11.2 mm hasta el hueco de paso de banda (acaba en 173.4) y 10.6 hasta el
+  // canto (216); las dos por encima de 1.5·e = 7.1 mm de la chapa de 3/16".
+  // Una sola por extremo, y de posición: sitúa Y y Z. La testa del canal contra
+  // la cara interior de la placa fija X. Θ lo fijan las dos lengüetas del canal,
+  // separadas 378 mm.
+  u1: { y: 195, ancho: 20, get z() { return r2(L.cruzZ1 - T12 / 2); } },
+  // -- U2: NOTCHED BRACE CHANNEL → SPACER PLATE ----------------------------
+  // Lengüeta de posición en el ALMA (horizontal, Z = 144.83): sitúa Z y Y con
+  // 47 mm de canto por debajo y 30 por arriba en la spacer plate. La segunda,
+  // en el ala interior, es DE PASO: ventana de soldadura, no sitúa.
+  u2: { y: 100, ancho: 24, get z() { return r2(L.braceZ0 + T12 / 2); },
+    pasoZ: [148, 166], get pasoY() { return r2(L.braceY - L.braceSemi + T12 / 2); } },
+  // -- U3: CROSS ANGLE → NOTCHED BRACE CHANNEL -----------------------------
+  // Solape cara contra cara (el ala vertical de la cartela sobre la cara interior
+  // del ala del canal). En un solape de chapas PARALELAS no cabe lengüeta: el
+  // rasgo que sitúa son dos AGUJEROS DE PASADOR coincidentes, uno redondo y otro
+  // en colisa (el clásico redondo + colisa, que sitúa sin sobre-restringir).
+  // Tras puntear se retiran los pasadores y los agujeros quedan como soldadura
+  // de tapón.
+  u3: { x: [130, 240], z: 168, dia: 8.0, colisa: 12.0 },
+  // -- U4: TAPA DE EXTREMO → CANAL BASE EN U -------------------------------
+  // Lengüetas en las DOS alas verticales del canal. La tapa se ensancha de
+  // X 22…105 a 20…108 porque con la anterior la ranura izquierda quedaba a
+  // 3.78 mm del canto y hacen falta 1.5·e = 4.0 en chapa de 12 GA.
+  u4: { zPos: [30, 48], zPaso: [29, 49] },
+};
+
+// Largos de ranura derivados (la holgura sale de la cadena, no de una elección)
+const u1Largo = largoRanura(ENC.u1.ancho, 'posicion').largo;          // 20.8
+const u2Largo = largoRanura(ENC.u2.ancho, 'posicion').largo;          // 24.8
+const u2PasoAlto = r2(ENC.u2.pasoZ[1] - ENC.u2.pasoZ[0]);             // 18
+const u2PasoLargo = largoRanura(u2PasoAlto, 'paso').largo;            // 20
+
 const n3 = (v) => { const l = Math.hypot(...v) || 1; return [v[0] / l, v[1] / l, v[2] / l]; };
 const mul = (a, s) => [a[0] * s, a[1] * s, a[2] * s];
 const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+
+/** Contorno rectangular de una ranura de encaje, en el plano del boceto.
+ *  Esquinas VIVAS a propósito: el radio interior que deja un corte por láser
+ *  (≤0.3 mm) es menor que la holgura de esquina del encaje, así que redondear
+ *  el modelo mentiría sobre el ajuste. */
+const ranuraRect = (u, v, du, dv) =>
+  rectR(r2(u - du / 2), r2(v - dv / 2), r2(u + du / 2), r2(v + dv / 2), 0);
 
 /** Interfaces que consumen los otros módulos (nunca duplican un valor de P). */
 export const padMovilZ = L.braceZ0;      // = P.rielInfZ (143.5): cara inferior del alma de
@@ -182,14 +284,73 @@ export const motorEnvX = [121.35, P.largo];   // dis: tras la placa soporte de t
 export const motorPasoD = L.motorPaso;
 /** Huella libre para la mesa guía neumática (bajo el centro, sin estructura fija). */
 export const mesaHuella = { x: [110, 375], y: [-185, 185], z: [P.baseZ + 2, L.braceZ0] };
-/** Los anillos DIN 471 del eje hexagonal deben caer FUERA de las placas peine. */
+
+/** MONTAJE ATORNILLADO DE LOS 6 RODILLOS DE TRANSFERENCIA — interfaz con
+ *  rodillos.mjs. Las placas peine son de este módulo, así que aquí viven sus
+ *  planos y el Ø del taladro; rodillos.mjs deriva de ahí el largo del eje, la
+ *  profundidad de rosca y por dónde entra el perno. Ningún número se duplica. */
+export const rodMontaje = {
+  placaX: [L.placaXa, L.placaXb],                 // planos medios de las dos placas
+  t: T316,                                        // 4.763 — 3/16"
+  get caraInt() { return [r2(this.placaX[0] + this.t / 2), r2(this.placaX[1] - this.t / 2)]; },
+  get caraExt() { return [r2(this.placaX[0] - this.t / 2), r2(this.placaX[1] + this.t / 2)]; },
+  pasante: L.rodPasante,                          // 7.0 — taladro de paso cerrado 1/4"
+  torn: P.M.b14,                                  // 1/4-20 UNC (perno por fuera)
+};
+
+/** RODILLO DE RETORNO B-20760 «1.9 in. OD Galv Return Roller – ABEC-1
+ *  (Specify BR −1-1/4)» — item 22 del despiece de la pág. 13 del manual y item 9
+ *  del de la pág. 12. Es el elemento transversal que se ve cruzando la vista
+ *  izquierda de FIGURE 8A: sostiene y LIMITA los ramales de retorno de las bandas
+ *  angostas del clasificador. Va FIJO, atornillado al ALMA de los dos canales
+ *  laterales del anfitrión (los únicos perfiles fijos que llegan a esa altura:
+ *  Z 218…383.1); este módulo pone los taladros, rodillos.mjs pone el rodillo. */
+export const rodRetorno = {
+  dia: r2(1.9 * 25.4),        // 48.26 · cat B-20760 «1.9 in. OD» (med 48.03, −0.5 %)
+  eje: r2(0.5 * 25.4),        // 12.70 · cat Interroll 1.9": eje 1/2" redondo ED&T
+  pared: r2(0.065 * 25.4),    // 1.65 · cat Interroll: tubo 1.9" C/S galvanizado 0.065"
+  y: P.almaY,                 // 229.9 — alma del canal anfitrión (med). El detalle
+                              //   ampliado de la 8A pone la chapa en |Y| = 222.5 (x =
+                              //   170.5 px); se monta sobre el alma del anfitrión
+                              //   porque es la ÚNICA chapa fija que llega a Z ≈ 303
+                              //   (Z 218…383.1). Desviación declarada: +7.4 mm.
+  t: T12,
+  // El perno sale del propio dibujo, no de una preferencia: en el extremo ampliado
+  // el vástago que atraviesa la chapa mide 10 px = 6.32 mm (1/4" = 6.35, error
+  // 0.5 %) y la cabeza hexagonal, 20 px entre vértices = 12.64 (AC de una cabeza
+  // de 7/16" e/c = 12.83, error 1.5 %; alto 7 px = 4.4 frente a 4.14 de catálogo).
+  // O sea: 1/4-20 UNC. Interroll da 5/16-18 para su eje de 1/2" en tubo de 1.9",
+  // pero 1/4-20 x 5/8 también es rosca ED&T de catálogo (serie 1100) y es la que
+  // mide el dibujo; además deja 3.18 mm de pared en el eje en vez de 2.38.
+  pasante: PASO['1/4'],       // 7.0 — taladro de paso cerrado del perno 1/4-20
+  torn: P.M.b14,
+  roscaProf: r2(0.625 * 25.4),  // 15.88 = 5/8" · cat «ED&T … x 5/8 deep»
+  // X: el cassette MÓVIL (placas peine X 37.72…425.28 y los dos transfer cross
+  // channel, que a |Y| = 214 barren Z 287…347.8) ocupa toda la franja de altura
+  // de este rodillo. El único hueco en el que un rodillo FIJO de Ø48.26 no toca
+  // nada que suba y baje es POR FUERA de la placa peine libre: de ahí X = 452
+  // (cuerpo X 427.9…476.1, con 2.6 mm a la placa). Es además donde funcionalmente
+  // toca: en el borde de la boca de la transferencia, que es lo que «limita» las
+  // bandas. Alternativa descartada: montarlo entre los cross channel obligaba a
+  // recortarles alma y alas, y el taladro del perno caía en el radio de plegado.
+  x: 452,                     // dis (ver arriba)
+  // Z: TANGENTE por arriba al ramal de retorno de las bandas del anfitrión — que
+  // es su función y lo que se ve en el dibujo (los 5 ramales apoyan en él).
+  // Medido en FIGURE 8A: eje en y = 485.5 px → Z = 303.06 (error 0.5 mm).
+  get z() { return r2(P.planoBanda - P.bandaRetornoDZ - P.bandaEsp - this.dia / 2); },
+  // Largo del tubo: la regla de catálogo es «Specify BR − 1-1/4», y encaja sola
+  // con el montaje sobre las almas del anfitrión (BF = BR = 18" = 457.2), dejando
+  // 5/8" de eje a la vista en cada extremo — justo la profundidad de rosca ED&T.
+  get largo() { return r2(P.BR - 1.25 * 25.4); },      // 425.45 (med 414.9, −2.5 %)
+  get ejeLargo() { return r2(2 * (this.y - this.t / 2)); },   // 457.14 = BR
+};
+
 // Envolvente del SIDE CHANNEL fijo, para que la transmisión verifique contra la
 // geometría REAL y no contra un literal copiado: la punta del ala se movió al
 // acortarla a 1-1/4" y el valor viejo dejó el gate en falso.
 export const canalFijoY = [r2(L.ladoY - L.ladoAla), L.ladoY];
 export const canalFijoZ = [L.ladoZ0, L.ladoZ1];
 
-export const anilloRetX = [r2(L.placaXa - T316 / 2 - 1.7), r2(L.placaXb + T316 / 2 + 1.7)];
 
 // ---------------------------------------------------------------------------
 // Tornillería: perno hexagonal 3/8-16 + 2 golillas + tuerca. `at` es la cara
@@ -217,24 +378,20 @@ function tornilleria(E, { nombre, at, dir, agarre, capa }) {
 // ---------------------------------------------------------------------------
 // Silueta de la placa peine (contorno cerrado en (Y, Z))
 // ---------------------------------------------------------------------------
+// El canto superior de cada diente es ahora RECTO: el eje del rodillo ya no baja
+// desde arriba a una ranura en U, sino que topa contra la cara interior del diente
+// y lo atraviesa sólo el perno (taladro `L.rodPasante`, hecho en la pieza).
 function siluetaPeine() {
   const { peineY: Ye, peineYbajo: Yb, peineZ0: Z0, peineZ1: Z1, peineZ2: Z2,
-    peineZt: Zt, huecoZ: Zh, dienteSemi: ds, huecoR: rc, ranuraR: rr, ranuraZc: zc } = L;
+    peineZt: Zt, huecoZ: Zh, dienteSemi: ds, huecoR: rc } = L;
   const pts = [[-Yb, Z0], [Yb, Z0], [Yb, Z1], [Ye, Z2], [Ye, Zt]];
   const rod = P.rodY;                                  // [-190.5 … +190.5]
-  for (let i = rod.length - 1; i >= 0; i--) {
-    const y = rod[i];
-    // ranura en U de fondo redondo (recibe el eje hexagonal)
-    pts.push([y + rr, Zt], [y + rr, zc]);
-    pts.push(...arcoPts(y, zc, rr, 0, -Math.PI, 12));
-    pts.push([y - rr, zc], [y - rr, Zt]);
-    if (i > 0) {                                       // hueco de paso de la banda
-      const a = y - ds, b = rod[i - 1] + ds;
-      pts.push([a, Zt], [a, Zh + rc]);
-      pts.push(...arcoPts(a - rc, Zh + rc, rc, 0, -Math.PI / 2, 6));
-      pts.push(...arcoPts(b + rc, Zh + rc, rc, -Math.PI / 2, -Math.PI, 6));
-      pts.push([b, Zh + rc], [b, Zt]);
-    }
+  for (let i = rod.length - 1; i > 0; i--) {           // hueco de paso de la banda
+    const a = rod[i] - ds, b = rod[i - 1] + ds;
+    pts.push([a, Zt], [a, Zh + rc]);
+    pts.push(...arcoPts(a - rc, Zh + rc, rc, 0, -Math.PI / 2, 6));
+    pts.push(...arcoPts(b + rc, Zh + rc, rc, -Math.PI / 2, -Math.PI, 6));
+    pts.push([b, Zh + rc], [b, Zt]);
   }
   pts.push([-Ye, Zt], [-Ye, Z2], [-Yb, Z1]);
   return pts.map((q) => [r2(q[0]), r2(q[1])]);
@@ -270,6 +427,9 @@ export function bastidor(E) {
       }
     }
     for (const x of [60, 231.5, 403]) f.push(hole(`Unión SIDE CHANNEL Ø${PAS38}`, [x, s * (P.almaY + 4), 234], [0, -s, 0], PAS38, 10, false));
+    // paso del perno 5/16-18 del RODILLO DE RETORNO B-20760 (entra desde fuera)
+    f.push(hole(`Rodillo de retorno B-20760 Ø${rodRetorno.pasante}`,
+      [rodRetorno.x, s * (P.almaY + 4), rodRetorno.z], [0, -s, 0], rodRetorno.pasante, 10, false));
     // paso de los 2 pernos de la oreja de la placa soporte de transmisión
     for (const z of L.transZ) f.push(hole(`Placa de transmisión Ø${PAS38}`, [L.transX, s * (P.almaY + 4), z], [0, -s, 0], PAS38, 10, false));
     E.addPart(`${FIJO}Canal lateral anfitrión 6-1/2"×1-1/2" 12 GA × ${P.largo} (${s > 0 ? '+Y' : '-Y'})`,
@@ -339,19 +499,65 @@ export function bastidor(E) {
       [L.baseX0 + T12 / 2, L.baseZ1 - T12 / 2], [L.baseX0 + T12 / 2, P.baseZ + T12 / 2],
       [L.baseX1 - T12 / 2, P.baseZ + T12 / 2], [L.baseX1 - T12 / 2, L.baseZ1 - T12 / 2],
     ];
+    const yv = r2(L.ladoY - T12 / 2 - T12 / 2);          // fibra media del alma de la tapa
+    const xAlaIzq = r2(L.baseX0 + T12 / 2), xAlaDer = r2(L.baseX1 - T12 / 2);   // 27.33 / 100.87
+    const u4Pos = largoRanura(18, 'posicion');
+    const u4Paso = largoRanura(20, 'paso');
+    const zU4 = r2((ENC.u4.zPos[0] + ENC.u4.zPos[1]) / 2);                       // 39
+    // ENCAJE U4 — lengüetas del canal base que atraviesan las tapas de extremo
+    const fBase = [sketchXZ('Canal U 3"×1-1/2" 12 GA', yTapa, seccionChapa(fib, T12, RB), r2(2 * yTapa))];
+    for (const s of [1, -1]) {
+      fBase.push(box(`Lengüeta de posición ${T12}×18 (ala −X, ${s > 0 ? '+Y' : '−Y'})`,
+        [xAlaIzq, s * r2(yTapa + T12 / 2), ENC.u4.zPos[0]], T12, T12, 18));
+      fBase.push(box(`Lengüeta de paso ${T12}×20 (ala +X, ${s > 0 ? '+Y' : '−Y'})`,
+        [xAlaDer, s * r2(yTapa + T12 / 2), ENC.u4.zPaso[0]], T12, T12, 20));
+    }
     E.addPart(`${FIJO}Canal base en U 76×38 12 GA × ${r2(2 * yTapa)}`, COL.fijo,
-      [0, yTapa, P.baseZ], [sketchXZ('Canal U 3"×1-1/2" 12 GA', yTapa, seccionChapa(fib, T12, RB), r2(2 * yTapa))],
-      { ...chapa(T12, fib), catalogo: 'WA-025817 · BASE CHANNEL WELDMENT', union: 'soldada a las tapas' });
+      [0, yTapa, P.baseZ], fBase,
+      { ...chapa(T12, fib), catalogo: 'WA-025817 · BASE CHANNEL WELDMENT', union: 'soldada a las tapas',
+        encajes: [1, -1].flatMap((s) => [
+          encaje({ id: `U4-${s > 0 ? '+Y' : '-Y'}-pos`, union: 'Canal base ↔ Tapa de extremo',
+            tipo: 'lengueta', rol: 'posicion', lado: 'lengueta', gdl: ['X', 'Z'],
+            lengueta: { calibre: '12GA', t: T12, ancho: 18, sale: T12 },
+            ranura: { ancho: RAN12.ancho, largo: u4Pos.largo },
+            nota: `ala −X del canal (X=${xAlaIzq}); sitúa la tapa en X y en Z. ${RAN12.cadena}` }),
+          encaje({ id: `U4-${s > 0 ? '+Y' : '-Y'}-paso`, union: 'Canal base ↔ Tapa de extremo',
+            tipo: 'lengueta', rol: 'paso', lado: 'lengueta', gdl: [],
+            lengueta: { calibre: '12GA', t: T12, ancho: 20, sale: T12 },
+            ranura: { ancho: r2(RAN12.ancho + 2), largo: u4Paso.largo },
+            nota: 'ala +X: ranura 1 mm más grande por lado en las DOS direcciones — no sitúa, '
+              + 'sujeta mientras se puntea y deja ventana de soldadura' }),
+        ]) });
     M.chapas++; desa('canal_base', fib, T12);
 
     for (const s of [1, -1]) {
-      const yv = r2(L.ladoY - T12 / 2 - T12 / 2);        // fibra media del alma de la tapa
       const fibT = [[s * yv, P.baseZ], [s * yv, 83.57], [s * 200, 83.57]];
       const largoTapa = r2(L.baseTapaX[1] - L.baseTapaX[0]);
       const f = [sketchYZ('Tapa en L', L.baseTapaX[0], seccionChapa(fibT, T12, RB), largoTapa)];
       for (const x of L.baseTornX) f.push(hole(`Unión side channel Ø${PAS38}`, [x, s * 210, 80], [0, 0, 1], PAS38, 10, false));
+      // ENCAJE U4 — ranuras que reciben las lengüetas del canal base
+      // `sketchXZ` corta de yFace−0.5 a yFace+h (normal −Y): se encuadra el alma
+      // de la tapa (|Y| 223.25…225.91) con 0.75 mm de sobra por cada cara.
+      const yCorte = s > 0 ? r2(yv - T12 / 2 - 0.75) : r2(-(yv + T12 / 2) - 1.75);
+      f.push(sketchXZ(`Ranura de posición ${RAN12.ancho}×${u4Pos.largo} (ala −X)`,
+        yCorte, ranuraRect(xAlaIzq, zU4, RAN12.ancho, u4Pos.largo), 5, 'cut'));
+      f.push(sketchXZ(`Ranura de paso ${r2(RAN12.ancho + 2)}×${u4Paso.largo} (ala +X)`,
+        yCorte, ranuraRect(xAlaDer, zU4, r2(RAN12.ancho + 2), u4Paso.largo), 5, 'cut'));
       E.addPart(`${FIJO}Tapa extremo canal base 12 GA ${largoTapa}×67 (${s > 0 ? '+Y' : '-Y'})`, COL.fijo,
-        [L.baseTapaX[0], s * yv, P.baseZ], f, { ...chapa(T12, fibT), union: 'soldada al canal base' });
+        [L.baseTapaX[0], s * yv, P.baseZ], f, { ...chapa(T12, fibT), union: 'soldada al canal base',
+          encajes: [
+            encaje({ id: `U4-${s > 0 ? '+Y' : '-Y'}-pos`, union: 'Canal base ↔ Tapa de extremo',
+              tipo: 'ranura', rol: 'posicion', lado: 'ranura', gdl: ['X', 'Z'],
+              lengueta: { calibre: '12GA', t: T12, ancho: 18, sale: T12 },
+              ranura: { ancho: RAN12.ancho, largo: u4Pos.largo },
+              nota: `holgura por lado ${RAN12.holguraPorLado.join('…')} mm en X y `
+                + `${u4Pos.holguraPorLado.join('…')} en Z` }),
+            encaje({ id: `U4-${s > 0 ? '+Y' : '-Y'}-paso`, union: 'Canal base ↔ Tapa de extremo',
+              tipo: 'ranura', rol: 'paso', lado: 'ranura', gdl: [],
+              lengueta: { calibre: '12GA', t: T12, ancho: 20, sale: T12 },
+              ranura: { ancho: r2(RAN12.ancho + 2), largo: u4Paso.largo },
+              nota: 'no sitúa: ≈1 mm de holgura por lado en las dos direcciones' }),
+          ] });
       M.chapas++;
       for (const x of L.baseTornX) {
         tornilleria(E, {
@@ -413,8 +619,8 @@ export function bastidor(E) {
 
   // =========================================================================
   // 5. MÓVIL — ROLLER FRAME WELDMENT: 2 placas peine de 3/16"
-  //    6 ranuras en U a paso P.paso que reciben los ejes hexagonales, huecos de
-  //    paso de las 5 bandas angostas, y (lado motriz) los ejes del serpentín.
+  //    6 taladros pasantes a paso P.paso para los pernos de los rodillos, huecos
+  //    de paso de las 5 bandas angostas, y (lado motriz) los ejes del serpentín.
   // =========================================================================
   const sil = siluetaPeine();
   const idlerY = P.bandaY.filter((y) => Math.abs(y) > 1);      // 4 poleas locas
@@ -433,10 +639,24 @@ export function bastidor(E) {
     for (const y of L.espTornY) {
       f.push(hole(`Spacer plate Ø${PAS38}`, [xc - T316, y, L.espTornZ], [1, 0, 0], PAS38, T316 + 4, false));
     }
+    // MONTAJE DEL RODILLO: un taladro pasante por diente, coaxial con el rodillo.
+    // Por él entra —desde FUERA de la placa— el perno 1/4-20 que rosca en el hilo
+    // interior de la punta del eje (rodillos.mjs). Sustituye a la ranura en U.
+    for (const y of P.rodY) {
+      f.push(hole(`Perno de rodillo 1/4-20 Ø${L.rodPasante}`, [xc - T316, y, P.rodZ],
+        [1, 0, 0], L.rodPasante, T316 + 4, false));
+    }
     if (motriz) {                         // fijación de la TRANSFER ROLLER GUARD
       for (const y of L.guardaTornY) for (const z of L.guardaTornZ) {
         f.push(hole(`Guarda Ø${PAS38}`, [xc - T316, y, z], [1, 0, 0], PAS38, T316 + 4, false));
       }
+    }
+    // ENCAJE U1 — ranuras que reciben la lengüeta del ala superior de cada
+    // TRANSFER CROSS CHANNEL. `sketchYZ` corta de xFace−h a xFace+0.5, así que
+    // se ancla en la cara +X de la placa y se le da h = espesor + 2.
+    for (const s of [1, -1]) {
+      f.push(sketchYZ(`Ranura de posición ${u1Largo}×${RAN12.ancho} (cross channel ${s > 0 ? '+Y' : '−Y'})`,
+        r2(xc + T316 / 2), ranuraRect(s * ENC.u1.y, ENC.u1.z, u1Largo, RAN12.ancho), r2(T316 + 2), 'cut'));
     }
     if (!motriz) {                        // paso de la cola del motorreductor
       f.push(hole(`Paso del motorreductor Ø${L.motorPaso}`, [xc - T316, 0, P.motrizZ],
@@ -446,6 +666,18 @@ export function bastidor(E) {
       COL.movil, [r2(xc - T316 / 2), 0, L.peineZ0], f, {
         chapa: { t: r2(T316), material: 'acero A36 laminado en caliente 3/16"', fibra: [], radio: 0 },
         catalogo: 'WA-025802 · ROLLER FRAME WELDMENT (SPECIFY BR)', corte: 'láser / plasma, contorno único',
+        weldment: 'WA-025802',
+        encajes: [1, -1].map((s) => encaje({
+          id: `U1-${motriz ? 'motriz' : 'libre'}-${s > 0 ? '+Y' : '-Y'}`,
+          union: 'Transfer cross channel ↔ Placa peine',
+          tipo: 'ranura', rol: 'posicion', lado: 'ranura', gdl: ['Y', 'Z'],
+          lengueta: { calibre: '12GA', t: T12, ancho: ENC.u1.ancho, sale: T316 },
+          ranura: { ancho: RAN12.ancho, largo: u1Largo },
+          nota: `en el ala superior del canal (Z=${ENC.u1.z}), a |Y|=${ENC.u1.y}: 11.2 mm al hueco `
+            + `de paso de banda y 10.6 al canto de la placa, los dos por encima de 1.5·e = 7.1 mm. `
+            + `Holgura por lado ${RAN12.holguraPorLado.join('…')} mm en Z y `
+            + `${largoRanura(ENC.u1.ancho, 'posicion').holguraPorLado.join('…')} en Y`,
+        })),
       });
     M.chapas++;
   }
@@ -470,9 +702,32 @@ export function bastidor(E) {
       r2(L.serpMuescaX[1] - L.serpMuescaX[0]), r2(L.serpMuescaY[1] - L.serpMuescaY[0]),
       r2(L.cruzZ1 - L.cruzZ0 + 8), 'cut'));
     for (const x of [118, 133]) f.push(hole(`Guarda serpentín Ø${PAS38}`, [x, s * 175, L.cruzZ0 - 2], [0, 0, 1], PAS38, 8, false));
+    // ENCAJE U1 — una lengüeta de posición por extremo, en el ALA SUPERIOR.
+    // Sale hasta la cara EXTERIOR de la placa peine (largo = espesor de la placa)
+    // y no la sobrepasa: por fuera está la guarda del rodillo.
+    for (const [j, xTab] of [r2(xCruz0 - T316 / 2), r2(xCruz1 + T316 / 2)].entries()) {
+      f.push(box(`Lengüeta de posición ${ENC.u1.ancho}×${T12} (extremo ${j ? 'libre' : 'motriz'})`,
+        [xTab, s * ENC.u1.y, r2(ENC.u1.z - T12 / 2)], T316, ENC.u1.ancho, T12));
+    }
     E.addPart(`${MOVIL}Transfer cross channel 2"×1-1/2" 12 GA × ${r2(xCruz1 - xCruz0)} (${s > 0 ? '+Y' : '-Y'})`,
       COL.movil, [xCruz0, s * L.cruzY, L.cruzZ0], f,
-      { ...chapa(T12, fib), catalogo: 'PT-086818 · TRANSFER CROSS CHANNEL', union: 'soldada a las placas peine' });
+      { ...chapa(T12, fib), catalogo: 'PT-086818 · TRANSFER CROSS CHANNEL', union: 'soldada a las placas peine',
+        encajes: ['motriz', 'libre'].map((ext) => encaje({
+          id: `U1-${ext}-${s > 0 ? '+Y' : '-Y'}`, union: 'Transfer cross channel ↔ Placa peine',
+          tipo: 'lengueta', rol: 'posicion', lado: 'lengueta', gdl: ['Y', 'Z'],
+          lengueta: { calibre: '12GA', t: T12, ancho: ENC.u1.ancho, sale: T316 },
+          ranura: { ancho: RAN12.ancho, largo: u1Largo },
+          nota: 'una sola lengüeta por extremo: dos (ala superior + ala inferior) fijarían Z dos '
+            + 'veces en la misma estación y el conjunto no entraría. X lo fija la TESTA del canal '
+            + 'contra la cara interior de la placa; θ, las dos lengüetas separadas 378 mm.',
+        })).concat([
+          juntaATope({ id: `U1-tope-${s > 0 ? '+Y' : '-Y'}`, union: 'Transfer cross channel ↔ Placa peine',
+            motivo: 'la testa cortada del canal apoya plana contra la cara INTERIOR de la placa peine',
+            posicionamiento: 'extremo MOTRIZ = referencia (a tope); en el extremo libre la holgura de '
+              + `ajuste (hasta ${tol13920(r2(xCruz1 - xCruz0), 'B')} mm por ISO 13920-B sobre `
+              + `${r2(xCruz1 - xCruz0)} mm) la absorbe el cordón`,
+            referencia: 'cara interior de la placa peine del lado motriz (X = 42.48)' }),
+        ]) });
     M.chapas++;
     if (s > 0) desa('cross_channel', fib, T12);
   }
@@ -482,7 +737,14 @@ export function bastidor(E) {
   //    pasar el serpentín (plano X = P.planoSerp). Su cara inferior (Z = P.rielInfZ)
   //    es el riel contra el que empuja el plato de la mesa guía neumática.
   // =========================================================================
-  const xBr0 = r2(L.espX[0] + T316), xBr1 = r2(L.espX[1] - T316);
+  // X del canal: de cara a cara de las dos SPACER PLATE. La motriz se extruye
+  // desde `espX[0]` hacia +X (ocupa 42.48…47.24) y la libre desde `espX[1]`
+  // hacia +X (415.76…420.52), así que el canal va de 47.24 a 415.76.
+  // Estaba `espX[1] − T316` = 411.0: el canal se quedaba a 4.76 mm de la spacer
+  // plate libre, o sea que la unión que el propio nombre declara soldada NO
+  // TOCABA. Corregido; el tramo ganado está libre (el ventilador del SEW llega a
+  // |Y| = 65 y este canal empieza en |Y| = 80).
+  const xBr0 = r2(L.espX[0] + T316), xBr1 = L.espX[1];
   for (const s of [1, -1]) {
     const yi = s * (L.braceY - L.braceSemi), yo = s * (L.braceY + L.braceSemi);
     const fib = [
@@ -505,11 +767,126 @@ export function bastidor(E) {
     for (const x of [L.muescaX0, L.muescaX1]) for (const yy of [yi, yo]) {
       f.push(hole(`Desahogo Ø${r2(2 * T12)}`, [x, yy - s * 8, L.muescaZ1 - 3], [0, s, 0], r2(2 * T12), 16, false));
     }
+    // ENCAJE U3 — agujeros de pasador / soldadura de tapón que reciben la cartela
+    // (CROSS ANGLE). Aquí van los DOS redondos; la cartela lleva uno redondo y el
+    // otro en colisa, que es lo que sitúa sin sobre-restringir.
+    for (const x of ENC.u3.x) {
+      f.push(hole(`Pasador de montaje / tapón Ø${ENC.u3.dia} (cartela, X=${x})`,
+        [x, s * (L.braceY - L.braceSemi - 4), ENC.u3.z], [0, s, 0], ENC.u3.dia, 12, false));
+    }
+    // ENCAJE U2 — lengüetas en las dos SPACER PLATE
+    for (const [j, xTab] of [r2(xBr0 - T316 / 2), r2(xBr1 + T316 / 2)].entries()) {
+      f.push(box(`Lengüeta de posición ${ENC.u2.ancho}×${T12} en el alma (extremo ${j ? 'libre' : 'motriz'})`,
+        [xTab, s * ENC.u2.y, r2(ENC.u2.z - T12 / 2)], T316, ENC.u2.ancho, T12));
+      f.push(box(`Lengüeta de paso ${u2PasoAlto}×${T12} en el ala interior (extremo ${j ? 'libre' : 'motriz'})`,
+        [xTab, s * ENC.u2.pasoY, ENC.u2.pasoZ[0]], T316, T12, u2PasoAlto));
+    }
     E.addPart(`${MOVIL}Notched brace channel 1-3/4"×40 12 GA × ${r2(xBr1 - xBr0)} (${s > 0 ? '+Y' : '-Y'})`,
       COL.movil, [xBr0, s * L.braceY, L.braceZ0], f,
-      { ...chapa(T12, fib), catalogo: 'NOTCHED BRACE CHANNEL WELDMENT', union: 'soldada a las spacer plate' });
+      { ...chapa(T12, fib), catalogo: 'NOTCHED BRACE CHANNEL WELDMENT', union: 'soldada a las spacer plate',
+        encajes: ['motriz', 'libre'].flatMap((ext) => [
+          encaje({ id: `U2-${ext}-${s > 0 ? '+Y' : '-Y'}-pos`, union: 'Notched brace channel ↔ Spacer plate',
+            tipo: 'lengueta', rol: 'posicion', lado: 'lengueta', gdl: ['Y', 'Z'],
+            lengueta: { calibre: '12GA', t: T12, ancho: ENC.u2.ancho, sale: T316 },
+            ranura: { ancho: RAN12.ancho, largo: u2Largo },
+            nota: `en el ALMA (Z=${ENC.u2.z}), a |Y|=${ENC.u2.y}: 47 mm al canto inferior de la `
+              + 'spacer plate y 30 al superior' }),
+          encaje({ id: `U2-${ext}-${s > 0 ? '+Y' : '-Y'}-paso`, union: 'Notched brace channel ↔ Spacer plate',
+            tipo: 'lengueta', rol: 'paso', lado: 'lengueta', gdl: [],
+            lengueta: { calibre: '12GA', t: T12, ancho: u2PasoAlto, sale: T316 },
+            ranura: { ancho: r2(RAN12.ancho + 2), largo: u2PasoLargo },
+            nota: 'en el ala interior; holgada en las dos direcciones para no competir con la de '
+              + 'posición. Sujeta el canal mientras se puntea.' }),
+        ]).concat([
+          encaje({ id: `U3-${s > 0 ? '+Y' : '-Y'}-a`, union: 'Cross angle ↔ Notched brace channel',
+            tipo: 'pasador', rol: 'posicion', lado: 'pasador', gdl: ['X', 'Z'],
+            lengueta: { dia: ENC.u3.dia }, ranura: { dia: ENC.u3.dia },
+            nota: `redondo Ø${ENC.u3.dia} H8 en X=${ENC.u3.x[0]}, Z=${ENC.u3.z}` }),
+          encaje({ id: `U3-${s > 0 ? '+Y' : '-Y'}-b`, union: 'Cross angle ↔ Notched brace channel',
+            tipo: 'pasador', rol: 'paso', lado: 'pasador', gdl: [],
+            lengueta: { dia: ENC.u3.dia }, ranura: { dia: ENC.u3.dia, colisa: ENC.u3.colisa },
+            nota: `redondo Ø${ENC.u3.dia} en el canal contra COLISA ${ENC.u3.dia}×${ENC.u3.colisa} en `
+              + 'la cartela: absorbe la tolerancia de distancia entre los dos taladros y sólo deja '
+              + 'fijado el giro' }),
+        ]) });
     M.chapas++;
     if (s > 0) desa('brace_channel', fib, T12);
+  }
+
+  // =========================================================================
+  // 7b. MÓVIL — MÉNSULA DE ANCLAJE DE LA HORQUILLA ×2 (cierra EST-03)
+  //
+  //     Por qué existe. El cassette se apoyaba en las dos huellas de la horquilla
+  //     y en NADA MÁS: un bulto de 34 kg en el rodillo extremo, más la reacción de
+  //     arrastrarlo (166.7 N aplicados 253 mm por encima del apoyo), despegan el
+  //     apoyo contrario — y en X, con 75 mm de huella contra 375 de campo de
+  //     rodillos, también. La unión tiene que poder trabajar A TRACCIÓN.
+  //
+  //     Dónde. La revisión estructural proponía taladrar el ALMA de este canal
+  //     (Y = ±100) y atornillar en vertical. Los taladros caben, pero la unión no
+  //     se puede apretar: por arriba la cabeza queda dentro de la artesa en U con
+  //     la cartela por techo (una llave gira 3°), y por abajo no hay hueco entre el
+  //     canto de la placa del cilindro (|Y| = 99) y el arranque del pliegue del
+  //     alma (114.68) — faltan 0.3 mm. La cara que sí es accesible es la EXTERIOR
+  //     del ala: entre ella (|Y| = 120) y el SIDE CHANNEL fijo (195.5) hay 75 mm
+  //     libres en los dos estados. Así que la ménsula se suelda ahí, baja por
+  //     delante del brazo y se atornilla en HORIZONTAL. El detalle y los números
+  //     están en el bloque ANCLAJE de elevacion.mjs.
+  //
+  //     Colisa y no taladro redondo: el apoyo plano (cara inferior del alma contra
+  //     la cara del brazo) es quien fija Z, y el perno no puede competir con él —
+  //     la misma doctrina «redondo + colisa» de los encajes U3. La colisa absorbe
+  //     ±ISO 13920-B sobre el largo de este canal soldado; en X el taladro es
+  //     cerrado (PASO 1/4) y sí sitúa.
+  // =========================================================================
+  const AN = anclajeHorquilla;
+  const anclaTolZ = tol13920(r2(xBr1 - xBr0), 'B');            // ±2 sobre los 368.5 del canal
+  const anclaColisa = r2(PASO['1/4'] + 2 * anclaTolZ);         // 11 — largo de la colisa en Z
+  const anclaBorde = r2(L.bordeEnD * P.M.b14.d + 2.5);         // 12.03 — 1.5·d (web STR-001) + margen
+  const mensX = [r2(AN.x[0] - anclaBorde), r2(AN.x[1] + anclaBorde)];        // 194.67 … 268.33
+  const mensZ = [r2(AN.z - anclaColisa / 2 - anclaBorde),                    // 114.97 …
+    r2(L.braceZ1 - 12)];                                                     // … 175.95 (12 mm bajo el canto)
+  for (const s of [1, -1]) {
+    const yExt = r2(AN.yCara + T316);              // 124.76 — cara exterior de la ménsula
+    // `sketchXZ` extruye a lo largo de su normal (−Y); el corte ocupa de yFace+h a
+    // yFace−0.5, así que la cara de corte es la MENOR en Y menos 0.5.
+    const yFace = s > 0 ? yExt : -AN.yCara;
+    const yCorte = s > 0 ? r2(AN.yCara - 0.5) : r2(-yExt - 0.5);
+    const f = [
+      sketchXZ(`Ménsula 3/16" ${r2(mensX[1] - mensX[0])}×${r2(mensZ[1] - mensZ[0])}`,
+        yFace, rectR(mensX[0], mensZ[0], mensX[1], mensZ[1], 6), T316),
+      ...AN.x.map((x) => sketchXZ(
+        `Colisa de anclaje ${PASO['1/4']}×${anclaColisa} (X=${x})`,
+        yCorte, colisa(x, AN.z, anclaColisa, PASO['1/4'], true), r2(T316 + 1), 'cut')),
+    ];
+    E.addPart(
+      `${MOVIL}Ménsula de anclaje de la horquilla 3/16" ${r2(mensX[1] - mensX[0])}×${r2(mensZ[1] - mensZ[0])} `
+      + `(${s > 0 ? '+Y' : '-Y'})`,
+      COL.movil, [mensX[0], s * AN.yCara, mensZ[0]], f, {
+        chapa: { t: r2(T316), material: 'acero A36 3/16"', fibra: [], radio: 0 },
+        plano: true,
+        // Junta de espesores DISTINTOS —la única del ensamble—: ménsula de 3/16"
+        // contra ala de 12 GA. El cateto del filete lo limita la chapa más fina
+        // (AISC 360-22 J2.2b / AWS D1.3), o sea el 12 GA, no el 3/16" de la pieza.
+        soldaduraEspesorMin: r2(T12),
+        union: 'soldada a la cara EXTERIOR del ala del notched brace channel (|Y| = '
+          + `${AN.yCara}), en Z ${L.braceZ0}…${mensZ[1]}; por debajo baja libre por delante del `
+          + 'brazo de la horquilla, que es donde la atornillan los 2 pernos',
+        encajes: [juntaATope({
+          id: `U6-${s > 0 ? '+Y' : '-Y'}`, union: 'Ménsula de anclaje ↔ Notched brace channel',
+          motivo: 'solape de chapas PARALELAS cara contra cara: no cabe lengüeta. Y no se le pone '
+            + 'pasador de montaje a propósito — lo que tiene que quedar libre es justamente Z, '
+            + 'para que el apoyo plano del brazo (Z = ' + L.braceZ0 + ') sea el único que lo fija. '
+            + `La colisa ${PASO['1/4']}×${anclaColisa} del perno absorbe ±${anclaTolZ} mm, que es lo `
+            + `que ISO 13920-B admite sobre los ${r2(xBr1 - xBr0)} mm de este canal soldado.`,
+          posicionamiento: 'utillaje de soldadura: la ménsula se apoya a tope contra la cara '
+            + 'exterior del ala y se referencia en Z contra la propia cara inferior del alma del '
+            + 'canal, que es la que después apoya en el brazo',
+          referencia: `cara exterior del ala del notched brace channel (|Y| = ${AN.yCara}) y cara `
+            + `inferior de su alma (Z = ${L.braceZ0})`,
+        })],
+      });
+    M.chapas++;
   }
 
   // =========================================================================
@@ -529,10 +906,40 @@ export function bastidor(E) {
     fAng.push(box('Relieve de las tuercas de la placa de transmisión',
       [r2((L.angTorn[0][0] + L.angTorn[1][0]) / 2), s * r2(L.angY[0] + 2), 173],
       r2(L.angTorn[1][0] - L.angTorn[0][0] + 22), 10, r2(L.braceZ1 - T12 - 173), 'cut'));
+    // ENCAJE U3 — REDONDO + COLISA. La cartela se solapa cara contra cara con el
+    // ala del canal: en chapas PARALELAS no cabe lengüeta, así que lo que sitúa
+    // son dos agujeros de pasador de montaje. El segundo va en colisa porque dos
+    // redondos sobre dos redondos exigirían que la distancia entre taladros
+    // coincidiera en las dos piezas dentro de la holgura del pasador; con la
+    // colisa, la tolerancia de esa distancia (±0.5 por ISO 2768-m sobre 110 mm)
+    // deja de ser un problema y el conjunto sigue sin poder girar.
+    // Cortan de yFace−0.5 a yFace+h (normal −Y de `sketchXZ`).
+    const yCortAng = s > 0 ? r2(L.angY[0] - T12 / 2 - 1) : r2(-(L.angY[0] + T12 / 2) - 2);
+    fAng.push(hole(`Pasador de montaje / tapón Ø${ENC.u3.dia} H8 (X=${ENC.u3.x[0]})`,
+      [ENC.u3.x[0], s * (L.angY[0] - 6), ENC.u3.z], [0, s, 0], ENC.u3.dia, 12, false));
+    fAng.push(sketchXZ(`Colisa de montaje / tapón ${ENC.u3.dia}×${ENC.u3.colisa} (X=${ENC.u3.x[1]})`,
+      yCortAng, colisa(ENC.u3.x[1], ENC.u3.z, ENC.u3.colisa, ENC.u3.dia, false), 6, 'cut'));
     E.addPart(`${MOVIL}Cross angle 1-3/4"×1" 12 GA × ${angLargo} (cartela de la muesca ${s > 0 ? '+Y' : '-Y'})`,
       COL.movil, [L.angX0, s * L.angY[0], L.angZ0], fAng,
       { ...chapa(T12, fib), catalogo: 'PT-086833 · CROSS ANGLE - 8-1/2 in. LONG',
-        union: 'soldada al ala interior del brace channel; puentea la muesca' });
+        union: 'soldada al ala interior del brace channel; puentea la muesca',
+        encajes: [
+          encaje({ id: `U3-${s > 0 ? '+Y' : '-Y'}-a`, union: 'Cross angle ↔ Notched brace channel',
+            tipo: 'pasador', rol: 'posicion', lado: 'agujero', gdl: ['X', 'Z'],
+            lengueta: { dia: ENC.u3.dia }, ranura: { dia: ENC.u3.dia },
+            nota: `Ø${ENC.u3.dia} H8 con pasador Ø${ENC.u3.dia} h8; tras puntear se retira y el `
+              + 'agujero queda como soldadura de tapón' }),
+          encaje({ id: `U3-${s > 0 ? '+Y' : '-Y'}-b`, union: 'Cross angle ↔ Notched brace channel',
+            tipo: 'pasador', rol: 'paso', lado: 'agujero', gdl: [],
+            lengueta: { dia: ENC.u3.dia }, ranura: { dia: ENC.u3.dia, colisa: ENC.u3.colisa },
+            nota: `colisa ${ENC.u3.dia}×${ENC.u3.colisa} orientada en X, que es la dirección en la `
+              + 'que se acumula la tolerancia de distancia entre los dos taladros' }),
+          juntaATope({ id: `U3-solape-${s > 0 ? '+Y' : '-Y'}`, union: 'Cross angle ↔ Notched brace channel',
+            motivo: 'solape de chapas paralelas: la cara del ala vertical de la cartela apoya en la '
+              + 'cara interior del ala del canal, y esa cara fija Y',
+            posicionamiento: 'apoyo plano + los dos pasadores de montaje',
+            referencia: 'cara interior del ala del notched brace channel (|Y| = 82.66)' }),
+        ] });
     M.chapas++;
     if (s > 0) desa('cross_angle', fib, T12);
     // tuercas soldadas bajo el ala: el perno de transmision.mjs entra desde arriba
@@ -557,10 +964,34 @@ export function bastidor(E) {
     ];
     for (const y of L.espTornY) f.push(hole(`Unión peine Ø${PAS38}`, [x0 - 2, y, L.espTornZ], [1, 0, 0], PAS38, T316 + 4, false));
     if (i) f.push(hole(`Paso del motorreductor Ø${L.motorPaso}`, [x0 - 2, 0, P.motrizZ], [1, 0, 0], L.motorPaso, T316 + 6, false));
+    // ENCAJE U2 — ranuras que reciben las lengüetas de los 2 NOTCHED BRACE CHANNEL
+    const zU2Paso = r2((ENC.u2.pasoZ[0] + ENC.u2.pasoZ[1]) / 2);
+    for (const s of [1, -1]) {
+      f.push(sketchYZ(`Ranura de posición ${u2Largo}×${RAN12.ancho} (brace channel ${s > 0 ? '+Y' : '−Y'}, alma)`,
+        r2(x0 + T316), ranuraRect(s * ENC.u2.y, ENC.u2.z, u2Largo, RAN12.ancho), r2(T316 + 2), 'cut'));
+      f.push(sketchYZ(`Ranura de paso ${r2(RAN12.ancho + 2)}×${u2PasoLargo} (brace channel ${s > 0 ? '+Y' : '−Y'}, ala)`,
+        r2(x0 + T316), ranuraRect(s * ENC.u2.pasoY, zU2Paso, r2(RAN12.ancho + 2), u2PasoLargo), r2(T316 + 2), 'cut'));
+    }
     E.addPart(`${MOVIL}Spacer plate 3/16" ${2 * L.peineYbajo}×${r2(L.espZ1 - L.espZ0)} (lado ${i ? 'libre' : 'motriz'})`,
       COL.movil, [x0, 0, L.espZ0], f, {
         chapa: { t: r2(T316), material: 'acero A36 3/16"', fibra: [], radio: 0 },
         catalogo: 'PT-086781 · SPACER PLATE (SPECIFY BR), RLR SUPT',
+        union: 'atornillada a la placa peine; recibe soldados los 2 notched brace channel',
+        encajes: [1, -1].flatMap((s) => [
+          encaje({ id: `U2-${i ? 'libre' : 'motriz'}-${s > 0 ? '+Y' : '-Y'}-pos`,
+            union: 'Notched brace channel ↔ Spacer plate',
+            tipo: 'ranura', rol: 'posicion', lado: 'ranura', gdl: ['Y', 'Z'],
+            lengueta: { calibre: '12GA', t: T12, ancho: ENC.u2.ancho, sale: T316 },
+            ranura: { ancho: RAN12.ancho, largo: u2Largo },
+            nota: `holgura por lado ${RAN12.holguraPorLado.join('…')} mm en Z y `
+              + `${largoRanura(ENC.u2.ancho, 'posicion').holguraPorLado.join('…')} en Y` }),
+          encaje({ id: `U2-${i ? 'libre' : 'motriz'}-${s > 0 ? '+Y' : '-Y'}-paso`,
+            union: 'Notched brace channel ↔ Spacer plate',
+            tipo: 'ranura', rol: 'paso', lado: 'ranura', gdl: [],
+            lengueta: { calibre: '12GA', t: T12, ancho: u2PasoAlto, sale: T316 },
+            ranura: { ancho: r2(RAN12.ancho + 2), largo: u2PasoLargo },
+            nota: 'no sitúa: ≈1 mm de holgura por lado en las dos direcciones' }),
+        ]),
       });
     M.chapas++;
     for (const y of L.espTornY) {
@@ -605,13 +1036,21 @@ export function bastidor(E) {
   // ------------------------------------------------------------------ métricas
   M.piezas = E.parts.length;
   M.juegoAxialRodillo = r2(P.rodX0 - (L.placaXa + T316 / 2));      // ≥ 1.5 mm por lado
-  M.ranuraU = {
-    ancho: L.ranuraW, radioFondo: L.ranuraR, fondoZ: r2(L.ranuraZc - L.ranuraR), ejeZ: r2(P.rodZ),
-    asiento: 'V: el arco toca los dos vértices inferiores del hexágono (posiciona en Y y en Z)',
-    dienteSobreEje: r2(L.peineZt - (P.rodZ + P.rodHex / Math.sqrt(3))),
+  M.montajeRodillo = {
+    tipo: 'taladro pasante en la placa + hilo interior en la punta del eje + perno por fuera',
+    pasanteD: L.rodPasante, perno: '1/4-20 UNC', ejeZ: r2(P.rodZ),
+    // Distancia al canto superior del diente: la exige AISI S100-16 J3.2 (e ≥ 1.5·d
+    // = 9.525), NO AISC —cuya tabla J3.4 no baja de 1/2"—. La comprueba EST-05.
+    dienteSobreEje: r2(L.peineZt - P.rodZ),              // 9.78 = 1.54·d
+    dienteSobreEjeEnD: r2((L.peineZt - P.rodZ) / P.M.b14.d),
+    // Y el techo de esa cota: el canto del diente tiene que quedar por DEBAJO de la
+    // cara de transporte del anfitrión. Lo comprueba la compuerta (§2).
+    dienteBajoPlanoBanda: r2(P.planoBanda - L.peineZt),  // 1.34
+    cantoDienteZ: L.peineZt,
+    taladros: 2 * P.nRodillos,
   };
-  M.pasoExtraccionEje = { motriz: [0, r2(L.placaXa - T316 / 2)], libre: [r2(L.placaXb + T316 / 2), P.largo] };
-  M.interfaces = { apoyoMesaGuiaZ: padMovilZ, motorEnvX, anilloRetX, mesaHuella };
+  M.pasoRodillo = 'el rodillo se extrae VERTICALMENTE: quitados los 2 pernos nada lo retiene';
+  M.interfaces = { apoyoMesaGuiaZ: padMovilZ, motorEnvX, mesaHuella, rodMontaje, rodRetorno };
   return M;
 }
 

@@ -1,0 +1,2505 @@
+{
+ "$comment": "Qué hay que mover del sorter para alojar la transferencia NBT90. Cotas del sorter = capa 'step'; cotas del NBT90 = params.mjs (congeladas).",
+ "plano_transporte_Z": 52.333,
+ "nbt90_congelado": {
+  "BR": 457.2,
+  "paso": 76.19999999999999,
+  "nRodillos": 6,
+  "nBandas": 5,
+  "rodDia": 34.925,
+  "rodCara": 375.0,
+  "ventanaBanda": 31.75,
+  "emerge": 6.35,
+  "carrera": 10.0,
+  "largoModuloX": 463.0,
+  "retraido": -3.65,
+  "barridoInf": -38.575,
+  "envolvRodillos": 415.925,
+  "spanBandas": 304.8
+ },
+ "franja_barrido_rodillo": {
+  "z_inferior": 13.758,
+  "z_superior": 58.683,
+  "definicion": "el rodillo Ø34.925 asoma +6.35 elevado y -3.65 retraído ⇒ barre de planoBanda-38.575 a planoBanda+6.35",
+  "n_ocurrencias_que_la_cruzan": 528,
+  "piezas": [
+   {
+    "nombre": "314759014",
+    "n": 1,
+    "x": [
+     -262.423,
+     -82.423
+    ],
+    "y": [
+     -202.5,
+     86.0
+    ],
+    "z": [
+     -394.0,
+     86.0
+    ]
+   },
+   {
+    "nombre": "CAN0_MIR",
+    "n": 1,
+    "x": [
+     -115.423,
+     -75.423
+    ],
+    "y": [
+     -173.537,
+     84.183
+    ],
+    "z": [
+     -120.0,
+     84.138
+    ]
+   },
+   {
+    "nombre": "CAN1_MIR",
+    "n": 1,
+    "x": [
+     -115.423,
+     -75.423
+    ],
+    "y": [
+     -15.027,
+     86.183
+    ],
+    "z": [
+     -120.0,
+     84.138
+    ]
+   },
+   {
+    "nombre": "FRONT TOP2",
+    "n": 1,
+    "x": [
+     -115.423,
+     531.418
+    ],
+    "y": [
+     -70.881,
+     90.183
+    ],
+    "z": [
+     -154.641,
+     50.708
+    ]
+   },
+   {
+    "nombre": "LK30-C65-20H7-D30-R",
+    "n": 1,
+    "x": [
+     -112.423,
+     -12.923
+    ],
+    "y": [
+     -32.825,
+     32.825
+    ],
+    "z": [
+     -32.906,
+     32.5
+    ]
+   },
+   {
+    "nombre": "FRAME_MIR_MIR",
+    "n": 1,
+    "x": [
+     -109.423,
+     -81.423
+    ],
+    "y": [
+     -1662.023,
+     -79.741
+    ],
+    "z": [
+     -114.0,
+     46.0
+    ]
+   },
+   {
+    "nombre": "FRONT TOP2_MIR",
+    "n": 1,
+    "x": [
+     -109.423,
+     537.418
+    ],
+    "y": [
+     -1666.023,
+     -1560.21
+    ],
+    "z": [
+     -148.641,
+     56.708
+    ]
+   },
+   {
+    "nombre": "inner top",
+    "n": 2,
+    "x": [
+     -75.423,
+     491.418
+    ],
+    "y": [
+     -173.537,
+     86.183
+    ],
+    "z": [
+     -120.0,
+     84.138
+    ]
+   },
+   {
+    "nombre": "uni_002",
+    "n": 8,
+    "x": [
+     -63.83,
+     479.825
+    ],
+    "y": [
+     -1489.69,
+     -639.69
+    ],
+    "z": [
+     18.334,
+     52.334
+    ]
+   },
+   {
+    "nombre": "U_004",
+    "n": 1,
+    "x": [
+     -63.33,
+     479.325
+    ],
+    "y": [
+     -1529.69,
+     -1499.69
+    ],
+    "z": [
+     -309.592,
+     51.834
+    ]
+   },
+   {
+    "nombre": "Uni_001",
+    "n": 8,
+    "x": [
+     -61.83,
+     477.825
+    ],
+    "y": [
+     -1539.69,
+     -639.69
+    ],
+    "z": [
+     20.334,
+     50.334
+    ]
+   },
+   {
+    "nombre": "U_006",
+    "n": 9,
+    "x": [
+     -61.83,
+     477.825
+    ],
+    "y": [
+     -1545.69,
+     -1541.234
+    ],
+    "z": [
+     -155.225,
+     48.324
+    ]
+   },
+   {
+    "nombre": "U_006_MIR1",
+    "n": 8,
+    "x": [
+     -61.83,
+     477.825
+    ],
+    "y": [
+     -637.69,
+     -633.69
+    ],
+    "z": [
+     -155.225,
+     48.324
+    ]
+   },
+   {
+    "nombre": "skf_bearing_nk_19_20_2",
+    "n": 16,
+    "x": [
+     -60.33,
+     476.325
+    ],
+    "y": [
+     -1539.69,
+     -639.69
+    ],
+    "z": [
+     21.834,
+     48.834
+    ]
+   },
+   {
+    "nombre": "uni_003",
+    "n": 8,
+    "x": [
+     -56.83,
+     472.825
+    ],
+    "y": [
+     -1559.69,
+     -619.69
+    ],
+    "z": [
+     25.334,
+     45.334
+    ]
+   },
+   {
+    "nombre": "SH-04",
+    "n": 4,
+    "x": [
+     -46.612,
+     462.607
+    ],
+    "y": [
+     -27.5,
+     27.5
+    ],
+    "z": [
+     -27.5,
+     27.5
+    ]
+   },
+   {
+    "nombre": "SOPORTE MOTRIZ 2 T",
+    "n": 4,
+    "x": [
+     -44.612,
+     391.745
+    ],
+    "y": [
+     -57.284,
+     57.284
+    ],
+    "z": [
+     -57.284,
+     57.284
+    ]
+   },
+   {
+    "nombre": "DIN 1587 - M4 x 0.7",
+    "n": 16,
+    "x": [
+     -43.385,
+     458.595
+    ],
+    "y": [
+     -1611.541,
+     4.041
+    ],
+    "z": [
+     29.624,
+     39.259
+    ]
+   },
+   {
+    "nombre": "skf_bearing_1206_etn9_2",
+    "n": 4,
+    "x": [
+     -40.25,
+     391.745
+    ],
+    "y": [
+     -31.0,
+     31.0
+    ],
+    "z": [
+     -31.0,
+     31.0
+    ]
+   },
+   {
+    "nombre": "AS 1420 - 1973 - M4 x 12",
+    "n": 16,
+    "x": [
+     -39.042,
+     454.195
+    ],
+    "y": [
+     -1611.0,
+     3.5
+    ],
+    "z": [
+     30.029,
+     38.854
+    ]
+   },
+   {
+    "nombre": "UR-P01",
+    "n": 8,
+    "x": [
+     -37.299,
+     449.267
+    ],
+    "y": [
+     -1650.925,
+     -1564.075
+    ],
+    "z": [
+     -44.376,
+     44.376
+    ]
+   },
+   {
+    "nombre": "UA-T01",
+    "n": 48,
+    "x": [
+     -37.291,
+     449.995
+    ],
+    "y": [
+     -1434.893,
+     -123.907
+    ],
+    "z": [
+     -41.065,
+     41.065
+    ]
+   },
+   {
+    "nombre": "IFI 532 - 4(4) B",
+    "n": 8,
+    "x": [
+     -35.541,
+     449.915
+    ],
+    "y": [
+     -1611.875,
+     -1603.125
+    ],
+    "z": [
+     28.894,
+     39.989
+    ]
+   },
+   {
+    "nombre": "AS 1420 - 1973 - M8 x 16",
+    "n": 24,
+    "x": [
+     -35.494,
+     449.995
+    ],
+    "y": [
+     -1428.393,
+     -130.407
+    ],
+    "z": [
+     12.333,
+     27.643
+    ]
+   },
+   {
+    "nombre": "IFI 532 - 4(4) A",
+    "n": 8,
+    "x": [
+     -34.6,
+     450.595
+    ],
+    "y": [
+     -4.375,
+     4.375
+    ],
+    "z": [
+     30.119,
+     38.806
+    ]
+   },
+   {
+    "nombre": "UR-P02",
+    "n": 8,
+    "x": [
+     -31.512,
+     443.48
+    ],
+    "y": [
+     -1650.925,
+     -1441.769
+    ],
+    "z": [
+     -44.376,
+     44.376
+    ]
+   },
+   {
+    "nombre": "UR-P03",
+    "n": 8,
+    "x": [
+     -30.904,
+     442.872
+    ],
+    "y": [
+     -1582.437,
+     -1441.7
+    ],
+    "z": [
+     -40.67,
+     40.67
+    ]
+   },
+   {
+    "nombre": "ASME_ANSI B18.3.5M - M8x16(2)",
+    "n": 32,
+    "x": [
+     -29.571,
+     443.995
+    ],
+    "y": [
+     -1493.243,
+     -65.501
+    ],
+    "z": [
+     11.215,
+     28.76
+    ]
+   },
+   {
+    "nombre": "UA-T02",
+    "n": 24,
+    "x": [
+     -29.394,
+     441.995
+    ],
+    "y": [
+     -1434.893,
+     -123.907
+    ],
+    "z": [
+     -40.883,
+     40.883
+    ]
+   },
+   {
+    "nombre": "SOPORTE MOTRIZ P1-1",
+    "n": 8,
+    "x": [
+     -28.0,
+     443.995
+    ],
+    "y": [
+     -117.031,
+     53.425
+    ],
+    "z": [
+     -53.425,
+     53.425
+    ]
+   },
+   {
+    "nombre": "SOPORTE MOTRIZ P1-2",
+    "n": 8,
+    "x": [
+     -28.0,
+     443.995
+    ],
+    "y": [
+     -117.1,
+     -40.892
+    ],
+    "z": [
+     -39.996,
+     39.996
+    ]
+   },
+   {
+    "nombre": "IDLER-P01",
+    "n": 4,
+    "x": [
+     -23.555,
+     435.523
+    ],
+    "y": [
+     -1653.7,
+     -1561.3
+    ],
+    "z": [
+     -46.618,
+     46.618
+    ]
+   },
+   {
+    "nombre": "Unbrako - M6 x 45M(2)",
+    "n": 16,
+    "x": [
+     -22.6,
+     438.395
+    ],
+    "y": [
+     -27.441,
+     27.441
+    ],
+    "z": [
+     9.18,
+     31.215
+    ]
+   },
+   {
+    "nombre": "cal_4_f40___65",
+    "n": 4,
+    "x": [
+     -22.5,
+     438.495
+    ],
+    "y": [
+     -32.463,
+     32.463
+    ],
+    "z": [
+     -32.353,
+     32.5
+    ]
+   },
+   {
+    "nombre": "Polea_AT10_32T_pestanas",
+    "n": 4,
+    "x": [
+     -21.0,
+     436.995
+    ],
+    "y": [
+     -56.0,
+     56.0
+    ],
+    "z": [
+     -56.0,
+     56.0
+    ]
+   },
+   {
+    "nombre": "TSLOT",
+    "n": 4,
+    "x": [
+     -20.0,
+     435.995
+    ],
+    "y": [
+     -1551.181,
+     -53.819
+    ],
+    "z": [
+     -40.0,
+     40.0
+    ]
+   },
+   {
+    "nombre": "cierre guia",
+    "n": 8,
+    "x": [
+     -20.0,
+     435.895
+    ],
+    "y": [
+     -1551.181,
+     -50.782
+    ],
+    "z": [
+     36.6,
+     51.7
+    ]
+   },
+   {
+    "nombre": "guiaw",
+    "n": 28,
+    "x": [
+     -20.0,
+     435.895
+    ],
+    "y": [
+     -1530.782,
+     -130.782
+    ],
+    "z": [
+     33.151,
+     51.7
+    ]
+   },
+   {
+    "nombre": "motriz_63T",
+    "n": 4,
+    "x": [
+     -19.0,
+     436.995
+    ],
+    "y": [
+     -56.0,
+     56.0
+    ],
+    "z": [
+     -56.0,
+     56.0
+    ]
+   },
+   {
+    "nombre": "conducida_63T",
+    "n": 4,
+    "x": [
+     -19.0,
+     436.995
+    ],
+    "y": [
+     -1663.5,
+     -1551.5
+    ],
+    "z": [
+     -56.0,
+     56.0
+    ]
+   },
+   {
+    "nombre": "DIN 472 - Anillo de Retencion Interno",
+    "n": 8,
+    "x": [
+     -18.845,
+     430.738
+    ],
+    "y": [
+     -1628.75,
+     -1586.25
+    ],
+    "z": [
+     -21.799,
+     19.655
+    ]
+   },
+   {
+    "nombre": "T-Sliding Nut M8",
+    "n": 56,
+    "x": [
+     -17.642,
+     432.195
+    ],
+    "y": [
+     -1496.5,
+     -62.3
+    ],
+    "z": [
+     12.722,
+     27.254
+    ]
+   },
+   {
+    "nombre": "Outer Race",
+    "n": 8,
+    "x": [
+     -17.582,
+     429.55
+    ],
+    "y": [
+     -1627.5,
+     -1587.5
+    ],
+    "z": [
+     -20.487,
+     20.487
+    ]
+   },
+   {
+    "nombre": "Seal",
+    "n": 16,
+    "x": [
+     -17.521,
+     429.492
+    ],
+    "y": [
+     -1625.241,
+     -1589.759
+    ],
+    "z": [
+     -18.259,
+     18.188
+    ]
+   },
+   {
+    "nombre": "Cage",
+    "n": 16,
+    "x": [
+     -15.444,
+     427.413
+    ],
+    "y": [
+     -1623.5,
+     -1591.5
+    ],
+    "z": [
+     -16.429,
+     16.431
+    ]
+   },
+   {
+    "nombre": "banda_T5_3p4",
+    "n": 4,
+    "x": [
+     -15.0,
+     432.995
+    ],
+    "y": [
+     -1659.832,
+     52.333
+    ],
+    "z": [
+     -314.397,
+     52.334
+    ]
+   },
+   {
+    "nombre": "Ball",
+    "n": 16,
+    "x": [
+     -13.891,
+     426.764
+    ],
+    "y": [
+     -1611.792,
+     -1594.406
+    ],
+    "z": [
+     7.458,
+     18.392
+    ]
+   },
+   {
+    "nombre": "Rivet",
+    "n": 12,
+    "x": [
+     -11.629,
+     424.531
+    ],
+    "y": [
+     -1614.646,
+     -1602.077
+    ],
+    "z": [
+     12.527,
+     14.817
+    ]
+   },
+   {
+    "nombre": "LK30-C65-20H7-D30-RD",
+    "n": 8,
+    "x": [
+     12.923,
+     541.737
+    ],
+    "y": [
+     -32.485,
+     32.497
+    ],
+    "z": [
+     -32.495,
+     32.495
+    ]
+   },
+   {
+    "nombre": "skf_bearing_1206_etn9_2_MIR",
+    "n": 4,
+    "x": [
+     24.25,
+     475.36
+    ],
+    "y": [
+     -30.852,
+     30.852
+    ],
+    "z": [
+     -30.852,
+     30.852
+    ]
+   },
+   {
+    "nombre": "SOPORTE MOTRIZ 2 T_MIR",
+    "n": 4,
+    "x": [
+     24.25,
+     460.607
+    ],
+    "y": [
+     -57.284,
+     57.284
+    ],
+    "z": [
+     -57.284,
+     57.284
+    ]
+   },
+   {
+    "nombre": "_RO3100_part1",
+    "n": 1,
+    "x": [
+     455.392,
+     523.992
+    ],
+    "y": [
+     -29.3,
+     29.3
+    ],
+    "z": [
+     -35.1,
+     29.3
+    ]
+   },
+   {
+    "nombre": "CAN0",
+    "n": 1,
+    "x": [
+     491.418,
+     531.418
+    ],
+    "y": [
+     -173.537,
+     84.183
+    ],
+    "z": [
+     -120.0,
+     84.138
+    ]
+   },
+   {
+    "nombre": "CAN1",
+    "n": 1,
+    "x": [
+     491.418,
+     531.418
+    ],
+    "y": [
+     -15.027,
+     86.183
+    ],
+    "z": [
+     -120.0,
+     84.138
+    ]
+   },
+   {
+    "nombre": "front top",
+    "n": 1,
+    "x": [
+     491.418,
+     531.418
+    ],
+    "y": [
+     -173.537,
+     -171.537
+    ],
+    "z": [
+     34.0,
+     84.138
+    ]
+   },
+   {
+    "nombre": "FRAME_MIR_MIR_MIR",
+    "n": 1,
+    "x": [
+     499.418,
+     527.418
+    ],
+    "y": [
+     -1662.023,
+     -79.741
+    ],
+    "z": [
+     -114.0,
+     46.0
+    ]
+   }
+  ],
+  "ocupacion_X": {
+   "todo_el_largo": {
+    "n_piezas": 528,
+    "x_rango": [
+     -262.423,
+     541.737
+    ],
+    "ventanas_libres": []
+   },
+   "zona_con_rodillos_Y-1489..-640": {
+    "n_piezas": 154,
+    "x_rango": [
+     -109.423,
+     527.418
+    ],
+    "ventanas_libres": [
+     {
+      "x0": -81.423,
+      "x1": -63.83,
+      "ancho": 17.593
+     },
+     {
+      "x0": 63.833,
+      "x1": 74.833,
+      "ancho": 11.0
+     },
+     {
+      "x0": 202.498,
+      "x1": 213.498,
+      "ancho": 11.0
+     },
+     {
+      "x0": 341.163,
+      "x1": 352.163,
+      "ancho": 11.0
+     },
+     {
+      "x0": 479.825,
+      "x1": 499.418,
+      "ancho": 19.593
+     }
+    ]
+   },
+   "zona_sin_rodillos_Y-600..-200": {
+    "n_piezas": 23,
+    "x_rango": [
+     -262.423,
+     527.418
+    ],
+    "ventanas_libres": [
+     {
+      "x0": -81.423,
+      "x1": -20.0,
+      "ancho": 61.423
+     },
+     {
+      "x0": 20.0,
+      "x1": 118.665,
+      "ancho": 98.665
+     },
+     {
+      "x0": 158.665,
+      "x1": 257.33,
+      "ancho": 98.665
+     },
+     {
+      "x0": 297.33,
+      "x1": 395.995,
+      "ancho": 98.665
+     },
+     {
+      "x0": 435.995,
+      "x1": 499.418,
+      "ancho": 63.423
+     }
+    ]
+   }
+  }
+ },
+ "estaciones": {
+  "n": 4,
+  "eje_X_TSLOT": [
+   0.0,
+   138.665,
+   277.33,
+   415.995
+  ],
+  "eje_X_banda": [
+   1.0,
+   139.665,
+   278.33,
+   416.995
+  ],
+  "paso_medido": [
+   138.665,
+   138.665,
+   138.665
+  ],
+  "paso_nbt90_congelado": 76.19999999999999,
+  "delta_paso": [
+   62.465,
+   62.465,
+   62.465
+  ],
+  "span_actual_primera_a_ultima": 415.995,
+  "rodillos_del_sorter_offset_respecto_al_eje_de_calle": [
+   -46.832,
+   -46.83,
+   46.83,
+   46.833
+  ],
+  "envolvente_calle_X": [
+   {
+    "eje": 0.0,
+    "x0": -63.83,
+    "x1": 63.833,
+    "ancho": 127.663
+   },
+   {
+    "eje": 138.665,
+    "x0": 74.833,
+    "x1": 202.498,
+    "ancho": 127.665
+   },
+   {
+    "eje": 277.33,
+    "x0": 213.498,
+    "x1": 341.163,
+    "ancho": 127.665
+   },
+   {
+    "eje": 415.995,
+    "x0": 352.163,
+    "x1": 479.825,
+    "ancho": 127.662
+   }
+  ],
+  "anchos_por_pieza": {
+   "TSLOT": [
+    40.0
+   ],
+   "guiaw": [
+    39.9
+   ],
+   "banda_T5_3p4": [
+    32.0
+   ],
+   "cierre guia": [
+    39.9
+   ]
+  },
+  "opcion_5_estaciones": {
+   "span": 304.8,
+   "ejes_relativos": [
+    -152.4,
+    -76.2,
+    0.0,
+    76.2,
+    152.4
+   ]
+  },
+  "opcion_4_estaciones_a_paso_76_2": {
+   "span": 228.6,
+   "ejes_relativos": [
+    -114.3,
+    -38.1,
+    38.1,
+    114.3
+   ],
+   "nota": "deja 1 de los 5 huecos de banda de la transferencia sin banda portante"
+  }
+ },
+ "ancho_util": {
+  "entre bastidores principales": {
+   "cara_izq_X": -81.423,
+   "cara_der_X": 499.418,
+   "luz": 580.841,
+   "vs_BR_457.2": 123.641
+  },
+  "entre chapas interiores U_007": {
+   "cara_izq_X": -68.003,
+   "cara_der_X": 485.998,
+   "luz": 554.001,
+   "vs_BR_457.2": 96.801
+  },
+  "entre canales CAN0": {
+   "cara_izq_X": -75.423,
+   "cara_der_X": 491.418,
+   "luz": 566.841,
+   "vs_BR_457.2": 109.641
+  }
+ },
+ "subarboles_de_raiz": [
+  {
+   "subarbol": "314759014",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 8368.1,
+   "x": [
+    -262.423,
+    -82.423
+   ],
+   "y": [
+    -202.5,
+    86.0
+   ],
+   "z": [
+    -394.0,
+    86.0
+   ],
+   "piezas": [
+    "314759014"
+   ]
+  },
+  {
+   "subarbol": "rail",
+   "n_ocurrencias": 344,
+   "n_piezas_distintas": 14,
+   "vol_cm3": 6804.1,
+   "x": [
+    -42.6,
+    458.595
+   ],
+   "y": [
+    -1551.181,
+    53.425
+   ],
+   "z": [
+    -53.425,
+    53.425
+   ],
+   "piezas": [
+    "AS 1112 - M8  Tipo 5",
+    "AS 1420 - 1973 - M10 x 50",
+    "AS 1420 - 1973 - M4 x 12",
+    "AS 1420 - 1973 - M8 x 16",
+    "ASME_ANSI B18.3.5M - M8x16(2)",
+    "DIN 1587 - M4 x 0.7",
+    "IFI 532 - 4(4) A",
+    "SOPORTE MOTRIZ P1-1",
+    "SOPORTE MOTRIZ P1-2",
+    "T-Sliding Nut M8",
+    "TSLOT",
+    "UA-T01",
+    "UA-T02",
+    "cierre guia"
+   ]
+  },
+  {
+   "subarbol": "roller",
+   "n_ocurrencias": 56,
+   "n_piezas_distintas": 6,
+   "vol_cm3": 5064.6,
+   "x": [
+    -63.83,
+    479.825
+   ],
+   "y": [
+    -1559.69,
+    -619.69
+   ],
+   "z": [
+    -155.225,
+    52.334
+   ],
+   "piezas": [
+    "U_006",
+    "U_006_MIR1",
+    "Uni_001",
+    "skf_bearing_nk_19_20_2",
+    "uni_002",
+    "uni_003"
+   ]
+  },
+  {
+   "subarbol": "Conjunto_T5_hairpin_vertical",
+   "n_ocurrencias": 20,
+   "n_piezas_distintas": 5,
+   "vol_cm3": 4381.3,
+   "x": [
+    -19.0,
+    436.995
+   ],
+   "y": [
+    -1663.5,
+    56.0
+   ],
+   "z": [
+    -314.397,
+    56.0
+   ],
+   "piezas": [
+    "banda_T5_3p4",
+    "conducida_63T",
+    "guia_entrada_liso",
+    "guia_salida_liso",
+    "motriz_63T"
+   ]
+  },
+  {
+   "subarbol": "Tensor",
+   "n_ocurrencias": 104,
+   "n_piezas_distintas": 16,
+   "vol_cm3": 3938.2,
+   "x": [
+    -481.605,
+    540.39
+   ],
+   "y": [
+    -234.709,
+    12.101
+   ],
+   "z": [
+    -430.88,
+    -138.742
+   ],
+   "piezas": [
+    "ANSI B 27.7M - 3AMI-20",
+    "ANSI B18.16.3M - Property Class 5 and 10 - Metric M10 x 1.5 - WAF 15 Metal Type",
+    "AS 1110 - M10 x 16",
+    "AS 1111 - M8 x 70",
+    "AS 1112 - M8  Tipo 5",
+    "BUJE-TECH-01",
+    "EJE-25mm-PASADOR",
+    "EJE-PST-01",
+    "IFI - 10(9)",
+    "POL-COND-TEN",
+    "PZA-TEN-1",
+    "SCMRT906VCT-150-111",
+    "SCMRT906VT-1211",
+    "SEPARADOR"
+   ]
+  },
+  {
+   "subarbol": "IDLER-ENS",
+   "n_ocurrencias": 480,
+   "n_piezas_distintas": 26,
+   "vol_cm3": 2651.3,
+   "x": [
+    -45.79,
+    457.758
+   ],
+   "y": [
+    -1653.7,
+    -1391.979
+   ],
+   "z": [
+    -46.618,
+    46.618
+   ],
+   "piezas": [
+    "ANSI B18.21.1 - 0.375",
+    "ANSI B18.22M - 8 N",
+    "AS 1112 - M8  Tipo 5",
+    "AS 1420 - 1973 - M10 x 50",
+    "AS 1420 - 1973 - M4 x 12",
+    "AS 1420 - 1973 - M8 x 16",
+    "AS 1420 - 1973 - M8 x 65",
+    "ASME_ANSI B18.3.5M - M8x16(2)",
+    "Ball",
+    "Cage",
+    "DIN 1587 - M4 x 0.7",
+    "DIN 472 - Anillo de Retencion Interno",
+    "DIN EN ISO 8673 - M8 x 1",
+    "IDLER-E"
+   ]
+  },
+  {
+   "subarbol": "guiaw",
+   "n_ocurrencias": 28,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 2462.7,
+   "x": [
+    -20.0,
+    435.895
+   ],
+   "y": [
+    -1530.782,
+    -130.782
+   ],
+   "z": [
+    33.151,
+    51.7
+   ],
+   "piezas": [
+    "guiaw"
+   ]
+  },
+  {
+   "subarbol": "FRAME_MIR_MIR",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 1863.4,
+   "x": [
+    -109.423,
+    -81.423
+   ],
+   "y": [
+    -1662.023,
+    -79.741
+   ],
+   "z": [
+    -114.0,
+    46.0
+   ],
+   "piezas": [
+    "FRAME_MIR_MIR"
+   ]
+  },
+  {
+   "subarbol": "FRAME_MIR_MIR_MIR",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 1863.4,
+   "x": [
+    499.418,
+    527.418
+   ],
+   "y": [
+    -1662.023,
+    -79.741
+   ],
+   "z": [
+    -114.0,
+    46.0
+   ],
+   "piezas": [
+    "FRAME_MIR_MIR_MIR"
+   ]
+  },
+  {
+   "subarbol": "LAT TOP",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 1397.9,
+   "x": [
+    -109.422,
+    527.418
+   ],
+   "y": [
+    -513.116,
+    90.183
+   ],
+   "z": [
+    -433.103,
+    -113.049
+   ],
+   "piezas": [
+    "LAT TOP"
+   ]
+  },
+  {
+   "subarbol": "U_005",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 1067.9,
+   "x": [
+    -70.002,
+    485.998
+   ],
+   "y": [
+    -1559.234,
+    -1491.234
+   ],
+   "z": [
+    -364.092,
+    -64.092
+   ],
+   "piezas": [
+    "U_005"
+   ]
+  },
+  {
+   "subarbol": "U_005_MIR",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 1067.9,
+   "x": [
+    -70.002,
+    485.998
+   ],
+   "y": [
+    -688.146,
+    -620.146
+   ],
+   "z": [
+    -364.092,
+    -64.092
+   ],
+   "piezas": [
+    "U_005_MIR"
+   ]
+  },
+  {
+   "subarbol": "POL-COND-TEN2",
+   "n_ocurrencias": 8,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 915.3,
+   "x": [
+    -67.621,
+    483.616
+   ],
+   "y": [
+    -1536.234,
+    -1493.146
+   ],
+   "z": [
+    -313.882,
+    -88.209
+   ],
+   "piezas": [
+    "POL-COND-TEN2"
+   ]
+  },
+  {
+   "subarbol": "U_007",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 807.5,
+   "x": [
+    485.998,
+    489.046
+   ],
+   "y": [
+    -1531.234,
+    -648.146
+   ],
+   "z": [
+    -359.092,
+    -59.092
+   ],
+   "piezas": [
+    "U_007"
+   ]
+  },
+  {
+   "subarbol": "U_007_MIR",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 807.5,
+   "x": [
+    -71.051,
+    -68.003
+   ],
+   "y": [
+    -1531.234,
+    -648.146
+   ],
+   "z": [
+    -359.092,
+    -59.092
+   ],
+   "piezas": [
+    "U_007_MIR"
+   ]
+  },
+  {
+   "subarbol": "Polea_AT10_32T_pestanas",
+   "n_ocurrencias": 4,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 772.5,
+   "x": [
+    -21.0,
+    436.995
+   ],
+   "y": [
+    -56.0,
+    56.0
+   ],
+   "z": [
+    -56.0,
+    56.0
+   ],
+   "piezas": [
+    "Polea_AT10_32T_pestanas"
+   ]
+  },
+  {
+   "subarbol": "LK30-C65-20H7-D30-RD",
+   "n_ocurrencias": 8,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 635.5,
+   "x": [
+    12.923,
+    541.737
+   ],
+   "y": [
+    -32.485,
+    32.497
+   ],
+   "z": [
+    -32.495,
+    32.495
+   ],
+   "piezas": [
+    "LK30-C65-20H7-D30-RD"
+   ]
+  },
+  {
+   "subarbol": "FRONT TOP2",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 614.8,
+   "x": [
+    -115.423,
+    531.418
+   ],
+   "y": [
+    -70.881,
+    90.183
+   ],
+   "z": [
+    -154.641,
+    50.708
+   ],
+   "piezas": [
+    "FRONT TOP2"
+   ]
+  },
+  {
+   "subarbol": "Ensamble motor",
+   "n_ocurrencias": 6,
+   "n_piezas_distintas": 4,
+   "vol_cm3": 561.8,
+   "x": [
+    63.098,
+    352.898
+   ],
+   "y": [
+    -1551.261,
+    -1432.211
+   ],
+   "z": [
+    -273.023,
+    -155.172
+   ],
+   "piezas": [
+    "300986+Std.+UniDrive+motor+D-Shaft",
+    "AS 2465 - 1_4  UNC(1)",
+    "AS 2465 - 1_4 x 1 1_4  UNC",
+    "SOPORTE MOTOR"
+   ]
+  },
+  {
+   "subarbol": "FRONT TOP2_MIR",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 553.2,
+   "x": [
+    -109.423,
+    537.418
+   ],
+   "y": [
+    -1666.023,
+    -1560.21
+   ],
+   "z": [
+    -148.641,
+    56.708
+   ],
+   "piezas": [
+    "FRONT TOP2_MIR"
+   ]
+  },
+  {
+   "subarbol": "TER1",
+   "n_ocurrencias": 4,
+   "n_piezas_distintas": 4,
+   "vol_cm3": 477.9,
+   "x": [
+    489.418,
+    531.418
+   ],
+   "y": [
+    -173.537,
+    86.183
+   ],
+   "z": [
+    -120.0,
+    84.138
+   ],
+   "piezas": [
+    "CAN0",
+    "CAN1",
+    "front top",
+    "inner top"
+   ]
+  },
+  {
+   "subarbol": "SH-04",
+   "n_ocurrencias": 4,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 403.3,
+   "x": [
+    -46.612,
+    462.607
+   ],
+   "y": [
+    -27.5,
+    27.5
+   ],
+   "z": [
+    -27.5,
+    27.5
+   ],
+   "piezas": [
+    "SH-04"
+   ]
+  },
+  {
+   "subarbol": "SOPORTE MOTRIZ 2 T",
+   "n_ocurrencias": 4,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 377.5,
+   "x": [
+    -44.612,
+    391.745
+   ],
+   "y": [
+    -57.284,
+    57.284
+   ],
+   "z": [
+    -57.284,
+    57.284
+   ],
+   "piezas": [
+    "SOPORTE MOTRIZ 2 T"
+   ]
+  },
+  {
+   "subarbol": "SOPORTE MOTRIZ 2 T_MIR",
+   "n_ocurrencias": 4,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 377.5,
+   "x": [
+    24.25,
+    460.607
+   ],
+   "y": [
+    -57.284,
+    57.284
+   ],
+   "z": [
+    -57.284,
+    57.284
+   ],
+   "piezas": [
+    "SOPORTE MOTRIZ 2 T_MIR"
+   ]
+  },
+  {
+   "subarbol": "TER1_MIR",
+   "n_ocurrencias": 2,
+   "n_piezas_distintas": 2,
+   "vol_cm3": 375.0,
+   "x": [
+    -115.423,
+    -75.423
+   ],
+   "y": [
+    -173.537,
+    86.183
+   ],
+   "z": [
+    -120.0,
+    84.138
+   ],
+   "piezas": [
+    "CAN0_MIR",
+    "CAN1_MIR"
+   ]
+  },
+  {
+   "subarbol": "cal_4_f40___65",
+   "n_ocurrencias": 4,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 296.1,
+   "x": [
+    -22.5,
+    438.495
+   ],
+   "y": [
+    -32.463,
+    32.463
+   ],
+   "z": [
+    -32.353,
+    32.5
+   ],
+   "piezas": [
+    "cal_4_f40___65"
+   ]
+  },
+  {
+   "subarbol": "POL-COND-TEN",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 288.6,
+   "x": [
+    148.998,
+    266.998
+   ],
+   "y": [
+    -1536.234,
+    -1496.234
+   ],
+   "z": [
+    -273.092,
+    -155.092
+   ],
+   "piezas": [
+    "POL-COND-TEN"
+   ]
+  },
+  {
+   "subarbol": "cilindro",
+   "n_ocurrencias": 12,
+   "n_piezas_distintas": 3,
+   "vol_cm3": 264.8,
+   "x": [
+    -14.0,
+    436.095
+   ],
+   "y": [
+    -32.38,
+    69.423
+   ],
+   "z": [
+    -264.512,
+    -76.76
+   ],
+   "piezas": [
+    "AN101-01-01",
+    "AS2201FS-01-06S",
+    "CD85N25-80-B(0)_BODY"
+   ]
+  },
+  {
+   "subarbol": "LK30-C65-20H7-D30-R",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 171.9,
+   "x": [
+    -112.423,
+    -12.923
+   ],
+   "y": [
+    -32.825,
+    32.825
+   ],
+   "z": [
+    -32.906,
+    32.5
+   ],
+   "piezas": [
+    "LK30-C65-20H7-D30-R"
+   ]
+  },
+  {
+   "subarbol": "U_004",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 156.2,
+   "x": [
+    -63.33,
+    479.325
+   ],
+   "y": [
+    -1529.69,
+    -1499.69
+   ],
+   "z": [
+    -309.592,
+    51.834
+   ],
+   "piezas": [
+    "U_004"
+   ]
+  },
+  {
+   "subarbol": "CAD_STP_400_0077",
+   "n_ocurrencias": 2,
+   "n_piezas_distintas": 2,
+   "vol_cm3": 148.3,
+   "x": [
+    455.392,
+    523.992
+   ],
+   "y": [
+    -29.3,
+    45.434
+   ],
+   "z": [
+    -35.1,
+    29.3
+   ],
+   "piezas": [
+    "_RO3100_part1",
+    "_RUP500_part2_p2"
+   ]
+  },
+  {
+   "subarbol": "cierre guia",
+   "n_ocurrencias": 4,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 128.2,
+   "x": [
+    -20.0,
+    435.895
+   ],
+   "y": [
+    -1551.181,
+    -1471.181
+   ],
+   "z": [
+    36.6,
+    51.7
+   ],
+   "piezas": [
+    "cierre guia"
+   ]
+  },
+  {
+   "subarbol": "skf_bearing_1206_etn9_2",
+   "n_ocurrencias": 4,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 108.6,
+   "x": [
+    -40.25,
+    391.745
+   ],
+   "y": [
+    -31.0,
+    31.0
+   ],
+   "z": [
+    -31.0,
+    31.0
+   ],
+   "piezas": [
+    "skf_bearing_1206_etn9_2"
+   ]
+  },
+  {
+   "subarbol": "hoquilla-M10",
+   "n_ocurrencias": 8,
+   "n_piezas_distintas": 2,
+   "vol_cm3": 96.9,
+   "x": [
+    -11.5,
+    429.495
+   ],
+   "y": [
+    -16.304,
+    54.819
+   ],
+   "z": [
+    -321.513,
+    -136.718
+   ],
+   "piezas": [
+    "C8525-80T_ROD_CPY2",
+    "KJ10D_CPY2"
+   ]
+  },
+  {
+   "subarbol": "inner top",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 95.8,
+   "x": [
+    -75.423,
+    -73.423
+   ],
+   "y": [
+    -173.537,
+    86.183
+   ],
+   "z": [
+    -120.0,
+    84.138
+   ],
+   "piezas": [
+    "inner top"
+   ]
+  },
+  {
+   "subarbol": "SKF_UCFL 205",
+   "n_ocurrencias": 12,
+   "n_piezas_distintas": 4,
+   "vol_cm3": 85.0,
+   "x": [
+    504.09,
+    539.79
+   ],
+   "y": [
+    -166.716,
+    -36.716
+   ],
+   "z": [
+    -198.7,
+    -130.5
+   ],
+   "piezas": [
+    "1_4-28 UNF_2",
+    "FL 205+_h",
+    "UC 205+33_7_b",
+    "ucfl-IEC_BBY_006-25-34--52-15-39-7_938"
+   ]
+  },
+  {
+   "subarbol": "Unbrako - M6 x 45M(2)",
+   "n_ocurrencias": 40,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 54.9,
+   "x": [
+    -22.6,
+    438.395
+   ],
+   "y": [
+    -32.454,
+    32.454
+   ],
+   "z": [
+    -31.215,
+    31.215
+   ],
+   "piezas": [
+    "Unbrako - M6 x 45M(2)"
+   ]
+  },
+  {
+   "subarbol": "C85C25_25",
+   "n_ocurrencias": 4,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 40.9,
+   "x": [
+    -13.7,
+    431.795
+   ],
+   "y": [
+    46.183,
+    86.183
+   ],
+   "z": [
+    -100.0,
+    -68.0
+   ],
+   "piezas": [
+    "C85C25_25"
+   ]
+  },
+  {
+   "subarbol": "U_006",
+   "n_ocurrencias": 1,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 19.2,
+   "x": [
+    -61.83,
+    -31.83
+   ],
+   "y": [
+    -1545.234,
+    -1541.234
+   ],
+   "z": [
+    -155.225,
+    48.324
+   ],
+   "piezas": [
+    "U_006"
+   ]
+  },
+  {
+   "subarbol": "skf_bearing_1206_etn9_2_MIR",
+   "n_ocurrencias": 4,
+   "n_piezas_distintas": 1,
+   "vol_cm3": 0.0,
+   "x": [
+    24.25,
+    475.36
+   ],
+   "y": [
+    -30.852,
+    30.852
+   ],
+   "z": [
+    -30.852,
+    30.852
+   ],
+   "piezas": [
+    "skf_bearing_1206_etn9_2_MIR"
+   ]
+  }
+ ],
+ "solapes_de_caja": {
+  "metodo": "intersección de cajas exactas entre ocurrencias de ramas distintas; solape > 0.5 mm en los 3 ejes y > 2 cm³. Una caja solapada NO prueba que los sólidos choquen (las cajas son envolventes), pero señala dónde mirar",
+  "n": 1477,
+  "peores": [
+   {
+    "a": "FRONT TOP2",
+    "b": "LAT TOP",
+    "ruta_a": "cal_4_f40___65/FRONT TOP2",
+    "ruta_b": "cal_4_f40___65/LAT TOP",
+    "solape_mm": [
+     636.84,
+     161.064,
+     41.592
+    ],
+    "vol_solape_cm3": 4266.17
+   },
+   {
+    "a": "U_004",
+    "b": "U_005",
+    "ruta_a": "cal_4_f40___65/U_004",
+    "ruta_b": "cal_4_f40___65/U_005",
+    "solape_mm": [
+     542.655,
+     30.0,
+     245.5
+    ],
+    "vol_solape_cm3": 3996.65
+   },
+   {
+    "a": "TSLOT",
+    "b": "banda_T5_3p4",
+    "ruta_a": "cal_4_f40___65/rail/TSLOT",
+    "ruta_b": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "solape_mm": [
+     32.0,
+     1497.362,
+     80.0
+    ],
+    "vol_solape_cm3": 3833.25
+   },
+   {
+    "a": "TSLOT",
+    "b": "banda_T5_3p4",
+    "ruta_a": "cal_4_f40___65/rail/TSLOT",
+    "ruta_b": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "solape_mm": [
+     32.0,
+     1497.362,
+     80.0
+    ],
+    "vol_solape_cm3": 3833.25
+   },
+   {
+    "a": "TSLOT",
+    "b": "banda_T5_3p4",
+    "ruta_a": "cal_4_f40___65/rail/TSLOT",
+    "ruta_b": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "solape_mm": [
+     32.0,
+     1497.362,
+     80.0
+    ],
+    "vol_solape_cm3": 3833.25
+   },
+   {
+    "a": "TSLOT",
+    "b": "banda_T5_3p4",
+    "ruta_a": "cal_4_f40___65/rail/TSLOT",
+    "ruta_b": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "solape_mm": [
+     32.0,
+     1497.362,
+     80.0
+    ],
+    "vol_solape_cm3": 3833.25
+   },
+   {
+    "a": "banda_T5_3p4",
+    "b": "LAT TOP",
+    "ruta_a": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "ruta_b": "cal_4_f40___65/LAT TOP",
+    "solape_mm": [
+     32.0,
+     565.449,
+     201.348
+    ],
+    "vol_solape_cm3": 3643.26
+   },
+   {
+    "a": "banda_T5_3p4",
+    "b": "LAT TOP",
+    "ruta_a": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "ruta_b": "cal_4_f40___65/LAT TOP",
+    "solape_mm": [
+     32.0,
+     565.449,
+     201.348
+    ],
+    "vol_solape_cm3": 3643.26
+   },
+   {
+    "a": "banda_T5_3p4",
+    "b": "LAT TOP",
+    "ruta_a": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "ruta_b": "cal_4_f40___65/LAT TOP",
+    "solape_mm": [
+     32.0,
+     565.449,
+     201.348
+    ],
+    "vol_solape_cm3": 3643.26
+   },
+   {
+    "a": "banda_T5_3p4",
+    "b": "LAT TOP",
+    "ruta_a": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "ruta_b": "cal_4_f40___65/LAT TOP",
+    "solape_mm": [
+     32.0,
+     565.449,
+     201.348
+    ],
+    "vol_solape_cm3": 3643.26
+   },
+   {
+    "a": "314759014",
+    "b": "LAT TOP",
+    "ruta_a": "cal_4_f40___65/314759014",
+    "ruta_b": "cal_4_f40___65/LAT TOP",
+    "solape_mm": [
+     26.999,
+     288.5,
+     280.951
+    ],
+    "vol_solape_cm3": 2188.39
+   },
+   {
+    "a": "314759014",
+    "b": "CAN0_MIR",
+    "ruta_a": "cal_4_f40___65/314759014",
+    "ruta_b": "cal_4_f40___65/TER1_MIR/CAN0_MIR",
+    "solape_mm": [
+     33.0,
+     257.72,
+     204.138
+    ],
+    "vol_solape_cm3": 1736.14
+   },
+   {
+    "a": "U_005",
+    "b": "SOPORTE MOTOR",
+    "ruta_a": "cal_4_f40___65/U_005",
+    "ruta_b": "cal_4_f40___65/Ensamble motor/SOPORTE MOTOR",
+    "solape_mm": [
+     289.8,
+     45.328,
+     110.0
+    ],
+    "vol_solape_cm3": 1444.97
+   },
+   {
+    "a": "314759014",
+    "b": "FRONT TOP2",
+    "ruta_a": "cal_4_f40___65/314759014",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2",
+    "solape_mm": [
+     33.0,
+     156.881,
+     205.349
+    ],
+    "vol_solape_cm3": 1063.11
+   },
+   {
+    "a": "CAN0",
+    "b": "FRONT TOP2",
+    "ruta_a": "cal_4_f40___65/TER1/CAN0",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2",
+    "solape_mm": [
+     40.0,
+     155.064,
+     170.708
+    ],
+    "vol_solape_cm3": 1058.83
+   },
+   {
+    "a": "CAN0_MIR",
+    "b": "FRONT TOP2",
+    "ruta_a": "cal_4_f40___65/TER1_MIR/CAN0_MIR",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2",
+    "solape_mm": [
+     40.0,
+     155.064,
+     170.708
+    ],
+    "vol_solape_cm3": 1058.83
+   },
+   {
+    "a": "U_004",
+    "b": "SOPORTE MOTOR",
+    "ruta_a": "cal_4_f40___65/U_004",
+    "ruta_b": "cal_4_f40___65/Ensamble motor/SOPORTE MOTOR",
+    "solape_mm": [
+     289.8,
+     30.0,
+     110.0
+    ],
+    "vol_solape_cm3": 956.34
+   },
+   {
+    "a": "CAN0",
+    "b": "CAN1",
+    "ruta_a": "cal_4_f40___65/TER1/CAN0",
+    "ruta_b": "cal_4_f40___65/TER1/CAN1",
+    "solape_mm": [
+     40.0,
+     99.21,
+     204.138
+    ],
+    "vol_solape_cm3": 810.1
+   },
+   {
+    "a": "CAN0_MIR",
+    "b": "CAN1_MIR",
+    "ruta_a": "cal_4_f40___65/TER1_MIR/CAN0_MIR",
+    "ruta_b": "cal_4_f40___65/TER1_MIR/CAN1_MIR",
+    "solape_mm": [
+     40.0,
+     99.21,
+     204.138
+    ],
+    "vol_solape_cm3": 810.1
+   },
+   {
+    "a": "banda_T5_3p4",
+    "b": "FRONT TOP2",
+    "ruta_a": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2",
+    "solape_mm": [
+     32.0,
+     123.214,
+     205.349
+    ],
+    "vol_solape_cm3": 809.66
+   },
+   {
+    "a": "banda_T5_3p4",
+    "b": "FRONT TOP2",
+    "ruta_a": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2",
+    "solape_mm": [
+     32.0,
+     123.214,
+     205.349
+    ],
+    "vol_solape_cm3": 809.66
+   },
+   {
+    "a": "banda_T5_3p4",
+    "b": "FRONT TOP2",
+    "ruta_a": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2",
+    "solape_mm": [
+     32.0,
+     123.214,
+     205.349
+    ],
+    "vol_solape_cm3": 809.66
+   },
+   {
+    "a": "banda_T5_3p4",
+    "b": "FRONT TOP2",
+    "ruta_a": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2",
+    "solape_mm": [
+     32.0,
+     123.214,
+     205.349
+    ],
+    "vol_solape_cm3": 809.66
+   },
+   {
+    "a": "Uni_001",
+    "b": "uni_002",
+    "ruta_a": "cal_4_f40___65/roller/Uni_001",
+    "ruta_b": "cal_4_f40___65/roller/uni_002",
+    "solape_mm": [
+     30.0,
+     850.0,
+     30.0
+    ],
+    "vol_solape_cm3": 765.0
+   },
+   {
+    "a": "Uni_001",
+    "b": "uni_002",
+    "ruta_a": "cal_4_f40___65/roller/Uni_001",
+    "ruta_b": "cal_4_f40___65/roller/uni_002",
+    "solape_mm": [
+     30.0,
+     850.0,
+     30.0
+    ],
+    "vol_solape_cm3": 765.0
+   },
+   {
+    "a": "Uni_001",
+    "b": "uni_002",
+    "ruta_a": "cal_4_f40___65/roller/Uni_001",
+    "ruta_b": "cal_4_f40___65/roller/uni_002",
+    "solape_mm": [
+     30.0,
+     850.0,
+     30.0
+    ],
+    "vol_solape_cm3": 765.0
+   },
+   {
+    "a": "Uni_001",
+    "b": "uni_002",
+    "ruta_a": "cal_4_f40___65/roller/Uni_001",
+    "ruta_b": "cal_4_f40___65/roller/uni_002",
+    "solape_mm": [
+     30.0,
+     850.0,
+     30.0
+    ],
+    "vol_solape_cm3": 765.0
+   },
+   {
+    "a": "Uni_001",
+    "b": "uni_002",
+    "ruta_a": "cal_4_f40___65/roller/Uni_001",
+    "ruta_b": "cal_4_f40___65/roller/uni_002",
+    "solape_mm": [
+     30.0,
+     850.0,
+     30.0
+    ],
+    "vol_solape_cm3": 765.0
+   },
+   {
+    "a": "Uni_001",
+    "b": "uni_002",
+    "ruta_a": "cal_4_f40___65/roller/Uni_001",
+    "ruta_b": "cal_4_f40___65/roller/uni_002",
+    "solape_mm": [
+     30.0,
+     850.0,
+     30.0
+    ],
+    "vol_solape_cm3": 765.0
+   },
+   {
+    "a": "Uni_001",
+    "b": "uni_002",
+    "ruta_a": "cal_4_f40___65/roller/Uni_001",
+    "ruta_b": "cal_4_f40___65/roller/uni_002",
+    "solape_mm": [
+     30.0,
+     850.0,
+     30.0
+    ],
+    "vol_solape_cm3": 765.0
+   },
+   {
+    "a": "Uni_001",
+    "b": "uni_002",
+    "ruta_a": "cal_4_f40___65/roller/Uni_001",
+    "ruta_b": "cal_4_f40___65/roller/uni_002",
+    "solape_mm": [
+     30.0,
+     850.0,
+     30.0
+    ],
+    "vol_solape_cm3": 765.0
+   },
+   {
+    "a": "CAN1",
+    "b": "FRONT TOP2",
+    "ruta_a": "cal_4_f40___65/TER1/CAN1",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2",
+    "solape_mm": [
+     40.0,
+     101.21,
+     170.708
+    ],
+    "vol_solape_cm3": 691.09
+   },
+   {
+    "a": "CAN1_MIR",
+    "b": "FRONT TOP2",
+    "ruta_a": "cal_4_f40___65/TER1_MIR/CAN1_MIR",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2",
+    "solape_mm": [
+     40.0,
+     101.21,
+     170.708
+    ],
+    "vol_solape_cm3": 691.09
+   },
+   {
+    "a": "314759014",
+    "b": "CAN1_MIR",
+    "ruta_a": "cal_4_f40___65/314759014",
+    "ruta_b": "cal_4_f40___65/TER1_MIR/CAN1_MIR",
+    "solape_mm": [
+     33.0,
+     101.027,
+     204.138
+    ],
+    "vol_solape_cm3": 680.57
+   },
+   {
+    "a": "banda_T5_3p4",
+    "b": "FRONT TOP2_MIR",
+    "ruta_a": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2_MIR",
+    "solape_mm": [
+     32.0,
+     99.622,
+     200.975
+    ],
+    "vol_solape_cm3": 640.69
+   },
+   {
+    "a": "banda_T5_3p4",
+    "b": "FRONT TOP2_MIR",
+    "ruta_a": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2_MIR",
+    "solape_mm": [
+     32.0,
+     99.622,
+     200.975
+    ],
+    "vol_solape_cm3": 640.69
+   },
+   {
+    "a": "banda_T5_3p4",
+    "b": "FRONT TOP2_MIR",
+    "ruta_a": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2_MIR",
+    "solape_mm": [
+     32.0,
+     99.622,
+     200.975
+    ],
+    "vol_solape_cm3": 640.69
+   },
+   {
+    "a": "banda_T5_3p4",
+    "b": "FRONT TOP2_MIR",
+    "ruta_a": "cal_4_f40___65/Conjunto_T5_hairpin_vertical/banda_T5_3p4",
+    "ruta_b": "cal_4_f40___65/FRONT TOP2_MIR",
+    "solape_mm": [
+     32.0,
+     99.622,
+     200.975
+    ],
+    "vol_solape_cm3": 640.69
+   },
+   {
+    "a": "POL-COND-TEN",
+    "b": "LAT TOP",
+    "ruta_a": "cal_4_f40___65/Tensor/TENS-LN-01/SCMRT906VT-100-401_3/POL-CON-TEN/POL-COND-TEN",
+    "ruta_b": "cal_4_f40___65/LAT TOP",
+    "solape_mm": [
+     40.0,
+     118.0,
+     118.0
+    ],
+    "vol_solape_cm3": 556.96
+   },
+   {
+    "a": "POL-COND-TEN",
+    "b": "LAT TOP",
+    "ruta_a": "cal_4_f40___65/Tensor/TENS-LN-01/SCMRT906VT-100-401_3/POL-CON-TEN/POL-COND-TEN",
+    "ruta_b": "cal_4_f40___65/LAT TOP",
+    "solape_mm": [
+     40.0,
+     118.0,
+     118.0
+    ],
+    "vol_solape_cm3": 556.96
+   }
+  ]
+ }
+}

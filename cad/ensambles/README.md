@@ -9,6 +9,15 @@ de solo lectura de esta carpeta:
 cad/ensambles/ver.html?doc=transfer_rodillos_90.json&view=iso|frente|lado|planta
 ```
 
+**Dos modos de material.** Por defecto (`&material=plano`) cada pieza se pinta con
+su campo `color`, que CODIFICA información (azul = MÓVIL, gris pizarra = FIJO,
+dorado = tornillería, morado = rodamientos) y es lo que hace legible un montaje o
+un corte. Con `&material=real` se pinta según **de qué está hecha**: familias PBR
+con texturas procedurales, entorno de estudio (PMREM), tono ACES y sombras. La
+clasificación por material la aporta el ensamble (hoy solo `nbt90/materiales.mjs`);
+la parte reutilizable —entorno, luces, encuadre y texturas— está en
+[`estudio.mjs`](estudio.mjs), que es de esta carpeta y no de ningún ensamble.
+
 Regenerar tras cambiar parámetros: `node cad/ensambles/gen_transfer90.mjs`.
 Prueba del ensamble (motor CSG real + invariantes): `cad/tests/test_transfer90.mjs`
 (ver `cad/tests/README.md`).

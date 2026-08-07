@@ -1,0 +1,37 @@
+{
+ "documento": "nbt90_retraido.json",
+ "tolerancia_cm3": 0.05,
+ "piezas": 410,
+ "pares_candidatos": 1058,
+ "interferencias": 4,
+ "detalle": [
+  {
+   "cm3": 0.6861,
+   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (−Y−Z)",
+   "pct_de_la_menor": 38.52,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6861,
+   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (−Y+Z)",
+   "pct_de_la_menor": 38.52,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6861,
+   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (+Y−Z)",
+   "pct_de_la_menor": 38.52,
+   "cruce": false
+  },
+  {
+   "cm3": 0.6861,
+   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (+Y+Z)",
+   "pct_de_la_menor": 38.52,
+   "cruce": false
+  }
+ ]
+}

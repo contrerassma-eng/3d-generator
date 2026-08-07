@@ -26,6 +26,7 @@ import {
 } from './lib.mjs';
 import { P } from './params.mjs';
 import { canalFijoY as CANAL_Y, canalFijoZ as CANAL_Z } from './bastidor.mjs';
+import { ranuraPara, largoRanura, encaje, juntaATope, ajustesDe } from './tolerancias.mjs';
 
 // ---------------------------------------------------------------------------
 // Cotas propias del módulo
@@ -49,7 +50,20 @@ const L = {
   // drive rollers must be removed"), y ningún soporte cruza el plano de la banda.
   xPlaca: 113.0,          // dis: cara −X de la placa; deja 5.5 mm tras la rueda motriz
   espPlaca: pulg(0.25),   // 6.35 — dis: chapa 1/4" de catálogo (voladizo del motorreductor)
-  zPlaca: [124.0, 278.0], // dis: cubre las 6 poleas, la colisa del tensor y la brida
+  // Borde inferior 128.0 (dis) y no la cota generosa de antes (124.0). Esta placa
+  // es MÓVIL: **retraída** su borde baja a 118.0, y el techo del CYLINDER
+  // MOUNTING CHANNEL —pieza FIJA— está en Z = 115.34 (`canalZ1` de elevacion.mjs),
+  // con el labio ocupando X 114.5…131.8, que se cruza con la franja X 114.5…119.35
+  // de la placa. Con 124.0 la placa se metía 1.34 mm en ese labio (1.00 cm³ en
+  // B-rep) y la máquina no podía bajar; con 128.0 quedan 2.66 mm de holgura
+  // retraída. Los 4 mm recortados no le hacen falta a nada de lo que cuelga: por
+  // debajo de Z = 138.9 —borde de la brida Ø120 del motorreductor, que apoya
+  // contra esta placa— no hay ni un taladro ni un asiento. El más bajo es el M8
+  // de la brida (borde inferior 159.04) y el paso del eje de la polea de retorno
+  // (borde inferior 171.04, eje en 176.6). La escotadura del notched brace
+  // channel se sigue calculando a `zPlaca[0] − 8` = 120, o sea sigue abierta por
+  // abajo (el larguero arranca en 143.5).
+  zPlaca: [128.0, 278.0], // dis: cubre las 6 poleas, la colisa del tensor y la brida
   yPlaca: 187.0,          // dis: LÍMITE DE INTERFAZ. Por debajo de Z≈252 el `Side channel`
                           // FIJO ocupa Y 189.1…228.6 a los dos lados, así que ninguna pieza
                           // MÓVIL puede pasar de ±187 (integración, informe de interferencias).
@@ -273,7 +287,12 @@ function ejePolea(E, { nombre, y, z, xApoyo, xRosca, capa }) {
     cyl(`Rosca 3/8-16 × ${r2(xRosca - xApoyo)}`, [xApoyo, y, z], [1, 0, 0], B38.d, r2(xRosca - xApoyo)),
     revolve('Ranura anillo DIN 471', [X.ran0, y, z], 'x',
       [[0, L.ejeRan], [0, 10], [L.ranAncho, 10], [L.ranAncho, L.ejeRan]], 'cut'),
-  ], { componente: 'eje_polea_5_8' });
+  ], { componente: 'eje_polea_5_8', fabricada: true,
+    // DESIGNACIÓN CORREGIDA: se listaba como COMPRADA. No hay espárrago de
+    // catálogo con vástago Ø5/8" g6, hombro Ø22, ranura DIN 471 y rosca 3/8-16
+    // en el otro extremo: es una pieza de torno SEGÚN PLANO. El campo
+    // `componente` se conserva porque es la clave de material del visor.
+    ajuste: `vástago Ø${L.ejeRod} ${L.ajusteInt} (aro interior con carga estacionaria)` });
 }
 
 /** Conjunto completo de una polea loca / de retorno: llanta con pestañas +
@@ -297,7 +316,15 @@ function conjuntoLoca(E, { nombre, pos, y, z, capa, tensor = false }) {
     revolve(`Ranura DIN 472 interior (${L.circInt.ranura}×${L.circInt.ancho})`, [X.ranIntB, y, z], 'x',
       [[0, r2(L.rodam.od / 2)], [0, r2(L.circInt.ranura / 2)],
         [L.circInt.ancho, r2(L.circInt.ranura / 2)], [L.circInt.ancho, r2(L.rodam.od / 2)]], 'cut'),
-  ], { componente: 'polea_loca_flanged_2_5', extra_ajuste: L.ajusteExt });
+  ], { componente: 'polea_loca_flanged_2_5', extra_ajuste: L.ajusteExt,
+    // DESIGNACIÓN CORREGIDA. Se listaba como COMPRADA y no lo es: la de catálogo
+    // (Hytrol 923.00975 «FLAT BELT IDLER - 2-3/4 in. DIA. X 1.4 in. WIDE») es lisa
+    // y de Ø2-3/4"; ésta es Ø2-1/2" con pestañas Ø73.5, alojamientos N7 para dos
+    // R10-2RS y ranuras DIN 472. Es una pieza SEGÚN PLANO. El campo `componente`
+    // se conserva porque es la clave con la que el visor le asigna material.
+    fabricada: true,
+    catalogo: 'derivada de Hytrol 923.00975; ya NO es de catálogo (Ø2-1/2" c/pestañas)',
+    ajuste: `alojamiento Ø${pulg(1.375)} ${L.ajusteExt} (aro exterior con carga rotante)` });
   for (const [i, x] of [X.rodA0, X.rodB0].entries()) {
     rodamiento(E, {
       nombre: `${L.rodam.desig} (${pos}, ${i ? 'interior' : 'exterior'})`,
@@ -344,6 +371,8 @@ export function transmision(E) {
   // Weldment: placa 1/4" en el plano YZ + 2 orejas que apoyan en el alma de los
   // canales laterales. Lleva los 6 alojamientos de eje, la colisa del tensor y
   // el asiento de la brida del motorreductor.
+  const anchoPest = r2(L.pestanaY[1] - L.pestanaY[0]);      // 23 — ancho en Y de la pestaña
+  const yPest = r2((L.pestanaY[0] + L.pestanaY[1]) / 2);    // 90.5 — su centro en Y
   const cortes = [];
   for (const y of idlerY) if (y !== P.bandaY[P.tomaIdlerIdx]) cortes.push([y, P.idlerZ]);
   cortes.push([-P.retornoY, P.retornoZ], [P.retornoY, P.retornoZ]);
@@ -364,8 +393,14 @@ export function transmision(E) {
       [r2(L.xPlaca - 0.5), y, z], [1, 0, 0], r2(B38.d + P.holgura.pasante)));
   }
   fPlaca.push(
-    hole(`Centraje brida motorreductor Ø${r2(L.bridaCentraje + 0.4)}`,
-      [r2(L.xPlaca - 0.5), 0, P.motrizZ], [1, 0, 0], r2(L.bridaCentraje + 0.4)),
+    // AJ-08: el centraje de una brida IEC es un ajuste, no un agujero de paso.
+    // Estaba a Ø60.4 (0.4 mm de juego diametral): con eso la brida entra pero no
+    // centra, y el eje del motor puede irse 0.2 mm respecto del barreno de la
+    // rueda motriz. Pasa a Ø60 H8 sobre el resalte h8 del SEW (juego 0…0.092 mm);
+    // el sólido se dibuja con 0.1 de juego para que las dos piezas no compartan
+    // superficie y el B-rep no lo lea como contacto.
+    hole(`Centraje brida motorreductor Ø${L.bridaCentraje} H8`,
+      [r2(L.xPlaca - 0.5), 0, P.motrizZ], [1, 0, 0], r2(L.bridaCentraje + 0.1)),
     sketchYZ(`Colisa tensor ${L.colisaAncho}×${r2(P.tomaCarrera + L.colisaAncho)} (recorrido ${P.tomaCarrera})`,
       r2(X.placa1 + 0.65), colisa(P.bandaY[P.tomaIdlerIdx], zToma, r2(P.tomaCarrera + L.colisaAncho), L.colisaAncho, true),
       14, 'cut'));
@@ -374,19 +409,53 @@ export function transmision(E) {
       [r2(L.xPlaca - 0.5), r2(s * L.bridaCirculo / Math.SQRT2 / 2), r2(P.motrizZ + s2 * L.bridaCirculo / Math.SQRT2 / 2)],
       [1, 0, 0], PASO.M8));
   }
-  // pestañas de apoyo: se añaden DESPUÉS de las escotaduras (si no, el corte se
-  // las llevaría por delante) y se apoyan sobre la cartela del larguero móvil.
+  // ENCAJE U6 — las pestañas de apoyo no se posan sobre la placa: la ATRAVIESAN
+  // por una ranura, y se sueldan por las dos caras. Es una lengüeta pasante de
+  // libro, y además es la única forma de que la pestaña quede a cota sin trazar:
+  // la ranura la sitúa en Y y en Z. La escotadura del notched brace channel ya
+  // abre la placa hasta Z = braceZ, así que la ranura es una MUESCA abierta por
+  // abajo: la pestaña entra desde abajo y topa contra el canto superior.
+  const ranPest = ranuraPara('1/4');                       // 6.9 · holgura 0.10…0.43 por lado
+  const largoPest = largoRanura(anchoPest, 'posicion');    // 23.8 · holgura 0.20…0.60
   for (const sg of [-1, 1]) {
-    fPlaca.push(box(`Pestaña de apoyo sobre cartela ${sg > 0 ? '+Y' : '−Y'} 1/4"×${r2(L.pestanaX[1] - L.pestanaX[0])}×${r2(L.pestanaY[1] - L.pestanaY[0])}`,
-      [r2((L.pestanaX[0] + L.pestanaX[1]) / 2), r2(sg * (L.pestanaY[0] + L.pestanaY[1]) / 2), L.asientoZ],
-      r2(L.pestanaX[1] - L.pestanaX[0]), r2(L.pestanaY[1] - L.pestanaY[0]), L.espPlaca));
+    fPlaca.push(sketchYZ(`Ranura pasante de la pestaña ${largoPest.largo}×${ranPest.ancho} (${sg > 0 ? '+Y' : '−Y'})`,
+      r2(X.placa1 + 0.65),
+      rectR(r2(sg * yPest - largoPest.largo / 2), r2(L.asientoZ - (ranPest.ancho - L.espPlaca) / 2),
+        r2(sg * yPest + largoPest.largo / 2), r2(L.asientoZ + L.espPlaca + (ranPest.ancho - L.espPlaca) / 2), 0),
+      14, 'cut'));
+  }
+  // pestañas de apoyo: se añaden DESPUÉS de las escotaduras y de su propia ranura
+  // (si no, los cortes se las llevarían por delante).
+  for (const sg of [-1, 1]) {
+    fPlaca.push(box(`Pestaña de apoyo sobre cartela ${sg > 0 ? '+Y' : '−Y'} 1/4"×${r2(L.pestanaX[1] - L.pestanaX[0])}×${anchoPest}`,
+      [r2((L.pestanaX[0] + L.pestanaX[1]) / 2), r2(sg * yPest), L.asientoZ],
+      r2(L.pestanaX[1] - L.pestanaX[0]), anchoPest, L.espPlaca));
   }
   for (const sg of [-1, 1]) for (const [px, py] of L.pestanaPerno) {
     fPlaca.push(hole(`Taladro pestaña Ø${r2(B38.d + P.holgura.pasante)} (${sg > 0 ? '+Y' : '−Y'}, X=${px})`,
       [px, r2(sg * py), r2(L.asientoZ + L.espPlaca + 0.5)], [0, 0, -1], r2(B38.d + P.holgura.pasante), 9, false));
   }
   E.addPart(`${cap}Placa soporte de transmisión 1/4"×${r2(2 * L.yPlaca)}×${r2(L.zPlaca[1] - L.zPlaca[0])} c/colisa tensor (weldment)`,
-    COL.movil, [L.xPlaca, 0, L.zPlaca[0]], fPlaca, { weldment: true });
+    COL.movil, [L.xPlaca, 0, L.zPlaca[0]], fPlaca, {
+      weldment: true,
+      encajes: [-1, 1].flatMap((sg) => [
+        encaje({ id: `U6-pestana-${sg > 0 ? '+Y' : '-Y'}`, union: 'Pestaña de apoyo ↔ Placa soporte de transmisión',
+          tipo: 'lengueta', rol: 'posicion', lado: 'ambos', gdl: ['Y', 'Z'],
+          lengueta: { calibre: '1/4', t: L.espPlaca, ancho: anchoPest, sale: L.espPlaca },
+          ranura: { ancho: ranPest.ancho, largo: largoPest.largo },
+          nota: `lengüeta PASANTE soldada por las dos caras. ${ranPest.cadena}. La ranura queda `
+            + 'abierta por abajo (se junta con la escotadura del notched brace channel), así que la '
+            + 'pestaña entra desde abajo y topa contra el canto superior.' }),
+      ]).concat([
+        juntaATope({ id: 'U6-doblador', union: 'Doblador de la colisa ↔ Placa soporte de transmisión',
+          motivo: 'solape de dos chapas de 1/4" PARALELAS de 32.4 × 87 mm atravesadas por la colisa '
+            + 'del tensor (12.7 × 61.3): no queda sitio para un taladro de pasador con la distancia '
+            + 'al canto que pide un 1/4" (≥ 9.5 mm desde el borde del agujero). Se declara a tope.',
+          posicionamiento: 'las dos colisas se cortan en la misma pieza plegada y se alinean con un '
+            + 'CALIBRE PASA Ø12.7 h9 metido en las dos antes de puntear; coaxialidad exigida ≤ 0.2 mm',
+          referencia: 'cara −X de la placa soporte y flanco de la colisa' }),
+      ]),
+    });
 
   // =============================================== 2. BANDA PLANA DEL SERPENTÍN
   // `bandaFaces` falla si algún tramo no tiene tangente: que cierre es la
@@ -669,9 +738,18 @@ export function transmision(E) {
       bandaEnTuboDesnudo: [r2(X.banda0 - L.rodDesnudo[0]), r2(L.rodDesnudo[1] - X.banda1)],
     },
     cinematica: {
+      // La banda plana MULTIPLICA: arrastra sobre el TUBO DESNUDO (Ø28.93) desde la
+      // rueda motriz (Ø63.5), así que el rodillo gira a 2.195 × las rpm del motor.
+      // Éste es el eslabón que `P.velocidad` ignoraba (DIN-01, cerrado). Se reporta
+      // entero para que la compuerta pueda cotejar la cadena contra `P`.
       rpmMotor: P.motorRpm, vBanda_m_s: r2(vBanda), vBanda_fpm: r2(vBanda * 196.85),
-      diaArrastre: dArr, rpmRodillo: r2(nRod),
+      // 3 decimales a propósito: con `r2` la multiplicación sale «2.2» y no se puede
+      // cotejar con la que publica la compuerta (2.195) sin que parezca discrepancia.
+      diaRueda: P.ruedaDia, diaArrastre: dArr,
+      multiplicacion: Math.round(P.ruedaDia / dArr * 1000) / 1000,
+      rpmRodillo: r2(nRod),
       vTransferencia_m_s: r2(nRod / 60 * Math.PI * P.rodDia / 1000),
+      vTransferencia_fpm: r2(nRod / 60 * Math.PI * P.rodDia / 1000 * 196.85),
       parSalida_Nm: r2(par), tiroBanda_N: r2(par / (P.ruedaDia / 2000)),
       parPorRodillo_Nm: r2(par * (dArr / P.ruedaDia) / P.nRodillos),
       empujeEnTransferencia_N: r2(par / (P.ruedaDia / 2000) * (dArr / P.rodDia)),

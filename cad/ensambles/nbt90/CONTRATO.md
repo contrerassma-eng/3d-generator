@@ -24,6 +24,12 @@ Estado modelado: **elevado** (pop-up con la carrera aplicada), igual que el
 transfer de rodillos del repo. `params.mjs` expone `P.carrera` y el estado
 retraído se obtiene restando `P.carrera` a las piezas del módulo móvil.
 
+Ese estado retraído **se verifica, no se supone**: `gen_nbt90.mjs` lo emite como
+`out/nbt90_retraido.json` (mismas piezas, las `MÓVIL` bajadas `P.carrera`) y la
+compuerta exige que ninguna pieza `MÓVIL` gane solape con una `FIJA` al bajar.
+Al escribir un módulo hay que pensar por tanto en las DOS posiciones: una pieza
+`MÓVIL` que libre por poco a una `FIJA` estando arriba puede chocar 10 mm abajo.
+
 ## 2. Firma de un módulo
 
 Cada subsistema es un archivo `cad/ensambles/nbt90/<modulo>.mjs` que exporta
@@ -102,9 +108,9 @@ dato con el que se construyó el sólido.
 | Módulo | Archivo | Contenido |
 |---|---|---|
 | Bastidor | `bastidor.mjs` | ROLLER FRAME WELDMENT (placas peine), SIDE CHANNEL, TRANSFER CROSS CHANNEL, CROSS ANGLE, SPACER PLATE, TRANSFER ROLLER GUARD, NOTCHED BRACE CHANNEL, BASE CHANNEL WELDMENT y su tornillería |
-| Rodillos | `rodillos.mjs` | 6 rodillos vulcanizados Ø1-3/8" con eje hexagonal 5/16", rodamientos, retención en las ranuras del peine, y las 5 bandas angostas + regletas del anfitrión (contexto) |
+| Rodillos | `rodillos.mjs` | 6 rodillos vulcanizados Ø1-3/8" (vulcanizado NEGRO sólo en el tramo de carga) con eje de hilo interior 1/4-20 atornillado desde fuera de las placas peine, rodamientos, el RODILLO DE RETORNO B-20760 Ø1.9" que limita las bandas del clasificador, y las 5 bandas angostas + regletas del anfitrión (contexto) |
 | Transmisión | `transmision.mjs` | serpentín de banda plana de 1", poleas locas Ø2-1/2", tensor con colisa, poleas de retorno, rueda motriz, buje sin chaveta y motorreductor SEW |
-| Elevación y neumática | `elevacion.mjs` | mesa guía neumática Ø100×20, canal de montaje del cilindro con colisas, 4 jack bolts, válvula 4 vías, silenciador, racores y tubería |
+| Elevación y neumática | `elevacion.mjs` | cilindro compacto con guías SMC MGPM80-10Z (componente `mgpm80_10z`; ver `MESA_GUIA.md`), canal de montaje del cilindro con colisas, 4 jack bolts, horquilla de empuje, válvula 4 vías, silenciador, racores y tubería |
 
 El integrador `gen_nbt90.mjs` llama a los cuatro en ese orden, corre `verify()`
 y emite `narrow_belt_transfer_90.json`.

@@ -1,174 +1,174 @@
 {
- "tolerancia_cm3": 1,
- "pares_candidatos_aabb": 1487,
- "interferencias_reales": 97,
+ "tolerancia_cm3": 0.5,
+ "pares_candidatos_aabb": 1269,
+ "interferencias_reales": 139,
  "detalle": [
   {
-   "cm3": 192.751,
-   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
-   "b": "MÓVIL · Plato de empuje 170×200×12 (cara superior Z=143.5 = riel del bastidor móvil)",
+   "cm3": 944.819,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Cilindro compacto con guías SMC MGPM80-10Z Ø80 × 10 — cuerpo 202×91.5×56.5 (MGPM80-10Z)",
    "cruce": false
   },
   {
-   "cm3": 426.227,
-   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" TAKE-UP IDLER (Y=76.2)",
+   "cm3": 399.156,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC 72×46×60 (094.10795)",
+   "cruce": false
+  },
+  {
+   "cm3": 18.004,
+   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 TAKE-UP IDLER (Y=76.2)",
    "b": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
    "cruce": false
   },
   {
-   "cm3": 77.751,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
+   "cm3": 350.676,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "MÓVIL · NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil 198×75×22 (carrera aplicada 10)",
+   "cruce": true
+  },
+  {
+   "cm3": 39.822,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
    "b": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
    "cruce": false
   },
   {
-   "cm3": 83.12,
-   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
-   "b": "MÓVIL · Mesa guía — placa móvil 170×200×25 (carrera aplicada 10)",
+   "cm3": 35.101,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (-Y)",
+   "b": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
    "cruce": false
   },
   {
-   "cm3": 8.918,
-   "a": "MÓVIL · Placa soporte de transmisión 1/4\"×374×154 c/colisa tensor (weldment)",
-   "b": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" TAKE-UP IDLER (Y=76.2)",
-   "cruce": false
-  },
-  {
-   "cm3": 3.96,
-   "a": "MÓVIL · Placa soporte de transmisión 1/4\"×374×154 c/colisa tensor (weldment)",
-   "b": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" (Y=-144.5)",
-   "cruce": false
-  },
-  {
-   "cm3": 40.816,
-   "a": "MÓVIL · Placa soporte de transmisión 1/4\"×374×154 c/colisa tensor (weldment)",
-   "b": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" (Y=144.5)",
-   "cruce": false
-  },
-  {
-   "cm3": 59.474,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
+   "cm3": 72.898,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
    "b": "FIJO · Placa colgante del canal 3/16\" con colisas 12.7×38.1 (Y=+223.53)",
    "cruce": false
   },
   {
-   "cm3": 5.426,
-   "a": "MÓVIL · Placa soporte de transmisión 1/4\"×374×154 c/colisa tensor (weldment)",
-   "b": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" (Y=152.4)",
+   "cm3": 43.81,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "MÓVIL · NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø25 × 93 (Y=−78, asoma 8.5 bajo el alma)",
+   "cruce": true
+  },
+  {
+   "cm3": 43.81,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "MÓVIL · NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø25 × 93 (Y=+78, asoma 8.5 bajo el alma)",
+   "cruce": true
+  },
+  {
+   "cm3": 2.345,
+   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-152.4)",
+   "b": "MÓVIL · Rodamiento R10-2RS (Y=-152.4, interior) (15.875×34.92×7.94)",
    "cruce": false
   },
   {
-   "cm3": 9.057,
-   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" (Y=-152.4)",
-   "b": "MÓVIL · Rodamiento R10-2RS (Y=-152.4, exterior) (15.88×34.92×7.94)",
+   "cm3": 7.08,
+   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=152.4)",
+   "b": "MÓVIL · Rodamiento R10-2RS (Y=152.4, interior) (15.875×34.92×7.94)",
    "cruce": false
   },
   {
-   "cm3": 3.9,
-   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" (Y=152.4)",
-   "b": "MÓVIL · Rodamiento R10-2RS (Y=152.4, exterior) (15.88×34.92×7.94)",
+   "cm3": 10.224,
+   "a": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-144.5)",
+   "b": "MÓVIL · Rodamiento R10-2RS (Y=-144.5, interior) (15.875×34.92×7.94)",
    "cruce": false
   },
   {
-   "cm3": 9.287,
-   "a": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" (Y=-144.5)",
-   "b": "MÓVIL · Rodamiento R10-2RS (Y=-144.5, exterior) (15.88×34.92×7.94)",
+   "cm3": 11.649,
+   "a": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=144.5)",
+   "b": "MÓVIL · Rodamiento R10-2RS (Y=144.5, interior) (15.875×34.92×7.94)",
    "cruce": false
   },
   {
-   "cm3": 7.252,
-   "a": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" (Y=144.5)",
-   "b": "MÓVIL · Rodamiento R10-2RS (Y=144.5, exterior) (15.88×34.92×7.94)",
+   "cm3": 9.727,
+   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-152.4)",
+   "b": "MÓVIL · Rodamiento R10-2RS (Y=-152.4, exterior) (15.875×34.92×7.94)",
    "cruce": false
   },
   {
-   "cm3": 7.626,
-   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" (Y=152.4)",
-   "b": "MÓVIL · Rodamiento R10-2RS (Y=152.4, interior) (15.88×34.92×7.94)",
+   "cm3": 4.745,
+   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=152.4)",
+   "b": "MÓVIL · Rodamiento R10-2RS (Y=152.4, exterior) (15.875×34.92×7.94)",
    "cruce": false
   },
   {
-   "cm3": 4.199,
-   "a": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" (Y=-144.5)",
-   "b": "MÓVIL · Rodamiento R10-2RS (Y=-144.5, interior) (15.88×34.92×7.94)",
+   "cm3": 11.088,
+   "a": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-144.5)",
+   "b": "MÓVIL · Rodamiento R10-2RS (Y=-144.5, exterior) (15.875×34.92×7.94)",
    "cruce": false
   },
   {
-   "cm3": 10.454,
-   "a": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" (Y=144.5)",
-   "b": "MÓVIL · Rodamiento R10-2RS (Y=144.5, interior) (15.88×34.92×7.94)",
+   "cm3": 6.372,
+   "a": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=144.5)",
+   "b": "MÓVIL · Rodamiento R10-2RS (Y=144.5, exterior) (15.875×34.92×7.94)",
    "cruce": false
   },
   {
-   "cm3": 7.065,
-   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" (Y=-76.2)",
-   "b": "MÓVIL · Rodamiento R10-2RS (Y=-76.2, exterior) (15.88×34.92×7.94)",
+   "cm3": 3.948,
+   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-76.2)",
+   "b": "MÓVIL · Rodamiento R10-2RS (Y=-76.2, interior) (15.875×34.92×7.94)",
    "cruce": false
   },
   {
-   "cm3": 6.67,
-   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" TAKE-UP IDLER (Y=76.2)",
-   "b": "MÓVIL · Rodamiento R10-2RS (Y=76.2, exterior) (15.88×34.92×7.94)",
+   "cm3": 7.308,
+   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-76.2)",
+   "b": "MÓVIL · Rodamiento R10-2RS (Y=-76.2, exterior) (15.875×34.92×7.94)",
    "cruce": false
   },
   {
-   "cm3": 3.362,
-   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" (Y=-76.2)",
-   "b": "MÓVIL · Rodamiento R10-2RS (Y=-76.2, interior) (15.88×34.92×7.94)",
+   "cm3": 7.903,
+   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 TAKE-UP IDLER (Y=76.2)",
+   "b": "MÓVIL · Rodamiento R10-2RS (Y=76.2, exterior) (15.875×34.92×7.94)",
    "cruce": false
   },
   {
-   "cm3": 1.817,
-   "a": "FIJO · Canal base en U 76×38 12 GA × 446.5",
-   "b": "FIJO · NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC 72×46×60 (094.10795)",
+   "cm3": 0.625,
+   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 TAKE-UP IDLER (Y=76.2)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 73.5 (Y=76.2)",
    "cruce": false
   },
   {
-   "cm3": 6.568,
-   "a": "FIJO · Tapa extremo canal base 12 GA 83×67 (-Y)",
-   "b": "FIJO · NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC 72×46×60 (094.10795)",
+   "cm3": 10.333,
+   "a": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-144.5)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 68.4 (Y=-144.5)",
    "cruce": false
   },
   {
-   "cm3": 9.721,
-   "a": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" (Y=-144.5)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=-144.5)",
+   "cm3": 0.865,
+   "a": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=144.5)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 68.4 (Y=144.5)",
    "cruce": false
   },
   {
-   "cm3": 3.007,
-   "a": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" (Y=144.5)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=144.5)",
+   "cm3": 2.099,
+   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-152.4)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 68.4 (Y=-152.4)",
    "cruce": false
   },
   {
-   "cm3": 17.592,
-   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" (Y=-152.4)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=-152.4)",
+   "cm3": 2.194,
+   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=152.4)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 68.4 (Y=152.4)",
    "cruce": false
   },
   {
-   "cm3": 8.727,
-   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" (Y=-76.2)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=-76.2)",
+   "cm3": 8.991,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Racor codo giratorio 360° Rc3/8–1/4\" (cilindro, puerto A, Z=30.5)",
    "cruce": false
   },
   {
-   "cm3": 1.738,
-   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" (Y=152.4)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=152.4)",
+   "cm3": 8.991,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Racor codo giratorio 360° Rc3/8–1/4\" (cilindro, puerto B, Z=52.5)",
    "cruce": false
   },
   {
-   "cm3": 4.834,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (-Y)",
-   "b": "FIJO · NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC 72×46×60 (094.10795)",
-   "cruce": false
-  },
-  {
-   "cm3": 27.218,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
-   "b": "MÓVIL · Transfer roller guard 14 GA 431.8×148",
+   "cm3": 23.496,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "MÓVIL · NEUMÁTICA · Cilindro MGPM80-10Z — vástago del émbolo Ø25 (émbolo Ø80)",
    "cruce": true
   },
   {
@@ -208,207 +208,375 @@
    "cruce": false
   },
   {
+   "cm3": 0.667,
+   "a": "MÓVIL · Rodillo vulcanizado Ø1-3/8\" × 375 (línea 4, Y=38.1)",
+   "b": "MÓVIL · Tapa-soporte de extremo Ø25.93/Ø22 × 11 (línea 4, Y=38.1, motriz)",
+   "cruce": false
+  },
+  {
+   "cm3": 0.838,
+   "a": "MÓVIL · Rodillo vulcanizado Ø1-3/8\" × 375 (línea 2, Y=-114.3)",
+   "b": "MÓVIL · Tapa-soporte de extremo Ø25.93/Ø22 × 11 (línea 2, Y=-114.3, motriz)",
+   "cruce": false
+  },
+  {
+   "cm3": 27.775,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · Soporte de válvula 3/16\" 52×98",
+   "cruce": false
+  },
+  {
    "cm3": 8.831,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
    "b": "MÓVIL · Pasador guía Ø12.7 × 39.91 en colisa (X=190, Y=+223.53, Z=179)",
    "cruce": true
   },
   {
    "cm3": 8.831,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
    "b": "MÓVIL · Pasador guía Ø12.7 × 39.91 en colisa (X=273, Y=+223.53, Z=179)",
    "cruce": true
   },
   {
-   "cm3": 2.399,
-   "a": "MÓVIL · Rodamiento R10-2RS (Y=-144.5, interior) (15.88×34.92×7.94)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=-144.5)",
+   "cm3": 0.848,
+   "a": "MÓVIL · Rodamiento R10-2RS (Y=76.2, interior) (15.875×34.92×7.94)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 73.5 (Y=76.2)",
    "cruce": false
   },
   {
-   "cm3": 1.013,
-   "a": "MÓVIL · Rodamiento R10-2RS (Y=144.5, interior) (15.88×34.92×7.94)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=144.5)",
+   "cm3": 1.657,
+   "a": "MÓVIL · Rodamiento R10-2RS (Y=-144.5, interior) (15.875×34.92×7.94)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 68.4 (Y=-144.5)",
    "cruce": false
   },
   {
-   "cm3": 2.129,
-   "a": "MÓVIL · Rodamiento R10-2RS (Y=-152.4, interior) (15.88×34.92×7.94)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=-152.4)",
+   "cm3": 1.731,
+   "a": "MÓVIL · Rodamiento R10-2RS (Y=-76.2, interior) (15.875×34.92×7.94)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 68.4 (Y=-76.2)",
    "cruce": false
   },
   {
-   "cm3": 2.111,
-   "a": "MÓVIL · Rodamiento R10-2RS (Y=-76.2, interior) (15.88×34.92×7.94)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=-76.2)",
+   "cm3": 0.609,
+   "a": "MÓVIL · Rodamiento R10-2RS (Y=152.4, interior) (15.875×34.92×7.94)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 68.4 (Y=152.4)",
    "cruce": false
   },
   {
-   "cm3": 2.743,
-   "a": "MÓVIL · Rodamiento R10-2RS (Y=152.4, interior) (15.88×34.92×7.94)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=152.4)",
+   "cm3": 0.639,
+   "a": "MÓVIL · Rodamiento R10-2RS (Y=-144.5, exterior) (15.875×34.92×7.94)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 68.4 (Y=-144.5)",
    "cruce": false
   },
   {
-   "cm3": 1.863,
-   "a": "MÓVIL · Rodamiento R10-2RS (Y=-144.5, exterior) (15.88×34.92×7.94)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=-144.5)",
+   "cm3": 0.858,
+   "a": "MÓVIL · Rodamiento R10-2RS (Y=144.5, exterior) (15.875×34.92×7.94)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 68.4 (Y=144.5)",
    "cruce": false
   },
   {
-   "cm3": 2.555,
-   "a": "MÓVIL · Rodamiento R10-2RS (Y=-152.4, exterior) (15.88×34.92×7.94)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=-152.4)",
+   "cm3": 2.075,
+   "a": "MÓVIL · Rodamiento R10-2RS (Y=-76.2, exterior) (15.875×34.92×7.94)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 68.4 (Y=-76.2)",
    "cruce": false
   },
   {
-   "cm3": 2.98,
-   "a": "MÓVIL · Rodamiento R10-2RS (Y=-76.2, exterior) (15.88×34.92×7.94)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=-76.2)",
+   "cm3": 4.004,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Racor codo giratorio 360° 1/4\" (válvula, puerto A, Z=30.5)",
    "cruce": false
   },
   {
-   "cm3": 3.136,
-   "a": "MÓVIL · Rodamiento R10-2RS (Y=152.4, exterior) (15.88×34.92×7.94)",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=152.4)",
+   "cm3": 4.004,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Racor codo giratorio 360° 1/4\" (válvula, puerto B, Z=52.5)",
    "cruce": false
   },
   {
-   "cm3": 123.221,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
+   "cm3": 0.622,
+   "a": "MÓVIL · Anillo retención interior DIN 472 Ø35 (Y=-144.5, exterior)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 68.4 (Y=-144.5)",
+   "cruce": false
+  },
+  {
+   "cm3": 0.594,
+   "a": "MÓVIL · Anillo retención interior DIN 472 Ø35 (Y=144.5, exterior)",
+   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 68.4 (Y=144.5)",
+   "cruce": false
+  },
+  {
+   "cm3": 126.359,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
    "b": "MÓVIL · Placa peine 3/16\" 432×292.5 (lado motriz)",
    "cruce": true
   },
   {
-   "cm3": 1.287,
-   "a": "FIJO · NEUMÁTICA · Mesa guía Ø100 × 20 mm — cuerpo 170×200×81 (923.01022)",
-   "b": "FIJO · Perno hex M12 × 45 fijación de la mesa (X=169.5, Y=+85)",
+   "cm3": 0.697,
+   "a": "MÓVIL · Tapa-soporte de extremo Ø25.93/Ø22 × 11 (línea 1, Y=-190.5, motriz)",
+   "b": "MÓVIL · Rodamiento 608-2RS bore hex 5/16\" (línea 1, Y=-190.5, motriz) (8×22×7)",
    "cruce": false
   },
   {
-   "cm3": 1.747,
-   "a": "FIJO · NEUMÁTICA · Mesa guía Ø100 × 20 mm — cuerpo 170×200×81 (923.01022)",
-   "b": "FIJO · Perno hex M12 × 45 fijación de la mesa (X=293.5, Y=−85)",
+   "cm3": 0.8,
+   "a": "MÓVIL · Tapa-soporte de extremo Ø25.93/Ø22 × 11 (línea 1, Y=-190.5, libre)",
+   "b": "MÓVIL · Rodamiento 608-2RS bore hex 5/16\" (línea 1, Y=-190.5, libre) (8×22×7)",
    "cruce": false
   },
   {
-   "cm3": 8.425,
-   "a": "FIJO · NEUMÁTICA · Mesa guía Ø100 × 20 mm — cuerpo 170×200×81 (923.01022)",
-   "b": "FIJO · Perno hex M12 × 45 fijación de la mesa (X=293.5, Y=+85)",
+   "cm3": 0.746,
+   "a": "MÓVIL · Tapa-soporte de extremo Ø25.93/Ø22 × 11 (línea 2, Y=-114.3, libre)",
+   "b": "MÓVIL · Rodamiento 608-2RS bore hex 5/16\" (línea 2, Y=-114.3, libre) (8×22×7)",
    "cruce": false
   },
   {
-   "cm3": 3.998,
-   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" TAKE-UP IDLER (Y=76.2)",
-   "b": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" (Y=144.5)",
+   "cm3": 0.9,
+   "a": "MÓVIL · Tapa-soporte de extremo Ø25.93/Ø22 × 11 (línea 6, Y=190.5, motriz)",
+   "b": "MÓVIL · Rodamiento 608-2RS bore hex 5/16\" (línea 6, Y=190.5, motriz) (8×22×7)",
    "cruce": false
   },
   {
-   "cm3": 2.519,
-   "a": "FIJO · Perno hex 3/8-16 × 20.85 · Canal base -Y X95",
-   "b": "FIJO · NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC 72×46×60 (094.10795)",
+   "cm3": 0.662,
+   "a": "MÓVIL · Tapa-soporte de extremo Ø25.93/Ø22 × 11 (línea 6, Y=190.5, libre)",
+   "b": "MÓVIL · Rodamiento 608-2RS bore hex 5/16\" (línea 6, Y=190.5, libre) (8×22×7)",
+   "cruce": false
+  },
+  {
+   "cm3": 5.57,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Silenciador 1/8\" NPT Ø18 (X=307) (923.0059)",
+   "cruce": false
+  },
+  {
+   "cm3": 44.158,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Silenciador 1/8\" NPT Ø18 (X=331) (923.0059)",
+   "cruce": false
+  },
+  {
+   "cm3": 137.267,
+   "a": "MÓVIL · Polea loca banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 TAKE-UP IDLER (Y=76.2)",
+   "b": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=144.5)",
+   "cruce": false
+  },
+  {
+   "cm3": 2.858,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · Perno hex M12 × 25 fijación del cilindro (X=205.5, Y=−90)",
+   "cruce": false
+  },
+  {
+   "cm3": 2.858,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · Perno hex M12 × 25 fijación del cilindro (X=205.5, Y=+90)",
+   "cruce": false
+  },
+  {
+   "cm3": 2.858,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · Perno hex M12 × 25 fijación del cilindro (X=257.5, Y=−90)",
+   "cruce": false
+  },
+  {
+   "cm3": 2.858,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · Perno hex M12 × 25 fijación del cilindro (X=257.5, Y=+90)",
+   "cruce": false
+  },
+  {
+   "cm3": 2.449,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Perno hex 1/4-20 × 2-1/2\" válvula↔soporte (X=303)",
+   "cruce": false
+  },
+  {
+   "cm3": 3.794,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Perno hex 1/4-20 × 2-1/2\" válvula↔soporte (X=335)",
+   "cruce": false
+  },
+  {
+   "cm3": 0.677,
+   "a": "MÓVIL · Brazo de empuje de la horquilla 75×42×22 (Y=+58…100, cara de empuje Z=143.5)",
+   "b": "MÓVIL · Tornillo SHCS M12 × 30 de la horquilla (X=205.5, Y=+87)",
+   "cruce": false
+  },
+  {
+   "cm3": 2.637,
+   "a": "MÓVIL · Brazo de empuje de la horquilla 75×42×22 (Y=+58…100, cara de empuje Z=143.5)",
+   "b": "MÓVIL · Tornillo SHCS M12 × 30 de la horquilla (X=257.5, Y=+87)",
+   "cruce": false
+  },
+  {
+   "cm3": 0.677,
+   "a": "MÓVIL · Brazo de empuje de la horquilla 75×42×22 (Y=−58…100, cara de empuje Z=143.5)",
+   "b": "MÓVIL · Tornillo SHCS M12 × 30 de la horquilla (X=205.5, Y=−87)",
+   "cruce": false
+  },
+  {
+   "cm3": 1.313,
+   "a": "MÓVIL · Brazo de empuje de la horquilla 75×42×22 (Y=−58…100, cara de empuje Z=143.5)",
+   "b": "MÓVIL · Tornillo SHCS M12 × 30 de la horquilla (X=257.5, Y=−87)",
+   "cruce": false
+  },
+  {
+   "cm3": 5.132,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Tubería 1/4\" OD Ø7.94 — línea A (válvula → cilindro, 96 mm)",
+   "cruce": false
+  },
+  {
+   "cm3": 5.132,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Tubería 1/4\" OD Ø7.94 — línea B (válvula → cilindro, 96 mm)",
+   "cruce": false
+  },
+  {
+   "cm3": 2.862,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "MÓVIL · Tornillo SHCS M12 × 30 de la horquilla (X=205.5, Y=+87)",
+   "cruce": true
+  },
+  {
+   "cm3": 2.862,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "MÓVIL · Tornillo SHCS M12 × 30 de la horquilla (X=257.5, Y=+87)",
+   "cruce": true
+  },
+  {
+   "cm3": 2.862,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "MÓVIL · Tornillo SHCS M12 × 30 de la horquilla (X=205.5, Y=−87)",
+   "cruce": true
+  },
+  {
+   "cm3": 2.862,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "MÓVIL · Tornillo SHCS M12 × 30 de la horquilla (X=257.5, Y=−87)",
+   "cruce": true
+  },
+  {
+   "cm3": 3.857,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Perno hex 3/8-16 × 1\" de colisa (X=321.5, Y=+228.57)",
    "cruce": false
   },
   {
    "cm3": 19.435,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
    "b": "FIJO · Golilla Ménsula jack inf +Y X115.75 Z100 (tuerca) Ø9.525",
    "cruce": false
   },
   {
-   "cm3": 19.435,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
-   "b": "FIJO · Golilla Ménsula jack inf +Y X115.75 Z118 (tuerca) Ø9.525",
-   "cruce": false
-  },
-  {
-   "cm3": 19.436,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
-   "b": "FIJO · Golilla Side channel +Y X60 (tuerca) Ø9.525",
-   "cruce": false
-  },
-  {
-   "cm3": 19.436,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
-   "b": "FIJO · Golilla Side channel +Y X231.5 (tuerca) Ø9.525",
-   "cruce": false
-  },
-  {
    "cm3": 8.118,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
    "b": "FIJO · Golilla Canal base +Y X95 (tuerca) Ø9.525",
    "cruce": false
   },
   {
    "cm3": 8.118,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
    "b": "FIJO · Golilla Canal base +Y X32 (tuerca) Ø9.525",
    "cruce": false
   },
   {
-   "cm3": 3.857,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
-   "b": "FIJO · Perno hex 3/8-16 × 1\" de colisa (X=321.5, Y=+231.23)",
+   "cm3": 19.435,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Golilla Ménsula jack inf +Y X115.75 Z118 (tuerca) Ø9.525",
    "cruce": false
   },
   {
-   "cm3": 4.251,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
-   "b": "FIJO · Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z100",
+   "cm3": 19.436,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Golilla Side channel +Y X60 (tuerca) Ø9.525",
    "cruce": false
   },
   {
-   "cm3": 4.251,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
-   "b": "FIJO · Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z118",
+   "cm3": 19.436,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Golilla Side channel +Y X231.5 (tuerca) Ø9.525",
    "cruce": false
   },
   {
-   "cm3": 4.251,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
-   "b": "FIJO · Perno hex 3/8-16 × 20.85 · Side channel +Y X60",
+   "cm3": 5.016,
+   "a": "MÓVIL · Cross angle 1-3/4\"×1\" 12 GA × 215.9 (cartela de la muesca -Y)",
+   "b": "MÓVIL · Polea de retorno banda plana Ø2-1/2\"×1.4\" c/pestañas Ø73.5 (Y=-144.5)",
    "cruce": false
   },
   {
-   "cm3": 4.251,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
-   "b": "FIJO · Perno hex 3/8-16 × 20.85 · Side channel +Y X231.5",
+   "cm3": 0.684,
+   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (−Y−Z)",
    "cruce": false
   },
   {
-   "cm3": 3.181,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
+   "cm3": 0.684,
+   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (−Y+Z)",
+   "cruce": false
+  },
+  {
+   "cm3": 0.684,
+   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (+Y−Z)",
+   "cruce": false
+  },
+  {
+   "cm3": 0.684,
+   "a": "MÓVIL · Motorreductor SEW RF07DRS71S4 — 1/2 hp, 230/460/3, 462 rpm (300.0322)",
+   "b": "MÓVIL · Perno hex M8 × 20 brida motorreductor IEC B14 C120 (+Y+Z)",
+   "cruce": false
+  },
+  {
+   "cm3": 3.067,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
    "b": "FIJO · Perno hex 3/8-16 × 20.85 · Canal base +Y X32",
    "cruce": false
   },
   {
-   "cm3": 3.181,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
+   "cm3": 3.067,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
    "b": "FIJO · Perno hex 3/8-16 × 20.85 · Canal base +Y X95",
    "cruce": false
   },
   {
-   "cm3": 2.628,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
-   "b": "FIJO · Ménsula jack bolt inferior 12 GA 50×47 (+Y X115.75)",
+   "cm3": 4.365,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z100",
    "cruce": false
   },
   {
-   "cm3": 2.779,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
-   "b": "FIJO · Ménsula jack bolt inferior 12 GA 50×47 (+Y X347.25)",
+   "cm3": 4.365,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Perno hex 3/8-16 × 20.85 · Ménsula jack inf +Y X115.75 Z118",
    "cruce": false
   },
   {
-   "cm3": 2.591,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (-Y)",
-   "b": "FIJO · Ménsula jack bolt inferior 12 GA 50×47 (-Y X115.75)",
+   "cm3": 4.365,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Perno hex 3/8-16 × 20.85 · Side channel +Y X60",
    "cruce": false
   },
   {
-   "cm3": 2.72,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (-Y)",
-   "b": "FIJO · Ménsula jack bolt inferior 12 GA 50×47 (-Y X347.25)",
+   "cm3": 4.365,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Perno hex 3/8-16 × 20.85 · Side channel +Y X231.5",
+   "cruce": false
+  },
+  {
+   "cm3": 1.013,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · Perno hex 1/4-20 × 1-1/4\" soporte de válvula (X=296, Y=-182)",
+   "cruce": false
+  },
+  {
+   "cm3": 17.986,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · Perno hex 1/4-20 × 1-1/4\" soporte de válvula (X=332, Y=-182)",
+   "cruce": false
+  },
+  {
+   "cm3": 3.013,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · NEUMÁTICA · Golilla 1/4\" válvula↔soporte (X=335) Ø6.35",
    "cruce": false
   },
   {
@@ -508,15 +676,87 @@
    "cruce": false
   },
   {
-   "cm3": 3.99,
-   "a": "FIJO · Side channel 6-1/2\"×1-3/8\" 12 GA × 457.2 (+Y)",
-   "b": "FIJO · Tuerca hex 3/8-16 de colisa (X=141.5, Y=+231.23)",
+   "cm3": 0.879,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Tuerca hex 3/8-16 · Canal base +Y X32",
    "cruce": false
   },
   {
-   "cm3": 1.18,
-   "a": "FIJO · Perno hex 3/8-16 × 20.85 · Ménsula jack sup -Y X347.25",
-   "b": "FIJO · Tuerca hex 3/8-16 · Ménsula jack sup -Y X347.25",
+   "cm3": 0.879,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Tuerca hex 3/8-16 · Canal base +Y X95",
+   "cruce": false
+  },
+  {
+   "cm3": 0.879,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z100",
+   "cruce": false
+  },
+  {
+   "cm3": 0.879,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Tuerca hex 3/8-16 · Ménsula jack inf +Y X115.75 Z118",
+   "cruce": false
+  },
+  {
+   "cm3": 0.62,
+   "a": "MÓVIL · Eje polea Ø5/8\" g6 × 73.5 (Y=76.2)",
+   "b": "MÓVIL · Tuerca hex 3/8-16 CONTRATUERCA tensor (Y=76.2)",
+   "cruce": false
+  },
+  {
+   "cm3": 0.879,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Tuerca hex 3/8-16 · Side channel +Y X60",
+   "cruce": false
+  },
+  {
+   "cm3": 0.879,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Tuerca hex 3/8-16 · Side channel +Y X231.5",
+   "cruce": false
+  },
+  {
+   "cm3": 3.99,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Tuerca hex 3/8-16 de colisa (X=141.5, Y=+228.57)",
+   "cruce": false
+  },
+  {
+   "cm3": 0.879,
+   "a": "FIJO · Side channel 6-1/2\"×1-1/4\" 12 GA × 457.2 (+Y)",
+   "b": "FIJO · Tuerca hex 3/8-16 de colisa (X=321.5, Y=+228.57)",
+   "cruce": false
+  },
+  {
+   "cm3": 0.721,
+   "a": "MÓVIL · Eje hexagonal 5/16\" × 410 (línea 1, Y=-190.5)",
+   "b": "MÓVIL · Anillo retención eje rodillo (línea 1, Y=-190.5, motriz) Ø8",
+   "cruce": false
+  },
+  {
+   "cm3": 0.769,
+   "a": "MÓVIL · Eje hexagonal 5/16\" × 410 (línea 3, Y=-38.1)",
+   "b": "MÓVIL · Anillo retención eje rodillo (línea 3, Y=-38.1, motriz) Ø8",
+   "cruce": false
+  },
+  {
+   "cm3": 0.793,
+   "a": "MÓVIL · Eje hexagonal 5/16\" × 410 (línea 4, Y=38.1)",
+   "b": "MÓVIL · Anillo retención eje rodillo (línea 4, Y=38.1, motriz) Ø8",
+   "cruce": false
+  },
+  {
+   "cm3": 0.84,
+   "a": "MÓVIL · Eje hexagonal 5/16\" × 410 (línea 6, Y=190.5)",
+   "b": "MÓVIL · Anillo retención eje rodillo (línea 6, Y=190.5, motriz) Ø8",
+   "cruce": false
+  },
+  {
+   "cm3": 0.721,
+   "a": "MÓVIL · Eje hexagonal 5/16\" × 410 (línea 1, Y=-190.5)",
+   "b": "MÓVIL · Anillo retención eje rodillo (línea 1, Y=-190.5, libre) Ø8",
    "cruce": false
   },
   {
@@ -526,19 +766,43 @@
    "cruce": false
   },
   {
-   "cm3": 79.159,
+   "cm3": 0.793,
+   "a": "MÓVIL · Eje hexagonal 5/16\" × 410 (línea 4, Y=38.1)",
+   "b": "MÓVIL · Anillo retención eje rodillo (línea 4, Y=38.1, libre) Ø8",
+   "cruce": false
+  },
+  {
+   "cm3": 0.84,
+   "a": "MÓVIL · Eje hexagonal 5/16\" × 410 (línea 6, Y=190.5)",
+   "b": "MÓVIL · Anillo retención eje rodillo (línea 6, Y=190.5, libre) Ø8",
+   "cruce": false
+  },
+  {
+   "cm3": 3.458,
+   "a": "FIJO · Canal de montaje del cilindro 12 GA 234×103×442.3 (WA-025833)",
+   "b": "FIJO · Tuerca hex 1/4-20 soporte de válvula (X=332, Y=-182)",
+   "cruce": false
+  },
+  {
+   "cm3": 20.008,
+   "a": "MÓVIL · Cross angle 1-3/4\"×1\" 12 GA × 215.9 (cartela de la muesca -Y)",
+   "b": "MÓVIL · Tornillo SHCS M12 × 30 de la horquilla (X=205.5, Y=−87)",
+   "cruce": false
+  },
+  {
+   "cm3": 80.193,
    "a": "MÓVIL · Placa peine 3/16\" 432×292.5 (lado motriz)",
    "b": "MÓVIL · Eje hexagonal 5/16\" × 410 (línea 1, Y=-190.5)",
    "cruce": false
   },
   {
-   "cm3": 129.877,
+   "cm3": 129.334,
    "a": "MÓVIL · Placa peine 3/16\" 432×292.5 (lado motriz)",
    "b": "MÓVIL · Eje hexagonal 5/16\" × 410 (línea 3, Y=-38.1)",
    "cruce": false
   },
   {
-   "cm3": 102.578,
+   "cm3": 100.903,
    "a": "MÓVIL · Placa peine 3/16\" 432×292.5 (lado motriz)",
    "b": "MÓVIL · Eje hexagonal 5/16\" × 410 (línea 4, Y=38.1)",
    "cruce": false
@@ -572,25 +836,13 @@
    "a": "MÓVIL · Placa peine 3/16\" 432×292.5 (lado libre)",
    "b": "MÓVIL · Eje hexagonal 5/16\" × 410 (línea 6, Y=190.5)",
    "cruce": false
-  },
-  {
-   "cm3": 1.644,
-   "a": "MÓVIL · Perno hex 3/8-16 × 22.19 · Guarda Y-150 Z160",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=-144.5)",
-   "cruce": false
-  },
-  {
-   "cm3": 2.293,
-   "a": "MÓVIL · Perno hex 3/8-16 × 22.19 · Guarda Y150 Z160",
-   "b": "MÓVIL · Eje polea Ø5/8\" g6 × 66.98 (Y=144.5)",
-   "cruce": false
   }
  ],
  "contacto_popup": {
-  "caraEmpuje": "MÓVIL · Mesa guía — placa móvil 170×200×25 (carrera aplicada 10)",
-  "z": 131.5,
+  "caraEmpuje": "MÓVIL · NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil 198×75×22 (carrera aplicada 10)",
+  "z": 121.5,
   "separacion_mm": 0,
-  "apoya": "MÓVIL · Plato de empuje 170×200×12 (cara superior Z=143.5 = riel del bastidor móvil)",
+  "apoya": "MÓVIL · Brazo de empuje de la horquilla 75×42×22 (Y=+58…100, cara de empuje Z=143.5)",
   "ok": true
  }
 }

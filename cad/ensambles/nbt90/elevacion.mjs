@@ -2,28 +2,29 @@
 // 90° de bandas angostas (Hytrol ProSort MRT 90° Transfer).
 //
 // Contenido (reparto del CONTRATO.md §6):
-//   · mesa guía neumática Ø100 × 20 mm de carrera (923.01022, tipo SMC MGF100)
+//   · cilindro compacto con guías SMC MGPM80-10Z (componente `mgpm80_10z` del
+//     catálogo del repositorio): Ø80, carrera 10 = P.carrera, casquillo de
+//     deslizamiento, con imán. Pieza REAL y comprable (ver MESA_GUIA.md)
 //   · CYLINDER MOUNTING CHANNEL (WA-025833) de chapa 12 GA conformada, con sus
 //     placas colgantes y las COLISAS de ajuste de 3/8"
 //   · 4 jack bolts 3/8-16 con dos tuercas y golilla cada uno
 //   · válvula 4 vías monosolenoide 24 VDC, su soporte, 2 silenciadores 1/8" NPT,
-//     racores codo giratorios 360°, unión Unifit 1/4" y tubería de 1/4"
-//   · interfaz con el módulo móvil: plato de empuje + 4 pasadores guía en colisa
+//     racores codo giratorios 360° y tubería de 1/4"
+//   · interfaz con el módulo móvil: horquilla de empuje + 4 pasadores guía en colisa
 //
 // Ejes (CONTRATO.md §1):  X = eje de los rodillos · Y = expulsión a 90° ·
 // Z = arriba, Z = 0 en la cara inferior del bastidor.  Unidades: mm.
-// Estado modelado: **ELEVADO** — la mesa guía está dibujada con los 10 mm de
+// Estado modelado: **ELEVADO** — el cilindro está dibujado con los 10 mm de
 // P.carrera aplicados (placa móvil arriba), coherente con los rodillos en P.rodZ.
 //
 // CÓMO FUNCIONA (texto del manual, pág. 8):
-//   La mesa guía neumática empuja hacia arriba el ROLLER FRAME WELDMENT a través
-//   del plato de empuje. La mesa NO es un cilindro suelto: lleva émbolo central
-//   Ø100 y dos columnas guía, y es lo que garantiza el paralelismo del plano de
-//   rodillos. Su carrera de catálogo es de 20 mm y se limita a los 10 mm de la
-//   cota «0.394—MOVEMENT» con dos TIRANTES DE TOPE regulables (M12) que atraviesan
-//   el cuerpo y van roscados a la placa móvil: su cabeza topa contra la cara
-//   inferior del cuerpo. Se ajustan girando la cabeza (accesible por debajo del
-//   canal) y se bloquean con la contratuerca que apoya bajo la placa móvil.
+//   El cilindro empuja hacia arriba el ROLLER FRAME WELDMENT a través de la
+//   horquilla de empuje. No es un cilindro suelto: el MGPM lleva émbolo central
+//   Ø80 y DOS VARILLAS GUÍA Ø25 a 156 mm entre ejes, y es lo que garantiza el
+//   paralelismo del plano de rodillos. Su carrera de catálogo es EXACTAMENTE la
+//   cota «0.394—MOVEMENT» = 10 mm, así que no hay topes postizos que la recorten:
+//   el propio cilindro da la carrera y sus topes de goma de serie (ambos extremos)
+//   absorben el impacto.
 //   La altura del conjunto se ajusta como dice el manual: «Loosen 3/8 in. bolts
 //   holding the cylinder-mounting channel. Adjust using jack bolts, tighten
 //   3/8 in. bolts» ⇒ se aflojan los 4 tornillos de 3/8" que van en COLISAS
@@ -32,17 +33,59 @@
 //   inferior: se afloja una y se aprieta la otra) y se vuelven a apretar.
 
 import {
-  Ensamble, box, cyl, hole, sketchXZ, colisa,
+  Ensamble, box, cyl, hole, sketchXZ, sketchXY, colisa, rectR, arcoPts, hexPts,
   seccionChapa, desarrollo, pernoHex, tuercaHex, golilla, COL, r2, IN,
 } from './lib.mjs';
 import { P } from './params.mjs';
+import { juntaATope, tol13920 } from './tolerancias.mjs';
 
 // ---------------------------------------------------------------------------
 // Cotas locales del módulo.  src: med = medido sobre ref/fig8a_vistas.png con
 // k = 0.6320 mm/px (ESCALA.md) · cat = catálogo · txt = texto del manual ·
 // dis = decisión de diseño de este repositorio.
 // ---------------------------------------------------------------------------
-const t12 = P.cal12;                              // 2.657 — chapa 12 GA del canal
+const t12 = P.cal12;   // 2.657 — 12 GA. Es el espesor del SIDE CHANNEL y de las
+                       // ménsulas de jack bolt de bastidor.mjs, con las que este
+                       // módulo hace cadena (ladoInt/ladoOut, mT). NO es ya el del
+                       // canal de montaje: ver `tCanal`.
+// ESPESOR DEL CYLINDER MOUNTING CHANNEL — 3/16" (4.763), no 12 GA.
+//
+// `dis` (revisión estructural 2026-07-29, hallazgo EST-10). El canal se dibujaba
+// en 12 GA como el resto de la chapa del bastidor, y con ese espesor su ALMA no
+// aguanta: el MGPM80 se atornilla justo en el centro de un vano libre de 229 mm
+// entre las dos alas y la banda de 1 mm de ancho da 182.8 MPa de flexión frente a
+// los 150 de 0.6·Fy(A36) — y ≈233 con la aceleración de la carrera. Además los dos
+// taladros Ø30 de paso de las varillas guía caen EN la sección de momento máximo.
+//
+// Por qué se sube el calibre y no se refuerza: el refuerzo obvio no cabe.
+//   · placa de refuerzo o segunda piel POR ENCIMA del alma → empuja el cilindro
+//     hacia arriba y hay que recuperar esa altura acortando la horquilla, que es
+//     precisamente lo que NO se puede hacer: con `platoT` = 22 la cara superior de
+//     la placa móvil ya está a 2.4 mm del cárter del motorreductor (Z = 123.9).
+//   · placa de refuerzo POR DEBAJO → el canal baja lo mismo y las cabezas de los
+//     4 M12 de fijación (7.5 + golilla 2 = 9.5 mm bajo el alma, hoy con 2.84 mm de
+//     sobra hasta Z = 0) se salen por debajo del bastidor.
+//   · nervios en la artesa de 12.34 mm que queda bajo el alma → hay que esquivar
+//     las 4 cabezas M12 (Y = ±90) y las dos varillas guía (Y = ±78, que RETRAÍDAS
+//     bajan a Z = −3.5), y son 3 tiras soldadas a chapa fina, con su alabeo.
+// Subir el calibre no gasta espacio: el alma crece hacia ABAJO (`canalZ0` baja de
+// 12.34 a 10.24, y las cabezas M12 se quedan en Z = 0.74) y la cara de fijación
+// —`webZ` = 15.0— no se mueve, porque la fija la cadena de alturas desde
+// P.rielInfZ. De regalo, el techo del canal baja de 115.34 a 113.24 y por primera
+// vez queda POR DEBAJO del cárter del motorreductor retraído (113.9).
+// 3/16" no es un calibre nuevo en el equipo: es `P.placaT`, la chapa de las placas
+// peine, las spacer plate y las propias placas colgantes de este canal.
+// Lo que SÍ hay que vigilar del cambio, y queda declarado: el labio de rigidez de
+// 16 mm (`L.labio`, medido sobre la fibra) pasa a ser la pestaña más corta de la
+// pieza. Con radio interior = espesor, el retroceso al punto de tangencia vale
+// r + t/2 = 7.14 mm, así que del labio quedan 8.86 mm de tramo recto y su borde
+// exterior está a 18.4 mm = 3.9·t del alma. La regla de plegadora (pestaña mínima
+// ≈ 4·t con matriz en V estándar) queda justo en el límite: el labio se pliega,
+// pero hay que plegarlo con matriz estrecha y decirlo en el plano.
+const tCanal = P.placaT;                          // 4.763 — 3/16", ver arriba
+const radioCanal = tCanal;                        // dis: radio interior = espesor
+                                                  // (la misma regla de taller que
+                                                  // P.radioPliegue, aplicada a 3/16")
 const L = {
   // --- CYLINDER MOUNTING CHANNEL -------------------------------------------
   // med: contorno x 1497→1867 px, y 759.5→922.5 px de la vista derecha.
@@ -80,71 +123,525 @@ const L = {
   guiaPasador: 12.7,       // dis: pasador Ø1/2"
   guiaRecorrido: 12,       // dis: 12 mm > P.carrera → la colisa es tope de seguridad, no el tope de servicio
   guiaMontY: 195,          // dis: cara del bastidor móvil donde va empotrado el pasador
+  // HOLGURA EN X DE LA COLISA DE GUÍA. Era 0.2 mm (ajuste deslizante), o sea que el
+  // pasador pretendía GUIAR en X y en θz. Desde que la horquilla va ATORNILLADA al
+  // cassette eso sobra y estorba: el conjunto móvil queda solidario de la placa del
+  // MGPM, que ya está guiada por sus dos varillas Ø25 a 156 mm de paso, así que un
+  // segundo guiado en X sería una sobre-restricción entre dos conjuntos SOLDADOS,
+  // cuya distancia relativa sólo se puede garantizar a ±2 mm (ISO 13920-B sobre los
+  // 390 mm entre pasadores). Con 0.2 mm de holgura, o agarrotan o se desgastan hasta
+  // que sobra holgura — que es lo que ya denunciaba E3 del informe.
+  // Se les quita el papel de guía y se quedan de TOPE DE SEGURIDAD: la colisa se
+  // ensancha lo que dice la norma para esa cota soldada, y el recorrido vertical
+  // (`guiaRecorrido`) no se toca, que es la función que sí conservan.
+  guiaHolguraX: r2(2 * tol13920(390, 'B')),   // 4.0 = 2 × ISO 13920-B (120…400 mm)
 
   // --- jack bolts ----------------------------------------------------------
   jackX: [115.75, 347.25], // dis (= bastidor.mjs L.jackX): sobre el alma de cada ala del canal
   jackLargo: 152.4,        // dis: 3/8-16 × 6" — cubre jackSupZ (215.9) → bajo la tuerca inferior
 
-  // --- mesa guía neumática (cat 923.01022 · SMC MGF100-30 con espaciador) ---
-  mesaPlacaT: 25,          // dis: espesor de la mesa móvil (P.mesaAlto − cuerpo)
-  mesaColDia: 30,          // dis: columnas guía (par que da el paralelismo)
-  mesaColSep: 55,          // dis: semidistancia entre columnas guía, en X
-  mesaVastago: 36,         // cat: Ø vástago del MGF100 = 36 mm
-  mesaPernoDia: 12,        // cat: 4 × M12 × 1.75 de fijación
-  mesaPernoX: 62,          // dis: reparto de los 4 pernos dentro de la huella 170 × 200
-  mesaPernoY: 85,          // dis
-  topeY: 70,               // dis: tirantes de tope de carrera, a ±70 en Y
-  topeDia: 12,             // dis: M12
-  // Centro de la mesa en X: NO es P.largo/2 (231.5).  La placa soporte de
-  // transmisión ocupa X 106.7…155 desde Z=124, así que la mesa se corre a
-  // X=245 para que su huella (160…330) libre esa placa con 5 mm.
-  mesaX: 245,              // dis
-  platoT: 12,              // dis: espesor de los brazos de la horquilla de empuje
+  // --- CILINDRO COMPACTO CON GUÍAS SMC MGPM80-10Z --------------------------
+  // Pieza REAL y comprable; sustituye a la «mesa guía 923.01022 · tipo MGF100»
+  // que este módulo inventaba (Ø100 × 20 con dos tirantes de tope caseros).
+  // Registrada como componente `mgpm80_10z` en componentes/catalogo.json.
+  //   cat = SMC, hoja Ø80/Ø100 de la serie MGP (`ref/mesa/smc_mgp80_100_cotas.png`,
+  //         MGPM_2139.pdf pág. 15 para las cotas y pág. 6-7 para prestaciones;
+  //         MGP-old-e.pdf pág. 7 para áreas de émbolo y Ø de vástago).
+  //   web = ficha de venta comprobada el 28-07-2026: AliExpress, listado YIYUN
+  //         «MGPM40 … MGPM80 … -10-20-25…», productId 3256808952498802, desde
+  //         US$153.07 — https://www.aliexpress.com/item/3256808952498802.html
+  //   Fotos del producto y dibujo acotado en `ref/mesa/`; método y validación
+  //   del escalado por píxeles del dibujo en `MESA_GUIA.md`.
+  //
+  // ORIENTACIÓN (dis): la dirección LARGA del cilindro (H, T, U, patrón 180) va
+  // según Y —la de expulsión, donde hay 460 mm libres entre canales— y la CORTA
+  // (G, S, patrón 52) según X. El eje del émbolo es Z. Así la huella en planta
+  // es 91.5 (X) × 202 (Y): 78 mm más estrecha en X que la pieza inventada.
+  cilFA: 22,               // cat: espesor de la placa móvil
+  cilFB: 18,               // cat: hueco placa↔cuerpo RETRAÍDO (con la carrera: 28)
+  cilC: 56.5,              // cat: largo del cuerpo según el eje
+  cilE: 18.5,              // cat: salida de las varillas guía por la cara opuesta a
+                           //      la placa, RETRAÍDO (es el máximo: las varillas van
+                           //      solidarias a la placa, así que al EXTENDER entran
+                           //      10 mm y sólo asoman 8.5. Ver `salidaVarillasMm`).
+  cilA: 115,               // cat: largo total retraído = FA + FB + C + E
+  cilH: 202,               // cat: sección del cuerpo, dirección larga  → Y
+  cilG: 91.5,              // cat: sección del cuerpo, dirección corta  → X
+  cilJ: 45.5,              // cat: reparto de G a un lado del eje (el de los puertos)
+  cilK: 46,                // cat: al otro lado (J + K = G, NO es simétrico)
+  cilT: 198,               // cat: largo de la placa móvil → Y
+  cilS: 75,                // cat: ancho de la placa móvil → X
+  cilU: 156,               // cat: paso entre ejes de varillas guía → ±78 en Y
+  cilDA: 25,               // cat: Ø de las varillas guía
+  cilVastagoDia: 25,       // cat (MGP-old-e.pdf pág. 7, «Rod size»): Ø del vástago
+  cilMM: [180, 54],        // cat VA × L: patrón de las 4 roscas M12×1.75 prof. 25 de
+                           //      la cara INFERIOR del cuerpo (Y, X) → ±90 en Y, ±27 en X.
+                           //
+                           //      El paso corto es L = 54, NO la Q = 52 de la placa:
+                           //      son patrones distintos y confundirlos deja los 4
+                           //      pernos 1 mm adentro, fuera de los Ø13.5 de paso.
+                           //      Medido por los bordes de las dos circunferencias
+                           //      concéntricas de cada rosca en la vista de extremo
+                           //      (p15.png fila y = 1220: 1366/1368…1387/1389 y
+                           //      1470/1472…1491/1493 → centros 1377.5 y 1481.5 px,
+                           //      paso 104.0 px × 0.5200 = 54.08 mm, +0.15 % sobre
+                           //      L = 54; si fuera 52 el error sería +4.0 %).
+                           //      El paso largo cuadra igual de bien: |Y| = 173 px
+                           //      = 89.96 mm = VA/2 = 90 (0.0 %).
+  cilML: 25,               // cat: profundidad útil de esas roscas
+  cilNN: [174, 52],        // cat R × Q: patrón de las 4 roscas M12×1.75 PASANTES de
+                           //      la placa móvil (Y, X) → ±87 en Y, ±26 en X
+  cilPernoDia: 12,         // cat: MM y NN son M12 × 1.75
+  cilGA: 19, cilGB: 15.5,  // cat: posición axial de los dos puertos Rc 3/8 medida
+                           //      desde la cara de la placa (GA) y la opuesta (GB)
+  cilPuertoDia: 17,        // cat: Rc 3/8 (Ø del taladro roscado ≈ 16.7)
+
+  // =========================================================================
+  // PERFIL EXTRUIDO REAL DEL CUERPO — medido por píxeles sobre
+  // `ref/mesa/smc_mgp80_100_cotas.png` (tools/med_px.py), escala anclada como
+  // en MESA_GUIA.md §2: **k = 0.5200 mm/px**, ancla Q = 52 mm sobre los centros
+  // de las 4 roscas NN de la vista de la placa, que `circulos` sitúa en
+  // (240, 928) (340, 928) (240, 1262) (340, 1262) px → paso corto 100.0 px.
+  // Contraste del ancla en la propia vista de extremo (cuerpo x 1192…1368,
+  // y 900…1290 px, eje del émbolo en x = 1279.5 px):
+  //     J   87.5 px → 45.50 mm  (cat 45.5,  0.0 %)
+  //     K   88.5 px → 46.02 mm  (cat 46,    0.0 %)
+  //     G  176.0 px → 91.52 mm  (cat 91.5,  0.0 %)
+  //     H  390.0 px → 202.80 mm (cat 202,  +0.4 %)
+  //     VA 348.0 px → 180.96 mm (cat 180,  +0.5 %)   paso de las 4 roscas MM
+  //     VB 270.25 px → 140.53 mm (cat 140, +0.4 %)   paso de las dos ranuras
+  //   (la primera versión de este bloque ponía la cara K en x = 1368.5 y sacaba
+  //    K 46.28 y G 91.78; la columna x = 1368 tiene tinta y la 1369 no, así que
+  //    la cara está en 1368 y el error se va a cero. Media línea de diferencia.)
+  //
+  // El cuerpo NO es el prisma 91.5 × 202 que decía el modelo. Es la arquitectura
+  // clásica de un MGP: un TUBO CILÍNDRICO central de radio J = 45.5 (el camisa
+  // del émbolo Ø80) unido a DOS OREJAS prismáticas —las que alojan las varillas
+  // guía y las 4 roscas MM— que van de X = −K a X = +JA respecto del eje. G no
+  // se mide en ninguna sección: es la envolvente (tubo por el lado J, oreja por
+  // el lado K), y por eso el catálogo publica J ≠ K con J + K = G.
+  //   · lado J (el de los puertos): cara plana de la oreja a JA = 38 del eje;
+  //     sobre ella asoma el tubo, de radio J = 45.5, que completa los JB = 7.5
+  //     restantes. med: la cara plana está en x = 1206.5 px (73.0 px del eje →
+  //     37.96 mm, cat JA 38, −0.1 %) y el punto más saliente del arco en
+  //     x = 1192 px (JB = 14.5 px → 7.54 mm, cat 7.5, +0.5 %). El arco muerde la
+  //     cara plana entre y = 1034 y 1156 px, que son los ±48.2 px = ±25.06 mm
+  //     que predice √(J² − JA²) = 25.02: el arco es el del tubo, no otro.
+  //   · lado K: cara plana de la oreja a K = 46 (x = 1368 px = 88.5 px del eje →
+  //     46.02 mm, cat 46, 0.0 %). Esa cara NO llega ni al centro ni a los
+  //     extremos, y las dos interrupciones se leen directamente en la columna
+  //     x = 1368, que sólo tiene tinta en y 927…1015 y 1175…1290:
+  //       – CINTURA CENTRAL (rasgo que faltaba): entre y 1015 y 1175 la cara K
+  //         desaparece y el contorno lo hace el ARCO DEL TUBO. Transición por
+  //         chaflán recto medido punto a punto (1368,1015) (1363,1018)
+  //         (1357.5,1021) (1352,1024) → pendiente 1.72 px/px, que corta el arco
+  //         de R 87.5 px en (1338.6, 1031.5). En mm: la cara K acaba a
+  //         |Y| = 41.6 y el arco arranca a |Y| = 33.0, x = 31.3 del eje
+  //         (√(45.5² − 33²) = 31.32: el punto está sobre el arco al 0.5 %).
+  //       – EXTREMOS: por encima de |Y| ≈ 87.4 la cara K se retira otra vez a
+  //         ≈ 38 (columna x = 1353 con tinta en y 904…919, o sea |Y| 91.5…99.3).
+  //     Dos lecturas independientes de esa retirada: la de este bloque
+  //     (87.4 → 91.5) y la de la vista «Back side» (87.36 → 91.78). Difieren
+  //     0.4 %; se conserva el promedio [87.1, 91.9] que ya estaba escrito.
+  //   · Lo que se ve en el dibujo y NO se modela (declarado, no inventado): las
+  //     cuatro RANURAS DE CAPTADOR en el encuentro tubo↔oreja (pequeños
+  //     cuadrados girados 45° de ~18 px = 9.4 mm de lado, en x 1200…1225 y
+  //     1345…1358 a y ≈ 1033 y 1157), y el segundo par «2-Rc3/8 (Plug)» que el
+  //     catálogo secciona en la cara de extremo. Las fotos los enseñan; el
+  //     dibujo no los acota, así que no entran al sólido (ver informe).
+  cilJA: 38,               // cat (tabla, JA): cara plana de la oreja, lado J
+  cilJB: 7.5,              // cat (tabla, JB): lo que el tubo asoma sobre esa cara
+                           //      plana  (JA + JB = J = 45.5)
+  cilKcintura: [33.0, 41.6], // med: |Y| donde arranca el arco del tubo y donde
+                           //      acaba la cara K = 46, en la CINTURA central del
+                           //      lado K. Entre los dos, chaflán recto. Ver arriba
+                           //      el punto a punto de la transición (1368,1015) …
+                           //      (1352,1024) y su corte con el arco.
+  cilKbanda: [87.1, 91.9], // med: |Y| donde el resalte de la cara K (46) se
+                           //      retira a 38. Dos lecturas independientes:
+                           //      vista de extremo, transición y 918→928 px →
+                           //      |H| 92.04 → 86.84 mm; vista «Back side»,
+                           //      líneas continuas y 162 y 170.5 px sobre el
+                           //      borde 143.5 → |H| 91.78 → 87.36 mm.  Promedio.
+  cilChaflan: 1.5,         // med: la esquina longitudinal de la oreja (84 × 202)
+                           //      se cierra en 3 px (1.56 mm) — vista de extremo,
+                           //      esquina J/+H: la cara superior arranca en
+                           //      x = 1210 px y la cara J en y = 903 px. Es el
+                           //      LÍMITE DE RESOLUCIÓN del dibujo (la línea mide
+                           //      2 px), así que el valor vale ±0.5 mm; las fotos
+                           //      (`aliexpress_mgpm_foto.jpg`, `vpc_mgp_foto.jpg`)
+                           //      confirman que el chaflán existe, no su tamaño.
+
+  // --- RANURAS EN T de los costados (figura «Dimension of T slot» + tabla) ---
+  // La tabla da la SECCIÓN para Ø80 (capa cat); lo que NO dice —en qué cara van,
+  // a qué altura, y cómo se reparte la profundidad— se midió por píxeles sobre la
+  // ranura superior de la vista de extremo (cara K, x 1325.5…1368.5 px, y
+  // 940.5…979.5 px). Contraste de las CINCO cotas impresas:
+  //     a  boca            947.5→972.5 y  = 25.0 px → 13.00 mm  (cat 13.3, −2.3 %)
+  //     b  fondo ancho     940.5→979.5 y  = 39.0 px → 20.28 mm  (cat 20.3, −0.1 %)
+  //     c  prof. ancho    1330.5→1353.5 x = 23.0 px → 11.96 mm  (cat 12,   −0.3 %)
+  //     d  prof. boca     1353.5→1368.5 x = 15.0 px →  7.80 mm  (cat 8,    −2.5 %)
+  //     e  prof. total    1325.5→1368.5 x = 43.0 px → 22.36 mm  (cat 22.5, −0.6 %)
+  //   error medio 1.1 %, máximo 2.5 % (sobre distancias de 15…43 px: ±0.5 px de
+  //   lectura ya son ±2 % en las cortas). Relectura independiente tomando el
+  //   CENTRO de cada racha en vez de su borde exterior: a 25.0 px, b 38.5 px,
+  //   c 22.0 px (−4.7 %), d 16.0 px (+4.0 %), e 43.5 px (+0.5 %). O sea que el
+  //   reparto c/d baila un píxel según dónde se ponga la frontera —son los dos
+  //   tramos más cortos y comparten una sola línea— mientras que la SUMA `e`
+  //   sale igual por los dos caminos. Otra razón para meter al modelo la tabla y
+  //   no los píxeles. La figura del catálogo es esquemática y
+  //   NO está a escala (a/b dibujado 0.600 contra 0.655 real, −8 %): sirve para
+  //   la topología, no para medir. Las cotas que entran al modelo son las de la
+  //   tabla; los píxeles sólo las verifican y resuelven lo que la tabla calla:
+  //   · **e ≠ c + d**: entre el fondo ancho y el fondo real hay un RELIEVE
+  //     central de e − c − d = 2.5 mm de profundidad y del ancho de la boca
+  //     (med: 947.5→972.5 px, los mismos 25 px que `a`). Se lee igual en la
+  //     figura de detalle y en la vista de extremo.
+  //   · van en la cara **K** (la de 46), no en la J: en la cara J el mismo barrido
+  //     da la arista continua sin interrupción, y la vista «Back side» —que mira
+  //     esa cara K— enseña las dos bocas como líneas continuas de extremo a
+  //     extremo del cuerpo (x 643…848.5 px, cobertura 205/205).
+  //   · son **DOS**, centradas en y = 960 y 1230 px = ±135.0 px = ±70.2 mm del
+  //     plano medio (y = 1095 px): paso 270 px = 140.40 mm = la cota tabulada
+  //     **VB = 140** (+0.3 %). Se modelan por tanto a ±VB/2 = ±70 exactos.
+  //   · corren toda la altura del cuerpo (C), que es la dirección de extrusión.
+  cilT_a: 13.3, cilT_b: 20.3, cilT_c: 12, cilT_d: 8, cilT_e: 22.5,   // cat (tabla)
+  cilVB: 140,              // cat (tabla VB): paso entre ejes de las dos ranuras
+  cilHA: 'M12',            // cat (tabla HA): tornillo de cabeza cilíndrica que admite
+
+  // --- puertos Rc 3/8: dónde caen de verdad --------------------------------
+  // No están en el plano medio: el catálogo los sitúa a **PW = 74** del eje del
+  // émbolo en la dirección larga (H), los dos del mismo lado. Confirmado por
+  // píxeles dos veces sobre la vista lateral: los dos roscados salen centrados
+  // en y = 1237.5 px (143 px del eje y = 1095 → 74.36 mm, +0.5 %) y la propia
+  // línea de cota de PW ocupa x = 940 px, y 1095…1238 px = 143 px. Axialmente
+  // caen donde ya los ponía el módulo: x = 680 px (37 px de la cara de la placa
+  // → 19.24 mm, cat GA 19, +1.3 %) y x = 819.5 px (29 px de la cara de fijación
+  // → 15.08 mm, cat GB 15.5, −2.7 %).
+  cilPW: 74,               // cat (tabla PW): eje del émbolo → eje de los puertos
+  cilPuertoLadoY: -1,      // dis: los dos puertos miran a −Y, que es donde está
+                           //      la válvula (Y −172…−100): acorta la tubería
+  cilPuertoProf: 12,       // dis: profundidad del roscado Rc 3/8. med sobre el
+                           //      puerto TAPADO de la vista de extremo (cara H,
+                           //      y 1289.5→1271 px) = 18.5 px = 9.62 mm; se deja
+                           //      en 12 porque un Rc 3/8 necesita ~11 mm de rosca
+                           //      útil y es lo que aloja el niple del racor.
+
+  // --- placa móvil: alojamientos que enseñan la vista de la placa y las fotos --
+  // med sobre la vista de la placa (centro en x = 290, y = 1095 px):
+  //   · en cada varilla guía (y = 944.5 y 1245.5 px = ±150.5 px = ±78.3 mm, cat
+  //     U/2 = 78) hay una circunferencia de 56.5 px → 29.38 mm ≈ cat DB = 30.
+  //     En las dos fotos es un ALOJAMIENTO circular en la cara superior con el
+  //     tornillo de fijación de la varilla en el fondo.
+  //   · en el centro NO hay dos circunferencias y un hexágono dentro, como se
+  //     había escrito: hay UNA circunferencia y UN hexágono, y el «segundo
+  //     círculo» era el propio hexágono. La fila y = 1095 px cruza exactamente
+  //     cinco líneas —259.5 · 270 · 290 (eje) · 310.5 · 321— o sea dos rasgos
+  //     concéntricos y nada más:
+  //       caja Ø 61.5 px → 31.98 mm   (se conserva 32.2, +0.7 %, ver abajo)
+  //       hexágono, dos caras VERTICALES en x = 270 y 310.5 → 40.5 px
+  //                                    → **20.80 mm entre caras**
+  //     El recorte ampliado enseña las dos caras rectas y los vértices arriba y
+  //     abajo (y ≈ 1073 y 1118 px, entrecaras × 2/√3 = 46.8 px, medido 45): es un
+  //     hexágono con e/c 20.8, no 17.7. Y cuadra con la pieza: su diagonal
+  //     20.8 × 2/√3 = 24.02 cabe en el vástago de Ø25 (cat), que es justo lo que
+  //     tiene que pasar si el hexágono es el rebaje de llave del extremo del
+  //     vástago. Con 17.7 la diagonal habría sido 20.4 y sobraría material.
+  // Los DIÁMETROS y el entrecaras son medidos; las PROFUNDIDADES no las acota el
+  // catálogo y son decisión de este repositorio (`dis`), tomadas para que quede
+  // alma sana en una placa de FA = 22.
+  cilPlacaCajaDia: 29.4,   // med 56.5 px (cat DB 30, −2.1 %). Relectura propia:
+                           //      bordes en 262 y 318 px = 56.0 px → 29.12 mm,
+                           //      1.0 % por debajo del valor escrito: se conserva.
+  cilPlacaCajaProf: 8,     // dis
+  cilPlacaAsientoDia: 25.6,// dis: DA 25 + P.holgura.deslizante — asiento de la varilla
+  cilPlacaAsientoProf: 10, // dis
+  cilPlacaVastagoDia: 32.2,// med 62 px — caja del extremo del vástago, cara superior
+                           //      (relectura 61.5 px → 31.98; se conserva 32.2)
+  cilPlacaHexAF: 20.8,     // med 40.5 px entre caras — alojamiento hexagonal del
+                           //      extremo del vástago, en el FONDO de esa caja
+  cilPlacaHexProf: 14,     // dis: total desde la cara superior (6 mm por debajo
+                           //      del fondo de la caja Ø32.2); deja 8 mm de alma
+  // Prestaciones (cat; las usa el bloque de verificaciones del final):
+  cilArea: [5027, 4536],   // cat: área de empuje / de retorno, mm²
+  cilPresion: [0.1, 1.0],  // cat: presión de trabajo mín. / máx., MPa
+  cilVelAdm: [50, 400],    // cat: velocidad de émbolo admisible, mm/s (velocidad MEDIA
+                           //      de émbolo, que es la que se ajusta con el regulador)
+  cilEkAdm: 2.71,          // cat: energía cinética admisible, J (topes de goma)
+  cilFactorImpacto: 1.4,   // cat: nota de la hoja de la serie MGP — la velocidad de
+                           //      IMPACTO contra el tope de final de carrera es
+                           //      1.4 × la velocidad media de émbolo
+  cilMasa: 6.49,           // cat: masa del MGPM80 con carrera 25 (la menor tabulada;
+  cilMasaMovil: 4.27,      // cat:  de ella, partes móviles). Valor conservador para
+                           //      la carrera 10, que el catálogo no tabula.
+  cilLateralAdm: 352,      // cat: carga lateral admisible sobre la placa, N
+  cilParAdm: 21.9,         // cat: par de giro admisible sobre la placa, N·m
+  cilNoGiro: 0.04,         // cat: precisión de no-giro de la placa, ±grados
+
+  // --- implantación del cilindro -------------------------------------------
+  // CENTRADO EN X (dis). La mesa inventada iba descentrada a X=245 porque su
+  // huella de 170 mm en X chocaba con la placa soporte de transmisión
+  // (X 106.7…119.4, con su doblador desde 106.7). El cuerpo real sólo mide 91.5
+  // en X: centrado en P.largo/2 = 231.5 ocupa X 185.5…277.0 y deja 66 mm a esa
+  // placa y 68 mm al ala +X del canal. Se centra, por tanto, y con eso la
+  // excentricidad respecto del centro de gravedad del conjunto móvil —que es
+  // simétrico salvo el motorreductor— baja de 13.5 mm a los 2.3 mm residuales
+  // que se calculan abajo. Comprobado además contra el motorreductor: su macizo
+  // arranca en Z=123.9 y la placa móvil queda en 121.5 (ver `holguraPlacaMotor`).
+  mesaX: 231.5,            // dis (= P.largo / 2 = centro del canal de montaje)
+  cilPuertoLadoJ: +1,      // dis: el lado J (puertos Rc3/8) mira a +X, que es donde
+                           //      queda el pasillo libre del canal (X 277…345.8) y
+                           //      donde se aloja la válvula: tubería mínima.
+  // Espesor de los brazos de la horquilla. NO es libre: es lo que cierra la
+  // cadena de alturas (ver §0). Con 22 mm la cara superior de la placa móvil
+  // queda en Z=121.5, 2.4 mm por debajo del punto más bajo del motorreductor
+  // (Z=123.9) — que es la razón por la que la placa YA NO se puede rebajar como
+  // se hacía con la mesa inventada: rebajar la placa de un MGPM sería cortar
+  // justo por donde se atornillan el vástago y las dos varillas guía.
+  platoT: 22,              // dis (era 12; +10 recuperados de la cadena de alturas)
+  platoHolguraMotor: 2.0,  // dis: holgura mínima exigida placa móvil ↔ motorreductor
 
   // --- horquilla de empuje: esquiva el motorreductor -----------------------
-  // Medido sobre el sólido del motor (X 41.3…433.4, eje Y=0 Z=P.motrizZ): sobre
-  // la huella de la mesa el macizo llega a |Y| ≤ 48 en Z=131.5 (bloque reductor)
-  // y a |Y| ≤ 54 en Z=143.5.  Su punto más bajo es Z=123.9.
+  // Medido sobre el sólido del motor (X 41.3…433.4, eje Y=0 Z=P.motrizZ): el
+  // cárter del reductor es un prisma de 110 (Y) × 150 (Z) con esquinas R22, así
+  // que su cara inferior plana (Z=123.9) llega a |Y| ≤ 33 y su punta a |Y| = 55.
   motorZ0: 123.9,          // med sobre el sólido de transmision.mjs
   motorY131: 48, motorY143: 54,
-  rebajeY: 51,             // dis: semiancho del rebaje de paso del motor (48 + 3)
-  rebajeZ: 120.9,          // dis: fondo del rebaje (motorZ0 − 3)
   brazoY0: 58,             // dis: arranque de los brazos de la horquilla (54 + 4)
-  brazoY1: 100,            // dis: borde exterior = borde de la placa móvil
-  brazoPernoY: 79,         // dis: pernos M10 de cada brazo, centrados en el brazo
+  // Borde exterior de los brazos. Era 100 —el borde de la placa móvil (T/2 = 99)—
+  // y eso dejaba el apoyo en Y 80…100, o sea 20 de los 40 mm de alma del NOTCHED
+  // BRACE CHANNEL, con el centroide en Y = 90.  El cassette se apoya SÓLO ahí, así
+  // que ese 90 es el brazo con el que se juega el vuelco (EST-03): un bulto sobre
+  // el rodillo del extremo (Y = ±190.5) despega el apoyo contrario.  Se lleva el
+  // brazo hasta 120 (dis) para cubrir el alma ENTERA y subir el centroide a 100:
+  // es el máximo que ofrece el cassette —el alma del brace channel acaba en 120 y
+  // más afuera no hay nada a esta altura hasta el SIDE CHANNEL, que es FIJO—.
+  // El brazo vuela por tanto 21 mm sobre el borde de la placa; sus dos pernos
+  // están en Y = ±87 (roscas NN reales), luego el voladizo desde la línea de
+  // pernos hasta el nuevo centroide es de 13 mm sobre un macizo de 22 mm de canto:
+  // σ = 6·(436·0.013)/(75·22²) = 0.16 MPa. El brazo no se entera; el que no llega
+  // es el cassette (ver EST-03 en REVISION_ESTRUCTURAL.md).
+  brazoY1: 120,            // dis (= contactoY[1]): el apoyo cubre el alma completa
+  // Los pernos de la horquilla YA NO son libres: caen en las 4 roscas NN reales
+  // de la placa, o sea a Y = ±87 y X = ±26 del eje (patrón 174 × 52).
+  brazoPernoY: 87,         // cat (= cilNN[0] / 2)
   // La cara de empuje se apoya en la cara inferior de los NOTCHED BRACE CHANNEL
   // del bastidor móvil, que están en Y = ±(80…120) con la cara inferior en
   // Z = P.rielInfZ: contacto real de 20 mm de ancho por brazo.
   contactoY: [80, 120],    // dis (= bastidor.mjs: notched brace channel)
 
+  // =========================================================================
+  // ANCLAJE DE LA HORQUILLA AL CASSETTE — cierra EST-03 (vuelco)
+  // =========================================================================
+  // EL PROBLEMA. Apoyar NO BASTA. Con la horquilla apoyada y nada más, la
+  // resultante vertical tiene que caer dentro de la huella (|Y| ≤ 120, |X − 231.5|
+  // ≤ 37.5) o el cassette despega, y no cae:
+  //   · en Y — bulto de 34 kg en el rodillo extremo (Y = ±190.5) contra 38 kg de
+  //     masa móvil (cota INFERIOR): resultante en Y = 89.96, FS al despegue 1.11
+  //     frente a los 1.5 exigidos. Y ESO ERA SÓLO LA MITAD DEL CASO: falta la
+  //     REACCIÓN DE ARRASTRAR EL BULTO. El rodillo empuja el bulto con µ·m·g =
+  //     166.7 N y la reacción entra en el cassette en la GENERATRIZ SUPERIOR del
+  //     rodillo, 253.45 mm por encima del plano de apoyo → 42.25 N·m más de
+  //     vuelco. Con el bulto en el extremo −Y y el arrastre hacia +Y los dos
+  //     momentos SE SUMAN (105.77 N·m contra 70.60 disponibles) y el apoyo +Y no
+  //     es que vaya justo: **despega**. La revisión anterior no metía este término.
+  //   · en X — la huella de la horquilla mide 75 mm y el campo de rodillos, 375.
+  //     El bulto más corto que admite el equipo (8" = 203.2, web SORT-014) puesto
+  //     en un extremo de la cara del rodillo lleva la resultante a 40.6 mm del eje
+  //     con 37.5 de huella: también despega, y por el otro eje.
+  // Y hay un tercer síntoma del mismo hueco: la reacción de arrastre en Y (166.7 N)
+  // sólo la puede transmitir el rozamiento de los apoyos, que da µ·N = 0.20 × 706 =
+  // 141 N < 166.7. O sea que hoy el cassette, además de bascular, RESBALA.
+  //
+  // LO QUE NO LO CIERRA (comprobado, no supuesto):
+  //   · separar los apoyos en Y — para FS 1.5 haría falta el centroide de la
+  //     huella en Y = 135 y el cassette no ofrece NADA entre Y 120 y 195 a esta
+  //     altura (sólo los SIDE CHANNEL, que son FIJOS). Llevar la huella a 80…190
+  //     pondría el centroide justo en 135 y de paso subiría el par de rozamiento
+  //     sobre la placa a 24.5 N·m > 21.9 de catálogo: cambia un incumplimiento
+  //     por otro.
+  //   · un tope fijo bajo el cassette — sólo toca RETRAÍDO, que es cuando no hace
+  //     falta.
+  //   · que los 4 pasadores guía tomen carga vertical — corren en colisas
+  //     VERTICALES y además no están empotrados en nada (E3, contrato §5.1).
+  //
+  // LA SOLUCIÓN: que la unión trabaje A TRACCIÓN. Con la horquilla atornillada al
+  // cassette el modo de fallo desaparece —no hay despegue que comprobar— y de
+  // paso el arrastre en Y deja de depender del rozamiento.
+  //
+  // POR DÓNDE SE ATORNILLA, Y POR QUÉ NO POR DONDE PROPONÍA LA REVISIÓN. La
+  // propuesta era «4 taladros Ø9 en el ALMA de los notched brace channel (X 205.5
+  // y 257.5, Y = ±100) y 4 M8 con la rosca en el brazo». Los taladros CABEN —el
+  // alma tiene 40 mm y su tramo plano entre tangentes de pliegue va de |Y| 85.32 a
+  // 114.68, así que un Ø9 en 100 deja 10.2 mm al arranque del pliegue— pero la
+  // unión NO SE PUEDE APRETAR, y por dos sitios a la vez:
+  //   · POR ARRIBA (que es la única dirección posible si la rosca va en el brazo:
+  //     «desde abajo» y «rosca en el brazo» se contradicen) la cabeza queda dentro
+  //     de la artesa en U del canal, de 34.7 mm de boca y 41.8 de fondo, y encima
+  //     la CARTELA (`cross angle`, X 47.24…263.14, Y 82.66…110.72, Z 185.3) la
+  //     techa justo en esos dos X. Una llave de estrella metida por el canal gira
+  //     3° antes de topar con las alas.
+  //   · POR ABAJO no cabe la herramienta: entre el canto de la placa móvil del
+  //     cilindro (|Y| = 99) y el arranque del pliegue del alma (114.68) quedan
+  //     15.7 mm, y un perno necesita 7.5 de radio de cabeza a un lado y 4.5 + 4 de
+  //     taladro y ligamento al pliegue al otro: 106.5 > 106.2 mm. Falla por 0.3 mm.
+  // La cara que SÍ es accesible es la EXTERIOR: entre el ala del brace channel
+  // (|Y| = 120) y el SIDE CHANNEL fijo (195.5) hay un corredor de 75 mm libre en
+  // los dos estados, y bajo él otros 106 mm de altura libre. Así que el anclaje se
+  // hace por ahí, en HORIZONTAL:
+  //   · `bastidor.mjs` suelda a la cara exterior del ala una MÉNSULA de 3/16" que
+  //     baja por delante del brazo (es pieza del cassette y se va con él);
+  //   · el brazo lleva 2 roscas 1/4-20 en su cara exterior (aquí abajo);
+  //   · 2 pernos por brazo, desde fuera, con la ménsula en COLISA VERTICAL: el
+  //     apoyo plano sigue fijando Z y el perno no compite con él (la misma
+  //     doctrina «redondo + colisa» de los encajes de bastidor.mjs).
+  // Rosca 1/4-20 y no M8: es la familia del equipo (el manual sólo habla de
+  // pulgadas), reutiliza el grado y el par que la compuerta ya fija y cita para
+  // EST-01 (SAE J429 Gr5 a 8 ft·lb, web HW-007/008) y no obliga a meter una serie
+  // métrica nueva de arandela. Capacidad: 8 543 N de precarga por perno → 2 819 N
+  // de deslizamiento (µ = 0.33, AISC clase A) contra los 176 N de despegue.
+  anclaProf: 16,           // dis: profundidad de la rosca en el brazo (2.5·d). El brazo
+                           //      tiene 62 mm de fondo en Y: sobra carne, y la rosca acaba
+                           //      en |Y| = 104, a 7.5 mm del avellanado Ø19 del M12 (|Y| ≤ 96.5)
+  anclaLargo: 19.05,       // cat ASME B18.2.1 · 1/4-20 UNC × 3/4"
+  anclaGolillaE: 1.65,     // cat ASME B18.22.1 tipo A, 1/4" serie N: espesor 0.065"
+  anclaGolillaD: 14.27,    // cat ídem: Ø exterior 0.562". Tapa la colisa (11 mm de largo)
+  anclaBordeEnD: 2.0,      // dis: distancia del eje de la rosca al canto del brazo, en
+                           //      diámetros. El mínimo de norma para un taladro en chapa es
+                           //      1.5·d (web STR-001); aquí es una rosca en un macizo de 22
+                           //      mm, así que se toma 2·d y además se comprueba la pared.
+
+  // µ del bulto sobre el vulcanizado. Es el MISMO `dis` D5 que usa `LIM.muBulto` de
+  // la compuerta, y hace falta aquí porque con la unión atornillada el par y la
+  // carga lateral que llegan a la placa ya NO son la cota de rozamiento de los
+  // apoyos: son la reacción de arrastrar el bulto. La compuerta comprueba que los
+  // dos números no se hayan separado (§9.0), como hace con la T2 de transmision.mjs.
+  muBulto: 0.50,           // dis (= LIM.muBulto de gen_nbt90.mjs; ver D5 del informe)
+  // Largo mínimo de bulto que admite el equipo. Acota la excentricidad en X del
+  // centroide de contacto, que es lo que decide el par sobre la placa y el vuelco
+  // alrededor de Y: el bulto se apoya en la cara del rodillo (P.rodCara = 375) y no
+  // puede ser más corto que esto, así que su centroide no sale de ±(375−203.2)/2.
+  bultoMinLargo: 203.2,    // web SORT-014 · «PACKAGE SIZE - Minimum of 8 in. long x 6 in. wide»
+
   // --- neumática -----------------------------------------------------------
   // med (vista izquierda): el bloque de válvulas ocupa Y −185…−248, Z 25…117.
   // No cabe ahí: el SIDE CHANNEL baja hasta Z=84.9 con el ala hasta Y=−189.1 y
   // la TAPA DEL CANAL BASE ocupa X 22…105, Y −225.9…−200, Z 18…84.9.  Se lleva
-  // al hueco libre DENTRO de la artesa del canal, entre el extremo −Y de la
-  // mesa (Y=−100) y el ala del SIDE CHANNEL: Y −185…−113, Z 20.3…80.3 (dis).
-  valvY: [-185, -113],     // dis: hueco libre dentro de la artesa
-  valvX: [150, 196],       // dis: fuera del canal base (X ≤ 102) y de la mesa (Y)
-  valvZ0: 15.5,            // dis: el soporte apoya en el alma del canal
-  sopY: [-200, -103],      // dis: envolvente del soporte
-  sopX: [130, 216],
-  sopPernos: [[138, -190], [208, -190]],   // dis: anclaje del soporte al alma del canal,
-                                           // fuera de la válvula (Y −185…−113) y del
-                                           // solenoide (Ø30 en Y −164…−134)
+  // al hueco libre DENTRO de la artesa del canal.  Con el cuerpo real (X
+  // 185.5…277.0) ese hueco ya no está en −X sino en el pasillo +X, que es
+  // además el lado J por el que salen los puertos Rc 3/8: la tubería se reduce
+  // a dos tramos rectos (dis).
+  valvY: [-172, -100],     // dis: dentro del canal (|Y| ≤ 221) y fuera del cuerpo (±101)
+  valvX: [296, 342],       // dis: entre el cuerpo (X ≤ 277) y el ala +X del canal (≥ 345.8)
+  sopY: [-190, -92],       // dis: envolvente del soporte
+  sopX: [288, 340],
+  sopPernos: [[296, -182], [332, -182]],   // dis: anclaje del soporte al alma del canal,
+                                           // fuera de la válvula (Y −172…−100) y de las
+                                           // muescas de la ménsula de jack (|Y| ≥ 206)
   silenDia: 18,            // cat 923.0059 MUFFLER - 1/8 in. NPT
-  silenZ: [35, 65],        // dis: escapes en la cara −Y de la válvula
-  racorX: [170, 186],      // dis: puertos de trabajo A/B en la cara superior
-  racorY: -160,            // dis
-  puertoZ: [75, 45],       // dis: puertos A/B en la cara −X del cuerpo de la mesa
-  puertoY: [-70, -45],     // dis
+  silenX: [307, 331],      // dis: escapes en la cara SUPERIOR de la válvula — las dos
+                           //      caras en X están ocupadas (racores A/B en −X, ala del
+                           //      canal en +X) y las de Y, por solenoide y accionamiento
+  tuboX: 287,              // dis: plano de la tubería, en el pasillo libre entre el
+                           //      cuerpo del cilindro (X ≤ 277) y la válvula (X ≥ 296)
   radioTubo: 25,           // dis: radio de curvatura del tubo de 1/4" (≥ 3 × OD)
 
-  // --- masas para el dimensionado ------------------------------------------
+  // --- masas y cargas para el dimensionado ---------------------------------
   masaMovilKg: 55,         // dis: ROLLER FRAME WELDMENT + 6 rodillos + serpentín y
-                           // poleas + motorreductor SEW RF07 (7.9 kg cat) ≈ 45–60 kg
+                           // poleas + motorreductor SEW RF07 (7.9 kg cat) ≈ 45–60 kg.
+                           // Es una cota SUPERIOR: conservadora para el empuje del
+                           // actuador, para la energía cinética y para el consumo de
+                           // aire, que son las tres cosas que crecen con la masa.
+  // …y ANTICONSERVADORA para el vuelco, porque ahí la masa móvil es lo único que
+  // estabiliza el cassette. El vuelco necesita por tanto su propia cota, y por el
+  // otro lado:
+  masaMovilVuelcoKg: 38,   // dis: cota INFERIOR de la masa del conjunto móvil, la
+                           // única que vale para EST-03. Los sólidos del ensamble
+                           // pesan 40.98 kg (tests/test_nbt90.mjs los pesa con el
+                           // motor de mallas: estructura + SEW de catálogo 7.9 kg +
+                           // partes móviles del cilindro 4.27 kg). Se declara 38 para
+                           // dejar 7 % de margen a los cambios que otros módulos
+                           // puedan hacer en el cassette. El test comprueba las DOS
+                           // cotas: 38 ≤ pesada ≤ 55.
+  masaMotorKg: 7.9,        // cat 300.0322 (SEW RF07DRS71S4) — la única masa del
+                           // conjunto móvil que NO es simétrica respecto de X=231.5
+  cgMotorX: 247,           // dis: centro de gravedad del motorreductor en X, estimado
+                           // repartiendo su masa 60/40 entre cárter del reductor
+                           // (X 133.4…253.4, centroide 193.4) y motor + ventilador
+                           // (X 253.4…433.4, centroide 328): 0.6·193.4 + 0.4·328 = 247.2
+  muApoyo: 0.20,           // dis: rozamiento estático acero laminado/acero laminado sin
+                           // lubricar (rango 0.15…0.30). Es la COTA SUPERIOR de lo que
+                           // los apoyos de la horquilla —que empujan, NO están
+                           // atornillados al cassette— pueden transmitir a la placa en
+                           // horizontal y en giro; por encima deslizan y la reacción se
+                           // la llevan los 4 pasadores guía, que es su función.
+  // VELOCIDAD DE SUBIDA DEL POP-UP — dato de diseño INDEPENDIENTE, no derivado.
+  //
+  // Es la velocidad MEDIA de émbolo que se deja ajustada en los dos reguladores de
+  // caudal de escape de la válvula, y se mide en puesta en marcha con el tiempo de
+  // carrera (10 mm / 83 ms). Se declara aquí, y la energía cinética y la
+  // deceleración de frenado salen de ella — no al revés.
+  //
+  // Antes este módulo hacía justo lo contrario: despejaba la velocidad de la
+  // energía cinética admisible del catálogo (u = √(2·Ek/M) = 241 mm/s) y después
+  // calculaba Ek con esa u, con lo que Ek ≡ Ek_adm por construcción y la
+  // comprobación «Ek ≤ Ek_adm» de la compuerta no podía fallar nunca (E1 de la
+  // revisión estructural). Además esos 241 mm/s no valían: al frenar contra el tope
+  // de goma daban 1.48 g y el bulto —que no está sujeto— se despegaba de los
+  // rodillos, saltaba 2.96 mm y reasentaba con 0.99 J (DIN-12).
+  //
+  // Por qué 120 y no el 198 justo del límite (u_impacto = √(2·g·δ) con δ = 2 mm de
+  // aplastamiento del tope):
+  //   · con la nota del catálogo, u_impacto = 1.4 × 120 = 168 mm/s → 7.06 m/s² =
+  //     0.72 g. El bulto no despega, con 28 % de margen;
+  //   · ese margen es exactamente lo que hace falta, porque δ = 2 mm es una
+  //     SUPOSICIÓN (`dis`, D2: SMC publica la energía admisible pero no la carrera
+  //     del tope). Con 120 mm/s la comprobación sigue cumpliendo hasta δ = 1.44 mm;
+  //     con los 198 del límite, cualquier δ real por debajo de 2 la haría fallar;
+  //   · 120 mm/s está holgadamente dentro de la banda de émbolo del catálogo
+  //     (50…400) y el tiempo de subida sube de 58 a 83 ms, que sigue siendo el 14 %
+  //     del ciclo de 600 ms de un sorter a 100 sorts/min (web SORT-015) — y este
+  //     divert ve un bulto cada ~5 s, no cada 0.6;
+  //   · la energía de impacto baja de 2.71 J (el límite) a 1.32 J: 49 % del
+  //     admisible, y la fuerza sobre la estructura de 2 710 a 1 316 N.
+  velEmboloMmS: 120,       // dis: velocidad MEDIA de émbolo en la subida, ver arriba
   presionBar: 6.0,         // dis: presión de red del cálculo pedido
   presionTrabajoBar: 4.14, // cat: «Working pressure 60 PSI» del ProSort MRT
+  presionAtmBar: 1.013,    // cat: atmósfera normal ANR (0.1013 MPa, 20 °C, 65 % HR)
   rendimiento: 0.85,       // dis: pérdidas por juntas y rozamiento de las guías
+};
+
+// ---------------------------------------------------------------------------
+// INTERFAZ DEL ANCLAJE HORQUILLA ↔ CASSETTE  (la consume `bastidor.mjs`, que es
+// quien fabrica la ménsula soldada al ala del notched brace channel).
+//
+// Se exporta en vez de duplicarse a los dos lados: el patrón de taladros vive en
+// UN sitio, y si el brazo cambia de tamaño la ménsula se mueve con él. Es la misma
+// vía por la que `rodillos.mjs` toma `rodMontaje` de `bastidor.mjs`.
+// ---------------------------------------------------------------------------
+const anclaD = P.M.b14.d;                                   // 6.35 — 1/4-20 UNC
+/** Cara exterior del brazo (= cara exterior del ala del brace channel). */
+const anclaYcara = L.brazoY1;                               // 120
+/** Eje de la rosca a media altura del brazo: 11 mm = 1.73·d de pared arriba y abajo. */
+const anclaZ = r2(P.rielInfZ - L.platoT / 2);               // 132.5
+/** Separación en X respecto del eje del cilindro: deja `anclaBordeEnD`·d al canto. */
+const anclaDX = r2(L.cilS / 2 - L.anclaBordeEnD * anclaD);  // 24.8
+/** Colisa de retención del pasador: ancha en X (no guía), con el recorrido de siempre. */
+const colisaGuiaAncho = r2(L.guiaPasador + L.guiaHolguraX);          // 16.7
+const colisaGuiaLargo = r2(colisaGuiaAncho + L.guiaRecorrido);       // 28.7
+export const anclajeHorquilla = {
+  torn: '1/4-20 UNC',
+  dia: anclaD,                                              // 6.35
+  x: [r2(L.mesaX - anclaDX), r2(L.mesaX + anclaDX)],        // 206.7 · 256.3
+  z: anclaZ,                                                // 132.5
+  yCara: anclaYcara,                                        // 120
+  prof: L.anclaProf,                                        // 16 — rosca en el brazo
+  largo: L.anclaLargo,                                      // 19.05 — perno 1/4-20 × 3/4"
+  golilla: { dia: L.anclaGolillaD, esp: L.anclaGolillaE },
+  brazoX: [r2(L.mesaX - L.cilS / 2), r2(L.mesaX + L.cilS / 2)],   // 194 … 269
+  brazoZ: [r2(P.rielInfZ - L.platoT), P.rielInfZ],                // 121.5 … 143.5
+  bordeEnD: L.anclaBordeEnD,
+  nPorBrazo: 2,
 };
 
 // --------------------------------------------------------------------------
@@ -175,6 +672,47 @@ function suavizar3(pts, r, n = 5) {
   return out;
 }
 
+/** Boceto en planta (XY) extruido en Z, pero expresado en la MISMA base que usa
+ *  `bboxPieza` de lib.mjs. Para un boceto de normal +Z, `bboxPieza` no lee
+ *  `params.u` y supone la base que le da `baseOrtogonal`, que es u = [0,−1,0] ·
+ *  v = [1,0,0]; `sketchXY` declara u = [1,0,0]. Si no se reexpresa el contorno,
+ *  la caja del gate sale girada 90° y un cuerpo de 91.5 (X) × 202 (Y) pasa a
+ *  medir 202 × 91.5. Aquí se gira el contorno a esa base y se declara la `u`
+ *  correspondiente: model.js y a_step.py sí leen `params.u`, así que el SÓLIDO
+ *  es exactamente el mismo y la caja del gate deja de mentir.
+ *  (Mismo recurso que `barraZ` más abajo y que el `disco()` de transmision.mjs.) */
+/** Quita de un contorno CERRADO los puntos repetidos consecutivos (incluido el
+ *  par último↔primero). Un contorno que mezcla puntos escritos a mano con puntos
+ *  calculados los repite a menudo —el redondeo a 2 decimales hace que el primer
+ *  punto de un `arcoPts` caiga EXACTAMENTE sobre el vértice que ya estaba en la
+ *  lista— y cada repetición es una arista de longitud cero.
+ *  Medido antes de escribir esto, para no exagerar el problema: con los dos
+ *  repetidos que tenía el arco del lado J, `ExtrudeGeometry` daba los MISMOS 128
+ *  triángulos y CERO degenerados —three.js ya los descarta al construir el
+ *  `Shape`— y `a_step.py` cerraba el sólido igual. O sea que no era la causa de
+ *  ningún artefacto visible. Se limpia igualmente porque un contorno con aristas
+ *  nulas es una bomba de relojería para cualquier otro traductor (OCC se queja
+ *  al construir el `Wire`), y porque cuesta una función de seis líneas. */
+function sinRepes(pts, eps = 1e-6) {
+  const out = [];
+  for (const p of pts) {
+    const q = out[out.length - 1];
+    if (!q || Math.abs(q[0] - p[0]) > eps || Math.abs(q[1] - p[1]) > eps) out.push(p);
+  }
+  while (out.length > 1) {
+    const a = out[0], b = out[out.length - 1];
+    if (Math.abs(a[0] - b[0]) > eps || Math.abs(a[1] - b[1]) > eps) break;
+    out.pop();
+  }
+  return out;
+}
+
+function perfilXY(nombre, zFace, ptsXY, h, op = 'union') {
+  const f = sketchXY(nombre, zFace, ptsXY.map(([x, y]) => [-y, x]), h, op);
+  f.params.u = [0, -1, 0];
+  return f;
+}
+
 /** Features de un tubo que sigue una polilínea; devuelve {features, largo}. */
 function tubo(pts, dia, r = L.radioTubo, n = 5) {
   const c = suavizar3(pts, r, n), features = [];
@@ -195,53 +733,116 @@ function tubo(pts, dia, r = L.radioTubo, n = 5) {
 export function elevacion(E) {
   // =========================================================================
   // 0. CADENA DE ALTURAS (estado ELEVADO)
-  // =========================================================================
-  const cuerpoH = P.mesaAlto - L.mesaPlacaT;          // 81 — cuerpo de la mesa guía
-  // Se despeja canalZ0 para que la cara superior del plato de empuje quede en
-  // P.rielInfZ con la carrera aplicada:
-  //   rielInfZ = canalZ0 + t12 + cuerpoH + carrera + placaT + platoT
-  const canalZ0 = r2(P.rielInfZ - L.platoT - L.mesaPlacaT - P.carrera - cuerpoH - t12);  // 12.84
+  //
+  // El cilindro se atornilla POR ABAJO, con sus 4 roscas MM, sobre el alma del
+  // canal de montaje; sus dos varillas guía atraviesan el cuerpo y bajan por dos
+  // taladros de paso del alma.  De arriba abajo, con la carrera aplicada:
+  //
+  //   P.rielInfZ 143.5 ┬ cara inferior del NOTCHED BRACE CHANNEL (bastidor móvil)
+  //     platoT   22    │ brazos de la horquilla de empuje
+  //          121.5 ────┤ cara superior de la placa móvil   (motorreductor en 123.9)
+  //     FA       22    │ placa móvil del MGPM80            (cat)
+  //           99.5 ────┤
+  //     FB+carrera 28  │ hueco placa↔cuerpo con los 10 mm aplicados (cat 18 + 10)
+  //           71.5 ────┤ cara superior del cuerpo
+  //     C        56.5  │ cuerpo del MGPM80                 (cat)
+  //           15.0 ────┤ cara superior del alma del canal = cara de fijación
+  //     tCanal   4.763 │ alma del canal de montaje, 3/16"  (dis, EST-10)
+  //           10.24 ───┴ canalZ0   (bajo él, 10.24 mm hasta Z = 0; las cabezas de
+  //                    │           los 4 M12 se comen 9.5 y acaban en Z = 0.74)
+  //
+  // El conjunto real mide 106.5 mm por ENCIMA de su cara de fijación (frente a
+  // los 116 de la mesa inventada), así que el canal podría subir 9.5 mm; pero la
+  // placa móvil ya no se puede rebajar para dejar pasar el motorreductor, de modo
+  // que esos 9.5 mm (y 0.5 más) se gastan engordando la horquilla de 12 a 22 mm
+  // para bajar la placa hasta 121.5 y librar el cárter del reductor (123.9) por
+  // 2.4 mm.  Resultado: el canal se queda prácticamente donde estaba —10.24
+  // frente a 12.84— y no hay que tocar ni el canal base, ni las ménsulas de jack
+  // bolt, ni el rebaje de paso del ala del SIDE CHANNEL, que son cotas absolutas.
+  // Ver `holguraPlacaMotorMm` y `libreBajoAlmaMm` en las verificaciones.
+  //   Al pasar el alma de 12 GA a 3/16" (EST-10, ver `tCanal`) el ÚNICO eslabón
+  //   que se mueve es el último: `canalZ0` baja 2.11 mm. Todo lo que hay por
+  //   encima de la cara de fijación —cuerpo, hueco, placa, horquilla— cuelga de
+  //   P.rielInfZ y no se entera.
+  const cuerpoH = L.cilC;                             // 56.5 — cuerpo del MGPM80 (cat)
+  const huecoFB = r2(L.cilFB + P.carrera);            // 28 — hueco placa↔cuerpo ELEVADO
+  const canalZ0 = r2(P.rielInfZ - L.platoT - L.cilFA - huecoFB - cuerpoH - tCanal);  // 10.24
   const canalX1 = L.canalX0 + P.canalCilY;            // 348.5
-  const canalZ1 = r2(canalZ0 + P.canalCilZ);          // 115.84
+  const canalZ1 = r2(canalZ0 + P.canalCilZ);          // 115.34
   const ladoInt = r2(L.ladoY - t12 / 2);              // 225.91 — cara interior del alma del SIDE CHANNEL
   const ladoOut = r2(L.ladoY + t12 / 2);              // 228.57 — cara exterior del alma del SIDE CHANNEL
   const placaY = r2(ladoInt - P.placaT);              // 221.15 — cara interior de la placa colgante
-  const webZ = r2(canalZ0 + t12);                     // 15.5 — cara superior del alma del canal
-  const cuerpoZ1 = r2(webZ + cuerpoH);                // 96.5 — cara superior del cuerpo de la mesa
-  const placaZ0 = r2(cuerpoZ1 + P.carrera);           // 106.5 — cara inferior de la mesa móvil (ELEVADA)
-  const placaZ1 = r2(placaZ0 + L.mesaPlacaT);         // 131.5
+  const webZ = r2(canalZ0 + tCanal);                  // 15.0 — cara superior del alma = cara de fijación
+  const cuerpoZ1 = r2(webZ + cuerpoH);                // 71.5 — cara superior del cuerpo
+  const placaZ0 = r2(cuerpoZ1 + huecoFB);             // 99.5 — cara inferior de la placa móvil (ELEVADA)
+  const placaZ1 = r2(placaZ0 + L.cilFA);              // 121.5
   const platoZ1 = r2(placaZ1 + L.platoT);             // 143.5 = P.rielInfZ
-  const mX = L.mesaX;                                 // 245 — centro de la mesa en X
+  const mX = L.mesaX;                                 // 231.5 — eje del cilindro en X
   const canalXc = r2(L.canalX0 + P.canalCilY / 2);    // 231.5 — centro del canal en X
-  const [mw, md] = P.mesaPlaca;                       // 170 × 200 — huella de la mesa
-  const mX0 = r2(mX - mw / 2);                        // 146.5 — cara −X del cuerpo (puertos)
+  // Huella del CUERPO en planta: G (X) × H (Y), con el reparto J/K asimétrico.
+  const [mw, md] = P.mesaCuerpo;                      // 91.5 × 202 (cat G × H)
+  const cilX0 = r2(mX - (L.cilPuertoLadoJ > 0 ? L.cilK : L.cilJ));   // 185.5 — cara −X
+  const cilX1 = r2(mX + (L.cilPuertoLadoJ > 0 ? L.cilJ : L.cilK));   // 277.0 — cara +X (lado J)
+  const cilXc = r2((cilX0 + cilX1) / 2);              // 231.25 — centro geométrico del cuerpo
+  const varillaY = r2(L.cilU / 2);                    // 78 — varillas guía, ±78 en Y
+  const pernoMMY = r2(L.cilMM[0] / 2), pernoMMX = r2(L.cilMM[1] / 2);   // ±90, ±26
+  const pernoNNY = r2(L.cilNN[0] / 2), pernoNNX = r2(L.cilNN[1] / 2);   // ±87, ±26
+  // Salida de las varillas guía por debajo de la cara de fijación. Las varillas
+  // van solidarias a la PLACA (cat: la placa lleva sus dos avellanados), luego
+  // suben con ella: al EXTENDER entran 10 mm y sólo asoman 8.5; el máximo es el
+  // estado RETRAÍDO, E = 18.5 (cat).  El DESPEJE que hay que reservar bajo la
+  // cara de fijación es por tanto **E = 18.5**, la posición más baja que alcanza
+  // la punta de la varilla, no `carrera + E`.
+  //   Cuidado con la cota A+carrera del catálogo: son 125 mm de ENVOLVENTE
+  //   BARRIDA de toda la unidad —de la cara superior de la placa extendida a la
+  //   punta de varilla retraída—, no un alargamiento por debajo. Que A − E = B
+  //   = 96.5 en las tres gamas de carrera lo confirma.
+  const salidaElev = r2(L.cilE - P.carrera);          // 8.5 — asoman con el equipo arriba
+  const salidaRetr = L.cilE;                          // 18.5 — asoman con el equipo abajo
+  const salidaDespeje = L.cilE;                       // 18.5 — despeje a reservar
+  const varillaZ0 = r2(webZ - salidaElev);            // 6.5 — punta de varilla, ELEVADO
+  const varillaLargo = r2(placaZ0 - varillaZ0);       // 93 = FB + carrera + C + salida
+  const puertoZ = [r2(webZ + L.cilGB), r2(cuerpoZ1 - L.cilGA)];   // 30.5 / 52.5 (cat GB / GA)
+  // Los dos puertos NO están en el plano medio: van a PW = 74 del eje, los dos
+  // al mismo lado (ver bloque L). Y no salen por la envolvente J = 45.5 sino por
+  // la CARA PLANA del extruido, a JA = 38 del eje: ese escalón de JB = 7.5 es el
+  // rebaje real del puerto.
+  const puertoY = r2(L.cilPuertoLadoY * L.cilPW);     // −74
+  const cilJfl = r2(mX + L.cilJA);                    // 269.5 — cara plana del lado J
+  const cilKfl = r2(mX - L.cilK);                     // 185.5 — cara K (banda central)
+  const cilKend = r2(mX - L.cilJA);                   // 193.5 — cara K en los extremos
+  const cilYend = r2(md / 2);                         // 101 — semilargo H
 
   const b38 = P.M.b38, b14 = P.M.b14;
 
   // =========================================================================
   // 1. CYLINDER MOUNTING CHANNEL (WA-025833) — chapa 12 GA conformada
   // =========================================================================
-  const xa = r2(L.canalX0 + t12 / 2), xb = r2(canalX1 - t12 / 2);
-  const zb = r2(canalZ0 + t12 / 2), zt = r2(canalZ1 - t12 / 2);
+  const xa = r2(L.canalX0 + tCanal / 2), xb = r2(canalX1 - tCanal / 2);
+  const zb = r2(canalZ0 + tCanal / 2), zt = r2(canalZ1 - tCanal / 2);
   const fibra = [                        // fibra media de la sección, en (x, z)
     [xa + L.labio, zt], [xa, zt], [xa, zb], [xb, zb], [xb, zt], [xb - L.labio, zt],
   ];
-  const secc = seccionChapa(fibra, t12, P.radioPliegue);
-  const desa = desarrollo(fibra, t12, P.radioPliegue, P.factorK);
+  const secc = seccionChapa(fibra, tCanal, radioCanal);
+  const desa = desarrollo(fibra, tCanal, radioCanal, P.factorK);
   const canalLargoY = r2(2 * placaY);                 // 447.6 — de placa a placa
 
   E.addPart(
-    `FIJO · Canal de montaje del cilindro 12 GA ${P.canalCilY}×${P.canalCilZ}×${canalLargoY} (WA-025833)`,
+    `FIJO · Canal de montaje del cilindro 3/16" ${P.canalCilY}×${P.canalCilZ}×${canalLargoY} (WA-025833)`,
     COL.chapa, [L.canalX0, 0, canalZ0],
     [
-      sketchXZ(`Perfil conformado ${P.canalCilY}×${P.canalCilZ} e=${r2(t12)}`, placaY, secc, canalLargoY),
-      // fijación de la mesa guía: 4 pasantes de M12 en el alma
+      sketchXZ(`Perfil conformado ${P.canalCilY}×${P.canalCilZ} e=${r2(tCanal)}`, placaY, secc, canalLargoY),
+      // fijación del cilindro: 4 pasantes de Ø13.5 en el alma, patrón MM 180 × 52
       ...[-1, 1].flatMap(sx => [-1, 1].map(sy =>
-        hole(`Ø13.5 fijación mesa (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
-          [mX + sx * L.mesaPernoX, sy * L.mesaPernoY, canalZ0 - 1], [0, 0, 1], 13.5))),
-      // paso de la cabeza de los tirantes de tope de carrera
-      ...[-1, 1].map(sy => hole(`Ø30 paso cabeza tirante de tope (${sy > 0 ? '+' : '−'}Y)`,
-        [mX, sy * L.topeY, canalZ0 - 1], [0, 0, 1], 30)),
+        hole(`Ø13.5 fijación del cilindro (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
+          [mX + sx * pernoMMX, sy * pernoMMY, canalZ0 - 1], [0, 0, 1], 13.5))),
+      // PASO DE LAS VARILLAS GUÍA: atraviesan el cuerpo y bajan bajo el alma.
+      // Ø30 sobre Ø25 = 2.5 mm de holgura radial; el eje del taladro no manda el
+      // guiado (lo dan los casquillos del propio cilindro), sólo deja pasar.
+      // Los pasantes M12 de al lado están a √(26² + 12²) = 28.64 mm: entre el
+      // borde del Ø30 y el del Ø13.5 quedan 6.9 mm de alma.
+      ...[-1, 1].map(sy => hole(`Ø30 paso de varilla guía Ø${L.cilDA} (${sy > 0 ? '+' : '−'}Y)`,
+        [mX, sy * varillaY, canalZ0 - 1], [0, 0, 1], 30)),
       // fijación del soporte de la válvula (2 × 1/4-20 en el alma)
       ...L.sopPernos.map(([x, y]) => hole(`Ø7.9 soporte de válvula (X=${x}, Y=${y})`,
         [x, y, canalZ0 - 1], [0, 0, 1], 7.9)),
@@ -256,8 +857,24 @@ export function elevacion(E) {
         [x, s * 216, 92], 20, 20, 34, 'cut'))),
     ],
     {
-      chapa: { t: r2(t12), material: 'acero al carbono 12 GA', fibra, radio: P.radioPliegue },
+      chapa: { t: r2(tCanal), material: 'acero al carbono 3/16" (A36 mínimo defendible)', fibra, radio: radioCanal },
       desarrollo: desa, plano: true, parte: 'WA-025833',
+      union: 'soldada a las 2 placas colgantes (WA-025833)',
+      encajes: [1, -1].map((s) => juntaATope({
+        id: `U5-${s > 0 ? '+Y' : '-Y'}`, union: 'Canal de montaje del cilindro ↔ Placa colgante',
+        motivo: 'SIN ENCAJE, y hay que decir por qué: la sección del canal (X 114.5…348.5, '
+          + `Z ${canalZ0}…${canalZ1}) y la placa colgante (X 130…333, Z 88…246) sólo COINCIDEN en los dos `
+          + 'labios de rigidez, o sea en 3.16 mm de X por el lado −X y 1.83 por el +X. En esa franja '
+          + 'no cabe ni una lengüeta ni un taladro de pasador. Alargar los labios hacia dentro (que '
+          + 'sería la solución) los mete bajo el cárter del motorreductor RETRAÍDO (Z 113.9) en '
+          + `X 133.4…149.8; con el alma en 3/16" el techo del labio baja a ${canalZ1} y ya libra, pero `
+          + 'por 0.66 mm, que no es holgura para un utillaje. '
+          + 'HALLAZGO PARA REVISIÓN ESTRUCTURAL: la unión de este weldment tiene muy poco solape.',
+        posicionamiento: 'utillaje: el canal se apoya sobre dos calzos a Z = canalZ0 y las placas se '
+          + 'aprietan contra sus caras de extremo (|Y| = 221.15) con la propia cota de 447.6 mm '
+          + 'entre caras exteriores como referencia',
+        referencia: 'cara de extremo del canal (|Y| = 221.15) y canto inferior de la placa (Z = 88)',
+      })),
     });
 
   // ---- placas colgantes (mismo weldment) con las COLISAS DE AJUSTE ---------
@@ -283,11 +900,20 @@ export function elevacion(E) {
         // 2 colisas verticales de ajuste (tornillos de 3/8" del procedimiento del manual)
         ...L.ajusteX.map(x => sketchXZ(`Colisa de ajuste ${L.colisaAncho}×${L.colisaLargo} (X=${x})`,
           yCorte, colisa(x, L.ajusteZ, L.colisaLargo, L.colisaAncho, true), P.placaT + 1, 'cut')),
-        // 2 colisas de guía del movimiento vertical (tope de seguridad de la carrera)
-        ...L.guiaX.map(x => sketchXZ(`Colisa de guía ${r2(L.guiaPasador + 0.2)}×${r2(L.guiaPasador + 0.2 + L.guiaRecorrido)} (X=${x})`,
-          yCorte, colisa(x, L.guiaZ, L.guiaPasador + 0.2 + L.guiaRecorrido, L.guiaPasador + 0.2, true), P.placaT + 1, 'cut')),
+        // 2 colisas de RETENCIÓN del movimiento vertical (tope de seguridad de la
+        // carrera). Ya NO guían en X: ver `L.guiaHolguraX`.
+        ...L.guiaX.map(x => sketchXZ(`Colisa de retención ${colisaGuiaAncho}×${colisaGuiaLargo} (X=${x})`,
+          yCorte, colisa(x, L.guiaZ, colisaGuiaLargo, colisaGuiaAncho, true), P.placaT + 1, 'cut')),
       ],
-      { plano: true, parte: 'WA-025833 (placa colgante)' });
+      { plano: true, parte: 'WA-025833 (placa colgante)',
+        union: 'soldada al canal de montaje del cilindro',
+        encajes: [juntaATope({
+          id: `U5-${s > 0 ? '+Y' : '-Y'}`, union: 'Canal de montaje del cilindro ↔ Placa colgante',
+          motivo: 'ver el mismo registro en el canal: el solape con la sección del canal se reduce '
+            + 'a los dos labios de rigidez y no admite encaje',
+          posicionamiento: 'utillaje con calzos y apriete contra las caras de extremo del canal',
+          referencia: 'cara interior de la placa (|Y| = 221.15)',
+        })] });
   }
 
   // =========================================================================
@@ -330,120 +956,298 @@ export function elevacion(E) {
   }
 
   // =========================================================================
-  // 4. MESA GUÍA NEUMÁTICA Ø100 × 20 (cat 923.01022 — SMC MGF100)
-  //    Dibujada CON LA CARRERA APLICADA: placa móvil 10 mm arriba del cuerpo.
+  // 4. CILINDRO COMPACTO CON GUÍAS SMC MGPM80-10Z (componente `mgpm80_10z`)
+  //    Dibujado CON LA CARRERA APLICADA: placa móvil, vástago y varillas guía
+  //    10 mm arriba de su posición retraída.
+  //    Reparto de piezas: cuerpo = FIJO (atornillado al alma del canal);
+  //    placa móvil, vástago y las 2 varillas guía = MÓVIL (suben con el pop-up).
   // =========================================================================
-  E.addPart(
-    `FIJO · NEUMÁTICA · Mesa guía Ø${P.mesaBore} × ${P.mesaCarrera} mm — cuerpo ${mw}×${md}×${cuerpoH} (923.01022)`,
-    COL.neumatica, [mX, 0, webZ],
-    [
-      box(`Cuerpo ${mw}×${md}×${cuerpoH}`, [mX, 0, webZ], mw, md, cuerpoH),
-      // alojamientos: émbolo central y las dos columnas guía
-      hole(`Ø${L.mesaVastago + 1} vástago`, [mX, 0, cuerpoZ1 + 1], [0, 0, -1], L.mesaVastago + 1, cuerpoH, false),
-      ...[-1, 1].map(s => hole(`Ø${L.mesaColDia + 1} columna guía (${s > 0 ? '+' : '−'}X)`,
-        [mX + s * L.mesaColSep, 0, cuerpoZ1 + 1], [0, 0, -1], L.mesaColDia + 1, cuerpoH, false)),
-      // Taladro pasante Ø14 de cada tirante de tope, con caja Ø25 × 9 en la cara
-      // superior para que la contratuerca se aloje al retraerse.  Es UNA sola
-      // función escalonada (pasante + cbore): dos cortes coaxiales separados
-      // dejan caras cilíndricas coincidentes que el motor CSG no resuelve bien.
-      ...[-1, 1].map(s => {
-        const f = hole(`Ø14 tirante de tope, caja Ø25×9 para contratuerca (${s > 0 ? '+' : '−'}Y)`,
-          [mX, s * L.topeY, cuerpoZ1], [0, 0, -1], 14);
-        Object.assign(f.params, { seat: 'cbore', seatDia: 25, seatDepth: 9 });
-        return f;
-      }),
-      // roscas M12 de fijación al canal
-      ...[-1, 1].flatMap(sx => [-1, 1].map(sy =>
-        hole(`M12 fijación (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
-          [mX + sx * L.mesaPernoX, sy * L.mesaPernoY, webZ - 1], [0, 0, 1],
-          r2(L.mesaPernoDia + P.holgura.deslizante), 45, false))),
-      // puertos Rc 1/4 en la cara −X
-      ...L.puertoZ.map((z, i) => hole(`Puerto Rc1/4 ${i ? 'B' : 'A'} (Z=${z})`,
-        [mX0, L.puertoY[i], z], [1, 0, 0], 15.5, 14, false)),
-    ],
-    { componente: 'mesa_guia_MGF100_20', hardware: true, parte: '923.01022' });
+  // --- SECCIÓN DEL EXTRUIDO (plano XY; la extrusión va según Z = eje del émbolo)
+  // Dos OREJAS prismáticas de X = −K … +JA (84 mm) × H = 202 (Y), con las cuatro
+  // aristas longitudinales achaflanadas, y entre ellas el TUBO del émbolo, de
+  // radio J = 45.5 centrado en el eje:
+  //   +X (lado J): el tubo ASOMA sobre la cara plana JA = 38 y corta esa cara a
+  //                |Y| = √(J² − JA²) = 25.02 → ahí la envolvente vale J = 45.5
+  //   −X (lado K): la cara plana está más afuera (K = 46) que el tubo, así que
+  //                entre ellos queda una CINTURA: la cara K muere a |Y| = 41.6
+  //                (med) y baja por un chaflán recto hasta el arco, que arranca
+  //                a |Y| = 33.0 (med). Es el rasgo que faltaba en la primera
+  //                versión de este perfil, que dejaba la cara K recta de punta a
+  //                punta y regalaba material entre el tubo y la oreja.
+  //   extremos:    por encima de |Y| ≈ 87…92 la cara K se retira otra vez a 38
+  // La envolvente NO cambia: sigue midiendo 91.5 (X 185.5…277.0) × 202 × 56.5.
+  // Lo que cambia es que ahora hay material sólo donde el catálogo dice que lo hay.
+  const ch = L.cilChaflan;
+  const yArc = r2(Math.sqrt(L.cilJ ** 2 - L.cilJA ** 2));   // 25.02
+  const aArc = Math.atan2(yArc, L.cilJA);                   // ±33.4°
+  const [yK1, yK0] = L.cilKbanda;                           // 87.1 (resalte) … 91.9 (extremo)
+  const [yW0, yW1] = L.cilKcintura;                         // 33.0 (arco) … 41.6 (cara K)
+  const xW = r2(Math.sqrt(L.cilJ ** 2 - yW0 ** 2));         // 31.32 — el arco en |Y| = 33
+  const aW = Math.atan2(yW0, -xW);                          // ≈ 133.5°, segundo cuadrante
+  const cilKw = r2(mX - xW);                                // 200.18
+  // el arco de la cintura se recorre por −π (el punto más saliente del lado K),
+  // no por 0: de −aW a −(2π − aW). Se le quitan los DOS EXTREMOS porque coinciden
+  // exactamente con los puntos del chaflán que ya están en la lista: `arcoPts`
+  // devuelve n+1 puntos incluyendo ambos bordes y, al redondear a 2 decimales,
+  // el primero cae en (cilKw, −yW0) y el último en (cilKw, +yW0). Lo mismo le
+  // pasaba al arco del lado J con (cilJfl, ±yArc). Ver `sinRepes` para qué
+  // consecuencias tiene eso realmente (menos de las que parece) y por qué se
+  // limpia de todos modos.
+  const arcoK = arcoPts(mX, 0, L.cilJ, -aW, aW - 2 * Math.PI, 20)
+    .map(([x, y]) => [r2(x), r2(y)]).slice(1, -1);
+  const perfilCuerpo = sinRepes([
+    [r2(cilJfl - ch), -cilYend],                            // cara H (−Y), desde el lado J
+    [r2(cilKend + ch), -cilYend],
+    [cilKend, r2(-cilYend + ch)],                           // chaflán arista K/−Y
+    [cilKend, -yK0],                                        // banda de extremo del lado K
+    [cilKfl, -yK1],                                         // sale a la cara K = 46
+    [cilKfl, -yW1],                                         // …que muere en la cintura
+    [cilKw, r2(-yW0)],                                      // chaflán de la cintura
+    ...arcoK,                                               // tubo, lado K
+    [cilKw, r2(yW0)],
+    [cilKfl, yW1],
+    [cilKfl, yK1],                                          // cara K, mitad +Y
+    [cilKend, yK0],
+    [cilKend, r2(cilYend - ch)],
+    [r2(cilKend + ch), cilYend],                            // chaflán arista K/+Y
+    [r2(cilJfl - ch), cilYend],
+    [cilJfl, r2(cilYend - ch)],                             // chaflán arista J/+Y
+    [cilJfl, yArc],                                         // cara plana del lado J (JA = 38)
+    ...arcoPts(mX, 0, L.cilJ, aArc, -aArc, 20)
+      .map(([x, y]) => [r2(x), r2(y)]).slice(1, -1),        // tubo, lado J
+    [cilJfl, r2(-yArc)],
+    [cilJfl, r2(-cilYend + ch)],                            // chaflán arista J/−Y
+  ]);
+  // Sección de la ranura en T, cortada desde la cara K hacia +X: boca (a × d),
+  // fondo ancho (b × c) y relieve central (a × [e − c − d]).
+  const ranuraT = (y0) => {
+    const a2 = r2(L.cilT_a / 2), b2 = r2(L.cilT_b / 2);
+    const x0 = r2(cilKfl - 0.5), x1 = r2(cilKfl + L.cilT_d);
+    const x2 = r2(cilKfl + L.cilT_d + L.cilT_c), x3 = r2(cilKfl + L.cilT_e);
+    return [
+      [x0, r2(y0 - a2)], [x1, r2(y0 - a2)], [x1, r2(y0 - b2)], [x2, r2(y0 - b2)],
+      [x2, r2(y0 - a2)], [x3, r2(y0 - a2)], [x3, r2(y0 + a2)], [x2, r2(y0 + a2)],
+      [x2, r2(y0 + b2)], [x1, r2(y0 + b2)], [x1, r2(y0 + a2)], [x0, r2(y0 + a2)],
+    ];
+  };
+  const ranuraY = [r2(-L.cilVB / 2), r2(L.cilVB / 2)];      // ±70 (cat VB = 140)
 
   E.addPart(
-    `MÓVIL · Mesa guía — placa móvil ${mw}×${md}×${L.mesaPlacaT} c/rebaje de paso del motorreductor ${r2(2 * L.rebajeY)}×${r2(placaZ1 - L.rebajeZ)} (carrera aplicada ${P.carrera})`,
+    `FIJO · NEUMÁTICA · Cilindro compacto con guías SMC MGPM80-10Z Ø${P.mesaBore} × ${P.mesaCarrera} `
+    + `— cuerpo ${md}×${mw}×${cuerpoH} (MGPM80-10Z)`,
+    COL.neumatica, [cilXc, 0, webZ],
+    [
+      // perfil extruido real (cat J/K/JA/JB + med de los resaltes y el chaflán)
+      perfilXY(`Perfil extruido ${md}×${mw} (orejas −${L.cilK}…+${L.cilJA}, tubo R${L.cilJ} con cintura)`,
+        webZ, perfilCuerpo, cuerpoH),
+      // 2 RANURAS EN T (cat a/b/c/d/e para tornillo ${L.cilHA}) en la cara K, a
+      // ±VB/2 del plano medio y de extremo a extremo del cuerpo
+      ...ranuraY.map(y => perfilXY(
+        `Ranura en T ${L.cilT_a}/${L.cilT_b}/${L.cilT_c}/${L.cilT_d}/${L.cilT_e} para ${L.cilHA} `
+        + `(cara K, Y=${y > 0 ? '+' : '−'}${Math.abs(y)})`,
+        r2(cuerpoZ1 + 0.5), ranuraT(y), r2(cuerpoH + 2), 'cut')),
+      // casquillos de deslizamiento de las varillas guía: pasantes (las varillas
+      // atraviesan el cuerpo y asoman por la cara inferior)
+      ...[-1, 1].map(s => hole(`Ø${r2(L.cilDA + 0.6)} casquillo de varilla guía (${s > 0 ? '+' : '−'}Y)`,
+        [mX, s * varillaY, cuerpoZ1 + 1], [0, 0, -1], r2(L.cilDA + 0.6))),
+      // alojamiento del vástago del émbolo: ciego, no sale por la cara inferior
+      hole(`Ø${r2(L.cilVastagoDia + 0.6)} paso del vástago`, [mX, 0, cuerpoZ1], [0, 0, -1],
+        r2(L.cilVastagoDia + 0.6), r2(cuerpoH - 6), false),
+      // 4 × MM: M12 × 1.75 profundidad ML = 25 en la CARA INFERIOR (cat).
+      // El taladro arranca 1 mm por debajo de la cara de fijación y mide ML + 1,
+      // así que la cavidad en el material va de webZ a webZ + ML = **Z = 40.00
+      // exacto**. Aviso para quien mire cortes: `ver_corte.html` recorta con un
+      // plano, no con una booleana, y un corte pedido justo en Z = 40 cae sobre
+      // el techo plano de estos cuatro agujeros. La tapa del cilindro de corte
+      // está triangulada en abanico de 48 gajos y, con el plano encima, unos
+      // gajos pasan la prueba de recorte y otros no: salen cuatro ESTRELLAS
+      // negras. No es malla degenerada —a 39 y a 41 no hay nada— y no se
+      // arregla en la geometría, que es la correcta: se pide el corte en otra
+      // cota (35 y 30 son buenas: enseñan los puertos y las ranuras).
+      ...[-1, 1].flatMap(sx => [-1, 1].map(sy =>
+        hole(`4-MM M12×1.75 prof. ${L.cilML} (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
+          [mX + sx * pernoMMX, sy * pernoMMY, webZ - 1], [0, 0, 1],
+          r2(L.cilPernoDia + P.holgura.deslizante), r2(L.cilML + 1), false))),
+      // 2 × Rc 3/8 en la CARA PLANA del lado J (a JA = 38 del eje, o sea 7.5 mm
+      // rebajada respecto de la envolvente J), a PW = 74 del eje en Y y a GB / GA
+      // de cada cara: el de abajo alimenta la cámara de EMPUJE
+      ...puertoZ.map((z, i) => hole(
+        `Puerto Rc3/8 ${i ? 'B (retorno)' : 'A (empuje)'} (Y=${puertoY}, Z=${z})`,
+        [cilJfl, puertoY, z], [-1, 0, 0], L.cilPuertoDia, L.cilPuertoProf, false)),
+    ],
+    { componente: 'mgpm80_10z', hardware: true, parte: 'MGPM80-10Z',
+      catalogo: 'SMC serie MGP · MGPM80-10Z (Ø80, carrera 10, casquillo de deslizamiento, con imán)' });
+
+  E.addPart(
+    `MÓVIL · NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil ${L.cilT}×${L.cilS}×${L.cilFA} `
+    + `(carrera aplicada ${P.carrera})`,
     COL.neumatica, [mX, 0, placaZ0],
     [
-      box(`Placa móvil ${mw}×${md}×${L.mesaPlacaT}`, [mX, 0, placaZ0], mw, md, L.mesaPlacaT),
-      // Rebaje central: el motorreductor baja hasta Z=123.9 y sobre la huella de
-      // la mesa su macizo llega a |Y| ≤ 48 — el rebaje deja 3 mm a ambos lados.
-      box(`Rebaje paso motorreductor ${r2(2 * L.rebajeY)}×${r2(placaZ1 - L.rebajeZ)}`,
-        [mX, 0, L.rebajeZ], mw + 2, 2 * L.rebajeY, L.mesaPlacaT, 'cut'),
-      // roscas de los tirantes de tope y de los pernos de la horquilla de empuje
-      ...[-1, 1].map(s => hole(`M12 tirante de tope (${s > 0 ? '+' : '−'}Y)`, [mX, s * L.topeY, placaZ0 - 1], [0, 0, 1], L.topeDia, 26, false)),
+      box(`Placa móvil ${L.cilT}×${L.cilS}×${L.cilFA}`, [mX, 0, placaZ0], L.cilS, L.cilT, L.cilFA),
+      // 4 × NN: M12 × 1.75 PASANTES, patrón R × Q = 174 × 52 (cat). Por aquí se
+      // atornilla la horquilla de empuje; NO se rebaja la placa, que es por donde
+      // van roscados el vástago y las dos varillas guía.
       ...[-1, 1].flatMap(sx => [-1, 1].map(sy =>
-        hole(`M10 brazo de empuje (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
-          [mX + sx * 60, sy * L.brazoPernoY, placaZ0 - 1], [0, 0, 1], 10, L.mesaPlacaT + 2, false))),
+        hole(`4-NN M12×1.75 pasante (${sx > 0 ? '+' : '−'}X,${sy > 0 ? '+' : '−'}Y)`,
+          [mX + sx * pernoNNX, sy * pernoNNY, placaZ0 - 1], [0, 0, 1],
+          r2(L.cilPernoDia + P.holgura.deslizante)))),
+      // Alojamientos de las DOS VARILLAS GUÍA (cat U/2 = ±78): caja Ø29.4 en la
+      // cara superior —la que se ve en las dos fotos, con el tornillo de fijación
+      // en el fondo— y asiento de la varilla por la cara inferior. Ø med, prof dis.
+      ...[-1, 1].flatMap(sy => [
+        hole(`Caja Ø${L.cilPlacaCajaDia}×${L.cilPlacaCajaProf} de varilla guía (${sy > 0 ? '+' : '−'}Y)`,
+          [mX, sy * varillaY, placaZ1], [0, 0, -1], L.cilPlacaCajaDia, L.cilPlacaCajaProf, false),
+        hole(`Asiento Ø${L.cilPlacaAsientoDia}×${L.cilPlacaAsientoProf} de varilla guía (${sy > 0 ? '+' : '−'}Y)`,
+          [mX, sy * varillaY, placaZ0], [0, 0, 1], L.cilPlacaAsientoDia, L.cilPlacaAsientoProf, false),
+      ]),
+      // Extremo del vástago: caja Ø32.2 en la cara SUPERIOR y, en su fondo, el
+      // ALOJAMIENTO HEXAGONAL de 20.8 e/c. Los dos se ven en la vista de planta
+      // de la placa, dibujados con línea gruesa continua y concéntricos: el
+      // hexágono está dentro de la caja y se ve desde arriba, luego se mecaniza
+      // desde la misma cara. (La versión anterior lo cortaba desde la cara
+      // INFERIOR y con 17.7 e/c; ni una cosa ni la otra: ver el bloque L.)
+      hole(`Caja Ø${L.cilPlacaVastagoDia}×${L.cilPlacaCajaProf} del extremo del vástago`,
+        [mX, 0, placaZ1], [0, 0, -1], L.cilPlacaVastagoDia, L.cilPlacaCajaProf, false),
+      // (un boceto `cut` con side «pos» ocupa de zFace−h a zFace+0.5: poniendo
+      //  zFace en la cara superior y h = la profundidad, la caja sale justo)
+      perfilXY(`Alojamiento hexagonal ${L.cilPlacaHexAF} e/c × ${L.cilPlacaHexProf} del extremo del vástago`,
+        placaZ1, hexPts(mX, 0, L.cilPlacaHexAF).map(([x, y]) => [r2(x), r2(y)]),
+        L.cilPlacaHexProf, 'cut'),
     ],
-    { componente: 'mesa_guia_MGF100_20' });
+    { componente: 'mgpm80_10z' });
 
-  // émbolo y columnas guía a la vista en los 10 mm de carrera
-  E.addPart(`MÓVIL · Mesa guía — vástago Ø${L.mesaVastago} (émbolo Ø${P.mesaBore})`, COL.acero,
-    [mX, 0, placaZ0], [cyl(`Vástago Ø${L.mesaVastago}×46`, [mX, 0, placaZ0], [0, 0, -1], L.mesaVastago, 46)],
-    { componente: 'mesa_guia_MGF100_20' });
-  for (const s of [-1, 1]) {
-    const x = r2(mX + s * L.mesaColSep);
-    E.addPart(`MÓVIL · Mesa guía — columna guía Ø${L.mesaColDia} × 75 (X=${x})`, COL.acero,
-      [x, 0, placaZ0], [cyl(`Columna Ø${L.mesaColDia}×75`, [x, 0, placaZ0], [0, 0, -1], L.mesaColDia, 75)],
-      { componente: 'mesa_guia_MGF100_20' });
+  // Vástago del émbolo y varillas guía, a la vista en los 10 mm de carrera.
+  // Se construyen por BOCETO circular extruido y no con `cyl` porque `bboxPieza`
+  // infla la caja de un cilindro en ±r en los TRES ejes: las varillas, de 93 mm
+  // en Z, saldrían de la envolvente del gate por abajo sin estar fuera de ella.
+  // (Mismo recurso que el `disco()` de transmision.mjs.)
+  const barraZ = (nombre, cx, cy, dia, z0, alto, n = 12) => {
+    const f = sketchXY(nombre, z0, rectR(cx - dia / 2, cy - dia / 2, cx + dia / 2, cy + dia / 2, dia / 2, n), alto);
+    // `bboxPieza` no lee params.u: para un boceto de normal +Z toma la base que
+    // le da `baseOrtogonal`, que es u = [0,−1,0] · v = [1,0,0]. Se reexpresa el
+    // contorno en ESA base (giro de +90°) y se declara u en consecuencia, de modo
+    // que la caja del gate y el sólido —model.js y a_step.py sí leen params.u—
+    // coincidan. El sólido resultante es exactamente el mismo.
+    f.params.u = [0, -1, 0];
+    f.params.pts = f.params.pts.map(([x, y]) => [r2(-y), r2(x)]);
+    return f;
+  };
+  const vastagoL = r2(huecoFB + 20);                  // 48 — sale 28 y entra 20 en el cuerpo
+  E.addPart(`MÓVIL · NEUMÁTICA · Cilindro MGPM80-10Z — vástago del émbolo Ø${L.cilVastagoDia} (émbolo Ø${P.mesaBore})`,
+    COL.acero, [mX, 0, r2(placaZ0 - vastagoL)],
+    [barraZ(`Vástago Ø${L.cilVastagoDia}×${vastagoL}`, mX, 0, L.cilVastagoDia, r2(placaZ0 - vastagoL), vastagoL)],
+    { componente: 'mgpm80_10z' });
+  for (const sy of [-1, 1]) {
+    const y = sy * varillaY;
+    E.addPart(
+      `MÓVIL · NEUMÁTICA · Cilindro MGPM80-10Z — varilla guía Ø${L.cilDA} × ${varillaLargo} `
+      + `(Y=${sy > 0 ? '+' : '−'}${varillaY}, asoma ${salidaElev} bajo el alma)`,
+      COL.acero, [mX, y, varillaZ0],
+      [barraZ(`Varilla guía Ø${L.cilDA}×${varillaLargo}`, mX, y, L.cilDA, varillaZ0, varillaLargo)],
+      { componente: 'mgpm80_10z' });
   }
 
-  // ---- 4 pernos M12 de fijación de la mesa al canal (entran por debajo) ----
+  // ---- 4 pernos M12 × 25 de fijación del cilindro al canal (por debajo) ----
+  // El encargo los pedía SHCS; se dejan de CABEZA HEXAGONAL porque bajo el alma
+  // sólo hay 10.24 mm hasta el plano inferior del bastidor: una cabeza cilíndrica
+  // M12 (Ø18 × 12) más la golilla llegaría a Z = −3.8, y la hexagonal (7.5 de
+  // alto) se queda en 0.74. Se aprietan con llave de vaso desde abajo igual (bajo
+  // el canal no hay ninguna pieza: el canal base está en X 26…102.2).
+  // Agarre: golilla 2 + alma 4.763 = 6.76 → 18.2 mm dentro de la rosca MM de
+  // 25 de profundidad = 1.52 · d ≥ 1 · d.
   for (const sx of [-1, 1]) {
     for (const sy of [-1, 1]) {
-      const x = r2(mX + sx * L.mesaPernoX), y = sy * L.mesaPernoY;
-      const pos = `X=${x}, Y=${sy > 0 ? '+' : '−'}${L.mesaPernoY}`;
-      golilla(E, { nombre: `M12 mesa (${pos})`, at: [x, y, canalZ0], dir: [0, 0, -1], dia: L.mesaPernoDia, ext: 20, esp: 2, capa: 'FIJO · ' });
-      pernoHex(E, { nombre: `M12 × 45 fijación de la mesa (${pos})`, at: [x, y, r2(canalZ0 - 2)], dir: [0, 0, 1], dia: L.mesaPernoDia, largo: 45, af: 18, altoCab: 7.5, capa: 'FIJO · ' });
+      const x = r2(mX + sx * pernoMMX), y = sy * pernoMMY;
+      const pos = `X=${x}, Y=${sy > 0 ? '+' : '−'}${pernoMMY}`;
+      // golilla de serie estrecha (DIN 433, Ø20): con la ancha DIN 125 (Ø24) el
+      // borde se acercaría a 1.6 mm del taladro Ø30 de paso de la varilla guía
+      golilla(E, { nombre: `M12 cilindro (${pos})`, at: [x, y, canalZ0], dir: [0, 0, -1], dia: L.cilPernoDia, ext: 20, esp: 2, capa: 'FIJO · ' });
+      pernoHex(E, { nombre: `M12 × 25 fijación del cilindro (${pos})`, at: [x, y, r2(canalZ0 - 2)], dir: [0, 0, 1], dia: L.cilPernoDia, largo: 25, af: 18, altoCab: 7.5, capa: 'FIJO · ' });
     }
-  }
-
-  // ---- 2 tirantes de TOPE REGULABLE de carrera: 20 mm → P.carrera ----------
-  for (const sy of [-1, 1]) {
-    const y = sy * L.topeY, pos = `Y=${sy > 0 ? '+' : '−'}${L.topeY}`;
-    pernoHex(E, {
-      nombre: `M12 × 115 tope regulable de carrera (${pos}, limita ${P.mesaCarrera}→${P.carrera} mm)`,
-      at: [mX, y, webZ], dir: [0, 0, 1], dia: L.topeDia, largo: 115, af: 18, altoCab: 8, capa: 'MÓVIL · NEUMÁTICA · ',
-    });
-    tuercaHex(E, { nombre: `M12 contratuerca del tope de carrera (${pos})`, at: [mX, y, r2(placaZ0 - 6.5)], dir: [0, 0, 1], dia: L.topeDia, af: 18, alto: 6.5, capa: 'MÓVIL · NEUMÁTICA · ' });
   }
 
   // =========================================================================
   // 5. INTERFAZ CON EL MÓDULO MÓVIL
   //    Plato de empuje (la mesa empuja aquí el ROLLER FRAME WELDMENT) y
-  //    4 pasadores guía en las colisas de las placas colgantes: el conjunto
-  //    sube los 10 mm en paralelo y no bascula.
+  //    2 pasadores de retención por lado en las colisas de las placas colgantes
+  //    (tope de sobrerrecorrido; el paralelismo lo dan las varillas del MGPM).
   // =========================================================================
   // La cara de empuje NO puede ser una placa maciza: el motorreductor cuelga
-  // sobre la mesa (Z ≥ 123.9, |Y| ≤ 54 a la cota de empuje).  Se resuelve con
-  // una HORQUILLA de dos brazos a |Y| = 58…100, que pasan por fuera del motor y
-  // apoyan en la cara inferior de los notched brace channel (Y ±80…120).
+  // sobre el cilindro (Z ≥ 123.9, |Y| ≤ 54.9 a la cota de empuje).  Se resuelve
+  // con una HORQUILLA de dos brazos a |Y| = 58…120, que pasan por fuera del
+  // motor y apoyan en la cara inferior de los notched brace channel (Y ±80…120).
+  // Y NO SÓLO APOYAN: cada brazo va ATORNILLADO al cassette con 2 pernos 1/4-20 en
+  // su cara exterior (EST-03), de modo que la unión trabaja también a tracción.
+  //
+  // Cambia respecto de la mesa inventada: los pernos ya no se ponen donde
+  // convenga, sino en las 4 roscas NN REALES de la placa (M12, patrón 174 × 52),
+  // o sea a X = ±26 e Y = ±87 del eje. Cada brazo lleva por tanto DOS pernos
+  // alineados en X, y su línea de pernos (Y = 87) queda a 3 mm del centroide de
+  // la zona de contacto (Y = 90): el brazo trabaja casi sin voladizo.
+  // Los brazos miden en X lo mismo que la placa (S = 75) y se atornillan DESDE
+  // ARRIBA con SHCS M12 × 30 alojados en cajas Ø19 × 13, de modo que la cabeza
+  // queda 1 mm por debajo de la cara de empuje y no toca el larguero móvil.
   const brazoAncho = r2(L.brazoY1 - L.brazoY0);
+  const cajaProf = 13, cajaDia = 19;                  // dis: caja del SHCS M12 (Ø18 × 12)
+  const shcsL = r2(L.platoT - cajaProf + L.cilFA - 1);   // 30 — agarre 21 mm en la placa
   for (const sy of [1, -1]) {
     const yc = sy * r2((L.brazoY0 + L.brazoY1) / 2);
     E.addPart(
-      `MÓVIL · Brazo de empuje de la horquilla ${mw}×${brazoAncho}×${L.platoT} (Y=${sy > 0 ? '+' : '−'}${L.brazoY0}…${L.brazoY1}, cara de empuje Z=${platoZ1})`,
+      `MÓVIL · Brazo de empuje de la horquilla ${L.cilS}×${brazoAncho}×${L.platoT} (Y=${sy > 0 ? '+' : '−'}${L.brazoY0}…${L.brazoY1}, cara de empuje Z=${platoZ1})`,
       COL.movil, [mX, yc, placaZ1],
       [
-        box(`Brazo ${mw}×${brazoAncho}×${L.platoT}`, [mX, yc, placaZ1], mw, brazoAncho, L.platoT),
-        ...[-1, 1].map(sx => hole(`Rosca M10 (${sx > 0 ? '+' : '−'}X)`,
-          [mX + sx * 60, sy * L.brazoPernoY, placaZ1 - 1], [0, 0, 1], 10.2, 9, false)),
+        box(`Brazo ${L.cilS}×${brazoAncho}×${L.platoT}`, [mX, yc, placaZ1], L.cilS, brazoAncho, L.platoT),
+        ...[-1, 1].map(sx => hole(`Ø13.5 paso M12 (${sx > 0 ? '+' : '−'}X)`,
+          [mX + sx * pernoNNX, sy * pernoNNY, platoZ1 + 1], [0, 0, -1], 13.5)),
+        ...[-1, 1].map(sx => hole(`Caja Ø${cajaDia}×${cajaProf} para la cabeza SHCS (${sx > 0 ? '+' : '−'}X)`,
+          [mX + sx * pernoNNX, sy * pernoNNY, platoZ1], [0, 0, -1], cajaDia, cajaProf, false)),
+        // ANCLAJE AL CASSETTE (EST-03): 2 roscas 1/4-20 en la CARA EXTERIOR del
+        // brazo. El perno entra desde el corredor libre |Y| 120…195 atravesando la
+        // ménsula que `bastidor.mjs` suelda al ala del notched brace channel.
+        ...anclajeHorquilla.x.map(x => hole(
+          `Rosca ${anclajeHorquilla.torn} × ${anclajeHorquilla.prof} del anclaje al cassette (X=${x})`,
+          [x, sy * anclajeHorquilla.yCara, anclajeHorquilla.z], [0, -sy, 0],
+          anclajeHorquilla.dia, anclajeHorquilla.prof, false)),
       ], { plano: true });
-    for (const sx of [-1, 1]) {
-      pernoHex(E, {
-        nombre: `M10 × 32 brazo de empuje (X=${r2(mX + sx * 60)}, Y=${sy > 0 ? '+' : '−'}${L.brazoPernoY})`,
-        at: [r2(mX + sx * 60), sy * L.brazoPernoY, placaZ0], dir: [0, 0, 1],
-        dia: 10, largo: 32, af: 16, altoCab: 6.5, capa: 'MÓVIL · ',
+    // Los 2 pernos del anclaje de este brazo. Entran POR FUERA (contrato §5.5):
+    // cabeza y golilla quedan en el corredor libre, con llave de vaso desde el
+    // lateral de la máquina; para desmontar el cassette se sacan estos 4 y se
+    // levanta, sin tocar nada más.
+    for (const x of anclajeHorquilla.x) {
+      const yCara = r2(anclajeHorquilla.yCara + P.placaT);      // 124.76 — cara exterior de la ménsula
+      const pos = `X=${x}, Y=${sy > 0 ? '+' : '−'}${yCara}`;
+      golilla(E, {
+        nombre: `1/4" anclaje de la horquilla (${pos})`, at: [x, sy * yCara, anclajeHorquilla.z],
+        dir: [0, sy, 0], dia: anclajeHorquilla.dia, ext: anclajeHorquilla.golilla.dia,
+        esp: anclajeHorquilla.golilla.esp, capa: 'MÓVIL · ',
       });
+      pernoHex(E, {
+        nombre: `1/4-20 UNC × 3/4" anclaje de la horquilla al cassette (${pos})`,
+        at: [x, sy * r2(yCara + anclajeHorquilla.golilla.esp), anclajeHorquilla.z], dir: [0, -sy, 0],
+        dia: anclajeHorquilla.dia, largo: anclajeHorquilla.largo, af: b14.af, altoCab: b14.hh,
+        capa: 'MÓVIL · ',
+      });
+    }
+    for (const sx of [-1, 1]) {
+      const x = r2(mX + sx * pernoNNX), zCab = r2(platoZ1 - cajaProf);
+      E.addPart(
+        `MÓVIL · Tornillo SHCS M12 × ${shcsL} de la horquilla (X=${x}, Y=${sy > 0 ? '+' : '−'}${pernoNNY})`,
+        COL.tornillo, [x, sy * pernoNNY, zCab],
+        [
+          cyl('Cabeza cilíndrica Ø18×12', [x, sy * pernoNNY, zCab], [0, 0, 1], 18, 12),
+          cyl(`Vástago M12×${shcsL}`, [x, sy * pernoNNY, zCab], [0, 0, -1], L.cilPernoDia, shcsL),
+        ], { hardware: true, norma: 'ISO 4762 / DIN 912 M12 × 1.75' });
     }
   }
 
-  // Pasadores guía: van empotrados en el bastidor MÓVIL y ruedan por las colisas
-  // de las placas colgantes; entran desde dentro y no llegan al alma del SIDE
-  // CHANNEL, así que no hay que retenerlos por fuera.
+  // Pasadores de RETENCIÓN: corren por las colisas de las placas colgantes; entran
+  // desde dentro y no llegan al alma del SIDE CHANNEL, así que no hay que
+  // retenerlos por fuera. Desde el anclaje atornillado ya NO guían —el guiado es
+  // entero del MGPM, que es para lo que lleva sus dos varillas— y su colisa se
+  // ensanchó a `L.guiaHolguraX` para que no puedan competir con él. Lo que
+  // conservan es el tope de sobrerrecorrido en Z. Sigue abierto de E3 —y no es de
+  // este hallazgo— que en X = 190/273 con |Y| 185…195 el cassette no tiene ninguna
+  // pieza donde empotrarlos: flotan (contrato §5.1).
   for (const x of L.guiaX) {
     for (const sy of [1, -1]) {
       const d = [0, sy, 0], y0 = sy * (L.guiaMontY - 10);
@@ -451,7 +1255,7 @@ export function elevacion(E) {
       const zPin = r2(L.guiaZ + L.guiaRecorrido / 2 - 1);        // elevado: 1 mm del tope superior
       const pos = `X=${x}, Y=${sy > 0 ? '+' : '−'}${r2(placaY + P.placaT / 2)}`;
       E.addPart(
-        `MÓVIL · Pasador guía Ø${L.guiaPasador} × ${largo} en colisa (${pos}, Z=${zPin})`,
+        `MÓVIL · Pasador de retención Ø${L.guiaPasador} × ${largo} en colisa (${pos}, Z=${zPin})`,
         COL.tornillo, [x, y0, zPin],
         [
           cyl(`Collar Ø25.4×10`, [x, y0, zPin], d, 25.4, 10),
@@ -461,22 +1265,26 @@ export function elevacion(E) {
   }
 
   // =========================================================================
-  // 6. NEUMÁTICA: soporte, válvula, silenciadores, racores, unión y tubería
+  // 6. NEUMÁTICA: soporte, válvula, silenciadores, racores y tubería
+  //    Toda la instalación se muda al PASILLO +X del canal (X 277…345.8), que es
+  //    el lado J por el que el MGPM saca sus dos puertos Rc 3/8: la tubería se
+  //    reduce a dos tramos rectos en el plano X = L.tuboX.
   // =========================================================================
   const [vY0, vY1] = L.valvY, [vX0, vX1] = L.valvX, vAlto = P.valvula[2];
   const [sX0, sX1] = L.sopX, [sY0, sY1] = L.sopY;
-  const sopZ1 = r2(L.valvZ0 + P.placaT);                         // 20.26 — cara superior del soporte
-  const vZ0 = sopZ1, vZ1 = r2(vZ0 + vAlto);                      // 20.26 … 80.26
-  const vYc = r2((vY0 + vY1) / 2), vXc = r2((vX0 + vX1) / 2);
-  const vTornY = r2(vYc + 24);                        // −125 — lejos de los racores (Y=−160)
+  const valvZ0 = webZ;                                           // el soporte apoya en el alma
+  const sopZ1 = r2(valvZ0 + P.placaT);                           // 19.76 — cara superior del soporte
+  const vZ0 = sopZ1, vZ1 = r2(vZ0 + vAlto);                      // 19.76 … 79.76
+  const vYc = r2((vY0 + vY1) / 2), vXc = r2((vX0 + vX1) / 2);    // −136, 319
+  const vTornY = r2(vYc + 24);                        // −112 — lejos de los racores A/B (Y=−136)
 
   E.addPart(
     `FIJO · Soporte de válvula 3/16" ${r2(sX1 - sX0)}×${r2(sY1 - sY0)}`,
-    COL.chapaOsc, [sX0, sY0, L.valvZ0],
+    COL.chapaOsc, [sX0, sY0, valvZ0],
     [
       box(`Placa de soporte ${r2(sX1 - sX0)}×${r2(sY1 - sY0)}×${P.placaT}`,
-        [r2((sX0 + sX1) / 2), r2((sY0 + sY1) / 2), L.valvZ0], r2(sX1 - sX0), r2(sY1 - sY0), P.placaT),
-      ...L.sopPernos.map(([x, y]) => hole(`Ø7.9 anclaje al canal (X=${x}, Y=${y})`, [x, y, L.valvZ0 - 1], [0, 0, 1], 7.9)),
+        [r2((sX0 + sX1) / 2), r2((sY0 + sY1) / 2), valvZ0], r2(sX1 - sX0), r2(sY1 - sY0), P.placaT),
+      ...L.sopPernos.map(([x, y]) => hole(`Ø7.9 anclaje al canal (X=${x}, Y=${y})`, [x, y, valvZ0 - 1], [0, 0, 1], 7.9)),
       ...[-1, 1].map(s => hole(`Rosca 1/4-20 de la válvula (${s > 0 ? '+' : '−'}X)`,
         [r2(vXc + s * 16), vTornY, sopZ1 + 1], [0, 0, -1], b14.d, P.placaT + 1, false)),
     ], { plano: true });
@@ -487,16 +1295,20 @@ export function elevacion(E) {
     tuercaHex(E, { nombre: `1/4-20 soporte de válvula (X=${x}, Y=${y})`, at: [x, y, sopZ1], dir: [0, 0, 1], dia: b14.d, af: b14.af, alto: b14.tuerca, capa: 'FIJO · ' });
   }
 
+  // Orientación de la válvula: el solenoide sale por −Y (queda dentro del canal,
+  // |Y| ≤ 221, y por debajo de la placa colgante, que arranca en Z=88) y el
+  // accionamiento manual por +Y. Las dos caras en X están ocupadas: en −X los
+  // racores A/B que miran al cilindro y en +X el ala del canal (X ≥ 345.8).
   E.addPart(
     `FIJO · NEUMÁTICA · Válvula 4 vías monosolenoide 24 VDC ${P.valvula.join('×')} (094.10795)`,
     COL.neumatica, [vX0, vY0, vZ0],
     [
       box(`Cuerpo ${P.valvula.join('×')}`, [vXc, vYc, vZ0], r2(vX1 - vX0), r2(vY1 - vY0), vAlto),
-      cyl('Solenoide 24 VDC Ø30×42', [vX1, vYc, r2(vZ0 + vAlto * 0.55)], [1, 0, 0], 30, 42),
-      cyl('Accionamiento manual Ø10', [vX0, vYc, r2(vZ0 + vAlto * 0.55)], [-1, 0, 0], 10, 8),
-      // puertos de escape (silenciadores) y de trabajo A/B
-      ...L.silenZ.map(z => hole(`Escape 1/8 NPT (Z=${z})`, [vXc, vY0, z], [0, 1, 0], 9.5, 10, false)),
-      ...L.racorX.map((x, i) => hole(`Puerto de trabajo 1/4 ${i ? 'B' : 'A'} (X=${x})`, [x, L.racorY, vZ1], [0, 0, -1], 16.4, 12, false)),
+      cyl('Solenoide 24 VDC Ø30×42', [vXc, vY0, r2(vZ0 + vAlto * 0.55)], [0, -1, 0], 30, 42),
+      cyl('Accionamiento manual Ø10', [vXc, vY1, r2(vZ0 + vAlto * 0.55)], [0, 1, 0], 10, 8),
+      // escapes en la cara SUPERIOR y puertos de trabajo A/B en la cara −X
+      ...L.silenX.map(x => hole(`Escape 1/8 NPT (X=${x})`, [x, vYc, vZ1], [0, 0, -1], 9.5, 10, false)),
+      ...puertoZ.map((z, i) => hole(`Puerto de trabajo 1/4 ${i ? 'B' : 'A'} (Z=${z})`, [vX0, vYc, z], [1, 0, 0], 16.4, 12, false)),
       ...[-1, 1].map(s => hole(`Ø7.9 fijación al soporte (${s > 0 ? '+' : '−'}X)`, [r2(vXc + s * 16), vTornY, vZ1 + 1], [0, 0, -1], 7.9)),
     ], { hardware: true, componente: 'valvula_4v_24vdc', parte: '094.10795' });
 
@@ -506,93 +1318,282 @@ export function elevacion(E) {
     pernoHex(E, { nombre: `1/4-20 × 2-1/2" válvula↔soporte (X=${x})`, at: [x, vTornY, r2(vZ1 + 2)], dir: [0, 0, -1], dia: b14.d, largo: r2(2.5 * IN), af: b14.af, altoCab: b14.hh, capa: 'FIJO · NEUMÁTICA · ' });
   }
 
-  for (const z of L.silenZ) {
-    E.addPart(`FIJO · NEUMÁTICA · Silenciador 1/8" NPT Ø${L.silenDia} (Z=${z}) (923.0059)`, COL.inox,
-      [vXc, vY0, z], [
-        cyl('Niple 1/8 NPT Ø9.5×7', [vXc, vY0, z], [0, -1, 0], 9.5, 7),
-        cyl(`Cuerpo sinterizado Ø${L.silenDia}×20`, [vXc, r2(vY0 - 7), z], [0, -1, 0], L.silenDia, 20),
+  for (const x of L.silenX) {
+    E.addPart(`FIJO · NEUMÁTICA · Silenciador 1/8" NPT Ø${L.silenDia} (X=${x}) (923.0059)`, COL.inox,
+      [x, vYc, vZ1], [
+        cyl('Niple 1/8 NPT Ø9.5×7', [x, vYc, vZ1], [0, 0, 1], 9.5, 7),
+        cyl(`Cuerpo sinterizado Ø${L.silenDia}×20`, [x, vYc, r2(vZ1 + 7)], [0, 0, 1], L.silenDia, 20),
       ], { hardware: true, parte: '923.0059' });
   }
 
-  // ---- racores codo giratorios 360° sobre la válvula ----------------------
-  // El tubo sale hacia −X por el pasillo libre entre el ala del canal (X≤117.2)
-  // y la cara −X de la mesa (X=160); las dos alturas quedan por debajo de la
-  // placa soporte de transmisión (X 106.7…155, Z ≥ 124).
-  const codoZ = [105, 118];                          // altura del brazo de cada codo
-  const codoXsal = 155;
-  L.racorX.forEach((x, i) => {
-    E.addPart(`FIJO · NEUMÁTICA · Racor codo giratorio 360° 1/4" (válvula, X=${x})`, COL.neumatica,
-      [x, L.racorY, vZ1], [
-        cyl('Cuerpo Ø16', [x, L.racorY, r2(vZ1 - 6)], [0, 0, 1], 16, r2(codoZ[i] - vZ1 + 12)),
-        cyl('Salida giratoria Ø13', [x, L.racorY, codoZ[i]], [-1, 0, 0], 13, r2(x - codoXsal + 2)),
-        hole('Ø8.2 paso de tubo', [r2(codoXsal - 2), L.racorY, codoZ[i]], [1, 0, 0], r2(P.tuboOD + 0.3), 26, false),
+  // ---- racores codo giratorios 360° sobre la válvula (cara −X) ------------
+  // El brazo del codo sale hacia +Y y el tubo sube por el plano X = L.tuboX,
+  // libre entre el cuerpo del cilindro (X ≤ 277) y la válvula (X ≥ 296).
+  const codoY = r2(vY1 - 16);                        // −116 — donde acaba el brazo del codo
+  puertoZ.forEach((z, i) => {
+    E.addPart(`FIJO · NEUMÁTICA · Racor codo giratorio 360° 1/4" (válvula, puerto ${i ? 'B' : 'A'}, Z=${z})`,
+      COL.neumatica, [vX0, vYc, z], [
+        cyl('Cuerpo Ø16', [r2(vX0 + 6), vYc, z], [-1, 0, 0], 16, r2(vX0 - L.tuboX + 6)),
+        cyl('Salida giratoria Ø13', [L.tuboX, vYc, z], [0, 1, 0], 13, r2(codoY - vYc)),
+        hole('Ø8.2 paso de tubo', [L.tuboX, r2(codoY + 2), z], [0, -1, 0], r2(P.tuboOD + 0.3), 26, false),
       ], { hardware: true, parte: '094.1406 (codo macho giratorio 360°)' });
   });
 
-  // ---- racores codo giratorios 360° en los puertos de la mesa -------------
-  const codoMesaX = 146;
-  L.puertoZ.forEach((z, i) => {
-    const y = L.puertoY[i];
-    E.addPart(`FIJO · NEUMÁTICA · Racor codo giratorio 360° 1/4" (mesa, puerto ${i ? 'B' : 'A'}, Z=${z})`, COL.neumatica,
-      [codoMesaX, y, z], [
-        cyl('Cuerpo Ø16', [codoMesaX, y, r2(z + 13)], [0, 0, -1], 16, 20),
-        cyl('Salida giratoria Ø15', [codoMesaX, y, z], [1, 0, 0], 15, r2(mX0 - codoMesaX + 6)),
-        hole('Ø8.2 paso de tubo', [codoMesaX, y, r2(z + 15)], [0, 0, -1], r2(P.tuboOD + 0.3), 16, false),
+  // ---- racores codo giratorios 360° en los puertos Rc3/8 del cilindro -----
+  // Niple Rc 3/8 dentro del puerto + cuerpo por fuera + salida giratoria hacia −Y.
+  // Los puertos están donde los pone el catálogo —PW = 74 del eje en Y y sobre la
+  // cara plana del lado J, a JA = 38 del eje—, no en el plano medio: el racor sale
+  // por tanto de X = 269.5, Y = −74, y la tubería hasta la válvula (Y −172…−100)
+  // baja de los 96 mm que medía a un tramo corto.
+  const niple = r2(L.cilPuertoProf - 1);             // 11 — cabe en el puerto de 12
+  const codoCilY = r2(puertoY - 12);                 // −86 — final del brazo del codo
+  puertoZ.forEach((z, i) => {
+    E.addPart(`FIJO · NEUMÁTICA · Racor codo giratorio 360° Rc3/8–1/4" (cilindro, puerto ${i ? 'B' : 'A'}, Y=${puertoY}, Z=${z})`,
+      COL.neumatica, [cilJfl, puertoY, z], [
+        cyl(`Niple Rc3/8 Ø16.4×${niple}`, [r2(cilJfl - niple), puertoY, z], [1, 0, 0], 16.4, niple),
+        cyl('Cuerpo Ø22', [cilJfl, puertoY, z], [1, 0, 0], 22, r2(L.tuboX - cilJfl + 8)),
+        cyl('Salida giratoria Ø13', [L.tuboX, puertoY, z], [0, -1, 0], 13, r2(puertoY - codoCilY)),
+        hole('Ø8.2 paso de tubo', [L.tuboX, r2(puertoY + 2), z], [0, -1, 0], r2(P.tuboOD + 0.3), 26, false),
       ], { hardware: true, parte: '094.1406 (codo macho giratorio 360°)' });
   });
 
-  // ---- unión Unifit de 1/4" en la línea A --------------------------------
-  E.addPart(`FIJO · NEUMÁTICA · Unión Unifit 1/4" Ø15 × 26 (X=136, Y=−120)`, COL.neumatica,
-    [136, -120, codoZ[0]], [
-      cyl('Cuerpo de unión Ø15×26', [136, -107, codoZ[0]], [0, -1, 0], 15, 26),
-      hole('Ø8.2 paso de tubo', [136, -105, codoZ[0]], [0, -1, 0], r2(P.tuboOD + 0.3), 30, false),
-    ], { hardware: true, parte: '094.1465 (unión Unifit 1/4 in.)' });
-
-  // ---- tubería de 1/4" (P.tuboOD): vertical + codo + horizontal ----------
-  const rutaA = [
-    [codoXsal, L.racorY, codoZ[0]], [136, L.racorY, codoZ[0]], [136, L.puertoY[0], codoZ[0]],
-    [codoMesaX, L.puertoY[0], codoZ[0]], [codoMesaX, L.puertoY[0], r2(L.puertoZ[0] + 9)],
-  ];
-  const rutaB = [
-    [codoXsal, L.racorY, codoZ[1]], [140, L.racorY, codoZ[1]], [140, L.puertoY[1], codoZ[1]],
-    [codoMesaX, L.puertoY[1], codoZ[1]], [codoMesaX, L.puertoY[1], r2(L.puertoZ[1] + 9)],
-  ];
-  const tA = tubo(rutaA, P.tuboOD), tB = tubo(rutaB, P.tuboOD);
-  E.addPart(`FIJO · NEUMÁTICA · Tubería 1/4" OD Ø${r2(P.tuboOD)} — línea A (válvula → mesa, ${tA.largo} mm)`,
-    COL.neumatica, rutaA[0], tA.features, { hardware: true, parte: '094.1148 (tubo PU 1/4 in. OD)' });
-  E.addPart(`FIJO · NEUMÁTICA · Tubería 1/4" OD Ø${r2(P.tuboOD)} — línea B (válvula → mesa, ${tB.largo} mm)`,
-    COL.neumatica, rutaB[0], tB.features, { hardware: true, parte: '094.1148 (tubo PU 1/4 in. OD)' });
+  // ---- tubería de 1/4" (P.tuboOD): dos tramos rectos en X = L.tuboX -------
+  const rutas = puertoZ.map(z => [[L.tuboX, r2(codoY + 4), z], [L.tuboX, r2(codoCilY - 4), z]]);
+  const tubos = rutas.map(r => tubo(r, P.tuboOD));
+  tubos.forEach((t, i) => {
+    E.addPart(`FIJO · NEUMÁTICA · Tubería 1/4" OD Ø${r2(P.tuboOD)} — línea ${i ? 'B' : 'A'} (válvula → cilindro, ${t.largo} mm)`,
+      COL.neumatica, rutas[i][0], t.features, { hardware: true, parte: '094.1148 (tubo PU 1/4 in. OD)' });
+  });
+  const tuberiaMm = r2(tubos.reduce((a, t) => a + t.largo, 0));
 
   // =========================================================================
-  // 7. DIMENSIONADO — empuje disponible vs. masa que sube
+  // 7. DIMENSIONADO — todo sale de las cotas de catálogo del MGPM80-10Z
   // =========================================================================
-  const area = Math.PI * P.mesaBore * P.mesaBore / 4;            // 7853.98 mm²
-  const empuje = area * L.presionBar / 10;                        // N a 6 bar
-  const empuje60 = area * L.presionTrabajoBar / 10;               // N a 60 psi (dato del fabricante)
-  const carga = (L.masaMovilKg + P.cargaMaxKg) * 9.80665;         // N
+  // --- fuerza ---------------------------------------------------------------
+  // Áreas REALES de catálogo (5027 / 4536 mm²), no π·D²/4: el émbolo del MGP
+  // lleva el vástago Ø25 restado en el retorno y SMC publica las dos.
+  const area = L.cilArea[0], areaRet = L.cilArea[1];              // cat, mm²
+  const empuje = area * L.presionBar / 10;                        // N a 6 bar  (1 bar = 0.1 N/mm²)
+  const empuje60 = area * L.presionTrabajoBar / 10;               // N a 4.14 bar = 60 psi (cat del equipo)
+  const retorno60 = areaRet * L.presionTrabajoBar / 10;           // N de retorno a 4.14 bar
+  const carga = (L.masaMovilKg + P.cargaMaxKg) * 9.80665;         // N — masa móvil + bulto máximo
+  // Convención del repositorio: el empuje de catálogo es teórico y el factor de
+  // seguridad se calcula sobre el empuje ÚTIL (rendimiento 0.85 por juntas y
+  // rozamiento de las guías), igual que en el primer dimensionado del módulo.
   const util = empuje * L.rendimiento, util60 = empuje60 * L.rendimiento;
 
+  // --- velocidad: DATO DE DISEÑO; la energía cinética es la consecuencia -----
+  // La velocidad media de émbolo la fija `L.velEmboloMmS` (dis, ver su bloque) y es
+  // lo que se deja ajustado en los reguladores de caudal. De ahí salen, en este
+  // orden y no al revés:
+  //     u_impacto = 1.4 · v_media        (cat, nota de la hoja MGP)
+  //     Ek        = ½ · M · u_impacto²   → se compara con Ek_adm (2.71 J, cat)
+  //     a_frenado = u_impacto² / (2·δ)   → se compara con g (DIN-12, en la compuerta)
+  // `uMaxTopes` es la otra cara: la velocidad de impacto a la que se agotarían los
+  // topes de goma. Se reporta como referencia —es el techo del cilindro— pero YA NO
+  // define la velocidad de diseño, que es lo que hacía tautológica la comprobación.
+  const masaElevada = L.masaMovilKg + P.cargaMaxKg;               // 89 kg
+  const masaTotalMovil = r2(masaElevada + L.cilMasaMovil);        // 93.27 kg
+  const uMedia = L.velEmboloMmS / 1000;                           // m/s — dis
+  const uImpacto = uMedia * L.cilFactorImpacto;                   // m/s — cat (×1.4)
+  const ekDiseno = 0.5 * masaTotalMovil * uImpacto * uImpacto;    // J — consecuencia
+  const uMaxTopes = Math.sqrt(2 * L.cilEkAdm / masaTotalMovil);   // m/s — techo del cilindro
+  const tSubida = P.carrera / L.velEmboloMmS;                     // s
+
+  // --- consumo de aire por ciclo (ida + vuelta) a la presión de trabajo -----
+  // Volumen geométrico × relación de compresión (presión absoluta / atmósfera).
+  const compresion = (L.presionTrabajoBar + L.presionAtmBar) / L.presionAtmBar;
+  const aireCiclo = (area + areaRet) * P.carrera / 1e6 * compresion;   // litros ANR
+
+  // --- par y carga lateral sobre la placa móvil -----------------------------
+  // ESTO CAMBIÓ AL ATORNILLAR LA HORQUILLA AL CASSETTE (EST-03), y hay que decirlo
+  // porque el número anterior ya no valía. Antes los brazos sólo EMPUJABAN, así que
+  // no podían meter en la placa más fuerza horizontal ni más par que el rozamiento
+  // de sus apoyos (µ = 0.20 → 17.97 N·m): esa cota de rozamiento era el criterio.
+  // Con la unión atornillada la junta NO desliza —2 819 N por perno contra los 176
+  // de despegue— y a la placa le llega la solicitación REAL, que es la reacción de
+  // arrastrar el bulto:
+  //   · fuerza lateral en Y  = µ_bulto · m_bulto · g            = 166.7 N
+  //   · par alrededor de Z   = esa fuerza × su excentricidad en X
+  // La excentricidad NO es libre: el bulto se apoya en la cara del rodillo (375 mm)
+  // y el equipo no admite bultos de menos de 8" de largo (web SORT-014), así que el
+  // centroide del contacto se queda dentro de (375 − 203.2)/2 = ±85.9 mm del eje.
+  const anchoContacto = r2(L.brazoY1 - L.contactoY[0]);           // 40 — ancho útil de cada apoyo
+  const yContacto = r2((L.contactoY[0] + L.brazoY1) / 2);         // 100 — centroide de cada apoyo
+  const areaContacto = r2(2 * anchoContacto * L.cilS);            // mm² — los dos apoyos
+  // radio polar medio de las dos huellas de contacto respecto del eje del émbolo
+  const rApoyo = Math.sqrt(L.cilS ** 2 / 12 + yContacto ** 2 + anchoContacto ** 2 / 12);
+  const parRozamiento = L.muApoyo * carga * rApoyo / 1000;        // N·m — ya NO es el criterio
+  const fArrastre = L.muBulto * P.cargaMaxKg * 9.80665;           // 166.7 N
+  const excBultoX = r2((P.rodCara - L.bultoMinLargo) / 2);        // 85.9 mm (web SORT-014)
+  const cargaLateral = r2(fArrastre);                             // N
+  const parPlaca = r2(fArrastre * excBultoX / 1000);              // N·m
+  // Excentricidad residual del CG del conjunto móvil respecto del eje del
+  // cilindro: el cassette es simétrico respecto de X = P.largo/2 = 231.5 (placas
+  // peine en 40.1 y 422.9, travesaños centrados), así que sólo descentra el
+  // motorreductor. Con la mesa ya centrada en 231.5:
+  const excCG = r2(L.masaMotorKg * (L.cgMotorX - mX) / (L.masaMovilKg + P.cargaMaxKg));
+  const parExcentricidad = r2(carga * Math.abs(excCG) / 1000);    // N·m
+
+  // --- geometría del anclaje que la compuerta necesita para EST-03 ----------
+  // El módulo publica el BRAZO de la retención (dónde agarra) y el ENGRANE de la
+  // rosca; la capacidad por perno la calcula la compuerta con el grado y el par que
+  // ella misma fija (LIM.perno14), para que no haya dos precargas distintas.
+  const anclaAgarre = r2(anclajeHorquilla.golilla.esp + P.placaT);        // 6.41 — golilla + ménsula
+  const anclaEngrane = r2(anclajeHorquilla.largo - anclaAgarre);          // 12.64 mm de rosca útil
+  const anclaParedZ = r2(L.platoT / 2);                                   // 11 — pared rosca ↔ cara del brazo
+  const anclaParedX = r2(L.cilS / 2 - (anclajeHorquilla.x[1] - mX));      // 12.7 — al canto en X
+
+  // --- geometría crítica ----------------------------------------------------
+  const r3 = (v) => Math.round(v * 1000) / 1000;                  // 3 decimales, sin ruido de coma flotante
+  const holguraPlacaMotor = r2(L.motorZ0 - placaZ1);              // placa móvil ↔ cárter del reductor
+  const libreBajoAlma = webZ;                                     // hueco libre bajo la cara de fijación
+
   return {
+    actuador: 'SMC MGPM80-10Z — cilindro compacto con guías, casquillo de deslizamiento, con imán',
+    componente: 'mgpm80_10z',
     carrera: P.carrera,
     carreraActuador: P.mesaCarrera,
-    topeCarrera: `2 tirantes M12 roscados a la placa móvil; su cabeza topa bajo el cuerpo y limita ${P.mesaCarrera}→${P.carrera} mm`,
+    topeCarrera: 'ninguno: la carrera de catálogo (10 mm) ES la del equipo; amortiguación por '
+      + 'tope de goma de serie en ambos extremos (cat). Desaparecen los 2 tirantes M12 postizos.',
     ajusteAltura: `4 jack bolts 3/8-16 (2 tuercas c/u) + 4 tornillos 3/8-16 en colisas ${L.colisaAncho}×${L.colisaLargo} (recorrido ${r2(L.colisaLargo - L.colisaAncho)} mm)`,
-    areaEmboloMm2: r2(area),
-    empujeN: r2(empuje),                    // Ø100 a 6 bar
-    empujeUtilN: r2(util),                  // con rendimiento 0.85
-    empujeN60psi: r2(empuje60),             // a la presión de trabajo del manual
+
+    // ---- fuerza (cat: área de empuje 5027 mm², de retorno 4536 mm²) --------
+    areaEmboloMm2: area,
+    areaRetornoMm2: areaRet,
+    empujeN: r2(empuje),                    // teórico a L.presionBar = 6.0 bar
+    empujeUtilN: r2(util),                  // ×0.85 de rendimiento
+    empujeN60psi: r2(empuje60),             // teórico a 4.14 bar (presión de trabajo del ProSort)
+    empujeUtil60psiN: r2(util60),
+    retornoN60psi: r2(retorno60),           // el descenso además va a favor de la gravedad
     cargaN: r2(carga),
-    masaElevadaKg: L.masaMovilKg + P.cargaMaxKg,
-    factorSeguridad: r2(util / carga),
-    factorSeguridad60psi: r2(util60 / carga),
+    masaElevadaKg: masaElevada,
+    factorSeguridad: r2(util / carga),          // a 6 bar, sobre el empuje útil
+    factorSeguridad60psi: r2(util60 / carga),   // a 4.14 bar, sobre el empuje útil
+    presionMinimaBar: r2(carga / L.rendimiento / area * 10),   // presión a la que FS = 1.0
+
+    // ---- velocidad, tiempo y aire (cat: 50…400 mm/s, Ek adm 2.71 J) -------
+    masaMovilCilindroKg: L.cilMasaMovil,
+    masaTotalMovilKg: masaTotalMovil,
+    // La velocidad de diseño es un DATO (dis), no una consecuencia del límite:
+    velocidadDisenoMmS: L.velEmboloMmS,         // dis — media de émbolo, la que se ajusta
+    velocidadAdmisibleMmS: L.cilVelAdm,         // cat — banda de émbolo del catálogo
+    factorImpacto: L.cilFactorImpacto,          // cat — impacto = 1.4 × media
+    velocidadImpactoMmS: r2(uImpacto * 1000),   // calc — contra el tope de goma
+    velocidadImpactoMs: r3(uImpacto),
+    // …y la energía cinética es la CONSECUENCIA, que se compara con el admisible:
+    energiaCineticaJ: r3(ekDiseno),
+    energiaAdmisibleJ: L.cilEkAdm,              // cat
+    // Referencia, ya no criterio: velocidad de impacto a la que se agotan los topes.
+    velocidadMaxImpactoMmS: r2(uMaxTopes * 1000),
+    velocidadDisenoCriterio: `dato de diseño (dis): ${L.velEmboloMmS} mm/s de velocidad media de `
+      + `émbolo → ${r2(uImpacto * 1000)} mm/s de impacto (×${L.cilFactorImpacto} cat) → `
+      + `${r3(ekDiseno)} J de los ${L.cilEkAdm} admisibles. Se elige por la deceleración de frenado, `
+      + `no por la energía: con ${r2(uImpacto * 1000)} mm/s el bulto no despega de los rodillos.`,
+    tiempoSubidaMs: r2(tSubida * 1000),
+    aireLitrosANRciclo: r3(aireCiclo),
+    aireLitrosANRmin20cpm: r2(aireCiclo * 20),
+
+    // ---- estabilidad de la placa (cat: 352 N y 21.9 N·m) ------------------
+    // Con el anclaje atornillado la junta no desliza, así que estos DOS números
+    // dejaron de ser la cota de rozamiento de los apoyos y pasan a ser la
+    // solicitación real: la reacción de arrastrar el bulto.
+    cargaLateralN: cargaLateral,
+    cargaLateralAdmisibleN: L.cilLateralAdm,
+    parPlacaNm: parPlaca,
+    parAdmisibleNm: L.cilParAdm,
+    muBulto: L.muBulto,                         // dis — la compuerta comprueba que no diverja
+    bultoMinLargoMm: L.bultoMinLargo,           // web SORT-014
+    excentricidadBultoXmm: excBultoX,           // ±85.9 — centroide de contacto, acotado por SORT-014
+    parRozamientoApoyosNm: r2(parRozamiento),   // referencia: lo que era el criterio antes
+    parPlacaCriterio: `reacción de arrastrar el bulto (µ = ${L.muBulto} · ${P.cargaMaxKg} kg → `
+      + `${r2(fArrastre)} N) por su excentricidad máxima en X (±${excBultoX} mm: la cara del rodillo `
+      + `mide ${P.rodCara} y el bulto no baja de ${L.bultoMinLargo} mm, web SORT-014). Antes del `
+      + `anclaje el criterio era el rozamiento de los apoyos (${r2(parRozamiento)} N·m, µ = ${L.muApoyo}), `
+      + `que ya no aplica porque la junta no desliza. Par por excentricidad del CG: ${parExcentricidad} N·m.`,
+    excentricidadCGmm: excCG,
+    parExcentricidadNm: parExcentricidad,
+    noGiroGrados: L.cilNoGiro,
+
+    // ---- estabilidad del CASSETTE sobre la horquilla (EST-03) -------------
+    // El cassette YA NO se apoya y nada más: va ATORNILLADO a los dos brazos con 4
+    // pernos 1/4-20 (2 por brazo) en la cara exterior. Se publican las dos cosas que
+    // la compuerta necesita para rehacer el equilibrio: dónde apoya (huella) y dónde
+    // agarra la retención (brazo del anclaje), más el engrane de la rosca.
+    apoyoContactoY: [L.contactoY[0], L.brazoY1],
+    yApoyoContactoMm: yContacto,                // 100 — centroide de cada huella
+    anchoContactoMm: anchoContacto,             // 40 — alma completa del brace channel
+    xApoyoSemiMm: r2(L.cilS / 2),               // 37.5 — semihuella en X (vuelco alrededor de Y)
+    masaMovilDeclaradaKg: L.masaMovilKg,        // 55 — cota SUPERIOR (empuje, Ek, aire)
+    masaMovilVuelcoKg: L.masaMovilVuelcoKg,     // 38 — cota INFERIOR, la del vuelco
+    vuelcoCriterio: 'la masa móvil es lo ÚNICO que estabilizaba el cassette mientras la horquilla '
+      + `sólo apoyaba, así que el vuelco se comprueba con la cota INFERIOR (${L.masaMovilVuelcoKg} kg), `
+      + `no con la declarada (${L.masaMovilKg} kg). Desde el anclaje atornillado la masa deja de ser `
+      + 'lo único: la retención aporta un momento que no depende de ella.',
+    anclaje: {
+      torn: anclajeHorquilla.torn,
+      nPorBrazo: anclajeHorquilla.nPorBrazo,
+      n: 2 * anclajeHorquilla.nPorBrazo,
+      xMm: anclajeHorquilla.x,
+      zMm: anclajeHorquilla.z,
+      yBrazoMm: anclajeHorquilla.yCara,         // 120 — plano en el que agarra la retención
+      roscaProfMm: anclajeHorquilla.prof,
+      agarreMm: anclaAgarre,
+      engraneMm: anclaEngrane,                  // 12.64
+      engraneEnD: r2(anclaEngrane / anclajeHorquilla.dia),      // 1.99·d
+      paredZmm: anclaParedZ,                    // 11 — de la rosca a las caras del brazo
+      paredZenD: r2(anclaParedZ / anclajeHorquilla.dia),        // 1.73·d
+      paredXmm: anclaParedX,                    // 12.7 — al canto en X
+      paredXenD: r2(anclaParedX / anclajeHorquilla.dia),        // 2.0·d
+      montaje: 'la ménsula (bastidor.mjs) lleva COLISA VERTICAL: el apoyo plano sigue fijando Z y '
+        + 'el perno no compite con él. Se aprietan desde el corredor libre |Y| 120…195, que está '
+        + 'despejado en los dos estados; para desmontar el cassette se sacan estos 4 y se levanta.',
+    },
+
+    // ---- geometría --------------------------------------------------------
+    huellaCuerpoMm: [mw, md],                   // 91.5 (X) × 202 (Y)
+    alturaTotalRetraidaMm: L.cilA,              // cat A = 115
     zCaraEmpuje: platoZ1,
-    empujeInterfaz: `horquilla de 2 brazos en Y=±${L.brazoY0}…${L.brazoY1}; contacto de ${r2(L.brazoY1 - L.contactoY[0])} mm de ancho por brazo contra la cara inferior de los notched brace channel (Y=±${L.contactoY[0]}…${L.contactoY[1]})`,
+    zCaraFijacion: webZ,
+    zCuerpo: [webZ, cuerpoZ1],
+    zPlacaMovil: [placaZ0, placaZ1],
+    holguraPlacaMotorMm: holguraPlacaMotor,     // ≥ L.platoHolguraMotor
+    // Despeje que hay que reservar bajo la cara de fijación para las varillas
+    // guía: la posición más baja que alcanza su punta, que es la del estado
+    // RETRAÍDO, cat E = 18.5 mm. Van solidarias a la PLACA, así que al elevar
+    // ENTRAN y sólo asoman 8.5 (estado modelado).
+    salidaVarillasMm: salidaDespeje,            // 18.5 — despeje reservado
+    salidaVarillasElevadoMm: salidaElev,        // 8.5  — estado modelado
+    salidaVarillasRetraidoMm: salidaRetr,       // 18.5 — cat E, el caso envolvente
+    libreBajoAlmaMm: libreBajoAlma,             // hueco real bajo la cara de fijación
+    pasoVarillasCanal: `2 taladros Ø30 en el alma del canal, a X=${mX} e Y=±${varillaY}; `
+      + `bajo ellos no hay ninguna pieza (el canal base ocupa X 26…102.2)`,
+
+    empujeInterfaz: `horquilla de 2 brazos en Y=±${L.brazoY0}…${L.brazoY1}, atornillados a las 4 roscas `
+      + `NN reales de la placa (M12, X=±${pernoNNX}, Y=±${pernoNNY}); contacto de ${anchoContacto} × ${L.cilS} mm `
+      + `por brazo contra la cara inferior de los notched brace channel (Y=±${L.contactoY[0]}…${L.contactoY[1]}) `
+      + `y ANCLAJE a tracción con ${2 * anclajeHorquilla.nPorBrazo} pernos ${anclajeHorquilla.torn} en la cara `
+      + `exterior (|Y|=${anclajeHorquilla.yCara}, X=${anclajeHorquilla.x.join('/')}, Z=${anclajeHorquilla.z}): `
+      + 'el cassette no puede despegar (EST-03)',
     huecoMotorMm: r2(L.brazoY0 - L.motorY143),   // holgura de la horquilla al motorreductor
-    presionContactoMPa: r2((L.masaMovilKg + P.cargaMaxKg) * 9.80665 / (2 * (L.brazoY1 - L.contactoY[0]) * P.mesaPlaca[0])),
+    presionContactoMPa: r3(carga / areaContacto),
     canalZ: [canalZ0, canalZ1],
+    // Boca libre de la artesa en U: entre los dos labios de rigidez. DENTRO de esta
+    // franja de X, por encima de la cara de fijación (`zCaraFijacion` = 15.0) el
+    // canal no tiene material — es lo que permite que el cilindro, la horquilla, la
+    // ménsula de anclaje y el cárter del motorreductor trabajen dentro de él, y lo
+    // que hace que su caja envolvente mienta (ver RETRAIDO_CAJA_ABIERTA).
+    canalBocaX: [r2(xa + L.labio), r2(xb - L.labio)],   // 131.76 … 331.24
+    // Datos del alma del canal que necesita EST-10 (la compuerta recalcula la
+    // flexión con ellos; si aquí cambia el calibre, allí cambia la tensión).
+    espesorCanalMm: r2(tCanal),                 // 4.76 — 3/16", dis (EST-10)
+    espesorCanalCalibre: '3/16"',
+    vanoAlmaMm: r2(P.canalCilY - tCanal),       // 229.24 — entre fibras de las dos alas
+    pasoVarillaCanalDia: 30,                    // Ø de los 2 taladros de paso de varilla…
+    pasoVarillaCanalY: [-varillaY, varillaY],   // …en X = mesaX, o sea EN el centro del vano
     desarrolloCanalMm: desa.largo,
     plegadosCanal: desa.plegados.length,
-    tuberiaMm: r2(tA.largo + tB.largo),
+    tuberiaMm,
     piezas: E.parts.length,
   };
 }

@@ -605,10 +605,30 @@ export function patternMatrices(f) {
   return mats;
 }
 
+// ---------- Teselado ----------
+// 48 segmentos fijos es el recuento DE SIEMPRE y sigue siendo el por defecto:
+// los planos (`planos_nbt90.mjs`, `drawing2d.js`) agrupan triángulos coplanarios
+// con un algoritmo cuadrático y degradan a envolvente por encima de 12000 tris,
+// así que duplicarles la malla los rompe. El teselado FINO es un MODO que piden
+// los visores 3D (`ver.html`, `ver_corte.html`, query `malla=fina`) con
+// `setTeseladoFino(true)` ANTES de llamar a `buildPartGeometry`; nadie más lo
+// activa y ningún camino de dibujo pasa por él.
+//
+// En modo fino el recuento es ADAPTATIVO POR RADIO: se fija la flecha (sagitta)
+// máxima de la cuerda en ~0.02 mm — n = π·√(r / (2·0.02)) — de modo que un
+// rodamiento Ø28 sale con ~59 segmentos, un rodillo Ø50 con ~79 y el tambor
+// Ø108.9 con ~116, y ninguno se ve facetado de cerca. Suelo en 48 (nunca menos
+// que el modo normal) y techo en 144 (el Ø150 del disco mayor ya cabe).
 const SEGMENTS = 48;
+let TESELADO_FINO = false;
+export function setTeseladoFino(fino) { TESELADO_FINO = !!fino; }
+export function segmentosCirculo(r) {
+  if (!TESELADO_FINO) return SEGMENTS;
+  return Math.max(SEGMENTS, Math.min(144, Math.round(Math.PI * Math.sqrt(Math.max(r, 0) / 0.04))));
+}
 
 function cylinderAlong(at, dir, radius, len) {
-  const g = new THREE.CylinderGeometry(radius, radius, len, SEGMENTS);
+  const g = new THREE.CylinderGeometry(radius, radius, len, segmentosCirculo(radius));
   const d = new THREE.Vector3(...dir).normalize();
   const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), d);
   const mid = new THREE.Vector3(...at).addScaledVector(d, len / 2);
@@ -619,7 +639,7 @@ function cylinderAlong(at, dir, radius, len) {
 
 // tronco de cono: radio rStart en 'at' (base) → rEnd a distancia len en 'dir'.
 function frustumAlong(at, dir, rStart, rEnd, len) {
-  const g = new THREE.CylinderGeometry(rEnd, rStart, len, SEGMENTS); // (top=+Y, bottom=-Y)
+  const g = new THREE.CylinderGeometry(rEnd, rStart, len, segmentosCirculo(Math.max(rStart, rEnd))); // (top=+Y, bottom=-Y)
   const d = new THREE.Vector3(...dir).normalize();
   const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), d);
   const mid = new THREE.Vector3(...at).addScaledVector(d, len / 2);
@@ -732,7 +752,6 @@ function featureGeometry(f, extent, first) {
     const angDeg = Math.max(1, Math.min(360, f.params.angle ?? 360));
     const full = angDeg >= 359.999;
     const A = angDeg * Math.PI / 180;
-    const SEG2 = full ? 48 : Math.max(4, Math.round(48 * angDeg / 360));
     const positions = [];
     const pt3 = (h, r, th) => A3.clone().addScaledVector(axis3, h)
       .addScaledVector(rad3, r * Math.cos(th)).addScaledVector(n, r * Math.sin(th));
@@ -757,6 +776,12 @@ function featureGeometry(f, extent, first) {
         ringsHR.push(hr.map(([h, r]) => [h, Math.max(0, flip ? -r : r)]));
       }
       if (crosses) return null; // algún contorno cruza el eje
+      // segmentos del barrido: en modo normal `segmentosCirculo` devuelve los 48
+      // de siempre; en modo fino, adaptativos por el radio MAYOR del perfil.
+      let rMax = 0;
+      for (const HR of ringsHR) for (const hr of HR) rMax = Math.max(rMax, hr[1]);
+      const segBase = segmentosCirculo(rMax);
+      const SEG2 = full ? segBase : Math.max(4, Math.round(segBase * angDeg / 360));
       // paredes: barrido de cada anillo entre 0 y A
       for (const HR of ringsHR) {
         for (let k = 0; k < HR.length; k++) {

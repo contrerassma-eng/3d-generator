@@ -3,14 +3,17 @@
 // para clasificador de bandas angostas (Hytrol ProSort MRT 90° Transfer).
 //
 // Llama a los cuatro módulos de diseño, corre la compuerta de verificación y
-// emite `narrow_belt_transfer_90.json` (formato foto3d-cad, capa `user`).
+// emite `narrow_belt_transfer_90.json` (formato foto3d-cad, capa `user`) y,
+// derivado de él, `out/nbt90_retraido.json` — el MISMO ensamble con las piezas
+// MÓVIL bajadas la carrera, para poder verificar el estado bajo con la misma
+// herramienta exacta que el alto (`interferencias_brep.py`).
 //
 //   node cad/ensambles/nbt90/gen_nbt90.mjs
 //
 // Ejes: X = eje de los rodillos (flujo del anfitrión) · Y = expulsión a 90°
 // (los rodillos se reparten en Y a paso 3") · Z = arriba. mm. Estado: ELEVADO.
 
-import { writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -20,6 +23,195 @@ import { bastidor } from './bastidor.mjs';
 import { rodillos } from './rodillos.mjs';
 import { transmision } from './transmision.mjs';
 import { elevacion } from './elevacion.mjs';
+// Fabricación: esquema de tolerancias/encajes y designación de comprados.
+import {
+  NORMA, AJUSTES, ajustesDe, claseGeneralDe, ranuraPara, largoRanura, tol13920, tolForma13920,
+  cordonDe,
+} from './tolerancias.mjs';
+import { normalizar } from './normalizado.mjs';
+
+/** Redondeo a µm: los ajustes no se pueden contar con 2 decimales. */
+const c3 = (v) => Math.round(v * 1000 + 1e-9) / 1000;
+
+// ---------------------------------------------------------------------------
+// Pares MÓVIL ↔ FIJO cuyo solape de CAJAS crece al retraer SIN que haya choque.
+//
+// La comprobación del estado retraído (§8 de `verify`) trabaja con envolventes
+// AABB, y una AABB no sabe que un perfil en U o en C está HUECO: la caja del
+// `Canal de montaje del cilindro` incluye toda la artesa, que es justamente por
+// donde bajan el cilindro, su horquilla y el cárter del motorreductor. Por eso
+// aquí hay LISTA DE PARES y no umbral en cm³: un umbral capaz de tapar estos
+// falsos positivos —decenas de cm³— escondería a la vez choques de verdad (el
+// que destapó esta comprobación medía 1.00 cm³).
+//
+// LO QUE ESTA COMPROBACIÓN **NO** VE, y conviene decirlo sin adornos:
+//   · los pares de esta lista: no se miran, se dan por buenos;
+//   · una pieza que YA estaba dentro de la caja de otra y al bajar choca contra
+//     el fondo sin que el solape de cajas crezca — el pasador guía dentro de su
+//     colisa es exactamente ese caso.
+// La verificación que DECIDE sigue siendo la de sólidos B-rep exactos, que
+// ahora se corre también sobre el estado bajo: este integrador emite
+// `out/nbt90_retraido.json` y `regenerar.sh` le pasa `interferencias_brep.py`
+// con la misma tolerancia que al estado elevado. Lo de aquí es sólo la red que
+// impide EMITIR un ensamble con un choque franco al bajar.
+const RETRAIDO_CAJA_ABIERTA = [
+  [/^MÓVIL · (NEUMÁTICA · Cilindro MGPM80-10Z — placa móvil|Brazo de empuje de la horquilla|Tornillo SHCS M12|Motorreductor SEW|Ménsula de anclaje de la horquilla)/,
+    /^FIJO · Canal de montaje del cilindro/,
+    'el canal es una artesa en U abierta hacia arriba (boca X 131.8…331.2): el cilindro, '
+    + 'su horquilla, la ménsula de anclaje del cassette y el cárter del motorreductor trabajan '
+    + 'DENTRO de ella. La ménsula baja retraída hasta Z=104.97 y la caja del canal llega a 113.24, '
+    + 'pero a X 194.7…268.3 el canal es sólo su alma (Z ≤ 15): las alas están en X 114.5 y 348.5'],
+  [/^MÓVIL · NEUMÁTICA · Cilindro MGPM80-10Z — (vástago|varilla guía)/,
+    /^FIJO · NEUMÁTICA · Cilindro compacto con guías/,
+    'vástago y varillas guía deslizan dentro del cuerpo del propio cilindro; sus '
+    + 'alojamientos son cortes y una AABB no resta cortes'],
+  [/^MÓVIL · (Banda plana FLEXPROOF|Placa peine)/, /^FIJO · Side channel/,
+    'el side channel es un perfil en C abierto hacia dentro: la caja se traga el hueco '
+    + 'en el que corren la banda y la placa peine (que bajo Z=285 sólo llega a |Y|=185)'],
+  [/^MÓVIL · Placa peine/, /^FIJO · (Golilla|Perno hex|Tuerca hex) .*Canal base/,
+    'la caja de un cilindro se infla ±r también en su propio eje: la tornillería vertical '
+    + 'del canal base parece 21 mm más alta de lo que es (acaba en Z=97.5 frente a los '
+    + '86 del borde bajo de la placa peine retraída, y a |Y|=210 frente a los 185 de la placa)'],
+];
+
+// ---------------------------------------------------------------------------
+// LÍMITES DE CATÁLOGO Y DE NORMA con los que se juzga el diseño (§9 de `verify`).
+//
+// Ninguno es negociable ni se ajusta para que algo pase: cada uno lleva el id del
+// hecho de `analisis/web_facts.json` donde está su URL, su fecha de acceso y su
+// cita textual. Los que NO son de catálogo van marcados `dis` y explican por qué
+// se eligen; son decisiones de diseño nuevas de la revisión estructural
+// (2026-07-29) y hay que discutirlas, no heredarlas en silencio.
+// ---------------------------------------------------------------------------
+const LIM = {
+  // --- materiales y norma ---------------------------------------------------
+  A36: { Fy: 250, Fu: 400, E: 200000 },   // web STR-005 (Fu mínimo, lado seguro)
+  bordeMinEnD: 1.5,                       // web STR-001 · AISI S100-16 J3.2: e ≥ 1.5·d.
+                                          //   AISC tabla J3.4 NO tabula tornillos < 1/2",
+                                          //   así que para chapa de 3/16" manda AISI.
+  desgarroK: 1.2,                         // web STR-004 · AISC J3.10: Rn = 1.2·Lc·t·Fu
+  desgarroOmega: 2.0,                     // web STR-004 · Ω del método ASD
+
+  // --- rodamiento de los rodillos de transferencia --------------------------
+  rod608: { C: 3207, C0: 1334 },          // web BRG-006 · 608-2RS: 327/136 kgf
+  s0min: 1.5,                             // dis: coeficiente estático mínimo para carga
+                                          //   con choque (el pop-up golpea cada ciclo)
+  L10objetivoH: 20000,                    // dis: 5 años a dos turnos. NO es un dato del
+                                          //   cliente: es la exigencia que introduce esta
+                                          //   revisión. Si el cliente pide otra, cámbiala aquí.
+  dutyBulto: 0.10,                        // dis: fracción de tiempo con bulto encima. Un
+                                          //   divert de un MRT que hace 100 sorts/min entre
+                                          //   todos sus destinos ve ≈10-12 bultos/min y cada
+                                          //   uno ocupa el módulo ≈0.5 s.
+
+  // --- banda plana del serpentín --------------------------------------------
+  banda: {
+    kadmN: 533.8,   // web BELT-005 · TC-20EF: k_adm = 120 lbs/in × 1" de ancho
+    dMinMm: 25.4,   // web BELT-005 · TC-20EF: diámetro mínimo de polea 1.0"
+    mu: 0.40,       // web BELT-005 · µ del DORSO de la banda sobre polea de acero
+    T2N: 150,       // dis: duplica el `T2 = 150` local de transmision.mjs (que no lo
+                    //   exporta). §9 comprueba que sigue siendo el mismo y falla si no.
+  },
+  FSdeslizBanda: 1.3,                     // dis: margen sobre el capstan e^(µθ) de la
+                                          //   rueda motriz (práctica habitual 1.2-1.5)
+
+  // --- rodillo transportador ------------------------------------------------
+  rodilloVmaxMs: 2.0,                     // web ROD-007 · Interroll, plataforma 1700
+                                          //   (rodamientos rígidos de precisión, la familia
+                                          //   del 608): 2.0 m/s de velocidad de transporte
+
+  // --- motorreductor --------------------------------------------------------
+  sewFRaN: 695,                           // web MOT-009 · R07/RF07 DT71D4 a 430 rpm,
+                                          //   aplicada en el PUNTO MEDIO del eje macizo
+
+  // --- tornillería ----------------------------------------------------------
+  // El manual sólo dice «3/8 in. bolts» (txt pág. 8): no hay grado en ninguna parte.
+  // §9 (EST-01) demuestra que la unión del eje de rodillo NO cumple con grado 2, así
+  // que la revisión FIJA aquí el grado y el par. Es una decisión de diseño nueva, no
+  // un umbral ajustado: con Gr2 la comprobación sigue existiendo y sigue fallando.
+  perno14: { grado: 'SAE J429 Gr5', parNm: 10.85, K: 0.20, As: 20.5, Sp: 586 },  // web HW-007/008/011
+  perno38: { grado: 'SAE J429 Gr2', parNm: 27.1, K: 0.20, As: 50.0, Sp: 379 },   // web HW-007/008/011
+  muChapa: 0.33,                          // dis: coef. de deslizamiento de una unión
+                                          //   atornillada de acero con calamina (AISC clase A)
+  muCorona: 0.15,                         // dis: rozamiento bajo la corona apretada del eje
+
+  // --- bulto ----------------------------------------------------------------
+  muBulto: 0.50,                          // dis: cartón corrugado sobre vulcanizado. NO se
+                                          //   encontró valor publicado con cita (queda en
+                                          //   `pendientes_sin_fuente`); rango razonable
+                                          //   0.35-0.70. Se reporta el µ al que satura el
+                                          //   motorreductor para que se vea el margen real.
+
+  // --- final de carrera del pop-up ------------------------------------------
+  topeAplastamientoMm: 2.0,               // dis: aplastamiento supuesto del tope de goma del
+                                          //   MGPM. SMC publica la energía admisible (2.71 J)
+                                          //   pero NO la carrera del tope (web PNEU-019);
+                                          //   queda en `pendientes_sin_fuente`.
+};
+
+// ---------------------------------------------------------------------------
+// HALLAZGOS ABIERTOS de la revisión estructural (2026-07-29).
+//
+// Son comprobaciones de §9 que el diseño NO cumple y que no se pueden arreglar sin
+// mover geometría —cosa que esta revisión tiene prohibida—. Se dejan escritas con
+// su número, no en un documento: la compuerta las recalcula en cada pasada y
+//   · si una empeora respecto del `uso` registrado aquí, FALLA;
+//   · si una desaparece (el módulo dueño la arregló), FALLA pidiendo que se borre
+//     la entrada, para que no queden dispensas caducadas;
+//   · si aparece una violación que NO está en esta lista, FALLA sin más.
+// `uso` = utilización = valor/límite (>1 = incumple). `dueño` = quién lo arregla.
+// El detalle y la corrección propuesta están en REVISION_ESTRUCTURAL.md.
+// ---------------------------------------------------------------------------
+const HALLAZGOS_ABIERTOS = {
+  // DIN-01 CERRADO el 2026-07-29. `P.velocidad` ya no es un literal: params.mjs lo
+  // deriva de la cadena (motorRpm → ruedaDia → rodDiaArrastre → rodDia), así que no
+  // puede volver a desincronizarse. La comprobación se reforzó en vez de retirarse:
+  // ahora coteja las TRES fuentes —lo que declara `P`, lo que recalcula la compuerta
+  // y lo que reporta `transmision.mjs` por su cuenta— y la tercera es independiente.
+  // DIN-12 CERRADO el 2026-07-29 por `elevacion.mjs`: la velocidad de subida dejó de
+  // despejarse del límite de energía cinética (que la ponía en 241 mm/s) y pasó a ser
+  // un DATO DE DISEÑO, `L.velEmboloMmS` = 120 mm/s de émbolo → 168 mm/s de impacto
+  // (×1.4, cat) → 7.06 m/s² = 0.72 g al frenar contra los 2 mm de tope. El bulto ya no
+  // despega. De paso, la energía cinética pasó a ser una consecuencia y nació DIN-14,
+  // que es la comprobación con dos lados que E1 echaba en falta.
+  //
+  // EST-03 CERRADO el 2026-07-29 por `elevacion.mjs` + `bastidor.mjs`. La horquilla
+  // dejó de sólo APOYAR: cada brazo va atornillado al cassette con 2 pernos 1/4-20
+  // horizontales contra una ménsula de 3/16" soldada a la cara EXTERIOR del ala del
+  // notched brace channel, así que la unión trabaja a tracción y el despegue deja de
+  // ser un modo de fallo. NO se hizo por donde proponía la revisión (4 taladros Ø9 en
+  // el ALMA, con la rosca en el brazo): esos taladros caben, pero la unión no se puede
+  // apretar —por arriba la cartela techa la artesa y una llave gira 3°; por abajo
+  // faltan 0.3 mm entre el canto de la placa del cilindro y el arranque del pliegue
+  // del alma—. De paso, el caso de carga se corrigió en dos cosas que faltaban y que
+  // lo empeoraban: la reacción de arrastrar el bulto (42.25 N·m más de vuelco) y el
+  // vuelco alrededor de Y, que nadie miraba. Sin retención el FS al despegue sale
+  // 0.67 en X y 0.92 en Y: el cassette volcaba por los dos ejes, no «iba justo».
+  // EST-05 CERRADO el 2026-07-29 por bastidor.mjs. El comentario del módulo decía
+  // que no se podía subir `peineZt` porque el plano de bandas estaba 2.1 mm más
+  // arriba; de esos 2.1 sólo hacían falta 0.775. `L.peineZt` deja de ser un literal
+  // y sale de la propia norma: P.rodZ + 1.5·d + 0.25 de margen = 389.26, o sea
+  // 9.78 mm = 1.54·d al canto y 1.34 mm al plano de bandas. La compuerta comprueba
+  // ahora las DOS cotas (EST-05 y, en §2, que el diente no asome sobre las bandas).
+  // EST-10 CERRADO el 2026-07-29 por `elevacion.mjs`: el CYLINDER MOUNTING CHANNEL
+  // pasa de 12 GA (2.657) a 3/16" (4.763 = P.placaT). Ni refuerzo bajo la huella ni
+  // nervio: los dos gastan altura y no hay (por arriba la placa móvil ya está a 2.4 mm
+  // del cárter del motorreductor; por abajo quedan 12.34 mm y las cabezas de los 4 M12
+  // se comen 9.5). Subir el calibre crece hacia ABAJO —`canalZ0` 12.34 → 10.24— y deja
+  // la cara de fijación donde estaba. σ 182.8 → 56.2 MPa de sección bruta, 80.0 con la
+  // sección neta de los dos Ø30 (factor que la revisión mencionaba pero no metía en el
+  // número, y que ahora la compuerta calcula).
+  // EST-08 CERRADO el 2026-07-29 por el bloque de FABRICACIÓN (§10) de este mismo
+  // integrador: toda pieza con `union: soldada…` o `weldment` recibe ahora su
+  // `soldadura: { tipo, lado, garganta, disposicion, proceso, norma }`, que calcula
+  // `cordonDe()` de tolerancias.mjs. Criterio con el que se cierra, para que no haya
+  // que reconstruirlo: cateto = espesor de la chapa MÁS FINA de la junta, garganta =
+  // 0.7·cateto, cordón DISCONTINUO 25/50 —la propia revisión daba 0.02 mm de garganta
+  // necesaria frente a 2.66 disponibles, así que lo que manda es el alabeo, no la
+  // resistencia—, AWS D1.3 en chapa ≤ 4.8 mm y AWS D1.1 por encima; las 4 tuercas,
+  // soldadura por proyección según AWS C1.1M/C1.1. La entrada se borra siguiendo el
+  // protocolo de arriba: no se dejan dispensas caducadas.
+};
 
 const E = new Ensamble();
 const m = {
@@ -28,6 +220,48 @@ const m = {
   transmision: transmision(E) || {},
   elevacion: elevacion(E) || {},
 };
+
+// ---------------------------------------------------------------------------
+// FABRICACIÓN — se hace ANTES de la compuerta porque la compuerta lo verifica.
+//
+//   1) cada pieza comprada recibe su designación normalizada (`normalizado.mjs`);
+//   2) cada pieza fabricada recibe su clase de tolerancia general y, si tiene
+//      alguna cota de ajuste, la lista de ajustes ISO 286 que le tocan.
+//
+// Los dos datos viajan en el documento, así que los planos y el despiece los
+// leen del JSON en vez de reinventarlos.
+// ---------------------------------------------------------------------------
+const normalizacion = normalizar(E.parts);
+
+for (const p of E.parts) {
+  if (p.contexto) continue;
+  const comprada = !!(p.hardware || p.componente) && !p.fabricada;
+  // La clase de la PIEZA suelta se decide por lo que es (chapa o mecanizado);
+  // el `{}` es a propósito: si se le pasara la pieza, `union`/`weldment` la
+  // mandarían a la clase de soldadura y se perdería la tolerancia con la que se
+  // corta y se mecaniza antes de soldar. Son dos tolerancias distintas y las dos
+  // hacen falta en el plano.
+  const cl = claseGeneralDe(p.name, {});
+  p.tol = { pieza: comprada ? null : cl.clase, norma: comprada ? null : cl.titulo };
+  if (p.union || p.weldment) p.tol.conjunto = NORMA.soldadura.clase;
+  // Cordón de soldadura de toda pieza soldada: cierra EST-08 de la revisión
+  // estructural («un plano sin cordón no es fabricable»). El encaje sitúa, el
+  // cordón une; declarar uno sin el otro deja la junta a medias.
+  if (p.weldment || /soldad/i.test(p.union || '') || /SOLDADA/.test(p.name)) {
+    const c = cordonDe(p);
+    if (c) p.soldadura = c;
+  }
+  // Se pasa la PIEZA, no sólo el nombre: AJ-12 (taladro de paso 3/8-16) sólo
+  // se concede si el sólido tiene de verdad ese taladro. Ver tolerancias.mjs.
+  const aj = comprada ? [] : ajustesDe(p.name, p);
+  if (aj.length) {
+    p.tol.ajustes = aj.map((a) => ({
+      id: a.id, cota: a.cota, ajuste: a.ajuste, criterio: a.criterio, fuente: a.fuente,
+      ...(a.juegoDiametralMm ? { juegoDiametralMm: a.juegoDiametralMm } : {}),
+      ...(a.aviso ? { aviso: a.aviso } : {}),
+    }));
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Compuerta: si algo no cumple, NO se emite el JSON.
@@ -52,6 +286,17 @@ function verify() {
   // --- 2. geometría: los rodillos pasan entre las bandas --------------------
   const holgura = P.paso / 2 - P.rodDia / 2 - P.regletaAncho / 2;
   if (holgura < 2) e.push(`holgura rodillo↔regleta ${r2(holgura)} < 2 mm`);
+  // El canto del diente de la placa peine (MÓVIL) no puede asomar sobre la cara de
+  // transporte del anfitrión NI ESTANDO ARRIBA. Es el techo que limita EST-05: al
+  // subir el taladro para cumplir 1.5·d se sube el canto, y esta cota es lo que se
+  // gasta. Hasta el 2026-07-29 nadie la comprobaba y era el argumento —equivocado—
+  // con el que bastidor.mjs justificaba dejar el taladro corto.
+  const dienteBajo = m.bastidor.montajeRodillo?.dienteBajoPlanoBanda;
+  if (dienteBajo !== undefined && dienteBajo <= 0) {
+    e.push(`el canto del diente de la placa peine (Z=${m.bastidor.montajeRodillo.cantoDienteZ}) `
+      + `asoma ${r2(-dienteBajo)} mm SOBRE el plano de bandas del anfitrión (Z=${P.planoBanda}): `
+      + `el producto que viaja sobre las bandas lo engancharía`);
+  }
   if (P.rodY.length !== P.nRodillos) e.push('nº de rodillos incoherente con el paso');
   if (P.bandaY.length !== P.nBandas) e.push('nº de bandas incoherente con el paso');
   const span = (P.nRodillos - 1) * P.paso;
@@ -99,10 +344,47 @@ function verify() {
   if (vt.poleasSinSolido) e.push(`${vt.poleasSinSolido} elementos de la banda sin sólido de polea`);
 
   // --- 6. el actuador puede con la carga -----------------------------------
-  const fs = m.elevacion.factorSeguridad;
+  const el = m.elevacion;
+  const fs = el.factorSeguridad;
   if (fs !== undefined && fs < 1.5) e.push(`factor de seguridad del actuador ${fs} < 1.5`);
-  if (m.elevacion.carrera !== undefined && Math.abs(m.elevacion.carrera - P.carrera) > 0.01) {
-    e.push(`la carrera del actuador (${m.elevacion.carrera}) no es la del equipo (${P.carrera})`);
+  if (el.carrera !== undefined && Math.abs(el.carrera - P.carrera) > 0.01) {
+    e.push(`la carrera del actuador (${el.carrera}) no es la del equipo (${P.carrera})`);
+  }
+  // El actuador es una pieza de catálogo: sus límites publicados no se negocian.
+  // Un cilindro con guías falla por energía de impacto, por par sobre la placa o
+  // por carga lateral mucho antes que por fuerza, así que se comprueban los cuatro.
+  // La velocidad de diseño es ahora un DATO del módulo (dis), no algo despejado del
+  // límite de energía: lo que hay que comprobar es que ese dato caiga dentro de la
+  // banda de velocidad de émbolo del catálogo — si quedara por debajo del mínimo,
+  // no habría forma de estrangular el cilindro hasta ahí.
+  if (el.velocidadDisenoMmS !== undefined) {
+    const [vMin, vMax] = el.velocidadAdmisibleMmS ?? [0, Infinity];
+    if (el.velocidadDisenoMmS < vMin) {
+      e.push(`velocidad de diseño ${el.velocidadDisenoMmS} mm/s por debajo del mínimo de émbolo `
+        + `del catálogo (${vMin} mm/s): no se puede estrangular tanto`);
+    }
+    if (el.velocidadDisenoMmS > vMax) {
+      e.push(`velocidad de diseño ${el.velocidadDisenoMmS} mm/s > máxima de catálogo (${vMax} mm/s)`);
+    }
+  }
+  // Y la energía cinética pasa a ser una CONSECUENCIA de esa velocidad, así que
+  // esta comprobación ya puede fallar (antes Ek ≡ Ek_adm por construcción: E1).
+  if (el.energiaCineticaJ !== undefined && el.energiaAdmisibleJ !== undefined
+      && el.energiaCineticaJ > el.energiaAdmisibleJ + 1e-6) {
+    e.push(`energía cinética de impacto ${el.energiaCineticaJ} J > admisible del actuador `
+      + `(${el.energiaAdmisibleJ} J): los topes de goma no la absorben`);
+  }
+  if (el.parPlacaNm !== undefined && el.parAdmisibleNm !== undefined && el.parPlacaNm > el.parAdmisibleNm) {
+    e.push(`par sobre la placa del actuador ${el.parPlacaNm} N·m > admisible (${el.parAdmisibleNm} N·m)`);
+  }
+  if (el.cargaLateralN !== undefined && el.cargaLateralAdmisibleN !== undefined
+      && el.cargaLateralN > el.cargaLateralAdmisibleN) {
+    e.push(`carga lateral sobre la placa ${el.cargaLateralN} N > admisible (${el.cargaLateralAdmisibleN} N)`);
+  }
+  // Holgura de la placa móvil al motorreductor: es la cota que cierra la cadena
+  // de alturas y la que ya no se puede resolver rebajando la placa (es comprada).
+  if (el.holguraPlacaMotorMm !== undefined && el.holguraPlacaMotorMm < 2) {
+    e.push(`la placa móvil del actuador queda a ${el.holguraPlacaMotorMm} mm del motorreductor (< 2 mm)`);
   }
 
   // --- 7. interferencia gruesa MÓVIL ↔ FIJO en estado elevado --------------
@@ -121,6 +403,669 @@ function verify() {
     }
   }
 
+  // --- 8. interferencia MÓVIL ↔ FIJO en estado RETRAÍDO --------------------
+  // El modelo se dibuja ELEVADO, así que hasta ahora NINGUNA compuerta miraba el
+  // estado bajo — y ahí había un choque real (la placa soporte de transmisión
+  // dentro del labio del canal de montaje, 1.00 cm³, que impedía que la máquina
+  // bajase). Aquí se baja cada pieza MÓVIL `P.carrera` en Z y se exige que su
+  // caja NO GANE solape con ninguna pieza FIJA: si el solape crece al bajar, la
+  // pieza se está metiendo donde arriba no estaba. Se compara CONTRA EL ESTADO
+  // ELEVADO —y no contra cero— porque el estado elevado ya está certificado con
+  // sólidos exactos: un solape de cajas que no crece al bajar no es información
+  // nueva. Ver `RETRAIDO_CAJA_ABIERTA` arriba: qué se tolera, por qué, y qué es
+  // lo que este chequeo NO puede ver.
+  const solapeVol = (a, b) => {
+    let v = 1;
+    for (let i = 0; i < 3; i++) {
+      const d = Math.min(a.hi[i], b.hi[i]) - Math.max(a.lo[i], b.lo[i]);
+      if (d <= 0) return 0;
+      v *= d;
+    }
+    return v;
+  };
+  const bajar = (b) => ({ lo: [b.lo[0], b.lo[1], b.lo[2] - P.carrera], hi: [b.hi[0], b.hi[1], b.hi[2] - P.carrera] });
+  const choquesBajo = [];
+  let toleradosBajo = 0;
+  for (const [pm, bm] of bbM) {
+    const bb = bajar(bm);
+    for (const [pf, bf] of bbF) {
+      const crece = solapeVol(bb, bf) - solapeVol(bm, bf);
+      if (crece <= 1e-6) continue;
+      if (RETRAIDO_CAJA_ABIERTA.some(([rm, rf]) => rm.test(pm.name) && rf.test(pf.name))) { toleradosBajo++; continue; }
+      choquesBajo.push({ movil: pm.name, fijo: pf.name, cm3: r2(crece / 1000) });
+    }
+  }
+  choquesBajo.sort((a, b) => b.cm3 - a.cm3);
+  for (const c of choquesBajo.slice(0, 6)) {
+    e.push(`RETRAÍDO (bajando ${P.carrera} mm): «${c.movil}» invade «${c.fijo}» — la caja gana ${c.cm3} cm³`);
+  }
+  if (choquesBajo.length > 6) e.push(`… y ${choquesBajo.length - 6} pares más chocan en estado retraído`);
+
+  // Cota dirigida sobre el choque que este bloque destapó: retraída, la placa
+  // soporte de transmisión (MÓVIL) contra el techo del canal de montaje (FIJO).
+  // El mínimo exigido es el mismo que usa la elevación para la placa del
+  // cilindro contra el motorreductor (`platoHolguraMotor` = 2 mm).
+  const placaTrans = movil.find((p) => /Placa soporte de transmisión/.test(p.name));
+  const canalTechoZ = m.elevacion.canalZ?.[1];
+  let holguraPlacaCanal;
+  if (placaTrans && canalTechoZ !== undefined) {
+    holguraPlacaCanal = r2(bboxPieza(placaTrans).lo[2] - P.carrera - canalTechoZ);
+    if (holguraPlacaCanal < 2) {
+      e.push(`retraída, la placa soporte de transmisión queda a ${holguraPlacaCanal} mm del techo `
+        + `del canal de montaje del cilindro (Z=${canalTechoZ}); mínimo 2 mm`);
+    }
+  }
+
+  // =========================================================================
+  // --- 10. FABRICACIÓN: encajes, tolerancias y designación de comprados ----
+  //
+  //   BLOQUE DE FABRICACIÓN (2026-07-29). Independiente del §9 de la revisión
+  //   estructural: aquí no se juzga si una pieza aguanta, sino si el taller la
+  //   puede cortar, situar y comprar sin interpretar el plano a ojo.
+  //
+  //   Lo que comprueba, y por qué cada cosa está aquí y no en un comentario:
+  //     10.1 cada lengüeta tiene su ranura, en OTRA pieza, y las dos declaran la
+  //          misma cota (una lengüeta sin ranura es un conjunto que no entra);
+  //     10.2 la holgura declarada COINCIDE con la que sale de la cadena de cotas
+  //          (espesor + laminación + corte + montaje). Si alguien retoca una
+  //          holgura a mano, esto lo caza;
+  //     10.3 la ranura de posición es más precisa que la tolerancia general del
+  //          conjunto soldado — si no lo fuera, el encaje no serviría de nada;
+  //     10.4 NINGÚN grado de libertad queda fijado dos veces en la misma junta
+  //          (la regla que el encargo pide explícitamente: una lengüeta ajustada
+  //          en las dos direcciones y además redundante no entra);
+  //     10.5 toda pieza con unión soldada declara encajes o, si va a tope, CÓMO
+  //          se posiciona;
+  //     10.6 toda pieza fabricada lleva clase de tolerancia general y toda pieza
+  //          comprada, norma o referencia de catálogo;
+  //     10.7 todo alojamiento de rodamiento con carga rotante en el aro exterior
+  //          lleva el ajuste N7 que ya usaba el repositorio.
+  // =========================================================================
+  const encajes = [];
+  for (const p of propias) for (const en of (p.encajes || [])) encajes.push({ ...en, pieza: p.name });
+
+  // 10.1 — emparejamiento lengüeta ↔ ranura
+  const porId = new Map();
+  for (const en of encajes) {
+    if (!porId.has(en.id)) porId.set(en.id, []);
+    porId.get(en.id).push(en);
+  }
+  for (const [id, lista] of porId) {
+    if (lista[0].tipo === 'tope') continue;                     // junta a tope: §10.5
+    const lados = new Set(lista.map((q) => q.lado));
+    const piezas = new Set(lista.map((q) => q.pieza));
+    // `lado: 'ambos'` = lengüeta y ranura viven en la MISMA pieza soldada (la
+    // pestaña que atraviesa la placa soporte): ahí no hay dos piezas que casar.
+    if (!lados.has('ambos') && (lista.length < 2 || piezas.size < 2)) {
+      e.push(`ENCAJE ${id}: declarado en ${piezas.size} pieza(s); un encaje vive en DOS`);
+      continue;
+    }
+    // Los dos lados tienen que ser COMPLEMENTARIOS. Se comprueba sobre el
+    // conjunto de lados y no sobre `lista[0].tipo`, porque el orden en que
+    // aparecen las piezas depende del orden de los módulos: mirando sólo el
+    // primero, un encaje al que le falte justo el lado que salía primero pasaba
+    // desapercibido.
+    const PARES = [['lengueta', 'ranura'], ['pasador', 'agujero'], ['ambos']];
+    const esperado = PARES.find((par) => par.every((l) => lados.has(l)) && lados.size === par.length);
+    if (!esperado) {
+      e.push(`ENCAJE ${id}: lados declarados {${[...lados].join(', ')}}; tienen que ser `
+        + 'complementarios: lengueta+ranura, pasador+agujero, o ambos');
+    }
+    // 10.1b — las dos piezas tienen que declarar la MISMA ranura
+    const ref = JSON.stringify(lista[0].ranura ?? {});
+    for (const q of lista.slice(1)) {
+      if (JSON.stringify(q.ranura ?? {}) !== ref) {
+        e.push(`ENCAJE ${id}: «${q.pieza}» declara ranura ${JSON.stringify(q.ranura)} y `
+          + `«${lista[0].pieza}» declara ${ref}`);
+      }
+    }
+  }
+
+  // 10.2 — la holgura sale de la cadena de cotas, no de una elección
+  for (const en of encajes) {
+    if (en.tipo !== 'lengueta' || !en.lengueta?.calibre) continue;
+    const esperado = ranuraPara(en.lengueta.calibre);
+    const largo = largoRanura(en.lengueta.ancho, en.rol === 'posicion' ? 'posicion' : 'paso');
+    const anchoOK = en.rol === 'posicion'
+      ? Math.abs(en.ranura.ancho - esperado.ancho) < 1e-6
+      : Math.abs(en.ranura.ancho - (esperado.ancho + 2)) < 1e-6;
+    if (!anchoOK) {
+      e.push(`ENCAJE ${en.id}: ancho de ranura ${en.ranura.ancho} ≠ el de la cadena de cotas `
+        + `(${en.rol === 'posicion' ? esperado.ancho : r2(esperado.ancho + 2)}) para chapa `
+        + `${en.lengueta.calibre}`);
+    }
+    if (Math.abs(en.ranura.largo - largo.largo) > 1e-6) {
+      e.push(`ENCAJE ${en.id}: largo de ranura ${en.ranura.largo} ≠ ${largo.largo} (cadena de cotas, `
+        + `rol «${en.rol}»)`);
+    }
+  }
+
+  // 10.3 — la ranura de posición tiene que ser MÁS precisa que la tolerancia
+  // general del conjunto soldado; si no, el encaje no aporta nada.
+  const cotaSoldada = P.largo;                                  // la mayor del weldment
+  const tolSold = tol13920(cotaSoldada, 'B');
+  let peorEncaje = 0;
+  for (const en of encajes) {
+    if (en.rol !== 'posicion' || !en.lengueta?.calibre) continue;
+    const h = Math.max(ranuraPara(en.lengueta.calibre).holguraPorLado[1],
+      largoRanura(en.lengueta.ancho, 'posicion').holguraPorLado[1]);
+    peorEncaje = Math.max(peorEncaje, h);
+    if (h >= tolSold) {
+      e.push(`ENCAJE ${en.id}: la holgura máxima de la ranura de posición (${h} mm) no mejora la `
+        + `tolerancia general del soldado ISO 13920-B (±${tolSold} mm): el encaje no sitúa nada`);
+    }
+  }
+
+  // 10.4 — ningún grado de libertad fijado dos veces en la misma junta
+  const estacion = (id) => id.replace(/-(pos|paso|a|b)$/, '');
+  const gdlPorEstacion = new Map();
+  for (const en of encajes) {
+    if (en.rol !== 'posicion' || !en.gdl?.length) continue;
+    const k = estacion(en.id);
+    if (!gdlPorEstacion.has(k)) gdlPorEstacion.set(k, new Map());
+    const acc = gdlPorEstacion.get(k);
+    for (const g of en.gdl) {
+      // los dos lados del MISMO rasgo declaran el mismo gdl: eso no es redundancia
+      const yaEste = acc.get(g);
+      if (yaEste && yaEste !== en.id) {
+        e.push(`ENCAJE: en la junta «${k}» el grado de libertad ${g} lo fijan DOS rasgos de `
+          + `posición (${yaEste} y ${en.id}): sobre-restringido, el conjunto no entra`);
+      }
+      acc.set(g, en.id);
+    }
+  }
+
+  // 10.5 — toda pieza soldada declara encaje o cómo se posiciona
+  const soldadasFab = propias.filter((p) => p.union || p.weldment);
+  for (const p of soldadasFab) {
+    if (!(p.encajes || []).length) {
+      e.push(`la pieza soldada «${p.name}» no declara ni encaje ni forma de posicionarla`);
+      continue;
+    }
+    for (const en of p.encajes) {
+      if (en.tipo === 'tope' && !(en.posicionamiento && en.referencia)) {
+        e.push(`la junta a tope «${en.id}» de «${p.name}» no dice cómo se posiciona `
+          + '(hace falta utillaje/trazado y contra qué cara se referencia)');
+      }
+    }
+  }
+
+  // 10.6 — designación y tolerancia general de TODAS las piezas
+  if (normalizacion.sinDesignar.length) {
+    for (const nm of normalizacion.sinDesignar.slice(0, 6)) {
+      e.push(`pieza comprada sin norma ni referencia de catálogo: «${nm}»`);
+    }
+    if (normalizacion.sinDesignar.length > 6) {
+      e.push(`… y ${normalizacion.sinDesignar.length - 6} piezas compradas más sin designar`);
+    }
+  }
+  const sinTol = propias.filter((p) => {
+    const comprada = !!(p.hardware || p.componente) && !p.fabricada;
+    return !comprada && !p.tol?.pieza;
+  });
+  if (sinTol.length) e.push(`${sinTol.length} piezas fabricadas sin clase de tolerancia general (p. ej. «${sinTol[0].name}»)`);
+  const malNorma = propias.filter((p) => {
+    const comprada = !!(p.hardware || p.componente) && !p.fabricada;
+    return comprada && !/\b(ISO|ASME|ASTM|DIN|ANSI|ABMA|SAE|IEC|SMC|SEW|Hytrol|B-20760|Fenner)\b/.test(p.norma || '');
+  });
+  if (malNorma.length) {
+    e.push(`${malNorma.length} piezas compradas cuya designación no cita norma ni catálogo `
+      + `(p. ej. «${malNorma[0].name}» → «${malNorma[0].norma}»)`);
+  }
+
+  // 10.7 — el criterio de ajuste de rodamientos del repositorio, en la compuerta
+  for (const a of AJUSTES) {
+    if (!/carga ROTANTE sobre el aro exterior/.test(a.criterio)) continue;
+    if (a.ajuste !== 'N7') {
+      e.push(`AJUSTE ${a.id}: alojamiento con carga rotante en el aro exterior declarado «${a.ajuste}»; `
+        + 'el criterio del repositorio (y NTN 7.4 tabla 7.2(1)) exige N7');
+    }
+  }
+  const conAjuste = propias.filter((p) => p.tol?.ajustes?.length).length;
+
+  // =========================================================================
+  // --- 9. RESISTENCIA Y DINÁMICA (revisión estructural, 2026-07-29) --------
+  // =========================================================================
+  // Hasta aquí la compuerta comprobaba que el equipo ENCAJA y que se puede armar.
+  // Este bloque comprueba que AGUANTA y que FUNCIONA: reparto de carga, tensiones
+  // del serpentín, vida de los rodamientos, deslizamiento del bulto, vuelco del
+  // cassette sobre el actuador y distancias de norma de la tornillería.
+  //
+  // Regla de la casa: cada número se recalcula AQUÍ a partir de `P` y de las
+  // métricas que publican los módulos —nunca se copia—, y se compara con un
+  // límite de `LIM` que lleva su fuente. Lo que no cumple y no se puede arreglar
+  // sin mover geometría vive en `HALLAZGOS_ABIERTOS` con su utilización
+  // registrada: si empeora, la compuerta para.
+  const g = 9.80665;
+  const R9 = [];        // registro de todas las comprobaciones (va al documento)
+  const abiertos = [];  // las que incumplen y están dispensadas
+  const avisos = [];    // lo que hay que arreglar en un módulo AJENO: se denuncia,
+                        // no se parchea desde aquí ni se para el gate por ello
+
+  /** Registra una comprobación. `uso` = utilización (>1 incumple). */
+  function chk(id, titulo, valor, limite, sentido, detalle, unidad = '') {
+    let uso;
+    if (limite === 0) uso = valor > 0 ? 1 + valor : 0;                   // "no debe haber ninguno"
+    else uso = sentido === '<=' ? valor / limite : limite / valor;
+    const fila = { id, titulo, valor: r2(valor), limite: r2(limite), unidad, uso: r2(uso), ok: uso <= 1 };
+    R9.push(fila);
+    const ab = HALLAZGOS_ABIERTOS[id];
+    if (uso <= 1 + 1e-9) {
+      if (ab) {
+        e.push(`${id} · «${titulo}» YA CUMPLE (utilización ${r2(uso)}): borra su entrada de `
+          + `HALLAZGOS_ABIERTOS y actualiza REVISION_ESTRUCTURAL.md. No se dejan dispensas caducadas.`);
+      }
+      return fila;
+    }
+    if (!ab) {
+      e.push(`${id} · ${titulo}: ${r2(valor)} ${unidad} ${sentido === '<=' ? '>' : '<'} `
+        + `${r2(limite)} ${unidad} (utilización ${r2(uso)}). ${detalle}`);
+      return fila;
+    }
+    if (uso > ab.uso * 1.02 + 1e-9) {
+      e.push(`${id} · ${titulo} ha EMPEORADO: utilización ${r2(uso)} > ${ab.uso} registrada en `
+        + `HALLAZGOS_ABIERTOS (dueño: ${ab.dueño}). ${detalle}`);
+      return fila;
+    }
+    fila.abierto = true; fila.dueño = ab.dueño;
+    abiertos.push(fila);
+    return fila;
+  }
+
+  const cin = m.transmision.cinematica || {};
+  const envG = m.transmision.envolvente_grados || {};
+  const rodM = m.bastidor.montajeRodillo || {};
+
+  // -- 9.0 cinemática: se recalcula de P y se coteja con lo que reporta el módulo
+  const rRueda = P.ruedaDia / 2 / 1000;                 // m
+  const wMotor = 2 * Math.PI * P.motorRpm / 60;         // rad/s
+  const vBanda = wMotor * rRueda;                       // m/s en el paso de la rueda
+  const dArrastre = P.rodDia - 2 * P.rodVulcE;          // Ø del tubo desnudo, 28.93
+  const nRodillo = vBanda / (Math.PI * dArrastre / 1000) * 60;         // rpm del rodillo
+  const vRodillo = nRodillo / 60 * Math.PI * P.rodDia / 1000;          // m/s en el vulcanizado
+  const parSalida = P.motorHP * 745.7 / wMotor;         // N·m
+  const tiroBanda = parSalida / rRueda;                 // N — tiro máximo del motorreductor
+  const empujeSup = tiroBanda * dArrastre / P.rodDia;   // N en la cara del bulto
+  // La transmisión NO exporta su tensión de montaje del ramal flojo (T2 local).
+  // Se recupera de sus propias métricas y se exige que siga siendo la de LIM.
+  const T2rep = (m.transmision.rodamientos?.cargaPorRodamiento_N ?? 0) - (cin.tiroBanda_N ?? 0) / 2;
+  if (Math.abs(T2rep - LIM.banda.T2N) > 1) {
+    e.push(`la tensión del ramal flojo de transmision.mjs (${r2(T2rep)} N) ya no es la de `
+      + `LIM.banda.T2N (${LIM.banda.T2N} N): todo el §9 de tensiones y vida cuelga de ese número`);
+  }
+  // Mismo patrón con el µ del bulto: desde que la horquilla va ATORNILLADA al
+  // cassette, `elevacion.mjs` lo necesita para publicar la carga lateral y el par
+  // reales sobre la placa (ya no valen las cotas de rozamiento de los apoyos). Es
+  // un `dis` que vive en los dos sitios; aquí se exige que no se hayan separado.
+  if (m.elevacion.muBulto !== undefined && Math.abs(m.elevacion.muBulto - LIM.muBulto) > 1e-9) {
+    e.push(`el µ del bulto de elevacion.mjs (${m.elevacion.muBulto}) ya no es el de LIM.muBulto `
+      + `(${LIM.muBulto}): de él cuelgan la carga lateral y el par que llegan a la placa del actuador`);
+  }
+
+  // -- 9.1 las TRES fuentes de la velocidad de transferencia tienen que coincidir
+  // La banda plana MULTIPLICA: Ø63.5 en la rueda motriz contra Ø28.93 en el tubo
+  // desnudo del rodillo = 2.195. `P.velocidad` ignoraba ese eslabón y se quedaba
+  // 2.06 veces corta (0.9 m/s deducidos con las rpm del MOTOR).
+  //
+  // ARREGLADO EL 2026-07-29 y por eso la comprobación CAMBIA DE FORMA. Ahora
+  // `params.mjs` deriva `velocidad` de la cadena, así que «declarada vs. calculada»
+  // sería tautológica —justo el vicio que esta misma revisión denuncia en §6 (E1)—.
+  // Se sustituye por un cotejo a TRES BANDAS, y el que muerde es el tercero:
+  //   1) lo que declara `P.velocidad`  ── deriva de P: coherencia estructural;
+  //   2) lo que recalcula esta compuerta desde los parámetros primitivos;
+  //   3) lo que reporta `transmision.mjs` en `cinematica`, que llega por OTRO
+  //      camino: su propio `L.rodArrastre` y su propia construcción del serpentín.
+  // Si un módulo mueve un Ø por su cuenta, (3) se separa de (1) y (2) y esto para.
+  // (Antes ese cotejo era un `e.push` suelto en §9.0; se pliega aquí para que quede
+  // un solo sitio donde vive la cinemática y no dos que puedan divergir.)
+  const vFuentes = [
+    ['P.velocidad', P.velocidad],
+    ['compuerta', vRodillo],
+    ...(cin.vTransferencia_m_s !== undefined ? [['transmision.cinematica', cin.vTransferencia_m_s]] : []),
+  ];
+  const vMax = Math.max(...vFuentes.map((q) => q[1]));
+  const vMin = Math.min(...vFuentes.map((q) => q[1]));
+  // Se mide la DESVIACIÓN en %, no el cociente: un cociente de 1.003 contra un límite
+  // de 1.05 daría «utilización 96 %» y colocaría esta comprobación entre las más
+  // apretadas de la máquina, que es información falsa. El cero de la escala es 1.
+  chk('DIN-01', 'coherencia de la velocidad de transferencia (declarada · compuerta · transmisión)',
+    (vMax / vMin - 1) * 100, 5, '<=',
+    `${vFuentes.map((q) => `${q[0]} = ${r2(q[1])}`).join(' · ')} m/s. La cara del rodillo va a `
+    + `${r2(vRodillo)} m/s = ${r2(vRodillo * 196.85)} fpm porque el rodillo gira a `
+    + `${r2(nRodillo)} rpm, no a las ${P.motorRpm} del motor: la banda plana multiplica `
+    + `Ø${P.ruedaDia}/Ø${c3(dArrastre)} = ${c3(P.ruedaDia / dArrastre)}.`, '% de desviación');
+
+  // -- 9.2 velocidad periférica dentro de lo que admite un rodillo transportador
+  chk('DIN-02', 'velocidad periférica del rodillo', vRodillo, LIM.rodilloVmaxMs, '<=',
+    'ningún catálogo de rodillo transportador publica más (web ROD-007).', 'm/s');
+
+  // -- 9.3 el motorreductor puede empujar el bulto ---------------------------
+  const fricBulto = LIM.muBulto * P.cargaMaxKg * g;
+  const muSaturacion = empujeSup / (P.cargaMaxKg * g);
+  chk('DIN-03', 'empuje disponible en la cara del rodillo', empujeSup, fricBulto, '>=',
+    `hace falta µ·m·g = ${r2(fricBulto)} N para arrastrar ${P.cargaMaxKg} kg con µ = ${LIM.muBulto}; `
+    + `el accionamiento satura en µ = ${r2(muSaturacion)}.`, 'N');
+
+  // -- 9.4 el bulto sincroniza dentro del campo de rodillos ------------------
+  // Al emerger, el bulto está parado en Y y la cara del rodillo va a vRodillo:
+  // patina hasta igualar velocidades. a = µ·g (limitada por el empuje disponible).
+  const aBulto = Math.min(fricBulto, empujeSup) / P.cargaMaxKg;
+  const deslizamiento = vRodillo ** 2 / (2 * aBulto) * 1000;            // mm de patinaje relativo
+  const campoRodillos = (P.nRodillos - 1) * P.paso;                     // 381 mm
+  chk('DIN-04', 'patinaje del bulto hasta sincronizar', deslizamiento, campoRodillos, '<=',
+    `con a = ${r2(aBulto)} m/s² tarda ${r2(vRodillo / aBulto * 1000)} ms; el vulcanizado restriega `
+    + `esa distancia bajo ${P.cargaMaxKg} kg en cada transferencia.`, 'mm');
+
+  // -- 9.5/9.6/9.7 la banda ---------------------------------------------------
+  // Reparto de tensiones del serpentín. El caso envolvente NO es el par repartido
+  // entre los 6 rodillos: es el bulto sobre UN rodillo, que concentra todo el salto
+  // de tensión ahí y deja TODO el ramal anterior a T1. Un rodillo que no transmite
+  // par sigue cargando 2·T de fuerza radial.
+  const T1 = LIM.banda.T2N + tiroBanda;
+  chk('DIN-05', 'tensión del ramal tenso', T1, LIM.banda.kadmN, '<=',
+    `k_adm de una banda plana de 1" (web BELT-005). Con ${r2(T1)} N va al `
+    + `${r2(T1 / LIM.banda.kadmN * 100)} % de su admisible.`, 'N');
+  chk('DIN-06', 'Ø mínimo de envoltura de la banda', dArrastre, LIM.banda.dMinMm, '>=',
+    'el tubo desnudo del rodillo es la polea más pequeña del serpentín (web BELT-005). '
+    + 'FALTA la penalización de Habasit por contraflexión: la banda dobla en los DOS sentidos.', 'mm');
+  const capstan = Math.exp(LIM.banda.mu * (envG.ruedaMotriz ?? 0) * Math.PI / 180);
+  chk('DIN-07', 'deslizamiento de la banda en la rueda motriz',
+    T1 / LIM.banda.T2N, capstan / LIM.FSdeslizBanda, '<=',
+    `Eytelwein: T1/T2 ≤ e^(µ·θ) = ${r2(capstan)} con µ = ${LIM.banda.mu} y θ = ${envG.ruedaMotriz}°. `
+    + 'Exige además que el DORSO de la banda sea la cara que toca los rodillos (web BELT-005).', '');
+
+  // -- 9.8/9.9 rodamientos del rodillo ---------------------------------------
+  // Fuerza radial sobre un rodillo envuelto θ° con tensiones Ta y Tb.
+  const resul = (Ta, Tb, th) => Math.sqrt(Ta * Ta + Tb * Tb + 2 * Ta * Tb * Math.cos(Math.PI - th * Math.PI / 180));
+  const thRod = envG.rodilloMin ?? 180;
+  const Rbanda = resul(T1, T1, thRod);                      // rodillo del ramal tenso que no da par
+  const Rbulto = Rbanda + P.cargaMaxKg * g;                 // + bulto entero en UN rodillo
+  const Prodam = Rbulto / 2;                                // 2 rodamientos por rodillo
+  chk('DIN-08', 'coeficiente estático del rodamiento del rodillo',
+    LIM.rod608.C0 / Prodam, LIM.s0min, '>=',
+    `608-2RS con C0 = ${LIM.rod608.C0} N (web BRG-006) y ${r2(Prodam)} N por rodamiento `
+    + `(banda ${r2(Rbanda)} N + bulto ${r2(P.cargaMaxKg * g)} N).`, '');
+  const Pvacio = 2 * LIM.banda.T2N / 2;                     // marcha sin par: sólo la pretensión
+  const Peq = Math.cbrt(LIM.dutyBulto * Prodam ** 3 + (1 - LIM.dutyBulto) * Pvacio ** 3);
+  const L10h = (LIM.rod608.C / Peq) ** 3 * 1e6 / (60 * nRodillo);
+  chk('DIN-09', 'vida L10 del rodamiento del rodillo', L10h, LIM.L10objetivoH, '>=',
+    `ISO 281 con C = ${LIM.rod608.C} N a ${r2(nRodillo)} rpm y duty ${LIM.dutyBulto * 100} % `
+    + `(P_eq = ${r2(Peq)} N). Con bulto permanente serían ${r2((LIM.rod608.C / Prodam) ** 3 * 1e6 / (60 * nRodillo))} h.`, 'h');
+  // Las locas giran a la velocidad de la banda y ven 2·T en el ramal tenso.
+  const nLoca = vBanda / (Math.PI * P.idlerDia / 1000) * 60;
+  const Ploca = resul(T1, T1, envG.locas?.[0] ?? 180) / 2;
+  const L10loca = (m.transmision.rodamientos?.C_N ?? 4400) ** 3 / Ploca ** 3 * 1e6 / (60 * nLoca);
+  chk('DIN-13', 'vida L10 del rodamiento de las poleas locas', L10loca, LIM.L10objetivoH, '>=',
+    `R10-2RS a ${r2(nLoca)} rpm con ${r2(Ploca)} N por rodamiento.`, 'h');
+
+  // -- 9.10/9.11 el eje del rodillo ------------------------------------------
+  // El eje NO gira y no está simplemente apoyado: sus dos coronas Ø12.70 van
+  // APRETADAS contra la cara interior de la placa peine por los pernos 1/4-20, o
+  // sea que la unión es un empotramiento elástico. La rigidez que lo empotra es la
+  // del DIENTE de la placa peine trabajando fuera de su plano (un voladizo de
+  // chapa de 3/16"), y eso es lo que decide si el eje trabaja a 70 MPa o a 250.
+  const A0 = rodM.ejeZ !== undefined ? (P.rodX0 - 2) : 42.48;   // no se usa: ver abajo
+  const xA = m.rodillos.placaPeineX ? r2(m.rodillos.placaPeineX[0] + P.placaT / 2) : 42.48;
+  const xB = m.rodillos.placaPeineX ? r2(m.rodillos.placaPeineX[1] - P.placaT / 2) : 420.52;
+  const Lv = xB - xA;
+  const [xr1, xr2] = m.rodillos.rodamientosX ?? [58, 398];
+  const a1 = xr1 - xA, a2 = xr2 - xA;
+  const dEje = P.rodEjeD, dPunta = 25.4 / 2;                 // Ø8.00 cuerpo / Ø12.70 punta
+  const Zeje = Math.PI * dEje ** 3 / 32, Zpunta = Math.PI * dPunta ** 3 / 32;
+  const Ieje = Math.PI * dEje ** 4 / 64;
+  const Pcarga = Rbulto / 2;                                  // por rodamiento
+  // rigidez rotacional del diente (voladizo de chapa, fuera de plano) vs. la de la viga
+  const bDiente = 2 * 17.1, hDiente = (rodM.dienteSobreEje !== undefined ? P.rodZ : P.rodZ) - 320;
+  const kDiente = LIM.A36.E * (bDiente * P.placaT ** 3 / 12) / hDiente;
+  const empotramiento = 1 / (1 + (3 * LIM.A36.E * Ieje / Lv) / kDiente);
+  const fem = (a) => { const b = Lv - a; return { MA: Pcarga * a * b * b / (Lv * Lv), MB: Pcarga * a * a * b / (Lv * Lv) }; };
+  const f1 = fem(a1), f2 = fem(a2);
+  const Mempot = empotramiento * Math.max(f1.MA + f2.MA, f1.MB + f2.MB);
+  const RA = Pcarga * (Lv - a1) / Lv + Pcarga * (Lv - a2) / Lv;
+  const Mrodam = Math.max(Math.abs(RA * a1 - Mempot), Math.abs((2 * Pcarga - RA) * (Lv - a2) - Mempot));
+  const sigmaEje = Mrodam / Zeje;
+  const sigmaEjeArticulado = Math.max(RA * a1, (2 * Pcarga - RA) * (Lv - a2)) / Zeje;
+  // El empotramiento sólo existe mientras la corona NO despegue. Precarga del perno
+  // 1/4-20 -> presión media en la corona -> momento al que se abre la junta.
+  const Fi14 = LIM.perno14.parNm / (LIM.perno14.K * P.M.b14.d / 1000);
+  const ri = P.M.b14.d / 2, ro = dPunta / 2;
+  const Acorona = Math.PI * (ro * ro - ri * ri), Icorona = Math.PI * (ro ** 4 - ri ** 4) / 4;
+  const Mdespegue = (Fi14 / Acorona) * Icorona / ro;
+  chk('EST-01', 'la corona del eje de rodillo no despega de la placa peine',
+    Mempot, Mdespegue / 1.5, '<=',
+    `perno ${LIM.perno14.grado} a ${LIM.perno14.parNm} N·m (K=${LIM.perno14.K}) → precarga ${r2(Fi14)} N `
+    + `= ${r2(Fi14 / (LIM.perno14.Sp * LIM.perno14.As) * 100)} % de la carga de prueba. Si la junta se abre, `
+    + `el eje pasa de ${r2(sigmaEje)} a ${r2(sigmaEjeArticulado)} MPa.`, 'N·mm');
+  chk('EST-02', 'tensión de flexión del eje de rodillo (Ø7.94, junta cerrada)',
+    sigmaEje, 0.6 * LIM.A36.Fy, '<=',
+    `el modelo no declara grado de acero para el eje; se juzga contra A36 (Fy = ${LIM.A36.Fy} MPa), `
+    + `que es el mínimo defendible. Grado de empotramiento del diente: ${r2(empotramiento)}.`, 'MPa');
+
+  // -- 9.12 vuelco del cassette sobre el actuador ----------------------------
+  // EL CASSETTE ES UNA MESA SOBRE UN PEDESTAL DE 75 × 240 mm que sostiene un campo
+  // de rodillos de 375 × 381. Mientras la horquilla sólo APOYABA, la resultante
+  // vertical tenía que caer dentro de esa huella o el cassette despegaba, y no caía
+  // ni en Y (utilización 1.35) ni —cosa que la revisión no miró— en X.
+  //
+  // DOS CORRECCIONES DEL CASO DE CARGA respecto de la versión anterior, las dos
+  // hacia el lado inseguro, o sea que el número de antes era optimista:
+  //   1) faltaba la REACCIÓN DE ARRASTRAR EL BULTO. El rodillo lo empuja con
+  //      µ·m·g y la reacción entra en el cassette en la generatriz superior del
+  //      rodillo, (P.rodZ + Ø/2 − P.rielInfZ) = 253.45 mm por encima del plano de
+  //      apoyo: 42.25 N·m más de vuelco. Con el bulto en el rodillo extremo −Y y el
+  //      arrastre hacia +Y los dos momentos SE SUMAN;
+  //   2) faltaba el vuelco alrededor de Y. La huella mide 75 mm en X (el ancho de
+  //      la placa del cilindro) contra 375 de cara de rodillo. La excentricidad no
+  //      es libre —el equipo no admite bultos de menos de 8" (web SORT-014), así
+  //      que el centroide de contacto se queda en ±(375−203.2)/2 = ±85.9— pero con
+  //      ella basta: 28.6 N·m contra 26.5 de peso estabilizador.
+  //
+  // LO QUE LO CIERRA: la horquilla ya NO sólo apoya. Va atornillada al cassette con
+  // 4 pernos 1/4-20 (2 por brazo) contra la ménsula que bastidor.mjs suelda a la
+  // cara exterior del ala del notched brace channel, así que la unión trabaja a
+  // TRACCIÓN y el momento resistente deja de depender sólo de la masa. La capacidad
+  // de la retención se calcula AQUÍ con el mismo grado y par que fija `LIM.perno14`
+  // para EST-01, no con un número que traiga el módulo.
+  //
+  // La masa con la que se comprueba el vuelco sigue siendo la cota INFERIOR (38 kg,
+  // no los 55 declarados): la declarada es conservadora para el actuador y
+  // anticonservadora aquí. `tests/test_nbt90.mjs` comprueba 38 ≤ pesada ≤ 55.
+  const masaMovil = m.elevacion.masaMovilDeclaradaKg
+    ?? ((m.elevacion.masaElevadaKg ?? 89) - P.cargaMaxKg);
+  const masaVuelco = m.elevacion.masaMovilVuelcoKg ?? masaMovil;
+  const yApoyo = m.elevacion.yApoyoContactoMm ?? 90;    // centroide de cada huella de contacto
+  const xApoyo = m.elevacion.xApoyoSemiMm ?? 37.5;      // semihuella en X
+  const anc = m.elevacion.anclaje;
+  // Precarga y deslizamiento de un perno de la retención (mismo criterio que EST-09).
+  const FiAncla = LIM.perno14.parNm / (LIM.perno14.K * P.M.b14.d / 1000);
+  const FslipAncla = LIM.muChapa * FiAncla;                        // N por perno
+  const brazoArrastre = (P.rodZ + P.rodDia / 2 - P.rielInfZ) / 1000;   // 0.2535 m
+  const Farrastre = Math.min(fricBulto, empujeSup);                // N — la reacción, en Y
+  const excX = m.elevacion.excentricidadBultoXmm ?? 0;
+  // --- alrededor de X (plano Y-Z): peso excéntrico + reacción de arrastre
+  const MvuelcoX = P.cargaMaxKg * g * ((P.nRodillos - 1) / 2 * P.paso) / 1000
+    + Farrastre * brazoArrastre;
+  const MdespegaX = (masaVuelco + P.cargaMaxKg) * g * yApoyo / 1000
+    + (anc ? anc.nPorBrazo * FslipAncla * anc.yBrazoMm / 1000 : 0);
+  // --- alrededor de Y (plano X-Z): peso excéntrico contra la semihuella en X
+  const MvuelcoY = P.cargaMaxKg * g * excX / 1000;
+  const brazoAnclaX = anc ? Math.abs(anc.xMm[1] - (anc.xMm[0] + anc.xMm[1]) / 2) : 0;
+  const MdespegaY = (masaVuelco + P.cargaMaxKg) * g * xApoyo / 1000
+    + (anc ? 2 * anc.nPorBrazo * FslipAncla * brazoAnclaX / 1000 : 0);
+  // Se comprueba el eje que peor va; los dos números viajan al documento.
+  const usoX = MvuelcoX / (MdespegaX / 1.5), usoY = MvuelcoY / (MdespegaY / 1.5);
+  const ejeMalo = usoX >= usoY ? 'X' : 'Y';
+  chk('EST-03', 'despegue del cassette: apoyo + retención de la horquilla',
+    ejeMalo === 'X' ? MvuelcoX : MvuelcoY, (ejeMalo === 'X' ? MdespegaX : MdespegaY) / 1.5, '<=',
+    `alrededor de ${ejeMalo}. Bulto de ${P.cargaMaxKg} kg en el rodillo extremo `
+    + `(Y = ±${r2((P.nRodillos - 1) / 2 * P.paso)}, X descentrado ±${excX}) contra ${masaVuelco} kg de `
+    + `conjunto móvil (cota INFERIOR, no los ${masaMovil} declarados). Vuelco: ${r2(MvuelcoX)} N·m en X `
+    + `(${r2(P.cargaMaxKg * g * ((P.nRodillos - 1) / 2 * P.paso) / 1000)} de peso + `
+    + `${r2(Farrastre * brazoArrastre)} de la reacción de arrastre, ${r2(Farrastre)} N a `
+    + `${r2(brazoArrastre * 1000)} mm sobre el apoyo) y ${r2(MvuelcoY)} en Y. Resiste: ${r2(MdespegaX)} y `
+    + `${r2(MdespegaY)} N·m, de los que sólo ${r2((masaVuelco + P.cargaMaxKg) * g * yApoyo / 1000)} y `
+    + `${r2((masaVuelco + P.cargaMaxKg) * g * xApoyo / 1000)} son peso: el resto lo pone la RETENCIÓN `
+    + `(${anc ? 2 * anc.nPorBrazo : 0} pernos ${anc?.torn ?? '—'} ${LIM.perno14.grado} a `
+    + `${LIM.perno14.parNm} N·m → ${r2(FiAncla)} N de precarga y ${r2(FslipAncla)} N de deslizamiento por `
+    + `perno con µ = ${LIM.muChapa}). SIN retención el FS al despegue sería `
+    + `${r2((masaVuelco + P.cargaMaxKg) * g * yApoyo / 1000 / MvuelcoX)} en X y `
+    + `${r2((masaVuelco + P.cargaMaxKg) * g * xApoyo / 1000 / MvuelcoY)} en Y: el cassette VUELCA por los `
+    + `dos ejes. SMC no publica momento de vuelco admisible para la serie MGP (web PNEU-019).`, 'N·m');
+  chk('EST-04', 'carga lateral en Y sobre la placa del actuador',
+    Farrastre, m.elevacion.cargaLateralAdmisibleN ?? 352, '<=',
+    'es la reacción de empujar el bulto. Antes del anclaje llegaba a la placa por ROZAMIENTO de los '
+    + `apoyos, que sólo da µ·N = ${r2((m.elevacion.parRozamientoApoyosNm ?? 0) > 0 ? 0.20 * (m.elevacion.cargaN ?? 873) : 0)} N `
+    + '— menos que la propia reacción, o sea que el cassette resbalaba. Con la horquilla atornillada '
+    + 'la transmite la unión, que es lo que EST-04 daba por hecho desde el principio.', 'N');
+  // -- 9.12b par de giro sobre la placa: el anclaje quitó el tope de rozamiento
+  // Con la horquilla apoyada, el par que podía llegar a la placa estaba acotado por
+  // el rozamiento de las huellas (µ = 0.20 → 17.97 N·m) y lo que excediera hacía
+  // GIRAR el cassette, sin que nada lo retuviera (los pasadores flotan, E3). Con la
+  // unión atornillada ese tope desaparece: la junta no desliza —2 819 N por perno—
+  // y a la placa le llega el par real. Hay que comprobarlo, o el gate estaría
+  // juzgando una cota que ya no existe.
+  chk('EST-12', 'par de giro alrededor de Z sobre la placa del actuador',
+    Farrastre * excX / 1000, m.elevacion.parAdmisibleNm ?? 21.9, '<=',
+    `la reacción de arrastre (${r2(Farrastre)} N en Y) por la excentricidad en X del centroide de `
+    + `contacto del bulto (±${excX} mm: la cara del rodillo mide ${P.rodCara} mm y el equipo no admite `
+    + `bultos de menos de ${m.elevacion.bultoMinLargoMm} mm de largo, web SORT-014). Límite de catálogo `
+    + `SMC para el MGPM80 (web PNEU-019); satura con ${r2((m.elevacion.parAdmisibleNm ?? 21.9) * 1000 / Farrastre)} mm `
+    + `de excentricidad. La cota de rozamiento que era el criterio antes del anclaje valía `
+    + `${m.elevacion.parRozamientoApoyosNm} N·m y ya no aplica.`, 'N·m');
+
+  // -- 9.13/9.14 tornillería del rodillo: borde y desgarro -------------------
+  const eBorde = rodM.dienteSobreEje ?? 0;
+  chk('EST-05', 'distancia del taladro del perno de rodillo al canto del diente',
+    eBorde, LIM.bordeMinEnD * P.M.b14.d, '>=',
+    `AISI S100-16 J3.2 (web STR-001): e ≥ 1.5·d = ${r2(LIM.bordeMinEnD * P.M.b14.d)} mm. `
+    + `Hoy ${r2(eBorde / P.M.b14.d)}·d.`, 'mm');
+  const Lc = eBorde - (rodM.pasanteD ?? 7) / 2;
+  const Rdesgarro = LIM.desgarroK * Lc * P.placaT * LIM.A36.Fu;
+  chk('EST-06', 'desgarro de la placa peine detrás del perno de rodillo',
+    Pcarga * LIM.desgarroOmega, Rdesgarro, '<=',
+    `AISC J3.10 (web STR-004) con Lc = ${r2(Lc)} mm y t = ${r2(P.placaT)} mm. La carga del rodillo `
+    + 'empuja hacia ABAJO, o sea alejándose del canto corto: la resistencia no es el problema.', 'N');
+
+  // -- 9.14b el asiento del rodamiento del rodillo ES un ajuste, no una holgura
+  // Cierra AJ-02, que el módulo de fabricación dejó declarado y sin poder tocar:
+  // el cuerpo del eje salía de un 5/16" de catálogo (7.9375) y el 608-2RS tiene
+  // barreno Ø8, así que el juego diametral era 0.055…0.072 mm — el de un montaje
+  // con casquillo. Con el aro interior quieto y carga pulsante, ese juego martillea
+  // y produce corrosión por rozamiento. La comprobación no mira el juego (que
+  // depende del ajuste elegido) sino la RAÍZ: el nominal del asiento tiene que ser
+  // el nominal del barreno. Cualquier diferencia ya no es un ajuste, es holgura.
+  const desajusteNominal = Math.abs(P.rodEjeD - P.rodRodam.bore);
+  const juegoRod = [
+    (P.rodRodam.bore + P.rodRodamBoreDesv[1]) - (P.rodEjeD + P.rodEjeDesv[0]),
+    (P.rodRodam.bore + P.rodRodamBoreDesv[0]) - (P.rodEjeD + P.rodEjeDesv[1]),
+  ];
+  chk('EST-11', 'el asiento del rodamiento del rodillo comparte nominal con el barreno',
+    desajusteNominal, 0, '<=',
+    `eje Ø${P.rodEjeD} ${P.rodEjeAjuste} contra el barreno Ø${P.rodRodam.bore} del 608-2RS `
+    + `(ISO 492 clase Normal ${P.rodRodamBoreDesv.join('/')}, web BRG-007) → juego diametral `
+    + `${c3(juegoRod[0])}…${c3(juegoRod[1])} mm. Con 5/16" (7.9375) el desajuste de nominal era `
+    + `0.0625 mm y el juego 0.055…0.072: un orden de magnitud más.`, 'mm');
+  // `tolerancias.mjs` declara AJ-02 con la cota y el juego escritos a mano, y esos
+  // literales viajan al documento en `p.tol.ajustes`. Al cerrar AJ-02 desde
+  // params.mjs se quedan viejos, y este integrador NO los corrige: ese archivo
+  // tiene dueño (contrato §2). Se denuncia por consola y en el JSON.
+  const aj02 = AJUSTES.find((a) => a.id === 'AJ-02');
+  if (aj02?.juegoDiametralMm && Math.abs(aj02.juegoDiametralMm[1] - juegoRod[1]) > 0.002) {
+    avisos.push({
+      id: 'AJ-02', dueño: 'tolerancias.mjs',
+      texto: `el ajuste AJ-02 sigue declarado como «${aj02.cota} ${aj02.ajuste}» con juego `
+        + `${aj02.juegoDiametralMm.join('…')} mm, que es el del eje de 5/16" que YA NO EXISTE. `
+        + `El asiento es Ø${P.rodEjeD} ${P.rodEjeAjuste} y el juego ${c3(juegoRod[0])}…`
+        + `${c3(juegoRod[1])} mm (EST-11). Hay que actualizar cota, ajuste, juego y borrar el `
+        + `aviso de «pendiente»; el integrador no toca ese archivo.`,
+    });
+  }
+
+  // -- 9.15 voladizo del motorreductor ---------------------------------------
+  const Rrueda = resul(T1, LIM.banda.T2N, envG.ruedaMotriz ?? 180);
+  chk('EST-07', 'carga radial en el eje de salida del motorreductor',
+    Rrueda, LIM.sewFRaN, '<=',
+    `FRa del R07/RF07 DT71D4 (web MOT-009), definida en el PUNTO MEDIO del eje; la rueda motriz `
+    + `queda a 34.4 mm de la cara de la brida y SEW no publica las constantes a y b para corregirla.`, 'N');
+
+  // -- 9.16 impacto del pop-up ------------------------------------------------
+  // El guardián de E1: si alguien vuelve a despejar la velocidad de la energía
+  // admisible, Ek ≡ Ek_adm por construcción y DIN-14 deja de poder fallar. La
+  // compuerta lo detecta y lo denuncia por consola en cada generación.
+  const ekTautologico = m.elevacion.energiaCineticaJ !== undefined
+    && Math.abs(m.elevacion.energiaCineticaJ - m.elevacion.energiaAdmisibleJ) < 1e-3;
+  // Velocidad de IMPACTO contra el tope = 1.4 × la media de émbolo (cat). La media
+  // es dato de diseño del módulo; aquí se recalcula el impacto y no se copia.
+  const uImp = (m.elevacion.velocidadImpactoMmS
+    ?? (m.elevacion.velocidadDisenoMmS ?? 0) * (m.elevacion.factorImpacto ?? 1.4)) / 1000;
+  const decel = uImp ** 2 / (2 * LIM.topeAplastamientoMm / 1000);       // m/s² al frenar
+  chk('DIN-12', 'el bulto no despega de los rodillos al frenar el pop-up',
+    decel, g, '<=',
+    `impacto a ${r2(uImp * 1000)} mm/s (= ${m.elevacion.factorImpacto ?? 1.4} × los `
+    + `${m.elevacion.velocidadDisenoMmS} mm/s de émbolo, cat) contra ${LIM.topeAplastamientoMm} mm de `
+    + `aplastamiento del tope. El límite es g: por encima el bulto —que no está sujeto— deja los `
+    + `rodillos. Deja de cumplir si el tope real aplasta menos de `
+    + `${r2(uImp ** 2 / (2 * g) * 1000)} mm (hoy se supone ${LIM.topeAplastamientoMm}, D2 abierto).`, 'm/s²');
+  // La energía cinética es ahora una CONSECUENCIA de la velocidad de diseño, así que
+  // ésta sí es una comprobación con dos lados. Antes no existía como tal (E1).
+  chk('DIN-14', 'energía cinética de impacto contra los topes de goma del cilindro',
+    m.elevacion.energiaCineticaJ ?? 0, m.elevacion.energiaAdmisibleJ ?? 2.71, '<=',
+    `½·M·u² con M = ${m.elevacion.masaTotalMovilKg} kg (conjunto móvil + bulto + partes móviles del `
+    + `cilindro) y u = ${r2(uImp * 1000)} mm/s. Los topes de serie del MGPM80 absorben `
+    + `${m.elevacion.energiaAdmisibleJ} J (cat, web PNEU-019); a `
+    + `${m.elevacion.velocidadMaxImpactoMmS} mm/s de impacto se agotarían.`, 'J');
+  const Fimpacto = 2 * (m.elevacion.energiaCineticaJ ?? 0) / (LIM.topeAplastamientoMm / 1000);
+  const Fi38 = LIM.perno38.parNm / (LIM.perno38.K * P.M.b38.d / 1000);
+  chk('EST-09', 'impacto del pop-up contra los 8 pernos 3/8" de las spacer plate',
+    Fimpacto, 8 * LIM.muChapa * Fi38, '<=',
+    `unión por rozamiento: ${LIM.perno38.grado} a ${LIM.perno38.parNm} N·m → ${r2(Fi38)} N de precarga `
+    + `por perno y µ = ${LIM.muChapa}.`, 'N');
+
+  // -- 9.17 el alma del canal de montaje sostiene el cilindro ----------------
+  // El MGPM80 se atornilla ENCIMA del alma del canal y toda la reacción del pop-up
+  // baja por ahí. El alma es chapa de 12 GA con un vano libre de P.canalCilY entre
+  // las dos alas, y la huella del cilindro (G = 91.5 en X) cae justo en el centro.
+  // Se calcula como banda de 1 mm de ancho APOYADA en las dos alas —no empotrada—:
+  // un ala de 103 mm de alto en 12 GA es una sección abierta, su rigidez torsional
+  // es GJ/L ≈ 1.1e5 N·mm/rad y no puede empotrar nada.
+  const cargaAlma = (m.elevacion.cargaN ?? 873) + 6.49 * g;             // móvil + bulto + cilindro
+  const tAlma = m.elevacion.espesorCanalMm ?? P.cal12;                  // lo declara el módulo
+  const vanoAlma = P.canalCilY - tAlma;                                 // entre fibras medias de las alas
+  const huellaX = m.elevacion.huellaCuerpoMm?.[0] ?? 91.5;
+  const huellaY = m.elevacion.huellaCuerpoMm?.[1] ?? 202;
+  // SECCIÓN NETA. Los dos taladros de paso de las varillas guía caen en X = mesaX,
+  // o sea EXACTAMENTE en el centro del vano, que es donde el momento es máximo. El
+  // ancho resistente de la banda cargada no es la huella entera sino la huella menos
+  // los dos agujeros; la carga que les tocaría la reparten las bandas vecinas. Se
+  // toma el reparto en proporción al ancho neto, que es la hipótesis conservadora
+  // habitual y la que faltaba en el número de la revisión.
+  const diaPaso = m.elevacion.pasoVarillaCanalDia ?? 0;
+  const anchoNeto = Math.max(1, huellaY - 2 * diaPaso);
+  const factorNeto = huellaY / anchoNeto;
+  const wAlma = cargaAlma / huellaY;                                    // N por mm de ancho en Y
+  const Malma = wAlma / 8 * (2 * vanoAlma - huellaX);                   // N·mm por mm de ancho
+  const sigmaAlma = factorNeto * Malma / (tAlma ** 2 / 6);
+  const aCarrera = uImp ** 2 / (2 * P.carrera / 1000);                  // m/s² al arrancar la carrera
+  chk('EST-10', 'flexión del alma del canal de montaje bajo el cilindro',
+    sigmaAlma, 0.6 * LIM.A36.Fy, '<=',
+    `${r2(cargaAlma)} N repartidos en la huella de ${huellaX}×${huellaY} mm sobre un vano de `
+    + `${r2(vanoAlma)} mm de chapa de ${r2(tAlma)} mm (banda de 1 mm APOYADA en las dos alas: un ala de `
+    + `103 mm en chapa fina es una sección abierta y no empotra). En el centro del vano están además `
+    + `los dos taladros Ø${diaPaso} de paso de las varillas guía → sección neta ×${r2(factorNeto)}. `
+    + `Con la aceleración de la carrera (${r2(aCarrera)} m/s²) sube a `
+    + `${r2(sigmaAlma * (1 + aCarrera / g))} MPa.`, 'MPa');
+
+  // -- 9.18 los conjuntos soldados declaran su cordón -------------------------
+  const soldadas = propias.filter((p) => p.weldment || /soldad/i.test(p.union || '') || /SOLDADA/.test(p.name));
+  const sinCordon = soldadas.filter((p) => !p.soldadura);
+  chk('EST-08', 'conjuntos soldados sin cordón declarado', sinCordon.length, 0, '<=',
+    `AISC J2.4 / AWS D1.3 (web STR-002/STR-003): en chapa de 12 GA el cordón mínimo queda limitado `
+    + `al espesor, ${r2(P.cal12)} mm. Falta \`soldadura: { garganta, proceso, norma }\` en: `
+    + sinCordon.slice(0, 4).map((p) => p.name.replace(/^(FIJO|MÓVIL) · /, '')).join(' · ')
+    + (sinCordon.length > 4 ? ` … y ${sinCordon.length - 4} más` : ''), 'piezas');
+
+  const fallos9 = R9.filter((f) => !f.ok);
+
   return e.length
     ? (() => { throw new Error('Diseño inconsistente:\n  - ' + e.join('\n  - ')); })()
     : {
@@ -129,9 +1074,146 @@ function verify() {
         emergencia: r2(emerge), retraccion: r2(retrae), carrera: P.carrera,
         holguraRodilloRegleta: r2(holgura),
         solapesAABB: choques,
+        retraidoParesQueCrecen: choquesBajo.length,
+        retraidoParesTolerados: toleradosBajo,
+        holguraPlacaTransmisionCanalRetraidoMm: holguraPlacaCanal,
         rodillos: P.nRodillos, bandas: P.nBandas, paso: P.paso, BR: P.BR,
         largoBanda, envolventeRodillo: env,
-        empujeN: m.elevacion.empujeN, factorSeguridad: fs,
+        actuador: el.actuador, componenteActuador: el.componente,
+        empujeN: el.empujeN, empujeN60psi: el.empujeN60psi, factorSeguridad: fs,
+        factorSeguridad60psi: el.factorSeguridad60psi,
+        velocidadDisenoMmS: el.velocidadDisenoMmS, velocidadImpactoMmS: el.velocidadImpactoMmS,
+        tiempoSubidaMs: el.tiempoSubidaMs,
+        energiaCineticaJ: el.energiaCineticaJ, aireLitrosANRciclo: el.aireLitrosANRciclo,
+        parPlacaNm: el.parPlacaNm, cargaLateralN: el.cargaLateralN,
+        salidaVarillasMm: el.salidaVarillasMm, holguraPlacaMotorMm: el.holguraPlacaMotorMm,
+
+        // ---- §9 resistencia y dinámica (revisión estructural 2026-07-29) ----
+        estructural: {
+          comprobaciones: R9,
+          incumplen: fallos9.length,
+          abiertos: abiertos.map((f) => ({ id: f.id, titulo: f.titulo, uso: f.uso, dueño: f.dueño })),
+          avisos,
+          cinematica: {
+            // La cadena entera, eslabón a eslabón, para que nadie tenga que
+            // reconstruirla: es lo que faltaba cuando P.velocidad decía 0.9 m/s.
+            rpmMotor: P.motorRpm, diaRuedaMm: P.ruedaDia, vBandaMs: r2(vBanda),
+            diaArrastreMm: c3(dArrastre), multiplicacion: c3(nRodillo / P.motorRpm),
+            rpmRodillo: r2(nRodillo), diaVulcanizadoMm: c3(P.rodDia),
+            vRodilloMs: r2(vRodillo), vRodilloFpm: r2(vRodillo * 196.85),
+            vDeclaradaMs: r2(P.velocidad), vTransmisionMs: cin.vTransferencia_m_s,
+            // Contraste con la ficha del fabricante (no es un límite del gate: es la
+            // evidencia de que el equipo estaba bien concebido y el número, mal escrito).
+            fabricanteFpm: 350, fabricanteFuente: 'web SORT-016 / SORT-018 · Hytrol Bulletin 711',
+            desviacionSobreFabricantePct: r2((vRodillo * 196.85 / 350 - 1) * 100),
+            parSalidaNm: r2(parSalida), tiroBandaN: r2(tiroBanda), empujeSuperficieN: r2(empujeSup),
+          },
+          bulto: {
+            masaKg: P.cargaMaxKg, muSupuesto: LIM.muBulto, muSaturacionAccionamiento: r2(muSaturacion),
+            aceleracionMs2: r2(aBulto), patinajeMm: r2(deslizamiento), campoRodillosMm: r2(campoRodillos),
+            tiempoSincronizacionMs: r2(vRodillo / aBulto * 1000),
+          },
+          banda: {
+            T1N: r2(T1), T2N: LIM.banda.T2N, kadmN: LIM.banda.kadmN,
+            capstanRueda: r2(capstan), relacionTensiones: r2(T1 / LIM.banda.T2N),
+            diaEnvolturaMinMm: r2(dArrastre), diaMinCatalogoMm: LIM.banda.dMinMm,
+          },
+          rodillo: {
+            fuerzaRadialBandaN: r2(Rbanda), fuerzaRadialConBultoN: r2(Rbulto),
+            cargaPorRodamientoN: r2(Prodam), s0: r2(LIM.rod608.C0 / Prodam),
+            L10h: r2(L10h), L10hConBultoPermanente: r2((LIM.rod608.C / Prodam) ** 3 * 1e6 / (60 * nRodillo)),
+            gradoEmpotramiento: r2(empotramiento),
+            sigmaEjeMPa: r2(sigmaEje), sigmaEjeSiDespegaMPa: r2(sigmaEjeArticulado),
+            momentoCoronaNmm: r2(Mempot), momentoDespegueCoronaNmm: r2(Mdespegue),
+            precargaPerno14N: r2(Fi14), pernoDeclarado: LIM.perno14.grado,
+            // Ajuste del aro interior sobre el eje: sale de la CADENA de desviaciones
+            // (ISO 492 clase Normal para el barreno, web BRG-007 · ISO 286-2 para el
+            // asiento), no de un literal. Cerró AJ-02.
+            asientoRodamiento: {
+              ejeNominalMm: P.rodEjeD, ajuste: P.rodEjeAjuste,
+              barrenoNominalMm: P.rodRodam.bore,
+              juegoDiametralMm: [c3(juegoRod[0]), c3(juegoRod[1])],
+              juegoAntesMm: [0.055, 0.072],       // con el eje de 5/16" que había
+            },
+          },
+          cassette: {
+            masaMovilDeclaradaKg: r2(masaMovil),
+            masaMovilVuelcoKg: r2(masaVuelco),
+            yApoyoMm: yApoyo, anchoApoyoMm: m.elevacion.anchoContactoMm ?? null,
+            xApoyoSemiMm: xApoyo,
+            // Vuelco alrededor de X (plano Y-Z) y alrededor de Y (plano X-Z). El
+            // segundo no existía en la revisión anterior y también incumplía.
+            momentoVuelcoXNm: r2(MvuelcoX), momentoResistenteXNm: r2(MdespegaX), usoX: r2(usoX),
+            momentoVuelcoYNm: r2(MvuelcoY), momentoResistenteYNm: r2(MdespegaY), usoY: r2(usoY),
+            reaccionArrastreN: r2(Farrastre),
+            brazoArrastreMm: r2(brazoArrastre * 1000),
+            momentoArrastreNm: r2(Farrastre * brazoArrastre),
+            excentricidadBultoXmm: excX,
+            // Lo que había ANTES del anclaje, para que se vea qué lo cerró:
+            FSdespegueSinAnclajeX: r2((masaVuelco + P.cargaMaxKg) * g * yApoyo / 1000 / MvuelcoX),
+            FSdespegueSinAnclajeY: r2((masaVuelco + P.cargaMaxKg) * g * xApoyo / 1000 / MvuelcoY),
+            yApoyoNecesarioSinAnclajeFS15mm:
+              r2(1.5 * MvuelcoX * 1000 / ((masaVuelco + P.cargaMaxKg) * g)),
+            anclaje: anc ? {
+              ...anc,
+              precargaPernoN: r2(FiAncla), deslizamientoPernoN: r2(FslipAncla),
+              grado: LIM.perno14.grado, parNm: LIM.perno14.parNm, muUnion: LIM.muChapa,
+              // Si la junta llegara a deslizar, el perno topa en el extremo de la
+              // colisa y trabaja a cortante: 10.2 kN por perno, 58× la demanda.
+              cortantePernoN: r2(0.6 * 827 * LIM.perno14.As),
+              demandaDespegueN: r2(Math.max(0,
+                (MvuelcoX - (masaVuelco + P.cargaMaxKg) * g * yApoyo / 1000) / (2 * yApoyo / 1000))),
+            } : null,
+            cargaLateralYN: r2(Farrastre),
+            parZNm: r2(Farrastre * excX / 1000),
+            parZadmisibleNm: m.elevacion.parAdmisibleNm ?? 21.9,
+            parZrozamientoAntesNm: m.elevacion.parRozamientoApoyosNm ?? null,
+          },
+          impacto: {
+            velocidadDisenoMmS: m.elevacion.velocidadDisenoMmS ?? null,
+            velocidadImpactoMmS: r2(uImp * 1000), aplastamientoSupuestoMm: LIM.topeAplastamientoMm,
+            deceleracionMs2: r2(decel), enG: r2(decel / g),
+            despegaElBulto: decel > g,
+            saltoBultoMm: decel > g ? r2(uImp ** 2 / (2 * g) * 1000) : 0,
+            energiaReasienteJ: decel > g ? r2(0.5 * P.cargaMaxKg * uImp ** 2) : 0,
+            fuerzaEnEstructuraN: r2(Fimpacto),
+            velocidadImpactoSinDespegueMmS: r2(Math.sqrt(2 * g * LIM.topeAplastamientoMm / 1000) * 1000),
+            aplastamientoMinimoDelTopeMm: r2(uImp ** 2 / (2 * g) * 1000),
+            chequeoEkTautologico: ekTautologico,
+          },
+          almaCanal: {
+            espesorMm: r2(tAlma), calibre: m.elevacion.espesorCanalCalibre ?? null,
+            vanoLibreMm: r2(vanoAlma), huellaMm: [huellaX, huellaY],
+            cargaN: r2(cargaAlma), momentoNmmPorMm: r2(Malma),
+            factorSeccionNeta: r2(factorNeto), sigmaMPa: r2(sigmaAlma),
+            sigmaConAceleracionMPa: r2(sigmaAlma * (1 + aCarrera / g)),
+          },
+          soldadura: { conjuntosSoldados: soldadas.length, sinCordonDeclarado: sinCordon.length },
+        },
+
+        // ---- fabricación (§10) --------------------------------------------
+        tolerancias: {
+          chapa: NORMA.chapa.clase, mecanizado: NORMA.mecanizado.clase,
+          soldadura: NORMA.soldadura.clase,
+          soldaduraSobreElLargo: `±${tolSold} mm sobre ${cotaSoldada} mm; forma `
+            + `${tolForma13920(cotaSoldada, 'F')} mm`,
+          piezasConAjusteISO286: conAjuste, ajustesDeclarados: AJUSTES.length,
+        },
+        encajes: {
+          total: encajes.length,
+          juntas: porId.size,
+          deposicion: encajes.filter((q) => q.rol === 'posicion').length,
+          depaso: encajes.filter((q) => q.rol === 'paso').length,
+          aTope: encajes.filter((q) => q.tipo === 'tope').length,
+          holguraMaxDePosicionMm: r2(peorEncaje),
+          ranura12GA: ranuraPara('12GA').ancho,
+          margenSobreISO13920B: r2(tolSold - peorEncaje),
+        },
+        componentes: {
+          designados: normalizacion.designadas,
+          sinDesignar: normalizacion.sinDesignar.length,
+          avisosDeDesignacion: normalizacion.avisos.length,
+        },
       };
 }
 
@@ -154,8 +1236,10 @@ const doc = {
       + 'comprables, no sus planos.',
     equipo: `BR ${enPulg(P.BR)} · ${P.nRodillos} rodillos vulcanizados Ø${enPulg(P.rodDia)} a paso `
       + `${enPulg(P.paso)} · ${P.nBandas} bandas angostas de ${enPulg(P.bandaAncho)} del anfitrión · `
-      + `serpentín de banda plana de ${enPulg(P.serpAncho)} · motorreductor ${P.motorHP} HP a ${P.motorRpm} rpm · `
-      + `elevación neumática Ø${P.mesaBore} de ${P.carrera} mm`,
+      + `serpentín de banda plana de ${enPulg(P.serpAncho)} · motorreductor ${P.motorHP} HP a ${P.motorRpm} rpm `
+      + `→ rodillo a ${r2(P.rodRpm)} rpm (la banda plana multiplica ×${c3(P.relacionBanda)}) = `
+      + `${r2(P.velocidad)} m/s = ${r2(P.velocidadFpm)} fpm en la cara del rodillo · `
+      + `elevación neumática con cilindro compacto de guías SMC MGPM80-10Z (Ø${P.mesaBore}, carrera ${P.mesaCarrera} mm)`,
     estado_modelado: `ELEVADO: la generatriz superior del rodillo queda ${r2(metricas.emergencia)} mm `
       + `(= ${enPulg(P.emerge)}) sobre el plano de las bandas; retraído baja ${r2(metricas.retraccion)} mm por debajo`,
     ejes: 'X = eje de los rodillos (flujo del anfitrión, y sentido de marcha de las bandas angostas); '
@@ -174,9 +1258,100 @@ const doc = {
   constraints: [],
 };
 
-const out = join(dirname(fileURLToPath(import.meta.url)), 'narrow_belt_transfer_90.json');
+const aqui = dirname(fileURLToPath(import.meta.url));
+const out = join(aqui, 'narrow_belt_transfer_90.json');
 writeFileSync(out, JSON.stringify(doc, null, 1));
+
+// ---------------------------------------------------------------------------
+// El MISMO ensamble en estado RETRAÍDO, para poder verificarlo con la misma
+// herramienta exacta que el elevado.
+//
+// No es un modelo distinto ni una segunda fuente de verdad: es este documento
+// con las piezas MÓVIL trasladadas −P.carrera en Z. Vale porque las features de
+// cada pieza son relativas a su ancla (`Ensamble.addPart` las relativiza), así
+// que mover `pos` mueve la pieza entera y nada más. Se emite aparte —y no se
+// deja sólo en la comprobación de cajas de `verify`— porque el estado bajo tiene
+// que pasar por `interferencias_brep.py`, que es la verificación que decide:
+//
+//   python3 ensambles/nbt90/interferencias_brep.py --doc ensambles/nbt90/out/nbt90_retraido.json \
+//           --informe interferencias_brep_retraido.json --tol 0.05
+//
+// (`regenerar.sh`, paso 3/8, lo hace y se detiene si aparece algo nuevo.)
+const docBajo = structuredClone(doc);
+let nBajadas = 0;
+for (const p of docBajo.parts) {
+  if (!/^MÓVIL/.test(p.name)) continue;
+  p.pos = [p.pos[0], p.pos[1], r2(p.pos[2] - P.carrera)];
+  nBajadas++;
+}
+docBajo.meta.nombre += ' — ESTADO RETRAÍDO';
+docBajo.meta.estado_modelado = `RETRAÍDO: derivado de narrow_belt_transfer_90.json bajando las `
+  + `${nBajadas} piezas MÓVIL ${P.carrera} mm en Z. La generatriz superior del rodillo queda `
+  + `${r2(metricas.retraccion)} mm por DEBAJO del plano de las bandas del anfitrión. No se edita a `
+  + `mano: lo emite gen_nbt90.mjs en la misma pasada que el estado elevado.`;
+mkdirSync(join(aqui, 'out'), { recursive: true });
+const outBajo = join(aqui, 'out', 'nbt90_retraido.json');
+writeFileSync(outBajo, JSON.stringify(docBajo, null, 1));
+
 console.log(`OK: ${E.parts.length} piezas (${metricas.movil} móviles, ${metricas.fijo} fijas, `
   + `${metricas.tornilleria} de tornillería, ${metricas.contexto} de contexto), ${E.nf} funciones → ${out}`);
 console.log(`   emergencia ${metricas.emergencia} mm · carrera ${metricas.carrera} mm · `
   + `holgura rodillo↔regleta ${metricas.holguraRodilloRegleta} mm · banda ${metricas.largoBanda ?? '—'} mm`);
+console.log(`   RETRAÍDO: ${metricas.retraidoParesQueCrecen} pares MÓVIL↔FIJO ganan solape de caja al bajar `
+  + `(${metricas.retraidoParesTolerados} tolerados por perfil hueco, ver RETRAIDO_CAJA_ABIERTA); `
+  + `placa de transmisión ↔ techo del canal ${metricas.holguraPlacaTransmisionCanalRetraidoMm} mm`);
+console.log(`   ${nBajadas} piezas MÓVIL bajadas ${P.carrera} mm → ${outBajo} (para interferencias_brep.py)`);
+
+// --- §9: resistencia y dinámica. Se imprime SIEMPRE, cumpla o no --------------
+// Un hallazgo abierto no puede pasar desapercibido por estar dentro de un JSON de
+// 800 kB: sale por consola en cada generación, con su utilización y su dueño.
+{
+  const S = metricas.estructural;
+  // Las TRES que menos margen tienen, no sólo la primera: con una sola, una cota
+  // nueva y apretada tapa a la que ya lo estaba (DIN-02 quedó oculta al cerrar EST-05).
+  const peores = [...S.comprobaciones].filter((c) => c.ok).sort((a, b) => b.uso - a.uso).slice(0, 3);
+  console.log(`   ESTRUCTURAL: ${S.comprobaciones.length - S.incumplen}/${S.comprobaciones.length} comprobaciones cumplen · `
+    + `rodillo ${S.cinematica.rpmRodillo} rpm = ${S.cinematica.vRodilloMs} m/s (${S.cinematica.vRodilloFpm} fpm) · `
+    + `T1 ${S.banda.T1N} N · L10 rodillo ${S.rodillo.L10h} h · σ eje ${S.rodillo.sigmaEjeMPa} MPa`);
+  console.log(`   CINEMÁTICA: ${S.cinematica.rpmMotor} rpm motor × Ø${S.cinematica.diaRuedaMm}/Ø${S.cinematica.diaArrastreMm} `
+    + `= ${S.cinematica.multiplicacion} → ${S.cinematica.rpmRodillo} rpm de rodillo → `
+    + `${S.cinematica.vRodilloFpm} fpm en la cara Ø${S.cinematica.diaVulcanizadoMm}, `
+    + `${S.cinematica.desviacionSobreFabricantePct} % sobre los ${S.cinematica.fabricanteFpm} FPM de `
+    + `${S.cinematica.fabricanteFuente}`);
+  if (peores.length) {
+    console.log('   las que menos margen tienen de las que cumplen: '
+      + peores.map((q) => `${q.id} al ${r2(q.uso * 100)} %`).join(' · ')
+      + ` (${peores[0].titulo})`);
+  }
+  for (const a of S.abiertos) {
+    const c = S.comprobaciones.find((x) => x.id === a.id);
+    console.log(`   ✗ ABIERTO ${a.id} · ${a.titulo}: ${c.valor} ${c.unidad} frente a ${c.limite} `
+      + `(utilización ${a.uso}) → ${a.dueño}`);
+  }
+  for (const a of S.avisos ?? []) {
+    console.log(`   ⚠ AVISO ${a.id} (dueño: ${a.dueño}): ${a.texto}`);
+  }
+  {
+    const C = S.cassette;
+    console.log(`   CASSETTE: apoyo en |Y| ≤ ${C.yApoyoMm} y |X−${P.largo / 2}| ≤ ${C.xApoyoSemiMm} + `
+      + `retención de ${C.anclaje?.n ?? 0} pernos ${C.anclaje?.torn ?? '—'} (${r2(C.anclaje?.deslizamientoPernoN ?? 0)} N `
+      + `de deslizamiento c/u) · vuelco ${C.momentoVuelcoXNm}/${C.momentoResistenteXNm} N·m en X `
+      + `(uso ${C.usoX}) y ${C.momentoVuelcoYNm}/${C.momentoResistenteYNm} en Y (uso ${C.usoY}) · `
+      + `SIN retención el FS al despegue sería ${C.FSdespegueSinAnclajeX} en X y `
+      + `${C.FSdespegueSinAnclajeY} en Y (volcaba por los dos ejes)`);
+  }
+  console.log(`   POP-UP: ${S.impacto.velocidadDisenoMmS} mm/s de émbolo (dis) → `
+    + `${S.impacto.velocidadImpactoMmS} mm/s de impacto → ${S.impacto.deceleracionMs2} m/s² = `
+    + `${S.impacto.enG} g al frenar contra ${S.impacto.aplastamientoSupuestoMm} mm de tope · `
+    + `Ek ${metricas.energiaCineticaJ} de ${m.elevacion.energiaAdmisibleJ} J · `
+    + `subida ${metricas.tiempoSubidaMs} ms · `
+    + `el bulto ${S.impacto.despegaElBulto ? 'DESPEGA' : 'no despega'} `
+    + `(el tope tendría que aplastar menos de ${S.impacto.aplastamientoMinimoDelTopeMm} mm para que despegara)`);
+  // Guardián de E1: si alguien vuelve a despejar la velocidad del propio límite de
+  // energía, Ek ≡ Ek_adm por construcción y DIN-14 deja de poder fallar.
+  if (S.impacto.chequeoEkTautologico) {
+    console.log('   ⚠ la comprobación de energía cinética (DIN-14) ha vuelto a ser TAUTOLÓGICA: alguien '
+      + 'ha derivado la velocidad de subida del propio límite de catálogo, así que Ek ≡ Ek_adm y nunca '
+      + 'puede fallar. La velocidad tiene que ser un dato de diseño (ver REVISION_ESTRUCTURAL.md, E1).');
+  }
+}
