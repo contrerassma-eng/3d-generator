@@ -1,10 +1,10 @@
 {
-  "proyecto": "lbp530_gt08",
+  "proyecto": "CV-GT-800 · Movex 530 GT (friction top) 18 in × 0.8 m",
   "archivo": "lbp530_gt08.json",
   "fecha": "—",
   "total_piezas": 37,
   "items_distintos": 19,
-  "planos_fabricacion": 18,
+  "planos_fabricacion": 8,
   "despiece": [
     {
       "item": 1,
@@ -12,7 +12,7 @@
       "cant": 2,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR",
-      "plano": "TR-01"
+      "plano": "LB-01"
     },
     {
       "item": 2,
@@ -20,7 +20,7 @@
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR",
-      "plano": "TR-02"
+      "plano": "LB-02"
     },
     {
       "item": 3,
@@ -28,15 +28,15 @@
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR",
-      "plano": "TR-03"
+      "plano": "LB-03"
     },
     {
       "item": 4,
       "designacion": "FAB · Rodillo retorno Ø63.5 eje muerto Ø15 — 2× 6202-2RS sellados, perno hex M8/lado",
       "cant": 1,
       "tipo": "FABRICADA",
-      "material_norma": "Tubo St37 + vulcanizado NBR",
-      "plano": "TR-04"
+      "material_norma": "POR DEFINIR — tubo de acero, espesor sin declarar",
+      "plano": "LB-04"
     },
     {
       "item": 5,
@@ -44,7 +44,7 @@
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
-      "plano": "TR-05"
+      "plano": "LB-05"
     },
     {
       "item": 6,
@@ -52,71 +52,71 @@
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
-      "plano": "TR-06"
+      "plano": "LB-06"
     },
     {
       "item": 7,
       "designacion": "FAB · Riostra de soportes (tipo ZP2026)",
       "cant": 1,
       "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-07"
+      "material_norma": "Acero S275JR",
+      "plano": "LB-07"
     },
     {
       "item": 8,
       "designacion": "FAB · Travesaño tipo ZP2026 — C 88×40×3",
       "cant": 1,
       "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-08"
+      "material_norma": "Acero S275JR",
+      "plano": "LB-08"
     },
     {
       "item": 9,
       "designacion": "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.54 m",
       "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Banda plana nitrilo/poliéster 3 mm",
-      "plano": "TR-09"
+      "tipo": "NORMALIZADA",
+      "material_norma": "COMERCIAL",
+      "plano": "—"
     },
     {
       "item": 10,
       "designacion": "NORM · Chumacera UCF206 Ø30",
       "cant": 4,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-10"
+      "tipo": "NORMALIZADA",
+      "material_norma": "COMERCIAL",
+      "plano": "—"
     },
     {
       "item": 11,
       "designacion": "NORM · Collarín P21703Y (fija el sprocket central)",
       "cant": 2,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-11"
+      "tipo": "NORMALIZADA",
+      "material_norma": "COMERCIAL",
+      "plano": "—"
     },
     {
       "item": 12,
       "designacion": "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
       "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-12"
+      "tipo": "NORMALIZADA",
+      "material_norma": "COMERCIAL",
+      "plano": "—"
     },
     {
       "item": 13,
       "designacion": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05",
       "cant": 7,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-13"
+      "tipo": "NORMALIZADA",
+      "material_norma": "COMERCIAL",
+      "plano": "—"
     },
     {
       "item": 14,
       "designacion": "NORM · Guía lateral conical rail L 1¼ in + escuadras",
       "cant": 2,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-14"
+      "tipo": "NORMALIZADA",
+      "material_norma": "COMERCIAL",
+      "plano": "—"
     },
     {
       "item": 15,
@@ -130,33 +130,33 @@
       "item": 16,
       "designacion": "NORM · Nosebar descarga 18 in — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
       "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-15"
+      "tipo": "NORMALIZADA",
+      "material_norma": "COMERCIAL",
+      "plano": "—"
     },
     {
       "item": 17,
       "designacion": "NORM · Nosebar entrada 18 in — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
       "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-16"
+      "tipo": "NORMALIZADA",
+      "material_norma": "COMERCIAL",
+      "plano": "—"
     },
     {
       "item": 18,
       "designacion": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
       "cant": 6,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-17"
+      "tipo": "NORMALIZADA",
+      "material_norma": "COMERCIAL",
+      "plano": "—"
     },
     {
       "item": 19,
       "designacion": "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
       "cant": 2,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero",
-      "plano": "TR-18"
+      "tipo": "NORMALIZADA",
+      "material_norma": "COMERCIAL",
+      "plano": "—"
     }
   ]
 }

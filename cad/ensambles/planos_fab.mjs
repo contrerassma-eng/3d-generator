@@ -106,7 +106,7 @@ const outDir = process.env.OUTDIR || 'ensambles/planos_transfer90';
 // sin dejar rotulado el transfer90 en el cajetin, el PDF y el despiece.
 const docFile = jsonPath.split('/').pop();
 const docBase = docFile.replace(/\.json$/, '');
-const docTitulo = doc.title || doc.titulo || docBase;
+const docTitulo = doc.meta?.nombre || doc.title || doc.titulo || docBase;
 const docPref = (process.env.PREFIJO || docBase.slice(0, 2)).toUpperCase();
 mkdirSync(outDir, { recursive: true });
 
@@ -141,7 +141,13 @@ const SOLO_DESPIECE = [/^MÓVIL · Fijación eje/];
 
 // Material sugerido por tipo de pieza fabricada
 function materialDe(name) {
-  if (/Canal|Placa|Puente|Palanca|Soporte|Horquilla|Ménsula|Portarodamiento/.test(name)) return 'Acero S275JR';
+  // El material lo declara el propio generador cuando lo sabe; este mapa es
+  // de respaldo y esta afinado a los nombres del transfer90, asi que para
+  // otros equipos puede errar. Ante la duda se rotula POR DEFINIR en vez de
+  // inventar un material que despues se fabrica.
+  if (/vulcaniz/i.test(name)) return 'Vulcanizado NBR sobre tubo (dureza 75 ShA)';
+  if (/Rodillo retorno/i.test(name)) return 'POR DEFINIR — tubo de acero, espesor sin declarar';
+  if (/Canal|Placa|Puente|Palanca|Soporte|Horquilla|Ménsula|Portarodamiento|Riostra|Travesaño/.test(name)) return 'Acero S275JR';
   if (/Eje|Pasador|Cubo/.test(name)) return 'Acero SAE 1045';
   if (/Vulcanizado/.test(name)) return 'Vulcanizado NBR sobre tubo (dureza 75 ShA)';
   if (/Tubo de acero/.test(name)) return 'Tubo St37 Ø51 (bore Ø42 H7)';
@@ -188,8 +194,16 @@ for (const part of doc.parts) {
   g.cant++;
 }
 
-const esNorma = (n) => NORMA.find(x => x.re.test(n));
-const esSoloDespiece = (n) => SOLO_DESPIECE.some(re => re.test(n));
+// Los generadores del repo rotulan cada pieza con su naturaleza: "FAB · ..."
+// para lo que se fabrica y "NORM · ..." para lo comprado. Ese prefijo manda
+// sobre las regex de NORMA, que estaban afinadas a los nombres del transfer90
+// y no reconocian los de otros equipos: una pieza comprada mal clasificada se
+// lleva un plano y, peor, obliga a construir su malla (los rodillos de la
+// banda LBP son 1164 features).
+const prefFAB  = (n) => /^FAB\s*[·.-]/.test(n);
+const prefNORM = (n) => /^NORM\s*[·.-]/.test(n);
+const esNorma = (n) => prefNORM(n) ? (NORMA.find(x => x.re.test(n)) || { norma: 'COMERCIAL' }) : (prefFAB(n) ? null : NORMA.find(x => x.re.test(n)));
+const esSoloDespiece = (n) => prefFAB(n) ? false : SOLO_DESPIECE.some(re => re.test(n));
 
 // Orden de despiece: canal/estructura, elevación, placas, rodillos, transmisión
 const grupoOrden = (n) => {
@@ -222,11 +236,11 @@ for (const g of lista) {
   let plano = '';
   if (fabricada) {
     planoN++;
-    plano = `TR-${String(planoN).padStart(2, '0')}`;
+    plano = `${docPref}-${String(planoN).padStart(2, '0')}`;
     const geom = buildPartGeometry(g.part);
     const tris = geom.attributes.position.count / 3;
     const meta = {
-      designacion: desig, piezas: g.cant, proyecto: 'TRANSFERENCIA 90°',
+      designacion: desig, piezas: g.cant, proyecto: String(docTitulo).toUpperCase(),
       fuente: 'diseño paramétrico — capa user', numPlano: plano, fecha,
       nota: `Material: ${material} · tol. gral. ISO 2768-mK`,
     };
