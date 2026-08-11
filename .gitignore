@@ -41,3 +41,9 @@ cad/_tmp_*.mjs
 
 # STEP y GLB derivados: se regeneran con a_step.py / export_glb.mjs en menos de un minuto
 cad/ensambles/nbt90/step/
+
+# RC-SCH40-48: mismos derivados (bash cad/ensambles/rodillos_sch40/regenerar.sh los rehace).
+# Se versionan el modelo .json, los planos (PDF + despiece) y las vistas.
+cad/ensambles/rodillos_sch40/out/
+cad/ensambles/rodillos_sch40/step/
+cad/ensambles/rodillos_sch40/planos/*.dxf

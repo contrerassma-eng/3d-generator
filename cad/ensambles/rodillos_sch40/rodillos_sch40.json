@@ -1,0 +1,6969 @@
+{
+ "format": "foto3d-cad",
+ "version": 1,
+ "meta": {
+  "nombre": "RC-SCH40-48 · rodillo transportador plano y cónico sobre cañería SCH 40 NPS 1-1/2\"",
+  "capa": "user",
+  "origen": "cad/ensambles/rodillos_sch40/gen_rodillos.mjs (paramétrico). Referencias: planos Damon 2.240.SHC.AFA y 2.640.SHJ.AFA y catálogo de portarodamientos aportados por el usuario; escala del rasterizado verificada por medición en píxeles (ESCALA.md); datos de norma y datasheet en projects/RC-SCH40-48/input/web_facts.json.",
+  "ejes": "X = eje del rodillo (0 = cara interior del larguero izquierdo), Y = transversal, Z = arriba. mm.",
+  "estado_modelado": "eje CENTRADO (reposo, las dos puntas afuera)",
+  "procedencia": {
+   "web": "ASME B36.10M / ASTM A53 (cañería y tolerancias), SKF 6201-2Z (C y C0), NTN tabla 7.1/7.2 (ajustes), DIN 471 (anillos), US8439573B2 (mecanismo de resorte), Damon e Interroll (cono 3.6°/1.8°)",
+   "measured-2D": "medición en píxeles sobre los planos rasterizados: escala 0.104712 mm/px, cadena 553/531/522, perfil del canal = arco único R5, D1 y k del cono; y sobre el croquis Type 1 del catálogo de portarodamientos (escala 0.063351 mm/px anclada en el barreno d=12.1) el LARGO DE LA TAPA = 12.42 → 14.5 con el 6201. Ver ESCALA.md.",
+   "user": "cañería SCH40 1-1/2\", eje redondo Ø12 con caras planas, tapa metálica de catálogo, camisas plásticas"
+  },
+  "verificaciones": {
+   "piezas": 23,
+   "EL": 532,
+   "tubo": 522,
+   "sobreTapas": 531,
+   "sobreEjes": 553,
+   "contrataladro": "Ø44 H8 × 14",
+   "paredRestante": 2.13,
+   "paredPeorCaso": 1.73,
+   "idCañeriaPeorCaso": "39.4…42.2",
+   "resorte": {
+    "k": 1.514,
+    "precarga_N": 9.08,
+    "maxima_N": 32.55,
+    "carreraDisponible": 15.5,
+    "carreraNecesaria": 12.5
+   },
+   "cono": {
+    "k": 0.06289,
+    "semianguloDeg": 1.8,
+    "errorMaxTablaCatalogo": 0.08,
+    "D1": 55.6,
+    "D2": 87.49,
+    "WT": 507
+   },
+   "curva": {
+    "radioInterior": 884.08,
+    "radioExterior": 1391.08
+   },
+   "rodamiento": {
+    "s0": 12.4,
+    "rpm": 197.87,
+    "L10h": 2079902.17,
+    "cargaPorRodamiento_N": 250
+   },
+   "tubo_I_mm4": 128369.08,
+   "luzEntreRodamientos": 516,
+   "flecha_mm": 0.0557,
+   "solapesAABB": 70,
+   "avisos": [
+    "CANALES: el canal Ø38.5 exige rebajar 4.88 mm y la pared de la SCH40 es 3.68 mm — NO se puede mecanizar sobre esta cañería (ver README §Canales de correa)",
+    "EJE HEXAGONAL: el \"11 Hex\" del plano Damon es 11 mm MÉTRICO (no 7/16\"); 9/16\" no es una medida estándar de rodillo por gravedad y no se encontró barra hexagonal de 11 mm en Chile → se usa eje redondo Ø12 con caras planas (opción del usuario)."
+   ]
+  },
+  "modulos": {
+   "plano": {
+    "piezas": 10,
+    "tubos": 1,
+    "tapas": 2,
+    "rodamientos": 2,
+    "ejes": 1,
+    "anillos": 2,
+    "resortes": 2,
+    "EL": 532,
+    "tubo": 522,
+    "sobreTapas": 531,
+    "sobreEjes": 553,
+    "caraUtil": 522,
+    "odRodillo": 48.26,
+    "contrataladro": "Ø44 H8 × 14",
+    "paredRestante": 2.13
+   },
+   "conico": {
+    "piezas": 13,
+    "tubos": 1,
+    "tapas": 2,
+    "rodamientos": 2,
+    "ejes": 1,
+    "anillos": 2,
+    "resortes": 2,
+    "camisas": 3,
+    "WT": 507,
+    "segmentos": 3,
+    "largoSegmento": 169,
+    "D1": 55.6,
+    "D2": 87.49,
+    "k": 0.06289,
+    "semianguloDeg": 1.8,
+    "radioInteriorCurva": 884.08,
+    "radioExteriorCurva": 1391.08
+   }
+  }
+ },
+ "parts": [
+  {
+   "id": "p1_plano_tubo_sch40_nps_1_1_2_pulg_48_26_3_68_522",
+   "name": "PLANO · Tubo SCH40 NPS 1-1/2 pulg Ø48.26×3.68 × 522",
+   "color": "#b0bec5",
+   "pos": [
+    5,
+    0,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": true,
+   "visible": true,
+   "material": "cañería ASTM A53 Gr.B / ASME B36.10M — NPS 1-1/2 pulg, Schedule 40",
+   "mecanizado": "refrentar a 522 ±0.2 (escuadra 0.1) y contrataladrar Ø44 H8 × 14 en ambos extremos, Ra ≤ 3.2; eliminar el cordón interior de la costura en esa zona",
+   "ajuste": "H8/u7 con el cuerpo de prensa de la tapa",
+   "capaDato": "dis",
+   "features": [
+    {
+     "id": "f1",
+     "name": "Cañería Ø48.26 pared 3.68; contrataladro Ø44 H8 × 14 en ambas testas",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e0_0",
+        "type": "line",
+        "a": [
+         0,
+         22.5
+        ],
+        "b": [
+         0.5,
+         22
+        ]
+       },
+       {
+        "id": "e0_1",
+        "type": "line",
+        "a": [
+         0.5,
+         22
+        ],
+        "b": [
+         14,
+         22
+        ]
+       },
+       {
+        "id": "e0_2",
+        "type": "line",
+        "a": [
+         14,
+         22
+        ],
+        "b": [
+         14,
+         20.47
+        ]
+       },
+       {
+        "id": "e0_3",
+        "type": "line",
+        "a": [
+         14,
+         20.47
+        ],
+        "b": [
+         508,
+         20.47
+        ]
+       },
+       {
+        "id": "e0_4",
+        "type": "line",
+        "a": [
+         508,
+         20.47
+        ],
+        "b": [
+         508,
+         22
+        ]
+       },
+       {
+        "id": "e0_5",
+        "type": "line",
+        "a": [
+         508,
+         22
+        ],
+        "b": [
+         521.5,
+         22
+        ]
+       },
+       {
+        "id": "e0_6",
+        "type": "line",
+        "a": [
+         521.5,
+         22
+        ],
+        "b": [
+         522,
+         22.5
+        ]
+       },
+       {
+        "id": "e0_7",
+        "type": "line",
+        "a": [
+         522,
+         22.5
+        ],
+        "b": [
+         522,
+         24.13
+        ]
+       },
+       {
+        "id": "e0_8",
+        "type": "line",
+        "a": [
+         522,
+         24.13
+        ],
+        "b": [
+         0,
+         24.13
+        ]
+       },
+       {
+        "id": "e0_9",
+        "type": "line",
+        "a": [
+         0,
+         24.13
+        ],
+        "b": [
+         0,
+         22.5
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p2_plano_eje_pasante_12_g6_553_con_2_caras_planas_e_c_11",
+   "name": "PLANO · Eje pasante Ø12 g6 × 553 con 2 caras planas e/c 11",
+   "color": "#9aa4b2",
+   "pos": [
+    -10.5,
+    0,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "material": "SAE 1045 trefilado Ø12 h11 en barra de 6 m, rectificado a g6 en 40 mm de cada punta",
+   "gira": false,
+   "nota": "las caras planas son el seguro antigiro en la ranura del larguero; el aro interior va con ajuste g6 porque debe DESLIZAR (carga estacionaria sobre el aro interior, NTN tabla 7.2(1)). La barra se compra trefilada h11 en 6 m y se rectifica a g6 sólo en los 40 mm de cada punta, que es el tramo que recorre el aro interior",
+   "capaDato": "req",
+   "features": [
+    {
+     "id": "f2",
+     "name": "Barra Ø12 h11 × 553 (rectificada a g6 en 40 de cada punta)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 553
+     }
+    },
+    {
+     "id": "f3",
+     "name": "Cara plana superior e/c 11 × 12 (izq)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      6,
+      0,
+      5.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 12,
+      "d": 16,
+      "h": 6
+     }
+    },
+    {
+     "id": "f4",
+     "name": "Cara plana inferior e/c 11 × 12 (izq)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      6,
+      0,
+      -11.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 12,
+      "d": 16,
+      "h": 6
+     }
+    },
+    {
+     "id": "f5",
+     "name": "Cara plana superior e/c 11 × 12 (der)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      547,
+      0,
+      5.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 12,
+      "d": 16,
+      "h": 6
+     }
+    },
+    {
+     "id": "f6",
+     "name": "Cara plana inferior e/c 11 × 12 (der)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      547,
+      0,
+      -11.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 12,
+      "d": 16,
+      "h": 6
+     }
+    },
+    {
+     "id": "f7",
+     "name": "Garganta anillo Ø11.5 × 1.1 (izq)",
+     "shape": "revolve",
+     "op": "cut",
+     "at": [
+      49.5,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e6_0",
+        "type": "line",
+        "a": [
+         0,
+         5.75
+        ],
+        "b": [
+         0,
+         7
+        ]
+       },
+       {
+        "id": "e6_1",
+        "type": "line",
+        "a": [
+         0,
+         7
+        ],
+        "b": [
+         1.1,
+         7
+        ]
+       },
+       {
+        "id": "e6_2",
+        "type": "line",
+        "a": [
+         1.1,
+         7
+        ],
+        "b": [
+         1.1,
+         5.75
+        ]
+       },
+       {
+        "id": "e6_3",
+        "type": "line",
+        "a": [
+         1.1,
+         5.75
+        ],
+        "b": [
+         0,
+         5.75
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f8",
+     "name": "Garganta anillo Ø11.5 × 1.1 (der)",
+     "shape": "revolve",
+     "op": "cut",
+     "at": [
+      502.4,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e7_0",
+        "type": "line",
+        "a": [
+         0,
+         5.75
+        ],
+        "b": [
+         0,
+         7
+        ]
+       },
+       {
+        "id": "e7_1",
+        "type": "line",
+        "a": [
+         0,
+         7
+        ],
+        "b": [
+         1.1,
+         7
+        ]
+       },
+       {
+        "id": "e7_2",
+        "type": "line",
+        "a": [
+         1.1,
+         7
+        ],
+        "b": [
+         1.1,
+         5.75
+        ]
+       },
+       {
+        "id": "e7_3",
+        "type": "line",
+        "a": [
+         1.1,
+         5.75
+        ],
+        "b": [
+         0,
+         5.75
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p3_plano_tapa_portarodamiento_44_32_14_5_izq",
+   "name": "PLANO · Tapa portarodamiento Ø44/Ø32 × 14.5 (izq)",
+   "color": "#6b7f94",
+   "pos": [
+    0.5,
+    0,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "SKPB4812-2.0",
+   "material": "acero al carbono embutido zincado (catálogo) — alt. SAE 1020 torneado",
+   "ajuste": "prensado Ø44 u7 en el contrataladro H8 del tubo; alojamiento Ø32 M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)",
+   "nota": "portarodamiento de catálogo SKPB4812-2.0 (brida F=48, prensa D=44, alojamiento D2=32). El largo 14.5 sale de medir en píxeles el croquis Type 1 de la lámina (ver ESCALA.md); verificar contra la pieza comprada.",
+   "capaDato": "cat",
+   "features": [
+    {
+     "id": "f9",
+     "name": "Brida Ø48, cuerpo de prensa Ø44, alojamiento Ø32 con hombro Ø28",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e8_0",
+        "type": "line",
+        "a": [
+         0,
+         7
+        ],
+        "b": [
+         0,
+         11
+        ]
+       },
+       {
+        "id": "e8_1",
+        "type": "line",
+        "a": [
+         0,
+         11
+        ],
+        "b": [
+         1,
+         13.5
+        ]
+       },
+       {
+        "id": "e8_2",
+        "type": "line",
+        "a": [
+         1,
+         13.5
+        ],
+        "b": [
+         2.4,
+         18
+        ]
+       },
+       {
+        "id": "e8_3",
+        "type": "line",
+        "a": [
+         2.4,
+         18
+        ],
+        "b": [
+         3.6,
+         22.4
+        ]
+       },
+       {
+        "id": "e8_4",
+        "type": "line",
+        "a": [
+         3.6,
+         22.4
+        ],
+        "b": [
+         4.5,
+         24
+        ]
+       },
+       {
+        "id": "e8_5",
+        "type": "line",
+        "a": [
+         4.5,
+         24
+        ],
+        "b": [
+         4.5,
+         22
+        ]
+       },
+       {
+        "id": "e8_6",
+        "type": "line",
+        "a": [
+         4.5,
+         22
+        ],
+        "b": [
+         14.5,
+         22
+        ]
+       },
+       {
+        "id": "e8_7",
+        "type": "line",
+        "a": [
+         14.5,
+         22
+        ],
+        "b": [
+         14.5,
+         19.5
+        ]
+       },
+       {
+        "id": "e8_8",
+        "type": "line",
+        "a": [
+         14.5,
+         19.5
+        ],
+        "b": [
+         12.5,
+         19.5
+        ]
+       },
+       {
+        "id": "e8_9",
+        "type": "line",
+        "a": [
+         12.5,
+         19.5
+        ],
+        "b": [
+         12.5,
+         16
+        ]
+       },
+       {
+        "id": "e8_10",
+        "type": "line",
+        "a": [
+         12.5,
+         16
+        ],
+        "b": [
+         2.5,
+         16
+        ]
+       },
+       {
+        "id": "e8_11",
+        "type": "line",
+        "a": [
+         2.5,
+         16
+        ],
+        "b": [
+         2.5,
+         14
+        ]
+       },
+       {
+        "id": "e8_12",
+        "type": "line",
+        "a": [
+         2.5,
+         14
+        ],
+        "b": [
+         1.5,
+         14
+        ]
+       },
+       {
+        "id": "e8_13",
+        "type": "line",
+        "a": [
+         1.5,
+         14
+        ],
+        "b": [
+         1.5,
+         7
+        ]
+       },
+       {
+        "id": "e8_14",
+        "type": "line",
+        "a": [
+         1.5,
+         7
+        ],
+        "b": [
+         0,
+         7
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p4_plano_rodamiento_6201_2z_12_32_10",
+   "name": "PLANO · Rodamiento 6201-2Z (12×32×10)",
+   "color": "#7e57c2",
+   "pos": [
+    3,
+    0,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_12x32x10",
+   "features": [
+    {
+     "id": "f10",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e9_0",
+        "type": "line",
+        "a": [
+         0,
+         13.2
+        ],
+        "b": [
+         0,
+         16
+        ]
+       },
+       {
+        "id": "e9_1",
+        "type": "line",
+        "a": [
+         0,
+         16
+        ],
+        "b": [
+         10,
+         16
+        ]
+       },
+       {
+        "id": "e9_2",
+        "type": "line",
+        "a": [
+         10,
+         16
+        ],
+        "b": [
+         10,
+         13.2
+        ]
+       },
+       {
+        "id": "e9_3",
+        "type": "line",
+        "a": [
+         10,
+         13.2
+        ],
+        "b": [
+         0,
+         13.2
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f11",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e10_0",
+        "type": "line",
+        "a": [
+         0,
+         6
+        ],
+        "b": [
+         0,
+         8.8
+        ]
+       },
+       {
+        "id": "e10_1",
+        "type": "line",
+        "a": [
+         0,
+         8.8
+        ],
+        "b": [
+         10,
+         8.8
+        ]
+       },
+       {
+        "id": "e10_2",
+        "type": "line",
+        "a": [
+         10,
+         8.8
+        ],
+        "b": [
+         10,
+         6
+        ]
+       },
+       {
+        "id": "e10_3",
+        "type": "line",
+        "a": [
+         10,
+         6
+        ],
+        "b": [
+         0,
+         6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f12",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e11_0",
+        "type": "line",
+        "a": [
+         1.2,
+         8.8
+        ],
+        "b": [
+         1.2,
+         13.2
+        ]
+       },
+       {
+        "id": "e11_1",
+        "type": "line",
+        "a": [
+         1.2,
+         13.2
+        ],
+        "b": [
+         8.8,
+         13.2
+        ]
+       },
+       {
+        "id": "e11_2",
+        "type": "line",
+        "a": [
+         8.8,
+         13.2
+        ],
+        "b": [
+         8.8,
+         8.8
+        ]
+       },
+       {
+        "id": "e11_3",
+        "type": "line",
+        "a": [
+         8.8,
+         8.8
+        ],
+        "b": [
+         1.2,
+         8.8
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p5_plano_anillo_retencion_asiento_de_resorte_12",
+   "name": "PLANO · Anillo retención asiento de resorte Ø12",
+   "color": "#1e88a8",
+   "pos": [
+    39.05,
+    0,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 471 / ASME B27.7",
+   "features": [
+    {
+     "id": "f13",
+     "name": "Anillo DIN 471 Ø12",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e12_0",
+        "type": "line",
+        "a": [
+         0,
+         5.4
+        ],
+        "b": [
+         0,
+         8.4
+        ]
+       },
+       {
+        "id": "e12_1",
+        "type": "line",
+        "a": [
+         0,
+         8.4
+        ],
+        "b": [
+         1,
+         8.4
+        ]
+       },
+       {
+        "id": "e12_2",
+        "type": "line",
+        "a": [
+         1,
+         8.4
+        ],
+        "b": [
+         1,
+         5.4
+        ]
+       },
+       {
+        "id": "e12_3",
+        "type": "line",
+        "a": [
+         1,
+         5.4
+        ],
+        "b": [
+         0,
+         5.4
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p6_plano_resorte_de_compresion_18_1_4_l0_32_izq",
+   "name": "PLANO · Resorte de compresión Ø18×1.4 L0=32 (izq)",
+   "color": "#d5b46a",
+   "pos": [
+    13,
+    0,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "alambre de acero para resortes ASTM A228",
+   "nota": "L0=32, montado 26, bloque 10.5; empuja el eje hacia el extremo derecho",
+   "capaDato": "dis",
+   "features": [
+    {
+     "id": "f14",
+     "name": "Espira 1/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e13_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e13_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e13_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e13_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f15",
+     "name": "Espira 2/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      3.469999999999999,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e14_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e14_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e14_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e14_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f16",
+     "name": "Espira 3/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      6.93,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e15_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e15_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e15_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e15_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f17",
+     "name": "Espira 4/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      10.399999999999999,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e16_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e16_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e16_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e16_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f18",
+     "name": "Espira 5/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      13.870000000000001,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e17_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e17_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e17_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e17_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f19",
+     "name": "Espira 6/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      17.33,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e18_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e18_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e18_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e18_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f20",
+     "name": "Espira 7/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      20.799999999999997,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e19_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e19_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e19_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e19_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f21",
+     "name": "Espira 8/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      24.270000000000003,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e20_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e20_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e20_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e20_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p7_plano_tapa_portarodamiento_44_32_14_5_der",
+   "name": "PLANO · Tapa portarodamiento Ø44/Ø32 × 14.5 (der)",
+   "color": "#6b7f94",
+   "pos": [
+    517,
+    0,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "SKPB4812-2.0",
+   "material": "acero al carbono embutido zincado (catálogo) — alt. SAE 1020 torneado",
+   "ajuste": "prensado Ø44 u7 en el contrataladro H8 del tubo; alojamiento Ø32 M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)",
+   "nota": "portarodamiento de catálogo SKPB4812-2.0 (brida F=48, prensa D=44, alojamiento D2=32). El largo 14.5 sale de medir en píxeles el croquis Type 1 de la lámina (ver ESCALA.md); verificar contra la pieza comprada.",
+   "capaDato": "cat",
+   "features": [
+    {
+     "id": "f22",
+     "name": "Brida Ø48, cuerpo de prensa Ø44, alojamiento Ø32 con hombro Ø28",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e21_0",
+        "type": "line",
+        "a": [
+         14.5,
+         7
+        ],
+        "b": [
+         14.5,
+         11
+        ]
+       },
+       {
+        "id": "e21_1",
+        "type": "line",
+        "a": [
+         14.5,
+         11
+        ],
+        "b": [
+         13.5,
+         13.5
+        ]
+       },
+       {
+        "id": "e21_2",
+        "type": "line",
+        "a": [
+         13.5,
+         13.5
+        ],
+        "b": [
+         12.1,
+         18
+        ]
+       },
+       {
+        "id": "e21_3",
+        "type": "line",
+        "a": [
+         12.1,
+         18
+        ],
+        "b": [
+         10.9,
+         22.4
+        ]
+       },
+       {
+        "id": "e21_4",
+        "type": "line",
+        "a": [
+         10.9,
+         22.4
+        ],
+        "b": [
+         10,
+         24
+        ]
+       },
+       {
+        "id": "e21_5",
+        "type": "line",
+        "a": [
+         10,
+         24
+        ],
+        "b": [
+         10,
+         22
+        ]
+       },
+       {
+        "id": "e21_6",
+        "type": "line",
+        "a": [
+         10,
+         22
+        ],
+        "b": [
+         0,
+         22
+        ]
+       },
+       {
+        "id": "e21_7",
+        "type": "line",
+        "a": [
+         0,
+         22
+        ],
+        "b": [
+         0,
+         19.5
+        ]
+       },
+       {
+        "id": "e21_8",
+        "type": "line",
+        "a": [
+         0,
+         19.5
+        ],
+        "b": [
+         2,
+         19.5
+        ]
+       },
+       {
+        "id": "e21_9",
+        "type": "line",
+        "a": [
+         2,
+         19.5
+        ],
+        "b": [
+         2,
+         16
+        ]
+       },
+       {
+        "id": "e21_10",
+        "type": "line",
+        "a": [
+         2,
+         16
+        ],
+        "b": [
+         12,
+         16
+        ]
+       },
+       {
+        "id": "e21_11",
+        "type": "line",
+        "a": [
+         12,
+         16
+        ],
+        "b": [
+         12,
+         14
+        ]
+       },
+       {
+        "id": "e21_12",
+        "type": "line",
+        "a": [
+         12,
+         14
+        ],
+        "b": [
+         13,
+         14
+        ]
+       },
+       {
+        "id": "e21_13",
+        "type": "line",
+        "a": [
+         13,
+         14
+        ],
+        "b": [
+         13,
+         7
+        ]
+       },
+       {
+        "id": "e21_14",
+        "type": "line",
+        "a": [
+         13,
+         7
+        ],
+        "b": [
+         14.5,
+         7
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p8_plano_rodamiento_6201_2z_12_32_10",
+   "name": "PLANO · Rodamiento 6201-2Z (12×32×10)",
+   "color": "#7e57c2",
+   "pos": [
+    519,
+    0,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_12x32x10",
+   "features": [
+    {
+     "id": "f23",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e22_0",
+        "type": "line",
+        "a": [
+         0,
+         13.2
+        ],
+        "b": [
+         0,
+         16
+        ]
+       },
+       {
+        "id": "e22_1",
+        "type": "line",
+        "a": [
+         0,
+         16
+        ],
+        "b": [
+         10,
+         16
+        ]
+       },
+       {
+        "id": "e22_2",
+        "type": "line",
+        "a": [
+         10,
+         16
+        ],
+        "b": [
+         10,
+         13.2
+        ]
+       },
+       {
+        "id": "e22_3",
+        "type": "line",
+        "a": [
+         10,
+         13.2
+        ],
+        "b": [
+         0,
+         13.2
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f24",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e23_0",
+        "type": "line",
+        "a": [
+         0,
+         6
+        ],
+        "b": [
+         0,
+         8.8
+        ]
+       },
+       {
+        "id": "e23_1",
+        "type": "line",
+        "a": [
+         0,
+         8.8
+        ],
+        "b": [
+         10,
+         8.8
+        ]
+       },
+       {
+        "id": "e23_2",
+        "type": "line",
+        "a": [
+         10,
+         8.8
+        ],
+        "b": [
+         10,
+         6
+        ]
+       },
+       {
+        "id": "e23_3",
+        "type": "line",
+        "a": [
+         10,
+         6
+        ],
+        "b": [
+         0,
+         6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f25",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e24_0",
+        "type": "line",
+        "a": [
+         1.2,
+         8.8
+        ],
+        "b": [
+         1.2,
+         13.2
+        ]
+       },
+       {
+        "id": "e24_1",
+        "type": "line",
+        "a": [
+         1.2,
+         13.2
+        ],
+        "b": [
+         8.8,
+         13.2
+        ]
+       },
+       {
+        "id": "e24_2",
+        "type": "line",
+        "a": [
+         8.8,
+         13.2
+        ],
+        "b": [
+         8.8,
+         8.8
+        ]
+       },
+       {
+        "id": "e24_3",
+        "type": "line",
+        "a": [
+         8.8,
+         8.8
+        ],
+        "b": [
+         1.2,
+         8.8
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p9_plano_anillo_retencion_asiento_de_resorte_12",
+   "name": "PLANO · Anillo retención asiento de resorte Ø12",
+   "color": "#1e88a8",
+   "pos": [
+    491.95,
+    0,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 471 / ASME B27.7",
+   "features": [
+    {
+     "id": "f26",
+     "name": "Anillo DIN 471 Ø12",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e25_0",
+        "type": "line",
+        "a": [
+         0,
+         5.4
+        ],
+        "b": [
+         0,
+         8.4
+        ]
+       },
+       {
+        "id": "e25_1",
+        "type": "line",
+        "a": [
+         0,
+         8.4
+        ],
+        "b": [
+         1,
+         8.4
+        ]
+       },
+       {
+        "id": "e25_2",
+        "type": "line",
+        "a": [
+         1,
+         8.4
+        ],
+        "b": [
+         1,
+         5.4
+        ]
+       },
+       {
+        "id": "e25_3",
+        "type": "line",
+        "a": [
+         1,
+         5.4
+        ],
+        "b": [
+         0,
+         5.4
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p10_plano_resorte_de_compresion_18_1_4_l0_32_der",
+   "name": "PLANO · Resorte de compresión Ø18×1.4 L0=32 (der)",
+   "color": "#d5b46a",
+   "pos": [
+    493,
+    0,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "alambre de acero para resortes ASTM A228",
+   "nota": "L0=32, montado 26, bloque 10.5; empuja el eje hacia el extremo izquierdo",
+   "capaDato": "dis",
+   "features": [
+    {
+     "id": "f27",
+     "name": "Espira 1/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e26_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e26_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e26_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e26_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f28",
+     "name": "Espira 2/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      3.4700000000000273,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e27_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e27_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e27_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e27_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f29",
+     "name": "Espira 3/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      6.930000000000007,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e28_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e28_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e28_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e28_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f30",
+     "name": "Espira 4/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      10.399999999999977,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e29_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e29_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e29_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e29_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f31",
+     "name": "Espira 5/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      13.870000000000005,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e30_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e30_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e30_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e30_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f32",
+     "name": "Espira 6/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      17.329999999999984,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e31_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e31_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e31_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e31_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f33",
+     "name": "Espira 7/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      20.799999999999955,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e32_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e32_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e32_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e32_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f34",
+     "name": "Espira 8/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      24.269999999999982,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e33_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e33_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e33_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e33_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p11_conico_tubo_sch40_nps_1_1_2_pulg_48_26_3_68_522_conico",
+   "name": "CÓNICO · Tubo SCH40 NPS 1-1/2 pulg Ø48.26×3.68 × 522 (cónico)",
+   "color": "#b0bec5",
+   "pos": [
+    5,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "material": "cañería ASTM A53 Gr.B / ASME B36.10M — NPS 1-1/2 pulg, Schedule 40",
+   "mecanizado": "refrentar a 522 ±0.2 (escuadra 0.1) y contrataladrar Ø44 H8 × 14 en ambos extremos, Ra ≤ 3.2; eliminar el cordón interior de la costura en esa zona",
+   "ajuste": "H8/u7 con el cuerpo de prensa de la tapa",
+   "capaDato": "dis",
+   "features": [
+    {
+     "id": "f35",
+     "name": "Cañería Ø48.26 pared 3.68; contrataladro Ø44 H8 × 14 en ambas testas",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e34_0",
+        "type": "line",
+        "a": [
+         0,
+         22.5
+        ],
+        "b": [
+         0.5,
+         22
+        ]
+       },
+       {
+        "id": "e34_1",
+        "type": "line",
+        "a": [
+         0.5,
+         22
+        ],
+        "b": [
+         14,
+         22
+        ]
+       },
+       {
+        "id": "e34_2",
+        "type": "line",
+        "a": [
+         14,
+         22
+        ],
+        "b": [
+         14,
+         20.47
+        ]
+       },
+       {
+        "id": "e34_3",
+        "type": "line",
+        "a": [
+         14,
+         20.47
+        ],
+        "b": [
+         508,
+         20.47
+        ]
+       },
+       {
+        "id": "e34_4",
+        "type": "line",
+        "a": [
+         508,
+         20.47
+        ],
+        "b": [
+         508,
+         22
+        ]
+       },
+       {
+        "id": "e34_5",
+        "type": "line",
+        "a": [
+         508,
+         22
+        ],
+        "b": [
+         521.5,
+         22
+        ]
+       },
+       {
+        "id": "e34_6",
+        "type": "line",
+        "a": [
+         521.5,
+         22
+        ],
+        "b": [
+         522,
+         22.5
+        ]
+       },
+       {
+        "id": "e34_7",
+        "type": "line",
+        "a": [
+         522,
+         22.5
+        ],
+        "b": [
+         522,
+         24.13
+        ]
+       },
+       {
+        "id": "e34_8",
+        "type": "line",
+        "a": [
+         522,
+         24.13
+        ],
+        "b": [
+         0,
+         24.13
+        ]
+       },
+       {
+        "id": "e34_9",
+        "type": "line",
+        "a": [
+         0,
+         24.13
+        ],
+        "b": [
+         0,
+         22.5
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p12_conico_eje_pasante_12_g6_553_con_2_caras_planas_e_c_11_conic",
+   "name": "CÓNICO · Eje pasante Ø12 g6 × 553 con 2 caras planas e/c 11 (cónico)",
+   "color": "#9aa4b2",
+   "pos": [
+    -10.5,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "material": "SAE 1045 trefilado Ø12 h11 en barra de 6 m, rectificado a g6 en 40 mm de cada punta",
+   "gira": false,
+   "nota": "las caras planas son el seguro antigiro en la ranura del larguero; el aro interior va con ajuste g6 porque debe DESLIZAR (carga estacionaria sobre el aro interior, NTN tabla 7.2(1)). La barra se compra trefilada h11 en 6 m y se rectifica a g6 sólo en los 40 mm de cada punta, que es el tramo que recorre el aro interior",
+   "capaDato": "req",
+   "features": [
+    {
+     "id": "f36",
+     "name": "Barra Ø12 h11 × 553 (rectificada a g6 en 40 de cada punta)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "h": 553
+     }
+    },
+    {
+     "id": "f37",
+     "name": "Cara plana superior e/c 11 × 12 (izq)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      6,
+      0,
+      5.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 12,
+      "d": 16,
+      "h": 6
+     }
+    },
+    {
+     "id": "f38",
+     "name": "Cara plana inferior e/c 11 × 12 (izq)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      6,
+      0,
+      -11.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 12,
+      "d": 16,
+      "h": 6
+     }
+    },
+    {
+     "id": "f39",
+     "name": "Cara plana superior e/c 11 × 12 (der)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      547,
+      0,
+      5.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 12,
+      "d": 16,
+      "h": 6
+     }
+    },
+    {
+     "id": "f40",
+     "name": "Cara plana inferior e/c 11 × 12 (der)",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      547,
+      0,
+      -11.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 12,
+      "d": 16,
+      "h": 6
+     }
+    },
+    {
+     "id": "f41",
+     "name": "Garganta anillo Ø11.5 × 1.1 (izq)",
+     "shape": "revolve",
+     "op": "cut",
+     "at": [
+      49.5,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e40_0",
+        "type": "line",
+        "a": [
+         0,
+         5.75
+        ],
+        "b": [
+         0,
+         7
+        ]
+       },
+       {
+        "id": "e40_1",
+        "type": "line",
+        "a": [
+         0,
+         7
+        ],
+        "b": [
+         1.1,
+         7
+        ]
+       },
+       {
+        "id": "e40_2",
+        "type": "line",
+        "a": [
+         1.1,
+         7
+        ],
+        "b": [
+         1.1,
+         5.75
+        ]
+       },
+       {
+        "id": "e40_3",
+        "type": "line",
+        "a": [
+         1.1,
+         5.75
+        ],
+        "b": [
+         0,
+         5.75
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f42",
+     "name": "Garganta anillo Ø11.5 × 1.1 (der)",
+     "shape": "revolve",
+     "op": "cut",
+     "at": [
+      502.4,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e41_0",
+        "type": "line",
+        "a": [
+         0,
+         5.75
+        ],
+        "b": [
+         0,
+         7
+        ]
+       },
+       {
+        "id": "e41_1",
+        "type": "line",
+        "a": [
+         0,
+         7
+        ],
+        "b": [
+         1.1,
+         7
+        ]
+       },
+       {
+        "id": "e41_2",
+        "type": "line",
+        "a": [
+         1.1,
+         7
+        ],
+        "b": [
+         1.1,
+         5.75
+        ]
+       },
+       {
+        "id": "e41_3",
+        "type": "line",
+        "a": [
+         1.1,
+         5.75
+        ],
+        "b": [
+         0,
+         5.75
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p13_conico_tapa_portarodamiento_44_32_14_5_conico_izq",
+   "name": "CÓNICO · Tapa portarodamiento Ø44/Ø32 × 14.5 (cónico, izq)",
+   "color": "#6b7f94",
+   "pos": [
+    0.5,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "SKPB4812-2.0",
+   "material": "acero al carbono embutido zincado (catálogo) — alt. SAE 1020 torneado",
+   "ajuste": "prensado Ø44 u7 en el contrataladro H8 del tubo; alojamiento Ø32 M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)",
+   "nota": "portarodamiento de catálogo SKPB4812-2.0 (brida F=48, prensa D=44, alojamiento D2=32). El largo 14.5 sale de medir en píxeles el croquis Type 1 de la lámina (ver ESCALA.md); verificar contra la pieza comprada.",
+   "capaDato": "cat",
+   "features": [
+    {
+     "id": "f43",
+     "name": "Brida Ø48, cuerpo de prensa Ø44, alojamiento Ø32 con hombro Ø28",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e42_0",
+        "type": "line",
+        "a": [
+         0,
+         7
+        ],
+        "b": [
+         0,
+         11
+        ]
+       },
+       {
+        "id": "e42_1",
+        "type": "line",
+        "a": [
+         0,
+         11
+        ],
+        "b": [
+         1,
+         13.5
+        ]
+       },
+       {
+        "id": "e42_2",
+        "type": "line",
+        "a": [
+         1,
+         13.5
+        ],
+        "b": [
+         2.4,
+         18
+        ]
+       },
+       {
+        "id": "e42_3",
+        "type": "line",
+        "a": [
+         2.4,
+         18
+        ],
+        "b": [
+         3.6,
+         22.4
+        ]
+       },
+       {
+        "id": "e42_4",
+        "type": "line",
+        "a": [
+         3.6,
+         22.4
+        ],
+        "b": [
+         4.5,
+         24
+        ]
+       },
+       {
+        "id": "e42_5",
+        "type": "line",
+        "a": [
+         4.5,
+         24
+        ],
+        "b": [
+         4.5,
+         22
+        ]
+       },
+       {
+        "id": "e42_6",
+        "type": "line",
+        "a": [
+         4.5,
+         22
+        ],
+        "b": [
+         14.5,
+         22
+        ]
+       },
+       {
+        "id": "e42_7",
+        "type": "line",
+        "a": [
+         14.5,
+         22
+        ],
+        "b": [
+         14.5,
+         19.5
+        ]
+       },
+       {
+        "id": "e42_8",
+        "type": "line",
+        "a": [
+         14.5,
+         19.5
+        ],
+        "b": [
+         12.5,
+         19.5
+        ]
+       },
+       {
+        "id": "e42_9",
+        "type": "line",
+        "a": [
+         12.5,
+         19.5
+        ],
+        "b": [
+         12.5,
+         16
+        ]
+       },
+       {
+        "id": "e42_10",
+        "type": "line",
+        "a": [
+         12.5,
+         16
+        ],
+        "b": [
+         2.5,
+         16
+        ]
+       },
+       {
+        "id": "e42_11",
+        "type": "line",
+        "a": [
+         2.5,
+         16
+        ],
+        "b": [
+         2.5,
+         14
+        ]
+       },
+       {
+        "id": "e42_12",
+        "type": "line",
+        "a": [
+         2.5,
+         14
+        ],
+        "b": [
+         1.5,
+         14
+        ]
+       },
+       {
+        "id": "e42_13",
+        "type": "line",
+        "a": [
+         1.5,
+         14
+        ],
+        "b": [
+         1.5,
+         7
+        ]
+       },
+       {
+        "id": "e42_14",
+        "type": "line",
+        "a": [
+         1.5,
+         7
+        ],
+        "b": [
+         0,
+         7
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p14_conico_rodamiento_6201_2z_12_32_10",
+   "name": "CÓNICO · Rodamiento 6201-2Z (12×32×10)",
+   "color": "#7e57c2",
+   "pos": [
+    3,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_12x32x10",
+   "features": [
+    {
+     "id": "f44",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e43_0",
+        "type": "line",
+        "a": [
+         0,
+         13.2
+        ],
+        "b": [
+         0,
+         16
+        ]
+       },
+       {
+        "id": "e43_1",
+        "type": "line",
+        "a": [
+         0,
+         16
+        ],
+        "b": [
+         10,
+         16
+        ]
+       },
+       {
+        "id": "e43_2",
+        "type": "line",
+        "a": [
+         10,
+         16
+        ],
+        "b": [
+         10,
+         13.2
+        ]
+       },
+       {
+        "id": "e43_3",
+        "type": "line",
+        "a": [
+         10,
+         13.2
+        ],
+        "b": [
+         0,
+         13.2
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f45",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e44_0",
+        "type": "line",
+        "a": [
+         0,
+         6
+        ],
+        "b": [
+         0,
+         8.8
+        ]
+       },
+       {
+        "id": "e44_1",
+        "type": "line",
+        "a": [
+         0,
+         8.8
+        ],
+        "b": [
+         10,
+         8.8
+        ]
+       },
+       {
+        "id": "e44_2",
+        "type": "line",
+        "a": [
+         10,
+         8.8
+        ],
+        "b": [
+         10,
+         6
+        ]
+       },
+       {
+        "id": "e44_3",
+        "type": "line",
+        "a": [
+         10,
+         6
+        ],
+        "b": [
+         0,
+         6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f46",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e45_0",
+        "type": "line",
+        "a": [
+         1.2,
+         8.8
+        ],
+        "b": [
+         1.2,
+         13.2
+        ]
+       },
+       {
+        "id": "e45_1",
+        "type": "line",
+        "a": [
+         1.2,
+         13.2
+        ],
+        "b": [
+         8.8,
+         13.2
+        ]
+       },
+       {
+        "id": "e45_2",
+        "type": "line",
+        "a": [
+         8.8,
+         13.2
+        ],
+        "b": [
+         8.8,
+         8.8
+        ]
+       },
+       {
+        "id": "e45_3",
+        "type": "line",
+        "a": [
+         8.8,
+         8.8
+        ],
+        "b": [
+         1.2,
+         8.8
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p15_conico_anillo_retencion_asiento_de_resorte_12",
+   "name": "CÓNICO · Anillo retención asiento de resorte Ø12",
+   "color": "#1e88a8",
+   "pos": [
+    39.05,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 471 / ASME B27.7",
+   "features": [
+    {
+     "id": "f47",
+     "name": "Anillo DIN 471 Ø12",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e46_0",
+        "type": "line",
+        "a": [
+         0,
+         5.4
+        ],
+        "b": [
+         0,
+         8.4
+        ]
+       },
+       {
+        "id": "e46_1",
+        "type": "line",
+        "a": [
+         0,
+         8.4
+        ],
+        "b": [
+         1,
+         8.4
+        ]
+       },
+       {
+        "id": "e46_2",
+        "type": "line",
+        "a": [
+         1,
+         8.4
+        ],
+        "b": [
+         1,
+         5.4
+        ]
+       },
+       {
+        "id": "e46_3",
+        "type": "line",
+        "a": [
+         1,
+         5.4
+        ],
+        "b": [
+         0,
+         5.4
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p16_conico_resorte_de_compresion_18_1_4_l0_32_conico_izq",
+   "name": "CÓNICO · Resorte de compresión Ø18×1.4 L0=32 (cónico, izq)",
+   "color": "#d5b46a",
+   "pos": [
+    13,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "alambre de acero para resortes ASTM A228",
+   "nota": "L0=32, montado 26, bloque 10.5; empuja el eje hacia el extremo derecho",
+   "capaDato": "dis",
+   "features": [
+    {
+     "id": "f48",
+     "name": "Espira 1/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e47_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e47_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e47_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e47_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f49",
+     "name": "Espira 2/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      3.469999999999999,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e48_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e48_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e48_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e48_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f50",
+     "name": "Espira 3/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      6.93,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e49_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e49_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e49_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e49_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f51",
+     "name": "Espira 4/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      10.399999999999999,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e50_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e50_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e50_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e50_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f52",
+     "name": "Espira 5/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      13.870000000000001,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e51_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e51_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e51_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e51_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f53",
+     "name": "Espira 6/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      17.33,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e52_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e52_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e52_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e52_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f54",
+     "name": "Espira 7/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      20.799999999999997,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e53_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e53_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e53_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e53_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f55",
+     "name": "Espira 8/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      24.270000000000003,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e54_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e54_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e54_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e54_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p17_conico_tapa_portarodamiento_44_32_14_5_conico_der",
+   "name": "CÓNICO · Tapa portarodamiento Ø44/Ø32 × 14.5 (cónico, der)",
+   "color": "#6b7f94",
+   "pos": [
+    517,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "componente": "SKPB4812-2.0",
+   "material": "acero al carbono embutido zincado (catálogo) — alt. SAE 1020 torneado",
+   "ajuste": "prensado Ø44 u7 en el contrataladro H8 del tubo; alojamiento Ø32 M7/N7 para el aro exterior (carga rotatoria sobre el aro exterior)",
+   "nota": "portarodamiento de catálogo SKPB4812-2.0 (brida F=48, prensa D=44, alojamiento D2=32). El largo 14.5 sale de medir en píxeles el croquis Type 1 de la lámina (ver ESCALA.md); verificar contra la pieza comprada.",
+   "capaDato": "cat",
+   "features": [
+    {
+     "id": "f56",
+     "name": "Brida Ø48, cuerpo de prensa Ø44, alojamiento Ø32 con hombro Ø28",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e55_0",
+        "type": "line",
+        "a": [
+         14.5,
+         7
+        ],
+        "b": [
+         14.5,
+         11
+        ]
+       },
+       {
+        "id": "e55_1",
+        "type": "line",
+        "a": [
+         14.5,
+         11
+        ],
+        "b": [
+         13.5,
+         13.5
+        ]
+       },
+       {
+        "id": "e55_2",
+        "type": "line",
+        "a": [
+         13.5,
+         13.5
+        ],
+        "b": [
+         12.1,
+         18
+        ]
+       },
+       {
+        "id": "e55_3",
+        "type": "line",
+        "a": [
+         12.1,
+         18
+        ],
+        "b": [
+         10.9,
+         22.4
+        ]
+       },
+       {
+        "id": "e55_4",
+        "type": "line",
+        "a": [
+         10.9,
+         22.4
+        ],
+        "b": [
+         10,
+         24
+        ]
+       },
+       {
+        "id": "e55_5",
+        "type": "line",
+        "a": [
+         10,
+         24
+        ],
+        "b": [
+         10,
+         22
+        ]
+       },
+       {
+        "id": "e55_6",
+        "type": "line",
+        "a": [
+         10,
+         22
+        ],
+        "b": [
+         0,
+         22
+        ]
+       },
+       {
+        "id": "e55_7",
+        "type": "line",
+        "a": [
+         0,
+         22
+        ],
+        "b": [
+         0,
+         19.5
+        ]
+       },
+       {
+        "id": "e55_8",
+        "type": "line",
+        "a": [
+         0,
+         19.5
+        ],
+        "b": [
+         2,
+         19.5
+        ]
+       },
+       {
+        "id": "e55_9",
+        "type": "line",
+        "a": [
+         2,
+         19.5
+        ],
+        "b": [
+         2,
+         16
+        ]
+       },
+       {
+        "id": "e55_10",
+        "type": "line",
+        "a": [
+         2,
+         16
+        ],
+        "b": [
+         12,
+         16
+        ]
+       },
+       {
+        "id": "e55_11",
+        "type": "line",
+        "a": [
+         12,
+         16
+        ],
+        "b": [
+         12,
+         14
+        ]
+       },
+       {
+        "id": "e55_12",
+        "type": "line",
+        "a": [
+         12,
+         14
+        ],
+        "b": [
+         13,
+         14
+        ]
+       },
+       {
+        "id": "e55_13",
+        "type": "line",
+        "a": [
+         13,
+         14
+        ],
+        "b": [
+         13,
+         7
+        ]
+       },
+       {
+        "id": "e55_14",
+        "type": "line",
+        "a": [
+         13,
+         7
+        ],
+        "b": [
+         14.5,
+         7
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p18_conico_rodamiento_6201_2z_12_32_10",
+   "name": "CÓNICO · Rodamiento 6201-2Z (12×32×10)",
+   "color": "#7e57c2",
+   "pos": [
+    519,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "componente": "rodamiento_12x32x10",
+   "features": [
+    {
+     "id": "f57",
+     "name": "Aro exterior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e56_0",
+        "type": "line",
+        "a": [
+         0,
+         13.2
+        ],
+        "b": [
+         0,
+         16
+        ]
+       },
+       {
+        "id": "e56_1",
+        "type": "line",
+        "a": [
+         0,
+         16
+        ],
+        "b": [
+         10,
+         16
+        ]
+       },
+       {
+        "id": "e56_2",
+        "type": "line",
+        "a": [
+         10,
+         16
+        ],
+        "b": [
+         10,
+         13.2
+        ]
+       },
+       {
+        "id": "e56_3",
+        "type": "line",
+        "a": [
+         10,
+         13.2
+        ],
+        "b": [
+         0,
+         13.2
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f58",
+     "name": "Aro interior",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e57_0",
+        "type": "line",
+        "a": [
+         0,
+         6
+        ],
+        "b": [
+         0,
+         8.8
+        ]
+       },
+       {
+        "id": "e57_1",
+        "type": "line",
+        "a": [
+         0,
+         8.8
+        ],
+        "b": [
+         10,
+         8.8
+        ]
+       },
+       {
+        "id": "e57_2",
+        "type": "line",
+        "a": [
+         10,
+         8.8
+        ],
+        "b": [
+         10,
+         6
+        ]
+       },
+       {
+        "id": "e57_3",
+        "type": "line",
+        "a": [
+         10,
+         6
+        ],
+        "b": [
+         0,
+         6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f59",
+     "name": "Sello 2RS",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e58_0",
+        "type": "line",
+        "a": [
+         1.2,
+         8.8
+        ],
+        "b": [
+         1.2,
+         13.2
+        ]
+       },
+       {
+        "id": "e58_1",
+        "type": "line",
+        "a": [
+         1.2,
+         13.2
+        ],
+        "b": [
+         8.8,
+         13.2
+        ]
+       },
+       {
+        "id": "e58_2",
+        "type": "line",
+        "a": [
+         8.8,
+         13.2
+        ],
+        "b": [
+         8.8,
+         8.8
+        ]
+       },
+       {
+        "id": "e58_3",
+        "type": "line",
+        "a": [
+         8.8,
+         8.8
+        ],
+        "b": [
+         1.2,
+         8.8
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p19_conico_anillo_retencion_asiento_de_resorte_12",
+   "name": "CÓNICO · Anillo retención asiento de resorte Ø12",
+   "color": "#1e88a8",
+   "pos": [
+    491.95,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "DIN 471 / ASME B27.7",
+   "features": [
+    {
+     "id": "f60",
+     "name": "Anillo DIN 471 Ø12",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e59_0",
+        "type": "line",
+        "a": [
+         0,
+         5.4
+        ],
+        "b": [
+         0,
+         8.4
+        ]
+       },
+       {
+        "id": "e59_1",
+        "type": "line",
+        "a": [
+         0,
+         8.4
+        ],
+        "b": [
+         1,
+         8.4
+        ]
+       },
+       {
+        "id": "e59_2",
+        "type": "line",
+        "a": [
+         1,
+         8.4
+        ],
+        "b": [
+         1,
+         5.4
+        ]
+       },
+       {
+        "id": "e59_3",
+        "type": "line",
+        "a": [
+         1,
+         5.4
+        ],
+        "b": [
+         0,
+         5.4
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p20_conico_resorte_de_compresion_18_1_4_l0_32_conico_der",
+   "name": "CÓNICO · Resorte de compresión Ø18×1.4 L0=32 (cónico, der)",
+   "color": "#d5b46a",
+   "pos": [
+    493,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "hardware": true,
+   "norma": "alambre de acero para resortes ASTM A228",
+   "nota": "L0=32, montado 26, bloque 10.5; empuja el eje hacia el extremo izquierdo",
+   "capaDato": "dis",
+   "features": [
+    {
+     "id": "f61",
+     "name": "Espira 1/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e60_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e60_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e60_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e60_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f62",
+     "name": "Espira 2/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      3.4700000000000273,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e61_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e61_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e61_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e61_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f63",
+     "name": "Espira 3/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      6.930000000000007,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e62_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e62_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e62_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e62_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f64",
+     "name": "Espira 4/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      10.399999999999977,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e63_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e63_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e63_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e63_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f65",
+     "name": "Espira 5/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      13.870000000000005,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e64_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e64_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e64_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e64_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f66",
+     "name": "Espira 6/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      17.329999999999984,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e65_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e65_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e65_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e65_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f67",
+     "name": "Espira 7/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      20.799999999999955,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e66_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e66_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e66_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e66_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    },
+    {
+     "id": "f68",
+     "name": "Espira 8/8 Ø1.4",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      24.269999999999982,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e67_0",
+        "type": "line",
+        "a": [
+         0,
+         7.6
+        ],
+        "b": [
+         0,
+         9
+        ]
+       },
+       {
+        "id": "e67_1",
+        "type": "line",
+        "a": [
+         0,
+         9
+        ],
+        "b": [
+         1.4,
+         9
+        ]
+       },
+       {
+        "id": "e67_2",
+        "type": "line",
+        "a": [
+         1.4,
+         9
+        ],
+        "b": [
+         1.4,
+         7.6
+        ]
+       },
+       {
+        "id": "e67_3",
+        "type": "line",
+        "a": [
+         1.4,
+         7.6
+        ],
+        "b": [
+         0,
+         7.6
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p21_conico_camisa_conica_1_3_55_6_66_23_169_pared_4_barreno_48_5",
+   "name": "CÓNICO · Camisa cónica 1/3 Ø55.6→Ø66.23 × 169 (pared 4, barreno Ø48.5)",
+   "color": "#e0b040",
+   "pos": [
+    20,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "material": "PA6 negro antiestático (catálogo) — impreso: PA6-CF / PA12-CF",
+   "ajuste": "barreno Ø48.5 deslizante sobre la cañería Ø48.26; se fija con adhesivo anaeróbico de retención y 2 prisioneros M5 en la camisa mayor",
+   "nota": "cono único k=0.06289 (Ø crece 62.89 µm por mm); la pila queda atrapada axialmente entre las bridas de las dos tapas",
+   "capaDato": "cat",
+   "features": [
+    {
+     "id": "f69",
+     "name": "Cáscara cónica Ø55.6→Ø66.23, cubos Ø48.5 × 10",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e68_0",
+        "type": "line",
+        "a": [
+         0,
+         24.25
+        ],
+        "b": [
+         0,
+         27.8
+        ]
+       },
+       {
+        "id": "e68_1",
+        "type": "line",
+        "a": [
+         0,
+         27.8
+        ],
+        "b": [
+         168.8,
+         33.11
+        ]
+       },
+       {
+        "id": "e68_2",
+        "type": "line",
+        "a": [
+         168.8,
+         33.11
+        ],
+        "b": [
+         168.8,
+         24.25
+        ]
+       },
+       {
+        "id": "e68_3",
+        "type": "line",
+        "a": [
+         168.8,
+         24.25
+        ],
+        "b": [
+         158.8,
+         24.25
+        ]
+       },
+       {
+        "id": "e68_4",
+        "type": "line",
+        "a": [
+         158.8,
+         24.25
+        ],
+        "b": [
+         158.8,
+         28.79
+        ]
+       },
+       {
+        "id": "e68_5",
+        "type": "line",
+        "a": [
+         158.8,
+         28.79
+        ],
+        "b": [
+         134,
+         28.01
+        ]
+       },
+       {
+        "id": "e68_6",
+        "type": "line",
+        "a": [
+         134,
+         28.01
+        ],
+        "b": [
+         109.2,
+         27.23
+        ]
+       },
+       {
+        "id": "e68_7",
+        "type": "line",
+        "a": [
+         109.2,
+         27.23
+        ],
+        "b": [
+         84.4,
+         26.45
+        ]
+       },
+       {
+        "id": "e68_8",
+        "type": "line",
+        "a": [
+         84.4,
+         26.45
+        ],
+        "b": [
+         59.6,
+         25.67
+        ]
+       },
+       {
+        "id": "e68_9",
+        "type": "line",
+        "a": [
+         59.6,
+         25.67
+        ],
+        "b": [
+         34.8,
+         24.89
+        ]
+       },
+       {
+        "id": "e68_10",
+        "type": "line",
+        "a": [
+         34.8,
+         24.89
+        ],
+        "b": [
+         10,
+         24.25
+        ]
+       },
+       {
+        "id": "e68_11",
+        "type": "line",
+        "a": [
+         10,
+         24.25
+        ],
+        "b": [
+         10,
+         24.25
+        ]
+       },
+       {
+        "id": "e68_12",
+        "type": "line",
+        "a": [
+         10,
+         24.25
+        ],
+        "b": [
+         0,
+         24.25
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p22_conico_camisa_conica_2_3_66_23_76_86_169_pared_4_barreno_48_",
+   "name": "CÓNICO · Camisa cónica 2/3 Ø66.23→Ø76.86 × 169 (pared 4, barreno Ø48.5)",
+   "color": "#e0b040",
+   "pos": [
+    189,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "material": "PA6 negro antiestático (catálogo) — impreso: PA6-CF / PA12-CF",
+   "ajuste": "barreno Ø48.5 deslizante sobre la cañería Ø48.26; se fija con adhesivo anaeróbico de retención y 2 prisioneros M5 en la camisa mayor",
+   "nota": "cono único k=0.06289 (Ø crece 62.89 µm por mm); la pila queda atrapada axialmente entre las bridas de las dos tapas",
+   "capaDato": "cat",
+   "features": [
+    {
+     "id": "f70",
+     "name": "Cáscara cónica Ø66.23→Ø76.86, cubos Ø48.5 × 10",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e69_0",
+        "type": "line",
+        "a": [
+         0,
+         24.25
+        ],
+        "b": [
+         0,
+         33.12
+        ]
+       },
+       {
+        "id": "e69_1",
+        "type": "line",
+        "a": [
+         0,
+         33.12
+        ],
+        "b": [
+         168.8,
+         38.42
+        ]
+       },
+       {
+        "id": "e69_2",
+        "type": "line",
+        "a": [
+         168.8,
+         38.42
+        ],
+        "b": [
+         168.8,
+         24.25
+        ]
+       },
+       {
+        "id": "e69_3",
+        "type": "line",
+        "a": [
+         168.8,
+         24.25
+        ],
+        "b": [
+         158.8,
+         24.25
+        ]
+       },
+       {
+        "id": "e69_4",
+        "type": "line",
+        "a": [
+         158.8,
+         24.25
+        ],
+        "b": [
+         158.8,
+         34.11
+        ]
+       },
+       {
+        "id": "e69_5",
+        "type": "line",
+        "a": [
+         158.8,
+         34.11
+        ],
+        "b": [
+         134,
+         33.33
+        ]
+       },
+       {
+        "id": "e69_6",
+        "type": "line",
+        "a": [
+         134,
+         33.33
+        ],
+        "b": [
+         109.2,
+         32.55
+        ]
+       },
+       {
+        "id": "e69_7",
+        "type": "line",
+        "a": [
+         109.2,
+         32.55
+        ],
+        "b": [
+         84.4,
+         31.77
+        ]
+       },
+       {
+        "id": "e69_8",
+        "type": "line",
+        "a": [
+         84.4,
+         31.77
+        ],
+        "b": [
+         59.6,
+         30.99
+        ]
+       },
+       {
+        "id": "e69_9",
+        "type": "line",
+        "a": [
+         59.6,
+         30.99
+        ],
+        "b": [
+         34.8,
+         30.21
+        ]
+       },
+       {
+        "id": "e69_10",
+        "type": "line",
+        "a": [
+         34.8,
+         30.21
+        ],
+        "b": [
+         10,
+         29.43
+        ]
+       },
+       {
+        "id": "e69_11",
+        "type": "line",
+        "a": [
+         10,
+         29.43
+        ],
+        "b": [
+         10,
+         24.25
+        ]
+       },
+       {
+        "id": "e69_12",
+        "type": "line",
+        "a": [
+         10,
+         24.25
+        ],
+        "b": [
+         0,
+         24.25
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  },
+  {
+   "id": "p23_conico_camisa_conica_3_3_76_86_87_49_169_pared_4_barreno_48_",
+   "name": "CÓNICO · Camisa cónica 3/3 Ø76.86→Ø87.49 × 169 (pared 4, barreno Ø48.5)",
+   "color": "#e0b040",
+   "pos": [
+    358,
+    150,
+    60
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "material": "PA6 negro antiestático (catálogo) — impreso: PA6-CF / PA12-CF",
+   "ajuste": "barreno Ø48.5 deslizante sobre la cañería Ø48.26; se fija con adhesivo anaeróbico de retención y 2 prisioneros M5 en la camisa mayor",
+   "nota": "cono único k=0.06289 (Ø crece 62.89 µm por mm); la pila queda atrapada axialmente entre las bridas de las dos tapas",
+   "capaDato": "cat",
+   "features": [
+    {
+     "id": "f71",
+     "name": "Cáscara cónica Ø76.86→Ø87.49, cubos Ø48.5 × 10",
+     "shape": "revolve",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "entities": [
+       {
+        "id": "e70_0",
+        "type": "line",
+        "a": [
+         0,
+         24.25
+        ],
+        "b": [
+         0,
+         38.43
+        ]
+       },
+       {
+        "id": "e70_1",
+        "type": "line",
+        "a": [
+         0,
+         38.43
+        ],
+        "b": [
+         168.8,
+         43.74
+        ]
+       },
+       {
+        "id": "e70_2",
+        "type": "line",
+        "a": [
+         168.8,
+         43.74
+        ],
+        "b": [
+         168.8,
+         24.25
+        ]
+       },
+       {
+        "id": "e70_3",
+        "type": "line",
+        "a": [
+         168.8,
+         24.25
+        ],
+        "b": [
+         158.8,
+         24.25
+        ]
+       },
+       {
+        "id": "e70_4",
+        "type": "line",
+        "a": [
+         158.8,
+         24.25
+        ],
+        "b": [
+         158.8,
+         39.42
+        ]
+       },
+       {
+        "id": "e70_5",
+        "type": "line",
+        "a": [
+         158.8,
+         39.42
+        ],
+        "b": [
+         134,
+         38.64
+        ]
+       },
+       {
+        "id": "e70_6",
+        "type": "line",
+        "a": [
+         134,
+         38.64
+        ],
+        "b": [
+         109.2,
+         37.86
+        ]
+       },
+       {
+        "id": "e70_7",
+        "type": "line",
+        "a": [
+         109.2,
+         37.86
+        ],
+        "b": [
+         84.4,
+         37.08
+        ]
+       },
+       {
+        "id": "e70_8",
+        "type": "line",
+        "a": [
+         84.4,
+         37.08
+        ],
+        "b": [
+         59.6,
+         36.3
+        ]
+       },
+       {
+        "id": "e70_9",
+        "type": "line",
+        "a": [
+         59.6,
+         36.3
+        ],
+        "b": [
+         34.8,
+         35.52
+        ]
+       },
+       {
+        "id": "e70_10",
+        "type": "line",
+        "a": [
+         34.8,
+         35.52
+        ],
+        "b": [
+         10,
+         34.74
+        ]
+       },
+       {
+        "id": "e70_11",
+        "type": "line",
+        "a": [
+         10,
+         34.74
+        ],
+        "b": [
+         10,
+         24.25
+        ]
+       },
+       {
+        "id": "e70_12",
+        "type": "line",
+        "a": [
+         10,
+         24.25
+        ],
+        "b": [
+         0,
+         24.25
+        ]
+       }
+      ],
+      "axis": {
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        0
+       ]
+      },
+      "u": [
+       1,
+       0,
+       0
+      ],
+      "angle": 360
+     }
+    }
+   ]
+  }
+ ],
+ "constraints": []
+}

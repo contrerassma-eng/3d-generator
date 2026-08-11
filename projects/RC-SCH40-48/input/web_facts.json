@@ -1,0 +1,506 @@
+[
+  {
+    "id": "sch40_od",
+    "claim": "diametro_exterior_caneria_NPS_1_1_2_SCH40",
+    "value": 48.26,
+    "unit": "mm",
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://www.wermac.org/pipes/dim_pipes_a53_1.html",
+      "accessed": "2026-07-29",
+      "quote": "NPS 1-1/2 ... O.D. 1.900 (48.3) ... W.T. 0.145 (3.68) ... 2.72 (4.05)"
+    }
+  },
+  {
+    "id": "sch40_pared_id_masa",
+    "claim": "pared_3.68_interior_40.94_masa_4.05_kg_por_m",
+    "value": "3.68 / 40.94 / 4.05",
+    "unit": "mm / mm / kg·m-1",
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://cad-cae.com/wp-content/uploads/2023/08/PIPING-MANUAL-CINTAC.pdf",
+      "accessed": "2026-07-29",
+      "quote": "IPS 1 1/2\" — Exterior 48.3 mm; Espesor STD/Sch 40 3.68; Interior 40.94; 4.05 kgf/m"
+    }
+  },
+  {
+    "id": "a53_tolerancias",
+    "claim": "tolerancia_pared_y_diametro_ASTM_A53",
+    "value": "pared -12.5 %; OD +1/64 in / -1/32 in para NPS <= 1-1/2",
+    "unit": null,
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://lehmanpipe.com/wp-content/uploads/2026/01/Spec-Pipe_Specification_A53-.pdf",
+      "accessed": "2026-07-29",
+      "quote": "The minimum wall thickness at any point shall not be more than 12.5% under the nominal wall thickness specified. ... Outside Diameter at any point shall not vary from standard specified more than -- For NPS 1 1/2 and Smaller Sizes ... 1/64\" ... 1/32\" under"
+    }
+  },
+  {
+    "id": "rodamiento_6201_2z",
+    "claim": "6201-2Z_dimensiones_y_capacidades",
+    "value": "12x32x10; C = 7.28 kN; C0 = 3.1 kN",
+    "unit": "mm / kN",
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://docs.rs-online.com/fbfc/A700000007138654.pdf",
+      "accessed": "2026-07-29",
+      "quote": "Technical specification / Generated from www.skf.com on 2020-10-27 / 6201-2Z ... d 12 mm / D 32 mm / B 10 mm ... C 7.28 kN ... C0 3.1 kN"
+    }
+  },
+  {
+    "id": "ajuste_aro_interior_estacionario",
+    "claim": "ajuste_invertido_para_eje_muerto_y_tubo_giratorio",
+    "value": "aro interior g6 (holgado), aro exterior M7/N7/P7 (apretado)",
+    "unit": null,
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://www.ntnglobal.com/en/products/catalog/pdf/2203E_a07.pdf",
+      "accessed": "2026-07-29",
+      "quote": "For bearing rings under rotating loads, a tight fit is necessary ... For bearing rings under static loads, on the other hand, a loose fit is sufficient. ... Outer ring: Rotating / Inner ring: Stationary -> Inner ring: Loose fit / Outer ring: Tight fit"
+    }
+  },
+  {
+    "id": "hex_11mm_metrico",
+    "claim": "el_11Hex_del_plano_Damon_es_11_mm_metrico",
+    "value": 11,
+    "unit": "mm",
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://rollers.lt/wp-content/uploads/2021/03/konvejeriniai_ritineliai_katalogas.pdf",
+      "accessed": "2026-07-29",
+      "quote": "Round shaft(mm): d: 8, 10, 12, 15, 17, 20, 25 / Hexagonal shaft(mm): S: 11hex   d: 12"
+    }
+  },
+  {
+    "id": "hex_11mm_interroll",
+    "claim": "11_mm_hex_es_estandar_de_perfil_europeo",
+    "value": "11 mm (+0.3 / 0.8)",
+    "unit": "mm",
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://www.interroll.com/fileadmin/user_upload/Downloads__PDF_/Rollers/Technische_Grundlagen_Foerderrollen_EN.PDF",
+      "accessed": "2026-07-29",
+      "quote": "The shaft shuttle permits the roller to be fitted free of play into conveyor profiles with 11 mm (+0.3 / 0.8 mm) hexagonal holes."
+    }
+  },
+  {
+    "id": "hex_norteamericano",
+    "claim": "medidas_hexagonales_estandar_norteamericanas",
+    "value": "7/16 in y 11/16 in",
+    "unit": null,
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://www.ultimationinc.com/blog/conveyor-rollers-info/",
+      "accessed": "2026-07-29",
+      "quote": "North American gravity roller conveyors usually have hexagonal axles of 7/16\" or 11/16\" for medium and larger diameter rollers."
+    }
+  },
+  {
+    "id": "mecanismo_resorte",
+    "claim": "eje_pasante_con_un_resorte_por_extremo_que_empuja_al_contrario",
+    "value": null,
+    "unit": null,
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://patents.google.com/patent/US8439573B2/en",
+      "accessed": "2026-07-29",
+      "quote": "A compression spring 50 is captured on either or both ends of the axle 38 between a swage or other stop (not shown) and the bushing 42. ... The spring 50 urges the axle 38 toward its opposite end. Two such springs in each end of the roller balance one another and permit the axle to be retracted momentarily from either end to allow the installation or removal of the roller assembly in the conveyor frame."
+    }
+  },
+  {
+    "id": "saliente_eje_damon",
+    "claim": "saliente_del_eje_por_lado_10.5_mm",
+    "value": 10.5,
+    "unit": "mm",
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://rollers.lt/wp-content/uploads/2021/03/konvejeriniai_ritineliai_katalogas.pdf",
+      "accessed": "2026-07-29",
+      "quote": "Tube Dia.(D) 50 / Shaft Dia.(d) 8/10/12/11hex / BF=W+10 / E=W+9 / L=W+31 / G1 35 / G2 30 / d1 38.5  — derivado: (L - BF)/2 = (W+31 - W-10)/2 = 10.5"
+    }
+  },
+  {
+    "id": "cono_regla_curva",
+    "claim": "el_vertice_del_cono_cae_en_el_centro_de_la_curva",
+    "value": "R = D/K - c",
+    "unit": null,
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://rollers.lt/wp-content/uploads/2021/03/konvejeriniai_ritineliai_katalogas.pdf",
+      "accessed": "2026-07-29",
+      "quote": "In theory, the geometric extension line of the tapered roller should join with the centre of the radius of the curve frame. By using this method, you can achieve the ideal curve for conveying. ... R —— turn (inner) radius / D —— diameter of the smaller head of the taper roller / K —— conical degree ... K=2*tan(theta/2) / c —— the space between the tapered roller's smaller head and the inner side of the frame."
+    }
+  },
+  {
+    "id": "cono_36_grados",
+    "claim": "conicidad_3.6_grados_semiangulo_1.8",
+    "value": 3.6,
+    "unit": "grados",
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://rollers.lt/wp-content/uploads/2021/03/konvejeriniai_ritineliai_katalogas.pdf",
+      "accessed": "2026-07-29",
+      "quote": "Series: 1600, 2624, 2650, 2660, 2640, 1500, 2521 / Taper: 3.6 deg / Small dia.(D): 52.5 / 55.6 / Curve radius(R): 830 / 880"
+    }
+  },
+  {
+    "id": "cono_18_grados_interroll",
+    "claim": "inclinacion_del_eje_1.8_grados_en_curva",
+    "value": 1.8,
+    "unit": "grados",
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://www.interroll.com/fileadmin/user_upload/Downloads__PDF_/Rollers/Technische_Grundlagen_Foerderrollen_EN.PDF",
+      "accessed": "2026-07-29",
+      "quote": "When designing the curve it is essential to ensure that the tube surface of the tapered elements is horizontal. The shaft of the conveyor roller is inclined by 1.8 deg."
+    }
+  },
+  {
+    "id": "din471_12",
+    "claim": "anillo_DIN471_para_eje_12",
+    "value": "garganta 11.5 x 1.1; espesor 1.0; profundidad 0.25",
+    "unit": "mm",
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://www.fasteners.eu/standards/din/471/",
+      "accessed": "2026-07-29",
+      "quote": "d1 12 — s 1.0 — d2 11.5 — m 1.1 — t 0.25"
+    }
+  },
+  {
+    "id": "din472_32",
+    "claim": "anillo_DIN472_para_alojamiento_32",
+    "value": "garganta 33.7 (+0.25/0) x 1.30; espesor 1.20",
+    "unit": "mm",
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://www.beneri.com/en/prodotto/din-472",
+      "accessed": "2026-07-29",
+      "quote": "RING DIMENSIONS (d1, S, d3, a, b, d5) | GROOVE DIMENSIONS (d2, m) — d1 32: S 1.20 (0/-0.06), d3 34.4, d2 33.7 (+0.25/0), m 1.30"
+    }
+  },
+  {
+    "id": "pa6cf_propiedades",
+    "claim": "PA6-CF_impreso_propiedades_mecanicas_y_termicas",
+    "value": "traccion X-Y 102 MPa / Z 48 MPa; Tg 68 C; HDT 1.8 MPa 164 C; absorcion 2.35 %",
+    "unit": null,
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://wiki.bambulab.com/filament-acc/petcf-ppacf/c750bddfb8e44af6ae9f7dd9625fa458.pdf",
+      "accessed": "2026-07-29",
+      "quote": "Tensile Strength X-Y 102 +/- 7 MPa / Z 48 +/- 6 MPa ... Glass Transition Temperature 68 C ... Heat Deflection Temperature (1.8 MPa) 164 C ... Saturated Water Absorption 2.35 %"
+    }
+  },
+  {
+    "id": "pa6_prensado_polimero",
+    "claim": "interferencia_recomendada_para_alojamiento_de_PA6_mecanizado",
+    "value": "IT8 y 0.5 mm sobre 110 (aprox 0.45 % del barreno)",
+    "unit": null,
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12656380/",
+      "accessed": "2026-07-29",
+      "quote": "a recommendation regarding the tolerance class for the housing's inner diameter would be IT8, in addition to the recommended interference fit value of 0.5 mm for the assembly ... Polymers exhibit a higher tendency for creep and changes in their elastic modulus over time."
+    }
+  },
+  {
+    "id": "chile_caneria",
+    "claim": "disponibilidad_caneria_A53B_1_1_2_SCH40_en_Chile",
+    "value": null,
+    "unit": null,
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://www.cintac.cl/canerias/",
+      "accessed": "2026-07-29",
+      "quote": "Cintac — canerias ASTM A53 de 1/2\" a 24\" (Camino a Melipilla 8920, Maipu, Santiago). Kupfer lista ademas: Caneria Con Costura A53-B 1-1/2\" SCH40 3,68MM Negra PE (6M)."
+    }
+  },
+  {
+    "id": "chile_barra_1045",
+    "claim": "disponibilidad_barra_SAE_1045_media_pulgada_en_Chile",
+    "value": 12.7,
+    "unit": "mm",
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://www.kupfer.cl/barra-redonda-sae-1045-12-7mm-1-2-6-mts.html",
+      "accessed": "2026-07-29",
+      "quote": "BARRA REDONDA SAE 1045 12,7MM (1/2\") 6 mts"
+    }
+  },
+  {
+    "id": "chile_acero_plata",
+    "claim": "disponibilidad_barra_calibrada_12_mm_en_Chile",
+    "value": 12.0,
+    "unit": "mm",
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://www.isesa.cl/barra-acero-plata-1mt-x-12-0mm/p",
+      "accessed": "2026-07-29",
+      "quote": "Barra Acero Plata 1mt x 12,0mm — NOTA: el acero plata se suministra normalmente rectificado h9; el ajuste g6 debe confirmarse con el proveedor."
+    }
+  },
+  {
+    "id": "chile_anillos",
+    "claim": "disponibilidad_anillos_DIN471_DIN472_en_Chile",
+    "value": null,
+    "unit": null,
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://www.anillosgerwuth.cl/default/public/anillos-de-seguridad",
+      "accessed": "2026-07-29",
+      "quote": "Anillos Gerwuth (Garcia Reyes 84, Santiago Centro) — DIN 471 desde 5-8-9-10-11 mm, DIN 472 desde 8-9-10-12-13 mm; \"tenemos importados y fabricamos\", \"fabricamos hasta 400 mm\"."
+    }
+  },
+  {
+    "id": "flete_maritimo_china_chile",
+    "claim": "transito_maritimo_puerto_a_puerto",
+    "value": "28-34",
+    "unit": "dias",
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://www.delpagroup.com/es/guias/costo-flete-maritimo-china-chile",
+      "accessed": "2026-07-29",
+      "quote": "Shanghai / Ningbo -> San Antonio 28-32 dias; Shenzhen/Yantian -> San Antonio 30-34 dias. FCL 20' USD 1.500-2.800; LCL USD 80-150 por m3. Suma 5-10 dias pre-embarque + 7-15 dias despacho aduanero Chile + entrega final."
+    }
+  },
+  {
+    "id": "flete_aereo_china_chile",
+    "claim": "transito_aereo_y_tarifa",
+    "value": "7-10 dias; USD 5-8 por kg",
+    "unit": null,
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://www.sino-shipping.com/freight-china-chile/",
+      "accessed": "2026-07-29",
+      "quote": "Air freight transit 7-10 days; air freight rate USD 5-8/kg. Express courier 3-5 days at 6-8 USD/kg."
+    }
+  },
+  {
+    "id": "arancel_chile",
+    "claim": "ad_valorem_6pct_e_IVA_19pct",
+    "value": "6 % ad valorem sobre CIF; IVA 19 % sobre CIF+ad valorem",
+    "unit": null,
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://www.aduana.cl/cuales-son-los-impuestos-que-debo-pagar-al-importar/aduana/2020-11-16/110804.html",
+      "accessed": "2026-07-29",
+      "quote": "el 6% del Valor CIF ... IVA 19% aplicado sobre CIF mas ad valorem"
+    }
+  },
+  {
+    "id": "tlc_chile_china_form_f",
+    "claim": "el_arancel_baja_a_0_con_Certificado_de_Origen_Form_F",
+    "value": "0",
+    "unit": "%",
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://gts-ch.com/es/aprovecha-el-tlc-chile-china-en-2026-como-importar-sin-pagar-aranceles-y-que-productos-elegir/",
+      "accessed": "2026-07-29",
+      "quote": "el Ad-Valorem podria reducirse al 0%. Para 2026, 97,2% de los productos comercializados entre ambos paises goza de arancel cero. El mecanismo es el Certificado de Origen Form F, emitido por el proveedor chino."
+    }
+  },
+  {
+    "id": "rodamiento_6201_precio_china",
+    "claim": "precio_6201ZZ_a_volumen_en_China",
+    "value": "0.20-0.50",
+    "unit": "USD/u",
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://www.made-in-china.com/products-search/hot-china-products/6201z_Bearing.html",
+      "accessed": "2026-07-29",
+      "quote": "Shandong Shunwei Bearing US$0.10-0.80 (MOQ 100); Zhongshan Cunshang US$0.30-0.50 (MOQ 100); Wuxi HXH US$0.20-0.23 (MOQ 2000)"
+    }
+  },
+  {
+    "id": "rodamiento_6201_precio_chile",
+    "claim": "precio_6201_en_retail_chileno",
+    "value": "2.57",
+    "unit": "USD/u",
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://www.maspotencia.cl/rodamiento-6201-2rs-medidas-12x32x10-milimetros",
+      "accessed": "2026-07-29",
+      "quote": "Rodamiento 6201-2RS (BRM) $4.880 CLP el pack de 2 = $2.440 CLP/u. Producto marcado como agotado al momento de la consulta."
+    }
+  },
+  {
+    "id": "portarodamiento_precio_china",
+    "claim": "orden_de_magnitud_del_portarodamiento_en_China",
+    "value": "0.55-2.25",
+    "unit": "USD/u",
+    "layer": "web",
+    "confidence": "baja",
+    "source": {
+      "type": "web",
+      "url": "https://www.made-in-china.com/products-search/hot-china-products/Conveyor_Roller_Bearing_Housing.html",
+      "accessed": "2026-07-29",
+      "quote": "TK Conveyor Roller Steel Bearing-Housing US$0.896-0.93 (MOQ 1000); High Quality Belt Punching Pressed Steel Pipe US$2.10-2.25 (MOQ 100); Idler Conveyor Roller 6204/6205 Bearing Housing US$0.55-1.00. OJO: son portarodamientos TK para 6204/6205, familia distinta; el codigo SKPB4812-2.0 no aparece con precio en ninguna parte."
+    }
+  },
+  {
+    "id": "acero_plata_barra_1m",
+    "claim": "el_acero_plata_se_vende_en_barras_de_1_m_29760_CLP",
+    "value": "29760",
+    "unit": "CLP por barra de 1 m",
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://www.isesa.cl/barra-acero-plata-1mt-x-12-0mm/p",
+      "accessed": "2026-07-29",
+      "quote": "Barra Acero Plata 1mt x 12,0mm, codigo 500222: $29.760 (rebajado de $38.351). Con un eje de 553 mm sale UN eje por barra: 45 % de desperdicio."
+    }
+  },
+  {
+    "id": "sae1045_trefilado_h11",
+    "claim": "1045_trefilado_en_barra_de_6_m_es_la_materia_prima_correcta",
+    "value": "6-65",
+    "unit": "mm de diametro",
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://oteroindustrial.cl/barra-de-acero-carbono-aisi-sae-1045-c-12.html",
+      "accessed": "2026-07-29",
+      "quote": "Otero Industrial stocks SAE 1045 trefilado a ISO 286-2 H11, de 6 mm a 65 mm. Kupfer lista BARRAS ACERO CARBONO SAE 1045 TREFILADAS en 6 m."
+    }
+  },
+  {
+    "id": "pa6cf_velocidad_volumetrica",
+    "claim": "caudal_maximo_de_impresion_de_PA6-CF",
+    "value": "8",
+    "unit": "mm3/s",
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://3dfilamentprofiles.com/defaults/bambu-lab/pa6/cf",
+      "accessed": "2026-07-29",
+      "quote": "Bambu Lab PA6-CF default profile: max volumetric speed 8 mm3/s. Requiere boquilla de acero endurecido 0.6 mm+; 260-290 C; secar 80 C durante 8-12 h antes de imprimir; no pasar por el AMS."
+    }
+  },
+  {
+    "id": "pa6cf_precio_filamento",
+    "claim": "precio_del_filamento_PA6-CF",
+    "value": "42.67",
+    "unit": "USD/kg",
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://www.3djake.com/bambu-lab/pa6-cf-black",
+      "accessed": "2026-07-29",
+      "quote": "Bambu Lab PA6-CF Black, bobina de 1 kg, 42,67 USD"
+    }
+  },
+  {
+    "id": "resortes_chile_plazo",
+    "claim": "plazo_de_fabricacion_de_resortes_a_pedido_en_Chile",
+    "value": "3-5",
+    "unit": "dias habiles",
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://american.cl/",
+      "accessed": "2026-07-29",
+      "quote": "El proceso de fabricacion puede demorar entre 3 y 5 dias habiles"
+    }
+  },
+  {
+    "id": "molde_inyeccion_plazo",
+    "claim": "utillaje_de_inyeccion_no_cabe_en_8_semanas",
+    "value": "25-45",
+    "unit": "dias solo el molde",
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://www.haizol.com/blog/injection-molding-tooling-cost-china",
+      "accessed": "2026-07-29",
+      "quote": "Simple single-cavity prototype mould (aluminium or P20): $1,000-3,000. Mid-volume production mould: $5,000-15,000+. Prototype mould manufacture 15-25 days; production mould 25-45 days."
+    }
+  },
+  {
+    "id": "camisa_damon_polipropileno",
+    "claim": "la_camisa_del_catalogo_es_polipropileno_no_PA6",
+    "value": null,
+    "unit": null,
+    "layer": "web",
+    "confidence": "alta",
+    "source": {
+      "type": "web",
+      "url": "https://www.damon-group.com.au/products/tapered-roller/2640-series-double-grooved-tapered-sleeve-conveyor-roller",
+      "accessed": "2026-07-29",
+      "quote": "grey polypropylene taper sleeve; abrasion resistant, low noise, and shockproof. 2640 Series double grooved, driven tapered sleeve roller."
+    }
+  },
+  {
+    "id": "rodillo_conico_completo_china",
+    "claim": "precio_de_rodillo_conico_completo_de_catalogo",
+    "value": "5-20",
+    "unit": "USD/u",
+    "layer": "web",
+    "confidence": "media",
+    "source": {
+      "type": "web",
+      "url": "https://www.made-in-china.com/products-search/hot-china-products/Tapered_Conveyor_Roller.html",
+      "accessed": "2026-07-29",
+      "quote": "Steel tapered conveyor rollers US$19.50-20.00 (MOQ 1); Cost-effective tapered conveyor rollers US$3.00 (MOQ 100); Tapered conveyor roller belt conveyor idler US$5.00-15.00 (MOQ 100)"
+    }
+  }
+]

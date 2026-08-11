@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RC-SCH40-48 — vista de corte</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #14171c; overflow: hidden; }
+  #info { position: fixed; top: 8px; left: 10px; color: #cfd6e4; font: 12px system-ui; z-index: 2; }
+  canvas { display: block; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "../../vendor/three.module.min.js" } }
+</script>
+</head>
+<body>
+<div id="info">cargando…</div>
+<script type="module">
+// Visor de CORTE para los ensambles foto3d-cad: cámara ORTOGRÁFICA (sin
+// perspectiva, como una vista de plano) y plano de recorte real, para poder
+// mirar dentro de la máquina igual que la lámina del manual.
+//
+//   ver_corte.html?doc=rodillos_sch40.json
+//                 &eje=x|y|z            eje de visión (x = a lo largo de los rodillos)
+//                 &corte=85             posición del plano de recorte sobre ese eje
+//                 &lado=mas|menos       qué mitad se conserva
+//                 &solo=regex           deja solo las piezas cuyo nombre casa
+//                 &sin=regex            oculta las que casan
+//                 &margen=1.05          holgura de encuadre
+import * as THREE from 'three';
+import { buildPartGeometry, partMatrix } from '../../js/model.js';
+
+const q = new URLSearchParams(location.search);
+const doc = await (await fetch(q.get('doc') || 'rodillos_sch40.json')).json();
+const eje = (q.get('eje') || 'x').toLowerCase();
+const solo = q.get('solo') ? new RegExp(q.get('solo'), 'i') : null;
+const sin = q.get('sin') ? new RegExp(q.get('sin'), 'i') : null;
+const margen = parseFloat(q.get('margen') || '1.06');
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x14171c);
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(devicePixelRatio);
+renderer.localClippingEnabled = true;
+document.body.appendChild(renderer.domElement);
+
+scene.add(new THREE.HemisphereLight(0xdde4f0, 0x30363f, 1.15));
+const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+sun.position.set(500, -700, 900); scene.add(sun);
+const relleno = new THREE.DirectionalLight(0x8899bb, 0.55);
+relleno.position.set(-600, 500, 300); scene.add(relleno);
+
+// plano de recorte: normal según el eje de visión, en la posición pedida
+const N = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] }[eje];
+const corte = q.get('corte') !== null ? parseFloat(q.get('corte')) : null;
+const signo = (q.get('lado') || 'menos') === 'mas' ? 1 : -1;
+const planos = corte === null ? []
+  : [new THREE.Plane(new THREE.Vector3(...N).multiplyScalar(signo), -signo * corte)];
+
+const bbox = new THREE.Box3();
+let n = 0;
+for (const part of doc.parts) {
+  if (part.visible === false) continue;
+  if (solo && !solo.test(part.name)) continue;
+  if (sin && sin.test(part.name)) continue;
+  const g = buildPartGeometry(part);
+  if (!g.attributes.position?.count) continue;
+  const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({
+    color: part.color || '#8899aa', metalness: 0.15, roughness: 0.65,
+    clippingPlanes: planos, clipShadows: true, side: THREE.DoubleSide,
+  }));
+  mesh.applyMatrix4(partMatrix(part));
+  scene.add(mesh); bbox.expandByObject(mesh); n++;
+}
+
+const c = bbox.getCenter(new THREE.Vector3());
+const s = bbox.getSize(new THREE.Vector3());
+// encuadre: los dos ejes perpendiculares al de visión
+const [ancho, alto] = eje === 'x' ? [s.y, s.z] : eje === 'y' ? [s.x, s.z] : [s.x, s.y];
+const asp = innerWidth / innerHeight;
+let W = ancho * margen, H = alto * margen;
+if (W / H < asp) W = H * asp; else H = W / asp;
+const cam = new THREE.OrthographicCamera(-W / 2, W / 2, H / 2, -H / 2, 0.1, 20000);
+cam.up.set(0, 0, 1);
+const d = Math.max(s.x, s.y, s.z) * 3;
+cam.position.copy(c).add(new THREE.Vector3(...N).multiplyScalar(d));
+if (eje === 'z') cam.up.set(0, 1, 0);
+cam.lookAt(c);
+
+document.getElementById('info').textContent =
+  `${doc.meta?.nombre || ''} — ${n} piezas · vista ortográfica según ${eje.toUpperCase()}`
+  + (corte !== null ? ` · corte en ${eje.toUpperCase()} = ${corte}` : '');
+renderer.render(scene, cam);
+window.__listo = true;
+</script>
+</body>
+</html>

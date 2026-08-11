@@ -1,0 +1,92 @@
+{
+ "proyecto": "RC-SCH40-48 — RODILLO PLANO Y CÓNICO SOBRE CAÑERÍA SCH40 1-1/2\"",
+ "archivo": "rodillos_sch40.json",
+ "fecha": "2026-07-29",
+ "piezas_totales": 23,
+ "items": 9,
+ "fabricadas": 5,
+ "compradas": 4,
+ "despiece": [
+  {
+   "item": 1,
+   "designacion": "Camisa cónica 1/3 Ø55.6→Ø66.23 × 169",
+   "cant": 1,
+   "capa": "CÓNICO",
+   "tipo": "FABRICADA",
+   "material_norma": "PA6 negro antiestático (catálogo) — impreso: PA6-CF / PA12-CF",
+   "plano": "RC48-01"
+  },
+  {
+   "item": 2,
+   "designacion": "Camisa cónica 2/3 Ø66.23→Ø76.86 × 169",
+   "cant": 1,
+   "capa": "CÓNICO",
+   "tipo": "FABRICADA",
+   "material_norma": "PA6 negro antiestático (catálogo) — impreso: PA6-CF / PA12-CF",
+   "plano": "RC48-02"
+  },
+  {
+   "item": 3,
+   "designacion": "Camisa cónica 3/3 Ø76.86→Ø87.49 × 169",
+   "cant": 1,
+   "capa": "CÓNICO",
+   "tipo": "FABRICADA",
+   "material_norma": "PA6 negro antiestático (catálogo) — impreso: PA6-CF / PA12-CF",
+   "plano": "RC48-03"
+  },
+  {
+   "item": 4,
+   "designacion": "Eje pasante Ø12 g6 × 553 con 2 caras planas e/c 11",
+   "cant": 2,
+   "capa": "PLANO",
+   "tipo": "FABRICADA",
+   "material_norma": "SAE 1045 trefilado Ø12 h11 en barra de 6 m, rectificado a g6 en 40 mm de cada punta",
+   "plano": "RC48-04"
+  },
+  {
+   "item": 5,
+   "designacion": "Tubo SCH40 NPS 1-1/2 pulg Ø48.26×3.68 × 522",
+   "cant": 2,
+   "capa": "PLANO",
+   "tipo": "FABRICADA",
+   "material_norma": "cañería ASTM A53 Gr.B / ASME B36.10M — NPS 1-1/2 pulg, Schedule 40",
+   "plano": "RC48-05"
+  },
+  {
+   "item": 6,
+   "designacion": "Tapa portarodamiento Ø44/Ø32 × 14.5",
+   "cant": 4,
+   "capa": "PLANO",
+   "tipo": "COMPRADA",
+   "material_norma": "SKPB4812-2.0",
+   "plano": "—"
+  },
+  {
+   "item": 7,
+   "designacion": "Anillo retención asiento de resorte Ø12",
+   "cant": 4,
+   "capa": "PLANO",
+   "tipo": "COMPRADA",
+   "material_norma": "DIN 471 / ASME B27.7",
+   "plano": "—"
+  },
+  {
+   "item": 8,
+   "designacion": "Resorte de compresión Ø18×1.4 L0=32",
+   "cant": 4,
+   "capa": "PLANO",
+   "tipo": "COMPRADA",
+   "material_norma": "alambre de acero para resortes ASTM A228",
+   "plano": "—"
+  },
+  {
+   "item": 9,
+   "designacion": "Rodamiento 6201-2Z",
+   "cant": 4,
+   "capa": "PLANO",
+   "tipo": "COMPRADA",
+   "material_norma": "rodamiento_12x32x10",
+   "plano": "—"
+  }
+ ]
+}

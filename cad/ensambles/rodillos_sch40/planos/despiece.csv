@@ -1,0 +1,10 @@
+item,designacion,cantidad,modulo,tipo,material_o_norma,plano
+1,"Camisa cónica 1/3 Ø55.6→Ø66.23 × 169",1,CÓNICO,FABRICADA,"PA6 negro antiestático (catálogo) — impreso: PA6-CF / PA12-CF",RC48-01
+2,"Camisa cónica 2/3 Ø66.23→Ø76.86 × 169",1,CÓNICO,FABRICADA,"PA6 negro antiestático (catálogo) — impreso: PA6-CF / PA12-CF",RC48-02
+3,"Camisa cónica 3/3 Ø76.86→Ø87.49 × 169",1,CÓNICO,FABRICADA,"PA6 negro antiestático (catálogo) — impreso: PA6-CF / PA12-CF",RC48-03
+4,"Eje pasante Ø12 g6 × 553 con 2 caras planas e/c 11",2,PLANO,FABRICADA,"SAE 1045 trefilado Ø12 h11 en barra de 6 m, rectificado a g6 en 40 mm de cada punta",RC48-04
+5,"Tubo SCH40 NPS 1-1/2 pulg Ø48.26×3.68 × 522",2,PLANO,FABRICADA,"cañería ASTM A53 Gr.B / ASME B36.10M — NPS 1-1/2 pulg, Schedule 40",RC48-05
+6,"Tapa portarodamiento Ø44/Ø32 × 14.5",4,PLANO,COMPRADA,"SKPB4812-2.0",—
+7,"Anillo retención asiento de resorte Ø12",4,PLANO,COMPRADA,"DIN 471 / ASME B27.7",—
+8,"Resorte de compresión Ø18×1.4 L0=32",4,PLANO,COMPRADA,"alambre de acero para resortes ASTM A228",—
+9,"Rodamiento 6201-2Z",4,PLANO,COMPRADA,"rodamiento_12x32x10",—
