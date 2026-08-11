@@ -102,6 +102,12 @@ function simpleSheet(geom, meta) {
 const jsonPath = process.env.DOC || 'ensambles/transfer_rodillos_90.json';
 const doc = JSON.parse(readFileSync(jsonPath, 'utf8'));
 const outDir = process.env.OUTDIR || 'ensambles/planos_transfer90';
+// Identidad del ensamble: permite apuntar el generador a cualquier documento
+// sin dejar rotulado el transfer90 en el cajetin, el PDF y el despiece.
+const docFile = jsonPath.split('/').pop();
+const docBase = docFile.replace(/\.json$/, '');
+const docTitulo = doc.title || doc.titulo || docBase;
+const docPref = (process.env.PREFIJO || docBase.slice(0, 2)).toUpperCase();
 mkdirSync(outDir, { recursive: true });
 
 // --- Clasificación: piezas NORMALIZADAS (compradas, solo van al despiece) ----
@@ -252,13 +258,13 @@ function portada() {
   sh.frame();
   const cx = 210;
   sh.text('PLANOS DE FABRICACIÓN', cx, 235, 9, 'C');
-  sh.text('SORTER DE TRANSFERENCIA 90° — MÓDULO DE DESVIACIÓN POP-UP', cx, 222, 4.2, 'C');
+  sh.text(String(docTitulo).toUpperCase(), cx, 222, 4.2, 'C');
   sh.line([70, 215], [350, 215], 'NORMA');
   const filas = [
-    ['Ensamble', 'transfer_rodillos_90.json (formato foto3d-cad, capa user)'],
+    ['Ensamble', docFile + ' (formato foto3d-cad, capa user)'],
     ['Piezas totales', String(doc.parts.length)],
     ['Ítems distintos', String(despiece.length)],
-    ['Planos de fabricación', String(planoN) + '  (TR-01 … TR-' + String(planoN).padStart(2, '0') + ')'],
+    ['Planos de fabricación', String(planoN) + '  (' + docPref + '-01 … ' + docPref + '-' + String(planoN).padStart(2, '0') + ')'],
     ['Normalizadas / conjuntos', String(despiece.filter(d => d.tipo !== 'FABRICADA').length)],
     ['Norma de láminas', 'ISO 5457 (marco) · 7200 (cajetín) · 129 (cotas) · 5456-2 (1er diedro)'],
     ['Tolerancia general', 'ISO 2768-mK salvo indicación; ajustes por asiento en cada plano'],
@@ -322,12 +328,12 @@ function despieceSheets() {
 }
 
 const todas = [portada(), ...despieceSheets(), ...fabSheets];
-const pdf = exportSheetsPDF(todas, 'planos_fabricacion_transfer90.pdf');
+const pdf = exportSheetsPDF(todas, 'planos_fabricacion_' + docBase + '.pdf');
 writeFileSync(join(outDir, pdf.name), Buffer.from(pdf.data));
 
 writeFileSync(join(outDir, '_despiece.json'), JSON.stringify({
-  proyecto: 'Transferencia 90° — módulo de desviación pop-up',
-  archivo: 'transfer_rodillos_90.json',
+  proyecto: docTitulo,
+  archivo: docFile,
   fecha,
   total_piezas: doc.parts.length,
   items_distintos: despiece.length,

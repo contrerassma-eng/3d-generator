@@ -106,6 +106,7 @@ export const D = {
   // rodamientos SELLADOS 6202-2RS insertos; eje Ø15 perforado y roscado M8
   // en ambas puntas → perno hexagonal M8 + golilla POR FUERA de la placa
   retEjeDia: 15, retPernoM: 8,
+  retPernoPas: 9,                          // paso del M8 en la placa (holgura media ISO 273)
   sagR: 600, sagBot: -280,                 // catenaria tras la motriz (sag 130 ≤ 150)
   catenLen: 750,                           // largo de catenaria (manual: 500–900)
 
@@ -350,6 +351,15 @@ function build(tipo, L) {
       for (const dx of [-1, 1]) for (const dz of [-1, 1]) {
         f.push(hole('Perno chumacera Ø12', [xc + dx * D.ucf.boltGap / 2, y, zc + dz * D.ucf.boltGap / 2], [0, s, 0], D.ucf.boltDia, 0, true));
       }
+    }
+    // Paso del perno M8 que fija el EJE MUERTO de cada rodillo de retorno: el
+    // perno entra POR FUERA de la placa y rosca en la punta del eje Ø15 (misma
+    // solución del transfer90). El perno ya se dibujaba atravesando la placa
+    // pero la placa no tenía su agujero, así que el desarrollo plano no era
+    // cotizable a corte láser. Mismas posiciones que el bucle de rodillos.
+    for (const q of path) {
+      if (q.rol !== 'ret' && q.rol !== 'snub') continue;
+      f.push(hole(`Paso perno M${D.retPernoM} eje muerto retorno`, [q.c[0], y, q.c[1]], [0, s, 0], D.retPernoPas, 0, true));
     }
     addPart(`FAB · Placa lateral ${nm} PL6 L=${L}`, C.placa, [L / 2, y, D.plTop], f);
   }
