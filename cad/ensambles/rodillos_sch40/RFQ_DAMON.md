@@ -30,10 +30,10 @@ Please advise the unit price for each item and your best delivery time. If the
 full quantity cannot be released quickly, please let us know how much you can
 ship first and when.
 
-We would also like to know whether you can supply the components separately, as
-we are considering assembling part of the rollers ourselves — **tubes, end caps,
-bearings, and the tapered plastic sleeves** for the conical rollers. Please quote
-these as separate items if available.
+We would also like to know whether you can supply components separately, as we
+are considering assembling part of the rollers ourselves — **end caps, bearings,
+and the tapered plastic sleeves** for the conical rollers. Please quote these as
+separate items if available.
 
 Thank you. We look forward to your reply.
 
@@ -56,12 +56,16 @@ así que la aerolínea cobra por peso real: el aéreo completo saldría **USD
 5 000–8 000**, del mismo orden que la mercadería. Por eso el correo pide qué
 cantidad pueden liberar primero.
 
-**La pregunta por componentes es la que más puede mover la aguja.** Si venden el
-juego suelto —tubo, tapas, rodamientos y camisas cónicas— se puede armar acá y
-el flete baja mucho: las camisas son lo voluminoso, y el resto es denso y barato
-de mandar. Además destraba el problema que ya conocíamos: **nadie vende la camisa
-cónica suelta** en los listados públicos, así que preguntárselo directo al
-fabricante es la única vía que quedaba.
+**La pregunta por componentes es la que más puede mover la aguja.** Se piden
+**tapas, rodamientos y camisas cónicas** — el tubo NO se menciona, se consigue
+acá. Destraba el problema que ya conocíamos: **nadie vende la camisa cónica
+suelta** en los listados públicos, así que preguntárselo directo al fabricante
+es la única vía que quedaba.
+
+**Pendiente si se arma acá:** el correo no pide el **eje con resorte**. Si se
+compran tapas y camisas pero se fabrica el resto, hay que decidir el eje — el
+11 hex del plano no se consigue en Chile (ver README §5) y la alternativa es el
+Ø12 redondo con caras planas. Se puede agregar a la segunda vuelta.
 
 **Para la segunda vuelta**, cuando respondan:
 
