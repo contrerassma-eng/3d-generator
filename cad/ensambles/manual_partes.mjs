@@ -48,26 +48,36 @@ const filaDePieza = (p) => itemDe.get(stripPref(p.name));
 const W = dims.D.innerW;                     // 470 — ancho interior entre placas
 const FIGURAS = [
   {
-    id: 'A', nombre: 'BASTIDOR SOLDADO Y ESTRUCTURA',
-    sel: /Placa lateral|Travesaño|Riostra|Soporte tipo|Cabezal porta-nosebar/,
+    id: 'A', nombre: 'BASTIDOR APERNADO — ESTRUCTURA 24V',
+    sel: /Placa lateral|Travesaño TR_S|Portacarril|Cabezal porta-nosebar/,
     // la placa CERCANA se abre hacia el frente: sin eso el bastidor se ve
     // edge-on y las placas parecen rieles, no placas
     explode: (p) => /Placa lateral libre/.test(p.name) ? [0, -420, 0]
-      : /Travesaño/.test(p.name) ? [0, 0, -180]
-      : /Riostra/.test(p.name) ? [0, 0, -330]
-      : /Soporte/.test(p.name) ? [0, p.pos[1] > 0 ? 260 : -260, -120]
+      : /Travesaño/.test(p.name) ? [0, 0, -220]
+      : /Portacarril/.test(p.name) ? [0, 0, 170]
       : /Cabezal/.test(p.name) ? [p.pos[0] > 100 ? 320 : -320, 0, 0]
       : [0, 0, 0],
     dir: [-1, 1, -0.5],
     orienta: 'EXTREMO MOTRIZ = descarga (derecha)',
-    nota: 'Travesaños, riostras y soportes SOLDADOS según GA. Cabezales soldados entre placas.',
+    torn: /orejas del travesaño|clips del portacarril|pletina del carril|clips del cabezal/,
+    nota: 'Estructura APERNADA (Rev.C): travesaños TR_S por orejas 2×M6 por extremo; portacarriles por clips 2×M6 por lado + M6×20 avellanado a la pletina del carril; cabezales por clips 2×M6. Soldadura SOLO dentro de la pieza pequeña (oreja/clip a su cuerpo, en taller). Soportes a piso: Figura H.',
   },
   {
     id: 'B', nombre: 'RETORNO — RODILLOS DE EJE MUERTO',
-    sel: /Placa lateral|Rodillo retorno/,
-    explode: (p) => /Rodillo/.test(p.name) ? [0, 0, -260] : [0, 0, 0],
+    sel: /Placa lateral|Rodillo retorno|Rodamiento 6202/,
+    explode: (p) => /Rodillo|Rodamiento/.test(p.name) ? [0, 0, -260] : [0, 0, 0],
     dimStr: true,
-    nota: 'El eje muerto apoya cara a cara contra las placas; perno M8×25 por fuera (ítem según tabla). Fabricación del rodillo: plano LBP530-EJ-04.',
+    torn: /fija el eje muerto/,
+    nota: 'El eje muerto apoya cara a cara contra las placas; perno M8×25 por fuera (ítem según tabla). Sub-despiece del rodillo y sus rodamientos: Figura B1. Fabricación: plano LBP530-EJ-04.',
+  },
+  {
+    id: 'B1', nombre: 'RODILLO DE RETORNO — SUB-DESPIECE',
+    sel: /Rodillo retorno|Rodamiento 6202/,
+    cerca: /Rodillo retorno/, radio: 240,
+    explode: (p) => /Rodamiento/.test(p.name) ? [0, Math.sign(p.pos[1] || 1) * 170, 0] : [0, 0, 0],
+    dir: [-1, 0.8, -0.5],
+    torn: /fija el eje muerto/,
+    nota: 'Asiento del rodamiento en cabezal torneado Ø35 H7 con RANURA SEEGER DIN 472-35 y CHAFLÁN de montaje 2×45° (cotas en LBP530-EJ-04). Rodamiento 6202-2RS SELLADO: no engrasar, sustituir como unidad — extraer seeger, prensar por pista EXTERIOR guiado por el chaflán. Eje muerto Ø15 roscado M8 en ambos extremos.',
   },
   {
     id: 'C', nombre: 'ACCIONAMIENTO — EJE MOTRIZ',
@@ -85,7 +95,8 @@ const FIGURAS = [
       return [0, 0, 0];
     },
     dir: [-1, 0.55, -0.42],
-    nota: 'Sólo el sprocket CENTRAL se fija (grano M8 + collarines); el resto FLOTA (juego axial +0,4/+0,3). Eje: plano LBP530-EJ-01.',
+    torn: /mecha PL8|brida UCF206/,
+    nota: 'Sólo el sprocket CENTRAL se fija (grano M8 + collarines); el resto FLOTA (juego axial +0,4/+0,3). El sprocket se ilustra con sus 32 DIENTES reales (PD 153,4). Mecha APERNADA al alma 6×M10 (Rev.C — sin soldadura). Eje: plano LBP530-EJ-01.',
   },
   {
     id: 'D', nombre: 'TENSOR — EJE LOCO',
@@ -99,13 +110,15 @@ const FIGURAS = [
       return [0, 0, 0];
     },
     dir: [1, 0.55, -0.42],
-    nota: 'El eje tensor es FIJO (chumaceras apernadas a la mecha): la banda modular NO se tensa — el largo lo absorbe la catenaria tras la motriz (flecha ~130 mm, rango Movex 50-150). Para acortar banda por desgaste: retirar pasador y quitar eslabones. Sprockets locos; el de referencia va flanqueado por collarines. Eje: plano LBP530-EJ-02.',
+    torn: /mecha PL8|brida UCF206/,
+    nota: 'El eje tensor es FIJO (chumaceras apernadas a la mecha): la banda modular NO se tensa — el largo lo absorbe la catenaria tras la motriz (flecha ~130 mm, rango Movex 50-150). Para acortar banda por desgaste: retirar pasador y quitar eslabones. Sprockets locos; el de referencia va flanqueado por collarines. Mecha apernada 6×M10 (Rev.C). Eje: plano LBP530-EJ-02.',
   },
   {
     id: 'E', nombre: 'NOSEBAR Y TRANSFERENCIA',
     sel: /Cabezal porta-nosebar|Nosebar/,
     explode: (p) => /Nosebar/.test(p.name) ? [Math.sign(p.pos[0] - 100) * 200, 0, 120] : [0, 0, 0],
     dir: [-1, 1, -0.55],
+    torn: /nosebar → cabezal/,
     nota: esLBP
       ? 'Nosebar P22868 montado por cara IDLER (rodillos libres = acumulación). 3 segmentos K6 in por punta; tuercas M8 por cara interior del cabezal.'
       : 'Transfer plate P22862 c/rodamientos (h19): transferencia de punta estándar — el concepto IDLER/acumulación aplica SOLO al nosebar LBP (catálogo imperial p.227). 3 segmentos K6 in por punta; tuercas M8 por cara interior del cabezal.',
@@ -114,15 +127,29 @@ const FIGURAS = [
     id: 'F', nombre: 'GUARDAS INFERIORES',
     sel: /Guarda inferior|Placa lateral|Mecha porta-chumacera/,
     explode: (p) => /Guarda/.test(p.name) ? [0, 0, -300] : [0, 0, 0],
+    torn: /guarda inferior → ala|faldón de guarda/,
     nota: 'Artesa U desmontable: pestañas → ala de placas (M6×16) y faldón → roscados de la mecha (M6×12). Retirar para tensado y limpieza.',
   },
   {
     id: 'G', nombre: 'CARRYWAY — BANDA Y GUÍAS',
-    sel: /Banda Movex|Guía de apoyo|Guía lateral|Placa lateral/,
+    sel: /Banda Movex|Guía de apoyo|Guía lateral|Placa lateral|Portacarril/,
     explode: (p) => /Guía lateral/.test(p.name) ? [0, Math.sign(p.pos[1]) * 140, 60]
-      : /Guía de apoyo/.test(p.name) ? [0, 0, 90] : [0, 0, 0],
+      : /Guía de apoyo/.test(p.name) ? [0, 0, 90]
+      : /Portacarril/.test(p.name) ? [0, 0, -130] : [0, 0, 0],
     simplify: (p) => /Banda/.test(p.name) ? 'band' : undefined,
-    nota: 'Guía de apoyo: pletina 12 de canto + BAR CAP UHMW (luces ≤50 mm — Movex/Intralox). Guía lateral: conical rail L 1¼ in sobre escuadras. Banda: no tensar sobre el nosebar.',
+    torn: /pletina del carril/,
+    nota: 'Guía de apoyo: pletina 12 de canto + BAR CAP UHMW (luces ≤50 mm — Movex/Intralox) apoyada sobre PORTACARRILES 50×6 apernados (Rev.C). Guía lateral: conical rail L 1¼ in sobre escuadras. Banda: no tensar sobre el nosebar.',
+  },
+  {
+    id: 'H', nombre: 'SOPORTES A PISO — SISTEMA 24V',
+    sel: /Placa lateral|Bracket soporte|Columna soporte|Escalerilla/,
+    explode: (p) => /Bracket/.test(p.name) ? [0, Math.sign(p.pos[1] || 1) * 290, 0]
+      : /Columna/.test(p.name) ? [0, Math.sign(p.pos[1] || 1) * 290, -210]
+      : /Escalerilla/.test(p.name) ? [0, Math.sign(p.pos[1] || 1) * 290, -430]
+      : [0, 0, 0],
+    dir: [-1, 1, -0.42],
+    torn: /bracket B_005A|fija la escalerilla|placa piso B_004A|pivote \+ 2 seguros/,
+    nota: 'Sistema tal cual equipo 24V (medido de ZP2026_MDR.glb): bracket B_005A apernado al alma por 4 ranuras CRUCIFORMES M8 (regulación fina) + PIVOTE con ranura en ARCO M10 (ajuste ANGULAR de la columna); escalerilla telescópica M10×70 en la ranura 11×22 elegida (ajuste de ALTURA); placa piso B_004A SOLDADA a la columna (pieza pequeña — soldadura permitida) y anclada M10×90 a losa.',
   },
 ];
 
@@ -136,6 +163,8 @@ function escala(fig, k) {
   if (k >= 1) return;
   for (const s of fig.segments) { s.a = s.a.map(v => v * k); s.b = s.b.map(v => v * k); }
   for (const f of fig.fills || []) f.loops = f.loops.map(lp => lp.map(([x, y]) => [x * k, y * k]));
+  for (const c of fig.cuts || []) c.loops = c.loops.map(lp => lp.map(([x, y]) => [x * k, y * k]));
+  if (fig.shadow) fig.shadow.loops = fig.shadow.loops.map(lp => lp.map(([x, y]) => [x * k, y * k]));
   for (const pm of fig.parts || []) { pm.anchor = pm.anchor.map(v => v * k); pm.bbox = pm.bbox.map(v => v * k); }
   fig.widthMM *= k; fig.heightMM *= k;
 }
@@ -245,14 +274,17 @@ const marco = (sh) => sh.rect(18, 8, 384, 281, 'NORMA');
     sc.add(p, { simplify });
   }
   const t0 = Date.now();
-  let fig = sc.project({ dir: [-1, 1, -0.62], widthMM: 330, res: 2200 });
+  // sombra de piso: la vista general es la lámina «render» del boletín
+  let fig = sc.project({ dir: [-1, 1, -0.62], widthMM: 330, res: 2200, shadow: true });
   escala(fig, Math.min(1, 205 / fig.heightMM));
   const ox = (420 - fig.widthMM) / 2, oy = 46;
   drawFigure(sh, fig, ox, oy, {});
   console.log(`  vista general: ${fig.segments.length} segs · ${Date.now() - t0} ms`);
   // dimensiones principales
   const L = doc.meta.largo_nose_a_nose;
-  sh.text(`Largo nose a nose: ${L} mm · Ancho total ~${Math.round(W + 2 * dims.D.plT + 2 * 8)} mm · Faja superior a nivel de placas`, 210, 36, 3.0, 'C');
+  // «ancho total» era el del BASTIDOR — el total real (con motorreductor) lo
+  // mide el GA de la proyección; aquí se rotula cada número por su nombre
+  sh.text(`Largo nose a nose: ${L} mm · Ancho de bastidor ~${Math.round(W + 2 * dims.D.plT + 2 * 8)} mm (total con motorreductor: cota del GA) · Faja superior a nivel de placas`, 210, 36, 3.0, 'C');
   sh.text('Banda y rodillos LBP no ilustrados en detalle (ver Figura G). Escala gráfica — no medir sobre la figura.', 210, 30, 2.6, 'C');
   pie(sh, 3);
   sheets.push(sh);
@@ -390,19 +422,25 @@ for (const F of FIGURAS) {
   marco(sh); cabecera(sh, 'INSTRUCCIONES DE MONTAJE', 'Secuencia con referencias a las figuras'); pie(sh, nPag);
   indiceFig.push(['M', 'MONTAJE', nPag]);
   const pasos = [
-    ['1 · BASTIDOR (Fig. A) — soldadura: ' + (dims.soldadura?.proceso || 'ver GA'), [
+    ['1 · BASTIDOR APERNADO (Fig. A) — Rev.C: soldadura SOLO en taller, en piezas pequeñas', [
       'Presentar placas laterales sobre mesa plana manteniendo diagonales iguales (tol. ±2 mm).',
-      ...(dims.soldadura?.uniones || ['Soldar según GA.']).map(u => '· ' + u),
-      `Norma: ${dims.soldadura?.norma || 'AWS D1.1'}. ${dims.soldadura?.nota || ''}`,
+      'Apernar travesaños TR_S (orejas 2×M6 por extremo, 10 Nm) y portacarriles (clips 2×M6 +',
+      'M6×20 avellanado a la pletina del carril). Apernar cabezales porta-nosebar (clips 2×M6).',
+      'Apernar MECHAS porta-chumacera al alma: 6×M10 por mecha (49 Nm) — sin soldadura.',
+      `Soldadura de taller (${dims.soldadura?.proceso || 'GMAW'} · ${dims.soldadura?.norma || 'AWS D1.1'}): ` +
+        'sólo oreja/clip a su cuerpo y placa piso a columna.',
       'Terminación: granallado/desengrase + PINTADO RAL 7035 antes de continuar.',
     ]],
-    ['2 · SOPORTES', [
-      'Apernar soportes al piso con el equipo nivelado (nivelador del soporte): tolerancia de',
-      'nivel ±2 mm en el largo. Verificar altura de faja según layout de la línea.',
+    ['2 · SOPORTES 24V (Fig. H)', [
+      'Apernar brackets B_005A al alma (ranuras cruciformes M8×20 — dejar a mano para regular).',
+      'Colgar columnas del pivote, fijar ángulo con los 2 seguros del ARCO (M10×25), elegir la',
+      'ranura 11×22 de la escalerilla (M10×70) para la altura de faja del layout, y anclar la placa',
+      'piso B_004A a losa (2×M10×90). Nivel ±2 mm en el largo → apretar cruciformes (25 Nm).',
     ]],
-    ['3 · RETORNO (Fig. B)', [
+    ['3 · RETORNO (Fig. B · sub-despiece Fig. B1)', [
       'Montar rodillos de retorno: eje muerto contra cara interior de placas, perno M8×25 +',
       'golillas POR FUERA (25 Nm). Girar cada rodillo a mano: debe girar libre, sin roce.',
+      'Recambio de rodamientos 6202-2RS: ver Figura B1 (seeger DIN 472-35 + chaflán de guía).',
     ]],
     ['4 · EJES Y SPROCKETS (Fig. C y D)', [
       'Enfilar sprockets en el eje ANTES de montar chumaceras: el CENTRAL fijo con grano M8',

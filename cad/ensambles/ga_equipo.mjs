@@ -29,14 +29,17 @@ const dims = JSON.parse(readFileSync(process.env.DIMS || 'ensambles/lbp530_dims.
 const itemDe = (re) => bom.filas.find(f => re.test(f.item_desc))?.item ?? '';
 const r0 = (v) => Math.round(v);
 
-const escena = () => {
+// UNA sola escena (la geometría CSG de 96 piezas se computa una vez) — las
+// cinco proyecciones (planta, elevación, iso, A-A, B-B) reutilizan las mallas
+const SC = (() => {
   const sc = new IsoScene();
   for (const p of doc.parts) {
     if (/Rodillos LBP/.test(p.name)) continue;
     sc.add(p, { simplify: /Banda/.test(p.name) ? 'band' : undefined, paint: false });
   }
   return sc;
-};
+})();
+const escena = () => SC;
 
 const sh = new Sheet('A2', 594, 420, 1, 1, 1);
 sh.text(`PLANO DE CONJUNTO — ${codigo}`, 297, 404, 6, 'C');
@@ -47,11 +50,12 @@ const lat = escena().project({ dir: [0, 1, -0.0001], widthMM: 470, res: 2400 });
 const top = escena().project({ dir: [0, 0, -1], up: [0, 1, 0], widthMM: 470, res: 2400 });
 const oxT = (594 - top.widthMM) / 2, oyT = 388 - top.heightMM - 10;
 drawFigure(sh, top, oxT, oyT, {});
-sh.text('PLANTA', oxT + top.widthMM / 2, oyT - 7, 3.4, 'C');
+// rótulo de vista FUERA del eje del corte A-A (que cae cerca del centro)
+sh.text('PLANTA', oxT + top.widthMM * 0.35, oyT - 7, 3.4, 'C');
 
 const oxL = (594 - lat.widthMM) / 2, oyL = oyT - 30 - lat.heightMM;
 drawFigure(sh, lat, oxL, oyL, {});
-sh.text('ELEVACIÓN', oxL + lat.widthMM / 2, oyL - 8, 3.4, 'C');
+sh.text('ELEVACIÓN', oxL + lat.widthMM * 0.35, oyL - 8, 3.4, 'C');
 
 // escala real de la vista (mm de lámina por mm de modelo) para las cotas
 // AUTO-MEDIDAS: se toma del propio encuadre de la proyección
@@ -111,6 +115,110 @@ for (const [re] of grupos) {
   gy -= 13;
 }
 
+// ── marcas de plano de corte en PLANTA y ELEVACIÓN (A-A transversal por un
+// portacarril · B-B longitudinal por el plano medio — posiciones elegidas por
+// el generador y leídas de meta.secciones: no se transcriben) ────────────────
+const sec = doc.meta?.secciones || {};
+const marcaCorte = (letra, p1, p2, arrowDir) => {
+  // línea de corte fina de trazos + tramos gruesos en las puntas + flechas de
+  // sentido de observación + letra en ambos extremos
+  sh.line(p1, p2, 'OCULTA');
+  const ux = (p2[0] - p1[0]), uy = (p2[1] - p1[1]);
+  const L2 = Math.hypot(ux, uy) || 1;
+  const [dx, dy] = [ux / L2, uy / L2];
+  for (const [px, py, s] of [[...p1, 1], [...p2, -1]]) {
+    sh.line([px, py], [px + dx * 6 * s, py + dy * 6 * s], 'NORMA');
+    const ax = px + arrowDir[0] * 4.4, ay = py + arrowDir[1] * 4.4;
+    sh.line([px, py], [ax, ay], 'COTAS');
+    sh.solid([[ax + arrowDir[0] * 2.2, ay + arrowDir[1] * 2.2],
+      [ax - arrowDir[1] * 1.1, ay + arrowDir[0] * 1.1],
+      [ax + arrowDir[1] * 1.1, ay - arrowDir[0] * 1.1]], 'COTAS');
+    // letra MÁS ALLÁ de la punta de flecha (junto al eje chocaba con el
+    // rótulo de vista cuando el corte cae al centro)
+    sh.text(letra, px + arrowDir[0] * 8.6, py + arrowDir[1] * 8.6 - 1.2, 3.4, 'C');
+  }
+};
+if (sec.aa_x != null) {
+  // A-A: vertical en PLANTA y en ELEVACIÓN, mirando aguas abajo (+X)
+  const xT = oxT + top.toSheet([sec.aa_x, 0, 0])[0];
+  marcaCorte('A', [xT, oyT - 3], [xT, oyT + top.heightMM + 3], [1 * (top.toSheet([sec.aa_x + 100, 0, 0])[0] > top.toSheet([sec.aa_x, 0, 0])[0] ? 1 : -1), 0]);
+  const xL = oxL + lat.toSheet([sec.aa_x, 0, 0])[0];
+  marcaCorte('A', [xL, oyL - 3], [xL, oyL + lat.heightMM + 3], [1 * (lat.toSheet([sec.aa_x + 100, 0, 0])[0] > lat.toSheet([sec.aa_x, 0, 0])[0] ? 1 : -1), 0]);
+}
+if (sec.bb_y != null) {
+  // B-B: horizontal en PLANTA, mirando hacia el lado motriz (+Y)
+  const yT = oyT + top.toSheet([0, sec.bb_y, 0])[1];
+  const sgn = top.toSheet([0, sec.bb_y + 100, 0])[1] > top.toSheet([0, sec.bb_y, 0])[1] ? 1 : -1;
+  marcaCorte('B', [oxT - 3, yT], [oxT + top.widthMM + 3, yT], [0, sgn]);
+}
+
+// ── LÁMINA 2: SECCIONES A-A y B-B (con caras de material rayadas) ────────────
+const sh2 = new Sheet('A2', 594, 420, 1, 1, 1);
+sh2.text(`SECCIONES — ${codigo}`, 297, 404, 6, 'C');
+sh2.text(doc.meta?.nombre || base, 297, 396, 3.2, 'C');
+const rotula = (s2, fig, ox, oy, colX, filas) => {
+  // rótulos con líder: texto en columna fija → ancla de la pieza en la vista
+  let ty = filas.y0;
+  for (const [re, txt] of filas.items) {
+    const pm = fig.parts.find(p => re.test(p.name));
+    if (!pm) continue;
+    const to = [ox + pm.anchor[0], oy + pm.anchor[1]];
+    s2.text(txt, colX, ty - 1.1, 2.7, filas.al || 'L');
+    const x0 = filas.al === 'R' ? colX + 1.5 : colX - 1.5;
+    s2.line([x0, ty], [to[0], to[1]], 'COTAS');
+    s2.circle([to[0], to[1]], 0.5, 'COTAS');
+    ty -= filas.paso;
+  }
+};
+
+// B-B longitudinal. En equipo CORTO (GT) el lazo es casi cuadrado: a ancho
+// completo el corte invadía el A-A y los rótulos — va arriba-derecha, chico
+const corto = (doc.meta?.largo_nose_a_nose ?? 5000) < 2000;
+const bb = escena().project({ dir: [0, 1, 0], widthMM: corto ? 240 : 470, res: 2400,
+  section: { n: [0, 1, 0], d: sec.bb_y ?? 0.5 } });
+const oxB = corto ? 594 - bb.widthMM - 24 : (594 - bb.widthMM) / 2;
+const oyB = 384 - bb.heightMM - 14;
+drawFigure(sh2, bb, oxB, oyB, {});
+// rótulo ENCIMA de la figura: debajo chocaba con la columna de rótulos de A-A
+sh2.text(`SECCIÓN B-B — longitudinal por el plano medio · ESC 1:${(bb.spanU / bb.widthMM).toFixed(1)}`,
+  oxB + bb.widthMM / 2, oyB + bb.heightMM + 5, 3.4, 'C');
+
+// A-A transversal (abajo izquierda) — corta el portacarril: se ve el sándwich
+// bar cap → pletina → portacarril → clips y el retorno DENTRO del canal
+const aa = escena().project({ dir: [1, 0, 0], widthMM: 205, res: 1900,
+  section: { n: [1, 0, 0], d: sec.aa_x ?? 0 } });
+const oxA = 46, oyA = 62;
+drawFigure(sh2, aa, oxA, oyA, {});
+sh2.text(`SECCIÓN A-A — transversal por portacarril (x=${r0(sec.aa_x ?? 0)}) · ESC 1:${(aa.spanU / aa.widthMM).toFixed(1)}`,
+  oxA + aa.widthMM / 2, oyA - 8, 3.4, 'C');
+rotula(sh2, aa, oxA, oyA, oxA + aa.widthMM + 74, {
+  y0: oyA + aa.heightMM - 6, paso: 9.5, al: 'L', items: [
+    [/Banda Movex/, 'banda de carga y RETORNO EN CATENARIA (canal hondo Rev.C)'],
+    [/Portacarril/, 'portacarril 50×6 apernado M6 (clips en escuadra)'],
+    [/Travesaño TR_S/, 'travesaño TR_S 88×88×3 — orejas apernadas 2×M6'],
+    [/Columna soporte/, 'columna telescópica 71×38×3 (sistema 24V)'],
+    [/Bracket soporte/, 'bracket B_005A — ranuras cruciformes + arco angular'],
+    [/Escalerilla/, 'escalerilla de regulación (M10×70 por ranura 11×22)'],
+    [/Guarda inferior/, 'guarda inferior — faldón por fuera del bastidor'],
+  ],
+});
+const notasSec = [
+  'Rayado de material = superficie CORTADA por el plano (par-impar por pieza).',
+  'Lo no rayado queda DETRÁS del plano de corte (proyección completa).',
+  'Posiciones A-A/B-B elegidas por el generador sobre el layout real',
+  'y marcadas en la lámina 1 — no transcritas.',
+];
+notasSec.forEach((t, i) => sh2.text(t, 330, 106 - i * 5, 2.8, 'L'));
+
+sh2.frame();
+sh2.titleBlock({
+  designacion: `SECCIONES ${codigo}`,
+  proyecto: 'LBP530-18 · Conveyone', fuente: 'gen_lbp530.mjs — capa user',
+  verificacion: 'CORTES DEL MODELO 3D — no dibujados a mano', piezas: '1', piezasLabel: 'CONJUNTO',
+  nota: `A-A por portacarril · B-B plano medio — ver lámina 1 (${esLBP ? 'LBP530-GA-01' : 'LBP530-GA-02'})`,
+  escala: 'según vista', fecha, numPlano: (esLBP ? 'LBP530-GA-01' : 'LBP530-GA-02') + ' · 2/2',
+});
+
 // ── tabla resumen + cajetín ──────────────────────────────────────────────────
 const nF = bom.filas.filter(f => f.tipo === 'FABRICADA').length;
 const nC = bom.filas.filter(f => f.tipo === 'COMPRADA').length;
@@ -125,7 +233,9 @@ const notas = [
   ...(sold.uniones || []).map(u => '· ' + u),
   sold.nota ? '· ' + sold.nota : '',
 ].filter(t => t !== null);
-notas.forEach((t, i) => sh.text(t, 320, 92 - i * 5, 2.8, 'L'));
+// Rev.C: la especificación de soldadura creció (orejas/clips/columna) — el
+// bloque parte más arriba y con paso menor para NO invadir el cajetín
+notas.forEach((t, i) => sh.text(t, 320, 130 - i * 4.6, 2.8, 'L'));
 
 sh.frame();
 sh.titleBlock({
@@ -136,6 +246,6 @@ sh.titleBlock({
   escala: 'según vista', fecha, numPlano: esLBP ? 'LBP530-GA-01' : 'LBP530-GA-02',
 });
 
-const pdf = exportSheetsPDF([sh], `plano_conjunto_${base}.pdf`);
+const pdf = exportSheetsPDF([sh, sh2], `plano_conjunto_${base}.pdf`);
 writeFileSync(join(outDir, pdf.name), Buffer.from(pdf.data));
-console.log(`OK ${join(outDir, pdf.name)} — elevación ${r0(lat.spanU)}×${r0(lat.spanV)} · planta ancho ${r0(top.spanV)}`);
+console.log(`OK ${join(outDir, pdf.name)} — elevación ${r0(lat.spanU)}×${r0(lat.spanV)} · planta ancho ${r0(top.spanV)} · secciones A-A x=${r0(sec.aa_x ?? -1)} / B-B y=${sec.bb_y ?? '—'} (${aa.cuts.length + bb.cuts.length} piezas cortadas)`);

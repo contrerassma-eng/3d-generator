@@ -496,12 +496,27 @@ const C = {
 // ---------------------------------------------------------------------------
 // Piezas
 // ---------------------------------------------------------------------------
+// muñón CON SUS PROCESOS visibles (observación de Sergio 12-08: a los ejes
+// les faltaban procesos mecánicos): garganta de salida de rectificado en el
+// hombro (anillo rebajado 2,5) y chaflán de montaje 2×45° en la punta
+// (anillo Ø−4×2, misma convención que el rodillo de retorno). y0 = cara del
+// hombro; dirY = hacia la punta; largo = largo total del muñón.
+function munon(f, nombre, xc, zc, y0, dirY, largo) {
+  const g = D.garganta, ch = 2;
+  f.push(cyl(`Garganta ${g}×0,5 — salida de rectificado (${nombre})`,
+    [xc, y0 + (dirY < 0 ? -g : 0), zc], [0, 1, 0], D.jrnDia - 3, g));
+  f.push(cyl(`Muñón ${nombre} Ø${D.jrnDia}×${largo}`,
+    [xc, y0 + dirY * g + (dirY < 0 ? -(largo - g - ch) : 0), zc], [0, 1, 0], D.jrnDia, largo - g - ch));
+  f.push(cyl(`Chaflán 2×45° punta (${nombre})`,
+    [xc, y0 + dirY * (largo - ch) + (dirY < 0 ? -ch : 0), zc], [0, 1, 0], D.jrnDia - 2 * ch, ch));
+}
+
 function ejeMotriz(xc, zc) {
   // Barra cuadrada 38.1 SAE 1045; muñones Ø30 torneados. Lado motriz = +Y.
   const f = [];
   f.push(box(`Cuadrado ${D.sq}×${D.sq}×${D.sqLen}`, [xc, 0, zc], D.sq, D.sqLen, D.sq));
-  f.push(cyl(`Muñón libre Ø${D.jrnDia}×${D.jrnLibre}`, [xc, -(D.sqLen / 2 + D.jrnLibre), zc], [0, 1, 0], D.jrnDia, D.jrnLibre));
-  f.push(cyl(`Muñón motriz Ø${D.jrnDia}×${D.jrnMotriz}`, [xc, D.sqLen / 2, zc], [0, 1, 0], D.jrnDia, D.jrnMotriz));
+  munon(f, 'libre', xc, zc, -D.sqLen / 2, -1, D.jrnLibre);
+  munon(f, 'motriz', xc, zc, D.sqLen / 2, 1, D.jrnMotriz);
   const zK = zc + D.jrnDia / 2 - D.chaveta.h / 2;
   const yK = D.sqLen / 2 + D.jrnMotriz - D.cuboMotor / 2;
   f.push(box(`Chavetero ${D.chaveta.w}×${D.chaveta.h}×${D.chaveta.l}`, [xc, yK, zK + D.chaveta.h / 2], D.chaveta.w, D.chaveta.l, D.chaveta.h, 'cut'));
@@ -512,9 +527,8 @@ function ejeMotriz(xc, zc) {
 function ejeTensor(xc, zc) {
   const f = [];
   f.push(box(`Cuadrado ${D.sq}×${D.sq}×${D.sqLen}`, [xc, 0, zc], D.sq, D.sqLen, D.sq));
-  for (const s of [-1, 1]) {
-    f.push(cyl(`Muñón Ø${D.jrnDia}×${D.jrnLibre}`, [xc, s * D.sqLen / 2 + (s < 0 ? -D.jrnLibre : 0), zc], [0, 1, 0], D.jrnDia, D.jrnLibre));
-  }
+  munon(f, 'tensor −Y', xc, zc, -D.sqLen / 2, -1, D.jrnLibre);
+  munon(f, 'tensor +Y', xc, zc, D.sqLen / 2, 1, D.jrnLibre);
   return f;
 }
 
@@ -788,6 +802,27 @@ function build(tipo, L) {
       holesAlma.push({ x: r2(x + dx * D.sop24.brk.cruzPitch), dz: r2(D.plAlto - 45), dia: 9, rol: 'brk', nombre: 'Paso M8 bracket soporte' });
     }
   }
+  // Rev.C: pasos del alma que NACEN en piezas construidas después (mecha
+  // apernada 6×M10 y clips del cabezal) — la posición se decide AQUÍ, antes
+  // de las placas, para que 3D y desarrollo lleven el agujero; las piezas
+  // reutilizan estas mismas listas (un solo origen, compuerta 1:1 en el BOM).
+  const NB = { cuerpoH: 65, cuerpoT: 19, K: 152.4, cols: [15.9, 75.9, 135.9], fila1: 18.75, fila2: 37.8, holeDia: 8.5 };
+  const cabH = 90, cabTop = zci - 3;   // 1,25 de luz a la barrida de rodillos (panel: antes penetraba 2 la banda)
+  // filas a paso 70 (no 80): la fila honda debe librar el borde de las
+  // muescas del ala, que a esas X sube ~12 dentro del alma (compuerta margen)
+  const mechaBoltXZ = mechasSpec.flatMap(m =>
+    [m.x0 + 40, m.x1 - 40].flatMap(xb =>
+      [mechaTop - 25, mechaTop - 95, mechaTop - 165].map(zb => ({ x: r2(xb), z: r2(zb) }))));
+  for (const q of mechaBoltXZ) {
+    holesAlma.push({ x: q.x, dz: r2(D.plTop - q.z), dia: 11, rol: 'mecha', nombre: 'Paso M10 mecha' });
+  }
+  const cabClipXZ = [BELT.noseR + BELT.esp, L - BELT.noseR - BELT.esp].flatMap(x0 => {
+    const dirIn = x0 < L / 2 ? 1 : -1;
+    return [12, 36].map(dzc => ({ x: r2(x0 + dirIn * (2 + NB.cuerpoT + 3) + dirIn * 12), z: r2(cabTop - cabH + dzc) }));
+  });
+  for (const q of cabClipXZ) {
+    holesAlma.push({ x: q.x, dz: r2(D.plTop - q.z), dia: 7, rol: 'cab', nombre: 'Paso M6 cabezal' });
+  }
 
   // tramos del ala ENTRE las ventanas del lazo (misma lista muescasAuto que
   // recorta las pestañas de la guarda: guardas y ala quedan consistentes)
@@ -821,7 +856,7 @@ function build(tipo, L) {
     addPart(`FAB · Placa lateral ${nm} PL6 L=${L}`, C.placa, [L / 2, y, D.plTop], f, {
       flat: flatPlacaConAla(L, D.plAlto, D.alaAncho, D.plT, holesAlma,
         'Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)',
-        'MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)', holesAla, muescasAuto),
+        'MECHAS PORTA-CHUMACERA APERNADAS 6×M10 (Rev.C — ver plano de mecha)', holesAla, muescasAuto),
     });
   }
 
@@ -912,9 +947,19 @@ function build(tipo, L) {
         holes.push({ x: r2(q.x - m.x0), y: r2(q.z - zBot), dia: 5, rosca: 'M6' });
         f.push(hole('M6 roscado (montaje guarda)', [q.x, y, q.z], [0, s, 0], 5, 0, true));
       }
+      // Rev.C: mecha APERNADA a la placa (6×M10) — la soldadura queda solo
+      // para piezas pequeñas y soportes (directriz). Las posiciones viven en
+      // mechaBoltXZ (calculadas ANTES de las placas: un solo origen).
+      for (const q of mechaBoltXZ) {
+        if (q.x <= m.x0 || q.x >= m.x1) continue;
+        holes.push({ x: r2(q.x - m.x0), y: r2(q.z - zBot), dia: 11 });
+        f.push(hole('Paso M10 mecha a placa', [q.x, y, q.z], [0, s, 0], 11, 0, true));
+      }
       // pasos para los M8 del alma que caen dentro de la huella de la mecha
-      // (en el GT el eje muerto del retorno atraviesa placa + mecha)
+      // (en el GT el eje muerto del retorno atraviesa placa + mecha) — SOLO
+      // los del retorno: los demás roles tienen su propio agujero en la pieza
       for (const h of holesAlma) {
+        if (h.rol !== 'retorno') continue;
         const z = D.plTop - h.dz;
         if (h.x > m.x0 && h.x < m.x1 && z > zBot && z < mechaTop) {
           holes.push({ x: r2(h.x - m.x0), y: r2(z - zBot), dia: h.dia });
@@ -923,7 +968,7 @@ function build(tipo, L) {
       }
       addPart(`FAB · Mecha porta-chumacera PL8 ${m.rol} ${w}×${hM}`, C.placa, [(m.x0 + m.x1) / 2, y, zBot + hM / 2], f, {
         flat: flatPlaca(w, hM, 8, holes, 'Acero S275JR PL8 — PINTADO RAL 7035',
-          'SOLDAR A CARA EXTERIOR DEL ALMA — traslape 88 mm sobre la tangente del pliegue; 3 cordones 4 mm (superior + verticales), ver GA'),
+          'APERNADA 6×M10 A CARA EXTERIOR DEL ALMA (Rev.C — sin soldadura); escariar Ø40 del muñón tras pintura'),
       });
     }
   }
@@ -1011,8 +1056,7 @@ function build(tipo, L) {
   // El cabezal es la pieza FAB que lo recibe: placa PL6 vertical soldada
   // entre las placas laterales, con la MISMA grilla en Ø9 (paso M8) y tuercas
   // por la cara interior.
-  const NB = { cuerpoH: 65, cuerpoT: 19, K: 152.4, cols: [15.9, 75.9, 135.9], fila1: 18.75, fila2: 37.8, holeDia: 8.5 };
-  const nbHoles = [];   // {y, dz} — y mundo; dz bajo el tope del nosebar
+  const nbHoles = [];   // {y, dz} — y mundo; dz bajo el tope del nosebar (NB hoisted junto a holesAlma)
   for (let seg = 0; seg < 3; seg++) {
     const y0 = -BELT.ancho / 2 + seg * NB.K;
     for (const c of NB.cols) for (const dz of [NB.fila1, NB.fila2]) {
@@ -1020,7 +1064,6 @@ function build(tipo, L) {
     }
   }
   const art = esLBP ? BELT.noseArtLBP : BELT.noseArtGT;
-  const cabH = 90, cabTop = zci - 3;   // 1,25 de luz a la barrida de rodillos (panel: antes penetraba 2 la banda)
   for (const [x0, nm] of [[BELT.noseR + BELT.esp, 'entrada'], [L - BELT.noseR - BELT.esp, 'descarga']]) {
     const zN = zci - BELT.noseR;
     const dirIn = x0 < L / 2 ? 1 : -1;    // el cuerpo crece hacia adentro
@@ -1047,9 +1090,19 @@ function build(tipo, L) {
       fC.push(hole('Paso M8 nosebar', [xc, h.y, zci - h.dz], [dirIn, 0, 0], 9, 0, true));
       holesCab.push({ x: r2(h.y + D.innerW / 2), y: r2((zci - h.dz) - (cabTop - cabH)), dia: 9 });
     }
+    // Rev.C: cabezal APERNADO — clips ángulo 40×40×4×60 soldados a sus
+    // extremos (pieza pequeña) y apernados 2×M6 a cada placa
+    for (const sd of [-1, 1]) {
+      const yTab = sd * (D.innerW / 2 - 2 - 2);
+      fC.push(box('Clip ángulo cabezal (soldado)', [xc + dirIn * 12, yTab, cabTop - cabH + 24], 4, 60, 48));
+      for (const dzc of [12, 36]) {
+        // paso correspondiente del alma: en cabClipXZ (hoisted, un solo origen)
+        fC.push(hole('Paso M6 clip cabezal', [xc + dirIn * 12, yTab, cabTop - cabH + dzc], [0, sd, 0], 7, 0, true));
+      }
+    }
     addPart(`FAB · Cabezal porta-nosebar ${nm} PL6 ${D.innerW}×${cabH}`, C.placa, [xc, 0, cabTop - cabH / 2], fC, {
       flat: flatPlaca(D.innerW, cabH, D.plT, holesCab, 'Acero S275JR PL6 — PINTADO RAL 7035',
-        'GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). SOLDAR entre placas laterales — tuercas M8 por cara interior'),
+        'GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). APERNADO 2×M6 por extremo vía clips soldados — tuercas M8 del nosebar por cara interior'),
     });
   }
 
@@ -1060,14 +1113,22 @@ function build(tipo, L) {
   for (const q of path) {
     if (q.rol !== 'ret' && q.rol !== 'snub') continue;
     const f = [
-      cyl(`Tubo Ø${D.gtRetDia} (2× 6202-2RS insertos)`, [q.c[0], -D.sqLen / 2, q.c[1]], [0, 1, 0], D.gtRetDia, D.sqLen),
-      cyl(`Eje muerto Ø${D.retEjeDia} (roscado M${D.retPernoM} int. ambas puntas)`, [q.c[0], -D.innerW / 2, q.c[1]], [0, 1, 0], D.retEjeDia, D.innerW),
+      cyl(`Tubo Ø${D.gtRetDia} (cabezales insertos)`, [q.c[0], -D.sqLen / 2 + 2, q.c[1]], [0, 1, 0], D.gtRetDia, D.sqLen - 4),
+      cyl('Chaflán 2×45° extremo −Y', [q.c[0], -D.sqLen / 2, q.c[1]], [0, 1, 0], D.gtRetDia - 4, 2),
+      cyl('Chaflán 2×45° extremo +Y', [q.c[0], D.sqLen / 2 - 2, q.c[1]], [0, 1, 0], D.gtRetDia - 4, 2),
+      cyl(`Eje muerto Ø${D.retEjeDia} (roscado M${D.retPernoM} int., chaflán 1×45°)`, [q.c[0], -D.innerW / 2, q.c[1]], [0, 1, 0], D.retEjeDia, D.innerW),
     ];
     for (const sd of [-1, 1]) {
       f.push(cyl(`Perno hex M${D.retPernoM} + golilla (por fuera)`, [q.c[0], sd * (D.innerW / 2 + D.plT), q.c[1]], [0, sd, 0], 13, 6));
     }
-    addPart(`FAB · Rodillo retorno Ø${D.gtRetDia} — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M${D.retPernoM} — plano LBP530-EJ-04`,
+    addPart(`FAB · Rodillo retorno Ø${D.gtRetDia} — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M${D.retPernoM} — plano LBP530-EJ-04`,
       C.ret, [q.c[0], 0, q.c[1]], f);
+    for (const sd of [-1, 1]) {
+      addPart('NORM · Rodamiento 6202-2RS (15×35×11) sellado', C.rodamiento,
+        [q.c[0], sd * (D.sqLen / 2 - 5.5), q.c[1]], [
+          cyl('Aro exterior + sello 2RS', [q.c[0], sd * (D.sqLen / 2 - 11), q.c[1]], [0, sd, 0], 34.5, 11),
+        ]);
+    }
   }
 
   // ---- EJE MOTRIZ (abajo, descarga) + sprockets + chumaceras + motor ----
@@ -1280,6 +1341,16 @@ function build(tipo, L) {
     // interferencia ala↔banda (hallazgo de Sergio 12-08): el lazo solo puede
     // cruzar la banda z del ala DENTRO de una muesca
     alaChk: { zBot: D.plTop - D.plAlto, zTop: D.plTop - D.plAlto + D.plT, muescas: muescasAuto, alaSegs },
+    // posiciones para los PLANOS DE CORTE del GA (se eligen aquí, con el
+    // layout a la vista): A-A transversal en vano libre entre travesaños,
+    // mirando hacia la pata más cercana; B-B longitudinal apenas fuera del
+    // plano medio (evita el corte degenerado por caras coincidentes en y=0)
+    secciones: (() => {
+      // A-A POR un portacarril cercano al medio: muestra el sándwich bar
+      // cap→pletina→portacarril→clips y la catenaria dentro del canal
+      const aa = xsPC.reduce((p, q) => Math.abs(q - L / 2) < Math.abs(p - L / 2) ? q : p, xsPC[0]);
+      return { aa_x: r2(aa + 0.5), bb_y: 0.5, xsTrav: [...xsTrav].sort((a, b) => a - b), patasX };
+    })(),
   };
 }
 
@@ -1444,7 +1515,7 @@ for (const [tipo, b] of Object.entries(builds)) {
   const r = res[tipo];
   const doc = {
     format: 'foto3d-cad', version: 1,
-    meta: { nombre: b.nombre, ...metaComun, largo_nose_a_nose: b.L, largo_banda_lazo_mm: r2(r.largoBanda) },
+    meta: { nombre: b.nombre, ...metaComun, largo_nose_a_nose: b.L, largo_banda_lazo_mm: r2(r.largoBanda), secciones: r.secciones },
     parts: r.parts, constraints: [],
   };
   writeFileSync(join(here, b.file), JSON.stringify(doc, null, 1));
@@ -1497,7 +1568,12 @@ const dims = {
     retorno: {
       plano: 'LBP530-EJ-04',
       tubo: { dia: D.gtRetDia, espesor: 3.0, espesorProc: 'POR CONFIRMAR contra stock proveedor (tubo A513 2½ in)', largo: D.sqLen },
-      cabezal: { od: D.gtRetDia - 2 * 3.0, ancho: 14, asientoDia: 35, asientoTol: 'H7', asientoProf: 11, pasoInterior: 20 },
+      // Rev.C: el asiento crece para alojar la RANURA SEEGER DIN 472-35 entre
+      // el rodamiento y la cara (n=3 al borde, DIN) + chaflán de montaje 2×45°
+      // que guía la prensa. asientoProf = n 3.0 + m 1.6 + rodamiento 11 = 15.6
+      cabezal: { od: D.gtRetDia - 2 * 3.0, ancho: 19, asientoDia: 35, asientoTol: 'H7', asientoProf: 15.6, pasoInterior: 20,
+        seeger: { norma: 'DIN 472-35', d2: 37, tol_d2: '+0,25/0', m: 1.6, tol_m: 'H13', n: 3.0 },
+        chaflan: '2×45°' },
       ejeMuerto: { dia: D.retEjeDia, largo: D.innerW, rosca: `M${D.retPernoM}×16 interior ambas caras`, material: 'SAE 1045 calibrado' },
       rodamiento: '6202-2RS (15×35×11) sellado',
       perno: `M${D.retPernoM}×25 8.8 + golilla plana y presión, por fuera de la placa`,
@@ -1514,14 +1590,16 @@ const dims = {
   soldadura: {
     proceso: 'GMAW (MIG) ER70S-6 Ø1.0 — alternativa SMAW E7018',
     norma: 'AWS D1.1 — inspección visual 100%',
+    // Rev.C: construcción APERNADA — soldar SOLO piezas pequeñas en taller y
+    // los soportes a piso (directriz Sergio 12-08). Ninguna soldadura en obra.
     uniones: [
-      'Travesaños y riostras → placas: filete 4 mm (a4) doble cara, intermitente 50–150',
-      'Cabezales porta-nosebar → placas: filete 4 mm perimetral por cara interior',
-      'Mechas PL8 → cara exterior del alma: 3 cordones filete 4 mm (superior + 2 verticales)',
-      'Soportes: filete 4 mm según matriz ZP2026',
-      'Pletinas 12×30 del carryway → travesaños: filete 3 mm ×30 en cada cruce, alternado',
+      'Orejas 120×60×4 → travesaño TR_S: filete 3 ×40 doble cara (taller; conjunto APERNADO 2×M6/extremo)',
+      'Clips ángulo 30×30×3 → portacarril: 2 cordones 25×3 (taller; conjunto APERNADO 2×M6/lado)',
+      'Clips ángulo 40×40×4 → cabezal porta-nosebar: filete 3 perimetral (taller; APERNADO 2×M6/extremo)',
+      'Columna soporte → placa piso B_004A: filete 4 perimetral (SOPORTE A PISO: permitido)',
+      'Retención de cabezales del rodillo de retorno: 3 puntos esmerilados a ras (LBP530-EJ-04)',
     ],
-    nota: 'esmerilar a ras solo donde interfiera con banda o guía; retocar RAL 7035 tras soldar',
+    nota: 'mechas, cabezales, travesaños, portacarriles, brackets y guardas van APERNADOS — sin soldadura en obra; retocar RAL 7035 tras soldar en taller',
   },
   // Cotización MOVEX 26012937 (09-07-2026, EUR, EXW Castelli Calepio) —
   // projects/LBP530-18/input/docs/Cotizacion_MOVEX_26012937.pdf.

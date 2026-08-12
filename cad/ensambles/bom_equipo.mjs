@@ -122,8 +122,35 @@ const nRoscMecha = nHoles(/M6 roscado \(montaje guarda\)/);
 gate(nFaldon === nRoscMecha,
   `faldón→mecha desalineado: pasos ${nFaldon} ≠ roscados ${nRoscMecha}`);
 
+// un perno por unión: cada paso del alma calza 1:1 con el de la oreja TR_S
+const nTrOreja = nHoles(/Paso M6 oreja travesaño TR/);
+const nTrLado = nHoles(/Paso M6 oreja a alma/);
+gate(nTrOreja === nTrLado, `orejas TR: placa ${nTrOreja} ≠ travesaño ${nTrLado}`);
+const nClipPC = nHoles(/Paso M6 clip portacarril/);
+const nClipPCside = nHoles(/Paso M6 clip a alma/);
+gate(nClipPC === nClipPCside, `clips portacarril: placa ${nClipPC} ≠ clip ${nClipPCside}`);
+const nPletCarril = nHoles(/Paso M6 a pletina carril/);
+const nBrk = nHoles(/Paso M8 bracket soporte/);
+const nMechaB = nHoles(/Paso M10 mecha$/);
+const nMechaB2 = nHoles(/Paso M10 mecha a placa/);
+gate(nMechaB === nMechaB2, `pernos mecha: placa ${nMechaB} ≠ mecha ${nMechaB2}`);
+const nCabClip = nHoles(/Paso M6 cabezal$/);
+const nCabClip2 = nHoles(/Paso M6 clip cabezal/);
+gate(nCabClip === nCabClip2, `clips cabezal: placa ${nCabClip} ≠ clip ${nCabClip2}`);
+const nEscal = cantDe(/Escalerilla telescópica/);
+const nPiso = cantDe(/Columna soporte 24V/);
+
 const herrajes = [
   { n: 'Perno hex M8×25 8.8 + golilla plana y presión', cant: nEjeMuerto, uso: 'fija el eje muerto de cada rodillo de retorno, por fuera de la placa (2 por rodillo; rosca interior M8×16 del eje — un perno más largo topa fondo)' },
+  { n: 'Perno hex M6×16 8.8 + tuerca + golillas (orejas TR_S)', cant: nTrOreja, uso: 'orejas del travesaño TR_S → alma (2 por extremo)' },
+  { n: 'Perno hex M6×16 8.8 + tuerca + golillas (clips portacarril)', cant: nClipPC, uso: 'clips del portacarril → alma (2 por lado)' },
+  { n: 'Perno M6×20 avellanado (carril de apoyo)', cant: nPletCarril, uso: 'portacarril → pletina del carril ROSCADA M6 (desde abajo, 1 por carril por portacarril)' },
+  { n: 'Perno hex M8×20 8.8 + tuerca + golillas (bracket soporte)', cant: nBrk, uso: 'bracket B_005A → alma por ranuras cruciformes (4 por bracket — regulación)' },
+  { n: 'Perno hex M10×30 8.8 + tuerca + golillas (mechas)', cant: nMechaB, uso: 'mecha PL8 → alma (6 por mecha — Rev.C apernada, sin soldadura)' },
+  { n: 'Perno hex M6×16 8.8 + tuerca + golillas (clips cabezal)', cant: nCabClip, uso: 'clips del cabezal porta-nosebar → alma (2 por extremo)' },
+  { n: 'Perno hex M10×70 8.8 + golilla ancha (telescópico soporte)', cant: 2 * nEscal, uso: 'fija la escalerilla a la columna en la ranura 11×22 elegida (ajuste de altura, 2 por columna)' },
+  { n: 'Perno de anclaje M10×90 (piso)', cant: 2 * nPiso, uso: 'placa piso B_004A → losa por ranuras 11×22 (2 por soporte)' },
+  { n: 'Perno pivote M10×25 + tuerca (arco angular bracket)', cant: 3 * nPiso, uso: 'pivote + 2 seguros de la ranura en ARCO del bracket (ajuste angular de columna)' },
   { n: 'Perno hex M6×16 8.8 + golilla', cant: nAlaPlaca, uso: 'guarda inferior → ala de placas (1 por unión pestaña-ala)' },
   { n: 'Perno hex M6×12 8.8', cant: nFaldon, uso: 'faldón de guarda → roscados M6 de la mecha' },
   { n: 'Perno hex M8×30 8.8 + tuerca + golilla', cant: nNose, uso: 'nosebar → cabezal (tuerca por cara interior)' },
@@ -135,13 +162,15 @@ const herrajes = [
 // CSV predecesor a esta cadena: chaveta, retención axial y rodamientos
 const nEjeM = cantDe(/EJE MOTRIZ/);
 const nMotor = cantDe(/Motorreductor/);
+const nRodam = cantDe(/Rodamiento 6202-2RS/);
+gate(nRodam === 2 * nRetorno, `rodamientos 6202 (${nRodam}) ≠ 2×rodillos retorno (${nRetorno})`);
 const derivadas = [
   { n: 'Chaveta DIN 6885 A 8×7×90, acero C45', cant: nEjeM, origen: 'local',
     uso: 'muñón motriz → cubo del motorreductor (1 por eje motriz)' },
   { n: 'Arandela de retención Ø40×6 + tornillo M10×25 8.8 + Loctite 243', cant: nMotor, origen: 'local',
     uso: 'retención axial del motorreductor en la rosca M10×22 de punta de eje (EJ-01 nota 6)' },
-  { n: 'Rodamiento 6202-2RS (15×35×11) sellado', cant: 2 * nRetorno, origen: 'rodamientos · local',
-    uso: 'insertos del rodillo de retorno (2 por rodillo — LBP530-EJ-04)' },
+  { n: 'Anillo seeger DIN 472 Ø35 (interior)', cant: 2 * nRetorno, origen: 'local',
+    uso: 'retiene el 6202 en el asiento del cabezal del rodillo (LBP530-EJ-04)' },
 ].filter(d => d.cant > 0);
 gate(derivadas.every(d => Number.isInteger(d.cant) && d.cant >= 0), 'compras derivadas inválidas');
 
@@ -178,7 +207,8 @@ for (const { part: p, cant } of [...fabricadas, ...compradas]) {
     origen: fab ? 'maestranza / taller' : origenDe(p.name),
     referencia: fab ? '' : refDe(p.name),
     plano_corte: planoDXF[p.name] || '',
-    plano_vistas: planoFab.get(p.name) || '',
+    // piezas de la familia de ejes declaran su plano en el nombre (EJ-nn)
+    plano_vistas: planoFab.get(p.name) || (p.name.match(/plano (LBP530-EJ-\d+)/)?.[1] ?? ''),
     material: p.flat ? p.flat.material : '',
     desarrollo: '',
     masa_aprox_kg: fab ? masaEspecial(p.name) : '',

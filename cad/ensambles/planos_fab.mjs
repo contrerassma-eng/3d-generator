@@ -52,7 +52,7 @@ function plateSheet(part, meta) {
   sh.dimV(ox + hi[0] * s, oy + lo[1] * s, oy + hi[1] * s, 9, H);
   sh.frame();
   sh.titleBlock({
-    designacion: meta.designacion, proyecto: meta.proyecto ?? 'foto3d CAD',
+    designacion: meta.designacion, proyecto: meta.proyecto ?? 'ConveyOne CAD',
     fuente: meta.fuente ?? 'diseño paramétrico — capa user',
     verificacion: 'PERFIL DE BOCETO (CAPA USER)', piezas: String(meta.piezas),
     nota: (meta.nota ? meta.nota + ' · ' : '') + 'cara con perforaciones; espesor y cortes en el JSON',
@@ -88,7 +88,7 @@ function simpleSheet(geom, meta) {
   sh.dimV(ox + W * s, oy, oy + D * s, 9, D);
   sh.frame();
   sh.titleBlock({
-    designacion: meta.designacion, proyecto: meta.proyecto ?? 'foto3d CAD',
+    designacion: meta.designacion, proyecto: meta.proyecto ?? 'ConveyOne CAD',
     fuente: meta.fuente ?? 'diseño paramétrico — capa user',
     verificacion: 'ENVOLVENTE (MALLA COMPLEJA)', piezas: String(meta.piezas),
     nota: (meta.nota ? meta.nota + ' · ' : '') + 'vistas envolventes — ver features en el JSON',
@@ -254,6 +254,56 @@ let itemN = 0, planoN = 0;
 const M4 = new THREE.Matrix4();
 const fecha = process.argv[2] || '—';   // fecha inyectada (por reproducibilidad)
 
+// TIPS DE FABRICACIÓN por tipo de pieza (directriz Sergio 12-08): el plano
+// le habla al maestro — qué hacer PRIMERO, qué no tocar y qué arruina la pieza
+const tipsDe = (n) => {
+  if (/Placa lateral/.test(n)) return [
+    'Verificar barrenos contra _agujeros.csv ANTES de plegar — un barreno corrido no se recupera.',
+    'Pliegue único del ala a 90° en plegadora ≥ largo de pieza (ver _LEEME: cama ≥ 3 m).',
+    'Las MUESCAS del ala son ventanas del lazo de banda: no limar ni suavizar sus bordes.',
+    'Despuntar escoria de láser antes de plegar; proteger la cara exterior (queda a la vista).',
+  ];
+  if (/Mecha porta-chumacera/.test(n)) return [
+    'ESCARIAR el paso de muñón Ø40 DESPUÉS de pintura (la capa cambia el ajuste).',
+    'Presentar APERNADA 6×M10 sobre el alma y verificar coaxialidad de los 4 Ø12 de brida.',
+    'Roscar M6 de montaje de guarda con la broca Ø5 del plano (no taladrar a Ø6).',
+  ];
+  if (/Guarda inferior/.test(n)) return [
+    'Plegar la artesa U en secuencia: fondo → laterales → pestañas (chapa 1,5 — radio suave).',
+    'Presentar sobre el ala antes de pintar: las pestañas segmentadas calzan entre muescas.',
+  ];
+  if (/Cabezal porta-nosebar/.test(n)) return [
+    'La grilla 18×Ø9 es del nosebar Movex (cols 15,9/75,9/135,9): verificar contra _agujeros.csv.',
+    'Tuercas M8 van por la cara INTERIOR — dejar acceso antes de apernar los clips.',
+  ];
+  if (/Portacarril/.test(n)) return [
+    'Soldar los clips en PLANTILLA a 90°±0,5° ANTES de pintar; tapar roscas al pintar.',
+    'La cara superior apoya la pletina del carril: sin salpicadura ni sobre-espesor de pintura.',
+  ];
+  if (/Travesaño TR_S/.test(n)) return [
+    'Perfil C en 2 pliegues; soldar orejas en plantilla con luz interior EXACTA entre almas (482).',
+    'Orejas: pieza pequeña soldada en taller (permitido Rev.C) — el conjunto va APERNADO 2×M6.',
+  ];
+  if (/Bracket soporte/.test(n)) return [
+    'Ranuras CRUCIFORMES y ranura en ARCO salen del láser: NO retaladrar — son la regulación.',
+    'Plegar después de cortar; comprobar paso 47,6 de cruciformes contra la fila del alma.',
+  ];
+  if (/Columna soporte/.test(n)) return [
+    'Soldar placa piso B_004A a 90°±0,5° con la columna PRESENTADA en su bracket (única soldadura).',
+    'No pintar el interior de las ranuras 11×22: la escalerilla desliza al regular altura.',
+  ];
+  if (/Escalerilla/.test(n)) return [
+    'Rebabar TODAS las ranuras 11×22: bajo carga la regulación desliza por ellas.',
+  ];
+  return [];
+};
+const ponTips = (sh, lineas) => {
+  if (!lineas.length) return;
+  let y = sh.H - 16;
+  sh.text('TIPS DE FABRICACIÓN', sh.W - 14, y, 2.6, 'R'); y -= 4.4;
+  for (const l of lineas) { sh.text('· ' + l, sh.W - 14, y, 2.15, 'R'); y -= 3.7; }
+};
+
 for (const g of lista) {
   itemN++;
   const norma = esNorma(g.name);
@@ -284,6 +334,7 @@ for (const g of lista) {
       if (g.part.flat) sheet = buildFlatSheet(g.part.flat, meta);
       else if (tris > 12000) sheet = plateSheet(g.part, meta) || simpleSheet(geom, meta);
       else sheet = buildSheet([{ geometry: geom, matrixWorld: M4 }], 'paper', meta);
+      ponTips(sheet, tipsDe(g.name));
       fabSheets.push(sheet);
     } catch (e) {
       console.warn(`  ! sin geometría para plano: ${desig} (${e.message})`);
@@ -324,7 +375,7 @@ function portada() {
     sh.text(v, 165, y, 3.2, 'L');
     y -= 9;
   }
-  sh.text('foto3d — método algorítmico fotos→3D · diseño (capa user), no medición.',
+  sh.text('ConveyOne — Célula de Diseño · modelo paramétrico (capa user), no medición.',
     cx, 70, 2.6, 'C');
   sh.text('Verificar dimensiones nominales con la unidad real antes de cortar/mecanizar.',
     cx, 64, 2.6, 'C');

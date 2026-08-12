@@ -1,7 +1,10 @@
 plano,pieza,cant,material,espesor_mm,desarrollo_x_mm,desarrollo_y_mm,barrenos,pliegues,k_factor,radio_mm,tolerancia
-GTD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",2,"Acero S275JR PL6 — PINTADO RAL 7035",6,470.0,90.0,18,0,0.44,6,ISO 2768-mK
-GTD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",1,"Acero S275JR e1.5 — terminación PINTADO RAL 7035",1.5,1462.8,1245.6,14,4,0.44,1.5,ISO 2768-mK
-GTD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,610.0,422.0,15,0,0.44,8,ISO 2768-mK
-GTD-04,"FAB · Placa lateral libre (−Y) PL6 L=800",2,"Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",6,800.0,199.6,1,1,0.44,6,ISO 2768-mK
-GTD-05,"FAB · Riostra de soportes (tipo ZP2026)",1,"Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a soportes según GA",3,387.0,157.6,0,2,0.44,3,ISO 2768-mK
-GTD-06,"FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3",1,"Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a placas laterales según GA",3,470.0,157.6,0,2,0.44,3,ISO 2768-mK
+GTD-01,"FAB · Bracket soporte B_005A 24V (cruciformes + arco angular)",2,"Acero S275JR e3 — PINTADO RAL 7035",3,203.0,178.8,3,1,0.44,3,ISO 2768-mK
+GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×90",2,"Acero S275JR PL6 — PINTADO RAL 7035",6,470.0,90.0,18,0,0.44,6,ISO 2768-mK
+GTD-03,"FAB · Columna soporte 24V ángulo 71×38×3 + placa piso B_004A (soldada)",2,"Acero S275JR — columna ángulo 71×38×3 + placa piso e4, PINTADO RAL 7035",4,158.0,40.0,2,0,0.44,4,ISO 2768-mK
+GTD-04,"FAB · Escalerilla telescópica 60×4 (ranuras 11×22 — ajuste de altura)",2,"Acero S275JR e4 — PINTADO RAL 7035",4,60.0,325.6,5,0,0.44,4,ISO 2768-mK
+GTD-05,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",1,"Acero S275JR e1.5 — terminación PINTADO RAL 7035",1.5,1252.8,1035.6,18,4,0.44,1.5,ISO 2768-mK
+GTD-06,"FAB · Mecha porta-chumacera PL8 combinada 610×422",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,610.0,422.0,21,0,0.44,8,ISO 2768-mK
+GTD-07,"FAB · Placa lateral libre (−Y) PL6 L=800",2,"Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",6,800.0,304.6,21,1,0.44,6,ISO 2768-mK
+GTD-08,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",1,"Acero S275JR e6 — PINTADO RAL 7035",6,462.0,50.0,7,0,0.44,6,ISO 2768-mK
+GTD-09,"FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",1,"Acero S275JR e3 — plegado C 88×88 (perfil TR_S del ZP2026), PINTADO RAL 7035. OREJAS 120×60×4 soldadas en extremos; conjunto APERNADO 2×M6 por extremo",3,460.0,253.6,0,2,0.44,3,ISO 2768-mK

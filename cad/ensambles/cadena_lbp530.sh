@@ -16,6 +16,9 @@
 set -euo pipefail
 FECHA="${FECHA:-$(date +%F)}"
 OUT=ensambles/planos_lbp530
+# el GA proyecta 5 vistas del modelo completo con topología cacheada: darle
+# aire al heap (el default ~4 GB mató la corrida por OOM con 16 GB libres)
+export NODE_OPTIONS="--max-old-space-size=8192 ${NODE_OPTIONS:-}"
 
 node ensambles/gen_lbp530.mjs
 

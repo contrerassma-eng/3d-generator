@@ -217,7 +217,7 @@
    "item": 15,
    "repuesto": true,
    "tipo": "FABRICADA",
-   "item_desc": "Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
+   "item_desc": "Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
    "cant_equipo": 8,
    "cant_proyecto": 32,
    "origen": "maestranza / taller",
@@ -397,6 +397,21 @@
    "item": 27,
    "repuesto": false,
    "tipo": "COMPRADA",
+   "item_desc": "Rodamiento 6202-2RS (15×35×11) sellado",
+   "cant_equipo": 16,
+   "cant_proyecto": 64,
+   "origen": "rodamientos · local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 28,
+   "repuesto": false,
+   "tipo": "COMPRADA",
    "item_desc": "Rodillos LBP Ø12.2 POM rojo (97 filas × 12)",
    "cant_equipo": 1,
    "cant_proyecto": 4,
@@ -409,7 +424,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 28,
+   "item": 29,
    "repuesto": true,
    "tipo": "COMPRADA",
    "item_desc": "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
@@ -424,7 +439,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 29,
+   "item": 30,
    "repuesto": true,
    "tipo": "COMPRADA",
    "item_desc": "Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
@@ -439,7 +454,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 30,
+   "item": 31,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Chaveta DIN 6885 A 8×7×90, acero C45",
@@ -454,7 +469,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 31,
+   "item": 32,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Arandela de retención Ø40×6 + tornillo M10×25 8.8 + Loctite 243",
@@ -469,22 +484,22 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 32,
-   "repuesto": true,
+   "item": 33,
+   "repuesto": false,
    "tipo": "COMPRADA",
-   "item_desc": "Rodamiento 6202-2RS (15×35×11) sellado",
+   "item_desc": "Anillo seeger DIN 472 Ø35 (interior)",
    "cant_equipo": 16,
    "cant_proyecto": 64,
-   "origen": "rodamientos · local",
+   "origen": "local",
    "referencia": "",
    "plano_corte": "",
    "plano_vistas": "",
-   "material": "insertos del rodillo de retorno (2 por rodillo — LBP530-EJ-04)",
+   "material": "retiene el 6202 en el asiento del cabezal del rodillo (LBP530-EJ-04)",
    "desarrollo": "",
    "masa_aprox_kg": ""
   },
   {
-   "item": 33,
+   "item": 34,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M8×25 8.8 + golilla plana y presión",
    "cant_equipo": 16,
@@ -498,7 +513,133 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 34,
+   "item": 35,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M6×16 8.8 + tuerca + golillas (orejas TR_S)",
+   "cant_equipo": 20,
+   "cant_proyecto": 80,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "orejas del travesaño TR_S → alma (2 por extremo)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 36,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M6×16 8.8 + tuerca + golillas (clips portacarril)",
+   "cant_equipo": 20,
+   "cant_proyecto": 80,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "clips del portacarril → alma (2 por lado)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 37,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno M6×20 avellanado (carril de apoyo)",
+   "cant_equipo": 50,
+   "cant_proyecto": 200,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "portacarril → pletina del carril ROSCADA M6 (desde abajo, 1 por carril por portacarril)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 38,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M8×20 8.8 + tuerca + golillas (bracket soporte)",
+   "cant_equipo": 24,
+   "cant_proyecto": 96,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "bracket B_005A → alma por ranuras cruciformes (4 por bracket — regulación)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 39,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M10×30 8.8 + tuerca + golillas (mechas)",
+   "cant_equipo": 24,
+   "cant_proyecto": 96,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "mecha PL8 → alma (6 por mecha — Rev.C apernada, sin soldadura)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 40,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M6×16 8.8 + tuerca + golillas (clips cabezal)",
+   "cant_equipo": 8,
+   "cant_proyecto": 32,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "clips del cabezal porta-nosebar → alma (2 por extremo)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 41,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M10×70 8.8 + golilla ancha (telescópico soporte)",
+   "cant_equipo": 12,
+   "cant_proyecto": 48,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "fija la escalerilla a la columna en la ranura 11×22 elegida (ajuste de altura, 2 por columna)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 42,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno de anclaje M10×90 (piso)",
+   "cant_equipo": 12,
+   "cant_proyecto": 48,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "placa piso B_004A → losa por ranuras 11×22 (2 por soporte)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 43,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno pivote M10×25 + tuerca (arco angular bracket)",
+   "cant_equipo": 18,
+   "cant_proyecto": 72,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "pivote + 2 seguros de la ranura en ARCO del bracket (ajuste angular de columna)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 44,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M6×16 8.8 + golilla",
    "cant_equipo": 14,
@@ -512,7 +653,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 35,
+   "item": 45,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M6×12 8.8",
    "cant_equipo": 16,
@@ -526,7 +667,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 36,
+   "item": 46,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M8×30 8.8 + tuerca + golilla",
    "cant_equipo": 36,
@@ -540,7 +681,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 37,
+   "item": 47,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M10×35 8.8 + tuerca + golilla plana y presión",
    "cant_equipo": 16,

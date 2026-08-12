@@ -290,11 +290,20 @@
    },
    "cabezal": {
     "od": 57.5,
-    "ancho": 14,
+    "ancho": 19,
     "asientoDia": 35,
     "asientoTol": "H7",
-    "asientoProf": 11,
-    "pasoInterior": 20
+    "asientoProf": 15.6,
+    "pasoInterior": 20,
+    "seeger": {
+     "norma": "DIN 472-35",
+     "d2": 37,
+     "tol_d2": "+0,25/0",
+     "m": 1.6,
+     "tol_m": "H13",
+     "n": 3
+    },
+    "chaflan": "2×45°"
    },
    "ejeMuerto": {
     "dia": 15,
@@ -315,13 +324,13 @@
   "proceso": "GMAW (MIG) ER70S-6 Ø1.0 — alternativa SMAW E7018",
   "norma": "AWS D1.1 — inspección visual 100%",
   "uniones": [
-   "Travesaños y riostras → placas: filete 4 mm (a4) doble cara, intermitente 50–150",
-   "Cabezales porta-nosebar → placas: filete 4 mm perimetral por cara interior",
-   "Mechas PL8 → cara exterior del alma: 3 cordones filete 4 mm (superior + 2 verticales)",
-   "Soportes: filete 4 mm según matriz ZP2026",
-   "Pletinas 12×30 del carryway → travesaños: filete 3 mm ×30 en cada cruce, alternado"
+   "Orejas 120×60×4 → travesaño TR_S: filete 3 ×40 doble cara (taller; conjunto APERNADO 2×M6/extremo)",
+   "Clips ángulo 30×30×3 → portacarril: 2 cordones 25×3 (taller; conjunto APERNADO 2×M6/lado)",
+   "Clips ángulo 40×40×4 → cabezal porta-nosebar: filete 3 perimetral (taller; APERNADO 2×M6/extremo)",
+   "Columna soporte → placa piso B_004A: filete 4 perimetral (SOPORTE A PISO: permitido)",
+   "Retención de cabezales del rodillo de retorno: 3 puntos esmerilados a ras (LBP530-EJ-04)"
   ],
-  "nota": "esmerilar a ras solo donde interfiera con banda o guía; retocar RAL 7035 tras soldar"
+  "nota": "mechas, cabezales, travesaños, portacarriles, brackets y guardas van APERNADOS — sin soldadura en obra; retocar RAL 7035 tras soldar en taller"
  },
  "compraMovex": {
   "banda_530LBP_18in": {

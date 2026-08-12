@@ -26,7 +26,17 @@
    "corteBarraTensores": 4600
   },
   "largo_nose_a_nose": 800,
-  "largo_banda_lazo_mm": 2652.33
+  "largo_banda_lazo_mm": 2652.33,
+  "secciones": {
+   "aa_x": 300.5,
+   "bb_y": 0.5,
+   "xsTrav": [
+    600
+   ],
+   "patasX": [
+    400
+   ]
+  }
  },
  "parts": [
   {
@@ -184,6 +194,76 @@
       },
       {
        "c": [
+        225,
+        199.57
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        225,
+        129.57
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        225,
+        59.57
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        755,
+        199.57
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        755,
+        129.57
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        755,
+        59.57
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        54.2,
+        220.87
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        54.2,
+        244.87
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        745.8,
+        220.87
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        745.8,
+        244.87
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
         40,
         18
        ],
@@ -319,7 +399,7 @@
     "radio": 6,
     "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
     "avisos": [
-     "MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)"
+     "MECHAS PORTA-CHUMACERA APERNADAS 6×M10 (Rev.C — ver plano de mecha)"
     ]
    },
    "features": [
@@ -577,6 +657,216 @@
     },
     {
      "id": "f13",
+     "name": "Paso M10 mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -175,
+      0,
+      -105
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f14",
+     "name": "Paso M10 mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -175,
+      0,
+      -175
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f15",
+     "name": "Paso M10 mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -175,
+      0,
+      -245
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f16",
+     "name": "Paso M10 mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      355,
+      0,
+      -105
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f17",
+     "name": "Paso M10 mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      355,
+      0,
+      -175
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f18",
+     "name": "Paso M10 mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      355,
+      0,
+      -245
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f19",
+     "name": "Paso M6 cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -345.8,
+      0,
+      -83.7
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f20",
+     "name": "Paso M6 cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -345.8,
+      0,
+      -59.7
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f21",
+     "name": "Paso M6 cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      345.79999999999995,
+      0,
+      -83.7
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f22",
+     "name": "Paso M6 cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      345.79999999999995,
+      0,
+      -59.7
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f23",
      "name": "Paso M6 guarda inferior",
      "shape": "hole",
      "op": "cut",
@@ -597,7 +887,7 @@
      }
     },
     {
-     "id": "f14",
+     "id": "f24",
      "name": "Paso M6 guarda inferior",
      "shape": "hole",
      "op": "cut",
@@ -774,6 +1064,76 @@
       },
       {
        "c": [
+        225,
+        199.57
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        225,
+        129.57
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        225,
+        59.57
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        755,
+        199.57
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        755,
+        129.57
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        755,
+        59.57
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        54.2,
+        220.87
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        54.2,
+        244.87
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        745.8,
+        220.87
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        745.8,
+        244.87
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
         40,
         18
        ],
@@ -909,12 +1269,12 @@
     "radio": 6,
     "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
     "avisos": [
-     "MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)"
+     "MECHAS PORTA-CHUMACERA APERNADAS 6×M10 (Rev.C — ver plano de mecha)"
     ]
    },
    "features": [
     {
-     "id": "f15",
+     "id": "f25",
      "name": "Alma 800×285",
      "shape": "box",
      "op": "union",
@@ -935,7 +1295,7 @@
      }
     },
     {
-     "id": "f16",
+     "id": "f26",
      "name": "Ala inferior tramo 0–93.05",
      "shape": "box",
      "op": "union",
@@ -956,7 +1316,7 @@
      }
     },
     {
-     "id": "f17",
+     "id": "f27",
      "name": "Ala inferior tramo 609.03–692.35",
      "shape": "box",
      "op": "union",
@@ -977,7 +1337,7 @@
      }
     },
     {
-     "id": "f18",
+     "id": "f28",
      "name": "Paso perno M8 eje muerto retorno",
      "shape": "hole",
      "op": "cut",
@@ -998,7 +1358,7 @@
      }
     },
     {
-     "id": "f19",
+     "id": "f29",
      "name": "Paso M6 oreja travesaño TR",
      "shape": "hole",
      "op": "cut",
@@ -1019,7 +1379,7 @@
      }
     },
     {
-     "id": "f20",
+     "id": "f30",
      "name": "Paso M6 oreja travesaño TR",
      "shape": "hole",
      "op": "cut",
@@ -1040,7 +1400,7 @@
      }
     },
     {
-     "id": "f21",
+     "id": "f31",
      "name": "Paso M6 clip portacarril",
      "shape": "hole",
      "op": "cut",
@@ -1061,7 +1421,7 @@
      }
     },
     {
-     "id": "f22",
+     "id": "f32",
      "name": "Paso M6 clip portacarril",
      "shape": "hole",
      "op": "cut",
@@ -1082,7 +1442,7 @@
      }
     },
     {
-     "id": "f23",
+     "id": "f33",
      "name": "Paso M8 bracket soporte",
      "shape": "hole",
      "op": "cut",
@@ -1103,7 +1463,7 @@
      }
     },
     {
-     "id": "f24",
+     "id": "f34",
      "name": "Paso M8 bracket soporte",
      "shape": "hole",
      "op": "cut",
@@ -1124,7 +1484,7 @@
      }
     },
     {
-     "id": "f25",
+     "id": "f35",
      "name": "Paso M8 bracket soporte",
      "shape": "hole",
      "op": "cut",
@@ -1145,7 +1505,7 @@
      }
     },
     {
-     "id": "f26",
+     "id": "f36",
      "name": "Paso M8 bracket soporte",
      "shape": "hole",
      "op": "cut",
@@ -1166,7 +1526,217 @@
      }
     },
     {
-     "id": "f27",
+     "id": "f37",
+     "name": "Paso M10 mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -175,
+      0,
+      -105
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f38",
+     "name": "Paso M10 mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -175,
+      0,
+      -175
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f39",
+     "name": "Paso M10 mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -175,
+      0,
+      -245
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f40",
+     "name": "Paso M10 mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      355,
+      0,
+      -105
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f41",
+     "name": "Paso M10 mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      355,
+      0,
+      -175
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f42",
+     "name": "Paso M10 mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      355,
+      0,
+      -245
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f43",
+     "name": "Paso M6 cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -345.8,
+      0,
+      -83.7
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f44",
+     "name": "Paso M6 cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -345.8,
+      0,
+      -59.7
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f45",
+     "name": "Paso M6 cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      345.79999999999995,
+      0,
+      -83.7
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f46",
+     "name": "Paso M6 cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      345.79999999999995,
+      0,
+      -59.7
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f47",
      "name": "Paso M6 guarda inferior",
      "shape": "hole",
      "op": "cut",
@@ -1187,7 +1757,7 @@
      }
     },
     {
-     "id": "f28",
+     "id": "f48",
      "name": "Paso M6 guarda inferior",
      "shape": "hole",
      "op": "cut",
@@ -1651,7 +2221,7 @@
    },
    "features": [
     {
-     "id": "f29",
+     "id": "f49",
      "name": "Fondo artesa",
      "shape": "box",
      "op": "union",
@@ -1672,7 +2242,7 @@
      }
     },
     {
-     "id": "f30",
+     "id": "f50",
      "name": "Lateral artesa",
      "shape": "box",
      "op": "union",
@@ -1693,7 +2263,7 @@
      }
     },
     {
-     "id": "f31",
+     "id": "f51",
      "name": "Pestaña de montaje",
      "shape": "box",
      "op": "union",
@@ -1714,7 +2284,7 @@
      }
     },
     {
-     "id": "f32",
+     "id": "f52",
      "name": "Paso M6",
      "shape": "hole",
      "op": "cut",
@@ -1735,7 +2305,7 @@
      }
     },
     {
-     "id": "f33",
+     "id": "f53",
      "name": "Paso M6",
      "shape": "hole",
      "op": "cut",
@@ -1756,7 +2326,7 @@
      }
     },
     {
-     "id": "f34",
+     "id": "f54",
      "name": "Paso muñón Ø48",
      "shape": "hole",
      "op": "cut",
@@ -1777,7 +2347,7 @@
      }
     },
     {
-     "id": "f35",
+     "id": "f55",
      "name": "Paso muñón Ø48",
      "shape": "hole",
      "op": "cut",
@@ -1798,7 +2368,7 @@
      }
     },
     {
-     "id": "f36",
+     "id": "f56",
      "name": "Paso M6 a mecha",
      "shape": "hole",
      "op": "cut",
@@ -1819,7 +2389,7 @@
      }
     },
     {
-     "id": "f37",
+     "id": "f57",
      "name": "Paso M6 a mecha",
      "shape": "hole",
      "op": "cut",
@@ -1840,7 +2410,7 @@
      }
     },
     {
-     "id": "f38",
+     "id": "f58",
      "name": "Paso M6 a mecha",
      "shape": "hole",
      "op": "cut",
@@ -1861,7 +2431,7 @@
      }
     },
     {
-     "id": "f39",
+     "id": "f59",
      "name": "Paso M6 a mecha",
      "shape": "hole",
      "op": "cut",
@@ -1882,7 +2452,7 @@
      }
     },
     {
-     "id": "f40",
+     "id": "f60",
      "name": "Lateral artesa",
      "shape": "box",
      "op": "union",
@@ -1903,7 +2473,7 @@
      }
     },
     {
-     "id": "f41",
+     "id": "f61",
      "name": "Pestaña de montaje",
      "shape": "box",
      "op": "union",
@@ -1924,7 +2494,7 @@
      }
     },
     {
-     "id": "f42",
+     "id": "f62",
      "name": "Paso M6",
      "shape": "hole",
      "op": "cut",
@@ -1945,7 +2515,7 @@
      }
     },
     {
-     "id": "f43",
+     "id": "f63",
      "name": "Paso M6",
      "shape": "hole",
      "op": "cut",
@@ -1966,7 +2536,7 @@
      }
     },
     {
-     "id": "f44",
+     "id": "f64",
      "name": "Paso muñón Ø48",
      "shape": "hole",
      "op": "cut",
@@ -1987,7 +2557,7 @@
      }
     },
     {
-     "id": "f45",
+     "id": "f65",
      "name": "Paso muñón Ø48",
      "shape": "hole",
      "op": "cut",
@@ -2008,7 +2578,7 @@
      }
     },
     {
-     "id": "f46",
+     "id": "f66",
      "name": "Paso M6 a mecha",
      "shape": "hole",
      "op": "cut",
@@ -2029,7 +2599,7 @@
      }
     },
     {
-     "id": "f47",
+     "id": "f67",
      "name": "Paso M6 a mecha",
      "shape": "hole",
      "op": "cut",
@@ -2050,7 +2620,7 @@
      }
     },
     {
-     "id": "f48",
+     "id": "f68",
      "name": "Paso M6 a mecha",
      "shape": "hole",
      "op": "cut",
@@ -2071,7 +2641,7 @@
      }
     },
     {
-     "id": "f49",
+     "id": "f69",
      "name": "Paso M6 a mecha",
      "shape": "hole",
      "op": "cut",
@@ -2092,7 +2662,7 @@
      }
     },
     {
-     "id": "f50",
+     "id": "f70",
      "name": "Drenaje Ø8",
      "shape": "hole",
      "op": "cut",
@@ -2113,7 +2683,7 @@
      }
     },
     {
-     "id": "f51",
+     "id": "f71",
      "name": "Drenaje Ø8",
      "shape": "hole",
      "op": "cut",
@@ -2134,7 +2704,7 @@
      }
     },
     {
-     "id": "f52",
+     "id": "f72",
      "name": "Tapa de extremo",
      "shape": "box",
      "op": "union",
@@ -2155,7 +2725,7 @@
      }
     },
     {
-     "id": "f53",
+     "id": "f73",
      "name": "Tapa de extremo",
      "shape": "box",
      "op": "union",
@@ -2323,50 +2893,50 @@
       },
       {
        "c": [
+        40,
+        397
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        40,
+        327
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        40,
+        257
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        570,
+        397
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        570,
+        327
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        570,
+        257
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
         195,
         350
-       ],
-       "r": 4.5
-      },
-      {
-       "c": [
-        415,
-        335
-       ],
-       "r": 3.5
-      },
-      {
-       "c": [
-        415,
-        275
-       ],
-       "r": 3.5
-      },
-      {
-       "c": [
-        143.6,
-        262
-       ],
-       "r": 4.5
-      },
-      {
-       "c": [
-        191.2,
-        262
-       ],
-       "r": 4.5
-      },
-      {
-       "c": [
-        238.8,
-        262
-       ],
-       "r": 4.5
-      },
-      {
-       "c": [
-        286.4,
-        262
        ],
        "r": 4.5
       }
@@ -2381,12 +2951,12 @@
     "radio": 8,
     "material": "Acero S275JR PL8 — PINTADO RAL 7035",
     "avisos": [
-     "SOLDAR A CARA EXTERIOR DEL ALMA — traslape 88 mm sobre la tangente del pliegue; 3 cordones 4 mm (superior + verticales), ver GA"
+     "APERNADA 6×M10 A CARA EXTERIOR DEL ALMA (Rev.C — sin soldadura); escariar Ø40 del muñón tras pintura"
     ]
    },
    "features": [
     {
-     "id": "f54",
+     "id": "f74",
      "name": "Mecha PL8 610×422",
      "shape": "box",
      "op": "union",
@@ -2407,7 +2977,7 @@
      }
     },
     {
-     "id": "f55",
+     "id": "f75",
      "name": "Paso muñón Ø40",
      "shape": "hole",
      "op": "cut",
@@ -2428,7 +2998,7 @@
      }
     },
     {
-     "id": "f56",
+     "id": "f76",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2449,7 +3019,7 @@
      }
     },
     {
-     "id": "f57",
+     "id": "f77",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2470,7 +3040,7 @@
      }
     },
     {
-     "id": "f58",
+     "id": "f78",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2491,7 +3061,7 @@
      }
     },
     {
-     "id": "f59",
+     "id": "f79",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2512,7 +3082,7 @@
      }
     },
     {
-     "id": "f60",
+     "id": "f80",
      "name": "Paso muñón Ø40",
      "shape": "hole",
      "op": "cut",
@@ -2533,7 +3103,7 @@
      }
     },
     {
-     "id": "f61",
+     "id": "f81",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2554,7 +3124,7 @@
      }
     },
     {
-     "id": "f62",
+     "id": "f82",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2575,7 +3145,7 @@
      }
     },
     {
-     "id": "f63",
+     "id": "f83",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2596,7 +3166,7 @@
      }
     },
     {
-     "id": "f64",
+     "id": "f84",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2617,7 +3187,7 @@
      }
     },
     {
-     "id": "f65",
+     "id": "f85",
      "name": "M6 roscado (montaje guarda)",
      "shape": "hole",
      "op": "cut",
@@ -2638,7 +3208,7 @@
      }
     },
     {
-     "id": "f66",
+     "id": "f86",
      "name": "M6 roscado (montaje guarda)",
      "shape": "hole",
      "op": "cut",
@@ -2659,7 +3229,7 @@
      }
     },
     {
-     "id": "f67",
+     "id": "f87",
      "name": "M6 roscado (montaje guarda)",
      "shape": "hole",
      "op": "cut",
@@ -2680,7 +3250,7 @@
      }
     },
     {
-     "id": "f68",
+     "id": "f88",
      "name": "M6 roscado (montaje guarda)",
      "shape": "hole",
      "op": "cut",
@@ -2701,7 +3271,133 @@
      }
     },
     {
-     "id": "f69",
+     "id": "f89",
+     "name": "Paso M10 mecha a placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -265,
+      0,
+      186
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f90",
+     "name": "Paso M10 mecha a placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -265,
+      0,
+      116
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f91",
+     "name": "Paso M10 mecha a placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -265,
+      0,
+      46
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f92",
+     "name": "Paso M10 mecha a placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      265,
+      0,
+      186
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f93",
+     "name": "Paso M10 mecha a placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      265,
+      0,
+      116
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f94",
+     "name": "Paso M10 mecha a placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      265,
+      0,
+      46
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f95",
      "name": "Paso M8 retorno (a través de mecha)",
      "shape": "hole",
      "op": "cut",
@@ -2709,132 +3405,6 @@
       -110,
       0,
       139
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f70",
-     "name": "Paso M8 retorno (a través de mecha)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      110,
-      0,
-      124
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 7,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f71",
-     "name": "Paso M8 retorno (a través de mecha)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      110,
-      0,
-      64
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 7,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f72",
-     "name": "Paso M8 retorno (a través de mecha)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -161.39999999999998,
-      0,
-      51
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f73",
-     "name": "Paso M8 retorno (a través de mecha)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -113.80000000000001,
-      0,
-      51
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f74",
-     "name": "Paso M8 retorno (a través de mecha)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -66.19999999999999,
-      0,
-      51
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f75",
-     "name": "Paso M8 retorno (a través de mecha)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -18.600000000000023,
-      0,
-      51
      ],
      "dir": [
       0,
@@ -2995,50 +3565,50 @@
       },
       {
        "c": [
+        40,
+        397
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        40,
+        327
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        40,
+        257
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        570,
+        397
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        570,
+        327
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
+        570,
+        257
+       ],
+       "r": 5.5
+      },
+      {
+       "c": [
         195,
         350
-       ],
-       "r": 4.5
-      },
-      {
-       "c": [
-        415,
-        335
-       ],
-       "r": 3.5
-      },
-      {
-       "c": [
-        415,
-        275
-       ],
-       "r": 3.5
-      },
-      {
-       "c": [
-        143.6,
-        262
-       ],
-       "r": 4.5
-      },
-      {
-       "c": [
-        191.2,
-        262
-       ],
-       "r": 4.5
-      },
-      {
-       "c": [
-        238.8,
-        262
-       ],
-       "r": 4.5
-      },
-      {
-       "c": [
-        286.4,
-        262
        ],
        "r": 4.5
       }
@@ -3053,12 +3623,12 @@
     "radio": 8,
     "material": "Acero S275JR PL8 — PINTADO RAL 7035",
     "avisos": [
-     "SOLDAR A CARA EXTERIOR DEL ALMA — traslape 88 mm sobre la tangente del pliegue; 3 cordones 4 mm (superior + verticales), ver GA"
+     "APERNADA 6×M10 A CARA EXTERIOR DEL ALMA (Rev.C — sin soldadura); escariar Ø40 del muñón tras pintura"
     ]
    },
    "features": [
     {
-     "id": "f76",
+     "id": "f96",
      "name": "Mecha PL8 610×422",
      "shape": "box",
      "op": "union",
@@ -3079,7 +3649,7 @@
      }
     },
     {
-     "id": "f77",
+     "id": "f97",
      "name": "Paso muñón Ø40",
      "shape": "hole",
      "op": "cut",
@@ -3100,7 +3670,7 @@
      }
     },
     {
-     "id": "f78",
+     "id": "f98",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -3121,7 +3691,7 @@
      }
     },
     {
-     "id": "f79",
+     "id": "f99",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -3142,7 +3712,7 @@
      }
     },
     {
-     "id": "f80",
+     "id": "f100",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -3163,7 +3733,7 @@
      }
     },
     {
-     "id": "f81",
+     "id": "f101",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -3184,7 +3754,7 @@
      }
     },
     {
-     "id": "f82",
+     "id": "f102",
      "name": "Paso muñón Ø40",
      "shape": "hole",
      "op": "cut",
@@ -3205,7 +3775,7 @@
      }
     },
     {
-     "id": "f83",
+     "id": "f103",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -3226,7 +3796,7 @@
      }
     },
     {
-     "id": "f84",
+     "id": "f104",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -3247,7 +3817,7 @@
      }
     },
     {
-     "id": "f85",
+     "id": "f105",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -3268,7 +3838,7 @@
      }
     },
     {
-     "id": "f86",
+     "id": "f106",
      "name": "Perno chumacera Ø12",
      "shape": "hole",
      "op": "cut",
@@ -3289,7 +3859,7 @@
      }
     },
     {
-     "id": "f87",
+     "id": "f107",
      "name": "M6 roscado (montaje guarda)",
      "shape": "hole",
      "op": "cut",
@@ -3310,7 +3880,7 @@
      }
     },
     {
-     "id": "f88",
+     "id": "f108",
      "name": "M6 roscado (montaje guarda)",
      "shape": "hole",
      "op": "cut",
@@ -3331,7 +3901,7 @@
      }
     },
     {
-     "id": "f89",
+     "id": "f109",
      "name": "M6 roscado (montaje guarda)",
      "shape": "hole",
      "op": "cut",
@@ -3352,7 +3922,7 @@
      }
     },
     {
-     "id": "f90",
+     "id": "f110",
      "name": "M6 roscado (montaje guarda)",
      "shape": "hole",
      "op": "cut",
@@ -3373,7 +3943,133 @@
      }
     },
     {
-     "id": "f91",
+     "id": "f111",
+     "name": "Paso M10 mecha a placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -265,
+      0,
+      186
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f112",
+     "name": "Paso M10 mecha a placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -265,
+      0,
+      116
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f113",
+     "name": "Paso M10 mecha a placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -265,
+      0,
+      46
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f114",
+     "name": "Paso M10 mecha a placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      265,
+      0,
+      186
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f115",
+     "name": "Paso M10 mecha a placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      265,
+      0,
+      116
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f116",
+     "name": "Paso M10 mecha a placa",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      265,
+      0,
+      46
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 11,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f117",
      "name": "Paso M8 retorno (a través de mecha)",
      "shape": "hole",
      "op": "cut",
@@ -3381,132 +4077,6 @@
       -110,
       0,
       139
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f92",
-     "name": "Paso M8 retorno (a través de mecha)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      110,
-      0,
-      124
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 7,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f93",
-     "name": "Paso M8 retorno (a través de mecha)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      110,
-      0,
-      64
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 7,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f94",
-     "name": "Paso M8 retorno (a través de mecha)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -161.39999999999998,
-      0,
-      51
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f95",
-     "name": "Paso M8 retorno (a través de mecha)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -113.80000000000001,
-      0,
-      51
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f96",
-     "name": "Paso M8 retorno (a través de mecha)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -66.19999999999999,
-      0,
-      51
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 9,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f97",
-     "name": "Paso M8 retorno (a través de mecha)",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -18.600000000000023,
-      0,
-      51
      ],
      "dir": [
       0,
@@ -3628,7 +4198,7 @@
    },
    "features": [
     {
-     "id": "f98",
+     "id": "f118",
      "name": "Pletina portacarril 50×6",
      "shape": "box",
      "op": "union",
@@ -3649,7 +4219,7 @@
      }
     },
     {
-     "id": "f99",
+     "id": "f119",
      "name": "Clip ángulo ala vertical (soldado al portacarril)",
      "shape": "box",
      "op": "union",
@@ -3670,7 +4240,7 @@
      }
     },
     {
-     "id": "f100",
+     "id": "f120",
      "name": "Clip ángulo ala horizontal",
      "shape": "box",
      "op": "union",
@@ -3691,7 +4261,7 @@
      }
     },
     {
-     "id": "f101",
+     "id": "f121",
      "name": "Paso M6 clip a alma",
      "shape": "hole",
      "op": "cut",
@@ -3712,7 +4282,7 @@
      }
     },
     {
-     "id": "f102",
+     "id": "f122",
      "name": "Paso M6 clip a alma",
      "shape": "hole",
      "op": "cut",
@@ -3733,7 +4303,7 @@
      }
     },
     {
-     "id": "f103",
+     "id": "f123",
      "name": "Clip ángulo ala vertical (soldado al portacarril)",
      "shape": "box",
      "op": "union",
@@ -3754,7 +4324,7 @@
      }
     },
     {
-     "id": "f104",
+     "id": "f124",
      "name": "Clip ángulo ala horizontal",
      "shape": "box",
      "op": "union",
@@ -3775,7 +4345,7 @@
      }
     },
     {
-     "id": "f105",
+     "id": "f125",
      "name": "Paso M6 clip a alma",
      "shape": "hole",
      "op": "cut",
@@ -3796,7 +4366,7 @@
      }
     },
     {
-     "id": "f106",
+     "id": "f126",
      "name": "Paso M6 clip a alma",
      "shape": "hole",
      "op": "cut",
@@ -3817,7 +4387,7 @@
      }
     },
     {
-     "id": "f107",
+     "id": "f127",
      "name": "Paso M6 a pletina carril",
      "shape": "hole",
      "op": "cut",
@@ -3838,7 +4408,7 @@
      }
     },
     {
-     "id": "f108",
+     "id": "f128",
      "name": "Paso M6 a pletina carril",
      "shape": "hole",
      "op": "cut",
@@ -3859,7 +4429,7 @@
      }
     },
     {
-     "id": "f109",
+     "id": "f129",
      "name": "Paso M6 a pletina carril",
      "shape": "hole",
      "op": "cut",
@@ -3880,7 +4450,7 @@
      }
     },
     {
-     "id": "f110",
+     "id": "f130",
      "name": "Paso M6 a pletina carril",
      "shape": "hole",
      "op": "cut",
@@ -3901,7 +4471,7 @@
      }
     },
     {
-     "id": "f111",
+     "id": "f131",
      "name": "Paso M6 a pletina carril",
      "shape": "hole",
      "op": "cut",
@@ -3922,7 +4492,7 @@
      }
     },
     {
-     "id": "f112",
+     "id": "f132",
      "name": "Paso M6 a pletina carril",
      "shape": "hole",
      "op": "cut",
@@ -3943,7 +4513,7 @@
      }
     },
     {
-     "id": "f113",
+     "id": "f133",
      "name": "Paso M6 a pletina carril",
      "shape": "hole",
      "op": "cut",
@@ -4104,7 +4674,7 @@
    },
    "features": [
     {
-     "id": "f114",
+     "id": "f134",
      "name": "Alma superior C88",
      "shape": "box",
      "op": "union",
@@ -4125,7 +4695,7 @@
      }
     },
     {
-     "id": "f115",
+     "id": "f135",
      "name": "Ala +X C88",
      "shape": "box",
      "op": "union",
@@ -4146,7 +4716,7 @@
      }
     },
     {
-     "id": "f116",
+     "id": "f136",
      "name": "Ala −X C88",
      "shape": "box",
      "op": "union",
@@ -4167,7 +4737,7 @@
      }
     },
     {
-     "id": "f117",
+     "id": "f137",
      "name": "Oreja de extremo 120×60×4 (soldada)",
      "shape": "box",
      "op": "union",
@@ -4188,7 +4758,7 @@
      }
     },
     {
-     "id": "f118",
+     "id": "f138",
      "name": "Paso M6 oreja a alma",
      "shape": "hole",
      "op": "cut",
@@ -4209,7 +4779,7 @@
      }
     },
     {
-     "id": "f119",
+     "id": "f139",
      "name": "Paso M6 oreja a alma",
      "shape": "hole",
      "op": "cut",
@@ -4230,7 +4800,7 @@
      }
     },
     {
-     "id": "f120",
+     "id": "f140",
      "name": "Oreja de extremo 120×60×4 (soldada)",
      "shape": "box",
      "op": "union",
@@ -4251,7 +4821,7 @@
      }
     },
     {
-     "id": "f121",
+     "id": "f141",
      "name": "Paso M6 oreja a alma",
      "shape": "hole",
      "op": "cut",
@@ -4272,7 +4842,7 @@
      }
     },
     {
-     "id": "f122",
+     "id": "f142",
      "name": "Paso M6 oreja a alma",
      "shape": "hole",
      "op": "cut",
@@ -4313,7 +4883,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f123",
+     "id": "f143",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -4334,7 +4904,7 @@
      }
     },
     {
-     "id": "f124",
+     "id": "f144",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -4375,7 +4945,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f125",
+     "id": "f145",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -4396,7 +4966,7 @@
      }
     },
     {
-     "id": "f126",
+     "id": "f146",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -4437,7 +5007,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f127",
+     "id": "f147",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -4458,7 +5028,7 @@
      }
     },
     {
-     "id": "f128",
+     "id": "f148",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -4499,7 +5069,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f129",
+     "id": "f149",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -4520,7 +5090,7 @@
      }
     },
     {
-     "id": "f130",
+     "id": "f150",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -4561,7 +5131,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f131",
+     "id": "f151",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -4582,7 +5152,7 @@
      }
     },
     {
-     "id": "f132",
+     "id": "f152",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -4623,7 +5193,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f133",
+     "id": "f153",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -4644,7 +5214,7 @@
      }
     },
     {
-     "id": "f134",
+     "id": "f154",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -4685,7 +5255,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f135",
+     "id": "f155",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -4706,7 +5276,7 @@
      }
     },
     {
-     "id": "f136",
+     "id": "f156",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -4747,7 +5317,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f137",
+     "id": "f157",
      "name": "Punta rodamientos Ø19",
      "shape": "cylinder",
      "op": "union",
@@ -4767,7 +5337,7 @@
      }
     },
     {
-     "id": "f138",
+     "id": "f158",
      "name": "Cuerpo BluLub 65×19 (3 segmentos K=152.4)",
      "shape": "box",
      "op": "union",
@@ -4788,7 +5358,7 @@
      }
     },
     {
-     "id": "f139",
+     "id": "f159",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -4809,7 +5379,7 @@
      }
     },
     {
-     "id": "f140",
+     "id": "f160",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -4830,7 +5400,7 @@
      }
     },
     {
-     "id": "f141",
+     "id": "f161",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -4851,7 +5421,7 @@
      }
     },
     {
-     "id": "f142",
+     "id": "f162",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -4872,7 +5442,7 @@
      }
     },
     {
-     "id": "f143",
+     "id": "f163",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -4893,7 +5463,7 @@
      }
     },
     {
-     "id": "f144",
+     "id": "f164",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -4914,7 +5484,7 @@
      }
     },
     {
-     "id": "f145",
+     "id": "f165",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -4935,7 +5505,7 @@
      }
     },
     {
-     "id": "f146",
+     "id": "f166",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -4956,7 +5526,7 @@
      }
     },
     {
-     "id": "f147",
+     "id": "f167",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -4977,7 +5547,7 @@
      }
     },
     {
-     "id": "f148",
+     "id": "f168",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -4998,7 +5568,7 @@
      }
     },
     {
-     "id": "f149",
+     "id": "f169",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5019,7 +5589,7 @@
      }
     },
     {
-     "id": "f150",
+     "id": "f170",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5040,7 +5610,7 @@
      }
     },
     {
-     "id": "f151",
+     "id": "f171",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5061,7 +5631,7 @@
      }
     },
     {
-     "id": "f152",
+     "id": "f172",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5082,7 +5652,7 @@
      }
     },
     {
-     "id": "f153",
+     "id": "f173",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5103,7 +5673,7 @@
      }
     },
     {
-     "id": "f154",
+     "id": "f174",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5124,7 +5694,7 @@
      }
     },
     {
-     "id": "f155",
+     "id": "f175",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5145,7 +5715,7 @@
      }
     },
     {
-     "id": "f156",
+     "id": "f176",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5346,12 +5916,12 @@
     "radio": 6,
     "material": "Acero S275JR PL6 — PINTADO RAL 7035",
     "avisos": [
-     "GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). SOLDAR entre placas laterales — tuercas M8 por cara interior"
+     "GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). APERNADO 2×M6 por extremo vía clips soldados — tuercas M8 del nosebar por cara interior"
     ]
    },
    "features": [
     {
-     "id": "f157",
+     "id": "f177",
      "name": "Placa cabezal PL6 470×90",
      "shape": "box",
      "op": "union",
@@ -5372,7 +5942,7 @@
      }
     },
     {
-     "id": "f158",
+     "id": "f178",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5393,7 +5963,7 @@
      }
     },
     {
-     "id": "f159",
+     "id": "f179",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5414,7 +5984,7 @@
      }
     },
     {
-     "id": "f160",
+     "id": "f180",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5435,7 +6005,7 @@
      }
     },
     {
-     "id": "f161",
+     "id": "f181",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5456,7 +6026,7 @@
      }
     },
     {
-     "id": "f162",
+     "id": "f182",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5477,7 +6047,7 @@
      }
     },
     {
-     "id": "f163",
+     "id": "f183",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5498,7 +6068,7 @@
      }
     },
     {
-     "id": "f164",
+     "id": "f184",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5519,7 +6089,7 @@
      }
     },
     {
-     "id": "f165",
+     "id": "f185",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5540,7 +6110,7 @@
      }
     },
     {
-     "id": "f166",
+     "id": "f186",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5561,7 +6131,7 @@
      }
     },
     {
-     "id": "f167",
+     "id": "f187",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5582,7 +6152,7 @@
      }
     },
     {
-     "id": "f168",
+     "id": "f188",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5603,7 +6173,7 @@
      }
     },
     {
-     "id": "f169",
+     "id": "f189",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5624,7 +6194,7 @@
      }
     },
     {
-     "id": "f170",
+     "id": "f190",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5645,7 +6215,7 @@
      }
     },
     {
-     "id": "f171",
+     "id": "f191",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5666,7 +6236,7 @@
      }
     },
     {
-     "id": "f172",
+     "id": "f192",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5687,7 +6257,7 @@
      }
     },
     {
-     "id": "f173",
+     "id": "f193",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5708,7 +6278,7 @@
      }
     },
     {
-     "id": "f174",
+     "id": "f194",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5729,7 +6299,7 @@
      }
     },
     {
-     "id": "f175",
+     "id": "f195",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -5745,6 +6315,132 @@
      ],
      "params": {
       "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f196",
+     "name": "Clip ángulo cabezal (soldado)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      12,
+      -231,
+      -45
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 4,
+      "d": 60,
+      "h": 48
+     }
+    },
+    {
+     "id": "f197",
+     "name": "Paso M6 clip cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      12,
+      -231,
+      -33
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f198",
+     "name": "Paso M6 clip cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      12,
+      -231,
+      -9
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f199",
+     "name": "Clip ángulo cabezal (soldado)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      12,
+      231,
+      -45
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 4,
+      "d": 60,
+      "h": 48
+     }
+    },
+    {
+     "id": "f200",
+     "name": "Paso M6 clip cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      12,
+      231,
+      -33
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f201",
+     "name": "Paso M6 clip cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      12,
+      231,
+      -9
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 7,
       "depth": 0,
       "through": true
      }
@@ -5770,7 +6466,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f176",
+     "id": "f202",
      "name": "Punta rodamientos Ø19",
      "shape": "cylinder",
      "op": "union",
@@ -5790,7 +6486,7 @@
      }
     },
     {
-     "id": "f177",
+     "id": "f203",
      "name": "Cuerpo BluLub 65×19 (3 segmentos K=152.4)",
      "shape": "box",
      "op": "union",
@@ -5811,7 +6507,7 @@
      }
     },
     {
-     "id": "f178",
+     "id": "f204",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5832,7 +6528,7 @@
      }
     },
     {
-     "id": "f179",
+     "id": "f205",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5853,7 +6549,7 @@
      }
     },
     {
-     "id": "f180",
+     "id": "f206",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5874,7 +6570,7 @@
      }
     },
     {
-     "id": "f181",
+     "id": "f207",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5895,7 +6591,7 @@
      }
     },
     {
-     "id": "f182",
+     "id": "f208",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5916,7 +6612,7 @@
      }
     },
     {
-     "id": "f183",
+     "id": "f209",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5937,7 +6633,7 @@
      }
     },
     {
-     "id": "f184",
+     "id": "f210",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5958,7 +6654,7 @@
      }
     },
     {
-     "id": "f185",
+     "id": "f211",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -5979,7 +6675,7 @@
      }
     },
     {
-     "id": "f186",
+     "id": "f212",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -6000,7 +6696,7 @@
      }
     },
     {
-     "id": "f187",
+     "id": "f213",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -6021,7 +6717,7 @@
      }
     },
     {
-     "id": "f188",
+     "id": "f214",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -6042,7 +6738,7 @@
      }
     },
     {
-     "id": "f189",
+     "id": "f215",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -6063,7 +6759,7 @@
      }
     },
     {
-     "id": "f190",
+     "id": "f216",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -6084,7 +6780,7 @@
      }
     },
     {
-     "id": "f191",
+     "id": "f217",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -6105,7 +6801,7 @@
      }
     },
     {
-     "id": "f192",
+     "id": "f218",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -6126,7 +6822,7 @@
      }
     },
     {
-     "id": "f193",
+     "id": "f219",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -6147,7 +6843,7 @@
      }
     },
     {
-     "id": "f194",
+     "id": "f220",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -6168,7 +6864,7 @@
      }
     },
     {
-     "id": "f195",
+     "id": "f221",
      "name": "Ø8.5 montaje",
      "shape": "hole",
      "op": "cut",
@@ -6369,12 +7065,12 @@
     "radio": 6,
     "material": "Acero S275JR PL6 — PINTADO RAL 7035",
     "avisos": [
-     "GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). SOLDAR entre placas laterales — tuercas M8 por cara interior"
+     "GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). APERNADO 2×M6 por extremo vía clips soldados — tuercas M8 del nosebar por cara interior"
     ]
    },
    "features": [
     {
-     "id": "f196",
+     "id": "f222",
      "name": "Placa cabezal PL6 470×90",
      "shape": "box",
      "op": "union",
@@ -6395,7 +7091,7 @@
      }
     },
     {
-     "id": "f197",
+     "id": "f223",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6416,7 +7112,7 @@
      }
     },
     {
-     "id": "f198",
+     "id": "f224",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6437,7 +7133,7 @@
      }
     },
     {
-     "id": "f199",
+     "id": "f225",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6458,7 +7154,7 @@
      }
     },
     {
-     "id": "f200",
+     "id": "f226",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6479,7 +7175,7 @@
      }
     },
     {
-     "id": "f201",
+     "id": "f227",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6500,7 +7196,7 @@
      }
     },
     {
-     "id": "f202",
+     "id": "f228",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6521,7 +7217,7 @@
      }
     },
     {
-     "id": "f203",
+     "id": "f229",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6542,7 +7238,7 @@
      }
     },
     {
-     "id": "f204",
+     "id": "f230",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6563,7 +7259,7 @@
      }
     },
     {
-     "id": "f205",
+     "id": "f231",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6584,7 +7280,7 @@
      }
     },
     {
-     "id": "f206",
+     "id": "f232",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6605,7 +7301,7 @@
      }
     },
     {
-     "id": "f207",
+     "id": "f233",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6626,7 +7322,7 @@
      }
     },
     {
-     "id": "f208",
+     "id": "f234",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6647,7 +7343,7 @@
      }
     },
     {
-     "id": "f209",
+     "id": "f235",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6668,7 +7364,7 @@
      }
     },
     {
-     "id": "f210",
+     "id": "f236",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6689,7 +7385,7 @@
      }
     },
     {
-     "id": "f211",
+     "id": "f237",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6710,7 +7406,7 @@
      }
     },
     {
-     "id": "f212",
+     "id": "f238",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6731,7 +7427,7 @@
      }
     },
     {
-     "id": "f213",
+     "id": "f239",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6752,7 +7448,7 @@
      }
     },
     {
-     "id": "f214",
+     "id": "f240",
      "name": "Paso M8 nosebar",
      "shape": "hole",
      "op": "cut",
@@ -6768,6 +7464,132 @@
      ],
      "params": {
       "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f241",
+     "name": "Clip ángulo cabezal (soldado)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -12,
+      -231,
+      -45
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 4,
+      "d": 60,
+      "h": 48
+     }
+    },
+    {
+     "id": "f242",
+     "name": "Paso M6 clip cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -12,
+      -231,
+      -33
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f243",
+     "name": "Paso M6 clip cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -12,
+      -231,
+      -9
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f244",
+     "name": "Clip ángulo cabezal (soldado)",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -12,
+      231,
+      -45
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 4,
+      "d": 60,
+      "h": 48
+     }
+    },
+    {
+     "id": "f245",
+     "name": "Paso M6 clip cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -12,
+      231,
+      -33
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f246",
+     "name": "Paso M6 clip cabezal",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -12,
+      231,
+      -9
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 7,
       "depth": 0,
       "through": true
      }
@@ -6775,8 +7597,8 @@
    ]
   },
   {
-   "id": "p19_fab_rodillo_retorno_63_5_tubo_a513_63_5_3_0_2_cabezales_torneados_asiento_35_h7_6202_2rs_eje_muerto_15_sae1045_roscado_m8_plano_lbp530_ej_04",
-   "name": "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
+   "id": "p19_fab_rodillo_retorno_63_5_tubo_a513_63_5_3_0_2_cabezales_torneados_asiento_35_h7_seeger_din_472_35_eje_muerto_15_sae1045_roscado_m8_plano_lbp530_ej_04",
+   "name": "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
    "color": "#8d959b",
    "pos": [
     380,
@@ -6793,8 +7615,28 @@
    "visible": true,
    "features": [
     {
-     "id": "f215",
-     "name": "Tubo Ø63.5 (2× 6202-2RS insertos)",
+     "id": "f247",
+     "name": "Tubo Ø63.5 (cabezales insertos)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -231,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 63.5,
+      "h": 462
+     }
+    },
+    {
+     "id": "f248",
+     "name": "Chaflán 2×45° extremo −Y",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6808,13 +7650,33 @@
       0
      ],
      "params": {
-      "dia": 63.5,
-      "h": 466
+      "dia": 59.5,
+      "h": 2
      }
     },
     {
-     "id": "f216",
-     "name": "Eje muerto Ø15 (roscado M8 int. ambas puntas)",
+     "id": "f249",
+     "name": "Chaflán 2×45° extremo +Y",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      231,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 59.5,
+      "h": 2
+     }
+    },
+    {
+     "id": "f250",
+     "name": "Eje muerto Ø15 (roscado M8 int., chaflán 1×45°)",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6833,7 +7695,7 @@
      }
     },
     {
-     "id": "f217",
+     "id": "f251",
      "name": "Perno hex M8 + golilla (por fuera)",
      "shape": "cylinder",
      "op": "union",
@@ -6853,7 +7715,7 @@
      }
     },
     {
-     "id": "f218",
+     "id": "f252",
      "name": "Perno hex M8 + golilla (por fuera)",
      "shape": "cylinder",
      "op": "union",
@@ -6875,7 +7737,87 @@
    ]
   },
   {
-   "id": "p20_fab_eje_motriz_cuadrado_38_1_l_681_mu_ones_30_h6",
+   "id": "p20_norm_rodamiento_6202_2rs_15_35_11_sellado",
+   "name": "NORM · Rodamiento 6202-2RS (15×35×11) sellado",
+   "color": "#15181b",
+   "pos": [
+    380,
+    -227.5,
+    -160
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f253",
+     "name": "Aro exterior + sello 2RS",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      5.5,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 34.5,
+      "h": 11
+     }
+    }
+   ]
+  },
+  {
+   "id": "p21_norm_rodamiento_6202_2rs_15_35_11_sellado",
+   "name": "NORM · Rodamiento 6202-2RS (15×35×11) sellado",
+   "color": "#15181b",
+   "pos": [
+    380,
+    227.5,
+    -160
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f254",
+     "name": "Aro exterior + sello 2RS",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -5.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 34.5,
+      "h": 11
+     }
+    }
+   ]
+  },
+  {
+   "id": "p22_fab_eje_motriz_cuadrado_38_1_l_681_mu_ones_30_h6",
    "name": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
    "color": "#9aa2a8",
    "pos": [
@@ -6893,7 +7835,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f219",
+     "id": "f255",
      "name": "Cuadrado 38.1×38.1×466",
      "shape": "box",
      "op": "union",
@@ -6914,8 +7856,48 @@
      }
     },
     {
-     "id": "f220",
+     "id": "f256",
+     "name": "Garganta 2.5×0,5 — salida de rectificado (libre)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -235.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 27,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f257",
      "name": "Muñón libre Ø30×50",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -281,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 45.5
+     }
+    },
+    {
+     "id": "f258",
+     "name": "Chaflán 2×45° punta (libre)",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6929,13 +7911,13 @@
       0
      ],
      "params": {
-      "dia": 30,
-      "h": 50
+      "dia": 26,
+      "h": 2
      }
     },
     {
-     "id": "f221",
-     "name": "Muñón motriz Ø30×165",
+     "id": "f259",
+     "name": "Garganta 2.5×0,5 — salida de rectificado (motriz)",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -6949,12 +7931,52 @@
       0
      ],
      "params": {
-      "dia": 30,
-      "h": 165
+      "dia": 27,
+      "h": 2.5
      }
     },
     {
-     "id": "f222",
+     "id": "f260",
+     "name": "Muñón motriz Ø30×165",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      235.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 160.5
+     }
+    },
+    {
+     "id": "f261",
+     "name": "Chaflán 2×45° punta (motriz)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      396,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 2
+     }
+    },
+    {
+     "id": "f262",
      "name": "Chavetero 8×7×90",
      "shape": "box",
      "op": "cut",
@@ -6975,7 +7997,7 @@
      }
     },
     {
-     "id": "f223",
+     "id": "f263",
      "name": "Rosca M10×22",
      "shape": "hole",
      "op": "cut",
@@ -6998,7 +8020,7 @@
    ]
   },
   {
-   "id": "p21_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
+   "id": "p23_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
    "name": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
    "color": "#3d4348",
    "pos": [
@@ -7016,7 +8038,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f224",
+     "id": "f264",
      "name": "Corona raíz Ø137.4",
      "shape": "cylinder",
      "op": "union",
@@ -7036,7 +8058,7 @@
      }
     },
     {
-     "id": "f225",
+     "id": "f265",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -7056,856 +8078,35 @@
      }
     },
     {
-     "id": "f226",
-     "name": "Bore cuadrado 38.4",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      -19.19999999999999
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 38.4,
-      "d": 44,
-      "h": 38.4
-     }
-    },
-    {
-     "id": "f227",
-     "name": "Diente 1/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      73.39999999999998,
-      -12,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f228",
-     "name": "Diente 2/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      71.98963958159709,
-      -12,
-      14.319629635983802
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f229",
-     "name": "Diente 3/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      67.8127576863285,
-      -12,
-      28.088963935597576
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f230",
-     "name": "Diente 4/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      61.02986954300684,
-      -12,
-      40.77885510363882
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f231",
-     "name": "Diente 5/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      51.90163773909262,
-      -12,
-      51.901637739092564
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f232",
-     "name": "Diente 6/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      40.77885510363876,
-      -12,
-      61.02986954300684
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f233",
-     "name": "Diente 7/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      28.088963935597576,
-      -12,
-      67.81275768632844
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f234",
-     "name": "Diente 8/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      14.319629635983802,
-      -12,
-      71.98963958159709
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f235",
-     "name": "Diente 9/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -12,
-      73.39999999999998
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f236",
-     "name": "Diente 10/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -14.319629635983802,
-      -12,
-      71.98963958159709
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f237",
-     "name": "Diente 11/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -28.088963935597576,
-      -12,
-      67.81275768632844
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f238",
-     "name": "Diente 12/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -40.77885510363876,
-      -12,
-      61.02986954300684
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f239",
-     "name": "Diente 13/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -51.90163773909262,
-      -12,
-      51.90163773909262
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f240",
-     "name": "Diente 14/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -61.02986954300684,
-      -12,
-      40.77885510363882
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f241",
-     "name": "Diente 15/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -67.8127576863285,
-      -12,
-      28.088963935597576
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f242",
-     "name": "Diente 16/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -71.98963958159709,
-      -12,
-      14.319629635983858
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f243",
-     "name": "Diente 17/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -73.39999999999998,
-      -12,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f244",
-     "name": "Diente 18/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -71.98963958159709,
-      -12,
-      -14.319629635983802
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f245",
-     "name": "Diente 19/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -67.8127576863285,
-      -12,
-      -28.088963935597576
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f246",
-     "name": "Diente 20/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -61.02986954300684,
-      -12,
-      -40.77885510363876
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f247",
-     "name": "Diente 21/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -51.90163773909262,
-      -12,
-      -51.901637739092564
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f248",
-     "name": "Diente 22/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -40.77885510363876,
-      -12,
-      -61.02986954300684
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f249",
-     "name": "Diente 23/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -28.088963935597576,
-      -12,
-      -67.81275768632844
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f250",
-     "name": "Diente 24/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -14.319629635983802,
-      -12,
-      -71.98963958159709
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f251",
-     "name": "Diente 25/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -12,
-      -73.39999999999998
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f252",
-     "name": "Diente 26/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      14.319629635983802,
-      -12,
-      -71.98963958159709
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f253",
-     "name": "Diente 27/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      28.088963935597576,
-      -12,
-      -67.81275768632844
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f254",
-     "name": "Diente 28/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      40.77885510363876,
-      -12,
-      -61.02986954300684
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f255",
-     "name": "Diente 29/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      51.90163773909262,
-      -12,
-      -51.90163773909262
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f256",
-     "name": "Diente 30/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      61.02986954300684,
-      -12,
-      -40.77885510363882
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f257",
-     "name": "Diente 31/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      67.8127576863285,
-      -12,
-      -28.088963935597633
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f258",
-     "name": "Diente 32/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      71.98963958159709,
-      -12,
-      -14.319629635983858
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    }
-   ]
-  },
-  {
-   "id": "p22_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
-   "name": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
-   "color": "#3d4348",
-   "pos": [
-    680,
-    -114.3,
-    -400
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f259",
-     "name": "Corona raíz Ø137.4",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -12,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 137.4,
-      "h": 24
-     }
-    },
-    {
-     "id": "f260",
-     "name": "Cuerpo moldeado",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -20.000000000000014,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 110.80000000000001,
-      "h": 40
-     }
-    },
-    {
-     "id": "f261",
-     "name": "Bore cuadrado 38.4",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      -19.19999999999999
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 38.4,
-      "d": 44,
-      "h": 38.4
-     }
-    },
-    {
-     "id": "f262",
-     "name": "Diente 1/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      73.39999999999998,
-      -12,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f263",
-     "name": "Diente 2/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      71.98963958159709,
-      -12,
-      14.319629635983802
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f264",
-     "name": "Diente 3/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      67.8127576863285,
-      -12,
-      28.088963935597576
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f265",
-     "name": "Diente 4/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      61.02986954300684,
-      -12,
-      40.77885510363882
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
      "id": "f266",
-     "name": "Diente 5/32",
-     "shape": "cylinder",
-     "op": "union",
+     "name": "Bore cuadrado 38.4",
+     "shape": "box",
+     "op": "cut",
      "at": [
-      51.90163773909262,
-      -12,
-      51.901637739092564
+      0,
+      0,
+      -19.19999999999999
      ],
      "dir": [
       0,
-      1,
-      0
+      0,
+      1
      ],
      "params": {
-      "dia": 8,
-      "h": 24
+      "w": 38.4,
+      "d": 44,
+      "h": 38.4
      }
     },
     {
      "id": "f267",
-     "name": "Diente 6/32",
+     "name": "Diente 1/32",
      "shape": "cylinder",
      "op": "union",
      "at": [
-      40.77885510363876,
+      73.39999999999998,
       -12,
-      61.02986954300684
+      0
      ],
      "dir": [
       0,
@@ -7919,627 +8120,6 @@
     },
     {
      "id": "f268",
-     "name": "Diente 7/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      28.088963935597576,
-      -12,
-      67.81275768632844
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f269",
-     "name": "Diente 8/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      14.319629635983802,
-      -12,
-      71.98963958159709
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f270",
-     "name": "Diente 9/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -12,
-      73.39999999999998
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f271",
-     "name": "Diente 10/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -14.319629635983802,
-      -12,
-      71.98963958159709
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f272",
-     "name": "Diente 11/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -28.088963935597576,
-      -12,
-      67.81275768632844
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f273",
-     "name": "Diente 12/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -40.77885510363876,
-      -12,
-      61.02986954300684
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f274",
-     "name": "Diente 13/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -51.90163773909262,
-      -12,
-      51.90163773909262
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f275",
-     "name": "Diente 14/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -61.02986954300684,
-      -12,
-      40.77885510363882
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f276",
-     "name": "Diente 15/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -67.8127576863285,
-      -12,
-      28.088963935597576
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f277",
-     "name": "Diente 16/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -71.98963958159709,
-      -12,
-      14.319629635983858
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f278",
-     "name": "Diente 17/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -73.39999999999998,
-      -12,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f279",
-     "name": "Diente 18/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -71.98963958159709,
-      -12,
-      -14.319629635983802
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f280",
-     "name": "Diente 19/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -67.8127576863285,
-      -12,
-      -28.088963935597576
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f281",
-     "name": "Diente 20/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -61.02986954300684,
-      -12,
-      -40.77885510363876
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f282",
-     "name": "Diente 21/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -51.90163773909262,
-      -12,
-      -51.901637739092564
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f283",
-     "name": "Diente 22/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -40.77885510363876,
-      -12,
-      -61.02986954300684
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f284",
-     "name": "Diente 23/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -28.088963935597576,
-      -12,
-      -67.81275768632844
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f285",
-     "name": "Diente 24/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      -14.319629635983802,
-      -12,
-      -71.98963958159709
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f286",
-     "name": "Diente 25/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -12,
-      -73.39999999999998
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f287",
-     "name": "Diente 26/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      14.319629635983802,
-      -12,
-      -71.98963958159709
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f288",
-     "name": "Diente 27/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      28.088963935597576,
-      -12,
-      -67.81275768632844
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f289",
-     "name": "Diente 28/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      40.77885510363876,
-      -12,
-      -61.02986954300684
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f290",
-     "name": "Diente 29/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      51.90163773909262,
-      -12,
-      -51.90163773909262
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f291",
-     "name": "Diente 30/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      61.02986954300684,
-      -12,
-      -40.77885510363882
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f292",
-     "name": "Diente 31/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      67.8127576863285,
-      -12,
-      -28.088963935597633
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f293",
-     "name": "Diente 32/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      71.98963958159709,
-      -12,
-      -14.319629635983858
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    }
-   ]
-  },
-  {
-   "id": "p23_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
-   "name": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
-   "color": "#3d4348",
-   "pos": [
-    680,
-    -38.1,
-    -400
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f294",
-     "name": "Corona raíz Ø137.4",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -12,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 137.4,
-      "h": 24
-     }
-    },
-    {
-     "id": "f295",
-     "name": "Cuerpo moldeado",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      0,
-      -20,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 110.80000000000001,
-      "h": 40
-     }
-    },
-    {
-     "id": "f296",
-     "name": "Bore cuadrado 38.4",
-     "shape": "box",
-     "op": "cut",
-     "at": [
-      0,
-      0,
-      -19.19999999999999
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 38.4,
-      "d": 44,
-      "h": 38.4
-     }
-    },
-    {
-     "id": "f297",
-     "name": "Diente 1/32",
-     "shape": "cylinder",
-     "op": "union",
-     "at": [
-      73.39999999999998,
-      -12,
-      0
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 8,
-      "h": 24
-     }
-    },
-    {
-     "id": "f298",
      "name": "Diente 2/32",
      "shape": "cylinder",
      "op": "union",
@@ -8559,7 +8139,7 @@
      }
     },
     {
-     "id": "f299",
+     "id": "f269",
      "name": "Diente 3/32",
      "shape": "cylinder",
      "op": "union",
@@ -8579,7 +8159,7 @@
      }
     },
     {
-     "id": "f300",
+     "id": "f270",
      "name": "Diente 4/32",
      "shape": "cylinder",
      "op": "union",
@@ -8599,7 +8179,7 @@
      }
     },
     {
-     "id": "f301",
+     "id": "f271",
      "name": "Diente 5/32",
      "shape": "cylinder",
      "op": "union",
@@ -8619,7 +8199,7 @@
      }
     },
     {
-     "id": "f302",
+     "id": "f272",
      "name": "Diente 6/32",
      "shape": "cylinder",
      "op": "union",
@@ -8639,7 +8219,7 @@
      }
     },
     {
-     "id": "f303",
+     "id": "f273",
      "name": "Diente 7/32",
      "shape": "cylinder",
      "op": "union",
@@ -8659,7 +8239,7 @@
      }
     },
     {
-     "id": "f304",
+     "id": "f274",
      "name": "Diente 8/32",
      "shape": "cylinder",
      "op": "union",
@@ -8679,7 +8259,7 @@
      }
     },
     {
-     "id": "f305",
+     "id": "f275",
      "name": "Diente 9/32",
      "shape": "cylinder",
      "op": "union",
@@ -8699,7 +8279,7 @@
      }
     },
     {
-     "id": "f306",
+     "id": "f276",
      "name": "Diente 10/32",
      "shape": "cylinder",
      "op": "union",
@@ -8719,7 +8299,7 @@
      }
     },
     {
-     "id": "f307",
+     "id": "f277",
      "name": "Diente 11/32",
      "shape": "cylinder",
      "op": "union",
@@ -8739,7 +8319,7 @@
      }
     },
     {
-     "id": "f308",
+     "id": "f278",
      "name": "Diente 12/32",
      "shape": "cylinder",
      "op": "union",
@@ -8759,7 +8339,7 @@
      }
     },
     {
-     "id": "f309",
+     "id": "f279",
      "name": "Diente 13/32",
      "shape": "cylinder",
      "op": "union",
@@ -8779,7 +8359,7 @@
      }
     },
     {
-     "id": "f310",
+     "id": "f280",
      "name": "Diente 14/32",
      "shape": "cylinder",
      "op": "union",
@@ -8799,7 +8379,7 @@
      }
     },
     {
-     "id": "f311",
+     "id": "f281",
      "name": "Diente 15/32",
      "shape": "cylinder",
      "op": "union",
@@ -8819,7 +8399,7 @@
      }
     },
     {
-     "id": "f312",
+     "id": "f282",
      "name": "Diente 16/32",
      "shape": "cylinder",
      "op": "union",
@@ -8839,7 +8419,7 @@
      }
     },
     {
-     "id": "f313",
+     "id": "f283",
      "name": "Diente 17/32",
      "shape": "cylinder",
      "op": "union",
@@ -8859,7 +8439,7 @@
      }
     },
     {
-     "id": "f314",
+     "id": "f284",
      "name": "Diente 18/32",
      "shape": "cylinder",
      "op": "union",
@@ -8879,7 +8459,7 @@
      }
     },
     {
-     "id": "f315",
+     "id": "f285",
      "name": "Diente 19/32",
      "shape": "cylinder",
      "op": "union",
@@ -8899,7 +8479,7 @@
      }
     },
     {
-     "id": "f316",
+     "id": "f286",
      "name": "Diente 20/32",
      "shape": "cylinder",
      "op": "union",
@@ -8919,7 +8499,7 @@
      }
     },
     {
-     "id": "f317",
+     "id": "f287",
      "name": "Diente 21/32",
      "shape": "cylinder",
      "op": "union",
@@ -8939,7 +8519,7 @@
      }
     },
     {
-     "id": "f318",
+     "id": "f288",
      "name": "Diente 22/32",
      "shape": "cylinder",
      "op": "union",
@@ -8959,7 +8539,7 @@
      }
     },
     {
-     "id": "f319",
+     "id": "f289",
      "name": "Diente 23/32",
      "shape": "cylinder",
      "op": "union",
@@ -8979,7 +8559,7 @@
      }
     },
     {
-     "id": "f320",
+     "id": "f290",
      "name": "Diente 24/32",
      "shape": "cylinder",
      "op": "union",
@@ -8999,7 +8579,7 @@
      }
     },
     {
-     "id": "f321",
+     "id": "f291",
      "name": "Diente 25/32",
      "shape": "cylinder",
      "op": "union",
@@ -9019,7 +8599,7 @@
      }
     },
     {
-     "id": "f322",
+     "id": "f292",
      "name": "Diente 26/32",
      "shape": "cylinder",
      "op": "union",
@@ -9039,7 +8619,7 @@
      }
     },
     {
-     "id": "f323",
+     "id": "f293",
      "name": "Diente 27/32",
      "shape": "cylinder",
      "op": "union",
@@ -9059,7 +8639,7 @@
      }
     },
     {
-     "id": "f324",
+     "id": "f294",
      "name": "Diente 28/32",
      "shape": "cylinder",
      "op": "union",
@@ -9079,7 +8659,7 @@
      }
     },
     {
-     "id": "f325",
+     "id": "f295",
      "name": "Diente 29/32",
      "shape": "cylinder",
      "op": "union",
@@ -9099,7 +8679,7 @@
      }
     },
     {
-     "id": "f326",
+     "id": "f296",
      "name": "Diente 30/32",
      "shape": "cylinder",
      "op": "union",
@@ -9119,7 +8699,7 @@
      }
     },
     {
-     "id": "f327",
+     "id": "f297",
      "name": "Diente 31/32",
      "shape": "cylinder",
      "op": "union",
@@ -9139,7 +8719,7 @@
      }
     },
     {
-     "id": "f328",
+     "id": "f298",
      "name": "Diente 32/32",
      "shape": "cylinder",
      "op": "union",
@@ -9166,7 +8746,7 @@
    "color": "#3d4348",
    "pos": [
     680,
-    38.1,
+    -114.3,
     -400
    ],
    "quat": [
@@ -9179,7 +8759,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f329",
+     "id": "f299",
      "name": "Corona raíz Ø137.4",
      "shape": "cylinder",
      "op": "union",
@@ -9199,13 +8779,13 @@
      }
     },
     {
-     "id": "f330",
+     "id": "f300",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
      "at": [
       0,
-      -20,
+      -20.000000000000014,
       0
      ],
      "dir": [
@@ -9219,7 +8799,7 @@
      }
     },
     {
-     "id": "f331",
+     "id": "f301",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -9240,7 +8820,7 @@
      }
     },
     {
-     "id": "f332",
+     "id": "f302",
      "name": "Diente 1/32",
      "shape": "cylinder",
      "op": "union",
@@ -9260,7 +8840,7 @@
      }
     },
     {
-     "id": "f333",
+     "id": "f303",
      "name": "Diente 2/32",
      "shape": "cylinder",
      "op": "union",
@@ -9280,7 +8860,7 @@
      }
     },
     {
-     "id": "f334",
+     "id": "f304",
      "name": "Diente 3/32",
      "shape": "cylinder",
      "op": "union",
@@ -9300,7 +8880,7 @@
      }
     },
     {
-     "id": "f335",
+     "id": "f305",
      "name": "Diente 4/32",
      "shape": "cylinder",
      "op": "union",
@@ -9320,7 +8900,7 @@
      }
     },
     {
-     "id": "f336",
+     "id": "f306",
      "name": "Diente 5/32",
      "shape": "cylinder",
      "op": "union",
@@ -9340,7 +8920,7 @@
      }
     },
     {
-     "id": "f337",
+     "id": "f307",
      "name": "Diente 6/32",
      "shape": "cylinder",
      "op": "union",
@@ -9360,7 +8940,7 @@
      }
     },
     {
-     "id": "f338",
+     "id": "f308",
      "name": "Diente 7/32",
      "shape": "cylinder",
      "op": "union",
@@ -9380,7 +8960,7 @@
      }
     },
     {
-     "id": "f339",
+     "id": "f309",
      "name": "Diente 8/32",
      "shape": "cylinder",
      "op": "union",
@@ -9400,7 +8980,7 @@
      }
     },
     {
-     "id": "f340",
+     "id": "f310",
      "name": "Diente 9/32",
      "shape": "cylinder",
      "op": "union",
@@ -9420,7 +9000,7 @@
      }
     },
     {
-     "id": "f341",
+     "id": "f311",
      "name": "Diente 10/32",
      "shape": "cylinder",
      "op": "union",
@@ -9440,7 +9020,7 @@
      }
     },
     {
-     "id": "f342",
+     "id": "f312",
      "name": "Diente 11/32",
      "shape": "cylinder",
      "op": "union",
@@ -9460,7 +9040,7 @@
      }
     },
     {
-     "id": "f343",
+     "id": "f313",
      "name": "Diente 12/32",
      "shape": "cylinder",
      "op": "union",
@@ -9480,7 +9060,7 @@
      }
     },
     {
-     "id": "f344",
+     "id": "f314",
      "name": "Diente 13/32",
      "shape": "cylinder",
      "op": "union",
@@ -9500,7 +9080,7 @@
      }
     },
     {
-     "id": "f345",
+     "id": "f315",
      "name": "Diente 14/32",
      "shape": "cylinder",
      "op": "union",
@@ -9520,7 +9100,7 @@
      }
     },
     {
-     "id": "f346",
+     "id": "f316",
      "name": "Diente 15/32",
      "shape": "cylinder",
      "op": "union",
@@ -9540,7 +9120,7 @@
      }
     },
     {
-     "id": "f347",
+     "id": "f317",
      "name": "Diente 16/32",
      "shape": "cylinder",
      "op": "union",
@@ -9560,7 +9140,7 @@
      }
     },
     {
-     "id": "f348",
+     "id": "f318",
      "name": "Diente 17/32",
      "shape": "cylinder",
      "op": "union",
@@ -9580,7 +9160,7 @@
      }
     },
     {
-     "id": "f349",
+     "id": "f319",
      "name": "Diente 18/32",
      "shape": "cylinder",
      "op": "union",
@@ -9600,7 +9180,7 @@
      }
     },
     {
-     "id": "f350",
+     "id": "f320",
      "name": "Diente 19/32",
      "shape": "cylinder",
      "op": "union",
@@ -9620,7 +9200,7 @@
      }
     },
     {
-     "id": "f351",
+     "id": "f321",
      "name": "Diente 20/32",
      "shape": "cylinder",
      "op": "union",
@@ -9640,7 +9220,7 @@
      }
     },
     {
-     "id": "f352",
+     "id": "f322",
      "name": "Diente 21/32",
      "shape": "cylinder",
      "op": "union",
@@ -9660,7 +9240,7 @@
      }
     },
     {
-     "id": "f353",
+     "id": "f323",
      "name": "Diente 22/32",
      "shape": "cylinder",
      "op": "union",
@@ -9680,7 +9260,7 @@
      }
     },
     {
-     "id": "f354",
+     "id": "f324",
      "name": "Diente 23/32",
      "shape": "cylinder",
      "op": "union",
@@ -9700,7 +9280,7 @@
      }
     },
     {
-     "id": "f355",
+     "id": "f325",
      "name": "Diente 24/32",
      "shape": "cylinder",
      "op": "union",
@@ -9720,7 +9300,7 @@
      }
     },
     {
-     "id": "f356",
+     "id": "f326",
      "name": "Diente 25/32",
      "shape": "cylinder",
      "op": "union",
@@ -9740,7 +9320,7 @@
      }
     },
     {
-     "id": "f357",
+     "id": "f327",
      "name": "Diente 26/32",
      "shape": "cylinder",
      "op": "union",
@@ -9760,7 +9340,7 @@
      }
     },
     {
-     "id": "f358",
+     "id": "f328",
      "name": "Diente 27/32",
      "shape": "cylinder",
      "op": "union",
@@ -9780,7 +9360,7 @@
      }
     },
     {
-     "id": "f359",
+     "id": "f329",
      "name": "Diente 28/32",
      "shape": "cylinder",
      "op": "union",
@@ -9800,7 +9380,7 @@
      }
     },
     {
-     "id": "f360",
+     "id": "f330",
      "name": "Diente 29/32",
      "shape": "cylinder",
      "op": "union",
@@ -9820,7 +9400,7 @@
      }
     },
     {
-     "id": "f361",
+     "id": "f331",
      "name": "Diente 30/32",
      "shape": "cylinder",
      "op": "union",
@@ -9840,7 +9420,7 @@
      }
     },
     {
-     "id": "f362",
+     "id": "f332",
      "name": "Diente 31/32",
      "shape": "cylinder",
      "op": "union",
@@ -9860,7 +9440,7 @@
      }
     },
     {
-     "id": "f363",
+     "id": "f333",
      "name": "Diente 32/32",
      "shape": "cylinder",
      "op": "union",
@@ -9887,7 +9467,7 @@
    "color": "#3d4348",
    "pos": [
     680,
-    114.3,
+    -38.1,
     -400
    ],
    "quat": [
@@ -9900,7 +9480,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f364",
+     "id": "f334",
      "name": "Corona raíz Ø137.4",
      "shape": "cylinder",
      "op": "union",
@@ -9920,7 +9500,7 @@
      }
     },
     {
-     "id": "f365",
+     "id": "f335",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -9940,7 +9520,7 @@
      }
     },
     {
-     "id": "f366",
+     "id": "f336",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -9961,7 +9541,7 @@
      }
     },
     {
-     "id": "f367",
+     "id": "f337",
      "name": "Diente 1/32",
      "shape": "cylinder",
      "op": "union",
@@ -9981,7 +9561,7 @@
      }
     },
     {
-     "id": "f368",
+     "id": "f338",
      "name": "Diente 2/32",
      "shape": "cylinder",
      "op": "union",
@@ -10001,7 +9581,7 @@
      }
     },
     {
-     "id": "f369",
+     "id": "f339",
      "name": "Diente 3/32",
      "shape": "cylinder",
      "op": "union",
@@ -10021,7 +9601,7 @@
      }
     },
     {
-     "id": "f370",
+     "id": "f340",
      "name": "Diente 4/32",
      "shape": "cylinder",
      "op": "union",
@@ -10041,7 +9621,7 @@
      }
     },
     {
-     "id": "f371",
+     "id": "f341",
      "name": "Diente 5/32",
      "shape": "cylinder",
      "op": "union",
@@ -10061,7 +9641,7 @@
      }
     },
     {
-     "id": "f372",
+     "id": "f342",
      "name": "Diente 6/32",
      "shape": "cylinder",
      "op": "union",
@@ -10081,7 +9661,7 @@
      }
     },
     {
-     "id": "f373",
+     "id": "f343",
      "name": "Diente 7/32",
      "shape": "cylinder",
      "op": "union",
@@ -10101,7 +9681,7 @@
      }
     },
     {
-     "id": "f374",
+     "id": "f344",
      "name": "Diente 8/32",
      "shape": "cylinder",
      "op": "union",
@@ -10121,7 +9701,7 @@
      }
     },
     {
-     "id": "f375",
+     "id": "f345",
      "name": "Diente 9/32",
      "shape": "cylinder",
      "op": "union",
@@ -10141,7 +9721,7 @@
      }
     },
     {
-     "id": "f376",
+     "id": "f346",
      "name": "Diente 10/32",
      "shape": "cylinder",
      "op": "union",
@@ -10161,7 +9741,7 @@
      }
     },
     {
-     "id": "f377",
+     "id": "f347",
      "name": "Diente 11/32",
      "shape": "cylinder",
      "op": "union",
@@ -10181,7 +9761,7 @@
      }
     },
     {
-     "id": "f378",
+     "id": "f348",
      "name": "Diente 12/32",
      "shape": "cylinder",
      "op": "union",
@@ -10201,7 +9781,7 @@
      }
     },
     {
-     "id": "f379",
+     "id": "f349",
      "name": "Diente 13/32",
      "shape": "cylinder",
      "op": "union",
@@ -10221,7 +9801,7 @@
      }
     },
     {
-     "id": "f380",
+     "id": "f350",
      "name": "Diente 14/32",
      "shape": "cylinder",
      "op": "union",
@@ -10241,7 +9821,7 @@
      }
     },
     {
-     "id": "f381",
+     "id": "f351",
      "name": "Diente 15/32",
      "shape": "cylinder",
      "op": "union",
@@ -10261,7 +9841,7 @@
      }
     },
     {
-     "id": "f382",
+     "id": "f352",
      "name": "Diente 16/32",
      "shape": "cylinder",
      "op": "union",
@@ -10281,7 +9861,7 @@
      }
     },
     {
-     "id": "f383",
+     "id": "f353",
      "name": "Diente 17/32",
      "shape": "cylinder",
      "op": "union",
@@ -10301,7 +9881,7 @@
      }
     },
     {
-     "id": "f384",
+     "id": "f354",
      "name": "Diente 18/32",
      "shape": "cylinder",
      "op": "union",
@@ -10321,7 +9901,7 @@
      }
     },
     {
-     "id": "f385",
+     "id": "f355",
      "name": "Diente 19/32",
      "shape": "cylinder",
      "op": "union",
@@ -10341,7 +9921,7 @@
      }
     },
     {
-     "id": "f386",
+     "id": "f356",
      "name": "Diente 20/32",
      "shape": "cylinder",
      "op": "union",
@@ -10361,7 +9941,7 @@
      }
     },
     {
-     "id": "f387",
+     "id": "f357",
      "name": "Diente 21/32",
      "shape": "cylinder",
      "op": "union",
@@ -10381,7 +9961,7 @@
      }
     },
     {
-     "id": "f388",
+     "id": "f358",
      "name": "Diente 22/32",
      "shape": "cylinder",
      "op": "union",
@@ -10401,7 +9981,7 @@
      }
     },
     {
-     "id": "f389",
+     "id": "f359",
      "name": "Diente 23/32",
      "shape": "cylinder",
      "op": "union",
@@ -10421,7 +10001,7 @@
      }
     },
     {
-     "id": "f390",
+     "id": "f360",
      "name": "Diente 24/32",
      "shape": "cylinder",
      "op": "union",
@@ -10441,7 +10021,7 @@
      }
     },
     {
-     "id": "f391",
+     "id": "f361",
      "name": "Diente 25/32",
      "shape": "cylinder",
      "op": "union",
@@ -10461,7 +10041,7 @@
      }
     },
     {
-     "id": "f392",
+     "id": "f362",
      "name": "Diente 26/32",
      "shape": "cylinder",
      "op": "union",
@@ -10481,7 +10061,7 @@
      }
     },
     {
-     "id": "f393",
+     "id": "f363",
      "name": "Diente 27/32",
      "shape": "cylinder",
      "op": "union",
@@ -10501,7 +10081,7 @@
      }
     },
     {
-     "id": "f394",
+     "id": "f364",
      "name": "Diente 28/32",
      "shape": "cylinder",
      "op": "union",
@@ -10521,7 +10101,7 @@
      }
     },
     {
-     "id": "f395",
+     "id": "f365",
      "name": "Diente 29/32",
      "shape": "cylinder",
      "op": "union",
@@ -10541,7 +10121,7 @@
      }
     },
     {
-     "id": "f396",
+     "id": "f366",
      "name": "Diente 30/32",
      "shape": "cylinder",
      "op": "union",
@@ -10561,7 +10141,7 @@
      }
     },
     {
-     "id": "f397",
+     "id": "f367",
      "name": "Diente 31/32",
      "shape": "cylinder",
      "op": "union",
@@ -10581,7 +10161,7 @@
      }
     },
     {
-     "id": "f398",
+     "id": "f368",
      "name": "Diente 32/32",
      "shape": "cylinder",
      "op": "union",
@@ -10608,7 +10188,7 @@
    "color": "#3d4348",
    "pos": [
     680,
-    190.5,
+    38.1,
     -400
    ],
    "quat": [
@@ -10621,7 +10201,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f399",
+     "id": "f369",
      "name": "Corona raíz Ø137.4",
      "shape": "cylinder",
      "op": "union",
@@ -10641,7 +10221,7 @@
      }
     },
     {
-     "id": "f400",
+     "id": "f370",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -10661,7 +10241,7 @@
      }
     },
     {
-     "id": "f401",
+     "id": "f371",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -10682,7 +10262,7 @@
      }
     },
     {
-     "id": "f402",
+     "id": "f372",
      "name": "Diente 1/32",
      "shape": "cylinder",
      "op": "union",
@@ -10702,7 +10282,7 @@
      }
     },
     {
-     "id": "f403",
+     "id": "f373",
      "name": "Diente 2/32",
      "shape": "cylinder",
      "op": "union",
@@ -10722,7 +10302,7 @@
      }
     },
     {
-     "id": "f404",
+     "id": "f374",
      "name": "Diente 3/32",
      "shape": "cylinder",
      "op": "union",
@@ -10742,7 +10322,7 @@
      }
     },
     {
-     "id": "f405",
+     "id": "f375",
      "name": "Diente 4/32",
      "shape": "cylinder",
      "op": "union",
@@ -10762,7 +10342,7 @@
      }
     },
     {
-     "id": "f406",
+     "id": "f376",
      "name": "Diente 5/32",
      "shape": "cylinder",
      "op": "union",
@@ -10782,7 +10362,7 @@
      }
     },
     {
-     "id": "f407",
+     "id": "f377",
      "name": "Diente 6/32",
      "shape": "cylinder",
      "op": "union",
@@ -10802,7 +10382,7 @@
      }
     },
     {
-     "id": "f408",
+     "id": "f378",
      "name": "Diente 7/32",
      "shape": "cylinder",
      "op": "union",
@@ -10822,7 +10402,7 @@
      }
     },
     {
-     "id": "f409",
+     "id": "f379",
      "name": "Diente 8/32",
      "shape": "cylinder",
      "op": "union",
@@ -10842,7 +10422,7 @@
      }
     },
     {
-     "id": "f410",
+     "id": "f380",
      "name": "Diente 9/32",
      "shape": "cylinder",
      "op": "union",
@@ -10862,7 +10442,7 @@
      }
     },
     {
-     "id": "f411",
+     "id": "f381",
      "name": "Diente 10/32",
      "shape": "cylinder",
      "op": "union",
@@ -10882,7 +10462,7 @@
      }
     },
     {
-     "id": "f412",
+     "id": "f382",
      "name": "Diente 11/32",
      "shape": "cylinder",
      "op": "union",
@@ -10902,7 +10482,7 @@
      }
     },
     {
-     "id": "f413",
+     "id": "f383",
      "name": "Diente 12/32",
      "shape": "cylinder",
      "op": "union",
@@ -10922,7 +10502,7 @@
      }
     },
     {
-     "id": "f414",
+     "id": "f384",
      "name": "Diente 13/32",
      "shape": "cylinder",
      "op": "union",
@@ -10942,7 +10522,7 @@
      }
     },
     {
-     "id": "f415",
+     "id": "f385",
      "name": "Diente 14/32",
      "shape": "cylinder",
      "op": "union",
@@ -10962,7 +10542,7 @@
      }
     },
     {
-     "id": "f416",
+     "id": "f386",
      "name": "Diente 15/32",
      "shape": "cylinder",
      "op": "union",
@@ -10982,7 +10562,7 @@
      }
     },
     {
-     "id": "f417",
+     "id": "f387",
      "name": "Diente 16/32",
      "shape": "cylinder",
      "op": "union",
@@ -11002,7 +10582,7 @@
      }
     },
     {
-     "id": "f418",
+     "id": "f388",
      "name": "Diente 17/32",
      "shape": "cylinder",
      "op": "union",
@@ -11022,7 +10602,7 @@
      }
     },
     {
-     "id": "f419",
+     "id": "f389",
      "name": "Diente 18/32",
      "shape": "cylinder",
      "op": "union",
@@ -11042,7 +10622,7 @@
      }
     },
     {
-     "id": "f420",
+     "id": "f390",
      "name": "Diente 19/32",
      "shape": "cylinder",
      "op": "union",
@@ -11062,7 +10642,7 @@
      }
     },
     {
-     "id": "f421",
+     "id": "f391",
      "name": "Diente 20/32",
      "shape": "cylinder",
      "op": "union",
@@ -11082,7 +10662,7 @@
      }
     },
     {
-     "id": "f422",
+     "id": "f392",
      "name": "Diente 21/32",
      "shape": "cylinder",
      "op": "union",
@@ -11102,7 +10682,7 @@
      }
     },
     {
-     "id": "f423",
+     "id": "f393",
      "name": "Diente 22/32",
      "shape": "cylinder",
      "op": "union",
@@ -11122,7 +10702,7 @@
      }
     },
     {
-     "id": "f424",
+     "id": "f394",
      "name": "Diente 23/32",
      "shape": "cylinder",
      "op": "union",
@@ -11142,7 +10722,7 @@
      }
     },
     {
-     "id": "f425",
+     "id": "f395",
      "name": "Diente 24/32",
      "shape": "cylinder",
      "op": "union",
@@ -11162,7 +10742,7 @@
      }
     },
     {
-     "id": "f426",
+     "id": "f396",
      "name": "Diente 25/32",
      "shape": "cylinder",
      "op": "union",
@@ -11182,7 +10762,7 @@
      }
     },
     {
-     "id": "f427",
+     "id": "f397",
      "name": "Diente 26/32",
      "shape": "cylinder",
      "op": "union",
@@ -11202,7 +10782,7 @@
      }
     },
     {
-     "id": "f428",
+     "id": "f398",
      "name": "Diente 27/32",
      "shape": "cylinder",
      "op": "union",
@@ -11222,7 +10802,7 @@
      }
     },
     {
-     "id": "f429",
+     "id": "f399",
      "name": "Diente 28/32",
      "shape": "cylinder",
      "op": "union",
@@ -11242,7 +10822,7 @@
      }
     },
     {
-     "id": "f430",
+     "id": "f400",
      "name": "Diente 29/32",
      "shape": "cylinder",
      "op": "union",
@@ -11262,7 +10842,7 @@
      }
     },
     {
-     "id": "f431",
+     "id": "f401",
      "name": "Diente 30/32",
      "shape": "cylinder",
      "op": "union",
@@ -11282,7 +10862,7 @@
      }
     },
     {
-     "id": "f432",
+     "id": "f402",
      "name": "Diente 31/32",
      "shape": "cylinder",
      "op": "union",
@@ -11302,7 +10882,7 @@
      }
     },
     {
-     "id": "f433",
+     "id": "f403",
      "name": "Diente 32/32",
      "shape": "cylinder",
      "op": "union",
@@ -11324,7 +10904,1449 @@
    ]
   },
   {
-   "id": "p27_norm_collar_n_p21703y_fija_el_sprocket_central",
+   "id": "p27_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
+   "name": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
+   "color": "#3d4348",
+   "pos": [
+    680,
+    114.3,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f404",
+     "name": "Corona raíz Ø137.4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 137.4,
+      "h": 24
+     }
+    },
+    {
+     "id": "f405",
+     "name": "Cuerpo moldeado",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -20,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 110.80000000000001,
+      "h": 40
+     }
+    },
+    {
+     "id": "f406",
+     "name": "Bore cuadrado 38.4",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -19.19999999999999
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.4,
+      "d": 44,
+      "h": 38.4
+     }
+    },
+    {
+     "id": "f407",
+     "name": "Diente 1/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      73.39999999999998,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f408",
+     "name": "Diente 2/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      71.98963958159709,
+      -12,
+      14.319629635983802
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f409",
+     "name": "Diente 3/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      67.8127576863285,
+      -12,
+      28.088963935597576
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f410",
+     "name": "Diente 4/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      61.02986954300684,
+      -12,
+      40.77885510363882
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f411",
+     "name": "Diente 5/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      51.90163773909262,
+      -12,
+      51.901637739092564
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f412",
+     "name": "Diente 6/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      40.77885510363876,
+      -12,
+      61.02986954300684
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f413",
+     "name": "Diente 7/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28.088963935597576,
+      -12,
+      67.81275768632844
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f414",
+     "name": "Diente 8/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      14.319629635983802,
+      -12,
+      71.98963958159709
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f415",
+     "name": "Diente 9/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      73.39999999999998
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f416",
+     "name": "Diente 10/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -14.319629635983802,
+      -12,
+      71.98963958159709
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f417",
+     "name": "Diente 11/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -28.088963935597576,
+      -12,
+      67.81275768632844
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f418",
+     "name": "Diente 12/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -40.77885510363876,
+      -12,
+      61.02986954300684
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f419",
+     "name": "Diente 13/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -51.90163773909262,
+      -12,
+      51.90163773909262
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f420",
+     "name": "Diente 14/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -61.02986954300684,
+      -12,
+      40.77885510363882
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f421",
+     "name": "Diente 15/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -67.8127576863285,
+      -12,
+      28.088963935597576
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f422",
+     "name": "Diente 16/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -71.98963958159709,
+      -12,
+      14.319629635983858
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f423",
+     "name": "Diente 17/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -73.39999999999998,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f424",
+     "name": "Diente 18/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -71.98963958159709,
+      -12,
+      -14.319629635983802
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f425",
+     "name": "Diente 19/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -67.8127576863285,
+      -12,
+      -28.088963935597576
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f426",
+     "name": "Diente 20/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -61.02986954300684,
+      -12,
+      -40.77885510363876
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f427",
+     "name": "Diente 21/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -51.90163773909262,
+      -12,
+      -51.901637739092564
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f428",
+     "name": "Diente 22/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -40.77885510363876,
+      -12,
+      -61.02986954300684
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f429",
+     "name": "Diente 23/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -28.088963935597576,
+      -12,
+      -67.81275768632844
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f430",
+     "name": "Diente 24/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -14.319629635983802,
+      -12,
+      -71.98963958159709
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f431",
+     "name": "Diente 25/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      -73.39999999999998
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f432",
+     "name": "Diente 26/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      14.319629635983802,
+      -12,
+      -71.98963958159709
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f433",
+     "name": "Diente 27/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28.088963935597576,
+      -12,
+      -67.81275768632844
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f434",
+     "name": "Diente 28/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      40.77885510363876,
+      -12,
+      -61.02986954300684
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f435",
+     "name": "Diente 29/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      51.90163773909262,
+      -12,
+      -51.90163773909262
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f436",
+     "name": "Diente 30/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      61.02986954300684,
+      -12,
+      -40.77885510363882
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f437",
+     "name": "Diente 31/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      67.8127576863285,
+      -12,
+      -28.088963935597633
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f438",
+     "name": "Diente 32/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      71.98963958159709,
+      -12,
+      -14.319629635983858
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    }
+   ]
+  },
+  {
+   "id": "p28_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
+   "name": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
+   "color": "#3d4348",
+   "pos": [
+    680,
+    190.5,
+    -400
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f439",
+     "name": "Corona raíz Ø137.4",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 137.4,
+      "h": 24
+     }
+    },
+    {
+     "id": "f440",
+     "name": "Cuerpo moldeado",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -20,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 110.80000000000001,
+      "h": 40
+     }
+    },
+    {
+     "id": "f441",
+     "name": "Bore cuadrado 38.4",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -19.19999999999999
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.4,
+      "d": 44,
+      "h": 38.4
+     }
+    },
+    {
+     "id": "f442",
+     "name": "Diente 1/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      73.39999999999998,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f443",
+     "name": "Diente 2/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      71.98963958159709,
+      -12,
+      14.319629635983802
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f444",
+     "name": "Diente 3/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      67.8127576863285,
+      -12,
+      28.088963935597576
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f445",
+     "name": "Diente 4/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      61.02986954300684,
+      -12,
+      40.77885510363882
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f446",
+     "name": "Diente 5/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      51.90163773909262,
+      -12,
+      51.901637739092564
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f447",
+     "name": "Diente 6/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      40.77885510363876,
+      -12,
+      61.02986954300684
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f448",
+     "name": "Diente 7/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28.088963935597576,
+      -12,
+      67.81275768632844
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f449",
+     "name": "Diente 8/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      14.319629635983802,
+      -12,
+      71.98963958159709
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f450",
+     "name": "Diente 9/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      73.39999999999998
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f451",
+     "name": "Diente 10/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -14.319629635983802,
+      -12,
+      71.98963958159709
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f452",
+     "name": "Diente 11/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -28.088963935597576,
+      -12,
+      67.81275768632844
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f453",
+     "name": "Diente 12/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -40.77885510363876,
+      -12,
+      61.02986954300684
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f454",
+     "name": "Diente 13/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -51.90163773909262,
+      -12,
+      51.90163773909262
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f455",
+     "name": "Diente 14/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -61.02986954300684,
+      -12,
+      40.77885510363882
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f456",
+     "name": "Diente 15/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -67.8127576863285,
+      -12,
+      28.088963935597576
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f457",
+     "name": "Diente 16/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -71.98963958159709,
+      -12,
+      14.319629635983858
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f458",
+     "name": "Diente 17/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -73.39999999999998,
+      -12,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f459",
+     "name": "Diente 18/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -71.98963958159709,
+      -12,
+      -14.319629635983802
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f460",
+     "name": "Diente 19/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -67.8127576863285,
+      -12,
+      -28.088963935597576
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f461",
+     "name": "Diente 20/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -61.02986954300684,
+      -12,
+      -40.77885510363876
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f462",
+     "name": "Diente 21/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -51.90163773909262,
+      -12,
+      -51.901637739092564
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f463",
+     "name": "Diente 22/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -40.77885510363876,
+      -12,
+      -61.02986954300684
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f464",
+     "name": "Diente 23/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -28.088963935597576,
+      -12,
+      -67.81275768632844
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f465",
+     "name": "Diente 24/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      -14.319629635983802,
+      -12,
+      -71.98963958159709
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f466",
+     "name": "Diente 25/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -12,
+      -73.39999999999998
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f467",
+     "name": "Diente 26/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      14.319629635983802,
+      -12,
+      -71.98963958159709
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f468",
+     "name": "Diente 27/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      28.088963935597576,
+      -12,
+      -67.81275768632844
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f469",
+     "name": "Diente 28/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      40.77885510363876,
+      -12,
+      -61.02986954300684
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f470",
+     "name": "Diente 29/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      51.90163773909262,
+      -12,
+      -51.90163773909262
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f471",
+     "name": "Diente 30/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      61.02986954300684,
+      -12,
+      -40.77885510363882
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f472",
+     "name": "Diente 31/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      67.8127576863285,
+      -12,
+      -28.088963935597633
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    },
+    {
+     "id": "f473",
+     "name": "Diente 32/32",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      71.98963958159709,
+      -12,
+      -14.319629635983858
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8,
+      "h": 24
+     }
+    }
+   ]
+  },
+  {
+   "id": "p29_norm_collar_n_p21703y_fija_el_sprocket_central",
    "name": "NORM · Collarín P21703Y (fija el sprocket central)",
    "color": "#565d63",
    "pos": [
@@ -11342,7 +12364,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f434",
+     "id": "f474",
      "name": "Collarín P21703Y",
      "shape": "cylinder",
      "op": "union",
@@ -11362,7 +12384,7 @@
      }
     },
     {
-     "id": "f435",
+     "id": "f475",
      "name": "Bore cuadrado 38.3",
      "shape": "box",
      "op": "cut",
@@ -11385,7 +12407,7 @@
    ]
   },
   {
-   "id": "p28_norm_collar_n_p21703y_fija_el_sprocket_central",
+   "id": "p30_norm_collar_n_p21703y_fija_el_sprocket_central",
    "name": "NORM · Collarín P21703Y (fija el sprocket central)",
    "color": "#565d63",
    "pos": [
@@ -11403,7 +12425,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f436",
+     "id": "f476",
      "name": "Collarín P21703Y",
      "shape": "cylinder",
      "op": "union",
@@ -11423,7 +12445,7 @@
      }
     },
     {
-     "id": "f437",
+     "id": "f477",
      "name": "Bore cuadrado 38.3",
      "shape": "box",
      "op": "cut",
@@ -11446,7 +12468,7 @@
    ]
   },
   {
-   "id": "p29_norm_chumacera_ucf206_30",
+   "id": "p31_norm_chumacera_ucf206_30",
    "name": "NORM · Chumacera UCF206 Ø30",
    "color": "#1e6b45",
    "pos": [
@@ -11464,7 +12486,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f438",
+     "id": "f478",
      "name": "Brida UCF206 108×108×15",
      "shape": "box",
      "op": "union",
@@ -11485,7 +12507,7 @@
      }
     },
     {
-     "id": "f439",
+     "id": "f479",
      "name": "Chaflán de esquinas (rombo)",
      "shape": "box",
      "op": "cut",
@@ -11506,7 +12528,7 @@
      }
     },
     {
-     "id": "f440",
+     "id": "f480",
      "name": "Chaflán de esquinas (rombo) 2",
      "shape": "box",
      "op": "cut",
@@ -11527,7 +12549,7 @@
      }
     },
     {
-     "id": "f441",
+     "id": "f481",
      "name": "Caja esférica UC206 Ø62",
      "shape": "cylinder",
      "op": "union",
@@ -11547,7 +12569,7 @@
      }
     },
     {
-     "id": "f442",
+     "id": "f482",
      "name": "Collarín del inserto Ø55",
      "shape": "cylinder",
      "op": "union",
@@ -11567,7 +12589,7 @@
      }
     },
     {
-     "id": "f443",
+     "id": "f483",
      "name": "Prisionero M6 (1/2)",
      "shape": "cylinder",
      "op": "union",
@@ -11587,7 +12609,7 @@
      }
     },
     {
-     "id": "f444",
+     "id": "f484",
      "name": "Prisionero M6 (2/2)",
      "shape": "cylinder",
      "op": "union",
@@ -11607,7 +12629,7 @@
      }
     },
     {
-     "id": "f445",
+     "id": "f485",
      "name": "Grasera DIN 71412 45°",
      "shape": "cylinder",
      "op": "union",
@@ -11627,7 +12649,7 @@
      }
     },
     {
-     "id": "f446",
+     "id": "f486",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -11648,7 +12670,7 @@
      }
     },
     {
-     "id": "f447",
+     "id": "f487",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -11669,7 +12691,7 @@
      }
     },
     {
-     "id": "f448",
+     "id": "f488",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -11690,7 +12712,7 @@
      }
     },
     {
-     "id": "f449",
+     "id": "f489",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -11713,7 +12735,7 @@
    ]
   },
   {
-   "id": "p30_norm_chumacera_ucf206_30",
+   "id": "p32_norm_chumacera_ucf206_30",
    "name": "NORM · Chumacera UCF206 Ø30",
    "color": "#1e6b45",
    "pos": [
@@ -11731,7 +12753,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f450",
+     "id": "f490",
      "name": "Brida UCF206 108×108×15",
      "shape": "box",
      "op": "union",
@@ -11752,7 +12774,7 @@
      }
     },
     {
-     "id": "f451",
+     "id": "f491",
      "name": "Chaflán de esquinas (rombo)",
      "shape": "box",
      "op": "cut",
@@ -11773,7 +12795,7 @@
      }
     },
     {
-     "id": "f452",
+     "id": "f492",
      "name": "Chaflán de esquinas (rombo) 2",
      "shape": "box",
      "op": "cut",
@@ -11794,7 +12816,7 @@
      }
     },
     {
-     "id": "f453",
+     "id": "f493",
      "name": "Caja esférica UC206 Ø62",
      "shape": "cylinder",
      "op": "union",
@@ -11814,7 +12836,7 @@
      }
     },
     {
-     "id": "f454",
+     "id": "f494",
      "name": "Collarín del inserto Ø55",
      "shape": "cylinder",
      "op": "union",
@@ -11834,7 +12856,7 @@
      }
     },
     {
-     "id": "f455",
+     "id": "f495",
      "name": "Prisionero M6 (1/2)",
      "shape": "cylinder",
      "op": "union",
@@ -11854,7 +12876,7 @@
      }
     },
     {
-     "id": "f456",
+     "id": "f496",
      "name": "Prisionero M6 (2/2)",
      "shape": "cylinder",
      "op": "union",
@@ -11874,7 +12896,7 @@
      }
     },
     {
-     "id": "f457",
+     "id": "f497",
      "name": "Grasera DIN 71412 45°",
      "shape": "cylinder",
      "op": "union",
@@ -11894,7 +12916,7 @@
      }
     },
     {
-     "id": "f458",
+     "id": "f498",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -11915,7 +12937,7 @@
      }
     },
     {
-     "id": "f459",
+     "id": "f499",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -11936,7 +12958,7 @@
      }
     },
     {
-     "id": "f460",
+     "id": "f500",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -11957,7 +12979,7 @@
      }
     },
     {
-     "id": "f461",
+     "id": "f501",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -11980,7 +13002,7 @@
    ]
   },
   {
-   "id": "p31_norm_motorreductor_nmrv_p_075_fa_1_30_pam_80b14_eje_hueco_30_h8_motor_0_55_kw_80a_4_46_rpm_89_nm_fs_2_8_brazo_de_torque",
+   "id": "p33_norm_motorreductor_nmrv_p_075_fa_1_30_pam_80b14_eje_hueco_30_h8_motor_0_55_kw_80a_4_46_rpm_89_nm_fs_2_8_brazo_de_torque",
    "name": "NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque",
    "color": "#33383c",
    "pos": [
@@ -11998,7 +13020,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f462",
+     "id": "f502",
      "name": "Cubo hueco Ø62",
      "shape": "cylinder",
      "op": "union",
@@ -12018,7 +13040,7 @@
      }
     },
     {
-     "id": "f463",
+     "id": "f503",
      "name": "Cuerpo reductor",
      "shape": "box",
      "op": "union",
@@ -12039,7 +13061,7 @@
      }
     },
     {
-     "id": "f464",
+     "id": "f504",
      "name": "Brazo de torque",
      "shape": "box",
      "op": "union",
@@ -12062,7 +13084,7 @@
    ]
   },
   {
-   "id": "p32_fab_eje_tensor_cuadrado_38_1_l_566_mu_ones_30_h6",
+   "id": "p34_fab_eje_tensor_cuadrado_38_1_l_566_mu_ones_30_h6",
    "name": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)",
    "color": "#9aa2a8",
    "pos": [
@@ -12080,7 +13102,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f465",
+     "id": "f505",
      "name": "Cuadrado 38.1×38.1×466",
      "shape": "box",
      "op": "union",
@@ -12101,8 +13123,48 @@
      }
     },
     {
-     "id": "f466",
-     "name": "Muñón Ø30×50",
+     "id": "f506",
+     "name": "Garganta 2.5×0,5 — salida de rectificado (tensor −Y)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -235.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 27,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f507",
+     "name": "Muñón tensor −Y Ø30×50",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -281,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 30,
+      "h": 45.5
+     }
+    },
+    {
+     "id": "f508",
+     "name": "Chaflán 2×45° punta (tensor −Y)",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -12116,13 +13178,13 @@
       0
      ],
      "params": {
-      "dia": 30,
-      "h": 50
+      "dia": 26,
+      "h": 2
      }
     },
     {
-     "id": "f467",
-     "name": "Muñón Ø30×50",
+     "id": "f509",
+     "name": "Garganta 2.5×0,5 — salida de rectificado (tensor +Y)",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -12136,14 +13198,54 @@
       0
      ],
      "params": {
+      "dia": 27,
+      "h": 2.5
+     }
+    },
+    {
+     "id": "f510",
+     "name": "Muñón tensor +Y Ø30×50",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      235.5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
       "dia": 30,
-      "h": 50
+      "h": 45.5
+     }
+    },
+    {
+     "id": "f511",
+     "name": "Chaflán 2×45° punta (tensor +Y)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      281,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 26,
+      "h": 2
      }
     }
    ]
   },
   {
-   "id": "p33_norm_sprocket_z32_loco_flotante_0_4_0_3_grano_suelto",
+   "id": "p35_norm_sprocket_z32_loco_flotante_0_4_0_3_grano_suelto",
    "name": "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
    "color": "#3d4348",
    "pos": [
@@ -12161,7 +13263,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f468",
+     "id": "f512",
      "name": "Corona raíz Ø137.4",
      "shape": "cylinder",
      "op": "union",
@@ -12181,7 +13283,7 @@
      }
     },
     {
-     "id": "f469",
+     "id": "f513",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -12201,7 +13303,7 @@
      }
     },
     {
-     "id": "f470",
+     "id": "f514",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -12222,7 +13324,7 @@
      }
     },
     {
-     "id": "f471",
+     "id": "f515",
      "name": "Diente 1/32",
      "shape": "cylinder",
      "op": "union",
@@ -12242,7 +13344,7 @@
      }
     },
     {
-     "id": "f472",
+     "id": "f516",
      "name": "Diente 2/32",
      "shape": "cylinder",
      "op": "union",
@@ -12262,7 +13364,7 @@
      }
     },
     {
-     "id": "f473",
+     "id": "f517",
      "name": "Diente 3/32",
      "shape": "cylinder",
      "op": "union",
@@ -12282,7 +13384,7 @@
      }
     },
     {
-     "id": "f474",
+     "id": "f518",
      "name": "Diente 4/32",
      "shape": "cylinder",
      "op": "union",
@@ -12302,7 +13404,7 @@
      }
     },
     {
-     "id": "f475",
+     "id": "f519",
      "name": "Diente 5/32",
      "shape": "cylinder",
      "op": "union",
@@ -12322,7 +13424,7 @@
      }
     },
     {
-     "id": "f476",
+     "id": "f520",
      "name": "Diente 6/32",
      "shape": "cylinder",
      "op": "union",
@@ -12342,7 +13444,7 @@
      }
     },
     {
-     "id": "f477",
+     "id": "f521",
      "name": "Diente 7/32",
      "shape": "cylinder",
      "op": "union",
@@ -12362,7 +13464,7 @@
      }
     },
     {
-     "id": "f478",
+     "id": "f522",
      "name": "Diente 8/32",
      "shape": "cylinder",
      "op": "union",
@@ -12382,7 +13484,7 @@
      }
     },
     {
-     "id": "f479",
+     "id": "f523",
      "name": "Diente 9/32",
      "shape": "cylinder",
      "op": "union",
@@ -12402,7 +13504,7 @@
      }
     },
     {
-     "id": "f480",
+     "id": "f524",
      "name": "Diente 10/32",
      "shape": "cylinder",
      "op": "union",
@@ -12422,7 +13524,7 @@
      }
     },
     {
-     "id": "f481",
+     "id": "f525",
      "name": "Diente 11/32",
      "shape": "cylinder",
      "op": "union",
@@ -12442,7 +13544,7 @@
      }
     },
     {
-     "id": "f482",
+     "id": "f526",
      "name": "Diente 12/32",
      "shape": "cylinder",
      "op": "union",
@@ -12462,7 +13564,7 @@
      }
     },
     {
-     "id": "f483",
+     "id": "f527",
      "name": "Diente 13/32",
      "shape": "cylinder",
      "op": "union",
@@ -12482,7 +13584,7 @@
      }
     },
     {
-     "id": "f484",
+     "id": "f528",
      "name": "Diente 14/32",
      "shape": "cylinder",
      "op": "union",
@@ -12502,7 +13604,7 @@
      }
     },
     {
-     "id": "f485",
+     "id": "f529",
      "name": "Diente 15/32",
      "shape": "cylinder",
      "op": "union",
@@ -12522,7 +13624,7 @@
      }
     },
     {
-     "id": "f486",
+     "id": "f530",
      "name": "Diente 16/32",
      "shape": "cylinder",
      "op": "union",
@@ -12542,7 +13644,7 @@
      }
     },
     {
-     "id": "f487",
+     "id": "f531",
      "name": "Diente 17/32",
      "shape": "cylinder",
      "op": "union",
@@ -12562,7 +13664,7 @@
      }
     },
     {
-     "id": "f488",
+     "id": "f532",
      "name": "Diente 18/32",
      "shape": "cylinder",
      "op": "union",
@@ -12582,7 +13684,7 @@
      }
     },
     {
-     "id": "f489",
+     "id": "f533",
      "name": "Diente 19/32",
      "shape": "cylinder",
      "op": "union",
@@ -12602,7 +13704,7 @@
      }
     },
     {
-     "id": "f490",
+     "id": "f534",
      "name": "Diente 20/32",
      "shape": "cylinder",
      "op": "union",
@@ -12622,7 +13724,7 @@
      }
     },
     {
-     "id": "f491",
+     "id": "f535",
      "name": "Diente 21/32",
      "shape": "cylinder",
      "op": "union",
@@ -12642,7 +13744,7 @@
      }
     },
     {
-     "id": "f492",
+     "id": "f536",
      "name": "Diente 22/32",
      "shape": "cylinder",
      "op": "union",
@@ -12662,7 +13764,7 @@
      }
     },
     {
-     "id": "f493",
+     "id": "f537",
      "name": "Diente 23/32",
      "shape": "cylinder",
      "op": "union",
@@ -12682,7 +13784,7 @@
      }
     },
     {
-     "id": "f494",
+     "id": "f538",
      "name": "Diente 24/32",
      "shape": "cylinder",
      "op": "union",
@@ -12702,7 +13804,7 @@
      }
     },
     {
-     "id": "f495",
+     "id": "f539",
      "name": "Diente 25/32",
      "shape": "cylinder",
      "op": "union",
@@ -12722,7 +13824,7 @@
      }
     },
     {
-     "id": "f496",
+     "id": "f540",
      "name": "Diente 26/32",
      "shape": "cylinder",
      "op": "union",
@@ -12742,7 +13844,7 @@
      }
     },
     {
-     "id": "f497",
+     "id": "f541",
      "name": "Diente 27/32",
      "shape": "cylinder",
      "op": "union",
@@ -12762,7 +13864,7 @@
      }
     },
     {
-     "id": "f498",
+     "id": "f542",
      "name": "Diente 28/32",
      "shape": "cylinder",
      "op": "union",
@@ -12782,7 +13884,7 @@
      }
     },
     {
-     "id": "f499",
+     "id": "f543",
      "name": "Diente 29/32",
      "shape": "cylinder",
      "op": "union",
@@ -12802,7 +13904,7 @@
      }
     },
     {
-     "id": "f500",
+     "id": "f544",
      "name": "Diente 30/32",
      "shape": "cylinder",
      "op": "union",
@@ -12822,7 +13924,7 @@
      }
     },
     {
-     "id": "f501",
+     "id": "f545",
      "name": "Diente 31/32",
      "shape": "cylinder",
      "op": "union",
@@ -12842,7 +13944,7 @@
      }
     },
     {
-     "id": "f502",
+     "id": "f546",
      "name": "Diente 32/32",
      "shape": "cylinder",
      "op": "union",
@@ -12864,7 +13966,7 @@
    ]
   },
   {
-   "id": "p34_norm_sprocket_z32_loco_flotante_0_4_0_3_grano_suelto",
+   "id": "p36_norm_sprocket_z32_loco_flotante_0_4_0_3_grano_suelto",
    "name": "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
    "color": "#3d4348",
    "pos": [
@@ -12882,7 +13984,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f503",
+     "id": "f547",
      "name": "Corona raíz Ø137.4",
      "shape": "cylinder",
      "op": "union",
@@ -12902,7 +14004,7 @@
      }
     },
     {
-     "id": "f504",
+     "id": "f548",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -12922,7 +14024,7 @@
      }
     },
     {
-     "id": "f505",
+     "id": "f549",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -12943,7 +14045,7 @@
      }
     },
     {
-     "id": "f506",
+     "id": "f550",
      "name": "Diente 1/32",
      "shape": "cylinder",
      "op": "union",
@@ -12963,7 +14065,7 @@
      }
     },
     {
-     "id": "f507",
+     "id": "f551",
      "name": "Diente 2/32",
      "shape": "cylinder",
      "op": "union",
@@ -12983,7 +14085,7 @@
      }
     },
     {
-     "id": "f508",
+     "id": "f552",
      "name": "Diente 3/32",
      "shape": "cylinder",
      "op": "union",
@@ -13003,7 +14105,7 @@
      }
     },
     {
-     "id": "f509",
+     "id": "f553",
      "name": "Diente 4/32",
      "shape": "cylinder",
      "op": "union",
@@ -13023,7 +14125,7 @@
      }
     },
     {
-     "id": "f510",
+     "id": "f554",
      "name": "Diente 5/32",
      "shape": "cylinder",
      "op": "union",
@@ -13043,7 +14145,7 @@
      }
     },
     {
-     "id": "f511",
+     "id": "f555",
      "name": "Diente 6/32",
      "shape": "cylinder",
      "op": "union",
@@ -13063,7 +14165,7 @@
      }
     },
     {
-     "id": "f512",
+     "id": "f556",
      "name": "Diente 7/32",
      "shape": "cylinder",
      "op": "union",
@@ -13083,7 +14185,7 @@
      }
     },
     {
-     "id": "f513",
+     "id": "f557",
      "name": "Diente 8/32",
      "shape": "cylinder",
      "op": "union",
@@ -13103,7 +14205,7 @@
      }
     },
     {
-     "id": "f514",
+     "id": "f558",
      "name": "Diente 9/32",
      "shape": "cylinder",
      "op": "union",
@@ -13123,7 +14225,7 @@
      }
     },
     {
-     "id": "f515",
+     "id": "f559",
      "name": "Diente 10/32",
      "shape": "cylinder",
      "op": "union",
@@ -13143,7 +14245,7 @@
      }
     },
     {
-     "id": "f516",
+     "id": "f560",
      "name": "Diente 11/32",
      "shape": "cylinder",
      "op": "union",
@@ -13163,7 +14265,7 @@
      }
     },
     {
-     "id": "f517",
+     "id": "f561",
      "name": "Diente 12/32",
      "shape": "cylinder",
      "op": "union",
@@ -13183,7 +14285,7 @@
      }
     },
     {
-     "id": "f518",
+     "id": "f562",
      "name": "Diente 13/32",
      "shape": "cylinder",
      "op": "union",
@@ -13203,7 +14305,7 @@
      }
     },
     {
-     "id": "f519",
+     "id": "f563",
      "name": "Diente 14/32",
      "shape": "cylinder",
      "op": "union",
@@ -13223,7 +14325,7 @@
      }
     },
     {
-     "id": "f520",
+     "id": "f564",
      "name": "Diente 15/32",
      "shape": "cylinder",
      "op": "union",
@@ -13243,7 +14345,7 @@
      }
     },
     {
-     "id": "f521",
+     "id": "f565",
      "name": "Diente 16/32",
      "shape": "cylinder",
      "op": "union",
@@ -13263,7 +14365,7 @@
      }
     },
     {
-     "id": "f522",
+     "id": "f566",
      "name": "Diente 17/32",
      "shape": "cylinder",
      "op": "union",
@@ -13283,7 +14385,7 @@
      }
     },
     {
-     "id": "f523",
+     "id": "f567",
      "name": "Diente 18/32",
      "shape": "cylinder",
      "op": "union",
@@ -13303,7 +14405,7 @@
      }
     },
     {
-     "id": "f524",
+     "id": "f568",
      "name": "Diente 19/32",
      "shape": "cylinder",
      "op": "union",
@@ -13323,7 +14425,7 @@
      }
     },
     {
-     "id": "f525",
+     "id": "f569",
      "name": "Diente 20/32",
      "shape": "cylinder",
      "op": "union",
@@ -13343,7 +14445,7 @@
      }
     },
     {
-     "id": "f526",
+     "id": "f570",
      "name": "Diente 21/32",
      "shape": "cylinder",
      "op": "union",
@@ -13363,7 +14465,7 @@
      }
     },
     {
-     "id": "f527",
+     "id": "f571",
      "name": "Diente 22/32",
      "shape": "cylinder",
      "op": "union",
@@ -13383,7 +14485,7 @@
      }
     },
     {
-     "id": "f528",
+     "id": "f572",
      "name": "Diente 23/32",
      "shape": "cylinder",
      "op": "union",
@@ -13403,7 +14505,7 @@
      }
     },
     {
-     "id": "f529",
+     "id": "f573",
      "name": "Diente 24/32",
      "shape": "cylinder",
      "op": "union",
@@ -13423,7 +14525,7 @@
      }
     },
     {
-     "id": "f530",
+     "id": "f574",
      "name": "Diente 25/32",
      "shape": "cylinder",
      "op": "union",
@@ -13443,7 +14545,7 @@
      }
     },
     {
-     "id": "f531",
+     "id": "f575",
      "name": "Diente 26/32",
      "shape": "cylinder",
      "op": "union",
@@ -13463,7 +14565,7 @@
      }
     },
     {
-     "id": "f532",
+     "id": "f576",
      "name": "Diente 27/32",
      "shape": "cylinder",
      "op": "union",
@@ -13483,7 +14585,7 @@
      }
     },
     {
-     "id": "f533",
+     "id": "f577",
      "name": "Diente 28/32",
      "shape": "cylinder",
      "op": "union",
@@ -13503,7 +14605,7 @@
      }
     },
     {
-     "id": "f534",
+     "id": "f578",
      "name": "Diente 29/32",
      "shape": "cylinder",
      "op": "union",
@@ -13523,7 +14625,7 @@
      }
     },
     {
-     "id": "f535",
+     "id": "f579",
      "name": "Diente 30/32",
      "shape": "cylinder",
      "op": "union",
@@ -13543,7 +14645,7 @@
      }
     },
     {
-     "id": "f536",
+     "id": "f580",
      "name": "Diente 31/32",
      "shape": "cylinder",
      "op": "union",
@@ -13563,7 +14665,7 @@
      }
     },
     {
-     "id": "f537",
+     "id": "f581",
      "name": "Diente 32/32",
      "shape": "cylinder",
      "op": "union",
@@ -13585,7 +14687,7 @@
    ]
   },
   {
-   "id": "p35_norm_collar_n_p21703y_referencia_eje_tensor",
+   "id": "p37_norm_collar_n_p21703y_referencia_eje_tensor",
    "name": "NORM · Collarín P21703Y (referencia eje tensor)",
    "color": "#565d63",
    "pos": [
@@ -13603,7 +14705,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f538",
+     "id": "f582",
      "name": "Collarín P21703Y",
      "shape": "cylinder",
      "op": "union",
@@ -13623,7 +14725,7 @@
      }
     },
     {
-     "id": "f539",
+     "id": "f583",
      "name": "Bore cuadrado 38.3",
      "shape": "box",
      "op": "cut",
@@ -13646,7 +14748,7 @@
    ]
   },
   {
-   "id": "p36_norm_collar_n_p21703y_referencia_eje_tensor",
+   "id": "p38_norm_collar_n_p21703y_referencia_eje_tensor",
    "name": "NORM · Collarín P21703Y (referencia eje tensor)",
    "color": "#565d63",
    "pos": [
@@ -13664,7 +14766,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f540",
+     "id": "f584",
      "name": "Collarín P21703Y",
      "shape": "cylinder",
      "op": "union",
@@ -13684,7 +14786,7 @@
      }
     },
     {
-     "id": "f541",
+     "id": "f585",
      "name": "Bore cuadrado 38.3",
      "shape": "box",
      "op": "cut",
@@ -13707,7 +14809,7 @@
    ]
   },
   {
-   "id": "p37_norm_chumacera_ucf206_30",
+   "id": "p39_norm_chumacera_ucf206_30",
    "name": "NORM · Chumacera UCF206 Ø30",
    "color": "#1e6b45",
    "pos": [
@@ -13725,7 +14827,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f542",
+     "id": "f586",
      "name": "Brida UCF206 108×108×15",
      "shape": "box",
      "op": "union",
@@ -13746,7 +14848,7 @@
      }
     },
     {
-     "id": "f543",
+     "id": "f587",
      "name": "Chaflán de esquinas (rombo)",
      "shape": "box",
      "op": "cut",
@@ -13767,7 +14869,7 @@
      }
     },
     {
-     "id": "f544",
+     "id": "f588",
      "name": "Chaflán de esquinas (rombo) 2",
      "shape": "box",
      "op": "cut",
@@ -13788,7 +14890,7 @@
      }
     },
     {
-     "id": "f545",
+     "id": "f589",
      "name": "Caja esférica UC206 Ø62",
      "shape": "cylinder",
      "op": "union",
@@ -13808,7 +14910,7 @@
      }
     },
     {
-     "id": "f546",
+     "id": "f590",
      "name": "Collarín del inserto Ø55",
      "shape": "cylinder",
      "op": "union",
@@ -13828,7 +14930,7 @@
      }
     },
     {
-     "id": "f547",
+     "id": "f591",
      "name": "Prisionero M6 (1/2)",
      "shape": "cylinder",
      "op": "union",
@@ -13848,7 +14950,7 @@
      }
     },
     {
-     "id": "f548",
+     "id": "f592",
      "name": "Prisionero M6 (2/2)",
      "shape": "cylinder",
      "op": "union",
@@ -13868,7 +14970,7 @@
      }
     },
     {
-     "id": "f549",
+     "id": "f593",
      "name": "Grasera DIN 71412 45°",
      "shape": "cylinder",
      "op": "union",
@@ -13888,7 +14990,7 @@
      }
     },
     {
-     "id": "f550",
+     "id": "f594",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -13909,7 +15011,7 @@
      }
     },
     {
-     "id": "f551",
+     "id": "f595",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -13930,7 +15032,7 @@
      }
     },
     {
-     "id": "f552",
+     "id": "f596",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -13951,7 +15053,7 @@
      }
     },
     {
-     "id": "f553",
+     "id": "f597",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -13974,7 +15076,7 @@
    ]
   },
   {
-   "id": "p38_norm_chumacera_ucf206_30",
+   "id": "p40_norm_chumacera_ucf206_30",
    "name": "NORM · Chumacera UCF206 Ø30",
    "color": "#1e6b45",
    "pos": [
@@ -13992,7 +15094,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f554",
+     "id": "f598",
      "name": "Brida UCF206 108×108×15",
      "shape": "box",
      "op": "union",
@@ -14013,7 +15115,7 @@
      }
     },
     {
-     "id": "f555",
+     "id": "f599",
      "name": "Chaflán de esquinas (rombo)",
      "shape": "box",
      "op": "cut",
@@ -14034,7 +15136,7 @@
      }
     },
     {
-     "id": "f556",
+     "id": "f600",
      "name": "Chaflán de esquinas (rombo) 2",
      "shape": "box",
      "op": "cut",
@@ -14055,7 +15157,7 @@
      }
     },
     {
-     "id": "f557",
+     "id": "f601",
      "name": "Caja esférica UC206 Ø62",
      "shape": "cylinder",
      "op": "union",
@@ -14075,7 +15177,7 @@
      }
     },
     {
-     "id": "f558",
+     "id": "f602",
      "name": "Collarín del inserto Ø55",
      "shape": "cylinder",
      "op": "union",
@@ -14095,7 +15197,7 @@
      }
     },
     {
-     "id": "f559",
+     "id": "f603",
      "name": "Prisionero M6 (1/2)",
      "shape": "cylinder",
      "op": "union",
@@ -14115,7 +15217,7 @@
      }
     },
     {
-     "id": "f560",
+     "id": "f604",
      "name": "Prisionero M6 (2/2)",
      "shape": "cylinder",
      "op": "union",
@@ -14135,7 +15237,7 @@
      }
     },
     {
-     "id": "f561",
+     "id": "f605",
      "name": "Grasera DIN 71412 45°",
      "shape": "cylinder",
      "op": "union",
@@ -14155,7 +15257,7 @@
      }
     },
     {
-     "id": "f562",
+     "id": "f606",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -14176,7 +15278,7 @@
      }
     },
     {
-     "id": "f563",
+     "id": "f607",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -14197,7 +15299,7 @@
      }
     },
     {
-     "id": "f564",
+     "id": "f608",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -14218,7 +15320,7 @@
      }
     },
     {
-     "id": "f565",
+     "id": "f609",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -14241,7 +15343,7 @@
    ]
   },
   {
-   "id": "p39_norm_gu_a_lateral_conical_rail_l_1_in_p12501c_escuadras",
+   "id": "p41_norm_gu_a_lateral_conical_rail_l_1_in_p12501c_escuadras",
    "name": "NORM · Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
    "color": "#aeb4ac",
    "pos": [
@@ -14259,7 +15361,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f566",
+     "id": "f610",
      "name": "Cara Ti-WHITE 1¼ in",
      "shape": "box",
      "op": "union",
@@ -14280,7 +15382,7 @@
      }
     },
     {
-     "id": "f567",
+     "id": "f611",
      "name": "Núcleo/ala AISI304 1.5",
      "shape": "box",
      "op": "union",
@@ -14303,7 +15405,7 @@
    ]
   },
   {
-   "id": "p40_norm_gu_a_lateral_conical_rail_l_1_in_p12501c_escuadras",
+   "id": "p42_norm_gu_a_lateral_conical_rail_l_1_in_p12501c_escuadras",
    "name": "NORM · Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
    "color": "#aeb4ac",
    "pos": [
@@ -14321,7 +15423,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f568",
+     "id": "f612",
      "name": "Cara Ti-WHITE 1¼ in",
      "shape": "box",
      "op": "union",
@@ -14342,7 +15444,7 @@
      }
     },
     {
-     "id": "f569",
+     "id": "f613",
      "name": "Núcleo/ala AISI304 1.5",
      "shape": "box",
      "op": "union",
@@ -14365,7 +15467,7 @@
    ]
   },
   {
-   "id": "p41_fab_bracket_soporte_b_005a_24v_cruciformes_arco_angular",
+   "id": "p43_fab_bracket_soporte_b_005a_24v_cruciformes_arco_angular",
    "name": "FAB · Bracket soporte B_005A 24V (cruciformes + arco angular)",
    "color": "#d3d5cf",
    "pos": [
@@ -14848,7 +15950,7 @@
    },
    "features": [
     {
-     "id": "f570",
+     "id": "f614",
      "name": "Cara al alma 203×95",
      "shape": "box",
      "op": "union",
@@ -14869,7 +15971,7 @@
      }
     },
     {
-     "id": "f571",
+     "id": "f615",
      "name": "Ala superior 203×89",
      "shape": "box",
      "op": "union",
@@ -14890,7 +15992,7 @@
      }
     },
     {
-     "id": "f572",
+     "id": "f616",
      "name": "Cruciforme (paso M8 regulable)",
      "shape": "hole",
      "op": "cut",
@@ -14911,7 +16013,7 @@
      }
     },
     {
-     "id": "f573",
+     "id": "f617",
      "name": "Cruciforme (paso M8 regulable)",
      "shape": "hole",
      "op": "cut",
@@ -14932,7 +16034,7 @@
      }
     },
     {
-     "id": "f574",
+     "id": "f618",
      "name": "Cruciforme (paso M8 regulable)",
      "shape": "hole",
      "op": "cut",
@@ -14953,7 +16055,7 @@
      }
     },
     {
-     "id": "f575",
+     "id": "f619",
      "name": "Cruciforme (paso M8 regulable)",
      "shape": "hole",
      "op": "cut",
@@ -14976,7 +16078,7 @@
    ]
   },
   {
-   "id": "p42_fab_columna_soporte_24v_ngulo_71_38_3_placa_piso_b_004a_soldada",
+   "id": "p44_fab_columna_soporte_24v_ngulo_71_38_3_placa_piso_b_004a_soldada",
    "name": "FAB · Columna soporte 24V ángulo 71×38×3 + placa piso B_004A (soldada)",
    "color": "#d3d5cf",
    "pos": [
@@ -15047,7 +16149,7 @@
    },
    "features": [
     {
-     "id": "f576",
+     "id": "f620",
      "name": "Ángulo ala A 71",
      "shape": "box",
      "op": "union",
@@ -15068,7 +16170,7 @@
      }
     },
     {
-     "id": "f577",
+     "id": "f621",
      "name": "Ángulo ala B 38",
      "shape": "box",
      "op": "union",
@@ -15089,7 +16191,7 @@
      }
     },
     {
-     "id": "f578",
+     "id": "f622",
      "name": "Placa piso B_004A 158×40",
      "shape": "box",
      "op": "union",
@@ -15112,7 +16214,7 @@
    ]
   },
   {
-   "id": "p43_fab_escalerilla_telesc_pica_60_4_ranuras_11_22_ajuste_de_altura",
+   "id": "p45_fab_escalerilla_telesc_pica_60_4_ranuras_11_22_ajuste_de_altura",
    "name": "FAB · Escalerilla telescópica 60×4 (ranuras 11×22 — ajuste de altura)",
    "color": "#d3d5cf",
    "pos": [
@@ -15204,7 +16306,7 @@
    },
    "features": [
     {
-     "id": "f579",
+     "id": "f623",
      "name": "Tira escalerilla 60×4",
      "shape": "box",
      "op": "union",
@@ -15225,7 +16327,7 @@
      }
     },
     {
-     "id": "f580",
+     "id": "f624",
      "name": "Perno M10 telescópico (1/2)",
      "shape": "cylinder",
      "op": "union",
@@ -15245,7 +16347,7 @@
      }
     },
     {
-     "id": "f581",
+     "id": "f625",
      "name": "Perno M10 telescópico (2/2)",
      "shape": "cylinder",
      "op": "union",
@@ -15267,7 +16369,7 @@
    ]
   },
   {
-   "id": "p44_fab_bracket_soporte_b_005a_24v_cruciformes_arco_angular",
+   "id": "p46_fab_bracket_soporte_b_005a_24v_cruciformes_arco_angular",
    "name": "FAB · Bracket soporte B_005A 24V (cruciformes + arco angular)",
    "color": "#d3d5cf",
    "pos": [
@@ -15750,7 +16852,7 @@
    },
    "features": [
     {
-     "id": "f582",
+     "id": "f626",
      "name": "Cara al alma 203×95",
      "shape": "box",
      "op": "union",
@@ -15771,7 +16873,7 @@
      }
     },
     {
-     "id": "f583",
+     "id": "f627",
      "name": "Ala superior 203×89",
      "shape": "box",
      "op": "union",
@@ -15792,7 +16894,7 @@
      }
     },
     {
-     "id": "f584",
+     "id": "f628",
      "name": "Cruciforme (paso M8 regulable)",
      "shape": "hole",
      "op": "cut",
@@ -15813,7 +16915,7 @@
      }
     },
     {
-     "id": "f585",
+     "id": "f629",
      "name": "Cruciforme (paso M8 regulable)",
      "shape": "hole",
      "op": "cut",
@@ -15834,7 +16936,7 @@
      }
     },
     {
-     "id": "f586",
+     "id": "f630",
      "name": "Cruciforme (paso M8 regulable)",
      "shape": "hole",
      "op": "cut",
@@ -15855,7 +16957,7 @@
      }
     },
     {
-     "id": "f587",
+     "id": "f631",
      "name": "Cruciforme (paso M8 regulable)",
      "shape": "hole",
      "op": "cut",
@@ -15878,7 +16980,7 @@
    ]
   },
   {
-   "id": "p45_fab_columna_soporte_24v_ngulo_71_38_3_placa_piso_b_004a_soldada",
+   "id": "p47_fab_columna_soporte_24v_ngulo_71_38_3_placa_piso_b_004a_soldada",
    "name": "FAB · Columna soporte 24V ángulo 71×38×3 + placa piso B_004A (soldada)",
    "color": "#d3d5cf",
    "pos": [
@@ -15949,7 +17051,7 @@
    },
    "features": [
     {
-     "id": "f588",
+     "id": "f632",
      "name": "Ángulo ala A 71",
      "shape": "box",
      "op": "union",
@@ -15970,7 +17072,7 @@
      }
     },
     {
-     "id": "f589",
+     "id": "f633",
      "name": "Ángulo ala B 38",
      "shape": "box",
      "op": "union",
@@ -15991,7 +17093,7 @@
      }
     },
     {
-     "id": "f590",
+     "id": "f634",
      "name": "Placa piso B_004A 158×40",
      "shape": "box",
      "op": "union",
@@ -16014,7 +17116,7 @@
    ]
   },
   {
-   "id": "p46_fab_escalerilla_telesc_pica_60_4_ranuras_11_22_ajuste_de_altura",
+   "id": "p48_fab_escalerilla_telesc_pica_60_4_ranuras_11_22_ajuste_de_altura",
    "name": "FAB · Escalerilla telescópica 60×4 (ranuras 11×22 — ajuste de altura)",
    "color": "#d3d5cf",
    "pos": [
@@ -16106,7 +17208,7 @@
    },
    "features": [
     {
-     "id": "f591",
+     "id": "f635",
      "name": "Tira escalerilla 60×4",
      "shape": "box",
      "op": "union",
@@ -16127,7 +17229,7 @@
      }
     },
     {
-     "id": "f592",
+     "id": "f636",
      "name": "Perno M10 telescópico (1/2)",
      "shape": "cylinder",
      "op": "union",
@@ -16147,7 +17249,7 @@
      }
     },
     {
-     "id": "f593",
+     "id": "f637",
      "name": "Perno M10 telescópico (2/2)",
      "shape": "cylinder",
      "op": "union",
@@ -16169,7 +17271,7 @@
    ]
   },
   {
-   "id": "p47_norm_banda_movex_530_gt_friction_top_18_in_lazo_2_65_m",
+   "id": "p49_norm_banda_movex_530_gt_friction_top_18_in_lazo_2_65_m",
    "name": "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.65 m",
    "color": "#1a4f9c",
    "pos": [
@@ -16187,7 +17289,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f594",
+     "id": "f638",
      "name": "Cara exterior del lazo",
      "shape": "sketch",
      "op": "union",
@@ -16713,7 +17815,7 @@
      }
     },
     {
-     "id": "f595",
+     "id": "f639",
      "name": "Vaciado interior",
      "shape": "sketch",
      "op": "cut",
@@ -17241,7 +18343,7 @@
    ]
   },
   {
-   "id": "p48_norm_goma_grip_top_75_sha_disp_50_sha_2_46_filas",
+   "id": "p50_norm_goma_grip_top_75_sha_disp_50_sha_2_46_filas",
    "name": "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
    "color": "#3a3f43",
    "pos": [
@@ -17259,7 +18361,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f596",
+     "id": "f640",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17280,7 +18382,7 @@
      }
     },
     {
-     "id": "f597",
+     "id": "f641",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17301,7 +18403,7 @@
      }
     },
     {
-     "id": "f598",
+     "id": "f642",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17322,7 +18424,7 @@
      }
     },
     {
-     "id": "f599",
+     "id": "f643",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17343,7 +18445,7 @@
      }
     },
     {
-     "id": "f600",
+     "id": "f644",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17364,7 +18466,7 @@
      }
     },
     {
-     "id": "f601",
+     "id": "f645",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17385,7 +18487,7 @@
      }
     },
     {
-     "id": "f602",
+     "id": "f646",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17406,7 +18508,7 @@
      }
     },
     {
-     "id": "f603",
+     "id": "f647",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17427,7 +18529,7 @@
      }
     },
     {
-     "id": "f604",
+     "id": "f648",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17448,7 +18550,7 @@
      }
     },
     {
-     "id": "f605",
+     "id": "f649",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17469,7 +18571,7 @@
      }
     },
     {
-     "id": "f606",
+     "id": "f650",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17490,7 +18592,7 @@
      }
     },
     {
-     "id": "f607",
+     "id": "f651",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17511,7 +18613,7 @@
      }
     },
     {
-     "id": "f608",
+     "id": "f652",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17532,7 +18634,7 @@
      }
     },
     {
-     "id": "f609",
+     "id": "f653",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17553,7 +18655,7 @@
      }
     },
     {
-     "id": "f610",
+     "id": "f654",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17574,7 +18676,7 @@
      }
     },
     {
-     "id": "f611",
+     "id": "f655",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17595,7 +18697,7 @@
      }
     },
     {
-     "id": "f612",
+     "id": "f656",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17616,7 +18718,7 @@
      }
     },
     {
-     "id": "f613",
+     "id": "f657",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17637,7 +18739,7 @@
      }
     },
     {
-     "id": "f614",
+     "id": "f658",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17658,7 +18760,7 @@
      }
     },
     {
-     "id": "f615",
+     "id": "f659",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17679,7 +18781,7 @@
      }
     },
     {
-     "id": "f616",
+     "id": "f660",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17700,7 +18802,7 @@
      }
     },
     {
-     "id": "f617",
+     "id": "f661",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17721,7 +18823,7 @@
      }
     },
     {
-     "id": "f618",
+     "id": "f662",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17742,7 +18844,7 @@
      }
     },
     {
-     "id": "f619",
+     "id": "f663",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17763,7 +18865,7 @@
      }
     },
     {
-     "id": "f620",
+     "id": "f664",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17784,7 +18886,7 @@
      }
     },
     {
-     "id": "f621",
+     "id": "f665",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17805,7 +18907,7 @@
      }
     },
     {
-     "id": "f622",
+     "id": "f666",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17826,7 +18928,7 @@
      }
     },
     {
-     "id": "f623",
+     "id": "f667",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17847,7 +18949,7 @@
      }
     },
     {
-     "id": "f624",
+     "id": "f668",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17868,7 +18970,7 @@
      }
     },
     {
-     "id": "f625",
+     "id": "f669",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17889,7 +18991,7 @@
      }
     },
     {
-     "id": "f626",
+     "id": "f670",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17910,7 +19012,7 @@
      }
     },
     {
-     "id": "f627",
+     "id": "f671",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17931,7 +19033,7 @@
      }
     },
     {
-     "id": "f628",
+     "id": "f672",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17952,7 +19054,7 @@
      }
     },
     {
-     "id": "f629",
+     "id": "f673",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17973,7 +19075,7 @@
      }
     },
     {
-     "id": "f630",
+     "id": "f674",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -17994,7 +19096,7 @@
      }
     },
     {
-     "id": "f631",
+     "id": "f675",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -18015,7 +19117,7 @@
      }
     },
     {
-     "id": "f632",
+     "id": "f676",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -18036,7 +19138,7 @@
      }
     },
     {
-     "id": "f633",
+     "id": "f677",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -18057,7 +19159,7 @@
      }
     },
     {
-     "id": "f634",
+     "id": "f678",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -18078,7 +19180,7 @@
      }
     },
     {
-     "id": "f635",
+     "id": "f679",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -18099,7 +19201,7 @@
      }
     },
     {
-     "id": "f636",
+     "id": "f680",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -18120,7 +19222,7 @@
      }
     },
     {
-     "id": "f637",
+     "id": "f681",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -18141,7 +19243,7 @@
      }
     },
     {
-     "id": "f638",
+     "id": "f682",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -18162,7 +19264,7 @@
      }
     },
     {
-     "id": "f639",
+     "id": "f683",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -18183,7 +19285,7 @@
      }
     },
     {
-     "id": "f640",
+     "id": "f684",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -18204,7 +19306,7 @@
      }
     },
     {
-     "id": "f641",
+     "id": "f685",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",

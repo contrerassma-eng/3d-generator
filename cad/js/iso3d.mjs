@@ -116,7 +116,13 @@ export function partGeometry(part, { simplify } = {}) {
 //   · el test de pliegue se confirma con COPLANARIDAD DE 4 PUNTOS por volumen
 //     de tetraedro (sin normalizar: inmune a astillas), y
 //   · en el voto frontal/trasero de la silueta sólo opinan caras con área sana.
-export function extractEdges(geom, viewDir, creaseDeg = 28) {
+// topología SOLDADA view-independent, cacheada POR GEOMETRÍA: el GA proyecta
+// la misma escena en 5 vistas (planta/elevación/iso/A-A/B-B) — sin caché, la
+// soldadura + partición en T + lazos de parche se pagaban 5 veces
+const TOPO = new WeakMap();
+function topoDe(geom, creaseDeg) {
+  const hit = TOPO.get(geom);
+  if (hit && hit.creaseDeg === creaseDeg) return hit;
   const pos = geom.attributes.position.array;
   const index = geom.index ? geom.index.array : null;
   const nTri = (index ? index.length : pos.length / 3) / 3;
@@ -134,9 +140,8 @@ export function extractEdges(geom, viewDir, creaseDeg = 28) {
     return w;
   };
 
-  // triángulos con ids soldados + datos de cara
+  // triángulos con ids soldados + datos de cara (sin nada de vista)
   const tris = [];
-  const dirV = new THREE.Vector3(...viewDir).normalize();
   const A = new THREE.Vector3(), B = new THREE.Vector3(), C = new THREE.Vector3();
   const AB = new THREE.Vector3(), ACv = new THREE.Vector3(), N = new THREE.Vector3();
   for (let t = 0; t < nTri; t++) {
@@ -150,7 +155,6 @@ export function extractEdges(geom, viewDir, creaseDeg = 28) {
     tris.push({
       v: [w0, w1, w2],
       nx: N.x / area2, ny: N.y / area2, nz: N.z / area2, area2,
-      front: (N.x * dirV.x + N.y * dirV.y + N.z * dirV.z) < 0,
     });
   }
 
@@ -214,7 +218,7 @@ export function extractEdges(geom, viewDir, creaseDeg = 28) {
         chain = [a < b ? a : b, ...onSeg(a < b ? a : b, a < b ? b : a), a < b ? b : a];
         splitCache.set(ek, chain);
       }
-      const face = { nx: tr.nx, ny: tr.ny, nz: tr.nz, area2: tr.area2, front: tr.front, opp: o };
+      const face = { nx: tr.nx, ny: tr.ny, nz: tr.nz, area2: tr.area2, opp: o };
       for (let i = 0; i + 1 < chain.length; i++) addSub(chain[i], chain[i + 1], face);
     }
   }
@@ -231,44 +235,35 @@ export function extractEdges(geom, viewDir, creaseDeg = 28) {
     return Math.abs(vol) <= 3e-4 * l1 * l2 * l3 + 1e-9;
   };
 
+  // clasificación ESTÁTICA por arista (lo único que depende de la vista es
+  // el lado frontal): aristas abiertas, pliegues genuinos y — para la silueta
+  // — la coplanaridad del par de caras precomputada cuando son exactamente 2
   const cosCrease = Math.cos(creaseDeg * Math.PI / 180);
   const AREA_OK = 0.02;                              // 2×área mínima «sana» (mm²)
-  const out = [];
+  const eList = [];
   for (const e of edges.values()) {
     const strong = e.faces.filter(f => f.area2 > AREA_OK);
-    let kind = -1;
-    if (e.faces.length === 1) kind = 0;                              // borde abierto
-    else if (strong.length) {
-      const anyF = strong.some(f => f.front), anyB = strong.some(f => !f.front);
-      // silueta sólo si además el par frontal/trasero NO es coplanar
-      if (anyF && anyB) {
-        const f1 = strong.find(f => f.front), f2 = strong.find(f => !f.front);
-        if (!cop(e.a, e.b, f1.opp, f2.opp)) kind = 1;
-      }
-      if (kind < 0) {
-        // pliegue: algún par de caras sanas genuinamente doblado
-        for (let i = 0; i < strong.length && kind < 0; i++) {
-          for (let j = i + 1; j < strong.length; j++) {
-            const fi = strong[i], fj = strong[j];
-            const dot = fi.nx * fj.nx + fi.ny * fj.ny + fi.nz * fj.nz;
-            if (dot < cosCrease && !cop(e.a, e.b, fi.opp, fj.opp)) { kind = 0; break; }
-          }
+    const rec = { a: e.a, b: e.b, nFaces: e.faces.length, strong, crease: false, cop2: null };
+    if (strong.length >= 2) {
+      for (let i = 0; i < strong.length && !rec.crease; i++) {
+        for (let j = i + 1; j < strong.length; j++) {
+          const fi = strong[i], fj = strong[j];
+          const dot = fi.nx * fj.nx + fi.ny * fj.ny + fi.nz * fj.nz;
+          if (dot < cosCrease && !cop(e.a, e.b, fi.opp, fj.opp)) { rec.crease = true; break; }
         }
       }
-      if (kind >= 0 && !strong.some(f => f.front)) kind = -1;        // nada visible
+      if (strong.length === 2) rec.cop2 = cop(e.a, e.b, strong[0].opp, strong[1].opp);
     }
-    if (kind >= 0) out.push({ a: [vx[e.a], vy[e.a], vz[e.a]], b: [vx[e.b], vy[e.b], vz[e.b]], kind });
+    eList.push(rec);
   }
 
-  // ── parches coplanares FRONTALES para pintado (caras con luz) ──────────────
-  // Agrupa triángulos frontales por plano; el contorno del parche son las
-  // sub-aristas usadas un número IMPAR de veces, encadenadas en lazos
-  // (contorno + agujeros → relleno par-impar). Devuelve además la normal.
-  const patches = [];
+  // parches coplanares para pintado, SIN filtro de vista: el lazo del parche
+  // es geometría pura — al proyectar sólo se decide si el plano mira al frente
+  const patchesAll = [];
   {
     const porPlano = new Map();
     tris.forEach((tr, ti) => {
-      if (!tr.front || tr.area2 < AREA_OK) return;
+      if (tr.area2 < AREA_OK) return;
       const a = tr.v[0];
       const dPl = tr.nx * vx[a] + tr.ny * vy[a] + tr.nz * vz[a];
       const k = `${Math.round(tr.nx * 500)},${Math.round(tr.ny * 500)},${Math.round(tr.nz * 500)},${Math.round(dPl * 5)}`;
@@ -297,7 +292,7 @@ export function extractEdges(geom, viewDir, creaseDeg = 28) {
         (ady.get(b) ?? ady.set(b, []).get(b)).push(a);
       }
       const usado = new Set();
-      const loops = [];
+      const loopsIdx = [];
       for (const [start] of ady) {
         if (usado.has(start)) continue;
         const loop = [start];
@@ -309,33 +304,96 @@ export function extractEdges(geom, viewDir, creaseDeg = 28) {
           loop.push(nx2); usado.add(nx2);
           prev = cur; cur = nx2;
         }
-        if (loop.length >= 3) loops.push(loop.map(i => [vx[i], vy[i], vz[i]]));
+        if (loop.length >= 3) loopsIdx.push(Uint32Array.from(loop));
       }
-      if (!loops.length) continue;
+      if (!loopsIdx.length) continue;
       const t0 = tris[g[0]];
       const areaW = g.reduce((a, ti) => a + tris[ti].area2, 0) / 2;   // mm² reales
-      patches.push({
-        loops, nx: t0.nx, ny: t0.ny, nz: t0.nz, areaW,
-        // triángulos del parche (coordenadas soldadas) para el pintor por
-        // triángulo: el orden por parche falla con parches GRANDES (la cara
-        // de 5 m de la banda se ordena por su punto más lejano y todo lo de
-        // en medio le pinta encima — defecto visto en la vista general)
-        tris: g.map(ti => tris[ti].v.map(i => [vx[i], vy[i], vz[i]])),
+      patchesAll.push({
+        // SOLO ÍNDICES soldados (las coordenadas se materializan POR VISTA):
+        // guardar los triángulos como tripletas de arrays duplicaba toda la
+        // geometría en el caché y el GA de 96 piezas moría por OOM
+        loopsIdx, nx: t0.nx, ny: t0.ny, nz: t0.nz, areaW,
+        trisIdx: Uint32Array.from(g.flatMap(ti => tris[ti].v)),
       });
     }
   }
-  out.patches = patches;
+  // arrays compactos + cop re-ligado a ellos (los arrays JS de construcción
+  // quedan libres al salir — nada del caché los retiene)
+  const cvx = Float64Array.from(vx), cvy = Float64Array.from(vy), cvz = Float64Array.from(vz);
+  const copC = (ea, eb, o1, o2) => {
+    const ax = cvx[ea], ay = cvy[ea], az = cvz[ea];
+    const b1x = cvx[eb] - ax, b1y = cvy[eb] - ay, b1z = cvz[eb] - az;
+    const c1x = cvx[o1] - ax, c1y = cvy[o1] - ay, c1z = cvz[o1] - az;
+    const c2x = cvx[o2] - ax, c2y = cvy[o2] - ay, c2z = cvz[o2] - az;
+    const vol = b1x * (c1y * c2z - c1z * c2y) - b1y * (c1x * c2z - c1z * c2x) + b1z * (c1x * c2y - c1y * c2x);
+    const l1 = Math.hypot(b1x, b1y, b1z), l2 = Math.hypot(c1x, c1y, c1z), l3 = Math.hypot(c2x, c2y, c2z);
+    return Math.abs(vol) <= 3e-4 * l1 * l2 * l3 + 1e-9;
+  };
+  const topo = { creaseDeg, vx: cvx, vy: cvy, vz: cvz, eList, patchesAll, cop: copC };
+  TOPO.set(geom, topo);
+  return topo;
+}
+
+// clasificación POR VISTA sobre la topología cacheada: sólo productos punto
+export function extractEdges(geom, viewDir, creaseDeg = 28, wantPatches = true) {
+  const { vx, vy, vz, eList, patchesAll, cop } = topoDe(geom, creaseDeg);
+  const d = new THREE.Vector3(...viewDir).normalize();
+  const frontDe = (f) => (f.nx * d.x + f.ny * d.y + f.nz * d.z) < 0;
+  const out = [];
+  for (const e of eList) {
+    const { strong } = e;
+    let kind = -1;
+    if (e.nFaces === 1) kind = 0;                                    // borde abierto
+    else if (strong.length) {
+      let anyF = false, anyB = false, iF = -1, iB = -1;
+      for (let i = 0; i < strong.length; i++) {
+        if (frontDe(strong[i])) { anyF = true; if (iF < 0) iF = i; }
+        else { anyB = true; if (iB < 0) iB = i; }
+      }
+      // silueta sólo si además el par frontal/trasero NO es coplanar
+      if (anyF && anyB) {
+        const copFB = strong.length === 2 ? e.cop2 : cop(e.a, e.b, strong[iF].opp, strong[iB].opp);
+        if (!copFB) kind = 1;
+      }
+      if (kind < 0 && e.crease) kind = 0;                            // pliegue genuino
+      if (kind >= 0 && !anyF) kind = -1;                             // nada visible
+    }
+    if (kind >= 0) out.push({ a: [vx[e.a], vy[e.a], vz[e.a]], b: [vx[e.b], vy[e.b], vz[e.b]], kind });
+  }
+  // materializar coordenadas de parche SOLO para esta vista (transitorio)
+  out.patches = wantPatches ? patchesAll.filter(frontDe).map(p => {
+    const tris = [];
+    const a = p.trisIdx;
+    for (let k = 0; k < a.length; k += 3) {
+      tris.push([[vx[a[k]], vy[a[k]], vz[a[k]]], [vx[a[k + 1]], vy[a[k + 1]], vz[a[k + 1]]], [vx[a[k + 2]], vy[a[k + 2]], vz[a[k + 2]]]]);
+    }
+    return {
+      nx: p.nx, ny: p.ny, nz: p.nz, areaW: p.areaW, tris,
+      loops: p.loopsIdx.map(lp => Array.from(lp, i => [vx[i], vy[i], vz[i]])),
+    };
+  }) : [];
   return out;
 }
 
 // ── escena isométrica ────────────────────────────────────────────────────────
 
+// caché del CSG por pieza (espacio LOCAL): el manual arma una escena por
+// figura con las MISMAS piezas — sin caché, la chumacera UCF se re-CSG-eaba
+// en cada figura (35 % del perfil). El clon es barato; la transformación se
+// aplica sobre el clon.
+const GEO_CACHE = new WeakMap();
 export class IsoScene {
   constructor() { this.items = []; }
   // part: pieza del doc · opts: {explode:[x,y,z], simplify, anchor:[x,y,z],
   //   trail:{to:[x,y,z]}, tag} — explode se aplica ANTES de proyectar.
   add(part, opts = {}) {
-    const geom = partGeometry(part, opts);
+    let porSimp = GEO_CACHE.get(part);
+    if (!porSimp) GEO_CACHE.set(part, porSimp = new Map());
+    const kSimp = opts.simplify || 'full';
+    let g0 = porSimp.get(kSimp);
+    if (!g0) { g0 = partGeometry(part, opts); porSimp.set(kSimp, g0); }
+    const geom = g0.clone();
     const off = new THREE.Vector3(...(opts.explode || [0, 0, 0]))
       .add(new THREE.Vector3(...(part.pos || [0, 0, 0])));
     const q = new THREE.Quaternion(...(part.quat || [0, 0, 0, 1]));
@@ -346,9 +404,14 @@ export class IsoScene {
   }
 
   // dir: dirección de VISTA (desde el ojo hacia la escena), up: cénit.
-  // Devuelve {segments, project, bboxScreen, parts:[{name,tag,bbox,anchor}]}
+  // section: {n:[x,y,z], d} — plano de corte MUNDO n·p = d; se elimina lo que
+  //   queda del lado del ojo (n·p < d) y las caras de material se devuelven en
+  //   `cuts` (lazos par-impar) para rayarlas. Usar con dir ∥ n (vista normal).
+  // shadow: true — sombra proyectada al piso (z = mínimo del modelo) según la
+  //   luz de estudio; se devuelve en `shadow` y se dibuja al fondo.
+  // Devuelve {segments, fills, cuts, shadow, parts:[{name,tag,bbox,anchor}]}
   project({ dir = [-1, 1, -0.62], up = [0, 0, 1], widthMM = 240, res = 1650,
-            creaseDeg = 28, hidden = false } = {}) {
+            creaseDeg = 28, hidden = false, section = null, shadow = false } = {}) {
     const d = new THREE.Vector3(...dir).normalize();
     const u0 = new THREE.Vector3(...up);
     // base de pantalla: +X derecha, +Y ARRIBA (upv·up > 0 — un signo invertido
@@ -358,33 +421,73 @@ export class IsoScene {
     if (upv.dot(u0) < 0) { right.negate(); upv.negate(); }
     // ejes de pantalla: X=right, Y=upv, prof=d (mayor = más lejos)
     const P = (v) => [v.dot(right), v.dot(upv), v.dot(d)];
+    // luz de estudio: arriba-izquierda-frente (coordenadas de MUNDO)
+    const luz = new THREE.Vector3(-0.35, 0.4, 0.85).normalize();
+
+    // 0) sección: recortar cada malla contra el semiespacio y juntar los
+    // lazos de corte por pieza (la malla original NO se muta)
+    let workItems = this.items.map(it => ({ it, geom: it.geom }));
+    const cutsRaw = [];
+    if (section) {
+      const nS = new THREE.Vector3(...section.n).normalize().toArray();
+      workItems = [];
+      for (const it of this.items) {
+        const { tris, cut } = clipGeomHalf(it.geom, nS, section.d);
+        if (!tris.length) continue;
+        const g2 = new THREE.BufferGeometry();
+        g2.setAttribute('position', new THREE.Float32BufferAttribute(tris.flat(), 3));
+        workItems.push({ it, geom: g2 });
+        const loops = chainLoops(cut);
+        if (loops.length) cutsRaw.push({ it, loops });
+      }
+    }
 
     // 1) proyectar todos los vértices y calcular el encuadre
     let minX = 1e30, maxX = -1e30, minY = 1e30, maxY = -1e30, minD = 1e30, maxD = -1e30;
-    const projItems = this.items.map(it => {
-      const pos = it.geom.attributes.position.array;
-      const n = it.geom.attributes.position.count;
+    let zMin = 1e30;
+    const projItems = workItems.map(({ it, geom }) => {
+      const pos = geom.attributes.position.array;
+      const n = geom.attributes.position.count;
       const pr = new Float32Array(n * 3);
       const V = new THREE.Vector3();
       for (let i = 0; i < n; i++) {
         V.fromArray(pos, i * 3);
+        if (V.z < zMin) zMin = V.z;
         const [x, y, dd] = P(V);
         pr[i * 3] = x; pr[i * 3 + 1] = y; pr[i * 3 + 2] = dd;
         if (x < minX) minX = x; if (x > maxX) maxX = x;
         if (y < minY) minY = y; if (y > maxY) maxY = y;
         if (dd < minD) minD = dd; if (dd > maxD) maxD = dd;
       }
-      return { it, pr };
+      return { it, geom, pr };
     });
+    // la sombra cae al piso desplazada por la luz: su extensión entra al encuadre
+    const sombraDe = (x, y, z) => {
+      const t = (z - zMin) / luz.z;
+      return [x - luz.x * t, y - luz.y * t, zMin];
+    };
+    if (shadow) {
+      const V = new THREE.Vector3();
+      for (const { geom } of projItems) {
+        const pos = geom.attributes.position.array;
+        for (let i = 0; i < pos.length; i += 3) {
+          const [sx, sy, sz] = sombraDe(pos[i], pos[i + 1], pos[i + 2]);
+          const [x, y] = P(V.set(sx, sy, sz));
+          if (x < minX) minX = x; if (x > maxX) maxX = x;
+          if (y < minY) minY = y; if (y > maxY) maxY = y;
+        }
+      }
+    }
     const w = maxX - minX, h = maxY - minY, dR = Math.max(1e-6, maxD - minD);
     const pxPerMM = (res - 4) / w;
     const H = Math.max(8, Math.ceil(h * pxPerMM) + 4);
     const toPx = (x, y) => [(x - minX) * pxPerMM + 2, (y - minY) * pxPerMM + 2];
+    const sMM = widthMM / w;                          // mm de lámina por mm proyectado
 
     // 2) buffer de profundidad por scanline
     const depth = new Float32Array(res * H).fill(Infinity);
-    for (const { it, pr } of projItems) {
-      const index = it.geom.index ? it.geom.index.array : null;
+    for (const { geom, pr } of projItems) {
+      const index = geom.index ? geom.index.array : null;
       const nTri = (index ? index.length : pr.length / 3) / 3;
       const vid = (i) => index ? index[i] : i;
       for (let t = 0; t < nTri; t++) {
@@ -395,17 +498,107 @@ export class IsoScene {
           toPx(pr[i2], pr[i2 + 1]), pr[i2 + 2]);
       }
     }
+    const biasBase = dR * 6e-4;
+
+    // 2b) caras de corte: al buffer (ocluyen lo de atrás del material) y a la
+    // salida como lazos par-impar con el color de la pieza aclarado
+    const cutFaces = [];
+    for (const { it, loops } of cutsRaw) {
+      const base = hexRGB(it.part.color || '#d3d5cf');
+      const rgb = base.map(v => Math.min(1, v * 0.5 + 0.52));
+      const V = new THREE.Vector3();
+      const l2 = [], lpx = []; let dMin = 1e30;
+      for (const lp of loops) {
+        const a2 = [], apx = [];
+        for (const q of lp) {
+          const [x, y, dd] = P(V.set(q[0], q[1], q[2]));
+          a2.push([(x - minX) * sMM, (y - minY) * sMM]);
+          apx.push(toPx(x, y));
+          if (dd < dMin) dMin = dd;
+        }
+        // lazos-astilla del CSG fuera (área en mm² de lámina)
+        let a = 0;
+        for (let i = 0, m = a2.length; i < m; i++) {
+          const p0 = a2[i], p1 = a2[(i + 1) % m];
+          a += p0[0] * p1[1] - p1[0] * p0[1];
+        }
+        if (Math.abs(a) / 2 < 0.6) continue;
+        l2.push(a2); lpx.push(apx);
+      }
+      if (!l2.length) continue;
+      rasterLoopsEO(depth, res, H, lpx, dMin - biasBase * 2);
+      cutFaces.push({ loops: l2, rgb, name: it.part.name });
+    }
+
+    // 2c) sombra de piso: máscara de los triángulos proyectados por la luz
+    // sobre z = zMin → contornos 4-vecinos → RDP (queda al FONDO del dibujo).
+    // Relleno DIRECTO por función de arista sobre máscara Uint8 — pasar cada
+    // triángulo por el scanline par-impar genérico tardaba 36 s en 7 piezas.
+    let shadowOut = null;
+    if (shadow) {
+      const cell = 3;
+      const mw = Math.ceil(res / cell), mh = Math.ceil(H / cell);
+      const mask = new Uint8Array(mw * mh);
+      const V = new THREE.Vector3();
+      const fillTri = (ax, ay, bx, by, cx, cy) => {
+        const y0 = Math.max(0, Math.floor(Math.min(ay, by, cy)));
+        const y1 = Math.min(mh - 1, Math.ceil(Math.max(ay, by, cy)));
+        const x0 = Math.max(0, Math.floor(Math.min(ax, bx, cx)));
+        const x1 = Math.min(mw - 1, Math.ceil(Math.max(ax, bx, cx)));
+        if (x1 < x0 || y1 < y0) return;
+        for (let y = y0; y <= y1; y++) {
+          for (let x = x0; x <= x1; x++) {
+            const w0 = (bx - x) * (cy - y) - (cx - x) * (by - y);
+            const w1 = (cx - x) * (ay - y) - (ax - x) * (cy - y);
+            const w2 = (ax - x) * (by - y) - (bx - x) * (ay - y);
+            if ((w0 >= 0 && w1 >= 0 && w2 >= 0) || (w0 <= 0 && w1 <= 0 && w2 <= 0)) mask[y * mw + x] = 1;
+          }
+        }
+      };
+      const tp = [0, 0, 0, 0, 0, 0];
+      for (const { geom } of projItems) {
+        const pos = geom.attributes.position.array;
+        const index = geom.index ? geom.index.array : null;
+        const vid = (i) => index ? index[i] : i;
+        const nT = (index ? index.length : pos.length / 3) / 3;
+        for (let t = 0; t < nT; t++) {
+          for (let k = 0; k < 3; k++) {
+            const o = vid(t * 3 + k) * 3;
+            const [sx, sy, sz] = sombraDe(pos[o], pos[o + 1], pos[o + 2]);
+            const [x, y] = P(V.set(sx, sy, sz));
+            const [px, py] = toPx(x, y);
+            tp[k * 2] = px / cell; tp[k * 2 + 1] = py / cell;
+          }
+          fillTri(tp[0], tp[1], tp[2], tp[3], tp[4], tp[5]);
+        }
+      }
+      // aristas frontera entre celda llena y vacía → lazos
+      const segs = [];
+      const lleno = (x, y) => x >= 0 && y >= 0 && x < mw && y < mh && mask[y * mw + x] === 1;
+      for (let y = 0; y < mh; y++) for (let x = 0; x < mw; x++) {
+        if (!lleno(x, y)) continue;
+        if (!lleno(x - 1, y)) segs.push([[x, y, 0], [x, y + 1, 0]]);
+        if (!lleno(x + 1, y)) segs.push([[x + 1, y, 0], [x + 1, y + 1, 0]]);
+        if (!lleno(x, y - 1)) segs.push([[x, y, 0], [x + 1, y, 0]]);
+        if (!lleno(x, y + 1)) segs.push([[x, y + 1, 0], [x + 1, y + 1, 0]]);
+      }
+      const f = sMM / pxPerMM;
+      const loops = chainLoops(segs, 0.25).map(lp => {
+        const p2 = lp.map(([cx, cy]) => [(cx * cell - 2) * f, (cy * cell - 2) * f]);
+        p2.push(p2[0]);
+        const s2 = rdp(p2, 0.45); s2.pop();
+        return s2;
+      }).filter(lp => lp.length >= 3);
+      if (loops.length) shadowOut = { loops, rgb: [0.907, 0.907, 0.905] };
+    }
 
     // 3) aristas → tramos visibles por muestreo contra el buffer
-    const sMM = widthMM / w;                          // mm de lámina por mm proyectado
     const segsOut = [];
     const partsMeta = [];
     const fills = [];
-    const biasBase = dR * 6e-4;
-    // luz de estudio: arriba-izquierda-frente (coordenadas de MUNDO)
-    const luz = new THREE.Vector3(-0.35, 0.4, 0.85).normalize();
-    for (const { it, pr } of projItems) {
-      const eds = extractEdges(it.geom, dir, creaseDeg);
+    for (const { it, geom, pr } of projItems) {
+      // sin pintado no se necesitan los lazos de parche (línea pura — GA)
+      const eds = extractEdges(geom, dir, creaseDeg, it.opts.paint !== false);
 
       // caras pintadas: PINTOR POR TRIÁNGULO con descarte de ocultos contra
       // el buffer — el orden queda correcto a granularidad de triángulo y lo
@@ -548,8 +741,145 @@ export class IsoScene {
     fills.sort((p, q) => q.depth - p.depth);          // pintor: lejos primero
     // spanU/spanV: extensión REAL proyectada del modelo (mm de modelo) — las
     // cotas del GA se auto-miden de aquí, no se transcriben
-    return { segments: segsOut, fills, widthMM, heightMM: h * sMM, parts: partsMeta, spanU: w, spanV: h };
+    return { segments: segsOut, fills, cuts: cutFaces, shadow: shadowOut,
+             widthMM, heightMM: h * sMM, parts: partsMeta, spanU: w, spanV: h,
+             // origen proyectado (para ubicar marcas de plano de corte en mm de lámina):
+             // lámina_x = (P(p)·right − minU) · widthMM/spanU
+             minU: minX, minV: minY, toSheet: (p) => {
+               const v = new THREE.Vector3(p[0], p[1], p[2]);
+               return [(v.dot(right) - minX) * sMM, (v.dot(upv) - minY) * sMM];
+             } };
   }
+}
+
+// ── SECCIÓN: recorte de la malla contra el semiespacio n·p ≥ d ───────────────
+// Devuelve los triángulos del lado que QUEDA y los tramos de corte (los que
+// cruzan el plano) para encadenarlos en lazos y rayarlos como material.
+function clipGeomHalf(geom, n, d) {
+  const pos = geom.attributes.position.array;
+  const idx = geom.index ? geom.index.array : null;
+  const nTri = (idx ? idx.length : pos.length / 3) / 3;
+  const vid = (i) => idx ? idx[i] : i;
+  const out = []; const cut = [];
+  const S = (o) => n[0] * pos[o] + n[1] * pos[o + 1] + n[2] * pos[o + 2] - d;
+  const V = (o) => [pos[o], pos[o + 1], pos[o + 2]];
+  const lerp = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+  for (let t = 0; t < nTri; t++) {
+    const o = [vid(t * 3) * 3, vid(t * 3 + 1) * 3, vid(t * 3 + 2) * 3];
+    const s = o.map(S), v = o.map(V);
+    if (s[0] >= 0 && s[1] >= 0 && s[2] >= 0) { out.push(v[0], v[1], v[2]); continue; }
+    if (s[0] < 0 && s[1] < 0 && s[2] < 0) continue;
+    const poly = []; const onCut = [];
+    for (let e = 0; e < 3; e++) {
+      const a = v[e], b = v[(e + 1) % 3], sa = s[e], sb = s[(e + 1) % 3];
+      if (sa >= 0) poly.push(a);
+      if ((sa < 0) !== (sb < 0)) {
+        const p = lerp(a, b, sa / (sa - sb));
+        poly.push(p); onCut.push(p);
+      }
+    }
+    if (onCut.length === 2) cut.push([onCut[0], onCut[1]]);
+    for (let k = 2; k < poly.length; k++) out.push(poly[0], poly[k - 1], poly[k]);
+  }
+  return { tris: out, cut };
+}
+
+// encadena tramos [a,b] (puntos 3D) en lazos cerrados, soldando extremos en
+// una grilla de tolerancia — en las bifurcaciones (astillas CSG) toma el
+// primer candidato libre; los lazos espurios se filtran después por área
+function chainLoops(segs, tol = 0.05) {
+  const key = (p) => `${Math.round(p[0] / tol)},${Math.round(p[1] / tol)},${Math.round(p[2] / tol)}`;
+  const adj = new Map();
+  const put = (k, e) => { const a = adj.get(k); if (a) a.push(e); else adj.set(k, [e]); };
+  segs = segs.filter(([a, b]) => key(a) !== key(b));
+  segs.forEach(([a, b], i) => { put(key(a), [i, 0]); put(key(b), [i, 1]); });
+  const used = new Uint8Array(segs.length);
+  const loops = [];
+  for (let i = 0; i < segs.length; i++) {
+    if (used[i]) continue;
+    used[i] = 1;
+    const lp = [segs[i][0], segs[i][1]];
+    for (let guard = 0; guard < segs.length; guard++) {
+      const kEnd = key(lp[lp.length - 1]);
+      if (lp.length > 2 && kEnd === key(lp[0])) break;
+      const cands = (adj.get(kEnd) || []).filter(([j]) => !used[j]);
+      if (!cands.length) break;
+      const [j, end] = cands[0];
+      used[j] = 1;
+      lp.push(segs[j][end === 0 ? 1 : 0]);
+    }
+    if (lp.length >= 4 && key(lp[0]) === key(lp[lp.length - 1])) { lp.pop(); loops.push(lp); }
+  }
+  return loops;
+}
+
+// relleno par-impar de lazos EN PIXELES sobre el buffer de profundidad — la
+// cara de corte debe OCLUIR lo que queda detrás del material seccionado
+function rasterLoopsEO(depth, W, H, loops, dz) {
+  let y0 = 1e30, y1 = -1e30;
+  for (const lp of loops) for (const p of lp) { if (p[1] < y0) y0 = p[1]; if (p[1] > y1) y1 = p[1]; }
+  const yA = Math.max(0, Math.ceil(y0)), yB = Math.min(H - 1, Math.floor(y1));
+  for (let y = yA; y <= yB; y++) {
+    const xs = [];
+    for (const lp of loops) {
+      for (let i = 0, m = lp.length; i < m; i++) {
+        const a = lp[i], b = lp[(i + 1) % m];
+        if ((a[1] <= y) !== (b[1] <= y)) xs.push(a[0] + (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]));
+      }
+    }
+    xs.sort((p, q) => p - q);
+    for (let k = 0; k + 1 < xs.length; k += 2) {
+      const xA = Math.max(0, Math.ceil(xs[k])), xB = Math.min(W - 1, Math.floor(xs[k + 1]));
+      for (let x = xA; x <= xB; x++) { const o = y * W + x; if (dz < depth[o]) depth[o] = dz; }
+    }
+  }
+}
+
+// simplificación Ramer–Douglas–Peucker (para el contorno de la sombra)
+function rdp(pts, eps) {
+  if (pts.length < 3) return pts;
+  const keep = new Uint8Array(pts.length); keep[0] = keep[pts.length - 1] = 1;
+  const stack = [[0, pts.length - 1]];
+  while (stack.length) {
+    const [i0, i1] = stack.pop();
+    const [ax, ay] = pts[i0], [bx, by] = pts[i1];
+    const dx = bx - ax, dy = by - ay, L2 = dx * dx + dy * dy || 1;
+    let dm = -1, im = -1;
+    for (let i = i0 + 1; i < i1; i++) {
+      const t = Math.max(0, Math.min(1, ((pts[i][0] - ax) * dx + (pts[i][1] - ay) * dy) / L2));
+      const ex = ax + dx * t - pts[i][0], ey = ay + dy * t - pts[i][1];
+      const e = ex * ex + ey * ey;
+      if (e > dm) { dm = e; im = i; }
+    }
+    if (dm > eps * eps) { keep[im] = 1; stack.push([i0, im], [im, i1]); }
+  }
+  return pts.filter((_, i) => keep[i]);
+}
+
+// rayado 45° recortado par-impar dentro de lazos (coordenadas de lámina, mm)
+export function hatchLoops(loops, step = 3.2, ang = Math.PI / 4) {
+  const ca = Math.cos(ang), sa = Math.sin(ang);
+  // u a lo largo de la línea de rayado, v perpendicular (v = const por línea)
+  const uv = ([x, y]) => [x * ca + y * sa, -x * sa + y * ca];
+  const xy = (u, v) => [u * ca - v * sa, u * sa + v * ca];
+  let v0 = 1e30, v1 = -1e30;
+  const L = loops.map(lp => lp.map(p => { const q = uv(p); if (q[1] < v0) v0 = q[1]; if (q[1] > v1) v1 = q[1]; return q; }));
+  const out = [];
+  for (let v = v0 + step * 0.6; v < v1; v += step) {
+    const us = [];
+    for (const lp of L) {
+      for (let i = 0, m = lp.length; i < m; i++) {
+        const a = lp[i], b = lp[(i + 1) % m];
+        if ((a[1] <= v) !== (b[1] <= v)) us.push(a[0] + (b[0] - a[0]) * (v - a[1]) / (b[1] - a[1]));
+      }
+    }
+    us.sort((p, q) => p - q);
+    for (let k = 0; k + 1 < us.length; k += 2) {
+      if (us[k + 1] - us[k] < 0.3) continue;
+      out.push([xy(us[k], v), xy(us[k + 1], v)]);
+    }
+  }
+  return out;
 }
 
 function hexRGB(hex) {
@@ -639,9 +969,37 @@ export function layoutBalloons(items, figW, figH, { r = 4.6, margin = 11 } = {})
 // — primero las CARAS PINTADAS (capa SOMBRA, queda al fondo del PDF), luego
 // el alambre con jerarquía: contorno exterior NORMA > aristas VISIBLE > FINA
 export function drawFigure(sh, fig, ox, oy, { balloons = [], scaleTxt } = {}) {
+  // sombra de piso al FONDO de todo
+  if (fig.shadow) {
+    sh.solidPoly(fig.shadow.loops.map(lp => lp.map(([x, y]) => [ox + x, oy + y])), fig.shadow.rgb);
+  }
   for (const f of (fig.fills || [])) {
     sh.solidPoly(f.loops.map(lp => lp.map(([x, y]) => [ox + x, oy + y])), f.rgb);
   }
+  // caras de corte: tono de material + rayado 45° (alternando por pieza) +
+  // contorno grueso — el estándar de sección de dibujo técnico. Sección
+  // DELGADA (chapa de canto, banda): ennegrecida en vez de rayada (ISO 128 —
+  // en <2,2 mm de lámina no cabe ni una línea de rayado y el pastel se pierde)
+  (fig.cuts || []).forEach((c, i) => {
+    const loops = c.loops.map(lp => lp.map(([x, y]) => [ox + x, oy + y]));
+    let delgada = true;
+    for (const lp of loops) {
+      let x0 = 1e30, y0 = 1e30, x1 = -1e30, y1 = -1e30;
+      for (const [x, y] of lp) { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); }
+      if (Math.min(x1 - x0, y1 - y0) > 2.2) { delgada = false; break; }
+    }
+    if (delgada) {
+      sh.solidPoly(loops, c.rgb.map(v => v * 0.32));
+      return;
+    }
+    sh.solidPoly(loops, c.rgb);
+    for (const [a, b] of hatchLoops(loops, 3.1, (i % 2 ? 3 : 1) * Math.PI / 4)) {
+      sh.line(a, b, 'FINA');
+    }
+    for (const lp of loops) {
+      for (let k = 0, m = lp.length; k < m; k++) sh.line(lp[k], lp[(k + 1) % m], 'VISIBLE');
+    }
+  });
   const L = { 0: 'VISIBLE', 1: 'VISIBLE', 2: 'FINA', 3: 'NORMA', 8: 'COTAS', 9: 'OCULTA' };
   for (const s of fig.segments) {
     sh.line([ox + s.a[0], oy + s.a[1]], [ox + s.b[0], oy + s.b[1]], L[s.kind] || 'VISIBLE');

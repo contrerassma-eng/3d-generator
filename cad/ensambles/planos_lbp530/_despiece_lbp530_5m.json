@@ -2,12 +2,12 @@
   "proyecto": "CV-LBP-5000 · Movex 530 LBP 18 in × 5.0 m",
   "archivo": "lbp530_5m.json",
   "fecha": "2026-08-12",
-  "total_piezas": 80,
-  "items_distintos": 28,
+  "total_piezas": 96,
+  "items_distintos": 29,
   "planos_fabricacion": 13,
   "despiece": [
     {
-      "item": 9,
+      "item": 12,
       "designacion": "FAB · Placa lateral libre PL6 L=5000",
       "nombres": [
         "FAB · Placa lateral libre (−Y) PL6 L=5000"
@@ -18,7 +18,7 @@
       "plano": "LB-01"
     },
     {
-      "item": 10,
+      "item": 13,
       "designacion": "FAB · Placa lateral motriz PL6 L=5000",
       "nombres": [
         "FAB · Placa lateral motriz (+Y) PL6 L=5000"
@@ -29,10 +29,10 @@
       "plano": "LB-02"
     },
     {
-      "item": 12,
-      "designacion": "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
+      "item": 15,
+      "designacion": "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
       "nombres": [
-        "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04"
+        "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04"
       ],
       "cant": 8,
       "tipo": "FABRICADA",
@@ -40,7 +40,7 @@
       "plano": "LBP530-EJ-04"
     },
     {
-      "item": 25,
+      "item": 28,
       "designacion": "NORM · Rodillos LBP Ø12.2 POM rojo (97 filas × 12)",
       "nombres": [
         "NORM · Rodillos LBP Ø12.2 POM rojo (97 filas × 12)"
@@ -51,7 +51,7 @@
       "plano": "—"
     },
     {
-      "item": "—",
+      "item": 1,
       "designacion": "FAB · Bracket soporte B_005A 24V (cruciformes + arco angular)",
       "nombres": [
         "FAB · Bracket soporte B_005A 24V (cruciformes + arco angular)"
@@ -62,7 +62,7 @@
       "plano": "LB-03"
     },
     {
-      "item": 1,
+      "item": 2,
       "designacion": "FAB · Cabezal porta-nosebar descarga PL6 470×90",
       "nombres": [
         "FAB · Cabezal porta-nosebar descarga PL6 470×90"
@@ -73,7 +73,7 @@
       "plano": "LB-04"
     },
     {
-      "item": 2,
+      "item": 3,
       "designacion": "FAB · Cabezal porta-nosebar entrada PL6 470×90",
       "nombres": [
         "FAB · Cabezal porta-nosebar entrada PL6 470×90"
@@ -84,7 +84,7 @@
       "plano": "LB-05"
     },
     {
-      "item": "—",
+      "item": 4,
       "designacion": "FAB · Columna soporte 24V ángulo 71×38×3 + placa piso B_004A (soldada)",
       "nombres": [
         "FAB · Columna soporte 24V ángulo 71×38×3 + placa piso B_004A (soldada)"
@@ -95,7 +95,7 @@
       "plano": "LB-06"
     },
     {
-      "item": 3,
+      "item": 5,
       "designacion": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
       "nombres": [
         "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)"
@@ -106,7 +106,7 @@
       "plano": "LBP530-EJ-01"
     },
     {
-      "item": 4,
+      "item": 6,
       "designacion": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)",
       "nombres": [
         "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)"
@@ -117,7 +117,7 @@
       "plano": "LBP530-EJ-02"
     },
     {
-      "item": "—",
+      "item": 7,
       "designacion": "FAB · Escalerilla telescópica 60×4 (ranuras 11×22 — ajuste de altura)",
       "nombres": [
         "FAB · Escalerilla telescópica 60×4 (ranuras 11×22 — ajuste de altura)"
@@ -128,7 +128,7 @@
       "plano": "LB-07"
     },
     {
-      "item": 5,
+      "item": 8,
       "designacion": "FAB · Guarda inferior motriz — artesa U chapa 1.5",
       "nombres": [
         "FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)"
@@ -139,7 +139,7 @@
       "plano": "LB-08"
     },
     {
-      "item": 6,
+      "item": 9,
       "designacion": "FAB · Guarda inferior tensor — artesa U chapa 1.5",
       "nombres": [
         "FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)"
@@ -150,7 +150,7 @@
       "plano": "LB-09"
     },
     {
-      "item": 7,
+      "item": 10,
       "designacion": "FAB · Mecha porta-chumacera PL8 motriz 320×422",
       "nombres": [
         "FAB · Mecha porta-chumacera PL8 motriz 320×422"
@@ -161,7 +161,7 @@
       "plano": "LB-10"
     },
     {
-      "item": "—",
+      "item": 11,
       "designacion": "FAB · Mecha porta-chumacera PL8 tensor 320×362",
       "nombres": [
         "FAB · Mecha porta-chumacera PL8 tensor 320×362"
@@ -172,7 +172,7 @@
       "plano": "LB-11"
     },
     {
-      "item": "—",
+      "item": 14,
       "designacion": "FAB · Portacarril 50×6 con clips (apernado M6 al alma)",
       "nombres": [
         "FAB · Portacarril 50×6 con clips (apernado M6 al alma)"
@@ -183,7 +183,7 @@
       "plano": "LB-12"
     },
     {
-      "item": "—",
+      "item": 16,
       "designacion": "FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas",
       "nombres": [
         "FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)"
@@ -194,7 +194,7 @@
       "plano": "LB-13"
     },
     {
-      "item": "—",
+      "item": 18,
       "designacion": "NORM · Banda Movex 530 LBP 18 in — lazo 10.95 m",
       "nombres": [
         "NORM · Banda Movex 530 LBP 18 in — lazo 10.95 m"
@@ -205,7 +205,7 @@
       "plano": "—"
     },
     {
-      "item": 17,
+      "item": 19,
       "designacion": "NORM · Chumacera UCF206 Ø30",
       "nombres": [
         "NORM · Chumacera UCF206 Ø30"
@@ -216,7 +216,7 @@
       "plano": "—"
     },
     {
-      "item": 18,
+      "item": 20,
       "designacion": "NORM · Collarín P21703Y (fija el sprocket central)",
       "nombres": [
         "NORM · Collarín P21703Y (fija el sprocket central)"
@@ -227,7 +227,7 @@
       "plano": "—"
     },
     {
-      "item": 19,
+      "item": 21,
       "designacion": "NORM · Collarín P21703Y (referencia eje tensor)",
       "nombres": [
         "NORM · Collarín P21703Y (referencia eje tensor)"
@@ -238,7 +238,7 @@
       "plano": "—"
     },
     {
-      "item": 20,
+      "item": 22,
       "designacion": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05",
       "nombres": [
         "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)"
@@ -249,7 +249,7 @@
       "plano": "—"
     },
     {
-      "item": 21,
+      "item": 23,
       "designacion": "NORM · Guía lateral conical rail L 1¼ in + escuadras",
       "nombres": [
         "NORM · Guía lateral conical rail L 1¼ in (P12501C) + escuadras"
@@ -260,7 +260,7 @@
       "plano": "—"
     },
     {
-      "item": 22,
+      "item": 24,
       "designacion": "NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque",
       "nombres": [
         "NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque"
@@ -293,7 +293,18 @@
       "plano": "—"
     },
     {
-      "item": 26,
+      "item": 27,
+      "designacion": "NORM · Rodamiento 6202-2RS sellado",
+      "nombres": [
+        "NORM · Rodamiento 6202-2RS (15×35×11) sellado"
+      ],
+      "cant": 16,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Rodamiento 6202-2RS (15×35×11) sellado",
+      "plano": "—"
+    },
+    {
+      "item": 29,
       "designacion": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
       "nombres": [
         "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)"
@@ -304,7 +315,7 @@
       "plano": "—"
     },
     {
-      "item": 27,
+      "item": 30,
       "designacion": "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
       "nombres": [
         "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)"

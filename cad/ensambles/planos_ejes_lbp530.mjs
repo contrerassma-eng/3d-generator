@@ -75,10 +75,50 @@ function shaftSheet(eje, opts) {
   }
   // eje de simetría
   sh.line([ox - 8, oy], [x + 8, oy], 'PLIEGUE');
-  // chaflanes 2×45° en las puntas (líneas)
+  // chaflanes 2×45° en las puntas (líneas + llamado)
   for (const [xc, dir] of [[ox, 1], [x, -1]]) {
     sh.line([xc, oy - 15 * s], [xc + dir * 2 * s, oy - 13 * s], 'FINA');
     sh.line([xc, oy + 15 * s], [xc + dir * 2 * s, oy + 13 * s], 'FINA');
+  }
+  leader(sh, [ox + 1, oy - 15 * s + 0.5], [ox + 16, oy - 41], 'chaflán 2×45° (ambas puntas)', 'L');
+  // GARGANTAS de salida de rectificado en cada hombro cuadrado↔muñón,
+  // dibujadas EXAGERADAS (práctica normal: a 1:2 la real de 2,5×0,5 no se ve)
+  const gW = (D.garganta ?? 2.5) * s, gD = 1.2;
+  const bordes = [];   // [xBoundary, ladoDelMuñón(-1 izq | +1 der)]
+  for (let i = 0; i + 1 < stepX.length; i++) {
+    const esq = stepX[i][3].lado != null;           // tramo i es el cuadrado
+    bordes.push(esq ? [stepX[i][1], 1] : [stepX[i][1], -1]);
+  }
+  for (const [bx, lado] of bordes) {
+    for (const sg of [-1, 1]) {
+      const ye = oy + sg * 15 * s;
+      const x0g = lado > 0 ? bx : bx - gW;
+      sh.line([x0g, ye], [x0g, ye - sg * gD], 'VISIBLE');
+      sh.line([x0g + gW, ye], [x0g + gW, ye - sg * gD], 'VISIBLE');
+      sh.line([x0g, ye - sg * gD], [x0g + gW, ye - sg * gD], 'VISIBLE');
+    }
+  }
+  if (bordes.length) {
+    // fila distinta a la del llamado de chaflán (se pisaban en el EJ-02)
+    leader(sh, [bordes[0][0] + (bordes[0][1] > 0 ? gW / 2 : -gW / 2), oy - 15 * s + gD],
+      [bordes[0][0] + 24, oy - 47], `garganta ${D.garganta ?? 2.5}×0,5 en cada hombro (exagerada)`, 'L');
+  }
+  // centros DIN 332-A2.5 (torneado entre puntas): cara libre siempre; la cara
+  // motriz lo consume la rosca M10 (se dibuja el agujero roscado)
+  const centro = (xf, dr) => {
+    sh.line([xf, oy - 2.6], [xf + dr * 3.2, oy], 'OCULTA');
+    sh.line([xf, oy + 2.6], [xf + dr * 3.2, oy], 'OCULTA');
+  };
+  centro(ox, 1);
+  if (eje.chaveta) {
+    // agujero roscado M10×22 en la punta motriz (broca 8,5 + cono)
+    const rT = 5 * s, prof = (D.m10 ?? 22) * s;
+    sh.line([x, oy - rT], [x - prof, oy - rT], 'OCULTA');
+    sh.line([x, oy + rT], [x - prof, oy + rT], 'OCULTA');
+    sh.line([x - prof, oy - rT], [x - prof - 3 * s, oy], 'OCULTA');
+    sh.line([x - prof, oy + rT], [x - prof - 3 * s, oy], 'OCULTA');
+  } else {
+    centro(x, -1);
   }
 
   // cotas de largos (cadena bajo el eje) + total
@@ -108,8 +148,6 @@ function shaftSheet(eje, opts) {
     dimHt(sh, xkEnd, x, oy + 22, -24, '10');
     // rosca de retención en la punta motriz
     leader(sh, [x, oy], [x - 30, oy + 40], `${eje.roscaPunta} (retención motorreductor)`, 'R');
-    // gargantas de salida de torneado
-    leader(sh, [sq[1], oy - 16 * s], [sq[1] + 14, oy - 40], `garganta ${eje.garganta ?? 2.5}×0.5 (2×)`, 'L');
     // zona del cubo del motorreductor
     dimHt(sh, x - D.cuboMotor * s, x, oy + 22, -38, `zona cubo motorreductor eje hueco Ø30 H7 — ${D.cuboMotor}`);
   }
@@ -136,10 +174,12 @@ function shaftSheet(eje, opts) {
   const notas = [
     'NOTAS:',
     `1. Material: ${eje.material}.`,
-    '2. Tornear entre centros DIN 332-A2.5 en ambas caras.',
+    '2. Tornear entre centros DIN 332-A2.5 (dibujados en cara; en la punta motriz el centro',
+    '   lo consume la rosca M10 — sirve de entrada de broca).',
     '3. Muñones Ø30 h6 (ajuste eje hueco NMRV H8/h6): Ra 1.6; concentricidad entre muñones',
     '   y respecto del cuadrado <= 0.05 TIR.',
-    '4. Chaflanes 2×45° en ambos extremos; aristas del cuadrado matadas 0.5.',
+    `4. Chaflanes 2×45° en ambas puntas (entrada de rodamiento/cubo) y garganta ${eje.garganta ?? 2.5}×0,5`,
+    '   de salida de rectificado en CADA hombro (exagerada en dibujo); aristas del cuadrado matadas 0.5.',
     ...(eje.chaveta ? [
       '5. Chavetero DIN 6885 A 8×7×90, ancho 8 JS9, profundidad t1 = 4.0.',
       '6. Rosca de punta M10×22 con chaflán de entrada; sirve de retención',
@@ -289,11 +329,19 @@ if (dims.ejes.retorno) {
       hatch(xa, xb, Math.min(yOut, yIn), Math.max(yOut, yIn), 1.6);
     }
   }
-  // rodamientos 6202 (corte: cajas entre Ø35 y Ø15, sin rayado — norma)
-  for (const [xa, xb] of [[x0, x0 + wB], [x1 - wB, x1]]) {
+  // rodamientos 6202 (corte: cajas entre Ø35 y Ø15, sin rayado — norma).
+  // Rev.C: el rodamiento vive DENTRO del asiento, retenido por seeger DIN 472
+  // hacia la cara: [cara → n=3 → ranura m=1.6 → rodamiento 11 → hombro]
+  const sg0 = (R.cabezal.seeger?.n ?? 3) * s, sgM = (R.cabezal.seeger?.m ?? 1.6) * s;
+  const bOff = sg0 + sgM;                             // cara→inicio del rodamiento
+  for (const [xCara, dirn] of [[x0, 1], [x1, -1]]) {
+    const xa = xCara + dirn * bOff, xb = xCara + dirn * (bOff + wB);
     for (const sg of [1, -1]) {
       sh.poly([[xa, oy + sg * rB], [xb, oy + sg * rB], [xb, oy + sg * rE], [xa, oy + sg * rE]], 'VISIBLE');
       sh.line([xa, oy + sg * (rB + rE) / 2], [xb, oy + sg * (rB + rE) / 2], 'FINA');  // bolas
+      // seeger: anillo en su ranura (Ø37) entre el rodamiento y la cara
+      const ra = xCara + dirn * sg0, rb2 = xCara + dirn * bOff;
+      sh.poly([[ra, oy + sg * rB], [rb2, oy + sg * rB], [rb2, oy + sg * (rB + 1 * s)], [ra, oy + sg * (rB + 1 * s)]], 'VISIBLE');
     }
   }
   // eje muerto (no cortado: barra llena, sin rayado) + roscas M8 interiores
@@ -315,23 +363,52 @@ if (dims.ejes.retorno) {
   leader(sh, [xe0 + 6, oy - rE * 0.55], [xe0 - 2, oy + 34], `rosca ${R.ejeMuerto.rosca}`, 'L');
   leader(sh, [x1 - wB / 2, oy + rB], [x1 + 12, oy + rB + 16], `rodamiento ${R.rodamiento} (×2)`, 'L');
 
-  // detalle del cabezal 1:1
+  // detalle del cabezal 1:1 — Rev.C: ranura seeger DIN 472-35 + chaflán 2×45°
   const dx = 96, dy = 84, ds = 1;
   const dW = R.cabezal.ancho * ds, dOD = R.cabezal.od / 2 * ds;
   const dSe = R.cabezal.asientoDia / 2 * ds, dPr = R.cabezal.asientoProf * ds;
   const dPi = R.cabezal.pasoInterior / 2 * ds;
-  // media sección (sobre el eje): exterior→asiento→paso interior
-  sh.poly([[dx, dy], [dx + dW, dy], [dx + dW, dy + dSe], [dx + dW - dPr, dy + dSe],
-    [dx + dW - dPr, dy + dPi], [dx, dy + dPi], [dx, dy + dOD], [dx + dW, dy + dOD]], 'VISIBLE');
-  sh.line([dx, dy + dOD], [dx, dy + dPi], 'VISIBLE');
-  hatch(dx, dx + dW, dy + dSe, dy + dOD, 1.4);
+  const SG = R.cabezal.seeger || { d2: 37, m: 1.6, n: 3 };
+  const dGr = SG.d2 / 2 * ds;                     // radio de fondo de ranura
+  const gN = SG.n * ds, gM = SG.m * ds;           // cara→ranura · ancho ranura
+  const ch = 2 * ds;                              // chaflán 2×45°
+  // media sección (sobre el eje), cara exterior a la DERECHA (x = dx+dW).
+  // CONTORNO DE MATERIAL cerrado (sin puntos sobre el eje: el cierre del
+  // polígono dibujaba una diagonal cruzando la sección — defecto visual):
+  // bore interior → hombro → asiento → ranura seeger → asiento → chaflán →
+  // cara exterior → OD → cara interior
+  sh.poly([
+    [dx, dy + dPi],                               // bore Ø20 en cara interior
+    [dx + dW - dPr, dy + dPi],                    // bore hasta el hombro
+    [dx + dW - dPr, dy + dSe],                    // hombro del asiento
+    [dx + dW - gN - gM, dy + dSe],                // asiento del 6202
+    [dx + dW - gN - gM, dy + dGr],                // pared de ranura (lado rodamiento)
+    [dx + dW - gN, dy + dGr],                     // fondo de ranura Ø37
+    [dx + dW - gN, dy + dSe],                     // pared de ranura (lado cara)
+    [dx + dW - ch, dy + dSe],                     // asiento hasta el chaflán
+    [dx + dW, dy + dSe + ch],                     // chaflán 2×45° (entrada de prensa)
+    [dx + dW, dy + dOD],                          // cara exterior
+    [dx, dy + dOD],                               // Ø exterior p6 (cierra por cara interior)
+  ], 'VISIBLE');
+  // rayado del material sin invadir ranura ni chaflán (mosaico de bandas)
+  hatch(dx, dx + dW - gN - gM, dy + dSe, dy + dOD, 1.4);
+  hatch(dx + dW - gN - gM, dx + dW - gN, dy + dGr, dy + dOD, 1.4);
+  hatch(dx + dW - gN, dx + dW - ch, dy + dSe, dy + dOD, 1.4);
+  hatch(dx + dW - ch, dx + dW, dy + dSe + ch, dy + dOD, 1.4);
+  hatch(dx, dx + dW - dPr, dy + dPi, dy + dSe, 1.4);
   sh.line([dx - 6, dy], [dx + dW + 6, dy], 'PLIEGUE');
   dimVt(sh, dx - 3, dy, dy + dOD, -8, `Ø${R.cabezal.od} p6`);
   dimVt(sh, dx + dW + 3, dy, dy + dSe, 8, `Ø${R.cabezal.asientoDia} ${R.cabezal.asientoTol}`);
   dimHt(sh, dx + dW - dPr, dx + dW, dy - 4, 6, String(R.cabezal.asientoProf));
   dimHt(sh, dx, dx + dW, dy - 4, 14, String(R.cabezal.ancho));
+  // cotas de la ranura: posición desde la cara y ancho m
+  dimHt(sh, dx + dW - gN, dx + dW, dy + dGr + 2, 5, String(SG.n));
+  leader(sh, [dx + dW - gN - gM / 2, dy + dGr], [dx + dW + 16, dy + dGr + 13],
+    `ranura seeger ${SG.norma || 'DIN 472-35'}: Ø${SG.d2} ${SG.tol_d2 || '+0,25/0'} × ${SG.m} ${SG.tol_m || 'H13'}`, 'L');
+  leader(sh, [dx + dW - ch / 2, dy + dSe + ch / 2], [dx + dW + 16, dy + dSe - 6],
+    'chaflán 2×45° (guía de prensa)', 'L');
   sh.text('DETALLE CABEZAL (1:1) — media sección', dx + dW / 2, dy + dOD + 6, 2.8, 'C');
-  sh.text(`paso interior Ø${R.cabezal.pasoInterior} (holgura sobre eje Ø${R.ejeMuerto.dia})`, dx + dW / 2, dy - 10, 2.5, 'C');
+  sh.text(`paso interior Ø${R.cabezal.pasoInterior} (holgura sobre eje Ø${R.ejeMuerto.dia})`, dx + dW / 2, dy - 21, 2.5, 'C');
 
   // notas
   const nx = 212, ny0 = 128;
@@ -342,7 +419,9 @@ if (dims.ejes.retorno) {
     '2. Cabezal SAE 1045 torneado (×2). Ajuste al tubo H8/p6 PRENSADO + 3 puntos de',
     '   soldadura de retención en la cara exterior (esmerilados a ras).',
     `3. Asiento rodamiento Ø${R.cabezal.asientoDia} ${R.cabezal.asientoTol}, Ra 1.6. Rodamiento ${R.rodamiento}:`,
-    '   sellado de fábrica, NO regrasable, prensado a tope contra el hombro.',
+    '   sellado de fábrica, NO regrasable, prensado a tope contra el hombro POR LA',
+    '   PISTA EXTERIOR (el chaflán 2×45° guía la prensa) y RETENIDO por anillo',
+    `   seeger ${R.cabezal.seeger?.norma || 'DIN 472-35'} en su ranura (ver detalle) — recambio: Fig. B1 del manual.`,
     `4. Eje muerto ${R.ejeMuerto.material} Ø${R.ejeMuerto.dia} × ${R.ejeMuerto.largo}: refrentar, roscar ${R.ejeMuerto.rosca},`,
     '   chaflán 1×45° ambas caras. El aro interior del rodamiento queda FIJO al eje.',
     `5. Montaje: el eje apoya cara a cara contra las placas; ${R.perno}.`,

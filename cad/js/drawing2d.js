@@ -358,10 +358,12 @@ class Sheet {
     this.line([xa, y0], [xa, y0 + TITLE_H], 'NORMA');
     this.line([xb, y0], [xb, y0 + TITLE_H], 'NORMA');
 
-    // zona A — marca + símbolo de proyección
+    // zona A — marca + símbolo de proyección. MARCA = ConveyOne en todo lo
+    // tabulado (instrucción permanente de Sergio 12-08 — foto3d es el método,
+    // no la marca del entregable)
     const cxa = x0 + 20;
     this.line([x0, ys[2]], [xa, ys[2]], 'FINA');
-    this.text('foto3d', cxa, ys[0] - 8.2, 6.0, 'C');
+    this.text('ConveyOne', cxa, ys[0] - 8.6, 4.9, 'C');
     this.line([cxa - 13.5, ys[0] - 13.4], [cxa + 13.5, ys[0] - 13.4], 'FINA');
     this.text('CAD · DISEÑO CAPA USER', cxa, ys[0] - 16.2, 1.3, 'C');
     this.text('ISO 5457 · 7200 · 129 · 5456-2', cxa, ys[0] - 19.4, 1.3, 'C');
@@ -435,7 +437,7 @@ function buildSheet(parts, K, meta) {
   sheet.frame();
   sheet.titleBlock({
     designacion: meta.designacion,
-    proyecto: meta.proyecto ?? 'foto3d CAD',
+    proyecto: meta.proyecto ?? 'ConveyOne CAD',
     fuente: meta.fuente ?? 'diseño en navegador — capa user',
     verificacion: meta.verificacion ?? 'CAD EN MM (CAPA USER)',
     piezas: String(meta.piezas),
@@ -741,7 +743,7 @@ export function buildFlatSheet(flat, meta, K) {
   const aviso = flat.avisos.length ? flat.avisos[0] : '';
   sheet.titleBlock({
     designacion: `${meta.designacion} — DESARROLLO`,
-    proyecto: meta.proyecto ?? 'foto3d CAD',
+    proyecto: meta.proyecto ?? 'ConveyOne CAD',
     fuente: 'chapa plegada — capa user',
     verificacion: 'CAD EN MM (CAPA USER)',
     piezasLabel: 'PLIEGUES',

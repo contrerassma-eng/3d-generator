@@ -7,19 +7,34 @@
    "item": 1,
    "repuesto": false,
    "tipo": "FABRICADA",
+   "item_desc": "Bracket soporte B_005A 24V (cruciformes + arco angular)",
+   "cant_equipo": 2,
+   "cant_proyecto": 8,
+   "origen": "maestranza / taller",
+   "referencia": "",
+   "plano_corte": "GTD-01",
+   "plano_vistas": "GT-03",
+   "material": "Acero S275JR e3 — PINTADO RAL 7035",
+   "desarrollo": "203×178.8",
+   "masa_aprox_kg": 0.9
+  },
+  {
+   "item": 2,
+   "repuesto": false,
+   "tipo": "FABRICADA",
    "item_desc": "Cabezal porta-nosebar descarga PL6 470×90",
    "cant_equipo": 1,
    "cant_proyecto": 4,
    "origen": "maestranza / taller",
    "referencia": "",
-   "plano_corte": "GTD-01",
+   "plano_corte": "GTD-02",
    "plano_vistas": "GT-04",
    "material": "Acero S275JR PL6 — PINTADO RAL 7035",
    "desarrollo": "470×90",
    "masa_aprox_kg": 2
   },
   {
-   "item": 2,
+   "item": 3,
    "repuesto": false,
    "tipo": "FABRICADA",
    "item_desc": "Cabezal porta-nosebar entrada PL6 470×90",
@@ -27,14 +42,29 @@
    "cant_proyecto": 4,
    "origen": "maestranza / taller",
    "referencia": "",
-   "plano_corte": "GTD-01",
+   "plano_corte": "GTD-02",
    "plano_vistas": "GT-05",
    "material": "Acero S275JR PL6 — PINTADO RAL 7035",
    "desarrollo": "470×90",
    "masa_aprox_kg": 2
   },
   {
-   "item": 3,
+   "item": 4,
+   "repuesto": false,
+   "tipo": "FABRICADA",
+   "item_desc": "Columna soporte 24V ángulo 71×38×3 + placa piso B_004A (soldada)",
+   "cant_equipo": 2,
+   "cant_proyecto": 8,
+   "origen": "maestranza / taller",
+   "referencia": "",
+   "plano_corte": "GTD-03",
+   "plano_vistas": "GT-06",
+   "material": "Acero S275JR — columna ángulo 71×38×3 + placa piso e4, PINTADO RAL 7035",
+   "desarrollo": "158×40",
+   "masa_aprox_kg": 0.2
+  },
+  {
+   "item": 5,
    "repuesto": false,
    "tipo": "FABRICADA",
    "item_desc": "EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
@@ -49,7 +79,7 @@
    "masa_aprox_kg": 6.5
   },
   {
-   "item": 4,
+   "item": 6,
    "repuesto": false,
    "tipo": "FABRICADA",
    "item_desc": "EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)",
@@ -64,7 +94,22 @@
    "masa_aprox_kg": 5.9
   },
   {
-   "item": 5,
+   "item": 7,
+   "repuesto": false,
+   "tipo": "FABRICADA",
+   "item_desc": "Escalerilla telescópica 60×4 (ranuras 11×22 — ajuste de altura)",
+   "cant_equipo": 2,
+   "cant_proyecto": 8,
+   "origen": "maestranza / taller",
+   "referencia": "",
+   "plano_corte": "GTD-04",
+   "plano_vistas": "GT-07",
+   "material": "Acero S275JR e4 — PINTADO RAL 7035",
+   "desarrollo": "60×325.6",
+   "masa_aprox_kg": 0.6
+  },
+  {
+   "item": 8,
    "repuesto": false,
    "tipo": "FABRICADA",
    "item_desc": "Guarda inferior unica — artesa U chapa 1.5 (800×504)",
@@ -72,14 +117,14 @@
    "cant_proyecto": 4,
    "origen": "maestranza / taller",
    "referencia": "",
-   "plano_corte": "GTD-02",
-   "plano_vistas": "GT-06",
+   "plano_corte": "GTD-05",
+   "plano_vistas": "GT-08",
    "material": "Acero S275JR e1.5 — terminación PINTADO RAL 7035",
-   "desarrollo": "1462.8×1245.6",
-   "masa_aprox_kg": 21.5
+   "desarrollo": "1252.8×1035.6",
+   "masa_aprox_kg": 15.3
   },
   {
-   "item": 6,
+   "item": 9,
    "repuesto": false,
    "tipo": "FABRICADA",
    "item_desc": "Mecha porta-chumacera PL8 combinada 610×422",
@@ -87,14 +132,14 @@
    "cant_proyecto": 8,
    "origen": "maestranza / taller",
    "referencia": "",
-   "plano_corte": "GTD-03",
-   "plano_vistas": "GT-07",
+   "plano_corte": "GTD-06",
+   "plano_vistas": "GT-09",
    "material": "Acero S275JR PL8 — PINTADO RAL 7035",
    "desarrollo": "610×422",
    "masa_aprox_kg": 16.2
   },
   {
-   "item": 7,
+   "item": 10,
    "repuesto": false,
    "tipo": "FABRICADA",
    "item_desc": "Placa lateral libre (−Y) PL6 L=800",
@@ -102,14 +147,14 @@
    "cant_proyecto": 4,
    "origen": "maestranza / taller",
    "referencia": "",
-   "plano_corte": "GTD-04",
-   "plano_vistas": "GT-02",
+   "plano_corte": "GTD-07",
+   "plano_vistas": "GT-01",
    "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
-   "desarrollo": "800×199.6",
-   "masa_aprox_kg": 7.5
+   "desarrollo": "800×304.6",
+   "masa_aprox_kg": 11.5
   },
   {
-   "item": 8,
+   "item": 11,
    "repuesto": false,
    "tipo": "FABRICADA",
    "item_desc": "Placa lateral motriz (+Y) PL6 L=800",
@@ -117,32 +162,32 @@
    "cant_proyecto": 4,
    "origen": "maestranza / taller",
    "referencia": "",
-   "plano_corte": "GTD-04",
-   "plano_vistas": "GT-03",
+   "plano_corte": "GTD-07",
+   "plano_vistas": "GT-02",
    "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
-   "desarrollo": "800×199.6",
-   "masa_aprox_kg": 7.5
+   "desarrollo": "800×304.6",
+   "masa_aprox_kg": 11.5
   },
   {
-   "item": 9,
+   "item": 12,
    "repuesto": false,
    "tipo": "FABRICADA",
-   "item_desc": "Riostra de soportes (tipo ZP2026)",
+   "item_desc": "Portacarril 50×6 con clips (apernado M6 al alma)",
    "cant_equipo": 1,
    "cant_proyecto": 4,
    "origen": "maestranza / taller",
    "referencia": "",
-   "plano_corte": "GTD-05",
-   "plano_vistas": "GT-08",
-   "material": "Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a soportes según GA",
-   "desarrollo": "387×157.6",
-   "masa_aprox_kg": 1.4
+   "plano_corte": "GTD-08",
+   "plano_vistas": "GT-10",
+   "material": "Acero S275JR e6 — PINTADO RAL 7035",
+   "desarrollo": "462×50",
+   "masa_aprox_kg": 1.1
   },
   {
-   "item": 10,
+   "item": 13,
    "repuesto": true,
    "tipo": "FABRICADA",
-   "item_desc": "Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
+   "item_desc": "Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
    "cant_equipo": 1,
    "cant_proyecto": 4,
    "origen": "maestranza / taller",
@@ -154,37 +199,22 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 11,
+   "item": 14,
    "repuesto": false,
    "tipo": "FABRICADA",
-   "item_desc": "Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador",
-   "cant_equipo": 2,
-   "cant_proyecto": 8,
-   "origen": "maestranza / taller",
-   "referencia": "",
-   "plano_corte": "",
-   "plano_vistas": "GT-01",
-   "material": "",
-   "desarrollo": "",
-   "masa_aprox_kg": ""
-  },
-  {
-   "item": 12,
-   "repuesto": false,
-   "tipo": "FABRICADA",
-   "item_desc": "Travesaño tipo ZP2026 (TR_S) — C 88×40×3",
+   "item_desc": "Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",
    "cant_equipo": 1,
    "cant_proyecto": 4,
    "origen": "maestranza / taller",
    "referencia": "",
-   "plano_corte": "GTD-06",
-   "plano_vistas": "GT-09",
-   "material": "Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a placas laterales según GA",
-   "desarrollo": "470×157.6",
-   "masa_aprox_kg": 1.7
+   "plano_corte": "GTD-09",
+   "plano_vistas": "GT-11",
+   "material": "Acero S275JR e3 — plegado C 88×88 (perfil TR_S del ZP2026), PINTADO RAL 7035. OREJAS 120×60×4 soldadas en extremos; conjunto APERNADO 2×M6 por extremo",
+   "desarrollo": "460×253.6",
+   "masa_aprox_kg": 2.7
   },
   {
-   "item": 13,
+   "item": 15,
    "repuesto": false,
    "tipo": "FABRICADA",
    "item_desc": "Pletina 12×30 × 704 — guía de apoyo de canto (corte a largo, sin láser)",
@@ -199,10 +229,10 @@
    "masa_aprox_kg": 2
   },
   {
-   "item": 14,
+   "item": 16,
    "repuesto": true,
    "tipo": "COMPRADA",
-   "item_desc": "Banda Movex 530 GT (friction top) 18 in — lazo 2.56 m",
+   "item_desc": "Banda Movex 530 GT (friction top) 18 in — lazo 2.65 m",
    "cant_equipo": 1,
    "cant_proyecto": 4,
    "origen": "Movex · Italia (importado)",
@@ -214,7 +244,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 15,
+   "item": 17,
    "repuesto": true,
    "tipo": "COMPRADA",
    "item_desc": "Chumacera UCF206 Ø30",
@@ -229,7 +259,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 16,
+   "item": 18,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Collarín P21703Y (fija el sprocket central)",
@@ -244,7 +274,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 17,
+   "item": 19,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Collarín P21703Y (referencia eje tensor)",
@@ -259,7 +289,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 18,
+   "item": 20,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
@@ -274,7 +304,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 19,
+   "item": 21,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
@@ -289,7 +319,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 20,
+   "item": 22,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
@@ -304,7 +334,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 21,
+   "item": 23,
    "repuesto": true,
    "tipo": "COMPRADA",
    "item_desc": "Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque",
@@ -319,7 +349,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 22,
+   "item": 24,
    "repuesto": true,
    "tipo": "COMPRADA",
    "item_desc": "Nosebar descarga 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización) — CANT en segmentos K6 in (unidad de compra)",
@@ -334,7 +364,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 23,
+   "item": 25,
    "repuesto": true,
    "tipo": "COMPRADA",
    "item_desc": "Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización) — CANT en segmentos K6 in (unidad de compra)",
@@ -349,7 +379,22 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 24,
+   "item": 26,
+   "repuesto": false,
+   "tipo": "COMPRADA",
+   "item_desc": "Rodamiento 6202-2RS (15×35×11) sellado",
+   "cant_equipo": 2,
+   "cant_proyecto": 8,
+   "origen": "rodamientos · local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 27,
    "repuesto": true,
    "tipo": "COMPRADA",
    "item_desc": "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
@@ -364,7 +409,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 25,
+   "item": 28,
    "repuesto": true,
    "tipo": "COMPRADA",
    "item_desc": "Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
@@ -379,7 +424,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 26,
+   "item": 29,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Chaveta DIN 6885 A 8×7×90, acero C45",
@@ -394,7 +439,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 27,
+   "item": 30,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Arandela de retención Ø40×6 + tornillo M10×25 8.8 + Loctite 243",
@@ -409,22 +454,22 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 28,
-   "repuesto": true,
+   "item": 31,
+   "repuesto": false,
    "tipo": "COMPRADA",
-   "item_desc": "Rodamiento 6202-2RS (15×35×11) sellado",
+   "item_desc": "Anillo seeger DIN 472 Ø35 (interior)",
    "cant_equipo": 2,
    "cant_proyecto": 8,
-   "origen": "rodamientos · local",
+   "origen": "local",
    "referencia": "",
    "plano_corte": "",
    "plano_vistas": "",
-   "material": "insertos del rodillo de retorno (2 por rodillo — LBP530-EJ-04)",
+   "material": "retiene el 6202 en el asiento del cabezal del rodillo (LBP530-EJ-04)",
    "desarrollo": "",
    "masa_aprox_kg": ""
   },
   {
-   "item": 29,
+   "item": 32,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M8×25 8.8 + golilla plana y presión",
    "cant_equipo": 2,
@@ -438,7 +483,147 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 30,
+   "item": 33,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M6×16 8.8 + tuerca + golillas (orejas TR_S)",
+   "cant_equipo": 4,
+   "cant_proyecto": 16,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "orejas del travesaño TR_S → alma (2 por extremo)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 34,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M6×16 8.8 + tuerca + golillas (clips portacarril)",
+   "cant_equipo": 4,
+   "cant_proyecto": 16,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "clips del portacarril → alma (2 por lado)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 35,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno M6×20 avellanado (carril de apoyo)",
+   "cant_equipo": 7,
+   "cant_proyecto": 28,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "portacarril → pletina del carril ROSCADA M6 (desde abajo, 1 por carril por portacarril)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 36,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M8×20 8.8 + tuerca + golillas (bracket soporte)",
+   "cant_equipo": 8,
+   "cant_proyecto": 32,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "bracket B_005A → alma por ranuras cruciformes (4 por bracket — regulación)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 37,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M10×30 8.8 + tuerca + golillas (mechas)",
+   "cant_equipo": 12,
+   "cant_proyecto": 48,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "mecha PL8 → alma (6 por mecha — Rev.C apernada, sin soldadura)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 38,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M6×16 8.8 + tuerca + golillas (clips cabezal)",
+   "cant_equipo": 8,
+   "cant_proyecto": 32,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "clips del cabezal porta-nosebar → alma (2 por extremo)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 39,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M10×70 8.8 + golilla ancha (telescópico soporte)",
+   "cant_equipo": 4,
+   "cant_proyecto": 16,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "fija la escalerilla a la columna en la ranura 11×22 elegida (ajuste de altura, 2 por columna)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 40,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno de anclaje M10×90 (piso)",
+   "cant_equipo": 4,
+   "cant_proyecto": 16,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "placa piso B_004A → losa por ranuras 11×22 (2 por soporte)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 41,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno pivote M10×25 + tuerca (arco angular bracket)",
+   "cant_equipo": 6,
+   "cant_proyecto": 24,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "pivote + 2 seguros de la ranura en ARCO del bracket (ajuste angular de columna)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 42,
+   "tipo": "TORNILLERÍA",
+   "item_desc": "Perno hex M6×16 8.8 + golilla",
+   "cant_equipo": 4,
+   "cant_proyecto": 16,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "guarda inferior → ala de placas (1 por unión pestaña-ala)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 43,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M6×12 8.8",
    "cant_equipo": 8,
@@ -452,7 +637,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 31,
+   "item": 44,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M8×30 8.8 + tuerca + golilla",
    "cant_equipo": 36,
@@ -466,7 +651,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 32,
+   "item": 45,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M10×35 8.8 + tuerca + golilla plana y presión",
    "cant_equipo": 16,
