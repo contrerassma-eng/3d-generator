@@ -470,8 +470,11 @@ export class IsoScene {
               const cd = (t0[2] + t1[2] + t2[2]) / 3;
               if (!visDe((t0[0] + t1[0] + t2[0]) / 3, (t0[1] + t1[1] + t2[1]) / 3, cd)) return;
               const l2 = [t0, t1, t2].map(([x, y]) => [(x - minX) * sMM, (y - minY) * sMM]);
+              // sólo se descarta POLVO real: las astillas largas y delgadas
+              // del CSG tapizan la cara — filtrarlas por área pintaba vetas
+              // blancas «salpicadura» (visto en las mechas del manual GT)
               const a2 = Math.abs((l2[1][0] - l2[0][0]) * (l2[2][1] - l2[0][1]) - (l2[2][0] - l2[0][0]) * (l2[1][1] - l2[0][1]));
-              if (a2 < 0.35) return;
+              if (a2 < 0.05) return;
               fills.push({ loops: [l2], rgb, depth: cd });
             };
             for (const t of projTris) emit(t.p3[0], t.p3[1], t.p3[2], 0);

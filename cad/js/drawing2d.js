@@ -570,8 +570,50 @@ function sheetContent(sheet, k) {
   return ops.join('\n');
 }
 
-// serializa objetos PDF con tabla xref (helper común mono/multipágina)
+// compresión de streams (sólo Node; en navegador queda sin comprimir)
+let _deflate = null;
+try {
+  if (typeof process !== 'undefined' && process.versions?.node) {
+    const z = await import('node:zlib');
+    _deflate = z.deflateSync;
+  }
+} catch { /* navegador */ }
+
+// stream de contenido como objeto PDF (comprimido si hay zlib)
+function streamObj(content) {
+  if (_deflate && typeof Buffer !== 'undefined') {
+    const raw = _deflate(Buffer.from(content, 'latin1'));
+    return Buffer.concat([
+      Buffer.from(`<< /Length ${raw.length} /Filter /FlateDecode >>\nstream\n`, 'latin1'),
+      raw, Buffer.from('\nendstream', 'latin1'),
+    ]);
+  }
+  return `<< /Length ${content.length} >>\nstream\n${content}\nendstream`;
+}
+
+// serializa objetos PDF con tabla xref (helper común mono/multipágina).
+// En Node arma BUFFERS con offsets en BYTES — medir el xref en caracteres
+// con WinAnsi >127 producía offsets corridos que los visores reparaban en
+// silencio (PDF malformado). En navegador conserva el camino string.
 function assemblePDF(objs) {
+  if (typeof Buffer !== 'undefined') {
+    const toB = (o) => Buffer.isBuffer(o) ? o : Buffer.from(o, 'latin1');
+    const parts = [Buffer.from('%PDF-1.4\n', 'latin1')];
+    let pos = parts[0].length;
+    const offsets = [];
+    objs.forEach((body, i) => {
+      const head = Buffer.from(`${i + 1} 0 obj\n`, 'latin1');
+      const b = toB(body), tail = Buffer.from('\nendobj\n', 'latin1');
+      offsets.push(pos);
+      parts.push(head, b, tail);
+      pos += head.length + b.length + tail.length;
+    });
+    const xref = pos;
+    parts.push(Buffer.from(`xref\n0 ${objs.length + 1}\n0000000000 65535 f \n` +
+      offsets.map(o => `${String(o).padStart(10, '0')} 00000 n \n`).join('') +
+      `trailer\n<< /Size ${objs.length + 1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`, 'latin1'));
+    return Buffer.concat(parts);
+  }
   let pdf = '%PDF-1.4\n';
   const offsets = [];
   objs.forEach((body, i) => {
@@ -594,7 +636,7 @@ function writePDF(sheet) {
     '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
     `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${f(sheet.W * k)} ${f(sheet.H * k)}] ` +
       '/Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>',
-    `<< /Length ${content.length} >>\nstream\n${content}\nendstream`,
+    streamObj(content),
     '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
   ];
   return assemblePDF(objs);
@@ -616,13 +658,14 @@ function writePDFMulti(sheets) {
     const contentObj = 4 + 2 * i;
     objs.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${f(sheet.W * k)} ${f(sheet.H * k)}] ` +
       `/Resources << /Font << /F1 ${fontObj} 0 R >> >> /Contents ${contentObj} 0 R >>`);
-    objs.push(`<< /Length ${content.length} >>\nstream\n${content}\nendstream`);
+    objs.push(streamObj(content));
   });
   objs.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
   return assemblePDF(objs);
 }
 
 const toBytes = (s) => {
+  if (typeof Buffer !== 'undefined' && Buffer.isBuffer(s)) return s;  // ya binario
   const b = new Uint8Array(s.length);
   for (let i = 0; i < s.length; i++) b[i] = s.charCodeAt(i) & 0xff;
   return b;
