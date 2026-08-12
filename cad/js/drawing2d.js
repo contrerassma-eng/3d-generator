@@ -18,9 +18,9 @@ const REDUCTIONS = [1, 2, 2.5, 5, 10, 20, 50, 100, 200, 500, 1000];
 const ENLARGEMENTS = [2, 5, 10, 20, 50];
 const GRIDREF = { A4: [6, 4], A3: [8, 6], A2: [12, 8], A1: [16, 12], A0: [24, 16] };
 const GRID_LETTERS = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-const LAYERS = { SOMBRA: 8, NORMA: 7, FINA: 7, VISIBLE: 7, COTAS: 7, TEXTO: 7, PLIEGUE: 1 }; // color ACI
-const LW = { NORMA: 0.7, FINA: 0.18, VISIBLE: 0.5, COTAS: 0.25, TEXTO: 0.25, PLIEGUE: 0.35 }; // mm (PDF)
-const DASH = { PLIEGUE: [4, 2] };  // ejes de plegado con línea segmentada (mm)
+const LAYERS = { SOMBRA: 8, NORMA: 7, FINA: 7, VISIBLE: 7, COTAS: 7, TEXTO: 7, PLIEGUE: 1, OCULTA: 7 }; // color ACI
+const LW = { NORMA: 0.7, FINA: 0.18, VISIBLE: 0.5, COTAS: 0.25, TEXTO: 0.25, PLIEGUE: 0.35, OCULTA: 0.25 }; // mm (PDF)
+const DASH = { PLIEGUE: [4, 2], OCULTA: [2.5, 1.5] };  // línea segmentada (mm)
 // capas de GEOMETRÍA de la pieza: en láminas de fabricación (desarrollo) el
 // PDF las traza como línea fina sin espesor (hairline, aptas para corte)
 const GEOM_LAYERS = new Set(['VISIBLE', 'FINA', 'PLIEGUE', 'COTAS']);
@@ -262,6 +262,11 @@ class Sheet {
   poly(pts, ly) { this.prims.push({ k: 'p', pts: pts.map(p => this._p(...p)), ly }); }
   circle(c, r, ly = 'TEXTO') { this.prims.push({ k: 'c', c: this._p(...c), r: r * this.K, ly }); }
   solid(pts, ly) { this.prims.push({ k: 's', pts: pts.map(p => this._p(...p)), ly }); }
+  // polígono relleno con color (loops = [contorno, agujero, ...], regla par-impar)
+  // — capa SOMBRA: queda DETRÁS de todo el alambre en el PDF; el DXF lo omite
+  solidPoly(loops, rgb, ly = 'SOMBRA') {
+    this.prims.push({ k: 'sp', loops: loops.map(lp => lp.map(p => this._p(...p))), rgb, ly });
+  }
   shade(pts, g) { this.prims.push({ k: 'sh', pts: pts.map(p => this._p(...p)), g, ly: 'SOMBRA' }); }
   text(s, x, y, h = 3.5, al = 'L', ly = 'TEXTO') {
     const [px, py] = this._p(x, y);
@@ -535,6 +540,13 @@ function sheetContent(sheet, k) {
       if (p.k === 'sh') { // triángulo sombreado (relleno gris, sin borde)
         const cmd = p.pts.map((q, i) => `${f(q[0] * k)} ${f(q[1] * k)} ${i ? 'l' : 'm'}`).join(' ');
         ops.push(`${f(p.g)} g ${cmd} h f 0 g`);
+      } else if (p.k === 'sp') { // polígono con color y agujeros (par-impar)
+        const sub = p.loops.map(lp =>
+          lp.map((q, i) => `${f(q[0] * k)} ${f(q[1] * k)} ${i ? 'l' : 'm'}`).join(' ') + ' h').join(' ');
+        const col = p.rgb.map(v => f(v)).join(' ');
+        // borde del MISMO color: sella las costuras blancas entre triángulos
+        // adyacentes del pintor (el rasterizador deja huecos de sub-píxel)
+        ops.push(`${col} rg ${col} RG ${f(0.28 * k)} w ${sub} B* 0 g 0 G`);
       } else if (p.k === 'l') {
         ops.push(`${f(p.a[0] * k)} ${f(p.a[1] * k)} m ${f(p.b[0] * k)} ${f(p.b[1] * k)} l S`);
       } else if (p.k === 'p' || p.k === 's') {

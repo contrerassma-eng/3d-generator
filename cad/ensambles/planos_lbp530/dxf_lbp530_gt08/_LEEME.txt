@@ -1,0 +1,23 @@
+PAQUETE DE CORTE LÁSER — CV-GT-800 · Movex 530 GT (friction top) 18 in × 0.8 m
+Generado: 2026-08-12 · 6 desarrollos DXF (R12, unidades mm, escala 1:1)
+
+CONTENIDO
+  *.dxf          un archivo por pieza distinta; capa VISIBLE = corte,
+                 capa PLIEGUE = ejes de plegado (línea segmentada, NO cortar)
+  _corte.csv     resumen por pieza para cotizar: cantidades, material,
+                 espesor, tamaño de desarrollo, nº de barrenos y pliegues
+  _agujeros.csv  coordenadas de TODOS los barrenos por pieza (verificación)
+
+MATERIALES DEL PAQUETE
+  Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08) · e6 — 1 piezas distintas, 2 unidades
+  Acero S275JR e1.5 — terminación PINTADO RAL 7035 · e1.5 — 1 piezas distintas, 1 unidades
+  Acero S275JR PL8 — PINTADO RAL 7035 · e8 — 1 piezas distintas, 2 unidades
+  Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a placas laterales según GA · e3 — 1 piezas distintas, 1 unidades
+  Acero S275JR PL6 — PINTADO RAL 7035 · e6 — 1 piezas distintas, 2 unidades
+  Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a soportes según GA · e3 — 1 piezas distintas, 1 unidades
+
+NOTAS
+  · Los pares espejo comparten desarrollo: cortar la cantidad indicada y
+    plegar la mitad por la cara opuesta (indicado en el cajetín del DXF).
+  · Tolerancia general ISO 2768-mK. K-factor de plegado indicado por pieza.
+  · Cotización y dudas: Conveyone SpA — indicar nº de plano (cajetín).

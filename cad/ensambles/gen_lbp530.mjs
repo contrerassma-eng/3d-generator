@@ -554,7 +554,11 @@ function build(tipo, L) {
   }
 
   const G = {
-    t: 1.5, fondoW: 504, skirtY: 252, pestW: 36, holeY: 222,
+    // holeY 229 (era 222): el paso M6 quedaba a 6 del borde libre de la
+    // pestaña (margen 2.5 — la compuerta de margen agujero→borde lo cazó).
+    // A 229: 9.5 al borde de pestaña, 18 al borde del ala, y el dado de
+    // apriete no topa la placa. Constante COMPARTIDA placa↔guarda.
+    t: 1.5, fondoW: 504, skirtY: 252, pestW: 36, holeY: 229,
     fondoZ: -525, fondoZTen: -415, pasoM6: 400, holeDia: 7,
   };
   const zAlaTop = D.plTop - D.plAlto + D.plT;      // cara superior del ala
@@ -627,7 +631,10 @@ function build(tipo, L) {
       for (let i = 0; i < n; i++) {
         const x = r2(a + 40 + (len - 80) * (n === 1 ? 0.5 : i / (n - 1)));
         g.holesX.push(x);
-        holesAla.push({ x, yDev: 11, dia: G.holeDia });
+        // yDev DERIVADO de la misma constante que posiciona el agujero 3D
+        // (G.holeY): estaba hardcodeado en 11 y el láser habría perforado a
+        // 7 mm del 3D — inconsistencia cazada por la compuerta de márgenes
+        holesAla.push({ x, yDev: r2(G.holeY - (yIn + D.plT - D.alaAncho)), dia: G.holeDia });
       }
     }
   }
@@ -1040,6 +1047,43 @@ function verify(res) {
     // catenaria: profundidad de sag bajo el plano de zapatas (LBP)
     if (tipo === 'LBP') r.sag = r2(Math.abs(D.sagBot - D.retTop));
   }
+  // ── margen agujero→borde en TODOS los desarrollos (directriz Sergio 12-08:
+  // «distancia de agujeros a bordes: cada pieza debe verse funcional por sí
+  // sola»). Regla: margen borde-a-borde ≥ max(1.0×Ø, 2×t). Exentos con razón:
+  // patrones DICTADOS por el fabricante (grilla nosebar Movex, brochure p.8).
+  const distSeg = (p, a, b) => {
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    const L2 = dx * dx + dy * dy;
+    const t = L2 ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / L2)) : 0;
+    return Math.hypot(p[0] - a[0] - dx * t, p[1] - a[1] - dy * t);
+  };
+  let peorMargen = null;
+  for (const eq of [res.LBP, res.GT]) {
+    if (!eq) continue;
+    const nm = eq === res.LBP ? 'LBP' : 'GT';
+    for (const p of eq.parts) {
+      if (!p.flat) continue;
+      const exento = /Cabezal porta-nosebar/.test(p.name);   // grilla Movex 22868
+      for (const c of p.flat.cortes?.circles || []) {
+        let dMin = Infinity;
+        const ctr = p.flat.contorno;
+        for (let i = 0; i + 1 < ctr.length; i++) dMin = Math.min(dMin, distSeg(c.c, ctr[i], ctr[i + 1]));
+        const margen = r2(dMin - c.r);
+        const piso = Math.max(2 * c.r, 2 * p.flat.t);
+        if (!peorMargen || margen / piso < peorMargen.rel)
+          peorMargen = { rel: margen / piso, nm, pieza: p.name.slice(0, 48), margen, piso, exento };
+        if (margen < piso && !exento)
+          e.push(`${nm}/«${p.name.slice(6, 52)}»: agujero Ø${r2(2 * c.r)} a ${margen} del borde (mínimo ${piso} = max(1×Ø, 2×t))`);
+      }
+    }
+  }
+  if (peorMargen) console.log(`  margen agujero→borde más apretado: ${peorMargen.margen} mm (piso ${peorMargen.piso}) en ${peorMargen.nm} ${peorMargen.pieza}${peorMargen.exento ? ' [EXENTO: grilla fabricante]' : ''}`);
+  // esbeltez (informativo con techo duro): vano entre travesaños / espesor
+  // de placa — placas guiadas arriba por la banda y abajo por el retorno
+  const vanoMax = Math.max(D.pasoTravLBP, D.pasoTravFT);
+  const esb = r2(vanoMax / D.plT);
+  console.log(`  esbeltez placa: vano máx ${vanoMax} / t${D.plT} = ${esb} (techo 250 con refuerzo, placa arriostrada por travesaños)`);
+  if (esb > 250) e.push(`esbeltez de placa ${esb} > 250: acortar paso de travesaños o subir espesor`);
   if (e.length) throw new Error('Diseño inconsistente:\n  - ' + e.join('\n  - '));
   return { corteM, corteT };
 }

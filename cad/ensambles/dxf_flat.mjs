@@ -78,5 +78,35 @@ for (const g of [...grupos.values()].sort((a, b) => a.part.name.localeCompare(b.
 writeFileSync(join(outDir, '_corte.csv'), corte.join('\n') + '\n');
 writeFileSync(join(outDir, '_agujeros.csv'), agujeros.join('\n') + '\n');
 writeFileSync(join(outDir, '_planos.json'), JSON.stringify(planosPorNombre, null, 1));
+
+// LEEME para quien COTIZA Y CORTA (experiencia del receptor: el taller láser
+// recibe la carpeta y debe poder cotizar sin llamar a preguntar)
+const porMat = new Map();
+for (const g of grupos.values()) {
+  const k = `${g.flat.material} · e${g.flat.t}`;
+  const cur = porMat.get(k) || { n: 0, pz: 0 };
+  cur.n++; cur.pz += g.cant;
+  porMat.set(k, cur);
+}
+writeFileSync(join(outDir, '_LEEME.txt'), [
+  `PAQUETE DE CORTE LÁSER — ${titulo}`,
+  `Generado: ${new Date().toISOString().slice(0, 10)} · ${n} desarrollos DXF (R12, unidades mm, escala 1:1)`,
+  '',
+  'CONTENIDO',
+  '  *.dxf          un archivo por pieza distinta; capa VISIBLE = corte,',
+  '                 capa PLIEGUE = ejes de plegado (línea segmentada, NO cortar)',
+  '  _corte.csv     resumen por pieza para cotizar: cantidades, material,',
+  '                 espesor, tamaño de desarrollo, nº de barrenos y pliegues',
+  '  _agujeros.csv  coordenadas de TODOS los barrenos por pieza (verificación)',
+  '',
+  'MATERIALES DEL PAQUETE',
+  ...[...porMat.entries()].map(([k, v]) => `  ${k} — ${v.n} piezas distintas, ${v.pz} unidades`),
+  '',
+  'NOTAS',
+  '  · Los pares espejo comparten desarrollo: cortar la cantidad indicada y',
+  '    plegar la mitad por la cara opuesta (indicado en el cajetín del DXF).',
+  '  · Tolerancia general ISO 2768-mK. K-factor de plegado indicado por pieza.',
+  '  · Cotización y dudas: Conveyone SpA — indicar nº de plano (cajetín).',
+].join('\n') + '\n');
 console.log(`OK: ${n} desarrollos DXF + _corte.csv + _agujeros.csv en ${outDir}`);
 if (!n) console.warn('AVISO: ninguna pieza trae bloque `flat` — generar el ensamble con un gen que lo emita.');

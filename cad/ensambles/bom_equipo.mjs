@@ -125,8 +125,12 @@ const compradas = [...grupos.values()].filter(g => !g.part.name.startsWith('FAB'
 for (const { part: p, cant } of [...fabricadas, ...compradas]) {
   const fab = p.name.startsWith('FAB');
   const nombre = p.name.replace(/^(FAB|NORM)\s*[·.-]\s*/, '');
+  // repuesto recomendado en bodega: partes de desgaste/rotación (práctica de
+  // los parts manuals: fila destacada + protocolo de pedido en portada)
+  const repuesto = /Sprocket|Chumacera|Nosebar|Motorreductor|Banda|Rodillo retorno/.test(p.name);
   const fila = {
     item: ++item,
+    repuesto,
     tipo: fab ? 'FABRICADA' : 'COMPRADA',
     item_desc: nombre,
     cant_equipo: cant,
