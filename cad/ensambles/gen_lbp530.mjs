@@ -329,7 +329,7 @@ function flatPerfilC(largo, webAncho, alaAlto, t, material, holes = []) {
 // fondo + 2 laterales + 2 pestañas superiores hacia afuera, 4 pliegues a 90°.
 // dev Y (de abajo hacia arriba): pestaña | BA | lateral | BA | fondo | BA |
 // lateral | BA | pestaña. Agujeros de montaje en las pestañas (M6, Ø7).
-function flatGuardaU(Lg, fondoW, latAlto, pestW, t, holesX, material, tapasExtremo) {
+function flatGuardaU(Lg, fondoW, latAlto, pestW, t, holesX, material, tapasExtremo, muescas) {
   const r = t;
   const BA = bendAllowance(90, r, t, KCH);
   const pest = pestW - (r + t), lat = latAlto - 2 * (r + t), fondo = fondoW;
@@ -356,9 +356,25 @@ function flatGuardaU(Lg, fondoW, latAlto, pestW, t, holesX, material, tapasExtre
   let cont;
   const tapas = { a: !!tapasExtremo?.a, b: !!tapasExtremo?.b };
   const xa0 = tapas.a ? -(BA + tapaDev) : 0, xb0 = Lg + (tapas.b ? BA + tapaDev : 0);
-  cont = [[0, 0], [Lg, 0], [Lg, y4]];
+  // Muescas: ventanas [x0,x1] donde la PESTAÑA se recorta (la bajada de banda
+  // al motriz/tensor cruza el plano de la pestaña; sin muesca, roce).
+  const mk = (muescas || []).map(m => [r2(m[0]), r2(m[1])]).sort((a, b) => a[0] - b[0]);
+  const bordeConMuescas = (yBorde, yFondoPest, reverse) => {
+    // recorre el borde exterior de la franja de pestaña insertando escalones
+    const pts = [];
+    let x = 0;
+    for (const [m0, m1] of mk) {
+      pts.push([x, yBorde], [m0, yBorde], [m0, yFondoPest], [m1, yFondoPest], [m1, yBorde]);
+      x = m1;
+    }
+    pts.push([x, yBorde], [Lg, yBorde]);
+    return reverse ? pts.reverse() : pts;
+  };
+  cont = [...bordeConMuescas(0, yl[1], false), [Lg, y4]];
   if (tapas.b) cont.push([xb0, y4], [xb0, y5]);
-  cont.push([Lg, y5], [Lg, r2(H)], [0, r2(H)], [0, y5]);
+  cont.push([Lg, y5], [Lg, r2(H)]);
+  cont.push(...bordeConMuescas(r2(H), r2(yl[8]), true));
+  cont.push([0, y5]);
   if (tapas.a) cont.push([xa0, y5], [xa0, y4]);
   cont.push([0, y4], [0, 0]);
   for (const [on, xl] of [[tapas.a, 0], [tapas.b, Lg]]) {
@@ -489,24 +505,30 @@ function build(tipo, L) {
   // cierra por debajo y por el extremo la zona de motriz + snub + catenaria,
   // y otra igual la zona del tensor. Desmontables para tensado y mantención.
   const G = {
-    t: 1.5, fondoW: 424, skirtY: 212, pestW: 16, holeY: 220,
+    t: 1.5, fondoW: 488, skirtY: 244, pestW: 26, holeY: 222,
     fondoZ: -480, fondoZTen: -380, pasoM6: 280, holeDia: 7,
   };
   const zAlaTop = D.plTop - D.plAlto + D.plT;      // cara superior del ala
   const zAlaBot = D.plTop - D.plAlto;              // cara inferior del ala (asiento de guarda)
+  // Muescas de pestaña: ventanas en X donde la banda cruza el plano z del ala
+  // (bajada al motriz tras el nosebar de descarga; subida desde el tensor).
   const guardas = esLBP
     ? [
-      { tag: 'motriz', xa: r2(xDrv - 1450), xb: L, fondoZ: G.fondoZ, tapas: { a: false, b: true } },
-      { tag: 'tensor', xa: 0, xb: r2(xTen + 350), fondoZ: G.fondoZTen, tapas: { a: true, b: false } },
+      { tag: 'motriz', xa: r2(xDrv - 1450), xb: L, fondoZ: G.fondoZ, tapas: { a: false, b: true },
+        muescas: [[xDrv - 60, L]] },
+      { tag: 'tensor', xa: 0, xb: r2(xTen + 350), fondoZ: G.fondoZTen, tapas: { a: true, b: false },
+        muescas: [[0, 120], [xTen - 120, xTen + 90]] },
     ]
-    : [{ tag: 'unica', xa: 0, xb: L, fondoZ: G.fondoZ, tapas: { a: true, b: true } }];
-  // agujeros M6 del ala (comunes a placa y guarda — mismas X)
+    : [{ tag: 'unica', xa: 0, xb: L, fondoZ: G.fondoZ, tapas: { a: true, b: true },
+        muescas: [[0, 120], [xTen - 120, xTen + 90], [xDrv - 60, L]] }];
+  // agujeros M6 del ala (comunes a placa y guarda — mismas X, fuera de muescas)
   const holesAla = [];
   for (const g of guardas) {
     g.holesX = [];
     for (let x = g.xa + 100; x <= g.xb - 60; x += G.pasoM6) {
+      if (g.muescas.some(([m0, m1]) => x > m0 - 30 && x < m1 + 30)) continue;
       g.holesX.push(r2(x));
-      holesAla.push({ x: r2(x), yDev: 9, dia: G.holeDia });   // 9 desde el borde libre del ala
+      holesAla.push({ x: r2(x), yDev: 11, dia: G.holeDia });   // 11 desde el borde libre del ala (zona plana)
     }
   }
 
@@ -531,6 +553,10 @@ function build(tipo, L) {
   }
 
   // ---- piezas de guarda ----
+  // Faldones POR FUERA del bastidor (interior 485 > banda 457,2 y > exterior
+  // 482): la catenaria y la banda descendente viajan dentro de la artesa sin
+  // roce. Pestañas hacia ADENTRO apoyadas bajo el ala, con M6 en la zona
+  // plana del ala (11 del borde libre) y tramos segmentados por las muescas.
   for (const g of guardas) {
     const Lg = r2(g.xb - g.xa);
     const latAlto = r2(zAlaBot - g.fondoZ);
@@ -540,7 +566,20 @@ function build(tipo, L) {
     ];
     for (const s of [-1, 1]) {
       f.push(box('Lateral artesa', [xm, s * (G.skirtY + G.t / 2), (zAlaBot + g.fondoZ) / 2], Lg, G.t, latAlto));
-      f.push(box('Pestaña de montaje', [xm, s * (G.skirtY + G.pestW / 2), zAlaBot - G.t / 2], Lg, G.pestW, G.t));
+      // pestaña hacia adentro, segmentada entre muescas
+      let segs = [[g.xa, g.xb]];
+      for (const [m0, m1] of g.muescas) {
+        segs = segs.flatMap(([a, b]) => {
+          const out = [];
+          if (m0 > a) out.push([a, Math.min(m0, b)]);
+          if (m1 < b) out.push([Math.max(m1, a), b]);
+          return out;
+        });
+      }
+      for (const [a, b] of segs) {
+        if (b - a < 30) continue;
+        f.push(box('Pestaña de montaje', [(a + b) / 2, s * (G.skirtY - G.pestW / 2), zAlaBot - G.t / 2], r2(b - a), G.pestW, G.t));
+      }
       for (const x of g.holesX) {
         f.push(hole('Paso M6', [x, s * G.holeY, zAlaBot - G.t / 2], [0, 0, 1], G.holeDia, 0, true));
       }
@@ -553,7 +592,8 @@ function build(tipo, L) {
     addPart(`FAB · Guarda inferior ${g.tag} — artesa U chapa ${G.t} (${Lg}×${G.fondoW})`, C.guarda,
       [xm, 0, g.fondoZ], f, {
         flat: flatGuardaU(Lg, G.fondoW, latAlto, G.pestW, G.t, g.holesX.map(x => r2(x - g.xa)),
-          'Acero galvanizado e1.5 (o RAL7035 según terminación)', g.tapas),
+          'Acero galvanizado e1.5 (o RAL7035 según terminación)', g.tapas,
+          g.muescas.map(([a, b]) => [Math.max(0, a - g.xa), Math.min(Lg, b - g.xa)])),
       });
   }
 
