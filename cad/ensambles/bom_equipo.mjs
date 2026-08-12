@@ -107,13 +107,43 @@ const nCabezal = cantDe(/Cabezal porta-nosebar/);
 gate(nCabezal === 0 || nNose === 18 * nCabezal,
   `pasos nosebar ${nNose} ≠ 18×cabezales (${nCabezal}) — grilla 3 segmentos × 6 (Movex brochure p.8)`);
 
+// M6 de pestaña: el perno es UNO por unión — se cuenta SOLO la cara de la
+// placa («Paso M6 guarda inferior»); contar también la cara de la guarda
+// («Paso M6») duplicaba la compra ×2 (hallazgo del panel). La compuerta
+// exige que ambas caras calcen 1:1.
+const nAlaPlaca = nHoles(/Paso M6 guarda inferior/);
+const nAlaGuarda = nHoles(/^Paso M6$/);
+gate(nAlaPlaca === nAlaGuarda,
+  `pasos M6 de pestaña desalineados: placa ${nAlaPlaca} ≠ guarda ${nAlaGuarda}`);
+// el faldón→mecha también es un perno por par (cara guarda «Paso M6 a mecha»
+// contra roscado «M6 roscado (montaje guarda)» de la mecha)
+const nFaldon = nHoles(/Paso M6 a mecha/);
+const nRoscMecha = nHoles(/M6 roscado \(montaje guarda\)/);
+gate(nFaldon === nRoscMecha,
+  `faldón→mecha desalineado: pasos ${nFaldon} ≠ roscados ${nRoscMecha}`);
+
 const herrajes = [
   { n: 'Perno hex M8×25 8.8 + golilla plana y presión', cant: nEjeMuerto, uso: 'fija el eje muerto de cada rodillo de retorno, por fuera de la placa (2 por rodillo; rosca interior M8×16 del eje — un perno más largo topa fondo)' },
-  { n: 'Perno hex M6×16 8.8 + golilla', cant: nHoles(/Paso M6$|Paso M6 guarda/), uso: 'guarda inferior → ala de placas (pestañas)' },
-  { n: 'Perno hex M6×12 8.8', cant: nHoles(/Paso M6 a mecha/), uso: 'faldón de guarda → roscados M6 de la mecha' },
+  { n: 'Perno hex M6×16 8.8 + golilla', cant: nAlaPlaca, uso: 'guarda inferior → ala de placas (1 por unión pestaña-ala)' },
+  { n: 'Perno hex M6×12 8.8', cant: nFaldon, uso: 'faldón de guarda → roscados M6 de la mecha' },
   { n: 'Perno hex M8×30 8.8 + tuerca + golilla', cant: nNose, uso: 'nosebar → cabezal (tuerca por cara interior)' },
   { n: 'Perno hex M10×35 8.8 + tuerca + golilla plana y presión', cant: nM12, uso: 'brida UCF206 → mecha, pasante con tuerca (4 por chumacera; agujero brida y mecha Ø12 → perno M10 holgura estándar)' },
 ].filter(h => h.cant > 0);
+
+// ── compras derivadas que NO son piezas del ensamble (ferretería de montaje
+// y componentes insertos) — el panel encontró que se PERDIERON al pasar del
+// CSV predecesor a esta cadena: chaveta, retención axial y rodamientos
+const nEjeM = cantDe(/EJE MOTRIZ/);
+const nMotor = cantDe(/Motorreductor/);
+const derivadas = [
+  { n: 'Chaveta DIN 6885 A 8×7×90, acero C45', cant: nEjeM, origen: 'local',
+    uso: 'muñón motriz → cubo del motorreductor (1 por eje motriz)' },
+  { n: 'Arandela de retención Ø40×6 + tornillo M10×25 8.8 + Loctite 243', cant: nMotor, origen: 'local',
+    uso: 'retención axial del motorreductor en la rosca M10×22 de punta de eje (EJ-01 nota 6)' },
+  { n: 'Rodamiento 6202-2RS (15×35×11) sellado', cant: 2 * nRetorno, origen: 'rodamientos · local',
+    uso: 'insertos del rodillo de retorno (2 por rodillo — LBP530-EJ-04)' },
+].filter(d => d.cant > 0);
+gate(derivadas.every(d => Number.isInteger(d.cant) && d.cant >= 0), 'compras derivadas inválidas');
 
 // ── filas con número de ítem (= globo del manual) ────────────────────────────
 const filas = [];
@@ -122,19 +152,29 @@ const orden = (a, b) => a.part.name.localeCompare(b.part.name);
 const fabricadas = [...grupos.values()].filter(g => g.part.name.startsWith('FAB')).sort(orden);
 const compradas = [...grupos.values()].filter(g => !g.part.name.startsWith('FAB')).sort(orden);
 
+// pletina del carryway: FABRICADA de corte a largo (no láser) — sin esta fila
+// la superficie de deslizamiento no era fabricable desde el BOM (panel)
+const guias = [...grupos.values()].filter(g => /Guía de apoyo/.test(g.part.name));
+const pletinaL = guias.length
+  ? Math.round(guias[0].part.features.find(f => /Pletina/.test(f.name))?.params.w || 0) : 0;
+const nPletinas = guias.reduce((a, g) => a + g.cant, 0);
+
 for (const { part: p, cant } of [...fabricadas, ...compradas]) {
   const fab = p.name.startsWith('FAB');
   const nombre = p.name.replace(/^(FAB|NORM)\s*[·.-]\s*/, '');
   // repuesto recomendado en bodega: partes de desgaste/rotación (práctica de
   // los parts manuals: fila destacada + protocolo de pedido en portada)
   const repuesto = /Sprocket|Chumacera|Nosebar|Motorreductor|Banda|Rodillo retorno/.test(p.name);
+  // unidad de compra del nosebar: SEGMENTO K6 in (la pieza modelada es un set
+  // de 3 por punta — comprar '1' era ambiguo: la cotización cuenta segmentos)
+  const nbSet = /Nosebar .*3× K6/.test(p.name) ? 3 : 1;
   const fila = {
     item: ++item,
     repuesto,
     tipo: fab ? 'FABRICADA' : 'COMPRADA',
-    item_desc: nombre,
-    cant_equipo: cant,
-    cant_proyecto: cant * LINEAS,
+    item_desc: nombre + (nbSet > 1 ? ' — CANT en segmentos K6 in (unidad de compra)' : ''),
+    cant_equipo: cant * nbSet,
+    cant_proyecto: cant * nbSet * LINEAS,
     origen: fab ? 'maestranza / taller' : origenDe(p.name),
     referencia: fab ? '' : refDe(p.name),
     plano_corte: planoDXF[p.name] || '',
@@ -150,6 +190,26 @@ for (const { part: p, cant } of [...fabricadas, ...compradas]) {
     fila.masa_aprox_kg = r1(w * h * p.flat.t * 7.85e-6);   // bbox del desarrollo: cota superior
   }
   filas.push(fila);
+  // tras la última FABRICADA del grupo alfabético, insertar la pletina
+  if (p === fabricadas[fabricadas.length - 1]?.part && nPletinas) {
+    filas.push({
+      item: ++item, repuesto: false, tipo: 'FABRICADA',
+      item_desc: `Pletina 12×30 × ${pletinaL} — guía de apoyo de canto (corte a largo, sin láser)`,
+      cant_equipo: nPletinas, cant_proyecto: nPletinas * LINEAS,
+      origen: 'maestranza / taller', referencia: '',
+      plano_corte: '', plano_vistas: '',
+      material: 'Barra laminada S235/A36 12×30 — SOLDAR a travesaños según especificación de soldadura del GA',
+      desarrollo: `12×30×${pletinaL}`,
+      masa_aprox_kg: r1(12 * 30 * pletinaL * 7.85e-6),
+    });
+  }
+}
+for (const d of derivadas) {
+  filas.push({
+    item: ++item, repuesto: /Rodamiento/.test(d.n), tipo: 'COMPRADA', item_desc: d.n,
+    cant_equipo: d.cant, cant_proyecto: d.cant * LINEAS, origen: d.origen, referencia: '',
+    plano_corte: '', plano_vistas: '', material: d.uso, desarrollo: '', masa_aprox_kg: '',
+  });
 }
 for (const h of herrajes) {
   filas.push({
@@ -194,6 +254,13 @@ if (base === equipos[equipos.length - 1] &&
   for (const f of [...acumulado.values()].sort((a, b) => (a.tipo + a.item_desc).localeCompare(b.tipo + b.item_desc))) {
     cons.push([f.tipo, esc(f.item_desc), f.cant_proyecto, esc(f.origen), f.referencia,
       esc([f.plano_corte, f.plano_vistas].filter(Boolean).join(' / ')), esc(f.equipos.join('+'))].join(','));
+  }
+  // materia prima de proyecto declarada en dims (las barras de los ejes no
+  // llegaban a ningún CSV de compras — hallazgo del panel)
+  const barras = dims.ejes?.barras;
+  if (barras) {
+    cons.push(['COMPRADA', esc(`${barras.espec} — corte según LBP530-EJ-03`),
+      `${barras.comprar} (+1 respaldo)`, esc('acero · local'), '', '', esc('materia prima proyecto — ' + (barras.nota || ''))].join(','));
   }
   writeFileSync(join(outDir, 'bom_proyecto.csv'), cons.join('\n') + '\n');
 

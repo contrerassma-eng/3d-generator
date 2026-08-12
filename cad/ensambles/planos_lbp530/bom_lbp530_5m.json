@@ -215,6 +215,21 @@
   },
   {
    "item": 15,
+   "repuesto": false,
+   "tipo": "FABRICADA",
+   "item_desc": "Pletina 12×30 × 4904 — guía de apoyo de canto (corte a largo, sin láser)",
+   "cant_equipo": 10,
+   "cant_proyecto": 40,
+   "origen": "maestranza / taller",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "Barra laminada S235/A36 12×30 — SOLDAR a travesaños según especificación de soldadura del GA",
+   "desarrollo": "12×30×4904",
+   "masa_aprox_kg": 13.9
+  },
+  {
+   "item": 16,
    "repuesto": true,
    "tipo": "COMPRADA",
    "item_desc": "Banda Movex 530 LBP 18 in — lazo 10.88 m",
@@ -229,7 +244,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 16,
+   "item": 17,
    "repuesto": true,
    "tipo": "COMPRADA",
    "item_desc": "Chumacera UCF206 Ø30",
@@ -244,7 +259,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 17,
+   "item": 18,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Collarín P21703Y (fija el sprocket central)",
@@ -259,7 +274,22 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 18,
+   "item": 19,
+   "repuesto": false,
+   "tipo": "COMPRADA",
+   "item_desc": "Collarín P21703Y (referencia eje tensor)",
+   "cant_equipo": 2,
+   "cant_proyecto": 8,
+   "origen": "Movex · Italia (importado)",
+   "referencia": "P21703Y",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 20,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
@@ -274,7 +304,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 19,
+   "item": 21,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
@@ -289,10 +319,10 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 20,
+   "item": 22,
    "repuesto": true,
    "tipo": "COMPRADA",
-   "item_desc": "Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",
+   "item_desc": "Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque",
    "cant_equipo": 1,
    "cant_proyecto": 4,
    "origen": "Motovario (distribuidor local)",
@@ -304,37 +334,37 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 21,
-   "repuesto": true,
-   "tipo": "COMPRADA",
-   "item_desc": "Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",
-   "cant_equipo": 1,
-   "cant_proyecto": 4,
-   "origen": "Movex · Italia (importado)",
-   "referencia": "P22868",
-   "plano_corte": "",
-   "plano_vistas": "",
-   "material": "",
-   "desarrollo": "",
-   "masa_aprox_kg": ""
-  },
-  {
-   "item": 22,
-   "repuesto": true,
-   "tipo": "COMPRADA",
-   "item_desc": "Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",
-   "cant_equipo": 1,
-   "cant_proyecto": 4,
-   "origen": "Movex · Italia (importado)",
-   "referencia": "P22868",
-   "plano_corte": "",
-   "plano_vistas": "",
-   "material": "",
-   "desarrollo": "",
-   "masa_aprox_kg": ""
-  },
-  {
    "item": 23,
+   "repuesto": true,
+   "tipo": "COMPRADA",
+   "item_desc": "Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización) — CANT en segmentos K6 in (unidad de compra)",
+   "cant_equipo": 3,
+   "cant_proyecto": 12,
+   "origen": "Movex · Italia (importado)",
+   "referencia": "P22868",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 24,
+   "repuesto": true,
+   "tipo": "COMPRADA",
+   "item_desc": "Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización) — CANT en segmentos K6 in (unidad de compra)",
+   "cant_equipo": 3,
+   "cant_proyecto": 12,
+   "origen": "Movex · Italia (importado)",
+   "referencia": "P22868",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 25,
    "repuesto": false,
    "tipo": "COMPRADA",
    "item_desc": "Rodillos LBP Ø12.2 POM rojo (97 filas × 12)",
@@ -349,7 +379,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 24,
+   "item": 26,
    "repuesto": true,
    "tipo": "COMPRADA",
    "item_desc": "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
@@ -364,7 +394,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 25,
+   "item": 27,
    "repuesto": true,
    "tipo": "COMPRADA",
    "item_desc": "Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
@@ -379,7 +409,52 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 26,
+   "item": 28,
+   "repuesto": false,
+   "tipo": "COMPRADA",
+   "item_desc": "Chaveta DIN 6885 A 8×7×90, acero C45",
+   "cant_equipo": 1,
+   "cant_proyecto": 4,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "muñón motriz → cubo del motorreductor (1 por eje motriz)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 29,
+   "repuesto": false,
+   "tipo": "COMPRADA",
+   "item_desc": "Arandela de retención Ø40×6 + tornillo M10×25 8.8 + Loctite 243",
+   "cant_equipo": 1,
+   "cant_proyecto": 4,
+   "origen": "local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "retención axial del motorreductor en la rosca M10×22 de punta de eje (EJ-01 nota 6)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 30,
+   "repuesto": true,
+   "tipo": "COMPRADA",
+   "item_desc": "Rodamiento 6202-2RS (15×35×11) sellado",
+   "cant_equipo": 16,
+   "cant_proyecto": 64,
+   "origen": "rodamientos · local",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "",
+   "material": "insertos del rodillo de retorno (2 por rodillo — LBP530-EJ-04)",
+   "desarrollo": "",
+   "masa_aprox_kg": ""
+  },
+  {
+   "item": 31,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M8×25 8.8 + golilla plana y presión",
    "cant_equipo": 16,
@@ -393,21 +468,21 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 27,
+   "item": 32,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M6×16 8.8 + golilla",
-   "cant_equipo": 20,
-   "cant_proyecto": 80,
+   "cant_equipo": 10,
+   "cant_proyecto": 40,
    "origen": "local",
    "referencia": "",
    "plano_corte": "",
    "plano_vistas": "",
-   "material": "guarda inferior → ala de placas (pestañas)",
+   "material": "guarda inferior → ala de placas (1 por unión pestaña-ala)",
    "desarrollo": "",
    "masa_aprox_kg": ""
   },
   {
-   "item": 28,
+   "item": 33,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M6×12 8.8",
    "cant_equipo": 16,
@@ -421,7 +496,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 29,
+   "item": 34,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M8×30 8.8 + tuerca + golilla",
    "cant_equipo": 36,
@@ -435,7 +510,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 30,
+   "item": 35,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M10×35 8.8 + tuerca + golilla plana y presión",
    "cant_equipo": 16,

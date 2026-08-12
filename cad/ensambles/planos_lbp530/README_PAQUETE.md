@@ -10,7 +10,7 @@ corrida — si un archivo tiene otra fecha interna, es defecto: regenerar todo.
 | **Maestranza (plegado/soldadura)** | `planos_fabricacion_lbp530_5m.pdf` · `_gt08.pdf` | Lámina de vistas por pieza fabricada (LB-nn / GT-nn) con material, tolerancia ISO 2768-mK y notas de proceso |
 | **Tornería** | `planos_ejes_lbp530.pdf` | LBP530-EJ-01 eje motriz · EJ-02 eje tensor · EJ-03 corte de barras y lista de compra · EJ-04 rodillo de retorno (ajustes H8/p6, Ø35 H7) |
 | **Armado y montaje** | `manual_partes_lbp530_5m.pdf` (boletín CV-MP-01) · `_gt08.pdf` (CV-MP-02) | Manual de partes y montaje: figuras de despiece con globos, tablas de partes, tornillería y pares de apriete, 9 etapas de montaje, índice de planos |
-| **Compras** | `bom_lbp530_5m.csv` · `bom_lbp530_gt08.csv` · `bom_proyecto.csv` · `compra_movex.csv` | BOM por equipo (el ÍTEM es el globo del manual), consolidado ×4 líneas y cruce artículo por artículo contra la cotización Movex 26012937 |
+| **Compras** | `bom_lbp530_5m.csv` · `bom_lbp530_gt08.csv` · `bom_proyecto.csv` · `compra_movex.csv` | BOM por equipo (el ÍTEM es el globo del manual), consolidado ×4 líneas y cruce artículo por artículo contra la cotización Movex 26012937 — **ATENCIÓN: oferta VENCIDA el 06-08-2026 (100 % anticipado, EXW): pedir revalidación antes de comprar** |
 | **Cliente / gerencia** | `plano_conjunto_lbp530_5m.pdf` · `_gt08.pdf` (LBP530-GA-01/02) | Plano de conjunto A2: planta + elevación + isométrica, cotas auto-medidas del modelo, globos de conjuntos principales |
 
 Numeración única en todo el proyecto: **ÍTEM** (BOM = globos del manual y GA) ·

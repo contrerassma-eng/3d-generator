@@ -201,12 +201,12 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
     ['POS', 'DESCRIPCIÓN', 'CANT', 'OBSERVACIÓN'],
     ['A1', 'Barra CUADRADA 1.5 in (38.1) SAE 1045 calibrada × 6 m', '2 (+1 resp.)', 'ejes motriz y tensor — ver diagrama'],
     ['A2', 'Chumacera de brida UCF206 (bore Ø30, 4 pernos)', '32', '4 por transportador (2 ejes × 2)'],
-    ['A3', 'Chaveta DIN 6885 A 8×7×90, acero C45', '8 (+4 resp.)', '1 por eje motriz'],
-    ['A4', 'Arandela retención Ø40×6 + tornillo M10×25 8.8', '8', 'retención axial del motorreductor'],
+    ['A3', 'Chaveta DIN 6885 A 8×7×90, acero C45', '8 (+4 resp.)', '1 por eje motriz — TAMBIÉN en bom_proyecto.csv'],
+    ['A4', 'Arandela retención Ø40×6 + tornillo M10×25 8.8 (rosca M10×22)', '8', 'retención axial motorreductor — TAMBIÉN en bom_proyecto.csv'],
     ['A5', 'Motorreductor NMRV-P 075 FA 1/30, eje hueco Ø30 H8, 0.55 kW 80A-4', '8', 'VERIFICADO cat. Motovario: 46 rpm, 89 Nm, fs 2.8; v=22.2 m/min; brazo de torque 075'],
     ['A6', 'Rodillo retorno Ø63.5 — FABRICAR según LBP530-EJ-04', String(dims.ejes.retorno?.cantidad ?? '—'), `${dims.ejes.retorno?.porEquipo?.LBP ?? '—'}/LBP + ${dims.ejes.retorno?.porEquipo?.GT ?? '—'}/GT × 4 líneas; rodam. 6202-2RS ×2/u`],
     ['A7', 'Perno M10×35 8.8 + tuerca + golillas (chumaceras a mecha PL8)', '128', '4 por chumacera; agujero brida UCF206 y mecha Ø12 → M10 holgura estándar'],
-    ['A8', 'Soporte tipo ZP2026 (B_005A) plegado 3 mm + nivelador; travesaños TR_S C 88×40', '16 sop.', 'misma matriz/planos del ZP2026'],
+    ['A8', 'Soporte tipo ZP2026 (B_005A) plegado 3 mm + nivelador; travesaños TR_S C 88×40', `${dims.ejes.soportes?.proyecto ?? '—'} sop.`, `${dims.ejes.soportes?.LBP ?? '—'}/LBP + ${dims.ejes.soportes?.GT ?? '—'}/GT × 4 líneas — misma matriz ZP2026`],
   ];
   const rows2 = [
     ['POS', 'MOVEX — COTIZACIÓN 26012937 (09-07-2026, EUR EXW) — input/docs/', 'NECESARIO / COTIZADO', 'OBSERVACIÓN'],

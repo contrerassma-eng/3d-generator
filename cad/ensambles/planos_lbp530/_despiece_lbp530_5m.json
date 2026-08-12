@@ -2,12 +2,12 @@
   "proyecto": "CV-LBP-5000 · Movex 530 LBP 18 in × 5.0 m",
   "archivo": "lbp530_5m.json",
   "fecha": "2026-08-12",
-  "total_piezas": 64,
-  "items_distintos": 25,
+  "total_piezas": 66,
+  "items_distintos": 26,
   "planos_fabricacion": 11,
   "despiece": [
     {
-      "item": 1,
+      "item": 13,
       "designacion": "FAB · Soporte tipo ZP2026 203×95×3 + nivelador",
       "nombres": [
         "FAB · Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador"
@@ -18,7 +18,7 @@
       "plano": "LB-01"
     },
     {
-      "item": 2,
+      "item": 9,
       "designacion": "FAB · Placa lateral libre PL6 L=5000",
       "nombres": [
         "FAB · Placa lateral libre (−Y) PL6 L=5000"
@@ -29,7 +29,7 @@
       "plano": "LB-02"
     },
     {
-      "item": 3,
+      "item": 10,
       "designacion": "FAB · Placa lateral motriz PL6 L=5000",
       "nombres": [
         "FAB · Placa lateral motriz (+Y) PL6 L=5000"
@@ -40,7 +40,7 @@
       "plano": "LB-03"
     },
     {
-      "item": 4,
+      "item": 12,
       "designacion": "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
       "nombres": [
         "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04"
@@ -51,7 +51,7 @@
       "plano": "LBP530-EJ-04"
     },
     {
-      "item": 5,
+      "item": 25,
       "designacion": "NORM · Rodillos LBP Ø12.2 POM rojo (97 filas × 12)",
       "nombres": [
         "NORM · Rodillos LBP Ø12.2 POM rojo (97 filas × 12)"
@@ -62,7 +62,7 @@
       "plano": "—"
     },
     {
-      "item": 6,
+      "item": 1,
       "designacion": "FAB · Cabezal porta-nosebar descarga PL6 470×90",
       "nombres": [
         "FAB · Cabezal porta-nosebar descarga PL6 470×90"
@@ -73,7 +73,7 @@
       "plano": "LB-04"
     },
     {
-      "item": 7,
+      "item": 2,
       "designacion": "FAB · Cabezal porta-nosebar entrada PL6 470×90",
       "nombres": [
         "FAB · Cabezal porta-nosebar entrada PL6 470×90"
@@ -84,7 +84,7 @@
       "plano": "LB-05"
     },
     {
-      "item": 8,
+      "item": 3,
       "designacion": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
       "nombres": [
         "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)"
@@ -95,7 +95,7 @@
       "plano": "LBP530-EJ-01"
     },
     {
-      "item": 9,
+      "item": 4,
       "designacion": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)",
       "nombres": [
         "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)"
@@ -106,7 +106,7 @@
       "plano": "LBP530-EJ-02"
     },
     {
-      "item": 10,
+      "item": 5,
       "designacion": "FAB · Guarda inferior motriz — artesa U chapa 1.5",
       "nombres": [
         "FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)"
@@ -117,7 +117,7 @@
       "plano": "LB-06"
     },
     {
-      "item": 11,
+      "item": 6,
       "designacion": "FAB · Guarda inferior tensor — artesa U chapa 1.5",
       "nombres": [
         "FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)"
@@ -128,7 +128,7 @@
       "plano": "LB-07"
     },
     {
-      "item": 12,
+      "item": 7,
       "designacion": "FAB · Mecha porta-chumacera PL8 motriz 320×422",
       "nombres": [
         "FAB · Mecha porta-chumacera PL8 motriz 320×422"
@@ -139,7 +139,7 @@
       "plano": "LB-08"
     },
     {
-      "item": 13,
+      "item": 8,
       "designacion": "FAB · Mecha porta-chumacera PL8 tensor 320×312",
       "nombres": [
         "FAB · Mecha porta-chumacera PL8 tensor 320×312"
@@ -150,7 +150,7 @@
       "plano": "LB-09"
     },
     {
-      "item": 14,
+      "item": 11,
       "designacion": "FAB · Riostra de soportes (tipo ZP2026)",
       "nombres": [
         "FAB · Riostra de soportes (tipo ZP2026)"
@@ -161,7 +161,7 @@
       "plano": "LB-10"
     },
     {
-      "item": 15,
+      "item": 14,
       "designacion": "FAB · Travesaño tipo ZP2026 — C 88×40×3",
       "nombres": [
         "FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3"
@@ -206,6 +206,17 @@
     },
     {
       "item": 19,
+      "designacion": "NORM · Collarín P21703Y (referencia eje tensor)",
+      "nombres": [
+        "NORM · Collarín P21703Y (referencia eje tensor)"
+      ],
+      "cant": 2,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Collarín P21703Y (referencia eje tensor)",
+      "plano": "—"
+    },
+    {
+      "item": 20,
       "designacion": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05",
       "nombres": [
         "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)"
@@ -216,7 +227,7 @@
       "plano": "—"
     },
     {
-      "item": 20,
+      "item": 21,
       "designacion": "NORM · Guía lateral conical rail L 1¼ in + escuadras",
       "nombres": [
         "NORM · Guía lateral conical rail L 1¼ in (P12501C) + escuadras"
@@ -227,18 +238,18 @@
       "plano": "—"
     },
     {
-      "item": 21,
-      "designacion": "NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",
+      "item": 22,
+      "designacion": "NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque",
       "nombres": [
-        "NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque"
+        "NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque"
       ],
       "cant": 1,
       "tipo": "NORMALIZADA",
-      "material_norma": "Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (",
+      "material_norma": "Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 ",
       "plano": "—"
     },
     {
-      "item": 22,
+      "item": "—",
       "designacion": "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",
       "nombres": [
         "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)"
@@ -249,7 +260,7 @@
       "plano": "—"
     },
     {
-      "item": 23,
+      "item": "—",
       "designacion": "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",
       "nombres": [
         "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)"
@@ -260,7 +271,7 @@
       "plano": "—"
     },
     {
-      "item": 24,
+      "item": 26,
       "designacion": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
       "nombres": [
         "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)"
@@ -271,7 +282,7 @@
       "plano": "—"
     },
     {
-      "item": 25,
+      "item": 27,
       "designacion": "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
       "nombres": [
         "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)"

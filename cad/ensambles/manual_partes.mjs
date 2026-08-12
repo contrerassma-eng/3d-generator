@@ -99,14 +99,16 @@ const FIGURAS = [
       return [0, 0, 0];
     },
     dir: [1, 0.55, -0.42],
-    nota: 'Ambos sprockets del tensor FLOTAN. Tensado: correr las chumaceras en el ojal de la mecha hasta flecha de catenaria 130 mm. Eje: plano LBP530-EJ-02.',
+    nota: 'El eje tensor es FIJO (chumaceras apernadas a la mecha): la banda modular NO se tensa — el largo lo absorbe la catenaria tras la motriz (flecha ~130 mm, rango Movex 50-150). Para acortar banda por desgaste: retirar pasador y quitar eslabones. Sprockets locos; el de referencia va flanqueado por collarines. Eje: plano LBP530-EJ-02.',
   },
   {
     id: 'E', nombre: 'NOSEBAR Y TRANSFERENCIA',
     sel: /Cabezal porta-nosebar|Nosebar/,
     explode: (p) => /Nosebar/.test(p.name) ? [Math.sign(p.pos[0] - 100) * 200, 0, 120] : [0, 0, 0],
     dir: [-1, 1, -0.55],
-    nota: `Nosebar ${esLBP ? 'P22868' : 'P22862'} montado por cara IDLER (rodillos libres = acumulación). 3 segmentos K6 in por punta; tuercas M8 por cara interior del cabezal.`,
+    nota: esLBP
+      ? 'Nosebar P22868 montado por cara IDLER (rodillos libres = acumulación). 3 segmentos K6 in por punta; tuercas M8 por cara interior del cabezal.'
+      : 'Transfer plate P22862 c/rodamientos (h19): transferencia de punta estándar — el concepto IDLER/acumulación aplica SOLO al nosebar LBP (catálogo imperial p.227). 3 segmentos K6 in por punta; tuercas M8 por cara interior del cabezal.',
   },
   {
     id: 'F', nombre: 'GUARDAS INFERIORES',
@@ -220,7 +222,7 @@ const marco = (sh) => sh.rect(18, 8, 384, 281, 'NORMA');
     'Catenaria de retorno: masa de banda colgante tras la motriz.',
   ]);
   blq('OPERACIÓN', [
-    'Velocidad de diseño 20 m/min (46 rpm eje). No exceder sin revisar la memoria de cálculo.',
+    'Velocidad de diseño 22,2 m/min (46 rpm × PD 153,4 del sprocket Z-32). No exceder sin revisar la memoria.',
     `Carga admisible de banda: ${esLBP ? '24 000' : '26 000'} N/m según Movex — límite de diseño 50 %.`,
     'Producto: cajas/bandejas de fruta. La acumulación con banda LBP es de BAJA presión.',
   ]);
@@ -388,10 +390,10 @@ for (const F of FIGURAS) {
   marco(sh); cabecera(sh, 'INSTRUCCIONES DE MONTAJE', 'Secuencia con referencias a las figuras'); pie(sh, nPag);
   indiceFig.push(['M', 'MONTAJE', nPag]);
   const pasos = [
-    ['1 · BASTIDOR (Fig. A)', [
-      'Presentar placas laterales sobre mesa plana. Soldar travesaños C 88×40 y riostras según GA',
-      'manteniendo diagonales iguales (tolerancia ±2 mm). Soldar cabezales porta-nosebar entre',
-      'placas en ambas puntas. Soldar mechas porta-chumacera por la cara EXTERIOR.',
+    ['1 · BASTIDOR (Fig. A) — soldadura: ' + (dims.soldadura?.proceso || 'ver GA'), [
+      'Presentar placas laterales sobre mesa plana manteniendo diagonales iguales (tol. ±2 mm).',
+      ...(dims.soldadura?.uniones || ['Soldar según GA.']).map(u => '· ' + u),
+      `Norma: ${dims.soldadura?.norma || 'AWS D1.1'}. ${dims.soldadura?.nota || ''}`,
       'Terminación: granallado/desengrase + PINTADO RAL 7035 antes de continuar.',
     ]],
     ['2 · SOPORTES', [
@@ -418,7 +420,8 @@ for (const F of FIGURAS) {
       'la LBP trabaja con catenaria libre — el tensor sólo posiciona.',
     ]],
     ['7 · NOSEBAR (Fig. E)', [
-      `Montar nosebar por cara IDLER (acumulación) con M8×30 y tuerca interior (25 Nm).`,
+      esLBP ? 'Montar nosebar por cara IDLER (acumulación) con M8×30 y tuerca interior (25 Nm).'
+            : 'Montar transfer plate P22862 con M8×30 y tuerca interior (25 Nm).',
       'Verificar giro libre de los rodillos de transferencia y coplanaridad con la faja.',
     ]],
     ['8 · ACCIONAMIENTO (Fig. C)', [

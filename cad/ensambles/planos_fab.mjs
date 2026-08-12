@@ -15,7 +15,7 @@
 
 import * as THREE from 'three';
 import { buildPartGeometry } from '../js/model.js';
-import { buildSheet, Sheet, chooseSheet, scaleLabel, exportSheetsPDF } from '../js/drawing2d.js';
+import { buildSheet, buildFlatSheet, Sheet, chooseSheet, scaleLabel, exportSheetsPDF } from '../js/drawing2d.js';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -236,6 +236,18 @@ const lista = [...grupos.values()].sort((a, b) =>
   grupoOrden(a.name) - grupoOrden(b.name) || a.name.localeCompare(b.name));
 
 // --- Emitir láminas de las FABRICADAS + construir despiece --------------------
+// numeración única: el ÍTEM lo asigna el BOM; aquí solo se LEE (la cadena
+// corre planos_fab -> bom_equipo -> planos_fab de nuevo — ver cadena_lbp530.sh)
+const bomPathFab = join(outDir, `bom_${docBase}.json`);
+const itemBom = new Map();
+if (existsSync(bomPathFab)) {
+  const stripP = (n) => n.replace(/^(FAB|NORM)\s*[·.-]\s*/, '');
+  const filasBom = JSON.parse(readFileSync(bomPathFab, 'utf8')).filas;
+  for (const part of doc.parts) {
+    const f = filasBom.find(q => q.item_desc === stripP(part.name));
+    if (f) itemBom.set(part.name, f.item);
+  }
+} else console.warn('  AVISO: sin bom_' + docBase + '.json — el despiece sale sin ÍTEM (correr la cadena completa)');
 const despiece = [];
 const fabSheets = [];
 let itemN = 0, planoN = 0;
@@ -269,7 +281,8 @@ for (const g of lista) {
       // dominante) → perfil analítico con perforaciones; otras mallas grandes
       // (canal, chumaceras) → envolvente; el resto → plano completo con vistas.
       let sheet = null;
-      if (tris > 12000) sheet = plateSheet(g.part, meta) || simpleSheet(geom, meta);
+      if (g.part.flat) sheet = buildFlatSheet(g.part.flat, meta);
+      else if (tris > 12000) sheet = plateSheet(g.part, meta) || simpleSheet(geom, meta);
       else sheet = buildSheet([{ geometry: geom, matrixWorld: M4 }], 'paper', meta);
       fabSheets.push(sheet);
     } catch (e) {
@@ -278,7 +291,7 @@ for (const g of lista) {
     }
   }
   despiece.push({
-    item: itemN, designacion: desig, nombres: [...g.nombres], cant: g.cant,
+    item: itemBom.get(g.name) ?? '—', designacion: desig, nombres: [...g.nombres], cant: g.cant,
     tipo: fabricada ? 'FABRICADA' : (norma ? 'NORMALIZADA' : 'CONJUNTO'),
     material_norma: material, plano: plano || '—',
   });

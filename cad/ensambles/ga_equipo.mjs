@@ -25,6 +25,7 @@ const esLBP = /5m/.test(base);
 const codigo = esLBP ? 'CV-LBP-5000' : 'CV-GT-800';
 const bomPath = join(outDir, `bom_${base}.json`);
 const bom = existsSync(bomPath) ? JSON.parse(readFileSync(bomPath, 'utf8')) : { filas: [] };
+const dims = JSON.parse(readFileSync(process.env.DIMS || 'ensambles/lbp530_dims.json', 'utf8'));
 const itemDe = (re) => bom.filas.find(f => re.test(f.item_desc))?.item ?? '';
 const r0 = (v) => Math.round(v);
 
@@ -113,12 +114,17 @@ for (const [re] of grupos) {
 // ── tabla resumen + cajetín ──────────────────────────────────────────────────
 const nF = bom.filas.filter(f => f.tipo === 'FABRICADA').length;
 const nC = bom.filas.filter(f => f.tipo === 'COMPRADA').length;
+const sold = dims.soldadura || {};
 const notas = [
   `Despiece completo: bom_${base}.csv (${nF} fabricadas · ${nC} compradas) — los ÍTEM de los`,
   `globos son los del BOM y el Manual de Partes (boletín CV-MP-${esLBP ? '01' : '02'}).`,
   'Cotas medidas de la proyección del modelo paramétrico — no transcritas.',
   'Altura de faja ajustable por niveladores de soporte. Terminación: PINTADO RAL 7035.',
-];
+  '',
+  `SOLDADURA (${sold.proceso || 'ver especificación'} · ${sold.norma || ''}):`,
+  ...(sold.uniones || []).map(u => '· ' + u),
+  sold.nota ? '· ' + sold.nota : '',
+].filter(t => t !== null);
 notas.forEach((t, i) => sh.text(t, 320, 92 - i * 5, 2.8, 'L'));
 
 sh.frame();
@@ -126,7 +132,7 @@ sh.titleBlock({
   designacion: `CONJUNTO GENERAL ${codigo}`,
   proyecto: 'LBP530-18 · Conveyone', fuente: 'gen_lbp530.mjs — capa user',
   verificacion: 'COTAS AUTO-MEDIDAS DEL MODELO', piezas: '1', piezasLabel: 'CONJUNTO',
-  nota: `banda ${doc.meta?.banda?.slice(0, 60) ?? ''}`,
+  nota: `banda Movex 530 ${esLBP ? 'LBP' : 'GT (friction top)'} 18 in · paso 15 — ver bom_${base}.csv`,
   escala: 'según vista', fecha, numPlano: esLBP ? 'LBP530-GA-01' : 'LBP530-GA-02',
 });
 

@@ -47,7 +47,7 @@ let n = 0;
 const planosPorNombre = {};
 const corte = [['plano', 'pieza', 'cant', 'material', 'espesor_mm', 'desarrollo_x_mm',
   'desarrollo_y_mm', 'barrenos', 'pliegues', 'k_factor', 'radio_mm', 'tolerancia'].join(',')];
-const agujeros = [['plano', 'pieza', 'x_mm', 'y_mm', 'diametro_mm'].join(',')];
+const agujeros = [['plano', 'pieza', 'x_mm', 'y_mm', 'diametro_mm', 'rosca'].join(',')];
 
 for (const g of [...grupos.values()].sort((a, b) => a.part.name.localeCompare(b.part.name))) {
   n++;
@@ -70,7 +70,7 @@ for (const g of [...grupos.values()].sort((a, b) => a.part.name.localeCompare(b.
     (f.pliegueInfo?.length || 0), f.k, f.radio, 'ISO 2768-mK'].join(','));
   for (const c of (f.cortes?.circles || [])) {
     agujeros.push([pn, `"${g.part.name}"`, c.c[0].toFixed(2), c.c[1].toFixed(2),
-      (c.r * 2).toFixed(2)].join(','));
+      (c.r * 2).toFixed(2), c.rosca || ''].join(','));
   }
   console.log(`${pn}  x${g.cant}  ${g.part.name}  →  ${fname}  (${w.toFixed(0)}×${h.toFixed(0)}, ${(f.cortes?.circles?.length || 0)} barrenos)`);
 }
@@ -106,6 +106,15 @@ writeFileSync(join(outDir, '_LEEME.txt'), [
   '  · Los pares espejo comparten desarrollo: cortar la cantidad indicada y',
   '    plegar la mitad por la cara opuesta (indicado en el cajetín del DXF).',
   '  · Tolerancia general ISO 2768-mK. K-factor de plegado indicado por pieza.',
+  '  · ROSCAS: la columna rosca de _agujeros.csv marca los barrenos que van',
+  '    ROSCADOS tras el corte (el Ø listado es la broca). También rotulado en el DXF.',
+  ...(([...grupos.values()].some(g => {
+    const xs = g.flat.contorno.map(q => q[0]);
+    return Math.max(...xs) - Math.min(...xs) > 3000;
+  })) ? [
+    '  · ATENCIÓN: hay desarrollos de más de 3 m — verificar formato de cama',
+    '    (1500×6000) antes de cotizar; NO se autoriza empalme sin consultar.',
+  ] : []),
   '  · Cotización y dudas: Conveyone SpA — indicar nº de plano (cajetín).',
 ].join('\n') + '\n');
 console.log(`OK: ${n} desarrollos DXF + _corte.csv + _agujeros.csv en ${outDir}`);

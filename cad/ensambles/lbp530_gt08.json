@@ -14,7 +14,7 @@
    "motorreductor": "eje hueco Ø30 H7 DIRECTO sobre el muñón motriz + brazo de torque; chaveta DIN 6885 A 8×7×90; retención arandela + tornillo M10"
   },
   "traccion": "motriz ABAJO extremo descarga (wrap objetivo 140±10°, manual Movex); deflexión/tensor abajo extremo entrada; NOSEBAR en ambas puntas",
-  "sprockets": "Z-32 MOLDEADO PD 153.4 OD 154.8 ancho 40, BORE CUADRADO 1.5 in c/grano M8 (P158808YF, cotización 26012937) — 530 LBP estándar 18 in: 5/eje en el grid VÁLIDO A·B·C·B·C·A (centrado: -152.4/-89.05/0/+63.35/+152.4; manual p.30 = brochure p.11; poner 6 es IMPOSIBLE: las demás posiciones caen bajo los carriles de rodillos ✗; 6 aplica solo a 530 PRO LBP) · GT: 6/eje (indent 38.1, paso 76.2); SOLO el central FIJO (grano M8 + collarines P21703Y), resto FLOTAN (+0.4/+0.3)",
+  "sprockets": "Z-32 MOLDEADO PD 153.4 OD 154.8 ancho 40, BORE CUADRADO 1.5 in c/grano M8 (P158808YF, cotización 26012937) — 530 LBP estándar 18 in: 5/eje en el grid VÁLIDO A·B·C·B·C·A (centrado: -152.4/-89.05/0/+63.35/+152.4; manual p.30 = brochure p.11; poner 6 es IMPOSIBLE: las demás posiciones caen bajo los carriles de rodillos ✗; 6 aplica solo a 530 PRO LBP) · GT: 6/eje (indent 38.1, paso 76.2); MOTRIZ: solo el central FIJO (grano M8 + collarines P21703Y), resto FLOTAN (+0.4/+0.3) · TENSOR: sprockets locos de grano suelto, con el de REFERENCIA (−Y) flanqueado por collarines (posiciona el eje, sin grano)",
   "retorno": "RODILLOS Ø63.5 de eje muerto cada ~500 (decisión usuario; manual Movex sugiere zapata para LBP — desviación registrada): tubo con 2 rodamientos SELLADOS 6202-2RS insertos, eje Ø15 roscado M8 interior en ambas puntas, PERNO HEX M8 + golilla POR FUERA de la placa; catenaria 50–150 tras la motriz",
   "estructura": "soportes tipo ZP2026 (B_005A, chapa plegada 3 mm, 203×95, con nivelador) y travesaños tipo ZP2026 (TR_S, C 88×40×3); guía de apoyo = pletina 12 de canto + BAR CAP UHMW P101203-30 (enrollable, rollo 30 m); guía lateral = conical rail enrollable L 1¼ in P12501C sobre escuadras",
   "friction_top": "GT: goma 75 ShA sobre la banda; el retorno del GT es sobre rodillos (recomendación del manual); la goma no toca el nosebar (contacto por cara interior)",
@@ -1352,28 +1352,32 @@
         55,
         260
        ],
-       "r": 2.5
+       "r": 2.5,
+       "rosca": "M6"
       },
       {
        "c": [
         55,
         160
        ],
-       "r": 2.5
+       "r": 2.5,
+       "rosca": "M6"
       },
       {
        "c": [
         555,
         260
        ],
-       "r": 2.5
+       "r": 2.5,
+       "rosca": "M6"
       },
       {
        "c": [
         555,
         160
        ],
-       "r": 2.5
+       "r": 2.5,
+       "rosca": "M6"
       },
       {
        "c": [
@@ -1852,28 +1856,32 @@
         55,
         260
        ],
-       "r": 2.5
+       "r": 2.5,
+       "rosca": "M6"
       },
       {
        "c": [
         55,
         160
        ],
-       "r": 2.5
+       "r": 2.5,
+       "rosca": "M6"
       },
       {
        "c": [
         555,
         260
        ],
-       "r": 2.5
+       "r": 2.5,
+       "rosca": "M6"
       },
       {
        "c": [
         555,
         160
        ],
-       "r": 2.5
+       "r": 2.5,
+       "rosca": "M6"
       },
       {
        "c": [
@@ -2873,8 +2881,8 @@
    ]
   },
   {
-   "id": "p14_norm_nosebar_entrada_18_in_3_k6_in_montaje_idler_acumulaci_n_p22862_transfer_plate_c_rodamientos_h19_l_6_in_cotizaci_n",
-   "name": "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+   "id": "p14_norm_nosebar_entrada_18_in_3_k6_in_transfer_plate_c_rodamientos_p22862_transfer_plate_c_rodamientos_h19_l_6_in_cotizaci_n",
+   "name": "NORM · Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
    "color": "#24313d",
    "pos": [
     18.2,
@@ -3896,8 +3904,8 @@
    ]
   },
   {
-   "id": "p16_norm_nosebar_descarga_18_in_3_k6_in_montaje_idler_acumulaci_n_p22862_transfer_plate_c_rodamientos_h19_l_6_in_cotizaci_n",
-   "name": "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+   "id": "p16_norm_nosebar_descarga_18_in_3_k6_in_transfer_plate_c_rodamientos_p22862_transfer_plate_c_rodamientos_h19_l_6_in_cotizaci_n",
+   "name": "NORM · Nosebar descarga 18 in (3× K6 in, transfer plate c/rodamientos) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
    "color": "#24313d",
    "pos": [
     781.8,
@@ -6040,8 +6048,8 @@
    ]
   },
   {
-   "id": "p30_norm_motorreductor_nmrv_p075_1_30_eje_hueco_30_h8_0_55_kw_4p_46_rpm_89_nm_brazo_de_torque",
-   "name": "NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",
+   "id": "p30_norm_motorreductor_nmrv_p_075_fa_1_30_pam_80b14_eje_hueco_30_h8_motor_0_55_kw_80a_4_46_rpm_89_nm_fs_2_8_brazo_de_torque",
+   "name": "NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque",
    "color": "#33383c",
    "pos": [
     680,
@@ -6365,7 +6373,129 @@
    ]
   },
   {
-   "id": "p34_norm_chumacera_ucf206_30",
+   "id": "p34_norm_collar_n_p21703y_referencia_eje_tensor",
+   "name": "NORM · Collarín P21703Y (referencia eje tensor)",
+   "color": "#565d63",
+   "pos": [
+    300,
+    -140.3,
+    -290
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f210",
+     "name": "Collarín P21703Y",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 60,
+      "h": 10
+     }
+    },
+    {
+     "id": "f211",
+     "name": "Bore cuadrado 38.3",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -19.149999999999977
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.3,
+      "d": 14,
+      "h": 38.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "p35_norm_collar_n_p21703y_referencia_eje_tensor",
+   "name": "NORM · Collarín P21703Y (referencia eje tensor)",
+   "color": "#565d63",
+   "pos": [
+    300,
+    -88.3,
+    -290
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f212",
+     "name": "Collarín P21703Y",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -5,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 60,
+      "h": 10
+     }
+    },
+    {
+     "id": "f213",
+     "name": "Bore cuadrado 38.3",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -19.149999999999977
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 38.3,
+      "d": 14,
+      "h": 38.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "p36_norm_chumacera_ucf206_30",
    "name": "NORM · Chumacera UCF206 Ø30",
    "color": "#565d63",
    "pos": [
@@ -6383,7 +6513,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f210",
+     "id": "f214",
      "name": "Brida UCF206 108×108×14",
      "shape": "box",
      "op": "union",
@@ -6404,7 +6534,7 @@
      }
     },
     {
-     "id": "f211",
+     "id": "f215",
      "name": "Cubo Ø62",
      "shape": "cylinder",
      "op": "union",
@@ -6424,7 +6554,7 @@
      }
     },
     {
-     "id": "f212",
+     "id": "f216",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -6445,7 +6575,7 @@
      }
     },
     {
-     "id": "f213",
+     "id": "f217",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -6466,7 +6596,7 @@
      }
     },
     {
-     "id": "f214",
+     "id": "f218",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -6487,7 +6617,7 @@
      }
     },
     {
-     "id": "f215",
+     "id": "f219",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -6510,7 +6640,7 @@
    ]
   },
   {
-   "id": "p35_norm_chumacera_ucf206_30",
+   "id": "p37_norm_chumacera_ucf206_30",
    "name": "NORM · Chumacera UCF206 Ø30",
    "color": "#565d63",
    "pos": [
@@ -6528,7 +6658,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f216",
+     "id": "f220",
      "name": "Brida UCF206 108×108×14",
      "shape": "box",
      "op": "union",
@@ -6549,7 +6679,7 @@
      }
     },
     {
-     "id": "f217",
+     "id": "f221",
      "name": "Cubo Ø62",
      "shape": "cylinder",
      "op": "union",
@@ -6569,7 +6699,7 @@
      }
     },
     {
-     "id": "f218",
+     "id": "f222",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -6590,7 +6720,7 @@
      }
     },
     {
-     "id": "f219",
+     "id": "f223",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -6611,7 +6741,7 @@
      }
     },
     {
-     "id": "f220",
+     "id": "f224",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -6632,7 +6762,7 @@
      }
     },
     {
-     "id": "f221",
+     "id": "f225",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -6655,7 +6785,7 @@
    ]
   },
   {
-   "id": "p36_norm_gu_a_lateral_conical_rail_l_1_in_p12501c_escuadras",
+   "id": "p38_norm_gu_a_lateral_conical_rail_l_1_in_p12501c_escuadras",
    "name": "NORM · Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
    "color": "#aeb4ac",
    "pos": [
@@ -6673,7 +6803,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f222",
+     "id": "f226",
      "name": "Cara Ti-WHITE 1¼ in",
      "shape": "box",
      "op": "union",
@@ -6694,7 +6824,7 @@
      }
     },
     {
-     "id": "f223",
+     "id": "f227",
      "name": "Núcleo/ala AISI304 1.5",
      "shape": "box",
      "op": "union",
@@ -6717,7 +6847,7 @@
    ]
   },
   {
-   "id": "p37_norm_gu_a_lateral_conical_rail_l_1_in_p12501c_escuadras",
+   "id": "p39_norm_gu_a_lateral_conical_rail_l_1_in_p12501c_escuadras",
    "name": "NORM · Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
    "color": "#aeb4ac",
    "pos": [
@@ -6735,7 +6865,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f224",
+     "id": "f228",
      "name": "Cara Ti-WHITE 1¼ in",
      "shape": "box",
      "op": "union",
@@ -6756,7 +6886,7 @@
      }
     },
     {
-     "id": "f225",
+     "id": "f229",
      "name": "Núcleo/ala AISI304 1.5",
      "shape": "box",
      "op": "union",
@@ -6779,116 +6909,12 @@
    ]
   },
   {
-   "id": "p38_fab_soporte_tipo_zp2026_b_005a_203_95_3_nivelador",
+   "id": "p40_fab_soporte_tipo_zp2026_b_005a_203_95_3_nivelador",
    "name": "FAB · Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador",
    "color": "#d3d5cf",
    "pos": [
     400,
     -242.5,
-    -544
-   ],
-   "quat": [
-    0,
-    0,
-    0,
-    1
-   ],
-   "fixed": false,
-   "visible": true,
-   "features": [
-    {
-     "id": "f226",
-     "name": "Alma 203",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      0,
-      -356
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 203,
-      "d": 3,
-      "h": 712
-     }
-    },
-    {
-     "id": "f227",
-     "name": "Ala +X",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      100,
-      46,
-      -356
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 3,
-      "d": 95,
-      "h": 712
-     }
-    },
-    {
-     "id": "f228",
-     "name": "Ala −X",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      -100,
-      46,
-      -356
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 3,
-      "d": 95,
-      "h": 712
-     }
-    },
-    {
-     "id": "f229",
-     "name": "Placa piso + nivelador",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      0,
-      23.75,
-      -356
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 120,
-      "d": 120,
-      "h": 6
-     }
-    }
-   ]
-  },
-  {
-   "id": "p39_fab_soporte_tipo_zp2026_b_005a_203_95_3_nivelador",
-   "name": "FAB · Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador",
-   "color": "#d3d5cf",
-   "pos": [
-    400,
-    242.5,
     -544
    ],
    "quat": [
@@ -6928,7 +6954,7 @@
      "op": "union",
      "at": [
       100,
-      -46,
+      46,
       -356
      ],
      "dir": [
@@ -6949,7 +6975,7 @@
      "op": "union",
      "at": [
       -100,
-      -46,
+      46,
       -356
      ],
      "dir": [
@@ -6965,6 +6991,110 @@
     },
     {
      "id": "f233",
+     "name": "Placa piso + nivelador",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      23.75,
+      -356
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 120,
+      "h": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "p41_fab_soporte_tipo_zp2026_b_005a_203_95_3_nivelador",
+   "name": "FAB · Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador",
+   "color": "#d3d5cf",
+   "pos": [
+    400,
+    242.5,
+    -544
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f234",
+     "name": "Alma 203",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -356
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 203,
+      "d": 3,
+      "h": 712
+     }
+    },
+    {
+     "id": "f235",
+     "name": "Ala +X",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      100,
+      -46,
+      -356
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 3,
+      "d": 95,
+      "h": 712
+     }
+    },
+    {
+     "id": "f236",
+     "name": "Ala −X",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -100,
+      -46,
+      -356
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 3,
+      "d": 95,
+      "h": 712
+     }
+    },
+    {
+     "id": "f237",
      "name": "Placa piso + nivelador",
      "shape": "box",
      "op": "union",
@@ -6987,7 +7117,7 @@
    ]
   },
   {
-   "id": "p40_fab_riostra_de_soportes_tipo_zp2026",
+   "id": "p42_fab_riostra_de_soportes_tipo_zp2026",
    "name": "FAB · Riostra de soportes (tipo ZP2026)",
    "color": "#d3d5cf",
    "pos": [
@@ -7125,7 +7255,7 @@
    },
    "features": [
     {
-     "id": "f234",
+     "id": "f238",
      "name": "Riostra C 88×40",
      "shape": "box",
      "op": "union",
@@ -7148,7 +7278,7 @@
    ]
   },
   {
-   "id": "p41_norm_banda_movex_530_gt_friction_top_18_in_lazo_2_56_m",
+   "id": "p43_norm_banda_movex_530_gt_friction_top_18_in_lazo_2_56_m",
    "name": "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.56 m",
    "color": "#1a4f9c",
    "pos": [
@@ -7166,7 +7296,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f235",
+     "id": "f239",
      "name": "Cara exterior del lazo",
      "shape": "sketch",
      "op": "union",
@@ -7692,7 +7822,7 @@
      }
     },
     {
-     "id": "f236",
+     "id": "f240",
      "name": "Vaciado interior",
      "shape": "sketch",
      "op": "cut",
@@ -8220,7 +8350,7 @@
    ]
   },
   {
-   "id": "p42_norm_goma_grip_top_75_sha_disp_50_sha_2_46_filas",
+   "id": "p44_norm_goma_grip_top_75_sha_disp_50_sha_2_46_filas",
    "name": "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
    "color": "#3a3f43",
    "pos": [
@@ -8238,7 +8368,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f237",
+     "id": "f241",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8259,7 +8389,7 @@
      }
     },
     {
-     "id": "f238",
+     "id": "f242",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8280,7 +8410,7 @@
      }
     },
     {
-     "id": "f239",
+     "id": "f243",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8301,7 +8431,7 @@
      }
     },
     {
-     "id": "f240",
+     "id": "f244",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8322,7 +8452,7 @@
      }
     },
     {
-     "id": "f241",
+     "id": "f245",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8343,7 +8473,7 @@
      }
     },
     {
-     "id": "f242",
+     "id": "f246",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8364,7 +8494,7 @@
      }
     },
     {
-     "id": "f243",
+     "id": "f247",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8385,7 +8515,7 @@
      }
     },
     {
-     "id": "f244",
+     "id": "f248",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8406,7 +8536,7 @@
      }
     },
     {
-     "id": "f245",
+     "id": "f249",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8427,7 +8557,7 @@
      }
     },
     {
-     "id": "f246",
+     "id": "f250",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8448,7 +8578,7 @@
      }
     },
     {
-     "id": "f247",
+     "id": "f251",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8469,7 +8599,7 @@
      }
     },
     {
-     "id": "f248",
+     "id": "f252",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8490,7 +8620,7 @@
      }
     },
     {
-     "id": "f249",
+     "id": "f253",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8511,7 +8641,7 @@
      }
     },
     {
-     "id": "f250",
+     "id": "f254",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8532,7 +8662,7 @@
      }
     },
     {
-     "id": "f251",
+     "id": "f255",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8553,7 +8683,7 @@
      }
     },
     {
-     "id": "f252",
+     "id": "f256",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8574,7 +8704,7 @@
      }
     },
     {
-     "id": "f253",
+     "id": "f257",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8595,7 +8725,7 @@
      }
     },
     {
-     "id": "f254",
+     "id": "f258",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8616,7 +8746,7 @@
      }
     },
     {
-     "id": "f255",
+     "id": "f259",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8637,7 +8767,7 @@
      }
     },
     {
-     "id": "f256",
+     "id": "f260",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8658,7 +8788,7 @@
      }
     },
     {
-     "id": "f257",
+     "id": "f261",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8679,7 +8809,7 @@
      }
     },
     {
-     "id": "f258",
+     "id": "f262",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8700,7 +8830,7 @@
      }
     },
     {
-     "id": "f259",
+     "id": "f263",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8721,7 +8851,7 @@
      }
     },
     {
-     "id": "f260",
+     "id": "f264",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8742,7 +8872,7 @@
      }
     },
     {
-     "id": "f261",
+     "id": "f265",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8763,7 +8893,7 @@
      }
     },
     {
-     "id": "f262",
+     "id": "f266",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8784,7 +8914,7 @@
      }
     },
     {
-     "id": "f263",
+     "id": "f267",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8805,7 +8935,7 @@
      }
     },
     {
-     "id": "f264",
+     "id": "f268",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8826,7 +8956,7 @@
      }
     },
     {
-     "id": "f265",
+     "id": "f269",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8847,7 +8977,7 @@
      }
     },
     {
-     "id": "f266",
+     "id": "f270",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8868,7 +8998,7 @@
      }
     },
     {
-     "id": "f267",
+     "id": "f271",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8889,7 +9019,7 @@
      }
     },
     {
-     "id": "f268",
+     "id": "f272",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8910,7 +9040,7 @@
      }
     },
     {
-     "id": "f269",
+     "id": "f273",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8931,7 +9061,7 @@
      }
     },
     {
-     "id": "f270",
+     "id": "f274",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8952,7 +9082,7 @@
      }
     },
     {
-     "id": "f271",
+     "id": "f275",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8973,7 +9103,7 @@
      }
     },
     {
-     "id": "f272",
+     "id": "f276",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -8994,7 +9124,7 @@
      }
     },
     {
-     "id": "f273",
+     "id": "f277",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -9015,7 +9145,7 @@
      }
     },
     {
-     "id": "f274",
+     "id": "f278",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -9036,7 +9166,7 @@
      }
     },
     {
-     "id": "f275",
+     "id": "f279",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -9057,7 +9187,7 @@
      }
     },
     {
-     "id": "f276",
+     "id": "f280",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -9078,7 +9208,7 @@
      }
     },
     {
-     "id": "f277",
+     "id": "f281",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -9099,7 +9229,7 @@
      }
     },
     {
-     "id": "f278",
+     "id": "f282",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -9120,7 +9250,7 @@
      }
     },
     {
-     "id": "f279",
+     "id": "f283",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -9141,7 +9271,7 @@
      }
     },
     {
-     "id": "f280",
+     "id": "f284",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -9162,7 +9292,7 @@
      }
     },
     {
-     "id": "f281",
+     "id": "f285",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -9183,7 +9313,7 @@
      }
     },
     {
-     "id": "f282",
+     "id": "f286",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",

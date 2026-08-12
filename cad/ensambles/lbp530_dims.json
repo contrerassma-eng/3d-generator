@@ -226,6 +226,11 @@
    "comprar": 2,
    "nota": "considerar 1 barra extra de respaldo"
   },
+  "soportes": {
+   "LBP": 6,
+   "GT": 2,
+   "proyecto": 32
+  },
   "retorno": {
    "plano": "LBP530-EJ-04",
    "tubo": {
@@ -257,6 +262,18 @@
    "cantidad": 36
   }
  },
+ "soldadura": {
+  "proceso": "GMAW (MIG) ER70S-6 Ø1.0 — alternativa SMAW E7018",
+  "norma": "AWS D1.1 — inspección visual 100%",
+  "uniones": [
+   "Travesaños y riostras → placas: filete 4 mm (a4) doble cara, intermitente 50–150",
+   "Cabezales porta-nosebar → placas: filete 4 mm perimetral por cara interior",
+   "Mechas PL8 → cara exterior del alma: 3 cordones filete 4 mm (superior + 2 verticales)",
+   "Soportes: filete 4 mm según matriz ZP2026",
+   "Pletinas 12×30 del carryway → travesaños: filete 3 mm ×30 en cada cruce, alternado"
+  ],
+  "nota": "esmerilar a ras solo donde interfiera con banda o guía; retocar RAL 7035 tras soldar"
+ },
  "compraMovex": {
   "banda_530LBP_18in": {
    "art": "P5324010018A",
@@ -283,7 +300,7 @@
    "precioEUR": 2.32,
    "necesario": 32,
    "cotizado": 60,
-   "detalle": "2 por eje (flanquean el sprocket central fijo)"
+   "detalle": "2 por eje: motriz flanquean el sprocket central FIJO; tensor flanquean el sprocket de REFERENCIA (−Y)"
   },
   "nosebar_LBP": {
    "art": "P22868",
@@ -302,6 +319,7 @@
   "bar_cap": {
    "art": "P101203-30",
    "precioEUR_m": 6.96,
+   "necesario_m": 215.84,
    "cotizado_m": 360,
    "detalle": "BAR CAP UHMW 17.53×19.05 p/pletina 12 — guía de APOYO enrollable (rollo 30 m)"
   },
@@ -320,6 +338,7 @@
   "conical_rail_L114": {
    "art": "P12501C",
    "precioEUR_m": 23.08,
+   "necesario_m": 44.48,
    "cotizado_m": 105,
    "detalle": "L-shape 1¼ in Ti-WHITE AISI304 — guía LATERAL del modelo"
   }

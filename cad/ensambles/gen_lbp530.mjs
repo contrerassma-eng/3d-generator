@@ -423,7 +423,9 @@ function flatGuardaU(Lg, fondoW, latAlto, pestW, t, holesX, material, tapasExtre
 function flatPlaca(w, h, t, holes, material, aviso) {
   return {
     contorno: rect(w, h),
-    cortes: { circles: holes.map(q => ({ c: [q.x, q.y], r: q.dia / 2 })), polys: [] },
+    // rosca: se propaga al DXF/_agujeros — un Ø5 sin llamado de rosca llega
+    // al taller como agujero liso (hallazgo del panel: los M6 de la mecha)
+    cortes: { circles: holes.map(q => ({ c: [q.x, q.y], r: q.dia / 2, ...(q.rosca ? { rosca: q.rosca } : {}) })), polys: [] },
     pliegues: [], etiquetas: [], pliegueInfo: [],
     t, k: KCH, radio: t, material,
     avisos: aviso ? [aviso] : [],
@@ -743,7 +745,7 @@ function build(tipo, L) {
       }
       // roscados M6 del montaje de guarda (broca Ø5 en plano; roscar M6)
       for (const q of (m.mounts || [])) {
-        holes.push({ x: r2(q.x - m.x0), y: r2(q.z - zBot), dia: 5 });
+        holes.push({ x: r2(q.x - m.x0), y: r2(q.z - zBot), dia: 5, rosca: 'M6' });
         f.push(hole('M6 roscado (montaje guarda)', [q.x, y, q.z], [0, s, 0], 5, 0, true));
       }
       // pasos para los M8 del alma que caen dentro de la huella de la mecha
@@ -856,7 +858,13 @@ function build(tipo, L) {
     for (const h of nbHoles) {
       fN.push(hole(`Ø${NB.holeDia} montaje`, [x0 + dirIn * (2 + NB.cuerpoT / 2), h.y, zci - h.dz], [dirIn, 0, 0], NB.holeDia, 0, true));
     }
-    addPart(`NORM · Nosebar ${nm} 18 in (3× K6 in, montaje IDLER=acumulación) — ${art}`, C.nose, [x0, 0, zN], fN);
+    // el concepto IDLER=acumulación es EXCLUSIVO del nosebar LBP (22868);
+    // el 22862 del GT es transfer plate estándar «LBP version excluded»
+    // (catálogo imperial p.227) — el panel encontró el texto LBP aplicado al GT
+    addPart(esLBP
+      ? `NORM · Nosebar ${nm} 18 in (3× K6 in, montaje IDLER=acumulación) — ${art}`
+      : `NORM · Nosebar ${nm} 18 in (3× K6 in, transfer plate c/rodamientos) — ${art}`,
+      C.nose, [x0, 0, zN], fN);
 
     // Cabezal porta-nosebar (FAB): recibe los 18 M8 del nosebar
     const xc = x0 + dirIn * (2 + NB.cuerpoT + 3);
@@ -905,7 +913,7 @@ function build(tipo, L) {
     addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xDrv, s * (yOut + 8), D.zMotriz], chumaceraUCF(xDrv, s * (yOut + 8), D.zMotriz));
   }
   const yM = yOut + 30;
-  addPart('NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque', C.motor, [xDrv, yM + D.motor.cuerpo[1] / 2, D.zMotriz], [
+  addPart('NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque', C.motor, [xDrv, yM + D.motor.cuerpo[1] / 2, D.zMotriz], [
     cyl(`Cubo hueco Ø${D.motor.boss}`, [xDrv, yM - 10, D.zMotriz], [0, 1, 0], D.motor.boss, D.motor.bossL),
     box('Cuerpo reductor', [xDrv, yM + D.motor.cuerpo[1] / 2 + 40, D.zMotriz], D.motor.cuerpo[0], D.motor.cuerpo[1], D.motor.cuerpo[2]),
     box('Brazo de torque', [xDrv - 130, yM + 20, D.zMotriz - 60], 40, 12, 160),
@@ -917,6 +925,16 @@ function build(tipo, L) {
   const yLocos = esLBP ? [-152.4, 152.4] : [ySprk[1], ySprk[ySprk.length - 2]];
   for (const y of yLocos) {
     addPart('NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)', C.sprk, [xTen, y, D.zTensor], sprocket(xTen, y, D.zTensor));
+  }
+  // retención axial del EJE TENSOR: collarines flanqueando el sprocket de
+  // REFERENCIA (−Y) — un sprocket retenido por eje posiciona el eje; el resto
+  // sigue a la banda. Con esto collarines = 4/equipo y la compra (2 por eje ×
+  // 16 ejes = 32) queda consistente con el modelo — divergencia ×2 que el
+  // panel encontró entre BOM y compra_movex/EJ-03.
+  for (const sd of [-1, 1]) {
+    const yC = yLocos[0] + sd * (BELT.sprocket.ancho / 2 + 6);
+    addPart(`NORM · Collarín ${BELT.collar.split(' — ')[0]} (referencia eje tensor)`, C.chum,
+      [xTen, yC, D.zTensor], collar(xTen, yC, D.zTensor));
   }
   for (const s of [-1, 1]) {
     addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xTen, s * (yOut + 8), D.zTensor], chumaceraUCF(xTen, s * (yOut + 8), D.zTensor));
@@ -1033,6 +1051,9 @@ function verify(res) {
     }
     for (const c of eq.travChk || []) e.push(`${nm}: travesaño x=${c} cruzado por el lazo`);
     if (eq.mechasOverlap) e.push(`${nm}: mechas solapadas entre sí`);
+    // retención axial: 2 collarines por eje (motriz + tensor) = 4 por equipo
+    const nCol = eq.parts.filter(p => /Collarín/.test(p.name)).length;
+    if (nCol !== 4) e.push(`${nm}: ${nCol} collarines (deben ser 4 = 2 por eje; la compra asume 2×16 ejes)`);
   }
   // corte de barras (8+8 ejes, kerf 9 mm)
   const corteM = 8 * (D.ejeMotrizL + 9), corteT = 8 * (D.ejeTensorL + 9);
@@ -1116,7 +1137,7 @@ const metaComun = {
     motorreductor: 'eje hueco Ø30 H7 DIRECTO sobre el muñón motriz + brazo de torque; chaveta DIN 6885 A 8×7×90; retención arandela + tornillo M10',
   },
   traccion: 'motriz ABAJO extremo descarga (wrap objetivo 140±10°, manual Movex); deflexión/tensor abajo extremo entrada; NOSEBAR en ambas puntas',
-  sprockets: `Z-32 MOLDEADO PD 153.4 OD 154.8 ancho 40, BORE CUADRADO 1.5 in c/grano M8 (P158808YF, cotización 26012937) — 530 LBP estándar 18 in: 5/eje en el grid VÁLIDO A·B·C·B·C·A (centrado: -152.4/-89.05/0/+63.35/+152.4; manual p.30 = brochure p.11; poner 6 es IMPOSIBLE: las demás posiciones caen bajo los carriles de rodillos ✗; 6 aplica solo a 530 PRO LBP) · GT: 6/eje (indent 38.1, paso 76.2); SOLO el central FIJO (grano M8 + collarines P21703Y), resto FLOTAN (+0.4/+0.3)`,
+  sprockets: `Z-32 MOLDEADO PD 153.4 OD 154.8 ancho 40, BORE CUADRADO 1.5 in c/grano M8 (P158808YF, cotización 26012937) — 530 LBP estándar 18 in: 5/eje en el grid VÁLIDO A·B·C·B·C·A (centrado: -152.4/-89.05/0/+63.35/+152.4; manual p.30 = brochure p.11; poner 6 es IMPOSIBLE: las demás posiciones caen bajo los carriles de rodillos ✗; 6 aplica solo a 530 PRO LBP) · GT: 6/eje (indent 38.1, paso 76.2); MOTRIZ: solo el central FIJO (grano M8 + collarines P21703Y), resto FLOTAN (+0.4/+0.3) · TENSOR: sprockets locos de grano suelto, con el de REFERENCIA (−Y) flanqueado por collarines (posiciona el eje, sin grano)`,
   retorno: 'RODILLOS Ø63.5 de eje muerto cada ~500 (decisión usuario; manual Movex sugiere zapata para LBP — desviación registrada): tubo con 2 rodamientos SELLADOS 6202-2RS insertos, eje Ø15 roscado M8 interior en ambas puntas, PERNO HEX M8 + golilla POR FUERA de la placa; catenaria 50–150 tras la motriz',
   estructura: 'soportes tipo ZP2026 (B_005A, chapa plegada 3 mm, 203×95, con nivelador) y travesaños tipo ZP2026 (TR_S, C 88×40×3); guía de apoyo = pletina 12 de canto + BAR CAP UHMW P101203-30 (enrollable, rollo 30 m); guía lateral = conical rail enrollable L 1¼ in P12501C sobre escuadras',
   friction_top: 'GT: goma 75 ShA sobre la banda; el retorno del GT es sobre rodillos (recomendación del manual); la goma no toca el nosebar (contacto por cara interior)',
@@ -1170,6 +1191,14 @@ const dims = {
       motriz: { porBarra: 8, usado: chk.corteM }, tensor: { porBarra: 8, usado: chk.corteT },
       comprar: 2, nota: 'considerar 1 barra extra de respaldo',
     },
+    // Conteos de estructura DERIVADOS de las piezas reales (el literal
+    // «16 sop.» de EJ-03 dejaba media flota sin patas — hallazgo del panel)
+    soportes: {
+      LBP: res.LBP.parts.filter(p => /Soporte tipo/.test(p.name)).length,
+      GT: res.GT.parts.filter(p => /Soporte tipo/.test(p.name)).length,
+      proyecto: 4 * res.LBP.parts.filter(p => /Soporte tipo/.test(p.name)).length
+              + 4 * res.GT.parts.filter(p => /Soporte tipo/.test(p.name)).length,
+    },
     // Rodillo de retorno de eje muerto — plano propio de la familia EJ para
     // que planos_fab NO le emita lámina duplicada. Cantidad DERIVADA de las
     // piezas reales de los dos ensambles (nada estimado a mano).
@@ -1188,6 +1217,20 @@ const dims = {
               + 4 * res.GT.parts.filter(p => /Rodillo retorno/.test(p.name)).length,
     },
   },
+  // Especificación de SOLDADURA del bastidor (el panel encontró «SOLDAR según
+  // GA» sin que el GA especificara nada): la leen ga_equipo y manual_partes.
+  soldadura: {
+    proceso: 'GMAW (MIG) ER70S-6 Ø1.0 — alternativa SMAW E7018',
+    norma: 'AWS D1.1 — inspección visual 100%',
+    uniones: [
+      'Travesaños y riostras → placas: filete 4 mm (a4) doble cara, intermitente 50–150',
+      'Cabezales porta-nosebar → placas: filete 4 mm perimetral por cara interior',
+      'Mechas PL8 → cara exterior del alma: 3 cordones filete 4 mm (superior + 2 verticales)',
+      'Soportes: filete 4 mm según matriz ZP2026',
+      'Pletinas 12×30 del carryway → travesaños: filete 3 mm ×30 en cada cruce, alternado',
+    ],
+    nota: 'esmerilar a ras solo donde interfiera con banda o guía; retocar RAL 7035 tras soldar',
+  },
   // Cotización MOVEX 26012937 (09-07-2026, EUR, EXW Castelli Calepio) —
   // projects/LBP530-18/input/docs/Cotizacion_MOVEX_26012937.pdf.
   // "necesario" = lo que consumen las 4 líneas; "cotizado" = lo ofertado.
@@ -1195,13 +1238,38 @@ const dims = {
     banda_530LBP_18in: { art: 'P5324010018A', precioEUR_m: 174.85, necesario_m: r2(4 * lazoLBP), cotizado_m: 90.3, nota: 'cotizado cubre ~2× (repuesto/futuras líneas); rollos de 1.5 m' },
     banda_530GT_18in: { art: 'P5323010018A', precioEUR_m: 243.18, necesario_m: r2(4 * lazoGT), cotizado_m: 18.0 },
     sprockets_Z32_cuadrado15: { art: 'P158808YF', precioEUR: 17.42, necesario: 4 * (BELT.nSprkLBP + 2) + 4 * (BELT.nSprkGT + 2), cotizado: 152, detalle: 'rueda moldeada Z-32 c/grano M8; LBP 5+2 · GT 6+2 por transportador' },
-    collarines: { art: 'P21703Y', precioEUR: 2.32, necesario: 2 * 16, cotizado: 60, detalle: '2 por eje (flanquean el sprocket central fijo)' },
+    collarines: {
+      art: 'P21703Y', precioEUR: 2.32,
+      // DERIVADO de las piezas reales (la fórmula 2×16 divergía ×2 del modelo
+      // cuando el tensor no llevaba collarines — hallazgo del panel)
+      necesario: 4 * res.LBP.parts.filter(p => /Collarín/.test(p.name)).length
+               + 4 * res.GT.parts.filter(p => /Collarín/.test(p.name)).length,
+      cotizado: 60,
+      detalle: '2 por eje: motriz flanquean el sprocket central FIJO; tensor flanquean el sprocket de REFERENCIA (−Y)',
+    },
     nosebar_LBP: { art: 'P22868', precioEUR: 38.73, necesario: 4 * 2 * 3, cotizado: 51, detalle: 'h19 C/RODAMIENTOS, L=6 in: 3 por punta × 2 puntas × 4 LBP' },
     nosebar_GT: { art: 'P22862', precioEUR: 31.0, necesario: 4 * 2 * 3, cotizado: 51, detalle: 'transfer plate C/RODAMIENTOS h19, L=6 in' },
-    bar_cap: { art: 'P101203-30', precioEUR_m: 6.96, cotizado_m: 360, detalle: 'BAR CAP UHMW 17.53×19.05 p/pletina 12 — guía de APOYO enrollable (rollo 30 m)' },
+    bar_cap: {
+      art: 'P101203-30', precioEUR_m: 6.96,
+      // metros DERIVADOS de las guías reales de ambos ensambles ×4 líneas
+      necesario_m: r2((res.LBP.parts.filter(p => /Guía de apoyo/.test(p.name))
+        .reduce((a, p) => a + (p.features.find(f => /Bar cap/.test(f.name))?.params.w || 0), 0)
+        + res.GT.parts.filter(p => /Guía de apoyo/.test(p.name))
+        .reduce((a, p) => a + (p.features.find(f => /Bar cap/.test(f.name))?.params.w || 0), 0)) * 4 / 1000),
+      cotizado_m: 360,
+      detalle: 'BAR CAP UHMW 17.53×19.05 p/pletina 12 — guía de APOYO enrollable (rollo 30 m)',
+    },
     conical_rail_T1: { art: 'P12201C', precioEUR_m: 17.14, cotizado_m: 156, detalle: 'T-shape 1 in blanco/acero 1.5 — guía lateral/apoyo según layout' },
     conical_rail_T40: { art: 'P12401C', precioEUR_m: 18.63, cotizado_m: 105, detalle: 'T-shape 40 mm Ti-WHITE AISI304' },
-    conical_rail_L114: { art: 'P12501C', precioEUR_m: 23.08, cotizado_m: 105, detalle: 'L-shape 1¼ in Ti-WHITE AISI304 — guía LATERAL del modelo' },
+    conical_rail_L114: {
+      art: 'P12501C', precioEUR_m: 23.08,
+      necesario_m: r2((res.LBP.parts.filter(p => /Guía lateral/.test(p.name))
+        .reduce((a, p) => a + Math.max(...p.features.map(f => f.params?.w || 0)), 0)
+        + res.GT.parts.filter(p => /Guía lateral/.test(p.name))
+        .reduce((a, p) => a + Math.max(...p.features.map(f => f.params?.w || 0)), 0)) * 4 / 1000),
+      cotizado_m: 105,
+      detalle: 'L-shape 1¼ in Ti-WHITE AISI304 — guía LATERAL del modelo',
+    },
   },
 };
 writeFileSync(join(here, 'lbp530_dims.json'), JSON.stringify(dims, null, 1));

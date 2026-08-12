@@ -512,6 +512,10 @@ function writeDXF(sheet) {
 const WINANSI = { '—': 0x97, '–': 0x96, '…': 0x85, '“': 0x93, '”': 0x94, '‘': 0x91, '’': 0x92 };
 
 function pdfEscape(s) {
+  // glifos fuera de WinAnsi que aparecían como '?' en los PDF (panel):
+  s = String(s).replace(/−/g, '-').replace(/≤/g, '<=').replace(/≥/g, '>=')
+    .replace(/→/g, '->').replace(/←/g, '<-').replace(/↔/g, '<->')
+    .replace(/✓/g, 'OK').replace(/✗/g, 'X');
   let out = '';
   for (const ch of s) {
     let code = WINANSI[ch] ?? ch.codePointAt(0);
@@ -684,7 +688,7 @@ function dxfToBytes(s) {
 // --- lámina de DESARROLLO DE CHAPA ---------------------------------------------
 // flat: salida de sheetmetal.flatPattern(); meta: { designacion, piezas }
 
-function buildFlatSheet(flat, meta, K) {
+export function buildFlatSheet(flat, meta, K) {
   const xs = flat.contorno.map(p => p[0]), ys = flat.contorno.map(p => p[1]);
   const lo = [Math.min(...xs), Math.min(...ys)], hi = [Math.max(...xs), Math.max(...ys)];
   const w = hi[0] - lo[0], h = hi[1] - lo[1];
@@ -706,6 +710,18 @@ function buildFlatSheet(flat, meta, K) {
     const dias = [...new Set(flat.cortes.circles.map(c => +(c.r * 2).toFixed(2)))];
     if (dias.length) sheet.text(`BARRENOS: ${flat.cortes.circles.length}× · Ø ${dias.join(' / ')} mm (corte láser)`,
       T([lo[0], lo[1]])[0], T([lo[0], lo[1]])[1] - 6, 3.2, 'L');
+    // llamado de ROSCAS: un Ø5 sin llamado llega al taller como agujero liso
+    const roscados = flat.cortes.circles.filter(c => c.rosca);
+    if (roscados.length) {
+      const porRosca = {};
+      for (const c of roscados) porRosca[c.rosca] = (porRosca[c.rosca] || 0) + 1;
+      sheet.text('ROSCAR: ' + Object.entries(porRosca).map(([r, n]) => `${n}× ${r} (broca en plano)`).join(' · '),
+        T([lo[0], lo[1]])[0], T([lo[0], lo[1]])[1] - 10.5, 3.2, 'L');
+      for (const c of roscados) {
+        const [cx, cy] = T(c.c);
+        sheet.text(c.rosca, cx + c.r * s + 1.2, cy, 2.2, 'L');
+      }
+    }
   }
   for (const l of flat.pliegues) {
     sheet.line(T(l.a), T(l.b), l.tipo === 'eje' ? 'PLIEGUE' : 'FINA');
@@ -732,7 +748,7 @@ function buildFlatSheet(flat, meta, K) {
     piezas: String(flat.pliegueInfo.length),
     nota: meta.nota || aviso || `${flat.material} e=${flat.t} mm · K=${flat.k} · R def=${flat.radio} mm — diseño, no medición`,
     escala: scaleLabel(num, den),
-    fecha: new Date().toISOString().slice(0, 10),
+    fecha: meta.fecha ?? new Date().toISOString().slice(0, 10),
     numPlano: meta.numPlano || 'CHAPA-01',
   });
   return sheet;
