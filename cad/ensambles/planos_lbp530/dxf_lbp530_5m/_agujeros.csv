@@ -17,22 +17,16 @@ LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",387.10,69.25,9.00
 LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",387.10,50.20,9.00
 LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",447.10,69.25,9.00
 LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",447.10,50.20,9.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",100.00,6.50,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",100.00,1029.07,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",380.00,6.50,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",380.00,1029.07,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",660.00,6.50,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",660.00,1029.07,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",940.00,6.50,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",940.00,1029.07,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",1220.00,6.50,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",1220.00,1029.07,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",1500.00,6.50,7.00
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",1500.00,1029.07,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×424)",100.00,6.50,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×424)",100.00,829.07,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×424)",380.00,6.50,7.00
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×424)",380.00,829.07,7.00
+LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×488)",100.00,11.50,7.00
+LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×488)",100.00,1108.07,7.00
+LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×488)",380.00,11.50,7.00
+LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×488)",380.00,1108.07,7.00
+LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×488)",660.00,11.50,7.00
+LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×488)",660.00,1108.07,7.00
+LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×488)",940.00,11.50,7.00
+LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×488)",940.00,1108.07,7.00
+LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×488)",1220.00,11.50,7.00
+LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×488)",1220.00,1108.07,7.00
 LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×322",205.00,110.00,40.00
 LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×322",163.70,68.70,12.00
 LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×322",163.70,151.30,12.00
@@ -51,11 +45,8 @@ LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",2220.00,40.82,9.00
 LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",1720.00,40.82,9.00
 LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",1220.00,40.82,9.00
 LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",720.00,40.82,9.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3530.00,9.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3810.00,9.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4090.00,9.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4370.00,9.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4650.00,9.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4930.00,9.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",100.00,9.00,7.00
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",380.00,9.00,7.00
+LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3530.00,11.00,7.00
+LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",3810.00,11.00,7.00
+LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4090.00,11.00,7.00
+LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4370.00,11.00,7.00
+LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",4650.00,11.00,7.00

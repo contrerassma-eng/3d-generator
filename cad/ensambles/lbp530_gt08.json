@@ -133,7 +133,7 @@
     "t": 6,
     "k": 0.44,
     "radio": 6,
-    "material": "Acero S275JR PL6 — galvanizado o RAL7035 según terminación del proyecto",
+    "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
     "avisos": [
      "MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)"
     ]
@@ -308,7 +308,7 @@
     "t": 6,
     "k": 0.44,
     "radio": 6,
-    "material": "Acero S275JR PL6 — galvanizado o RAL7035 según terminación del proyecto",
+    "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
     "avisos": [
      "MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)"
     ]
@@ -767,7 +767,7 @@
     "t": 1.5,
     "k": 0.44,
     "radio": 1.5,
-    "material": "Acero galvanizado e1.5 (o RAL7035 según terminación)",
+    "material": "Acero S275JR e1.5 — terminación PINTADO RAL 7035",
     "avisos": [
      "MONTA APERNADA M6 AL ALA INFERIOR DE LAS PLACAS (desmontable para mantención)"
     ]
@@ -1050,7 +1050,7 @@
     "t": 8,
     "k": 0.44,
     "radio": 8,
-    "material": "Acero S275JR PL8",
+    "material": "Acero S275JR PL8 — PINTADO RAL 7035",
     "avisos": [
      "SOLDAR A CARA EXTERIOR DE PLACA LATERAL — cordón perimetral 4 mm, ver GA"
     ]
@@ -1270,7 +1270,7 @@
     "t": 8,
     "k": 0.44,
     "radio": 8,
-    "material": "Acero S275JR PL8",
+    "material": "Acero S275JR PL8 — PINTADO RAL 7035",
     "avisos": [
      "SOLDAR A CARA EXTERIOR DE PLACA LATERAL — cordón perimetral 4 mm, ver GA"
     ]
@@ -1490,7 +1490,7 @@
     "t": 8,
     "k": 0.44,
     "radio": 8,
-    "material": "Acero S275JR PL8",
+    "material": "Acero S275JR PL8 — PINTADO RAL 7035",
     "avisos": [
      "SOLDAR A CARA EXTERIOR DE PLACA LATERAL — cordón perimetral 4 mm, ver GA"
     ]
@@ -1710,7 +1710,7 @@
     "t": 8,
     "k": 0.44,
     "radio": 8,
-    "material": "Acero S275JR PL8",
+    "material": "Acero S275JR PL8 — PINTADO RAL 7035",
     "avisos": [
      "SOLDAR A CARA EXTERIOR DE PLACA LATERAL — cordón perimetral 4 mm, ver GA"
     ]
@@ -1978,7 +1978,7 @@
     "t": 3,
     "k": 0.44,
     "radio": 3,
-    "material": "Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026). SOLDAR a placas laterales según GA",
+    "material": "Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a placas laterales según GA",
     "avisos": []
    },
    "features": [
@@ -3097,7 +3097,7 @@
     "t": 6,
     "k": 0.44,
     "radio": 6,
-    "material": "Acero S275JR PL6",
+    "material": "Acero S275JR PL6 — PINTADO RAL 7035",
     "avisos": [
      "GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). SOLDAR entre placas laterales — tuercas M8 por cara interior"
     ]
@@ -4120,7 +4120,7 @@
     "t": 6,
     "k": 0.44,
     "radio": 6,
-    "material": "Acero S275JR PL6",
+    "material": "Acero S275JR PL6 — PINTADO RAL 7035",
     "avisos": [
      "GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). SOLDAR entre placas laterales — tuercas M8 por cara interior"
     ]
@@ -6729,7 +6729,7 @@
     "t": 3,
     "k": 0.44,
     "radio": 3,
-    "material": "Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026). SOLDAR a soportes según GA",
+    "material": "Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a soportes según GA",
     "avisos": []
    },
    "features": [

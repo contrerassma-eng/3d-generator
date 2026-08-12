@@ -551,7 +551,7 @@ function build(tipo, L) {
     }
     addPart(`FAB · Placa lateral ${nm} PL6 L=${L}`, C.placa, [L / 2, y, D.plTop], f, {
       flat: flatPlacaConAla(L, D.plAlto, D.alaAncho, D.plT, holesAlma,
-        'Acero S275JR PL6 — galvanizado o RAL7035 según terminación del proyecto',
+        'Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)',
         'MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)', holesAla),
     });
   }
@@ -596,7 +596,7 @@ function build(tipo, L) {
     addPart(`FAB · Guarda inferior ${g.tag} — artesa U chapa ${G.t} (${Lg}×${G.fondoW})`, C.guarda,
       [xm, 0, g.fondoZ], f, {
         flat: flatGuardaU(Lg, G.fondoW, latAlto, G.pestW, G.t, g.holesX.map(x => r2(x - g.xa)),
-          'Acero galvanizado e1.5 (o RAL7035 según terminación)', g.tapas,
+          'Acero S275JR e1.5 — terminación PINTADO RAL 7035', g.tapas,
           g.muescas.map(([a, b]) => [Math.max(0, a - g.xa), Math.min(Lg, b - g.xa)])),
       });
   }
@@ -627,7 +627,7 @@ function build(tipo, L) {
         f.push(hole('Perno chumacera Ø12', [xc + dx * D.ucf.boltGap / 2, y, zc + dz * D.ucf.boltGap / 2], [0, s, 0], D.ucf.boltDia, 0, true));
       }
       addPart(`FAB · Mecha porta-chumacera PL8 ${rol} 320×${hM}`, C.placa, [xc + dxm, y, zc], f, {
-        flat: flatPlaca(320, hM, 8, holes, 'Acero S275JR PL8',
+        flat: flatPlaca(320, hM, 8, holes, 'Acero S275JR PL8 — PINTADO RAL 7035',
           'SOLDAR A CARA EXTERIOR DE PLACA LATERAL — cordón perimetral 4 mm, ver GA'),
       });
     }
@@ -643,7 +643,7 @@ function build(tipo, L) {
       box('Ala −X', [x - D.travC.w / 2 + D.travC.t / 2, 0, zTv], D.travC.t, D.innerW, D.travC.h),
     ], {
       flat: flatPerfilC(D.innerW, D.travC.w, D.travC.h, D.travC.t,
-        'Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026). SOLDAR a placas laterales según GA'),
+        'Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a placas laterales según GA'),
     });
   }
 
@@ -701,7 +701,7 @@ function build(tipo, L) {
       holesCab.push({ x: r2(h.y + D.innerW / 2), y: r2((zci - h.dz) - (cabTop - cabH)), dia: 9 });
     }
     addPart(`FAB · Cabezal porta-nosebar ${nm} PL6 ${D.innerW}×${cabH}`, C.placa, [xc, 0, cabTop - cabH / 2], fC, {
-      flat: flatPlaca(D.innerW, cabH, D.plT, holesCab, 'Acero S275JR PL6',
+      flat: flatPlaca(D.innerW, cabH, D.plT, holesCab, 'Acero S275JR PL6 — PINTADO RAL 7035',
         'GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). SOLDAR entre placas laterales — tuercas M8 por cara interior'),
     });
   }
@@ -784,7 +784,7 @@ function build(tipo, L) {
       box('Riostra C 88×40', [x, 0, D.pisoZ + 200], D.travC.w, D.outerW - D.sop.d, D.travC.h),
     ], {
       flat: flatPerfilC(D.outerW - D.sop.d, D.travC.w, D.travC.h, D.travC.t,
-        'Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026). SOLDAR a soportes según GA'),
+        'Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a soportes según GA'),
     });
   }
 

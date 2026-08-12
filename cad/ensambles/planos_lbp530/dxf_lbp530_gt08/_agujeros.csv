@@ -17,12 +17,6 @@ LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",387.10,69.25,9.00
 LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",387.10,50.20,9.00
 LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",447.10,69.25,9.00
 LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",447.10,50.20,9.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×424)",100.00,6.50,7.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×424)",100.00,1029.07,7.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×424)",380.00,6.50,7.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×424)",380.00,1029.07,7.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×424)",660.00,6.50,7.00
-LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×424)",660.00,1029.07,7.00
 LBD-03,"FAB · Mecha porta-chumacera PL8 motriz 320×322",205.00,110.00,40.00
 LBD-03,"FAB · Mecha porta-chumacera PL8 motriz 320×322",163.70,68.70,12.00
 LBD-03,"FAB · Mecha porta-chumacera PL8 motriz 320×322",163.70,151.30,12.00
@@ -34,6 +28,3 @@ LBD-04,"FAB · Mecha porta-chumacera PL8 tensor 320×212",73.70,151.30,12.00
 LBD-04,"FAB · Mecha porta-chumacera PL8 tensor 320×212",156.30,68.70,12.00
 LBD-04,"FAB · Mecha porta-chumacera PL8 tensor 320×212",156.30,151.30,12.00
 LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=800",380.00,47.57,9.00
-LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=800",100.00,9.00,7.00
-LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=800",380.00,9.00,7.00
-LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=800",660.00,9.00,7.00

@@ -56,7 +56,7 @@
     },
     {
       "item": 7,
-      "designacion": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 j6)",
+      "designacion": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
@@ -64,7 +64,7 @@
     },
     {
       "item": 8,
-      "designacion": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 j6)",
+      "designacion": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)",
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
@@ -160,7 +160,7 @@
     },
     {
       "item": 20,
-      "designacion": "NORM · Motorreductor eje hueco Ø30 + brazo de torque",
+      "designacion": "NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",
       "cant": 1,
       "tipo": "NORMALIZADA",
       "material_norma": "Motorreductor ~0.18 kW i≈6.3",

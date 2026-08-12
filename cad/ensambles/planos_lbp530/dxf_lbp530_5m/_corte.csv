@@ -1,9 +1,9 @@
 plano,pieza,cant,material,espesor_mm,desarrollo_x_mm,desarrollo_y_mm,barrenos,pliegues
-LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",2,"Acero S275JR PL6",6,470.0,90.0,18,0
-LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",1,"Acero galvanizado e1.5 (o RAL7035 según terminación)",1.5,1856.4,1035.6,12,4
-LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×424)",1,"Acero galvanizado e1.5 (o RAL7035 según terminación)",1.5,836.4,835.6,4,4
-LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×322",2,"Acero S275JR PL8",8,320.0,322.0,5,0
-LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×212",2,"Acero S275JR PL8",8,320.0,212.0,5,0
-LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",2,"Acero S275JR PL6 — galvanizado o RAL7035 según terminación del proyecto",6,5000.0,199.6,16,1
-LBD-07,"FAB · Riostra de soportes (tipo ZP2026)",3,"Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026). SOLDAR a soportes según GA",3,387.0,157.6,0,2
-LBD-08,"FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3",5,"Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026). SOLDAR a placas laterales según GA",3,470.0,157.6,0,2
+LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",2,"Acero S275JR PL6 — PINTADO RAL 7035",6,470.0,90.0,18,0
+LBD-02,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×488)",1,"Acero S275JR e1.5 — terminación PINTADO RAL 7035",1.5,1856.4,1119.6,10,4
+LBD-03,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×488)",1,"Acero S275JR e1.5 — terminación PINTADO RAL 7035",1.5,836.4,919.6,0,4
+LBD-04,"FAB · Mecha porta-chumacera PL8 motriz 320×322",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,320.0,322.0,5,0
+LBD-05,"FAB · Mecha porta-chumacera PL8 tensor 320×212",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,320.0,212.0,5,0
+LBD-06,"FAB · Placa lateral libre (−Y) PL6 L=5000",2,"Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",6,5000.0,199.6,13,1
+LBD-07,"FAB · Riostra de soportes (tipo ZP2026)",3,"Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a soportes según GA",3,387.0,157.6,0,2
+LBD-08,"FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3",5,"Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a placas laterales según GA",3,470.0,157.6,0,2
