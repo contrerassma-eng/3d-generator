@@ -1,19 +1,43 @@
 plano,pieza,x_mm,y_mm,diametro_mm
-LBD-01,"FAB · Mecha porta-chumacera PL8 motriz 320×322",205.00,110.00,40.00
-LBD-01,"FAB · Mecha porta-chumacera PL8 motriz 320×322",163.70,68.70,12.00
-LBD-01,"FAB · Mecha porta-chumacera PL8 motriz 320×322",163.70,151.30,12.00
-LBD-01,"FAB · Mecha porta-chumacera PL8 motriz 320×322",246.30,68.70,12.00
-LBD-01,"FAB · Mecha porta-chumacera PL8 motriz 320×322",246.30,151.30,12.00
-LBD-02,"FAB · Mecha porta-chumacera PL8 tensor 320×212",115.00,110.00,40.00
-LBD-02,"FAB · Mecha porta-chumacera PL8 tensor 320×212",73.70,68.70,12.00
-LBD-02,"FAB · Mecha porta-chumacera PL8 tensor 320×212",73.70,151.30,12.00
-LBD-02,"FAB · Mecha porta-chumacera PL8 tensor 320×212",156.30,68.70,12.00
-LBD-02,"FAB · Mecha porta-chumacera PL8 tensor 320×212",156.30,151.30,12.00
-LBD-03,"FAB · Placa lateral libre (−Y) PL6 L=5000",4580.00,67.57,9.00
-LBD-03,"FAB · Placa lateral libre (−Y) PL6 L=5000",3720.00,40.82,9.00
-LBD-03,"FAB · Placa lateral libre (−Y) PL6 L=5000",3220.00,40.82,9.00
-LBD-03,"FAB · Placa lateral libre (−Y) PL6 L=5000",2720.00,40.82,9.00
-LBD-03,"FAB · Placa lateral libre (−Y) PL6 L=5000",2220.00,40.82,9.00
-LBD-03,"FAB · Placa lateral libre (−Y) PL6 L=5000",1720.00,40.82,9.00
-LBD-03,"FAB · Placa lateral libre (−Y) PL6 L=5000",1220.00,40.82,9.00
-LBD-03,"FAB · Placa lateral libre (−Y) PL6 L=5000",720.00,40.82,9.00
+LBD-01,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",100.00,6.50,7.00
+LBD-01,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",100.00,1029.07,7.00
+LBD-01,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",380.00,6.50,7.00
+LBD-01,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",380.00,1029.07,7.00
+LBD-01,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",660.00,6.50,7.00
+LBD-01,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",660.00,1029.07,7.00
+LBD-01,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",940.00,6.50,7.00
+LBD-01,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",940.00,1029.07,7.00
+LBD-01,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",1220.00,6.50,7.00
+LBD-01,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",1220.00,1029.07,7.00
+LBD-01,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",1500.00,6.50,7.00
+LBD-01,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×424)",1500.00,1029.07,7.00
+LBD-02,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×424)",100.00,6.50,7.00
+LBD-02,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×424)",100.00,829.07,7.00
+LBD-02,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×424)",380.00,6.50,7.00
+LBD-02,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×424)",380.00,829.07,7.00
+LBD-03,"FAB · Mecha porta-chumacera PL8 motriz 320×322",205.00,110.00,40.00
+LBD-03,"FAB · Mecha porta-chumacera PL8 motriz 320×322",163.70,68.70,12.00
+LBD-03,"FAB · Mecha porta-chumacera PL8 motriz 320×322",163.70,151.30,12.00
+LBD-03,"FAB · Mecha porta-chumacera PL8 motriz 320×322",246.30,68.70,12.00
+LBD-03,"FAB · Mecha porta-chumacera PL8 motriz 320×322",246.30,151.30,12.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 tensor 320×212",115.00,110.00,40.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 tensor 320×212",73.70,68.70,12.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 tensor 320×212",73.70,151.30,12.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 tensor 320×212",156.30,68.70,12.00
+LBD-04,"FAB · Mecha porta-chumacera PL8 tensor 320×212",156.30,151.30,12.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",4580.00,67.57,9.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",3720.00,40.82,9.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",3220.00,40.82,9.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",2720.00,40.82,9.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",2220.00,40.82,9.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",1720.00,40.82,9.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",1220.00,40.82,9.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",720.00,40.82,9.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",3530.00,9.00,7.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",3810.00,9.00,7.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",4090.00,9.00,7.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",4370.00,9.00,7.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",4650.00,9.00,7.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",4930.00,9.00,7.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",100.00,9.00,7.00
+LBD-05,"FAB · Placa lateral libre (−Y) PL6 L=5000",380.00,9.00,7.00

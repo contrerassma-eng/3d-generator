@@ -270,7 +270,7 @@ const rect = (w, h, x0 = 0, y0 = 0) =>
 
 // Desarrollo de placa con UNA pestaña inferior a 90° (alma + ala):
 // dev = alaFlat | BA | almaFlat, con el eje de plegado marcado.
-function flatPlacaConAla(L, almaAlto, alaAncho, t, holesAlma, material, aviso) {
+function flatPlacaConAla(L, almaAlto, alaAncho, t, holesAlma, material, aviso, holesAla = []) {
   const r = t;
   const BA = bendAllowance(90, r, t, KCH);
   const alaFlat = alaAncho - (r + t);
@@ -280,6 +280,10 @@ function flatPlacaConAla(L, almaAlto, alaAncho, t, holesAlma, material, aviso) {
   const circles = holesAlma
     .filter(h => h.dz <= almaFlat)          // nunca en la zona de plegado
     .map(h => ({ c: [h.x, r2(H - h.dz)], r: h.dia / 2 }));
+  // agujeros del ALA: yDev medido desde el BORDE LIBRE del ala (0..alaFlat)
+  for (const h of holesAla) {
+    if (h.yDev <= alaFlat) circles.push({ c: [h.x, r2(h.yDev)], r: h.dia / 2 });
+  }
   const yEje = alaFlat + BA / 2;
   return {
     contorno: rect(L, r2(H)),
@@ -321,6 +325,57 @@ function flatPerfilC(largo, webAncho, alaAlto, t, material, holes = []) {
   };
 }
 
+// Desarrollo de la GUARDA INFERIOR (artesa en U con pestañas de montaje):
+// fondo + 2 laterales + 2 pestañas superiores hacia afuera, 4 pliegues a 90°.
+// dev Y (de abajo hacia arriba): pestaña | BA | lateral | BA | fondo | BA |
+// lateral | BA | pestaña. Agujeros de montaje en las pestañas (M6, Ø7).
+function flatGuardaU(Lg, fondoW, latAlto, pestW, t, holesX, material, tapasExtremo) {
+  const r = t;
+  const BA = bendAllowance(90, r, t, KCH);
+  const pest = pestW - (r + t), lat = latAlto - 2 * (r + t), fondo = fondoW;
+  const H = 2 * pest + 4 * BA + 2 * lat + fondo;
+  const yl = [];  // fronteras acumuladas de franjas
+  let acc = 0;
+  for (const seg of [pest, BA, lat, BA, fondo, BA, lat, BA, pest]) { yl.push(acc); acc += seg; }
+  yl.push(acc);
+  const pl = [];
+  for (const i of [1, 3, 5, 7]) {
+    pl.push({ a: [0, r2(yl[i])], b: [Lg, r2(yl[i])], tipo: 'tangente' });
+    pl.push({ a: [0, r2((yl[i] + yl[i + 1]) / 2)], b: [Lg, r2((yl[i] + yl[i + 1]) / 2)], tipo: 'eje' });
+    pl.push({ a: [0, r2(yl[i + 1])], b: [Lg, r2(yl[i + 1])], tipo: 'tangente' });
+  }
+  const circles = [];
+  for (const x of holesX) {
+    circles.push({ c: [r2(x), r2(pest / 2)], r: 3.5 });            // pestaña inferior del dev
+    circles.push({ c: [r2(x), r2(H - pest / 2)], r: 3.5 });        // pestaña superior
+  }
+  // Tapas de extremo: pestaña adicional del FONDO, plegada 90° hacia arriba,
+  // que cierra la cara del extremo (acceso principal al accionamiento).
+  const y4 = yl[4], y5 = yl[5];                    // franja del fondo en el dev
+  const tapaDev = lat - 3;                          // llega casi al ala, con luz
+  let cont;
+  const tapas = { a: !!tapasExtremo?.a, b: !!tapasExtremo?.b };
+  const xa0 = tapas.a ? -(BA + tapaDev) : 0, xb0 = Lg + (tapas.b ? BA + tapaDev : 0);
+  cont = [[0, 0], [Lg, 0], [Lg, y4]];
+  if (tapas.b) cont.push([xb0, y4], [xb0, y5]);
+  cont.push([Lg, y5], [Lg, r2(H)], [0, r2(H)], [0, y5]);
+  if (tapas.a) cont.push([xa0, y5], [xa0, y4]);
+  cont.push([0, y4], [0, 0]);
+  for (const [on, xl] of [[tapas.a, 0], [tapas.b, Lg]]) {
+    if (!on) continue;
+    pl.push({ a: [xl, r2(y4)], b: [xl, r2(y5)], tipo: 'eje' });
+  }
+  return {
+    contorno: cont.map(p => [r2(p[0]), r2(p[1])]),
+    cortes: { circles, polys: [] },
+    pliegues: pl,
+    etiquetas: [{ x: Lg / 2, y: r2(yl[4] + fondo / 2), s: `4 PLIEGUES 90° R${r} — ARTESA EN U${tapas.a || tapas.b ? ' + TAPA(S) DE EXTREMO' : ''}` }],
+    pliegueInfo: [1, 2, 3, 4].map(() => ({ ang: 90, r, ba: r2(BA) })),
+    t, k: KCH, radio: r, material,
+    avisos: ['MONTA APERNADA M6 AL ALA INFERIOR DE LAS PLACAS (desmontable para mantención)'],
+  };
+}
+
 // Placa plana sin pliegues (mechas, placas de piso, guardas planas).
 function flatPlaca(w, h, t, holes, material, aviso) {
   return {
@@ -332,12 +387,15 @@ function flatPlaca(w, h, t, holes, material, aviso) {
   };
 }
 
+// Paleta alineada al estandar visual de los equipos Conveyone (materiales del
+// LBP530.glb del simulador): estructura RAL 7035 gris luz, componentes de
+// transmision antracita, banda azul LFA con rodillos POM rojos.
 const C = {
-  placa: '#546e7a', trav: '#455a64', pata: '#37474f',
-  eje: '#b0bec5', sprk: '#5d4037', chum: '#9e9e9e',
-  banda: '#1565c0', rodLBP: '#c62828', goma: '#424242',
-  uhmw: '#eceff1', nose: '#0d47a1', ret: '#607d8b', zapata: '#cfd8dc',
-  motor: '#1b5e20', guia: '#78909c',
+  placa: '#d3d5cf', trav: '#c7c9c3', pata: '#d3d5cf',
+  eje: '#9aa2a8', sprk: '#3d4348', chum: '#565d63',
+  banda: '#1a4f9c', rodLBP: '#c0392b', goma: '#3a3f43',
+  uhmw: '#f2f4f0', nose: '#24313d', ret: '#8d959b', zapata: '#cfd8dc',
+  motor: '#33383c', guia: '#aeb4ac', guarda: '#d3d5cf',
 };
 
 // ---------------------------------------------------------------------------
@@ -425,6 +483,33 @@ function build(tipo, L) {
     if (q.rol !== 'ret' && q.rol !== 'snub') continue;
     holesAlma.push({ x: r2(q.c[0]), dz: r2(D.plTop - q.c[1]), dia: D.retPernoPas, rol: 'retorno' });
   }
+
+  // ---- GUARDAS INFERIORES (artesa en U, chapa 1.5, apernadas M6 al ala) ----
+  // El accionamiento cuelga 212 bajo el bastidor (zMotriz −400): la guarda
+  // cierra por debajo y por el extremo la zona de motriz + snub + catenaria,
+  // y otra igual la zona del tensor. Desmontables para tensado y mantención.
+  const G = {
+    t: 1.5, fondoW: 424, skirtY: 212, pestW: 16, holeY: 220,
+    fondoZ: -480, fondoZTen: -380, pasoM6: 280, holeDia: 7,
+  };
+  const zAlaTop = D.plTop - D.plAlto + D.plT;      // cara superior del ala
+  const zAlaBot = D.plTop - D.plAlto;              // cara inferior del ala (asiento de guarda)
+  const guardas = esLBP
+    ? [
+      { tag: 'motriz', xa: r2(xDrv - 1450), xb: L, fondoZ: G.fondoZ, tapas: { a: false, b: true } },
+      { tag: 'tensor', xa: 0, xb: r2(xTen + 350), fondoZ: G.fondoZTen, tapas: { a: true, b: false } },
+    ]
+    : [{ tag: 'unica', xa: 0, xb: L, fondoZ: G.fondoZ, tapas: { a: true, b: true } }];
+  // agujeros M6 del ala (comunes a placa y guarda — mismas X)
+  const holesAla = [];
+  for (const g of guardas) {
+    g.holesX = [];
+    for (let x = g.xa + 100; x <= g.xb - 60; x += G.pasoM6) {
+      g.holesX.push(r2(x));
+      holesAla.push({ x: r2(x), yDev: 9, dia: G.holeDia });   // 9 desde el borde libre del ala
+    }
+  }
+
   for (const s of [-1, 1]) {
     const y = s * (yIn + D.plT / 2);
     const nm = s > 0 ? 'motriz (+Y)' : 'libre (−Y)';
@@ -435,11 +520,41 @@ function build(tipo, L) {
     for (const h of holesAlma) {
       f.push(hole(`Paso perno M${D.retPernoM} eje muerto retorno`, [h.x, y, D.plTop - h.dz], [0, s, 0], h.dia, 0, true));
     }
+    for (const h of holesAla) {
+      f.push(hole('Paso M6 guarda inferior', [h.x, s * G.holeY, zAlaTop - D.plT / 2], [0, 0, 1], h.dia, 0, true));
+    }
     addPart(`FAB · Placa lateral ${nm} PL6 L=${L}`, C.placa, [L / 2, y, D.plTop], f, {
       flat: flatPlacaConAla(L, D.plAlto, D.alaAncho, D.plT, holesAlma,
         'Acero S275JR PL6 — galvanizado o RAL7035 según terminación del proyecto',
-        'MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)'),
+        'MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)', holesAla),
     });
+  }
+
+  // ---- piezas de guarda ----
+  for (const g of guardas) {
+    const Lg = r2(g.xb - g.xa);
+    const latAlto = r2(zAlaBot - g.fondoZ);
+    const xm = (g.xa + g.xb) / 2;
+    const f = [
+      box('Fondo artesa', [xm, 0, g.fondoZ + G.t / 2], Lg, G.fondoW, G.t),
+    ];
+    for (const s of [-1, 1]) {
+      f.push(box('Lateral artesa', [xm, s * (G.skirtY + G.t / 2), (zAlaBot + g.fondoZ) / 2], Lg, G.t, latAlto));
+      f.push(box('Pestaña de montaje', [xm, s * (G.skirtY + G.pestW / 2), zAlaBot - G.t / 2], Lg, G.pestW, G.t));
+      for (const x of g.holesX) {
+        f.push(hole('Paso M6', [x, s * G.holeY, zAlaBot - G.t / 2], [0, 0, 1], G.holeDia, 0, true));
+      }
+    }
+    for (const [on, xe] of [[g.tapas.a, g.xa], [g.tapas.b, g.xb]]) {
+      if (!on) continue;
+      const xin = xe === g.xa ? xe + G.t / 2 : xe - G.t / 2;
+      f.push(box('Tapa de extremo', [xin, 0, (zAlaBot - 3 + g.fondoZ) / 2], G.t, G.fondoW, r2(zAlaBot - 3 - g.fondoZ)));
+    }
+    addPart(`FAB · Guarda inferior ${g.tag} — artesa U chapa ${G.t} (${Lg}×${G.fondoW})`, C.guarda,
+      [xm, 0, g.fondoZ], f, {
+        flat: flatGuardaU(Lg, G.fondoW, latAlto, G.pestW, G.t, g.holesX.map(x => r2(x - g.xa)),
+          'Acero galvanizado e1.5 (o RAL7035 según terminación)', g.tapas),
+      });
   }
 
   // ---- Mechas porta-chumacera PL8 (pieza PROPIA, soldada a cada placa) ----
