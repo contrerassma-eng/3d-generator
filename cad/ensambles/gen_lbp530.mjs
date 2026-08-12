@@ -878,7 +878,7 @@ function build(tipo, L) {
     for (const sd of [-1, 1]) {
       f.push(cyl(`Perno hex M${D.retPernoM} + golilla (por fuera)`, [q.c[0], sd * (D.innerW / 2 + D.plT), q.c[1]], [0, sd, 0], 13, 6));
     }
-    addPart(`FAB · Rodillo retorno Ø${D.gtRetDia} — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M${D.retPernoM} — plano EJ-04 pendiente`,
+    addPart(`FAB · Rodillo retorno Ø${D.gtRetDia} — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M${D.retPernoM} — plano LBP530-EJ-04`,
       C.ret, [q.c[0], 0, q.c[1]], f);
   }
 
@@ -1125,6 +1125,23 @@ const dims = {
       espec: 'Barra cuadrada 1.5 in (38.1) SAE 1045 calibrada × 6 m',
       motriz: { porBarra: 8, usado: chk.corteM }, tensor: { porBarra: 8, usado: chk.corteT },
       comprar: 2, nota: 'considerar 1 barra extra de respaldo',
+    },
+    // Rodillo de retorno de eje muerto — plano propio de la familia EJ para
+    // que planos_fab NO le emita lámina duplicada. Cantidad DERIVADA de las
+    // piezas reales de los dos ensambles (nada estimado a mano).
+    retorno: {
+      plano: 'LBP530-EJ-04',
+      tubo: { dia: D.gtRetDia, espesor: 3.0, espesorProc: 'POR CONFIRMAR contra stock proveedor (tubo A513 2½ in)', largo: D.sqLen },
+      cabezal: { od: D.gtRetDia - 2 * 3.0, ancho: 14, asientoDia: 35, asientoTol: 'H7', asientoProf: 11, pasoInterior: 20 },
+      ejeMuerto: { dia: D.retEjeDia, largo: D.innerW, rosca: `M${D.retPernoM}×16 interior ambas caras`, material: 'SAE 1045 calibrado' },
+      rodamiento: '6202-2RS (15×35×11) sellado',
+      perno: `M${D.retPernoM}×25 8.8 + golilla plana y presión, por fuera de la placa`,
+      porEquipo: {
+        LBP: res.LBP.parts.filter(p => /Rodillo retorno/.test(p.name)).length,
+        GT: res.GT.parts.filter(p => /Rodillo retorno/.test(p.name)).length,
+      },
+      cantidad: 4 * res.LBP.parts.filter(p => /Rodillo retorno/.test(p.name)).length
+              + 4 * res.GT.parts.filter(p => /Rodillo retorno/.test(p.name)).length,
     },
   },
   // Cotización MOVEX 26012937 (09-07-2026, EUR, EXW Castelli Calepio) —

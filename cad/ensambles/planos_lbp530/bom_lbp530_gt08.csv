@@ -1,0 +1,28 @@
+item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plano_vistas,material,desarrollo,masa_aprox_kg
+1,FABRICADA,Cabezal porta-nosebar descarga PL6 470×90,1,4,maestranza / taller,,GTD-01,GT-04,Acero S275JR PL6 — PINTADO RAL 7035,470×90,2
+2,FABRICADA,Cabezal porta-nosebar entrada PL6 470×90,1,4,maestranza / taller,,GTD-01,GT-05,Acero S275JR PL6 — PINTADO RAL 7035,470×90,2
+3,FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6),1,4,maestranza / taller,,,LBP530-EJ-01,,,6.5
+4,FABRICADA,EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6),1,4,maestranza / taller,,,LBP530-EJ-02,,,5.9
+5,FABRICADA,Guarda inferior unica — artesa U chapa 1.5 (800×504),1,4,maestranza / taller,,GTD-02,GT-06,Acero S275JR e1.5 — terminación PINTADO RAL 7035,1462.8×1245.6,21.5
+6,FABRICADA,Mecha porta-chumacera PL8 combinada 610×422,2,8,maestranza / taller,,GTD-03,GT-07,Acero S275JR PL8 — PINTADO RAL 7035,610×422,16.2
+7,FABRICADA,Placa lateral libre (−Y) PL6 L=800,1,4,maestranza / taller,,GTD-04,GT-02,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),800×199.6,7.5
+8,FABRICADA,Placa lateral motriz (+Y) PL6 L=800,1,4,maestranza / taller,,GTD-04,GT-03,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),800×199.6,7.5
+9,FABRICADA,Riostra de soportes (tipo ZP2026),1,4,maestranza / taller,,GTD-05,GT-08,"Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a soportes según GA",387×157.6,1.4
+10,FABRICADA,"Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",1,4,maestranza / taller,,,LBP530-EJ-04,,,
+11,FABRICADA,Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador,2,8,maestranza / taller,,,GT-01,,,
+12,FABRICADA,Travesaño tipo ZP2026 (TR_S) — C 88×40×3,1,4,maestranza / taller,,GTD-06,GT-09,"Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a placas laterales según GA",470×157.6,1.7
+13,COMPRADA,Banda Movex 530 GT (friction top) 18 in — lazo 2.56 m,1,4,Movex · Italia (importado),P5323010018A,,,,,
+14,COMPRADA,Chumacera UCF206 Ø30,4,16,rodamientos · local,,,,,,
+15,COMPRADA,Collarín P21703Y (fija el sprocket central),2,8,Movex · Italia (importado),P21703Y,,,,,
+16,COMPRADA,"Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",1,4,local,,,,,,
+17,COMPRADA,Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30),7,28,Movex · Italia (importado),P101203-30,,,,,
+18,COMPRADA,Guía lateral conical rail L 1¼ in (P12501C) + escuadras,2,8,Movex · Italia (importado),P12501C,,,,,
+19,COMPRADA,"Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",1,4,Motovario (distribuidor local),,,,,,
+20,COMPRADA,"Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",1,4,Movex · Italia (importado),P22862,,,,,
+21,COMPRADA,"Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",1,4,Movex · Italia (importado),P22862,,,,,
+22,COMPRADA,"Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",6,24,Movex · Italia (importado),P158808YF,,,,,
+23,COMPRADA,"Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",2,8,Movex · Italia (importado),P158808YF,,,,,
+24,TORNILLERÍA,Perno hex M8×25 8.8 + golilla plana y presión,2,8,local,,,,"fija el eje muerto de cada rodillo de retorno, por fuera de la placa (2 por rodillo; rosca interior M8×16 del eje — un perno más largo topa fondo)",,
+25,TORNILLERÍA,Perno hex M6×12 8.8,8,32,local,,,,faldón de guarda → roscados M6 de la mecha,,
+26,TORNILLERÍA,Perno hex M8×30 8.8 + tuerca + golilla,36,144,local,,,,nosebar → cabezal (tuerca por cara interior),,
+27,TORNILLERÍA,Perno hex M10×35 8.8 + tuerca + golilla plana y presión,16,64,local,,,,"brida UCF206 → mecha, pasante con tuerca (4 por chumacera; agujero brida y mecha Ø12 → perno M10 holgura estándar)",,

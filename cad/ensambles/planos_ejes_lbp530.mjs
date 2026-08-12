@@ -8,6 +8,9 @@
 //                 8×7×90, rosca M10. Acotado COMPLETO para el tornero.
 //   LBP530-EJ-02  EJE TENSOR  — cuadrado + 2 muñones Ø30×50.
 //   LBP530-EJ-03  CORTE DE BARRAS + LISTA DE COMPRA (4 líneas = 8 equipos).
+//   LBP530-EJ-04  RODILLO DE RETORNO Ø63.5 — tubo + cabezales torneados con
+//                 asiento 6202-2RS + eje muerto Ø15 roscado M8 (corte
+//                 longitudinal completo + detalle de cabezal 1:1).
 //
 // Lee cad/ensambles/lbp530_dims.json (emitido por gen_lbp530.mjs — única
 // fuente de dimensiones) y emite un único PDF con las 3 láminas.
@@ -201,8 +204,8 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
     ['A3', 'Chaveta DIN 6885 A 8×7×90, acero C45', '8 (+4 resp.)', '1 por eje motriz'],
     ['A4', 'Arandela retención Ø40×6 + tornillo M10×25 8.8', '8', 'retención axial del motorreductor'],
     ['A5', 'Motorreductor NMRV-P 075 FA 1/30, eje hueco Ø30 H8, 0.55 kW 80A-4', '8', 'VERIFICADO cat. Motovario: 46 rpm, 89 Nm, fs 2.8; v=22.2 m/min; brazo de torque 075'],
-    ['A6', 'Rodillo retorno Ø63.5: tubo + 2 rodam. 6202-2RS sellados insertos', `${8 + 4 + 4} aprox`, 'eje muerto Ø15 rosc. M8 int.; PERNO HEX M8 + golilla POR FUERA'],
-    ['A7', 'Perno M12×40 8.8 + tuerca (chumaceras a mecha PL8)', '128', '4 por chumacera'],
+    ['A6', 'Rodillo retorno Ø63.5 — FABRICAR según LBP530-EJ-04', String(dims.ejes.retorno?.cantidad ?? '—'), `${dims.ejes.retorno?.porEquipo?.LBP ?? '—'}/LBP + ${dims.ejes.retorno?.porEquipo?.GT ?? '—'}/GT × 4 líneas; rodam. 6202-2RS ×2/u`],
+    ['A7', 'Perno M10×35 8.8 + tuerca + golillas (chumaceras a mecha PL8)', '128', '4 por chumacera; agujero brida UCF206 y mecha Ø12 → M10 holgura estándar'],
     ['A8', 'Soporte tipo ZP2026 (B_005A) plegado 3 mm + nivelador; travesaños TR_S C 88×40', '16 sop.', 'misma matriz/planos del ZP2026'],
   ];
   const rows2 = [
@@ -241,6 +244,121 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
     verificacion: 'DISEÑO CAD (CAPA USER)', piezas: '16 ejes', piezasLabel: 'CANTIDAD',
     nota: 'datos Movex citados en input/web_facts.json; confirmar nº de sprockets LBP con Movex (manual 5 vs brochure 6)',
     escala: '—', fecha, numPlano: dims.ejes.barras ? 'LBP530-EJ-03' : 'EJ-03',
+  });
+  sheets.push(sh);
+}
+
+// --- lámina 4: rodillo de retorno (LBP530-EJ-04) -----------------------------
+// Conjunto torneado-soldado: tubo A513 Ø63.5 + 2 cabezales con asiento
+// 6202-2RS + eje muerto Ø15. El conjunto GIRA sobre el eje muerto fijo.
+if (dims.ejes.retorno) {
+  const R = dims.ejes.retorno;
+  const sh = new Sheet('A3', 420, 297, 1, 2, 1);      // vista principal 1:2
+  const s = 0.5;
+  const Lt = R.tubo.largo, Le = R.ejeMuerto.largo;
+  const ox = (420 - 30 - Le * s) / 2 + 20, oy = 200;
+  const x0 = ox + (Le - Lt) / 2 * s, x1 = x0 + Lt * s;      // extremos del tubo
+  const rT = R.tubo.dia / 2 * s, e = R.tubo.espesor * s;
+  const rC = R.cabezal.od / 2 * s, wC = R.cabezal.ancho * s;
+  const rB = R.cabezal.asientoDia / 2 * s, wB = 11 * s;     // 6202: Ø35×11
+  const rE = R.ejeMuerto.dia / 2 * s;
+  const xe0 = ox, xe1 = ox + Le * s;
+
+  // hatch de área cortada: rayas a 45° recortadas al rectángulo
+  const hatch = (xa, xb, ya, yb, paso = 2.2) => {
+    for (let t = xa - (yb - ya); t < xb; t += paso) {
+      const p1 = [Math.max(xa, t), t >= xa ? ya : ya + (xa - t)];
+      const p2 = [Math.min(xb, t + (yb - ya)), t + (yb - ya) <= xb ? yb : yb - (t + (yb - ya) - xb)];
+      if (p2[0] > p1[0]) sh.line(p1, p2, 'FINA');
+    }
+  };
+
+  // tubo en corte (pared superior e inferior)
+  for (const sg of [1, -1]) {
+    const yOut = oy + sg * rT, yIn = oy + sg * (rT - e);
+    sh.poly([[x0, yOut], [x1, yOut], [x1, yIn], [x0, yIn]], 'VISIBLE');
+    hatch(x0, x1, Math.min(yOut, yIn), Math.max(yOut, yIn));
+  }
+  // cabezales en corte (anillo entre eje y Øint del tubo), a cada extremo
+  for (const [xa, xb] of [[x0, x0 + wC], [x1 - wC, x1]]) {
+    for (const sg of [1, -1]) {
+      const yOut = oy + sg * rC;
+      // el asiento del rodamiento muerde el cabezal desde la cara exterior
+      const yIn = oy + sg * rB;
+      sh.poly([[xa, yOut], [xb, yOut], [xb, yIn], [xa, yIn]], 'VISIBLE');
+      hatch(xa, xb, Math.min(yOut, yIn), Math.max(yOut, yIn), 1.6);
+    }
+  }
+  // rodamientos 6202 (corte: cajas entre Ø35 y Ø15, sin rayado — norma)
+  for (const [xa, xb] of [[x0, x0 + wB], [x1 - wB, x1]]) {
+    for (const sg of [1, -1]) {
+      sh.poly([[xa, oy + sg * rB], [xb, oy + sg * rB], [xb, oy + sg * rE], [xa, oy + sg * rE]], 'VISIBLE');
+      sh.line([xa, oy + sg * (rB + rE) / 2], [xb, oy + sg * (rB + rE) / 2], 'FINA');  // bolas
+    }
+  }
+  // eje muerto (no cortado: barra llena, sin rayado) + roscas M8 interiores
+  sh.poly([[xe0, oy - rE], [xe1, oy - rE], [xe1, oy + rE], [xe0, oy + rE]], 'VISIBLE');
+  for (const [xa, dirn] of [[xe0, 1], [xe1, -1]]) {
+    const lr = 16 * s;
+    sh.line([xa + dirn * lr, oy - rE * 0.55], [xa, oy - rE * 0.55], 'OCULTA');
+    sh.line([xa + dirn * lr, oy + rE * 0.55], [xa, oy + rE * 0.55], 'OCULTA');
+    sh.line([xa + dirn * lr, oy - rE * 0.55], [xa + dirn * lr, oy + rE * 0.55], 'OCULTA');
+  }
+  sh.line([ox - 10, oy], [xe1 + 10, oy], 'PLIEGUE');   // eje de simetría
+
+  // cotas
+  dimHt(sh, x0, x1, oy - rT, 14, `${Lt} (tubo)`);
+  dimHt(sh, xe0, xe1, oy - rT, 27, `${Le} TOTAL (eje muerto — apoya cara a cara en placas)`);
+  dimVt(sh, x0 + Lt * s * 0.32, oy - rT, oy + rT, 16, `Ø${R.tubo.dia}`);
+  dimVt(sh, xe1 - 14, oy - rE, oy + rE, 30, `Ø${R.ejeMuerto.dia}`);
+  leader(sh, [x0 + 8, oy - rT + e / 2], [x0 - 4, oy - rT - 22], `pared ${R.tubo.espesor} — ${R.tubo.espesorProc}`, 'L');
+  leader(sh, [xe0 + 6, oy - rE * 0.55], [xe0 - 2, oy + 34], `rosca ${R.ejeMuerto.rosca}`, 'L');
+  leader(sh, [x1 - wB / 2, oy + rB], [x1 + 12, oy + rB + 16], `rodamiento ${R.rodamiento} (×2)`, 'L');
+
+  // detalle del cabezal 1:1
+  const dx = 96, dy = 84, ds = 1;
+  const dW = R.cabezal.ancho * ds, dOD = R.cabezal.od / 2 * ds;
+  const dSe = R.cabezal.asientoDia / 2 * ds, dPr = R.cabezal.asientoProf * ds;
+  const dPi = R.cabezal.pasoInterior / 2 * ds;
+  // media sección (sobre el eje): exterior→asiento→paso interior
+  sh.poly([[dx, dy], [dx + dW, dy], [dx + dW, dy + dSe], [dx + dW - dPr, dy + dSe],
+    [dx + dW - dPr, dy + dPi], [dx, dy + dPi], [dx, dy + dOD], [dx + dW, dy + dOD]], 'VISIBLE');
+  sh.line([dx, dy + dOD], [dx, dy + dPi], 'VISIBLE');
+  hatch(dx, dx + dW, dy + dSe, dy + dOD, 1.4);
+  sh.line([dx - 6, dy], [dx + dW + 6, dy], 'PLIEGUE');
+  dimVt(sh, dx - 3, dy, dy + dOD, -8, `Ø${R.cabezal.od} p6`);
+  dimVt(sh, dx + dW + 3, dy, dy + dSe, 8, `Ø${R.cabezal.asientoDia} ${R.cabezal.asientoTol}`);
+  dimHt(sh, dx + dW - dPr, dx + dW, dy - 4, 6, String(R.cabezal.asientoProf));
+  dimHt(sh, dx, dx + dW, dy - 4, 14, String(R.cabezal.ancho));
+  sh.text('DETALLE CABEZAL (1:1) — media sección', dx + dW / 2, dy + dOD + 6, 2.8, 'C');
+  sh.text(`paso interior Ø${R.cabezal.pasoInterior} (holgura sobre eje Ø${R.ejeMuerto.dia})`, dx + dW / 2, dy - 10, 2.5, 'C');
+
+  // notas
+  const nx = 212, ny0 = 128;
+  [
+    'NOTAS:',
+    `1. Tubo acero A513 Ø${R.tubo.dia} × ${R.tubo.largo}. Pared ${R.tubo.espesor}: ${R.tubo.espesorProc};`,
+    '   el Ø exterior del cabezal se ajusta al Ø interior REAL del tubo recibido.',
+    '2. Cabezal SAE 1045 torneado (×2). Ajuste al tubo H8/p6 PRENSADO + 3 puntos de',
+    '   soldadura de retención en la cara exterior (esmerilados a ras).',
+    `3. Asiento rodamiento Ø${R.cabezal.asientoDia} ${R.cabezal.asientoTol}, Ra 1.6. Rodamiento ${R.rodamiento}:`,
+    '   sellado de fábrica, NO regrasable, prensado a tope contra el hombro.',
+    `4. Eje muerto ${R.ejeMuerto.material} Ø${R.ejeMuerto.dia} × ${R.ejeMuerto.largo}: refrentar, roscar ${R.ejeMuerto.rosca},`,
+    '   chaflán 1×45° ambas caras. El aro interior del rodamiento queda FIJO al eje.',
+    `5. Montaje: el eje apoya cara a cara contra las placas; ${R.perno}.`,
+    '   Apriete 9 Nm. El CONJUNTO (tubo+cabezales+aros ext.) gira sobre el eje fijo.',
+    '6. Equilibrado: no requerido (v tambor < 0.6 m/s a 20 m/min).',
+    '7. Tolerancia general ISO 2768-mK.',
+  ].forEach((t, i) => sh.text(t, nx, ny0 - i * 4.6, 2.6, 'L'));
+
+  sh.frame();
+  sh.titleBlock({
+    designacion: 'RODILLO DE RETORNO Ø63.5 — conjunto torneado-soldado',
+    proyecto: 'LBP530-18 · Conveyone', fuente: 'gen_lbp530.mjs — capa user',
+    verificacion: 'DISEÑO CAD (CAPA USER)', piezas: `${R.cantidad} (${R.porEquipo?.LBP ?? '—'}/LBP + ${R.porEquipo?.GT ?? '—'}/GT × 4 líneas)`,
+    piezasLabel: 'CANTIDAD',
+    nota: `rodamientos 6202-2RS: ${R.cantidad * 2} u · pernos ${R.perno.split(' ')[0]}: ${R.cantidad * 2} u`,
+    escala: '1:2', fecha, numPlano: R.plano,
   });
   sheets.push(sh);
 }

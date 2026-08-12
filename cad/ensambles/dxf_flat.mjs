@@ -34,14 +34,17 @@ for (const p of doc.parts) {
   if (!p.flat) continue;
   const sig = JSON.stringify(p.flat);
   const g = grupos.get(sig);
-  if (g) { g.cant++; continue; }
-  grupos.set(sig, { part: p, flat: p.flat, cant: 1 });
+  if (g) { g.cant++; g.nombres.add(p.name); continue; }
+  grupos.set(sig, { part: p, flat: p.flat, cant: 1, nombres: new Set([p.name]) });
 }
 
 const safe = (s) => s.replace(/^FAB\s*[·.-]\s*/, '').replace(/[^\wÁÉÍÓÚÑáéíóúñ]+/g, '_')
   .replace(/^_+|_+$/g, '').slice(0, 60);
 
 let n = 0;
+// nombre de CADA pieza del grupo → su plano de corte (los pares espejo y las
+// idénticas comparten desarrollo: el BOM cruza por aquí, no recalcula nada)
+const planosPorNombre = {};
 const corte = [['plano', 'pieza', 'cant', 'material', 'espesor_mm', 'desarrollo_x_mm',
   'desarrollo_y_mm', 'barrenos', 'pliegues', 'k_factor', 'radio_mm', 'tolerancia'].join(',')];
 const agujeros = [['plano', 'pieza', 'x_mm', 'y_mm', 'diametro_mm'].join(',')];
@@ -61,6 +64,7 @@ for (const g of [...grupos.values()].sort((a, b) => a.part.name.localeCompare(b.
   });
   const fname = `${pn}_${safe(g.part.name)}.dxf`;
   writeFileSync(join(outDir, fname), Buffer.from(dxf.data));
+  for (const nm of g.nombres) planosPorNombre[nm] = pn;
   corte.push([pn, `"${g.part.name}"`, g.cant, `"${f.material}"`, f.t,
     w.toFixed(1), h.toFixed(1), (f.cortes?.circles?.length || 0),
     (f.pliegueInfo?.length || 0), f.k, f.radio, 'ISO 2768-mK'].join(','));
@@ -73,5 +77,6 @@ for (const g of [...grupos.values()].sort((a, b) => a.part.name.localeCompare(b.
 
 writeFileSync(join(outDir, '_corte.csv'), corte.join('\n') + '\n');
 writeFileSync(join(outDir, '_agujeros.csv'), agujeros.join('\n') + '\n');
+writeFileSync(join(outDir, '_planos.json'), JSON.stringify(planosPorNombre, null, 1));
 console.log(`OK: ${n} desarrollos DXF + _corte.csv + _agujeros.csv en ${outDir}`);
 if (!n) console.warn('AVISO: ninguna pieza trae bloque `flat` — generar el ensamble con un gen que lo emita.');

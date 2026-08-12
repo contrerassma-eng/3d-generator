@@ -1,0 +1,31 @@
+item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plano_vistas,material,desarrollo,masa_aprox_kg
+1,FABRICADA,Cabezal porta-nosebar descarga PL6 470×90,1,4,maestranza / taller,,LBD-01,LB-04,Acero S275JR PL6 — PINTADO RAL 7035,470×90,2
+2,FABRICADA,Cabezal porta-nosebar entrada PL6 470×90,1,4,maestranza / taller,,LBD-01,LB-05,Acero S275JR PL6 — PINTADO RAL 7035,470×90,2
+3,FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6),1,4,maestranza / taller,,,LBP530-EJ-01,,,6.5
+4,FABRICADA,EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6),1,4,maestranza / taller,,,LBP530-EJ-02,,,5.9
+5,FABRICADA,Guarda inferior motriz — artesa U chapa 1.5 (1570×504),1,4,maestranza / taller,,LBD-02,LB-06,Acero S275JR e1.5 — terminación PINTADO RAL 7035,1901.4×1245.6,27.9
+6,FABRICADA,Guarda inferior tensor — artesa U chapa 1.5 (650×504),1,4,maestranza / taller,,LBD-03,LB-07,Acero S275JR e1.5 — terminación PINTADO RAL 7035,871.4×1025.6,10.5
+7,FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,2,8,maestranza / taller,,LBD-04,LB-08,Acero S275JR PL8 — PINTADO RAL 7035,320×422,8.5
+8,FABRICADA,Mecha porta-chumacera PL8 tensor 320×312,2,8,maestranza / taller,,LBD-05,LB-09,Acero S275JR PL8 — PINTADO RAL 7035,320×312,6.3
+9,FABRICADA,Placa lateral libre (−Y) PL6 L=5000,1,4,maestranza / taller,,LBD-06,LB-02,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),5000×199.6,47
+10,FABRICADA,Placa lateral motriz (+Y) PL6 L=5000,1,4,maestranza / taller,,LBD-06,LB-03,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),5000×199.6,47
+11,FABRICADA,Riostra de soportes (tipo ZP2026),3,12,maestranza / taller,,LBD-07,LB-10,"Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a soportes según GA",387×157.6,1.4
+12,FABRICADA,"Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",8,32,maestranza / taller,,,LBP530-EJ-04,,,
+13,FABRICADA,Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador,6,24,maestranza / taller,,,LB-01,,,
+14,FABRICADA,Travesaño tipo ZP2026 (TR_S) — C 88×40×3,5,20,maestranza / taller,,LBD-08,LB-11,"Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a placas laterales según GA",470×157.6,1.7
+15,COMPRADA,Banda Movex 530 LBP 18 in — lazo 10.88 m,1,4,Movex · Italia (importado),P5324010018A,,,,,
+16,COMPRADA,Chumacera UCF206 Ø30,4,16,rodamientos · local,,,,,,
+17,COMPRADA,Collarín P21703Y (fija el sprocket central),2,8,Movex · Italia (importado),P21703Y,,,,,
+18,COMPRADA,Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30),10,40,Movex · Italia (importado),P101203-30,,,,,
+19,COMPRADA,Guía lateral conical rail L 1¼ in (P12501C) + escuadras,2,8,Movex · Italia (importado),P12501C,,,,,
+20,COMPRADA,"Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",1,4,Motovario (distribuidor local),,,,,,
+21,COMPRADA,"Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",1,4,Movex · Italia (importado),P22868,,,,,
+22,COMPRADA,"Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",1,4,Movex · Italia (importado),P22868,,,,,
+23,COMPRADA,Rodillos LBP Ø12.2 POM rojo (97 filas × 12),1,4,Movex — integrados en la banda 530 LBP (no se piden aparte),,,,,,
+24,COMPRADA,"Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",5,20,Movex · Italia (importado),P158808YF,,,,,
+25,COMPRADA,"Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",2,8,Movex · Italia (importado),P158808YF,,,,,
+26,TORNILLERÍA,Perno hex M8×25 8.8 + golilla plana y presión,16,64,local,,,,"fija el eje muerto de cada rodillo de retorno, por fuera de la placa (2 por rodillo; rosca interior M8×16 del eje — un perno más largo topa fondo)",,
+27,TORNILLERÍA,Perno hex M6×16 8.8 + golilla,20,80,local,,,,guarda inferior → ala de placas (pestañas),,
+28,TORNILLERÍA,Perno hex M6×12 8.8,16,64,local,,,,faldón de guarda → roscados M6 de la mecha,,
+29,TORNILLERÍA,Perno hex M8×30 8.8 + tuerca + golilla,36,144,local,,,,nosebar → cabezal (tuerca por cara interior),,
+30,TORNILLERÍA,Perno hex M10×35 8.8 + tuerca + golilla plana y presión,16,64,local,,,,"brida UCF206 → mecha, pasante con tuerca (4 por chumacera; agujero brida y mecha Ø12 → perno M10 holgura estándar)",,

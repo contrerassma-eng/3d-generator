@@ -1,0 +1,285 @@
+{
+  "proyecto": "CV-LBP-5000 · Movex 530 LBP 18 in × 5.0 m",
+  "archivo": "lbp530_5m.json",
+  "fecha": "2026-08-12",
+  "total_piezas": 64,
+  "items_distintos": 25,
+  "planos_fabricacion": 11,
+  "despiece": [
+    {
+      "item": 1,
+      "designacion": "FAB · Soporte tipo ZP2026 203×95×3 + nivelador",
+      "nombres": [
+        "FAB · Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador"
+      ],
+      "cant": 6,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "LB-01"
+    },
+    {
+      "item": 2,
+      "designacion": "FAB · Placa lateral libre PL6 L=5000",
+      "nombres": [
+        "FAB · Placa lateral libre (−Y) PL6 L=5000"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "LB-02"
+    },
+    {
+      "item": 3,
+      "designacion": "FAB · Placa lateral motriz PL6 L=5000",
+      "nombres": [
+        "FAB · Placa lateral motriz (+Y) PL6 L=5000"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "LB-03"
+    },
+    {
+      "item": 4,
+      "designacion": "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
+      "nombres": [
+        "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04"
+      ],
+      "cant": 8,
+      "tipo": "FABRICADA",
+      "material_norma": "POR DEFINIR — tubo de acero, espesor sin declarar",
+      "plano": "LBP530-EJ-04"
+    },
+    {
+      "item": 5,
+      "designacion": "NORM · Rodillos LBP Ø12.2 POM rojo (97 filas × 12)",
+      "nombres": [
+        "NORM · Rodillos LBP Ø12.2 POM rojo (97 filas × 12)"
+      ],
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Rodillos LBP Ø12.2 POM rojo (97 filas × 12)",
+      "plano": "—"
+    },
+    {
+      "item": 6,
+      "designacion": "FAB · Cabezal porta-nosebar descarga PL6 470×90",
+      "nombres": [
+        "FAB · Cabezal porta-nosebar descarga PL6 470×90"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "LB-04"
+    },
+    {
+      "item": 7,
+      "designacion": "FAB · Cabezal porta-nosebar entrada PL6 470×90",
+      "nombres": [
+        "FAB · Cabezal porta-nosebar entrada PL6 470×90"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "LB-05"
+    },
+    {
+      "item": 8,
+      "designacion": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
+      "nombres": [
+        "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "LBP530-EJ-01"
+    },
+    {
+      "item": 9,
+      "designacion": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)",
+      "nombres": [
+        "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "LBP530-EJ-02"
+    },
+    {
+      "item": 10,
+      "designacion": "FAB · Guarda inferior motriz — artesa U chapa 1.5",
+      "nombres": [
+        "FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "LB-06"
+    },
+    {
+      "item": 11,
+      "designacion": "FAB · Guarda inferior tensor — artesa U chapa 1.5",
+      "nombres": [
+        "FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)"
+      ],
+      "cant": 1,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "LB-07"
+    },
+    {
+      "item": 12,
+      "designacion": "FAB · Mecha porta-chumacera PL8 motriz 320×422",
+      "nombres": [
+        "FAB · Mecha porta-chumacera PL8 motriz 320×422"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "LB-08"
+    },
+    {
+      "item": 13,
+      "designacion": "FAB · Mecha porta-chumacera PL8 tensor 320×312",
+      "nombres": [
+        "FAB · Mecha porta-chumacera PL8 tensor 320×312"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "LB-09"
+    },
+    {
+      "item": 14,
+      "designacion": "FAB · Riostra de soportes (tipo ZP2026)",
+      "nombres": [
+        "FAB · Riostra de soportes (tipo ZP2026)"
+      ],
+      "cant": 3,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "LB-10"
+    },
+    {
+      "item": 15,
+      "designacion": "FAB · Travesaño tipo ZP2026 — C 88×40×3",
+      "nombres": [
+        "FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3"
+      ],
+      "cant": 5,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR",
+      "plano": "LB-11"
+    },
+    {
+      "item": 16,
+      "designacion": "NORM · Banda Movex 530 LBP 18 in — lazo 10.88 m",
+      "nombres": [
+        "NORM · Banda Movex 530 LBP 18 in — lazo 10.88 m"
+      ],
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Banda Movex 530 LBP 18 in — lazo 10.88 m",
+      "plano": "—"
+    },
+    {
+      "item": 17,
+      "designacion": "NORM · Chumacera UCF206 Ø30",
+      "nombres": [
+        "NORM · Chumacera UCF206 Ø30"
+      ],
+      "cant": 4,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Chumacera UCF206 Ø30",
+      "plano": "—"
+    },
+    {
+      "item": 18,
+      "designacion": "NORM · Collarín P21703Y (fija el sprocket central)",
+      "nombres": [
+        "NORM · Collarín P21703Y (fija el sprocket central)"
+      ],
+      "cant": 2,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Collarín P21703Y (fija el sprocket central)",
+      "plano": "—"
+    },
+    {
+      "item": 19,
+      "designacion": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05",
+      "nombres": [
+        "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)"
+      ],
+      "cant": 10,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-",
+      "plano": "—"
+    },
+    {
+      "item": 20,
+      "designacion": "NORM · Guía lateral conical rail L 1¼ in + escuadras",
+      "nombres": [
+        "NORM · Guía lateral conical rail L 1¼ in (P12501C) + escuadras"
+      ],
+      "cant": 2,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
+      "plano": "—"
+    },
+    {
+      "item": 21,
+      "designacion": "NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",
+      "nombres": [
+        "NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque"
+      ],
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (",
+      "plano": "—"
+    },
+    {
+      "item": 22,
+      "designacion": "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",
+      "nombres": [
+        "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)"
+      ],
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación)",
+      "plano": "—"
+    },
+    {
+      "item": 23,
+      "designacion": "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",
+      "nombres": [
+        "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)"
+      ],
+      "cant": 1,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) ",
+      "plano": "—"
+    },
+    {
+      "item": 24,
+      "designacion": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
+      "nombres": [
+        "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)"
+      ],
+      "cant": 5,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, gran",
+      "plano": "—"
+    },
+    {
+      "item": 25,
+      "designacion": "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
+      "nombres": [
+        "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)"
+      ],
+      "cant": 2,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
+      "plano": "—"
+    }
+  ]
+}

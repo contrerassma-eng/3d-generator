@@ -1,0 +1,39 @@
+tipo,item_desc,cant_proyecto,origen,referencia,planos,equipos
+COMPRADA,Banda Movex 530 GT (friction top) 18 in — lazo 2.56 m,4,Movex · Italia (importado),P5323010018A,,lbp530_gt08
+COMPRADA,Banda Movex 530 LBP 18 in — lazo 10.88 m,4,Movex · Italia (importado),P5324010018A,,lbp530_5m
+COMPRADA,Chumacera UCF206 Ø30,32,rodamientos · local,,,lbp530_5m+lbp530_gt08
+COMPRADA,Collarín P21703Y (fija el sprocket central),16,Movex · Italia (importado),P21703Y,,lbp530_5m+lbp530_gt08
+COMPRADA,"Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",4,local,,,lbp530_gt08
+COMPRADA,Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30),68,Movex · Italia (importado),P101203-30,,lbp530_5m+lbp530_gt08
+COMPRADA,Guía lateral conical rail L 1¼ in (P12501C) + escuadras,16,Movex · Italia (importado),P12501C,,lbp530_5m+lbp530_gt08
+COMPRADA,"Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",8,Motovario (distribuidor local),,,lbp530_5m+lbp530_gt08
+COMPRADA,"Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",4,Movex · Italia (importado),P22862,,lbp530_gt08
+COMPRADA,"Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",4,Movex · Italia (importado),P22868,,lbp530_5m
+COMPRADA,"Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",4,Movex · Italia (importado),P22862,,lbp530_gt08
+COMPRADA,"Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22868 — nosebar 530 LBP h19 C/RODAMIENTOS, L=6 in, 6 forai, BluLub (cotización)",4,Movex · Italia (importado),P22868,,lbp530_5m
+COMPRADA,Rodillos LBP Ø12.2 POM rojo (97 filas × 12),4,Movex — integrados en la banda 530 LBP (no se piden aparte),,,lbp530_5m
+COMPRADA,"Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",44,Movex · Italia (importado),P158808YF,,lbp530_5m+lbp530_gt08
+COMPRADA,"Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",16,Movex · Italia (importado),P158808YF,,lbp530_5m+lbp530_gt08
+FABRICADA,Cabezal porta-nosebar descarga PL6 470×90,8,maestranza / taller,,LBD-01 / LB-04,lbp530_5m+lbp530_gt08
+FABRICADA,Cabezal porta-nosebar entrada PL6 470×90,8,maestranza / taller,,LBD-01 / LB-05,lbp530_5m+lbp530_gt08
+FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6),8,maestranza / taller,,LBP530-EJ-01,lbp530_5m+lbp530_gt08
+FABRICADA,EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6),8,maestranza / taller,,LBP530-EJ-02,lbp530_5m+lbp530_gt08
+FABRICADA,Guarda inferior motriz — artesa U chapa 1.5 (1570×504),4,maestranza / taller,,LBD-02 / LB-06,lbp530_5m
+FABRICADA,Guarda inferior tensor — artesa U chapa 1.5 (650×504),4,maestranza / taller,,LBD-03 / LB-07,lbp530_5m
+FABRICADA,Guarda inferior unica — artesa U chapa 1.5 (800×504),4,maestranza / taller,,GTD-02 / GT-06,lbp530_gt08
+FABRICADA,Mecha porta-chumacera PL8 combinada 610×422,8,maestranza / taller,,GTD-03 / GT-07,lbp530_gt08
+FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,8,maestranza / taller,,LBD-04 / LB-08,lbp530_5m
+FABRICADA,Mecha porta-chumacera PL8 tensor 320×312,8,maestranza / taller,,LBD-05 / LB-09,lbp530_5m
+FABRICADA,Placa lateral libre (−Y) PL6 L=5000,4,maestranza / taller,,LBD-06 / LB-02,lbp530_5m
+FABRICADA,Placa lateral libre (−Y) PL6 L=800,4,maestranza / taller,,GTD-04 / GT-02,lbp530_gt08
+FABRICADA,Placa lateral motriz (+Y) PL6 L=5000,4,maestranza / taller,,LBD-06 / LB-03,lbp530_5m
+FABRICADA,Placa lateral motriz (+Y) PL6 L=800,4,maestranza / taller,,GTD-04 / GT-03,lbp530_gt08
+FABRICADA,Riostra de soportes (tipo ZP2026),16,maestranza / taller,,LBD-07 / LB-10,lbp530_5m+lbp530_gt08
+FABRICADA,"Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",36,maestranza / taller,,LBP530-EJ-04,lbp530_5m+lbp530_gt08
+FABRICADA,Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador,32,maestranza / taller,,LB-01,lbp530_5m+lbp530_gt08
+FABRICADA,Travesaño tipo ZP2026 (TR_S) — C 88×40×3,24,maestranza / taller,,LBD-08 / LB-11,lbp530_5m+lbp530_gt08
+TORNILLERÍA,Perno hex M10×35 8.8 + tuerca + golilla plana y presión,128,local,,,lbp530_5m+lbp530_gt08
+TORNILLERÍA,Perno hex M6×12 8.8,96,local,,,lbp530_5m+lbp530_gt08
+TORNILLERÍA,Perno hex M6×16 8.8 + golilla,80,local,,,lbp530_5m
+TORNILLERÍA,Perno hex M8×25 8.8 + golilla plana y presión,72,local,,,lbp530_5m+lbp530_gt08
+TORNILLERÍA,Perno hex M8×30 8.8 + tuerca + golilla,288,local,,,lbp530_5m+lbp530_gt08

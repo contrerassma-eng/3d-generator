@@ -16,7 +16,7 @@
 import * as THREE from 'three';
 import { buildPartGeometry } from '../js/model.js';
 import { buildSheet, Sheet, chooseSheet, scaleLabel, exportSheetsPDF } from '../js/drawing2d.js';
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 // Lámina SIMPLIFICADA (3 vistas envolventes) para piezas con malla muy grande,
@@ -110,6 +110,21 @@ const docTitulo = doc.meta?.nombre || doc.title || doc.titulo || docBase;
 const docPref = (process.env.PREFIJO || docBase.slice(0, 2)).toUpperCase();
 mkdirSync(outDir, { recursive: true });
 
+// Planos externos: piezas cuyo plano autoritativo vive en OTRA familia (los
+// ejes y el rodillo de retorno → planos_ejes, LBP530-EJ-nn, declarados en
+// dims.ejes). A esas piezas NO se les emite lámina propia: dos números de
+// plano para una misma pieza rompen la numeración única del proyecto.
+const dimsPathFab = process.env.DIMS || 'ensambles/lbp530_dims.json';
+const dimsFab = existsSync(dimsPathFab) ? JSON.parse(readFileSync(dimsPathFab, 'utf8')) : {};
+const EXTERNOS = [];
+{
+  const je = dimsFab.ejes || {};
+  if (je.motriz?.plano) EXTERNOS.push({ re: /EJE MOTRIZ/, plano: je.motriz.plano });
+  if (je.tensor?.plano) EXTERNOS.push({ re: /EJE TENSOR/, plano: je.tensor.plano });
+  if (je.retorno?.plano) EXTERNOS.push({ re: /Rodillo retorno/, plano: je.retorno.plano });
+}
+const planoExterno = (n) => EXTERNOS.find(x => x.re.test(n))?.plano || null;
+
 // --- Clasificación: piezas NORMALIZADAS (compradas, solo van al despiece) ----
 const NORMA = [
   { re: /Rodamiento 6004/, norma: 'DIN 625 · 6004-2RS (20×42×12)' },
@@ -190,8 +205,9 @@ const grupos = new Map();
 for (const part of doc.parts) {
   const key = firma(part);
   let g = grupos.get(key);
-  if (!g) grupos.set(key, g = { part, cant: 0, name: part.name });
+  if (!g) grupos.set(key, g = { part, cant: 0, name: part.name, nombres: new Set() });
   g.cant++;
+  g.nombres.add(part.name);
 }
 
 // Los generadores del repo rotulan cada pieza con su naturaleza: "FAB · ..."
@@ -236,8 +252,9 @@ for (const g of lista) {
     desig += g.part.features.some(f => /Rosca M12/.test(f.name)) ? ' (tensor)' : ' (retorno)';
   }
   const material = norma ? norma.norma : materialDe(g.name);
-  let plano = '';
-  if (fabricada) {
+  const externo = fabricada ? planoExterno(g.name) : null;
+  let plano = externo || '';
+  if (fabricada && !externo) {
     planoN++;
     plano = `${docPref}-${String(planoN).padStart(2, '0')}`;
     const geom = buildPartGeometry(g.part);
@@ -261,7 +278,7 @@ for (const g of lista) {
     }
   }
   despiece.push({
-    item: itemN, designacion: desig, cant: g.cant,
+    item: itemN, designacion: desig, nombres: [...g.nombres], cant: g.cant,
     tipo: fabricada ? 'FABRICADA' : (norma ? 'NORMALIZADA' : 'CONJUNTO'),
     material_norma: material, plano: plano || '—',
   });
@@ -348,7 +365,7 @@ const todas = [portada(), ...despieceSheets(), ...fabSheets];
 const pdf = exportSheetsPDF(todas, 'planos_fabricacion_' + docBase + '.pdf');
 writeFileSync(join(outDir, pdf.name), Buffer.from(pdf.data));
 
-writeFileSync(join(outDir, '_despiece.json'), JSON.stringify({
+writeFileSync(join(outDir, `_despiece_${docBase}.json`), JSON.stringify({
   proyecto: docTitulo,
   archivo: docFile,
   fecha,

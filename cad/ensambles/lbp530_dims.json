@@ -225,6 +225,36 @@
    },
    "comprar": 2,
    "nota": "considerar 1 barra extra de respaldo"
+  },
+  "retorno": {
+   "plano": "LBP530-EJ-04",
+   "tubo": {
+    "dia": 63.5,
+    "espesor": 3,
+    "espesorProc": "POR CONFIRMAR contra stock proveedor (tubo A513 2½ in)",
+    "largo": 466
+   },
+   "cabezal": {
+    "od": 57.5,
+    "ancho": 14,
+    "asientoDia": 35,
+    "asientoTol": "H7",
+    "asientoProf": 11,
+    "pasoInterior": 20
+   },
+   "ejeMuerto": {
+    "dia": 15,
+    "largo": 470,
+    "rosca": "M8×16 interior ambas caras",
+    "material": "SAE 1045 calibrado"
+   },
+   "rodamiento": "6202-2RS (15×35×11) sellado",
+   "perno": "M8×25 8.8 + golilla plana y presión, por fuera de la placa",
+   "porEquipo": {
+    "LBP": 8,
+    "GT": 1
+   },
+   "cantidad": 36
   }
  },
  "compraMovex": {
