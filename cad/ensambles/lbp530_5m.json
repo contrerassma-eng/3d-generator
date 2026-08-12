@@ -8,8 +8,8 @@
   "banda": "Movex 530 18 in · paso 15 · base 8.7 · LBP H12.2 rodillos Ø12.2 POM · GT goma 2.0 — datos capa web citados en input/web_facts.json",
   "ejes": {
    "material": "Barra CUADRADA 1.5 in (38.1) SAE 1045 calibrada",
-   "motriz": "L=681: cuadrado 466 + muñón libre Ø30 j6×50 + muñón motriz Ø30×165 (rodamiento 50 + cubo motorreductor 110); chavetero DIN 6885 A 8×7×90; rosca M10×22; garganta 2.5 en la transición cuadrado→Ø30; centros DIN 332-A2.5; concentricidad ≤0.05 TIR",
-   "tensor": "L=566: cuadrado 466 + 2 muñones Ø30 j6×50",
+   "motriz": "L=681: cuadrado 466 + muñón libre Ø30 h6×50 + muñón motriz Ø30×165 (rodamiento 50 + cubo motorreductor 110); chavetero DIN 6885 A 8×7×90; rosca M10×22; garganta 2.5 en la transición cuadrado→Ø30; centros DIN 332-A2.5; concentricidad ≤0.05 TIR",
+   "tensor": "L=566: cuadrado 466 + 2 muñones Ø30 h6×50",
    "chumaceras": "UCF206 (bore Ø30, brida 108, 4×Ø12) contra la cara exterior de la placa",
    "motorreductor": "eje hueco Ø30 H7 DIRECTO sobre el muñón motriz + brazo de torque; chaveta DIN 6885 A 8×7×90; retención arandela + tornillo M10"
   },
@@ -7622,8 +7622,8 @@
    ]
   },
   {
-   "id": "p36_fab_eje_motriz_cuadrado_38_1_l_681_mu_ones_30_j6",
-   "name": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 j6)",
+   "id": "p36_fab_eje_motriz_cuadrado_38_1_l_681_mu_ones_30_h6",
+   "name": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
    "color": "#9aa2a8",
    "pos": [
     4880,
@@ -8562,8 +8562,8 @@
    ]
   },
   {
-   "id": "p46_norm_motorreductor_eje_hueco_30_brazo_de_torque",
-   "name": "NORM · Motorreductor eje hueco Ø30 + brazo de torque",
+   "id": "p46_norm_motorreductor_nmrv_p075_1_30_eje_hueco_30_h8_0_55_kw_4p_46_rpm_89_nm_brazo_de_torque",
+   "name": "NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",
    "color": "#33383c",
    "pos": [
     4880,
@@ -8644,8 +8644,8 @@
    ]
   },
   {
-   "id": "p47_fab_eje_tensor_cuadrado_38_1_l_566_mu_ones_30_j6",
-   "name": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 j6)",
+   "id": "p47_fab_eje_tensor_cuadrado_38_1_l_566_mu_ones_30_h6",
+   "name": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)",
    "color": "#9aa2a8",
    "pos": [
     300,

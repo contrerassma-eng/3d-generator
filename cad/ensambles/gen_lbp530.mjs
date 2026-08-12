@@ -88,7 +88,11 @@ export const D = {
 
   // Ejes (barra cuadrada SAE 1045 1.5 in, muñones torneados Ø30)
   sq: r2(1.5 * IN),            // 38.1
-  jrnDia: 30, jrnTol: 'j6',
+  jrnDia: 30, jrnTol: 'h6',        // ajuste eje hueco NMRV: H8/h6 (catalogo Motovario p.90) — antes j6, corregido
+  // Motorreductor VERIFICADO contra catalogo NMRV (docs/lbp/criterios/accionamiento.md):
+  // el trio "0,37 kW + 42 rpm + >=85 Nm" no existe. Seleccion: NMRV-P 075 FA
+  // 1/30, eje hueco O30 H8, motor 80A-4 0,55 kW -> n2 46 rpm, 89 Nm, fs 2,8.
+  // v banda = pi*0.1534*46 = 22,2 m/min (rango 5-45 OK).
   jrnLibre: 50,                // placa 6 + UC206 (B=38.1) + margen
   jrnMotriz: 165,              // rodamiento 50 + garganta + cubo motorreductor 110
   cuboMotor: 110,
@@ -601,7 +605,7 @@ function build(tipo, L) {
   // Antes vivían como features de la placa: la maestranza no sabía que eran
   // una pieza aparte ni dónde soldarla, y les faltaba el agujero MÁS
   // importante — el PASO DEL MUÑÓN Ø30 (el modelo solo traslapaba mallas).
-  // Paso Ø40: muñón Ø30 j6 + holgura de montaje y giro (no toca la mecha).
+  // Paso Ø40: muñón Ø30 h6 + holgura de montaje y giro (no toca la mecha).
   const mechaPasoDia = 40;
   for (const s of [-1, 1]) {
     const y = s * (yIn + D.plT + 4);   // PL8 centrada sobre la cara exterior de la placa
@@ -735,7 +739,7 @@ function build(tipo, L) {
     addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xDrv, s * (yOut + 8), D.zMotriz], chumaceraUCF(xDrv, s * (yOut + 8), D.zMotriz));
   }
   const yM = yOut + 30;
-  addPart('NORM · Motorreductor eje hueco Ø30 + brazo de torque', C.motor, [xDrv, yM + D.motor.cuerpo[1] / 2, D.zMotriz], [
+  addPart('NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque', C.motor, [xDrv, yM + D.motor.cuerpo[1] / 2, D.zMotriz], [
     cyl(`Cubo hueco Ø${D.motor.boss}`, [xDrv, yM - 10, D.zMotriz], [0, 1, 0], D.motor.boss, D.motor.bossL),
     box('Cuerpo reductor', [xDrv, yM + D.motor.cuerpo[1] / 2 + 40, D.zMotriz], D.motor.cuerpo[0], D.motor.cuerpo[1], D.motor.cuerpo[2]),
     box('Brazo de torque', [xDrv - 130, yM + 20, D.zMotriz - 60], 40, 12, 160),

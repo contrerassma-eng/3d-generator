@@ -59,7 +59,7 @@
   "pasoTravFT": 600,
   "sq": 38.1,
   "jrnDia": 30,
-  "jrnTol": "j6",
+  "jrnTol": "h6",
   "jrnLibre": 50,
   "jrnMotriz": 165,
   "cuboMotor": 110,
@@ -164,7 +164,7 @@
     {
      "nombre": "muñón libre",
      "dia": 30,
-     "tol": "j6",
+     "tol": "h6",
      "largo": 50
     },
     {
@@ -175,7 +175,7 @@
     {
      "nombre": "muñón motriz",
      "dia": 30,
-     "tol": "j6",
+     "tol": "h6",
      "largo": 165
     }
    ],
@@ -197,7 +197,7 @@
     {
      "nombre": "muñón",
      "dia": 30,
-     "tol": "j6",
+     "tol": "h6",
      "largo": 50
     },
     {
@@ -208,7 +208,7 @@
     {
      "nombre": "muñón",
      "dia": 30,
-     "tol": "j6",
+     "tol": "h6",
      "largo": 50
     }
    ]
