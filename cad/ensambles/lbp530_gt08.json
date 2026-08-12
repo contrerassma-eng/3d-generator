@@ -8,8 +8,8 @@
   "banda": "Movex 530 18 in · paso 15 · base 8.7 · LBP H12.2 rodillos Ø12.2 POM · GT goma 2.0 — datos capa web citados en input/web_facts.json",
   "ejes": {
    "material": "Barra CUADRADA 1.5 in (38.1) SAE 1045 calibrada",
-   "motriz": "L=681: cuadrado 466 + muñón libre Ø30 j6×50 + muñón motriz Ø30×165 (rodamiento 50 + cubo motorreductor 110); chavetero DIN 6885 A 8×7×90; rosca M10×22; garganta 2.5 en la transición cuadrado→Ø30; centros DIN 332-A2.5; concentricidad ≤0.05 TIR",
-   "tensor": "L=566: cuadrado 466 + 2 muñones Ø30 j6×50",
+   "motriz": "L=681: cuadrado 466 + muñón libre Ø30 h6×50 + muñón motriz Ø30×165 (rodamiento 50 + cubo motorreductor 110); chavetero DIN 6885 A 8×7×90; rosca M10×22; garganta 2.5 en la transición cuadrado→Ø30; centros DIN 332-A2.5; concentricidad ≤0.05 TIR",
+   "tensor": "L=566: cuadrado 466 + 2 muñones Ø30 h6×50",
    "chumaceras": "UCF206 (bore Ø30, brida 108, 4×Ø12) contra la cara exterior de la placa",
    "motorreductor": "eje hueco Ø30 H7 DIRECTO sobre el muñón motriz + brazo de torque; chaveta DIN 6885 A 8×7×90; retención arandela + tornillo M10"
   },
@@ -19,20 +19,20 @@
   "estructura": "soportes tipo ZP2026 (B_005A, chapa plegada 3 mm, 203×95, con nivelador) y travesaños tipo ZP2026 (TR_S, C 88×40×3); guía de apoyo = pletina 12 de canto + BAR CAP UHMW P101203-30 (enrollable, rollo 30 m); guía lateral = conical rail enrollable L 1¼ in P12501C sobre escuadras",
   "friction_top": "GT: goma 75 ShA sobre la banda; el retorno del GT es sobre rodillos (recomendación del manual); la goma no toca el nosebar (contacto por cara interior)",
   "verificaciones": {
-   "wrapMotrizLBP": 140.79,
-   "wrapMotrizGT": 139.03,
+   "wrapMotrizLBP": 141.62,
+   "wrapMotrizGT": 139.93,
    "sagCatenariaLBP": 130,
    "corteBarraMotrices": 5520,
    "corteBarraTensores": 4600
   },
   "largo_nose_a_nose": 800,
-  "largo_banda_lazo_mm": 2544.84
+  "largo_banda_lazo_mm": 2562.63
  },
  "parts": [
   {
    "id": "p1_fab_placa_lateral_libre_y_pl6_l_800",
    "name": "FAB · Placa lateral libre (−Y) PL6 L=800",
-   "color": "#546e7a",
+   "color": "#d3d5cf",
    "pos": [
     400,
     -238,
@@ -46,6 +46,98 @@
    ],
    "fixed": true,
    "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      0
+     ],
+     [
+      800,
+      0
+     ],
+     [
+      800,
+      199.57
+     ],
+     [
+      0,
+      199.57
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "cortes": {
+     "circles": [
+      {
+       "c": [
+        380,
+        47.57
+       ],
+       "r": 4.5
+      }
+     ],
+     "polys": []
+    },
+    "pliegues": [
+     {
+      "a": [
+       0,
+       18
+      ],
+      "b": [
+       800,
+       18
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       24.79
+      ],
+      "b": [
+       800,
+       24.79
+      ],
+      "tipo": "eje"
+     },
+     {
+      "a": [
+       0,
+       31.57
+      ],
+      "b": [
+       800,
+       31.57
+      ],
+      "tipo": "tangente"
+     }
+    ],
+    "etiquetas": [
+     {
+      "x": 400,
+      "y": 28.79,
+      "s": "PLEGAR ARRIBA 90° R6"
+     }
+    ],
+    "pliegueInfo": [
+     {
+      "ang": 90,
+      "r": 6,
+      "ba": 13.57
+     }
+    ],
+    "t": 6,
+    "k": 0.44,
+    "radio": 6,
+    "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
+    "avisos": [
+     "MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)"
+    ]
+   },
    "features": [
     {
      "id": "f1",
@@ -70,7 +162,7 @@
     },
     {
      "id": "f2",
-     "name": "Ala inferior 30×4",
+     "name": "Ala inferior 30×6",
      "shape": "box",
      "op": "union",
      "at": [
@@ -86,39 +178,18 @@
      "params": {
       "w": 800,
       "d": 30,
-      "h": 4
+      "h": 6
      }
     },
     {
      "id": "f3",
-     "name": "Mecha porta-chumacera PL8",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      235,
-      0,
-      -502
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 320,
-      "d": 8,
-      "h": 322
-     }
-    },
-    {
-     "id": "f4",
-     "name": "Perno chumacera Ø12",
+     "name": "Paso perno M8 eje muerto retorno",
      "shape": "hole",
      "op": "cut",
      "at": [
-      238.70000000000005,
+      -20,
       0,
-      -433.3
+      -152
      ],
      "dir": [
       0,
@@ -126,175 +197,7 @@
       0
      ],
      "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f5",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      238.70000000000005,
-      0,
-      -350.7
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f6",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      321.29999999999995,
-      0,
-      -433.3
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f7",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      321.29999999999995,
-      0,
-      -350.7
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f8",
-     "name": "Mecha porta-chumacera PL8",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      -55,
-      0,
-      -392
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 320,
-      "d": 8,
-      "h": 212
-     }
-    },
-    {
-     "id": "f9",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -141.3,
-      0,
-      -323.3
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f10",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -141.3,
-      0,
-      -240.7
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f11",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -58.69999999999999,
-      0,
-      -323.3
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f12",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -58.69999999999999,
-      0,
-      -240.7
-     ],
-     "dir": [
-      0,
-      -1,
-      0
-     ],
-     "params": {
-      "dia": 12,
+      "dia": 9,
       "depth": 0,
       "through": true
      }
@@ -304,7 +207,7 @@
   {
    "id": "p2_fab_placa_lateral_motriz_y_pl6_l_800",
    "name": "FAB · Placa lateral motriz (+Y) PL6 L=800",
-   "color": "#546e7a",
+   "color": "#d3d5cf",
    "pos": [
     400,
     238,
@@ -318,9 +221,101 @@
    ],
    "fixed": false,
    "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      0
+     ],
+     [
+      800,
+      0
+     ],
+     [
+      800,
+      199.57
+     ],
+     [
+      0,
+      199.57
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "cortes": {
+     "circles": [
+      {
+       "c": [
+        380,
+        47.57
+       ],
+       "r": 4.5
+      }
+     ],
+     "polys": []
+    },
+    "pliegues": [
+     {
+      "a": [
+       0,
+       18
+      ],
+      "b": [
+       800,
+       18
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       24.79
+      ],
+      "b": [
+       800,
+       24.79
+      ],
+      "tipo": "eje"
+     },
+     {
+      "a": [
+       0,
+       31.57
+      ],
+      "b": [
+       800,
+       31.57
+      ],
+      "tipo": "tangente"
+     }
+    ],
+    "etiquetas": [
+     {
+      "x": 400,
+      "y": 28.79,
+      "s": "PLEGAR ARRIBA 90° R6"
+     }
+    ],
+    "pliegueInfo": [
+     {
+      "ang": 90,
+      "r": 6,
+      "ba": 13.57
+     }
+    ],
+    "t": 6,
+    "k": 0.44,
+    "radio": 6,
+    "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
+    "avisos": [
+     "MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)"
+    ]
+   },
    "features": [
     {
-     "id": "f13",
+     "id": "f4",
      "name": "Alma 800×180",
      "shape": "box",
      "op": "union",
@@ -341,8 +336,8 @@
      }
     },
     {
-     "id": "f14",
-     "name": "Ala inferior 30×4",
+     "id": "f5",
+     "name": "Ala inferior 30×6",
      "shape": "box",
      "op": "union",
      "at": [
@@ -358,39 +353,18 @@
      "params": {
       "w": 800,
       "d": 30,
-      "h": 4
+      "h": 6
      }
     },
     {
-     "id": "f15",
-     "name": "Mecha porta-chumacera PL8",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      235,
-      0,
-      -502
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 320,
-      "d": 8,
-      "h": 322
-     }
-    },
-    {
-     "id": "f16",
-     "name": "Perno chumacera Ø12",
+     "id": "f6",
+     "name": "Paso perno M8 eje muerto retorno",
      "shape": "hole",
      "op": "cut",
      "at": [
-      238.70000000000005,
+      -20,
       0,
-      -433.3
+      -152
      ],
      "dir": [
       0,
@@ -398,175 +372,7 @@
       0
      ],
      "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f17",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      238.70000000000005,
-      0,
-      -350.7
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f18",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      321.29999999999995,
-      0,
-      -433.3
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f19",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      321.29999999999995,
-      0,
-      -350.7
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f20",
-     "name": "Mecha porta-chumacera PL8",
-     "shape": "box",
-     "op": "union",
-     "at": [
-      -55,
-      0,
-      -392
-     ],
-     "dir": [
-      0,
-      0,
-      1
-     ],
-     "params": {
-      "w": 320,
-      "d": 8,
-      "h": 212
-     }
-    },
-    {
-     "id": "f21",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -141.3,
-      0,
-      -323.3
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f22",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -141.3,
-      0,
-      -240.7
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f23",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -58.69999999999999,
-      0,
-      -323.3
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 12,
-      "depth": 0,
-      "through": true
-     }
-    },
-    {
-     "id": "f24",
-     "name": "Perno chumacera Ø12",
-     "shape": "hole",
-     "op": "cut",
-     "at": [
-      -58.69999999999999,
-      0,
-      -240.7
-     ],
-     "dir": [
-      0,
-      1,
-      0
-     ],
-     "params": {
-      "dia": 12,
+      "dia": 9,
       "depth": 0,
       "through": true
      }
@@ -574,11 +380,1867 @@
    ]
   },
   {
-   "id": "p3_fab_travesa_o_tipo_zp2026_tr_s_c_88_40_3",
-   "name": "FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3",
-   "color": "#455a64",
+   "id": "p3_fab_guarda_inferior_unica_artesa_u_chapa_1_5_800_504",
+   "name": "FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",
+   "color": "#d3d5cf",
    "pos": [
-    300,
+    400,
+    0,
+    -525
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      0
+     ],
+     [
+      41.75,
+      0
+     ],
+     [
+      41.75,
+      34.5
+     ],
+     [
+      800,
+      34.5
+     ],
+     [
+      800,
+      0
+     ],
+     [
+      800,
+      0
+     ],
+     [
+      800,
+      0
+     ],
+     [
+      800,
+      372.29
+     ],
+     [
+      1131.39,
+      372.29
+     ],
+     [
+      1131.39,
+      873.29
+     ],
+     [
+      800,
+      873.29
+     ],
+     [
+      800,
+      1245.57
+     ],
+     [
+      800,
+      1245.57
+     ],
+     [
+      800,
+      1245.57
+     ],
+     [
+      800,
+      1245.57
+     ],
+     [
+      800,
+      1211.07
+     ],
+     [
+      41.75,
+      1211.07
+     ],
+     [
+      41.75,
+      1245.57
+     ],
+     [
+      0,
+      1245.57
+     ],
+     [
+      0,
+      873.29
+     ],
+     [
+      -331.39,
+      873.29
+     ],
+     [
+      -331.39,
+      372.29
+     ],
+     [
+      0,
+      372.29
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "cortes": {
+     "circles": [
+      {
+       "c": [
+        90,
+        622.79
+       ],
+       "r": 4
+      },
+      {
+       "c": [
+        540,
+        622.79
+       ],
+       "r": 4
+      },
+      {
+       "c": [
+        680,
+        246.89
+       ],
+       "r": 24
+      },
+      {
+       "c": [
+        680,
+        998.68
+       ],
+       "r": 24
+      },
+      {
+       "c": [
+        300,
+        136.89
+       ],
+       "r": 24
+      },
+      {
+       "c": [
+        300,
+        1108.68
+       ],
+       "r": 24
+      },
+      {
+       "c": [
+        240,
+        96.89
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        240,
+        1148.68
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        240,
+        196.89
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        240,
+        1048.68
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        740,
+        96.89
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        740,
+        1148.68
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        740,
+        196.89
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        740,
+        1048.68
+       ],
+       "r": 3.5
+      }
+     ],
+     "polys": []
+    },
+    "pliegues": [
+     {
+      "a": [
+       0,
+       34.5
+      ],
+      "b": [
+       800,
+       34.5
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       36.2
+      ],
+      "b": [
+       800,
+       36.2
+      ],
+      "tipo": "eje"
+     },
+     {
+      "a": [
+       0,
+       37.89
+      ],
+      "b": [
+       800,
+       37.89
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       368.89
+      ],
+      "b": [
+       800,
+       368.89
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       370.59
+      ],
+      "b": [
+       800,
+       370.59
+      ],
+      "tipo": "eje"
+     },
+     {
+      "a": [
+       0,
+       372.29
+      ],
+      "b": [
+       800,
+       372.29
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       873.29
+      ],
+      "b": [
+       800,
+       873.29
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       874.98
+      ],
+      "b": [
+       800,
+       874.98
+      ],
+      "tipo": "eje"
+     },
+     {
+      "a": [
+       0,
+       876.68
+      ],
+      "b": [
+       800,
+       876.68
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       1207.68
+      ],
+      "b": [
+       800,
+       1207.68
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       1209.38
+      ],
+      "b": [
+       800,
+       1209.38
+      ],
+      "tipo": "eje"
+     },
+     {
+      "a": [
+       0,
+       1211.07
+      ],
+      "b": [
+       800,
+       1211.07
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       372.29
+      ],
+      "b": [
+       0,
+       873.29
+      ],
+      "tipo": "eje"
+     },
+     {
+      "a": [
+       800,
+       372.29
+      ],
+      "b": [
+       800,
+       873.29
+      ],
+      "tipo": "eje"
+     }
+    ],
+    "etiquetas": [
+     {
+      "x": 400,
+      "y": 622.79,
+      "s": "4 PLIEGUES 90° R1.5 — ARTESA EN U + TAPA(S) DE EXTREMO"
+     }
+    ],
+    "pliegueInfo": [
+     {
+      "ang": 90,
+      "r": 1.5,
+      "ba": 3.39
+     },
+     {
+      "ang": 90,
+      "r": 1.5,
+      "ba": 3.39
+     },
+     {
+      "ang": 90,
+      "r": 1.5,
+      "ba": 3.39
+     },
+     {
+      "ang": 90,
+      "r": 1.5,
+      "ba": 3.39
+     }
+    ],
+    "t": 1.5,
+    "k": 0.44,
+    "radio": 1.5,
+    "material": "Acero S275JR e1.5 — terminación PINTADO RAL 7035",
+    "avisos": [
+     "MONTA APERNADA M6 AL ALA INFERIOR DE LAS PLACAS (desmontable para mantención)"
+    ]
+   },
+   "features": [
+    {
+     "id": "f7",
+     "name": "Fondo artesa",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 800,
+      "d": 504,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f8",
+     "name": "Lateral artesa",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      -252.75,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 800,
+      "d": 1.5,
+      "h": 337
+     }
+    },
+    {
+     "id": "f9",
+     "name": "Pestaña de montaje",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -379.125,
+      -234,
+      335.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 41.75,
+      "d": 36,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f10",
+     "name": "Paso muñón Ø48",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      280,
+      -252.75,
+      125
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 48,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f11",
+     "name": "Paso muñón Ø48",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -100,
+      -252.75,
+      235
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 48,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f12",
+     "name": "Paso M6 a mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -160,
+      -252.75,
+      275
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f13",
+     "name": "Paso M6 a mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -160,
+      -252.75,
+      175
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f14",
+     "name": "Paso M6 a mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      340,
+      -252.75,
+      275
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f15",
+     "name": "Paso M6 a mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      340,
+      -252.75,
+      175
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f16",
+     "name": "Lateral artesa",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      252.75,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 800,
+      "d": 1.5,
+      "h": 337
+     }
+    },
+    {
+     "id": "f17",
+     "name": "Pestaña de montaje",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -379.125,
+      234,
+      335.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 41.75,
+      "d": 36,
+      "h": 1.5
+     }
+    },
+    {
+     "id": "f18",
+     "name": "Paso muñón Ø48",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      280,
+      252.75,
+      125
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 48,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f19",
+     "name": "Paso muñón Ø48",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -100,
+      252.75,
+      235
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 48,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f20",
+     "name": "Paso M6 a mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -160,
+      252.75,
+      275
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f21",
+     "name": "Paso M6 a mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -160,
+      252.75,
+      175
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f22",
+     "name": "Paso M6 a mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      340,
+      252.75,
+      275
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f23",
+     "name": "Paso M6 a mecha",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      340,
+      252.75,
+      175
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f24",
+     "name": "Drenaje Ø8",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -310,
+      0,
+      0.75
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f25",
+     "name": "Drenaje Ø8",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      140,
+      0,
+      0.75
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 8,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f26",
+     "name": "Tapa de extremo",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      -399.25,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 1.5,
+      "d": 504,
+      "h": 334
+     }
+    },
+    {
+     "id": "f27",
+     "name": "Tapa de extremo",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      399.25,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 1.5,
+      "d": 504,
+      "h": 334
+     }
+    }
+   ]
+  },
+  {
+   "id": "p4_fab_mecha_porta_chumacera_pl8_combinada_610_422",
+   "name": "FAB · Mecha porta-chumacera PL8 combinada 610×422",
+   "color": "#d3d5cf",
+   "pos": [
+    490,
+    -245,
+    -299
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      0
+     ],
+     [
+      610,
+      0
+     ],
+     [
+      610,
+      422
+     ],
+     [
+      0,
+      422
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "cortes": {
+     "circles": [
+      {
+       "c": [
+        115,
+        220
+       ],
+       "r": 20
+      },
+      {
+       "c": [
+        73.7,
+        178.7
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        73.7,
+        261.3
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        156.3,
+        178.7
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        156.3,
+        261.3
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        495,
+        110
+       ],
+       "r": 20
+      },
+      {
+       "c": [
+        453.7,
+        68.7
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        453.7,
+        151.3
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        536.3,
+        68.7
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        536.3,
+        151.3
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        55,
+        260
+       ],
+       "r": 2.5
+      },
+      {
+       "c": [
+        55,
+        160
+       ],
+       "r": 2.5
+      },
+      {
+       "c": [
+        555,
+        260
+       ],
+       "r": 2.5
+      },
+      {
+       "c": [
+        555,
+        160
+       ],
+       "r": 2.5
+      },
+      {
+       "c": [
+        195,
+        350
+       ],
+       "r": 4.5
+      }
+     ],
+     "polys": []
+    },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 8,
+    "k": 0.44,
+    "radio": 8,
+    "material": "Acero S275JR PL8 — PINTADO RAL 7035",
+    "avisos": [
+     "SOLDAR A CARA EXTERIOR DEL ALMA — traslape 88 mm sobre la tangente del pliegue; 3 cordones 4 mm (superior + verticales), ver GA"
+    ]
+   },
+   "features": [
+    {
+     "id": "f28",
+     "name": "Mecha PL8 610×422",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -211
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 610,
+      "d": 8,
+      "h": 422
+     }
+    },
+    {
+     "id": "f29",
+     "name": "Paso muñón Ø40",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -190,
+      0,
+      9
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f30",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -231.3,
+      0,
+      -32.30000000000001
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f31",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -231.3,
+      0,
+      50.30000000000001
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f32",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -148.7,
+      0,
+      -32.30000000000001
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f33",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -148.7,
+      0,
+      50.30000000000001
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f34",
+     "name": "Paso muñón Ø40",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      190,
+      0,
+      -101
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f35",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      148.70000000000005,
+      0,
+      -142.3
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f36",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      148.70000000000005,
+      0,
+      -59.69999999999999
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f37",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      231.29999999999995,
+      0,
+      -142.3
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f38",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      231.29999999999995,
+      0,
+      -59.69999999999999
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f39",
+     "name": "M6 roscado (montaje guarda)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -250,
+      0,
+      49
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f40",
+     "name": "M6 roscado (montaje guarda)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -250,
+      0,
+      -51
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f41",
+     "name": "M6 roscado (montaje guarda)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      250,
+      0,
+      49
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f42",
+     "name": "M6 roscado (montaje guarda)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      250,
+      0,
+      -51
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f43",
+     "name": "Paso M8 retorno (a través de mecha)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -110,
+      0,
+      139
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p5_fab_mecha_porta_chumacera_pl8_combinada_610_422",
+   "name": "FAB · Mecha porta-chumacera PL8 combinada 610×422",
+   "color": "#d3d5cf",
+   "pos": [
+    490,
+    245,
+    -299
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      0
+     ],
+     [
+      610,
+      0
+     ],
+     [
+      610,
+      422
+     ],
+     [
+      0,
+      422
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "cortes": {
+     "circles": [
+      {
+       "c": [
+        115,
+        220
+       ],
+       "r": 20
+      },
+      {
+       "c": [
+        73.7,
+        178.7
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        73.7,
+        261.3
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        156.3,
+        178.7
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        156.3,
+        261.3
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        495,
+        110
+       ],
+       "r": 20
+      },
+      {
+       "c": [
+        453.7,
+        68.7
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        453.7,
+        151.3
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        536.3,
+        68.7
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        536.3,
+        151.3
+       ],
+       "r": 6
+      },
+      {
+       "c": [
+        55,
+        260
+       ],
+       "r": 2.5
+      },
+      {
+       "c": [
+        55,
+        160
+       ],
+       "r": 2.5
+      },
+      {
+       "c": [
+        555,
+        260
+       ],
+       "r": 2.5
+      },
+      {
+       "c": [
+        555,
+        160
+       ],
+       "r": 2.5
+      },
+      {
+       "c": [
+        195,
+        350
+       ],
+       "r": 4.5
+      }
+     ],
+     "polys": []
+    },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 8,
+    "k": 0.44,
+    "radio": 8,
+    "material": "Acero S275JR PL8 — PINTADO RAL 7035",
+    "avisos": [
+     "SOLDAR A CARA EXTERIOR DEL ALMA — traslape 88 mm sobre la tangente del pliegue; 3 cordones 4 mm (superior + verticales), ver GA"
+    ]
+   },
+   "features": [
+    {
+     "id": "f44",
+     "name": "Mecha PL8 610×422",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -211
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 610,
+      "d": 8,
+      "h": 422
+     }
+    },
+    {
+     "id": "f45",
+     "name": "Paso muñón Ø40",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -190,
+      0,
+      9
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f46",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -231.3,
+      0,
+      -32.30000000000001
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f47",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -231.3,
+      0,
+      50.30000000000001
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f48",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -148.7,
+      0,
+      -32.30000000000001
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f49",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -148.7,
+      0,
+      50.30000000000001
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f50",
+     "name": "Paso muñón Ø40",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      190,
+      0,
+      -101
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 40,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f51",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      148.70000000000005,
+      0,
+      -142.3
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f52",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      148.70000000000005,
+      0,
+      -59.69999999999999
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f53",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      231.29999999999995,
+      0,
+      -142.3
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f54",
+     "name": "Perno chumacera Ø12",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      231.29999999999995,
+      0,
+      -59.69999999999999
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 12,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f55",
+     "name": "M6 roscado (montaje guarda)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -250,
+      0,
+      49
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f56",
+     "name": "M6 roscado (montaje guarda)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -250,
+      0,
+      -51
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f57",
+     "name": "M6 roscado (montaje guarda)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      250,
+      0,
+      49
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f58",
+     "name": "M6 roscado (montaje guarda)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      250,
+      0,
+      -51
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f59",
+     "name": "Paso M8 retorno (a través de mecha)",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -110,
+      0,
+      139
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p6_fab_travesa_o_tipo_zp2026_tr_s_c_88_40_3",
+   "name": "FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3",
+   "color": "#c7c9c3",
+   "pos": [
+    600,
     0,
     -166
    ],
@@ -590,9 +2252,129 @@
    ],
    "fixed": false,
    "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      0
+     ],
+     [
+      470,
+      0
+     ],
+     [
+      470,
+      157.57
+     ],
+     [
+      0,
+      157.57
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "cortes": {
+     "circles": [],
+     "polys": []
+    },
+    "pliegues": [
+     {
+      "a": [
+       0,
+       34
+      ],
+      "b": [
+       470,
+       34
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       37.39
+      ],
+      "b": [
+       470,
+       37.39
+      ],
+      "tipo": "eje"
+     },
+     {
+      "a": [
+       0,
+       40.79
+      ],
+      "b": [
+       470,
+       40.79
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       116.79
+      ],
+      "b": [
+       470,
+       116.79
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       120.18
+      ],
+      "b": [
+       470,
+       120.18
+      ],
+      "tipo": "eje"
+     },
+     {
+      "a": [
+       0,
+       123.57
+      ],
+      "b": [
+       470,
+       123.57
+      ],
+      "tipo": "tangente"
+     }
+    ],
+    "etiquetas": [
+     {
+      "x": 235,
+      "y": 41.39,
+      "s": "PLEGAR ARRIBA 90° R3 (×2)"
+     }
+    ],
+    "pliegueInfo": [
+     {
+      "ang": 90,
+      "r": 3,
+      "ba": 6.79
+     },
+     {
+      "ang": 90,
+      "r": 3,
+      "ba": 6.79
+     }
+    ],
+    "t": 3,
+    "k": 0.44,
+    "radio": 3,
+    "material": "Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a placas laterales según GA",
+    "avisos": []
+   },
    "features": [
     {
-     "id": "f25",
+     "id": "f60",
      "name": "Alma C 88",
      "shape": "box",
      "op": "union",
@@ -613,7 +2395,7 @@
      }
     },
     {
-     "id": "f26",
+     "id": "f61",
      "name": "Ala +X",
      "shape": "box",
      "op": "union",
@@ -634,7 +2416,7 @@
      }
     },
     {
-     "id": "f27",
+     "id": "f62",
      "name": "Ala −X",
      "shape": "box",
      "op": "union",
@@ -657,9 +2439,9 @@
    ]
   },
   {
-   "id": "p4_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
+   "id": "p7_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
    "name": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
-   "color": "#eceff1",
+   "color": "#f2f4f0",
    "pos": [
     400,
     -178.79999999999998,
@@ -675,7 +2457,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f28",
+     "id": "f63",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -690,13 +2472,13 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 17.53,
       "h": 19.05
      }
     },
     {
-     "id": "f29",
+     "id": "f64",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -711,7 +2493,7 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 12,
       "h": 30
      }
@@ -719,9 +2501,9 @@
    ]
   },
   {
-   "id": "p5_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
+   "id": "p8_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
    "name": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
-   "color": "#eceff1",
+   "color": "#f2f4f0",
    "pos": [
     400,
     -119.2,
@@ -737,7 +2519,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f30",
+     "id": "f65",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -752,13 +2534,13 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 17.53,
       "h": 19.05
      }
     },
     {
-     "id": "f31",
+     "id": "f66",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -773,7 +2555,7 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 12,
       "h": 30
      }
@@ -781,9 +2563,9 @@
    ]
   },
   {
-   "id": "p6_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
+   "id": "p9_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
    "name": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
-   "color": "#eceff1",
+   "color": "#f2f4f0",
    "pos": [
     400,
     -59.599999999999994,
@@ -799,7 +2581,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f32",
+     "id": "f67",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -814,13 +2596,13 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 17.53,
       "h": 19.05
      }
     },
     {
-     "id": "f33",
+     "id": "f68",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -835,7 +2617,7 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 12,
       "h": 30
      }
@@ -843,9 +2625,9 @@
    ]
   },
   {
-   "id": "p7_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
+   "id": "p10_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
    "name": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
-   "color": "#eceff1",
+   "color": "#f2f4f0",
    "pos": [
     400,
     0,
@@ -861,7 +2643,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f34",
+     "id": "f69",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -876,13 +2658,13 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 17.53,
       "h": 19.05
      }
     },
     {
-     "id": "f35",
+     "id": "f70",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -897,7 +2679,7 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 12,
       "h": 30
      }
@@ -905,9 +2687,9 @@
    ]
   },
   {
-   "id": "p8_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
+   "id": "p11_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
    "name": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
-   "color": "#eceff1",
+   "color": "#f2f4f0",
    "pos": [
     400,
     59.599999999999994,
@@ -923,7 +2705,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f36",
+     "id": "f71",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -938,13 +2720,13 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 17.53,
       "h": 19.05
      }
     },
     {
-     "id": "f37",
+     "id": "f72",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -959,7 +2741,7 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 12,
       "h": 30
      }
@@ -967,9 +2749,9 @@
    ]
   },
   {
-   "id": "p9_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
+   "id": "p12_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
    "name": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
-   "color": "#eceff1",
+   "color": "#f2f4f0",
    "pos": [
     400,
     119.20000000000002,
@@ -985,7 +2767,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f38",
+     "id": "f73",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -1000,13 +2782,13 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 17.53,
       "h": 19.05
      }
     },
     {
-     "id": "f39",
+     "id": "f74",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -1021,7 +2803,7 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 12,
       "h": 30
      }
@@ -1029,9 +2811,9 @@
    ]
   },
   {
-   "id": "p10_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
+   "id": "p13_norm_gu_a_de_apoyo_pletina_12_30_bar_cap_17_53_19_05_p101203_30",
    "name": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)",
-   "color": "#eceff1",
+   "color": "#f2f4f0",
    "pos": [
     400,
     178.79999999999998,
@@ -1047,7 +2829,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f40",
+     "id": "f75",
      "name": "Bar cap UHMW",
      "shape": "box",
      "op": "union",
@@ -1062,13 +2844,13 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 17.53,
       "h": 19.05
      }
     },
     {
-     "id": "f41",
+     "id": "f76",
      "name": "Pletina 12 de canto",
      "shape": "box",
      "op": "union",
@@ -1083,7 +2865,7 @@
       1
      ],
      "params": {
-      "w": 713.6,
+      "w": 703.6,
       "d": 12,
       "h": 30
      }
@@ -1091,9 +2873,9 @@
    ]
   },
   {
-   "id": "p11_norm_nosebar_entrada_18_in_p22862_transfer_plate_c_rodamientos_h19_l_6_in_cotizaci_n",
-   "name": "NORM · Nosebar entrada 18 in — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
-   "color": "#0d47a1",
+   "id": "p14_norm_nosebar_entrada_18_in_3_k6_in_montaje_idler_acumulaci_n_p22862_transfer_plate_c_rodamientos_h19_l_6_in_cotizaci_n",
+   "name": "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+   "color": "#24313d",
    "pos": [
     18.2,
     0,
@@ -1109,8 +2891,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f42",
-     "name": "Punta R9.5",
+     "id": "f77",
+     "name": "Punta rodamientos Ø19",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -1129,14 +2911,14 @@
      }
     },
     {
-     "id": "f43",
-     "name": "Cuerpo BluLub",
+     "id": "f78",
+     "name": "Cuerpo BluLub 65×19 (3 segmentos K=152.4)",
      "shape": "box",
      "op": "union",
      "at": [
-      25.000000000000004,
+      11.5,
       0,
-      -5.5
+      -55.5
      ],
      "dir": [
       0,
@@ -1144,17 +2926,979 @@
       1
      ],
      "params": {
-      "w": 50,
+      "w": 19,
       "d": 457.2,
-      "h": 15
+      "h": 65
+     }
+    },
+    {
+     "id": "f79",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      -212.7,
+      -9.25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f80",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      -212.7,
+      -28.3
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f81",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      -152.7,
+      -9.25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f82",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      -152.7,
+      -28.3
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f83",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      -92.7,
+      -9.25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f84",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      -92.7,
+      -28.3
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f85",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      -60.3,
+      -9.25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f86",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      -60.3,
+      -28.3
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f87",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      -0.3,
+      -9.25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f88",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      -0.3,
+      -28.3
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f89",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      59.7,
+      -9.25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f90",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      59.7,
+      -28.3
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f91",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      92.1,
+      -9.25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f92",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      92.1,
+      -28.3
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f93",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      152.1,
+      -9.25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f94",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      152.1,
+      -28.3
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f95",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      212.1,
+      -9.25
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f96",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      11.5,
+      212.1,
+      -28.3
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
      }
     }
    ]
   },
   {
-   "id": "p12_norm_nosebar_descarga_18_in_p22862_transfer_plate_c_rodamientos_h19_l_6_in_cotizaci_n",
-   "name": "NORM · Nosebar descarga 18 in — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
-   "color": "#0d47a1",
+   "id": "p15_fab_cabezal_porta_nosebar_entrada_pl6_470_90",
+   "name": "FAB · Cabezal porta-nosebar entrada PL6 470×90",
+   "color": "#d3d5cf",
+   "pos": [
+    42.2,
+    0,
+    -58.7
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      0
+     ],
+     [
+      470,
+      0
+     ],
+     [
+      470,
+      90
+     ],
+     [
+      0,
+      90
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "cortes": {
+     "circles": [
+      {
+       "c": [
+        22.3,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        22.3,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        82.3,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        82.3,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        142.3,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        142.3,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        174.7,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        174.7,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        234.7,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        234.7,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        294.7,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        294.7,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        327.1,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        327.1,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        387.1,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        387.1,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        447.1,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        447.1,
+        55.2
+       ],
+       "r": 4.5
+      }
+     ],
+     "polys": []
+    },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 6,
+    "k": 0.44,
+    "radio": 6,
+    "material": "Acero S275JR PL6 — PINTADO RAL 7035",
+    "avisos": [
+     "GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). SOLDAR entre placas laterales — tuercas M8 por cara interior"
+    ]
+   },
+   "features": [
+    {
+     "id": "f97",
+     "name": "Placa cabezal PL6 470×90",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -45
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 6,
+      "d": 470,
+      "h": 90
+     }
+    },
+    {
+     "id": "f98",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -212.7,
+      29.250000000000004
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f99",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -212.7,
+      10.200000000000003
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f100",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -152.7,
+      29.250000000000004
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f101",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -152.7,
+      10.200000000000003
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f102",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -92.7,
+      29.250000000000004
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f103",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -92.7,
+      10.200000000000003
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f104",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -60.3,
+      29.250000000000004
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f105",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -60.3,
+      10.200000000000003
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f106",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -0.3,
+      29.250000000000004
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f107",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -0.3,
+      10.200000000000003
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f108",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      59.7,
+      29.250000000000004
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f109",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      59.7,
+      10.200000000000003
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f110",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      92.1,
+      29.250000000000004
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f111",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      92.1,
+      10.200000000000003
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f112",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      152.1,
+      29.250000000000004
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f113",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      152.1,
+      10.200000000000003
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f114",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      212.1,
+      29.250000000000004
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f115",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      212.1,
+      10.200000000000003
+     ],
+     "dir": [
+      1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p16_norm_nosebar_descarga_18_in_3_k6_in_montaje_idler_acumulaci_n_p22862_transfer_plate_c_rodamientos_h19_l_6_in_cotizaci_n",
+   "name": "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+   "color": "#24313d",
    "pos": [
     781.8,
     0,
@@ -1170,8 +3914,8 @@
    "visible": true,
    "features": [
     {
-     "id": "f44",
-     "name": "Punta R9.5",
+     "id": "f116",
+     "name": "Punta rodamientos Ø19",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -1190,14 +3934,14 @@
      }
     },
     {
-     "id": "f45",
-     "name": "Cuerpo BluLub",
+     "id": "f117",
+     "name": "Cuerpo BluLub 65×19 (3 segmentos K=152.4)",
      "shape": "box",
      "op": "union",
      "at": [
-      -25,
+      -11.5,
       0,
-      -5.5
+      -55.5
      ],
      "dir": [
       0,
@@ -1205,21 +3949,983 @@
       1
      ],
      "params": {
-      "w": 50,
+      "w": 19,
       "d": 457.2,
-      "h": 15
+      "h": 65
+     }
+    },
+    {
+     "id": "f118",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      -212.7,
+      -9.25
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f119",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      -212.7,
+      -28.3
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f120",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      -152.7,
+      -9.25
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f121",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      -152.7,
+      -28.3
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f122",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      -92.7,
+      -9.25
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f123",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      -92.7,
+      -28.3
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f124",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      -60.3,
+      -9.25
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f125",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      -60.3,
+      -28.3
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f126",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      -0.3,
+      -9.25
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f127",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      -0.3,
+      -28.3
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f128",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      59.7,
+      -9.25
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f129",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      59.7,
+      -28.3
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f130",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      92.1,
+      -9.25
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f131",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      92.1,
+      -28.3
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f132",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      152.1,
+      -9.25
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f133",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      152.1,
+      -28.3
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f134",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      212.1,
+      -9.25
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f135",
+     "name": "Ø8.5 montaje",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -11.5,
+      212.1,
+      -28.3
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
      }
     }
    ]
   },
   {
-   "id": "p13_fab_rodillo_retorno_63_5_eje_muerto_15_2_6202_2rs_sellados_perno_hex_m8_lado",
-   "name": "FAB · Rodillo retorno Ø63.5 eje muerto Ø15 — 2× 6202-2RS sellados, perno hex M8/lado",
-   "color": "#607d8b",
+   "id": "p17_fab_cabezal_porta_nosebar_descarga_pl6_470_90",
+   "name": "FAB · Cabezal porta-nosebar descarga PL6 470×90",
+   "color": "#d3d5cf",
+   "pos": [
+    757.8,
+    0,
+    -58.7
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      0
+     ],
+     [
+      470,
+      0
+     ],
+     [
+      470,
+      90
+     ],
+     [
+      0,
+      90
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "cortes": {
+     "circles": [
+      {
+       "c": [
+        22.3,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        22.3,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        82.3,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        82.3,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        142.3,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        142.3,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        174.7,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        174.7,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        234.7,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        234.7,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        294.7,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        294.7,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        327.1,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        327.1,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        387.1,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        387.1,
+        55.2
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        447.1,
+        74.25
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        447.1,
+        55.2
+       ],
+       "r": 4.5
+      }
+     ],
+     "polys": []
+    },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 6,
+    "k": 0.44,
+    "radio": 6,
+    "material": "Acero S275JR PL6 — PINTADO RAL 7035",
+    "avisos": [
+     "GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). SOLDAR entre placas laterales — tuercas M8 por cara interior"
+    ]
+   },
+   "features": [
+    {
+     "id": "f136",
+     "name": "Placa cabezal PL6 470×90",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -45
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 6,
+      "d": 470,
+      "h": 90
+     }
+    },
+    {
+     "id": "f137",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -212.7,
+      29.250000000000004
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f138",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -212.7,
+      10.200000000000003
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f139",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -152.7,
+      29.250000000000004
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f140",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -152.7,
+      10.200000000000003
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f141",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -92.7,
+      29.250000000000004
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f142",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -92.7,
+      10.200000000000003
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f143",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -60.3,
+      29.250000000000004
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f144",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -60.3,
+      10.200000000000003
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f145",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -0.3,
+      29.250000000000004
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f146",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      -0.3,
+      10.200000000000003
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f147",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      59.7,
+      29.250000000000004
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f148",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      59.7,
+      10.200000000000003
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f149",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      92.1,
+      29.250000000000004
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f150",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      92.1,
+      10.200000000000003
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f151",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      152.1,
+      29.250000000000004
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f152",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      152.1,
+      10.200000000000003
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f153",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      212.1,
+      29.250000000000004
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f154",
+     "name": "Paso M8 nosebar",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      212.1,
+      10.200000000000003
+     ],
+     "dir": [
+      -1,
+      0,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p18_fab_rodillo_retorno_63_5_tubo_a513_63_5_3_0_2_cabezales_torneados_asiento_35_h7_6202_2rs_eje_muerto_15_sae1045_roscado_m8_plano_ej_04_pendiente",
+   "name": "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M8 — plano EJ-04 pendiente",
+   "color": "#8d959b",
    "pos": [
     380,
     0,
-    -170
+    -160
    ],
    "quat": [
     0,
@@ -1231,7 +4937,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f46",
+     "id": "f155",
      "name": "Tubo Ø63.5 (2× 6202-2RS insertos)",
      "shape": "cylinder",
      "op": "union",
@@ -1251,7 +4957,7 @@
      }
     },
     {
-     "id": "f47",
+     "id": "f156",
      "name": "Eje muerto Ø15 (roscado M8 int. ambas puntas)",
      "shape": "cylinder",
      "op": "union",
@@ -1271,7 +4977,7 @@
      }
     },
     {
-     "id": "f48",
+     "id": "f157",
      "name": "Perno hex M8 + golilla (por fuera)",
      "shape": "cylinder",
      "op": "union",
@@ -1291,7 +4997,7 @@
      }
     },
     {
-     "id": "f49",
+     "id": "f158",
      "name": "Perno hex M8 + golilla (por fuera)",
      "shape": "cylinder",
      "op": "union",
@@ -1313,9 +5019,9 @@
    ]
   },
   {
-   "id": "p14_fab_eje_motriz_cuadrado_38_1_l_681_mu_ones_30_j6",
-   "name": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 j6)",
-   "color": "#b0bec5",
+   "id": "p19_fab_eje_motriz_cuadrado_38_1_l_681_mu_ones_30_h6",
+   "name": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
+   "color": "#9aa2a8",
    "pos": [
     680,
     0,
@@ -1331,7 +5037,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f50",
+     "id": "f159",
      "name": "Cuadrado 38.1×38.1×466",
      "shape": "box",
      "op": "union",
@@ -1352,7 +5058,7 @@
      }
     },
     {
-     "id": "f51",
+     "id": "f160",
      "name": "Muñón libre Ø30×50",
      "shape": "cylinder",
      "op": "union",
@@ -1372,7 +5078,7 @@
      }
     },
     {
-     "id": "f52",
+     "id": "f161",
      "name": "Muñón motriz Ø30×165",
      "shape": "cylinder",
      "op": "union",
@@ -1392,7 +5098,7 @@
      }
     },
     {
-     "id": "f53",
+     "id": "f162",
      "name": "Chavetero 8×7×90",
      "shape": "box",
      "op": "cut",
@@ -1413,7 +5119,7 @@
      }
     },
     {
-     "id": "f54",
+     "id": "f163",
      "name": "Rosca M10×22",
      "shape": "hole",
      "op": "cut",
@@ -1436,9 +5142,9 @@
    ]
   },
   {
-   "id": "p15_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
+   "id": "p20_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
    "name": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
-   "color": "#5d4037",
+   "color": "#3d4348",
    "pos": [
     680,
     -190.5,
@@ -1454,7 +5160,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f55",
+     "id": "f164",
      "name": "Corona Z32 OD 154.8",
      "shape": "cylinder",
      "op": "union",
@@ -1474,7 +5180,7 @@
      }
     },
     {
-     "id": "f56",
+     "id": "f165",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -1494,7 +5200,7 @@
      }
     },
     {
-     "id": "f57",
+     "id": "f166",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -1517,9 +5223,9 @@
    ]
   },
   {
-   "id": "p16_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
+   "id": "p21_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
    "name": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
-   "color": "#5d4037",
+   "color": "#3d4348",
    "pos": [
     680,
     -114.3,
@@ -1535,7 +5241,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f58",
+     "id": "f167",
      "name": "Corona Z32 OD 154.8",
      "shape": "cylinder",
      "op": "union",
@@ -1555,7 +5261,7 @@
      }
     },
     {
-     "id": "f59",
+     "id": "f168",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -1575,7 +5281,7 @@
      }
     },
     {
-     "id": "f60",
+     "id": "f169",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -1598,9 +5304,9 @@
    ]
   },
   {
-   "id": "p17_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
+   "id": "p22_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
    "name": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
-   "color": "#5d4037",
+   "color": "#3d4348",
    "pos": [
     680,
     -38.1,
@@ -1616,7 +5322,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f61",
+     "id": "f170",
      "name": "Corona Z32 OD 154.8",
      "shape": "cylinder",
      "op": "union",
@@ -1636,7 +5342,7 @@
      }
     },
     {
-     "id": "f62",
+     "id": "f171",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -1656,7 +5362,7 @@
      }
     },
     {
-     "id": "f63",
+     "id": "f172",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -1679,9 +5385,9 @@
    ]
   },
   {
-   "id": "p18_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
+   "id": "p23_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
    "name": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
-   "color": "#5d4037",
+   "color": "#3d4348",
    "pos": [
     680,
     38.1,
@@ -1697,7 +5403,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f64",
+     "id": "f173",
      "name": "Corona Z32 OD 154.8",
      "shape": "cylinder",
      "op": "union",
@@ -1717,7 +5423,7 @@
      }
     },
     {
-     "id": "f65",
+     "id": "f174",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -1737,7 +5443,7 @@
      }
     },
     {
-     "id": "f66",
+     "id": "f175",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -1760,9 +5466,9 @@
    ]
   },
   {
-   "id": "p19_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
+   "id": "p24_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
    "name": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
-   "color": "#5d4037",
+   "color": "#3d4348",
    "pos": [
     680,
     114.3,
@@ -1778,7 +5484,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f67",
+     "id": "f176",
      "name": "Corona Z32 OD 154.8",
      "shape": "cylinder",
      "op": "union",
@@ -1798,7 +5504,7 @@
      }
     },
     {
-     "id": "f68",
+     "id": "f177",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -1818,7 +5524,7 @@
      }
     },
     {
-     "id": "f69",
+     "id": "f178",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -1841,9 +5547,9 @@
    ]
   },
   {
-   "id": "p20_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
+   "id": "p25_norm_sprocket_p158808yf_moldeado_z_32_bore_cuadrado_1_5_in_grano_m8_cotizaci_n_26012937",
    "name": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
-   "color": "#5d4037",
+   "color": "#3d4348",
    "pos": [
     680,
     190.5,
@@ -1859,7 +5565,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f70",
+     "id": "f179",
      "name": "Corona Z32 OD 154.8",
      "shape": "cylinder",
      "op": "union",
@@ -1879,7 +5585,7 @@
      }
     },
     {
-     "id": "f71",
+     "id": "f180",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -1899,7 +5605,7 @@
      }
     },
     {
-     "id": "f72",
+     "id": "f181",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -1922,9 +5628,9 @@
    ]
   },
   {
-   "id": "p21_norm_collar_n_p21703y_fija_el_sprocket_central",
+   "id": "p26_norm_collar_n_p21703y_fija_el_sprocket_central",
    "name": "NORM · Collarín P21703Y (fija el sprocket central)",
-   "color": "#9e9e9e",
+   "color": "#565d63",
    "pos": [
     680,
     12.100000000000001,
@@ -1940,7 +5646,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f73",
+     "id": "f182",
      "name": "Collarín P21703Y",
      "shape": "cylinder",
      "op": "union",
@@ -1960,7 +5666,7 @@
      }
     },
     {
-     "id": "f74",
+     "id": "f183",
      "name": "Bore cuadrado 38.3",
      "shape": "box",
      "op": "cut",
@@ -1983,9 +5689,9 @@
    ]
   },
   {
-   "id": "p22_norm_collar_n_p21703y_fija_el_sprocket_central",
+   "id": "p27_norm_collar_n_p21703y_fija_el_sprocket_central",
    "name": "NORM · Collarín P21703Y (fija el sprocket central)",
-   "color": "#9e9e9e",
+   "color": "#565d63",
    "pos": [
     680,
     64.1,
@@ -2001,7 +5707,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f75",
+     "id": "f184",
      "name": "Collarín P21703Y",
      "shape": "cylinder",
      "op": "union",
@@ -2021,7 +5727,7 @@
      }
     },
     {
-     "id": "f76",
+     "id": "f185",
      "name": "Bore cuadrado 38.3",
      "shape": "box",
      "op": "cut",
@@ -2044,12 +5750,12 @@
    ]
   },
   {
-   "id": "p23_norm_chumacera_ucf206_30",
+   "id": "p28_norm_chumacera_ucf206_30",
    "name": "NORM · Chumacera UCF206 Ø30",
-   "color": "#9e9e9e",
+   "color": "#565d63",
    "pos": [
     680,
-    -241,
+    -249,
     -400
    ],
    "quat": [
@@ -2062,7 +5768,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f77",
+     "id": "f186",
      "name": "Brida UCF206 108×108×14",
      "shape": "box",
      "op": "union",
@@ -2083,7 +5789,7 @@
      }
     },
     {
-     "id": "f78",
+     "id": "f187",
      "name": "Cubo Ø62",
      "shape": "cylinder",
      "op": "union",
@@ -2103,7 +5809,7 @@
      }
     },
     {
-     "id": "f79",
+     "id": "f188",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2124,7 +5830,7 @@
      }
     },
     {
-     "id": "f80",
+     "id": "f189",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2145,7 +5851,7 @@
      }
     },
     {
-     "id": "f81",
+     "id": "f190",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2166,7 +5872,7 @@
      }
     },
     {
-     "id": "f82",
+     "id": "f191",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2189,12 +5895,12 @@
    ]
   },
   {
-   "id": "p24_norm_chumacera_ucf206_30",
+   "id": "p29_norm_chumacera_ucf206_30",
    "name": "NORM · Chumacera UCF206 Ø30",
-   "color": "#9e9e9e",
+   "color": "#565d63",
    "pos": [
     680,
-    241,
+    249,
     -400
    ],
    "quat": [
@@ -2207,7 +5913,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f83",
+     "id": "f192",
      "name": "Brida UCF206 108×108×14",
      "shape": "box",
      "op": "union",
@@ -2228,7 +5934,7 @@
      }
     },
     {
-     "id": "f84",
+     "id": "f193",
      "name": "Cubo Ø62",
      "shape": "cylinder",
      "op": "union",
@@ -2248,7 +5954,7 @@
      }
     },
     {
-     "id": "f85",
+     "id": "f194",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2269,7 +5975,7 @@
      }
     },
     {
-     "id": "f86",
+     "id": "f195",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2290,7 +5996,7 @@
      }
     },
     {
-     "id": "f87",
+     "id": "f196",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2311,7 +6017,7 @@
      }
     },
     {
-     "id": "f88",
+     "id": "f197",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2334,9 +6040,9 @@
    ]
   },
   {
-   "id": "p25_norm_motorreductor_eje_hueco_30_brazo_de_torque",
-   "name": "NORM · Motorreductor eje hueco Ø30 + brazo de torque",
-   "color": "#1b5e20",
+   "id": "p30_norm_motorreductor_nmrv_p075_1_30_eje_hueco_30_h8_0_55_kw_4p_46_rpm_89_nm_brazo_de_torque",
+   "name": "NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",
+   "color": "#33383c",
    "pos": [
     680,
     361,
@@ -2352,7 +6058,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f89",
+     "id": "f198",
      "name": "Cubo hueco Ø62",
      "shape": "cylinder",
      "op": "union",
@@ -2372,7 +6078,7 @@
      }
     },
     {
-     "id": "f90",
+     "id": "f199",
      "name": "Cuerpo reductor",
      "shape": "box",
      "op": "union",
@@ -2393,7 +6099,7 @@
      }
     },
     {
-     "id": "f91",
+     "id": "f200",
      "name": "Brazo de torque",
      "shape": "box",
      "op": "union",
@@ -2416,9 +6122,9 @@
    ]
   },
   {
-   "id": "p26_fab_eje_tensor_cuadrado_38_1_l_566_mu_ones_30_j6",
-   "name": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 j6)",
-   "color": "#b0bec5",
+   "id": "p31_fab_eje_tensor_cuadrado_38_1_l_566_mu_ones_30_h6",
+   "name": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)",
+   "color": "#9aa2a8",
    "pos": [
     300,
     0,
@@ -2434,7 +6140,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f92",
+     "id": "f201",
      "name": "Cuadrado 38.1×38.1×466",
      "shape": "box",
      "op": "union",
@@ -2455,7 +6161,7 @@
      }
     },
     {
-     "id": "f93",
+     "id": "f202",
      "name": "Muñón Ø30×50",
      "shape": "cylinder",
      "op": "union",
@@ -2475,7 +6181,7 @@
      }
     },
     {
-     "id": "f94",
+     "id": "f203",
      "name": "Muñón Ø30×50",
      "shape": "cylinder",
      "op": "union",
@@ -2497,9 +6203,9 @@
    ]
   },
   {
-   "id": "p27_norm_sprocket_z32_loco_flotante_0_4_0_3_grano_suelto",
+   "id": "p32_norm_sprocket_z32_loco_flotante_0_4_0_3_grano_suelto",
    "name": "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
-   "color": "#5d4037",
+   "color": "#3d4348",
    "pos": [
     300,
     -114.3,
@@ -2515,7 +6221,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f95",
+     "id": "f204",
      "name": "Corona Z32 OD 154.8",
      "shape": "cylinder",
      "op": "union",
@@ -2535,7 +6241,7 @@
      }
     },
     {
-     "id": "f96",
+     "id": "f205",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -2555,7 +6261,7 @@
      }
     },
     {
-     "id": "f97",
+     "id": "f206",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -2578,9 +6284,9 @@
    ]
   },
   {
-   "id": "p28_norm_sprocket_z32_loco_flotante_0_4_0_3_grano_suelto",
+   "id": "p33_norm_sprocket_z32_loco_flotante_0_4_0_3_grano_suelto",
    "name": "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
-   "color": "#5d4037",
+   "color": "#3d4348",
    "pos": [
     300,
     114.3,
@@ -2596,7 +6302,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f98",
+     "id": "f207",
      "name": "Corona Z32 OD 154.8",
      "shape": "cylinder",
      "op": "union",
@@ -2616,7 +6322,7 @@
      }
     },
     {
-     "id": "f99",
+     "id": "f208",
      "name": "Cuerpo moldeado",
      "shape": "cylinder",
      "op": "union",
@@ -2636,7 +6342,7 @@
      }
     },
     {
-     "id": "f100",
+     "id": "f209",
      "name": "Bore cuadrado 38.4",
      "shape": "box",
      "op": "cut",
@@ -2659,12 +6365,12 @@
    ]
   },
   {
-   "id": "p29_norm_chumacera_ucf206_30",
+   "id": "p34_norm_chumacera_ucf206_30",
    "name": "NORM · Chumacera UCF206 Ø30",
-   "color": "#9e9e9e",
+   "color": "#565d63",
    "pos": [
     300,
-    -241,
+    -249,
     -290
    ],
    "quat": [
@@ -2677,7 +6383,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f101",
+     "id": "f210",
      "name": "Brida UCF206 108×108×14",
      "shape": "box",
      "op": "union",
@@ -2698,7 +6404,7 @@
      }
     },
     {
-     "id": "f102",
+     "id": "f211",
      "name": "Cubo Ø62",
      "shape": "cylinder",
      "op": "union",
@@ -2718,7 +6424,7 @@
      }
     },
     {
-     "id": "f103",
+     "id": "f212",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2739,7 +6445,7 @@
      }
     },
     {
-     "id": "f104",
+     "id": "f213",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2760,7 +6466,7 @@
      }
     },
     {
-     "id": "f105",
+     "id": "f214",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2781,7 +6487,7 @@
      }
     },
     {
-     "id": "f106",
+     "id": "f215",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2804,12 +6510,12 @@
    ]
   },
   {
-   "id": "p30_norm_chumacera_ucf206_30",
+   "id": "p35_norm_chumacera_ucf206_30",
    "name": "NORM · Chumacera UCF206 Ø30",
-   "color": "#9e9e9e",
+   "color": "#565d63",
    "pos": [
     300,
-    241,
+    249,
     -290
    ],
    "quat": [
@@ -2822,7 +6528,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f107",
+     "id": "f216",
      "name": "Brida UCF206 108×108×14",
      "shape": "box",
      "op": "union",
@@ -2843,7 +6549,7 @@
      }
     },
     {
-     "id": "f108",
+     "id": "f217",
      "name": "Cubo Ø62",
      "shape": "cylinder",
      "op": "union",
@@ -2863,7 +6569,7 @@
      }
     },
     {
-     "id": "f109",
+     "id": "f218",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2884,7 +6590,7 @@
      }
     },
     {
-     "id": "f110",
+     "id": "f219",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2905,7 +6611,7 @@
      }
     },
     {
-     "id": "f111",
+     "id": "f220",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2926,7 +6632,7 @@
      }
     },
     {
-     "id": "f112",
+     "id": "f221",
      "name": "Perno Ø12",
      "shape": "hole",
      "op": "cut",
@@ -2949,9 +6655,9 @@
    ]
   },
   {
-   "id": "p31_norm_gu_a_lateral_conical_rail_l_1_in_p12501c_escuadras",
+   "id": "p36_norm_gu_a_lateral_conical_rail_l_1_in_p12501c_escuadras",
    "name": "NORM · Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
-   "color": "#78909c",
+   "color": "#aeb4ac",
    "pos": [
     400,
     -230,
@@ -2967,7 +6673,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f113",
+     "id": "f222",
      "name": "Cara Ti-WHITE 1¼ in",
      "shape": "box",
      "op": "union",
@@ -2988,7 +6694,7 @@
      }
     },
     {
-     "id": "f114",
+     "id": "f223",
      "name": "Núcleo/ala AISI304 1.5",
      "shape": "box",
      "op": "union",
@@ -3011,9 +6717,9 @@
    ]
   },
   {
-   "id": "p32_norm_gu_a_lateral_conical_rail_l_1_in_p12501c_escuadras",
+   "id": "p37_norm_gu_a_lateral_conical_rail_l_1_in_p12501c_escuadras",
    "name": "NORM · Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
-   "color": "#78909c",
+   "color": "#aeb4ac",
    "pos": [
     400,
     230,
@@ -3029,7 +6735,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f115",
+     "id": "f224",
      "name": "Cara Ti-WHITE 1¼ in",
      "shape": "box",
      "op": "union",
@@ -3050,7 +6756,7 @@
      }
     },
     {
-     "id": "f116",
+     "id": "f225",
      "name": "Núcleo/ala AISI304 1.5",
      "shape": "box",
      "op": "union",
@@ -3073,9 +6779,9 @@
    ]
   },
   {
-   "id": "p33_fab_soporte_tipo_zp2026_b_005a_203_95_3_nivelador",
+   "id": "p38_fab_soporte_tipo_zp2026_b_005a_203_95_3_nivelador",
    "name": "FAB · Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador",
-   "color": "#37474f",
+   "color": "#d3d5cf",
    "pos": [
     400,
     -242.5,
@@ -3091,7 +6797,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f117",
+     "id": "f226",
      "name": "Alma 203",
      "shape": "box",
      "op": "union",
@@ -3112,7 +6818,7 @@
      }
     },
     {
-     "id": "f118",
+     "id": "f227",
      "name": "Ala +X",
      "shape": "box",
      "op": "union",
@@ -3133,7 +6839,7 @@
      }
     },
     {
-     "id": "f119",
+     "id": "f228",
      "name": "Ala −X",
      "shape": "box",
      "op": "union",
@@ -3154,7 +6860,7 @@
      }
     },
     {
-     "id": "f120",
+     "id": "f229",
      "name": "Placa piso + nivelador",
      "shape": "box",
      "op": "union",
@@ -3177,9 +6883,9 @@
    ]
   },
   {
-   "id": "p34_fab_soporte_tipo_zp2026_b_005a_203_95_3_nivelador",
+   "id": "p39_fab_soporte_tipo_zp2026_b_005a_203_95_3_nivelador",
    "name": "FAB · Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador",
-   "color": "#37474f",
+   "color": "#d3d5cf",
    "pos": [
     400,
     242.5,
@@ -3195,7 +6901,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f121",
+     "id": "f230",
      "name": "Alma 203",
      "shape": "box",
      "op": "union",
@@ -3216,7 +6922,7 @@
      }
     },
     {
-     "id": "f122",
+     "id": "f231",
      "name": "Ala +X",
      "shape": "box",
      "op": "union",
@@ -3237,7 +6943,7 @@
      }
     },
     {
-     "id": "f123",
+     "id": "f232",
      "name": "Ala −X",
      "shape": "box",
      "op": "union",
@@ -3258,7 +6964,7 @@
      }
     },
     {
-     "id": "f124",
+     "id": "f233",
      "name": "Placa piso + nivelador",
      "shape": "box",
      "op": "union",
@@ -3281,9 +6987,9 @@
    ]
   },
   {
-   "id": "p35_fab_riostra_de_soportes_tipo_zp2026",
+   "id": "p40_fab_riostra_de_soportes_tipo_zp2026",
    "name": "FAB · Riostra de soportes (tipo ZP2026)",
-   "color": "#37474f",
+   "color": "#d3d5cf",
    "pos": [
     400,
     0,
@@ -3297,9 +7003,129 @@
    ],
    "fixed": false,
    "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      0
+     ],
+     [
+      387,
+      0
+     ],
+     [
+      387,
+      157.57
+     ],
+     [
+      0,
+      157.57
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "cortes": {
+     "circles": [],
+     "polys": []
+    },
+    "pliegues": [
+     {
+      "a": [
+       0,
+       34
+      ],
+      "b": [
+       387,
+       34
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       37.39
+      ],
+      "b": [
+       387,
+       37.39
+      ],
+      "tipo": "eje"
+     },
+     {
+      "a": [
+       0,
+       40.79
+      ],
+      "b": [
+       387,
+       40.79
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       116.79
+      ],
+      "b": [
+       387,
+       116.79
+      ],
+      "tipo": "tangente"
+     },
+     {
+      "a": [
+       0,
+       120.18
+      ],
+      "b": [
+       387,
+       120.18
+      ],
+      "tipo": "eje"
+     },
+     {
+      "a": [
+       0,
+       123.57
+      ],
+      "b": [
+       387,
+       123.57
+      ],
+      "tipo": "tangente"
+     }
+    ],
+    "etiquetas": [
+     {
+      "x": 193.5,
+      "y": 41.39,
+      "s": "PLEGAR ARRIBA 90° R3 (×2)"
+     }
+    ],
+    "pliegueInfo": [
+     {
+      "ang": 90,
+      "r": 3,
+      "ba": 6.79
+     },
+     {
+      "ang": 90,
+      "r": 3,
+      "ba": 6.79
+     }
+    ],
+    "t": 3,
+    "k": 0.44,
+    "radio": 3,
+    "material": "Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a soportes según GA",
+    "avisos": []
+   },
    "features": [
     {
-     "id": "f125",
+     "id": "f234",
      "name": "Riostra C 88×40",
      "shape": "box",
      "op": "union",
@@ -3322,9 +7148,9 @@
    ]
   },
   {
-   "id": "p36_norm_banda_movex_530_gt_friction_top_18_in_lazo_2_54_m",
-   "name": "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.54 m",
-   "color": "#1565c0",
+   "id": "p41_norm_banda_movex_530_gt_friction_top_18_in_lazo_2_56_m",
+   "name": "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.56 m",
+   "color": "#1a4f9c",
    "pos": [
     400,
     0,
@@ -3340,7 +7166,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f126",
+     "id": "f235",
      "name": "Cara exterior del lazo",
      "shape": "sketch",
      "op": "union",
@@ -3561,296 +7387,296 @@
         -408.2
        ],
        [
-        759.39,
-        -416.3
+        759.38,
+        -416.35
        ],
        [
-        757.34,
-        -424.23
+        757.31,
+        -424.33
        ],
        [
-        754.5,
-        -431.91
+        754.44,
+        -432.06
        ],
        [
-        750.9,
-        -439.27
+        750.8,
+        -439.45
        ],
        [
-        746.58,
-        -446.22
+        746.43,
+        -446.44
        ],
        [
-        741.57,
-        -452.71
+        741.36,
+        -452.95
        ],
        [
-        735.94,
-        -458.65
+        735.67,
+        -458.91
        ],
        [
-        729.73,
-        -464
+        729.4,
+        -464.26
        ],
        [
-        723.02,
-        -468.69
+        722.61,
+        -468.94
        ],
        [
-        715.86,
-        -472.68
+        715.39,
+        -472.92
        ],
        [
-        708.35,
-        -475.93
+        707.8,
+        -476.13
        ],
        [
-        700.54,
-        -478.41
+        699.92,
+        -478.56
        ],
        [
-        692.52,
-        -480.08
+        691.84,
+        -480.18
        ],
        [
-        684.37,
-        -480.93
+        683.63,
+        -480.97
        ],
        [
-        676.18,
-        -480.96
+        675.39,
+        -480.92
        ],
        [
-        668.03,
-        -480.16
+        667.19,
+        -480.03
        ],
        [
-        660,
-        -478.54
+        659.13,
+        -478.32
        ],
        [
-        652.17,
-        -476.12
+        651.28,
+        -475.79
        ],
        [
-        644.63,
-        -472.93
+        643.73,
+        -472.48
        ],
        [
-        637.45,
-        -468.98
+        636.56,
+        -468.42
        ],
        [
-        630.71,
-        -464.34
+        629.83,
+        -463.66
        ],
        [
-        624.46,
-        -459.03
+        623.62,
+        -458.23
        ],
        [
-        618.79,
-        -453.13
+        618,
+        -452.2
        ],
        [
-        613.74,
-        -446.68
+        613.02,
+        -445.63
        ],
        [
-        405.96,
-        -151.72
+        406.24,
+        -142.12
        ],
        [
-        403.62,
-        -148.78
+        403.96,
+        -139.17
        ],
        [
-        400.95,
-        -146.14
+        401.35,
+        -136.5
        ],
        [
-        397.99,
-        -143.84
+        398.44,
+        -134.16
        ],
        [
-        394.78,
-        -141.9
+        395.28,
+        -132.17
        ],
        [
-        391.36,
-        -140.35
+        391.91,
+        -130.57
        ],
        [
-        387.78,
-        -139.22
+        388.37,
+        -129.37
        ],
        [
-        384.1,
-        -138.52
+        384.72,
+        -128.6
        ],
        [
-        380.35,
-        -138.25
+        381,
+        -128.27
        ],
        [
-        376.6,
-        -138.43
+        377.27,
+        -128.37
        ],
        [
-        372.9,
-        -139.05
+        373.58,
+        -128.91
        ],
        [
-        369.3,
-        -140.11
+        369.97,
+        -129.88
        ],
        [
-        365.85,
-        -141.58
+        366.51,
+        -131.26
        ],
        [
-        362.6,
-        -143.44
+        363.23,
+        -133.04
        ],
        [
-        359.59,
-        -145.68
+        360.18,
+        -135.2
        ],
        [
-        356.86,
-        -148.26
+        357.4,
+        -137.7
        ],
        [
-        354.46,
-        -151.14
+        354.94,
+        -140.5
        ],
        [
-        352.41,
-        -154.29
+        352.83,
+        -143.58
        ],
        [
-        350.75,
-        -157.65
+        351.09,
+        -146.88
        ],
        [
-        349.5,
-        -161.19
-       ],
-       [
-        348.67,
-        -164.85
-       ],
-       [
-        348.28,
-        -168.58
-       ],
-       [
-        348.34,
-        -172.33
+        349.75,
+        -150.37
        ],
        [
         348.83,
-        -176.05
+        -153.98
        ],
        [
-        349.76,
-        -179.69
+        348.33,
+        -157.68
        ],
        [
-        377.18,
-        -265.27
+        348.28,
+        -161.42
        ],
        [
-        379.54,
-        -274.44
+        348.67,
+        -165.13
        ],
        [
-        380.81,
-        -283.83
+        349.49,
+        -168.77
        ],
        [
-        380.98,
-        -293.3
+        377.9,
+        -267.61
        ],
        [
-        380.04,
-        -302.72
+        379.96,
+        -276.75
        ],
        [
-        378.01,
-        -311.98
+        380.95,
+        -286.07
        ],
        [
-        374.92,
-        -320.93
+        380.87,
+        -295.44
        ],
        [
-        370.8,
-        -329.46
+        379.7,
+        -304.73
        ],
        [
-        365.71,
-        -337.45
+        377.47,
+        -313.83
        ],
        [
-        359.73,
-        -344.79
+        374.2,
+        -322.61
        ],
        [
-        352.93,
-        -351.38
+        369.94,
+        -330.96
        ],
        [
-        345.4,
-        -357.14
+        364.74,
+        -338.76
        ],
        [
-        337.26,
-        -361.98
+        358.68,
+        -345.91
        ],
        [
-        328.61,
-        -365.83
+        351.84,
+        -352.3
        ],
        [
-        319.57,
-        -368.65
+        344.3,
+        -357.87
        ],
        [
-        310.26,
-        -370.4
+        336.17,
+        -362.53
        ],
        [
-        300.81,
+        327.56,
+        -366.22
+       ],
+       [
+        318.58,
+        -368.89
+       ],
+       [
+        309.35,
+        -370.51
+       ],
+       [
+        299.99,
         -371.05
        ],
        [
-        291.35,
-        -370.59
+        290.64,
+        -370.51
        ],
        [
-        282.01,
-        -369.03
+        281.41,
+        -368.89
        ],
        [
-        272.91,
-        -366.39
+        272.43,
+        -366.22
        ],
        [
-        264.18,
-        -362.71
+        263.82,
+        -362.53
        ],
        [
-        255.95,
-        -358.03
+        255.69,
+        -357.86
        ],
        [
-        248.31,
-        -352.43
+        248.15,
+        -352.3
        ],
        [
-        241.38,
-        -345.97
+        241.31,
+        -345.9
        ],
        [
         235.25,
@@ -3866,7 +7692,7 @@
      }
     },
     {
-     "id": "f127",
+     "id": "f236",
      "name": "Vaciado interior",
      "shape": "sketch",
      "op": "cut",
@@ -4087,296 +7913,296 @@
         -407.32
        ],
        [
-        750.87,
-        -414.55
+        750.86,
+        -414.59
        ],
        [
-        749.04,
-        -421.63
+        749.01,
+        -421.72
        ],
        [
-        746.51,
-        -428.49
+        746.45,
+        -428.62
        ],
        [
-        743.29,
-        -435.05
+        743.2,
+        -435.22
        ],
        [
-        739.43,
-        -441.26
+        739.3,
+        -441.46
        ],
        [
-        734.96,
-        -447.05
+        734.78,
+        -447.26
        ],
        [
-        729.93,
-        -452.36
+        729.69,
+        -452.58
        ],
        [
-        724.39,
-        -457.13
+        724.09,
+        -457.36
        ],
        [
-        718.4,
-        -461.32
+        718.04,
+        -461.54
        ],
        [
-        712.02,
-        -464.88
+        711.59,
+        -465.09
        ],
        [
-        705.3,
-        -467.78
+        704.82,
+        -467.96
        ],
        [
-        698.33,
-        -469.99
+        697.78,
+        -470.13
        ],
        [
-        691.17,
-        -471.48
+        690.57,
+        -471.57
        ],
        [
-        683.9,
-        -472.24
+        683.24,
+        -472.28
        ],
        [
-        676.59,
-        -472.27
+        675.88,
+        -472.23
        ],
        [
-        669.31,
-        -471.56
+        668.57,
+        -471.44
        ],
        [
-        662.15,
-        -470.11
+        661.37,
+        -469.91
        ],
        [
-        655.16,
-        -467.95
+        654.36,
+        -467.66
        ],
        [
-        648.43,
-        -465.1
+        647.62,
+        -464.7
        ],
        [
-        642.02,
-        -461.58
+        641.22,
+        -461.08
        ],
        [
-        636,
-        -457.43
+        635.22,
+        -456.82
        ],
        [
-        630.43,
-        -452.7
+        629.67,
+        -451.98
        ],
        [
-        625.36,
-        -447.42
+        624.66,
+        -446.6
        ],
        [
-        620.85,
-        -441.67
+        620.21,
+        -440.74
        ],
        [
-        413.07,
-        -146.7
+        413.43,
+        -137.23
        ],
        [
-        410.09,
-        -142.97
+        410.52,
+        -133.46
        ],
        [
-        406.69,
-        -139.61
+        407.2,
+        -130.06
        ],
        [
-        402.92,
-        -136.67
+        403.5,
+        -127.07
        ],
        [
-        398.83,
-        -134.2
+        399.47,
+        -124.54
        ],
        [
-        394.47,
-        -132.23
+        395.17,
+        -122.5
        ],
        [
-        389.91,
-        -130.78
+        390.67,
+        -120.98
        ],
        [
-        385.22,
-        -129.89
+        386.01,
+        -120
        ],
        [
-        380.45,
-        -129.55
+        381.28,
+        -119.57
        ],
        [
-        375.67,
-        -129.78
+        376.52,
+        -119.7
        ],
        [
-        370.96,
-        -130.57
+        371.82,
+        -120.39
        ],
        [
-        366.37,
-        -131.91
+        367.22,
+        -121.62
        ],
        [
-        361.97,
-        -133.79
+        362.81,
+        -123.39
        ],
        [
-        357.83,
-        -136.17
+        358.63,
+        -125.66
        ],
        [
-        353.99,
-        -139.02
+        354.75,
+        -128.4
        ],
        [
-        350.52,
-        -142.3
+        351.21,
+        -131.58
        ],
        [
-        347.46,
-        -145.98
+        348.08,
+        -135.16
        ],
        [
-        344.85,
-        -149.98
+        345.38,
+        -139.08
        ],
        [
-        342.73,
-        -154.27
+        343.16,
+        -143.29
        ],
        [
-        341.14,
-        -158.78
+        341.46,
+        -147.73
        ],
        [
-        340.09,
-        -163.44
-       ],
-       [
-        339.59,
-        -168.19
+        340.28,
+        -152.33
        ],
        [
         339.66,
-        -172.97
+        -157.05
        ],
        [
-        340.29,
-        -177.71
+        339.59,
+        -161.8
        ],
        [
-        341.48,
-        -182.34
+        340.08,
+        -166.53
        ],
        [
-        368.9,
-        -267.92
+        341.12,
+        -171.17
        ],
        [
-        371,
-        -276.11
+        369.53,
+        -270.01
        ],
        [
-        372.14,
-        -284.49
+        371.38,
+        -278.17
        ],
        [
-        372.29,
-        -292.95
+        372.26,
+        -286.49
        ],
        [
-        371.45,
-        -301.36
+        372.19,
+        -294.85
        ],
        [
-        369.64,
-        -309.62
+        371.14,
+        -303.15
        ],
        [
-        366.88,
-        -317.61
+        369.15,
+        -311.27
        ],
        [
-        363.2,
-        -325.22
+        366.23,
+        -319.11
        ],
        [
-        358.66,
-        -332.35
+        362.43,
+        -326.56
        ],
        [
-        353.32,
-        -338.91
+        357.79,
+        -333.52
        ],
        [
-        347.25,
-        -344.79
+        352.38,
+        -339.9
        ],
        [
-        340.53,
-        -349.93
+        346.27,
+        -345.62
        ],
        [
-        333.26,
-        -354.25
+        339.55,
+        -350.59
        ],
        [
-        325.54,
-        -357.69
+        332.29,
+        -354.74
        ],
        [
-        317.47,
-        -360.21
+        324.6,
+        -358.04
        ],
        [
-        309.16,
-        -361.77
+        316.58,
+        -360.42
        ],
        [
-        300.72,
+        308.35,
+        -361.87
+       ],
+       [
+        299.99,
         -362.35
        ],
        [
-        292.28,
-        -361.94
+        291.64,
+        -361.87
        ],
        [
-        283.94,
-        -360.54
+        283.41,
+        -360.42
        ],
        [
-        275.82,
-        -358.19
+        275.39,
+        -358.04
        ],
        [
-        268.03,
-        -354.9
+        267.7,
+        -354.74
        ],
        [
-        260.67,
-        -350.73
+        260.45,
+        -350.58
        ],
        [
-        253.86,
-        -345.73
+        253.72,
+        -345.61
        ],
        [
-        247.67,
-        -339.96
+        247.61,
+        -339.9
        ],
        [
         242.2,
@@ -4394,9 +8220,9 @@
    ]
   },
   {
-   "id": "p37_norm_goma_grip_top_75_sha_disp_50_sha_2_46_filas",
+   "id": "p42_norm_goma_grip_top_75_sha_disp_50_sha_2_46_filas",
    "name": "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
-   "color": "#424242",
+   "color": "#3a3f43",
    "pos": [
     400,
     0,
@@ -4412,7 +8238,7 @@
    "visible": true,
    "features": [
     {
-     "id": "f128",
+     "id": "f237",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4433,7 +8259,7 @@
      }
     },
     {
-     "id": "f129",
+     "id": "f238",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4454,7 +8280,7 @@
      }
     },
     {
-     "id": "f130",
+     "id": "f239",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4475,7 +8301,7 @@
      }
     },
     {
-     "id": "f131",
+     "id": "f240",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4496,7 +8322,7 @@
      }
     },
     {
-     "id": "f132",
+     "id": "f241",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4517,7 +8343,7 @@
      }
     },
     {
-     "id": "f133",
+     "id": "f242",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4538,7 +8364,7 @@
      }
     },
     {
-     "id": "f134",
+     "id": "f243",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4559,7 +8385,7 @@
      }
     },
     {
-     "id": "f135",
+     "id": "f244",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4580,7 +8406,7 @@
      }
     },
     {
-     "id": "f136",
+     "id": "f245",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4601,7 +8427,7 @@
      }
     },
     {
-     "id": "f137",
+     "id": "f246",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4622,7 +8448,7 @@
      }
     },
     {
-     "id": "f138",
+     "id": "f247",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4643,7 +8469,7 @@
      }
     },
     {
-     "id": "f139",
+     "id": "f248",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4664,7 +8490,7 @@
      }
     },
     {
-     "id": "f140",
+     "id": "f249",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4685,7 +8511,7 @@
      }
     },
     {
-     "id": "f141",
+     "id": "f250",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4706,7 +8532,7 @@
      }
     },
     {
-     "id": "f142",
+     "id": "f251",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4727,7 +8553,7 @@
      }
     },
     {
-     "id": "f143",
+     "id": "f252",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4748,7 +8574,7 @@
      }
     },
     {
-     "id": "f144",
+     "id": "f253",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4769,7 +8595,7 @@
      }
     },
     {
-     "id": "f145",
+     "id": "f254",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4790,7 +8616,7 @@
      }
     },
     {
-     "id": "f146",
+     "id": "f255",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4811,7 +8637,7 @@
      }
     },
     {
-     "id": "f147",
+     "id": "f256",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4832,7 +8658,7 @@
      }
     },
     {
-     "id": "f148",
+     "id": "f257",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4853,7 +8679,7 @@
      }
     },
     {
-     "id": "f149",
+     "id": "f258",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4874,7 +8700,7 @@
      }
     },
     {
-     "id": "f150",
+     "id": "f259",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4895,7 +8721,7 @@
      }
     },
     {
-     "id": "f151",
+     "id": "f260",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4916,7 +8742,7 @@
      }
     },
     {
-     "id": "f152",
+     "id": "f261",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4937,7 +8763,7 @@
      }
     },
     {
-     "id": "f153",
+     "id": "f262",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4958,7 +8784,7 @@
      }
     },
     {
-     "id": "f154",
+     "id": "f263",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -4979,7 +8805,7 @@
      }
     },
     {
-     "id": "f155",
+     "id": "f264",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5000,7 +8826,7 @@
      }
     },
     {
-     "id": "f156",
+     "id": "f265",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5021,7 +8847,7 @@
      }
     },
     {
-     "id": "f157",
+     "id": "f266",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5042,7 +8868,7 @@
      }
     },
     {
-     "id": "f158",
+     "id": "f267",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5063,7 +8889,7 @@
      }
     },
     {
-     "id": "f159",
+     "id": "f268",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5084,7 +8910,7 @@
      }
     },
     {
-     "id": "f160",
+     "id": "f269",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5105,7 +8931,7 @@
      }
     },
     {
-     "id": "f161",
+     "id": "f270",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5126,7 +8952,7 @@
      }
     },
     {
-     "id": "f162",
+     "id": "f271",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5147,7 +8973,7 @@
      }
     },
     {
-     "id": "f163",
+     "id": "f272",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5168,7 +8994,7 @@
      }
     },
     {
-     "id": "f164",
+     "id": "f273",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5189,7 +9015,7 @@
      }
     },
     {
-     "id": "f165",
+     "id": "f274",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5210,7 +9036,7 @@
      }
     },
     {
-     "id": "f166",
+     "id": "f275",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5231,7 +9057,7 @@
      }
     },
     {
-     "id": "f167",
+     "id": "f276",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5252,7 +9078,7 @@
      }
     },
     {
-     "id": "f168",
+     "id": "f277",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5273,7 +9099,7 @@
      }
     },
     {
-     "id": "f169",
+     "id": "f278",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5294,7 +9120,7 @@
      }
     },
     {
-     "id": "f170",
+     "id": "f279",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5315,7 +9141,7 @@
      }
     },
     {
-     "id": "f171",
+     "id": "f280",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5336,7 +9162,7 @@
      }
     },
     {
-     "id": "f172",
+     "id": "f281",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",
@@ -5357,7 +9183,7 @@
      }
     },
     {
-     "id": "f173",
+     "id": "f282",
      "name": "Goma grip top",
      "shape": "box",
      "op": "union",

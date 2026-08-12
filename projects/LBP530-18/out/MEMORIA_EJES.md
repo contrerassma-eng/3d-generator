@@ -140,3 +140,31 @@ Fuente paramétrica: `cad/ensambles/gen_lbp530.mjs` (regenerar con
 
 Lo cotizado excede lo necesario de las 4 líneas (~2× en banda): repuesto o
 futuras líneas — decisión comercial del usuario, se registra sin ocultar.
+
+---
+
+## REVISIÓN B — 12-08-2026 · Accionamiento verificado contra catálogo Motovario
+
+La selección declarada en Rev. A («eje hueco Ø30, 0,37 kW, n2≈42 rpm, par
+≥85 Nm») **no es comprable**, verificado sobre el catálogo NMRV completo
+(`conveyone-simulator/docs/lbp/criterios/accionamiento.md`, con página y cita
+por dato):
+
+- El bore Ø30 no existe en NMRV 040/050/063 (máx 25); recién aparece en
+  **NMRV-P 075** (cat. p.58).
+- No hay ratio 4 polos que dé 42 rpm: las opciones son 46 (i=30) o 35 (i=40)
+  (cat. p.18).
+- 0,37 kW entrega 56–58 Nm a 46 rpm — el trío pedido es físicamente
+  inconsistente (cat. p.127-128).
+
+**Selección Rev. B: NMRV-P 075 FA 1/30 · eje hueco Ø30 H8 · PAM 80B14 ·
+motor 80A-4 0,55 kW 400 V 50 Hz · B3 · brazo de reacción 075**
+→ 46 rpm · 89 Nm entregados · fs 2,8 · v = π·0,1534·46 = **22,2 m/min**
+(dentro del rango 5–45).
+
+Consecuencias aplicadas en esta revisión:
+1. **Muñones Ø30 pasan de j6 a h6** (ajuste prescrito H8/h6, cat. p.90) —
+   planos EJ-01/02 regenerados.
+2. Ítem A5 de la lista de compra corregido (0,55 kW, tamaño 075).
+3. Alternativa económica registrada si el par real de servicio fuese ≤60 Nm:
+   NMRV-P 063 1/30 con 0,37 kW re-torneando muñones a Ø28 h6.

@@ -122,10 +122,10 @@ function shaftSheet(eje, opts) {
   if (eje.chaveta) {
     sh.poly([[ex - 4 * 1.6, ey + re - 4 * 1.6 - 6.4], [ex + 4 * 1.6, ey + re - 4 * 1.6 - 6.4], [ex + 4 * 1.6, ey + re + 1], [ex - 4 * 1.6, ey + re + 1]], 'VISIBLE');
     sh.text('EXTREMO MOTRIZ (1:0.6)', ex, ey - re - 6, 2.8, 'C');
-    sh.text('Ø30 j6 · chavetero 8 JS9', ex, ey + re + 4, 2.6, 'C');
+    sh.text('Ø30 h6 · chavetero 8 JS9', ex, ey + re + 4, 2.6, 'C');
   } else {
     sh.text('EXTREMO (1:0.6)', ex, ey - re - 6, 2.8, 'C');
-    sh.text('Ø30 j6 (liso, sin chavetero)', ex, ey + re + 4, 2.6, 'C');
+    sh.text('Ø30 h6 (liso, sin chavetero)', ex, ey + re + 4, 2.6, 'C');
   }
 
   // notas
@@ -134,7 +134,7 @@ function shaftSheet(eje, opts) {
     'NOTAS:',
     `1. Material: ${eje.material}.`,
     '2. Tornear entre centros DIN 332-A2.5 en ambas caras.',
-    '3. Muñones Ø30 j6: rugosidad Ra 1.6; concentricidad entre muñones',
+    '3. Muñones Ø30 h6 (ajuste eje hueco NMRV H8/h6): Ra 1.6; concentricidad entre muñones',
     '   y respecto del cuadrado <= 0.05 TIR.',
     '4. Chaflanes 2×45° en ambos extremos; aristas del cuadrado matadas 0.5.',
     ...(eje.chaveta ? [
@@ -142,7 +142,7 @@ function shaftSheet(eje, opts) {
       '6. Rosca de punta M10×22 con chaflán de entrada; sirve de retención',
       '   axial del motorreductor (arandela Ø40×6 + tornillo 8.8 + Loctite 243).',
       '7. El muñón motriz recibe: chumacera UCF206 (50) y cubo del',
-      '   motorreductor de eje hueco Ø30 H7 (110). Ajuste j6/H7.',
+      '   motorreductor de eje hueco Ø30 H8 (NMRV-P075). Ajuste h6/H8.',
       '8. Tolerancia general ISO 2768-mK.',
     ] : [
       '5. Ambos muñones reciben chumacera UCF206 (bore Ø30, prisioneros).',
@@ -200,7 +200,7 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
     ['A2', 'Chumacera de brida UCF206 (bore Ø30, 4 pernos)', '32', '4 por transportador (2 ejes × 2)'],
     ['A3', 'Chaveta DIN 6885 A 8×7×90, acero C45', '8 (+4 resp.)', '1 por eje motriz'],
     ['A4', 'Arandela retención Ø40×6 + tornillo M10×25 8.8', '8', 'retención axial del motorreductor'],
-    ['A5', 'Motorreductor eje hueco Ø30 H7, 0.37 kW, n2 ~ 42 rpm, par >= 85 Nm', '8', 'montaje directo + brazo de torque (Z32: 41.5 rpm p/ 20 m/min)'],
+    ['A5', 'Motorreductor NMRV-P 075 FA 1/30, eje hueco Ø30 H8, 0.55 kW 80A-4', '8', 'VERIFICADO cat. Motovario: 46 rpm, 89 Nm, fs 2.8; v=22.2 m/min; brazo de torque 075'],
     ['A6', 'Rodillo retorno Ø63.5: tubo + 2 rodam. 6202-2RS sellados insertos', `${8 + 4 + 4} aprox`, 'eje muerto Ø15 rosc. M8 int.; PERNO HEX M8 + golilla POR FUERA'],
     ['A7', 'Perno M12×40 8.8 + tuerca (chumaceras a mecha PL8)', '128', '4 por chumacera'],
     ['A8', 'Soporte tipo ZP2026 (B_005A) plegado 3 mm + nivelador; travesaños TR_S C 88×40', '16 sop.', 'misma matriz/planos del ZP2026'],

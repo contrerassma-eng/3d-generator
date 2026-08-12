@@ -40,6 +40,7 @@
 // Uso:  node cad/ensambles/gen_lbp530.mjs
 
 import { writeFileSync } from 'node:fs';
+import { bendAllowance } from '../js/sheetmetal.js';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -87,7 +88,11 @@ export const D = {
 
   // Ejes (barra cuadrada SAE 1045 1.5 in, muñones torneados Ø30)
   sq: r2(1.5 * IN),            // 38.1
-  jrnDia: 30, jrnTol: 'j6',
+  jrnDia: 30, jrnTol: 'h6',        // ajuste eje hueco NMRV: H8/h6 (catalogo Motovario p.90) — antes j6, corregido
+  // Motorreductor VERIFICADO contra catalogo NMRV (docs/lbp/criterios/accionamiento.md):
+  // el trio "0,37 kW + 42 rpm + >=85 Nm" no existe. Seleccion: NMRV-P 075 FA
+  // 1/30, eje hueco O30 H8, motor 80A-4 0,55 kW -> n2 46 rpm, 89 Nm, fs 2,8.
+  // v banda = pi*0.1534*46 = 22,2 m/min (rango 5-45 OK).
   jrnLibre: 50,                // placa 6 + UC206 (B=38.1) + margen
   jrnMotriz: 165,              // rodamiento 50 + garganta + cubo motorreductor 110
   cuboMotor: 110,
@@ -100,13 +105,14 @@ export const D = {
   // Camino de banda / tracción (manual Movex: wrap motriz 140±10°)
   zMotriz: -400, xMotrizDesdePunta: 120,   // motriz ABAJO, lado descarga (honda: wrap 135°)
   zTensor: -290, xTensorDesdePunta: 300,   // deflexión inferior, lado entrada
-  retTop: -150, retCada: 500,              // retorno: rodillos cada ~500 (decisión usuario)
+  retTop: -135, retCada: 500,              // retorno cada ~500; eje muerto en ALMA PLANA (fuera de la zona de plegado del ala)
   gtRetDia: 63.5,                          // rodillo retorno Ø63.5 (manual: D>50)
   // rodillo de retorno de EJE MUERTO (decisión usuario): tubo Ø63.5 con 2
   // rodamientos SELLADOS 6202-2RS insertos; eje Ø15 perforado y roscado M8
   // en ambas puntas → perno hexagonal M8 + golilla POR FUERA de la placa
   retEjeDia: 15, retPernoM: 8,
-  sagR: 600, sagBot: -280,                 // catenaria tras la motriz (sag 130 ≤ 150)
+  retPernoPas: 9,                          // paso del M8 en la placa (holgura media ISO 273)
+  sagR: 600, sagBot: -265,                 // catenaria tras la motriz (flecha 130 bajo el plano de retorno −135; manual: ≤150)
   catenLen: 750,                           // largo de catenaria (manual: 500–900)
 
   // Guía de APOYO (carried way): pletina de canto 12 mm + BAR CAP UHMW
@@ -217,13 +223,13 @@ function beltPath(L, tipo, zci) {
   if (tipo === 'LBP') {
     // snub Ø63.5 tras la motriz (completa la envoltura), luego catenaria
     // (manual: sag 50–150) y RODILLOS de retorno cada ~500 hasta el tensor
-    seq.push({ c: [xDrv - 300, -150], r: D.gtRetDia / 2, s: 1, rol: 'snub' });
+    seq.push({ c: [xDrv - 300, -140], r: D.gtRetDia / 2, s: 1, rol: 'snub' });
     seq.push({ c: [xDrv - 740, D.sagBot + D.sagR], r: D.sagR, s: -1, virtual: true, rol: 'catenaria' });
     for (let x = xDrv - 1160; x > D.xTensorDesdePunta + 350; x -= D.retCada) {
       seq.push({ c: [x, D.retTop - D.gtRetDia / 2], r: D.gtRetDia / 2, s: 1, rol: 'ret' });
     }
   } else {
-    seq.push({ c: [L / 2 - 20, -170], r: D.gtRetDia / 2, s: 1, rol: 'ret' });
+    seq.push({ c: [L / 2 - 20, -160], r: D.gtRetDia / 2, s: 1, rol: 'ret' });
   }
   seq.push({ c: [D.xTensorDesdePunta, D.zTensor], r: D.rSprk, s: -1, rol: 'tensor' });
   return seq;
@@ -254,12 +260,185 @@ function addPart(name, color, anchor, features, extra = {}) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Desarrollos planos (bloque `flat` por pieza de chapa) — ANALÍTICOS: salen de
+// los mismos parámetros que generan el 3D, no de la malla. Los consume
+// ensambles/dxf_flat.mjs → DXF 1:1 de corte láser + tabla de agujeros.
+// Convención del plano de desarrollo: X = a lo largo de la pieza, Y = a lo
+// alto del desarrollo (0 abajo). BA = θ·(R+K·t), K=0.44 acero (sheetmetal.js),
+// R = t (mismo criterio que el módulo de chapa del CAD).
+// ---------------------------------------------------------------------------
+const KCH = 0.44;
+const rect = (w, h, x0 = 0, y0 = 0) =>
+  [[x0, y0], [x0 + w, y0], [x0 + w, y0 + h], [x0, y0 + h], [x0, y0]];
+
+// Desarrollo de placa con UNA pestaña inferior a 90° (alma + ala):
+// dev = alaFlat | BA | almaFlat, con el eje de plegado marcado.
+function flatPlacaConAla(L, almaAlto, alaAncho, t, holesAlma, material, aviso, holesAla = []) {
+  const r = t;
+  const BA = bendAllowance(90, r, t, KCH);
+  const alaFlat = alaAncho - (r + t);
+  const almaFlat = almaAlto - (r + t);
+  const H = alaFlat + BA + almaFlat;
+  // hole dz = distancia desde el BORDE SUPERIOR del alma (3D: plTop − z)
+  const circles = holesAlma
+    .filter(h => h.dz <= almaFlat)          // nunca en la zona de plegado
+    .map(h => ({ c: [h.x, r2(H - h.dz)], r: h.dia / 2 }));
+  // agujeros del ALA: yDev medido desde el BORDE LIBRE del ala (0..alaFlat)
+  for (const h of holesAla) {
+    if (h.yDev <= alaFlat) circles.push({ c: [h.x, r2(h.yDev)], r: h.dia / 2 });
+  }
+  const yEje = alaFlat + BA / 2;
+  return {
+    contorno: rect(L, r2(H)),
+    cortes: { circles, polys: [] },
+    pliegues: [
+      { a: [0, r2(alaFlat)], b: [L, r2(alaFlat)], tipo: 'tangente' },
+      { a: [0, r2(yEje)], b: [L, r2(yEje)], tipo: 'eje' },
+      { a: [0, r2(alaFlat + BA)], b: [L, r2(alaFlat + BA)], tipo: 'tangente' },
+    ],
+    etiquetas: [{ x: L / 2, y: r2(yEje) + 4, s: `PLEGAR ARRIBA 90° R${r}` }],
+    pliegueInfo: [{ ang: 90, r, ba: r2(BA) }],
+    t, k: KCH, radio: r, material,
+    avisos: aviso ? [aviso] : [],
+  };
+}
+
+// Desarrollo de perfil C (dos pestañas a 90°): ala | BA | web | BA | ala.
+function flatPerfilC(largo, webAncho, alaAlto, t, material, holes = []) {
+  const r = t;
+  const BA = bendAllowance(90, r, t, KCH);
+  const ala = alaAlto - (r + t);
+  const web = webAncho - 2 * (r + t);
+  const H = 2 * ala + 2 * BA + web;
+  const y1 = ala, y2 = ala + BA, y3 = ala + BA + web, y4 = ala + BA + web + BA;
+  const pl = [];
+  for (const [ya, yb] of [[y1, y2], [y3, y4]]) {
+    pl.push({ a: [0, r2(ya)], b: [largo, r2(ya)], tipo: 'tangente' });
+    pl.push({ a: [0, r2((ya + yb) / 2)], b: [largo, r2((ya + yb) / 2)], tipo: 'eje' });
+    pl.push({ a: [0, r2(yb)], b: [largo, r2(yb)], tipo: 'tangente' });
+  }
+  return {
+    contorno: rect(largo, r2(H)),
+    cortes: { circles: holes.map(h => ({ c: [h.x, h.y], r: h.dia / 2 })), polys: [] },
+    pliegues: pl,
+    etiquetas: [{ x: largo / 2, y: r2((y1 + y2) / 2) + 4, s: `PLEGAR ARRIBA 90° R${r} (×2)` }],
+    pliegueInfo: [{ ang: 90, r, ba: r2(BA) }, { ang: 90, r, ba: r2(BA) }],
+    t, k: KCH, radio: r, material,
+    avisos: [],
+  };
+}
+
+// Desarrollo de la GUARDA INFERIOR (artesa en U con pestañas de montaje):
+// fondo + 2 laterales + 2 pestañas superiores hacia afuera, 4 pliegues a 90°.
+// dev Y (de abajo hacia arriba): pestaña | BA | lateral | BA | fondo | BA |
+// lateral | BA | pestaña. Agujeros de montaje en las pestañas (M6, Ø7).
+function flatGuardaU(Lg, fondoW, latAlto, pestW, t, holesX, material, tapasExtremo, muescas, extras) {
+  const r = t;
+  const BA = bendAllowance(90, r, t, KCH);
+  // Cotas EXTERIORES → franjas planas: pestaña pestW−r · lateral latAlto−2(r+t)
+  // · fondo fondoW−2r (correccion del panel: antes el reparto corria 1,5 mm)
+  const pest = pestW - r, lat = latAlto - 2 * (r + t), fondo = fondoW - 2 * r;
+  const H = 2 * pest + 4 * BA + 2 * lat + fondo;
+  const yl = [];  // fronteras acumuladas de franjas
+  let acc = 0;
+  for (const seg of [pest, BA, lat, BA, fondo, BA, lat, BA, pest]) { yl.push(acc); acc += seg; }
+  yl.push(acc);
+  const pl = [];
+  for (const i of [1, 3, 5, 7]) {
+    pl.push({ a: [0, r2(yl[i])], b: [Lg, r2(yl[i])], tipo: 'tangente' });
+    pl.push({ a: [0, r2((yl[i] + yl[i + 1]) / 2)], b: [Lg, r2((yl[i] + yl[i + 1]) / 2)], tipo: 'eje' });
+    pl.push({ a: [0, r2(yl[i + 1])], b: [Lg, r2(yl[i + 1])], tipo: 'tangente' });
+  }
+  const circles = [];
+  // M6 de pestaña: misma cota que el 3D — holeY desde el eje ⇒ distancia al
+  // borde libre de la pestaña = holeY − (skirtY − pestW). (Antes pest/2: 7,5 mm
+  // de desalineación detectados por el panel.)
+  const yM6 = extras ? r2(extras.holeY - (extras.skirtY - pestW)) : r2(pest / 2);
+  for (const x of holesX) {
+    circles.push({ c: [r2(x), yM6], r: 3.5 });
+    circles.push({ c: [r2(x), r2(H - yM6)], r: 3.5 });
+  }
+  // Drenaje del fondo (criterio guardas.md): Ø8 al eje, cada ~450
+  if (extras?.drenaje) {
+    for (let x = 90; x <= Lg - 90; x += 450) {
+      circles.push({ c: [r2(x), r2(pest + BA + lat + BA + fondo / 2)], r: 4 });
+    }
+  }
+  // Pasos de muñón en los FALDONES (los ejes salen del bastidor hacia las
+  // chumaceras): Ø48 en ambas franjas laterales, a la altura real del eje.
+  for (const grp of [[extras?.munones, 24], [extras?.mechaMounts, 3.5]]) {
+    for (const m of (grp[0] || [])) {
+      // franja lateral inferior corre de la pestaña (z=ala) hacia el fondo:
+      // devY = inicio de franja + distancia plana desde la tangente del ala
+      const latOff = r2((extras.zAlaBot - m.z) - (r + t));
+      circles.push({ c: [r2(m.x), r2(pest + BA + latOff)], r: grp[1] });
+      circles.push({ c: [r2(m.x), r2(pest + BA + lat + BA + fondo + BA + (lat - latOff))], r: grp[1] });
+    }
+  }
+  // Tapas de extremo: pestaña adicional del FONDO, plegada 90° hacia arriba,
+  // que cierra la cara del extremo (acceso principal al accionamiento).
+  const y4 = yl[4], y5 = yl[5];                    // franja del fondo en el dev
+  const tapaDev = lat - 3;                          // llega casi al ala, con luz
+  let cont;
+  const tapas = { a: !!tapasExtremo?.a, b: !!tapasExtremo?.b };
+  const xa0 = tapas.a ? -(BA + tapaDev) : 0, xb0 = Lg + (tapas.b ? BA + tapaDev : 0);
+  // Muescas: ventanas [x0,x1] donde la PESTAÑA se recorta (la bajada de banda
+  // al motriz/tensor cruza el plano de la pestaña; sin muesca, roce).
+  const mk = (muescas || []).map(m => [r2(m[0]), r2(m[1])]).sort((a, b) => a[0] - b[0]);
+  const bordeConMuescas = (yBorde, yFondoPest, reverse) => {
+    // recorre el borde exterior de la franja de pestaña insertando escalones
+    const pts = [];
+    let x = 0;
+    for (const [m0, m1] of mk) {
+      pts.push([x, yBorde], [m0, yBorde], [m0, yFondoPest], [m1, yFondoPest], [m1, yBorde]);
+      x = m1;
+    }
+    pts.push([x, yBorde], [Lg, yBorde]);
+    return reverse ? pts.reverse() : pts;
+  };
+  cont = [...bordeConMuescas(0, yl[1], false), [Lg, y4]];
+  if (tapas.b) cont.push([xb0, y4], [xb0, y5]);
+  cont.push([Lg, y5], [Lg, r2(H)]);
+  cont.push(...bordeConMuescas(r2(H), r2(yl[8]), true));
+  cont.push([0, y5]);
+  if (tapas.a) cont.push([xa0, y5], [xa0, y4]);
+  cont.push([0, y4], [0, 0]);
+  for (const [on, xl] of [[tapas.a, 0], [tapas.b, Lg]]) {
+    if (!on) continue;
+    pl.push({ a: [xl, r2(y4)], b: [xl, r2(y5)], tipo: 'eje' });
+  }
+  return {
+    contorno: cont.map(p => [r2(p[0]), r2(p[1])]),
+    cortes: { circles, polys: [] },
+    pliegues: pl,
+    etiquetas: [{ x: Lg / 2, y: r2(yl[4] + fondo / 2), s: `4 PLIEGUES 90° R${r} — ARTESA EN U${tapas.a || tapas.b ? ' + TAPA(S) DE EXTREMO' : ''}` }],
+    pliegueInfo: [1, 2, 3, 4].map(() => ({ ang: 90, r, ba: r2(BA) })),
+    t, k: KCH, radio: r, material,
+    avisos: ['MONTA APERNADA M6 AL ALA INFERIOR DE LAS PLACAS (desmontable para mantención)'],
+  };
+}
+
+// Placa plana sin pliegues (mechas, placas de piso, guardas planas).
+function flatPlaca(w, h, t, holes, material, aviso) {
+  return {
+    contorno: rect(w, h),
+    cortes: { circles: holes.map(q => ({ c: [q.x, q.y], r: q.dia / 2 })), polys: [] },
+    pliegues: [], etiquetas: [], pliegueInfo: [],
+    t, k: KCH, radio: t, material,
+    avisos: aviso ? [aviso] : [],
+  };
+}
+
+// Paleta alineada al estandar visual de los equipos Conveyone (materiales del
+// LBP530.glb del simulador): estructura RAL 7035 gris luz, componentes de
+// transmision antracita, banda azul LFA con rodillos POM rojos.
 const C = {
-  placa: '#546e7a', trav: '#455a64', pata: '#37474f',
-  eje: '#b0bec5', sprk: '#5d4037', chum: '#9e9e9e',
-  banda: '#1565c0', rodLBP: '#c62828', goma: '#424242',
-  uhmw: '#eceff1', nose: '#0d47a1', ret: '#607d8b', zapata: '#cfd8dc',
-  motor: '#1b5e20', guia: '#78909c',
+  placa: '#d3d5cf', trav: '#c7c9c3', pata: '#d3d5cf',
+  eje: '#9aa2a8', sprk: '#3d4348', chum: '#565d63',
+  banda: '#1a4f9c', rodLBP: '#c0392b', goma: '#3a3f43',
+  uhmw: '#f2f4f0', nose: '#24313d', ret: '#8d959b', zapata: '#cfd8dc',
+  motor: '#33383c', guia: '#aeb4ac', guarda: '#d3d5cf',
 };
 
 // ---------------------------------------------------------------------------
@@ -337,39 +516,301 @@ function build(tipo, L) {
   const ySprk = esLBP ? D.ySprkLBP : D.ySprkGT;
 
   // ---- Bastidor: 2 placas laterales PL6 con ala inferior ----
+  // Agujeros del alma (compartidos por la placa 3D y su desarrollo): el paso
+  // del perno M8 que fija el EJE MUERTO de cada rodillo de retorno. El perno
+  // entra POR FUERA de la placa y rosca en la punta del eje Ø15 (misma
+  // solución del transfer90). Sin estos agujeros el desarrollo no era
+  // cotizable a corte láser. dz = distancia desde el borde superior del alma.
+  const holesAlma = [];
+  for (const q of path) {
+    if (q.rol !== 'ret' && q.rol !== 'snub') continue;
+    holesAlma.push({ x: r2(q.c[0]), dz: r2(D.plTop - q.c[1]), dia: D.retPernoPas, rol: 'retorno' });
+  }
+
+  // ---- GUARDAS INFERIORES (artesa en U, chapa 1.5, apernadas M6 al ala) ----
+  // El accionamiento cuelga 212 bajo el bastidor (zMotriz −400): la guarda
+  // cierra por debajo y por el extremo la zona de motriz + snub + catenaria,
+  // y otra igual la zona del tensor. Desmontables para tensado y mantención.
+  const mechaPasoDia = 40;
+  const mechaTop = -88;   // traslape con el alma plana: 88 sobre la tangente del pliegue (−176)
+  // Especificación de cada mecha: [x0,x1] huella, muñones {x,z} que pasa
+  const mechasSpec = esLBP
+    ? [
+      { rol: 'motriz', x0: xDrv - 45 - 160, x1: xDrv - 45 + 160, ejes: [{ x: xDrv, z: D.zMotriz }] },
+      { rol: 'tensor', x0: xTen + 45 - 160, x1: xTen + 45 + 160, ejes: [{ x: xTen, z: D.zTensor }] },
+    ]
+    // GT: xDrv−xTen=380 < 2×320 → las dos mechas se solapaban 30 mm (panel).
+    // Una sola mecha COMBINADA por costado con los dos pasos y las dos grillas.
+    : [{ rol: 'combinada', x0: xTen - 115, x1: xDrv + 115, ejes: [{ x: xTen, z: D.zTensor }, { x: xDrv, z: D.zMotriz }] }];
+  // Montaje faldón→mecha: donde las pestañas no tienen tramo libre (tensor y
+  // GT: la mecha ocupa el plano del ala), la guarda se aperna POR EL FALDÓN a
+  // la mecha con M6 ROSCADO en la PL8 (2 columnas × 2 filas por mecha, lejos
+  // de la grilla UCF). Comparten coordenadas: no pueden desalinearse.
+  for (const m of mechasSpec) {
+    const zBot = Math.min(...m.ejes.map(e => e.z)) - 110;
+    const rows = [-250, -350].filter(z => z > zBot + 30 && z < -210);
+    m.mounts = [];
+    for (const x of [m.x0 + 55, m.x1 - 55]) for (const z of rows) m.mounts.push({ x: r2(x), z });
+  }
+
+  const G = {
+    t: 1.5, fondoW: 504, skirtY: 252, pestW: 36, holeY: 222,
+    fondoZ: -525, fondoZTen: -415, pasoM6: 400, holeDia: 7,
+  };
+  const zAlaTop = D.plTop - D.plAlto + D.plT;      // cara superior del ala
+  const zAlaBot = D.plTop - D.plAlto;              // cara inferior del ala (asiento de guarda)
+  // Muescas de pestaña CALCULADAS desde el lazo real: cada cruce del contorno
+  // exterior de la banda por el plano de pestañas (z ala) abre una ventana
+  // [x−80, x+100] — el panel encontró 5 de 6 cruces sin muesca con la lista
+  // manual. Cubre además la variación de flecha de catenaria (50–150).
+  const zPest = D.plTop - D.plAlto;
+  const crucesPest = [];
+  for (let i = 0; i < outer.length; i++) {
+    const a = outer[i], b = outer[(i + 1) % outer.length];
+    if ((a[1] - zPest) * (b[1] - zPest) < 0) {
+      const t01 = (zPest - a[1]) / (b[1] - a[1]);
+      crucesPest.push(r2(a[0] + t01 * (b[0] - a[0])));
+    }
+  }
+  const ventanas = crucesPest.sort((u, v) => u - v).map(x => [x - 80, x + 100]);
+  // fusionar ventanas solapadas
+  const muescasAuto = [];
+  for (const w of ventanas) {
+    const last = muescasAuto[muescasAuto.length - 1];
+    if (last && w[0] <= last[1]) last[1] = Math.max(last[1], w[1]);
+    else muescasAuto.push([...w]);
+  }
+  const clip = (xa, xb) => muescasAuto
+    .filter(([a, b]) => b > xa && a < xb)
+    .map(([a, b]) => [Math.max(xa, a), Math.min(xb, b)]);
+  const guardas = esLBP
+    ? [
+      { tag: 'motriz', xa: r2(xDrv - 1450), xb: L, fondoZ: G.fondoZ, tapas: { a: false, b: true } },
+      { tag: 'tensor', xa: 0, xb: r2(xTen + 350), fondoZ: G.fondoZTen, tapas: { a: true, b: false } },
+    ]
+    : [{ tag: 'unica', xa: 0, xb: L, fondoZ: G.fondoZ, tapas: { a: true, b: true } }];
+  // M6 por TRAMO de pestaña (entre muescas): ≥1 por tramo ≥80, a 40 de cada
+  // borde y relleno cada ≤400 — así ninguna guarda queda sin fijación.
+  const holesAla = [];
+  for (const g of guardas) {
+    g.muescas = clip(g.xa, g.xb);
+    for (const m of mechasSpec) {
+      if (m.x1 > g.xa && m.x0 < g.xb) g.muescas.push([Math.max(g.xa, m.x0 - 10), Math.min(g.xb, m.x1 + 10)]);
+    }
+    g.muescas.sort((u, v) => u[0] - v[0]);
+    const fus = [];
+    for (const w of g.muescas) {
+      const last = fus[fus.length - 1];
+      if (last && w[0] <= last[1]) last[1] = Math.max(last[1], w[1]);
+      else fus.push([...w]);
+    }
+    g.muescas = fus;
+    g.munones = [[xDrv, D.zMotriz], [xTen, D.zTensor]]
+      .filter(([x]) => x > g.xa && x < g.xb).map(([x, z]) => ({ x: r2(x), z }));
+    g.mechaMounts = mechasSpec.flatMap(m => (m.mounts || []))
+      .filter(q => q.x > g.xa && q.x < g.xb);
+    let tramos = [[g.xa, g.xb]];
+    for (const [m0, m1] of g.muescas) {
+      tramos = tramos.flatMap(([a, b]) => {
+        const out = [];
+        if (m0 > a) out.push([a, Math.min(m0, b)]);
+        if (m1 < b) out.push([Math.max(m1, a), b]);
+        return out;
+      });
+    }
+    g.tramos = tramos.filter(([a, b]) => b - a >= 80);
+    if (process.env.DBG) console.log(`  DBG guarda ${g.tag}: muescas=${JSON.stringify(g.muescas.map(m=>m.map(r2)))} tramos=${JSON.stringify(g.tramos.map(m=>m.map(r2)))}`);
+    g.holesX = [];
+    for (const [a, b] of g.tramos) {
+      const len = b - a;
+      const n = Math.max(2, Math.ceil(len / G.pasoM6) + 1);
+      for (let i = 0; i < n; i++) {
+        const x = r2(a + 40 + (len - 80) * (n === 1 ? 0.5 : i / (n - 1)));
+        g.holesX.push(x);
+        holesAla.push({ x, yDev: 11, dia: G.holeDia });
+      }
+    }
+  }
+
   for (const s of [-1, 1]) {
     const y = s * (yIn + D.plT / 2);
     const nm = s > 0 ? 'motriz (+Y)' : 'libre (−Y)';
     const f = [
       box(`Alma ${L}×${D.plAlto}`, [L / 2, y, D.plTop - D.plAlto / 2], L, D.plT, D.plAlto),
-      box('Ala inferior 30×4', [L / 2, y + (s > 0 ? -1 : 1) * (D.alaAncho / 2 - D.plT / 2), D.plTop - D.plAlto + 2], L, D.alaAncho, 4),
+      box(`Ala inferior ${D.alaAncho}×${D.plT}`, [L / 2, y + (s > 0 ? -1 : 1) * (D.alaAncho / 2 - D.plT / 2), D.plTop - D.plAlto + D.plT / 2], L, D.alaAncho, D.plT),
     ];
-    for (const [xc, zc, dxm] of [[xDrv, D.zMotriz, -45], [xTen, D.zTensor, 45]]) {
-      const hM = (D.plTop - D.plAlto) - (zc - 110);   // desde el borde inferior del alma
-      f.push(box('Mecha porta-chumacera PL8', [xc + dxm, y, zc - 110 + hM / 2], 320, D.plT + 2, hM));
-      for (const dx of [-1, 1]) for (const dz of [-1, 1]) {
-        f.push(hole('Perno chumacera Ø12', [xc + dx * D.ucf.boltGap / 2, y, zc + dz * D.ucf.boltGap / 2], [0, s, 0], D.ucf.boltDia, 0, true));
+    for (const h of holesAlma) {
+      f.push(hole(`Paso perno M${D.retPernoM} eje muerto retorno`, [h.x, y, D.plTop - h.dz], [0, s, 0], h.dia, 0, true));
+    }
+    for (const h of holesAla) {
+      f.push(hole('Paso M6 guarda inferior', [h.x, s * G.holeY, zAlaTop - D.plT / 2], [0, 0, 1], h.dia, 0, true));
+    }
+    addPart(`FAB · Placa lateral ${nm} PL6 L=${L}`, C.placa, [L / 2, y, D.plTop], f, {
+      flat: flatPlacaConAla(L, D.plAlto, D.alaAncho, D.plT, holesAlma,
+        'Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)',
+        'MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)', holesAla),
+    });
+  }
+
+  // ---- piezas de guarda ----
+  // Faldones POR FUERA del bastidor (interior 485 > banda 457,2 y > exterior
+  // 482): la catenaria y la banda descendente viajan dentro de la artesa sin
+  // roce. Pestañas hacia ADENTRO apoyadas bajo el ala, con M6 en la zona
+  // plana del ala (11 del borde libre) y tramos segmentados por las muescas.
+  for (const g of guardas) {
+    const Lg = r2(g.xb - g.xa);
+    const latAlto = r2(zAlaBot - g.fondoZ);
+    const xm = (g.xa + g.xb) / 2;
+    const f = [
+      box('Fondo artesa', [xm, 0, g.fondoZ + G.t / 2], Lg, G.fondoW, G.t),
+    ];
+    for (const s of [-1, 1]) {
+      f.push(box('Lateral artesa', [xm, s * (G.skirtY + G.t / 2), (zAlaBot + g.fondoZ) / 2], Lg, G.t, latAlto));
+      // pestaña hacia adentro, segmentada entre muescas
+      let segs = [[g.xa, g.xb]];
+      for (const [m0, m1] of g.muescas) {
+        segs = segs.flatMap(([a, b]) => {
+          const out = [];
+          if (m0 > a) out.push([a, Math.min(m0, b)]);
+          if (m1 < b) out.push([Math.max(m1, a), b]);
+          return out;
+        });
+      }
+      for (const [a, b] of segs) {
+        if (b - a < 30) continue;
+        f.push(box('Pestaña de montaje', [(a + b) / 2, s * (G.skirtY - G.pestW / 2), zAlaBot - G.t / 2], r2(b - a), G.pestW, G.t));
+      }
+      for (const x of g.holesX) {
+        f.push(hole('Paso M6', [x, s * G.holeY, zAlaBot - G.t / 2], [0, 0, 1], G.holeDia, 0, true));
+      }
+      // pasos de muñón: el eje sale del faldón hacia la chumacera/motor
+      for (const m of g.munones) {
+        f.push(hole('Paso muñón Ø48', [m.x, s * (G.skirtY + G.t / 2), m.z], [0, s, 0], 48, 0, true));
+      }
+      // montaje faldón→mecha (M6 a los roscados de la PL8)
+      for (const q of g.mechaMounts) {
+        f.push(hole('Paso M6 a mecha', [q.x, s * (G.skirtY + G.t / 2), q.z], [0, s, 0], G.holeDia, 0, true));
       }
     }
-    addPart(`FAB · Placa lateral ${nm} PL6 L=${L}`, C.placa, [L / 2, y, D.plTop], f);
+    // drenaje del fondo (criterio guardas.md)
+    for (let x = g.xa + 90; x <= g.xb - 90; x += 450) {
+      f.push(hole('Drenaje Ø8', [r2(x), 0, g.fondoZ + G.t / 2], [0, 0, 1], 8, 0, true));
+    }
+    for (const [on, xe] of [[g.tapas.a, g.xa], [g.tapas.b, g.xb]]) {
+      if (!on) continue;
+      const xin = xe === g.xa ? xe + G.t / 2 : xe - G.t / 2;
+      f.push(box('Tapa de extremo', [xin, 0, (zAlaBot - 3 + g.fondoZ) / 2], G.t, G.fondoW, r2(zAlaBot - 3 - g.fondoZ)));
+    }
+    addPart(`FAB · Guarda inferior ${g.tag} — artesa U chapa ${G.t} (${Lg}×${G.fondoW})`, C.guarda,
+      [xm, 0, g.fondoZ], f, {
+        flat: flatGuardaU(Lg, G.fondoW, latAlto, G.pestW, G.t, g.holesX.map(x => r2(x - g.xa)),
+          'Acero S275JR e1.5 — terminación PINTADO RAL 7035', g.tapas,
+          g.muescas.map(([a, b]) => [Math.max(0, a - g.xa), Math.min(Lg, b - g.xa)]),
+          { holeY: G.holeY, skirtY: G.skirtY, zAlaBot, drenaje: true,
+            munones: g.munones.map(m => ({ x: r2(m.x - g.xa), z: m.z })),
+            mechaMounts: g.mechaMounts.map(m => ({ x: r2(m.x - g.xa), z: m.z })) }),
+      });
+  }
+
+  // ---- Mechas porta-chumacera PL8 (pieza PROPIA, soldada a cada placa) ----
+  // Antes vivían como features de la placa: la maestranza no sabía que eran
+  // una pieza aparte ni dónde soldarla, y les faltaba el agujero MÁS
+  // importante — el PASO DEL MUÑÓN Ø30 (el modelo solo traslapaba mallas).
+  // Paso Ø40: muñón Ø30 h6 + holgura de montaje y giro (no toca la mecha).
+  for (const s of [-1, 1]) {
+    const y = s * (yIn + D.plT + 4);   // PL8 centrada sobre la cara exterior de la placa
+    for (const m of mechasSpec) {
+      const zBot = Math.min(...m.ejes.map(e => e.z)) - 110;
+      const hM = r2(mechaTop - zBot);
+      const w = r2(m.x1 - m.x0);
+      const holes = [];
+      const f = [box(`Mecha PL8 ${w}×${hM}`, [(m.x0 + m.x1) / 2, y, zBot + hM / 2], w, 8, hM)];
+      for (const e of m.ejes) {
+        const xd = r2(e.x - m.x0), yd = r2(e.z - zBot);
+        holes.push({ x: xd, y: yd, dia: mechaPasoDia });
+        f.push(hole(`Paso muñón Ø${mechaPasoDia}`, [e.x, y, e.z], [0, s, 0], mechaPasoDia, 0, true));
+        for (const dx of [-1, 1]) for (const dz of [-1, 1]) {
+          holes.push({ x: r2(xd + dx * D.ucf.boltGap / 2), y: r2(yd + dz * D.ucf.boltGap / 2), dia: D.ucf.boltDia });
+          f.push(hole('Perno chumacera Ø12', [e.x + dx * D.ucf.boltGap / 2, y, e.z + dz * D.ucf.boltGap / 2], [0, s, 0], D.ucf.boltDia, 0, true));
+        }
+      }
+      // roscados M6 del montaje de guarda (broca Ø5 en plano; roscar M6)
+      for (const q of (m.mounts || [])) {
+        holes.push({ x: r2(q.x - m.x0), y: r2(q.z - zBot), dia: 5 });
+        f.push(hole('M6 roscado (montaje guarda)', [q.x, y, q.z], [0, s, 0], 5, 0, true));
+      }
+      // pasos para los M8 del alma que caen dentro de la huella de la mecha
+      // (en el GT el eje muerto del retorno atraviesa placa + mecha)
+      for (const h of holesAlma) {
+        const z = D.plTop - h.dz;
+        if (h.x > m.x0 && h.x < m.x1 && z > zBot && z < mechaTop) {
+          holes.push({ x: r2(h.x - m.x0), y: r2(z - zBot), dia: h.dia });
+          f.push(hole(`Paso M${D.retPernoM} retorno (a través de mecha)`, [h.x, y, z], [0, s, 0], h.dia, 0, true));
+        }
+      }
+      addPart(`FAB · Mecha porta-chumacera PL8 ${m.rol} ${w}×${hM}`, C.placa, [(m.x0 + m.x1) / 2, y, zBot + hM / 2], f, {
+        flat: flatPlaca(w, hM, 8, holes, 'Acero S275JR PL8 — PINTADO RAL 7035',
+          'SOLDAR A CARA EXTERIOR DEL ALMA — traslape 88 mm sobre la tangente del pliegue; 3 cordones 4 mm (superior + verticales), ver GA'),
+      });
+    }
   }
 
   // ---- Travesaños tipo ZP2026 (TR_S): perfil C plegado 88×40×3 ----
   const pasoT = esLBP ? D.pasoTravLBP : D.pasoTravFT;
   const zTv = D.plTop - D.plAlto + 22;
+  // Huella del travesaño: x±44, z −186…−146 (+margen 6). El panel encontró la
+  // catenaria atravesando el de x=4500 y la envoltura del retorno el de x=300
+  // (GT): ahora cada posición se prueba contra el lazo (ambas caras) y se
+  // corre ±200/±300 si choca; si no hay hueco, se omite con aviso.
+  const segRect = (a, b, x0, x1, z0, z1) => {
+    const dentro = (p) => p[0] >= x0 && p[0] <= x1 && p[1] >= z0 && p[1] <= z1;
+    if (dentro(a) || dentro(b)) return true;
+    const cruza = (p, q, v, lo, hi, ax) => {
+      const pa = ax ? p[0] : p[1], pb = ax ? q[0] : q[1];
+      if ((pa - v) * (pb - v) >= 0) return false;
+      const t01 = (v - pa) / (pb - pa);
+      const o = ax ? p[1] + t01 * (q[1] - p[1]) : p[0] + t01 * (q[0] - p[0]);
+      return o >= lo && o <= hi;
+    };
+    return cruza(a, b, x0, z0, z1, true) || cruza(a, b, x1, z0, z1, true) ||
+           cruza(a, b, z0, x0, x1, false) || cruza(a, b, z1, x0, x1, false);
+  };
+  const lazoChoca = (xt) => {
+    const x0 = xt - 50, x1 = xt + 50, z0 = -192, z1 = -140;
+    for (const cara of [outer, inner]) {
+      for (let i = 0; i < cara.length; i++) {
+        if (segRect(cara[i], cara[(i + 1) % cara.length], x0, x1, z0, z1)) return true;
+      }
+    }
+    return false;
+  };
+  const xsTrav = [];
   for (let x = pasoT / 2; x < L; x += pasoT) {
+    let xt = null;
+    for (const dx of [0, -200, 200, -300, 300]) {
+      const c = x + dx;
+      if (c < 150 || c > L - 150) continue;
+      if (!lazoChoca(c)) { xt = r2(c); break; }
+    }
+    if (xt === null) { console.warn(`  ! travesaño en x=${x} omitido: el lazo ocupa toda la ventana`); continue; }
+    xsTrav.push(xt);
+  }
+  for (const x of xsTrav) {
     addPart('FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3', C.trav, [x, 0, zTv], [
       box('Alma C 88', [x, 0, zTv - D.travC.h / 2 + D.travC.t / 2], D.travC.w, D.innerW, D.travC.t),
       box('Ala +X', [x + D.travC.w / 2 - D.travC.t / 2, 0, zTv], D.travC.t, D.innerW, D.travC.h),
       box('Ala −X', [x - D.travC.w / 2 + D.travC.t / 2, 0, zTv], D.travC.t, D.innerW, D.travC.h),
-    ]);
+    ], {
+      flat: flatPerfilC(D.innerW, D.travC.w, D.travC.h, D.travC.t,
+        'Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a placas laterales según GA'),
+    });
   }
 
   // ---- Guía de APOYO (carried way): pletina de canto 12 + BAR CAP UHMW
   // enrollable P101203-30 (cotización). LBP: entre carriles, gap ≤50.
   const wear = esLBP ? D.wearLBP : D.wearGT;
   const spanW = BELT.ancho - 40;
-  const wearL = L - 2 * (BELT.noseR + BELT.esp + 25);
+  const wearL = L - 2 * (BELT.noseR + BELT.esp + 30);   // 30 del eje de nariz: luz declarada 2,8 al cabezal (panel)
   for (let i = 0; i < wear.n; i++) {
     const y = -spanW / 2 + (i + 0.5) * spanW / wear.n;
     addPart(`NORM · Guía de apoyo: pletina 12×${D.pletina.h} + BAR CAP ${D.barCap.w}×${D.barCap.h} (${BELT.barCap.split(' — ')[0]})`, C.uhmw,
@@ -379,15 +820,49 @@ function build(tipo, L) {
       ]);
   }
 
-  // ---- Nosebar en AMBAS puntas (R9.5 BluLub; LBP: art. especial) ----
+  // ---- Nosebar en AMBAS puntas + CABEZAL porta-nosebar ----
+  // Geometría real del 22868 (brochure Movex p.8, catálogo imperial p.227):
+  // cuerpo 65 de alto × 19 de espesor, 6 agujeros Ø8.5 por segmento K=152.4
+  // (columnas a 15.9/75.9/135.9 del inicio del segmento; filas a 18.75 del
+  // borde superior y +19.05). Para 18 in van 3 segmentos. Montaje LADO IDLER
+  // (rodillos libres = acumulación); girado 180° acelera — misma pieza.
+  // El cabezal es la pieza FAB que lo recibe: placa PL6 vertical soldada
+  // entre las placas laterales, con la MISMA grilla en Ø9 (paso M8) y tuercas
+  // por la cara interior.
+  const NB = { cuerpoH: 65, cuerpoT: 19, K: 152.4, cols: [15.9, 75.9, 135.9], fila1: 18.75, fila2: 37.8, holeDia: 8.5 };
+  const nbHoles = [];   // {y, dz} — y mundo; dz bajo el tope del nosebar
+  for (let seg = 0; seg < 3; seg++) {
+    const y0 = -BELT.ancho / 2 + seg * NB.K;
+    for (const c of NB.cols) for (const dz of [NB.fila1, NB.fila2]) {
+      nbHoles.push({ y: r2(y0 + c), dz });
+    }
+  }
   const art = esLBP ? BELT.noseArtLBP : BELT.noseArtGT;
+  const cabH = 90, cabTop = zci - 3;   // 1,25 de luz a la barrida de rodillos (panel: antes penetraba 2 la banda)
   for (const [x0, nm] of [[BELT.noseR + BELT.esp, 'entrada'], [L - BELT.noseR - BELT.esp, 'descarga']]) {
     const zN = zci - BELT.noseR;
     const dirIn = x0 < L / 2 ? 1 : -1;    // el cuerpo crece hacia adentro
-    addPart(`NORM · Nosebar ${nm} 18 in — ${art}`, C.nose, [x0, 0, zN], [
-      cyl(`Punta R${BELT.noseR}`, [x0, -BELT.ancho / 2, zN], [0, 1, 0], BELT.noseR * 2, BELT.ancho),
-      box('Cuerpo BluLub', [x0 + dirIn * 25, 0, zN + 2], 50, BELT.ancho, BELT.noseR * 2 - 4),
-    ]);
+    const fN = [
+      cyl(`Punta rodamientos Ø${BELT.noseR * 2}`, [x0, -BELT.ancho / 2, zN], [0, 1, 0], BELT.noseR * 2, BELT.ancho),
+      box(`Cuerpo BluLub 65×19 (3 segmentos K=${NB.K})`, [x0 + dirIn * (2 + NB.cuerpoT / 2), 0, zci - NB.cuerpoH / 2], NB.cuerpoT, BELT.ancho, NB.cuerpoH),
+    ];
+    for (const h of nbHoles) {
+      fN.push(hole(`Ø${NB.holeDia} montaje`, [x0 + dirIn * (2 + NB.cuerpoT / 2), h.y, zci - h.dz], [dirIn, 0, 0], NB.holeDia, 0, true));
+    }
+    addPart(`NORM · Nosebar ${nm} 18 in (3× K6 in, montaje IDLER=acumulación) — ${art}`, C.nose, [x0, 0, zN], fN);
+
+    // Cabezal porta-nosebar (FAB): recibe los 18 M8 del nosebar
+    const xc = x0 + dirIn * (2 + NB.cuerpoT + 3);
+    const fC = [box(`Placa cabezal PL6 ${D.innerW}×${cabH}`, [xc, 0, cabTop - cabH / 2], D.plT, D.innerW, cabH)];
+    const holesCab = [];
+    for (const h of nbHoles) {
+      fC.push(hole('Paso M8 nosebar', [xc, h.y, zci - h.dz], [dirIn, 0, 0], 9, 0, true));
+      holesCab.push({ x: r2(h.y + D.innerW / 2), y: r2((zci - h.dz) - (cabTop - cabH)), dia: 9 });
+    }
+    addPart(`FAB · Cabezal porta-nosebar ${nm} PL6 ${D.innerW}×${cabH}`, C.placa, [xc, 0, cabTop - cabH / 2], fC, {
+      flat: flatPlaca(D.innerW, cabH, D.plT, holesCab, 'Acero S275JR PL6 — PINTADO RAL 7035',
+        'GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). SOLDAR entre placas laterales — tuercas M8 por cara interior'),
+    });
   }
 
   // ---- Retorno: RODILLOS de eje muerto (decisión usuario, cotización):
@@ -403,7 +878,7 @@ function build(tipo, L) {
     for (const sd of [-1, 1]) {
       f.push(cyl(`Perno hex M${D.retPernoM} + golilla (por fuera)`, [q.c[0], sd * (D.innerW / 2 + D.plT), q.c[1]], [0, sd, 0], 13, 6));
     }
-    addPart(`FAB · Rodillo retorno Ø${D.gtRetDia} eje muerto Ø${D.retEjeDia} — 2× 6202-2RS sellados, perno hex M${D.retPernoM}/lado`,
+    addPart(`FAB · Rodillo retorno Ø${D.gtRetDia} — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M${D.retPernoM} — plano EJ-04 pendiente`,
       C.ret, [q.c[0], 0, q.c[1]], f);
   }
 
@@ -420,10 +895,10 @@ function build(tipo, L) {
       [xDrv, yC, D.zMotriz], collar(xDrv, yC, D.zMotriz));
   }
   for (const s of [-1, 1]) {
-    addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xDrv, s * yOut, D.zMotriz], chumaceraUCF(xDrv, s * yOut, D.zMotriz));
+    addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xDrv, s * (yOut + 8), D.zMotriz], chumaceraUCF(xDrv, s * (yOut + 8), D.zMotriz));
   }
   const yM = yOut + 30;
-  addPart('NORM · Motorreductor eje hueco Ø30 + brazo de torque', C.motor, [xDrv, yM + D.motor.cuerpo[1] / 2, D.zMotriz], [
+  addPart('NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque', C.motor, [xDrv, yM + D.motor.cuerpo[1] / 2, D.zMotriz], [
     cyl(`Cubo hueco Ø${D.motor.boss}`, [xDrv, yM - 10, D.zMotriz], [0, 1, 0], D.motor.boss, D.motor.bossL),
     box('Cuerpo reductor', [xDrv, yM + D.motor.cuerpo[1] / 2 + 40, D.zMotriz], D.motor.cuerpo[0], D.motor.cuerpo[1], D.motor.cuerpo[2]),
     box('Brazo de torque', [xDrv - 130, yM + 20, D.zMotriz - 60], 40, 12, 160),
@@ -437,7 +912,7 @@ function build(tipo, L) {
     addPart('NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)', C.sprk, [xTen, y, D.zTensor], sprocket(xTen, y, D.zTensor));
   }
   for (const s of [-1, 1]) {
-    addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xTen, s * yOut, D.zTensor], chumaceraUCF(xTen, s * yOut, D.zTensor));
+    addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xTen, s * (yOut + 8), D.zTensor], chumaceraUCF(xTen, s * (yOut + 8), D.zTensor));
   }
 
   // ---- Guía LATERAL: conical rail ENROLLABLE L 1¼ in (P12501C, cotización)
@@ -466,7 +941,10 @@ function build(tipo, L) {
     }
     addPart('FAB · Riostra de soportes (tipo ZP2026)', C.pata, [x, 0, D.pisoZ + 200], [
       box('Riostra C 88×40', [x, 0, D.pisoZ + 200], D.travC.w, D.outerW - D.sop.d, D.travC.h),
-    ]);
+    ], {
+      flat: flatPerfilC(D.outerW - D.sop.d, D.travC.w, D.travC.h, D.travC.t,
+        'Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a soportes según GA'),
+    });
   }
 
   // ---- BANDA (lazo cerrado, boceto XZ extruido a lo ancho) ----
@@ -504,7 +982,16 @@ function build(tipo, L) {
       [L / 2, 0, -BELT.gt.goma / 2], feats);
   }
 
-  return { parts, largoBanda: largo, wraps, path };
+  // datos para verify(): puntos del lazo, chequeo de guardas y travesaños
+  const guardasChk = guardas.map(g => ({
+    tag: g.tag, xa: g.xa, xb: g.xb, fondoZ: g.fondoZ, pernos: g.holesX.length * 2 + g.mechaMounts.length * 2,
+  }));
+  const travChk = xsTrav.filter(x => lazoChoca(x));
+  let mechasOverlap = false;
+  for (let i = 0; i < mechasSpec.length; i++) for (let j = i + 1; j < mechasSpec.length; j++) {
+    if (mechasSpec[i].x1 > mechasSpec[j].x0 && mechasSpec[j].x1 > mechasSpec[i].x0) mechasOverlap = true;
+  }
+  return { parts, largoBanda: largo, wraps, path, pathOuterPts: outer, guardasChk, travChk, mechasOverlap };
 }
 
 // ---------------------------------------------------------------------------
@@ -526,6 +1013,20 @@ function verify(res) {
   const margen = r2(BELT.ancho / 2 - Math.max(...D.ySprkLBP.map(Math.abs)));
   if (margen !== 76.2) e.push(`indent A del grid LBP = ${margen} (esperado 76.2)`);
   if (D.gtRetDia <= 50) e.push('rodillo de retorno GT ≤ 50 (manual: D>50)');
+  // ── compuertas nacidas del panel adversarial (12-08) ──
+  for (const eq of [res.LBP, res.GT]) {
+    if (!eq) continue;
+    const nm = eq === res.LBP ? 'LBP' : 'GT';
+    for (const g of eq.guardasChk || []) {
+      const pts = eq.pathOuterPts.filter(q => q[0] > g.xa && q[0] < g.xb);
+      const zMin = pts.length ? Math.min(...pts.map(q => q[1])) : Infinity;
+      if (zMin < g.fondoZ + 40)
+        e.push(`${nm}/guarda ${g.tag}: fondo a ${g.fondoZ} deja ${r2(zMin - g.fondoZ)} de holgura al lazo (mínimo 40)`);
+      if (g.pernos < 4) e.push(`${nm}/guarda ${g.tag}: solo ${g.pernos} pernos M6 (mínimo 2 por lado)`);
+    }
+    for (const c of eq.travChk || []) e.push(`${nm}: travesaño x=${c} cruzado por el lazo`);
+    if (eq.mechasOverlap) e.push(`${nm}: mechas solapadas entre sí`);
+  }
   // corte de barras (8+8 ejes, kerf 9 mm)
   const corteM = 8 * (D.ejeMotrizL + 9), corteT = 8 * (D.ejeTensorL + 9);
   if (corteM > 6000) e.push(`8 ejes motrices no salen de una barra de 6 m (${corteM})`);

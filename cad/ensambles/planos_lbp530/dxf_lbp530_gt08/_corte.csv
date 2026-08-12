@@ -1,0 +1,7 @@
+plano,pieza,cant,material,espesor_mm,desarrollo_x_mm,desarrollo_y_mm,barrenos,pliegues,k_factor,radio_mm,tolerancia
+LBD-01,"FAB · Cabezal porta-nosebar entrada PL6 470×90",2,"Acero S275JR PL6 — PINTADO RAL 7035",6,470.0,90.0,18,0,0.44,6,ISO 2768-mK
+LBD-02,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",1,"Acero S275JR e1.5 — terminación PINTADO RAL 7035",1.5,1462.8,1245.6,14,4,0.44,1.5,ISO 2768-mK
+LBD-03,"FAB · Mecha porta-chumacera PL8 combinada 610×422",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,610.0,422.0,15,0,0.44,8,ISO 2768-mK
+LBD-04,"FAB · Placa lateral libre (−Y) PL6 L=800",2,"Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",6,800.0,199.6,1,1,0.44,6,ISO 2768-mK
+LBD-05,"FAB · Riostra de soportes (tipo ZP2026)",1,"Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a soportes según GA",3,387.0,157.6,0,2,0.44,3,ISO 2768-mK
+LBD-06,"FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3",1,"Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a placas laterales según GA",3,470.0,157.6,0,2,0.44,3,ISO 2768-mK
