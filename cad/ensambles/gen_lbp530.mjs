@@ -617,15 +617,49 @@ function build(tipo, L) {
       ]);
   }
 
-  // ---- Nosebar en AMBAS puntas (R9.5 BluLub; LBP: art. especial) ----
+  // ---- Nosebar en AMBAS puntas + CABEZAL porta-nosebar ----
+  // Geometría real del 22868 (brochure Movex p.8, catálogo imperial p.227):
+  // cuerpo 65 de alto × 19 de espesor, 6 agujeros Ø8.5 por segmento K=152.4
+  // (columnas a 15.9/75.9/135.9 del inicio del segmento; filas a 18.75 del
+  // borde superior y +19.05). Para 18 in van 3 segmentos. Montaje LADO IDLER
+  // (rodillos libres = acumulación); girado 180° acelera — misma pieza.
+  // El cabezal es la pieza FAB que lo recibe: placa PL6 vertical soldada
+  // entre las placas laterales, con la MISMA grilla en Ø9 (paso M8) y tuercas
+  // por la cara interior.
+  const NB = { cuerpoH: 65, cuerpoT: 19, K: 152.4, cols: [15.9, 75.9, 135.9], fila1: 18.75, fila2: 37.8, holeDia: 8.5 };
+  const nbHoles = [];   // {y, dz} — y mundo; dz bajo el tope del nosebar
+  for (let seg = 0; seg < 3; seg++) {
+    const y0 = -BELT.ancho / 2 + seg * NB.K;
+    for (const c of NB.cols) for (const dz of [NB.fila1, NB.fila2]) {
+      nbHoles.push({ y: r2(y0 + c), dz });
+    }
+  }
   const art = esLBP ? BELT.noseArtLBP : BELT.noseArtGT;
+  const cabH = 90, cabTop = zci + 2;
   for (const [x0, nm] of [[BELT.noseR + BELT.esp, 'entrada'], [L - BELT.noseR - BELT.esp, 'descarga']]) {
     const zN = zci - BELT.noseR;
     const dirIn = x0 < L / 2 ? 1 : -1;    // el cuerpo crece hacia adentro
-    addPart(`NORM · Nosebar ${nm} 18 in — ${art}`, C.nose, [x0, 0, zN], [
-      cyl(`Punta R${BELT.noseR}`, [x0, -BELT.ancho / 2, zN], [0, 1, 0], BELT.noseR * 2, BELT.ancho),
-      box('Cuerpo BluLub', [x0 + dirIn * 25, 0, zN + 2], 50, BELT.ancho, BELT.noseR * 2 - 4),
-    ]);
+    const fN = [
+      cyl(`Punta rodamientos Ø${BELT.noseR * 2}`, [x0, -BELT.ancho / 2, zN], [0, 1, 0], BELT.noseR * 2, BELT.ancho),
+      box(`Cuerpo BluLub 65×19 (3 segmentos K=${NB.K})`, [x0 + dirIn * (2 + NB.cuerpoT / 2), 0, zci - NB.cuerpoH / 2], NB.cuerpoT, BELT.ancho, NB.cuerpoH),
+    ];
+    for (const h of nbHoles) {
+      fN.push(hole(`Ø${NB.holeDia} montaje`, [x0 + dirIn * (2 + NB.cuerpoT / 2), h.y, zci - h.dz], [dirIn, 0, 0], NB.holeDia, 0, true));
+    }
+    addPart(`NORM · Nosebar ${nm} 18 in (3× K6 in, montaje IDLER=acumulación) — ${art}`, C.nose, [x0, 0, zN], fN);
+
+    // Cabezal porta-nosebar (FAB): recibe los 18 M8 del nosebar
+    const xc = x0 + dirIn * (2 + NB.cuerpoT + 3);
+    const fC = [box(`Placa cabezal PL6 ${D.innerW}×${cabH}`, [xc, 0, cabTop - cabH / 2], D.plT, D.innerW, cabH)];
+    const holesCab = [];
+    for (const h of nbHoles) {
+      fC.push(hole('Paso M8 nosebar', [xc, h.y, zci - h.dz], [dirIn, 0, 0], 9, 0, true));
+      holesCab.push({ x: r2(h.y + D.innerW / 2), y: r2((zci - h.dz) - (cabTop - cabH)), dia: 9 });
+    }
+    addPart(`FAB · Cabezal porta-nosebar ${nm} PL6 ${D.innerW}×${cabH}`, C.placa, [xc, 0, cabTop - cabH / 2], fC, {
+      flat: flatPlaca(D.innerW, cabH, D.plT, holesCab, 'Acero S275JR PL6',
+        'GRILLA = 6×Ø9 POR SEGMENTO DE NOSEBAR (Movex 22868: cols 15.9/75.9/135.9 · filas 18.75/+19.05). SOLDAR entre placas laterales — tuercas M8 por cara interior'),
+    });
   }
 
   // ---- Retorno: RODILLOS de eje muerto (decisión usuario, cotización):
