@@ -2,21 +2,10 @@
   "proyecto": "CV-LBP-5000 · Movex 530 LBP 18 in × 5.0 m",
   "archivo": "lbp530_5m.json",
   "fecha": "2026-08-12",
-  "total_piezas": 66,
-  "items_distintos": 26,
-  "planos_fabricacion": 11,
+  "total_piezas": 80,
+  "items_distintos": 28,
+  "planos_fabricacion": 13,
   "despiece": [
-    {
-      "item": 13,
-      "designacion": "FAB · Soporte tipo ZP2026 203×95×3 + nivelador",
-      "nombres": [
-        "FAB · Soporte tipo ZP2026 (B_005A) 203×95×3 + nivelador"
-      ],
-      "cant": 6,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR",
-      "plano": "LB-01"
-    },
     {
       "item": 9,
       "designacion": "FAB · Placa lateral libre PL6 L=5000",
@@ -26,7 +15,7 @@
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR",
-      "plano": "LB-02"
+      "plano": "LB-01"
     },
     {
       "item": 10,
@@ -37,7 +26,7 @@
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR",
-      "plano": "LB-03"
+      "plano": "LB-02"
     },
     {
       "item": 12,
@@ -62,6 +51,17 @@
       "plano": "—"
     },
     {
+      "item": "—",
+      "designacion": "FAB · Bracket soporte B_005A 24V (cruciformes + arco angular)",
+      "nombres": [
+        "FAB · Bracket soporte B_005A 24V (cruciformes + arco angular)"
+      ],
+      "cant": 6,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "LB-03"
+    },
+    {
       "item": 1,
       "designacion": "FAB · Cabezal porta-nosebar descarga PL6 470×90",
       "nombres": [
@@ -82,6 +82,17 @@
       "tipo": "FABRICADA",
       "material_norma": "Acero",
       "plano": "LB-05"
+    },
+    {
+      "item": "—",
+      "designacion": "FAB · Columna soporte 24V ángulo 71×38×3 + placa piso B_004A (soldada)",
+      "nombres": [
+        "FAB · Columna soporte 24V ángulo 71×38×3 + placa piso B_004A (soldada)"
+      ],
+      "cant": 6,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "LB-06"
     },
     {
       "item": 3,
@@ -106,6 +117,17 @@
       "plano": "LBP530-EJ-02"
     },
     {
+      "item": "—",
+      "designacion": "FAB · Escalerilla telescópica 60×4 (ranuras 11×22 — ajuste de altura)",
+      "nombres": [
+        "FAB · Escalerilla telescópica 60×4 (ranuras 11×22 — ajuste de altura)"
+      ],
+      "cant": 6,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero",
+      "plano": "LB-07"
+    },
+    {
       "item": 5,
       "designacion": "FAB · Guarda inferior motriz — artesa U chapa 1.5",
       "nombres": [
@@ -114,7 +136,7 @@
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
-      "plano": "LB-06"
+      "plano": "LB-08"
     },
     {
       "item": 6,
@@ -125,7 +147,7 @@
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
-      "plano": "LB-07"
+      "plano": "LB-09"
     },
     {
       "item": 7,
@@ -136,50 +158,50 @@
       "cant": 2,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
-      "plano": "LB-08"
+      "plano": "LB-10"
     },
     {
-      "item": 8,
-      "designacion": "FAB · Mecha porta-chumacera PL8 tensor 320×312",
+      "item": "—",
+      "designacion": "FAB · Mecha porta-chumacera PL8 tensor 320×362",
       "nombres": [
-        "FAB · Mecha porta-chumacera PL8 tensor 320×312"
+        "FAB · Mecha porta-chumacera PL8 tensor 320×362"
       ],
       "cant": 2,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
-      "plano": "LB-09"
+      "plano": "LB-11"
     },
     {
-      "item": 11,
-      "designacion": "FAB · Riostra de soportes (tipo ZP2026)",
+      "item": "—",
+      "designacion": "FAB · Portacarril 50×6 con clips (apernado M6 al alma)",
       "nombres": [
-        "FAB · Riostra de soportes (tipo ZP2026)"
+        "FAB · Portacarril 50×6 con clips (apernado M6 al alma)"
       ],
-      "cant": 3,
+      "cant": 5,
       "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR",
-      "plano": "LB-10"
+      "material_norma": "Acero",
+      "plano": "LB-12"
     },
     {
-      "item": 14,
-      "designacion": "FAB · Travesaño tipo ZP2026 — C 88×40×3",
+      "item": "—",
+      "designacion": "FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas",
       "nombres": [
-        "FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3"
+        "FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)"
       ],
       "cant": 5,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR",
-      "plano": "LB-11"
+      "plano": "LB-13"
     },
     {
-      "item": 16,
-      "designacion": "NORM · Banda Movex 530 LBP 18 in — lazo 10.88 m",
+      "item": "—",
+      "designacion": "NORM · Banda Movex 530 LBP 18 in — lazo 10.95 m",
       "nombres": [
-        "NORM · Banda Movex 530 LBP 18 in — lazo 10.88 m"
+        "NORM · Banda Movex 530 LBP 18 in — lazo 10.95 m"
       ],
       "cant": 1,
       "tipo": "NORMALIZADA",
-      "material_norma": "Banda Movex 530 LBP 18 in — lazo 10.88 m",
+      "material_norma": "Banda Movex 530 LBP 18 in — lazo 10.95 m",
       "plano": "—"
     },
     {

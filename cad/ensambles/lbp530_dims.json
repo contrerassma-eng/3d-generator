@@ -52,11 +52,60 @@
   "claroLat": 6.4,
   "plT": 6,
   "plTop": -8,
-  "plAlto": 180,
+  "plAlto": 285,
   "alaAncho": 30,
   "travesanio": 40,
   "pasoTravLBP": 1000,
   "pasoTravFT": 600,
+  "travTR": {
+   "w": 88,
+   "h": 88,
+   "t": 3,
+   "tabW": 120,
+   "tabH": 60,
+   "tabT": 4,
+   "tabHoleSep": 60,
+   "holeDia": 7
+  },
+  "portacarril": {
+   "w": 50,
+   "t": 6,
+   "clip": {
+    "lado": 30,
+    "t": 3,
+    "largo": 40
+   }
+  },
+  "sop24": {
+   "brk": {
+    "w": 203,
+    "alto": 95,
+    "ala": 89,
+    "t": 3,
+    "cruzPitch": 47.6,
+    "cruzW": 32,
+    "cruzH": 19,
+    "pivotDia": 11,
+    "arcoR": 52,
+    "lockDia": 11,
+    "lockSep": 90.4
+   },
+   "col": {
+    "a": 71,
+    "b": 38,
+    "t": 3,
+    "escalW": 11,
+    "escalH": 22,
+    "escalPitch": 50
+   },
+   "piso": {
+    "w": 158,
+    "h": 40,
+    "t": 4,
+    "slotW": 11,
+    "slotH": 22
+   }
+  },
   "sq": 38.1,
   "jrnDia": 30,
   "jrnTol": "h6",
@@ -80,7 +129,7 @@
   },
   "zMotriz": -400,
   "xMotrizDesdePunta": 120,
-  "zTensor": -290,
+  "zTensor": -340,
   "xTensorDesdePunta": 300,
   "retTop": -135,
   "retCada": 500,
@@ -150,8 +199,8 @@
   ]
  },
  "lazos_m": {
-  "LBP_5000": 10.88,
-  "GT_800": 2.56
+  "LBP_5000": 10.95,
+  "GT_800": 2.65
  },
  "ejes": {
   "motriz": {
@@ -227,9 +276,9 @@
    "nota": "considerar 1 barra extra de respaldo"
   },
   "soportes": {
-   "LBP": 6,
-   "GT": 2,
-   "proyecto": 32
+   "LBP": 0,
+   "GT": 0,
+   "proyecto": 0
   },
   "retorno": {
    "plano": "LBP530-EJ-04",
@@ -278,14 +327,14 @@
   "banda_530LBP_18in": {
    "art": "P5324010018A",
    "precioEUR_m": 174.85,
-   "necesario_m": 43.52,
+   "necesario_m": 43.8,
    "cotizado_m": 90.3,
    "nota": "cotizado cubre ~2× (repuesto/futuras líneas); rollos de 1.5 m"
   },
   "banda_530GT_18in": {
    "art": "P5323010018A",
    "precioEUR_m": 243.18,
-   "necesario_m": 10.24,
+   "necesario_m": 10.6,
    "cotizado_m": 18
   },
   "sprockets_Z32_cuadrado15": {

@@ -1,12 +1,15 @@
 {
- "FAB · Cabezal porta-nosebar entrada PL6 470×90": "LBD-01",
- "FAB · Cabezal porta-nosebar descarga PL6 470×90": "LBD-01",
- "FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)": "LBD-02",
- "FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)": "LBD-03",
- "FAB · Mecha porta-chumacera PL8 motriz 320×422": "LBD-04",
- "FAB · Mecha porta-chumacera PL8 tensor 320×312": "LBD-05",
- "FAB · Placa lateral libre (−Y) PL6 L=5000": "LBD-06",
- "FAB · Placa lateral motriz (+Y) PL6 L=5000": "LBD-06",
- "FAB · Riostra de soportes (tipo ZP2026)": "LBD-07",
- "FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3": "LBD-08"
+ "FAB · Bracket soporte B_005A 24V (cruciformes + arco angular)": "LBD-01",
+ "FAB · Cabezal porta-nosebar entrada PL6 470×90": "LBD-02",
+ "FAB · Cabezal porta-nosebar descarga PL6 470×90": "LBD-02",
+ "FAB · Columna soporte 24V ángulo 71×38×3 + placa piso B_004A (soldada)": "LBD-03",
+ "FAB · Escalerilla telescópica 60×4 (ranuras 11×22 — ajuste de altura)": "LBD-04",
+ "FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)": "LBD-05",
+ "FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)": "LBD-06",
+ "FAB · Mecha porta-chumacera PL8 motriz 320×422": "LBD-07",
+ "FAB · Mecha porta-chumacera PL8 tensor 320×362": "LBD-08",
+ "FAB · Placa lateral libre (−Y) PL6 L=5000": "LBD-09",
+ "FAB · Placa lateral motriz (+Y) PL6 L=5000": "LBD-09",
+ "FAB · Portacarril 50×6 con clips (apernado M6 al alma)": "LBD-10",
+ "FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)": "LBD-11"
 }
