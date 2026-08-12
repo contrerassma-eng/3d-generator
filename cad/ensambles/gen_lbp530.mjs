@@ -333,10 +333,12 @@ function flatPerfilC(largo, webAncho, alaAlto, t, material, holes = []) {
 // fondo + 2 laterales + 2 pestañas superiores hacia afuera, 4 pliegues a 90°.
 // dev Y (de abajo hacia arriba): pestaña | BA | lateral | BA | fondo | BA |
 // lateral | BA | pestaña. Agujeros de montaje en las pestañas (M6, Ø7).
-function flatGuardaU(Lg, fondoW, latAlto, pestW, t, holesX, material, tapasExtremo, muescas) {
+function flatGuardaU(Lg, fondoW, latAlto, pestW, t, holesX, material, tapasExtremo, muescas, extras) {
   const r = t;
   const BA = bendAllowance(90, r, t, KCH);
-  const pest = pestW - (r + t), lat = latAlto - 2 * (r + t), fondo = fondoW;
+  // Cotas EXTERIORES → franjas planas: pestaña pestW−r · lateral latAlto−2(r+t)
+  // · fondo fondoW−2r (correccion del panel: antes el reparto corria 1,5 mm)
+  const pest = pestW - r, lat = latAlto - 2 * (r + t), fondo = fondoW - 2 * r;
   const H = 2 * pest + 4 * BA + 2 * lat + fondo;
   const yl = [];  // fronteras acumuladas de franjas
   let acc = 0;
@@ -349,9 +351,30 @@ function flatGuardaU(Lg, fondoW, latAlto, pestW, t, holesX, material, tapasExtre
     pl.push({ a: [0, r2(yl[i + 1])], b: [Lg, r2(yl[i + 1])], tipo: 'tangente' });
   }
   const circles = [];
+  // M6 de pestaña: misma cota que el 3D — holeY desde el eje ⇒ distancia al
+  // borde libre de la pestaña = holeY − (skirtY − pestW). (Antes pest/2: 7,5 mm
+  // de desalineación detectados por el panel.)
+  const yM6 = extras ? r2(extras.holeY - (extras.skirtY - pestW)) : r2(pest / 2);
   for (const x of holesX) {
-    circles.push({ c: [r2(x), r2(pest / 2)], r: 3.5 });            // pestaña inferior del dev
-    circles.push({ c: [r2(x), r2(H - pest / 2)], r: 3.5 });        // pestaña superior
+    circles.push({ c: [r2(x), yM6], r: 3.5 });
+    circles.push({ c: [r2(x), r2(H - yM6)], r: 3.5 });
+  }
+  // Drenaje del fondo (criterio guardas.md): Ø8 al eje, cada ~450
+  if (extras?.drenaje) {
+    for (let x = 90; x <= Lg - 90; x += 450) {
+      circles.push({ c: [r2(x), r2(pest + BA + lat + BA + fondo / 2)], r: 4 });
+    }
+  }
+  // Pasos de muñón en los FALDONES (los ejes salen del bastidor hacia las
+  // chumaceras): Ø48 en ambas franjas laterales, a la altura real del eje.
+  for (const grp of [[extras?.munones, 24], [extras?.mechaMounts, 3.5]]) {
+    for (const m of (grp[0] || [])) {
+      // franja lateral inferior corre de la pestaña (z=ala) hacia el fondo:
+      // devY = inicio de franja + distancia plana desde la tangente del ala
+      const latOff = r2((extras.zAlaBot - m.z) - (r + t));
+      circles.push({ c: [r2(m.x), r2(pest + BA + latOff)], r: grp[1] });
+      circles.push({ c: [r2(m.x), r2(pest + BA + lat + BA + fondo + BA + (lat - latOff))], r: grp[1] });
+    }
   }
   // Tapas de extremo: pestaña adicional del FONDO, plegada 90° hacia arriba,
   // que cierra la cara del extremo (acceso principal al accionamiento).
@@ -508,31 +531,104 @@ function build(tipo, L) {
   // El accionamiento cuelga 212 bajo el bastidor (zMotriz −400): la guarda
   // cierra por debajo y por el extremo la zona de motriz + snub + catenaria,
   // y otra igual la zona del tensor. Desmontables para tensado y mantención.
+  const mechaPasoDia = 40;
+  const mechaTop = -88;   // traslape con el alma plana: 88 sobre la tangente del pliegue (−176)
+  // Especificación de cada mecha: [x0,x1] huella, muñones {x,z} que pasa
+  const mechasSpec = esLBP
+    ? [
+      { rol: 'motriz', x0: xDrv - 45 - 160, x1: xDrv - 45 + 160, ejes: [{ x: xDrv, z: D.zMotriz }] },
+      { rol: 'tensor', x0: xTen + 45 - 160, x1: xTen + 45 + 160, ejes: [{ x: xTen, z: D.zTensor }] },
+    ]
+    // GT: xDrv−xTen=380 < 2×320 → las dos mechas se solapaban 30 mm (panel).
+    // Una sola mecha COMBINADA por costado con los dos pasos y las dos grillas.
+    : [{ rol: 'combinada', x0: xTen - 115, x1: xDrv + 115, ejes: [{ x: xTen, z: D.zTensor }, { x: xDrv, z: D.zMotriz }] }];
+  // Montaje faldón→mecha: donde las pestañas no tienen tramo libre (tensor y
+  // GT: la mecha ocupa el plano del ala), la guarda se aperna POR EL FALDÓN a
+  // la mecha con M6 ROSCADO en la PL8 (2 columnas × 2 filas por mecha, lejos
+  // de la grilla UCF). Comparten coordenadas: no pueden desalinearse.
+  for (const m of mechasSpec) {
+    const zBot = Math.min(...m.ejes.map(e => e.z)) - 110;
+    const rows = [-250, -350].filter(z => z > zBot + 30 && z < -210);
+    m.mounts = [];
+    for (const x of [m.x0 + 55, m.x1 - 55]) for (const z of rows) m.mounts.push({ x: r2(x), z });
+  }
+
   const G = {
-    t: 1.5, fondoW: 488, skirtY: 244, pestW: 26, holeY: 222,
-    fondoZ: -480, fondoZTen: -380, pasoM6: 280, holeDia: 7,
+    t: 1.5, fondoW: 504, skirtY: 252, pestW: 36, holeY: 222,
+    fondoZ: -525, fondoZTen: -415, pasoM6: 400, holeDia: 7,
   };
   const zAlaTop = D.plTop - D.plAlto + D.plT;      // cara superior del ala
   const zAlaBot = D.plTop - D.plAlto;              // cara inferior del ala (asiento de guarda)
-  // Muescas de pestaña: ventanas en X donde la banda cruza el plano z del ala
-  // (bajada al motriz tras el nosebar de descarga; subida desde el tensor).
+  // Muescas de pestaña CALCULADAS desde el lazo real: cada cruce del contorno
+  // exterior de la banda por el plano de pestañas (z ala) abre una ventana
+  // [x−80, x+100] — el panel encontró 5 de 6 cruces sin muesca con la lista
+  // manual. Cubre además la variación de flecha de catenaria (50–150).
+  const zPest = D.plTop - D.plAlto;
+  const crucesPest = [];
+  for (let i = 0; i < outer.length; i++) {
+    const a = outer[i], b = outer[(i + 1) % outer.length];
+    if ((a[1] - zPest) * (b[1] - zPest) < 0) {
+      const t01 = (zPest - a[1]) / (b[1] - a[1]);
+      crucesPest.push(r2(a[0] + t01 * (b[0] - a[0])));
+    }
+  }
+  const ventanas = crucesPest.sort((u, v) => u - v).map(x => [x - 80, x + 100]);
+  // fusionar ventanas solapadas
+  const muescasAuto = [];
+  for (const w of ventanas) {
+    const last = muescasAuto[muescasAuto.length - 1];
+    if (last && w[0] <= last[1]) last[1] = Math.max(last[1], w[1]);
+    else muescasAuto.push([...w]);
+  }
+  const clip = (xa, xb) => muescasAuto
+    .filter(([a, b]) => b > xa && a < xb)
+    .map(([a, b]) => [Math.max(xa, a), Math.min(xb, b)]);
   const guardas = esLBP
     ? [
-      { tag: 'motriz', xa: r2(xDrv - 1450), xb: L, fondoZ: G.fondoZ, tapas: { a: false, b: true },
-        muescas: [[xDrv - 60, L]] },
-      { tag: 'tensor', xa: 0, xb: r2(xTen + 350), fondoZ: G.fondoZTen, tapas: { a: true, b: false },
-        muescas: [[0, 120], [xTen - 120, xTen + 90]] },
+      { tag: 'motriz', xa: r2(xDrv - 1450), xb: L, fondoZ: G.fondoZ, tapas: { a: false, b: true } },
+      { tag: 'tensor', xa: 0, xb: r2(xTen + 350), fondoZ: G.fondoZTen, tapas: { a: true, b: false } },
     ]
-    : [{ tag: 'unica', xa: 0, xb: L, fondoZ: G.fondoZ, tapas: { a: true, b: true },
-        muescas: [[0, 120], [xTen - 120, xTen + 90], [xDrv - 60, L]] }];
-  // agujeros M6 del ala (comunes a placa y guarda — mismas X, fuera de muescas)
+    : [{ tag: 'unica', xa: 0, xb: L, fondoZ: G.fondoZ, tapas: { a: true, b: true } }];
+  // M6 por TRAMO de pestaña (entre muescas): ≥1 por tramo ≥80, a 40 de cada
+  // borde y relleno cada ≤400 — así ninguna guarda queda sin fijación.
   const holesAla = [];
   for (const g of guardas) {
+    g.muescas = clip(g.xa, g.xb);
+    for (const m of mechasSpec) {
+      if (m.x1 > g.xa && m.x0 < g.xb) g.muescas.push([Math.max(g.xa, m.x0 - 10), Math.min(g.xb, m.x1 + 10)]);
+    }
+    g.muescas.sort((u, v) => u[0] - v[0]);
+    const fus = [];
+    for (const w of g.muescas) {
+      const last = fus[fus.length - 1];
+      if (last && w[0] <= last[1]) last[1] = Math.max(last[1], w[1]);
+      else fus.push([...w]);
+    }
+    g.muescas = fus;
+    g.munones = [[xDrv, D.zMotriz], [xTen, D.zTensor]]
+      .filter(([x]) => x > g.xa && x < g.xb).map(([x, z]) => ({ x: r2(x), z }));
+    g.mechaMounts = mechasSpec.flatMap(m => (m.mounts || []))
+      .filter(q => q.x > g.xa && q.x < g.xb);
+    let tramos = [[g.xa, g.xb]];
+    for (const [m0, m1] of g.muescas) {
+      tramos = tramos.flatMap(([a, b]) => {
+        const out = [];
+        if (m0 > a) out.push([a, Math.min(m0, b)]);
+        if (m1 < b) out.push([Math.max(m1, a), b]);
+        return out;
+      });
+    }
+    g.tramos = tramos.filter(([a, b]) => b - a >= 80);
+    if (process.env.DBG) console.log(`  DBG guarda ${g.tag}: muescas=${JSON.stringify(g.muescas.map(m=>m.map(r2)))} tramos=${JSON.stringify(g.tramos.map(m=>m.map(r2)))}`);
     g.holesX = [];
-    for (let x = g.xa + 100; x <= g.xb - 60; x += G.pasoM6) {
-      if (g.muescas.some(([m0, m1]) => x > m0 - 30 && x < m1 + 30)) continue;
-      g.holesX.push(r2(x));
-      holesAla.push({ x: r2(x), yDev: 11, dia: G.holeDia });   // 11 desde el borde libre del ala (zona plana)
+    for (const [a, b] of g.tramos) {
+      const len = b - a;
+      const n = Math.max(2, Math.ceil(len / G.pasoM6) + 1);
+      for (let i = 0; i < n; i++) {
+        const x = r2(a + 40 + (len - 80) * (n === 1 ? 0.5 : i / (n - 1)));
+        g.holesX.push(x);
+        holesAla.push({ x, yDev: 11, dia: G.holeDia });
+      }
     }
   }
 
@@ -587,6 +683,18 @@ function build(tipo, L) {
       for (const x of g.holesX) {
         f.push(hole('Paso M6', [x, s * G.holeY, zAlaBot - G.t / 2], [0, 0, 1], G.holeDia, 0, true));
       }
+      // pasos de muñón: el eje sale del faldón hacia la chumacera/motor
+      for (const m of g.munones) {
+        f.push(hole('Paso muñón Ø48', [m.x, s * (G.skirtY + G.t / 2), m.z], [0, s, 0], 48, 0, true));
+      }
+      // montaje faldón→mecha (M6 a los roscados de la PL8)
+      for (const q of g.mechaMounts) {
+        f.push(hole('Paso M6 a mecha', [q.x, s * (G.skirtY + G.t / 2), q.z], [0, s, 0], G.holeDia, 0, true));
+      }
+    }
+    // drenaje del fondo (criterio guardas.md)
+    for (let x = g.xa + 90; x <= g.xb - 90; x += 450) {
+      f.push(hole('Drenaje Ø8', [r2(x), 0, g.fondoZ + G.t / 2], [0, 0, 1], 8, 0, true));
     }
     for (const [on, xe] of [[g.tapas.a, g.xa], [g.tapas.b, g.xb]]) {
       if (!on) continue;
@@ -597,7 +705,10 @@ function build(tipo, L) {
       [xm, 0, g.fondoZ], f, {
         flat: flatGuardaU(Lg, G.fondoW, latAlto, G.pestW, G.t, g.holesX.map(x => r2(x - g.xa)),
           'Acero S275JR e1.5 — terminación PINTADO RAL 7035', g.tapas,
-          g.muescas.map(([a, b]) => [Math.max(0, a - g.xa), Math.min(Lg, b - g.xa)])),
+          g.muescas.map(([a, b]) => [Math.max(0, a - g.xa), Math.min(Lg, b - g.xa)]),
+          { holeY: G.holeY, skirtY: G.skirtY, zAlaBot, drenaje: true,
+            munones: g.munones.map(m => ({ x: r2(m.x - g.xa), z: m.z })),
+            mechaMounts: g.mechaMounts.map(m => ({ x: r2(m.x - g.xa), z: m.z })) }),
       });
   }
 
@@ -606,29 +717,40 @@ function build(tipo, L) {
   // una pieza aparte ni dónde soldarla, y les faltaba el agujero MÁS
   // importante — el PASO DEL MUÑÓN Ø30 (el modelo solo traslapaba mallas).
   // Paso Ø40: muñón Ø30 h6 + holgura de montaje y giro (no toca la mecha).
-  const mechaPasoDia = 40;
   for (const s of [-1, 1]) {
     const y = s * (yIn + D.plT + 4);   // PL8 centrada sobre la cara exterior de la placa
-    for (const [xc, zc, dxm, rol] of [[xDrv, D.zMotriz, -45, 'motriz'], [xTen, D.zTensor, 45, 'tensor']]) {
-      const hM = r2((D.plTop - D.plAlto) - (zc - 110));   // alto de la mecha
-      // Coordenadas de desarrollo: X desde el borde izquierdo de la mecha
-      // (centro geométrico en 160), Y desde su borde inferior. El EJE pasa en
-      // (160 − dxm, 110): la mecha está corrida dxm respecto del muñón.
-      const xEjeDev = r2(160 - dxm), yEjeDev = 110;
-      const holes = [{ x: xEjeDev, y: yEjeDev, dia: mechaPasoDia }];
-      for (const dx of [-1, 1]) for (const dz of [-1, 1]) {
-        holes.push({ x: r2(xEjeDev + dx * D.ucf.boltGap / 2), y: r2(yEjeDev + dz * D.ucf.boltGap / 2), dia: D.ucf.boltDia });
+    for (const m of mechasSpec) {
+      const zBot = Math.min(...m.ejes.map(e => e.z)) - 110;
+      const hM = r2(mechaTop - zBot);
+      const w = r2(m.x1 - m.x0);
+      const holes = [];
+      const f = [box(`Mecha PL8 ${w}×${hM}`, [(m.x0 + m.x1) / 2, y, zBot + hM / 2], w, 8, hM)];
+      for (const e of m.ejes) {
+        const xd = r2(e.x - m.x0), yd = r2(e.z - zBot);
+        holes.push({ x: xd, y: yd, dia: mechaPasoDia });
+        f.push(hole(`Paso muñón Ø${mechaPasoDia}`, [e.x, y, e.z], [0, s, 0], mechaPasoDia, 0, true));
+        for (const dx of [-1, 1]) for (const dz of [-1, 1]) {
+          holes.push({ x: r2(xd + dx * D.ucf.boltGap / 2), y: r2(yd + dz * D.ucf.boltGap / 2), dia: D.ucf.boltDia });
+          f.push(hole('Perno chumacera Ø12', [e.x + dx * D.ucf.boltGap / 2, y, e.z + dz * D.ucf.boltGap / 2], [0, s, 0], D.ucf.boltDia, 0, true));
+        }
       }
-      const f = [
-        box(`Mecha PL8 320×${hM}`, [xc + dxm, y, zc - 110 + hM / 2], 320, 8, hM),
-        hole(`Paso muñón Ø${mechaPasoDia}`, [xc, y, zc], [0, s, 0], mechaPasoDia, 0, true),
-      ];
-      for (const dx of [-1, 1]) for (const dz of [-1, 1]) {
-        f.push(hole('Perno chumacera Ø12', [xc + dx * D.ucf.boltGap / 2, y, zc + dz * D.ucf.boltGap / 2], [0, s, 0], D.ucf.boltDia, 0, true));
+      // roscados M6 del montaje de guarda (broca Ø5 en plano; roscar M6)
+      for (const q of (m.mounts || [])) {
+        holes.push({ x: r2(q.x - m.x0), y: r2(q.z - zBot), dia: 5 });
+        f.push(hole('M6 roscado (montaje guarda)', [q.x, y, q.z], [0, s, 0], 5, 0, true));
       }
-      addPart(`FAB · Mecha porta-chumacera PL8 ${rol} 320×${hM}`, C.placa, [xc + dxm, y, zc], f, {
-        flat: flatPlaca(320, hM, 8, holes, 'Acero S275JR PL8 — PINTADO RAL 7035',
-          'SOLDAR A CARA EXTERIOR DE PLACA LATERAL — cordón perimetral 4 mm, ver GA'),
+      // pasos para los M8 del alma que caen dentro de la huella de la mecha
+      // (en el GT el eje muerto del retorno atraviesa placa + mecha)
+      for (const h of holesAlma) {
+        const z = D.plTop - h.dz;
+        if (h.x > m.x0 && h.x < m.x1 && z > zBot && z < mechaTop) {
+          holes.push({ x: r2(h.x - m.x0), y: r2(z - zBot), dia: h.dia });
+          f.push(hole(`Paso M${D.retPernoM} retorno (a través de mecha)`, [h.x, y, z], [0, s, 0], h.dia, 0, true));
+        }
+      }
+      addPart(`FAB · Mecha porta-chumacera PL8 ${m.rol} ${w}×${hM}`, C.placa, [(m.x0 + m.x1) / 2, y, zBot + hM / 2], f, {
+        flat: flatPlaca(w, hM, 8, holes, 'Acero S275JR PL8 — PINTADO RAL 7035',
+          'SOLDAR A CARA EXTERIOR DEL ALMA — traslape 88 mm sobre la tangente del pliegue; 3 cordones 4 mm (superior + verticales), ver GA'),
       });
     }
   }
@@ -636,7 +758,44 @@ function build(tipo, L) {
   // ---- Travesaños tipo ZP2026 (TR_S): perfil C plegado 88×40×3 ----
   const pasoT = esLBP ? D.pasoTravLBP : D.pasoTravFT;
   const zTv = D.plTop - D.plAlto + 22;
+  // Huella del travesaño: x±44, z −186…−146 (+margen 6). El panel encontró la
+  // catenaria atravesando el de x=4500 y la envoltura del retorno el de x=300
+  // (GT): ahora cada posición se prueba contra el lazo (ambas caras) y se
+  // corre ±200/±300 si choca; si no hay hueco, se omite con aviso.
+  const segRect = (a, b, x0, x1, z0, z1) => {
+    const dentro = (p) => p[0] >= x0 && p[0] <= x1 && p[1] >= z0 && p[1] <= z1;
+    if (dentro(a) || dentro(b)) return true;
+    const cruza = (p, q, v, lo, hi, ax) => {
+      const pa = ax ? p[0] : p[1], pb = ax ? q[0] : q[1];
+      if ((pa - v) * (pb - v) >= 0) return false;
+      const t01 = (v - pa) / (pb - pa);
+      const o = ax ? p[1] + t01 * (q[1] - p[1]) : p[0] + t01 * (q[0] - p[0]);
+      return o >= lo && o <= hi;
+    };
+    return cruza(a, b, x0, z0, z1, true) || cruza(a, b, x1, z0, z1, true) ||
+           cruza(a, b, z0, x0, x1, false) || cruza(a, b, z1, x0, x1, false);
+  };
+  const lazoChoca = (xt) => {
+    const x0 = xt - 50, x1 = xt + 50, z0 = -192, z1 = -140;
+    for (const cara of [outer, inner]) {
+      for (let i = 0; i < cara.length; i++) {
+        if (segRect(cara[i], cara[(i + 1) % cara.length], x0, x1, z0, z1)) return true;
+      }
+    }
+    return false;
+  };
+  const xsTrav = [];
   for (let x = pasoT / 2; x < L; x += pasoT) {
+    let xt = null;
+    for (const dx of [0, -200, 200, -300, 300]) {
+      const c = x + dx;
+      if (c < 150 || c > L - 150) continue;
+      if (!lazoChoca(c)) { xt = r2(c); break; }
+    }
+    if (xt === null) { console.warn(`  ! travesaño en x=${x} omitido: el lazo ocupa toda la ventana`); continue; }
+    xsTrav.push(xt);
+  }
+  for (const x of xsTrav) {
     addPart('FAB · Travesaño tipo ZP2026 (TR_S) — C 88×40×3', C.trav, [x, 0, zTv], [
       box('Alma C 88', [x, 0, zTv - D.travC.h / 2 + D.travC.t / 2], D.travC.w, D.innerW, D.travC.t),
       box('Ala +X', [x + D.travC.w / 2 - D.travC.t / 2, 0, zTv], D.travC.t, D.innerW, D.travC.h),
@@ -651,7 +810,7 @@ function build(tipo, L) {
   // enrollable P101203-30 (cotización). LBP: entre carriles, gap ≤50.
   const wear = esLBP ? D.wearLBP : D.wearGT;
   const spanW = BELT.ancho - 40;
-  const wearL = L - 2 * (BELT.noseR + BELT.esp + 25);
+  const wearL = L - 2 * (BELT.noseR + BELT.esp + 30);   // 30 del eje de nariz: luz declarada 2,8 al cabezal (panel)
   for (let i = 0; i < wear.n; i++) {
     const y = -spanW / 2 + (i + 0.5) * spanW / wear.n;
     addPart(`NORM · Guía de apoyo: pletina 12×${D.pletina.h} + BAR CAP ${D.barCap.w}×${D.barCap.h} (${BELT.barCap.split(' — ')[0]})`, C.uhmw,
@@ -679,7 +838,7 @@ function build(tipo, L) {
     }
   }
   const art = esLBP ? BELT.noseArtLBP : BELT.noseArtGT;
-  const cabH = 90, cabTop = zci + 2;
+  const cabH = 90, cabTop = zci - 3;   // 1,25 de luz a la barrida de rodillos (panel: antes penetraba 2 la banda)
   for (const [x0, nm] of [[BELT.noseR + BELT.esp, 'entrada'], [L - BELT.noseR - BELT.esp, 'descarga']]) {
     const zN = zci - BELT.noseR;
     const dirIn = x0 < L / 2 ? 1 : -1;    // el cuerpo crece hacia adentro
@@ -719,7 +878,7 @@ function build(tipo, L) {
     for (const sd of [-1, 1]) {
       f.push(cyl(`Perno hex M${D.retPernoM} + golilla (por fuera)`, [q.c[0], sd * (D.innerW / 2 + D.plT), q.c[1]], [0, sd, 0], 13, 6));
     }
-    addPart(`FAB · Rodillo retorno Ø${D.gtRetDia} eje muerto Ø${D.retEjeDia} — 2× 6202-2RS sellados, perno hex M${D.retPernoM}/lado`,
+    addPart(`FAB · Rodillo retorno Ø${D.gtRetDia} — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 (6202-2RS) · eje muerto Ø15 SAE1045 roscado M${D.retPernoM} — plano EJ-04 pendiente`,
       C.ret, [q.c[0], 0, q.c[1]], f);
   }
 
@@ -823,7 +982,16 @@ function build(tipo, L) {
       [L / 2, 0, -BELT.gt.goma / 2], feats);
   }
 
-  return { parts, largoBanda: largo, wraps, path };
+  // datos para verify(): puntos del lazo, chequeo de guardas y travesaños
+  const guardasChk = guardas.map(g => ({
+    tag: g.tag, xa: g.xa, xb: g.xb, fondoZ: g.fondoZ, pernos: g.holesX.length * 2 + g.mechaMounts.length * 2,
+  }));
+  const travChk = xsTrav.filter(x => lazoChoca(x));
+  let mechasOverlap = false;
+  for (let i = 0; i < mechasSpec.length; i++) for (let j = i + 1; j < mechasSpec.length; j++) {
+    if (mechasSpec[i].x1 > mechasSpec[j].x0 && mechasSpec[j].x1 > mechasSpec[i].x0) mechasOverlap = true;
+  }
+  return { parts, largoBanda: largo, wraps, path, pathOuterPts: outer, guardasChk, travChk, mechasOverlap };
 }
 
 // ---------------------------------------------------------------------------
@@ -845,6 +1013,20 @@ function verify(res) {
   const margen = r2(BELT.ancho / 2 - Math.max(...D.ySprkLBP.map(Math.abs)));
   if (margen !== 76.2) e.push(`indent A del grid LBP = ${margen} (esperado 76.2)`);
   if (D.gtRetDia <= 50) e.push('rodillo de retorno GT ≤ 50 (manual: D>50)');
+  // ── compuertas nacidas del panel adversarial (12-08) ──
+  for (const eq of [res.LBP, res.GT]) {
+    if (!eq) continue;
+    const nm = eq === res.LBP ? 'LBP' : 'GT';
+    for (const g of eq.guardasChk || []) {
+      const pts = eq.pathOuterPts.filter(q => q[0] > g.xa && q[0] < g.xb);
+      const zMin = pts.length ? Math.min(...pts.map(q => q[1])) : Infinity;
+      if (zMin < g.fondoZ + 40)
+        e.push(`${nm}/guarda ${g.tag}: fondo a ${g.fondoZ} deja ${r2(zMin - g.fondoZ)} de holgura al lazo (mínimo 40)`);
+      if (g.pernos < 4) e.push(`${nm}/guarda ${g.tag}: solo ${g.pernos} pernos M6 (mínimo 2 por lado)`);
+    }
+    for (const c of eq.travChk || []) e.push(`${nm}: travesaño x=${c} cruzado por el lazo`);
+    if (eq.mechasOverlap) e.push(`${nm}: mechas solapadas entre sí`);
+  }
   // corte de barras (8+8 ejes, kerf 9 mm)
   const corteM = 8 * (D.ejeMotrizL + 9), corteT = 8 * (D.ejeTensorL + 9);
   if (corteM > 6000) e.push(`8 ejes motrices no salen de una barra de 6 m (${corteM})`);

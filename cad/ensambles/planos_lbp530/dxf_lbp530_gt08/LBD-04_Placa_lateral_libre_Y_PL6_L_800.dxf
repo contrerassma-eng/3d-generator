@@ -205,22 +205,6 @@ VISIBLE
 31
 0
 0
-LINE
-8
-VISIBLE
-10
-25.5000
-20
-220.7150
-30
-0
-11
-25.5000
-21
-220.7150
-31
-0
-0
 CIRCLE
 8
 VISIBLE
@@ -232,42 +216,6 @@ VISIBLE
 0
 40
 4.5000
-0
-CIRCLE
-8
-VISIBLE
-10
-125.5000
-20
-229.7150
-30
-0
-40
-3.5000
-0
-CIRCLE
-8
-VISIBLE
-10
-405.5000
-20
-229.7150
-30
-0
-40
-3.5000
-0
-CIRCLE
-8
-VISIBLE
-10
-685.5000
-20
-229.7150
-30
-0
-40
-3.5000
 0
 TEXT
 8
@@ -281,7 +229,7 @@ TEXTO
 40
 3.2000
 1
-BARRENOS: 4× · Ø 9 / 7 mm (corte láser)
+BARRENOS: 1× · Ø 9 mm (corte láser)
 0
 LINE
 8
@@ -3439,9 +3387,9 @@ TEXTO
 30
 0
 40
-3.0240
+2.0000
 1
-LBD-04 · Placa lateral libre (?Y) PL6 L=800 (x2) — DESARROLLO
+LBD-04 · Placa lateral libre (?Y) PL6 L=800 (x2 — 1 SEGÚN VISTA + 1 SIMÉTRICA: plegar por car…
 72
 0
 73
@@ -3629,9 +3577,9 @@ TEXTO
 30
 0
 40
-2.2000
+2.0000
 1
-MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)
+Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08) · e6 · tol. gral. ISO …
 72
 0
 73
@@ -3939,7 +3887,7 @@ TEXTO
 40
 2.6000
 1
-CHAPA-01
+LBD-04
 72
 1
 73

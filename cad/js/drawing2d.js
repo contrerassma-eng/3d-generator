@@ -473,6 +473,9 @@ function writeDXF(sheet) {
     } else if (p.k === 'p') {
       for (let i = 0; i < p.pts.length; i++) {
         const a = p.pts[i], b = p.pts[(i + 1) % p.pts.length];
+        // un contorno que ya viene cerrado repetiría el cierre como LINE de
+        // largo cero (hallazgo del panel: una por lámina en la capa de corte)
+        if (a[0] === b[0] && a[1] === b[1]) continue;
         g(0, 'LINE'); g(8, p.ly);
         g(10, f(a[0])); g(20, f(a[1])); g(30, 0);
         g(11, f(b[0])); g(21, f(b[1])); g(31, 0);
@@ -672,10 +675,10 @@ function buildFlatSheet(flat, meta, K) {
     verificacion: 'CAD EN MM (CAPA USER)',
     piezasLabel: 'PLIEGUES',
     piezas: String(flat.pliegueInfo.length),
-    nota: aviso || `${flat.material} e=${flat.t} mm · K=${flat.k} · R def=${flat.radio} mm — diseño, no medición`,
+    nota: meta.nota || aviso || `${flat.material} e=${flat.t} mm · K=${flat.k} · R def=${flat.radio} mm — diseño, no medición`,
     escala: scaleLabel(num, den),
     fecha: new Date().toISOString().slice(0, 10),
-    numPlano: 'CHAPA-01',
+    numPlano: meta.numPlano || 'CHAPA-01',
   });
   return sheet;
 }

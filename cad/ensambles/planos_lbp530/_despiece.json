@@ -2,9 +2,9 @@
   "proyecto": "CV-GT-800 · Movex 530 GT (friction top) 18 in × 0.8 m",
   "archivo": "lbp530_gt08.json",
   "fecha": "—",
-  "total_piezas": 44,
-  "items_distintos": 24,
-  "planos_fabricacion": 13,
+  "total_piezas": 42,
+  "items_distintos": 23,
+  "planos_fabricacion": 12,
   "despiece": [
     {
       "item": 1,
@@ -32,7 +32,7 @@
     },
     {
       "item": 4,
-      "designacion": "FAB · Rodillo retorno Ø63.5 eje muerto Ø15 — 2× 6202-2RS sellados, perno hex M8/lado",
+      "designacion": "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 · eje muerto Ø15 SAE1045 roscado M8 — plano EJ-04 pendiente",
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "POR DEFINIR — tubo de acero, espesor sin declarar",
@@ -80,7 +80,7 @@
     },
     {
       "item": 10,
-      "designacion": "FAB · Mecha porta-chumacera PL8 motriz 320×322",
+      "designacion": "FAB · Mecha porta-chumacera PL8 combinada 610×422",
       "cant": 2,
       "tipo": "FABRICADA",
       "material_norma": "Acero",
@@ -88,15 +88,15 @@
     },
     {
       "item": 11,
-      "designacion": "FAB · Mecha porta-chumacera PL8 tensor 320×212",
-      "cant": 2,
+      "designacion": "FAB · Riostra de soportes (tipo ZP2026)",
+      "cant": 1,
       "tipo": "FABRICADA",
-      "material_norma": "Acero",
+      "material_norma": "Acero S275JR",
       "plano": "LB-11"
     },
     {
       "item": 12,
-      "designacion": "FAB · Riostra de soportes (tipo ZP2026)",
+      "designacion": "FAB · Travesaño tipo ZP2026 — C 88×40×3",
       "cant": 1,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR",
@@ -104,98 +104,90 @@
     },
     {
       "item": 13,
-      "designacion": "FAB · Travesaño tipo ZP2026 — C 88×40×3",
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR",
-      "plano": "LB-13"
-    },
-    {
-      "item": 14,
       "designacion": "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.56 m",
       "cant": 1,
       "tipo": "NORMALIZADA",
-      "material_norma": "COMERCIAL",
+      "material_norma": "Banda Movex 530 GT (friction top) 18 in — lazo 2.56 m",
+      "plano": "—"
+    },
+    {
+      "item": 14,
+      "designacion": "NORM · Chumacera UCF206 Ø30",
+      "cant": 4,
+      "tipo": "NORMALIZADA",
+      "material_norma": "Chumacera UCF206 Ø30",
       "plano": "—"
     },
     {
       "item": 15,
-      "designacion": "NORM · Chumacera UCF206 Ø30",
-      "cant": 4,
+      "designacion": "NORM · Collarín P21703Y (fija el sprocket central)",
+      "cant": 2,
       "tipo": "NORMALIZADA",
-      "material_norma": "COMERCIAL",
+      "material_norma": "Collarín P21703Y (fija el sprocket central)",
       "plano": "—"
     },
     {
       "item": 16,
-      "designacion": "NORM · Collarín P21703Y (fija el sprocket central)",
-      "cant": 2,
+      "designacion": "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
+      "cant": 1,
       "tipo": "NORMALIZADA",
-      "material_norma": "COMERCIAL",
+      "material_norma": "Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
       "plano": "—"
     },
     {
       "item": 17,
-      "designacion": "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
-      "cant": 1,
+      "designacion": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05",
+      "cant": 7,
       "tipo": "NORMALIZADA",
-      "material_norma": "COMERCIAL",
+      "material_norma": "Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-",
       "plano": "—"
     },
     {
       "item": 18,
-      "designacion": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05",
-      "cant": 7,
+      "designacion": "NORM · Guía lateral conical rail L 1¼ in + escuadras",
+      "cant": 2,
       "tipo": "NORMALIZADA",
-      "material_norma": "COMERCIAL",
+      "material_norma": "Guía lateral conical rail L 1¼ in (P12501C) + escuadras",
       "plano": "—"
     },
     {
       "item": 19,
-      "designacion": "NORM · Guía lateral conical rail L 1¼ in + escuadras",
-      "cant": 2,
+      "designacion": "NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",
+      "cant": 1,
       "tipo": "NORMALIZADA",
-      "material_norma": "COMERCIAL",
+      "material_norma": "Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (",
       "plano": "—"
     },
     {
       "item": 20,
-      "designacion": "NORM · Motorreductor NMRV-P075 1/30 eje hueco Ø30 H8 · 0,55 kW 4P (46 rpm · 89 Nm) + brazo de torque",
+      "designacion": "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
       "cant": 1,
       "tipo": "NORMALIZADA",
-      "material_norma": "Motorreductor ~0.18 kW i≈6.3",
+      "material_norma": "Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación)",
       "plano": "—"
     },
     {
       "item": 21,
-      "designacion": "NORM · Nosebar descarga 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
+      "designacion": "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
       "cant": 1,
       "tipo": "NORMALIZADA",
-      "material_norma": "COMERCIAL",
+      "material_norma": "Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) ",
       "plano": "—"
     },
     {
       "item": 22,
-      "designacion": "NORM · Nosebar entrada 18 in (3× K6 in, montaje IDLER=acumulación) — P22862 — transfer plate C/RODAMIENTOS h19, L=6 in (cotización)",
-      "cant": 1,
+      "designacion": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
+      "cant": 6,
       "tipo": "NORMALIZADA",
-      "material_norma": "COMERCIAL",
+      "material_norma": "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, gran",
       "plano": "—"
     },
     {
       "item": 23,
-      "designacion": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
-      "cant": 6,
-      "tipo": "NORMALIZADA",
-      "material_norma": "COMERCIAL",
-      "plano": "—"
-    },
-    {
-      "item": 24,
       "designacion": "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
       "cant": 2,
       "tipo": "NORMALIZADA",
-      "material_norma": "COMERCIAL",
+      "material_norma": "Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
       "plano": "—"
     }
   ]

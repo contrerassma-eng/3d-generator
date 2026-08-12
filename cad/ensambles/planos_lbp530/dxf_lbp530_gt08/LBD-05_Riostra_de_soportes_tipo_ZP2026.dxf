@@ -207,22 +207,6 @@ VISIBLE
 0
 LINE
 8
-VISIBLE
-10
-21.5000
-20
-93.2150
-30
-0
-11
-21.5000
-21
-93.2150
-31
-0
-0
-LINE
-8
 FINA
 10
 21.5000
@@ -2497,7 +2481,7 @@ TEXTO
 40
 2.0000
 1
-Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026). SOLDAR a soportes según GA e=3 mm…
+Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026), PINTADO RAL 7035. SOLDAR a soport…
 72
 0
 73
@@ -2805,7 +2789,7 @@ TEXTO
 40
 2.6000
 1
-CHAPA-01
+LBD-05
 72
 1
 73

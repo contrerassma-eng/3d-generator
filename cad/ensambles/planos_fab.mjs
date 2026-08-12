@@ -202,7 +202,10 @@ for (const part of doc.parts) {
 // banda LBP son 1164 features).
 const prefFAB  = (n) => /^FAB\s*[·.-]/.test(n);
 const prefNORM = (n) => /^NORM\s*[·.-]/.test(n);
-const esNorma = (n) => prefNORM(n) ? (NORMA.find(x => x.re.test(n)) || { norma: 'COMERCIAL' }) : (prefFAB(n) ? null : NORMA.find(x => x.re.test(n)));
+// Para piezas con prefijo NORM la designación de la PIEZA es la norma: el
+// mapa NORMA quedó afinado al transfer90 y le inventaba un motorreductor
+// '~0.18 kW' al NMRV-P075 de 0,55 kW (hallazgo del panel).
+const esNorma = (n) => prefNORM(n) ? { norma: n.replace(/^NORM\s*[·.-]\s*/, '').slice(0, 60) } : (prefFAB(n) ? null : NORMA.find(x => x.re.test(n)));
 const esSoloDespiece = (n) => prefFAB(n) ? false : SOLO_DESPIECE.some(re => re.test(n));
 
 // Orden de despiece: canal/estructura, elevación, placas, rodillos, transmisión
