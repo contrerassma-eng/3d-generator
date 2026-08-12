@@ -82,14 +82,14 @@
   "xMotrizDesdePunta": 120,
   "zTensor": -290,
   "xTensorDesdePunta": 300,
-  "retTop": -150,
+  "retTop": -135,
   "retCada": 500,
   "gtRetDia": 63.5,
   "retEjeDia": 15,
   "retPernoM": 8,
   "retPernoPas": 9,
   "sagR": 600,
-  "sagBot": -280,
+  "sagBot": -265,
   "catenLen": 750,
   "wearLBP": {
    "n": 10
@@ -150,8 +150,8 @@
   ]
  },
  "lazos_m": {
-  "LBP_5000": 10.87,
-  "GT_800": 2.54
+  "LBP_5000": 10.88,
+  "GT_800": 2.56
  },
  "ejes": {
   "motriz": {
@@ -231,14 +231,14 @@
   "banda_530LBP_18in": {
    "art": "P5324010018A",
    "precioEUR_m": 174.85,
-   "necesario_m": 43.48,
+   "necesario_m": 43.52,
    "cotizado_m": 90.3,
    "nota": "cotizado cubre ~2× (repuesto/futuras líneas); rollos de 1.5 m"
   },
   "banda_530GT_18in": {
    "art": "P5323010018A",
    "precioEUR_m": 243.18,
-   "necesario_m": 10.16,
+   "necesario_m": 10.24,
    "cotizado_m": 18
   },
   "sprockets_Z32_cuadrado15": {

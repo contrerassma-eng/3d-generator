@@ -40,6 +40,7 @@
 // Uso:  node cad/ensambles/gen_lbp530.mjs
 
 import { writeFileSync } from 'node:fs';
+import { bendAllowance } from '../js/sheetmetal.js';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -100,14 +101,14 @@ export const D = {
   // Camino de banda / tracción (manual Movex: wrap motriz 140±10°)
   zMotriz: -400, xMotrizDesdePunta: 120,   // motriz ABAJO, lado descarga (honda: wrap 135°)
   zTensor: -290, xTensorDesdePunta: 300,   // deflexión inferior, lado entrada
-  retTop: -150, retCada: 500,              // retorno: rodillos cada ~500 (decisión usuario)
+  retTop: -135, retCada: 500,              // retorno cada ~500; eje muerto en ALMA PLANA (fuera de la zona de plegado del ala)
   gtRetDia: 63.5,                          // rodillo retorno Ø63.5 (manual: D>50)
   // rodillo de retorno de EJE MUERTO (decisión usuario): tubo Ø63.5 con 2
   // rodamientos SELLADOS 6202-2RS insertos; eje Ø15 perforado y roscado M8
   // en ambas puntas → perno hexagonal M8 + golilla POR FUERA de la placa
   retEjeDia: 15, retPernoM: 8,
   retPernoPas: 9,                          // paso del M8 en la placa (holgura media ISO 273)
-  sagR: 600, sagBot: -280,                 // catenaria tras la motriz (sag 130 ≤ 150)
+  sagR: 600, sagBot: -265,                 // catenaria tras la motriz (flecha 130 bajo el plano de retorno −135; manual: ≤150)
   catenLen: 750,                           // largo de catenaria (manual: 500–900)
 
   // Guía de APOYO (carried way): pletina de canto 12 mm + BAR CAP UHMW
@@ -218,13 +219,13 @@ function beltPath(L, tipo, zci) {
   if (tipo === 'LBP') {
     // snub Ø63.5 tras la motriz (completa la envoltura), luego catenaria
     // (manual: sag 50–150) y RODILLOS de retorno cada ~500 hasta el tensor
-    seq.push({ c: [xDrv - 300, -150], r: D.gtRetDia / 2, s: 1, rol: 'snub' });
+    seq.push({ c: [xDrv - 300, -140], r: D.gtRetDia / 2, s: 1, rol: 'snub' });
     seq.push({ c: [xDrv - 740, D.sagBot + D.sagR], r: D.sagR, s: -1, virtual: true, rol: 'catenaria' });
     for (let x = xDrv - 1160; x > D.xTensorDesdePunta + 350; x -= D.retCada) {
       seq.push({ c: [x, D.retTop - D.gtRetDia / 2], r: D.gtRetDia / 2, s: 1, rol: 'ret' });
     }
   } else {
-    seq.push({ c: [L / 2 - 20, -170], r: D.gtRetDia / 2, s: 1, rol: 'ret' });
+    seq.push({ c: [L / 2 - 20, -160], r: D.gtRetDia / 2, s: 1, rol: 'ret' });
   }
   seq.push({ c: [D.xTensorDesdePunta, D.zTensor], r: D.rSprk, s: -1, rol: 'tensor' });
   return seq;
@@ -253,6 +254,82 @@ function addPart(name, color, anchor, features, extra = {}) {
     name, color, pos: [ax, ay, az], quat: [0, 0, 0, 1],
     fixed: parts.length === 0, visible: true, ...extra, features,
   });
+}
+
+// ---------------------------------------------------------------------------
+// Desarrollos planos (bloque `flat` por pieza de chapa) — ANALÍTICOS: salen de
+// los mismos parámetros que generan el 3D, no de la malla. Los consume
+// ensambles/dxf_flat.mjs → DXF 1:1 de corte láser + tabla de agujeros.
+// Convención del plano de desarrollo: X = a lo largo de la pieza, Y = a lo
+// alto del desarrollo (0 abajo). BA = θ·(R+K·t), K=0.44 acero (sheetmetal.js),
+// R = t (mismo criterio que el módulo de chapa del CAD).
+// ---------------------------------------------------------------------------
+const KCH = 0.44;
+const rect = (w, h, x0 = 0, y0 = 0) =>
+  [[x0, y0], [x0 + w, y0], [x0 + w, y0 + h], [x0, y0 + h], [x0, y0]];
+
+// Desarrollo de placa con UNA pestaña inferior a 90° (alma + ala):
+// dev = alaFlat | BA | almaFlat, con el eje de plegado marcado.
+function flatPlacaConAla(L, almaAlto, alaAncho, t, holesAlma, material, aviso) {
+  const r = t;
+  const BA = bendAllowance(90, r, t, KCH);
+  const alaFlat = alaAncho - (r + t);
+  const almaFlat = almaAlto - (r + t);
+  const H = alaFlat + BA + almaFlat;
+  // hole dz = distancia desde el BORDE SUPERIOR del alma (3D: plTop − z)
+  const circles = holesAlma
+    .filter(h => h.dz <= almaFlat)          // nunca en la zona de plegado
+    .map(h => ({ c: [h.x, r2(H - h.dz)], r: h.dia / 2 }));
+  const yEje = alaFlat + BA / 2;
+  return {
+    contorno: rect(L, r2(H)),
+    cortes: { circles, polys: [] },
+    pliegues: [
+      { a: [0, r2(alaFlat)], b: [L, r2(alaFlat)], tipo: 'tangente' },
+      { a: [0, r2(yEje)], b: [L, r2(yEje)], tipo: 'eje' },
+      { a: [0, r2(alaFlat + BA)], b: [L, r2(alaFlat + BA)], tipo: 'tangente' },
+    ],
+    etiquetas: [{ x: L / 2, y: r2(yEje) + 4, s: `PLEGAR ARRIBA 90° R${r}` }],
+    pliegueInfo: [{ ang: 90, r, ba: r2(BA) }],
+    t, k: KCH, radio: r, material,
+    avisos: aviso ? [aviso] : [],
+  };
+}
+
+// Desarrollo de perfil C (dos pestañas a 90°): ala | BA | web | BA | ala.
+function flatPerfilC(largo, webAncho, alaAlto, t, material, holes = []) {
+  const r = t;
+  const BA = bendAllowance(90, r, t, KCH);
+  const ala = alaAlto - (r + t);
+  const web = webAncho - 2 * (r + t);
+  const H = 2 * ala + 2 * BA + web;
+  const y1 = ala, y2 = ala + BA, y3 = ala + BA + web, y4 = ala + BA + web + BA;
+  const pl = [];
+  for (const [ya, yb] of [[y1, y2], [y3, y4]]) {
+    pl.push({ a: [0, r2(ya)], b: [largo, r2(ya)], tipo: 'tangente' });
+    pl.push({ a: [0, r2((ya + yb) / 2)], b: [largo, r2((ya + yb) / 2)], tipo: 'eje' });
+    pl.push({ a: [0, r2(yb)], b: [largo, r2(yb)], tipo: 'tangente' });
+  }
+  return {
+    contorno: rect(largo, r2(H)),
+    cortes: { circles: holes.map(h => ({ c: [h.x, h.y], r: h.dia / 2 })), polys: [] },
+    pliegues: pl,
+    etiquetas: [{ x: largo / 2, y: r2((y1 + y2) / 2) + 4, s: `PLEGAR ARRIBA 90° R${r} (×2)` }],
+    pliegueInfo: [{ ang: 90, r, ba: r2(BA) }, { ang: 90, r, ba: r2(BA) }],
+    t, k: KCH, radio: r, material,
+    avisos: [],
+  };
+}
+
+// Placa plana sin pliegues (mechas, placas de piso, guardas planas).
+function flatPlaca(w, h, t, holes, material, aviso) {
+  return {
+    contorno: rect(w, h),
+    cortes: { circles: holes.map(q => ({ c: [q.x, q.y], r: q.dia / 2 })), polys: [] },
+    pliegues: [], etiquetas: [], pliegueInfo: [],
+    t, k: KCH, radio: t, material,
+    avisos: aviso ? [aviso] : [],
+  };
 }
 
 const C = {
@@ -338,30 +415,63 @@ function build(tipo, L) {
   const ySprk = esLBP ? D.ySprkLBP : D.ySprkGT;
 
   // ---- Bastidor: 2 placas laterales PL6 con ala inferior ----
+  // Agujeros del alma (compartidos por la placa 3D y su desarrollo): el paso
+  // del perno M8 que fija el EJE MUERTO de cada rodillo de retorno. El perno
+  // entra POR FUERA de la placa y rosca en la punta del eje Ø15 (misma
+  // solución del transfer90). Sin estos agujeros el desarrollo no era
+  // cotizable a corte láser. dz = distancia desde el borde superior del alma.
+  const holesAlma = [];
+  for (const q of path) {
+    if (q.rol !== 'ret' && q.rol !== 'snub') continue;
+    holesAlma.push({ x: r2(q.c[0]), dz: r2(D.plTop - q.c[1]), dia: D.retPernoPas, rol: 'retorno' });
+  }
   for (const s of [-1, 1]) {
     const y = s * (yIn + D.plT / 2);
     const nm = s > 0 ? 'motriz (+Y)' : 'libre (−Y)';
     const f = [
       box(`Alma ${L}×${D.plAlto}`, [L / 2, y, D.plTop - D.plAlto / 2], L, D.plT, D.plAlto),
-      box('Ala inferior 30×4', [L / 2, y + (s > 0 ? -1 : 1) * (D.alaAncho / 2 - D.plT / 2), D.plTop - D.plAlto + 2], L, D.alaAncho, 4),
+      box(`Ala inferior ${D.alaAncho}×${D.plT}`, [L / 2, y + (s > 0 ? -1 : 1) * (D.alaAncho / 2 - D.plT / 2), D.plTop - D.plAlto + D.plT / 2], L, D.alaAncho, D.plT),
     ];
-    for (const [xc, zc, dxm] of [[xDrv, D.zMotriz, -45], [xTen, D.zTensor, 45]]) {
-      const hM = (D.plTop - D.plAlto) - (zc - 110);   // desde el borde inferior del alma
-      f.push(box('Mecha porta-chumacera PL8', [xc + dxm, y, zc - 110 + hM / 2], 320, D.plT + 2, hM));
+    for (const h of holesAlma) {
+      f.push(hole(`Paso perno M${D.retPernoM} eje muerto retorno`, [h.x, y, D.plTop - h.dz], [0, s, 0], h.dia, 0, true));
+    }
+    addPart(`FAB · Placa lateral ${nm} PL6 L=${L}`, C.placa, [L / 2, y, D.plTop], f, {
+      flat: flatPlacaConAla(L, D.plAlto, D.alaAncho, D.plT, holesAlma,
+        'Acero S275JR PL6 — galvanizado o RAL7035 según terminación del proyecto',
+        'MECHAS PORTA-CHUMACERA VAN SOLDADAS (ver GA y plano de mecha)'),
+    });
+  }
+
+  // ---- Mechas porta-chumacera PL8 (pieza PROPIA, soldada a cada placa) ----
+  // Antes vivían como features de la placa: la maestranza no sabía que eran
+  // una pieza aparte ni dónde soldarla, y les faltaba el agujero MÁS
+  // importante — el PASO DEL MUÑÓN Ø30 (el modelo solo traslapaba mallas).
+  // Paso Ø40: muñón Ø30 j6 + holgura de montaje y giro (no toca la mecha).
+  const mechaPasoDia = 40;
+  for (const s of [-1, 1]) {
+    const y = s * (yIn + D.plT + 4);   // PL8 centrada sobre la cara exterior de la placa
+    for (const [xc, zc, dxm, rol] of [[xDrv, D.zMotriz, -45, 'motriz'], [xTen, D.zTensor, 45, 'tensor']]) {
+      const hM = r2((D.plTop - D.plAlto) - (zc - 110));   // alto de la mecha
+      // Coordenadas de desarrollo: X desde el borde izquierdo de la mecha
+      // (centro geométrico en 160), Y desde su borde inferior. El EJE pasa en
+      // (160 − dxm, 110): la mecha está corrida dxm respecto del muñón.
+      const xEjeDev = r2(160 - dxm), yEjeDev = 110;
+      const holes = [{ x: xEjeDev, y: yEjeDev, dia: mechaPasoDia }];
+      for (const dx of [-1, 1]) for (const dz of [-1, 1]) {
+        holes.push({ x: r2(xEjeDev + dx * D.ucf.boltGap / 2), y: r2(yEjeDev + dz * D.ucf.boltGap / 2), dia: D.ucf.boltDia });
+      }
+      const f = [
+        box(`Mecha PL8 320×${hM}`, [xc + dxm, y, zc - 110 + hM / 2], 320, 8, hM),
+        hole(`Paso muñón Ø${mechaPasoDia}`, [xc, y, zc], [0, s, 0], mechaPasoDia, 0, true),
+      ];
       for (const dx of [-1, 1]) for (const dz of [-1, 1]) {
         f.push(hole('Perno chumacera Ø12', [xc + dx * D.ucf.boltGap / 2, y, zc + dz * D.ucf.boltGap / 2], [0, s, 0], D.ucf.boltDia, 0, true));
       }
+      addPart(`FAB · Mecha porta-chumacera PL8 ${rol} 320×${hM}`, C.placa, [xc + dxm, y, zc], f, {
+        flat: flatPlaca(320, hM, 8, holes, 'Acero S275JR PL8',
+          'SOLDAR A CARA EXTERIOR DE PLACA LATERAL — cordón perimetral 4 mm, ver GA'),
+      });
     }
-    // Paso del perno M8 que fija el EJE MUERTO de cada rodillo de retorno: el
-    // perno entra POR FUERA de la placa y rosca en la punta del eje Ø15 (misma
-    // solución del transfer90). El perno ya se dibujaba atravesando la placa
-    // pero la placa no tenía su agujero, así que el desarrollo plano no era
-    // cotizable a corte láser. Mismas posiciones que el bucle de rodillos.
-    for (const q of path) {
-      if (q.rol !== 'ret' && q.rol !== 'snub') continue;
-      f.push(hole(`Paso perno M${D.retPernoM} eje muerto retorno`, [q.c[0], y, q.c[1]], [0, s, 0], D.retPernoPas, 0, true));
-    }
-    addPart(`FAB · Placa lateral ${nm} PL6 L=${L}`, C.placa, [L / 2, y, D.plTop], f);
   }
 
   // ---- Travesaños tipo ZP2026 (TR_S): perfil C plegado 88×40×3 ----
@@ -372,7 +482,10 @@ function build(tipo, L) {
       box('Alma C 88', [x, 0, zTv - D.travC.h / 2 + D.travC.t / 2], D.travC.w, D.innerW, D.travC.t),
       box('Ala +X', [x + D.travC.w / 2 - D.travC.t / 2, 0, zTv], D.travC.t, D.innerW, D.travC.h),
       box('Ala −X', [x - D.travC.w / 2 + D.travC.t / 2, 0, zTv], D.travC.t, D.innerW, D.travC.h),
-    ]);
+    ], {
+      flat: flatPerfilC(D.innerW, D.travC.w, D.travC.h, D.travC.t,
+        'Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026). SOLDAR a placas laterales según GA'),
+    });
   }
 
   // ---- Guía de APOYO (carried way): pletina de canto 12 + BAR CAP UHMW
@@ -430,7 +543,7 @@ function build(tipo, L) {
       [xDrv, yC, D.zMotriz], collar(xDrv, yC, D.zMotriz));
   }
   for (const s of [-1, 1]) {
-    addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xDrv, s * yOut, D.zMotriz], chumaceraUCF(xDrv, s * yOut, D.zMotriz));
+    addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xDrv, s * (yOut + 8), D.zMotriz], chumaceraUCF(xDrv, s * (yOut + 8), D.zMotriz));
   }
   const yM = yOut + 30;
   addPart('NORM · Motorreductor eje hueco Ø30 + brazo de torque', C.motor, [xDrv, yM + D.motor.cuerpo[1] / 2, D.zMotriz], [
@@ -447,7 +560,7 @@ function build(tipo, L) {
     addPart('NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)', C.sprk, [xTen, y, D.zTensor], sprocket(xTen, y, D.zTensor));
   }
   for (const s of [-1, 1]) {
-    addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xTen, s * yOut, D.zTensor], chumaceraUCF(xTen, s * yOut, D.zTensor));
+    addPart('NORM · Chumacera UCF206 Ø30', C.chum, [xTen, s * (yOut + 8), D.zTensor], chumaceraUCF(xTen, s * (yOut + 8), D.zTensor));
   }
 
   // ---- Guía LATERAL: conical rail ENROLLABLE L 1¼ in (P12501C, cotización)
@@ -476,7 +589,10 @@ function build(tipo, L) {
     }
     addPart('FAB · Riostra de soportes (tipo ZP2026)', C.pata, [x, 0, D.pisoZ + 200], [
       box('Riostra C 88×40', [x, 0, D.pisoZ + 200], D.travC.w, D.outerW - D.sop.d, D.travC.h),
-    ]);
+    ], {
+      flat: flatPerfilC(D.outerW - D.sop.d, D.travC.w, D.travC.h, D.travC.t,
+        'Acero S275JR e3 — plegado en C 88×40 (matriz ZP2026). SOLDAR a soportes según GA'),
+    });
   }
 
   // ---- BANDA (lazo cerrado, boceto XZ extruido a lo ancho) ----
