@@ -42,3 +42,4 @@ cad/_tmp_*.mjs
 # STEP y GLB derivados: se regeneran con a_step.py / export_glb.mjs en menos de un minuto
 cad/ensambles/nbt90/step/
 cad/ensambles/stl/
+cad/tools/.pdf2png_host_*.html
