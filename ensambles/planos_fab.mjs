@@ -102,6 +102,12 @@ function simpleSheet(geom, meta) {
 const jsonPath = process.env.DOC || 'ensambles/transfer_rodillos_90.json';
 const doc = JSON.parse(readFileSync(jsonPath, 'utf8'));
 const outDir = process.env.OUTDIR || 'ensambles/planos_transfer90';
+// Identidad del ensamble: permite apuntar el generador a cualquier documento
+// sin dejar rotulado el transfer90 en el cajetin, el PDF y el despiece.
+const docFile = jsonPath.split('/').pop();
+const docBase = docFile.replace(/\.json$/, '');
+const docTitulo = doc.meta?.nombre || doc.title || doc.titulo || docBase;
+const docPref = (process.env.PREFIJO || docBase.slice(0, 2)).toUpperCase();
 mkdirSync(outDir, { recursive: true });
 
 // --- Clasificación: piezas NORMALIZADAS (compradas, solo van al despiece) ----
@@ -135,7 +141,13 @@ const SOLO_DESPIECE = [/^MÓVIL · Fijación eje/];
 
 // Material sugerido por tipo de pieza fabricada
 function materialDe(name) {
-  if (/Canal|Placa|Puente|Palanca|Soporte|Horquilla|Ménsula|Portarodamiento/.test(name)) return 'Acero S275JR';
+  // El material lo declara el propio generador cuando lo sabe; este mapa es
+  // de respaldo y esta afinado a los nombres del transfer90, asi que para
+  // otros equipos puede errar. Ante la duda se rotula POR DEFINIR en vez de
+  // inventar un material que despues se fabrica.
+  if (/vulcaniz/i.test(name)) return 'Vulcanizado NBR sobre tubo (dureza 75 ShA)';
+  if (/Rodillo retorno/i.test(name)) return 'POR DEFINIR — tubo de acero, espesor sin declarar';
+  if (/Canal|Placa|Puente|Palanca|Soporte|Horquilla|Ménsula|Portarodamiento|Riostra|Travesaño/.test(name)) return 'Acero S275JR';
   if (/Eje|Pasador|Cubo/.test(name)) return 'Acero SAE 1045';
   if (/Vulcanizado/.test(name)) return 'Vulcanizado NBR sobre tubo (dureza 75 ShA)';
   if (/Tubo de acero/.test(name)) return 'Tubo St37 Ø51 (bore Ø42 H7)';
@@ -182,8 +194,19 @@ for (const part of doc.parts) {
   g.cant++;
 }
 
-const esNorma = (n) => NORMA.find(x => x.re.test(n));
-const esSoloDespiece = (n) => SOLO_DESPIECE.some(re => re.test(n));
+// Los generadores del repo rotulan cada pieza con su naturaleza: "FAB · ..."
+// para lo que se fabrica y "NORM · ..." para lo comprado. Ese prefijo manda
+// sobre las regex de NORMA, que estaban afinadas a los nombres del transfer90
+// y no reconocian los de otros equipos: una pieza comprada mal clasificada se
+// lleva un plano y, peor, obliga a construir su malla (los rodillos de la
+// banda LBP son 1164 features).
+const prefFAB  = (n) => /^FAB\s*[·.-]/.test(n);
+const prefNORM = (n) => /^NORM\s*[·.-]/.test(n);
+// Para piezas con prefijo NORM la designación de la PIEZA es la norma: el
+// mapa NORMA quedó afinado al transfer90 y le inventaba un motorreductor
+// '~0.18 kW' al NMRV-P075 de 0,55 kW (hallazgo del panel).
+const esNorma = (n) => prefNORM(n) ? { norma: n.replace(/^NORM\s*[·.-]\s*/, '').slice(0, 60) } : (prefFAB(n) ? null : NORMA.find(x => x.re.test(n)));
+const esSoloDespiece = (n) => prefFAB(n) ? false : SOLO_DESPIECE.some(re => re.test(n));
 
 // Orden de despiece: canal/estructura, elevación, placas, rodillos, transmisión
 const grupoOrden = (n) => {
@@ -216,11 +239,11 @@ for (const g of lista) {
   let plano = '';
   if (fabricada) {
     planoN++;
-    plano = `TR-${String(planoN).padStart(2, '0')}`;
+    plano = `${docPref}-${String(planoN).padStart(2, '0')}`;
     const geom = buildPartGeometry(g.part);
     const tris = geom.attributes.position.count / 3;
     const meta = {
-      designacion: desig, piezas: g.cant, proyecto: 'TRANSFERENCIA 90°',
+      designacion: desig, piezas: g.cant, proyecto: String(docTitulo).toUpperCase(),
       fuente: 'diseño paramétrico — capa user', numPlano: plano, fecha,
       nota: `Material: ${material} · tol. gral. ISO 2768-mK`,
     };
@@ -252,13 +275,13 @@ function portada() {
   sh.frame();
   const cx = 210;
   sh.text('PLANOS DE FABRICACIÓN', cx, 235, 9, 'C');
-  sh.text('SORTER DE TRANSFERENCIA 90° — MÓDULO DE DESVIACIÓN POP-UP', cx, 222, 4.2, 'C');
+  sh.text(String(docTitulo).toUpperCase(), cx, 222, 4.2, 'C');
   sh.line([70, 215], [350, 215], 'NORMA');
   const filas = [
-    ['Ensamble', 'transfer_rodillos_90.json (formato foto3d-cad, capa user)'],
+    ['Ensamble', docFile + ' (formato foto3d-cad, capa user)'],
     ['Piezas totales', String(doc.parts.length)],
     ['Ítems distintos', String(despiece.length)],
-    ['Planos de fabricación', String(planoN) + '  (TR-01 … TR-' + String(planoN).padStart(2, '0') + ')'],
+    ['Planos de fabricación', String(planoN) + '  (' + docPref + '-01 … ' + docPref + '-' + String(planoN).padStart(2, '0') + ')'],
     ['Normalizadas / conjuntos', String(despiece.filter(d => d.tipo !== 'FABRICADA').length)],
     ['Norma de láminas', 'ISO 5457 (marco) · 7200 (cajetín) · 129 (cotas) · 5456-2 (1er diedro)'],
     ['Tolerancia general', 'ISO 2768-mK salvo indicación; ajustes por asiento en cada plano'],
@@ -322,12 +345,12 @@ function despieceSheets() {
 }
 
 const todas = [portada(), ...despieceSheets(), ...fabSheets];
-const pdf = exportSheetsPDF(todas, 'planos_fabricacion_transfer90.pdf');
+const pdf = exportSheetsPDF(todas, 'planos_fabricacion_' + docBase + '.pdf');
 writeFileSync(join(outDir, pdf.name), Buffer.from(pdf.data));
 
 writeFileSync(join(outDir, '_despiece.json'), JSON.stringify({
-  proyecto: 'Transferencia 90° — módulo de desviación pop-up',
-  archivo: 'transfer_rodillos_90.json',
+  proyecto: docTitulo,
+  archivo: docFile,
   fecha,
   total_piezas: doc.parts.length,
   items_distintos: despiece.length,
