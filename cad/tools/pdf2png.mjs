@@ -35,8 +35,10 @@ const br = await chromium.launch({
 });
 const pg = await br.newPage({ viewport: { width: 1200, height: 800 } });
 pg.on('pageerror', (e) => console.error('pageerror:', e.message));
-// página REAL file:// (about:blank es origen opaco: no puede importar file://)
-const hostHTML = join(tmpdir(), `pdf2png_host_${process.pid}.html`);
+// página REAL file:// JUNTO a node_modules (about:blank es origen opaco y
+// desde /tmp el import de módulos file:// cruza de árbol y Chromium lo veta);
+// se borra al terminar — no debe quedar en el repo
+const hostHTML = join(here, `.pdf2png_host_${process.pid}.html`);
 writeFileSync(hostHTML, '<!doctype html><html><body></body></html>');
 await pg.goto('file://' + hostHTML);
 const res = await pg.evaluate(async ({ pdfjsURL, workerURL, b64, esc }) => {
@@ -58,6 +60,7 @@ const res = await pg.evaluate(async ({ pdfjsURL, workerURL, b64, esc }) => {
   return out;
 }, { pdfjsURL: 'file://' + pdfjs, workerURL: 'file://' + worker, b64, esc });
 await br.close();
+try { (await import('node:fs')).unlinkSync(hostHTML); } catch {}
 
 const want = new Set(parsePags(pagSpec, res.n));
 for (const pgD of res.pages) {

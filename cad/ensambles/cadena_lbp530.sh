@@ -37,4 +37,7 @@ for eq in lbp530_5m lbp530_gt08; do
   DOC=ensambles/$eq.json OUTDIR=$OUT FECHA="$FECHA" node ensambles/manual_partes.mjs | tail -1
 done
 
+# libro único: portada+índice ConveyOne y TODAS las láminas en un solo PDF
+OUTDIR=$OUT FECHA="$FECHA" node ensambles/paquete_unico.mjs | tail -1
+
 echo "CADENA COMPLETA — paquete en $OUT (ver README_PAQUETE.md)"

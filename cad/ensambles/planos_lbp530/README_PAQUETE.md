@@ -1,5 +1,10 @@
 # Paquete de fabricación LBP530-18 — índice por receptor
 
+**Libro único**: `PAQUETE_FABRICACION_LBP530-18.pdf` reúne TODAS las láminas en
+un solo PDF (portada + índice + conjuntos con secciones + fabricación + ejes +
+manuales, ambos equipos). Los DXF de corte y los CSV siguen siendo archivos
+digitales aparte (el láser no come PDF).
+
 Proyecto YOLO · 4 líneas × (CV-LBP-5000 + CV-GT-800) · banda Movex 530 18 in.
 Todo generado del modelo paramétrico (`gen_lbp530.mjs`) el 2026-08-12 en UNA
 corrida — si un archivo tiene otra fecha interna, es defecto: regenerar todo.

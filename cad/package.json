@@ -11,6 +11,9 @@
     "three": "^0.169.0"
   },
   "devDependencies": {
+    "meshoptimizer": "^1.2.0",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^4.10.38",
     "playwright": "^1.62.0"
   }
 }
