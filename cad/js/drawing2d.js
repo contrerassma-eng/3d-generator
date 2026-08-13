@@ -705,38 +705,73 @@ export function buildFlatSheet(flat, meta, K) {
   sheet.poly(flat.contorno.map(T), 'VISIBLE');
   // cortes/barrenos del plano de la base = lo que corta el láser (capa de corte)
   if (flat.cortes) {
-    for (const c of flat.cortes.circles) sheet.circle(T(c.c), c.r * s, 'VISIBLE');
+    // GRUPOS por diámetro con LETRA en cada barreno (el panel: «63 barrenos de
+    // 3 diámetros sin identificación» — así la lámina se verifica sola) y
+    // remisión explícita al DXF 1:1 + _agujeros.csv para las posiciones
+    const grupos = new Map();   // "dia|rosca" → {letra, dia, rosca, n}
+    for (const c of flat.cortes.circles) {
+      const k = `${+(c.r * 2).toFixed(2)}|${c.rosca || ''}`;
+      let g = grupos.get(k);
+      if (!g) grupos.set(k, g = { dia: +(c.r * 2).toFixed(2), rosca: c.rosca || '', n: 0 });
+      g.n++;
+    }
+    const orden = [...grupos.values()].sort((a, b) => a.dia - b.dia || a.rosca.localeCompare(b.rosca));
+    orden.forEach((g, i) => { g.letra = String.fromCharCode(65 + i); });
+    const letraDe = (c) => grupos.get(`${+(c.r * 2).toFixed(2)}|${c.rosca || ''}`).letra;
+    for (const c of flat.cortes.circles) {
+      sheet.circle(T(c.c), c.r * s, 'VISIBLE');
+      if (orden.length > 1) {
+        const [cx, cy] = T(c.c);
+        sheet.text(letraDe(c), cx + c.r * s + 0.7, cy - 0.8, 1.9, 'L');
+      }
+    }
     for (const p of flat.cortes.polys) {
       for (let i = 0; i < p.length - 1; i++) sheet.line(T(p[i]), T(p[i + 1]), 'VISIBLE');
     }
-    const dias = [...new Set(flat.cortes.circles.map(c => +(c.r * 2).toFixed(2)))];
-    if (dias.length) sheet.text(`BARRENOS: ${flat.cortes.circles.length}× · Ø ${dias.join(' / ')} mm (corte láser)`,
-      T([lo[0], lo[1]])[0], T([lo[0], lo[1]])[1] - 6, 3.2, 'L');
-    // llamado de ROSCAS: un Ø5 sin llamado llega al taller como agujero liso
-    const roscados = flat.cortes.circles.filter(c => c.rosca);
-    if (roscados.length) {
-      const porRosca = {};
-      for (const c of roscados) porRosca[c.rosca] = (porRosca[c.rosca] || 0) + 1;
-      sheet.text('ROSCAR: ' + Object.entries(porRosca).map(([r, n]) => `${n}× ${r} (broca en plano)`).join(' · '),
-        T([lo[0], lo[1]])[0], T([lo[0], lo[1]])[1] - 10.5, 3.2, 'L');
-      for (const c of roscados) {
-        const [cx, cy] = T(c.c);
-        sheet.text(c.rosca, cx + c.r * s + 1.2, cy, 2.2, 'L');
-      }
+    if (orden.length) {
+      const leyenda = orden.map(g =>
+        `${orden.length > 1 ? g.letra + ' = ' : ''}${g.n}× Ø${g.dia}${g.rosca ? ` (broca — ROSCAR ${g.rosca})` : ''}`).join(' · ');
+      // bajo la línea de cota inferior (a -6 la pisaba — panel)
+      sheet.text(`BARRENOS (corte láser): ${leyenda}`,
+        T([lo[0], lo[1]])[0], T([lo[0], lo[1]])[1] - 13, 3.2, 'L');
+      sheet.text(`POSICIONES: DXF ${meta?.dxfRef || 'de corte'} a escala REAL 1:1 + _agujeros.csv (X·Y·Ø de cada barreno) — contornos interiores ídem`,
+        T([lo[0], lo[1]])[0], T([lo[0], lo[1]])[1] - 17.5, 2.8, 'L');
+    }
+    // llamado de ROSCAS junto a cada barreno roscado
+    for (const c of flat.cortes.circles.filter(q => q.rosca)) {
+      const [cx, cy] = T(c.c);
+      sheet.text(c.rosca, cx + c.r * s + 1.2, cy + 1.4, 2.2, 'L');
     }
   }
+  const esPlana = !flat.pliegueInfo?.length;
   for (const l of flat.pliegues) {
     sheet.line(T(l.a), T(l.b), l.tipo === 'eje' ? 'PLIEGUE' : 'FINA');
   }
   for (const e of flat.etiquetas) {
     const [x, y] = T([e.x, e.y]);
-    sheet.text(e.s, x, y, 2.5, 'C');
+    // etiqueta SOBRE la línea que anota, no atravesada por ella (panel)
+    sheet.text(e.s, x, y + 2.0, 2.8, 'C');
   }
   const [x1, y1] = T(lo), [x2, y2] = T(hi);
   sheet.dimH(x1, x2, y1, 9, w);
   sheet.dimV(x2, y1, y2, 9, h);
-  sheet.text('DESARROLLO DE CHAPA — BA = ang·(R + K·t), fibra neutra por factor K',
-    x1, y2 + 10.5, 3.5, 'L');
+  // COTA de cada línea de pliegue horizontal (posición del tope de plegadora —
+  // el panel: «la línea de pliegue no tiene cota que la ubique»)
+  if (!esPlana) {
+    const ysPl = [...new Set(flat.pliegues.filter(l => l.tipo === 'eje' && Math.abs(l.a[1] - l.b[1]) < 0.01)
+      .map(l => +l.a[1].toFixed(2)))];
+    ysPl.forEach((yp, i) => {
+      const dist = +(yp - lo[1]).toFixed(1);
+      if (dist > 0.5 && dist < h - 0.5) sheet.dimV(x1, y1, T([lo[0], yp])[1], -(7 + i * 7), dist);
+    });
+  }
+  if (esPlana) {
+    sheet.text('PIEZA PLANA DE CORTE — sin pliegues (láser directo)', x1, y2 + 10.5, 3.5, 'L');
+  } else {
+    const ba90 = (Math.PI / 2) * (flat.radio + flat.k * flat.t);
+    sheet.text(`DESARROLLO DE CHAPA — BA = ang·(R + K·t) · K=${flat.k} · R=${flat.radio} · t=${flat.t} → BA(90°)=${ba90.toFixed(2)} mm`,
+      x1, y2 + 10.5, 3.5, 'L');
+  }
   sheet.text(`ESPESOR DE CHAPA e = ${flat.t} mm (constante en toda la pieza)`,
     x1, y2 + 5, 4.0, 'L');
   sheet.frame();

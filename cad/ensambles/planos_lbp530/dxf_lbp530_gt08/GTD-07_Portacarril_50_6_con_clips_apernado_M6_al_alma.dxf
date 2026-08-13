@@ -219,7 +219,7 @@ CIRCLE
 8
 VISIBLE
 10
-114.2600
+123.2000
 20
 233.5000
 30
@@ -231,7 +231,7 @@ CIRCLE
 8
 VISIBLE
 10
-155.9800
+182.8000
 20
 233.5000
 30
@@ -243,7 +243,7 @@ CIRCLE
 8
 VISIBLE
 10
-197.7000
+242.4000
 20
 233.5000
 30
@@ -255,7 +255,7 @@ CIRCLE
 8
 VISIBLE
 10
-239.4200
+302.0000
 20
 233.5000
 30
@@ -267,7 +267,7 @@ CIRCLE
 8
 VISIBLE
 10
-281.1400
+361.6000
 20
 233.5000
 30
@@ -279,7 +279,7 @@ CIRCLE
 8
 VISIBLE
 10
-322.8600
+421.2000
 20
 233.5000
 30
@@ -291,43 +291,7 @@ CIRCLE
 8
 VISIBLE
 10
-364.5800
-20
-233.5000
-30
-0
-40
-3.5000
-0
-CIRCLE
-8
-VISIBLE
-10
-406.3000
-20
-233.5000
-30
-0
-40
-3.5000
-0
-CIRCLE
-8
-VISIBLE
-10
-448.0200
-20
-233.5000
-30
-0
-40
-3.5000
-0
-CIRCLE
-8
-VISIBLE
-10
-489.7400
+480.8000
 20
 233.5000
 30
@@ -341,13 +305,27 @@ TEXTO
 10
 71.0000
 20
-202.5000
+195.5000
 30
 0
 40
 3.2000
 1
-BARRENOS: 10× · Ø 7 mm (corte láser)
+BARRENOS (corte láser): 7× Ø7
+0
+TEXT
+8
+TEXTO
+10
+71.0000
+20
+191.0000
+30
+0
+40
+2.8000
+1
+POSICIONES: DXF de corte a escala REAL 1:1 + _agujeros.csv (X·Y·Ø de cada barreno) — contornos interiores ídem
 0
 LINE
 8
@@ -617,7 +595,7 @@ TEXTO
 40
 3.5000
 1
-DESARROLLO DE CHAPA — BA = ang·(R + K·t), fibra neutra por factor K
+PIEZA PLANA DE CORTE — sin pliegues (láser directo)
 0
 TEXT
 8
@@ -2795,7 +2773,7 @@ TEXTO
 40
 2.4847
 1
-LBD-10 · Portacarril 50×6 con clips (apernado M6 al alma) (x5) — DESARROLLO
+GTD-07 · Portacarril 50×6 con clips (apernado M6 al alma) (x1) — DESARROLLO
 72
 0
 73
@@ -2831,9 +2809,9 @@ TEXTO
 30
 0
 40
-2.1329
+2.0000
 1
-CV-LBP-5000 · Movex 530 LBP 18 in × 5.0 m
+CV-GT-800 · Movex 530 GT (friction top) 18 in…
 72
 0
 73
@@ -3217,7 +3195,7 @@ TEXTO
 40
 2.6000
 1
-2026-08-12
+2026-08-13
 72
 1
 73
@@ -3293,7 +3271,7 @@ TEXTO
 40
 2.6000
 1
-LBD-10
+GTD-07
 72
 1
 73

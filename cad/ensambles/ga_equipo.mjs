@@ -198,7 +198,8 @@ rotula(sh2, aa, oxA, oyA, oxA + aa.widthMM + 74, {
     [/Travesaño TR_S/, 'travesaño TR_S 88×88×3 — orejas apernadas 2×M6'],
     [/Columna soporte/, 'columna telescópica 71×38×3 (sistema 24V)'],
     [/Bracket soporte/, 'bracket B_005A — ranuras cruciformes + arco angular'],
-    [/Escalerilla/, 'escalerilla de regulación (M10×70 por ranura 11×22)'],
+    [/Tira telescópica/, 'tira BR_3002 telescópica (altura por ranuras 11×20, apriete 3×M10)'],
+    [/Travesaño de patas/, 'travesaño B_002A 71×38 entre patas'],
     [/Guarda inferior/, 'guarda inferior — faldón por fuera del bastidor'],
   ],
 });

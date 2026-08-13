@@ -437,13 +437,27 @@ TEXTO
 10
 67.0000
 20
-182.5000
+175.5000
 30
 0
 40
 3.2000
 1
-BARRENOS: 18× · Ø 9 mm (corte láser)
+BARRENOS (corte láser): 18× Ø9
+0
+TEXT
+8
+TEXTO
+10
+67.0000
+20
+171.0000
+30
+0
+40
+2.8000
+1
+POSICIONES: DXF de corte a escala REAL 1:1 + _agujeros.csv (X·Y·Ø de cada barreno) — contornos interiores ídem
 0
 LINE
 8
@@ -713,7 +727,7 @@ TEXTO
 40
 3.5000
 1
-DESARROLLO DE CHAPA — BA = ang·(R + K·t), fibra neutra por factor K
+PIEZA PLANA DE CORTE — sin pliegues (láser directo)
 0
 TEXT
 8
@@ -3313,7 +3327,7 @@ TEXTO
 40
 2.6000
 1
-2026-08-12
+2026-08-13
 72
 1
 73

@@ -142,14 +142,15 @@ const FIGURAS = [
   },
   {
     id: 'H', nombre: 'SOPORTES A PISO — SISTEMA 24V',
-    sel: /Placa lateral|Bracket soporte|Columna soporte|Escalerilla/,
+    sel: /Placa lateral|Bracket soporte|Columna soporte|Tira telescópica|Travesaño de patas/,
     explode: (p) => /Bracket/.test(p.name) ? [0, Math.sign(p.pos[1] || 1) * 290, 0]
       : /Columna/.test(p.name) ? [0, Math.sign(p.pos[1] || 1) * 290, -210]
-      : /Escalerilla/.test(p.name) ? [0, Math.sign(p.pos[1] || 1) * 290, -430]
+      : /Tira telescópica/.test(p.name) ? [0, Math.sign(p.pos[1] || 1) * 290, -430]
+      : /Travesaño de patas/.test(p.name) ? [0, 0, -560]
       : [0, 0, 0],
     dir: [-1, 1, -0.42],
-    torn: /bracket B_005A|fija la escalerilla|placa piso B_004A|pivote \+ 2 seguros/,
-    nota: 'Sistema tal cual equipo 24V (medido de ZP2026_MDR.glb): bracket B_005A apernado al alma por 4 ranuras CRUCIFORMES M8 (regulación fina) + PIVOTE con ranura en ARCO M10 (ajuste ANGULAR de la columna); escalerilla telescópica M10×70 en la ranura 11×22 elegida (ajuste de ALTURA); placa piso B_004A SOLDADA a la columna (pieza pequeña — soldadura permitida) y anclada M10×90 a losa.',
+    torn: /bracket B_005A|apriete|pivote|travesaño B_002A|pata B_004A/,
+    nota: 'COPIA del soporte 24V (medido de ZP2026_MDR.glb, ancho ajustado): bracket B_005A apernado al alma por 4 cruciformes M8 + PIVOTE y ranura en ARCO (aplome de columna, M10); COLUMNA canal 77×38×3 colgada del pivote; TIRA BR_3002 84×38×3 con 9 ranuras 11×20 desliza POR FUERA de la columna (altura, apriete 3×M10) y lleva SOLDADA la pata B_004A anclada M10×90; TRAVESAÑO B_002A 71×38 une ambas patas (2×M8 por extremo).',
   },
 ];
 
@@ -432,10 +433,12 @@ for (const F of FIGURAS) {
       'Terminación: granallado/desengrase + PINTADO RAL 7035 antes de continuar.',
     ]],
     ['2 · SOPORTES 24V (Fig. H)', [
-      'Apernar brackets B_005A al alma (ranuras cruciformes M8×20 — dejar a mano para regular).',
-      'Colgar columnas del pivote, fijar ángulo con los 2 seguros del ARCO (M10×25), elegir la',
-      'ranura 11×22 de la escalerilla (M10×70) para la altura de faja del layout, y anclar la placa',
-      'piso B_004A a losa (2×M10×90). Nivel ±2 mm en el largo → apretar cruciformes (25 Nm).',
+      'Apernar brackets B_005A al alma (cruciformes M8×20 — dejar a mano para regular).',
+      'Colgar cada COLUMNA de su pivote M10 y aplomarla; fijar con el perno del ARCO.',
+      'Calzar la TIRA BR_3002 por fuera de la columna, elegir la ranura 11×20 para la',
+      'altura de faja y apretar 3×M10; anclar la pata B_004A a losa (2×M10×90).',
+      'Apernar el TRAVESAÑO B_002A entre ambas patas (2×M8 por extremo).',
+      'Nivel ±2 mm en el largo → apretar cruciformes (25 Nm).',
     ]],
     ['3 · RETORNO (Fig. B · sub-despiece Fig. B1)', [
       'Montar rodillos de retorno: eje muerto contra cara interior de placas, perno M8×25 +',

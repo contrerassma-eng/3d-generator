@@ -137,8 +137,23 @@ gate(nMechaB === nMechaB2, `pernos mecha: placa ${nMechaB} ≠ mecha ${nMechaB2}
 const nCabClip = nHoles(/Paso M6 cabezal$/);
 const nCabClip2 = nHoles(/Paso M6 clip cabezal/);
 gate(nCabClip === nCabClip2, `clips cabezal: placa ${nCabClip} ≠ clip ${nCabClip2}`);
-const nEscal = cantDe(/Escalerilla telescópica/);
+// soportes 24V Rev.D (copia fiel del ZP2026): tira BR_3002 + columna canal +
+// travesaño B_002A — todos los pernos DERIVADOS de los agujeros con calce 1:1
+const nTira = cantDe(/Tira telescópica BR_3002/);
 const nPiso = cantDe(/Columna soporte 24V/);
+gate(nTira === nPiso, `soportes: tiras BR_3002 (${nTira}) ≠ columnas (${nPiso})`);
+const nApriete = nHoles(/Apriete telescópico Ø11/);
+gate(nApriete === 3 * nPiso, `apriete telescópico ${nApriete} ≠ 3×columnas (${nPiso})`);
+// el lado COLUMNA es el autoritativo (la ranura en ARCO del bracket no es un
+// agujero contable por nombre): pivote 1:1 y el perno de arco viaja por la ranura
+const nPivBrk = nHoles(/Pivote de columna Ø11/);
+const nPivCol = nHoles(/Pivote Ø11 \(a bracket\)/);
+gate(nPivBrk === nPivCol, `pivote: bracket ${nPivBrk} ≠ columna ${nPivCol}`);
+const nPivote = nPivCol + nHoles(/Aplome Ø11 \(perno del arco\)/);
+const nAncla = nHoles(/Anclaje a losa Ø11/);
+const nB002 = nHoles(/Paso M8 travesaño B_002A/);
+const nB002col = nHoles(/Paso M8 a travesaño B_002A/);
+gate(nB002 === nB002col, `travesaño B_002A: pasos propios ${nB002} ≠ pasos en columnas ${nB002col}`);
 
 const herrajes = [
   { n: 'Perno hex M8×25 8.8 + golilla plana y presión', cant: nEjeMuerto, uso: 'fija el eje muerto de cada rodillo de retorno, por fuera de la placa (2 por rodillo; rosca interior M8×16 del eje — un perno más largo topa fondo)' },
@@ -148,9 +163,10 @@ const herrajes = [
   { n: 'Perno hex M8×20 8.8 + tuerca + golillas (bracket soporte)', cant: nBrk, uso: 'bracket B_005A → alma por ranuras cruciformes (4 por bracket — regulación)' },
   { n: 'Perno hex M10×30 8.8 + tuerca + golillas (mechas)', cant: nMechaB, uso: 'mecha PL8 → alma (6 por mecha — Rev.C apernada, sin soldadura)' },
   { n: 'Perno hex M6×16 8.8 + tuerca + golillas (clips cabezal)', cant: nCabClip, uso: 'clips del cabezal porta-nosebar → alma (2 por extremo)' },
-  { n: 'Perno hex M10×70 8.8 + golilla ancha (telescópico soporte)', cant: 2 * nEscal, uso: 'fija la escalerilla a la columna en la ranura 11×22 elegida (ajuste de altura, 2 por columna)' },
-  { n: 'Perno de anclaje M10×90 (piso)', cant: 2 * nPiso, uso: 'placa piso B_004A → losa por ranuras 11×22 (2 por soporte)' },
-  { n: 'Perno pivote M10×25 + tuerca (arco angular bracket)', cant: 3 * nPiso, uso: 'pivote + 2 seguros de la ranura en ARCO del bracket (ajuste angular de columna)' },
+  { n: 'Perno hex M10×30 8.8 + tuerca + golilla ancha (apriete telescópico)', cant: nApriete, uso: 'aprieta la tira BR_3002 contra la columna en la ranura 11×20 elegida (3 por pata — ajuste de ALTURA)' },
+  { n: 'Perno de anclaje M10×90 (piso)', cant: nAncla, uso: 'pata B_004A de la tira → losa (2 por pata)' },
+  { n: 'Perno pivote M10×25 + tuerca (pivote y arco de aplome)', cant: nPivote, uso: 'columna → bracket B_005A: 1 pivote + 1 perno viajando por la RANURA EN ARCO (aplome angular)' },
+  { n: 'Perno hex M8×20 8.8 + tuerca (travesaño B_002A)', cant: nB002, uso: 'travesaño B_002A → alas de las columnas (2 por extremo — une las dos patas de la estación)' },
   { n: 'Perno hex M6×16 8.8 + golilla', cant: nAlaPlaca, uso: 'guarda inferior → ala de placas (1 por unión pestaña-ala)' },
   { n: 'Perno hex M6×12 8.8', cant: nFaldon, uso: 'faldón de guarda → roscados M6 de la mecha' },
   { n: 'Perno hex M8×30 8.8 + tuerca + golilla', cant: nNose, uso: 'nosebar → cabezal (tuerca por cara interior)' },

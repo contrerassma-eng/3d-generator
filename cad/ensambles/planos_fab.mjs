@@ -155,15 +155,17 @@ const NORMA = [
 const SOLO_DESPIECE = [/^MÓVIL · Fijación eje/];
 
 // Material sugerido por tipo de pieza fabricada
-function materialDe(name) {
-  // El material lo declara el propio generador cuando lo sabe; este mapa es
-  // de respaldo y esta afinado a los nombres del transfer90, asi que para
-  // otros equipos puede errar. Ante la duda se rotula POR DEFINIR en vez de
-  // inventar un material que despues se fabrica.
+function materialDe(name, part) {
+  // PRIMERO lo que declara el propio generador en el desarrollo (flat.material
+  // es capa user con procedencia); el mapa por nombre queda de respaldo.
+  // Ante la duda se rotula POR DEFINIR en vez de inventar un material.
+  if (part?.flat?.material) return part.flat.material.replace(/ — .*$/, '');
   if (/vulcaniz/i.test(name)) return 'Vulcanizado NBR sobre tubo (dureza 75 ShA)';
-  if (/Rodillo retorno/i.test(name)) return 'POR DEFINIR — tubo de acero, espesor sin declarar';
+  // rodillo de retorno: la espec vive en el nombre/EJ-04 — repetirla, no negarla
+  // (el panel cazó un «POR DEFINIR» contradiciendo la designación A513 Ø63,5×3,0)
+  if (/Rodillo retorno/i.test(name)) return 'Tubo A513 Ø63,5×3,0 (espesor POR CONFIRMAR vs stock) + cabezales y eje SAE 1045';
   if (/Canal|Placa|Puente|Palanca|Soporte|Horquilla|Ménsula|Portarodamiento|Riostra|Travesaño/.test(name)) return 'Acero S275JR';
-  if (/Eje|Pasador|Cubo/.test(name)) return 'Acero SAE 1045';
+  if (/Eje|EJE|Pasador|Cubo/.test(name)) return 'Acero SAE 1045 (calibrado — ver lámina EJ)';
   if (/Vulcanizado/.test(name)) return 'Vulcanizado NBR sobre tubo (dureza 75 ShA)';
   if (/Tubo de acero/.test(name)) return 'Tubo St37 Ø51 (bore Ø42 H7)';
   if (/Rodillo/.test(name)) return 'Tubo St37 + vulcanizado NBR';
@@ -171,7 +173,7 @@ function materialDe(name) {
   if (/Tensor|Polea de retorno/.test(name)) return 'Aluminio 6061-T6';
   if (/Banda/.test(name)) return 'Banda plana nitrilo/poliéster 3 mm';
   if (/Separador|Descanso|Nivelador|Acople/.test(name)) return 'Bronce / acero';
-  return 'Acero';
+  return 'Acero (grado en la lámina de la pieza)';
 }
 
 // Designación legible: quita sufijos de posición/lado para agrupar idénticas.
@@ -289,20 +291,43 @@ const tipsDe = (n) => {
     'Plegar después de cortar; comprobar paso 47,6 de cruciformes contra la fila del alma.',
   ];
   if (/Columna soporte/.test(n)) return [
-    'Soldar placa piso B_004A a 90°±0,5° con la columna PRESENTADA en su bracket (única soldadura).',
-    'No pintar el interior de las ranuras 11×22: la escalerilla desliza al regular altura.',
+    'Plegar el canal C 77×38 en 2 pliegues; los 5 Ø11 del alma salen del láser — no retaladrar.',
+    'No pintar con sobre-espesor el alma exterior: la tira BR_3002 desliza sobre ella.',
   ];
-  if (/Escalerilla/.test(n)) return [
-    'Rebabar TODAS las ranuras 11×22: bajo carga la regulación desliza por ellas.',
+  if (/Tira telescópica/.test(n)) return [
+    'Rebabar TODAS las ranuras 11×20: el ajuste de altura desliza por ellas bajo carga.',
+    'Soldar la pata B_004A a escuadra (90°±0,5°) ANTES de pintar (soporte a piso: permitido).',
+  ];
+  if (/Travesaño de patas/.test(n)) return [
+    'Canal C 71×38 en 2 pliegues; presentar entre columnas y apernar 2×M8 por extremo.',
   ];
   return [];
 };
+// tips ARRIBA-IZQUIERDA dentro del marco (a la derecha se salían de la hoja —
+// hallazgo del panel) — zona libre en los desarrollos (la pieza va centrada)
 const ponTips = (sh, lineas) => {
   if (!lineas.length) return;
-  let y = sh.H - 16;
-  sh.text('TIPS DE FABRICACIÓN', sh.W - 14, y, 2.6, 'R'); y -= 4.4;
-  for (const l of lineas) { sh.text('· ' + l, sh.W - 14, y, 2.15, 'R'); y -= 3.7; }
+  let y = sh.H - 15;
+  sh.text('TIPS DE FABRICACIÓN', 24, y, 2.6, 'L'); y -= 4.2;
+  for (const l of lineas) { sh.text('· ' + l, 24, y, 2.15, 'L'); y -= 3.6; }
 };
+
+// PROYECTO corto para el cajetín (el título completo se truncaba con «…»)
+const proyectoCorto = String(docTitulo).split('·')[0].trim().toUpperCase();
+
+// mapa pieza → plano DXF de corte (LBD/GTD-nn), emitido por dxf_flat en
+// _planos.json — la lámina de desarrollo REMITE ahí para las posiciones 1:1
+const planoDXF = (() => {
+  const p = join(outDir, `dxf_${docBase}`, '_planos.json');
+  if (!existsSync(p)) return {};
+  try { return JSON.parse(readFileSync(p, 'utf8')); } catch { return {}; }
+})();
+
+// desarrollos IDÉNTICOS entre piezas del MISMO equipo (placa libre vs motriz):
+// UN solo plano con la cantidad total y nota de espejo — dos láminas iguales
+// con nombre distinto mandan al taller a adivinar (grave del panel)
+const firmaFlat = (f) => JSON.stringify([f.t, f.contorno, f.cortes?.circles, f.pliegueInfo]);
+const vistosFlat = new Map();   // firma → {plano, sheet, cant, desig}
 
 for (const g of lista) {
   itemN++;
@@ -313,40 +338,57 @@ for (const g of lista) {
   if (/Eje cantiléver/.test(desig)) {
     desig += g.part.features.some(f => /Rosca M12/.test(f.name)) ? ' (tensor)' : ' (retorno)';
   }
-  const material = norma ? norma.norma : materialDe(g.name);
+  let material = norma ? norma.norma : materialDe(g.name, g.part);
+  if (/Rodillos LBP/.test(g.name)) material += ' — JUEGO completo de la banda (viene armado, no se compra aparte)';
   const externo = fabricada ? planoExterno(g.name) : null;
   let plano = externo || '';
+  let notaEspejo = '';
   if (fabricada && !externo) {
-    planoN++;
-    plano = `${docPref}-${String(planoN).padStart(2, '0')}`;
-    const geom = buildPartGeometry(g.part);
-    const tris = geom.attributes.position.count / 3;
-    const meta = {
-      designacion: desig, piezas: g.cant, proyecto: String(docTitulo).toUpperCase(),
-      fuente: 'diseño paramétrico — capa user', numPlano: plano, fecha,
-      nota: `Material: ${material} · tol. gral. ISO 2768-mK`,
-    };
-    try {
-      // malla grande: la extracción de aristas no escala. Placas peine (boceto
-      // dominante) → perfil analítico con perforaciones; otras mallas grandes
-      // (canal, chumaceras) → envolvente; el resto → plano completo con vistas.
-      let sheet = null;
-      if (g.part.flat) sheet = buildFlatSheet(g.part.flat, meta);
-      else if (tris > 12000) sheet = plateSheet(g.part, meta) || simpleSheet(geom, meta);
-      else sheet = buildSheet([{ geometry: geom, matrixWorld: M4 }], 'paper', meta);
-      ponTips(sheet, tipsDe(g.name));
-      fabSheets.push(sheet);
-    } catch (e) {
-      console.warn(`  ! sin geometría para plano: ${desig} (${e.message})`);
-      planoN--; plano = '';
+    const firma = g.part.flat ? firmaFlat(g.part.flat) : null;
+    const previo = firma && vistosFlat.get(firma);
+    if (previo) {
+      // mismo desarrollo ya emitido: reusar el plano y anotar la lámina única
+      plano = previo.plano;
+      notaEspejo = ` — mismo desarrollo que ${previo.desig} (${previo.plano}); 1 EN ESPEJO`;
+      previo.sheet.text(
+        `CANT TOTAL ${previo.cant + g.cant}: ${previo.cant} según dibujo (${previo.desig}) + ${g.cant} EN ESPEJO (${desig}) — espejos en _LEEME de los DXF`,
+        24, 12, 2.6, 'L');
+    } else {
+      planoN++;
+      plano = `${docPref}-${String(planoN).padStart(2, '0')}`;
+      const geom = buildPartGeometry(g.part);
+      const tris = geom.attributes.position.count / 3;
+      const meta = {
+        designacion: desig, piezas: g.cant, proyecto: proyectoCorto,
+        fuente: 'diseño paramétrico — capa user', numPlano: plano, fecha,
+        nota: `Material: ${material} · tol. gral. ISO 2768-mK`,
+        dxfRef: planoDXF[g.part.name] || planoDXF[g.name] || '',
+      };
+      try {
+        // malla grande: la extracción de aristas no escala. Placas peine (boceto
+        // dominante) → perfil analítico con perforaciones; otras mallas grandes
+        // (canal, chumaceras) → envolvente; el resto → plano completo con vistas.
+        let sheet = null;
+        if (g.part.flat) sheet = buildFlatSheet(g.part.flat, meta);
+        else if (tris > 12000) sheet = plateSheet(g.part, meta) || simpleSheet(geom, meta);
+        else sheet = buildSheet([{ geometry: geom, matrixWorld: M4 }], 'paper', meta);
+        ponTips(sheet, tipsDe(g.name));
+        fabSheets.push(sheet);
+        if (firma) vistosFlat.set(firma, { plano, sheet, cant: g.cant, desig });
+      } catch (e) {
+        console.warn(`  ! sin geometría para plano: ${desig} (${e.message})`);
+        planoN--; plano = '';
+      }
     }
   }
   despiece.push({
     item: itemBom.get(g.name) ?? '—', designacion: desig, nombres: [...g.nombres], cant: g.cant,
     tipo: fabricada ? 'FABRICADA' : (norma ? 'NORMALIZADA' : 'CONJUNTO'),
-    material_norma: material, plano: plano || '—',
+    material_norma: material + notaEspejo, plano: plano || '—',
   });
 }
+// orden de lectura del BOM: por ÍTEM numérico, sin número al final (panel)
+despiece.sort((a, b) => (a.item === '—' ? 1e9 : a.item) - (b.item === '—' ? 1e9 : b.item));
 
 // --- Portada + despiece (láminas A3 propias) ---------------------------------
 const A3 = () => new Sheet('A3', 420, 297, 1, 1, 1);
@@ -379,6 +421,7 @@ function portada() {
     cx, 70, 2.6, 'C');
   sh.text('Verificar dimensiones nominales con la unidad real antes de cortar/mecanizar.',
     cx, 64, 2.6, 'C');
+  sh.text(`${proyectoCorto} · PLANOS DE FABRICACIÓN — portada ${docPref}-00 · ${fecha} · ConveyOne`, cx, 14, 2.5, 'C');
   return sh;
 }
 
@@ -392,19 +435,28 @@ function despieceSheets() {
   const x0 = 20, rowH = 7.2, headY = 250;
   const totalW = cols.reduce((a, c) => a + c[1], 0);
   const perPage = 26;
+  // el texto se RECORTA al ancho de su columna (el panel encontró designaciones
+  // pisando CANT/TIPO y cantidades ilegibles debajo) — 2 renglones si no cabe
+  const quepa = (s, w, h) => {
+    const maxC = Math.max(4, Math.floor((w - 3) / (h * 0.52)));
+    s = String(s);
+    if (s.length <= maxC) return [s];
+    const l1 = s.slice(0, maxC);
+    const l2 = s.slice(maxC, maxC * 2 - 1);
+    return [l1, l2.length ? l2 + (s.length > maxC * 2 - 1 ? '…' : '') : ''].filter(Boolean);
+  };
   for (let p = 0; p * perPage < despiece.length; p++) {
     const sh = A3();
     sh.frame();
     const np = Math.ceil(despiece.length / perPage);
     sh.text(`DESPIECE / LISTA DE MATERIALES  (${p + 1}/${np})`, 210, 265, 5, 'C');
-    // encabezado
-    let x = x0;
-    const drawRow = (y, vals, h = 2.6, bold = false) => {
+    const drawRow = (y, vals, h = 2.6) => {
       let cx = x0;
       for (let i = 0; i < cols.length; i++) {
         const [, w, al] = cols[i];
         const tx = al === 'C' ? cx + w / 2 : cx + 2;
-        sh.text(String(vals[i]), tx, y + 1.4, h, al === 'C' ? 'C' : 'L');
+        const lineas = quepa(vals[i], w, h);
+        lineas.forEach((l, k) => sh.text(l, tx, y + 1.4 + (lineas.length > 1 ? 1.6 : 0) - k * 3.0, h, al === 'C' ? 'C' : 'L'));
         cx += w;
       }
     };
@@ -420,6 +472,8 @@ function despieceSheets() {
     let cx = x0;
     for (const [, w] of cols) { sh.line([cx, y], [cx, headY], 'FINA'); cx += w; }
     sh.line([cx, y], [cx, headY], 'FINA');
+    // pie de lámina (el panel: portada y BOM iban sin identificación)
+    sh.text(`${proyectoCorto} · PLANOS DE FABRICACIÓN — lámina ${docPref}-DP${p + 1} · ${fecha} · ConveyOne`, 210, 14, 2.5, 'C');
     sheets.push(sh);
   }
   return sheets;

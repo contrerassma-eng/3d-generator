@@ -19,9 +19,9 @@ const fecha = process.env.FECHA || '—';
 // ── contenido, en orden de lectura del constructor ───────────────────────────
 const SECCIONES = [
   ['plano_conjunto_lbp530_5m.pdf', 'CV-LBP-5000 — plano de conjunto + SECCIONES A-A/B-B', 'LBP530-GA-01'],
-  ['planos_fabricacion_lbp530_5m.pdf', 'CV-LBP-5000 — planos de fabricación por pieza (LB-01…13)', 'LB-nn'],
+  ['planos_fabricacion_lbp530_5m.pdf', 'CV-LBP-5000 — planos de fabricación por pieza (LB-nn)', 'LB-nn'],
   ['plano_conjunto_lbp530_gt08.pdf', 'CV-GT-800 — plano de conjunto + SECCIONES A-A/B-B', 'LBP530-GA-02'],
-  ['planos_fabricacion_lbp530_gt08.pdf', 'CV-GT-800 — planos de fabricación por pieza (GT-01…11)', 'GT-nn'],
+  ['planos_fabricacion_lbp530_gt08.pdf', 'CV-GT-800 — planos de fabricación por pieza (GT-nn)', 'GT-nn'],
   ['planos_ejes_lbp530.pdf', 'Familia de ejes y rodillo de retorno (tornería)', 'LBP530-EJ-01…04'],
   ['manual_partes_lbp530_5m.pdf', 'CV-LBP-5000 — manual de partes y montaje', 'boletín CV-MP-01'],
   ['manual_partes_lbp530_gt08.pdf', 'CV-GT-800 — manual de partes y montaje', 'boletín CV-MP-02'],

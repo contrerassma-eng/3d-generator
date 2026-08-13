@@ -89,19 +89,27 @@ export const D = {
   plTop: -8, plAlto: 285,
   alaAncho: 30,
   travesanio: 40, pasoTravLBP: 1000, pasoTravFT: 600,
-  // Sistema 24V adoptado (dims MEASURED del ZP2026_MDR.glb, 12-08):
-  // TR_S: perfil sombrero 88×88×e3 con orejas apernables (aquí: C 88×88×3 con
-  //   tapas-oreja soldadas 120×60×4, 2×M6 por extremo — «mismo travesaño,
-  //   cambiar largo»). B_005A: bracket con 4 ranuras CRUCIFORMES paso 47,6 a la
-  //   placa + pivote y ranura en ARCO (ajuste angular) al cabezal de columna.
-  //   Columna: ángulo 71×38×3 telescópica con escalerilla de ranuras 11×22.
-  //   Placa piso B_004A 158×40×4 con ranuras de anclaje 11×22.
+  // Sistema 24V adoptado (dims MEASURED del ZP2026_MDR.glb, 12-08; soporte
+  // RE-MEDIDO pieza a pieza 13-08 tras la orden reiterada de Sergio: «copia
+  // el soporte a piso con bracket del 24V — deben verse IGUALES, solo ajustar
+  // el ancho»):
+  // TR_S: perfil sombrero 88×88×e3 con orejas apernables («mismo travesaño,
+  //   cambiar largo»). SOPORTE por pata: B_005A bracket PLANO 203×95×3
+  //   (cruciformes paso 47,6 arriba + pivote y ranura en ARCO abajo, en la
+  //   CARA VERTICAL = aplome de columna) → COLUMNA canal C 77×38×3 colgada
+  //   del pivote (2×Ø11 arriba; 3×Ø11 abajo para el apriete) → TIRA BR_3002
+  //   canal 84×38×3 ×369 con 9 ranuras 11×20 paso 34 que DESLIZA POR FUERA
+  //   de la columna (telescópico de altura) y lleva SOLDADA la pata B_004A
+  //   158×40×4 (2 anclajes Ø11). Las dos patas de una estación van unidas por
+  //   el TRAVESAÑO B_002A canal 71×38×3 a media altura (2×M8 por extremo).
   travTR: { w: 88, h: 88, t: 3, tabW: 120, tabH: 60, tabT: 4, tabHoleSep: 60, holeDia: 7 },
   portacarril: { w: 50, t: 6, clip: { lado: 30, t: 3, largo: 40 } },
   sop24: {
-    brk: { w: 203, alto: 95, ala: 89, t: 3, cruzPitch: 47.6, cruzW: 32, cruzH: 19,
-           pivotDia: 11, arcoR: 52, lockDia: 11, lockSep: 90.4 },
-    col: { a: 71, b: 38, t: 3, escalW: 11, escalH: 22, escalPitch: 50 },
+    brk: { w: 203, alto: 95, t: 3, cruzPitch: 47.6, cruzW: 32, cruzH: 19,
+           pivotDia: 11, arcoR: 52, lockDia: 11 },
+    col: { w: 77, d: 38, t: 3, holeDia: 11, upSep: 52, clampOffs: [150, 180, 205] },
+    tira: { w: 84, d: 38, t: 3, largo: 369, slotW: 11, slotH: 20, slotPitch: 34, nSlots: 9, slot0: 72 },
+    b002: { alto: 71, d: 38, t: 3 },
     piso: { w: 158, h: 40, t: 4, slotW: 11, slotH: 22 },
   },
 
@@ -1191,7 +1199,15 @@ function build(tipo, L) {
   // altura, 2×M10) + PLACA PISO B_004A 158×40×4 con ranuras de anclaje,
   // SOLDADA a la columna (soldadura permitida: soportes a piso).
   const SB = D.sop24.brk, SC = D.sop24.col, SP = D.sop24.piso;
+  const ST = D.sop24.tira, SB2 = D.sop24.b002;
   const zBrkRow = D.plTop - (D.plAlto - 45);          // fila de cruciformes
+  // boceto extruido/cortado en un plano (para piezas que NO son cajas: la
+  // cartela trapezoidal del bracket con su ranura en ARCO real)
+  const sk = (name, at, dir, u, pts, h, op = 'union') =>
+    ({ name, shape: 'sketch', op, at, dir, params: { pts: pts.map(q => [r2(q[0]), r2(q[1])]), h, u } });
+  // centro del alma en el DESARROLLO de un canal (para ubicar barrenos)
+  const webMidC = (webAncho, alaAlto, t) =>
+    r2((alaAlto - 2 * t) + bendAllowance(90, t, t, KCH) + (webAncho - 4 * t) / 2);
   const cruciformePoly = (cx, cy) => {
     const w = SB.cruzW / 2, h = SB.cruzH / 2, b2 = 5.5;   // brazo 11 de ancho
     return [
@@ -1213,79 +1229,145 @@ function build(tipo, L) {
     pts.push(pts[0]);
     return pts.map(q => [r2(q[0]), r2(q[1])]);
   };
+  // Bracket B_005A: pieza PLANA 203×95×3 contra la cara exterior del alma —
+  // fila de 4 cruciformes ARRIBA (regulación en 2 ejes contra el alma) y
+  // pivote + ranura en ARCO ABAJO en la MISMA cara vertical (la columna se
+  // aploma girando en torno al pivote y se fija con el perno del arco).
   const flatBracket = () => {
-    const rB = SB.t, BA = bendAllowance(90, rB, SB.t, KCH);
-    const caraFlat = SB.alto - (rB + SB.t), alaFlat = SB.ala - (rB + SB.t);
-    const H = caraFlat + BA + alaFlat;
     const polys = [];
     for (const dx of [-1.5, -0.5, 0.5, 1.5]) {
-      polys.push(cruciformePoly(SB.w / 2 + dx * SB.cruzPitch, caraFlat - 45));
+      polys.push(cruciformePoly(SB.w / 2 + dx * SB.cruzPitch, SB.alto - 25));
     }
-    const pvX = SB.w / 2, pvY = caraFlat + BA + alaFlat - 32;   // pivote en el ala
-    polys.push(arcoPoly(pvX, pvY - 26, SB.arcoR, SB.lockDia, Math.PI / 3, Math.PI * 2 / 3).map(q => [q[0], q[1]]));
+    const pvX = SB.w / 2, pvY = 20;                       // pivote BAJO; arco arriba
+    polys.push(arcoPoly(pvX, pvY, SB.arcoR, SB.lockDia, Math.PI * 0.3, Math.PI * 0.7));
     return {
-      contorno: rect(SB.w, r2(H)),
-      cortes: {
-        circles: [
-          { c: [pvX, r2(pvY)], r: SB.pivotDia / 2 },
-          { c: [r2(pvX - SB.lockSep / 2), r2(pvY - 20)], r: SB.lockDia / 2 },
-          { c: [r2(pvX + SB.lockSep / 2), r2(pvY - 20)], r: SB.lockDia / 2 },
-        ], polys,
-      },
-      pliegues: [
-        { a: [0, r2(caraFlat)], b: [SB.w, r2(caraFlat)], tipo: 'tangente' },
-        { a: [0, r2(caraFlat + BA / 2)], b: [SB.w, r2(caraFlat + BA / 2)], tipo: 'eje' },
-        { a: [0, r2(caraFlat + BA)], b: [SB.w, r2(caraFlat + BA)], tipo: 'tangente' },
-      ],
-      etiquetas: [{ x: SB.w / 2, y: r2(caraFlat + BA / 2) + 4, s: 'PLEGAR 90°' }],
-      pliegueInfo: [{ ang: 90, r: rB, ba: r2(BA) }],
-      t: SB.t, k: KCH, radio: rB,
+      // CARTELA trapezoidal como la real: 203 arriba (fila de cruciformes)
+      // afinando a 140 en la zona del pivote — el láser corta el trapecio
+      contorno: [[31.5, 0], [171.5, 0], [SB.w, SB.alto], [0, SB.alto], [31.5, 0]].map(q => [r2(q[0]), r2(q[1])]),
+      cortes: { circles: [{ c: [pvX, pvY], r: SB.pivotDia / 2 }], polys },
+      pliegues: [], etiquetas: [], pliegueInfo: [],
+      t: SB.t, k: KCH, radio: SB.t,
       material: 'Acero S275JR e3 — PINTADO RAL 7035',
-      avisos: ['BRACKET B_005A (24V): cruciformes = regulación; ARCO = ajuste angular de columna'],
+      avisos: ['BRACKET B_005A (24V): cruciformes arriba = regulación contra el alma; pivote + ARCO abajo = APLOME de la columna'],
     };
   };
-  const hCol = r2((zBrkRow - 60) - D.pisoZ);          // columna: bajo el ala del bracket
+  // dev de la tira BR_3002 (canal 84×38 con 9 ranuras 11×20 paso 34 en el alma)
+  const flatTira = () => {
+    const f = flatPerfilC(ST.largo, ST.w, ST.d, ST.t,
+      'Acero S275JR e3 — PINTADO RAL 7035');
+    const ala = ST.d - (ST.t + ST.t), BA = bendAllowance(90, ST.t, ST.t, KCH);
+    const yWeb0 = ala + BA;                               // inicio del alma en el dev
+    f.cortes.polys = [];
+    for (let i = 0; i < ST.nSlots; i++) {
+      const cx = ST.slot0 + i * ST.slotPitch;
+      f.cortes.polys.push(ranuraPoly(cx, yWeb0 + (ST.w - 2 * (ST.t + ST.t)) / 2, ST.slotH, ST.slotW));
+    }
+    f.avisos = ['TIRA BR_3002 (24V): desliza POR FUERA de la columna; ranuras = ajuste de altura (apriete 3×M10); pata B_004A SOLDADA al extremo inferior (soporte a piso: permitido)'];
+    return f;
+  };
+  // geometría vertical del soporte (constante para todas las patas)
+  const zBrkTop = zBrkRow + 25;                         // fila de cruciformes en la zona ANCHA
+  const zPv = zBrkTop - SB.alto + 20;                   // pivote BAJO del bracket
+  const zColTop = zPv + SC.upSep + 30;                  // la columna abraza pivote y arco
+  const hCol = r2(zColTop - (D.pisoZ + 120));           // columna cuelga del bracket
+  const nB002 = [];                                     // estaciones con travesaño
   for (const x of patasX) {
     for (const sd of [-1, 1]) {
+      // --- bracket plano contra el alma ---
       const yB = sd * (yOut + SB.t / 2 + 0.5);
-      const fB = [
-        box(`Cara al alma ${SB.w}×${SB.alto}`, [x, yB, zBrkRow + 45 - SB.alto / 2], SB.w, SB.t, SB.alto),
-        box(`Ala superior ${SB.w}×${SB.ala}`, [x, yB + sd * (SB.ala / 2), zBrkRow + 45 + SB.t / 2], SB.w, SB.ala, SB.t),
-      ];
+
+      // CARTELA = una sola extrusión del trapecio real (plano XZ del alma;
+      // v del boceto crece hacia ABAJO) — nada de bloques escalonados
+      const atB = [x, yB - 1.5, zBrkTop];
+      const trap = [[-SB.w / 2, 0], [SB.w / 2, 0], [70, SB.alto], [-70, SB.alto]];
+      const fB = [sk(`Cartela B_005A ${SB.w}×${SB.alto} (trapecio)`, atB, [0, 1, 0], [1, 0, 0], trap, SB.t)];
+      // cruciformes REALES (corte del boceto, misma silueta que el flat)
       for (const dx of [-1.5, -0.5, 0.5, 1.5]) {
-        fB.push(hole('Cruciforme (paso M8 regulable)', [x + dx * SB.cruzPitch, yB, zBrkRow], [0, sd, 0], 12, 0, true));
+        const c = cruciformePoly(0, 0).map(([qx, qy]) => [qx + dx * SB.cruzPitch, qy + 25]);
+        fB.push(sk('Cruciforme (paso M8 regulable)', atB, [0, 1, 0], [1, 0, 0], c, SB.t, 'cut'));
       }
+      fB.push(hole('Pivote de columna Ø11', [x, yB, zPv], [0, sd, 0], SB.pivotDia, 0, true));
+      // ranura en ARCO real (corte curvo — el perno de aplome viaja por ella)
+      fB.push(sk('Arco de aplome (ranura R52×11)', atB, [0, 1, 0], [1, 0, 0],
+        arcoPoly(0, SB.alto - 20, SB.arcoR, SB.lockDia, Math.PI * 1.3, Math.PI * 1.7), SB.t, 'cut'));
       addPart('FAB · Bracket soporte B_005A 24V (cruciformes + arco angular)', C.pata, [x, yB, zBrkRow], fB, { flat: flatBracket() });
 
-      // columna ángulo + escalerilla + placa piso (conjunto soldado abajo)
-      const yC = sd * (yOut + SB.ala * 0.55);
-      const zColTop = zBrkRow + 40;
+      // --- columna canal C 77×38×3 colgada del pivote ---
+      // alma del canal hacia AFUERA (sobre el bracket), alas hacia el equipo
+      const yColWeb = sd * (yOut + SB.t + SC.t / 2 + 1);
       const fC = [
-        box(`Ángulo ala A ${SC.a}`, [x, yC, zColTop - hCol / 2], SC.a, SC.t, hCol),
-        box(`Ángulo ala B ${SC.b}`, [x + SC.a / 2 - SC.t / 2, yC + sd * (SC.b / 2 - SC.t / 2), zColTop - hCol / 2], SC.t, SC.b, hCol),
-        box(`Placa piso B_004A ${SP.w}×${SP.h}`, [x, yC, D.pisoZ + SP.t / 2], SP.w, SP.h, SP.t),
+        box(`Alma canal ${SC.w}×${SC.t}`, [x, yColWeb, zColTop - hCol / 2], SC.w, SC.t, hCol),
       ];
-      addPart('FAB · Columna soporte 24V ángulo 71×38×3 + placa piso B_004A (soldada)', C.pata, [x, yC, zColTop - hCol / 2], fC, {
-        flat: flatPlaca(SP.w, SP.h, SP.t,
-          [{ x: 20, y: SP.h / 2, dia: 11 }, { x: SP.w - 20, y: SP.h / 2, dia: 11 }],
-          'Acero S275JR — columna ángulo 71×38×3 + placa piso e4, PINTADO RAL 7035',
-          'PLACA PISO B_004A: ranuras de anclaje 11×22 (perno de anclaje M10); SOLDAR columna a placa (filete 4 perimetral) — soldadura de soporte PERMITIDA'),
+      for (const dxf2 of [-1, 1]) {
+        fC.push(box(`Ala canal ${SC.d}`, [x + dxf2 * (SC.w / 2 - SC.t / 2), yColWeb - sd * (SC.d / 2 - SC.t / 2), zColTop - hCol / 2], SC.t, SC.d - SC.t, hCol));
+      }
+      // 2 Ø11 arriba: pivote + perno del arco (calzan con el bracket)
+      fC.push(hole('Pivote Ø11 (a bracket)', [x, yColWeb, zPv], [0, sd, 0], SC.holeDia, 0, true));
+      fC.push(hole('Aplome Ø11 (perno del arco)', [x, yColWeb, zPv + SC.upSep], [0, sd, 0], SC.holeDia, 0, true));
+      // 3 Ø11 abajo: apriete del telescópico contra las ranuras de la tira
+      for (const off of SC.clampOffs) {
+        fC.push(hole('Apriete telescópico Ø11 (a ranura de tira)', [x, yColWeb, (zColTop - hCol) + off], [0, sd, 0], SC.holeDia, 0, true));
+      }
+      // pasos del travesaño B_002A en las alas (2 por pata)
+      for (const dz of [-20, 20]) {
+        fC.push(hole('Paso M8 a travesaño B_002A', [x - (SC.w / 2 - SC.t / 2), yColWeb - sd * SC.d * 0.35, D.pisoZ + 320 + dz], [1, 0, 0], 9, 0, true));
+      }
+      addPart('FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)', C.pata, [x, yColWeb, zColTop - hCol / 2], fC, {
+        flat: flatPerfilC(hCol, SC.w, SC.d, SC.t,
+          'Acero S275JR e3 — PINTADO RAL 7035',
+          [{ x: r2(hCol - (zColTop - zPv)), y: webMidC(SC.w, SC.d, SC.t), dia: SC.holeDia },
+           { x: r2(hCol - (zColTop - zPv) + SC.upSep), y: webMidC(SC.w, SC.d, SC.t), dia: SC.holeDia },
+           ...SC.clampOffs.map(off => ({ x: off, y: webMidC(SC.w, SC.d, SC.t), dia: SC.holeDia }))]),
       });
 
-      // escalerilla telescópica: tira 60×4 con ranuras 11×22 cada 50 + 2×M10
-      const hEsc = r2(hCol * 0.55);
-      const fE = [box('Tira escalerilla 60×4', [x + 6, yC - sd * 8, zColTop - hEsc / 2], 60, 4, hEsc)];
-      const nSlots = Math.floor((hEsc - 60) / SC.escalPitch);
-      const escHoles = [];
-      for (let i = 0; i < nSlots; i++) escHoles.push({ x: 30, y: r2(40 + i * SC.escalPitch), dia: SC.escalW });
-      fE.push(cyl('Perno M10 telescópico (1/2)', [x + 6, yC - sd * 12, zColTop - 60], [0, -sd, 0], 16, 8));
-      fE.push(cyl('Perno M10 telescópico (2/2)', [x + 6, yC - sd * 12, zColTop - 60 - SC.escalPitch * 2], [0, -sd, 0], 16, 8));
-      addPart('FAB · Escalerilla telescópica 60×4 (ranuras 11×22 — ajuste de altura)', C.pata, [x + 6, yC - sd * 8, zColTop - hEsc / 2], fE, {
-        flat: flatPlaca(60, hEsc, 4, escHoles,
-          'Acero S275JR e4 — PINTADO RAL 7035',
-          'RANURAS 11×22 cada 50 (ajuste de altura); fijación 2×M10 con golilla plana ancha'),
-      });
+      // --- tira BR_3002 (canal 84×38×3) por FUERA de la columna, con pata ---
+      const yTiraWeb = sd * (yOut + SB.t + SC.t + ST.t / 2 + 2);
+      const fT = [
+        box(`Alma tira ${ST.w}×${ST.t}`, [x, yTiraWeb, D.pisoZ + SP.t + ST.largo / 2], ST.w, ST.t, ST.largo),
+      ];
+      for (const dxf2 of [-1, 1]) {
+        fT.push(box(`Ala tira ${ST.d}`, [x + dxf2 * (ST.w / 2 - ST.t / 2), yTiraWeb - sd * (ST.d / 2 - ST.t / 2), D.pisoZ + SP.t + ST.largo / 2], ST.t, ST.d - ST.t, ST.largo));
+      }
+      // ranuras OBLONGAS reales (corte de boceto en el alma de la tira; el
+      // flat lleva las mismas por ranuraPoly — mismo origen visual y de corte)
+      const atT = [x, yTiraWeb - ST.t / 2, D.pisoZ + SP.t + ST.largo];
+      for (let i = 0; i < ST.nSlots; i++) {
+        const vC = ST.largo - (ST.slot0 + i * ST.slotPitch);   // v del boceto crece hacia abajo
+        fT.push(sk(`Ranura ${ST.slotW}×${ST.slotH} telescópica ${i + 1}/${ST.nSlots}`,
+          atT, [0, 1, 0], [1, 0, 0],
+          [[-ST.slotW / 2, vC - ST.slotH / 2], [ST.slotW / 2, vC - ST.slotH / 2],
+           [ST.slotW / 2, vC + ST.slotH / 2], [-ST.slotW / 2, vC + ST.slotH / 2]], ST.t, 'cut'));
+      }
+      // pata B_004A soldada bajo la tira (platina 158×40×4, 2 anclajes)
+      fT.push(box(`Pata B_004A ${SP.w}×${SP.h}`, [x, yTiraWeb, D.pisoZ + SP.t / 2], SP.w, SP.h, SP.t));
+      for (const dxp of [-1, 1]) {
+        fT.push(hole('Anclaje a losa Ø11', [x + dxp * (SP.w / 2 - 20), yTiraWeb, D.pisoZ], [0, 0, 1], 11, 0, true));
+      }
+      addPart(`FAB · Tira telescópica BR_3002 84×38×3 (${ST.nSlots} ranuras ${ST.slotW}×${ST.slotH}) + pata B_004A (soldada)`, C.pata,
+        [x, yTiraWeb, D.pisoZ + SP.t + ST.largo / 2], fT, { flat: flatTira() });
     }
+
+    // --- travesaño B_002A entre las dos patas de la estación ---
+    const yColWebAbs = yOut + SB.t + SC.t / 2 + 1;
+    const LB2 = r2(2 * (yColWebAbs - SC.d) - 4);        // entre alas interiores, con holgura
+    const zB2 = D.pisoZ + 320;
+    const fX = [
+      box(`Alma B_002A ${SB2.alto}×${SB2.t}`, [x - SB2.d / 2 + SB2.t / 2, 0, zB2], SB2.t, LB2, SB2.alto),
+      box('Ala superior', [x, 0, zB2 + SB2.alto / 2 - SB2.t / 2], SB2.d, LB2, SB2.t),
+      box('Ala inferior', [x, 0, zB2 - SB2.alto / 2 + SB2.t / 2], SB2.d, LB2, SB2.t),
+    ];
+    for (const sdy of [-1, 1]) {
+      for (const dz of [-20, 20]) {
+        fX.push(hole('Paso M8 travesaño B_002A', [x - SB2.d / 2 + SB2.t / 2, sdy * (LB2 / 2 - 20), zB2 + dz], [1, 0, 0], 9, 0, true));
+      }
+    }
+    addPart(`FAB · Travesaño de patas B_002A canal 71×38×3 (L=${LB2})`, C.pata, [x, 0, zB2], fX, {
+      flat: flatPerfilC(LB2, SB2.alto, SB2.d, SB2.t,
+        'Acero S275JR e3 — PINTADO RAL 7035',
+        [-1, 1].flatMap(sdy => [-20, 20].map(dz =>
+          ({ x: r2(LB2 / 2 + sdy * (LB2 / 2 - 20)), y: r2(webMidC(SB2.alto, SB2.d, SB2.t) + dz / 2), dia: 9 })))),
+    });
+    nB002.push(x);
   }
 
   // ---- BANDA (lazo cerrado, boceto XZ extruido a lo ancho) ----
@@ -1502,7 +1584,7 @@ const metaComun = {
   traccion: 'motriz ABAJO extremo descarga (wrap objetivo 140±10°, manual Movex); deflexión/tensor abajo extremo entrada; NOSEBAR en ambas puntas',
   sprockets: `Z-32 MOLDEADO PD 153.4 OD 154.8 ancho 40, BORE CUADRADO 1.5 in c/grano M8 (P158808YF, cotización 26012937) — 530 LBP estándar 18 in: 5/eje en el grid VÁLIDO A·B·C·B·C·A (centrado: -152.4/-89.05/0/+63.35/+152.4; manual p.30 = brochure p.11; poner 6 es IMPOSIBLE: las demás posiciones caen bajo los carriles de rodillos ✗; 6 aplica solo a 530 PRO LBP) · GT: 6/eje (indent 38.1, paso 76.2); MOTRIZ: solo el central FIJO (grano M8 + collarines P21703Y), resto FLOTAN (+0.4/+0.3) · TENSOR: sprockets locos de grano suelto, con el de REFERENCIA (−Y) flanqueado por collarines (posiciona el eje, sin grano)`,
   retorno: 'RODILLOS Ø63.5 de eje muerto cada ~500 (decisión usuario; manual Movex sugiere zapata para LBP — desviación registrada): tubo con 2 rodamientos SELLADOS 6202-2RS insertos, eje Ø15 roscado M8 interior en ambas puntas, PERNO HEX M8 + golilla POR FUERA de la placa; catenaria 50–150 tras la motriz',
-  estructura: 'soportes tipo ZP2026 (B_005A, chapa plegada 3 mm, 203×95, con nivelador) y travesaños tipo ZP2026 (TR_S, C 88×40×3); guía de apoyo = pletina 12 de canto + BAR CAP UHMW P101203-30 (enrollable, rollo 30 m); guía lateral = conical rail enrollable L 1¼ in P12501C sobre escuadras',
+  estructura: 'soportes COPIA del ZP2026 por pata: bracket B_005A 203×95×3 (cruciformes + pivote/arco de aplome) + columna canal C 77×38×3 + tira BR_3002 84×38×3 con 9 ranuras 11×20 (telescópica, por fuera) + pata B_004A 158×40×4; travesaño B_002A 71×38×3 entre patas; travesaños de bastidor TR_S C 88×88×3; guía de apoyo = pletina 12 de canto + BAR CAP UHMW P101203-30; guía lateral = conical rail L 1¼ in P12501C sobre escuadras',
   friction_top: 'GT: goma 75 ShA sobre la banda; el retorno del GT es sobre rodillos (recomendación del manual); la goma no toca el nosebar (contacto por cara interior)',
   verificaciones: {
     wrapMotrizLBP: res.LBP.wrapMotriz, wrapMotrizGT: res.GT.wrapMotriz,
@@ -1596,7 +1678,7 @@ const dims = {
       'Orejas 120×60×4 → travesaño TR_S: filete 3 ×40 doble cara (taller; conjunto APERNADO 2×M6/extremo)',
       'Clips ángulo 30×30×3 → portacarril: 2 cordones 25×3 (taller; conjunto APERNADO 2×M6/lado)',
       'Clips ángulo 40×40×4 → cabezal porta-nosebar: filete 3 perimetral (taller; APERNADO 2×M6/extremo)',
-      'Columna soporte → placa piso B_004A: filete 4 perimetral (SOPORTE A PISO: permitido)',
+      'Tira BR_3002 → pata B_004A: filete 4 perimetral (SOPORTE A PISO: permitido)',
       'Retención de cabezales del rodillo de retorno: 3 puntos esmerilados a ras (LBP530-EJ-04)',
     ],
     nota: 'mechas, cabezales, travesaños, portacarriles, brackets y guardas van APERNADOS — sin soldadura en obra; retocar RAL 7035 tras soldar en taller',

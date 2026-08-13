@@ -80,23 +80,41 @@
    "brk": {
     "w": 203,
     "alto": 95,
-    "ala": 89,
     "t": 3,
     "cruzPitch": 47.6,
     "cruzW": 32,
     "cruzH": 19,
     "pivotDia": 11,
     "arcoR": 52,
-    "lockDia": 11,
-    "lockSep": 90.4
+    "lockDia": 11
    },
    "col": {
-    "a": 71,
-    "b": 38,
+    "w": 77,
+    "d": 38,
     "t": 3,
-    "escalW": 11,
-    "escalH": 22,
-    "escalPitch": 50
+    "holeDia": 11,
+    "upSep": 52,
+    "clampOffs": [
+     150,
+     180,
+     205
+    ]
+   },
+   "tira": {
+    "w": 84,
+    "d": 38,
+    "t": 3,
+    "largo": 369,
+    "slotW": 11,
+    "slotH": 20,
+    "slotPitch": 34,
+    "nSlots": 9,
+    "slot0": 72
+   },
+   "b002": {
+    "alto": 71,
+    "d": 38,
+    "t": 3
    },
    "piso": {
     "w": 158,
@@ -327,7 +345,7 @@
    "Orejas 120×60×4 → travesaño TR_S: filete 3 ×40 doble cara (taller; conjunto APERNADO 2×M6/extremo)",
    "Clips ángulo 30×30×3 → portacarril: 2 cordones 25×3 (taller; conjunto APERNADO 2×M6/lado)",
    "Clips ángulo 40×40×4 → cabezal porta-nosebar: filete 3 perimetral (taller; APERNADO 2×M6/extremo)",
-   "Columna soporte → placa piso B_004A: filete 4 perimetral (SOPORTE A PISO: permitido)",
+   "Tira BR_3002 → pata B_004A: filete 4 perimetral (SOPORTE A PISO: permitido)",
    "Retención de cabezales del rodillo de retorno: 3 puntos esmerilados a ras (LBP530-EJ-04)"
   ],
   "nota": "mechas, cabezales, travesaños, portacarriles, brackets y guardas van APERNADOS — sin soldadura en obra; retocar RAL 7035 tras soldar en taller"
