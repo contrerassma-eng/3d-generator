@@ -97,14 +97,17 @@ Cruzado con el C60 —2 soportes de motor y 14 polines— sale la regla completa
 
 | | 60° | 90° |
 |---|---|---|
-| Zonas | 2 | **3** |
-| Motores 24 V | 2 | **3** |
-| Polines por zona | 7 | 7 |
-| Largo de zona | 592 mm de arco (30°) | 592 mm (30°) |
+| Conjuntos de motor 24 V | 2 | **2** |
+| Polines por conjunto | 7 | 10,5 |
 
-Los 592 mm son ≈24", el largo de zona del sistema E24 — el mismo `HW.zonaMM`
-del simulador. Antes el generador ponía 2 motores a 90°; ahora pone 3, y hay
-compuerta que lo verifica.
+**Ojo con la aritmética.** La regla «un motor por zona» del catálogo, cruzada
+con el C60 (2 soportes de motor, 14 polines), da 7 polines por zona y una zona
+de 30° ≈ 24" — el largo de zona del sistema E24. Extendida a 90° esa cuenta
+pide **3** motores.
+
+**El equipo real lleva 2.** Lo corrigió Sergio: el diseño nativo de la curva
+tiene dos conjuntos de motor, no tres. Manda el equipo, no la aritmética. La
+compuerta verifica 2 en ambas curvas.
 
 **El polín cónico — RESUELTO con el desarrollo real.**
 

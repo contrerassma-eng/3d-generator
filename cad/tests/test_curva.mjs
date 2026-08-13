@@ -144,16 +144,10 @@ okCerca(d90.desarrollo.interno / d60.desarrollo.interno, 1.5, 0.001,
 }
 // motorización: 1 motor por zona, 7 polines por zona (regla del C60 cruzada
 // con el catálogo Hytrol E24 — ver ensambles/curva_web_facts.json)
+// DOS conjuntos de motor, como el diseño nativo (corrección de Sergio). La
+// aritmética de zonas daba 3 a 90°; manda el equipo real.
 ok(d60.motores === 2, 'C60: 2 motores, como los 2 soportes de motor de la lámina', `${d60.motores}`);
-ok(d90.motores === 3, 'C90: 3 motores (21 polines / 7 por zona)', `${d90.motores}`);
-ok(d60.polines / d60.zonas === 7 && d90.polines / d90.zonas === 7,
-  '7 polines por zona en ambas curvas');
-{
-  // la zona mide lo mismo en las dos: 30° de arco sobre el eje del bastidor
-  const zona = (dims, A) => (STD.Rcentro * A * D2R) / dims.zonas;
-  okCerca(zona(d90, 90), zona(d60, 60), 0.5, 'largo de zona idéntico (mm de arco)');
-  okCerca(zona(d60, 60), 24 * 25.4, 20, 'zona ≈ 24" (largo de zona del sistema E24)');
-}
+ok(d90.motores === 2, 'C90: 2 motores (diseño nativo, no 3 por aritmética de zonas)', `${d90.motores}`);
 
 // el DXF de corte tiene que salir cerrado y con barrenos en todas las piezas
 for (const doc of [C60.doc, C90.doc]) {

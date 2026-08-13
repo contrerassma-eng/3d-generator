@@ -433,7 +433,9 @@ export function curva(A) {
   // desde `zp_piezas.json`, extraída del STEP del fabricante.
   // Cada entrada: { R, ang, z, giro } — polares sobre el eje de la curva; `giro`
   // es la rotación adicional en planta (rad) respecto de quedar radial.
-  const nZonas = Math.max(1, Math.round(N / 7));
+  // Sergio: el diseño nativo lleva DOS conjuntos de motor, no tres. Mi cuenta
+  // por zonas (21 polines / 7 = 3) era aritmética, no el equipo real.
+  const nZonas = 2;
   const zonaAng = Array.from({ length: nZonas }, (_, i) => a0 + ((i + 0.5) / nZonas) * A);
   const montaje = {
     // POLÍN CÓNICO real (GLB de Sergio, `rodillo_conico.glb`). Su extremo chico
@@ -462,7 +464,12 @@ export function curva(A) {
       // del motor va a −124; dentro de la unidad ese centro está a 69,2 de su
       // base, luego la base va a −193,2. Antes estaba en −190,5 y el motor
       // asomaba por encima de los polines.
-      R: r2(STD.Rext), ang: r2(ang), z: r2(-36 - 88 - 69.2), giro: Math.PI,
+      // Sergio: el soporte tiene que TOCAR el alma — es la referencia de
+      // alineación, no un detalle estético. El origen de la unidad quedó en el
+      // extremo en Y del conjunto (el cuerpo del motor), no en la cara del
+      // soporte, y por eso quedaba separada. Se corre 1" hacia adentro, que es
+      // lo que él midió sobre el recto.
+      R: r2(STD.Rext - IN), ang: r2(ang), z: r2(-36 - 88 - 69.2), giro: Math.PI,
     })),
     // ESTACIÓN de patas completa (2 columnas + soporte pivote + niveladores),
     // no una columna suelta: la corrección que trajo el trabajo del LBP. Va
@@ -478,9 +485,9 @@ export function curva(A) {
     polines: N,
     pasoAngular: r2(A / N),
     travesanos: tra.usados,
-    zonas: Math.max(1, Math.round(N / 7)),
-    motores: Math.max(1, Math.round(N / 7)),
-    polinesPorZona: 7,
+    zonas: nZonas,
+    motores: nZonas,
+    polinesPorZona: r2(N / nZonas),
     patronesTravesano: tra.patrones.length,
     posicionesSoporte: 2 + sopFrac.length,
     desarrollo: { externo: r2(devExt), interno: r2(devInt) },

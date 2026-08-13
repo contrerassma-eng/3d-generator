@@ -12,9 +12,9 @@
    "polines": 21,
    "pasoAngular": 4.29,
    "travesanos": 5,
-   "zonas": 3,
-   "motores": 3,
-   "polinesPorZona": 7,
+   "zonas": 2,
+   "motores": 2,
+   "polinesPorZona": 10.5,
    "patronesTravesano": 6,
    "posicionesSoporte": 4,
    "desarrollo": {
@@ -202,20 +202,14 @@
    ],
    "unidadMotriz": [
     {
-     "R": 1397,
-     "ang": -30,
+     "R": 1371.6,
+     "ang": -22.5,
      "z": -193.2,
      "giro": 3.141592653589793
     },
     {
-     "R": 1397,
-     "ang": 0,
-     "z": -193.2,
-     "giro": 3.141592653589793
-    },
-    {
-     "R": 1397,
-     "ang": 30,
+     "R": 1371.6,
+     "ang": 22.5,
      "z": -193.2,
      "giro": 3.141592653589793
     }
