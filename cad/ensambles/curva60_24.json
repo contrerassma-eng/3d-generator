@@ -12,6 +12,9 @@
    "polines": 14,
    "pasoAngular": 4.29,
    "travesanos": 3,
+   "zonas": 2,
+   "motores": 2,
+   "polinesPorZona": 7,
    "patronesTravesano": 4,
    "posicionesSoporte": 3,
    "desarrollo": {
@@ -39,6 +42,17 @@
  },
  "parts": [
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "cuerpo_lat_ext",
    "layer": "user",
    "color": "#d3d5cf",
@@ -1984,6 +1998,17 @@
    }
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "refuerzo_ext_superior",
    "layer": "user",
    "color": "#c7c9c3",
@@ -2925,6 +2950,17 @@
    }
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "refuerzo_ext_inferior",
    "layer": "user",
    "color": "#c7c9c3",
@@ -3866,6 +3902,17 @@
    }
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "cuerpo_lat_int",
    "layer": "user",
    "color": "#d3d5cf",
@@ -5923,6 +5970,17 @@
    }
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "refuerzo_int_superior",
    "layer": "user",
    "color": "#c7c9c3",
@@ -6864,6 +6922,17 @@
    }
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "refuerzo_int_inferior",
    "layer": "user",
    "color": "#c7c9c3",
@@ -7805,6 +7874,17 @@
    }
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "guia_ext",
    "layer": "user",
    "color": "#aeb4ac",
@@ -8209,6 +8289,17 @@
    }
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "guia_int",
    "layer": "user",
    "color": "#aeb4ac",
@@ -8613,6 +8704,17 @@
    }
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_1",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8620,7 +8722,7 @@
    "features": [
     {
      "id": "f155",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8634,13 +8736,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_2",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8648,7 +8762,7 @@
    "features": [
     {
      "id": "f156",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8662,13 +8776,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_3",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8676,7 +8802,7 @@
    "features": [
     {
      "id": "f157",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8690,13 +8816,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_4",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8704,7 +8842,7 @@
    "features": [
     {
      "id": "f158",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8718,13 +8856,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_5",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8732,7 +8882,7 @@
    "features": [
     {
      "id": "f159",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8746,13 +8896,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_6",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8760,7 +8922,7 @@
    "features": [
     {
      "id": "f160",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8774,13 +8936,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_7",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8788,7 +8962,7 @@
    "features": [
     {
      "id": "f161",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8802,13 +8976,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_8",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8816,7 +9002,7 @@
    "features": [
     {
      "id": "f162",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8830,13 +9016,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_9",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8844,7 +9042,7 @@
    "features": [
     {
      "id": "f163",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8858,13 +9056,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_10",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8872,7 +9082,7 @@
    "features": [
     {
      "id": "f164",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8886,13 +9096,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_11",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8900,7 +9122,7 @@
    "features": [
     {
      "id": "f165",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8914,13 +9136,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_12",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8928,7 +9162,7 @@
    "features": [
     {
      "id": "f166",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8942,13 +9176,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_13",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8956,7 +9202,7 @@
    "features": [
     {
      "id": "f167",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8970,13 +9216,25 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
      }
     }
    ]
   },
   {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
    "id": "polin_14",
    "layer": "user",
    "color": "#9aa2a8",
@@ -8984,7 +9242,7 @@
    "features": [
     {
      "id": "f168",
-     "name": "Cono",
+     "name": "Tronco de cono",
      "shape": "cylinder",
      "op": "union",
      "at": [
@@ -8998,8 +9256,1511 @@
       0
      ],
      "params": {
-      "dia": 75.08,
+      "dia": 57.38,
+      "dia2": 92.78,
       "h": 533
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "travesano_1",
+   "layer": "user",
+   "color": "#c7c9c3",
+   "name": "NORM · Travesaño 21\" (geometría POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f169",
+     "name": "Perfil",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -167.9
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        1284.4,
+        -550.3
+       ],
+       [
+        1259.59,
+        -604.93
+       ],
+       [
+        774.28,
+        -384.55
+       ],
+       [
+        799.09,
+        -329.92
+       ],
+       [
+        1284.4,
+        -550.3
+       ]
+      ],
+      "h": 40,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "travesano_2",
+   "layer": "user",
+   "color": "#c7c9c3",
+   "name": "NORM · Travesaño 21\" (geometría POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f170",
+     "name": "Perfil",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -167.9
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        1393.31,
+        -105.81
+       ],
+       [
+        1387.48,
+        -165.53
+       ],
+       [
+        857,
+        -113.76
+       ],
+       [
+        862.83,
+        -54.05
+       ],
+       [
+        1393.31,
+        -105.81
+       ]
+      ],
+      "h": 40,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "travesano_3",
+   "layer": "user",
+   "color": "#c7c9c3",
+   "name": "NORM · Travesaño 21\" (geometría POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f171",
+     "name": "Perfil",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -167.9
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        1387.48,
+        165.53
+       ],
+       [
+        1393.31,
+        105.81
+       ],
+       [
+        862.83,
+        54.05
+       ],
+       [
+        857,
+        113.76
+       ],
+       [
+        1387.48,
+        165.53
+       ]
+      ],
+      "h": 40,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "tirante_1",
+   "layer": "user",
+   "color": "#b9bdb6",
+   "name": "NORM · Tirante interno 533 (geometría POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f172",
+     "name": "Pletina",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -70.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        820.2,
+        -355.98
+       ],
+       [
+        807.8,
+        -383.3
+       ],
+       [
+        780.49,
+        -370.9
+       ],
+       [
+        792.89,
+        -343.58
+       ],
+       [
+        820.2,
+        -355.98
+       ]
+      ],
+      "h": 24,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "tirante_2",
+   "layer": "user",
+   "color": "#b9bdb6",
+   "name": "NORM · Tirante interno 533 (geometría POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f173",
+     "name": "Pletina",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -70.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        891.23,
+        -71.89
+       ],
+       [
+        888.32,
+        -101.75
+       ],
+       [
+        858.46,
+        -98.84
+       ],
+       [
+        861.37,
+        -68.98
+       ],
+       [
+        891.23,
+        -71.89
+       ]
+      ],
+      "h": 24,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "tirante_3",
+   "layer": "user",
+   "color": "#b9bdb6",
+   "name": "NORM · Tirante interno 533 (geometría POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f174",
+     "name": "Pletina",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -70.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        888.32,
+        101.75
+       ],
+       [
+        891.23,
+        71.89
+       ],
+       [
+        861.37,
+        68.98
+       ],
+       [
+        858.46,
+        98.84
+       ],
+       [
+        888.32,
+        101.75
+       ]
+      ],
+      "h": 24,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "soporte_1_int",
+   "layer": "user",
+   "color": "#b9bdb6",
+   "name": "NORM · Soporte frontal 174×30 + pata a piso (POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f175",
+     "name": "Ménsula",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -178
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        810.71,
+        -367.61
+       ],
+       [
+        723.71,
+        -518.29
+       ],
+       [
+        671.75,
+        -488.29
+       ],
+       [
+        758.75,
+        -337.61
+       ],
+       [
+        810.71,
+        -367.61
+       ]
+      ],
+      "h": 30,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f176",
+     "name": "Pata",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -890.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        782.21,
+        -416.97
+       ],
+       [
+        752.21,
+        -468.93
+       ],
+       [
+        700.25,
+        -438.93
+       ],
+       [
+        730.25,
+        -386.97
+       ],
+       [
+        782.21,
+        -416.97
+       ]
+      ],
+      "h": 727.5,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f177",
+     "name": "Placa de piso",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -902.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        823.19,
+        -405.99
+       ],
+       [
+        763.19,
+        -509.91
+       ],
+       [
+        659.27,
+        -449.91
+       ],
+       [
+        719.27,
+        -345.99
+       ],
+       [
+        823.19,
+        -405.99
+       ]
+      ],
+      "h": 12,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "soporte_1_ext",
+   "layer": "user",
+   "color": "#b9bdb6",
+   "name": "NORM · Soporte frontal 174×30 + pata a piso (POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f178",
+     "name": "Ménsula",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -178
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        1286.33,
+        -642.21
+       ],
+       [
+        1199.33,
+        -792.89
+       ],
+       [
+        1147.37,
+        -762.89
+       ],
+       [
+        1234.37,
+        -612.21
+       ],
+       [
+        1286.33,
+        -642.21
+       ]
+      ],
+      "h": 30,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f179",
+     "name": "Pata",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -890.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        1257.83,
+        -691.57
+       ],
+       [
+        1227.83,
+        -743.53
+       ],
+       [
+        1175.87,
+        -713.53
+       ],
+       [
+        1205.87,
+        -661.57
+       ],
+       [
+        1257.83,
+        -691.57
+       ]
+      ],
+      "h": 727.5,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f180",
+     "name": "Placa de piso",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -902.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        1298.81,
+        -680.59
+       ],
+       [
+        1238.81,
+        -784.51
+       ],
+       [
+        1134.89,
+        -724.51
+       ],
+       [
+        1194.89,
+        -620.59
+       ],
+       [
+        1298.81,
+        -680.59
+       ]
+      ],
+      "h": 12,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "soporte_2_int",
+   "layer": "user",
+   "color": "#b9bdb6",
+   "name": "NORM · Soporte frontal 174×30 + pata a piso (POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f181",
+     "name": "Ménsula",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -178
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        885.9,
+        87
+       ],
+       [
+        885.9,
+        -87
+       ],
+       [
+        825.9,
+        -87
+       ],
+       [
+        825.9,
+        87
+       ],
+       [
+        885.9,
+        87
+       ]
+      ],
+      "h": 30,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f182",
+     "name": "Pata",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -890.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        885.9,
+        30
+       ],
+       [
+        885.9,
+        -30
+       ],
+       [
+        825.9,
+        -30
+       ],
+       [
+        825.9,
+        30
+       ],
+       [
+        885.9,
+        30
+       ]
+      ],
+      "h": 727.5,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f183",
+     "name": "Placa de piso",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -902.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        915.9,
+        60
+       ],
+       [
+        915.9,
+        -60
+       ],
+       [
+        795.9,
+        -60
+       ],
+       [
+        795.9,
+        60
+       ],
+       [
+        915.9,
+        60
+       ]
+      ],
+      "h": 12,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "soporte_2_ext",
+   "layer": "user",
+   "color": "#b9bdb6",
+   "name": "NORM · Soporte frontal 174×30 + pata a piso (POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f184",
+     "name": "Ménsula",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -178
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        1435.1,
+        87
+       ],
+       [
+        1435.1,
+        -87
+       ],
+       [
+        1375.1,
+        -87
+       ],
+       [
+        1375.1,
+        87
+       ],
+       [
+        1435.1,
+        87
+       ]
+      ],
+      "h": 30,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f185",
+     "name": "Pata",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -890.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        1435.1,
+        30
+       ],
+       [
+        1435.1,
+        -30
+       ],
+       [
+        1375.1,
+        -30
+       ],
+       [
+        1375.1,
+        30
+       ],
+       [
+        1435.1,
+        30
+       ]
+      ],
+      "h": 727.5,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f186",
+     "name": "Placa de piso",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -902.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        1465.1,
+        60
+       ],
+       [
+        1465.1,
+        -60
+       ],
+       [
+        1345.1,
+        -60
+       ],
+       [
+        1345.1,
+        60
+       ],
+       [
+        1465.1,
+        60
+       ]
+      ],
+      "h": 12,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "soporte_3_int",
+   "layer": "user",
+   "color": "#b9bdb6",
+   "name": "NORM · Soporte frontal 174×30 + pata a piso (POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f187",
+     "name": "Ménsula",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -178
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        723.71,
+        518.29
+       ],
+       [
+        810.71,
+        367.61
+       ],
+       [
+        758.75,
+        337.61
+       ],
+       [
+        671.75,
+        488.29
+       ],
+       [
+        723.71,
+        518.29
+       ]
+      ],
+      "h": 30,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f188",
+     "name": "Pata",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -890.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        752.21,
+        468.93
+       ],
+       [
+        782.21,
+        416.97
+       ],
+       [
+        730.25,
+        386.97
+       ],
+       [
+        700.25,
+        438.93
+       ],
+       [
+        752.21,
+        468.93
+       ]
+      ],
+      "h": 727.5,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f189",
+     "name": "Placa de piso",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -902.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        763.19,
+        509.91
+       ],
+       [
+        823.19,
+        405.99
+       ],
+       [
+        719.27,
+        345.99
+       ],
+       [
+        659.27,
+        449.91
+       ],
+       [
+        763.19,
+        509.91
+       ]
+      ],
+      "h": 12,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "soporte_3_ext",
+   "layer": "user",
+   "color": "#b9bdb6",
+   "name": "NORM · Soporte frontal 174×30 + pata a piso (POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f190",
+     "name": "Ménsula",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -178
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        1199.33,
+        792.89
+       ],
+       [
+        1286.33,
+        642.21
+       ],
+       [
+        1234.37,
+        612.21
+       ],
+       [
+        1147.37,
+        762.89
+       ],
+       [
+        1199.33,
+        792.89
+       ]
+      ],
+      "h": 30,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f191",
+     "name": "Pata",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -890.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        1227.83,
+        743.53
+       ],
+       [
+        1257.83,
+        691.57
+       ],
+       [
+        1205.87,
+        661.57
+       ],
+       [
+        1175.87,
+        713.53
+       ],
+       [
+        1227.83,
+        743.53
+       ]
+      ],
+      "h": 727.5,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f192",
+     "name": "Placa de piso",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -902.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        1238.81,
+        784.51
+       ],
+       [
+        1298.81,
+        680.59
+       ],
+       [
+        1194.89,
+        620.59
+       ],
+       [
+        1134.89,
+        724.51
+       ],
+       [
+        1238.81,
+        784.51
+       ]
+      ],
+      "h": 12,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "motor_1",
+   "layer": "user",
+   "color": "#33383c",
+   "name": "NORM · Motor 24 VDC panqueque + soporte (POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f193",
+     "name": "Ménsula de motor",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -170.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        895.39,
+        -177.8
+       ],
+       [
+        864.33,
+        -293.71
+       ],
+       [
+        777.4,
+        -270.42
+       ],
+       [
+        808.46,
+        -154.51
+       ],
+       [
+        895.39,
+        -177.8
+       ]
+      ],
+      "h": 90,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f194",
+     "name": "Motor panqueque",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      776.6,
+      -208.09,
+      -125.5
+     ],
+     "dir": [
+      0.9659258262890683,
+      -0.25881904510252074,
+      0
+     ],
+     "params": {
+      "dia": 120,
+      "h": 55
+     }
+    }
+   ]
+  },
+  {
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "id": "motor_2",
+   "layer": "user",
+   "color": "#33383c",
+   "name": "NORM · Motor 24 VDC panqueque + soporte (POR CONFIRMAR)",
+   "features": [
+    {
+     "id": "f195",
+     "name": "Ménsula de motor",
+     "shape": "sketch",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -170.5
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "pts": [
+       [
+        864.33,
+        293.71
+       ],
+       [
+        895.39,
+        177.8
+       ],
+       [
+        808.46,
+        154.51
+       ],
+       [
+        777.4,
+        270.42
+       ],
+       [
+        864.33,
+        293.71
+       ]
+      ],
+      "h": 90,
+      "u": [
+       1,
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "id": "f196",
+     "name": "Motor panqueque",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      776.6,
+      208.09,
+      -125.5
+     ],
+     "dir": [
+      0.9659258262890683,
+      0.25881904510252074,
+      0
+     ],
+     "params": {
+      "dia": 120,
+      "h": 55
      }
     }
    ]

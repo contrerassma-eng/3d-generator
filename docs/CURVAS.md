@@ -76,6 +76,104 @@ Las decisiones de extensión (`user`) se tomaron todas con el mismo criterio:
 90° sigue siendo 18,85°; el arco máximo entre posiciones de soporte es 732,3 mm
 y a 90° sigue siendo 732,3 mm. La curva se alarga, no se debilita.
 
+## Contraste contra el equipo de catálogo (Hytrol E24EZCT / 190-E24EZC)
+
+La familia de la que desciende esta curva es la **24-volt tapered live roller
+zero pressure accumulating curve** de Hytrol. Contrastar el C60 medido contra
+su ficha confirma tres cosas y levanta una. Las citas, con URL y fecha, están
+en `cad/ensambles/curva_web_facts.json` (capa `web`).
+
+**Confirma:**
+
+- **24" de ancho total ↔ 21" entre bastidores** es un par de catálogo. La
+  lectura del C60 (envolvente 609,2 y claro entre almas 533) cae exactamente
+  ahí — el estándar no estaba mal leído.
+- **30°, 45°, 60° y 90°** son los cuatro ángulos de catálogo. 90° no es una
+  variante que estemos inventando: faltaba.
+- El **ala de 1½"** es idéntica.
+
+**Fija la motorización.** El catálogo dice *«one in each zone of conveyor»*.
+Cruzado con el C60 —2 soportes de motor y 14 polines— sale la regla completa:
+
+| | 60° | 90° |
+|---|---|---|
+| Zonas | 2 | **3** |
+| Motores 24 V | 2 | **3** |
+| Polines por zona | 7 | 7 |
+| Largo de zona | 592 mm de arco (30°) | 592 mm (30°) |
+
+Los 592 mm son ≈24", el largo de zona del sistema E24 — el mismo `HW.zonaMM`
+del simulador. Antes el generador ponía 2 motores a 90°; ahora pone 3, y hay
+compuerta que lo verifica.
+
+**Levanta una discrepancia — el polín cónico.**
+
+| | Ø mayor → Ø menor | Δ radio |
+|---|---|---|
+| Catálogo Hytrol | 2½" → 1 11⁄16" (63,5 → 42,9) | 10,3 |
+| Implícito en el C60 | 92,6 → 57,4 | **17,7** |
+
+La cifra del C60 no es una suposición: las **alturas de eje medidas** (36,0 en
+el lateral externo, 18,3 en el interno) sólo se explican con Δ radio = 17,7 si
+la generatriz superior es horizontal. Y con el ápice del cono en el centro de
+la curva (r ∝ R, que es lo que hace que la velocidad tangencial sea correcta),
+los radios del C60 (1397/864 = 1,617) exigen esa relación — no la 1,48 del
+polín de catálogo.
+
+O el polín Kofmelk no es el de Hytrol, o la curva acepta un cono que no apunta
+al centro. **No se compra polín con ninguno de los dos números hasta ver el
+real.** Lo que sí es firme es dónde va el barreno: eso está medido.
+
+**No se adopta:** el bastidor de catálogo es 6½" × 1½" × 12 ga; el del C60 es
+**7½" × 1½" × 3 mm** — más alto y más grueso. Es una decisión deliberada de
+Kofmelk y se conserva.
+
+## Render y GLB
+
+```bash
+cd cad
+# 1. LOD de render: el modelo sin los barrenos (invisibles a escala de render y
+#    carísimos en CSG — 218 cortes booleanos en la de 90°)
+python3 -c "
+import json
+for A in (60, 90):
+    d = json.load(open(f'ensambles/curva{A}_24.json'))
+    for p in d['parts']:
+        p['features'] = [x for x in p['features'] if x['shape'] != 'hole']
+        p.pop('flat', None)
+    json.dump(d, open(f'ensambles/curva{A}_24_render.json', 'w'), indent=1)
+"
+
+# 2. GLB (una malla por pieza, color por material)
+npx esbuild ensambles/nbt90/export_glb.mjs --bundle --format=esm --platform=node \
+  --alias:three=./vendor/three.module.min.js --outfile=/tmp/glb.mjs
+node /tmp/glb.mjs ensambles/curva90_24_render.json ensambles/curva_vistas/curva90_24.glb
+
+# 3. vistas PNG
+python3 ensambles/render_glb.py ensambles/curva_vistas/curva90_24.glb \
+  ensambles/curva_vistas --prefijo curva90
+```
+
+Sale en `cad/ensambles/curva_vistas/`: `curva90_24.glb` y las cuatro vistas
+(`iso`, `frente`, `lado`, `planta`), más las mismas de 60°.
+
+**`ensambles/render_glb.py`** es un renderer por software: lee el GLB, proyecta
+los triángulos y los pinta con z-buffer y sombreado plano. No necesita GPU ni
+navegador. `nbt90/render.mjs` (que captura el visor real en Chromium) es lo
+correcto cuando hay GPU; en este contenedor WebGL cae en swiftshader y una sola
+vista tarda más que generar el modelo entero. El de software entra en segundos
+y es determinista, que para documentar un ensamble es lo que se quiere.
+
+El GLB usa la convención glTF (Y arriba) aunque el modelo es Z arriba; el
+renderer deshace ese giro antes de aplicar las vistas de ingeniería.
+
+**Nivel del modelo.** No es un STEP de fabricante como el ZP2026 del simulador.
+El bastidor —laterales, alas, guías, polines y sus posiciones— sale de los
+planos medidos y es fiel. Los accesorios —travesaño, tirante, soporte frontal,
+pata y motor— están modelados por su envolvente para que el conjunto se lea
+completo: **su POSICIÓN es la de los patrones medidos, su FORMA es POR
+CONFIRMAR**. Van marcados así en el nombre de cada pieza.
+
 ## Límites declarados
 
 - El **polín cónico 21"** se modela por su envolvente (Ø deducido de las

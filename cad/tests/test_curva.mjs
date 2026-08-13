@@ -142,6 +142,19 @@ okCerca(d90.desarrollo.interno / d60.desarrollo.interno, 1.5, 0.001,
   const a60 = arco(60), a90 = arco(90);
   ok(a90 <= a60 + 1e-6, `vano entre soportes no crece (60°: ${round(a60)} mm · 90°: ${round(a90)} mm)`);
 }
+// motorización: 1 motor por zona, 7 polines por zona (regla del C60 cruzada
+// con el catálogo Hytrol E24 — ver ensambles/curva_web_facts.json)
+ok(d60.motores === 2, 'C60: 2 motores, como los 2 soportes de motor de la lámina', `${d60.motores}`);
+ok(d90.motores === 3, 'C90: 3 motores (21 polines / 7 por zona)', `${d90.motores}`);
+ok(d60.polines / d60.zonas === 7 && d90.polines / d90.zonas === 7,
+  '7 polines por zona en ambas curvas');
+{
+  // la zona mide lo mismo en las dos: 30° de arco sobre el eje del bastidor
+  const zona = (dims, A) => (STD.Rcentro * A * D2R) / dims.zonas;
+  okCerca(zona(d90, 90), zona(d60, 60), 0.5, 'largo de zona idéntico (mm de arco)');
+  okCerca(zona(d60, 60), 24 * 25.4, 20, 'zona ≈ 24" (largo de zona del sistema E24)');
+}
+
 // el DXF de corte tiene que salir cerrado y con barrenos en todas las piezas
 for (const doc of [C60.doc, C90.doc]) {
   const A = doc.meta.dims.angulo;

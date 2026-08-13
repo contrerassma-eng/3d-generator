@@ -201,6 +201,21 @@ function barrenoRadial(name, R, angDeg, z, dia) {
            params: { dia, depth: 0, through: true } };
 }
 
+// Caja ORIENTADA en planta: rectángulo de `largo` (radial) × `ancho`
+// (tangencial) centrado en (R, angDeg) y extruido `alto` hacia arriba desde z0.
+// Las cajas del motor CAD son axis-aligned (`box` no rota), así que todo lo que
+// tiene que seguir el arco se emite como boceto extruido.
+function cajaRadial(name, R, angDeg, largo, ancho, z0, alto) {
+  const a = angDeg * D2R, c = Math.cos(a), s = Math.sin(a);
+  const ur = [c, s], ut = [-s, c];                 // radial y tangencial
+  const cx = R * c, cy = R * s;
+  const pts = [[+1, +1], [+1, -1], [-1, -1], [-1, +1], [+1, +1]].map(([kr, kt]) => [
+    r2(cx + ur[0] * kr * largo / 2 + ut[0] * kt * ancho / 2),
+    r2(cy + ur[1] * kr * largo / 2 + ut[1] * kt * ancho / 2),
+  ]);
+  return sketchXY(name, z0, pts, alto);
+}
+
 // barreno vertical en un ala plana
 function barrenoVert(name, R, angDeg, z, dia) {
   const a = angDeg * D2R;
@@ -327,6 +342,7 @@ export function curva(A) {
     }
 
     parts.push({
+      pos: [0, 0, 0], quat: [0, 0, 0, 1],
       id: `cuerpo_lat_${lado}`, layer: 'user', color: C.alma,
       name: `FAB · Cuerpo lateral ${ext ? 'externo' : 'interno'} C${A}°`,
       features: f,
@@ -351,6 +367,7 @@ export function curva(A) {
         hh.push({ x: Rm * Math.cos(aa), y: Rm * Math.sin(aa), dia: STD.dSoporte });
       }
       parts.push({
+        pos: [0, 0, 0], quat: [0, 0, 0, 1],
         id: `refuerzo_${lado}_${pos}`, layer: 'user', color: C.ala,
         name: `FAB · Refuerzo ${ext ? 'externo' : 'interno'} ${pos} C${A}°`,
         features: ff,
@@ -373,6 +390,7 @@ export function curva(A) {
     const dev = ext ? devExt : devInt;
     const zb = STD.t;      // apoya sobre el ala del conjunto de guía
     parts.push({
+      pos: [0, 0, 0], quat: [0, 0, 0, 1],
       id: `guia_${lado}`, layer: 'user', color: C.guia,
       name: `FAB · Guía ${ext ? 'externa' : 'interna'} superior C${A}°`,
       features: [sketchXY(`Guía ${STD.guia} rolada R${R}`, zb,
@@ -390,13 +408,87 @@ export function curva(A) {
   for (let k = 0; k < N; k++) {
     const ang = a0 + pol.ang[k], a = ang * D2R;
     parts.push({
+      pos: [0, 0, 0], quat: [0, 0, 0, 1],
       id: `polin_${k + 1}`, layer: 'user', color: C.polin,
       name: `NORM · Polín cónico 21" (Ø${r2(rInt * 2)}→Ø${r2(rExt * 2)})`,
-      features: [{ id: fid(), name: 'Cono', shape: 'cylinder', op: 'union',
+      features: [{ id: fid(), name: 'Tronco de cono', shape: 'cylinder', op: 'union',
         at: [r2(STD.RintAlmaExt * Math.cos(a)), r2(STD.RintAlmaExt * Math.sin(a)),
              r2(-STD.polinYInt)],
         dir: [Math.cos(a), Math.sin(a), 0],
-        params: { dia: r2(rInt + rExt), h: STD.claroPolines } }],
+        params: { dia: r2(rInt * 2), dia2: r2(rExt * 2), h: STD.claroPolines } }],
+    });
+  }
+
+  // ---- accesorios compartidos con el resto de la línea 24V ----------------
+  // Son los MISMOS componentes de la curva de 60°: no se rediseñan, sólo
+  // cambia cuántos van. Su geometría fina es POR CONFIRMAR (no vinieron sus
+  // láminas en el juego de fabricación), pero su POSICIÓN sale de los patrones
+  // medidos, así que el emplazamiento es fiel.
+  const zTrav = -STD.filaTravesano[1];          // fila inferior del patrón de 4
+  const zSop = -STD.filaSoporte[1];
+  const rMid = (STD.RintAlmaExt + STD.Rext) / 2;
+  const zPiso = -STD.alma - 700;                // cara superior de la placa de piso
+
+  // travesaño de 21": cruza de alma a alma en cada patrón usado
+  tra.patrones.slice(0, tra.usados).forEach((x, i) => {
+    parts.push({
+      pos: [0, 0, 0], quat: [0, 0, 0, 1],
+      id: `travesano_${i + 1}`, layer: 'user', color: C.trav,
+      name: 'NORM · Travesaño 21" (geometría POR CONFIRMAR)',
+      features: [cajaRadial('Perfil', rMid, a0 + x, STD.claroPolines, 60, zTrav, 40)],
+    });
+  });
+
+  // tirante interno: pletina sobre el lateral interno, fila Ø7
+  tra.patrones.slice(0, tra.usados).forEach((x, i) => {
+    parts.push({
+      pos: [0, 0, 0], quat: [0, 0, 0, 1],
+      id: `tirante_${i + 1}`, layer: 'user', color: C.sop,
+      name: 'NORM · Tirante interno 533 (geometría POR CONFIRMAR)',
+      features: [cajaRadial('Pletina', STD.RintAlmaExt + 15, a0 + x, 30, 30,
+        -STD.filaTirante - 12, 24)],
+    });
+  });
+
+  // soporte frontal + pata a piso en cada posición de soporte, en ambos rieles
+  const fracSop = [0, ...sopFrac, 1];
+  fracSop.forEach((fr, i) => {
+    const ang = a0 + fr * A;
+    for (const [R, quien] of [[STD.RalaInt + 30, 'int'], [STD.RalaExt - 30, 'ext']]) {
+      const a = ang * D2R;
+      parts.push({
+        pos: [0, 0, 0], quat: [0, 0, 0, 1],
+        id: `soporte_${i + 1}_${quien}`, layer: 'user', color: C.sop,
+        name: 'NORM · Soporte frontal 174×30 + pata a piso (POR CONFIRMAR)',
+        features: [
+          cajaRadial('Ménsula', R, ang, 60, 174, zSop - 15, 30),
+          cajaRadial('Pata', R, ang, 60, 60, zPiso, 700 - STD.filaSoporte[1] + STD.alma),
+          cajaRadial('Placa de piso', R, ang, 120, 120, zPiso - 12, 12),
+        ],
+      });
+    }
+  });
+
+  // soporte de motor + motorreductor 24V — UNO POR ZONA.
+  // El C60 lleva 2 soportes de motor y 14 polines: 7 polines por motor, y la
+  // zona mide 30° de arco = 592 mm sobre el eje del bastidor ≈ 24", que es el
+  // largo de zona del sistema E24 (HW.zonaMM del simulador). La misma regla a
+  // 90° da 21/7 = 3 zonas → 3 motores. Ver curva_web_facts.json (Hytrol E24:
+  // "one in each zone of conveyor"; motor "located on inside of conveyor frame").
+  const nZonas = Math.max(1, Math.round(N / 7));
+  for (let i = 0; i < nZonas; i++) {
+    const ang = a0 + ((i + 0.5) / nZonas) * A, a = ang * D2R;
+    const R = STD.RintAlmaExt - 60;              // por DENTRO del bastidor (catálogo)
+    parts.push({
+      pos: [0, 0, 0], quat: [0, 0, 0, 1],
+      id: `motor_${i + 1}`, layer: 'user', color: C.motor,
+      name: 'NORM · Motor 24 VDC panqueque + soporte (POR CONFIRMAR)',
+      features: [
+        cajaRadial('Ménsula de motor', STD.RalaInt + 40, ang, 90, 120, -STD.alma + 20, 90),
+        { id: fid(), name: 'Motor panqueque', shape: 'cylinder', op: 'union',
+          at: [r2(R * Math.cos(a)), r2(R * Math.sin(a)), r2(-STD.alma + 65)],
+          dir: [Math.cos(a), Math.sin(a), 0], params: { dia: 120, h: 55 } },
+      ],
     });
   }
 
@@ -405,6 +497,9 @@ export function curva(A) {
     polines: N,
     pasoAngular: r2(A / N),
     travesanos: tra.usados,
+    zonas: Math.max(1, Math.round(N / 7)),
+    motores: Math.max(1, Math.round(N / 7)),
+    polinesPorZona: 7,
     patronesTravesano: tra.patrones.length,
     posicionesSoporte: 2 + sopFrac.length,
     desarrollo: { externo: r2(devExt), interno: r2(devInt) },

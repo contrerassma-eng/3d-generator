@@ -662,6 +662,12 @@ function featureGeometry(f, extent, first) {
     return g;
   }
   if (f.shape === 'cylinder') {
+    // `dia2` (opcional) convierte el cilindro en TRONCO DE CONO: dia en `at`,
+    // dia2 a distancia h sobre `dir`. Lo piden los polines cónicos de las
+    // curvas, donde el radio crece con el radio de la curva.
+    if (f.params.dia2 != null && f.params.dia2 !== f.params.dia) {
+      return frustumAlong(f.at, f.dir, f.params.dia / 2, f.params.dia2 / 2, f.params.h);
+    }
     return cylinderAlong(f.at, f.dir, f.params.dia / 2, f.params.h);
   }
   if (f.shape === 'hole') {
