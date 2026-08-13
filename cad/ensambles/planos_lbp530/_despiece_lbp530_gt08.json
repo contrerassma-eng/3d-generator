@@ -3,7 +3,7 @@
   "archivo": "lbp530_gt08.json",
   "fecha": "2026-08-12",
   "total_piezas": 53,
-  "items_distintos": 27,
+  "items_distintos": 24,
   "planos_fabricacion": 9,
   "despiece": [
     {
@@ -12,7 +12,7 @@
       "nombres": [
         "FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)"
       ],
-      "cant": 2,
+      "cant": 4,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR e3",
       "plano": "GT-02"
@@ -45,7 +45,7 @@
       "nombres": [
         "FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)"
       ],
-      "cant": 2,
+      "cant": 4,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR e3",
       "plano": "GT-04"
@@ -63,17 +63,6 @@
     },
     {
       "item": 6,
-      "designacion": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)",
-      "nombres": [
-        "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)"
-      ],
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero SAE 1045 (calibrado — ver lámina EJ)",
-      "plano": "LBP530-EJ-02"
-    },
-    {
-      "item": 7,
       "designacion": "FAB · Guarda inferior unica — artesa U chapa 1.5",
       "nombres": [
         "FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)"
@@ -84,10 +73,10 @@
       "plano": "GT-05"
     },
     {
-      "item": 8,
-      "designacion": "FAB · Mecha porta-chumacera PL8 combinada 790×422",
+      "item": 7,
+      "designacion": "FAB · Mecha porta-chumacera PL8 motriz 320×422",
       "nombres": [
-        "FAB · Mecha porta-chumacera PL8 combinada 790×422"
+        "FAB · Mecha porta-chumacera PL8 motriz 320×422"
       ],
       "cant": 2,
       "tipo": "FABRICADA",
@@ -95,7 +84,7 @@
       "plano": "GT-06"
     },
     {
-      "item": 9,
+      "item": 8,
       "designacion": "FAB · Placa lateral libre PL6 L=800",
       "nombres": [
         "FAB · Placa lateral libre (−Y) PL6 L=800"
@@ -106,7 +95,7 @@
       "plano": "GT-01"
     },
     {
-      "item": 10,
+      "item": 9,
       "designacion": "FAB · Placa lateral motriz PL6 L=800",
       "nombres": [
         "FAB · Placa lateral motriz (+Y) PL6 L=800"
@@ -117,7 +106,7 @@
       "plano": "GT-01"
     },
     {
-      "item": 11,
+      "item": 10,
       "designacion": "FAB · Portacarril 50×6 con clips (apernado M6 al alma)",
       "nombres": [
         "FAB · Portacarril 50×6 con clips (apernado M6 al alma)"
@@ -128,7 +117,7 @@
       "plano": "GT-07"
     },
     {
-      "item": 12,
+      "item": 11,
       "designacion": "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",
       "nombres": [
         "FAB · Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04"
@@ -139,51 +128,51 @@
       "plano": "LBP530-EJ-04"
     },
     {
-      "item": 13,
+      "item": 12,
       "designacion": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",
       "nombres": [
         "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)"
       ],
-      "cant": 2,
+      "cant": 4,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR e3",
       "plano": "GT-08"
     },
     {
-      "item": 14,
+      "item": 13,
       "designacion": "FAB · Travesaño de patas B_002A canal 71×38×3",
       "nombres": [
         "FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)"
       ],
-      "cant": 1,
+      "cant": 2,
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR e3",
       "plano": "GT-09"
     },
     {
-      "item": 16,
-      "designacion": "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.92 m",
+      "item": 15,
+      "designacion": "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.45 m",
       "nombres": [
-        "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.92 m"
+        "NORM · Banda Movex 530 GT (friction top) 18 in — lazo 2.45 m"
       ],
       "cant": 1,
       "tipo": "NORMALIZADA",
-      "material_norma": "Banda Movex 530 GT (friction top) 18 in — lazo 2.92 m",
+      "material_norma": "Banda Movex 530 GT (friction top) 18 in — lazo 2.45 m",
       "plano": "—"
     },
     {
-      "item": 17,
+      "item": 16,
       "designacion": "NORM · Chumacera UCF206 Ø30",
       "nombres": [
         "NORM · Chumacera UCF206 Ø30"
       ],
-      "cant": 4,
+      "cant": 2,
       "tipo": "NORMALIZADA",
       "material_norma": "Chumacera UCF206 Ø30",
       "plano": "—"
     },
     {
-      "item": 18,
+      "item": 17,
       "designacion": "NORM · Collarín P21703Y (fija el sprocket central)",
       "nombres": [
         "NORM · Collarín P21703Y (fija el sprocket central)"
@@ -194,18 +183,7 @@
       "plano": "—"
     },
     {
-      "item": 19,
-      "designacion": "NORM · Collarín P21703Y (referencia eje tensor)",
-      "nombres": [
-        "NORM · Collarín P21703Y (referencia eje tensor)"
-      ],
-      "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Collarín P21703Y (referencia eje tensor)",
-      "plano": "—"
-    },
-    {
-      "item": 20,
+      "item": 18,
       "designacion": "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",
       "nombres": [
         "NORM · Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)"
@@ -216,7 +194,7 @@
       "plano": "—"
     },
     {
-      "item": 21,
+      "item": 19,
       "designacion": "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05",
       "nombres": [
         "NORM · Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30)"
@@ -227,7 +205,7 @@
       "plano": "—"
     },
     {
-      "item": 22,
+      "item": 20,
       "designacion": "NORM · Guía lateral conical rail L 1¼ in + escuadras",
       "nombres": [
         "NORM · Guía lateral conical rail L 1¼ in (P12501C) + escuadras"
@@ -238,7 +216,7 @@
       "plano": "—"
     },
     {
-      "item": 23,
+      "item": 21,
       "designacion": "NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque",
       "nombres": [
         "NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + motor 0,55 kW 80A-4 (46 rpm · 89 Nm · fs 2,8) + brazo de torque"
@@ -249,7 +227,7 @@
       "plano": "—"
     },
     {
-      "item": 26,
+      "item": 24,
       "designacion": "NORM · Rodamiento 6202-2RS sellado",
       "nombres": [
         "NORM · Rodamiento 6202-2RS (15×35×11) sellado"
@@ -260,7 +238,7 @@
       "plano": "—"
     },
     {
-      "item": 27,
+      "item": 25,
       "designacion": "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",
       "nombres": [
         "NORM · Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)"
@@ -268,17 +246,6 @@
       "cant": 6,
       "tipo": "NORMALIZADA",
       "material_norma": "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, gran",
-      "plano": "—"
-    },
-    {
-      "item": 28,
-      "designacion": "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
-      "nombres": [
-        "NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)"
-      ],
-      "cant": 2,
-      "tipo": "NORMALIZADA",
-      "material_norma": "Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
       "plano": "—"
     },
     {

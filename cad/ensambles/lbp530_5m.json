@@ -13,17 +13,18 @@
    "chumaceras": "UCF206 (bore Ø30, brida 108, 4×Ø12) contra la cara exterior de la placa",
    "motorreductor": "eje hueco Ø30 H7 DIRECTO sobre el muñón motriz + brazo de torque; chaveta DIN 6885 A 8×7×90; retención arandela + tornillo M10"
   },
-  "traccion": "motriz ABAJO extremo descarga (wrap objetivo 140±10°, manual Movex); deflexión/tensor abajo extremo entrada; NOSEBAR en ambas puntas",
-  "sprockets": "Z-32 MOLDEADO PD 153.4 OD 154.8 ancho 40, BORE CUADRADO 1.5 in c/grano M8 (P158808YF, cotización 26012937) — 530 LBP estándar 18 in: 5/eje en el grid VÁLIDO A·B·C·B·C·A (centrado: -152.4/-89.05/0/+63.35/+152.4; manual p.30 = brochure p.11; poner 6 es IMPOSIBLE: las demás posiciones caen bajo los carriles de rodillos ✗; 6 aplica solo a 530 PRO LBP) · GT: 6/eje (indent 38.1, paso 76.2); MOTRIZ: solo el central FIJO (grano M8 + collarines P21703Y), resto FLOTAN (+0.4/+0.3) · TENSOR: sprockets locos de grano suelto, con el de REFERENCIA (−Y) flanqueado por collarines (posiciona el eje, sin grano)",
+  "traccion": "motriz ABAJO extremo descarga (wrap objetivo 140±10°, manual Movex); LBP: deflexión/tensor abajo extremo entrada · GT Rev.E: UN SOLO EJE — el retorno lo devuelve el RODILLO DEL NOSEBAR de entrada (P22862 c/rodamientos, flexión normal radio 9,5); NOSEBAR en ambas puntas",
+  "sprockets": "Z-32 MOLDEADO PD 153.4 OD 154.8 ancho 40, BORE CUADRADO 1.5 in c/grano M8 (P158808YF, cotización 26012937) — 530 LBP estándar 18 in: 5/eje en el grid VÁLIDO A·B·C·B·C·A (centrado: -152.4/-89.05/0/+63.35/+152.4; manual p.30 = brochure p.11; poner 6 es IMPOSIBLE: las demás posiciones caen bajo los carriles de rodillos ✗; 6 aplica solo a 530 PRO LBP) · GT: 6/eje (indent 38.1, paso 76.2) y UN SOLO EJE (Rev.E — sin tensor ni locos); MOTRIZ: solo el central FIJO (grano M8 + collarines P21703Y), resto FLOTAN (+0.4/+0.3) · TENSOR (solo LBP): sprockets locos de grano suelto, con el de REFERENCIA (−Y) flanqueado por collarines (posiciona el eje, sin grano)",
   "retorno": "RODILLOS Ø63.5 de eje muerto cada ~500 (decisión usuario; manual Movex sugiere zapata para LBP — desviación registrada): tubo con 2 rodamientos SELLADOS 6202-2RS insertos, eje Ø15 roscado M8 interior en ambas puntas, PERNO HEX M8 + golilla POR FUERA de la placa; catenaria 50–150 tras la motriz",
   "estructura": "soportes COPIA del ZP2026 por pata: bracket B_005A = ÁNGULO 203×(95+38)×3 (ala horizontal con 4 cruciformes apernada BAJO el ala del canal + placa vertical con pivote, arco R52 de aplome y 2 bloqueos a ±60°) + columna canal C 77×38×3 (por dentro de la placa) + tira BR_3002 84×38×3 con 10 ranuras 11×20 (telescópica, por fuera, alma al plano del alma) + pata B_004A 158×40×4 (ranuras de anclaje 11×22); travesaño B_002A 71×38×3 ENCAJADO dentro de las columnas (pestaña-en-ranura + soldadura); travesaños de bastidor TR_S C 88×88×3; guía de apoyo = pletina 12 de canto + BAR CAP UHMW P101203-30; guía lateral = conical rail L 1¼ in P12501C sobre escuadras",
-  "friction_top": "GT: goma 75 ShA sobre la banda; el retorno del GT es sobre rodillos (recomendación del manual); la goma no toca el nosebar (contacto por cara interior)",
+  "friction_top": "GT: goma 75 ShA sobre la banda; el retorno del GT es sobre rodillos (recomendación del manual) y cierra en el rodillo del nosebar de entrada (UN SOLO EJE, Rev.E); la goma no toca nariz ni rodillos (contacto por cara interior)",
   "verificaciones": {
    "wrapMotrizLBP": 141.62,
    "wrapMotrizGT": 158.51,
+   "wrapNoseEntradaGT": 148.23,
    "sagCatenariaLBP": 130,
    "corteBarraMotrices": 5520,
-   "corteBarraTensores": 4600
+   "corteBarraTensores": 2300
   },
   "largo_nose_a_nose": 5000,
   "largo_banda_lazo_mm": 10949.3,

@@ -1,12 +1,12 @@
 tipo,item_desc,cant_proyecto,origen,referencia,planos,equipos
 COMPRADA,Anillo seeger DIN 472 Ø35 (interior),80,local,,,lbp530_5m+lbp530_gt08
 COMPRADA,Arandela de retención Ø40×6 + tornillo M10×25 8.8 + Loctite 243,8,local,,,lbp530_5m+lbp530_gt08
-COMPRADA,Banda Movex 530 GT (friction top) 18 in — lazo 2.92 m,4,Movex · Italia (importado),P5323010018A,,lbp530_gt08
+COMPRADA,Banda Movex 530 GT (friction top) 18 in — lazo 2.45 m,4,Movex · Italia (importado),P5323010018A,,lbp530_gt08
 COMPRADA,Banda Movex 530 LBP 18 in — lazo 10.95 m,4,Movex · Italia (importado),P5324010018A,,lbp530_5m
 COMPRADA,"Chaveta DIN 6885 A 8×7×90, acero C45",8,local,,,lbp530_5m+lbp530_gt08
-COMPRADA,Chumacera UCF206 Ø30,32,rodamientos · local,,,lbp530_5m+lbp530_gt08
+COMPRADA,Chumacera UCF206 Ø30,24,rodamientos · local,,,lbp530_5m+lbp530_gt08
 COMPRADA,Collarín P21703Y (fija el sprocket central),16,Movex · Italia (importado),P21703Y,,lbp530_5m+lbp530_gt08
-COMPRADA,Collarín P21703Y (referencia eje tensor),16,Movex · Italia (importado),P21703Y,,lbp530_5m+lbp530_gt08
+COMPRADA,Collarín P21703Y (referencia eje tensor),8,Movex · Italia (importado),P21703Y,,lbp530_5m
 COMPRADA,"Goma Grip Top 75 ShA (disp. 50 ShA) (+2, 46 filas)",4,local,,,lbp530_gt08
 COMPRADA,Guía de apoyo: pletina 12×30 + BAR CAP 17.53×19.05 (P101203-30),68,Movex · Italia (importado),P101203-30,,lbp530_5m+lbp530_gt08
 COMPRADA,Guía lateral conical rail L 1¼ in (P12501C) + escuadras,16,Movex · Italia (importado),P12501C,,lbp530_5m+lbp530_gt08
@@ -18,18 +18,17 @@ COMPRADA,"Nosebar entrada 18 in (3× K6 in, transfer plate c/rodamientos) — P2
 COMPRADA,Rodamiento 6202-2RS (15×35×11) sellado,80,rodamientos · local,,,lbp530_5m+lbp530_gt08
 COMPRADA,Rodillos LBP Ø12.2 POM rojo (97 filas × 12),4,Movex — integrados en la banda 530 LBP (no se piden aparte),,,lbp530_5m
 COMPRADA,"Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",44,Movex · Italia (importado),P158808YF,,lbp530_5m+lbp530_gt08
-COMPRADA,"Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",16,Movex · Italia (importado),P158808YF,,lbp530_5m+lbp530_gt08
-FABRICADA,Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome),32,maestranza / taller,,LBD-01 / LB-02,lbp530_5m+lbp530_gt08
+COMPRADA,"Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",8,Movex · Italia (importado),P158808YF,,lbp530_5m
+FABRICADA,Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome),40,maestranza / taller,,LBD-01 / LB-02,lbp530_5m+lbp530_gt08
 FABRICADA,Cabezal porta-nosebar descarga PL6 470×90,8,maestranza / taller,,LBD-02 / LB-03,lbp530_5m+lbp530_gt08
 FABRICADA,Cabezal porta-nosebar entrada PL6 470×90,8,maestranza / taller,,LBD-02 / LB-03,lbp530_5m+lbp530_gt08
-FABRICADA,Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10),32,maestranza / taller,,LBD-03 / LB-04,lbp530_5m+lbp530_gt08
+FABRICADA,Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10),40,maestranza / taller,,LBD-03 / LB-04,lbp530_5m+lbp530_gt08
 FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6),8,maestranza / taller,,LBP530-EJ-01,lbp530_5m+lbp530_gt08
-FABRICADA,EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6),8,maestranza / taller,,LBP530-EJ-02,lbp530_5m+lbp530_gt08
+FABRICADA,EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6),4,maestranza / taller,,LBP530-EJ-02,lbp530_5m
 FABRICADA,Guarda inferior motriz — artesa U chapa 1.5 (1570×504),4,maestranza / taller,,LBD-04 / LB-05,lbp530_5m
 FABRICADA,Guarda inferior tensor — artesa U chapa 1.5 (650×504),4,maestranza / taller,,LBD-05 / LB-06,lbp530_5m
 FABRICADA,Guarda inferior unica — artesa U chapa 1.5 (800×504),4,maestranza / taller,,GTD-04 / GT-05,lbp530_gt08
-FABRICADA,Mecha porta-chumacera PL8 combinada 790×422,8,maestranza / taller,,GTD-05 / GT-06,lbp530_gt08
-FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,8,maestranza / taller,,LBD-06 / LB-07,lbp530_5m
+FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,16,maestranza / taller,,LBD-06 / LB-07,lbp530_5m+lbp530_gt08
 FABRICADA,Mecha porta-chumacera PL8 tensor 320×362,8,maestranza / taller,,LBD-07 / LB-08,lbp530_5m
 FABRICADA,Placa lateral libre (−Y) PL6 L=5000,4,maestranza / taller,,LBD-08 / LB-01,lbp530_5m
 FABRICADA,Placa lateral libre (−Y) PL6 L=800,4,maestranza / taller,,GTD-06 / GT-01,lbp530_gt08
@@ -39,21 +38,21 @@ FABRICADA,"Pletina 12×30 × 4904 — guía de apoyo de canto (corte a largo, si
 FABRICADA,"Pletina 12×30 × 704 — guía de apoyo de canto (corte a largo, sin láser)",28,maestranza / taller,,,lbp530_gt08
 FABRICADA,Portacarril 50×6 con clips (apernado M6 al alma),24,maestranza / taller,,LBD-09 / LB-09,lbp530_5m+lbp530_gt08
 FABRICADA,"Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",40,maestranza / taller,,LBP530-EJ-04,lbp530_5m+lbp530_gt08
-FABRICADA,Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada),32,maestranza / taller,,LBD-10 / LB-10,lbp530_5m+lbp530_gt08
-FABRICADA,Travesaño de patas B_002A canal 71×38×3 (L=470),16,maestranza / taller,,LBD-11 / LB-11,lbp530_5m+lbp530_gt08
+FABRICADA,Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada),40,maestranza / taller,,LBD-10 / LB-10,lbp530_5m+lbp530_gt08
+FABRICADA,Travesaño de patas B_002A canal 71×38×3 (L=470),20,maestranza / taller,,LBD-11 / LB-11,lbp530_5m+lbp530_gt08
 FABRICADA,"Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",20,maestranza / taller,,LBD-12 / LB-12,lbp530_5m
-TORNILLERÍA,Perno de anclaje M10×90 (piso),64,local,,,lbp530_5m+lbp530_gt08
-TORNILLERÍA,Perno hex M10×30 8.8 + tuerca + golilla ancha (apriete telescópico),96,local,,,lbp530_5m+lbp530_gt08
+TORNILLERÍA,Perno de anclaje M10×90 (piso),80,local,,,lbp530_5m+lbp530_gt08
+TORNILLERÍA,Perno hex M10×30 8.8 + tuerca + golilla ancha (apriete telescópico),120,local,,,lbp530_5m+lbp530_gt08
 TORNILLERÍA,Perno hex M10×30 8.8 + tuerca + golillas (mechas),144,local,,,lbp530_5m+lbp530_gt08
-TORNILLERÍA,Perno hex M10×35 8.8 + tuerca + golilla plana y presión,128,local,,,lbp530_5m+lbp530_gt08
+TORNILLERÍA,Perno hex M10×35 8.8 + tuerca + golilla plana y presión,96,local,,,lbp530_5m+lbp530_gt08
 TORNILLERÍA,Perno hex M6×12 8.8,96,local,,,lbp530_5m+lbp530_gt08
 TORNILLERÍA,Perno hex M6×16 8.8 + golilla,56,local,,,lbp530_5m
 TORNILLERÍA,Perno hex M6×16 8.8 + tuerca + golillas (clips cabezal),64,local,,,lbp530_5m+lbp530_gt08
 TORNILLERÍA,Perno hex M6×16 8.8 + tuerca + golillas (clips portacarril),96,local,,,lbp530_5m+lbp530_gt08
 TORNILLERÍA,Perno hex M6×16 8.8 + tuerca + golillas (orejas TR_S),80,local,,,lbp530_5m
-TORNILLERÍA,Perno hex M8×20 8.8 + tuerca + golillas (bracket soporte),128,local,,,lbp530_5m+lbp530_gt08
+TORNILLERÍA,Perno hex M8×20 8.8 + tuerca + golillas (bracket soporte),160,local,,,lbp530_5m+lbp530_gt08
 TORNILLERÍA,Perno hex M8×25 8.8 + golilla plana y presión,80,local,,,lbp530_5m+lbp530_gt08
 TORNILLERÍA,Perno hex M8×30 8.8 + tuerca + golilla,288,local,,,lbp530_5m+lbp530_gt08
 TORNILLERÍA,Perno M6×20 avellanado (carril de apoyo),228,local,,,lbp530_5m+lbp530_gt08
-TORNILLERÍA,Perno pivote M10×25 + tuerca (pivote y arco de aplome),64,local,,,lbp530_5m+lbp530_gt08
+TORNILLERÍA,Perno pivote M10×25 + tuerca (pivote y arco de aplome),80,local,,,lbp530_5m+lbp530_gt08
 COMPRADA,Barra cuadrada 1.5 in (38.1) SAE 1045 calibrada × 6 m — corte según LBP530-EJ-03,2 (+1 respaldo),acero · local,,,materia prima proyecto — considerar 1 barra extra de respaldo

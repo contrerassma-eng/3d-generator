@@ -48,6 +48,27 @@ sh.text(doc.meta?.nombre || base, 297, 396, 3.2, 'C');
 // ── PLANTA arriba, ELEVACIÓN al medio (layout de lámina descendente) ─────────
 const lat = escena().project({ dir: [0, 1, -0.0001], widthMM: 470, res: 2400 });
 const top = escena().project({ dir: [0, 0, -1], up: [0, 1, 0], widthMM: 470, res: 2400 });
+// Un equipo CORTO (GT 800) con ancho de vista fijo 470 quedaba a escala ~1:1.7
+// y la elevación sola (941 de alto) desbordaba el A2 pisando iso y notas.
+// Presupuesto VERTICAL compartido del par de vistas: si no cabe, ambas se
+// reducen con el mismo factor (misma escala elevación↔planta, norma de
+// dibujo). El LBP (5000) queda idéntico: k=1.
+{
+  const hPar = lat.heightMM + top.heightMM + 30;
+  const k = Math.min(1, 192 / hPar);
+  if (k < 1) for (const v of [lat, top]) {
+    // los puntos vienen HORNEADOS en mm de lámina: escalar geometría completa
+    // (segmentos, rellenos, cortes, sombra, anclas) y re-ligar toSheet
+    for (const s of v.segments) { s.a = s.a.map(q => q * k); s.b = s.b.map(q => q * k); }
+    for (const f of v.fills || []) f.loops = f.loops.map(lp => lp.map(([x, y]) => [x * k, y * k]));
+    for (const c of v.cuts || []) c.loops = c.loops.map(lp => lp.map(([x, y]) => [x * k, y * k]));
+    if (v.shadow) v.shadow.loops = v.shadow.loops.map(lp => lp.map(([x, y]) => [x * k, y * k]));
+    for (const pm of v.parts || []) { pm.anchor = pm.anchor.map(q => q * k); if (pm.bbox) pm.bbox = pm.bbox.map(q => q * k); }
+    const t0 = v.toSheet;
+    if (t0) v.toSheet = (p) => t0(p).map(q => q * k);
+    v.widthMM *= k; v.heightMM *= k;
+  }
+}
 const oxT = (594 - top.widthMM) / 2, oyT = 388 - top.heightMM - 10;
 drawFigure(sh, top, oxT, oyT, {});
 // rótulo de vista FUERA del eje del corte A-A (que cae cerca del centro)
@@ -193,7 +214,7 @@ sh2.text(`SECCIÓN A-A — transversal por portacarril (x=${r0(sec.aa_x ?? 0)}) 
   oxA + aa.widthMM / 2, oyA - 8, 3.4, 'C');
 rotula(sh2, aa, oxA, oyA, oxA + aa.widthMM + 74, {
   y0: oyA + aa.heightMM - 6, paso: 9.5, al: 'L', items: [
-    [/Banda Movex/, 'banda de carga y RETORNO EN CATENARIA (canal hondo Rev.C)'],
+    [/Banda Movex/, esLBP ? 'banda de carga y RETORNO EN CATENARIA (canal hondo Rev.C)' : 'banda de carga — retorno por rodillos y RODILLO DEL NOSEBAR de entrada (un solo eje, Rev.E)'],
     [/Portacarril/, 'portacarril 50×6 apernado M6 (clips en escuadra)'],
     [/Travesaño TR_S/, 'travesaño TR_S 88×88×3 — orejas apernadas 2×M6'],
     [/Columna soporte/, 'columna canal C 77×38×3 colgada del pivote (sistema 24V)'],

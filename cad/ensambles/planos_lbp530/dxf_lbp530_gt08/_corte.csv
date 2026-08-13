@@ -1,10 +1,10 @@
 plano,pieza,cant,material,espesor_mm,desarrollo_x_mm,desarrollo_y_mm,barrenos,pliegues,k_factor,radio_mm,tolerancia
-GTD-01,"FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",2,"Acero S275JR e3 — PINTADO RAL 7035",3,203.0,130.8,3,1,0.44,3,ISO 2768-mK
+GTD-01,"FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",4,"Acero S275JR e3 — PINTADO RAL 7035",3,203.0,130.8,3,1,0.44,3,ISO 2768-mK
 GTD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×90",2,"Acero S275JR PL6 — PINTADO RAL 7035",6,470.0,90.0,18,0,0.44,6,ISO 2768-mK
-GTD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",2,"Acero S275JR e3 — PINTADO RAL 7035",3,578.0,142.6,5,2,0.44,3,ISO 2768-mK
+GTD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",4,"Acero S275JR e3 — PINTADO RAL 7035",3,578.0,142.6,5,2,0.44,3,ISO 2768-mK
 GTD-04,"FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",1,"Acero S275JR e1.5 — terminación PINTADO RAL 7035",1.5,1252.8,1035.6,14,4,0.44,1.5,ISO 2768-mK
-GTD-05,"FAB · Mecha porta-chumacera PL8 combinada 790×422",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,790.0,422.0,22,0,0.44,8,ISO 2768-mK
-GTD-06,"FAB · Placa lateral libre (−Y) PL6 L=800",2,"Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",6,800.0,312.6,18,1,0.44,6,ISO 2768-mK
+GTD-05,"FAB · Mecha porta-chumacera PL8 motriz 320×422",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,320.0,422.0,16,0,0.44,8,ISO 2768-mK
+GTD-06,"FAB · Placa lateral libre (−Y) PL6 L=800",2,"Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",6,800.0,312.6,22,1,0.44,6,ISO 2768-mK
 GTD-07,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",1,"Acero S275JR e6 — PINTADO RAL 7035",6,462.0,50.0,7,0,0.44,6,ISO 2768-mK
-GTD-08,"FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",2,"Acero S275JR e3 — PINTADO RAL 7035",3,369.0,149.6,0,2,0.44,3,ISO 2768-mK
-GTD-09,"FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)",1,"Acero S275JR e3 — PINTADO RAL 7035",3,476.0,136.6,0,2,0.44,3,ISO 2768-mK
+GTD-08,"FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",4,"Acero S275JR e3 — PINTADO RAL 7035",3,369.0,149.6,0,2,0.44,3,ISO 2768-mK
+GTD-09,"FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)",2,"Acero S275JR e3 — PINTADO RAL 7035",3,476.0,136.6,0,2,0.44,3,ISO 2768-mK

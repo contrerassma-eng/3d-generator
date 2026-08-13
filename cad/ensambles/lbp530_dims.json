@@ -177,7 +177,6 @@
   "xMotrizDesdePunta": 120,
   "zTensor": -340,
   "xTensorDesdePunta": 300,
-  "xTensorGT": 120,
   "gtRets": [
    [
     510,
@@ -188,7 +187,6 @@
     -166.75
    ]
   ],
-  "zTensorGT": -380,
   "retTop": -135,
   "retCada": 500,
   "gtRetDia": 63.5,
@@ -258,7 +256,7 @@
  },
  "lazos_m": {
   "LBP_5000": 10.95,
-  "GT_800": 2.92
+  "GT_800": 2.45
  },
  "ejes": {
   "motriz": {
@@ -299,7 +297,8 @@
    "material": "SAE 1045 cuadrado 38.1 (1.5 in) calibrado",
    "largoTotal": 566,
    "corte": 575,
-   "cantidad": 8,
+   "cantidad": 4,
+   "soloEn": "LBP (el GT Rev.E es de un solo eje)",
    "tramos": [
     {
      "nombre": "muñón",
@@ -327,16 +326,16 @@
     "usado": 5520
    },
    "tensor": {
-    "porBarra": 8,
-    "usado": 4600
+    "porBarra": 4,
+    "usado": 2300
    },
    "comprar": 2,
    "nota": "considerar 1 barra extra de respaldo"
   },
   "soportes": {
-   "LBP": 0,
-   "GT": 0,
-   "proyecto": 0
+   "LBP": 6,
+   "GT": 4,
+   "proyecto": 40
   },
   "retorno": {
    "plano": "LBP530-EJ-04",
@@ -402,20 +401,20 @@
   "banda_530GT_18in": {
    "art": "P5323010018A",
    "precioEUR_m": 243.18,
-   "necesario_m": 11.68,
+   "necesario_m": 9.8,
    "cotizado_m": 18
   },
   "sprockets_Z32_cuadrado15": {
    "art": "P158808YF",
    "precioEUR": 17.42,
-   "necesario": 60,
+   "necesario": 52,
    "cotizado": 152,
-   "detalle": "rueda moldeada Z-32 c/grano M8; LBP 5+2 · GT 6+2 por transportador"
+   "detalle": "rueda moldeada Z-32 c/grano M8; LBP 5+2 locos · GT 6 (Rev.E: un solo eje) por transportador"
   },
   "collarines": {
    "art": "P21703Y",
    "precioEUR": 2.32,
-   "necesario": 32,
+   "necesario": 24,
    "cotizado": 60,
    "detalle": "2 por eje: motriz flanquean el sprocket central FIJO; tensor flanquean el sprocket de REFERENCIA (−Y)"
   },
