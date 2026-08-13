@@ -287,11 +287,11 @@ const tipsDe = (n) => {
     'Orejas: pieza pequeña soldada en taller (permitido Rev.C) — el conjunto va APERNADO 2×M6.',
   ];
   if (/Bracket soporte/.test(n)) return [
-    'Ranuras CRUCIFORMES y ranura en ARCO salen del láser: NO retaladrar — son la regulación.',
-    'Plegar después de cortar; comprobar paso 47,6 de cruciformes contra la fila del alma.',
+    'Ranuras CRUCIFORMES, ARCO R52 y bloqueos ±60° salen del láser: NO retaladrar — son la regulación.',
+    'UN pliegue de 90° (placa↔ala). Comprobar cruciformes (±21,6/±73,7) contra los Ø9 del ala del canal.',
   ];
   if (/Columna soporte/.test(n)) return [
-    'Plegar el canal C 77×38 en 2 pliegues; los 5 Ø11 del alma salen del láser — no retaladrar.',
+    'Plegar el canal C 77×38 en 2 pliegues; Ø11, ranura 11×110 y ranura de pestaña salen del láser.',
     'No pintar con sobre-espesor el alma exterior: la tira BR_3002 desliza sobre ella.',
   ];
   if (/Tira telescópica/.test(n)) return [
@@ -299,7 +299,8 @@ const tipsDe = (n) => {
     'Soldar la pata B_004A a escuadra (90°±0,5°) ANTES de pintar (soporte a piso: permitido).',
   ];
   if (/Travesaño de patas/.test(n)) return [
-    'Canal C 71×38 en 2 pliegues; presentar entre columnas y apernar 2×M8 por extremo.',
+    'Canal C 71×38 en 2 pliegues, alma ARRIBA; pestañas 11×3 del alma entran en la ranura de cada columna.',
+    'Presentar ENCAJADO dentro de ambas columnas, aplomar el marco y soldar filete 3 perimetral (taller).',
   ];
   return [];
 };

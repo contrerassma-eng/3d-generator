@@ -634,19 +634,25 @@ export function holeToolGeometry(f, extent) {
   const p = f.params;
   const back = 0.5;
   const d = new THREE.Vector3(...f.dir).normalize();
-  const len = (p.through ? extent + 1 : p.depth) + back;
-  const start = new THREE.Vector3(...f.at).addScaledVector(d, -back);
+  // PASANTE: la herramienta se extiende en AMBOS sentidos desde el ancla —
+  // un agujero anclado al CENTRO del espesor dejaba una membrana sin cortar
+  // en la cara trasera (cazado en el pivote del bracket 24V, Rev.D)
+  const len = (p.through ? 2 * (extent + 1) : p.depth + back);
+  const start = new THREE.Vector3(...f.at).addScaledVector(d, p.through ? -(extent + 1) : -back);
   const main = cylinderAlong(start.toArray(), d.toArray(), p.dia / 2, len);
   const seat = p.seat || 'none';
   const sD = +p.seatDia, sH = +p.seatDepth;
   if ((seat === 'cbore' || seat === 'csink') && sD > p.dia && sH > 0) {
+    // el asiento SIEMPRE ancla en la cara de ENTRADA (f.at − back·dir),
+    // aunque el cilindro pasante ahora se extienda hacia atrás
+    const sStart = new THREE.Vector3(...f.at).addScaledVector(d, -back);
     let tool;
     if (seat === 'cbore') {
-      tool = cylinderAlong(start.toArray(), d.toArray(), sD / 2, sH + back);
+      tool = cylinderAlong(sStart.toArray(), d.toArray(), sD / 2, sH + back);
     } else { // avellanado: cono ancho en la cara (sD) que baja a 'dia' en sH
       const slope = (p.dia / 2 - sD / 2) / sH; // negativo
       const r1 = sD / 2 - back * slope;         // radio en 'start' (extendido sobre la cara)
-      tool = frustumAlong(start.toArray(), d.toArray(), r1, p.dia / 2, sH + back);
+      tool = frustumAlong(sStart.toArray(), d.toArray(), r1, p.dia / 2, sH + back);
     }
     try { return csgToGeom(geomToCSG(main).union(geomToCSG(tool))); }
     catch { return main; } // ante cualquier fallo CSG, agujero recto (nunca se rompe)

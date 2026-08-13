@@ -150,7 +150,7 @@ const FIGURAS = [
       : [0, 0, 0],
     dir: [-1, 1, -0.42],
     torn: /bracket B_005A|apriete|pivote|travesaño B_002A|pata B_004A/,
-    nota: 'COPIA del soporte 24V (medido de ZP2026_MDR.glb, ancho ajustado): bracket B_005A apernado al alma por 4 cruciformes M8 + PIVOTE y ranura en ARCO (aplome de columna, M10); COLUMNA canal 77×38×3 colgada del pivote; TIRA BR_3002 84×38×3 con 9 ranuras 11×20 desliza POR FUERA de la columna (altura, apriete 3×M10) y lleva SOLDADA la pata B_004A anclada M10×90; TRAVESAÑO B_002A 71×38 une ambas patas (2×M8 por extremo).',
+    nota: 'COPIA del soporte 24V (medido lazo a lazo de ZP2026_MDR.glb, ancho ajustado): bracket B_005A = ÁNGULO — su ala horizontal con 4 cruciformes M8 aperna POR DEBAJO del ala del canal y su placa vertical (pivote + ranura en ARCO R52 + 2 bloqueos a ±60°) continúa el plano del alma; COLUMNA canal 77×38×3 colgada del pivote POR DENTRO de la placa; TIRA BR_3002 84×38×3 con 10 ranuras 11×20 desliza POR FUERA de la columna (altura: apriete 3×M10, vernier con la ranura 11×110) y lleva SOLDADA la pata B_004A anclada M10×90; TRAVESAÑO B_002A 71×38 se ENCAJA dentro de ambas columnas (pestaña-en-ranura + soldadura de taller).',
   },
 ];
 
@@ -433,11 +433,11 @@ for (const F of FIGURAS) {
       'Terminación: granallado/desengrase + PINTADO RAL 7035 antes de continuar.',
     ]],
     ['2 · SOPORTES 24V (Fig. H)', [
-      'Apernar brackets B_005A al alma (cruciformes M8×20 — dejar a mano para regular).',
-      'Colgar cada COLUMNA de su pivote M10 y aplomarla; fijar con el perno del ARCO.',
+      'Apernar el ala de cada bracket B_005A POR DEBAJO del ala inferior del canal (cruciformes M8×20 — dejar a mano para regular en los 2 ejes).',
+      'Colgar cada COLUMNA de su pivote M10 (por DENTRO de la placa) y aplomarla; fijar con el perno del ARCO (tramos inclinados: usar el bloqueo discreto de ±60°).',
       'Calzar la TIRA BR_3002 por fuera de la columna, elegir la ranura 11×20 para la',
       'altura de faja y apretar 3×M10; anclar la pata B_004A a losa (2×M10×90).',
-      'Apernar el TRAVESAÑO B_002A entre ambas patas (2×M8 por extremo).',
+      'Encajar el TRAVESAÑO B_002A dentro de ambas columnas (pestañas del alma en sus ranuras) y SOLDAR filete 3 perimetral con el marco aplomado (taller).',
       'Nivel ±2 mm en el largo → apretar cruciformes (25 Nm).',
     ]],
     ['3 · RETORNO (Fig. B · sub-despiece Fig. B1)', [

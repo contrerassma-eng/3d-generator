@@ -1,20 +1,20 @@
 item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plano_vistas,material,desarrollo,masa_aprox_kg
-1,FABRICADA,Bracket soporte B_005A 24V (cruciformes + arco angular),6,24,maestranza / taller,,LBD-01,LB-02,Acero S275JR e3 — PINTADO RAL 7035,203×95,0.5
+1,FABRICADA,Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome),6,24,maestranza / taller,,LBD-01,LB-02,Acero S275JR e3 — PINTADO RAL 7035,203×130.8,0.6
 2,FABRICADA,Cabezal porta-nosebar descarga PL6 470×90,1,4,maestranza / taller,,LBD-02,LB-03,Acero S275JR PL6 — PINTADO RAL 7035,470×90,2
 3,FABRICADA,Cabezal porta-nosebar entrada PL6 470×90,1,4,maestranza / taller,,LBD-02,LB-03,Acero S275JR PL6 — PINTADO RAL 7035,470×90,2
-4,FABRICADA,Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10),6,24,maestranza / taller,,LBD-03,LB-04,Acero S275JR e3 — PINTADO RAL 7035,564×142.6,1.9
+4,FABRICADA,Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10),6,24,maestranza / taller,,LBD-03,LB-04,Acero S275JR e3 — PINTADO RAL 7035,578×142.6,1.9
 5,FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6),1,4,maestranza / taller,,,LBP530-EJ-01,,,6.5
 6,FABRICADA,EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6),1,4,maestranza / taller,,,LBP530-EJ-02,,,5.9
 7,FABRICADA,Guarda inferior motriz — artesa U chapa 1.5 (1570×504),1,4,maestranza / taller,,LBD-04,LB-05,Acero S275JR e1.5 — terminación PINTADO RAL 7035,1796.4×1035.6,21.9
 8,FABRICADA,Guarda inferior tensor — artesa U chapa 1.5 (650×504),1,4,maestranza / taller,,LBD-05,LB-06,Acero S275JR e1.5 — terminación PINTADO RAL 7035,816.4×915.6,8.8
 9,FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,2,8,maestranza / taller,,LBD-06,LB-07,Acero S275JR PL8 — PINTADO RAL 7035,320×422,8.5
 10,FABRICADA,Mecha porta-chumacera PL8 tensor 320×362,2,8,maestranza / taller,,LBD-07,LB-08,Acero S275JR PL8 — PINTADO RAL 7035,320×362,7.3
-11,FABRICADA,Placa lateral libre (−Y) PL6 L=5000,1,4,maestranza / taller,,LBD-08,LB-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),5000×304.6,71.7
-12,FABRICADA,Placa lateral motriz (+Y) PL6 L=5000,1,4,maestranza / taller,,LBD-08,LB-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),5000×304.6,71.7
+11,FABRICADA,Placa lateral libre (−Y) PL6 L=5000,1,4,maestranza / taller,,LBD-08,LB-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),5000×312.6,73.6
+12,FABRICADA,Placa lateral motriz (+Y) PL6 L=5000,1,4,maestranza / taller,,LBD-08,LB-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),5000×312.6,73.6
 13,FABRICADA,Portacarril 50×6 con clips (apernado M6 al alma),5,20,maestranza / taller,,LBD-09,LB-09,Acero S275JR e6 — PINTADO RAL 7035,462×50,1.1
 14,FABRICADA,"Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",8,32,maestranza / taller,,,LBP530-EJ-04,,,
-15,FABRICADA,Tira telescópica BR_3002 84×38×3 (9 ranuras 11×20) + pata B_004A (soldada),6,24,maestranza / taller,,LBD-10,LB-10,Acero S275JR e3 — PINTADO RAL 7035,369×149.6,1.3
-16,FABRICADA,Travesaño de patas B_002A canal 71×38×3 (L=413),3,12,maestranza / taller,,LBD-11,LB-11,Acero S275JR e3 — PINTADO RAL 7035,413×136.6,1.3
+15,FABRICADA,Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada),6,24,maestranza / taller,,LBD-10,LB-10,Acero S275JR e3 — PINTADO RAL 7035,369×149.6,1.3
+16,FABRICADA,Travesaño de patas B_002A canal 71×38×3 (L=470),3,12,maestranza / taller,,LBD-11,LB-11,Acero S275JR e3 — PINTADO RAL 7035,476×136.6,1.5
 17,FABRICADA,"Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",5,20,maestranza / taller,,LBD-12,LB-12,"Acero S275JR e3 — plegado C 88×88 (perfil TR_S del ZP2026), PINTADO RAL 7035. OREJAS 120×60×4 soldadas en extremos; conjunto APERNADO 2×M6 por extremo",460×253.6,2.7
 18,FABRICADA,"Pletina 12×30 × 4904 — guía de apoyo de canto (corte a largo, sin láser)",10,40,maestranza / taller,,,,Barra laminada S235/A36 12×30 — SOLDAR a travesaños según especificación de soldadura del GA,12×30×4904,13.9
 19,COMPRADA,Banda Movex 530 LBP 18 in — lazo 10.95 m,1,4,Movex · Italia (importado),P5324010018A,,,,,
@@ -37,14 +37,13 @@ item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plan
 36,TORNILLERÍA,Perno hex M6×16 8.8 + tuerca + golillas (orejas TR_S),20,80,local,,,,orejas del travesaño TR_S → alma (2 por extremo),,
 37,TORNILLERÍA,Perno hex M6×16 8.8 + tuerca + golillas (clips portacarril),20,80,local,,,,clips del portacarril → alma (2 por lado),,
 38,TORNILLERÍA,Perno M6×20 avellanado (carril de apoyo),50,200,local,,,,"portacarril → pletina del carril ROSCADA M6 (desde abajo, 1 por carril por portacarril)",,
-39,TORNILLERÍA,Perno hex M8×20 8.8 + tuerca + golillas (bracket soporte),24,96,local,,,,bracket B_005A → alma por ranuras cruciformes (4 por bracket — regulación),,
+39,TORNILLERÍA,Perno hex M8×20 8.8 + tuerca + golillas (bracket soporte),24,96,local,,,,"ala del bracket B_005A → ala inferior del canal, por ranuras cruciformes (4 por bracket — regulación en 2 ejes)",,
 40,TORNILLERÍA,Perno hex M10×30 8.8 + tuerca + golillas (mechas),24,96,local,,,,"mecha PL8 → alma (6 por mecha — Rev.C apernada, sin soldadura)",,
 41,TORNILLERÍA,Perno hex M6×16 8.8 + tuerca + golillas (clips cabezal),8,32,local,,,,clips del cabezal porta-nosebar → alma (2 por extremo),,
-42,TORNILLERÍA,Perno hex M10×30 8.8 + tuerca + golilla ancha (apriete telescópico),18,72,local,,,,aprieta la tira BR_3002 contra la columna en la ranura 11×20 elegida (3 por pata — ajuste de ALTURA),,
+42,TORNILLERÍA,Perno hex M10×30 8.8 + tuerca + golilla ancha (apriete telescópico),18,72,local,,,,aprieta la tira BR_3002 contra la columna en las ranuras 11×20 que calcen (3 por pata — ajuste de ALTURA; vernier con la ranura 11×110 de la columna),,
 43,TORNILLERÍA,Perno de anclaje M10×90 (piso),12,48,local,,,,pata B_004A de la tira → losa (2 por pata),,
 44,TORNILLERÍA,Perno pivote M10×25 + tuerca (pivote y arco de aplome),12,48,local,,,,columna → bracket B_005A: 1 pivote + 1 perno viajando por la RANURA EN ARCO (aplome angular),,
-45,TORNILLERÍA,Perno hex M8×20 8.8 + tuerca (travesaño B_002A),12,48,local,,,,travesaño B_002A → alas de las columnas (2 por extremo — une las dos patas de la estación),,
-46,TORNILLERÍA,Perno hex M6×16 8.8 + golilla,14,56,local,,,,guarda inferior → ala de placas (1 por unión pestaña-ala),,
-47,TORNILLERÍA,Perno hex M6×12 8.8,16,64,local,,,,faldón de guarda → roscados M6 de la mecha,,
-48,TORNILLERÍA,Perno hex M8×30 8.8 + tuerca + golilla,36,144,local,,,,nosebar → cabezal (tuerca por cara interior),,
-49,TORNILLERÍA,Perno hex M10×35 8.8 + tuerca + golilla plana y presión,16,64,local,,,,"brida UCF206 → mecha, pasante con tuerca (4 por chumacera; agujero brida y mecha Ø12 → perno M10 holgura estándar)",,
+45,TORNILLERÍA,Perno hex M6×16 8.8 + golilla,14,56,local,,,,guarda inferior → ala de placas (1 por unión pestaña-ala),,
+46,TORNILLERÍA,Perno hex M6×12 8.8,16,64,local,,,,faldón de guarda → roscados M6 de la mecha,,
+47,TORNILLERÍA,Perno hex M8×30 8.8 + tuerca + golilla,36,144,local,,,,nosebar → cabezal (tuerca por cara interior),,
+48,TORNILLERÍA,Perno hex M10×35 8.8 + tuerca + golilla plana y presión,16,64,local,,,,"brida UCF206 → mecha, pasante con tuerca (4 por chumacera; agujero brida y mecha Ø12 → perno M10 holgura estándar)",,

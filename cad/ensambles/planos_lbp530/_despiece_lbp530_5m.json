@@ -8,9 +8,9 @@
   "despiece": [
     {
       "item": 1,
-      "designacion": "FAB · Bracket soporte B_005A 24V (cruciformes + arco angular)",
+      "designacion": "FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",
       "nombres": [
-        "FAB · Bracket soporte B_005A 24V (cruciformes + arco angular)"
+        "FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)"
       ],
       "cant": 6,
       "tipo": "FABRICADA",
@@ -162,9 +162,9 @@
     },
     {
       "item": 15,
-      "designacion": "FAB · Tira telescópica BR_3002 84×38×3 (9 ranuras 11×20) + pata B_004A (soldada)",
+      "designacion": "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",
       "nombres": [
-        "FAB · Tira telescópica BR_3002 84×38×3 (9 ranuras 11×20) + pata B_004A (soldada)"
+        "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)"
       ],
       "cant": 6,
       "tipo": "FABRICADA",
@@ -175,7 +175,7 @@
       "item": 16,
       "designacion": "FAB · Travesaño de patas B_002A canal 71×38×3",
       "nombres": [
-        "FAB · Travesaño de patas B_002A canal 71×38×3 (L=413)"
+        "FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)"
       ],
       "cant": 3,
       "tipo": "FABRICADA",

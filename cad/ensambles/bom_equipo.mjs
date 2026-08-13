@@ -131,6 +131,8 @@ const nClipPCside = nHoles(/Paso M6 clip a alma/);
 gate(nClipPC === nClipPCside, `clips portacarril: placa ${nClipPC} ≠ clip ${nClipPCside}`);
 const nPletCarril = nHoles(/Paso M6 a pletina carril/);
 const nBrk = nHoles(/Paso M8 bracket soporte/);
+const nBrkParts = cantDe(/Bracket soporte B_005A/);
+gate(nBrk === 4 * nBrkParts, `bracket 24V: pasos de ala ${nBrk} ≠ 4×brackets (${nBrkParts})`);
 const nMechaB = nHoles(/Paso M10 mecha$/);
 const nMechaB2 = nHoles(/Paso M10 mecha a placa/);
 gate(nMechaB === nMechaB2, `pernos mecha: placa ${nMechaB} ≠ mecha ${nMechaB2}`);
@@ -150,23 +152,23 @@ const nPivBrk = nHoles(/Pivote de columna Ø11/);
 const nPivCol = nHoles(/Pivote Ø11 \(a bracket\)/);
 gate(nPivBrk === nPivCol, `pivote: bracket ${nPivBrk} ≠ columna ${nPivCol}`);
 const nPivote = nPivCol + nHoles(/Aplome Ø11 \(perno del arco\)/);
-const nAncla = nHoles(/Anclaje a losa Ø11/);
-const nB002 = nHoles(/Paso M8 travesaño B_002A/);
-const nB002col = nHoles(/Paso M8 a travesaño B_002A/);
-gate(nB002 === nB002col, `travesaño B_002A: pasos propios ${nB002} ≠ pasos en columnas ${nB002col}`);
+const nAncla = 2 * nTira;   // 2 ranuras de anclaje 11×22 por pata B_004A (cortes de boceto, no agujeros contables)
+// travesaño B_002A Rev.D: unión PESTAÑA-EN-RANURA + soldadura (sin pernos) —
+// compuerta: 1 travesaño por estación = columnas/2
+const nB002parts = cantDe(/Travesaño de patas B_002A/);
+gate(nB002parts * 2 === nPiso, `travesaños B_002A (${nB002parts}) ≠ estaciones (columnas ${nPiso} / 2)`);
 
 const herrajes = [
   { n: 'Perno hex M8×25 8.8 + golilla plana y presión', cant: nEjeMuerto, uso: 'fija el eje muerto de cada rodillo de retorno, por fuera de la placa (2 por rodillo; rosca interior M8×16 del eje — un perno más largo topa fondo)' },
   { n: 'Perno hex M6×16 8.8 + tuerca + golillas (orejas TR_S)', cant: nTrOreja, uso: 'orejas del travesaño TR_S → alma (2 por extremo)' },
   { n: 'Perno hex M6×16 8.8 + tuerca + golillas (clips portacarril)', cant: nClipPC, uso: 'clips del portacarril → alma (2 por lado)' },
   { n: 'Perno M6×20 avellanado (carril de apoyo)', cant: nPletCarril, uso: 'portacarril → pletina del carril ROSCADA M6 (desde abajo, 1 por carril por portacarril)' },
-  { n: 'Perno hex M8×20 8.8 + tuerca + golillas (bracket soporte)', cant: nBrk, uso: 'bracket B_005A → alma por ranuras cruciformes (4 por bracket — regulación)' },
+  { n: 'Perno hex M8×20 8.8 + tuerca + golillas (bracket soporte)', cant: nBrk, uso: 'ala del bracket B_005A → ala inferior del canal, por ranuras cruciformes (4 por bracket — regulación en 2 ejes)' },
   { n: 'Perno hex M10×30 8.8 + tuerca + golillas (mechas)', cant: nMechaB, uso: 'mecha PL8 → alma (6 por mecha — Rev.C apernada, sin soldadura)' },
   { n: 'Perno hex M6×16 8.8 + tuerca + golillas (clips cabezal)', cant: nCabClip, uso: 'clips del cabezal porta-nosebar → alma (2 por extremo)' },
-  { n: 'Perno hex M10×30 8.8 + tuerca + golilla ancha (apriete telescópico)', cant: nApriete, uso: 'aprieta la tira BR_3002 contra la columna en la ranura 11×20 elegida (3 por pata — ajuste de ALTURA)' },
+  { n: 'Perno hex M10×30 8.8 + tuerca + golilla ancha (apriete telescópico)', cant: nApriete, uso: 'aprieta la tira BR_3002 contra la columna en las ranuras 11×20 que calcen (3 por pata — ajuste de ALTURA; vernier con la ranura 11×110 de la columna)' },
   { n: 'Perno de anclaje M10×90 (piso)', cant: nAncla, uso: 'pata B_004A de la tira → losa (2 por pata)' },
   { n: 'Perno pivote M10×25 + tuerca (pivote y arco de aplome)', cant: nPivote, uso: 'columna → bracket B_005A: 1 pivote + 1 perno viajando por la RANURA EN ARCO (aplome angular)' },
-  { n: 'Perno hex M8×20 8.8 + tuerca (travesaño B_002A)', cant: nB002, uso: 'travesaño B_002A → alas de las columnas (2 por extremo — une las dos patas de la estación)' },
   { n: 'Perno hex M6×16 8.8 + golilla', cant: nAlaPlaca, uso: 'guarda inferior → ala de placas (1 por unión pestaña-ala)' },
   { n: 'Perno hex M6×12 8.8', cant: nFaldon, uso: 'faldón de guarda → roscados M6 de la mecha' },
   { n: 'Perno hex M8×30 8.8 + tuerca + golilla', cant: nNose, uso: 'nosebar → cabezal (tuerca por cara interior)' },

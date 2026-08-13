@@ -53,7 +53,7 @@
   "plT": 6,
   "plTop": -8,
   "plAlto": 285,
-  "alaAncho": 30,
+  "alaAncho": 38,
   "travesanio": 40,
   "pasoTravLBP": 1000,
   "pasoTravFT": 600,
@@ -81,24 +81,51 @@
     "w": 203,
     "alto": 95,
     "t": 3,
-    "cruzPitch": 47.6,
+    "flangeD": 35,
+    "cruzOffs": [
+     -73.7,
+     -21.6,
+     21.6,
+     73.7
+    ],
     "cruzW": 32,
     "cruzH": 19,
+    "cruzDesdeBorde": 16.65,
     "pivotDia": 11,
-    "arcoR": 52,
-    "lockDia": 11
+    "pvV": 82.7,
+    "arcoR": 52.1,
+    "arcoW": 11,
+    "arcoA0": 44,
+    "arcoA1": 136,
+    "lockDia": 11,
+    "lockAng": [
+     30,
+     150
+    ],
+    "vRecto": 25,
+    "wFondo": 66
    },
    "col": {
     "w": 77,
     "d": 38,
     "t": 3,
     "holeDia": 11,
-    "upSep": 52,
+    "upSep": 52.1,
+    "pvDesdeTope": 64.7,
     "clampOffs": [
-     150,
-     180,
-     205
-    ]
+     149,
+     179,
+     204
+    ],
+    "slotInf": {
+     "w": 11,
+     "h": 110,
+     "c": 77
+    },
+    "tabSlot": {
+     "w": 11.6,
+     "h": 3.6
+    }
    },
    "tira": {
     "w": 84,
@@ -108,12 +135,12 @@
     "slotW": 11,
     "slotH": 20,
     "slotPitch": 34,
-    "nSlots": 9,
-    "slot0": 72
+    "nSlots": 10,
+    "slot0": 38
    },
    "b002": {
-    "alto": 71,
-    "d": 38,
+    "alto": 38,
+    "d": 71,
     "t": 3
    },
    "piso": {
@@ -121,7 +148,8 @@
     "h": 40,
     "t": 4,
     "slotW": 11,
-    "slotH": 22
+    "slotH": 22,
+    "slotOff": 63.6
    }
   },
   "sq": 38.1,
@@ -149,6 +177,18 @@
   "xMotrizDesdePunta": 120,
   "zTensor": -340,
   "xTensorDesdePunta": 300,
+  "xTensorGT": 120,
+  "gtRets": [
+   [
+    510,
+    -211.75
+   ],
+   [
+    160,
+    -166.75
+   ]
+  ],
+  "zTensorGT": -380,
   "retTop": -135,
   "retCada": 500,
   "gtRetDia": 63.5,
@@ -218,7 +258,7 @@
  },
  "lazos_m": {
   "LBP_5000": 10.95,
-  "GT_800": 2.65
+  "GT_800": 2.92
  },
  "ejes": {
   "motriz": {
@@ -333,9 +373,9 @@
    "perno": "M8×25 8.8 + golilla plana y presión, por fuera de la placa",
    "porEquipo": {
     "LBP": 8,
-    "GT": 1
+    "GT": 2
    },
-   "cantidad": 36
+   "cantidad": 40
   }
  },
  "soldadura": {
@@ -346,9 +386,10 @@
    "Clips ángulo 30×30×3 → portacarril: 2 cordones 25×3 (taller; conjunto APERNADO 2×M6/lado)",
    "Clips ángulo 40×40×4 → cabezal porta-nosebar: filete 3 perimetral (taller; APERNADO 2×M6/extremo)",
    "Tira BR_3002 → pata B_004A: filete 4 perimetral (SOPORTE A PISO: permitido)",
+   "Travesaño B_002A → columnas: pestaña 11×3 en ranura + filete 3 perimetral, soldar APLOMADO (SOPORTE A PISO: permitido)",
    "Retención de cabezales del rodillo de retorno: 3 puntos esmerilados a ras (LBP530-EJ-04)"
   ],
-  "nota": "mechas, cabezales, travesaños, portacarriles, brackets y guardas van APERNADOS — sin soldadura en obra; retocar RAL 7035 tras soldar en taller"
+  "nota": "mechas, cabezales, travesaños TR_S, portacarriles, brackets y guardas van APERNADOS — sin soldadura en obra; el marco en H del soporte (pata+travesaño B_002A) se suelda en taller; retocar RAL 7035 tras soldar"
  },
  "compraMovex": {
   "banda_530LBP_18in": {
@@ -361,7 +402,7 @@
   "banda_530GT_18in": {
    "art": "P5323010018A",
    "precioEUR_m": 243.18,
-   "necesario_m": 10.6,
+   "necesario_m": 11.68,
    "cotizado_m": 18
   },
   "sprockets_Z32_cuadrado15": {

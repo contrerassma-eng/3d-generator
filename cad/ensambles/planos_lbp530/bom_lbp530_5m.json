@@ -7,7 +7,7 @@
    "item": 1,
    "repuesto": false,
    "tipo": "FABRICADA",
-   "item_desc": "Bracket soporte B_005A 24V (cruciformes + arco angular)",
+   "item_desc": "Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",
    "cant_equipo": 6,
    "cant_proyecto": 24,
    "origen": "maestranza / taller",
@@ -15,8 +15,8 @@
    "plano_corte": "LBD-01",
    "plano_vistas": "LB-02",
    "material": "Acero S275JR e3 — PINTADO RAL 7035",
-   "desarrollo": "203×95",
-   "masa_aprox_kg": 0.5
+   "desarrollo": "203×130.8",
+   "masa_aprox_kg": 0.6
   },
   {
    "item": 2,
@@ -60,7 +60,7 @@
    "plano_corte": "LBD-03",
    "plano_vistas": "LB-04",
    "material": "Acero S275JR e3 — PINTADO RAL 7035",
-   "desarrollo": "564×142.6",
+   "desarrollo": "578×142.6",
    "masa_aprox_kg": 1.9
   },
   {
@@ -165,8 +165,8 @@
    "plano_corte": "LBD-08",
    "plano_vistas": "LB-01",
    "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
-   "desarrollo": "5000×304.6",
-   "masa_aprox_kg": 71.7
+   "desarrollo": "5000×312.6",
+   "masa_aprox_kg": 73.6
   },
   {
    "item": 12,
@@ -180,8 +180,8 @@
    "plano_corte": "LBD-08",
    "plano_vistas": "LB-01",
    "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
-   "desarrollo": "5000×304.6",
-   "masa_aprox_kg": 71.7
+   "desarrollo": "5000×312.6",
+   "masa_aprox_kg": 73.6
   },
   {
    "item": 13,
@@ -217,7 +217,7 @@
    "item": 15,
    "repuesto": false,
    "tipo": "FABRICADA",
-   "item_desc": "Tira telescópica BR_3002 84×38×3 (9 ranuras 11×20) + pata B_004A (soldada)",
+   "item_desc": "Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",
    "cant_equipo": 6,
    "cant_proyecto": 24,
    "origen": "maestranza / taller",
@@ -232,7 +232,7 @@
    "item": 16,
    "repuesto": false,
    "tipo": "FABRICADA",
-   "item_desc": "Travesaño de patas B_002A canal 71×38×3 (L=413)",
+   "item_desc": "Travesaño de patas B_002A canal 71×38×3 (L=470)",
    "cant_equipo": 3,
    "cant_proyecto": 12,
    "origen": "maestranza / taller",
@@ -240,8 +240,8 @@
    "plano_corte": "LBD-11",
    "plano_vistas": "LB-11",
    "material": "Acero S275JR e3 — PINTADO RAL 7035",
-   "desarrollo": "413×136.6",
-   "masa_aprox_kg": 1.3
+   "desarrollo": "476×136.6",
+   "masa_aprox_kg": 1.5
   },
   {
    "item": 17,
@@ -579,7 +579,7 @@
    "referencia": "",
    "plano_corte": "",
    "plano_vistas": "",
-   "material": "bracket B_005A → alma por ranuras cruciformes (4 por bracket — regulación)",
+   "material": "ala del bracket B_005A → ala inferior del canal, por ranuras cruciformes (4 por bracket — regulación en 2 ejes)",
    "desarrollo": "",
    "masa_aprox_kg": ""
   },
@@ -621,7 +621,7 @@
    "referencia": "",
    "plano_corte": "",
    "plano_vistas": "",
-   "material": "aprieta la tira BR_3002 contra la columna en la ranura 11×20 elegida (3 por pata — ajuste de ALTURA)",
+   "material": "aprieta la tira BR_3002 contra la columna en las ranuras 11×20 que calcen (3 por pata — ajuste de ALTURA; vernier con la ranura 11×110 de la columna)",
    "desarrollo": "",
    "masa_aprox_kg": ""
   },
@@ -656,20 +656,6 @@
   {
    "item": 45,
    "tipo": "TORNILLERÍA",
-   "item_desc": "Perno hex M8×20 8.8 + tuerca (travesaño B_002A)",
-   "cant_equipo": 12,
-   "cant_proyecto": 48,
-   "origen": "local",
-   "referencia": "",
-   "plano_corte": "",
-   "plano_vistas": "",
-   "material": "travesaño B_002A → alas de las columnas (2 por extremo — une las dos patas de la estación)",
-   "desarrollo": "",
-   "masa_aprox_kg": ""
-  },
-  {
-   "item": 46,
-   "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M6×16 8.8 + golilla",
    "cant_equipo": 14,
    "cant_proyecto": 56,
@@ -682,7 +668,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 47,
+   "item": 46,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M6×12 8.8",
    "cant_equipo": 16,
@@ -696,7 +682,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 48,
+   "item": 47,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M8×30 8.8 + tuerca + golilla",
    "cant_equipo": 36,
@@ -710,7 +696,7 @@
    "masa_aprox_kg": ""
   },
   {
-   "item": 49,
+   "item": 48,
    "tipo": "TORNILLERÍA",
    "item_desc": "Perno hex M10×35 8.8 + tuerca + golilla plana y presión",
    "cant_equipo": 16,
