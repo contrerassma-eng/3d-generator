@@ -26,9 +26,13 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
+import { masaFlat, superficiesFlat, exigirSello } from './lib_compuertas.mjs';
+
 const docPath = process.env.DOC;
 if (!docPath) throw new Error('falta DOC=<ensamble.json>');
 const doc = JSON.parse(readFileSync(docPath, 'utf8'));
+// sin SELLO de compuertas no se emite nada (CELULA_DISENO regla 11)
+exigirSello(doc, 'bom_equipo');
 const base = docPath.split('/').pop().replace(/\.json$/, '');
 const outDir = process.env.OUTDIR || 'ensambles/planos_lbp530';
 const dimsPath = process.env.DIMS || 'ensambles/lbp530_dims.json';
@@ -229,13 +233,20 @@ for (const { part: p, cant } of [...fabricadas, ...compradas]) {
     plano_vistas: planoFab.get(p.name) || (p.name.match(/plano (LBP530-EJ-\d+)/)?.[1] ?? ''),
     material: p.flat ? p.flat.material : '',
     desarrollo: '',
-    masa_aprox_kg: fab ? masaEspecial(p.name) : '',
+    masa_kg: fab ? masaEspecial(p.name) : '',
   };
   if (p.flat) {
     const xs = p.flat.contorno.map(q => q[0]), ys = p.flat.contorno.map(q => q[1]);
     const w = Math.max(...xs) - Math.min(...xs), h = Math.max(...ys) - Math.min(...ys);
     fila.desarrollo = `${r1(w)}×${r1(h)}`;
-    fila.masa_aprox_kg = r1(w * h * p.flat.t * 7.85e-6);   // bbox del desarrollo: cota superior
+    // masa EXACTA del área desarrollada (no del bbox) y superficie a pintar
+    // (2 caras) — la maestranza cotiza por kg y la pintura RAL 7035 por m²
+    // derivaciones COMPARTIDAS (lib_compuertas): la lámina, el BOM y el GA
+    // no pueden divergir porque leen la misma función
+    const sup = superficiesFlat(p.flat);
+    fila.masa_kg = masaFlat(p.flat);
+    fila.area_m2_pintar = sup.pintar_m2;
+    fila.bbox_m2_plancha = sup.plancha_m2;
   }
   filas.push(fila);
   // tras la última FABRICADA del grupo alfabético, insertar la pletina
@@ -248,7 +259,7 @@ for (const { part: p, cant } of [...fabricadas, ...compradas]) {
       plano_corte: '', plano_vistas: '',
       material: 'Barra laminada S235/A36 12×30 — SOLDAR a travesaños según especificación de soldadura del GA',
       desarrollo: `12×30×${pletinaL}`,
-      masa_aprox_kg: r1(12 * 30 * pletinaL * 7.85e-6),
+      masa_kg: r1(12 * 30 * pletinaL * 7.85e-6),
     });
   }
 }
@@ -256,32 +267,46 @@ for (const d of derivadas) {
   filas.push({
     item: ++item, repuesto: /Rodamiento/.test(d.n), tipo: 'COMPRADA', item_desc: d.n,
     cant_equipo: d.cant, cant_proyecto: d.cant * LINEAS, origen: d.origen, referencia: '',
-    plano_corte: '', plano_vistas: '', material: d.uso, desarrollo: '', masa_aprox_kg: '',
+    plano_corte: '', plano_vistas: '', material: d.uso, desarrollo: '', masa_kg: '',
   });
 }
 for (const h of herrajes) {
   filas.push({
     item: ++item, tipo: 'TORNILLERÍA', item_desc: h.n, cant_equipo: h.cant,
     cant_proyecto: h.cant * LINEAS, origen: 'local', referencia: '',
-    plano_corte: '', plano_vistas: '', material: h.uso, desarrollo: '', masa_aprox_kg: '',
+    plano_corte: '', plano_vistas: '', material: h.uso, desarrollo: '', masa_kg: '',
   });
 }
 
 // ── salida por equipo ────────────────────────────────────────────────────────
 const COLS = ['item', 'tipo', 'item_desc', 'cant_equipo', 'cant_proyecto', 'origen',
-  'referencia', 'plano_corte', 'plano_vistas', 'material', 'desarrollo', 'masa_aprox_kg'];
+  'referencia', 'plano_corte', 'plano_vistas', 'material', 'desarrollo', 'masa_kg',
+  'area_m2_pintar', 'bbox_m2_plancha'];
 const esc = (v) => /,|"/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : String(v);
 writeFileSync(join(outDir, `bom_${base}.csv`),
   [COLS.join(','), ...filas.map(f => COLS.map(c => esc(f[c])).join(','))].join('\n') + '\n');
+// ── totales DERIVADOS del equipo: masa de transporte y superficie a pintar
+// (la maestranza cotiza el acero por kg y la pintura RAL 7035 por m²)
+const num = (v) => (typeof v === 'number' && isFinite(v) ? v : 0);
+const totales = filas.reduce((a, f) => {
+  const n = f.cant_equipo || 0;
+  a.masa_fabricada_kg += num(f.masa_kg) * n;
+  a.area_pintar_m2 += num(f.area_m2_pintar) * n;
+  a.plancha_m2 += num(f.bbox_m2_plancha) * n;
+  return a;
+}, { masa_fabricada_kg: 0, area_pintar_m2: 0, plancha_m2: 0 });
+for (const k of Object.keys(totales)) totales[k] = Math.round(totales[k] * 100) / 100;
+totales.nota = 'masa y área EXACTAS del desarrollo (contorno − barrenos); plancha_m2 = bbox consumido del formato, para pedir material';
+
 writeFileSync(join(outDir, `bom_${base}.json`), JSON.stringify({
-  equipo: titulo, lineas: LINEAS, generado_de: docPath, filas,
+  equipo: titulo, lineas: LINEAS, generado_de: docPath, totales, filas,
 }, null, 1));
 
 const nF = filas.filter(f => f.tipo === 'FABRICADA').length;
 const nC = filas.filter(f => f.tipo === 'COMPRADA').length;
 const sinPlano = filas.filter(f => f.tipo === 'FABRICADA' && !f.plano_corte && !f.plano_vistas)
   .map(f => f.item_desc);
-console.log(`OK bom_${base}: ${filas.length} ítems (${nF} fabricadas · ${nC} compradas · ${herrajes.length} tornillería) ×${LINEAS} líneas`);
+console.log(`OK bom_${base}: ${filas.length} ítems (${nF} fabricadas · ${nC} compradas · ${herrajes.length} tornillería) ×${LINEAS} líneas · ${totales.masa_fabricada_kg} kg fabricados · ${totales.area_pintar_m2} m² a pintar`);
 if (sinPlano.length) console.warn(`  AVISO — fabricadas SIN plano: ${sinPlano.join(' · ')}`);
 
 // ── consolidado del proyecto + compra Movex (al correr el último equipo) ─────

@@ -42,6 +42,7 @@
 import { writeFileSync } from 'node:fs';
 import { bendAllowance } from '../js/sheetmetal.js';
 import { fileURLToPath } from 'node:url';
+import { compuertasUniversales, sellarCompuertas } from './lib_compuertas.mjs';
 import { dirname, join } from 'node:path';
 
 const IN = 25.4;
@@ -1576,6 +1577,41 @@ function build(tipo, L) {
 // ---------------------------------------------------------------------------
 // Verificaciones (fallan = no se emite)
 // ---------------------------------------------------------------------------
+// Especificación de SOLDADURA — fuente única: la usan el GA, el manual y la
+// compuerta «pieza sin fijación» (una pieza sin barrenos es legítima si esta
+// lista la declara soldada; si no la declara, la compuerta la caza)
+const SOLDADURA = {
+    proceso: 'GMAW (MIG) ER70S-6 Ø1.0 — alternativa SMAW E7018',
+    norma: 'AWS D1.1 — inspección visual 100%',
+    // Rev.C: construcción APERNADA — soldar SOLO piezas pequeñas en taller y
+    // los soportes a piso (directriz Sergio 12-08). Ninguna soldadura en obra.
+    uniones: [
+      'Orejas 120×60×4 → travesaño TR_S: filete 3 ×40 doble cara (taller; conjunto APERNADO 2×M6/extremo)',
+      'Clips ángulo 30×30×3 → portacarril: 2 cordones 25×3 (taller; conjunto APERNADO 2×M6/lado)',
+      'Clips ángulo 40×40×4 → cabezal porta-nosebar: filete 3 perimetral (taller; APERNADO 2×M6/extremo)',
+      'Tira BR_3002 → pata B_004A: filete 4 perimetral (SOPORTE A PISO: permitido)',
+      'Travesaño B_002A → columnas: pestaña 11×3 en ranura + filete 3 perimetral, soldar APLOMADO (SOPORTE A PISO: permitido)',
+      'Retención de cabezales del rodillo de retorno: 3 puntos esmerilados a ras (LBP530-EJ-04)',
+    ],
+    nota: 'mechas, cabezales, travesaños TR_S, portacarriles, brackets y guardas van APERNADOS — sin soldadura en obra; el marco en H del soporte (pata+travesaño B_002A) se suelda en taller; retocar RAL 7035 tras soldar',
+  };
+
+// ── COMPUERTAS UNIVERSALES (lib_compuertas.mjs) ─────────────────────────────
+// Las reglas que NO dependen de este equipo viven en la librería: un generador
+// nuevo las hereda llamando compuertasUniversales(). Aquí solo se declaran las
+// EXENCIONES y la DEUDA (hallazgos reales con decisión pendiente) — declarar
+// es legítimo, silenciar no.
+const EXENTOS_MARGEN = [
+  // grillas DICTADAS por el fabricante y cotas MEASURED que se copian tal cual
+  /Cabezal porta-nosebar/, /Bracket soporte B_005A/, /Columna soporte 24V/,
+];
+const DEUDA_DECLARADA = [
+  { patron: /Paso M6 guarda inferior|barreno Ø7 en «FAB · Placa lateral/,
+    razon: 'ALA de 38 no admite el M6 de guarda fuera de la zona de plegado Y con margen al borde de la pestaña a la vez (ventana v 15,5..16,5 contra pestaña 9,5): decisión de Sergio — ensanchar ala a ~46, o pasar la fijación de guarda al faldón' },
+  { patron: /barreno Ø9 en «FAB · Placa lateral/,
+    razon: 'M8 del bracket a piso: la ventana de la regla es VACÍA con ala 38 (borde ≥16,5 y plegado ≤15,5). Misma decisión: ensanchar ala o cambiar la fijación del bracket' },
+];
+
 function verify(res) {
   const e = [];
   if (r2(D.sqLen + D.jrnLibre + D.jrnMotriz) !== D.ejeMotrizL) e.push('largo eje motriz inconsistente');
@@ -1739,8 +1775,32 @@ function verify(res) {
   const esb = r2(vanoMax / D.plT);
   console.log(`  esbeltez placa: vano máx ${vanoMax} / t${D.plT} = ${esb} (techo 250 con refuerzo, placa arriostrada por travesaños)`);
   if (esb > 250) e.push(`esbeltez de placa ${esb} > 250: acortar paso de travesaños o subir espesor`);
+  const nEspecificas = e.length;   // compuertas propias del equipo ya evaluadas
+  // ── universales: heredadas de la librería, no reescritas aquí ──
+  const uni = compuertasUniversales(res, { exentos: EXENTOS_MARGEN, uniones: SOLDADURA.uniones });
+  const deuda = [], nuevos = [];
+  for (const msg of uni.errs) {
+    const d = DEUDA_DECLARADA.find(q => q.patron.test(msg));
+    (d ? deuda : nuevos).push(d ? { msg, razon: d.razon } : msg);
+  }
+  e.push(...nuevos);
+  if (deuda.length) {
+    const porRazon = new Map();
+    for (const d of deuda) porRazon.set(d.razon, (porRazon.get(d.razon) || 0) + 1);
+    console.log('  DEUDA DECLARADA (compuerta universal en rojo, decisión PENDIENTE de Sergio):');
+    for (const [razon, n] of porRazon) console.log(`    · ${n} barrenos — ${razon}`);
+  }
+  for (const [nm, i] of Object.entries(uni.info)) {
+    console.log(`  ${nm}: chapa ${i.masa_chapa_kg} kg · margen más apretado ${i.peorMargen?.margen} (req ${i.peorMargen?.req})${i.peorMargen?.exento ? ' [EXENTO declarado]' : ''}`);
+  }
+
   if (e.length) throw new Error('Diseño inconsistente:\n  - ' + e.join('\n  - '));
-  return { corteM, corteT, nTenProy };
+  return { corteM, corteT, nTenProy,
+    sello: sellarCompuertas(uni, {
+      exenciones: EXENTOS_MARGEN,
+      deuda: [...new Set(deuda.map(d => d.razon))],
+      especificas: nEspecificas,
+    }) };
 }
 
 // ---------------------------------------------------------------------------
@@ -1787,7 +1847,9 @@ for (const [tipo, b] of Object.entries(builds)) {
   const r = res[tipo];
   const doc = {
     format: 'foto3d-cad', version: 1,
-    meta: { nombre: b.nombre, ...metaComun, largo_nose_a_nose: b.L, largo_banda_lazo_mm: r2(r.largoBanda), secciones: r.secciones },
+    // SELLO de compuertas: sin él, dxf_flat / bom_equipo / planos_fab /
+    // ga_equipo / manual_partes se NIEGAN a emitir (CELULA_DISENO regla 11)
+    meta: { nombre: b.nombre, ...metaComun, largo_nose_a_nose: b.L, largo_banda_lazo_mm: r2(r.largoBanda), secciones: r.secciones, compuertas: chk.sello },
     parts: r.parts, constraints: [],
   };
   writeFileSync(join(here, b.file), JSON.stringify(doc, null, 1));
@@ -1862,21 +1924,8 @@ const dims = {
   },
   // Especificación de SOLDADURA del bastidor (el panel encontró «SOLDAR según
   // GA» sin que el GA especificara nada): la leen ga_equipo y manual_partes.
-  soldadura: {
-    proceso: 'GMAW (MIG) ER70S-6 Ø1.0 — alternativa SMAW E7018',
-    norma: 'AWS D1.1 — inspección visual 100%',
-    // Rev.C: construcción APERNADA — soldar SOLO piezas pequeñas en taller y
-    // los soportes a piso (directriz Sergio 12-08). Ninguna soldadura en obra.
-    uniones: [
-      'Orejas 120×60×4 → travesaño TR_S: filete 3 ×40 doble cara (taller; conjunto APERNADO 2×M6/extremo)',
-      'Clips ángulo 30×30×3 → portacarril: 2 cordones 25×3 (taller; conjunto APERNADO 2×M6/lado)',
-      'Clips ángulo 40×40×4 → cabezal porta-nosebar: filete 3 perimetral (taller; APERNADO 2×M6/extremo)',
-      'Tira BR_3002 → pata B_004A: filete 4 perimetral (SOPORTE A PISO: permitido)',
-      'Travesaño B_002A → columnas: pestaña 11×3 en ranura + filete 3 perimetral, soldar APLOMADO (SOPORTE A PISO: permitido)',
-      'Retención de cabezales del rodillo de retorno: 3 puntos esmerilados a ras (LBP530-EJ-04)',
-    ],
-    nota: 'mechas, cabezales, travesaños TR_S, portacarriles, brackets y guardas van APERNADOS — sin soldadura en obra; el marco en H del soporte (pata+travesaño B_002A) se suelda en taller; retocar RAL 7035 tras soldar',
-  },
+  soldadura: SOLDADURA,
+
   // Cotización MOVEX 26012937 (09-07-2026, EUR, EXW Castelli Calepio) —
   // projects/LBP530-18/input/docs/Cotizacion_MOVEX_26012937.pdf.
   // "necesario" = lo que consumen las 4 líneas; "cotizado" = lo ofertado.

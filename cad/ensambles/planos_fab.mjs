@@ -18,6 +18,10 @@ import { buildPartGeometry } from '../js/model.js';
 import { buildSheet, buildFlatSheet, Sheet, chooseSheet, scaleLabel, exportSheetsPDF } from '../js/drawing2d.js';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+// masa por pieza desde la librería de compuertas: la lámina y el BOM leen la
+// MISMA función (si divergen, el taller compra kilos que no existen)
+import { masaFlat, exigirSello } from './lib_compuertas.mjs';
+const masaDe = (part) => masaFlat(part?.flat) || '';
 
 // Lámina SIMPLIFICADA (3 vistas envolventes) para piezas con malla muy grande,
 // donde la extracción de aristas del exportador no escala (p. ej. el canal con
@@ -101,6 +105,8 @@ function simpleSheet(geom, meta) {
 // (el script se corre desde cad/, como las pruebas).
 const jsonPath = process.env.DOC || 'ensambles/transfer_rodillos_90.json';
 const doc = JSON.parse(readFileSync(jsonPath, 'utf8'));
+// sin SELLO de compuertas no se emite nada (CELULA_DISENO regla 11)
+exigirSello(doc, 'planos_fab');
 const outDir = process.env.OUTDIR || 'ensambles/planos_transfer90';
 // Identidad del ensamble: permite apuntar el generador a cualquier documento
 // sin dejar rotulado el transfer90 en el cajetin, el PDF y el despiece.
@@ -362,7 +368,7 @@ for (const g of lista) {
       const meta = {
         designacion: desig, piezas: g.cant, proyecto: proyectoCorto,
         fuente: 'diseño paramétrico — capa user', numPlano: plano, fecha,
-        nota: `Material: ${material} · tol. gral. ISO 2768-mK`,
+        nota: `Material: ${material} · tol. gral. ISO 2768-mK${masaDe(g.part) ? ` · MASA ${masaDe(g.part)} kg/u` : ''}`,
         dxfRef: planoDXF[g.part.name] || planoDXF[g.name] || '',
       };
       try {

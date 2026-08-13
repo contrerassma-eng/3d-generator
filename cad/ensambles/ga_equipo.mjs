@@ -13,11 +13,14 @@
 import { Sheet, exportSheetsPDF } from '../js/drawing2d.js';
 import { IsoScene, drawFigure } from '../js/iso3d.mjs';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { exigirSello } from './lib_compuertas.mjs';
 import { join } from 'node:path';
 
 const docPath = process.env.DOC;
 if (!docPath) throw new Error('falta DOC=<ensamble.json>');
 const doc = JSON.parse(readFileSync(docPath, 'utf8'));
+// sin SELLO de compuertas no se emite nada (CELULA_DISENO regla 11)
+exigirSello(doc, 'ga_equipo');
 const base = docPath.split('/').pop().replace(/\.json$/, '');
 const outDir = process.env.OUTDIR || 'ensambles/planos_lbp530';
 const fecha = process.env.FECHA || '—';
@@ -250,6 +253,10 @@ const notas = [
   `globos son los del BOM y el Manual de Partes (boletín CV-MP-${esLBP ? '01' : '02'}).`,
   'Cotas medidas de la proyección del modelo paramétrico — no transcritas.',
   'Altura de faja ajustable por niveladores de soporte. Terminación: PINTADO RAL 7035.',
+  ...(bom.totales ? [
+    `MASA de partes FABRICADAS: ${bom.totales.masa_fabricada_kg} kg (área exacta del desarrollo × espesor; sin`,
+    `comprados) · SUPERFICIE A PINTAR: ${bom.totales.area_pintar_m2} m² (2 caras) · PLANCHA A PEDIR: ${bom.totales.plancha_m2} m².`,
+  ] : []),
   '',
   `SOLDADURA (${sold.proceso || 'ver especificación'} · ${sold.norma || ''}):`,
   ...(sold.uniones || []).map(u => '· ' + u),

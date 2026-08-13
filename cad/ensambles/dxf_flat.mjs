@@ -16,11 +16,14 @@
 
 import { exportFlatDXF } from '../js/drawing2d.js';
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
+import { exigirSello } from './lib_compuertas.mjs';
 import { join } from 'node:path';
 
 const docPath = process.env.DOC;
 if (!docPath) throw new Error('falta DOC=<ensamble.json>');
 const doc = JSON.parse(readFileSync(docPath, 'utf8'));
+// sin SELLO de compuertas no se emite nada (CELULA_DISENO regla 11)
+exigirSello(doc, 'dxf_flat');
 const docBaseDir = (process.env.DOC || 'doc').split('/').pop().replace(/\.json$/, '');
 const outDir = join(process.env.OUTDIR || 'ensambles/planos_lbp530', 'dxf_' + docBaseDir);
 rmSync(outDir, { recursive: true, force: true });   // panel: 3 corridas mezcladas con numeración en conflicto

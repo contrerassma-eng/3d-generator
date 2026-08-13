@@ -20,11 +20,14 @@
 import { Sheet, exportSheetsPDF } from '../js/drawing2d.js';
 import { IsoScene, layoutBalloons, drawFigure } from '../js/iso3d.mjs';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { exigirSello } from './lib_compuertas.mjs';
 import { join } from 'node:path';
 
 const docPath = process.env.DOC;
 if (!docPath) throw new Error('falta DOC=<ensamble.json>');
 const doc = JSON.parse(readFileSync(docPath, 'utf8'));
+// sin SELLO de compuertas no se emite nada (CELULA_DISENO regla 11)
+exigirSello(doc, 'manual_partes');
 const base = docPath.split('/').pop().replace(/\.json$/, '');
 const outDir = process.env.OUTDIR || 'ensambles/planos_lbp530';
 const fecha = process.env.FECHA || '—';
