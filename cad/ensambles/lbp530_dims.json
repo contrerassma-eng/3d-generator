@@ -181,11 +181,11 @@
    [
     510,
     -211.75
-   ],
-   [
-    160,
-    -166.75
    ]
+  ],
+  "gtSnub": [
+   80,
+   -140
   ],
   "retTop": -135,
   "retCada": 500,
@@ -256,7 +256,7 @@
  },
  "lazos_m": {
   "LBP_5000": 10.95,
-  "GT_800": 2.45
+  "GT_800": 2.3
  },
  "ejes": {
   "motriz": {
@@ -401,7 +401,7 @@
   "banda_530GT_18in": {
    "art": "P5323010018A",
    "precioEUR_m": 243.18,
-   "necesario_m": 9.8,
+   "necesario_m": 9.2,
    "cotizado_m": 18
   },
   "sprockets_Z32_cuadrado15": {

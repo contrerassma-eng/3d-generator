@@ -19,9 +19,9 @@
     },
     {
       "item": 2,
-      "designacion": "FAB · Cabezal porta-nosebar descarga PL6 470×90",
+      "designacion": "FAB · Cabezal porta-nosebar descarga PL6 470×55",
       "nombres": [
-        "FAB · Cabezal porta-nosebar descarga PL6 470×90"
+        "FAB · Cabezal porta-nosebar descarga PL6 470×55"
       ],
       "cant": 1,
       "tipo": "FABRICADA",
@@ -30,13 +30,13 @@
     },
     {
       "item": 3,
-      "designacion": "FAB · Cabezal porta-nosebar entrada PL6 470×90",
+      "designacion": "FAB · Cabezal porta-nosebar entrada PL6 470×55",
       "nombres": [
-        "FAB · Cabezal porta-nosebar entrada PL6 470×90"
+        "FAB · Cabezal porta-nosebar entrada PL6 470×55"
       ],
       "cant": 1,
       "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR PL6 — mismo desarrollo que FAB · Cabezal porta-nosebar descarga PL6 470×90 (LB-03); 1 EN ESPEJO",
+      "material_norma": "Acero S275JR PL6 — mismo desarrollo que FAB · Cabezal porta-nosebar descarga PL6 470×55 (LB-03); 1 EN ESPEJO",
       "plano": "LB-03"
     },
     {

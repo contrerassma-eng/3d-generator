@@ -1,7 +1,7 @@
 item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plano_vistas,material,desarrollo,masa_aprox_kg
 1,FABRICADA,Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome),6,24,maestranza / taller,,LBD-01,LB-02,Acero S275JR e3 — PINTADO RAL 7035,203×130.8,0.6
-2,FABRICADA,Cabezal porta-nosebar descarga PL6 470×90,1,4,maestranza / taller,,LBD-02,LB-03,Acero S275JR PL6 — PINTADO RAL 7035,470×90,2
-3,FABRICADA,Cabezal porta-nosebar entrada PL6 470×90,1,4,maestranza / taller,,LBD-02,LB-03,Acero S275JR PL6 — PINTADO RAL 7035,470×90,2
+2,FABRICADA,Cabezal porta-nosebar descarga PL6 470×55,1,4,maestranza / taller,,LBD-02,LB-03,Acero S275JR PL6 — PINTADO RAL 7035,470×55,1.2
+3,FABRICADA,Cabezal porta-nosebar entrada PL6 470×55,1,4,maestranza / taller,,LBD-02,LB-03,Acero S275JR PL6 — PINTADO RAL 7035,470×55,1.2
 4,FABRICADA,Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10),6,24,maestranza / taller,,LBD-03,LB-04,Acero S275JR e3 — PINTADO RAL 7035,578×142.6,1.9
 5,FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6),1,4,maestranza / taller,,,LBP530-EJ-01,,,6.5
 6,FABRICADA,EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6),1,4,maestranza / taller,,,LBP530-EJ-02,,,5.9

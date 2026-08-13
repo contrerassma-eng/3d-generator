@@ -1,7 +1,7 @@
 tipo,item_desc,cant_proyecto,origen,referencia,planos,equipos
 COMPRADA,Anillo seeger DIN 472 Ø35 (interior),80,local,,,lbp530_5m+lbp530_gt08
 COMPRADA,Arandela de retención Ø40×6 + tornillo M10×25 8.8 + Loctite 243,8,local,,,lbp530_5m+lbp530_gt08
-COMPRADA,Banda Movex 530 GT (friction top) 18 in — lazo 2.45 m,4,Movex · Italia (importado),P5323010018A,,lbp530_gt08
+COMPRADA,Banda Movex 530 GT (friction top) 18 in — lazo 2.3 m,4,Movex · Italia (importado),P5323010018A,,lbp530_gt08
 COMPRADA,Banda Movex 530 LBP 18 in — lazo 10.95 m,4,Movex · Italia (importado),P5324010018A,,lbp530_5m
 COMPRADA,"Chaveta DIN 6885 A 8×7×90, acero C45",8,local,,,lbp530_5m+lbp530_gt08
 COMPRADA,Chumacera UCF206 Ø30,24,rodamientos · local,,,lbp530_5m+lbp530_gt08
@@ -20,8 +20,8 @@ COMPRADA,Rodillos LBP Ø12.2 POM rojo (97 filas × 12),4,Movex — integrados en
 COMPRADA,"Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, grano M8 (cotización 26012937)",44,Movex · Italia (importado),P158808YF,,lbp530_5m+lbp530_gt08
 COMPRADA,"Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",8,Movex · Italia (importado),P158808YF,,lbp530_5m
 FABRICADA,Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome),40,maestranza / taller,,LBD-01 / LB-02,lbp530_5m+lbp530_gt08
-FABRICADA,Cabezal porta-nosebar descarga PL6 470×90,8,maestranza / taller,,LBD-02 / LB-03,lbp530_5m+lbp530_gt08
-FABRICADA,Cabezal porta-nosebar entrada PL6 470×90,8,maestranza / taller,,LBD-02 / LB-03,lbp530_5m+lbp530_gt08
+FABRICADA,Cabezal porta-nosebar descarga PL6 470×55,8,maestranza / taller,,LBD-02 / LB-03,lbp530_5m+lbp530_gt08
+FABRICADA,Cabezal porta-nosebar entrada PL6 470×55,8,maestranza / taller,,LBD-02 / LB-03,lbp530_5m+lbp530_gt08
 FABRICADA,Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10),40,maestranza / taller,,LBD-03 / LB-04,lbp530_5m+lbp530_gt08
 FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6),8,maestranza / taller,,LBP530-EJ-01,lbp530_5m+lbp530_gt08
 FABRICADA,EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6),4,maestranza / taller,,LBP530-EJ-02,lbp530_5m

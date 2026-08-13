@@ -22,7 +22,7 @@
    "item": 2,
    "repuesto": false,
    "tipo": "FABRICADA",
-   "item_desc": "Cabezal porta-nosebar descarga PL6 470×90",
+   "item_desc": "Cabezal porta-nosebar descarga PL6 470×55",
    "cant_equipo": 1,
    "cant_proyecto": 4,
    "origen": "maestranza / taller",
@@ -30,14 +30,14 @@
    "plano_corte": "GTD-02",
    "plano_vistas": "GT-03",
    "material": "Acero S275JR PL6 — PINTADO RAL 7035",
-   "desarrollo": "470×90",
-   "masa_aprox_kg": 2
+   "desarrollo": "470×55",
+   "masa_aprox_kg": 1.2
   },
   {
    "item": 3,
    "repuesto": false,
    "tipo": "FABRICADA",
-   "item_desc": "Cabezal porta-nosebar entrada PL6 470×90",
+   "item_desc": "Cabezal porta-nosebar entrada PL6 470×55",
    "cant_equipo": 1,
    "cant_proyecto": 4,
    "origen": "maestranza / taller",
@@ -45,8 +45,8 @@
    "plano_corte": "GTD-02",
    "plano_vistas": "GT-03",
    "material": "Acero S275JR PL6 — PINTADO RAL 7035",
-   "desarrollo": "470×90",
-   "masa_aprox_kg": 2
+   "desarrollo": "470×55",
+   "masa_aprox_kg": 1.2
   },
   {
    "item": 4,
@@ -217,7 +217,7 @@
    "item": 15,
    "repuesto": true,
    "tipo": "COMPRADA",
-   "item_desc": "Banda Movex 530 GT (friction top) 18 in — lazo 2.45 m",
+   "item_desc": "Banda Movex 530 GT (friction top) 18 in — lazo 2.3 m",
    "cant_equipo": 1,
    "cant_proyecto": 4,
    "origen": "Movex · Italia (importado)",
