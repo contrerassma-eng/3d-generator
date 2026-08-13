@@ -238,6 +238,16 @@ cd cad && bash ensambles/regenerar_curva.sh
   atornillan en la curva: la posición sale de los patrones medidos, pero la
   interfaz fina (largo del travesaño contra el claro de 533, altura de la
   ménsula del motor) se cierra contra la primera curva armada.
+- **Sentido del motor: PENDIENTE, y no se arregla girando la unidad.** Sergio
+  marcó que el eje tiene que mirar al lado interno. Probar con `giro: 0` en vez
+  de `giro: PI` lo dejó peor: la unidad entera se va PARA AFUERA del bastidor
+  externo (se ve colgando por fuera en el render). O sea que `giro: PI` es lo
+  correcto para el CUERPO —así crece hacia adentro— y lo que hay que invertir
+  es el EJE dentro del conjunto, que es un ESPEJO de la pieza, no una rotación.
+  Antes de espejarla hay que confirmar cuál de sus dos caras en Y es la de
+  montaje: `zp_componentes.mjs` la eligió por el extremo en Y más lejano del
+  eje del recto, y ese extremo resultó ser el cuerpo del motor, no la cara del
+  soporte (por eso también quedaba separada del alma).
 - **Soporte de piso: pendiente contra el despiece MS05** (Sergio corrigió: es
   **MS05**, no MC05). Falta la placa base, la sección transversal y la
   regulación angular. Hoy va la estación de patas del ZP2026, que no trae esas
