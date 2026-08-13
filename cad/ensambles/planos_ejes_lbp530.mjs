@@ -209,7 +209,7 @@ sheets.push(shaftSheet(dims.ejes.motriz, {
   designacion: 'EJE MOTRIZ — cuadrado 1.5 in, muñones Ø30 torneados',
 }));
 sheets.push(shaftSheet(dims.ejes.tensor, {
-  designacion: 'EJE TENSOR — cuadrado 1.5 in, muñones Ø30 torneados',
+  designacion: 'EJE TENSOR — cuadrado 1.5 in, muñones Ø30 (solo LBP)',
 }));
 
 // --- lámina 3: corte de barras + lista de compra ----------------------------
@@ -232,7 +232,7 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
     sh.text(`retazo ${sobra} mm`, 24 + 6 * bs - 2, y + 2, 2.2, 'ML');
   };
   drawBar(252, `BARRA 1 — ${dims.ejes.barras.espec}: 8 × EJE MOTRIZ (corte ${dims.ejes.motriz.corte})`, 8, dims.ejes.motriz.corte);
-  drawBar(232, `BARRA 2 — ídem: 8 × EJE TENSOR (corte ${dims.ejes.tensor.corte})`, 8, dims.ejes.tensor.corte);
+  drawBar(232, `BARRA 2 — ídem: ${dims.ejes.tensor.cantidad} × EJE TENSOR (corte ${dims.ejes.tensor.corte}) — solo LBP (GT Rev.E: un solo eje)`, dims.ejes.tensor.cantidad, dims.ejes.tensor.corte);
   sh.text('Kerf de sierra considerado: 9 mm por corte (incluido en el largo de corte). Refrentar a largo final en torno.', 24, 224, 2.6, 'L');
 
   // tabla: acero + normalizados
@@ -240,12 +240,12 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
   const rows1 = [
     ['POS', 'DESCRIPCIÓN', 'CANT', 'OBSERVACIÓN'],
     ['A1', 'Barra CUADRADA 1.5 in (38.1) SAE 1045 calibrada × 6 m', '2 (+1 resp.)', 'ejes motriz y tensor — ver diagrama'],
-    ['A2', 'Chumacera de brida UCF206 (bore Ø30, 4 pernos)', '32', '4 por transportador (2 ejes × 2)'],
+    ['A2', 'Chumacera de brida UCF206 (bore Ø30, 4 pernos)', `${(dims.ejes.motriz.cantidad + dims.ejes.tensor.cantidad) * 2}`, '2 por eje — LBP 2 ejes · GT 1 eje (Rev.E)'],
     ['A3', 'Chaveta DIN 6885 A 8×7×90, acero C45', '8 (+4 resp.)', '1 por eje motriz — TAMBIÉN en bom_proyecto.csv'],
     ['A4', 'Arandela retención Ø40×6 + tornillo M10×25 8.8 (rosca M10×22)', '8', 'retención axial motorreductor — TAMBIÉN en bom_proyecto.csv'],
     ['A5', 'Motorreductor NMRV-P 075 FA 1/30, eje hueco Ø30 H8, 0.55 kW 80A-4', '8', 'VERIFICADO cat. Motovario: 46 rpm, 89 Nm, fs 2.8; v=22.2 m/min; brazo de torque 075'],
     ['A6', 'Rodillo retorno Ø63.5 — FABRICAR según LBP530-EJ-04', String(dims.ejes.retorno?.cantidad ?? '—'), `${dims.ejes.retorno?.porEquipo?.LBP ?? '—'}/LBP + ${dims.ejes.retorno?.porEquipo?.GT ?? '—'}/GT × 4 líneas; rodam. 6202-2RS ×2/u`],
-    ['A7', 'Perno M10×35 8.8 + tuerca + golillas (chumaceras a mecha PL8)', '128', '4 por chumacera; agujero brida UCF206 y mecha Ø12 → M10 holgura estándar'],
+    ['A7', 'Perno M10×35 8.8 + tuerca + golillas (chumaceras a mecha PL8)', `${(dims.ejes.motriz.cantidad + dims.ejes.tensor.cantidad) * 8}`, '4 por chumacera; agujero brida UCF206 y mecha Ø12 → M10 holgura estándar'],
     ['A8', 'Soporte tipo ZP2026 (B_005A) plegado 3 mm + nivelador; travesaños TR_S C 88×40', `${dims.ejes.soportes?.proyecto ?? '—'} sop.`, `${dims.ejes.soportes?.LBP ?? '—'}/LBP + ${dims.ejes.soportes?.GT ?? '—'}/GT × 4 líneas — misma matriz ZP2026`],
   ];
   const rows2 = [

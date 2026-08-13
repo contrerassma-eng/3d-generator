@@ -159,20 +159,16 @@ export const D = {
   // placa, mismo criterio que la motriz (el lazo se recalcula y las
   // compuertas de envoltura/catenaria juzgan)
   zTensor: -340, xTensorDesdePunta: 300,
-  // Rev.D: el GT lleva su tensor MÁS CERCA de la punta (145) + 2 retornos
-  // altos (205 y 620): los cruces del lazo por el plano del ala caen en
-  // [48..261] y [572..752] y dejan un tramo de ala ÍNTEGRO de ~311 para la
-  // estación central del soporte 24V (ala del bracket apernada BAJO el ala,
-  // 4 cruciformes completos). Con el tensor a 300 era geométricamente
-  // imposible: todo punto del vano central quedaba bajo una ventana del lazo.
-  xTensorGT: 120,
-  // retornos del GT [x, z de centro]: el 2º más bajo aplana la llegada a la
-  // motriz (envoltura ~140) y corre el cruce del ala hacia la punta
+  // Rev.E (orden Sergio 13-08): el GT es de UN SOLO EJE — sin tensor. El
+  // retorno sale de la motriz, viaja por 2 rodillos altos y ABRAZA el rodillo
+  // del nosebar de ENTRADA (P22862 CON RODAMIENTOS h19, flexión normal al
+  // mismo radio 9,5 de la nariz — para eso el artículo trae rodamientos).
+  // Sin excursión bajo el ala en el vano: el ala queda ÍNTEGRA de punta a
+  // muesca de la motriz y caben DOS estaciones de soporte (una sola no es
+  // estable — directriz Sergio).
+  // retornos del GT [x, z de centro]: el 1º recoge el retorno tras la motriz
+  // (envoltura ~140°) y el 2º aplana la subida hacia el rodillo del nosebar
   gtRets: [[510, -211.75], [160, -166.75]],
-  // tensor del GT más hondo que el del LBP: con z=-380 el sprocket queda
-  // BAJO el plano del ala (-293) y el cruce de subida se corre ~35 hacia la
-  // punta — junto con gtRets deja el tramo de ala de la estación central
-  zTensorGT: -380,
   retTop: -135, retCada: 500,              // retorno cada ~500; eje muerto en ALMA PLANA (fuera de la zona de plegado del ala)
   gtRetDia: 63.5,                          // rodillo retorno Ø63.5 (manual: D>50)
   // rodillo de retorno de EJE MUERTO (decisión usuario): tubo Ø63.5 con 2
@@ -297,15 +293,13 @@ function beltPath(L, tipo, zci) {
       seq.push({ c: [x, D.retTop - D.gtRetDia / 2], r: D.gtRetDia / 2, s: 1, rol: 'ret' });
     }
   } else {
-    // Rev.D: 2 retornos ALTOS pegados a tensor y motriz (205/620, paso 415 <
-    // ~500 del manual) — la banda viaja alta por el centro y los cruces del
-    // plano del ala quedan en las puntas, despejando el asiento del soporte
-    // 24V (ala del bracket apernada BAJO el ala, 4 cruciformes completos)
-    for (const [x, zc] of D.gtRets) {   // orden del recorrido: motriz→tensor
+    // Rev.E: GT de UN SOLO EJE — el retorno viaja alto por 2 rodillos y
+    // cierra el lazo abrazando el rodillo del nosebar de entrada (noseA).
+    for (const [x, zc] of D.gtRets) {   // orden del recorrido: motriz→nose
       seq.push({ c: [x, zc], r: D.gtRetDia / 2, s: 1, rol: 'ret' });
     }
   }
-  seq.push({ c: [tipo === 'LBP' ? D.xTensorDesdePunta : D.xTensorGT, tipo === 'LBP' ? D.zTensor : D.zTensorGT], r: D.rSprk, s: -1, rol: 'tensor' });
+  if (tipo === 'LBP') seq.push({ c: [D.xTensorDesdePunta, D.zTensor], r: D.rSprk, s: -1, rol: 'tensor' });
   return seq;
 }
 
@@ -654,8 +648,8 @@ function build(tipo, L) {
   const path = beltPath(L, tipo, zci);
   const { outer, inner, largo, wraps } = loopFaces(path, BELT.esp);
   const yIn = D.innerW / 2, yOut = D.outerW / 2;
-  const xDrv = L - D.xMotrizDesdePunta, xTen = esLBP ? D.xTensorDesdePunta : D.xTensorGT;
-  const zTen = esLBP ? D.zTensor : D.zTensorGT;   // el GT lleva su tensor más hondo (asiento del soporte 24V)
+  const xDrv = L - D.xMotrizDesdePunta;
+  const xTen = D.xTensorDesdePunta, zTen = D.zTensor;   // solo LBP (GT Rev.E: un solo eje)
   const ySprk = esLBP ? D.ySprkLBP : D.ySprkGT;
 
   // ---- Bastidor: 2 placas laterales PL6 con ala inferior ----
@@ -683,9 +677,8 @@ function build(tipo, L) {
       { rol: 'motriz', x0: xDrv - 45 - 160, x1: xDrv - 45 + 160, ejes: [{ x: xDrv, z: D.zMotriz }] },
       { rol: 'tensor', x0: xTen + 45 - 160, x1: xTen + 45 + 160, ejes: [{ x: xTen, z: zTen }] },
     ]
-    // GT: xDrv−xTen=380 < 2×320 → las dos mechas se solapaban 30 mm (panel).
-    // Una sola mecha COMBINADA por costado con los dos pasos y las dos grillas.
-    : [{ rol: 'combinada', x0: xTen - 115, x1: xDrv + 115, ejes: [{ x: xTen, z: zTen }, { x: xDrv, z: D.zMotriz }] }];
+    // GT Rev.E (un solo eje): mecha de motriz igual a la del LBP.
+    : [{ rol: 'motriz', x0: xDrv - 45 - 160, x1: xDrv - 45 + 160, ejes: [{ x: xDrv, z: D.zMotriz }] }];
   // Montaje faldón→mecha: donde las pestañas no tienen tramo libre (tensor y
   // GT: la mecha ocupa el plano del ala), la guarda se aperna POR EL FALDÓN a
   // la mecha con M6 ROSCADO en la PL8 (2 columnas × 2 filas por mecha, lejos
@@ -773,7 +766,9 @@ function build(tipo, L) {
     }
     return r2(mejor ?? p);       // sin tramo posible: la compuerta lo reporta
   };
-  const patasX = (esLBP ? [700, L / 2, L - 700] : [358]).map(snapPata);
+  // GT Rev.E: DOS estaciones (una sola no es estable — directriz Sergio 13-08);
+  // snapPata las asienta en el tramo de ala íntegro que deja el lazo sin tensor.
+  const patasX = (esLBP ? [700, L / 2, L - 700] : [150, 520]).map(snapPata);
   for (const g of guardas) {
     g.muescas = clip(g.xa, g.xb);
     for (const m of mechasSpec) {
@@ -1232,24 +1227,27 @@ function build(tipo, L) {
   ]);
 
   // ---- EJE TENSOR/DEFLEXIÓN (abajo, entrada) + 2 sprockets locos ----
-  addPart(`FAB · EJE TENSOR cuadrado ${D.sq} — L=${D.ejeTensorL} (muñones Ø30 ${D.jrnTol})`, C.eje,
-    [xTen, 0, zTen], ejeTensor(xTen, zTen));
-  const yLocos = esLBP ? [-152.4, 152.4] : [ySprk[1], ySprk[ySprk.length - 2]];
-  for (const y of yLocos) {
-    addPart('NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)', C.sprk, [xTen, y, zTen], sprocket(xTen, y, zTen));
-  }
-  // retención axial del EJE TENSOR: collarines flanqueando el sprocket de
-  // REFERENCIA (−Y) — un sprocket retenido por eje posiciona el eje; el resto
-  // sigue a la banda. Con esto collarines = 4/equipo y la compra (2 por eje ×
-  // 16 ejes = 32) queda consistente con el modelo — divergencia ×2 que el
-  // panel encontró entre BOM y compra_movex/EJ-03.
-  for (const sd of [-1, 1]) {
-    const yC = yLocos[0] + sd * (BELT.sprocket.ancho / 2 + 6);
-    addPart(`NORM · Collarín ${BELT.collar.split(' — ')[0]} (referencia eje tensor)`, C.chum,
-      [xTen, yC, zTen], collar(xTen, yC, zTen));
-  }
-  for (const s of [-1, 1]) {
-    addPart('NORM · Chumacera UCF206 Ø30', C.ucf, [xTen, s * (yOut + 8), zTen], chumaceraUCF(xTen, s * (yOut + 8), zTen));
+  // SOLO LBP — el GT Rev.E es de UN SOLO EJE: su retorno lo devuelve el
+  // rodillo del nosebar de entrada (P22862 c/rodamientos), sin eje tensor.
+  if (esLBP) {
+    addPart(`FAB · EJE TENSOR cuadrado ${D.sq} — L=${D.ejeTensorL} (muñones Ø30 ${D.jrnTol})`, C.eje,
+      [xTen, 0, zTen], ejeTensor(xTen, zTen));
+    const yLocos = [-152.4, 152.4];
+    for (const y of yLocos) {
+      addPart('NORM · Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)', C.sprk, [xTen, y, zTen], sprocket(xTen, y, zTen));
+    }
+    // retención axial del EJE TENSOR: collarines flanqueando el sprocket de
+    // REFERENCIA (−Y) — un sprocket retenido por eje posiciona el eje; el
+    // resto sigue a la banda. Collarines = 2 por eje (la compra se DERIVA
+    // del conteo de piezas — divergencia ×2 que el panel encontró).
+    for (const sd of [-1, 1]) {
+      const yC = yLocos[0] + sd * (BELT.sprocket.ancho / 2 + 6);
+      addPart(`NORM · Collarín ${BELT.collar.split(' — ')[0]} (referencia eje tensor)`, C.chum,
+        [xTen, yC, zTen], collar(xTen, yC, zTen));
+    }
+    for (const s of [-1, 1]) {
+      addPart('NORM · Chumacera UCF206 Ø30', C.ucf, [xTen, s * (yOut + 8), zTen], chumaceraUCF(xTen, s * (yOut + 8), zTen));
+    }
   }
 
   // ---- Guía LATERAL: conical rail ENROLLABLE L 1¼ in (P12501C, cotización)
@@ -1594,9 +1592,11 @@ function verify(res) {
       const seg = (eq.alaChk.alaSegs || []).find(([a, b]) => a <= bk.xa && b >= bk.xb);
       if (!seg) e.push(`${nm}: bracket en x=${bk.px} sin tramo de ala íntegro [${bk.xa}..${bk.xb}] (muesca del lazo encima — mover patasX)`);
     }
-    // retención axial: 2 collarines por eje (motriz + tensor) = 4 por equipo
+    // retención axial: 2 collarines por eje PRESENTE (LBP 2 ejes = 4;
+    // GT Rev.E 1 eje = 2) — la compra se deriva del conteo
+    const nEjesEq = eq.parts.filter(p => /FAB · EJE (MOTRIZ|TENSOR)/.test(p.name)).length;
     const nCol = eq.parts.filter(p => /Collarín/.test(p.name)).length;
-    if (nCol !== 4) e.push(`${nm}: ${nCol} collarines (deben ser 4 = 2 por eje; la compra asume 2×16 ejes)`);
+    if (nCol !== 2 * nEjesEq) e.push(`${nm}: ${nCol} collarines ≠ 2 por eje (${nEjesEq} ejes)`);
     // interferencia ala↔banda: la banda (±228,6) SOLAPA el ala (borde int. 211)
     // — todo cruce del lazo por la banda z del ala debe caer DENTRO de una
     // muesca (con 15 de margen). Hallazgo de Sergio 12-08 → compuerta.
@@ -1615,10 +1615,12 @@ function verify(res) {
       }
     }
   }
-  // corte de barras (8+8 ejes, kerf 9 mm)
-  const corteM = 8 * (D.ejeMotrizL + 9), corteT = 8 * (D.ejeTensorL + 9);
+  // corte de barras (kerf 9 mm) — motrices 8 (uno por transportador);
+  // tensores DERIVADOS de los equipos que llevan eje tensor (Rev.E: solo LBP)
+  const nTenProy = 4 * [res.LBP, res.GT].filter(eq => eq && eq.parts.some(p => /FAB · EJE TENSOR/.test(p.name))).length;
+  const corteM = 8 * (D.ejeMotrizL + 9), corteT = nTenProy * (D.ejeTensorL + 9);
   if (corteM > 6000) e.push(`8 ejes motrices no salen de una barra de 6 m (${corteM})`);
-  if (corteT > 6000) e.push(`8 ejes tensores no salen de una barra de 6 m (${corteT})`);
+  if (corteT > 6000) e.push(`${nTenProy} ejes tensores no salen de una barra de 6 m (${corteT})`);
   // envoltura de la motriz: manual Movex 140±10° (aceptamos 115–175 con aviso)
   for (const [tipo, r] of Object.entries(res)) {
     const i = r.path.findIndex(q => q.rol === 'motriz');
@@ -1681,7 +1683,7 @@ function verify(res) {
   console.log(`  esbeltez placa: vano máx ${vanoMax} / t${D.plT} = ${esb} (techo 250 con refuerzo, placa arriostrada por travesaños)`);
   if (esb > 250) e.push(`esbeltez de placa ${esb} > 250: acortar paso de travesaños o subir espesor`);
   if (e.length) throw new Error('Diseño inconsistente:\n  - ' + e.join('\n  - '));
-  return { corteM, corteT };
+  return { corteM, corteT, nTenProy };
 }
 
 // ---------------------------------------------------------------------------
@@ -1711,13 +1713,14 @@ const metaComun = {
     chumaceras: 'UCF206 (bore Ø30, brida 108, 4×Ø12) contra la cara exterior de la placa',
     motorreductor: 'eje hueco Ø30 H7 DIRECTO sobre el muñón motriz + brazo de torque; chaveta DIN 6885 A 8×7×90; retención arandela + tornillo M10',
   },
-  traccion: 'motriz ABAJO extremo descarga (wrap objetivo 140±10°, manual Movex); deflexión/tensor abajo extremo entrada; NOSEBAR en ambas puntas',
-  sprockets: `Z-32 MOLDEADO PD 153.4 OD 154.8 ancho 40, BORE CUADRADO 1.5 in c/grano M8 (P158808YF, cotización 26012937) — 530 LBP estándar 18 in: 5/eje en el grid VÁLIDO A·B·C·B·C·A (centrado: -152.4/-89.05/0/+63.35/+152.4; manual p.30 = brochure p.11; poner 6 es IMPOSIBLE: las demás posiciones caen bajo los carriles de rodillos ✗; 6 aplica solo a 530 PRO LBP) · GT: 6/eje (indent 38.1, paso 76.2); MOTRIZ: solo el central FIJO (grano M8 + collarines P21703Y), resto FLOTAN (+0.4/+0.3) · TENSOR: sprockets locos de grano suelto, con el de REFERENCIA (−Y) flanqueado por collarines (posiciona el eje, sin grano)`,
+  traccion: 'motriz ABAJO extremo descarga (wrap objetivo 140±10°, manual Movex); LBP: deflexión/tensor abajo extremo entrada · GT Rev.E: UN SOLO EJE — el retorno lo devuelve el RODILLO DEL NOSEBAR de entrada (P22862 c/rodamientos, flexión normal radio 9,5); NOSEBAR en ambas puntas',
+  sprockets: `Z-32 MOLDEADO PD 153.4 OD 154.8 ancho 40, BORE CUADRADO 1.5 in c/grano M8 (P158808YF, cotización 26012937) — 530 LBP estándar 18 in: 5/eje en el grid VÁLIDO A·B·C·B·C·A (centrado: -152.4/-89.05/0/+63.35/+152.4; manual p.30 = brochure p.11; poner 6 es IMPOSIBLE: las demás posiciones caen bajo los carriles de rodillos ✗; 6 aplica solo a 530 PRO LBP) · GT: 6/eje (indent 38.1, paso 76.2) y UN SOLO EJE (Rev.E — sin tensor ni locos); MOTRIZ: solo el central FIJO (grano M8 + collarines P21703Y), resto FLOTAN (+0.4/+0.3) · TENSOR (solo LBP): sprockets locos de grano suelto, con el de REFERENCIA (−Y) flanqueado por collarines (posiciona el eje, sin grano)`,
   retorno: 'RODILLOS Ø63.5 de eje muerto cada ~500 (decisión usuario; manual Movex sugiere zapata para LBP — desviación registrada): tubo con 2 rodamientos SELLADOS 6202-2RS insertos, eje Ø15 roscado M8 interior en ambas puntas, PERNO HEX M8 + golilla POR FUERA de la placa; catenaria 50–150 tras la motriz',
   estructura: 'soportes COPIA del ZP2026 por pata: bracket B_005A = ÁNGULO 203×(95+38)×3 (ala horizontal con 4 cruciformes apernada BAJO el ala del canal + placa vertical con pivote, arco R52 de aplome y 2 bloqueos a ±60°) + columna canal C 77×38×3 (por dentro de la placa) + tira BR_3002 84×38×3 con 10 ranuras 11×20 (telescópica, por fuera, alma al plano del alma) + pata B_004A 158×40×4 (ranuras de anclaje 11×22); travesaño B_002A 71×38×3 ENCAJADO dentro de las columnas (pestaña-en-ranura + soldadura); travesaños de bastidor TR_S C 88×88×3; guía de apoyo = pletina 12 de canto + BAR CAP UHMW P101203-30; guía lateral = conical rail L 1¼ in P12501C sobre escuadras',
-  friction_top: 'GT: goma 75 ShA sobre la banda; el retorno del GT es sobre rodillos (recomendación del manual); la goma no toca el nosebar (contacto por cara interior)',
+  friction_top: 'GT: goma 75 ShA sobre la banda; el retorno del GT es sobre rodillos (recomendación del manual) y cierra en el rodillo del nosebar de entrada (UN SOLO EJE, Rev.E); la goma no toca nariz ni rodillos (contacto por cara interior)',
   verificaciones: {
     wrapMotrizLBP: res.LBP.wrapMotriz, wrapMotrizGT: res.GT.wrapMotriz,
+    wrapNoseEntradaGT: res.GT.wraps?.[res.GT.path.findIndex(q => q.rol === 'noseA')],
     sagCatenariaLBP: res.LBP.sag,
     corteBarraMotrices: chk.corteM, corteBarraTensores: chk.corteT,
   },
@@ -1754,7 +1757,8 @@ const dims = {
     },
     tensor: {
       plano: 'LBP530-EJ-02', material: 'SAE 1045 cuadrado 38.1 (1.5 in) calibrado',
-      largoTotal: D.ejeTensorL, corte: D.ejeTensorL + 9, cantidad: 8,
+      largoTotal: D.ejeTensorL, corte: D.ejeTensorL + 9, cantidad: chk.nTenProy,
+      soloEn: 'LBP (el GT Rev.E es de un solo eje)',
       tramos: [
         { nombre: 'muñón', dia: D.jrnDia, tol: D.jrnTol, largo: D.jrnLibre },
         { nombre: 'cuadrado', lado: D.sq, largo: D.sqLen },
@@ -1763,16 +1767,18 @@ const dims = {
     },
     barras: {
       espec: 'Barra cuadrada 1.5 in (38.1) SAE 1045 calibrada × 6 m',
-      motriz: { porBarra: 8, usado: chk.corteM }, tensor: { porBarra: 8, usado: chk.corteT },
+      motriz: { porBarra: 8, usado: chk.corteM }, tensor: { porBarra: chk.nTenProy, usado: chk.corteT },
       comprar: 2, nota: 'considerar 1 barra extra de respaldo',
     },
     // Conteos de estructura DERIVADOS de las piezas reales (el literal
     // «16 sop.» de EJ-03 dejaba media flota sin patas — hallazgo del panel)
     soportes: {
-      LBP: res.LBP.parts.filter(p => /Soporte tipo/.test(p.name)).length,
-      GT: res.GT.parts.filter(p => /Soporte tipo/.test(p.name)).length,
-      proyecto: 4 * res.LBP.parts.filter(p => /Soporte tipo/.test(p.name)).length
-              + 4 * res.GT.parts.filter(p => /Soporte tipo/.test(p.name)).length,
+      // una PATA = una tira BR_3002 (el regex /Soporte tipo/ de Rev.C quedó
+      // obsoleto con los nombres Rev.D y contaba 0 — corregido)
+      LBP: res.LBP.parts.filter(p => /Tira telescópica BR_3002/.test(p.name)).length,
+      GT: res.GT.parts.filter(p => /Tira telescópica BR_3002/.test(p.name)).length,
+      proyecto: 4 * res.LBP.parts.filter(p => /Tira telescópica BR_3002/.test(p.name)).length
+              + 4 * res.GT.parts.filter(p => /Tira telescópica BR_3002/.test(p.name)).length,
     },
     // Rodillo de retorno de eje muerto — plano propio de la familia EJ para
     // que planos_fab NO le emita lámina duplicada. Cantidad DERIVADA de las

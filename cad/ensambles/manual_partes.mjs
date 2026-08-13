@@ -98,7 +98,7 @@ const FIGURAS = [
     torn: /mecha PL8|brida UCF206/,
     nota: 'Sólo el sprocket CENTRAL se fija (grano M8 + collarines); el resto FLOTA (juego axial +0,4/+0,3). El sprocket se ilustra con sus 32 DIENTES reales (PD 153,4). Mecha APERNADA al alma 6×M10 (Rev.C — sin soldadura). Eje: plano LBP530-EJ-01.',
   },
-  {
+  ...(esLBP ? [{
     id: 'D', nombre: 'TENSOR — EJE LOCO',
     sel: /EJE TENSOR|Sprocket Z32 loco|Mecha porta-chumacera|Chumacera/,
     cerca: /EJE TENSOR/, radio: 620,
@@ -112,7 +112,7 @@ const FIGURAS = [
     dir: [1, 0.55, -0.42],
     torn: /mecha PL8|brida UCF206/,
     nota: 'El eje tensor es FIJO (chumaceras apernadas a la mecha): la banda modular NO se tensa — el largo lo absorbe la catenaria tras la motriz (flecha ~130 mm, rango Movex 50-150). Para acortar banda por desgaste: retirar pasador y quitar eslabones. Sprockets locos; el de referencia va flanqueado por collarines. Mecha apernada 6×M10 (Rev.C). Eje: plano LBP530-EJ-02.',
-  },
+  }] : []),
   {
     id: 'E', nombre: 'NOSEBAR Y TRANSFERENCIA',
     sel: /Cabezal porta-nosebar|Nosebar/,
@@ -121,7 +121,7 @@ const FIGURAS = [
     torn: /nosebar → cabezal/,
     nota: esLBP
       ? 'Nosebar P22868 montado por cara IDLER (rodillos libres = acumulación). 3 segmentos K6 in por punta; tuercas M8 por cara interior del cabezal.'
-      : 'Transfer plate P22862 c/rodamientos (h19): transferencia de punta estándar — el concepto IDLER/acumulación aplica SOLO al nosebar LBP (catálogo imperial p.227). 3 segmentos K6 in por punta; tuercas M8 por cara interior del cabezal.',
+      : 'Transfer plate P22862 c/rodamientos (h19): transferencia de punta estándar — el concepto IDLER/acumulación aplica SOLO al nosebar LBP (catálogo imperial p.227). 3 segmentos K6 in por punta; tuercas M8 por cara interior del cabezal. Rev.E: el rodillo del nosebar de ENTRADA además DEVUELVE la banda (el GT es de un solo eje) — verificar giro libre antes de tender la banda.',
   },
   {
     id: 'F', nombre: 'GUARDAS INFERIORES',
@@ -445,7 +445,7 @@ for (const F of FIGURAS) {
       'golillas POR FUERA (25 Nm). Girar cada rodillo a mano: debe girar libre, sin roce.',
       'Recambio de rodamientos 6202-2RS: ver Figura B1 (seeger DIN 472-35 + chaflán de guía).',
     ]],
-    ['4 · EJES Y SPROCKETS (Fig. C y D)', [
+    [esLBP ? '4 · EJES Y SPROCKETS (Fig. C y D)' : '4 · EJE Y SPROCKETS (Fig. C)', [
       'Enfilar sprockets en el eje ANTES de montar chumaceras: el CENTRAL fijo con grano M8',
       '(12 Nm + Loctite) flanqueado por 2 collarines; los demás flotan (los carriles de la banda',
       'los posicionan). Montar UCF206 en mechas (M10×35, 49 Nm) y fijar prisioneros al eje.',
@@ -457,8 +457,13 @@ for (const F of FIGURAS) {
     ]],
     ['6 · BANDA', [
       'Tender la banda por el carryway y el retorno, unir con el pasador del fabricante.',
-      'Flecha de catenaria tras la motriz: ~130 mm (rango Movex 50–150). NO tensar la banda:',
-      'la LBP trabaja con catenaria libre — el tensor sólo posiciona.',
+      ...(esLBP ? [
+        'Flecha de catenaria tras la motriz: ~130 mm (rango Movex 50–150). NO tensar la banda:',
+        'la LBP trabaja con catenaria libre — el tensor sólo posiciona.',
+      ] : [
+        'El GT es de UN SOLO EJE (Rev.E): el retorno viaja por los 2 rodillos altos y abraza el',
+        'rodillo del nosebar de entrada. NO tensar: el largo del lazo lo fija la geometría.',
+      ]),
     ]],
     ['7 · NOSEBAR (Fig. E)', [
       esLBP ? 'Montar nosebar por cara IDLER (acumulación) con M8×30 y tuerca interior (25 Nm).'
