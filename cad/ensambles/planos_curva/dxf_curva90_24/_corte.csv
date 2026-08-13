@@ -1,0 +1,7 @@
+plano,pieza,cant,material,espesor_mm,desarrollo_x_mm,desarrollo_y_mm,barrenos,pliegues,k_factor,radio_mm,tolerancia
+CUD-01,"FAB · Cuerpo lateral externo C90°",1,"Fe e=3 mm — rolado R1397",3,2196.8,190.5,83,0,0.5,0,ISO 2768-mK
+CUD-02,"FAB · Cuerpo lateral interno C90°",1,"Fe e=3 mm — rolado R861",3,1354.8,190.5,87,0,0.5,0,ISO 2768-mK
+CUD-03,"FAB · Guía externa superior C90°",1,"Fe e=3 mm — rolado R1397",3,2196.8,32.0,0,0,0.5,0,ISO 2768-mK
+CUD-04,"FAB · Guía interna superior C90°",1,"Fe e=3 mm — rolado R864",3,1354.8,32.0,0,0,0.5,0,ISO 2768-mK
+CUD-05,"FAB · Refuerzo externo superior C90°",2,"Fe e=3 mm — corte plano de corona",3,447.3,2029.5,12,0,0.5,0,ISO 2768-mK
+CUD-06,"FAB · Refuerzo interno superior C90°",2,"Fe e=3 mm — corte plano de corona",3,280.0,1221.9,12,0,0.5,0,ISO 2768-mK

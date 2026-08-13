@@ -1,0 +1,113 @@
+{
+ "curva": "60° 24\"",
+ "fecha": "2026-08-13",
+ "fabricadas": [
+  {
+   "plano": "CU-01",
+   "pieza": "Cuerpo lateral externo C60°",
+   "cantidad": 1,
+   "material": "Fe e=3 mm",
+   "barrenos": 55
+  },
+  {
+   "plano": "CU-02",
+   "pieza": "Refuerzo externo superior C60°",
+   "cantidad": 2,
+   "material": "Fe e=3 mm",
+   "barrenos": 8
+  },
+  {
+   "plano": "CU-03",
+   "pieza": "Refuerzo externo inferior C60°",
+   "cantidad": 2,
+   "material": "Fe e=3 mm",
+   "barrenos": 8
+  },
+  {
+   "plano": "CU-04",
+   "pieza": "Cuerpo lateral interno C60°",
+   "cantidad": 1,
+   "material": "Fe e=3 mm",
+   "barrenos": 59
+  },
+  {
+   "plano": "CU-05",
+   "pieza": "Refuerzo interno superior C60°",
+   "cantidad": 2,
+   "material": "Fe e=3 mm",
+   "barrenos": 8
+  },
+  {
+   "plano": "CU-06",
+   "pieza": "Refuerzo interno inferior C60°",
+   "cantidad": 2,
+   "material": "Fe e=3 mm",
+   "barrenos": 8
+  },
+  {
+   "plano": "CU-07",
+   "pieza": "Guía externa superior C60°",
+   "cantidad": 1,
+   "material": "Fe e=3 mm",
+   "barrenos": 0
+  },
+  {
+   "plano": "CU-08",
+   "pieza": "Guía interna superior C60°",
+   "cantidad": 1,
+   "material": "Fe e=3 mm",
+   "barrenos": 0
+  }
+ ],
+ "componentes": [
+  {
+   "item": "Polín cónico 21\"",
+   "cantidad": 14
+  },
+  {
+   "item": "Travesaño 21\"",
+   "cantidad": 3
+  },
+  {
+   "item": "Tirante interno",
+   "cantidad": 3
+  },
+  {
+   "item": "Soporte de motor",
+   "cantidad": 2
+  },
+  {
+   "item": "Soporte frontal",
+   "cantidad": 6
+  }
+ ],
+ "dims": {
+  "angulo": 60,
+  "polines": 14,
+  "pasoAngular": 4.29,
+  "travesanos": 3,
+  "patronesTravesano": 4,
+  "posicionesSoporte": 3,
+  "desarrollo": {
+   "externo": 1464.51,
+   "interno": 903.21
+  },
+  "radios": {
+   "int": 861,
+   "ext": 1397,
+   "alaInt": 825.9,
+   "alaExt": 1435.1,
+   "centro": 1130.5
+  },
+  "envolvente": 609.2,
+  "claroPolines": 533,
+  "cuerda": {
+   "externo": 1435.1,
+   "interno": 825.9
+  },
+  "envolventePlanta": [
+   1242.83,
+   1435.1
+  ]
+ }
+}

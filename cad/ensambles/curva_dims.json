@@ -1,0 +1,60 @@
+{
+ "C60": {
+  "angulo": 60,
+  "polines": 14,
+  "pasoAngular": 4.29,
+  "travesanos": 3,
+  "patronesTravesano": 4,
+  "posicionesSoporte": 3,
+  "desarrollo": {
+   "externo": 1464.51,
+   "interno": 903.21
+  },
+  "radios": {
+   "int": 861,
+   "ext": 1397,
+   "alaInt": 825.9,
+   "alaExt": 1435.1,
+   "centro": 1130.5
+  },
+  "envolvente": 609.2,
+  "claroPolines": 533,
+  "cuerda": {
+   "externo": 1435.1,
+   "interno": 825.9
+  },
+  "envolventePlanta": [
+   1242.83,
+   1435.1
+  ]
+ },
+ "C90": {
+  "angulo": 90,
+  "polines": 21,
+  "pasoAngular": 4.29,
+  "travesanos": 5,
+  "patronesTravesano": 6,
+  "posicionesSoporte": 4,
+  "desarrollo": {
+   "externo": 2196.76,
+   "interno": 1354.81
+  },
+  "radios": {
+   "int": 861,
+   "ext": 1397,
+   "alaInt": 825.9,
+   "alaExt": 1435.1,
+   "centro": 1130.5
+  },
+  "envolvente": 609.2,
+  "claroPolines": 533,
+  "cuerda": {
+   "externo": 2029.54,
+   "interno": 1168
+  },
+  "envolventePlanta": [
+   1435.1,
+   1435.1
+  ]
+ }
+}
