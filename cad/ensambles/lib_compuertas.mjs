@@ -36,6 +36,8 @@ export const REGISTRO = [
     origen: 'panel 12-08 (G1/G2): 16 vs 32 collarines y «16 sop.» literales dejaron media flota sin patas' },
   { id: 'rotulo-coherente', regla: 'una cifra citada en un rótulo debe existir en la pieza que rotula',
     origen: '13-08: el GA seguía diciendo «columna telescópica 71×38» después de que la pieza pasó a canal C 77×38' },
+  { id: 'flat-vs-solido', regla: 'el desarrollo y el sólido 3D deben tener los MISMOS barrenos; una subpieza soldada con barrenos necesita su propio plano o su fila de corte',
+    origen: 'panel adversarial 13-08: «el flat y el sólido se escriben desde variables distintas y nunca se comparan» + la lección de la mecha («toda pieza física es pieza propia con plano»)' },
   { id: 'masa-exacta', regla: 'masa y superficie salen del área REAL del desarrollo, nunca del bbox',
     origen: '13-08: la maestranza cotiza por kg y la pintura por m²; el bbox sobrestimaba ~20%' },
   { id: 'corte-de-barras', regla: 'el despiece de barras cabe en el largo comercial, con kerf incluido',
@@ -206,6 +208,116 @@ export function piezaSinFijacion(parts, { soldadas = [/soldad/i], uniones = [] }
 }
 
 /**
+ * FLAT ↔ SÓLIDO. El desarrollo y el sólido 3D se escriben desde variables
+ * DISTINTAS del generador: un plano puede mentir respecto del modelo y nada
+ * lo detecta (hallazgo del panel adversarial 13-08). Compara el multiconjunto
+ * de diámetros: lo que está en el 3D debe estar en el desarrollo.
+ *
+ * Separa el caso legítimo: barrenos que pertenecen a una SUBPIEZA SOLDADA
+ * (clip, oreja, cartela) que vive como feature dentro de la pieza madre. Esos
+ * no van en el desarrollo de la madre — pero entonces la subpieza necesita su
+ * PROPIO plano o su fila de corte, o el taller no sabe que existe (lección de
+ * la mecha: «toda pieza física es pieza propia con plano»).
+ */
+export function flatVsSolido(parts, { subpiezas = [/clip/i, /oreja/i, /cartela/i] } = {}) {
+  const errs = [], huerfanas = [];
+  const key = (v) => Number(v).toFixed(1);
+  for (const p of parts) {
+    if (!p.flat?.contorno) continue;
+    const esSub = (n) => subpiezas.some(re => re.test(n || ''));
+    // Un barreno pertenece a la subpieza por GEOMETRÍA, no por nombre: el
+    // «Paso M6 clip» de la placa es un barreno DE LA PLACA (el perno la
+    // atraviesa para entrar al clip). Sólo cuenta como de la subpieza si su
+    // centro cae DENTRO del cuerpo de la subpieza. (El nombre engañaba: era
+    // un falso positivo de la primera versión de esta compuerta.)
+    const cajasSub = (p.features || []).filter(f => f.shape === 'box' && esSub(f.name))
+      .map(f => ({ n: f.name,
+        x0: f.at[0] - f.params.w / 2, x1: f.at[0] + f.params.w / 2,
+        y0: f.at[1] - f.params.d / 2, y1: f.at[1] + f.params.d / 2,
+        z0: f.at[2], z1: f.at[2] + f.params.h }));
+    const dentroDeSub = (at, tol = 0.6) => cajasSub.some(b =>
+      at[0] > b.x0 - tol && at[0] < b.x1 + tol &&
+      at[1] > b.y0 - tol && at[1] < b.y1 + tol &&
+      at[2] > b.z0 - tol && at[2] < b.z1 + tol);
+    const h3d = {}, hSub = {}, hFlat = {};
+    for (const f of p.features || []) {
+      if (f.shape !== 'hole') continue;
+      const d = key(f.params?.dia);
+      if (cajasSub.length && dentroDeSub(f.at)) hSub[d] = (hSub[d] || 0) + 1;
+      else h3d[d] = (h3d[d] || 0) + 1;
+    }
+    for (const c of p.flat.cortes?.circles || []) {
+      const d = key(2 * c.r); hFlat[d] = (hFlat[d] || 0) + 1;
+    }
+    for (const d of new Set([...Object.keys(h3d), ...Object.keys(hFlat)])) {
+      const a = h3d[d] || 0, b = hFlat[d] || 0;
+      if (a !== b) errs.push(`«${p.name}»: Ø${d} — el SÓLIDO tiene ${a} y el DESARROLLO ${b}. El plano miente respecto del modelo`);
+    }
+    // subpiezas soldadas con barrenos: ¿tienen plano propio?
+    const cuerpos = (p.features || []).filter(f => f.shape === 'box' && esSub(f.name));
+    if (cuerpos.length && Object.keys(hSub).length) {
+      // ¿existe la subpieza como PIEZA propia? Se busca por su nombre real
+      // (sin el paréntesis), no por el patrón: el nombre de la madre puede
+      // mencionar «clips» y dar un falso «sí tiene plano».
+      const nomSub = cuerpos[0].name.split('(')[0].trim();
+      const propia = parts.some(q => q !== p && q.name.includes(nomSub) && q.flat);
+      if (!propia) huerfanas.push({ madre: p.name, subpieza: cuerpos[0].name, n: cuerpos.length,
+        barrenos: Object.entries(hSub).map(([d, n]) => `${n}×Ø${d}`).join(' ') });
+    }
+  }
+  return { errs, huerfanas };
+}
+
+/**
+ * Lista de corte de las PIEZAS MENORES SOLDADAS que viven como feature dentro
+ * de otra pieza (clips, orejas, cartelas). Sin esto el taller no sabe que
+ * existen: el desarrollo de la madre no las contiene y no tienen plano propio.
+ * Devuelve lo DERIVABLE del modelo (cantidad, cuerpo, barrenos); la
+ * designación del perfil sale de la especificación de soldadura del equipo.
+ */
+export function subpiezasSoldadas(parts, { subpiezas = [/clip/i, /oreja/i, /cartela/i] } = {}) {
+  const esSub = (n) => subpiezas.some(re => re.test(n || ''));
+  const acc = new Map();
+  for (const p of parts) {
+    const cajas = (p.features || []).filter(f => f.shape === 'box' && esSub(f.name));
+    if (!cajas.length) continue;
+    for (const b of cajas) {
+      // Una pieza física puede modelarse con VARIAS cajas (un clip en L son
+      // dos: ala vertical + ala horizontal). Se agrupan por el nombre sin el
+      // sufijo de ala y por la pieza madre, y la cantidad es el número de
+      // POSICIONES, no de cajas — si no, cada clip se cuenta dos veces.
+      const nom = b.name.split('(')[0].replace(/\s*ala (vertical|horizontal)\s*/i, ' ').replace(/\s+/g, ' ').trim();
+      const dims = [b.params.w, b.params.d, b.params.h].map(v => Math.round(v * 10) / 10);
+      const k = nom + '|' + p.name;
+      const cur = acc.get(k) || { nombre: nom, madre: p.name, dims, n: 0, alas: new Set(), barrenos: {} };
+      cur.alas.add((b.name.match(/ala (vertical|horizontal)/i) || [, 'única'])[1]);
+      cur.n++;
+      cur.dims = cur.dims.map((v, i) => Math.max(v, dims[i]));
+      const dentro = (at, tol = 0.6) =>
+        at[0] > b.at[0] - b.params.w / 2 - tol && at[0] < b.at[0] + b.params.w / 2 + tol &&
+        at[1] > b.at[1] - b.params.d / 2 - tol && at[1] < b.at[1] + b.params.d / 2 + tol &&
+        at[2] > b.at[2] - tol && at[2] < b.at[2] + b.params.h + tol;
+      for (const f of p.features || []) {
+        if (f.shape !== 'hole' || !dentro(f.at)) continue;
+        const d = 'Ø' + Number(f.params.dia).toFixed(1);
+        cur.barrenos[d] = (cur.barrenos[d] || 0) + 1;
+      }
+      acc.set(k, cur);
+    }
+  }
+  // los barrenos se contaron por unidad acumulada: normalizar a por-unidad
+  return [...acc.values()].map(x => {
+    const piezas = Math.max(1, Math.round(x.n / x.alas.size));   // cajas ÷ alas = piezas físicas
+    return {
+      nombre: x.nombre, madre: x.madre, dims: x.dims, n: piezas,
+      modelada_con: x.alas.size > 1 ? [...x.alas].join('+') : 'una caja',
+      barrenos_por_unidad: Object.fromEntries(
+        Object.entries(x.barrenos).map(([d, n]) => [d, Math.max(1, Math.round(n / piezas))])),
+    };
+  });
+}
+
+/**
  * ZONA PROHIBIDA (keep-out). Generaliza el defecto que Sergio encontró en el
  * nosebar: un elemento MÓVIL (lazo de banda, cadena, cable, brazo) no puede
  * invadir el volumen de una pieza FIJA.
@@ -332,7 +444,7 @@ export function zonasParaMirar(trayectoria, zonas, { cerca = 40 } = {}) {
 export function compuertasUniversales(equipos, opts = {}) {
   const errs = [];
   const info = {};
-  const ejecutadas = ['margen-agujero-borde', 'agujero-en-pliegue', 'pieza-sin-fijacion', 'masa-exacta'];
+  const ejecutadas = ['margen-agujero-borde', 'agujero-en-pliegue', 'pieza-sin-fijacion', 'masa-exacta', 'flat-vs-solido'];
   for (const [nm, eq] of Object.entries(equipos)) {
     if (!eq?.parts) continue;
     const m = margenAgujeroBorde(eq.parts, { exentos: opts.exentos || opts.exentosMargen || [], ...opts });
@@ -340,6 +452,9 @@ export function compuertasUniversales(equipos, opts = {}) {
     info[nm] = { peorMargen: m.peor };
     errs.push(...agujeroEnPliegue(eq.parts).map(e => `${nm}: ${e}`));
     errs.push(...piezaSinFijacion(eq.parts, opts).map(e => `${nm}: ${e}`));
+    const fvs = flatVsSolido(eq.parts, opts);
+    errs.push(...fvs.errs.map(e => `${nm}: ${e}`));
+    if (fvs.huerfanas.length) info[nm] = { ...(info[nm] || {}), subpiezas_sin_plano: fvs.huerfanas };
     const masa = eq.parts.reduce((a, p) => a + masaFlat(p.flat), 0);
     info[nm].masa_chapa_kg = Math.round(masa * 10) / 10;
     // COBERTURA: un sello sin cobertura declara «verificado» sobre nada.

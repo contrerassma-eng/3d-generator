@@ -26,7 +26,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { masaFlat, superficiesFlat, exigirSello } from './lib_compuertas.mjs';
+import { masaFlat, superficiesFlat, exigirSello, subpiezasSoldadas } from './lib_compuertas.mjs';
 
 const docPath = process.env.DOC;
 if (!docPath) throw new Error('falta DOC=<ensamble.json>');
@@ -179,6 +179,7 @@ const herrajes = [
   { n: 'Perno hex M10×35 8.8 + tuerca + golilla plana y presión', cant: nM12, uso: 'brida UCF206 → mecha, pasante con tuerca (4 por chumacera; agujero brida y mecha Ø12 → perno M10 holgura estándar)' },
 ].filter(h => h.cant > 0);
 
+
 // ── compras derivadas que NO son piezas del ensamble (ferretería de montaje
 // y componentes insertos) — el panel encontró que se PERDIERON al pasar del
 // CSV predecesor a esta cadena: chaveta, retención axial y rodamientos
@@ -209,6 +210,7 @@ const guias = [...grupos.values()].filter(g => /Guía de apoyo/.test(g.part.name
 const pletinaL = guias.length
   ? Math.round(guias[0].part.features.find(f => /Pletina/.test(f.name))?.params.w || 0) : 0;
 const nPletinas = guias.reduce((a, g) => a + g.cant, 0);
+
 
 for (const { part: p, cant } of [...fabricadas, ...compradas]) {
   const fab = p.name.startsWith('FAB');
@@ -262,7 +264,10 @@ for (const { part: p, cant } of [...fabricadas, ...compradas]) {
       masa_kg: r1(12 * 30 * pletinaL * 7.85e-6),
     });
   }
+
 }
+
+
 for (const d of derivadas) {
   filas.push({
     item: ++item, repuesto: /Rodamiento/.test(d.n), tipo: 'COMPRADA', item_desc: d.n,
@@ -278,6 +283,35 @@ for (const h of herrajes) {
   });
 }
 
+// Se numeran AL FINAL a propósito: insertarlas antes correría los ítems de
+// compras y tornillería, y un ítem ya entregado no puede cambiar de
+// significado entre revisiones (regla «nada se sobrescribe»).
+// ── PIEZAS MENORES SOLDADAS (clips, orejas): viven como feature dentro de otra
+// pieza, no aparecen en su desarrollo y no tenían plano propio — el taller no
+// sabía que existían (compuerta flat-vs-solido, 13-08). Se listan como filas
+// propias con su cuerpo y sus barrenos; la designación del perfil sale de la
+// especificación de soldadura del equipo.
+{
+  const sold = (dims.soldadura?.uniones || []).join(' · ');
+  for (const sp of subpiezasSoldadas(doc.parts)) {
+    // el perfil se busca en la LÍNEA de soldadura que nombra el destino real
+    // (cabezal / portacarril / travesaño), no en la primera que calce: un
+    // regex flojo le puso al clip del cabezal el perfil del portacarril
+    const destino = (sp.madre.match(/Portacarril|Cabezal|Travesaño|Placa lateral/i) || [''])[0].toLowerCase();
+    const linea = (dims.soldadura?.uniones || []).find(u => destino && u.toLowerCase().includes(destino)) || '';
+    const m = linea.match(/(\d+×\d+×\d+)/);
+    const bar = Object.entries(sp.barrenos_por_unidad).map(([d, n]) => n + '×' + d).join(' ') || 'sin barrenos';
+    filas.push({
+      item: ++item, tipo: 'FABRICADA',
+      item_desc: sp.nombre + ' — pieza menor SOLDADA (' + sp.dims.join('×') + ') · ' + bar,
+      cant_equipo: sp.n, cant_proyecto: sp.n * LINEAS,
+      origen: 'maestranza / taller', referencia: '',
+      plano_corte: '', plano_vistas: 'ficha de soldadura (GA)',
+      material: m ? 'Perfil ' + m[1] + ' — corte a largo + barrenos' : 'perfil según ficha de soldadura del GA — corte a largo + barrenos',
+      desarrollo: sp.dims.join('×'), masa_kg: '', area_m2_pintar: '', bbox_m2_plancha: '',
+    });
+  }
+}
 // ── salida por equipo ────────────────────────────────────────────────────────
 const COLS = ['item', 'tipo', 'item_desc', 'cant_equipo', 'cant_proyecto', 'origen',
   'referencia', 'plano_corte', 'plano_vistas', 'material', 'desarrollo', 'masa_kg',
