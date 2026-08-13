@@ -469,7 +469,10 @@ export function curva(A) {
       // extremo en Y del conjunto (el cuerpo del motor), no en la cara del
       // soporte, y por eso quedaba separada. Se corre 1" hacia adentro, que es
       // lo que él midió sobre el recto.
-      R: r2(STD.Rext - IN), ang: r2(ang), z: r2(-36 - 88 - 69.2), giro: Math.PI,
+      // Sergio: el eje del motor mira al lado INTERNO. Con `giro: PI` quedaba
+      // apuntando al revés; el eje del conjunto es su +Y local, que
+      // `instancia()` ya manda hacia el centro de la curva sin giro extra.
+      R: r2(STD.Rext - IN), ang: r2(ang), z: r2(-36 - 88 - 69.2), giro: 0,
     })),
     // ESTACIÓN de patas completa (2 columnas + soporte pivote + niveladores),
     // no una columna suelta: la corrección que trajo el trabajo del LBP. Va
