@@ -36,6 +36,56 @@
     150,
     382.29
    ]
+  },
+  "compuertas": {
+   "lib": "1.0.0",
+   "reglas_ejecutadas": [
+    "margen-agujero-borde",
+    "agujero-en-pliegue",
+    "pieza-sin-fijacion",
+    "masa-exacta"
+   ],
+   "reglas_disponibles_sin_cablear": [
+    "zona-prohibida",
+    "rango-fisico",
+    "cantidad-derivada",
+    "rotulo-coherente",
+    "corte-de-barras"
+   ],
+   "hallazgos": 54,
+   "info": {
+    "LBP": {
+     "peorMargen": {
+      "rel": 0.6181818181818182,
+      "margen": 6.8,
+      "pieza": "FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",
+      "req": 11,
+      "exento": true
+     },
+     "masa_chapa_kg": 250.3
+    },
+    "GT": {
+     "peorMargen": {
+      "rel": 0.6181818181818182,
+      "margen": 6.8,
+      "pieza": "FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",
+      "req": 11,
+      "exento": true
+     },
+     "masa_chapa_kg": 71.5
+    }
+   },
+   "exenciones": [
+    "/Cabezal porta-nosebar/",
+    "/Bracket soporte B_005A/",
+    "/Columna soporte 24V/"
+   ],
+   "deuda": [
+    "ALA de 38 no admite el M6 de guarda fuera de la zona de plegado Y con margen al borde de la pestaña a la vez (ventana v 15,5..16,5 contra pestaña 9,5): decisión de Sergio — ensanchar ala a ~46, o pasar la fijación de guarda al faldón",
+    "M8 del bracket a piso: la ventana de la regla es VACÍA con ala 38 (borde ≥16,5 y plegado ≤15,5). Misma decisión: ensanchar ala o cambiar la fijación del bracket"
+   ],
+   "compuertas_especificas": 0,
+   "nota": "sello de lib_compuertas.mjs — sin él, los artefactos se niegan a generarse (CELULA_DISENO regla 11)"
   }
  },
  "parts": [
