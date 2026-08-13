@@ -419,78 +419,40 @@ export function curva(A) {
     });
   }
 
-  // ---- accesorios compartidos con el resto de la línea 24V ----------------
-  // Son los MISMOS componentes de la curva de 60°: no se rediseñan, sólo
-  // cambia cuántos van. Su geometría fina es POR CONFIRMAR (no vinieron sus
-  // láminas en el juego de fabricación), pero su POSICIÓN sale de los patrones
-  // medidos, así que el emplazamiento es fiel.
-  const zTrav = -STD.filaTravesano[1];          // fila inferior del patrón de 4
-  const zSop = -STD.filaSoporte[1];
-  const rMid = (STD.RintAlmaExt + STD.Rext) / 2;
-  const zPiso = -STD.alma - 700;                // cara superior de la placa de piso
+  // Los ACCESORIOS ya no se modelan aquí. Son los mismos del transportador
+  // recto ZP2026 y se instancian desde el STEP del fabricante: ver `montaje`
+  // más abajo, `zp_componentes.mjs` (extrae) y `curva_ensamble.py` (arma).
+  // Modelarlos "parecidos" era exactamente lo que hacía que la curva no
+  // estuviera al nivel del recto.
 
-  // travesaño de 21": cruza de alma a alma en cada patrón usado
-  tra.patrones.slice(0, tra.usados).forEach((x, i) => {
-    parts.push({
-      pos: [0, 0, 0], quat: [0, 0, 0, 1],
-      id: `travesano_${i + 1}`, layer: 'user', color: C.trav,
-      name: 'NORM · Travesaño 21" (geometría POR CONFIRMAR)',
-      features: [cajaRadial('Perfil', rMid, a0 + x, STD.claroPolines, 60, zTrav, 40)],
-    });
-  });
-
-  // tirante interno: pletina sobre el lateral interno, fila Ø7
-  tra.patrones.slice(0, tra.usados).forEach((x, i) => {
-    parts.push({
-      pos: [0, 0, 0], quat: [0, 0, 0, 1],
-      id: `tirante_${i + 1}`, layer: 'user', color: C.sop,
-      name: 'NORM · Tirante interno 533 (geometría POR CONFIRMAR)',
-      features: [cajaRadial('Pletina', STD.RintAlmaExt + 15, a0 + x, 30, 30,
-        -STD.filaTirante - 12, 24)],
-    });
-  });
-
-  // soporte frontal + pata a piso en cada posición de soporte, en ambos rieles
-  const fracSop = [0, ...sopFrac, 1];
-  fracSop.forEach((fr, i) => {
-    const ang = a0 + fr * A;
-    for (const [R, quien] of [[STD.RalaInt + 30, 'int'], [STD.RalaExt - 30, 'ext']]) {
-      const a = ang * D2R;
-      parts.push({
-        pos: [0, 0, 0], quat: [0, 0, 0, 1],
-        id: `soporte_${i + 1}_${quien}`, layer: 'user', color: C.sop,
-        name: 'NORM · Soporte frontal 174×30 + pata a piso (POR CONFIRMAR)',
-        features: [
-          cajaRadial('Ménsula', R, ang, 60, 174, zSop - 15, 30),
-          cajaRadial('Pata', R, ang, 60, 60, zPiso, 700 - STD.filaSoporte[1] + STD.alma),
-          cajaRadial('Placa de piso', R, ang, 120, 120, zPiso - 12, 12),
-        ],
-      });
-    }
-  });
-
-  // soporte de motor + motorreductor 24V — UNO POR ZONA.
-  // El C60 lleva 2 soportes de motor y 14 polines: 7 polines por motor, y la
-  // zona mide 30° de arco = 592 mm sobre el eje del bastidor ≈ 24", que es el
-  // largo de zona del sistema E24 (HW.zonaMM del simulador). La misma regla a
-  // 90° da 21/7 = 3 zonas → 3 motores. Ver curva_web_facts.json (Hytrol E24:
-  // "one in each zone of conveyor"; motor "located on inside of conveyor frame").
-  const nZonas = Math.max(1, Math.round(N / 7));
-  for (let i = 0; i < nZonas; i++) {
-    const ang = a0 + ((i + 0.5) / nZonas) * A, a = ang * D2R;
-    const R = STD.RintAlmaExt - 60;              // por DENTRO del bastidor (catálogo)
-    parts.push({
-      pos: [0, 0, 0], quat: [0, 0, 0, 1],
-      id: `motor_${i + 1}`, layer: 'user', color: C.motor,
-      name: 'NORM · Motor 24 VDC panqueque + soporte (POR CONFIRMAR)',
-      features: [
-        cajaRadial('Ménsula de motor', STD.RalaInt + 40, ang, 90, 120, -STD.alma + 20, 90),
-        { id: fid(), name: 'Motor panqueque', shape: 'cylinder', op: 'union',
-          at: [r2(R * Math.cos(a)), r2(R * Math.sin(a)), r2(-STD.alma + 65)],
-          dir: [Math.cos(a), Math.sin(a), 0], params: { dia: 120, h: 55 } },
-      ],
-    });
-  }
+  // ---- MONTAJE: dónde va cada componente REAL del recto 24V ----------------
+  // El bastidor de la curva es propio (sale de los planos Kofmelk), pero los
+  // accesorios son los MISMOS del transportador recto ZP2026: mismo travesaño
+  // TR_S, mismo motor UniDrive, mismo soporte de motor BR_3002, misma estación
+  // de patas. Aquí sólo se dice DÓNDE va cada uno; la geometría se instancia
+  // desde `zp_piezas.json`, extraída del STEP del fabricante.
+  // Cada entrada: { R, ang, z, giro } — polares sobre el eje de la curva; `giro`
+  // es la rotación adicional en planta (rad) respecto de quedar radial.
+  const montaje = {
+    travesano: tra.patrones.slice(0, tra.usados).map((x) => ({
+      R: r2(STD.Rcentro), ang: r2(a0 + x), z: r2(-STD.filaTravesano[1] - 44), giro: 0,
+    })),
+    // motor + su soporte: uno por zona, por DENTRO del bastidor (ficha Hytrol:
+    // "located on inside of conveyor frame")
+    motor: Array.from({ length: Math.max(1, Math.round(N / 7)) }, (_, i) => ({
+      R: r2(STD.RintAlmaExt + 90), ang: r2(a0 + ((i + 0.5) / Math.max(1, Math.round(N / 7))) * A),
+      z: r2(-STD.alma + 60), giro: 0,
+    })),
+    soporteMotor: Array.from({ length: Math.max(1, Math.round(N / 7)) }, (_, i) => ({
+      R: r2(STD.RalaInt + 30), ang: r2(a0 + ((i + 0.5) / Math.max(1, Math.round(N / 7))) * A),
+      z: r2(-STD.alma - 369), giro: 0,
+    })),
+    // estación de patas: 2 columnas por posición de soporte, en las mismas
+    // líneas que en el recto (±286 del eje del bastidor)
+    pata: [0, ...sopFrac, 1].flatMap((fr) => [-286, 286].map((dr) => ({
+      R: r2(STD.Rcentro + dr), ang: r2(a0 + fr * A), z: r2(-STD.alma - 588), giro: 0,
+    }))),
+  };
 
   const dims = {
     angulo: A,
@@ -524,7 +486,7 @@ export function curva(A) {
         + '3/11/2024, rev. 6-7/2025) extendido paramétricamente. Radios, sección '
         + 'y patrones de perforación: measured. Extensión del arco: user.',
       norma: STD.norma,
-      dims,
+      dims, montaje,
     },
     parts,
   };

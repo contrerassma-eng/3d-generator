@@ -174,15 +174,63 @@ pata y motor— están modelados por su envolvente para que el conjunto se lea
 completo: **su POSICIÓN es la de los patrones medidos, su FORMA es POR
 CONFIRMAR**. Van marcados así en el nombre de cada pieza.
 
+## Los accesorios son los del recto, no versiones parecidas
+
+El bastidor de la curva es propio: laterales, alas, guías y polines cónicos
+salen de los planos Kofmelk. Los **accesorios no**. El travesaño, el motor, el
+soporte de motor y la estación de patas son **exactamente los del transportador
+recto 24V (ZP2026)**, y por eso se instancian desde el STEP del fabricante en
+vez de re-modelarse.
+
+Modelarlos "parecidos" era justamente lo que dejaba la curva por debajo del
+nivel del recto: mismo aire, otra pieza. Ahora es la misma pieza.
+
+| Componente | De dónde sale | En la curva |
+|---|---|---|
+| Travesaño `TR_S` | ZP2026 (C 88×40×3, 533 = 21") | 1 por patrón usado |
+| Motor `UniDrive` 24 VDC | ZP2026 | 1 por zona |
+| Soporte de motor `BR_3002` | ZP2026 | 1 por zona |
+| Estación de patas (`RAL7035_leg`) | ZP2026 (columna 588, ranurada) | 2 columnas por posición de soporte, en las mismas líneas del recto (±286 del eje) |
+| Lateral, alas, guías | planos Kofmelk C60 | paramétrico |
+| Polín cónico 21" | planos Kofmelk C60 (Ø POR CONFIRMAR) | 7 por zona |
+
+Un contraste que salió de aquí y vale la pena anotar: el lateral del recto mide
+**191 mm de alto y 38 de ala** — la misma sección que el C60 (190,5 × 38,1). El
+bastidor de la curva y el del recto son el mismo perfil.
+
+```bash
+cd cad
+node ensambles/zp_componentes.mjs --inventario        # qué hay en el ZP2026
+node ensambles/zp_componentes.mjs --extraer ensambles/zp_piezas.json
+python3 ensambles/curva_ensamble.py 90 ensambles/curva_vistas/curva90_24.glb
+```
+
+`gen_curva.mjs` emite en `meta.montaje` **dónde** va cada componente (R, ángulo,
+z), así que la posición sigue saliendo de los patrones medidos y hay una sola
+fuente de verdad. `zp_componentes.mjs` sólo aporta la **geometría**.
+
+El GLB del ZP2026 viene con `EXT_meshopt_compression`; se carga con el mismo
+decodificador que usa el simulador.
+
+## Todo de una pasada
+
+```bash
+cd cad && bash ensambles/regenerar_curva.sh
+```
+
+
 ## Límites declarados
 
 - El **polín cónico 21"** se modela por su envolvente (Ø deducido de las
   alturas de eje medidas). Sus dimensiones reales son **POR CONFIRMAR**: falta
   la ficha del proveedor.
-- **Travesaño 21", soporte frontal, tirante interno y soporte de motor** no
-  venían en el juego de fabricación entregado (sólo aparecen en la lámina de
-  ensamblaje). Los **patrones que los reciben sí están medidos**, así que el
-  bastidor es fabricable; las láminas de esos accesorios faltan.
+- El **travesaño, el motor, el soporte de motor y la estación de patas** son la
+  geometría real del ZP2026. Lo que sigue siendo diseño nuestro es **dónde** se
+  atornillan en la curva: la posición sale de los patrones medidos, pero la
+  interfaz fina (largo del travesaño contra el claro de 533, altura de la
+  ménsula del motor) se cierra contra la primera curva armada.
+- El **soporte frontal** y el **tirante interno** del C60 siguen sin lámina y
+  sin equivalente en el recto: no se modelan. Sus patrones sí están medidos.
 - La lámina de ensamblaje trae despiece y notas, no vistas de detalle
   (los cortes A/B del C60). Se agregan cuando haya geometría confirmada de los
   accesorios.

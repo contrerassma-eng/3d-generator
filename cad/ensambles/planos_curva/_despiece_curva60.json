@@ -86,6 +86,9 @@
   "polines": 14,
   "pasoAngular": 4.29,
   "travesanos": 3,
+  "zonas": 2,
+  "motores": 2,
+  "polinesPorZona": 7,
   "patronesTravesano": 4,
   "posicionesSoporte": 3,
   "desarrollo": {
