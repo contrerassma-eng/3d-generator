@@ -436,6 +436,12 @@ export function curva(A) {
   const nZonas = Math.max(1, Math.round(N / 7));
   const zonaAng = Array.from({ length: nZonas }, (_, i) => a0 + ((i + 0.5) / nZonas) * A);
   const montaje = {
+    // POLÍN CÓNICO real (GLB de Sergio, `rodillo_conico.glb`). Su extremo chico
+    // apoya contra el alma del lateral INTERNO (R=864) y el eje va a la altura
+    // medida en el C60 para ese lado (18,3 bajo el borde del alma).
+    polinConico: pol.ang.map((x) => ({
+      R: r2(STD.RintAlmaExt), ang: r2(a0 + x), z: r2(-STD.polinYInt), giro: 0,
+    })),
     travesano: tra.patrones.slice(0, tra.usados).map((x) => ({
       R: r2(STD.Rcentro), ang: r2(a0 + x), z: r2(-STD.filaTravesano[1] - 44), giro: 0,
     })),

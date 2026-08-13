@@ -165,9 +165,26 @@ def main():
     ap.add_argument('--piezas', default=os.path.join(AQUI, 'zp_piezas.json'))
     a = ap.parse_args()
 
+    # El POLÍN CÓNICO real lo entregó Sergio como GLB propio: se carga aparte y
+    # se pre-gira para que su eje (X local) quede en Y, que es lo que
+    # `instancia()` manda a radial. El extremo chico queda en Y=0, o sea contra
+    # el alma del lateral INTERNO.
+    def carga_polin(path):
+        V, F, C = malla_de_glb(path)
+        V = np.stack([-V[:, 1], V[:, 0], V[:, 2]], axis=1)   # X local -> +Y
+        V = V - [0, V[:, 1].min(), 0]                        # extremo chico en Y=0
+        V[:, 0] -= (V[:, 0].min() + V[:, 0].max()) / 2       # centrado
+        V[:, 2] -= (V[:, 2].min() + V[:, 2].max()) / 2       # eje en Z=0
+        return {'mallas': [{'pos': V.reshape(-1).tolist(),
+                            'idx': F.reshape(-1).tolist(),
+                            'color': C[0].tolist()}]}
+
     doc = json.load(open(os.path.join(AQUI, f'curva{a.angulo}_24.json')))
     montaje = doc['meta']['montaje']
     piezas = json.load(open(a.piezas))
+    gpol = os.path.join(AQUI, 'rodillo_conico.glb')
+    if os.path.exists(gpol):
+        piezas['polinConico'] = carga_polin(gpol)
     bast = a.bastidor or f'/tmp/curva{a.angulo}_estructura.glb'
 
     grupos = []

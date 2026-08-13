@@ -21,13 +21,6 @@
    "uso": "CONFIRMA la lectura del C60: envolvente 609,2 = 24 in y claro entre almas 533 = 21 in (la cara del polin). El par 24/21 es el del catalogo."
   },
   {
-   "id": "hytrol_e24_curva_polin",
-   "dato": "Polin conico 2-1/2 in -> 1-11/16 in (63,5 -> 42,9 mm), 16 ga galvanizado",
-   "cita": "Tapered Rollers: 2-1/2″ x 1-11/16″ diameter x 16 gauge galvanized",
-   "url": "https://www.condrives.com/product/hytrol-model-190-e24ezc-24-volt-tapered-live-roller-zero-pressure-accumulating-curve/",
-   "uso": "DISCREPA con el C60 medido. Ver discrepancias[0]."
-  },
-  {
    "id": "hytrol_e24_curva_bastidor",
    "dato": "Bastidor: canal conformado 6-1/2 x 1-1/2 in, 12 ga",
    "cita": "Frame: 6-1/2″ x 1-1/2″ x 12 gauge formed steel channel frame powder coat painted medium green",
@@ -54,22 +47,23 @@
    "cita": "Curve Models: E24EZCT, E24EZNCT",
    "url": "https://hytrol.com/products/accumulation/24-volt-conveyor/",
    "uso": "Nombre de catalogo del equipo de referencia ('24 CT')."
+  },
+  {
+   "id": "polin_conico_real",
+   "dato": "Polin conico Conveyone: Ø48,26 (1,9 in) en el extremo chico -> Ø79,0 sobre la cara de 533; eje Ø12; 3 anillos y polea de arrastre Ø87,5 en el extremo grande",
+   "cita": "Medido sobre rodillo_conico.glb, el desarrollo 3D del polin conico entregado por Sergio (13-08-2026). Perfil lineal: pendiente 0,05769 mm de Ø por mm de cara.",
+   "url": "archivo interno — cad/ensambles/rodillo_conico.glb",
+   "uso": "RESUELVE la discrepancia: el polin de catalogo Hytrol no era la referencia."
   }
  ],
  "confirmaciones": [
   "Ancho 24 in / entre bastidores 21 in: el C60 medido cae exactamente en el par de catalogo.",
   "90 grados es un angulo estandar de la familia (30/45/60/90).",
   "Ala de 1-1/2 in identica.",
-  "1 motor por zona explica los 2 soportes de motor del C60 y fija 3 a 90 grados."
+  "1 motor por zona explica los 2 soportes de motor del C60 y fija 3 a 90 grados.",
+  "El polin real cierra el diseño: razon de diametros 79,0/48,26 = 1,637 contra la razon de radios de la curva 1397/864 = 1,617 (1,2%). El apice del cono SI apunta al centro de la curva, que es lo que hace que la velocidad tangencial sea proporcional al radio."
  ],
  "discrepancias": [
-  {
-   "que": "Diametros del polin conico",
-   "catalogo": "63,5 -> 42,9 mm (delta de radio 10,3)",
-   "medido_c60": "La diferencia de altura entre los ejes (36,0 en el lateral externo y 18,3 en el interno, medida sobre el desarrollo) implica delta de radio 17,7 mm. Con apice del cono en el centro de la curva (r proporcional a R) eso da 92,6 -> 57,4 mm.",
-   "estado": "ABIERTA — no se compra polin con ninguno de los dos hasta ver el polin real. Las alturas de eje del plano SI son firmes: el barreno va donde dice el C60.",
-   "nota": "El polin de catalogo (relacion 1,48) tendria su apice fuera del centro para los radios del C60 (relacion R 1397/864 = 1,617). O el polin Kofmelk es otro, o la curva Kofmelk acepta un cono no exacto."
-  },
   {
    "que": "Alma del bastidor",
    "catalogo": "6-1/2 in, 12 ga",

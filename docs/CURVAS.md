@@ -106,23 +106,29 @@ Los 592 mm son ≈24", el largo de zona del sistema E24 — el mismo `HW.zonaMM`
 del simulador. Antes el generador ponía 2 motores a 90°; ahora pone 3, y hay
 compuerta que lo verifica.
 
-**Levanta una discrepancia — el polín cónico.**
+**El polín cónico — RESUELTO con el desarrollo real.**
 
-| | Ø mayor → Ø menor | Δ radio |
-|---|---|---|
-| Catálogo Hytrol | 2½" → 1 11⁄16" (63,5 → 42,9) | 10,3 |
-| Implícito en el C60 | 92,6 → 57,4 | **17,7** |
+Estuvo abierto un rato: el polín de catálogo Hytrol (2½" → 1 11⁄16", Δ radio
+10,3) no cuadraba con las alturas de eje medidas en el C60, que piden Δ 17,7.
+Sergio entregó el desarrollo 3D real (`ensambles/rodillo_conico.glb`) y cierra
+el asunto: **el de catálogo no era la referencia**.
 
-La cifra del C60 no es una suposición: las **alturas de eje medidas** (36,0 en
-el lateral externo, 18,3 en el interno) sólo se explican con Δ radio = 17,7 si
-la generatriz superior es horizontal. Y con el ápice del cono en el centro de
-la curva (r ∝ R, que es lo que hace que la velocidad tangencial sea correcta),
-los radios del C60 (1397/864 = 1,617) exigen esa relación — no la 1,48 del
-polín de catálogo.
+| | Valor |
+|---|---|
+| Ø extremo chico | **48,26 = 1,9"** (el diámetro estándar de polín) |
+| Ø sobre la cara de 533 | **79,0** |
+| Pendiente del cono | 0,05769 mm de Ø por mm de cara |
+| Δ radio sobre la cara | 15,4 |
+| Eje | Ø12 |
+| Extremo grande | 3 anillos + polea de arrastre Ø87,5 |
 
-O el polín Kofmelk no es el de Hytrol, o la curva acepta un cono que no apunta
-al centro. **No se compra polín con ninguno de los dos números hasta ver el
-real.** Lo que sí es firme es dónde va el barreno: eso está medido.
+Y confirma el principio de diseño: **razón de diámetros 79,0/48,26 = 1,637**
+contra la **razón de radios de la curva 1397/864 = 1,617** — 1,2 % de
+diferencia. El ápice del cono apunta al centro de la curva, que es lo que hace
+que la velocidad tangencial sea proporcional al radio y la caja no patine.
+
+El GLB se instancia tal cual en las 21 posiciones, con el extremo chico contra
+el alma del lateral interno. No hay polín paramétrico: manda la pieza real.
 
 **No se adopta:** el bastidor de catálogo es 6½" × 1½" × 12 ga; el del C60 es
 **7½" × 1½" × 3 mm** — más alto y más grueso. Es una decisión deliberada de
