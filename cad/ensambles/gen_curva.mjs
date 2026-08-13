@@ -439,25 +439,13 @@ export function curva(A) {
     travesano: tra.patrones.slice(0, tra.usados).map((x) => ({
       R: r2(STD.Rcentro), ang: r2(a0 + x), z: r2(-STD.filaTravesano[1] - 44), giro: 0,
     })),
-    // MOTOR: el eje SIEMPRE mira hacia el interior del bastidor. En el recto
-    // ese eje es la Y local, que `instancia()` ya manda a radial — pero apunta
-    // hacia AFUERA, así que la pieza va girada 180° sobre sí misma (corrección
-    // de Sergio). Va por dentro del lateral interno, bajo el plano de polines
-    // (ficha Hytrol: "located on inside of conveyor frame").
-    motor: zonaAng.map((ang) => ({
-      R: r2(STD.RintAlmaExt + 40), ang: r2(ang), z: r2(-STD.alma + 55),
-      giro: Math.PI,
-    })),
-    // el soporte BR_3002 es el que sujeta ese motor: mismo ángulo, colgado del
-    // lateral interno
-    soporteMotor: zonaAng.map((ang) => ({
-      R: r2(STD.RalaInt + 25), ang: r2(ang), z: r2(-STD.alma - 369), giro: 0,
-    })),
-    // polea de aceleración (SPEED UP SPOOL): la que el motor arrastra y que a
-    // su vez mueve los polines por O-ring. Una por zona, junto al motor.
-    spool: zonaAng.map((ang) => ({
-      R: r2(STD.RintAlmaExt + 40), ang: r2(ang + (A / nZonas) * 0.18),
-      z: r2(-STD.alma + 120), giro: Math.PI,
+    // UNIDAD MOTRIZ: motor + polea de aceleración + soporte + tarjeta, en UNA
+    // pieza recortada entera del recto (idea de Sergio). Su origen está en la
+    // CARA DE MONTAJE del soporte y +Y local mira hacia los polines, así que
+    // instanciarla es literalmente «apoyar esa cara contra el alma del lateral
+    // interno»: no queda ningún grado de libertad que equivocar. Una por zona.
+    unidadMotriz: zonaAng.map((ang) => ({
+      R: r2(STD.RintAlmaExt), ang: r2(ang), z: r2(-STD.alma), giro: 0,
     })),
     // ESTACIÓN de patas completa (2 columnas + soporte pivote + niveladores),
     // no una columna suelta: la corrección que trajo el trabajo del LBP. Va

@@ -16,6 +16,17 @@ node tests/test_curva.mjs
 echo "== 3. componentes REALES del recto 24V (ZP2026, STEP del fabricante)"
 $ESB ensambles/zp_componentes.mjs --outfile=/tmp/zp.mjs
 node /tmp/zp.mjs --extraer ensambles/zp_piezas.json
+# la UNIDAD MOTRIZ se recorta entera (motor + polea + soporte + tarjeta) y
+# reemplaza a las piezas sueltas: así no hay montaje posible equivocado
+node /tmp/zp.mjs --unidad /tmp/unidad.json
+python3 - <<'EOF'
+import json
+a = json.load(open('ensambles/zp_piezas.json'))
+a['unidadMotriz'] = json.load(open('/tmp/unidad.json'))['unidadMotriz']
+for k in ('motor', 'spool', 'soporteMotor'):
+    a.pop(k, None)
+json.dump(a, open('ensambles/zp_piezas.json', 'w'))
+EOF
 
 echo "== 4. láminas PDF (disposición Kofmelk)"
 $ESB ensambles/planos_curva.mjs --outfile=/tmp/pc.mjs
