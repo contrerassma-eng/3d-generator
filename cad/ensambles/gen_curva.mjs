@@ -433,25 +433,39 @@ export function curva(A) {
   // desde `zp_piezas.json`, extraída del STEP del fabricante.
   // Cada entrada: { R, ang, z, giro } — polares sobre el eje de la curva; `giro`
   // es la rotación adicional en planta (rad) respecto de quedar radial.
+  const nZonas = Math.max(1, Math.round(N / 7));
+  const zonaAng = Array.from({ length: nZonas }, (_, i) => a0 + ((i + 0.5) / nZonas) * A);
   const montaje = {
     travesano: tra.patrones.slice(0, tra.usados).map((x) => ({
       R: r2(STD.Rcentro), ang: r2(a0 + x), z: r2(-STD.filaTravesano[1] - 44), giro: 0,
     })),
-    // motor + su soporte: uno por zona, por DENTRO del bastidor (ficha Hytrol:
-    // "located on inside of conveyor frame")
-    motor: Array.from({ length: Math.max(1, Math.round(N / 7)) }, (_, i) => ({
-      R: r2(STD.RintAlmaExt + 90), ang: r2(a0 + ((i + 0.5) / Math.max(1, Math.round(N / 7))) * A),
-      z: r2(-STD.alma + 60), giro: 0,
+    // MOTOR: el eje SIEMPRE mira hacia el interior del bastidor. En el recto
+    // ese eje es la Y local, que `instancia()` ya manda a radial — pero apunta
+    // hacia AFUERA, así que la pieza va girada 180° sobre sí misma (corrección
+    // de Sergio). Va por dentro del lateral interno, bajo el plano de polines
+    // (ficha Hytrol: "located on inside of conveyor frame").
+    motor: zonaAng.map((ang) => ({
+      R: r2(STD.RintAlmaExt + 40), ang: r2(ang), z: r2(-STD.alma + 55),
+      giro: Math.PI,
     })),
-    soporteMotor: Array.from({ length: Math.max(1, Math.round(N / 7)) }, (_, i) => ({
-      R: r2(STD.RalaInt + 30), ang: r2(a0 + ((i + 0.5) / Math.max(1, Math.round(N / 7))) * A),
-      z: r2(-STD.alma - 369), giro: 0,
+    // el soporte BR_3002 es el que sujeta ese motor: mismo ángulo, colgado del
+    // lateral interno
+    soporteMotor: zonaAng.map((ang) => ({
+      R: r2(STD.RalaInt + 25), ang: r2(ang), z: r2(-STD.alma - 369), giro: 0,
     })),
-    // estación de patas: 2 columnas por posición de soporte, en las mismas
-    // líneas que en el recto (±286 del eje del bastidor)
-    pata: [0, ...sopFrac, 1].flatMap((fr) => [-286, 286].map((dr) => ({
-      R: r2(STD.Rcentro + dr), ang: r2(a0 + fr * A), z: r2(-STD.alma - 588), giro: 0,
-    }))),
+    // polea de aceleración (SPEED UP SPOOL): la que el motor arrastra y que a
+    // su vez mueve los polines por O-ring. Una por zona, junto al motor.
+    spool: zonaAng.map((ang) => ({
+      R: r2(STD.RintAlmaExt + 40), ang: r2(ang + (A / nZonas) * 0.18),
+      z: r2(-STD.alma + 120), giro: Math.PI,
+    })),
+    // ESTACIÓN de patas completa (2 columnas + soporte pivote + niveladores),
+    // no una columna suelta: la corrección que trajo el trabajo del LBP. Va
+    // centrada en el eje del bastidor y cubre los 609 de ancho, igual que en
+    // el recto.
+    pata: [0, ...sopFrac, 1].map((fr) => ({
+      R: r2(STD.Rcentro), ang: r2(a0 + fr * A), z: r2(-STD.alma - 588), giro: 0,
+    })),
   };
 
   const dims = {

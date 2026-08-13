@@ -231,6 +231,15 @@ cd cad && bash ensambles/regenerar_curva.sh
   ménsula del motor) se cierra contra la primera curva armada.
 - El **soporte frontal** y el **tirante interno** del C60 siguen sin lámina y
   sin equivalente en el recto: no se modelan. Sus patrones sí están medidos.
+- **Las guías superiores salen con CERO barrenos.** En el C60 la guía se suelda
+  a su refuerzo («soldar arista interna, cordón completo») y los barrenos de
+  apriete viven en el refuerzo, no en la tira — pero la vista desplegada del
+  C60 muestra además **separaciones en los extremos** («no soldar separaciones
+  de los extremos») que hoy no se emiten. Falta modelarlas como recortes del
+  desarrollo. **Pendiente de corte láser.**
+- El refuerzo emite 12 barrenos a 90° (8 a 60°); la lámina C60 muestra del
+  orden de 9–10. La regla de reparto está puesta por posición de travesaño y de
+  soporte, no leída del plano: **verificar contra la lámina antes de cortar.**
 - La lámina de ensamblaje trae despiece y notas, no vistas de detalle
   (los cortes A/B del C60). Se agregan cuando haya geometría confirmada de los
   accesorios.

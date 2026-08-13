@@ -76,11 +76,18 @@ def instancia(pieza, R, ang_deg, z, giro=0.0):
     del recto, que en la curva es la dirección RADIAL) y el origen en la base.
     Aquí se gira para que ese eje quede radial en `ang_deg` y se lleva a (R, z).
     """
-    a = math.radians(ang_deg) + giro
+    # `ang_deg` sitúa la pieza sobre el arco; `giro` la rota SOBRE SÍ MISMA sin
+    # moverla (el motor va con su eje radial, y su eje largo es X local).
+    ap = math.radians(ang_deg)
+    a = ap + giro
     ca, sa = math.cos(a), math.sin(a)
-    # Y local -> radial ; X local -> tangencial
-    Rot = np.array([[-sa, ca, 0], [ca, sa, 0], [0, 0, 1]], dtype=float)
-    t = np.array([R * ca, R * sa, z], dtype=float)
+    cp, sp = math.cos(ap), math.sin(ap)
+    # Y local -> RADIAL (el ancho del recto es el radio de la curva) y
+    # X local -> TANGENCIAL. Tiene que ser una rotación PROPIA: con
+    # X->(sa,-ca,0) se cumple X x Y = Z. La versión con X->(-sa,ca,0) tiene
+    # determinante -1 y espeja las piezas (el motor salía al revés).
+    Rot = np.array([[sa, ca, 0], [-ca, sa, 0], [0, 0, 1]], dtype=float)
+    t = np.array([R * cp, R * sp, z], dtype=float)
     Vs, Fs, Cs = [], [], []
     base = 0
     for m in pieza['mallas']:

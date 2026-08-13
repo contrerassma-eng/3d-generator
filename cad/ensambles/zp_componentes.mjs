@@ -36,9 +36,14 @@ export const PIEZAS = {
   guarda: { match: /^GUARDA/, pivote: 'centro' },
   bracketA: { match: /^B_00[245]A/, pivote: 'centro' },
   polin: { match: /^pos12/, pivote: 'centro' },
-  // la estación de patas no se distingue por el nombre del nodo sino por su
-  // MATERIAL (`RAL7035_leg`), que es como la identifica el propio simulador
-  pata: { material: /_leg/, pivote: 'centro' },
+  spool: { match: /SPEED[ _]UP[ _]SPOOL/i, pivote: 'centro' },
+  // La ESTACIÓN de patas no es una columna: es un grupo (2 columnas + soporte
+  // pivote + niveladores). No se distingue por el nombre del nodo sino por su
+  // MATERIAL (`RAL7035_leg`) —así la identifica el propio simulador— y se
+  // agrupa por CLÚSTER EN X, que es la corrección que trajo el trabajo del LBP
+  // (`lbpLegTpl()` en index.html: la primera estación son todas las mallas
+  // `_leg` cuya x cae dentro del 20% del largo).
+  pata: { material: /_leg/, cluster: 'x', pivote: 'centro' },
 };
 
 const loader = new GLTFLoader();
@@ -76,7 +81,13 @@ scene.traverse((o) => {
   if (!etiqueta) {
     for (const [k, def] of Object.entries(PIEZAS)) {
       if (def.material && def.material.test(o.material?.name || '')) {
-        etiqueta = k; instancia = o.parent?.name || o.name || k;
+        etiqueta = k;
+        // clúster en X: la estación entera comparte posición a lo largo del
+        // flujo, así que la clave es su x redondeada a 300 mm
+        const bb = new THREE.Box3().setFromObject(o);
+        instancia = def.cluster === 'x'
+          ? `${k}@${Math.round((bb.min.x + bb.max.x) / 2 * 1000 / 300)}`
+          : (o.parent?.name || o.name || k);
       }
     }
   }
