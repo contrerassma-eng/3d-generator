@@ -1826,7 +1826,14 @@ const dims = {
   compraMovex: {
     banda_530LBP_18in: { art: 'P5324010018A', precioEUR_m: 174.85, necesario_m: r2(4 * lazoLBP), cotizado_m: 90.3, nota: 'cotizado cubre ~2× (repuesto/futuras líneas); rollos de 1.5 m' },
     banda_530GT_18in: { art: 'P5323010018A', precioEUR_m: 243.18, necesario_m: r2(4 * lazoGT), cotizado_m: 18.0 },
-    sprockets_Z32_cuadrado15: { art: 'P158808YF', precioEUR: 17.42, necesario: 4 * (BELT.nSprkLBP + 2) + 4 * (BELT.nSprkGT + 2), cotizado: 152, detalle: 'rueda moldeada Z-32 c/grano M8; LBP 5+2 · GT 6+2 por transportador' },
+    sprockets_Z32_cuadrado15: {
+      art: 'P158808YF', precioEUR: 17.42,
+      // DERIVADO de las piezas reales (Rev.E: el GT no lleva tensor ni locos)
+      necesario: 4 * res.LBP.parts.filter(p => /Sprocket/.test(p.name)).length
+               + 4 * res.GT.parts.filter(p => /Sprocket/.test(p.name)).length,
+      cotizado: 152,
+      detalle: 'rueda moldeada Z-32 c/grano M8; LBP 5+2 locos · GT 6 (Rev.E: un solo eje) por transportador',
+    },
     collarines: {
       art: 'P21703Y', precioEUR: 2.32,
       // DERIVADO de las piezas reales (la fórmula 2×16 divergía ×2 del modelo

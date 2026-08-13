@@ -252,7 +252,7 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
     ['POS', 'MOVEX — COTIZACIÓN 26012937 (09-07-2026, EUR EXW) — input/docs/', 'NECESARIO / COTIZADO', 'OBSERVACIÓN'],
     ['M1', `Banda 530 LBP 18 in LFA — ${cm.banda_530LBP_18in.art} (EUR ${cm.banda_530LBP_18in.precioEUR_m}/m)`, `${cm.banda_530LBP_18in.necesario_m} m / ${cm.banda_530LBP_18in.cotizado_m} m`, `lazo ${dims.lazos_m.LBP_5000} m × 4; cotizado cubre ~2×`],
     ['M2', `Banda 530 GT 18 in LFA — ${cm.banda_530GT_18in.art} (EUR ${cm.banda_530GT_18in.precioEUR_m}/m)`, `${cm.banda_530GT_18in.necesario_m} m / ${cm.banda_530GT_18in.cotizado_m} m`, `lazo ${dims.lazos_m.GT_800} m × 4`],
-    ['M3', `Sprocket Z-32 MOLDEADO bore cuadrado 1.5 in c/grano M8 — ${cm.sprockets_Z32_cuadrado15.art} (EUR ${cm.sprockets_Z32_cuadrado15.precioEUR})`, `${cm.sprockets_Z32_cuadrado15.necesario} / ${cm.sprockets_Z32_cuadrado15.cotizado}`, 'LBP 5+2 · GT 6+2; sólo 1 fijo/eje (grano M8)'],
+    ['M3', `Sprocket Z-32 MOLDEADO bore cuadrado 1.5 in c/grano M8 — ${cm.sprockets_Z32_cuadrado15.art} (EUR ${cm.sprockets_Z32_cuadrado15.precioEUR})`, `${cm.sprockets_Z32_cuadrado15.necesario} / ${cm.sprockets_Z32_cuadrado15.cotizado}`, 'LBP 5+2 locos · GT 6 (Rev.E); sólo 1 fijo/eje (grano M8)'],
     ['M4', `Collarín de referencia 1.5×1.5 in — ${cm.collarines.art} (EUR ${cm.collarines.precioEUR})`, `${cm.collarines.necesario} / ${cm.collarines.cotizado}`, '2 por eje, flanquean el sprocket central'],
     ['M5', `Nosebar 530 LBP h19 C/RODAMIENTOS L=6 in — ${cm.nosebar_LBP.art} (EUR ${cm.nosebar_LBP.precioEUR})`, `${cm.nosebar_LBP.necesario} / ${cm.nosebar_LBP.cotizado}`, '3 por punta × 2 puntas × 4 LBP'],
     ['M6', `Transfer plate C/RODAMIENTOS h19 L=6 in — ${cm.nosebar_GT.art} (EUR ${cm.nosebar_GT.precioEUR})`, `${cm.nosebar_GT.necesario} / ${cm.nosebar_GT.cotizado}`, 'ídem para los 4 GT'],
@@ -281,7 +281,7 @@ sheets.push(shaftSheet(dims.ejes.tensor, {
   sh.titleBlock({
     designacion: 'EJES — corte de barras y lista de compra (4 líneas)',
     proyecto: 'LBP530-18 · Conveyone', fuente: 'gen_lbp530.mjs — capa user',
-    verificacion: 'DISEÑO CAD (CAPA USER)', piezas: '16 ejes', piezasLabel: 'CANTIDAD',
+    verificacion: 'DISEÑO CAD (CAPA USER)', piezas: `${dims.ejes.motriz.cantidad + dims.ejes.tensor.cantidad} ejes`, piezasLabel: 'CANTIDAD',
     nota: 'datos Movex citados en input/web_facts.json; confirmar nº de sprockets LBP con Movex (manual 5 vs brochure 6)',
     escala: '—', fecha, numPlano: dims.ejes.barras ? 'LBP530-EJ-03' : 'EJ-03',
   });
