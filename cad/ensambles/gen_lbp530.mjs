@@ -166,9 +166,15 @@ export const D = {
   // Sin excursión bajo el ala en el vano: el ala queda ÍNTEGRA de punta a
   // muesca de la motriz y caben DOS estaciones de soporte (una sola no es
   // estable — directriz Sergio).
-  // retornos del GT [x, z de centro]: el 1º recoge el retorno tras la motriz
-  // (envoltura ~140°) y el 2º aplana la subida hacia el rodillo del nosebar
-  gtRets: [[510, -211.75], [160, -166.75]],
+  // retorno del GT Rev.E.1 (hallazgo Sergio 13-08: el 2º rodillo a x=160
+  // quedaba BAJO la línea natural del retorno — la cadena de tangentes lo
+  // resolvía con una vuelta imposible de ~336°, y la subida tendida invadía
+  // la placa del cabezal): UN apoyo tras la motriz + un SNUB que PRESIONA
+  // DESDE ARRIBA cerca de la nariz — la banda cae casi vertical detrás del
+  // nosebar (como el nose-tail real), pasa BAJO la placa del cabezal (holgura
+  // en compuerta) y corre al apoyo. gtSnub = [x, z] del rodillo prensor.
+  gtRets: [[510, -211.75]],
+  gtSnub: [80, -140],
   retTop: -135, retCada: 500,              // retorno cada ~500; eje muerto en ALMA PLANA (fuera de la zona de plegado del ala)
   gtRetDia: 63.5,                          // rodillo retorno Ø63.5 (manual: D>50)
   // rodillo de retorno de EJE MUERTO (decisión usuario): tubo Ø63.5 con 2
@@ -293,11 +299,14 @@ function beltPath(L, tipo, zci) {
       seq.push({ c: [x, D.retTop - D.gtRetDia / 2], r: D.gtRetDia / 2, s: 1, rol: 'ret' });
     }
   } else {
-    // Rev.E: GT de UN SOLO EJE — el retorno viaja alto por 2 rodillos y
-    // cierra el lazo abrazando el rodillo del nosebar de entrada (noseA).
+    // Rev.E.1: GT de UN SOLO EJE — apoyo tras la motriz, SNUB prensor (s:-1,
+    // la banda pasa POR DEBAJO) cerca de la nariz, y el lazo cierra
+    // abrazando el rodillo del nosebar de entrada (noseA) con caída casi
+    // vertical detrás del cabezal.
     for (const [x, zc] of D.gtRets) {   // orden del recorrido: motriz→nose
       seq.push({ c: [x, zc], r: D.gtRetDia / 2, s: 1, rol: 'ret' });
     }
+    seq.push({ c: [...D.gtSnub], r: D.gtRetDia / 2, s: -1, rol: 'snub' });
   }
   if (tipo === 'LBP') seq.push({ c: [D.xTensorDesdePunta, D.zTensor], r: D.rSprk, s: -1, rol: 'tensor' });
   return seq;
@@ -891,7 +900,11 @@ function build(tipo, L) {
   // de las placas, para que 3D y desarrollo lleven el agujero; las piezas
   // reutilizan estas mismas listas (un solo origen, compuerta 1:1 en el BOM).
   const NB = { cuerpoH: 65, cuerpoT: 19, K: 152.4, cols: [15.9, 75.9, 135.9], fila1: 18.75, fila2: 37.8, holeDia: 8.5 };
-  const cabH = 90, cabTop = zci - 3;   // 1,25 de luz a la barrida de rodillos (panel: antes penetraba 2 la banda)
+  // cabH 55 (era 90): la placa terminaba a −103 y el tramo libre del retorno
+  // la cruzaba en AMBOS equipos (hallazgo Sergio 13-08, compuerta
+  // lazo↔cabezal). A 55 la placa termina sobre la línea del retorno y las dos
+  // filas M8 del nosebar conservan margen ≥ max(1×Ø, 2×t) al borde inferior.
+  const cabH = 55, cabTop = zci - 3;   // 1,25 de luz a la barrida de rodillos
   // filas a paso 70 (no 80): la fila honda debe librar el borde de las
   // muescas del ala, que a esas X sube ~12 dentro del alma (compuerta margen)
   const mechaBoltXZ = mechasSpec.flatMap(m =>
@@ -1137,6 +1150,7 @@ function build(tipo, L) {
     }
   }
   const art = esLBP ? BELT.noseArtLBP : BELT.noseArtGT;
+  const cabChk = {};   // rectángulo de cada placa de cabezal → compuerta lazo↔cabezal
   for (const [x0, nm] of [[BELT.noseR + BELT.esp, 'entrada'], [L - BELT.noseR - BELT.esp, 'descarga']]) {
     const zN = zci - BELT.noseR;
     const dirIn = x0 < L / 2 ? 1 : -1;    // el cuerpo crece hacia adentro
@@ -1157,6 +1171,12 @@ function build(tipo, L) {
 
     // Cabezal porta-nosebar (FAB): recibe los 18 M8 del nosebar
     const xc = x0 + dirIn * (2 + NB.cuerpoT + 3);
+    cabChk[nm] = { x0: r2(xc - D.plT / 2), x1: r2(xc + D.plT / 2), zTop: r2(cabTop), zBot: r2(cabTop - cabH),
+      nose: [x0, zci - BELT.noseR],
+      // cuerpo BluLub (caja sustituta del perfil moldeado): la banda de
+      // retorno PUEDE tocar su cara inferior — es la guía de retorno del
+      // fabricante. El perfil real va relevado (ver Abiertas: sección P22868).
+      cuerpo: { bx0: r2(Math.min(x0 + dirIn * 2, x0 + dirIn * (2 + NB.cuerpoT))), bx1: r2(Math.max(x0 + dirIn * 2, x0 + dirIn * (2 + NB.cuerpoT))), bzBot: r2(zci - NB.cuerpoH), bzTop: r2(zci) } };
     const fC = [box(`Placa cabezal PL6 ${D.innerW}×${cabH}`, [xc, 0, cabTop - cabH / 2], D.plT, D.innerW, cabH)];
     const holesCab = [];
     for (const h of nbHoles) {
@@ -1532,7 +1552,7 @@ function build(tipo, L) {
     if (mechasSpec[i].x1 > mechasSpec[j].x0 && mechasSpec[j].x1 > mechasSpec[i].x0) mechasOverlap = true;
   }
   return {
-    parts, largoBanda: largo, wraps, path, pathOuterPts: outer, guardasChk, travChk, mechasOverlap,
+    parts, largoBanda: largo, wraps, path, pathOuterPts: outer, guardasChk, travChk, mechasOverlap, cabChk,
     // interferencia ala↔banda (hallazgo de Sergio 12-08): el lazo solo puede
     // cruzar la banda z del ala DENTRO de una muesca
     alaChk: { zBot: D.plTop - D.plAlto, zTop: D.plTop - D.plAlto + D.plT, muescas: muescasAuto, alaSegs },
@@ -1613,6 +1633,43 @@ function verify(res) {
           }
         }
       }
+    }
+    // ── holgura lazo↔placa de cabezal (hallazgo Sergio 13-08: «the road is
+    // going in a wrong way» en la zona del nosebar de retorno del GT). El
+    // tramo libre del retorno debe pasar a ≥8 de la placa (abajo/frente);
+    // se EXCLUYE la zona de la nariz (radio+banda): ahí el contacto con el
+    // cuerpo BluLub del nosebar es DE DISEÑO (guía de retorno del fabricante).
+    for (const [cn, rc] of Object.entries(eq.cabChk || {})) {
+      const infl = 8;
+      const X0 = rc.x0 - infl, X1 = rc.x1 + infl, Z0 = rc.zBot - infl, Z1 = rc.zTop;
+      const pts = eq.pathOuterPts;
+      const cu = rc.cuerpo;
+      let peor = null;
+      for (let i = 0; i < pts.length; i++) {
+        const a = pts[i], b = pts[(i + 1) % pts.length];
+        const n = Math.max(1, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 2));
+        for (let j = 0; j <= n; j++) {
+          const x = a[0] + (b[0] - a[0]) * j / n, z = a[1] + (b[1] - a[1]) * j / n;
+          if (Math.hypot(x - rc.nose[0], z - rc.nose[1]) <= BELT.noseR + BELT.esp + 1.5) continue;
+          // zona del cuerpo BluLub (+2): contacto de guía PERMITIDO por diseño
+          if (cu && x > cu.bx0 - 2 && x < cu.bx1 + 2 && z > cu.bzBot - 2 && z < cu.bzTop) continue;
+          if (x > X0 && x < X1 && z > Z0 && z < Z1) {
+            const pen = r2(Math.min(x - X0, X1 - x, z - Z0, Z1 - z));
+            if (!peor || pen > peor.pen) peor = { x: r2(x), z: r2(z), pen };
+          }
+        }
+      }
+      if (peor) e.push(`${nm}: el lazo INVADE la zona de la placa de cabezal ${cn} en (${peor.x}, ${peor.z}) — holgura mínima 8 a la placa [${rc.x0}..${rc.x1}]×[${rc.zBot}..${rc.zTop}]`);
+    }
+    // ── envoltura de rodillos de retorno/snub ≤90° — una envoltura mayor en
+    // un rodillo loco delata el ARTEFACTO DE BOBINADO de la cadena de
+    // tangentes (rodillo al lado equivocado de la línea de banda): el lazo se
+    // dibuja y MIDE con una vuelta de ~360° que no existe físicamente.
+    for (let i = 0; i < eq.path.length; i++) {
+      const q = eq.path[i];
+      const tope = q.rol === 'snub' ? 130 : 90;   // un snub prensor legítimo llega a ~130
+      if ((q.rol === 'ret' || q.rol === 'snub') && !q.virtual && eq.wraps[i] > tope)
+        e.push(`${nm}: envoltura ${eq.wraps[i]}° en ${q.rol} x=${q.c[0]} (>${tope} — rodillo al lado equivocado de la línea del lazo)`);
     }
   }
   // corte de barras (kerf 9 mm) — motrices 8 (uno por transportador);
