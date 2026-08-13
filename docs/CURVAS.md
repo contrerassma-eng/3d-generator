@@ -238,6 +238,10 @@ cd cad && bash ensambles/regenerar_curva.sh
   atornillan en la curva: la posición sale de los patrones medidos, pero la
   interfaz fina (largo del travesaño contra el claro de 533, altura de la
   ménsula del motor) se cierra contra la primera curva armada.
+- **Soporte de piso: pendiente contra el despiece MS05** (Sergio corrigió: es
+  **MS05**, no MC05). Falta la placa base, la sección transversal y la
+  regulación angular. Hoy va la estación de patas del ZP2026, que no trae esas
+  piezas. **No se compra ni se fabrica el soporte hasta tener ese despiece.**
 - El **soporte frontal** y el **tirante interno** del C60 siguen sin lámina y
   sin equivalente en el recto: no se modelan. Sus patrones sí están medidos.
 - **Las guías superiores salen con CERO barrenos.** En el C60 la guía se suelda
