@@ -311,12 +311,12 @@
   },
   {
     "id": "cot_conical_rails",
-    "claim": "Cotización — conical rails enrollables (guía lateral)",
+    "claim": "Cotización — conical rails enrollables (GUÍA DE FONDO / wearstrip del carryway, NO guía lateral)",
     "value": "T 1 in P12201C €17.14/m ×156 m · T 40 mm P12401C €18.63/m ×105 m · L 1¼ in P12501C €23.08/m ×105 m",
     "unit": "EUR/m",
-    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio)",
+    "url": "archivo adjunto del usuario: input/docs/Cotizacion_MOVEX_26012937.pdf (oferta Movex 26012937, Sylvain Dufour — sylvain.dufour@movexii.com, 09-07-2026, EUR, EXW Castelli Calepio) | corregido contra https://wpbackend.movexii.com/wp-content/uploads/2024/11/Movex-_Conveyor_Components_Catalog_Digital_Imperial.pdf (p.102-104)",
     "accessed": "2026-07-20",
-    "quote": "CONICAL RAIL T-SHAPE W1,00'' WHITE SS L=10ft/3m / STEEL Th1,5mm — P12201C · T-Shape CONICAL RAIL W=40mm Ti-WHITE SS Aisi304 Th.1,5 — P12401C · L-Shape CONICAL RAIL W=1.1/4'' Ti-WHITE SS Aisi304 Th.1,5 — P12501C",
+    "quote": "CONICAL RAIL T-SHAPE W1,00'' WHITE SS L=10ft/3m / STEEL Th1,5mm — P12201C · T-Shape CONICAL RAIL W=40mm Ti-WHITE SS Aisi304 Th.1,5 — P12401C · L-Shape CONICAL RAIL W=1.1/4'' Ti-WHITE SS Aisi304 Th.1,5 — P12501C | CORRECCIÓN 2026-08-13: Movex los cataloga como 'Guide rail' (perfiles extruidos, apoyo de fondo) en Conveyor Components Catalog p.102-104, y el brochure 530 LBP p.6 los dibuja como los apoyos BAJO la banda. El Part 125 (L) es el de borde: apoya y retiene el canto de la banda. Las guías laterales de PRODUCTO son otra familia (Part 137/158/1063, mismo catálogo p.77-96).",
     "confidence": "alta"
   },
   {
