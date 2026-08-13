@@ -3,9 +3,9 @@
  "lineas": 4,
  "generado_de": "ensambles/lbp530_gt08.json",
  "totales": {
-  "masa_fabricada_kg": 92.02,
+  "masa_fabricada_kg": 92.04,
   "area_pintar_m2": 5.1,
-  "plancha_m2": 2.93,
+  "plancha_m2": 2.95,
   "nota": "masa y área EXACTAS del desarrollo (contorno − barrenos); plancha_m2 = bbox consumido del formato, para pedir material"
  },
  "filas": [
@@ -104,10 +104,10 @@
    "plano_corte": "GTD-04",
    "plano_vistas": "GT-05",
    "material": "Acero S275JR e1.5 — terminación PINTADO RAL 7035",
-   "desarrollo": "1252.8×1035.6",
-   "masa_kg": 11.74,
-   "area_m2_pintar": 1.995,
-   "bbox_m2_plancha": 1.297
+   "desarrollo": "1252.8×1055.6",
+   "masa_kg": 11.76,
+   "area_m2_pintar": 1.998,
+   "bbox_m2_plancha": 1.322
   },
   {
    "item": 7,

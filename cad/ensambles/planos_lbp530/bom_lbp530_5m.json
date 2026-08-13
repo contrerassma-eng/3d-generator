@@ -3,9 +3,9 @@
  "lineas": 4,
  "generado_de": "ensambles/lbp530_5m.json",
  "totales": {
-  "masa_fabricada_kg": 401.72,
-  "area_pintar_m2": 15.49,
-  "plancha_m2": 8.17,
+  "masa_fabricada_kg": 401.98,
+  "area_pintar_m2": 15.53,
+  "plancha_m2": 8.22,
   "nota": "masa y área EXACTAS del desarrollo (contorno − barrenos); plancha_m2 = bbox consumido del formato, para pedir material"
  },
  "filas": [
@@ -119,10 +119,10 @@
    "plano_corte": "LBD-04",
    "plano_vistas": "LB-05",
    "material": "Acero S275JR e1.5 — terminación PINTADO RAL 7035",
-   "desarrollo": "1796.4×1035.6",
-   "masa_kg": 19.96,
-   "area_m2_pintar": 3.391,
-   "bbox_m2_plancha": 1.86
+   "desarrollo": "1796.4×1055.6",
+   "masa_kg": 20.2,
+   "area_m2_pintar": 3.431,
+   "bbox_m2_plancha": 1.896
   },
   {
    "item": 8,
@@ -136,10 +136,10 @@
    "plano_corte": "LBD-05",
    "plano_vistas": "LB-06",
    "material": "Acero S275JR e1.5 — terminación PINTADO RAL 7035",
-   "desarrollo": "816.4×915.6",
-   "masa_kg": 7.49,
-   "area_m2_pintar": 1.272,
-   "bbox_m2_plancha": 0.747
+   "desarrollo": "816.4×935.6",
+   "masa_kg": 7.51,
+   "area_m2_pintar": 1.275,
+   "bbox_m2_plancha": 0.764
   },
   {
    "item": 9,

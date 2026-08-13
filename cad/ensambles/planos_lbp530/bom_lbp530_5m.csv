@@ -5,8 +5,8 @@ item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plan
 4,FABRICADA,Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10),6,24,maestranza / taller,,LBD-03,LB-04,Acero S275JR e3 — PINTADO RAL 7035,578×142.6,1.9,0.161,0.082
 5,FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6),1,4,maestranza / taller,,,LBP530-EJ-01,,,6.5,undefined,undefined
 6,FABRICADA,EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6),1,4,maestranza / taller,,,LBP530-EJ-02,,,5.9,undefined,undefined
-7,FABRICADA,Guarda inferior motriz — artesa U chapa 1.5 (1570×504),1,4,maestranza / taller,,LBD-04,LB-05,Acero S275JR e1.5 — terminación PINTADO RAL 7035,1796.4×1035.6,19.96,3.391,1.86
-8,FABRICADA,Guarda inferior tensor — artesa U chapa 1.5 (650×504),1,4,maestranza / taller,,LBD-05,LB-06,Acero S275JR e1.5 — terminación PINTADO RAL 7035,816.4×915.6,7.49,1.272,0.747
+7,FABRICADA,Guarda inferior motriz — artesa U chapa 1.5 (1570×504),1,4,maestranza / taller,,LBD-04,LB-05,Acero S275JR e1.5 — terminación PINTADO RAL 7035,1796.4×1055.6,20.2,3.431,1.896
+8,FABRICADA,Guarda inferior tensor — artesa U chapa 1.5 (650×504),1,4,maestranza / taller,,LBD-05,LB-06,Acero S275JR e1.5 — terminación PINTADO RAL 7035,816.4×935.6,7.51,1.275,0.764
 9,FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,2,8,maestranza / taller,,LBD-06,LB-07,Acero S275JR PL8 — PINTADO RAL 7035,320×422,8.33,0.265,0.135
 10,FABRICADA,Mecha porta-chumacera PL8 tensor 320×362,2,8,maestranza / taller,,LBD-07,LB-08,Acero S275JR PL8 — PINTADO RAL 7035,320×362,7.13,0.227,0.116
 11,FABRICADA,Placa lateral libre (−Y) PL6 L=5000,1,4,maestranza / taller,,LBD-08,LB-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),5000×312.6,72.23,3.067,1.563

@@ -4,7 +4,7 @@ item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plan
 3,FABRICADA,Cabezal porta-nosebar entrada PL6 470×55,1,4,maestranza / taller,,GTD-02,GT-03,Acero S275JR PL6 — PINTADO RAL 7035,470×55,1.16,0.049,0.026
 4,FABRICADA,Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10),4,16,maestranza / taller,,GTD-03,GT-04,Acero S275JR e3 — PINTADO RAL 7035,578×142.6,1.9,0.161,0.082
 5,FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6),1,4,maestranza / taller,,,LBP530-EJ-01,,,6.5,undefined,undefined
-6,FABRICADA,Guarda inferior unica — artesa U chapa 1.5 (800×504),1,4,maestranza / taller,,GTD-04,GT-05,Acero S275JR e1.5 — terminación PINTADO RAL 7035,1252.8×1035.6,11.74,1.995,1.297
+6,FABRICADA,Guarda inferior unica — artesa U chapa 1.5 (800×504),1,4,maestranza / taller,,GTD-04,GT-05,Acero S275JR e1.5 — terminación PINTADO RAL 7035,1252.8×1055.6,11.76,1.998,1.322
 7,FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,2,8,maestranza / taller,,GTD-05,GT-06,Acero S275JR PL8 — PINTADO RAL 7035,320×422,8.33,0.265,0.135
 8,FABRICADA,Placa lateral libre (−Y) PL6 L=800,1,4,maestranza / taller,,GTD-06,GT-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),800×312.6,11.17,0.474,0.25
 9,FABRICADA,Placa lateral motriz (+Y) PL6 L=800,1,4,maestranza / taller,,GTD-06,GT-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),800×312.6,11.17,0.474,0.25
