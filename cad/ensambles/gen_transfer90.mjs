@@ -34,6 +34,10 @@
 import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+// COMPUERTAS UNIVERSALES heredadas (CELULA_DISENO regla 11): este generador
+// no las tenía — hallazgo del panel adversarial 13-08. Sin el sello, los
+// emisores (dxf_flat, planos_fab, bom_equipo…) se niegan a producir.
+import { compuertasUniversales, sellarCompuertas } from './lib_compuertas.mjs';
 
 // ---------------------------------------------------------------------------
 // Parámetros de diseño
@@ -666,10 +670,30 @@ placas();
 rodillos();
 transmision();
 
+// ── compuertas universales sobre las piezas ya construidas ──────────────────
+const uni = compuertasUniversales({ TR90: { parts } }, {
+  // exenciones DECLARADAS: patrones dictados por el equipo base (riel T-slot
+  // del sorter STEP) y alojamientos de eje muerto que no llevan apriete
+  exentos: [/riel T-slot/i, /pie de anclaje/i],
+});
+if (uni.errs.length) {
+  console.error('COMPUERTAS UNIVERSALES — hallazgos:');
+  for (const e of uni.errs) console.error('  - ' + e);
+  if (!process.env.DEUDA_OK) {
+    console.error('Corrige, o declara la deuda con DEUDA_OK=1 explicando la razón en el commit.');
+    process.exit(1);
+  }
+  console.error('  [DEUDA_OK: emitido con deuda declarada]');
+}
+for (const [nm, i] of Object.entries(uni.info)) {
+  console.log(`  ${nm}: chapa ${i.masa_chapa_kg} kg · margen más apretado ${i.peorMargen?.margen} (req ${i.peorMargen?.req})`);
+}
+
 const doc = {
   format: 'foto3d-cad',
   version: 1,
   meta: {
+    compuertas: sellarCompuertas(uni, { exenciones: ['riel T-slot', 'pie de anclaje'], especificas: 0 }),
     nombre: 'Transferencia 90° — módulo de desviación pop-up (serpentín, todo por dentro)',
     capa: 'user',
     origen: 'gen_transfer90.mjs (paramétrico); transfer de rodillos estilo MRT sobre base twin-belt (STEP sorter_CO), funcional/fabricable/simple: 5 rodillos Ø63 vulcanizados (tubo de acero Ø51) de 800 mm de cara a paso 139 = 1 por hueco entre las 4 bandas pasantes del base (X=0/139/277/416); rodillo de EJE MUERTO MACIZO Ø20 perforado y roscado M10 (perno HEXAGONAL externo), con 2 rodamientos 6004 entre eje y tubo; accionamiento por banda plana (serpentín) al extremo con MOTORREDUCTOR DE EJE HUECO + brazo de torque; POP-UP POR BISAGRA en el lado -X (estructura lateral) + 2 cilindros verticales que suben el lado +X 6 mm (la cama bascula 0.41°); canal fijo no más ancho que las placas; módulos FIJO/MÓVIL identificados',

@@ -337,6 +337,14 @@ export function compuertasUniversales(equipos, opts = {}) {
     errs.push(...piezaSinFijacion(eq.parts, opts).map(e => `${nm}: ${e}`));
     const masa = eq.parts.reduce((a, p) => a + masaFlat(p.flat), 0);
     info[nm].masa_chapa_kg = Math.round(masa * 10) / 10;
+    // COBERTURA: un sello sin cobertura declara «verificado» sobre nada.
+    // Estas compuertas viven del desarrollo de chapa; si no hay flats, no
+    // revisaron nada y hay que verlo (caso real: gen_transfer90, 106 piezas
+    // sin un solo flat = ninguna pieza es cotizable a corte láser).
+    const conFlat = eq.parts.filter(p => p.flat?.contorno).length;
+    info[nm].cobertura = { piezas: eq.parts.length, con_desarrollo: conFlat,
+      pct: eq.parts.length ? Math.round(100 * conFlat / eq.parts.length) : 0 };
+    if (conFlat === 0) info[nm].aviso = 'NINGUNA pieza trae desarrollo de chapa: las compuertas de chapa no verificaron nada';
   }
   return { errs, info, ejecutadas };
 }
