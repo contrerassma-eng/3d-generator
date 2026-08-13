@@ -179,3 +179,73 @@ if (iEx > 0) {
   const tot = Object.values(out).reduce((s, p) => s + p.mallas.reduce((t, m) => t + m.idx.length / 3, 0), 0);
   console.log(`OK: ${Object.keys(out).length} componentes, ${r0(tot)} triángulos → ${process.argv[iEx + 1]}`);
 }
+
+// ---------------------------------------------------------------------------
+// UNIDAD MOTRIZ como CONJUNTO (idea de Sergio)
+// ---------------------------------------------------------------------------
+// Elegir instancias por heurística de tamaño estaba dando fragmentos: se veía
+// el motor pero no su soporte, ni la polea, ni la tarjeta. La unidad no se
+// arma pieza por pieza — se RECORTA ENTERA del recto: se toma un motor, se
+// infla su envolvente y se lleva TODO lo que cae dentro salvo lo que pertenece
+// al bastidor (laterales, polines, guardas, patas). Así el conjunto llega con
+// sus posiciones relativas ya resueltas y no hay forma de montarlo mal.
+//
+//   node ensambles/zp_componentes.mjs --unidad <salida.json> [--margen 260]
+const iU = process.argv.indexOf('--unidad');
+if (iU > 0) {
+  const margen = Number(process.env.MARGEN || 120);
+  const EXCLUIR = /escalerilla|^pos12|^LT_G|^GUARDA|^TR_S/i;
+  // 1) envolvente de UN motor
+  const motores = [...grupos.values()].filter((g) => g.nombre === 'motor');
+  const base = motores.map((g) => ({ g, e: envolvente(g) }))
+    .sort((a, b) => (b.e.dim[0] * b.e.dim[1] * b.e.dim[2]) - (a.e.dim[0] * a.e.dim[1] * a.e.dim[2]))[0];
+  if (!base) throw new Error('no se encontró ningún motor');
+  const lo = base.e.lo.map((v) => v - margen), hi = base.e.hi.map((v) => v + margen);
+  console.log(`unidad: caja ${lo.map(r0)} .. ${hi.map(r0)} (margen ${margen})`);
+
+  // 2) todo lo que cae dentro, salvo el bastidor
+  const mallas = [];
+  scene.traverse((o) => {
+    if (!o.isMesh) return;
+    let excl = false;
+    for (let n = o; n; n = n.parent) if (EXCLUIR.test(n.name || '')) { excl = true; break; }
+    if (excl || /_leg/.test(o.material?.name || '')) return;
+    const g2 = o.geometry.clone().applyMatrix4(o.matrixWorld);
+    const p = g2.attributes.position;
+    const pos = [];
+    let c0 = [0, 0, 0];
+    for (let i = 0; i < p.count; i++) {
+      const q = aCurva(new THREE.Vector3().fromBufferAttribute(p, i));
+      pos.push(...q);
+      for (let a = 0; a < 3; a++) c0[a] += q[a] / p.count;
+    }
+    if (c0.some((v, a) => v < lo[a] || v > hi[a])) return;
+    const c = o.material?.color;
+    mallas.push({ pos, idx: g2.index ? Array.from(g2.index.array)
+      : Array.from({ length: p.count }, (_, i) => i),
+      color: c ? [c.r, c.g, c.b] : [0.6, 0.62, 0.6], nodo: o.name || '' });
+  });
+
+  // 3) origen en la CARA DE MONTAJE: el extremo en Y más lejano del eje del
+  //    recto, que es la cara del soporte que apoya contra el alma del lateral.
+  //    +Y local queda mirando hacia adentro del transportador.
+  const u = envolvente({ mallas });
+  const caraY = Math.abs(u.hi[1]) >= Math.abs(u.lo[1]) ? u.hi[1] : u.lo[1];
+  const esp = caraY > 0;
+  const off = [u.centro[0], caraY, u.lo[2]];
+  const out = { envolvente: u.dim.map((v) => Math.round(v * 100) / 100),
+    caraMontaje: 'origen en la cara del soporte que apoya en el alma; +Y hacia adentro',
+    piezas: mallas.length,
+    mallas: mallas.map((m) => ({
+      color: m.color.map((v) => Math.round(v * 1000) / 1000),
+      idx: esp ? m.idx.map((_, i, a) => a[i - (i % 3) + [0, 2, 1][i % 3]]) : m.idx,
+      pos: m.pos.map((v, i) => {
+        const q = v - off[i % 3];
+        return Math.round((i % 3 === 1 && esp ? -q : q) * 100) / 100;
+      }),
+    })) };
+  writeFileSync(process.argv[iU + 1], JSON.stringify({ unidadMotriz: out }));
+  console.log(`OK: unidad motriz — ${mallas.length} mallas, `
+    + `${r0(mallas.reduce((s, m) => s + m.idx.length / 3, 0))} triángulos, `
+    + `envolvente ${u.dim.map(r0).join(' x ')} → ${process.argv[iU + 1]}`);
+}
