@@ -456,7 +456,13 @@ export function curva(A) {
     // que quedar donde está esa garganta. Con `giro: π` la unidad crece hacia
     // adentro de la curva y su eje mira al interior del bastidor.
     unidadMotriz: zonaAng.map((ang) => ({
-      R: r2(STD.Rext), ang: r2(ang), z: r2(-STD.alma), giro: Math.PI,
+      // Altura tomada del recto: allá el eje del polín está en Z=90 y el
+      // centro del motor en Z=2, o sea el motor cuelga 88 mm BAJO el eje. En la
+      // curva el eje del polín en el lado externo está a −36, así que el centro
+      // del motor va a −124; dentro de la unidad ese centro está a 69,2 de su
+      // base, luego la base va a −193,2. Antes estaba en −190,5 y el motor
+      // asomaba por encima de los polines.
+      R: r2(STD.Rext), ang: r2(ang), z: r2(-36 - 88 - 69.2), giro: Math.PI,
     })),
     // ESTACIÓN de patas completa (2 columnas + soporte pivote + niveladores),
     // no una columna suelta: la corrección que trajo el trabajo del LBP. Va
