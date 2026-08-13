@@ -22,8 +22,8 @@ const r2 = (v) => Math.round(v * 100) / 100;
 // Se mantiene junto al código A PROPÓSITO: la regla y su razón no pueden
 // separarse (si se separan, alguien "optimiza" la regla sin conocer el costo).
 export const REGISTRO = [
-  { id: 'margen-agujero-borde', regla: 'margen borde-a-borde ≥ max(1×Ø, 2×t), piso 12 en pernos',
-    origen: 'Sergio 12-08: «distancia de agujeros a bordes, cada pieza debe verse funcional por sí sola»' },
+  { id: 'margen-agujero-borde', regla: 'margen borde-a-borde ≥ 1×Ø en corte LÁSER (junta apernada) · ≥ max(1×Ø, 2×t) si es PUNZONADO',
+    origen: 'Sergio 12-08 («distancia de agujeros a bordes, cada pieza debe verse funcional por sí sola») + Sergio 13-08: el 2×t es regla de punzonado y aplicarla a láser dejaba ventanas vacías' },
   { id: 'agujero-en-pliegue', regla: 'ningún barreno dentro de la zona de plegado (R + 2×t de la línea)',
     origen: 'auditoría de planos: el eje muerto caía en la zona de plegado del ala — el láser lo corta y la plegadora lo deforma' },
   { id: 'pieza-sin-fijacion', regla: 'toda pieza de chapa tiene barrenos o se declara soldada',
@@ -102,7 +102,7 @@ const paresPliegue = (pl) => {
  * cotas MEASURED que se copian tal cual — se pasan como regex y quedan
  * DECLARADAS en el informe (nunca silenciosas).
  */
-export function margenAgujeroBorde(parts, { exentos = [], pisoPaso = 12 } = {}) {
+export function margenAgujeroBorde(parts, { exentos = [], pisoPaso = 12, proceso = 'laser' } = {}) {
   const errs = [];
   let peor = null;
   for (const p of parts) {
@@ -118,12 +118,17 @@ export function margenAgujeroBorde(parts, { exentos = [], pisoPaso = 12 } = {}) 
       const ctr = p.flat.contorno;
       for (let i = 0; i + 1 < ctr.length; i++) dMin = Math.min(dMin, distSeg(c.c, ctr[i], ctr[i + 1]));
       const margen = r2(dMin - c.r);
-      // PERNO: ≥ max(1×Ø, 2×t) — el apriete carga el borde.
-      // PASO de holgura (Ø≥24, sin apriete: muñones, registros): ≥ max(12, 2×t),
-      // la piel solo debe sobrevivir el corte y el plegado.
-      // (umbral idéntico al vetado en gen_lbp530 Rev.C — no endurecer sin PRD)
+      // La distancia mínima al borde DEPENDE DEL PROCESO DE CORTE:
+      //  · PUNZONADO: ≥ 2×t — el punzón deforma y desgarra la piel del borde.
+      //  · LÁSER: el borde no se deforma; manda la regla ESTRUCTURAL de la
+      //    junta apernada, ≥ 1×Ø (y Eurocode e2 ≥ 1,2·d0 queda cubierto).
+      // Corrección de Sergio 13-08: aplicar 2×t a piezas LASER-cortadas dejaba
+      // ventanas vacías y empujaba a ensanchar perfiles de 1½ in que NO se
+      // pueden ensanchar (el 38,1 es el idioma del sistema 24 V completo).
       const esPaso = 2 * c.r >= 24;
-      const req = esPaso ? Math.max(pisoPaso, 2 * p.flat.t) : Math.max(2 * c.r, 2 * p.flat.t);
+      const req = esPaso
+        ? Math.max(pisoPaso, proceso === 'punzonado' ? 2 * p.flat.t : p.flat.t)
+        : (proceso === 'punzonado' ? Math.max(2 * c.r, 2 * p.flat.t) : 2 * c.r);
       const rel = margen / req;
       if (!peor || rel < peor.rel) peor = { rel, margen, pieza: p.name, req: r2(req), exento };
       if (margen < req && !exento) {

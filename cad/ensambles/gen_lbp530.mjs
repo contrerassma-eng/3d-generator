@@ -126,7 +126,7 @@ export const D = {
   portacarril: { w: 50, t: 6, clip: { lado: 30, t: 3, largo: 40 } },
   sop24: {
     brk: { w: 203, alto: 95, t: 3, flangeD: 35, cruzOffs: [-73.7, -21.6, 21.6, 73.7],
-           cruzW: 32, cruzH: 19, cruzDesdeBorde: 16.65, pivotDia: 11, pvV: 82.7,
+           cruzW: 32, cruzH: 19, cruzDesdeBorde: 14.5, pivotDia: 11, pvV: 82.7,
            arcoR: 52.1, arcoW: 11, arcoA0: 44, arcoA1: 136, lockDia: 11, lockAng: [30, 150],
            vRecto: 25, wFondo: 66 },
     col: { w: 77, d: 38, t: 3, holeDia: 11, upSep: 52.1, pvDesdeTope: 64.7,
@@ -705,7 +705,12 @@ function build(tipo, L) {
     // pestaña (margen 2.5 — la compuerta de margen agujero→borde lo cazó).
     // A 229: 9.5 al borde de pestaña, 18 al borde del ala, y el dado de
     // apriete no topa la placa. Constante COMPARTIDA placa↔guarda.
-    t: 1.5, fondoW: 504, skirtY: 252, pestW: 36, holeY: 229,
+    // holeY 218 (era 229): a 229 el paso M6 caía EXACTAMENTE sobre la tangente
+    // del pliegue del ala (medio barreno dentro del radio — la plegadora lo
+    // deforma). A 218 queda a 15 del borde libre del ala, fuera del pliegue.
+    // La pestaña crece 36→46 para conservar SU margen de borde (≥1×Ø=7):
+    // es chapa nuestra de 1,5 y no cuesta nada.
+    t: 1.5, fondoW: 504, skirtY: 252, pestW: 46, holeY: 218,
     // fondoZTen −460 (era −415): con el tensor Rev.C a −340 el lazo llega a
     // −417 — la compuerta de holgura ≥40 al lazo lo exigió
     fondoZ: -525, fondoZTen: -465, pasoM6: 400, holeDia: 7,
@@ -889,6 +894,11 @@ function build(tipo, L) {
   // Rev.D: el bracket B_005A ya NO aperna al alma — su ala horizontal aperna
   // POR DEBAJO del ala inferior del canal: 4×Ø9 por estación EN EL ALA, a la
   // Y del centro del cruciforme (16,65 del borde libre del ala = measured)
+  // 14,5 del borde libre (era 16,65 = centro del cruciforme measured): a 16,65
+  // el Ø9 entraba 1,15 en la ZONA DE PLEGADO del ala de 1½ in. El ala NO se
+  // ensancha (38,1 es el idioma del sistema 24 V — directriz Sergio 13-08) y
+  // el bracket measured tampoco cambia: la RANURA CRUCIFORME 32×19 del
+  // B_005A absorbe los 2,15 de corrimiento, que es para lo que existe.
   const yBrkAla = r2(yIn + D.plT - D.alaAncho + D.sop24.brk.cruzDesdeBorde);
   for (const x of patasX) {
     for (const du of D.sop24.brk.cruzOffs) {
@@ -1605,6 +1615,12 @@ const EXENTOS_MARGEN = [
   // grillas DICTADAS por el fabricante y cotas MEASURED que se copian tal cual
   /Cabezal porta-nosebar/, /Bracket soporte B_005A/, /Columna soporte 24V/,
 ];
+// DEUDA vigente: vacía. La de los 54 barrenos en zona de plegado se RESOLVIÓ
+// el 13-08 (Sergio: «keep one and a half inch, there is a solution for the
+// nine hole, you cannot increase that»): el ala sigue en 38,1 y los pasos se
+// corrieron dentro de la ranura cruciforme del bracket / con la pestaña de la
+// guarda ensanchada. La regla de borde pasó a depender del PROCESO (láser vs
+// punzonado), que era el error de fondo.
 const DEUDA_DECLARADA = [
   { patron: /Paso M6 guarda inferior|barreno Ø7 en «FAB · Placa lateral/,
     razon: 'ALA de 38 no admite el M6 de guarda fuera de la zona de plegado Y con margen al borde de la pestaña a la vez (ventana v 15,5..16,5 contra pestaña 9,5): decisión de Sergio — ensanchar ala a ~46, o pasar la fijación de guarda al faldón' },
@@ -1723,52 +1739,9 @@ function verify(res) {
     // catenaria: profundidad de sag bajo el plano de zapatas (LBP)
     if (tipo === 'LBP') r.sag = r2(Math.abs(D.sagBot - D.retTop));
   }
-  // ── margen agujero→borde en TODOS los desarrollos (directriz Sergio 12-08:
-  // «distancia de agujeros a bordes: cada pieza debe verse funcional por sí
-  // sola»). Regla: margen borde-a-borde ≥ max(1.0×Ø, 2×t). Exentos con razón:
-  // patrones DICTADOS por el fabricante (grilla nosebar Movex, brochure p.8).
-  const distSeg = (p, a, b) => {
-    const dx = b[0] - a[0], dy = b[1] - a[1];
-    const L2 = dx * dx + dy * dy;
-    const t = L2 ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / L2)) : 0;
-    return Math.hypot(p[0] - a[0] - dx * t, p[1] - a[1] - dy * t);
-  };
-  let peorMargen = null;
-  for (const eq of [res.LBP, res.GT]) {
-    if (!eq) continue;
-    const nm = eq === res.LBP ? 'LBP' : 'GT';
-    for (const p of eq.parts) {
-      if (!p.flat) continue;
-      // exenciones DECLARADAS (geometría de fabricante, no nuestra):
-      // · cabezal: grilla Movex 22868 · bracket/columna 24V: pivote a 12,3
-      //   del borde inferior (margen 6,8) y aplome a 12,6 del tope (margen
-      //   7,1) son cotas MEASURED del ZP2026 — se copian tal cual
-      const exento = /Cabezal porta-nosebar|Bracket soporte B_005A|Columna soporte 24V/.test(p.name);
-      for (const c of p.flat.cortes?.circles || []) {
-        let dMin = Infinity;
-        const ctr = p.flat.contorno;
-        for (let i = 0; i + 1 < ctr.length; i++) dMin = Math.min(dMin, distSeg(c.c, ctr[i], ctr[i + 1]));
-        const margen = r2(dMin - c.r);
-        // PERNO: margen >= max(1xO, 2t). PASO DE HOLGURA (O>=24, sin carga en
-        // el borde — munones/registro): margen >= max(12, 2t): la piel solo
-        // debe sobrevivir corte y plegado, no transmitir apriete.
-        const esPaso = 2 * c.r >= 24;
-        const piso = esPaso ? Math.max(12, 2 * p.flat.t) : Math.max(2 * c.r, 2 * p.flat.t);
-        if (!peorMargen || margen / piso < peorMargen.rel)
-          peorMargen = { rel: margen / piso, nm, pieza: p.name.slice(0, 48), margen, piso, exento };
-        if (margen < piso && !exento) {
-          if (process.env.DBG_MARGEN) {
-            let best = 0, bd = Infinity;
-            const ctr = p.flat.contorno;
-            for (let ii = 0; ii + 1 < ctr.length; ii++) { const dd = distSeg(c.c, ctr[ii], ctr[ii + 1]); if (dd < bd) { bd = dd; best = ii; } }
-            console.log(`DBG ${nm} «${p.name.slice(6,40)}» hole Ø${r2(2*c.r)} @(${c.c[0]},${c.c[1]}) seg ${JSON.stringify(ctr[best])}→${JSON.stringify(ctr[best+1])}`);
-          }
-          e.push(`${nm}/«${p.name.slice(6, 52)}»: agujero Ø${r2(2 * c.r)} a ${margen} del borde (mínimo ${piso} = max(1×Ø, 2×t))`);
-        }
-      }
-    }
-  }
-  if (peorMargen) console.log(`  margen agujero→borde más apretado: ${peorMargen.margen} mm (piso ${peorMargen.piso}) en ${peorMargen.nm} ${peorMargen.pieza}${peorMargen.exento ? ' [EXENTO: grilla fabricante]' : ''}`);
+  // margen agujero→borde: la regla VIVE EN lib_compuertas.mjs (una sola
+  // verdad, sensible al proceso de corte). Aquí sólo se declaran las
+  // exenciones (EXENTOS_MARGEN) y el informe sale del `info` de la librería.
   // esbeltez (informativo con techo duro): vano entre travesaños / espesor
   // de placa — placas guiadas arriba por la banda y abajo por el retorno
   const vanoMax = Math.max(D.pasoTravLBP, D.pasoTravFT);
