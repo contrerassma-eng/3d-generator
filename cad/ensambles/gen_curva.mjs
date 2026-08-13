@@ -450,8 +450,13 @@ export function curva(A) {
     // CARA DE MONTAJE del soporte y +Y local mira hacia los polines, así que
     // instanciarla es literalmente «apoyar esa cara contra el alma del lateral
     // interno»: no queda ningún grado de libertad que equivocar. Una por zona.
+    // Va contra el lateral EXTERNO, no el interno: la polea de arrastre del
+    // polín (Ø87,5) está en su extremo GRANDE, a 515–540 mm del extremo chico,
+    // o sea a R ≈ 1379–1404 — justo en el alma externa (R1397). El motor tiene
+    // que quedar donde está esa garganta. Con `giro: π` la unidad crece hacia
+    // adentro de la curva y su eje mira al interior del bastidor.
     unidadMotriz: zonaAng.map((ang) => ({
-      R: r2(STD.RintAlmaExt), ang: r2(ang), z: r2(-STD.alma), giro: 0,
+      R: r2(STD.Rext), ang: r2(ang), z: r2(-STD.alma), giro: Math.PI,
     })),
     // ESTACIÓN de patas completa (2 columnas + soporte pivote + niveladores),
     // no una columna suelta: la corrección que trajo el trabajo del LBP. Va
