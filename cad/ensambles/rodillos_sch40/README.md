@@ -33,6 +33,7 @@ bastidor sin tocar nada.
 | `ABASTECIMIENTO.md` | **el plan de compra**: qué se trae de China, qué se compra en Chile, qué se fabrica |
 | `manual_taller.mjs` | genera los croquis de operación (los que se pegan a la máquina) |
 | `MANUAL_TALLER.md` | **la hoja de ruta del taller**: ruta de fabricación, utillaje, control |
+| `curva.mjs` | **trazado de la curva**: radio, desnivel del bastidor, paso y nº de rodillos |
 | `ver_corte.html` / `render.mjs` | visor de corte y renderizador de vistas |
 | `ESCALA.md` | de qué píxeles del catálogo sale cada cota |
 | `rodillos_sch40.json` | **el modelo** — se abre en la app de diseño del repo |
