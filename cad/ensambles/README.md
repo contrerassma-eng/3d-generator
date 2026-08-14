@@ -296,3 +296,26 @@ node cad/ensambles/gen_lbp530.mjs        # → lbp530_5m.json · lbp530_gt08.jso
 
 Los entregables del proyecto (GLB, planos, memoria de cálculo y lista de
 compra de material de ejes) viven en `projects/LBP530-18/out/`.
+
+---
+
+## `curva60_24.json` / `curva90_24.json` — Curvas de polines cónicos 24"
+
+El estándar Kofmelk de la **curva de 60°** extendido paramétricamente; 90° es
+el caso que motivó el trabajo. Mismos radios (R861 / R1397), misma sección
+(alma 190,5 · ala 38,1 · e 3), mismos componentes y los mismos patrones de
+perforación — sólo crece el arco: 14 polines a 60°, **21 a 90°**, con el paso
+angular idéntico (60/14 = 4,2857°, que a 90° da 21 exacto).
+
+```bash
+node ensambles/gen_curva.mjs        # -> curva60_24.json · curva90_24.json · curva_dims.json
+node tests/test_curva.mjs           # 92 compuertas: calibra contra el C60 REAL antes de aceptar el 90°
+# láminas y DXF (bundlear con esbuild como los demás):
+#   planos_curva.mjs  -> planos_curva/planos_fabricacion_curva90.pdf  (ANG=60|90)
+#   dxf_flat.mjs      -> planos_curva/dxf_curva90_24/*.dxf + CSV de barrenos
+```
+
+`curva_patron_c60.json` guarda el **patrón de perforación medido** en los PDF
+de fabricación originales (54 + 62 barrenos, capa `measured`): es la
+calibración que impide que el estándar se corra. Detalle en `docs/CURVAS.md`;
+el estándar escrito, en `conveyone-simulator/docs/curvas.md`.

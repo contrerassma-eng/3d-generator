@@ -1,0 +1,116 @@
+{
+ "curva": "90° 24\"",
+ "fecha": "2026-08-13",
+ "fabricadas": [
+  {
+   "plano": "CU-01",
+   "pieza": "Cuerpo lateral externo C90°",
+   "cantidad": 1,
+   "material": "Fe e=3 mm",
+   "barrenos": 83
+  },
+  {
+   "plano": "CU-02",
+   "pieza": "Refuerzo externo superior C90°",
+   "cantidad": 2,
+   "material": "Fe e=3 mm",
+   "barrenos": 12
+  },
+  {
+   "plano": "CU-03",
+   "pieza": "Refuerzo externo inferior C90°",
+   "cantidad": 2,
+   "material": "Fe e=3 mm",
+   "barrenos": 12
+  },
+  {
+   "plano": "CU-04",
+   "pieza": "Cuerpo lateral interno C90°",
+   "cantidad": 1,
+   "material": "Fe e=3 mm",
+   "barrenos": 87
+  },
+  {
+   "plano": "CU-05",
+   "pieza": "Refuerzo interno superior C90°",
+   "cantidad": 2,
+   "material": "Fe e=3 mm",
+   "barrenos": 12
+  },
+  {
+   "plano": "CU-06",
+   "pieza": "Refuerzo interno inferior C90°",
+   "cantidad": 2,
+   "material": "Fe e=3 mm",
+   "barrenos": 12
+  },
+  {
+   "plano": "CU-07",
+   "pieza": "Guía externa superior C90°",
+   "cantidad": 1,
+   "material": "Fe e=3 mm",
+   "barrenos": 0
+  },
+  {
+   "plano": "CU-08",
+   "pieza": "Guía interna superior C90°",
+   "cantidad": 1,
+   "material": "Fe e=3 mm",
+   "barrenos": 0
+  }
+ ],
+ "componentes": [
+  {
+   "item": "Polín cónico 21\"",
+   "cantidad": 21
+  },
+  {
+   "item": "Travesaño 21\"",
+   "cantidad": 5
+  },
+  {
+   "item": "Tirante interno",
+   "cantidad": 5
+  },
+  {
+   "item": "Soporte de motor",
+   "cantidad": 2
+  },
+  {
+   "item": "Soporte frontal",
+   "cantidad": 8
+  }
+ ],
+ "dims": {
+  "angulo": 90,
+  "polines": 21,
+  "pasoAngular": 4.29,
+  "travesanos": 5,
+  "zonas": 3,
+  "motores": 3,
+  "polinesPorZona": 7,
+  "patronesTravesano": 6,
+  "posicionesSoporte": 4,
+  "desarrollo": {
+   "externo": 2196.76,
+   "interno": 1354.81
+  },
+  "radios": {
+   "int": 861,
+   "ext": 1397,
+   "alaInt": 825.9,
+   "alaExt": 1435.1,
+   "centro": 1130.5
+  },
+  "envolvente": 609.2,
+  "claroPolines": 533,
+  "cuerda": {
+   "externo": 2029.54,
+   "interno": 1168
+  },
+  "envolventePlanta": [
+   1435.1,
+   1435.1
+  ]
+ }
+}

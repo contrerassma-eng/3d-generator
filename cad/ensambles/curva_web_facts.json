@@ -1,0 +1,74 @@
+{
+ "_meta": {
+  "que": "Datos de referencia del equipo equivalente de catalogo para la curva de polines conicos 24V: Hytrol 190-E24EZC / E24EZCT (24-Volt Tapered Live Roller Zero Pressure Accumulating Curve).",
+  "capa": "web",
+  "para_que": "Contrastar el estandar Kofmelk C60 y la extension a 90 grados contra el equipo de catalogo del que deriva la familia. NO se funde al modelo: lo que entra al modelo sale de los planos medidos; esto sirve para confirmar o para levantar una discrepancia.",
+  "fecha_acceso": "2026-08-13"
+ },
+ "facts": [
+  {
+   "id": "hytrol_e24_curva_angulos",
+   "dato": "Angulos de curva de catalogo: 30, 45, 60 y 90 grados",
+   "cita": "Curve Angles Available: 30°, 45°, 60° & 90°",
+   "url": "https://www.condrives.com/product/hytrol-model-190-e24ezc-24-volt-tapered-live-roller-zero-pressure-accumulating-curve/",
+   "uso": "CONFIRMA que 90 grados es un angulo estandar de la familia, no una variante. gen_curva.mjs sirve los cuatro."
+  },
+  {
+   "id": "hytrol_e24_curva_anchos",
+   "dato": "Ancho total 24 in <-> entre bastidores 21 in",
+   "cita": "Overall Widths: 12″, 14″, 16″, 18″, 20″, 22″, 24″, 26″, 28″, 30″, 34″, 36″, 40″ & 42″ // Between Frames Dimensions: 9″, 11″, 13″, 15″, 17″, 19″, 21″, 23″, 25″, 27″, 31″, 33″, 37″ & 39″",
+   "url": "https://www.condrives.com/product/hytrol-model-190-e24ezc-24-volt-tapered-live-roller-zero-pressure-accumulating-curve/",
+   "uso": "CONFIRMA la lectura del C60: envolvente 609,2 = 24 in y claro entre almas 533 = 21 in (la cara del polin). El par 24/21 es el del catalogo."
+  },
+  {
+   "id": "hytrol_e24_curva_bastidor",
+   "dato": "Bastidor: canal conformado 6-1/2 x 1-1/2 in, 12 ga",
+   "cita": "Frame: 6-1/2″ x 1-1/2″ x 12 gauge formed steel channel frame powder coat painted medium green",
+   "url": "https://www.condrives.com/product/hytrol-model-190-e24ezc-24-volt-tapered-live-roller-zero-pressure-accumulating-curve/",
+   "uso": "El ala coincide (1-1/2 in = 38,1, igual que el C60). El alma del C60 es MAS ALTA (7-1/2 in = 190,5 vs 6-1/2 in) y la chapa MAS GRUESA (3 mm vs 12 ga = 2,66). El bastidor Kofmelk es una version reforzada del mismo perfil."
+  },
+  {
+   "id": "hytrol_e24_curva_motor",
+   "dato": "Motor 24 VDC tipo panqueque, montado por dentro del bastidor",
+   "cita": "Motor: 24-volt DC Pancake Type (located on inside of conveyor frame)",
+   "url": "https://www.condrives.com/product/hytrol-model-190-e24ezc-24-volt-tapered-live-roller-zero-pressure-accumulating-curve/",
+   "uso": "El motor va POR DENTRO del bastidor, no colgado por fuera."
+  },
+  {
+   "id": "hytrol_e24_motor_por_zona",
+   "dato": "Un motor 24 VDC por zona; transmision por O-ring",
+   "cita": "Its unique pancake motor and O-ring drive system makes it super quiet and reduces the need for maintenance to a minimum. The motors are 24 VDC motors with one in each zone of conveyor.",
+   "url": "https://www.condrives.com/product/hytrol-190-e24ez-o-ring-driven-zero-pressure-live-roller/",
+   "uso": "Regla de motorizacion: 1 motor = 1 zona. Cruza con el C60 (2 soportes de motor y 14 polines -> 7 polines por zona, zona = 30 grados de arco = 592 mm sobre el eje ~ 24 in) y da 3 motores a 90 grados."
+  },
+  {
+   "id": "hytrol_e24_familia_modelos",
+   "dato": "Modelos de curva de la linea 24 V: E24EZCT y E24EZNCT",
+   "cita": "Curve Models: E24EZCT, E24EZNCT",
+   "url": "https://hytrol.com/products/accumulation/24-volt-conveyor/",
+   "uso": "Nombre de catalogo del equipo de referencia ('24 CT')."
+  },
+  {
+   "id": "polin_conico_real",
+   "dato": "Polin conico Conveyone: Ø48,26 (1,9 in) en el extremo chico -> Ø79,0 sobre la cara de 533; eje Ø12; 3 anillos y polea de arrastre Ø87,5 en el extremo grande",
+   "cita": "Medido sobre rodillo_conico.glb, el desarrollo 3D del polin conico entregado por Sergio (13-08-2026). Perfil lineal: pendiente 0,05769 mm de Ø por mm de cara.",
+   "url": "archivo interno — cad/ensambles/rodillo_conico.glb",
+   "uso": "RESUELVE la discrepancia: el polin de catalogo Hytrol no era la referencia."
+  }
+ ],
+ "confirmaciones": [
+  "Ancho 24 in / entre bastidores 21 in: el C60 medido cae exactamente en el par de catalogo.",
+  "90 grados es un angulo estandar de la familia (30/45/60/90).",
+  "Ala de 1-1/2 in identica.",
+  "1 motor por zona explica los 2 soportes de motor del C60 y fija 3 a 90 grados.",
+  "El polin real cierra el diseño: razon de diametros 79,0/48,26 = 1,637 contra la razon de radios de la curva 1397/864 = 1,617 (1,2%). El apice del cono SI apunta al centro de la curva, que es lo que hace que la velocidad tangencial sea proporcional al radio."
+ ],
+ "discrepancias": [
+  {
+   "que": "Alma del bastidor",
+   "catalogo": "6-1/2 in, 12 ga",
+   "medido_c60": "7-1/2 in (190,5), 3 mm",
+   "estado": "NO es un error: el C60 es deliberadamente mas robusto. Se conserva el C60."
+  }
+ ]
+}

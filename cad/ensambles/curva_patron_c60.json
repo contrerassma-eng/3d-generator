@@ -1,0 +1,233 @@
+{
+ "_meta": {
+  "que": "Patron de perforacion MEDIDO de la curva de 60 grados 24\" de Kofmelk.",
+  "capa": "measured",
+  "fuente": "PDF de fabricacion Cuerpo_Lat_externo_Curva60.pdf y Cuerpo_Lat_interno_Curva60.pdf (KOFMELK SPA, Ingenieria Kofmelk, 3/11/2024, rev. 26-27/6/2025), juego \"Planos\" entregado por Sergio.",
+  "metodo": "Extraccion de la geometria vectorial del flujo de contenido del PDF: los subtrazados se agrupan en componentes conexas, la vista \"pieza desplegada\" se identifica por su rectangulo envolvente y da la escala pt->mm (1464 y 903 mm acotados en la lamina), y cada componente chica y de proporcion ~1:1 es un barreno.",
+  "incertidumbre": "~0,3% en posicion y ~0,4 mm en diametro (aplanado de los arcos en el PDF). Los diametros se redondean al valor normalizado mas cercano al usarlos.",
+  "ejes": "x = arco desde el extremo de entrada sobre el desarrollo; y_top = distancia bajo el BORDE SUPERIOR del alma; desarrollo = [largo, alto] en mm.",
+  "uso": "calibracion de gen_curva.mjs — la verifica tests/test_curva.mjs"
+ },
+ "cuerpo_lat_externo": {
+  "desarrollo": [
+   1464.0,
+   190.6
+  ],
+  "filas": {
+   "36.0": {
+    "n": 14,
+    "d": 12.57,
+    "x": [
+     52.71,
+     157.43,
+     261.45,
+     366.17,
+     470.9,
+     575.62,
+     679.64,
+     784.36,
+     889.08,
+     993.8,
+     1097.83,
+     1202.55,
+     1307.27,
+     1411.29
+    ]
+   },
+   "58.6": {
+    "n": 12,
+    "d": 6.98,
+    "x": [
+     104.72,
+     209.44,
+     314.16,
+     418.19,
+     522.91,
+     627.63,
+     836.37,
+     941.09,
+     1045.81,
+     1150.53,
+     1254.56,
+     1359.28
+    ]
+   },
+   "78.5": {
+    "n": 4,
+    "d": 8.73,
+    "x": [
+     104.72,
+     627.63,
+     836.37,
+     1359.28
+    ]
+   },
+   "88.0": {
+    "n": 4,
+    "d": 11.0,
+    "x": [
+     21.29,
+     711.06,
+     753.29,
+     1443.06
+    ]
+   },
+   "115.5": {
+    "n": 8,
+    "d": 10.51,
+    "x": [
+     109.96,
+     162.32,
+     570.38,
+     622.39,
+     841.61,
+     893.97,
+     1302.38,
+     1354.04
+    ]
+   },
+   "163.0": {
+    "n": 4,
+    "d": 10.64,
+    "x": [
+     21.29,
+     711.06,
+     753.29,
+     1443.06
+    ]
+   },
+   "167.9": {
+    "n": 8,
+    "d": 10.51,
+    "x": [
+     109.96,
+     162.32,
+     570.38,
+     622.39,
+     841.61,
+     893.97,
+     1302.38,
+     1354.04
+    ]
+   }
+  }
+ },
+ "cuerpo_lat_interno": {
+  "desarrollo": [
+   903.0,
+   190.6
+  ],
+  "filas": {
+   "18.3": {
+    "n": 14,
+    "d": 12.38,
+    "x": [
+     32.21,
+     96.63,
+     161.43,
+     225.85,
+     290.26,
+     354.68,
+     419.29,
+     483.9,
+     548.32,
+     612.74,
+     677.15,
+     741.95,
+     806.37,
+     870.79
+    ]
+   },
+   "58.3": {
+    "n": 16,
+    "d": 7.84,
+    "x": [
+     64.61,
+     96.82,
+     129.03,
+     193.64,
+     258.05,
+     322.47,
+     354.87,
+     387.08,
+     516.11,
+     548.32,
+     580.53,
+     644.95,
+     709.55,
+     774.16,
+     806.37,
+     838.58
+    ]
+   },
+   "78.3": {
+    "n": 4,
+    "d": 8.67,
+    "x": [
+     64.61,
+     387.08,
+     516.11,
+     838.58
+    ]
+   },
+   "87.9": {
+    "n": 4,
+    "d": 11.0,
+    "x": [
+     21.16,
+     430.54,
+     472.66,
+     881.84
+    ]
+   },
+   "115.7": {
+    "n": 8,
+    "d": 10.39,
+    "x": [
+     67.85,
+     119.69,
+     331.81,
+     383.84,
+     519.35,
+     571.19,
+     783.31,
+     835.34
+    ]
+   },
+   "125.6": {
+    "n": 4,
+    "d": 10.38,
+    "x": [
+     150.56,
+     301.13,
+     602.06,
+     752.63
+    ]
+   },
+   "162.9": {
+    "n": 4,
+    "d": 11.0,
+    "x": [
+     21.16,
+     430.54,
+     472.66,
+     881.84
+    ]
+   },
+   "167.7": {
+    "n": 8,
+    "d": 10.58,
+    "x": [
+     67.85,
+     119.69,
+     331.81,
+     383.84,
+     519.35,
+     571.19,
+     783.31,
+     835.34
+    ]
+   }
+  }
+ }
+}
