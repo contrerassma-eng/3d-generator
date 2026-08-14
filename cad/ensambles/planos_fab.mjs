@@ -486,6 +486,22 @@ function despieceSheets() {
   return sheets;
 }
 
+// Filas del BOM que NO tienen pieza en el ensamble (piezas menores SOLDADAS:
+// clips, orejas — viven como feature dentro de la madre). Sin esto salían en
+// el BOM pero NO en la lámina de despiece, que es la que lee el taller.
+if (existsSync(bomPathFab)) {
+  const yaEnDespiece = new Set(despiece.map(d => d.designacion.replace(/^(FAB|NORM)\s*[·.-]\s*/, '')));
+  for (const f of JSON.parse(readFileSync(bomPathFab, 'utf8')).filas) {
+    if (f.tipo !== 'FABRICADA' || yaEnDespiece.has(f.item_desc)) continue;
+    if (!/pieza menor SOLDADA/i.test(f.item_desc)) continue;
+    despiece.push({
+      item: f.item, designacion: 'FAB · ' + f.item_desc, cant: f.cant_equipo,
+      tipo: 'FABRICADA', material: f.material, plano: 'ficha de soldadura (GA)',
+    });
+  }
+  despiece.sort((a, b) => (Number(a.item) || 999) - (Number(b.item) || 999));
+}
+
 const todas = [portada(), ...despieceSheets(), ...fabSheets];
 const pdf = exportSheetsPDF(todas, 'planos_fabricacion_' + docBase + '.pdf');
 writeFileSync(join(outDir, pdf.name), Buffer.from(pdf.data));
