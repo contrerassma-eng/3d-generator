@@ -1,5 +1,9 @@
 # CELDA3 — celda triple omnidireccional (réplica del celluveyor)
 
+> **¿Retomas este trabajo en otra conversación?** Empieza por
+> **[TRASPASO.md](TRASPASO.md)**: estado, decisiones ya verificadas, trampas en
+> las que no volver a caer y qué falta decidir.
+
 Modelo 3D paramétrico y **verificado** de una celda hexagonal con tres ruedas
 omnidireccionales accionadas por separado, para armar un módulo de 9 celdas
 (3×3). Réplica funcional del mecanismo del *celluveyor* de cellumation, con los
@@ -9,8 +13,8 @@ componentes que el usuario ya tiene: **ruedas omni Ø48** y **motores TT 1:48**.
 
 | | |
 |---|---|
-| Celda | hexágono de **203.9 mm entre caras** (radio de rueda R = 76 mm) |
-| Módulo 3×3 | **71.4 × 58.9 cm** |
+| Celda | hexágono de **197.9 mm entre caras** (radio de rueda R = 76 mm) |
+| Módulo 3×3 | **69.3 × 57.1 cm** |
 | Velocidad · carga | **0.50 m/s** a 6 V · hasta **4.6 kg** apoyados en 6 ruedas |
 
 Ese tamaño de celda **no se eligió: salió del barrido**. `barrido.sh` genera la
@@ -86,9 +90,9 @@ no con su caja envolvente:
 |---|---|
 | Rueda omni | cubo, dos platos y **16 rodillos abarrilados**. El perfil del rodillo, `r(h) = 24 − √(19² + h²)`, apoya sobre el círculo de Ø48 y vale exactamente los **R5.00** del dibujo en el centro: que las dos cotas del dibujo encajen así confirma la lectura |
 | Motor TT | reductora, campana del motor y **los dos ejes con sus planos doble D**, más sus dos M3 de fijación |
-| Bloque porta-rodamiento | asiento del 624ZZ, reborde de tope y los dos M3 verticales roscados |
+| Soporte en C | **chapa plegada 2 mm**, 4 pliegues, desarrollo 120.08 mm con factor K: aloja los dos rodamientos y sujeta el motor. Es la pieza `32` de la patente [0054] |
+| Ruedas de bola | pasivas, a la altura de las motrices, en las juntas entre celdas (patente [0050]) |
 | Acople | alojamiento doble D de 5.5 de un lado, Ø4 del otro y prisionero M3 |
-| Soporte del motor | alma, ala atornillada bajo la placa, paso del eje libre y sus cuatro M3 |
 | Disco de encoder | las **36 ranuras** de verdad, que son las que cuenta el sensor |
 | Sensor LM393 | PCB con la **horquilla** que abraza el disco |
 
@@ -100,9 +104,10 @@ no con su caja envolvente:
 2. **Medir con calibre el entrecaras del eje plano del TT** (`ttEjeAF`, hoy 3.7
    por decisión de diseño) y la posición de sus dos M3 (`ttFijacionB/C`): de eso
    dependen el alojamiento del acople y los taladros del soporte.
-3. **El bastidor del módulo no está modelado.** Las celdas se atornillan entre sí
-   por las caras del hexágono (24 taladros M3 por placa), pero falta la
-   estructura que sostiene el conjunto.
+3. **Las celdas NO se pueden atornillar cara contra cara todavía**: el PCB del
+   sensor sobresale 1.07 mm de la cara del hexágono. Ver `ref/bastidor_propuesta.md`.
+4. **El bastidor del módulo no está modelado**, y quedan 3 interferencias entre
+   el soporte en C y el sensor.
 
 ## La alternativa que encoge la celda
 
