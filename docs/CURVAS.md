@@ -248,10 +248,13 @@ cd cad && bash ensambles/regenerar_curva.sh
   montaje: `zp_componentes.mjs` la eligió por el extremo en Y más lejano del
   eje del recto, y ese extremo resultó ser el cuerpo del motor, no la cara del
   soporte (por eso también quedaba separada del alma).
-- **Soporte de piso: pendiente contra el despiece MS05** (Sergio corrigió: es
-  **MS05**, no MC05). Falta la placa base, la sección transversal y la
-  regulación angular. Hoy va la estación de patas del ZP2026, que no trae esas
-  piezas. **No se compra ni se fabrica el soporte hasta tener ese despiece.**
+- **Soporte de piso — ahora entra la estación COMPLETA.** Filtrar por el
+  material `_leg` daba 77 × 609 × 588: sólo las columnas. Recortada por
+  vecindad (`zp_componentes.mjs --soporte`, igual que la unidad motriz) da
+  **203 × 615 × 658** con 436 mallas — aparecen la placa de apoyo al piso, la
+  sección transversal y la regulación angular que faltaban. Sigue **por
+  contrastar contra el despiece MS05** (Sergio corrigió: es MS05, no MC05)
+  antes de comprar o fabricar.
 - El **soporte frontal** y el **tirante interno** del C60 siguen sin lámina y
   sin equivalente en el recto: no se modelan. Sus patrones sí están medidos.
 - **Las guías superiores salen con CERO barrenos.** En el C60 la guía se suelda

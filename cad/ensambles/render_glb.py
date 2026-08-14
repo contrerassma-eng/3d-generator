@@ -110,6 +110,10 @@ def triangulos(g, b):
 # --- render ----------------------------------------------------------------
 VISTAS = {
     'iso': (math.radians(35.264), math.radians(-45)),
+    # isométrica SUPERIOR: más elevación que la isométrica normal, para ver la
+    # cama de polines y a la vez cómo llegan los soportes al piso
+    'iso_sup': (math.radians(55), math.radians(-45)),
+    'iso_sup2': (math.radians(55), math.radians(-135)),
     'frente': (0.0, 0.0),
     'lado': (0.0, math.radians(-90)),
     'planta': (math.radians(89.9), 0.0),

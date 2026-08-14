@@ -249,3 +249,66 @@ if (iU > 0) {
     + `${r0(mallas.reduce((s, m) => s + m.idx.length / 3, 0))} triángulos, `
     + `envolvente ${u.dim.map(r0).join(' x ')} → ${process.argv[iU + 1]}`);
 }
+
+
+// ---------------------------------------------------------------------------
+// SOPORTE A PISO como CONJUNTO
+// ---------------------------------------------------------------------------
+// Mismo problema que la unidad motriz: filtrar por el material `_leg` deja
+// FUERA las piezas vecinas que no comparten material — la placa de apoyo al
+// piso, la sección transversal y la regulación angular. La estación se recorta
+// ENTERA por vecindad, igual que la unidad motriz: se toma un grupo de
+// columnas, se infla su envolvente y entra todo lo que cae dentro salvo lo que
+// pertenece a la cama (polines, laterales, guardas, travesaños).
+//
+//   node ensambles/zp_componentes.mjs --soporte <salida.json> [MARGEN_S=200]
+const iS = process.argv.indexOf('--soporte');
+if (iS > 0) {
+  const margen = Number(process.env.MARGEN_S || 200);
+  const EXCLUIR = /^pos12|^LT_G|^GUARDA|^TR_S|escalerilla/i;
+  const patas = [...grupos.values()].filter((g) => g.nombre === 'pata');
+  if (!patas.length) throw new Error('no se encontró la estación de patas');
+  // la estación más completa (más volumen de envolvente)
+  const base = patas.map((g) => ({ g, e: envolvente(g) }))
+    .sort((a, b) => (b.e.dim[0] * b.e.dim[1] * b.e.dim[2]) - (a.e.dim[0] * a.e.dim[1] * a.e.dim[2]))[0];
+  // se infla SÓLO en X (a lo largo del flujo) y hacia ABAJO: a los lados y
+  // arriba está la cama, que no es parte del soporte
+  const lo = [base.e.lo[0] - margen, base.e.lo[1] - 40, base.e.lo[2] - margen];
+  const hi = [base.e.hi[0] + margen, base.e.hi[1] + 40, base.e.hi[2] + 40];
+  console.log(`soporte: caja ${lo.map(r0)} .. ${hi.map(r0)} (margen ${margen})`);
+
+  const mallas = [];
+  scene.traverse((o) => {
+    if (!o.isMesh) return;
+    for (let n = o; n; n = n.parent) if (EXCLUIR.test(n.name || '')) return;
+    const g2 = o.geometry.clone().applyMatrix4(o.matrixWorld);
+    const p = g2.attributes.position;
+    const pos = [];
+    const c0 = [0, 0, 0];
+    for (let i = 0; i < p.count; i++) {
+      const q = aCurva(new THREE.Vector3().fromBufferAttribute(p, i));
+      pos.push(...q);
+      for (let a = 0; a < 3; a++) c0[a] += q[a] / p.count;
+    }
+    if (c0.some((v, a) => v < lo[a] || v > hi[a])) return;
+    const c = o.material?.color;
+    mallas.push({ pos, idx: g2.index ? Array.from(g2.index.array)
+      : Array.from({ length: p.count }, (_, i) => i),
+      color: c ? [c.r, c.g, c.b] : [0.6, 0.62, 0.6], nodo: o.name || '' });
+  });
+
+  // origen: centrado en X/Y y en la BASE en Z (el pie va al piso)
+  const u = envolvente({ mallas });
+  const off = [u.centro[0], u.centro[1], u.lo[2]];
+  const out = { envolvente: u.dim.map((v) => Math.round(v * 100) / 100),
+    piezas: mallas.length,
+    pivote: 'centrado en planta, origen en el PIE (apoyo al piso)',
+    mallas: mallas.map((m) => ({
+      color: m.color.map((v) => Math.round(v * 1000) / 1000), idx: m.idx,
+      pos: m.pos.map((v, i) => Math.round((v - off[i % 3]) * 100) / 100),
+    })) };
+  writeFileSync(process.argv[iS + 1], JSON.stringify({ pata: out }));
+  console.log(`OK: soporte a piso — ${mallas.length} mallas, `
+    + `${r0(mallas.reduce((s, m) => s + m.idx.length / 3, 0))} triángulos, `
+    + `envolvente ${u.dim.map(r0).join(' x ')} → ${process.argv[iS + 1]}`);
+}

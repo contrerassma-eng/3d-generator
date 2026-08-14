@@ -475,8 +475,11 @@ export function curva(A) {
     // no una columna suelta: la corrección que trajo el trabajo del LBP. Va
     // centrada en el eje del bastidor y cubre los 609 de ancho, igual que en
     // el recto.
+    // La estación completa (columnas + placa de apoyo al piso + sección
+    // transversal + regulación angular) mide 658 de alto y su origen está en el
+    // PIE, así que la cabeza queda justo bajo el alma: TOR = 190,5 + 658.
     pata: [0, ...sopFrac, 1].map((fr) => ({
-      R: r2(STD.Rcentro), ang: r2(a0 + fr * A), z: r2(-STD.alma - 588), giro: 0,
+      R: r2(STD.Rcentro), ang: r2(a0 + fr * A), z: r2(-STD.alma - 658), giro: 0,
     })),
   };
 
