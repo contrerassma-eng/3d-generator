@@ -618,6 +618,54 @@
    "material": "brida UCF206 → mecha, pasante con tuerca (4 por chumacera; agujero brida y mecha Ø12 → perno M10 holgura estándar)",
    "desarrollo": "",
    "masa_kg": ""
+  },
+  {
+   "item": 41,
+   "tipo": "FABRICADA",
+   "item_desc": "Clip ángulo — pieza menor SOLDADA (40×30×40) · 2×Ø7.0",
+   "cant_equipo": 2,
+   "cant_proyecto": 8,
+   "origen": "maestranza / taller",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "ficha de soldadura (GA)",
+   "material": "Perfil 30×30×3 — corte a largo + barrenos",
+   "desarrollo": "40×30×40",
+   "masa_kg": "",
+   "area_m2_pintar": "",
+   "bbox_m2_plancha": ""
+  },
+  {
+   "item": 42,
+   "tipo": "FABRICADA",
+   "item_desc": "Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0",
+   "cant_equipo": 2,
+   "cant_proyecto": 8,
+   "origen": "maestranza / taller",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "ficha de soldadura (GA)",
+   "material": "Perfil 40×40×4 — corte a largo + barrenos",
+   "desarrollo": "4×60×48",
+   "masa_kg": "",
+   "area_m2_pintar": "",
+   "bbox_m2_plancha": ""
+  },
+  {
+   "item": 43,
+   "tipo": "FABRICADA",
+   "item_desc": "Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0",
+   "cant_equipo": 2,
+   "cant_proyecto": 8,
+   "origen": "maestranza / taller",
+   "referencia": "",
+   "plano_corte": "",
+   "plano_vistas": "ficha de soldadura (GA)",
+   "material": "Perfil 40×40×4 — corte a largo + barrenos",
+   "desarrollo": "4×60×48",
+   "masa_kg": "",
+   "area_m2_pintar": "",
+   "bbox_m2_plancha": ""
   }
  ]
 }

@@ -1,5 +1,5 @@
 PAQUETE DE CORTE LÁSER — CV-GT-800 · Movex 530 GT (friction top) 18 in × 0.8 m
-Generado: 2026-08-13 · 9 desarrollos DXF (R12, unidades mm, escala 1:1)
+Generado: 2026-08-14 · 9 desarrollos DXF (R12, unidades mm, escala 1:1)
 
 CONTENIDO
   *.dxf          un archivo por pieza distinta; capa VISIBLE = corte,

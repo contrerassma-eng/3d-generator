@@ -3,7 +3,7 @@
   "archivo": "lbp530_5m.json",
   "fecha": "2026-08-12",
   "total_piezas": 99,
-  "items_distintos": 30,
+  "items_distintos": 34,
   "planos_fabricacion": 12,
   "despiece": [
     {
@@ -313,6 +313,50 @@
       "tipo": "NORMALIZADA",
       "material_norma": "Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",
       "plano": "—"
+    },
+    {
+      "item": 49,
+      "designacion": "FAB · Clip ángulo — pieza menor SOLDADA (40×30×40) · 2×Ø7.0",
+      "nombres": [
+        "Clip ángulo — pieza menor SOLDADA (40×30×40) · 2×Ø7.0"
+      ],
+      "cant": 10,
+      "tipo": "FABRICADA",
+      "material_norma": "Perfil 30×30×3 — corte a largo + barrenos",
+      "plano": "ficha soldadura GA"
+    },
+    {
+      "item": 50,
+      "designacion": "FAB · Oreja de extremo 120×60×4 — pieza menor SOLDADA (120×4×90) · 2×Ø7.0",
+      "nombres": [
+        "Oreja de extremo 120×60×4 — pieza menor SOLDADA (120×4×90) · 2×Ø7.0"
+      ],
+      "cant": 10,
+      "tipo": "FABRICADA",
+      "material_norma": "Perfil 120×60×4 — corte a largo + barrenos",
+      "plano": "ficha soldadura GA"
+    },
+    {
+      "item": 51,
+      "designacion": "FAB · Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0",
+      "nombres": [
+        "Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Perfil 40×40×4 — corte a largo + barrenos",
+      "plano": "ficha soldadura GA"
+    },
+    {
+      "item": 52,
+      "designacion": "FAB · Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0",
+      "nombres": [
+        "Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Perfil 40×40×4 — corte a largo + barrenos",
+      "plano": "ficha soldadura GA"
     },
     {
       "item": "—",

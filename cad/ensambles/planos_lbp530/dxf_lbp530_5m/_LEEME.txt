@@ -1,5 +1,5 @@
 PAQUETE DE CORTE LÁSER — CV-LBP-5000 · Movex 530 LBP 18 in × 5.0 m
-Generado: 2026-08-13 · 12 desarrollos DXF (R12, unidades mm, escala 1:1)
+Generado: 2026-08-14 · 12 desarrollos DXF (R12, unidades mm, escala 1:1)
 
 CONTENIDO
   *.dxf          un archivo por pieza distinta; capa VISIBLE = corte,

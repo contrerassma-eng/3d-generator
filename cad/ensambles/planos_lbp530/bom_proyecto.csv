@@ -22,6 +22,8 @@ COMPRADA,"Sprocket Z32 loco (flotante +0.4/+0.3, grano suelto)",8,Movex · Itali
 FABRICADA,Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome),40,maestranza / taller,,LBD-01 / LB-02,lbp530_5m+lbp530_gt08
 FABRICADA,Cabezal porta-nosebar descarga PL6 470×55,8,maestranza / taller,,LBD-02 / LB-03,lbp530_5m+lbp530_gt08
 FABRICADA,Cabezal porta-nosebar entrada PL6 470×55,8,maestranza / taller,,LBD-02 / LB-03,lbp530_5m+lbp530_gt08
+FABRICADA,Clip ángulo — pieza menor SOLDADA (40×30×40) · 2×Ø7.0,48,maestranza / taller,,ficha de soldadura (GA),lbp530_5m+lbp530_gt08
+FABRICADA,Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0,32,maestranza / taller,,ficha de soldadura (GA),lbp530_5m+lbp530_5m+lbp530_gt08+lbp530_gt08
 FABRICADA,Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10),40,maestranza / taller,,LBD-03 / LB-04,lbp530_5m+lbp530_gt08
 FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6),8,maestranza / taller,,LBP530-EJ-01,lbp530_5m+lbp530_gt08
 FABRICADA,EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6),4,maestranza / taller,,LBP530-EJ-02,lbp530_5m
@@ -30,6 +32,7 @@ FABRICADA,Guarda inferior tensor — artesa U chapa 1.5 (650×504),4,maestranza 
 FABRICADA,Guarda inferior unica — artesa U chapa 1.5 (800×504),4,maestranza / taller,,GTD-04 / GT-05,lbp530_gt08
 FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,16,maestranza / taller,,LBD-06 / LB-07,lbp530_5m+lbp530_gt08
 FABRICADA,Mecha porta-chumacera PL8 tensor 320×362,8,maestranza / taller,,LBD-07 / LB-08,lbp530_5m
+FABRICADA,Oreja de extremo 120×60×4 — pieza menor SOLDADA (120×4×90) · 2×Ø7.0,40,maestranza / taller,,ficha de soldadura (GA),lbp530_5m
 FABRICADA,Placa lateral libre (−Y) PL6 L=5000,4,maestranza / taller,,LBD-08 / LB-01,lbp530_5m
 FABRICADA,Placa lateral libre (−Y) PL6 L=800,4,maestranza / taller,,GTD-06 / GT-01,lbp530_gt08
 FABRICADA,Placa lateral motriz (+Y) PL6 L=5000,4,maestranza / taller,,LBD-08 / LB-01,lbp530_5m

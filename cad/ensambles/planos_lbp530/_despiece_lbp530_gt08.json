@@ -3,7 +3,7 @@
   "archivo": "lbp530_gt08.json",
   "fecha": "2026-08-12",
   "total_piezas": 53,
-  "items_distintos": 24,
+  "items_distintos": 27,
   "planos_fabricacion": 9,
   "despiece": [
     {
@@ -247,6 +247,39 @@
       "tipo": "NORMALIZADA",
       "material_norma": "Sprocket P158808YF moldeado Z-32, bore cuadrado 1.5 in, gran",
       "plano": "—"
+    },
+    {
+      "item": 41,
+      "designacion": "FAB · Clip ángulo — pieza menor SOLDADA (40×30×40) · 2×Ø7.0",
+      "nombres": [
+        "Clip ángulo — pieza menor SOLDADA (40×30×40) · 2×Ø7.0"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Perfil 30×30×3 — corte a largo + barrenos",
+      "plano": "ficha soldadura GA"
+    },
+    {
+      "item": 42,
+      "designacion": "FAB · Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0",
+      "nombres": [
+        "Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Perfil 40×40×4 — corte a largo + barrenos",
+      "plano": "ficha soldadura GA"
+    },
+    {
+      "item": 43,
+      "designacion": "FAB · Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0",
+      "nombres": [
+        "Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Perfil 40×40×4 — corte a largo + barrenos",
+      "plano": "ficha soldadura GA"
     },
     {
       "item": "—",

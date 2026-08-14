@@ -50,7 +50,8 @@
     "margen-agujero-borde",
     "agujero-en-pliegue",
     "pieza-sin-fijacion",
-    "masa-exacta"
+    "masa-exacta",
+    "flat-vs-solido"
    ],
    "reglas_disponibles_sin_cablear": [
     "zona-prohibida",
@@ -69,6 +70,80 @@
       "req": 11,
       "exento": true
      },
+     "subpiezas_sin_plano": [
+      {
+       "madre": "FAB · Portacarril 50×6 con clips (apernado M6 al alma)",
+       "subpieza": "Clip ángulo ala vertical (soldado al portacarril)",
+       "n": 4,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Portacarril 50×6 con clips (apernado M6 al alma)",
+       "subpieza": "Clip ángulo ala vertical (soldado al portacarril)",
+       "n": 4,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Portacarril 50×6 con clips (apernado M6 al alma)",
+       "subpieza": "Clip ángulo ala vertical (soldado al portacarril)",
+       "n": 4,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Portacarril 50×6 con clips (apernado M6 al alma)",
+       "subpieza": "Clip ángulo ala vertical (soldado al portacarril)",
+       "n": 4,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Portacarril 50×6 con clips (apernado M6 al alma)",
+       "subpieza": "Clip ángulo ala vertical (soldado al portacarril)",
+       "n": 4,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",
+       "subpieza": "Oreja de extremo 120×60×4 (soldada)",
+       "n": 2,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",
+       "subpieza": "Oreja de extremo 120×60×4 (soldada)",
+       "n": 2,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",
+       "subpieza": "Oreja de extremo 120×60×4 (soldada)",
+       "n": 2,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",
+       "subpieza": "Oreja de extremo 120×60×4 (soldada)",
+       "n": 2,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",
+       "subpieza": "Oreja de extremo 120×60×4 (soldada)",
+       "n": 2,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Cabezal porta-nosebar entrada PL6 470×55",
+       "subpieza": "Clip ángulo cabezal (soldado)",
+       "n": 2,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Cabezal porta-nosebar descarga PL6 470×55",
+       "subpieza": "Clip ángulo cabezal (soldado)",
+       "n": 2,
+       "barrenos": "4×Ø7.0"
+      }
+     ],
      "masa_chapa_kg": 250.6,
      "cobertura": {
       "piezas": 99,
@@ -84,6 +159,26 @@
       "req": 11,
       "exento": true
      },
+     "subpiezas_sin_plano": [
+      {
+       "madre": "FAB · Portacarril 50×6 con clips (apernado M6 al alma)",
+       "subpieza": "Clip ángulo ala vertical (soldado al portacarril)",
+       "n": 4,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Cabezal porta-nosebar entrada PL6 470×55",
+       "subpieza": "Clip ángulo cabezal (soldado)",
+       "n": 2,
+       "barrenos": "4×Ø7.0"
+      },
+      {
+       "madre": "FAB · Cabezal porta-nosebar descarga PL6 470×55",
+       "subpieza": "Clip ángulo cabezal (soldado)",
+       "n": 2,
+       "barrenos": "4×Ø7.0"
+      }
+     ],
      "masa_chapa_kg": 71.5,
      "cobertura": {
       "piezas": 53,

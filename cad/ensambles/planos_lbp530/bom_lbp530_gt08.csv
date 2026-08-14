@@ -39,3 +39,6 @@ item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plan
 38,TORNILLERÍA,Perno hex M6×12 8.8,8,32,local,,,,faldón de guarda → roscados M6 de la mecha,,,undefined,undefined
 39,TORNILLERÍA,Perno hex M8×30 8.8 + tuerca + golilla,36,144,local,,,,nosebar → cabezal (tuerca por cara interior),,,undefined,undefined
 40,TORNILLERÍA,Perno hex M10×35 8.8 + tuerca + golilla plana y presión,8,32,local,,,,"brida UCF206 → mecha, pasante con tuerca (4 por chumacera; agujero brida y mecha Ø12 → perno M10 holgura estándar)",,,undefined,undefined
+41,FABRICADA,Clip ángulo — pieza menor SOLDADA (40×30×40) · 2×Ø7.0,2,8,maestranza / taller,,,ficha de soldadura (GA),Perfil 30×30×3 — corte a largo + barrenos,40×30×40,,,
+42,FABRICADA,Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0,2,8,maestranza / taller,,,ficha de soldadura (GA),Perfil 40×40×4 — corte a largo + barrenos,4×60×48,,,
+43,FABRICADA,Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0,2,8,maestranza / taller,,,ficha de soldadura (GA),Perfil 40×40×4 — corte a largo + barrenos,4×60×48,,,
