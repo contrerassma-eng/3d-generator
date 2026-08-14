@@ -495,8 +495,9 @@ if (existsSync(bomPathFab)) {
     if (f.tipo !== 'FABRICADA' || yaEnDespiece.has(f.item_desc)) continue;
     if (!/pieza menor SOLDADA/i.test(f.item_desc)) continue;
     despiece.push({
-      item: f.item, designacion: 'FAB · ' + f.item_desc, cant: f.cant_equipo,
-      tipo: 'FABRICADA', material: f.material, plano: 'ficha de soldadura (GA)',
+      item: f.item, designacion: 'FAB · ' + f.item_desc, nombres: [f.item_desc],
+      cant: f.cant_equipo, tipo: 'FABRICADA',
+      material_norma: f.material, plano: 'ficha soldadura GA',
     });
   }
   despiece.sort((a, b) => (Number(a.item) || 999) - (Number(b.item) || 999));
