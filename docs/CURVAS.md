@@ -238,16 +238,20 @@ cd cad && bash ensambles/regenerar_curva.sh
   atornillan en la curva: la posición sale de los patrones medidos, pero la
   interfaz fina (largo del travesaño contra el claro de 533, altura de la
   ménsula del motor) se cierra contra la primera curva armada.
-- **Sentido del motor: PENDIENTE, y no se arregla girando la unidad.** Sergio
-  marcó que el eje tiene que mirar al lado interno. Probar con `giro: 0` en vez
-  de `giro: PI` lo dejó peor: la unidad entera se va PARA AFUERA del bastidor
-  externo (se ve colgando por fuera en el render). O sea que `giro: PI` es lo
-  correcto para el CUERPO —así crece hacia adentro— y lo que hay que invertir
-  es el EJE dentro del conjunto, que es un ESPEJO de la pieza, no una rotación.
-  Antes de espejarla hay que confirmar cuál de sus dos caras en Y es la de
-  montaje: `zp_componentes.mjs` la eligió por el extremo en Y más lejano del
-  eje del recto, y ese extremo resultó ser el cuerpo del motor, no la cara del
-  soporte (por eso también quedaba separada del alma).
+- **Unidad motriz: referenciada al ALMA, no a su propio extremo.** Los dos
+  síntomas que marcó Sergio —el soporte separado del bastidor y el eje al
+  revés— salían del mismo error: `zp_componentes.mjs` ponía el origen de la
+  unidad en su extremo en Y, y ese extremo es el CUERPO DEL MOTOR. Ahora el
+  origen es el **alma del bastidor** medida en el propio recto (`LT_G`, y=305;
+  el motor queda 101 mm hacia adentro), y la unidad se apoya contra la cara
+  exterior del alma externa (R=1400). La distancia alma↔motor la trae la pieza:
+  no hay ningún offset puesto a mano.
+
+  De paso quedó corregida una etiqueta equivocada: **`BR_3002` NO es el soporte
+  del motor.** Está en (607, ±288, −507), la línea de las patas — es una pieza
+  del SOPORTE A PISO, igual que `B_004A` (placa de apoyo) y `B_005A` (unión al
+  bastidor). El motor no tiene un soporte con nombre propio en el STEP: su
+  montaje viene dentro del recorte de la unidad.
 - **Soporte de piso — ahora entra la estación COMPLETA.** Filtrar por el
   material `_leg` daba 77 × 609 × 588: sólo las columnas. Recortada por
   vecindad (`zp_componentes.mjs --soporte`, igual que la unidad motriz) da

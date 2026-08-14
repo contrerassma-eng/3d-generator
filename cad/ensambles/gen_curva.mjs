@@ -457,20 +457,20 @@ export function curva(A) {
     // o sea a R ≈ 1379–1404 — justo en el alma externa (R1397). El motor tiene
     // que quedar donde está esa garganta. Con `giro: π` la unidad crece hacia
     // adentro de la curva y su eje mira al interior del bastidor.
+    // UNIDAD MOTRIZ (motor + polea + tarjeta + su montaje), recortada entera
+    // del recto y REFERENCIADA AL ALMA DEL BASTIDOR: en el recto el alma está
+    // en y=305 y el motor 101 mm hacia adentro. Aquí esa misma cara se apoya
+    // contra la cara exterior del alma externa (R=1400) y con `giro: PI` el
+    // conjunto crece hacia adentro de la curva. Ya no hay offset puesto a mano:
+    // la distancia alma↔motor la trae la propia pieza.
+    // Altura: en el recto el eje del polín está en Z=90 y el centro del motor
+    // en Z=2 — cuelga 88 mm bajo el eje. En la curva el eje del polín del lado
+    // externo está a −36, así que el centro del motor va a −124; dentro de la
+    // unidad ese centro está a 69,2 de su base.
     unidadMotriz: zonaAng.map((ang) => ({
-      // Altura tomada del recto: allá el eje del polín está en Z=90 y el
-      // centro del motor en Z=2, o sea el motor cuelga 88 mm BAJO el eje. En la
-      // curva el eje del polín en el lado externo está a −36, así que el centro
-      // del motor va a −124; dentro de la unidad ese centro está a 69,2 de su
-      // base, luego la base va a −193,2. Antes estaba en −190,5 y el motor
-      // asomaba por encima de los polines.
-      // Sergio: el soporte tiene que TOCAR el alma — es la referencia de
-      // alineación, no un detalle estético. El origen de la unidad quedó en el
-      // extremo en Y del conjunto (el cuerpo del motor), no en la cara del
-      // soporte, y por eso quedaba separada. Se corre 1" hacia adentro, que es
-      // lo que él midió sobre el recto.
-      R: r2(STD.Rext - IN), ang: r2(ang), z: r2(-36 - 88 - 69.2), giro: Math.PI,
+      R: r2(STD.RextAlmaExt), ang: r2(ang), z: r2(-36 - 88 - 69.2), giro: Math.PI,
     })),
+
     // ESTACIÓN de patas completa (2 columnas + soporte pivote + niveladores),
     // no una columna suelta: la corrección que trajo el trabajo del LBP. Va
     // centrada en el eje del bastidor y cubre los 609 de ancho, igual que en

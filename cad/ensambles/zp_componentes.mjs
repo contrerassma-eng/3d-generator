@@ -221,16 +221,35 @@ if (iU > 0) {
     }
     if (c0.some((v, a) => v < lo[a] || v > hi[a])) return;
     const c = o.material?.color;
+    // el nombre que importa (BR_3002, UniDrive…) vive en un ANCESTRO, no en la
+    // malla: se guarda la cadena para poder reconocer la pieza después
+    let cadena = '';
+    for (let n = o; n; n = n.parent) cadena += '/' + (n.name || '');
     mallas.push({ pos, idx: g2.index ? Array.from(g2.index.array)
       : Array.from({ length: p.count }, (_, i) => i),
-      color: c ? [c.r, c.g, c.b] : [0.6, 0.62, 0.6], nodo: o.name || '' });
+      color: c ? [c.r, c.g, c.b] : [0.6, 0.62, 0.6], nodo: cadena });
   });
 
   // 3) origen en la CARA DE MONTAJE: el extremo en Y más lejano del eje del
   //    recto, que es la cara del soporte que apoya contra el alma del lateral.
   //    +Y local queda mirando hacia adentro del transportador.
   const u = envolvente({ mallas });
-  const caraY = Math.abs(u.hi[1]) >= Math.abs(u.lo[1]) ? u.hi[1] : u.lo[1];
+  // La cara de montaje NO es el extremo del conjunto: tomarla así daba el
+  // cuerpo del motor, y de ahí salían los dos síntomas que marcó Sergio —el
+  // soporte separado del alma y el eje al revés—. El dato correcto es el
+  // ALMA DEL BASTIDOR: en el recto está en y = ±286 (LT_G, medido aquí mismo),
+  // y toda la unidad se referencia a ese plano. Así la distancia alma↔motor
+  // que trae el recto se conserva tal cual en la curva.
+  const lat = [...grupos.values()].filter((g) => g.nombre === 'lateral')
+    .map((g) => envolvente(g));
+  if (!lat.length) throw new Error('no se encontró el lateral LT_G para referenciar la unidad');
+  // el alma del lado donde vive esta unidad (mismo signo en Y que el motor)
+  const signo = u.centro[1] >= 0 ? 1 : -1;
+  const alma = lat.map((e) => (signo > 0 ? e.hi[1] : e.lo[1]))
+    .sort((a, b) => (signo > 0 ? b - a : a - b))[0];
+  console.log(`  cara de montaje = alma del bastidor en Y ${r0(alma)} `
+    + `(el motor está a ${r0(Math.abs(alma - u.centro[1]))} mm hacia adentro)`);
+  const caraY = alma;
   const esp = caraY > 0;
   const off = [u.centro[0], caraY, u.lo[2]];
   const out = { envolvente: u.dim.map((v) => Math.round(v * 100) / 100),
