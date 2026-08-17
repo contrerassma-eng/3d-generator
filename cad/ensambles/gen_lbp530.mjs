@@ -42,7 +42,7 @@
 import { writeFileSync } from 'node:fs';
 import { bendAllowance } from '../js/sheetmetal.js';
 import { fileURLToPath } from 'node:url';
-import { compuertasUniversales, sellarCompuertas } from './lib_compuertas.mjs';
+import { compuertasUniversales, sellarCompuertas, cajaMundo } from './lib_compuertas.mjs';
 import { dirname, join } from 'node:path';
 
 const IN = 25.4;
@@ -461,7 +461,7 @@ function flatGuardaU(Lg, fondoW, latAlto, pestW, t, holesX, material, tapasExtre
     circles.push({ c: [r2(x), yM6], r: 3.5 });
     circles.push({ c: [r2(x), r2(H - yM6)], r: 3.5 });
   }
-  // Drenaje del fondo (criterio guardas.md): Ø8 al eje, cada ~450
+  // Drenaje del fondo (criterio conveyone-simulator/biblioteca/CV-LBP18/guardas.md): Ø8 al eje, cada ~450
   if (extras?.drenaje) {
     for (let x = 90; x <= Lg - 90; x += 450) {
       circles.push({ c: [r2(x), r2(pest + BA + lat + BA + fondo / 2)], r: 4 });
@@ -997,7 +997,7 @@ function build(tipo, L) {
         f.push(hole('Paso M6 a mecha', [q.x, s * (G.skirtY + G.t / 2), q.z], [0, s, 0], G.holeDia, 0, true));
       }
     }
-    // drenaje del fondo (criterio guardas.md)
+    // drenaje del fondo (criterio conveyone-simulator/biblioteca/CV-LBP18/guardas.md)
     for (let x = g.xa + 90; x <= g.xb - 90; x += 450) {
       f.push(hole('Drenaje Ø8', [r2(x), 0, g.fondoZ + G.t / 2], [0, 0, 1], 8, 0, true));
     }
@@ -1621,7 +1621,55 @@ const EXENTOS_MARGEN = [
 // corrieron dentro de la ranura cruciforme del bracket / con la pestaña de la
 // guarda ensanchada. La regla de borde pasó a depender del PROCESO (láser vs
 // punzonado), que era el error de fondo.
+// ── CERRAMIENTO POR ESTRUCTURA (compuerta peligro-expuesto) ──────────────────
+// La artesa en U no es el único cierre del equipo: entre las dos placas
+// laterales PL6 (Y ±203..241, Z −293..−8, en TODO el largo) el volumen queda
+// cerrado por los costados, arriba por la banda y abajo por la propia artesa,
+// que arranca en −294. Se declara como caja porque ninguna PIEZA la representa
+// — y se declara con las cotas de las placas reales, no con las que convienen:
+// por eso los sprockets locos del tensor (Y ±164, dentro) dejan de contarse
+// como expuestos y los muñones de eje (Y 398 y −283, FUERA de la placa) siguen
+// contándose.
+const cerramientosDe = (nm, eq) => {
+  const out = [];
+  const pl = eq.parts.filter(p => /Placa lateral/.test(p.name || '')).map(cajaMundo).filter(Boolean);
+  if (pl.length >= 2) out.push({
+    nombre: 'entre placas laterales PL6 (costados), banda arriba, artesa abajo',
+    caja: [Math.min(...pl.map(c => c[0])), Math.max(...pl.map(c => c[1])),
+      Math.min(...pl.map(c => c[2])), Math.max(...pl.map(c => c[3])),
+      Math.min(...pl.map(c => c[4])), Math.max(...pl.map(c => c[5]))],
+  });
+  // El muñón que corre DENTRO del eje hueco del reductor está cerrado por el
+  // cubo, no por el cárter: se declara el CUBO (Ø62 × 120), no la caja del
+  // motorreductor. Declarar el cárter completo taparía justo lo que hay que
+  // ver — el tramo de muñón al aire entre la cara de la mecha y la boca del
+  // cubo, y la punta que asoma por detrás.
+  for (const p of eq.parts) {
+    if (!/Motorreductor/.test(p.name || '')) continue;
+    for (const f of p.features || []) {
+      if (!/cubo hueco/i.test(f.name || '')) continue;
+      const P = p.pos || [0, 0, 0], a = f.at || [0, 0, 0];
+      const R = (f.params?.dia ?? 0) / 2, h = f.params?.h ?? 0, dir = f.dir || [0, 0, 1];
+      const ax = dir.findIndex(v => Math.abs(v) > 0.5);
+      const lo = [0, 1, 2].map(i => i === ax ? a[i] : a[i] - R);
+      const hi = [0, 1, 2].map(i => i === ax ? a[i] + h : a[i] + R);
+      out.push({ nombre: `cubo hueco Ø${f.params?.dia} del reductor`,
+        caja: [lo[0] + P[0], hi[0] + P[0], lo[1] + P[1], hi[1] + P[1], lo[2] + P[2], hi[2] + P[2]] });
+    }
+  }
+  return out;
+};
+// El motorreductor es componente COMERCIAL con carcasa propia: sus partes
+// móviles (ventilador bajo capot, engranaje sinfín-corona en cárter cerrado)
+// vienen protegidas de fábrica. Lo que NO tiene guarda de fábrica es la
+// interfaz con nuestro eje —muñón, chavetero, brazo de reacción— y eso NO se
+// exime: es la deuda D-05.
+const EXENTOS_PELIGRO = [
+  { patron: /Motorreductor/, razon: 'componente comercial: cárter cerrado y ventilador bajo capot, protegidos de fábrica. La interfaz con nuestro eje (muñón, chaveta, brazo de reacción) NO queda eximida — va en D-05' },
+];
 const DEUDA_DECLARADA = [
+  { patron: /parte móvil sin cerramiento: «FAB · EJE (MOTRIZ|TENSOR)/,
+    razon: 'D-05 · punta de muñón al aire por el costado LIBRE (−Y): el eje llega a −304 y la artesa cierra en −253, con la UCF206 hasta −286 — quedan ~30 mm de muñón girando fuera del cierre, en el eje motriz y en el tensor, en LBP y en GT. DS 594 Art. 38 los exige protegidos. Resuelve una TAPA DE MUÑÓN (copa de chapa 2,0 apernada a la cara exterior de la mecha, sobre la UCF206, con acceso a grasera) — es la pieza que falta de la guarda G1 de biblioteca/CV-LBP18/guardas.md. Diseño ESPECIFICADO con cotas, no construido' },
   { patron: /Paso M6 guarda inferior|barreno Ø7 en «FAB · Placa lateral/,
     razon: 'ALA de 38 no admite el M6 de guarda fuera de la zona de plegado Y con margen al borde de la pestaña a la vez (ventana v 15,5..16,5 contra pestaña 9,5): decisión de Sergio — ensanchar ala a ~46, o pasar la fijación de guarda al faldón' },
   { patron: /barreno Ø9 en «FAB · Placa lateral/,
@@ -1750,7 +1798,8 @@ function verify(res) {
   if (esb > 250) e.push(`esbeltez de placa ${esb} > 250: acortar paso de travesaños o subir espesor`);
   const nEspecificas = e.length;   // compuertas propias del equipo ya evaluadas
   // ── universales: heredadas de la librería, no reescritas aquí ──
-  const uni = compuertasUniversales(res, { exentos: EXENTOS_MARGEN, uniones: SOLDADURA.uniones });
+  const uni = compuertasUniversales(res, { exentos: EXENTOS_MARGEN, uniones: SOLDADURA.uniones,
+    cerramientosDe, exentosPeligro: EXENTOS_PELIGRO });
   const deuda = [], nuevos = [];
   for (const msg of uni.errs) {
     const d = DEUDA_DECLARADA.find(q => q.patron.test(msg));
@@ -1761,7 +1810,7 @@ function verify(res) {
     const porRazon = new Map();
     for (const d of deuda) porRazon.set(d.razon, (porRazon.get(d.razon) || 0) + 1);
     console.log('  DEUDA DECLARADA (compuerta universal en rojo, decisión PENDIENTE de Sergio):');
-    for (const [razon, n] of porRazon) console.log(`    · ${n} barrenos — ${razon}`);
+    for (const [razon, n] of porRazon) console.log(`    · ${n} hallazgo(s) — ${razon}`);
   }
   for (const [nm, i] of Object.entries(uni.info)) {
     console.log(`  ${nm}: chapa ${i.masa_chapa_kg} kg · margen más apretado ${i.peorMargen?.margen} (req ${i.peorMargen?.req})${i.peorMargen?.exento ? ' [EXENTO declarado]' : ''}`);

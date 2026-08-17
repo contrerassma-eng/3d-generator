@@ -42,6 +42,10 @@ export const REGISTRO = [
     origen: '13-08: la maestranza cotiza por kg y la pintura por m²; el bbox sobrestimaba ~20%' },
   { id: 'corte-de-barras', regla: 'el despiece de barras cabe en el largo comercial, con kerf incluido',
     origen: 'célula: 8 ejes de 690 no salen de una barra de 6 m si no se cuenta el kerf' },
+  { id: 'peligro-expuesto', regla: 'toda parte móvil (eje, sprocket, acople, motorreductor) queda DENTRO de un cerramiento — pieza de guarda o caja de estructura DECLARADA — o lleva exención con razón; lo que sobresale se mide en mm y se reporta con la coordenada donde mirar',
+    origen: 'D.S. 594 Art. 38 (Chile, obligación legal: «Deberán estar debidamente protegidas todas las partes móviles, transmisiones y puntos de operación de maquinarias y equipos») + medición 17-08: el estado decía «guardas 0%» y la artesa inferior ya existía, pero nadie había medido QUÉ quedaba fuera — el muñón motriz sale 144,5 mm del cierre y el motorreductor entero está fuera' },
+  { id: 'abertura-vs-alcance', regla: 'ISO 13857, alcance a través de aberturas: una perforación, ranura o mirilla de ancho e exige distancia mínima s al peligro (e≤4→2 · 6<e≤8→ranura 20/cuadrado 15/círculo 5 · 12<e≤20→120 · e>120 no es abertura, es hueco)',
+    origen: 'guardas.md (12-08) fijó holguras «ISO 13857 como criterio general, SIN respaldo en la fuente» y así quedó en el drenaje Ø8 de la artesa: el 17-08 se citó la tabla real (BG ETEM S 044 E, págs. 5-6) y dejó de ser criterio para ser cifra' },
 ];
 
 // ── derivaciones compartidas (UNA sola verdad para BOM, láminas y GA) ────────
@@ -436,6 +440,200 @@ export function zonasParaMirar(trayectoria, zonas, { cerca = 40 } = {}) {
   return out.sort((a, b) => a.holgura - b.holgura);
 }
 
+// ── ISO 13857 · alcance a través de aberturas ────────────────────────────────
+// Tabla reproducida de BG ETEM S 044 E «Safety of machinery — Safety distances
+// protect arms and legs» (edición que reproduce EN ISO 13857), págs. 5 y 6.
+// e = ancho de la abertura (lado del cuadrado · diámetro del círculo · MENOR
+// dimensión de la ranura). s = distancia mínima de la abertura al peligro.
+// Nota 1 de la fuente: en ranura de largo ≤ 65 mm el pulgar limita el acceso y
+// s puede bajar a 200. Nota 2: para e > 120 se aplica el alcance POR ENCIMA,
+// no esta tabla — o sea, una abertura de más de 120 no es una abertura: es un
+// hueco, y el peligro se resuelve de otra manera.
+export const ISO13857_SUP = [
+  { max: 4, ranura: 2, cuadrado: 2, circulo: 2, parte: 'punta de dedo' },
+  { max: 6, ranura: 10, cuadrado: 5, circulo: 5, parte: 'punta de dedo' },
+  { max: 8, ranura: 20, cuadrado: 15, circulo: 5, parte: 'dedo hasta nudillo' },
+  { max: 10, ranura: 80, cuadrado: 25, circulo: 20, parte: 'dedo hasta nudillo' },
+  { max: 12, ranura: 100, cuadrado: 80, circulo: 80, parte: 'dedo hasta nudillo' },
+  { max: 20, ranura: 120, cuadrado: 120, circulo: 120, parte: 'dedo hasta nudillo' },
+  { max: 30, ranura: 850, cuadrado: 120, circulo: 120, parte: 'brazo hasta hombro', nota: 'ranura ≤65 de largo: 200' },
+  { max: 40, ranura: 850, cuadrado: 200, circulo: 120, parte: 'brazo hasta hombro' },
+  { max: 120, ranura: 850, cuadrado: 850, circulo: 850, parte: 'brazo hasta hombro' },
+];
+export const ISO13857_INF = [
+  { max: 5, ranura: 0, cuadrado: 0, parte: 'punta del pie' },
+  { max: 15, ranura: 10, cuadrado: 0, parte: 'punta del pie' },
+  { max: 35, ranura: 80, cuadrado: 25, parte: 'pie', nota: 'ranura ≤75 de largo: 50' },
+  { max: 60, ranura: 180, cuadrado: 80, parte: 'pie' },
+  { max: 80, ranura: 650, cuadrado: 180, parte: 'pierna hasta rodilla' },
+  { max: 95, ranura: 1100, cuadrado: 650, parte: 'pierna hasta rodilla' },
+  { max: 180, ranura: 1100, cuadrado: 1100, parte: 'pierna hasta entrepierna' },
+];
+
+/**
+ * Distancia mínima al peligro para una abertura de ancho `e`.
+ * Devuelve `{ s, parte, nota }`, o `s: null` cuando la tabla ya no aplica
+ * (e > 120 en miembro superior): eso NO es «sin límite», es «esta tabla no
+ * responde» — y el llamador debe verlo, no interpretarlo como permiso.
+ */
+export function distanciaSeguridad(e, forma = 'ranura', miembro = 'superior') {
+  const tabla = miembro === 'inferior' ? ISO13857_INF : ISO13857_SUP;
+  const key = forma === 'cuadrado' || forma === 'circulo' ? forma : 'ranura';
+  for (const f of tabla) {
+    if (e <= f.max) {
+      const s = f[key] ?? f.cuadrado;
+      return { s, parte: f.parte, nota: f.nota || null, e_max: f.max };
+    }
+  }
+  return { s: null, parte: null, e_max: null,
+    nota: `e=${r2(e)} excede la tabla de alcance a través (máx ${tabla[tabla.length - 1].max}): se aplica alcance POR ENCIMA o cerramiento` };
+}
+
+/** ¿Una abertura de ancho e a distancia d del peligro es admisible? */
+export function aberturaAdmisible(e, d, forma = 'ranura', miembro = 'superior') {
+  const { s, parte, nota } = distanciaSeguridad(e, forma, miembro);
+  if (s === null) return { ok: false, s, razon: nota };
+  return { ok: d >= s, s, parte,
+    razon: d >= s ? null : `abertura ${forma} e=${r2(e)} a ${r2(d)} del peligro: ISO 13857 exige ≥ ${s} (${parte})` };
+}
+
+/**
+ * Caja envolvente en coordenadas de MUNDO de una pieza: features de unión
+ * (los `hole` restan material, no lo agregan) + `pos` + `quat`.
+ */
+export function cajaMundo(part) {
+  const q = part.quat || [0, 0, 0, 1];
+  const P = part.pos || [0, 0, 0];
+  const rot = ([x, y, z]) => {
+    const [qx, qy, qz, qw] = q;
+    const tx = 2 * (qy * z - qz * y), ty = 2 * (qz * x - qx * z), tz = 2 * (qx * y - qy * x);
+    return [x + qw * tx + qy * tz - qz * ty, y + qw * ty + qz * tx - qx * tz, z + qw * tz + qx * ty - qy * tx];
+  };
+  const B = [[Infinity, -Infinity], [Infinity, -Infinity], [Infinity, -Infinity]];
+  for (const f of part.features || []) {
+    const d = dimsFeature(f);
+    if (!d) continue;
+    const [a, b] = d;
+    for (const cx of [a[0], b[0]]) for (const cy of [a[1], b[1]]) for (const cz of [a[2], b[2]]) {
+      const w = rot([cx, cy, cz]);
+      for (let i = 0; i < 3; i++) { B[i][0] = Math.min(B[i][0], w[i] + P[i]); B[i][1] = Math.max(B[i][1], w[i] + P[i]); }
+    }
+  }
+  if (!isFinite(B[0][0])) return null;
+  return [B[0][0], B[0][1], B[1][0], B[1][1], B[2][0], B[2][1]].map(r2);
+}
+
+// Extensión local de un feature de unión: [min[3], max[3]] o null si no suma.
+function dimsFeature(f) {
+  if (f.shape === 'hole' || f.op === 'cut' || f.op === 'subtract') return null;
+  const a = f.at || [0, 0, 0], pr = f.params || {};
+  if (f.shape === 'box') {
+    const w = pr.w ?? pr.l ?? 0, d = pr.d ?? 0, h = pr.h ?? 0;
+    return [[a[0] - w / 2, a[1] - d / 2, a[2]], [a[0] + w / 2, a[1] + d / 2, a[2] + h]];
+  }
+  if (/cyl/.test(f.shape || '')) {
+    const dia = pr.dia ?? 2 * (pr.r ?? 0), h = pr.h ?? 0, dir = f.dir || [0, 0, 1];
+    const ax = dir.findIndex(v => Math.abs(v) > 0.5);
+    const lo = [0, 1, 2].map(i => i === ax ? a[i] - (dir[i] < 0 ? h : 0) : a[i] - dia / 2);
+    const hi = [0, 1, 2].map(i => i === ax ? lo[i] + h : a[i] + dia / 2);
+    return [lo, hi];
+  }
+  return null;
+}
+
+const PELIGROS_POR_DEFECTO = [
+  /sprocket/i, /pi[ñn][oó]n/i, /catarina/i, /eje\s+(motriz|tensor|de mando)/i,
+  /motorreductor/i, /\bmotor\b/i, /cadena de transmisi/i, /acople/i, /collar[ií]n/i,
+];
+const CERRAMIENTOS_POR_DEFECTO = [/guarda/i, /cubierta/i, /artesa/i, /carcasa/i, /cerramiento/i];
+
+/**
+ * PELIGRO EXPUESTO. DS 594 Art. 38 (Chile): «Deberán estar debidamente
+ * protegidas todas las partes móviles, transmisiones y puntos de operación de
+ * maquinarias y equipos.» Es obligación legal, no criterio de diseño: no
+ * admite «se ve bien».
+ *
+ * Qué hace: muestrea el VOLUMEN de cada parte móvil (no su caja, que traería
+ * esquinas vacías) y cuenta cuánto queda fuera de la unión de los cerramientos
+ * declarados. Un cerramiento formado por la ESTRUCTURA y no por una pieza sola
+ * (p. ej. «entre placas laterales») se declara como caja explícita en
+ * `cajasExtra` — declararla es legítimo, suponerla no.
+ *
+ * Devuelve `mirar_en`: el punto expuesto más lejano al cerramiento, para que
+ * la verificación visual (regla 12) sea «mira ESTA coordenada».
+ */
+export function peligroExpuesto(parts, {
+  peligros = PELIGROS_POR_DEFECTO,
+  cerramientos = CERRAMIENTOS_POR_DEFECTO,
+  cajasExtra = [], exentos = [], paso = 10, holgura = 0,
+} = {}) {
+  const cajas = [];
+  for (const p of parts) {
+    if (!cerramientos.some(rx => rx.test(p.name || ''))) continue;
+    const c = cajaMundo(p);
+    if (c) cajas.push({ nombre: p.name, caja: c });
+  }
+  for (const x of cajasExtra) cajas.push({ nombre: x.nombre, caja: x.caja });
+  const dentro = ([x, y, z]) => cajas.some(({ caja: c }) =>
+    x >= c[0] - holgura && x <= c[1] + holgura && y >= c[2] - holgura &&
+    y <= c[3] + holgura && z >= c[4] - holgura && z <= c[5] + holgura);
+
+  const errs = [], expuestos = [];
+  for (const p of parts) {
+    const nombre = p.name || '';
+    if (!peligros.some(rx => rx.test(nombre))) continue;
+    const ex = exentos.find(e => (e.patron || e).test?.(nombre));
+    let total = 0, fuera = 0, peor = null, dPeor = -1;
+    const P = p.pos || [0, 0, 0];
+    for (const f of p.features || []) {
+      const d = dimsFeature(f);
+      if (!d) continue;
+      const [a, b] = d;
+      const esCil = /cyl/.test(f.shape || '');
+      const cen = [0, 1, 2].map(i => (a[i] + b[i]) / 2);
+      const rad = esCil ? ((f.params?.dia ?? 2 * (f.params?.r ?? 0)) / 2) : 0;
+      const ax = esCil ? (f.dir || [0, 0, 1]).findIndex(v => Math.abs(v) > 0.5) : -1;
+      const n = [0, 1, 2].map(i => Math.max(1, Math.ceil((b[i] - a[i]) / paso)));
+      for (let i = 0; i <= n[0]; i++) for (let j = 0; j <= n[1]; j++) for (let k = 0; k <= n[2]; k++) {
+        const q = [a[0] + (b[0] - a[0]) * i / n[0], a[1] + (b[1] - a[1]) * j / n[1], a[2] + (b[2] - a[2]) * k / n[2]];
+        if (esCil && ax >= 0) {   // sólo el material del cilindro, no su caja
+          const e1 = (ax + 1) % 3, e2 = (ax + 2) % 3;
+          if (Math.hypot(q[e1] - cen[e1], q[e2] - cen[e2]) > rad + 1e-6) continue;
+        }
+        const w = [q[0] + P[0], q[1] + P[1], q[2] + P[2]];
+        total++;
+        if (dentro(w)) continue;
+        fuera++;
+        // distancia al cerramiento más cercano: el punto peor es el que más
+        // lejos queda de cualquier cierre — es donde hay que mirar
+        let dMin = Infinity;
+        for (const { caja: c } of cajas) {
+          const dx = Math.max(c[0] - w[0], 0, w[0] - c[1]);
+          const dy = Math.max(c[2] - w[1], 0, w[1] - c[3]);
+          const dz = Math.max(c[4] - w[2], 0, w[2] - c[5]);
+          dMin = Math.min(dMin, Math.hypot(dx, dy, dz));
+        }
+        if (dMin > dPeor) { dPeor = dMin; peor = w.map(r2); }
+      }
+    }
+    if (!total || !fuera) continue;
+    const pct = Math.round(100 * fuera / total);
+    // Sin NINGÚN cerramiento en el equipo la distancia al cierre más cercano es
+    // infinita. Informarla como 0 sería leer «sobresale 0 mm» = inofensivo,
+    // justo al revés de lo que pasa. Se dice que no hay cierre. (Lo cazó la
+    // primera corrida en gen_transfer90, que no tiene una sola guarda.)
+    const sinCierre = !cajas.length;
+    const reg = { pieza: nombre.slice(0, 70), pct_fuera: pct, mirar_en: peor };
+    if (sinCierre) reg.sin_cerramientos = true; else reg.sale_mm = r2(dPeor);
+    if (ex) { reg.exento = ex.razon || 'exención declarada'; expuestos.push(reg); continue; }
+    expuestos.push(reg);
+    errs.push(sinCierre
+      ? `parte móvil sin cerramiento: «${reg.pieza}» — el equipo NO declara ni una sola guarda ni caja de estructura: ${pct}% de su volumen al aire (mirar en ${JSON.stringify(peor)}). DS 594 Art. 38`
+      : `parte móvil sin cerramiento: «${reg.pieza}» — ${pct}% de su volumen fuera de toda guarda, hasta ${reg.sale_mm} mm del cierre más cercano (mirar en ${JSON.stringify(peor)}). DS 594 Art. 38`);
+  }
+  return { errs, expuestos, cerramientos: cajas.map(c => c.nombre) };
+}
+
 /**
  * Corredor universal. Un generador nuevo llama SOLO a esto y hereda todo.
  * @param equipos {nombre: {parts, ...}}
@@ -465,7 +663,18 @@ export function compuertasUniversales(equipos, opts = {}) {
     info[nm].cobertura = { piezas: eq.parts.length, con_desarrollo: conFlat,
       pct: eq.parts.length ? Math.round(100 * conFlat / eq.parts.length) : 0 };
     if (conFlat === 0) info[nm].aviso = 'NINGUNA pieza trae desarrollo de chapa: las compuertas de chapa no verificaron nada';
+    // PARTES MÓVILES (DS 594 Art. 38). El cerramiento hecho de ESTRUCTURA y no
+    // de una pieza «guarda» se declara por equipo en opts.cerramientosDe(nm):
+    // declararlo es legítimo, suponerlo no.
+    const pe = peligroExpuesto(eq.parts, {
+      ...opts,
+      cajasExtra: (typeof opts.cerramientosDe === 'function' ? opts.cerramientosDe(nm, eq) : opts.cajasExtra) || [],
+      exentos: opts.exentosPeligro || [],
+    });
+    errs.push(...pe.errs.map(e => `${nm}: ${e}`));
+    if (pe.expuestos.length) info[nm].partes_moviles_fuera = pe.expuestos;
   }
+  ejecutadas.push('peligro-expuesto');
   return { errs, info, ejecutadas };
 }
 

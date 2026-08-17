@@ -8,16 +8,19 @@
     "margen-agujero-borde",
     "agujero-en-pliegue",
     "pieza-sin-fijacion",
-    "masa-exacta"
+    "masa-exacta",
+    "flat-vs-solido",
+    "peligro-expuesto"
    ],
    "reglas_disponibles_sin_cablear": [
     "zona-prohibida",
     "rango-fisico",
     "cantidad-derivada",
     "rotulo-coherente",
-    "corte-de-barras"
+    "corte-de-barras",
+    "abertura-vs-alcance"
    ],
-   "hallazgos": 0,
+   "hallazgos": 1,
    "info": {
     "TR90": {
      "peorMargen": null,
@@ -27,14 +30,28 @@
       "con_desarrollo": 0,
       "pct": 0
      },
-     "aviso": "NINGUNA pieza trae desarrollo de chapa: las compuertas de chapa no verificaron nada"
+     "aviso": "NINGUNA pieza trae desarrollo de chapa: las compuertas de chapa no verificaron nada",
+     "partes_moviles_fuera": [
+      {
+       "pieza": "MÓVIL · Motorreductor de eje hueco (i≈6.3, ~0.18 kW)",
+       "pct_fuera": 100,
+       "mirar_en": [
+        268,
+        41.5,
+        78
+       ],
+       "sin_cerramientos": true
+      }
+     ]
     }
    },
    "exenciones": [
     "riel T-slot",
     "pie de anclaje"
    ],
-   "deuda": [],
+   "deuda": [
+    "D-06 · el TR90 no tiene NI UNA guarda: el motorreductor y la transmisión quedan al aire. DS 594 Art. 38. No se diseña ahora porque el TR90 está fuera del alcance prioritario declarado por Sergio (banda plana · LBP · FT · 24V · curvas); se emite para continuar el sorter, NO para fabricar"
+   ],
    "compuertas_especificas": 0,
    "nota": "sello de lib_compuertas.mjs — sin él, los artefactos se niegan a generarse (CELULA_DISENO regla 11)"
   },

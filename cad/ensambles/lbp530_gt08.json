@@ -44,16 +44,18 @@
     "agujero-en-pliegue",
     "pieza-sin-fijacion",
     "masa-exacta",
-    "flat-vs-solido"
+    "flat-vs-solido",
+    "peligro-expuesto"
    ],
    "reglas_disponibles_sin_cablear": [
     "zona-prohibida",
     "rango-fisico",
     "cantidad-derivada",
     "rotulo-coherente",
-    "corte-de-barras"
+    "corte-de-barras",
+    "abertura-vs-alcance"
    ],
-   "hallazgos": 0,
+   "hallazgos": 3,
    "info": {
     "LBP": {
      "peorMargen": {
@@ -142,7 +144,40 @@
       "piezas": 99,
       "con_desarrollo": 41,
       "pct": 41
-     }
+     },
+     "partes_moviles_fuera": [
+      {
+       "pieza": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
+       "pct_fuera": 3,
+       "mirar_en": [
+        4875.67,
+        -283,
+        -404.33
+       ],
+       "sale_mm": 29.5
+      },
+      {
+       "pieza": "NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + m",
+       "pct_fuera": 93,
+       "mirar_en": [
+        4765,
+        491,
+        -500
+       ],
+       "sale_mm": 154.65,
+       "exento": "componente comercial: cárter cerrado y ventilador bajo capot, protegidos de fábrica. La interfaz con nuestro eje (muñón, chaveta, brazo de reacción) NO queda eximida — va en D-05"
+      },
+      {
+       "pieza": "FAB · EJE TENSOR cuadrado 38.1 — L=566 (muñones Ø30 h6)",
+       "pct_fuera": 4,
+       "mirar_en": [
+        295.67,
+        -283,
+        -344.33
+       ],
+       "sale_mm": 29.5
+      }
+     ]
     },
     "GT": {
      "peorMargen": {
@@ -177,7 +212,30 @@
       "piezas": 53,
       "con_desarrollo": 22,
       "pct": 42
-     }
+     },
+     "partes_moviles_fuera": [
+      {
+       "pieza": "FAB · EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6)",
+       "pct_fuera": 3,
+       "mirar_en": [
+        675.67,
+        -283,
+        -404.33
+       ],
+       "sale_mm": 29.5
+      },
+      {
+       "pieza": "NORM · Motorreductor NMRV-P 075 FA 1/30 PAM 80B14 eje hueco Ø30 H8 + m",
+       "pct_fuera": 93,
+       "mirar_en": [
+        565,
+        491,
+        -500
+       ],
+       "sale_mm": 154.65,
+       "exento": "componente comercial: cárter cerrado y ventilador bajo capot, protegidos de fábrica. La interfaz con nuestro eje (muñón, chaveta, brazo de reacción) NO queda eximida — va en D-05"
+      }
+     ]
     }
    },
    "exenciones": [
@@ -185,7 +243,9 @@
     "/Bracket soporte B_005A/",
     "/Columna soporte 24V/"
    ],
-   "deuda": [],
+   "deuda": [
+    "D-05 · punta de muñón al aire por el costado LIBRE (−Y): el eje llega a −304 y la artesa cierra en −253, con la UCF206 hasta −286 — quedan ~30 mm de muñón girando fuera del cierre, en el eje motriz y en el tensor, en LBP y en GT. DS 594 Art. 38 los exige protegidos. Resuelve una TAPA DE MUÑÓN (copa de chapa 2,0 apernada a la cara exterior de la mecha, sobre la UCF206, con acceso a grasera) — es la pieza que falta de la guarda G1 de biblioteca/CV-LBP18/guardas.md. Diseño ESPECIFICADO con cotas, no construido"
+   ],
    "compuertas_especificas": 0,
    "nota": "sello de lib_compuertas.mjs — sin él, los artefactos se niegan a generarse (CELULA_DISENO regla 11)"
   }
