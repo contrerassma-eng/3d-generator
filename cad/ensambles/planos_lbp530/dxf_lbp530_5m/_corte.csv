@@ -2,12 +2,15 @@ plano,pieza,cant,material,espesor_mm,desarrollo_x_mm,desarrollo_y_mm,barrenos,pl
 LBD-01,"FAB · Bracket soporte B_005A 24V (ángulo: cruciformes + pivote/arco de aplome)",6,"Acero S275JR e3 — PINTADO RAL 7035",3,203.0,130.8,3,1,0.44,3,ISO 2768-mK
 LBD-02,"FAB · Cabezal porta-nosebar entrada PL6 470×55",2,"Acero S275JR PL6 — PINTADO RAL 7035",6,470.0,55.0,18,0,0.44,6,ISO 2768-mK
 LBD-03,"FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)",6,"Acero S275JR e3 — PINTADO RAL 7035",3,578.0,142.6,5,2,0.44,3,ISO 2768-mK
-LBD-04,"FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×504)",1,"Acero S275JR e1.5 — terminación PINTADO RAL 7035",1.5,1796.4,1055.6,24,4,0.44,1.5,ISO 2768-mK
-LBD-05,"FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504)",1,"Acero S275JR e1.5 — terminación PINTADO RAL 7035",1.5,816.4,935.6,16,4,0.44,1.5,ISO 2768-mK
-LBD-06,"FAB · Mecha porta-chumacera PL8 motriz 320×422",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,320.0,422.0,15,0,0.44,8,ISO 2768-mK
-LBD-07,"FAB · Mecha porta-chumacera PL8 tensor 320×362",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,320.0,362.0,15,0,0.44,8,ISO 2768-mK
-LBD-08,"FAB · Placa lateral libre (−Y) PL6 L=5000",2,"Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",6,5000.0,312.6,63,1,0.44,6,ISO 2768-mK
-LBD-09,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",5,"Acero S275JR e6 — PINTADO RAL 7035",6,462.0,50.0,10,0,0.44,6,ISO 2768-mK
-LBD-10,"FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",6,"Acero S275JR e3 — PINTADO RAL 7035",3,369.0,149.6,0,2,0.44,3,ISO 2768-mK
-LBD-11,"FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)",3,"Acero S275JR e3 — PINTADO RAL 7035",3,476.0,136.6,0,2,0.44,3,ISO 2768-mK
-LBD-12,"FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",5,"Acero S275JR e3 — plegado C 88×88 (perfil TR_S del ZP2026), PINTADO RAL 7035. OREJAS 120×60×4 soldadas en extremos; conjunto APERNADO 2×M6 por extremo",3,460.0,253.6,0,2,0.44,3,ISO 2768-mK
+LBD-04,"FAB · Guarda motriz — costado libre e2 (358×330)",1,"Acero S275JR e2.0 — terminación PINTADO RAL 7035",2,358.0,417.1,8,2,0.44,2,ISO 2768-mK
+LBD-05,"FAB · Guarda motriz — costado motor e2 (358×330)",1,"Acero S275JR e2.0 — terminación PINTADO RAL 7035",2,358.0,403.1,9,2,0.44,2,ISO 2768-mK
+LBD-06,"FAB · Guarda motriz — fondo con tapa e2 (356×612)",1,"Acero S275JR e2.0 — terminación PINTADO RAL 7035",2,684.5,612.0,7,1,0.44,2,ISO 2768-mK
+LBD-07,"FAB · Guarda tensor — costado lateral e2 (617×235)",2,"Acero S275JR e2.0 — terminación PINTADO RAL 7035",2,617.0,322.1,8,2,0.44,2,ISO 2768-mK
+LBD-08,"FAB · Guarda tensor — fondo con tapa e2 (615×626)",1,"Acero S275JR e2.0 — terminación PINTADO RAL 7035",2,848.5,626.0,8,1,0.44,2,ISO 2768-mK
+LBD-09,"FAB · Mecha porta-chumacera PL8 motriz 320×422",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,320.0,422.0,15,0,0.44,8,ISO 2768-mK
+LBD-10,"FAB · Mecha porta-chumacera PL8 tensor 320×362",2,"Acero S275JR PL8 — PINTADO RAL 7035",8,320.0,362.0,15,0,0.44,8,ISO 2768-mK
+LBD-11,"FAB · Placa lateral libre (−Y) PL6 L=5000",2,"Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",6,5000.0,312.6,56,1,0.44,6,ISO 2768-mK
+LBD-12,"FAB · Portacarril 50×6 con clips (apernado M6 al alma)",5,"Acero S275JR e6 — PINTADO RAL 7035",6,462.0,50.0,10,0,0.44,6,ISO 2768-mK
+LBD-13,"FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)",6,"Acero S275JR e3 — PINTADO RAL 7035",3,369.0,149.6,0,2,0.44,3,ISO 2768-mK
+LBD-14,"FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)",3,"Acero S275JR e3 — PINTADO RAL 7035",3,476.0,136.6,0,2,0.44,3,ISO 2768-mK
+LBD-15,"FAB · Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",5,"Acero S275JR e3 — plegado C 88×88 (perfil TR_S del ZP2026), PINTADO RAL 7035. OREJAS 120×60×4 soldadas en extremos; conjunto APERNADO 2×M6 por extremo",3,460.0,253.6,0,2,0.44,3,ISO 2768-mK

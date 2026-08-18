@@ -3,11 +3,13 @@
  "FAB · Cabezal porta-nosebar entrada PL6 470×55": "GTD-02",
  "FAB · Cabezal porta-nosebar descarga PL6 470×55": "GTD-02",
  "FAB · Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10)": "GTD-03",
- "FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)": "GTD-04",
- "FAB · Mecha porta-chumacera PL8 motriz 320×422": "GTD-05",
- "FAB · Placa lateral libre (−Y) PL6 L=800": "GTD-06",
- "FAB · Placa lateral motriz (+Y) PL6 L=800": "GTD-06",
- "FAB · Portacarril 50×6 con clips (apernado M6 al alma)": "GTD-07",
- "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)": "GTD-08",
- "FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)": "GTD-09"
+ "FAB · Guarda motriz — costado libre e2 (193×330)": "GTD-04",
+ "FAB · Guarda motriz — costado motor e2 (193×330)": "GTD-05",
+ "FAB · Guarda motriz — fondo con tapa e2 (191×612)": "GTD-06",
+ "FAB · Mecha porta-chumacera PL8 motriz 320×422": "GTD-07",
+ "FAB · Placa lateral libre (−Y) PL6 L=800": "GTD-08",
+ "FAB · Placa lateral motriz (+Y) PL6 L=800": "GTD-08",
+ "FAB · Portacarril 50×6 con clips (apernado M6 al alma)": "GTD-09",
+ "FAB · Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada)": "GTD-10",
+ "FAB · Travesaño de patas B_002A canal 71×38×3 (L=470)": "GTD-11"
 }

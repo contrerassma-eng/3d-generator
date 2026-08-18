@@ -1,5 +1,5 @@
 PAQUETE DE CORTE LÁSER — CV-LBP-5000 · Movex 530 LBP 18 in × 5.0 m
-Generado: 2026-08-14 · 12 desarrollos DXF (R12, unidades mm, escala 1:1)
+Generado: 2026-08-18 · 15 desarrollos DXF (R12, unidades mm, escala 1:1)
 
 CONTENIDO
   *.dxf          un archivo por pieza distinta; capa VISIBLE = corte,
@@ -10,7 +10,7 @@ CONTENIDO
 
 MATERIALES DEL PAQUETE
   Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08) · e6 — 1 piezas distintas, 2 unidades
-  Acero S275JR e1.5 — terminación PINTADO RAL 7035 · e1.5 — 2 piezas distintas, 2 unidades
+  Acero S275JR e2.0 — terminación PINTADO RAL 7035 · e2 — 5 piezas distintas, 6 unidades
   Acero S275JR PL8 — PINTADO RAL 7035 · e8 — 2 piezas distintas, 4 unidades
   Acero S275JR e6 — PINTADO RAL 7035 · e6 — 1 piezas distintas, 5 unidades
   Acero S275JR e3 — plegado C 88×88 (perfil TR_S del ZP2026), PINTADO RAL 7035. OREJAS 120×60×4 soldadas en extremos; conjunto APERNADO 2×M6 por extremo · e3 — 1 piezas distintas, 5 unidades

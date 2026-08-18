@@ -1,5 +1,5 @@
 PAQUETE DE CORTE LÁSER — CV-GT-800 · Movex 530 GT (friction top) 18 in × 0.8 m
-Generado: 2026-08-14 · 9 desarrollos DXF (R12, unidades mm, escala 1:1)
+Generado: 2026-08-18 · 11 desarrollos DXF (R12, unidades mm, escala 1:1)
 
 CONTENIDO
   *.dxf          un archivo por pieza distinta; capa VISIBLE = corte,
@@ -10,7 +10,7 @@ CONTENIDO
 
 MATERIALES DEL PAQUETE
   Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08) · e6 — 1 piezas distintas, 2 unidades
-  Acero S275JR e1.5 — terminación PINTADO RAL 7035 · e1.5 — 1 piezas distintas, 1 unidades
+  Acero S275JR e2.0 — terminación PINTADO RAL 7035 · e2 — 3 piezas distintas, 3 unidades
   Acero S275JR PL8 — PINTADO RAL 7035 · e8 — 1 piezas distintas, 2 unidades
   Acero S275JR e6 — PINTADO RAL 7035 · e6 — 1 piezas distintas, 1 unidades
   Acero S275JR PL6 — PINTADO RAL 7035 · e6 — 1 piezas distintas, 2 unidades
