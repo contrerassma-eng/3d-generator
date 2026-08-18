@@ -8,7 +8,7 @@
    "AJUSTA · arco de aplome R52: ±60° de giro de columna (aplomar en piso desnivelado)",
    "AJUSTA · tira BR_3002: ranuras 11×20 paso 34 = ALTURA de trabajo (apriete 3×M10)",
    "AJUSTA · pata B_004A: ranuras de anclaje 11×22 = posición del perno de piso",
-   "AJUSTA · guarda: ranura vertical 7×13 en costados = nivelación ±3 contra la mecha real",
+   "AJUSTA · guarda: pasos Ø10 en costados = holgura radial ±2 sobre espárrago M6 (nivelar contra la mecha real)",
    "DATUM · portacarril→pletina de carril: SIN juego a propósito — fija la cota del carryway",
    "DATUM · mecha→alma 6×M10 y fondo de guarda→pestañas Ø7: láser contra láser (±0,1 de proceso)",
    "TENSADO · banda LBP: por eslabones + catenaria (sin tensor de tornillo — criterio Movex)"
@@ -59,7 +59,8 @@
     "flat-vs-solido",
     "peligro-expuesto",
     "chapa-vs-componente",
-    "esquina-viva"
+    "esquina-viva",
+    "barreno-redondo"
    ],
    "reglas_disponibles_sin_cablear": [
     "zona-prohibida",
@@ -2229,6 +2230,34 @@
      "circles": [
       {
        "c": [
+        50,
+        333.52
+       ],
+       "r": 5
+      },
+      {
+       "c": [
+        50,
+        253.52
+       ],
+       "r": 5
+      },
+      {
+       "c": [
+        125,
+        333.52
+       ],
+       "r": 5
+      },
+      {
+       "c": [
+        125,
+        253.52
+       ],
+       "r": 5
+      },
+      {
+       "c": [
         70,
         222.52
        ],
@@ -2256,96 +2285,7 @@
        "r": 3.5
       }
      ],
-     "polys": [
-      [
-       [
-        46.5,
-        327.02
-       ],
-       [
-        53.5,
-        327.02
-       ],
-       [
-        53.5,
-        340.02
-       ],
-       [
-        46.5,
-        340.02
-       ],
-       [
-        46.5,
-        327.02
-       ]
-      ],
-      [
-       [
-        46.5,
-        247.02
-       ],
-       [
-        53.5,
-        247.02
-       ],
-       [
-        53.5,
-        260.02
-       ],
-       [
-        46.5,
-        260.02
-       ],
-       [
-        46.5,
-        247.02
-       ]
-      ],
-      [
-       [
-        121.5,
-        327.02
-       ],
-       [
-        128.5,
-        327.02
-       ],
-       [
-        128.5,
-        340.02
-       ],
-       [
-        121.5,
-        340.02
-       ],
-       [
-        121.5,
-        327.02
-       ]
-      ],
-      [
-       [
-        121.5,
-        247.02
-       ],
-       [
-        128.5,
-        247.02
-       ],
-       [
-        128.5,
-        260.02
-       ],
-       [
-        121.5,
-        260.02
-       ],
-       [
-        121.5,
-        247.02
-       ]
-      ]
-     ]
+     "polys": []
     },
     "pliegues": [
      {
@@ -2440,7 +2380,7 @@
     "material": "Acero S275JR e2.0 — terminación PINTADO RAL 7035",
     "avisos": [
      "PIEZA CON MANO — NO voltear (los puertos definen el lado)",
-     "RANURA 7×13: ajuste de ALTURA ±3 contra la mecha real (apretar a nivel)",
+     "PASOS Ø10: holgura radial ±2 sobre espárrago M6 — nivelar contra la mecha real y apretar",
      "MONTA EN ESPÁRRAGOS M6 FIJOS EN LA MECHA + SEPARADOR Ø12 + TUERCA CIEGA — el fijador queda en la máquina (ISO 14120 §5.19)",
      "PUERTO Ø25: OJAL CIEGO OBLIGATORIO — se retira solo para engrasar"
     ]
@@ -2511,13 +2451,13 @@
     },
     {
      "id": "f52",
-     "name": "Ranura ajuste 7×13 (separador a mecha) 660,-250",
-     "shape": "sketch",
+     "name": "Paso espárrago Ø10 (separador a mecha — holgura de nivelación)",
+     "shape": "hole",
      "op": "cut",
      "at": [
-      -706.5,
-      2,
-      395
+      -46.5,
+      1,
+      145
      ],
      "dir": [
       0,
@@ -2525,45 +2465,20 @@
       0
      ],
      "params": {
-      "pts": [
-       [
-        656.5,
-        -256.5
-       ],
-       [
-        663.5,
-        -256.5
-       ],
-       [
-        663.5,
-        -243.5
-       ],
-       [
-        656.5,
-        -243.5
-       ],
-       [
-        656.5,
-        -256.5
-       ]
-      ],
-      "h": 2,
-      "u": [
-       1,
-       0,
-       0
-      ]
+      "dia": 10,
+      "depth": 0,
+      "through": true
      }
     },
     {
      "id": "f53",
-     "name": "Ranura ajuste 7×13 (separador a mecha) 660,-330",
-     "shape": "sketch",
+     "name": "Paso espárrago Ø10 (separador a mecha — holgura de nivelación)",
+     "shape": "hole",
      "op": "cut",
      "at": [
-      -706.5,
-      2,
-      395
+      -46.5,
+      1,
+      65
      ],
      "dir": [
       0,
@@ -2571,45 +2486,20 @@
       0
      ],
      "params": {
-      "pts": [
-       [
-        656.5,
-        -336.5
-       ],
-       [
-        663.5,
-        -336.5
-       ],
-       [
-        663.5,
-        -323.5
-       ],
-       [
-        656.5,
-        -323.5
-       ],
-       [
-        656.5,
-        -336.5
-       ]
-      ],
-      "h": 2,
-      "u": [
-       1,
-       0,
-       0
-      ]
+      "dia": 10,
+      "depth": 0,
+      "through": true
      }
     },
     {
      "id": "f54",
-     "name": "Ranura ajuste 7×13 (separador a mecha) 735,-250",
-     "shape": "sketch",
+     "name": "Paso espárrago Ø10 (separador a mecha — holgura de nivelación)",
+     "shape": "hole",
      "op": "cut",
      "at": [
-      -706.5,
-      2,
-      395
+      28.5,
+      1,
+      145
      ],
      "dir": [
       0,
@@ -2617,45 +2507,20 @@
       0
      ],
      "params": {
-      "pts": [
-       [
-        731.5,
-        -256.5
-       ],
-       [
-        738.5,
-        -256.5
-       ],
-       [
-        738.5,
-        -243.5
-       ],
-       [
-        731.5,
-        -243.5
-       ],
-       [
-        731.5,
-        -256.5
-       ]
-      ],
-      "h": 2,
-      "u": [
-       1,
-       0,
-       0
-      ]
+      "dia": 10,
+      "depth": 0,
+      "through": true
      }
     },
     {
      "id": "f55",
-     "name": "Ranura ajuste 7×13 (separador a mecha) 735,-330",
-     "shape": "sketch",
+     "name": "Paso espárrago Ø10 (separador a mecha — holgura de nivelación)",
+     "shape": "hole",
      "op": "cut",
      "at": [
-      -706.5,
-      2,
-      395
+      28.5,
+      1,
+      65
      ],
      "dir": [
       0,
@@ -2663,34 +2528,9 @@
       0
      ],
      "params": {
-      "pts": [
-       [
-        731.5,
-        -336.5
-       ],
-       [
-        738.5,
-        -336.5
-       ],
-       [
-        738.5,
-        -323.5
-       ],
-       [
-        731.5,
-        -323.5
-       ],
-       [
-        731.5,
-        -336.5
-       ]
-      ],
-      "h": 2,
-      "u": [
-       1,
-       0,
-       0
-      ]
+      "dia": 10,
+      "depth": 0,
+      "through": true
      }
     },
     {
@@ -2903,6 +2743,34 @@
      "circles": [
       {
        "c": [
+        50,
+        333.52
+       ],
+       "r": 5
+      },
+      {
+       "c": [
+        50,
+        253.52
+       ],
+       "r": 5
+      },
+      {
+       "c": [
+        125,
+        333.52
+       ],
+       "r": 5
+      },
+      {
+       "c": [
+        125,
+        253.52
+       ],
+       "r": 5
+      },
+      {
+       "c": [
         70,
         103.52
        ],
@@ -2937,96 +2805,7 @@
        "r": 3.5
       }
      ],
-     "polys": [
-      [
-       [
-        46.5,
-        327.02
-       ],
-       [
-        53.5,
-        327.02
-       ],
-       [
-        53.5,
-        340.02
-       ],
-       [
-        46.5,
-        340.02
-       ],
-       [
-        46.5,
-        327.02
-       ]
-      ],
-      [
-       [
-        46.5,
-        247.02
-       ],
-       [
-        53.5,
-        247.02
-       ],
-       [
-        53.5,
-        260.02
-       ],
-       [
-        46.5,
-        260.02
-       ],
-       [
-        46.5,
-        247.02
-       ]
-      ],
-      [
-       [
-        121.5,
-        327.02
-       ],
-       [
-        128.5,
-        327.02
-       ],
-       [
-        128.5,
-        340.02
-       ],
-       [
-        121.5,
-        340.02
-       ],
-       [
-        121.5,
-        327.02
-       ]
-      ],
-      [
-       [
-        121.5,
-        247.02
-       ],
-       [
-        128.5,
-        247.02
-       ],
-       [
-        128.5,
-        260.02
-       ],
-       [
-        121.5,
-        260.02
-       ],
-       [
-        121.5,
-        247.02
-       ]
-      ]
-     ]
+     "polys": []
     },
     "pliegues": [
      {
@@ -3121,7 +2900,7 @@
     "material": "Acero S275JR e2.0 — terminación PINTADO RAL 7035",
     "avisos": [
      "PIEZA CON MANO — NO voltear (los puertos definen el lado)",
-     "RANURA 7×13: ajuste de ALTURA ±3 contra la mecha real (apretar a nivel)",
+     "PASOS Ø10: holgura radial ±2 sobre espárrago M6 — nivelar contra la mecha real y apretar",
      "MONTA EN ESPÁRRAGOS M6 FIJOS EN LA MECHA + SEPARADOR Ø12 + TUERCA CIEGA — el fijador queda en la máquina (ISO 14120 §5.19)",
      "PUERTO Ø8: manguera de extensión de grasera M6×1 (el niple queda dentro)"
     ]
@@ -3192,186 +2971,86 @@
     },
     {
      "id": "f63",
-     "name": "Ranura ajuste 7×13 (separador a mecha) 660,-250",
-     "shape": "sketch",
+     "name": "Paso espárrago Ø10 (separador a mecha — holgura de nivelación)",
+     "shape": "hole",
      "op": "cut",
      "at": [
-      -706.5,
-      0,
-      395
+      -46.5,
+      -1,
+      145
      ],
      "dir": [
       0,
-      -1,
+      1,
       0
      ],
      "params": {
-      "pts": [
-       [
-        656.5,
-        -256.5
-       ],
-       [
-        663.5,
-        -256.5
-       ],
-       [
-        663.5,
-        -243.5
-       ],
-       [
-        656.5,
-        -243.5
-       ],
-       [
-        656.5,
-        -256.5
-       ]
-      ],
-      "h": 2,
-      "u": [
-       1,
-       0,
-       0
-      ]
+      "dia": 10,
+      "depth": 0,
+      "through": true
      }
     },
     {
      "id": "f64",
-     "name": "Ranura ajuste 7×13 (separador a mecha) 660,-330",
-     "shape": "sketch",
+     "name": "Paso espárrago Ø10 (separador a mecha — holgura de nivelación)",
+     "shape": "hole",
      "op": "cut",
      "at": [
-      -706.5,
-      0,
-      395
+      -46.5,
+      -1,
+      65
      ],
      "dir": [
       0,
-      -1,
+      1,
       0
      ],
      "params": {
-      "pts": [
-       [
-        656.5,
-        -336.5
-       ],
-       [
-        663.5,
-        -336.5
-       ],
-       [
-        663.5,
-        -323.5
-       ],
-       [
-        656.5,
-        -323.5
-       ],
-       [
-        656.5,
-        -336.5
-       ]
-      ],
-      "h": 2,
-      "u": [
-       1,
-       0,
-       0
-      ]
+      "dia": 10,
+      "depth": 0,
+      "through": true
      }
     },
     {
      "id": "f65",
-     "name": "Ranura ajuste 7×13 (separador a mecha) 735,-250",
-     "shape": "sketch",
+     "name": "Paso espárrago Ø10 (separador a mecha — holgura de nivelación)",
+     "shape": "hole",
      "op": "cut",
      "at": [
-      -706.5,
-      0,
-      395
+      28.5,
+      -1,
+      145
      ],
      "dir": [
       0,
-      -1,
+      1,
       0
      ],
      "params": {
-      "pts": [
-       [
-        731.5,
-        -256.5
-       ],
-       [
-        738.5,
-        -256.5
-       ],
-       [
-        738.5,
-        -243.5
-       ],
-       [
-        731.5,
-        -243.5
-       ],
-       [
-        731.5,
-        -256.5
-       ]
-      ],
-      "h": 2,
-      "u": [
-       1,
-       0,
-       0
-      ]
+      "dia": 10,
+      "depth": 0,
+      "through": true
      }
     },
     {
      "id": "f66",
-     "name": "Ranura ajuste 7×13 (separador a mecha) 735,-330",
-     "shape": "sketch",
+     "name": "Paso espárrago Ø10 (separador a mecha — holgura de nivelación)",
+     "shape": "hole",
      "op": "cut",
      "at": [
-      -706.5,
-      0,
-      395
+      28.5,
+      -1,
+      65
      ],
      "dir": [
       0,
-      -1,
+      1,
       0
      ],
      "params": {
-      "pts": [
-       [
-        731.5,
-        -336.5
-       ],
-       [
-        738.5,
-        -336.5
-       ],
-       [
-        738.5,
-        -323.5
-       ],
-       [
-        731.5,
-        -323.5
-       ],
-       [
-        731.5,
-        -336.5
-       ]
-      ],
-      "h": 2,
-      "u": [
-       1,
-       0,
-       0
-      ]
+      "dia": 10,
+      "depth": 0,
+      "through": true
      }
     },
     {

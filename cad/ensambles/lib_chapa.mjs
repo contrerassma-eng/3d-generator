@@ -164,17 +164,11 @@ export function flatCostadoCaja(Lg, altura, alaW, pestW, t, x0, zTop, holesAlma,
   }
   const zBot = zTop - altura;
   const devY = (z) => r2(pest + BA + (z - (zBot + r + t)));
+  // Sergio 18-08: en piezas NUEVAS los pasos son SOLO barrenos redondos (la
+  // holgura de ajuste se da con diámetro, no con ranura) — las ranuras
+  // rectangulares quedan reservadas a la copia fiel del sistema 24V.
   const circles = [], polys = [];
-  for (const h of holesAlma) {
-    if (h.ran) {
-      // ranura de AJUSTE (junta-ajustable): rectángulo w×h centrado — misma
-      // convención que las ranuras 11×20 del sistema 24V
-      const cx = r2(h.x - x0), cy = devY(h.z), hw = h.ran.w / 2, hh = h.ran.h / 2;
-      polys.push([[cx - hw, cy - hh], [cx + hw, cy - hh], [cx + hw, cy + hh], [cx - hw, cy + hh], [cx - hw, cy - hh]].map(q => [r2(q[0]), r2(q[1])]));
-    } else {
-      circles.push({ c: [r2(h.x - x0), devY(h.z)], r: h.dia / 2 });
-    }
-  }
+  for (const h of holesAlma) circles.push({ c: [r2(h.x - x0), devY(h.z)], r: h.dia / 2 });
   for (const x of holesPestX) circles.push({ c: [r2(x - x0), 12.5], r: 3.5 });
   return {
     contorno: redondear(rect(Lg, r2(H)), rEsquina(t)),

@@ -775,16 +775,15 @@ function build(tipo, L) {
         box('Pestaña de fondo', [xm, yPest, K.fondoZ + tCaja / 2], Lg, pestCaja, tCaja),
       ];
       const hAlma = [];
-      // junta-ajustable (Sergio 18-08): el paso del espárrago es RANURA
-      // VERTICAL 7×13 — la caja se nivela ±3 contra la mecha real; el taller
-      // no siempre entrega la mecha al décimo. El fondo queda DATUM (Ø7:
-      // láser contra láser, ±0,1 garantizado por proceso).
-      const yCara = Math.max(yIn0, yExt);
+      // junta-ajustable (Sergio 18-08, 2ª orden: SOLO barrenos redondos — nada
+      // de agujeros cuadrados): el paso del espárrago M6 es Ø10 — holgura
+      // radial ±2 que absorbe la obra en toda dirección; se nivela contra la
+      // mecha real y se aprieta. El fondo queda DATUM (Ø7: láser contra
+      // láser, ±0,1 garantizado por proceso).
       for (const q of K.mounts) {
-        hAlma.push({ x: q.x, z: q.z, ran: { w: 7, h: 13 } });
-        f.push(sketchXZ(`Ranura ajuste 7×13 (separador a mecha) ${q.x},${q.z}`, yCara,
-          [[q.x - 3.5, q.z - 6.5], [q.x + 3.5, q.z - 6.5], [q.x + 3.5, q.z + 6.5], [q.x - 3.5, q.z + 6.5], [q.x - 3.5, q.z - 6.5]],
-          tCaja, 'cut'));
+        hAlma.push({ x: q.x, z: q.z, dia: 10 });
+        f.push(hole('Paso espárrago Ø10 (separador a mecha — holgura de nivelación)',
+          [q.x, yIn0 + s * tCaja / 2, q.z], [0, s, 0], 10, 0, true));
       }
       for (const g of K.grasa) if (g.s === s) {
         hAlma.push({ x: g.x, z: g.z, dia: 25 });
@@ -808,7 +807,7 @@ function build(tipo, L) {
           flat: flatCostadoCaja(Lg, altura, alaW, pestCaja, tCaja, K.xa, topCaja, hAlma, pestHolesX,
             'Acero S275JR e2.0 — terminación PINTADO RAL 7035',
             [avisoMano,
-             'RANURA 7×13: ajuste de ALTURA ±3 contra la mecha real (apretar a nivel)',
+             'PASOS Ø10: holgura radial ±2 sobre espárrago M6 — nivelar contra la mecha real y apretar',
              'MONTA EN ESPÁRRAGOS M6 FIJOS EN LA MECHA + SEPARADOR Ø12 + TUERCA CIEGA — el fijador queda en la máquina (ISO 14120 §5.19)',
              ...(hAlma.some(h => h.dia === 25) ? ['PUERTO Ø25: OJAL CIEGO OBLIGATORIO — se retira solo para engrasar'] : []),
              ...(hAlma.some(h => h.dia === 8) ? ['PUERTO Ø8: manguera de extensión de grasera M6×1 (el niple queda dentro)'] : [])]),
@@ -1650,6 +1649,9 @@ function verify(res) {
     // (pestaña-en-ranura del B_002A, cruciformes del bracket) — redondear ahí
     // altera el encaje del original 24V
     exentosEsquina: [/Bracket soporte B_005A/, /Travesaño de patas B_002A/],
+    // barreno-redondo: las ranuras rectangulares interiores viven SOLO en la
+    // copia fiel del sistema 24V (measured) — toda pieza nueva usa barrenos
+    exentosRanura: [/Bracket soporte B_005A/, /Columna soporte/, /Tira telescópica/, /Travesaño de patas B_002A/],
     // la guarda tampoco puede ocupar el espacio de la ESTRUCTURA que la
     // rodea: columnas, tiras telescópicas y travesaños de pata (así se
     // cazaron las columnas que perforaban el fondo de la artesa Rev.E.1)
@@ -1703,7 +1705,7 @@ const metaComun = {
     'AJUSTA · arco de aplome R52: ±60° de giro de columna (aplomar en piso desnivelado)',
     'AJUSTA · tira BR_3002: ranuras 11×20 paso 34 = ALTURA de trabajo (apriete 3×M10)',
     'AJUSTA · pata B_004A: ranuras de anclaje 11×22 = posición del perno de piso',
-    'AJUSTA · guarda: ranura vertical 7×13 en costados = nivelación ±3 contra la mecha real',
+    'AJUSTA · guarda: pasos Ø10 en costados = holgura radial ±2 sobre espárrago M6 (nivelar contra la mecha real)',
     'DATUM · portacarril→pletina de carril: SIN juego a propósito — fija la cota del carryway',
     'DATUM · mecha→alma 6×M10 y fondo de guarda→pestañas Ø7: láser contra láser (±0,1 de proceso)',
     'TENSADO · banda LBP: por eslabones + catenaria (sin tensor de tornillo — criterio Movex)',

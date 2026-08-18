@@ -11,7 +11,9 @@
     "masa-exacta",
     "flat-vs-solido",
     "peligro-expuesto",
-    "chapa-vs-componente"
+    "chapa-vs-componente",
+    "esquina-viva",
+    "barreno-redondo"
    ],
    "reglas_disponibles_sin_cablear": [
     "zona-prohibida",
@@ -19,6 +21,8 @@
     "cantidad-derivada",
     "rotulo-coherente",
     "corte-de-barras",
+    "espejo-preferido",
+    "junta-ajustable",
     "abertura-vs-alcance"
    ],
    "hallazgos": 1,

@@ -279,11 +279,18 @@ const tipsDe = (n) => {
     'Presentar APERNADA 6×M10 sobre el alma y verificar coaxialidad de los 4 Ø12 de brida.',
     'Roscar M6 de montaje de guarda con la broca Ø5 del plano (no taladrar a Ø6).',
   ];
-  if (/Guarda .* costado/.test(n)) return [
-    'Perfil en C: plegar pestaña de fondo y tira superior a 90° (chapa 2,0 — R2).',
-    'Presentar sobre los espárragos de la mecha CON separadores antes de pintar.',
-    'Puerto Ø25: montar OJAL CIEGO — no queda abierto (punta de eje gira a 10 mm).',
-  ];
+  if (/Guarda .* costado/.test(n)) {
+    // el tip del puerto depende del LADO real de la pieza (rótulo coherente):
+    // Ø25+ojal va en libre/lateral; el costado motor lleva Ø8 de manguera
+    const t = [
+      'Perfil en C: plegar pestaña de fondo y tira superior a 90° (chapa 2,0 — R2).',
+      'Presentar sobre los espárragos de la mecha CON separadores antes de pintar.',
+      'Pasos Ø10 de espárrago: holgura radial ±2 — nivelar la caja contra la mecha real y apretar.',
+    ];
+    if (/costado (libre|lateral)/.test(n)) t.push('Puerto Ø25: montar OJAL CIEGO — no queda abierto (punta de eje gira a 10 mm).');
+    if (/costado motor/.test(n)) t.push('Puerto Ø8: paso de la manguera de extensión de grasera (el niple M6×1 queda dentro).');
+    return t;
+  }
   if (/Guarda .* fondo/.test(n)) return [
     'Un pliegue: la tapa de extremo sube 90° (chapa 2,0 — R2).',
     'Monta M6×12 bajo las pestañas de ambos costados; drenaje Ø8 queda al eje.',
@@ -393,16 +400,26 @@ for (const g of lista) {
           const ly = sheet._flatLayout;
           const spare = ly ? ly.W - 10 - (ly.ox + ly.w) : 0;
           // sólo piezas CON pliegues: en una placa plana la miniatura es el
-          // mismo rectángulo del desarrollo, no agrega lectura
-          if (ly && spare >= 110 && g.part.flat.pliegueInfo?.length) {
+          // mismo rectángulo del desarrollo, no agrega lectura. Piezas anchas
+          // y bajas (placa 5 m): el desarrollo centrado se come la banda
+          // derecha → la mini cae DEBAJO del desarrollo, centrada (bajo las
+          // cotas de contorno, que llegan hasta oy−51)
+          const abajo = ly ? ly.oy - 72 : 0;
+          if (ly && (spare >= 110 || abajo >= 80) && g.part.flat.pliegueInfo?.length) {
             try {
+              const enBanda = spare >= 110;
               const mini = new IsoScene();
               mini.add(g.part, { paint: true });
-              const fig = mini.project({ dir: [-1, 1, -0.62], widthMM: Math.min(spare - 26, 170), res: 900, shadow: true });
-              const mx = ly.ox + ly.w + 16;
-              const my = ly.oy + ly.h - fig.heightMM;   // banda derecha: mini ARRIBA, detalle abajo
-              drawFigure(sheet, fig, mx, my);
-              sheet.text('PIEZA PLEGADA (referencia visual — cotas en el desarrollo)', mx, my - 5, 2.8, 'L');
+              const fig = mini.project({
+                dir: [-1, 1, -0.62], res: 900, shadow: true,
+                widthMM: enBanda ? Math.min(spare - 26, 170) : Math.min(ly.w * 0.5, 230),
+              });
+              const mx = enBanda ? ly.ox + ly.w + 16 : ly.ox + (ly.w - fig.widthMM) / 2;
+              const my = enBanda ? ly.oy + ly.h - fig.heightMM : ly.oy - 72 - fig.heightMM;
+              if (my > 18) {
+                drawFigure(sheet, fig, mx, my);
+                sheet.text('PIEZA PLEGADA (referencia visual — cotas en el desarrollo)', mx, my - 5, 2.8, 'L');
+              }
             } catch (e) { console.warn(`  ! sin miniatura plegada: ${desig} (${e.message})`); }
           }
         }

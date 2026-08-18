@@ -204,11 +204,16 @@ const sh2 = new Sheet('A2', 594, 420, 1, 1, 1);
 sh2.text(`SECCIONES — ${codigo}`, 297, 404, 6, 'C');
 sh2.text(doc.meta?.nombre || base, 297, 396, 3.2, 'C');
 const rotula = (s2, fig, ox, oy, colX, filas) => {
-  // rótulos con líder: texto en columna fija → ancla de la pieza en la vista
+  // rótulos con líder: texto en columna fija → ancla de la pieza en la vista.
+  // Los renglones se asignan POR ALTURA DEL ANCLA (ancla más alta → renglón
+  // más alto): líderes monótonos que no se cruzan (regla de Sergio, la misma
+  // del abanico de globos)
+  const vivos = filas.items
+    .map(([re, txt]) => ({ txt, pm: fig.parts.find(p => re.test(p.name)) }))
+    .filter(e => e.pm)
+    .sort((a, b) => b.pm.anchor[1] - a.pm.anchor[1]);
   let ty = filas.y0;
-  for (const [re, txt] of filas.items) {
-    const pm = fig.parts.find(p => re.test(p.name));
-    if (!pm) continue;
+  for (const { txt, pm } of vivos) {
     const to = [ox + pm.anchor[0], oy + pm.anchor[1]];
     s2.text(txt, colX, ty - 1.1, 2.7, filas.al || 'L');
     const x0 = filas.al === 'R' ? colX + 1.5 : colX - 1.5;
@@ -273,8 +278,30 @@ sh2.titleBlock({
 const nF = bom.filas.filter(f => f.tipo === 'FABRICADA').length;
 const nC = bom.filas.filter(f => f.tipo === 'COMPRADA').length;
 const sold = dims.soldadura || {};
-const notas = [
-  ...(doc.meta?.mapa_ajustes ? ['', 'AJUSTES DEL EQUIPO (dónde absorber la obra — lo demás es DATUM):', ...doc.meta.mapa_ajustes.map(x => '· ' + x)] : []),
+// Las notas van en DOS zonas con envoltura de línea y PISO explícito: el
+// cajetín parte en x≈334/y≈82 y el mapa de ajustes Rev.F empujaba la
+// soldadura DENTRO del cajetín (hallazgo visual 18-08). Zona izquierda
+// (x=185, ancho 143): ajustes + soldadura, baja hasta y=20 sin tocar el
+// cajetín porque termina antes de x=334. Zona derecha (x=320): sólo el
+// resumen corto, con piso en y=88 (sobre el cajetín).
+const envuelve = (t, max) => {
+  if (t.length <= max) return [t];
+  const out = []; let cur = '';
+  for (const w of t.split(' ')) {
+    if ((cur + ' ' + w).trim().length > max) { out.push(cur.trim()); cur = w; }
+    else cur = cur + ' ' + w;
+  }
+  if (cur.trim()) out.push(cur.trim());
+  return out.map((l, i) => (i ? '   ' + l : l));
+};
+const zonaIzq = [
+  ...(doc.meta?.mapa_ajustes ? ['AJUSTES DEL EQUIPO (dónde absorber la obra — lo demás es DATUM):', ...doc.meta.mapa_ajustes.map(x => '· ' + x)] : []),
+  '',
+  `SOLDADURA (${sold.proceso || 'ver especificación'} · ${sold.norma || ''}):`,
+  ...(sold.uniones || []).map(u => '· ' + u),
+  sold.nota ? '· ' + sold.nota : '',
+].filter(t => t !== null && t !== '').flatMap(t => envuelve(t, 78));
+const zonaDer = [
   `Despiece completo: bom_${base}.csv (${nF} fabricadas · ${nC} compradas) — los ÍTEM de los`,
   `globos son los del BOM y el Manual de Partes (boletín CV-MP-${esLBP ? '01' : '02'}).`,
   'Cotas medidas de la proyección del modelo paramétrico — no transcritas.',
@@ -283,14 +310,9 @@ const notas = [
     `MASA de partes FABRICADAS: ${bom.totales.masa_fabricada_kg} kg (área exacta del desarrollo × espesor; sin`,
     `comprados) · SUPERFICIE A PINTAR: ${bom.totales.area_pintar_m2} m² (2 caras) · PLANCHA A PEDIR: ${bom.totales.plancha_m2} m².`,
   ] : []),
-  '',
-  `SOLDADURA (${sold.proceso || 'ver especificación'} · ${sold.norma || ''}):`,
-  ...(sold.uniones || []).map(u => '· ' + u),
-  sold.nota ? '· ' + sold.nota : '',
-].filter(t => t !== null);
-// Rev.C: la especificación de soldadura creció (orejas/clips/columna) — el
-// bloque parte más arriba y con paso menor para NO invadir el cajetín
-notas.forEach((t, i) => sh.text(t, 320, 130 - i * 4.6, 2.8, 'L'));
+];
+zonaIzq.forEach((t, i) => { const y = 130 - i * 4.4; if (y > 20) sh.text(t, 185, y, 2.7, 'L'); });
+zonaDer.forEach((t, i) => { const y = 130 - i * 4.6; if (y > 88) sh.text(t, 320, y, 2.8, 'L'); });
 
 sh.frame();
 sh.titleBlock({

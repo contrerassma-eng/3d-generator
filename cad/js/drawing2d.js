@@ -776,48 +776,9 @@ export function buildFlatSheet(flat, meta, K) {
     gruposRef = grupos;
     const grupoDe = (c) => grupos.get(`${+(c.r * 2).toFixed(2)}|${c.rosca || ''}`);
     const letraDe = (c) => grupoDe(c).letra;
-    // ejes de FILA/COLUMNA: ≥3 barrenos alineados comparten una línea de
-    // centro corrida (lectura de taladrado); el resto lleva cruz individual.
-    // Decoración del LIBRO: el DXF del láser (soloCorte) queda geometría pura.
-    const enFila = new Set(), enCol = new Set();
-    if (!soloCorte) {
-      const filas = new Map(), cols = new Map();
-      for (const c of flat.cortes.circles) {
-        const ky = c.c[1].toFixed(1), kx = c.c[0].toFixed(1);
-        (filas.get(ky) ?? filas.set(ky, []).get(ky)).push(c);
-        (cols.get(kx) ?? cols.set(kx, []).get(kx)).push(c);
-      }
-      for (const [ky, cs] of filas) {
-        if (cs.length < 3) continue;
-        const xs = cs.map(c => c.c[0]);
-        sheet.line(T([Math.min(...xs) - 5, +ky]), T([Math.max(...xs) + 5, +ky]), 'EJE');
-        cs.forEach(c => enFila.add(c));
-      }
-      const colsEje = [];
-      for (const [kx, cs] of cols) {
-        if (cs.length < 3) continue;
-        const ys = cs.map(c => c.c[1]);
-        sheet.line(T([+kx, Math.min(...ys) - 5]), T([+kx, Math.max(...ys) + 5]), 'EJE');
-        cs.forEach(c => enCol.add(c));
-        colsEje.push(+kx);
-      }
-      // cotas de POSICIÓN de los ejes (legibles en la propia lámina): con
-      // hasta 4 ejes por dirección se acotan desde el borde del desarrollo;
-      // con más, mandan el DXF 1:1 y _agujeros.csv (ya remitidos abajo)
-      const filasEje = [...filas.entries()].filter(([, cs]) => cs.length >= 3).map(([ky]) => +ky);
-      if (colsEje.length && colsEje.length <= 4) {
-        colsEje.sort((a, b) => a - b).forEach((cx, i) => {
-          const d = +(cx - lo[0]).toFixed(1);
-          if (d > 2) sheet.dimH(T([lo[0], 0])[0], T([cx, 0])[0], T([0, lo[1]])[1], 16 + i * 7, d);
-        });
-      }
-      if (filasEje.length && filasEje.length <= 4) {
-        filasEje.sort((a, b) => a - b).forEach((fy, i) => {
-          const d = +(fy - lo[1]).toFixed(1);
-          if (d > 2) sheet.dimV(T([hi[0], 0])[0], T([0, lo[1]])[1], T([0, fy])[1], 16 + i * 7, d);
-        });
-      }
-    }
+    // Sergio 18-08: NO se dibujan líneas entre barrenos ni se acota la
+    // colinealidad — es corte láser: las posiciones mandan en el DXF 1:1 y
+    // _agujeros.csv. Cada barreno lleva su cruz de centro individual.
     for (const c of flat.cortes.circles) {
       const gc = grupoDe(c).rgb || undefined;
       sheet.circle(T(c.c), c.r * s, 'VISIBLE', gc);
@@ -825,8 +786,8 @@ export function buildFlatSheet(flat, meta, K) {
       if (!soloCorte) {
         // cruz de centro (cadena fina): el brazo sale 2,2 del borde del barreno
         const arm = c.r * s + 2.2;
-        if (!enFila.has(c)) sheet.line([cx - arm, cy], [cx + arm, cy], 'EJE');
-        if (!enCol.has(c)) sheet.line([cx, cy - arm], [cx, cy + arm], 'EJE');
+        sheet.line([cx - arm, cy], [cx + arm, cy], 'EJE');
+        sheet.line([cx, cy - arm], [cx, cy + arm], 'EJE');
         // rosca interior ISO 6410: el diámetro MAYOR del hilo como arco FINO a
         // ~3/4 de vuelta alrededor de la broca dibujada
         const M = c.rosca && /M(\d+(?:[.,]\d+)?)/.exec(c.rosca);
