@@ -122,12 +122,15 @@ const isoScene = (() => {
   c.items = SC.items.map(it => ({ ...it, opts: { ...it.opts, paint: true } }));
   return c;
 })();
-const iso = isoScene.project({ dir: [-1, 1, -0.62], widthMM: 190, res: 1600, shadow: true });
-const kIso = Math.min(1, 120 / iso.heightMM);
+// tamaño acotado: la iso con globos es DUEÑA de x<205 en la banda baja; las
+// notas viven a su derecha en una columna que no alcanza el cajetín (18-08:
+// a 120 de alto la iso+abanico invadía la columna de ajustes y viceversa)
+const iso = isoScene.project({ dir: [-1, 1, -0.62], widthMM: 150, res: 1600, shadow: true });
+const kIso = Math.min(1, 95 / iso.heightMM);
 for (const s of iso.segments) { s.a = s.a.map(v => v * kIso); s.b = s.b.map(v => v * kIso); }
 for (const pm of iso.parts) { pm.anchor = pm.anchor.map(v => v * kIso); }
 iso.widthMM *= kIso; iso.heightMM *= kIso;
-const oxI = 30, oyI = 42;
+const oxI = 30, oyI = 55;
 drawFigure(sh, iso, oxI, oyI, {});
 sh.text('ISOMÉTRICA (referencia)', oxI + iso.widthMM / 2, oyI - 7, 3, 'C');
 
@@ -278,12 +281,14 @@ sh2.titleBlock({
 const nF = bom.filas.filter(f => f.tipo === 'FABRICADA').length;
 const nC = bom.filas.filter(f => f.tipo === 'COMPRADA').length;
 const sold = dims.soldadura || {};
-// Las notas van en DOS zonas con envoltura de línea y PISO explícito: el
-// cajetín parte en x≈334/y≈82 y el mapa de ajustes Rev.F empujaba la
-// soldadura DENTRO del cajetín (hallazgo visual 18-08). Zona izquierda
-// (x=185, ancho 143): ajustes + soldadura, baja hasta y=20 sin tocar el
-// cajetín porque termina antes de x=334. Zona derecha (x=320): sólo el
-// resumen corto, con piso en y=88 (sobre el cajetín).
+// Las notas van en UNA columna fluida a la derecha de la iso, con envoltura
+// de línea y PISO explícito (hallazgo visual 18-08: el mapa de ajustes
+// empujaba la soldadura DENTRO del cajetín; el arreglo en dos zonas chocó
+// con el abanico de globos; el de columna angosta a 78 caracteres perdía el
+// final de la soldadura contra el piso). El cajetín REAL es x≥404 · y≤52
+// (TITLE_W 180 en A2): envolviendo a 128 caracteres el borde derecho queda
+// en ~393 — libre del cajetín A CUALQUIER ALTURA — y los ~25 renglones
+// terminan lejos del piso y=18, que queda como guarda dura contra el marco.
 const envuelve = (t, max) => {
   if (t.length <= max) return [t];
   const out = []; let cur = '';
@@ -294,25 +299,20 @@ const envuelve = (t, max) => {
   if (cur.trim()) out.push(cur.trim());
   return out.map((l, i) => (i ? '   ' + l : l));
 };
-const zonaIzq = [
-  ...(doc.meta?.mapa_ajustes ? ['AJUSTES DEL EQUIPO (dónde absorber la obra — lo demás es DATUM):', ...doc.meta.mapa_ajustes.map(x => '· ' + x)] : []),
+const notas = [
+  ...(doc.meta?.mapa_ajustes ? ['AJUSTES DEL EQUIPO (dónde absorber la obra — lo demás es DATUM):', ...doc.meta.mapa_ajustes.map(x => '· ' + x), ''] : []),
+  `Despiece completo: bom_${base}.csv (${nF} fabricadas · ${nC} compradas) — los ÍTEM de los globos son los del BOM y el Manual de Partes (boletín CV-MP-${esLBP ? '01' : '02'}).`,
+  'Cotas medidas de la proyección del modelo paramétrico — no transcritas.',
+  'Altura de faja ajustable por niveladores de soporte. Terminación: PINTADO RAL 7035.',
+  ...(bom.totales ? [
+    `MASA de partes FABRICADAS: ${bom.totales.masa_fabricada_kg} kg (área exacta del desarrollo × espesor; sin comprados) · SUPERFICIE A PINTAR: ${bom.totales.area_pintar_m2} m² (2 caras) · PLANCHA A PEDIR: ${bom.totales.plancha_m2} m².`,
+  ] : []),
   '',
   `SOLDADURA (${sold.proceso || 'ver especificación'} · ${sold.norma || ''}):`,
   ...(sold.uniones || []).map(u => '· ' + u),
   sold.nota ? '· ' + sold.nota : '',
-].filter(t => t !== null && t !== '').flatMap(t => envuelve(t, 78));
-const zonaDer = [
-  `Despiece completo: bom_${base}.csv (${nF} fabricadas · ${nC} compradas) — los ÍTEM de los`,
-  `globos son los del BOM y el Manual de Partes (boletín CV-MP-${esLBP ? '01' : '02'}).`,
-  'Cotas medidas de la proyección del modelo paramétrico — no transcritas.',
-  'Altura de faja ajustable por niveladores de soporte. Terminación: PINTADO RAL 7035.',
-  ...(bom.totales ? [
-    `MASA de partes FABRICADAS: ${bom.totales.masa_fabricada_kg} kg (área exacta del desarrollo × espesor; sin`,
-    `comprados) · SUPERFICIE A PINTAR: ${bom.totales.area_pintar_m2} m² (2 caras) · PLANCHA A PEDIR: ${bom.totales.plancha_m2} m².`,
-  ] : []),
-];
-zonaIzq.forEach((t, i) => { const y = 130 - i * 4.4; if (y > 20) sh.text(t, 185, y, 2.7, 'L'); });
-zonaDer.forEach((t, i) => { const y = 130 - i * 4.6; if (y > 88) sh.text(t, 320, y, 2.8, 'L'); });
+].filter(t => t !== null).flatMap(t => (t === '' ? [''] : envuelve(t, 128)));
+notas.forEach((t, i) => { const y = 156 - i * 4.2; if (y > 18) sh.text(t, 210, y, 2.6, 'L'); });
 
 sh.frame();
 sh.titleBlock({
