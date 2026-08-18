@@ -2,6 +2,8 @@
  "meta": {
   "nombre": "CV-HGR-190E24 · kit colgante Hytrol 190-E24 (Rev. B-1: asiento en V, colisos)",
   "proyecto": "CV-HGR-190E24",
+  "marca": "CONVEYONE",
+  "marcaSub": "CONVEYONE SpA",
   "fuente": "input/docs/Conveyone_Colgante_Hytrol_190E24.pdf (capa user) + usuario: A36, 12 c/u, extremos R, colisos",
   "material": "Acero ASTM A36 — chapa 4 mm (corte láser)",
   "cantidad_por_pieza": 12,

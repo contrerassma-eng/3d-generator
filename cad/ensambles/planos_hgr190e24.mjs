@@ -35,6 +35,7 @@ const cant = doc.meta.cantidad_por_pieza;
   const out = exportFlatPDF(f, {
     designacion: `HGD-01 · PD-48 placa distribuidora (x${cant})`,
     proyecto: doc.meta.proyecto,
+    marca: doc.meta.marca, marcaSub: doc.meta.marcaSub,
     numPlano: 'HGD-01',
     nota: `${f.material} · e${f.t} · ISO 2768-mK · COLISOS 11×16 @96 · CANT. ${cant}`,
     fecha,
@@ -112,6 +113,7 @@ const cant = doc.meta.cantidad_por_pieza;
 
   sh.frame();
   sh.titleBlock({
+    marca: doc.meta.marca, marcaSub: doc.meta.marcaSub,
     designacion: `HGD-02 · RC-48V retenedor asiento en V (x${cant})`,
     proyecto: doc.meta.proyecto,
     fuente: 'chapa plegada — capa user',

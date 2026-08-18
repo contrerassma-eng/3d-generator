@@ -338,6 +338,8 @@ const doc = {
   meta: {
     nombre: 'CV-HGR-190E24 · kit colgante Hytrol 190-E24 (Rev. B-1: asiento en V, colisos)',
     proyecto: 'CV-HGR-190E24',
+    marca: 'CONVEYONE',            // cajetín con logotipo del cliente (capa LOGO, azul)
+    marcaSub: 'CONVEYONE SpA',
     fuente: 'input/docs/Conveyone_Colgante_Hytrol_190E24.pdf (capa user) + usuario: A36, 12 c/u, extremos R, colisos',
     material: P.material,
     cantidad_por_pieza: P.qty,

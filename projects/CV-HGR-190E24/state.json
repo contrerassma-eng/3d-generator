@@ -16,12 +16,12 @@
         "factor_escala": 1.0,
         "dxf": "out/drawings/pd48.dxf",
         "pdf": "out/drawings/pd48.pdf",
-        "hash_dxf": "sha256:32260d26186f0551c34eb64584e9a942a6590224913ad604144759d140bba27d",
-        "hash_pdf": "sha256:b7389edec248d7a5b57659e3c19dd4ead47cf2703b637d775a3cce3562ab3b37"
+        "hash_dxf": "sha256:f75810992c37e2b95e82639f8c2e5a344d619427c8c436acf74121500981b922",
+        "hash_pdf": "sha256:3906b29f703710c7e9ef4d91076d95324acdb07fac447b222294980f20e089e9"
       },
       "reasons": [],
-      "ts": "2026-08-18T19:05:42+00:00"
+      "ts": "2026-08-18T19:27:59+00:00"
     }
   },
-  "updated": "2026-08-18T19:05:42+00:00"
+  "updated": "2026-08-18T19:27:59+00:00"
 }

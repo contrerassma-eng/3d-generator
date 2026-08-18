@@ -50,6 +50,7 @@ LAYERS = {  # nombre: (color ACI, tipo de línea, grosor mm*100)
     "COTAS":   (7, "CONTINUOUS", 25),
     "PLIEGUE": (1, "DASHDOT", 25),
     "TEXTO":   (7, "CONTINUOUS", 25),
+    "LOGO":    (5, "CONTINUOUS", 35),   # marca del cliente en el cajetín (azul)
 }
 ORDER = ["alzado", "planta", "perfil", "isometrica"]
 
@@ -227,13 +228,30 @@ class Sheet:
         self.line((xa, y0), (xa, y0 + TITLE_H), "NORMA")
         self.line((xb, y0), (xb, y0 + TITLE_H), "NORMA")
 
-        # zona A — marca del método + símbolo de proyección
+        # zona A — marca + símbolo de proyección. Con tb["marca"] se dibuja el
+        # logotipo del cliente (transportador estilizado + wordmark, capa LOGO
+        # azul); sin marca, el bloque foto3d de siempre.
         cxa = x0 + 20.0
         self.line((x0, ys[2]), (xa, ys[2]), "FINA")
-        self.text("foto3d", cxa, ys[0] - 8.2, h=6.0, align="CENTER")
-        self.line((cxa - 13.5, ys[0] - 13.4), (cxa + 13.5, ys[0] - 13.4), "FINA")
-        self.text("FOTOGRAMETRÍA · 3D AUDITABLE", cxa, ys[0] - 16.2,
-                  h=1.3, align="CENTER")
+        if tb.get("marca"):
+            by = ys[0] - 3.0
+            self.line((cxa - 11, by), (cxa + 11, by), "LOGO")
+            for dx in (-7, 0, 7):
+                self.circle((cxa + dx, by - 1.9), 1.6, "LOGO")
+            self.msp.add_solid([self._p((cxa + 11.4, by + 1.1)),
+                                self._p((cxa + 13.6, by)),
+                                self._p((cxa + 11.4, by - 1.1))],
+                               dxfattribs={"layer": "LOGO"})
+            self.text(tb["marca"], cxa, ys[0] - 11.4, h=3.6, layer="LOGO",
+                      align="CENTER")
+            self.line((cxa - 13.5, ys[0] - 13.4), (cxa + 13.5, ys[0] - 13.4), "FINA")
+            self.text(tb.get("marca_sub") or f"{tb['marca']} SpA", cxa,
+                      ys[0] - 16.2, h=1.3, align="CENTER")
+        else:
+            self.text("foto3d", cxa, ys[0] - 8.2, h=6.0, align="CENTER")
+            self.line((cxa - 13.5, ys[0] - 13.4), (cxa + 13.5, ys[0] - 13.4), "FINA")
+            self.text("FOTOGRAMETRÍA · 3D AUDITABLE", cxa, ys[0] - 16.2,
+                      h=1.3, align="CENTER")
         self.text("ISO 5457 · 7200 · 129 · 5456-2", cxa, ys[0] - 19.4,
                   h=1.3, align="CENTER")
         self.text("PROYECCIÓN — PRIMER DIEDRO", cxa, ys[2] - 2.4, h=1.4,
@@ -376,6 +394,10 @@ def title_data(proj, meta, stem, sheet_no, total, scale, formato, extra=""):
     cert = "CERTIFICADA (G4)" if meta["certified"] else \
         "NO CERTIFICADA — requiere S4"
     return {
+        # marca del cliente en el cajetín (opcional): campos `marca_planos`
+        # y `marca_planos_sub` de input/descripcion.md
+        "marca": meta["desc"].get("marca_planos", "").strip() or None,
+        "marca_sub": meta["desc"].get("marca_planos_sub", "").strip() or None,
         "designacion": meta["desc"].get("objeto", "—"),
         "proyecto": proj.name,
         "fuente": meta["source"],
@@ -399,8 +421,10 @@ def render_pdf(docs_sizes, pdf_path: Path):
     from ezdxf.addons.drawing import config as dcfg
     from ezdxf.addons.drawing.matplotlib import MatplotlibBackend
 
+    # COLOR (no BLACK): las capas de dibujo son ACI 7 y salen negras sobre
+    # fondo blanco; así PLIEGUE (rojo) y LOGO (azul) conservan su color.
     cfg = dcfg.Configuration(background_policy=dcfg.BackgroundPolicy.WHITE,
-                             color_policy=dcfg.ColorPolicy.BLACK)
+                             color_policy=dcfg.ColorPolicy.COLOR)
     with PdfPages(pdf_path) as pp:
         for doc, (W, H) in docs_sizes:
             fig = plt.figure()

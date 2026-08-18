@@ -18,9 +18,10 @@ const REDUCTIONS = [1, 2, 2.5, 5, 10, 20, 50, 100, 200, 500, 1000];
 const ENLARGEMENTS = [2, 5, 10, 20, 50];
 const GRIDREF = { A4: [6, 4], A3: [8, 6], A2: [12, 8], A1: [16, 12], A0: [24, 16] };
 const GRID_LETTERS = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-const LAYERS = { SOMBRA: 8, NORMA: 7, FINA: 7, VISIBLE: 7, COTAS: 7, TEXTO: 7, PLIEGUE: 1 }; // color ACI
-const LW = { NORMA: 0.7, FINA: 0.18, VISIBLE: 0.5, COTAS: 0.25, TEXTO: 0.25, PLIEGUE: 0.35 }; // mm (PDF)
+const LAYERS = { SOMBRA: 8, NORMA: 7, FINA: 7, VISIBLE: 7, COTAS: 7, TEXTO: 7, PLIEGUE: 1, LOGO: 5 }; // color ACI
+const LW = { NORMA: 0.7, FINA: 0.18, VISIBLE: 0.5, COTAS: 0.25, TEXTO: 0.25, PLIEGUE: 0.35, LOGO: 0.35 }; // mm (PDF)
 const DASH = { PLIEGUE: [4, 2] };  // ejes de plegado con línea segmentada (mm)
+const RGB = { LOGO: '0.07 0.33 0.66' };  // color de trazo/relleno por capa en el PDF (def: negro)
 // capas de GEOMETRÍA de la pieza: en láminas de fabricación (desarrollo) el
 // PDF las traza como línea fina sin espesor (hairline, aptas para corte)
 const GEOM_LAYERS = new Set(['VISIBLE', 'FINA', 'PLIEGUE', 'COTAS']);
@@ -353,12 +354,24 @@ class Sheet {
     this.line([xa, y0], [xa, y0 + TITLE_H], 'NORMA');
     this.line([xb, y0], [xb, y0 + TITLE_H], 'NORMA');
 
-    // zona A — marca + símbolo de proyección
+    // zona A — marca + símbolo de proyección. Con tb.marca se dibuja el
+    // logotipo del cliente (transportador estilizado + wordmark) en capa
+    // LOGO (azul); sin marca, el bloque foto3d de siempre.
     const cxa = x0 + 20;
     this.line([x0, ys[2]], [xa, ys[2]], 'FINA');
-    this.text('foto3d', cxa, ys[0] - 8.2, 6.0, 'C');
-    this.line([cxa - 13.5, ys[0] - 13.4], [cxa + 13.5, ys[0] - 13.4], 'FINA');
-    this.text('CAD · DISEÑO CAPA USER', cxa, ys[0] - 16.2, 1.3, 'C');
+    if (tb.marca) {
+      const by = ys[0] - 3.0;                       // línea de banda del logo
+      this.line([cxa - 11, by], [cxa + 11, by], 'LOGO');
+      for (const dx of [-7, 0, 7]) this.circle([cxa + dx, by - 1.9], 1.6, 'LOGO');
+      this.solid([[cxa + 11.4, by + 1.1], [cxa + 11.4, by - 1.1], [cxa + 13.6, by]], 'LOGO');
+      this.text(tb.marca, cxa, ys[0] - 11.4, 4.4, 'C', 'LOGO');
+      this.line([cxa - 13.5, ys[0] - 13.4], [cxa + 13.5, ys[0] - 13.4], 'FINA');
+      this.text(tb.marcaSub ?? `${tb.marca} SpA`, cxa, ys[0] - 16.2, 1.3, 'C');
+    } else {
+      this.text('foto3d', cxa, ys[0] - 8.2, 6.0, 'C');
+      this.line([cxa - 13.5, ys[0] - 13.4], [cxa + 13.5, ys[0] - 13.4], 'FINA');
+      this.text('CAD · DISEÑO CAPA USER', cxa, ys[0] - 16.2, 1.3, 'C');
+    }
     this.text('ISO 5457 · 7200 · 129 · 5456-2', cxa, ys[0] - 19.4, 1.3, 'C');
     this.text('PROYECCIÓN — PRIMER DIEDRO', cxa, ys[2] - 2.4, 1.4, 'C');
     this.projectionSymbol(cxa, y0 + (ys[2] - y0 - 4.0) / 2, 1.15);
@@ -429,6 +442,7 @@ function buildSheet(parts, K, meta) {
   }
   sheet.frame();
   sheet.titleBlock({
+    marca: meta.marca, marcaSub: meta.marcaSub,
     designacion: meta.designacion,
     proyecto: meta.proyecto ?? 'foto3d CAD',
     fuente: meta.fuente ?? 'diseño en navegador — capa user',
@@ -530,7 +544,8 @@ function sheetContent(sheet, k) {
     const dash = DASH[ly] ? `[${DASH[ly].map(v => f(v * k)).join(' ')}] 0 d` : '[] 0 d';
     // lámina de fabricación: geometría a línea fina SIN espesor (hairline)
     const w = sheet.hairline && GEOM_LAYERS.has(ly) ? '0' : f((LW[ly] ?? 0.25) * k);
-    ops.push(`${w} w 1 J 1 j ${dash}`);
+    const col = RGB[ly] ?? '0 0 0';
+    ops.push(`${w} w 1 J 1 j ${dash} ${col} RG ${col} rg`);
     for (const p of prims) {
       if (p.k === 'sh') { // triángulo sombreado (relleno gris, sin borde)
         const cmd = p.pts.map((q, i) => `${f(q[0] * k)} ${f(q[1] * k)} ${i ? 'l' : 'm'}`).join(' ');
@@ -669,6 +684,7 @@ function buildFlatSheet(flat, meta, K) {
   sheet.frame();
   const aviso = flat.avisos.length ? flat.avisos[0] : '';
   sheet.titleBlock({
+    marca: meta.marca, marcaSub: meta.marcaSub,
     designacion: `${meta.designacion} — DESARROLLO`,
     proyecto: meta.proyecto ?? 'foto3d CAD',
     fuente: 'chapa plegada — capa user',

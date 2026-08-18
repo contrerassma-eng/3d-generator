@@ -6,6 +6,8 @@ Las afirmaciones de este archivo entran a provenance.json como capa `user`
 
 objeto: Kit colgante de techo para transportador Hytrol 190-E24 (retenedor RC-48V + placa PD-48)
 fabricante: CONVEYONE SpA (diseño propio; equipo base Hytrol 190-E24)
+marca_planos: CONVEYONE
+marca_planos_sub: CONVEYONE SpA
 modelo: CV-HGR-190E24-01 Rev. B (asiento en V)
 materiales: Acero ASTM A36, chapa 4 mm, corte láser (decisión del usuario 2026-08-18)
 
