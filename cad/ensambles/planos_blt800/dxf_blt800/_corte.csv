@@ -1,0 +1,4 @@
+plano,pieza,cant,material,espesor_mm,desarrollo_x_mm,desarrollo_y_mm,barrenos,pliegues,k_factor,radio_mm,tolerancia
+BTD-01,"FAB · Cama deslizante e2 607.6×520 (apoyo de banda)",1,"Acero inoxidable AISI 304 e2.0 — cara de deslizamiento PULIDA",2,607.6,520.0,4,0,0.44,2,ISO 2768-mK
+BTD-02,"FAB · Placa cabezal MOTRIZ PL6 160×140 (ambidiestra ×2)",2,"Acero S275JR PL6 — PINTADO RAL 7035",6,160.0,140.0,7,0,0.44,6,ISO 2768-mK
+BTD-03,"FAB · Placa cabezal TENSOR PL6 200×140 — muesca de carrera 40 (ambidiestra ×2)",2,"Acero S275JR PL6 — PINTADO RAL 7035",6,200.0,140.0,5,0,0.44,6,ISO 2768-mK

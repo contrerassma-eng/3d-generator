@@ -109,22 +109,25 @@ const W_CAMA = CARA_TAMBOR;
 // Motriz: paso de muñón Ø22 + 2×Ø10 (portarrodamiento de brida 2 pernos
 // UCFL204 Ø20) + 4×Ø9 de amarre al larguero. TODO barreno redondo (regla 20).
 const PL_T = 6, PLM_W = 160, PLM_H = 140;
-const Z_PL_C = Z_EJES;                       // centrada en el eje
+// la placa REMATA A RAS de la banda (tope = H_TOP): el eje queda a 97 del
+// borde inferior — en un transportador real nada sobresale del plano de carga
+const Z_PL0 = H_TOP - PLM_H;                 // borde inferior de placa
+const Y_EJE_PL = r2(Z_EJES - Z_PL0);         // altura del eje EN la placa (97)
 for (const s of [-1, 1]) {
   const yPl = s * (Y_LARG + PERFIL.w / 2 + PL_T / 2);
   const holes = [
-    { x: PLM_W / 2, y: PLM_H / 2, dia: 22 },
-    { x: PLM_W / 2, y: PLM_H / 2 - 45, dia: 10 },
-    { x: PLM_W / 2, y: PLM_H / 2 + 45, dia: 10 },
+    { x: PLM_W / 2, y: Y_EJE_PL, dia: 22 },
+    { x: PLM_W / 2 - 45, y: Y_EJE_PL, dia: 10 },   // UCFL204: pernos HORIZONTALES J=90
+    { x: PLM_W / 2 + 45, y: Y_EJE_PL, dia: 10 },
     { x: 20, y: 20, dia: 9 }, { x: PLM_W - 20, y: 20, dia: 9 },
     { x: 20, y: PLM_H - 20, dia: 9 }, { x: PLM_W - 20, y: PLM_H - 20, dia: 9 },
   ];
-  const x0 = X_TAMBOR_M - PLM_W / 2, z0 = Z_PL_C - PLM_H / 2;
-  const f = [box('Placa', [X_TAMBOR_M, yPl, Z_PL_C + 0], PLM_W, PL_T, PLM_H)];
+  const x0 = X_TAMBOR_M - PLM_W / 2, z0 = Z_PL0;
+  const f = [box('Placa', [X_TAMBOR_M, yPl, Z_PL0 + PLM_H / 2], PLM_W, PL_T, PLM_H)];
   for (const q of holes) f.push(hole(q.dia === 22 ? 'Paso muñón Ø22' : q.dia === 10 ? 'UCFL204 Ø10' : 'Amarre larguero Ø9',
     [x0 + q.x, yPl, z0 + q.y], [0, s, 0], q.dia, 0, true));
   addPart(`FAB · Placa cabezal MOTRIZ PL${PL_T} ${PLM_W}×${PLM_H} (ambidiestra ×2)`, C.chapa,
-    [X_TAMBOR_M, yPl, Z_PL_C], f, {
+    [X_TAMBOR_M, yPl, Z_PL0 + PLM_H / 2], f, {
       flat: flatPlaca(PLM_W, PLM_H, PL_T, holes,
         'Acero S275JR PL6 — PINTADO RAL 7035',
         'AMBIDIESTRA — la misma placa sirve a ambos lados; portarrodamiento UCFL204 por la cara EXTERIOR'),
@@ -135,9 +138,9 @@ for (const s of [-1, 1]) {
 const PLT_W = 200, PLT_H = 140;
 for (const s of [-1, 1]) {
   const yPl = s * (Y_LARG + PERFIL.w / 2 + PL_T / 2);
-  const x0 = X_TAMBOR_T - 60, z0 = Z_PL_C - PLT_H / 2;
+  const x0 = X_TAMBOR_T - 60, z0 = H_TOP - PLT_H;
   // contorno con muesca abierta hacia -X (el tambor tensa ALEJÁNDOSE del motriz)
-  const yr = PLT_H / 2, ab = 20.2 / 2;      // ranura abierta 20.2 (eje Ø20 con plano)
+  const yr = r2(Z_EJES - z0), ab = 20.2 / 2;   // muesca AL NIVEL del eje      // ranura abierta 20.2 (eje Ø20 con plano)
   const contorno = redondear([
     [0, yr - ab], [CARRERA_TENSADO + 30, yr - ab], [CARRERA_TENSADO + 30, yr + ab], [0, yr + ab],
     [0, PLT_H], [PLT_W, PLT_H], [PLT_W, 0], [0, 0], [0, yr - ab],
@@ -145,14 +148,14 @@ for (const s of [-1, 1]) {
   const holes = [
     { x: PLT_W - 25, y: 20, dia: 9 }, { x: PLT_W - 25, y: PLT_H - 20, dia: 9 },
     { x: PLT_W - 70, y: 20, dia: 9 }, { x: PLT_W - 70, y: PLT_H - 20, dia: 9 },
-    { x: 15, y: yr + 32, dia: 8.5 },        // oreja del tornillo tensor M8
+    { x: 15, y: yr - 32, dia: 8.5 },        // tornillo tensor M8 — BAJO el eje (margen al borde ≥1×Ø)
   ];
   const f = [box('Placa', [x0 + PLT_W / 2, yPl, z0 + PLT_H / 2], PLT_W, PL_T, PLT_H),
-    box('Muesca carrera', [x0 + (CARRERA_TENSADO + 30) / 2, yPl, Z_PL_C], CARRERA_TENSADO + 30, PL_T + 2, 20.2, 'cut')];
+    box('Muesca carrera', [x0 + (CARRERA_TENSADO + 30) / 2, yPl, Z_EJES], CARRERA_TENSADO + 30, PL_T + 2, 20.2, 'cut')];
   for (const q of holes) f.push(hole(q.dia === 8.5 ? 'Tornillo tensor M8' : 'Amarre larguero Ø9',
     [x0 + q.x, yPl, z0 + q.y], [0, s, 0], q.dia, 0, true));
   addPart(`FAB · Placa cabezal TENSOR PL${PL_T} ${PLT_W}×${PLT_H} — muesca de carrera ${CARRERA_TENSADO} (ambidiestra ×2)`, C.chapa,
-    [x0 + PLT_W / 2, yPl, Z_PL_C], f, {
+    [x0 + PLT_W / 2, yPl, z0 + PLT_H / 2], f, {
       flat: {
         contorno, cortes: { circles: holes.map(q => ({ c: [q.x, q.y], r: q.dia / 2 })), polys: [] },
         pliegues: [], etiquetas: [], pliegueInfo: [], t: PL_T, k: KCH, radio: PL_T,
@@ -177,11 +180,13 @@ const TRAMOS_M = [
 const L_EJE_M = r2(TRAMOS_M.reduce((a, t) => a + t.l, 0));
 {
   const y0 = -L_EJE_M / 2 + 20;
+  // cyl extruye DESDE at A LO LARGO de dir (convención del motor CAD)
+  const yEM = -(CARA_TAMBOR / 2 + 40 / 2 + 30);            // base del eje (−Y)
   const f = [
-    cyl('Cuerpo Ø25', [X_TAMBOR_M, 0, Z_EJES], [0, 1, 0], 25, CARA_TAMBOR + 40),
-    cyl('Muñón Ø20 h6 (-Y)', [X_TAMBOR_M, -(CARA_TAMBOR / 2 + 15 + 15), Z_EJES], [0, 1, 0], 20, 30),
-    cyl('Muñón Ø20 h6 (+Y)', [X_TAMBOR_M, (CARA_TAMBOR / 2 + 15 + 15), Z_EJES], [0, 1, 0], 20, 30),
-    cyl('Extremo motor Ø14 h7', [X_TAMBOR_M, (CARA_TAMBOR / 2 + 30 + 15 + 20), Z_EJES], [0, 1, 0], 14, 40),
+    cyl('Muñón Ø20 h6 (-Y)', [X_TAMBOR_M, yEM, Z_EJES], [0, 1, 0], 20, 30),
+    cyl('Cuerpo Ø25', [X_TAMBOR_M, yEM + 30, Z_EJES], [0, 1, 0], 25, CARA_TAMBOR + 40),
+    cyl('Muñón Ø20 h6 (+Y)', [X_TAMBOR_M, yEM + 30 + CARA_TAMBOR + 40, Z_EJES], [0, 1, 0], 20, 30),
+    cyl('Extremo motor Ø14 h7', [X_TAMBOR_M, yEM + 60 + CARA_TAMBOR + 40, Z_EJES], [0, 1, 0], 14, 40),
   ];
   addPart(`FAB · EJE MOTRIZ Ø25 SAE1045 — L=${L_EJE_M} (muñones Ø20 h6 · extremo motor Ø14 h7 · chavetero 6×6)`, C.transmision,
     [X_TAMBOR_M, 0, Z_EJES], f);
@@ -190,21 +195,21 @@ const L_EJE_M = r2(TRAMOS_M.reduce((a, t) => a + t.l, 0));
 // al centro TORNEADA TRAS SOLDAR (centrado de banda plana — práctica estándar).
 addPart(`FAB · TAMBOR MOTRIZ Ø${D_MOTRIZ} — tubo ${D_MOTRIZ}×${T_TUBO_M} L=${CARA_TAMBOR} + 2 cabezales torneados (CORONA +1 al centro, chaveta 6×6)`, C.transmision,
   [X_TAMBOR_M, 0, Z_EJES],
-  [cyl('Tubo', [X_TAMBOR_M, 0, Z_EJES], [0, 1, 0], D_MOTRIZ, CARA_TAMBOR),
-   cyl('Cabezal -Y', [X_TAMBOR_M, -CARA_TAMBOR / 2 + 8, Z_EJES], [0, 1, 0], D_MOTRIZ - 2 * T_TUBO_M, 16),
-   cyl('Cabezal +Y', [X_TAMBOR_M, CARA_TAMBOR / 2 - 8, Z_EJES], [0, 1, 0], D_MOTRIZ - 2 * T_TUBO_M, 16)]);
+  [cyl('Tubo', [X_TAMBOR_M, -CARA_TAMBOR / 2, Z_EJES], [0, 1, 0], D_MOTRIZ, CARA_TAMBOR),
+   cyl('Cabezal -Y', [X_TAMBOR_M, -CARA_TAMBOR / 2, Z_EJES], [0, 1, 0], D_MOTRIZ - 2 * T_TUBO_M, 16),
+   cyl('Cabezal +Y', [X_TAMBOR_M, CARA_TAMBOR / 2 - 16, Z_EJES], [0, 1, 0], D_MOTRIZ - 2 * T_TUBO_M, 16)]);
 // EJE TENSOR (muerto) Ø20 con PLANOS FRESADOS 18 e/c en las puntas (calzan en
 // la muesca 20.2 y NO giran) + rodamientos 6204-2RS DENTRO de los cabezales
 // del tambor (patrón del rodillo de retorno LBP — plano LBP530-EJ-04).
 const L_EJE_T = r2(2 * (Y_LARG + PERFIL.w / 2 + PL_T) + 2 * 25);
 addPart(`FAB · EJE TENSOR muerto Ø20 SAE1045 — L=${L_EJE_T} (planos fresados 18 e/c en puntas · roscas M10 de retención)`, C.transmision,
   [X_TAMBOR_T, 0, Z_EJES],
-  [cyl('Cuerpo Ø20', [X_TAMBOR_T, 0, Z_EJES], [0, 1, 0], 20, L_EJE_T)]);
+  [cyl('Cuerpo Ø20', [X_TAMBOR_T, -L_EJE_T / 2, Z_EJES], [0, 1, 0], 20, L_EJE_T)]);
 addPart(`FAB · TAMBOR TENSOR Ø${D_TENSOR} — tubo ${D_TENSOR}×${T_TUBO_T} L=${CARA_TAMBOR} + 2 cabezales con asiento 6204-2RS + seeger DIN 472-47`, C.transmision,
   [X_TAMBOR_T, 0, Z_EJES],
-  [cyl('Tubo', [X_TAMBOR_T, 0, Z_EJES], [0, 1, 0], D_TENSOR, CARA_TAMBOR),
-   cyl('Cabezal -Y', [X_TAMBOR_T, -CARA_TAMBOR / 2 + 8, Z_EJES], [0, 1, 0], D_TENSOR - 2 * T_TUBO_T, 16),
-   cyl('Cabezal +Y', [X_TAMBOR_T, CARA_TAMBOR / 2 - 8, Z_EJES], [0, 1, 0], D_TENSOR - 2 * T_TUBO_T, 16)]);
+  [cyl('Tubo', [X_TAMBOR_T, -CARA_TAMBOR / 2, Z_EJES], [0, 1, 0], D_TENSOR, CARA_TAMBOR),
+   cyl('Cabezal -Y', [X_TAMBOR_T, -CARA_TAMBOR / 2, Z_EJES], [0, 1, 0], D_TENSOR - 2 * T_TUBO_T, 16),
+   cyl('Cabezal +Y', [X_TAMBOR_T, CARA_TAMBOR / 2 - 16, Z_EJES], [0, 1, 0], D_TENSOR - 2 * T_TUBO_T, 16)]);
 
 // ═══ 5. BANDA PVC (lazo calculado) + COMPRADOS ═════════════════════════════
 addPart(`NORM · Banda PVC 2.0 — W${WB} × lazo ${LAZO} mm sinfín (opción vendor PVC)`, C.banda,
@@ -212,11 +217,12 @@ addPart(`NORM · Banda PVC 2.0 — W${WB} × lazo ${LAZO} mm sinfín (opción ve
   [box('Tramo superior', [X_CAMA, 0, H_TOP - T_BANDA / 2], CENTROS, WB, T_BANDA),
    box('Tramo retorno', [X_CAMA, 0, Z_EJES - D_MOTRIZ / 2 - T_BANDA / 2], CENTROS, WB, T_BANDA)]);
 addPart('NORM · Motorreductor 120 W acople DIRECTO al eje (DL — criterio vendor) — marca/modelo POR CONFIRMAR', C.transmision,
-  [X_TAMBOR_M, (CARA_TAMBOR / 2 + 30 + 15 + 45), Z_EJES],
-  [box('Motor', [X_TAMBOR_M, (CARA_TAMBOR / 2 + 30 + 15 + 45), Z_EJES], 120, 100, 140)]);
+  [X_TAMBOR_M, (CARA_TAMBOR / 2 + 30 + 15 + 45), Z_EJES - 30],
+  // la reductora CUELGA: nada sobresale del plano de carga (tope 747 < 750)
+  [box('Motor', [X_TAMBOR_M, (CARA_TAMBOR / 2 + 30 + 15 + 45), Z_EJES - 30], 120, 100, 140)]);
 addPart('NORM · Portarrodamiento brida 2 pernos UCFL204 Ø20 (×2)', C.tornillo,
   [X_TAMBOR_M, -(Y_LARG + PERFIL.w / 2 + PL_T + 10), Z_EJES],
-  [cyl('UCFL204', [X_TAMBOR_M, -(Y_LARG + PERFIL.w / 2 + PL_T + 10), Z_EJES], [0, 1, 0], 64, 20)]);
+  [cyl('UCFL204', [X_TAMBOR_M, -(Y_LARG + PERFIL.w / 2 + PL_T + 20), Z_EJES], [0, 1, 0], 64, 20)]);
 
 // ═══ 6. PATAS — perfil serie 80 + partes VENDOR (envolvente declarada) ═════
 const H_PATA = r2(Z_LARG_BOT - 100);
@@ -226,7 +232,7 @@ for (const xt of [200, 600]) for (const s of [-1, 1]) {
     [box('Pata', [xt, s * Y_LARG, 100 + H_PATA / 2], PERFIL.w, PERFIL.h, H_PATA)]);
   addPart('NORM · Pie nivelador M-HASTE MT800-05-301-W100 — ENVOLVENTE (geometría real: lámina MB800-MB-01)', C.vendor,
     [xt, s * Y_LARG, 50],
-    [cyl('Pie envolvente', [xt, s * Y_LARG, 52], [0, 0, 1], 30, 96)]);
+    [cyl('Pie envolvente', [xt, s * Y_LARG, 4], [0, 0, 1], 30, 96)]);
   addPart('NORM · Placa de pata M-HASTE MTB800-207 — ENVOLVENTE (geometría real: lámina MB800-MB-03)', C.vendor,
     [xt, s * (Y_LARG + PERFIL.h / 2 + 3), (Z_LARG_BOT + Z_LARG_BOT - 220) / 2 + 110],
     [box('Placa envolvente', [xt, s * (Y_LARG + PERFIL.h / 2 + 3), Z_LARG_BOT - 110], 250, 6, 220)]);
@@ -296,6 +302,7 @@ const doc = {
     }),
     ga: {
       proyecto: 'CV-BLT · Conveyone', boletin: '03',
+      fuente: 'gen_blt800.mjs — capa user (PRD CV-BLT §B)',
       notaBanda: `banda PVC 2.0 W${WB} · lazo ${LAZO} mm — ver bom_blt800.csv`,
       numPlano: 'BLT800-GA-01',
       rotula: [
