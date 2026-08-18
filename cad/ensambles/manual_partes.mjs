@@ -193,7 +193,7 @@ function cabecera(sh, tituloPag, sub) {
 function pie(sh, nPag) {
   sh.line([22, 16], [398, 16], 'FINA');
   sh.text(titulo, 22, 11.5, 2.4, 'L');
-  sh.text(`Boletín CV-MP-${esLBP ? '01' : '02'} · Rev. A · vigente desde ${fecha}`, 210, 11.5, 2.4, 'C');
+  sh.text(`Boletín CV-MP-${esLBP ? '01' : '02'} · Rev. ${doc.meta?.revision ?? 'A'} · vigente desde ${fecha}`, 210, 11.5, 2.4, 'C');
   sh.text(`Página ${nPag}`, 398, 11.5, 2.4, 'R');
 }
 const marco = (sh) => sh.rect(18, 8, 384, 281, 'NORMA');
@@ -215,7 +215,7 @@ const marco = (sh) => sh.rect(18, 8, 384, 281, 'NORMA');
     ['Lazo de banda', `${(doc.meta.largo_banda_lazo_mm / 1000).toFixed(2)} m`],
     ['Accionamiento', 'NMRV-P 075 1/30 · 0,55 kW · 46 rpm · eje hueco Ø30'],
     ['Terminación', 'PINTADO RAL 7035 (partes fabricadas)'],
-    ['Documento', `Boletín CV-MP-${esLBP ? '01' : '02'} · Rev. A · vigente desde ${fecha} (reemplaza: —)`],
+    ['Documento', `Boletín CV-MP-${esLBP ? '01' : '02'} · Rev. ${doc.meta?.revision ?? 'A'} · vigente desde ${fecha} (reemplaza: ${doc.meta?.revision_reemplaza ?? '—'})`],
   ];
   let y = 166;
   for (const [k, v] of filaId) {

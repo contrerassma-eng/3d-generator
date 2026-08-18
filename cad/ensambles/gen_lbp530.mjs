@@ -1711,6 +1711,7 @@ const metaComun = {
     'TENSADO · banda LBP: por eslabones + catenaria (sin tensor de tornillo — criterio Movex)',
   ],
   revision: 'F',
+  revision_reemplaza: 'Rev. E.1 (guardas de artesa)',
   revision_causa: 'guardas: las artesas Rev.E.1 se reemplazan por cajas de accionamiento — el faldón atravesaba la brida de las 6 chumaceras (D-07), la punta de muñón giraba al aire (D-05), las columnas de soporte perforaban el fondo, y el perfil medido del lazo mostró que la artesa motriz cubría una catenaria que ya no existe (la banda nunca baja de −274 fuera de las envolturas)',
   capa: 'user',
   origen: 'gen_lbp530.mjs (paramétrico) — proyecto projects/LBP530-18',
