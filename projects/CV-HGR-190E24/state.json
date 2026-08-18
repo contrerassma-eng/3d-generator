@@ -1,0 +1,27 @@
+{
+  "project": "CV-HGR-190E24",
+  "stage": "S0_PENDIENTE",
+  "gates": {
+    "G6": {
+      "verdict": "PASA",
+      "metrics": {
+        "laminas": 1,
+        "vistas": [
+          "alzado",
+          "planta",
+          "perfil",
+          "isometrica"
+        ],
+        "escala_certificada": true,
+        "factor_escala": 1.0,
+        "dxf": "out/drawings/pd48.dxf",
+        "pdf": "out/drawings/pd48.pdf",
+        "hash_dxf": "sha256:32260d26186f0551c34eb64584e9a942a6590224913ad604144759d140bba27d",
+        "hash_pdf": "sha256:b7389edec248d7a5b57659e3c19dd4ead47cf2703b637d775a3cce3562ab3b37"
+      },
+      "reasons": [],
+      "ts": "2026-08-18T19:05:42+00:00"
+    }
+  },
+  "updated": "2026-08-18T19:05:42+00:00"
+}

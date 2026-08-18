@@ -1,0 +1,12 @@
+[
+  {
+    "id": "_ejemplo_borrar",
+    "claim": "largo_mm",
+    "value": 0,
+    "unit": "mm",
+    "url": "https://fabricante.com/ficha-tecnica.pdf",
+    "accessed": "2026-01-01",
+    "quote": "cita textual exacta de la fuente donde aparece el dato",
+    "confidence": "alta"
+  }
+]

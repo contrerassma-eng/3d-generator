@@ -81,6 +81,11 @@ Límites declarados (no se ocultan):
   desarrollo plano clásico. Los pliegues van en capa `PLIEGUE` (trazo-punto).
 - Vistas: las líneas ocultas son aproximadas (por orientación de caras, sin
   oclusión completa); el contorno exterior de cada vista sí es exacto.
+- Los bordes huérfanos con material coplanario al otro lado ("grietas" de
+  teselado CSG, uniones en T — típicos de sólidos `out/cad/*.glb` del motor
+  CSG del navegador) se descartan con el mismo criterio `isCrack` del
+  exportador web (`cad/js/drawing2d.js`), de modo que no aparecen abanicos
+  de líneas falsas sobre las caras planas.
 
 ## CAD: planos, bocetos y sólidos (`cad_cli.py`)
 
