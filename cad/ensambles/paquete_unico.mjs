@@ -10,14 +10,28 @@
 
 import { PDFDocument } from 'pdf-lib';
 import { Sheet, exportSheetsPDF } from '../js/drawing2d.js';
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const outDir = process.env.OUTDIR || 'ensambles/planos_lbp530';
 const fecha = process.env.FECHA || '—';
 
 // ── contenido, en orden de lectura del constructor ───────────────────────────
-const SECCIONES = [
+// Proyecto ≠ LBP530-18 (env PAQUETE): las secciones se DESCUBREN de los PDF
+// presentes en OUT — conjunto → fabricación → tornería/ejes → manuales — y
+// los títulos se derivan del nombre; el LBP conserva su lista curada.
+const base2titulo = (f, pre) => `${f.replace(/^[a-z_]+_/,'').replace(/\.pdf$/,'')} — ${pre}`;
+const descubre = () => {
+  const fs2 = readdirSync(outDir);
+  const pick = (re, pre, cod) => fs2.filter(f => re.test(f)).sort().map(f => [f, base2titulo(f, pre), cod]);
+  return [
+    ...pick(/^plano_conjunto_.*\.pdf$/, 'plano de conjunto + SECCIONES A-A/B-B', 'GA'),
+    ...pick(/^planos_fabricacion_.*\.pdf$/, 'planos de fabricación por pieza', 'FAB-nn'),
+    ...pick(/^planos_(torneria|ejes)_.*\.pdf$/, 'tornería — corte + colores + nomenclatura', 'EJ-nn'),
+    ...pick(/^manual_partes_.*\.pdf$/, 'manual de partes y montaje', 'CV-MP'),
+  ];
+};
+const SECCIONES = (process.env.PAQUETE && process.env.PAQUETE !== 'LBP530-18') ? descubre() : [
   ['plano_conjunto_lbp530_5m.pdf', 'CV-LBP-5000 — plano de conjunto + SECCIONES A-A/B-B', 'LBP530-GA-01'],
   ['planos_fabricacion_lbp530_5m.pdf', 'CV-LBP-5000 — planos de fabricación por pieza (LB-nn)', 'LB-nn'],
   ['plano_conjunto_lbp530_gt08.pdf', 'CV-GT-800 — plano de conjunto + SECCIONES A-A/B-B', 'LBP530-GA-02'],
@@ -41,13 +55,13 @@ sh.frame();
 sh.text('ConveyOne', 210, 226, 13, 'C');
 sh.line([130, 219], [290, 219], 'NORMA');
 sh.text('PAQUETE DE FABRICACIÓN Y MONTAJE', 210, 200, 7.5, 'C');
-sh.text('Proyecto LBP530-18 — 4 líneas × (CV-LBP-5000 + CV-GT-800)', 210, 188, 4.2, 'C');
-sh.text('Transportadores de acumulación banda modular Movex 530 LBP / GT · 18 in · paso 15', 210, 180, 3.2, 'C');
+sh.text(process.env.PORTADA_1 || 'Proyecto LBP530-18 — 4 líneas × (CV-LBP-5000 + CV-GT-800)', 210, 188, 4.2, 'C');
+sh.text(process.env.PORTADA_2 || 'Transportadores de acumulación banda modular Movex 530 LBP / GT · 18 in · paso 15', 210, 180, 3.2, 'C');
 const resumen = [
   ['Contenido', 'conjuntos con secciones · planos de fabricación por pieza · ejes y rodillo · manuales de partes'],
-  ['Complementos digitales', 'DXF de corte láser 1:1 por pieza (dxf_lbp530_5m/ · dxf_lbp530_gt08/) + BOM CSV'],
+  ['Complementos digitales', process.env.COMPLEMENTOS || 'DXF de corte láser 1:1 por pieza (dxf_lbp530_5m/ · dxf_lbp530_gt08/) + BOM CSV'],
   ['Numeración única', 'ÍTEM (BOM = globos) · LBD/GTD-nn corte · LB/GT-nn vistas · LBP530-EJ-nn ejes · GA-nn conjuntos'],
-  ['Origen', 'modelo paramétrico gen_lbp530.mjs (capa user) — regenerado completo en UNA corrida'],
+  ['Origen', `modelo paramétrico ${process.env.GEN_NOMBRE || 'gen_lbp530.mjs'} (capa user) — regenerado completo en UNA corrida`],
   ['Fecha de la corrida', fecha],
 ];
 let y = 158;

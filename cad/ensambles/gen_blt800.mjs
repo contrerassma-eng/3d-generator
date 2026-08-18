@@ -76,7 +76,7 @@ const L_LARG = r2(L - 2 * 58);              // largueros entre cabezales
 for (const s of [-1, 1]) {
   addPart(`NORM · Perfil aluminio 4080 serie 80 — LARGUERO L=${L_LARG} (corte a largo)`, C.estructura,
     [L / 2, s * Y_LARG, (Z_LARG_TOP + Z_LARG_BOT) / 2],
-    [box('Larguero', [L / 2, s * Y_LARG, (Z_LARG_TOP + Z_LARG_BOT) / 2 + PERFIL.h / 2], L_LARG, PERFIL.w, PERFIL.h)]);
+    [box('Larguero', [L / 2, s * Y_LARG, (Z_LARG_TOP + Z_LARG_BOT) / 2], L_LARG, PERFIL.w, PERFIL.h)]);
 }
 const L_TRAV = r2(2 * Y_LARG - PERFIL.w);
 for (const xt of [200, 600]) {
@@ -91,7 +91,7 @@ const X_CAMA = r2((X_TAMBOR_M + X_TAMBOR_T) / 2);
 const W_CAMA = CARA_TAMBOR;
 {
   const holes = [];
-  const f = [box('Cama', [X_CAMA, 0, Z_CAMA_TOP - T_CAMA / 2 + T_CAMA / 2], L_CAMA, W_CAMA, T_CAMA)];
+  const f = [box('Cama', [X_CAMA, 0, Z_CAMA_TOP - T_CAMA / 2], L_CAMA, W_CAMA, T_CAMA)];
   for (const xt of [200, 600]) for (const s of [-1, 1]) {
     const hx = xt, hy = s * (W_CAMA / 2 - 25);
     holes.push({ x: r2(hx - (X_CAMA - L_CAMA / 2)), y: r2(hy + W_CAMA / 2), dia: 7 });
@@ -209,8 +209,8 @@ addPart(`FAB · TAMBOR TENSOR Ø${D_TENSOR} — tubo ${D_TENSOR}×${T_TUBO_T} L=
 // ═══ 5. BANDA PVC (lazo calculado) + COMPRADOS ═════════════════════════════
 addPart(`NORM · Banda PVC 2.0 — W${WB} × lazo ${LAZO} mm sinfín (opción vendor PVC)`, C.banda,
   [X_CAMA, 0, H_TOP - T_BANDA / 2],
-  [box('Tramo superior', [X_CAMA, 0, H_TOP - T_BANDA / 2 + T_BANDA / 2], CENTROS, WB, T_BANDA),
-   box('Tramo retorno', [X_CAMA, 0, Z_EJES - D_MOTRIZ / 2 + T_BANDA / 2], CENTROS, WB, T_BANDA)]);
+  [box('Tramo superior', [X_CAMA, 0, H_TOP - T_BANDA / 2], CENTROS, WB, T_BANDA),
+   box('Tramo retorno', [X_CAMA, 0, Z_EJES - D_MOTRIZ / 2 - T_BANDA / 2], CENTROS, WB, T_BANDA)]);
 addPart('NORM · Motorreductor 120 W acople DIRECTO al eje (DL — criterio vendor) — marca/modelo POR CONFIRMAR', C.transmision,
   [X_TAMBOR_M, (CARA_TAMBOR / 2 + 30 + 15 + 45), Z_EJES],
   [box('Motor', [X_TAMBOR_M, (CARA_TAMBOR / 2 + 30 + 15 + 45), Z_EJES], 120, 100, 140)]);
@@ -223,13 +223,13 @@ const H_PATA = r2(Z_LARG_BOT - 100);
 for (const xt of [200, 600]) for (const s of [-1, 1]) {
   addPart(`NORM · Perfil aluminio 4080 serie 80 — PATA L=${H_PATA} (corte a largo)`, C.estructura,
     [xt, s * Y_LARG, 100 + H_PATA / 2],
-    [box('Pata', [xt, s * Y_LARG, 100 + H_PATA], PERFIL.w, PERFIL.h, H_PATA)]);
+    [box('Pata', [xt, s * Y_LARG, 100 + H_PATA / 2], PERFIL.w, PERFIL.h, H_PATA)]);
   addPart('NORM · Pie nivelador M-HASTE MT800-05-301-W100 — ENVOLVENTE (geometría real: lámina MB800-MB-01)', C.vendor,
     [xt, s * Y_LARG, 50],
-    [cyl('Pie envolvente', [xt, s * Y_LARG, 4], [0, 0, 1], 30, 96)]);
+    [cyl('Pie envolvente', [xt, s * Y_LARG, 52], [0, 0, 1], 30, 96)]);
   addPart('NORM · Placa de pata M-HASTE MTB800-207 — ENVOLVENTE (geometría real: lámina MB800-MB-03)', C.vendor,
     [xt, s * (Y_LARG + PERFIL.h / 2 + 3), (Z_LARG_BOT + Z_LARG_BOT - 220) / 2 + 110],
-    [box('Placa envolvente', [xt, s * (Y_LARG + PERFIL.h / 2 + 3), Z_LARG_BOT], 250, 6, 220)]);
+    [box('Placa envolvente', [xt, s * (Y_LARG + PERFIL.h / 2 + 3), Z_LARG_BOT - 110], 250, 6, 220)]);
 }
 
 // ═══ COMPUERTAS + SELLO ════════════════════════════════════════════════════
