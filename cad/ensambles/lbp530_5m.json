@@ -52,7 +52,8 @@
     "pieza-sin-fijacion",
     "masa-exacta",
     "flat-vs-solido",
-    "peligro-expuesto"
+    "peligro-expuesto",
+    "chapa-vs-componente"
    ],
    "reglas_disponibles_sin_cablear": [
     "zona-prohibida",
@@ -62,7 +63,7 @@
     "corte-de-barras",
     "abertura-vs-alcance"
    ],
-   "hallazgos": 3,
+   "hallazgos": 9,
    "info": {
     "LBP": {
      "peorMargen": {
@@ -184,6 +185,80 @@
        ],
        "sale_mm": 29.5
       }
+     ],
+     "choques_chapa_componente": [
+      {
+       "chapa": "FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×50",
+       "componente": "NORM · Chumacera UCF206 Ø30",
+       "puntos": 300,
+       "mirar_en": [
+        4826,
+        -253.5,
+        -454
+       ],
+       "caja_comun": [
+        4826,
+        -253.5,
+        -454,
+        4934,
+        -251,
+        -346
+       ]
+      },
+      {
+       "chapa": "FAB · Guarda inferior motriz — artesa U chapa 1.5 (1570×50",
+       "componente": "NORM · Chumacera UCF206 Ø30",
+       "puntos": 300,
+       "mirar_en": [
+        4826,
+        253.5,
+        -454
+       ],
+       "caja_comun": [
+        4826,
+        251,
+        -454,
+        4934,
+        253.5,
+        -346
+       ]
+      },
+      {
+       "chapa": "FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504",
+       "componente": "NORM · Chumacera UCF206 Ø30",
+       "puntos": 282,
+       "mirar_en": [
+        246,
+        -253.5,
+        -394
+       ],
+       "caja_comun": [
+        246,
+        -253.5,
+        -394,
+        354,
+        -251,
+        -293
+       ]
+      },
+      {
+       "chapa": "FAB · Guarda inferior tensor — artesa U chapa 1.5 (650×504",
+       "componente": "NORM · Chumacera UCF206 Ø30",
+       "puntos": 282,
+       "mirar_en": [
+        246,
+        253.5,
+        -394
+       ],
+       "caja_comun": [
+        246,
+        251,
+        -394,
+        354,
+        253.5,
+        -293
+       ]
+      }
      ]
     },
     "GT": {
@@ -242,6 +317,44 @@
        "sale_mm": 154.65,
        "exento": "componente comercial: cárter cerrado y ventilador bajo capot, protegidos de fábrica. La interfaz con nuestro eje (muñón, chaveta, brazo de reacción) NO queda eximida — va en D-05"
       }
+     ],
+     "choques_chapa_componente": [
+      {
+       "chapa": "FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",
+       "componente": "NORM · Chumacera UCF206 Ø30",
+       "puntos": 300,
+       "mirar_en": [
+        626,
+        -253.5,
+        -454
+       ],
+       "caja_comun": [
+        626,
+        -253.5,
+        -454,
+        734,
+        -251,
+        -346
+       ]
+      },
+      {
+       "chapa": "FAB · Guarda inferior unica — artesa U chapa 1.5 (800×504)",
+       "componente": "NORM · Chumacera UCF206 Ø30",
+       "puntos": 300,
+       "mirar_en": [
+        626,
+        253.5,
+        -454
+       ],
+       "caja_comun": [
+        626,
+        251,
+        -454,
+        734,
+        253.5,
+        -346
+       ]
+      }
      ]
     }
    },
@@ -251,7 +364,8 @@
     "/Columna soporte 24V/"
    ],
    "deuda": [
-    "D-05 · punta de muñón al aire por el costado LIBRE (−Y): el eje llega a −304 y la artesa cierra en −253, con la UCF206 hasta −286 — quedan ~30 mm de muñón girando fuera del cierre, en el eje motriz y en el tensor, en LBP y en GT. DS 594 Art. 38 los exige protegidos. Resuelve una TAPA DE MUÑÓN (copa de chapa 2,0 apernada a la cara exterior de la mecha, sobre la UCF206, con acceso a grasera) — es la pieza que falta de la guarda G1 de biblioteca/CV-LBP18/guardas.md. Diseño ESPECIFICADO con cotas, no construido"
+    "D-05 · punta de muñón al aire por el costado LIBRE (−Y): el eje llega a −304 y la artesa cierra en −253, con la UCF206 hasta −286 — quedan ~30 mm de muñón girando fuera del cierre, en el eje motriz y en el tensor, en LBP y en GT. DS 594 Art. 38 los exige protegidos. Resuelve una TAPA DE MUÑÓN (copa de chapa 2,0 apernada a la cara exterior de la mecha, sobre la UCF206, con acceso a grasera) — es la pieza que falta de la guarda G1 de biblioteca/CV-LBP18/guardas.md. Diseño ESPECIFICADO con cotas, no construido",
+    "D-07 · NO FABRICAR LAS GUARDAS. El faldón de la artesa corre a Y ±253,5 y la brida de la UCF206 ocupa Y 251…266 con 127 mm de diagonal: el faldón atraviesa la brida en las SEIS chumaceras (LBP motriz y tensor, GT motriz, ambos costados). El paso de Ø48 sirve para el muñón, no para la brida. Agrandarlo no arregla: en el tensor la brida ya asoma 17 mm por sobre el borde superior del faldón. La corrección es la que guardas.md especifica y el código fundió en una sola pieza — SEPARAR G1 y G2: la artesa termina antes de la mecha y cada extremo lleva su propia caja de accionamiento, con los costados por fuera de las chumaceras. El resto del equipo (bastidor, ejes, transmisión, soportes) NO está afectado y se puede fabricar"
    ],
    "compuertas_especificas": 0,
    "nota": "sello de lib_compuertas.mjs — sin él, los artefactos se niegan a generarse (CELULA_DISENO regla 11)"

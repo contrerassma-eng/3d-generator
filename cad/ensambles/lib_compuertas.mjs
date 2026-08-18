@@ -44,6 +44,8 @@ export const REGISTRO = [
     origen: 'célula: 8 ejes de 690 no salen de una barra de 6 m si no se cuenta el kerf' },
   { id: 'peligro-expuesto', regla: 'toda parte móvil (eje, sprocket, acople, motorreductor) queda DENTRO de un cerramiento — pieza de guarda o caja de estructura DECLARADA — o lleva exención con razón; lo que sobresale se mide en mm y se reporta con la coordenada donde mirar',
     origen: 'D.S. 594 Art. 38 (Chile, obligación legal: «Deberán estar debidamente protegidas todas las partes móviles, transmisiones y puntos de operación de maquinarias y equipos») + medición 17-08: el estado decía «guardas 0%» y la artesa inferior ya existía, pero nadie había medido QUÉ quedaba fuera — el muñón motriz sale 144,5 mm del cierre y el motorreductor entero está fuera' },
+  { id: 'chapa-vs-componente', regla: 'una pieza de chapa no puede ocupar el mismo espacio que un componente comprado (chumacera, motorreductor, rodamiento): el componente llega con su forma y no se recorta en obra',
+    origen: '17-08: el faldón de la artesa (Y −253,5) atravesaba la brida de la UCF206 (Y −251…−266, 127 mm de diagonal) con un paso de sólo Ø48 — las seis chumaceras de LBP y GT, en un paquete ya emitido como Rev.E.1. Nadie lo vio porque ninguna compuerta comparaba sólidos entre sí y la sección nunca se cortó ahí' },
   { id: 'abertura-vs-alcance', regla: 'ISO 13857, alcance a través de aberturas: una perforación, ranura o mirilla de ancho e exige distancia mínima s al peligro (e≤4→2 · 6<e≤8→ranura 20/cuadrado 15/círculo 5 · 12<e≤20→120 · e>120 no es abertura, es hueco)',
     origen: 'guardas.md (12-08) fijó holguras «ISO 13857 como criterio general, SIN respaldo en la fuente» y así quedó en el drenaje Ø8 de la artesa: el 17-08 se citó la tabla real (BG ETEM S 044 E, págs. 5-6) y dejó de ser criterio para ser cifra' },
 ];
@@ -673,8 +675,12 @@ export function compuertasUniversales(equipos, opts = {}) {
     });
     errs.push(...pe.errs.map(e => `${nm}: ${e}`));
     if (pe.expuestos.length) info[nm].partes_moviles_fuera = pe.expuestos;
+    // CHAPA CONTRA COMPONENTE COMPRADO
+    const cvc = chapaVsComponente(eq.parts, { exentos: opts.exentosChoque || [] });
+    errs.push(...cvc.errs.map(e => `${nm}: ${e}`));
+    if (cvc.choques.length) info[nm].choques_chapa_componente = cvc.choques;
   }
-  ejecutadas.push('peligro-expuesto');
+  ejecutadas.push('peligro-expuesto', 'chapa-vs-componente');
   return { errs, info, ejecutadas };
 }
 
@@ -747,4 +753,92 @@ export function paqueteCompleto(dir, esperados, refMtime, { statSync, existsSync
     if (refMtime && m < refMtime) errs.push(`«${e.archivo}» es de una corrida ANTERIOR al ensamble (${new Date(m).toISOString()}) — regenerar`);
   }
   return errs;
+}
+
+/** ¿El punto de mundo `w` cae en material de la pieza? (union sí, hole no) */
+export function puntoEnSolido(part, w) {
+  const P = part.pos || [0, 0, 0];
+  const q = [w[0] - P[0], w[1] - P[1], w[2] - P[2]];
+  let dentro = false;
+  for (const f of part.features || []) {
+    const cav = f.shape === 'hole' || f.op === 'cut' || f.op === 'subtract';
+    const d = cav ? dimsHueco(f) : dimsFeature(f);
+    if (!d) continue;
+    const [a, b] = d;
+    let ok = q[0] >= a[0] && q[0] <= b[0] && q[1] >= a[1] && q[1] <= b[1] && q[2] >= a[2] && q[2] <= b[2];
+    if (ok && (/cyl/.test(f.shape || '') || cav)) {   // cilindro real, no su caja
+      const dir = f.dir || [0, 0, 1];
+      const ax = dir.findIndex(v => Math.abs(v) > 0.5);
+      if (ax >= 0) {
+        const R = ((f.params?.dia ?? 2 * (f.params?.r ?? 0)) / 2);
+        const c = f.at || [0, 0, 0];
+        const e1 = (ax + 1) % 3, e2 = (ax + 2) % 3;
+        ok = Math.hypot(q[e1] - c[e1], q[e2] - c[e2]) <= R;
+      }
+    }
+    if (!ok) continue;
+    if (cav) return false;     // el hueco manda: ahí no hay material
+    dentro = true;
+  }
+  return dentro;
+}
+
+// Caja de un hueco pasante: se extiende a ambos lados para que un `through`
+// atraviese de verdad la chapa (si se tomara sólo su altura nominal, el
+// agujero no restaría nada y toda pieza taladrada parecería maciza).
+function dimsHueco(f) {
+  const a = f.at || [0, 0, 0], pr = f.params || {};
+  const R = (pr.dia ?? 2 * (pr.r ?? 0)) / 2;
+  const dir = f.dir || [0, 0, 1];
+  const ax = dir.findIndex(v => Math.abs(v) > 0.5);
+  const L = (f.through || pr.through || !pr.depth) ? 1e4 : (pr.depth || 0);
+  const lo = [0, 1, 2].map(i => i === ax ? a[i] - L : a[i] - R);
+  const hi = [0, 1, 2].map(i => i === ax ? a[i] + L : a[i] + R);
+  return [lo, hi];
+}
+
+/**
+ * CHAPA CONTRA COMPONENTE COMPRADO. Una guarda de chapa no puede ocupar el
+ * mismo espacio que una chumacera, un motorreductor o un rodamiento: el
+ * componente llega de proveedor con su forma y no se recorta en obra.
+ *
+ * Se limita a ese cruce a propósito. Un «todos contra todos» inunda —en un
+ * ensamble apernado las piezas se tocan por diseño— y una compuerta que grita
+ * en cada corrida se termina apagando.
+ */
+export function chapaVsComponente(parts, {
+  chapa = [/guarda/i, /cubierta/i, /artesa/i, /tapa/i, /copa/i],
+  componente = [/^NORM · /],
+  exentos = [], paso = 6, minPuntos = 3,
+} = {}) {
+  const hojas = parts.filter(p => chapa.some(rx => rx.test(p.name || '')));
+  const comps = parts.filter(p => componente.some(rx => rx.test(p.name || '')));
+  const errs = [], choques = [];
+  for (const h of hojas) {
+    const cajaH = cajaMundo(h);
+    if (!cajaH) continue;
+    for (const c of comps) {
+      const cajaC = cajaMundo(c);
+      if (!cajaC) continue;
+      let solapa = true;                       // descarte rápido por cajas
+      for (let i = 0; i < 3; i++) if (cajaH[2 * i] > cajaC[2 * i + 1] || cajaC[2 * i] > cajaH[2 * i + 1]) solapa = false;
+      if (!solapa) continue;
+      if (exentos.some(e => (e.chapa || /.^/).test(h.name || '') && (e.comp || /.^/).test(c.name || ''))) continue;
+      // muestreo SÓLO en la caja común: barato y suficiente
+      const lo = [0, 1, 2].map(i => Math.max(cajaH[2 * i], cajaC[2 * i]));
+      const hi = [0, 1, 2].map(i => Math.min(cajaH[2 * i + 1], cajaC[2 * i + 1]));
+      const n = [0, 1, 2].map(i => Math.max(1, Math.ceil((hi[i] - lo[i]) / paso)));
+      let k = 0, peor = null;
+      for (let i = 0; i <= n[0]; i++) for (let j = 0; j <= n[1]; j++) for (let m = 0; m <= n[2]; m++) {
+        const w = [lo[0] + (hi[0] - lo[0]) * i / n[0], lo[1] + (hi[1] - lo[1]) * j / n[1], lo[2] + (hi[2] - lo[2]) * m / n[2]];
+        if (puntoEnSolido(h, w) && puntoEnSolido(c, w)) { k++; if (!peor) peor = w.map(r2); }
+      }
+      if (k < minPuntos) continue;
+      const reg = { chapa: (h.name || '').slice(0, 58), componente: (c.name || '').slice(0, 58),
+        puntos: k, mirar_en: peor, caja_comun: lo.map(r2).concat(hi.map(r2)) };
+      choques.push(reg);
+      errs.push(`la chapa «${reg.chapa}» ocupa el mismo espacio que «${reg.componente}» (mirar en ${JSON.stringify(peor)}): el componente viene de proveedor, no se recorta en obra`);
+    }
+  }
+  return { errs, choques };
 }

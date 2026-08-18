@@ -10,7 +10,8 @@
     "pieza-sin-fijacion",
     "masa-exacta",
     "flat-vs-solido",
-    "peligro-expuesto"
+    "peligro-expuesto",
+    "chapa-vs-componente"
    ],
    "reglas_disponibles_sin_cablear": [
     "zona-prohibida",

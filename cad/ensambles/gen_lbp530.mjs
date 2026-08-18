@@ -1668,6 +1668,8 @@ const EXENTOS_PELIGRO = [
   { patron: /Motorreductor/, razon: 'componente comercial: cárter cerrado y ventilador bajo capot, protegidos de fábrica. La interfaz con nuestro eje (muñón, chaveta, brazo de reacción) NO queda eximida — va en D-05' },
 ];
 const DEUDA_DECLARADA = [
+  { patron: /ocupa el mismo espacio que «NORM · Chumacera UCF206/,
+    razon: 'D-07 · NO FABRICAR LAS GUARDAS. El faldón de la artesa corre a Y ±253,5 y la brida de la UCF206 ocupa Y 251…266 con 127 mm de diagonal: el faldón atraviesa la brida en las SEIS chumaceras (LBP motriz y tensor, GT motriz, ambos costados). El paso de Ø48 sirve para el muñón, no para la brida. Agrandarlo no arregla: en el tensor la brida ya asoma 17 mm por sobre el borde superior del faldón. La corrección es la que guardas.md especifica y el código fundió en una sola pieza — SEPARAR G1 y G2: la artesa termina antes de la mecha y cada extremo lleva su propia caja de accionamiento, con los costados por fuera de las chumaceras. El resto del equipo (bastidor, ejes, transmisión, soportes) NO está afectado y se puede fabricar' },
   { patron: /parte móvil sin cerramiento: «FAB · EJE (MOTRIZ|TENSOR)/,
     razon: 'D-05 · punta de muñón al aire por el costado LIBRE (−Y): el eje llega a −304 y la artesa cierra en −253, con la UCF206 hasta −286 — quedan ~30 mm de muñón girando fuera del cierre, en el eje motriz y en el tensor, en LBP y en GT. DS 594 Art. 38 los exige protegidos. Resuelve una TAPA DE MUÑÓN (copa de chapa 2,0 apernada a la cara exterior de la mecha, sobre la UCF206, con acceso a grasera) — es la pieza que falta de la guarda G1 de biblioteca/CV-LBP18/guardas.md. Diseño ESPECIFICADO con cotas, no construido' },
   { patron: /Paso M6 guarda inferior|barreno Ø7 en «FAB · Placa lateral/,
