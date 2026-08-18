@@ -54,6 +54,19 @@ LAYERS = {  # nombre: (color ACI, tipo de línea, grosor mm*100)
 }
 ORDER = ["alzado", "planta", "perfil", "isometrica"]
 
+MARCAS_PATH = Path(__file__).parent.parent / "config" / "marcas.json"
+_MARCAS: dict | None = None
+
+
+def marca_logo(nombre: str) -> dict | None:
+    """Isotipo vectorizado de config/marcas.json (contorno normalizado alto=1,
+    y hacia arriba, triángulos precalculados). None si no hay vector."""
+    global _MARCAS
+    if _MARCAS is None:
+        _MARCAS = json.loads(MARCAS_PATH.read_text(encoding="utf8")) \
+            if MARCAS_PATH.exists() else {}
+    return _MARCAS.get(nombre)
+
 
 def scale_label(num: float, den: float) -> str:
     fmt = lambda x: f"{x:g}"
@@ -100,7 +113,10 @@ class Sheet:
         self.ox, self.oy = origin
         for lname, (color, ltype, lw) in LAYERS.items():
             if lname not in doc.layers:
-                doc.layers.add(lname, color=color, linetype=ltype, lineweight=lw)
+                layer = doc.layers.add(lname, color=color, linetype=ltype,
+                                       lineweight=lw)
+                if lname == "LOGO":
+                    layer.rgb = (59, 124, 213)   # azul CONVEYONE #3b7cd5
         style = f"F3D_{int(K * 1000)}"
         if style not in doc.dimstyles:
             ds = doc.dimstyles.add(style)
@@ -234,19 +250,30 @@ class Sheet:
         cxa = x0 + 20.0
         self.line((x0, ys[2]), (xa, ys[2]), "FINA")
         if tb.get("marca"):
-            by = ys[0] - 3.0
-            self.line((cxa - 11, by), (cxa + 11, by), "LOGO")
-            for dx in (-7, 0, 7):
-                self.circle((cxa + dx, by - 1.9), 1.6, "LOGO")
-            self.msp.add_solid([self._p((cxa + 11.4, by + 1.1)),
-                                self._p((cxa + 13.6, by)),
-                                self._p((cxa + 11.4, by - 1.1))],
-                               dxfattribs={"layer": "LOGO"})
-            self.text(tb["marca"], cxa, ys[0] - 11.4, h=3.6, layer="LOGO",
-                      align="CENTER")
-            self.line((cxa - 13.5, ys[0] - 13.4), (cxa + 13.5, ys[0] - 13.4), "FINA")
+            logo = marca_logo(tb["marca"])
+            if logo:
+                # isotipo vectorizado (triángulos precalculados)
+                s = 8.6
+                ox = cxa - logo["aspecto"] * s / 2
+                oy = ys[0] - 1.6 - s
+                pts = logo["contorno"]
+                for t in logo["triangulos"]:
+                    self.msp.add_solid(
+                        [self._p((ox + pts[i][0] * s, oy + pts[i][1] * s))
+                         for i in t], dxfattribs={"layer": "LOGO"})
+            else:
+                by = ys[0] - 4.6            # glifo genérico: banda + rodillos
+                self.line((cxa - 11, by), (cxa + 11, by), "LOGO")
+                for dx in (-7, 0, 7):
+                    self.circle((cxa + dx, by - 1.9), 1.6, "LOGO")
+                self.msp.add_solid([self._p((cxa + 11.4, by + 1.1)),
+                                    self._p((cxa + 13.6, by)),
+                                    self._p((cxa + 11.4, by - 1.1))],
+                                   dxfattribs={"layer": "LOGO"})
+            self.text(tb["marca"], cxa, ys[0] - 13.2, h=3.2, align="CENTER")
+            self.line((cxa - 13.5, ys[0] - 14.8), (cxa + 13.5, ys[0] - 14.8), "FINA")
             self.text(tb.get("marca_sub") or f"{tb['marca']} SpA", cxa,
-                      ys[0] - 16.2, h=1.3, align="CENTER")
+                      ys[0] - 17.0, h=1.3, align="CENTER")
         else:
             self.text("foto3d", cxa, ys[0] - 8.2, h=6.0, align="CENTER")
             self.line((cxa - 13.5, ys[0] - 13.4), (cxa + 13.5, ys[0] - 13.4), "FINA")

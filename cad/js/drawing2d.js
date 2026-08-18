@@ -10,6 +10,7 @@
 // como en S6); el PDF sale al tamaño de papel listo para imprimir.
 // El diseño CAD es capa `user`: mm exactos, no medición.
 import * as THREE from 'three';
+import { MARCAS } from './logos.js';
 
 // --- norma (mismos valores que pipeline/s6_drawings.py) ---------------------
 const SHEETS = { A4: [297, 210], A3: [420, 297], A2: [594, 420], A1: [841, 594], A0: [1189, 841] };
@@ -21,7 +22,7 @@ const GRID_LETTERS = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
 const LAYERS = { SOMBRA: 8, NORMA: 7, FINA: 7, VISIBLE: 7, COTAS: 7, TEXTO: 7, PLIEGUE: 1, LOGO: 5 }; // color ACI
 const LW = { NORMA: 0.7, FINA: 0.18, VISIBLE: 0.5, COTAS: 0.25, TEXTO: 0.25, PLIEGUE: 0.35, LOGO: 0.35 }; // mm (PDF)
 const DASH = { PLIEGUE: [4, 2] };  // ejes de plegado con línea segmentada (mm)
-const RGB = { LOGO: '0.07 0.33 0.66' };  // color de trazo/relleno por capa en el PDF (def: negro)
+const RGB = { LOGO: '0.23 0.49 0.84' };  // azul CONVEYONE (#3b7cd5) por capa en el PDF (def: negro)
 // capas de GEOMETRÍA de la pieza: en láminas de fabricación (desarrollo) el
 // PDF las traza como línea fina sin espesor (hairline, aptas para corte)
 const GEOM_LAYERS = new Set(['VISIBLE', 'FINA', 'PLIEGUE', 'COTAS']);
@@ -360,13 +361,24 @@ class Sheet {
     const cxa = x0 + 20;
     this.line([x0, ys[2]], [xa, ys[2]], 'FINA');
     if (tb.marca) {
-      const by = ys[0] - 3.0;                       // línea de banda del logo
-      this.line([cxa - 11, by], [cxa + 11, by], 'LOGO');
-      for (const dx of [-7, 0, 7]) this.circle([cxa + dx, by - 1.9], 1.6, 'LOGO');
-      this.solid([[cxa + 11.4, by + 1.1], [cxa + 11.4, by - 1.1], [cxa + 13.6, by]], 'LOGO');
-      this.text(tb.marca, cxa, ys[0] - 11.4, 4.4, 'C', 'LOGO');
-      this.line([cxa - 13.5, ys[0] - 13.4], [cxa + 13.5, ys[0] - 13.4], 'FINA');
-      this.text(tb.marcaSub ?? `${tb.marca} SpA`, cxa, ys[0] - 16.2, 1.3, 'C');
+      const logo = MARCAS[tb.marca];
+      if (logo) {
+        // isotipo vectorizado (triángulos precalculados, coords alto=1 y-arriba)
+        const s = 8.6;
+        const ox = cxa - logo.aspecto * s / 2, oy = ys[0] - 1.6 - s;
+        for (const t of logo.triangulos) {
+          this.solid(t.map(i => [ox + logo.contorno[i][0] * s,
+                                 oy + logo.contorno[i][1] * s]), 'LOGO');
+        }
+      } else {
+        const by = ys[0] - 4.6;                     // glifo genérico: banda+rodillos
+        this.line([cxa - 11, by], [cxa + 11, by], 'LOGO');
+        for (const dx of [-7, 0, 7]) this.circle([cxa + dx, by - 1.9], 1.6, 'LOGO');
+        this.solid([[cxa + 11.4, by + 1.1], [cxa + 11.4, by - 1.1], [cxa + 13.6, by]], 'LOGO');
+      }
+      this.text(tb.marca, cxa, ys[0] - 13.2, 3.4, 'C');
+      this.line([cxa - 13.5, ys[0] - 14.8], [cxa + 13.5, ys[0] - 14.8], 'FINA');
+      this.text(tb.marcaSub ?? `${tb.marca} SpA`, cxa, ys[0] - 17.0, 1.3, 'C');
     } else {
       this.text('foto3d', cxa, ys[0] - 8.2, 6.0, 'C');
       this.line([cxa - 13.5, ys[0] - 13.4], [cxa + 13.5, ys[0] - 13.4], 'FINA');
