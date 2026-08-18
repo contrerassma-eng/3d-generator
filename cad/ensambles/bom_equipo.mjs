@@ -323,6 +323,40 @@ for (const h of herrajes) {
     });
   }
 }
+// ── REGISTRO PERSISTENTE DE ÍTEMS (cierra D-08; opt-in con REGISTRO=path) ───
+// El número de ítem pertenece al ARTÍCULO, no a la posición: sin registro, una
+// revisión que quita piezas renumera lo que sigue y una referencia impresa de
+// taller apunta a otra pieza (Rev.F renumeró 42 ítems del LBP). Con registro:
+// un artículo conserva su número de por vida, un artículo retirado se ARCHIVA
+// con su número (jamás se reusa) y uno que vuelve del retiro lo recupera. La
+// PRIMERA corrida siembra el registro con la numeración vigente — adoptar no
+// renumera nada.
+const regPath = process.env.REGISTRO;
+if (regPath) {
+  const reg = existsSync(regPath) ? JSON.parse(readFileSync(regPath, 'utf8')) : {
+    _que: 'Registro persistente de ítems del tipo de equipo. Lo escribe bom_equipo en cada corrida; editarlo a mano es defecto.',
+    equipo: base, siguiente: 1, items: {}, retirados: {},
+  };
+  for (const f of filas) {
+    if (reg.items[f.item_desc] == null && reg.retirados[f.item_desc]) {
+      reg.items[f.item_desc] = reg.retirados[f.item_desc].item;   // reincorporación
+      delete reg.retirados[f.item_desc];
+    }
+    if (reg.items[f.item_desc] == null) reg.items[f.item_desc] = reg.siguiente++;
+  }
+  const vivos = new Set(filas.map(f => f.item_desc));
+  for (const [d, n] of Object.entries(reg.items)) {
+    if (vivos.has(d)) continue;
+    reg.retirados[d] = { item: n, retirado: process.env.FECHA || new Date().toISOString().slice(0, 10) };
+    delete reg.items[d];
+  }
+  for (const f of filas) f.item = reg.items[f.item_desc];
+  gate(new Set(filas.map(f => f.item)).size === filas.length, 'registro de ítems: número duplicado');
+  filas.sort((x, y) => x.item - y.item);
+  writeFileSync(regPath, JSON.stringify(reg, null, 2) + '\n');
+  console.log(`  registro de ítems: ${Object.keys(reg.items).length} vivos · ${Object.keys(reg.retirados).length} retirados · siguiente ${reg.siguiente} (${regPath})`);
+}
+
 // ── salida por equipo ────────────────────────────────────────────────────────
 const COLS = ['item', 'tipo', 'item_desc', 'cant_equipo', 'cant_proyecto', 'origen',
   'referencia', 'plano_corte', 'plano_vistas', 'material', 'desarrollo', 'masa_kg',
