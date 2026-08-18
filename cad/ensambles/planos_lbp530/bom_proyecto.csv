@@ -41,10 +41,8 @@ FABRICADA,Guarda tensor — fondo con tapa e2 (615×626),4,maestranza / taller,,
 FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,16,maestranza / taller,,LBD-09 / LB-10,lbp530_5m+lbp530_gt08
 FABRICADA,Mecha porta-chumacera PL8 tensor 320×362,8,maestranza / taller,,LBD-10 / LB-11,lbp530_5m
 FABRICADA,Oreja de extremo 120×60×4 — pieza menor SOLDADA (120×4×90) · 2×Ø7.0,40,maestranza / taller,,ficha de soldadura (GA),lbp530_5m
-FABRICADA,Placa lateral libre (−Y) PL6 L=5000,4,maestranza / taller,,LBD-11 / LB-01,lbp530_5m
-FABRICADA,Placa lateral libre (−Y) PL6 L=800,4,maestranza / taller,,GTD-08 / GT-01,lbp530_gt08
-FABRICADA,Placa lateral motriz (+Y) PL6 L=5000,4,maestranza / taller,,LBD-11 / LB-01,lbp530_5m
-FABRICADA,Placa lateral motriz (+Y) PL6 L=800,4,maestranza / taller,,GTD-08 / GT-01,lbp530_gt08
+FABRICADA,Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue),8,maestranza / taller,,LBD-11 / LB-01,lbp530_5m
+FABRICADA,Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue),8,maestranza / taller,,GTD-08 / GT-01,lbp530_gt08
 FABRICADA,"Pletina 12×30 × 4904 — guía de apoyo de canto (corte a largo, sin láser)",40,maestranza / taller,,,lbp530_5m
 FABRICADA,"Pletina 12×30 × 704 — guía de apoyo de canto (corte a largo, sin láser)",28,maestranza / taller,,,lbp530_gt08
 FABRICADA,Portacarril 50×6 con clips (apernado M6 al alma),24,maestranza / taller,,LBD-12 / LB-12,lbp530_5m+lbp530_gt08

@@ -3,9 +3,9 @@
  "lineas": 4,
  "generado_de": "ensambles/lbp530_5m.json",
  "totales": {
-  "masa_fabricada_kg": 399.96,
-  "area_pintar_m2": 14.09,
-  "plancha_m2": 7.2,
+  "masa_fabricada_kg": 395.5,
+  "area_pintar_m2": 13.71,
+  "plancha_m2": 7.11,
   "nota": "masa y área EXACTAS del desarrollo (contorno − barrenos); plancha_m2 = bbox consumido del formato, para pedir material"
  },
  "filas": [
@@ -227,40 +227,6 @@
    "bbox_m2_plancha": 0.116
   },
   {
-   "item": 14,
-   "repuesto": false,
-   "tipo": "FABRICADA",
-   "item_desc": "Placa lateral libre (−Y) PL6 L=5000",
-   "cant_equipo": 1,
-   "cant_proyecto": 4,
-   "origen": "maestranza / taller",
-   "referencia": "",
-   "plano_corte": "LBD-11",
-   "plano_vistas": "LB-01",
-   "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
-   "desarrollo": "5000×312.6",
-   "masa_kg": 72.25,
-   "area_m2_pintar": 3.068,
-   "bbox_m2_plancha": 1.563
-  },
-  {
-   "item": 15,
-   "repuesto": false,
-   "tipo": "FABRICADA",
-   "item_desc": "Placa lateral motriz (+Y) PL6 L=5000",
-   "cant_equipo": 1,
-   "cant_proyecto": 4,
-   "origen": "maestranza / taller",
-   "referencia": "",
-   "plano_corte": "LBD-11",
-   "plano_vistas": "LB-01",
-   "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
-   "desarrollo": "5000×312.6",
-   "masa_kg": 72.25,
-   "area_m2_pintar": 3.068,
-   "bbox_m2_plancha": 1.563
-  },
-  {
    "item": 16,
    "repuesto": false,
    "tipo": "FABRICADA",
@@ -321,10 +287,10 @@
    "plano_corte": "LBD-14",
    "plano_vistas": "LB-14",
    "material": "Acero S275JR e3 — PINTADO RAL 7035",
-   "desarrollo": "476×136.6",
-   "masa_kg": 1.51,
-   "area_m2_pintar": 0.129,
-   "bbox_m2_plancha": 0.065
+   "desarrollo": "476×74.1",
+   "masa_kg": 0.03,
+   "area_m2_pintar": 0.002,
+   "bbox_m2_plancha": 0.035
   },
   {
    "item": 20,
@@ -900,6 +866,23 @@
    "masa_kg": "",
    "area_m2_pintar": "",
    "bbox_m2_plancha": ""
+  },
+  {
+   "item": 59,
+   "repuesto": false,
+   "tipo": "FABRICADA",
+   "item_desc": "Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue)",
+   "cant_equipo": 2,
+   "cant_proyecto": 8,
+   "origen": "maestranza / taller",
+   "referencia": "",
+   "plano_corte": "LBD-11",
+   "plano_vistas": "LB-01",
+   "material": "Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08)",
+   "desarrollo": "5000×312.6",
+   "masa_kg": 72.24,
+   "area_m2_pintar": 3.068,
+   "bbox_m2_plancha": 1.563
   }
  ]
 }

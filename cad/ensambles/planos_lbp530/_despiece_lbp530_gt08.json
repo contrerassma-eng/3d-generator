@@ -3,7 +3,7 @@
   "archivo": "lbp530_gt08.json",
   "fecha": "2026-08-18",
   "total_piezas": 64,
-  "items_distintos": 31,
+  "items_distintos": 30,
   "planos_fabricacion": 11,
   "despiece": [
     {
@@ -104,28 +104,6 @@
       "tipo": "FABRICADA",
       "material_norma": "Acero S275JR PL8",
       "plano": "GT-08"
-    },
-    {
-      "item": 10,
-      "designacion": "FAB · Placa lateral libre PL6 L=800",
-      "nombres": [
-        "FAB · Placa lateral libre (−Y) PL6 L=800"
-      ],
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR PL6",
-      "plano": "GT-01"
-    },
-    {
-      "item": 11,
-      "designacion": "FAB · Placa lateral motriz PL6 L=800",
-      "nombres": [
-        "FAB · Placa lateral motriz (+Y) PL6 L=800"
-      ],
-      "cant": 1,
-      "tipo": "FABRICADA",
-      "material_norma": "Acero S275JR PL6 — mismo desarrollo que FAB · Placa lateral libre PL6 L=800 (GT-01); 1 EN ESPEJO",
-      "plano": "GT-01"
     },
     {
       "item": 12,
@@ -324,6 +302,17 @@
       "tipo": "FABRICADA",
       "material_norma": "Perfil 40×40×4 — corte a largo + barrenos",
       "plano": "ficha soldadura GA"
+    },
+    {
+      "item": 50,
+      "designacion": "FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)",
+      "nombres": [
+        "FAB · Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue)"
+      ],
+      "cant": 2,
+      "tipo": "FABRICADA",
+      "material_norma": "Acero S275JR PL6",
+      "plano": "GT-01"
     },
     {
       "item": "—",

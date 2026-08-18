@@ -5,15 +5,13 @@ item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plan
 4,FABRICADA,Columna soporte 24V canal C 77×38×3 (pivote+arco / apriete 3×M10),4,16,maestranza / taller,,GTD-03,GT-04,Acero S275JR e3 — PINTADO RAL 7035,578×142.6,1.9,0.161,0.082
 5,FABRICADA,EJE MOTRIZ cuadrado 38.1 — L=681 (muñones Ø30 h6),1,4,maestranza / taller,,,LBP530-EJ-01,,,6.5,undefined,undefined
 6,FABRICADA,Guarda motriz — costado libre e2 (193×330),1,4,maestranza / taller,,GTD-04,GT-05,Acero S275JR e2.0 — terminación PINTADO RAL 7035,193×417.1,1.25,0.159,0.08
-7,FABRICADA,Guarda motriz — costado motor e2 (193×330),1,4,maestranza / taller,,GTD-05,GT-06,Acero S275JR e2.0 — terminación PINTADO RAL 7035,193×403.1,1.16,0.147,0.078
+7,FABRICADA,Guarda motriz — costado motor e2 (193×330),1,4,maestranza / taller,,GTD-05,GT-06,Acero S275JR e2.0 — terminación PINTADO RAL 7035,193×403.1,1.15,0.147,0.078
 8,FABRICADA,Guarda motriz — fondo con tapa e2 (191×612),1,4,maestranza / taller,,GTD-06,GT-07,Acero S275JR e2.0 — terminación PINTADO RAL 7035,519.5×612,4.99,0.635,0.318
 9,FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,2,8,maestranza / taller,,GTD-07,GT-08,Acero S275JR PL8 — PINTADO RAL 7035,320×422,8.33,0.265,0.135
-10,FABRICADA,Placa lateral libre (−Y) PL6 L=800,1,4,maestranza / taller,,GTD-08,GT-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),800×312.6,11.17,0.474,0.25
-11,FABRICADA,Placa lateral motriz (+Y) PL6 L=800,1,4,maestranza / taller,,GTD-08,GT-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),800×312.6,11.17,0.474,0.25
-12,FABRICADA,Portacarril 50×6 con clips (apernado M6 al alma),1,4,maestranza / taller,,GTD-09,GT-09,Acero S275JR e6 — PINTADO RAL 7035,462×50,1.08,0.046,0.023
+12,FABRICADA,Portacarril 50×6 con clips (apernado M6 al alma),1,4,maestranza / taller,,GTD-09,GT-09,Acero S275JR e6 — PINTADO RAL 7035,462×50,1.07,0.046,0.023
 13,FABRICADA,"Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",2,8,maestranza / taller,,,LBP530-EJ-04,,,,undefined,undefined
 14,FABRICADA,Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada),4,16,maestranza / taller,,GTD-10,GT-10,Acero S275JR e3 — PINTADO RAL 7035,369×149.6,1.25,0.106,0.055
-15,FABRICADA,Travesaño de patas B_002A canal 71×38×3 (L=470),2,8,maestranza / taller,,GTD-11,GT-11,Acero S275JR e3 — PINTADO RAL 7035,476×136.6,1.51,0.129,0.065
+15,FABRICADA,Travesaño de patas B_002A canal 71×38×3 (L=470),2,8,maestranza / taller,,GTD-11,GT-11,Acero S275JR e3 — PINTADO RAL 7035,476×74.1,0.03,0.002,0.035
 16,FABRICADA,"Pletina 12×30 × 704 — guía de apoyo de canto (corte a largo, sin láser)",7,28,maestranza / taller,,,,Barra laminada S235/A36 12×30 — SOLDAR a travesaños según especificación de soldadura del GA,12×30×704,2,undefined,undefined
 17,COMPRADA,Banda Movex 530 GT (friction top) 18 in — lazo 2.3 m,1,4,Movex · Italia (importado),P5323010018A,,,,,,undefined,undefined
 18,COMPRADA,Chumacera UCF206 Ø30,2,8,rodamientos · local,,,,,,,undefined,undefined
@@ -48,3 +46,4 @@ item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plan
 47,TORNILLERÍA,Perno hex M10×35 8.8 + tuerca + golilla plana y presión,8,32,local,,,,"brida UCF206 → mecha, pasante con tuerca (4 por chumacera; agujero brida y mecha Ø12 → perno M10 holgura estándar)",,,undefined,undefined
 48,FABRICADA,Clip ángulo — pieza menor SOLDADA (40×30×40) · 2×Ø7.0,2,8,maestranza / taller,,,ficha de soldadura (GA),Perfil 30×30×3 — corte a largo + barrenos,40×30×40,,,
 49,FABRICADA,Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0,4,16,maestranza / taller,,,ficha de soldadura (GA),Perfil 40×40×4 — corte a largo + barrenos,4×60×48,,,
+50,FABRICADA,Placa lateral PL6 L=800 (ambidiestra ×2 — la mano la da el pliegue),2,8,maestranza / taller,,GTD-08,GT-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),800×312.6,11.17,0.474,0.25

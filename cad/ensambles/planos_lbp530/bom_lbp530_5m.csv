@@ -12,12 +12,10 @@ item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plan
 11,FABRICADA,Guarda tensor — fondo con tapa e2 (615×626),1,4,maestranza / taller,,LBD-08,LB-09,Acero S275JR e2.0 — terminación PINTADO RAL 7035,848.5×626,8.33,1.062,0.531
 12,FABRICADA,Mecha porta-chumacera PL8 motriz 320×422,2,8,maestranza / taller,,LBD-09,LB-10,Acero S275JR PL8 — PINTADO RAL 7035,320×422,8.33,0.265,0.135
 13,FABRICADA,Mecha porta-chumacera PL8 tensor 320×362,2,8,maestranza / taller,,LBD-10,LB-11,Acero S275JR PL8 — PINTADO RAL 7035,320×362,7.13,0.227,0.116
-14,FABRICADA,Placa lateral libre (−Y) PL6 L=5000,1,4,maestranza / taller,,LBD-11,LB-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),5000×312.6,72.25,3.068,1.563
-15,FABRICADA,Placa lateral motriz (+Y) PL6 L=5000,1,4,maestranza / taller,,LBD-11,LB-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),5000×312.6,72.25,3.068,1.563
 16,FABRICADA,Portacarril 50×6 con clips (apernado M6 al alma),5,20,maestranza / taller,,LBD-12,LB-12,Acero S275JR e6 — PINTADO RAL 7035,462×50,1.07,0.045,0.023
 17,FABRICADA,"Rodillo retorno Ø63.5 — tubo A513 Ø63,5×3,0 + 2 cabezales torneados asiento Ø35 H7 + seeger DIN 472-35 · eje muerto Ø15 SAE1045 roscado M8 — plano LBP530-EJ-04",8,32,maestranza / taller,,,LBP530-EJ-04,,,,undefined,undefined
 18,FABRICADA,Tira telescópica BR_3002 84×38×3 (10 ranuras 11×20) + pata B_004A (soldada),6,24,maestranza / taller,,LBD-13,LB-13,Acero S275JR e3 — PINTADO RAL 7035,369×149.6,1.25,0.106,0.055
-19,FABRICADA,Travesaño de patas B_002A canal 71×38×3 (L=470),3,12,maestranza / taller,,LBD-14,LB-14,Acero S275JR e3 — PINTADO RAL 7035,476×136.6,1.51,0.129,0.065
+19,FABRICADA,Travesaño de patas B_002A canal 71×38×3 (L=470),3,12,maestranza / taller,,LBD-14,LB-14,Acero S275JR e3 — PINTADO RAL 7035,476×74.1,0.03,0.002,0.035
 20,FABRICADA,"Travesaño TR_S 24V — C 88×88×3, orejas apernadas (L=460)",5,20,maestranza / taller,,LBD-15,LB-15,"Acero S275JR e3 — plegado C 88×88 (perfil TR_S del ZP2026), PINTADO RAL 7035. OREJAS 120×60×4 soldadas en extremos; conjunto APERNADO 2×M6 por extremo",460×253.6,2.75,0.233,0.117
 21,FABRICADA,"Pletina 12×30 × 4904 — guía de apoyo de canto (corte a largo, sin láser)",10,40,maestranza / taller,,,,Barra laminada S235/A36 12×30 — SOLDAR a travesaños según especificación de soldadura del GA,12×30×4904,13.9,undefined,undefined
 22,COMPRADA,Banda Movex 530 LBP 18 in — lazo 10.95 m,1,4,Movex · Italia (importado),P5324010018A,,,,,,undefined,undefined
@@ -57,3 +55,4 @@ item,tipo,item_desc,cant_equipo,cant_proyecto,origen,referencia,plano_corte,plan
 56,FABRICADA,Clip ángulo — pieza menor SOLDADA (40×30×40) · 2×Ø7.0,10,40,maestranza / taller,,,ficha de soldadura (GA),Perfil 30×30×3 — corte a largo + barrenos,40×30×40,,,
 57,FABRICADA,Oreja de extremo 120×60×4 — pieza menor SOLDADA (120×4×90) · 2×Ø7.0,10,40,maestranza / taller,,,ficha de soldadura (GA),Perfil 120×60×4 — corte a largo + barrenos,120×4×90,,,
 58,FABRICADA,Clip ángulo cabezal — pieza menor SOLDADA (4×60×48) · 2×Ø7.0,4,16,maestranza / taller,,,ficha de soldadura (GA),Perfil 40×40×4 — corte a largo + barrenos,4×60×48,,,
+59,FABRICADA,Placa lateral PL6 L=5000 (ambidiestra ×2 — la mano la da el pliegue),2,8,maestranza / taller,,LBD-11,LB-01,Acero S275JR PL6 — terminación PINTADO RAL 7035 (decisión Sergio 12-08),5000×312.6,72.24,3.068,1.563
