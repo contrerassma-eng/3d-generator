@@ -36,7 +36,8 @@ const bomPath = join(outDir, `bom_${base}.json`);
 if (!existsSync(bomPath)) throw new Error(`falta ${bomPath} — correr bom_equipo.mjs primero`);
 const bom = JSON.parse(readFileSync(bomPath, 'utf8'));
 const esLBP = /5m/.test(base);
-const codigo = esLBP ? 'CV-LBP-5000' : 'CV-GT-800';
+const M = doc.meta?.manual || {};
+const codigo = M.codigo || (doc.meta?.nombre || '').split(' ·')[0] || (esLBP ? 'CV-LBP-5000' : 'CV-GT-800');
 const titulo = doc.meta?.nombre || base;
 
 // ── BOM: nombre de pieza → ítem (globo) ──────────────────────────────────────
@@ -193,7 +194,7 @@ function cabecera(sh, tituloPag, sub) {
 function pie(sh, nPag) {
   sh.line([22, 16], [398, 16], 'FINA');
   sh.text(titulo, 22, 11.5, 2.4, 'L');
-  sh.text(`Boletín CV-MP-${esLBP ? '01' : '02'} · Rev. ${doc.meta?.revision ?? 'A'} · vigente desde ${fecha}`, 210, 11.5, 2.4, 'C');
+  sh.text(`Boletín CV-MP-${M.boletin || (esLBP ? '01' : '02')} · Rev. ${doc.meta?.revision ?? 'A'} · vigente desde ${fecha}`, 210, 11.5, 2.4, 'C');
   sh.text(`Página ${nPag}`, 398, 11.5, 2.4, 'R');
 }
 const marco = (sh) => sh.rect(18, 8, 384, 281, 'NORMA');
@@ -213,9 +214,9 @@ const marco = (sh) => sh.rect(18, 8, 384, 281, 'NORMA');
     ['Banda', `${dims.belt.serie} ${esLBP ? 'LBP' : 'GT (friction top)'} 18 in — paso 15 mm`],
     ['Largo nose a nose', `${doc.meta.largo_nose_a_nose} mm`],
     ['Lazo de banda', `${(doc.meta.largo_banda_lazo_mm / 1000).toFixed(2)} m`],
-    ['Accionamiento', 'NMRV-P 075 1/30 · 0,55 kW · 46 rpm · eje hueco Ø30'],
+    ['Accionamiento', M.accionamiento || 'NMRV-P 075 1/30 · 0,55 kW · 46 rpm · eje hueco Ø30'],
     ['Terminación', 'PINTADO RAL 7035 (partes fabricadas)'],
-    ['Documento', `Boletín CV-MP-${esLBP ? '01' : '02'} · Rev. ${doc.meta?.revision ?? 'A'} · vigente desde ${fecha} (reemplaza: ${doc.meta?.revision_reemplaza ?? '—'})`],
+    ['Documento', `Boletín CV-MP-${M.boletin || (esLBP ? '01' : '02')} · Rev. ${doc.meta?.revision ?? 'A'} · vigente desde ${fecha} (reemplaza: ${doc.meta?.revision_reemplaza ?? '—'})`],
   ];
   let y = 166;
   for (const [k, v] of filaId) {

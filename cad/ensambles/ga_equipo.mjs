@@ -25,7 +25,11 @@ const base = docPath.split('/').pop().replace(/\.json$/, '');
 const outDir = process.env.OUTDIR || 'ensambles/planos_lbp530';
 const fecha = process.env.FECHA || '—';
 const esLBP = /5m/.test(base);
-const codigo = esLBP ? 'CV-LBP-5000' : 'CV-GT-800';
+// Genérico por meta.ga (18-08): un equipo NUEVO declara sus rótulos en el
+// modelo; sin meta.ga todos los defaults reproducen el LBP/GT byte a byte.
+const G = doc.meta?.ga || {};
+const codigo = G.codigo || (doc.meta?.nombre || '').split(' ·')[0] || (esLBP ? 'CV-LBP-5000' : 'CV-GT-800');
+const gaNum = G.numPlano || (esLBP ? 'LBP530-GA-01' : 'LBP530-GA-02');
 const bomPath = join(outDir, `bom_${base}.json`);
 const bom = existsSync(bomPath) ? JSON.parse(readFileSync(bomPath, 'utf8')) : { filas: [] };
 const dims = JSON.parse(readFileSync(process.env.DIMS || 'ensambles/lbp530_dims.json', 'utf8'));
@@ -38,7 +42,7 @@ const SC = (() => {
   const sc = new IsoScene();
   for (const p of doc.parts) {
     if (/Rodillos LBP/.test(p.name)) continue;
-    sc.add(p, { simplify: /Banda/.test(p.name) ? 'band' : undefined, paint: false });
+    sc.add(p, { simplify: /Banda Movex/.test(p.name) ? 'band' : undefined, paint: false });
   }
   return sc;
 })();
@@ -135,7 +139,7 @@ drawFigure(sh, iso, oxI, oyI, {});
 sh.text('ISOMÉTRICA (referencia)', oxI + iso.widthMM / 2, oyI - 7, 3, 'C');
 
 // globos de conjuntos principales, con el ÍTEM del BOM
-const grupos = [
+const grupos = G.grupos ? G.grupos.map(([re, lb]) => [new RegExp(re), lb]) : [
   [/Placa lateral/, 'bastidor'],
   [/EJE MOTRIZ/, 'accionamiento'],
   [/Banda Movex/, 'banda'],
@@ -247,7 +251,7 @@ drawFigure(sh2, aa, oxA, oyA, {});
 sh2.text(`SECCIÓN A-A — transversal por portacarril (x=${r0(sec.aa_x ?? 0)}) · ESC 1:${(aa.spanU / aa.widthMM).toFixed(1)}`,
   oxA + aa.widthMM / 2, oyA - 8, 3.4, 'C');
 rotula(sh2, aa, oxA, oyA, oxA + aa.widthMM + 74, {
-  y0: oyA + aa.heightMM - 6, paso: 9.5, al: 'L', items: [
+  y0: oyA + aa.heightMM - 6, paso: 9.5, al: 'L', items: G.rotula ? G.rotula.map(([re, tx]) => [new RegExp(re), tx]) : [
     [/Banda Movex/, esLBP ? 'banda de carga y RETORNO EN CATENARIA (canal hondo Rev.C)' : 'banda de carga — retorno por rodillos y RODILLO DEL NOSEBAR de entrada (un solo eje, Rev.E)'],
     [/Portacarril/, 'portacarril 50×6 apernado M6 (clips en escuadra)'],
     [/Travesaño TR_S/, 'travesaño TR_S 88×88×3 — orejas apernadas 2×M6'],
@@ -271,16 +275,16 @@ sh2.frame();
 sh2.titleBlock({
     rev: doc.meta?.revision, revCausa: (doc.meta?.revision_causa || "").slice(0, 52),
   designacion: `SECCIONES ${codigo}`,
-  proyecto: 'LBP530-18 · Conveyone', fuente: 'gen_lbp530.mjs — capa user',
+  proyecto: G.proyecto || 'LBP530-18 · Conveyone', fuente: G.fuente || 'gen_lbp530.mjs — capa user',
   verificacion: 'CORTES DEL MODELO 3D — no dibujados a mano', piezas: '1', piezasLabel: 'CONJUNTO',
-  nota: `A-A por portacarril · B-B plano medio — ver lámina 1 (${esLBP ? 'LBP530-GA-01' : 'LBP530-GA-02'})`,
-  escala: 'según vista', fecha, numPlano: (esLBP ? 'LBP530-GA-01' : 'LBP530-GA-02') + ' · 2/2',
+  nota: `A-A y B-B por coordenada declarada — ver lámina 1 (${gaNum})`,
+  escala: 'según vista', fecha, numPlano: gaNum + ' · 2/2',
 });
 
 // ── tabla resumen + cajetín ──────────────────────────────────────────────────
 const nF = bom.filas.filter(f => f.tipo === 'FABRICADA').length;
 const nC = bom.filas.filter(f => f.tipo === 'COMPRADA').length;
-const sold = dims.soldadura || {};
+const sold = doc.meta?.soldadura || dims.soldadura || {};
 // Las notas van en UNA columna fluida a la derecha de la iso, con envoltura
 // de línea y PISO explícito (hallazgo visual 18-08: el mapa de ajustes
 // empujaba la soldadura DENTRO del cajetín; el arreglo en dos zonas chocó
@@ -301,7 +305,7 @@ const envuelve = (t, max) => {
 };
 const notas = [
   ...(doc.meta?.mapa_ajustes ? ['AJUSTES DEL EQUIPO (dónde absorber la obra — lo demás es DATUM):', ...doc.meta.mapa_ajustes.map(x => '· ' + x), ''] : []),
-  `Despiece completo: bom_${base}.csv (${nF} fabricadas · ${nC} compradas) — los ÍTEM de los globos son los del BOM y el Manual de Partes (boletín CV-MP-${esLBP ? '01' : '02'}).`,
+  `Despiece completo: bom_${base}.csv (${nF} fabricadas · ${nC} compradas) — los ÍTEM de los globos son los del BOM y el Manual de Partes (boletín CV-MP-${G.boletin || (esLBP ? '01' : '02')}).`,
   'Cotas medidas de la proyección del modelo paramétrico — no transcritas.',
   'Altura de faja ajustable por niveladores de soporte. Terminación: PINTADO RAL 7035.',
   ...(bom.totales ? [
@@ -318,10 +322,10 @@ sh.frame();
 sh.titleBlock({
     rev: doc.meta?.revision, revCausa: (doc.meta?.revision_causa || "").slice(0, 52),
   designacion: `CONJUNTO GENERAL ${codigo}`,
-  proyecto: 'LBP530-18 · Conveyone', fuente: 'gen_lbp530.mjs — capa user',
+  proyecto: G.proyecto || 'LBP530-18 · Conveyone', fuente: G.fuente || 'gen_lbp530.mjs — capa user',
   verificacion: 'COTAS AUTO-MEDIDAS DEL MODELO', piezas: '1', piezasLabel: 'CONJUNTO',
-  nota: `banda Movex 530 ${esLBP ? 'LBP' : 'GT (friction top)'} 18 in · paso 15 — ver bom_${base}.csv`,
-  escala: 'según vista', fecha, numPlano: esLBP ? 'LBP530-GA-01' : 'LBP530-GA-02',
+  nota: G.notaBanda || `banda Movex 530 ${esLBP ? 'LBP' : 'GT (friction top)'} 18 in · paso 15 — ver bom_${base}.csv`,
+  escala: 'según vista', fecha, numPlano: gaNum,
 });
 
 const pdf = exportSheetsPDF([sh, sh2], `plano_conjunto_${base}.pdf`);

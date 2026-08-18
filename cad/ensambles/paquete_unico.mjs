@@ -83,13 +83,13 @@ const cover = await PDFDocument.load(exportSheetsPDF([sh, shI], 'portada.pdf').d
 
 // ── fusión ───────────────────────────────────────────────────────────────────
 const out = await PDFDocument.create();
-out.setTitle('ConveyOne — Paquete de fabricación LBP530-18');
+out.setTitle(`ConveyOne — Paquete de fabricación ${process.env.PAQUETE || 'LBP530-18'}`);
 out.setAuthor('ConveyOne SpA');
 for (const src of [cover, ...docs.map(d => d.pdf)]) {
   const pages = await out.copyPages(src, src.getPageIndices());
   for (const p of pages) out.addPage(p);
 }
 const bytes = await out.save();
-const dest = join(outDir, 'PAQUETE_FABRICACION_LBP530-18.pdf');
+const dest = join(outDir, `PAQUETE_FABRICACION_${process.env.PAQUETE || 'LBP530-18'}.pdf`);
 writeFileSync(dest, bytes);
 console.log(`OK ${dest} — ${pag - 1} páginas (${docs.map(d => d.n).join('+')} + portada/índice)`);

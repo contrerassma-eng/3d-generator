@@ -1,0 +1,3172 @@
+{
+ "meta": {
+  "nombre": "CV-BLT-800×500 · banda plana estilo MB800 M-HASTE (ejemplo L800 W500 H750)",
+  "revision": "A",
+  "revision_causa": "primera emisión — equipo completo de ejemplo (PRD CV-BLT §B)",
+  "revision_reemplaza": "—",
+  "capa": "web (criterios m-haste.com citados en PRD) + user (diseño propio declarado) + user-vendor (envolventes M-HASTE)",
+  "origen": "gen_blt800.mjs (paramétrico) — biblioteca/CV-BLT",
+  "banda": "PVC 2.0 W500 lazo 1638.99 mm sinfín — opción vendor citada (m-haste.com 18-08)",
+  "largo_nose_a_nose": 800,
+  "largo_banda_lazo_mm": 1638.99,
+  "nomenclatura_vendor": "MB800-DL-A-L800-W500-H750-80A-S10-120M1-LA10-PVC (S y LA: supuestos DECLARADOS en PRD §D)",
+  "mapa_ajustes": [
+   "AJUSTA · tensado: tornillo M8 sobre bloque del eje tensor — CARRERA 40 mm en muesca abierta (criterio vendor: screw tensioning)",
+   "AJUSTA · pie nivelador vendor MB-01: rosca del vástago = altura fina por pata",
+   "AJUSTA · uniones de perfil serie 80: posición de travesaños y patas desliza en la ranura T del perfil antes de apretar",
+   "DATUM · placas cabezal→larguero: 4×Ø9 por placa fijan la posición del eje motriz (láser contra perfil)",
+   "DATUM · cama→travesaños: Ø7 posicionan la cama; la cara pulida da la cota de deslizamiento"
+  ],
+  "secciones": {
+   "aa_x": 400,
+   "bb_y": 0.5
+  },
+  "soldadura": {
+   "proceso": "GMAW (MIG) ER70S-6 Ø1.0",
+   "norma": "AWS D1.1 — inspección visual 100%",
+   "uniones": [
+    "Cabezales → tubo de tambor (motriz y tensor): filete 3 perimetral INTERIOR, tornear corona DESPUÉS de soldar",
+    "ÚNICA soldadura del equipo: bastidor y patas van APERNADOS por interfaces del perfil serie 80 (criterio vendor: sin soldar ni taladrar)"
+   ],
+   "nota": "tambores balanceados estáticamente tras soldar y tornear (banda a 0-80 m/min criterio vendor)"
+  },
+  "compuertas": {
+   "lib": "1.0.0",
+   "reglas_ejecutadas": [
+    "margen-agujero-borde",
+    "agujero-en-pliegue",
+    "pieza-sin-fijacion",
+    "masa-exacta",
+    "flat-vs-solido",
+    "peligro-expuesto",
+    "chapa-vs-componente",
+    "esquina-viva",
+    "barreno-redondo"
+   ],
+   "reglas_disponibles_sin_cablear": [
+    "zona-prohibida",
+    "rango-fisico",
+    "cantidad-derivada",
+    "rotulo-coherente",
+    "corte-de-barras",
+    "espejo-preferido",
+    "junta-ajustable",
+    "abertura-vs-alcance"
+   ],
+   "hallazgos": 3,
+   "info": {
+    "blt800": {
+     "peorMargen": {
+      "rel": 1.2647058823529411,
+      "margen": 10.75,
+      "pieza": "FAB · Placa cabezal TENSOR PL6 200×140 — muesca de carrera 40 (ambidiestra ×2)",
+      "req": 8.5,
+      "exento": false
+     },
+     "masa_chapa_kg": 9.5,
+     "cobertura": {
+      "piezas": 28,
+      "con_desarrollo": 5,
+      "pct": 18
+     },
+     "partes_moviles_fuera": [
+      {
+       "pieza": "FAB · EJE MOTRIZ Ø25 SAE1045 — L=660 (muñones Ø20 h6 · extremo motor Ø",
+       "pct_fuera": 100,
+       "mirar_en": [
+        739.38,
+        0,
+        703.38
+       ],
+       "sin_cerramientos": true
+      },
+      {
+       "pieza": "FAB · EJE TENSOR muerto Ø20 SAE1045 — L=662 (planos fresados 18 e/c en",
+       "pct_fuera": 100,
+       "mirar_en": [
+        33.75,
+        0,
+        707.55
+       ],
+       "sin_cerramientos": true
+      },
+      {
+       "pieza": "NORM · Motorreductor 120 W acople DIRECTO al eje (DL — criterio vendor",
+       "pct_fuera": 100,
+       "mirar_en": [
+        683.55,
+        300,
+        637.55
+       ],
+       "sin_cerramientos": true
+      }
+     ]
+    }
+   },
+   "exenciones": [],
+   "deuda": [
+    "D-10: tambores y banda SIN GUARDA en el ejemplo BLT — los nip points motriz/tensor requieren definición de guardas con Sergio (el MB800 vendor se vende abierto; DS 594 Art. 38 exige evaluación en instalación)"
+   ],
+   "compuertas_especificas": 0,
+   "nota": "sello de lib_compuertas.mjs — sin él, los artefactos se niegan a generarse (CELULA_DISENO regla 11)"
+  },
+  "ga": {
+   "proyecto": "CV-BLT · Conveyone",
+   "boletin": "03",
+   "notaBanda": "banda PVC 2.0 W500 · lazo 1638.99 mm — ver bom_blt800.csv",
+   "numPlano": "BLT800-GA-01",
+   "rotula": [
+    [
+     "Banda PVC",
+     "banda PVC 2.0 — tramo de carga sobre CAMA pulida y retorno libre"
+    ],
+    [
+     "Cama deslizante",
+     "cama AISI 304 pulida apernada M6 a travesaños"
+    ],
+    [
+     "Perfil aluminio 4080 serie 80 — LARGUERO",
+     "larguero perfil serie 80 — unión por interfaces del perfil (sin soldar)"
+    ],
+    [
+     "Placa cabezal MOTRIZ",
+     "placa cabezal motriz PL6 con UCFL204 Ø20 (ambidiestra)"
+    ],
+    [
+     "Placa cabezal TENSOR",
+     "placa cola PL6 — muesca de carrera 40 + tornillo tensor M8"
+    ],
+    [
+     "TAMBOR MOTRIZ",
+     "tambor motriz Ø88.9 con CORONA +1 (centrado de banda)"
+    ],
+    [
+     "Pie nivelador M-HASTE",
+     "pie nivelador vendor (geometría real: MB800-MB-01)"
+    ],
+    [
+     "Motorreductor 120 W",
+     "motorreductor 120 W acople directo (DL) — POR CONFIRMAR"
+    ]
+   ],
+   "grupos": [
+    [
+     "Placa cabezal MOTRIZ",
+     "cabezal motriz"
+    ],
+    [
+     "TAMBOR MOTRIZ",
+     "tambor motriz"
+    ],
+    [
+     "Banda PVC",
+     "banda"
+    ],
+    [
+     "Cama deslizante",
+     "cama"
+    ],
+    [
+     "LARGUERO",
+     "bastidor"
+    ],
+    [
+     "Placa cabezal TENSOR",
+     "tensor"
+    ],
+    [
+     "Pie nivelador",
+     "pie vendor"
+    ]
+   ]
+  },
+  "manual": {
+   "boletin": "03",
+   "titulo": "CV-BLT-800×500 — banda plana estilo MB800",
+   "accionamiento": "Motorreductor 120 W acople DIRECTO (DL) — marca/modelo POR CONFIRMAR"
+  },
+  "ejes": {
+   "motriz": {
+    "nombre": "EJE MOTRIZ Ø25 SAE1045 — L=660",
+    "plano": "BLT800-EJ-01",
+    "L": 660,
+    "zEje": 707.55,
+    "x": 743.55,
+    "tramos": [
+     {
+      "d": 20,
+      "l": 30,
+      "label": "MUÑÓN Ø20 h6 — asiento UCFL204 (−Y)",
+      "proc": "torneado fino h6",
+      "color": [
+       0.13,
+       0.55,
+       0.3
+      ],
+      "tol": "h6"
+     },
+     {
+      "d": 25,
+      "l": 560,
+      "label": "CUERPO Ø25 — zona de tambor · CHAVETERO 6×6×40 al centro",
+      "proc": "torneado + fresado chavetero",
+      "color": [
+       0.62,
+       0.62,
+       0.62
+      ],
+      "chavetero": {
+       "w": 6,
+       "prof": 3.5,
+       "l": 40
+      }
+     },
+     {
+      "d": 20,
+      "l": 30,
+      "label": "MUÑÓN Ø20 h6 — asiento UCFL204 (+Y)",
+      "proc": "torneado fino h6",
+      "color": [
+       0.13,
+       0.55,
+       0.3
+      ],
+      "tol": "h6"
+     },
+     {
+      "d": 14,
+      "l": 40,
+      "label": "EXTREMO MOTOR Ø14 h7 — entrada reductor 120 W (chaveta 5×5×25)",
+      "proc": "torneado fino + chavetero",
+      "color": [
+       0.16,
+       0.42,
+       0.75
+      ],
+      "tol": "h7"
+     }
+    ],
+    "notas": [
+     "Centros de torno AMBOS extremos (DIN 332-A2.5)",
+     "Concentricidad muñones↔cuerpo ≤0,05 TIR",
+     "SAE 1045 calibrado — sin tratamiento"
+    ]
+   },
+   "tensor": {
+    "nombre": "EJE TENSOR muerto Ø20 SAE1045 — L=662",
+    "plano": "BLT800-EJ-02",
+    "L": 662,
+    "zEje": 707.55,
+    "x": 43.75,
+    "tramos": [
+     {
+      "d": 20,
+      "l": 25,
+      "label": "PUNTA con PLANO FRESADO 18 e/c + rosca M10×20 de retención (−Y)",
+      "proc": "fresado plano + rosca",
+      "color": [
+       0.85,
+       0.45,
+       0.1
+      ]
+     },
+     {
+      "d": 20,
+      "l": 612,
+      "label": "CUERPO Ø20 — asientos 6204-2RS en extremos (tambor gira, eje FIJO)",
+      "proc": "torneado h6 en asientos",
+      "color": [
+       0.62,
+       0.62,
+       0.62
+      ]
+     },
+     {
+      "d": 20,
+      "l": 25,
+      "label": "PUNTA con PLANO FRESADO 18 e/c + rosca M10×20 de retención (+Y)",
+      "proc": "fresado plano + rosca",
+      "color": [
+       0.85,
+       0.45,
+       0.1
+      ]
+     }
+    ],
+    "notas": [
+     "El plano fresado calza en la muesca 20.2 de la placa cola: el eje NO gira",
+     "Rodamientos 6204-2RS DENTRO de los cabezales del tambor (patrón LBP530-EJ-04)",
+     "Tensado: tornillo M8 empuja el bloque — carrera 40"
+    ]
+   },
+   "tambor_motriz": {
+    "nombre": "TAMBOR MOTRIZ Ø88.9×3 — cara 520 con CORONA",
+    "plano": "BLT800-EJ-03",
+    "L": 520,
+    "d": 88.9,
+    "t": 3,
+    "x": 743.55,
+    "zEje": 707.55,
+    "corona_mm": 1,
+    "notas": [
+     "Tubo A513 Ø88.9×3 + 2 cabezales torneados soldados filete 3 interior",
+     "CORONA: Ø89.9 al centro / Ø88.9 extremos — TORNEADA TRAS SOLDAR (centrado de banda)",
+     "Cubo con chavetero 6×6 — monta en eje motriz Ø25",
+     "Balanceo estático tras tornear"
+    ]
+   },
+   "tambor_tensor": {
+    "nombre": "TAMBOR TENSOR Ø63.5×3 — cara 520 loco",
+    "plano": "BLT800-EJ-04",
+    "L": 520,
+    "d": 63.5,
+    "t": 3,
+    "x": 43.75,
+    "zEje": 707.55,
+    "corona_mm": 0,
+    "notas": [
+     "Tubo A513 Ø63.5×3 + 2 cabezales con asiento de rodamiento 6204-2RS (Ø47 H7) + seeger DIN 472-47",
+     "Gira LOCO sobre eje muerto Ø20 — sin chaveta",
+     "Asientos H7 escariados TRAS soldar"
+    ]
+   }
+  }
+ },
+ "parts": [
+  {
+   "id": "p1_norm_perfil_aluminio_4080_serie_80_larguero_l_684_corte_a_largo",
+   "name": "NORM · Perfil aluminio 4080 serie 80 — LARGUERO L=684 (corte a largo)",
+   "color": "#c8c8c6",
+   "pos": [
+    400,
+    -280,
+    706
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": true,
+   "visible": true,
+   "features": [
+    {
+     "id": "f1",
+     "name": "Larguero",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 684,
+      "d": 40,
+      "h": 80
+     }
+    }
+   ]
+  },
+  {
+   "id": "p2_norm_perfil_aluminio_4080_serie_80_larguero_l_684_corte_a_largo",
+   "name": "NORM · Perfil aluminio 4080 serie 80 — LARGUERO L=684 (corte a largo)",
+   "color": "#c8c8c6",
+   "pos": [
+    400,
+    280,
+    706
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f2",
+     "name": "Larguero",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 684,
+      "d": 40,
+      "h": 80
+     }
+    }
+   ]
+  },
+  {
+   "id": "p3_norm_perfil_aluminio_4080_serie_80_travesa_o_l_520_corte_a_largo",
+   "name": "NORM · Perfil aluminio 4080 serie 80 — TRAVESAÑO L=520 (corte a largo)",
+   "color": "#c8c8c6",
+   "pos": [
+    200,
+    0,
+    686
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f3",
+     "name": "Travesaño",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 80,
+      "d": 520,
+      "h": 40
+     }
+    }
+   ]
+  },
+  {
+   "id": "p4_norm_perfil_aluminio_4080_serie_80_travesa_o_l_520_corte_a_largo",
+   "name": "NORM · Perfil aluminio 4080 serie 80 — TRAVESAÑO L=520 (corte a largo)",
+   "color": "#c8c8c6",
+   "pos": [
+    600,
+    0,
+    686
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f4",
+     "name": "Travesaño",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 80,
+      "d": 520,
+      "h": 40
+     }
+    }
+   ]
+  },
+  {
+   "id": "p5_fab_cama_deslizante_e2_607_6_520_apoyo_de_banda",
+   "name": "FAB · Cama deslizante e2 607.6×520 (apoyo de banda)",
+   "color": "#b7bdc2",
+   "pos": [
+    393.65,
+    0,
+    747
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      4
+     ],
+     [
+      0.16,
+      2.56
+     ],
+     [
+      0.64,
+      1.44
+     ],
+     [
+      1.44,
+      0.64
+     ],
+     [
+      2.56,
+      0.16
+     ],
+     [
+      4,
+      0
+     ],
+     [
+      603.6,
+      0
+     ],
+     [
+      605.04,
+      0.16
+     ],
+     [
+      606.16,
+      0.64
+     ],
+     [
+      606.96,
+      1.44
+     ],
+     [
+      607.44,
+      2.56
+     ],
+     [
+      607.6,
+      4
+     ],
+     [
+      607.6,
+      516
+     ],
+     [
+      607.44,
+      517.44
+     ],
+     [
+      606.96,
+      518.56
+     ],
+     [
+      606.16,
+      519.36
+     ],
+     [
+      605.04,
+      519.84
+     ],
+     [
+      603.6,
+      520
+     ],
+     [
+      4,
+      520
+     ],
+     [
+      2.56,
+      519.84
+     ],
+     [
+      1.44,
+      519.36
+     ],
+     [
+      0.64,
+      518.56
+     ],
+     [
+      0.16,
+      517.44
+     ],
+     [
+      0,
+      516
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    "cortes": {
+     "circles": [
+      {
+       "c": [
+        110.15,
+        25
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        110.15,
+        495
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        510.15,
+        25
+       ],
+       "r": 3.5
+      },
+      {
+       "c": [
+        510.15,
+        495
+       ],
+       "r": 3.5
+      }
+     ],
+     "polys": []
+    },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 2,
+    "k": 0.44,
+    "radio": 2,
+    "material": "Acero inoxidable AISI 304 e2.0 — cara de deslizamiento PULIDA",
+    "avisos": [
+     "CARA SUPERIOR pulida (desliza la banda): sin rayas, sin salpicadura — proteger en transporte"
+    ]
+   },
+   "features": [
+    {
+     "id": "f5",
+     "name": "Cama",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 607.6,
+      "d": 520,
+      "h": 2
+     }
+    },
+    {
+     "id": "f6",
+     "name": "M6 cama a travesaño",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -193.64999999999998,
+      -235,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f7",
+     "name": "M6 cama a travesaño",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -193.64999999999998,
+      235,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f8",
+     "name": "M6 cama a travesaño",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      206.35000000000002,
+      -235,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f9",
+     "name": "M6 cama a travesaño",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      206.35000000000002,
+      235,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 7,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p6_fab_placa_cabezal_motriz_pl6_160_140_ambidiestra_2",
+   "name": "FAB · Placa cabezal MOTRIZ PL6 160×140 (ambidiestra ×2)",
+   "color": "#b7bdc2",
+   "pos": [
+    743.55,
+    -303,
+    707.55
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      6
+     ],
+     [
+      0.24,
+      3.84
+     ],
+     [
+      0.96,
+      2.16
+     ],
+     [
+      2.16,
+      0.96
+     ],
+     [
+      3.84,
+      0.24
+     ],
+     [
+      6,
+      0
+     ],
+     [
+      154,
+      0
+     ],
+     [
+      156.16,
+      0.24
+     ],
+     [
+      157.84,
+      0.96
+     ],
+     [
+      159.04,
+      2.16
+     ],
+     [
+      159.76,
+      3.84
+     ],
+     [
+      160,
+      6
+     ],
+     [
+      160,
+      134
+     ],
+     [
+      159.76,
+      136.16
+     ],
+     [
+      159.04,
+      137.84
+     ],
+     [
+      157.84,
+      139.04
+     ],
+     [
+      156.16,
+      139.76
+     ],
+     [
+      154,
+      140
+     ],
+     [
+      6,
+      140
+     ],
+     [
+      3.84,
+      139.76
+     ],
+     [
+      2.16,
+      139.04
+     ],
+     [
+      0.96,
+      137.84
+     ],
+     [
+      0.24,
+      136.16
+     ],
+     [
+      0,
+      134
+     ],
+     [
+      0,
+      6
+     ]
+    ],
+    "cortes": {
+     "circles": [
+      {
+       "c": [
+        80,
+        70
+       ],
+       "r": 11
+      },
+      {
+       "c": [
+        80,
+        25
+       ],
+       "r": 5
+      },
+      {
+       "c": [
+        80,
+        115
+       ],
+       "r": 5
+      },
+      {
+       "c": [
+        20,
+        20
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        140,
+        20
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        20,
+        120
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        140,
+        120
+       ],
+       "r": 4.5
+      }
+     ],
+     "polys": []
+    },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 6,
+    "k": 0.44,
+    "radio": 6,
+    "material": "Acero S275JR PL6 — PINTADO RAL 7035",
+    "avisos": [
+     "AMBIDIESTRA — la misma placa sirve a ambos lados; portarrodamiento UCFL204 por la cara EXTERIOR"
+    ]
+   },
+   "features": [
+    {
+     "id": "f10",
+     "name": "Placa",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 160,
+      "d": 6,
+      "h": 140
+     }
+    },
+    {
+     "id": "f11",
+     "name": "Paso muñón Ø22",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f12",
+     "name": "UCFL204 Ø10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -45
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f13",
+     "name": "UCFL204 Ø10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      45
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f14",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -60,
+      0,
+      -50
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f15",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      60,
+      0,
+      -50
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f16",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -60,
+      0,
+      50
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f17",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      60,
+      0,
+      50
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p7_fab_placa_cabezal_motriz_pl6_160_140_ambidiestra_2",
+   "name": "FAB · Placa cabezal MOTRIZ PL6 160×140 (ambidiestra ×2)",
+   "color": "#b7bdc2",
+   "pos": [
+    743.55,
+    303,
+    707.55
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      6
+     ],
+     [
+      0.24,
+      3.84
+     ],
+     [
+      0.96,
+      2.16
+     ],
+     [
+      2.16,
+      0.96
+     ],
+     [
+      3.84,
+      0.24
+     ],
+     [
+      6,
+      0
+     ],
+     [
+      154,
+      0
+     ],
+     [
+      156.16,
+      0.24
+     ],
+     [
+      157.84,
+      0.96
+     ],
+     [
+      159.04,
+      2.16
+     ],
+     [
+      159.76,
+      3.84
+     ],
+     [
+      160,
+      6
+     ],
+     [
+      160,
+      134
+     ],
+     [
+      159.76,
+      136.16
+     ],
+     [
+      159.04,
+      137.84
+     ],
+     [
+      157.84,
+      139.04
+     ],
+     [
+      156.16,
+      139.76
+     ],
+     [
+      154,
+      140
+     ],
+     [
+      6,
+      140
+     ],
+     [
+      3.84,
+      139.76
+     ],
+     [
+      2.16,
+      139.04
+     ],
+     [
+      0.96,
+      137.84
+     ],
+     [
+      0.24,
+      136.16
+     ],
+     [
+      0,
+      134
+     ],
+     [
+      0,
+      6
+     ]
+    ],
+    "cortes": {
+     "circles": [
+      {
+       "c": [
+        80,
+        70
+       ],
+       "r": 11
+      },
+      {
+       "c": [
+        80,
+        25
+       ],
+       "r": 5
+      },
+      {
+       "c": [
+        80,
+        115
+       ],
+       "r": 5
+      },
+      {
+       "c": [
+        20,
+        20
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        140,
+        20
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        20,
+        120
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        140,
+        120
+       ],
+       "r": 4.5
+      }
+     ],
+     "polys": []
+    },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 6,
+    "k": 0.44,
+    "radio": 6,
+    "material": "Acero S275JR PL6 — PINTADO RAL 7035",
+    "avisos": [
+     "AMBIDIESTRA — la misma placa sirve a ambos lados; portarrodamiento UCFL204 por la cara EXTERIOR"
+    ]
+   },
+   "features": [
+    {
+     "id": "f18",
+     "name": "Placa",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 160,
+      "d": 6,
+      "h": 140
+     }
+    },
+    {
+     "id": "f19",
+     "name": "Paso muñón Ø22",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 22,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f20",
+     "name": "UCFL204 Ø10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      -45
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f21",
+     "name": "UCFL204 Ø10",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      0,
+      0,
+      45
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 10,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f22",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -60,
+      0,
+      -50
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f23",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      60,
+      0,
+      -50
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f24",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -60,
+      0,
+      50
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f25",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      60,
+      0,
+      50
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p8_fab_placa_cabezal_tensor_pl6_200_140_muesca_de_carrera_40_ambidiestra_2",
+   "name": "FAB · Placa cabezal TENSOR PL6 200×140 — muesca de carrera 40 (ambidiestra ×2)",
+   "color": "#b7bdc2",
+   "pos": [
+    83.75,
+    -303,
+    707.55
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      53.9
+     ],
+     [
+      0.24,
+      56.06
+     ],
+     [
+      0.96,
+      57.74
+     ],
+     [
+      2.16,
+      58.94
+     ],
+     [
+      3.84,
+      59.66
+     ],
+     [
+      6,
+      59.9
+     ],
+     [
+      70,
+      59.9
+     ],
+     [
+      70,
+      80.1
+     ],
+     [
+      6,
+      80.1
+     ],
+     [
+      3.84,
+      80.34
+     ],
+     [
+      2.16,
+      81.06
+     ],
+     [
+      0.96,
+      82.26
+     ],
+     [
+      0.24,
+      83.94
+     ],
+     [
+      0,
+      86.1
+     ],
+     [
+      0,
+      134
+     ],
+     [
+      0.24,
+      136.16
+     ],
+     [
+      0.96,
+      137.84
+     ],
+     [
+      2.16,
+      139.04
+     ],
+     [
+      3.84,
+      139.76
+     ],
+     [
+      6,
+      140
+     ],
+     [
+      194,
+      140
+     ],
+     [
+      196.16,
+      139.76
+     ],
+     [
+      197.84,
+      139.04
+     ],
+     [
+      199.04,
+      137.84
+     ],
+     [
+      199.76,
+      136.16
+     ],
+     [
+      200,
+      134
+     ],
+     [
+      200,
+      6
+     ],
+     [
+      199.76,
+      3.84
+     ],
+     [
+      199.04,
+      2.16
+     ],
+     [
+      197.84,
+      0.96
+     ],
+     [
+      196.16,
+      0.24
+     ],
+     [
+      194,
+      0
+     ],
+     [
+      6,
+      0
+     ],
+     [
+      3.84,
+      0.24
+     ],
+     [
+      2.16,
+      0.96
+     ],
+     [
+      0.96,
+      2.16
+     ],
+     [
+      0.24,
+      3.84
+     ],
+     [
+      0,
+      6
+     ],
+     [
+      0,
+      53.9
+     ]
+    ],
+    "cortes": {
+     "circles": [
+      {
+       "c": [
+        175,
+        20
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        175,
+        120
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        130,
+        20
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        130,
+        120
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        15,
+        102
+       ],
+       "r": 4.25
+      }
+     ],
+     "polys": []
+    },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 6,
+    "k": 0.44,
+    "radio": 6,
+    "material": "Acero S275JR PL6 — PINTADO RAL 7035",
+    "avisos": [
+     "AMBIDIESTRA ×2 — muesca ABIERTA: el bloque del eje desliza y el tornillo M8 da el TENSADO (criterio vendor: screw tensioning)",
+     "CARRERA de tensado 40 mm — banda PVC lazo 1638.99 mm"
+    ]
+   },
+   "features": [
+    {
+     "id": "f26",
+     "name": "Placa",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 200,
+      "d": 6,
+      "h": 140
+     }
+    },
+    {
+     "id": "f27",
+     "name": "Muesca carrera",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      -65,
+      0,
+      -10.100000000000023
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 70,
+      "d": 8,
+      "h": 20.2
+     }
+    },
+    {
+     "id": "f28",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      75,
+      0,
+      -50
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f29",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      75,
+      0,
+      50
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f30",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      0,
+      -50
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f31",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      0,
+      50
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f32",
+     "name": "Tornillo tensor M8",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -85,
+      0,
+      32
+     ],
+     "dir": [
+      0,
+      -1,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p9_fab_placa_cabezal_tensor_pl6_200_140_muesca_de_carrera_40_ambidiestra_2",
+   "name": "FAB · Placa cabezal TENSOR PL6 200×140 — muesca de carrera 40 (ambidiestra ×2)",
+   "color": "#b7bdc2",
+   "pos": [
+    83.75,
+    303,
+    707.55
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "flat": {
+    "contorno": [
+     [
+      0,
+      53.9
+     ],
+     [
+      0.24,
+      56.06
+     ],
+     [
+      0.96,
+      57.74
+     ],
+     [
+      2.16,
+      58.94
+     ],
+     [
+      3.84,
+      59.66
+     ],
+     [
+      6,
+      59.9
+     ],
+     [
+      70,
+      59.9
+     ],
+     [
+      70,
+      80.1
+     ],
+     [
+      6,
+      80.1
+     ],
+     [
+      3.84,
+      80.34
+     ],
+     [
+      2.16,
+      81.06
+     ],
+     [
+      0.96,
+      82.26
+     ],
+     [
+      0.24,
+      83.94
+     ],
+     [
+      0,
+      86.1
+     ],
+     [
+      0,
+      134
+     ],
+     [
+      0.24,
+      136.16
+     ],
+     [
+      0.96,
+      137.84
+     ],
+     [
+      2.16,
+      139.04
+     ],
+     [
+      3.84,
+      139.76
+     ],
+     [
+      6,
+      140
+     ],
+     [
+      194,
+      140
+     ],
+     [
+      196.16,
+      139.76
+     ],
+     [
+      197.84,
+      139.04
+     ],
+     [
+      199.04,
+      137.84
+     ],
+     [
+      199.76,
+      136.16
+     ],
+     [
+      200,
+      134
+     ],
+     [
+      200,
+      6
+     ],
+     [
+      199.76,
+      3.84
+     ],
+     [
+      199.04,
+      2.16
+     ],
+     [
+      197.84,
+      0.96
+     ],
+     [
+      196.16,
+      0.24
+     ],
+     [
+      194,
+      0
+     ],
+     [
+      6,
+      0
+     ],
+     [
+      3.84,
+      0.24
+     ],
+     [
+      2.16,
+      0.96
+     ],
+     [
+      0.96,
+      2.16
+     ],
+     [
+      0.24,
+      3.84
+     ],
+     [
+      0,
+      6
+     ],
+     [
+      0,
+      53.9
+     ]
+    ],
+    "cortes": {
+     "circles": [
+      {
+       "c": [
+        175,
+        20
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        175,
+        120
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        130,
+        20
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        130,
+        120
+       ],
+       "r": 4.5
+      },
+      {
+       "c": [
+        15,
+        102
+       ],
+       "r": 4.25
+      }
+     ],
+     "polys": []
+    },
+    "pliegues": [],
+    "etiquetas": [],
+    "pliegueInfo": [],
+    "t": 6,
+    "k": 0.44,
+    "radio": 6,
+    "material": "Acero S275JR PL6 — PINTADO RAL 7035",
+    "avisos": [
+     "AMBIDIESTRA ×2 — muesca ABIERTA: el bloque del eje desliza y el tornillo M8 da el TENSADO (criterio vendor: screw tensioning)",
+     "CARRERA de tensado 40 mm — banda PVC lazo 1638.99 mm"
+    ]
+   },
+   "features": [
+    {
+     "id": "f33",
+     "name": "Placa",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 200,
+      "d": 6,
+      "h": 140
+     }
+    },
+    {
+     "id": "f34",
+     "name": "Muesca carrera",
+     "shape": "box",
+     "op": "cut",
+     "at": [
+      -65,
+      0,
+      -10.100000000000023
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 70,
+      "d": 8,
+      "h": 20.2
+     }
+    },
+    {
+     "id": "f35",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      75,
+      0,
+      -50
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f36",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      75,
+      0,
+      50
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f37",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      0,
+      -50
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f38",
+     "name": "Amarre larguero Ø9",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      30,
+      0,
+      50
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 9,
+      "depth": 0,
+      "through": true
+     }
+    },
+    {
+     "id": "f39",
+     "name": "Tornillo tensor M8",
+     "shape": "hole",
+     "op": "cut",
+     "at": [
+      -85,
+      0,
+      32
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 8.5,
+      "depth": 0,
+      "through": true
+     }
+    }
+   ]
+  },
+  {
+   "id": "p10_fab_eje_motriz_25_sae1045_l_660_mu_ones_20_h6_extremo_motor_14_h7_chavetero_6_6",
+   "name": "FAB · EJE MOTRIZ Ø25 SAE1045 — L=660 (muñones Ø20 h6 · extremo motor Ø14 h7 · chavetero 6×6)",
+   "color": "#3a3f45",
+   "pos": [
+    743.55,
+    0,
+    707.55
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f40",
+     "name": "Cuerpo Ø25",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 25,
+      "h": 560
+     }
+    },
+    {
+     "id": "f41",
+     "name": "Muñón Ø20 h6 (-Y)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -290,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 30
+     }
+    },
+    {
+     "id": "f42",
+     "name": "Muñón Ø20 h6 (+Y)",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      290,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 30
+     }
+    },
+    {
+     "id": "f43",
+     "name": "Extremo motor Ø14 h7",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      325,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 14,
+      "h": 40
+     }
+    }
+   ]
+  },
+  {
+   "id": "p11_fab_tambor_motriz_88_9_tubo_88_9_3_l_520_2_cabezales_torneados_corona_1_al_centro_chaveta_6_6",
+   "name": "FAB · TAMBOR MOTRIZ Ø88.9 — tubo 88.9×3 L=520 + 2 cabezales torneados (CORONA +1 al centro, chaveta 6×6)",
+   "color": "#3a3f45",
+   "pos": [
+    743.55,
+    0,
+    707.55
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f44",
+     "name": "Tubo",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 88.9,
+      "h": 520
+     }
+    },
+    {
+     "id": "f45",
+     "name": "Cabezal -Y",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -252,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 82.9,
+      "h": 16
+     }
+    },
+    {
+     "id": "f46",
+     "name": "Cabezal +Y",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      252,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 82.9,
+      "h": 16
+     }
+    }
+   ]
+  },
+  {
+   "id": "p12_fab_eje_tensor_muerto_20_sae1045_l_662_planos_fresados_18_e_c_en_puntas_roscas_m10_de_retenci_n",
+   "name": "FAB · EJE TENSOR muerto Ø20 SAE1045 — L=662 (planos fresados 18 e/c en puntas · roscas M10 de retención)",
+   "color": "#3a3f45",
+   "pos": [
+    43.75,
+    0,
+    707.55
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f47",
+     "name": "Cuerpo Ø20",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 20,
+      "h": 662
+     }
+    }
+   ]
+  },
+  {
+   "id": "p13_fab_tambor_tensor_63_5_tubo_63_5_3_l_520_2_cabezales_con_asiento_6204_2rs_seeger_din_472_47",
+   "name": "FAB · TAMBOR TENSOR Ø63.5 — tubo 63.5×3 L=520 + 2 cabezales con asiento 6204-2RS + seeger DIN 472-47",
+   "color": "#3a3f45",
+   "pos": [
+    43.75,
+    0,
+    707.55
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f48",
+     "name": "Tubo",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 63.5,
+      "h": 520
+     }
+    },
+    {
+     "id": "f49",
+     "name": "Cabezal -Y",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      -252,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 57.5,
+      "h": 16
+     }
+    },
+    {
+     "id": "f50",
+     "name": "Cabezal +Y",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      252,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 57.5,
+      "h": 16
+     }
+    }
+   ]
+  },
+  {
+   "id": "p14_norm_banda_pvc_2_0_w500_lazo_1638_99_mm_sinf_n_opci_n_vendor_pvc",
+   "name": "NORM · Banda PVC 2.0 — W500 × lazo 1638.99 mm sinfín (opción vendor PVC)",
+   "color": "#3667a6",
+   "pos": [
+    393.65,
+    0,
+    749
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f51",
+     "name": "Tramo superior",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 699.8,
+      "d": 500,
+      "h": 2
+     }
+    },
+    {
+     "id": "f52",
+     "name": "Tramo retorno",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -85.90000000000009
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 699.8,
+      "d": 500,
+      "h": 2
+     }
+    }
+   ]
+  },
+  {
+   "id": "p15_norm_motorreductor_120_w_acople_directo_al_eje_dl_criterio_vendor_marca_modelo_por_confirmar",
+   "name": "NORM · Motorreductor 120 W acople DIRECTO al eje (DL — criterio vendor) — marca/modelo POR CONFIRMAR",
+   "color": "#3a3f45",
+   "pos": [
+    743.55,
+    350,
+    707.55
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f53",
+     "name": "Motor",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -70
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 120,
+      "d": 100,
+      "h": 140
+     }
+    }
+   ]
+  },
+  {
+   "id": "p16_norm_portarrodamiento_brida_2_pernos_ucfl204_20_2",
+   "name": "NORM · Portarrodamiento brida 2 pernos UCFL204 Ø20 (×2)",
+   "color": "#6a7075",
+   "pos": [
+    743.55,
+    -316,
+    707.55
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f54",
+     "name": "UCFL204",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      1,
+      0
+     ],
+     "params": {
+      "dia": 64,
+      "h": 20
+     }
+    }
+   ]
+  },
+  {
+   "id": "p17_norm_perfil_aluminio_4080_serie_80_pata_l_566_corte_a_largo",
+   "name": "NORM · Perfil aluminio 4080 serie 80 — PATA L=566 (corte a largo)",
+   "color": "#c8c8c6",
+   "pos": [
+    200,
+    -280,
+    383
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f55",
+     "name": "Pata",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 80,
+      "h": 566
+     }
+    }
+   ]
+  },
+  {
+   "id": "p18_norm_pie_nivelador_m_haste_mt800_05_301_w100_envolvente_geometr_a_real_l_mina_mb800_mb_01",
+   "name": "NORM · Pie nivelador M-HASTE MT800-05-301-W100 — ENVOLVENTE (geometría real: lámina MB800-MB-01)",
+   "color": "#8f979e",
+   "pos": [
+    200,
+    -280,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f56",
+     "name": "Pie envolvente",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 96
+     }
+    }
+   ]
+  },
+  {
+   "id": "p19_norm_placa_de_pata_m_haste_mtb800_207_envolvente_geometr_a_real_l_mina_mb800_mb_03",
+   "name": "NORM · Placa de pata M-HASTE MTB800-207 — ENVOLVENTE (geometría real: lámina MB800-MB-03)",
+   "color": "#8f979e",
+   "pos": [
+    200,
+    -323,
+    666
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f57",
+     "name": "Placa envolvente",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -110
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 250,
+      "d": 6,
+      "h": 220
+     }
+    }
+   ]
+  },
+  {
+   "id": "p20_norm_perfil_aluminio_4080_serie_80_pata_l_566_corte_a_largo",
+   "name": "NORM · Perfil aluminio 4080 serie 80 — PATA L=566 (corte a largo)",
+   "color": "#c8c8c6",
+   "pos": [
+    200,
+    280,
+    383
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f58",
+     "name": "Pata",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 80,
+      "h": 566
+     }
+    }
+   ]
+  },
+  {
+   "id": "p21_norm_pie_nivelador_m_haste_mt800_05_301_w100_envolvente_geometr_a_real_l_mina_mb800_mb_01",
+   "name": "NORM · Pie nivelador M-HASTE MT800-05-301-W100 — ENVOLVENTE (geometría real: lámina MB800-MB-01)",
+   "color": "#8f979e",
+   "pos": [
+    200,
+    280,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f59",
+     "name": "Pie envolvente",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 96
+     }
+    }
+   ]
+  },
+  {
+   "id": "p22_norm_placa_de_pata_m_haste_mtb800_207_envolvente_geometr_a_real_l_mina_mb800_mb_03",
+   "name": "NORM · Placa de pata M-HASTE MTB800-207 — ENVOLVENTE (geometría real: lámina MB800-MB-03)",
+   "color": "#8f979e",
+   "pos": [
+    200,
+    323,
+    666
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f60",
+     "name": "Placa envolvente",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -110
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 250,
+      "d": 6,
+      "h": 220
+     }
+    }
+   ]
+  },
+  {
+   "id": "p23_norm_perfil_aluminio_4080_serie_80_pata_l_566_corte_a_largo",
+   "name": "NORM · Perfil aluminio 4080 serie 80 — PATA L=566 (corte a largo)",
+   "color": "#c8c8c6",
+   "pos": [
+    600,
+    -280,
+    383
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f61",
+     "name": "Pata",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 80,
+      "h": 566
+     }
+    }
+   ]
+  },
+  {
+   "id": "p24_norm_pie_nivelador_m_haste_mt800_05_301_w100_envolvente_geometr_a_real_l_mina_mb800_mb_01",
+   "name": "NORM · Pie nivelador M-HASTE MT800-05-301-W100 — ENVOLVENTE (geometría real: lámina MB800-MB-01)",
+   "color": "#8f979e",
+   "pos": [
+    600,
+    -280,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f62",
+     "name": "Pie envolvente",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 96
+     }
+    }
+   ]
+  },
+  {
+   "id": "p25_norm_placa_de_pata_m_haste_mtb800_207_envolvente_geometr_a_real_l_mina_mb800_mb_03",
+   "name": "NORM · Placa de pata M-HASTE MTB800-207 — ENVOLVENTE (geometría real: lámina MB800-MB-03)",
+   "color": "#8f979e",
+   "pos": [
+    600,
+    -323,
+    666
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f63",
+     "name": "Placa envolvente",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -110
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 250,
+      "d": 6,
+      "h": 220
+     }
+    }
+   ]
+  },
+  {
+   "id": "p26_norm_perfil_aluminio_4080_serie_80_pata_l_566_corte_a_largo",
+   "name": "NORM · Perfil aluminio 4080 serie 80 — PATA L=566 (corte a largo)",
+   "color": "#c8c8c6",
+   "pos": [
+    600,
+    280,
+    383
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f64",
+     "name": "Pata",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      0
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 40,
+      "d": 80,
+      "h": 566
+     }
+    }
+   ]
+  },
+  {
+   "id": "p27_norm_pie_nivelador_m_haste_mt800_05_301_w100_envolvente_geometr_a_real_l_mina_mb800_mb_01",
+   "name": "NORM · Pie nivelador M-HASTE MT800-05-301-W100 — ENVOLVENTE (geometría real: lámina MB800-MB-01)",
+   "color": "#8f979e",
+   "pos": [
+    600,
+    280,
+    50
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f65",
+     "name": "Pie envolvente",
+     "shape": "cylinder",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -46
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "dia": 30,
+      "h": 96
+     }
+    }
+   ]
+  },
+  {
+   "id": "p28_norm_placa_de_pata_m_haste_mtb800_207_envolvente_geometr_a_real_l_mina_mb800_mb_03",
+   "name": "NORM · Placa de pata M-HASTE MTB800-207 — ENVOLVENTE (geometría real: lámina MB800-MB-03)",
+   "color": "#8f979e",
+   "pos": [
+    600,
+    323,
+    666
+   ],
+   "quat": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "fixed": false,
+   "visible": true,
+   "features": [
+    {
+     "id": "f66",
+     "name": "Placa envolvente",
+     "shape": "box",
+     "op": "union",
+     "at": [
+      0,
+      0,
+      -110
+     ],
+     "dir": [
+      0,
+      0,
+      1
+     ],
+     "params": {
+      "w": 250,
+      "d": 6,
+      "h": 220
+     }
+    }
+   ]
+  }
+ ]
+}
