@@ -1,0 +1,119 @@
+{
+ "_que": "Despiece del paquete MB800 — geometría GLB M-HASTE tal cual (PRD CV-BLT)",
+ "fecha": "2026-08-18",
+ "rev": "A",
+ "piezas": [
+  {
+   "item": 1,
+   "plano": "MB800-MB-01",
+   "pieza": "MT800-05-301-W100",
+   "rol": "soporte / estructura",
+   "bbox_mm": [
+    29.97,
+    29.99,
+    191.5
+   ],
+   "triangulos": 2368,
+   "stepHash": "dca25a7e6175fbdb",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 2,
+   "plano": "MB800-MB-02",
+   "pieza": "MT800-217",
+   "rol": "soporte / estructura",
+   "bbox_mm": [
+    15,
+    45,
+    15
+   ],
+   "triangulos": 1072,
+   "stepHash": "d24117eb138c3f62",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 3,
+   "plano": "MB800-MB-03",
+   "pieza": "MTB800-207",
+   "rol": "soporte / pata",
+   "bbox_mm": [
+    6.01,
+    250,
+    220
+   ],
+   "triangulos": 3632,
+   "stepHash": "4c0d96185c473f2e",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 4,
+   "plano": "MB800-MB-04",
+   "pieza": "MTB800-301",
+   "rol": "soporte / pata",
+   "bbox_mm": [
+    27.97,
+    27.99,
+    64
+   ],
+   "triangulos": 1652,
+   "stepHash": "55511f71c05f248f",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 5,
+   "plano": "MB800-MB-05",
+   "pieza": "MTB800-302",
+   "rol": "soporte / pata",
+   "bbox_mm": [
+    27.98,
+    28,
+    147.4
+   ],
+   "triangulos": 2264,
+   "stepHash": "177360357f73bf44",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 6,
+   "plano": "MB800-MB-06",
+   "pieza": "MTB800-304",
+   "rol": "soporte / pata",
+   "bbox_mm": [
+    27.97,
+    28,
+    104
+   ],
+   "triangulos": 1848,
+   "stepHash": "952194d59ccfe94d",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  },
+  {
+   "item": 7,
+   "plano": "MB800-MB-07",
+   "pieza": "MTB800-317",
+   "rol": "soporte / pata",
+   "bbox_mm": [
+    14.99,
+    14.99,
+    71
+   ],
+   "triangulos": 5460,
+   "stepHash": "2d32d1d3c6c6bc50",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión) · teselado vendor: catálogo (STEP) difiere hasta 0.75 mm de la malla — no es distorsión nuestra"
+  },
+  {
+   "item": 8,
+   "plano": "MB800-MB-08",
+   "pieza": "MTB800-331",
+   "rol": "soporte / pata",
+   "bbox_mm": [
+    47.98,
+    47.99,
+    36
+   ],
+   "triangulos": 1768,
+   "stepHash": "e9657267bdf2a536",
+   "unidades": "unidades m→mm (conversión declarada, no distorsión)"
+  }
+ ]
+}

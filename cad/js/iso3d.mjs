@@ -388,11 +388,17 @@ export class IsoScene {
   // part: pieza del doc · opts: {explode:[x,y,z], simplify, anchor:[x,y,z],
   //   trail:{to:[x,y,z]}, tag} — explode se aplica ANTES de proyectar.
   add(part, opts = {}) {
-    let porSimp = GEO_CACHE.get(part);
-    if (!porSimp) GEO_CACHE.set(part, porSimp = new Map());
-    const kSimp = opts.simplify || 'full';
-    let g0 = porSimp.get(kSimp);
-    if (!g0) { g0 = partGeometry(part, opts); porSimp.set(kSimp, g0); }
+    // opts.geometry: malla YA construida (BufferGeometry) — p. ej. GLB de
+    // vendor (MB800 M-HASTE): entra tal cual al mismo proyector que todo lo
+    // paramétrico (siluetas, pliegues por diedro, oclusión, pintura, sombra)
+    let g0 = opts.geometry;
+    if (!g0) {
+      let porSimp = GEO_CACHE.get(part);
+      if (!porSimp) GEO_CACHE.set(part, porSimp = new Map());
+      const kSimp = opts.simplify || 'full';
+      g0 = porSimp.get(kSimp);
+      if (!g0) { g0 = partGeometry(part, opts); porSimp.set(kSimp, g0); }
+    }
     const geom = g0.clone();
     const off = new THREE.Vector3(...(opts.explode || [0, 0, 0]))
       .add(new THREE.Vector3(...(part.pos || [0, 0, 0])));
