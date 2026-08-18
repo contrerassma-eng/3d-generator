@@ -142,7 +142,7 @@ const FIGURAS = [
     explode: (p) => /Guía lateral/.test(p.name) ? [0, Math.sign(p.pos[1]) * 140, 60]
       : /Guía de apoyo/.test(p.name) ? [0, 0, 90]
       : /Portacarril/.test(p.name) ? [0, 0, -130] : [0, 0, 0],
-    simplify: (p) => /Banda/.test(p.name) ? 'band' : undefined,
+    simplify: (p) => /Banda Movex/.test(p.name) ? 'band' : undefined,
     torn: /pletina del carril/,
     nota: 'Guía de apoyo: pletina 12 de canto + BAR CAP UHMW (luces ≤50 mm — Movex/Intralox) apoyada sobre PORTACARRILES 50×6 apernados (Rev.C). Guía lateral: conical rail L 1¼ in sobre escuadras. Banda: no tensar sobre el nosebar.',
   },
@@ -277,7 +277,7 @@ const marco = (sh) => sh.rect(18, 8, 384, 281, 'NORMA');
   const sc = new IsoScene();
   for (const p of doc.parts) {
     if (/Rodillos LBP/.test(p.name)) continue;
-    const simplify = /Banda/.test(p.name) ? 'band' : undefined;
+    const simplify = /Banda Movex/.test(p.name) ? 'band' : undefined;
     sc.add(p, { simplify });
   }
   const t0 = Date.now();
