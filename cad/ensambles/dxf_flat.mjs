@@ -57,6 +57,7 @@ for (const g of [...grupos.values()].sort((a, b) => a.part.name.localeCompare(b.
   const dxf = exportFlatDXF(f, {
     designacion: `${pn} · ${g.part.name.replace(/^FAB\s*[·.-]\s*/, '')} (x${g.cant}${espejo ? ' — 1 SEGÚN VISTA + 1 SIMÉTRICA: plegar por cara opuesta' : ''})`,
     proyecto: titulo, piezas: g.cant, numPlano: pn,
+    marca: doc.meta?.marca, marcaSub: doc.meta?.marcaSub,
     nota: `${f.material} · e${f.t} · tol. gral. ISO 2768-mK · K=${f.k}`,
   });
   const fname = `${pn}_${safe(g.part.name)}.dxf`;

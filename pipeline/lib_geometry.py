@@ -102,8 +102,11 @@ def view_edges(mesh_v, angle_deg: float = 25.0):
 
     Devuelve {"visible": (n,2,2), "oculta": (m,2,2)} — segmentos 2D.
     Una arista es característica si su ángulo diedro supera `angle_deg` o si es
-    borde de malla abierta. Visibilidad aproximada por orientación de caras
-    (sin oclusión completa; el contorno exterior sí es exacto, ver outline).
+    borde de malla abierta. Los bordes huérfanos con material coplanario al
+    otro lado ("grietas" de teselado CSG, uniones en T) se descartan — mismo
+    criterio isCrack que el exportador del CAD web (cad/js/drawing2d.js).
+    Visibilidad aproximada por orientación de caras (sin oclusión completa;
+    el contorno exterior sí es exacto, ver outline).
     """
     segs = {"visible": [], "oculta": []}
     v2 = mesh_v.vertices[:, :2]
@@ -122,9 +125,76 @@ def view_edges(mesh_v, angle_deg: float = 25.0):
     uniq, counts = np.unique(es, axis=0, return_counts=True)
     boundary = uniq[counts == 1]
     if len(boundary):
+        boundary = boundary[~_crack_mask(mesh_v, boundary)]
+    if len(boundary):
         segs["visible"].append(v2[boundary])
 
     return {k: (np.concatenate(v) if v else np.zeros((0, 2, 2))) for k, v in segs.items()}
+
+
+def _crack_mask(mesh, boundary):
+    """True por arista huérfana que es GRIETA de teselado (hay material
+    coplanario al otro lado), no un borde real de superficie abierta.
+
+    Puerto del isCrack de cad/js/drawing2d.js: por cada arista huérfana se
+    sondean 3 puntos desplazados 0.05 mm hacia el lado contrario al tercer
+    vértice de su cara; si ≥2 caen dentro de un triángulo del mismo plano
+    (misma normal con signo, desfase ≤0.02 mm), la arista se descarta.
+    """
+    verts, faces = mesh.vertices, mesh.faces
+    normals = mesh.face_normals
+
+    # cara dueña y tercer vértice de cada arista huérfana
+    edge_key = {tuple(e): i for i, e in enumerate(mesh.edges_sorted)}
+    owner = np.array([mesh.edges_face[edge_key[tuple(e)]] for e in boundary])
+    fverts = faces[owner]
+    third = np.where(
+        (fverts != boundary[:, :1]) & (fverts != boundary[:, 1:2]))
+    third_v = fverts[third[0], third[1]]
+
+    # agrupa caras por normal cuantizada (con signo, como el CAD web)
+    keys = np.round(normals * 100).astype(int)
+    groups: dict[tuple, list] = {}
+    for i, k in enumerate(map(tuple, keys)):
+        groups.setdefault(k, []).append(i)
+
+    mask = np.zeros(len(boundary), dtype=bool)
+    tris_all = verts[faces]
+    for i, (e, fo, tv) in enumerate(zip(boundary, owner, third_v)):
+        group = groups.get(tuple(keys[fo]))
+        if not group or len(group) < 2:
+            continue
+        n = normals[fo]
+        a, b, c = verts[e[0]], verts[e[1]], verts[tv]
+        d = b - a
+        ln = np.linalg.norm(d)
+        if ln < 1e-12:
+            continue
+        d = d / ln
+        s = np.cross(n, d)
+        side = np.sign(np.dot(s, c - a)) or 1.0
+        probes = np.array([a + f * (b - a) - side * 0.05 * s
+                           for f in (0.3, 0.5, 0.7)])
+        tris = tris_all[group]                       # (g,3,3)
+        n0 = tris[:, 0] @ n                          # desfase de plano por cara
+        hits = 0
+        for p in probes:
+            cand = tris[np.abs(n0 - np.dot(p, n)) <= 0.02]
+            if not len(cand):
+                continue
+            # contención 2D sobre los ejes dominantes de la normal
+            ax = np.argsort(np.abs(n))[:2]
+            t2 = cand[:, :, ax]
+            p2 = p[ax]
+            d0 = np.cross(t2[:, 1] - t2[:, 0], p2 - t2[:, 0])
+            d1 = np.cross(t2[:, 2] - t2[:, 1], p2 - t2[:, 1])
+            d2 = np.cross(t2[:, 0] - t2[:, 2], p2 - t2[:, 2])
+            inside = ((d0 >= -1e-9) & (d1 >= -1e-9) & (d2 >= -1e-9)) | \
+                     ((d0 <= 1e-9) & (d1 <= 1e-9) & (d2 <= 1e-9))
+            if inside.any():
+                hits += 1
+        mask[i] = hits >= 2
+    return mask
 
 
 def view_outline(mesh_v, tol: float | None = None):

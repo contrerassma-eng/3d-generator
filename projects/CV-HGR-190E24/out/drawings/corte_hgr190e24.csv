@@ -1,0 +1,3 @@
+plano,pieza,cant,material,espesor_mm,desarrollo_x_mm,desarrollo_y_mm,barrenos,pliegues,k_factor,radio_mm,tolerancia
+HGD-01,"FAB · PD-48 placa distribuidora",12,"Acero ASTM A36 — chapa 4 mm (corte láser)",4,130.0,34.0,0,0,0.44,4,ISO 2768-mK
+HGD-02,"FAB · RC-48V retenedor asiento en V",12,"Acero ASTM A36 — chapa 4 mm (corte láser)",4,200.1,30.0,1,5,0.44,4,ISO 2768-mK
