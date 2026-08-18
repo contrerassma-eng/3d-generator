@@ -323,6 +323,31 @@ for (const h of herrajes) {
     });
   }
 }
+// Un artículo = una fila. Dos filas con item_desc idéntico son el MISMO
+// artículo contado dos veces (lo cazó el registro al sembrar: los clips del
+// cabezal de CADA extremo salían como filas 58 y 59, idénticas en todo). Se
+// funden sumando cantidades y se renumera ANTES del registro.
+{
+  const porClave = new Map();
+  const unicas = [];
+  for (const f of filas) {
+    const k = f.tipo + '·' + f.item_desc;
+    const y = porClave.get(k);
+    if (y) {
+      y.cant_equipo += f.cant_equipo;
+      if (typeof y.cant_proyecto === 'number') y.cant_proyecto += (f.cant_proyecto || 0);
+      continue;
+    }
+    porClave.set(k, f);
+    unicas.push(f);
+  }
+  if (unicas.length !== filas.length) {
+    console.log(`  filas fundidas por artículo idéntico: ${filas.length} → ${unicas.length}`);
+    filas.length = 0; filas.push(...unicas);
+    filas.forEach((f, i) => { f.item = i + 1; });
+  }
+}
+
 // ── REGISTRO PERSISTENTE DE ÍTEMS (cierra D-08; opt-in con REGISTRO=path) ───
 // El número de ítem pertenece al ARTÍCULO, no a la posición: sin registro, una
 // revisión que quita piezas renumera lo que sigue y una referencia impresa de

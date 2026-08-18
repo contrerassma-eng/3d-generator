@@ -76,7 +76,7 @@ export function flatPlacaConAla(L, almaAlto, alaAncho, t, holesAlma, material, a
 }
 
 // Desarrollo de perfil C (dos pestañas a 90°): ala | BA | web | BA | ala.
-function flatPerfilC(largo, webAncho, alaAlto, t, material, holes = []) {
+export function flatPerfilC(largo, webAncho, alaAlto, t, material, holes = []) {
   const r = t;
   const BA = bendAllowance(90, r, t, KCH);
   const ala = alaAlto - (r + t);

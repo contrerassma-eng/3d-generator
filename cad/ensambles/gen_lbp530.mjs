@@ -41,7 +41,7 @@
 
 import { writeFileSync } from 'node:fs';
 import { bendAllowance } from '../js/sheetmetal.js';
-import { KCH, rect, flatPlaca, flatPlacaConAla, flatCostadoCaja, flatFondoTapa } from './lib_chapa.mjs';
+import { KCH, rect, flatPlaca, flatPlacaConAla, flatPerfilC, flatCostadoCaja, flatFondoTapa } from './lib_chapa.mjs';
 import { fileURLToPath } from 'node:url';
 import { compuertasUniversales, sellarCompuertas, cajaMundo } from './lib_compuertas.mjs';
 import { dirname, join } from 'node:path';
